@@ -224,6 +224,24 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   the call's `pop ecx` cleanup later. `tanf(x)` (one level) at one site and
   `tan(x)` (two levels) at another matched where `(float)tan(x)` did not.
   Same bank.
+- **Field reads the WorldBuilder twin shows as calls want inline accessors.**
+  An inline getter or setter inlines to the same load or store as a direct
+  field access, but it still changes the IR enough to move global register
+  choices. AptOnlineCustomMatch::ProcessGameSpyResponses 0x005A2DB7
+  (9218 B) sat at 775 instruction diffs, with `this` in ESI where retail
+  keeps a CSE'd 13 there, through about 2000 loop, lifetime, junk and
+  callee-visibility trials. Spelling the slot reads that WorldBuilder calls
+  (`getColor()` and the other saved-slot and slot getters in two cases) as
+  inline accessors flipped it to retail's allocation: 2 diffs. The accessors
+  in one case alone flipped it; the other case's accessors fixed the rest.
+  Map every call the WorldBuilder build makes to a field read in the bank.
+- **Stacked case labels versus separate identical bodies.** Retail's dispatch
+  tail `sub eax,K; jne default; jmp X`, where our build has `je X; jmp
+  default`, means the last case had a body of its own. Cross-jumping merged
+  it into X but kept the fallthrough layout. Two cases whose bodies are both
+  `m_setup.enable(); break;` were stacked labels in the bank and separate
+  bodies in the original: the WorldBuilder jump table gives them distinct
+  targets. Same body.
 
 ## Linking
 
