@@ -1,5 +1,7 @@
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
-// partial score=0.88 date=2026-10-18
+// partial score=0.975 date=2026-10-20
+// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
+// partial score=0.975 date=2026-10-20
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001c5e30.md plus retail only.
 // No decoder source was consulted.
@@ -72,19 +74,19 @@ extern "C" unsigned int __cdecl Var16Point(const unsigned char *, int);
 
 void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 {
-	unsigned char *base;
-	int stride;
+	int offset2;
 	unsigned char *source;
-	unsigned int offset2;
-	int yPhase;
-	unsigned int xPhase;
-	int offset1;
 	short mvx;
+	int yPhase;
 	int y;
-	unsigned long limit;
+	unsigned char *base;
+	short mvy;
+	unsigned int xPhase;
+	unsigned int stride;
+	unsigned int offset1;
 	int x;
 	int mask;
-	short mvy;
+	unsigned long limit;
 
 	source = pbi->lastFrame;
 	mask = pbi->vectorMask;
@@ -94,25 +96,26 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 	if (0 != pbi->profile && pbi->loopFilterMode != 0) {
 		VP6_PredictFiltered(pbi, source + pbi->reconIndex,
 			pbi->vectors[block].x, pbi->vectors[block].y);
+		stride = 16;
 		mvx = pbi->vectors[block].x;
+		x = mvx;
+		base = pbi->loopFilteredBlock;
+		offset1 = 34;
+		xPhase = x & pbi->vectorMask;
 		mvy = pbi->vectors[block].y;
 		y = mvy;
-		x = mvx;
-		xPhase = x & pbi->vectorMask;
-		yPhase = y & pbi->vectorMask;
-		base = pbi->loopFilteredBlock;
-		stride = 16;
-		offset1 = 34;
 		offset2 = 34;
+		yPhase = y & pbi->vectorMask;
 	} else {
 		mvx = pbi->vectors[block].x;
 		x = mvx;
 		mvy = pbi->vectors[block].y;
+		xPhase = mvx & mask;
 		y = mvy;
 		yPhase = y & mask;
-		xPhase = x & mask;
-		base = source + pbi->reconIndex
-			+ pbi->frameStride * ((y + ((y >> 31) & mask)) >> pbi->vectorShift)
+		base = pbi->frameStride * ((y + ((y >> 31) & mask)) >> pbi->vectorShift)
+			+ pbi->reconIndex
+			+ source
 			+ ((x + ((x >> 31) & mask)) >> pbi->vectorShift);
 		stride = pbi->reconStride;
 		offset2 = 0;
@@ -134,7 +137,7 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 			} else if (pbi->filterMode == 2) {
 				if (pbi->sizeThreshold > 0)
 					// Retail x86 masks the shift count to five bits.
-					limit = (1UL << ((pbi->sizeThreshold - 1) & 31)) << 2;
+					limit = (1UL << (pbi->sizeThreshold - 1)) << 2;
 				else
 					limit = 128;
 				if ((0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit))) {
