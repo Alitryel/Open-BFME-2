@@ -112,6 +112,17 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
 
 ## Frames, stores and locals
 
+- **A stray vector-constructor-iterator call or a larger frame: spell the
+  inline helpers' dead switch arms.** At /O1 even `__forceinline` helpers share
+  one c2 inline budget per function, and an inlined switch's dead arms spend it
+  although the argument is constant. With the DX8Wrapper Get_Transform and
+  Set_Transform switches trimmed to their live arm, bfmeEnd982C 0x00110611
+  inlined everything; retail ran out of budget at the last Matrix4 Transpose
+  temp and builds its `Vector4 Row[4]` through `??_H` (callback the folded
+  empty ctor 0x0047A6A9), which also gives its 0x98 ebp-biased frame. Every arm
+  of the WB twin 0x0097C2C0 (WB is /Od with inlining and keeps them) closed all
+  1773 B. Diagnostic: duplicating an inline call before the site makes the
+  `??_H` appear.
 - **A local object's fields held across calls: give every receiver of its
   address a body in the TU.** cl 7.1 does intra-TU escape analysis: when
   `&obj` reaches only functions defined in the same TU (in any order) that do
