@@ -5,6 +5,9 @@
 #include <vector>
 #include <vector>
 #include <cstddef>
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@DV?$allocator@D@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Vector_base<char,allocator<char> >::~_Vector_base(); }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
