@@ -1,13 +1,3 @@
-// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
-// partial score=0.97 date=2026-10-20
-// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
-// partial score=0.81 date=2026-10-19
-// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
-// partial score=0.8212 date=2026-10-14
-// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
-// partial score=0.823 date=2026-10-10
-// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
-// partial score=0.85 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Native [00115044,00115791),1869B, RET16. W3DTerrainBackground::
 // doPartialUpdate (WorldBuilder name). BFME 2 rewrite of the ZH update: after
@@ -16,7 +6,12 @@
 // count +0x78; FVF 0x152) with per-corner alpha in the diffuse high byte and
 // the cell's UV quad, six indices per cell (+0x70, size +0x74, count +0x7C)
 // split along the cell's flip diagonal. Offsets are target evidence; rowed
-// helper receivers keep their ledger names.
+// helper receivers keep their ledger names. Statement shape follows the
+// WorldBuilder twin (0x007C2D60): ZH bounds and clamps, m_map read directly.
+// The isCliffCell body 0x000ABD19 and the grid reader 0x00062A58 are exact
+// select-any copies of their rowed owners (Rva000ABD19.cpp,
+// BoundedShortGridLoad.cpp); their visibility gives retail's register
+// allocation, including the dead second maxX home at [ebp+0x14].
 
 #include <string.h>
 
@@ -241,9 +236,9 @@ public:
 
 extern GlobalData *TheGlobalData;
 
-#include "../../Code/Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
-#include "../../Code/Libraries/Include/Lib/IRegion2D.h"
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 
 class BoundedShortGrid
 {
@@ -288,9 +283,31 @@ public:
 class Rva000ABD19
 {
 public:
+	unsigned char m_0[8];
+	int m_8;
+	unsigned char m_c[20];
+	int m_20;
+	unsigned char m_24[124];
+	int *m_a0;
+	unsigned char m_a4[73788];
+	int m_120e0;
+	int m_120e4;
 	bool rva000ABD19(int a, int b);
  bool rva000AF841(int a, int b);
 };
+
+inline __declspec(noinline) bool Rva000ABD19::rva000ABD19(int a, int b)
+{
+	int idx = m_120e4 + b;
+	idx *= m_8;
+	idx += m_120e0;
+	idx += a;
+	if (idx >= 0) {
+		if (idx < m_20)
+			return m_a0[idx] != 0;
+	}
+	return false;
+}
 
 struct TCliffInfo
 {
@@ -403,10 +420,8 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 	Int minY = m_yOrigin;
 	Int maxX = m_xOrigin + m_width;
 	Int maxY = m_yOrigin + m_width;
-	WorldHeightMap *map = m_map;
-	Int limitX = map->getXExtent() - 1;
-	// (barrier removed)
-	Int limitY = map->getYExtent() - 1;
+	Int limitX = m_map->getXExtent() - 1;
+	Int limitY = m_map->getYExtent() - 1;
 	if (maxX > limitX)
 		maxX = limitX;
 	if (maxY > limitY)
@@ -419,7 +434,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 	Int numCliff = 0;
 	for (Int j = minY; j <= maxY; j++) {
 		for (Int i = minX; i <= maxX; i++) {
-			if (map->isCliffCell(i, j)) {
+			if (m_map->isCliffCell(i, j)) {
 				anyCliff = true;
 				numCliff++;
 			}
@@ -500,7 +515,6 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			pos.X = (i + 1) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.Y = j * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			m_map->getTerrainNormal(i + 1, j, &normal);
-			// (barrier removed)
 			curVb->u1 = info.u1;
 			curVb->v1 = info.v1;
 			curVb->x = pos.X;
