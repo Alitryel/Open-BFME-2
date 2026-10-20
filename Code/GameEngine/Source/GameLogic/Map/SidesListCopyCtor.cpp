@@ -31,6 +31,10 @@
 namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
 namespace _STL { template <> void _List_base<AsciiString, allocator<AsciiString> >::clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod128;
+namespace _STL { template <> vector<BfmePod128, allocator<BfmePod128> >::~vector(); }
 struct BfmePod128 { ~BfmePod128(); int a[32]; };
 struct BfmeE8 { int a[2]; };
 typedef _STL::map<int, _STL::vector<BfmePod128> > MapType0032EF3E;
