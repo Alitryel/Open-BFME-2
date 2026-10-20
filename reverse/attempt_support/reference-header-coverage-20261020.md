@@ -88,3 +88,19 @@ reference-zh-api-followups-20261020.py.txt alongside this record. Hash-bound
 manifests and complete ordinary place_bodies outputs live under the matching
 build/zh-*-oct20/ directories. No Code source, shared header, ledger row,
 vendored source or verifier was changed by these searches.
+
+## Changed clean donor units at verified 92f6bbe8
+
+After the official pointer advanced from b3cc6b1588f2 to
+92f6bbe8e1dcdb46b5d27da0674313efc822b790, BFME2's normal full byte gate
+passed (97,373 functions and 1,119 data rows). The fourteen changed game C++
+units were then searched with donor settings, O1/G7/SSE and O2/G7/SSE:
+all 42 profiles compile, with zero unclaimed body/pin placements. No input
+directory was silently omitted; the layout resolver's intended include roots
+were checked. No naked/emit or decoder source was used. The WWMath and vendored
+STLport inputs did not change, so their earlier unchanged trials were not rerun.
+
+Replay: reference-changed-92f6-20261020.py.txt. The fourteen-file input list,
+source hashes, flags, revision-bound results and individual ordinary
+place_bodies logs are in build/reference-changed-92f6-oct20/. These are
+read-only leads; no external donor path was added to BFME2's ledger.
