@@ -200,7 +200,7 @@ public:
 	Bool isAnimReversed();
 	void loadScheme(AsciiString name);
 	void rva0035BEC7();
-	void rva0035BF0E();
+	void popImmediate();
 	void rva0035C16A();
 	void shutdownComplete(WindowLayout *screen, Bool impendingPush);
 	void push(AsciiString filename, bool shutdownImmediate);
@@ -458,11 +458,11 @@ void Shell::loadScheme(AsciiString name)
 	m_schemeManager->setShellMenuScheme(name);
 }
 
-// ?rva0035BF0E@Shell@@QAEXXZ retail 0x0035BF0E 62B
+// ?popImmediate@Shell@@QAEXXZ retail 0x0035BF0E 62B
 // Unlock: top then WindowLayout slot 0xC with bool flag then m_pendingPop=0 then doPop(false) then TheIMEManager m3C.
 // Evidence: callees top 0x0035BD7E doPop 0x0035BDC2 rowed, TheIMEManager extern in use, member +0x51 pendingPop, callers 0x0035C087 0x005A20A7.
 // ?rva0035BEC7@Shell@@QAEXXZ @0x0035BEC7 71B
-// Gap between registerWithAnimateManager and rva0035BF0E: top then GameSpy cleanup then pendingPop=1 then s03 slot 0xC with false flag then IMEManager m3C slot 0x3C.
+// Gap between registerWithAnimateManager and popImmediate: top then GameSpy cleanup then pendingPop=1 then s03 slot 0xC with false flag then IMEManager m3C slot 0x3C.
 // Evidence: callees top 0x0035BD7E Rva00548C1ACleanup rowed, TheGameSpyInfo TheIMEManager externs in use, member +0x51, callers in packet.
 void Shell::rva0035BEC7()
 {
@@ -477,7 +477,7 @@ void Shell::rva0035BEC7()
 	if (TheIMEManager)
 		TheIMEManager->m3C();
 }
-void Shell::rva0035BF0E()
+void Shell::popImmediate()
 {
 	WindowLayout *layout = top();
 	if (!layout)
@@ -501,12 +501,12 @@ void Shell::rva0035C16A()
 	return m_animateWindowManager->reset();
 }
 
-// ??1Shell@@UAE@XZ @ 0x0035C087 (227B). Shell dtor: pops screens via top/rva0035BF0E loop then animate deleteInstance+delete scheme delete layouts destroy+deleteInstance+delete audio string base. Evidence: vtable 0x00816208 callers 0x0035C54A deleting dtor callees top rva0035BF0E scheme 0x002007D5 releaseBuffer 0x00036410 base 0x001B4E74 audio 0x0035BD3F BFME1 ShellDestructor donor.
+// ??1Shell@@UAE@XZ @ 0x0035C087 (227B). Shell dtor: pops screens via top/popImmediate loop then animate deleteInstance+delete scheme delete layouts destroy+deleteInstance+delete audio string base. Evidence: vtable 0x00816208 callers 0x0035C54A deleting dtor callees top popImmediate scheme 0x002007D5 releaseBuffer 0x00036410 base 0x001B4E74 audio 0x0035BD3F BFME1 ShellDestructor donor.
 inline Shell::~Shell()
 {
 	WindowLayout *cur = top();
 	while (cur != 0) {
-		rva0035BF0E();
+		popImmediate();
 		cur = top();
 	}
 	if (m_animateWindowManager)

@@ -75,7 +75,7 @@ void Rva00381C2DClear(unsigned int which);
 class Shell
 {
 public:
-	void rva0035BF0E(); // Zero Hour's popImmediate
+	void popImmediate(); // Zero Hour's popImmediate
 };
 
 extern Shell *TheShell;
@@ -374,7 +374,7 @@ void AptOnlineCustomMatch::rva005A20A7()
 			Rva00548C1ACleanup();
 			GSMessageBoxOk(title, body);
 			TheGameSpyInfo->reset();
-			TheShell->rva0035BF0E();
+			TheShell->popImmediate();
 			return;
 		}
 
@@ -383,7 +383,7 @@ void AptOnlineCustomMatch::rva005A20A7()
 			rva005A1EEE();
 			return;
 		}
-		TheShell->rva0035BF0E();
+		TheShell->popImmediate();
 		return;
 	}
 

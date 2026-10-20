@@ -42240,7 +42240,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ??0Rva0024B9BA@@QAE@XZ,,0x0024B9BA,18,Code/GameEngine/Source/GameLogic/Object/Contain/Rva0024B9BACtor.cpp,matched,chain over rowed HordeContain base plus vtable 0x00C465F8
 ?GetDisplayNameStrategicGame@Rva0037DCA5@@QAEPAXH@Z,,0x0040C65D,72,Code/GameEngine/Source/Common/Rva0037DCA5Get.cpp,matched,unlock Rva0037DCA5 template flag 11f find logic plus 58
 ?xfer@Rva0040DB52@@MAEXPAVXfer@@@Z,,0x0040E6F6,132,Code/GameEngine/Source/Common/Rva0040DB52Xfer.cpp,matched,slot 3 xfer via clear and vector helpers chain 0x0040E269
-?rva0035BF0E@Shell@@QAEXXZ,,0x0035BF0E,62,Code/GameEngine/Source/GameClient/GUI/Shell/ShellTop.cpp,matched,Shell top WindowLayout slot0xC pendingPop doPop TheIMEManager
+?popImmediate@Shell@@QAEXXZ,,0x0035BF0E,62,Code/GameEngine/Source/GameClient/GUI/Shell/ShellTop.cpp,matched,Shell top WindowLayout slot0xC pendingPop doPop TheIMEManager
 ??1Shell@@UAE@XZ,,0x0035C087,227,Code/GameEngine/Source/GameClient/GUI/Shell/ShellTop.cpp,matched,Shell dtor via BFME1 donor top loop layouts audio string base
 ??_GShell@@UAEPAXI@Z,,0x0035C54A,28,Code/GameEngine/Source/GameClient/GUI/Shell/ShellTop.cpp,matched,vtable 0x00816208 slot0 calls rowed dtor 0x0035C087 and delete 0x0002FD60; rehomed from FamilyDeletingDtors_Shell.cpp: ShellTop.cpp owns ~Shell and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
 ?Rva002E1889Reinsert@@YAXPAPAX0PAX1@Z,,0x002E1889,30,Code/GameEngine/Source/Common/Rva002E08A2Insert.cpp,matched,heap push-tail adapter via Reinsert caller 0x002E1F0A
@@ -49085,7 +49085,7 @@ _Rva14AA50VirtualDispatch,,0x0025EDD4,18,Code/GameEngine/Source/Common/Rva14AA50
 ?rva004C108B@SymbioticStructuresBody@@UAEMXZ,,0x004C108B,49,Code/GameEngine/Source/GameLogic/Object/Body/SymbioticStructuresBodySlots.cpp,matched,slot 7 of the +0x10 body vtable 0x00C5B6C0; host body slot 7 or 0
 ?rva004C0DF3@SymbioticStructuresBody@@UAEMXZ,,0x004C0DF3,49,Code/GameEngine/Source/GameLogic/Object/Body/SymbioticStructuresBodySlots.cpp,matched,slot 27 of the +0x10 body vtable 0x00C5B6C0; host body slot 27 or 0
 ?rva004C121B@SymbioticStructuresBody@@UAEXPAX@Z,,0x004C121B,33,Code/GameEngine/Source/GameLogic/Object/Body/SymbioticStructuresBodySlots.cpp,matched,slot 39 of the +0x10 body vtable 0x00C5B6C0; pinned bfmeCallFCB on the owner then the pinned refresh
-?rva00041F81@Win32GameEngine@@UAEPAXXZ,,0x00041F81,72,Code/GameEngine/Source/Main/Win32GameEngineFactories.cpp,matched,Win32GameEngine vtable 0x00BC2530 slot 28 factory: new plus pinned base ctor and inline derived vtable stores
+?createGameLogic@Win32GameEngine@@UAEPAXXZ,,0x00041F81,72,Code/GameEngine/Source/Main/Win32GameEngineFactories.cpp,matched,Win32GameEngine vtable 0x00BC2530 slot 28 factory: new plus pinned base ctor and inline derived vtable stores
 ?rva00042091@Win32GameEngine@@UAEPAXXZ,,0x00042091,69,Code/GameEngine/Source/Main/Win32GameEngineFactories.cpp,matched,Win32GameEngine vtable 0x00BC2530 slot 31 factory: new plus pinned base ctor and inline derived vtable stores
 ?doUnitGarrisonNearestBuilding@ScriptActions@@IAEXABVAsciiString@@@Z,,0x003C8F86,299,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_doUnitGarrisonNearestBuilding.cpp,matched,ZH ScriptActions shape without the hacker switch over the BFME2 filter chain; caller 0x003CA4BE
 ?update@Win32GameEngine@@UAEXXZ,,0x00041EC3,166,Code/GameEngine/Source/Main/Win32GameEngineUpdate.cpp,matched,Win32GameEngine vtable 0x00BC2530 slot 10; ZH update less the audio volume nudge

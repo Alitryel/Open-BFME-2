@@ -6,10 +6,12 @@
 // if the constructor throws. Rva00041DC9Create.cpp holds slot 33 the same way.
 // Each product is named after its destructor, as the ledger already names it
 // (the constructor stores the vtable the named scalar deleting destructor
-// sits in); the constructors are pinned in reverse/symbols.csv. Which Zero
-// Hour factory each slot is (createGameLogic and the rest) is not evidenced:
-// the slot order differs from Zero Hour's and the products are unnamed,
-// except that slot 34's product table carries Radar::loadPostProcess.
+// sits in); the constructors are pinned in reverse/symbols.csv. Slot 28 is
+// createGameLogic: its product derives from GameLogic (ZH: NEW W3DGameLogic)
+// and BFME 1's Win32GameEngine::createGameLogic is the same body. Which Zero
+// Hour factory each other slot is is not evidenced: the slot order differs
+// from Zero Hour's and the products are unnamed, except that slot 34's
+// product table carries Radar::loadPostProcess.
 //
 //   slot 29  0x00041D62  new 0x140   ctor 0x0004C43E  vtable 0x00BC4738  Rva004C743
 //   slot 32  0x00041D97  new 0x28    ctor 0x0004CA01  vtable 0x00BC4858  Rva004CA13
@@ -146,7 +148,7 @@ public:
 	virtual void *rva00041E30();
 	virtual void *rva0005E959();
 	virtual void *rva00041E6A();
-	virtual void *rva00041F81();
+	virtual void *createGameLogic();
 	virtual void *rva00042091();
 };
 
@@ -175,7 +177,7 @@ void *Win32GameEngine::rva00041E6A()
 	return new Rva00628FD;
 }
 
-void *Win32GameEngine::rva00041F81()
+void *Win32GameEngine::createGameLogic()
 {
 	return new Rva0004208C;
 }
