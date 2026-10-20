@@ -40,7 +40,7 @@ unsigned short g_00DD2DB4 = 100;
 // game.dat (0x5811A8: mov eax,[DD2DB4] / inc word ptr [DD2DB4] / ret) is
 // GenerateNextCommandID loading and incrementing this same address, and the
 // seeding store here is its only other xref.
-void SeedNextCommandIDFromPlayerCount(Int numPlayers)
+void SeedNextCommandIDFromPlayerCount(UnsignedShort numPlayers)
 {
 	g_00DD2DB4 = static_cast<unsigned short>((numPlayers + 10) * 1000);
 }

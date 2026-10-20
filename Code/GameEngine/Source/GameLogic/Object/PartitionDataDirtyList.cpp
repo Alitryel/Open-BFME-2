@@ -35,7 +35,7 @@
 // different, branchless-unlink list algorithm, and the container type/offset-0
 // relationship to PartitionData is unrecovered. Same role as ZH's dirty list,
 // divergent implementation, so no exact upstream name applies; named on the
-// same honest-descriptive precedent as ?SeedNextCommandIDFromPlayerCount@@YAXH@Z.
+// same honest-descriptive precedent as ?SeedNextCommandIDFromPlayerCount@@YAXG@Z.
 
 //-------------------------------------------------------------------------------------------------
 /// PartitionData node stand-in local to this TU: only the two dirty-list link

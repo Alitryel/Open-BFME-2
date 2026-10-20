@@ -9347,7 +9347,7 @@ _LastVerticalBand_1_2_Scale_C,,0x001BA3A0,28,Code/Libraries/Source/VP6/CopyHelpe
 ?get@Rva007E9E70@@QAEPAURva007E9E70Cached@@XZ,,0x00656E20,56,Code/GameEngine/Source/Common/Q3LazyCachedAccessor.cpp,matched,BFME1 byte-identical donor; b1 0x007E9E70
 ?get@Rva007E9EF0@@QAEPAURva007E9EF0Cached@@XZ,,0x00656EA0,56,Code/GameEngine/Source/Common/Q3LazyCachedAccessor.cpp,matched,BFME1 byte-identical donor; b1 0x007E9EF0
 ?get@Rva007E9F30@@QAEPAURva007E9F30Cached@@XZ,,0x00656EE0,56,Code/GameEngine/Source/Common/Q3LazyCachedAccessor.cpp,matched,BFME1 byte-identical donor; b1 0x007E9F30
-?SeedNextCommandIDFromPlayerCount@@YAXH@Z,,0x00581194,20,Code/GameEngine/Source/GameNetwork/SeedNextCommandIDFromPlayerCount.cpp,matched,BFME1 donor b1 0x00682CF0; global VA differs (BFME2 0x00DD2DB4 per neighbor GenerateNextCommandID at 0x5811A8)
+?SeedNextCommandIDFromPlayerCount@@YAXG@Z,,0x00581194,20,Code/GameEngine/Source/GameNetwork/SeedNextCommandIDFromPlayerCount.cpp,matched,BFME1 donor b1 0x00682CF0; global VA differs (BFME2 0x00DD2DB4 per neighbor GenerateNextCommandID at 0x5811A8)
 ?calcDotProduct@@YAMABUCoord3D@@0@Z,,0x006BD370,21,Code/GameEngine/Source/Common/System/GeometryPointLineDistSquared.cpp,matched,BFME1 byte-identical donor; b1 0x0087DAF0
 ?calcDistSquared@@YAMABUCoord3D@@0@Z,,0x006BD650,39,Code/GameEngine/Source/Common/System/GeometryPointLineDistSquared.cpp,matched,BFME1 byte-identical donor; b1 0x0087DE90
 ?calcPointToLineDistSquared@@YAMABUCoord3D@@00@Z,,0x006BD680,248,Code/GameEngine/Source/Common/System/GeometryPointLineDistSquared.cpp,matched,BFME1 byte-identical donor; b1 0x0087DEC0
@@ -97324,3 +97324,4 @@ __ehhandler$?rva000B75FF@Rva000B75FF@@QAE_N_N@Z,,0x007615EC,10,Code/GameEngine/S
 ?rva0005FA3C@MilesAudioManager@@QAEXI@Z,,0x0005FA3C,910,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp,matched,BF1 f989 stop-chain donor; WB 792D90 loop shape; two stream views keep the event address un-CSEd
 ?rva004A1950@Rva004A1950@@UAEXXZ,,0x004A1950,45,Code/GameEngine/Source/GameLogic/Object/Update/SlavedUpdateRva004A1950.cpp,matched,vtable C51F30 (SlavedUpdate name/key/dtor); model-condition bit 94 set + notifier tail call; word view split
 ?buildReturnTeam@AIReturnTheRingTactic@@QAE_NXZ,,0x005AB4B9,254,Code/GameEngine/Source/Common/Rva005AB309Tactic.cpp,matched,WB-nested shape: body inside if(obj && !dead) with a single return-false exit; m_30 and owner cached as WB locals
+?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z,,0x004D1616,431,Code/GameEngine/Source/GameNetwork/ConnectionManagerParseUserList.cpp,matched,ZH parseUserList shape; the seed callee 0x581194 takes UnsignedShort (WB 0x1390F9E word load and BFME1 donor) which gives this ESI
