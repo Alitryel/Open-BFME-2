@@ -1,18 +1,17 @@
 // ?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z
-// partial score=0.578 date=2026-10-18
+// partial score=0.9936 date=2026-10-20
 // ?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Adapted from the repository's existing reconstruction and its EA source donor.
 // Copyright 2025 Electronic Arts Inc. See LICENSE and the package README.
 //
 // Target: BFME II vanilla 1.06, RVA 0x00191C10, 16,018 bytes.
-// Status: complete C++ reconstruction candidate; exact byte matching incomplete.
-// Verified behavior and test boundaries are documented in VERIFICATION.md.
-//
-// Matrix-row constructor lifetime is inferred from the two native array
-// constructor calls (4 rows, stride 16, neutral callback RVA 0x0047A6A9).
-// SegMatrixRow is a neutral reconstruction name, not a recovered retail type.
-// cl: /I. /Ireference/shims/banked_segline /EHsc /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Status: WorldBuilder-twin-faithful text (WB 0xA454A0) with two numbering
+// deviations: the first tri-prime bottom line is split (bottom = Direction;
+// bottom *= Dot(...)) and the first-endpoint Direction store follows the segdir
+// declaration. 3574/3597 aligned instructions exact, frame 0x6D8C. Residue and
+// evidence: reverse/attempt_support/0x00191c10/README.md.
+// cl: /Ireference/shims/banked_segline_bfme2 /I. /Ireference/shims/banked_segline /EHsc /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 #define Matrix4x4 Matrix4
 #if defined(_MSC_VER)
 #pragma once
@@ -21,12 +20,8 @@
 #define MATRIX4_H
 #include "always.h"
 #include "vector4.h"
-#include "matrix3d_retail_order.h"
+#include "matrix3d.h"
 #include "matrix3.h"
-struct SegMatrixRow : Vector4 {
-	SegMatrixRow();
-	SegMatrixRow &operator=(const Vector4 &v) {Vector4::operator=(v);return *this;}
-};
 class Matrix4x4
 {
 public:
@@ -84,7 +79,7 @@ public:
 	static WWINLINE void	Transform_Vector(const Matrix4x4 & tm,const Vector3 & in,Vector4 * out);
 	static WWINLINE void	Transform_Vector(const Matrix4x4 & tm,const Vector4 & in,Vector4 * out);
 protected:
-	SegMatrixRow Row[4];
+	Vector4 Row[4];
 };
 WWINLINE Matrix4x4::Matrix4x4(bool identity)
 {
@@ -896,7 +891,7 @@ struct W3dEmitterLinePropertiesStruct
 #endif
 #define MAX_SEGLINE_POINT_BUFFER_SIZE (1 + SEGLINE_CHUNK_SIZE)
 #define MAX_SEGLINE_POLY_BUFFER_SIZE (SEGLINE_CHUNK_SIZE * 2)
-struct BFME2TextureRef {TextureClass *ptr;};
+struct BFME2TextureRef {TextureClass *ptr; operator bool() const { return ptr != 0; }};
 void BFME2Set_Texture(unsigned,const BFME2TextureRef &);
 // Canonical repository owner of retail sorting dispatch RVA 0x0012FE00.
 struct TargetCenter3;
@@ -904,90 +899,6 @@ class BfmeSortingDispatchAt0012FE00 {
 public:
 	static void Insert(const TargetCenter3 &, unsigned, unsigned, unsigned, unsigned);
 };
-// Explicit accumulators retain the observed SSE associations under the pinned
-// MSVC compiler. Algebraic reassociation changes vertices and branch decisions.
-// These helpers express verified evaluation order; their names are reconstructed.
-static __forceinline float SegLineDotXYZ(const Vector3 &a, const Vector3 &b)
-{
-	float dot = a.X * b.X;
-	dot += a.Y * b.Y;
-	dot += a.Z * b.Z;
-	return dot;
-}
-static __forceinline float SegLineDotXZY(const Vector3 &a, const Vector3 &b)
-{
-	float dot = a.X * b.X;
-	dot += a.Z * b.Z;
-	dot += a.Y * b.Y;
-	return dot;
-}
-static __forceinline float SegLineDotZYX(const Vector3 &a, const Vector3 &b)
-{
-	float dot = a.Z * b.Z;
-	dot += a.Y * b.Y;
-	dot += a.X * b.X;
-	return dot;
-}
-static __forceinline void SegLineNormalizeXYZ(Vector3 &p)
-{
-	float len2 = p.X * p.X;
-	len2 += p.Y * p.Y;
-	len2 += p.Z * p.Z;
-	if (len2 != 0.0f) {
-		const float oolen = WWMath::Inv_Sqrt(len2);
-		p.X *= oolen;
-		p.Y *= oolen;
-		p.Z *= oolen;
-	}
-}
-static __forceinline void SegLineNormalizeXZY(Vector3 &p)
-{
-	float len2 = p.X * p.X;
-	len2 += p.Z * p.Z;
-	len2 += p.Y * p.Y;
-	if (len2 != 0.0f) {
-		const float oolen = WWMath::Inv_Sqrt(len2);
-		p.X *= oolen;
-		p.Y *= oolen;
-		p.Z *= oolen;
-	}
-}
-static __forceinline void SegLineNormalizeZYX(Vector3 &p)
-{
-	float len2 = p.Z * p.Z;
-	len2 += p.Y * p.Y;
-	len2 += p.X * p.X;
-	if (len2 != 0.0f) {
-		const float oolen = WWMath::Inv_Sqrt(len2);
-		p.X *= oolen;
-		p.Y *= oolen;
-		p.Z *= oolen;
-	}
-}
-// The retail threshold checks keep the x87 sum live across FST float / FABS.
-// A double accumulator preserves that evaluation with MSVC 13.10.3077.
-static __forceinline float SegLineThresholdDotYZX(const Vector3 &a, const Vector3 &b)
-{
-	double dot = (double)a.Y * b.Y;
-	dot += (double)a.Z * b.Z;
-	dot += (double)a.X * b.X;
-	return dot;
-}
-static __forceinline float SegLineThresholdDotXZY(const Vector3 &a, const Vector3 &b)
-{
-	double dot = (double)a.X * b.X;
-	dot += (double)a.Z * b.Z;
-	dot += (double)a.Y * b.Y;
-	return dot;
-}
-// Both merge-abort distances use (X*X + Y*Y) + Z*Z in retail.
-static __forceinline float SegLineLengthSquaredXYZ(const Vector3 &p)
-{
-	float len2 = p.X * p.X;
-	len2 += p.Y * p.Y;
-	len2 += p.Z * p.Z;
-	return len2;
-}
 void SegLineRendererClass::Render
 (
 RenderInfoClass & rinfo,
@@ -1053,6 +964,7 @@ Vector4 * rgbas
 			u_values[1] = 0.0f;
 			break;
 			default:
+				WWASSERT(0);
 			case TILED_TEXTURE_MAP:
 			for (pidx = 0; pidx < point_cnt; pidx++) {
 				base_tex_v[pidx] = (float)(pidx + chidx) * TextureTileFactor;
@@ -1065,8 +977,7 @@ Vector4 * rgbas
 		float subdiv_tex_v[MAX_SEGLINE_POINT_BUFFER_SIZE];
 		Vector4 subdiv_rgbas[MAX_SEGLINE_POINT_BUFFER_SIZE];
 		unsigned int sub_point_cnt;
-		Vector4 *rgbasPointer = rgbas ? &rgbas[ chidx ] : NULL;
-		subdivision_util(point_cnt, xformed_pts, base_tex_v, &sub_point_cnt, xformed_subdiv_pts, subdiv_tex_v, rgbasPointer, subdiv_rgbas);
+		subdivision_util(point_cnt, xformed_pts, base_tex_v, &sub_point_cnt, xformed_subdiv_pts, subdiv_tex_v, rgbas ? &rgbas[ chidx ] : NULL, subdiv_rgbas);
 		Vector3 *points = xformed_subdiv_pts;
 		float *tex_v = subdiv_tex_v;
 		Vector4 *diffuse = subdiv_rgbas;
@@ -1107,7 +1018,7 @@ Vector4 * rgbas
 			Vector3 &segdir = segment[sidx].StartPlane;
 			segdir = next_point - curr_point;
 			segdir.Normalize();
-			Vector3 nearest = curr_point + segdir * -SegLineDotXYZ(segdir, curr_point);
+			Vector3 nearest = curr_point + segdir * -Vector3::Dot_Product(segdir, curr_point);
 			Vector3 offset;
 			Vector3::Cross_Product(segdir, nearest, &offset);
 			offset.Normalize();
@@ -1128,7 +1039,7 @@ Vector4 * rgbas
 				Vector3 curr_plane;
 				Vector3::Cross_Product(curr_point, next_point, &curr_plane);
 				curr_plane.Normalize();
-				if (SegLineDotXZY(prev_plane, curr_plane) < 0.0f) {
+				if (Vector3::Dot_Product(prev_plane, curr_plane) < 0.0f) {
 					switch_edges = !switch_edges;
 					intersection[sidx][TOP_EDGE].Fold = true;
 					intersection[sidx][BOTTOM_EDGE].Fold = true;
@@ -1181,18 +1092,18 @@ Vector4 * rgbas
 		Vector3 bottom;
 		Vector3 &first_point = points[0];
 		Vector3 *first_plane = &(segment[1].EdgePlane[0]);
-		top = first_point - first_plane[TOP_EDGE] * SegLineDotZYX(first_plane[TOP_EDGE], first_point);
+		top = first_point - first_plane[TOP_EDGE] * Vector3::Dot_Product(first_plane[TOP_EDGE], first_point);
 		top.Normalize();
 		intersection[1][TOP_EDGE].Direction = top;
-		bottom = first_point - first_plane[BOTTOM_EDGE] * SegLineDotZYX(first_plane[BOTTOM_EDGE], first_point);
+		bottom = first_point - first_plane[BOTTOM_EDGE] * Vector3::Dot_Product(first_plane[BOTTOM_EDGE], first_point);
 		bottom.Normalize();
-		intersection[1][BOTTOM_EDGE].Direction = bottom;
 		Vector3 segdir = points[1] - points[0];
+		intersection[1][BOTTOM_EDGE].Direction = bottom;
 		segdir.Normalize();
 		Vector3 start_pl;
 		Vector3::Cross_Product(top, bottom, &start_pl);
 		start_pl.Normalize();
-		float dp = SegLineDotZYX(segdir, start_pl);
+		float dp = Vector3::Dot_Product(segdir, start_pl);
 		if (dp > 0.0f) {
 			segment[0].StartPlane = segment[0].EdgePlane[TOP_EDGE] = segment[0].EdgePlane[BOTTOM_EDGE] = start_pl;
 		} else {
@@ -1216,17 +1127,17 @@ Vector4 * rgbas
 		intersection[last_isec][BOTTOM_EDGE].Parallel = false;
 		Vector3 &last_point = points[point_cnt - 1];
 		Vector3 *last_plane = &(segment[numsegs].EdgePlane[0]);
-		top = last_point - last_plane[TOP_EDGE] * SegLineDotZYX(last_plane[TOP_EDGE], last_point);
+		top = last_point - last_plane[TOP_EDGE] * Vector3::Dot_Product(last_plane[TOP_EDGE], last_point);
 		top.Normalize();
 		intersection[last_isec][TOP_EDGE].Direction = top;
-		bottom = last_point - last_plane[BOTTOM_EDGE] * SegLineDotZYX(last_plane[BOTTOM_EDGE], last_point);
+		bottom = last_point - last_plane[BOTTOM_EDGE] * Vector3::Dot_Product(last_plane[BOTTOM_EDGE], last_point);
 		bottom.Normalize();
 		intersection[last_isec][BOTTOM_EDGE].Direction = bottom;
 		segdir = points[point_cnt - 1] - points[point_cnt - 2];
 		segdir.Normalize();
 		Vector3::Cross_Product(top, bottom, &start_pl);
 		start_pl.Normalize();
-		dp = SegLineDotZYX(segdir, start_pl);
+		dp = Vector3::Dot_Product(segdir, start_pl);
 		if (dp > 0.0f) {
 			segment[numsegs + 1].StartPlane = segment[numsegs + 1].EdgePlane[TOP_EDGE] =
 			segment[numsegs + 1].EdgePlane[BOTTOM_EDGE] = start_pl;
@@ -1250,12 +1161,12 @@ Vector4 * rgbas
 			intersection[iidx][BOTTOM_EDGE].Point = midpoint;
 			intersection[iidx][BOTTOM_EDGE].TexV = mid_tex_v;
 			intersection[iidx][BOTTOM_EDGE].RGBA = mid_diffuse;
-			vdp = SegLineThresholdDotYZX(segment[iidx - 1].EdgePlane[TOP_EDGE], segment[iidx].EdgePlane[TOP_EDGE]);
+			vdp = Vector3::Dot_Product(segment[iidx - 1].EdgePlane[TOP_EDGE], segment[iidx].EdgePlane[TOP_EDGE]);
 			if (fabs(vdp) < parallel_factor) {
 				Vector3::Cross_Product(segment[iidx - 1].EdgePlane[TOP_EDGE], segment[iidx].EdgePlane[TOP_EDGE],
 				&(intersection[iidx][TOP_EDGE].Direction));
-				SegLineNormalizeXYZ(intersection[iidx][TOP_EDGE].Direction);
-				if (SegLineDotXZY(intersection[iidx][TOP_EDGE].Direction, midpoint) < 0.0f) {
+				intersection[iidx][TOP_EDGE].Direction.Normalize();
+				if (Vector3::Dot_Product(intersection[iidx][TOP_EDGE].Direction, midpoint) < 0.0f) {
 					intersection[iidx][TOP_EDGE].Direction = -intersection[iidx][TOP_EDGE].Direction;
 				}
 				intersection[iidx][TOP_EDGE].Parallel = false;
@@ -1267,16 +1178,16 @@ Vector4 * rgbas
 					pl = segment[iidx - 1].EdgePlane[TOP_EDGE] - segment[iidx].EdgePlane[TOP_EDGE];
 				}
 				pl.Normalize();
-				intersection[iidx][TOP_EDGE].Direction = midpoint - pl * SegLineDotZYX(pl, midpoint);
-				SegLineNormalizeXZY(intersection[iidx][TOP_EDGE].Direction);
+				intersection[iidx][TOP_EDGE].Direction = midpoint - pl * Vector3::Dot_Product(pl, midpoint);
+				intersection[iidx][TOP_EDGE].Direction.Normalize();
 				intersection[iidx][TOP_EDGE].Parallel = true;
 			}
-			vdp = SegLineThresholdDotXZY(segment[iidx - 1].EdgePlane[BOTTOM_EDGE], segment[iidx].EdgePlane[BOTTOM_EDGE]);
+			vdp = Vector3::Dot_Product(segment[iidx - 1].EdgePlane[BOTTOM_EDGE], segment[iidx].EdgePlane[BOTTOM_EDGE]);
 			if (fabs(vdp) < parallel_factor) {
 				Vector3::Cross_Product(segment[iidx - 1].EdgePlane[BOTTOM_EDGE], segment[iidx].EdgePlane[BOTTOM_EDGE],
 				&(intersection[iidx][BOTTOM_EDGE].Direction));
 				intersection[iidx][BOTTOM_EDGE].Direction.Normalize();
-				if (SegLineDotZYX(intersection[iidx][BOTTOM_EDGE].Direction, midpoint) < 0.0f) {
+				if (Vector3::Dot_Product(intersection[iidx][BOTTOM_EDGE].Direction, midpoint) < 0.0f) {
 					intersection[iidx][BOTTOM_EDGE].Direction = -intersection[iidx][BOTTOM_EDGE].Direction;
 				}
 				intersection[iidx][BOTTOM_EDGE].Parallel = false;
@@ -1288,13 +1199,13 @@ Vector4 * rgbas
 					pl = segment[iidx - 1].EdgePlane[BOTTOM_EDGE] - segment[iidx].EdgePlane[BOTTOM_EDGE];
 				}
 				pl.Normalize();
-				intersection[iidx][BOTTOM_EDGE].Direction = midpoint - pl * SegLineDotZYX(pl, midpoint);
+				intersection[iidx][BOTTOM_EDGE].Direction = midpoint - pl * Vector3::Dot_Product(pl, midpoint);
 				intersection[iidx][BOTTOM_EDGE].Direction.Normalize();
 				intersection[iidx][BOTTOM_EDGE].Parallel = true;
 			}
 			Vector3::Cross_Product(intersection[iidx][TOP_EDGE].Direction, intersection[iidx][BOTTOM_EDGE].Direction, &start_pl);
 			start_pl.Normalize();
-			dp = SegLineDotXZY(segment[iidx].StartPlane, start_pl);
+			dp = Vector3::Dot_Product(segment[iidx].StartPlane, start_pl);
 			if (dp > 0.0f) {
 				segment[iidx].StartPlane = start_pl;
 			} else {
@@ -1320,11 +1231,11 @@ Vector4 * rgbas
 						LineSegment *curr_seg = &(segment[curr_int->NextSegmentID]);
 						LineSegment *prev_seg = &(segment[prev_int->NextSegmentID]);
 						while	(	(!next_int->Fold &&
-						(SegLineDotZYX(curr_int->Direction, next_seg->StartPlane) > 0.0f) &&
-						(SegLineDotZYX(curr_int->Direction, next_seg->EdgePlane[edge]) > 0.0f )) ||
+						(Vector3::Dot_Product(curr_int->Direction, next_seg->StartPlane) > 0.0f) &&
+						(Vector3::Dot_Product(curr_int->Direction, next_seg->EdgePlane[edge]) > 0.0f )) ||
 						(!curr_int->Fold &&
-						(SegLineDotZYX(next_int->Direction, -curr_seg->StartPlane) > 0.0f) &&
-						(SegLineDotZYX(next_int->Direction, prev_seg->EdgePlane[edge]) > 0.0f )) ) {
+						(Vector3::Dot_Product(next_int->Direction, -curr_seg->StartPlane) > 0.0f) &&
+						(Vector3::Dot_Product(next_int->Direction, prev_seg->EdgePlane[edge]) > 0.0f )) ) {
 							unsigned int new_count = curr_int->PointCount + next_int->PointCount;
 							float oo_new_count = 1.0f / (float)new_count;
 							float curr_factor = oo_new_count * (float)curr_int->PointCount;
@@ -1335,11 +1246,11 @@ Vector4 * rgbas
 							Vector4 new_diffuse = curr_int->RGBA * curr_factor + next_int->RGBA * next_factor;
 							bool new_parallel;
 							Vector3 new_direction;
-							vdp = SegLineThresholdDotYZX(prev_seg->EdgePlane[edge], next_seg->EdgePlane[edge]);
+							vdp = Vector3::Dot_Product(prev_seg->EdgePlane[edge], next_seg->EdgePlane[edge]);
 							if (fabs(vdp) < parallel_factor) {
 								Vector3::Cross_Product(prev_seg->EdgePlane[edge], next_seg->EdgePlane[edge], &new_direction);
 								new_direction.Normalize();
-								if (SegLineDotZYX(new_direction, new_point) < 0.0f) {
+								if (Vector3::Dot_Product(new_direction, new_point) < 0.0f) {
 									new_direction = -new_direction;
 								}
 								new_parallel = false;
@@ -1354,7 +1265,7 @@ Vector4 * rgbas
 								if (curr_int->Parallel) {
 									// BFME2 fixes the ancestor source: project the existing intersection direction.
 									// Retail VA 0x00594634..0x0059467F reads curr_int->Direction, not this local.
-									new_direction = curr_int->Direction - pl * SegLineDotZYX(pl, curr_int->Direction);
+									new_direction = curr_int->Direction - pl * Vector3::Dot_Product(pl, curr_int->Direction);
 									new_direction.Normalize();
 								} else {
 									Vector3::Cross_Product(curr_seg->EdgePlane[edge], pl, &new_direction);
@@ -1366,11 +1277,11 @@ Vector4 * rgbas
 								float abort_dist = radius * MergeAbortFactor;
 								float abort_dist2 = abort_dist * abort_dist;
 								Vector3 diff_curr = curr_int->Point -
-								new_direction * SegLineDotZYX(curr_int->Point, new_direction);
-								if (SegLineLengthSquaredXYZ(diff_curr) > abort_dist2) break;
+								new_direction * Vector3::Dot_Product(curr_int->Point, new_direction);
+								if (diff_curr.Length2() > abort_dist2) break;
 								Vector3 next_curr = next_int->Point -
-								new_direction * SegLineDotZYX(next_int->Point, new_direction);
-								if (SegLineLengthSquaredXYZ(next_curr) > abort_dist2) break;
+								new_direction * Vector3::Dot_Product(next_int->Point, new_direction);
+								if (next_curr.Length2() > abort_dist2) break;
 							}
 							merged = true;
 							curr_int->Direction = new_direction;
@@ -1427,9 +1338,9 @@ Vector4 * rgbas
 		unsigned int vidx = 0;
 		unsigned int tidx = 0;
 		Vector3 &top_dir = intersection[1][TOP_EDGE].Direction;
-		top = top_dir * SegLineDotXZY(points[0], top_dir);
-		Vector3 &bottom_dir = intersection[1][BOTTOM_EDGE].Direction;
-		bottom = bottom_dir * SegLineDotZYX(points[0], bottom_dir);
+		top = top_dir * Vector3::Dot_Product(points[0], top_dir);
+		bottom = intersection[1][BOTTOM_EDGE].Direction;
+		bottom *= Vector3::Dot_Product(points[0], intersection[1][BOTTOM_EDGE].Direction);
 		vArray[vidx].x = top.X;
 		vArray[vidx].y = top.Y;
 		vArray[vidx].z = top.Z;
@@ -1451,8 +1362,7 @@ Vector4 * rgbas
 		pidx = 0;
 		unsigned int residual_top_points = intersection[1][TOP_EDGE].PointCount;
 		unsigned int residual_bottom_points = intersection[1][BOTTOM_EDGE].PointCount;
-		unsigned int delta = MIN(residual_top_points, residual_bottom_points);
-		delta -= 1;
+		unsigned int delta = MIN(residual_top_points, residual_bottom_points) - 1;
 		residual_top_points -= delta;
 		residual_bottom_points -= delta;
 		pidx += delta;
@@ -1474,12 +1384,13 @@ Vector4 * rgbas
 				residual_bottom_points = intersection[bottom_int_idx][BOTTOM_EDGE].PointCount;
 				pidx++;
 				Vector3 &top_dir = intersection[top_int_idx][TOP_EDGE].Direction;
-				top = top_dir * SegLineDotZYX(points[pidx], top_dir);
+				top = top_dir * Vector3::Dot_Product(points[pidx], top_dir);
 				Vector3 &bottom_dir = intersection[bottom_int_idx][BOTTOM_EDGE].Direction;
-				bottom = bottom_dir * SegLineDotZYX(points[pidx], bottom_dir);
+				bottom = bottom_dir * Vector3::Dot_Product(points[pidx], bottom_dir);
 				// Retail VA 0x00594FF3..0x00595080: expand paired vertices using this+0x1C.
 				if (_BFME_Unknown_Member > 0.0f) {
-					Vector3 delta = (top - bottom) * _BFME_Unknown_Member;
+					Vector3 delta = top - bottom;
+					delta *= _BFME_Unknown_Member;
 					top += delta;
 					bottom -= delta;
 				}
@@ -1509,7 +1420,7 @@ Vector4 * rgbas
 					residual_bottom_points = intersection[bottom_int_idx][BOTTOM_EDGE].PointCount;
 					pidx++;
 					Vector3 &bottom_dir = intersection[bottom_int_idx][BOTTOM_EDGE].Direction;
-					bottom = bottom_dir * SegLineDotZYX(points[pidx], bottom_dir);
+					bottom = bottom_dir * Vector3::Dot_Product(points[pidx], bottom_dir);
 					vArray[vidx].x = bottom.X;
 					vArray[vidx].y = bottom.Y;
 					vArray[vidx].z = bottom.Z;
@@ -1528,7 +1439,7 @@ Vector4 * rgbas
 					residual_top_points = intersection[top_int_idx][TOP_EDGE].PointCount;
 					pidx++;
 					Vector3 &top_dir = intersection[top_int_idx][TOP_EDGE].Direction;
-					top = top_dir * SegLineDotZYX(points[pidx], top_dir);
+					top = top_dir * Vector3::Dot_Product(points[pidx], top_dir);
 					vArray[vidx].x = top.X;
 					vArray[vidx].y = top.Y;
 					vArray[vidx].z = top.Z;
@@ -1567,7 +1478,7 @@ Vector4 * rgbas
 			shader.Set_Primary_Gradient(ShaderClass::GRADIENT_DISABLE);
 			mat=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_NODIFFUSE);
 		}
-		if (Texture) {
+		if (*(const BFME2TextureRef *)&Texture) {
 			shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);
 		} else {
 			shader.Set_Texturing(ShaderClass::TEXTURING_DISABLE);
@@ -1633,4 +1544,102 @@ VertexFormatXYZDUV1 *SegLineRendererClass::getVertexBuffer(unsigned int number)
 	}
 	return m_vertexBuffer;
 }
-SegMatrixRow::SegMatrixRow() {}
+
+void SegLineRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
+	const float *base_tex_v, unsigned int *p_sub_point_cnt, Vector3 *xformed_subdiv_pts,
+	float *subdiv_tex_v, Vector4 *base_diffuse, Vector4 *subdiv_diffuse)
+{
+	// CAUTION: freezing the random offsets will make it more readily apparent that the offsets
+	// are in camera space rather than worldspace.
+	int freeze_random = Is_Freeze_Random();
+	Random3Class randomize;
+	const float oo_int_max = 1.0f / (float)INT_MAX;
+	Vector3SolidBoxRandomizer randomizer(Vector3(1,1,1));
+	Vector3 randvec(0,0,0);
+	unsigned int sub_pidx = 0;
+
+	struct SegLineSubdivision {
+		Vector3			StartPos;
+		Vector3			EndPos;
+		float				StartTexV;	// V texture coordinate of start point
+		float				EndTexV;		// V texture coordinate of end point
+		Vector4			StartDiffuse;
+		Vector4			EndDiffuse;
+		float				Rand;
+		unsigned int	Level;		// Subdivision level
+	};
+
+	SegLineSubdivision stack[2 * MAX_SEGLINE_SUBDIV_LEVELS];	// Maximum number needed
+	int tos = 0;
+
+	for (unsigned int pidx = 0; pidx < point_cnt - 1; pidx++) {
+
+		// Subdivide the (pidx, pidx + 1) segment. Produce pidx and all subdivided points up to
+		// (not including) pidx + 1.
+		tos = 0;
+		stack[0].StartPos = xformed_pts[pidx];
+		stack[0].EndPos = xformed_pts[pidx + 1];
+		stack[0].StartTexV = base_tex_v[pidx];
+		stack[0].EndTexV = base_tex_v[pidx + 1];
+		
+		if (base_diffuse) {
+			stack[0].StartDiffuse = base_diffuse[pidx];
+			stack[0].EndDiffuse = base_diffuse[pidx+1];
+		} else {
+			stack[0].StartDiffuse.Set(Color.X, Color.Y, Color.Z, Opacity);
+			stack[0].EndDiffuse = stack[0].StartDiffuse;
+		}
+
+		stack[0].Rand = NoiseAmplitude;
+		stack[0].Level = 0;
+
+		for (; tos >= 0;) {
+			if (stack[tos].Level == SubdivisionLevel) {
+				// Generate point location and texture V coordinate
+				xformed_subdiv_pts[sub_pidx] = stack[tos].StartPos;
+				subdiv_tex_v[sub_pidx] = stack[tos].StartTexV;
+				subdiv_diffuse[sub_pidx] = stack[tos].StartDiffuse;
+
+				sub_pidx = sub_pidx + 1;
+
+				// Pop
+				tos--;
+			} else {
+				// Recurse down: pop existing entry and push two subdivided ones.
+				if (freeze_random) {
+					randvec.Set(randomize * oo_int_max, randomize * oo_int_max, randomize * oo_int_max);
+				} else {
+					randomizer.Get_Vector(randvec);
+				}
+				stack[tos + 1].StartPos = stack[tos].StartPos;
+				stack[tos + 1].EndPos = (stack[tos].StartPos + stack[tos].EndPos) * 0.5f + randvec * stack[tos].Rand;
+				stack[tos + 1].StartTexV = stack[tos].StartTexV;
+				stack[tos + 1].EndTexV = (stack[tos].StartTexV + stack[tos].EndTexV) * 0.5f;
+				stack[tos + 1].StartDiffuse = stack[tos].StartDiffuse;
+				stack[tos + 1].EndDiffuse = (stack[tos].StartDiffuse + stack[tos].EndDiffuse) * 0.5f;
+				stack[tos + 1].Rand = stack[tos].Rand * 0.5f;
+				stack[tos + 1].Level = stack[tos].Level + 1;
+				stack[tos].StartPos = stack[tos + 1].EndPos;
+				// stack[tos].EndPos already has the right value
+				stack[tos].StartTexV = stack[tos + 1].EndTexV;
+				// stack[tos].EndTexV already has the right value
+				stack[tos].Rand = stack[tos + 1].Rand;
+				stack[tos].Level = stack[tos + 1].Level;
+				tos++;
+			}
+		}
+	}
+	// Last point
+	xformed_subdiv_pts[sub_pidx] = xformed_pts[point_cnt - 1];
+	subdiv_tex_v[sub_pidx] = base_tex_v[point_cnt - 1];
+	if (base_diffuse) {
+		subdiv_diffuse[sub_pidx] = base_diffuse[point_cnt - 1];
+	} else {
+		subdiv_diffuse[sub_pidx].Set(Color.X, Color.Y, Color.Z, Opacity);
+	}
+
+	sub_pidx = sub_pidx + 1;
+
+	// Output:
+	*p_sub_point_cnt = sub_pidx;
+}
