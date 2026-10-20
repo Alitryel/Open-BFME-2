@@ -26,7 +26,7 @@ typedef bool Bool;
 class Image;class RadarObject;
 class Player{public:bool hasRadar()const;};
 class PlayerList{public:char pad[0x10];Player*local;};extern PlayerList*ThePlayerList;
-class W3DRadarResetSurface{public:void*ptr;W3DRadarResetSurface(){}W3DRadarResetSurface(const W3DRadarResetSurface&);~W3DRadarResetSurface();void clear(unsigned int);};
+class W3DRadarResetSurface{public:void*ptr;W3DRadarResetSurface(){}W3DRadarResetSurface(const W3DRadarResetSurface&);~W3DRadarResetSurface();void clear(bool);};
 class CursorTextureSlot{public:void*ptr;W3DRadarResetSurface Get_Surface_Level();};
 class Display{public:
 virtual void slot0();
@@ -222,7 +222,7 @@ if(extent.width()/width>=extent.height()/height){
 }}
 ((W3DDisplay*)TheDisplay)->rva0004D6B3(terrain,ul.x,ul.y,lr.x,lr.y,color,2);
 if(dirty||TheGameClient->getFrame()%6==0){
-overlayTex.Get_Surface_Level().clear(0);
+overlayTex.Get_Surface_Level().clear(false);
 rva00050125(list1,&overlayTex,color);rva00050125(list2,&overlayTex,color);
 }
 ((W3DDisplay*)TheDisplay)->rva0004D6B3(overlay,ul.x,ul.y,lr.x,lr.y,color,2);

@@ -1,28 +1,30 @@
-// ?rva001711a6@Rva00171024@@QAEXXZ
-// partial score=0.98 date=2026-10-20
-// ?rva001711a6@Rva00171024@@QAEXXZ
-// partial score=0.617 date=2026-10-17
-// ?rva001711a6@Rva00171024@@QAEXXZ
-// partial score=0.57 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// Full semantic reconstruction of native 1711A6..171522 (892B).
-// WB A12EB0 names TexturePacker::UpdateResultTexture in texturepacker.cpp.
-// The existing receiver spelling remains address-derived while its providers
-// are reconciled. No guessed callee pins accompany this reconstruction.
-// Follows the WB body: make_pair insert into the area multimap, skyline[0]
+// Retail 0x001711A6..0x00171522 (892 B): TexturePacker::UpdateResultTexture, named
+// by the WorldBuilder twin A12EB0 (texturepacker.cpp). Target evidence: the whole
+// native body, its 0x144 frame and EH state map, and the rowed callees it calls.
+// Carried from the WB body: make_pair insert into the area multimap, skyline[0]
 // only, side<<5 written per use, an inline null-guarded validity test, a bool
 // clear flag, and a D3DX RECT built member by member from the packed rectangle.
-// Compiled bytes equal retail outside relocation slots; six callee names
-// (area multimap ctor/insert_equal/dtor, make_pair, pair conversion, clear(bool))
-// still differ from their rowed spellings. Handoff:
-// reverse/attempt_support/texturepacker-update-20261020/readme.md
+// The area multimap is a real STLport multimap<unsigned,AssetReference>: its
+// in-unit template bodies let the make_pair and value_type temporaries share
+// retail's frame slots (address-derived views of the same callees do not).
+// The receiver keeps the ledger's address-derived spelling.
 #include <map>
 
 class TextureClass {
 public:
     void Release_Ref();
     void Add_Ref() { ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this)+4); }
+};
+class TextureInitializationView {
+public:
+    virtual void slot0()=0; virtual void slot1()=0;
+    virtual void slot2()=0; virtual void slot3()=0;
+    virtual void slot4()=0; virtual void slot5()=0;
+    virtual void slot6()=0; virtual void slot7()=0;
+    virtual void slot8()=0; virtual void slot9()=0;
+    virtual bool Is_Initialized() const=0;
 };
 class AssetReference {
 public:
@@ -31,7 +33,7 @@ public:
     AssetReference(const AssetReference &a) : object(a.object) { if(object) object->Add_Ref(); }
     ~AssetReference() { if(object) object->Release_Ref(); }
     bool operator<(const AssetReference &a) const { return (unsigned)object < (unsigned)a.object; }
-    bool Is_Initialized() const;
+    bool Is_Initialized() const { if(object) return reinterpret_cast<TextureInitializationView *>(object)->Is_Initialized(); return false; }
 };
 struct Rva00170999Data { unsigned left,top,right,bottom; };
 class Rva00170BFF {
@@ -58,20 +60,6 @@ public:
 class CursorTextureSlot {
 public: W3DRadarResetSurface Get_Surface_Level();
 };
-class TextureInitializationView {
-public:
-    virtual void slot0()=0; virtual void slot1()=0;
-    virtual void slot2()=0; virtual void slot3()=0;
-    virtual void slot4()=0; virtual void slot5()=0;
-    virtual void slot6()=0; virtual void slot7()=0;
-    virtual void slot8()=0; virtual void slot9()=0;
-    virtual bool Is_Initialized() const=0;
-};
-inline bool AssetReference::Is_Initialized() const
-{
-    if(object) return reinterpret_cast<TextureInitializationView *>(object)->Is_Initialized();
-    return false;
-}
 struct RECT { long left,top,right,bottom; };
 extern "C" long __stdcall D3DXLoadSurfaceFromSurface(void *,void *,const RECT *,void *,void *,const RECT *,unsigned,unsigned);
 extern "C" long __stdcall D3DXFilterTexture(void *,void *,unsigned,unsigned);

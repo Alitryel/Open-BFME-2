@@ -8327,7 +8327,6 @@ name,address,notes
 ?clear@TeamFactory@@QAEXXZ,0x003A2F4C,address read from the REL32 displacement at a placed body
 ?clear@TeamRelationHashMap@@QAEXXZ,0x001DBCDC,TU view of the +4 relation hash map cleared by ~TeamRelationMap 0x003A2563 (Zero Hour m_map.clear()) read from its REL32 displacement; ICF-folded hashtable clear rowed under another instantiation name
 ?clear@TeamsInfoRec@@QAEXXZ,0x0032C9C6,retail call and tail JMP from SidesList emptyTeams at 0x32D065 and 0x32D071; team record clear
-?clear@W3DRadarResetSurface@@QAEXI@Z,0x00116780,holder surface clear(int) read from the REL32 at 0x4E3D4 in W3DRadar::clearShroud (push 0; mov ecx,eax after Get_Surface_Level)
 ?clear@W3DRoadBufferRef18@@QAEXXZ,0x0004D75B,W3DRoadBuffer+0x18 holder cleared in freeRoadBuffers (call at 0x000D778F); folded generic Release-then-zero holder clear
 ?clearAllEvents@Radar@@IAEXXZ,0x002D7D57
 ?clearAllRoads@W3DRoadBuffer@@QAEXXZ,0x000D7942,loadRoads REL32 at 0x000DD725; body loops m_roads (this+0x04) up to m_numRoads (this+0x08)
@@ -15987,3 +15986,7 @@ _atan2f,0x000422A0,math.h x86 inline atan2f (float)atan2((double)y(double)x): 0x
 ??0?$_Vector_base@DV?$allocator@D@_STL@@@_STL@@QAE@ABV?$allocator@D@1@@Z,0x0007FAEA,Native byte-vector loader307EDC calls the shared empty-base constructor; whole29B and every owner relocation proven; fold-proof=Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_bodies.cpp
 ??$swap@V?$_STLP_alloc_proxy@PADDV?$allocator@D@_STL@@@_STL@@@_STL@@YAXAAV?$_STLP_alloc_proxy@PADDV?$allocator@D@_STL@@@0@0@Z,0x00025AD0,Native vector-char swap3079C1 calls this shared34B Od allocator-proxy swap; typed whole-body instantiation and all owners agree; fold-proof=Code/Libraries/Source/WWVegas/WWLib/stlport_vector_voidptr.cpp
 ?swap@?$vector@DV?$allocator@D@_STL@@@_STL@@QAEXAAV12@@Z,0x003079C1,Native loader307EDC byte-vector swap; whole44B and recursive proxy-swap dependency proven against every owner; fold-proof=Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_bodies.cpp
+??$make_pair@IVAssetReference@@@_STL@@YA?AU?$pair@IVAssetReference@@@0@ABIABVAssetReference@@@Z,0x00170A3D,callee of ?rva001711a6@Rva00171024@@QAEXXZ
+??$?0IVAssetReference@@@?$pair@$$CBIVAssetReference@@@_STL@@QAE@ABU?$pair@IVAssetReference@@@1@@Z,0x001709BA,callee of ?rva001711a6@Rva00171024@@QAEXXZ
+??1?$_Rb_tree@IU?$pair@$$CBIVAssetReference@@@_STL@@U?$_Select1st@U?$pair@$$CBIVAssetReference@@@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIVAssetReference@@@_STL@@@2@@_STL@@QAE@XZ,0x00170D7F,callee of ?rva001711a6@Rva00171024@@QAEXXZ
+?insert_equal@?$_Rb_tree@IU?$pair@$$CBIVAssetReference@@@_STL@@U?$_Select1st@U?$pair@$$CBIVAssetReference@@@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIVAssetReference@@@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBIVAssetReference@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBIVAssetReference@@@_STL@@@2@@2@ABU?$pair@$$CBIVAssetReference@@@2@@Z,0x00170E3D,callee of ?rva001711a6@Rva00171024@@QAEXXZ

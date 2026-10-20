@@ -72,7 +72,7 @@ class W3DRadarResetSurface
 {
 public:
 	~W3DRadarResetSurface();
-	void clear(UnsignedInt color);
+	void clear(bool white);
 	IDirect3DSurface8 *m_surface;
 };
 
@@ -143,7 +143,7 @@ private:
 void W3DRadar::rva0004F580()
 {
 	m_14d6 = false;
-	m_148c.Get_Surface_Level().clear(0);
+	m_148c.Get_Surface_Level().clear(false);
 
 	const Image *image = TheMappedImageCollection->findImageByName(AsciiString("ScrollShroud"));
 	if (!image)

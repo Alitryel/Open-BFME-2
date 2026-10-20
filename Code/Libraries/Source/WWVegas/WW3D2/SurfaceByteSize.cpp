@@ -320,8 +320,8 @@ struct Dimensions { unsigned h; int w; };
 // description Format/Width/Height and LockRect/UnlockRect slots13/14.
 // Packed DXT bytes FF FE FF FF 55 55 55 55 are native; the 16-bit opaque
 // temporary plus typed8B copy retain native byte writes and copy allocation.
-class W3DRadarResetSurface { public: void clear(unsigned int); private: void *m_surface; };
-void W3DRadarResetSurface::clear(unsigned int value)
+class W3DRadarResetSurface { public: void clear(bool); private: void *m_surface; };
+void W3DRadarResetSurface::clear(bool value)
 {
  if(!m_surface)return;
  SurfaceClass::SurfaceDescription desc;

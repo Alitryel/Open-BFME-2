@@ -741,7 +741,7 @@ class W3DRadarResetSurface
 {
 public:
 	~W3DRadarResetSurface();
-	void clear( UnsignedInt color );
+	void clear( bool white );
 
 private:
 	void *m_surface;
@@ -815,7 +815,7 @@ void W3DRadar::newMap( TerrainLogic *terrain )
 void W3DRadar::clearShroud()
 {
 	reinterpret_cast<W3DRadarResetTexture *>(reinterpret_cast<char *>(this) + 0x1498)
-		->getSurfaceLevel().clear(0);
+		->getSurfaceLevel().clear(false);
 }
 
 // ------------------------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ class W3DRadarResetSurface
 {
 public:
 	~W3DRadarResetSurface();
-	void clear(UnsignedInt color);
+	void clear(bool white);
 private:
 	void *m_surface;
 };
@@ -73,8 +73,8 @@ void W3DRadar::reset()
 {
 	Radar::reset();
 	BFMEDX8DeviceLock lock;
-	m_overlayTexture.Get_Surface_Level().clear(0);
-	m_shroudTexture.Get_Surface_Level().clear(0);
+	m_overlayTexture.Get_Surface_Level().clear(false);
+	m_shroudTexture.Get_Surface_Level().clear(false);
 	m_terrainTexture.clear();
 	s08();
 	s10();
