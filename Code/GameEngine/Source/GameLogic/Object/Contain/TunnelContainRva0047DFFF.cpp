@@ -9,7 +9,7 @@ class TunnelContain
 {
 public:
  // Slot 8 of TunnelContain's vftable 0x00C47740: virtual.
- virtual void rva0047DFFF();
+ virtual void onDelete();
  void rva0047DF81();
 };
 class OpenContain
@@ -17,7 +17,7 @@ class OpenContain
 public:
  virtual void onDelete();
 };
-void TunnelContain::rva0047DFFF()
+void TunnelContain::onDelete()
 {
  ((OpenContain *)this)->OpenContain::onDelete();
  rva0047DF81();
