@@ -163,11 +163,18 @@ public:
 	void rva0039B246();
 };
 
-class Rva002461DA
+// _STL::_List_base<Rva0024076D>, dtor rowed at 0x002461DA (StlportListRva002461DA.cpp).
+class Rva0024076D;
+namespace _STL
+{
+template <class _Tp> class allocator;
+template <class _Tp, class _Alloc> class _List_base
 {
 public:
-	void rva002461DA();
+	~_List_base();
 };
+}
+typedef _STL::_List_base<Rva0024076D, _STL::allocator<Rva0024076D> > Rva0024076DListBase;
 
 class Rva00255CA8
 {
@@ -579,7 +586,7 @@ void Rva0023C624::rva0023C624(int a)
 	((Rva0039B20C *)this)->rva0039B227(a);
 }
 
-// 0x00247084 (5B): tail jump to the rowed Rva002461DA::rva002461DA 0x002461DA on the same receiver.
+// 0x00247084 (5B): tail jump to the rowed _List_base<Rva0024076D> dtor 0x002461DA on the same receiver.
 class Rva00247084
 {
 public:
@@ -587,7 +594,7 @@ public:
 };
 void Rva00247084::rva00247084()
 {
-	((Rva002461DA *)this)->rva002461DA();
+	((Rva0024076DListBase *)this)->~Rva0024076DListBase();
 }
 
 // 0x00256424 (5B): tail jump to the rowed Rva00255CA8::rva00255CA8 0x00255CA8 on the same receiver.

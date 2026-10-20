@@ -1,27 +1,18 @@
 // cl: /Ireference/shims/bfmelist /Ireference/shims/stlp_nodealloc /DNDEBUG /MD /EHs-c- /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?rva002461DA@Rva002461DA@@QAEXXZ @0x002461DA 23B unlock: list clear plus free
-// Evidence: calls rowed List_base clear 0x243119 plus rowed _free 0x30830; layout base at +0 with first dword freed; callers at 0x248CA4 plus jmp 0x247084; prev ArmorStoreCtor next OpaqueScalarDeletingDtors.
+// _List_base<Rva0024076D> dtor @0x002461DA (23B): clear 0x00243119, then free
+// the sentinel through 0x00030830. Callers: 0x0024877A's record list
+// (0x00248CA4) and the jmp at 0x00247084.
 #include <list>
-struct Rva00240831Dtor {
-	~Rva00240831Dtor();
-	char m_pad[1];
-};
-extern "C" void __cdecl free(void *p);
-class Rva002461DA {
-	_STL::_List_base<Rva00240831Dtor, _STL::allocator<Rva00240831Dtor> > m_base;
+// The 0x50-byte record whose dtor is 0x00240831 (Rva0024076DCtor.cpp).
+class Rva0024076D {
 public:
-	void rva002461DA();
+	~Rva0024076D();
+private:
+	char m_pad[0x50];
 };
-void Rva002461DA::rva002461DA()
-{
-	m_base.clear();
-	void *p = *(void **)&m_base;
-	if (p)
-		free(p);
+namespace _STL {
+// clear is rowed in stlport_list_rva00243119_clear.cpp.
+template <> void _List_base<Rva0024076D, allocator<Rva0024076D> >::clear();
 }
-
-// The retail call in this body reads 0x00240831, an address the ledger already
-// carries as ??1WorkerAIUpdateModuleData@@UAE@XZ. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:??1Rva00240831Dtor@@QAE@XZ=??1WorkerAIUpdateModuleData@@UAE@XZ")
+template _STL::_List_base<Rva0024076D, _STL::allocator<Rva0024076D> >::~_List_base();
