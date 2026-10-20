@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.884 date=2026-10-20
+// partial score=0.9 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -383,6 +383,8 @@ public:
 	int m_uAddressMode;
 	int m_vAddressMode;
 	void SetMip(int mip);
+	void Set_U_Addr_Mode(int mode) { m_uAddressMode = mode; }
+	void Set_V_Addr_Mode(int mode) { m_vAddressMode = mode; }
 };
 
 class ShroudTexture
@@ -518,22 +520,22 @@ void BfmeB1137::Install_Materials(void) const
 		if (!m_58.ptr)
 		{
 			m_58 = TextureAsset::Get(((Rva00564E0D *)g_00DFE1E4)->rva00564E0D().str(), 0, 0);
-			((ShroudTexture *)&m_58)->getFilter()->m_uAddressMode = 0;
-			((ShroudTexture *)&m_58)->getFilter()->m_vAddressMode = 0;
+			((ShroudTexture *)&m_58)->getFilter()->Set_U_Addr_Mode(0);
+			((ShroudTexture *)&m_58)->getFilter()->Set_V_Addr_Mode(0);
 			((ShroudTexture *)&m_58)->getFilter()->SetMip(0);
 		}
 		if (!m_60.ptr)
 		{
 			m_60 = TextureAsset::Get(((Version *)g_00DFE1E4)->getAsciiBuildLocation().str(), 0, 0);
-			((ShroudTexture *)&m_60)->getFilter()->m_uAddressMode = 1;
-			((ShroudTexture *)&m_60)->getFilter()->m_vAddressMode = 1;
+			((ShroudTexture *)&m_60)->getFilter()->Set_U_Addr_Mode(1);
+			((ShroudTexture *)&m_60)->getFilter()->Set_V_Addr_Mode(1);
 			((ShroudTexture *)&m_60)->getFilter()->SetMip(0);
 		}
 		if (!m_64.ptr)
 		{
 			m_64 = TextureAsset::Get(((Rva0056394A *)g_00DFE1E4)->rva0056394A().str(), 0, 0);
-			((ShroudTexture *)&m_64)->getFilter()->m_uAddressMode = 1;
-			((ShroudTexture *)&m_64)->getFilter()->m_vAddressMode = 1;
+			((ShroudTexture *)&m_64)->getFilter()->Set_U_Addr_Mode(1);
+			((ShroudTexture *)&m_64)->getFilter()->Set_V_Addr_Mode(1);
 			((ShroudTexture *)&m_64)->getFilter()->SetMip(0);
 		}
 		BFME2Set_Texture(0, AsRef(m_58));
@@ -662,7 +664,7 @@ void BfmeB1137::Install_Materials(void) const
 
 		int last = m_44;
 		m_44 = WW3D::SyncTime;
-		int elapsed = WW3D::SyncTime - last;
+		int elapsed = m_44 - last;
 		if (sameFrame)
 			elapsed = 0;
 		Rva00094DD3Val wind;
@@ -720,15 +722,15 @@ void BfmeB1137::Install_Materials(void) const
 		if (!m_58.ptr)
 		{
 			m_58 = TextureAsset::Get(((Rva00564E0D *)g_00DFE1E4)->rva00564E0D().str(), 0, 0);
-			((ShroudTexture *)&m_58)->getFilter()->m_uAddressMode = 0;
-			((ShroudTexture *)&m_58)->getFilter()->m_vAddressMode = 0;
+			((ShroudTexture *)&m_58)->getFilter()->Set_U_Addr_Mode(0);
+			((ShroudTexture *)&m_58)->getFilter()->Set_V_Addr_Mode(0);
 			((ShroudTexture *)&m_58)->getFilter()->SetMip(0);
 		}
 		if (!m_5C.ptr)
 		{
 			m_5C = TextureAsset::Get(((FXParticleSystem::ParticleSystemTemplate *)g_00DFE1E4)->getTextureFilename().str(), 0, 0);
-			((ShroudTexture *)&m_5C)->getFilter()->m_uAddressMode = 0;
-			((ShroudTexture *)&m_5C)->getFilter()->m_vAddressMode = 0;
+			((ShroudTexture *)&m_5C)->getFilter()->Set_U_Addr_Mode(0);
+			((ShroudTexture *)&m_5C)->getFilter()->Set_V_Addr_Mode(0);
 			((ShroudTexture *)&m_5C)->getFilter()->SetMip(0);
 		}
 		if (((GlobalWeatherSystemView *)TheGlobalWeatherSystem)->m_10 == 1)
@@ -755,7 +757,7 @@ void BfmeB1137::Install_Materials(void) const
 
 		int last = m_44;
 		m_44 = WW3D::SyncTime;
-		int elapsed = WW3D::SyncTime - last;
+		int elapsed = m_44 - last;
 		{
 		Rva00094DD3Val wind;
 		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
