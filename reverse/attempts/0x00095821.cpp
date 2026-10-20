@@ -1,5 +1,7 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.879 date=2026-10-20
+// partial score=0.885 date=2026-10-20
+// ?Install_Materials@BfmeB1137@@UBEXXZ
+// partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -696,7 +698,11 @@ void BfmeB1137::Install_Materials(void) const
 				else if (!sameFrame)
 					m_3C += CLOUD->getM2C();
 			}
-			D3DXMatrixScaling(&scale, 1.0f / (m_40 * 128.0f), 1.0f / (m_40 * 128.0f), 1.0f);
+			float worldTexelWidth = m_40;
+			float worldTexelHeight = m_40;
+			float widthScale = 1.0f / (worldTexelWidth * 128.0f);
+			float heightScale = 1.0f / (worldTexelHeight * 128.0f);
+			D3DXMatrixScaling(&scale, widthScale, heightScale, 1);
 			*reinterpret_cast<D3DXMATRIX *>(&view) = inv * toOrigin * scale * toHalf;
 			DX8Wrapper::SetMatrix(0x13, *reinterpret_cast<D3DXMATRIX *>(&view));
 			m_E0 = m_40 * 64.0f;
