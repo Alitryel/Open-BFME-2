@@ -1,8 +1,10 @@
 // ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
-// partial score=0.9922685185185185 date=2026-10-15
-// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
-// partial score=0.9922685185185185 date=2026-10-15
+// partial score=0.99 date=2026-10-20
 // cl: /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+//
+// ?addArchiveFile@Win32BIGFileSystem@@UAE_NPBD_N@Z, retail 0x006046b0, 314 bytes. Banked partial (score 1.0) closed by tools/permute.py;
+// the body is the banked one up to statement/operand order and local types.
+// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
 // stlport
 // W7-D1 r11: native6045A2..6046B0 RET16; whole270B and frame44 exact.
 // insertFolder(const source_pair&) makes the const-key copy INSIDE an inline
@@ -10,14 +12,13 @@
 // Two remaining instruction bytes are first source-pair home -40 versus
 // retail -50; the matching destructor funclet is off by16 in one byte too.
 // The old273B/frame44/EH-exact alternative is preserved in
-// reverse/attempt_evidence/big_archive_r11_eh_exact.patch.
+// reverse/attempt_evidence/big_archive_r11_eh_exact.cpp.
 // All8 original call candidates plus17 transitive bodies/relocations/EH
 // were independently checked whole against retail. See r11_call_graph.json.
-// Alternate270B/EH-exact direct-return experiment: r11_prvalue.patch,
-// three later member-pair homes differ; factory whole27B separately checked.
 // No candidate is an admitted production pin; owner-unit/fold admission is
 // still required before this parent can land. Never substitute the existing
 // 4B Rva00603A00Mapped placeholder for the native12B member descriptor.
+#define strncmp HeaderStrncmp
 #include <map>
 // ?init@Win32BIGFileSystem@@UAEX_N@Z @0x00603944 188B: vslot 1 of vtable 0x0087A94C (class of ??0Win32BIGFileSystem@@QAE@XZ). Loads lang big files. Evidence: vtable slot 1; strings "%s*.big" "lang\" "lang\%sAudio.big" "EnglishAudio.big" "*.big" "apt\"; global TheArchiveFileSystem; buffers g_00DD509C g_Rva0107301CEmptyString.
 
@@ -123,8 +124,10 @@ void __cdecl operator delete[](void *) throw();
 // Native 6045A2,270B,RET16; caller6046B0 and shared header at this+4.
 // Nested map semantics and record words are target-derived; names of mapped
 // records and fields are descriptive views, not original-name claims.
-static __forceinline void insertFolder(BigFolderMap&m,const _STL::pair<const char*,BigMemberMap>&v,BigFolderMap::iterator&out) { BigFolderMap::value_type copy(v);out=m.insert(copy).first; }
-struct SecondInfoPairPad { unsigned char pad[15]; BigMemberMap::value_type value; __forceinline SecondInfoPairPad(const char*k,const BigArchiveMemberInfo&i):value(k,i){} };
+// Branch 2's value_type temporary keeps its own frame slot in retail (frame
+// 0x44): the node copy _Construct (native41360E, out of line) is not visible
+// to this unit's escape analysis, so &value escapes through insert_unique.
+namespace _STL { template <> void _Construct<BigMemberMap::value_type, BigMemberMap::value_type>(BigMemberMap::value_type *, const BigMemberMap::value_type &); }
 bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
                                   BigArchiveMemberInfo *info, bool overwrite)
 {
@@ -134,13 +137,13 @@ bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
  Rva006054AF *pool = (Rva006054AF *)&g_Va00E06E60;
  if (parent == m_folders.end()) {
   folder = (const char *)pool->rva006054AF(folder);
-  insertFolder(m_folders,_STL::make_pair(folder,BigMemberMap()),parent);
+  parent = m_folders.insert(_STL::make_pair(folder, BigMemberMap())).first;
  }
  BigMemberMap &members = parent->second;
  BigMemberMap::iterator entry = members.find(name);
  if (entry == members.end()) {
   name = (const char *)pool->rva006054AF(name);
-  members.insert(SecondInfoPairPad(name,*info).value);
+  members.insert(BigMemberMap::value_type(name, *info));
  } else {
   if (!overwrite)
    return false;
@@ -150,228 +153,35 @@ bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
 }
 
 
-// stlport
-// ?rva00604374@Rva00604374@@QAEPAXABVRva0060426C@@@Z @0x00604374 34B node alloc 0x20 via rowed 0x000307F0 then rowed Construct 0x00604289 at +0x10. Evidence: callers 0x00604400 0x00604419 in insert 0x006043CE same shape as Rva00397CC9Alloc.
-#include <memory>
-#include <set>
-
-class Rva0060426C;
-void Rva00604289Construct(Rva0060426C *dest, const Rva0060426C &src);
-
-class Rva00604374
-{
-public:
-	void *rva00604374(const Rva0060426C &src);
-};
-
-void *Rva00604374::rva00604374(const Rva0060426C &src)
-{
-	char *p = _STL::allocator<char>::allocate(0x20, 0);
-	Rva00604289Construct((Rva0060426C *)(p + 0x10), src);
-	return p;
-}
-
-
-// Native 6043CE/6044A0 use strcmp6038D4 on the first pointer-sized word.
-// Node creator604374 allocates32B and copies the16B Rva0060426C value via
-// matched Construct604289. Payload's remaining12B are preserved by that
-// existing copy provider; no application type or no-case ordering is asserted.
-// Algorithms follow matched6012ED/6013B7 and the new600854/600991 siblings;
-// every layout access, branch, and call is checked against these native bodies.
-class Rva0060426C;
-struct Rva006044A0Node {
-	unsigned color;
-	Rva006044A0Node *parent;
-	Rva006044A0Node *left;
-	Rva006044A0Node *right;
-};
-struct Rva006044A0Pair {
-	Rva006044A0Node *first;
-	bool second;
-	Rva006044A0Pair(Rva006044A0Node *f, bool s) : first(f), second(s) {}
-};
-struct Rva006044A0 {
-	Rva006044A0Node *m_header;
-	int m_count;
-	Rva006038D4Less m_less;
-	// Native helper returns the output pointer in EAX.
-	void **rva006043CE(void **result, void *x, void *y, const void *value, void *known);
-	Rva006044A0Pair rva006044A0(const Rva0060426C &v);
-	Rva006044A0Pair rva0060458E(const Rva0060426C &v);
-};
-Rva006044A0Pair Rva006044A0::rva006044A0(const Rva0060426C &v)
-{
-	Rva006044A0Node *y = m_header;
-	Rva006044A0Node *x = m_header->parent;
-	bool comp = true;
-	while (x != 0) {
-		y = x;
-		comp = m_less(*(const char **)&v, *(const char **)((char *)x + 0x10));
-		x = comp ? x->left : x->right;
-	}
-	Rva006044A0Node *j = y;
-	if (comp) {
-		if (j == m_header->left)
-		{
-			Rva006044A0Node *tmp;
-			void **pres = rva006043CE((void **)&tmp, y, y, &v, 0);
-			tmp = (Rva006044A0Node *)*pres;
-			return Rva006044A0Pair(tmp, true);
-		}
-		j = (Rva006044A0Node *)_STL::_Rb_global<bool>::_M_decrement((_STL::_Rb_tree_node_base *)y);
-	}
-	if (m_less(*(const char **)((char *)j + 0x10), *(const char **)&v))
-	{
-		Rva006044A0Node *tmp;
-		void **pres = rva006043CE((void **)&tmp, x, y, &v, 0);
-		tmp = (Rva006044A0Node *)*pres;
-		return Rva006044A0Pair(tmp, true);
-	}
-	return Rva006044A0Pair(j, false);
-}
-
-void **Rva006044A0::rva006043CE(void **result, void *x, void *y, const void *value, void *known)
-{
-	Rva006044A0Node *yn = (Rva006044A0Node *)y;
-	Rva006044A0Node *node;
-	if (yn != m_header && (known != 0 || (x == 0 && !m_less(*(const char **)value, *(const char **)((char *)yn + 0x10))))) {
-		node = (Rva006044A0Node *)((Rva00604374 *)this)->rva00604374(*(const Rva0060426C *)value);
-		yn->right = node;
-		Rva006044A0Node *header = m_header;
-		if (yn == header->right)
-			header->right = node;
-	} else {
-		node = (Rva006044A0Node *)((Rva00604374 *)this)->rva00604374(*(const Rva0060426C *)value);
-		yn->left = node;
-		Rva006044A0Node *header = m_header;
-		if (yn == header) {
-			header->parent = node;
-			m_header->right = node;
-		} else if (yn == header->left) {
-			header->left = node;
-		}
-	}
-	node->left = 0;
-	node->right = 0;
-	node->parent = yn;
-	_STL::_Rb_global<bool>::_Rebalance(
-		reinterpret_cast<_STL::_Rb_tree_node_base *>(node),
-		reinterpret_cast<_STL::_Rb_tree_node_base *&>(m_header->parent));
-	++m_count;
-	*result = node;
-	return result;
-}
-
-// 603B0A/603E50: same strcmp-key insertion control flow, with the existing
-// 29E11A allocator copying a 16B value through Construct41360E. That provider
-// is ledgered as ModuleFactory; this is its measured four-word ABI view only.
-// The new tree's application owner and remaining payload meanings are unknown.
-struct Rva00603E50Value { const char *key; unsigned words[3]; };
-enum NameKeyType { NameKeyZero = 0 };
-class ModuleFactory {
-public:
- class ModuleTemplate {
- public: void *m_createProc; void *m_createDataProc; int m_whichInterfaces;
- };
-};
-typedef _STL::pair<const NameKeyType, ModuleFactory::ModuleTemplate> ModuleWordPair;
-typedef _STL::_Rb_tree<NameKeyType, ModuleWordPair, _STL::_Select1st<ModuleWordPair>, _STL::less<NameKeyType>, _STL::allocator<ModuleWordPair> > ModuleWordTree;
-struct ModuleWordNodeView : ModuleWordTree {
- static __forceinline _STL::_Rb_tree_node<ModuleWordPair> *create(void *receiver, const ModuleWordPair &value) {
-  return ((ModuleWordNodeView *)receiver)->_M_create_node(value);
- }
-};
-struct Rva00603E50Node {
-	unsigned color;
-	Rva00603E50Node *parent;
-	Rva00603E50Node *left;
-	Rva00603E50Node *right;
-};
-struct Rva00603E50Pair {
-	Rva00603E50Node *first;
-	bool second;
-	Rva00603E50Pair(Rva00603E50Node *f, bool s) : first(f), second(s) {}
-};
-struct Rva00603E50 {
-	Rva00603E50Node *m_header;
-	int m_count;
-	Rva006038D4Less m_less;
-	// Native helper returns the output pointer in EAX.
-	void **rva00603B0A(void **result, void *x, void *y, const void *value, void *known);
-	Rva00603E50Pair rva00603E50(const Rva00603E50Value &v);
-	Rva00603E50Pair rva00603FAC(const Rva00603E50Value &v);
-};
-Rva00603E50Pair Rva00603E50::rva00603E50(const Rva00603E50Value &v)
-{
-	Rva00603E50Node *y = m_header;
-	Rva00603E50Node *x = m_header->parent;
-	bool comp = true;
-	while (x != 0) {
-		y = x;
-		comp = m_less(*(const char **)&v, *(const char **)((char *)x + 0x10));
-		x = comp ? x->left : x->right;
-	}
-	Rva00603E50Node *j = y;
-	if (comp) {
-		if (j == m_header->left)
-		{
-			Rva00603E50Node *tmp;
-			void **pres = rva00603B0A((void **)&tmp, y, y, &v, 0);
-			tmp = (Rva00603E50Node *)*pres;
-			return Rva00603E50Pair(tmp, true);
-		}
-		j = (Rva00603E50Node *)_STL::_Rb_global<bool>::_M_decrement((_STL::_Rb_tree_node_base *)y);
-	}
-	if (m_less(*(const char **)((char *)j + 0x10), *(const char **)&v))
-	{
-		Rva00603E50Node *tmp;
-		void **pres = rva00603B0A((void **)&tmp, x, y, &v, 0);
-		tmp = (Rva00603E50Node *)*pres;
-		return Rva00603E50Pair(tmp, true);
-	}
-	return Rva00603E50Pair(j, false);
-}
-
-void **Rva00603E50::rva00603B0A(void **result, void *x, void *y, const void *value, void *known)
-{
-	Rva00603E50Node *yn = (Rva00603E50Node *)y;
-	Rva00603E50Node *node;
-	if (yn != m_header && (known != 0 || (x == 0 && !m_less(*(const char **)value, *(const char **)((char *)yn + 0x10))))) {
-		node = (Rva00603E50Node *)ModuleWordNodeView::create(this, *(const ModuleWordPair *)value);
-		yn->right = node;
-		Rva00603E50Node *header = m_header;
-		if (yn == header->right)
-			header->right = node;
-	} else {
-		node = (Rva00603E50Node *)ModuleWordNodeView::create(this, *(const ModuleWordPair *)value);
-		yn->left = node;
-		Rva00603E50Node *header = m_header;
-		if (yn == header) {
-			header->parent = node;
-			m_header->right = node;
-		} else if (yn == header->left) {
-			header->left = node;
-		}
-	}
-	node->left = 0;
-	node->right = 0;
-	node->parent = yn;
-	_STL::_Rb_global<bool>::_Rebalance(
-		reinterpret_cast<_STL::_Rb_tree_node_base *>(node),
-		reinterpret_cast<_STL::_Rb_tree_node_base *&>(m_header->parent));
-	++m_count;
-	*result = node;
-	return result;
-}
-
-// Gap bodies 0x00603FAC and 0x0060458E (20B each): the insert wrappers that
-// return the rowed 0x00603E50 / 0x006044A0 results by value.
-Rva00603E50Pair Rva00603E50::rva00603FAC(const Rva00603E50Value &v)
-{
-	return rva00603E50(v);
-}
-
-Rva006044A0Pair Rva006044A0::rva0060458E(const Rva0060426C &v)
-{
-	return rva006044A0(v);
+#undef strncmp
+extern "C" __declspec(dllimport) int __cdecl strncmp(const char*,const char*,unsigned);
+bool Win32BIGFileSystem::addArchiveFile(const char *filename, bool overwrite) {
+    bool success = false;
+    File *file=TheArchiveFileSystem->openFile(filename,0x41,0);
+    if (!file) return false;
+    BigArchiveHeader header;
+    if (file->read(&header, 16) == 16 &&
+        (strncmp(BigArchiveSignatures[0], header.identifier, 4) == 0 ||
+         strncmp(BigArchiveSignatures[1], header.identifier, 4) == 0)) {
+        BigArchiveMemberInfo info;
+        info.file = file;
+        unsigned int directorySize = Rva009CC290Swap(header.directorySize);
+        unsigned int count = Rva009CC290Swap(header.entryCount);
+        char *directory = new char[directorySize];
+        if (file->read(directory, directorySize - 16) == directorySize - 16) {
+            char *entry = directory;
+            while (count--) {
+                char path[260];
+                _mbscpy(reinterpret_cast<unsigned char *>(path), reinterpret_cast<unsigned char *>(entry + 8));
+                char *name = Rva00605365(path);
+                const char *parent = path == name ? "" : path;
+                info.offset = Rva009CC290Swap(*reinterpret_cast<unsigned int *>(entry));
+                info.size = Rva009CC290Swap(*reinterpret_cast<unsigned int *>(entry + 4));
+                success |= rva006045A2(parent, name, &info, overwrite);
+                entry = static_cast<char *>(reinterpret_cast<Rva00603925 *>(entry)->rva00603925());
+            }
+        }
+        delete[] directory;
+    }
+    return success;
 }
