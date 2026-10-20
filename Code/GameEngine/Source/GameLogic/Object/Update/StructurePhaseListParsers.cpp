@@ -84,9 +84,14 @@ extern ObjectCreationListStore *TheObjectCreationListStore;
 typedef _STL::vector<const FXList *> FXListVec;
 typedef _STL::vector<const ObjectCreationList *> OCLVec;
 
-extern const char *TheStructureCollapsePhaseNames[];	// VA 0x00DCBC8C
-extern const char *TheRubbleRisePhaseNames[];		// VA 0x00DCBCE0
-extern const char *TheStructureTopplePhaseNames[];	// VA 0x00DCBD30
+// Native .data tables include the terminating null pointer. BFME 2 adds
+// ALMOST_FINAL to Collapse; RubbleRise and Topple have their own phase sets.
+const char *TheStructureCollapsePhaseNames[] =
+    { "INITIAL", "DELAY", "BURST", "ALMOST_FINAL", "FINAL", NULL };
+const char *TheRubbleRisePhaseNames[] =
+    { "INITIAL", "DELAY", "BURST", "FINAL", NULL };
+const char *TheStructureTopplePhaseNames[] =
+    { "INITIAL", "DELAY", "FINAL", NULL };
 
 class StructureCollapseUpdateModuleData
 {
