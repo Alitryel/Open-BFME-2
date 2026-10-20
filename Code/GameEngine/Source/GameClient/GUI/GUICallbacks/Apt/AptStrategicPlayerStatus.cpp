@@ -174,9 +174,17 @@ public:
 extern GameTextInterface *TheGameText;
 
 #include "../../../../../../Libraries/Include/Lib/RGBColor.h"
-// bfme link decl-only begin
-namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::_M_set(unsigned int *, unsigned int *, unsigned int *); }
-// bfme link decl-only end
+// Keep the header's three inline stores, without emitting an optimized
+// out-of-line copy of the /Od provider at retail 0x00023C80; the overflow
+// copy then matches its /O1 owner at 0x002DFCF6 (UnsignedSetHelpersBFME2.cpp).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void vector<unsigned int>::_M_set(unsigned int *s, unsigned int *f, unsigned int *e) {
+    this->_M_start = s;
+    this->_M_finish = f;
+    this->_M_end_of_storage._M_data = e;
+}
+}
 
 struct Rva00523825Faction
 {
