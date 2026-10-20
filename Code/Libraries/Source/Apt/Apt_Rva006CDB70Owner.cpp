@@ -133,7 +133,7 @@ class AptLinker {public:void rva006D17F0();void Load(const EAStringC &a,EAString
 // units read the object through the name and retail only ever holds the
 // pointer the tick stores. Until now nothing defined it, which was the sole
 // unresolved name family-2's largest row carried.
-AptLinker *g_bfmeAptLinkerAtE176F8;
+extern AptLinker *g_bfmeAptLinkerAtE176F8;
 inline void tickAssert(int good,const char *test,const char *file,int line) {
  if(!good){g_bfmeAptAssertAtE17734(test,file,line);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
 }
@@ -287,7 +287,7 @@ public:
 };
 // Native6CF9A3 stores the new28B checkpoint container in this four-byte
 // cell. Retail E176EC initially contains00000000; no existing owner found.
-Rva006CEB10Playback *g_aptPlaybackCheckpoints=0;
+extern Rva006CEB10Playback *g_aptPlaybackCheckpoints;
 #define PLAYCUR reinterpret_cast<char *&>(g_rva00A176D8)
 #define PLAYBASE reinterpret_cast<char *&>(g_bfmeAptFlagAtE176D4)
 void Rva006CEC90Tick();
@@ -307,7 +307,7 @@ void Rva006CEC90Tick();
 // WB174CEA0 forwards only the pointer to the unsized free callback.
 // This resolves the earlier lack of ABI evidence for the ignored second arg.
 // NativeE1772C is an unowned four-byte zero-filled writable callback slot.
-void (__cdecl *g_aptFreeCallback)(void *) = 0;
+extern void (__cdecl *g_aptFreeCallback)(void *);
 void Rva006CC150FreeWithSize(void *block,unsigned int);
 
 
@@ -320,8 +320,8 @@ void Rva006CC150FreeWithSize(void *block,unsigned int);
 struct Rva00222343 {Rva00222343();int fields[14];bool flag38,flag39;};
 #define CHECK(e,s,l) do{if(!(e)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}}while(0)
 extern void *g_eaStringAtE177D4Storage;
-unsigned char g_00E1771C=0;
-unsigned char g_aptInitFlag39=0;
+extern unsigned char g_00E1771C;
+extern unsigned char g_aptInitFlag39;
 // VA 0x00E17718 (zero-filled): the Apt emit/transform flags between the
 // optional vector cellE17714 and flag38 atE1771C. BFME1 owns the same image
 // slot as g_bfmeExtra1282Flags at VA 0x01337818 -- the whole Apt global run
@@ -333,7 +333,7 @@ unsigned char g_aptInitFlag39=0;
 // initializer sets bit 1 the same way BFME1's WindowManager::init does and
 // 0x006F7720 tests bit 2 to choose its pool-flush callback. Retail holds four
 // loader-zero bytes here.
-unsigned int g_bfmeExtra1282Flags=0;
+extern unsigned int g_bfmeExtra1282Flags;
 extern void (__cdecl *g_bfmeAptFreeSizeAtE17730)(void*,unsigned);
 extern void (__cdecl *g_aptBackgroundCallback)(int);
 extern "C" void (__cdecl *g_bfmeAptLogAtE1773C)(const char*,const char*);
@@ -346,7 +346,7 @@ extern AptValue *(__cdecl *g_bfmeAptGetExternAtE17768)(const char*);
 // the string allocate/free pair either side of it already live at VA 0x00E17768
 // and VA 0x00E17784. Four units call through this slot, so it is defined once here
 // in the unit that carries the table's CHECK block.
-void (__cdecl *g_00E17774)(void*,int) = 0;
+extern void (__cdecl *g_00E17774)(void*,int);
 extern void (__cdecl *g_bfmeAptFreeAtE17784)(void*,int);
 extern void (__cdecl *g_AptBindTexture)(void*,int,void*);
 struct AptMatrix;
@@ -355,7 +355,7 @@ extern "C" void (__cdecl *bfmeNotify1209Callback)(void*);
 void DX8_Assert();
 void Rva006D37E0Set(int);
 void Rva0070B670Initialize(int);
-AptValueVector *g_aptOptionalValueVector=0;
+extern AptValueVector *g_aptOptionalValueVector;
 void Rva006DF470Initialize();
 // Preserve the existing constructor provider's full24B/alignment4 layout.
 class Rva008947A0Elem {public:Rva008947A0Elem();~Rva008947A0Elem();int m_data;};
@@ -368,22 +368,22 @@ public:Rva008947A0Owner();POOL_ALLOC
 // are modeled here. Its native constructor returns this with RET4.
 class Rva006E6060Root {union{unsigned alignment;char bytes[0xb4];};public:Rva006E6060Root(const Rva00222343*);POOL_ALLOC};
 class AptMath {public:static void ClipStackInit(unsigned);};
-void *g_aptLoadAnimationSlot=0; // Native00E17748; callback ABI unmodeled.
-void *g_aptFreeConstantTableSlot=0; // Native00E17750; callback ABI unmodeled.
-void *g_aptFreeAnimationSlot=0; // Native00E1774C; callback ABI unmodeled.
-void *g_aptAllocateStringSlot=0; // Native00E17770; callback ABI unmodeled.
-void *g_aptDrawStringSlot=0; // Native00E17778; callback ABI unmodeled.
-void *g_aptLoadSoundSlot=0; // Native00E1777C; callback ABI unmodeled.
-void *g_aptFreeSoundSlot=0; // Native00E17780; callback ABI unmodeled.
-void *g_aptStartSoundStreamSlot=0; // Native00E17788; callback ABI unmodeled.
-void *g_aptLoadTextureSlot=0; // Native00E1778C; callback ABI unmodeled.
-void *g_aptFreeTextureSlot=0; // Native00E17790; callback ABI unmodeled.
-void *g_aptLoadRenderingUnitSlot=0; // Native00E17798; callback ABI unmodeled.
-void *g_aptFreeRenderingUnitSlot=0; // Native00E1779C; callback ABI unmodeled.
-void *g_aptDrawRenderingUnitSlot=0; // Native00E177A8; callback ABI unmodeled.
-void *g_aptCustomControlRenderSlot=0; // Native00E177AC; callback ABI unmodeled.
-void *g_aptGetStageHeightSlot=0; // Native00E177C8; callback ABI unmodeled.
-void *g_aptGetStageWidthSlot=0;void Rva006CF230Initialize(const Rva00222343 *input);
+extern void *g_aptLoadAnimationSlot; // Native00E17748; callback ABI unmodeled.
+extern void *g_aptFreeConstantTableSlot; // Native00E17750; callback ABI unmodeled.
+extern void *g_aptFreeAnimationSlot; // Native00E1774C; callback ABI unmodeled.
+extern void *g_aptAllocateStringSlot; // Native00E17770; callback ABI unmodeled.
+extern void *g_aptDrawStringSlot; // Native00E17778; callback ABI unmodeled.
+extern void *g_aptLoadSoundSlot; // Native00E1777C; callback ABI unmodeled.
+extern void *g_aptFreeSoundSlot; // Native00E17780; callback ABI unmodeled.
+extern void *g_aptStartSoundStreamSlot; // Native00E17788; callback ABI unmodeled.
+extern void *g_aptLoadTextureSlot; // Native00E1778C; callback ABI unmodeled.
+extern void *g_aptFreeTextureSlot; // Native00E17790; callback ABI unmodeled.
+extern void *g_aptLoadRenderingUnitSlot; // Native00E17798; callback ABI unmodeled.
+extern void *g_aptFreeRenderingUnitSlot; // Native00E1779C; callback ABI unmodeled.
+extern void *g_aptDrawRenderingUnitSlot; // Native00E177A8; callback ABI unmodeled.
+extern void *g_aptCustomControlRenderSlot; // Native00E177AC; callback ABI unmodeled.
+extern void *g_aptGetStageHeightSlot; // Native00E177C8; callback ABI unmodeled.
+extern void *g_aptGetStageWidthSlot;void Rva006CF230Initialize(const Rva00222343 *input);
 
 #undef CHECK
 #undef POOL_ALLOC
@@ -562,7 +562,7 @@ void Rva006CD080ClearDisplayList();
 // gpAptXmlImpl (E17720, named by the AptXml.cpp assert that reads it);
 // a null argument leaves the current one. Address name.
 class AptXmlImpl;
-AptXmlImpl *gpAptXmlImpl = 0;void Rva006CD0A0SetXmlImpl(AptXmlImpl *impl);
+extern AptXmlImpl *gpAptXmlImpl;void Rva006CD0A0SetXmlImpl(AptXmlImpl *impl);
 
 
 // Native6CD3C0..6CD3E1: format the value's rowed sar-dword field 0x006DBB30
@@ -577,6 +577,6 @@ const char *Rva006CD3C0FormatField(const Rva006DBB30SarDwordField *value) {
 
 // Native6CD060..6CD069: store the argument into the Apt word at E176C8
 // (beside the E176D0 root and E176D4 suppression flag). Address names.
-int g_aptWordAtE176C8 = 0;void Rva006CD060SetWord(int value);
+extern int g_aptWordAtE176C8;void Rva006CD060SetWord(int value);
 
 
