@@ -2,12 +2,23 @@
 //
 // ?rva002E10BD@Rva002E10BDOwner@@QAEXPAVCreateAHeroData@@@Z @0x002E10BD 65B:
 // vector find-erase-forward (thiscall, 1 arg, void). Finds the arg in
-// m_1b8 via pinned 0x0020E873 (same body as rowed _STL::find); if
-// present erases it via pinned 0x001FF51F (ICF-shared erase address)
-// and forwards [arg+0x78] through pinned GameLogic 0x0023D007.
-// Plain begin/end struct to avoid STL codegen variance; pins carry
-// honest ICF notes. Exact identities unproven.
+// m_1b8 via the rowed _STL::find<CreateAHeroData **> (0x0020E873); if
+// present erases it via the rowed vector<void *>::erase (0x001FF51F, the
+// ICF-shared erase address) and forwards [arg+0x78] through the rowed
+// GameLogic 0x0023D007. Plain begin/end struct to avoid STL codegen
+// variance. Exact identities unproven.
 class CreateAHeroData;
+
+namespace _STL
+{
+template <class It, class T> It find(It first, It last, const T &value);
+template <class T> class allocator;
+template <class T, class A = allocator<T> > class vector
+{
+public:
+	T *erase(T *position);
+};
+}
 
 class GameLogic
 {
@@ -20,10 +31,7 @@ struct Rva002E10BDVec
 {
 	void *m_begin;
 	void *m_end;
-	void rva001FF51FErase(int it);
 };
-
-void *rva0020E873Find(int b, int e, int v);
 
 class Rva002E10BDOwner
 {
@@ -41,10 +49,10 @@ void Rva002E10BDOwner::rva002E10BD(CreateAHeroData *o)
 {
 	void *end = *(void **)((char *)this + 0x1bc);
 	Rva002E10BDVec *v = &m_1b8;
-	void *it = rva0020E873Find((int)v->m_begin, (int)end, (int)&o);
+	CreateAHeroData **it = _STL::find<CreateAHeroData **, CreateAHeroData *>((CreateAHeroData **)v->m_begin, (CreateAHeroData **)end, o);
 	if (it == end)
 		return;
-	v->rva001FF51FErase((int)it);
+	((_STL::vector<void *> *)v)->erase((void **)it);
 	TheGameLogic->rva0023D007(*(const int *)((const char *)o + 0x78));
 }
 
@@ -54,5 +62,5 @@ void Rva002E10BDOwner::rva002E10FE(int p)
 	int o = **(int **)p;
 	TheGameLogic->rva0023D007(*(const int *)(o + 0x78));
 	Rva002E10BDVec *v = &m_1b8;
-	v->rva001FF51FErase(*(int *)p);
+	((_STL::vector<void *> *)v)->erase(*(void ***)p);
 }

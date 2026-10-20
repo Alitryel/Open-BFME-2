@@ -1,11 +1,13 @@
-// ?setFrom@Rva0040D82FHost@@QAIXHPAURva0040D82FArg@@@Z
+// ?setFrom@Rva0040D82FHost@@QAEXPAURva0040D82FArg@@@Z
 // partial score=0.95 date=2026-10-05
-// cl: /MD
+// cl: /O1 /G7 /arch:SSE /MD
 //
-// Change-detecting setter at retail 0x0040D82F (57B). Reads a candidate int
-// out of the argument's +0x1C through a 3-arg cdecl helper, compares it with
-// the host's +0x18 field, and when different stores it through the +0x14
-// subobject's __stdcall set. Names are address-derived.
+// Find-then-erase at retail 0x0040D82F (57B): looks the argument's +0x1C id
+// up in the host's +0x14 vector and erases it when found. A thiscall with one
+// stack pointer (ret 4): the GameLogic forwarder 0x0023D007 tail-jumps here
+// without setting EDX, so the old __fastcall spelling with an unused EDX
+// argument was a byte twin, not the contract. Matches under the /O1 /G7
+// /arch:SSE of its ArmySummarySystem siblings. Names are address-derived.
 class Rva0040D82FSub
 {
 public:
@@ -36,7 +38,7 @@ struct Rva0040D82FArg
 class Rva0040D82FHost
 {
 public:
-	void __fastcall setFrom(int unused, Rva0040D82FArg *arg); // retail 0x0040D82F
+	void setFrom(Rva0040D82FArg *arg); // retail 0x0040D82F
 
 private:
 	char m_00[0x14];
@@ -44,7 +46,7 @@ private:
 	int m_18; // +0x18 current value
 };
 
-void __fastcall Rva0040D82FHost::setFrom(int unused, Rva0040D82FArg *arg)
+void Rva0040D82FHost::setFrom(Rva0040D82FArg *arg)
 {
 	if (arg != 0) {
 		int cur = m_18;

@@ -62,6 +62,13 @@ public:
 	void registerTeamPrototype(Arg *arg);
 };
 
+struct Rva0040D82FArg;
+class Rva0040D82FHost
+{
+public:
+	void setFrom(Rva0040D82FArg *arg);
+};
+
 struct Rva0040E6D6Arg;
 class Rva0040E6D6Host
 {
@@ -78,6 +85,7 @@ public:
 class GameLogic
 {
 public:
+	void rva0023D007(int value);
 	void rva0023D028();
 	void rva0023D033();
 	int rva0023D0A1(int value);
@@ -119,6 +127,15 @@ class Rva0023CFFCLogic {public:void rva0023CFFC(Rva0040E6D6Arg*);};
 void Rva0023CFFCLogic::rva0023CFFC(Rva0040E6D6Arg *arg)
 {
 	((Rva0040E6D6Host *)((char *)this + 0x184))->forwardFrom(arg);
+}
+
+// ?rva0023D007@GameLogic@@QAEXH@Z, native 0x0023D007..0x0023D012 (11B): the
+// GameLogic+0x184 adjustment and a tail jump to the rowed thiscall 0x0040D82F,
+// whose one stack word passes through untouched. The callee dereferences it
+// (+0x1C); the int spelling is the pin its LivingWorld callers already use.
+void GameLogic::rva0023D007(int value)
+{
+	((Rva0040D82FHost *)((char *)this + 0x184))->setFrom((Rva0040D82FArg *)value);
 }
 
 // ?rva0023D033@GameLogic@@QAEXXZ @0x0023D033 11B.
