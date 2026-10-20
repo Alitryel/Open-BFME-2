@@ -21,6 +21,9 @@ static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
 struct Gen_p12pod
 {
 	int a[3];
+	// Retail 16CC80 copies the key words individually, then the mapped int.
+	Gen_p12pod(const Gen_p12pod &source)
+	{ a[0] = source.a[0]; a[1] = source.a[1]; a[2] = source.a[2]; }
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<Gen_p12pod const ,int>::pair(Gen_p12pod const &a,int const &b) : first(a), second(b) {} }

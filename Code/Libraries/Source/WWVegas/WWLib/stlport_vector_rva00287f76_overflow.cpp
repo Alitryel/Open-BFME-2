@@ -15,4 +15,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 struct Rva00287F76Element { int a, b; };
+// Retail copies six bytes of each eight-byte slot through this rowed owner.
+void __cdecl Rva002861B0Copy(void *, const void *);
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void
+_Construct<Rva00287F76Element, Rva00287F76Element>(
+    Rva00287F76Element *dest, const Rva00287F76Element &source)
+{ Rva002861B0Copy(dest, &source); }
+}
 template class _STL::vector<Rva00287F76Element, _STL::allocator<Rva00287F76Element> >;

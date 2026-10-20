@@ -34,6 +34,9 @@ static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
 struct Gen_p12pod
 {
 	int a[3];
+	// Retail 16CC80 copies the key words individually, then the mapped int.
+	Gen_p12pod(const Gen_p12pod &source)
+	{ a[0] = source.a[0]; a[1] = source.a[1]; a[2] = source.a[2]; }
 };
 
 inline bool compare_tail(const Gen_p12pod &a, const Gen_p12pod &b)
