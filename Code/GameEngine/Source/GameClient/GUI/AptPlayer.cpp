@@ -768,11 +768,11 @@ void AptPlayer::HandleOverButtons()
     return;
    }
   }
-  movie.set(m_levelData[level].m_s0);
+  movie.setCopyInline(m_levelData[level].m_s0);
   const char *dot = movie.find('.');
   if (dot)
-   movie.set(AsciiString(movie, 0, dot - movie.str()));
-  name.set(movie);
+   movie.setCopyInline(AsciiString(movie, 0, dot - movie.str()));
+  name.setCopyInline(movie);
   Rva00222C93Append(name, (const char *)&(const Rva002229E3S12 &)Rva002229E3Build('/', leaf));
  } else {
   name.set(target);
