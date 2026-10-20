@@ -1,5 +1,5 @@
 // ?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z
-// partial score=0.85 date=2026-10-20
+// partial score=0.93 date=2026-10-20
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/shims/sweep /ICode/Libraries/Include/Lib
 
 #define NULL 0
@@ -39,7 +39,17 @@ public:
 	Vector3 DP;
 	Vector3 Dir;
 	float Length;
+
+protected:
+	void recalculate(void);
 };
+
+// Header-inline body of retail 0x000927F9, visible so its Vector3 arguments do not escape.
+inline __declspec(noinline) LineSegClass::LineSegClass(const Vector3 &p0, const Vector3 &p1) : P0(p0), P1(p1)
+{
+	recalculate();
+}
+
 
 struct Rva00363B4BVector { float x, y, z; };
 float ACos(float);
@@ -239,6 +249,7 @@ void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radi
 	LineSegClass off2(p0, p1);
 	Vector3 center;
 	Vector3 other;
+	float fraction;
 	float arc;
 	{
 		Vector3 n1 = v1;
@@ -254,7 +265,6 @@ void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radi
 			return;
 		}
 		float step = arc / count;
-		float fraction;
 		if (!off1.Find_Intersection(off2, &center, &fraction, &other, &fraction))
 			return;
 		Coord3D pt;
