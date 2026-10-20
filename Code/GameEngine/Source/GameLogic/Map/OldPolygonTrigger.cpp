@@ -408,7 +408,13 @@ struct Rva002E373CHolder
 	Rva00329663Trigger *m_head;
 };
 extern Rva002E373CHolder *g_Va00DBD0F4;
-extern int g_Va00DBD0F0;
+// VA 0x00DBD0F0 is PolygonTrigger's private ?s_currentID@PolygonTrigger@@0HA,
+// defined in PolygonTrigger.cpp (initial 1); reached through a friend view.
+class PolygonTrigger
+{
+	friend class Rva00329663;
+	static int s_currentID;
+};
 
 class Rva00329663
 {
@@ -448,7 +454,7 @@ bool Rva00329663::parse(DataChunkInput &file, DataChunkInfo *info)
 	for (Rva00329663Trigger *trigger = g_Va00DBD0F4->m_head; trigger; trigger = trigger->m_next)
 		if (trigger->m_id > maxId)
 			maxId = trigger->m_id;
-	if (maxId + 1 > g_Va00DBD0F0)
-		g_Va00DBD0F0 = maxId + 1;
+	if (maxId + 1 > PolygonTrigger::s_currentID)
+		PolygonTrigger::s_currentID = maxId + 1;
 	return true;
 }

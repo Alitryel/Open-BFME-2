@@ -26,8 +26,13 @@ private:
     void *m_data;
 };
 
+// The element copy is the rowed placement copy at 0x00087A5C.
+void __cdecl Rva00087A5CCopy(void **dst, void **src);
 namespace _STL {
-template <> void _Construct<Rva0008B689Element, Rva0008B689Element>(Rva0008B689Element *, const Rva0008B689Element &);
+template <> inline void _Construct<Rva0008B689Element, Rva0008B689Element>(Rva0008B689Element *p, const Rva0008B689Element &value)
+{
+    Rva00087A5CCopy((void **)p, (void **)&value);
+}
 }
 
 template void _STL::vector<Rva0008B689Element>::_M_insert_overflow(

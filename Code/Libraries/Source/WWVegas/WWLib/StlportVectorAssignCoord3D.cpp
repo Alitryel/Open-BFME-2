@@ -12,6 +12,13 @@
 // pinned under their STLport spellings from this body's REL32s. Caller
 // 0x002CD700.
 #include "../../../Include/Lib/Coord3D.h"
+struct BfmeE12;
+// The allocate-and-copy at 0x000E016A is rowed under this name.
+class Rva000E016A
+{
+public:
+	BfmeE12 *rva000E016A(unsigned int n, Coord3D *first, Coord3D *last);
+};
 namespace _STL {
 struct __false_type { __false_type() {} };
 template <class Type> class allocator {};
@@ -22,8 +29,6 @@ public:
 	vector &operator=(const vector &x);
 	size_type size() const { return size_type(m_finish - m_start); }
 	size_type capacity() const { return size_type(m_endOfStorage - m_start); }
-protected:
-	template <class ForwardIter> pointer _M_allocate_and_copy(size_type n, ForwardIter first, ForwardIter last);
 private:
 	pointer m_start;
 	pointer m_finish;
@@ -39,7 +44,7 @@ _STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const ve
 	if (&x != this) {
 		size_type xsize = x.size();
 		if (xsize > capacity()) {
-			pointer tmp = _M_allocate_and_copy(xsize, x.m_start, x.m_finish);
+			pointer tmp = (pointer)((Rva000E016A *)this)->rva000E016A(xsize, x.m_start, x.m_finish);
 			if (m_start)
 				free(m_start);
 			m_start = tmp;
