@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include /Oi- /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /Oi- /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // stlport
 //
 // Locomotor movement cluster, one unit as retail's Locomotor.cpp compiled it:
@@ -107,7 +107,9 @@
 // fcos/fsin, not this /Oi- shape).
 #include <vector>
 #define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
+#include "ascii_string.h"
 #include <math.h>
 #define _OPERATOR_NEW_DEFINED_
 #include "matrix3d.h"
@@ -624,6 +626,9 @@ class Object : public Thing
  void rva001E42F2(const int*);
  bool rva0028C15E(int attr, float *val, int a, int b);
  Bool testStatus(ObjectStatusTypes s) const;
+ const struct Rva0028AC4EEntry *rva0028AC4E() const;
+ __forceinline void clearModelConditionState(unsigned int mc){if(m_flags10C.test(mc)!=0){m_flags10C.reset(mc);rva0028AE6D();}}
+ __forceinline void setModelConditionState(unsigned int mc){if(m_flags10C.test(mc)==0){m_flags10C.set(mc);rva0028AE6D();}}
  Rva00373EC6 *rva0028F4BC(); // the StealthUpdate, or null
  Bool isLocallyControlled() const;
  __forceinline int getID()const {return m_id74;}
@@ -683,7 +688,7 @@ class Object : public Thing
   AIUpdateInterface *m_ai;
  };
  char m_pad25C[0x274-0x25C];
- void *m_p274; // +0x274
+ union { void *m_p274; Object *m_274; }; // +0x274
 };
 class Waypoint
 
@@ -844,12 +849,16 @@ struct LocomotorTemplate
 	float m_48;
 	float m_4C;
 	unsigned int m_50;
-	char m_pad54[0x74-0x54];
+	char m_pad54[0x64-0x54];
+	float m_64; // +0x64
+	char m_pad68[0x74-0x68];
 	union { int m_74; int m_appearance; }; // +0x74
 	char m_pad78[4]; float m_7C, m_80;
 	Real m_84; // +0x84
 	char m_pad88[0xBC-0x88]; float m_BC;
-	char m_padC0[0xD8-0xC0];
+	char m_padC0[0xD3-0xC0];
+	bool m_D3; // +0xD3
+	char m_padD4[0xD8-0xD4];
 	int m_D8; // +0xD8
 	char m_padDC[0xEC-0xDC];
 	unsigned char m_ec;
@@ -1722,4 +1731,55 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   desiredSpeed *= 0.1f;
   ((Rva001E46E1 *)this)->rva001E6007(obj, &goal, onPathDistToGoal, desiredSpeed);
 }
-
+struct Rva0028AC4EEntry {char pad00[4];const LocomotorTemplate *data;};
+class Rva000467B2 {public:void rva000467B2(AsciiString *out,int maxPerLine);};
+void Locomotor::rva001E6B8B(Object *obj,const Coord3D *goal,Real distance,Real desiredSpeed)
+{
+ if(m_template->m_D3&&goal->z>obj->getPosition()->z)return;
+ float maxSpeed=getMaxSpeed(obj);
+ if(desiredSpeed>maxSpeed)desiredSpeed=maxSpeed;
+ float actualSpeed=m_40;
+ float angle=obj->m_orientation;
+ float desiredAngle=atan2(goal->y-obj->getPosition()->y,goal->x-obj->getPosition()->x);
+ const Coord3D *position=obj->getPosition();
+ Coord3D delta;
+ delta.x=position->x;delta.y=position->y;delta.z=position->z;
+ delta.x-=goal->x;delta.y-=goal->y;delta.z-=goal->z;delta.z=0;
+ if(delta.length()<0.1f)desiredAngle=angle;
+ float relative=normalizeAngle(desiredAngle-angle);
+ Coord3D goalPos;goalPos.x=goal->x;goalPos.y=goal->y;goalPos.z=goal->z;
+ bool moveBackwards=false;
+ if(m_template->m_D8&&obj->isKindOf((KindOfType)0x41))moveBackwards=true;
+ if(obj->testStatus((ObjectStatusTypes)0x26)&&obj->m_274&&obj->m_274->rva0028AC4E()&&obj->m_274->rva0028AC4E()->data->m_D8)moveBackwards=true;
+ if(actualSpeed==0.f){
+  if(moveBackwards){maxSpeed*=0.5f;m_flags&=~0x100U;m_flags|=0x80U;}
+  else {obj->clearModelConditionState(4*32+28);m_flags&=~0x80U;}
+  m_98=false;
+ }
+ if(moveBackwards||getFlag7()){
+  if(false){AsciiString mcond;((Rva000467B2*)&obj->m_flags10C)->rva000467B2(&mcond,1);}
+  if(!moveBackwards){obj->clearModelConditionState(4*32+28);m_flags&=~0x80U;}
+  else {
+   m_flags|=0x80U;
+   obj->setModelConditionState(4*32+28);
+   relative=normalizeAngle(normalizeAngle(desiredAngle-3.1415927410125732f)-angle);
+   goalPos=*position;
+   goalPos.x*=2.f;goalPos.y*=2.f;goalPos.z*=2.f;
+   goalPos.x-=goal->x;goalPos.y-=goal->y;goalPos.z-=goal->z;
+  }
+ }
+ ((Rva001E685F*)this)->rva001E685F(obj,&goalPos,0);
+ if(m_template->m_64>0.f){
+  if(((Rva001E46E1*)this)->rva001E4845(obj)>=actualSpeed)relative*=2.f;
+  else if(actualSpeed>maxSpeed*0.5f)relative=0.f;
+ }
+ bool reduceSpeed=true;
+ if(m_template->m_74==7||m_template->m_74==4)reduceSpeed=false;
+ const float QUARTERPI=0.78539819f;
+ float angleCoeff=(float)fabs(relative);angleCoeff/=QUARTERPI;
+ if(angleCoeff>0.9f)angleCoeff=0.9f;
+ float goalSpeed=desiredSpeed;
+ if(!reduceSpeed)goalSpeed=(1.f-angleCoeff)*desiredSpeed;
+ if(desiredSpeed>0.f)((Rva001E46E1*)this)->rva001E6007(obj,goal,distance,goalSpeed);
+ else m_40=0.f;
+}
