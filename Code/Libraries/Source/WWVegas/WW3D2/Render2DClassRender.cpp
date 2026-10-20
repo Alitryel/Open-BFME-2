@@ -1,22 +1,19 @@
-// ?Render@Render2DClass@@QAEXXZ
-// partial score=0.9451478802311812 date=2026-10-20
-// Second opinion 2026-10-20: original code remains the best resolved-byte candidate.
-// New diagnostic and disproven trials: reverse/attempt_support/render2d-render-11a040-20261020/second-opinion.md
-// Round4: native MaxTexturesPerPass+2B0 and D3D9 stage slot67; WB9C07A0/9C2BD0 source shape.
-// Equal-arm count/batch reads retain native receiver and index webs; named string terminator,
-// volatile state flag and mode5 branches: 7476B, EC frame/EH exact, fitness .945147880.
-// First copy/run-loop allocation and four string-init sites still differ. No matched-row claim.
-// cl: /DBFME_WWSTRING_CTOR_NAMED_TERMINATOR /O2 /arch:SSE -DBFME_WWSTRING_NATIVE_CSTR_ASSIGN -Ireference/shims/wwstring_teardown/bfme -G7 -Ireference/shims/bfmerendobj -DNDEBUG -MD -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload -Ireference/open-bfme-1/game/Libraries/Source/Compression -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug -Ireference/shims/sweep -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug -Ireference/open-bfme-1/game/Libraries/Source/Compression -Ireference/shims/sweep
-// Render2D Render11A040..11BD74 full7476B; ZH render2d.cpp and BF1 9cbfb551.
-// Native proves vertex44B; batch74B; runs NextRun0 terminal; seven render modes.
-// Round3: full7476B, frameEC and complete EH metadata now EXACT, all calls resolve.
-// Explicit row/column stores in the world/view transform specialization suppress
-// extra Matrix4 construction; linked-run advance barrier preserves native extent.
-// Byte fitness .828046842 vs rebuilt prior bank .664165066; normalized register-free
-// instruction alignment .948362. The prior .81733 score used a different metric.
-// Not exact: receiver/zero register roles, bounds-checked array expression and
-// short-count argument loads differ. Forty-plus matrix/accessor/constructor/lifetime
-// trials and a bounded U1 sweep were run; no Code/header/pin changes.
+// cl: /O2 /arch:SSE -DBFME_WWSTRING_NATIVE_CSTR_ASSIGN -Ireference/shims/wwstring_teardown/bfme -G7 -Ireference/shims/bfmerendobj -DNDEBUG -MD -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload -Ireference/open-bfme-1/game/Libraries/Source/Compression -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug -Ireference/shims/sweep -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug -Ireference/open-bfme-1/game/Libraries/Source/Compression -Ireference/shims/sweep
+// ?Render@Render2DClass@@QAEXXZ retail 0x0011A040..0x0011BD74 (7476 bytes).
+// Render2DClass::Render, adapted from Zero Hour render2d.cpp with the BFME 2
+// seven-mode batch renderer: save view/projection, full-screen viewport,
+// PRELIT_DIFFUSE material, copy the linked vertex runs and indices into
+// dynamic DX8 buffers, then per mode and batch set shader, texture and the
+// dot3/stencil render and texture-stage states (each inlined RS/TSS setter
+// takes the MESH_RENDER_SNAPSHOT StringClass value-name path through
+// Get_DX8_Render_State_Value_Name 0x00121A10 and
+// Get_DX8_Texture_Stage_State_Value_Name 0x00120B90) and draw; restore the
+// transforms. WorldBuilder twin 0x009C07A0 (shape evidence: viewport without
+// locals, PlainDataVectorClass branchy operator[] at 0x009C2BD0/0x009C2E40,
+// shader setter sequence at 0x009C0E89). The dx8wrapper/dx8caps/vertex and
+// index buffer/sorting renderer declarations are Zero Hour header copies
+// reduced to this unit; layouts beyond the accessed fields are donor-derived.
+// Attempt history: reverse/attempt_support/render2d-render-11a040-20261020/.
 /* Copyright 2025 Electronic Arts Inc.
 * Adapted from Command & Conquer Generals Zero Hour WW3D2 sources.
 * Licensed under GNU General Public License version 3 or later.
@@ -237,15 +234,10 @@ unsigned char DeviceGuard;
 public:
 WriteLock(DynamicVBAccessClass* vb_access);
 ~WriteLock();
-VertexFormatXYZNDUV2 * Get_Formatted_Vertex_Array();
+VertexFormatXYZNDUV2 * Get_Formatted_Vertex_Array() { return Vertices; }
 };
 friend WriteLock;
 };
-inline VertexFormatXYZNDUV2 * DynamicVBAccessClass::WriteLock::Get_Formatted_Vertex_Array()
-{
-WWASSERT(DynamicVBAccess->VertexBuffer->FVF_Info().Get_FVF() == (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX2|D3DFVF_DIFFUSE));
-return Vertices;
-}
 class DX8VertexBufferClass : public VertexBufferClass
 {
 protected:
@@ -491,26 +483,6 @@ Log_DX8_ErrorCode(res);
 #define DX8_THREAD_ASSERT() ;
 #endif
 #define no_EXTENDED_STATS
-#ifdef EXTENDED_STATS
-class DX8_Stats
-{
-public:
-bool m_showingStats;
-bool m_disableTerrain;
-bool m_disableWater;
-bool m_disableObjects;
-bool m_disableOverhead;
-bool m_disableConsole;
-int  m_debugLinesToShow;
-int	 m_sleepTime;
-public:
-DX8_Stats::DX8_Stats(void) {
-m_disableConsole = m_showingStats = m_disableTerrain = m_disableWater = m_disableOverhead = m_disableObjects = false;
-m_sleepTime = 0;
-m_debugLinesToShow = -1;  
-}
-};
-#endif
 class DX8_CleanupHook
 {
 public:
@@ -898,7 +870,9 @@ friend class DX8VertexBufferClass;
 
 WWINLINE void DX8Wrapper::Set_DX8_Render_State(D3DRENDERSTATETYPE state, unsigned value)
 {
-if (RenderStates[state]==value) return;
+unsigned *cached_state=&RenderStates[state];
+unsigned old_state=*cached_state;
+if(old_state==value)return;
 #ifdef MESH_RENDER_SNAPSHOT_ENABLED
 if (WW3D::Is_Snapshot_Activated()) {
 StringClass value_name(0,true);
@@ -908,7 +882,7 @@ Get_DX8_Render_State_Name(state),
 value_name));
 }
 #endif
-RenderStates[state]=value;
+*cached_state=value;
 DX8CALL(SetRenderState( state, value ));
 DX8_RECORD_RENDER_STATE_CHANGE();
 }
@@ -1062,11 +1036,6 @@ DX8_RECORD_TEXTURE_STAGE_STATE_CHANGE();
 
 
 #endif
-WWINLINE void DX8Wrapper::Set_Alpha (const float alpha, unsigned int &color)
-{
-unsigned char *component = (unsigned char*) &color;
-component [3] = 255.0f * alpha;
-}
 
 
 
@@ -1190,10 +1159,40 @@ else m=render_state.world.Transpose();
 break;
 case D3DTS_VIEW:
 if (render_state_changed&VIEW_IDENTITY) m.Make_Identity();
-else m=render_state.view.Transpose();
+else { m[0][0]=render_state.view[0][0];
+m[0][1]=render_state.view[1][0];
+m[0][2]=render_state.view[2][0];
+m[0][3]=render_state.view[3][0];
+m[1][0]=render_state.view[0][1];
+m[1][1]=render_state.view[1][1];
+m[1][2]=render_state.view[2][1];
+m[1][3]=render_state.view[3][1];
+m[2][0]=render_state.view[0][2];
+m[2][1]=render_state.view[1][2];
+m[2][2]=render_state.view[2][2];
+m[2][3]=render_state.view[3][2];
+m[3][0]=render_state.view[0][3];
+m[3][1]=render_state.view[1][3];
+m[3][2]=render_state.view[2][3];
+m[3][3]=render_state.view[3][3]; }
 break;
 case D3DTS_PROJECTION:
-m=DeviceProjectionMatrix.Transpose();
+m[0][0]=DeviceProjectionMatrix[0][0];
+m[0][1]=DeviceProjectionMatrix[1][0];
+m[0][2]=DeviceProjectionMatrix[2][0];
+m[0][3]=DeviceProjectionMatrix[3][0];
+m[1][0]=DeviceProjectionMatrix[0][1];
+m[1][1]=DeviceProjectionMatrix[1][1];
+m[1][2]=DeviceProjectionMatrix[2][1];
+m[1][3]=DeviceProjectionMatrix[3][1];
+m[2][0]=DeviceProjectionMatrix[0][2];
+m[2][1]=DeviceProjectionMatrix[1][2];
+m[2][2]=DeviceProjectionMatrix[2][2];
+m[2][3]=DeviceProjectionMatrix[3][2];
+m[3][0]=DeviceProjectionMatrix[0][3];
+m[3][1]=DeviceProjectionMatrix[1][3];
+m[3][2]=DeviceProjectionMatrix[2][3];
+m[3][3]=DeviceProjectionMatrix[3][3];
 break;
 default:
 DX8CALL(GetTransform(transform,&mat));
@@ -1206,28 +1205,6 @@ break;
 
 
 
-WWINLINE RenderStateStruct::RenderStateStruct()
-:
-material(0),
-index_buffer(0)
-{
-unsigned i;
-for (i=0;i<MAX_VERTEX_STREAMS;++i) vertex_buffers[i]=0;
-for (i=0;i<MAX_TEXTURE_STAGES;++i) Textures[i]=0;
-}
-WWINLINE RenderStateStruct::~RenderStateStruct()
-{
-unsigned i;
-REF_PTR_RELEASE(material);
-for (i=0;i<MAX_VERTEX_STREAMS;++i) {
-REF_PTR_RELEASE(vertex_buffers[i]);
-}
-REF_PTR_RELEASE(index_buffer);
-for (i=0;i<MAX_TEXTURE_STAGES;++i) 
-{
-REF_PTR_RELEASE(Textures[i]);
-}
-}
 WWINLINE unsigned flimby( char* name, unsigned crib )
 {
 unsigned lnt prevVer = 0x00000000;  
@@ -1338,7 +1315,7 @@ float x,y,z; int NextRun,IndexStart,IndexCount; unsigned color; float u,v; char 
 };
 template<class T> struct Render2DArray {
 T *Data; unsigned Size,Count; int Growth; unsigned Length()const{return Count;}
-T &operator[](unsigned i) { return Data[i<Count?i:0]; }
+T &operator[](unsigned i) { if(i>=Count)return Data[0];return Data[i]; }
 T *Get(unsigned i) { if(i>=Count)return Data;return Data+i; }
 };
 struct Render2DBatch {
@@ -1359,14 +1336,24 @@ Render2DBatches Batches; BFME2TextureRef Texture; int CurrentBatch; bool Dirty; 
 };
 void Render2DClass::Render()
 {
+// Twenty-four inert initialized locals. cl breaks load-order ties by symbol
+// number (docs/recipes.md, "Local count decides commutative operand order"):
+// with them the 27 inlined StringClass(0,true) snapshot terminator stores
+// take retail's buffer-first form at sites 1-13 (except 4) and the
+// terminator-first form after; k=24 and k=56 match, every other k in
+// 0..63 misplaces the boundary.
+int tieBreak0=0, tieBreak1=0, tieBreak2=0, tieBreak3=0, tieBreak4=0, tieBreak5=0;
+int tieBreak6=0, tieBreak7=0, tieBreak8=0, tieBreak9=0, tieBreak10=0, tieBreak11=0;
+int tieBreak12=0, tieBreak13=0, tieBreak14=0, tieBreak15=0, tieBreak16=0, tieBreak17=0;
+int tieBreak18=0, tieBreak19=0, tieBreak20=0, tieBreak21=0, tieBreak22=0, tieBreak23=0;
 if(!Vertices.Length()) return;
 Matrix4x4 view,proj;
 DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 DX8Wrapper::Get_Transform(D3DTS_PROJECTION,proj);
-int width,height,bits; bool windowed;
-width=DX8Wrapper::Get_Device_Resolution_Width();
-height=DX8Wrapper::Get_Device_Resolution_Height();
-D3DVIEWPORT8 vp; vp.X=0; vp.Y=0; vp.Width=width;vp.Height=height;vp.MinZ=0;vp.MaxZ=1;
+D3DVIEWPORT8 vp; vp.X=0; vp.Y=0;
+vp.Width=DX8Wrapper::Get_Device_Resolution_Width();
+vp.Height=DX8Wrapper::Get_Device_Resolution_Height();
+vp.MinZ=0; vp.MaxZ=1;
 DX8Wrapper::Set_Viewport(&vp);
 VertexMaterialClass *vm=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
 DX8Wrapper::Set_Material(vm); REF_PTR_RELEASE(vm);
@@ -1377,7 +1364,7 @@ DynamicVBAccessClass vb(BUFFER_TYPE_DYNAMIC_DX8,5,(Indices.Length() ? Vertices.L
 DynamicIBAccessClass ib(BUFFER_TYPE_DYNAMIC_DX8,(Vertices.Length() ? Indices.Length() : Indices.Length()));
 {
 DynamicVBAccessClass::WriteLock vlock(&vb);
-memcpy(vlock.Get_Formatted_Vertex_Array(),Vertices.Data,Vertices.Length()*sizeof(BfmeRenderVertex));
+memcpy(vlock.Get_Formatted_Vertex_Array(),Vertices.Get(0),Vertices.Length()*sizeof(BfmeRenderVertex));
 DynamicIBAccessClass::WriteLockClass ilock(&ib);
 unsigned short *out=ilock.Get_Index_Array();
 for(unsigned b=0;b<Batches.size();++b) {
@@ -1411,14 +1398,21 @@ DX8Wrapper::Set_DX8_Texture_Stage_State(2,D3DTSS_ALPHAOP,1);
 }
 ShaderClass::Invalidate();
 }
-unsigned bits=(((G00DB5FC0<<9)|G00DB5FC4)<<5)|(G00DB5FBC&0xffff3f1f);
-bits=(bits&0xfffff8ff)|(((G00DEC4A0&0xfffe6703)|(G00DEC4A4<<15)|0x22302)<<3);
-if(!batch.Texture.Ptr) bits&=~0x10000;
-if(mode==5)bits=(bits&~0xc0000)|0x40000;else bits&=~0xc0000;
-bits&=~0x100000;
-if(mode==0 || mode==4 || mode==5) bits=(bits&0xffff7f1f)|0x4000;
-else if(mode==1) bits=(bits&0xffff7f3f)|0x4020;
-DX8Wrapper::Set_Shader(ShaderClass(bits));
+ShaderClass shader;
+shader.Set_Depth_Mask((ShaderClass::DepthMaskType)G00DEC4A0);
+shader.Set_Alpha_Test((ShaderClass::AlphaTestType)G00DEC4A4);
+shader.Set_Depth_Compare((ShaderClass::DepthCompareType)G00DB5FBC);
+shader.Set_Src_Blend_Func((ShaderClass::SrcBlendFuncType)G00DB5FC0);
+shader.Set_Dst_Blend_Func((ShaderClass::DstBlendFuncType)G00DB5FC4);
+shader.Set_Fog_Func(ShaderClass::FOG_DISABLE);
+shader.Set_Primary_Gradient((ShaderClass::PriGradientType)6);
+shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);
+if(!batch.Texture.Ptr)shader.Set_Texturing(ShaderClass::TEXTURING_DISABLE);
+if(mode==5)shader.Set_Alpha_Test(ShaderClass::ALPHATEST_ENABLE);else shader.Set_Alpha_Test(ShaderClass::ALPHATEST_DISABLE);
+shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
+if(mode==0 || mode==4 || mode==5) {shader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_ONE);shader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_ZERO);}
+else if(mode==1) {shader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_ONE);shader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_ONE);}
+DX8Wrapper::Set_Shader(shader);
 if(mode==6 && batch.Texture.Ptr) {
 override_states=true;DX8Wrapper::Apply_Render_State_Changes();
 DX8Wrapper::Set_DX8_Texture_Stage_State(0,D3DTSS_ALPHAOP,2);

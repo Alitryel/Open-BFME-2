@@ -224,6 +224,11 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   smallest k that matches with a comment. The score is not monotonic in k.
   HTreeClass::Combo_Update 0x00165820: 38 diffs at k=0, exact at 23 and 31
   only (0..80 scanned; the shared-anim_num variant never went below 88).
+  The same scan fixes load order at a store: Render2DClass::Render
+  0x0011A040 inlines 27 StringClass terminator stores, buffer-first (`mov
+  eax,[buf]; mov cl,[NullChar]`) or terminator-first (`mov al,[NullChar]`).
+  k moves the boundary between the two forms; k=24 and 56 gave retail's
+  (0..63 scanned, xargs -P 6) where dozens of source-shape trials had not.
   When one body inlines the same helper twice and only the second copy
   stays wrong for every k, the declaration order is wrong, not the count:
   HTreeClass::Blend_Update 0x001645B0 sat at 207 diffs in its generic loop

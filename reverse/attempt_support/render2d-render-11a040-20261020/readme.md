@@ -109,3 +109,10 @@ Earlier sessions (see pick-hard history):
 
 Compiler: `// cl:` line 7 of the bank (-O2 -G7 -arch:SSE -GR- -EHsc- -MD,
 NAMED_TERMINATOR + NATIVE_CSTR_ASSIGN shims). model=claude-opus-5-5.
+
+## Landed 2026-10-20
+
+`second-opinion-copy.patch` on the bank plus 24 inert `int x=0;` locals at the
+top of Render: 7476 B, exact (`Code/Libraries/Source/WWVegas/WW3D2/Render2DClassRender.cpp`).
+The k scan (0..63) moved the B/N terminator boundary monotonically within a
+period of 32; only k=24 and k=56 put it after site 13. model=claude-opus-5-5.
