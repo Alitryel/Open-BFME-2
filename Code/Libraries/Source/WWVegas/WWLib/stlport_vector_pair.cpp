@@ -16,4 +16,24 @@ template <> __forceinline void allocator<pair<int, int> >::deallocate(pair<int, 
 #pragma optimize("", on)
 }
 
+// Retail's allocation/copy target at 627960 has a neutral row name: its
+// application record identity remains unknown. It copies two words per
+// element and ignores the receiver. Forward this existing typed caller to
+// that owner, preserving its ABI and every bit of the pair representation.
+struct Rva00627960Element { unsigned word0, word1; };
+class Rva00627960Vector {
+public:
+    Rva00627960Element *allocateCopy(unsigned,
+        const Rva00627960Element *, const Rva00627960Element *);
+};
+namespace _STL {
+template <> template <> __declspec(dllimport) __forceinline
+pair<int, int> *vector<pair<int, int> >::_M_allocate_and_copy<const pair<int, int> *>(
+    unsigned int n, const pair<int, int> *first, const pair<int, int> *last)
+{
+    return (pair<int, int> *)((Rva00627960Vector *)this)->allocateCopy(
+        n, (const Rva00627960Element *)first, (const Rva00627960Element *)last);
+}
+}
+
 template class _STL::vector<_STL::pair<int, int>, _STL::allocator<_STL::pair<int, int> > >;

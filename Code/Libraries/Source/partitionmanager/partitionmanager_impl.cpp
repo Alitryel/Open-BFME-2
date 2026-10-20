@@ -7,6 +7,18 @@ namespace _STL { void __cdecl free(void *); }
 // the BFME allocator shim's by-value copy dispatch into vector assignment.
 #include "reference/open-bfme-1/inputs/vendor/stlport/stl/_algobase.h"
 #include <vector>
+struct Rva00627960Element { unsigned word0,word1; };
+class Rva00627960Vector {public:Rva00627960Element*allocateCopy(unsigned,const Rva00627960Element*,const Rva00627960Element*);};
+namespace _STL {
+template <> template <> __declspec(dllimport) __forceinline
+pair<int, int> *vector<pair<int, int> >::_M_allocate_and_copy<const pair<int, int> *>(
+    unsigned int n, const pair<int, int> *first, const pair<int, int> *last)
+{
+    return (pair<int, int> *)((Rva00627960Vector *)this)->allocateCopy(
+        n, (const Rva00627960Element *)first, (const Rva00627960Element *)last);
+}
+}
+
 #include <algorithm>
 #undef free
 
@@ -125,8 +137,6 @@ void PartitionManagerImpl::SetTreeDepth(unsigned depth)
 // Native helper ignores receiver and allocates/copies8-byte elements. The
 // application record identity and field types remain unknown; words are ABI
 // carriers. STLport vector allocate/copy supplies the reference structure.
-struct Rva00627960Element { unsigned word0,word1; };
-class Rva00627960Vector {public:Rva00627960Element*allocateCopy(unsigned,const Rva00627960Element*,const Rva00627960Element*);};
 Rva00627960Element*Rva00627960Vector::allocateCopy(unsigned n,const Rva00627960Element*first,const Rva00627960Element*last){
  Rva00627960Element*result=n?(Rva00627960Element*)_STL::allocator<char>::allocate(n*sizeof(Rva00627960Element),0):0;
  for(const Rva00627960Element*p=first;p!=last;++p){Rva00627960Element*dest=(Rva00627960Element*)((char*)result+((const char*)p-(const char*)first));if(dest)*dest=*p;}
