@@ -2,6 +2,12 @@
 // stlport
 
 #include <string>
+// Native 0x00025AD0 is supplied by stlport_vector_voidptr.cpp.
+// Keep this profile from emitting a competing allocator-proxy swap.
+namespace _STL {
+template <> void swap(_STLP_alloc_proxy<char *, char, allocator<char> > &,
+                     _STLP_alloc_proxy<char *, char, allocator<char> > &);
+}
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(char const *, allocator<char> const &); }

@@ -25,6 +25,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include <algorithm>
+// Native 0x00025AD0 is supplied by stlport_vector_voidptr.cpp.
+// Keep this profile from emitting a competing allocator-proxy swap.
+namespace _STL {
+template <> void swap(_STLP_alloc_proxy<char *, char, allocator<char> > &,
+                     _STLP_alloc_proxy<char *, char, allocator<char> > &);
+}
 // Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
 // out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
 namespace _STL {
