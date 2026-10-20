@@ -21,3 +21,5 @@ Explicit if+do-while for loop 2 (538). Fresh it2 / per-loop scoped iterators: in
 Cached `end` local: inert. A separate loop-3 index var: worse. `index = 1` right before loop 2 rotates it, but CSEs constant 1 into EDX (544).
 A loop-2-local idx copy: rotates, but the frame becomes 0x14.
 Open question: what gives retail's long-lived begin ESI over loop 1's iterator while still letting loop 2 consume it.
+
+Follow-up 22:05-22:10 PT: cached end across loops 1-2 and unsigned index were inert. Under fsc, an explicit count loop from first (538) and std::distance(first,end) (542, R=37) were both worse.
