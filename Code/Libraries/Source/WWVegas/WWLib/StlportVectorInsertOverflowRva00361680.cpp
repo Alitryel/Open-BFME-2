@@ -8,9 +8,9 @@
 // call sites. The complete application element type/layout is not known.
 //
 // BfmeStringHeadRecord148 is only an emitter view: 148-byte size and a
-// non-trivial copy trait. The target destructor/copy chain supports an
-// AsciiString at offset zero, but this declaration's remaining int fields do
-// not claim the retail record layout.
+// non-trivial copy trait. Its historical AsciiString-plus-padding declaration
+// does not describe the native record, which owns six vectors; destruction
+// is explicitly routed to the verified Rva00360F55 owner below.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 #include <stl/_algobase.h>
@@ -27,6 +27,22 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct BfmeStringHeadRecord148 { AsciiString s; int a[36]; };
+
+// Native record teardown is the independently recovered 0x00360FDB owner.
+// This emitter view supplies stride and copy traits only; destruction must
+// call that owner instead of synthesizing an AsciiString-only destructor.
+class Rva00360F55
+{
+public:
+    ~Rva00360F55();
+};
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _Destroy<BfmeStringHeadRecord148>(BfmeStringHeadRecord148 *p)
+{
+    ((Rva00360F55 *)p)->~Rva00360F55();
+}
+}
 
 namespace _STL {
 template <> void _Construct<BfmeStringHeadRecord148, BfmeStringHeadRecord148>(
