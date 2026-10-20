@@ -153,6 +153,7 @@ public:
 
 	void clear(void);
 	void addTeamPrototypeToList(TeamPrototype *team);
+	void instantiatePrototypeIndex(TeamPrototype *team);
 	// Two parameters, not one: 0x000F8191 pushes both `name` and `owner`
 	// before the call, matching the pair-keyed m_prototypes map.
 	TeamPrototype *findTeamPrototype(const AsciiString &owner, const AsciiString &name);
@@ -185,8 +186,9 @@ extern TeamFactory *TheTeamFactory;
 
 // clear is defined and verified in TeamFactoryClear.cpp.
 
-// ?addTeamPrototypeToList@TeamFactory@@QAEXPAVTeamPrototype@@@Z present-unmatched
-void TeamFactory::addTeamPrototypeToList(TeamPrototype *team)
+// addTeamPrototypeToList itself is rowed in TeamFactoryAddPrototype003A2B78.cpp; this unit keeps
+// the same body under a local name only to instantiate the map members it owns.
+void TeamFactory::instantiatePrototypeIndex(TeamPrototype *team)
 {
 	BfmeTeamPrototypeKey nk(TheNameKeyGenerator->nameToKey(team->m_first.str()),
 									TheNameKeyGenerator->nameToKey(team->m_second.str()));
