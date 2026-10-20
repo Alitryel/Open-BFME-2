@@ -51,6 +51,10 @@ public:
  T &operator[](int i) { return items[i]; }
  int Count() const { return activeCount; }
 };
+// The glyph map's subscript is the shared out-of-line instantiation (0x00157DD0).
+namespace _STL {
+template<> map<unsigned short,int,less<unsigned short>,allocator<pair<const unsigned short,int> > >::mapped_type &map<unsigned short,int,less<unsigned short>,allocator<pair<const unsigned short,int> > >::operator[](const key_type &);
+}
 class FontCharsClass
 {
  void *unused00,*unused04;
