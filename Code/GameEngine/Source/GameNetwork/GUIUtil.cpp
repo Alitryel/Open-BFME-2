@@ -270,6 +270,8 @@ void ShowUnderlyingGUIElements( Bool show, const char *layoutFilename, const cha
 #include <set>
 // bfme link decl-only begin
 namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+// Use the retail 0x00056CC3 cleanup owner, which destroys each string.
+namespace _STL { template <> void _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_erase(_Rb_tree_node<AsciiString> *); }
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter(); }
 namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
 // bfme link decl-only end
@@ -354,8 +356,8 @@ extern MapCache *TheMapCache;
 Bool Rva00300E42Check(GameInfo *game);	// ZH WouldMapTransfer, keyed by the game in BFME2
 extern unsigned char g_Va00A0335C;	// ZH slotListUpdatesEnabled
 inline Bool AreSlotListUpdatesEnabled( void ) { return g_Va00A0335C != 0; }
-extern Int acceptTrueColor;		// VA 0x00DBA764
-extern Int acceptFalseColor;	// VA 0x00DBA768
+extern const Int acceptTrueColor;		// VA 0x00DBA764
+extern const Int acceptFalseColor;	// VA 0x00DBA768
 UnicodeString GadgetComboBoxGetText(GameWindow *comboBox);
 void GadgetComboBoxSetText(GameWindow *comboBox, UnicodeString text);
 void *GadgetComboBoxGetItemData(GameWindow *comboBox, Int index);
