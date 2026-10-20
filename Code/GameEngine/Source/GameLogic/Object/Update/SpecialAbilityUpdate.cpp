@@ -84,11 +84,13 @@ private:
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_18 = 0x18,
-	OBJECT_STATUS_46 = 0x46
+	OBJECT_STATUS_46 = 0x46,
+	OBJECT_STATUS_3F = 0x3F
 };
 enum KindOfType
 {
-	KINDOF_INVALID = -1
+	KINDOF_INVALID = -1,
+	KINDOF_6E = 0x6E
 };
 enum SpecialPowerType {};
 enum NameKeyType
@@ -287,6 +289,9 @@ class AIUpdateInterface : public AIUpdateModuleView, public AICommandInterface
 {
 public:
 	void ignoreObstacle(const Object *obj);
+	void rva0026331C();
+	unsigned char m_pad24[0x3CA - 0x24];
+	bool m_3ca; // +0x3CA
 };
 class Object;
 class ContainModuleInterface
@@ -335,7 +340,7 @@ public:
 	virtual void s40();
 	virtual void s41();
 	virtual void s42();
-	virtual void s43();
+	virtual void s43(Object *target, int value, Object *owner); // +0xAC (onExit)
 	virtual void s44();
 	virtual void s45();
 	virtual void s46();
@@ -371,6 +376,11 @@ public:
 	virtual void s12();
 	virtual void s13();
 	virtual void markSpecialPowerTriggered(const Coord3D *location); // slot 14 (+0x38)
+	virtual void s15();
+	virtual void s16();
+	virtual void s17();
+	virtual void s18();
+	virtual void s19(); // slot 19 (+0x4C), called by onExit
 };
 // The rowed two-bit status mask (0x00391F4E) read as the status setter's mask.
 class Rva00346BC0;
@@ -396,6 +406,21 @@ struct ApproachTargetContainer
 	unsigned int m_targetID; // +0x74
 };
 class CommandButton;
+class SpecialPowerTemplate;
+// Object +0x254 view: slot 5 (+0x14) reads a fraction, slot 21 (+0x54) stores it.
+class Rva0045050A
+{
+public:
+	virtual void vslot00(); virtual void vslot01(); virtual void vslot02(); virtual void vslot03();
+	virtual void vslot04();
+	virtual float vslot05() const;
+	virtual void vslot06(); virtual void vslot07();
+	virtual void vslot08(); virtual void vslot09(); virtual void vslot10(); virtual void vslot11();
+	virtual void vslot12(); virtual void vslot13(); virtual void vslot14(); virtual void vslot15();
+	virtual void vslot16(); virtual void vslot17(); virtual void vslot18(); virtual void vslot19();
+	virtual void vslot20();
+	virtual void vslot21(float value, int flag);
+};
 class Object : public Thing
 {
 	friend class SpecialAbilityUpdate;
@@ -413,6 +438,10 @@ public:
 	// Zero Hour's inline Object::clearAndSetModelConditionState.
 	void clearAndSetModelConditionState(ModelConditionFlagType clr, ModelConditionFlagType set);
 	void setStatus(ObjectStatusTypes status, bool set);
+	void clearStatus(const Rva00346BC0 &mask) { rva0028CDEB(mask, false); }
+	SpecialPowerModuleInterface *getSpecialPowerModule(const SpecialPowerTemplate *t) const;
+	void removeAttributeModifierFromPool(const AsciiString &name);
+	int getID() const { return m_id; }
 	void doCommandButton(const CommandButton *button, int flag, bool source);
 	void rva0028AE6D();
 	void setSpecialModelConditionState(ModelConditionFlagType mc, unsigned int frames);
@@ -446,7 +475,7 @@ public:
 	ModelConditionFlags m_modelConditionFlags; // +0x10C
 	unsigned char m_pad158[0x250 - 0x158];
 	ContainModuleInterface *m_contain; // +0x250
-	unsigned char m_pad254[0x258 - 0x254];
+	Rva0045050A *m_254; // +0x254
 	unsigned char *m_ai; // +0x258 AIUpdateInterface (command interface at +0x20)
 	AIUpdateInterface *getAI() const { return (AIUpdateInterface *)m_ai; }
 	void *getTeam() const { return m_team; }
@@ -489,9 +518,14 @@ public:
 	ModelConditionFlagType m_18; // +0x18
 	unsigned int m_1C; // +0x1C
 	unsigned int m_20; // +0x20
-	unsigned char m_pad24[0x38 - 0x24];
+	ModelConditionFlagType m_24; // +0x24
+	unsigned int m_28; // +0x28
+	int m_2C; // +0x2C
+	float m_30; // +0x30
+	unsigned char m_pad34[0x38 - 0x34];
 	Overridable *m_specialPowerTemplate; // +0x38
-	unsigned char m_pad3C[0x4C - 0x3C];
+	unsigned char m_pad3C[0x48 - 0x3C];
+	AsciiString m_48; // +0x48
 	float m_approachRange; // +0x4C
 	unsigned char m_pad50[0x54 - 0x50];
 	float m_packUnpackVariationFactor; // +0x54
@@ -504,12 +538,19 @@ public:
 	unsigned int m_packTime; // +0x84
 	unsigned int m_unpackTime; // +0x88
 	unsigned int m_preTriggerUnstealthFrames; // +0x8C
-	unsigned char m_pad090[0xAC - 0x90];
+	int m_90; // +0x90
+	int m_94; // +0x94
+	unsigned char m_pad098[0xA9 - 0x98];
+	bool m_specialObjectsPersistent; // +0xA9
+	bool m_aa;
+	bool m_specialObjectsPersistWhenOwnerDies; // +0xAB
 	bool m_flipAfterPacking; // +0xAC
 	bool m_flipAfterUnpacking; // +0xAD
 	char m_pad0AE[2];
 	bool m_loseStealth; // +0xB0
-	unsigned char m_padB1[0xBC - 0xB1];
+	unsigned char m_padB1[0xB3 - 0xB1];
+	bool m_b3; // +0xB3
+	unsigned char m_padB4[0xBC - 0xB4];
 	AsciiString m_targetBone; // +0xBC
 	AsciiString m_commandButtonName; // +0xC0 issued on completion when set
 };
@@ -578,7 +619,9 @@ public:
 	virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04();
 	virtual void v05(); virtual void v06(); virtual void v07(); virtual void v08();
 	virtual void v09(); virtual void v10(); virtual void v11(); virtual void v12();
+protected:
 	virtual void onExit(bool cleanup, bool b); // +0x34
+public:
 	SpecialPowerType getSpecialPowerType() const;
 	bool rva00450AE9();
 	bool rva0044E85E(Coord3D *pos, float range);
@@ -602,7 +645,8 @@ public:
 protected:
 	void endPreparation();
 private:
-	unsigned char m_pad0C[0x28 - 0x0C];
+	unsigned char m_pad0C[0x24 - 0x0C];
+	int m_24; // +0x24
 	unsigned int m_animFrames; // +0x28
 	unsigned char m_pad2C[0x30 - 0x2C];
 	int m_packingState; // +0x30
@@ -614,11 +658,15 @@ private:
 	Coord3D m_previousTarget; // +0x50
 	unsigned char m_pad5C[0x6C - 0x5C];
 	unsigned int m_6C; // +0x6C flag word (bit 18: command button argument)
-	unsigned char m_pad70[0x78 - 0x70];
+	unsigned char m_pad70[0x74 - 0x70];
+	bool m_active; // +0x74
+	unsigned char m_pad75[0x78 - 0x75];
 	unsigned int m_approachFrames; // +0x78
-	unsigned char m_pad7C[0x80 - 0x7C];
+	bool m_7c; // +0x7C
+	unsigned char m_pad7D[0x80 - 0x7D];
 	bool m_withinStartAbilityRange; // +0x80
-	unsigned char m_pad81[0x83 - 0x81];
+	bool m_81;
+	bool m_82; // +0x82
 	bool m_approached; // +0x83
 	unsigned int m_84; // +0x84
 };
@@ -746,6 +794,122 @@ void SpecialAbilityUpdate::endPreparation()
 	case 0x1d:
 		killSpecialObjects();
 		break;
+	}
+}
+
+class AutoHealBehavior
+{
+public:
+	void stopHealing();
+};
+class Rva0044EAF3
+{
+public:
+	Rva0044EAF3 *rva0044EAF3(int a, unsigned int b, unsigned int c, unsigned int d);
+	unsigned int m_bits[4];
+};
+extern unsigned int g_00E033D0;
+
+// Retail 0x004502CE (871 bytes): SpecialAbilityUpdate::onExit.
+void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
+{
+	Object *obj = getObject();
+	const SpecialAbilityUpdateModuleData *data = (const SpecialAbilityUpdateModuleData *)m_moduleData;
+	rva0044EE07();
+	{
+		Rva0044EAF3 mask;
+		obj->clearStatus(*(const Rva00346BC0 *)mask.rva0044EAF3(0, 0x18, 0x46, 0x17));
+	}
+	AIUpdateInterface *ai = obj->getAI();
+	if (ai)
+	{
+		ai->m_3ca = false;
+		ai->rva0026331C();
+	}
+	TheAudio->removeAudioEvent(m_prepSoundLoop);
+	m_prepSoundLoop = 1;
+	TheAudio->removeAudioEvent(m_packSoundHandle);
+	m_packSoundHandle = 1;
+	endPreparation();
+	SpecialPowerModuleInterface *spm = obj->getSpecialPowerModule((const SpecialPowerTemplate *)data->m_specialPowerTemplate);
+	if (spm)
+		spm->s19();
+	int type = data->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C;
+	if (type == 0x28 || type == 0x27)
+	{
+		Object *target = TheGameLogic->findObjectByID(m_targetID);
+		obj->m_specialTargetID = 0;
+		if (target)
+		{
+			target->setStatus(OBJECT_STATUS_3F, false);
+			if (m_24 == 1)
+			{
+				if (target->m_base4[0x108] & 0x40)
+					target->setModelConditionState((ModelConditionFlagType)0x5b);
+				else if (target->m_base4[0x118] & 0x10)
+					obj->clearModelConditionState((ModelConditionFlagType)0xb0);
+				if (m_6C & 0x4000)
+				{
+					ContainModuleInterface *a = obj->m_contain;
+					Rva0045050A *c = obj->m_254;
+					if (a)
+					{
+						a->s43(target, data->m_2C, obj);
+						float value = c->vslot05() * 100.0f + data->m_30;
+						if (value > 100.0f)
+							value = 100.0f;
+						c->vslot21(value, 0);
+						obj->setSpecialModelConditionState(data->m_24, data->m_28);
+						target->setSpecialModelConditionState(data->m_24, data->m_28);
+						if (obj->getAI())
+							obj->getAI()->rva0045003E(data->m_28, CMD_FROM_AI);
+					}
+				}
+			}
+		}
+	}
+	else if (type == 0x80 || type == 0x8f)
+	{
+		static const NameKeyType key = TheNameKeyGenerator->nameToKey("AutoHealBehavior");
+		AutoHealBehavior *heal = (AutoHealBehavior *)obj->findModule(key);
+		if (heal)
+			heal->stopHealing();
+	}
+	else if (type == 0x1d || type == 0x1a)
+	{
+		Object *target = TheGameLogic->findObjectByID(m_targetID);
+		if (target && target->isKindOf(KINDOF_6E) && target->m_captor80 == getObject()->getID())
+		{
+			target->m_captor80 = 0;
+			target->clearModelConditionState((ModelConditionFlagType)0x6e);
+			target->setSpecialModelConditionState((ModelConditionFlagType)0x6f, g_00E033D0);
+		}
+	}
+	if (b)
+	{
+		if (data->m_94 && ai)
+			ai->rva0045003E(data->m_94, CMD_FROM_AI);
+	}
+	else if (data->m_90 && ai)
+		ai->rva0045003E(data->m_90, CMD_FROM_AI);
+	if (!data->m_specialObjectsPersistent || cleanup && !data->m_specialObjectsPersistWhenOwnerDies)
+		killSpecialObjects();
+	if (m_82)
+	{
+		if (obj->getAI())
+			obj->getAI()->aiIdle(CMD_FROM_AI);
+		m_82 = false;
+	}
+	if (!m_7c)
+		m_active = false;
+	m_packingState = 0;
+	m_withinStartAbilityRange = false;
+	m_approached = false;
+	if (data->m_b3)
+	{
+		const AsciiString &name = data->m_48;
+		if (!name.isEmpty())
+			obj->removeAttributeModifierFromPool(name);
 	}
 }
 
