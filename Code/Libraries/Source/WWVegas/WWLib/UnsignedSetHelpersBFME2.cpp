@@ -19,6 +19,14 @@ extern void __cdecl Rva00030830FreeAllocation(void *);
 #define free Rva00030830FreeAllocation
 #include <set>
 #include <vector>
+// Preserve the placement construction in signed push_back without emitting
+// an /O1 copy over the rowed /Od helper at 0x00620140.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _Construct<int, int>(int *p, const int &value) {
+    _STLP_PLACEMENT_NEW (p) int(value);
+}
+}
 // Keep the header's three inline stores, without emitting an optimized
 // out-of-line copy of the /Od provider at retail 0x00023C80.
 namespace _STL {
