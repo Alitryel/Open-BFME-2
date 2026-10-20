@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.99 date=2026-10-20
+// partial score=0.995 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -639,7 +639,8 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMatrixTranslation(&center, hx, hy, 0.0f);
 		D3DXMatrixTranslation(&shift, diagonal * 5.0f, 0.0f, 0.0f);
 		D3DXMatrixIdentity(&uncenter);
-		SetU(uncenter, sx * -0.5f, sy * -0.5f);
+		uncenter.m[3][0] = sx * -0.5f;
+		uncenter.m[3][1] = sy * -0.5f;
 
 		partial = uncenter * rot * center;
 		world = partial * shift * drift;
