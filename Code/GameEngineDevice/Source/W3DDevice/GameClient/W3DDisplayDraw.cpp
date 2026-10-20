@@ -1,5 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /ICode/GameEngine/Source/Common
 // stlport
+// platformsdk
 //
 // W3DDisplay::draw (retail 0x0004BEF2..0x0004C3D8, W3DDisplay vftable 0x007C3C80
 // slot 12). Zero Hour's W3DDisplay::draw is the semantic guide and source of the
