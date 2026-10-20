@@ -12,6 +12,9 @@
 // The original class, method and helper names are unknown.
 // The donor WW3D2 headers spell the 4x4 matrix Matrix4x4.
 #define Matrix4x4 Matrix4
+// Keep retail helper calls available without emitting non-retail SSE copies.
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+#define BFME_POINT_MATRIX4_TRANSFORM_INLINE
 #include "sharebuf.h"
 #include "vector.h"
 #include "matrix4.h"

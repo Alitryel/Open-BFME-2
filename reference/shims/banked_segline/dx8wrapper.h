@@ -309,7 +309,11 @@ public:
 	static void Set_DX8_ZBias(int zbias);
 	static void Set_Projection_Transform_With_Z_Bias(const Matrix4x4& matrix,float znear, float zfar);	// pointer to 16 matrices
 
+#ifdef BFME_POINT_MATRIX4_TRANSFORM_INLINE
+	static __declspec(dllimport) __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m);
+#else
 	static void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m);
+#endif
 	static void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m);
 	static void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m);
 	static void	Set_World_Identity();
@@ -1245,7 +1249,12 @@ WWINLINE void DX8Wrapper::Set_Projection_Transform_With_Z_Bias(const Matrix4x4& 
 // enough, and no definition is added because ours does not match 0x905990
 // yet. Every other call site in the tree is commented out.
 
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m)
+#ifdef BFME_POINT_MATRIX4_TRANSFORM_INLINE
+__declspec(dllimport) __forceinline
+#else
+WWINLINE
+#endif
+void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m)
 {
 	switch ((int)transform) {
 	case D3DTS_WORLD:
