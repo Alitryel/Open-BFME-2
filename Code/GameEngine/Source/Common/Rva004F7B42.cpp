@@ -4,7 +4,7 @@
 // (a1+3) with imul 0xc stride matching 12-byte map, upper_bound via rowed
 // _M_upper_bound 0x004FF471 then end compare [esi] and return node first
 // +0x10 or -1. Evidence: ret 8 two args plus thiscall, same pattern as
-// Rva004F76EA m_maps[5], callers 0x004F81CC and 0x005EAB20.
+// 0x004F76EA's m_maps[5], callers 0x004F81CC and 0x005EAB20.
 #include <map>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
