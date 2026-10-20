@@ -33,3 +33,6 @@ typedef _STL::hashtable<Rva009D7350Pair, const char *, _STL::hash<const char *>,
 	_STL::allocator<Rva009D7350Pair> > Rva009D7350Hashtable;
 
 template unsigned int Rva009D7350Hashtable::_M_bkt_num_key(const char * const &) const;
+// _M_bkt_num(obj, n) forwards to _M_bkt_num_key(_M_get_key(obj), n); the key
+// is the pair's first member, so it is retail's tail jump 0x0060C9BE.
+template unsigned int Rva009D7350Hashtable::_M_bkt_num(const Rva009D7350Pair &, unsigned int) const;
