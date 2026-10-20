@@ -30,3 +30,22 @@ row-1 (Y+Z)+X (3372 B, Corners reschedule), direct rows 0+1 (8 diffs; row-2
 Transform_Vector SSE order flips f3435..f345d). BF1 matrix4.h inline bodies equal
 ZH's; WB 0x806A80 shows three plain Dot_Products. Callee content does not move
 row 1 (confirms the earlier seat).
+
+## r48 (claude-opus-5-5, ~200 compiles): struct-temp count does not move the dot products
+Diagnostic exact (NOT landable): build/nbr/r48/f2ffa/v/f_n_k7.cpp = row 1 written
+direct and right-associated `fabs(p[1].X*o[1].X + (p[1].Y*o[1].Y + p[1].Z*o[1].Z))`
+plus 7 discarded `meshXform->Get_Translation();` before `// get the light`.
+- Through any inline with reference params the 3-term order is always Z,Y,X
+  (Dot_Product, custom bodies X+Y+Z / X+(Y+Z) / Z+Y+X / Y+Z+X, Vector4, a/b
+  swapped); Z+(Y+X) gives Y,X,Z; Y+(Z+X) gives Z,X,Y. Direct left-assoc: X,Y,Z
+  for every permutation. Direct right-assoc X+(Y+Z)/X+(Z+Y): Y,Z,X = retail.
+- 1..32 struct temps at any position, dummy Vector3 locals, TU context,
+  scalar inlines, cutting later code, /Op /Oi /Ob1 /Oa /Ow /O2: dot order never
+  moves (later Transform_Vector/Corners code does; ~30 temps flips row 0).
+- ZH's two unused locals prevPosToLight / prevObjPosition are evidence-backed
+  (WB 0x806A80 local_dc/local_cc): alone or with Dot_Product row 1 -> 3372 B;
+  with direct left-assoc row 1 -> all but row 1 exact (6 diffs).
+- The rest needs exactly k=7 extra temps after the rows (threshold, not mod 8).
+Open: what makes retail's row-1 inline behave like direct right-associated
+addressing (a BFME2 Matrix4 operator[] / Vector4->Vector3 conversion that is not
+a reference cast?), and a natural source of the ~7 temps.
