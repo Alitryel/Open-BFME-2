@@ -1,7 +1,7 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // NAT::setConnectionState, 0x005A688C, 119B (WorldBuilder name, its
-// __FUNCTION__ string "NAT::setConnectionState"). Unlock wrapper that caches two (a,b) pairs at +0x94C/+0x950 and forwards 4/5->3/4 to Rva005DC3C1 at +0x28. Evidence: caller 0x005A6C90 passes [ecx+14]/[ecx+18]/[ecx+20]; callee row 0x005DC3C1; neighbours 0x005A687F/0x005A6A83.
-class Rva005DC3C1
+// __FUNCTION__ string "NAT::setConnectionState"). Unlock wrapper that caches two (a,b) pairs at +0x94C/+0x950 and forwards 4/5->3/4 to PortNegotiationSchema at +0x28. Evidence: caller 0x005A6C90 passes [ecx+14]/[ecx+18]/[ecx+20]; callee row 0x005DC3C1; neighbours 0x005A687F/0x005A6A83.
+class PortNegotiationSchema
 {
 public:
 	void handleNegotiationResult(unsigned short a, unsigned short b, int expected, int newVal);
@@ -32,7 +32,7 @@ private:
 	int m_1C;
 	int m_20;
 	int m_24;
-	Rva005DC3C1 m_28;
+	PortNegotiationSchema m_28;
 	char m_pad2C[0x90C - 0x2C];
 	Rva005A6A4CAddress *m_90C[8];
 	char m_pad92C[0x94C - 0x92C];

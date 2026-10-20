@@ -54,7 +54,7 @@ struct NATAddressView
 	UnsignedInt m_ip;
 };
 
-class Rva005DC3C1
+class PortNegotiationSchema
 {
 public:
 	void handleNegotiationResult(UnsignedShort first, UnsignedShort second, Int cookie, Int result);
@@ -73,7 +73,7 @@ struct NAT
 	Int m_1c;
 	Int m_cookie;				// +0x20
 	Int m_24;
-	Rva005DC3C1 m_schema;			// +0x28
+	PortNegotiationSchema m_schema;			// +0x28
 	unsigned char m_hostKnown[8];		// +0x8E4
 	Int m_slotCookie[8];			// +0x8EC
 	NATAddressView *m_addresses[8];		// +0x90C

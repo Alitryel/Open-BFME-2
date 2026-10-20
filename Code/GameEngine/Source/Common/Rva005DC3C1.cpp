@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?handleNegotiationResult@Rva005DC3C1@@QAEXGGHH@Z @0x005DC3C1 71B unlock: two int[64] arrays at +0x18 and +0x118 plus list at +0x04 with forEach 0x005DBE6A and notify 0x001FF3A9, callers 0x005A68F8 and 0x005A8F41, neighbours forEach 0x005DBE6A and vector overflow 0x005DC499
+// ?handleNegotiationResult@PortNegotiationSchema@@QAEXGGHH@Z @0x005DC3C1 71B unlock: two int[64] arrays at +0x18 and +0x118 plus list at +0x04 with forEach 0x005DBE6A and notify 0x001FF3A9, callers 0x005A68F8 and 0x005A8F41, neighbours forEach 0x005DBE6A and vector overflow 0x005DC499
 class Rva005DBE6AListener
 {
 public:
@@ -23,7 +23,7 @@ public:
     virtual void rva001FF3A9();
 };
 
-class Rva005DC3C1
+class PortNegotiationSchema
 {
 public:
     void handleNegotiationResult(unsigned short a, unsigned short b, int expected, int newVal);
@@ -35,7 +35,7 @@ private:
     int m_arr118[64]; // +0x118
 };
 
-void Rva005DC3C1::handleNegotiationResult(unsigned short a, unsigned short b, int expected, int newVal)
+void PortNegotiationSchema::handleNegotiationResult(unsigned short a, unsigned short b, int expected, int newVal)
 {
     if (a >= 8)
         return;
