@@ -8,6 +8,10 @@
 #include "Lib/Coord3D.h"
 #include "Lib/Coord2D.h"
 #include <math.h>
+// Keep the CRT float wrapper visible under a local name so this unit does
+// not emit competing sin(float)/cos(float) definitions.
+inline float __cdecl aodSin(float x) { return sinf(x); }
+inline float __cdecl aodCos(float x) { return cosf(x); }
 #include "../../../Common/GameLogicObjectLookupView.h"
 float Cos(float);
 float Sin(float);
@@ -303,10 +307,10 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  float bob = 0.95f;
  Coord3D forward;
  Coord3D side;
- forward.y = (float)sin(angle);
+ forward.y = (float)aodSin(angle);
  side.x = forward.y;
  pos.x -= offset.y * side.x;
- forward.x = (float)cos(angle);
+ forward.x = (float)aodCos(angle);
  pos.y += offset.y * forward.x;
  const AODHordeContainModuleData *md = m_moduleData;
  if (!m_7C || (unsigned int)index >= (unsigned int)(m_wavesEnd - m_wavesBegin))
@@ -333,7 +337,7 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  float speedFactor = (1.0f - t) * speedRatio + t;
  AODWave *wave = &m_wavesBegin[index];
  AODSway sway;
- sway.y = (float)sin(wave->m_00 + wave->m_08 * ((float)TheGameLogic->getFrame() * md->m_274)) * wave->m_04;
+ sway.y = (float)aodSin(wave->m_00 + wave->m_08 * ((float)TheGameLogic->getFrame() * md->m_274)) * wave->m_04;
  sway.y = speedFactor * md->m_27C * sway.y;
  sway.x = 0.0f;
  Rva00468E98Point dir=((Rva00468E98 *)this)->rotate(reinterpret_cast<const Rva00468E98Point &>(sway));
@@ -350,7 +354,7 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  t = 1.0f;
  if (t > 0.01f)
  m_04 = true;
- bob += (float)sin(wave->m_0C + wave->m_14 * ((float)TheGameLogic->getFrame() * md->m_288)) * wave->m_10;
+ bob += (float)aodSin(wave->m_0C + wave->m_14 * ((float)TheGameLogic->getFrame() * md->m_288)) * wave->m_10;
  speedFactor = (1.0f - t) * speedRatio + t;
  bob = speedFactor * md->m_290 * bob;
  if (obj->isKindOf((KindOfType)0xD7))
