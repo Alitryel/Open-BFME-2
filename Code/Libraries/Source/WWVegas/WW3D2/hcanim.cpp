@@ -396,6 +396,10 @@ private:
 
 	template <int N> void getframe(uint32 frame_idx, AdaptiveDeltaCacheStruct<N> & cache);
 	template <int N> void decompress(uint32 src_idx, float *srcdata, uint32 frame_idx, float *outdata);
+	// The four-float instance lives in hcanimGetFrame4.cpp beside the decompress<4>
+	// it instantiates, whose generic body is not yet retail's. The in-class
+	// declaration keeps cl from instantiating it here (out of class it ICEs).
+	template <> void getframe<4>(uint32 frame_idx, AdaptiveDeltaCacheStruct<4> & cache);
 
 	friend class HCompressedAnimClass;
 };
@@ -465,7 +469,7 @@ void AdaptiveDeltaMotionChannelClass::decompress(uint32 src_idx, float *srcdata,
  * BFME2 (retail 0x0018FC20 for one float, 0x0018FCC0 for four): the cache holds frame_idx    *
  * and frame_idx+1. A channel of another length reads as zero.                                 *
  *=============================================================================================*/
-// ??$getframe@$03@AdaptiveDeltaMotionChannelClass@@AAEXKAAU?$AdaptiveDeltaCacheStruct@$03@@@Z
+// ??$getframe@$00@AdaptiveDeltaMotionChannelClass@@AAEXKAAU?$AdaptiveDeltaCacheStruct@$00@@@Z
 template <int N>
 void AdaptiveDeltaMotionChannelClass::getframe(uint32 frame_idx, AdaptiveDeltaCacheStruct<N> & cache)
 {
