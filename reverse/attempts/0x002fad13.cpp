@@ -1,4 +1,6 @@
 // ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
+// partial score=0.9887 date=2026-10-20
+// ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
 // partial score=0.98 date=2026-10-19
 // ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
 // partial score=0.9796863056641045 date=2026-10-14
@@ -12,6 +14,11 @@
 // `PathfinderAttackCoord goal(*victimPos);` restores frame 0x7C. Left: 12-byte slot pairing (retail: quick
 // delta with scratch/start at the top, curPos with fallback delta/cellCenter at -0x78). The _ReadWriteBarrier
 // in the Rva002E6FDF ctor prefix is context - use the home's own. Home: pathfinder.cpp. Scratch: build/nbr/r11/2fad13/.
+// 0x002FAD13 bank 2026-10-20 (claude-opus-5-5): destinationDistance is declared with the function-level locals,
+// as WB D4A100 allocates it (local_30 beside acceptable/acceptableDistance); its address escapes through
+// CheckDestination, so its scope sets its lifetime and it no longer shares startIndex's slot. The LOS query uses
+// the rowed reference signature (0x002F314A). Left: curPos/quick delta/fallback delta slot choice; see
+// reverse/attempt_support/0x002fad13-20261020-w2.md.
 // stlport
 
 namespace _STL {
@@ -498,7 +505,7 @@ private:
  Int iterateCellsAlongLine(const ICoord2D*,const ICoord2D*,PathfindLayerEnum,Rva002F5925Info*);
 public:
  Path *FindAttackPath(Object *,const LocomotorSet &,const Coord3D *,Object *,const Coord3D *,Rva002C9B80Owner *,Bool,Bool *);
- Bool isAttackViewBlockedByObstacle(const Object *,const Coord3D *,const Object *,const Coord3D *);
+ Bool isAttackViewBlockedByObstacle(const Object *,const Coord3D &,const Object *,const Coord3D &);
  Bool CheckForAdjust(Object *,const LocomotorSet &,Bool,Int,Int,PathfindLayerEnum,Int,Bool,Coord3D *,const Coord3D *,float,Int *,Int);
  Bool QuickDoesPathExist(Object *,const Coord3D *,const Coord3D *,Int);
  Bool IsValidMovementPositionForObject(const Coord3D *,Int,Int,const Object *);
@@ -1384,7 +1391,7 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
             if(!cell || !((Rva002E6DC4 *)this)->rva002E6DC4(&movement,cell))break;
             if(!bfmeWrapE6E90(obj,(void *)index.x,(void *)index.y,(void *)obj->rva0028B511(),(void *)radius,*(void **)&center))break;
             if(((Weapon*)weapon)->isWithinAttackRange(obj,&test,victim,victimPos,10.0f,true) &&
-               !isAttackViewBlockedByObstacle(obj,&test,victim,victimPos)){
+               !isAttackViewBlockedByObstacle(obj,test,victim,*victimPos)){
                 Path *path=new Path;
                 path->rva00265596(&test,(PathfindLayerEnum)obj->rva0028B511(),0x7fffffff);
                 path->rva00265596(&curPos,(PathfindLayerEnum)obj->rva0028B511(),0x7fffffff);
@@ -1428,6 +1435,7 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
     goalCell->allocateInfo((In002E6BA1 *)&victimIndex);
     AddToOpenList(parent);
     PathfindCell *acceptable=0,*closest=0;
+    Int destinationDistance;
     Int acceptableDistance=9999999;
     Int closestOrder=0;
     Int dx=goalCell->getXIndex()-parent->getXIndex();
@@ -1449,9 +1457,8 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
         }
         Int cellState=parent->m_pathInfo?(Int)parent->m_pathInfo->parentWaypoint:0;
         if(!cellState && ((Weapon*)weapon)->isWithinAttackRange(obj,&cellCenter,victim,victimPos,0.0f,true)){
-            Int destinationDistance;
             if(CheckDestination(obj,parent->getXIndex(),parent->getYIndex(),(PathfindLayerEnum)parent->getLayer(),radius,center,&destinationDistance,false)){
-                Bool blocked=checkLOS?isAttackViewBlockedByObstacle(obj,&cellCenter,victim,victimPos):false;
+                Bool blocked=checkLOS?isAttackViewBlockedByObstacle(obj,cellCenter,victim,*victimPos):false;
                 if(start==parent)blocked=true;
                 else {
                     PathfinderCellPoint pos=Rva002E8C23Call(center,parent);
