@@ -59,6 +59,9 @@ namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_p
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > _M_do_put_float<char, ostreambuf_iterator<char, char_traits<char> >, long double>(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, long double); }
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __put_float<ostreambuf_iterator<char, char_traits<char> > >(char *, char *, ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, char, char, const basic_string<char, char_traits<char>, allocator<char> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@D@_STL@@QBEPADIPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * allocator<char>::allocate(unsigned int,void const *) const; }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PADDV?$allocator@D@_STL@@@_STL@@QAEPADI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * _STL::_STLP_alloc_proxy<char *,char,_STL::allocator<char> >::allocate(unsigned int); }
