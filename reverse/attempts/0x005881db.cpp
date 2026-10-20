@@ -1,4 +1,6 @@
 // ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
+// partial score=0.9772382397572079 date=2026-10-20
+// ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
 // partial score=0.9711684370257967 date=2026-10-19
 // ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
 // partial score=0.97 date=2026-10-16
@@ -12,6 +14,8 @@
 // Existing587D9C constructor establishes held4 / vector8 / force14 / data18.
 // Native and WB prove60B entry offsets and circular-list / AI slots individually.
 // The swarm recovery supplied the matching STLport indexing pattern.
+// WB146DC50 declares best and bestCell at loop-2 body scope; the fallback search
+// and the move to best follow the !arrived search block there.
 #include "Coord3DCtorView.h"
 
 #include <math.h>
@@ -191,7 +195,7 @@ void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
   int index=((Rva0046ACF6 *)held)->rva0046ACF6(unit->m_id);
   if(index<0 || index>=attacks.size()) continue;
   AmoebaAttackEntry &entry=attacks[index];
-  if(*(int *)((char *)ai+0x1fc)==4 && *(int *)((char *)ai+0x140)) { entry.timer=0; entry.needsPosition=true; continue; }
+  if(*(int *)((char *)ai+0x1fc)==4 && *(int *)((char *)ai+0x140)) { entry.needsPosition=true; entry.timer=0; continue; }
   if(unit->testStatus(AMOEBA_STATUS_1C) || unit->testStatus(AMOEBA_STATUS_45)) continue;
   if(!ai->idleBlocked()) {
    ((AICommandInterface *)((char *)ai+0x20))->aiIdle(AMOEBA_COMMAND);
@@ -211,16 +215,19 @@ void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
   Object *attack=Rva0058723D(unit,victim);
   if(attack) {
    if(entry.arrived) { entry.arrived=false; entry.groupValue=data->groupValue; ((Rva001E42F2 *)unit)->rva001E42F2(data->mask); }
-   unit->rva0028CDB6(); entry.timer=0; entry.needsPosition=true; AttackUnit(unit,attack); continue;
+   unit->rva0028CDB6(); entry.needsPosition=true; entry.timer=0; AttackUnit(unit,attack); continue;
   }
   if(forcePosition) {
    unit->rva0028CDB6(); entry.needsPosition=true;
    if(entry.arrived) { entry.arrived=false; entry.groupValue=data->groupValue; ((Rva001E42F2 *)unit)->rva001E42F2(data->mask); }
   }
+  ICoord2D bestCell;
   ICoord2D current;
   Rva002EBC14Cell(&current,unit,&unit->m_position);
   float bestScore=0.0f;
+  Coord3D best;
   bool outside=false;
+  bool valid[3][3];
   if(!entry.arrived) {
    if(!entry.groupValue) {
     entry.arrived=true;
@@ -235,9 +242,6 @@ void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
    } else --entry.groupValue;
   }
   if(!entry.arrived) {
-   bool valid[3][3];
-   Coord3D best;
-   ICoord2D bestCell;
    for(int i=-1;i<=1;++i) {
     for(int j=-1;j<=1;++j) {
      if(i==0 && j==0) continue;
@@ -258,18 +262,17 @@ void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
       Coord2D toward;
       toward.x=unit->m_position.x-other->m_position.x; toward.y=unit->m_position.y-other->m_position.y;
       toward.Normalize();
-      Coord2D displacement;
-      displacement.x=unit->m_position.x-candidate.x; displacement.y=unit->m_position.y-candidate.y;
-      Coord2D perpendicular;
-      perpendicular.x=displacement.y; perpendicular.y=-displacement.x;
+      Coord2D perpendicular,left,right;
+      left.x=right.x=unit->m_position.x-candidate.x;
+      left.y=right.y=unit->m_position.y-candidate.y;
+      perpendicular.x=left.y; perpendicular.y=-left.x;
       perpendicular.Normalize();
       float radius=other->radius; perpendicular.x*=radius; perpendicular.y*=radius;
-      Coord2D left;
-      left.x=displacement.x+perpendicular.x; left.y=displacement.y+perpendicular.y;
+      left+=perpendicular;
       left.Normalize();
-      displacement.x-=perpendicular.x; displacement.y-=perpendicular.y;
-      displacement.Normalize();
-      if(left.x*toward.x+left.y*toward.y<data->alignment && displacement.x*toward.x+displacement.y*toward.y<data->alignment) continue;
+      right-=perpendicular;
+      right.Normalize();
+      if(toward.x*left.x+toward.y*left.y<data->alignment && toward.x*right.x+toward.y*right.y<data->alignment) continue;
      }
      Object *destination=other?other:victim;
      score-=sqrt(unit->rva002636F6(&candidate,destination,&destination->m_position));
@@ -284,6 +287,7 @@ void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
      if(score>bestScore) { bestScore=score; best=candidate; bestCell=cell; }
     }
    }
+  }
    if(bestScore<1.0f && outside) {
     for(int i=-1;i<=1;++i) {
      for(int j=-1;j<=1;++j) {
@@ -306,11 +310,10 @@ void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
     unit->rva0028ACEE((int)&best,amoebaLeader(held)->rva0028B511());
     continue;
    }
-  }
   Object *fallback=Rva0058723D(unit,0);
   if(fallback) {
    if(entry.arrived) { entry.arrived=false; entry.groupValue=data->groupValue; ((Rva001E42F2 *)unit)->rva001E42F2(data->mask); }
-   unit->rva0028CDB6(); entry.timer=0; entry.needsPosition=true; AttackUnit(unit,fallback);
+   unit->rva0028CDB6(); entry.needsPosition=true; entry.timer=0; AttackUnit(unit,fallback);
   } else entry.rva005872CF(current);
  }
 }
