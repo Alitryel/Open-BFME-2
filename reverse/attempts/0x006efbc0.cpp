@@ -1,4 +1,6 @@
 // ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
+// partial score=0.7895675820112724 date=2026-10-20
+// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
 // partial score=0.7893 date=2026-10-17
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.7892620310435328 date=2026-10-14
@@ -35,6 +37,7 @@ public:
  EAStringC &MakeLower();
 };
 class AptCIH;
+class Rva006DBB30SarDwordField {public:int get() const;};
 class AptValue {
 public:
  bool isCIH(bool)const; AptCIH *c_cih(bool);
@@ -43,7 +46,7 @@ public:
  void toString(EAStringC&)const;void SetString(const char*);
 };
 class BfmeAptValue006DCD20 {
-public:virtual void AddRef();unsigned flags;bool rva006E02B0()const; void *rva006E0F40()const;bool isCharacterInst()const;void setGCRootCount(unsigned);
+public:BfmeAptValue006DCD20 *rva006DCF60(bool); bool isCIH(bool) const; bool isUndefined() const; virtual void AddRef();unsigned flags;int rva006E02B0()const; void *rva006E0F40()const;int isCharacterInst()const;void setGCRootCount(unsigned);
 };
 class AptString:public AptValue {
 public:static AptString *Create();
@@ -64,15 +67,17 @@ public:
  void SetEventHandler(int); void RemoveEventHandler(int);
  bool rva006E1F90(int);
 };
+static __forceinline AptCIH *lookupCheckedCIH(AptValue *v,bool b){return (AptCIH*)((BfmeAptValue006DCD20*)v)->rva006DCF60(b);}
+
 static __forceinline bool isText(AptCIH *cih){
  if(!cih)aptAssert("this",CIH_FILE,0xC4);
  const AptValue *v=(const AptValue*)cih;
- return v->getVtblIndex()==15 && !v->isUndefined();
+ return ((const Rva006DBB30SarDwordField*)v)->get()==15 && !((const BfmeAptValue006DCD20*)v)->isUndefined();
 }
 static __forceinline bool isButton(AptCIH *cih){
  if(!cih)aptAssert("this",CIH_FILE,0xB5);
  const AptValue *v=(const AptValue*)cih;
- return v->getVtblIndex()==14 && !v->isUndefined();
+ return ((const Rva006DBB30SarDwordField*)v)->get()==14 && !((const BfmeAptValue006DCD20*)v)->isUndefined();
 }
 class Rva006EBFF0 {public:void rva006EBE60(AptValue*);void rva006EBFF0(AptValue*);};
 class Rva006E1260 {public:void call(void*);};
@@ -161,38 +166,38 @@ AptValue *Rva006EC3E0LoadMovie(AptValue *self,int nParams);
 AptValue *Rva006EC590UnloadMovie(AptValue *self,int nParams);
 BfmeAptValue006DCD20 *rva006ec670(BfmeAptValue006DCD20 *pValue, int nParams);
 AptValue *Rva006EC6F0Depth(AptValue *context,int unusedArgumentCount);
-void __cdecl lookupCallback006EC730(); // measured callback RVA0x006EC730; signature pending
+AptValue *__cdecl Rva006EC730GetBounds(AptValue *,int);
 AptValue *__cdecl Rva006EC900StartDrag(AptValue *self,int count);
 AptValue *__cdecl Rva006ECA70PointHitTest(void *self,int count);
 AptValue *Rva006ECC20LoadVariables(AptValue *self,int count);
-void __cdecl lookupCallback006ECCB0(); // measured callback RVA0x006ECCB0; signature pending
+AptValue *__cdecl Rva006ECCB0LocalToGlobal(AptValue *,int);
 AptValue *aptHelperClearFlag008AE450(void *entry, int count);
 AptValue *aptHelperSetFlag008AE470(void *entry, int count);
-void __cdecl lookupCallback006ED580(); // measured callback RVA0x006ED580; signature pending
+AptValue *__cdecl Rva006ED580AttachMovie(AptValue *,int);
 AptValue *Rva006ED770RemoveMovieClip(AptValue *self,int);
-void __cdecl lookupCallback006ED810(); // measured callback RVA0x006ED810; signature pending
-void __cdecl lookupCallback006EDBD0(); // measured callback RVA0x006EDBD0; signature pending
+AptValue *__cdecl Rva006ED810CreateTextField(AptValue *,int);
+AptValue *__cdecl Rva006EDBD0SwapDepths(AptValue *,int);
 AptValue *Rva006EDF20SwapDepths(AptValue *self,int count);
-void __cdecl lookupCallback006EDFF0(); // measured callback RVA0x006EDFF0; signature pending
+AptValue *__cdecl Rva006EDFF0CreateEmptyMovieClip(AptValue *,int);
 AptValue *rva006ee1b0(BfmeAptValue006DCD20 *entry);
 AptValue *rva006ee210(BfmeAptValue006DCD20 *entry);
 AptValue *rva006ee270(BfmeAptValue006DCD20 *entry);
 AptValue *rva006ee310(BfmeAptValue006DCD20 *entry);
 AptValue *__cdecl rva006ee3b0(AptValue *value);
 AptValue *__cdecl rva006ee540(AptValue *value);
-void __cdecl lookupCallback006EF570(); // measured callback RVA0x006EF570; signature pending
-void __cdecl lookupCallback006EF6D0(); // measured callback RVA0x006EF6D0; signature pending
-void __cdecl lookupCallback006EF920(); // measured callback RVA0x006EF920; signature pending
+AptValue *__cdecl Rva006EF570ApplyTextFormat(AptValue *,int);
+AptValue *__cdecl Rva006EF6D0TextFormat(AptValue *,int);
+AptValue *__cdecl Rva006EF920TextFormat(AptValue *,int);
 
 static __forceinline void refreshText(AptValue *context,TextInstance *text){
- if(text->dirty&4){AptCIH *parent=context->c_cih(false)->parent;((Rva006E1260*)context->c_cih(false))->call(parent);}
+ if(text->dirty&4){AptCIH *parent=lookupCheckedCIH(context,false)->parent;((Rva006E1260*)lookupCheckedCIH(context,false))->call(parent);}
 }
 static __forceinline AptValue *makeLookupString(const EAStringC &s){AptString *v=AptString::Create();v->value()=s;return v;}
 AptValue *__cdecl Rva006EFBC0ObjectMemberLookup(AptValue *context,const EAStringC *name){
 
  float number;
 
- AptCIH *initial=context->c_cih(false);
+ AptCIH *initial=lookupCheckedCIH(context,false);
 
  if(isText(initial)){
 
@@ -229,7 +234,7 @@ return v;
 
    case 5:return AptInteger::Create(text->borderColor&0xFFFFFF);
 
-   case 7:((Rva006EBFF0*)text)->rva006EBFF0((AptValue*)context->c_cih(false));
+   case 7:((Rva006EBFF0*)text)->rva006EBFF0((AptValue*)lookupCheckedCIH(context,false));
 return AptInteger::Create(text->text.rva006D3750());
 
    case 8:return gpUndefinedValue;
@@ -242,7 +247,7 @@ return AptInteger::Create(text->maxScroll);
    case 11:refreshText(context,text);
 return AptInteger::Create((text->scroll ? text->scroll : text->scroll));
 
-   case 12:((Rva006EBFF0*)text)->rva006EBFF0((AptValue*)context->c_cih(false));
+   case 12:((Rva006EBFF0*)text)->rva006EBFF0((AptValue*)lookupCheckedCIH(context,false));
 return makeLookupString(text->text);
 
    case 13:return AptInteger::Create(text->textColor&0xFFFFFF);
@@ -267,7 +272,7 @@ return gpUndefinedValue;
    case 19:{
 refreshText(context,text);
 Rect r;
-context->c_cih(false)->rva006E1DD0(&r);
+lookupCheckedCIH(context,false)->rva006E1DD0(&r);
 float n=r.bottom-r.top;
 _ReadWriteBarrier();
 if(n<0)n=0;
@@ -277,7 +282,7 @@ return Rva008A4EA0MakeFloat(n);
    case 20:{
 refreshText(context,text);
 Rect r;
-context->c_cih(false)->rva006E1DD0(&r);
+lookupCheckedCIH(context,false)->rva006E1DD0(&r);
 float n=r.right-r.left;
 if(n<0)n=0;
 return Rva008A4EA0MakeFloat(n);
@@ -291,20 +296,20 @@ return Rva008A4EA0MakeFloat(n);
 
  }
 
- const R4Word *word=context && context->isCIH(false)?Rva008D48F0(name->rva00620090(),name->rva006D3750()):0;
+ const R4Word *word=context && ((BfmeAptValue006DCD20*)context)->isCIH(false)?Rva008D48F0(name->rva00620090(),name->rva006D3750()):0;
 
  if(!word)return 0;
 
- AptCIH *cih=context->c_cih(false);
+ AptCIH *cih=lookupCheckedCIH(context,false);
 
- if(!cih->IsCharacterInst())aptAssert("isCharacterInst()",CIH_FILE,0xA5);
+ if(!(unsigned char)((BfmeAptValue006DCD20*)cih)->isCharacterInst())aptAssert("isCharacterInst()",CIH_FILE,0xA5);
 
  CharacterInstance *inst=(CharacterInstance*)cih->instance;
 
  switch(word->id){
 
  case 1:{
-if(((BfmeAptValue006DCD20*)cih)->rva006E02B0()){
+if((unsigned char)((BfmeAptValue006DCD20*)cih)->rva006E02B0()){
 TextInstance *text=(TextInstance*)((BfmeAptValue006DCD20*)cih)->rva006E0F40();
 if(text->autoSize!=3 && text->autoSize!=0 && text->dirty&4)((Rva006E1260*)cih)->call(cih->parent);
 }
@@ -429,7 +434,7 @@ g_Va00E18198=(Acac0Releaseable*)new Rva006D6500((int)&aptHelperClearFlag008AE450
 return (AptValue*)g_Va00E18198;
 
  case 100:if(!g_Va00E181A0){
-g_Va00E181A0=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006ED580);
+g_Va00E181A0=(Acac0Releaseable*)new Rva006D6500((int)&Rva006ED580AttachMovie);
 ((Rva006D6500*)g_Va00E181A0)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181A0)->AddRef();
 }
@@ -506,7 +511,7 @@ g_Va00E181A8=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EC590UnloadMovie);
 return (AptValue*)g_Va00E181A8;
 
  case 114:if(!g_Va00E181B8){
-g_Va00E181B8=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006ED810);
+g_Va00E181B8=(Acac0Releaseable*)new Rva006D6500((int)&Rva006ED810CreateTextField);
 ((Rva006D6500*)g_Va00E181B8)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181B8)->AddRef();
 }
@@ -527,21 +532,21 @@ g_Va00E181BC=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EC6F0Depth);
 return (AptValue*)g_Va00E181BC;
 
  case 117:if(!g_Va00E181C8){
-g_Va00E181C8=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006EC730);
+g_Va00E181C8=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EC730GetBounds);
 ((Rva006D6500*)g_Va00E181C8)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181C8)->AddRef();
 }
 return (AptValue*)g_Va00E181C8;
 
  case 116:if(!g_Va00E181D4){
-g_Va00E181D4=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006EDFF0);
+g_Va00E181D4=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EDFF0CreateEmptyMovieClip);
 ((Rva006D6500*)g_Va00E181D4)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181D4)->AddRef();
 }
 return (AptValue*)g_Va00E181D4;
 
  case 120:if(!g_Va00E181C0){
-g_Va00E181C0=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006EDBD0);
+g_Va00E181C0=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EDBD0SwapDepths);
 ((Rva006D6500*)g_Va00E181C0)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181C0)->AddRef();
 }
@@ -555,7 +560,7 @@ g_Va00E181C4=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EDF20SwapDepths);
 return (AptValue*)g_Va00E181C4;
 
  case 127:if(!g_Va00E18200){
-g_Va00E18200=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006ECCB0);
+g_Va00E18200=(Acac0Releaseable*)new Rva006D6500((int)&Rva006ECCB0LocalToGlobal);
 ((Rva006D6500*)g_Va00E18200)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E18200)->AddRef();
 }
@@ -566,27 +571,27 @@ return (AptValue*)g_Va00E18200;
  case 16:{
 AptString *v=AptString::Create();
 EAStringC s;
-rva006ffce0((AptValue*)context->c_cih(false),s);
+rva006ffce0((AptValue*)lookupCheckedCIH(context,false),s);
 v->SetString(s.rva00620090());
 return v;
 }
 
  case 124:if(!g_Va00E181FC){
-g_Va00E181FC=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006EF920);
+g_Va00E181FC=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EF920TextFormat);
 ((Rva006D6500*)g_Va00E181FC)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181FC)->AddRef();
 }
 return (AptValue*)g_Va00E181FC;
 
  case 123:if(!g_Va00E181F8){
-g_Va00E181F8=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006EF6D0);
+g_Va00E181F8=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EF6D0TextFormat);
 ((Rva006D6500*)g_Va00E181F8)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181F8)->AddRef();
 }
 return (AptValue*)g_Va00E181F8;
 
  case 125:if(!g_Va00E181F4){
-g_Va00E181F4=(Acac0Releaseable*)new Rva006D6500((int)&lookupCallback006EF570);
+g_Va00E181F4=(Acac0Releaseable*)new Rva006D6500((int)&Rva006EF570ApplyTextFormat);
 ((Rva006D6500*)g_Va00E181F4)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181F4)->AddRef();
 }
@@ -600,4 +605,3 @@ return (AptValue*)g_Va00E181F4;
 return Rva008A4EA0MakeFloat(number);
 
 }
-
