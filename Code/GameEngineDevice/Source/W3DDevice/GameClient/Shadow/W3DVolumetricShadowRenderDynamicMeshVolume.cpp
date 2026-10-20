@@ -227,6 +227,7 @@ public:
 class Matrix3D
 {
 public:
+	static const Matrix3D Identity;
 	const Vector4 &operator[](int i) const { return Row[i]; }
 	Vector3 Get_Translation() const { return Vector3(Row[0].W, Row[1].W, Row[2].W); }
 protected:
@@ -530,9 +531,9 @@ public:
 
 class TCBSpline3DClass {public:class TCBClass;};
 template<class T>class DynamicVectorClass {public:virtual bool Resize(int,const T*);Vector3 *vector;int capacity;};
-extern DynamicVectorClass<TCBSpline3DClass::TCBClass> g_Va00DEBE0C;
-extern FrustumClass g_Va00DEBD00;
-extern const Matrix3D Rva00DDD9D0Identity;
+extern DynamicVectorClass<TCBSpline3DClass::TCBClass> g_00DEBE0C;
+extern FrustumClass shadowCameraFrustum;
+// Matrix3D::Identity is the first of matrix3d.cpp's ten static matrices.
 struct MeshRecord{char pad00[8];Vector3*verts;int index;int dirty;int pad14;int count;char pad1C[0x14];bool deformed;char tail[3];};
 struct W3DShadowGeometry{char pad00[0x14];MeshRecord meshes[160];int count;};
 struct W3DRenderTask {W3DRenderTask*next;char data[8];};
@@ -712,13 +713,13 @@ void W3DVolumetricShadow::updateVolumes(float zoffset)
                 const Matrix3D *meshXform = &mesh->transform;
                 float extraZ = 0;
                 if (info->deformed && mesh->Class_ID() == 0) {
-                    if (g_Va00DEBE0C.capacity < info->count)
-                        g_Va00DEBE0C.DynamicVectorClass<TCBSpline3DClass::TCBClass>::Resize(info->count, 0);
-                    mesh->Get_Mesh()->Get_Deformed_Vertices(g_Va00DEBE0C.vector);
-                    Vector3 *vertices = g_Va00DEBE0C.vector;
+                    if (g_00DEBE0C.capacity < info->count)
+                        g_00DEBE0C.DynamicVectorClass<TCBSpline3DClass::TCBClass>::Resize(info->count, 0);
+                    mesh->Get_Mesh()->Get_Deformed_Vertices(g_00DEBE0C.vector);
+                    Vector3 *vertices = g_00DEBE0C.vector;
                     info->dirty = 0;
                     info->verts = vertices;
-                    meshXform = &Rva00DDD9D0Identity;
+                    meshXform = &Matrix3D::Identity;
                     extraZ = 100.0f;
                 }
                 //Extend floor of model by 'zoffset' to compensate for flying units.
@@ -739,7 +740,7 @@ void W3DVolumetricShadow::updateVolumes(float zoffset)
                             sphere.Center.X = t.X + sphere.Center.X;
                             sphere.Center.Y = t.Y + sphere.Center.Y;
                             sphere.Center.Z = t.Z + sphere.Center.Z;
-                            CollisionMath::OverlapType result = CollisionMath::Overlap_Test(g_Va00DEBD00, sphere);
+                            CollisionMath::OverlapType result = CollisionMath::Overlap_Test(shadowCameraFrustum, sphere);
                             if (result == 8) {
                                 //do a more accurate test against bounding box.
                                 // Reconstruct the scratch box through its folded copy constructor.
@@ -749,7 +750,7 @@ void W3DVolumetricShadow::updateVolumes(float zoffset)
                                 aaBox.Center.X = t.X + aaBox.Center.X;
                                 aaBox.Center.Y = t.Y + aaBox.Center.Y;
                                 aaBox.Center.Z = t.Z + aaBox.Center.Z;
-                                if (CollisionMath::Overlap_Test(g_Va00DEBD00, aaBox) != 1)
+                                if (CollisionMath::Overlap_Test(shadowCameraFrustum, aaBox) != 1)
                                     volume(i * 160 + currentIndex)->state = 2;
                                 else
                                     volume(i * 160 + currentIndex)->state = 1;
