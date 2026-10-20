@@ -84,9 +84,12 @@ class GameLogic
 
 public:
 	void setBuildableStatusOverride(const ThingTemplate *tt, BuildableStatus bs);
+	void instantiateBuildableOverrideIndex(const ThingTemplate *tt, BuildableStatus bs);
 };
 
-void GameLogic::setBuildableStatusOverride(const ThingTemplate *tt, BuildableStatus bs)
+// setBuildableStatusOverride itself is rowed in GameLogicSetBuildableStatusOverride.cpp; this unit
+// keeps the same body under a local name only to instantiate the hash_map operator[] it owns.
+void GameLogic::instantiateBuildableOverrideIndex(const ThingTemplate *tt, BuildableStatus bs)
 {
 	if (tt)
 		m_thingTemplateBuildableOverrides[*reinterpret_cast<const AsciiString *>(
