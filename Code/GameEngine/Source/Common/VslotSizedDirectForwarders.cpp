@@ -15,10 +15,10 @@ typedef bool Bool;
 typedef float Real;
 typedef unsigned int UnsignedInt;
 
-class Rva0011A040Target
+class Render2DClass
 {
 public:
-	void rva0011A040();
+	void Render();
 };
 
 class Rva000448C4Forwarder
@@ -27,13 +27,13 @@ public:
 	void rva000448C4();
 private:
 	char m_lead[0x168];
-	Rva0011A040Target *m_target;
+	Render2DClass *m_target;
 };
 
-// vtable 0x00BC3C80#64: (+0x168)->rva0011A040
+// vtable 0x00BC3C80#64: (+0x168)->Render (0x0011A040)
 void Rva000448C4Forwarder::rva000448C4()
 {
-	m_target->rva0011A040();
+	m_target->Render();
 }
 
 class Rva00141F90Target

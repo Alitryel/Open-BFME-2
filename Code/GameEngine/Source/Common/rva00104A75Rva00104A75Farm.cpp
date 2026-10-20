@@ -115,6 +115,7 @@ public:
 	int m_state;
 	char m_04[0x48 - 4];
 	bool m_48;
+	void Render();
 };
 
 void Rva001049C7AddTriangle(Render2DClass *renderer,
@@ -126,13 +127,6 @@ class Rva000456C9
 {
 public:
 	void rva000456C9(const RefCountPtr<TextureClass> *texture);
-};
-
-// The renderer's draw, pinned under an address-derived owner.
-class Rva0011A040Target
-{
-public:
-	void rva0011A040();
 };
 
 // The UV rectangle the source carries at +0x14.
@@ -337,5 +331,5 @@ void Rva0010461F::rva00104A75()
 		Rva001049C7AddTriangle(renderer, outer, inner, innerNext, &uv0, &uv1, &uv2);
 		Rva001049C7AddTriangle(renderer, outer, innerNext, outerNext, &uv0, &uv2, &uv3);
 	}
-	((Rva0011A040Target *)renderer)->rva0011A040();
+	renderer->Render();
 }

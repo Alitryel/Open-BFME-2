@@ -41,8 +41,8 @@ extern class Display*TheDisplay;
 class Render2DClass {
 public:unsigned shader;char beforeFlag[0x48-4];bool flag;
  void Add_Line(const Vector2&,const Vector2&,float,unsigned long);
+ void Render();
 };
-class Rva0011A040Target {public:void rva0011A040();};
 // Consuming Display view: native slot17C supplies the Render2D batch. All
 // other slots are intentionally unnamed; the actual Display global keeps
 // its established type and is cast only at this virtual interface.
@@ -173,13 +173,13 @@ void Rva0051E354::rva0051E511(TimelineSeries*series,float step,float lineWidth,u
   if(previous.Y>0.0f) {
    render->Add_Line(previous,next,lineWidth,color);
    if(++pending>1000) {
-    reinterpret_cast<Rva0011A040Target*>(render)->rva0011A040();
+    render->Render();
     pending=0;
    }
   }
   previous=next;
  }
- if(pending>0)reinterpret_cast<Rva0011A040Target*>(render)->rva0011A040();
+ if(pending>0)render->Render();
  render->shader=previousShader;
 }
 
