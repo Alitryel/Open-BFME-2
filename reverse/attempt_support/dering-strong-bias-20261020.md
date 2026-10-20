@@ -66,3 +66,49 @@ The horizontal family (+1) already matched.
 
 Scratch tooling, untracked: `build/c1c1ad0/variants.py` (factories mk, mkbias,
 mkc, mkd), `gen2.py`, `score.py`. The bank is `mkd(0,0,0,-1, wd=1, wu=1)`.
+
+## Follow-up: the handoff's untried items (2026-10-20, later round)
+
+All three are now disproven. The bank is unchanged.
+
+- **Pixel 0 alone through `p`.** Seven forms, with every other pixel kept on
+  the biased cursors:
+  - `p[pitch]`/`p[-pitch]`, `(p + pitch)[0]`/`(p - pitch)[0]` and
+    `(p - pitch)[2 * pitch]`: 0.669;
+  - below only (`p[pitch]`): 0.813;
+  - above only (`p[-pitch]`): 0.679;
+  - `above[r * pitch + 2 * pitch]` for below: 0.831;
+  - pixels 0 and 1 both: 0.626.
+- **Left pixel through its own pointer.** Six forms: `pl = source - 1 + r * pitch`
+  with centre and right on `p` (0.8394), on `q = source + 1 + r * pitch` (0.599,
+  2002 B), or indexed on `source` (0.833). With `q` alone, any left spelling
+  gives 0.599.
+- **Permute from the bank.** 1226 trials. Fitness went from 0.802 to 0.825
+  (bytes 0.850, frame 0x178), but every gain came from semantics-breaking
+  mutations: an `unsigned` value or weights in pixels 1, 3 and 6, which make
+  the clamp-to-0 dead and the shift logical, and `above[r * up * pitch + 2]`.
+  With those reverted the best scores 0.834.
+
+One structural observation for the next round. With hand-unrolled stores and
+`destination` unbiased, ours addresses pixels 0, 2, 4, 6 and 7 through the dest
+cursor (+4) and pixels 1, 3 and 5 relative to another family's cursor. Retail
+has the same alternation shifted one pixel earlier: relative at 0, 2 and 4.
+The below and above families shift the same way: retail's pixel 0 reads both
+relative to the source cursor, while ours first does that at pixel 1. Retail's
+extra frame dword is the pixel-0 spill at `[esp+0x28]`. So the +1 anchor
+offset and the 0x174 frame are one symptom. Whatever moves the first relative
+reference to pixel 0 should fix both.
+
+The retail tail shows how a reference is chosen to go relative. Store k goes
+through another family's cursor exactly when that cursor's constant is k:
+
+- store 0 is `[ebx+ecx]`, using the source cursor at +0;
+- store 2 is `[ebx+edi]`, using the below cursor at +2;
+- store 4 is `[ebx+ebp]`, using the above cursor at +4;
+- the other stores use the dest cursor at +3.
+
+Ours does the same with constants 1, 3, 4 and 5. So only the four anchor
+constants need to move, and they move together. That points at the shared
+integer index temps (`r * pitch + k`, used by below, above and the unrolled
+store loop) rather than at each pointer family separately.
+
