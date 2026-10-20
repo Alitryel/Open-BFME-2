@@ -12,6 +12,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva001504A1Record@@@_STL@@YAXPAURva001504A1Record@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001504A1Record;
+namespace _STL { template <> void _Destroy<Rva001504A1Record *>(Rva001504A1Record *,Rva001504A1Record *); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@URva001504A1Record@@@_STL@@QBEXPAURva001504A1Record@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001504A1Record;
