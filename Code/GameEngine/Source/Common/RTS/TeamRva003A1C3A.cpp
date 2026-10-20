@@ -1,8 +1,8 @@
 // cl: /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva003A1C3A@Team@@QAEX_N@Z @0x003A1C3A (224B).
-// Team::rva003A1C3A(bool): builds a local list<int> of filtered member
+// ?evacuateTeam@Team@@QAEX_N@Z @0x003A1C3A (224B).
+// Team::evacuateTeam(bool): builds a local list<int> of filtered member
 // Objects then notifies each entry's +0x250 target. Retail filters are
 // Object+0x94 bit0, Object+0x438 bit0, null +0x250, flag-gated virtual +8,
 // virtual +0x114 returning 0 to skip, then list<int> insert via rowed
@@ -153,14 +153,14 @@ public:
 	Player *getControllingPlayer() const;
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
 	void deleteTeam(bool ignoreDead);
-	void rva003A1C3A(bool flag);
+	void evacuateTeam(bool flag);
 };
 
 // Team::deleteTeam, retail 0x003A10FE (259 bytes), ported from Zero Hour's
 // GameEngine/Source/Common/RTS/Team.cpp. Target evidence: the controlling
 // player's default team is Player +0x2EC; the evacuation list calls the
 // rowed list<int> base ctor/insert/base dtor (0x004EC36C, 0x005925E2,
-// 0x004EC395), so the members are held as ints exactly as rva003A1C3A
+// 0x004EC395), so the members are held as ints exactly as evacuateTeam
 // does; getContain is Object +0x250 with getContainCount at vslot +0x114
 // and removeAllContained at +0xA8; isEffectivelyDead is Object +0x438 bit 0;
 // TheGameLogic->destroyObject is the rowed 0x00242C09.
@@ -196,7 +196,7 @@ void Team::deleteTeam(bool ignoreDead)
 	}
 }
 
-void Team::rva003A1C3A(bool flag)
+void Team::evacuateTeam(bool flag)
 {
 	_STL::list<int> tmp;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {

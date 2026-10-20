@@ -107,7 +107,7 @@ class Team : public MemoryPoolObject, public Snapshot
 public:
 	Team *dlink_next_TeamInstanceList() const;
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
-	void rva003A1C3A(bool flag);
+	void evacuateTeam(bool flag);
 };
 
 class TeamPrototype
@@ -333,7 +333,7 @@ void Player::transferAssetsFromThat(Player *that, Bool flag)
 			Team *team = iter.cur();
 			if (!team)
 				continue;
-			team->rva003A1C3A(true);
+			team->evacuateTeam(true);
 			for (DLINK_ITERATOR<Object> iterObj = team->iterate_TeamMemberList(); !iterObj.done(); iterObj.advance())
 			{
 				const Object *obj = iterObj.cur();

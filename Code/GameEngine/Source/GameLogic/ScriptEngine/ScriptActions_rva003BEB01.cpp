@@ -34,7 +34,7 @@ class Team
 {
 public:
 	void getTeamAsAIGroup(AIGroup *group);
-	int rva0039DC9E(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
+	int countObjects(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
 };
 
 class BfmeC986
@@ -96,7 +96,7 @@ void ScriptActions::Rva003BEB01Do(const AsciiString *teamName, void *posSrc)
 		return;
 	team->getTeamAsAIGroup(group);
 	BitFlags<116> *flagSets = &KINDOFMASK_NONE;
-	int count = team->rva0039DC9E(*flagSets, *flagSets);
+	int count = team->countObjects(*flagSets, *flagSets);
 	void *base = TheTerrainLogic->s34(posSrc);
 	if (base == 0)
 		return;

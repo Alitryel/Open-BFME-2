@@ -75,7 +75,7 @@ public:
 	Bool rva0039EDE1(Bool flag);
 	Bool rva0039EE21(Rva0039DDC2Filter filter, Bool flag);
 	Bool rva0039EE70(BfmeTab1026 *tab, Bool flag);
-	Bool rva0039EEB4();
+	Bool hasAnyUnits();
 	Bool rva0039EEEE(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
 	Bool rva0039EF46(BfmeTab1026 *tab);
 	Bool hasAnyObjects(Bool flag);
@@ -193,7 +193,7 @@ Bool Player::rva002AB312() const
 {
 	for (PlayerTeamNode *it = m_playerTeamPrototypes->m_next; it != m_playerTeamPrototypes; it = it->m_next)
 	{
-		if (it->m_value->rva0039EEB4())
+		if (it->m_value->hasAnyUnits())
 			return true;
 	}
 	return false;

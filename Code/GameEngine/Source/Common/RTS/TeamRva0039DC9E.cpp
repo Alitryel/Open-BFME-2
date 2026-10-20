@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
-// ?rva0039DC9E@Team@@QBEHV?$BitFlags@$0HE@@@0@Z @0x0039DC9E 75B.
-// Team::rva0039DC9E(): counts members whose template flags pass testSetAndClear.
+// ?countObjects@Team@@QBEHV?$BitFlags@$0HE@@@0@Z @0x0039DC9E 75B.
+// Team::countObjects(): counts members whose template flags pass testSetAndClear.
 // Evidence: callees rowed 0x00263864 0x0030A146 0x00263526; callers at 0x0039ED4B 0x003BEA80 0x003BEB6F 0x003BEC42 0x004ED617; same 24-byte iterator as siblings.
 template <int N>
 class BitFlags
@@ -42,10 +42,10 @@ class Team
 {
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
-	int rva0039DC9E(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
+	int countObjects(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
 };
 
-int Team::rva0039DC9E(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const
+int Team::countObjects(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const
 {
 	int count = 0;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {

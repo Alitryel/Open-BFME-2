@@ -5,7 +5,7 @@
 // result address in EAX. Callers may consume it directly or ignore it; this
 // reconciles the former void-output and aggregate-return declarations. Walks via rowed iterate_TeamMemberList 0x263864 + DLINK advance pin 0x263526 (pin 5911),
 // skips Object+0x438 bit0 dead + Object+0x94 bit0 status (TeamHasAnyObjects precedent), sums Object+0x38/0x3C/0x40 Coord3D,
-// divides by count via the 1.0f literal at 0xBBB8D8. Neighbours rva0039D9E3/rva0039DC63 share /O1 flags + 24B iterator.
+// divides by count via the 1.0f literal at 0xBBB8D8. Neighbours rva0039D9E3/countBuildings share /O1 flags + 24B iterator.
 // Near miss: X accumulation operand order (retail movss sum/addss pos vs ours movss pos/addss sum, 2 insns) + global reloc;
 // Y/Z, frame, dec-chain-free SSE arithmetic, empty/average shared write tail (ox=x oz=z oy=y order) all exact.
 

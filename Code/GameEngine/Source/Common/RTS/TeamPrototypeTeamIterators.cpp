@@ -87,8 +87,8 @@ public:
 	// 0x005C4AF5 (4 B) reads the link's next pointer at +0x40, the slot the
 	// DLINK_ITERATOR below calls through.
 	Team *dlink_next_TeamInstanceList() const { return m_dlink_TeamInstanceList.m_next; }
-	Int rva0039DC63() const;
-	Int rva0039DC9E(KindOfMaskType setMask, KindOfMaskType clearMask) const;
+	Int countBuildings() const;
+	Int countObjects(KindOfMaskType setMask, KindOfMaskType clearMask) const;
 	void healAllObjects();
 	Int rva0039DD12(ObjectIterateFunc func, void *userData) const;
 	Bool rva0039DD4B(Bool flag);
@@ -128,7 +128,7 @@ public:
 	Bool rva0039EDE1(Bool flag);
 	Bool rva0039EE21(Rva0039DDC2Filter filter, Bool flag);
 	Bool rva0039EE70(BfmeTab1026 *tab, Bool flag);
-	Bool rva0039EEB4();
+	Bool hasAnyUnits();
 	Bool rva0039EEEE(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
 	Bool rva0039EF46(BfmeTab1026 *tab);
 	Bool hasAnyObjects(Bool flag);
@@ -150,7 +150,7 @@ Int TeamPrototype::countBuildings()
 {
 	Int retVal = 0;
 	for (DLINK_ITERATOR<Team> iter = iterate_TeamInstanceList(); !iter.done(); iter.advance())
-		retVal += iter.cur()->rva0039DC63();
+		retVal += iter.cur()->countBuildings();
 	return retVal;
 }
 
@@ -158,7 +158,7 @@ Int TeamPrototype::countObjects(KindOfMaskType setMask, KindOfMaskType clearMask
 {
 	Int retVal = 0;
 	for (DLINK_ITERATOR<Team> iter = iterate_TeamInstanceList(); !iter.done(); iter.advance())
-		retVal += iter.cur()->rva0039DC9E(setMask, clearMask);
+		retVal += iter.cur()->countObjects(setMask, clearMask);
 	return retVal;
 }
 
@@ -208,7 +208,7 @@ Bool TeamPrototype::rva0039EE70(BfmeTab1026 *tab, Bool flag)
 	return false;
 }
 
-Bool TeamPrototype::rva0039EEB4()
+Bool TeamPrototype::hasAnyUnits()
 {
 	for (DLINK_ITERATOR<Team> iter = iterate_TeamInstanceList(); !iter.done(); iter.advance())
 	{

@@ -180,7 +180,7 @@ class Team
 public:
 	void disband(); // 0x0039E9E0
     void getTeamAsAIGroup(AIGroup *);
-    int rva0039DC9E(BitFlags<116>, BitFlags<116>) const;
+    int countObjects(BitFlags<116>, BitFlags<116>) const;
 	unsigned char m_pad00[0x30];
     TeamPrototype *m_prototype;
     unsigned int m_teamID;
@@ -629,7 +629,7 @@ bool AITactic::sendTeamToAssistAnotherHorde(Team *team)
         if (selected) {
             AIGroup *group = TheAI->createGroup();
             team->getTeamAsAIGroup(group);
-            int members = team->rva0039DC9E(KINDOFMASK_NONE, KINDOFMASK_NONE);
+            int members = team->countObjects(KINDOFMASK_NONE, KINDOFMASK_NONE);
             if (members > 1) {
                 Object *victim = selected->rva0028ACA0();
                 ((BfmeC986 *)group)->groupGatherAndAttackInFormationToPosition((int)&victim->position, 0, 0, 1);

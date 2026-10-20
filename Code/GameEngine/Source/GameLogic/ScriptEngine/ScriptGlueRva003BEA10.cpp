@@ -8,7 +8,7 @@
 // site), resolves the team through rowed getTeamNamed 0x003584E9, creates a
 // group through rowed AI::createGroup 0x002FEC4B, fills it through rowed
 // Team::getTeamAsAIGroup 0x003A0F62, counts members through rowed
-// Team::rva0039DC9E 0x0039DC9E with two flag copies off the 0x00DFEFA4
+// Team::countObjects 0x0039DC9E with two flag copies off the 0x00DFEFA4
 // global, reads a position block through the TerrainLogic slot-0x88 idiom
 // (result +0xC is the Coord3D, same as landed 0x003BD116), then either fires
 // the pinned AIGroup 0x00372C22 member with (coord, 1, 0, 1) when the count
@@ -36,7 +36,7 @@ class Team
 {
 public:
 	void getTeamAsAIGroup(AIGroup *group);
-	int rva0039DC9E(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
+	int countObjects(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
 };
 
 struct Rva00372571Params
@@ -105,7 +105,7 @@ void ScriptActions::Rva003BEA10Do(const AsciiString *teamName, void *posSrc)
 		return;
 	team->getTeamAsAIGroup(group);
 	BitFlags<116> *flagSets = &g_00DFEFA4;
-	int count = team->rva0039DC9E(*flagSets, *flagSets);
+	int count = team->countObjects(*flagSets, *flagSets);
 	void *base = TheTerrainLogic->s34(posSrc);
 	if (base == 0)
 		return;

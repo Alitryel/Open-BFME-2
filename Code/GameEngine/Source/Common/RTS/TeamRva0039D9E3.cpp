@@ -54,7 +54,7 @@ class Team
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
 	int rva0039D9E3() const;
-	int rva0039DC63() const;
+	int countBuildings() const;
 	bool rva0039DAF4() const;
 };
 
@@ -77,13 +77,13 @@ int Team::rva0039D9E3() const
 	return count;
 }
 
-// ?rva0039DC63@Team@@QBEHXZ @0x0039DC63 (59B).
-// Team::rva0039DC63(): counts members whose template is present and whose
+// ?countBuildings@Team@@QBEHXZ @0x0039DC63 (59B).
+// Team::countBuildings(): counts members whose template is present and whose
 // template kind0 has bit 0x80. Retail walks via the rowed
 // iterate_TeamMemberList at 0x263864 and advance at 0x263526, with the same
 // 24-byte iterator and +0x04/+0x108 layout as the rva0039D9E3 sibling above.
 // Caller at 0x0039ECF4.
-int Team::rva0039DC63() const
+int Team::countBuildings() const
 {
 	int count = 0;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {

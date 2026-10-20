@@ -3,7 +3,7 @@
 // ?killTeam@Team@@QAEXXZ @0x003A1D1A 587B.
 // Identity: Zero Hour Team.cpp Team::killTeam (donor for flow, list names and
 // the kill / neutral / release split); the one call into the rowed
-// Team::rva003A1C3A (0x003A1C3A) with false matches deleteTeam's sibling.
+// Team::evacuateTeam (0x003A1C3A) with false matches deleteTeam's sibling.
 // BFME 2 deltas (target): members equivalent to the player template's beacon
 // (ThingFactory 0x002D06CA on PlayerTemplate +0x17C) are kept even when dead;
 // KindOf 209 members go neutral with Lua event 15 "neutral" and clear
@@ -296,7 +296,7 @@ class Team
 public:
 	Player *getControllingPlayer() const;
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const { return DLINK_ITERATOR<Object>(m_head, &Object::dlink_next_TeamMemberList); }
-	void rva003A1C3A(bool flag);
+	void evacuateTeam(bool flag);
 	void killTeam();
 private:
 	unsigned char m_pad00[0x38];
@@ -309,7 +309,7 @@ void Team::killTeam()
 	_STL::list<int> objectsToRelease;
 	_STL::list<int> objectsToNeutral;
 
-	rva003A1C3A(false);
+	evacuateTeam(false);
 
 	const ThingTemplate *beaconTemplate = TheThingFactory->findTemplate(*(getControllingPlayer()->getPlayerTemplate()->getBeaconTemplate()));
 

@@ -53,7 +53,7 @@ template<class T> class DLINK_ITERATOR;
 class Team : public MemoryPoolObject, public Snapshot {
   public:
     Team *dlink_next_TeamInstanceList() const;
-    void rva003A1C3A(bool);
+    void evacuateTeam(bool);
     void killTeam();
     DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
 };
@@ -160,7 +160,7 @@ void Rva002AB5C7Player::rva002AB44A() {
                 Team *team = iter.cur();
                 if (!team)
                     continue;
-                team->rva003A1C3A(false);
+                team->evacuateTeam(false);
             }
         dead = true;
         for (PlayerTeamNode *it = teams->next; it != teams; it = it->next)

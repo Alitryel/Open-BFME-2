@@ -30,7 +30,7 @@ class Team
 {
 public:
 	void getTeamAsAIGroup(AIGroup *group);
-	int rva0039DC9E(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
+	int countObjects(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const;
 	Coord3D *rva0039E9A1(Coord3D *pos) const;
 };
 
@@ -99,7 +99,7 @@ void ScriptActions::Rva003BEBD6Do(const AsciiString *teamName)
 		return;
 	team->getTeamAsAIGroup(group);
 	BitFlags<116> *flagSets = &g_00DFEFA4;
-	int count = team->rva0039DC9E(*flagSets, *flagSets);
+	int count = team->countObjects(*flagSets, *flagSets);
 	Coord3D pos;
 	team->rva0039E9A1(&pos);
 	if (count > 1) {
