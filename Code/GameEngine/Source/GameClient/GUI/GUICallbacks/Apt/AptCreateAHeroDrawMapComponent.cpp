@@ -209,7 +209,7 @@ UnicodeString Rva00513ED1(const UnicodeString &name)
 	UnicodeString stamp = L" " + Rva002DBFAD(st) + L" " + Rva002DC081(st, 1);
 	result.concat(stamp);
 	int len = result.getLength();
-	_STL::vector<short> buf(len + 1);
+	_STL::vector<unsigned short> buf(len + 1);
 	unsigned short *p = (unsigned short *)&buf[0];
 	memcpy(&buf[0], result.str(), (len + 1) * sizeof(unsigned short));
 	for (; *p; ++p)
