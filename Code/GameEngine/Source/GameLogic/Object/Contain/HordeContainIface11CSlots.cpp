@@ -840,7 +840,13 @@ struct HordeContainModuleDataFields
 	_STL::map<int, int> m_1B8; // +0x1B8
 	unsigned char m_pad1C4[0x1D8 - 0x1C4];
 	bool m_1D8; // +0x1D8
-	unsigned char m_pad1D9[0x1F4 - 0x1D9];
+	unsigned char m_pad1D9[0x1DC - 0x1D9];
+	int m_1DC; // +0x1DC (back-away frames, low)
+	int m_1E0; // +0x1E0 (back-away frames, high)
+	float m_1E4; // +0x1E4 (back-away distance, low)
+	float m_1E8; // +0x1E8 (back-away distance, high)
+	float m_1EC; // +0x1EC (back-away chance)
+	float m_1F0; // +0x1F0 (nonzero: every member backs away)
 	Rva00469851Names m_1F4;
 	unsigned char m_pad200[0x218 - 0x200];
 	Rva00469851Names m_218;
@@ -998,7 +1004,7 @@ public:
 	virtual void gap90() = 0; virtual void gap91() = 0; virtual void rva0046D384(Team *team) = 0; virtual void gap93() = 0;
 	virtual void gap94() = 0; virtual int rva004697CD() = 0; virtual int rva0046D3FC(Rva2225E0Filter *filter) = 0; virtual int rva00468F68() = 0;
 	virtual int rva00468F7E() = 0; virtual Object *rva004708BC(const Matrix3D *mtx) = 0; virtual void gap100() = 0; virtual int slot101(Object *obj) = 0;
-	virtual void gap102() = 0; virtual void gap103() = 0; virtual void gap104() = 0; virtual void gap105() = 0;
+	virtual void gap102() = 0; virtual void backAwaySomeMembersFrom(Object *attacker) = 0; virtual void gap104() = 0; virtual void gap105() = 0;
 	virtual void gap106() = 0; virtual void rva0046D8AE() = 0; virtual void rva0046D7AF(int a1) = 0; virtual void rva0046A78F(const Matrix3D *mtx) = 0;
 	virtual void rva0046A712(int unused) = 0; virtual void rva0046ECDE(const Coord3D *a1, const Coord3D *a2, int a3, PathfindLayerEnum layer) = 0; virtual void gap112() = 0; virtual bool rva0046D80B() = 0;
 	virtual bool rva0046A6C1() = 0; virtual bool rva0046A677() = 0; virtual void gap116() = 0; virtual void rva0046DDC5(int a1, int a2) = 0;
@@ -1174,6 +1180,71 @@ public:
 struct Rva0046E6EAObject; struct Rva0046E6EACoord;
 class Rva0046E6EA { public: bool rva0046E6EA(Rva0046E6EAObject *obj, const Rva0046E6EACoord *pos, Rva0046E6EACoord *out, bool flag); };
 
+// The rowed Coord3D::length (0x00003571) and normalize (0x000035B6), visible and out of line like
+// coord3d.cpp's select-any copies: cl then knows normalize keeps no pointer to the vector it scales.
+__declspec(noinline) inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
+__declspec(noinline) inline void Coord3D::normalize()
+{
+	float len = length();
+	if (len != 0.0f) {
+		float scale = 1.0f / len;
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+}
+// A back-away goal of the +0x1A0 map: ctor 0x00469155, operator= 0x0046916D (a copy goes through it).
+class Rva00469155
+{
+public:
+	Rva00469155();
+	Rva00469155(const Rva00469155 &o) { *this = o; }
+	Rva00469155 &operator=(const Rva00469155 &o);
+	~Rva00469155() {}
+	Coord3D m_pos; // +0x00
+	unsigned int m_value; // +0x0C (a frame count)
+};
+// The map's key/record pair. Its rowed ctor 0x00469BEA (Rva00469BEACtor.cpp) is visible here, select-any,
+// so cl sees that it keeps no pointer to the key.
+class Rva00469BEA
+{
+public:
+	Rva00469BEA(const int &a, const Rva00469155 &b);
+	int m_00;
+	Rva00469155 m_04;
+};
+__declspec(noinline) inline Rva00469BEA::Rva00469BEA(const int &a, const Rva00469155 &b) : m_00(a), m_04(b)
+{
+}
+// The map is viewed through the rowed int-key instantiations, as in HordeContainIdMapGetOrInsert.cpp.
+struct Rva00470205Record { char bytes[1]; };
+typedef _STL::map<int, Rva00470205Record, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00470205Record> > > Rva00470205Map;
+namespace _STL {
+template <> Rva00470205Map::iterator Rva00470205Map::insert(iterator, const value_type &);
+}
+class Rva00473F81 : public Rva00470205Map
+{
+public:
+	Rva00469155 &rva00473F81(const int &key);
+};
+// Select-any copy of the rowed get-or-insert 0x00473F81 (HordeContainIdMapGetOrInsert.cpp): visible, its
+// key temporary's slot is free again after the call.
+__declspec(noinline) inline Rva00469155 &Rva00473F81::rva00473F81(const int &key)
+{
+	_STL::map<int, int>::iterator found = ((_STL::map<int, int> *)this)->lower_bound(key);
+	iterator i = *(iterator *)&found;
+	if (i == end() || key < (*i).first)
+	{
+		const value_type &entry = *(const value_type *)&Rva00469BEA(key, Rva00469155());
+		i = insert(i, entry);
+	}
+	return *(Rva00469155 *)&(*i).second;
+}
+float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
+
 class HordeContain : public TransportContain, public Rva0046BB38Iface11C
 {
 public:
@@ -1195,6 +1266,7 @@ public:
 	virtual void rva0046FE99(_STL::list<Object *> &out);
 	virtual void ClassifyBeforeOnAfterInvalidPortal(_STL::vector<ObjectID> &before, _STL::vector<ObjectID> &on, _STL::vector<ObjectID> &after);
 	virtual bool isFlankedBy(Object *attacker);
+	virtual void backAwaySomeMembersFrom(Object *attacker);
 	virtual void rva004738B6(Object *target);
 	bool rva00468F0F(Object *obj, Object *target);
 	virtual AsciiString rva0046D1AC();
@@ -1337,7 +1409,7 @@ private:
 	bool m_198; // +0x198
 	unsigned char m_pad199[0x19C - 0x199];
 	int m_19C; // +0x19C
-	unsigned char m_pad1A0[0x1AC - 0x1A0];
+	Rva00473F81 m_1A0; // +0x1A0 (back-away goals by member ID)
 	ObjectID m_1AC; // +0x1AC
 	ObjectID m_1B0; // +0x1B0
 	int m_1B4; // +0x1B4
@@ -1366,7 +1438,9 @@ private:
 	int m_29C; // +0x29C
 	int m_2A0; // +0x2A0
 	bool m_2A4; // +0x2A4
-	unsigned char m_pad2A5[0x2B8 - 0x2A5];
+	unsigned char m_pad2A5[0x2B0 - 0x2A5];
+	int m_2B0; // +0x2B0 (the ID of the last attacker backed away from)
+	unsigned char m_pad2B4[0x2B8 - 0x2B4];
 	Coord3D m_2B8; // +0x2B8
 	bool m_2C4; // +0x2C4
 	unsigned char m_pad2C5[0x2C8 - 0x2C5];
@@ -2990,6 +3064,45 @@ void HordeContain::rva004738B6(Object *target)
 		if (ai && ai->rva0047306ESlot110())
 			ai->m_command.rva0026C347(target, CMD_FROM_AI);
 	}
+}
+
+// ?backAwaySomeMembersFrom@HordeContain@@UAEXPAVObject@@@Z @0x004756C9: slot 103 of the +0x11C interface (WB twin
+// 0x010CD770). Unless a chance roll skips it, each member gets a goal 10x a random distance further away.
+void HordeContain::backAwaySomeMembersFrom(Object *attacker)
+{
+	if (!attacker)
+		return;
+	Coord3D attackerPos;
+	attackerPos.set(attacker->getPosition());
+	const _STL::list<Object *> *items = containedItems();
+	const HordeContainModuleDataFields *data = fields();
+	if (!data)
+		return;
+	bool disabled = m_object->testStatus((ObjectStatusTypes)0x45);
+	for (_STL::list<Object *>::const_iterator it = items->begin(); it != items->end(); ++it)
+	{
+		Object *cur = *it;
+		if (!disabled && !cur->testStatus((ObjectStatusTypes)0x45) && data->m_1F0 == 0.0f)
+		{
+			if (GetGameLogicRandomValueReal(0.0f, 1.0f, HORDECONTAIN_SOURCE_FILE, 8016) > data->m_1EC)
+				continue;
+		}
+		float distance = GetGameLogicRandomValueReal(data->m_1E4, data->m_1E8, HORDECONTAIN_SOURCE_FILE, 8021);
+		int frames = GetGameLogicRandomValue(data->m_1DC, data->m_1E0, HORDECONTAIN_SOURCE_FILE, 8022);
+		Rva00469155 &goal = m_1A0.rva00473F81(cur->getID());
+		Coord3D dir;
+		dir.set(cur->getPosition());
+		dir.sub(&attackerPos);
+		dir.normalize();
+		dir.scale(distance * 10.0f);
+		Coord3D pos;
+		pos.set(cur->getPosition());
+		pos.add(&dir);
+		goal.m_pos = pos;
+		goal.m_value = frames;
+	}
+	m_2B0 = attacker->getID();
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }
 
 // ?endMove@HordeContain@@UAEXXZ @0x0046A0B2: slot 154; while our Object's

@@ -47,7 +47,7 @@ public:
 
 // Get-or-insert by key, building the pair in its own statement before the insert call.
 // The pair temporary ends with that statement; its destructors are empty, so insert reads intact storage.
-Rva00469155 &Rva00473F81::rva00473F81(const int &key)
+__declspec(noinline) inline Rva00469155 &Rva00473F81::rva00473F81(const int &key)
 {
 	HordeIntMap::iterator found = ((HordeIntMap *)this)->lower_bound(key);
 	iterator i = *(iterator *)&found;
@@ -58,3 +58,7 @@ Rva00469155 &Rva00473F81::rva00473F81(const int &key)
 	}
 	return *(Rva00469155 *)&(*i).second;
 }
+
+// Select-any: HordeContainIface11CSlots.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00473F81 absent-from-retail
+Rva00469155 &bfmeAnchorRva00473F81(Rva00473F81 *map, const int &key) { return map->rva00473F81(key); }

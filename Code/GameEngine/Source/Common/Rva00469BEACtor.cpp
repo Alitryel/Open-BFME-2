@@ -27,7 +27,7 @@ private:
 	Rva00469155 m_04;
 };
 
-Rva00469BEA::Rva00469BEA(const int &a, const Rva00469155 &b) : m_00(a)
+__declspec(noinline) inline Rva00469BEA::Rva00469BEA(const int &a, const Rva00469155 &b) : m_00(a)
 {
 	m_04 = b;
 }
@@ -36,3 +36,7 @@ Rva00469BEA::Rva00469BEA(const Rva00469BEA &o) : m_00(o.m_00)
 {
 	m_04 = o.m_04;
 }
+
+// Select-any: HordeContainIface11CSlots.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00469BEACtor absent-from-retail
+void bfmeAnchorRva00469BEACtor(Rva00469BEA *p, const int &a, const Rva00469155 &b) { p->Rva00469BEA::Rva00469BEA(a, b); }
