@@ -172,3 +172,17 @@ void TeamTemplateInfo::xfer(Xfer *xfer)
 		((Rva002ABBBE *)&m_1d0)->rva002ABBBE(xfer);
 	}
 }
+
+// Retail 0x0039D599 (16 B): unreferenced out-of-line copy of a file-static
+// bit test (bit index in ECX, mask on the stack under cl's static
+// convention). Callers unidentified; address-derived name.
+static int Rva0039D599TestBit(unsigned int mask, int bit)
+{
+	return (mask & (1 << bit)) != 0;
+}
+
+// ?<Rva0039D599Keep> absent-from-retail
+int Rva0039D599Keep(unsigned int mask, int bit)
+{
+	return Rva0039D599TestBit(mask, bit);
+}

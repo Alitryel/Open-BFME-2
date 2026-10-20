@@ -665,3 +665,18 @@ void AITactic::rva004EDDAA()
             reinterpret_cast<int>(&m_38)) < 0.0f)
         rva004EDA60();
 }
+
+// Retail 0x004ECE0A (10 B): unreferenced out-of-line copy of a file-static
+// equality test of two pointed-to words (first pointer in EAX, second in
+// ECX under cl's static register convention). Its inlined callers are not
+// identified; the name is address-derived.
+static int Rva004ECE0AEqual(const int *a, const int *b)
+{
+	return *a == *b;
+}
+
+// ?<Rva004ECE0AKeep> absent-from-retail
+int Rva004ECE0AKeep(const int *a, const int *b)
+{
+	return Rva004ECE0AEqual(a, b);
+}

@@ -506,3 +506,17 @@ public: float getValue(unsigned int index) const;
 private: unsigned char unknown[0x24]; float values[1];
 };
 float Rva0025FB7AArray::getValue(unsigned int index) const { return values[index]; }
+
+// Retail 0x0025FB95 (6 B): unreferenced out-of-line copy of a file-static
+// helper keeping the low 24 bits of a word (argument in EAX under cl's
+// static register convention). Callers unidentified; address-derived name.
+static unsigned int Rva0025FB95Low24(unsigned int value)
+{
+	return value & 0xFFFFFF;
+}
+
+// ?<Rva0025FB95Keep> absent-from-retail
+unsigned int Rva0025FB95Keep(unsigned int value)
+{
+	return Rva0025FB95Low24(value);
+}
