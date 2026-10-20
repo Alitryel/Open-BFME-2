@@ -373,16 +373,13 @@ void Rva001F01B9NullForwarder::rva001F01B9(Int a0, Int a1)
 		m_member->rva002CAC6E(a0, a1);
 }
 
-class Rva004D1616NullTarget
-{
-public:
-	void rva004D1616(Int a0);
-};
 // ConnectionManager methods rowed under their real names (ConnectionManager*.cpp,
 // ConnectionManagerLocalSlot.cpp) that the Network forwarders below reach.
+class GameInfo;
 class ConnectionManager
 {
 public:
+	void parseUserList(const GameInfo *game);	// 0x004D1616
 	void initTransport();
 	unsigned int getPacketRouterSlot();	// 0x004CF3B2
 	unsigned int getLocalPlayerID();	// 0x004CF906
@@ -418,7 +415,7 @@ private:
 void Network::ParseUserList(Int a0)
 {
 	if (m_pConMgr)
-		((Rva004D1616NullTarget *)m_pConMgr)->rva004D1616(a0);
+		((ConnectionManager *)m_pConMgr)->parseUserList((const GameInfo *)a0);
 }
 
 // vtable 0x00BF6040#20
