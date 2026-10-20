@@ -49651,7 +49651,7 @@ _Rva14AA50VirtualDispatch,,0x0025EDD4,18,Code/GameEngine/Source/Common/Rva14AA50
 ?rva00091F2A@Rva00091F2ANullForwarder@@QAEHHH@Z,,0x00091F2A,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BC80A0#24 null-checked forwarder
 ?rva00091F51@Rva00091F51NullForwarder@@QAE_NHH@Z,,0x00091F51,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BC80A0#28 null-checked forwarder
 ?rva00091F62@Rva00091F62NullForwarder@@QAE_NHH@Z,,0x00091F62,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BC80A0#29 null-checked forwarder
-?rva00091F73@Rva00091F73NullForwarder@@QAE_NHH@Z,,0x00091F73,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BC80A0#30 null-checked forwarder
+?rva00091F73@Rva00091F73NullForwarder@@QAE_NH_N@Z,,0x00091F73,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BC80A0#30 null-checked forwarder
 ?rva00091F84@Rva00091F84NullForwarder@@QAE_NH@Z,,0x00091F84,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BC80A0#31 null-checked forwarder
 ?rva00091FAB@Rva00091FABNullForwarder@@QAEXH@Z,,0x00091FAB,15,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BC80A0#27 null-checked forwarder
 ?rva0017FEC1@Rva0017FEC1NullForwarder@@QAEHXZ,,0x0017FEC1,15,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BD4F50#14 null-checked forwarder
@@ -49667,7 +49667,7 @@ _Rva14AA50VirtualDispatch,,0x0025EDD4,18,Code/GameEngine/Source/Common/Rva14AA50
 ?rva0025DCF1@Rva0025DCF1NullForwarder@@QAEHXZ,,0x0025DCF1,16,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BF6040#45 null-checked forwarder
 ?rva0025DD01@Rva0025DD01NullForwarder@@QAEHXZ,,0x0025DD01,16,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BF6040#46 null-checked forwarder
 ?rva0025DEBB@Rva0025DEBBNullForwarder@@QAE_NH@Z,,0x0025DEBB,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BF6040#64 null-checked forwarder
-?rva0025DECC@Rva0025DECCNullForwarder@@QAE_NH@Z,,0x0025DECC,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BF6040#65 null-checked forwarder
+?rva0025DECC@Rva0025DECCNullForwarder@@QAEEH@Z,,0x0025DECC,17,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BF6040#65 null-checked forwarder
 ?rva0025E27F@Rva0025E27FNullForwarder@@QAEXH@Z,,0x0025E27F,15,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BF6040#39 null-checked forwarder
 ?rva0035BD00@Rva0035BD00NullForwarder@@QAEXXZ,,0x0035BD00,13,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00C16208#1 null-checked forwarder
 ?rva0014CDBB@Rva0014CDBBProxy@@QAEHXZ,,0x0014CDBB,16,Code/GameEngine/Source/Common/VslotProxyForwarders.cpp,matched,proxy vtable 0x00BD37EC#14: forwards to the inner object's same slot
