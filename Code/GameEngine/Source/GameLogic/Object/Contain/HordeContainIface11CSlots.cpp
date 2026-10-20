@@ -426,9 +426,18 @@ public:
 	Entry *m_end;
 	Entry *m_cap;
 };
+// Retail 0x001E4426, the kind-of bit test of the header-inline ThingTemplate::isKindOf; both
+// bodies are visible, so cl knows a kind-of test stores nothing (slot 69 relies on it).
+__declspec(noinline) inline bool Rva001E4426Test(const unsigned int *bits, int bit)
+{
+	return (bits[(unsigned int)bit >> 5] & (1U << (bit & 31))) != 0;
+}
+enum KindOfType { KINDOF_INVALID = -1 };
 class ThingTemplate
 {
 public:
+	// Retail 0x000456AC: the kind-of bit words start at +0x108.
+	__declspec(noinline) bool isKindOf(KindOfType t) const { return Rva001E4426Test(&m_108, t); }
 	bool isEquivalentTo(const ThingTemplate *other) const;
 	int rva000456AC(int bit) const;
 	// This local +0x114 mask view must not emit the generic +0x108 kind helper.
@@ -550,7 +559,6 @@ struct Rva00469F3AFlags
 			m_words[i] = ~m_words[i];
 	}
 };
-enum KindOfType { KINDOF_INVALID = -1 };
 template <int N> class BitFlags;
 template <> class BitFlags<11> {
     unsigned int m_bits[1];
@@ -1002,7 +1010,7 @@ public:
 	virtual void gap54() = 0; virtual void rva0046C4C0() = 0; virtual void rva0046C327() = 0; virtual void rva0046C20B() = 0;
 	virtual bool rva0046C5D7(int value) = 0; virtual bool rva0046F8A5() = 0; virtual bool rva0046F8F4() = 0; virtual void gap61() = 0;
 	virtual bool rva0046AAB8() = 0; virtual void rva004738B6(Object *target) = 0; virtual void gap64() = 0; virtual unsigned int rva0046F7F8() const = 0;
-	virtual Rva0046247DPair &rva0046F7FF(Rva0046247DPair &p) = 0; virtual void rva0046D1F7(_STL::list<const Object *> &out) = 0; virtual Object *rva0046D27A() = 0; virtual void gap69() = 0;
+	virtual Rva0046247DPair &rva0046F7FF(Rva0046247DPair &p) = 0; virtual void rva0046D1F7(_STL::list<const Object *> &out) = 0; virtual Object *rva0046D27A() = 0; virtual Object *rva0046D2C3(int kind) = 0;
 	virtual Object *rva0046D372() = 0; virtual void gap71() = 0; virtual void gap72() = 0; virtual void gap73() = 0;
 	virtual void rva0046F8B2() = 0; virtual void gap75() = 0; virtual void gap76() = 0; virtual void startMeleeAttack(Object *target) = 0;
 	virtual void rva00468FDC() = 0; virtual void rva00473ADF() = 0; virtual bool rva0046A381(Object *target) = 0; virtual bool rva0046A46F() = 0;
@@ -1327,6 +1335,7 @@ public:
 	virtual bool rva0046A6C1();
 	virtual bool rva0046A677();
 	virtual Object *rva0046D27A();
+	virtual Object *rva0046D2C3(int kind);
 	virtual void rva0046D7AF(int a1);
 	virtual void rva0046DDC5(int a1, int a2);
 	virtual void rva0046D384(Team *team);
@@ -2336,6 +2345,31 @@ Object *HordeContain::rva0046D27A()
 	_STL::set<int>::iterator it = m_170.begin();
 	if (it != m_170.end())
 		return TheGameLogic->findObjectByID((ObjectID)*it);
+	return 0;
+}
+
+// ?rva0046D2C3@HordeContain@@UAEPAVObject@@H@Z @0x0046D2C3: slot 69; the first contained
+// Object (slot 70) not of the kind, else the first contained, else the same from the +0x170 tree.
+Object *HordeContain::rva0046D2C3(int kind)
+{
+	Rva0046247DPair p;
+	rva0046D27ASlot70(p);
+	for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); ++it)
+	{
+		if (!(*it)->getTemplate()->isKindOf((KindOfType)kind))
+			return *it;
+	}
+	if (!p.m04->empty())
+		return p.m04->front();
+	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
+	{
+		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
+		if (obj && !obj->getTemplate()->isKindOf((KindOfType)kind))
+			return obj;
+	}
+	_STL::set<int>::iterator first = m_170.begin();
+	if (first != m_170.end())
+		return TheGameLogic->findObjectByID((ObjectID)*first);
 	return 0;
 }
 
