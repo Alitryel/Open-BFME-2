@@ -159,7 +159,8 @@ Coord2D &Coord2D::operator=(const Coord3DBase &that)
     return *this;
 }
 
-Coord2D::Coord2D(float x, float y)
+// Header consumers (Coord2DCtorView.h) emit this as a select-any copy too.
+inline Coord2D::Coord2D(float x, float y)
 {
     this->x = x;
     this->y = y;
@@ -471,6 +472,8 @@ void _bfmeCoord2DInlineAnchor(Coord2D *c)
 {
     Coord2D local;
     Coord2D copy(*c);
+    Coord2D pair(c->x, c->y);
+    copy = copy + pair;
     copy = copy - local;
     copy = copy + local;
     c->normalize();

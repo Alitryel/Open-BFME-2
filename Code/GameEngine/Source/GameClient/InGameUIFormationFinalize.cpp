@@ -5,9 +5,32 @@
 // Direction helper29D9F9 writes two floats to the caller slot and returns its
 // address withRET4; the by-value Coord2D ABI is an inference, not a recovered
 // original name. A short local scope gives native stack-slot reuse for angle.
+// Native29D9F9..29DB61 (360B) is that helper: the drag vector end-start (+0x99C,
+// +0x990); below the formation assistant's threshold (+0x2C) the cached direction
+// (+0x9A8, valid +0x98D) or the summed start-minus-object offsets of the selected
+// drawables (slot 0x124), normalized and scaled to half the threshold. The
+// WorldBuilder twin 0x00DC3470 expands MathCoord2D.h's GetLengthSqrd, Set, Add,
+// Normalize/GetLength and Scale inlines; spelling them as members of a TU-local
+// Coord2D view (sqr(y)+x*x, <math.h> sqrt) gives retail's XMM roles, which free
+// helper functions did not. Coord2DCtorView.h's user copy constructor gives the
+// cached-direction fld/fstp + mov return copy.
+#include "Lib/Coord2DCtorView.h"
 #include "Lib/Coord3D.h"
-#include "Lib/Coord2D.h"
-class DrawableList;
+#include <math.h>
+class Object {public:const Coord3D *getPosition() const {return &m_position;} private:char m_pad[0x38];Coord3D m_position;};
+class Drawable {public:Object *getObject() const {return m_object;} private:char m_pad[0xFC];Object *m_object;};
+struct DrawableListNode {DrawableListNode *m_next;DrawableListNode *m_prev;Drawable *m_drawable;};
+class DrawableList {public:DrawableListNode *m_head;};
+static __forceinline float sqr(float v){return v*v;}
+struct C2 : Coord2D {
+ __forceinline float GetLengthSqrd() const {return sqr(y)+x*x;}
+ __forceinline float GetLength() const {return sqrt(sqr(y)+x*x);}
+ __forceinline void Normalize() {float len=GetLength();float inv=1.0f/len;x*=inv;y*=inv;}
+ __forceinline void Scale(float s) {x*=s;y*=s;}
+ __forceinline void Add(const Coord2D &o) {x+=o.x;y+=o.y;}
+ __forceinline void Set(float ax,float ay) {x=ax;y=ay;}
+};
+#define C2R(v) static_cast<C2&>(v)
 class PickAndPlayInfo {public:PickAndPlayInfo();bool air;void *target;void *weapon;int special;unsigned unknown10;Coord3D position;int unknown20;};
 class GameMessage {public:enum Type{MSG_FORMATION=0x464};void appendLocationArgument(const Coord3D &);void appendRealArgument(float);void appendIntegerArgument(int);void appendBooleanArgument(bool);};
 bool pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
@@ -66,7 +89,7 @@ virtual void slot29();
 virtual void slot30();
 virtual unsigned getFrame();};
 extern GameClient *TheGameClient;
-class Rva0022AD10Subsystem {public:char pad34[0x34];bool active;};
+class Rva0022AD10Subsystem {public:char pad2c[0x2c];float threshold;char pad30[4];bool active;};
 extern Rva0022AD10Subsystem *TheFormationAssistant;
 extern int BfmeClientFramesPerSecond;
 class CommandButton {public:char pad14[0x14];int command;};
@@ -146,9 +169,31 @@ virtual void slot71();
 virtual void slot72();
 virtual const DrawableList *getAllSelectedDrawables();
 Coord2D rva0029D9F9();bool rva0029DB61();
-char pad4[0x5ac-4];int expires;bool active;char pad5b1[0x990-0x5b1];Coord3D position;char pad99c[0x9b0-0x99c];int formation;
+char pad4[0x5ac-4];int expires;bool active;char pad5b1[0x98d-0x5b1];bool directionValid;char pad98e[2];Coord3D position;Coord3D end;Coord2D direction;int formation;
 };
 extern InGameUI *TheInGameUI;
+Coord2D InGameUI::rva0029D9F9() {
+ Coord2D dir(end.x-position.x,end.y-position.y);
+ if(C2R(dir).GetLengthSqrd()<TheFormationAssistant->threshold*TheFormationAssistant->threshold) {
+  if(directionValid)return direction;
+  C2R(dir).Set(0.0f,0.0f);
+  const DrawableList *list=getAllSelectedDrawables();
+  for(DrawableListNode *node=list->m_head->m_next;node!=list->m_head;node=node->m_next) {
+   Object *obj=node->m_drawable->getObject();
+   if(obj) {
+    const Coord3D *pos=obj->getPosition();
+    Coord2D delta(position.x-pos->x,position.y-pos->y);
+    C2R(dir).Add(delta);
+   }
+  }
+  C2R(dir).Normalize();
+  C2R(dir).Scale(TheFormationAssistant->threshold/2.0f);
+ } else {
+  directionValid=true;
+ }
+ direction=dir;
+ return dir;
+}
 bool InGameUI::rva0029DB61() {
  bool result=false;
  expires=TheGameClient->getFrame()+1.5*BfmeClientFramesPerSecond;
