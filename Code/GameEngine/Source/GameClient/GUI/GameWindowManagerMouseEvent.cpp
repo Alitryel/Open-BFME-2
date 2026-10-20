@@ -59,7 +59,7 @@ public:
  GameWindow *m_next,*m_prev,*m_parent,*m_child;
  GameWindow *winGetParent(); WinInstanceData *winGetInstanceData();
  GameWindow *winPointInAnyChild(int,int,bool,bool);
- unsigned char rva003147F6(int,int);
+ unsigned char winPointInWindow(int,int);
  Int winGetPosition(Int*,Int*); Int winGetSize(Int*,Int*); Int winSetPosition(Int,Int);
 };
 struct ModalWindow { void *unknown0; GameWindow *window; };
@@ -232,7 +232,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 
 				// Native 2C20DD..2C210B: grabbed-window position messages.
 				case GWM_MOUSE_POS:
-					if( sendMousePosMessages && m_grabWindow->rva003147F6(mousePos->x, mousePos->y) )
+					if( sendMousePosMessages && m_grabWindow->winPointInWindow(mousePos->x, mousePos->y) )
 						winSendInputMsg(m_grabWindow, GWM_MOUSE_POS, packedMouseCoords, 0);
 					break;
 
@@ -243,7 +243,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 					reinterpret_cast<GameWindow*>(reinterpret_cast<Rva003141BCWindowView*>(m_grabWindow)->winPointInChild( mousePos->x, mousePos->y, FALSE, TRUE ));
 
 					BitClear( m_grabWindow->m_status, WIN_STATUS_ACTIVE );
-					if( m_grabWindow->rva003147F6( mousePos->x, mousePos->y ) )
+					if( m_grabWindow->winPointInWindow( mousePos->x, mousePos->y ) )
 						winSendInputMsg( m_grabWindow, GWM_LEFT_UP, packedMouseCoords, 0 );
 					else if( BitTest( m_grabWindow->m_status, WIN_STATUS_DRAGABLE ))
 					{

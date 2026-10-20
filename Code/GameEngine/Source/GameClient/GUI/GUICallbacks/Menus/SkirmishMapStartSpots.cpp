@@ -31,7 +31,7 @@ class GameInfo {
 public: AsciiString getMap() const; GameSlot *getSlot(int);
 };
 class GameWindow {
-public: int winHide(bool); void rva003148A2(UnicodeString);
+public: int winHide(bool); void winSetTooltip(UnicodeString);
 };
 void GadgetButtonSetText(GameWindow*,UnicodeString);
 class GameTextInterface {
@@ -62,7 +62,7 @@ void updateMapStartSpots(GameInfo *myGame,GameWindow *buttons[],bool onLoadScree
  MapMetaData mmd=it->second;
  for(int i=0;i<8;++i) {
   GadgetButtonSetText(buttons[i],UnicodeString::TheEmptyString);
-  if(!onLoadScreen) buttons[i]->rva003148A2(TheGameText->fetch("TOOLTIP:StartPosition"));
+  if(!onLoadScreen) buttons[i]->winSetTooltip(TheGameText->fetch("TOOLTIP:StartPosition"));
  }
  for(i=0;i<8;++i) {
   GameSlot *gs=myGame->getSlot(i);
@@ -77,7 +77,7 @@ void updateMapStartSpots(GameInfo *myGame,GameWindow *buttons[],bool onLoadScree
     GadgetButtonSetText(buttons[gs->getStartPos()],TheGameText->fetch(displayNumber));
     UnicodeString temp;
     temp.format(TheGameText->rvaSlot44("TOOLTIP:StartPositionN"),i+1);
-    buttons[gs->getStartPos()]->rva003148A2(temp);
+    buttons[gs->getStartPos()]->winSetTooltip(temp);
    } else if(gs->getStartPos()>=mmd.m_numPlayers) gs->setStartPos(-1);
   }
  }

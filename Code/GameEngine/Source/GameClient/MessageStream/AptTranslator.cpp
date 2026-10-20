@@ -66,7 +66,7 @@ class GameWindow
 public:
 	unsigned int winGetStatus();
 	GameWindow *winGetParent();
-	unsigned char rva003147F6(int x, int y);
+	unsigned char winPointInWindow(int x, int y);
 };
 class GameWindowManager
 {
@@ -247,7 +247,7 @@ GameMessageDisposition AptTranslator::translateGameMessage(const GameMessage *ms
 		{
 			int x, y;
 			TheMouse->getCursorPosition(&x, &y);
-			if (window->rva003147F6(x, y))
+			if (window->winPointInWindow(x, y))
 				disp = DESTROY_MESSAGE;
 			break;
 		}

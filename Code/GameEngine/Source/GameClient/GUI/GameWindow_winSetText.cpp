@@ -53,8 +53,8 @@ class GameWindow
 {
 public:
 	virtual int winSetText(UnicodeString text);
-	void rva003148A2(UnicodeString text);
-	unsigned char rva003147F6(int x, int y);
+	void winSetTooltip(UnicodeString text);
+	unsigned char winPointInWindow(int x, int y);
 	int winGetScreenPosition(int *x, int *y);
 	int winGetSize(int *width, int *height);
 
@@ -75,12 +75,12 @@ int GameWindow::winSetText(UnicodeString text)
 	return 0;
 }
 
-void GameWindow::rva003148A2(UnicodeString text)
+void GameWindow::winSetTooltip(UnicodeString text)
 {
 	m_instData.setTooltipText(text);
 }
 
-unsigned char GameWindow::rva003147F6(int x, int y)
+unsigned char GameWindow::winPointInWindow(int x, int y)
 {
 	int sx, sy, w, h;
 	winGetScreenPosition(&sx, &sy);

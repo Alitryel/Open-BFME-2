@@ -27,7 +27,7 @@ class GameWindow
 {
 public:
  GameWindow*winGetParent();
- int winEnable(bool);int winHide(bool);bool winIsHidden();unsigned int winGetStatus();int rva00314056(int);
+ int winEnable(bool);int winHide(bool);bool winIsHidden();unsigned int winGetStatus();int winSetParent(int);
  int winSetWindowId(int);
 	int winGetPosition(int *x, int *y);
 	int winSetPosition(int x, int y);
@@ -172,7 +172,7 @@ const AsciiString*foundName; AsciiString windowId;
    ((Rva00222947Ref*)((char*)found+8))->invoke((int)windowId.str(),(int)params,(int)window);
    foundName=(AsciiString*)((char*)found+4);info->initName=*foundName;
    GameWindow*parent=(GameWindow*)((AptPlayer*)g_bfmeAptWindowManager)->PeekGameWindow(AptUtils::LevelIndexFromTarget(path));
-   if(parent!=window->winGetParent())window->rva00314056((int)parent);
+   if(parent!=window->winGetParent())window->winSetParent((int)parent);
   }else if(created)return;
  }
  if(window->winIsHidden()){if(!(window->winGetStatus()&0x10000000))return;window->winHide(false);}

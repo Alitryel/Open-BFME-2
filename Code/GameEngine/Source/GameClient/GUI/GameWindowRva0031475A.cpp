@@ -50,7 +50,7 @@ class GameWindow
 public:
 	int winBringToTop();
 	int winGetCursorPosition(int *x, int *y);
-	int rva003147DA();
+	int winActivate();
 	int winHide(bool hide);
 private:
 	char m_pad00[0x08];
@@ -92,12 +92,12 @@ int GameWindow::winBringToTop()
 	return 0;
 }
 
-// ?rva003147DA@GameWindow@@QAEHXZ, retail 0x003147DA, 28 bytes.
+// ?winActivate@GameWindow@@QAEHXZ, retail 0x003147DA, 28 bytes.
 // Calls winBringToTop then winHide(false) on success; sets status bit0.
 // Evidence: chain caller of 0x0031475A; or [esi+8],1 matches m_status;
 // rowed ?winHide@GameWindow@@QAEH_N@Z.
 
-int GameWindow::rva003147DA()
+int GameWindow::winActivate()
 {
 	int r = winBringToTop();
 	if (r != 0)

@@ -40,7 +40,7 @@ public:
 	unsigned int winGetStyle();
 	int winHide(bool hide);
 	// Zero Hour's winSetTooltip, rowed under its address name.
-	void rva003148A2(UnicodeString tip);
+	void winSetTooltip(UnicodeString tip);
 	int getTooltipDelay() { return m_tooltipDelay; }
 	void setTooltipDelay(int delay) { m_tooltipDelay = delay; }
 	// LINK: same-body helpers under TU-unique names (identical inlined
@@ -237,7 +237,7 @@ GameWindow *GameWindowManager::gogoGadgetComboBox(GadgetCreateView *view,
 	buttonView.height = view->height;
 	buttonView.instance = &winInstData;
 	comboBoxData->dropDownButton = TheWindowManager->gogoGadgetPushButton(&buttonView, 0, true);
-	comboBoxData->dropDownButton->rva003148A2(view->instance->getTooltipText());
+	comboBoxData->dropDownButton->winSetTooltip(view->instance->getTooltipText());
 	comboBoxData->dropDownButton->bfme_set_tooltip_delay(comboBox->bfme_tooltip_delay());
 
 	// create text entry
@@ -267,7 +267,7 @@ GameWindow *GameWindowManager::gogoGadgetComboBox(GadgetCreateView *view,
 	entryView.instance = &winInstData;
 	comboBoxData->editBox = TheWindowManager->gogoGadgetTextEntry(&entryView,
 		comboBoxData->entryData, winInstData.m_font, false);
-	comboBoxData->editBox->rva003148A2(view->instance->getTooltipText());
+	comboBoxData->editBox->winSetTooltip(view->instance->getTooltipText());
 	comboBoxData->editBox->bfme_set_tooltip_delay(comboBox->bfme_tooltip_delay());
 
 	delete comboBoxData->entryData;
@@ -296,7 +296,7 @@ GameWindow *GameWindowManager::gogoGadgetComboBox(GadgetCreateView *view,
 
 	delete comboBoxData->listboxData;
 	comboBoxData->listboxData = (ListboxData *)comboBoxData->listBox->winGetUserData();
-	comboBoxData->listBox->rva003148A2(view->instance->getTooltipText());
+	comboBoxData->listBox->winSetTooltip(view->instance->getTooltipText());
 	comboBoxData->listBox->bfme_set_tooltip_delay(comboBox->bfme_tooltip_delay());
 
 	GadgetListBoxSetAudioFeedback(comboBoxData->listBox, true);

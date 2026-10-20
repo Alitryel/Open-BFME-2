@@ -18,7 +18,7 @@ public:
 	int winHide(bool hide);
 	unsigned int winSetStatus(unsigned int status);
 	void winSetEnabledTextColors(int color, int borderColor);
-	void rva003148A2(UnicodeString tooltip);	// ZH winSetTooltip
+	void winSetTooltip(UnicodeString tooltip);	// ZH winSetTooltip
 	bool winIsHidden();
 	Int winGetWindowId();
 	int winSetEnabledImage(int index, const Image *image);
@@ -299,7 +299,7 @@ void ControlBar::populateObserverList(void)
 					continue;
 				Rva00328518(buttonPlayer[currentButton], (Int)p);
 				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->rva001FD221());
-				buttonPlayer[currentButton]->rva003148A2(p->m_playerDisplayName);
+				buttonPlayer[currentButton]->winSetTooltip(p->m_playerDisplayName);
 				buttonPlayer[currentButton]->winHide(false);
 				buttonPlayer[currentButton]->winSetStatus(0x200000);
 
@@ -335,7 +335,7 @@ void ControlBar::populateObserverList(void)
 			{
 				Rva00328518(buttonPlayer[currentButton], (Int)p);
 				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->rva001FD221());
-				buttonPlayer[currentButton]->rva003148A2(p->m_playerDisplayName);
+				buttonPlayer[currentButton]->winSetTooltip(p->m_playerDisplayName);
 				buttonPlayer[currentButton]->winHide(false);
 				buttonPlayer[currentButton]->winSetStatus(0x200000);
 				Int playerColor = p->m_color;

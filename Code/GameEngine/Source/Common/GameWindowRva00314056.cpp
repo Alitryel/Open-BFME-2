@@ -1,7 +1,7 @@
-// ?rva00314056@GameWindow@@QAEHH@Z
+// ?winSetParent@GameWindow@@QAEHH@Z
 // partial score=0.93 date=2026-10-01
 // cl: /MD
-// ?rva00314056@GameWindow@@QAEHH@Z, retail 0x00314056, 78 bytes.
+// ?winSetParent@GameWindow@@QAEHH@Z, retail 0x00314056, 78 bytes.
 // Honest GameWindow method: detach from old parent/list then attach.
 // Evidence: this+0x200 is GameWindow::m_parent (same offset as
 // GameWindow_winGetScreenPosition.cpp); this passed as GameWindow* to
@@ -40,13 +40,13 @@ extern GameWindowManager *TheWindowManager;
 class GameWindow
 {
 public:
-	int rva00314056(int arg);
+	int winSetParent(int arg);
 private:
 	char m_pad[0x200];
 	GameWindow *m_parent;
 };
 
-int GameWindow::rva00314056(int arg)
+int GameWindow::winSetParent(int arg)
 {
 	GameWindowManager *mgr = *(GameWindowManager * volatile *)&TheWindowManager;
 	if (m_parent == 0)
