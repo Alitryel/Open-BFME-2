@@ -296,6 +296,17 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   inline accessors flipped it to retail's allocation: 2 diffs. The accessors
   in one case alone flipped it; the other case's accessors fixed the rest.
   Map every call the WorldBuilder build makes to a field read in the bank.
+- **`[reg+reg+disp]` base/index order flipped: alias the member struct by
+  reference.** In 0x0052F63F the only diff was one SIB byte, `[ecx+eax+0xc]`
+  in retail against our `[eax+ecx+0xc]`, in one of two textually identical
+  pinch loops. MSVC /O1 picks the order from IL state, so code-neutral IL
+  changes flip it. Renaming, reordering declarations, const, increment forms,
+  continue forms and dead locals did not flip it. A reference alias does:
+  `const IRegion2D &extent=m_extent;` declared at function scope and used by
+  the clamps and both loops closed the body, at the same code size. A
+  factorial over alias placement and cell-pointer temps found it in 288
+  compiles. Reproduce the effect in a small probe first; it showed the alias
+  flips the order.
 - **Stacked case labels versus separate identical bodies.** Retail's dispatch
   tail `sub eax,K; jne default; jmp X`, where our build has `je X; jmp
   default`, means the last case had a body of its own. Cross-jumping merged

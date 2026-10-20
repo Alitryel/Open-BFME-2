@@ -1,22 +1,3 @@
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.99964 date=2026-10-20
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.8227 date=2026-10-20
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.8035 date=2026-10-20
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.7051406402 date=2026-10-19
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.601 date=2026-10-17
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.8014 date=2026-10-14
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.6198830409 date=2026-10-13
-// W7-SOL6 WB-first owner port:3017/3027B, frame10C/native114, callback52E6E6 missing.
-// Corrected search/merge inside loop, scalar raster bounds, cached current layer per WB12DB220.
-// Barrier in wallDelta restores native MOV/spill/FILD; indexed layer receiver restores second-loop recompute.
-// Strict instruction similarity (only branch/global addresses normalized) .619883; stack displacement cascade dominates.
-// Existing owner851B classification row verified; this complete bank includes its class view context.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /I.
 // stlport
 #include <new>
@@ -24,17 +5,15 @@
 #include <vector>
 #include "ascii_string.h"
 extern "C" void __cdecl free(void*);
-// ?Rva0052F2EC@Pathfinder@@QAEXXZ retail 0x0052F2EC..0x0052F63F (851 bytes).
-// BFME 2's Pathfinder::classifyMap twin (Zero Hour AIPathfind.cpp; Open-BFME-1
-// PathfinderClassifyMap.cpp is BFME 1's shape): over the logical extent at
-// +0x14..+0x20 of the column table at +0x10 (16-byte cells) it classifies
-// every cell through the rowed static Pathfinder::classifyMapCell 0x0052E11A
-// then pinches clear cells next to cliffs (bit 16) and turns pinched clear
-// cells into cliffs through the rowed PathfindCell::SetType_Dirty 0x0052DA1C.
-// It then calls the rowed 0x0052F294 on itself and grows a deep-water edge
-// mask: type-7 cells with a non type-7 neighbour set bit 23 (rowed setter
-// 0x0052E0CE) and six passes spread it through type 7/1 neighbours via bit
-// 22 (rowed setter 0x0052E02F). Callgraph twin WB 0x012D86D0.
+// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z retail 0x0052F63F..0x00530212 (3027 bytes).
+// BFME 2 wall classifier (WB twin Pathfinder::ClassifyWall; called from 0x00530F38 inside
+// 0x00530212). Target evidence: on insert it merges the wall's bridge polygon into a free
+// or overlapping layer 2..15, matches the wall height against the 64-entry height table
+// (layers 17+, tolerance 3.5, debug report under 9.9), rasterises the wall polygon through
+// the rowed 0x0052E6E6 and re-pinches the touched cells; on removal it unpinches, resets
+// the wall layer's cells and reclassifies every other wall in wallIDs whose cell bounds
+// overlap. Locals, loop order and init order follow the WB frame; the m_extent reference
+// and the barrier before the dirty test reproduce retail's operand order and spills.
 
 typedef int Int;
 
@@ -93,11 +72,7 @@ public:
 
 #include "Code/Libraries/Include/Lib/ICoord2D.h"
 
-struct IRegion2D
-{
-	ICoord2D lo;
-	ICoord2D hi;
-};
+#include "Code/Libraries/Include/Lib/IRegion2D.h"
 
 struct BfmeE8{int a,b;};
 class Dict;
@@ -134,8 +109,6 @@ static __forceinline int float2long(float f){int i;__asm{
 class Pathfinder
 {
 public:
-	static void classifyMapCell(Int cellX, Int cellY, PathfindCell *cell);
-	void Rva0052F2EC();
 	void rva0052F63F(Object *,bool);
 	bool rva0052E6E6(int,int,PathfindCell *,PolygonTrigger *,int,bool);
 	float &heightForLayer(int layer){return *((float*)((char*)this+0x1be78)+layer);}
@@ -150,114 +123,9 @@ private:
 	char pad461[0x1be91-0x461];bool changedLayer;char pad1BE92[0x1beb4-0x1be92];bool changedWall;char pad1BEB5[3];int heightCount;float heights[64];AsciiString names[64];char pad1C0BC[0x1c1c0-0x1c0bc];_STL::set<int>wallIDs;
 };
 
-void Pathfinder::Rva0052F2EC()
-{
-	Int i, j;
-	for (j = m_extent.lo.y; j <= m_extent.hi.y; j++)
-	{
-		for (i = m_extent.lo.x; i <= m_extent.hi.x; i++)
-		{
-			classifyMapCell(i, j, &m_map[i][j]);
-		}
-	}
-
-	for (j = m_extent.lo.y; j <= m_extent.hi.y; j++)
-	{
-		for (i = m_extent.lo.x; i <= m_extent.hi.x; i++)
-		{
-			if (m_map[i][j].getType() == PathfindCell::CELL_CLIFF)
-			{
-				for (Int k = i - 1; k < i + 2; k++)
-				{
-					if (k < m_extent.lo.x || k > m_extent.hi.x)
-						continue;
-					for (Int l = j - 1; l < j + 2; l++)
-					{
-						if (l < m_extent.lo.y || l > m_extent.hi.y)
-							continue;
-						if (m_map[k][l].getType() == PathfindCell::CELL_CLEAR)
-						{
-							m_map[k][l].setPinched(true);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	for (j = m_extent.lo.y; j <= m_extent.hi.y; j++)
-	{
-		for (i = m_extent.lo.x; i <= m_extent.hi.x; i++)
-		{
-			if (m_map[i][j].getPinched() && m_map[i][j].getType() == PathfindCell::CELL_CLEAR)
-			{
-				m_map[i][j].SetType_Dirty(PathfindCell::CELL_CLIFF);
-			}
-		}
-	}
-
-	reinterpret_cast<Rva002E713FOwner *>(this)->rva0052F294();
-
-	for (j = m_extent.lo.y; j <= m_extent.hi.y; j++)
-	{
-		for (i = m_extent.lo.x; i <= m_extent.hi.x; i++)
-		{
-			PathfindCell *cell = &m_map[i][j];
-			if (cell->getType() == PathfindCell::CELL_DEEP_WATER)
-			{
-				if ((i > m_extent.lo.x && m_map[i - 1][j].getType() != PathfindCell::CELL_DEEP_WATER)
-					|| (i < m_extent.hi.x && m_map[i + 1][j].getType() != PathfindCell::CELL_DEEP_WATER)
-					|| (j > m_extent.lo.y && m_map[i][j - 1].getType() != PathfindCell::CELL_DEEP_WATER)
-					|| (j < m_extent.hi.y && m_map[i][j + 1].getType() != PathfindCell::CELL_DEEP_WATER))
-				{
-					cell->setBit23(true);
-				}
-			}
-		}
-	}
-
-	for (Int pass = 0; pass < 6; pass++)
-	{
-		for (j = m_extent.lo.y; j <= m_extent.hi.y; j++)
-		{
-			for (i = m_extent.lo.x; i <= m_extent.hi.x; i++)
-			{
-				if (m_map[i][j].getBit23())
-				{
-					if (i > m_extent.lo.x && (m_map[i - 1][j].getType() == PathfindCell::CELL_DEEP_WATER || m_map[i - 1][j].getType() == PathfindCell::CELL_WATER))
-						m_map[i - 1][j].setBit22(true);
-					if (i < m_extent.hi.x && (m_map[i + 1][j].getType() == PathfindCell::CELL_DEEP_WATER || m_map[i + 1][j].getType() == PathfindCell::CELL_WATER))
-						m_map[i + 1][j].setBit22(true);
-					if (j > m_extent.lo.y && (m_map[i][j - 1].getType() == PathfindCell::CELL_DEEP_WATER || m_map[i][j - 1].getType() == PathfindCell::CELL_WATER))
-						m_map[i][j - 1].setBit22(true);
-					if (j < m_extent.hi.y && (m_map[i][j + 1].getType() == PathfindCell::CELL_DEEP_WATER || m_map[i][j + 1].getType() == PathfindCell::CELL_WATER))
-						m_map[i][j + 1].setBit22(true);
-				}
-			}
-		}
-
-		for (j = m_extent.lo.y; j <= m_extent.hi.y; j++)
-		{
-			for (i = m_extent.lo.x; i <= m_extent.hi.x; i++)
-			{
-				Int type = m_map[i][j].getType();
-				if (m_map[i][j].getBit22()
-					&& (type == PathfindCell::CELL_DEEP_WATER || type == PathfindCell::CELL_WATER))
-				{
-					m_map[i][j].setBit22(false);
-					m_map[i][j].setBit23(true);
-				}
-			}
-		}
-	}
-}
-
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
-static __forceinline float wallDelta(PathfindLayer *entry,const float &height) { int value=entry->height; _ReadWriteBarrier(); return (float)value-height; }
 static __forceinline void deletePoly(PolygonTrigger *p){operator delete(p?p->destroy(0):0);}
-// Normalize pinch queries through the Boolean accessor used by the map classifier.
-// Bounds arguments and wall diagnostic text follow the native call sites.
 void Pathfinder::rva0052F63F(Object*obj,bool insert)
 {
  const float tolerance=3.5f;
@@ -333,10 +201,11 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
  cellBounds.hi.x=CEIL(world.hi.x/10)+2;
  cellBounds.hi.y=CEIL(world.hi.y/10)+2;
  
- if(cellBounds.lo.x<m_extent.lo.x)cellBounds.lo.x=m_extent.lo.x;
- if(cellBounds.lo.y<m_extent.lo.y)cellBounds.lo.y=m_extent.lo.y;
- if(cellBounds.hi.x>m_extent.hi.x)cellBounds.hi.x=m_extent.hi.x;
- if(cellBounds.hi.y>m_extent.hi.y)cellBounds.hi.y=m_extent.hi.y;
+ const IRegion2D &extent=m_extent;
+ if(cellBounds.lo.x<extent.lo.x)cellBounds.lo.x=extent.lo.x;
+ if(cellBounds.lo.y<extent.lo.y)cellBounds.lo.y=extent.lo.y;
+ if(cellBounds.hi.x>extent.hi.x)cellBounds.hi.x=extent.hi.x;
+ if(cellBounds.hi.y>extent.hi.y)cellBounds.hi.y=extent.hi.y;
  if(insert){
   wallIDs.insert(obj->getID());_STL::vector<BfmeE8>changed;
   for(j=cellBounds.lo.y;j <= cellBounds.hi.y;++j)for(i=cellBounds.lo.x;i<=cellBounds.hi.x;++i){
@@ -346,8 +215,8 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    const int current=m_map[i][j].layer;
    if(current==layer)m_map[i][j].setPinched(false);
    if(m_map[i][j].getType()==0){
-    int count=0;for(int k=i-1;k<i+2;k++){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
-     for(int l=j-1;l<j+2;++l){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&j==l)continue;
+    int count=0;for(int k=i-1;k<i+2;k++){if(k<extent.lo.x||k>extent.hi.x)continue;
+     for(int l=j-1;l<j+2;++l){if(l<extent.lo.y||l>extent.hi.y)continue;if(k==i&&j==l)continue;
       if(m_map[k][l].layer!=current)++count;
      }
     }
@@ -361,8 +230,8 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
   _STL::set<int>::iterator found=wallIDs.find(obj->getID());if(found!=wallIDs.end())wallIDs.erase(found);
   for(j=cellBounds.lo.y;j<=cellBounds.hi.y;j++)for(i=cellBounds.lo.x;i<=cellBounds.hi.x;++i){
    if(m_map[i][j].getPinched()){int current=m_map[i][j].layer;int count=0;
-    for(int k=i-1;k<i+2;k++){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
-     for(int l=j-1;l<j+2;l++){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&j==l)continue;if(m_map[k][l].layer!=current)++count;}
+    for(int k=i-1;k<i+2;k++){if(k<extent.lo.x||k>extent.hi.x)continue;
+     for(int l=j-1;l<j+2;l++){if(l<extent.lo.y||l>extent.hi.y)continue;if(k==i&&j==l)continue;if(m_map[k][l].layer!=current)++count;}
     }
     if(count > 1)m_map[i][j].setPinched(false);
    }
