@@ -22,11 +22,11 @@ template<> struct __type_traits<BfmeScriptSlotAddress> : __type_traits_aux<1> {}
 // 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus /O1). Compiled
 // that way each body below places uniquely on unclaimed game.dat .text by
 // masked whole-.text search, and ./build.sh reproduces it byte for byte:
-// BfmeOwnerZK::takeScript 0x003B8556 (51B). Callee addresses are read off
+// ScriptList::takeScript 0x003B8556 (51B). Callee addresses are read off
 // retail's call sites (reverse/symbols.csv). Only the placed bodies are
 // carried; the donor's other definitions are omitted.
 // Retail RVA 0x0035DCF0. The body walks a singly linked list to find the slot
-// that points at one node and then forwards to BfmeOwnerZK::bfmeMoveZK at
+// that points at one node and then forwards to ScriptList::bfmeMoveZK at
 // 0x0035D940, which is what places it on that class.
 
 // Measured target prefixes used by the move helper below. These Bfme names
@@ -70,7 +70,7 @@ struct BfmeHeadZK
 	BfmeNodeZK *m_bfmeFirstZK;
 };
 
-class BfmeOwnerZK
+class ScriptList
 {
 public:
 	void takeScript(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
@@ -78,6 +78,7 @@ public:
 	void bfmeMoveZK(BfmeKeyZK *key, BfmeNodeZK **from, BfmeNodeZK **to);
 	void rva003B8383(BfmeNodeZK *node, const StringBase<char> &key);
 	void rva003B844D(BfmeNodeZK *node, const StringBase<char> &key);
+	void takeScripts(ScriptList *source, BfmeNodeZK **from, BfmeNodeZK **to);
 private:
 	unsigned char m_head[0x0C];
 	Rva003B573E m_earlyTable;
@@ -85,7 +86,7 @@ private:
 	Rva003B573E m_table;
 };
 
-void BfmeOwnerZK::takeScript(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
+void ScriptList::takeScript(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
 	BfmeHeadZK *fallback, BfmeNodeZK **where)
 {
 	BfmeNodeZK **slot = &list->m_bfmeFirstZK;
@@ -108,7 +109,7 @@ void BfmeOwnerZK::takeScript(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
 // record stride and the signed short at +0x0E. The native first call is the
 // independently verified 0x003B820D transfer; only that donor callee view
 // changes here. Node words at +0/+4/+8 follow the three native stores.
-void BfmeOwnerZK::bfmeMoveZK(BfmeKeyZK *key, BfmeNodeZK **from, BfmeNodeZK **to)
+void ScriptList::bfmeMoveZK(BfmeKeyZK *key, BfmeNodeZK **from, BfmeNodeZK **to)
 {
 	int id = (*from)->m_bfmeIdZK;
 	int index = m_table.take((Rva003B573E *)key->m_table, id);
@@ -122,11 +123,10 @@ void BfmeOwnerZK::bfmeMoveZK(BfmeKeyZK *key, BfmeNodeZK **from, BfmeNodeZK **to)
 	*from = next;
 }
 
-class ScriptList { public: void takeScripts(ScriptList *source,BfmeNodeZK **from,BfmeNodeZK **to); };
 // WB Scripts.cpp's takeScripts walks the source's next links, saves the
 // addresses of those links, then transfers in reverse order. Retail has a
 // complete 141-byte RET12 extent at 003B84C9..003B8556 and uses the rowed
-// BfmeOwnerZK transfer (003B847B). That opaque node view preserves its native
+// ScriptList transfer (003B847B). That opaque node view preserves its native
 // index/link words. The local holds list-slot addresses, not owned nodes.
 void ScriptList::takeScripts(ScriptList *source,BfmeNodeZK **from,BfmeNodeZK **to)
 {
@@ -136,12 +136,12 @@ void ScriptList::takeScripts(ScriptList *source,BfmeNodeZK **from,BfmeNodeZK **t
     for(;*reinterpret_cast<BfmeNodeZK**>(slot.address);slot.address=reinterpret_cast<unsigned int>(&(*reinterpret_cast<BfmeNodeZK**>(slot.address))->m_bfmeNextZK))
         slots.push_back(slot);
     while(!slots.empty()) {
-        reinterpret_cast<BfmeOwnerZK*>(this)->bfmeMoveZK(reinterpret_cast<BfmeKeyZK*>(source),reinterpret_cast<BfmeNodeZK**>(slots.back().address),to);
+        bfmeMoveZK(reinterpret_cast<BfmeKeyZK*>(source),reinterpret_cast<BfmeNodeZK**>(slots.back().address),to);
         slots.pop_back();
     }
 }
 
-void BfmeOwnerZK::rva003B8383(BfmeNodeZK *node, const StringBase<char> &key)
+void ScriptList::rva003B8383(BfmeNodeZK *node, const StringBase<char> &key)
 {
 	int current = node->m_bfmeIdZK;
 	int index = m_earlyTable.rva003B7F46(current, key);
@@ -149,7 +149,7 @@ void BfmeOwnerZK::rva003B8383(BfmeNodeZK *node, const StringBase<char> &key)
 	node->m_bfmeKindZK = m_earlyTable.m_records[index].m_references;
 }
 
-void BfmeOwnerZK::rva003B844D(BfmeNodeZK *node, const StringBase<char> &key)
+void ScriptList::rva003B844D(BfmeNodeZK *node, const StringBase<char> &key)
 {
 	int current = node->m_bfmeIdZK;
 	int index = m_table.rva003B81C5(current, key);

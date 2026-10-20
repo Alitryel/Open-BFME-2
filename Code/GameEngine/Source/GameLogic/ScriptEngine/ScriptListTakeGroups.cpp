@@ -38,12 +38,12 @@ class Rva003B40A1Holder { public: void *captureGroup(void *record); };
 struct CapturedGroup { int unknown; ScriptGroupLink *groups; ScriptEntryLink *scripts; };
 class BfmeKeyZK;
 struct BfmeNodeZK;
-class BfmeOwnerZK { public: void bfmeMoveZK(BfmeKeyZK*,BfmeNodeZK**,BfmeNodeZK**); };
 class ScriptList {
 public:
     __declspec(noinline) void doTakeGroup(ScriptList *source,ScriptGroupLink **from,ScriptGroupLink **to);
     __declspec(noinline) void takeGroups(ScriptList *source,ScriptGroupLink **from,ScriptGroupLink **to);
     __declspec(noinline) void takeScripts(ScriptList *source,BfmeNodeZK **from,BfmeNodeZK **to);
+    void bfmeMoveZK(BfmeKeyZK*,BfmeNodeZK**,BfmeNodeZK**);
     void takeGroup(ScriptList *source,ScriptGroupLink **head,ScriptGroupLink *group,ScriptGroupLink **fallback,ScriptGroupLink **where);
     int unknown; ScriptGroupLink *groups; ScriptEntryLink *scripts;
     Rva003B573E groupSet; char scriptSet[32];
