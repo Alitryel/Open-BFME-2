@@ -332,18 +332,6 @@ int Rva0002CF5EGet(void)
 	return 0x0042CF5A;
 }
 
-// ?Rva0006182EGet@@YAHXZ @ 0x0006182E (6B): returns 0x00461834.
-int Rva0006182EGet(void)
-{
-	return 0x00461834;
-}
-
-// ?Rva00061983Get@@YAHXZ @ 0x00061983 (6B): returns 0x00461989.
-int Rva00061983Get(void)
-{
-	return 0x00461989;
-}
-
 
 
 
