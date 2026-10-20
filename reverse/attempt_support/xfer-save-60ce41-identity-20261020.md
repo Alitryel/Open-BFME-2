@@ -59,3 +59,44 @@ so omitting those scratch flags misleadingly produces 439 B instead of 281 B.
 
 Model: GPT-6 (Codex); original successful bank/compiler experiments: w4,
 claude-opus-5-5, reverse/attempt_support/0x0060ce41-w4-20261020.md.
+
+## Final integration and reusable compiler findings
+
+Use the real STLport hashtable<pair<const char*, int>, const char*, ...>
+insert, not a second guessed NameKeyType symbol. Whole-body checks, including
+every call displacement, prove its 68 B insert, the 37 B node allocation,
+23 B pair construction, 22/23 B bucket helpers and 48 B next-size helper.
+The existing address-derived find/subscript views preserve the bank's visible
+callee bodies, so the save body keeps EBX and its 0xC frame.
+
+Keep resize in its existing StlSweepW4Rva0060CBAC.cpp provider with corrected
+char-pointer/int types. The save unit declares that specialization out of line.
+Moving resize into the save unit pulled in 14 conflicting vector COMDAT copies.
+Suppressing those vector definitions with declaration-only specializations
+changed the 197 B resize to 226/231 B with an EH frame; adding non-throwing
+contracts removed the EH frame but still left 202 B and a different bucket
+address calculation. This is further evidence that visibility affects alias
+analysis and temporary lifetimes even when functions stay out of line.
+MSVC 7.1 extern-template declarations did not suppress these inline copies.
+Do not repeat those variants unchanged. The simple provider split preserves
+exact 197 B resize and avoids those extra copies in the save unit.
+
+The resize provider already had unresolved STL COMDAT selection debt in the
+published index; repairing the table type does not claim that family fully linked.
+The save-unit preview must be checked with the corrected resize provider and
+retired lookup provider together, rather than against stale index definitions.
+
+The save unit keeps only inline-only pointer-vector begin/size/subscript bodies;
+these accessors have no competing out-of-line definitions there. The old strong
+lookup provider is removed after moving its exact 54 B and 27 B rows into the
+save unit. No artificial address anchor, header edit or compiler-override entry
+is needed. The old five placements total 353 B and their replacements total
+353 B; only the save body contributes 281 newly recovered unique bytes.
+
+The prerequisite retraction commit passed all 13,672 rows in 1,556 candidate
+caller units, their string/float/import checks and converged-data checks. EH:
+1,798 exact of 1,799 checked, with one existing baseline difference and no new
+debt. Removed names and an initially cold cache expanded this check; there was
+no full-repository build or flag-override change. Concrete template spelling
+and payload signedness are reconstruction choices, not independently proven
+original target type names. Native key/payload access is separate evidence.

@@ -20743,7 +20743,7 @@ pin	reverse/symbols.csv	0x00055532	1
 pin	reverse/symbols.csv	0x00055548	1
 pin	reverse/symbols.csv	0x00055612	1
 pin	reverse/symbols.csv	0x000556AB	2
-pin	reverse/symbols.csv	0x0005571B	54
+pin	reverse/symbols.csv	0x0005571B	56	allow=cf3d3f41ecd0211e0dd986b5b5d2dbbbfcb69ff8
 pin	reverse/symbols.csv	0x0005574B	1
 pin	reverse/symbols.csv	0x000557BB	3
 pin	reverse/symbols.csv	0x00055825	1
@@ -25814,7 +25814,7 @@ pin	reverse/symbols.csv	0x003ECB2A	1
 pin	reverse/symbols.csv	0x003ECF64	1
 pin	reverse/symbols.csv	0x003ECFBC	1
 pin	reverse/symbols.csv	0x003ED0C4	1
-pin	reverse/symbols.csv	0x003ED191	1
+pin	reverse/symbols.csv	0x003ED191	3	allow=cf3d3f41ecd0211e0dd986b5b5d2dbbbfcb69ff8
 pin	reverse/symbols.csv	0x003ED1BE	1
 pin	reverse/symbols.csv	0x003ED1FC	1
 pin	reverse/symbols.csv	0x003ED2E1	1
@@ -29435,7 +29435,7 @@ pin	reverse/symbols.csv	0x0060C36E	2
 pin	reverse/symbols.csv	0x0060C59D	1
 pin	reverse/symbols.csv	0x0060C935	1
 pin	reverse/symbols.csv	0x0060C9A7	1
-pin	reverse/symbols.csv	0x0060C9D9	15
+pin	reverse/symbols.csv	0x0060C9D9	16	allow=cf3d3f41ecd0211e0dd986b5b5d2dbbbfcb69ff8
 pin	reverse/symbols.csv	0x0060CC99	1
 pin	reverse/symbols.csv	0x0060CD16	1
 pin	reverse/symbols.csv	0x0060CE41	1
@@ -37689,3 +37689,4 @@ present_unmatched	reference/shims/disconnectmanager/GameNetwork/DisconnectManage
 present_unmatched	reference/shims/pathfind/GameLogic/AIPathfind.h	?	1
 present_unmatched	reference/shims/water/W3DDevice/GameClient/W3DWater.h	?	1
 selectany	Code/GameEngine/Source/Common/VslotSmallBodiesW.cpp	__declspec(selectany) Int g_00DFEE18 = 0;	1
+pin	reverse/symbols.csv	0x0060C9C3	1	allow=cf3d3f41ecd0211e0dd986b5b5d2dbbbfcb69ff8
