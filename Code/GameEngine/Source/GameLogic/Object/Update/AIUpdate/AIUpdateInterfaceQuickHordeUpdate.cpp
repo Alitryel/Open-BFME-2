@@ -1,5 +1,3 @@
-// ?quickHordeUpdate@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.96 date=2026-10-20
 // cl: /DNDEBUG /MD /EHs /D_CRTIMP= /ICode/Libraries/Include /ICode/GameEngine/Source/Common /O1 /G7 /arch:SSE
 // Notes kept from the earlier banks of this body:
 // The bit-flag word block at Object+0x110 (591 bits, 0x114..0x11F).
@@ -58,6 +56,13 @@
 // member; type 4 with a path runs doLocomotor on the path for one frame) or 3
 // (turn toward the goal angle). Field and slot names beyond Zero Hour's are
 // address-derived.
+//
+// Shapes the retail bytes need (WB twin statement order): the goal step goes
+// through inline Coord3D member mutators (Set / Sub / Scale / Add on the C3
+// view, as the twin's member calls), with Coord3D::GetLength / normalize
+// visible in this unit so the scaled delta stores die; setModelConditionState
+// is an early-return inline (byte-narrowed test/or); the z rotation is
+// WWMath's Rotate_Z over Vector4 rows.
 
 #include <math.h>
 #include "Lib/Coord3D.h"
@@ -132,6 +137,31 @@ class BfmeVirtualSlots<0>
 {
 };
 
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+	float x_value = x;
+	float y_value = y;
+	float z_value = z;
+
+	return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
+
+inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
+
+__declspec(noinline) inline void Coord3D::normalize()
+{
+	float len = length();
+	if (len != 0.0f) {
+		float scale = 1.0f / len;
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+}
+
 inline void coordSub(Coord3D *a, const Coord3D *b)
 {
 	a->x -= b->x;
@@ -153,52 +183,65 @@ inline void coordScale(Coord3D *a, Real scale)
 	a->z *= scale;
 }
 
+
+struct C3 : Coord3D
+{
+	C3 &Sub(const Coord3D &c) { x -= c.x; y -= c.y; z -= c.z; return *this; }
+	C3 &Add(const Coord3D &c) { x += c.x; y += c.y; z += c.z; return *this; }
+	C3 &Scale(Real s) { x *= s; y *= s; z *= s; return *this; }
+	void Set(const Coord3D &c) { x = c.x; y = c.y; z = c.z; }
+};
+
 template <class T>
 inline const T &maxOf(const T &a, const T &b)
 {
 	return a < b ? b : a;
 }
 
+class Vector4R
+{
+public:
+	float X, Y, Z, W;
+	__forceinline float &operator[](int i) { return (&X)[i]; }
+	__forceinline const float &operator[](int i) const { return (&X)[i]; }
+	__forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+};
 class Matrix3D
 {
 public:
-	Matrix3D(Bool init)
+	Matrix3D(bool init)
 	{
 		if (init)
 		{
-			m_row[0][0] = 1.0f; m_row[0][1] = 0.0f; m_row[0][2] = 0.0f; m_row[0][3] = 0.0f;
-			m_row[1][0] = 0.0f; m_row[1][1] = 1.0f; m_row[1][2] = 0.0f; m_row[1][3] = 0.0f;
-			m_row[2][0] = 0.0f; m_row[2][1] = 0.0f; m_row[2][2] = 1.0f; m_row[2][3] = 0.0f;
+			Row[0].X = 1.0f; Row[0].Y = 0.0f; Row[0].Z = 0.0f; Row[0].W = 0.0f;
+			Row[1].X = 0.0f; Row[1].Y = 1.0f; Row[1].Z = 0.0f; Row[1].W = 0.0f;
+			Row[2].X = 0.0f; Row[2].Y = 0.0f; Row[2].Z = 1.0f; Row[2].W = 0.0f;
 		}
 	}
-	// Rotates the upper 3x3 about z.
-	__forceinline void rotateZ(Real theta)
+	__forceinline void rotateZ(float theta)
 	{
-		Real tmp1, tmp2;
-		Real c, s;
-		c = (Real)cos(theta);
-		s = (Real)sin(theta);
-		tmp1 = m_row[0][0];
-		tmp2 = m_row[0][1];
-		m_row[0][0] = c * tmp1 + s * tmp2;
-		m_row[0][1] = -s * tmp1 + c * tmp2;
-		tmp1 = m_row[1][0];
-		tmp2 = m_row[1][1];
-		m_row[1][0] = c * tmp1 + s * tmp2;
-		m_row[1][1] = -s * tmp1 + c * tmp2;
-		tmp1 = m_row[2][0];
-		tmp2 = m_row[2][1];
-		m_row[2][0] = c * tmp1 + s * tmp2;
-		m_row[2][1] = -s * tmp1 + c * tmp2;
+		float tmp1, tmp2;
+		float c, s;
+		c = cosf(theta);
+		s = sinf(theta);
+		tmp1 = Row[0].X; tmp2 = Row[0].Y;
+		Row[0].X = (float)( c*tmp1 + s*tmp2);
+		Row[0].Y = (float)(-s*tmp1 + c*tmp2);
+		tmp1 = Row[1].X; tmp2 = Row[1].Y;
+		Row[1].X = (float)( c*tmp1 + s*tmp2);
+		Row[1].Y = (float)(-s*tmp1 + c*tmp2);
+		tmp1 = Row[2].X; tmp2 = Row[2].Y;
+		Row[2].X = (float)( c*tmp1 + s*tmp2);
+		Row[2].Y = (float)(-s*tmp1 + c*tmp2);
 	}
 	void setTranslation(const Coord3D &t)
 	{
-		m_row[0][3] = t.x;
-		m_row[1][3] = t.y;
-		m_row[2][3] = t.z;
+		Row[0][3] = t.x;
+		Row[1][3] = t.y;
+		Row[2][3] = t.z;
 	}
 private:
-	Real m_row[3][4];
+	Vector4R Row[3];
 };
 
 class ModelConditionFlags
@@ -297,11 +340,10 @@ public:
 	}
 	__forceinline void setModelConditionState(ModelConditionFlagType mc)
 	{
-		if (m_modelConditionFlags.test(mc) == 0)
-		{
-			m_modelConditionFlags.set(mc);
-			rva0028AE6D();
-		}
+		if (m_modelConditionFlags.test(mc))
+			return;
+		m_modelConditionFlags.set(mc);
+		rva0028AE6D();
 	}
 
 	unsigned char m_pad048[0x10C - 0x48];
@@ -423,7 +465,7 @@ extern int BfmeLogicFramesPerSecond; // logic frames per second
 
 Real normalizeAngle(Real angle);
 
-class AIStateMachine
+class StateMachine
 {
 public:
 	virtual void slot00();
@@ -431,7 +473,11 @@ public:
 	virtual void slot02();
 	virtual void slot03();
 	virtual Int updateStateMachine();
-	Object *getGoalObject();
+	Object *getGoalObject(); // 0x004D7726
+};
+
+class AIStateMachine : public StateMachine
+{
 };
 
 class AICommandInterface
@@ -573,21 +619,15 @@ UpdateSleepTime AIUpdateInterface::quickHordeUpdate()
 		}
 
 		Coord3D pos;
-		pos.x = obj->getPosition()->x;
-		pos.y = obj->getPosition()->y;
-		pos.z = obj->getPosition()->z;
+		static_cast<C3 &>(pos).Set(*obj->getPosition());
 		Coord3D oldPos;
-		oldPos.x = pos.x;
-		oldPos.y = pos.y;
-		oldPos.z = pos.z;
+		static_cast<C3 &>(oldPos).Set(pos);
 		if (m_locomotorGoalType != POSITION_EXPLICIT_HORDE || m_path == NULL)
 		{
 			const Coord3D *goal = &m_locomotorGoalData;
 			Coord3D delta;
-			delta.x = goal->x;
-			delta.y = goal->y;
-			delta.z = goal->z;
-			coordSub(&delta, &pos);
+			static_cast<C3 &>(delta).Set(*goal);
+			static_cast<C3 &>(delta).Sub(pos);
 			delta.z = 0.0f;
 			Real dist = delta.GetLength();
 			if (dist > 4.0f * maxSpeed && container && container->getAI()
@@ -598,9 +638,8 @@ UpdateSleepTime AIUpdateInterface::quickHordeUpdate()
 			if (dist > maxSpeed)
 			{
 				delta.normalize();
-				pos.x += delta.x * maxSpeed;
-				pos.y += delta.y * maxSpeed;
-				pos.z += delta.z * maxSpeed;
+				static_cast<C3 &>(delta).Scale(maxSpeed);
+				static_cast<C3 &>(pos).Add(delta);
 				obj->setModelConditionState(MODELCONDITION_61);
 			}
 			else

@@ -70,6 +70,17 @@ draft and `next_work.py` serves `wpo` candidates last.
   Specialize the element's `Add` in the TU with `int growth = GrowthStep;`.
   Collect_Materials 0x001703D0, Render2DSentenceClass::Draw_Sentence
   0x00155B00.
+- **Coord3D and Matrix3D math as the WB twin's member calls.** When the WB
+  twin calls `Coord3D` mutators (`Sub`, `Scale`, `Add`, field copies through
+  `this`), write them as inline members on a TU-local `struct C3 : Coord3D`
+  view (`static_cast<C3 &>(delta).Sub(pos)`), initialisations included;
+  explicit component arithmetic schedules the SSE step differently. Define
+  `Coord3D::GetLength` / `normalize` noinline in the TU so the scaled stores
+  to the escaped local die. Give `Matrix3D` WWMath's `Vector4 Row[3]` with
+  an `operator[]` and use the verbatim `Rotate_Z`: a `float m_row[3][4]`
+  view keeps two x87/SSE schedule swaps. An early-return inline setter
+  (`if (test(bit)) return; set(bit);`) gives retail's byte-narrowed
+  `test/or byte`. AIUpdateInterface::quickHordeUpdate 0x0026C4EB.
 
 ## Flags
 
