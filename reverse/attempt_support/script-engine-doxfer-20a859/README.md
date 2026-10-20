@@ -97,3 +97,61 @@ tried: the names list filled by a different callee shape (retail's 0x20700F
 helper inlined vs. not), and IL from the view-class casts the bank uses
 (`((Rva002065C8 *)&m_flags)->...`) that may differ from retail's real member
 types.
+
+## Round 3 (2026-10-20, later): the loop-entry mechanism
+
+The bank body is unchanged. Trials were applied to the diagnostic base (bank plus
+`diagnostic-4byte-flag.patch`: 6137 B, 6 regions, 0 memory, 0 register), and the
+five conversion-loop entries were read from the disassembly.
+
+- **Mechanism (proven).** c2 rotates every list `for` loop and copies the
+  test as a guard. If the guard's `names._M_node` load (`[ebp+8]`) is CSE'd with
+  the `begin()` load, the guard becomes `cmp edi,eax; je`, which is our form and
+  retail's form for loops 2 and 5. If something in the IL between `begin()` and
+  the test may write `names`, the guard stays `cmp edi,[ebp+8]`, the same as the
+  bottom test, and cross-jumping turns it into `jmp test`. That is retail's form
+  for loops 1, 3 and 4. Proof: `it = names.begin(); zzExtern(); for (; it !=
+  names.end(); ++it)` gives retail's loop-1 entry. The only remaining difference
+  in that loop is the added call. The cold `push 0; jmp +0x1298` block then moves
+  behind the new `jmp` exactly as in retail.
+- With `begin()` before `m_completedVideo.clear()`, the entry is also un-rotated,
+  but `begin()` loads before the call, which is the wrong load order.
+- In retail the loop 3/4 order `mov eax,[ebp+8]; and; and; mov edi,[eax]; jmp` is
+  only a scheduling result of the missing guard. It gives no alias clue: our
+  guarded form puts both loads before the stores in every source order.
+- So retail's source holds some construct between `begin()` and the loop test
+  in loops 1, 3 and 4 that kills the CSE and leaves no code. Loops 2 and 5 do not
+  have it. Retail's five loops are byte-identical apart from member offsets and,
+  for loops 3/4, the timer element type.
+- Inert, every loop entry still guarded (use `build/`-style scorers on the diag
+  base; the classifier reads the five entries by `lea ecx,[esi+0x1a2xx]; call;
+  mov eax,[ebp+8]`):
+  - assignment-initialized iterator, before or after `clear()`;
+    `const_iterator`;
+  - loop through a `ListAsciiString *` or a reference;
+  - loop 1 as a static helper taking references, pointers or a const reference
+    (inlined);
+  - a dummy block with a dead local between `clear()` and the loop;
+  - timer zeroed by a constructor (`struct : BfmeSpecialPowerTimer8 { ctor }`),
+    by an inline `zero(&timer)` after `begin()`, or declared after the iterator;
+  - a function-scope timer shared by loops 3/4;
+  - `memset` with `#pragma intrinsic` (gives `stosd`, worse);
+  - `m_completedVideo` as `list<UnsignedInt>`;
+  - an unknown call before the loop (the call must sit between `begin()` and
+    the test);
+  - template-order probes: a TU-level helper that iterates the same list types
+    before `DoXfer`, or `template class _STL::list<AsciiString>;`;
+  - global-limit probes: removing whole sections (counters/flags, living world,
+    everything after loop 5) or duplicating sections before or after the loops.
+  The loop entries never move, so it is no function-wide CSE table limit.
+- Flags tried on the base (inert unless noted): `/Ob1 /Ob2 /Oy- /Op /Oi /GF /Gy-
+  /Gs- /GS /Ow /GR-`, `/Os /Og /Oy /Ob1`. `/Ot /Ob0 /Oa /Og-` are worse.
+- WB note: WB destroys loop 1's names list out of line (0xB47E70) and expands
+  the destructor in place in loops 2-5. That splits 1 | 2-5, not 1,3,4 | 2,5, so
+  it is another effect (probably c1's first-use expansion of the implicit
+  `~list`).
+- Next ideas, not tried: a construct around `names` that leaves no code, such as
+  passing `names` by reference to an inline function between the fill and the
+  loop that c2 expands only after CSE; a `const ListAsciiString &` bound to the
+  fill helper's return value (the fill returns `Xfer *`, so retail's helper may
+  return the list); iterating a list that the fill helper returns by reference.
