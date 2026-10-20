@@ -19,6 +19,8 @@
 // Target has ushort timecodes and per-call cursor instead of donor cached
 // dword packets. The existing banked FindIndex helper is the same native
 // search inlined by these three entries; caller-native boundaries prove it.
+// Round 2026-10-20: short-return probe differs from retail only at +0xA0 (movsx for mov edi,eax);
+// cl coalesces every int join tried. Disproofs: reverse/attempt_support/0x001b3313-20261020.md
 class Vector3 { public: float X,Y,Z; };
 class Quaternion { public: float X,Y,Z,W; };
 void BFME2_Nlerp(Quaternion&,const Quaternion&,const Quaternion&,float);
