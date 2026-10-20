@@ -42,6 +42,7 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterat
 // (or, for the unrowed default ctors, to the kept copy) instead of emitting this unit's own.
 namespace _STL {
 template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &);
+template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, pair<int const, int> const &);
 }
 
 // _List_iterator comparisons otherwise instantiate the base-class

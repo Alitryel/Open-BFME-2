@@ -125,6 +125,8 @@ namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_t
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
 namespace _STL { template <> pair<_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::iterator, bool> _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::insert_unique(const pair<const int, int> &); }
+// Call retail's hinted insert_unique (0x00422EC0) instead of emitting this unit's own copy.
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, pair<int const, int> const &); }
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
