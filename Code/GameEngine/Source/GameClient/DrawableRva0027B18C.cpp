@@ -105,13 +105,8 @@ class Rva002D3756
  
 }
 ;
-extern "C" Rva002D3756*g_pRva003BD424;
-class BFMERopeDrawable
-{
- public:const Coord3D*getPosition()const;
- 
-}
-;
+class RadarWindowOverrideSource;
+extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
 class Rva00271B03
 {
  public:void rva00271B03();
@@ -162,6 +157,7 @@ extern PartitionManager*ThePartitionManager;
 class Drawable
 {
  public:void rva0027B18C(DamageInfo*);
+ const Coord3D *getPosition() const;
  char pad00[4];
  BfmeDamageTemplate*data;
  char pad08[0xfc-8];
@@ -246,7 +242,7 @@ void Drawable::rva0027B18C(DamageInfo*damage)
      Rva00271B3CFilter eventFilter(templ->event580);
      Rva00260E2AFilter playerFilter(player);
      eventFilter.link(&playerFilter);
-     BfmeWideResult objects=ThePartitionManager->iterateObjectsInRange(((BFMERopeDrawable*)this)->getPosition(),range,2,&eventFilter,0);
+     BfmeWideResult objects=ThePartitionManager->iterateObjectsInRange(getPosition(),range,2,&eventFilter,0);
      for(Object*o=objects.next();o;o=objects.next())if(((Thing*)o)->getDrawable())((Rva00271B03*)((Thing*)o)->getDrawable())->rva00271B03();
      
     }
@@ -256,6 +252,6 @@ void Drawable::rva0027B18C(DamageInfo*damage)
   }
   
  }
- if(data->flag113&4)g_pRva003BD424->rva002D3756(obj);
+ if(data->flag113&4)((Rva002D3756 *)theRadarWindowOverrideSource)->rva002D3756(obj);
  
 }
