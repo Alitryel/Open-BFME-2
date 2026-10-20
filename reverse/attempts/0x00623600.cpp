@@ -1,5 +1,5 @@
 // ?LoadAsset@AssetManagerImpl@@QAEXPAVRva009EF0D0Element@@@Z
-// partial score=0.9 date=2026-10-20
+// partial score=0.99 date=2026-10-20
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
 // stlport
 // ?LoadAsset@AssetManagerImpl@@QAEXPAVAssetLoadEntry@@@Z
@@ -16,6 +16,10 @@
 // Remaining: retail keeps this in ebp / asset in edi, frame 0x84 (mine 0x8c).
 // 2026-10-20 (claude-opus-5-5): Rva000309B0 is the pinned scoped ctor/dtor pair, as in GameEngineInit.cpp.
 // The tInit column reads t[8] (retail +0x40 from t[0]); the fourcc buffer is char[5]; phase gaps print when t[i] < t[i+1].
+// 2026-10-20 (claude-opus-5-5, w5): only the refcount and phase fields are volatile; the flag bits 24..31 are plain, as in
+// the BFME 1 donor. That puts the queued-bit store and the queue==7 reset in edx as retail (byte-exact modulo relocations).
+// Exact landing needs the ICF pin ??A?$deque@HV?$allocator@H@_STL@@@_STL@@QAEAAHI@Z=0x00620F10 (this unit compiles it
+// to retail's whole 76-byte body there) and a flag override (/O2 /G6 /arch:SSE; the /O2 /G7 region default loses the row).
 
 #define _STLP_USE_MALLOC 1
 #define _STLP_NO_CSTD_FUNCTION_IMPORTS 1
@@ -138,10 +142,10 @@ public:
 		{
 			volatile unsigned int m_bfmeLow : 16;
 			volatile unsigned int m_bfmeState : 8;
-			volatile unsigned int m_bfmeBit24 : 1;
-			volatile unsigned int m_bfmeQueued : 1;
-			volatile unsigned int m_bfmeBit26 : 1;
-			volatile unsigned int m_bfmeHigh : 5;
+			unsigned int m_bfmeBit24 : 1;
+			unsigned int m_bfmeQueued : 1;
+			unsigned int m_bfmeBit26 : 1;
+			unsigned int m_bfmeHigh : 5;
 		};
 	};
 	Rva001408C0Key m_assetID;	// +0x08
@@ -238,7 +242,6 @@ class AssetManagerImpl
 {
 public:
 	void Worker_Thread_00622480();
-	void Queue_Keys_00622680(bool front, const Rva001408C0Set &keys);
 	void LoadAsset(Rva009EF0D0Element *asset);
 	__forceinline void WaitForQueue()
 	{
@@ -282,6 +285,13 @@ private:
 	bool m_flag1f5;
 	bool m_flag1f6;
 	unsigned char m_padding1f7;
+};
+
+// Ledger owner of the key-queue body at 0x00622680 (WorldBuilder: AssetManagerImpl::AddRequiredAssets).
+class AssetRegistry
+{
+public:
+	void Queue_Keys_00622680(bool front, const Rva001408C0Set &keys);
 };
 
 class CriticalSectionLock {
@@ -414,7 +424,7 @@ void AssetManagerImpl::LoadAsset(Rva009EF0D0Element *asset)
 			if (set.m_tree.size() != 0)
 			{
 				CriticalSectionLock lock(&m_lock68);
-				Queue_Keys_00622680(true, set.m_tree);
+				((AssetRegistry *)this)->Queue_Keys_00622680(true, set.m_tree);
 			}
 		}
 		asset->m_bfmeState = 3;
