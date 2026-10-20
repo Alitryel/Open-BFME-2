@@ -17,10 +17,15 @@
 // prefire type +0x12C, pre-attack delay +0x138.
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
+struct Arg1_004DEA70;
+struct Coord3DBase;
+
 class Object
 {
 public:
-	int getNumConsecutiveShotsFiredAtTarget(const Object *victim, const Coord3D *pos) const;
+	// Bind the wrapper's existing provisional signature, rather than giving
+    // its retail address another C++ name. The caller interprets EAX as int.
+    void *rva0028BE7F(Arg1_004DEA70 *victim, const Coord3DBase *pos);
 	Coord3D rva0028BE93() const;
 	const Coord3D *getPosition() const { return &m_position; }
 
@@ -62,7 +67,7 @@ class WeaponTemplate
 public:
 	__declspec(dllimport) __forceinline int getClipSize() const { return m_clipSize; }
 	__declspec(dllimport) __forceinline WeaponPrefireType getPrefireType() const { return m_prefireType; }
-	int getPreAttackDelay(const WeaponBonus &bonus) const
+	__declspec(dllimport) __forceinline int getPreAttackDelay(const WeaponBonus &bonus) const
 	{
 		return (int)(m_preAttackDelay * bonus.getField(PRE_ATTACK));
 	}
@@ -102,7 +107,9 @@ int Weapon::getPreAttackDelay(const Object *source, const Object *victim, const 
 	}
 	else if (type == PREFIRE_PER_ATTACK)
 	{
-		if (source->getNumConsecutiveShotsFiredAtTarget(victim, pos) > 0)
+		if ((int)const_cast<Object *>(source)->rva0028BE7F(
+                reinterpret_cast<Arg1_004DEA70 *>(const_cast<Object *>(victim)),
+                reinterpret_cast<const Coord3DBase *>(pos)) > 0)
 			return 0;
 	}
 	else if (type == PREFIRE_PER_POSITION)
