@@ -1,5 +1,5 @@
 // ?AllocateAndFillBuffers@RenderableStandingWaterArea@@QAEXXZ
-// partial score=0.9197485019832898 date=2026-10-20
+// partial score=0.9394 date=2026-10-20
 // 2026-10-20: clean bank, superseding the inherited r5 status below.
 // Native extent 8304A..834CE remains1156; this partial emits1163.
 // Native frame88 and the complete parent EH graph now EXACT. No volatile
@@ -252,12 +252,136 @@ extern "C" void _ReadWriteBarrier(void);
 #include <vector>
 #include <string.h>
 #include "../../Code/Libraries/Include/Lib/Coord2D.h"
+#define fill bfmeLoaderHeaderFill
+#include <stl/_algobase.h>
+#undef fill
+namespace _STL { void fill(char *, char *, const char &); }
+namespace _STL { static inline const unsigned int &max(const unsigned int &a, const unsigned int &b) { return a < b ? b : a; } }
+#include <vector>
+#include "ascii_string.h"
+namespace _STL { extern template char *__uninitialized_copy(char *, char *, char *, const __true_type &); }
+namespace _STL { extern template char *fill_n<unsigned int>(char *, unsigned int, const char &); }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *p, size_t n) { allocator<char>::deallocate(p,n); } }
+
+
 namespace _STL {
- template<> class vector<char,allocator<char> > {
-  public: char *start,*finish,*end;
-  void resize(unsigned int,char);
- };
+template <> __declspec(dllimport) __forceinline
+allocator<char> &__stl_alloc_rebind(allocator<char> &a, const char *) { return a; }
 }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+char *_STLP_alloc_proxy<char *,char,allocator<char> >::allocate(size_t n) {
+    return __stl_alloc_rebind(static_cast<allocator<char> &>(*this), (char *)0).allocate(n,0);
+}
+}
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Vector_base<char, allocator<char> >::~_Vector_base() {
+    if (_M_start != 0)
+        _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+}
+
+// game.dat's STLport passes vector<char>::resize's fill by value (the rowed
+// 0x000826E3 body; the call site pushes the byte itself), so this unit
+// specializes vector<char> to that interface. The count constructor and
+// resize are the rowed out-of-line bodies; swap is STLport's inline one.
+// The members resize reaches keep STLport 4.5.3's bodies, so the compiler
+// sees that the vector's address is not retained across the file calls.
+namespace _STL
+{
+template <>
+class vector<char, allocator<char> > : public _Vector_base<char, allocator<char> >
+{
+public:
+	typedef allocator<char> allocator_type;
+	typedef unsigned int size_type;
+
+	explicit vector(const allocator_type &a = allocator_type()) : _Vector_base<char, allocator<char> >(a) {}
+	explicit vector(size_type n);
+
+	char *begin() { return this->_M_start; }
+	char *end() { return this->_M_finish; }
+	size_type size() const { return size_type(this->_M_finish - this->_M_start); }
+	char *erase(char *first, char *last)
+	{
+		char *i = __copy_ptrs(last, this->_M_finish, first, __true_type());
+		_Destroy(i, this->_M_finish);
+		this->_M_finish = i;
+		return first;
+	}
+protected:
+	void _M_clear()
+	{
+		_Destroy(this->_M_start, this->_M_finish);
+		this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
+	}
+	void _M_set(char *s, char *f, char *e)
+	{
+		this->_M_start = s;
+		this->_M_finish = f;
+		this->_M_end_of_storage._M_data = e;
+	}
+	void _M_insert_overflow(char *position, const char &value, const __true_type &, unsigned int fill_len, bool at_end = false)
+	{
+    const unsigned int old_size = this->_M_finish - this->_M_start;
+    char *new_start;
+    const unsigned int new_len = old_size + (max)(old_size, fill_len);
+    if (new_len != 0)
+        new_start = this->_M_end_of_storage.allocate(new_len);
+    else
+        new_start = 0;
+    char *new_finish = (char *)_STL::__copy_trivial(this->_M_start, position, new_start);
+    new_finish = _STL::fill_n(new_finish, fill_len, value);
+    if (!at_end)
+        new_finish = (char *)_STL::__copy_trivial(position, this->_M_finish, new_finish);
+    this->_M_clear();
+    this->_M_set(new_start, new_finish, new_start + new_len);
+}
+public:
+	void _M_fill_insert(char *position, size_type n, const char &x);
+
+	char &operator[](size_type n) { return this->_M_start[n]; }
+	void resize(size_type newSize, char x)
+	{
+		if (newSize < size())
+			erase(begin() + newSize, end());
+		else
+			_M_fill_insert(end(), newSize - size(), x);
+	}
+	void swap(vector<char, allocator<char> > &x)
+	{
+		_STLP_STD::swap(this->_M_start, x._M_start);
+		_STLP_STD::swap(this->_M_finish, x._M_finish);
+		_STLP_STD::swap(this->_M_end_of_storage, x._M_end_of_storage);
+	}
+};
+
+inline void vector<char, allocator<char> >::_M_fill_insert(char *position, size_type n, const char &x)
+{
+	if (n != 0) {
+		if (size_type(this->_M_end_of_storage._M_data - this->_M_finish) >= n) {
+			char xCopy = x;
+			const size_type elemsAfter = this->_M_finish - position;
+			char *oldFinish = this->_M_finish;
+			if (elemsAfter > n) {
+				(char *)__copy_trivial(this->_M_finish - n, this->_M_finish, this->_M_finish);
+				this->_M_finish += n;
+				__copy_backward_ptrs(position, oldFinish - n, oldFinish, __true_type());
+				_STLP_STD::fill(position, position + n, xCopy);
+			} else {
+				uninitialized_fill_n(this->_M_finish, n - elemsAfter, xCopy);
+				this->_M_finish += n - elemsAfter;
+				(char *)__copy_trivial(position, oldFinish, this->_M_finish);
+				this->_M_finish += elemsAfter;
+				_STLP_STD::fill(position, oldFinish, xCopy);
+			}
+		} else
+			_M_insert_overflow(position, x, __true_type(), n);
+	}
+}
+}
+
 struct BfmeE12 { float x,y,z; };
 struct BfmeE16 { float x,y,z,w; };
 struct BfmePod44 {int a[11];};
@@ -348,8 +472,8 @@ void RenderableStandingWaterArea::AllocateAndFillBuffers() {
  bounds.lo.y=(float)int(bounds.lo.y/spacing)*spacing;
  bounds.hi.x=float(int(bounds.hi.x/spacing))*spacing+spacing;
  bounds.hi.y=float(int(bounds.hi.y/spacing))*spacing+spacing;
- _STL::_Vector_base<BfmeE12,_STL::allocator<BfmeE12> > flags((_STL::allocator<BfmeE12>()));
- reinterpret_cast<_STL::vector<char>*>(&flags)->resize(total,0);
+ _STL::vector<char> flags;
+ flags.resize(total,0);
  MathCoord2D half(spacing*.5f,spacing*.5f);
  MathCoord2D center=(*reinterpret_cast<MathCoord2D*>(&bounds))+half;
  int y;
@@ -362,7 +486,8 @@ void RenderableStandingWaterArea::AllocateAndFillBuffers() {
    
    Rva0030D111Shape *shape=m_area ? reinterpret_cast<Rva0030D111Shape*>(reinterpret_cast<char*>(m_area)+0x18+(*reinterpret_cast<int**>(reinterpret_cast<char*>(m_area)+0x18))[1]) : 0;
    bool in=Rva0030D111Contains(shape,&pos);
-   (*reinterpret_cast<char**>(&flags))[y*nx+x]=in;
+   int idx=y*nx+x;
+   flags[idx]=in;
    count+=in;
   }
  }
@@ -378,7 +503,7 @@ void RenderableStandingWaterArea::AllocateAndFillBuffers() {
    for(y=0;y<ny;++y){
 
     for(int x=0;x<nx;++x){
-     if((*reinterpret_cast<char**>(&flags))[y*nx+x]){
+     if(flags[y*nx+x]){
       out[0]=cache.rva00082E33(x,y);
       out[1]=cache.rva00082E33(x+1,y+1);
       out[2]=cache.rva00082E33(x,y+1);

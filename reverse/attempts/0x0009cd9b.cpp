@@ -1,5 +1,5 @@
 // ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.93 date=2026-10-20
+// partial score=0.975 date=2026-10-20
 // Bank draft of the LM_SunRays customized-render setup at 0x0009CD9B (1984B).
 // Decoded from the retail body: two Create_Render_Obj calls (the host's +0xD4
 // and "LM_SunRays" +0x188), the +0x18C/+0x190/+0x194 sub-object bindings via
