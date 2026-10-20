@@ -29,12 +29,10 @@ class SpecialDisguiseUpdate;
 
 class SpecialAbilityUpdate
 {
-	friend class SpecialDisguiseUpdate;
 public:
 	virtual ~SpecialAbilityUpdate();
-private:
-	void onExit(bool a, bool b);
 protected:
+	virtual void onExit(bool a, bool b);
 	const ModuleData *m_moduleData; // +0x04
 	Object *m_object; // +0x08
 };

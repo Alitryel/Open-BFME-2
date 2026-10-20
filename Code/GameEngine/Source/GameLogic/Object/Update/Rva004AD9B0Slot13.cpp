@@ -4,7 +4,7 @@
 // slot 13 (offset 0x34) of vtable 0x008551C0 (class of rowed dtor
 // ??1Rva004AD9B0@@UAE@XZ in ModuleUpdateDtors.cpp, same primary; gap
 // between 0x004ADB1B/188 and 0x004ADC38/80). Body forwards two bools to
-// pinned SpecialAbilityUpdate::onExit 0x004502CE after BuildListInfo
+// rowed SpecialAbilityUpdate::onExit 0x004502CE after BuildListInfo
 // gatherer check via rowed 0x005508E2 (twice, second stores 1.0f at
 // +0xb0) and Object::setStatus 0x0023DB0E with 0x4a/false. Identity is
 // slot 13 plus the onExit-forward shape; flags copy the neighbour
@@ -33,8 +33,8 @@ class Rva004AD9B0;
 
 class SpecialAbilityUpdate
 {
-private:
-	void onExit(bool a, bool b);
+protected:
+	virtual void onExit(bool a, bool b);
 	friend class Rva004AD9B0;
 };
 
@@ -57,5 +57,5 @@ void Rva004AD9B0::Rva004ADBF2(bool a, bool b)
 		*(float *)(v2 + 0xb0) = one;
 	}
 	((Object *)m_08)->setStatus((ObjectStatusTypes)0x4a, false);
-	((SpecialAbilityUpdate *)this)->onExit(a, b);
+	((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::onExit(a, b);
 }

@@ -3,7 +3,7 @@
 // ?onExit@WeaponFireSpecialAbilityUpdate@@MAEX_N0@Z, retail 0x00492930, 161
 // bytes: slot 13 of WeaponFireSpecialAbilityUpdate's primary vtable 0x00C4E090
 // (ctors 0x0049257C, 0x00492736), over the SpecialAbilityUpdate slot-13 base
-// onExit 0x004502CE (pinned; name donor-carried from BFME 1). After the base,
+// onExit 0x004502CE (rowed protected virtual owner). After the base,
 // the module data's +0xCC selector (1..6) names one model-condition bit to
 // drop from the Object, 7*32+20..22 or 18*32+12..14; a bit that was set is
 // cleared and the Object notified (0x0028AE6D).
@@ -48,11 +48,9 @@ class SpecialAbilityUpdate
 public:
 	virtual ~SpecialAbilityUpdate();
 protected:
+	virtual void onExit(bool a, bool b);
 	const WeaponFireSpecialAbilityUpdateModuleData *m_moduleData; // +0x04
 	Object *m_object; // +0x08
-private:
-	void onExit(bool a, bool b);
-	friend class WeaponFireSpecialAbilityUpdate;
 };
 
 class WeaponFireSpecialAbilityUpdate : public SpecialAbilityUpdate

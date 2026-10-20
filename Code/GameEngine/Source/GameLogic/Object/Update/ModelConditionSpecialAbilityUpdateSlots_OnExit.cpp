@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /GX
-// Split from ModelConditionSpecialAbilityUpdateSlots.cpp: these definitions reference a callee with no matched body yet,
-// so they are kept apart from the unit's bodies that already link.
+// Split from ModelConditionSpecialAbilityUpdateSlots.cpp. The direct base
+// onExit call now binds to the recovered protected virtual owner.
 //
 // ModelConditionSpecialAbilityUpdate's slot-22 override (vftable whose
 // slot-2 name getter returns "ModelConditionSpecialAbilityUpdate"; rowed
@@ -148,13 +148,11 @@ class ModelConditionSpecialAbilityUpdate;
 
 class SpecialAbilityUpdate
 {
-	friend class ModelConditionSpecialAbilityUpdate;
 public:
 	virtual void triggerAbilityEffect();
 	virtual void startUnpacking();
-private:
-	void onExit(bool a, bool b);
 protected:
+	virtual void onExit(bool a, bool b);
 	Object *getObject() const { return m_object; }
 	const ModuleData *m_moduleData; // +0x04
 	Object *m_object; // +0x08
