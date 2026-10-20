@@ -225,6 +225,16 @@ public:
 	void rva004FA992(void (Rva004FA953Listener::*notify)(void *, int), void *arg, int value);
 };
 
+// The slot-6 / slot-8 argument: only its +0x4C id is read, through an inline
+// enum getter (an int member read folds into push [reg+4C]; the getter's
+// return value is loaded into EAX first, as retail does).
+struct Rva004FA5D4Source
+{
+	char m_pad[0x4C];
+	ScienceType m_id;	// +0x4C
+	ScienceType getID() const { return m_id; }
+};
+
 class Rva004FA992Owner
 {
 	friend class Rva004FAA81Owner;
@@ -234,11 +244,13 @@ public:
 	virtual void v02();	// slot 2 (unrecovered; declared only)
 	virtual void v03();	// slot 3 (unrecovered; declared only)
 	virtual bool checkId(ObjectID id, SpawnArmy *ctx);	// slot 4 (name unrecovered; declared only)
-	virtual void v05();	// slot 5 (unrecovered; declared only)
+	virtual bool v05(ScienceType p);	// slot 5: the 0x004FAEAA body (rowed below as rva004FAEAA)
 	virtual void v06();	// slot 6 (unrecovered; declared only)
 	virtual bool v07(int p);	// slot 7: gate on the int param (name unrecovered; declared only)
 		void rva004FA9B1(int index);
 	bool rva004FAEAA(ScienceType p);
+	bool rva004FA5E4(const Rva004FA5D4Source *source);	// slot 6
+	bool rva004FA5D4(const Rva004FA5D4Source *source);	// slot 8
 
 private:
 	// +0x00 vptr (was modelled as int m_00 before the slot-4 virtual call
@@ -428,4 +440,16 @@ bool Rva004FA992Owner::rva004FAEAA(ScienceType p)
 			((Rva002E074E *)player)->rva002E074E((Rva00319CED *)&tmp);
 	}
 	return true;
+}
+
+// ---- 0x004FA5E4 (16B, vtable slot 6) / 0x004FA5D4 (16B, vtable slot 8):
+// forward the argument's id to the slot-5 (0x004FAEAA) and slot-7 gates.
+bool Rva004FA992Owner::rva004FA5E4(const Rva004FA5D4Source *source)
+{
+	return v05(source->getID());
+}
+
+bool Rva004FA992Owner::rva004FA5D4(const Rva004FA5D4Source *source)
+{
+	return v07(source->getID());
 }
