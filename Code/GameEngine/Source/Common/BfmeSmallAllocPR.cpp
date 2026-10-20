@@ -40,8 +40,6 @@ public:
 
 class BfmeNodeAllocLock : public _STL::_Node_Alloc_Lock<false, 0>
 {
-	int m_dummy;
-
 public:
 	~BfmeNodeAllocLock()
 	{
