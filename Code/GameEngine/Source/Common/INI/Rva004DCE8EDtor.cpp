@@ -8,6 +8,10 @@ namespace _STL { template <> _Rb_tree<unsigned short, pair<unsigned short const,
 namespace _STL { template <> void _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::_M_erase(_Rb_tree_node<pair<unsigned short const, int> > *); }
 namespace _STL { template <> void _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBHURva00462D35Mapped@@@_STL@@V?$allocator@U?$pair@$$CBHURva0:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00462D35Mapped;
+namespace _STL { template <> _Rb_tree_base<pair<int const ,Rva00462D35Mapped>,allocator<pair<int const ,Rva00462D35Mapped> > >::~_Rb_tree_base(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHURva00462D35Mapped@@@_STL@@@_STL@@@_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00462D35Mapped;
