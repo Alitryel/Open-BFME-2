@@ -70,6 +70,18 @@ typedef _STL::pair<const AsciiString, BuildableStatus> BuildableStatusPair;
 typedef _STL::hash_map<AsciiString, BuildableStatus, rts::hash<AsciiString>,
 	rts::equal_to<AsciiString>, _STL::allocator<BuildableStatusPair> > BuildableMap;
 
+// Call the rowed 0x2460C3 helper; keep this unit's independent rowed helpers.
+namespace _STL {
+template <> BuildableStatus &BuildableMap::operator[](const AsciiString &);
+}
+typedef _STL::hashtable<BuildableStatusPair, AsciiString, rts::hash<AsciiString>,
+    _STL::_Select1st<BuildableStatusPair>, rts::equal_to<AsciiString>,
+    _STL::allocator<BuildableStatusPair> > BuildableTable;
+template unsigned int BuildableTable::_M_bkt_num_key(const AsciiString &) const;
+template unsigned int BuildableTable::_M_bkt_num(const BuildableStatusPair &) const;
+template _STL::pair<const AsciiString, BuildableStatus>::pair(
+    const AsciiString &, const BuildableStatus &);
+
 class ThingTemplate; // +0x64 AsciiString key; NOT ThingTemplate::getName (kept +0x10 in ThingFactory.cpp), retail inlines +0x64
 
 class GameLogic
