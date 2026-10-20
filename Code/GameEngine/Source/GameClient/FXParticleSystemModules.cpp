@@ -587,13 +587,17 @@ struct PointEmissionVolumeModuleTag
     static const char *const &s_name;
 };
 
-const char *const &PointEmissionVolumeModuleTag::s_key = POINT_EMISSION_VOLUME_MODULE_KEY;
-const char *const &PointEmissionVolumeModuleTag::s_name = POINT_EMISSION_VOLUME_MODULE_NAME;
-
 typedef ConcreteModuleTemplate<PointEmissionVolumeModuleTag> PointEmissionVolumeModuleConcrete;
 typedef ConcreteModuleClass<PointEmissionVolumeModuleTag> PointEmissionVolumeModuleClassConcrete;
 
 PointEmissionVolumeModuleConcrete g_pointEmissionVolumeModuleConcrete;
+
+// Defined after the concrete global: retail initialises both references at
+// run time (0x007AF6B1 and 0x007AF6BC store the key and name pointers), and
+// cl 7.1 only does that once a dynamic initializer precedes them in the unit.
+// Ahead of every dynamic initializer it binds them statically in .data.
+const char *const &PointEmissionVolumeModuleTag::s_key = POINT_EMISSION_VOLUME_MODULE_KEY;
+const char *const &PointEmissionVolumeModuleTag::s_name = POINT_EMISSION_VOLUME_MODULE_NAME;
 template class ConcreteModuleClass<PointEmissionVolumeModuleTag>;
 
 // Same empty-tag fold as the ortho tag above.
