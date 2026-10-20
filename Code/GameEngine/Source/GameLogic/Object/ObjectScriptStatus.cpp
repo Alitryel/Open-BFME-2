@@ -209,7 +209,7 @@ public:
 	void setDisabledUntil( DisabledType type, UnsignedInt frame );
 	void setDisabled( DisabledType type );
 	Bool clearDisabled( DisabledType type );
- void rva0028B292(int)const;void rva0028AE6D();void rva00290357();void rva0028B8A6(bool);
+ void rva0028B292(int)const;void rva0028AE6D();void checkDisabledStatus();void rva0028B8A6(bool);
 	void makeDirty( void );
 	void setScriptStatus( ObjectScriptStatusBit bit, Bool set );
 	void setStatus( ObjectStatusTypes bit, Bool flag );
@@ -620,7 +620,7 @@ no_sound:
  if(!mask.any() || mask.countInverseIntersection(exceptions)==0) {
   if(drawable)reinterpret_cast<Rva00270619*>(drawable)->Rva00270619Clear(1);
  }
- rva00290357();
+ checkDisabledStatus();
  if(!mask.any())rva0028B8A6(false);
  return true;
 }

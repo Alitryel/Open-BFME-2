@@ -1,5 +1,5 @@
 // cl: /O1 /DNDEBUG /MD /GX-
-// ?rva0028FBBE@Object@@QAEHXZ, retail 0x0028FBBE, 90 bytes.
+// ?getTransportSlotCount@Object@@QAEHXZ, retail 0x0028FBBE, 90 bytes.
 // Object contain-sum: template byte at +0x5F1 via +4, contain module at
 // +0x250 checked through slot5 then slot70 fill of 8B temp, walk of
 // sentinel list (next at +0, object at +8) summing recursive self.
@@ -55,7 +55,7 @@ public:
 class Object
 {
 public:
-	int rva0028FBBE();
+	int getTransportSlotCount();
 private:
 	void *m_vptr;
 	ThingTemplate *m_template;
@@ -63,7 +63,7 @@ private:
 	ContainModule *m_contain;
 };
 
-int Object::rva0028FBBE()
+int Object::getTransportSlotCount()
 {
 	ThingTemplate *tmpl = m_template;
 	ContainModule *contain = m_contain;
@@ -77,7 +77,7 @@ int Object::rva0028FBBE()
 	contain->v70(&tmp);
 	Node *cur = tmp.list->head->next;
 	while (cur != tmp.list->head) {
-		total += cur->obj->rva0028FBBE();
+		total += cur->obj->getTransportSlotCount();
 		cur = cur->next;
 	}
 	return total;

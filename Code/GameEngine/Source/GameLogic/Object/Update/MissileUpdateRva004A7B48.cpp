@@ -9,7 +9,7 @@ enum UpdateSleepTime {UPDATE_SLEEP_NONE=1,UPDATE_SLEEP_FOREVER=0x3fffffff};
 enum PathfindLayerEnum {GROUND_LAYER=0,BRIDGE_LAYER=1};
 class Thing {public:virtual void anchor();void setPosition(const Coord3D*);const Coord3D *getPosition()const{return &m_position;}char pad[0x34];Coord3D m_position;};
 struct MissilePoint:public Coord3D {MissilePoint(const Coord3D &p){x=p.x;y=p.y;z=p.z;}void setXY(const Coord3D&p,float height){x=p.x;y=p.y;z=height;}};
-class Object:public Thing {public:int rva0028B511()const;void rva0028B4CE(PathfindLayerEnum);};
+class Object:public Thing {public:int rva0028B511()const;void setLayer(PathfindLayerEnum);};
 #include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class TerrainLogic {public:virtual ~TerrainLogic();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual void slot5();virtual float getGroundHeight(float,float,Coord3D*)const;virtual float getLayerHeight(float,float,PathfindLayerEnum,Coord3D*,bool)const;PathfindLayerEnum getHighestLayerForDestination(const Coord3D*,bool);};extern TerrainLogic *TheTerrainLogic;
@@ -33,7 +33,7 @@ UpdateSleepTime MissileUpdate::update(){
   copyPosition(pos);}
  if(pos.z<0.0f){TheGameLogic->destroyObject(getObject());return UPDATE_SLEEP_FOREVER;}
  switch(m_state){case 0:state0();break;case 5:state5();break;case 1:rva004A7797();if(m_state!=2)break;case 2:rva004A78E1();break;case 3:rva004A7A86(0);break;case 4:rva004A7A86(1);break;case 6:rva004A7AF6();break;case 7:rva004A7767();break;}
- int oldLayer=getObject()->rva0028B511();PathfindLayerEnum layer=TheTerrainLogic->getHighestLayerForDestination(getObject()->getPosition(),false);getObject()->rva0028B4CE(layer);
+ int oldLayer=getObject()->rva0028B511();PathfindLayerEnum layer=TheTerrainLogic->getHighestLayerForDestination(getObject()->getPosition(),false);getObject()->setLayer(layer);
  if(slot1()&&oldLayer!=1&&layer==1){pos.setXY(*getObject()->getPosition(),9999.0f);
  PathfindLayerEnum ground=TheTerrainLogic->getHighestLayerForDestination(&pos,false);if(ground==oldLayer){pos.z=TheTerrainLogic->getLayerHeight(pos.x,pos.y,ground,0,true)+2.0f;getObject()->Thing::setPosition(&pos);rva004A7580();return UPDATE_SLEEP_NONE;}}
  return BezierProjectileBehavior::update();

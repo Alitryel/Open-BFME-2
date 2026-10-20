@@ -37,7 +37,7 @@ class Object
 {
 public:
 	int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	void setDisabled(DisabledType type);
 	char m_pad[0x74];
 	int m_id;
@@ -100,7 +100,7 @@ void SpawnPointProductionExitUpdate::exitObjectViaDoor(Object *newObj, ExitDoorT
 	m_spawnPointOccupier[positionIndex] = newObj->m_id;
 	((Thing *)newObj)->setPosition(&createPoint);
 	((Thing *)newObj)->setOrientation(createAngle);
-	newObj->rva0028B4CE((PathfindLayerEnum)creationObject->rva0028B511());
+	newObj->setLayer((PathfindLayerEnum)creationObject->rva0028B511());
 	TheAI->m_pathfinder->AddObjectToPathfindMap(newObj);
 	newObj->setDisabled(DISABLED_HELD);
 }

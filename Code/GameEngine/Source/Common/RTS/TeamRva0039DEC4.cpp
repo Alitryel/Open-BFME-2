@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva0039DEC4@Team@@QAE_NXZ @0x0039DEC4 (88B).
+// ?hasAnyUnits@Team@@QAE_NXZ @0x0039DEC4 (88B).
 // Team member scan returning true when a live member passes the 0x108 kind
 // gates plus the 0x11A bit gate. Retail walks via rowed iterate 0x263864
 // and DLINK advance 0x263526 (pin), skips dead Object+0x438 bit0 and status
@@ -46,10 +46,10 @@ class Team
 {
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
-	bool rva0039DEC4();
+	bool hasAnyUnits();
 };
 
-bool Team::rva0039DEC4()
+bool Team::hasAnyUnits()
 {
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 		Object *cur = iter.cur();

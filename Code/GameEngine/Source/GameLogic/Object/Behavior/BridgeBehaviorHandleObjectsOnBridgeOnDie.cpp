@@ -99,7 +99,7 @@ class Object : public Thing
 {
 public:
 	int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	void kill(DamageType damageType, DeathType deathType);
 };
 
@@ -221,7 +221,7 @@ void BridgeBehavior::handleObjectsOnBridgeOnDie()
 			if (bridgeLayer != other->rva0028B511())
 				continue;
 			if (other->rva0028B511() == bridgeLayer)
-				other->rva0028B4CE(LAYER_GROUND);
+				other->setLayer(LAYER_GROUND);
 			other->kill(BridgeDieDamageType8, BridgeDieDeathType0);
 		}
 	}

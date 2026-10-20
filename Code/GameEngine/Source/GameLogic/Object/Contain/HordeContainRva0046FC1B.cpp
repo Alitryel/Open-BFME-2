@@ -61,7 +61,7 @@ public:
     char pad158[0x258-0x158];
     AIUpdateInterface *ai;
     int rva0028B511() const;
-    void rva0028B4CE(PathfindLayerEnum);
+    void setLayer(PathfindLayerEnum);
 };
 struct Rva002ED236Pos {
     float x,y,z;
@@ -144,12 +144,12 @@ int Rva0046FC1B::rva0046FC1B()
     if (!ai->isMoving() && !*(int *)(self+0x290)) {
         PathfindLayerEnum layer = (*(Pathfinder **)((char *)TheAI+0x10))->rva002ED236(owner, owner->position);
         if ((int)layer != owner->rva0028B511()) {
-            owner->rva0028B4CE(layer);
+            owner->setLayer(layer);
             Rva0046247DPair items;
             ((Rva0046247D *)(self-0x10))->rva0046247D(items);
             for (UpdateListNode *node=items.list->head->next; node!=items.list->head; node=node->next) {
                 Object *member = node->object;
-                member->rva0028B4CE((*(Pathfinder **)((char *)TheAI+0x10))->rva002ED236(member, member->position));
+                member->setLayer((*(Pathfinder **)((char *)TheAI+0x10))->rva002ED236(member, member->position));
             }
             *(bool *)(self+0x110) = true;
         }

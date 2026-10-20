@@ -16,7 +16,7 @@ public:
     void setStatus(ObjectStatusTypes,bool);
     Rva00373EC6 *rva0028F4BC();
     int rva0028B511() const;
-    void rva0028B4CE(PathfindLayerEnum);
+    void setLayer(PathfindLayerEnum);
     void rva0028FB6F(void *);
 };
 class StealthUpdate { public: void markAsDetected(unsigned,int,Object *,bool); };
@@ -56,7 +56,7 @@ void OpenContain::privateRemoveFromContain(Object *rider,bool expose)
     rider->setStatus(OBJECT_STATUS_63,false);
     Rva00462FB3FlagsView *interface20=reinterpret_cast<Rva00462FB3FlagsView *>(reinterpret_cast<char *>(this)+0x20);
     if (interface20->flags(0).test(61)) slot24(rider,true,false);
-    if (!(reinterpret_cast<const unsigned char *>(rider)[0x438]&1)) rider->rva0028B4CE(static_cast<PathfindLayerEnum>(owner->rva0028B511()));
+    if (!(reinterpret_cast<const unsigned char *>(rider)[0x438]&1)) rider->setLayer(static_cast<PathfindLayerEnum>(owner->rva0028B511()));
     slot22();
     Rva00462FB3OwnerContain *contained=*reinterpret_cast<Rva00462FB3OwnerContain **>(reinterpret_cast<char *>(owner)+0x250);
     if (contained) contained->onRemoving(rider);

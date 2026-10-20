@@ -87,7 +87,7 @@ public:
 		m_cond.set(122);
 		rva0028AE6D();
 	}
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	void rva0028AE6D();
 	void kill(DamageType damage, DeathType death);
 	void setStatus(ObjectStatusTypes status, bool flag);
@@ -163,7 +163,7 @@ void BezierProjectileBehavior::rva0045C975(int)
 	pos.y = obj->getPosition()->y;
 	pos.z = obj->getPosition()->z + 10.0f;
 	PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, &pos);
-	obj->rva0028B4CE(layer);
+	obj->setLayer(layer);
 	pos.z = TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true);
 	((Thing *)obj)->setPosition(&pos);
 

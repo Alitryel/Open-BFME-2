@@ -6,7 +6,7 @@
 // callers pass Object* in ecx plus GameLogic frame in stack e.g. 0x00492BC0 mov ecx edi,
 // 0x00379228 mov ecx esi push frame, 0x00492E04 mov ecx ebx; status 0x4A per Rva004AD9B0 TU.
 //
-// ?rva00290357@Object@@QAEXXZ @0x00290357 108B chain via rowed rva001E4A4E.
+// ?checkDisabledStatus@Object@@QAEXXZ @0x00290357 108B chain via rowed rva001E4A4E.
 // Thiscall void, 11-iteration disabled clear: if rva001E4A4E(i) and frame >=
 // m_1cc[i] then clearDisabled(i) plus bit clear in m_1c8 plus for i==1 the
 // 0x14e bit2 clear with rva0028AE6D. Evidence: TheGameLogic+0x40 frame,
@@ -61,7 +61,7 @@ public:
 	void rva002903EF();
 	bool clearDisabled(DisabledType type);
 	void rva0028AE6D();
-	void rva00290357();
+	void checkDisabledStatus();
 
 private:
 	char m_pad00[0x14C];
@@ -108,7 +108,7 @@ void Object::rva002903EF()
 	m_frame430 = 0;
 }
 
-void Object::rva00290357()
+void Object::checkDisabledStatus()
 {
 	unsigned int frame = TheGameLogic->m_frame;
 	for (int i = 0; i < 11; ++i)

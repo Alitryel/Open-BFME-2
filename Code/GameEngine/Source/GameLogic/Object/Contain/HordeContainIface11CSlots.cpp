@@ -640,7 +640,7 @@ public:
 	void rva0028B95F();
 	unsigned char rva00290FBB() const;
 	int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	void rva0028AE6D();
 	void rva0029A12B();
 	void rva00298979(Object *source, bool flag);
@@ -2842,7 +2842,7 @@ void HordeContain::rva0046BEAC(Object *obj)
 			}
 		}
 		((Thing *)obj)->setPosition(&bestPos);
-		obj->rva0028B4CE((PathfindLayerEnum)layer);
+		obj->setLayer((PathfindLayerEnum)layer);
 	}
 }
 

@@ -1715,14 +1715,14 @@ public:
 	const ThingTemplate *getTemplate(void) const { return m_template; }
 	Object *getNextObject(void) const { return m_next; }
 	void updateObjValuesFromMapProperties(Dict *properties);
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	void rva00293E64(Dict *properties);
 	bool testStatus(ObjectStatusTypes bit) const;
 	bool isDisabled_(void) const { return m_disabledMask.any(); }
 	const DisabledMaskType &getDisabledFlags(void) const { return m_disabledMask; }
 	AIUpdateInterface *getAIUpdateInterface(void) const { return m_ai; }
 	void rva0023D3AF(void *frame);
-	void rva00290357(void);
+	void checkDisabledStatus(void);
 	void rva002903C3(void);
 	void rva002903EF(void);
 	void rva00297612(void);
@@ -4945,7 +4945,7 @@ void GameLogic::update(int phase)
 	if (first) {
 		for (Object *obj = m_objList; obj; obj = obj->getNextObject()) {
 			if (obj->isDisabled_())
-				obj->rva00290357();
+				obj->checkDisabledStatus();
 			if (obj->testStatus((ObjectStatusTypes)0x4a))
 				obj->rva002903C3();
 			if (obj->testStatus((ObjectStatusTypes)4))
@@ -5435,7 +5435,7 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 				}
 				obj->setPosition(&pos);
 				obj->updateObjValuesFromMapProperties(props);
-				obj->rva0028B4CE(TheTerrainLogic->getLayerForDestination(obj, &pos));
+				obj->setLayer(TheTerrainLogic->getLayerForDestination(obj, &pos));
 				Rva0134FAA0->slot28();
 				bfmeReleaseQueuedDeviceInterfaces();
 				((Rva0028CBFD *)obj)->rva0028CBFD();

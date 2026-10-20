@@ -50,7 +50,7 @@ class Object
 public:
 	Bool isInList(Object **pListHead) const;
 	void appendToList(Object **pListHead, Object **pListTail);
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 
 private:
 	unsigned char m_pre[0x8C];
@@ -84,13 +84,13 @@ void Object::appendToList(Object **pListHead, Object **pListTail)
 	*pListTail = this;
 }
 
-// ?rva0028B4CE@Object@@QAEXW4PathfindLayerEnum@@@Z, retail 0x0028B4CE (67B):
+// ?setLayer@Object@@QAEXW4PathfindLayerEnum@@@Z, retail 0x0028B4CE (67B):
 // the +0x40C layer setter in setLayer's position. On a change away from a
 // non-ground layer it calls TheTerrainLogic's slot 43 with (this, old
 // layer, true) - the arguments of Zero Hour's debug-only
 // objectInteractsWithBridgeLayer check - then stores the layer and notifies
 // the Object+0xA4 object through the pinned 0x004DE2ED.
-void Object::rva0028B4CE(PathfindLayerEnum layer)
+void Object::setLayer(PathfindLayerEnum layer)
 {
 	if (layer != m_layer)
 	{

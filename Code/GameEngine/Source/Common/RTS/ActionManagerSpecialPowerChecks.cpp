@@ -111,7 +111,7 @@ public:
 	const Rva0028AC4EEntry *rva0028AC4E() const;	// 0x0028AC4E
 	float GetRelativeAngle(const Coord3D *pos) const;	// 0x000B4542
 	bool rva0028D491() const;	// 0x0028D491
-	int rva0028FBBE();	// 0x0028FBBE
+	int getTransportSlotCount();	// 0x0028FBBE
 	const AsciiString *rva00290E67() const;	// 0x00290E67
 	SpecialPowerModuleInterface *findSpecialPowerModuleInterface(SpecialPowerType) const;	// 0x00290E22
 	friend class ActionManager;
@@ -1415,7 +1415,7 @@ bool BFMEActionManager::canEnterObject(const Object *obj, const Object *objectTo
 				checkCapacity = false;
 		}
 
-		if (checkCapacity && const_cast<Object *>(obj)->rva0028FBBE() == 0)
+		if (checkCapacity && const_cast<Object *>(obj)->getTransportSlotCount() == 0)
 			return false;
 		if (*outFlag)
 			checkCapacity = false;

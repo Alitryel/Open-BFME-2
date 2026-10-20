@@ -612,7 +612,7 @@ struct Rva001E546BFlags {
 class Object : public Thing
 {
  public:
- void rva0028B4CE(PathfindLayerEnum layer);
+ void setLayer(PathfindLayerEnum layer);
  bool isKindOf(KindOfType t) const;
  ContainModuleInterface *getContain() const { return m_contain; }
  void rva0028AE6D();
@@ -1245,7 +1245,7 @@ bool Locomotor::moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way
 	{
 		obj->setPosition(&climbPos);
 		m_transform.Set_Translation(Vector3(climbPos.x, climbPos.y, climbPos.z));
-		obj->rva0028B4CE((PathfindLayerEnum)((Rva001E34FA *)&result)->rva001E34FA());
+		obj->setLayer((PathfindLayerEnum)((Rva001E34FA *)&result)->rva001E34FA());
 		hordeContain->slot111(&goalPos, &((Rva001E34B2 *)&result)->rva001E34B2(),
 			((Rva001E3511 *)&result)->rva001E3511(), ((Rva001E34FA *)&result)->rva001E34FA());
 		m_hordeClimbFrame = TheGameLogic->getFrame() + BfmeLogicFramesPerSecond * 12;

@@ -275,7 +275,7 @@ public:
 	Player *getControllingPlayer() const;
 	void rva0028BFF9(UnsignedInt frames);
 	void rva0028AE6D();
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	Real rva0028AC7D() const;
 
 	BehaviorModule **getBehaviorModules() const { return m_behaviors; }
@@ -692,7 +692,7 @@ void GenericObjectCreationNugget::doStuffToObj(Object *obj, const AsciiString &m
 			chunkPos.z = TheTerrainLogic->getLayerHeight(chunkPos.x, chunkPos.y, layer);
 		if (layer != LAYER_GROUND)
 			chunkPos.z += 1.0f;
-		obj->rva0028B4CE(layer);
+		obj->setLayer(layer);
 		obj->setPosition(&chunkPos);
 	}
 

@@ -108,7 +108,7 @@ public:
 	void bfmeTransferReplacementState(Object *other);
 	ExitInterface *getObjectExitInterface() const;
 	int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 
 	char pad038[0x78 - 0x38];
 	ObjectID m_producerID;	// +0x78
@@ -288,7 +288,7 @@ void Rva0046E740::rva0046CF21()
 	if (!exited)
 	{
 		newObj->setTransformMatrix((const Matrix3D *)obj->m_transform);
-		newObj->rva0028B4CE((PathfindLayerEnum)obj->rva0028B511());
+		newObj->setLayer((PathfindLayerEnum)obj->rva0028B511());
 	}
 
 	m_iface11C.vf74(newObj, obj, true);

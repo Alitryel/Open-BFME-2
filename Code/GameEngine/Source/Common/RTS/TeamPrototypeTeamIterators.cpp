@@ -94,7 +94,7 @@ public:
 	Bool rva0039DD4B(Bool flag);
 	Bool rva0039DDC2(Rva0039DDC2Filter filter, Bool flag);
 	Bool rva0039DE46(BfmeTab1026 *tab, Bool flag);
-	Bool rva0039DEC4();
+	Bool hasAnyUnits();
 	Bool rva0039DF1C(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
 	Bool rva0039DF87(BfmeTab1026 *tab);
 	Bool hasAnyObjects(Bool flag);
@@ -212,7 +212,7 @@ Bool TeamPrototype::hasAnyUnits()
 {
 	for (DLINK_ITERATOR<Team> iter = iterate_TeamInstanceList(); !iter.done(); iter.advance())
 	{
-		if (iter.cur()->rva0039DEC4())
+		if (iter.cur()->hasAnyUnits())
 			return true;
 	}
 	return false;

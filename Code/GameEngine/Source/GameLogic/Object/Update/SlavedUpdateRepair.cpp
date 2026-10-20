@@ -485,11 +485,11 @@ public:
 	void kill(DamageType damageType = DAMAGE_UNRESISTABLE, DeathType deathType = DEATH_NORMAL);
 	void rva00298C76(Team *newTeam, UnsignedInt detectionTime);	// 0x00298C76 Object::defect
 	Int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	// Inline ABI adapters only: emitting a wrapper would compete with the
 	// native Object accessors supplied by their existing ledger owners.
 	__declspec(dllimport) __forceinline PathfindLayerEnum getLayer() const { return (PathfindLayerEnum)rva0028B511(); }
-	__declspec(dllimport) __forceinline void setLayer(PathfindLayerEnum layer) { rva0028B4CE(layer); }
+	__declspec(dllimport) __forceinline void setLayerAdapter(PathfindLayerEnum layer) { setLayer(layer); }
 	void clearWeaponBonusCondition(WeaponBonusConditionType wbc)
 	{
 		m_weaponBonusCondition &= ~(1 << wbc);
@@ -1320,7 +1320,7 @@ UpdateSleepTime SlavedUpdate::update()
 	}
 
 	if (data->m_stayOnSameLayerAsMaster)
-		me->setLayer(master->getLayer());
+		me->setLayerAdapter(master->getLayer());
 
 	master->clearWeaponBonusCondition(WEAPONBONUSCONDITION_DRONE_SPOTTING);
 

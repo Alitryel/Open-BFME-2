@@ -137,7 +137,7 @@ public:
 	__forceinline bool isKindOf(int t) const { return getTemplate()->isKindOf(t); }
 	__declspec(dllimport) __forceinline ContainModuleInterface *getContain() const { return m_contain; }
 	AIUpdateInterface *getAIUpdateInterface() const { return m_ai; }
-	int rva0028FBBE(); // transport slot count
+	int getTransportSlotCount(); // transport slot count
 	ObjectID getID() const { return m_id; }
 	Object *getContainedBy() const { return m_containedBy; }
 
@@ -235,7 +235,7 @@ void ScriptActions::doLoadAllTransports(const AsciiString &teamName)
 			Object *container = obj->getContainedBy();
 			if (container && container->isKindOf(0x6D))
 				obj = container;
-			TransportPartitionEntry entry = _STL::make_pair(obj->getID(), obj->rva0028FBBE());
+			TransportPartitionEntry entry = _STL::make_pair(obj->getID(), obj->getTransportSlotCount());
 			bool found = false;
 			for (_STL::vector<BfmeE8>::iterator it = vecOfUnits.begin(); it != vecOfUnits.end(); ++it) {
 				if (entry.first == (*it).a) {

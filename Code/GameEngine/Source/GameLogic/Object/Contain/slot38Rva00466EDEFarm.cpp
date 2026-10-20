@@ -15,7 +15,7 @@ class Rva00466EDEMax:public Rva00466EDESlots<28> { public: virtual unsigned slot
 class Object { public:
     bool testStatus(ObjectStatusTypes) const;
     bool isKindOf(KindOfType) const;
-    int rva0028FBBE();
+    int getTransportSlotCount();
     char unknown00[4]; const unsigned char *type;
     char unknown08[0x250-8]; Rva00466EDEContained *contain;
 };
@@ -61,7 +61,7 @@ bool TransportContain::slot38(Object *rider,int checkCapacity,int trailing)
             unsigned max2=maximum();
             return used2<max2;
         }
-        unsigned slots=static_cast<unsigned>(rider->rva0028FBBE());
+        unsigned slots=static_cast<unsigned>(rider->getTransportSlotCount());
         if (slots==0)
             return false;
         if (*reinterpret_cast<const unsigned char *>(&checkCapacity)) {

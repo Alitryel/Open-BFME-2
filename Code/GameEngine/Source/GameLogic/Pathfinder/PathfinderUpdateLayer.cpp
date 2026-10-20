@@ -34,7 +34,7 @@ class Object
 {
 public:
 	int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	const Coord3D *getPosition() const { return &m_pos; }
 
 private:
@@ -150,6 +150,6 @@ void Pathfinder::UpdateLayer(Object *obj, PathfindLayerEnum layer)
 		else
 			newLayer = layer;
 	}
-	obj->rva0028B4CE(newLayer);
+	obj->setLayer(newLayer);
 	AdjustLayer(obj);
 }

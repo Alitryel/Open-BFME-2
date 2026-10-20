@@ -19,7 +19,7 @@
 // resolves teams with the rowed getTeamNamed 0x003584E9 and reads the
 // prototype name through Team+0x30 / TeamPrototype+0x14 with the
 // TheEmptyString fallback, as ZH's Team::getName does. 0x0039DEC4 (rowed
-// rva0039DEC4@Team) is ZH's Team::hasAnyUnits by its body: it skips dead,
+// hasAnyUnits@Team) is ZH's Team::hasAnyUnits by its body: it skips dead,
 // destroyed, structure, projectile and mine members. 0x003A2659 is ZH's
 // one-argument TeamFactory::findTeamPrototype: it splits the qualified name
 // and forwards to the two-argument findTeamPrototype 0x0039FE6C. The instance
@@ -900,7 +900,7 @@ public:
 		return m_proto == NULL ? AsciiString::TheEmptyString : m_proto->getName();
 	}
 	// Zero Hour's Team::hasAnyUnits; the ledger keeps the address name.
-	bool rva0039DEC4();
+	bool hasAnyUnits();
 	bool hasAnyObjects(bool ignoreBuildings);
 	// The rowed team centroid 0x0039DA2A in its pinned pointer-return
 	// spelling: the body leaves its argument in EAX, which callers use.
@@ -1021,13 +1021,13 @@ bool ScriptConditions::evaluateHasUnits(Parameter *pTeamParm)
 	if (desiredTeamName.compare(THIS_TEAM) == 0) {
 		Team *theTeam = TheScriptEngine->getTeamNamed(desiredTeamName, false);
 		if (theTeam) {
-			return (theTeam->rva0039DEC4());
+			return (theTeam->hasAnyUnits());
 		}
 		return false;
 	}
 	Team *thisTeam = TheScriptEngine->getTeamNamed(THIS_TEAM, false);
 	if (thisTeam && thisTeam->getName() == desiredTeamName) {
-		return thisTeam->rva0039DEC4();
+		return thisTeam->hasAnyUnits();
 	}
 
 	TeamPrototype *pProto = NULL;
@@ -1035,7 +1035,7 @@ bool ScriptConditions::evaluateHasUnits(Parameter *pTeamParm)
 
 	if (pProto) {
 		for (DLINK_ITERATOR<Team> iter = pProto->iterate_TeamInstanceList(); !iter.done(); iter.advance()) {
-			if (iter.cur()->rva0039DEC4()) {
+			if (iter.cur()->hasAnyUnits()) {
 				return true;
 			}
 		}

@@ -242,7 +242,7 @@ public:
 	void setDisabledUntil( DisabledType type, UnsignedInt frame );
 	void setDisabled( DisabledType type );
 	Bool clearDisabled( DisabledType type );
- void rva0028B292(int)const;void rva0028AE6D();void rva00290357();void rva0028B8A6(bool);
+ void rva0028B292(int)const;void rva0028AE6D();void checkDisabledStatus();void rva0028B8A6(bool);
 	void makeDirty( void );
 	void setScriptStatus( ObjectScriptStatusBit bit, Bool set );
 	void setStatus( ObjectStatusTypes bit, Bool flag );

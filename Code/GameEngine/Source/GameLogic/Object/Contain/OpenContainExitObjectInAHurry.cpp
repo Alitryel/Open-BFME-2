@@ -44,7 +44,7 @@ public:
  void rva0028AE6D();
  bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*) const;
  int rva0028B511() const;
- void rva0028B4CE(PathfindLayerEnum);
+ void setLayer(PathfindLayerEnum);
  void rva0028AD7C();
  void rva0028ACDC(int);
  void *vtable;unsigned char *thingTemplate;char pad8[0x38-8];Coord3D position;float orientation;
@@ -114,7 +114,7 @@ void OpenContain::exitObjectInAHurry(Object *exitObj)
   float exitAngle=me->orientation;
   exitObj->setPosition(&startPosition);
   exitObj->setOrientation(exitAngle);
-  exitObj->rva0028B4CE((PathfindLayerEnum)me->rva0028B511());
+  exitObj->setLayer((PathfindLayerEnum)me->rva0028B511());
   _STL::vector<Coord3D> exitPath;
   exitPath.push_back(endPosition);
   AIUpdateInterface *ai=exitObj->ai;

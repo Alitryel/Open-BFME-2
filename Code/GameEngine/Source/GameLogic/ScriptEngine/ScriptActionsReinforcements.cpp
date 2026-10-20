@@ -142,7 +142,7 @@ public:
 	AIUpdateInterface *getAIUpdateInterface() const { return m_ai; }
 	Object *getContainedBy() const { return m_containedBy; }
 	void rva0028FC18();
-	int rva0028FBBE();
+	int getTransportSlotCount();
 	void rva00293275(AsciiString upgrades);
 	void rva0028ACDC(int pos);
 
@@ -457,7 +457,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 				if (contain)
 					pushPartitionEntry(vecOfTransports, _STL::pair<ObjectID, unsigned int>(obj->getID(), contain->getContainMax()));
 			} else {
-				int slots = obj->rva0028FBBE();
+				int slots = obj->getTransportSlotCount();
 				if (slots == 0)
 					slots = 8388607;	// 0x7FFFFF, a slot cap (decimal so link_debt does not read it as an image address)
 				pushPartitionEntry(vecOfUnits, _STL::pair<ObjectID, unsigned int>(obj->getID(), slots));

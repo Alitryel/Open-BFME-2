@@ -286,11 +286,10 @@ class Object : public Thing
 {
 public:
 	__declspec(dllimport) __forceinline PathfindLayerEnum getLayer() const { return (PathfindLayerEnum)rva0028B511(); }
-	void setLayer(PathfindLayerEnum layer) { rva0028B4CE(layer); }
 	__declspec(dllimport) AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 
 	Int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 
 private:
 	char m_unrecovered48[0x258 - 0x48];

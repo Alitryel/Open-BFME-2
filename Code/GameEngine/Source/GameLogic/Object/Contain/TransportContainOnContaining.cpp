@@ -9,7 +9,7 @@
 // this-0x1C and the owning Object at this-0x18. Body: OpenContain::onContaining
 // (0x00463097) first; rider->setDisabled(DISABLED_HELD); optional clear of
 // model condition 89; slot count bookkeeping at this+0xE0 through
-// Object::rva0028FBBE; model condition 87 on the container when it holds one
+// Object::getTransportSlotCount; model condition 87 on the container when it holds one
 // rider; model condition 88 or 90 on the rider (by interface slot 45 and KindOf
 // 103) and Drawable::rva00274176(false); slots 59 and 27 (the latter fed status
 // bit 61 of the slot-44 mask returned by value); the module temp weapon fired
@@ -109,7 +109,7 @@ class Object
 public:
 	void setDisabled(DisabledType type);
 	void rva0028AE6D();
-	int rva0028FBBE();
+	int getTransportSlotCount();
 	Drawable *getDrawable() const;
 	Relationship getRelationship(const Object *that) const;
 	void setStatus(ObjectStatusTypes status, bool set);
@@ -358,7 +358,7 @@ void Rva0046781F::rva0046781F(Object *rider, bool wasSelected)
 	if (m_clearRiderCondition)
 		rider->clearModelConditionState(89);
 
-	m_extraSlotsInUse += rider->rva0028FBBE() - 1;
+	m_extraSlotsInUse += rider->getTransportSlotCount() - 1;
 
 	if (slot69(0) == 1)
 		getObject()->setModelConditionState(87);

@@ -663,7 +663,7 @@ public:
 	Player *getControllingPlayer() const;
 	void setProducer(Object *obj);
 	void *rva0028BCF4() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	Int get45C() const { return m_45C; }
 	const Coord3D *getPosition() const { return &m_position; }
 	Real getOrientation() const { return m_orientation; }
@@ -1745,7 +1745,7 @@ Object *BuildAssistant::buildObjectNow( Object *constructorObject, const ThingTe
 		obj->setOrientation( angle );
 
 		if( !obj->isKindOf( KINDOF_2 ) )
-			obj->rva0028B4CE( TheTerrainLogic->getLayerForDestination( obj, pos ) );
+			obj->setLayer( TheTerrainLogic->getLayerForDestination( obj, pos ) );
 
 		if( !obj->isKindOf( KINDOF_189 ) )
 			TheAI->pathfinder()->AddObjectToPathfindMap( obj );

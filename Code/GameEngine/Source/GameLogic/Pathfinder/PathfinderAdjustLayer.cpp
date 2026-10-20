@@ -7,7 +7,7 @@
 #include "Lib/Coord3D.h"
 enum PathfindLayerEnum {UNKNOWN_LAYER=0,GROUND_LAYER=1};
 struct ObjWithPos;
-class Object {public:int rva0028B511()const;void rva0028B4CE(PathfindLayerEnum);char pad00[0x38];Coord3D position;};
+class Object {public:int rva0028B511()const;void setLayer(PathfindLayerEnum);char pad00[0x38];Coord3D position;};
 class PathfindCell {public:char pad00[0xC];unsigned flags;int layer()const{return(flags>>4)&0x3F;}int type()const{return flags&0xF;}};
 class Rva0036666B {public:bool rva0036666B();};
 class TerrainLogic {
@@ -25,14 +25,14 @@ void Pathfinder::AdjustLayer(Object *obj)
  Coord3D pos;pos.x=obj->position.x;pos.y=obj->position.y;pos.z=obj->position.z;
  if(cell && cell->layer()!=oldLayer) {
   float limit=pos.z+10.0f;
-  if(TheTerrainLogic->slot1C(pos.x,pos.y,cell->layer(),0,true)>limit)obj->rva0028B4CE((PathfindLayerEnum)cell->layer());
+  if(TheTerrainLogic->slot1C(pos.x,pos.y,cell->layer(),0,true)>limit)obj->setLayer((PathfindLayerEnum)cell->layer());
   int i=2;Rva0036666B *layer=(Rva0036666B *)((char *)this+0xE0);
   for(;i<=15;++i,layer=(Rva0036666B *)((char *)layer+0x40)) {
    if(layer->rva0036666B()) {
     PathfindCell *next=(PathfindCell *)rva001E3647Pos(i,&pos);
     if(next && next->layer()==i && next->type()!=5) {
      if(fabs(TheTerrainLogic->slot1C(pos.x,pos.y,i,0,true)-pos.z)<10.0f) {
-      obj->rva0028B4CE((PathfindLayerEnum)i);break;
+      obj->setLayer((PathfindLayerEnum)i);break;
      }
     }
    }

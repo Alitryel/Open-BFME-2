@@ -199,7 +199,7 @@ enum ObjectStatusTypes { OBJECT_STATUS_NATIVE_38=38 };
 class Object { public:
  int rva0028B511() const;
  bool testStatus(ObjectStatusTypes) const;
- void rva0028B4CE(PathfindLayerEnum);
+ void setLayer(PathfindLayerEnum);
  void *rva0028C197() const;
  char prefix[4]; NativeGoalTemplate *m_template;
  char gap08[0x38-8]; Coord3D m_position; float m_angle;
@@ -441,13 +441,13 @@ bool PathfinderPosGoalManager::rva004DE2ED()
   PathfindCell *cell=(PathfindCell *)map->rva001E3647Pos(oldLayer,&m_object->m_position);
   if (!cell) return false;
   int newLayer=cell->layer();
-  if (newLayer==1) { m_object->rva0028B4CE((PathfindLayerEnum)newLayer); return false; }
+  if (newLayer==1) { m_object->setLayer((PathfindLayerEnum)newLayer); return false; }
   if (newLayer!=oldLayer)
   {
    if (newLayer!=16 && !(unsigned char)Rva002E6E8AGet(newLayer))
-    m_object->rva0028B4CE((PathfindLayerEnum)1);
+    m_object->setLayer((PathfindLayerEnum)1);
    else
-    m_object->rva0028B4CE((PathfindLayerEnum)newLayer);
+    m_object->setLayer((PathfindLayerEnum)newLayer);
   }
   if(m_position.m_value!=-666666) RemoveObjPtr(&m_position);
   return false;

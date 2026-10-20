@@ -192,7 +192,7 @@ public:
 };
 class Object {
 public:
-    int rva0028FBBE();
+    int getTransportSlotCount();
     void *rva0028BC58(int);
     bool isLocallyControlled() const;
 };

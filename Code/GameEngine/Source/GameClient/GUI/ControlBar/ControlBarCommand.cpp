@@ -190,7 +190,7 @@ public:
 };
 class Object {
 public:
-    int rva0028FBBE();
+    int getTransportSlotCount();
     void *rva0028BC58(int);
     bool isLocallyControlled() const;
 };
@@ -324,7 +324,7 @@ void __cdecl ControlBar::populateInvDataCallback(Object *obj, void *infoParam)
 		return;
 	ThingTemplate *tmpl = *(ThingTemplate **)((char *)obj + 4);
 	const Image *img = getButtonImage(tmpl, obj);
-	int count = obj->rva0028FBBE();
+	int count = obj->getTransportSlotCount();
 	int i = 0;
 	if (count <= 0)
 		return;

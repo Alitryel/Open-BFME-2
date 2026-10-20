@@ -183,7 +183,7 @@ public:
 	Player *getControllingPlayer() const;
 	void setTeam(Team *team);
 	Int rva0028B511() const;	// 0x0028B511, getLayer
-	void rva0028B4CE(PathfindLayerEnum layer);	// 0x0028B4CE, setLayer
+	void setLayer(PathfindLayerEnum layer);	// 0x0028B4CE, setLayer
 
 	const Coord3D *getPosition() const { return &m_pos; }
 	ObjectID getID() const { return m_id; }
@@ -480,7 +480,7 @@ Object *CreateCrateDie::createCrate(const CrateTemplate *currentCrateData)
 		Object *newCrate = TheThingFactory->newObject(crateType, 0, &statusBits, false);
 		newCrate->setPosition(&creationPoint);
 		newCrate->setOrientation(GameLogicRandomValueReal(0, 2 * PI, 0xE2));
-		newCrate->rva0028B4CE(layer);
+		newCrate->setLayer(layer);
 
 		Drawable *crateDrawable = newCrate->getDrawable();
 

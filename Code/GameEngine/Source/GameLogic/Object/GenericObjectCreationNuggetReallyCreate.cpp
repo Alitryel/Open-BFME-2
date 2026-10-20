@@ -222,7 +222,7 @@ public:
 	Player *getControllingPlayer() const;
 	void setProducer(Object *obj);
 	Int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	Int getID() const { return m_id; }
 	const AsciiString &getName() const { return m_name; }
 	ContainModuleInterface *getContain() const { return m_contain; }
@@ -566,7 +566,7 @@ _STL::vector<Object *> GenericObjectCreationNugget::reallyCreate(const Coord3D *
 		{
 			PathfindLayerEnum layer = (PathfindLayerEnum)sourceObj->rva0028B511();
 			if (layer != LAYER_GROUND)
-				debris->rva0028B4CE(layer);
+				debris->setLayer(layer);
 		}
 
 		if (container && container->getContain() && container->getContain()->isValidContainerFor(debris, true, 0))

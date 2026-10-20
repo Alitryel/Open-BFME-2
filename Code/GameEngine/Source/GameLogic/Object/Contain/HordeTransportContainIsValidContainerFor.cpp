@@ -22,7 +22,7 @@ class Object
 {
 public:
 	bool testStatus(ObjectStatusTypes status) const;
-	int rva0028FBBE();
+	int getTransportSlotCount();
 	unsigned char m_unmodelled000[0x250];
 	void *m_hordeMember;	// +0x250
 };
@@ -97,7 +97,7 @@ bool HordeTransportContain::isValidContainerFor(Object *obj, bool checkCapacity,
 	if (checkCapacity == true)
 	{
 		const HordeTransportContainModuleData *data = m_moduleData;
-		if (getReservedCount(0) + getContainCount() + obj->rva0028FBBE() > data->m_maxSlots)
+		if (getReservedCount(0) + getContainCount() + obj->getTransportSlotCount() > data->m_maxSlots)
 			return false;
 	}
 	return true;

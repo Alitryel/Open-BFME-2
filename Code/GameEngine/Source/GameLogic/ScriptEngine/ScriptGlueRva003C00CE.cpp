@@ -15,7 +15,7 @@
 class Team
 {
 public:
-	bool rva0039DEC4();
+	bool hasAnyUnits();
 	void rva0039E5B9(Coord3D *pos);
 };
 
@@ -47,7 +47,7 @@ void ScriptActions::Rva003C00CEDo(const AsciiString *teamName, void *extra)
 	Team *team = TheScriptEngine->getTeamNamed(*teamName, false);
 	if (!team)
 		return;
-	if (!team->rva0039DEC4())
+	if (!team->hasAnyUnits())
 		return;
 	Coord3D pos;
 	team->rva0039E5B9(&pos);

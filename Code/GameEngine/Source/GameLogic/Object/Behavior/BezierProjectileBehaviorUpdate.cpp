@@ -47,7 +47,7 @@ enum PathfindLayerEnum { LAYER_GROUND=1 };
 class Object : public Thing {
 public:
  void rva0028AE6D(); void rva0028EC68(int,void*,int);
- int rva0028B511() const; void rva0028B4CE(PathfindLayerEnum);
+ int rva0028B511() const; void setLayer(PathfindLayerEnum);
  char p00[0x38]; Coord3D pos; char p44[0xA8-0x44]; GeometryInfo geometry;
  char pBC[0x10C-0xBC]; BezierModelFlags flags;
  char p158[0x198-0x158]; Coord3D nextPos; char p1A4[2]; bool nextValid;
@@ -240,7 +240,7 @@ UpdateSleepTime BezierProjectileBehavior::update()
 
 	int oldLayer = obj->rva0028B511();
 	int newLayer = TheTerrainLogic->getHighestLayerForDestination(&obj->pos, false);
-	obj->rva0028B4CE((PathfindLayerEnum)newLayer);
+	obj->setLayer((PathfindLayerEnum)newLayer);
 	if (oldLayer != LAYER_GROUND && newLayer == LAYER_GROUND)
 	{
 		BezCoord pos(obj->pos);

@@ -29,7 +29,7 @@
 // 0x002C6A76. Sole caller 0x0039E9FD hands units to the owner's +0x2EC team.
 // ?transferKindOfUnitsTo@Team@@QAEXPAV1@ABV?$BitFlags@$0EF@@@@Z @0x0039E6D1 (155B): the
 // kind-filtered twin (Thing::isAnyKindOf on each member, advance otherwise),
-// notifying unless the rowed Team::rva0039DEC4 scan is true; caller 0x002C6B6D.
+// notifying unless the rowed Team::hasAnyUnits scan is true; caller 0x002C6B6D.
 // ?rva0039E5B9@Team@@QAEXPAUCoord3D@@@Z @0x0039E5B9 (167B): the team centre,
 // the mean of the members' positions (Object+0x38) written to *center. Target
 // evidence: retail body (SSE sums, 1.0f literal at 0x00BBB8D8 over the member
@@ -141,7 +141,7 @@ public:
 	void transferUnitsTo(Team *newTeam);
 	void transferKindOfUnitsTo(Team *newTeam, const BitFlags<69> &kinds);
 	Player *getControllingPlayer() const;
-	bool rva0039DEC4();
+	bool hasAnyUnits();
 
 private:
 	unsigned char m_pad[0x5c];
@@ -359,6 +359,6 @@ void Team::transferKindOfUnitsTo(Team *newTeam, const BitFlags<69> &kinds)
 		}
 	}
 	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(getControllingPlayer());
-	if (rec && !rva0039DEC4())
+	if (rec && !hasAnyUnits())
 		((SkirmishAI *)rec)->UnRegister(this);
 }

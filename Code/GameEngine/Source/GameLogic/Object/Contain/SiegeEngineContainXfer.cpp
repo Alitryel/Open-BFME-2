@@ -292,7 +292,7 @@ class Object:public Thing {public:
  Player *getControllingPlayer()const;
  protected: Module *findModule(NameKeyType)const; public:
  bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*)const;
- void rva0028AE6D();void rva0028D412(const Matrix3D*);void rva0028B4CE(PathfindLayerEnum);
+ void rva0028AE6D();void rva0028D412(const Matrix3D*);void setLayer(PathfindLayerEnum);
  void teleportTo(const Coord3D*,bool);void rva0028ACDC(int);
  char pad[4];SiegeExitTemplate *tmplate;char pad8[0x38-8];Coord3D position;float orientation;
  ObjectID getID()const{return m_id;}
@@ -431,7 +431,7 @@ void SiegeEngineContain::exitObjectViaDoor(Object *exitObj,ExitDoorType door)
    if(me->tmplate->kinds[4]&0x800){Matrix3D transform;
      me->getSingleLogicalBonePosition("Ladder04",&pos,&transform);
      exitObj->clearModelConditionState(3*32+0);
-     exitObj->rva0028D412(&transform);exitObj->rva0028B4CE(LAYER_WALL);
+     exitObj->rva0028D412(&transform);exitObj->setLayer(LAYER_WALL);
      AIUpdateInterface *ai=exitObj->ai;TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
      if(ai){if(exitObj->getControllingPlayer()->type==1){ai->ignoreObstacle(0);ai->commands()->aiHunt(CMD_FROM_AI);}else ai->commands()->aiIdle(CMD_FROM_AI);}
    }else{
@@ -440,7 +440,7 @@ void SiegeEngineContain::exitObjectViaDoor(Object *exitObj,ExitDoorType door)
      pos.z=(TheAI->pathfinder ? TheAI->pathfinder : TheAI->pathfinder)->GetWallHeight(LAYER_WALL,&pos,0);
      dest=pos;pos.x+=direction.x*20.0f;pos.y+=direction.y*20.0f;
      dest.x+=direction.x*40.0f;dest.y+=direction.y*40.0f;}
-     exitObj->teleportTo(&pos,false);exitObj->setOrientation(me->orientation);exitObj->rva0028B4CE(LAYER_WALL);
+     exitObj->teleportTo(&pos,false);exitObj->setOrientation(me->orientation);exitObj->setLayer(LAYER_WALL);
      AIUpdateInterface *ai=exitObj->ai;TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
      if(ai){ai->ignoreObstacle(0);ai->movementFrame=TheGameLogic->getFrame()+BfmeLogicFramesPerSecond;Pathfinder *pathfinder=TheAI->pathfinder;pathfinder->adjustToPossibleDestination(exitObj,ai->set(),&dest);}
      {_STL::vector<Coord3D> path;path.push_back(dest);path.push_back(dest);

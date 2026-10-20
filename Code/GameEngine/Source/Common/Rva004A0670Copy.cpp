@@ -37,7 +37,7 @@ class Object
 {
 public:
 	int rva0028B511() const;
-	void rva0028B4CE(PathfindLayerEnum layer);
+	void setLayer(PathfindLayerEnum layer);
 	char m_beforePos[0x38];
 	Coord3D m_pos;
 	float m_orient;
@@ -69,7 +69,7 @@ void Rva004A0670::rva004A0670(Object *dst, Object *src)
 		int layer = src->rva0028B511();
 		((Thing *)dst)->setPosition(&src->m_pos);
 		((Thing *)dst)->setOrientation(orient);
-		dst->rva0028B4CE((PathfindLayerEnum)layer);
+		dst->setLayer((PathfindLayerEnum)layer);
 	}
 	else
 	{
