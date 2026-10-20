@@ -1,4 +1,6 @@
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
+// partial score=0.8796 date=2026-10-20
+// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.8622483746829656 date=2026-10-19
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.728 date=2026-10-17
@@ -7,7 +9,7 @@
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.707 date=2026-10-09
 // stlport
-// cl: /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /G7 /DNDEBUG /MD /EHs /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 
 // CRT math/string calls remain DLL imports; allocator free uses the game wrapper.
 #undef _CRTIMP
@@ -23,7 +25,12 @@ void __cdecl operator delete[](void *) throw();
 #include "vector2i.h"
 #include "vector2.h"
 
-struct BfmeWordVec : std::vector<unsigned short> { void resize(unsigned int,unsigned short); };
+struct BfmeWordVec : std::vector<unsigned short> {
+    __declspec(noinline) void resize(unsigned int n,unsigned short x) {
+        if (n < size()) erase(begin() + n, end());
+        else _M_fill_insert(end(), n - size(), x);
+    }
+};
 class Rva0093C4A0Target { public: bool Check(const unsigned short *,unsigned short *,int); };
 struct Rva00156540Param;
 
@@ -364,19 +371,18 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 float right=sentence_data[0].screen_right;
                 for (int i=1;;++i) {
                     if (i>=count || sentence_data[i].screen_top!=top) {
-                        float shift=(float)floor((extent.X-(active->Get_Extra_Overlap()*0.5+right-left))*0.5-left+0.5);
+                        double width=active->Get_Extra_Overlap()*0.5f+right-left;
+                        float shift=(float)floor((extent.X-width)*0.5f-left+0.5f);
                         for (int j=start;j<i;++j) {
                             sentence_data[j].screen_left+=shift;
-                            sentence_data[j].screen_right+=shift;
+                            sentence_data[j].screen_right=shift+sentence_data[j].screen_right;
                         }
                         if (i>=count) break;
                         start=i;
                         left=sentence_data[i].screen_left;
                         top=sentence_data[i].screen_top;
-                        right=sentence_data[i].screen_right;
-                    } else {
-                        right=sentence_data[i].screen_right;
                     }
+                    right=sentence_data[i].screen_right;
                 }
             }
         }
