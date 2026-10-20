@@ -22,6 +22,10 @@ namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>:
 // bfme link decl-only begin
 namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHUBfmePod8@@@_STL@@U?$_Select1st@U?$pair@$$CBHUBfm:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> _Rb_tree_node<pair<const int, BfmePod8> > *_Rb_tree<int, pair<const int, BfmePod8>, _Select1st<pair<const int, BfmePod8> >, less<int>, allocator<pair<const int, BfmePod8> > >::_M_create_node(const pair<const int, BfmePod8> &); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod8@@@_STL@@@_STL@@@_STL@@QBEPAU:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod8;

@@ -2,6 +2,10 @@
 // stlport
 // ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHUBfmePod8@@@_STL@@U?$_Select1st@U?$pair@$$CBHUBfmePod8@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHUBfmePod8@@@_STL@@@2@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@U?$pair@$$CBHUBfmePod8@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHUBfmePod8@@@_STL@@@2@@_STL@@_N@2@ABU?$pair@$$CBHUBfmePod8@@@2@@Z 0x00422918 134B evidence: leaf insert_unique via rowed _M_insert 0x00422890 plus _M_decrement; caller 0x00422EAD; siblings Rva00064640Insert same recipe same flags
 #include <map>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHUBfmePod8@@@_STL@@U?$_Select1st@U?$pair@$$CBHUBfm:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> _Rb_tree_node<pair<const int, BfmePod8> > *_Rb_tree<int, pair<const int, BfmePod8>, _Select1st<pair<const int, BfmePod8> >, less<int>, allocator<pair<const int, BfmePod8> > >::_M_create_node(const pair<const int, BfmePod8> &); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod8@@@_STL@@@_STL@@@_STL@@QBEPAU:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod8;
