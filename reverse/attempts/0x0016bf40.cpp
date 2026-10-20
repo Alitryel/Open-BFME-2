@@ -1,5 +1,7 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
-// partial score=0.9556 date=2026-10-20
+// partial score=0.97 date=2026-10-20
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
+// partial score=0.98 date=2026-10-20 (r57: outer parens on single-bone out.X sums; normal-blend parens on row 1)
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
 // partial score=0.87 date=2026-10-20
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
@@ -37,7 +39,7 @@ struct BoneTransform {
    float y=Rotation.W*inPosition->Y-(Rotation.X*inPosition->Z-inPosition->X*Rotation.Z);
    float z=Rotation.W*inPosition->Z+(Rotation.X*inPosition->Y-inPosition->X*Rotation.Y);
    float w=-(Rotation.X*inPosition->X+Rotation.Y*inPosition->Y+Rotation.Z*inPosition->Z);
-   outPosition->X=(x*Rotation.W-w*Rotation.X)+(z*Rotation.Y-y*Rotation.Z)+Translation.X;
+   outPosition->X=(x*Rotation.W-w*Rotation.X+(z*Rotation.Y-y*Rotation.Z))+Translation.X;
    outPosition->Y=(y*Rotation.W-w*Rotation.Y)-(z*Rotation.X-x*Rotation.Z)+Translation.Y;
    outPosition->Z=(z*Rotation.W-w*Rotation.Z)+(y*Rotation.X-x*Rotation.Y)+Translation.Z;
    inPosition++;
@@ -50,7 +52,7 @@ struct BoneTransform {
    float y=Rotation.W*inNormal->Y-(Rotation.X*inNormal->Z-inNormal->X*Rotation.Z);
    float z=Rotation.W*inNormal->Z+(Rotation.X*inNormal->Y-inNormal->X*Rotation.Y);
    float w=-(Rotation.X*inNormal->X+Rotation.Y*inNormal->Y+Rotation.Z*inNormal->Z);
-   outNormal->X=(x*Rotation.W-w*Rotation.X)+(z*Rotation.Y-y*Rotation.Z);
+   outNormal->X=(x*Rotation.W-w*Rotation.X+(z*Rotation.Y-y*Rotation.Z));
    outNormal->Y=(y*Rotation.W-w*Rotation.Y)-(z*Rotation.X-x*Rotation.Z);
    outNormal->Z=(z*Rotation.W-w*Rotation.Z)+(y*Rotation.X-x*Rotation.Y);
    inNormal++;
@@ -83,8 +85,8 @@ struct Matrix3DBlend : public Matrix3D {
  }
  __forceinline void blendNormalArray(const Vector3 *in,const Matrix3DBlend &tm1,const Vector3 *in2,Vector3 *out,int count) const {
   while(count--) {
-   out->X=(Row[0].X*in->X+Row[0].Y*in->Y+Row[0].Z*in->Z+(tm1.Row[0].X*in2->X)+tm1.Row[0].Y*in2->Y+(tm1.Row[0].Z*in2->Z));
-   out->Y=(Row[1].X*in->X+Row[1].Y*in->Y+Row[1].Z*in->Z+tm1.Row[1].X*in2->X+tm1.Row[1].Y*in2->Y+tm1.Row[1].Z*in2->Z);
+   out->X=(Row[0].X*in->X+Row[0].Y*in->Y+Row[0].Z*in->Z+tm1.Row[0].X*in2->X+tm1.Row[0].Y*in2->Y+tm1.Row[0].Z*in2->Z);
+   out->Y=(Row[1].X*in->X+Row[1].Y*in->Y+Row[1].Z*in->Z+(tm1.Row[1].X*in2->X)+tm1.Row[1].Y*in2->Y+(tm1.Row[1].Z*in2->Z));
    out->Z=(Row[2].X*in->X+Row[2].Y*in->Y+Row[2].Z*in->Z+tm1.Row[2].X*in2->X+tm1.Row[2].Y*in2->Y+tm1.Row[2].Z*in2->Z);
    ++in;
    ++in2;
