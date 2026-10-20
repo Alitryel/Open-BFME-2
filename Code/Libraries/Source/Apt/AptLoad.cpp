@@ -1,6 +1,3 @@
-// ?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z
-// partial score=0.985 date=2026-10-17
-// d7 seat1 lever 16: erase hoisted into its own if(node){...} before if(!node){add}else{add} gives retail block layout AND EH states 7/9; only residue: 4 address-register picks (bfmeGet return slot lea ecx vs edx and push before mov ebx,5; 0x6D21D8 edx vs eax; erase arg edx vs ecx; 0x6D2488 ecx vs edx).
 // AptLinker::Load, retail 0x006D1F80 (1525B, RET8).
 // Target evidence: assert strings name AptLoad.cpp line 0x262
 // "(*i)->GetTarget() != (*j)->GetTarget()" and the inlined AptCIH.h:0x7D
@@ -58,7 +55,6 @@ class Rva006D07E0Key
 public:
 	Rva006D07E0Key(Rva006D0280 *p = 0) : m_object(p) { if (p) ++p->m_useCount; }
 	Rva006D07E0Key(const Rva006D07E0Key &o) : m_object(o.m_object) { if (m_object) ++m_object->m_useCount; }
-	Rva006D07E0Key(const class BfmeRefVGO &o);
 	~Rva006D07E0Key()
 	{
 		if (m_object && dec(&m_object->m_useCount) == 0) {
@@ -83,21 +79,6 @@ public:
 			p->~Rva006D0280();
 			g_pChainBlockAllocator->freeBlock(p, 0x1c);
 		}
-	}
-	// Assignment given the handle's current pointer, which the caller holds.
-	__forceinline Rva006D0280 *assign(const Rva006D07E0Key &o, Rva006D0280 *cur)
-	{
-		if ((const void *)&o != this) {
-			if (cur && dec(&cur->m_useCount) == 0) {
-				cur->~Rva006D0280();
-				g_pChainBlockAllocator->freeBlock(cur, 0x1c);
-			}
-			cur = o.m_object;
-			m_object = cur;
-			if (cur)
-				++cur->m_useCount;
-		}
-		return cur;
 	}
 	__forceinline BfmeRefVGO &operator=(const Rva006D07E0Key &o)
 	{
@@ -148,8 +129,6 @@ public:
 	Rva006D0280 *m_object;
 };
 
-inline Rva006D07E0Key::Rva006D07E0Key(const BfmeRefVGO &o) : m_object(o.m_object) { if (m_object) ++m_object->m_useCount; }
-
 class Gen_00895650 { public: BfmeHolderDB bfmeGet() const; };
 
 class Rva006D0A30List
@@ -167,7 +146,7 @@ class Rva006D0790
 public:
 	Rva006D0790(Rva006D07E0Key, void *);
 	static void *operator new(unsigned size) { return ((Rva006DB160 *)g_pChainBlockAllocator)->allocBlock(size); }
-	static void operator delete(void *p) { g_pChainBlockAllocator->freeBlock(p, 0x10); }
+	static void operator delete(void *p, unsigned size) { g_pChainBlockAllocator->freeBlock(p, size); }
 	int count;
 	Rva006D07E0Key key;
 	void *target;
@@ -200,7 +179,36 @@ public:
 };
 
 class BfmeNodeVMU { public: Rva006D0790Ref entry; BfmeNodeVMU *next; };
+class Rva006CD530 { public: void detach(); };
 class BfmeListVMU { public: void bfmeEraseVMU(BfmeNodeVMU **); BfmeNodeVMU *head; };
+// The rowed 0x006D1C90 erase body, visible here so that passing an
+// iterator's address to it does not keep the iterator in memory.
+__declspec(noinline) inline void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
+{
+	BfmeNodeVMU *target = *it;
+	BfmeNodeVMU *h = head;
+	if (target == h) {
+		if (h != 0) {
+			BfmeNodeVMU *next = h->next;
+			((Rva006CD530 *)h)->detach();
+			g_pChainBlockAllocator->freeBlock(h, 8);
+			head = next;
+		}
+		return;
+	}
+	BfmeNodeVMU *prev = head;
+	while (prev != 0) {
+		if (prev->next == target)
+			break;
+		prev = prev->next;
+	}
+	BfmeNodeVMU *node = prev->next;
+	if (node != 0) {
+		prev->next = node->next;
+		((Rva006CD530 *)node)->detach();
+		g_pChainBlockAllocator->freeBlock(node, 8);
+	}
+}
 struct Rva006D15B0Node
 {
 	Rva006D15B0Node(int *const *handle)
@@ -224,9 +232,8 @@ __declspec(noinline) inline void Rva006D15B0Stack::rva006D15B0(int *const *handl
 }
 
 class AptValue { public: void setIsDefined(bool); };
-class AptActionInterpreter
+struct AptActionInterpreter
 {
-public:
 	AptValue *getVariable(AptValue *, AptValue *, const EAStringC *, int = 1, int = 1, int = 0);
 };
 extern AptActionInterpreter g_aptDateInterpreter;
@@ -315,7 +322,7 @@ class Rva006CBDE0
 public:
 	Rva006CBDE0(int, void *, AptValue *);
 	static void *operator new(unsigned size) { return g_pChainBlockAllocatorF4->allocBlock(size); }
-	static void operator delete(void *p) { g_pChainBlockAllocatorF4->freeBlock(p, 0x60); }
+	static void operator delete(void *p, unsigned size);
 	unsigned char pad[0x60];
 };
 
@@ -326,28 +333,31 @@ public:
 	void rva006D1450(Rva006D07E0Key);
 	void Load(const EAStringC &file, EAStringC target);
 private:
+	// The link list's iterator, spelled as WorldBuilder's AptLoad.cpp calls it
+	// (begin, end, ==, !=, ++, *, a user-written copy constructor).
 	struct Iter
 	{
 		BfmeNodeVMU *node;
 		__forceinline Iter(BfmeNodeVMU *n) : node(n) {}
+		__forceinline Iter(const Iter &o) : node(o.node) {}
+		__forceinline Iter &operator++() { node = node->next; return *this; }
+		__forceinline Rva006D0790Ref &operator*() const { return node->entry; }
+		__forceinline bool operator!=(const Iter &o) const { return node != o.node; }
+		__forceinline bool operator==(const Iter &o) const { return node == o.node; }
 	};
-	__forceinline Iter findIter(void *target)
+	__forceinline Iter begin() const { return Iter(m_head); }
+	__forceinline Iter end() const { return Iter(0); }
+	__forceinline Iter findLink(void *target)
 	{
-		for (BfmeNodeVMU *node = m_head; node; node = node->next)
-			if (node->entry.ptr->target == target)
-				return Iter(node);
-		return Iter(0);
+		for (Iter it = begin(); it != end(); ++it)
+			if ((*it)->GetTarget() == target)
+				return it;
+		return end();
 	}
-	__forceinline BfmeNodeVMU *find(void *target)
-	{
-		for (BfmeNodeVMU *node = m_head; node; node = node->next)
-			if (node->entry.ptr->target == target)
-				return node;
-		return 0;
-	}
+	__forceinline void erase(Iter &it) { ((BfmeListVMU *)this)->bfmeEraseVMU(&it.node); }
 	__forceinline void add(const BfmeRefVGO &file, AptCIH *target)
 	{
-		Rva006D0790Ref link(new Rva006D0790(file, target));
+		Rva006D0790Ref link(new Rva006D0790(Rva006D07E0Key(file.m_object), target));
 		((Rva006D15B0Stack *)this)->rva006D15B0((int *const *)&link);
 	}
 	BfmeNodeVMU *m_head;
@@ -372,17 +382,17 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 		if (!loaded.m_object)
 			loaded.bfmeAssignVGO((const BfmeRefVGO &)((Rva006D0A30List *)g_rva00893030Manager)->rva006D0B40(file));
 		else
-			rva006D1450(Rva006D07E0Key(loaded));
+			rva006D1450(Rva006D07E0Key(loaded.m_object));
 	}
 
 	AptCIH *cih = (AptCIH *)((BfmeAptValue006DCD20 *)value)->rva006DCF60(false);
 	cih->ClearCIH(1);
 	if (cih->m_kind == 1) {
-		Iter it = findIter(cih);
-		Rva006D0790Ref link(it.node->entry);
+		Iter it = findLink(cih);
+		Rva006D0790Ref link(*it);
 		Rva006D0280 *owner = ((Gen_00895650 *)link.ptr)->bfmeGet().m_object;
 		if (owner->typeC != 5) {
-			((BfmeListVMU *)this)->bfmeEraseVMU(&it.node);
+			erase(it);
 			owner->typeC = 5;
 		}
 
@@ -416,19 +426,12 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 	((BfmeAptValue006DCD20 *)cih)->setTypeAt006DBBC0(0x13);
 	cih->m_4c = 0;
 	((AptValue *)cih)->setIsDefined(true);
-	BfmeNodeVMU *node = m_head;
-	while (node && node->entry->GetTarget() != cih)
-		node = node->next;
-	if (node) {
-		{
-			BfmeNodeVMU *erase = node;
-			((BfmeListVMU *)this)->bfmeEraseVMU(&erase);
-		}
-	}
-	if (!node) {
+	Iter it = findLink(cih);
+	if (it == end()) {
 		if (loaded.m_object)
 			add(loaded, cih);
 	} else {
+		erase(it);
 		if (loaded.m_object)
 			add(loaded, cih);
 	}

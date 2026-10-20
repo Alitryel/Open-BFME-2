@@ -1,7 +1,7 @@
 // cl: /O2 /DNDEBUG /MD /EHsc
 // The loadMovie/unloadMovie callbacks moved out of AptCharacterByteCounts.cpp:
-// both call AptLinker::Load (0x006D1F80), which has no matched body yet, so they
-// are kept apart from the byte-count and display callbacks that already link.
+// both call AptLinker::Load (0x006D1F80, matched in AptLoad.cpp) and stay apart
+// from the byte-count and display callbacks.
 
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
