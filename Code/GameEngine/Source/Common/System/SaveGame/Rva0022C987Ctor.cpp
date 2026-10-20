@@ -15,6 +15,10 @@
 // after it. Reproducing that live range needs the address local to survive
 // past the flag write, hence the two |0x28 stores rather than one.
 #include <list>
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UBfmePod8@@V?$allocator@UBfmePod8@@@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> void _List_base<BfmePod8,allocator<BfmePod8> >::clear(); }
 
 class BFME2NativeNetwork
 {

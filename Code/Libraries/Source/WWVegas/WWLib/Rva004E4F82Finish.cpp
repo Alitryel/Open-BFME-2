@@ -10,6 +10,10 @@
 // plus /arch:SSE for movss/xmm; /Ow is required to reproduce retail's early
 // `or [esi+0x30],-1` scheduling (default aliasing pushes it after the stores).
 #include <list>
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UBfmePod8@@V?$allocator@UBfmePod8@@@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> void _List_base<BfmePod8,allocator<BfmePod8> >::clear(); }
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
 // rather than emitting its own.
