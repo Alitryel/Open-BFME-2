@@ -21,6 +21,10 @@
 //   0x0052CE7D   0x0C   0x005C8C37    0x0052C9D3            Rva0052BEF0 (_Construct 0x0052C431 inside the copy)
 //   0x0052D417   0x0C   0x005C8C37    0x0052D3F1            Rva005668E9Element (rowed uninitialized_copy type)
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva002B72C9@@@_STL@@YAXPAURva002B72C9@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva002B72C9;
+namespace _STL { template <> void _Destroy<Rva002B72C9 *>(Rva002B72C9 *,Rva002B72C9 *); }
 
 struct Rva002B72C9
 {
