@@ -280,6 +280,7 @@ public:
 class Thing
 {
 public:
+	void setPositionZ(float z);
 	void setOrientation(float angle);
 	void setPosition(const Coord3D *pos);
 	const Coord3D *getUnitDirectionVector2D() const;
@@ -974,7 +975,7 @@ public:
 class Rva0046BB38Iface11C : public Rva0046BB38Iface6
 {
 public:
-	virtual int rva0046979B() = 0; virtual void assignSpotToUnit(Object *obj) = 0; virtual void rva00469F2F(Object *obj) = 0; virtual void gap13() = 0;
+	virtual int rva0046979B() = 0; virtual void assignSpotToUnit(Object *obj) = 0; virtual void rva00469F2F(Object *obj) = 0; virtual void notifyOfMemberDeath(Object *obj) = 0;
 	virtual void removeMemberFromHorde(Object *obj) = 0; virtual void gap15() = 0; virtual void performReform() = 0; virtual void rva0046FE99(_STL::list<Object *> &out) = 0;
 	virtual void gap18() = 0; virtual Object *rva0046CB2C() = 0; virtual Object *rva0046CC09() = 0; virtual Object *rva0046CBCA() = 0;
 	virtual void *rva004696CD() = 0; virtual bool rva0046CDC9() = 0; virtual void rva004696E5() = 0; virtual bool rva0046CCEF(const ThingTemplate *tmpl) = 0;
@@ -1199,6 +1200,7 @@ public:
 	virtual AsciiString rva0046D1AC();
 	virtual void rva0046F7C9(Object *obj);
 	virtual void rva00469F2F(Object *obj);
+	virtual void notifyOfMemberDeath(Object *obj);
 	void rva00469886(Object *obj);
 	void rva00469F3A(Object *obj);
 	virtual int rva0046979B();
@@ -4525,15 +4527,12 @@ class HordeDeathInterface : public Rva00468D11Slots<96> { public: virtual unsign
 class HordeDeathHeight : public Rva00468D11Slots<7> { public: virtual float height(float, float, int, bool, bool) = 0; };
 struct HordeDeathDataView { char prefix[0x248]; int deathEvent; };
 enum HordeDeathKind { HORDE_DEATH_KIND = 0x1bb };
-class Eva { public: void reportEvaEvent(int, const Coord3D *, int); };
+enum EvaEventID { EVA_EVENT_NONE = 0 };
+class Eva { public: bool reportEvaEvent(EvaEventID, const Coord3D *, const Coord3D *); };
 extern Eva *TheEva;
 class Rva00265254 { public: Rva00265254(unsigned, unsigned, unsigned, unsigned); int words[19]; };
 class Rva001E42F2 { public: void rva001E42F2(const int *); };
-// slot after rva00469F2F of the +0x11C vtable 0x00C44C58). Death cleanup:
-// special-unit/producer removal, flank/kind gates, map/list erasure, empty
-//-horde teardown with Eva event, frame stamp, drawable refresh and the
-// special-unit + refill tail. Evidence: WB 0x10B3BB0 branch structure +
-// retail 563B; offsets shared with the rows above.
+class Rva0046247DDescriptor { public: Rva0036AE51ListView rva0046247D(); };
 
 // The WorldBuilder counterpart constructs three two-float values around Sub;
 // these local operations preserve its copy/destruction lifetimes without changing
@@ -4550,6 +4549,56 @@ class HordeSlotMoveCallView : public Rva00468D11Slots<12> {
 public: virtual void moveMember(Object *, int) = 0;
 };
 inline void hordeEraseIndex(_STL::map<int,int> &map, const int &id) { ((Rva00463D9BTree *)&map)->erase(*(const Rva00463D9BElement *)&id); }
+// Retail 0x004704E4 (563 B), slot 13 of the +0x11C vtable 0x00C44C58, named by WB 0x10B3BB0:
+// forgets a dying member, refills formation slots and tears down an emptied horde.
+void HordeContain::notifyOfMemberDeath(Object *obj)
+{
+	if (!obj)
+		return;
+	((HordeDeathControl *)m_2C8)->slot6(obj);
+	if (!((Rva004693AD *)(UpdateModule *)this)->rva004693AD((Rva004693ADArg *)obj))
+		m_194.push_front(m_17C[obj->getID()]);
+	if (obj->isKindOf((KindOfType)HORDE_DEATH_KIND)) {
+		Object *other = TheGameLogic->findObjectByID((ObjectID)obj->getID());
+		if (other) {
+			((Rva001E42F2 *)other)->rva001E42F2(Rva00265254(0, 0x67, 0x69, HORDE_DEATH_KIND).words);
+			((Thing *)other)->setPositionZ(((HordeDeathHeight *)TheTerrainLogic)->height(obj->m_position.x, obj->m_position.y, obj->rva0028B511(), false, true));
+		}
+	}
+	if (Rva0046B850Module *body = obj->m_254) {
+		const unsigned *data = ((HordeDeathBody *)body)->slot15();
+		if (data)
+			m_29C = data[2];
+		else
+			m_29C = 0;
+	}
+	hordeEraseIndex(m_17C, obj->getID());
+	m_170.erase(obj->getID());
+	bool refilled = false;
+	do {
+		refilled = rva00470B21();
+	} while (refilled);
+	bool hordeEmpty = ((Rva0046247DDescriptor *)(UpdateModule *)this)->rva0046247D().b->empty() && m_170.empty();
+	if (hordeEmpty) {
+		const HordeDeathDataView *data = (const HordeDeathDataView *)m_moduleData;
+		TheEva->reportEvaEvent((EvaEventID)data->deathEvent, &obj->m_position, 0);
+		TheGameLogic->destroyObject(m_object);
+	}
+	m_298 = TheGameLogic->m_frame;
+	if (TheWritableGlobalData->m_9A6) {
+		Drawable *draw = ((Thing *)m_object)->getDrawable();
+		if (draw && ((HordeDeathDrawable *)draw)->refresh)
+			draw->rva00272945(rva0046D3FC(0));
+	}
+	checkSpecialUnitDeath(obj);
+	const HordeContainModuleDataFields *md = fields();
+	if (md && !md->m_1D8) {
+		_STL::list<const Object *> contained;
+		rva0046D1F7(contained);
+		if (contained.size() < (unsigned)md->m_268)
+			rva004696E5();
+	}
+}
 // Primary HordeContain vtable 0x00C45050 slot 37; retail 0x00470B21..0x00470D09.
 // Fills the lowest vacant formation slot from a later eligible member, choosing
 // the closest formation position under the module-data rank bound. The original
