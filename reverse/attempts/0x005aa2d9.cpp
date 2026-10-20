@@ -1,4 +1,6 @@
 // ?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z
+// partial score=0.99 date=2026-10-20
+// ?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z
 // partial score=0.97 date=2026-10-16
 // ?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z
 // partial score=0.97 date=2026-10-16
@@ -234,6 +236,8 @@ static __forceinline void flankCopy(Coord3D &c, const Coord3D *a) { c.x = a->x; 
 template <class T> static __forceinline void flankAdd(T &c, const Coord3D *a) { c.x += a->x; c.y += a->y; c.z += a->z; }
 static __forceinline void flankSub(Coord3D &c, const Coord3D *a) { c.x -= a->x; c.y -= a->y; c.z -= a->z; }
 static __forceinline void flankScale(Coord3D &c, float scale) { c.x *= scale; c.y *= scale; c.z *= scale; }
+// w10-c6: scaling side y, z, x (in that order) leaves only the x product: retail movaps d / mulss [side.x].
+static __forceinline void flankScaleYZX(Coord3D &c, float scale) { c.y *= scale; c.z *= scale; c.x *= scale; }
 static __forceinline void flankCross(const Coord3D *a, const Coord3D *b, Coord3D *r)
 {
 	r->x = a->y * b->z - a->z * b->y;
@@ -269,7 +273,7 @@ void Rva0015334F::rva005AA2D9(Rva005AA55DRecord *record, const Coord3D *from, co
 	Coord3D side;
 	flankCross(&dir, &up, &side);
 	side.normalize();
-	flankScale(side, (float)distance);
+	flankScaleYZX(side, (float)distance);
 	flankAdd(pivot, &side);
 	m_points.push_back(*from);
 	m_points.push_back(*(const Coord3D *)&pivot);
