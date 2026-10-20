@@ -35,6 +35,10 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, siz
 // bfme link decl-only begin
 namespace _STL { template <> unsigned char * allocator<unsigned char>::allocate(unsigned int, void const *) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_fill_insert@?$vector@UBfmePod52@@V?$allocator@UBfmePod52@@@_STL@@@_STL@@QAEXPAUBfmePod:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod52;
+namespace _STL { template <> void vector<BfmePod52, allocator<BfmePod52> >::_M_fill_insert(BfmePod52 *, size_t, const BfmePod52 &); }
 // Suppress this TU's non-retail copy of ?_M_fill_insert@?$vector@UBfmePod44@@V?$allocator@UBfmePod44@@@_STL@@@_STL@@QAEXPAUBfmePod:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod44;
