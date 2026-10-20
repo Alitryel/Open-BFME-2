@@ -5722,8 +5722,9 @@ struct Rva002423E3NullRef : public OpaqueRefElement4
 	~Rva002423E3NullRef() { if (referent) referent->Release_Ref(); }
 };
 
-// GameLogic's conditional string-and-handles setter 0x0023DCCE, inline in
-// retail's unit (its COMDAT sits inside GameLogic's range).
+// GameLogic's conditional string-and-handles setter 0x0023DCCE. Retail emits the
+// body as an inline COMDAT in GameLogic's unit (it sits at 0x0023DCCE); this TU
+// is that home and the caller at 0x002423E3 inlines the same body.
 class Rva0023DCCE
 {
 public:
@@ -5732,7 +5733,11 @@ public:
 		if (((const StringBase<char> *)&a)->isEmpty() || TheWritableGlobalData->m_9ad)
 		{
 			m_flag = 0;
-			m_str.clear();
+			// Retail's clear is the StringBase<char>::releaseBuffer worker
+			// (0x36410); the inline destructor is that same one-call body, so
+			// this copy relocates to releaseBuffer rather than to the
+			// AsciiString::clear alternatename spelling.
+			m_str.~AsciiString();
 			((Rva000A8C9B *)&m_a)->clear();
 			((Rva000A8C9B *)&m_b)->clear();
 		}

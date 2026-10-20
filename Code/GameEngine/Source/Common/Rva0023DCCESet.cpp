@@ -1,10 +1,12 @@
 // cl: /MD
-// ?rva0023DCCE@Rva0023DCCE@@QAEXABVAsciiString@@ABUOpaqueRefElement4@@1@Z — RVA 0x0023DCCE, 122B.
-// Conditional copy-or-clear: if arg string empty or global flag [0x009FE758]+0x9AD set,
-// release AsciiString member +0x84 and clear two OpaqueRef members +0x88/+0x8c, flag +0x72=0;
-// else copy all three args and set flag=1.
-// Evidence: retail branch bytes; callees rowed (isEmpty 0x1E2F, StringBase set 0x366F0,
-// OpaqueRef op= 0x239099, releaseBuffer 0x36410, clear 0xA8C9B); callers at 0x1EB5A3 0x21258A 0x242953 0x2B3739 0x515598.
+// ?rva0023DC8E@Rva0023DC8E@@QAEXABVAsciiString@@@Z — RVA 0x0023DC8E, 64B.
+// Ghidra FUN_0063dc8e is the 64-byte sibling of the conditional
+// string-and-handles setter that retail emits inline (COMDAT) in GameLogic's own
+// unit; that 122-byte body at 0x0023DCCE now compiles from its retail home,
+// Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp. This file keeps
+// only the sibling, an address-derived host.
+// Evidence: retail branch bytes; callees rowed (isEmpty 0x1E2F, StringBase set
+// 0x366F0, releaseBuffer 0x36410); global at VA 0xdfe758.
 
 class Rva0023DC8E;
 
@@ -16,7 +18,6 @@ public:
 private:
 	void releaseBuffer();
 	T *m_data;
-	friend class Rva0023DCCE;
 	friend class Rva0023DC8E;
 };
 
@@ -44,39 +45,9 @@ public:
 };
 extern GlobalData *TheWritableGlobalData;
 
-class Rva0023DCCE
-{
-public:
-	void rva0023DCCE(const AsciiString &a, const OpaqueRefElement4 &b, const OpaqueRefElement4 &c);
-	char m_00[0x72];
-	unsigned char m_flag;
-	char m_01[0x11];
-	AsciiString m_str;
-	OpaqueRefElement4 m_a;
-	OpaqueRefElement4 m_b;
-};
-
-void Rva0023DCCE::rva0023DCCE(const AsciiString &a, const OpaqueRefElement4 &b, const OpaqueRefElement4 &c)
-{
-	if (a.isEmpty() || TheWritableGlobalData->m_flag9AD)
-	{
-		m_flag = 0;
-		((StringBase<char> *)&m_str)->releaseBuffer();
-		((Rva000A8C9B *)&m_a)->clear();
-		((Rva000A8C9B *)&m_b)->clear();
-	}
-	else
-	{
-		m_flag = 1;
-		((StringBase<char> *)&m_str)->set(a);
-		m_a = b;
-		m_b = c;
-	}
-}
-
-// Ghidra FUN_0063dc8e is a 64-byte sibling immediately before this setter.
-// It applies the same empty-string/global-flag condition to a single string
-// member at +0x74; its host identity remains address-derived.
+// Ghidra FUN_0063dc8e is a 64-byte conditional string setter: it applies the
+// empty-string/global-flag test to a single string member at +0x74. Its public
+// setter body at 0x0023DCCE lives in GameLogicInit.cpp, its retail COMDAT home.
 class Rva0023DC8E
 {
 public:
