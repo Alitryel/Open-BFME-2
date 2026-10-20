@@ -143,6 +143,17 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   `tools/variant.py`, then try single moves around the best. Retail's own
   store order and its reverse were both wrong. Copying from the twin field
   (`alpha.f = frame.f`) or deriving `uv = y >> 1` from a field was far worse.
+- **A file-scope global used in hot loops: try `static`.** The same analysis
+  covers globals. An `extern` or non-static object (even one defined in the
+  TU) may be aliased by every store through a pointer, but a `static` one
+  is TU-private. That moves the prologue load temps, biased induction
+  variables (`add eax,8`, stores at `[eax-8]`) and which pointer gets a
+  register. 0x0017A890 (12000 B, PointGroupClass vertex fill) went from
+  0.9261 (non-static) to exact with `static VectorClass<Vector3> VertexLoc;`,
+  although ZH/BFME 1 pointgr.cpp define it globally. Five sessions of
+  dead-int and temp-numbering compensation for the extern were unnecessary.
+  Try this before stack or temp numbering scans when a residue sits in
+  loops that index a global buffer.
 - **Outgoing ESP save without an EH frame: test the caller's nonthrowing
   contract.** Loader 0x000AB96D needed EH-enabled compilation to emit the
   stack save before its by-value ownership copy, but ordinary EH-enabled
