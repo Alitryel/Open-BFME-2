@@ -282,6 +282,28 @@ void StrategicPlayerStatus::OnInitialized(const char *unused)
 {
 }
 
+// Retail 0x00523489 (36 B): the status label key of a player (gone, dead or
+// alive), a file static the row filler inlines; cl keeps this
+// register-convention copy (player in EAX).
+static const char *playerStatusLabel(Rva002E2903Player *player)
+{
+	bool present = player->m_3C5 == 0;
+	bool alive = player->m_3C4 == 0;
+	const char *label;
+	if (present)
+	{
+		if (alive)
+			label = "GUI:PlayerAlive";
+		else
+			label = "GUI:PlayerDead";
+	}
+	else
+	{
+		label = "GUI:PlayerGone";
+	}
+	return label;
+}
+
 // Retail 0x005235D5, 357 bytes: fills one player's "%s:Name_%d",
 // "%s:Territories_%d", "%s:Regions_%d" and "%s:Status_%d" texts. File
 // static, compiled before its caller: MSVC passes the player in ESI.
@@ -298,21 +320,7 @@ static void Rva005235D5(Rva002E2903Player *player, int index, const char *kind)
 	text.format(L"%d", CountOwnedUnits((Rva002E0D02Arg *)player));
 	g_bfmeAptWindowManager->bfmeSetText(window, text, false);
 	window.format("%s:Status_%d", kind, index);
-	bool present = player->m_3C5 == 0;
-	bool alive = player->m_3C4 == 0;
-	const char *label;
-	if (present)
-	{
-		if (alive)
-			label = "GUI:PlayerAlive";
-		else
-			label = "GUI:PlayerDead";
-	}
-	else
-	{
-		label = "GUI:PlayerGone";
-	}
-	g_bfmeAptWindowManager->bfmeSetText(window, TheGameText->fetch(label), false);
+	g_bfmeAptWindowManager->bfmeSetText(window, TheGameText->fetch(playerStatusLabel(player)), false);
 }
 
 // The status queries, by index (0x00DD17C8).

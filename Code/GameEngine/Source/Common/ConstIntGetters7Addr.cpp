@@ -10,27 +10,9 @@
 // constant. Kept in a fresh TU to avoid contending with hot getter files.
 // No // cl: line (defaults match the frameless 6-byte shape).
 
-// ?Rva0052349BGet@@YAHXZ @ 0x0052349b (6B): returns 0x00c622e4.
-// Conditional-skip target (jne lands here); first of three 6B getters.
-// Opaque address-derived name.
-int Rva0052349BGet(void)
-{
-	return (int)"GUI:PlayerAlive";
-}
-
-// ?Rva005234A1Get@@YAHXZ @ 0x005234a1 (6B): returns 0x00c622c0.
-// Abuts the 0x0052349b getter above. Opaque address-derived name.
-int Rva005234A1Get(void)
-{
-	return (int)"GUI:PlayerDead";
-}
-
-// ?Rva005234A7Get@@YAHXZ @ 0x005234a7 (6B): returns 0x00c62298.
-// Abuts the 0x005234a1 getter above. Opaque address-derived name.
-int Rva005234A7Get(void)
-{
-	return (int)"GUI:PlayerGone";
-}
+// The three 0x0052349B/0x005234A1/0x005234A7 "getters" were retired: they
+// are the return arms of the 36-byte player status label static at
+// 0x00523489 (AptStrategicPlayerStatus.cpp).
 
 // Four 559F57/5D/72/78 return arms were retired: they belong to the
 // complete 27-byte selectors at 559F48 and 559F63. Internal case branches
