@@ -80,6 +80,7 @@ public:
 	virtual ~Rva000421C8();
 	virtual Bool allow(Object *obj) = 0;
 	virtual int getPlayerMask();
+	Rva000421C8() : m_next(0) {}
 	Rva000421C8 *m_next;
 };
 
@@ -212,6 +213,7 @@ int Rva00260EB1Filter::getPlayerMask()
 class Rva00260F1BFilter : public Rva000421C8
 {
 public:
+	Rva00260F1BFilter(const Player *player, int flags);
 	virtual Bool allow(Object *objOther);
 	virtual int getPlayerMask();
 
@@ -252,6 +254,15 @@ private:
 Bool Rva00261478Filter::allow(Object *objOther)
 {
 	return TheActionManager->canPlayerGarrison(m_player, objOther, m_source) == m_match;
+}
+
+// ??0Rva00260F1BFilter, retail 0x0057377E (29 B, RET 8): Zero Hour's
+// PartitionFilterRelationship(obj, flags) shape on BFME2's player field; the
+// base clears m_next. Its vftable 0x00C6E1B0 holds this class's allow and
+// getPlayerMask slots; AITargetHeuristicBaseDefense builds the same filter
+// inline at 0x00573876.
+Rva00260F1BFilter::Rva00260F1BFilter(const Player *player, int flags) : m_player(player), m_flags(flags)
+{
 }
 
 int Rva00260F1BFilter::getPlayerMask()
