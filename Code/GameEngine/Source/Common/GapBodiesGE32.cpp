@@ -5,6 +5,7 @@
 // name and a view of only the members it touches. Callees and globals use the
 // ledger's existing spellings.
 #include "ascii_string.h"
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
 
 // Declaration-only views of the STLport vector, deque cursor and tree members
 // these bodies call; no container code is instantiated here.
@@ -62,24 +63,33 @@ template <class K, class V, class KoV, class C, class A> class _Rb_tree
 };
 }
 
-// --- 0x00574251 (20B) / 0x0057427C (16B): forward to the receiver's own
-// virtual slots 4 and 5.
+// --- 0x00574251 (20B) / 0x0057426C (16B) / 0x0057427C (16B): forward to the
+// receiver's own virtual slots 4, 1 and 5. 0x0057426C re-pushes both argument
+// dwords and calls (ret 8) where two scalar arguments tail-jump: cl copies an
+// 8-byte aggregate by value, so slot 1 takes one (ICoord2D here; Coord2D would
+// give the same bytes).
 class Rva00574251
 {
 public:
 	virtual void slot00();
-	virtual void slot04(int a, int b);
+	virtual void slot04(ICoord2D value);
 	virtual void slot08();
 	virtual void slot0C();
 	virtual void slot10(int a, float b);
 	virtual void slot14(float value);
 	void rva00574251(int a, float b);
+	void rva0057426C(ICoord2D value);
 	void rva0057427C(float value);
 };
 
 void Rva00574251::rva00574251(int a, float b)
 {
 	slot10(a, b);
+}
+
+void Rva00574251::rva0057426C(ICoord2D value)
+{
+	slot04(value);
 }
 
 void Rva00574251::rva0057427C(float value)
