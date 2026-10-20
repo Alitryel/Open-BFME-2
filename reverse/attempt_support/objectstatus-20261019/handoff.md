@@ -55,3 +55,26 @@ do not start another trial without fresh authorization.
 ## 2026-10-19 follow-up (hans-agent-oct5)
 
 11 loop/flag spellings tried; none moves the 484B bank. The residue is EBX zero coalescing with `found`: retail's xor bl,bl before the loop and `and [ebp-4],0` after the catch show EBX is not a known zero there. Look for source that clobbers or retires the EBX zero before the vector loop (e.g. an EH-state or name-temporary change), not loop syntax.
+
+## Round 2026-10-20 (claude-opus-5-5, ~45 min)
+
+The new bank is `found=false` declared before `try` (the same result when declared at the function top): 483 B and
+7 alignment regions, against 484 B and 8 for the previous bank. The in-loop parser reload is gone. Remaining:
+- no `xor bl,bl`;
+- `cmp al,bl` / `xor cl,cl; cmp cl,bl` where retail has `test al,al` / `test bl,bl`;
+- post-catch `xor ebx,ebx; mov [ebp-4],ebx` where retail has `and [ebp-4],0`.
+
+Reading of retail: the break path jumps straight to the found/return block (the `found=true` store is
+jump-threaded away), and the loop exit tests a genuinely live `bl`. Retail's zero-constant register (EBX) web
+ends at 336FE7, before the loop, so the zero after the catch is an immediate. Ours keeps the zero CSE alive across
+the whole try into the post-catch state store and copy-coalesces `found=false` into it.
+
+Ruled out this round:
+- `&&!found` in the loop condition: 488 B. This is the only shape with retail's `xor bl,bl`, but it swaps EBX/EDI and adds `inc bl`.
+- while loop with the found/else `++it` shape: 476 B.
+- `!found&&` condition: 474 B.
+- no break: 474 B.
+- `found` declared right before the loop or after `it`: 483 B, 21 regions, with the parser homed out of EDI.
+- `if(found)return; push_back` with `found` inside the try: 483 B, 21 regions.
+
+Untested next lever: break the zero CSE between the try and the post-catch code, so `found` stops being a copy of the zero register.

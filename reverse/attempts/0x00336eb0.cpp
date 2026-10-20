@@ -1,5 +1,5 @@
 // ?rva002E9AA0ParseObjectStatusEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=0.95 date=2026-10-19
+// partial score=0.95 date=2026-10-20
 // stlport
 // cl: /O1 /EHsc /MD /G7 /arch:SSE /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // BF1 9cbfb551 LuaScriptEngineParseModelConditionEvent.cpp semantic source.
@@ -60,6 +60,7 @@ void LuaScriptEngine::rva002E9AA0ParseObjectStatusEvent(BfmeLexEAN *parser)
  if(!isConditions)return;
  if(reinterpret_cast<XmlNameSlotList *>(parser)->finish()!=3)return;
  const char *text=parser->getTailEAN();
+ bool found=false;
  try {
   AsciiString conditions(text);
   ConditionWords required,excluded;
@@ -67,7 +68,6 @@ void LuaScriptEngine::rva002E9AA0ParseObjectStatusEvent(BfmeLexEAN *parser)
   reinterpret_cast<Rva003339CE *>(&required)->rva00334506(conditions);
   reinterpret_cast<Rva003339CE *>(&excluded)->rva00334506(conditions);
   excluded.flip();
-  bool found=false;
   Rva00332FC1 record(*reinterpret_cast<BfmeObject872Header *>(&required),*reinterpret_cast<BfmeObject872Header *>(&excluded));
   reinterpret_cast<EventFlagEntry *>(&record)->setKeyFromName(name.str());
 
