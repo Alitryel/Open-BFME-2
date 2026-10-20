@@ -35,8 +35,15 @@ struct XferVersion
 	unsigned short m_pad;
 };
 
-struct XferException
+// Retail ThrowInfo identifies the 8-byte XferException class and its
+// established constructor, copy constructor and destructor providers.
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
@@ -104,10 +111,6 @@ public:
 	virtual Xfer &xferBool(bool &value);
 };
 
-extern "C" XferException *__cdecl bfmeFormatText(
-	XferException *result, int tag, const char *format, ...);
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
-extern int g_rva008ffd18ThrowInfo;
 
 class Thing;
 class ModuleData;
@@ -237,7 +240,6 @@ Xfer *Rva0036ABAFXfer(Xfer *xfer, _STL::list<int> *list);
 
 void SpawnBehavior::xfer(Xfer *xfer)
 {
-	XferException error;
 	XferVersion version;
 	BehaviorModule::xfer(xfer);
 	version.m_version = 1;
@@ -260,8 +262,7 @@ void SpawnBehavior::xfer(Xfer *xfer)
 		if (!tmp.isEmpty()) {
 			m_spawnTemplate = TheThingFactory->findTemplate(tmp);
 			if (m_spawnTemplate == NULL) {
-				bfmeFormatText(&error, 5, 0);
-				_CxxThrowException(&error, (const _s__ThrowInfo *)&g_rva008ffd18ThrowInfo); __assume(0);
+				throw XferException(5, 0);
 			}
 		}
 	}
@@ -277,5 +278,3 @@ void SpawnBehavior::xfer(Xfer *xfer)
 	xfer->xferInt(m_spawnCount);
 	xfer->xferUnsignedInt(m_selfTaskingSpawnCount);
 }
-// ?g_rva008ffd18ThrowInfo@@3HA: the global at VA 0xcffd18 is ?g_guardTargetTypeThrowInfo@@3HA.
-#pragma comment(linker, "/alternatename:?g_rva008ffd18ThrowInfo@@3HA=?g_guardTargetTypeThrowInfo@@3HA")

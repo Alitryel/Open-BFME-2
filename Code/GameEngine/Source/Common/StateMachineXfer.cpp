@@ -85,10 +85,18 @@ protected:
   virtual void xfer(Xfer *xfer);
 };
 Xfer &XferObjectID(Xfer *xfer, ObjectID *objectID);
-struct BfmeFormattedText { char *text; int tag; };
-extern "C" BfmeFormattedText* __cdecl bfmeFormatText(BfmeFormattedText*, int, const char*, ...);
-extern int g_guardTargetTypeThrowInfo;
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
+// Retail ThrowInfo identifies the 8-byte XferException class and its
+// established constructor, copy constructor and destructor providers.
+class XferException
+{
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
+	char *text;
+	int tag;
+};
 void StateMachine::xfer(Xfer *xfer)
 {
   if (xfer->IsLightCRC()) return;
@@ -102,16 +110,16 @@ void StateMachine::xfer(Xfer *xfer)
     Int count = 0; _STL::map<StateID, State *>::iterator i;
     for (i = m_stateMap.begin(); i != m_stateMap.end(); ++i) count++;
     Int saveCount = count; *xfer == saveCount;
-    if (saveCount != count) { BfmeFormattedText error; bfmeFormatText(&error, 5, 0); _CxxThrowException(&error, &g_guardTargetTypeThrowInfo); }
+    if (saveCount != count) { throw XferException(5, 0); }
     for (i = m_stateMap.begin(); i != m_stateMap.end(); i++) {
       State *state = (*i).second; UnsignedInt id = (UnsignedInt)state->getID(); *xfer == id;
-      if ((StateID)id != state->getID()) { BfmeFormattedText error; bfmeFormatText(&error, 5, 0); _CxxThrowException(&error, &g_guardTargetTypeThrowInfo); }
+      if ((StateID)id != state->getID()) { throw XferException(5, 0); }
       *xfer == (Snapshot&)*state;
     }
   } else {
     if (m_currentState == 0) {
       m_currentState = internalGetState(m_defaultStateID);
-      if (m_currentState == 0) { BfmeFormattedText error; bfmeFormatText(&error, 5, 0); _CxxThrowException(&error, &g_guardTargetTypeThrowInfo); }
+      if (m_currentState == 0) { throw XferException(5, 0); }
     }
     *xfer == (Snapshot&)*(State*)m_currentState;
   }

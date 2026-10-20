@@ -93,22 +93,18 @@ typedef unsigned char UnsignedByte;
 typedef unsigned short UnsignedShort;
 typedef unsigned int UnsignedInt;
 
-struct XferVersion
+// Retail ThrowInfo identifies the 8-byte XferException class and its
+// established constructor, copy constructor and destructor providers.
+class XferException
 {
-	UnsignedByte current;
-	UnsignedByte minimum;
-};
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
 
-struct XferException
-{
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(
-	XferException *result, int tag, const char *format, ...);
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
-extern int g_rva005c5100ThrowInfo;
 
 enum ObjectID
 {
@@ -170,16 +166,9 @@ private:
 	ObjectTracker *m_insideList; // +0x28
 };
 
-union XferLocal
-{
-	XferVersion version;
-	XferException error;
-};
-
 // ?xfer@PropagandaTowerBehavior@@MAEXPAVXfer@@@Z @0x00481842
 void PropagandaTowerBehavior::xfer(Xfer *xfer)
 {
-	XferLocal local;
 	xfer->Version1();
 	UpdateModule::xfer(xfer);
 	*xfer == m_lastScanFrame;
@@ -203,8 +192,7 @@ void PropagandaTowerBehavior::xfer(Xfer *xfer)
 	{
 		if (m_insideList != 0)
 		{
-			bfmeFormatText(&local.error, 5, 0);
-			_CxxThrowException(&local.error, (const _s__ThrowInfo *)&g_rva005c5100ThrowInfo); __assume(0);
+			throw XferException(5, 0);
 		}
 
 		for (UnsignedShort i = 0; i < insideCount; ++i)
@@ -216,5 +204,3 @@ void PropagandaTowerBehavior::xfer(Xfer *xfer)
 		}
 	}
 }
-// ?g_rva005c5100ThrowInfo@@3HA: the global at VA 0xcffd18 is ?g_guardTargetTypeThrowInfo@@3HA.
-#pragma comment(linker, "/alternatename:?g_rva005c5100ThrowInfo@@3HA=?g_guardTargetTypeThrowInfo@@3HA")

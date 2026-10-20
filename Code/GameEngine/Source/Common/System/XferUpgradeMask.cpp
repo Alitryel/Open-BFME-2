@@ -11,7 +11,7 @@
 // Address-derived name records only its pointer-return ABI in this consumer;
 // no original UpgradeCenter getter name is asserted. UpgradeCenterFindUpgradeByKey
 // independently establishes list head at +C; retail REL32 calls corroborate it.
-// Formatter uses the real bfmeFormatText symbol and 8-byte result ABI.
+// Natural XferException uses the native 8-byte class and metadata.
 // All350 instruction bytes match; compiler trailing INT3 also matches native.
 #include "ascii_string.h"
 #include <cstring>
@@ -108,11 +108,18 @@ public:
 };
 
 extern "C" UpgradeCenter *TheUpgradeCenter;
-struct BfmeFormattedText { char *text; int tag; };
-extern "C" BfmeFormattedText *__cdecl bfmeFormatText(BfmeFormattedText *result,int tag,const char *format,...);
-extern int g_guardTargetTypeThrowInfo;
-struct _s__ThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
+// Retail ThrowInfo identifies the 8-byte XferException class and its
+// established constructor, copy constructor and destructor providers.
+class XferException
+{
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
+	char *text;
+	int tag;
+};
 
 namespace FXParticleSystem
 {
@@ -160,10 +167,7 @@ void __cdecl xferUpgradeMask(Xfer *xfer, Rva00291440 *bits)
 				*x == tmp;
 				const UpgradeTemplate *up = TheUpgradeCenter->findUpgrade(tmp);
 				if (!up) {
-					BfmeFormattedText error;
-					bfmeFormatText(&error, 0, 0);
-					_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-					__assume(0);
+					throw XferException(0, 0);
 				}
 				unsigned int bit = up->m_bitIndex;
 				b->setBit(bit);

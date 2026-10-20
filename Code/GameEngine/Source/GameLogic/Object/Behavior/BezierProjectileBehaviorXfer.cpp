@@ -205,12 +205,16 @@ public:
 
 extern WeaponStore *TheWeaponStore;
 
-extern "C" void *__cdecl bfmeFormatText(void *dst, int v, const char *fmt, ...);
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const struct _s__ThrowInfo *pThrowInfo);
-extern int g_guardTargetTypeThrowInfo;
 
-struct BezierError
+// Retail ThrowInfo identifies the 8-byte XferException class and its
+// established constructor, copy constructor and destructor providers.
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
@@ -275,10 +279,7 @@ void BezierProjectileBehavior::xfer(Xfer *xfer)
 		else {
 			m_weapon40 = TheWeaponStore->findWeaponTemplate(name);
 			if (!m_weapon40) {
-				BezierError error;
-				bfmeFormatText(&error, 5, 0);
-				_CxxThrowException(&error, (const struct _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-				__assume(0);
+				throw XferException(5, 0);
 			}
 		}
 	}
@@ -292,10 +293,7 @@ void BezierProjectileBehavior::xfer(Xfer *xfer)
 		else {
 			m_weapon3C = TheWeaponStore->findWeaponTemplate(name);
 			if (!m_weapon3C) {
-				BezierError error;
-				bfmeFormatText(&error, 5, 0);
-				_CxxThrowException(&error, (const struct _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-				__assume(0);
+				throw XferException(5, 0);
 			}
 		}
 	}
@@ -325,4 +323,3 @@ class BezierFlightView {public:
  virtual void fire(Object *,const Coord3D *);
 };
 class WWMath {public:static float __fastcall Inv_Sqrt(float);};
-
