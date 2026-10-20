@@ -33,6 +33,19 @@
 #include <vector>
 #include <stl/_hash_fun.h>
 
+// Preserve inlined bucket access and bind outlined copies to the shared retail helpers.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<void *>::iterator vector<void *>::begin()
+{ return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::size_type vector<void *>::size() const
+{ return size_type(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::reference vector<void *>::operator[](size_type index)
+{ return *(this->_M_start + index); }
+}
+
 typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;

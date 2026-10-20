@@ -48,6 +48,17 @@ namespace rts
 #include <hash_map>
 #include <set>
 
+// Keep the inline bucket-vector access while binding outlined copies to
+// the shared retail helpers instead of emitting this unit's /O1 variants.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::begin() const
+{ return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::size_type vector<void *>::size() const
+{ return size_type(this->_M_finish - this->_M_start); }
+}
+
 struct BfmeStringNoCaseLess
 {
 	bool operator()(const AsciiString &a, const AsciiString &b) const;
