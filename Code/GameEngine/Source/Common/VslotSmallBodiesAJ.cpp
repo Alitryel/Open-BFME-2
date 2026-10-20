@@ -586,6 +586,31 @@ void Rva000B23D8::rva000B23D8()
 	Rva005CB260::rva005CB260();
 }
 
+// 0x000B23DD: tail jump to the slot +0x18 vcall thunk ??_9@$BBI@AE (0x005CB274):
+// a call through a constant pointer to the seventh virtual, which cl routes
+// through the vcall thunk instead of loading the vtable inline.
+class Rva000B23DDTarget
+{
+public:
+	virtual void v0();
+	virtual void v1();
+	virtual void v2();
+	virtual void v3();
+	virtual void v4();
+	virtual void v5();
+	virtual void v6();
+};
+class Rva000B23DD : public Rva000B23DDTarget
+{
+public:
+	void rva000B23DD();
+};
+void Rva000B23DD::rva000B23DD()
+{
+	void (Rva000B23DDTarget::*method)() = &Rva000B23DDTarget::v6;
+	(this->*method)();
+}
+
 // 0x000CA132: tail jump to Rva000B3A2D::rva000B3A2D.
 class Rva000CA132 : public Rva000B3A2D
 {
