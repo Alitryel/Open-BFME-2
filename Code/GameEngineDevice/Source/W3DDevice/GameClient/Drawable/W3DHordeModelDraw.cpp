@@ -28,6 +28,17 @@ struct Rva00DFE144Globals
 
 extern class GameLODManager *TheGameLODManager;
 
+// Retail 0x00078BFA (22 B): 3 while the LOD manager's +0x1788 level is set, else 1
+// (push 3/pop eax, then xor/inc on the zero path: the default-then-override
+// spelling; a ternary or two returns compile branchless). Name unrecovered.
+int rva00078BFA(void)
+{
+	int count = 3;
+	if (!(*(Rva00DFE144Globals **)&TheGameLODManager)->m_1788)
+		count = 1;
+	return count;
+}
+
 // WorldBuilder GetLODIndex, WB VA 0x00919CB0 (callgraph lead, score 1.0).
 __declspec(noinline) int GetLODIndex(void)
 {
