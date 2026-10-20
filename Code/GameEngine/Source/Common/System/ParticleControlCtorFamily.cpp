@@ -29,6 +29,10 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@VAsciiString@@@_STL@@QBEXPAVAsciiString@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void allocator<AsciiString>::deallocate(AsciiString *, size_t) const; }
 namespace _STL {
 template<> vector<AsciiString>::~vector();
 template<> __declspec(noinline) _Vector_base<AsciiString,allocator<AsciiString> >::_Vector_base(const allocator<AsciiString> &a) : _M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}

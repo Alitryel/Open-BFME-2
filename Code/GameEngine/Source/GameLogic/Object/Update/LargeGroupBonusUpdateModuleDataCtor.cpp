@@ -30,6 +30,10 @@ template <> __declspec(dllimport) __declspec(nothrow) __forceinline
 _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base()
 { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
 }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@VAsciiString@@@_STL@@QBEXPAVAsciiString@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void allocator<AsciiString>::deallocate(AsciiString *, size_t) const; }
 class Rva003623E5Filter
 {
 public:
