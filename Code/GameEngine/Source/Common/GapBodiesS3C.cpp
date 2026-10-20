@@ -493,11 +493,18 @@ void ResourceEntryCollector::rva004E55B9(ObjectID id, float value, bool show)
 }
 
 // --- 0x004E6882 (22B): 1 when +0x40 is set, or +0x44 is set while the +0x08
-// state is not 4.
-class Rva004E6882
+// state is not 4. Native vtable862440 slot4 identifies the named movie clip;
+// the constructor and destructor install this same five-slot table.
+class UnicodeString;
+class Rva002217EA;
+class InGameNotificationBoxMovieClip
 {
 public:
-	virtual int rva004E6882();
+    virtual unsigned char rva00578522() const;
+    virtual void rva004E6B7D(bool);
+    virtual void rva004E725F(const UnicodeString &, const Rva002217EA &, int);
+    virtual void DoClose();
+    virtual int rva004E6882();
 private:
 	int m_04;
 	int m_state;											// +0x08
@@ -506,7 +513,7 @@ private:
 	int m_44;												// +0x44
 };
 
-int Rva004E6882::rva004E6882()
+int InGameNotificationBoxMovieClip::rva004E6882()
 {
 	return m_40 != 0 || (m_44 != 0 && m_state != 4);
 }

@@ -173,26 +173,26 @@ void Rva0029B5E3::clear()
 	}
 }
 
-class Rva004E6A9B
+class InGameNotificationBoxMovieClip
 {
 public:
-	~Rva004E6A9B();
+	~InGameNotificationBoxMovieClip();
 };
 
 class Rva0029B620
 {
 public:
-	Rva004E6A9B *m_ptr;
+	InGameNotificationBoxMovieClip *m_ptr;
 	void clear();
 };
 
 void Rva0029B620::clear()
 {
-	Rva004E6A9B *p = m_ptr;
+	InGameNotificationBoxMovieClip *p = m_ptr;
 	m_ptr = 0;
 	if (p)
 	{
-		p->Rva004E6A9B::~Rva004E6A9B();
+		p->InGameNotificationBoxMovieClip::~InGameNotificationBoxMovieClip();
 		::operator delete(p);
 	}
 }

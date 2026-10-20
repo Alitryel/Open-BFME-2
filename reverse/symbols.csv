@@ -4583,7 +4583,7 @@ name,address,notes
 ??1Rva004E4655@@UAE@XZ,0x004E4655,opaque dtor called by the scalar deleting dtor at 0x004E4750 (vtable 0x00C62260#0); identity unproven; address-derived name
 ??1Rva004E668E@@QAE@XZ,0x004E668E,pointee destructor called by the owning-pointer reset 0x0029B5E3 (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name
 ??1Rva004E6935@@QAE@XZ,0x004E6935,pointee destructor called by the owning-pointer reset 0x004E6A1D (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name
-??1Rva004E6A9B@@QAE@XZ,0x004E6A9B,pointee destructor called by the owning-pointer reset 0x0029B620 (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name
+??1InGameNotificationBoxMovieClip@@QAE@XZ,0x004E6A9B,Native dtor installs vtable862440 of the named InGameNotificationBoxMovieClip ctor4E6C34 and restores five-purecall base8078DC; fields and four holder cleanups agree; renamed sole address-derived owner
 ??1Rva004E84A4@@QAE@XZ,0x004E84A4,destructor called by the vtable-referenced scalar deleting dtor 0x005FAA31 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva004E9657@@QAE@XZ,0x004E9657,destructor called by the unreferenced scalar deleting dtor 0x002A8A49 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva004EA3B8@@UAE@XZ,0x004EA3B8,opaque dtor called by the scalar deleting dtor at 0x004EAB6E (vtable 0x00C628A0#2); identity unproven; address-derived name

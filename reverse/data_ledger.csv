@@ -11816,7 +11816,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x008623CC,56,.rdata,vtable,??_7Rva004E5A24@@6B@,,literal,??_7Rva004E5A24@@6B@;??_7Rva004E61C8@@6B@,0,2
 0x00862404,20,.rdata,string,??_C@_0BD@NAJJDABJ@PlaceHolderReticle?$AA@,,literal,,0,1
 0x00862418,40,.rdata,string,??_C@_0CH@BJEPHLE@GUI?3TerrainResourcePercentageCla@,,literal,,0,1
-0x00862440,20,.rdata,vtable,??_7Rva004E6A9B@@6B@,,literal,,0,1
+0x00862440,20,.rdata,vtable,??_7InGameNotificationBoxMovieClip@@6B@,,literal,,0,1
 0x00862454,60,.rdata,string,??_C@_04EACEFPPN@Hide?$AA@,,literal,,0,5
 0x00862490,12,.rdata,string,??_C@_09LHJANMFA@_OnClosed?$AA@,,literal,,0,4
 0x0086249C,8,.rdata,string,??_C@_07JCJIIKKA@_OnOpen?$AA@,,literal,,0,2

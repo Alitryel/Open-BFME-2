@@ -1,6 +1,8 @@
 // cl: /MD /EHsc
-// ??1Rva004E6A9B@@QAE@XZ @0x004E6A9B 157B
-// Non-virtual dtor of Rva004E6A9B. Notifies via globals then clears holders.
+// ??1InGameNotificationBoxMovieClip@@QAE@XZ @0x004E6A9B 157B
+// Native vtable 0x862440 is the named movie-clip constructor's five-slot table;
+// its destructor restores the five-purecall base at 0x8078DC.
+// The holder offsets and cleanup sequence agree with the named 84-byte class.
 class Rva00222A8BTarget;
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
 class AptPlayer
@@ -48,16 +50,27 @@ public:
     ~Rva005242D7();
     char m_pad[16];
 };
+class UnicodeString;
+class Rva002217EA;
 class Rva004E6A9BBase
 {
 public:
-    virtual void b0();
+    virtual unsigned char rva00578522() const = 0;
+    virtual void rva004E6B7D(bool) = 0;
+    virtual void rva004E725F(const UnicodeString &, const Rva002217EA &, int) = 0;
+    virtual void DoClose() = 0;
+    virtual int rva004E6882() = 0;
     ~Rva004E6A9BBase() {}
 };
-class Rva004E6A9B : public Rva004E6A9BBase
+class InGameNotificationBoxMovieClip : public Rva004E6A9BBase
 {
 public:
-    ~Rva004E6A9B();
+    ~InGameNotificationBoxMovieClip();
+    virtual unsigned char rva00578522() const;
+    virtual void rva004E6B7D(bool);
+    virtual void rva004E725F(const UnicodeString &, const Rva002217EA &, int);
+    virtual void DoClose();
+    virtual int rva004E6882();
     int m04;
     char m_pad08[4];
     Rva0052413E m0C;
@@ -69,7 +82,7 @@ public:
     int m48;
     int m4C;
 };
-Rva004E6A9B::~Rva004E6A9B()
+InGameNotificationBoxMovieClip::~InGameNotificationBoxMovieClip()
 {
     if (TheRva00222A8BTarget)
         ((AptPlayer *)TheRva00222A8BTarget)->RemoveLevel(m04);

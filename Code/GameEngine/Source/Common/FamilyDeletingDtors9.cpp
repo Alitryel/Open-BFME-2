@@ -12,9 +12,9 @@
 class Rva004E668E { public: ~Rva004E668E(); };
 void famgenDelete(Rva004E668E *p) { delete p; }
 
-// ??_GRva004E6A9B@@QAEPAXI@Z @0x0029B235 28B: calls pinned ~Rva004E6A9B 0x004E6A9B
-class Rva004E6A9B { public: ~Rva004E6A9B(); };
-void famgenDelete(Rva004E6A9B *p) { delete p; }
+// ??_GInGameNotificationBoxMovieClip@@QAEPAXI@Z @0x0029B235 28B: calls pinned ~InGameNotificationBoxMovieClip 0x004E6A9B
+class InGameNotificationBoxMovieClip { public: ~InGameNotificationBoxMovieClip(); };
+void famgenDelete(InGameNotificationBoxMovieClip *p) { delete p; }
 
 // ??_GRva004FA2E2@@QAEPAXI@Z @0x002B2F21 28B: calls pinned ~Rva004FA2E2 0x004FA2E2
 class Rva004FA2E2 { public: ~Rva004FA2E2(); };
