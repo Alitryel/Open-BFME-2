@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva0028ABFC@Object@@QAEXM@Z
+// ?setGeometryInfoZ@Object@@QAEXM@Z
 // recovered from packet 0x0028ABFC 56B lane=unlock
 // Evidence: rowed init 0x007584C0 and 0x002710EC; row 0x006BEB00 bfmeOneCNG takes void* but retail passes float via fld/fstp so declared float here (row types wrong); callers 0x004BE924 etc; prev/next Object TUs /O1 /DNDEBUG /MD; abuts next 0x0028AC34.
 class BfmeSubCNG
@@ -23,7 +23,7 @@ public:
 class Object
 {
 public:
-	void rva0028ABFC(float f);
+	void setGeometryInfoZ(float f);
 private:
 	char _00[0x84];
 	Rva002710EC *m_84;
@@ -33,7 +33,7 @@ private:
 	Rva009A2350 *m_4cc;
 };
 
-void Object::rva0028ABFC(float f)
+void Object::setGeometryInfoZ(float f)
 {
 	((BfmeSubCNG *)((char *)this + 0xA8))->bfmeOneCNG(f);
 	Rva009A2350 *p = m_4cc;

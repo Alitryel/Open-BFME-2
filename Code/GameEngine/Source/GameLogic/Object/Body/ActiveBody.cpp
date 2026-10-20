@@ -399,7 +399,7 @@ public:
 	Bool rva0028F518();				// 0x0028F518
 	void setStatus(ObjectStatusTypes bit, Bool set);	// 0x0023DB0E
 	void rva0028AB75(Bool flag);			// 0x0028AB75
-	void rva0028ABFC(Real z);			// 0x0028ABFC: the geometry's height
+	void setGeometryInfoZ(Real z);			// 0x0028ABFC: the geometry's height
 	void rva0029895A(BfmeCopyElementA *geom);	// 0x0029895A: copy in a geometry
 	Bool addAttributeModifierToPool(const AsciiString &name, Int duration);	// 0x0028EA91
 	void removeAttributeModifierFromPool(const AsciiString &name);		// 0x0028EB42
@@ -1370,7 +1370,7 @@ void ActiveBody::setCorrectDamageState(Bool arg)
 		}
 		else
 		{
-			obj->rva0028ABFC(TheWritableGlobalData->m_defaultStructureRubbleHeight);
+			obj->setGeometryInfoZ(TheWritableGlobalData->m_defaultStructureRubbleHeight);
 		}
 
 		if (m_curDamageState > oldState && m_curDamageState == BODY_RUBBLE)
@@ -1435,7 +1435,7 @@ void ActiveBody::setCorrectDamageState(Bool arg)
 		}
 		if (m_curDamageState < BODY_RUBBLE && oldState == BODY_RUBBLE)
 		{
-			obj->rva0028ABFC(getObject()->getTemplate()->getTemplateGeometryInfo().getMaxHeightAbovePosition());
+			obj->setGeometryInfoZ(getObject()->getTemplate()->getTemplateGeometryInfo().getMaxHeightAbovePosition());
 			TheAI->pathfinder()->AddObjectToPathfindMap(obj);
 			obj->setStatus(OBJECT_STATUS_4, false);
 		}
@@ -1444,7 +1444,7 @@ void ActiveBody::setCorrectDamageState(Bool arg)
 			Real rubbleHeight = getObject()->getTemplate()->getStructureRubbleHeight();
 			if (rubbleHeight <= 0.0f)
 				rubbleHeight = TheWritableGlobalData->m_defaultStructureRubbleHeight;
-			obj->rva0028ABFC(rubbleHeight);
+			obj->setGeometryInfoZ(rubbleHeight);
 			TheAI->pathfinder()->RemoveObjectFromPathfindMap(obj);
 			TheAI->pathfinder()->AddObjectToPathfindMap(obj);
 			((Rva004BDA67 *)this)->rva004BDA67();

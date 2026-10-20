@@ -180,7 +180,7 @@ class Object
 public:
 	void setTriggerAreaFlagsForChangeInPosition();
 	const Coord3DView *getPosition() const { return (const Coord3DView *)&m_x; }
-	void rva0028B2BF();	// 0x0028B2BF updateTriggerAreaFlags
+	void updateTriggerAreaFlags();	// 0x0028B2BF updateTriggerAreaFlags
 
 	const ThingTemplate *getTemplate() const { return m_template; }
 	__forceinline UnsignedInt isKindOf(Int k) const { return getTemplate()->isKindOf(k); }
@@ -249,7 +249,7 @@ void Object::setTriggerAreaFlagsForChangeInPosition()
 
 	UnsignedInt now = TheGameLogic->getFrame();
 	if (m_enteredOrExitedFrame != 0 && m_enteredOrExitedFrame != now)
-		rva0028B2BF();
+		updateTriggerAreaFlags();
 
 	Int i;
 	for (i = 0; i < m_numTriggerAreasActive; i++)

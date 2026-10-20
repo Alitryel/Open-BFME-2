@@ -1,11 +1,11 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0028B31A@Object@@QAEXH@Z @ 0x0028B31A 65B: clears 8-byte entries at +0x3C5 whose dword matches arg then compacts via rva0028B2BF
+// ?rva0028B31A@Object@@QAEXH@Z @ 0x0028B31A 65B: clears 8-byte entries at +0x3C5 whose dword matches arg then compacts via updateTriggerAreaFlags
 // Evidence: chain from just-landed 0x0028B2BF; same +0x3C5 +0x43A layout as neighbours ObjectRva0028B2BF/0028B38D; caller 0x0023D670 passes through dword arg.
 class Object
 {
 public:
 	void rva0028B31A(int val);
-	void rva0028B2BF();
+	void updateTriggerAreaFlags();
 	char m_pad[0x43B];
 };
 
@@ -25,5 +25,5 @@ void Object::rva0028B31A(int val)
 			p += 8;
 		} while (i < *(signed char *)(m_pad + 0x43A));
 	}
-	rva0028B2BF();
+	updateTriggerAreaFlags();
 }

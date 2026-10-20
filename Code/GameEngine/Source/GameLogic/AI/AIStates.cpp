@@ -470,7 +470,7 @@ public:
 	void setStatus(ObjectStatusTypes bit, Bool set);
 	Bool isKindOf(KindOfType t) const;
 	void preFireCurrentWeapon(const Object *victim, const Coord3D *pos);
-	void rva0028FC8F();
+	void setFiringConditionForCurrentWeapon();
 	void fireCurrentWeapon(const Coord3D *pos);
 	void rva0028ACEE(int pos, Int layer);
 	Bool GetGoalPosition(Coord3D *pos) const;

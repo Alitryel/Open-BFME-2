@@ -12,7 +12,7 @@
 // 2D facing test (getUnitDirectionVector2D against the goal offset); status
 // 0x1C within twice the radius +0xB8 (rva00263763) drops the path; the
 // weapon status drives the fire flag +0x68 (fire inside radius squared via
-// friend_setGoalObject rva0028FC8F fireCurrentWeapon; else preFireCurrentWeapon with
+// friend_setGoalObject setFiringConditionForCurrentWeapon fireCurrentWeapon; else preFireCurrentWeapon with
 // status 0x0D); status 0x1C clears; status 0x33 or rva002943B2 fail; in range
 // without a path succeeds; CritterDesync 17 computePath (slot 17) then
 // AIInternalMoveToState::update (0x00347460) and the success retarget.
@@ -126,7 +126,7 @@ public:
 	Player *getControllingPlayer() const;
 	Bool rva002943B2(const Player *player);
 	Real rva00263763(const void *other) const;
-	void rva0028FC8F();
+	void setFiringConditionForCurrentWeapon();
 	void fireCurrentWeapon(Object *target, Int victimID);
 	void preFireCurrentWeapon(const Object *victim, const Coord3D *pos);
 	AIUpdateInterface *getAI() { return m_ai; }
@@ -291,7 +291,7 @@ StateReturnType AIAttackFireDuringApproachState::updateInternal()
 				if (source->rva00263763(goal) < radius * radius)
 				{
 					ai->friend_setGoalObject(victim);
-					source->rva0028FC8F();
+					source->setFiringConditionForCurrentWeapon();
 					source->fireCurrentWeapon(goal, m_victimID);
 				}
 				else

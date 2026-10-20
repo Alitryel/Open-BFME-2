@@ -93,7 +93,7 @@ public:
 	void rva0028FCD9(int a1, int a2);
 	void setStatus(ObjectStatusTypes bit, bool set);
 	void setEffectivelyDead(bool dead);
-	void rva0028ABFC(Real height);
+	void setGeometryInfoZ(Real height);
 	Player *getControllingPlayer() const;
 	Drawable *getDrawable() const;
 };
@@ -304,7 +304,7 @@ void SymbioticStructuresBody::rva004C0B63()
 	if (getDamageState() != BODY_RUBBLE)
 	{
 		Object *o = m_object;
-		o->rva0028ABFC(o->getTemplate()->getGeometryInfo().getMaxHeightAbovePosition());
+		o->setGeometryInfoZ(o->getTemplate()->getGeometryInfo().getMaxHeightAbovePosition());
 		m_object->setStatus((ObjectStatusTypes)4, false);
 	}
 	else
@@ -313,7 +313,7 @@ void SymbioticStructuresBody::rva004C0B63()
 		Real height = (Real)o->getTemplate()->m_5F7;
 		if (height <= 0.0f)
 			height = TheGlobalData->m_AE4;
-		o->rva0028ABFC(height);
+		o->setGeometryInfoZ(height);
 		m_object->setStatus((ObjectStatusTypes)4, true);
 	}
 	TheAI->pathfinder()->RemoveObjectFromPathfindMap(m_object);

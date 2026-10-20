@@ -4,7 +4,7 @@
 // Weapon-status gate on flag +0x20 (same bool as AIRampageState::onEnter
 // 0x0034BD1B +0x20): needs current weapon via rowed getCurrentWeapon and its
 // rowed getStatus; READY (0) with flag clear sets status 0xD and the flag,
-// with flag set runs rowed rva0028FC8F plus pinned rva00291916 on +0x38;
+// with flag set runs rowed setFiringConditionForCurrentWeapon plus pinned rva00291916 on +0x38;
 // PRE_ATTACK (4) keeps the flag, status 5 clears it.
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -38,7 +38,7 @@ class Object
 {
 public:
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot) const;
-	void rva0028FC8F();
+	void setFiringConditionForCurrentWeapon();
 	// Native 0x00291916, the verified position overload in ObjectFireCurrentWeapon.cpp.
 	void fireCurrentWeapon(const Coord3D *position);
 	void setStatus(ObjectStatusTypes status, bool set);
@@ -70,7 +70,7 @@ void AIRampageState::rva0034BE57(Object *obj)
 			return;
 		if (status == READY_TO_FIRE)
 		{
-			obj->rva0028FC8F();
+			obj->setFiringConditionForCurrentWeapon();
 			obj->fireCurrentWeapon(&obj->m_pos);
 			return;
 		}

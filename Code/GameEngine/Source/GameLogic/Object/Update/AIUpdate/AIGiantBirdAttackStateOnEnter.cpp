@@ -340,7 +340,7 @@ public:
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot = 0) const;
 	Bool getWorldspaceBestContactPoint(Coord3D *pointOut, const Coord3D *callerPos,
 		const char *preferredPoint, Int pref, Int seed, Bool skipCollideTest) const;
-	void rva0028FC8F();
+	void setFiringConditionForCurrentWeapon();
 	void fireCurrentWeapon(const Coord3D *pos);
 	void fireCurrentWeapon(Object *victim, Int id);
 	void setSpecialModelConditionState(ModelConditionFlagType flag, UnsignedInt frames);
@@ -437,7 +437,7 @@ StateReturnType AIGiantBirdAttackState::onEnter()
 
 	if (m_targetID == INVALID_OBJECT_ID)
 	{
-		owner->rva0028FC8F();
+		owner->setFiringConditionForCurrentWeapon();
 		owner->fireCurrentWeapon(owner->getPosition());
 		return STATE_SUCCESS;
 	}
@@ -510,12 +510,12 @@ StateReturnType AIGiantBirdAttackState::onEnter()
 			return STATE_SUCCESS;
 		}
 
-		owner->rva0028FC8F();
+		owner->setFiringConditionForCurrentWeapon();
 		owner->fireCurrentWeapon(victim->getPosition());
 		return STATE_FAILURE;
 	}
 
-	owner->rva0028FC8F();
+	owner->setFiringConditionForCurrentWeapon();
 	owner->fireCurrentWeapon(victim, victim->getID());
 
 	if (victim->isDead() && ai->testFlag(5))
@@ -587,7 +587,7 @@ StateReturnType AIGiantBirdAttackState::update()
 
 	if (weapon->getStatus() == READY_TO_FIRE)
 	{
-		owner->rva0028FC8F();
+		owner->setFiringConditionForCurrentWeapon();
 		owner->fireCurrentWeapon(victim, victim->getID());
 		owner->setModelConditionBit(155);
 	}

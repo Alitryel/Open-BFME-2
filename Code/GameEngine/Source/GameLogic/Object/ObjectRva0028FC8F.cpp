@@ -1,5 +1,5 @@
 // cl: /O1 /DNDEBUG /MD
-// ?rva0028FC8F@Object@@QAEXXZ @0x0028FC8F 74B. Object method guarded on
+// ?setFiringConditionForCurrentWeapon@Object@@QAEXXZ @0x0028FC8F 74B. Object method guarded on
 // drawable at +0x84: builds two 0x4C WeaponTemplateSetHead masks on the stack
 // through rowed builders 0x002C76B2 (out, kind at +0x350, 1) and 0x002C777E
 // (out, kind), then forwards both to rowed Object::rva0028CFB2 0x0028CFB2.
@@ -17,7 +17,7 @@ WeaponTemplateSetHead *__cdecl rva002C777E(WeaponTemplateSetHead *out, int idx);
 class Object
 {
 public:
-	void rva0028FC8F();
+	void setFiringConditionForCurrentWeapon();
 	void rva0028CFB2(const int *a, const int *b);
 
 private:
@@ -27,7 +27,7 @@ private:
 	int m_kind; // +0x350
 };
 
-void Object::rva0028FC8F()
+void Object::setFiringConditionForCurrentWeapon()
 {
 	if (m_drawable != 0) {
 		int kind = m_kind;
