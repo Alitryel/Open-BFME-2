@@ -290,7 +290,7 @@ struct TAiData
 class AI
 {
 public:
-	Object *rva002FDBC4(const Object *me, float range, unsigned int flags);
+	Object *findClosestAlly(const Object *me, float range, unsigned int flags);
 	Object *findClosestRepulsor(const Object *me, float range);
 	int rva002FEEAD(Object *me, float range, unsigned int qualifiers);
 	Object *findClosestEnemy(const Object *me, float range, unsigned int qualifiers,
@@ -301,7 +301,7 @@ private:
 	TAiData *m_aiData;	// +0x18
 };
 
-Object *AI::rva002FDBC4(const Object *me, float range, unsigned int flags)
+Object *AI::findClosestAlly(const Object *me, float range, unsigned int flags)
 {
 	PartitionFilterRejectBuildings first((Object *)me);
 	Rva00260EB1Filter relationship(me, 4, false);

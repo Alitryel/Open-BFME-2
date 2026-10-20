@@ -148,7 +148,7 @@ public:
 	void aiHarvest(const Coord3D *position, CommandSourceType cmdSource);
 	void rva0036F4DF(Object *target, Int value, CommandSourceType cmdSource);
 	void rva0036F54D(const Team *team, Int value, CommandSourceType cmdSource);
-	void rva0036F5BB(const PolygonTrigger *area, Int value, CommandSourceType cmdSource);
+	void aiGuardArea(const PolygonTrigger *area, Int value, CommandSourceType cmdSource);
 	void aiGuardAreaFromPosition(const PolygonTrigger *area, Int value, CommandSourceType cmdSource, const Coord3D *pos);
 	void rva0036F6A7(float value, CommandSourceType cmdSource);
 	void aiMoveToPositionAndFaceDirection(const Coord3D *position, CommandSourceType cmdSource, float value);
@@ -589,10 +589,10 @@ void AICommandInterface::rva0036F54D(const Team *team, Int value, CommandSourceT
 	aiDoCommand(&parms);
 }
 
-// ?rva0036F5BB@AICommandInterface@@QAEXPBVPolygonTrigger@@HW4CommandSourceType@@@Z, retail 0x0036F5BB, 110 bytes.
+// ?aiGuardArea@AICommandInterface@@QAEXPBVPolygonTrigger@@HW4CommandSourceType@@@Z, retail 0x0036F5BB, 110 bytes.
 // Same 110B polygon-plus-int shape: AICMD 0x21 plus m_polygon at +0x30 plus m_intValue at +0x34 plus slot-0 aiDoCommand.
 // Class proven by gap between rva0036F54D and rva0036F6A7 plus same TU flags; callers at 0x003704C2 0x003C8A8A.
-void AICommandInterface::rva0036F5BB(const PolygonTrigger *area, Int value, CommandSourceType cmdSource)
+void AICommandInterface::aiGuardArea(const PolygonTrigger *area, Int value, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x21, cmdSource);
 	parms.m_polygon = area;
@@ -602,7 +602,7 @@ void AICommandInterface::rva0036F5BB(const PolygonTrigger *area, Int value, Comm
 
 // ?aiGuardAreaFromPosition@AICommandInterface@@QAEXPBVPolygonTrigger@@HW4CommandSourceType@@PBUCoord3D@@@Z, retail 0x0036F629, 126 bytes.
 // Same TU polygon-plus-int-plus-pos shape: AICMD 0x44 plus m_polygon at +0x30 plus m_intValue at +0x34 plus m_pos at +0x08 plus slot-0 aiDoCommand.
-// Class proven by gap between rva0036F5BB and rva0036F6A7 plus same TU flags; callers at 0x00370505 0x003C8A7E forward 4 args.
+// Class proven by gap between aiGuardArea and rva0036F6A7 plus same TU flags; callers at 0x00370505 0x003C8A7E forward 4 args.
 void AICommandInterface::aiGuardAreaFromPosition(const PolygonTrigger *area, Int value, CommandSourceType cmdSource, const Coord3D *pos)
 {
 	AICommandParms parms((AICommandType)0x44, cmdSource);

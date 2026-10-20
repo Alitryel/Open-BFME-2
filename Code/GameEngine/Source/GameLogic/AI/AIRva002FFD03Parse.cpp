@@ -1,17 +1,16 @@
 // cl: /O1 /EHsc /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva002FFD03@AI@@SAXPAVINI@@PAX1PBX@Z, retail 0x002FFD03 (192B). INI field-table callback
+// ?parseAttackPriority@AI@@SAXPAVINI@@PAX1PBX@Z, retail 0x002FFD03 (192B). INI field-table callback
 // (INI*, instance = the AI data, store, userData): the next token names an entry of the AI
 // data's named-list chain (+0xFC, linked through +0x10); an existing entry has its list (+0x0C)
 // cleared, a missing one is allocated (0x14 B, rowed ctor 0x002FED8D over the name, unwound on a
 // throwing ctor) and pushed at the head; the entry is then filled through initFromINI with the
 // table at VA 0x00C07414. Evidence: target bytes and the AI::parseSideInfo sibling at
 // 0x002FE940 (same lookup/allocate/push shape); the list head at +0xFC and the 0x14-byte node
-// match AI::newOverride (0x002FFDC3, AIConstructor.cpp). Zero Hour's AI::parseSkirmishBuildList
-// (per-faction build list, "Structure" entries) is the likely counterpart but BFME 2 replaces a
-// same-named entry instead of appending, and WorldBuilder does not name this body, so the
-// address-derived name stays.
+// match AI::newOverride (0x002FFDC3, AIConstructor.cpp). Name: the AIData field table maps
+// "AttackPriority" (0x00C06834) to this body, its own table holds "Default" and "Target", and
+// BFME 1's AI::parseAttackPriority (b1 0x0014E130) has the same lookup/clear/allocate shape.
 #include <list>
 #include "ascii_string.h"
 
@@ -68,10 +67,10 @@ struct Rva002FFD03Data
 class AI
 {
 public:
-	static void rva002FFD03(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAttackPriority(INI *ini, void *instance, void *store, const void *userData);
 };
 
-void AI::rva002FFD03(INI *ini, void *instance, void * /*store*/, const void * /*userData*/)
+void AI::parseAttackPriority(INI *ini, void *instance, void * /*store*/, const void * /*userData*/)
 {
 	// Retail's two-field table (.rdata RVA 0x00807414): "Default" with INI::parseInt into the
 	// node's +8 value and "Target" with the callback above into the list at +0x0C.

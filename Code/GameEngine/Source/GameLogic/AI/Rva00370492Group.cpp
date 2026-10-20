@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 // ?rva00370492@AIGroup@@QAEXPBVPolygonTrigger@@HW4CommandSourceType@@@Z @0x00370492 65B
-// AIGroup forward of rva0036F5BB to each member via rowed 0x0036F5BB,
+// AIGroup forward of aiGuardArea to each member via rowed 0x0036F5BB,
 // null trigger returns, same list-at-+0 plus Object+0x258 plus +0x20 loop.
 // Evidence: calls 0x0036F5BB; caller 0x003BF8A9; unblocks 0x003BF813;
 // precedent Rva00370451Group.cpp 65B same loop with Team.
@@ -18,7 +18,7 @@ enum CommandSourceType
 class AICommandInterface
 {
 public:
-	void rva0036F5BB(const PolygonTrigger *trigger, int x, CommandSourceType cmdSource);
+	void aiGuardArea(const PolygonTrigger *trigger, int x, CommandSourceType cmdSource);
 };
 
 class AIUpdateInterface
@@ -51,6 +51,6 @@ void AIGroup::rva00370492(const PolygonTrigger *trigger, int x, CommandSourceTyp
 	{
 		AIUpdateInterface *ai = (*i)->m_ai;
 		if (ai != 0)
-			ai->m_commands.rva0036F5BB(trigger, x, cmdSource);
+			ai->m_commands.aiGuardArea(trigger, x, cmdSource);
 	}
 }

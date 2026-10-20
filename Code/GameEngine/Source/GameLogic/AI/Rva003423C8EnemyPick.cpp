@@ -5,7 +5,7 @@
 // unnamed, line 16787). A thiscall member that ignores `this`: with even
 // odds it asks TheAI first for the closest enemy (AI::findClosestEnemy
 // 0x002FFFA3, qualifier 2, no priority, no filter) and falls back to the
-// rowed AI::rva002FDBC4 0x002FDBC4, or the reverse, each within twice the
+// rowed AI::findClosestAlly 0x002FDBC4, or the reverse, each within twice the
 // object's vision range. It lies between AIFaceState::onExit and
 // AIRampageState::xfer; its owner and name are not established, so they are
 // address-derived.
@@ -21,7 +21,7 @@ class PartitionFilter;
 class AI
 {
 public:
-	Object *rva002FDBC4(const Object *me, float range, unsigned int flags);
+	Object *findClosestAlly(const Object *me, float range, unsigned int flags);
 	Object *findClosestEnemy(const Object *me, float range, unsigned int qualifiers,
 		const AttackPriorityInfo *info, PartitionFilter *optionalFilter, int bfmeArg);
 };
@@ -44,11 +44,11 @@ Object *Rva003423C8::rva003423C8(Object *obj)
 	{
 		victim = TheAI->findClosestEnemy(obj, obj->getVisionRange() * 2.0f, 2, 0, 0, 0);
 		if (victim == 0)
-			return TheAI->rva002FDBC4(obj, obj->getVisionRange() * 2.0f, 2);
+			return TheAI->findClosestAlly(obj, obj->getVisionRange() * 2.0f, 2);
 	}
 	else
 	{
-		victim = TheAI->rva002FDBC4(obj, obj->getVisionRange() * 2.0f, 2);
+		victim = TheAI->findClosestAlly(obj, obj->getVisionRange() * 2.0f, 2);
 		if (victim == 0)
 			return TheAI->findClosestEnemy(obj, obj->getVisionRange() * 2.0f, 2, 0, 0, 0);
 	}
