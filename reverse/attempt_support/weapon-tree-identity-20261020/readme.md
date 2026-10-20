@@ -61,3 +61,20 @@ check_csv and find_declared_unmatched also passed. Final normal hooks remain
 the acceptance authority; no gate/baseline debt is added. pin_admission updated
 the hatch register, retaining unrelated existing allow annotations that its
 rewrite otherwise dropped.
+
+## Narrow placement check
+
+The ordinary add_match path independently verified the new 166-byte unhinted
+insertion and all three rows in its source. Its temporary callee pin was then
+removed because the body now owns that name.
+
+The nine-source link_check prediction used the published index from
+2026-10-20 12:21 at 5366c4f808. Four sources link cleanly: the 34-byte creator,
+76-byte lower-bound, 73-byte comparator, and 593-byte AnimationSound unit.
+The scoped linked count remains 776 -> 776 bytes. The repaired insertion,
+wrapper and existing index still encounter wrong-selected Weapon template
+copies elsewhere; ThingTemplate and the old STLWeapon unit additionally
+retain unresolved/COMDAT debt. This work claims no linked-byte gain and does
+not add baseline allowances. The normal identity hook also reports divergent
+creator/pair/index copies in shadow mode; byte equality of the repaired
+owners does not resolve those other emitted copies.
