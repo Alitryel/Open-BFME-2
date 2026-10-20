@@ -808,7 +808,8 @@ public:
 	Rva0044EAF3 *rva0044EAF3(int a, unsigned int b, unsigned int c, unsigned int d);
 	unsigned int m_bits[4];
 };
-extern unsigned int g_00E033D0;
+// Same signed frame-count datum defined by Rva007ABC6FFrameRateInits.
+extern int g_00E033D0;
 
 // Retail 0x004502CE (871 bytes): SpecialAbilityUpdate::onExit.
 void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
