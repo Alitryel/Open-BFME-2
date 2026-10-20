@@ -87,11 +87,3 @@ void __cdecl Rva002176F1Insert(MixFileCreator::FileInfoStruct *last, MixFileCrea
 	}
 	*last = value;
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitMixFileCreatorFileInfoStructAssign@@YAXPAUFileInfoStruct@MixFileCreator@@ABU12@@Z present-unmatched
-void __cdecl bfmeEmitMixFileCreatorFileInfoStructAssign(MixFileCreator::FileInfoStruct *p, const MixFileCreator::FileInfoStruct &src)
-{
-	*p = src;
-}
-#pragma inline_depth()

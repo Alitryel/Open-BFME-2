@@ -25,56 +25,16 @@ namespace _STL { template<> vector<BfmeE12> &vector<BfmeE12>::operator=(const ve
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?swap@SidesInfoStringVector@@QAEXAAV1@@Z=?swap@?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@QAEXAAV12@@Z")
-// ?bfmeEmitstlport_vector_e12_o1_copy@@YAXPAUBfmeE12@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_copy(const BfmeE12 *p)
-{
-	_STL::__copy(p, p, (BfmeE12 *)0, _STL::random_access_iterator_tag(), (int *)0);
-}
-// ?bfmeEmitstlport_vector_e12_o1_copy_backward@@YAXPAUBfmeE12@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_copy_backward(BfmeE12 *p)
-{
-	_STL::__copy_backward(p, p, p, _STL::random_access_iterator_tag(), (int *)0);
-}
-// ?bfmeEmitstlport_vector_e12_o1_uninitialized_copy@@YAXPAUBfmeE12@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_uninitialized_copy(const BfmeE12 *p)
-{
-	_STL::__uninitialized_copy(p, p, (BfmeE12 *)0, _STL::__false_type());
-}
-// ?bfmeEmitstlport_vector_e12_o1_uninitialized_fill_n@@YAXPAUBfmeE12@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_uninitialized_fill_n(const BfmeE12 *p)
-{
-	_STL::__uninitialized_fill_n((BfmeE12 *)0, 0u, *p, _STL::__false_type());
-}
-// ?bfmeEmitstlport_vector_e12_o1_fill@@YAXPAUBfmeE12@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_fill(const BfmeE12 *p)
-{
-	_STL::fill((BfmeE12 *)0, (BfmeE12 *)0, *p);
-}
-
-// ?bfmeEmitstlport_vector_e12_o1_size@@YAXPBUBfmeE12@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_size(const _STL::vector<BfmeE12,_STL::allocator<BfmeE12> > *p)
-{
-	volatile unsigned int s = p->size();
-	(void)s;
-}
-// ?bfmeEmitstlport_vector_e12_o1_swap@@YAXPAV?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_swap(_STL::vector<BfmeE12,_STL::allocator<BfmeE12> > *p)
-{
-	p->swap(*p);
-}
-// ?bfmeEmitstlport_vector_e12_o1_pop_back@@YAXPAV?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_pop_back(_STL::vector<BfmeE12,_STL::allocator<BfmeE12> > *p)
-{
-	p->pop_back();
-}
-// ?bfmeEmitstlport_vector_e12_o1_vector_base@@YAXXZ present-unmatched
-void bfmeEmitstlport_vector_e12_o1_vector_base()
-{
-	void *buf = 0;
-	new (buf) _STL::_Vector_base<BfmeE12,_STL::allocator<BfmeE12> >(_STL::allocator<BfmeE12>());
-}
-// ?bfmeEmitstlport_vector_e12_o1_copy_backward_ptrs@@YAXPAUBfmeE12@@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_o1_copy_backward_ptrs(BfmeE12 *p)
-{
-	_STL::__copy_backward_ptrs(p, p, p, _STL::__false_type());
+// Explicitly instantiate the retail helpers; no synthetic callers are needed.
+namespace _STL {
+template BfmeE12 *__copy<const BfmeE12 *, BfmeE12 *, int>(const BfmeE12 *, const BfmeE12 *, BfmeE12 *, const random_access_iterator_tag &, int *);
+template BfmeE12 *__copy_backward<BfmeE12 *, BfmeE12 *, int>(BfmeE12 *, BfmeE12 *, BfmeE12 *, const random_access_iterator_tag &, int *);
+template BfmeE12 *__uninitialized_copy<const BfmeE12 *, BfmeE12 *>(const BfmeE12 *, const BfmeE12 *, BfmeE12 *, const __false_type &);
+template BfmeE12 *__uninitialized_fill_n<BfmeE12 *, unsigned int, BfmeE12>(BfmeE12 *, unsigned int, const BfmeE12 &, const __false_type &);
+template void fill<BfmeE12 *, BfmeE12>(BfmeE12 *, BfmeE12 *, const BfmeE12 &);
+template unsigned int vector<BfmeE12>::size() const;
+template void vector<BfmeE12>::swap(vector<BfmeE12> &);
+template void vector<BfmeE12>::pop_back();
+template _Vector_base<BfmeE12, allocator<BfmeE12> >::_Vector_base(const allocator<BfmeE12> &);
+template BfmeE12 *__copy_backward_ptrs<BfmeE12 *, BfmeE12 *>(BfmeE12 *, BfmeE12 *, BfmeE12 *, const __false_type &);
 }
