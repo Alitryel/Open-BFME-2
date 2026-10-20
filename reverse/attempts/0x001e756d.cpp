@@ -1,4 +1,6 @@
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
+// partial score=0.99 date=2026-10-20
+// ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9296820699597845 date=2026-10-19
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9296820699597845 date=2026-10-19
@@ -15,7 +17,7 @@
 // partial score=0.993 date=2026-10-13 (W7-S4: whole normal path wrapped in a block)
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.98 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include /Oi- /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // stlport
 //
 // NEAR DRAFT (not landable as is): replacement for
@@ -66,8 +68,12 @@
 // waypoint come from the WorldBuilder twin; the point and node views are
 // address-named because their real types are unproven.
 #include <vector>
-#include "Lib/Coord3D.h"
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#define COORD3D_VIEW_INLINE
+#include "Lib/Coord3DCtorView.h"
+#include <math.h>
+#define _OPERATOR_NEW_DEFINED_
+#include "matrix3d.h"
+#include "../../../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 typedef float Real;
 enum PathfindLayerEnum
 
@@ -157,6 +163,7 @@ class Path
  Rva003642DFResult rva003642DF(Real dist);
  bool DoAdvanceAlongPath(const Coord3D *pos, bool flag);
  int GetNextPortalID();
+ unsigned m_count;
  
 }
 ;
@@ -450,11 +457,12 @@ class Thing
   return m_template;
   
  }
- protected:
+ float getHeightAboveTerrainOrWater()const; void setOrientation(float); const Coord3D *getUnitDirectionVector2D()const; void setPositionZ(float);
+ public:
  void *m_vtbl;
  const ThingTemplate *m_template;
 // +0x04
- char m_pad08[0x38 - 8];
+ Matrix3D m_matrix08;
  Coord3D m_pos;
 // +0x38
  Real m_orientation;
@@ -471,24 +479,53 @@ class Rva0030A3E4
  
 }
 ;
+struct Obj254V { virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03(); virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07(); virtual int s08(); };
+class Rva00368C7A { public: unsigned char rva00368271(); };
+struct Obj258Holder
+{
+#define V(n) virtual void q##n();
+ V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9) V(10) V(11) V(12) V(13) V(14) V(15) V(16) V(17) V(18) V(19)
+ V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28) V(29) V(30) V(31) V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39)
+ V(40) V(41) V(42) V(43) V(44) V(45) V(46) V(47) V(48) V(49) V(50) V(51) V(52) V(53) V(54) V(55) V(56) V(57) V(58) V(59)
+ V(60) V(61) V(62) V(63) V(64) V(65) V(66) V(67) V(68) V(69) V(70) V(71) V(72) V(73) V(74) V(75) V(76) V(77) V(78) V(79)
+ V(80) V(81) V(82) V(83) V(84) V(85) V(86) V(87) V(88) V(89) V(90) V(91) V(92) V(93) V(94) V(95) V(96) V(97)
+ virtual Rva00368C7A *query001E546B();
+ V(99) V(100) V(101) V(102) V(103) V(104) V(105) V(106) V(107) V(108) V(109) V(110) V(111) V(112) V(113) V(114) V(115) V(116) V(117) V(118) V(119)
+ V(120) V(121) V(122) V(123) V(124) V(125) V(126) V(127) V(128) V(129) V(130) V(131) V(132) V(133) V(134) V(135) V(136) V(137)
+#undef V
+ virtual bool queryTurnSlow();
+ char m_pad[0x1F8-4];
+ float m_1F8;
+};
+struct Rva001E546BFlags {
+    unsigned m_bits[19];
+    __forceinline unsigned test(unsigned i)const {return m_bits[i>>5] & (1u<<(i&31));}
+    __forceinline void set(unsigned i){m_bits[i>>5]|=1u<<(i&31);}
+    __forceinline void reset(unsigned i){m_bits[i>>5]&=~(1u<<(i&31));}
+};
 class Object : public Thing
-
 {
  public:
  void rva0028B4CE(PathfindLayerEnum layer);
  bool isKindOf(KindOfType t) const;
- ContainModuleInterface *getContain() const 
- {
-  return m_contain;
-  
- }
- private:
- char m_pad48[0x250 - 0x48];
+ ContainModuleInterface *getContain() const { return m_contain; }
+ void rva0028AE6D();
+ void rva0028CFB2(const int*,const int*);
+ bool rva0006F039(int)const;
+ char m_pad48[0x74-0x48];
+ int m_id74;
+ char m_pad78[0xB8-0x78]; float m_B8;
+ float m_BC;
+ char m_padC0[0x10C-0xC0];
+ Rva001E546BFlags m_flags10C;
+ char m_pad158[0x198-0x158];
+ Coord3D m_198;
+ char m_pad1A4[2]; bool m_1A6;
+ char m_pad1A7[0x250-0x1A7];
  ContainModuleInterface *m_contain;
-// +0x250
- 
-}
-;
+ Obj254V *m_254;
+ Obj258Holder *m_258;
+};
 class Waypoint
 
 {
@@ -577,22 +614,65 @@ Real normalizeAngle(Real angle);
 Real Cos(Real angle);
 extern "C" float atan2f(float y, float x);
 float atan2(float y, float x);
-class Rva001E46E1
-
+struct Rva001E46E1Data
 {
- public:
- Real rva001E46E1(Object *obj);
-// getMaxSpeed
- void rva001E56DC(Object *obj, const Coord3D *goal, Real turnRate, Real *angle);
- bool rva001E543F(Object *obj);
- 
-}
-;
+	char m_pad00[0x18];
+	float m_18;
+	char m_pad1C[0x24-0x1C];
+	float m_24;
+	float m_28; char m_pad2C[0x3C-0x2C]; float m_3C;
+	char m_pad40[4];
+	unsigned int m_44;
+	float m_48;
+	float m_4C;
+	unsigned int m_50;
+	char m_pad54[0x74-0x54]; int m_74;
+	char m_pad78[4]; float m_7C, m_80; char m_pad84[0xBC-0x84]; float m_BC;
+	char m_padC0[0xEC-0xC0];
+	unsigned char m_ec;
+	char m_padED[0x104 - 0xED];
+	float m_104;
+	unsigned char m_108;
+	unsigned char m_109;
+	unsigned char m_10A;
+	char m_pad10B[0x14C-0x10B];
+	float m_14C;
+};
+class Rva001E46E1
+{
+public:
+	void rva001E56DC(Object*,const Coord3D*,float,float*);
+	void rva001E6007(Object*,const Coord3D*,float,float);
+	bool getFlag(int bit)const{return (m_flags44>>bit)&1;}
+	float rva001E4845(Object *obj);
+	float rva001E488A(Object *obj);
+	bool rva001E543F(Object *obj);
+	void *m_00;
+	const Rva001E46E1Data *m_data;
+	char m_pad08[0x24 - 8];
+	float m_24;
+	float m_28;
+	float m_2c;
+	float m_30;
+	float m_34;
+	char m_pad38[0x40 - 0x38];
+	float m_40;
+	unsigned m_flags44;
+	float m_48;
+	char m_pad4C[0x5C - 0x4C];
+	float m_5C;
+	unsigned int m_60;
+	char m_pad64[4];
+	Matrix3D m_matrix68;
+	unsigned char m_98,m_99; char m_pad9A[6];
+	float m_A0,m_A4;
+	int m_A8;
+};
 class Rva001E6007
 
 {
  public:
- void rva001e6007(unsigned int obj, unsigned int goal, Real onPathDistToGoal, Real desiredSpeed);
+ void rva001e6007(Object *obj, const Coord3D *goal, Real onPathDistToGoal, Real desiredSpeed);
  
 }
 ;
@@ -600,7 +680,9 @@ class Rva001E685F
 
 {
  public:
- void rva001E685F(int obj, int pos, int flag);
+ void rva001E685F(Object *obj, const Coord3D *pos, float *angle);
+ char prefix[0x68];
+ struct MatrixRow{unsigned int a,b,c,d;__forceinline void set(const MatrixRow&r){a=r.a;b=r.b;c=r.c;d=r.d;}} matrix[3];
  
 }
 ;
@@ -710,6 +792,199 @@ class Locomotor
  
 }
 ;
+class Rva001E43CF {public: void rva001E43CF(void*);};
+class Rva001E4912 { public:
+    Rva001E4912 *rva001E4912(int,unsigned,unsigned);
+    unsigned m_bits[19];
+};
+// Native 0x001E56DC..0x001E5F1D (RET16): the locomotor receiver and Object
+// layouts are shared with the verified neighbouring movement/vertical bodies.
+// BFME1 Locomotor::rotateObjAroundLocoPivot (9cbfb551) and the ZH locomotor
+// turn logic supply the pivot semantics; the original method name is uncertain.
+// Target data offsets 3C/74/BC/10A, Object transform08 and radiusB8, AI slot228,
+// mover transform68/flags98-99/turn directionA8 and flags133/134/137/138 are
+// read from this retail body. WWMath is the unchanged shared donor at2f243e26d.
+// The local union records two successive stages: optional angle output, then
+// returned speed. Reading that speed through a volatile float view keeps the
+// native FSTP float rounding before SSE halving. The flag starts after the call
+// and before halving; the special pivot's constant offset is a const reference.
+static __forceinline void preRotateZ(Matrix3D&m,float s,float c){m.In_Place_Pre_Rotate_Z(s,c);}
+void Rva001E46E1::rva001E56DC(Object *obj,const Coord3D *goal,float maxTurnRate,float *relAngle)
+{
+    union PivotValue {float *output;float speed;};PivotValue value;value.output=relAngle;
+    float angle=obj->m_orientation;
+    float offset=m_data->m_BC;
+    float turnRate=m_data->m_3C;
+    if(m_99) turnRate*=0.0625f;
+    Obj258Holder *ai=obj->m_258;
+    bool slow=ai && ai->queryTurnSlow();
+    m_A8=0;
+    if(m_data->m_74==5) {
+        const float &turnPointOffset=offset*obj->m_B8;
+        Coord3D turnPos;
+        turnPos.x=obj->m_pos.x; turnPos.y=obj->m_pos.y;
+        const Coord3D *dir=obj->getUnitDirectionVector2D();
+        turnPos.x+=dir->x*turnPointOffset;
+        turnPos.y+=dir->y*turnPointOffset;
+        float dx=goal->x-turnPos.x,dy=goal->y-turnPos.y;
+        if(fabs(dx)<0.1f && fabs(dy)<0.1f)return;
+        float amount=normalizeAngle(atan2(dy,dx)-angle);
+        if(value.output)*value.output=amount;
+        if(amount>0.0f) {
+            if(amount>m_data->m_3C)m_A8=1;
+            if(amount>maxTurnRate)amount=maxTurnRate;
+        } else {
+            if(amount< -m_data->m_3C)m_A8=-1;
+            if(amount< -maxTurnRate)amount=-maxTurnRate;
+        }
+        Matrix3D mtx,tmp(true);
+        tmp.Translate(turnPos.x,turnPos.y,0.0f);
+        tmp.In_Place_Pre_Rotate_Z(amount);
+        tmp.Translate(-turnPos.x,-turnPos.y,0.0f);
+        mtx.mul(tmp,obj->m_matrix08);
+        ((Rva001E43CF*)this)->rva001E43CF(&mtx);
+    } else {
+        float turnPointOffset=offset*obj->m_B8;
+        Coord3D turnPos;
+        turnPos.x=obj->m_pos.x;turnPos.y=obj->m_pos.y;
+        const Coord3D *dir=obj->getUnitDirectionVector2D();
+        turnPos.x+=dir->x*turnPointOffset;turnPos.y+=dir->y*turnPointOffset;
+        float dx=goal->x-turnPos.x,dy=goal->y-turnPos.y;
+        if(fabs(dx)<0.1f && fabs(dy)<0.1f)return;
+        float amount=normalizeAngle(atan2(dy,dx)-angle);
+        if(value.output)*value.output=amount;
+        if(amount>0.0f){if(amount>turnRate)m_A8=1;if(amount>maxTurnRate)amount=maxTurnRate;}
+        else {if(amount< -turnRate)m_A8=-1;if(amount< -maxTurnRate)amount=-maxTurnRate;}
+        if(slow)amount*=0.5f;
+        float c=cosf(amount),s=sinf(amount);preRotateZ(m_matrix68,s,c);
+    }
+    float speed=m_40;
+    value.speed=((const Locomotor *)this)->getMaxSpeed(obj);bool animate=true;float half=reinterpret_cast<const volatile float&>(value.speed)*0.5f;
+    if(speed>half && !m_data->m_10A)animate=false;
+    if(slow)animate=false;
+    if(!m_99) {
+        if(obj->m_flags10C.test(133)){obj->m_flags10C.reset(133);obj->rva0028AE6D();}
+        if(obj->m_flags10C.test(134)){obj->m_flags10C.reset(134);obj->rva0028AE6D();}
+        if(obj->m_flags10C.test(137)){obj->m_flags10C.reset(137);obj->rva0028AE6D();}
+        if(obj->m_flags10C.test(138)){obj->m_flags10C.reset(138);obj->rva0028AE6D();}
+    }
+    if(animate) {
+        if(m_A8==-1) {
+            if(speed>half) {
+                Rva001E4912 clear,set;
+                obj->rva0028CFB2((int*)clear.rva001E4912(0,137,133),(int*)set.rva001E4912(0,138,134));
+            } else if(obj->m_flags10C.test(133)||!obj->m_flags10C.test(134)){
+                obj->m_flags10C.reset(133);obj->m_flags10C.set(134);obj->rva0028AE6D();
+            }
+        } else if(m_A8==1) {
+            if(speed>half) {
+                Rva001E4912 clear,set;
+                obj->rva0028CFB2((int*)clear.rva001E4912(0,138,134),(int*)set.rva001E4912(0,137,133));
+            } else if(obj->m_flags10C.test(134)||!obj->m_flags10C.test(133)){
+                obj->m_flags10C.reset(134);obj->m_flags10C.set(133);obj->rva0028AE6D();
+            }
+        }
+    }
+}
+
+
+class Rva001E434A {public:void *rva001E434A();};
+static __forceinline void rva6007Clear(Object *obj,unsigned bit)
+{
+ if(obj->m_flags10C.test(bit)){obj->m_flags10C.reset(bit);obj->rva0028AE6D();}
+}
+static __forceinline void rva6007Set(Object *obj,unsigned bit)
+{
+ if(!obj->m_flags10C.test(bit)){obj->m_flags10C.set(bit);obj->rva0028AE6D();}
+}
+static __forceinline float rva6007SlowDown(float speed,float minSpeed,float braking)
+{
+ float delta=speed-minSpeed;
+ if(delta<=0.0f)return 0.0f;
+ float frames=delta/braking;
+ frames+=1.0f;
+ float dist=(delta*0.5f+minSpeed)*frames;
+ const float fudge=1.05f;
+ return dist*fudge;
+}
+static __forceinline void rva6007SetNextPosition(Object *obj,const Coord3D *pos){obj->m_1A6=true;obj->m_198=*pos;}
+void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,float desiredSpeed)
+{
+ float maxSpeed=((const Locomotor*)this)->getMaxSpeed(obj);
+ if(desiredSpeed>maxSpeed)desiredSpeed=maxSpeed;
+ float goalSpeed=desiredSpeed;
+ float actualSpeed=m_40;
+ float braking=rva001E488A(obj);
+ float minSpeed=m_data->m_28;
+ float slowDownDist=rva6007SlowDown(actualSpeed,minSpeed,braking);
+ if(distance>slowDownDist*3.0f)m_flags44&=~1u;
+ float next=m_40-braking;
+ if(next>desiredSpeed){goalSpeed=next;if(goalSpeed<braking)goalSpeed=braking;}
+ if(slowDownDist>distance && !getFlag(4)){
+  m_flags44|=1;
+  goalSpeed=m_40-rva001E488A(obj);
+  if(goalSpeed<braking)goalSpeed=braking;
+ }
+ Rva003642DFResult result;
+ const Coord3D *objPos=obj->getPosition();
+ Coord3D goalCopy(*goal);
+ if(goalSpeed>m_40 && !getFlag(0))m_40+=rva001E4845(obj);
+ if(m_40>goalSpeed){m_40-=braking;if(m_40<goalSpeed)m_40=goalSpeed;}
+ Coord3D pos(*goal);
+ float speed=m_40;
+ Path *path=(Path*)Rva001E3FFDGet((Rva001E3FFDOuter*)obj);
+ if(path){
+  ++path->m_count;
+  result=path->rva00364521((const Rva0008BB38FloatField*)this);
+  pos=result.m_pos;
+  path->DoAdvanceAlongPath(&pos,true);
+  result=path->rva00364521((const Rva0008BB38FloatField*)this);
+  if(path->m_count)--path->m_count;
+  Coord3D nextPos(result.m_pos);
+  rva6007SetNextPosition(obj,&nextPos);
+ } else {
+  Coord3D delta(goalCopy);
+  delta.sub(objPos);
+  pos=*objPos;
+  delta.z=0.0f;
+  float len=delta.length();
+  if(speed<10.0f/BfmeLogicFramesPerSecond)speed=10.0f/BfmeLogicFramesPerSecond;
+  if(speed>len)speed=len;
+  if(len>0.001f){delta.normalize();delta.scale(speed);pos.x=delta.x+pos.x;pos.y=delta.y+pos.y;pos.z=delta.z+pos.z;}
+ }
+ pos.z=objPos->z;
+ Coord3D dest(*(const Coord3D*)((Rva001E434A*)obj)->rva001E434A());
+ dest.z=objPos->z;
+ rva6007SetNextPosition(obj,&dest);
+ m_matrix68.Set_Translation(Vector3(pos.x,pos.y,pos.z));
+ float acceleration=m_40-actualSpeed;
+ float threshold=m_data->m_7C*maxSpeed;
+ if(acceleration>rva001E4845(obj)*0.4f && actualSpeed<threshold){
+  rva6007Clear(obj,136);
+  if(m_data->m_80>distance)rva6007Clear(obj,135);
+  else {rva6007Clear(obj,131);rva6007Set(obj,135);}
+ } else if(getFlag(0) && threshold>m_40){
+  rva6007Clear(obj,135);
+  if(m_98){rva6007Clear(obj,131);rva6007Set(obj,136);}
+  else {rva6007Clear(obj,136);rva6007Set(obj,131);}
+ } else {
+  rva6007Clear(obj,135);rva6007Clear(obj,136);
+  if(actualSpeed>threshold){
+   if(distance>m_data->m_80 && obj->rva0006F039(131))rva6007Clear(obj,131);
+   if(!obj->rva0006F039(131))m_98=true;
+  }
+ }
+}
+
+// Retail next-position flag order and named speed callee are reproduced by this bank.
+// Remaining coordinate-copy evidence: reverse/attempt_support/001e6007-20261019-w5.md.
+
+void Rva001E685F::rva001E685F(Object *obj,const Coord3D *a,float *b){
+const MatrixRow *src=(const MatrixRow *)&obj->m_matrix08;
+matrix[0].set(src[0]);
+matrix[1].set(src[1]);
+matrix[2].set(src[2]);
+float turn=((const Locomotor*)this)->getMaxTurnRate(obj);((Rva001E46E1*)this)->rva001E56DC(obj,a,turn,b);}
 bool Locomotor::moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way)
 
 {
@@ -837,7 +1112,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
       if (!path)
       return;
       result = path->rva00364521((const Rva0008BB38FloatField *)this);
-      ((Rva001E685F *)this)->rva001E685F((int)obj, (int)&result.m_pos, 0);
+      ((Rva001E685F *)this)->rva001E685F(obj, &result.m_pos, 0);
       Coord3D goal;
       goal.x = result.m_pos.x;
       goal.y = result.m_pos.y;
@@ -922,7 +1197,6 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   
  }
  
- {
   Real maxSpeed = getMaxSpeed(obj);
   Real maxTurnRate = getMaxTurnRate(obj);
   if (desiredSpeed > maxSpeed)
@@ -979,10 +1253,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   ((Rva001E46E1 *)this)->rva001E56DC(obj, &goal, maxTurnRate, &relAngle);
   if (!((Rva001E46E1 *)this)->rva001E543F(obj) && obj->getTemplate()->isKindOf9() && hordeContain && !hordeContain->slot112(desiredAngle))
   desiredSpeed *= 0.1f;
-  ((Rva001E6007 *)this)->rva001e6007((unsigned int)obj, (unsigned int)&goal, onPathDistToGoal, desiredSpeed);
-  
- }
- 
+  ((Rva001E46E1 *)this)->rva001E6007(obj, &goal, onPathDistToGoal, desiredSpeed);
 }
 
 // Aligned nonvolatile-portal comparison: reverse/attempt_support/horde-1e756d-w1-20261019.md.
