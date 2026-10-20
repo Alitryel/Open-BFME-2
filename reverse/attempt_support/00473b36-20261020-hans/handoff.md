@@ -44,3 +44,5 @@ The guard is redundant source; treat it as a hypothesis.
 A hand-written do-while count under the guard (v3) rotates the count loop: 539 B, insns 12/12.
 One diff remains: begin is loaded into ECX for the count and moved to ESI afterwards. Retail loads ESI first and counts on an ECX copy.
 Every form that defines `first` before the count regresses (z1-z4, v1, v2: 531-539 B, R 16-61). Equivalent guard spellings are identical; a ternary is worse.
+Session 3 addendum (22:37-22:40 PT): an inline count helper with first defined after the count is 530 B; with first before it, 542 B and R=36.
+Root cause of every first-before regression: once `first` is compared to end (an explicit guard) or CSE'd, MSVC proves the list non-empty and drops the loop entry tests. In the size()-only forms, `first` instead lands in a volatile register.

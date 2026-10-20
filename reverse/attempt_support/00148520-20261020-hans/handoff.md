@@ -33,3 +33,7 @@ Harness: %TEMP%\vg.py (SRC/SYM/RVA/SZ/TAG=s148); use lowercase variant names (up
 - desc local declared early (right after mmc): struct 6 but R=95, so the descriptor must be read late.
 - Inert on w5: a const mmc pointer, Get_Vertex_Count(), `while(mesh!=NULL)`, remainingMesh/mesh declaration order. Swapping the Anchor and Set_Base_Vertex_Offset order: worse.
 The mesh-vs-mmc ESI swap still has no reload-free lever.
+
+## Session 3 (22:40-22:46 PT)
+Inert on the w5 shape: const mmc / const desc, a split declaration of mesh_vertex_count, an `mmc=0` sink after Get_Deformed_Vertices, and mmc declared at the inner-block, function, or outer-loop scope.
+None of them moves mesh to ESI; mmc keeps ESI unless its web is split by a reload. No reload-free lever found.
