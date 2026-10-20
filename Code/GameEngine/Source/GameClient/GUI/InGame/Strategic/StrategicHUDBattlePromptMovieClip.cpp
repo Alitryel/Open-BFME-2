@@ -173,6 +173,10 @@ void StrategicHUD::BattlePromptMovieClip::Impl::rva005F96D4(){
 // is significant even when emitted out of line: MSVC preserves its three
 // temporary homes A4/94/40. A declaration alone wrongly shares that storage.
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$__destroy@PAURva005FA1CEElement@@U1@@_STL@@YAXPAURva005FA1CEElement@@00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005FA1CEElement;
+namespace _STL { template <> void __destroy<Rva005FA1CEElement *,Rva005FA1CEElement>(Rva005FA1CEElement *,Rva005FA1CEElement *,Rva005FA1CEElement *); }
 // Suppress this TU's non-retail copy of ??$__destroy@PAURva005FA197Element@@U1@@_STL@@YAXPAURva005FA197Element@@00@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005FA197Element;
