@@ -464,6 +464,7 @@ class Weapon
 public:
 	bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
 };
+// ?PathfinderWeaponRangeAdapter absent-from-retail
 __forceinline Bool Rva002CB35CObj::rva002CB35C(Int a1, void *pos, void *a3, void *a4, float range, Int a6)
 {
 	return ((Weapon *)this)->isWithinAttackRange((Object *)a1, (const Coord3D *)pos, (Object *)a3, (const Coord3D *)a4, range, a6 != 0);
@@ -691,9 +692,15 @@ class Rva002E7DF5;
 struct Rva002E6F92Info { Coord3D position; Bool found; };
 class Rva002E6F8B { public: Rva002E6F8B *rva002E6F8B(); };
 double Rva000422A0Atan2(float,float);
+struct Rva002F4491Info;
 class Pathfinder
 {
+private:
+ Int iterateCellsAlongLine(const ICoord2D *,const ICoord2D *,PathfindLayerEnum,Rva002F4491Info *);
 public:
+ Path *FindGroundPath(Object *,const Coord3D *,const Coord3D *,Int);
+ Int rva002E7749(void *,Int,Int,Int,Int,Bool);
+ Path *BuildGroundPath(const Coord3D *,PathfindCell *,Bool,Int);
  void rva002F5022(const ICoord2D &,const ICoord2D &,PathfindCell *,PathfindCell *,unsigned short,unsigned short *,Int &,Int,Int &);
 // Native vtable C053F8: slots 0..9 are modeled as placeholders (the rows that
 // own them keep their non-virtual spellings); FindCollisionFreeQuickPath is slot
@@ -6029,4 +6036,218 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  }
  _STL::vector<Gen_p12pod> *hops=(_STL::vector<Gen_p12pod> *)&m_1C1CC;hops->erase(hops->begin(),hops->end());
  m_isTunneling=false;rva002F40E7();goalCell->ReleaseInfo();return 0;
+}
+
+// Ground search 0x002F95F6; WB D337F0 and ZH/BFME1 algorithm provenance.
+// The native hierarchical search and the same-unit 0x002F69E3 walk keep
+// coordinate addresses local; real zone getters and HSO argument evaluation
+// reproduce the native register allocation and Boolean argument spill.
+struct Rva002F4491Info { Pathfinder *pathfinder; Bool center; char pad5[3]; PathfindCell *goal; Int diameter;
+    Int cellCallback(PathfindCell *,PathfindCell *,Int,Int); };
+class Rva002872BA;
+extern Rva002872BA *TheTriggerManager;
+struct GroundTriggerCell { char pad0[6]; unsigned short count; char pad8[12]; };
+struct GroundTriggerGrid { char pad0[0x70]; GroundTriggerCell **cells; char pad74[4]; Int width,height;
+    __forceinline Bool isMarked(const Coord3D *p) const {
+        Int x=clipCellRound(clipCellFloor((p->x+0.5f)/10.0f));
+        Int y=clipCellRound(clipCellFloor((p->y+0.5f)/10.0f));
+        if(x<0 || x>=width || y<0 || y>=height)return false;
+        return cells[x][y].count>0;
+    }
+};
+static Int groundDx[8]={1,0,-1,0,1,-1,-1,1};
+static Int groundDy[8]={0,1,0,-1,1,1,-1,-1};
+
+inline __declspec(noinline) Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell,
+	const ICoord2D *destinationCell, PathfindLayerEnum layer,
+	Rva002F4491Info *callbackInfo )
+{
+	Int delta_x = abs( destinationCell->x - startCell->x );
+	Int delta_y = abs( destinationCell->y - startCell->y );
+
+	Int xinc2, yinc1, xinc1, numpixels, numadd, den;
+	Int yinc2, num;
+	if (delta_x >= delta_y)
+	{
+		numpixels = delta_x + 1;
+		num = 2 * delta_y - delta_x;
+		numadd = delta_y << 1;
+		den = 2 * (delta_y - delta_x);
+		xinc2 = 1;
+		yinc2 = 0;
+		yinc1 = 1;
+		xinc1 = 1;
+	}
+	else
+	{
+		numpixels = delta_y + 1;
+		num = 2 * delta_x - delta_y;
+		numadd = delta_x << 1;
+		den = 2 * (delta_x - delta_y);
+		yinc2 = 1;
+		xinc2 = 0;
+		yinc1 = 1;
+		xinc1 = 1;
+	}
+
+	if (startCell->x > destinationCell->x)
+	{
+		xinc2 = -xinc2;
+		xinc1 = -1;
+	}
+	if (startCell->y > destinationCell->y)
+	{
+		yinc2 = -yinc2;
+		yinc1 = -1;
+	}
+
+	Int x = startCell->x;
+	Int y = startCell->y;
+	PathfindCell *previousCell = 0;
+	for (Int curpixel = 0; curpixel < numpixels; curpixel++)
+	{
+		PathfindCell *currentCell = getCell( layer, x, y );
+		if (currentCell == 0)
+			return 0;
+
+		Int ret = callbackInfo->cellCallback( previousCell, currentCell, x, y );
+		if (ret != 0)
+			return ret;
+		previousCell = currentCell;
+
+		if (num < 0)
+		{
+			num += numadd;
+			x += xinc2;
+			y += yinc2;
+		}
+		else
+		{
+			num += den;
+			x += xinc1;
+			y += yinc1;
+		}
+	}
+	return 0;
+}
+
+
+// ZH/BFME1 findGroundPath semantic donor. Native 2F95F6..2F9DBA and WB
+// D337F0 identify the target's Object-aware four-argument ground search.
+// Target adds hierarchy metadata, movement query, CalcExtraCosts and trigger
+// grid penalty; every field, direction table and coefficient is decoded there.
+Path *Pathfinder::FindGroundPath(Object *obj,const Coord3D *from,const Coord3D *rawTo,Int diameter)
+{
+    m_zoneManager.rva005312BE();
+    m_srcMineshaft=0;m_destMineshaft=0;{ _STL::vector<Gen_p12pod> *hops=reinterpret_cast<_STL::vector<Gen_p12pod> *>(&m_1C1CC);hops->erase(hops->begin(),hops->end()); };
+    Coord3D hierarchicalTarget;
+    if(!internal_findHierarchicalPath(true,1,obj,from,rawTo,false,false,&hierarchicalTarget))m_zoneManager.rva00531300();
+    if((rawTo->x==0 && rawTo->y==0) || !m_isMapReady)return 0;
+    Coord3D adjusted;copyCoord3D(&adjusted,rawTo);
+    Coord3D clipped;copyCoord3D(&clipped,from);
+    rva002E75A3(&clipped,&adjusted);m_isTunneling=false;
+    PathfindLayerEnum layer=TheTerrainLogic->getLayerForDestination(obj,&adjusted);
+    ICoord2D cell;Rva002E7875WorldToCell(&cell,true,&adjusted);
+    if(diameter!=rva002E7749(0,cell.x,cell.y,layer,diameter,true)){
+        Int offset=1;ICoord2D previous;
+        while(offset<8){
+            previous=cell;
+            cell.x+=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.y+=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.x-=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.x-=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.y-=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.y-=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.x+=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.x+=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            ++offset;cell=previous;
+        }
+        if(offset>=8)return 0;
+    }
+    PathfindCell *goal=getCell(layer,cell.x,cell.y);
+    if(!goal)return 0;
+    goal->allocateInfo((In002E6BA1 *)&cell);
+    PathfindCell *parent;PathfindLayerEnum startLayer=TheTerrainLogic->getLayerForDestination(obj,from);parent=rva002E8BF8(startLayer,&clipped);
+    if(!parent)return 0;
+    if(parent!=goal){
+        ICoord2D start;ICoord2D *coordinate=Rva002E7875WorldToCell(&start,true,&clipped);
+        parent->allocateInfo((In002E6BA1 *)coordinate);
+    }
+    Int priority=obj->m_template->priority;
+    Bool flag=obj->m_template->flag;
+
+    HSO query(1,!flag,priority-1,obj->rva0028AFBB(),obj->rva0028AC62());
+    Int zone1=((Rva002E99F9Sub460 *)&m_zoneManager)->rva0053241F(&query,parent->quickZone());
+    Int zone2=((Rva002E99F9Sub460 *)&m_zoneManager)->rva0053241F(&query,goal->quickZone());
+    if(zone1!=zone2){goal->ReleaseInfo();parent->ReleaseInfo();return 0;}
+    parent->StartPathfind((Int)goal);
+    parent->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parent,goal);
+    AddToOpenList(parent);
+    while((parent=rva002F36E5())!=0){
+        if(parent==goal){
+            m_isTunneling=false;
+            Path *path=BuildGroundPath(from,goal,false,diameter);
+            rva002F40E7();parent->ReleaseInfo();return path;
+        }
+        parent->PutOnClosedList(&m_closedList);CheckChangeLayers(parent,0);
+        {
+        ICoord2D start,end;start.x=parent->getXIndex();start.y=parent->getYIndex();end.x=goal->getXIndex();end.y=goal->getYIndex();
+        Rva002F4491Info info;info.pathfinder=this;info.center=false;info.goal=goal;info.diameter=diameter;
+        iterateCellsAlongLine(&start,&end,(PathfindLayerEnum)parent->getLayer(),&info); }
+        ICoord2D newCellCoord;
+        PathfindCell *newCell;
+        const Int adjacent[5]={0,1,2,3,0};
+        Bool neighborFlags[8]={false,false,false,false,false,false,false};
+        unsigned int newCostSoFar;
+        for(Int i=0;i<8;++i){
+            neighborFlags[i]=false;
+            newCellCoord.x=parent->getXIndex()+groundDx[i];
+            newCellCoord.y=parent->getYIndex()+groundDy[i];
+            newCell=getCell((PathfindLayerEnum)parent->getLayer(),newCellCoord.x,newCellCoord.y);
+            if(!newCell)continue;
+            if(newCell->getLayer()==1 && !m_zoneManager.IsPassable(newCellCoord.x,newCellCoord.y)){
+                Bool passable=false;
+                if(m_zoneManager.IsPassable(newCellCoord.x+3,newCellCoord.y+3))passable=true;
+                if(m_zoneManager.IsPassable(newCellCoord.x-3,newCellCoord.y+3))passable=true;
+                if(m_zoneManager.IsPassable(newCellCoord.x+3,newCellCoord.y-3))passable=true;
+                if(m_zoneManager.IsPassable(newCellCoord.x-3,newCellCoord.y-3))passable=true;
+                if(!passable)continue;
+            }
+            if((unsigned char)((Rva002E6AF3 *)newCell)->get())continue;
+            if((unsigned char)((Rva002E6B06 *)newCell)->rva002E6B06())continue;
+            if(newCell!=goal){
+                if(i>=4){
+                    if(!neighborFlags[adjacent[i-4]] && !neighborFlags[adjacent[i-3]])continue;
+                }
+                if(newCell->getType()!=PathfindCell::CELL_CLEAR)continue;
+                if((unsigned char)(newCell->m_info>>16)&1)continue;
+                neighborFlags[i]=true;
+                newCell->allocateInfo((In002E6BA1 *)&newCellCoord);
+            }
+            Int clearDiameter=rva002E7749(0,newCellCoord.x,newCellCoord.y,newCell->getLayer(),diameter,false);
+            newCostSoFar=newCell->CalcCostSoFar((const Rva002E6C79 *)parent);
+            newCostSoFar+=CalcExtraCosts(obj,parent,(Rva002EBC7FPair *)&newCellCoord,diameter,diameter,true);
+            if(clearDiameter<diameter){
+                int delta=diameter-clearDiameter;
+                newCostSoFar+=0.6f*(delta*10);
+            }
+            Coord3D pos;pos.x=(float)(newCellCoord.x*10);pos.y=(float)(newCellCoord.y*10);
+            if(((GroundTriggerGrid *)TheTriggerManager)->isMarked(&pos))newCostSoFar+=10;
+            newCell->m_pathInfo->flags&=~1U;
+            Int costRemaining=rva002F0A72(newCell,goal);
+            newCell->m_pathInfo->costSoFar=(unsigned short)newCostSoFar;
+            newCell->SetParentCell((Int *)parent);
+            newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+costRemaining);
+            AddToOpenList(newCell);
+        }
+    }
+    m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return 0;
 }
