@@ -1,9 +1,6 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.92 date=2026-10-20
-// partial score=0.92 date=2026-10-20
+// partial score=0.925 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -637,7 +634,8 @@ void BfmeB1137::Install_Materials(void) const
 		uncenter.m[3][1] = sy * -0.5f;
 
 		D3DXMATRIX partial = uncenter * rot * center;
-		D3DXMATRIX world = partial * shift * drift;
+		partial = partial * shift;
+		D3DXMATRIX world = partial * drift;
 		D3DXMATRIX scaled = world * scale;
 		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scaled;
 		DX8Wrapper::SetMatrix(0x12, *reinterpret_cast<D3DXMATRIX *>(&view));
@@ -686,7 +684,8 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMATRIX scroll;
 		D3DXMatrixTranslation(&scroll, m_4C, m_50, 0.0f);
 		D3DXMatrixScaling(&scale, 0.0031746032f, 0.0031746032f, 1.0f);
-		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scale * scroll;
+		world = inv * scale;
+		*reinterpret_cast<D3DXMATRIX *>(&view) = world * scroll;
 		DX8Wrapper::SetMatrix(0x10, *reinterpret_cast<D3DXMATRIX *>(&view));
 
 		if (m_6A)
