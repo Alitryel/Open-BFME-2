@@ -56,7 +56,8 @@ struct _List_iterator_base
 	_List_iterator_base(_List_node_base *x) : _M_node(x) {}
 	void _M_incr() { _M_node = _M_node->_M_next; }
 	bool operator==(const _List_iterator_base &y) const { return _M_node == y._M_node; }
-	bool operator!=(const _List_iterator_base &y) const { return _M_node != y._M_node; }
+	// Always inlined here; the rowed out-of-line copy is stlport_list_int.cpp's.
+	__declspec(dllimport) __forceinline bool operator!=(const _List_iterator_base &y) const { return _M_node != y._M_node; }
 };
 template <class T, class Traits> struct _List_iterator : public _List_iterator_base
 {

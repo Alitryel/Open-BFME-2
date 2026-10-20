@@ -403,10 +403,14 @@ unsigned char IsPassable(Int,Int);
 };
 
 struct Rva002EBC7FPair { int x,y; };
-void rva002E79A8(int,unsigned char,int,int,int);
+struct PathfinderCellPoint;
+// Rowed 0x002E79A8 returns its cell point through the hidden first argument; this caller
+// forwards that buffer, so it calls the rowed symbol through the five-slot cdecl view.
+PathfinderCellPoint __cdecl rva002E79A8(bool, int, int, PathfindLayerEnum);
+typedef void (__cdecl *Rva002E79A8View)(int, unsigned char, int, int, int);
 __declspec(noinline) inline void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
 {
-	rva002E79A8((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
+	((Rva002E79A8View)&rva002E79A8)((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
 	return a1;
 }
 #include <math.h>
@@ -461,7 +465,6 @@ char fields[28];
 };
 class Rva0006E009DwordField { public: int get() const; };
 class Rva0052DB4D { public: bool rva0052DB4D(int); };
-void rva002E79A8(int,unsigned char,int,int,int);
 union PathfinderCheckCoordinates {
 Coord3D point;
 struct IntegerLayout { int reserved; ICoord2DBase position,size; } cells;
