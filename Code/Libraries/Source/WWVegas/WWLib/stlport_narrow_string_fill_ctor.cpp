@@ -2,17 +2,15 @@
 // stlport
 //
 // STLport 4.5.3 basic_string<char>::basic_string(size_type, char, const
-// allocator &) - the fill constructor. Unclaimed 177-byte body at 0x000271E0
+// allocator &) - the fill constructor. 177-byte body at 0x000271E0
 // calls the two callees this TU reaches: _M_allocate_block at 0x00007460 and
 // the fill body at 0x000237C0. The two-argument _String_base constructor and
 // the fill_n chain below are what reach those addresses; the char overload
 // of fill_n ends at the existing fill body.
 //
-// Donor: the BFME1 reconstruction of the same upstream constructor, whose
-// retail body is byte-identical in shape. The only BFME2 adaptation is the
-// symbols.csv pin spelling the upstream _String_base scope for the
-// _M_allocate_block call, whose body BFME2 landed under the basic_string
-// scope at 0x00007460.
+// Donor: the BFME1 reconstruction of the same upstream constructor.
+// Bind allocation directly to the BFME2 basic_string-scope owner at 0x7460;
+// the native unwind call uses the shared one-byte allocator-proxy destructor.
 
 namespace _STL
 {
@@ -41,8 +39,13 @@ class _STLP_alloc_proxy : public Alloc
 public:
 	_STLP_alloc_proxy(const Alloc &a, Pointer p) : Alloc(a), _M_data(p) {}
 
+	// Native constructor unwind calls the shared one-byte destructor.
+	~_STLP_alloc_proxy();
+
 	Pointer _M_data;
 };
+
+template <class CharT, class Traits, class Alloc> class basic_string;
 
 template <class T, class Alloc>
 class _String_base
@@ -56,7 +59,8 @@ public:
 	_String_base(const allocator_type &a, unsigned n)
 		: _M_start(0), _M_finish(0), _M_end_of_storage(a, (T *)0)
 	{
-		_M_allocate_block(n);
+		// The retail call lands on the existing basic_string-scope row.
+		((basic_string<T, char_traits<T>, Alloc> *)this)->_M_allocate_block(n);
 	}
 
 	~_String_base(void)
@@ -98,6 +102,9 @@ __declspec(nothrow) inline char *uninitialized_fill_n(char *first, Size n, const
 template <class CharT, class Traits, class Alloc>
 class basic_string : protected _String_base<CharT, Alloc>
 {
+	template <class T, class A> friend class _String_base;
+	void _M_allocate_block(unsigned n);
+
 public:
 	typedef allocator<CharT> allocator_type;
 	typedef unsigned size_type;
