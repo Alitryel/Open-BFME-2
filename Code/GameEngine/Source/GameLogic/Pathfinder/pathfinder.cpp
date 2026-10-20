@@ -1327,7 +1327,7 @@ int Pathfinder::CalcCollisionFreeExtraCosts(Object *object,PathfindCell *parent,
 // No same-named BFME1/GeneralsMD donor method was found. Reconstructed from
 // native/WB using the independently verified CalcCollisionFreeExtraCosts
 // layouts, priority bool ABI and standard math declaration above.
-int Pathfinder::CalcExtraCosts(Object *object,PathfindCell *oldCell,Rva002EBC7FPair *destination,int lower,int upper,bool ignoreEnemies)
+inline __declspec(noinline) int Pathfinder::CalcExtraCosts(Object *object,PathfindCell *oldCell,Rva002EBC7FPair *destination,int lower,int upper,bool ignoreEnemies)
 {
     if (!oldCell) return 0;
     Rva002EBC7FPair minimum,maximum;
@@ -3152,7 +3152,7 @@ void Pathfinder::rva002E75A3(Coord3D *a, Coord3D *b)
 // 0x002E6FDF (59 B), rehomed from Rva002E6FDFClear.cpp.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-Rva002E6FDF *Rva002E6FDF::rva002E6FDF()
+inline __declspec(noinline) Rva002E6FDF *Rva002E6FDF::rva002E6FDF()
 {
 	m_00 = 0;
 	m_04 = 0;
@@ -3198,7 +3198,7 @@ struct Rva002E6DC4_P2
 	char m_pad4[8];
 	unsigned int m_C;
 };
-bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_raw)
+inline __declspec(noinline) bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_raw)
 {
 	Rva002E6DC4_P1 *a = (Rva002E6DC4_P1 *)a_raw;
 	Rva002E6DC4_P2 *b = (Rva002E6DC4_P2 *)b_raw;

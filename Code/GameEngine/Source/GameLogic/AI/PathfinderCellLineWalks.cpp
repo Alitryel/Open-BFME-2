@@ -139,6 +139,7 @@ public:
 	Int rva004DDA9A(Int*,Int*,Int,Int,Rva004DD9E3*);
 	Int rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor );
 	Int rva002E7749(void *unused, Int cellX, Int cellY, Int layer, Int arg, bool check);
+	friend Int bfmeAnchorRva002F6B22( Pathfinder *, const ICoord2D *, const ICoord2D *, PathfindLayerEnum, Rva002F5925Info * );
 
 private:
 	PATHFINDER_CELL_LINE_WALK_DECL( Rva002E7261Info )
@@ -366,9 +367,13 @@ PATHFINDER_CELL_LINE_WALK( Rva002F18D4Info )
 PATHFINDER_CELL_LINE_WALK( Rva002F1BD5Info )
 PATHFINDER_CELL_LINE_WALK( Rva002F3F7DInfo )
 PATHFINDER_CELL_LINE_WALK( Rva002F4491Info )
-PATHFINDER_CELL_LINE_WALK( Rva002F5925Info )
+__declspec(noinline) inline PATHFINDER_CELL_LINE_WALK( Rva002F5925Info )
 PATHFINDER_CELL_LINE_WALK( Rva002F4D8BInfo )
 PATHFINDER_CELL_LINE_WALK( Rva002F600CInfo )
+
+// Select-any: PathfinderRva002F83F5Neighbors.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva002F6B22 absent-from-retail
+Int bfmeAnchorRva002F6B22( Pathfinder *p, const ICoord2D *s, const ICoord2D *d, PathfindLayerEnum l, Rva002F5925Info *c ) { return p->iterateCellsAlongLine( s, d, l, c ); }
 
 // ?rva002E8251@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E7ED6Info@@@Z @0x002E8251 247B.
 // Private line walk checking flags &0x3f0 vs 0x10 via rowed getCell 0x002E6D62

@@ -40,3 +40,7 @@ The residue is a three-object frame-slot cycle in [ebp-0x28..-0x15]:
 ## Next lever
 - Add one or two surviving references to {start, cellCount} or i (or remove them from the shared coordinate) without changing code. Branch-duplicated code that tail-merges is the only such reference found.
 - Then fix the endpoint register choice in the scalar-capture form.
+
+## Resolution (2026-10-20, model claude-opus-5-5)
+- Landed exact in Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderRva002F83F5Neighbors.cpp. The slot cycle was escape analysis, not packing weights: the bank declared rva002EBC7F opaque, so CalcExtraCosts leaked the loop coordinate and cl kept it from sharing a slot with the line-walk endpoint.
+- A visible copy of the rowed 40-byte rva002EBC7F (as pathfinder.cpp already has) removes all 14 displacement differences; making CalcExtraCosts opaque again restores them.

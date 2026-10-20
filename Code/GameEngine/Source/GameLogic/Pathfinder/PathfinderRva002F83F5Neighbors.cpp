@@ -1,14 +1,7 @@
-// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.99144 date=2026-10-14
-// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.98754 date=2026-10-14
-// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
-// Diagnostic bank derived from crack-T at 0d68e6544d; crack-Z provider interaction.
-// Native002F83F5..002F8B00 RET36, full1803/frame90. Still partial.
-// Exact59B clearer and168B predicate plus partial002EA658 must all be visible.
-// Six unrelated ring-scan definitions omitted; their declarations remain.
-// See reverse/attempt_support/crack-z-neighbor-visibility.py and provider proof.
+// Pathfinder neighbour expansion, retail 0x002F83F5 (1803 bytes, RET 0x24); address-named, with Zero Hour
+// examineNeighboringCells and WorldBuilder D5BBE0 as semantic guides. Select-any copies of the rowed callees
+// that receive local addresses stay visible, so cl keeps those locals unaliased as retail's frame requires.
 // stlport
 #include <vector>
 typedef bool Bool;
@@ -168,6 +161,7 @@ class Locomotor
 {
 public:
 LocomotorSurfaceTypeMask getLegalSurfaces() const { return m_template->m_surfaces; }
+float getMaxSpeed(Object *obj) const;
 
 private:
 void *m_vtbl;
@@ -180,6 +174,7 @@ extern unsigned int g_00DBD33C[16];
 float Sin(float x);
 float Cos(float x);
 
+// REAL_TO_INT_FLOOR: the IAT floor then an x87 round-to-integer store.
 static __forceinline Int realToIntFloor(float f)
 {
 float floored = floor(f);
@@ -407,18 +402,21 @@ void rva005314C6(Int x, Int y, unsigned char flag);
 unsigned char IsPassable(Int,Int);
 };
 
-
 struct Rva002EBC7FPair { int x,y; };
-void *rva002EBC7F(void *,void *,Rva002EBC7FPair *,int);
+void rva002E79A8(int,unsigned char,int,int,int);
+__declspec(noinline) inline void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
+{
+	rva002E79A8((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
+	return a1;
+}
 #include <math.h>
-class Rva001E46E1 { public: float rva001E46E1(Object *); };
 class AIUpdateInterface {
 public:
 Object *getCurrentVictim() const;
 bool isAircraftThatAdjustsDestination() const;
 int rva0026417F(bool);
 char gap[0x1f0];
-Rva001E46E1 *locomotor;
+Locomotor *locomotor;
 };
 struct PathCollisionNode { PathCollisionNode *next; void *word4; Object *object; };
 struct PathCollisionInfo {
@@ -473,7 +471,7 @@ extern "C" int __cdecl fprintf(PathfinderLogFile *,const char *,...);
 extern unsigned char g_00E03745;
 extern void *g_00DFEFF0;
 
-struct ICoord2D { Int x,y; };
+#include "Lib/ICoord2D.h"
 struct TCheckMovementInfo { ICoord2D cell;PathfindLayerEnum layer;Int radius;Bool centerInCell,considerTransient;char pad12[2];Int options,ignore;Rva002E8BCF movement;Int allyFixedCount;Bool flag30,flag31,allyGoal;char pad33;Int blockedCells; };
 class Rva002E6FDF
 {
@@ -598,331 +596,7 @@ char m_pad1BF7C[0x1C1CC - 0x1BF7C];
 _STL::vector<Rva002F35AFHop> m_1C1CC;	// +0x1C1CC
 };
 
-void Pathfinder::SetBridgeStateRepaired(PathfindLayerEnum layer, Bool repaired)
-{
-if (((Rva0036666B *)&m_layers[layer])->rva0036666B()) {
-if (m_layers[layer].setDestroyed(!repaired)) {
-m_zoneManager.rva00531481();
-}
-}
-}
-
-void Pathfinder::ForceMapRecalculation()
-{
-if (m_unknown10 != 0) {
-Rva0052F2EC();
-}
-}
-
-#pragma optimize("y", off)
-Bool Pathfinder::IsGroundLineOnly(const Coord3D *startWorld,
-const Coord3D *endWorld)
-{
-return !rva002EADE1(startWorld, endWorld, PATHFIND_LAYER_GROUND,
-(Rva002E7ED6Info *)&endWorld);
-}
-#pragma optimize("y", on)
-
-void Pathfinder::AddToOpenList(PathfindCell *cell)
-{
-((PathfindCell *)cell)->rva0052DAE9(true);
-((Rva002F3738 *)((char *)this + 0x1d1f0))->rva002F3738((void **)&cell);
-}
-
-Bool Pathfinder::IsGroundPathPassable(const Coord3D *startWorld,
-PathfindLayerEnum layer, const Coord3D *endWorld, Int pathDiameter)
-{
-Rva002E93A7Info info;
-info.m_04 = pathDiameter;
-info.m_00 = this;
-return !rva002EED41(startWorld, endWorld, layer, &info);
-}
-
-Int Pathfinder::AdjustGroundPathPosition(const Coord3D &source,
-Coord3D &destination)
-{
-Rva002E7B02 context((Int)this, 4,
-*(const _Rva002E7B02Cell *)&source);
-Int adjusted = rva002EB3D7(&source, &destination, PATHFIND_LAYER_GROUND,
-(Rva002E7B29Info *)&context);
-if (adjusted != 0) {
-destination = *(Coord3D *)((char *)&context + 8);
-}
-return adjusted;
-}
-
-Path *Pathfinder::FindClosestHierarchicalPath(Bool isHuman,
-const LocomotorSet &locomotorSet, Object *obj, const Coord3D *from,
-const Coord3D *to, Bool crusher, Coord3D *adjustedTo)
-{
-return internal_findHierarchicalPath(isHuman, locomotorSet.getValidSurfaces(),
-obj, from, to, crusher, true, adjustedTo);
-}
-
-Path *Pathfinder::FindHierarchicalPath(Bool isHuman,
-const LocomotorSet &locomotorSet, Object *obj, const Coord3D *from,
-const Coord3D *to, Bool crusher)
-{
-Coord3D adjustedTo;
-return internal_findHierarchicalPath(isHuman, locomotorSet.getValidSurfaces(),
-obj, from, to, crusher, false, &adjustedTo);
-}
-
-Bool Pathfinder::IsValidMovementTerrain(PathfindLayerEnum layer, const Locomotor *locomotor, const Coord3D *pos)
-{
-Int x = realToIntFloor(pos->x * 0.1f);
-Int y = realToIntFloor(pos->y * 0.1f);
-
-PathfindCell *toCell = getCell(layer, x, y);
-if (toCell == 0)
-return false;
-if (toCell->getType() == PathfindCell::CELL_OBSTACLE) return true;
-if (toCell->getType() == PathfindCell::CELL_IMPASSABLE) return true;
-if (toCell->getLayer() != PathfindCell::LAYER_GROUND && toCell->getType() == PathfindCell::CELL_CLEAR)
-return true;
-LocomotorSurfaceTypeMask acceptableSurfaces = g_00DBD33C[toCell->getType()];
-if ((locomotor->getLegalSurfaces() & acceptableSurfaces) == 0)
-return false;
-return true;
-}
-
-Pathfinder_FuncTightenPath::Pathfinder_FuncTightenPath(Pathfinder *pathfinder,
-Object *obj, const LocomotorSet &locomotorSet, PathfindLayerEnum layer,
-const Coord3D &goal)
-{
-m_pathfinder = pathfinder;
-m_obj = obj;
-m_locomotorSet = &locomotorSet;
-m_layer = layer;
-copyCoord3D(&m_goal, &goal);
-zeroCoord3D(&m_destPos);
-Rva002EBCA7Split(m_obj, &m_radius, &m_center);
-m_foundDest = false;
-}
-
-void Pathfinder::TightenPath(Object *obj, const LocomotorSet &locomotorSet,
-Coord3D *from, const Coord3D *to)
-{
-Pathfinder_FuncTightenPath info(this, obj, locomotorSet,
-TheTerrainLogic->getLayerForDestination(obj, from), *to);
-rva002F95B7(from, to, info.m_layer, (Rva002F600CInfo *)&info);
-if (info.m_foundDest)
-*from = info.m_destPos;
-}
-
-Pathfinder_IsCheckForMeleeHordeAdjust::Pathfinder_IsCheckForMeleeHordeAdjust(
-Pathfinder *pathfinder, Object *obj, void *arg, const Coord3D &goal,
-float range)
-{
-m_pathfinder = pathfinder;
-m_obj = obj;
-m_08 = arg;
-m_range = range;
-m_24 = 0;
-copyCoord3D(&m_goal, &goal);
-m_isHuman = (m_obj->getControllingPlayer() && m_obj->getControllingPlayer()->m_playerType == 1) ? 0 : 1;
-Rva002EBCA7Split(m_obj, &m_radius, &m_center);
-m_layer = TheTerrainLogic->getLayerForDestination(obj, &goal);
-}
-
-Pathfinder_IsCheckForAdjust::Pathfinder_IsCheckForAdjust(Pathfinder *pathfinder,
-Object *obj, void *arg, const Coord3D &goal, const Coord3D *layerPos,
-float range, Int arg6)
-{
-m_pathfinder = pathfinder;
-m_obj = obj;
-m_08 = arg;
-m_layerPos = layerPos;
-m_range = range;
-m_28 = 0;
-m_2C = arg6;
-copyCoord3D(&m_goal, &goal);
-m_isHuman = (m_obj->getControllingPlayer() && m_obj->getControllingPlayer()->m_playerType == 1) ? 0 : 1;
-Rva002EBCA7Split(m_obj, &m_radius, &m_center);
-m_layer = TheTerrainLogic->getLayerForDestination(obj, &m_goal);
-if (m_layerPos)
-m_layer = TheTerrainLogic->getLayerForDestination(0, m_layerPos);
-}
-
-Bool Pathfinder::CheckForTarget(void *obj, void *a2, void *a3,
-Rva002CB35CObj *weapon, void *a5, void *a6, void *a7, void *a8,
-Coord3D *out)
-{
-if (bfmeWrapE6E90(obj, a2, a3, (void *)1, a7, a8))
-{
-Coord3D cell;
-Coord3D pos = *(Coord3D *)rva002EBC59(&cell, obj, (Int)a2, (Int)a3, 1);
-if (weapon->rva002CB35C((Int)obj, &pos, a5, a6, 10.0f, 1))
-{
-*out = pos;
-return true;
-}
-}
-return false;
-}
-
-Path *Pathfinder::BuildActualPath(Object *obj, LocomotorSurfaceTypeMask surfaces,
-const Coord3D *fromPos, PathfindCell *goalCell, Bool center, Bool blocked,
-Bool faceDirection)
-{
-Path *path = new Path;
-PrependCells(path, fromPos, goalCell, center);
-float facing[2];
-facing[0] = 0.0f;
-facing[1] = 0.0f;
-if (m_1BEB6)
-{
-float orientation = obj->m_orientation;
-float angle = goalCell->rva0052DD75(orientation, 10, 0.5f);
-facing[0] = Cos(angle);
-facing[1] = Sin(angle);
-}
-path->rva00364551(obj, surfaces, blocked, m_1BEB6 ? facing : 0);
-if (faceDirection)
-{
-Coord3D dir = *((const Thing *)obj)->getUnitDirectionVector2D();
-path->rva00365E98(obj, &dir, surfaces, blocked);
-}
-return path;
-}
-
-Rva005348AD *Pathfinder::MakeHierarchicalPathPassable(void *, Rva002E6C79 *path, Bool expand)
-{
-Rva002E6C79 *node;
-for (node = path; node->next(); node = node->next())
-{
-Rva002F35AFCell *cell = node->m_00;
-if ((cell ? cell->m_0C : 0) && node->next())
-{
-Rva002F35AFHop hop;
-hop.m_zone = (cell ? cell->m_0C : 0)->m_04;
-hop.m_position.x = node->next()->m_00->x;
-hop.m_position.y = node->next()->m_00->y;
-m_1C1CC.push_back(hop);
-}
-}
-Rva005348AD *result = new Rva005348AD;
-for (node = path; node; node = node->next())
-{
-if (expand)
-{
-for (Int dx = -16; dx <= 16; dx += 16)
-for (Int dy = -16; dy <= 16; dy += 16)
-m_zoneManager.rva005314C6(node->m_00->x + dx, node->m_00->y + dy, 1);
-}
-else
-{
-m_zoneManager.rva005314C6(node->m_00->x, node->m_00->y, 1);
-}
-result->rva00534557(node->m_00);
-}
-result->rva00534AAE();
-return result;
-}
-
-Bool Pathfinder::CanApproachToTarget(Object *obj, const Coord3D *targetPos,
-Rva002C9B80Owner *weapon, Bool flag)
-{
-char *ai = obj->m_258;
-if (!ai)
-return false;
-float range = 150.0f;
-unsigned char byte = 0;
-if (weapon)
-{
-float weaponRange = weapon->rva002C9B80(obj, 0.0f);
-if (weaponRange > range)
-range = weaponRange;
-byte = weapon->m_04->get();
-}
-Rva002E9ACC functor(this, obj, (Rva002E8BCFSrc const *)(ai + 0x1CC), byte, flag);
-for (Int i = -1; i < 2; i++)
-{
-for (Int j = -1; j < 2; j++)
-{
-if (i == 0 && j == 0)
-continue;
-Coord3D pos;
-copyCoord3D(&pos, targetPos);
-pos.x += i * range;
-pos.y += j * range;
-functor.m_1E = 1;
-functor.m_1F = 0;
-iterateCellsAlongLine(targetPos, &pos,
-TheTerrainLogic->getLayerForDestination(0, targetPos),
-(Rva002F4D8BInfo *)&functor);
-if (functor.m_found)
-return true;
-}
-}
-return false;
-}
-
-int Pathfinder::CalcCollisionFreeExtraCosts(Object *object,PathfindCell *parent,Rva002EBC7FPair *destination,PathfindLayerEnum layer,int lower,int upper,bool ignoreReservations)
-{
-Rva002EBC7FPair oldMin,oldMax;
-if (parent) {
-PathCollisionInfo *info=reinterpret_cast<PathCollisionCell *>(parent)->info;
-oldMin.x=info->x-lower; oldMin.y=info->y-lower;
-oldMax.x=info->x+upper; oldMax.y=info->y+upper;
-}
-Rva002EBC7FPair minimum,maximum;
-minimum.x=destination->x-lower; minimum.y=destination->y-lower;
-maximum.x=destination->x+upper; maximum.y=destination->y+upper;
-float ourArrival=-1.0f;
-int cost=0;
-for (int x=minimum.x;x<maximum.x;++x) {
-for (int y=minimum.y;y<maximum.y;++y) {
-if (parent && x>=oldMin.x && x<oldMax.x && y>=oldMin.y && y<oldMax.y) continue;
-PathCollisionCell *cell=reinterpret_cast<PathCollisionCell *>(getCell(layer,x,y));
-if (!cell || !cell->info) continue;
-for (PathCollisionNode *node=cell->info->occupants;node;node=node->next) {
-Object *other=node->object;
-if (other==object || other->container==object) continue;
-bool enemies=object->getRelationship(other)==ENEMIES;
-if (!object->getAI() || !other->getAI()) continue;
-if (static_cast<unsigned>(object->getAI()->rva0026417F(enemies))>static_cast<unsigned>(other->getAI()->rva0026417F(enemies))) continue;
-if (other->IsAtGoalPosition()) return -1;
-if (object->getAI()->locomotor && other->getAI()->locomotor) {
-Coord3D target;
-rva002EBC7F(&target,object,destination,1);
-if (ourArrival<0.0f) {
-float dx=object->position[0]-target.x;
-float dy=object->position[1]-target.y;
-Rva001E46E1 *locomotor=object->getAI()->locomotor;
-float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-ourArrival=distance/locomotor->rva001E46E1(object);
-}
-float dx=other->position[0]-target.x;
-float dy=other->position[1]-target.y;
-Rva001E46E1 *locomotor=other->getAI()->locomotor;
-float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-float otherArrival=distance/locomotor->rva001E46E1(other);
-if (otherArrival<ourArrival) cost+=4;
-} else cost+=8;
-}
-for (PathCollisionNode *node=cell->info->goals;node;node=node->next) {
-Object *other=node->object;
-if (other==object || other->container==object) continue;
-bool enemies=object->getRelationship(other)==ENEMIES;
-if (!object->getAI() || !other->getAI()) continue;
-if (static_cast<unsigned>(object->getAI()->rva0026417F(enemies))<=static_cast<unsigned>(other->getAI()->rva0026417F(enemies))) return -1;
-}
-if (!ignoreReservations) {
-for (PathCollisionNode *node=cell->info->reservations;node;node=node->next) {
-Object *other=node->object;
-if (other==object) continue;
-bool enemies=object->getRelationship(other)==ENEMIES;
-if (!object->getAI() || !other->getAI()) continue;
-if (static_cast<unsigned>(object->getAI()->rva0026417F(enemies))<=static_cast<unsigned>(other->getAI()->rva0026417F(enemies))) return -1;
-}
-}
-}
-}
-return cost;
-}
-
-int Pathfinder::CalcExtraCosts(Object *object,PathfindCell *oldCell,Rva002EBC7FPair *destination,int lower,int upper,bool ignoreEnemies)
+__declspec(noinline) inline int Pathfinder::CalcExtraCosts(Object *object,PathfindCell *oldCell,Rva002EBC7FPair *destination,int lower,int upper,bool ignoreEnemies)
 {
 if (!oldCell) return 0;
 Rva002EBC7FPair minimum,maximum;
@@ -954,15 +628,15 @@ rva002EBC7F(&target,object,destination,1);
 if (ourArrival<0.0f) {
 float dx=object->position[0]-target.x;
 float dy=object->position[1]-target.y;
-Rva001E46E1 *locomotor=object->getAI()->locomotor;
+Locomotor *locomotor=object->getAI()->locomotor;
 float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-ourArrival=distance/locomotor->rva001E46E1(object);
+ourArrival=distance/locomotor->getMaxSpeed(object);
 }
 float dx=other->position[0]-target.x;
 float dy=other->position[1]-target.y;
-Rva001E46E1 *locomotor=other->getAI()->locomotor;
+Locomotor *locomotor=other->getAI()->locomotor;
 float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-float otherArrival=distance/locomotor->rva001E46E1(other);
+float otherArrival=distance/locomotor->getMaxSpeed(other);
 if (!(otherArrival<ourArrival)) continue;
 amount=4;
 }
@@ -973,271 +647,14 @@ cost+=amount>>reduction;
 return cost;
 }
 
-float Pathfinder::GetWallHeight(PathfindLayerEnum layer, const Coord3D *pos, Coord3D *normal)
-{
-PathfindCell *cell = static_cast<PathfindCell *>(rva001E3647Pos(layer, pos));
-if (cell && layer != PATHFIND_LAYER_GROUND && cell->getLayer() != layer) {
-PathfindLayerEnum actual = static_cast<PathfindLayerEnum>(cell->getLayer());
-if (actual == 16) {
-if (IsPointOnRamp(pos)) layer = actual;
-} else layer = actual;
-}
-if (layer == PATHFIND_LAYER_GROUND)
-return TheTerrainLogic->getGroundHeight(pos->x, pos->y, normal);
-if (static_cast<unsigned char>(Rva002E6E8AGet(layer))) {
-float height = m_wallLayerHeights[layer - 17];
-if (normal) {
-normal->x = 0.0f;
-normal->y = 0.0f;
-normal->z = 1.0f;
-}
-return height;
-}
-if (layer == 16) {
-for (Bridge *bridge = m_bridges; bridge; bridge = bridge->m_next) {
-if (bridge->isPointOnBridge(pos)) {
-PathfindLayerEnum wallLayer = rva002ED236(0, *pos);
-float height = bridge->getBridgeHeight(pos, normal);
-float result;
-if (static_cast<unsigned char>(Rva002E6E8AGet(wallLayer))) {
-result = reinterpret_cast<Rva002E7482 *>(this)->rva002E7482(wallLayer) > height
-? reinterpret_cast<Rva002E7482 *>(this)->rva002E7482(wallLayer) : height;
-} else result = height;
-return result;
-}
-}
-Coord3D corner0 = *pos;
-corner0.x -= 10.0f;
-corner0.y -= 10.0f;
-Coord3D corner1 = corner0;
-corner1.x += 20.0f;
-Coord3D corner2 = corner1;
-corner2.y += 20.0f;
-Coord3D corner3 = corner0;
-corner3.y += 20.0f;
-for (Bridge *bridge = m_bridges; bridge; bridge = bridge->m_next) {
-if (bridge->isPointOnBridge(&corner0) || bridge->isPointOnBridge(&corner1) ||
-bridge->isPointOnBridge(&corner2) || bridge->isPointOnBridge(&corner3)) {
-PathfindLayerEnum wallLayer = rva002ED236(0, *pos);
-float height = bridge->getBridgeHeight(pos, normal);
-float result;
-if (static_cast<unsigned char>(Rva002E6E8AGet(wallLayer))) {
-result = reinterpret_cast<Rva002E7482 *>(this)->rva002E7482(wallLayer) > height
-? reinterpret_cast<Rva002E7482 *>(this)->rva002E7482(wallLayer) : height;
-} else result = height;
-return result;
-}
-}
-}
-return pos->z;
-}
-
-Bool Pathfinder::CheckDestination(Object *obj,Int cellX,Int cellY,PathfindLayerEnum layer,
-Int radius,Bool center,Int *out,Bool flag)
-{
-PathfinderCheckCoordinates coordinates;
-if (g_00E03745 && g_00DFEFF0) {
-fprintf((PathfinderLogFile *)g_00DFEFF0,
-"          Pathfinder::CheckDestination called with: obj=%s(%d), cell=%d,%d, layer=%d, iRadius=%d, centerInCell=%s",
-obj->m_template->name(), obj->getID(), cellX,cellY,layer,radius,center?"TRUE":"FALSE");
-}
-if (obj->m_template->hasKind(109)) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          horde");
-if (layer==PATHFIND_LAYER_GROUND && !flag) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          layer is LAYER_GROUND");
-rva002E79A8((int)&coordinates.point,1,cellX,cellY,1);
-if (((TerrainLogicCheckDestination *)TheTerrainLogic)->slotC8(&coordinates.point)) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          narrow passage area");
-radius=1; center=true;
-}
-} else {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          layer != LAYER_GROUND, layer=%d",layer);
-radius=1; center=true;
-}
-}
-if (obj->m_template->hasKind(90) && obj->m_template->hasKind(8) && layer!=PATHFIND_LAYER_GROUND) {
-radius=1; center=false;
-}
-Int upper=radius;
-if (center) ++upper;
-if (obj->rva0028AFBB()) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          human controlled");
-if (cellX-radius<m_extentLowX || cellX+upper>m_extentHighX || cellY-radius<m_extentLowY || cellY+upper>m_extentHighY) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"            returning false");
-return false;
-}
-}
-Bool aircraft=false;
-Int ignored=0, objectId=0;
-const LocomotorSet *locomotors=0;
-if (obj->getAI()) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          I have an AI");
-ignored=((const Rva0006E009DwordField *)obj->getAI())->get();
-aircraft=obj->getAI()->isAircraftThatAdjustsDestination();
-objectId=obj->getID();
-locomotors=(const LocomotorSet *)((char *)obj->getAI()+0x1cc);
-}
-*out=0;
-Rva002E7C99 info;
-info.rva002E7C99((int)this,(int)obj,(int)out,0,ignored,flag,(int)locomotors);
-if (!aircraft && obj->m_template->hasKind(186)) {
-ICoord2DBase &position=coordinates.cells.position;
-position.x=cellX;position.y=cellY;
-GeometryShape shape;
-((const GeometryInfo *)((char *)obj+0xa8))->rva006BD9C0(shape);
-ICoord2DBase &size=coordinates.cells.size;
-size.x=(int)((shape.major*2.0f+4.0f)*0.1f);
-size.y=(int)((shape.minor*2.0f+4.0f)*0.1f);
-void *contain=*(void **)((char *)obj+0x250);
-if (contain && ((PathfinderContain31 *)contain)->slot7C()) {
-Int count=((PathfinderContain28 *)contain)->slot70();
-if (count>0) {
-float fraction=(float)((PathfinderContain69 *)contain)->slot114(0)/count;
-size.x=(int)((size.x-2.0f)*fraction+2.0f);
-size.y=(int)((size.y-2.0f)*fraction+2.0f);
-}
-}
-return !rva002EED80(&position,&size,obj->GetGoalAngle(),layer,(Rva002E9D09 *)&info);
-}
-if (g_00E03745 && g_00DFEFF0) {
-fprintf((PathfinderLogFile *)g_00DFEFF0,"          BEGIN cell iteration (deep innards), i from %d to %d, j from %d to %d",
-cellX-radius,cellX+upper,cellY-radius,cellY+upper);
-}
-for (Int i=cellX-radius;i<cellX+upper;++i) {
-for (Int j=cellY-radius;j<cellY+upper;++j) {
-PathfindCell *cell=getCell(layer,i,j);
-if (!cell) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          OFF THE MAP, return false: i=%d, j=%d",i,j);
-return false;
-}
-if (aircraft) {
-if (((Rva0052DB4D *)cell)->rva0052DB4D(objectId)) {
-if (g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"          checkForAircraft=TRUE, return false: i=%d, j=%d",i,j);
-return false;
-}
-} else if (((Rva002E9D09 *)&info)->rva002E9D09((Object *)cell,0,0)) return false;
-}
-}
-return true;
-}
-
 struct Rva002EBCF6 : GeometryShape { Rva002EBCF6(); };
-Rva002EBCF6::Rva002EBCF6() {}
 
 struct PathfinderDebugColor { float red,green,blue; };
 void Rva000B3FD0PathDebug(const Coord3D *,float,Int,PathfinderDebugColor);
 
-
-
-Int Pathfinder::rva002F0A72(PathfindCell *cell, PathfindCell *goal)
-{
-unsigned int cost = 0;
-Int x = cell->getXIndex(), y = cell->getYIndex();
-for (_STL::vector<Rva002F35AFHop>::iterator it = m_1C1CC.end();
-it != m_1C1CC.begin(); --it)
-{
-PathfinderCostCellInfo point = (it - 1)->m_position;
-Int nx = point.x, ny = point.y;
-Int dx = reinterpret_cast<Int(__cdecl *)(Int)>(ji_00629952)(x - nx);
-Int dy = reinterpret_cast<Int(__cdecl *)(Int)>(ji_00629952)(y - ny);
-if (dx > dy)
-cost = (cost + 14 * dy) + (cost + 10 * (dx - dy));
-else
-cost = (cost + 14 * dx) + (cost + 10 * (dy - dx));
-cost += 1400;
-x = nx;
-y = ny;
-}
-Int dx = reinterpret_cast<Int(__cdecl *)(Int)>(ji_00629952)(x - goal->getXIndex());
-Int dy = reinterpret_cast<Int(__cdecl *)(Int)>(ji_00629952)(y - goal->getYIndex());
-if (dx > dy)
-return 14 * dy + cost + 10 * (dx - dy);
-return 14 * dx + cost + 10 * (dy - dx);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Int Pathfinder::CheckPathCost(Object *obj,const LocomotorSet &locomotorSet,const Coord3D *from,const Coord3D *rawTo)
-{
-if(!m_isMapReady)return 0;
-const Int MAX_COST=0x7fff0000;
-Int cellCount=0;
-Coord3D adjustTo;copyCoord3D(&adjustTo,rawTo);
-PathfindLayerEnum goalLayer=TheTerrainLogic->getLayerForDestination(obj,&adjustTo);
-PathfindCell *goal=rva002E8BF8(goalLayer,&adjustTo);
-if(!goal)return MAX_COST;
-Bool center;Int radius;Rva002EBCA7Split(obj,&radius,(unsigned char *)&center);
-PathfindCell *parent;
-{
-ICoord2D start;Rva002E7875WorldToCell(&start,true,from);
-PathfindLayerEnum fromLayer=TheTerrainLogic->getLayerForDestination(obj,from);
-parent=(PathfindCell *)rva001E3647Pos(fromLayer,from);
-if(!parent)return MAX_COST;
-{
-ICoord2D end;const ICoord2D *endPtr;ICoord2D *ep=Rva002E7875WorldToCell(&end,true,&adjustTo);
-goal->allocateInfo((In002E6BA1 *)ep);
-if(parent!=goal)parent->allocateInfo((In002E6BA1 *)&start);
-}
-}
-Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;
-Rva002E8BCF info((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
-if(!((Rva002E6DC4 *)this)->rva002E6DC4(&info,parent)) {parent->ReleaseInfo();goal->ReleaseInfo();return MAX_COST;}
-parent->StartPathfind((Int)goal);
-parent->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parent,goal);
-AddToOpenList(parent);
-while((parent=rva002F36E5())!=0) {
-parent->PutOnClosedList(&m_closedList);
-if(parent==goal) {Int cost=parent->m_pathInfo->totalCost;m_isTunneling=false;rva002F40E7();return cost;}
-if(cellCount>500)continue;
-CheckChangeLayers(parent,obj);
-static Int deltaX[]={1,0,-1,0,1,-1,-1,1};
-static Int deltaY[]={0,1,0,-1,1,1,-1,-1};
-const Int adjacent[5]={0,1,2,3,0};
-Bool neighborFlags[8]={false,false,false,false,false,false,false};
-for(Int i=0;i<8;++i) {
-neighborFlags[i]=false;
-ICoord2D coords={parent->getXIndex()+deltaX[i],parent->getYIndex()+deltaY[i]};ICoord2D next=coords;
-
-PathfindCell *neighbor=getCell((PathfindLayerEnum)parent->getLayer(),next.x,next.y);
-if(!neighbor)continue;
-if((unsigned char)((Rva002E6AF3 *)neighbor)->get() || (unsigned char)((Rva002E6B06 *)neighbor)->rva002E6B06())continue;
-if(i>=4 && !neighborFlags[adjacent[i-4]] && !neighborFlags[adjacent[i-3]])continue;
-if(!((Rva002E6DC4 *)this)->rva002E6DC4(&info,neighbor))continue;
-neighborFlags[i]=true;neighbor->allocateInfo((In002E6BA1 *)&next);++cellCount;
-Int cost=neighbor->CalcCostSoFar((const Rva002E6C79 *)parent);
-cost+=CalcExtraCosts(obj,parent,(Rva002EBC7FPair *)&next,radius,radius+(center?1:0),true);
-neighbor->m_pathInfo->flags&=~1U;
-neighbor->SetParentCell((Int *)parent);
-neighbor->m_pathInfo->costSoFar=(unsigned short)cost;
-Int remaining=rva002F0A72(neighbor,goal);
-neighbor->m_pathInfo->totalCost=(unsigned short)(neighbor->m_pathInfo->costSoFar+remaining);
-AddToOpenList(neighbor);
-}
-}
-m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return MAX_COST;
-}
-
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-Rva002E6FDF *Rva002E6FDF::rva002E6FDF()
+__declspec(noinline) inline Rva002E6FDF *Rva002E6FDF::rva002E6FDF()
 {
 	m_00 = 0;
 	m_04 = 0;
@@ -1261,7 +678,6 @@ Rva002E6FDF *Rva002E6FDF::rva002E6FDF()
 	return this;
 }
 
-
 struct Rva002E6DC4_P1
 {
 	unsigned int m_0;
@@ -1282,7 +698,7 @@ struct Rva002E6DC4_P2
 	char m_pad4[8];
 	unsigned int m_C;
 };
-bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_raw)
+__declspec(noinline) inline bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_raw)
 {
 	Rva002E6DC4_P1 *a = (Rva002E6DC4_P1 *)a_raw;
 	Rva002E6DC4_P2 *b = (Rva002E6DC4_P2 *)b_raw;
@@ -1471,7 +887,7 @@ static __forceinline Bool checkPairCellUnits(Object *&obj, CheckMovementCell *ce
 		}
 		return true;
 	}
-Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell)
+__declspec(noinline) inline Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell)
 {
 	info.allyFixedCount = 0;
 	info.flag31 = false;
@@ -1532,7 +948,6 @@ private:
 	int m_30;
 };
 
-
 class MixFileInfoBuffer
 {
 private:
@@ -1544,7 +959,7 @@ public:
 
 // Rehomed 0x002E8B7A (33 B), original Rva002E8B7AInit.cpp: takes the pool
 // head, unlinks it (0x002E6BE2) and initializes it for the cell (0x002E6BA1).
-void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+__declspec(noinline) inline void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
 {
 	m_30 = a;
 	m_00 = b->x;
@@ -1558,7 +973,7 @@ void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
 	m_28 = 0;
 	++TheMixFileInfoCount;
 }
-MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
+__declspec(noinline) inline MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
 {
 	MixFileInfoBuffer *node = *pp;
 	node->bfmeUnlink();
@@ -1566,15 +981,10 @@ MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in
 	return node;
 }
 
-PathfindCell *Pathfinder::getCell(PathfindLayerEnum layer,Int x,Int y){
-if(x>=m_mapLowX && x<=m_mapHighX && y>=m_mapLowY && y<=m_mapHighY){
-if(layer>1 && layer<=15){PathfindCell*c=m_layers[layer].getCell(x,y);if(c)return c;}
-return &((PathfindCell**)m_unknown10)[x][y];}return 0;}
-
 struct Rva002E8BCFSrc{char pad[0x10];int m10;char m14;bool m15;};
 struct Rva002F5925Info {Pathfinder *pathfinder;char data4[16];bool center,human;char pad16[2];int radius;Object*object;PathfindCell*goal;int ignoreID;ICoord2D previous;int range;int cellCallback(PathfindCell*,PathfindCell*,int,int);};
 extern unsigned PathfinderSearchCellsVisited;
-Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell, 
+__declspec(noinline) inline Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell, 
 	const ICoord2D *destinationCell, PathfindLayerEnum layer, 
 	Rva002F5925Info *callbackInfo ) 
 { 
@@ -1647,9 +1057,8 @@ Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell,
 	return 0; 
 }
 
-
 struct NeighborWorldPoint:Coord3D {NeighborWorldPoint(){} ~NeighborWorldPoint(){}};
-Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
+__declspec(noinline) inline Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
 {
 if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
 Bool canPathThroughUnits=false;
@@ -1667,17 +1076,27 @@ info.options=12;if(!obj->m_template->hasKind(90))info.options|=16;
 info.ignore=obj->getAI()?((Rva0006E009DwordField *)obj->getAI())->get():0;
 info.considerTransient=true;Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;
 info.movement=Rva002E8BCF((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
+// expand search to neighboring orthogonal cells
 static Int deltaX[]={1,0,-1,0,1,-1,-1,1};static Int deltaY[]={0,1,0,-1,1,1,-1,-1};
 Bool storage[8];Bool (&neighborFlags)[8]=storage;
 for(Int i=0;i<8;++i) {
 neighborFlags[i]=false;
+// determine neighbor cell to try
 Int x=parentCell->getXIndex()+deltaX[i],y=parentCell->getYIndex()+deltaY[i];ICoord2D coords={x,y};
+// get the neighboring cell
 PathfindCell *newCell=getCell((PathfindLayerEnum)parentCell->getLayer(),x,y);
+// check if cell is on the map
 if(!newCell)continue;
+// check if this neighbor cell is already on the open (waiting to be tried)
+// or closed (already tried) lists
 if((unsigned char)((Rva002E6B06 *)newCell)->rva002E6B06() || (unsigned char)((Rva002E6AF3 *)newCell)->get())continue;
 if(newCell->getLayer()!=parentCell->getLayer() && !(info.movement.surfaces&64) && newCell->getLayer()!=((parentCell->m_info>>10)&63) && ((newCell->m_info>>10)&63)!=parentCell->getLayer() && (((parentCell->m_info>>10)&63)!=16 || ((newCell->m_info>>10)&63)!=((parentCell->m_info>>10)&63)))continue;
-if(isHuman){if(x<m_extentLowX)continue;if(y<m_extentLowY)continue;if(x>m_extentHighX)continue;if(y>m_extentHighY)continue;}
+if(isHuman){
+// check if new cell is in logical map.	(computer can move off logical map)
+if(x<m_extentLowX)continue;if(y<m_extentLowY)continue;if(x>m_extentHighX)continue;if(y>m_extentHighY)continue;}
+// make sure one of the adjacent sides is open.
 if(i>=4 && !neighborFlags[i&3] && !neighborFlags[(i+1)&3])continue;
+// do the gravity check here
 if(locomotorSet.isDownhillOnly()) {
 NeighborWorldPoint fromPoint;fromPoint.x=(float)(parentCell->getXIndex()*10);fromPoint.y=(float)(parentCell->getYIndex()*10);fromPoint.z=TheTerrainLogic->getGroundHeight(fromPoint.x,fromPoint.y,0);
 NeighborWorldPoint toPoint;toPoint.x=(float)(x*10);toPoint.y=(float)(y*10);toPoint.z=TheTerrainLogic->getGroundHeight(toPoint.x,toPoint.y,0);
@@ -1692,7 +1111,9 @@ info.cell.x=x;info.cell.y=y;
 if(!rva002EA658(obj,info,(const ICoord2D *)parentCell->m_pathInfo)) {
 if(!tunnelingValid){newCell->allocateInfo((In002E6BA1 *)&coords);newCell->PutOnClosedList(&m_closedList);continue;}
 ++info.blockedCells;
-} else {if(movementValid)m_isTunneling=false;}
+} else {
+//Note to self - only turn off tunneling after check for movement.jba. 
+if(movementValid)m_isTunneling=false;}
 if(!newCell->m_pathInfo)++cellCount;
 newCell->allocateInfo((In002E6BA1 *)&coords);
 unsigned int newCostSoFar=0;
@@ -1717,11 +1138,15 @@ newCostSoFar+=CalcExtraCosts(obj,parentCell,(Rva002EBC7FPair *)&coords,info.radi
 Coord3D point;point.x=(float)(x*10);point.y=(float)(y*10);Bool burning=nativeBurning((BurningGrid*)TheTriggerManager,point);
 if(burning)newCostSoFar+=10;
 newCell->m_pathInfo->costSoFar=(unsigned short)newCostSoFar;
+// keep track of path we're building - point back to cell we moved here from
 newCell->SetParentCell((Int *)parentCell);
-if(m_isTunneling)remaining=0;
+if(m_isTunneling)remaining=0; // find the closest valid cell.
 newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+remaining);
 AddToOpenList(newCell);
 }
 return cellCount;
 }
 }
+
+// ?bfmeAnchorRva002F83F5 absent-from-retail
+Int bfmeAnchorRva002F83F5(Pathfinder *p,PathfindCell *a,PathfindCell *b,const LocomotorSet &l,Bool h,Bool c,Int r,ICoord2D *s,Object *o,Int m){return p->rva002F83F5(a,b,l,h,c,r,s,o,m);}

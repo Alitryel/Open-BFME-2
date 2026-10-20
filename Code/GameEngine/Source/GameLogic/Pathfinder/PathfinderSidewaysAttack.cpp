@@ -1,9 +1,10 @@
 // cl: /ICode/Libraries/Include /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /Ow
 // Pathfinder::FindAttackPathSideways, retail 0x002FC9B1 (1566 B), with the
 // callees that share its translation unit: ExamineNeighboringCellsForSidewaysAttack
-// 0x002F8B00 (re-homed here from pathfinder.cpp), the init 0x002E6BA1 and the
-// unlanded rva002F83F5. Lab evidence: the target only reproduces retail with
-// those callee bodies visible and /Ow; pathfinder.cpp cannot take /Ow.
+// 0x002F8B00 (re-homed here from pathfinder.cpp), the init 0x002E6BA1 and a
+// select-any copy of rva002F83F5 (rowed in PathfinderRva002F83F5Neighbors.cpp).
+// Lab evidence: the target only reproduces retail with those callee bodies
+// visible and /Ow; pathfinder.cpp cannot take /Ow.
 // Target facts: bool at 0x00DBD4AC passed as faceDirection of the primary
 // attack-path build, int at 0x00DFF0CC cleared before the search. The
 // m_1BEB6 set/clear around BuildActualPath is two volatile stores and the
@@ -606,7 +607,7 @@ void Rva000B3FD0PathDebug(const Coord3D *,float,Int,PathfinderDebugColor);
 
 
 // ?Pathfinder::rva002F83F5 present-unmatched
-Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
+inline __declspec(noinline) Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
 {
 if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
 Bool canPathThroughUnits=false;

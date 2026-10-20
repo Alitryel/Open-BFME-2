@@ -260,7 +260,7 @@ private:
 	}
 };
 
-Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell)
+__declspec(noinline) inline Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell)
 {
 	info.m_2C = 0;
 	info.m_31 = false;
@@ -295,3 +295,7 @@ Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord
 	}
 	return true;
 }
+
+// Select-any: PathfinderRva002F83F5Neighbors.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva002EA658 absent-from-retail
+Bool bfmeAnchorRva002EA658(Pathfinder *p, Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell) { return p->rva002EA658(obj, info, otherCell); }
