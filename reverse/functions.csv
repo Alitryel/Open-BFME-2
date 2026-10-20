@@ -19136,7 +19136,6 @@ uw_0076b173,,0x0076B173,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;obj
 uw_0076b17e,,0x0076B17E,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6405
 uw_0076b189,,0x0076B189,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L8115
 uw_0076b19e,,0x0076B19E,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L10135
-uw_0076b1ca,,0x0076B1CA,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3237
 uw_0076b255,,0x0076B255,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5944
 uw_0076b26a,,0x0076B26A,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L10095
 uw_0076b272,,0x0076B272,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3362
@@ -97420,3 +97419,4 @@ __ehhandler$?rva001F21E8@GenericObjectCreationNugget@@IBEXPAUCoord3D@@@Z,,0x0076
 ??1?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ,,0x001F22A3,5,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetWaypointPick.cpp,matched,gen-alias;Actual emitted Object-pointer vector destructor; parent1F21E8 normal and exact-EH cleanup76B1B8 call this thunk; whole five-byte tail jump and sole REL32 match existing NuggetCreated storage-view owner and its rowed base1F1609; zero unique-byte gain
 $L4930,,0x0076B1B0,8,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetWaypointPick.cpp,matched,gen-funclet;parent=?rva001F21E8@GenericObjectCreationNugget@@IBEXPAUCoord3D@@@Z;native parent FuncInfo unwind map reaches this allocator-temporary cleanup; full graph EXACT
 $L4931,,0x0076B1B8,8,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetWaypointPick.cpp,matched,gen-funclet;parent=?rva001F21E8@GenericObjectCreationNugget@@IBEXPAUCoord3D@@@Z;native parent unwind map reaches matches-vector cleanup; full graph EXACT; replaces anonymous generated harness
+$L4845,,0x0076B1CA,11,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetWaypointPick.cpp,matched,gen-funclet;parent=??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ;native vector-base destructor unwind map reaches allocator proxy cleanup; full graph EXACT; replaces anonymous generated harness
