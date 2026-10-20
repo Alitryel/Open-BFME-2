@@ -21,13 +21,17 @@
 //     identical code: the linker folded the identical leaves of two
 //     instantiations but not the parents that named them.
 // The records are stand-ins (S4SortElem8, S4SortElem8B): the image fixes
-// only their size, bitwise copy and shared operator<.
+// their size, bitwise copy and shared operator<, which reads the first
+// pointer as an Rva0037DCA5 army record and the second as a ThingTemplate.
 #include <algorithm>
+
+class Rva0037DCA5;
+class ThingTemplate;
 
 struct S4SortElem8
 {
-	int m_bfmeFirst;
-	int m_bfmeSecond;
+	const Rva0037DCA5 *m_bfmeFirst;
+	const ThingTemplate *m_bfmeSecond;
 
 	bool operator<(const S4SortElem8 &other) const;
 };
@@ -44,7 +48,7 @@ template void _STL::sort<S4SortElem8 *>(S4SortElem8 *, S4SortElem8 *);
 template void _STL::sort<S4SortElem8B *>(S4SortElem8B *, S4SortElem8B *);
 
 // less<S4SortElem8>::operator(), retail 0x005EC5AD (16B): x < y through the
-// pinned member operator< 0x005EC52E, kept out of line (the B twin's copy
+// member operator< 0x005EC52E, kept out of line (the B twin's copy
 // is identical code).
 template bool _STL::less<S4SortElem8>::operator()(const S4SortElem8 &, const S4SortElem8 &) const;
 
@@ -62,6 +66,52 @@ public:
  UnicodeString titleA0;
  void *GetDisplayNameStrategicGame(int);
 };
+
+// KindOfMaskType: WorldBuilder's out-of-line BitFlags<218,enum KindOfType>::test
+// takes the mask and the bit as two cdecl arguments and indexes unsigned.
+enum KindOfType
+{
+	KINDOF_90 = 90
+};
+
+template <size_t NUMBITS, class E>
+class BitFlags
+{
+public:
+	static bool test(const BitFlags &flags, E bit)
+	{
+		return (flags.m_bits[bit / BITS_PER_WORD] & (1 << (bit % BITS_PER_WORD))) != 0;
+	}
+
+private:
+	static const size_t BITS_PER_WORD = sizeof(unsigned int) * 8;
+	unsigned int m_bits[(NUMBITS + 31) / 32];
+};
+
+class ThingTemplate
+{
+public:
+	/// return true iff the template has the specified kindOf flag set.
+	bool isKindOf(KindOfType t) const { return BitFlags<218, KindOfType>::test(m_kindof, t); }
+
+private:
+	char m_pad000[0x108];
+	BitFlags<218, KindOfType> m_kindof; // +0x108
+};
+
+// 0x005EC52E: templates of kind 90 first, then the record's +0x9C value
+// descending, then its name ascending.
+bool S4SortElem8::operator<(const S4SortElem8 &other) const
+{
+	if (m_bfmeSecond->isKindOf(KINDOF_90) != other.m_bfmeSecond->isKindOf(KINDOF_90))
+		return m_bfmeSecond->isKindOf(KINDOF_90);
+	int mine = m_bfmeFirst->value9C;
+	int theirs = other.m_bfmeFirst->value9C;
+	if (mine != theirs)
+		return mine > theirs;
+	return m_bfmeFirst->name04 < other.m_bfmeFirst->name04;
+}
+
 // Existing 24B push_back footprint, now viewed through target5ECD8C stores.
 struct BfmeStringRecord005EC43C {
  UnicodeString title;int value04,value08,value0C,value10;const Image *image14;
