@@ -137,6 +137,7 @@ public:
 	unsigned int rva000311E0(const void *src, unsigned int count, char *ascii, unsigned short *wide, unsigned int cap);
 	unsigned int rva00032A20(const void *block);		// GetUsableSize-like
 	int rva00031D00(void *block);				// chunk check error count, callee of 0x32160 (address-derived name)
+	int rva00031F90(void *block);				// locked 0x31D00 count plus used-chunk neighbour checks
 	int rva00031E60(const void *block);			// free-chunk check error count over 0x31D00 (address-derived name)
 	unsigned int rva00032160(void *block);		// locked 0x31D00 count plus fencepost bit and second-list membership test
 	unsigned int rva00032050(void *chunk, unsigned int flags);	// locked per-chunk check count (banked, unrecovered; address-derived name)
@@ -509,6 +510,49 @@ unsigned int GeneralAllocator::rva00032160(void *block)
 		LeaveCriticalSection(lock);
 	}
 	return total;
+}
+
+// ?rva00031F90@GeneralAllocator@Allocator@EA@@QAEHPAX@Z @0x00031F90 179B
+// Under the +0x4E4 lock: the 0x31D00 count, plus one when the following
+// chunk's in-use bit is clear, plus one when the previous chunk's size does
+// not reach this one, plus the top-chunk bit/size checks.
+int GeneralAllocator::rva00031F90(void *block)
+{
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+
+	int result = rva00031D00(block);
+	unsigned int *header = (unsigned int *)block;
+	if (!(header[1] & 2))
+	{
+		result += ((unsigned char)~*((unsigned char *)block + (header[1] & 0x7FFFFFF8) + 4)) & 1 && 1;
+		char *next = (char *)block + (header[1] & 0x7FFFFFF8);
+		if (!(header[1] & 1))
+		{
+			char *prev = (char *)block - header[0];
+			result += prev + (((unsigned int *)prev)[1] & 0x7FFFFFF8) != (char *)block;
+		}
+		if (next == *(char **)((char *)this + 0x440))
+		{
+			unsigned char topByte = *(volatile unsigned char *)(next + 4);
+			result += ((unsigned char)~topByte) & 1 && 1;
+
+			unsigned int *pTopWord = (unsigned int *)(next + 4);
+			unsigned int topWord = *pTopWord;
+			unsigned int topSize = topWord & 0x7FFFFFF8;
+			result += (topSize < 0x10) && 1;
+		}
+	}
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return result;
 }
 
 // ?rva000320E0@GeneralAllocator@Allocator@EA@@QAEIPAXI_N1@Z @0x000320E0 128B
