@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.972 date=2026-10-20
+// partial score=0.975 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
@@ -762,10 +762,12 @@ void BfmeB1137::Install_Materials(void) const
 		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 24, 2);
 
 		D3DXMATRIX inv;
-		float det;
 		Rva0007671F view;
 		DX8Wrapper::_Get_DX8_Transform(2, view);
+		{
+		float det;
 		D3DXMatrixInverse(&inv, &det, reinterpret_cast<D3DXMATRIX *>(&view));
+		}
 
 		int last = m_44;
 		m_44 = WW3D::SyncTime;
