@@ -10,6 +10,7 @@
 // this gives retail width-14 and height8 while its EH temporaries reuse1C.
 // Both full bodies and their EH data verify. No donor identity is asserted.
 // stlport
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN
 #include "unicode_string.h"
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -55,6 +56,13 @@ class GameFont;
 class ModuleData;
 
 struct BfmeStringRecord005DDD40 { UnicodeString text; unsigned word; };
+
+// Keep the registry and record cleanup bound to their existing providers.
+namespace _STL {
+template <> _Vector_base<BfmeStringRecord005DDD40, allocator<BfmeStringRecord005DDD40> >::~_Vector_base();
+template <> void allocator<BfmeStringRecord005DDD40>::deallocate(BfmeStringRecord005DDD40 *, size_t) const;
+template <> void vector<const ModuleData *, allocator<const ModuleData *> >::push_back(const ModuleData *const &);
+}
 
 class DisplayString
 {
