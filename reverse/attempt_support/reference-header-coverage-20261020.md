@@ -4,11 +4,12 @@ These are read-only leads, not source imports or new coverage. Decoder/dump
 paths were excluded before reading sources. All compilations used normal
 place_bodies.py; no external donor path was placed in BFME2's ledger.
 
--250 clean address-named engine/device/common units,500 compiler profiles:
-  donor settings and the established O1/G7/SSE retail profile.494 compiled
+-1000 clean address-named engine/device/common units,2000 compiler profiles:
+  donor settings and the established O1/G7/SSE retail profile.1992 compiled
   immediately. Four failed profiles used separated `/I game/...` operands;
   joining each intended operand and resolving it to the real donor directory
-  repaired them. Two required the verified original PlatformSDK. All500 then
+  repaired them. Four required the verified original PlatformSDK, including
+  both BfmeConv1024 profiles. All2000 then
   compiled; zero body/pin leads. This is distinct from the earlier426-unit
   GameClient address-named pass and the named-file passes.
 -88 clean STLport donor units with explicit donor4.6 standard headers and the
