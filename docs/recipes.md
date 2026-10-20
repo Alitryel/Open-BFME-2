@@ -366,6 +366,15 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   vocabulary. 0x00100568's bank was gotos and `_ReadWriteBarrier` at nd 118.
   The `Equal_Within_Epsilon` copy at 0x0010022F pointed to a plain `while`
   around a `for` that calls it, which reached nd 45 on the first compile.
+- **Joined guards move the shared return-0 to the end.** When retail puts
+  `xor eax,eax; jmp epilogue` inline after a guard and its epilogue right
+  after the cleanup that precedes a rotated loop body, write the guards as
+  separate `if (...) return 0;` statements. Joining two of them with `||` sent
+  the merged return-0 block and the epilogue to the end of 0x002F64DD (+12
+  bytes and an extra jump from the cleanup); loop, goal-list, success-path,
+  label and scope respellings left that layout unchanged. Morphing the matched
+  sibling GetHordeUnitPath (0x002F6075) toward the bank one region at a time
+  isolated it in four compiles.
 - **Fan-in first for repairs.** Fix the callee or spelling many rows share
   before single rows: calling SubsystemInterface's ctor through its one
   pinned `void` spelling restored 38 rows across 40 units; `link_rank.py`
