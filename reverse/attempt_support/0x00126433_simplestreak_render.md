@@ -6,9 +6,9 @@ Bank: `reverse/attempts/0x00126433.cpp`. Scores below are `score.py` fitness
 (0.5 mnemonic + 0.3 full + 0.2 bytes). "norm" counts instructions that match
 once `[ebp-X]` offsets are masked, out of 2637.
 
-## Current best (claudeb4, 2026-10-20): 0.8307, norm 2307/2637, 12022 B
+## Current best (claudeb4, 2026-10-20): 0.8371, norm 2329/2637, 12025 B
 
-0.8307 = the 0.8285 body below plus item 6.
+0.8371 = the 0.8307 body plus item 7; 0.8307 = the 0.8285 body plus item 6.
 
 The previous bank scored 0.7808 (norm 1974). The best body is built from that
 bank as follows:
@@ -40,6 +40,13 @@ bank as follows:
    line 788): two separate continues,
    `if(!sp->Begin(&passes,0xffff)) continue; if(passes!=1) continue;
    sp->BeginPass(0);` instead of one `||` condition.
+7. `Clamp_Color` uses `<=0`, as in BFME2's matched
+   `DX8WrapperConvertColorClamp.cpp`. The exact matched form
+   `c[i] = c[i] <= 0.0f ? 0.0f : (c[i] > 1.0f ? 1.0f : c[i]);` makes region 0x28
+   match exactly (0.8279, `build/s126/g5/c1.cpp`), but it flips regions 5 and
+   0x1c into a worse register mode. The banked body splits each lane:
+   `{float f=(c[i]<=0)?0:c[i]; c[i]=(f>1)?1:f;}` (0.8371, region 0x28 still has
+   8 diffs, but 1b-1d stay in the good mode). Find a form that keeps both.
 
 ## Inline budget (why the setters stay out of line)
 
@@ -88,6 +95,31 @@ trusting the total score. Triggers seen so far: an `operator->` member on the
 shadow pointer holder, a local `SimpleShadowPass *sp=shadow.p`, a `bool ok`
 temp around Begin.
 
+## WB local evidence (wb.txt frame, unoptimised twin)
+
+- `tex_v` is a direct array `float tex_v[129]` (local_2800, stores
+  `fstp [ebp+edx*4-0x2800]`), not a pointer to storage. Trial (g6): region 0x15
+  improves 20 -> 11, but 0x1b-0x1d flip to the bad mode (3/1/1 -> 13/12/8).
+  Net 0.8339 with the split clamp and 0.8299 with the matched clamp. Keep it in
+  mind for recombination.
+- WB copies `texture_positions[point_cnt-1]` into its own local (local_480c,
+  integer move) before `end = last - TextureLength` (local_60c8). A separate
+  `float last` in our source costs about 0.03 (+22 B, x87 spill), so that local
+  is probably a WB-only temp or an int-typed copy.
+- WB slot sizes: segment array local_5a68 (0x82 x 0x24), intersection
+  local_2598 (0x104 x 0x24), switch_edges (byte) local_25a1 sits before the
+  segment array, u_values local_f8/f4, view2 local_cc (12-arg ctor), modelview
+  local_25d4 (default ctor, then mul).
+
+## Region modes (rs2 diffs per 0x100, g6)
+
+| Variant | 5/6 | 15 | 1b/1c/1d | 1e | 28 | total |
+|---|---|---|---|---|---|---|
+| split clamp (bank) | 15/25 | 20 | 3/1/1 | 10 | 8 | 252 |
+| split + tex_v array | 15/25 | 11 | 13/12/8 | 10 | 8 | 269 |
+| matched clamp | 25/25 | 20 | 3/12/8 | 4 | 0 | 265 |
+| matched + tex_v array | 25/25 | 11 | 13/7/4 | 4 | 0 | 255 |
+
 ## Shadow-pointer caching (region 0x27/0x2b)
 
 Retail keeps `shader_setup.Referent` in esi across Begin/BeginPass and
@@ -109,6 +141,7 @@ still open.
 - Non-forceinline submul/mul.
 - view `float[16]` vs `char[64]`.
 - MIN() for point_cnt.
+- A separate `float last=texture_positions[point_cnt-1]` before `end` (-0.03).
 - The recipe flags.
 - Declaration-order-only scalar reorders.
 - The k-scan of inert locals on its own.

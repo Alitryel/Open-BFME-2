@@ -1,5 +1,5 @@
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
-// partial score=0.8307 date=2026-10-20
+// partial score=0.8371 date=2026-10-20
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
 // partial score=0.7808 date=2026-10-17
 // SimpleStreak renderer126433..129303; WB A1E840 and ZH Streak geometry.
@@ -1090,10 +1090,10 @@ WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector4& color)
 WWINLINE void DX8Wrapper::Clamp_Color(Vector4& color)
 {
 	if (!CPUDetectClass::Has_CMOV_Instruction()) {
-		{float f=(color[0]<0.0f)?0.0f:color[0]; color[0]=(f>1.0f)?1.0f:f;}
-		{float f=(color[1]<0.0f)?0.0f:color[1]; color[1]=(f>1.0f)?1.0f:f;}
-		{float f=(color[2]<0.0f)?0.0f:color[2]; color[2]=(f>1.0f)?1.0f:f;}
-		{float f=(color[3]<0.0f)?0.0f:color[3]; color[3]=(f>1.0f)?1.0f:f;}
+		{float f=(color[0]<=0.0f)?0.0f:color[0]; color[0]=(f>1.0f)?1.0f:f;}
+		{float f=(color[1]<=0.0f)?0.0f:color[1]; color[1]=(f>1.0f)?1.0f:f;}
+		{float f=(color[2]<=0.0f)?0.0f:color[2]; color[2]=(f>1.0f)?1.0f:f;}
+		{float f=(color[3]<=0.0f)?0.0f:color[3]; color[3]=(f>1.0f)?1.0f:f;}
 		return;
 	}
 	__asm
