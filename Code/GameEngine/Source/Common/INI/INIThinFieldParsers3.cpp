@@ -46,7 +46,7 @@ enum EvaMessage
 class Eva
 {
 public:
-	int rva001DE9C4(const char *name);
+	int iniScanEvaEventID(const char *name);
 };
 extern Eva *TheEva;
 
@@ -114,7 +114,7 @@ void Rva001DEA65Parse(INI *ini, void *, void *store, const void *)
 	const char *token;
 	while ((token = ini->getNextTokenOrNull()) != NULL)
 	{
-		EvaMessage message = (EvaMessage)TheEva->rva001DE9C4(token);
+		EvaMessage message = (EvaMessage)TheEva->iniScanEvaEventID(token);
 		((_STL::vector<EvaMessage, _STL::allocator<EvaMessage> > *)store)->push_back(message);
 	}
 }

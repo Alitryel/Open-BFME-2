@@ -1,4 +1,4 @@
-// ?rva001DE9C4@Eva@@QAEHPBD@Z
+// ?iniScanEvaEventID@Eva@@QAEHPBD@Z
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class Rva00056F61;
@@ -30,7 +30,7 @@ class Eva
 {
 public:
 	int rva001DE78E(const AsciiString *key) throw();
-	int rva001DE9C4(const char *key);
+	int iniScanEvaEventID(const char *key);
 private:
 	char m_pad[0x34];
 	Rva00056F61 m_table34;
@@ -38,7 +38,7 @@ private:
 	int m_flag44;
 	Rva00056F61 m_table48;
 };
-int Eva::rva001DE9C4(const char *key)
+int Eva::iniScanEvaEventID(const char *key)
 {
 	if (_strcmpi("None", key) == 0)
 		return -1;

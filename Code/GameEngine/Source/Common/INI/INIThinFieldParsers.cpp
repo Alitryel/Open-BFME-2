@@ -22,7 +22,7 @@ public:
 class Eva
 {
 public:
-	int rva001DE9C4(const char *name);
+	int iniScanEvaEventID(const char *name);
 };
 
 extern Eva *TheEva;
@@ -42,7 +42,7 @@ public:
 void Rva001DEE74Parse(INI *ini, void *, void *store, const void *)
 {
 	const char *token = ini->getNextToken();
-	*(int *)store = TheEva->rva001DE9C4(token);
+	*(int *)store = TheEva->iniScanEvaEventID(token);
 }
 
 void Rva002567EAParse(INI *ini, void *, void *store, const void *)
