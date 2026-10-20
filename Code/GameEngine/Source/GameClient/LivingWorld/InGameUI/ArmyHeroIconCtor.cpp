@@ -152,3 +152,30 @@ private: HeroOwnerView *m_owner; Rva005F42FFHero *m_hero; HeroClipHolder m_clip;
 };
 }
 StrategicInGameUI::ArmyHeroIcon::ArmyHeroIcon(void *o,void *c,void *e):Rva005F4179(c),m_owner((HeroOwnerView*)o),m_hero((Rva005F42FFHero*)e),m_clip() {}
+
+// The hero composite (Rva005F422CDtor.cpp's Rva005E4202: this icon plus the
+// 16-byte details portion, sharing the virtual base at +0x24) reaches the
+// three ArmyHeroIcon overrides through vtordisp thunks with a further -0x10
+// (0x005E3C6F/7A/85, slots 2-4 of its virtual-base table 0x00877C74): the
+// icon expects its virtual base at +0x14. A TU-local view of the composite
+// emits them; only the thunks, named after ArmyHeroIcon, are claimed.
+namespace {
+class HeroDetailsPortion : public virtual Rva005F4179 {
+public:
+ HeroDetailsPortion() : Rva005F4179(0) {}
+ virtual ~HeroDetailsPortion();
+ virtual void slot1();
+ virtual void slot5();
+ virtual void rva005F3FF4();
+ virtual void rva005F3F6B();
+private: char m_unrecovered[12];
+};
+struct EmitVtableTag;
+class HeroComposite : public StrategicInGameUI::ArmyHeroIcon, public HeroDetailsPortion {
+public:
+ HeroComposite(EmitVtableTag *);
+};
+}
+// ?<HeroComposite::HeroComposite> absent-from-retail
+HeroComposite::HeroComposite(EmitVtableTag *) : Rva005F4179(0), StrategicInGameUI::ArmyHeroIcon(0,0,0) {}
+typedef char HeroCompositeHas48Bytes[sizeof(HeroComposite)==0x30?1:-1];

@@ -66,7 +66,11 @@ private: char m_unrecovered[8];Rva005E3A76Clip clip;
 };
 Rva005F422C::~Rva005F422C(){}
 Rva005E3A76::~Rva005E3A76(){}
-class Rva005E4202:public Rva005F422C,public Rva005E3A76 {};
+class EmitHeroVtableTag;
+class Rva005E4202:public Rva005F422C,public Rva005E3A76 {
+public:
+ Rva005E4202(EmitHeroVtableTag *);
+};
 
 struct ClipRef {
  ClipRef():ptr(0){}
@@ -102,24 +106,13 @@ public:
 // ?<Rva005E426F::Rva005E426F> absent-from-retail
 Rva005E426F::Rva005E426F(EmitVtableTag *):StrategicInGameUI::ArmyUnitIcon(0,0,0){}
 void __cdecl operator delete(void *);
-class Rva005E41D7 { public: void *destroy(unsigned int flags); };
-void *Rva005E41D7::destroy(unsigned int flags) {
-    char *object=(char*)this-0x24;
-    Rva005F4179 *base=(Rva005F4179*)(object+0x24);
-    ((Rva005E4202*)object)->Rva005E4202::~Rva005E4202();
-    base->Rva005F4179::~Rva005F4179();
-    if(flags & 1)operator delete(object);
-    return object;
-}
-class Rva005E4244 { public: void *destroy(unsigned int flags); };
-void *Rva005E4244::destroy(unsigned int flags) {
-    char *object=(char*)this-0x30;
-    Rva005F4179 *base=(Rva005F4179*)(object+0x30);
-    ((Rva005E426F*)object)->Rva005E426F::~Rva005E426F();
-    base->Rva005F4179::~Rva005F4179();
-    if(flags & 1)operator delete(object);
-    return object;
-}
+// The composites' deleting destructors (0x005E41D7, 0x005E4244) are the
+// compiler's own ??_G bodies, emitted with each composite's tables: subtract
+// to the complete object, run the implicit diamond destructor and the shared
+// virtual base's, delete on bit 0. Their vtordisp thunks (0x005E3C67,
+// 0x005E3D22) are slot 0 of the virtual-base tables.
+// ?<Rva005E4202::Rva005E4202> absent-from-retail
+Rva005E4202::Rva005E4202(EmitHeroVtableTag *){}
 class Rva005F445D { public: void *destroy(unsigned int flags); };
 void *Rva005F445D::destroy(unsigned int flags) {
     char *object=(char*)this-0x14;
