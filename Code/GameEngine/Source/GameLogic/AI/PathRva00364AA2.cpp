@@ -52,12 +52,13 @@ public:
 	int m_id20;
 };
 
+// Copies the position member-wise through an inline call, as the home's Coord3D operator= does.
 inline __declspec(noinline) PathNode::PathNode(const Coord3D *position, PathfindLayerEnum layer)
 {
 	m_next = 0;
 	m_previous = 0;
 	m_nextOptimized = 0;
-	m_pos = *position;
+	m_pos.set(position);
 	m_layer = layer;
 	m_canOptimize = false;
 	m_id20 = 0x7fffffff;

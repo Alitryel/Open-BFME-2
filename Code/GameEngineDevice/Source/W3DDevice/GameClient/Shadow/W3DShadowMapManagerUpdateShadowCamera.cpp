@@ -19,6 +19,8 @@ namespace _STL {template<> inline void allocator<BfmeE8>::deallocate(BfmeE8*p,si
 struct BfmePod8 {int a[2];};
 class ModuleData;
 namespace _STL {
+// Frees through retail's _free (0x00030830) like the BfmeE8 and int allocators above.
+template<> inline void allocator<const ModuleData *>::deallocate(const ModuleData **p,size_t)const{if(p)Rva00030830FreeAllocation(p);}
 template<> inline __declspec(noinline) void vector<BfmeE8>::push_back(const BfmeE8&v){if(_M_finish!=_M_end_of_storage._M_data){_Construct(_M_finish,v);++_M_finish;}else _M_insert_overflow(_M_finish,v,_IsPODType(),1UL,true);}
 template<> inline __declspec(noinline) BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *__first,BfmePod8 *__last){pointer __i=__copy_ptrs(__last,this->_M_finish,__first,_TrivialAss());_Destroy(__i,this->_M_finish);this->_M_finish=__i;return __first;}
 template<> inline __declspec(noinline) void vector<const ModuleData *>::push_back(const ModuleData *const &v){if(_M_finish!=_M_end_of_storage._M_data){_Construct(_M_finish,v);++_M_finish;}else _M_insert_overflow(_M_finish,v,__true_type(),1UL,true);}
@@ -97,22 +99,31 @@ __declspec(noinline) inline bool Rva0007C637(std::vector<BfmeE8> &input,std::vec
 // ?BfmeE8::BfmeE8 absent-from-retail
 inline BfmeE8::BfmeE8(const Vector3 &v) : X(v.X), Y(v.Y) {}
 
-#include "Lib/Coord3D.h"
+// Retail's Coord3D copy constructor makes _Construct<Coord3D> the null-checked body at 0x002CA82C.
+#include "Lib/Coord3DCtorView.h"
 #include "Lib/Region2D.h"
-struct BfmeFloat4Record00469C61 { float x, y, z, w; };
+// The record view of stlport_vector_float4_469c61.cpp, whose member-wise copy gives retail's _Construct.
+struct BfmeFloat4Record00469C61 {
+	float x, y, z, w;
+	BfmeFloat4Record00469C61() {}
+	BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &o) : x(o.x), y(o.y), z(o.z), w(o.w) {}
+	BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &o) { x=o.x; y=o.y; z=o.z; w=o.w; return *this; }
+};
 namespace _STL {
 template<> inline void allocator<Coord3D>::deallocate(Coord3D *p, size_t) const { if (p) Rva00030830FreeAllocation(p); }
-// The fill helpers stay visible but inline-only (dllimport is never emitted), so the link keeps
-// the rowed copies at 0x000CA1D3, 0x002CA849 and 0x002CA82C.
-template<> __declspec(dllimport) __forceinline void _Construct<Coord3D, Coord3D>(Coord3D *__p, const Coord3D &__val) { _STLP_PLACEMENT_NEW (__p) Coord3D(__val); }
-template<> __declspec(dllimport) __forceinline Coord3D *__uninitialized_fill_n<Coord3D *, unsigned int, Coord3D>(Coord3D *__first, unsigned int __n, const Coord3D &__x, const __false_type &)
+// Frees through _free (0x00030830) and stays inline-only (dllimport is never emitted): every call inlines it.
+template<> __declspec(dllimport) __forceinline void allocator<BfmeFloat4Record00469C61>::deallocate(BfmeFloat4Record00469C61 *p, size_t) const { if (p) Rva00030830FreeAllocation(p); }
+// The count-fill chain stays visible, so the caller's vector does not escape, and out of line as
+// retail's rowed copies (0x0007C2AC, 0x000CA1D3, 0x002CA849, 0x002CA82C).
+template<> inline __declspec(noinline) void _Construct<Coord3D, Coord3D>(Coord3D *__p, const Coord3D &__val) { _STLP_PLACEMENT_NEW (__p) Coord3D(__val); }
+template<> inline __declspec(noinline) Coord3D *__uninitialized_fill_n<Coord3D *, unsigned int, Coord3D>(Coord3D *__first, unsigned int __n, const Coord3D &__x, const __false_type &)
 {
 	Coord3D *__cur = __first;
 	for ( ; __n > 0; --__n, ++__cur)
 		_Construct(&*__cur, __x);
 	return __cur;
 }
-template<> __declspec(dllimport) __forceinline Coord3D *uninitialized_fill_n<Coord3D *, unsigned int, Coord3D>(Coord3D *__first, unsigned int __n, const Coord3D &__x)
+template<> inline __declspec(noinline) Coord3D *uninitialized_fill_n<Coord3D *, unsigned int, Coord3D>(Coord3D *__first, unsigned int __n, const Coord3D &__x)
 { return __uninitialized_fill_n(__first, __n, __x, __false_type()); }
 template<> inline __declspec(noinline) _Vector_base<Coord3D, allocator<Coord3D> >::_Vector_base(size_t __n, const allocator<Coord3D> &__a)
 	: _M_start(0), _M_finish(0), _M_end_of_storage(__a, 0)

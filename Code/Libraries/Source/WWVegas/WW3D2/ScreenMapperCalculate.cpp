@@ -3,6 +3,10 @@
 // Donor: EA GeneralsMD WW3D2/mapper.cpp verbatim, in its own TU so mapper.cpp keeps its flags.
 // BFME 2's inline DX8Wrapper::Get_Transform (WB 0x009C1560) comes from the bfme2_get_transform shim.
 
+// math.h's inline floorf gets internal linkage, and the link view keeps Vector4(x,y,z,w) inline, so neither
+// emits a copy that loses to retail's owners (0x0004D649, 0x006D8A30).
+extern "C" { static float __cdecl floorf(float); }
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
 #include "ini.h"
