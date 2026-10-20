@@ -23,6 +23,14 @@
 #include <string.h>
 #include "Common/LatchRestore.h"
 class Object;
+// Keep typed node comparisons local and bind the out-of-line node factory
+// to retail's pooled list implementation at 0x001EB9AC.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
 class HordeContain;
 class ThingTemplate;
 class Team;
@@ -259,6 +267,19 @@ class FreelistPool
 }
 ;
 extern FreelistPool g_freelistPool00DB8FEC;
+namespace _STL {
+// The rowed Object-pointer factory uses this dedicated 12-byte-node pool.
+template <> inline __declspec(noinline)
+_List_node<Object *> *list<Object *, allocator<Object *> >::_M_create_node(Object *const &value)
+{
+    _List_node<Object *> *node = (_List_node<Object *> *)g_freelistPool00DB8FEC.pop();
+    Object **valuePtr = (Object **)((char *)node + 8);
+    if (valuePtr)
+        *valuePtr = value;
+    return node;
+}
+}
+
 class Rva001EB984Member 
 {
  public: void *m_head;
@@ -291,7 +312,7 @@ typedef _STL::list<Object*>::iterator ObjectIterator;
 // operation and return iterator, with a TU-local inline specialization.
 namespace _STL 
 {
- template<> __forceinline ObjectIterator list<Object*>::erase(ObjectIterator position)
+ template<> __declspec(dllimport) __forceinline ObjectIterator list<Object*>::erase(ObjectIterator position)
  
  {
   _List_node_base *next=position._M_node->_M_next;
