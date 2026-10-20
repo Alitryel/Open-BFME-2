@@ -12,6 +12,11 @@ unsigned short *fill_n<unsigned short *, unsigned int, unsigned short>(unsigned 
 namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
 namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(); }
 namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::reserve(unsigned int); }
+// The word-vector unit owns the retail unsigned-word fill loop.
+namespace _STL { template <> unsigned short *fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *, unsigned int, const unsigned short &); }
+// Keep the forwarding fill helper bound to its existing external provider too.
+namespace _STL { template <> unsigned short *__uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *, unsigned int, const unsigned short &, const __true_type &); }
+namespace _STL { template <> unsigned short *uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *, unsigned int, const unsigned short &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAGGV?$allocator@G@_STL@@@_STL@@QAEPAGI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

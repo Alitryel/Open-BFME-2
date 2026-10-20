@@ -34,6 +34,15 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 // bfme link decl-only begin
 namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// Preserve inline allocation while the first provider owns the external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned short *
+_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t n)
+{
+    return __stl_alloc_rebind(static_cast<allocator<unsigned short> &>(*this),
+                             (unsigned short *)0).allocate(n, 0);
+}
+}
 // Keep the header's inline word construction, but leave the external copy to
 // stlport_wide_string.cpp (retail 0x00019A00). This TU's compiler settings
 // otherwise emit a competing out-of-line implementation of the same function.
