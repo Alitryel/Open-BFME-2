@@ -353,98 +353,12 @@ Render2DSentenceClass::Build_Textures (void)
 //	Allocate_New_Surface
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Allocate_New_Surface@Render2DSentenceClass@@AAEXPBG_N@Z present-unmatched
-Render2DSentenceClass::Allocate_New_Surface (const WCHAR *text, bool justCalcExtents)
+// Render2DSentenceClass::Allocate_New_Surface is defined with its retail-matched body in
+// Render2DSentenceAllocateSurfaceBFME2.cpp (0x00158C60). The BFME1 body here was the first user
+// of max<int>; keep that instantiation's place in this unit.
+int render2dsentenceMaxAnchor(int a, int b)
 {
-	if (!justCalcExtents)
-	{
-		//
-		//	Unlock the last surface (if necessary)
-		//
-		if (LockedPtr != NULL) {
-			CurSurface->Unlock ();
-			LockedPtr = NULL;
-		}
-	}
-
-	//
-	// Calculate the width of the text
-	//	
-	int text_width = 0;
-	for (int index = 0; text[index] != 0; index ++) {
-		text_width += Font->Get_Char_Spacing (text[index]);
-	}
-	
-	int char_height = Font->Get_Char_Height ();
-
-	//
-	//	Find the best texture size for the remaining text
-	//
-	CurrTextureSize = 256;
-	int best_tex_mem_usage = 999999999;
-	for (int pow2 = 6; pow2 <= 8; pow2 ++) {		
-		
-		int size					= 1 << pow2;
-		int row_count			= (text_width / size) + 1;
-		int rows_per_texture	= size / (char_height + 1);
-		
-		//
-		//	Can we even fit one character on this texture?
-		//
-		if (rows_per_texture > 0) {			
-
-			//
-			//	How many textures (at this size) would it take to render
-			// the remaining text?
-			//
-			int texture_count	= row_count / rows_per_texture;
-			texture_count		= max (texture_count, 1);
-
-			//
-			//	Is this the best usage of texture memory we've found yet?
-			//
-			int texture_mem_usage = (texture_count * size * size);
-			if (texture_mem_usage < best_tex_mem_usage) {
-				CurrTextureSize		= size;
-				best_tex_mem_usage	= texture_mem_usage;
-			}
-		}
-	}
-
-	//
-	//	Use whichever is larger, the hint or the calculated size
-	//
-	CurrTextureSize = max (TextureSizeHint, CurrTextureSize);
-
-	if (!justCalcExtents)
-	{
-		//
-		//	Release our extra hold on the old surface
-		//
-		REF_PTR_RELEASE (CurSurface);
-
-		//
-		//	Create the new surface
-		//	
-		CurSurface = NEW_REF (SurfaceClass, (CurrTextureSize, CurrTextureSize, WW3D_FORMAT_A4R4G4B4));
-		WWASSERT (CurSurface != NULL);
-		CurSurface->Add_Ref ();
-
-		//
-		//	Add this surface to our list
-		//
-		PendingSurfaceStruct surface_info;
-		surface_info.Surface = CurSurface;
-		PendingSurfaces.Add (surface_info);
-	}
-
-	//
-	//	Reset to the upper left corner
-	//
-	TextureOffset.Set (0, 0);
-	TextureStartX = 0;	
-	return ;
+	return max (a, b);
 }
 
 float FindStartingXPos( const WCHAR *text )
