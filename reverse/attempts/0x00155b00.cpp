@@ -1,5 +1,5 @@
 // ?Draw_Sentence@Render2DSentenceClass@@QAEXKKKK@Z
-// partial score=0.9026288151577504 date=2026-10-16
+// partial score=0.92 date=2026-10-20
 // cl: /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 
 void __cdecl operator delete[](void *) throw();
@@ -314,13 +314,12 @@ void Render2DSentenceClass::Draw_Sentence(uint32 color1, uint32 color2, uint32 c
 			}
 		}
 
-		RectClass screen_rect = data.ScreenRect;
+		RectClass rect = data.ScreenRect;
 		RectClass uv_rect = data.UVRect;
-		Vector2 size(screen_rect.Width(), screen_rect.Height());
-		screen_rect.Left *= scale.X;
-		screen_rect.Top *= scale.Y;
-		screen_rect.Right = size.X * scale.X + screen_rect.Left;
-		screen_rect.Bottom = size.Y * scale.Y + screen_rect.Top;
+		Vector2 size(rect.Width(), rect.Height());
+		float left = rect.Left * scale.X;
+		float top = rect.Top * scale.Y;
+		RectClass screen_rect(left, top, size.X * scale.X + left, size.Y * scale.Y + top);
 		screen_rect += Location;
 		screen_rect.Left = floor(screen_rect.Left + 0.5f);
 		screen_rect.Top = floor(screen_rect.Top + 0.5f);
@@ -333,10 +332,14 @@ void Render2DSentenceClass::Draw_Sentence(uint32 color1, uint32 color2, uint32 c
 				continue;
 
 			RectClass clipped_rect;
-			clipped_rect.Left = (screen_rect.Left > ClipRect.Left) ? screen_rect.Left : ClipRect.Left;
-			clipped_rect.Right = (screen_rect.Right < ClipRect.Right) ? screen_rect.Right : ClipRect.Right;
-			clipped_rect.Top = (screen_rect.Top > ClipRect.Top) ? screen_rect.Top : ClipRect.Top;
-			clipped_rect.Bottom = (screen_rect.Bottom < ClipRect.Bottom) ? screen_rect.Bottom : ClipRect.Bottom;
+			clipped_rect.Left = screen_rect.Left;
+			if (!(screen_rect.Left > ClipRect.Left)) clipped_rect.Left = ClipRect.Left;
+			clipped_rect.Right = screen_rect.Right;
+			if (!(screen_rect.Right < ClipRect.Right)) clipped_rect.Right = ClipRect.Right;
+			clipped_rect.Top = screen_rect.Top;
+			if (!(screen_rect.Top > ClipRect.Top)) clipped_rect.Top = ClipRect.Top;
+			clipped_rect.Bottom = screen_rect.Bottom;
+			if (!(screen_rect.Bottom < ClipRect.Bottom)) clipped_rect.Bottom = ClipRect.Bottom;
 
 			RectClass clipped_uv_rect;
 			float percent = ((clipped_rect.Left - screen_rect.Left) / screen_rect.Width());
