@@ -83,6 +83,29 @@ bank as follows:
      costs 0.0008 against the pointer-cast form.
    rs2 at the bank: 9:15 b:12 11:22 15:20 1d:8 1e:12 1f:14 24:15 25:16 28:8,
    total 202.
+10. **Next leads (untried): WB end-block call shapes** (wb.txt 1690-2190,
+   helpers read with `tools/wb_show.py wb:0xVA`). Our bank differs from WB here:
+   - Texture test: WB calls `0x9a0990` on `this`, an inline bool getter
+     returning `[this+0] != 0` (a `Has_Texture()`/`Peek_Texture() != NULL`
+     shape). We write `if(Texture)`.
+   - Filter writes: WB calls the out-of-line `TextureAsset::GetFilter`
+     (`0x9d41a0`, texture.cpp:1515) twice, then the inline setters `0x9d4f40`
+     (`[filter+0xc]=arg`) and `0x9d4f60` (`[filter+0x10]=arg`), i.e.
+     `Get_Filter().Set_U_Addr_Mode(1)` / `Set_V_Addr_Mode(1)`. We store
+     `->u=1` / `->v=1` directly.
+   - The shadow texture temp ctor `0x9a00f0` calls a nested init `0x9a0110`
+     (`[this]=0`): a two-level inline ctor, not a plain zero member.
+   - FVF offsets: `0x9d9d30` takes an argument (`push 0`) for the first
+     offset; check which getter it is before changing ours.
+   - Color: `sub_a21170(Vector4)` with the Vector4 built by `0x71fd10` from
+     `this+0xc..+0x18`, consistent with our
+     `Convert_Color_Clamp(Vector4(Color..., Opacity))`.
+   - Unidentified end calls: `0x9c1360` (405 B), `0x9a8a60`, `0x9a8aa0`
+     (64 B each); also `0x9d9de0`, `0x9a4bf0`, `0x9a4c10`, `0x9a4c20`,
+     `0x9dcb00`.
+   Plan: a g11 factorial from `g10/v11100l0.cpp` over these shapes (getter,
+   GetFilter plus setters, nested temp ctor, FVF getter forms), scored in the
+   background, regions read with rs2; the aim is to flip 9/b/11/15/1d-1f/24/25.
 
 ## Inline budget (why the setters stay out of line)
 
