@@ -1,4 +1,6 @@
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
+// partial score=0.96 date=2026-10-20
+// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.95 date=2026-10-19
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.95 date=2026-10-18
@@ -53,21 +55,24 @@ class Rva000B28F2LeaGetter {public:void *get()const;};
 struct Rva0007E394Element {char unknown00[0x38];Vector2 *begin,*end,*capacity;};
 struct TrackCollection;
 // Native cursor storage is an owner pointer followed by a record ordinal.
-struct Rva000FF5E6Cursor {
- TrackCollection *first;int second;
- Rva000FF5E6Cursor(TrackCollection *owner,int index):first(owner),second(index){}
-};
-extern "C" bool __cdecl rva0007E394CursorEqual(const Rva000FF5E6Cursor &,const Rva000FF5E6Cursor &);
+// Retail's two-dword cursor equality at 0x7E394, defined here so the caller sees it keeps no cursor address.
+extern "C" inline __declspec(noinline) bool __cdecl rva0007E394CursorEqual(const void*a,const void*b){return ((const unsigned*)a)[0]==((const unsigned*)b)[0]&&((const unsigned*)a)[1]==((const unsigned*)b)[1];}
 struct MapEntry {unsigned key;Rva0007E394Element *value;};
 struct TrackCollection {
+ class const_iterator {
+ public:
+  const_iterator(TrackCollection *set,int index):m_set(set),m_index(index){}
+  Rva0007E394Element *getPtr()const{return m_set->m_begin[m_index].value;}
+  const_iterator &operator++(){++m_index;return *this;}
+  const_iterator operator++(int){const_iterator old=*this;++*this;return old;}
+  bool operator!=(const const_iterator &it)const{return !(*this==it);}
+  friend bool operator==(const const_iterator &a,const const_iterator &b){return rva0007E394CursorEqual(&a,&b);}
+  TrackCollection *m_set;int m_index;
+ };
  char unknown00[0x14];MapEntry *m_begin,*m_end,*m_capacity;
- int size()const {return m_end-m_begin;}
- Rva000FF5E6Cursor begin(){return Rva000FF5E6Cursor(this,0);}
- Rva000FF5E6Cursor end(){return Rva000FF5E6Cursor(this,size());}
- Rva0007E394Element *at(const Rva000FF5E6Cursor &it)const {return m_begin[it.second].value;}
+ const_iterator begin(){return const_iterator(this,0);}
+ const_iterator end(){return const_iterator(this,m_end-m_begin);}
 };
-inline bool operator!=(const Rva000FF5E6Cursor &a,const Rva000FF5E6Cursor &b){return !rva0007E394CursorEqual(a,b);}
-inline void advance(Rva000FF5E6Cursor &it){++it.second;}
 struct WaterMapView {char unknown00[0x124];TrackCollection *tracks;};
 extern void *W3DGCData00DE2000;
 struct FeNode;
@@ -93,9 +98,8 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
  int flipU=0;AssetList00208F90 assets;
  if(W3DGCData00DE2000) {
   TrackCollection *collection=reinterpret_cast<WaterMapView*>(W3DGCData00DE2000)->tracks;
-  for(Rva000FF5E6Cursor it=collection->begin(),last=collection->end();it!=last;advance(it),last.second=collection->size()) {
-   last.first=collection;
-   Rva0007E394Element *record=collection->at(it);
+  for(TrackCollection::const_iterator it=(collection?collection:collection)->begin();it!=collection->end();it++) {
+   Rva0007E394Element *record=it.getPtr();
    if(reinterpret_cast<Rva0030C94ADwordField*>(record)->get())continue;
    int count=record->end-record->begin;
    if(count<2)continue;
