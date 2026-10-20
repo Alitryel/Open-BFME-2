@@ -89,7 +89,7 @@ public:
 	void Render(RenderInfoClass &rinfo, int unknown);
 
 	void prepare_shader(void);
-	void rva00917920(Vector3 **point_loc, Vector4 **point_diffuse, float **point_size,
+	__declspec(noinline) inline void rva00917920(Vector3 **point_loc, Vector4 **point_diffuse, float **point_size,
 		unsigned char **point_orientation, unsigned char **point_frame);
 	void rva009148C0(Vector3 *point_loc, float *point_size, unsigned char *point_orientation,
 		int active_points);

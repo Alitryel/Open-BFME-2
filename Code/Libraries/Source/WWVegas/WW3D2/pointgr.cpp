@@ -570,7 +570,7 @@ void PointGroupClass::Set_Flag(FlagsType flag, bool onoff)
  *   11/17/1998 NH  : Created.                                            * 
  *========================================================================*/
 // ?PointGroupClass::Get_Flag present-unmatched
-int PointGroupClass::Get_Flag(FlagsType flag)
+inline int PointGroupClass::Get_Flag(FlagsType flag)
 {
 	return (Flags>>flag) & 0x1;
 }
