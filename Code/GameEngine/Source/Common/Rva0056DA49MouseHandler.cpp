@@ -53,6 +53,15 @@ static int WindowMsgButtonToInGameUIButton(unsigned int msg)
 }
 #pragma auto_inline(on)
 
+// Retail 0x0056DA38: a message's packed screen position (low word x, high
+// word y) as a file static; the handler inlines it three times and cl keeps
+// this register-convention copy (position in EAX, point in ECX).
+static void packedToPoint(unsigned int pos, Rva0056DA49Point *point)
+{
+	point->x = pos & 0xFFFF;
+	point->y = pos >> 16;
+}
+
 class Rva0056DA49
 {
 public:
@@ -70,20 +79,17 @@ int Rva0056DA49::rva0056DA49(unsigned int msg, unsigned int pos, unsigned int ex
 	case 5:
 	case 9:
 	case 0x0D:
-		point.x = pos & 0xFFFF;
-		point.y = pos >> 16;
+		packedToPoint(pos, &point);
 		((Obj005C9B0C *)m_tracker)->rva005C9B0C((int)&point, extra, WindowMsgButtonToInGameUIButton(msg));
 		return 1;
 	case 6:
 	case 0x0A:
 	case 0x0E:
-		point.x = pos & 0xFFFF;
-		point.y = pos >> 16;
+		packedToPoint(pos, &point);
 		((Obj005C9B0C *)m_tracker)->rva005C9B31((int)&point, extra, WindowMsgButtonToInGameUIButton(msg));
 		return 1;
 	case 0x18:
-		point.x = pos & 0xFFFF;
-		point.y = pos >> 16;
+		packedToPoint(pos, &point);
 		((Rva005C9B76 *)m_tracker)->rva005C9ADD((int)&point, extra);
 		return 1;
 	case 0x12:
