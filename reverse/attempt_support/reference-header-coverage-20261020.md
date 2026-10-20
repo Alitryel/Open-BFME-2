@@ -56,3 +56,35 @@ The ordinary placement tool compiles every wrapper. No shared header/tool,
 vendored source, pointer or ledger row was edited. Other failures (including
 missing original audio SDK and generated shader inputs) remain separate work,
 not evidence that all reference paths are exhausted.
+
+## Further ZH header and API controls, 20 October
+
+At the same b3cc6b1588f2fdd4d31ab65199945a837f1f6e9b donor revision,
+ten additional units compile in 22 profiles and yield zero unclaimed body/pin
+placements. Original O2 and the matched-sibling O1/G7/SSE2 settings were tested.
+
+- prim_anim, assetmgr, ringobj and sphereobj: an isolated, same-guard copy of
+  prim_anim.h adds the missing dependent `typename`. Real game include roots
+  precede the original SDK, which precedes stand-ins: the SDK also has a
+  different persist.h and must not hide WWSaveLoad's PersistClass definition.
+  Preinclude the real windows.h before this header overlay.
+- w3d_dep: standard placement new before always.h's duplicate array-new block.
+- urllaunch: real Windows, stdio, wchar and tchar declarations.
+- Debug: the real AsciiString and StackDump headers declare g_LastErrorDump.
+- IMEManager: original imm.h; remove the invalid default argument from the
+  Display callback typedef in an isolated header copy, preserving its ABI.
+  An unchanged copy of the existing sweep PreRTS.h is isolated from its Windows
+  stand-ins; no sweep directory remains in this unit's include search.
+- dazzle: explicit double/double and float/float pow overload controls (four
+  profiles). This is a source-search adaptation, not proof of retail rounding.
+- textdraw: both old character-argument calls use the same header's current
+  no-argument single-atlas Peek_Texture API.
+
+simpleplayer still needs Windows Media declarations/debug macros; GameSpeech
+uses obsolete speech interfaces. No substitute definitions were invented.
+Replay drivers are reference-zh-prim-animation-20261020.py.txt,
+reference-zh-remaining-headers-20261020.py.txt and
+reference-zh-api-followups-20261020.py.txt alongside this record. Hash-bound
+manifests and complete ordinary place_bodies outputs live under the matching
+build/zh-*-oct20/ directories. No Code source, shared header, ledger row,
+vendored source or verifier was changed by these searches.
