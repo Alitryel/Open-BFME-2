@@ -32,6 +32,7 @@ class Rva006D2A60
 {
 public:
 	void *allocBlock(int size);
+	void freeBlock(void *block, int size);
 };
 
 extern Rva006D2A60 *g_pChainBlockAllocatorF4; // VA 0x00E176F4
@@ -75,6 +76,12 @@ public:
 	static void *operator new(unsigned int size)
 	{
 		return g_pChainBlockAllocatorF4->allocBlock((int)size);
+	}
+	// The matching sized delete frees a failed construction (unwind actions
+	// 0x007AA220/0x007AA22F push the 0x20 extent and call native 0x006F12F0).
+	static void operator delete(void *p, unsigned int size)
+	{
+		g_pChainBlockAllocatorF4->freeBlock(p, (int)size);
 	}
 };
 
