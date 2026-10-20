@@ -25,3 +25,11 @@ Peek_Model through the UV/color reads (mpa/mpb, +16 B) also gives mesh ESI, but 
 - Alpha via two Get_Alpha calls: 20/32/15. Vertex count via Peek_Model: worse.
 - Moving the mmc read before Record_DX8 (mqd): identical to baseline.
 Harness: %TEMP%\vg.py (SRC/SYM/RVA/SZ/TAG=s148); use lowercase variant names (uppercase gets ^-escaped in obj names).
+
+## Session 2 (22:36-22:48 PT): mesh priority without the extra load
+- w5: a late descriptor local right before uv0 (`S2MaterialDesc*desc=mmc->descriptor;`, all UV/color reads through desc). The zero-register CSE in the UV/color block goes away; it's immediate-0 style like retail.
+  Result: struct 13->5, reg 19->16, R 90->85 at 1,400 B, but mem 46->49. Not banked because it trades one class against another.
+- w5 + the mesh/mmc web split (mmc re-read before resize): R=57, reg 7, but 1,416 B (the reload stays). Re-reading only desc via mesh->Peek_Model(): 1,416 B.
+- desc local declared early (right after mmc): struct 6 but R=95, so the descriptor must be read late.
+- Inert on w5: a const mmc pointer, Get_Vertex_Count(), `while(mesh!=NULL)`, remainingMesh/mesh declaration order. Swapping the Anchor and Set_Base_Vertex_Offset order: worse.
+The mesh-vs-mmc ESI swap still has no reload-free lever.
