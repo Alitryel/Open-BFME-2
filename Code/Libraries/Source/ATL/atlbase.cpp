@@ -77,6 +77,7 @@ class CSimpleArray
 {
 public:
     CSimpleArray() : m_aT(0), m_nSize(0), m_nAllocSize(0) {}
+    ~CSimpleArray();
 
     int GetSize() const { return m_nSize; }
     T &operator[](int nIndex);
@@ -100,6 +101,12 @@ T &CSimpleArray<T, TEqual>::operator[](int nIndex)
         _AtlRaiseException(0xC000008CL);
     }
     return m_aT[nIndex];
+}
+
+template <class T, class TEqual>
+CSimpleArray<T, TEqual>::~CSimpleArray()
+{
+    RemoveAll();
 }
 
 template <class T, class TEqual>
@@ -189,6 +196,7 @@ void CAtlWinModule::Term()
 }
 
 template void CSimpleArray<ATOM>::RemoveAll();
+template CSimpleArray<ATOM>::~CSimpleArray();
 template ATOM &CSimpleArray<ATOM>::operator[](int);
 
 // Native682F is a complete13B no-argument receiver wrapper. Its actual
