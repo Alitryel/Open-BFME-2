@@ -19,7 +19,8 @@ struct S4SortElem8
 	int m_bfmeFirst;
 	int m_bfmeSecond;
 
-	bool BfmeLess00574AA0(const S4SortElem8 &other) const;
+	// The rowed operator< 0x005EC52E (ScoreRowSort.cpp).
+	bool operator<(const S4SortElem8 &other) const;
 };
 
 struct S4Cmp00575AA0
@@ -29,7 +30,7 @@ struct S4Cmp00575AA0
 	bool operator()(const S4SortElem8 &left,
 		const S4SortElem8 &right) const
 	{
-		return left.BfmeLess00574AA0(right);
+		return left < right;
 	}
 };
 
