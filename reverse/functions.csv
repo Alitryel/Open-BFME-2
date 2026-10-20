@@ -1950,7 +1950,6 @@ _XMP_Test_Bit,,0x0061B780,33,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matc
 ?ID@?$DynamicVectorClass@PAVFontCharsBuffer@@@@UAEHABQAVFontCharsBuffer@@@Z,,0x001969C0,40,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassConstructorBFME.cpp,matched,ported from the Open-BFME-1 conversion; the unit needs /G7; re-sourced from render2dsentence.cpp (which no longer carries Zero Hour's FontCharsClass constructor - a duplicate of the row 0x00157950 - that was this template member's only user there) to FontCharsClassConstructorBFME.cpp whose select-any copy is byte-and-relocation identical (explain_mismatch exact)
 ?Resize@?$VectorClass@PAVFontCharsBuffer@@@@UAE_NHPBQAVFontCharsBuffer@@@Z,,0x001A3720,178,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,matched,ported from the Open-BFME-1 conversion; the unit needs /G7
 ?Add@?$DynamicVectorClass@PAVFontCharsBuffer@@@@QAE_NABQAVFontCharsBuffer@@@Z,,0x001A3A60,77,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,matched,ported from the Open-BFME-1 conversion; the unit needs /G7
-?Set_DX8_Light@DX8Wrapper@@SAXHPAU_D3DLIGHT8@@@Z,,0x0011C470,134,Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp,matched,ported from the Open-BFME-1 conversion; the unit needs /G7
 ?Set_Flag@VertexMaterialClass@@QAEXW4FlagsType@1@_N@Z,,0x0013C780,38,Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp,matched,ported from the Open-BFME-1 conversion; the unit needs /G7
 ?Set_Mapper@VertexMaterialClass@@QAEXPAVTextureMapperClass@@H@Z,,0x0013C7B0,56,Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp,matched,ported from the Open-BFME-1 conversion; the unit needs /G7
 ?Set_DX8_Material@DX8Wrapper@@SAXPBU_D3DMATERIAL8@@@Z,,0x0013C930,34,Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp,matched,ported from the Open-BFME-1 conversion; the unit needs /G7
@@ -2982,7 +2981,6 @@ _XMP_Is_Prime,,0x0061DA50,75,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matc
 ??0EdgeMapperClass@@QAE@I@Z,,0x001833B0,66,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,placed by masked byte-scan; single hit
 ?Convert_Color@W3dUtilityClass@@SAXABUW3dRGBStruct@@PAVVector3@@@Z,,0x0013C7F0,66,Code/Libraries/Source/WWVegas/WW3D2/w3d_util.cpp,matched,placed by masked byte-scan; single hit
 ??K@YA?AVVector3@@ABV0@M@Z,,0x0006E051,63,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,placed by masked byte-scan; single hit
-?Get_Temp_Index_Array@@YAPAUTempIndexStruct@@I@Z,,0x0012D390,61,Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp,matched,placed by masked byte-scan; single hit
 ?Convert_Old@CameraClass@@SAXAAVVector3@@@Z,,0x00133E40,55,Code/Libraries/Source/WWVegas/WW3D2/camera.cpp,matched,placed by masked byte-scan; single hit
 ??0BumpEnvTextureMapperClass@@QAE@ABV0@@Z,,0x00186A50,55,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,placed by masked byte-scan; single hit
 ?Adjust_Translation@Matrix3D@@QAEXABVVector3@@@Z,,0x000B23E2,51,Code/Libraries/Source/WWVegas/WW3D2/pivot.cpp,matched,placed by masked byte-scan; single hit
@@ -3484,7 +3482,6 @@ _XMP_Shift_Left_Bits,,0x0061BBD0,308,Code/Libraries/Source/WWVegas/WWLib/mpmath.
 ?Get_Total_Time@HCompressedAnimClass@@UAEMXZ,,0x0018F190,7,Code/Libraries/Source/WWVegas/WW3D2/hcanim.cpp,matched,BFME2 exact BFME1-derived compressed animation accessor
 ?getCustomPassMode@RTS3DScene@@QAE?AW4CustomScenePassModes@@XZ,,0x0026FF4F,7,Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp,matched,BFME2 exact BFME1-derived HeightMap accessor
 ?isEnabled@W3DDynamicLight@@QAE_NXZ,,0x0006E298,7,Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp,matched,BFME2 exact BFME1-derived HeightMap accessor
-?Get_Lighting@VertexMaterialClass@@QBE_NXZ,,0x0012D2B0,4,Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp,matched,BFME2 exact BFME1-derived material getter
 ?Is_Valid@RegistryClass@@QAE_NXZ,,0x00098CBC,4,Code/Libraries/Source/WWVegas/WWLib/registry.cpp,matched,BFME2 exact BFME1-derived registry predicate
 ?Get_Num_Polys@DynamicMeshClass@@UBEHXZ,,0x005BE1BC,7,Code/Libraries/Source/WWVegas/WW3D2/dynamesh.cpp,matched,BFME2 exact BFME1-derived DynamicMesh getter
 ?Get_Num_Vertices@DynamicMeshClass@@UBEHXZ,,0x005BE1C3,7,Code/Libraries/Source/WWVegas/WW3D2/dynamesh.cpp,matched,BFME2 exact BFME1-derived DynamicMesh getter
@@ -97484,3 +97481,6 @@ __ehhandler$?draw@W3DDisplay@@UAEXXZ,,0x0075D374,10,Code/GameEngineDevice/Source
 __ehhandler$?postDraw@InGameUI@@UAEXXZ,,0x00774E19,10,Code/GameEngine/Source/GameClient/InGameUIPostDraw.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent 0x002A0161; EH graph EXACT (eh_verify) binds it to retail
 __ehhandler$?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z,,0x007677E0,10,Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryGetEdges.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent 0x0016E450; EH graph EXACT (eh_verify) binds it to retail
 __ehhandler$?Render@Render2DClass@@QAEXXZ,,0x00764E96,10,Code/Libraries/Source/WWVegas/WW3D2/Render2DClassRender.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent 0x0011A040; EH graph EXACT (eh_verify) binds it to retail
+?Set_DX8_Light@DX8Wrapper@@SAXHPAU_D3DLIGHT8@@@Z,,0x0011C470,134,Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp,matched,rehomed from sortingrenderer.cpp to the Flush_Sorting_Pool unit which emits the identical copy
+?Get_Lighting@VertexMaterialClass@@QBE_NXZ,,0x0012D2B0,4,Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp,matched,rehomed from sortingrenderer.cpp to the Flush_Sorting_Pool unit which emits the identical copy
+?Get_Temp_Index_Array@@YAPAUTempIndexStruct@@I@Z,,0x0012D390,61,Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp,matched,rehomed from sortingrenderer.cpp to the Flush_Sorting_Pool unit which emits the identical copy
