@@ -210,10 +210,33 @@ function no budget move works:
   the window the wrong way;
 - WB's arm order rules out a reordering.
 
-**Next:** solve for the IL-time insertion profile, i.e. where the missing
-symbols must be created, from the residue sites' key constraints. Use the
-method of 0x743700's validated simulator (`build/agAF/xsim.py`, `smodel.py`).
-Then read retail and WB at that spot.
+**The insertion profile, as far as the model search got** (`build/agAE/xsim.py`,
+`km2d.py`, `km3d.py`, and compile checks in `build/agAE/v/k3/` and
+`build/agAE/v/fp/`):
+- **+0xf78.** At least 3 IL-time A must be created before
+  `Vector3 &first_point = points[0];`. Int pads anywhere in that range give
+  retail's exact sequence for k = 3..12. k = 1–2 fail, and k = 13 or 29 change
+  the registers through a pool crossing.
+  - The exact SegLine compile has the same CSE address temps and canon
+    structure at this site and still produces retail's (Z+Y)+X. The deciding
+    bits are the low key bits of first_plane/first_point (F mod 8).
+- **The 8 struct-piece sites.** No combination of k IL-time A (0–12) and m
+  post-IL A (0–64) fixes them, because pure A insertions move X and Y
+  together. With E they need the tail window to carry about one C pool fewer
+  than our full set (29–48 fewer C), or 4–6 fewer A crossing an A-pool
+  boundary.
+  - Compile check: the set without E (that is, dC = 36) plus 3–7 IL-time int
+    pads gets all 8 piece sites and +0xf78 right (19/21 trees). The frame is
+    still 0x624c, and E parity is off by one.
+- **Still open:** the 0x6238 frame (only the post-IL pad29 reaches it) and E
+  parity.
+
+**Next:**
+- Find a faithful source of about one C pool fewer in the tail inlining
+  inside the window. Use exact-matched siblings that inline the same helpers
+  (shader setters, REF_PTR, texture temp, VB/IB access) as form oracles.
+- Find the IL-time-invisible constructs that supply the ≥3 symbols before
+  first_point.
 
 ## Second-session best (claudeb4, 2026-10-20): 0.9134, norm 2363/2637, 12017 B
 
