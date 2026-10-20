@@ -1,10 +1,28 @@
 // ?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z
-// partial score=0.55 date=2026-10-19
+// partial score=0.9 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 #define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
 #include "matrix3d.h"
 #include "wwmath.h"
+
+// Select-any copies of the rowed coord3d.cpp bodies 0x00003571 and 0x000035B6: with both visible,
+// cl knows normalize does not leak its object, so the direction shares the end point's frame slot.
+__declspec(noinline) inline float Coord3D::length() const
+{
+    return (float)sqrt(x * x + y * y + z * z);
+}
+
+__declspec(noinline) inline void Coord3D::normalize()
+{
+    float len = length();
+    if (len != 0.0f) {
+        float scale = 1.0f / len;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
+}
 
 class GameClientRandomVariable
 {
@@ -17,6 +35,7 @@ private:
 };
 
 class ParticleSystem;
+ParticleSystem *Make001FCBD7();
 
 class RvaSmartPtr12
 {
@@ -27,6 +46,7 @@ public:
 		if (m_ptr != 0)
 			rva0004CBC0();
 	}
+	ParticleSystem *system() const { return m_ptr == 0 ? Make001FCBD7() : m_ptr; }
 	ParticleSystem *m_ptr;
 	int m_04;
 	int m_08;
@@ -37,19 +57,6 @@ class Rva0055DDB6SmartField
 public:
 	RvaSmartPtr12 get() const throw();
 };
-
-ParticleSystem *Make001FCBD7();
-
-
-static __forceinline void InvXform(const Matrix3D &A, const Vector3 &in, Vector3 *out)
-{
-	float dx = in.X - A[0][3];
-	float dy = in.Y - A[1][3];
-	float dz = in.Z - A[2][3];
-	out->X = A[0][0] * dx + A[1][0] * dy + A[2][0] * dz;
-	out->Y = A[0][1] * dx + A[1][1] * dy + A[2][1] * dz;
-	out->Z = A[0][2] * dx + A[1][2] * dy + A[2][2] * dz;
-}
 
 struct ParticleSystemView
 {
@@ -125,6 +132,8 @@ public:
 	virtual Coord3D getPosition(float, float, int, int);
 };
 
+// Index 0 rebuilds the static path: count points from start to end (in the system's local space
+// when it is local), displaced along cross(up, direction) by three enveloped sine waves.
 Coord3D LightningEmissionModule::getPosition(float, float, int index, int count)
 {
 	Coord3D result;
@@ -138,24 +147,15 @@ Coord3D LightningEmissionModule::getPosition(float, float, int index, int count)
 			start = m_start;
 			end = m_end;
 			RvaSmartPtr12 handle = ((const Rva0055DDB6SmartField *)this)->get();
-			ParticleSystem *sys = handle.m_ptr;
-			if (!sys)
-				sys = Make001FCBD7();
-			if (((ParticleSystemView *)sys)->m_isLocal)
+			if (((ParticleSystemView *)handle.system())->m_isLocal)
 			{
-				ParticleSystem *ps = handle.m_ptr;
-				if (!ps)
-					ps = Make001FCBD7();
-				const Matrix3D &m = ((ParticleSystemView *)ps)->m_transform;
+				const Matrix3D &m = ((ParticleSystemView *)handle.system())->m_transform;
 				Vector3 a;
-				InvXform(m, m.Get_Translation(), &a);
+				Matrix3D::Inverse_Transform_Vector(m, m.Get_Translation(), &a);
 				start = *(Coord3D *)&a;
-				ParticleSystem *pe = handle.m_ptr;
-				if (!pe)
-					pe = Make001FCBD7();
-				const Vector3 *p = &((ParticleSystemView *)pe)->m_position;
+				const Vector3 *p = &((ParticleSystemView *)handle.system())->m_position;
 				Vector3 b;
-				InvXform(m, Vector3(p->X, p->Y, p->Z), &b);
+				Matrix3D::Inverse_Transform_Vector(m, Vector3(p->X, p->Y, p->Z), &b);
 				end = *(Coord3D *)&b;
 			}
 			Coord3D delta;
@@ -171,20 +171,17 @@ Coord3D LightningEmissionModule::getPosition(float, float, int index, int count)
 			float amplitude3 = m_amplitude3.getValue();
 			float frequency3 = m_frequency3.getValue();
 			float phase3 = m_phase3.getValue();
-			Coord3D dir;
-			dir.x = delta.x;
-			dir.y = delta.y;
-			dir.z = delta.z;
+			Coord3D dir = delta;
 			dir.normalize();
 			Coord3D up(0.0f, 0.0f, 1.0f);
-			Coord3D perp;
-			perp.x = up.y * dir.z - up.z * dir.y;
-			perp.y = up.z * dir.x - up.x * dir.z;
-			perp.z = up.x * dir.y - up.y * dir.x;
+			Coord3D perp(up.y * dir.z - up.z * dir.y,
+				up.z * dir.x - up.x * dir.z,
+				up.x * dir.y - up.y * dir.x);
 			float step = 1.0f / (float)(count - 1);
 			float t = 0.0f;
 			for (int i = 0; i < count; ++i)
 			{
+				Coord3D *pt = &s_points[i];
 				float envelope = 0.5f - WWMath::Fabs(0.5f - t);
 				float s1 = WWMath::Sin(t * frequency1 + phase1) * envelope * amplitude1;
 				float s2 = WWMath::Sin(t * frequency2 + phase2) * envelope * amplitude2;
@@ -193,17 +190,17 @@ Coord3D LightningEmissionModule::getPosition(float, float, int index, int count)
 				x += perp.x * s1;
 				x += perp.x * s2;
 				x += perp.x * s3;
-				s_points[i].x = x;
+				pt->x = x;
 				float y = t * delta.y + start.y;
 				y += perp.y * s1;
 				y += perp.y * s2;
 				y += perp.y * s3;
-				s_points[i].y = y;
+				pt->y = y;
 				float z = t * delta.z + start.z;
 				z += perp.z * s1;
 				z += perp.z * s2;
 				z += perp.z * s3;
-				s_points[i].z = z;
+				pt->z = z;
 				t += step;
 			}
 		}
