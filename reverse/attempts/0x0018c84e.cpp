@@ -1,4 +1,6 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
+// partial score=0.995 date=2026-10-20
+// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.99 date=2026-10-19
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.986 date=2026-10-18
@@ -36,6 +38,8 @@
 // These are narrow effect API views; no complete effect object layout is claimed.
 // The 64-record stack array and reference binding preserve native SIB loads.
 // Texture-count min/max use reference semantics to retain native address selection.
+// Init reads streams through WB A39110's inline FVF offset getters and mesh forwarders, with STLport 4.5.3's
+// tree, assign-dispatch and vector-teardown layers; rva0018C088 is a byte-identical select-any copy of 0x18C088.
 struct FxTechniqueDesc {const char *name;unsigned passes,annotations;};
 struct FxPassDesc {const char *name;unsigned annotations;const unsigned long *vertexShader,*pixelShader;};
 struct FxShaderSemantic {unsigned usage,index;};
@@ -58,20 +62,38 @@ public:
 #include "reference/shims/wwmath/Vector2.h"
 void free(void *);
 namespace _STL {
-template<class T> class allocator {public:allocator() {} T *allocate(unsigned int,const void *) const;};
+template<class T> class allocator {public:allocator() {} T *allocate(unsigned int,const void *) const;
+ void deallocate(T *p,unsigned int) const {if(p!=0) free((void *)p);}};
+struct __true_type {};
+struct __false_type {};
+template<class T> struct __type_traits {typedef __true_type has_trivial_destructor;};
+template<class I> inline void __destroy_aux(I,I,const __true_type &) {}
+template<class I,class T> inline void __destroy(I first,I last,T *) {
+ typedef typename __type_traits<T>::has_trivial_destructor _Trivial_destructor;
+ __destroy_aux(first,last,_Trivial_destructor());
+}
+template<class T> inline T *__value_type(const T *) {return (T *)0;}
+template<class I> inline void _Destroy(I first,I last) {__destroy(first,last,__value_type(first));}
 template<class T> struct less {};
 struct input_iterator_tag {};
 struct forward_iterator_tag:input_iterator_tag {};
 template<class T> inline const T &min(const T &a,const T &b) {return b<a?b:a;}
 template<class T> inline const T &max(const T &a,const T &b) {return a<b?b:a;}
 struct _Rb_tree_node_base {int _M_color;_Rb_tree_node_base *_M_parent,*_M_left,*_M_right;};
+struct _Rb_tree_header_proxy {_Rb_tree_node_base *_M_data;};
+template<class C> class _Rb_tree {
+public:
+ _Rb_tree_node_base *&_M_leftmost() const {return (_Rb_tree_node_base *&)_M_header._M_data->_M_left;}
+ unsigned size() const {return _M_node_count;}
+ _Rb_tree_header_proxy _M_header;
+ unsigned _M_node_count;
+ C _M_key_compare;
+};
 template<class K,class C,class A> class set {
 public:
  set();
- unsigned size() const {return _M_node_count;}
- _Rb_tree_node_base *_M_header;
- unsigned _M_node_count;
- C _M_key_compare;
+ unsigned size() const {return _M_t.size();}
+ _Rb_tree<C> _M_t;
 };
 template<class T> class reverse_iterator {
 public:
@@ -88,13 +110,14 @@ public:
 template<class T,class A> class _Vector_base {
 public:
  __declspec(noinline) _Vector_base(const A &a):_M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
- ~_Vector_base() {if(_M_start) free(_M_start);}
+ ~_Vector_base() {if(_M_start!=0) _M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);}
  T *_M_start,*_M_finish;
  _STLP_alloc_proxy<T*,T,A> _M_end_of_storage;
 };
 template<class T,class A=allocator<T> > class vector:public _Vector_base<T,A> {
 public:
  vector(const A &a=A()):_Vector_base<T,A>(a) {}
+ ~vector() {_Destroy(this->_M_start,this->_M_finish);}
  T *begin() {return this->_M_start;}
  T *end() {return this->_M_finish;}
  bool empty() {return begin()==end();}
@@ -102,14 +125,22 @@ public:
  T &operator[](unsigned n) {return *(begin()+n);}
  T *erase(T *,T *);
  void clear() {erase(begin(),end());}
+ template<class I> void assign(I first,I last) {_M_assign_dispatch(first,last,__false_type());}
+ template<class I> void _M_assign_dispatch(I first,I last,const __false_type &);
 };
 }
 template _STL::_Vector_base<short,_STL::allocator<short> >::_Vector_base(const _STL::allocator<short>&);
 // Bone set: header +0, node count +4; destroyed by the owned 18C3E6.
-class Rva0018C262:public _STL::set<int,_STL::less<int>,_STL::allocator<int> > {public:~Rva0018C262();};
 class Rva0018C6D5 {public:void rva0018C6D5(const unsigned short *,const unsigned short *);};
+struct Rva005E59FCKeyIterator;
+class Rva0018C262:public _STL::set<int,_STL::less<int>,_STL::allocator<int> > {
+public:
+ ~Rva0018C262();
+ void insert(const unsigned short *first,const unsigned short *last) {((Rva0018C6D5 *)this)->rva0018C6D5(first,last);}
+ inline Rva005E59FCKeyIterator begin();
+ inline Rva005E59FCKeyIterator end();
+};
 struct Rva0018C2E7Node { int unknown; void *parent; void *left; void *right; short value; };
-namespace _STL {struct __false_type {};}
 short *__cdecl Rva0018C3C9Copy(Rva0018C2E7Node *, Rva0018C2E7Node *, short *,const _STL::__false_type &);
 struct Rva0018C533Input;
 struct Rva0018C533Output;
@@ -122,6 +153,8 @@ namespace _STL {
 // The existing generic tree cursor providers only advance/count the node
 // token. Their application key interpretation is not used in this unit.
 struct Rva005E59FCKeyIterator { _STL::_Rb_tree_node_base *node; };
+inline Rva005E59FCKeyIterator Rva0018C262::begin() {Rva005E59FCKeyIterator it={_M_t._M_leftmost()};return it;}
+inline Rva005E59FCKeyIterator Rva0018C262::end() {Rva005E59FCKeyIterator it={_M_t._M_header._M_data};return it;}
 namespace _STL {
 template<class T> struct _Rb_global {static _Rb_tree_node_base *_M_increment(_Rb_tree_node_base *);};
 template<> __declspec(noinline) inline int __distance(const Rva005E59FCKeyIterator &first,const Rva005E59FCKeyIterator &last,const input_iterator_tag &) {
@@ -174,6 +207,9 @@ inline __declspec(noinline) void Rva0018C73CWordVector::assign(Rva005E59FCKeyIte
  end=finish;
 }
 
+// The native _M_assign_aux for these tree cursors is the rowed 18C73C body (Rva0018C73CWordVector::assign).
+template<> template<> inline void _STL::vector<short,_STL::allocator<short> >::_M_assign_dispatch(Rva005E59FCKeyIterator first,Rva005E59FCKeyIterator last,const _STL::__false_type &)
+{((Rva0018C73CWordVector *)this)->assign(first,last,_STL::forward_iterator_tag());}
 struct Rva0018C7E5Vector {void resize(unsigned int,unsigned short);};
 class BfmeAwakenLog {
 public:
@@ -214,7 +250,7 @@ public:
 private:
  CountedAsset *m_object;
 };
-class Rva0007B9EE {public:AssetReference rva0007B9EE();char m_pad00[0x20];void *m_technique;};
+class Rva0007B9EE {public:AssetReference rva0007B9EE();void *Get_Technique() {return m_technique;}char m_pad00[0x20];void *m_technique;};
 class Vector3 {
 public:
  float X,Y,Z;
@@ -226,7 +262,9 @@ class MeshMatDescClass {
 public:
  unsigned *Get_Color_Array(int index,bool create);
  Vector2 *Get_UV_Array_By_Index(int,bool);
- Rva0007B9EE *Peek_FXShader(int pass) {return FXShader[pass];}
+ Rva0007B9EE *Peek_FXShader(int pass) const {return FXShader[pass];}
+ void *Peek_Single_Material(int pass) const {return Material[pass];}
+ bool Has_Material_Array(int pass) const {return MaterialArray[pass]!=0;}
  int PassCount;	// +0x00
  int VertexCount;	// +0x04
  char m_pad08[0x50-0x08];
@@ -260,9 +298,12 @@ public:
  Vector3 *rva0016ABC0();
  Vector3 *rva0016ABE0();
  const Vector3 *Get_Vertex_Array(int index) {return Vertex[index]->Array;}
+ const TriIndex *Get_Polygon_Array() {return get_polys();}
+ TriIndex *get_polys() {return Poly->Array;}
 protected:
  unsigned short *get_bone_links(bool);
 public:
+ const unsigned short *Get_Vertex_Bone_Links() {return get_bone_links(true);}
  char m_pad00[0x18];
  unsigned Flags;	// +0x18
  char m_pad1C[0x24-0x1C];
@@ -271,10 +312,20 @@ public:
  ShareBufferClass<TriIndex> *Poly;	// +0x2C
  ShareBufferClass<Vector3> *Vertex[2];	// +0x30
 };
+__declspec(noinline) inline int MeshGeometryClass::rva0018C088() const
+{
+ if(Vertex[1]) return 2;
+ return Vertex[0]!=0;
+}
 class MeshModelClass:public MeshGeometryClass {
 public:
  char m_pad38[0x94-0x38];
  MeshMatDescClass *CurMatDesc;	// +0x94
+ const Vector2 *Get_UV_Array_By_Index(int index) {return CurMatDesc->Get_UV_Array_By_Index(index,false);}
+ Rva0007B9EE *Peek_Single_FX_Shader(int pass=0) const {return CurMatDesc->Peek_FXShader(pass);}
+ void *Peek_Single_Material(int pass=0) const {return CurMatDesc->Peek_Single_Material(pass);}
+ bool Has_Material_Array(int pass) const {return CurMatDesc->Has_Material_Array(pass);}
+ unsigned *Get_Color_Array(int array_index,bool create=true) {return CurMatDesc->Get_Color_Array(array_index,create);}
 };
 class DX8FVFCategoryContainer {public:static unsigned Define_FVF(MeshModelClass *,bool);};
 struct BfmeFVFDescriptor {
@@ -282,10 +333,8 @@ struct BfmeFVFDescriptor {
  bool additionalBasis;              // 0x04
  unsigned extensionCount;           // 0x08
  unsigned stride;                   // 0x0C
- unsigned locationOffset;           // 0x10
- unsigned extensionOffset;          // 0x14
- unsigned normalOffset;             // 0x18
- unsigned extensionEnd;             // 0x1C
+ unsigned locationOffset[2];        // 0x10
+ unsigned normalOffset[2];          // 0x18
  unsigned blendOffset;              // 0x20
  unsigned textureOffsets[8];        // 0x24
  unsigned diffuseOffset;            // 0x44
@@ -297,6 +346,15 @@ struct BfmeFVFDescriptor {
  unsigned formatIndex;              // 0x5C
  BfmeFVFDescriptor(unsigned,unsigned,bool,unsigned);
  unsigned Get_Tex_Offset(unsigned n) const {return textureOffsets[n];}
+ unsigned Get_Location_Offset(int n) const {return locationOffset[n];}
+ unsigned Get_Normal_Offset(int n) const {return normalOffset[n];}
+ unsigned Get_Diffuse_Offset() const {return diffuseOffset;}
+ unsigned Get_Basis_Offset() const {return basisOffset;}
+ unsigned Get_Basis_Second_Offset() const {return basisSecondOffset;}
+ unsigned Get_Basis_End() const {return basisEnd;}
+ unsigned Get_Extension_Data_Offset() const {return extensionDataOffset;}
+ unsigned Get_FVF_Size() const {return stride;}
+ bool Is_Plain_FVF() const {return !additionalBasis && !extensionCount;}
  void *rva001818C0();
 };
 extern void BFME_DX8_Thread_Lock(void);
@@ -403,11 +461,11 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
  m_bones.clear();
  m_BonesPerVertex=0;
  m_Passes=0;
- if(!mesh->CurMatDesc->Peek_FXShader(0)) return false;
- if(mesh->CurMatDesc->Material[0] || mesh->CurMatDesc->MaterialArray[0]) return false;
- FxEffectView *effect=(FxEffectView *)mesh->CurMatDesc->Peek_FXShader(0)->rva0007B9EE().View()->rva0015148D();
+ if(!mesh->Peek_Single_FX_Shader()) return false;
+ if(mesh->Peek_Single_Material() || mesh->Has_Material_Array(0)) return false;
+ FxEffectView *effect=(FxEffectView *)mesh->Peek_Single_FX_Shader()->rva0007B9EE().View()->rva0015148D();
  if(!effect) return false;
- void *technique=mesh->CurMatDesc->FXShader[0]->m_technique;
+ void *technique=mesh->Peek_Single_FX_Shader()->Get_Technique();
  int maxBones=0;
  void *annotation=effect->GetAnnotationByName(technique,"MaxSkinningBones");
  if(annotation && effect->GetInt(annotation,&maxBones)<0) maxBones=0;
@@ -415,15 +473,14 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
  if(skin) {
   m_skin=true;
   if(maxBones>0) {
-   unsigned short *links=mesh->get_bone_links(true);
+   const unsigned short *links=mesh->Get_Vertex_Bone_Links();
    if(links) {
-    int linkCount=mesh->rva0018C088()*mesh->VertexCount;
+    int linkCount=mesh->Get_Vertex_Count()*mesh->rva0018C088();
     Rva0018C262 bones;
-    ((Rva0018C6D5 *)&bones)->rva0018C6D5(links,links+linkCount);
+    bones.insert(links,links+linkCount);
     if(bones.size()<=(unsigned)maxBones) {
      m_skin=false;
-     Rva005E59FCKeyIterator first={bones._M_header->_M_left},last={bones._M_header};
-     ((Rva0018C73CWordVector *)&m_bones)->assign(first,last,_STL::forward_iterator_tag());
+     m_bones.assign(bones.begin(),bones.end());
     } else if(bfmeRva000387C0()) {
      _bfme_debugRecordCallsite(1);
      TheDebug->slot60();
@@ -451,11 +508,11 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
  }
  BfmeFVFDescriptor desc(m_FVF,0,basis,m_BonesPerVertex);
  if(!m_skin) {
-  if(!desc.additionalBasis && !desc.extensionCount)
+  if(desc.Is_Plain_FVF())
    m_VB=new BfmeDynamicNativeVB(m_FVF,(unsigned short)(m_Passes*mesh->Get_Vertex_Count()),0,0);
   else {
    m_Decl=desc.rva001818C0();
-   m_VB=new BfmeDynamicNativeVB(0,(unsigned short)(m_Passes*mesh->Get_Vertex_Count()),0,desc.stride);
+   m_VB=new BfmeDynamicNativeVB(0,(unsigned short)(m_Passes*mesh->Get_Vertex_Count()),0,desc.Get_FVF_Size());
   }
   VertexBufferClass::WriteLockClass lock(m_VB,0);
 
@@ -464,9 +521,9 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
   const Vector3 *normals[2]={mesh->Get_Vertex_Normal_Array(false),0};
   const Vector3 *tangents=mesh->rva0016ABC0();
   const Vector3 *binormals=mesh->rva0016ABE0();
-  const unsigned *colors=mesh->CurMatDesc->Get_Color_Array(0,false);
+  const unsigned *colors=mesh->Get_Color_Array(0,false);
   int textureCount=(m_FVF>>8)&0xF;
-  const unsigned short *links[2]={mesh->get_bone_links(true),0};
+  const unsigned short *links[2]={mesh->Get_Vertex_Bone_Links(),0};
   const unsigned short *weights[2]={0,0};
   if(m_BonesPerVertex>1) {
    links[1]=links[0]+mesh->Get_Vertex_Count();
@@ -482,45 +539,44 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
    for(short *bone=m_bones.begin();bone!=m_bones.end();++bone,++index) remap[*bone]=index;
   }
   for(unsigned pass=0;pass<(unsigned)m_Passes;++pass) {
-   for(unsigned i=0;i<(unsigned)mesh->VertexCount;++i) {
-    *(Vector3 *)(vertices+desc.locationOffset)=positions[0][i];
-    if(m_FVF&0x10) *(Vector3 *)(vertices+desc.normalOffset)=normals[0][i];
+   for(unsigned i=0;i<(unsigned)mesh->Get_Vertex_Count();++i) {
+    *(Vector3 *)(vertices+desc.Get_Location_Offset(0))=positions[0][i];
+    if(m_FVF&0x10) *(Vector3 *)(vertices+desc.Get_Normal_Offset(0))=normals[0][i];
     if(m_FVF&0x40) {
-     if(colors) *(unsigned *)(vertices+desc.diffuseOffset)=colors[i];
-     else *(unsigned *)(vertices+desc.diffuseOffset)=0xFFFFFFFF;
+     if(colors) *(unsigned *)(vertices+desc.Get_Diffuse_Offset())=colors[i];
+     else *(unsigned *)(vertices+desc.Get_Diffuse_Offset())=0xFFFFFFFF;
     }
     for(int t=0;t<textureCount;++t) {
-     const Vector2 *uv=mesh->CurMatDesc->Get_UV_Array_By_Index(t,false);
+     const Vector2 *uv=mesh->Get_UV_Array_By_Index(t);
      if(uv) *(Vector2 *)(vertices+desc.Get_Tex_Offset(t))=uv[i];
     }
     if(basis) {
-     if(tangents) *(Vector3 *)(vertices+desc.basisOffset)=tangents[i];
-     if(binormals) *(Vector3 *)(vertices+desc.basisSecondOffset)=binormals[i];
+     if(tangents) *(Vector3 *)(vertices+desc.Get_Basis_Offset())=tangents[i];
+     if(binormals) *(Vector3 *)(vertices+desc.Get_Basis_Second_Offset())=binormals[i];
     }
-    if(m_Passes>1) *(unsigned *)(vertices+desc.basisEnd)=pass;
+    if(m_Passes>1) *(unsigned *)(vertices+desc.Get_Basis_End())=pass;
     else if(m_BonesPerVertex>0 && links[0]) {
-     if(m_BonesPerVertex==1) *(int *)(vertices+desc.basisEnd)=remap[links[0][i]];
+     if(m_BonesPerVertex==1) *(int *)(vertices+desc.Get_Basis_End())=remap[links[0][i]];
      else if(m_BonesPerVertex==2) {
-      int firstBone=links[0][i];
-      *(int *)(vertices+desc.basisEnd)=remap[firstBone]+(remap[links[1][i]]<<8);
-      *(Vector2 *)(vertices+desc.extensionDataOffset)=Vector2(weights[0][i]/100.0f,weights[1][i]/100.0f);
-      if(positions[1]) *(Vector3 *)(vertices+desc.extensionOffset)=positions[1][i];
-      if(normals[1]) *(Vector3 *)(vertices+desc.extensionEnd)=normals[1][i];
+      *(int *)(vertices+desc.Get_Basis_End())=remap[links[0][i]]+(remap[links[1][i]]<<8);
+      *(Vector2 *)(vertices+desc.Get_Extension_Data_Offset())=Vector2(weights[0][i]/100.0f,weights[1][i]/100.0f);
+      if(positions[1]) *(Vector3 *)(vertices+desc.Get_Location_Offset(1))=positions[1][i];
+      if(normals[1]) *(Vector3 *)(vertices+desc.Get_Normal_Offset(1))=normals[1][i];
      }
     }
-    vertices+=desc.stride;
+    vertices+=desc.Get_FVF_Size();
    }
   }
  }
  m_IB=new DX8IndexBufferClass(m_Passes*mesh->Get_Polygon_Count()*3,DX8IndexBufferClass::USAGE_DEFAULT);
  {
   IndexBufferClass::WriteLockClass lock(m_IB,0);
-  const TriIndex *polys=mesh->Poly->Array;
+  const TriIndex *polys=mesh->Get_Polygon_Array();
   unsigned short *indices=lock.Get_Index_Array();
   memcpy(indices,polys,mesh->Get_Polygon_Count()*sizeof(TriIndex));
   indices+=mesh->Get_Polygon_Count()*3;
   for(unsigned pass=1;pass<(unsigned)m_Passes;++pass) {
-   int offset=mesh->VertexCount*pass;
+   int offset=mesh->Get_Vertex_Count()*pass;
    for(unsigned j=0;j<(unsigned)mesh->Get_Polygon_Count();++j) {
     indices[0]=polys[j].I+offset;
     indices[1]=polys[j].J+offset;
