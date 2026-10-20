@@ -102,6 +102,13 @@ public:
     bool operator!=(const BfmeHandleCX &other) const { return p != other.p; }
 };
 
+// The texture-vector constructor at 0x0016FE00 is owned by
+// DynamicVectorBfmeHandleCtor.cpp: its 46-byte body calls the native
+// texture-vector base constructor instead of expanding vector.h's version.
+// Keep this whole-class instantiation from emitting a competing constructor.
+template <>
+DynamicVectorClass<BfmeHandleCX>::DynamicVectorClass(unsigned int, BfmeHandleCX const *);
+
 class MaterialCollectorClass {
 public:
     ~MaterialCollectorClass();
@@ -137,3 +144,10 @@ template class DynamicVectorClass<BfmeHandleCX>;
 template class DynamicVectorClass<ShaderClass>;
 // 0x0016FF30 ??_G?$DynamicVectorClass@PAVVertexMaterialClass@@@@UAEPAXI@Z 30B scalar deleting dtor; callee ??1 at 0x0016F580.
 template class DynamicVectorClass<VertexMaterialClass *>;
+
+// Retain the rowed vtable and deleting destructor when the size constructor
+// is supplied by its separate owner. The uncalled copy anchor is not emitted.
+static void bfmeAnchorTextureVectorCopy(const DynamicVectorClass<BfmeHandleCX> &source)
+{
+    DynamicVectorClass<BfmeHandleCX> copy(source);
+}
