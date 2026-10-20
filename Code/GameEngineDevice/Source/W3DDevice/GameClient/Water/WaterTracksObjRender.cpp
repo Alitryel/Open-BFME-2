@@ -1,23 +1,13 @@
-// ?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z
-// partial score=0.921 date=2026-10-17
-// ?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z
-// partial score=0.856 date=2026-10-13
-// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
-// ?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z
-// partial score=0.762 date=2026-10-09
 // cl: /I. /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /O1 /arch:SSE /G7 /Ireference/shims/bfmestages /Ireference/shims/sweep /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
-// BFME1 9cbfb551fe20 WaterTracksObjRender.cpp semantic donor.
-// Native BFME2 FEADB..FF448 RET12/2413B is the flush10004D callee.
-// Donor provenance below records BFME1 evidence; target deltas are verified separately.
-// BFME1 WaterTracksObj::render at retail 0x007ABAA0 (2200 B, ends at ret 0xc +0x895).
-// Identity: the matched WaterTracksRenderSystem::flush (0x007AD620) calls this
-// body through ILT 0x000371DC in the Zero Hour twin's mod->render() position,
-// passing (m_vertexBuffer, m_batchStart, rinfo); retail pops 12 argument bytes
-// and reads rinfo.Camera (+0) for the cull, so BFME added the RenderInfoClass&.
-// Body: Zero Hour W3DWaterTracks.cpp render() plus the BFME frustum cull of the
-// four wave corners and the local-player shroud test.
+// WaterTracksObj::render, retail 0x000FEADB (2413 B, RET 0xC), split out of
+// W3DWaterTracks.cpp because it compiles with the Zero Hour include set.
+// BFME1 9cbfb551fe20 WaterTracksObjRender.cpp semantic donor; body is Zero Hour
+// W3DWaterTracks.cpp render() plus BFME's frustum cull of the four wave corners
+// and the local-player shroud test. Native FEADB..FF448 is the callee of the
+// matched WaterTracksRenderSystem::flush (0x0010004D), which passes
+// (m_vertexBuffer, m_batchStart, rinfo); the cull reads rinfo.Camera (+0).
 #include "Lib/BaseType.h"
 #include "vector2.h"
 #include "vector3.h"
@@ -34,6 +24,7 @@ class DX8VertexBufferClass
 public:
 	const FVFInfoClass& FVF_Info() const { return *fvf_info; }
 	IDirect3DVertexBuffer8* Get_DX8_Vertex_Buffer() { return VertexBuffer; }
+	friend class WaterTracksObj;
 private:
 	char m_unmodelled00[0x14];
 	FVFInfoClass *fvf_info;
@@ -72,8 +63,7 @@ enum CellShroudStatus
 };
 
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
-class ShroudManager;
-extern ShroudManager *TheShroudManager;
+extern PartitionManager *TheShroudManager;
 
 
 // Native FF228/FF22B measures PlayerList local+10 and Player index+54;
@@ -97,13 +87,16 @@ private:
 };
 extern PlayerList *ThePlayerList;
 
+// Water query at 0x0007FA2B (rowed int return in Rva0007F944HostFamily.cpp); render
+// tests the result and reads the integer at +0x60 of it as the water height.
 struct Rva0007FA2BWaterData { char unknown00[0x60]; int height; };
-class Rva0007FA2BOwner { public: Rva0007FA2BWaterData *rva0007FA2B(float,float); };
+class Rva0007F944Host { public: int rva0007FA2B(float x, float y); };
 extern void *W3DGCData00DE2000;
 
 class Rva000FE9E3PointBounds { public: Rva000FE9E3PointBounds *rva000FE9E3(Vector3 *,int); };
 
-// Pin target for BFME's 183B CameraClass::Cull_Box at 0x9330C0 (see W3DTerrainBackground.cpp).
+// Camera view for the frustum cull: retail calls vtable slot +0x208 of rinfo.Camera
+// (donor name Cull_Box; the slot's own identity is not established).
 struct BFMECameraCullBox {
  virtual void slot000();
  virtual void slot001();
@@ -286,6 +279,10 @@ extern WaterTracksRenderSystem *TheWaterTracksRenderSystem;
 #define WATER_STRIP_X	2
 #define WATER_STRIP_Y	2
 
+//=============================================================================
+/** Draws the object in it's current state.
+ */
+//=============================================================================
 Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, RenderInfoClass &rinfo)
 {
 	VertexFormatXYZDUV1 *vb;
@@ -298,13 +295,11 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 
 	if (batchStart < (WATER_VB_PAGES*WATER_STRIP_X*WATER_STRIP_Y-m_x*m_y))
 	{	//we have room in current VB, append new verts
-		Int fvfSizeA = vertexBuffer->FVF_Info().Get_FVF_Size();
-	Int lockOff = batchStart*fvfSizeA;
-	Int lockSize = m_x*m_y*fvfSizeA;
-	DX8VertexBufferClass *vbSrc = vertexBuffer;
-	IDirect3DVertexBuffer8 **pdbuf = (IDirect3DVertexBuffer8**)((char*)vbSrc+0x1c);
-	IDirect3DVertexBuffer8 *dbuf = *pdbuf;
-	if((1 ? dbuf->Lock(lockOff,lockSize,(unsigned char**)&vb,D3DLOCK_NOOVERWRITE) : dbuf->Lock(lockOff,lockSize,(unsigned char**)&vb,D3DLOCK_NOOVERWRITE)) != D3D_OK)
+		// Lock through a held buffer-member pointer: retail keeps &VertexBuffer for the Unlock.
+		DX8VertexBufferClass *vbSrc = vertexBuffer;
+		IDirect3DVertexBuffer8 **pdbuf = &vbSrc->VertexBuffer;
+		IDirect3DVertexBuffer8 *dbuf = *pdbuf;
+		if(dbuf->Lock(batchStart*vertexBuffer->FVF_Info().Get_FVF_Size(),m_x*m_y*vertexBuffer->FVF_Info().Get_FVF_Size(),(unsigned char**)&vb,D3DLOCK_NOOVERWRITE) != D3D_OK)
 			return batchStart;
 	}
 	else
@@ -314,24 +309,27 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 		batchStart=0;	//reset start of page to first vertex
 	}
 
+	//Adjust wave position in a non-linear way so that it slows down as it hits the target.  Using 1/4 sine wave
+	//seems to work okay since it maxes out at 1.0 at our final position.
+	//Real	timeFrac=(Real)m_elapsedMs/(Real)m_totalMs;//sinf(0.5f*3.14159f*(Real)m_elapsedMs/(Real)m_totalMs);
+
+	//Real displacement=m_elapsedMs*waveInitialV+0.5*waveAcceleration*m_elapsed*m_elapsed;
+
 	heightFrac=1.0f;
 	widthFrac = 1.0f;
 
 	if (m_type == WaveTypeStationary)
 	{	//stationary wave
 		waveFrontOrigin = m_startPos;
-		Real finalW = m_waveFinalWidth;
-		Vector2 halfPerp = m_perpDir*finalW*0.5f;
-		waveFrontOrigin -= halfPerp;	//offset to left edge of wave
-		Real tailDist = (m_waveFinalHeight * ooWaveDirLen);
-		waveTailOrigin = waveFrontOrigin - tailDist*m_waveDir;
+		waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f;	//offset to left edge of wave
+		waveTailOrigin = waveFrontOrigin - m_waveFinalHeight * ooWaveDirLen*m_waveDir;
 		waveAlpha = 0.0f;
 
 		if (m_elapsedMs >= m_totalMs)
 			m_elapsedMs = 0;	//done with effect*/
 		if (m_elapsedMs > (m_timeToReachBeach + m_timeToStop -1000 + m_fadeMs))
 		{	//fading out
-			waveAlpha = m_elapsedMs-(m_timeToReachBeach + m_timeToStop - 1000 +m_fadeMs);
+			waveAlpha = m_elapsedMs-(m_timeToReachBeach + m_timeToStop - 1000 +m_fadeMs);//(m_totalMs-m_timeToRetreat -m_fadeMs - m_elapsedMs)/m_fadeMs;
 			waveAlpha = waveAlpha / m_timeToRetreat;
 			waveAlpha = 1.0f - waveAlpha;
 			if (waveAlpha < 0.0f)
@@ -340,7 +338,8 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 		else
 		if (m_elapsedMs > (m_timeToReachBeach + m_timeToStop - 1000))
 		{	//start fading up
-			waveAlpha = m_elapsedMs-(m_timeToReachBeach + m_timeToStop - 1000);
+
+			waveAlpha = m_elapsedMs-(m_timeToReachBeach + m_timeToStop - 1000);//(m_totalMs-m_timeToRetreat -m_fadeMs - m_elapsedMs)/m_fadeMs;
 			waveAlpha = waveAlpha / m_fadeMs;
 			if (waveAlpha > 1.0f)
 				waveAlpha = 1.0f;
@@ -349,27 +348,30 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 	else
 	{	//moving wave
 		if (m_elapsedMs < 0) return batchStart;
+
+		//get coordinate of top left of wave strip
 		if (m_elapsedMs < m_timeToReachBeach)
-		{
+		{	//wave has not reached beach yet so position only depends on velocity
 			waveAlpha = m_elapsedMs / m_timeToReachBeach;
 			widthFrac = waveAlpha;
 			widthFrac=(m_waveInitialWidth + widthFrac* (m_waveFinalWidth-m_waveInitialWidth))/m_waveFinalWidth;
 
-			Real vel = m_initialVelocity*m_elapsedMs*ooWaveDirLen;
-			waveFrontOrigin = m_startPos + vel*m_waveDir;
-			waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;
+			waveFrontOrigin = m_startPos + m_initialVelocity*m_elapsedMs*ooWaveDirLen*m_waveDir;
+			waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;	//offset to left edge of wave
+			//Tail of wave will be behind the front by fixed amount.
 			waveTailOrigin = waveFrontOrigin - m_waveInitialHeight * ooWaveDirLen*m_waveDir;
 		}
-		else
+		else	//wave has reached beach and is decelerating
 		if (m_elapsedMs < m_totalMs)
 		{	waveAlpha = 1.0f;
 			widthFrac = 1.0f;
-			Real reachScale = m_initialVelocity*m_timeToReachBeach*ooWaveDirLen;
-			waveFrontOrigin = m_startPos + reachScale*m_waveDir;
-			waveTailOrigin = waveFrontOrigin;
+			//Get position of wave when it hit the beach
+			waveFrontOrigin = m_startPos + m_initialVelocity*m_timeToReachBeach*ooWaveDirLen*m_waveDir;
+			waveTailOrigin = waveFrontOrigin;	//store position for calculating tail position
+			//Add movement after it hit the beach
 			Real elapsedMs=m_elapsedMs - m_timeToReachBeach;
 			waveFrontOrigin += (m_initialVelocity*elapsedMs+0.5f*m_frontSlowDownAcc*elapsedMs*elapsedMs)*ooWaveDirLen*m_waveDir;
-			waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;
+			waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;	//offset to left edge of wave
 
 			Real timeSinceBacktrack = m_elapsedMs - m_timeToReachBeach - m_timeToStop;
 			if (timeSinceBacktrack < 0)
@@ -380,18 +382,23 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 
 			waveAlpha = 1.0f - waveAlpha;
 
+			//Get position of tail when front hits the beach.
 			waveTailOrigin -= m_waveInitialHeight * ooWaveDirLen*m_waveDir;
 
 			if (m_elapsedMs > (m_timeToReachBeach+m_timeToStop+m_timeToCompress))
-			{	elapsedMs=elapsedMs;
+			{	elapsedMs=elapsedMs;	///@todo: bug?
 				waveTailOrigin += (0.5f*m_backSlowDownAcc*(m_timeToStop+m_timeToCompress)*(m_timeToStop+m_timeToCompress))*ooWaveDirLen*m_waveDir;
+				//get time since wave should have stopped moving forward
 				Real newElapsed = m_elapsedMs - (m_timeToReachBeach+m_timeToStop+m_timeToCompress);
 				waveTailOrigin += (0.5f*m_frontSlowDownAcc*newElapsed*newElapsed)*ooWaveDirLen*m_waveDir;
 			}
 			else
+	//		if (m_elapsedMs < (m_totalMs-m_timeToRetreat))
+				//find position of tail including slowdown after it hit the beach
+	//		waveTailOrigin += (m_initialVelocity*elapsedMs+0.5f*m_backSlowDownAcc*elapsedMs*elapsedMs)*ooWaveDirLen*m_waveDir;
 			waveTailOrigin += (0.5f*m_backSlowDownAcc*elapsedMs*elapsedMs)*ooWaveDirLen*m_waveDir;
 
-			waveTailOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;
+			waveTailOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;	//offset to left edge of wave
 		}
 		else
 		{	m_elapsedMs = 0;
@@ -400,7 +407,8 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 			widthFrac=(m_waveInitialWidth + widthFrac* (m_waveFinalWidth-m_waveInitialWidth))/m_waveFinalWidth;
 
 			waveFrontOrigin = m_startPos + m_initialVelocity*m_elapsedMs*ooWaveDirLen*m_waveDir;
-			waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;
+			waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;	//offset to left edge of wave
+			//Tail of wave will be behind the front by fixed amount.
 			waveTailOrigin = waveFrontOrigin - m_waveInitialHeight * ooWaveDirLen*m_waveDir;
 		}
 	}
@@ -408,9 +416,9 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 	Vector2 tailRight = waveTailOrigin + m_perpDir*m_waveFinalWidth*widthFrac;
 	Vector2 frontRight = waveFrontOrigin + m_perpDir*m_waveFinalWidth*widthFrac;
 	if(W3DGCData00DE2000) {
-  Rva0007FA2BWaterData *water=reinterpret_cast<Rva0007FA2BOwner *>(W3DGCData00DE2000)->rva0007FA2B(waveTailOrigin.X,waveTailOrigin.Y);
-  if(water)waterHeight=(float)water->height;
- }
+	 Rva0007FA2BWaterData *water=reinterpret_cast<Rva0007FA2BWaterData *>(reinterpret_cast<Rva0007F944Host *>(W3DGCData00DE2000)->rva0007FA2B(waveTailOrigin.X,waveTailOrigin.Y));
+	 if(water)waterHeight=(float)water->height;
+	}
 
 	Vector3 points[4];
 	points[0].Set(waveTailOrigin.X, waveTailOrigin.Y, waterHeight+1.5f);
@@ -422,7 +430,7 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 	if (((const BFMECameraCullBox *)&rinfo.Camera)->Cull_Box(box))
 		return batchStart;
 
-	if ((*reinterpret_cast<PartitionManager **>(&TheShroudManager)))
+	if (TheShroudManager)
 	{
 		Int playerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
 		Bool shrouded = true;
@@ -432,7 +440,7 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 			pos.x = points[i].X;
 			pos.y = points[i].Y;
 			pos.z = waterHeight+1.5f;
-			if ((*reinterpret_cast<PartitionManager **>(&TheShroudManager))->getShroudStatusForPlayer(playerIndex, &pos) != CELLSHROUD_SHROUDED)
+			if (TheShroudManager->getShroudStatusForPlayer(playerIndex, &pos) != CELLSHROUD_SHROUDED)
 			{
 				shrouded = false;
 				break;
@@ -442,6 +450,7 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 			return batchStart;
 	}
 
+	//First insert tail of wave:
 	vb->x=	waveTailOrigin.X;
 	vb->y=	waveTailOrigin.Y;
 	vb->z=waterHeight+1.5f;
@@ -462,6 +471,7 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 		vb->u1=1.0f;
 	vb->v1=0;
 	vb++;
+	//insert front of wave
 	vb->x=	waveFrontOrigin.X;
 	vb->y=	waveFrontOrigin.Y;
 	vb->z=waterHeight+1.5f;
@@ -488,7 +498,7 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 	Int idxCount=(m_y-1)*(m_x*2+2) - 2;	//index count
 
 	DX8Wrapper::Set_Index_Buffer(TheWaterTracksRenderSystem->m_indexBuffer,batchStart);
-	DX8Wrapper::Draw_Strip(0,idxCount-2,0,m_x*m_y);
+	DX8Wrapper::Draw_Strip(0,idxCount-2,0,m_x*m_y);	//there are always n-2 primitives for n index strip.
 
-	return batchStart+m_x*m_y;
+	return batchStart+m_x*m_y;	//return new offset into unused area of vertex buffer
 }
