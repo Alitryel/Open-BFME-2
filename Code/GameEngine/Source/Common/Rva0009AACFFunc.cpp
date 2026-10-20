@@ -1,15 +1,15 @@
 // cl: /MD /EHsc /DNDEBUG
 //
-// ?rva0009AACF@@YGXHM@Z @0x0009AACF 44B: free function clamping a float
-// argument at >= 0 and forwarding the render pointer and float to the matched callee
-// 0x0010E87A when the int is nonzero. Honest address-derived names;
-// boundary verified (frame at 0x9AACF, ret 8 at end).
+// ?rva0009AACF@Rva0009C134Host@@QAEXHM@Z @0x0009AACF 44B: clamps the float at >= 0 and forwards the
+// render pointer and float to the matched callee 0x0010E87A when the int is nonzero. Retail's callers
+// 0x0009BC17 and 0x0009C4FC pass this in ecx, which the body never reads.
 
 class RenderObjClass;
 bool Rva0010E87A_SetOpacity(RenderObjClass *,float);
+class Rva0009C134Host { public: void rva0009AACF(int b, float a); };
 
-// ?rva0009AACF@@YGXHM@Z
-void __stdcall rva0009AACF(int b, float a)
+// ?rva0009AACF@Rva0009C134Host@@QAEXHM@Z
+void Rva0009C134Host::rva0009AACF(int b, float a)
 {
 	if (0.0f >= a)
 		a = 0.0f;
