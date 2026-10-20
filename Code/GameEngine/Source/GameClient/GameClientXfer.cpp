@@ -35,9 +35,8 @@ static inline bool operator!=(const _List_iterator<T, L> &a,
 #include "unicode_string.h"
 #include "Common/Snapshot.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
-// bfme link decl-only begin
-namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
-// bfme link decl-only end
+// Expanded inline in the overflow insert, as in retail 0x0023A076; no out-of-line copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &(max)(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; } }
 
 class Xfer;
 class DynamicAudioEventInfo {public:void xferNoName(Xfer*);};
@@ -433,6 +432,32 @@ namespace _STL
 template<> void vector<Rva0036CA00Str, allocator<Rva0036CA00Str> >::reserve(size_t n);
 template<> void vector<const ModuleData *, allocator<const ModuleData *> >::reserve(size_t n);
 template<> void vector<const ModuleData *, allocator<const ModuleData *> >::push_back(const ModuleData *const &x);
+// Retail's 18-byte frameless nothrow placement copy 0x002393AA, spelled as
+// GameClientDrawableTOC.cpp spells it.
+template <> __declspec(noinline) inline void _Construct<Rva0023AD91Record, Rva0023AD91Record>(Rva0023AD91Record *__p, const Rva0023AD91Record &__val) throw()
+{
+	new (__p) Rva0023AD91Record(__val);
+}
+// STLport's overflow insert as retail's 0x0023A076 compiles it: no unwind
+// block, as StlVectorRva0023AD91.cpp emits it.
+template <> inline void vector<Rva0023AD91Record, allocator<Rva0023AD91Record> >::_M_insert_overflow(
+	Rva0023AD91Record *__position, const Rva0023AD91Record &__x, const __false_type &, size_t __fill_len, bool __atend)
+{
+	const size_type __old_size = size();
+	const size_type __len = __old_size + (max)(__old_size, __fill_len);
+	pointer __new_start = this->_M_end_of_storage.allocate(__len);
+	pointer __new_finish = __new_start;
+	__new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+	if (__fill_len == 1) {
+		_Construct(__new_finish, __x);
+		++__new_finish;
+	} else
+		__new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+	if (!__atend)
+		__new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+	_M_clear();
+	_M_set(__new_start, __new_finish, __new_start + __len);
+}
 }
 
 typedef _STL::vector<Rva0036CA00Str> Rva00239ED8Vector;

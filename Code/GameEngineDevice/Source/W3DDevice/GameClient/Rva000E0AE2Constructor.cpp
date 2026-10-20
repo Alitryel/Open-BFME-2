@@ -27,7 +27,8 @@ namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void 
 // bfme link decl-only begin
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 // bfme link decl-only end
-class ShaderClass { public:ShaderClass(const ShaderClass &s):bits(s.bits){} ShaderClass(unsigned x):bits(x){} unsigned bits;static ShaderClass _PresetAlphaShader;};
+// The copy constructor is only expanded inline here; no out-of-line copy is emitted.
+class ShaderClass { public:__declspec(dllimport) __forceinline ShaderClass(const ShaderClass &s):bits(s.bits){} ShaderClass(unsigned x):bits(x){} unsigned bits;static ShaderClass _PresetAlphaShader;};
 class SegLineRendererClass { public:enum TextureMapMode { Tile=2 }; };
 class RenderObjClass { public: virtual void Delete_This(); int refs; };
 class SegmentedLineClass:public RenderObjClass { public:

@@ -48,6 +48,13 @@ bool operator<(const AsciiString &, const AsciiString &);
 typedef _STL::map<AsciiString,TreeHintPayload001F8ACB> StringPayloadMap;
 namespace _STL {
 template <> TreeHintPayload001F8ACB &map<AsciiString,TreeHintPayload001F8ACB>::operator[](const AsciiString &);
+// Declared only: calls bind to the rowed copies the tree's home unit compiles
+// (0x00407FF7, 0x001F8485, 0x001F8E93).
+typedef pair<const AsciiString, TreeHintPayload001F8ACB> HeroPayloadPair;
+typedef _Rb_tree<AsciiString, HeroPayloadPair, _Select1st<HeroPayloadPair>, less<AsciiString>, allocator<HeroPayloadPair> > HeroPayloadTree;
+template <> _Rb_tree_node<HeroPayloadPair> *HeroPayloadTree::_M_copy(_Rb_tree_node<HeroPayloadPair> *, _Rb_tree_node<HeroPayloadPair> *);
+template <> _Rb_tree_node<HeroPayloadPair> *HeroPayloadTree::_M_create_node(const HeroPayloadPair &);
+template <> pair<HeroPayloadTree::iterator, bool> HeroPayloadTree::insert_unique(const HeroPayloadPair &);
 }
 typedef _STL::vector<bool> BitVector;
 typedef _STL::map<int,_STL::vector<unsigned int> > IntegerVectorMap;
