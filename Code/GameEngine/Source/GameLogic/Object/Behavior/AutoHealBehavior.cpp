@@ -64,46 +64,6 @@ namespace _STL { template <> _List_iterator<Object *, _Nonconst_traits<Object *>
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
 #endif
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-struct AutoHealPlayerScanHelper
-{
-	KindOfMaskType m_kindOfToTest;
-	KindOfMaskType m_forbiddenKindOf;
-	Object *m_theHealer;
-	ObjectPointerList *m_objectList;	
-	Bool m_skipSelfForHealing;
-};
-
-static void checkForAutoHeal( Object *testObj, void *userData )
-{
-	AutoHealPlayerScanHelper *helper = (AutoHealPlayerScanHelper*)userData;
-	ObjectPointerList *listToAddTo = helper->m_objectList;
-
-	if( testObj->isEffectivelyDead() )
-		return;
-
-	if( testObj->getControllingPlayer() != helper->m_theHealer->getControllingPlayer() )
-		return;
-
-	if( testObj->isOffMap() )
-		return;
-
-	if( helper->m_skipSelfForHealing && testObj == helper->m_theHealer )
-		return;
-
-	if( !testObj->isAnyKindOf(helper->m_kindOfToTest) )
-		return;
-
-	if( testObj->isAnyKindOf( helper->m_forbiddenKindOf ) )
-		return;
-
-	if( testObj->getBodyModule()->getHealth() >= testObj->getBodyModule()->getMaxHealth() )
-		return;
-
-	listToAddTo->push_back(testObj);
-}
-
 // BFME's module-data layout places the onDamage fields at different offsets
 // from the vendored Zero Hour declaration, and stores the radius gate as a
 // word tested for zero by the retail body.
@@ -179,124 +139,12 @@ void AutoHealBehavior::onDamage( DamageInfo *damageInfo )
 //-------------------------------------------------------------------------------------------------
 /** The update callback. */
 //-------------------------------------------------------------------------------------------------
-// ?update@AutoHealBehavior@@ present-unmatched
-UpdateSleepTime AutoHealBehavior::update( void )
-{
-	if (m_stopped)
-		return UPDATE_SLEEP_FOREVER;
+// AutoHealBehavior::update: defined in AutoHealBehaviorPlayerScan.cpp (its row's unit).
 
-	Object *obj = getObject();
-	const AutoHealBehaviorModuleData *d = getAutoHealBehaviorModuleData();
+// Keeps this unit's rowed list<Object*>::push_back (0x001EC03C) emitted; nothing else here calls it.
+// ?bfmeAnchorAutoHealObjectListPushBack absent-from-retail
+void bfmeAnchorAutoHealObjectListPushBack(ObjectPointerList *list, Object *obj) { list->push_back(obj); }
 
-	// do not heal if our status bit is not on.
-	// do not heal if our status is effectively dead.  There ain't no coming back, man!
-	if (!isUpgradeActive() || obj->isEffectivelyDead())
-	{
-		DEBUG_ASSERTCRASH(isUpgradeActive(), ("hmm, this should not be possible"));
-		return UPDATE_SLEEP_FOREVER;
-	}
-
-//DEBUG_LOG(("doing auto heal %d\n",TheGameLogic->getFrame()));
-
-	if( d->m_affectsWholePlayer )
-	{
-		// Even newer system, I can ignore radius and iterate objects on the owning player.  Faster than scanning range 10,000,000
-		ObjectPointerList objectsToHeal;
-		Player *owningPlayer = getObject()->getControllingPlayer();
-		if( owningPlayer )
-		{
-			AutoHealPlayerScanHelper helper;
-			helper.m_kindOfToTest = d->m_kindOf;
-			helper.m_forbiddenKindOf = d->m_forbiddenKindOf;
-			helper.m_objectList = &objectsToHeal;
-			helper.m_theHealer = getObject();
-			helper.m_skipSelfForHealing = d->m_skipSelfForHealing;
-
-			// Smack all objects with this function, and we will end up with a list of Objects deserving of pulseHealObject
-			owningPlayer->iterateObjects( checkForAutoHeal, &helper );
-
-			for( ObjectPointerListIterator iter = objectsToHeal.begin(); iter != objectsToHeal.end(); ++iter )
-			{
-				pulseHealObject(*iter);
-			}
-			objectsToHeal.clear();
-		}
-		return UPDATE_SLEEP(d->m_healingDelay);
-	}
-	else if( d->m_radius == 0.0f )
-	{
-		//ORIGINAL SYSTEM -- JUST HEAL SELF!
-
-		// do not heal if we are at max health already
-		BodyModuleInterface *body = obj->getBodyModule();
-		if( body->getHealth() < body->getMaxHealth() )
-		{
-  		pulseHealObject( obj );
-			return UPDATE_SLEEP(d->m_healingDelay);
-		}
-		else
-		{
-			// go to sleep forever -- we'll wake back up when we are damaged again
-			return UPDATE_SLEEP_FOREVER;
-		}
-	}
-	else
-	{
-		//EXPANDED SYSTEM -- HEAL FRIENDLIES IN RADIUS 
-		// setup scan filters
-		PartitionFilterRelationship relationship( obj, PartitionFilterRelationship::ALLOW_ALLIES );
-		PartitionFilterSameMapStatus filterMapStatus(obj);
-		PartitionFilterAlive filterAlive;
-		PartitionFilter *filters[] = { &relationship, &filterAlive, &filterMapStatus, NULL };
-
-		// scan objects in our region
-		ObjectIterator *iter = ThePartitionManager->iterateObjectsInRange( obj->getPosition(), d->m_radius, FROM_CENTER_2D, filters );
-		MemoryPoolObjectHolder hold( iter );
-		for( obj = iter->first(); obj; obj = iter->next() )
-		{
-			// do not heal if we are at max health already
-			BodyModuleInterface *body = obj->getBodyModule();
-			if( body->getHealth() < body->getMaxHealth() )
-			{
-				if( obj->isAnyKindOf( d->m_kindOf ) && !obj->isAnyKindOf( d->m_forbiddenKindOf ) )
-				{
-					if( !d->m_skipSelfForHealing || obj != getObject() )
-					{
-						pulseHealObject( obj );
-
-						// GameLogic::getDrawIconUI is emitted identically by 4 TUs; this
-						// unit's header copy reads +0x5E (4B body 8A415E measured in
-						// this unit's own object) and sorts ahead of them in link order
-						// (L on 4 units). This reads the same byte directly instead of
-						// odr-using the ZH inline, whose COMDAT would otherwise
-						// displace the majority copy.
-						if( d->m_singleBurst && *(const unsigned char *)((const char *)TheGameLogic + 0x5E) )
-						{
-							if( TheAnim2DCollection && TheGlobalData->m_getHealedAnimationName.isEmpty() == FALSE )
-							{
-								Anim2DTemplate *animTemplate = TheAnim2DCollection->findTemplate( TheGlobalData->m_getHealedAnimationName );
-
-								if ( animTemplate )
-								{
-									Coord3D iconPosition;
-									iconPosition.set(obj->getPosition()->x, 
-																	 obj->getPosition()->y, 
-																	 obj->getPosition()->z + obj->getGeometryInfo().getMaxHeightAbovePosition() );
-									TheInGameUI->addWorldAnimation( animTemplate,	&iconPosition, WORLD_ANIM_FADE_ON_EXPIRE,
-																									TheGlobalData->m_getHealedAnimationDisplayTimeInSeconds,
-																									TheGlobalData->m_getHealedAnimationZRisePerSecond);
-								}
-							}
-						}
-					}
-				}
-			}
-		}  // end for obj
-
-		return UPDATE_SLEEP( d->m_singleBurst ? UPDATE_SLEEP_FOREVER : d->m_healingDelay );
-	}
-}
- 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ?pulseHealObject@AutoHealBehavior@@ present-unmatched
