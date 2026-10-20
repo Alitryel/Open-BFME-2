@@ -137,6 +137,7 @@ public:
 	unsigned int rva000311E0(const void *src, unsigned int count, char *ascii, unsigned short *wide, unsigned int cap);
 	unsigned int rva00032A20(const void *block);		// GetUsableSize-like
 	int rva00031D00(void *block);				// chunk check error count, callee of 0x32160 (address-derived name)
+	int rva00031E60(const void *block);			// free-chunk check error count over 0x31D00 (address-derived name)
 	unsigned int rva00032160(void *block);		// locked 0x31D00 count plus fencepost bit and second-list membership test
 	unsigned int rva00032050(void *chunk, unsigned int flags);	// locked per-chunk check count (banked, unrecovered; address-derived name)
 	unsigned int rva000320E0(void *chunk, unsigned int flags, bool checkPrev, bool skipPrev);	// locked 0x32050 count plus free-chunk bits
@@ -1499,6 +1500,65 @@ int GeneralAllocator::rva00031D00(void *block)
 		}
 		m_checkDepth = depth - 1;
 	}
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return errors;
+}
+
+// ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z @0x00031E60 301B
+// Native 31E60..31F8D RET4. Under the +0x4E4 lock, the 0x31D00 count for the
+// chunk plus one per failed free-chunk consistency check: clear in-use bit
+// (next chunk's prev-in-use), clear bit 1; for sizes of at least 0x10 the size
+// and address alignment, footer equal to the size, set prev-in-use, the
+// chunk being the +0x440 chunk or its successor in use, and self-consistent
+// fd/bk links (with the single-entry and +0x440 cases); a smaller chunk must
+// be at most 4. Each check is counted through CheckCount, which keeps
+// retail's per-check 0/1 adds and the zero-then-one block order of the
+// two-term successor check. Check meanings follow the dlmalloc-family free
+// chunk check; only offsets and operations are target facts.
+static inline int CheckCount(bool ok)
+{
+	if (ok)
+		return 0;
+	return 1;
+}
+
+int GeneralAllocator::rva00031E60(const void *block)
+{
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+	unsigned int size = ((const unsigned int *)block)[1] & 0x7FFFFFF8;
+	unsigned int blockEnd = (unsigned int)block + size;
+	int errors = rva00031D00((void *)block);
+	unsigned int header = ((const unsigned int *)block)[1];
+	errors += CheckCount(!(*(const unsigned char *)((header & 0x7FFFFFF8) + (unsigned int)block + 4) & 1));
+	errors += CheckCount(!((unsigned char)(header >> 1) & 1));
+	if (size >= 0x10)
+	{
+		errors += CheckCount(((unsigned char)size & 7) == 0);
+		errors += CheckCount(((unsigned char)(unsigned int)block & 7) == 0);
+		errors += CheckCount(*(const unsigned int *)blockEnd == size);
+		errors += CheckCount((*(const unsigned char *)((const char *)block + 4) & 1) != 0);
+		errors += CheckCount(block == m_topChunk || (*(const unsigned char *)((*(const unsigned int *)(blockEnd + 4) & 0x7FFFFFF8) + blockEnd + 4) & 1));
+		const unsigned int *next = *(const unsigned int **)((const char *)block + 8);
+		const unsigned int *previous = *(const unsigned int **)((const char *)block + 0xC);
+		errors += CheckCount(previous[2] == (unsigned int)block);
+		errors += CheckCount(next[3] == (unsigned int)block);
+		if (block == previous || block == next)
+		{
+			errors += CheckCount(next == previous);
+			errors += CheckCount(block == m_topChunk);
+		}
+	}
+	else
+		errors += CheckCount(size <= 4);
 	if (lock != 0)
 	{
 		--lock->m_count;
