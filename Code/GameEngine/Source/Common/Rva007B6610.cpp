@@ -52,12 +52,12 @@ public:
 	GeometryInfo(GeometryType, bool, float, float, float);
 	virtual ~GeometryInfo();
 };
-unsigned g_Va00E0C150;	// retail RVA 0x00A0C150 (.bss), defined here
+unsigned GeometryContactSphere;	// retail RVA 0x00A0C150 (.bss), defined here
 extern void __cdecl rva007B9BF0(void);
 
 void Rva007B6640InitializeGeometry()
 {
-	new ((void *)&g_Va00E0C150) GeometryInfo(GEOMETRY_SPHERE, true, 2.0f, 2.0f, 2.0f);
+	new ((void *)&GeometryContactSphere) GeometryInfo(GEOMETRY_SPHERE, true, 2.0f, 2.0f, 2.0f);
 	atexit(rva007B9BF0);
 }
 

@@ -338,7 +338,6 @@ Code/GameEngine/Source/GameLogic/Object/Behavior/FlightDeckInfoVectorInsertOverf
 Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior.cpp,-G7 -arch:SSE,3,1,region default loses rows
 Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainParseBannerCarrierPosition.cpp,-O1,1,1,region default loses rows
 Code/GameEngine/Source/GameLogic/Object/Locomotor.cpp,-O1,5,1,region default loses rows
-Code/GameEngine/Source/GameLogic/Object/Rva0087E900Transform.cpp,-O2 -G6,1,1,region default loses rows
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp,-G7 -arch:SSE,12,3,region default loses rows
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/RailroadGuideAIUpdate.cpp,-G7 -arch:SSE,2,1,region default loses rows
 Code/GameEngine/Source/GameLogic/Object/Update/AngleFXInfoVectorInsertOverflow.cpp,,3,2,region default loses rows

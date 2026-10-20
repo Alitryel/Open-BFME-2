@@ -141,3 +141,23 @@ Untried: the case-0 arm head as an inline member with a body that returns the
 element (e.g. `const GeometryContactRecord *matching(i,label)`), declared in a
 shared header; an out-of-line Coord3D::sub/GetLengthSqrd like the WB twin
 (game retail inlines case 3's scale/add, so this applies to case 0 only).
+
+## Closed (2026-10-20, claude-opus-5.5)
+
+0x006BEF80 landed byte-exact in
+`Code/GameEngine/Source/Common/System/GeometryInfoCollidesWith.cpp`, together
+with the shape transform 0x006BE190 (row moved from the deleted
+`Rva0087E900Transform.cpp`). Three independent levers closed it:
+
+1. **Per-arm label reference** (head merge):
+   `const AsciiString &l=contacts[i].label;c=&contacts[i];if(l.compare(X)!=0)continue;`
+   in each arm gives retail's per-arm `lea`, and cl no longer hoists one element
+   pointer above the branch.
+2. **Transform body in the unit** (pos copy order): `pos` reaches
+   CollidesWith, which passes its position to 0x006BE190. While that callee had
+   no body in the TU, `&pos` escaped and the three copy loads were scheduled
+   around it. With the body in the same TU (retail's Geometry unit) the loads
+   group as in retail. CollidesWith and the transform stay exact.
+3. **Case-3 blend factor**: `float t=(float)((seed>>8)&255);t/=255.0f;` (or
+   `((float)(...))/255.0f`) fixes the last `mov edx,[eax+0x18]`/fmul swap;
+   `(float)(...)/255.0f` without the outer parentheses does not.
