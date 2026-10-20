@@ -216,6 +216,9 @@ typedef _STL::pair<const int, Rva002A9029Element> StringMapInsertValue;
 typedef _STL::hashtable<StringMapInsertValue, int, _STL::hash<int>,
     _STL::_Select1st<StringMapInsertValue>, _STL::equal_to<int>,
     _STL::allocator<StringMapInsertValue> > StringMapInsertTable;
+// Bind to the rowed retail _M_insert (0x002A9029, StlSweepW4Rva002A9029.cpp) instead of
+// emitting this unit's /O1 copy and its resize. Plain declaration-only form (no __imp_).
+namespace _STL { template <> StringMapInsertValue &StringMapInsertTable::_M_insert(const StringMapInsertValue &); }
 class Rva00523DB7
 {
 public:
