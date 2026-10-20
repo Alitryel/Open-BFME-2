@@ -126,8 +126,8 @@ struct Geometry
 	}
 	Int GetFlags (void) { return m_flags;}
 	void SetFlags (Int flags) { m_flags = flags;}
-	void setBoundingBox(const AABoxClass &box);
-	void setBoundingSphere(const SphereClass &sphere);
+	__declspec(noinline) inline void setBoundingBox(const AABoxClass &box);
+	__declspec(noinline) inline void setBoundingSphere(const SphereClass &sphere);
 
 private:
 	Vector3	*m_verts;
@@ -231,4 +231,12 @@ void W3DVolumetricShadow::deleteShadowVolume(Int volumeIndex)
             --m_shadowVolumeCount[meshIndex];
         }
     }
+}
+
+// Keep the retail SELECT_ANY bounds setters emitted in their owning unit. No runtime caller.
+// ?bfmeEmitShadowBounds absent-from-retail
+void bfmeEmitShadowBounds(Geometry *geometry, const AABoxClass &box, const SphereClass &sphere)
+{
+	geometry->setBoundingBox(box);
+	geometry->setBoundingSphere(sphere);
 }

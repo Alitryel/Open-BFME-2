@@ -108,11 +108,12 @@ class W3DShadowGeometry
 
 class W3DVolumetricShadow
 {
+	friend void bfmeEmitShadowSilhouette(W3DVolumetricShadow *, Vector3 *);
 public:
 	// Existing public provider mangling retained.
 	void addNeighborlessEdges(Int meshIndex, PolyNeighbor *us );
 protected:
-	void buildSilhouette(Int meshIndex, Vector3 *lightPosWorld);
+	__declspec(noinline) inline void buildSilhouette(Int meshIndex, Vector3 *lightPosWorld);
 	void addSilhouetteEdge(Int meshIndex, PolyNeighbor *visible, PolyNeighbor *hidden );
 	void addSilhouetteIndices(Int meshIndex, Short edgeStart, Short edgeEnd );
 
@@ -274,4 +275,11 @@ void W3DVolumetricShadow::addNeighborlessEdges(Int meshIndex, PolyNeighbor *us )
 			addSilhouetteIndices(meshIndex, edgeStart, edgeEnd );
 		}
 	}
+}
+
+// Keep the retail SELECT_ANY body emitted in its owning unit. No runtime caller.
+// ?bfmeEmitShadowSilhouette absent-from-retail
+void bfmeEmitShadowSilhouette(W3DVolumetricShadow *shadow, Vector3 *light)
+{
+	shadow->buildSilhouette(0, light);
 }

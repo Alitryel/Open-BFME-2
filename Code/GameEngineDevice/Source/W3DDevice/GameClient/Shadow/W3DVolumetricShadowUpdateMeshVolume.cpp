@@ -9,6 +9,8 @@
 // WorldBuilder twin (wb 0x806A80) shows the same locals and three plain Dot_Product rows.
 // Evidence and earlier passes: reverse/attempt_support/updatemeshvolume-f2ffa-20261020-r44/.
 #include <assert.h>
+// Preserve inline math while binding the out-of-line Vector4 owner.
+#include "reference/shims/bfme_matrix3d_sse_link/vector4.h"
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
 #include "always.h"
@@ -34,7 +36,7 @@
 #include "D3dx8math.h"
 #include "common/GlobalData.h"
 #include "common/drawmodule.h"
-#include "W3DDevice/GameClient/W3DVolumetricShadow.h"
+#include "reference/shims/bfme_volumetricshadow_update/w3dvolumetricshadow_bfme2.h"
 #include "W3DDevice/GameClient/W3DShadow.h"
 #include "WW3D2/statistics.h"
 #include "GameLogic/TerrainLogic.h"
@@ -661,8 +663,8 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 // constructVolumeVB (0x000F0251). With their bodies visible cl 7.1 sees that &lightPosObject does not
 // escape, which places updateMeshVolume's frame homes as retail. Their rows live in
 // W3DVolumetricShadowSilhouette.cpp and W3DVolumetricShadowConstructVolume.cpp; the select-any
-// copies below compile byte-exact to retail too (buildSilhouette apart from the addNeighborlessEdges
-// mangling: the ZH header declares it protected, the ledger row 0x000F17CA carries a public name).
+// copies below compile byte-exact to retail too. The BFME2 view binds
+// addNeighborlessEdges to the public provider row at 0x000F17CA.
 static __forceinline Vector3 ShadowSubtract(const Vector3 &a, const Vector3 &b) { Vector3 result; result.X=a.X-b.X; result.Y=a.Y-b.Y; result.Z=a.Z-b.Z; return result; }
 __declspec(noinline) inline void W3DVolumetricShadow::buildSilhouette(Int meshIndex, Vector3 *lightPosObject)
 {

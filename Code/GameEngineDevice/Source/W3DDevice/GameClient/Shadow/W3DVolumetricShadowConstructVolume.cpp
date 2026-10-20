@@ -181,9 +181,10 @@ private:
 
 class W3DVolumetricShadow
 {
+	friend void bfmeEmitShadowVolumes(W3DVolumetricShadow *, Vector3 *);
 protected:
-	void constructVolume(Vector3 *lightPosObject, Real shadowExtrudeDistance, Int volumeIndex, Int meshIndex);
-	void constructVolumeVB(Vector3 *lightPosObject, Real shadowExtrudeDistance, Int volumeIndex, Int meshIndex);
+	__declspec(noinline) inline void constructVolume(Vector3 *lightPosObject, Real shadowExtrudeDistance, Int volumeIndex, Int meshIndex);
+	__declspec(noinline) inline void constructVolumeVB(Vector3 *lightPosObject, Real shadowExtrudeDistance, Int volumeIndex, Int meshIndex);
 
 	char m_pad0[0x6c];
 	W3DShadowGeometry *m_geometry;
@@ -592,4 +593,12 @@ void W3DVolumetricShadow::constructVolumeVB( Vector3 *lightPosObject,Real shadow
 			polygonCount += 2;
 		}
 	}
+}
+
+// Keep both retail SELECT_ANY bodies emitted in their owning unit. No runtime caller.
+// ?bfmeEmitShadowVolumes absent-from-retail
+void bfmeEmitShadowVolumes(W3DVolumetricShadow *shadow, Vector3 *light)
+{
+	shadow->constructVolume(light, 0.0f, 0, 0);
+	shadow->constructVolumeVB(light, 0.0f, 0, 0);
 }
