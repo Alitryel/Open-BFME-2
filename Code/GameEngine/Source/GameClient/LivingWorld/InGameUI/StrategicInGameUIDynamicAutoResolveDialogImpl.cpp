@@ -95,10 +95,6 @@ class LivingWorldAutoResolveBattle
 {
 public:
 	void enumerateCurrentUnits(Int side, Pred004F6234 *pred);
-};
-class Rva004F81CC
-{
-public:
 	Int rva004F81CC(Int side);
 };
 class Rva004F76EA
@@ -157,7 +153,7 @@ static __declspec(noinline) Real collectMaxTotalHealth(DynamicAutoResolveBattleP
 	for (Int side = 0; side < 2; ++side)
 	{
 		reinterpret_cast<LivingWorldAutoResolveBattle *>(battle)->enumerateCurrentUnits(side, &collector);
-		for (Int round = reinterpret_cast<Rva004F81CC *>(battle)->rva004F81CC(side); round >= 0;
+		for (Int round = reinterpret_cast<LivingWorldAutoResolveBattle *>(battle)->rva004F81CC(side); round >= 0;
 			round = reinterpret_cast<Rva004F7B42 *>(battle)->rva004F7B42(side, round))
 		{
 			reinterpret_cast<Rva004F76EA *>(battle)->enumerateReinforcementUnits(side, round, reinterpret_cast<Rva004F76EAPred *>(&collector));
