@@ -35,4 +35,21 @@ struct Rva004F6986
 	char m_pad[8];
 };
 
+// Native 4F6A52 constructs the two counted handles through 44BD00;
+// an implicit byte copy of the opaque eight-byte view loses both AddRefs.
+class Rva004C5DD0
+{
+public:
+	Rva004C5DD0(const Rva004C5DD0 &) throw();
+private:
+	void *m_handles[2];
+};
+namespace _STL {
+template <> __declspec(noinline) inline void _Construct<Rva004F6986, Rva004F6986>(Rva004F6986 *dest, const Rva004F6986 &source)
+{
+	if (dest)
+		new ((void *)dest) Rva004C5DD0(*(const Rva004C5DD0 *)&source);
+}
+}
+
 template class _STL::vector<Rva004F6986, _STL::allocator<Rva004F6986> >;

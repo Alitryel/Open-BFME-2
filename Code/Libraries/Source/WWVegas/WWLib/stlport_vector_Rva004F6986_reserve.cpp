@@ -13,4 +13,10 @@ struct Rva004F6986
 	char m_pad[8];
 };
 
+// The allocate/copy unit owns the retail counted-handle construction at
+// 4F6A52. Reuse it instead of emitting an implicit raw eight-byte copy.
+namespace _STL {
+template <> void _Construct<Rva004F6986, Rva004F6986>(Rva004F6986 *, const Rva004F6986 &);
+}
+
 template void _STL::vector<Rva004F6986, _STL::allocator<Rva004F6986> >::reserve(size_t);

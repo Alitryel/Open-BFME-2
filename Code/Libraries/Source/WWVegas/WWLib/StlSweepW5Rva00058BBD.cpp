@@ -30,5 +30,21 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 
 struct Rva00058BBDElement { _STL::list<short> values[1]; bool operator==(const Rva00058BBDElement&) const; };
 
+// Native placement-copy 2393AA calls the owned 0A8C7C counted-handle copy.
+// The old list-shaped view must not instantiate a list copy at that address.
+class Rva0036CA00Str {
+public:
+ Rva0036CA00Str(const Rva0036CA00Str &) throw();
+private:
+ void *m_handle;
+};
+namespace _STL {
+template <> __declspec(noinline) inline void _Construct<Rva00058BBDElement, Rva00058BBDElement>(Rva00058BBDElement *dest, const Rva00058BBDElement &source)
+{
+ if (dest)
+  new ((void *)dest) Rva0036CA00Str(*(const Rva0036CA00Str *)&source);
+}
+}
+
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva00058BBDElement, _STL::allocator<Rva00058BBDElement> >::_M_insert_overflow(Rva00058BBDElement *, Rva00058BBDElement const &, _STL::__false_type const &, unsigned int, bool);
