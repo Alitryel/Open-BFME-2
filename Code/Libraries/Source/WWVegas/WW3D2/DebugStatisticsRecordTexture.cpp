@@ -46,7 +46,10 @@ template<class T>
 class RefCountPtr
 {
 public:
-	__declspec(dllimport) __forceinline RefCountPtr() : Referent(0) {}
+	// Out of line: latest_texture's initializer (0x007ACCC0) calls the
+	// ICF-folded default constructor 0x00326BE6; the statistics record
+	// initialises its handle through the pointer constructor instead.
+	RefCountPtr();
 	RefCountPtr(T *referent) : Referent(referent)
 	{
 		if (Referent != 0)
@@ -117,6 +120,7 @@ private:
 // as the owning TU declares or defines it.
 struct TextureStatisticsStruct
 {
+	TextureStatisticsStruct() : tex(0) {}
 	RefCountPtr<TextureClass> tex;
 	int usage_count;
 	int change_count;
