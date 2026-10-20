@@ -83,22 +83,40 @@ gives 723 and introduces import calls; imported forceinline gives 1045.
 Scoped optimization also fails. None is a proposed production workaround.
 
 Normal `link_check.py` previews against the same census (2026-10-20 12:21,
-commit `5366c4f808`) report 13 blockers before and 7 afterwards:
+commit `5366c4f808`) report 13 blockers before insertion recovery, 7 after it,
+and 6 after the separate empty-destroy provider repair:
 
-| Blocker class | Before | After |
-| --- | --- | --- |
-| Unresolved names | 4 | 1 |
-| Non-retail COMDAT copies | 5 | 3 |
-| Selected definitions proven wrong | 4 | 3 |
+| Blocker class | Before | Insertion recovered | Destroy provider added |
+| --- | --- | --- | --- |
+| Unresolved names | 4 | 1 | 0 |
+| Non-retail COMDAT copies | 5 | 3 | 3 |
+| Selected definitions proven wrong | 4 | 3 | 3 |
 
 The four old unresolved allocator/copy/deallocator declarations are removed.
-The empty-destroy declaration is a newly referenced unresolved dependency in
+The empty-destroy declaration was initially an unresolved dependency in
 this TU under an existing helper name. The copy helper's existing 68-byte
 sibling-family defect is now referenced by this TU; erase and forward
 replacement remain wrong as before. These three definitions each contribute
-both a COMDAT and selected-definition blocker. A correct empty destroy
-provider would remove only the unresolved blocker. The unit remains unlinked,
+both a COMDAT and selected-definition blocker. The unit remains unlinked,
 and linked-byte progress is zero.
+
+## Empty destruction provider
+
+A separate body commit supplies `_STL::Rva0069E440Destroy(char*,char*)` in
+the existing optimized `stlport_narrow_string.cpp` unit. Both local and donor
+`stl/_construct.h` define empty char-range destruction. Native insertion calls
+this shared return address at +0x291; the existing helper pin is unchanged.
+The entire provider is `C3`, one byte, with no relocations, identical to all
+existing one-byte owners at RVA 0x69E440. It is admitted through `--icf-owner`
+and an explicit `fold-proof` source token, retaining the neutral binding and
+making no exclusive original-name claim. This adds zero unique retail bytes.
+
+The normal gate verifies all 20 rows in that provider unit. A local `/Od`
+definition preserved both callers but emitted a non-retail prologue; the
+existing optimized provider profile supplies the exact body. The combined
+link preview removes the unresolved destruction call from both insertion
+units. Their copy, erase and forward-replacement COMDAT issues remain; the
+provider also retains its existing unrelated library link blockers.
 
 ## Reproduction
 

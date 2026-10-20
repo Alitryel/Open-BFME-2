@@ -86,3 +86,12 @@ template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator
 
 // Row 0x000199E0 (_Construct<char,char>) was previously instantiated through _M_insert_aux.
 template void _STL::_Construct<char, char>(char *, const char &);
+
+
+namespace _STL
+{
+// The char-range destruction overload in stl/_construct.h is empty.
+// Native string insertion calls the shared RET at 0x0069E440 through this
+// existing neutral binding; no exclusive original identity is claimed.
+void Rva0069E440Destroy(char *, char *) {}
+}
