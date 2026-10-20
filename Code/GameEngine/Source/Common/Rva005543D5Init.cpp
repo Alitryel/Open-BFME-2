@@ -3,7 +3,7 @@
 // ?rva005543D5@Rva005543D5@@QAEXXZ @0x005543D5 142B
 // Guarded lazy init: if m_64 nonzero return; else new LockClass(m_9C -1)
 // via rowed 0x00613A70 plus new 0x0002FDA0 into m_A4 via rowed set
-// 0x000998EA; then new Rva0055436A(m_9C) via rowed ctor 0x0055436A plus
+// 0x000998EA; then new PSThreadClass(m_9C) via rowed ctor 0x0055436A plus
 // new 0x0002FDA0 into m_64 plus virtual slot +4 call. Evidence: chain from
 // 0x0055436A; no callers; sizes 8 and 0x6C match news.
 #include <map>
@@ -42,10 +42,14 @@ public:
 private:
 	MutexClass::LockClass *m_ptr;
 };
-class Rva0055436A : public ThreadClass
+// Pointer-map storage retains this unit's verified ABI view; payload type is provisional.
+class PSThreadClass : public ThreadClass
 {
 public:
-	Rva0055436A(void *arg);
+	PSThreadClass(void *arg);
+	virtual ~PSThreadClass(); // Native owner: PersistentStorageThread.cpp, RVA 0x0055405A.
+protected:
+	virtual void Thread_Function(); // Native slot 2: RVA 0x005580FB.
 private:
 	bool m_50;
 	bool m_51;
@@ -57,7 +61,7 @@ private:
 class Rva005543D5
 {
 	char m_pad0[0x64];
-	Rva0055436A *m_64;
+	PSThreadClass *m_64;
 	char m_pad1[0x9C - 0x68];
 	MutexClass m_9C;
 	Rva0009990D m_A4;
@@ -69,7 +73,7 @@ void Rva005543D5::rva005543D5()
 	if (m_64 != 0)
 		return;
 	m_A4.set(new MutexClass::LockClass(m_9C, -1));
-	Rva0055436A *obj = new Rva0055436A(&m_9C);
+	PSThreadClass *obj = new PSThreadClass(&m_9C);
 	m_64 = obj;
 	obj->Execute();
 }

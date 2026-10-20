@@ -1,6 +1,6 @@
 // cl: /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
-// ??0Rva0055436A@@QAE@PAX@Z @0x0055436A 79B
+// ??0PSThreadClass@@QAE@PAX@Z @0x0055436A 79B
 // Thread-subclass ctor: ThreadClass(0) base plus int-pointer map at +0x5C
 // plus arg store at +0x68 and zero bytes/dword at +0x50 +0x51 +0x54 +0x58.
 // Evidence: new(0x6C) plus lea +0x9C push at caller 0x0055443F; rowed
@@ -39,10 +39,14 @@ private:
 	void *m_handle;
 	int m_priority;
 };
-class Rva0055436A : public ThreadClass
+// Pointer-map storage retains this unit's verified ABI view; payload type is provisional.
+class PSThreadClass : public ThreadClass
 {
 public:
-	Rva0055436A(void *arg);
+	PSThreadClass(void *arg);
+	virtual ~PSThreadClass(); // Native owner: PersistentStorageThread.cpp, RVA 0x0055405A.
+protected:
+	virtual void Thread_Function(); // Native slot 2: RVA 0x005580FB.
 private:
 	bool m_50;
 	bool m_51;
@@ -51,7 +55,7 @@ private:
 	_STL::map<int, void *> m_5C;
 	void *m_68;
 };
-Rva0055436A::Rva0055436A(void *arg) : ThreadClass(0)
+PSThreadClass::PSThreadClass(void *arg) : ThreadClass(0)
 {
 	m_68 = arg;
 	m_51 = false;
