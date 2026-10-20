@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHa /Oy-
+// cl: /DNDEBUG /MD /EHa
 
 // Preserve placement construction and unwind without an unused competing
 // external placement-new copy (the established WWDebug factory spelling).
@@ -32,6 +32,10 @@ public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug/internal_io.h
+// The base deleting destructor is frameless; the derived native bodies retain EBP,
+// as in the existing DebugIONetPipeDestructorThunk.cpp compiler boundary.
+#pragma optimize("y", off)
+
 class DebugIOOds : public DebugIOInterface
 {
 public:
