@@ -7,7 +7,7 @@
 #include "ascii_string.h"
 
 
-class Rva0033C807
+class ModuleInfo
 {
 public:
 	bool clearModuleDataWithTag(const AsciiString &tag, AsciiString &out);
@@ -25,10 +25,10 @@ public:
 
 private:
 	char m_pad[0x2E4];
-	Rva0033C807 m_v0;
-	Rva0033C807 m_v1;
-	Rva0033C807 m_v2;
-	Rva0033C807 m_v3;
+	ModuleInfo m_v0;
+	ModuleInfo m_v1;
+	ModuleInfo m_v2;
+	ModuleInfo m_v3;
 };
 
 bool Rva0033C8E8::removeModuleInfo(const AsciiString &tag, AsciiString &out)

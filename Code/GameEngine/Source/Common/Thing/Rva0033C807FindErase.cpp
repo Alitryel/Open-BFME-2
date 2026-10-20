@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii
-// ?clearModuleDataWithTag@Rva0033C807@@QAE_NABVAsciiString@@AAV2@@Z @0x0033C807 67B:
+// ?clearModuleDataWithTag@ModuleInfo@@QAE_NABVAsciiString@@AAV2@@Z @0x0033C807 67B:
 // vector scan by module tag with out-copy and erase; compares Nugget+4 tag
 // via rowed StringBase compare, copies Nugget+0 name via pinned AsciiString
 // assign, erases via rowed vector erase with 0x14 stride, returns whether any
@@ -27,6 +27,12 @@ public:
 		unsigned char m_c;
 		unsigned char m_pad;
 	};
+	bool clearModuleDataWithTag(const AsciiString &tag, AsciiString &out);
+
+private:
+	Nugget *m_start;
+	Nugget *m_finish;
+	Nugget *m_end;
 };
 
 namespace _STL
@@ -47,18 +53,7 @@ public:
 
 }
 
-class Rva0033C807
-{
-public:
-	bool clearModuleDataWithTag(const AsciiString &tag, AsciiString &out);
-
-private:
-	ModuleInfo::Nugget *m_start;
-	ModuleInfo::Nugget *m_finish;
-	ModuleInfo::Nugget *m_end;
-};
-
-bool Rva0033C807::clearModuleDataWithTag(const AsciiString &tag, AsciiString &out)
+bool ModuleInfo::clearModuleDataWithTag(const AsciiString &tag, AsciiString &out)
 {
 	bool found = false;
 	for (ModuleInfo::Nugget *it = m_start; it != m_finish;)
