@@ -1,30 +1,22 @@
-// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
-// partial score=0.922902 date=2026-10-20
-// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
-// partial score=0.852608 date=2026-10-19
-// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
-// partial score=0.857 date=2026-10-17
-// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
-// partial score=0.872 date=2026-10-15
-// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
-// partial score=0.8675 date=2026-10-13
-// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
-// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
-// partial score=0.84 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include
 // stlport
-// BF1 f98983a7d AddMemberSyncXP guides the banner/XP helper. Native and WB
-// independently establish HordeContain primary + secondary11C receivers.
-// 00473212 combines contained member lists, resolves a replacement template,
-// creates the new horde, merges upgrades and transfers the surviving carrier.
-// Original method spelling unknown. LatchRestore<bool> is the ZH reference
-// guard: native BC5314 slot0 is the already-owned 00051A46 destructor.
-// An empty member list leaves no member for the surviving banner carrier.
-// Pool-list disposal cannot throw C++ exceptions.
-// The member list lives at function scope; a failed containment returns null
-// after destroying the new object.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z, retail 0x00473212
+// (1415 B, EH, RET 0xC), directly after the banner transfer 0x00473197.
+// It combines the contained member lists of two hordes, resolves the
+// replacement template, creates the combined horde, merges the upgrade masks
+// and hands the surviving banner carrier (higher veterancy wins) to it.
+// Original method spelling unknown. BF1 f98983a7d AddMemberSyncXP guides the
+// banner/XP helper; native code and WorldBuilder independently establish the
+// HordeContain primary and +0x11C secondary receivers. LatchRestore<bool> is
+// the Zero Hour guard (native vftable BC5314, slot 0 the owned 0x00051A46
+// destructor). Scoring is switched off around the carrier transfer and the
+// destruction of the merged hordes through Zero Hour's isScoringEnabled /
+// enableScoring byte at GameLogic +0x98.
+// Codegen notes: the veterancy comparison goes through the inline
+// getExperienceTracker()/getVeterancyLevel() accessors (direct field reads
+// put the first carrier in EAX and keep the GameLogic load in the arms); the
+// member list lives at function scope; a failed containment returns null
+// after destroying the new object; pool-list disposal cannot throw.
 #include "ascii_string.h"
 #include <list>
 #include <algorithm>
@@ -35,11 +27,6 @@ class HordeContain;
 class ThingTemplate;
 class Team;
 class Matrix3D;
-enum ObjectID 
-{
- INVALID_ID = 0 
-}
-;
 enum ObjectStatusTypes 
 {
  STATUS_NONE = 0 
@@ -75,6 +62,7 @@ class ExperienceTracker
  bool rva0039B4EC(int,bool,bool);
  char pad[0x24];
  int level;
+ int getVeterancyLevel() const { return level; }
  
 }
 ;
@@ -160,6 +148,7 @@ class Object
  AIView *ai;
  char pad25C[8];
  ExperienceTracker *tracker;
+ ExperienceTracker *getExperienceTracker() const { return tracker; }
  char pad268[0x274-0x268];
  Object *parent;
  char pad278[0x284-0x278];
@@ -195,13 +184,13 @@ class Object
  
 }
 ;
-class GameLogic 
+#include "../../../Common/GameLogicObjectLookupView.h"
+// The scoring byte at +0x98 (Zero Hour's m_isScoringEnabled) is private in
+// the shared view; Zero Hour's enableScoring writes it.
+struct HordeScoringView 
 {
- public:
- Object *findObjectByID(ObjectID);
- void destroyObject(Object *);
  char pad[0x98];
- bool latch;
+ bool scoringEnabled;
  
 }
 ;
@@ -543,23 +532,6 @@ class HordeContain : public HordePrimary, public HordeInterface
  
 }
 ;
-void HordeContain::rva00473197(Object *banner, const Object *source, bool flag, bool value)
-
-{
- const ThingTemplate *type = 0;
- int index = getBannerCarrierIndexToUse(source, &type);
- if (index != -1) 
- {
-  rva00473125(banner, &carrierID, index);
-  rva00468E79((int)banner, (int)type, value);
-  if (!flag) owner->tracker->rva0039B4EC(1, true, false);
-  int levels = owner->tracker->level - banner->tracker->level;
-  reinterpret_cast<Rva003BD306Target *>(banner->tracker)->rva0039B2C7(levels, 0);
-  
- }
- 
-}
-// ?HordeContain::rva00473212 present-unmatched
 Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
 
 {
@@ -580,7 +552,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
   }
   if (accepts(object,carrierID,&fields->bannerNames,flag)) 
   {
-   if (flag || owner->tracker->level<=1) 
+   if (flag || owner->getExperienceTracker()->getVeterancyLevel()<=1) 
    {
     rva00473197(object,source,flag,!suppress);
     return 0;
@@ -679,7 +651,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
   const Object *member=0;
   if (firstCarrier && secondCarrier) 
   {
-   if (firstCarrier->tracker->level>=secondCarrier->tracker->level) 
+   if (firstCarrier->getExperienceTracker()->getVeterancyLevel()>=secondCarrier->getExperienceTracker()->getVeterancyLevel()) 
    {
     member=firstMember;
     carrier=firstCarrier;
@@ -707,8 +679,8 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
    member=secondMember;
    
   }
-  bool savedLatch=TheGameLogic->latch;
-  TheGameLogic->latch=false;
+  bool savedLatch=TheGameLogic->isScoringEnabled();
+  ((HordeScoringView *)TheGameLogic)->scoringEnabled=false;
   created->rva0028BAAE(owner->value45C);
   if (carrier) 
   {
@@ -722,7 +694,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
    
   }
   combined->replaceMembers(members);
-  TheGameLogic->latch=savedLatch;
+  ((HordeScoringView *)TheGameLogic)->scoringEnabled=savedLatch;
   if (object->isHorde()) TheGameLogic->destroyObject(object);
   TheGameLogic->destroyObject(owner);
   reinterpret_cast<UpgradeView*>((char*)combined+0x20)->upgradesChanged(&created->upgrades,false);
