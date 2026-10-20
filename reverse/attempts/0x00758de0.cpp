@@ -1,4 +1,6 @@
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
+// partial score=0.7658 date=2026-10-20
+// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.5915915915915916 date=2026-10-19
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.7809467362098941 date=2026-10-15
@@ -9,6 +11,7 @@
 // cl: /O2 /MD /EHsc /I.
 // Keep the saved node while advancing the shared cursor.
 // Prepare each response with the two sources of that saved node.
+// Read the normal's x and y, copy its z, then negate all three into the reverse.
 struct ContactVector { float x,y,z; };
 struct ContactSource {
  virtual void slot0()=0;
@@ -56,12 +59,17 @@ void BfmeThingCGD::bfmeTwoCGD() {
   if(node->state==0)
    node->state=node->first->source->test(node->second->source->prepare(&node->point,&node->normal))?1:2;
   if(node->state==2) continue;
-  node->first->source->respond(node->second->source->prepare(&node->point,&node->normal));
+  ContactVector *n=&node->normal;
+  void *info=node->second->source->prepare(&node->point,n);
+  node->first->source->respond(info);
   if(node->first->source==0 || node->second->source==0) continue;
+  float x=n->x,y=n->y;
   ContactVector reverse;
-  reverse.x=-node->normal.x;
-  reverse.y=-node->normal.y;
-  reverse.z=-node->normal.z;
-  node->second->source->respond(node->first->source->prepare(&node->point,&reverse));
+  reverse.z=n->z;
+  reverse.x=-x;
+  reverse.y=-y;
+  reverse.z=-reverse.z;
+  void *rinfo=node->first->source->prepare(&node->point,&reverse);
+  node->second->source->respond(rinfo);
  }
 }
