@@ -345,41 +345,7 @@ Render2DSentenceClass::Build_Textures (void)
 //	Record_Sentence_Chunk
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Record_Sentence_Chunk@Render2DSentenceClass@@AAEXXZ present-unmatched
-Render2DSentenceClass::Record_Sentence_Chunk (void)
-{
-	//
-	//	Do we have anything to store?
-	//
-	int width = TextureOffset.I - TextureStartX;
-	if (width > 0) {
-		float char_height = Font->Get_Char_Height ();
-		
-		//
-		//	Build a structure that contains enough information
-		// to hold this portion of the sentence
-		//
-		SentenceDataStruct sentence_data;
-		sentence_data.Surface = CurSurface;
-		sentence_data.Surface->Add_Ref ();
-		sentence_data.ScreenRect.Left		= Cursor.X;
-		sentence_data.ScreenRect.Right	= Cursor.X + width;
-		sentence_data.ScreenRect.Top		= Cursor.Y;
-		sentence_data.ScreenRect.Bottom	= Cursor.Y + char_height;
-		sentence_data.UVRect.Left			= TextureStartX;
-		sentence_data.UVRect.Top			= TextureOffset.J;
-		sentence_data.UVRect.Right			= TextureOffset.I;
-		sentence_data.UVRect.Bottom		= TextureOffset.J + char_height;		
-
-		//
-		//	Add this information to our list
-		//
-		SentenceData.Add (sentence_data);
-	}
-
-	return ;
-}
+// Render2DSentenceClass::Record_Sentence_Chunk is defined with its retail-matched body in Render2DSentenceRecordChunkBFME2.cpp.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
