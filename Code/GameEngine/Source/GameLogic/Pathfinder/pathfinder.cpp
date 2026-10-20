@@ -6429,3 +6429,175 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
     }
     rva002F40E7();m_isTunneling=false;goalCell->ReleaseInfo();return 0;
 }
+
+
+// Native 0x002F4115..0x002F436F (602 B, RET 16, EH): waypoint-zone
+// reachability. WorldBuilder D5F260 supplies the unoptimised algorithm;
+// the native calls, object/template/waypoint offsets and effective-zone query
+// establish this target ABI. The address-derived spelling does not claim an
+// original source name. STLport storage adapters retain the prior bank's
+// existing folded provider spellings; no new pin or symbol alias is added.
+// The queue uses the real deque destructor (including its iterator-by-value
+// _Destroy), and each locomotor arm loads the surfaces value. With the current
+// home unit both produce the native register allocation and unwind sequence.
+// Full provenance and controls: reverse/attempt_support/waypoint-zone-2f4115-recovery-20261020.md.
+#include <map>
+#include <set>
+#include <deque>
+// Folded element spellings of the rowed STLport members.
+struct Rva002F307AElement {
+	Rva002F307AElement(); Rva002F307AElement(const Rva002F307AElement &);
+	~Rva002F307AElement(); Rva002F307AElement &operator=(const Rva002F307AElement &);
+	char bytes[8];
+};
+bool operator<(const Rva002F307AElement &, const Rva002F307AElement &);
+struct Rva002F0BB5Element { char bytes[1]; bool operator<(const Rva002F0BB5Element &) const; bool operator==(const Rva002F0BB5Element &) const; };
+struct Rva002F0B8AElement { char bytes[1]; bool operator<(const Rva002F0B8AElement &) const; bool operator==(const Rva002F0B8AElement &) const; };
+struct Rva002F1DA1Mapped { int a; };
+struct Rva002F3759Compare { bool operator()(unsigned int a, unsigned int b) const { return a < b; } };
+struct BfmeWordValue4
+{
+	unsigned int bits;
+	BfmeWordValue4() {}
+	~BfmeWordValue4() {}
+};
+
+template<class T> class Rva002F0C32Allocator : public _STL::allocator<T>
+{
+public:
+ template<class U> struct rebind {typedef Rva002F0C32Allocator<U> other;};
+ Rva002F0C32Allocator() throw() {}
+ Rva002F0C32Allocator(const Rva002F0C32Allocator&) throw() {}
+ template<class U> Rva002F0C32Allocator(const Rva002F0C32Allocator<U>&) throw() {}
+};
+
+typedef _STL::multiset<int, _STL::less<int>, Rva002F0C32Allocator<int> > FoldZoneTreeCtor;                         // 0x002F3039
+typedef _STL::map<int, Rva002F0B8AElement> FoldZoneTreeDtorMap;       // 0x002F0B8A
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F0B8AElement >, _STL::_Select1st<_STL::pair<const int, Rva002F0B8AElement > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F0B8AElement > > > FoldZoneTreeDtor;
+typedef _STL::multimap<int, Rva002F1DA1Mapped> FoldZoneInsertMap;     // 0x002F1DA1
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F1DA1Mapped >, _STL::_Select1st<_STL::pair<const int, Rva002F1DA1Mapped > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F1DA1Mapped > > > FoldZoneInsert;
+typedef _STL::multimap<int, int> FoldZoneRangeMap;                    // 0x002F1C89
+typedef _STL::_Rb_tree<int, _STL::pair<const int, int >, _STL::_Select1st<_STL::pair<const int, int > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, int > > > FoldZoneRange;
+typedef _STL::set<Rva002F307AElement> FoldWayTreeCtor;                // 0x002F307A
+typedef _STL::map<int, Rva002F0BB5Element> FoldWayTreeDtorMap;        // 0x002F0BB5
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F0BB5Element >, _STL::_Select1st<_STL::pair<const int, Rva002F0BB5Element > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F0BB5Element > > > FoldWayTreeDtor;
+typedef _STL::map<unsigned int, unsigned int, Rva002F3759Compare> FoldWayIndex; // 0x002F3759
+typedef _STL::map<unsigned int, void *> FoldWayFindMap;               // 0x00357180
+typedef _STL::_Rb_tree<unsigned int, _STL::pair<const unsigned int, void * >, _STL::_Select1st<_STL::pair<const unsigned int, void * > >, _STL::less<unsigned int >, _STL::allocator<_STL::pair<const unsigned int, void * > > > FoldWayFind;
+typedef _STL::map<unsigned char, short> FoldVisitedCtor;              // 0x000D3A71
+typedef _STL::set<int> FoldVisited;                                   // 0x000BC15D 0x00388F63
+typedef _STL::_Rb_tree<int, int, _STL::_Identity<int>, _STL::less<int>, _STL::allocator<int> > FoldVisitedTree;
+typedef _STL::_Deque_base<BfmeWordValue4, _STL::allocator<BfmeWordValue4> > FoldQueueCtor; // 0x00605464
+typedef _STL::deque<void *> FoldQueue;                                // 0x00423BD8 0x002EE9A0
+typedef _STL::_Deque_base<void *, _STL::allocator<void *> > FoldQueueDtor; // 0x0054FAAC
+
+class Rva00072FE6
+{
+public:
+	~Rva00072FE6();
+};
+
+namespace _STL {
+template <> FoldQueueDtor::~_Deque_base();
+}
+
+struct ZoneWaypointMap
+{
+	ZoneWaypointMap() { reinterpret_cast<FoldZoneTreeCtor *>(this)->FoldZoneTreeCtor::multiset(); }
+	~ZoneWaypointMap() { reinterpret_cast<FoldZoneTreeDtor *>(this)->~FoldZoneTreeDtor(); }
+	FoldZoneInsertMap &tree() { return *reinterpret_cast<FoldZoneInsertMap *>(this); }
+	char m_storage[sizeof(FoldZoneInsertMap)];
+};
+
+struct WaypointZoneMap
+{
+	WaypointZoneMap() { reinterpret_cast<FoldWayTreeCtor *>(this)->FoldWayTreeCtor::set(); }
+	~WaypointZoneMap() { reinterpret_cast<FoldWayTreeDtor *>(this)->~FoldWayTreeDtor(); }
+	char m_storage[sizeof(FoldWayIndex)];
+};
+
+struct ZoneQueue
+{
+	ZoneQueue() { reinterpret_cast<FoldQueueCtor *>(this)->FoldQueueCtor::_Deque_base(_STL::allocator<BfmeWordValue4>(), 0); }
+	~ZoneQueue() { reinterpret_cast<FoldQueue *>(this)->~FoldQueue(); }
+	FoldQueue &q() { return *reinterpret_cast<FoldQueue *>(this); }
+	char m_storage[sizeof(FoldQueue)];
+};
+
+struct VisitedZones
+{
+	VisitedZones() { reinterpret_cast<FoldVisitedCtor *>(this)->FoldVisitedCtor::map(); }
+	~VisitedZones() { reinterpret_cast<Rva00072FE6 *>(this)->~Rva00072FE6(); }
+	FoldVisited &s() { return *reinterpret_cast<FoldVisited *>(this); }
+	char m_storage[sizeof(FoldVisited)];
+};
+
+
+struct ZoneQuery { Int m_surfaces; Bool m_04,m_05; Int m_08; Bool m_0C; };
+Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, LocomotorSet *locoSet)
+{
+	if (reinterpret_cast<Rva0028B984ByteField *>(obj)->get())
+		return false;
+	AIUpdateInterface *ai = obj->getAI();
+	if (ai == 0 && locoSet == 0)
+		return false;
+	Int surfaces = locoSet ? locoSet->getValidSurfaces() : ((const LocomotorSet *)((const char *)ai+0x1cc))->getValidSurfaces();
+	Int crusherLevel = obj->m_template->priority;
+	Bool b634 = obj->m_template->flag;
+	Bool flagA = obj->rva0028AC62();
+	Bool flagB = obj->rva0028AFBB();
+	ZoneQuery query;
+	query.m_04 = !b634;
+	query.m_05 = flagB;
+	query.m_surfaces = surfaces;
+	query.m_08 = crusherLevel - 1;
+	query.m_0C = flagA;
+
+	ZoneWaypointMap zoneWaypoints;
+	WaypointZoneMap waypointZones;
+	for (Waypoint *wp = ((HierarchyTerrain *)TheTerrainLogic)->getFirstWaypoint(); wp; wp = wp->next) {
+		if (!(unsigned char)reinterpret_cast<Rva002E6ECA *>(wp)->get())
+			continue;
+		if (!wp->isValidUnitType(obj))
+			continue;
+		PathfindCell *cell = (PathfindCell *)rva001E3647Pos(
+			TheTerrainLogic->getLayerForDestination(0, &wp->location), &wp->location);
+		if (!cell)
+			continue;
+		Int zone = ((Rva002E99F9Sub460 *)&m_zoneManager)->rva0053241F(&query, cell->quickZone());
+		Rva002F1DA1Mapped mapped;
+		mapped.a = (int)wp;
+		zoneWaypoints.tree().insert(FoldZoneInsertMap::value_type(zone, mapped));
+		(*reinterpret_cast<FoldWayIndex *>(&waypointZones))[reinterpret_cast<const unsigned int &>(wp)] = zone;
+	}
+
+	ZoneQueue queue;
+	VisitedZones visited;
+	queue.q().push_back((void *const &)startZone);
+	visited.s().insert(startZone);
+	while (!queue.q().empty()) {
+		Int zone = (Int)queue.q().front();
+		queue.q().pop_front();
+		if (zone == goalZone)
+			return true;
+		_STL::pair<FoldZoneRangeMap::iterator, FoldZoneRangeMap::iterator> range =
+			reinterpret_cast<FoldZoneRangeMap *>(&zoneWaypoints)->equal_range(zone);
+		for (FoldZoneRangeMap::iterator it = range.first; it != range.second; ) {
+			Waypoint *wp = (Waypoint *)(*it).second;
+			++it;
+			for (Int i = 0; i < wp->linkCount; ++i) {
+				Waypoint *link = wp->getLink(i);
+				unsigned int key = (unsigned int)link;
+				FoldWayFindMap::iterator found = reinterpret_cast<FoldWayFindMap *>(&waypointZones)->find(key);
+				if (found != reinterpret_cast<FoldWayFindMap *>(&waypointZones)->end()) {
+					zone = (Int)(*found).second;
+					if (visited.s().find(zone) == visited.s().end()) {
+						visited.s().insert(zone);
+						queue.q().push_back((void *const &)zone);
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
