@@ -294,10 +294,10 @@ protected:
 	bool rva003E8AA9(Parameter *);
 	bool rva003E8D01(Parameter *, Parameter *, Parameter *);
 	bool rva003E3F59(Parameter *, Parameter *, Parameter *);
-	bool rva003E9062(Parameter *, Parameter *);
+	bool evaluateSkirmishSpecialPowerIsReady(Parameter *, Parameter *);
 	bool evaluateSkirmishValueInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *);
 	bool evaluateSkirmishPlayerHasUnitsInArea(Condition *, Parameter *, Parameter *);
-	bool rva003E4565(Parameter *, Parameter *);
+	bool evaluateNamedBaseUnpackableForPlayer(Parameter *, Parameter *);
 	bool rva003E8E23(Parameter *, Parameter *, Parameter *, Parameter *);
 	bool rva003E59B0(Parameter *, Parameter *, Parameter *, bool);
 	bool rva003EA12A(Parameter *);
@@ -423,7 +423,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *c)
 	case 40:
 		return this->evaluateTeamEnteredAreaEntirely(c->getParameter(0), c->getParameter(1), c->getParameter(2));
 	case 121:
-		return this->rva003E4565(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedBaseUnpackableForPlayer(c->getParameter(0), c->getParameter(1));
 	case 41:
 		return this->evaluateTeamEnteredAreaPartially(c->getParameter(0), c->getParameter(1), c->getParameter(2));
 	case 42:
@@ -551,7 +551,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *c)
 	case 84:
 		return this->rva003E477F(c->getParameter(0), c->getParameter(1), c->getParameter(2));
 	case 85:
-		return this->rva003E9062(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishSpecialPowerIsReady(c->getParameter(0), c->getParameter(1));
 	case 171:
 		return this->evaluateSkirmishCanFireSpecialPowerOnTeam(c->getParameter(0), c->getParameter(1), c->getParameter(2));
 	case 80:

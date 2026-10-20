@@ -1,11 +1,11 @@
 // cl: /G7 /O1 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /I. /ICode/GameEngine/Source/GameLogic/ScriptEngine /ICode
 //
-// ?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z
+// ?rva003E59B0@ScriptConditions@@IAE_NPAVParameter@@00_N@Z
 // retail 0x003E59B0 (313B, RET 0x10): unit form of the castle area test.
 // Exact via W7-D3: the didEnter/didExit equal-arm must be spelled as a nested
 // if/else, not a ternary, or cl emits cmp al,bl instead of test al,al.
 // cl: /G7 /O1 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /I. /ICode/GameEngine/Source/GameLogic/ScriptEngine /ICode
-// ?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z, retail 0x003E59B0
+// ?rva003E59B0@ScriptConditions@@IAE_NPAVParameter@@00_N@Z, retail 0x003E59B0
 // (313 bytes, RET 0x10): the unit form of the castle area test in ScriptConditions_Rva003E6ED0.cpp
 // -- the named unit against the named castle or, with no castle name and a player parameter naming
 // no player, the closest KindOf-120 object to the unit through the same filter chain; the unit's
@@ -128,26 +128,26 @@ public:
 class ScriptEngine
 {
 public:
-	Object *getUnitNamed(const AsciiString &name);		// 0x003588E7
+	Object *getUnitNamed(Parameter *pUnitParm);		// 0x003588E7
 	int rva00357475(const AsciiString &name, bool *found);	// 0x00357475
 };
 extern ScriptEngine *TheScriptEngine;
 
 class ScriptConditions
 {
-public:
-	bool rva003E59B0(const AsciiString *unitName, const AsciiString *castleName, Parameter *playerParm, bool entered);
+protected:
+	bool rva003E59B0(Parameter *pUnitParm, Parameter *pCastleParm, Parameter *playerParm, bool entered);
 };
 
-bool ScriptConditions::rva003E59B0(const AsciiString *unitName, const AsciiString *castleName,
+bool ScriptConditions::rva003E59B0(Parameter *pUnitParm, Parameter *pCastleParm,
 	Parameter *playerParm, bool entered)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(*unitName);
+	Object *obj = TheScriptEngine->getUnitNamed(pUnitParm);
 	if (!obj)
 		return false;
 	Object *castle;
-	if (castleName) {
-		castle = (entered ? (TheScriptEngine->getUnitNamed(*castleName)) : (TheScriptEngine->getUnitNamed(*castleName)));
+	if (pCastleParm) {
+		castle = (entered ? (TheScriptEngine->getUnitNamed(pCastleParm)) : (TheScriptEngine->getUnitNamed(pCastleParm)));
 	} else {
 		if (!playerParm)
 			return false;
