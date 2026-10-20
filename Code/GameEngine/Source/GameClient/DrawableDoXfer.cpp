@@ -140,6 +140,12 @@ public:
 
 // Retail references every icon-name entry at 0x009BB660.
 extern const char *TheDrawableIconNames[14];
+// Retail 0x0027015F: Zero Hour's static drawableIconIndexToName; xfer
+// inlines it and cl still emits this register-convention copy (index in EAX).
+static const char *drawableIconIndexToName(int iconIndex)
+{
+	return TheDrawableIconNames[iconIndex];
+}
 static __forceinline int drawableIconIndex(const char *name)
 {
 	for (int i = 0; i < 14; ++i)
@@ -559,7 +565,7 @@ void Drawable::DoXfer(Xfer *xfer)
 		{
 			if (!m_iconInfo || !getIconInfo()->m_icons[i])
 				continue;
-			iconIndexName = TheDrawableIconNames[i];
+			iconIndexName = drawableIconIndexToName(i);
 			xfer->xferAsciiString(&iconIndexName);
 			keepTillFrame = getIconInfo()->m_keepTillFrame[i];
 			xfer->xferUnsignedInt(&keepTillFrame);
