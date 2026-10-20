@@ -72,7 +72,7 @@ protected:
 class UVBufferClass : public ShareBufferClass<Vector2>
 {
 public:
-    UVBufferClass(int count, const char *msg) : ShareBufferClass<Vector2>(count, msg), CRC(0xFFFFFFFF) {}
+    UVBufferClass(int count, const char *msg);
 private:
     unsigned CRC;
 };
