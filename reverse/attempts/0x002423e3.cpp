@@ -1,5 +1,7 @@
 // ?rva002423E3@GameLogic@@QAE_NXZ
-// partial score=0.94 date=2026-10-20
+// partial score=0.99 date=2026-10-20
+// ?rva002423E3@GameLogic@@QAE_NXZ
+// partial score=0.99 date=2026-10-20 (2 EH state immediates off; see handoff round 2)
 // cl: /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist
 // stlport
 //
@@ -367,36 +369,6 @@ bool GameLogic::rva002423E3(void)
 		{
 			switch (m_110)
 			{
-				case 0:
-				case 6:
-					((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva00222F55(true);
-					TheTransitionHandler->setGroup("FadeWholeScreen");
-					((Rva001DBB82OneSetter *)TheTransitionHandler)->enable();
-					while (TheDisplay->slot114() && TheDisplay->m_13c < 100 && !TheTransitionHandler->isFinished())
-					{
-						TheGameEngine->slot5C();
-						Sleep(5);
-					}
-					((Rva0023C7D2 *)this)->rva0023C7D2();
-					if (!((const StringBase<char> *)&m_74)->isEmpty())
-					{
-						((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
-						TheTransitionHandler->slot24();
-						TheTransitionHandler->slot28();
-						TheDisplay->slot10C(m_74, 1, 0xa0);
-						m_74.clear();
-					}
-					else
-					{
-						TheDisplay->slot110();
-					}
-					restoreMouse = true;
-					{
-						AsciiString fadeGroup("FadeWholeScreen");
-						Rva003FE7E6(Rva0023E323(fadeGroup, m_90), &g_00E02EC4);
-					}
-					break;
-
 				case 2:
 				case 3:
 					TheTransitionHandler->setGroup("FadeWholeScreen");
@@ -435,6 +407,34 @@ bool GameLogic::rva002423E3(void)
 					((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
 					restoreMouse = true;
 					break;
+				case 0:
+				case 6:
+					((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva00222F55(true);
+					TheTransitionHandler->setGroup("FadeWholeScreen");
+					((Rva001DBB82OneSetter *)TheTransitionHandler)->enable();
+					while (TheDisplay->slot114() && TheDisplay->m_13c < 100 && !TheTransitionHandler->isFinished())
+					{
+						TheGameEngine->slot5C();
+						Sleep(5);
+					}
+					((Rva0023C7D2 *)this)->rva0023C7D2();
+					if (!((const StringBase<char> *)&m_74)->isEmpty())
+					{
+						((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
+						TheTransitionHandler->slot24();
+						TheTransitionHandler->slot28();
+						TheDisplay->slot10C(m_74, 1, 0xa0);
+						m_74.clear();
+					}
+					else
+					{
+						TheDisplay->slot110();
+					}
+					restoreMouse = true;
+					AsciiString fadeGroup("FadeWholeScreen");
+					Rva003FE7E6(Rva0023E323(fadeGroup, m_90), &g_00E02EC4);
+					break;
+
 			}
 		}
 	}

@@ -53,3 +53,27 @@ Temporaries in place of the named strings are worse (7 to 18 regions). The case 
 2. The `rva0023DCCE`, `operator=` and `clear` bodies must be visible in that unit. They are rowed today in `Code/GameEngine/Source/Common/Rva0023DCCESet.cpp` and elsewhere, so either rehome those rows into GameLogicInit.cpp or make them shared inline definitions. Check the link census for duplicate COMDATs.
 3. 0x002419AB is rowed as `?rva002419AB@Rva002419ABOwner@@QAEPAXVAsciiString@@H@Z`, a fake constructor that returns `this`. The call needs `??0Rva00211E75Callback@@QAE@VRva0023E323@@@Z` (or a rename of that row) through `tools/pin_admission.py`.
 4. Rename the pin `?deleteLoadScreen@GameLogic@@QAEXXZ,0x002423E3` and the caller's declaration to the bool address-derived name when the body lands.
+
+## Round 2 (2026-10-20, claude-opus-5-5): frame closed, two EH state immediates left
+
+Bank `reverse/attempts/0x002423e3.cpp` is now 1436 B with 2 differing instructions.
+The frame slot is closed: the case 0/6 arm sits last in the switch and its `FadeWholeScreen` string is declared **unbraced at switch scope** (only the textually last case may do this; elsewhere it is C2360).
+cl never shares an ancestor-scope local with a child block's local, so the case 2/3 string (braced) moves to -0x14, the case 0/6 string to -0x18 and the lock to -0x1C, all as in retail.
+
+What is left: EH state numbers follow source declaration order.
+- `24271a` (case 2/3): ours stores 1, retail 2.
+- `2428ea` (case 0/6): ours stores 2, retail 1.
+
+Retail therefore declared the case 0/6 string first in the source but in a scope that does not share with case 2/3.
+
+Ruled out this round (diff count in brackets):
+- Case 2/3's block through a forced-inline member `queueFade()` [2]. Moving case 0/6's block, or both, there instead [23].
+- Case 2/3 last with its string at switch scope and case 0/6 braced first [13]. Its dtor slides to the end of the switch and the string slots swap.
+- Case 0/6 first as a temporary `Rva0023E323(AsciiString("..."), m_90)` with a forced-inline Rva0023E323 ctor [2]. States and frame are right, but ours pushes `&g_00E02EC4` before constructing the string, while retail constructs it first.
+- Case 2/3 as a temporary on the v11 order [4].
+- `const AsciiString &r = AsciiString(...)` [36] and copy-init [23], both of which share the slot again.
+- Case 2/3's tail moved behind a `goto` label after the switch [23], which shares as a sibling.
+
+Open lead: something that gives a named string, declared textually before case 2/3's string, its own slot. Two untested candidates are a by-value helper taking the string, and a second switch.
+
+Identity fact from the WB twin 0xCFF490: Rva003FE7E6 = `GameEngineEventSequencer::AddControl`.
