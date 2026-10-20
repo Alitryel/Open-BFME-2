@@ -1,4 +1,6 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
+// partial score=0.996 date=2026-10-20
+// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.995 date=2026-10-20
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.99 date=2026-10-19
