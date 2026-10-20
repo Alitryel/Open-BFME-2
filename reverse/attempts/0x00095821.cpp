@@ -1,5 +1,7 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.9 date=2026-10-20
+// partial score=0.92 date=2026-10-20
+// partial score=0.92 date=2026-10-20
+// ?Install_Materials@BfmeB1137@@UBEXXZ
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -613,7 +615,7 @@ void BfmeB1137::Install_Materials(void) const
 		if (m_38 > 1.0f)
 			m_38 = 1.0f;
 		float diagonal = WWMath::Sqrt((float)(height * height + width * width));
-		drift.m[3][0] -= diagonal * m_38 * 10.0f;
+		drift.m[3][0] -= diagonal * (m_38 * 10.0f);
 
 		float fw = (float)width;
 		float fh = (float)height;
@@ -702,7 +704,10 @@ void BfmeB1137::Install_Materials(void) const
 				if (radius > 100.0f)
 					m_40 = 100.0f;
 				else if (!sameFrame)
-					m_3C += CLOUD->getM2C();
+				{
+					float growth = CLOUD->getM2C();
+					m_3C += growth;
+				}
 			}
 			float worldTexelWidth = m_40;
 			float worldTexelHeight = m_40;
@@ -716,6 +721,7 @@ void BfmeB1137::Install_Materials(void) const
 		DX8Wrapper::Set_DX8_Render_State(27, 1);
 		DX8Wrapper::Set_DX8_Render_State(19, 1);
 		DX8Wrapper::Set_DX8_Render_State(20, 3);
+		m_68 = true;
 	}
 	else if (g_Va00DB47EC == 2)
 	{
@@ -798,8 +804,6 @@ void BfmeB1137::Install_Materials(void) const
 		DX8Wrapper::Set_DX8_Render_State(27, 1);
 		DX8Wrapper::Set_DX8_Render_State(19, 1);
 		DX8Wrapper::Set_DX8_Render_State(20, 3);
+		m_68 = true;
 	}
-	else
-		return;
-	m_68 = true;
 }
