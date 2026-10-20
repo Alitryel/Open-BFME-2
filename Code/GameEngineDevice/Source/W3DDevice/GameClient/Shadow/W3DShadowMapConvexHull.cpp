@@ -44,7 +44,7 @@ static inline BfmeE8 operator-(const BfmeE8 &a,const BfmeE8 &b) {
 static inline float Perp_Dot_Product(const BfmeE8 &a,const BfmeE8 &b) {
  return a.X*-b.Y+a.Y*b.X;
 }
-bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float epsilon)
+__declspec(noinline) inline bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float epsilon)
 {
  ClearPoints(output);
  std::vector<BfmeE8> points;
@@ -88,3 +88,6 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
  for(int *p=hull.begin();p!=hull.end();++p) output.push_back(points[*p]);
  return true;
 }
+// Select-any: W3DShadowMapManagerUpdateShadowCamera.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva0007C637 absent-from-retail
+void bfmeAnchorRva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float epsilon) { Rva0007C637(input,output,epsilon); }

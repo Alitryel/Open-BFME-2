@@ -1,5 +1,3 @@
-// ?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ
-// partial score=1.0 date=2026-10-20
 // cl: /O1 /Og /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /ICode/Libraries/Include
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
@@ -104,6 +102,18 @@ inline BfmeE8::BfmeE8(const Vector3 &v) : X(v.X), Y(v.Y) {}
 struct BfmeFloat4Record00469C61 { float x, y, z, w; };
 namespace _STL {
 template<> inline void allocator<Coord3D>::deallocate(Coord3D *p, size_t) const { if (p) Rva00030830FreeAllocation(p); }
+// The fill helpers stay visible but inline-only (dllimport is never emitted), so the link keeps
+// the rowed copies at 0x000CA1D3, 0x002CA849 and 0x002CA82C.
+template<> __declspec(dllimport) __forceinline void _Construct<Coord3D, Coord3D>(Coord3D *__p, const Coord3D &__val) { _STLP_PLACEMENT_NEW (__p) Coord3D(__val); }
+template<> __declspec(dllimport) __forceinline Coord3D *__uninitialized_fill_n<Coord3D *, unsigned int, Coord3D>(Coord3D *__first, unsigned int __n, const Coord3D &__x, const __false_type &)
+{
+	Coord3D *__cur = __first;
+	for ( ; __n > 0; --__n, ++__cur)
+		_Construct(&*__cur, __x);
+	return __cur;
+}
+template<> __declspec(dllimport) __forceinline Coord3D *uninitialized_fill_n<Coord3D *, unsigned int, Coord3D>(Coord3D *__first, unsigned int __n, const Coord3D &__x)
+{ return __uninitialized_fill_n(__first, __n, __x, __false_type()); }
 template<> inline __declspec(noinline) _Vector_base<Coord3D, allocator<Coord3D> >::_Vector_base(size_t __n, const allocator<Coord3D> &__a)
 	: _M_start(0), _M_finish(0), _M_end_of_storage(__a, 0)
 {
@@ -121,7 +131,8 @@ class PlaneClass
 {
 public:
 	PlaneClass() {}
-	PlaneClass(const Vector3 &normal, float dist) { N = normal; D = dist; }
+	// Inline-only (dllimport is never emitted): the link keeps the rowed copy at 0x00376D29.
+	__declspec(dllimport) __forceinline PlaneClass(const Vector3 &normal, float dist) { N = normal; D = dist; }
 	void Set(const Vector3 &normal, const Vector3 &point) { N = normal; D = Vector3::Dot_Product(normal, point); }
 	PlaneClass(const Vector3 &point1, const Vector3 &point2, const Vector3 &point3) { Set(point1, point2, point3); }
 	void Set(const Vector3 &point1, const Vector3 &point2, const Vector3 &point3);
