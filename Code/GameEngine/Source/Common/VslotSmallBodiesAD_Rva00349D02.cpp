@@ -263,15 +263,15 @@ public:
 };
 
 
-// 0x004CDF00 and 0x004CDF1D: the pinned base 0x004502CE with both
-// arguments then the pinned 0x004CDDBA(1); resp. only the latter while
-// +0x08 is set.
-class Rva004502CE
+// 0x004CDF00 and 0x004CDF1D: the rowed base SpecialAbilityUpdate::onExit 0x004502CE with
+// both stack dwords then the pinned 0x004CDDBA(1); resp. only the latter while +0x08 is set.
+class SpecialAbilityUpdate
 {
-public:
-	void rva004502CE(Int a, Int b);
+protected:
+	virtual void onExit(bool a, bool b);
+	friend class ActivateModuleSpecialPower;
 };
-class ActivateModuleSpecialPower : public Rva004502CE
+class ActivateModuleSpecialPower
 {
 public:
 	void rva004CDF00(Int a, Int b);
@@ -284,7 +284,7 @@ private:
 };
 void ActivateModuleSpecialPower::rva004CDF00(Int a, Int b)
 {
-	rva004502CE(a, b);
+	((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::onExit((bool &)a, (bool &)b);
 	SetWakeState(1);
 }
 
