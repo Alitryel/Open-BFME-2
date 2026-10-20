@@ -180,6 +180,10 @@ class Rva005EEF2FBase0 { public: virtual ~Rva005EEF2FBase0(); };
 class Rva005EEF2FBase4 { public: Rva005EEF2FBase4(): refs(0) {} virtual ~Rva005EEF2FBase4(); int refs; };
 
 #include "Coord2D.h"
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAURva005F13E6Element@@@_STL@@YAXPAURva005F13E6Element@@0ABU__false_type@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005F13E6Element;
+namespace _STL { template <> void __destroy_aux<Rva005F13E6Element *>(Rva005F13E6Element *,Rva005F13E6Element *,__false_type const &); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
