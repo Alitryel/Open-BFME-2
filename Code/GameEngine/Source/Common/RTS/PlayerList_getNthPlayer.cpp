@@ -17,6 +17,8 @@
 // unrowed bodies. PlayerList.cpp keeps the Zero Hour body, which does not
 // compile to this layout.
 #include "ascii_string.h"
+#include "unicode_string.h"
+#include "../GameLogicObjectLookupView.h"
 
 typedef bool Bool;
 typedef int Int;
@@ -113,6 +115,12 @@ enum
 };
 
 
+class PlayerTemplate
+{
+public:
+	UnicodeString getDisplayName() const;
+};
+
 class Player
 {
 public:
@@ -123,10 +131,17 @@ public:
 	Relationship getRelationship(const Team *that) const;
 	Team *getDefaultTeam() const { return m_defaultTeam; }
 	bool rva002AA245() const; // 0x002AA245
+	bool isPlayerActive() const;
+	int field5C() const { return m_5C; }
+	int getPlayerIndex() const { return m_playerIndex; }
 
-	unsigned char m_pad[0x54];
+	unsigned char m_pad[0x34];
+	PlayerTemplate *m_playerTemplate; // +0x34
+	UnicodeString m_playerDisplayName; // +0x38
+	unsigned char m_pad3C[0x54 - 0x3C];
 	Int m_playerIndex; // +0x54
-	unsigned char m_pad58[0x60 - 0x58];
+	unsigned char m_pad58[0x5C - 0x58];
+	int m_5C; // +0x5C
 	PlayerSub60 m_60; // +0x60
 	unsigned char m_pad80[0x2EC - 0x80];
 	Team *m_defaultTeam; // +0x2EC
@@ -181,6 +196,8 @@ public:
 	int rva002A7C0B(bool flag);
 	int rva002A7D30();
 	PlayerMaskType getPlayersWithRelationship(Int srcPlayerIndex, unsigned int allowedRelationships, bool reverse);
+	void rva002A8306(bool forward);
+	int getPlayerCount() const { return m_playerCount; }
 
 private:
 	char m_pad04[0x10 - 4];
@@ -188,6 +205,7 @@ private:
 	Int m_playerCount;	// +0x14
 	Player *m_players[20];	// +0x18
 };
+extern PlayerList *ThePlayerList;
 
 // Select-any copy of the body rowed in SidesList_getSideInfo.cpp.
 __declspec(noinline) inline SidesInfo *SidesList::getSideInfo(Int i){return(i>=0 && i<m_numSides)?&m_sides[i]:0;}
@@ -426,6 +444,150 @@ void PlayerList::newGame()
 		p->setDefaultTeam();
 	}
 
+}
+
+class BfmeMemberRV;
+class BfmeThingRV
+{
+public:
+	BfmeMemberRV *bfmePickRV();
+};
+
+class Rva002A7DD0
+{
+public:
+	bool rva002A7DD0();
+};
+
+class Rva002A7E42
+{
+public:
+	void rva002A7E42(Player *player);
+};
+
+extern GameLogic *TheGameLogic;
+
+class ControlBar
+{
+public:
+	void setObservedPlayer(Player *p) { m_observedPlayer = p; }
+	char pad000[0x210];
+	Player *m_observedPlayer;
+};
+extern ControlBar *TheControlBar;
+
+class GameTextInterface
+{
+public:
+#define V(n) virtual void v##n();
+	V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08) V(09) V(10) V(11) V(12) V(13) V(14) V(15) V(16)
+#undef V
+	virtual UnicodeString *fetchPtr(const char *label, bool *exists = 0);	// +0x44
+};
+extern GameTextInterface *TheGameText;
+
+class InGameUI
+{
+public:
+#define V(n) virtual void v##n();
+	V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08) V(09) V(10) V(11) V(12) V(13) V(14) V(15)
+	V(16) V(17) V(18)
+#undef V
+	virtual void message(UnicodeString message, ...);	// +0x4C
+};
+extern InGameUI *TheInGameUI;
+
+class PartitionManager;
+extern PartitionManager *TheShroudManager;
+class BfmeTaintManager;
+extern BfmeTaintManager *TheTaintManager;
+
+class PointGroupClass
+{
+public:
+	enum PointModeEnum
+	{
+		TRIS = 0
+	};
+};
+class Rva00739730 { public: void rva00739730(int playerIndex, int callback); };
+class Rva006C0800 { public: void rva006C0800(PointGroupClass::PointModeEnum callback); };
+void rva002D7AE0(int a, int b, int c);
+void rva002D7B18(int a, int b, int c);
+
+// ?rva002A8306@PlayerList@@QAEX_N@Z
+// PlayerList::rva002A8306, retail 0x002A8306..0x002A851D 535 B.
+// Observer cycling: callers AptPalantir::OnBttnObserveNextPlayer 0x002D3100
+// (true) and ObservePriorPlayer 0x002D3108 (false) on ThePlayerList.
+// WorldBuilder twin 0x00D24BE0 (unnamed; strings GUI:PlayerObservingAll and
+// GUI:PlayerObservingSpecificHuman). When the list owner's local player is an
+// observer (0x002A7DD0) and the game mode passes GameLogic::rva0042219 it
+// steps the player index by +1 or -1 with wraparound from the observed player
+// (0x002A7E14) skipping players with +0x5C set and inactive players other than
+// the first inactive observer slot; then it stores the chosen player in
+// TheControlBar+0x210 and posts the observing message through TheInGameUI
+// slot 0x4C before re-registering the shroud / taint callbacks and the
+// 0x002A7E42 refresh. Offsets and callees are target evidence.
+// Inline accessors follow the debug twin's field reads and shared loop local.
+// Native GameTextManager slot 0x44 returns a UnicodeString pointer.
+// Retail compiles this after getNthPlayer in one unit; cl 7.1 reads that visible
+// body when it allocates registers here, so the two stay together.
+void PlayerList::rva002A8306(bool forward)
+{
+	if (!reinterpret_cast<Rva002A7DD0 *>(this)->rva002A7DD0())
+		return;
+	Player *player = reinterpret_cast<Player *>(reinterpret_cast<BfmeThingRV *>(ThePlayerList)->bfmePickRV());
+	if (!player)
+		return;
+	if (!TheGameLogic->rva0042219())
+		return;
+
+	int step = forward ? 1 : -1;
+	int index = player->getPlayerIndex();
+	int observer = !player->isPlayerActive() ? player->getPlayerIndex() : -1;
+	Player *p;
+	int i;
+	for (i = 0; i < ThePlayerList->getPlayerCount(); ++i) {
+		p = ThePlayerList->getNthPlayer(i);
+		if (observer == -1 && p && !p->isPlayerActive() && p->field5C() == 0)
+			observer = i;
+	}
+
+	int start = index;
+	for (;;) {
+		index += step;
+		int count = ThePlayerList->getPlayerCount();
+		if (index >= count)
+			index = 0;
+		else if (index < 0)
+			index = count;
+		if (index == start)
+			break;
+		p = ThePlayerList->getNthPlayer(index);
+		if (p && p->field5C() == 0) {
+			if (p->isPlayerActive() || index == observer)
+				break;
+		}
+	}
+
+	player = ThePlayerList->getNthPlayer(index);
+	TheControlBar->setObservedPlayer(player);
+
+	UnicodeString message;
+	UnicodeString unused;
+	if (!player->isPlayerActive()) {
+		message.format(TheGameText->fetchPtr("GUI:PlayerObservingAll"));
+	} else {
+		message.format(TheGameText->fetchPtr("GUI:PlayerObservingSpecificHuman"),
+			player->m_playerDisplayName.str(), player->m_playerTemplate->getDisplayName().str());
+	}
+	TheInGameUI->message(message);
+
+	if (TheShroudManager)
+		reinterpret_cast<Rva00739730 *>(TheShroudManager)->rva00739730(player->getPlayerIndex(), (int)&rva002D7AE0);
+	if (TheTaintManager)
+		reinterpret_cast<Rva006C0800 *>(TheTaintManager)->rva006C0800((PointGroupClass::PointModeEnum)(int)&rva002D7B18);
+	reinterpret_cast<Rva002A7E42 *>(this)->rva002A7E42(player);
 }
 
 // ?bfmeAnchorGetSideInfoCopy@@YAXPAVSidesList@@@Z absent-from-retail
