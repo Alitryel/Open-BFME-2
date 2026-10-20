@@ -1,4 +1,6 @@
 // ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
+// partial score=0.95 date=2026-10-20
+// ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 // partial score=0.9 date=2026-10-19
 // ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 // partial score=0.9 date=2026-10-19
@@ -1051,10 +1053,9 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
        draw = container->getDrawable();
       }
      }
-     Object *containedBy = nativeContained43003C(obj);
-     if (containedBy && !(((const unsigned char *)nativeTemplate43003C(obj))[0x10E] & 0x80))
+     if (nativeContained43003C(obj) && !(((const unsigned long *)((const char *)nativeTemplate43003C(obj)+0x108))[1] & (1u << 23)))
      {
-      obj = containedBy;
+      obj = nativeContained43003C(obj);
       draw = obj->getDrawable();
      }
      if (si.selectMine && obj->isLocallyControlled())
