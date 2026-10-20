@@ -16,6 +16,9 @@
 // /EHs preserves the destructor state5 store before list-base cleanup;
 // /EHsc omits those four bytes. All four bodies and affected consumers verify.
 #include <list>
+// Suppress this TU's non-retail copy of ??F?$_List_iterator@HU?$_Nonconst_traits@H@_STL@@@_STL@@QAEAAU01@XZ:
+// the kept copy serves the link. The rows here inline it: dllimport + __forceinline body emits no copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline _List_iterator<int, _Nonconst_traits<int> > &_List_iterator<int, _Nonconst_traits<int> >::operator--() { this->_M_node = this->_M_node->_M_prev; return *this; } }
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
 // rather than emitting its own.
@@ -92,9 +95,13 @@ template<class T> class AptRef:public Rva0057BC63FunctorHolder {public:AptRef(co
 class AptCommandMap;
 class AptCommandMapAdder {public:AptCommandMapAdder();~AptCommandMapAdder();void AddCommandMap(const AsciiString&,AptRef<AptCommandMap>);__forceinline void AddCommandMapDelegate(const AsciiString&n,FunctorBinding b){AddCommandMap(n,b);}private:_STL::vector<AsciiString> names;};
 class ChecklistItemRef;
-class Base1 {public:virtual ChecklistItemRef DoCreateNewItem();~Base1(){}};
-class Base2 {public:virtual void b2();~Base2(){}};
-class Base3 {public:virtual void b3();~Base3(){}};
+// Base1 and Base2 are interfaces: retail's base table 0x00C6EE28 is all __purecall.
+class Base1 {public:virtual ChecklistItemRef DoCreateNewItem()=0;~Base1(){}};
+class Base2 {public:virtual void b2()=0;~Base2(){}};
+// Base3's table is native C6EE20, the scroll listener whose two empty callbacks are rowed in
+// Rva005F2CBAProgress.cpp; novtable so only Base3 (its pinned dtor at 0x0057A235) stores a vptr.
+class __declspec(novtable) Rva0086EE20 {public:virtual void slot0(int);virtual void rva005F267E(int,float);};
+class Base3:public Rva0086EE20 {public:~Base3(){}};
 class Rva000AD6F4 {public:void clear();Rva000AD6F4():ptr(0){}~Rva000AD6F4();void*ptr;};
 class GameTextInterface {public:virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();virtual void s6();virtual void s7();virtual void s8();virtual void s9();virtual void s10();virtual void s11();virtual void s12();virtual void s13();virtual void s14();virtual UnicodeString fetch(const char*,bool=0);};
 extern GameTextInterface *TheGameText;

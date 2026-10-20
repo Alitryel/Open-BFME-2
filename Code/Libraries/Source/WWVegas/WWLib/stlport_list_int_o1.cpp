@@ -6,6 +6,9 @@
 // unlanded functions; the suffix says which optimisation level, because for
 // these containers different bodies survive the link from different units.
 #include <list>
+// Suppress this TU's non-retail copy of ??F?$_List_iterator@HU?$_Nonconst_traits@H@_STL@@@_STL@@QAEAAU01@XZ:
+// the kept copy serves the link. The rows here inline it: dllimport + __forceinline body emits no copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline _List_iterator<int, _Nonconst_traits<int> > &_List_iterator<int, _Nonconst_traits<int> >::operator--() { this->_M_node = this->_M_node->_M_prev; return *this; } }
 
 // Declaration-only: retail has one list<int>::insert (rowed in stlport_list_int_insert.cpp, node creation out of line);
 // this unit calls it rather than emitting a copy with the node creation inlined.
