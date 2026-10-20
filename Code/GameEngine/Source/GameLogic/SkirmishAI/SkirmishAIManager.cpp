@@ -75,6 +75,8 @@ public:
 #include "Common/Snapshot.h"
 typedef bool Bool;
 #include "subsystem_interface.h"
+// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 // bfme link decl-only begin

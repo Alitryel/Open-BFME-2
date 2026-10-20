@@ -68,6 +68,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <list>
+// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
 
 // The kept list<Object*> node factory uses the dedicated freelist, not the
 // generic STL allocator. Native 0x001EB9AC..0x001EB9C8 and its insertion
