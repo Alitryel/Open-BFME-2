@@ -1,5 +1,5 @@
 // cl: /O1 /Ob2 /Oy- /MD /arch:SSE /G7 /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
-// Rva001FAB59::update, retail 0x001FAB59 (1704 B, RET 4): Zero Hour ParticleSystem::update plus BFME 2's
+// ParticleSystem::update, retail 0x001FAB59 (1704 B, RET 4): Zero Hour ParticleSystem::update plus BFME 2's
 // profiling timer, master-system skip and bone-attached parent transform (WB debug body 0xB11B60).
 // Matrix3D, Vector3 and Vector4 come from WWMath's matrix3d.h; the Object transform is at +0x8.
 #include "ascii_string.h"
@@ -113,8 +113,7 @@ extern GameLogic *TheGameLogic;
 struct Rva001F38C1Arg { int v[12]; };
 class Rva001F38C1Slot { public: void set(const Rva001F38C1Arg &); };
 class Rva001F3C9A { public: bool rva001F3C9A(); };
-class Rva001FA7F8 { public: void rva001FA7F8(); };
-class ParticleSystem { public: void destroy(); void rva001F4696(void *, void *, bool, void *); };
+class Rva001FA7F8 { public: void rva001FA7F8(); UnsignedInt data[12]; };
 
 class ControlParticleView
 {
@@ -125,47 +124,82 @@ private:
 	Coord3D m_pos;	// +0x1C
 };
 
-class Rva001FAB59
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+enum ParticleSystemID { INVALID_PARTICLE_SYSTEM_ID = 0 };
+class GameClientRandomVariable { public: Int type; Real low, high; };
+struct ParticleRegion { Real x1, y1, x2, y2; };
+struct ParticleSystemHandleView { void *ptr; Int prev, next; };
+
+// The constructor's (ParticleSystemConstructor.cpp) layout and virtual slots; +0x7C is Zero Hour's m_priority.
+namespace FXParticleSystem {
+class ParticleSystemTemplate;
+class ParticleSystemInfo : public Snapshot
 {
 public:
-	Bool update(Int localPlayerIndex);
+	ParticleSystemInfo(); virtual ~ParticleSystemInfo(); virtual const char *GetSnapshotName(); virtual void LoadPostProcess(); virtual void DoXfer(Xfer &);
+	unsigned char oneShot; UnsignedInt shader, particleType; AsciiString typeName;
+	GameClientRandomVariable angle; UnsignedInt lifetime, depth; GameClientRandomVariable angularRate, angularDamping;
+	UnsignedInt windMotion; GameClientRandomVariable velocityDamping, life, startSize;
+	AsciiString slaveName; Coord3D slaveOffset; AsciiString attachedName; Int m_priority;
+	unsigned char hollow, ground, above, up, windMoving; ParticleRegion uv; UnsignedInt unknown98;
+};
+}
+
+class ParticleSystem : public FXParticleSystem::ParticleSystemInfo
+{
+public:
+	virtual ~ParticleSystem();
+	virtual Bool update(Int localPlayerIndex);
+	void destroy();
+	void rva001F4696(void *, void *, bool, void *);
 private:
 	Int getPriority() const { return m_priority; }
 
-	char pad0[0x7C];
-	Int m_priority;			// +0x7C
-	char pad80[0xAC - 0x80];
-	Real m_updateTime;		// +0xAC
-	Int m_attachedToDrawableID;	// +0xB0
-	ObjectID m_attachedToObjectID;	// +0xB4
-	AsciiString m_attachedBoneName;	// +0xB8
-	Matrix3D m_localTransform;	// +0xBC
-	Matrix3D m_transform;		// +0xEC
-	UnsignedInt m_burstDelayLeft;	// +0x11C
-	UnsignedInt m_delayLeft;	// +0x120
-	UnsignedInt m_startTimestamp;	// +0x124
+	void *m_head, *m_tail, *m_drawer;	// +0x9C
+	ParticleSystemID m_systemID;		// +0xA8
+	Real m_updateTime;			// +0xAC
+	Int m_attachedToDrawableID;		// +0xB0
+	ObjectID m_attachedToObjectID;		// +0xB4
+	AsciiString m_attachedBoneName;		// +0xB8
+	Matrix3D m_localTransform;		// +0xBC
+	Matrix3D m_transform;			// +0xEC
+	UnsignedInt m_burstDelayLeft;		// +0x11C
+	UnsignedInt m_delayLeft;		// +0x120
+	UnsignedInt m_startTimestamp;		// +0x124
 	UnsignedInt m_systemLifetimeLeft;	// +0x128
-	char pad12C[0x144 - 0x12C];
-	Coord3D m_pos;			// +0x144
-	Coord3D m_lastPos;		// +0x150
-	char pad15C[0x16C - 0x15C];
-	void *m_masterSystem;		// +0x16C
-	char pad170[0x19C - 0x170];
+	UnsignedInt m_count;			// +0x12C
+	Coord3D m_velCoeff;			// +0x130
+	Real m_countCoeff, m_delayCoeff;	// +0x13C
+	Coord3D m_pos;				// +0x144
+	Coord3D m_lastPos;			// +0x150
+	ParticleSystemHandleView m_slaveSystem;	// +0x15C
+	UnsignedInt m_slaveSystemID;		// +0x168
+	ParticleSystemHandleView m_masterSystem;	// +0x16C
+	UnsignedInt m_masterSystemID;		// +0x178
+	Real m_sizeCoeff, m_unknown180, m_unknown184;	// +0x17C
+	Coord3D m_unknown188;			// +0x188
+	unsigned char m_unknown194;		// +0x194
+	const FXParticleSystem::ParticleSystemTemplate *m_template;	// +0x198
 	ControlParticleView *m_controlParticle;	// +0x19C
-	Bool m_isLocalIdentity;		// +0x1A0
-	Bool m_isIdentity;		// +0x1A1
-	Bool m_isForever;		// +0x1A2
-	Bool m_isStopped;		// +0x1A3
-	Bool m_isDestroyed;		// +0x1A4
+	Bool m_isLocalIdentity;			// +0x1A0
+	Bool m_isIdentity;			// +0x1A1
+	Bool m_isForever;			// +0x1A2
+	Bool m_isStopped;			// +0x1A3
+	Bool m_isDestroyed;			// +0x1A4
 	Bool m_1A5;
 	Bool m_1A6;
 	Bool m_1A7;
-	Bool m_skipParentXfrm;		// +0x1A8
-	char pad1A9[3];
-	Rva001FA7F8 m_modules;		// +0x1AC
+	Bool m_skipParentXfrm;			// +0x1A8
+	Rva001FA7F8 m_modules;			// +0x1AC
 };
+typedef char ParticleExtent[sizeof(ParticleSystem) == 0x1DC ? 1 : -1];
 
-Bool Rva001FAB59::update(Int localPlayerIndex)
+Bool ParticleSystem::update(Int localPlayerIndex)
 {
 	m_updateTime = 0.0f;
 	__int64 startTime, frequency, endTime;
@@ -194,7 +228,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 	Bool isHidden = false;
 	Bool isShrouded = false;
 
-	if (m_masterSystem == NULL)
+	if (m_masterSystem.ptr == NULL)
 	{
 		// if this system is attached to a Drawable/Object, update the current transform
 		// matrix so generated particles' are relative to the parent Drawable's
@@ -233,7 +267,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 				m_attachedToDrawableID = 0;
 
 				// destroy ourselves
-				((ParticleSystem *)this)->destroy();
+				destroy();
 			}
 		}
 		else if (m_attachedToObjectID)
@@ -272,7 +306,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 				m_attachedToObjectID = INVALID_OBJECT_ID;
 
 				// destroy ourselves
-				((ParticleSystem *)this)->destroy();
+				destroy();
 			}
 		}
 
@@ -331,7 +365,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 			if (m_isForever || (m_isForever == false && m_systemLifetimeLeft > 0))
 			{
 				if (!isShrouded && m_isStopped == false && !isHidden)
-					((ParticleSystem *)this)->rva001F4696(&m_pos, (void *)getPriority(), m_isIdentity, &m_transform);
+					rva001F4696(&m_pos, (void *)getPriority(), m_isIdentity, &m_transform);
 			}
 		}
 	}
