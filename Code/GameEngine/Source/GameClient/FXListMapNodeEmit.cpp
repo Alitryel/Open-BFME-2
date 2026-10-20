@@ -75,6 +75,11 @@ namespace _STL { template <> void *const &vector<void *>::operator[](size_t) con
 #ifdef _INTERNAL
 #endif
 
+// Suppress this TU's non-retail list<FXNugget*>::insert copy: it is first in
+// link order, so it displaced the retail copy FXListNuggetParse.cpp and FXList.cpp
+// emit. Plain declaration-only form (no __imp_).
+namespace _STL { template <> list<FXNugget *>::iterator list<FXNugget *>::insert(iterator, FXNugget *const &); }
+
 // LINK-COMDAT: rts::equal_to<NameKeyType> is kept as the /O1 copy from FXList.cpp;
 // this TU is default-flag (speed) for its _M_new_node row, so its own copy differs.
 // Specialize only the member under "s" so our emitted copy matches the kept /O1 body,
