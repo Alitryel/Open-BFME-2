@@ -96,6 +96,7 @@ public:
 	BfmeCellFC();
 	~BfmeCellFC();
  __declspec(noinline) void rva006C1680(GridXferView*);
+	int rva006C0BC0(int *extra) const;
 
 	unsigned char m_bfmeKind;				// +0x00
 	unsigned char m_bfmeGap[3];				// +0x01
@@ -262,6 +263,16 @@ void TaintManagerImpl::bfmeGetCellRange(BfmeCellFC **first,
 BfmeCellFC::BfmeCellFC()
 	: m_bfmeKind(0x80), m_bfmeValue(0), m_bfmeExtra(-1)
 {
+}
+
+// ?rva006C0BC0@BfmeCellFC@@QBEHPAH@Z @ 0x006C0BC0 13B, right after the cell
+// constructor: returns the value at +0x04 and writes the +0x08 word through the
+// out pointer (RET 4). Unreferenced in retail (no call, jump or pointer to it);
+// the old 6B Get_Hash_Value placement at 0x006C0BC9 was this body's tail.
+int BfmeCellFC::rva006C0BC0(int *extra) const
+{
+	*extra = m_bfmeExtra;
+	return m_bfmeValue;
 }
 
 // ?bfmeUpdate@BfmeCellFC@@QAEXH_NH@Z @ 0x006C15E0 101B
