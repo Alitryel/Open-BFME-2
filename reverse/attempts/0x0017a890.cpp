@@ -1,5 +1,5 @@
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// partial score=0.9225 date=2026-10-20
+// partial score=0.9337 date=2026-10-20
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // partial score=0.913 date=2026-10-17
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
@@ -113,24 +113,6 @@ void PointGroupClass::rva009148C0(Vector3*point_loc,float*point_size,unsigned ch
 int unused0 = 0;
 int unused1 = 0;
 int unused2 = 0;
-int unused3 = 0;
-int unused4 = 0;
-int unused5 = 0;
-int unused6 = 0;
-int unused7 = 0;
-int unused8 = 0;
-int unused9 = 0;
-int unused10 = 0;
-int unused11 = 0;
-int unused12 = 0;
-int unused13 = 0;
-int unused14 = 0;
-int unused15 = 0;
-int unused16 = 0;
-int unused17 = 0;
-int unused18 = 0;
-int unused19 = 0;
-int unused20 = 0;
 	int i, j;
 	Vector3 *vertex_loc = &VertexLoc[0];
 
@@ -302,38 +284,47 @@ vertex_loc[vert + 3].Z = point_loc->Z + _QuadVertexLocationOrientationTable[poin
 
 		case QUADS_SIZE_ORIENT:
 {
+Vector3 dum0 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum1 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum2 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum3 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum4 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum5 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum6 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum7 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum8 = GroundMultiplierX + GroundMultiplierY;
+Vector3 dum9 = GroundMultiplierX + GroundMultiplierY;
 if (!Get_Flag(BILLBOARD)) {
 Matrix4 view;
 Vector4 result;
 DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 Vector3 *vertex_loc = &VertexLoc[0];
 int vert = 0;
-for (i = 0; i < active_points; i++, point_loc++, point_orientation++, point_size++, vert += 4) {
+for (int i = 0; i < active_points; i++, vert += 4, point_loc++, point_orientation++, point_size++) {
 Matrix4 rotMat;
 D3DXMatrixRotationZ(&(D3DXMATRIX&) rotMat, ((float)point_orientation[0] / 255.0f * 2 * D3DX_PI));
 Vector4 orientedVecX = rotMat * GroundMultiplierX;
 Vector4 orientedVecY = rotMat * GroundMultiplierY;
-Vector3 &v0 = vertex_loc[vert + 0];
 float dx0 = (orientedVecX.X + orientedVecY.X) * point_size[0];
 float dy0 = (orientedVecX.Y + orientedVecY.Y) * point_size[0];
 float dx1 = (orientedVecX.X - orientedVecY.X) * point_size[0];
 float dy1 = (orientedVecX.Y - orientedVecY.Y) * point_size[0];
-v0.X = ((const volatile Vector3 *)point_loc)->X + dx0;
-v0.Y = ((const volatile Vector3 *)point_loc)->Y + dy0;
-v0.Z = point_loc->Z;
-vertex_loc[vert + 1].X = ((const volatile Vector3 *)point_loc)->X + dx1;
-vertex_loc[vert + 1].Y = ((const volatile Vector3 *)point_loc)->Y + dy1;
+vertex_loc[vert + 0].X = point_loc->X + dx0;
+vertex_loc[vert + 0].Y = point_loc->Y + dy0;
+vertex_loc[vert + 0].Z = point_loc->Z;
+vertex_loc[vert + 1].X = point_loc->X + dx1;
+vertex_loc[vert + 1].Y = point_loc->Y + dy1;
 vertex_loc[vert + 1].Z = point_loc->Z;
-vertex_loc[vert + 2].X = ((const volatile Vector3 *)point_loc)->X - dx0;
-vertex_loc[vert + 2].Y = ((const volatile Vector3 *)point_loc)->Y - dy0;
+vertex_loc[vert + 2].X = point_loc->X - dx0;
+vertex_loc[vert + 2].Y = point_loc->Y - dy0;
 vertex_loc[vert + 2].Z = point_loc->Z;
-vertex_loc[vert + 3].X = ((const volatile Vector3 *)point_loc)->X - dx1;
-vertex_loc[vert + 3].Y = ((const volatile Vector3 *)point_loc)->Y - dy1;
+vertex_loc[vert + 3].X = point_loc->X - dx1;
+vertex_loc[vert + 3].Y = point_loc->Y - dy1;
 vertex_loc[vert + 3].Z = point_loc->Z;
 result = view*vertex_loc[vert + 0];
-v0.X = result.X;
-v0.Y = result.Y;
-v0.Z = result.Z;
+vertex_loc[vert + 0].X = result.X;
+vertex_loc[vert + 0].Y = result.Y;
+vertex_loc[vert + 0].Z = result.Z;
 result = view*vertex_loc[vert + 1];
 vertex_loc[vert + 1].X = result.X;
 vertex_loc[vert + 1].Y = result.Y;
@@ -350,7 +341,7 @@ vertex_loc[vert + 3].Z = result.Z;
 } else {
 Vector3 *vertex_loc = &VertexLoc[0];
 int vert = 0;
-for (i = 0; i < active_points; i++, point_loc++, point_orientation++, point_size++, vert += 4) {
+for (i = 0; i < active_points; i++, vert += 4, point_loc++, point_orientation++, point_size++) {
 vertex_loc[vert + 0].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][0].X * point_size[0];
 vertex_loc[vert + 0].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Y * point_size[0];
 vertex_loc[vert + 0].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Z * point_size[0];
