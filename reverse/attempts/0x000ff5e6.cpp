@@ -1,7 +1,5 @@
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
-// partial score=0.97 date=2026-10-19
-// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
-// partial score=0.96 date=2026-10-20
+// partial score=0.97 date=2026-10-20
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.95 date=2026-10-19
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
@@ -45,6 +43,7 @@ struct AssetList00208F90
 	bool m_changed;
 	AssetList00208F90() : m_treeLayoutPad(0), m_changed(true) {}
 	AssetList00208F90 &operator<<(const AsciiString &name);
+	AssetList00208F90 &operator<<(const char *name);
 };
 class Rva009EB960;extern Rva009EB960 *Rva0134FAA0;
 void bfmeMergeReceiverKeys(int);
@@ -83,22 +82,71 @@ enum waveType {WaveTypePond,WaveTypeOcean};
 class WaterTracksRenderSystem {public:WaterTracksObj *bindTrack(waveType);void rva000FE188();FeNode*rva000FE207(const float*,const float*,int);};
 extern WaterTracksRenderSystem *TheWaterTracksRenderSystem;
 class Rva0007E90ECallee {public:char unknown00[0x28];AsciiString file;void rva000FF5E6(int);};
-struct TrackPoint : Vector2 {
- TrackPoint(){}
- ~TrackPoint(){}
-};
-struct EliminatedLifetime { ~EliminatedLifetime(); };
-void eliminatedSink(const void *, const void *);
+class File {public:enum {READ=0x01,BINARY=0x40};enum seekMode {START,CURRENT,END};
+ virtual ~File();virtual void open();virtual void close();virtual int read(void*,int);virtual int write(const void*,int);virtual int seek(int,seekMode);
+ virtual void v6();virtual void v7();virtual void v8();virtual void v9();virtual void v10();virtual void v11();virtual void v12();virtual void v13();virtual File *convertToRAMFile();};
+class FileSystem {public:File *openFile(const char*,int,int);};
+extern FileSystem *TheFileSystem;
+struct WaveInfo {float m_finalWidth;float m_finalHeight;float m_waveDistance;float m_initialVelocity;int m_fadeMs;float m_initialWidthFraction;float m_initialHeightWidthFraction;int m_timeToCompress;int m_secondWaveTimeOffset;char *m_textureName;char *m_waveTypeName;};
+extern WaveInfo waveTypeInfo[];
+extern "C" char * __cdecl strcpy(char *,const char *);extern "C" unsigned int __cdecl strlen(const char *);
 float GetGameClientRandomValueReal(float,float,char*,int);
 void Rva0007E90ECallee::rva000FF5E6(int filename)
 {
  file=*reinterpret_cast<const AsciiString*>(filename);
+ bool loadFromFile=false;
+ if(loadFromFile) {
+  AsciiString fileName=file;
+  char path[256];
+  strcpy(path,fileName.str());
+  int len=strlen(path);
+  strcpy(path+len-4,".wak");
+  File *wakFile=TheFileSystem->openFile(path,File::READ|File::BINARY,0);
+  int trackCount=0;
+  int flipU=0;
+  Vector2 startPos,endPos;
+  waveType wtype;
+  AssetList00208F90 assetList;
+  if(wakFile) {
+   wakFile=wakFile->convertToRAMFile();
+   wakFile->seek(-4,File::END);
+   wakFile->read(&trackCount,sizeof(trackCount));
+   wakFile->seek(0,File::START);
+   for(int i=0;i<trackCount;i++) {
+   tryagain:
+    wakFile->read(&startPos,sizeof(startPos));
+    wakFile->read(&endPos,sizeof(endPos));
+    wakFile->read(&wtype,sizeof(wtype));
+    //Check if this track already exists.
+    if(reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&startPos.X,&endPos.X,wtype)) {
+     i++;
+     goto tryagain;
+    }
+    WaterTracksObj *umod=TheWaterTracksRenderSystem->bindTrack(wtype);
+    if(umod) {
+     flipU^=1;	//toggle flip state
+     umod->init(waveTypeInfo[wtype].m_finalHeight,waveTypeInfo[wtype].m_finalWidth,startPos,endPos,waveTypeInfo[wtype].m_textureName,0,0);
+     assetList<<waveTypeInfo[wtype].m_textureName;
+     umod->flipU=flipU;
+     if(waveTypeInfo[wtype].m_secondWaveTimeOffset) {	//check if we need a second wave to follow
+      umod=TheWaterTracksRenderSystem->bindTrack(wtype);
+      if(umod) {
+       umod->init(waveTypeInfo[wtype].m_finalHeight,waveTypeInfo[wtype].m_finalWidth,startPos,endPos,waveTypeInfo[wtype].m_textureName,waveTypeInfo[wtype].m_secondWaveTimeOffset,0);
+       umod->flipU=!flipU;
+      }
+     }
+    }
+   }
+   wakFile->close();
+  }
+  if(Rva0134FAA0)bfmeMergeReceiverKeys(reinterpret_cast<int>(&assetList));
+ } else {
  reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE188();
- if(0){EliminatedLifetime e0;EliminatedLifetime e1;eliminatedSink(&e0,&e1);}
  struct SegmentEndpoints {Vector2 shifted,midpoint;};
- SegmentEndpoints guide;Vector2 &endPos=guide.midpoint;Vector2 &startPos=guide.shifted;
+ SegmentEndpoints guide;Vector2 &startPos=guide.midpoint;Vector2 &endPos=guide.shifted;
  int flipU=0;AssetList00208F90 assets;
- if(W3DGCData00DE2000) {
+ if(!W3DGCData00DE2000)
+  return;
   TrackCollection *collection=reinterpret_cast<WaterMapView*>(W3DGCData00DE2000)->tracks;
   for(TrackCollection::const_iterator it=(collection?collection:collection)->begin();it!=collection->end();it++) {
    Rva0007E394Element *record=it.getPtr();
@@ -110,19 +158,19 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
     int next=i+1;Vector2 *base=record->begin;const Vector2 &a=base[i];const Vector2 &b=base[next];Vector2 start(a.X,a.Y);Vector2 end(b.X,b.Y);
     Vector2 dir(end.X-start.X,end.Y-start.Y);
     Vector2 midpoint=start+dir*0.5f;
-    endPos=midpoint;
-    Vector2 &perp=dir;perp.Rotate(1.57079632679f);perp.Normalize();
     startPos=midpoint;
-    startPos+=perp;
+    Vector2 &perp=dir;perp.Rotate(1.57079632679f);perp.Normalize();
+    endPos=midpoint;
+    endPos+=perp;
     //Check if this track already exists.
-    if(reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&endPos.X,&startPos.X,1))continue;
+    if(reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&startPos.X,&endPos.X,1))continue;
     WaterTracksObj *track=TheWaterTracksRenderSystem->bindTrack(WaveTypeOcean);
     if(track) {
      float fraction=GetGameClientRandomValueReal(0.0f,1.0f,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Water\\W3DWaterTracks.cpp",1141);
      int offset=fraction*reinterpret_cast<Rva0030C91AIntGetter*>(record)->get();
      flipU^=1;	//toggle flip state
      // Retail uses the same midpoint and shifted midpoint order as findTrack.
-     track->init(float(reinterpret_cast<Rva0030C896DwordField*>(record)->get()),float(reinterpret_cast<Rva0030C890IntGetter*>(record)->get()),endPos,startPos,const_cast<char*>(static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get())->str()),offset,record);
+     track->init(float(reinterpret_cast<Rva0030C896DwordField*>(record)->get()),float(reinterpret_cast<Rva0030C890IntGetter*>(record)->get()),startPos,endPos,const_cast<char*>(static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get())->str()),offset,record);
      assets<<*static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get());
      track->flipU=flipU;
     }
