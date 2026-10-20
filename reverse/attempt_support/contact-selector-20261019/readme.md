@@ -85,3 +85,59 @@ Disproven on top of the r2 bank (regions/bytes): compare arg ternary `c->label.c
 `contactsBegin[index]`/`[index+1]` 12, `p=contactsBegin;p+=index` 11 (same regs), `p=&begin[seed%(count-1)]`
 with `++p` 14, `count>1` 12. Ours also hoists `lea ecx,[edi+0xc]` above the label test (retail sinks it
 to the join after the per-arm push), so the whole arm head is merged, not just the pointer.
+
+## Round r4 (2026-10-20, claude-opus-5-5): 0.8934 -> 0.9420, banked
+
+Lever: a vector view with inline accessors in place of a raw begin pointer:
+
+    struct GeometryContactVector {
+     GeometryContactRecord *_M_start,*_M_finish,*_M_end_of_storage;
+     const GeometryContactRecord *begin() const {return _M_start;}
+     const GeometryContactRecord *end() const {return _M_finish;}
+     unsigned int size() const {return (unsigned int)(end()-begin());}
+     const GeometryContactRecord &operator[](unsigned int n) const {return *(begin()+n);}
+    };
+
+Case 3 written as `contacts[index].position` / `contacts[index+1].position`
+(index = `seed%(count-1)`, count = `(int)contacts.size()`) is now exact except
+for one `fmul`/`mov edx,[eax+0x18]` swap at 0x6bf091; begin is held in EBP as
+retail. The case-0 distance spelled `dz*dz+(dx*dx+dy*dy)` gives retail's x87
+order (fld st(1); fmul st(2); fld st(3); fmul st(4); faddp; fld st(1); fmul
+st(2); faddp). Bytes (trials.py SequenceMatcher) 0.942049, permute fitness
+0.9545, 1075 B vs 1082. Bank: `reverse/attempts/0x006bef80.cpp`.
+CollidesWith (same file, 821 B) stays exact.
+
+WorldBuilder twin (va 0x6f91b0, Geometry.cpp, `tools/wb_show.py`) evidence:
+Coord3D scale/add/sub/GetLengthSqrd are out of line there; case 0 pushes
+`label` or `""` through a branch (two pushes, `lea ecx,[eax+ebp+0xc]` at the
+join) with no element pointer, and the position copy groups its three loads
+after reloading `[esi+0x38]`. Game retail instead computes the element pointer
+in each arm (`mov edx|eax,[esi+0x38]; lea edi,[ebx+reg]`) and keeps it in EDI.
+
+Residue on the bank: (1) the per-arm element pointer is head-merged above the
+label test (`mov edi,[esi+0x38]; ...; add edi,ebx; test; lea ecx,[edi+0xc]`),
+7 bytes; (2) the position copy interleaves load/store where retail groups the
+three loads; (3) `best=i` uses EAX, retail EDX; (4) the case-3 swap above.
+
+Disproven on the vector view (bytes, all <= bank): case-3 spellings via a
+pointer `p`, `begin()+index`, `p+=index`, `++p`, `n+begin`, `_M_start[n]`;
+other distance orders and a Coord3D difference struct; mixed per-arm
+spellings, assignment inside the call, comma operator, function-scope `c`,
+dropping `!= 0`, `label!=0`; ContactPoint `pos`; position copy per field,
+by assignment, via contactCopy, as float locals (worse), via getters by
+value/pointer/reference; ternary-argument forms T1-T4 (lose EBX strength
+reduction); `int r` per arm; ternary of assignments; no element pointer (0.80);
+reference bound before the if (0.858); element pointer through
+`i*16+(int)_M_start`, `_M_start+i*16`, `&_M_start[i]`, `begin()+i*sizeof`,
+mixed arms (all identical to the bank, 0.942049). `tools/permute.py --flags`
+was inert in r2.
+
+A real STLport `std::vector<GeometryContactRecord>` (`/D_STLP_USE_STATIC_LIB
+/D_CRTIMP=`, stdio fprintf) is worse: 0.857671, 1092 B (the control without the
+vector stays 0.942049). `tools/permute.py 0x006BEF80 --minutes 30 --jobs 6` from
+this bank: 1147 trials, start = best 0.9545, stopped with no gain in 600.
+
+Untried: the case-0 arm head as an inline member with a body that returns the
+element (e.g. `const GeometryContactRecord *matching(i,label)`), declared in a
+shared header; an out-of-line Coord3D::sub/GetLengthSqrd like the WB twin
+(game retail inlines case 3's scale/add, so this applies to case 0 only).

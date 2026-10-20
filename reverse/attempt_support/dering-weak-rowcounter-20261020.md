@@ -46,3 +46,7 @@ These homes were identical in every one of about 950 trials this run and last ru
 ## Behaviour
 
 The native harness `dering-weak-flat-20261020-harness.c.txt` (committed last run) compared the committed bank, this bank and the independent spec model in 5120 cases: 0 failures. Unicorn is not installed in this seat, so the retail emulator oracle was not rerun.
+
+## Permute follow-up (2026-10-20, later seat)
+
+`tools/permute.py 0x001C22C0 --minutes 30 --jobs 6` from the shared-row-counter bank: 854 trials, start and best 0.9768, stopped with no gain in 600. The spill homes and the output-loop prologue colouring need a source hypothesis, not a reordering search.

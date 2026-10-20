@@ -1,11 +1,5 @@
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.8934 date=2026-10-19
-// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.8934 date=2026-10-19
-// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.738205365402405 date=2026-10-19
-// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.6735615248150802 date=2026-10-16
+// partial score=0.942 date=2026-10-20
 // cl: /O2 /Ob2 /G6 /DNDEBUG /MD /EHs-c- /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
 // GeometryInfo::CollidesWith, retail 0x006BEB80..0x006BEEB5 (821 bytes, RET 0x14).
 //
@@ -32,6 +26,14 @@ extern "C" int fprintf(void*,const char*,...);
 extern "C" void *theLogicRandomLogFile;
 extern bool g_bfmeDockingTraceActive;
 struct GeometryContactRecord {Coord3D position; AsciiString label;};
+struct GeometryContactVector {
+ GeometryContactRecord *_M_start,*_M_finish,*_M_end_of_storage;
+ const GeometryContactRecord *begin() const {return _M_start;}
+ const GeometryContactRecord *end() const {return _M_finish;}
+ unsigned int size() const {return (unsigned int)(end()-begin());}
+ const GeometryContactRecord &operator[](unsigned int n) const {return *(begin()+n);}
+};
+
 struct Rva0087E900Coord { float x,y,z; };
 struct Rva0087E900Shape { char pad[0x10]; Rva0087E900Coord offset; };
 Rva0087E900Coord *Rva0087E900(Rva0087E900Coord *,const Rva0087E900Coord *,const Rva0087E900Shape *,float);
@@ -59,7 +61,7 @@ public:
  bool CollidesWith(const Coord3D &,float,const GeometryInfo &,const Coord3D &,float) const;
 private:
  void *vptr; char prefix[0x28]; GeometryShape *begin,*end,*limit;
- GeometryContactRecord *contactsBegin,*contactsEnd,*contactsCapacity;
+ GeometryContactVector contacts;
  Coord3D preferredPosition,defaultPosition;
 };
 static inline float topExtent(const GeometryShape &s) {
@@ -113,12 +115,11 @@ bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const ch
  contactCopy(*out,defaultPosition);
  switch(preference){
  case 3:{
-  int count=contactsEnd-contactsBegin;
+  int count=(int)contacts.size();
   if(count>=2){
    int index=seed%(count-1);
-   const GeometryContactRecord *p=&contactsBegin[index];
-   ContactPoint first=p[0].position;
-   ContactPoint second=p[1].position;
+   ContactPoint first=contacts[index].position;
+   ContactPoint second=contacts[index+1].position;
    float t=((seed>>8)&255)/255.0f;
    first.x*=t;first.y*=t;first.z*=t;
    float inverse=1.0f-t;second.x*=inverse;second.y*=inverse;second.z*=inverse;
@@ -143,21 +144,21 @@ bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const ch
   return true;
  case 0:{
   if(caller){
-  int count=contactsEnd-contactsBegin;
+  int count=(int)contacts.size();
   int best=count;float bestDistance=FLT_MAX;
   for(int i=0;i<count;++i){
    const GeometryContactRecord *c;
-   if(label){c=&contactsBegin[i];if(c->label.compare(label)!=0)continue;}
-   else{c=&contactsBegin[i];if(c->label.compare("")!=0)continue;}
+   if(label){c=&contacts[i];if(c->label.compare(label)!=0)continue;}
+   else{c=&contacts[i];if(c->label.compare("")!=0)continue;}
    Coord3D pos=c->position;
    if(pos.z>getMaxHeightAbovePosition())pos.z=getMaxHeightAbovePosition();
    if(!ignoreCollision&&!CollidesWith(GeometryContactOrigin,0.0f,*(const GeometryInfo *)&g_Va00E0C150,pos,0.0f))continue;
    float dx=pos.x-caller->x,dy=pos.y-caller->y,dz=pos.z-caller->z;
-   float d=dx*dx+dy*dy+dz*dz;
+   float d=dz*dz+(dx*dx+dy*dy);
    if(d<bestDistance){bestDistance=d;best=i;}
   }
   if(best!=count){
-  contactCopy(*out,contactsBegin[best].position);
+  contactCopy(*out,contacts[best].position);
   if(out->z>getMaxHeightAbovePosition()){out->z=getMaxHeightAbovePosition();}
   else if(out->z<getMaxHeightAbovePosition()*0.1f)out->z=getMaxHeightAbovePosition()*0.1f;
   return true;
