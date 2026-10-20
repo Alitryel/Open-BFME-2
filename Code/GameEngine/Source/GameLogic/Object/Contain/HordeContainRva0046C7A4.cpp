@@ -5,6 +5,16 @@
 // nearest contained Object (else nearest live +0x170 ID-set Object) within maxDistance, distance jittered by a
 // random factor in [0.66, 1.33]; without a position the first Object not in status 0x3F, else the first member.
 #include <list>
+
+// Use the typed node comparison here; the iterator-base out-of-line wrapper
+// belongs to the retail STLport owner compiled with its own settings.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 #include <set>
 #include "Coord3D.h"
 #include "GameLogicObjectLookupView.h"

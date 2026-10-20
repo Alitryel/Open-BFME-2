@@ -377,6 +377,16 @@ template void __unguarded_linear_insert<S4SortElem12 *, S4SortElem12, S4Cmp002E1
 
 #include <list>
 
+// Use the typed node comparison here; the iterator-base out-of-line wrapper
+// belongs to the retail STLport owner compiled with its own settings.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+
 class ParticleSystem;
 ParticleSystem *Make001FCBD7();
 class RvaSmartPtr12 {public:void rva0004CBC0()throw();};
