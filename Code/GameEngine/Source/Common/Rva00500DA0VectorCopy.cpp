@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
-// ??0?$vector@URva00500DA0Element@@V?$allocator@URva00500DA0Element@@@_STL@@@_STL@@QAE@ABV01@@Z @0x00500DA0 96B
+// ??0?$vector@URva00501E3FElement@@V?$allocator@URva00501E3FElement@@@_STL@@@_STL@@QAE@ABV01@@Z @0x00500DA0 96B
 // vector<Rva00501E3FElement> copy ctor. 0x14-byte element forces the
 // idiv-by-0x14 count shape with __EH_prolog frame. Non-trivial element
 // (user-declared dtor) selects the exception-guarded copy path with the
@@ -10,27 +10,18 @@
 // Rva00501E3FElement spellings to the folded bodies: get_allocator at
 // 0x0021983A and _Vector_base at 0x004FF36C and uninitialized_copy PBU at
 // 0x005008A0. Callers 0x005017B4 and 0x0059B8FD.
-// Keep this inlined unsigned max overload local; retail has one external owner.
-#include <stl/_algobase.h>
-namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
-{
-    return a < b ? b : a;
-}
-}
-
+// Retail uninitialized_copy at 0x005008A0 is a 38-byte loop without a
+// catch path. This selects that STLport configuration; /EHsc still emits
+// the copy constructor's native base-cleanup graph.
+#define _STLP_NO_EXCEPTIONS 1
 #include <vector>
-// Suppress this TU's non-retail copy of ??1?$vector@URva00501E3FElement@@V?$allocator@URva00501E3FElement@@@_STL@@@_STL@@QAE@XZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva00501E3FElement;
-namespace _STL { template <> vector<Rva00501E3FElement,allocator<Rva00501E3FElement> >::~vector(); }
 
 struct Rva00501E3FElement
 {
+	// The existing copy provider at 0x005007AA copies the nested tree.
+	Rva00501E3FElement(const Rva00501E3FElement &);
 	unsigned int m_data[5];
 	~Rva00501E3FElement();
 };
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<Rva00501E3FElement>(Rva00501E3FElement *p) { typedef Rva00501E3FElement BfmeDestroyT; p->~BfmeDestroyT(); } }
-
-template class _STL::vector<Rva00501E3FElement>;
+// Emit only the owned copy constructor, not unrelated vector operations.
+template _STL::vector<Rva00501E3FElement>::vector(const _STL::vector<Rva00501E3FElement> &);
