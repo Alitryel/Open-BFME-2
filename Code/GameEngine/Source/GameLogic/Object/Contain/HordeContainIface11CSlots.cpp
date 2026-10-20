@@ -169,6 +169,7 @@ public:
 	void aiAttackPosition(const Coord3D *pos, int maxShotsToFire, CommandSourceType cmdSource);
 };
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
+float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 // Retail's random calls carry this source path literal.
 #define HORDECONTAIN_SOURCE_FILE "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeContain.cpp"
 class Player;
@@ -966,6 +967,12 @@ public:
 template <> class Rva0046BB38Slots<0>
 {
 };
+// The 0x4C-byte record instigateQuarrel takes twice by value and keeps at +0x1B4
+// and +0x200; slot 107 hands both to the rowed Object 0x001E42F2.
+struct QuarrelPacket
+{
+	int words[0x13];
+};
 // HordeContain's +0x11C interface (vtable 0x00C44C58), 152 slots; named ones are
 // the overrides below plus slot 144 (banked) and the slots they call.
 class Rva0046BB38Iface6 : public Rva0046BB38Slots<0>
@@ -1005,7 +1012,7 @@ public:
 	virtual void gap94() = 0; virtual int rva004697CD() = 0; virtual int rva0046D3FC(Rva2225E0Filter *filter) = 0; virtual int rva00468F68() = 0;
 	virtual int rva00468F7E() = 0; virtual Object *rva004708BC(const Matrix3D *mtx) = 0; virtual void gap100() = 0; virtual int slot101(Object *obj) = 0;
 	virtual void gap102() = 0; virtual void backAwaySomeMembersFrom(Object *attacker) = 0; virtual void gap104() = 0; virtual void gap105() = 0;
-	virtual void gap106() = 0; virtual void rva0046D8AE() = 0; virtual void rva0046D7AF(int a1) = 0; virtual void rva0046A78F(const Matrix3D *mtx) = 0;
+	virtual void instigateQuarrel(int low, int high, QuarrelPacket packetA, QuarrelPacket packetB) = 0; virtual void rva0046D8AE() = 0; virtual void rva0046D7AF(int a1) = 0; virtual void rva0046A78F(const Matrix3D *mtx) = 0;
 	virtual void rva0046A712(int unused) = 0; virtual void rva0046ECDE(const Coord3D *a1, const Coord3D *a2, int a3, PathfindLayerEnum layer) = 0; virtual void gap112() = 0; virtual bool rva0046D80B() = 0;
 	virtual bool rva0046A6C1() = 0; virtual bool rva0046A677() = 0; virtual void gap116() = 0; virtual void rva0046DDC5(int a1, int a2) = 0;
 	virtual void rva0046DB6D(const AsciiString &name, Rva2225E0Filter *filter, int a3) = 0; virtual void rva0046DC92(const AsciiString &name, Rva2225E0Filter *filter) = 0; virtual void gap120() = 0; virtual void rva0046981C() = 0;
@@ -1339,6 +1346,7 @@ public:
 	virtual void rva004707DB(Object *obj, float amount);
 	virtual void rva004739B4();
 	virtual void rva00473799(const _STL::list<Object *> &items);
+	virtual void instigateQuarrel(int low, int high, QuarrelPacket packetA, QuarrelPacket packetB);
 	virtual void rva0046D8AE();
 	virtual Object *rva0046CB2C();
 	virtual bool rva0046D80B();
@@ -1412,11 +1420,9 @@ private:
 	Rva00473F81 m_1A0; // +0x1A0 (back-away goals by member ID)
 	ObjectID m_1AC; // +0x1AC
 	ObjectID m_1B0; // +0x1B0
-	int m_1B4; // +0x1B4
-	unsigned char m_pad1B8[0x200 - 0x1B8];
-	int m_200; // +0x200
-	unsigned char m_pad204[0x24C - 0x204];
-	_STL::map<int, void *> m_24C; // +0x24C
+	QuarrelPacket m_1B4; // +0x1B4
+	QuarrelPacket m_200; // +0x200
+	_STL::map<ObjectID, int> m_24C; // +0x24C (member ID -> quarrel value)
 	_STL::map<unsigned short, float, Rva00470041Less> m_258; // +0x258 (template +0x5D8 -> experience)
 	void *m_264; // +0x264
 	unsigned char m_pad268[0x26C - 0x268];
@@ -2100,6 +2106,78 @@ void HordeContain::rva00473ADF()
 		if (ai)
 			ai->m_command.rva0045003E(0, CMD_FROM_AI);
 	}
+}
+
+// Slot 106 (WB HordeContain::instigateQuarrel): the member nearest the centre and a random other
+// one get +0x1B0 / +0x1AC, the rest a random [low, high] value in +0x24C; a null member runs slot 107.
+void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, QuarrelPacket packetB)
+{
+	m_24C.clear();
+	Rva0046247DPair p;
+	((Rva0046247D *)(UpdateModule *)this)->rva0046247D(p);
+	int count = (int)p.m04->size();
+	if (count < 2)
+		return;
+	float best = 10000.0f;
+	int closest = -1;
+	int index = 1;
+	Coord3D center;
+	center.zero();
+	_STL::list<Object *>::const_iterator it;
+	for (it = p.m04->begin(); it != p.m04->end(); ++it)
+	{
+		Object *member = *it;
+		if (!member)
+		{
+			rva0046D8AE();
+			return;
+		}
+		center.add(member->getPosition());
+	}
+	center.scale(1.0f / count);
+	for (it = p.m04->begin(); it != p.m04->end(); ++it, ++index)
+	{
+		Object *member = *it;
+		if (!member)
+		{
+			rva0046D8AE();
+			return;
+		}
+		Coord3D diff;
+		diff.set(member->getPosition());
+		diff.sub(&center);
+		float distance = diff.x * diff.x + diff.y * diff.y;
+		if (distance < best)
+		{
+			best = distance;
+			closest = index;
+		}
+	}
+	int leader = closest;
+	if (leader == -1)
+		leader = 1;
+	int other = leader + GetGameLogicRandomValue(1, count - 1, HORDECONTAIN_SOURCE_FILE, 8135);
+	if (other > count)
+		other -= count;
+	m_1B4 = packetB;
+	m_200 = packetA;
+	index = 1;
+	for (it = p.m04->begin(); it != p.m04->end(); ++it, ++index)
+	{
+		Object *member = *it;
+		if (!member)
+		{
+			rva0046D8AE();
+			return;
+		}
+		if (index == other)
+			m_1AC = (ObjectID)member->getID();
+		else if (index == leader)
+			m_1B0 = (ObjectID)member->getID();
+		else
+			m_24C[(ObjectID)member->getID()] = (int)GetGameLogicRandomValueReal((float)low, (float)high, HORDECONTAIN_SOURCE_FILE, 8162);
+	}
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }
 
 // ?rva0046A6C1@HordeContain@@UAE_NXZ @0x0046A6C1: slot 114; whether a contained
@@ -2817,15 +2895,15 @@ void HordeContain::rva0046D8AE()
 {
 	const _STL::list<Object *> *items = containedItems();
 	for (_STL::list<Object *>::const_iterator it = items->begin(); it != items->end(); ++it)
-		(*it)->rva001E42F2(&m_200);
+		(*it)->rva001E42F2(m_200.words);
 	m_24C.clear();
 	GameLogic *logic = TheGameLogic;
 	Object *first = logic->findObjectByID(m_1AC);
 	Object *second = logic->findObjectByID(m_1B0);
 	if (first)
-		first->rva001E42F2(&m_1B4);
+		first->rva001E42F2(m_1B4.words);
 	if (second)
-		second->rva001E42F2(&m_1B4);
+		second->rva001E42F2(m_1B4.words);
 	m_1AC = INVALID_ID;
 }
 
