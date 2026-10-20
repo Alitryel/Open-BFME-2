@@ -59,12 +59,8 @@ class Rva00109DCF { public: void rva00108E28(); };
 class Q1Receiver0134FAAC { public: void Rva00624790(); };
 extern Q1Receiver0134FAAC *TheQ1Receiver;
 
-// ?rva0009A487@@YAXXZ @0x0009A487: Rva00DEC2D8Manager -> 0x00108E28
-void rva0009A487()
-{
-	if (Rva00DEC2D8Manager)
-		((Rva00109DCF *)Rva00DEC2D8Manager)->rva00108E28();
-}
+// 0x0009A487 was the tail of W3DShadowManager::invalidateCachedLightPositions
+// (0x0009A478, W3DShadowManagerToggleLists.cpp); its row is retired.
 
 // ?rva0061F190@@YAXXZ @0x0061F190: TheQ1Receiver -> 0x00624790
 void rva0061F190()

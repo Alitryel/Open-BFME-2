@@ -57,6 +57,29 @@ extern W3DVolumetricShadowManager *TheW3DVolumetricShadowManager;
 class W3DProjectedShadowManager;
 extern W3DProjectedShadowManager *TheW3DProjectedShadowManager;
 extern Rva00108660ResourceManager *Rva00DEC2D8Manager;
+// W3DShadowManager::invalidateCachedLightPositions, retail 0x0009A478 (31 B),
+// Zero Hour's W3DShadow.cpp shape: the volumetric manager's rowed
+// invalidateCachedLightPositions (0x000F0912), then the DEC2D8 manager's
+// rowed 0x00108E28 as a tail jump. Its second half had been rowed alone as a
+// forwarder at 0x0009A487.
+class W3DVolumetricShadowManager
+{
+public:
+    void invalidateCachedLightPositions();
+};
+class Rva00109DCF { public: void rva00108E28(); };
+class W3DShadowManager
+{
+public:
+    void invalidateCachedLightPositions();
+};
+void W3DShadowManager::invalidateCachedLightPositions()
+{
+    if(TheW3DVolumetricShadowManager)
+        TheW3DVolumetricShadowManager->invalidateCachedLightPositions();
+    if(Rva00DEC2D8Manager)
+        ((Rva00109DCF *)Rva00DEC2D8Manager)->rva00108E28();
+}
 class GenAlpha
 {
 public:
