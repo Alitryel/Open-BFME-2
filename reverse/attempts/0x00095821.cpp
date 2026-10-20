@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.935 date=2026-10-20
+// partial score=0.95 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
@@ -612,7 +612,7 @@ void BfmeB1137::Install_Materials(void) const
 		if (m_38 > 1.0f)
 			m_38 = 1.0f;
 		float diagonal = WWMath::Sqrt((float)(height * height + width * width));
-		drift.m[3][0] -= diagonal * (m_38 * 10.0f);
+		drift.m[3][0] -= diagonal * m_38 * 10.0f;
 
 		float fw = (float)width;
 		float fh = (float)height;
@@ -701,7 +701,7 @@ void BfmeB1137::Install_Materials(void) const
 			D3DXMatrixTranslation(&toOrigin, 0.0f - m_D4, 0.0f - m_D8, 0.0f);
 			D3DXMATRIX toHalf;
 			D3DXMatrixTranslation(&toHalf, 0.5f, 0.5f, 0.0f);
-			float radius = CLOUD->getM28() + m_3C * 0.1f + m_3C * m_3C * 0.15000000596046448;
+			float radius = CLOUD->getM28() + m_3C * 0.1f + 0.15000000596046448 * m_3C * m_3C;
 			m_40 = radius;
 			if (!m_68)
 			{
@@ -710,7 +710,8 @@ void BfmeB1137::Install_Materials(void) const
 				else if (!sameFrame)
 				{
 					float growth = CLOUD->getM2C();
-					m_3C += growth;
+					float r = m_3C;
+					m_3C = r + growth;
 				}
 			}
 			float worldTexelWidth = m_40;
