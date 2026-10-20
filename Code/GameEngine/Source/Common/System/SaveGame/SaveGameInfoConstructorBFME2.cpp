@@ -32,17 +32,17 @@ void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 // Retain the address-derived name already used by the enclosing map record.
 // BFME1 SaveGameInfo supplies the three-string/date prefix; BFME2 adds the
 // following fields. Unresolved application field names remain offset-based.
-// This base is NOT canonical Snapshot: retail holds crc/typeName/xfer here
-// while canonical Snapshot (Snapshot.cpp, shim) holds crc/xfer/loadPostProcess.
-// Same mangled name different virtuals cannot share COMDATs, so the base keeps
-// an honest Rva address name here (SaveMapPreviewCopy precedent).
+// Retail's base table 0x00BBB554 holds __purecall in slots 1-3; slot 1 is
+// the no-argument loadPostProcess (the derived tables put the plain `ret`
+// 0x000B3FD0 there), slot 2 typeName, slot 3 xfer. The view matches
+// GameSlotCtor.cpp's, the first copy in link order.
 class Xfer;
 class Rva0022CE19SnapshotBase {
 public:
     inline virtual ~Rva0022CE19SnapshotBase() {}
-    virtual void crc(Xfer *);
-    virtual const char *typeName() const;
-    virtual void xfer(Xfer *);
+    virtual void loadPostProcess() = 0;
+    virtual const char *typeName() const = 0;
+    virtual void xfer(Xfer *) = 0;
 };
 class Rva002DB9CB { public: Rva002DB9CB *rva002DB9CB() throw(); unsigned short values[8]; };
 struct BfmeSaveDate : Rva002DB9CB { BfmeSaveDate(){rva002DB9CB();} };
@@ -70,10 +70,20 @@ class CreateAHeroData : public Rva0022CE19SnapshotBase {
 public:
     CreateAHeroData(const CreateAHeroData &);
     virtual ~CreateAHeroData();
+    virtual const char *typeName() const;
+    virtual void xfer(Xfer *);
+protected:
+    virtual void loadPostProcess();
 };
 class GameSlot : Rva0022CE19SnapshotBase {
 public:
     GameSlot();
+    virtual const char *typeName() const { return "GameSlot"; }
+    virtual void xfer(Xfer *);
+    virtual void reset();
+protected:
+    virtual void loadPostProcess();
+public:
     unsigned int word04;
     unsigned char flag08, flag09, flag0A;
     unsigned int word0C, word10, word14, word18, word1C, word20, word24, word28, word2C;
@@ -94,7 +104,7 @@ struct BfmeSubobject00229875 : Rva0022CE19SnapshotBase {
     BfmeSubobject00229875();
     void rva002DBA6A();
     virtual ~BfmeSubobject00229875();
-    virtual void crc(Xfer *);
+    virtual void loadPostProcess();
     virtual const char *typeName() const;
     virtual void xfer(Xfer *);
     GameSlot elements[8];
@@ -106,7 +116,7 @@ struct BfmeSubobject00229875 : Rva0022CE19SnapshotBase {
 typedef char BfmeSaveElementSizeCheck[sizeof(GameSlot)==0x1AC ? 1 : -1];
 struct BfmeSubobject0022CE19 : Rva0022CE19SnapshotBase {
     virtual ~BfmeSubobject0022CE19();
-    virtual void crc(Xfer *);
+    virtual void loadPostProcess();
     virtual const char *typeName() const;
     virtual void xfer(Xfer *);
     AsciiString text04, text08, text0C;

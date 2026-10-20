@@ -16,17 +16,17 @@
 // Retain the address-derived name already used by the enclosing map record.
 // BFME1 SaveGameInfo supplies the three-string/date prefix; BFME2 adds the
 // following fields. Unresolved application field names remain offset-based.
-// This base is NOT canonical Snapshot: retail holds crc/typeName/xfer here
-// while canonical Snapshot (Snapshot.cpp, shim) holds crc/xfer/loadPostProcess.
-// Same mangled name different virtuals cannot share COMDATs, so the base keeps
-// an honest Rva address name here (SaveMapPreviewCopy precedent).
+// Retail's base table 0x00BBB554 holds __purecall in slots 1-3; slot 1 is
+// the no-argument loadPostProcess (the derived tables put the plain `ret`
+// 0x000B3FD0 there), slot 2 typeName, slot 3 xfer. The view matches
+// GameSlotCtor.cpp's, the first copy in link order.
 class Xfer;
 class Rva0022CE19SnapshotBase {
 public:
     inline virtual ~Rva0022CE19SnapshotBase() {}
-    virtual void crc(Xfer *);
-    virtual const char *typeName() const;
-    virtual void xfer(Xfer *);
+    virtual void loadPostProcess() = 0;
+    virtual const char *typeName() const = 0;
+    virtual void xfer(Xfer *) = 0;
 };
 struct BfmeSaveDate { unsigned short values[8]; };
 // Complete copy at 0x22C55B is 71 bytes: allocate a vector range of 20-byte
@@ -51,10 +51,22 @@ class CreateAHeroData : public Rva0022CE19SnapshotBase {
 public:
     CreateAHeroData(const CreateAHeroData &);
     virtual ~CreateAHeroData();
+    virtual const char *typeName() const;
+    virtual void xfer(Xfer *);
+protected:
+    virtual void loadPostProcess();
 };
 class GameSlot : Rva0022CE19SnapshotBase {
 public:
     GameSlot();
+    // Table 0x00BE7420 slot 2 is the literal getter 0x002296E6, slot 3 the
+    // rowed xfer 0x003FF616 (GameSlotCtor.cpp).
+    virtual const char *typeName() const { return "GameSlot"; }
+    virtual void xfer(Xfer *);
+    virtual void reset();
+protected:
+    virtual void loadPostProcess();
+public:
     unsigned int word04;
     unsigned char flag08, flag09, flag0A;
     unsigned int word0C, word10, word14, word18, word1C, word20, word24, word28, word2C;
@@ -75,7 +87,7 @@ struct BfmeSubobject00229875 : Rva0022CE19SnapshotBase {
     BfmeSubobject00229875();
     void rva002DBA6A();
     virtual ~BfmeSubobject00229875();
-    virtual void crc(Xfer *);
+    virtual void loadPostProcess();
     virtual const char *typeName() const;
     virtual void xfer(Xfer *);
     GameSlot elements[8];
@@ -87,7 +99,7 @@ struct BfmeSubobject00229875 : Rva0022CE19SnapshotBase {
 typedef char BfmeSaveElementSizeCheck[sizeof(GameSlot)==0x1AC ? 1 : -1];
 struct BfmeSubobject0022CE19 : Rva0022CE19SnapshotBase {
     virtual ~BfmeSubobject0022CE19();
-    virtual void crc(Xfer *);
+    virtual void loadPostProcess();
     virtual const char *typeName() const;
     virtual void xfer(Xfer *);
     AsciiString text04, text08, text0C;
@@ -171,7 +183,7 @@ class SaveMapPreview : public Rva0022CE19SnapshotBase
 public:
 	SaveMapPreview() : word04(-1) { pos.x = 0.0f; pos.y = 0.0f; pos.z = 0.0f; }
 	virtual ~SaveMapPreview() {}
-	virtual void crc(Xfer *);
+	virtual void loadPostProcess();
 	virtual const char *typeName() const;
 	virtual void xfer(Xfer *);
 	int word04;
@@ -498,10 +510,10 @@ void Rva0022958D::init()
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?crc@BfmeSubobject00229875@@UAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?loadPostProcess@BfmeSubobject00229875@@UAEXXZ=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?typeName@BfmeSubobject00229875@@UBEPBDXZ=?name@Rva00229902Named@@QBEPBDXZ")
 #pragma comment(linker, "/alternatename:?xfer@BfmeSubobject00229875@@UAEXPAVXfer@@@Z=?rva002DBDB4@Rva002DBDB4@@QAEXPAVRva002DBD05@@@Z")
-#pragma comment(linker, "/alternatename:?crc@BfmeSubobject0022CE19@@UAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?loadPostProcess@BfmeSubobject0022CE19@@UAEXXZ=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?typeName@BfmeSubobject0022CE19@@UBEPBDXZ=?name@Rva0022CEF1Named@@QBEPBDXZ")
 
 // ?rva002DE311@Rva002DE311Owner@@QAEXXZ, retail 0x002DE311, 58 bytes.

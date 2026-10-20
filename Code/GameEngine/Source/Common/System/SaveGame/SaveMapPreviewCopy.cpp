@@ -12,16 +12,18 @@ void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
 class Xfer;
-// SaveMapPreview's base is NOT canonical Snapshot: retail vtable 0xBE7258 holds
-// crc/typeName/xfer while canonical Snapshot (Snapshot.cpp, shim) holds
-// crc/xfer/loadPostProcess. Same mangled name different virtuals cannot share
-// COMDATs, so the base keeps an honest Rva address name here.
+// SaveMapPreview's base is NOT canonical Snapshot: retail's base table
+// 0xBBB554 holds __purecall in slots 1-3, and vtable 0xBE7258 holds the no-
+// argument loadPostProcess (the plain `ret` 0x000B3FD0), typeName and xfer,
+// while canonical Snapshot (Snapshot.cpp, shim) holds crc/xfer/loadPostProcess.
+// Same mangled name different virtuals cannot share COMDATs, so the base keeps
+// an honest Rva address name here.
 class Rva002262E7SnapshotBase {
 public:
     virtual ~Rva002262E7SnapshotBase();
-    virtual void crc(Xfer *);
-    virtual const char *typeName() const;
-    virtual void xfer(Xfer *);
+    virtual void loadPostProcess() = 0;
+    virtual const char *typeName() const = 0;
+    virtual void xfer(Xfer *) = 0;
 };
 class SaveMapPreview : public Rva002262E7SnapshotBase {
 public:
@@ -29,7 +31,7 @@ public:
     struct Words { unsigned int a,b,c; } words08;
     __declspec(nothrow) SaveMapPreview(const SaveMapPreview &o) : Rva002262E7SnapshotBase(o), word04(o.word04), words08(o.words08) {}
     virtual ~SaveMapPreview();
-    virtual void crc(Xfer *);
+    virtual void loadPostProcess();
     virtual const char *typeName() const;
     virtual void xfer(Xfer *);
 };
@@ -44,6 +46,6 @@ template SaveMapPreview *_STL::vector<SaveMapPreview>::_M_allocate_and_copy<Save
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?crc@SaveMapPreview@@UAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?loadPostProcess@SaveMapPreview@@UAEXXZ=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?typeName@SaveMapPreview@@UBEPBDXZ=?name@Rva00226309Named@@QBEPBDXZ")
 #pragma comment(linker, "/alternatename:?xfer@SaveMapPreview@@UAEXPAVXfer@@@Z=?rva002DBA3F@Rva002DBA3F@@QAEXPAVXfer@@@Z")
