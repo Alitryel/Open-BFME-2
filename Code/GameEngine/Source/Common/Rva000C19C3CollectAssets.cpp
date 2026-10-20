@@ -24,6 +24,10 @@ namespace _STL { template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiS
 namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
 namespace _STL { template <> void _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_erase(_Rb_tree_node<AsciiString> *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??R?$less@VAsciiString@@@_STL@@QBE_NABVAsciiString@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> bool less<AsciiString>::operator()(const AsciiString &, const AsciiString &) const; }
 struct AsciiStringRef{const AsciiString*m_string;};
 class Rva000B3F84Pair{public:Rva000B3F84Pair(){}const char*m_ptr;int m_len;};
 struct AsciiStringPlusText:AsciiStringRef{operator AsciiString();Rva000B3F84Pair m_right;};
