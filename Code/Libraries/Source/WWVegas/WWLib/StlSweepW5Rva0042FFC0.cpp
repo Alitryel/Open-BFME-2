@@ -78,7 +78,10 @@ typedef _STL::hashtable<SelectionIDValue,int,_STL::hash<int>,
     _STL::allocator<SelectionIDValue> > SelectionIDTable;
 namespace _STL {
 template <> void SelectionIDTable::_M_initialize_buckets(unsigned int);
+// Its /GX destruction provider lives in SelectionIDMapDestructor.cpp.
+template <> SelectionIDTable::~hashtable();
 }
 template SelectionIDTable::hashtable(unsigned int,
     const _STL::hash<int>&,const _STL::equal_to<int>&,
     const _STL::allocator<SelectionIDValue>&);
+template _STL::hash_map<int,bool>::hash_map();
