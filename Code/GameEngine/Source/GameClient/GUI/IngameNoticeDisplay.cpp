@@ -603,6 +603,13 @@ extern Mouse *TheMouse;
 extern InGameUI *TheInGameUI;
 extern GameLogic *TheGameLogic;
 
+// Retail 0x004E56E7 (shl eax,0x18; ret): the out-of-line copy cl keeps of
+// this file-static helper under its register convention; update inlines it.
+static unsigned int noticeAlphaColor(unsigned int alpha)
+{
+    return alpha << 24;
+}
+
 void IngameNoticeDisplay::update()
 {
     if (!startFrame)
@@ -630,7 +637,7 @@ void IngameNoticeDisplay::update()
             alpha = 255 - elapsed * 255 / BfmeClientFramesPerSecond;
         if (!end && alpha < 0x40)
             alpha = 0x40;
-        rect->color = alpha << 24;
+        rect->color = noticeAlphaColor(alpha);
     }
     else
         rect->color = 0xFF000000;
