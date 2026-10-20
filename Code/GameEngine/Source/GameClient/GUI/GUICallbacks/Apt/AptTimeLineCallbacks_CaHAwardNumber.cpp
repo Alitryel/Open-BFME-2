@@ -234,8 +234,8 @@ class Rva00211E75
 public:
 	Rva00211E75(const int *arg);
     Rva00211E75(const Rva00211E75 &other) : m_impl(other.m_impl) { if(m_impl) ++m_impl->references; }
-    // Keep inline cleanup; GameEngineControl.cpp owns the external destructor.
-    __declspec(dllimport) __forceinline ~Rva00211E75() { if(m_impl) ReleaseTreeHintRef00217D4C(m_impl); }
+    // GameEngineControl.cpp owns the destructor.
+    ~Rva00211E75();
 
 private:
 	TargetRef00217D4C *m_impl;
