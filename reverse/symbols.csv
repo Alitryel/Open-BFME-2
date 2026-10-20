@@ -5601,7 +5601,6 @@ name,address,notes
 ?AptDebuggerPrint@@YAXHPBDZZ,0x006CC110,"auto-pin (permute --pins): REL32 call target read from retail in 0x006e6f80, whose banked body is byte-exact once this call resolves"
 ?AptPushStaticData@@YAPAXXZ,0x00709730,TU alias bound to rowed AptScriptFunctionBase::PushStaticData; same cdecl no-argument pointer-return ABI; PrepareForExecution native call700156 target709730
 ?ArrayDeleteHelperBodyThunk@@YGXPAXII0@Z,0x00629110
-?AsciiStringCopyConstructAtRva0002C485@@YAXPAVAsciiString@@ABV1@@Z,0x0002C485,StringBase _Construct helper called by AsciiString __uninitialized_copy at 0x2C4B2; true _STL mangling spent at 0x142CC0
 ?AsciiStringToQuotedPrintable@@YA?AVAsciiString@@V1@@Z,0x00535546,direct callee of GameSpyLoginPreferences write 0x5CA2B3 (pass/date loops) and load 0x5CAF5F; ZH QuotedPrintable donor AsciiStringToQuotedPrintable
 ?Assign@EAStringC@@QAEXPBD@Z,0x006D4BF0,EA string assign from C string; void; partial-banked (reg rotation); pin holds setter-chain callees until rowed
 ?AsyncGetHostByName@Cftp@@QAEHPADAAUsockaddr_in@@@Z,0x006C9F90,retail REL32 from Cftp::ConnectToServer at 0x006CA6BF; BFME1 WWDownload identity

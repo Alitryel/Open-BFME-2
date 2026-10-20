@@ -5194,7 +5194,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do_toupper@?$ctype@G@_STL@@MBEPBGPAGPBG@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do_transform@?$collate@D@_STL@@MBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@PBD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do_widen@?$ctype@G@_STL@@MBEPBDPBD0PAG@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_asciistring.cpp	?AsciiStringCopyConstructAtRva0002C485@@YAXPAVAsciiString@@ABV1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_pod80_rva.cpp	??$_Construct@URva00520211Element@@U1@@_STL@@YAXPAURva00520211Element@@ABU1@@Z	2
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp	??$_Construct@URva0056644EElement@@U1@@_STL@@YAXPAURva0056644EElement@@ABU1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	??1stdio_istreambuf@_SgI@@UAE@XZ	1
@@ -5523,7 +5522,6 @@ object_symbol	reverse/functions.csv	0x000240E0	1
 object_symbol	reverse/functions.csv	0x00024160	1
 object_symbol	reverse/functions.csv	0x00025090	1
 object_symbol	reverse/functions.csv	0x00029B20	1
-object_symbol	reverse/functions.csv	0x0002C485	1
 object_symbol	reverse/functions.csv	0x00030BE0	1
 object_symbol	reverse/functions.csv	0x0003D380	1
 object_symbol	reverse/functions.csv	0x00042FF8	1
@@ -20418,7 +20416,7 @@ pin	reverse/symbols.csv	0x0002BD85	1
 pin	reverse/symbols.csv	0x0002BF8C	1
 pin	reverse/symbols.csv	0x0002C005	1
 pin	reverse/symbols.csv	0x0002C0C0	4
-pin	reverse/symbols.csv	0x0002C485	3
+pin	reverse/symbols.csv	0x0002C485	2
 pin	reverse/symbols.csv	0x0002C4B2	2
 pin	reverse/symbols.csv	0x0002C4D8	1
 pin	reverse/symbols.csv	0x0002C4FD	2

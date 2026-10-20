@@ -22,8 +22,7 @@ template <typename T> struct BfmeStringData
 #include "ascii_string.h"
 
 
-template void _STL::_Construct<AsciiString, AsciiString>(AsciiString *, const AsciiString &);
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?AsciiStringCopyConstructAtRva0002C485@@YAXPAVAsciiString@@ABV1@@Z=??$_Construct@VAsciiString@@V1@@_STL@@YAXPAVAsciiString@@ABV1@@Z")
+void AsciiStringCopyConstructAtRva0002C485(AsciiString *dest, const AsciiString &source)
+{
+    ::new (dest) AsciiString(source);
+}
