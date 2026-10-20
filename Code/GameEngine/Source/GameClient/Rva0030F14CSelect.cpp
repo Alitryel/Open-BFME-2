@@ -152,6 +152,14 @@ struct Rva0030F14CSelectInfo
  Int m_bestPriority;
 // +0x40
 };
+// Retail 0x0030ECC4: the selection priority of an object (-1 without a
+// template) as a TU static of the selection unit; the select callback inlines
+// it and cl keeps this register-convention copy (object in EAX).
+static Int selectionPriority(const Object *obj)
+{
+ return obj->getSelectionPriority();
+}
+
 Int Rva0030F14CSelect(Drawable *draw, void *userData)
 {
  Rva0030F14CSelectInfo *info = (Rva0030F14CSelectInfo *)userData;
@@ -194,7 +202,7 @@ Int Rva0030F14CSelect(Drawable *draw, void *userData)
     draw = container->getDrawable();
    }
   }
-  Int priority = obj->getSelectionPriority();
+  Int priority = selectionPriority(obj);
   if (priority < minPriority)
   return 2;
   if (priority > info->m_bestPriority)
