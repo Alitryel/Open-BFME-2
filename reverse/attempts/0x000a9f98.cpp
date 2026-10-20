@@ -1,4 +1,6 @@
 // ?render@AptShapeContainer@@QAEXXZ
+// partial score=0.955 date=2026-10-19
+// ?render@AptShapeContainer@@QAEXXZ
 // partial score=0.94 date=2026-10-19
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /ICode/Libraries/Include/Lib
 // stlport
@@ -514,13 +516,30 @@ static __forceinline void aptMatrixMul(V2 &out, const V2 &in, const AptRenderTra
 	out.X = in.X * m.a + in.Y * m.c + m.tx;
 	out.Y = in.X * m.b + in.Y * m.d + m.ty;
 }
-static __forceinline void aptMatrixMulProducts(V2 &out, const V2 &in, const AptRenderTransform &transform)
+static __forceinline void aptMatrixMulNamedY(V2 &out, const V2 &in, const AptRenderTransform &transform)
 {
 	const AptMatrix &m = (const AptMatrix &)transform;
 	out.X = in.X * m.a + in.Y * m.c + m.tx;
 	float Y0 = in.X * m.b;
 	float Y1 = in.Y * m.d;
 	out.Y = Y0 + Y1 + m.ty;
+}
+static __forceinline void aptMatrixMulNamedProducts(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	float X0 = in.X * m.a;
+	float X1 = in.Y * m.c;
+	out.X = X0 + X1 + m.tx;
+	float Y0 = in.X * m.b;
+	float Y1 = in.Y * m.d;
+	out.Y = Y0 + Y1 + m.ty;
+}
+static __forceinline void aptMatrixMulIndexed(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	const float *q = &in.X;
+	out.X = q[0] * m.a + q[1] * m.c + m.tx;
+	out.Y = q[0] * m.b + q[1] * m.d + m.ty;
 }
 void AptShapeContainer::render()
 {
@@ -559,7 +578,7 @@ void AptShapeContainer::render()
 					v->color = color;
 					aptMatrixMul(v->uv, tri.p[0], uvTransform);
 					++v;
-					aptMatrixMul(v->pos, tri.p[2], m_transform);
+					aptMatrixMulIndexed(v->pos, tri.p[2], m_transform);
 					v->z = 0.0f;
 					v->color = color;
 					aptMatrixMul(v->uv, tri.p[2], uvTransform);
@@ -580,15 +599,15 @@ void AptShapeContainer::render()
 				break;
 			for (_STL::vector<AptTriangle>::iterator t = solid->m_triangles.begin(); t != solid->m_triangles.end(); ++t) {
 				const AptTriangle &tri = *t;
-				aptMatrixMulProducts(v->pos, tri.p[0], m_transform);
+				aptMatrixMulNamedProducts(v->pos, tri.p[0], m_transform);
 				v->z = 0.0f;
 				v->color = color;
 				++v;
-				aptMatrixMulProducts(v->pos, tri.p[2], m_transform);
+				aptMatrixMul(v->pos, tri.p[2], m_transform);
 				v->z = 0.0f;
 				v->color = color;
 				++v;
-				aptMatrixMul(v->pos, tri.p[1], m_transform);
+				aptMatrixMulIndexed(v->pos, tri.p[1], m_transform);
 				v->z = 0.0f;
 				v->color = color;
 				++v;
@@ -607,8 +626,8 @@ void AptShapeContainer::render()
 				break;
 			for (_STL::vector<AptLineSegment>::iterator g = line->m_segments.begin(); g != line->m_segments.end(); ++g) {
 				const AptLineSegment &segment = *g;
-				aptMatrixMul(a, segment.a, m_transform);
-				aptMatrixMulProducts(b, segment.b, m_transform);
+				aptMatrixMulNamedY(a, segment.a, m_transform);
+				aptMatrixMulIndexed(b, segment.b, m_transform);
 				Rva001101D7Draw(W3DAptAux::s_renderer, (Rva001101D7 *)&lines, a, b, line->m_width, color);
 			}
 			W3DAptAux::s_renderer->rva001100C5(lines);
