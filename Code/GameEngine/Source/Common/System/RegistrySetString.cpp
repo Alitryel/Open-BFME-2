@@ -1,4 +1,5 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/asciistring_downloadmanager /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+// platformsdk
 /*
 ** Command & Conquer Generals Zero Hour(tm)
 ** Copyright 2025 Electronic Arts Inc.
@@ -9,6 +10,8 @@
 ** (at your option) any later version.
 */
 
+// Preserve the donor's opaque HKEY contract with the SDK's non-strict handles.
+#define NO_STRICT
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
