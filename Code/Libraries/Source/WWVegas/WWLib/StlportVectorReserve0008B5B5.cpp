@@ -31,9 +31,11 @@ class Rva00089822
 public:
 	Rva00089822(const Rva00089822 &that) throw();
 };
+// Retail __uninitialized_copy calls this 18-byte wrapper out of line.
+// Keeping its definition non-inline also preserves the 38-byte copy loop.
 namespace _STL
 {
-template <> inline void _Construct<Rva0008DE1CElement, Rva0008DE1CElement>(Rva0008DE1CElement *p, const Rva0008DE1CElement &v)
+template <> void _Construct<Rva0008DE1CElement, Rva0008DE1CElement>(Rva0008DE1CElement *p, const Rva0008DE1CElement &v)
 {
 	if (p != 0)
 		new (p) Rva00089822(reinterpret_cast<const Rva00089822 &>(v));
