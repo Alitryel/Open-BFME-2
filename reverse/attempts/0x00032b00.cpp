@@ -1,4 +1,6 @@
 // ?rva00032B00@GeneralAllocator@Allocator@EA@@QAEPAXI@Z
+// partial score=0.985 date=2026-10-19
+// ?rva00032B00@GeneralAllocator@Allocator@EA@@QAEPAXI@Z
 // partial score=0.98 date=2026-10-19
 // cl: /EHsc
 // 0x00032B00 bank 2026-10-19 (claude-opus-5-5): full copy of the home memory_pool.cpp with
@@ -1559,9 +1561,9 @@ void *GeneralAllocator::rva00032B00(unsigned int size)
 		ListNode *head = &m_sentinel;
 		bool notFirst = m_sentinel.m_prev != head;
 		core->m_prev = head;
-		core->m_releaseDirect = notFirst;
-		core->m_unknownF = notFirst;
-		core->m_releaseAllowed = true;
+		*(volatile unsigned char *)&core->m_releaseDirect = notFirst;
+		*(volatile unsigned char *)&core->m_unknownF = notFirst;
+		*(volatile unsigned char *)&core->m_releaseAllowed = true;
 		core->m_releaseCallback = 0;
 		core->m_releaseContext = 0;
 		core->m_next = head->m_next;
