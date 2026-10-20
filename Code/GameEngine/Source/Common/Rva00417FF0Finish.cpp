@@ -19,6 +19,10 @@
 // 0x40. This is the same fill-then-throw shape already landed in
 // Code/GameEngine/Source/Common/Rva00426D14Parse.cpp.
 #include <map>
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod24@@@_STL@@@_STL@@@_STL@@QBEPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod24;
+namespace _STL { template <> _Rb_tree_node<pair<int const ,BfmePod24> > * allocator<_Rb_tree_node<pair<int const ,BfmePod24> > >::allocate(unsigned int,void const *) const; }
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit
