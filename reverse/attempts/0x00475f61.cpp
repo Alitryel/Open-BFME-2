@@ -1,7 +1,9 @@
 // ?rva00475F61@Rva00475F61Iface@@UAEXAAV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@@Z
-// partial score=0.5 date=2026-10-20
+// partial score=0.9 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
+// ?rva00475F61@Rva00475F61Iface@@UAEXAAV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@@Z
+// partial score=0.5 date=2026-10-20
 // ?rva00475F61@Rva00475F61Iface@@UAEXAAV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@@Z
 // partial score=0.38 date=2026-10-19
 // ?rva00475F61@HordeContain@@UAEXXZ
@@ -37,6 +39,8 @@
 // ---------------------------------------------------------------------------
 // The preceding bank comments are historical. Native RET4 requires an output vector;
 // +0x60 is an ID/index map, and the temporary batches are vector<list<Object *> >.
+// Both found arms index groups[i] directly (one compiler temporary for &groups[i]), and the
+// +0xB8 float is read through an inline by-value getter, as the WorldBuilder twin shows.
 template<class T> class Rva001EB984PoolAllocator;
 namespace _STL {
 template<class A,class B> Rva001EB984PoolAllocator<B> &__stl_alloc_rebind(Rva001EB984PoolAllocator<A> &,const B *);
@@ -113,6 +117,7 @@ public:
     char padBC[0x258-0xBC];
     Rva00475F61AIUpdate *m_ai;
     __forceinline ObjectID getID() const { return m_id; }
+    __forceinline float getB8() const { return m_b8; }
     __forceinline const ThingTemplate *getTemplate() const { return m_template; }
     __forceinline Rva00475F61AIUpdate *getAI() const { return m_ai; }
     char pad25C[0x284-0x25C];
@@ -600,7 +605,6 @@ public:
     _STL::vector<Rva00475F61Rank> m_ranks;
     char pad078[0x150-0x78];
     ObjectID m_held;
-    __forceinline Rva00475F61Rank &record(int index) { return m_ranks[index]; }
 };
 
 namespace _STL {
@@ -623,7 +627,7 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
         TheGameLogic->destroyObject(held);
     }
     Coord3D offset=*(*(Object **)((char *)this-0x114))->getUnitDirectionVector2D();
-    offset.scale((*(Object **)((char *)this-0x114))->m_b8*0.5f);
+    offset.scale((*(Object **)((char *)this-0x114))->getB8()*0.5f);
     for(MemberList::iterator it=members.begin();it!=members.end();++it) {
         Object *obj=*it;
         if(obj->getAI()) obj->getAI()->slot142(0);
@@ -632,10 +636,11 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
             Object *first=groups[i].front();
             bool equal=first->getTemplate()->isEquivalentTo(obj->getTemplate());
             if(equal && (*(Rva00475F61ModuleData **)((char *)this-0x118))->m_sameRank) {
-                _STL::map<int,int> &indices=m_indices;
-                int a=record(indices[first->getID()]).key;
-                int b=record(indices[obj->getID()]).key;
-                if(a!=b) equal=false;
+                int firstIndex=m_indices[first->getID()];
+                int firstRank=m_ranks[firstIndex].key;
+                int objIndex=m_indices[obj->getID()];
+                int objRank=m_ranks[objIndex].key;
+                if(firstRank!=objRank) equal=false;
             }
             if(equal) { groups[i].push_back(obj); found=true; break; }
         }
@@ -675,28 +680,27 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
             Object *first=groups[i].front();
             char equal=((BfmeD975 *)first->getTemplate())->bfmeGo975D((int)&entry->memberName);
             if(equal && (*(Rva00475F61ModuleData **)((char *)this-0x118))->m_sameRank) {
-                _STL::map<int,int> &indices=m_indices;
-                if(record(indices[first->getID()]).key != entry->key) equal=false;
+                int index=m_indices[first->getID()];
+                int rank=m_ranks[index].key;
+                if(rank!=entry->key) equal=false;
             }
             if(equal) {
                 Rva00475F61Contain *contain=replacement ? (Rva00475F61Contain *)replacement->rva0028C197() : 0;
                 if(contain && replacement) {
-                    PooledMemberList &group=groups[i];
-                    Object *old=group.front();
+                    Object *old=groups[i].front();
                     if(old) {
                         weaponFlag=(((unsigned char *)((const Rva0028B7AELeaGetter *)old)->get())[3]&1)!=0;
                         ((_STL::_Base_bitset<32> *)replacement->m_mask)->_M_do_or(*(const _STL::_Base_bitset<32> *)old->m_mask);
                     }
-                    contain->slot30(&group);
+                    contain->slot30(&groups[i]);
                     used=true;
                     Rva00475F61Result *owner=contain->slot134();
                     LatchRestore<bool> restore(owner->flag,true);
                     if(weaponFlag) replacement->setWeaponSetFlag((WeaponSetType)0x18);
                 } else {
-                    PooledMemberList &group=groups[i];
-                    for(PooledMemberList::iterator m=group.begin();m!=group.end();++m) {
+                    for(PooledMemberList::iterator m=groups[i].begin();m!=groups[i].end();++m) {
                         Object *old=*m;
-                        old->m_ai->aiIdle((CommandSourceType)2);
+                        old->getAI()->aiIdle((CommandSourceType)2);
                         out.push_back(old);
                     }
                 }
@@ -705,7 +709,7 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
         }
         if(used && replacement) {
             replacement->setTransformMatrix(&transform);
-            replacement->m_ai->aiIdle((CommandSourceType)2);
+            replacement->getAI()->aiIdle((CommandSourceType)2);
             TheAI->m_pathfinder->AddObjectToPathfindMap(replacement);
             out.push_back(replacement);
         } else if(replacement) TheGameLogic->destroyObject(replacement);
