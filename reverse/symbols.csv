@@ -10425,7 +10425,6 @@ name,address,notes
 ?rva003AFFBE@@YAXHHHHH@Z,0x003AFFBE,50B idiv+rep-movsd helper calling 0x003AFE48; 5 int args assumed; read from REL32 at 0x003B016D in rva003B015D 0x003B015D
 ?rva003B015D@@YAXHHD@Z,0x003B015D,static 5-push forwarder into 0x003AFFBE; 3rd param is char (callers mov-al the byte); read from REL32 at 0x003B0427 in rva003B0412 0x003B0412
 ?rva003B224D@IgnorePreferences@@QAE?AVRva00385B78SavedMap@@XZ,0x003B224D,native loadSavedIgnoreList100 213B ignores getter at call385BA6; complete rowed provider independently verified; address-derived consumed tree view and hidden-return ABI
-?rva003B5EA5@@YAHHHPAURva003B65Header@@@Z,0x003B5EA5,real prolog at unlisted address inside Ghidra 1818B blob; 3rd arg is the caller header; int args assumed; read from REL32 at 0x003B65CD/0x003B6607
 ?rva003B7167@Rva003B761E@@QAEXXZ,0x003B7167,temp cleanup on the 0x20-byte Rva003B761E slot; read from REL32 at 0x003B7663 in rva003B7647 0x003B7647; likely the dtor; identity unproven
 ?rva003B7448@Rva003B7448@@QAEXH@Z,0x003B7448,member method on +4 taking arg+4; read from REL32 at 0x003B7700 in rva003B76EF 0x003B76EF; int arg assumed
 ?rva003B8E89@Rva003B8E89@@QAEPAXPAX@Z,0x003B8E89,thiscall lookup callee of 0x004E1755 and 0x004E23C1 read from REL32 (host plus key); body unrowed

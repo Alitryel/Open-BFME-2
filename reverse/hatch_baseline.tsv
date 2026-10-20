@@ -25823,7 +25823,6 @@ pin	reverse/symbols.csv	0x003B58DF	1
 pin	reverse/symbols.csv	0x003B5994	1
 pin	reverse/symbols.csv	0x003B5B07	1
 pin	reverse/symbols.csv	0x003B5CA1	1
-pin	reverse/symbols.csv	0x003B5EA5	1
 pin	reverse/symbols.csv	0x003B67B3	1
 pin	reverse/symbols.csv	0x003B6846	1
 pin	reverse/symbols.csv	0x003B693A	1
@@ -35641,8 +35640,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC996Do.cp
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC996Do.cpp	getUnitNamed@ScriptEngine@@QAEPAVObject@@PAVParameter@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC996Do.cpp	setEmoticon@Drawable@@QAEXABV?$StringBase@D@@H@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionCtor.cpp	0ScriptAction@@QAE@W4ScriptActionType@1@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionParseAction.cpp	ParseAction@ScriptAction@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionParseAction.cpp	bfmeEmitScriptActionParseAction@@YAXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C1F0A.cpp	createGroup@AI@@QAEPAVAIGroup@@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C1F0A.cpp	getTeamAsAIGroup@Team@@QAEXPAVAIGroup@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C1F0A.cpp	getTeamNamed@ScriptEngine@@QAEPAVTeam@@VAsciiString@@_N@Z	1
