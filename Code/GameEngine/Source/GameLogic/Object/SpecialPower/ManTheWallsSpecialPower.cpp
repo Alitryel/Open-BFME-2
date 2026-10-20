@@ -6,6 +6,10 @@
 // EH-framed body (0x001F1609); its uses here are all inlined, so none is emitted.
 class Object;
 namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
+// Likewise vector<Object*>'s dtor: retail's out-of-line copy is the tail jump to
+// that EH-framed body (0x001F22A3), so import-inline it too; throw() keeps the
+// inlined copies free of EH states, as the plain inline form is.
+namespace _STL { template <> __declspec(dllimport) __forceinline vector<Object *, allocator<Object *> >::~vector() throw() { _Destroy(this->_M_start, this->_M_finish); } }
 
 struct BfmeE8
 {
@@ -88,6 +92,7 @@ struct Rva004C734DElement
 	Object *owner;
 	_STL::vector<Object *> members;
  Rva004C734DElement(const Rva004C734DElement &);
+ ~Rva004C734DElement() {}
 };
 struct ManTheWallsObjectPositionView
 {
@@ -220,6 +225,7 @@ class Rva004BA1B2
 {
 public:
 	Rva004BA1B2();
+	~Rva004BA1B2() {}
 private:
 	Object *m_owner;
 	_STL::vector<Object *> m_members;
