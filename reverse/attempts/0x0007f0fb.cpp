@@ -1,4 +1,11 @@
 // ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
+// partial score=0.9958 date=2026-10-20
+// ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
+// partial score=0.99 date=2026-10-20 (round 4, scratch build/agL/best_7f0fb.cpp): 1921/1921 B, 8 bytes differ (post-call reload order only).
+// Round 4 levers: (1) dot product written out in the body (clip.X*q.X+...) so clip.Z/W get early piece numbers -> c=s*clip operand order,
+//   clip.Z/W re-read from memory, clip weight 7; (2) named Vector4 plane local (WB debug frame has it among named locals) -> own colour, frame 0x15C;
+//   (3) WB-faithful Vector4 WaterPlane(waterNormal.X,..,level) with axis_distance-=WaterPlane.W and -WaterPlane.W (byte-neutral).
+// ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
 // partial score=0.7 date=2026-10-20
 // ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
 // partial score=0.6 date=2026-10-19
@@ -152,16 +159,14 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
  if (!_finite(source->Get_Transform().m[0][0]))return;
  *camera=*source;
  Matrix4 old(source->Get_Transform());
- Overridable *setting=(Overridable*)TheWaterTransparency.ptr;
- setting=finalSetting(setting);
- float level=*(float*)((char*)setting+0x4c);
+ Vector3 waterNormal(0,0,1);
+ Vector4 WaterPlane(waterNormal.X,waterNormal.Y,waterNormal.Z,*(float*)((char*)finalSetting((Overridable*)TheWaterTransparency.ptr)+0x4c));
+ Vector3 rRight,rUp,rN,rPos;
 
  Matrix4 full(old.m[0][0],old.m[1][0],old.m[2][0],old.m[3][0],
   old.m[0][1],old.m[1][1],old.m[2][1],old.m[3][1],
   old.m[0][2],old.m[1][2],old.m[2][2],old.m[3][2],
   old.m[0][3],old.m[1][3],old.m[2][3],old.m[3][3]);
- Vector3 waterNormal(0,0,1);
- Vector3 rRight,rUp,rN,rPos;
  float axis_distance=Vector3::Dot_Product((Vector3&)full.m[0],waterNormal);
  rRight=(Vector3&)full.m[0]-(2.0f*axis_distance*waterNormal);
  axis_distance=Vector3::Dot_Product((Vector3&)full.m[1],waterNormal);
@@ -169,7 +174,7 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
  axis_distance=Vector3::Dot_Product((Vector3&)full.m[2],waterNormal);
  rN=(Vector3&)full.m[2]-(2.0f*axis_distance*waterNormal);
  axis_distance=Vector3::Dot_Product((Vector3&)full.m[3],waterNormal);
- axis_distance-=level;
+ axis_distance-=WaterPlane.W;
  rPos=(Vector3&)full.m[3]-(2.0f*axis_distance*waterNormal);
  Matrix3D reflected(rRight,-rUp,rN,rPos);
  camera->Set_Transform(reflected);
@@ -191,8 +196,8 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
   inverse.m[3][0]=DX8Wrapper::render_state.view.m[0][3]; inverse.m[3][1]=DX8Wrapper::render_state.view.m[1][3]; inverse.m[3][2]=DX8Wrapper::render_state.view.m[2][3]; inverse.m[3][3]=DX8Wrapper::render_state.view.m[3][3];
  }
  D3DXMatrixInverse(&inverse,0,&inverse);
- float d=0.0f-level;
- rva0062AF4AD3DXVec4Transform(&clip,&Vector4(0.0f,0.0f,1.0f,d),&inverse);
+ Vector4 plane(WaterPlane.X,WaterPlane.Y,WaterPlane.Z,-WaterPlane.W);
+ rva0062AF4AD3DXVec4Transform(&clip,&plane,&inverse);
  projection.m[0][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][0]; projection.m[0][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][0]; projection.m[0][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][0]; projection.m[0][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][0];
  projection.m[1][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][1]; projection.m[1][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][1]; projection.m[1][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][1]; projection.m[1][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][1];
  projection.m[2][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][2]; projection.m[2][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][2]; projection.m[2][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][2]; projection.m[2][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][2];
@@ -203,7 +208,7 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
  q.Y=((clip.Y>0.0f ? 1.0f : (clip.Y<0.0f ? -1.0f : 0.0f))-projection.m[2][1])/projection.m[1][1];
  q.Z=1.0f;
  q.W=(1.0f-projection.m[2][2])/projection.m[3][2];
- Vector4 c=clip*(1.0f/Vector4::Dot_Product(clip,q));
+ Vector4 c=clip*(1.0f/(clip.X*q.X+clip.Y*q.Y+clip.Z*q.Z+clip.W*q.W));
  projection.m[0][2]=c.X;
  projection.m[1][2]=c.Y;
  projection.m[2][2]=c.Z;
