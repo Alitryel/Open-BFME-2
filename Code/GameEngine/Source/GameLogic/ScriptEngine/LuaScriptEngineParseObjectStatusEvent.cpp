@@ -23,18 +23,14 @@ class Rva003339CE {public:void rva00334506(AsciiString);};
 class BfmeObject872Header {public:char bytes[16];};
 class Rva00332FC1 {public:
  Rva00332FC1(const BfmeObject872Header &,const BfmeObject872Header &);
- bool rva00332FE7(const Rva00332FC1 &)const;
+ __declspec(nothrow) bool rva00332FE7(const Rva00332FC1 &)const;
  void *m_text;
  BfmeObject872Header m_a;
  BfmeObject872Header m_b;
 };
-// Visible copies of the rowed predicates 0x002634E0 and 0x00332FE7: with both bodies in the unit,
-// cl proves the comparator cannot throw, so the caller tests its result as a plain temporary.
-__declspec(noinline) inline bool Rva002634E0Equal(const void *a,const void *b) {return memcmp(a,b,16)==0;}
-__declspec(noinline) inline bool Rva00332FC1::rva00332FE7(const Rva00332FC1 &other)const
-{
- return m_text==other.m_text&&Rva002634E0Equal(&m_a,&other.m_a)&&Rva002634E0Equal(&m_b,&other.m_b);
-}
+// Both rowed predicates return equality without throwing. Keep that contract
+// visible here, with their definitions supplied by the existing owner units.
+__declspec(nothrow) bool Rva002634E0Equal(const void *a,const void *b);
 struct EventFlagEntry {void setKeyFromName(const char *);};
 struct Rva00336AECElement {unsigned char bytes[36];};
 extern template void _STL::vector<Rva00336AECElement>::push_back(const Rva00336AECElement &);
