@@ -75,6 +75,8 @@ public:
     UVBufferClass(int count, const char *msg);
 private:
     unsigned CRC;
+public:
+	~UVBufferClass();
 };
 
 // Layout as FXShaderRendererSkin.cpp reads it; +0x0C is BFME's legacy UV source.
