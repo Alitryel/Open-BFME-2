@@ -35,27 +35,18 @@ struct Q3SortCompare
 	}
 };
 
-class BfmeRoomQR
-{
-public:
-	// Retail's element copy 0x00217624 copies this slot as an AsciiString.
-	__forceinline BfmeRoomQR(const BfmeRoomQR &other)
-	{
-		reinterpret_cast<AsciiString *>(this)->AsciiString::AsciiString(reinterpret_cast<const AsciiString &>(other));
-	}
-	~BfmeRoomQR() throw() {}
-	int m_bfmeHandleQR;
-};
-
 struct BfmeElemQR
 {
 	int m_bfmeAQR;
 	int m_bfmeBQR;
 	int m_bfmeCQR;
-	BfmeRoomQR m_bfmeRoomQR;
+	AsciiString m_bfmeRoomQR;
 };
 
-void __cdecl bfmeDoQR(BfmeElemQR *slot, BfmeElemQR value, void *extra);
+void __cdecl Rva002176F1Insert(MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct);
+// Retail retains the unused comparator word after the sixteen-byte value.
+// The recovered cdecl worker consumes the same value and ignores that word.
+typedef void (__cdecl *QRInsertCall)(BfmeElemQR *, BfmeElemQR, void *);
 
 namespace _STL
 {
@@ -69,6 +60,6 @@ void __cdecl __linear_insert(Q3SortElem16 *first, Q3SortElem16 *last, Q3SortElem
 		_STL::copy_backward((MixFileCreator::FileInfoStruct *)first, (MixFileCreator::FileInfoStruct *)last, (MixFileCreator::FileInfoStruct *)(last + 1));
 		*(MixFileCreator::FileInfoStruct *)first = *(MixFileCreator::FileInfoStruct *)&val;
 	} else {
-		bfmeDoQR((BfmeElemQR *)last, *(BfmeElemQR *)&val, comp.m_state);
+		((QRInsertCall)Rva002176F1Insert)((BfmeElemQR *)last, *(BfmeElemQR *)&val, comp.m_state);
 	}
 }

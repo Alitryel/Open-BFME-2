@@ -1,28 +1,25 @@
-// cl: -Ireference/open-bfme-1/game/GameEngine/Source/Common
-class BfmeRoomQR
-{
-public:
-	BfmeRoomQR(const BfmeRoomQR &other);
-	~BfmeRoomQR() throw() {}
+// cl: -Ireference/open-bfme-1/game/GameEngine/Source/Common /Ireference/shims/bfme2_ascii
+#include "ascii_string.h"
 
-	int m_bfmeHandleQR;
-};
-
+class MixFileCreator { public: struct FileInfoStruct; };
 struct BfmeElemQR
 {
 	int m_bfmeAQR;
 	int m_bfmeBQR;
 	int m_bfmeCQR;
-	BfmeRoomQR m_bfmeRoomQR;
+	AsciiString m_bfmeRoomQR;
 };
 
-void __cdecl bfmeDoQR(BfmeElemQR *slot, BfmeElemQR value, void *extra);
+void __cdecl Rva002176F1Insert(MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct);
+// Retail retains the unused comparator word after the sixteen-byte value.
+// The recovered cdecl worker consumes the same value and ignores that word.
+typedef void (__cdecl *QRInsertCall)(BfmeElemQR *, BfmeElemQR, void *);
 
 void __cdecl bfmeEachQR(BfmeElemQR *first, BfmeElemQR *last, int unused, void *extra)
 {
 	while (first != last)
 	{
-		bfmeDoQR(first, *first, extra);
+		((QRInsertCall)Rva002176F1Insert)(first, *first, extra);
 		++first;
 	}
 }
