@@ -51,3 +51,7 @@ DIR32 identity checks remain prerequisites after byte equality; positional
 explain_mismatch relocation patches become misleading once lengths diverge,
 so use alignment/raw relocations. Stop requested after current publication;
 do not start another trial without fresh authorization.
+
+## 2026-10-19 follow-up (hans-agent-oct5)
+
+11 loop/flag spellings tried; none moves the 484B bank. The residue is EBX zero coalescing with `found`: retail's xor bl,bl before the loop and `and [ebp-4],0` after the catch show EBX is not a known zero there. Look for source that clobbers or retires the EBX zero before the vector loop (e.g. an EH-state or name-temporary change), not loop syntax.
