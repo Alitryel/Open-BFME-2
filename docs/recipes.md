@@ -340,6 +340,16 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   shows the debug twin; its loop condition (top-tested, `break` after the
   call) is usually retail's under /O1. The first-match scan 0x002A8AB1,
   which 63 callers reach.
+- **Call order in a `|` (or `+`) chain of calls.** cl evaluates such calls by a
+  key: each constant argument counts about four declarations, and the callee
+  declared later wins ties. Measured on two members `fA(x)|fB(0)`: fB goes
+  first once more than 4x declarations separate them. Source order counts only
+  among calls whose keys differ. So the order is set by where the callee views
+  are declared, not by how the expression is written. For 0x0052E914's four
+  setter chains, retail needed connect declared just after `SetType_Dirty`
+  (the last member of PathfindCell), then layer, then E0A1 far below. That
+  closed the 6-byte gap left after about 490 earlier arrangements. Map the
+  constraints with a 2-function scratch TU before you search the real one.
 - **Rewrite a goto bank from its COMDAT neighbours.** A unit's inline helpers
   sit just before its functions in .text, so the neighbours name the source's
   vocabulary. 0x00100568's bank was gotos and `_ReadWriteBarrier` at nd 118.
