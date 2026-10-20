@@ -4,18 +4,16 @@
 // stlport
 //
 // Partial reconstruction of STLport 4.5.3 wide monetary string formatting.
-// True retail code is DF20..E952, 2610 bytes. This source emits 2576 bytes
-// (fit 0.8114) and is NOT a matched claim. Levers in place: per-site
-// #pragma inline_depth(0) around the curr_sym initialisation and the
-// no-digits return (only calls emitted while depth 0 is in effect stay
-// calls), an opaque explicit-specialisation declaration of the wide
-// ~_String_base (the bool num_put lever: inlined ~basic_string then calls
-// 0x0000B3C0), and an opaque wide copy constructor (0x0000EA90).
-// Remaining: retail destroys the same locals with three inline levels by
-// exit (curr_sym: 0x00142D70 at the no-digits return, 0x0000B3C0 at the
-// no-value return, inline free at the end), and the no-digits return
-// tail-merges into the final grouping free. See
-// reverse/attempt_support/df20-inline-sites-20261020/handoff.md.
+// Retail DF20..E952 is 2610 bytes; this bank emits 2594 bytes with the
+// retail 0x118 frame. Historical bank score 0.8114 is retained conservatively.
+// The negative-sign boolean is separate from the copy helper's empty tag.
+// Per-site depth 0 retains currency temporary and first-return calls; the
+// opaque wide base destructor retains the sign/base calls. Cleanup remains
+// incorrect at early returns and at the three final wide-string destructions.
+// The wide allocator-base constructor now has whole-body recursive fold proof
+// at 0x00689600 in stlport_narrow_string.cpp. No unresolved callees remain.
+// Measurements, rejected hypotheses and the next angles are recorded in
+// reverse/attempt_support/df20-lifetime-fold-20261020/handoff.md.
 //
 /*
  * Copyright (c) 1999
@@ -138,7 +136,7 @@ template <> __forceinline _MoneyOut copy(const wchar_t* first, const wchar_t* la
 #pragma inline_depth(0)
 __forceinline void __money_write_point(_MoneyOut& out,const wchar_t& value) { out = value; }
 #pragma inline_depth(255)
-struct _MoneySignPolicy : random_access_iterator_tag { bool negative; };
+struct _MoneySignPolicy : random_access_iterator_tag {};
 #pragma inline_depth(0)
 __forceinline _MoneyOut __money_copy_symbol(const wchar_t* first,const wchar_t* last,_MoneyOut out,const _MoneySignPolicy& policy) { return __copy(first,last,out,policy,(ptrdiff_t*)0); }
 __forceinline _MoneyOut __money_copy_external(const wchar_t* first, const wchar_t* last, _MoneyOut out) {
@@ -197,16 +195,17 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   string_type::const_iterator __digits_last  = __digits.end();
 
   _MoneySignPolicy __sign_policy;
-  __sign_policy.negative = *__digits_first == __minus;
-  if (__sign_policy.negative)
+  bool __is_negative;
+  __is_negative = *__digits_first == __minus;
+  if (__is_negative)
     ++__digits_first;
 
 #pragma inline_depth(1)
   string_type __sign = __intl ?
-			 __sign_policy.negative ? __punct_intl.negative_sign()
+			 __is_negative ? __punct_intl.negative_sign()
 				       : __punct_intl.positive_sign()
 			      :
-			 __sign_policy.negative ? __punct.negative_sign()
+			 __is_negative ? __punct.negative_sign()
 				       : __punct.positive_sign();
 #pragma inline_depth(255)
   string_type::const_iterator __cp = __digits_first;
@@ -264,9 +263,9 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   if (__generate_curr)
     __length += __curr_sym.size();
   __declspec(align(8)) money_base::pattern __format =
-    __intl ? (__sign_policy.negative ? __punct_intl.neg_format() 
+    __intl ? (__is_negative ? __punct_intl.neg_format()
                             : __punct_intl.pos_format())
-           : (__sign_policy.negative ? __punct.neg_format() 
+           : (__is_negative ? __punct.neg_format()
                             : __punct.pos_format());
   {
     for (int __i = 0; __i < 4; ++__i)

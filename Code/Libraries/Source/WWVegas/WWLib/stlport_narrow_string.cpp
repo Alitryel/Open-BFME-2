@@ -87,6 +87,13 @@ template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator
 // Row 0x000199E0 (_Construct<char,char>) was previously instantiated through _M_insert_aux.
 template void _STL::_Construct<char, char>(char *, const char &);
 
+// Retail money_put<wchar_t>::do_put(string), 0x0000DF20+0x449, calls
+// the same allocator-base constructor as char strings at 0x00689600.
+// Both emitted bodies are 37 bytes and call the folded 11-byte proxy
+// constructor at 0x00007410. Keep the wide body available for fold proof.
+template _STL::_String_base<wchar_t, _STL::allocator<wchar_t> >::_String_base(
+        const _STL::allocator<wchar_t>&);
+
 
 namespace _STL
 {
