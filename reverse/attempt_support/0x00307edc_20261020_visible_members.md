@@ -1,4 +1,32 @@
-# 0x00307EDC: byte-exact body, waiting on three fold pins
+# 0x00307EDC: exact loader and verified fold pins
+
+The three pins below have now passed `pin_admission.py --add` using their
+actual matched provider objects. The /Od provider explicitly instantiates the
+char allocator-proxy swap; its existing rows remain exact. The 372-byte loader
+is recovered in the **existing** `Code/GameEngine/Source/Common/Rva00240000Load308050.cpp`
+alongside its sole 90-byte caller, preserving the caller's opaque loader call
+by defining the loader afterwards. No new split unit was needed. Normal source
+verification passes 2/2 bodies and EH verification passes 2/2 parents. The two
+fold-provider units pass 173/173 existing bodies, and pin consistency is clean.
+The old bank is removed by verified `add_match`. This recovers 372 unique C++
+bytes; shared fold pins and already-rowed helpers are not additional byte credit.
+
+The remainder records the original bank's evidence and prerequisite discovery.
+
+Link follow-up: the ordinary census-based preview does **not** yet link the
+loader unit. Four small visibility repairs retain 372/372 bytes: declare the
+already-rowed count constructor, use a TU-local unsigned max, suppress the
+out-of-line fill_n instantiation, and keep the allocator-proxy deallocate
+body inline-only as in the matched provider. This reduces its preview blockers
+from twelve to seven. Remaining: char fill, proxy copy/allocate/swap copies,
+the private _M_fill_insert copy, and selected __uninitialized_copy/fill_n
+providers. The companion /Od provider still links (578 bytes unchanged).
+No linked-byte gain or closed-strict result is claimed for this recovery.
+Removing the vector destructor body or making proxy swap opaque loses the
+exact loader shape (297/unresolved or 376 bytes); do not replay those changes.
+Normal byte, EH and pin gates are separate from this diagnostic link debt.
+Scratch controls: build/loader-inline-visibility-oct20/; final ordinary
+preview: build/loader-307edc-final-link-preview-oct20.txt.
 
 Symbol `?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z`, retail RVA 0x00307EDC, 372 bytes, cdecl. The banked body in `reverse/attempts/0x00307edc.cpp` now compiles to retail's 372 bytes with every non-relocation byte equal. It was not landed because its two out-of-line STLport calls have no ledger address yet, and adding the fold pins they need was refused by this seat's permission system. Model: claude-opus-5-5.
 

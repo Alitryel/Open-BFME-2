@@ -52,6 +52,13 @@ template <> void _STL::vector<void *>::clear();
 
 template class _STL::vector<void *, _STL::allocator<void *> >;
 
+// The byte-vector swap at retail 0x003079C1 calls this /Od 34-byte
+// allocator-proxy swap. It folds with the void-pointer owner at 0x00025AD0;
+// retain its actual typed instantiation for whole-body fold verification.
+template void _STL::swap(
+    _STL::_STLP_alloc_proxy<char *, char, _STL::allocator<char> > &,
+    _STL::_STLP_alloc_proxy<char *, char, _STL::allocator<char> > &);
+
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?bfmeThrowV56@BfmeStrV56@@QAEXXZ=??1?$_STLP_alloc_proxy@PAPAXPAXV?$allocator@PAX@_STL@@@_STL@@QAE@XZ")
