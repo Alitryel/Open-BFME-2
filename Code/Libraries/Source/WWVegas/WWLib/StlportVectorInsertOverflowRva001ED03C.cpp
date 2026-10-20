@@ -25,9 +25,28 @@ public:
 	~Rva001ED03C();
 };
 
+// The native clear at 1ED3A2 calls the rowed 1ED34A destruction loop,
+// whose 36-byte record destructor is 1ED0DE. The copy and destructor
+// address names describe the same campaign record (see its parser).
+class Rva001ED0DE
+{
+public:
+    ~Rva001ED0DE();
+private:
+    unsigned char unknown[0x24];
+};
+extern "C" void __cdecl free(void *);
+
 namespace _STL
 {
 template <> void _Construct<Rva001ED03C, Rva001ED03C>(Rva001ED03C *, const Rva001ED03C &);
+template <> void _Destroy<Rva001ED0DE *>(Rva001ED0DE *, Rva001ED0DE *);
+template <> __declspec(noinline) inline void vector<Rva001ED03C>::_M_clear()
+{
+    _STL::_Destroy((Rva001ED0DE *)_M_start, (Rva001ED0DE *)_M_finish);
+    Rva001ED0DE *storage = (Rva001ED0DE *)_M_start;
+    if (storage != 0) free(storage);
+}
 }
 
 template void _STL::vector<Rva001ED03C>::_M_insert_overflow(
