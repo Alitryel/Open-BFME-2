@@ -234,6 +234,9 @@ namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 namespace _STL { template <> void _List_base<Object *, allocator<Object *> >::clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<116>::test(unsigned int) const; }
 // Suppress this TU's non-retail copy of ?_Unchecked_test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool bitset<116>::_Unchecked_test(unsigned int) const; }
