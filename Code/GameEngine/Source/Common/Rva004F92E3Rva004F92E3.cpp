@@ -12,6 +12,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAURva004F8D92Element@@U1@V?$allocator@URva004F8D92Element@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva004F8D92Element;
+namespace _STL { template <> Rva004F8D92Element * _STLP_alloc_proxy<Rva004F8D92Element *,Rva004F8D92Element,allocator<Rva004F8D92Element> >::allocate(unsigned int); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@URva004F8D92Element@@@_STL@@QBEXPAURva004F8D92Element@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva004F8D92Element;
