@@ -1,5 +1,5 @@
 // ?rva000EBFD1@Rva000EC9C6@@QAEXXZ
-// partial score=0.93 date=2026-10-20
+// partial score=0.993 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // BF1 575ba2b04 W3DTreeBufferRva00734270.cpp and ZH updateVertexBuffer
 // provide the update/alpha/locked-buffer semantics. Target EBFD1..EC67F
@@ -7,6 +7,8 @@
 // composed scale/postMul/offset transform, extra C4 flag and fade flag40.
 // Identity arm first via Set(location); scale, product and offset use the WWMath
 // header Scale, postMul and Translate, the offset bound to a reference.
+// The offset translation and the vertex transform are TU copies of the header helpers whose
+// row 2 keeps retail's (X+Y)+Z grouping; cl 7.1 does not re-associate across parentheses.
 #include "vector3.h"
 #include "matrix3d.h"
 class VertexBufferClass {public:class WriteLockClass {public:
@@ -33,15 +35,34 @@ class Rva000EC9C6 {public:void rva000EBFD1();
 };
 typedef char CheckTreeRecord[(sizeof(TreeRecord)==0xE8)?1:-1];
 typedef char CheckTreeType[(sizeof(TreeType)==0x5C)?1:-1];
+// Matrix3D::Translate(x,y,z) applied to the offset, row 2 grouped as retail.
+static inline void TranslateOffset(Matrix3D &m,const Vector3 &t){
+ m[0][3] += (float)(m[0][0]*t[0] + m[0][1]*t[1] + m[0][2]*t[2]);
+ m[1][3] += (float)(m[1][0]*t[0] + m[1][1]*t[1] + m[1][2]*t[2]);
+ m[2][3] += ((m[2][0]*t[0] + m[2][1]*t[1]) + m[2][2]*t[2]);
+}
+// Matrix3D::Transform_Vector, row 2 grouped as retail.
+static inline void TreeTransform(const Matrix3D &A,const Vector3 &in,Vector3 *out){
+ Vector3 tmp;Vector3 *v;
+ if(out==&in){tmp=in;v=&tmp;}else{v=(Vector3*)&in;}
+ out->X = (A[0][0] * v->X + A[0][1] * v->Y + A[0][2] * v->Z + A[0][3]);
+ out->Y = (A[1][0] * v->X + A[1][1] * v->Y + A[1][2] * v->Z + A[1][3]);
+ out->Z = ((A[2][0] * v->X + A[2][1] * v->Y) + A[2][2] * v->Z + A[2][3]);
+}
 void Rva000EC9C6::rva000EBFD1(){
  if(!initialized || !index[0] || !vertex[0])return;
  for(unsigned b=0;b<vertex.size();++b){
-  if(indexCounts[b]==0)break;
-  VertexBufferClass::WriteLockClass lock(vertex[b],0);
-  TreeVertex *vb=(TreeVertex*)lock.Get_Vertex_Array();
+  int indexCount=indexCounts[b];
+  if(indexCount==0)break;
+  VertexBufferClass *buffer=vertex[b];
+  VertexBufferClass::WriteLockClass lock(buffer,0);
+  void *array=lock.Get_Vertex_Array();
+  TreeVertex *vb=(TreeVertex*)array;
   for(int i=0;i<count;i+=step){
-   if(trees[i].buffer!=(int)b)continue;
-   int type=trees[i].type;if(type<0)continue;
+   int bufferIndex=trees[i].buffer;
+   if(bufferIndex!=(int)b)continue;
+   const TreeRecord *record=&trees[i];
+   int type=record->type;if(type<0)continue;
    int alpha=trees[i].alpha;
    if(trees[i].state==0 && alpha==trees[i].targetAlpha && !trees[i].flagC4)continue;
    if(((TreeGlobalFade*)TheGlobalData)->enabled && alpha!=trees[i].targetAlpha){
@@ -50,7 +71,8 @@ void Rva000EC9C6::rva000EBFD1(){
     else{alpha+=types[type].data->step;if(alpha>target)alpha=target;}
     trees[i].alpha=alpha;
    }
-   if(!trees[i].visible || trees[i].hidden)continue;
+   const TreeRecord &visibleTree=trees[i];
+   if(!visibleTree.visible || trees[i].hidden)continue;
    float scale=trees[i].scale;Vector3 location=trees[i].location;
    if(!types[type].mesh)type=0;
    Matrix3D transform;
@@ -58,12 +80,12 @@ void Rva000EC9C6::rva000EBFD1(){
    else transform=trees[i].world;
    transform.Scale(scale);
    transform.postMul(trees[i].transform);
-   {const Vector3 &t=types[type].offset;transform.Translate(t);}
+   {const Vector3 &t=types[type].offset;TranslateOffset(transform,t);}
    TreeVertex *cur=vb+trees[i].firstVertex;
    int n=types[type].mesh->Peek_Model()->Get_Vertex_Count();
    Vector3 *vertices=types[type].mesh->Peek_Model()->Get_Vertex_Array();
    for(int j=0;j<n;++j){
-    Matrix3D::Transform_Vector(transform,vertices[j],(Vector3*)cur);
+    TreeTransform(transform,vertices[j],(Vector3*)cur);
     cur->diffuse=(cur->diffuse&0x00FFFFFF)|(alpha<<24);
     ++cur;
    }
