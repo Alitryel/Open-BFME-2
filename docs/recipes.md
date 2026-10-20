@@ -304,6 +304,69 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   bodies in the original: the WorldBuilder jump table gives them distinct
   targets. Same body.
 
+## c2 3077 levers traced on 2026-10-20
+
+These are cl 7.1 backend rules, measured with the scratch c2 tracer, that
+closed bodies on the same day. The evidence files are in
+`reverse/attempt_support/` (named per RVA; `fp-paren-nodes-20261020.md` covers
+the paren lever).
+- **FP parentheses are IL nodes.** A parenthesized floating-point
+  subexpression is a paren node. It delays folding and reassociation, adds
+  scheduler height, adds a CSE hash var at that point, and leads its sum as a
+  hash-var temporary. Spacing and names are inert; parentheses are not.
+  - `float length = ((float)sqrt(e));` delays the `fstp` until independent
+    loads have issued (0x004C6A20).
+  - `return (x*r.x)+(y*r.y)+(z*r.z);` moves a dot `fmul` ahead of an unrelated
+    load (0x0028F326).
+  - `m[i][3] += m[i][0]*t[0] + (m[i][1]*t[1]) + (m[i][2]*t[2]);` keeps the
+    identity's 1.0 in rows 1 and 2 unfolded through reassociation
+    (0x00175E50).
+  - `out->Z = ((A[0][2]*v->X) + A[1][2]*v->Y + A[2][2]*v->Z);` makes that
+    product lead and fixes the xmm colouring after it (0x0055DDD1).
+  - Per-component parens in a cross helper shift the hash-var numbering by one
+    mod 4 (0x00561564).
+- **Operand order follows FactCanonSort keys.** The larger key goes first and
+  becomes the destination register.
+  - temporary: 0x10000+32·X;
+  - variable leaf: 0x10000|32·F;
+  - memory through a hash-var base H: 0x10008+0x4000·(H mod 4);
+  - memory through a named-local base: 0x10008+(((F&7)<<5)<<8);
+  - inline pointer parameter p: 0x10008+0x2000·(F(p)&7);
+  - MUL low half: k1+2·k2+0x30, which wraps every ~683 symbols for square
+    terms. That is why reassociated `Length2` sums flip with the function's
+    symbol count (0x00126433, 0x00743700).
+  - Named local copies (`T *self=this;`) and removed pointer copies move F;
+    inline accessors do not.
+- **CSE hash vars are lexical.** Declaring a local once and sharing it between
+  two branches turns the second branch's expressions into hits and renumbers
+  every later hash var (0x0017D770).
+- **Struct pieces.** Fields read directly in the body are numbered early, in
+  source order. Fields touched only through inline members (`set`, `sub`,
+  `scale`, `add`, or a `__forceinline` field accessor) are numbered late:
+  x among the inline parameters, y and z after (0x00470DC1, 0x00509F3A).
+- **Throwing calls carry the last EH-state alias set.** Under /EHsc or /GX a
+  call to a C++ function that may throw also "may-uses" the address-taken
+  locals of the function's last EH state, unless it is inside a nested
+  destructor state. That adds stack-colouring conflicts. Declaring the callee
+  `throw()` or `__declspec(nothrow)` removes them, and MSVC does not mangle
+  exception specs (0x00095821).
+- **Stack weights are counted before the tail and head merges.**
+  AddStackElement counts one weight per IL reference at StackPacking.
+  FgDoHeadMerge, FgTryTailMerge and FgTryCommonTailMerge delete references
+  afterwards. A slot that needs one more weight than its final references can
+  come from a store that was later merged away (0x0004826C).
+- **Split-range reload order.** RewriteSplitGlobregs inserts reloads by the
+  pieces' new candidate numbers. Those come from the `_FreeGlobs` list (LIFO),
+  which coalesced copies refill. Building a matrix row-wise
+  (`Row[i] = m[i]`, as WWMath's `Matrix4x4(const Matrix3D &)` does) left
+  retail's free list (0x0007F0FB).
+- **Address-taken status.** An out-of-line call taking `&local` makes the local
+  address-taken for the whole function, so its fields are stored in every arm.
+  An inline definition of the callee (for example `Coord3D::length` with
+  coord3d.cpp's body) keeps them in registers until the join (0x00509F3A).
+- **A dead initializer renumbers.** `Real range = 0.0f;` numbers `range`
+  before later struct pieces, so they lead the products (0x0039321C).
+
 ## Linking
 
 `tools/link_check.py FILE` judges every COMDAT a unit emits, inlined or not:
