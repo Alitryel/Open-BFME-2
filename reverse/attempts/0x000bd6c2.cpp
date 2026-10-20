@@ -1,4 +1,6 @@
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
+// partial score=0.956 date=2026-10-20
+// ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.955 date=2026-10-20
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.97 date=2026-10-16
@@ -17,6 +19,7 @@
 // ZH W3DModelDraw::handleWeaponFireFX guides the FX emission relationship;
 // BF1 cee35b7d8 scripted model source has no recovered counterpart.
 // w1 2026-10-20: natural double e->particle read plus a strong in-unit Rva00704980 ctor; residue and landing prerequisite in reverse/attempt_support/0x000bd6c2_20261020_strong_ctor.md
+// w1 2026-10-20 (2): the STLport erase (0x000BC133) is visible as a select-any copy, as retail's unit saw the template; see reverse/attempt_support/0x000bd6c2_20261020_visible_erase.md
 #include "ascii_string.h"
 #include "Coord3D.h"
 #include <new>
@@ -55,7 +58,8 @@ struct ParticleEvent32:public Rva00704980 {
 void Rva000B9887Init(void*,BfmePod32*);
 struct ListNode {ListNode*next,*prev;void *value;};
 struct Rva000BC0DBElement {double word;};
-struct BfmeStringRecord000B757D {};
+struct BfmeStringRecord000B757D {~BfmeStringRecord000B757D();};
+extern "C" void __cdecl free(void*);
 namespace _STL {
  template<class T>class allocator;
  template<class T,class A=allocator<T> >class _List_base {public:ListNode*node;~_List_base();};
@@ -73,6 +77,15 @@ namespace _STL {
   _List_iterator<T,_Nonconst_traits<T> > erase(_List_iterator<T,_Nonconst_traits<T> >);
   ListNode *node;
  };
+}
+// STLport list::erase (0x000BC133), select-any like the template instantiation retail's unit saw.
+template<class T,class A>__declspec(noinline) inline _STL::_List_iterator<T,_STL::_Nonconst_traits<T> > _STL::list<T,A>::erase(_STL::_List_iterator<T,_STL::_Nonconst_traits<T> > pos)
+{
+ ListNode *next=pos._M_node->next,*prev=pos._M_node->prev;
+ prev->next=next;next->prev=prev;
+ reinterpret_cast<T*>(&pos._M_node->value)->~T();
+ free(pos._M_node);
+ return _STL::_List_iterator<T,_STL::_Nonconst_traits<T> >(next);
 }
 class Rva000B9A0E {public:void rva000B9A0E(void*,int,int);};
 class RvaSmartPtr12 {public:void rva0004CBC0();};
@@ -183,10 +196,9 @@ void W3DScriptedModelDraw::rva000BD6C2()
     if(frame==event.start||(event.start<0&&(event.period==0||frame%event.period==0))){
      _STL::list<Rva000BC0DBElement> events(reinterpret_cast<EventCollection*>(event.events)->list);
      for(ListNode*n=events.node->next;n!=events.node;n=n->next){
-      EventNugget *e=reinterpret_cast<EventNugget*>(n->value);
-      if(e->type==9){
+      if(reinterpret_cast<EventNugget*>(n->value)->type==9){
        ParticleEvent32 particle;
-       Rva000B9887Init(e,reinterpret_cast<BfmePod32*>(&particle));
+       Rva000B9887Init(n->value,reinterpret_cast<BfmePod32*>(&particle));
        state->particles.push_back(*reinterpret_cast<BfmePod32*>(&particle));
        if(!(drawable->status&8))particlesDirty=true;
       }
@@ -194,8 +206,8 @@ void W3DScriptedModelDraw::rva000BD6C2()
     }else if(frame>=event.end){
      _STL::list<Rva000BC0DBElement> events(reinterpret_cast<EventCollection*>(event.events)->list);
      for(ListNode*n=events.node->next;n!=events.node;n=n->next){
-      EventNugget*e=reinterpret_cast<EventNugget*>(n->value);
-      if(e->type==9){
+      if(reinterpret_cast<EventNugget*>(n->value)->type==9){
+       EventNugget*e=reinterpret_cast<EventNugget*>(n->value);
        BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)e->particle);
        if(system){reinterpret_cast<Rva001F3852ByteOneSetter*>(system.operator->())->enable();system->destroy();}
        ListNode *id=particleIDs.node->next;
