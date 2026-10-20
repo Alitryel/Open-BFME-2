@@ -1,4 +1,6 @@
 // ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
+// partial score=0.76 date=2026-10-20
+// ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
 // partial score=0.64 date=2026-10-20
 // ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
 // partial score=0.55 date=2026-10-17
@@ -16,6 +18,7 @@
 // body independently supplies E8 tree records, 5C type records, 44B vertices,
 // scale/postMul/offset composition and lock/capacity checks. The sibling updater
 // EBFD1..EC67F is separate evidence; its alpha/fade behavior is not claimed here.
+// WB 89B530 re-tests type<0 at the mesh check and stores firstVertex before buffer.
 #include "vector3.h"
 #include "vector2.h"
 #include "matrix3d.h"
@@ -62,11 +65,12 @@ class Rva000EC9C6 {public:void rva000EB6BB();
 };
 typedef char CheckTreeRecord[(sizeof(TreeRecord)==0xE8)?1:-1];
 typedef char CheckTreeType[(sizeof(TreeType)==0x5C)?1:-1];
+// Matrix3D::postMul (a = a * b); row 1's W sum keeps retail's association (t0+t2)+t1.
 static __forceinline void treePost(Matrix3D &a,const Matrix3D &b){float x,y,z,w;
-x = (b[0][0] * a[0][0] + b[1][0] * a[0][1]) + b[2][0] * a[0][2];
-y = b[0][1] * a[0][0] + b[1][1] * a[0][1] + b[2][1] * a[0][2];
-z = b[0][2] * a[0][0] + b[1][2] * a[0][1] + b[2][2] * a[0][2];
-w = b[0][3] * a[0][0] + b[1][3] * a[0][1] + b[2][3] * a[0][2];
+x = a[0][0] * b[0][0] + a[0][1] * b[1][0] + a[0][2] * b[2][0];
+y = a[0][0] * b[0][1] + a[0][1] * b[1][1] + a[0][2] * b[2][1];
+z = a[0][0] * b[0][2] + a[0][1] * b[1][2] + a[0][2] * b[2][2];
+w = a[0][0] * b[0][3] + a[0][1] * b[1][3] + a[0][2] * b[2][3];
 a[0][0] = x;
 a[0][1] = y;
 a[0][2] = z;
@@ -74,7 +78,7 @@ a[0][3] += w;
 x = a[1][0] * b[0][0] + a[1][1] * b[1][0] + a[1][2] * b[2][0];
 y = a[1][0] * b[0][1] + a[1][1] * b[1][1] + a[1][2] * b[2][1];
 z = a[1][0] * b[0][2] + a[1][1] * b[1][2] + a[1][2] * b[2][2];
-w = a[1][0] * b[0][3] + a[1][1] * b[1][3] + a[1][2] * b[2][3];
+w = (a[1][0] * b[0][3] + a[1][2] * b[2][3]) + a[1][1] * b[1][3];
 a[1][0] = x;
 a[1][1] = y;
 a[1][2] = z;
@@ -103,12 +107,12 @@ void Rva000EC9C6::rva000EB6BB(){
    int type=trees[curTree].type;
    if(type<0||!trees[curTree].visible||trees[curTree].hidden)continue;
    float scale=trees[curTree].scale;Vector3 location=trees[curTree].location;
-   if(!types[type].mesh)continue;
+   if(type<0||!types[type].mesh)continue;
    Matrix3D transform;
    if(trees[curTree].state||trees[curTree].flagC4)transform=trees[curTree].world;
    else transform.Set(location);
    transform.Scale(scale);treePost(transform,trees[curTree].transform);transform.Translate(types[type].offset);
-   int startVertex=vertexCounts[b];trees[curTree].buffer=b;trees[curTree].firstVertex=startVertex;
+   int startVertex=vertexCounts[b];trees[curTree].firstVertex=startVertex;trees[curTree].buffer=b;
    int numVertex=types[type].mesh->Peek_Model()->Get_Vertex_Count();
    Vector3 *pVert=types[type].mesh->Peek_Model()->Get_Vertex_Array();
    if(vertexCounts[b]+numVertex>=30000)break;
