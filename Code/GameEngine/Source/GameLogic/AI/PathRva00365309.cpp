@@ -1,31 +1,15 @@
-// ?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z
-// partial score=0.985 date=2026-10-19
-// ?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z
-// partial score=0.979 date=2026-10-16
-// ?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z
-// partial W9-O1 2026-10-16: WB 0x00F1FC60-shaped rebuild, 2177/2177 B, frame 0x78 exact, nn 24 (scheduling only).
-// Levers: start/dest/delta/center/end as member-wise Coord3D copies (Coord3DCtorView + COORD3D_VIEW_INLINE
-// sub/add/scale); the delta block-scoped (it escapes into the opaque Coord3D::length, so only a block lets
-// center share its slot: frame 0x84 -> 0x78); the same-unit angle helper 0x363B4B visible as an
-// inline noinline copy (keeps cdecl; a static copy gets a private register ABI); WB Rotate_Z
-// (sin then cos, tmp_x/tmp_y), radial sign Cross_Product_Z(second, first); node->getLayer() accessor
-// (evaluated before the pathfinder load); copy-then-zero radials; dest.add + scale(0.5).
-// The rowed IsLinePassable placeholder types its 6th argument void*, but WB 0xF21CC8 shows BFME 2
-// passes the Bool parameter through unconverted; the call reads the bool's argument word as retail does.
-// Residue: x87 result stores (cos) scheduled before independent SSE loads at the Rotate_Z sites,
-// one xorps/movss pair, the loop-tail mov esi placement and the dest.add x-term order.
-// permute.py 1466 trials: no gain. Lands together with 0x365E98 (needs this body visible).
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
-// 0x00365309 bank 2026-10-19 (claude-opus-5-5): hack-free 2177/2177, nd 31 (was 37 with an artificial
-// ~Vector3). WB F1FC60: only Coord3D locals carry EH states, so the real empty Coord3D dtor
-// (COORD3D_VIEW_DTOR, 0x000B3FD0) replaces the fake Vector3 one; PathNode gets class-scoped pooled
-// operator new/delete (new PathNode(...); delete saved;) as WB shows, which closed the final midpoint
-// (ctor keeps throw(): retail has no EH frame for it). Left: the cos fstp scheduled before 1-3 SSE ops at
-// all four Rotate_Z sites, one zero-register reload order after the radial Inv_Sqrt, loop-tail
-// options/node reload order. Home: likely a new Pathfinder unit beside rva00365E98Rva00365E98Farm.cpp
-// (same flags). Scratch: build/nbr/r7/365309/.
-// Native365309..365B8A RET28; WB F1FC60 confirms curve construction.
-// ZH Vector3 math and Path/PathNode ownership are semantic guides. Native
+// Path::rva00365309 (native 0x00365309..0x00365B8A, RET 28): bends the path at
+// an optimized node into a circular arc. WB 0x00F1FC60 confirms the curve
+// construction (offset/radial/remainder Vector3 rotations, the sweep and the
+// segment loop); ZH Vector3 math and Path/PathNode ownership are semantic guides.
+// Native accesses supply portal +0x20, optimized link +0x8, the option flags
+// 0/1/4/8 and every call address. No original method name is asserted.
+// Shapes the retail bytes need: WWMath's Rotate_Z(sinf(angle), cosf(angle))
+// through math.h's inline float wrappers (explicit sin/cos locals schedule the
+// cos fstp early at all four sites); start/dest/delta/center/end as member-wise
+// Coord3D copies with the delta block-scoped; the 0x363B4B angle helper visible
+// as an inline noinline copy; PathNode with class-scoped pooled new/delete.
 // provides portal20, optimized-link8, options0/1/4/8, and all call addresses.
 #define COORD3D_VIEW_INLINE
 #define COORD3D_VIEW_DTOR
@@ -54,7 +38,7 @@ class Vector3 {public:
  __forceinline void Normalize(){float len2=Length2();if(len2!=0.0f){float oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;}}
  __forceinline void Scale(float s){X*=s;Y*=s;Z*=s;}
  __forceinline void Rotate_Z(float s_angle,float c_angle){float tmp_x=X;float tmp_y=Y;X=c_angle*tmp_x-s_angle*tmp_y;Y=s_angle*tmp_x+c_angle*tmp_y;}
- __forceinline void Rotate_Z(float angle){float s=(float)sin((double)angle);float c=(float)cos((double)angle);Rotate_Z(s,c);}
+ __forceinline void Rotate_Z(float angle){Rotate_Z(sinf(angle),cosf(angle));}
  static __forceinline float Cross_Product_Z(const Vector3 &a,const Vector3 &b){return a.X*b.Y-a.Y*b.X;}
 };
 struct Rva00363B4BVector {float x,y,z;};
@@ -78,7 +62,7 @@ extern AI *TheAI;
 class Path {public:
  bool rva00365309(Object *,PathNode *,const Coord3D *,DirectionOptions *,int,float,bool);
  void rva003649B1(const PathNode *);
- void rva002655E3(const Coord3D *,PathfindLayerEnum,int);
+ void appendNode(const Coord3D *,PathfindLayerEnum,int);
  void rva00364AA2(PathNode *,PathNode *,PathNode *,float);
  int rva003641AE(float,float);
 };
@@ -150,7 +134,7 @@ bool Path::rva00365309(Object *obj,PathNode *node,const Coord3D *input,Direction
    if(!TheAI->pathfinder()->IsValidMovementPositionForObject(&position,node->getLayer(),surfaces,obj))return false;
    if(i==segments && !(unsigned char)TheAI->pathfinder()->IsLinePassable(obj,(void *)surfaces,node->getLayer(),&position,&dest,*(void *const *)&blocked,0,0))return false;
   } else {
-   rva002655E3(&position,node->getLayer(),0x7fffffff);
+   appendNode(&position,node->getLayer(),0x7fffffff);
    node->pos=position;
   }
  }

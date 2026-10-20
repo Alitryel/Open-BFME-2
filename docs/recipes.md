@@ -81,6 +81,14 @@ draft and `next_work.py` serves `wpo` candidates last.
   view keeps two x87/SSE schedule swaps. An early-return inline setter
   (`if (test(bit)) return; set(bit);`) gives retail's byte-narrowed
   `test/or byte`. AIUpdateInterface::quickHordeUpdate 0x0026C4EB.
+- **Vector3::Rotate_Z(angle) as WWMath's nested `sinf`/`cosf`.** When the
+  cos result's `fstp [c]; movss xmm, [c]` sits after independent SSE loads
+  in retail but straight after `call cos` in ours, spell the angle overload
+  `Rotate_Z(sinf(angle), cosf(angle))` with `<math.h>`'s inline float
+  wrappers (as `vector3.h` does), not `float s = (float)sin(angle); float c
+  = ...;` locals. Closed 14 schedule regions at four sites:
+  Path::rva00365309 0x00365309; the same shape matches in
+  GenericObjectCreationNugget::doStuffToObj 0x001F22A8.
 
 ## Flags
 
