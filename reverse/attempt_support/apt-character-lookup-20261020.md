@@ -197,3 +197,58 @@ cases 18..21 (and maybe 17), plus the switch-2 MakeFloat, assigning one
 each), whether switch 2 joins, result declared at function vs block scope.
 Tools used (untracked, recreate): align sum via `tools/align_diff.py`, jump
 table decode via `read_target_bytes(0x6EFBC0,5935)`.
+
+## Round claudeb2 2026-10-20 (late): result-join, new best L0011
+
+Best body: `reverse/attempts/0x006efbc0.cpp` (L0011), banked as the
+attempt. Fitness 0.79096 (structural, 5879 compiled), align sum 112
+(st=29 ins=51 del=50 mem=10 reg=1), native 5448 B, 55 rets (retail 53,
+base4 74). The diff against base4 is three edits:
+- `AptValue *result;` declared after `float number;` at function scope;
+- case 10 is `result=AptBoolean::Create(..multiline..);` then a label
+  `done: return result;` inside case 10;
+- case 21 is `{result=AptBoolean::Create(text->mouseWheel);goto done;}` and the
+  switch-2 final is `result=Rva008A4EA0MakeFloat(number); goto done;`.
+
+What the compiler does with it: the done block merges into case 20's identical
+`push; call MakeFloat; add esp,4; epilogue` tail, keeping the LATER copy (case
+20), so J sits after case 20. Case 21 jumps to J, and the switch-2 copies jump
+into case 20's `call MakeFloat`. Retail keeps J after case 10's
+`call AptBoolean::Create` (0x233/0x238):
+- 18 shares 10's `test esi,0xffffff` (jmp 0x229);
+- 21 does `push edx; jmp 0x233`;
+- 19 jumps into 20's `fst`;
+- 20 and each switch-2 copy keep their own `call MakeFloat; jmp 0x238`.
+
+Remaining L0011 differences: J at 20 instead of 10, 21 and switch 2 enter
+20's call, there is no 18->10 test merge, and gUndef is kept at 17 rather than
+8.
+
+Disproved this round (e8/e9/e10, 300+ variants, do not repeat):
+- the label in case 21, or at function end, with two or more gotos collapses
+  back to base4 (sum 239). A join with two or more predecessors is
+  re-duplicated into direct returns;
+- gotos from 19 and/or 20 destroy every merge (75 rets);
+- a goto from 18 has no effect; the label in 18 behaves like the label in 10;
+- 19/20 writing `number` instead of a block-local `n` has no effect;
+- the compiler flags of the matched Apt siblings (AptCharacterByteCounts,
+  ApplyTextFormat, TextFormat) are all `/O2 /DNDEBUG /MD /EHsc`, with no /EHa or /GX.
+
+WB twin facts (0x1784910, debug):
+- direct returns everywhere (gUndef is `mov eax,[gUndef]; jmp exit`);
+- case 17 is `if(!variable.IsEmpty()){s=Create(); s->str=variable; return s;}
+  return gUndef;`;
+- case 20 clamps through a ternary temp;
+- case 21 is `shr 3; and 1`;
+- the default of switch 2 is `return 0`.
+
+The source probably had no gotos; the join is the optimiser's. The result+goto
+form is still a useful lever, because it is the only one that moved J.
+
+Next leads (untested):
+1. done label in a case before 10 (9, 8), so the merge keeps a later case
+   tail and the J copy could land in 10;
+2. L0011 plus c10-style single gotos (c10 keeps J at 10 and cross-jumps
+   11/13/14/15 into it, plus 18->10 with retail's `mov esi` form);
+3. case 17 as `if(IsEmpty()) return gUndef; return makeLookupString(..);`
+   inside the full TU (the earlier probes used synthetic TUs only).
