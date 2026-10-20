@@ -29,6 +29,7 @@ import argparse
 import csv
 import re
 import subprocess
+import tempfile
 from collections import Counter
 from functools import lru_cache
 from pathlib import Path
@@ -285,10 +286,17 @@ def _batch_git_texts(ref, paths):
     if not paths:
         return {}
     request = "".join(f"{ref}:{path}\n" for path in paths).encode()
-    proc = subprocess.run(
-        ["git", "cat-file", "--batch"], cwd=ROOT, input=request,
-        capture_output=True,
-    )
+    # Avoid a cycle where Git's reply pipe and the request pipe both fill.
+    with tempfile.TemporaryFile() as source, tempfile.TemporaryFile() as output, \
+            tempfile.TemporaryFile() as errors:
+        source.write(request)
+        source.seek(0)
+        proc = subprocess.run(["git", "cat-file", "--batch"], cwd=ROOT,
+                              stdin=source, stdout=output, stderr=errors)
+        output.seek(0)
+        errors.seek(0)
+        proc = subprocess.CompletedProcess(proc.args, proc.returncode,
+                                           output.read(), errors.read())
     if proc.returncode != 0:
         raise SystemExit(f"cannot read naked sources at {ref}: {proc.stderr.decode().strip()}")
     output = proc.stdout

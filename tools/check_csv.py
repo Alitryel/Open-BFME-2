@@ -15,6 +15,7 @@ import io
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -95,8 +96,20 @@ def read_blobs(rels, spec):
     if spec is None:
         return {rel: (ROOT / rel).read_bytes() for rel in rels}
     names = "".join(f"{spec}:{rel}\n" for rel in rels).encode()
-    out = subprocess.run(["git", "-C", str(ROOT), "cat-file", "--batch"],
-                         input=names, capture_output=True, check=True).stdout
+    # Large requests and replies can block both sides writing to pipes on
+    # macOS. File-backed streams preserve the batch protocol without that cycle.
+    with tempfile.TemporaryFile() as request, tempfile.TemporaryFile() as output, \
+            tempfile.TemporaryFile() as errors:
+        request.write(names)
+        request.seek(0)
+        result = subprocess.run(["git", "-C", str(ROOT), "cat-file", "--batch"],
+                                stdin=request, stdout=output, stderr=errors)
+        output.seek(0)
+        errors.seek(0)
+        result = subprocess.CompletedProcess(result.args, result.returncode,
+                                             output.read(), errors.read())
+    result.check_returncode()
+    out = result.stdout
     blobs, pos = {}, 0
     for rel in rels:
         end = out.index(b"\n", pos)
