@@ -112,6 +112,109 @@ Fifth-session scratch tools (untracked) are in `build/agAE/`: `alloctrace2.py`
 and `zones.py` (symbol accounting), `ctrace.py` and `kdiff.py` (FactCanonSort
 operand order), and `objfit.py` and `fit.py` (fitness, nd, Length2 trees).
 
+## Fifth session, continued (2026-10-21): what is settled and what is ruled out
+
+Scratch tools are in `build/agAE/`, `build/agAG/` and `build/agAH/`
+(untracked).
+
+**Further faithful edits.**
+
+| Edit | Effect |
+|---|---|
+| C1: `shadow = additive ? s_AdditiveShadowFXShader : s_AlphaShadowFXShader;` (the class-lvalue ternary's reference $T is WB `local_6358`) | +1 IL-time A, nd 376 |
+| `point_cnt = MIN(point_cnt, chunk_size);` (WB ternary temp `local_6774`) | +1 C only, byte-identical |
+| Set_Transform in WB's flag order | byte-identical |
+
+The faithful best is `build/agAG/final/f_c1minflag.cpp` (the bank plus these
+three): 12006 B, nd 376, fit 0.9108. The bank file is not updated yet.
+
+**The tail is settled.** The faithful, retail-confirmed tail set is
+{G, H, F, A, B, C, I, E, D}:
+- **I:** `int Is_Sorting_Disabled() const`, as WB 0xa1ad40 and retail COMDAT
+  0x12606c (`movzx eax`). E −1.
+- **E:** WB's `Convert_Color_Clamp`, which clamps the by-value argument in
+  place. Retail's simplestreakrender object emits the Clamp_Color COMDAT
+  0x126082 between 0x12606c and RenderStreak, and only the E form references
+  it. E −5; +36 C, one pool.
+- **D:** inline `_Get_D3D_Device8()`. E −2.
+- Net E −8 ≡ 0 (mod 4).
+
+Every WB tail call is accounted for. SegLine's ZH Convert_Color_Clamp
+(`const Vector4&` plus a copy) is refuted at 409/399 B. Retail has no
+Vertex_Shader/Pixel_Shader stores, and Set_Texture stays out of line (retail
+calls 0x11F4B0).
+
+**The front target is exactly 29.** A post-IL pad scan over m = 0..70 on the
+full set + C1 + MIN finds only m = 29 good: nd 100, 11988 B, frame 0x6238,
+trees 17/21. Diagnostic files: `build/agAE/v/fs/fs_m29.cpp` and
+`build/agAG/final/diag_f_pad29.cpp` (nd 93, without I/E/D). With E, the pl
+sites additionally need the window (last pl X piece to the Y pieces) to lose
+one pool plus 1..30 symbols:
+- #537 (1c31) needs its Y piece in [6771, 6824];
+- #960 (1f0c) needs it ≤ 6824 (it is 6833/6857).
+
+A-pads move X and Y together.
+
+**The residue of the padded bodies is all front numbering.**
+- The +0xc spill-slot shift in regions b–f is caused by the wrong 1f0c tree.
+  The extra reload of pl.X raises pl's weight to w19 and ties it with
+  top_normal. In v048, where 1f0c is right, the layout is retail's.
+- +0xf78 is the sum order of `Dot_Product(first_plane[TOP_EDGE],
+  first_point)`. Its MUL keys run through IL-time named locals: first_plane
+  F=409, first_point F=408, then S376/S379 and S452/S456.
+- So the missing symbols must sit at specific IL positions, not just number
+  29.
+
+**Ruled out this session (do not repeat):**
+- WB caller frame: all 89 named locals and all 36 $T map one to one, in the
+  same first-use order as our IL numbering. /Od never shares stack slots
+  between temporaries (verified), so the $T census is complete.
+- Declaration order and scope.
+- B globals: unchanged at 176 for every tail change except G (−1). Float
+  literals are not B.
+- Unreferenced locals: never numbered (29 or 30 unused ints at entry are
+  byte-identical).
+- By-value struct arguments: WB's only one is Convert_Color_Clamp's Vector4,
+  which ours matches.
+- Every Get/Set_Transform/Matrix4/Vector4/Transpose/Make_Identity header form.
+  WB's /Od arms and order are WORLD, VIEW, PROJ, default, the same as ours.
+- The SegLine header set: a port onto vector3_full_link + SSE vector4 +
+  banked_segline matrix4 + inline `_Get_D3D_Device8` is byte-identical with
+  A/C/E +0.
+- Flags: /O1 = /O2 /Os, /Oi and /Oy- are inert. /O2, /Ot, /Ox and /G6 are far
+  worse.
+
+**c2 3077 inline budget (decoded).** In InlCallGraphDecision (0x8d1aa), for a
+plain-inline callee of size S above InlSizeLimit (9 at /O1):
+- x = callee tuples (node[0x1c], 11 for `??_H`) + G_b58 (c2 0x10882b58).
+- If x > 9000, a penalty floor(S/2)·x/9000 is added to cost = S − benefits,
+  and the call inlines iff cost < 9.
+- For `??_H` (S = 34) that means it inlines iff G_b58 ≤ 8989.
+- G_b58 starts at T0, the whole function's flagged-tuple count (set in
+  Inline@4). Each inlined body's tuples are then added once per nesting level.
+
+`??_H` sites in f_c1minflag, by G_b58:
+- Get_Transform: 1846, 2486, 3054;
+- identity: 4417;
+- WORLD ×4: 4671..6490;
+- VIEW-WORLD arm: 7945;
+- VIEW-VIEW arm (live): 8516, margin +473, inlined;
+- VIEW-PROJ: 9087 (−98) and VIEW-default: 9739 (−750), dead and refused;
+- arrays 11040+ and the tail, refused.
+
+The exact SegLine Render (IL about 35% larger) refuses one site earlier. That
+is its −3 fresh A in Set_Transform(VIEW), not a free-list effect. For this
+function no budget move works:
+- one more refusal hits the live VIEW arm, which is byte-visible;
+- dead acceptances add +3 A, +1 C and +7 E each, which breaks parity and moves
+  the window the wrong way;
+- WB's arm order rules out a reordering.
+
+**Next:** solve for the IL-time insertion profile, i.e. where the missing
+symbols must be created, from the residue sites' key constraints. Use the
+method of 0x743700's validated simulator (`build/agAF/xsim.py`, `smodel.py`).
+Then read retail and WB at that spot.
+
 ## Second-session best (claudeb4, 2026-10-20): 0.9134, norm 2363/2637, 12017 B
 
 The bank is `build/s126/r6/v000010000.cpp`: the 0.9113 body plus item 11. Chain:
