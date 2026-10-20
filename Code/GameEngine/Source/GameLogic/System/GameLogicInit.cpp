@@ -3947,7 +3947,7 @@ struct Rva002B3740Item
 };
 
 extern const StaticNameKey TheKey_playerIsSkirmish;
-extern Rva00148F5ECache TheKey_playerSlot20;
+extern const StaticNameKey TheKey_playerHandicap;
 extern const StaticNameKey TheKey_playerStartMoney;
 extern const StaticNameKey TheKey_skirmishDifficulty;
 extern const StaticNameKey TheKey_playerIsPreorder;
@@ -4064,7 +4064,7 @@ void GameLogic::CreateMPPlayers(bool isSkirmish, int progressCount)
 
 		d.setAsciiString(TheKey_playerAllies.get(), alliesString);
 		d.setAsciiString(TheKey_playerEnemies.get(), enemiesString);
-		d.setInt(TheKey_playerSlot20.get(), slot->m_bfme20);
+		d.setInt(((Rva00148F5ECache *)&TheKey_playerHandicap)->get(), slot->m_bfme20);
 		d.setInt(((Rva00148F5ECache *)&TheKey_playerColor)->get(), TheMultiplayerSettings->getColor(slot->getColor())->getColor());
 		d.setInt(((Rva00148F5ECache *)&TheKey_playerNightColor)->get(), TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
 		d.setInt(((Rva00148F5ECache *)&TheKey_multiplayerStartIndex)->get(), slot->getStartPos());
@@ -5053,7 +5053,7 @@ void GameLogic::CreateWOTRMPPlayers()
   }
   d.setAsciiString(TheKey_playerAllies.get(),alliesString);
   d.setAsciiString(TheKey_playerEnemies.get(),enemiesString);
-  d.setInt(TheKey_playerSlot20.get(),slot->m_bfme20);
+  d.setInt(((Rva00148F5ECache *)&TheKey_playerHandicap)->get(),slot->m_bfme20);
   d.setInt(((Rva00148F5ECache *)&TheKey_playerColor)->get(),TheMultiplayerSettings->getColor(slot->getColor())->getColor());
   d.setInt(((Rva00148F5ECache *)&TheKey_playerNightColor)->get(),TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
   d.setBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(),slot->isHuman()&&slot->m_name.compare(game->getSlot(game->getLocalSlotNum())->getNameStr())==0);

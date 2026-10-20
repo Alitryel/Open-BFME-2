@@ -95,6 +95,13 @@ extern const StaticNameKey TheKey_objectBasePhase("objectBasePhase");
 // pointer at 0x009BDCB4/0x009BDCBC (names at VA 0x00C091A8/0x00C091B8).
 extern const StaticNameKey TheKey_waypointType("waypointType");
 extern const StaticNameKey TheKey_waypointTypeOption("waypointTypeOption");
+// BFME2 player keys between the WellKnownKeys player block entries: zero
+// cache plus the name pointer at 0x009BDE74 (after playerNightColor),
+// 0x009BDEA4 and 0x009BDEAC (after playerAIType; names at VA 0x00C09600,
+// 0x00C09674, 0x00C09688). Player::initFromDict and GameLogic read them.
+extern const StaticNameKey TheKey_playerHandicap("playerHandicap");
+extern const StaticNameKey TheKey_playerFactionIcon("playerFactionIcon");
+extern const StaticNameKey TheKey_livingWorldPlayerID("livingWorldPlayerID");
 
 
 #include "GameLogic/PolygonTrigger.h"
