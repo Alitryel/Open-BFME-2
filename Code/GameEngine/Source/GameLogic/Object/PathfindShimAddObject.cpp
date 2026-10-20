@@ -72,3 +72,28 @@ second:
 		return 1;
 	return i;
 }
+
+// ??0Rva002E7243@@QAE@HH@Z @0x002E7243 30B, RET8, no callers in retail: a
+// five-word record built from two words with the remaining three set to -1.
+// Retail stores +8 between loading and storing the first argument and the
+// last two words after the second: the trailing pair is a member object
+// whose own constructor sets both to -1 (cl hoists a constructor's own
+// constant stores above its argument stores, but not into a member's
+// constructor). Owner and field names are unrecovered (address-derived).
+struct Rva002E7243Pair
+{
+	Rva002E7243Pair() : m_first(-1), m_second(-1) {}
+	int m_first;
+	int m_second;
+};
+class Rva002E7243
+{
+public:
+	Rva002E7243(int first, int second);
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	Rva002E7243Pair m_pair;
+};
+Rva002E7243::Rva002E7243(int first, int second) : m_00(first), m_04(second), m_08(-1) {}
