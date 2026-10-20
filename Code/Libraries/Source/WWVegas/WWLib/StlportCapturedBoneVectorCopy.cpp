@@ -13,6 +13,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?size@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@QBEIXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod36;
+namespace _STL { template <> unsigned int vector<BfmePod36,allocator<BfmePod36> >::size() const; }
 // Suppress this TU's non-retail copy of ?_M_clear@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@IAEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod36;
