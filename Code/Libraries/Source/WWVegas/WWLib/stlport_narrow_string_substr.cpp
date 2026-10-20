@@ -10,6 +10,9 @@
 // bfme link decl-only begin
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_throw_length_error@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QBEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_throw_length_error() const; }
 
 namespace _STL
 {
