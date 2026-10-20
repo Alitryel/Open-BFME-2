@@ -2,6 +2,10 @@
 // stlport
 // ?removeMessageAction@HotKeyManager@@QAEII@Z 0x003593D8 16B; tree erase call and +0x24 this adjustment are retail evidence
 #include <map>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHURva00358E26Record@@@_STL@@@_STL@@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00358E26Record;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<int const ,Rva00358E26Record> > >::deallocate(_Rb_tree_node<pair<int const ,Rva00358E26Record> > *,unsigned int) const; }
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
