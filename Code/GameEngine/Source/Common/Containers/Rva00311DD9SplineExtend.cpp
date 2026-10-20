@@ -10,7 +10,13 @@
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
 extern "C" double __cdecl fabs(double);
+// math.h's float sqrt/sqrtf overloads take wwmath.cpp's dllimport forceinline form, so the
+// visible length body below calls _sqrt as retail's 0x00003571 does and no _sqrtf copy is
+// emitted.
+#pragma push_macro("inline")
+#define inline __declspec(dllimport) __forceinline
 #include <math.h>
+#pragma pop_macro("inline")
 #include "../../../../Libraries/Include/Lib/Coord3DBase.h"
 struct SplineRecord {float duration;float steps[10];Coord3D samples[10];Coord3D point;unsigned tail[2];};
 struct SplineState {char pad[0x18];float time,segmentBegin;unsigned segment;bool enabled;char pad25[7];_STL::vector<SplineRecord> records;unsigned pad38;float sampleBegin;int sample;unsigned pad44;Coord3D result;};
@@ -41,18 +47,20 @@ inline void Coord3D::normalize()
     }
 }
 
-inline void Coord3D::set(const Coord3DBase *that)
+// Coord3D::set and ::scale as TU-local helpers: as /Oy- inline members this unit emitted framed
+// copies of them against retail's frameless 0x000DFCB6 and 0x000036D1.
+static inline void set(Coord3D &that, const Coord3DBase *other)
 {
-    x = that->x;
-    y = that->y;
-    z = that->z;
+    that.x = other->x;
+    that.y = other->y;
+    that.z = other->z;
 }
 
-inline void Coord3D::scale(float s)
+static inline void scale(Coord3D &that, float s)
 {
-    x *= s;
-    y *= s;
-    z *= s;
+    that.x *= s;
+    that.y *= s;
+    that.z *= s;
 }
 
 // Coord3D::Sub(const Coord3DBase &) of the BFME 2 math header, which the canonical Coord3D lacks.
@@ -70,36 +78,36 @@ inline Coord3D &subtract(Coord3D &that, const Coord3D &other)
 void Rva00311DD9::rva00311B70()
 {
     Coord3D point;
-    point.set(&asBase(records[1].point));
+    set(point, &asBase(records[1].point));
     Coord3D second;
-    second.set(&asBase(records[2].point));
+    set(second, &asBase(records[2].point));
     Coord3D delta;
-    delta.set(&asBase(point));
+    set(delta, &asBase(point));
     subtract(delta, second);
     float length = delta.length();
     Coord3D first;
-    first.set(&asBase(records[0].point));
+    set(first, &asBase(records[0].point));
     delta = point;
     subtract(delta, first);
     delta.normalize();
-    delta.scale(length);
+    scale(delta, length);
     subtract(point, delta);
     records[0].point = point;
 
     int count = records.size();
     Coord3D endPoint;
-    endPoint.set(&asBase(records[count - 2].point));
+    set(endPoint, &asBase(records[count - 2].point));
     Coord3D beforeLast;
-    beforeLast.set(&asBase(records[count - 3].point));
+    set(beforeLast, &asBase(records[count - 3].point));
     delta = endPoint;
     subtract(delta, beforeLast);
     float endLength = delta.length();
     Coord3D last;
-    last.set(&asBase(records[count - 1].point));
+    set(last, &asBase(records[count - 1].point));
     delta = endPoint;
     subtract(delta, last);
     delta.normalize();
-    delta.scale(endLength);
+    scale(delta, endLength);
     subtract(endPoint, delta);
     records[count - 1].point = endPoint;
 }

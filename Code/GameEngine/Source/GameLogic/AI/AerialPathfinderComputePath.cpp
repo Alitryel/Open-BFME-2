@@ -17,7 +17,21 @@
 #include "../../../../Libraries/Source/profile/profile_highlevel.h"
 #include "../../Common/GameLogicObjectLookupView.h"
 
+// math.h's float sin/cos overloads inline at the probes, but as plain inlines this /O1 unit
+// still emitted their 17 B call-_sin/_cos copies, which lose to retail's fsin/fcos ones
+// (0x2FBB0/0x2FBC0). Only those two take wwmath.cpp's dllimport forceinline form: the
+// float atan2 overload must stay an out-of-line call to 0x000422CD.
+#define sin bfme_math_h_sin
+#define cos bfme_math_h_cos
 #include <math.h>
+#undef sin
+#undef cos
+extern "C" double __cdecl sin(double);
+extern "C" double __cdecl cos(double);
+__declspec(dllimport) __forceinline float __cdecl sin(float _X)
+        {return ((float)sin((double)_X)); }
+__declspec(dllimport) __forceinline float __cdecl cos(float _X)
+        {return ((float)cos((double)_X)); }
 // coord3d.cpp's Coord3D::length (0x00003571) and ::normalize (0x000035B6), visible so cl
 // knows they keep no pointer to the local vectors (as AIAttackApproachComputePath.cpp).
 __declspec(noinline) inline float Coord3D::length() const
@@ -117,8 +131,6 @@ public:
 };
 extern "C" float __cdecl atan2f(float, float);
 float atan2(float, float);
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
 extern "C" int __cdecl strcmp(const char *, const char *);
 float normalizeAngle(float);
 

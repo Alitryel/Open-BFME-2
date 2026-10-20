@@ -48,7 +48,31 @@
 
 #include "Lib/Coord3DCtorView.h"
 #include <vector>
+// The leech frame's max(extra, 1) is inlined; a file-static int overload
+// takes the call so this /O1 SSE unit emits no cmov max<int> COMDAT against
+// retail's 0x00013630 (as rva0048DC51Rva0048DC51Farm.cpp).
+namespace _STL {
+static inline const int &max(const int &a, const int &b)
+{
+    return a < b ? b : a;
+}
+}
+// math.h's float sin/cos overloads inline at the scatter rotation, but as
+// plain inlines this unit still emitted their call-_sin/_cos copies, which
+// lose to retail's fsin/fcos ones (0x2FBB0/0x2FBC0). Only those two take
+// wwmath.cpp's dllimport forceinline form: the float atan2 overload stays an
+// out-of-line call to 0x000422CD.
+#define sin bfme_math_h_sin
+#define cos bfme_math_h_cos
 #include <math.h>
+#undef sin
+#undef cos
+extern "C" double __cdecl sin(double);
+extern "C" double __cdecl cos(double);
+__declspec(dllimport) __forceinline float __cdecl sin(float _X)
+        {return ((float)sin((double)_X)); }
+__declspec(dllimport) __forceinline float __cdecl cos(float _X)
+        {return ((float)cos((double)_X)); }
 #include "Lib/Coord2D.h"
 
 struct WeaponScatterPoint : Coord3D
