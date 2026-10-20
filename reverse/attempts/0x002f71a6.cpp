@@ -1,4 +1,6 @@
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
+// partial score=0.99893 date=2026-10-20
+// ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.91609 date=2026-10-20
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.88601 date=2026-10-16
@@ -35,6 +37,14 @@
 // fit .91609 len4611 nd126. Residue: entry/cursor register shape (retail rawTo esi,
 // cursor edi+home 2C, xor-edi zero) appears only under a dataflow-size threshold that
 // counts conditional branches (attempt_support/0x002f71a6-exit-20261020), slot perm.
+// opus r14 (2026-10-20): WB twin's switch temp (local_8e8) -> mineshaft waypoint test is
+// `switch(way->type){case 8:...break;}` with a for-scoped `Waypoint *way` cursor; this alone
+// gives retail's entry rawTo esi/from edi, cursor edi+home 2C, xor-edi zero reg. Entry
+// _ReadWriteBarrier dropped; closest tail uses a named PathfinderGroundInfo *info.
+// fit .99893 len4605 nd3. Residue: first mineshaft delta schedule (2F72E7..): retail stores
+// loc.y into delta.y BEFORE subss (copy-ctor then in-place sub), ours stores after.
+// Disproved r14: inline Sub/LengthSqr2D helpers, empty-dtor HierarchyPoint, ctor field order,
+// sub order xyz/yxz/xy/yx/zxy, dist order, const Coord3D *pos local, Coord3D delta=loc.
 // cl: /I. /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
 extern "C" void _ReadWriteBarrier(void);
@@ -49,7 +59,6 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  if(rawTo->x==0.0f && rawTo->y==0.0f)return 0;
  if(!m_isMapReady)return 0;
  HierarchyPoint adjustTo(*rawTo);
- _ReadWriteBarrier();
  Coord3D *to=&adjustTo;
  HierarchyPoint clipFrom(*from);
  rva002E75A3(&clipFrom,&adjustTo);
@@ -58,19 +67,19 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  HierarchyPoint originalTo(adjustTo);
  if(((MineshaftPortalNetworkManager *)g_Va00E01EDC)->hasUsableNetwork(obj->getControllingPlayer())) {
   float startDistance=0.0f,endDistance=0.0f;
-  for(candidate.waypoint=((HierarchyTerrain *)TheTerrainLogic)->getFirstWaypoint();candidate.waypoint;candidate.waypoint=candidate.waypoint->next) {
-   if(candidate.waypoint->type==8 && (unsigned char)((Rva002E6ECA *)candidate.waypoint)->get() && candidate.waypoint->isValidUnitType(obj)) {
-    if(rva001E3647Pos(TheTerrainLogic->getLayerForDestination(0,&candidate.waypoint->location),&candidate.waypoint->location)) {
-     HierarchyPoint delta;delta.x=candidate.waypoint->location.x;delta.y=candidate.waypoint->location.y;delta.z=candidate.waypoint->location.z;
+  for(Waypoint *way=((HierarchyTerrain *)TheTerrainLogic)->getFirstWaypoint();way;way=way->next) {
+   switch(way->type) { case 8: if((unsigned char)((Rva002E6ECA *)way)->get() && way->isValidUnitType(obj)) {
+    if(rva001E3647Pos(TheTerrainLogic->getLayerForDestination(0,&way->location),&way->location)) {
+     HierarchyPoint delta(way->location);
      delta.x-=obj->position[0];delta.y-=obj->position[1];delta.z-=obj->position[2];
      float dist=delta.x*delta.x+delta.y*delta.y;
-     if(!m_srcMineshaft || dist<startDistance) {m_srcMineshaft=(PathfinderMineshaft *)candidate.waypoint;startDistance=dist;}
-     delta=candidate.waypoint->location;
+     if(!m_srcMineshaft || dist<startDistance) {m_srcMineshaft=(PathfinderMineshaft *)way;startDistance=dist;}
+     delta=way->location;
      delta.x-=rawTo->x;delta.y-=rawTo->y;delta.z-=rawTo->z;
      dist=delta.x*delta.x+delta.y*delta.y;
-     if(!m_destMineshaft || dist<endDistance) {m_destMineshaft=(PathfinderMineshaft *)candidate.waypoint;endDistance=dist;}
+     if(!m_destMineshaft || dist<endDistance) {m_destMineshaft=(PathfinderMineshaft *)way;endDistance=dist;}
     }
-   }
+   } break; }
   }
   if(m_srcMineshaft && m_destMineshaft && m_srcMineshaft!=m_destMineshaft &&
      QuickDoesPathExist(obj,from,&m_srcMineshaft->m_position,0) &&
@@ -280,9 +289,9 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  }
  if(closestOK && candidate.cell && candidate.cell!=initialCell) {
   m_isTunneling=false;
-  _ReadWriteBarrier();
   Coord3D closest;
-  *adjustedTo=*(Coord3D *)Rva002E8C4DCall((Int)&closest,1,(Rva002E8C23Pair *)candidate.cell->m_pathInfo,1);
+  PathfinderGroundInfo *info=candidate.cell->m_pathInfo;
+  *adjustedTo=*(Coord3D *)Rva002E8C4DCall((Int)&closest,1,(Rva002E8C23Pair *)info,1);
   Path *path=(Path *)MakeHierarchicalPathPassable((void *)from,(Rva002E6C79 *)candidate.cell,((((const unsigned int *)obj->m_template->kinds)[5]>>31)&1)!=0);
   rva002F40E7();goalCell->ReleaseInfo();return path;
  }
