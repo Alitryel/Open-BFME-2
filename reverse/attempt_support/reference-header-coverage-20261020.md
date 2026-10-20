@@ -33,3 +33,26 @@ build/reference-address-remaining-oct20/, reference-address-repairs-oct20/,
 reference-stlport-headers-oct20/, reference-stlport-api-repair-oct20/ and
 reference-stlport-final-headers-oct20/. The latter four paths share build/.
 Code and the reference pointer remain unchanged.
+
+## Previously failing Zero Hour units
+
+At the same BFME1 revision, refreshed zh_sweep reported 919 cached successful
+objects and 68 compile failures. Isolated wrappers put the verified original
+PlatformSDK and DX81 include directories before the sweep shims, and add the
+real ZH WWAudio and Benchmark directories. Ten non-decoder units were tested
+under their original settings and O1/G7/SSE2. Seven immediately compile:
+animatedsoundmgr, mono, rawfile, registry, WWCOMUtil, verchk and shdhwshader.
+wwmouse additionally needs the real windows.h/mmsystem.h declarations;
+W3DShaderManager needs the standard placement-new declarations before
+always.h's duplicate block, plus the real PersistFactoryClass forward name.
+Both then compile in both profiles. These 18 successful profiles yield zero
+unclaimed body/pin leads. mpu remains blocked on an unsigned abs overload in
+its CPU-frequency routine; no invented signedness fix was applied.
+
+Driver/input/source hashes and exact flags are in
+build/zh-sdk-repair-oct20.py and its sibling directory; the four declaration
+follow-ups are in build/zh-sdk-followups-oct20.py and its sibling directory.
+The ordinary placement tool compiles every wrapper. No shared header/tool,
+vendored source, pointer or ledger row was edited. Other failures (including
+missing original audio SDK and generated shader inputs) remain separate work,
+not evidence that all reference paths are exhausted.
