@@ -1,7 +1,5 @@
 // ?gatherDebugStats@W3DDisplay@@UAEXXZ
-// partial score=0.989 date=2026-10-18
-// ?gatherDebugStats@W3DDisplay@@UAEXXZ
-// partial score=0.98689 date=2026-10-13
+// partial score=0.989 date=2026-10-20
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
 // W3DDisplay::gatherDebugStats, retail 0x0004826C..0x00049271 (4101 bytes).
 
