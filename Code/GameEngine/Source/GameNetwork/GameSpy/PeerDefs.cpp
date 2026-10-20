@@ -69,6 +69,10 @@ namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_t
 namespace _STL { template <> _Rb_tree_node<pair<unsigned char const, short> > * _Rb_tree<unsigned char, pair<unsigned char const, short>, _Select1st<pair<unsigned char const, short> >, less<unsigned char>, allocator<pair<unsigned char const, short> > >::_M_create_node(pair<unsigned char const, short> const &); }
 namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_create_node(pair<int const, AsciiString> const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+
+namespace _STL { template <> pair<_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::iterator, bool> _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::insert_unique(const pair<const int, int> &); }
 
 namespace _STL
 {
