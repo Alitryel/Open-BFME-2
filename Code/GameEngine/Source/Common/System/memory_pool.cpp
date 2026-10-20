@@ -127,7 +127,6 @@ public:
 	bool rva00032920(const void *block);			// owns-address test
 	bool rva000329E0(int level);				// ValidateHeap-like
 	int rva000321F0(int level);				// heap validator 0x329E0 wraps (address-derived name)
-	int rva00031F90(void *block);				// in-use chunk check error count (address-derived name)
 	int rva000327E0(const void *blockData, unsigned int left, char *dst);
 	// Original address-derived spelling of the callee above, kept so the
 	// landed 0x000327E0 caller (which forwards positionally) still resolves
