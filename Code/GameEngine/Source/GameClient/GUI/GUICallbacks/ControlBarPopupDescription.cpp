@@ -1,66 +1,19 @@
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// partial score=0.956 date=2026-10-20
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// partial score=0.955 date=2026-10-16
-// W9-O1 r1 (2026-10-16, claude-opus-5.5, 125 min): callee 0x2940B9 is now rowed as ?affectedByUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z
-// (const) - the old rva002940B9 name left this bank UNRESOLVED; fixed below (nn10 / 3292 B, EH exact, same 3 hunks as r14).
-// Findings: (1) the sciences loop may be a plain `for (int i = 0; i < (unsigned)(end()-begin()); ++i)` - cl rotates it to exactly the
-// manual guard/do-while form (nn10 identical); (2) hero loop: guard `if (sciences.end()!=sciences.begin())` (operand order differs from the
-// loop test) keeps the guard WITHOUT the barrier (for/do/while all canonicalise) -> 3285 B nn12, residue is only the retail `mov ebx,eax`
-// copy (ours coalesces begin into ebx: `mov ebx,[ebp-0x5c]; cmp [ebp-0x58],ebx`); guard spelled like the loop test is threaded away.
-// (3) else-arm residue mechanism (toy build/o1/tz.py, z11 frame): cl hoists the common `end` load of both arms into the predecessor BEFORE
-// CSE, and CSE never flows from the predecessor into the jump-target arm, so `science = v[0]` reloads m_commandButton; with no inner guard
-// in the loop arm (toy q2) the arm keeps its own reload and [0] CSEs with it. 216-variant toy grid (first/guard/else/[0] spellings),
-// 180-variant real grid of the three size sites, IR-dead irsweep at 28 lines x 3 snippets, /O1 flag-order and /G6: all inert.
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// partial score=0.955 date=2026-10-15
-// W7-G1 r14 RECIPE (nn10 / 3292 B vs bank 3287 nn10; residue = 3 hunks, see below). Stack of levers on the previous bank:
-//  (1) bool requireAll / Player *payer locals with the assignment inside the call/comma (W7-ASTRA recipe): fixes the push-memory hunks;
-//  (2) hero-science loop as guarded do/while (no entry jmp);
-//  (3) NEW: the `_ReadWriteBarrier()` after `upgrade = m_commandButton->m_upgrade` is REMOVED and every m_sciences size() test is spelled
-//      `(unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin())` (site 1, loop pretest guard, ==1 site):
-//      the barrier only existed to stop cl materialising &m_commandButton->m_sciences (`add eax,0xa4`, `mov edi,0xa4`); the direct end-begin spelling
-//      folds [eax+0xa8]/[eax+0xa4] like retail and fixes the extra `mov eax,[esi+0xc]` reload after the upgrade load (retail keeps eax = button);
-//  (4) the loop is a manual do/while whose bottom test keeps `.size()` (retail's `add eax,0xa4; sub ecx,[eax]` this-form).
-// RESIDUE: (a) loop pretest / ==1 site: ours copies the button to ecx (`mov ecx,eax; mov eax,[ecx+0xa8]`) and keeps the count in eax, retail keeps
-// button in eax and the count in ecx (toy: build/g1/toys/z11.cpp reproduces it; declaration order/spelling grids inert); (b) hero loop begin:
-// retail `mov eax,[begin]; cmp eax,[end]; ...; mov ebx,eax`, ours reloads `mov ebx,[ebp-0x5c]` because a barrier is needed to keep the guard
-// (any guard without the fence is dropped by cl and the loop becomes jmp-to-test).
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// partial score=0.9543031778078934 date=2026-10-14
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// partial score=0.9543031778078934 date=2026-10-13
-// W7-ASTRA next lead: starting from this size-exact body, hoisting the two
-// argument values fixes independent native spill/load sites: declare bool
-// requireAll and pass (requireAll=m_commandButton->m_requireAll) through the
-// allRequiredUpgradesComplete call; declare Player *payer and assign
-// payer=ThePlayerList->m_local before the UpgradeCenter call. Converting the
-// guarded sciences for-loop to do/while removes its entry jump. Combined body
-// is 3291B: normalized residue only upgrade-load reload and science begin
-// reload instead of mov ebx,eax. Caching begin before the empty test instead
-// makes 3284B: begin uses EBX too early and the 128-byte conditional becomes
-// short. Neither variant is byte-exact. This bank retains best full score.
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // cl: /D_STLP_NO_EXCEPTIONS /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
-// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// Retail 0x00405E3D 3287 bytes RET4 (EH frame). Slot 3 of the help-source
-// vftable 0x00838970 (deleting dtor 0x00406B1D first). WB twin 0x01078070
-// OldSchoolHelpBoxContentSource::createContent in ControlBarPopupDescription.cpp
-// gives the order: title / cost / time / description strings filled from the
-// selected object's command button (science chain sciences upgrade object
-// build cost command points prerequisites unit revival and castle unpack)
-// then a 12-byte help record (rowed ctor 0x0056D5BD) returned through the
-// reference-counted handle (ArmySummaryHelpSource pattern). Callee names are
-// the ledger rows/pins at each address; offsets are read from retail.
-// H5E3D (2026-10-20, claude-opus-5-5): the hero vector temp needs the getter 0x0029FCB4 visible
-// (noinline, real body: friend_getFinalOverride then the rowed vector copy 0x0054878E) and
-// /D_STLP_NO_EXCEPTIONS as in ControlBarRappellerCount.cpp; then WB's own spelling (reference bound to
-// the by-value result, !empty() guard, plain const_iterator for loop, no barrier) gives retail's
-// `mov ebx,eax` hero loop exactly. Residue: only the sciences button EAX/ECX flip and else-arm reload.
-// With the getter and flag, the plain ZH sciences block plus one barrier after the upgrade load is
-// one instruction from retail (handoff reverse/attempt_support/0x00405e3d-visible-getter-20261020.md).
+// OldSchoolHelpBoxContentSource::createContent, retail 0x00405E3D (3287 bytes,
+// RET4, EH frame), slot 3 of the help-source vftable 0x00838970 (deleting dtor
+// 0x00406B1D first). Identity: the WorldBuilder twin 0x01078070 names it, in
+// this file. It fills title, cost, time and description from the selected
+// object's command button (science chain, upgrade, build cost, command points,
+// prerequisites, unit revival, castle unpack), then returns a 12-byte help
+// record (rowed ctor 0x0056D5BD) through the reference-counted handle.
+// The spelling follows WB's debug body: isUnitBuild as one bool expression; the
+// command type, options, require-all flag, upgrade and body module read through
+// inline getters; costValue initialised and then assigned per branch; and the
+// upgrade arm's three flags declared false before its type tests. Each choice
+// moves c2's callee-saved assignment, and only all of them together give
+// retail's (this in ESI, zero in EDI, a shrink-wrapped EBX).
+// Callee names are the ledger rows/pins at each address; offsets are from retail.
 
 // Vector storage is released through the pinned _STL::free (0x00030830).
 namespace _STL { void __cdecl free(void *block); }
@@ -195,6 +148,7 @@ class PlayerList
 public:
 	char m_pad00[0x10];
 	Player *m_local;                // +0x10
+	Player *getLocalPlayer() const { return m_local; }
 };
 extern PlayerList *ThePlayerList;
 
@@ -217,7 +171,8 @@ class UpgradeTemplate
 {
 public:
 	unsigned int rva0026EF50(Player *player, Object *obj) const;
- void *m_0; int m_4;
+	void *m_0;
+	int m_4;
 };
 
 class Rva002D371DAddImm32Field
@@ -290,15 +245,16 @@ public:
 	void *rva0028BD17() const;
 	bool rva0028D491() const;
 	void *rva0028BC58(int which);
-	bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
-	protected:
- Module *findModule(NameKeyType key) const;
+protected:
+	Module *findModule(NameKeyType key) const;
 public:
- __forceinline Module *helpFindModule(NameKeyType key) const { return findModule(key); }
+	__forceinline Module *helpFindModule(NameKeyType key) const { return findModule(key); }
 
 	char m_pad000[0x254];
 	BodyModule *m_body;             // +0x254
+	BodyModule *getBodyModule() const { return m_body; }
 };
 
 class ProductionPrerequisite
@@ -321,8 +277,8 @@ class ThingTemplate
 {
 public:
 	int getPrereqCount() const {return m_prereqInfo.size();}
- const ProductionPrerequisite *getNthPrereq(int i) const {return &m_prereqInfo[i];}
- int rva0033A69A(const Player *player, int obj, int which) const;
+	const ProductionPrerequisite *getNthPrereq(int i) const { return &m_prereqInfo[i]; }
+	int rva0033A69A(const Player *player, int obj, int which) const;
 
 	char m_pad000[0x30];
 	UnicodeString m_displayName;    // +0x30
@@ -402,6 +358,11 @@ public:
 	_STL::vector<ScienceType> m_sciences; // +0xA4
 	char m_padB0[0xC0 - 0xB0];
 	int m_revivalIndex;             // +0xC0
+	const _STL::vector<ScienceType> &getScienceVec() const { return m_sciences; }
+	int getCommandType() const { return m_commandType; }
+	bool getRequireAll() const { return m_requireAll; }
+	unsigned int getOptions() const { return m_options; }
+	const UpgradeTemplate *getUpgradeTemplate() const { return m_upgrade; }
 };
 
 class Rva0056D3FD
@@ -448,17 +409,16 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 	if (m_commandButton)
 	{
 		const ThingTemplate *thing = m_commandButton->rva0035B570();
+		const UpgradeTemplate *upgrade = m_commandButton->getUpgradeTemplate();
 		ScienceType science = SCIENCE_INVALID;
-		const UpgradeTemplate *upgrade = m_commandButton->m_upgrade;
 
-		if ((unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin()) > 1)
+		if (m_commandButton->m_sciences.size() > 1)
 		{
-			int i = 0;
-			if ((unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin()) > 0u)
-			do
+			for (int i = 0; i < m_commandButton->m_sciences.size(); ++i)
 			{
 				science = m_commandButton->m_sciences[i];
-				if (m_commandButton->m_commandType != 0x19)
+
+				if (m_commandButton->getCommandType() != 0x19)
 				{
 					if (player && !player->hasScience(science) && i > 0)
 					{
@@ -475,20 +435,18 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 
 					break;
 				}
-				if (player && !player->hasScience(science))
+				else if (player && !player->hasScience(science))
 				{
 					//Purchase science case. The first science we run into that we don't have, that's the
 					//one we'll want to show!
 					break;
 				}
-				++i;
-			} while (i < m_commandButton->m_sciences.size());
+			}
 		}
-		else if ((unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin()) == 1)
+		else if (m_commandButton->m_sciences.size() == 1)
 		{
 			science = m_commandButton->m_sciences[0];
 		}
-
 		int type = m_commandButton->m_commandType;
 		bool isUnitBuild = type == 6 || type == 7 || type == 8;
 
@@ -497,15 +455,19 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 			ProductionInterface *production = (ProductionInterface *)obj->rva0028BD17();
 			if (production)
 			{
-				float costValue = (type == 0x3B) ? production->getCost2(player) : production->getCost1(player);
-				bool fullHealth = obj->m_body->getHealthPercent() == 1.0f;
+				float costValue = 0;
+				if (type == 0x3B)
+					costValue = production->getCost2(player);
+				else
+					costValue = production->getCost1(player);
+				bool fullHealth = obj->getBodyModule()->getHealthPercent() == 1.0f;
 				bool notBusy = !obj->rva0028D491();
 				if (notBusy)
 				{
 					if (!fullHealth)
 						cost.format(TheGameText->fetchPtrC("TOOLTIP:Cost", 0), (int)costValue);
 				}
-				else if (obj->m_body->getHealthPercent() == 0.0f)
+				else if (obj->getBodyModule()->getHealthPercent() == 0.0f)
 				{
 					cost.format(TheGameText->fetchPtrC("TOOLTIP:Cost", 0), (int)costValue);
 				}
@@ -515,8 +477,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 		description.clear();
 
 		Rva0029FCB4 *hero;
-		bool requireAll;Player *payer;
- if (localPlayer && m_commandButton->m_commandType == 0x26 && (hero=m_commandButton->m_createAHero))
+		if (localPlayer && m_commandButton->getCommandType() == 0x26 && (hero = m_commandButton->m_createAHero))
 		{
 			const _STL::vector<ScienceType> &sciences = hero->rva0029FCB4();
 			if (!sciences.empty())
@@ -553,7 +514,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 					description.concat(L"\n\n");
 					description.concat(TheGameText->fetchC("TOOLTIP:TooltipCannotPurchaseBecauseQueueFull", 0));
 				}
-				else if (payer = ThePlayerList->m_local, !TheUpgradeCenter->rva0026F11A(payer, upgrade, obj, false))
+				else if (!TheUpgradeCenter->rva0026F11A(ThePlayerList->getLocalPlayer(), upgrade, obj, false))
 				{
 					description.concat(L"\n\n");
 					description.concat(TheGameText->fetchC("TOOLTIP:TooltipNotEnoughMoneyToBuild", 0));
@@ -563,7 +524,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 
 		title = TheGameText->fetchC(m_commandButton->rva0035B1E9().str(), 0);
 
-		if (thing && !(upgrade && isUnitBuild) && m_commandButton->m_commandType != 0x19 && m_commandButton->m_commandType != 0x34)
+		if (thing && !(upgrade && isUnitBuild) && m_commandButton->getCommandType() != 0x19 && m_commandButton->getCommandType() != 0x34)
 		{
 			int buildCost = (thing->m_flags11B & 0x20) ? 0 : thing->rva0033A69A(player, (int)obj, -1);
 			if (buildCost <= 0)
@@ -577,8 +538,8 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 
 			for (int p = 0; p < thing->getPrereqCount(); ++p)
 			{
-				const ProductionPrerequisite *prereq;prereq = thing->getNthPrereq(p);
- requiresString = prereq->getRequiresList(player);
+				const ProductionPrerequisite *prereq = thing->getNthPrereq(p);
+				requiresString = prereq->getRequiresList(player);
 				if (requiresString.compare(UnicodeString::TheEmptyString) != 0)
 				{
 					if (firstRequirement)
@@ -607,24 +568,24 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 		}
 		else if (upgrade)
 		{
-			int upgradeType = m_commandButton->m_commandType;
-			bool isType6 = upgradeType == 6;
-			bool isType7 = upgradeType == 7;
-			bool isType8 = upgradeType == 8;
-			bool hasUpgrade = player->rva002AB87D(upgrade);
+			bool hasUpgrade = false;
 			bool canUpgrade = false;
 			bool lacksPrereq = false;
+			bool isType6 = m_commandButton->getCommandType() == 6;
+			bool isType7 = m_commandButton->getCommandType() == 7;
+			bool isType8 = m_commandButton->getCommandType() == 8;
+			hasUpgrade = player->rva002AB87D(upgrade);
 
 			if (!hasUpgrade && obj)
 			{
-				if ((m_commandButton->m_options & 0x40) && !obj->rva00290D2B(upgrade)
-					&& !allRequiredUpgradesComplete(obj, &m_commandButton->m_requiredUpgrades, (requireAll = m_commandButton->m_requireAll)))
+				if ((m_commandButton->getOptions() & 0x40) && !obj->hasUpgrade(upgrade)
+					&& !allRequiredUpgradesComplete(obj, &m_commandButton->m_requiredUpgrades, m_commandButton->getRequireAll()))
 				{
 					lacksPrereq = true;
 				}
 				else if (TheInGameUI->getSelectCount() == 1)
 				{
-					hasUpgrade = obj->rva00290D2B(upgrade);
+					hasUpgrade = obj->hasUpgrade(upgrade);
 					if (isType7)
 						canUpgrade = !obj->affectedByUpgrade(upgrade);
 				}
@@ -641,7 +602,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 							Object *selObj = selDraw->getObject();
 							if (selObj)
 							{
-								hasUpgrade = hasUpgrade && selObj->rva00290D2B(upgrade);
+								hasUpgrade = hasUpgrade && selObj->hasUpgrade(upgrade);
 								canUpgrade = canUpgrade && !selObj->affectedByUpgrade(upgrade);
 							}
 						}
@@ -684,7 +645,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 		{
 			cost.format(TheGameText->fetchPtrC("TOOLTIP:ScienceCost", 0), TheScienceStore->getSciencePurchaseCost(science));
 		}
-		else if (m_commandButton->m_commandType == 0x2E)
+		else if (m_commandButton->getCommandType() == 0x2E)
 		{
 			int index = m_commandButton->m_revivalIndex;
 			Rva0037E421 *revival = (Rva0037E421 *)((char *)player + 0x738);
@@ -727,7 +688,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 					time.format(TheGameText->fetchPtrC("TOOLTIP:CommandPoints", 0), buildPoints);
 			}
 		}
-		else if (m_commandButton->m_commandType == 0x21 && obj)
+		else if (m_commandButton->getCommandType() == 0x21 && obj)
 		{
 			Module *castle = obj->helpFindModule(CastleBehavior::rva0003955DA());
 			if (castle && ((Rva00395F57 *)castle)->canUnpack(false))
@@ -744,31 +705,3 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 	return static_cast<const TreeHintRef00217D4C &>(help);
 }
 
-bool OldSchoolHelpBoxContentSource::allRequiredUpgradesComplete(Object *obj, UpgradeRange *range, bool flag)
-{
-	for (unsigned int i = 0; i < (unsigned int)(range->m_end - range->m_begin); ++i)
-	{
-		UpgradeTemplate *tmpl = range->m_begin[i];
-		if (!tmpl)
-			continue;
-		int v = tmpl->m_4;
-		bool r;
-		if (v == 1)
-			r = obj->rva00290D2B(tmpl);
-		else if (v == 0)
-			r = obj->getControllingPlayer()->rva002AB87D(tmpl);
-		else
-			return false;
-		if (flag)
-		{
-			if (r)
-				return true;
-		}
-		else
-		{
-			if (!r)
-				return false;
-		}
-	}
-	return flag == 0;
-}
