@@ -93,6 +93,9 @@ namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned 
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?set@?$bitset@$0CN@@_STL@@QAEAAV12@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<45> & bitset<45>::set(unsigned int); }
 // Suppress this TU's non-retail copy of ??0?$_Base_bitset@$01@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Base_bitset<2>::_Base_bitset(); }

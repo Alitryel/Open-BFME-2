@@ -113,6 +113,9 @@ namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) cons
 namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
 namespace _STL { template <> Coord3D * vector<Coord3D, allocator<Coord3D> >::erase(Coord3D *, Coord3D *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?set@?$bitset@$0CN@@_STL@@QAEAAV12@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<45> & bitset<45>::set(unsigned int); }
 // Suppress this TU's non-retail copy of ??0?$_Base_bitset@$01@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Base_bitset<2>::_Base_bitset(); }
