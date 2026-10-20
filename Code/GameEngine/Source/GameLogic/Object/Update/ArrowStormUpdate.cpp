@@ -36,6 +36,14 @@
 // cycling through the local list (or through itself when the local list is
 // empty).
 #include <list>
+// Compare the list nodes locally, as HordeContainXfer does, so this unit
+// does not emit a losing _List_iterator_base::operator!= copy.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 class Object;
 
