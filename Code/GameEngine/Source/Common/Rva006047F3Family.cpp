@@ -4,6 +4,10 @@
 #include <set>
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@_STL@@QBEPAU?$_Rb_tree_node@V:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_node<AsciiString> * allocator<_Rb_tree_node<AsciiString> >::allocate(unsigned int,void const *) const; }
 
 struct BfmeStringNoCaseLess {
   bool operator()(const AsciiString&, const AsciiString&) const;

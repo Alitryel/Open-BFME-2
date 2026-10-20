@@ -131,6 +131,10 @@ namespace _STL { template <> _Rb_tree_base<pair<AsciiString const, DetailedArchi
 namespace _STL { template <> map<AsciiString, DetailedArchivedDirectoryInfo, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::map(); }
 namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, ArchivedFileInfo>, _Select1st<pair<AsciiString const, ArchivedFileInfo> >, less<AsciiString>, allocator<pair<AsciiString const, ArchivedFileInfo> > >::~_Rb_tree(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@_STL@@QBEPAU?$_Rb_tree_node@V:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_node<AsciiString> * allocator<_Rb_tree_node<AsciiString> >::allocate(unsigned int,void const *) const; }
 // Suppress this TU's non-retail copy of ??R?$less@VAsciiString@@@_STL@@QBE_NABVAsciiString@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;
