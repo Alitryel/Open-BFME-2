@@ -1,4 +1,6 @@
 // ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
+// partial score=0.93 date=2026-10-20
+// ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
 // partial score=0.87 date=2026-10-19
 // ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
 // partial score=0.7 date=2026-10-17
@@ -33,6 +35,8 @@ extern "C" void _ReadWriteBarrier(void);
 
 // STL definitions are visible here; only the queue destructor remains declaration-only.
 // The waypoint key uses its own storage, and AI surfaces are read once.
+// The queue dies through ~deque, whose _Destroy takes both iterators by value; the
+// surfaces come from the given locomotor set, else the AI's own set at +0x1CC.
 
 #include <map>
 #include <set>
@@ -60,11 +64,18 @@ struct Rva0028B984ByteField
 	unsigned char get() const;
 };
 
+class LocomotorSet
+{
+public:
+	char m_pad00[0x10];
+	Int m_validSurfaces; // +0x10
+};
+
 class AIUpdateInterface
 {
 public:
-	char m_pad000[0x1DC];
-	Int m_locomotorSurfaces; // +0x1DC
+	char m_pad000[0x1CC];
+	LocomotorSet m_locomotorSet; // +0x1CC
 };
 
 class Object
@@ -79,13 +90,6 @@ private:
 	const ThingTemplate *m_template; // +0x04
 	char m_pad008[0x258 - 0x08];
 	AIUpdateInterface *m_ai; // +0x258
-};
-
-class LocomotorSet
-{
-public:
-	char m_pad00[0x10];
-	Int m_validSurfaces; // +0x10
 };
 
 class Waypoint
@@ -216,7 +220,7 @@ struct WaypointZoneMap
 struct ZoneQueue
 {
 	ZoneQueue() { reinterpret_cast<FoldQueueCtor *>(this)->FoldQueueCtor::_Deque_base(_STL::allocator<BfmeWordValue4>(), 0); }
-	~ZoneQueue() { reinterpret_cast<FoldQueueDtor *>(this)->~FoldQueueDtor(); }
+	~ZoneQueue() { reinterpret_cast<FoldQueue *>(this)->~FoldQueue(); }
 	FoldQueue &q() { return *reinterpret_cast<FoldQueue *>(this); }
 	char m_storage[sizeof(FoldQueue)];
 };
@@ -241,14 +245,13 @@ private:
 
 Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, LocomotorSet *locoSet)
 {
-	AIUpdateInterface *ai;
-	if (reinterpret_cast<Rva0028B984ByteField *>(obj)->get())goto reject;ai=obj->getAI();if(ai==0&&locoSet==0)goto reject;goto work;reject:return false;work:;
-	Int surfaces;
-	if (locoSet) {
-		surfaces = locoSet->m_validSurfaces;
-	} else {
-		surfaces = ai->m_locomotorSurfaces;
-	}
+	if (reinterpret_cast<Rva0028B984ByteField *>(obj)->get())
+		return false;
+	AIUpdateInterface *ai = obj->getAI();
+	if (ai == 0 && locoSet == 0)
+		return false;
+	const LocomotorSet *set = locoSet ? locoSet : &ai->m_locomotorSet;
+	Int surfaces = set->m_validSurfaces;
 	Int crusherLevel = obj->getTemplate()->m_56C;
 	Bool b634 = obj->getTemplate()->m_634;
 	Bool flagA = obj->rva0028AC62();
