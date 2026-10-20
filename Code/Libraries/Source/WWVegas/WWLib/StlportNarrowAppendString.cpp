@@ -12,6 +12,9 @@
 // category temporary and a 76-byte retained inline slot reproduce retail's
 // frame (range at -0x58/-0x54, category -2, _Integral() temporary -1).
 #include <string>
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
 namespace _STL {
 // ?retainAppendStringSlot absent-from-retail
 template<class T> __forceinline void retainAppendStringSlot(T *) {}

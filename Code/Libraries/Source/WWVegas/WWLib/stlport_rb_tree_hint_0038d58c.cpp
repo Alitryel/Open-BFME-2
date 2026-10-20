@@ -12,6 +12,9 @@ static inline const int &min(const int &a, const int &b)
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <map>
 #include <string>
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
 
 
 
