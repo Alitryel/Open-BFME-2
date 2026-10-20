@@ -98,3 +98,25 @@ ParticleSystemTemplateTail::ParticleSystemTemplateTail() : m_00(0), m_04(0), m_0
 {
 }
 }
+
+// ??0Rva001FBCDC@@QAE@XZ: ctor of ParticleSystem's +0x1AC member (dtor row 0x001FBCDC). Retail's
+// ParticleSystem ctor calls it at 0x001FBF37, the identical-code fold of the template tail ctor above.
+class Rva001FBCDC
+{
+public:
+    int m_00;
+    int m_04;
+    Rva001FBA45 m_08;
+    Rva001FBCDC();
+};
+
+// Select-any; the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Rva001FBCDC::Rva001FBCDC() : m_00(0), m_04(0), m_08()
+{
+}
+
+// ?bfmeAnchorRva001FBCDCCtor absent-from-retail
+void bfmeAnchorRva001FBCDCCtor(Rva001FBCDC *p)
+{
+    p->Rva001FBCDC::Rva001FBCDC();
+}

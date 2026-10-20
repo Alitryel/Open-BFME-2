@@ -221,3 +221,8 @@ template _STL::vector<Rva001DEF38Element>::~vector();
 // ??1?$vector@VRva0021F876@@V?$allocator@VRva0021F876@@@_STL@@@_STL@@QAE@XZ @0x0021FDEC (_Destroy at 0x0021FDD3)
 class Rva0021F876 { public: ~Rva0021F876(); };
 template _STL::vector<Rva0021F876>::~vector();
+
+// ??1?$vector@URva00511E48@@V?$allocator@URva00511E48@@@_STL@@@_STL@@QAE@XZ @0x0051211C 63B (pinned on the row ??1Rva0051211C@@QAE@XZ).
+// AptMessenger's +0x28C member: range destroy through the 8-byte DestroyPairs at 0x32C0CA, then free; element view as in Rva00512000Finish.cpp.
+struct Rva00511E48 { AsciiString m_str; char m_c; char m_pad[3]; ~Rva00511E48() {} };
+template _STL::vector<Rva00511E48>::~vector();

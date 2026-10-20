@@ -68,6 +68,8 @@ struct ParticleMatrix {__forceinline ParticleMatrix() {} Rva0047A6A9Row16 r[3];v
  r[1].Set(0.0f,1.0f,0.0f,0.0f);
  r[2].Set(0.0f,0.0f,1.0f,0.0f);
 }};
+// Member +0x1AC: retail builds it through 0x001FBF37 and its unwind funclet destroys it through 0x001FBCDC.
+class Rva001FBCDC {public:Rva001FBCDC() throw();~Rva001FBCDC(); unsigned data[12];};
 namespace FXParticleSystem {
 class ParticleSystemInfo :public Snapshot {
 public:
@@ -78,7 +80,6 @@ public:
  AsciiString slaveName;ParticleVec slaveOffset;AsciiString attachedName;unsigned emissionVelocity;
  unsigned char hollow,ground,above,up,windMoving;ParticleRegion uv;unsigned unknown98;
 };
-class ParticleSystemTemplateTail {public:ParticleSystemTemplateTail() throw();~ParticleSystemTemplateTail(); unsigned data[12];};
 class ParticleSystemTemplate : public ParticleSystemInfo {
 public:
  BfmeParticleSystemHandle rva001F9CF3(bool)const;
@@ -142,7 +143,7 @@ public:
  float sizeCoefficient,unknown180,unknown184;ParticleVec unknown188;unsigned char unknown194;
  const FXParticleSystem::ParticleSystemTemplate *sysTemplate;unsigned personality;
  bool localIdentity,identity,forever,stopped,destroyed,firstPos,saveable,skip;
- unsigned char unknown1A8;FXParticleSystem::ParticleSystemTemplateTail chain;
+ unsigned char unknown1A8;Rva001FBCDC chain;
 };
 typedef char ParticleExtent[sizeof(ParticleSystem)==0x1DC?1:-1];
 ParticleSystem::ParticleSystem(const FXParticleSystem::ParticleSystemTemplate *t,ParticleSystemID value,bool createSlaves):head(0),tail(0)
