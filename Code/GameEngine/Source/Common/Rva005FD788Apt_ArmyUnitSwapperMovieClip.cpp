@@ -203,7 +203,7 @@ public:
 
 	// The owner's notification slots the callbacks fire (vtable +4..+0x14).
 	ArmyUnitSwapperMovieClip(int level, const AsciiString &name, const TreeHintRef00217D4C &top, const TreeHintRef00217D4C &bottom);
-	virtual void v0();
+	virtual ~ArmyUnitSwapperMovieClip(); // 0x005FD9FF (slot 0: ??_G 0x005FDA1D)
 	virtual void notifyClosed();
 	virtual void notifyExit();
 	virtual void notifyMoveDown();
