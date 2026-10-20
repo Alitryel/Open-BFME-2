@@ -1,32 +1,27 @@
 // _PlaneAddNoise_C
+// partial score=0.82 date=2026-10-20
+// _PlaneAddNoise_C
 // partial score=0.816 date=2026-10-15
 // _PlaneAddNoise_C
 // partial score=0.8 date=2026-10-14
 // _PlaneAddNoise_C
 // partial score=0.8 date=2026-10-13
 // cl: /O2 /G6 /DNDEBUG /MD
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// Clean room: reverse/vp6_cleanroom/specs/001b69c0.md plus retail only. The upper clamp is 255 - dist[0]
+// as retail computes it (lea edx,[esi+0xff] with esi = -dist[0]); the spec's 255 minus the lower bound differs.
 #include <stdlib.h>
 #include <math.h>
-
-static void FillBytes(unsigned char *destination, unsigned char value, int count)
-{
-	int k;
-	for (k = 0; k < count; k++)
-		destination[k] = value;
-}
 
 extern "C" void __cdecl PlaneAddNoise_C(unsigned char *start, unsigned width, unsigned height, int pitch, int q)
 {
 	unsigned i;
+	unsigned j;
 	double sigma;
 	double x;
 	int next;
 	signed char dist[300];
 	unsigned char noise[2048];
-	unsigned char *row;
-	unsigned rows;
+	signed char first;
 
 	sigma = 1 + 0.012698412698412698 * (63 - q);
 	next = 0;
@@ -43,19 +38,17 @@ extern "C" void __cdecl PlaneAddNoise_C(unsigned char *start, unsigned width, un
 		dist[next] = 0;
 	for (i = 0; i < 2048; i++)
 		noise[i] = dist[rand() & 0xff];
-	signed char first = dist[0];
-	signed char negFirst = -first;
-	_ReadWriteBarrier();
-	for (row = start, rows = height; rows; rows--) {
-		unsigned char *src = row;
+	first = dist[0];
+	for (j = 0; j < height; j++) {
 		unsigned char *noisePtr = &noise[rand() & 0xff];
+		unsigned char *row = start + j * pitch;
 		for (i = 0; i < width; i++) {
-			if (src[i] < negFirst)
-				src[i] = negFirst;
-			if (src[i] > 255 - first)
-				src[i] = 255 - first;
-			src[i] += noisePtr[i];
+			int upper = 255 - first;
+			if (row[i] < -first)
+				row[i] = -first;
+			if (row[i] > upper)
+				row[i] = 255 - first;
+			row[i] += noisePtr[i];
 		}
-		row += pitch;
 	}
 }
