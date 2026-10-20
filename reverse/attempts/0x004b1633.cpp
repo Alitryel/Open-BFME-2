@@ -222,6 +222,7 @@ extern GlobalData *TheWritableGlobalData;
 extern TerrainLogic *TheTerrainLogic;
 extern DebugDrawView *g_rva00DFEA3C;
 extern PartitionManager *ThePartitionManager;
+inline unsigned long GameMakeColor(unsigned char r,unsigned char g,unsigned char b,unsigned char a) { return (a<<24)|(r<<16)|(g<<8)|b; }
 extern PartitionManager *TheShroudManager;
 extern PlayerList *ThePlayerList;
 extern ThingFactory *TheThingFactory;
@@ -247,9 +248,9 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         Coord3D pos;
         pos.x=obj->pos.x; pos.y=obj->pos.y; pos.z=obj->pos.z;
         pos.z=((TerrainView *)TheTerrainLogic)->height(pos.x,pos.y,0);
-        if(data->interval) g_rva00DFEA3C->circle(&pos,data->range,0xff0000ff);
-        if(data->range20!=0.0f) g_rva00DFEA3C->circle(&pos,data->range20,0xff00ffff);
-        if(data->range24!=0.0f) g_rva00DFEA3C->circle(&pos,data->range24,0xffff0000);
+        if(data->interval) g_rva00DFEA3C->circle(&pos,data->range,GameMakeColor(0,0,255,255));
+        if(data->range20!=0.0f) g_rva00DFEA3C->circle(&pos,data->range20,GameMakeColor(0,255,255,255));
+        if(data->range24!=0.0f) g_rva00DFEA3C->circle(&pos,data->range24,GameMakeColor(255,0,0,255));
     }
     Object *closest=0;
     float closestDist=3.402823466e+38f;
