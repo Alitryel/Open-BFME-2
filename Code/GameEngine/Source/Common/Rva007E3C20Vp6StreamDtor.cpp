@@ -152,63 +152,7 @@ private:
 	int m_at60;
 };
 
-Rva007E3C20Vp6Stream::~Rva007E3C20Vp6Stream()
-{
-	if (m_at14 != 0) {
-		VP6_StopDecoder((CodecState **)&m_at14);
-		m_at14 = 0;
-	}
-	if (m_at18 != 0) {
-		VP6_StopDecoder((CodecState **)&m_at18);
-		m_at18 = 0;
-	}
-	if (m_at2c != 0) {
-		::delete m_at2c;
-		m_at2c = 0;
-	}
-	if (m_at54 != 0) {
-		Rva00090714Free(&m_at54);
-		m_at54 = 0;
-	}
-	if (m_at5c != 1)
-		TheAudio->release(m_at5c);
-	if (m_at60 != 1)
-		TheAudio->release(m_at60);
-}
 
-void Rva007E3C20Vp6Stream::rva000908F6()
-{
-	int tag;
-	int size;
-	if (m_at38)
-	{
-		g_vp6ActiveStream = this;
-		do
-		{
-			if (!reinterpret_cast<BfmeB996 *>(&m_parser)->movePair((int *)m_at54, &tag, (unsigned int *)&size, m_at58))
-			{
-				m_at48 = m_at3c - 1;
-				return;
-			}
-		} while (tag != 0x4b305641 && tag != 0x46305641);
-		((Vp6ForwardFn)VP6_DecodeFrameToYUV)((int)m_at18, (int)m_at54 + 8, size, m_at30, m_at34);
-	}
-	else
-		g_vp6ActiveStream = this;
-	char ok;
-	do
-	{
-		ok = reinterpret_cast<BfmeB996 *>(&m_parser)->movePair((int *)m_at54, &tag, (unsigned int *)&size, m_at58);
-		++g_vp6PairCounter;
-		if (!ok)
-		{
-			m_at48 = m_at3c - 1;
-			return;
-		}
-	} while (tag != 0x4b30564d && tag != 0x4630564d);
-	((Vp6ForwardFn)VP6_DecodeFrameToYUV)((int)m_at14, (int)m_at54 + 8, size, m_at30, m_at34);
-	++m_at48;
-}
 
 // ?rva000909B7@Rva007E3C20Vp6Stream@@QAEXXZ, retail 0x000909B7..0x00090F72
 // (1467 bytes, EH): table 0x00BC7F20 slot 3, the frame upload. Under the
