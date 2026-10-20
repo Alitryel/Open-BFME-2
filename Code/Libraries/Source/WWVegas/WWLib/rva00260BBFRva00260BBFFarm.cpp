@@ -22,6 +22,9 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
+// Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
 struct Rva00260B88Element
 {
  int a[2];

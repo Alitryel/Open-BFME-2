@@ -302,6 +302,9 @@ namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
 namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.

@@ -36,6 +36,9 @@ namespace _STL { void __cdecl free(void *block); }
 #include <vector>
 #include <string>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
 // Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
 // out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
 namespace _STL {

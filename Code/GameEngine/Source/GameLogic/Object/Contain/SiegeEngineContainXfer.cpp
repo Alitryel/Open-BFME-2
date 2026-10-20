@@ -281,6 +281,9 @@ public:
 };
 
 #include "GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
 extern GameLogic *TheGameLogic;
 
 void XferObjectID(Xfer *xfer, ObjectID *id);
