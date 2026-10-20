@@ -23,6 +23,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum ScienceType;
 namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::_M_insert_overflow(ScienceType *, const ScienceType &, const __false_type &, size_t, bool); }
+// The unlock caller uses the rowed out-of-line push_back at 0x002E01C6.
+namespace _STL { template <> void vector<ScienceType>::push_back(const ScienceType &); }
 // Suppress this TU's non-retail copy of ?allocate@?$__malloc_alloc@$0A@@_STL@@SAPAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void *__malloc_alloc<0>::allocate(size_t); }
