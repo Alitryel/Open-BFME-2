@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.885 date=2026-10-20
+// partial score=0.89 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -632,8 +632,10 @@ void BfmeB1137::Install_Materials(void) const
 		uncenter.m[3][0] = sx * -0.5f;
 		uncenter.m[3][1] = sy * -0.5f;
 
-		D3DXMATRIX world = uncenter * rot * center * shift * drift;
-		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * (world * scale);
+		D3DXMATRIX partial = uncenter * rot * center;
+		D3DXMATRIX world = partial * shift * drift;
+		D3DXMATRIX scaled = world * scale;
+		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scaled;
 		DX8Wrapper::SetMatrix(0x12, *reinterpret_cast<D3DXMATRIX *>(&view));
 
 		fw *= 0.5f;
@@ -783,7 +785,8 @@ void BfmeB1137::Install_Materials(void) const
 		DX8Wrapper::Set_DX8_Render_State(26, 1);
 		RGBColor color;
 		color.red = color.green = color.blue = (float)cloud->m_C4 * (1.0f / 255.0f);
-		DX8Wrapper::Set_DX8_Render_State(60, color.getAsInt() | 0xFF000000);
+		unsigned c = color.getAsInt();
+		DX8Wrapper::Set_DX8_Render_State(60, c | 0xFF000000);
 		DX8Wrapper::Set_DX8_Render_State(27, 1);
 		DX8Wrapper::Set_DX8_Render_State(19, 1);
 		DX8Wrapper::Set_DX8_Render_State(20, 3);
