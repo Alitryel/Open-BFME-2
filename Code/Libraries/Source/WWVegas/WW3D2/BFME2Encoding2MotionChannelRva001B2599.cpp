@@ -43,6 +43,7 @@ public:
     void rva001B2599(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1);
     void rva001B230A(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1);
     void rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1);
+    void rva001B27AB(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1);
 };
 struct ScalarValue {float x;};
 void BFME2Encoding2MotionChannel::rva001B2599(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1)
@@ -68,4 +69,47 @@ void BFME2Encoding2MotionChannel::rva001B2599(unsigned int *state,unsigned int f
   from+=16;packet+=17;
   if(from>frame)value0=0;
  }
+}
+
+// Encoding 2 quaternion decoder: four 17-byte component packets per 16-frame block, each a filter
+// byte then 16 deltas biased by 128; p walks the delta bytes in step with fi.
+void BFME2Encoding2MotionChannel::rva001B27AB(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1)
+{
+    Quaternion last;
+    if (from > frame) {
+        from = 0;
+        last = *(const Quaternion *)Initial;
+    } else
+        last = *(const Quaternion *)state;
+    unsigned char *packet = Data + (from >> 4) * 68;	// pointer to current packet
+    while (from <= frame + 1) {
+        // Frame Loop
+        if (from >= (unsigned int)Count) {
+            if (value0)
+                *value0 = last;
+            *value1 = last;
+            return;
+        }
+        // initial filter index
+        unsigned int fi0 = from & 0xF;
+        from &= ~0xFu;
+        for (int vi = 0; vi < 4; ++vi, packet += 17) {
+            float filter = filtertable[*packet] * Scale * 0.0625;	// decompression filter
+            unsigned char *p = packet + 1 + fi0;
+            for (unsigned int fi = fi0; fi < 16; ++fi, ++p) {
+                unsigned int f = from + fi;
+                if (f == frame)
+                    ((float *)value0)[vi] = ((float *)&last)[vi];
+                else if (f == frame + 1) {
+                    ((float *)value1)[vi] = ((float *)&last)[vi];
+                    break;
+                }
+                int factor = *p - 128;
+                ((float *)&last)[vi] += (float)factor * filter;
+            }
+        }
+        from += 16;
+        if (from > frame)
+            value0 = 0;
+    }
 }
