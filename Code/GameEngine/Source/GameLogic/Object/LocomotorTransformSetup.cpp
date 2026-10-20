@@ -1,12 +1,5 @@
-// Native1E685F..1E68D7 RET12; WB ADF040 and owned1E702E forwarder
-// establish the same receiver and matrix-copy/turn/pivot sequence. The source
-// matrix begins at object+08 and three16-byte rows populate receiver+68.
-// Row setters copy four words each; whole-matrix assignment emits REP MOVS.
-// The existing address-derived three-word signature is retained: objectWord
-// is the first caller pointer and the other words are passed as pointer bits
-// to the now-owned turn/pivot worker. Original API type spelling is unproven.
-// Row storage/layout and complete calls are target evidence; no donor layout
-// or class extent is claimed.
+// 0x001E685F (the row-copy/turn helper this step calls) and 0x001E6007 (the
+// movement step it ends in) live in LocomotorMoveTowardsPositionHorde.cpp.
 // cl: /O1 /DNDEBUG /MD /I.
 
 // Native 0x001E68D7..0x001E6B8B is a four-argument Locomotor movement step.
@@ -49,17 +42,13 @@ class Rva001E46E1
 {
 public:
 	Real rva001E4845(Object *obj);
-    void rva001E56DC(Object *, const Coord3D *, float, float *);
+	void rva001E6007(Object *obj, const Coord3D *goal, Real distance, Real desiredSpeed);
 };
 
-struct MatrixRow{unsigned int a,b,c,d;__forceinline void set(const MatrixRow&r){a=r.a;b=r.b;c=r.c;d=r.d;}};
-class Thing {public:char prefix[8];MatrixRow matrix[3];};
-class Rva001E685F {public:void rva001E685F(int,int,int);char prefix[0x68];MatrixRow matrix[3];};
-
-class Rva001E6007
+class Rva001E685F
 {
 public:
-	void rva001e6007(unsigned int obj, unsigned int goalPos, Real onPathDistToGoal, Real desiredSpeed);
+	void rva001E685F(Object *obj, const Coord3D *pos, float *angle);
 };
 
 struct LocomotorReverseData
@@ -146,7 +135,7 @@ void Locomotor::rva001E68D7(Object *obj, const Coord3D *goalPos, Real onPathDist
 	target.copy(obj->m_pos);
 	target.x += Cos(desiredAngle) * 1000.0f;
 	target.y += Sin(desiredAngle) * 1000.0f;
-	reinterpret_cast<Rva001E685F *>(this)->rva001E685F((int)obj, (int)&target, 0);
+	reinterpret_cast<Rva001E685F *>(this)->rva001E685F(obj, &target, 0);
 
 	if (reinterpret_cast<Rva001E46E1 *>(this)->rva001E4845(obj) >= turnRate)
 		relAngle *= 2.0f;
@@ -164,13 +153,6 @@ void Locomotor::rva001E68D7(Object *obj, const Coord3D *goalPos, Real onPathDist
             if (obj->modelTest(5) || obj->modelTest(6))
                 desiredSpeed = 0.0f;
         }
-		reinterpret_cast<Rva001E6007 *>(this)->rva001e6007((unsigned int)obj, (unsigned int)goalPos, onPathDistToGoal, desiredSpeed);
+		reinterpret_cast<Rva001E46E1 *>(this)->rva001E6007(obj, goalPos, onPathDistToGoal, desiredSpeed);
 	}
 }
-
-void Rva001E685F::rva001E685F(int objectWord,int a,int b){
-Thing*obj=(Thing*)objectWord;
-matrix[0].set(obj->matrix[0]);
-matrix[1].set(obj->matrix[1]);
-matrix[2].set(obj->matrix[2]);
-float turn=((const Locomotor*)this)->getMaxTurnRate((Object*)obj);((Rva001E46E1*)this)->rva001E56DC((Object*)obj,(const Coord3D*)a,turn,(float*)b);}

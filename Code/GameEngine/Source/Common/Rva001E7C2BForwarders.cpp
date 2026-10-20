@@ -16,9 +16,11 @@ public:
 	void rva001E702E(Thing *, int, int);
 };
 
-class Rva001E6007 {
+struct Coord3D;
+class Object;
+class Rva001E46E1 {
 public:
-	void rva001e6007(unsigned int, unsigned int, float, float);
+	void rva001E6007(Object *, const Coord3D *, float, float);
 };
 
 class Rva001E8C1B {
@@ -40,7 +42,7 @@ public:
 void Rva001E7053::rva001e7053(unsigned int a, unsigned int b, float c, float d)
 {
 	reinterpret_cast<Rva001E702E *>(this)->rva001E702E(reinterpret_cast<Thing *>(a), (int)b, 0);
-	reinterpret_cast<Rva001E6007 *>(this)->rva001e6007(a, b, c, d);
+	reinterpret_cast<Rva001E46E1 *>(this)->rva001E6007(reinterpret_cast<Object *>(a), reinterpret_cast<const Coord3D *>(b), c, d);
 }
 
 void Rva001E7C2B::rva001e7c2b(unsigned int a, unsigned int b, float c, float d)

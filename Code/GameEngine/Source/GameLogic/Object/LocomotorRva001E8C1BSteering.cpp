@@ -78,18 +78,13 @@ class Rva001E46E1
 {
 public:
 	Real rva001E4845(Object *obj);
+	void rva001E6007(Object *obj, const Coord3D *goal, Real distance, Real desiredSpeed);
 };
 
 class Rva001E685F
 {
 public:
-	void rva001E685F(int obj, int pos, int arg);
-};
-
-class Rva001E6007
-{
-public:
-	void rva001e6007(unsigned int obj, unsigned int goalPos, Real onPathDistToGoal, Real desiredSpeed);
+	void rva001E685F(Object *obj, const Coord3D *pos, float *angle);
 };
 
 struct Rva001E8C1BTemplate
@@ -172,7 +167,7 @@ void Rva001E8C1B::rva001E8C1B(int objArg, int goalArg, Real onPathDistToGoal, Re
 	target.copy(obj->m_pos);
 	target.x += Cos(desiredAngle) * 1000.0f;
 	target.y += Sin(desiredAngle) * 1000.0f;
-	reinterpret_cast<Rva001E685F *>(this)->rva001E685F((int)obj, (int)&target, 0);
+	reinterpret_cast<Rva001E685F *>(this)->rva001E685F(obj, &target, 0);
 
 	if (reinterpret_cast<Rva001E46E1 *>(this)->rva001E4845(obj) >= turnRate)
 		relAngle *= 2.0f;
@@ -198,7 +193,7 @@ void Rva001E8C1B::rva001E8C1B(int objArg, int goalArg, Real onPathDistToGoal, Re
 		else
 			goalSpeed = (1.0f - angleCoeff) * desiredSpeed;
 		desiredSpeed = goalSpeed;
-		reinterpret_cast<Rva001E6007 *>(this)->rva001e6007((unsigned int)obj, (unsigned int)goalPos, onPathDistToGoal, desiredSpeed);
+		reinterpret_cast<Rva001E46E1 *>(this)->rva001E6007(obj, goalPos, onPathDistToGoal, desiredSpeed);
 	}
 	else if (fabs(relAngle) < 0.01f)
 	{
