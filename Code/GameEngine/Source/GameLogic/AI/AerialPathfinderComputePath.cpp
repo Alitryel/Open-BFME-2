@@ -1,9 +1,9 @@
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
 //
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z retail
+// ?rva0037609C@AerialPathfinder@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z retail
 // 0x0037609C, 2148 B, RET 0x18: the AerialPathfinder path build. WorldBuilder 0xF2A4B0 names
-// it AerialPathfinder::computeAerialPath (consts + strings, match 7.567); the generated owner
-// and method spelling is kept. Structure from the retail body: destination adjust, the
+// it AerialPathfinder::computeAerialPath (consts + strings, match 7.567); the address-named
+// method spelling is kept. Structure from the retail body: destination adjust, the
 // "setup" point/angle block (ProfileHighLevel "setup"), the 5x200 collision-test search with
 // sin/cos probes around the target, the repair loop and the report tail. Shape levers from
 // the WB twin: Coord3D mutations through member functions (AerialCoord3D view: center set,
@@ -84,7 +84,6 @@ private:
     __int64 start;
     Rva006C65F0 *previous;
 };
-class AerialPathfinder { public: int rva00375ED7(Object *, const Coord3D *, Coord3D *); };
 class Rva00311DD9 { public: void rva00311B70(); };
 class Rva00311F46 { public: bool find(const Coord3D &, float); };
 class Rva00312C95 {
@@ -128,15 +127,16 @@ struct AerialShapeBits {
     bool test(unsigned bit) const { return (data & (1U << bit)) != 0; }
 };
 
-class Rva0037609C {
+class AerialPathfinder {
 private:
     unsigned char m_pad0[0x258];
     void *m_258;			// +0x258
 public:
     bool rva0037609C(void *, const Coord3D *, Rva00312C95 *, const unsigned char *, const unsigned char *, bool);
+    int rva00375ED7(Object *, const Coord3D *, Coord3D *);
 };
 
-bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *route,
+bool AerialPathfinder::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *route,
     const unsigned char *label, const unsigned char *firstPointRaw, bool adjust)
 {
     {
@@ -200,7 +200,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
             probe.normalize();
             probe.scale((float)radius);
             addCoord(probe, asBase(target));
-            bool collides = ((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &probe, &push) != 0;
+            bool collides = rva00375ED7((Object *)thing, &probe, &push) != 0;
             if (collides) {
                 float base = atan2(delta.x, delta.y);
                 Coord3D &q = delta;
@@ -216,7 +216,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                         q.x = sin(a) * (float)radius + target.x;
                         q.y = cos(a) * (float)radius + target.y;
                         q.z = target.z;
-                        if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
+                        if (!rva00375ED7((Object *)thing, &q, &push)) {
                             q.x = sin(a + 2 * step) * (float)radius + target.x;
                             q.y = cos(a + 2 * step) * (float)radius + target.y;
                             tryPlus = false;
@@ -234,7 +234,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                         q.x = sin(a) * (float)radius + target.x;
                         q.y = cos(a) * (float)radius + target.y;
                         q.z = target.z;
-                        if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
+                        if (!rva00375ED7((Object *)thing, &q, &push)) {
                             q.x = sin(a - 2 * step) * (float)radius + target.x;
                             q.y = cos(a - 2 * step) * (float)radius + target.y;
                             tryMinus = false;
@@ -275,7 +275,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                 if (++steps > 200)
                     break;
                 Coord3D *result = &((AerialRouteCalls *)route)->result;
-                bool hit = ((AerialPathfinder *)this)->rva00375ED7((Object *)thing, result, &push) != 0;
+                bool hit = rva00375ED7((Object *)thing, result, &push) != 0;
                 if (hit && inside == 0) {
                     inside = 1;
                     start = ((AerialRouteCalls *)route)->time;
@@ -290,7 +290,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                         p.x = result->x;
                         p.y = result->y;
                         p.z = result->z;
-                        if (((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &p, &push)) {
+                        if (rva00375ED7((Object *)thing, &p, &push)) {
                             p.x += push.x;
                             p.y += push.y;
                             p.z += push.z;

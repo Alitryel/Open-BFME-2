@@ -28,7 +28,7 @@ public:
 	char unknown04[0x54 - 4];
 	Coord3D point;
 };
-class Rva0037609C
+class AerialPathfinder
 {
 public:
 	// The last argument is a bool (retail 0x0037609C tests the byte at
@@ -37,9 +37,8 @@ public:
 	bool rva0037609C(void *object, const Coord3D *position, Rva00312C95 *member,
 		const unsigned char *mask, const unsigned char *lookAhead, bool b);	// the row's spelling of the look-ahead point
 };
-// g_00E01F10 is only an alias of the owned global TheAerialPathfinder (ledger names column); this unit reads the owner through its own view type.
-extern class AerialPathfinder *TheAerialPathfinder;
-#define g_00E01F10 (*(Rva0037609C * *)&TheAerialPathfinder)
+// g_00E01F10 is the owned global TheAerialPathfinder (ledger names column).
+extern AerialPathfinder *TheAerialPathfinder;
 class Rva00368C7A
 {
 public:
@@ -62,7 +61,7 @@ private:
 // embedded member, refresh it, save its point, and clear the owner's scalars.
 void Rva00368C7A::rva003681F2(const Coord3D *position, const unsigned char *mask, const Coord3D *lookAhead, bool b)
 {
-	g_00E01F10->rva0037609C(object, position, &member, mask, (const unsigned char *)lookAhead, b);
+	TheAerialPathfinder->rva0037609C(object, position, &member, mask, (const unsigned char *)lookAhead, b);
 	member.slot2(1, 4000, 1000.0f, 1000.0f, 0, 0);
 	member.rva00312118();
 	previous = member.point;
