@@ -26,6 +26,9 @@ bool operator<(const AsciiString &, const AsciiString &);
 struct TreeHintPayload002A1D9D { int m_val; TreeHintPayload002A1D9D() : m_val(0) {} TreeHintPayload002A1D9D(const TreeHintPayload002A1D9D &o) : m_val(o.m_val) {} };
 typedef _STL::pair<const AsciiString, TreeHintPayload002A1D9D> TreeHintPair002A1D9D;
 typedef _STL::_Rb_tree<AsciiString, TreeHintPair002A1D9D, _STL::_Select1st<TreeHintPair002A1D9D>, _STL::less<AsciiString>, _STL::allocator<TreeHintPair002A1D9D> > TreeHint002A1D9D;
+// Use the rowed node factory at 0x002A1516 rather than the generic catch wrapper.
+template <> TreeHint002A1D9D::_Link_type
+TreeHint002A1D9D::_M_create_node(const TreeHintPair002A1D9D &);
 namespace _STL {
 template <> class allocator<char> {
 public:

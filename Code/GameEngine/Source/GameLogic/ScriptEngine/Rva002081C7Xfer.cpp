@@ -80,6 +80,11 @@ struct NoCaseTreeValue4 { unsigned int m_value; NoCaseTreeValue4() : m_value(0) 
 typedef _STL::pair<const AsciiString, NoCaseTreeValue4> PairNocase4;
 typedef _STL::list<PairNocase4, _STL::allocator<PairNocase4> > ListNocase4;
 
+// Bind the out-of-line insert to the existing rowed NoCase list provider.
+namespace _STL {
+template<> ListNocase4::iterator ListNocase4::insert(ListNocase4::iterator, const PairNocase4 &);
+}
+
 class Rva00203E11A;
 class Rva00203E11B;
 void Rva00203E11Xfer(Rva00203E11A *a, Rva00203E11B *b);
