@@ -1,4 +1,4 @@
-// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfmerendobj /Ireference/shims/bfmemapper /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme2_get_transform /Ireference/shims/bfme2_matrix4_init16 /Ireference/shims/bfmestages /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfmerendobj /Ireference/shims/bfmemapper /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Keep MSVC's float overloads local; the inlined fabs operations remain exact.
 #define inline static inline
 // RefCountClass's inline members and deleting destructor are retail's
@@ -26,6 +26,16 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 
+
+// Keep the verified inline expansion; external math bodies are owned elsewhere.
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+// Use the existing ZH Matrix4 link view with BFME's class names. The
+// BFME dependencies stay first; the target's sixteen-float Init remains inline.
+#include "matrix3d.h"
+#include "matrix3.h"
+#define Matrix3x3 Matrix3
+#define Matrix4x4 Matrix4
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"
 
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
@@ -587,8 +597,42 @@ GridWSEnvironmentMapperClass::GridWSEnvironmentMapperClass(const GridWSEnvMapper
 #pragma comment(linker, "/alternatename:?bfmeBaseF1050@BfmeF1050@@QAEXHHH@Z=??0GridTextureMapperClass@@QAE@ABVINIClass@@PBDI@Z")
 #pragma comment(linker, "/alternatename:?bfmeInit1039@BfmeC1039@@QAEXPAVBfmeD1039@@@Z=??0GridWSEnvMapperClass@@QAE@ABV0@@Z")
 
-// Placeholder virtuals this unit's vftables hold.  In retail each such slot
-// holds a rowed function; the vftable's address is proven by the vptr stores in
-// the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z=?rva00187AD0@GridTextureMapperClass@@UAE_NPAVRva00082EB8@@@Z")
-#pragma comment(linker, "/alternatename:?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z=?_bfme_mapper_v8@TextureMapperClass@@UAE_NH@Z")
+// Both world-space environment virtuals now have their real source providers.
+
+// Native 0x001854E0..0x00185976 (1174 bytes), WSEnv vftable slot +0x24.
+// EA GeneralsMD mapper.cpp body, unchanged. The BFME2 transform and Init16
+// views are shared with the exact GridWSEnv sibling; source context matters.
+void WSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
+{
+	// The canonical environment map
+	// scale the normal by (.5,.5) and add (.5,.5) to move it to (0,1) range
+	switch (Axis) {
+		case AXISTYPE_X:
+			tex_matrix.Init(	0.0f, 0.5f, 0.0f, 0.5f,
+									0.0f, 0.0f, 0.5f, 0.5f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Y:
+			tex_matrix.Init(	0.5f, 0.0f, 0.0f, 0.5f,
+									0.0f, 0.0f, 0.5f, 0.5f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Z:
+		default:
+			tex_matrix.Init(	0.5f, 0.0f, 0.0f, 0.5f,
+									0.0f, 0.5f, 0.0f, 0.5f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+	}
+	// multiply by inverse of view transform
+	Matrix4x4 mat;
+	DX8Wrapper::Get_Transform(D3DTS_VIEW,mat);
+	Matrix4x4 mat2(	mat[0].X, mat[1].X, mat[2].X, 0.0f,
+						mat[0].Y, mat[1].Y, mat[2].Y, 0.0f,
+						mat[0].Z, mat[1].Z, mat[2].Z, 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f );
+	tex_matrix = tex_matrix * mat2;
+}
