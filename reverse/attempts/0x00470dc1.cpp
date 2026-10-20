@@ -1,12 +1,22 @@
 // ?rva00470DC1@HordeContain@@UAEXXZ
-// partial score=0.9 date=2026-10-20
+// partial score=0.93 date=2026-10-20
 // ?rva00470DC1@HordeContain@@UAEXXZ, retail 0x470DC1 (1699 B). Fragment bank: apply the view patch below to
 // Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp, then append the body (build/nbr/r28/470dc1/gen.py).
 // Compiles 1688/1699, all calls resolved, no hacks; all 148 home rows stay exact.
+// claude-opus-5-5: view patch makes GameLogic::findObjectByID visible (header inline over the STLport hash_map at +0xB4, byte-equal to 0x00049DC5/0x002888D4),
+// respells 0x0046DEA1's member test (148/148 home rows exact); body reads TheGameLogic twice as WB does. 1683/1699. reverse/attempt_support/0x00470dc1_20261020_visible_lookup.md
 #if 0 /* view patch */
---- Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp	2026-10-19 21:52:59.962668500 +0200
-+++ build/nbr/r28/470dc1/HordeContainIface11CSlots.best.cpp	2026-10-20 01:07:16.167880200 +0200
-@@ -192,6 +192,7 @@
+--- Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp
++++ build/w6_470dc1/full_best.cpp
+@@ -32,6 +32,7 @@
+ }
+ 
+ #include <map>
++#include <hash_map>
+ #include <set>
+ #include <vector>
+ // Import-inline: this unit's bfmealloc _Vector_base<Object*> dtor copy is not retail's
+@@ -192,6 +193,7 @@
  {
  public:
  	bool IsPointOnWall(int pos, bool flag);
@@ -14,7 +24,36 @@
  	bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
  	bool IsPointOnRamp(const Coord3D *pos);
  	void RemoveObjectFromPathfindMap(Object *object);
-@@ -839,7 +840,8 @@
+@@ -668,14 +670,27 @@
+ 	friend class HordeContain;
+ 	AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;
+ };
++typedef _STL::hash_map<ObjectID, Object *, _STL::hash<int>, _STL::equal_to<ObjectID> > ObjectPtrHash;
++// findObjectByID is the header inline over the object hash map at +0xB4;
++// cl calls its out-of-line copy 0x00049DC5.
+ class GameLogic
+ {
+ public:
+-	Object *findObjectByID(ObjectID id);
++	Object *findObjectByID(ObjectID id)
++	{
++		if (id == INVALID_ID)
++			return 0;
++		ObjectPtrHash::iterator it = m_objHash.find(id);
++		if (it == m_objHash.end())
++			return 0;
++		return (*it).second;
++	}
+ 	void destroyObject(Object *);
+ 	void rva0023D0C2(Object *obj, int value);
+ 	unsigned char m_pad00[0x40];
+ 	unsigned int m_frame; // +0x40
++	unsigned char m_pad44[0xB4 - 0x44];
++	ObjectPtrHash m_objHash; // +0xB4
+ };
+ extern GameLogic *TheGameLogic;
+ class ThingFactory
+@@ -839,7 +854,8 @@
  	_STL::map<int, int> m_1B8; // +0x1B8
  	unsigned char m_pad1C4[0x1D8 - 0x1C4];
  	bool m_1D8; // +0x1D8
@@ -24,7 +63,7 @@
  	Rva00469851Names m_1F4;
  	unsigned char m_pad200[0x218 - 0x200];
  	Rva00469851Names m_218;
-@@ -1029,8 +1031,8 @@
+@@ -1029,8 +1045,8 @@
  	virtual void slot32(Object *obj) = 0;
  	virtual void slot33(int a1) = 0;
  	virtual void rva0046AF85() = 0;
@@ -35,7 +74,7 @@
  	virtual bool rva00470B21() = 0;
  protected:
  	void setWakeFrame(Object *obj, UpdateSleepTime wakeDelay);
-@@ -1144,6 +1146,16 @@
+@@ -1144,6 +1160,16 @@
  class Rva00468CB6A;
  // The rowed 0x0046D946 on the HordeContain base: the contained Object
  // closest to the argument.
@@ -52,7 +91,7 @@
  class Rva0046D946
  {
  public:
-@@ -1310,6 +1322,7 @@
+@@ -1310,6 +1336,7 @@
  	Rva0046D158Record *rva0046D158(AsciiString name);
  	virtual void performReform();
  	virtual bool rva00470B21();
@@ -60,7 +99,7 @@
  	Coord2D *rva0046A5B1(Coord2D *offset, int index);
  	bool rva004723F2(Object *, const AsciiString &);
  private:
-@@ -1335,7 +1348,7 @@
+@@ -1335,7 +1362,7 @@
  	bool m_198; // +0x198
  	unsigned char m_pad199[0x19C - 0x199];
  	int m_19C; // +0x19C
@@ -69,7 +108,7 @@
  	ObjectID m_1AC; // +0x1AC
  	ObjectID m_1B0; // +0x1B0
  	int m_1B4; // +0x1B4
-@@ -1364,7 +1377,9 @@
+@@ -1364,7 +1391,9 @@
  	int m_29C; // +0x29C
  	int m_2A0; // +0x2A0
  	bool m_2A4; // +0x2A4
@@ -80,7 +119,20 @@
  	Coord3D m_2B8; // +0x2B8
  	bool m_2C4; // +0x2C4
  	unsigned char m_pad2C5[0x2C8 - 0x2C5];
-@@ -4684,3 +4699,169 @@
+@@ -3652,9 +3681,9 @@
+ 	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
+ 	{
+ 		Object *member = TheGameLogic->findObjectByID((ObjectID)*k);
+-		Rva0046B850Module *module = member->m_254;
+-		if (module)
+-		{
++		if (member->m_254)
++		{
++			Rva0046B850Module *module = member->m_254;
+ 			ObjectID id = module->slot18();
+ 			Object *obj = TheGameLogic->findObjectByID(id);
+ 			if (obj && obj->m_274)
+@@ -4690,3 +4719,169 @@
  		return false;
  	return true;
  }
@@ -141,9 +193,8 @@
 +						rva0046D8AE();
 +						break;
 +					}
-+					GameLogic *logic = TheGameLogic;
-+					Object *attacker = logic->findObjectByID(m_1B0);
-+					Object *target = logic->findObjectByID(m_1AC);
++					Object *attacker = TheGameLogic->findObjectByID(m_1B0);
++					Object *target = TheGameLogic->findObjectByID(m_1AC);
 +					if (!target || !attacker)
 +					{
 +						rva0046D8AE();
@@ -194,8 +245,9 @@
 +							HordeOffset3D toClosest(closest->m_position);
 +							toClosest.sub(&obj->m_position);
 +							side.normalize();
-+							side.scale((float)(side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f ? -4 : 4));
-+							pos.add(&side);
++							HordeOffset3D scaled(side);
++							scaled.scale((float)(side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f ? -4 : 4));
++							pos.add(&scaled);
 +						}
 +					}
 +				}
@@ -307,9 +359,8 @@ void HordeContain::rva00470DC1()
 						rva0046D8AE();
 						break;
 					}
-					GameLogic *logic = TheGameLogic;
-					Object *attacker = logic->findObjectByID(m_1B0);
-					Object *target = logic->findObjectByID(m_1AC);
+					Object *attacker = TheGameLogic->findObjectByID(m_1B0);
+					Object *target = TheGameLogic->findObjectByID(m_1AC);
 					if (!target || !attacker)
 					{
 						rva0046D8AE();
@@ -360,8 +411,9 @@ void HordeContain::rva00470DC1()
 							HordeOffset3D toClosest(closest->m_position);
 							toClosest.sub(&obj->m_position);
 							side.normalize();
-							side.scale((float)(side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f ? -4 : 4));
-							pos.add(&side);
+							HordeOffset3D scaled(side);
+							scaled.scale((float)(side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f ? -4 : 4));
+							pos.add(&scaled);
 						}
 					}
 				}
