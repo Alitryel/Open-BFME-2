@@ -206,6 +206,9 @@ private:
 	void *m_count;
 };
 
+// Retail 0x003B693A is owned by this rowed receiver view.
+class Rva003B693AHolder { public: void rva003B693A(); };
+
 class ScriptList
 {
 public:
@@ -213,7 +216,6 @@ public:
 	ScriptList(const ScriptList &other);	// 0x003B88DA
 	virtual ~ScriptList();
 	void swap(ScriptList *other);		// 0x003B58DF
-	void rva003B693A();					// 0x003B693A, WB discards overridden scripts
 	void rva003B7362();					// 0x003B7362, WB 0xaa4f20
 
 private:
@@ -902,7 +904,7 @@ void SidesList::discardOverriddenScriptsAndTeams()
 		SidesInfo *side = getSideInfo(i);
 		ScriptList *scripts = &side->m_scripts;
 		if (scripts)
-			scripts->rva003B693A();
+			((Rva003B693AHolder *)scripts)->rva003B693A();
 	}
 	m_teamrec.rva0032C2C4();
 }
