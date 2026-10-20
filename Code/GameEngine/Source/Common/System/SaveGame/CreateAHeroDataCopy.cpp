@@ -23,6 +23,9 @@ namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, 
 namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, allocator<unsigned int> > > > * _Rb_tree<int, pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Select1st<pair<int const, vector<unsigned int, allocator<unsigned int> > > >, less<int>, allocator<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >::_M_create_node(pair<int const, vector<unsigned int, allocator<unsigned int> > > const &); }
 namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@ABV?$allocator@_N@1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Bvector_base<allocator<bool> >::_Bvector_base(const allocator<bool> &); }
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 struct TreeHintPayload001F8ACB { unsigned int value; };
