@@ -115,6 +115,10 @@ PEERBool peerParseQuery(PEER peer, char *data, int len, struct sockaddr *from) t
 #include "GameNetwork/GameSpy/BuddyThread.h"
 #include "GameNetwork/GameSpy/PeerDefs.h"
 #include "PeerThreadRetail.h"
+// Keep the map<int,int> iterator step inline-only; retail's out-of-line copy
+// lives in stlport_map_int_int.cpp (0x169ED0).
+namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++() { _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
 #include "GameNetwork/GameSpy/PersistentStorageThread.h"
 #include "GameNetwork/GameSpy/ThreadUtils.h"
 
