@@ -7,6 +7,10 @@
 // 0x00577CC5 (WorldBuilder names, pinned), the positions passed by value.
 #include "../../../../../Libraries/Include/Lib/Coord2D.h"
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00578425Element@@@_STL@@YAXPAURva00578425Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00578425Element;
+namespace _STL { template <> void _Destroy<Rva00578425Element *>(Rva00578425Element *,Rva00578425Element *); }
 // Suppress this TU's non-retail copy of ??$__destroy_aux@PAURva00578425Element@@@_STL@@YAXPAURva00578425Element@@0ABU__false_type@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00578425Element;
