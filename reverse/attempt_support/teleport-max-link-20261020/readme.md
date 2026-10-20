@@ -23,3 +23,8 @@ Existing shadow data warning: the compiler's static-init guard at 0x00A043B0
 is named differently from provisional g_Va00E043B0 in data_ledger.csv.
 `data_check --enforce` reports wrong-name; retained relocation identity proves
 this edit does not change it. No closed-strict or data ownership repair claimed.
+
+Independent seat verification also passed all 26 consumer/provider rows with
+`link_check.py --prepare-current`. Upstream ba6e5758d3 landed the same max
+binding before this seat rebased; its 1,136 bytes are not a new gain from this
+follow-up. The unchanged provider retains independent blockers.
