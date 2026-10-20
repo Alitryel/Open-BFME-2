@@ -6,10 +6,14 @@ Bank: `reverse/attempts/0x00126433.cpp`. Scores below are `score.py` fitness
 (0.5 mnemonic + 0.3 full + 0.2 bytes). "norm" counts instructions that match
 once `[ebp-X]` offsets are masked, out of 2637.
 
-## Current best (claudeb4, 2026-10-20): 0.9113, norm 2353/2637, 12009 B
+## Current best (claudeb4, 2026-10-20, second session): 0.9134, norm 2363/2637, 12017 B
 
-0.9113 = the 0.9069 body plus item 9; 0.9069 = the 0.8371 body plus item 8; 0.8371 = the 0.8307 body plus item 7;
-0.8307 = the 0.8285 body plus item 6.
+The bank is `build/s126/r6/v000010000.cpp`: the 0.9113 body plus item 11. Chain:
+0.9113 = the 0.9069 body plus item 9; 0.9069 = the 0.8371 body plus item 8;
+0.8371 = the 0.8307 body plus item 7; 0.8307 = the 0.8285 body plus item 6.
+**Read "Symbol-count lever" and "Float-sum residue" below first**: a
+non-faithful +30-local body reaches 0.9651, and the remaining residue is a
+reassociation order in the inline vector math.
 
 The previous bank scored 0.7808 (norm 1974). The best body is built from that
 bank as follows:
@@ -83,7 +87,7 @@ bank as follows:
      costs 0.0008 against the pointer-cast form.
    rs2 at the bank: 9:15 b:12 11:22 15:20 1d:8 1e:12 1f:14 24:15 25:16 28:8,
    total 202.
-10. **Next leads (untried): WB end-block call shapes** (wb.txt 1690-2190,
+10. **WB end-block call shapes (tested in item 11)** (wb.txt 1690-2190,
    helpers read with `tools/wb_show.py wb:0xVA`). Our bank differs from WB here:
    - Texture test: WB calls `0x9a0990` on `this`, an inline bool getter
      returning `[this+0] != 0` (a `Has_Texture()`/`Peek_Texture() != NULL`
@@ -106,6 +110,88 @@ bank as follows:
    Plan: a g11 factorial from `g10/v11100l0.cpp` over these shapes (getter,
    GetFilter plus setters, nested temp ctor, FVF getter forms), scored in the
    background, regions read with rs2; the aim is to flip 9/b/11/15/1d-1f/24/25.
+
+11. **Second 2026-10-20 session (r1-r6)**, all kept in the 0.9134 bank:
+   - `Convert_Color_Clamp(Vector4 color)` by value with BFME2's matched body
+     (`Vector4 *clamped_color = &color; if(!CPUDetectClass::Has_CMOV_Instruction())
+     {ternary clamp per lane} else { __asm ... }`), not the B1 Clamp_Color call.
+   - `Rva000032B8` (Inv_Sqrt) declared `float (float)`: retail calls it with
+     the float on the stack.
+   - `float tex_v[129];` direct array (WB local_2800) and
+     `float last=texture_positions[point_cnt-1]; float end=last-TextureLength;`
+     (WB local_480c, local_60c8): with the by-value clamp neither costs anything.
+   - The texture temp is a derived RefPtr temp passed directly:
+     `struct SimpleTextureRefPtr : BFME2TextureRef {...}; struct SimpleTextureTemp
+     : SimpleTextureRefPtr {SimpleTextureTemp(){}};`
+     `BFME2Set_Texture(0,SimpleTextureTemp());` (r6 factor T, +0.002).
+   - Item 10 leads, tested in the r6 factorial (`build/s126/gen_r6.py`, 512 variants):
+     `MIN()` for point_cnt (M), the static `Is_Currently_Rendering_Shadow_Map()`
+     getters (D, E), the holder ternary (G), a `Texture.Is_Valid()` holder (H), an
+     int-returning `Is_Sorting_Disabled` (S) and `Get_Location_Offset(0)` (X) are
+     all neutral or worse. `getFilter()->Set_U_Addr_Mode(1)/Set_V_Addr_Mode(1)` (F, the WB
+     setters 0x9d4f40/0x9d4f60) costs 0.0026 alone (`r10/f_k00.cpp`, 0.9108),
+     but it is the base of the 0.9651 body below. Retail calls `getFilter()`
+     with no argument, and both calls share edi=1. Retail has no
+     IndexBufferExceptionFunc try/catch, and 0x4e6900 is not called.
+
+## Symbol-count lever (r10-r17; not a faithful fix yet)
+
+`build/s126/r10/f_k30.cpp` = `r10/f_k00.cpp` plus 30 `int unusedN=0;` locals
+before the intersection loop's `float mid_tex_v` (patch:
+`reverse/attempt_support/0x00126433_k30_symbolcount.patch`; it applies to the
+bank with its two leading `//` header lines removed. The bank is whitespace-stripped
+to fit the 64 KiB stash limit, at the same score).
+It scores **0.9651** (norm 2469/2637, 11988 B). Earlier dummy bodies:
+`k3/p2_31.cpp` 0.9658 and `r7/k30.cpp` 0.9647. `r9/rpfla.cpp` reaches 0.9589
+without parallel_factor and last, so it is unfaithful. What we measured:
+
+- Only *referenced* locals count (initialised or assigned). Type (int, float,
+  char) and block scope do not matter. Re-assigning one symbol counts once.
+  Unused uninitialised locals, typedefs, enums, struct members, float constants,
+  discarded inline calls (`id(j);`) and void inlines with params count nothing.
+- k=1 changes nothing. k=30 is best (A4 B41 total 99 in `modes.py`). k=62 gives
+  0.8844. Large k repeats with period 32 (94 = 126, 96 = 128, 14 ≈ 46 ≈ 78), but
+  the count is not simply mod 32.
+- Region 0x15 depends on how many symbols sit between the function start and
+  the intersection loop, mod 8: a ≡ 4 or 6 (mod 8) is bad (`r18/regs.txt`).
+- So the real source has about 30 more referenced locals or temps than ours.
+  Candidates: locals in BFME2's inline helpers (vector3.h Normalize declares
+  `len2`/`oolen`; asserts; WB shows 34 twelve-byte `$T` temps, the same as ours),
+  or extra named locals in the render loop. Unresolved; find the faithful
+  equivalent before landing anything with this lever.
+
+## Float-sum residue (independent of the symbol count)
+
+`r18` moved 0-30 dummies across four positions (function start, before the
+segment loop, the segment loop body, the intersection loop). This residue
+never moves: **9:15 a:6 b:12 13:4 18:4 1c:8 1d:7 1e:12 1f:14 26:2 27:4**.
+
+- `build/s126/sym.py` is a symbolic SSE evaluator. `python3 sym.py R` (retail) or
+  `sym.py file.obj` prints the expression tree at every ucomiss/comiss.
+  Retail and ours compute the same values but sum Length2 in a different order. MSVC 7.1
+  reassociates float adds:
+  - 0xa1a (`offset.Normalize()` after `Cross_Product(segdir, nearest, &offset)`):
+    retail `(X²+Z²)+Y²`, ours `(Z²+Y²)+X²`. The first instruction difference is
+    at 0x9b2: retail does `mulss xmm1,[edi-4]` (nearest.X product) before
+    `addss xmm3,[esi-4]`. The cross components then land in xmm7/xmm3/xmm1
+    (stored -0xf8/-0xf4/-0xfc).
+  - Other differing trees: 0x1c31, 0x1e0e, 0x1f0c, 0x1ff1. 0x131d and 0x1844
+    give the natural `(X²+Y²)+Z²` in both.
+- So the inline vector math differs from B1's `vector3.h`. B1 has Length2
+  `X*X+Y*Y+Z*Z`, Normalize with `len2`/`oolen`, Cross_Product(a,b,set_result)
+  with asserts then X,Y,Z, Dot_Product `a.X*b.X+a.Y*b.Y+a.Z*b.Z`, and
+  Normalized_Cross_Product.
+- **Next (untried):** copy `vector3.h` into a variant directory (a quoted
+  include finds the variant's own directory first) and vary Length2
+  association, Cross_Product component order/temps, return-by-value
+  Cross_Product, Normalized_Cross_Product at the call sites and the Normalize body.
+  Score with `regs.py`, then compare the sym.py trees at 0xa1a, 0x1c31, 0x1e0e,
+  0x1f0c and 0x1ff1 with retail. A header shape that adds locals (Normalize's
+  `len2`, `oolen`) may explain the symbol count too.
+- WB callees, for shape: 0x71e1f0 Dot_Product, 0x71f9e0 unary `operator-`
+  (7 calls, ours has 7), 0x99e0f0 `operator*(Vector3,float)`. WB's helpers are
+  optimised copies with NaN validity checks and assert 0x712780. The
+  constant-store differences between WB and our /Od build are /arch:SSE artifacts.
 
 ## Inline budget (why the setters stay out of line)
 
@@ -203,7 +289,10 @@ still open.
 - A separate `float last=texture_positions[point_cnt-1]` before `end` (-0.03).
 - The recipe flags.
 - Declaration-order-only scalar reorders.
-- The k-scan of inert locals on its own.
+- The k-scan of inert locals on its own (uninitialised; see the symbol-count
+  lever for referenced locals).
+- Moving the 30 referenced dummies among four scopes (r18): the float-sum
+  residue never changes.
 - VS/PS forceinline without the B1 shader.h.
 - Flags: /Ob1, /Ob2, /Oi, /Os change nothing; /O2, /Ot, /Ox give ~0.52.
 - Single-statement setter bodies.
