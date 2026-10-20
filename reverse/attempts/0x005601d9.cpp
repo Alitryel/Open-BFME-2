@@ -1,4 +1,6 @@
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.967 date=2026-10-20
+// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.96 date=2026-10-20
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.9 date=2026-10-19
@@ -23,6 +25,15 @@ public:
  __forceinline void identity() {Make_Identity();}
  __forceinline void transposeFrom(const Matrix4 &m) {*(Matrix4x4*)this=m.Transpose();}
 };
+// WWMath operator*(Matrix4x4,Vector4) with rows 1-2 regrouped W + ((X + Y) + Z): view rows 1-2 then sum W last as retail does
+__forceinline Vector4 operator * (const Matrix4 & a, const Vector4 & v) {
+	return Vector4(
+		a[0][0] * v[0] + a[0][1] * v[1] + a[0][2] * v[2] + a[0][3] * v[3],
+		a[1][3] * v[3] + ((a[1][0] * v[0] + a[1][1] * v[1]) + a[1][2] * v[2]),
+		a[2][3] * v[3] + ((a[2][0] * v[0] + a[2][1] * v[1]) + a[2][2] * v[2]),
+		a[3][0] * v[0] + a[3][1] * v[1] + a[3][2] * v[2] + a[3][3] * v[3]
+	);
+}
 class Rva0007671F:public Matrix4 {public:Rva0007671F();};
 struct D3DXMATRIX {float m[4][4];};
 extern "C" D3DXMATRIX*__stdcall D3DXMatrixRotationZ(D3DXMATRIX*,float);
