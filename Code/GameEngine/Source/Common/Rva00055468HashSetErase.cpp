@@ -18,6 +18,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Hashtable_node@PAURva00051B89Keyed@@@_STL@@@_STL@@QBEXPAU?$_Ha:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00051B89Keyed;
+namespace _STL { template <> void allocator<_Hashtable_node<Rva00051B89Keyed *> >::deallocate(_Hashtable_node<Rva00051B89Keyed *> *,unsigned int) const; }
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
 // the retail copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
