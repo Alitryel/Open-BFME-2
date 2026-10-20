@@ -1,4 +1,6 @@
 // ?rva00475F61@Rva00475F61Iface@@UAEXAAV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@@Z
+// partial score=0.95 date=2026-10-20
+// ?rva00475F61@Rva00475F61Iface@@UAEXAAV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@@Z
 // partial score=0.9 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
@@ -41,6 +43,8 @@
 // +0x60 is an ID/index map, and the temporary batches are vector<list<Object *> >.
 // Both found arms index groups[i] directly (one compiler temporary for &groups[i]), and the
 // +0xB8 float is read through an inline by-value getter, as the WorldBuilder twin shows.
+// The names loop binds the player's default team (+0x2EC) by reference, so it is read at
+// the newObject call.
 template<class T> class Rva001EB984PoolAllocator;
 namespace _STL {
 template<class A,class B> Rva001EB984PoolAllocator<B> &__stl_alloc_rebind(Rva001EB984PoolAllocator<A> &,const B *);
@@ -658,7 +662,7 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
         const ThingTemplate *tmpl=TheThingFactory->findTemplate(entry->name);
         Object *replacement=0;
         if(tmpl->m_flags115 & 0x20) {
-            Team *team=(*(Object **)((char *)this-0x114))->getControllingPlayer()->m_defaultTeam;
+            Team *&team=(*(Object **)((char *)this-0x114))->getControllingPlayer()->m_defaultTeam;
             CreateMask mask;
             memset(&mask,0,sizeof(mask));
             replacement=TheThingFactory->newObject(tmpl,team,&mask,false);
