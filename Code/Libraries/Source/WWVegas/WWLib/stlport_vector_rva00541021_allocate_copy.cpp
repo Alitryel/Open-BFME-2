@@ -23,4 +23,8 @@ struct Rva00541021
 namespace _STL {
 template <> void _Construct<Rva00541021, Rva00541021>(Rva00541021 *, const Rva00541021 &);
 }
-template class _STL::vector<Rva00541021, _STL::allocator<Rva00541021> >;
+// Emit the rowed growth family; the unused default-insert members of a
+// whole-class instantiation would require an unrowed element constructor.
+template void _STL::vector<Rva00541021>::_M_insert_overflow(
+    Rva00541021 *, const Rva00541021 &, const _STL::__false_type &, unsigned int, bool);
+template void _STL::vector<Rva00541021>::push_back(const Rva00541021 &);

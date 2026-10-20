@@ -22,4 +22,18 @@ struct BfmeStringRecord00063BE4 {
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord00063BE4,BfmeStringRecord00063BE4>(BfmeStringRecord00063BE4*,const BfmeStringRecord00063BE4&);
 #include <vector>
-template class _STL::vector<BfmeStringRecord00063BE4, _STL::allocator<BfmeStringRecord00063BE4> >;
+// Instantiate the rowed copy helpers rather than default-insert members,
+// whose element constructor has no retail provider in this unit.
+template BfmeStringRecord00063BE4 *
+_STL::vector<BfmeStringRecord00063BE4>::_M_allocate_and_copy<const BfmeStringRecord00063BE4 *>(
+    unsigned int, const BfmeStringRecord00063BE4 *, const BfmeStringRecord00063BE4 *);
+template void _STL::fill<BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4>(
+    BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4 *, const BfmeStringRecord00063BE4 &);
+template BfmeStringRecord00063BE4 *
+_STL::__copy_backward<BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4 *, int>(
+    BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4 *,
+    const _STL::random_access_iterator_tag &, int *);
+template BfmeStringRecord00063BE4 *
+_STL::__copy_backward_ptrs<BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4 *>(
+    BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4 *, BfmeStringRecord00063BE4 *,
+    const _STL::__false_type &);
