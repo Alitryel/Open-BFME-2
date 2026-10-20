@@ -4,6 +4,8 @@
 // Retail calls the float sin overload out of line (row 0x0002FBB0); <math.h>
 // would emit a non-retail inline copy of it here.
 #include <math.h>
+#include "../../../Libraries/Include/Lib/Coord2DCtorView.h"
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 #define _STLP_BFME_TREE_NODE_BASE_O2  // emit retail's _Rb_tree_node_base::_S_minimum/_S_maximum (vendor/stlport/stl/_tree.h)
 #include <stl/_prolog.h>
@@ -173,6 +175,12 @@ class Rva005C6D4D {
 public:
     virtual void v0();
     virtual bool visit(int);
+    // Slot 2 places button i at a position and size; slot 3 enables button i.
+    virtual void v2(int, const ICoord2D &, const ICoord2D &);
+    virtual void v3(int, bool);
+    virtual void v4();
+    virtual void v5();
+    void rva005C674A();
     void rva005C6D9C();
 private:
     bool flag;
@@ -244,4 +252,80 @@ void Rva005C6D4D::rva005C6D9C()
             ((EraseTree *)&tree)->erase((const Rva0027EA49 &)i);
         }
     }
+}
+
+// The WorldBuilder twin's MathCoord2D inlines (Rotate, scale) as members of a Coord2D view.
+// Retail calls sin and cos, then recomputes both with fsincos, which VC7.1 has no intrinsic for.
+struct RadialCoord2D : Coord2D {
+    __forceinline void Rotate(float angle)
+    {
+        float s = (float)sin((double)angle);
+        float c = (float)cos((double)angle);
+        __asm {
+            fld angle
+            fsincos
+            fstp c
+            fstp s
+        }
+        float tmp = x * c - y * s;
+        y = x * s + y * c;
+        x = tmp;
+    }
+    __forceinline void Scale(float d) { x *= d; y *= d; }
+};
+class Rva005C6599 { public: void rva005C6599(float, float); };
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+class AptPlayerView005C674A {
+public:
+    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
+    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
+    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
+    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
+    virtual const Coord2D *getScale();
+};
+// Lays the buttons out on a circle (WB lead: RadialMenuLayoutController::Draw): the direction
+// starts at (0, -1), turns by the remaining flash fraction, then by the angle step per button.
+void Rva005C6D4D::rva005C674A()
+{
+    if (count <= 0)
+        return;
+    v5();
+    if (!flag)
+        return;
+    Coord2D dir(0.0f, (float)(count <= 1 ? 0 : -1));
+    if (count > 1) {
+        float fraction;
+        if (TheRadialFlashEnd != 0.0f) {
+            float e = (float)elapsed;
+            float t = TheRadialFlashEnd < e ? TheRadialFlashEnd : e;
+            fraction = t / TheRadialFlashEnd;
+        } else {
+            fraction = 1.0f;
+        }
+        static_cast<RadialCoord2D &>(dir).Rotate(1.0f - fraction);
+    }
+    for (int i = 0; i < count; ++i) {
+        ICoord2D extent;
+        extent.x = (int)(((float)width - 1.0f) * (scale > 1.0f ? 1.0f : scale) + 1.0f);
+        extent.y = (int)(((float)height - 1.0f) * (scale > 1.0f ? 1.0f : scale) + 1.0f);
+        Coord2D offset(dir);
+        float distance = ((float)radius - 0.1f) * scale + 0.1f;
+        static_cast<RadialCoord2D &>(offset).Scale(distance);
+        int x = (int)((float)unknown0c + offset.x);
+        int y = (int)((float)unknown10 + offset.y);
+        _STL::map<int,int>::iterator button = ((_STL::map<int,int> *)&tree)->find(i);
+        if (button != ((_STL::map<int,int> *)&tree)->end()) {
+            Coord2D factor(*((AptPlayerView005C674A *)g_bfmeAptWindowManager)->getScale());
+            ((Rva005C6599 *)(*button).second)->rva005C6599((float)x * factor.x, (float)y * factor.y);
+        }
+        ICoord2D location;
+        location.x = x - extent.x / 2;
+        location.y = y - extent.y / 2;
+        v2(i, location, extent);
+        static_cast<RadialCoord2D &>(dir).Rotate(angle);
+        v3(i, (float)elapsed >= kFlashStart);
+    }
+    if ((float)elapsed > TheRadialFlashEnd)
+        flag = false;
 }
