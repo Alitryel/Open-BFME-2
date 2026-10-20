@@ -79,6 +79,16 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
 
 ## Frames, stores and locals
 
+- **A store-order mismatch can require ordering the entire native write group.**
+  Allocator growth 0x000334A0 was exactly 604 B except that an immediate 9
+  store moved ahead of loading/storing two 8 markers. Writing those three
+  existing marker words through volatile unsigned-int lvalues reproduced the
+  complete body; ordering only the final word or only the first two did not.
+  A full memory barrier moved unrelated header stores instead. This is a
+  measured source-shape recipe, not proof of retail's original qualifiers;
+  apply only to an independently established write group and verify all
+  affected bodies. Controls and provenance:
+  `reverse/attempt_support/allocator-growth-334a0-20261019.md`.
 - **Inline helpers for Coord3D copies and zeroing.** Copying or zeroing a
   member Coord3D through a small `__forceinline` helper (Zero Hour's inline
   `Coord3D::set`/`zero`) stops cl forwarding just-stored members, so it
