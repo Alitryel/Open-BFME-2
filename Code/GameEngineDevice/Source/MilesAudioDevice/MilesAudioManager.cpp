@@ -1005,6 +1005,12 @@ struct BfmeStringTailRecord144 {
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *p) { typedef BfmeStringTailRecord144 BfmeDestroyT; p->~BfmeDestroyT(); } }
+// Use the whole-body verified range destructor at 0x5401D.
+namespace _STL { template <> void __destroy_aux<BfmeStringTailRecord144 *>(
+    BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const __false_type &); }
+// Retain the same native range wrapper as the overflow and dtor owners.
+namespace _STL { template <> void _Destroy<BfmeStringTailRecord144 *>(
+    BfmeStringTailRecord144 *, BfmeStringTailRecord144 *); }
 typedef _STL::vector<BfmeStringTailRecord144> QueuedAudioEvents;
 template<> QueuedAudioEvents::iterator QueuedAudioEvents::erase(iterator first, iterator last);
 

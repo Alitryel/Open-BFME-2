@@ -57,6 +57,12 @@ struct BfmeStringTailRecord144 {
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *p) { typedef BfmeStringTailRecord144 BfmeDestroyT; p->~BfmeDestroyT(); } }
+// Use the whole-body verified range destructor at 0x5401D.
+namespace _STL { template <> void __destroy_aux<BfmeStringTailRecord144 *>(
+    BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const __false_type &); }
+// Native callers retain the out-of-line range wrapper at 0x54ED9.
+namespace _STL { template <> void _Destroy<BfmeStringTailRecord144 *>(
+    BfmeStringTailRecord144 *, BfmeStringTailRecord144 *); }
 
 typedef char VerifyRecordSize[(sizeof(BfmeStringTailRecord144) == 0x90) ? 1 : -1];
 
