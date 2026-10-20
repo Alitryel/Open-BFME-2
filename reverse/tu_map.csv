@@ -14648,9 +14648,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002260F7,42,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,S,S=Code/GameEngine/Source/Common/GameEngine.cpp N=Code/GameEngine/Source/Common/GameEngine.cpp,Code/GameEngine/Source/Common/GameEngine.cpp
 0x00226121,31,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002260F7..0x00226140,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_large_bodies.cpp
 0x00226140,6,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002260F7..0x00226146,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp
-0x00226146,16,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002260F7..0x00226156,Code/GameEngine/Source/Common/Rva00226146Less.cpp
+0x00226146,16,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002260F7..0x00226156,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
 0x00226156,379,code-unledgered,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002260F7..0x002262D1,
-0x002262D1,13,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002260F7..0x002262E7,Code/GameEngine/Source/Common/Bfme/Rva0006D5B0_sum.cpp
+0x002262D1,13,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002260F7..0x002262E7,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
 0x002262E7,34,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,U,N=Code/GameEngine/Source/Common/System/SaveGame/SaveMapPreview.cpp,Code/GameEngine/Source/Common/System/SaveGame/SaveMapPreviewCopy.cpp
 0x00226309,6,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002262E7..0x0022630F,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp
 0x0022630F,8,code,Code/GameEngine/Source/Common/GameEngine.cpp,approved,C,C=0x002262E7..0x00226317,Code/GameEngine/Source/Common/RvaAdjustorDtorFamily.cpp
@@ -29385,7 +29385,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003EFE72,16,code,,,-,,Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp
 0x003EFE82,24,code,,,-,,Code/GameEngine/Source/Common/Rva003EFE82Get.cpp
 0x003EFE9A,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp
-0x003EFEA0,18,code,,,-,,Code/GameEngine/Source/Common/Rva00523630Cmp.cpp
+0x003EFEA0,18,code,,,-,,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
 0x003EFEB2,379,code-unledgered,,,-,,
 0x003F002D,11,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rope_char.cpp
 0x003F005F,208,code,,,-,,Code/GameEngine/Source/Common/System/LivingWorldPlayerWorldToMapPairParse.cpp
@@ -32043,8 +32043,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00434053,31,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x00433FF3..0x00434072,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_pod3580_allocator.cpp
 0x00434072,31,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x00433FF3..0x00434091,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_pod3592_allocator.cpp
 0x00434091,6,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x00433FF3..0x00434097,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp
-0x00434097,13,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x00433FF3..0x004340A4,Code/GameEngine/Source/Common/Rva00434097Add.cpp
-0x004340A4,8,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x00433FF3..0x004340AC,Code/GameEngine/Source/Common/Rva004340A4Getter.cpp
+0x00434097,13,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x00433FF3..0x004340A4,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
+0x004340A4,8,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x00433FF3..0x004340AC,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
 0x004340AC,134,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptSaveLoad.cpp,Code/GameEngine/Source/Common/Rva004340ACMethod.cpp
 0x00434132,46,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,C,C=0x004340AC..0x00434160,Code/GameEngine/Source/Common/VslotSmallBodiesM.cpp
 0x00434160,120,code,Code/GameEngine/Source/Common/AptSaveLoad.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptSaveLoad.cpp,Code/GameEngine/Source/Common/Rva00434160Init.cpp
@@ -43243,11 +43243,11 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0056DD52,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp
 0x0056DD58,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp
 0x0056DD5E,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp
-0x0056DD64,16,code,,,-,,Code/GameEngine/Source/Common/Rva005497C0Ge.cpp
-0x0056DD74,18,code,,,-,,Code/GameEngine/Source/Common/Rva00549000Cmp.cpp
-0x0056DD86,7,code,,,-,,Code/GameEngine/Source/Common/Rva00549000Cmp.cpp
-0x0056DD8D,8,code,,,-,,Code/GameEngine/Source/Common/Rva00549000Cmp.cpp
-0x0056DD95,7,code,,,-,,Code/GameEngine/Source/Common/Rva00549000Cmp.cpp
+0x0056DD64,16,code,,,-,,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
+0x0056DD74,18,code,,,-,,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
+0x0056DD86,7,code,,,-,,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
+0x0056DD8D,8,code,,,-,,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
+0x0056DD95,7,code,,,-,,Code/GameEngine/Source/Common/BigObfFallbacks.cpp
 0x0056DD9C,20,code,,,-,,Code/GameEngine/Source/Common/System/Rva54b800_InlineAsmHelpers.cpp
 0x0056DDB0,17,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva00051C89IteratorSteps.cpp
 0x0056DDF5,27,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva0056DDF5.cpp

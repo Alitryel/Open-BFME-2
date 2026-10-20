@@ -314,6 +314,19 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   `m_setup.enable(); break;` were stacked labels in the bank and separate
   bodies in the original: the WorldBuilder jump table gives them distinct
   targets. Same body.
+- **An `__asm` block that references a label turns off optimization for
+  the whole function.** In the anti-tamper fallbacks (0x002264B3, its 21
+  siblings and their two transforms in `BigObfFallbacks.cpp`), the protection marker contains `L1: mov
+  eax, offset L1`. Retail's tells: every local lives in the frame, constant
+  conditions are tested (`xor eax,eax; je`) and cdecl arguments are popped
+  with `pop ecx`, in an /O1 unit whose other bodies are optimized. Without
+  optimization, named locals take frame slots in name-hash order, not
+  declaration order, and compiler temporaries come after them, so the local
+  names choose the frame. An inline callee's named locals also reserve caller
+  slots even when the call stays out of line: the two "unused" dwords at the
+  bottom of each fallback frame were the functor `operator()`'s `T x = a; T
+  y = b;`. In a macro, brace the block (`__asm { __asm push eax __asm ... }`);
+  bare `__asm` statements run on to the end of the line (C2400).
 
 ## c2 3077 levers traced on 2026-10-20
 
