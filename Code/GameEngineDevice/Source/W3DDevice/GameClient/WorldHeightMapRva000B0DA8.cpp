@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
-// WorldHeightMap::rva000B0DA8, retail 0x000B0DA8 (473 B): the height-map chunk reader in its BFME2
+// WorldHeightMap::ParseHeightMapData, retail 0x000B0DA8 (473 B): the height-map chunk reader in its BFME2
 // form (Zero Hour's WorldHeightMap::ParseHeightMapData without the seismic arrays and with 16-bit
 // heights): width, height, border size (version >= 3), boundary list (version >= 4, else one entry
 // from width/height minus twice the border), the cell count (must equal width * height) and the
@@ -25,8 +25,8 @@ public:
 class WorldHeightMap
 {
 public:
-	bool rva000B0DA8(DataChunkInput &file, DataChunkInfo *info);
-	bool rva000B0F82(DataChunkInput &file, DataChunkInfo *info);
+	bool ParseHeightMapData(DataChunkInput &file, DataChunkInfo *info);
+	bool ParseSizeOnly(DataChunkInput &file, DataChunkInfo *info);
 private:
 	char m_opaque00[8];
 	int m_width;
@@ -37,7 +37,7 @@ private:
 	short *m_data;
 };
 
-bool WorldHeightMap::rva000B0DA8(DataChunkInput &file, DataChunkInfo *info)
+bool WorldHeightMap::ParseHeightMapData(DataChunkInput &file, DataChunkInfo *info)
 {
 	int i;
 	m_width = file.readInt();
@@ -94,7 +94,7 @@ bool WorldHeightMap::rva000B0DA8(DataChunkInput &file, DataChunkInfo *info)
 
 // retail 0x000B0F82 (497 B incl. trailing int3): the same reader for a map that already holds data
 // (frees the old array first, version 1 shrinks width/height after the resample).
-bool WorldHeightMap::rva000B0F82(DataChunkInput &file, DataChunkInfo *info)
+bool WorldHeightMap::ParseSizeOnly(DataChunkInput &file, DataChunkInfo *info)
 {
 	int i;
 	m_width = file.readInt();

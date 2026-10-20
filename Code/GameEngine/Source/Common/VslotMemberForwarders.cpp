@@ -14,7 +14,7 @@ typedef int Int;
 template <class T> class StringBase { public: void set(const T *); };
 class W3DHordeModelDrawModuleData { public: int rva00079167(); int rva00079186(int); };
 class DataChunkInput; struct DataChunkInfo;
-class WorldHeightMap { public: bool rva000B0DA8(DataChunkInput &, DataChunkInfo *); };
+class WorldHeightMap { public: bool ParseHeightMapData(DataChunkInput &, DataChunkInfo *); };
 class Render2DClass { public: void Reset(); };
 class TextureFilterClass { public: void Apply(unsigned int); };
 namespace _STL { template <class T> class allocator; template <class T, class A> class _List_base { public: void clear(); }; }
@@ -339,7 +339,7 @@ void Rva0009AD42Forwarder::rva0009AD42()
 class Rva000B0DA8Target
 {
 public:
-	void rva000B0DA8(Int a0, Int a1);
+	void ParseHeightMapData(Int a0, Int a1);
 };
 
 class Rva000B1974Forwarder
@@ -354,7 +354,7 @@ private:
 // vtable 0x00BC95B8#1
 void Rva000B1974Forwarder::rva000B1974(Int a0, Int a1)
 {
-	((WorldHeightMap *)m_member)->rva000B0DA8(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
+	((WorldHeightMap *)m_member)->ParseHeightMapData(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
 }
 
 class Rva001B4C7ATarget

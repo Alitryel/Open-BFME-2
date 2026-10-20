@@ -53,7 +53,7 @@ struct DataChunkInfo;
 class WorldHeightMap
 {
 public:
-	bool rva000B0F82(DataChunkInput &a0, DataChunkInfo *a1);
+	bool ParseSizeOnly(DataChunkInput &a0, DataChunkInfo *a1);
 };
 typedef WorldHeightMap Rva000B0F82;
 class Rva000B197C
@@ -66,7 +66,7 @@ private:
 };
 void Rva000B197C::rva000B197C(Int a0, Int a1)
 {
-	m_0C->rva000B0F82(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
+	m_0C->ParseSizeOnly(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
 }
 
 class Rva005254C5
