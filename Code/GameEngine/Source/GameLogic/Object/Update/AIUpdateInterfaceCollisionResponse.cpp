@@ -26,7 +26,7 @@ class Object:public Thing {public:
 };
 static __forceinline void clearCondition(Object*obj,int n){if(obj->conditions.test(n)){obj->conditions.clear(n);obj->rva0028AE6D();}}
 bool Rva002629EACheck(const Thing*,const Thing*);int Rva00264237Check(const Coord3D*,const Coord3D*);
-class Pathfinder{public:bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);bool rva002EBD65(ObjectID);};
+class Pathfinder{public:bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);bool QueueForCollisionResponsePath(ObjectID);};
 class AI{public:char pad[0x10];Pathfinder*pathfinder;};extern AI*TheAI;
 extern GameLogic*TheGameLogic;
 class TerrainLogic{public:
@@ -274,7 +274,7 @@ bool AIUpdateInterface::rva0026CF11(Object*other)
  blocked=true;if(blockedFrames==0)blockedFrames=1;
  if(otherMoving&&aiOther->waiting)return false;
  if(blockedFrames%BfmeLogicFramesPerSecond!=obj->id%BfmeLogicFramesPerSecond)return false;
- if(responseID==0){responseID=other->id;TheAI->pathfinder->rva002EBD65((ObjectID)obj->id);}
+ if(responseID==0){responseID=other->id;TheAI->pathfinder->QueueForCollisionResponsePath((ObjectID)obj->id);}
  if(blockedFrames>2*BfmeLogicFramesPerSecond+1){blocked=false;blockedFrames=0;ignoreUntil=TheGameLogic->getFrame()+2*BfmeLogicFramesPerSecond;return true;}
  if(!rva002641BA()){clearCondition(obj,0x3d);clearCondition(obj,0x9c);}
  return false;

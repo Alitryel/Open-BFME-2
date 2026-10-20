@@ -13,7 +13,7 @@ class LargeGroupAudioGridCell
 {
 public:
 	void setOverlappedLocking(bool flag);
-	void rva005C879E(LargeGroupAudioGridCell **src);
+	void initOverlappingCells(LargeGroupAudioGridCell **src);
 	void subtractFromWeight(unsigned short val);
 private:
 	char m_pad00[0x0c];
@@ -40,7 +40,7 @@ void LargeGroupAudioGridCell::setOverlappedLocking(bool flag)
 	m_47 = ((m_47 & 0xf0) | ((m_47 + d) & 0x0f));
 }
 
-void LargeGroupAudioGridCell::rva005C879E(LargeGroupAudioGridCell **src)
+void LargeGroupAudioGridCell::initOverlappingCells(LargeGroupAudioGridCell **src)
 {
 	m_47 &= 0x0f;
 	for (int i = 0; i < 8; ++i) {

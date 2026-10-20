@@ -19,7 +19,7 @@ typedef bool (*BfmeAssignRecord32Less)(const BfmeAssignRecord32 &, const BfmeAss
 class FXShaderRenderer
 {
 public:
-	void rva0017438B(int a, int b);
+	void PerformRendering(int a, int b);
 };
 class Rva00DF6F94GapFillerContext
 {
@@ -42,6 +42,6 @@ void Rva00174A57::rva00174A57()
 	if (m_18 == m_1C)
 		return;
 	_STL::sort<BfmeAssignRecord32 *, BfmeAssignRecord32Less>((BfmeAssignRecord32 *)m_18, (BfmeAssignRecord32 *)m_1C, (BfmeAssignRecord32Less)&Rva0017368ACompare);
-	((FXShaderRenderer *)this)->rva0017438B(m_18, m_1C);
+	((FXShaderRenderer *)this)->PerformRendering(m_18, m_1C);
 	return ((Rva00DF6F94GapFillerContext *)this)->rva0017437D();
 }

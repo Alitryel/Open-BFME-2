@@ -1,4 +1,4 @@
-// ?rva0017438B@FXShaderRenderer@@QAEXHH@Z
+// ?PerformRendering@FXShaderRenderer@@QAEXHH@Z
 // retail 0x0017438B, 819 bytes, WB FXShaderRenderer::PerformRendering.
 // Ledger identity is the existing int,int pin (0x17438B); the body uses a
 // RenderingTask* view with a no-op entry cast to keep that mangling.
@@ -95,9 +95,9 @@ struct RenderingTask {
 class FXShaderRenderer {
  char opaque00[0x24]; _STL::vector<Rva0017341BWords> transforms;
 public:
- void rva0017438B(int begin_,int end_);
+ void PerformRendering(int begin_,int end_);
 };
-void FXShaderRenderer::rva0017438B(int begin_,int end_) {
+void FXShaderRenderer::PerformRendering(int begin_,int end_) {
  RenderingTask *begin=(RenderingTask *)begin_,*end=(RenderingTask *)end_;
  RenderingTask *batchBegin=begin,*batchEnd=begin;
  for(;batchEnd!=end;batchBegin=batchEnd) {

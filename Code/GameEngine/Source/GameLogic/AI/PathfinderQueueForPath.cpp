@@ -42,7 +42,7 @@ class Pathfinder
 {
 public:
 	Bool queueForPath(ObjectID id);
-	Bool rva002EBD65(ObjectID id);
+	Bool QueueForCollisionResponsePath(ObjectID id);
 private:
 	unsigned char m_pad[0x1C1E0];
 	PathfindRequestRing m_requestRing;
@@ -60,7 +60,7 @@ Bool Pathfinder::queueForPath(ObjectID id)
 	return true;
 }
 
-Bool Pathfinder::rva002EBD65(ObjectID id)
+Bool Pathfinder::QueueForCollisionResponsePath(ObjectID id)
 {
 	if (!m_requestRing2.contains(id))
 	{

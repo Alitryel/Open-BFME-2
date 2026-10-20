@@ -1373,7 +1373,7 @@ private:
     void unselectProvider(void);
     void selectProvider(bool accelerated);
 public:
-    Rva0010F149Handle rva0005AC80(const AsciiString &name, int context);
+    Rva0010F149Handle newOwnedAudioEventInfo(const AsciiString &name, int context);
     unsigned int getProviderIndex(const AsciiString &providerName) const;
     void init3DSamplePools();
     void createListener();
@@ -6765,7 +6765,7 @@ template <> __declspec(noinline) inline void vector<Rva0036CA00Str, allocator<Rv
 class Rva001DA2D5 { char native[0xc4]; public: Rva001DA2D5(); };
 struct AudioInfoNode { void *next; AsciiString key; AudioEventInfo *info; };
 
-Rva0010F149Handle MilesAudioManager::rva0005AC80(const AsciiString &name, int context)
+Rva0010F149Handle MilesAudioManager::newOwnedAudioEventInfo(const AsciiString &name, int context)
 {
     MilesMutexGuard guard(&m_mutex, 0);
     {

@@ -13,7 +13,7 @@ struct FloatPair {
  FloatPair(){} FloatPair(const FloatPair &o):x(o.x),y(o.y){} ~FloatPair(){}
  float x,y;
 };
-class LargeGroupAudioGridCell {public: void rva005C879E(LargeGroupAudioGridCell **); volatile float x,y;char opaque[64];};
+class LargeGroupAudioGridCell {public: void initOverlappingCells(LargeGroupAudioGridCell **); volatile float x,y;char opaque[64];};
 struct Rva005C8176Owner { char opaque[16];float scale;};
 class Rva005C8176 { public:
  void *rva005C8176(FloatPair position);
@@ -56,6 +56,6 @@ void Rva005C81D8::rva005C81D8(Rva005C8176 *horizontal,Rva005C8176 *vertical,Rva0
   neighbours[7]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(p));
   p.y=cell->y+scale/2.0f;
   neighbours[6]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(p));
-  cell->rva005C879E(neighbours);
+  cell->initOverlappingCells(neighbours);
  }
 }
