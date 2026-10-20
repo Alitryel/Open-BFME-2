@@ -234,6 +234,9 @@ namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 namespace _STL { template <> void _List_base<Object *, allocator<Object *> >::clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__lower_bound@PBIIU?$less@I@_STL@@H@_STL@@YAPBIPBI0ABIU?$less@I@0@PAH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const unsigned int *__lower_bound<const unsigned int *, unsigned int, less<unsigned int>, int>(const unsigned int *, const unsigned int *, const unsigned int &, less<unsigned int>, int *); }
 
 // Every vector<ScienceType> teardown here is inline in retail's game units; this
 // unit's out-of-line copies (through the STLport __new_alloc import) came first
