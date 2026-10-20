@@ -12,6 +12,9 @@ namespace _STL { template <> _Rb_tree_base<pair<int const, void *>, allocator<pa
 namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
 namespace _STL { template <> void _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::_M_erase(_Rb_tree_node<pair<int const, void *> > *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBHPAX@_STL@@V?$allocator@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@QA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_base<pair<int const ,void *>,allocator<pair<int const ,void *> > >::~_Rb_tree_base(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHPAX@_STL@@@_STL@@@_STL@@QBEXPAU?$_Rb:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<_Rb_tree_node<pair<int const ,void *> > >::deallocate(_Rb_tree_node<pair<int const ,void *> > *,unsigned int) const; }
