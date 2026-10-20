@@ -7,7 +7,9 @@
 // Callee addresses are read off retail call sites (reverse/symbols.csv).
 // Structural recovery for the reset/delegate body at retail 0x0094D8B0.
 
-void d_0094d450(void);
+// 0x001711A6 is rowed as TexturePacker::UpdateResultTexture under the
+// address-derived receiver Rva00171024; retail calls it with ecx = this.
+class Rva00171024 { public: void rva001711a6(); };
 
 class Rva0094D8B0Delegate
 {
@@ -39,7 +41,7 @@ private:
 bool Rva0094D8B0::reset(void)
 {
 	if (m_reset != 0)
-		d_0094d450();
+		reinterpret_cast<Rva00171024 *>(this)->rva001711a6();
 	Rva0094D8B0Delegate *delegate = m_delegate;
 	if (delegate != 0)
 		return delegate->tail();
