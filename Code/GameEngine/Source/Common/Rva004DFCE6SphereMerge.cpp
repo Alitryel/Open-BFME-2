@@ -34,6 +34,7 @@ __declspec(noinline) inline void Coord3D::normalize()
     }
 }
 class Object;
+namespace _STL { template <> void vector<Object *, allocator<Object *> >::push_back(Object *const &); }
 class Rva004DFA43 { public: bool rva004DFA43(void*,void*); };
 class Rva004DFCE6 {
 public:
