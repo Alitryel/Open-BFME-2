@@ -1,12 +1,24 @@
 // cl: /Od
 
+// Native 0x29530 is the recovered STLport insertion owner. This declaration
+// binds the existing wrapper call without introducing another implementation.
+namespace _STL {
+template<class T> class allocator;
+template<class T> class char_traits;
+template<class T, class Traits, class Alloc> class basic_string {
+public:
+ void insert(T *, unsigned int, T);
+};
+}
+typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > NativeFillString;
+
+
 char *bfmeFillV14(char *p, unsigned n, char v);
 class BfmeStrV14
 {
 public:
 	BfmeStrV14 *bfmeAssignV14(char *first, char *last, unsigned n, char v);
 	void bfmeEraseV14(char *first, char *last);
-	void bfmeInsertV14(char *at, unsigned n, char v);
 };
 
 BfmeStrV14 *BfmeStrV14::bfmeAssignV14(char *first, char *last, unsigned n, char v)
@@ -22,7 +34,7 @@ BfmeStrV14 *BfmeStrV14::bfmeAssignV14(char *first, char *last, unsigned n, char 
 	else
 	{
 		bfmeFillV14(first, dist, v);
-		bfmeInsertV14(last, n - dist, v);
+		((NativeFillString *)this)->insert(last, n - dist, v);
 	}
 	return this;
 }
