@@ -36,6 +36,24 @@ template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<v
 }
 #include <string>
 #include <hash_map>
+
+// The native string/unsigned hashtable calls its distinct copy owner at60CFFF.
+// The standard _Construct spelling is already owned by the tree copy at38A5A4.
+void StringUnsignedPairCopyAtRva0060CFFF(void *, const void *);
+namespace _STL {
+typedef pair<const string, unsigned int> StringUnsignedValue;
+template <> _Hashtable_node<StringUnsignedValue> *
+hashtable<StringUnsignedValue, string, hash<string>,
+    _Select1st<StringUnsignedValue>, equal_to<string>,
+    allocator<StringUnsignedValue> >::_M_new_node(const value_type &source)
+{
+    _Node *node = _M_num_elements.allocate(1);
+    node->_M_next = 0;
+    ::StringUnsignedPairCopyAtRva0060CFFF(&node->_M_val, &source);
+    return node;
+}
+}
+
 // Bind to the kept retail copy instead of emitting this unit's own.
 // Bind to the kept retail copy instead of emitting this unit's own.
 // Bind to the kept retail copy instead of emitting this unit's own.

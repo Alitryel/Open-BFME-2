@@ -1,14 +1,15 @@
 // cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
 //
-// Fifth batch of STLport _Construct<T> placement-copy helpers, same-shape
+// STLport placement-copy helpers and distinct native copy owners, same-shape
 // siblings of the rowed _Construct<AsciiString> at 0x0002C485 (45 bytes; see
 // stlport_construct_asciistring.cpp). Each body is the null-guarded
 // placement-new copy over a single element: the copy delegates out-of-line
 // to T's own rowed copy ctor, and __EH_prolog resolves via its matched row.
 // The nested deque reuses the established 4-byte BfmeWordValue4 model; the
 // string pair uses the real STLport basic_string with an unsigned payload,
-// matching the retail pair encoding exactly.
+// preserving the established trivial-dword reference model. The original
+// application mapped type and helper spelling remain unknown.
 
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -57,4 +58,7 @@ typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> 
 typedef _STL::pair<const ConstructStdString, unsigned int> ConstructPairSU;
 
 template void _STL::_Construct<ConstructOuterDeque, ConstructOuterDeque>(ConstructOuterDeque *, const ConstructOuterDeque &);
-template void _STL::_Construct<ConstructPairSU, ConstructPairSU>(ConstructPairSU *, const ConstructPairSU &);
+void StringUnsignedPairCopyAtRva0060CFFF(void *dest, const void *source)
+{
+    ::new (dest) ConstructPairSU(*static_cast<const ConstructPairSU *>(source));
+}
