@@ -74,13 +74,15 @@ public:
 extern PlayerList *ThePlayerList;				// 0x00DFEEE8
 
 // The partition filter base (ctor 0x000421C8, vftable 0x00BC26E0).
-class Rva000421C8
+// This abstract base uses its rowed destructor; derived constructors install
+// their own retail vftables without emitting the base deleting wrapper here.
+class __declspec(novtable) Rva000421C8
 {
 public:
 	virtual ~Rva000421C8();
 	virtual Bool allow(Object *obj) = 0;
 	virtual int getPlayerMask();
-	Rva000421C8() : m_next(0) {}
+	__declspec(dllimport) __forceinline Rva000421C8() : m_next(0) {}
 	Rva000421C8 *m_next;
 };
 
