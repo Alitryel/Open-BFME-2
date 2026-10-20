@@ -20,7 +20,11 @@ template <class T, int N> class AutoPoolClass {};
 #define WWDEBUG_SAY(x)
 #define WWDEBUG_WARNING(x)
 #define WWASSERT(x) ((void)0)
+// multilist.h's inline members are retail's size-optimised bodies (as in
+// SceneOwnership.cpp).
+#pragma optimize("s", on)
 #include "multilist.h"
+#pragma optimize("", on)
 #include "refcount.h"
 #include "vector3.h"
 #include "rendobj.h"
@@ -53,7 +57,7 @@ public:
     virtual ~SceneClass();
     virtual void Add_Render_Object(RenderObjClass *obj);
     virtual void Remove_Render_Object(RenderObjClass *obj);
-    virtual SceneIterator *Create_Iterator(bool onlyvisible) = 0;
+    virtual SceneIterator *Create_Iterator() = 0;
     virtual void Destroy_Iterator(SceneIterator *it) = 0;
     virtual void Set_Ambient_Light(const Vector3 &color);
     virtual const Vector3 &Get_Ambient_Light();
@@ -138,7 +142,7 @@ public:
     virtual void Remove_All_Render_Objects();
     virtual void Register(RenderObjClass *obj, RegType for_what);
     virtual void Unregister(RenderObjClass *obj, RegType for_what);
-    virtual SceneIterator *Create_Iterator(bool onlyvisible);
+    virtual SceneIterator *Create_Iterator();
     virtual void Destroy_Iterator(SceneIterator *it);
     virtual void Visibility_Check(CameraClass *camera);
     virtual float Compute_Point_Visibility(RenderInfoClass &info, const Vector3 &point);

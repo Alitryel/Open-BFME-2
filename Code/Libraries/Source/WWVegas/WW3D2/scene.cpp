@@ -180,7 +180,8 @@ void bfmeAnchorSceneClassInlineRows(SceneClass *scene, RenderInfoClass &rinfo, c
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
 // ??1SceneClass@@UAE@XZ present-unmatched
-SceneClass::~SceneClass(void)
+// inline (a COMDAT copy) like the SceneClass views that the SimpleSceneClass units emit.
+inline SceneClass::~SceneClass(void)
 {
 }
 
