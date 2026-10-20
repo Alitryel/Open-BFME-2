@@ -83,6 +83,10 @@ enum NameKeyType
 };
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVLocomotorTemplate@@@_STL@@QBEXPAPBVLocomotorTemplate@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LocomotorTemplate;
+namespace _STL { template <> void allocator<LocomotorTemplate const *>::deallocate(LocomotorTemplate const * *,unsigned int) const; }
 
 class INI
 {

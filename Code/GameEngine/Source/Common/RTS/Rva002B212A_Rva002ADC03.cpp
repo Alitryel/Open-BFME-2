@@ -19,6 +19,10 @@
 #include "ascii_string.h"
 #include <vector>
 #include <list>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVLocomotorTemplate@@@_STL@@QBEXPAPBVLocomotorTemplate@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LocomotorTemplate;
+namespace _STL { template <> void allocator<LocomotorTemplate const *>::deallocate(LocomotorTemplate const * *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
