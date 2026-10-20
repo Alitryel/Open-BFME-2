@@ -1772,6 +1772,7 @@ address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093349.cpp
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093457Finish.cpp	g_Va00DFE118	2
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00105CF6.cpp	g_Va007BB5C4	2
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenCrossFadeFilterUpdateFadeLevel.cpp	g_Va00BBB8D8	3
+address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayDraw.cpp	g_Va00DB3BDC	5	allow=c6d91fb99ff2981d5c05a01b2095d82c8cbcde20
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseCtor.cpp	g_Va009E5DF8	2
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseInitW3DAssets.cpp	g_Va009E5DF8	5
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	g_Va00BBB8D8	2
@@ -20483,7 +20484,6 @@ pin	reverse/symbols.csv	0x0002BD85	1
 pin	reverse/symbols.csv	0x0002BF8C	1
 pin	reverse/symbols.csv	0x0002C005	1
 pin	reverse/symbols.csv	0x0002C0C0	4
-pin	reverse/symbols.csv	0x0002C459	1
 pin	reverse/symbols.csv	0x0002C485	3
 pin	reverse/symbols.csv	0x0002C4B2	2
 pin	reverse/symbols.csv	0x0002C4D8	1
@@ -20689,6 +20689,7 @@ pin	reverse/symbols.csv	0x000469CB	1
 pin	reverse/symbols.csv	0x000470A0	1
 pin	reverse/symbols.csv	0x00047BC0	1
 pin	reverse/symbols.csv	0x000480ED	1
+pin	reverse/symbols.csv	0x0004826C	1	allow=3dd97204aba65ce752e92eca06f430638696c417
 pin	reverse/symbols.csv	0x00049D44	2
 pin	reverse/symbols.csv	0x00049D71	1
 pin	reverse/symbols.csv	0x00049D97	1
@@ -31364,8 +31365,8 @@ pragma_optimize	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	"",on	2
 pragma_optimize	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	"t",on	2
 pragma_optimize	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	"",on	2
 pragma_optimize	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	"s",on	2
-pragma_optimize	Code/GameEngine/Source/Common/RvaSmallLeafTransfers.cpp	"",on	3
-pragma_optimize	Code/GameEngine/Source/Common/RvaSmallLeafTransfers.cpp	"s",on	3
+pragma_optimize	Code/GameEngine/Source/Common/RvaSmallLeafTransfers.cpp	"",on	2
+pragma_optimize	Code/GameEngine/Source/Common/RvaSmallLeafTransfers.cpp	"s",on	2
 pragma_optimize	Code/GameEngine/Source/Common/StringContainerRecordVectorDestructor.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/Common/StringContainerRecordVectorDestructor.cpp	"s",off	1
 pragma_optimize	Code/GameEngine/Source/Common/StringContainerRecordVectorDestructor.cpp	"t",on	1

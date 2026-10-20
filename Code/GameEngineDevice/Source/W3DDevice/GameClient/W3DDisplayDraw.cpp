@@ -1,25 +1,17 @@
-// ?draw@W3DDisplay@@UAEXXZ
-// partial score=0.99 date=2026-10-20
-// ?draw@W3DDisplay@@UAEXXZ
-// partial score=0.94 date=2026-10-20
-// ?draw@W3DDisplay@@UAEXXZ
-// partial score=0.92 date=2026-10-19
-// ?draw@W3DDisplay@@UAEXXZ
-// partial score=0.91 date=2026-10-17
-// ?draw@W3DDisplay@@UAEXXZ
-// partial score=0.9237 date=2026-10-14
-// ?draw@W3DDisplay@@UAEXXZ
-// partial score=0.92 date=2026-10-13
-// ?draw@W3DDisplay@@UAEXXZ
-// partial score=0.9213 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /ICode/GameEngine/Source/Common
 // stlport
-// ZH W3DDisplay::draw semantic guide; native 4BEF2..4C3D8.
-// BFME2 separates the full render into 4A462 and adds panorama captures.
-// Retail repeats while paused; array new/delete and draw slot 12 follow native evidence.
-// Resume evidence: reverse/attempt_support/w8-4bef2-20261019.md.
-// capturePending and captureIndex are file-static: retail loads the takeScreenShot vptr before dec [capturePending].
-// The do-while runs on a keepDrawing flag as WorldBuilder 0x96E810 does; evidence: reverse/attempt_support/w6-4bef2-20261020.md.
+//
+// W3DDisplay::draw (retail 0x0004BEF2..0x0004C3D8, W3DDisplay vftable 0x007C3C80
+// slot 12). Zero Hour's W3DDisplay::draw is the semantic guide and source of the
+// carried comments; WorldBuilder 0x96E810 supplies the statement order of the
+// panorama capture and the keepDrawing loop. BFME 2 moves the full render into
+// 0x0004A462 and adds panorama captures; retail repeats while paused, and array
+// new/delete follow native evidence.
+// capturePending and captureIndex are file-static: with an external
+// capturePending retail's takeScreenShot vptr load would follow dec
+// [capturePending]. Its other writer, the 0x0004538C callback, therefore lives
+// here too. Evidence: reverse/attempt_support/w1-4bef2-20261020.md,
+// w6-4bef2-20261020.md, w8-4bef2-20261019.md.
 void *__cdecl operator new[](unsigned int);
 void __cdecl operator delete[](void *) throw();
 #include "ascii_string.h"
@@ -129,12 +121,28 @@ char padC5C[0xEA0-0xC5C];int panoramaCount; bool panoramaIndividual; char reserv
 };
 class Rva00084C05System {public:void update();};
 class Rva00203B47Host {public:bool rva00203B47();};
-extern GameLogic*TheGameLogic;extern FrameClient*TheGameClient;extern TimeView*TheTacticalView;extern GlobalData*TheWritableGlobalData;
+class GameClient;class View;extern GameLogic*TheGameLogic;extern GameClient*TheGameClient;extern View*TheTacticalView;extern GlobalData*TheWritableGlobalData;
 #define TheGlobalData ((const GlobalData*)TheWritableGlobalData)
-extern Rva00084C05System*TheTerrainTracksRenderObjClassSystem;class ScriptEngine;extern ScriptEngine*TheScriptEngine;
+class TerrainTracksRenderObjClassSystem;extern TerrainTracksRenderObjClassSystem*TheTerrainTracksRenderObjClassSystem;class ScriptEngine;extern ScriptEngine*TheScriptEngine;
 extern HWND ApplicationHWnd;
 extern int g_bfmeDisplayAnimationSyncClock,g_Va00DB3BDC;
 static int capturePending,captureIndex;extern int TheW3DFrameLengthInMsec;
+
+// Native 0004538C/32 is a complete RET8 body, referenced by retail callback
+// table operand 007C3DD0 (whole clean BFME 1 Gen_006eab10_Clamp.cpp donor at
+// 1281192f682ce6f29b8f06b7daea4b5e8fdfbb24). It clears capturePending (VA
+// DE1B28) when positive, otherwise stores the first stack word, and returns
+// AL=1. The ignored second word's original type and the callback's name remain
+// unknown; the donor's clamp name is not promoted to a target identity.
+bool __stdcall Rva0004538C(int value, unsigned int)
+{
+    if (capturePending > 0)
+        capturePending = 0;
+    else
+        capturePending = value;
+    return true;
+}
+
 void StatDebugDisplay();void Rva00043D69Callback();void Rva00043D96Callback();void Rva00043D3CCallback();
 void Rva00079985Clear();
 class WW3D {public:static void Sync(unsigned);};
@@ -230,8 +238,6 @@ public:
 char pad04[0x30-4]; void(*debugDisplayCallback)();char pad34[0x115-0x34];bool disabled;
 };
 // The slice index takes the count by const reference: retail's add eax,0xEA0 / mov ecx,[eax] in that arm is the materialized reference.
-// Needs ?gatherDebugStats@W3DDisplay@@UAEXXZ (0x0004826C) resolved, and capturePending co-located with its other writer 0x0004538C (g_00DE1B28).
-// Evidence: reverse/attempt_support/w1-4bef2-20261020.md.
 inline int panoramaSliceIndex(int i,const int&count){return (i+count/2)%count;}
 void W3DDisplay::draw(){
  if(ApplicationHWnd && IsIconic(ApplicationHWnd))return;
@@ -241,21 +247,21 @@ void W3DDisplay::draw(){
  else if(debugDisplayCallback==Rva00043D69Callback)gatherAnimationDebuggingInfo();
  else if(debugDisplayCallback==Rva00043D96Callback)W3DDisplay::gatherNetworkStats();
  else if(debugDisplayCallback==Rva00043D3CCallback)gatherSkirmishAIStats();
- bool freezeTime=!TheGameClient->active;
+ bool freezeTime=!((FrameClient*)TheGameClient)->active;
  /// @todo: I'm assuming the first view is our main 3D view.
  W3DView*primaryW3DView=getFirstView();
  // hack to let client spin fast in network games but still do effects at the same pace. -MDC
- if((unsigned)g_Va00DB3BDC>TheGameClient->getFrame())g_Va00DB3BDC=TheGameClient->getFrame();
- unsigned delta=TheGameClient->getFrame()-g_Va00DB3BDC;
- if(freezeTime)delta=0;else g_Va00DB3BDC=TheGameClient->getFrame();
+ if((unsigned)g_Va00DB3BDC>((FrameClient*)TheGameClient)->getFrame())g_Va00DB3BDC=((FrameClient*)TheGameClient)->getFrame();
+ unsigned delta=((FrameClient*)TheGameClient)->getFrame()-g_Va00DB3BDC;
+ if(freezeTime)delta=0;else g_Va00DB3BDC=((FrameClient*)TheGameClient)->getFrame();
  bool fastMode=false;
  if(!TheGameLogic->isGamePaused() && TheGlobalData->fastMode)fastMode=true;
  if(((Rva00203B47Host*)TheScriptEngine)->rva00203B47())fastMode=true;
- if(!freezeTime && fastMode && !TheGameLogic->getFlag125() && TheGameClient->getFrame()%30!=0){
+ if(!freezeTime && fastMode && !TheGameLogic->getFlag125() && ((FrameClient*)TheGameClient)->getFrame()%30!=0){
   primaryW3DView->updateCameraMovements();  // Update camera motion effects.
   g_bfmeDisplayAnimationSyncClock+=TheW3DFrameLengthInMsec;WW3D::Sync(g_bfmeDisplayAnimationSyncClock);return;}
  //update state of all the terrain tracks (fade, remove, etc.)
- if(TheGlobalData->loadScreenRender!=true && TheTerrainTracksRenderObjClassSystem)TheTerrainTracksRenderObjClassSystem->update();
+ if(TheGlobalData->loadScreenRender!=true && TheTerrainTracksRenderObjClassSystem)((Rva00084C05System*)TheTerrainTracksRenderObjClassSystem)->update();
  /// @todo Decouple framerate from timestep
  // for now, use constant time steps to avoid animations running independent of framerate
  g_bfmeDisplayAnimationSyncClock+=TheW3DFrameLengthInMsec*delta;WW3D::Sync(g_bfmeDisplayAnimationSyncClock);
@@ -263,8 +269,8 @@ void W3DDisplay::draw(){
  int minTime=30;
  static int prevTime=timeGetTime();
  int now=timeGetTime();
- if(TheTacticalView->getTimeMultiplier()>1){
-  static int timeMultiplierCounter=1;--timeMultiplierCounter;if(timeMultiplierCounter>1)return;timeMultiplierCounter=TheTacticalView->getTimeMultiplier();
+ if(((TimeView*)TheTacticalView)->getTimeMultiplier()>1){
+  static int timeMultiplierCounter=1;--timeMultiplierCounter;if(timeMultiplierCounter>1)return;timeMultiplierCounter=((TimeView*)TheTacticalView)->getTimeMultiplier();
   // limit the framerate, because while fast time is on, the game logic is running as fast as it can.
  }
  else prevTime=now-minTime;		 // do the first frame immediately.
@@ -290,7 +296,7 @@ void W3DDisplay::draw(){
    if(!TheGlobalData->panoramaIndividual){rva00047BC0(image,width*TheGlobalData->panoramaCount,height,0);delete[]image;}
    ++captureIndex;--capturePending;TheWritableGlobalData->panoramaMode=false;
   }else if(!rva0004A462(now))break;
-  keepDrawing=freezeTime&&!TheTacticalView->isCameraMovementFinished();
+  keepDrawing=freezeTime&&!((TimeView*)TheTacticalView)->isCameraMovementFinished();
   if(keepDrawing&&!TheGameLogic->isGamePaused())keepDrawing=false;
  }while(keepDrawing);
  if(capturePending>0&&TheGlobalData->panoramaCount==0&&TheGlobalData->scripts.empty()){--capturePending;takeScreenShot(0);}
