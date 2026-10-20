@@ -1,4 +1,6 @@
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.8035 date=2026-10-20
+// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.7051406402 date=2026-10-19
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.601 date=2026-10-17
@@ -97,8 +99,8 @@ class Rva0027C36A{public:Rva0027C36A();char bytes[0xa8];};
 class PolygonTrigger{public:virtual void *destroy(unsigned);void getBounds(IRegion2D*);};
 class Bridge{public:Bridge(Rva0027C36A&,Dict*,const AsciiString&,PolygonTrigger*);virtual void *destroy(unsigned);Bridge*next;char bytes[0xcc-8];};
 class Drawable{public:int rva002725E7(int);int rva002725B1(int);bool rva0027267D(int,int,int,int);bool rva002726C3(int,int,int,int);};
-struct WallTemplate{char pad[0x64];AsciiString name;};
-class Object{public:Drawable*getDrawable()const;char pad0[4];WallTemplate*templ;char pad8[0x74-8];int id;char pad78[0x94-0x78];unsigned status;};
+struct WallTemplate{char pad[0x64];AsciiString name;const AsciiString&getName()const{return name;}};
+class Object{public:Drawable*getDrawable()const;const WallTemplate*getTemplate()const{return templ;}char pad0[4];WallTemplate*templ;char pad8[0x74-8];int id;char pad78[0x94-0x78];unsigned status;};
 class Rva0036666B{public:bool rva0036666B();};
 class Rva0036658B{public:bool rva0036658B(void*,void*);};
 class PathfindLayer{public:bool DoBoundsOverlap(const IRegion2D*);void rva003667D4();void AddArea(void*);void allocateCells(const IRegion2D*);char pad[0x38];PolygonTrigger*areas;int height;};
@@ -110,11 +112,8 @@ class PathfindZoneManager{public:void MarkDirty(int,int);};
 extern GameLogic*TheGameLogic;
 class Debug{public:
  virtual void s00();virtual void s04();virtual void s08();virtual void s0C();virtual void s10();virtual void s14();virtual void s18();virtual void s1C();
- virtual Debug&putFloat(float);virtual void s24();virtual void s28();virtual void s2C();virtual void s30();virtual Debug&putInt(int);virtual Debug&putText(const char*);virtual void s3C();virtual void s40();virtual void s44();virtual void s48();virtual bool CrashDone(int);virtual void s50();virtual void s54();virtual void s58();virtual void s5C();virtual void SkipNext();virtual void s64();virtual void s68();virtual Debug&CrashBegin(const char*,int,int);
+ virtual Debug&operator<<(float);virtual void s24();virtual void s28();virtual void s2C();virtual void s30();virtual Debug&operator<<(int);virtual Debug&operator<<(const char*);virtual void s3C();virtual void s40();virtual void s44();virtual void s48();virtual bool CrashDone(int);virtual void s50();virtual void s54();virtual void s58();virtual void s5C();virtual void SkipNext();virtual void s64();virtual void s68();virtual Debug&CrashBegin(const char*,int,int);
 };
-static __forceinline Debug &operator<<(Debug &d,float x){return d.putFloat(x);}
-static __forceinline Debug &operator<<(Debug &d,int x){return d.putInt(x);}
-static __forceinline Debug &operator<<(Debug &d,const char*x){return d.putText(x);}
 extern Debug*theDebug;
 bool bfmeRva000387C0();void _bfme_debugRecordCallsite(int);
 extern "C" double __cdecl fabs(double);
@@ -255,10 +254,11 @@ static __forceinline float wallDelta(PathfindLayer *entry,const float &height) {
 static __forceinline void deletePoly(PolygonTrigger *p){operator delete(p?p->destroy(0):0);}
 // Normalize pinch queries through the Boolean accessor used by the map classifier.
 // Bounds arguments and wall diagnostic text follow the native call sites.
+float tolerance=3.5f;
 void Pathfinder::rva0052F63F(Object*obj,bool insert)
 {
  Drawable*drawable=obj->getDrawable();if(!drawable)return;
- static const volatile float tolerance=3.5f;Rva0027C36A data;PolygonTrigger*poly;
+ Rva0027C36A data;PolygonTrigger*poly;
  if(insert){
   float h;poly=(PolygonTrigger*)drawable->rva002725E7((int)&h);
   if(poly){
@@ -309,10 +309,10 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    ++count;
    if(bfmeRva000387C0()){
     _bfme_debugRecordCallsite(1);theDebug->SkipNext();
-    (theDebug->CrashBegin(0,0,0)<<obj->templ->name.str()<<" has a wall height of "<<height<<" but there's already a wall with a height\nof "<<heightForLayer(layer)<<" defined by "<<nameForLayer(layer).str()<<" - maximum delta for considering two walls to\nbe equal is "<<tolerance<<"; needs to be fixed /"<<layer).CrashDone(2);
+    (theDebug->CrashBegin(0,0,0)<<obj->getTemplate()->getName().str()<<" has a wall height of "<<height<<" but there's already a wall with a height\nof "<<heightForLayer(layer)<<" defined by "<<nameForLayer(layer).str()<<" - maximum delta for considering two walls to\nbe equal is "<<tolerance<<"; needs to be fixed /"<<layer).CrashDone(2);
    }
   }
-  if(heightCount<64){heights[heightCount]=height;names[heightCount]=obj->templ->name;layer=heightCount+17;++heightCount;}
+  if(heightCount<64){heights[heightCount]=height;names[heightCount]=obj->getTemplate()->getName();layer=heightCount+17;++heightCount;}
   else{
    static bool warned=false;
    if(!warned){warned=true;if(bfmeRva000387C0()){
@@ -320,7 +320,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    }}
   }
  }
- if(height>heightForLayer(layer)){heightForLayer(layer)=height;names[layer-17]=obj->templ->name;}
+ if(height>heightForLayer(layer)){heightForLayer(layer)=height;names[layer-17]=obj->getTemplate()->getName();}
  IRegion2D world;area->getBounds(&world);
  int loX=FLOOR(world.lo.x/10)-2;
  _ReadWriteBarrier();
