@@ -115,6 +115,9 @@ namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PADDV?$allocator@D@_STL@@@_STL@@QAEPADI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * _STL::_STLP_alloc_proxy<char *,char,_STL::allocator<char> >::allocate(unsigned int); }
 // Retail keeps one deque<BfmeNarrowRecord0041A5D2> dtor (0x0041A51F); this unit calls it.
 namespace _STL {
 template <> deque<BfmeNarrowRecord0041A5D2, allocator<BfmeNarrowRecord0041A5D2> >::~deque();
