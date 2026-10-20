@@ -1,50 +1,44 @@
-// ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
-// partial score=0.91 date=2026-10-19
-// ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
-// partial score=0.9 date=2026-10-14
-// ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
-// partial score=0.85 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
 // stlport
 //
-// ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
-// retail 0x0046C7A4..0x0046CB2B (904 bytes) thiscall RET 0x14.
-//
-// Slot 18 of HordeContain's +0x11C interface (vtable 0x00C44C58 entry 18;
-// also entry 18 of the HorseHordeContain copy 0x00C45838 and of 0x00C46958),
-// the sibling of the matched slot 19-21 picks in HordeContainIface11CSlots.cpp
-// and compiled with the same +0x11C subobject this. Picks a member Object:
-// the contained Objects (the +0x20 contain interface's slot 70 pair) or,
-// when none, the live Objects of the +0x170 ID set. With a position, the
-// nearest one inside maxDistance (default 99999), the distance jittered by a
-// logic or client random factor in [0.66 1.33] when maxDistance is positive
-// (HordeContain.cpp lines 5247/5251 for the ID set and 5314/5318 for the
-// contained list) and, for contained Objects, gated by the pinned
-// Rva003430A3Check(attacker Object, candidate, attacker's current weapon).
-// Without a position, the first Object not in status 0x3F when the flag is
-// set, else the first member. The flag also skips status-0x3F Objects in the
-// nearest search.
-//
-// NEAR (helper draft, not under Code/): 892 of 904 bytes, every block and
-// call in retail order (WB twin 0x010C54A0 confirms the structure: post-
-// increment loops, best distance before best Object, logic random first,
-// the canAttack weapon gate). What is left is register allocation: retail
-// keeps this in esi only until the loops and spills it to [ebp-0x10],
-// holding pos in ebx (ID set path) / edi (contained list path) and the
-// list end in ebx; this draft keeps this in ebx throughout and reloads pos
-// from its argument slot, which also shifts the frame slots (limit at -8
-// not -4) and costs the arg-slot reuse for the random factor. Tried
-// without effect: limit/weapon order, ternaries, pos copies, /O2 and
-// /Oy- variants. The scoped diff block is what gives retail's grouped
-// load/sub/store difference.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// HordeContain +0x11C interface slot 18 (vtable 0x00C44C58), retail 0x0046C7A4 (904 bytes), thiscall RET 0x14: the
+// nearest contained Object (else nearest live +0x170 ID-set Object) within maxDistance, distance jittered by a
+// random factor in [0.66, 1.33]; without a position the first Object not in status 0x3F, else the first member.
 #include <list>
 #include <set>
 #include "Coord3D.h"
 #include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
+
+// The ObjectID lookup chain (ObjectIdMap::find 0x002888D4, GameLogic::findObjectByID 0x00049DC5) and
+// Object::testStatus are visible here as header inlines; that gives retail's register allocation.
+struct Rva0046C7A4LookupNode { Rva0046C7A4LookupNode *next; ObjectID key; Object *object; };
+struct Rva0046C7A4LookupBuckets
+{
+	Rva0046C7A4LookupNode **begin, **end, **capacity;
+	unsigned int size() const { return end - begin; }
+	Rva0046C7A4LookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct Rva0046C7A4LookupMap { unsigned char hashEqual[4]; Rva0046C7A4LookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id)
+{
+	Rva0046C7A4LookupMap *map = (Rva0046C7A4LookupMap *)this;
+	unsigned int bucket = (unsigned int)id % map->buckets.size();
+	Rva0046C7A4LookupNode *node;
+	for (node = map->buckets[bucket]; node && node->key != id; node = node->next) {}
+	return (ObjectIdNode *)node;
+}
+
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 #define HORDECONTAIN_SOURCE_FILE "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeContain.cpp"
 
@@ -63,24 +57,25 @@ class Weapon;
 class Object
 {
 public:
-	Weapon *getCurrentWeapon(WeaponSlotType *slot = 0);	// pinned 0x0028AEBD
+	Weapon *getCurrentWeapon(WeaponSlotType *slot = 0);	// rowed 0x0028AEBD
 	bool testStatus(ObjectStatusTypes bit) const;		// rowed 0x0004E536
 	const Coord3D *getPosition() const { return &m_position; }
 	bool isEffectivelyDead() const { return (m_438 & 1) != 0; }
 private:
 	unsigned char m_pad000[0x38];
 	Coord3D m_position; // +0x38
-	unsigned char m_pad044[0x438 - 0x44];
+	unsigned char m_pad044[0x94 - 0x44];
+	unsigned int m_statusBits[4]; // +0x94
+	unsigned char m_pad0A4[0x438 - 0xA4];
 	unsigned char m_438; // +0x438
 };
 
-// The difference triple whose length is Coord3D::length (0x00003571).
-struct Coord3DDiff : public Coord3D
+inline bool Object::testStatus(ObjectStatusTypes bit) const
 {
-	__forceinline Coord3DDiff(float ax, float ay, float az) { x = ax; y = ay; z = az; }
-};
+	return (m_statusBits[(unsigned int)bit >> 5] & (1 << (bit & 31))) != 0;
+}
 
-// The pinned free check at 0x003430A3 (attacker, candidate, weapon).
+// The rowed attack line-of-sight check 0x003430A3 (attacker, candidate, weapon).
 bool rva003430A3(Object *attacker, Object *candidate, Weapon *weapon);
 
 template <int N> class Rva0046C7A4Slots : public Rva0046C7A4Slots<N - 1>
@@ -230,7 +225,6 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 		for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); it++)
 		{
 			Object *obj = *it;
-			_ReadWriteBarrier();
 			if (!obj)
 				continue;
 			if (obj->testStatus(OBJECT_STATUS_HORDE_3F) && skipStatus)
@@ -274,25 +268,10 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 	{
 		for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); it++)
 		{
-
-			if ((*it) && !(*it)->testStatus(OBJECT_STATUS_HORDE_3F))
-				return (*it);
+			Object *obj = *it;
+			if (obj && !obj->testStatus(OBJECT_STATUS_HORDE_3F))
+				return obj;
 		}
 	}
 	return p.m04->front();
 }
-
-#if 0
-// Variant 2026-10-10 w5-g3 (home-TU transplant, ~.80): the Oct-09 body rebuilt
-// in Code/.../HordeContainIface11CSlots.cpp with that TU's views (plain
-// member/iterator phrasing, (ObjectStatusTypes)0x3F casts, rowed rva003430A3
-// free-function decl, Coord3D::length + RandomValueReal decls). Same blocks
-// and calls, pure allocation/frame churn (this pinned not spilled, pos
-// reloaded not pinned, one extra home) plus an x87 fst-vs-fcomip site; the
-// battery6 PHI sweep on the Oct-09 bank tops at .8571 without closing.
-// Gap18 rename (vtable-proven) + HordeContain override decl required.
-// Vtable reads fixing nearby slots: 50->46BC30 51->46BD70 52->46BE0E
-// 63->4738B6 66->46F7FF 68->46D27A 69->46D2C3 70->46D372 99->4708BC.
-#endif
-// The ID-set distance reads z directly, matching the retail coordinate load.
-// The attack gate uses its row-owned name and pointer-typed declaration above.
