@@ -2,6 +2,8 @@
 
 ## Result
 
+Landed 2026-10-20 in `Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetReallyCreate.cpp`, byte-exact with EH data. The two last residues (the `dec eax` schedule and isDebrisSkipped's register) both closed by giving the pick's upper bound its own local, `Int hi = m_names.size() - 1;`. The EH states came from the disabled allocator leak bookkeeping and the dead member-list branch. The rest of this note is the history of the partial.
+
 Partial bank: `reverse/attempts/0x001f1634.cpp` now holds a complete, semantically correct reconstruction that emits 2614 B against retail's 2618 B. `tools/align_diff.py` reports 5 structural regions, 31 memory, 3 register, 94 branch and 17 reloc operand differences (`align-after.txt`). Of the 31 memory lines, 26 are global or static data addresses (`[0]` against `[0xdf....]`), which the gate fills from retail, so 8 operand lines are real. The previous farm bank emitted 444 B (27 regions, under three quarters of the retail size, so its region count is not comparable; `align-before.txt`), dropped most of the body and returned the wrong type.
 
 The bank defines `?reallyCreate@GenericObjectCreationNugget@@QBE?AV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@PBUCoord3D@@PBVMatrix3D@@MPBVObject@@I@Z`. Retail returns a 12-byte `vector<Object*>` through a hidden pointer (`ret 0x18`, copy constructor 0x001F206E into `[ebp+8]`, result-constructed flag at `[ebp-0x28]`). The consumers 0x001F14B6 and 0x001F2F0E call the existing pin `?reallyCreate@...QBE?AUNuggetCreated@@...`, a storage view derived from the same vector. Landing needs one name for the address; the coordinator chooses which.

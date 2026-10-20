@@ -1,39 +1,39 @@
-// ?reallyCreate@GenericObjectCreationNugget@@QBE?AV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@PBUCoord3D@@PBVMatrix3D@@MPBVObject@@I@Z
-// partial score=0.9973 date=2026-10-20
-// ?reallyCreate@GenericObjectCreationNugget@@QBE?AV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@PBUCoord3D@@PBVMatrix3D@@MPBVObject@@I@Z
-// partial score=0.93 date=2026-10-20
-// stlport
 // cl: /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /ICode/Libraries/Include /ICode/GameEngine/Include /DNDEBUG /MD /EHs
+// stlport
 //
-// GenericObjectCreationNugget members that gate and forward a create (retail
-// 0x001F1513 and 0x001F14B6; ObjectCreationList.cpp in the debug build).
-// The nugget keeps two upgrade-name lists, +0x114 and +0x120, 4-byte
-// AsciiString entries each (the dtor TU's three tail vectors).
+// GenericObjectCreationNugget::reallyCreate, retail 0x001F1634..0x001F206E
+// (2618 B, thiscall, ret 0x18, FuncInfo 0x00D10624 with 9 states via handler
+// 0x0076B194).
 //
-//   rva001F1513  the object may be created for: no +0x120 upgrade is
-//                present on the primary or its player, and when the
-//                +0x114 list is not empty at least one of its upgrades is
-//   create       slot 2 of the nugget vftable (the object-pair create):
-//                skip airborne primaries when +0xAF is set, check the
-//                upgrades, then really create at the primary's position
-//                (+0x38), transform (+0x08) and orientation (+0x44) and
-//                drop the result
-// reallyCreate's by-value result: three words torn down through the 5-byte
-// thunk at 0x001F22A3.
-// --- helpers the retail body calls (declarations only) ---
-// findPositionAround options
-// The retail body also routes through several out-of-line helpers that the
-// linker resolves by address; declare them so the calls match.
-// --- the function ---
-// GenericObjectCreationNugget::reallyCreate, retail 0x001F1634 (2618 B, ret 0x18, hidden
-// vector<Object*> result); WB 0x00B050F0 (ObjectCreationList.cpp) gives the statement order.
-// Remaining mismatch and evidence: reverse/attempt_support/reallycreate-1f1634-20261020/readme.md
+// Target evidence: the result is a 12-byte vector<Object*> returned through a
+// hidden pointer (copy constructor 0x001F206E into [ebp+8] at every return,
+// result flag at [ebp-0x28]); the debris loop picks with GetGameLogicRandomValue
+// at lines 0x67D and 0x710 of ObjectCreationList.cpp. WorldBuilder 0x00B050F0
+// (GenericObjectCreationNugget::reallyCreate, asserts 1592..1808) gives the
+// statement order. Offsets are retail facts; member names are descriptive.
+// Donor: Zero Hour ObjectCreationList.cpp reallyCreate (debris loop, container,
+// spread formation, fade in and out) is the semantic guide; the hidden vector
+// result, live-player gate, owner team by name, terrain-object placement,
+// build limits, clear-for-construction, waypoint start, creation flag, experience,
+// pathfind registration and horde fade-in are read from retail and WorldBuilder.
+//
+// Codegen notes, each measured against retail:
+//  - the allocator destructor carries STLport's disabled leak bookkeeping, so the
+//    front end keeps EH states for the default-argument allocator temporary that
+//    the back end then empties (states 3 and 4); the horde member list's dead
+//    branch does the same for state 7;
+//  - vector<Object*>(const allocator&) stays opaque so the storage constructor is
+//    the out-of-line call to 0x00211E58 and the frame is retail's 0x1F0;
+//  - KindOf is tested word by word through a const-reference getWord;
+//  - the pick's upper bound is its own local: computed inline, `dec eax` is
+//    scheduled after `push file` and isDebrisSkipped takes eax for its and.
+
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
 #include <string.h>
 #include <vector>
 #include <list>
-#include "../../Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+#include "../../Common/PartitionRangeQueryCallView.h"
 #include "Common/BfmeAudioEventPrefix136.h"
 
 typedef float Real;
@@ -475,7 +475,8 @@ _STL::vector<Object *> GenericObjectCreationNugget::reallyCreate(const Coord3D *
 
 	for (Int nn = 0; nn < m_debrisToGenerate; nn++)
 	{
-		Int pick = GameLogicRandomValue(0, m_names.size() - 1, 1661);
+		Int hi = m_names.size() - 1;
+		Int pick = GameLogicRandomValue(0, hi, 1661);
 
 		const ThingTemplate *tmpl;
 		if (m_nameAreObjects)
