@@ -19,8 +19,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 
-struct Rva002461F1Record { unsigned char bytes[80]; bool operator==(const Rva002461F1Record&) const; bool operator<(const Rva002461F1Record&) const; };
+// The 0x50-byte record whose dtor is 0x00240831 (Rva0024076DCtor.cpp).
+class Rva0024076D { public: ~Rva0024076D(); bool operator==(const Rva0024076D&) const; bool operator<(const Rva0024076D&) const; private: unsigned char bytes[80]; };
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
-template _STL::_List_node<Rva002461F1Record> * _STL::list<Rva002461F1Record, _STL::allocator<Rva002461F1Record> >::_M_create_node(Rva002461F1Record const &);
+template _STL::_List_node<Rva0024076D> * _STL::list<Rva0024076D, _STL::allocator<Rva0024076D> >::_M_create_node(Rva0024076D const &);

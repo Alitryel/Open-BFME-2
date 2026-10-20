@@ -46,13 +46,6 @@ inline bool operator<(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] < 
 struct BfmePod72 { int a[18]; };
 inline bool operator==(const BfmePod72 &x, const BfmePod72 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod72 &x, const BfmePod72 &y) { return x.a[0] < y.a[0]; }
-struct BfmePod80 { int a[20]; };
-inline bool operator==(const BfmePod80 &x, const BfmePod80 &y) { return x.a[0] == y.a[0]; }
-inline bool operator<(const BfmePod80 &x, const BfmePod80 &y) { return x.a[0] < y.a[0]; }
-// _Construct<BfmePod80> is rowed at 0x0051F920 (stlport_construct_pod80_rva.cpp,
-// a copy-ctor call); this TU's inline memberwise copy is not that body. The
-// calls here are out of line: declaration-only, so they bind the rowed copy.
-namespace _STL { template <> void _Construct<BfmePod80, BfmePod80>(BfmePod80 *, const BfmePod80 &); }
 struct BfmePod124 { int a[31]; };
 inline bool operator==(const BfmePod124 &x, const BfmePod124 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod124 &x, const BfmePod124 &y) { return x.a[0] < y.a[0]; }
@@ -83,7 +76,6 @@ template class _STL::list<BfmePod28, _STL::allocator<BfmePod28 > >;
 template class _STL::list<BfmePod32, _STL::allocator<BfmePod32 > >;
 template class _STL::list<BfmePod60, _STL::allocator<BfmePod60 > >;
 template class _STL::list<BfmePod72, _STL::allocator<BfmePod72 > >;
-template class _STL::list<BfmePod80, _STL::allocator<BfmePod80 > >;
 template class _STL::list<BfmePod124, _STL::allocator<BfmePod124 > >;
 template class _STL::list<BfmePod196, _STL::allocator<BfmePod196 > >;
 // Emit the recovered experience-list operations and their cleanup only.

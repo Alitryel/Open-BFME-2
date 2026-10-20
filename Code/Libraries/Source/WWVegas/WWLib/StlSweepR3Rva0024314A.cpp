@@ -20,5 +20,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 
-struct Rva0024314ARecord { Rva0024314ARecord(); Rva0024314ARecord(const Rva0024314ARecord&); ~Rva0024314ARecord(); Rva0024314ARecord&operator=(const Rva0024314ARecord&); char bytes[1]; bool operator<(const Rva0024314ARecord&)const; };
-template Rva0024314ARecord* _STL::uninitialized_fill_n(Rva0024314ARecord*,unsigned int,const Rva0024314ARecord&);
+// The 0x50-byte record whose copy ctor is 0x002419E2 (Rva0024314ARecordCopy.cpp).
+class Rva0024076D { public: Rva0024076D(); Rva0024076D(const Rva0024076D&); ~Rva0024076D(); Rva0024076D&operator=(const Rva0024076D&); bool operator<(const Rva0024076D&)const; private: char bytes[0x50]; };
+template Rva0024076D* _STL::uninitialized_fill_n(Rva0024076D*,unsigned int,const Rva0024076D&);
