@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
-// ?rva00538F6B@Rva00538F6B@@QAEXPAX000@Z retail 0x00538F6B..0x005390AE
+// ?rva00538F6B@LivingWorldArmyLine@@QAEXPAX000@Z retail 0x00538F6B..0x005390AE
 // (323 bytes ret 0x10). Called from 0x003195C9 on its +0x90 subobject with
 // four pointers (already pinned under this address name). The receiver has
 // the LivingWorldArmyLine layout of allocatePoints 0x005390AE (the next
@@ -12,7 +12,7 @@
 // loop). Each height is lifted by the float at TheLivingWorldManager+0xFC.
 // Nothing is done without points or when the second and fourth arguments
 // are the same object. The pinned (void* x4) spelling is kept for the
-// existing caller; the class name is address-derived.
+// existing caller; the method name is address-derived.
 #include "Coord2D.h"
 #include "Coord3D.h"
 
@@ -40,7 +40,7 @@ struct Rva00538F6BManagerView
 	Real m_heightOffset; // +0xFC
 };
 
-class Rva00538F6B
+class LivingWorldArmyLine
 {
 public:
 	void rva00538F6B(void *a, void *b, void *c, void *d);
@@ -50,7 +50,7 @@ private:
 	Coord3D *m_points; // +0x04
 };
 
-void Rva00538F6B::rva00538F6B(void *a, void *b, void *c, void *d)
+void LivingWorldArmyLine::rva00538F6B(void *a, void *b, void *c, void *d)
 {
 	if (m_points != 0 && b != d)
 	{

@@ -22,7 +22,7 @@ public:
 	void rva003190BB(int *out);
 };
 
-class Rva00538F6B
+class LivingWorldArmyLine
 {
 public:
 	void rva00538F6B(void *a, void *b, void *c, void *d);
@@ -34,7 +34,7 @@ public:
 	void rva003195C9();
 private:
 	unsigned char m_pad[0x90];
-	Rva00538F6B m_90;
+	LivingWorldArmyLine m_90;
 };
 
 void Rva003195C9Owner::rva003195C9()
