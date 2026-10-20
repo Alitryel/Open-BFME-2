@@ -1,9 +1,9 @@
-// BfmeB1137::Install_Materials
-// partial score=0.995 date=2026-10-20
-// ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.995 date=2026-10-20
-// ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.885 date=2026-10-20
+// BfmeB1137::Install_Materials (0x00095821, 10940 B), with its EH handler 0x007603D0.
+// Stack layout (c2 3077 colouring, traced): the per-mode getter is declared throw(), so its
+// call carries only its scope's alias set instead of the function's last EH-state set (the
+// final mode-2 RS(20,3) scope); mode-1 wind is a tight block and mode-2 det sits at mode-2
+// scope, so det creates the 8-byte colour at -0xF4 that wind then joins, as retail.
+// Evidence: reverse/attempt_support/0x00095821-det2-stack-colouring-20261020.md.
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -422,12 +422,7 @@ __inline D3DXMATRIX *__stdcall D3DXMatrixIdentity(D3DXMATRIX *pOut)
 	return pOut;
 }
 
-class RGBColor
-{
-public:
-	float red, green, blue;
-	int getAsInt() const;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 // The cloud settings object at 0x00DFE1E4 and its rowed getters.
 class Rva0027070CGlobal;
@@ -452,7 +447,7 @@ class ParticleSystemTemplate { public: AsciiString getTextureFilename() const; }
 }
 class Rva00214D4A { public: float rva00214D4A(); };
 struct Rva00094DD3Val { float x, y; };
-class Rva00094DD3 { public: void rva00094DD3(Rva00094DD3Val *out); };
+class Rva00094DD3 { public: void rva00094DD3(Rva00094DD3Val *out) throw(); };
 
 extern int g_Va00DB47EC;
 class GlobalWeatherSystem;
@@ -507,7 +502,6 @@ static __forceinline const BFME2TextureRef &AsRef(const RefCountPtr<TextureClass
 static inline void SetU(D3DXMATRIX &m, float x, float y) { m.m[3][1] = y; m.m[3][0] = x; }
 void BfmeB1137::Install_Materials(void) const
 {
-	Rva00094DD3Val wind;
 	if (!g_Va00DB47EC || !TheGlobalWeatherSystem)
 		return;
 
@@ -675,10 +669,13 @@ void BfmeB1137::Install_Materials(void) const
 		int elapsed = m_44 - last;
 		if (sameFrame)
 			elapsed = 0;
+		{
+		Rva00094DD3Val wind;
 		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
 		float fe = (float)elapsed;
 		m_4C += wind.x * fe * 0.002f;
 		m_50 += wind.y * fe * 0.002f;
+		}
 		while (m_4C > 1.0f)
 			m_4C -= 1.0f;
 		while (m_50 > 1.0f)
@@ -763,10 +760,8 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMATRIX inv;
 		Rva0007671F view;
 		DX8Wrapper::_Get_DX8_Transform(2, view);
-		{
 		float det;
 		D3DXMatrixInverse(&inv, &det, reinterpret_cast<D3DXMATRIX *>(&view));
-		}
 
 		int last = m_44;
 		m_44 = WW3D::SyncTime;
