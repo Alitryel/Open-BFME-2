@@ -95,12 +95,12 @@ void Rva003EE980::rva003EE980(Int a)
 class Rva003EE9D7
 {
 public:
-	void rva003EE9D7(Int arg);
+	void rva003EE9D7(Int region);
 private:
 	char m_pad[8];
 	Rva004E35D5 m_owner;
 };
-void Rva003EE9D7::rva003EE9D7(Int arg)
+void Rva003EE9D7::rva003EE9D7(Int region)
 {
-	m_owner.rva004E35D5(g_Rva00E02E84, (Int)((char *)arg + 0x44), 0);
+	m_owner.rva004E35D5(g_Rva00E02E84, (Int)((char *)region + 0x44), 0);
 }
