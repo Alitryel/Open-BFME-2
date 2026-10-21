@@ -1825,7 +1825,7 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 	// They are the points on the segments that are != loc.
 	TRoadPt *roadPt1=NULL;
 	TRoadPt *roadPt2=NULL;
-	TRoadPt *pr3=NULL;
+	TRoadPt *tRoadPt=NULL;
 
 	// pc1-3 point to the center points of the segments.  These are the 
 	// points that are at loc.
@@ -1851,7 +1851,7 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 				cornerPt2 = &m_roads[i].m_pt1;
 				index2 = i;
 			} else {
-				pr3 = &m_roads[i].m_pt2;
+				tRoadPt = &m_roads[i].m_pt2;
 				cornerPt3 = &m_roads[i].m_pt1;
 				index3 = i;
 			}
@@ -1863,13 +1863,13 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 				cornerPt2 = &m_roads[i].m_pt2;
 				index2 = i;
 			} else {
-				pr3 = &m_roads[i].m_pt1;
+				tRoadPt = &m_roads[i].m_pt1;
 				cornerPt3 = &m_roads[i].m_pt2;
 				index3 = i;
 			}
 		}
 	}
-	if (roadPt2 == NULL || pr3 == NULL) {
+	if (roadPt2 == NULL || tRoadPt == NULL) {
 		return;
 	}
 
@@ -1877,7 +1877,7 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 	firstVec.Normalize();
 	Vector2 secondVec = roadPt2->loc - loc;
 	secondVec.Normalize();
-	Vector2 v3 = pr3->loc - loc;
+	Vector2 v3 = tRoadPt->loc - loc;
 	v3.Normalize();
 	Real dot12 = firstVec.Dot_Product(firstVec, secondVec);
 	Real dot13 = firstVec.Dot_Product(firstVec, v3);
@@ -2024,7 +2024,7 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 	// They are the points on the segments that are != loc.
 	TRoadPt *roadPt1=NULL;
 	TRoadPt *roadPt2=NULL;
-	TRoadPt *pr3=NULL;
+	TRoadPt *tRoadPt=NULL;
 
 	// pc1-3 point to the center points of the segments.  These are the 
 	// points that are at loc.
@@ -2050,7 +2050,7 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 				cornerPt2 = &m_roads[i].m_pt1;
 				index2 = i;
 			} else {
-				pr3 = &m_roads[i].m_pt2;
+				tRoadPt = &m_roads[i].m_pt2;
 				cornerPt3 = &m_roads[i].m_pt1;
 				index3 = i;
 			}
@@ -2062,13 +2062,13 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 				cornerPt2 = &m_roads[i].m_pt2;
 				index2 = i;
 			} else {
-				pr3 = &m_roads[i].m_pt1;
+				tRoadPt = &m_roads[i].m_pt1;
 				cornerPt3 = &m_roads[i].m_pt2;
 				index3 = i;
 			}
 		}
 	}
-	if (roadPt2 == NULL || pr3 == NULL) {
+	if (roadPt2 == NULL || tRoadPt == NULL) {
 		return false;												 
 	}
 
@@ -2076,7 +2076,7 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 	firstVec.Normalize();
 	Vector2 secondVec = roadPt2->loc - loc;
 	secondVec.Normalize();
-	Vector2 v3 = pr3->loc - loc;
+	Vector2 v3 = tRoadPt->loc - loc;
 	v3.Normalize();
 
 	Bool do12 = false;
@@ -2392,13 +2392,13 @@ void W3DRoadBuffer::offsetY(TRoadPt *cornerPt1, TRoadPt *cornerPt2, TRoadPt *cor
 /** Offsets the points coming into a 4 way intersection so that they move to 
 the join points of the 4 way intersection. */
 //=============================================================================
-void W3DRoadBuffer::offset4Way(TRoadPt *cornerPt1, TRoadPt *cornerPt2, TRoadPt *cornerPt3, TRoadPt *pr3, 
+void W3DRoadBuffer::offset4Way(TRoadPt *cornerPt1, TRoadPt *cornerPt2, TRoadPt *cornerPt3, TRoadPt *tRoadPt, 
 															 TRoadPt *pc4, Vector2 loc, Vector2 alignVector, Real widthInTexture) 
 {
 	cornerPt1->loc = loc - alignVector;
 	cornerPt2->loc = loc + alignVector;
 
-	Vector2 v3 = pr3->loc - loc;
+	Vector2 v3 = tRoadPt->loc - loc;
 	Real angle = (PI/2); // 90 degrees.
 	Real xpdct = Vector3::Cross_Product_Z(Vector3(alignVector.X,alignVector.Y,0), Vector3(v3.X, v3.Y,0));
 	if (xpdct<0) angle = -angle;
@@ -2476,7 +2476,7 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 	// They are the points on the segments that are != loc.
 	TRoadPt *roadPt1=NULL;
 	TRoadPt *roadPt2=NULL;
-	TRoadPt *pr3=NULL;
+	TRoadPt *tRoadPt=NULL;
 	TRoadPt *pr4=NULL;
 
 	// pc1-4 point to the center points of the segments.  These are the 
@@ -2500,8 +2500,8 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 			if (roadPt2==NULL) {
 				roadPt2 = &m_roads[i].m_pt2;
 				cornerPt2 = &m_roads[i].m_pt1;
-			} else if (pr3==NULL) {
-				pr3 = &m_roads[i].m_pt2;
+			} else if (tRoadPt==NULL) {
+				tRoadPt = &m_roads[i].m_pt2;
 				cornerPt3 = &m_roads[i].m_pt1;
 			}	else {
 				pr4 = &m_roads[i].m_pt2;
@@ -2513,8 +2513,8 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 			if (roadPt2==NULL) {
 				roadPt2 = &m_roads[i].m_pt1;
 				cornerPt2 = &m_roads[i].m_pt2;
-			} else if (pr3==NULL) {
-				pr3 = &m_roads[i].m_pt1;
+			} else if (tRoadPt==NULL) {
+				tRoadPt = &m_roads[i].m_pt1;
 				cornerPt3 = &m_roads[i].m_pt2;
 			}	else {
 				pr4 = &m_roads[i].m_pt1;
@@ -2522,7 +2522,7 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 			}
 		}
 	}
-	if (roadPt2 == NULL || pr3 == NULL || pr4==NULL) {
+	if (roadPt2 == NULL || tRoadPt == NULL || pr4==NULL) {
 		return;
 	}
 
@@ -2530,7 +2530,7 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 	firstVec.Normalize();
 	Vector2 secondVec = roadPt2->loc - loc;
 	secondVec.Normalize();
-	Vector2 v3 = pr3->loc - loc;
+	Vector2 v3 = tRoadPt->loc - loc;
 	v3.Normalize();
 	Vector2 v4 = pr4->loc - loc;
 	v4.Normalize();
@@ -2596,13 +2596,13 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 
 
 	if (do12) {
-		offset4Way(cornerPt1, cornerPt2, cornerPt3, pr3, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt1, cornerPt2, cornerPt3, tRoadPt, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do13) {
 		offset4Way(cornerPt1, cornerPt3, cornerPt2, roadPt2, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do14) {
-		offset4Way(cornerPt1, pc4, cornerPt3, pr3, cornerPt2, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt1, pc4, cornerPt3, tRoadPt, cornerPt2, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do23) {
 		offset4Way(cornerPt2, cornerPt3, cornerPt1, roadPt1, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);

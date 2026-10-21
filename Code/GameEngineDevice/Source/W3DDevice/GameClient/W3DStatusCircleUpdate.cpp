@@ -38,17 +38,17 @@ int W3DStatusCircle::updateScreenVB(int color)
 	{
 		g_trackDirty = false;
 		VertexBufferClass::WriteLockClass lock(vb, 0);
-		StatusVert *v = (StatusVert *)lock.Vertices;
+		StatusVert *statusVert = (StatusVert *)lock.Vertices;
 		unsigned c = color;
 		float a = -1.0f;
-		v->color = c;
+		statusVert->color = c;
 		float b = 1.0f;
-		v->x = a; v->y = a; v->z = 0.0f; v->u = 0.0f; v->v = 0.0f; ++v;
-		v->color = color; v->x = b; v->y = b; v->z = 0.0f; v->u = 0.0f; v->v = 0.0f; ++v;
-		v->color = color; v->x = a; v->y = b; v->z = 0.0f; v->u = 0.0f; v->v = 0.0f; ++v;
-		v->color = color; v->x = a; v->y = a; v->z = 0.0f; v->u = 0.0f; v->v = 0.0f; ++v;
-		v->color = color; v->x = b; v->y = a; v->z = 0.0f; v->u = 0.0f; v->v = 0.0f; ++v;
-		v->color = color; v->x = b; v->y = b; v->z = 0.0f; v->u = 0.0f; v->v = 0.0f;
+		statusVert->x = a; statusVert->y = a; statusVert->z = 0.0f; statusVert->u = 0.0f; statusVert->v = 0.0f; ++statusVert;
+		statusVert->color = color; statusVert->x = b; statusVert->y = b; statusVert->z = 0.0f; statusVert->u = 0.0f; statusVert->v = 0.0f; ++statusVert;
+		statusVert->color = color; statusVert->x = a; statusVert->y = b; statusVert->z = 0.0f; statusVert->u = 0.0f; statusVert->v = 0.0f; ++statusVert;
+		statusVert->color = color; statusVert->x = a; statusVert->y = a; statusVert->z = 0.0f; statusVert->u = 0.0f; statusVert->v = 0.0f; ++statusVert;
+		statusVert->color = color; statusVert->x = b; statusVert->y = a; statusVert->z = 0.0f; statusVert->u = 0.0f; statusVert->v = 0.0f; ++statusVert;
+		statusVert->color = color; statusVert->x = b; statusVert->y = b; statusVert->z = 0.0f; statusVert->u = 0.0f; statusVert->v = 0.0f;
 		return 0;
 	}
 	return -1;

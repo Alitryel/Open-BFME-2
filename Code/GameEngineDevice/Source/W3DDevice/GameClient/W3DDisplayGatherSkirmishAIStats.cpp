@@ -234,9 +234,9 @@ private:
 	DisplayString *m_skirmishAIString[1];		// +0x1CC
 };
 
-static __forceinline Int columnPad(const AsciiString &s)
+static __forceinline Int columnPad(const AsciiString &asciiString)
 {
-	return 25 - s.getLength();
+	return 25 - asciiString.getLength();
 }
 
 void W3DDisplay::gatherSkirmishAIStats()

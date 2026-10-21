@@ -91,9 +91,9 @@ public:
 class RvaSmartPtr12
 {
 public:
-	RvaSmartPtr12(ParticleSystem *p)
+	RvaSmartPtr12(ParticleSystem *particleSystem)
 	{
-		m_ptr = p;
+		m_ptr = particleSystem;
 		if (m_ptr)
 			attach();
 		else
@@ -366,28 +366,28 @@ void Rva0004CA4C::rva0004CF9A(RenderInfoClass &rinfo)
 				Bool colorSet = false;
 				if (!raw->isSevenOrEight())
 				{
-					for (Particle *p = raw->m_storage->getFirstParticle(); p; p = p->m_next)
+					for (Particle *particle = raw->m_storage->getFirstParticle(); particle; particle = particle->m_next)
 					{
-						Real psize = p->getSize();
-						if (Fabs(p->m_pos.x - bcX) > psize + beX)
+						Real psize = particle->getSize();
+						if (Fabs(particle->m_pos.x - bcX) > psize + beX)
 							continue;
-						if (Fabs(p->m_pos.y - bcY) > psize + beY)
+						if (Fabs(particle->m_pos.y - bcY) > psize + beY)
 							continue;
-						if (Fabs(p->m_pos.z - bcZ) > psize + beZ)
+						if (Fabs(particle->m_pos.z - bcZ) > psize + beZ)
 							continue;
 						if (!colorSet)
 						{
-							g_bfmeB991->m_color = p->getColor()->getAsInt();
+							g_bfmeB991->m_color = particle->getColor()->getAsInt();
 							colorSet = true;
 						}
 						Smudge *smudge = set->addSmudgeToSet();
-						Real spread = p->getSpread();
-						smudge->m_pos.Set(p->m_pos.x,p->m_pos.y,p->m_pos.z);
+						Real spread = particle->getSpread();
+						smudge->m_pos.Set(particle->m_pos.x,particle->m_pos.y,particle->m_pos.z);
 						smudge->m_offset.Set(GetGameClientRandomValueReal(spread * -2.0f, spread * 2.0f,
 							"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\W3DFXParticleSystem.cpp", 195),GetGameClientRandomValueReal(-spread, spread,
 							"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\W3DFXParticleSystem.cpp", 195));
 						smudge->m_size = psize;
-						smudge->m_opacity = p->getAlpha();
+						smudge->m_opacity = particle->getAlpha();
 						g_bfmeVal991++;
 					}
 				}

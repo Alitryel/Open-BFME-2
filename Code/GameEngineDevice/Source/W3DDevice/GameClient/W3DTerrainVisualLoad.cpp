@@ -474,7 +474,7 @@ bool W3DTerrainVisual::load(const AsciiString &filename, ChunkInputStream *strea
     TerrainMapObject *node = BfmeTheMapObjectListHolder->head;
     while (node)
     {
-        Dict *d = &node->props;
+        Dict *dict = &node->props;
         if (node->isLight())
         {
             const Coord3D *p = node->getLocation();
@@ -485,17 +485,17 @@ bool W3DTerrainVisual::load(const AsciiString &filename, ChunkInputStream *strea
             if (loc.z < 0)
             {
                 loc.z = terrain->getHeightMapHeight(loc.x, loc.y, 0);
-                loc.z += d->getReal(TheKey_lightHeightAboveTerrain);
+                loc.z += dict->getReal(TheKey_lightHeightAboveTerrain);
             }
             LightClass *light = new LightClass(LightClass::POINT);
             RGBColor c;
-            c.setFromInt(d->getInt(TheKey_lightAmbientColor));
+            c.setFromInt(dict->getInt(TheKey_lightAmbientColor));
             light->Set_Ambient(*reinterpret_cast<const Vector3 *>(&c));
-            c.setFromInt(d->getInt(TheKey_lightDiffuseColor));
+            c.setFromInt(dict->getInt(TheKey_lightDiffuseColor));
             light->Set_Diffuse(*reinterpret_cast<const Vector3 *>(&c));
             light->Set_Position(Vector3(loc.x, loc.y, loc.z));
-            light->Set_Far_Attenuation_Range(d->getReal(TheKey_lightInnerRadius),
-                                             d->getReal(TheKey_lightOuterRadius));
+            light->Set_Far_Attenuation_Range(dict->getReal(TheKey_lightInnerRadius),
+                                             dict->getReal(TheKey_lightOuterRadius));
             W3DDisplay::m_3DScene->Add_Render_Object(light);
             if (--light->refs == 0)
                 light->Delete_This();
@@ -517,13 +517,13 @@ bool W3DTerrainVisual::load(const AsciiString &filename, ChunkInputStream *strea
     node = BfmeTheMapObjectListHolder->head;
     while (node)
     {
-        Dict *d = &node->props;
+        Dict *dict = &node->props;
         if (node->isScorch())
         {
             const Coord3D *pos = node->getLocation();
             Vector3 loc(pos->x, pos->y, pos->z);
-            float radius = d->getReal(TheKey_objectRadius);
-            Scorches type = (Scorches)d->getInt(TheKey_scorchType);
+            float radius = dict->getReal(TheKey_objectRadius);
+            Scorches type = (Scorches)dict->getInt(TheKey_scorchType);
             terrain->addScorch(loc, radius, type);
         }
         node = node->next;

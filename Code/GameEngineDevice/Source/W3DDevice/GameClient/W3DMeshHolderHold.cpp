@@ -11,11 +11,11 @@ struct Rva00136090MeshHolder {
  MeshModelClass *pointer;
  Rva00136090MeshHolder():pointer(0){}
  __forceinline Rva00136090MeshHolder(const Rva00136090MeshHolder&o):pointer(o.pointer){if(pointer)pointer->Add_Ref();}
- __forceinline ~Rva00136090MeshHolder(){MeshModelClass*p=pointer;if(p)p->Release_Ref();}
+ __forceinline ~Rva00136090MeshHolder(){MeshModelClass*meshModel=pointer;if(meshModel)meshModel->Release_Ref();}
 };
-Rva00136090MeshHolder Rva00136090MeshHold(MeshModelClass*p){
+Rva00136090MeshHolder Rva00136090MeshHold(MeshModelClass*meshModel){
  Rva00136090MeshHolder result;
- reinterpret_cast<HAnimComboDataClass*>(&result)->Set_HAnim(reinterpret_cast<HAnimClass*>(p));
+ reinterpret_cast<HAnimComboDataClass*>(&result)->Set_HAnim(reinterpret_cast<HAnimClass*>(meshModel));
  return result;
 }
 class Rva001007D5Model : public RefCountClass {char opaque[0x20];};

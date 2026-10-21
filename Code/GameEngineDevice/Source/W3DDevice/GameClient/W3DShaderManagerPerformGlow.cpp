@@ -202,12 +202,12 @@ protected:
 };
 
 void W3DShaderManager::performGlow(Real weightScale, const GlowSampleVector *samples, Int textureSize, IDirect3DTexture8 *sourceTexture,
-	IDirect3DSurface8 *tempSurface, IDirect3DTexture8 *tempTexture, IDirect3DSurface8 *destSurface)
+	IDirect3DSurface8 *direct3DSurface8, IDirect3DTexture8 *direct3DTexture8, IDirect3DSurface8 *destSurface)
 {
 	if (!m_dwGlowPixelShader || !m_dwGlowVertexShader)
 		return;
 
-	DX8Wrapper::Set_Render_Target(tempSurface, false);
+	DX8Wrapper::Set_Render_Target(direct3DSurface8, false);
 	DX8Wrapper::Clear(true, false, false, Vector3(0.0f, 0.75f, 0.0f), 0.0f, 1.0f, 0);
 	IDirect3DDevice8 *device = DX8Wrapper::_Get_D3D_Device8();
 	Int i;
@@ -265,10 +265,10 @@ void W3DShaderManager::performGlow(Real weightScale, const GlowSampleVector *sam
 	DX8Wrapper::Set_DX8_Texture(2, 0);
 	DX8Wrapper::Set_DX8_Texture(3, 0);
 	device->slot37(0, destSurface);
-	DX8Wrapper::Set_DX8_Texture(0, tempTexture);
-	DX8Wrapper::Set_DX8_Texture(1, tempTexture);
-	DX8Wrapper::Set_DX8_Texture(2, tempTexture);
-	DX8Wrapper::Set_DX8_Texture(3, tempTexture);
+	DX8Wrapper::Set_DX8_Texture(0, direct3DTexture8);
+	DX8Wrapper::Set_DX8_Texture(1, direct3DTexture8);
+	DX8Wrapper::Set_DX8_Texture(2, direct3DTexture8);
+	DX8Wrapper::Set_DX8_Texture(3, direct3DTexture8);
 	DX8Wrapper::Set_DX8_Render_State(0x1B, 0);
 
 	for (sample = 0; sample < samples->size(); sample += 4)

@@ -19,13 +19,13 @@ class HAnimComboDataClass {HAnimClass*HAnim;public: __declspec(noinline) void Se
 struct Rva0008B689Element {
  CameraClass *pointer;
  Rva0008B689Element():pointer(0){}
- __forceinline Rva0008B689Element(CameraClass*p):pointer(p){if(pointer)pointer->Add_Ref();}
+ __forceinline Rva0008B689Element(CameraClass*camera):pointer(camera){if(pointer)pointer->Add_Ref();}
  __forceinline Rva0008B689Element(const Rva0008B689Element&o):pointer(o.pointer){if(pointer)pointer->Add_Ref();}
- __forceinline ~Rva0008B689Element(){CameraClass*p=pointer;if(p)p->Release_Ref();}
+ __forceinline ~Rva0008B689Element(){CameraClass*camera=pointer;if(camera)camera->Release_Ref();}
 };
-Rva0008B689Element Rva000897C8(CameraClass*p){
+Rva0008B689Element Rva000897C8(CameraClass*camera){
  Rva0008B689Element result;
- reinterpret_cast<HAnimComboDataClass*>(&result)->Set_HAnim(reinterpret_cast<HAnimClass*>(p));
+ reinterpret_cast<HAnimComboDataClass*>(&result)->Set_HAnim(reinterpret_cast<HAnimClass*>(camera));
  return result;
 }
 class GlobalData {public:char gap[0x62];bool reflections;};

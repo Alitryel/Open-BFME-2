@@ -36,22 +36,22 @@ class Matrix4
 {
 public:
 	__forceinline Matrix4() {}
-	__forceinline Matrix4(const Matrix4 &m)
+	__forceinline Matrix4(const Matrix4 &matrix4)
 	{
-		Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3];
+		Row[0] = matrix4.Row[0]; Row[1] = matrix4.Row[1]; Row[2] = matrix4.Row[2]; Row[3] = matrix4.Row[3];
 	}
 	__forceinline explicit Matrix4(bool identity)
 	{
 		if (identity)
 			Make_Identity();
 	}
-	__forceinline Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Init(r0, r1, r2, r3);
+		Init(vector4, r1, r2, r3);
 	}
-	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3;
+		Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3;
 	}
 	__forceinline void Make_Identity()
 	{
@@ -185,8 +185,8 @@ public:
   if(WW3D::Is_Snapshot_Activated()){StringClass valueName(0,true);Get_DX8_Texture_Stage_State_Value_Name(valueName,state,value);}
   TextureStageStates[stage][state]=value; D3DDevice->SetTextureStageState(stage,state,value); ++number_of_DX8_calls;++texture_stage_state_changes;
  }
- static __forceinline void GetView(Matrix4 &m) {if(render_state_changed&(1<<19))m.Make_Identity();else m=render_state.view.Transpose();}
- static __forceinline void SetMatrix(unsigned state,const D3DXMATRIX &m){++matrix_changes; D3DDevice->SetTransform(state,&m);++number_of_DX8_calls;}
+ static __forceinline void GetView(Matrix4 &matrix4) {if(render_state_changed&(1<<19))matrix4.Make_Identity();else matrix4=render_state.view.Transpose();}
+ static __forceinline void SetMatrix(unsigned state,const D3DXMATRIX &d3DXMATRIX){++matrix_changes; D3DDevice->SetTransform(state,&d3DXMATRIX);++number_of_DX8_calls;}
 protected:
  static IDirect3DDevice8 *D3DDevice; static unsigned TextureStageStates[16][32]; static unsigned texture_stage_state_changes,matrix_changes;
  static RenderStateStruct render_state;static unsigned render_state_changed;

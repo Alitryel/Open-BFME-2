@@ -17,18 +17,18 @@ class W3DSnowManager { public:
  void rva00093B5B();
  private: void target_00094652();
 };
-static __forceinline const WeatherSetting *walk(const WeatherSetting *p) {
- if(p && p->m_nextOverride) return (const WeatherSetting *)p->m_nextOverride->getFinalOverride();
- return p;
+static __forceinline const WeatherSetting *walk(const WeatherSetting *weatherSetting) {
+ if(weatherSetting && weatherSetting->m_nextOverride) return (const WeatherSetting *)weatherSetting->m_nextOverride->getFinalOverride();
+ return weatherSetting;
 }
 void W3DSnowManager::rva00093B5B() {
- const WeatherSetting *f=TheWeatherSetting.ptr;
- const WeatherSetting *d= !f ? 0 : (f->m_nextOverride ? (const WeatherSetting *)f->m_nextOverride->getFinalOverride() : f);
+ const WeatherSetting *weatherSetting=TheWeatherSetting.ptr;
+ const WeatherSetting *d= !weatherSetting ? 0 : (weatherSetting->m_nextOverride ? (const WeatherSetting *)weatherSetting->m_nextOverride->getFinalOverride() : weatherSetting);
  const WeatherSetting *from=0, *to;
  if (!d->enabled || !phase) return;
  const Overridable *next=0;
- if (f) { next=f->m_nextOverride; const WeatherSetting *ft=next ? (const WeatherSetting *)next->getFinalOverride() : f; _ReadWriteBarrier(); from=ft; }
- to = !f ? 0 : (next ? (const WeatherSetting *)next->getFinalOverride() : f);
+ if (weatherSetting) { next=weatherSetting->m_nextOverride; const WeatherSetting *ft=next ? (const WeatherSetting *)next->getFinalOverride() : weatherSetting; _ReadWriteBarrier(); from=ft; }
+ to = !weatherSetting ? 0 : (next ? (const WeatherSetting *)next->getFinalOverride() : weatherSetting);
  float fraction=(float)(from->duration-frames)/(float)to->duration;
  if(fraction>1.0f) { rva00093457(); }
  else if(fraction>endFraction) {

@@ -79,7 +79,7 @@ public:
 
 	Vector4(void) {}
 	__declspec(dllimport) __forceinline Vector4(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
-	Vector4(const Vector4 &v) : X(v.X), Y(v.Y), Z(v.Z), W(v.W) {}
+	Vector4(const Vector4 &vector4) : X(vector4.X), Y(vector4.Y), Z(vector4.Z), W(vector4.W) {}
 	Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
 	float &operator[](int i) { return (&X)[i]; }
 	const float &operator[](int i) const { return (&X)[i]; }

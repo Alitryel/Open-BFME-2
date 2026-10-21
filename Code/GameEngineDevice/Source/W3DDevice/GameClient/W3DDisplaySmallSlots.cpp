@@ -245,13 +245,13 @@ void W3DDisplay::rva000466B9()
 {
 	if (m_184 == 0)
 		return;
-	SubTitleWindow *p = m_188;
-	if (p == 0)
+	SubTitleWindow *subTitleWindow = m_188;
+	if (subTitleWindow == 0)
 		return;
-	if (p->rva00045837())
+	if (subTitleWindow->rva00045837())
 		return;
-	p->SubTitleWindow::~SubTitleWindow();
-	operator delete(p);
+	subTitleWindow->SubTitleWindow::~SubTitleWindow();
+	operator delete(subTitleWindow);
 	m_188 = 0;
 	m_184 = 0;
 }

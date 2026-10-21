@@ -495,28 +495,28 @@ Bool W3DTerrainVisual::load( AsciiString filename )
 	MapObject *pMapObj = MapObject::getFirstMapObject();
 	while (pMapObj) 
 	{
-		Dict *d = pMapObj->getProperties();
+		Dict *dict = pMapObj->getProperties();
 		if (pMapObj->isLight()) 
 		{ 
 			Coord3D loc = *pMapObj->getLocation();
 			if (loc.z < 0) {
 				Vector3 vec;
 				loc.z = m_terrainRenderObject->getHeightMapHeight(loc.x, loc.y, NULL);
-				loc.z += d->getReal(TheKey_lightHeightAboveTerrain);
+				loc.z += dict->getReal(TheKey_lightHeightAboveTerrain);
 			}
 			// It is a light, and handled at the device level.  jba.
 			LightClass* lightP = NEW_REF(LightClass, (LightClass::POINT));
 
 			RGBColor c;
-			c.setFromInt(d->getInt(TheKey_lightAmbientColor));
+			c.setFromInt(dict->getInt(TheKey_lightAmbientColor));
 			lightP->Set_Ambient( Vector3( c.red, c.green, c.blue ) );
 
-			c.setFromInt(d->getInt(TheKey_lightDiffuseColor));
+			c.setFromInt(dict->getInt(TheKey_lightDiffuseColor));
 			lightP->Set_Diffuse( Vector3(  c.red, c.green, c.blue) );
 
 			lightP->Set_Position(Vector3(loc.x, loc.y, loc.z));
 
-			lightP->Set_Far_Attenuation_Range(d->getReal(TheKey_lightInnerRadius), d->getReal(TheKey_lightOuterRadius));
+			lightP->Set_Far_Attenuation_Range(dict->getReal(TheKey_lightInnerRadius), dict->getReal(TheKey_lightOuterRadius));
  			W3DDisplay::m_3DScene->Add_Render_Object(lightP);
 			REF_PTR_RELEASE( lightP );
 		}
@@ -568,12 +568,12 @@ Bool W3DTerrainVisual::load( AsciiString filename )
 	pMapObj = MapObject::getFirstMapObject();
 	while (pMapObj) 
 	{
-		Dict *d = pMapObj->getProperties();
+		Dict *dict = pMapObj->getProperties();
 		if (pMapObj->isScorch()) {
 			const Coord3D *pos = pMapObj->getLocation();
 			Vector3 loc(pos->x, pos->y, pos->z);
-			Real radius = d->getReal(TheKey_objectRadius);
-			Scorches type = (Scorches)d->getInt(TheKey_scorchType);
+			Real radius = dict->getReal(TheKey_objectRadius);
+			Scorches type = (Scorches)dict->getInt(TheKey_scorchType);
 			m_terrainRenderObject->addScorch(loc, radius, type);
 		}
 		pMapObj = pMapObj->getNext();

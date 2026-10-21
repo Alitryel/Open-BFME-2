@@ -107,14 +107,14 @@ private:
 	Int m_numTreeTypes;
 };
 
-Int W3DShrubBuffer::rva000E8F9D(const AsciiString &templateName, Int shadowKind, const AsciiString &textureName)
+Int W3DShrubBuffer::rva000E8F9D(const AsciiString &asciiString, Int shadowKind, const AsciiString &textureName)
 {
-	if (((const StringBase<char> *)&templateName)->isEmpty())
+	if (((const StringBase<char> *)&asciiString)->isEmpty())
 		return -2;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(templateName);
-	if (tmpl == 0)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(asciiString);
+	if (thingTemplate == 0)
 		return -2;
-	const ModuleData *module = tmpl->m_drawModuleInfo.getNthData(0);
+	const ModuleData *module = thingTemplate->m_drawModuleInfo.getNthData(0);
 	if (module == 0)
 		return -2;
 	const Rva000E8F9DTreeDrawData *data = module->getAsW3DTreeDrawModuleData();
@@ -122,7 +122,7 @@ Int W3DShrubBuffer::rva000E8F9D(const AsciiString &templateName, Int shadowKind,
 		if (bfmeRva000387C0()) {
 			_bfme_debugRecordCallsite(1);
 			TheBfmeAwakenDebug->v60();
-			TheBfmeAwakenDebug->v6c(0, 0, 0)->v38("Shrub ")->v38(tmpl->m_name.str())
+			TheBfmeAwakenDebug->v6c(0, 0, 0)->v38("Shrub ")->v38(thingTemplate->m_name.str())
 				->v38(" requires a W3DTreeDrawModule.\n")->v4c(2);
 		}
 		return -2;
@@ -137,7 +137,7 @@ Int W3DShrubBuffer::rva000E8F9D(const AsciiString &templateName, Int shadowKind,
 		}
 	}
 	if (index < 0) {
-		index = addTreeType(data->m_modelName, data->m_nameC, data, shadowKind, textureName, tmpl->m_name);
+		index = addTreeType(data->m_modelName, data->m_nameC, data, shadowKind, textureName, thingTemplate->m_name);
 		if (index >= 0)
 			m_needUpdate = true;
 	}

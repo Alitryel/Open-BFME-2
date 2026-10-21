@@ -53,12 +53,12 @@ struct OpacitySetupView {
     unsigned char pad0[12];
     _STL::vector<Rva0007BB16Record> parameters;
     __forceinline bool hasFloat(const AsciiString &name) {
-        OpacityParameterView *p=reinterpret_cast<OpacityParameterView *>(reinterpret_cast<Rva00199FCC *>(&parameters)->rva00199FCC(name));
-        return p && p->type==2;
+        OpacityParameterView *opacityParameterView=reinterpret_cast<OpacityParameterView *>(reinterpret_cast<Rva00199FCC *>(&parameters)->rva00199FCC(name));
+        return opacityParameterView && opacityParameterView->type==2;
     }
     __forceinline bool hasColor(const AsciiString &name) {
-        OpacityParameterView *p=reinterpret_cast<OpacityParameterView *>(reinterpret_cast<Rva00199FCC *>(&parameters)->rva00199FCC(name));
-        return p && p->type==4;
+        OpacityParameterView *opacityParameterView=reinterpret_cast<OpacityParameterView *>(reinterpret_cast<Rva00199FCC *>(&parameters)->rva00199FCC(name));
+        return opacityParameterView && opacityParameterView->type==4;
     }
 };
 struct OpacityShaderView { unsigned char pad0[0xb8]; OpacitySetupView *setup; };

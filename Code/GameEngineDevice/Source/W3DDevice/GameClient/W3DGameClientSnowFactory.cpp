@@ -45,8 +45,8 @@ struct W3DGameClientSnowEmitter : public W3DGameClient {
 };
 #pragma inline_depth(0)
 // ?emit@W3DGameClientSnowEmitter@@SAXPAU1@@Z present-unmatched
-void W3DGameClientSnowEmitter::emit(W3DGameClientSnowEmitter *p)
+void W3DGameClientSnowEmitter::emit(W3DGameClientSnowEmitter *w3DGameClientSnowEmitter)
 {
-    p->W3DGameClient::createSnowManager();
+    w3DGameClientSnowEmitter->W3DGameClient::createSnowManager();
 }
 #pragma inline_depth()

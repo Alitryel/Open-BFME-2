@@ -179,7 +179,7 @@ public:
 	void describe(AsciiString *out, Int perLine) { ((Rva000467B2 *)this)->rva000467B2(out, perLine); }
 };
 typedef Rva00049BE8 ModelConditionFlags;
-inline Bool flagsEqual(const ModelConditionFlags *a, const ModelConditionFlags *b) { return Rva00045473Equal(a, b); }
+inline Bool flagsEqual(const ModelConditionFlags *modelConditionFlags, const ModelConditionFlags *b) { return Rva00045473Equal(modelConditionFlags, b); }
 
 // One history record: constructed by 0x0004708A, destroyed by 0x000470A0.
 class Rva0004708A
@@ -235,7 +235,7 @@ public:
 	AnimRecord *end() { return (AnimRecord *)_M_finish; }
 	Int size() const { return (AnimRecord *)_M_finish - (AnimRecord *)_M_start; }
 	AnimRecord &operator[](Int i) { return ((AnimRecord *)_M_start)[i]; }
-	void push_back(const AnimRecord &r) { ((_STL::vector<BfmePod92> *)this)->push_back(*(const BfmePod92 *)&r); }
+	void push_back(const AnimRecord &animRecord) { ((_STL::vector<BfmePod92> *)this)->push_back(*(const BfmePod92 *)&animRecord); }
 	AnimRecord *erase(AnimRecord *first, AnimRecord *last) { return ((Rva0004B1D2 *)this)->rva0004B1D2(first, (const char *)last); }
 };
 

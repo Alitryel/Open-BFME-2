@@ -245,10 +245,10 @@ void W3DTreeBuffer::xfer(Xfer *xfer)
 			*xfer == m_treeTypes[i].m_templateName;
 			if (xfer->IsLoading()) {
 				// Rebuild the type's draw data and mesh from the loaded names.
-				const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_treeTypes[i].m_templateName);
-				if (tmpl) {
+				const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(m_treeTypes[i].m_templateName);
+				if (thingTemplate) {
 					// A named reference keeps retail's receiver-before-argument order.
-					const ModuleInfo &moduleInfo = tmpl->getModuleInfo2F0();
+					const ModuleInfo &moduleInfo = thingTemplate->getModuleInfo2F0();
 					const ModuleData *moduleData = moduleInfo.getNthData(0);
 					if (moduleData)
 						m_treeTypes[i].m_data = moduleData->slot16();

@@ -21,9 +21,9 @@ class W3DSnowManager { public:
  void rva00093B5B();
  private: void target_00094652();
 };
-static __forceinline const WeatherSetting *walk(const WeatherSetting *p) {
- if(p && p->m_nextOverride) return (const WeatherSetting *)p->m_nextOverride->getFinalOverride();
- return p;
+static __forceinline const WeatherSetting *walk(const WeatherSetting *weatherSetting) {
+ if(weatherSetting && weatherSetting->m_nextOverride) return (const WeatherSetting *)weatherSetting->m_nextOverride->getFinalOverride();
+ return weatherSetting;
 }
 void W3DSnowManager::target_00094652() {
  const WeatherSetting *ov=walk(TheWeatherSetting.ptr);

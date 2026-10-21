@@ -305,16 +305,16 @@ void W3DGameClient::reset( void )
 	* in the GameLogic and GameClient themselves */
 //-------------------------------------------------------------------------------------------------
 // ?friend_createDrawable@W3DGameClient@@UAEPAVDrawable@@PBVThingTemplate@@W4DrawableStatus@@@Z present-unmatched
-Drawable *W3DGameClient::friend_createDrawable( const ThingTemplate *tmplate,
+Drawable *W3DGameClient::friend_createDrawable( const ThingTemplate *thingTemplate,
 																								DrawableStatus statusBits )
 {
 	Drawable *draw = NULL;
 
 	// sanity
-	if( tmplate == NULL )
+	if( thingTemplate == NULL )
 		return NULL;
 	
-	draw = newInstance(Drawable)( tmplate, statusBits );
+	draw = newInstance(Drawable)( thingTemplate, statusBits );
 
 	return draw;
 
@@ -344,9 +344,9 @@ public:
 // ?W3DGameClient::createRayEffectByTemplate present-unmatched
 void W3DGameClient::createRayEffectByTemplate( const Coord3D *start, 
 																		 const Coord3D *end, 
-																		 const ThingTemplate* tmpl )
+																		 const ThingTemplate* thingTemplate )
 {
-	Drawable *draw = ((BFMEThingFactory *)TheThingFactory)->newDrawable(tmpl, DRAWABLE_STATUS_NONE, -1);
+	Drawable *draw = ((BFMEThingFactory *)TheThingFactory)->newDrawable(thingTemplate, DRAWABLE_STATUS_NONE, -1);
 
 	if( draw )
 	{

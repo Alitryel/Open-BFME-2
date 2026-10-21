@@ -553,12 +553,12 @@ private:
 // ?rva000738C4@W3DTaint@@QAEXE@Z
 void W3DTaint::rva000738C4(unsigned char alpha)
 {
-	GlobalData *g = TheWritableGlobalData;
-	if (!g)
+	GlobalData *globalData = TheWritableGlobalData;
+	if (!globalData)
 		return;
-	if (!g->m_taintOn)
+	if (!globalData->m_taintOn)
 		return;
-	unsigned char floor = g->m_taintAlpha;
+	unsigned char floor = globalData->m_taintAlpha;
 	if (alpha < floor)
 		alpha = floor;
 	unsigned int color = alpha;

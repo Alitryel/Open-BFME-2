@@ -140,7 +140,7 @@ namespace {
 class BuffVertexValue : public Vector3 {
 public:
  BuffVertexValue(const Vector3 &v) { X=v.X; Y=v.Y; Z=v.Z; }
- BuffVertexValue(const BuffVertexValue &v) { X=v.X; Y=v.Y; Z=v.Z; }
+ BuffVertexValue(const BuffVertexValue &buffVertexValue) { X=buffVertexValue.X; Y=buffVertexValue.Y; Z=buffVertexValue.Z; }
 };
 }
 class Vector4
@@ -152,7 +152,7 @@ public:
 	float W;
 
 	__forceinline Vector4(void) {}
-	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline Vector4(const Vector4 &vector4) { X = vector4.X; Y = vector4.Y; Z = vector4.Z; W = vector4.W; }
 	// Keep the inline construction without a competing standalone helper.
 	__declspec(dllimport) __forceinline Vector4(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
 	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
@@ -174,9 +174,9 @@ public:
 			Make_Identity();
 		}
 	}
-	__forceinline explicit Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline explicit Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Init(r0, r1, r2, r3);
+		Init(vector4, r1, r2, r3);
 	}
 	__forceinline void Make_Identity(void)
 	{
@@ -185,9 +185,9 @@ public:
 		Row[2].Set(0.0, 0.0, 1.0, 0.0);
 		Row[3].Set(0.0, 0.0, 0.0, 1.0);
 	}
-	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3;
+		Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3;
 	}
 	__forceinline Matrix4 Transpose(void) const
 	{
@@ -473,22 +473,22 @@ public:
 		number_of_DX8_calls++;
 		texture_stage_state_changes++;
 	}
-	static __forceinline void Set_Transform(DWORD transform, const Matrix4 &m)
+	static __forceinline void Set_Transform(DWORD transform, const Matrix4 &matrix4)
 	{
 		switch ((int)transform) {
 		case D3DTS_WORLD:
-			render_state.world = m.Transpose();
+			render_state.world = matrix4.Transpose();
 			render_state_changed |= (unsigned)WORLD_CHANGED;
 			render_state_changed &= ~(unsigned)WORLD_IDENTITY;
 			break;
 		case D3DTS_VIEW:
-			render_state.view = m.Transpose();
+			render_state.view = matrix4.Transpose();
 			render_state_changed |= (unsigned)VIEW_CHANGED;
 			render_state_changed &= ~(unsigned)VIEW_IDENTITY;
 			break;
 		case D3DTS_PROJECTION:
 			{
-				Matrix4 ProjectionMatrix = m.Transpose();
+				Matrix4 ProjectionMatrix = matrix4.Transpose();
 				ZFar = 0.0f;
 				ZNear = 0.0f;
 				D3DDevice->SetTransform(D3DTS_PROJECTION, &ProjectionMatrix);
@@ -497,7 +497,7 @@ public:
 			break;
 		default:
 			matrix_changes++;
-			Matrix4 m2 = m.Transpose();
+			Matrix4 m2 = matrix4.Transpose();
 			D3DDevice->SetTransform(transform, &m2);
 			number_of_DX8_calls++;
 			break;

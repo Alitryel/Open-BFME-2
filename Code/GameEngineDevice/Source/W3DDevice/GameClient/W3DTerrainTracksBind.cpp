@@ -17,7 +17,7 @@
 __declspec(dllimport) __forceinline void trackCrossProduct(const Vector3 &a,const Vector3 &b,Vector3 *out) { assert(out != &a); out->X=a.Y*b.Z-a.Z*b.Y; out->Y=a.Z*b.X-a.X*b.Z; out->Z=a.X*b.Y-a.Y*b.X; }
 struct TrackVector { float x,y,z;
  TrackVector(){} TrackVector(float a,float b,float c):x(a),y(b),z(c){}
- TrackVector(const TrackVector&a):x(a.x),y(a.y),z(a.z){}
+ TrackVector(const TrackVector&trackVector):x(trackVector.x),y(trackVector.y),z(trackVector.z){}
  TrackVector& operator=(const TrackVector&a){x=a.x;y=a.y;z=a.z;return *this;}
 };
 struct TrackMatrix { float m[3][4]; };

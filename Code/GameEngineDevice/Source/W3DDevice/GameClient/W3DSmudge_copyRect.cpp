@@ -125,7 +125,7 @@ protected:
 Int copyRect(unsigned char *buf, Int bufSize, int oX, int oY, int width, int height)
 {
 	IDirect3DSurface9 *surface = 0;
-	IDirect3DSurface9 *tempSurface = 0;
+	IDirect3DSurface9 *direct3DSurface9 = 0;
 	Int result = 0;
 	HRESULT hr = S_OK;
 	RECT dstRect;
@@ -150,7 +150,7 @@ Int copyRect(unsigned char *buf, Int bufSize, int oX, int oY, int width, int hei
 	srcRect.bottom = oY + height;
 
 	hr = m_pDev->CreateRenderTarget((UINT)width, (UINT)height, desc.Format,
-		D3DMULTISAMPLE_NONE, 0, TRUE, &tempSurface, 0);
+		D3DMULTISAMPLE_NONE, 0, TRUE, &direct3DSurface9, 0);
 
 	if (hr != S_OK)
 		goto error;
@@ -160,18 +160,18 @@ Int copyRect(unsigned char *buf, Int bufSize, int oX, int oY, int width, int hei
 	dstRect.right = width;
 	dstRect.bottom = height;
 
-	hr = m_pDev->StretchRect(surface, &srcRect, tempSurface, &dstRect, D3DTEXF_NONE);
+	hr = m_pDev->StretchRect(surface, &srcRect, direct3DSurface9, &dstRect, D3DTEXF_NONE);
 
 	if (hr != S_OK)
 		goto error;
 
 	D3DLOCKED_RECT lrect;
-	hr = tempSurface->LockRect(&lrect, 0, D3DLOCK_READONLY);
+	hr = direct3DSurface9->LockRect(&lrect, 0, D3DLOCK_READONLY);
 
 	if (hr != S_OK)
 		goto error;
 
-	tempSurface->GetDesc(&desc);
+	direct3DSurface9->GetDesc(&desc);
 
 	{
 		Int copySize = lrect.Pitch * height;
@@ -181,13 +181,13 @@ Int copyRect(unsigned char *buf, Int bufSize, int oX, int oY, int width, int hei
 		result = bufSize;
 	}
 
-	tempSurface->UnlockRect();
+	direct3DSurface9->UnlockRect();
 
 error:
 	if (surface)
 		surface->Release();
-	if (tempSurface)
-		tempSurface->Release();
+	if (direct3DSurface9)
+		direct3DSurface9->Release();
 
 	return result;
 }

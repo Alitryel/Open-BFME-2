@@ -174,13 +174,13 @@ public:
 	bool ReAcquireResources();
 	void renderAsQuads(RenderInfoClass &rinfo, int originX, int originY, int dimX, int dimY);
 	void renderSubBox(RenderInfoClass &rinfo, int originX, int originY, int dimX, int dimY);
-	static __forceinline const WeatherSetting *weather(const WeatherSetting *p)
+	static __forceinline const WeatherSetting *weather(const WeatherSetting *weatherSetting)
 	{
-		if (!p)
+		if (!weatherSetting)
 			return 0;
-		if (p->m_nextOverride)
-			return (const WeatherSetting *)p->m_nextOverride->friend_getFinalOverride();
-		return p;
+		if (weatherSetting->m_nextOverride)
+			return (const WeatherSetting *)weatherSetting->m_nextOverride->friend_getFinalOverride();
+		return weatherSetting;
 	}
 	static unsigned long FtoDW(float f) { return *((unsigned long *)&f); }
 

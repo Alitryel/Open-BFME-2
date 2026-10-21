@@ -35,11 +35,11 @@ public:
 	virtual Drawable *friend_createDrawable(const ThingTemplate *tmplate, DrawableStatus statusBits, int extra);
 };
 
-Drawable *W3DGameClient::friend_createDrawable(const ThingTemplate *tmplate, DrawableStatus statusBits, int extra)
+Drawable *W3DGameClient::friend_createDrawable(const ThingTemplate *thingTemplate, DrawableStatus statusBits, int extra)
 {
 	// sanity
-	if (tmplate == 0)
+	if (thingTemplate == 0)
 		return 0;
 
-	return new Drawable(tmplate, statusBits, extra);
+	return new Drawable(thingTemplate, statusBits, extra);
 }

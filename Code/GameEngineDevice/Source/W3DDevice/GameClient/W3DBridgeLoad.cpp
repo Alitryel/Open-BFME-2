@@ -40,7 +40,7 @@ class Vector4
 public:
 	float X, Y, Z, W;
 	__forceinline Vector4() {}
-	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline Vector4(const Vector4 &vector4) { X = vector4.X; Y = vector4.Y; Z = vector4.Z; W = vector4.W; }
 	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
 	__forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
 	__forceinline float &operator[](int i) { return (&X)[i]; }
