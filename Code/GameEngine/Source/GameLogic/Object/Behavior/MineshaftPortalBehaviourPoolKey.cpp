@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
-// ?rva000373109@MineshaftPortalBehaviour@@SA?AW4NameKeyType@@XZ @0x373109
+// ?getModuleNameKey@MineshaftPortalBehaviour@@UBE?AW4NameKeyType@@XZ @0x373109
 // (69B): cached pool-name key for MineshaftPortalBehaviour. The class
 // identity comes from the pool-name string the body pushes
 // ("MineshaftPortalBehaviour"); the body guards a function-local static
@@ -26,11 +26,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class MineshaftPortalBehaviour
 {
 public:
-	static NameKeyType rva000373109();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000373109@MineshaftPortalBehaviour@@SA?AW4NameKeyType@@XZ
-NameKeyType MineshaftPortalBehaviour::rva000373109()
+// ?getModuleNameKey@MineshaftPortalBehaviour@@UBE?AW4NameKeyType@@XZ
+NameKeyType MineshaftPortalBehaviour::getModuleNameKey() const
 {
 	static NameKeyType TheMineshaftPortalBehaviourPoolKey =
 		TheNameKeyGenerator->nameToKey("MineshaftPortalBehaviour");

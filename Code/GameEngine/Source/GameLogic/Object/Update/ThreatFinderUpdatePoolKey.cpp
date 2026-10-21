@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0003ECCD6@ThreatFinderUpdate@@SA?AW4NameKeyType@@XZ @0x3ECCD6
+// ?getModuleNameKey@ThreatFinderUpdate@@UBE?AW4NameKeyType@@XZ @0x3ECCD6
 // (69B): cached pool-name key for ThreatFinderUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ThreatFinderUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ThreatFinderUpdate
 {
 public:
-	static NameKeyType rva0003ECCD6();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0003ECCD6@ThreatFinderUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ThreatFinderUpdate::rva0003ECCD6()
+// ?getModuleNameKey@ThreatFinderUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ThreatFinderUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheThreatFinderUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ThreatFinderUpdate");

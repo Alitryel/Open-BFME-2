@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000452DA3@WallHubBehavior@@SA?AW4NameKeyType@@XZ @0x452DA3
+// ?getModuleNameKey@WallHubBehavior@@UBE?AW4NameKeyType@@XZ @0x452DA3
 // (69B): cached pool-name key for WallHubBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("WallHubBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class WallHubBehavior
 {
 public:
-	static NameKeyType rva000452DA3();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000452DA3@WallHubBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType WallHubBehavior::rva000452DA3()
+// ?getModuleNameKey@WallHubBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType WallHubBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheWallHubBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("WallHubBehavior");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000CEE07@W3DBuffDraw@@SA?AW4NameKeyType@@XZ @0xCEE07
+// ?getModuleNameKey@W3DBuffDraw@@UBE?AW4NameKeyType@@XZ @0xCEE07
 // (69B): cached pool-name key for W3DBuffDraw. The class
 // identity comes from the pool-name string the body pushes
 // ("W3DBuffDraw"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class W3DBuffDraw
 {
 public:
-	static NameKeyType rva000CEE07();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000CEE07@W3DBuffDraw@@SA?AW4NameKeyType@@XZ
-NameKeyType W3DBuffDraw::rva000CEE07()
+// ?getModuleNameKey@W3DBuffDraw@@UBE?AW4NameKeyType@@XZ
+NameKeyType W3DBuffDraw::getModuleNameKey() const
 {
 	static NameKeyType TheW3DBuffDrawPoolKey =
 		TheNameKeyGenerator->nameToKey("W3DBuffDraw");
