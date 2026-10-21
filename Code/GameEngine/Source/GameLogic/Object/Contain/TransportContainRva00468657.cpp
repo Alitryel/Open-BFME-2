@@ -63,6 +63,22 @@ public:
 	
 };
 
+// The hinted insertion 0x00464984 (rowed in Rva00464984.cpp). Its value temporary is built by
+// the rowed pair<int, AsciiString> constructor 0x00523DB7 and torn down by 0x0029D7C2
+// (add ecx,4 / jmp releaseBuffer, unwind funclet 0x0078ABF3).
+class Rva00464984Iterator
+{
+public:
+	Rva00464984Iterator(const Rva00464984Iterator &other) : m_node(other.m_node) {}
+	void *m_node;
+};
+class Rva00464984Pair;
+class Rva00464984
+{
+public:
+	Rva00464984Iterator rva00464984(Rva00464984Iterator hint, const Rva00464984Pair &value);
+};
+
 typedef _STL::pair<const int, AsciiString> Rva004650A0Pair;
 typedef _STL::map<int, AsciiString, _STL::less<int>, _STL::allocator<Rva004650A0Pair> > Rva004650A0Map;
 class Rva004650A0 : public Rva004650A0Map
@@ -70,14 +86,14 @@ class Rva004650A0 : public Rva004650A0Map
 public:
 	typedef Rva004650A0Map::iterator Iterator;
 	typedef Rva004650A0Map::value_type Value;
-	Iterator rva00464984(Iterator hint, const Value &value);
 	__declspec(noinline) AsciiString &rva004650A0(const int &key)
 	{
 		Iterator it = lower_bound(key);
 		if (it == end() || key_comp()(key, (*it).first))
 		{
 			AsciiString empty;
-			it = rva00464984(it, Value(key, empty));
+			it = Iterator((_STL::_Rb_tree_node<Value> *)((Rva00464984 *)this)->rva00464984(
+				*(Rva00464984Iterator *)&it, (const Rva00464984Pair &)_STL::pair<int, AsciiString>(key, empty)).m_node);
 		}
 		return (*it).second;
 	}
