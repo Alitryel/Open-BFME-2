@@ -1,60 +1,22 @@
-// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.99 date=2026-10-20
-// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.99 date=2026-10-19
-// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.99 date=2026-10-19
-// Bank draft of the EmotionTrackerUpdate per-frame step at 0x004B1633 (2200B).
-// WB 0x1230DD0 (EmotionTrackerUpdate::update) + retail. `this` is the module
-// object; the owning Thing is at +4, the tracked Object at +8. The body walks
-// the nugget vector at +0x90..+0x94, tests relationship/status/range filters
-// and activates/deactivates nuggets through the rowed EmotionNugget calls.
-        // fall through to the nugget scan
-// cl: /O1 /arch:SSE /G7 /MD /EHsc
+// cl: /I. /O1 /arch:SSE /G7 /MD /EHsc
 // stlport
-// The inherited description above describes the earlier draft, not a proven layout.
-// Native ECX is root+0x10; module data/object are at ECX-0xC/-8.
-// Native scans EmotionSystem ObjectIDs before nested module-nugget eligibility scans.
-// Current evidence and unresolved codegen: reverse/attempt_support/0x004b1633-20261019-claude2.md
-// (earlier: reverse/attempt_support/0x004b1633-20261019-w6/readme.md)
-// Case-2 call order follows the function's tracked-local count: reverse/attempt_support/0x004b1633-20261020-w2/readme.md
-/* Inherited draft field annotations, retained as unverified evidence.
-    unsigned int m_frame;			// +0x40
-    void *m_274;				// +0x274
-    int m_c;					// +0x0c
-    unsigned char m_38;			// +0x38
-    int m_4;					// +0x04
-    unsigned int m_14;				// +0x14
-    Thing *m_4;					// +0x04
-    Object *m_8;				// +0x08
-    unsigned char m_14;				// +0x14
-    unsigned char m_16;				// +0x16
-    unsigned char m_17;				// +0x17
-    unsigned char m_18;				// +0x18
-    unsigned int m_20[12];			// +0x20
-    unsigned int m_58;				// +0x58
-    unsigned int m_60;				// +0x60
-    EmotionNugget **m_90;			// +0x90 begin
-    EmotionNugget **m_94;			// +0x94 end
-    EmotionNugget *m_9c;			// +0x9c active nugget
-    unsigned int m_a0;				// +0xa0
-    unsigned int m_a4;				// +0xa4
-    unsigned int m_a8;				// +0xa8
-    unsigned int m_ac;				// +0xac
-    unsigned char m_b0;				// +0xb0
-    int m_b4;					// +0xb4
-    int m_0;					// +0x00
-    int m_4;					// +0x04
-    Player *m_player;				// +0x08
-    unsigned char m_c;				// +0x0c
-*/
+// EmotionTrackerUpdate::update, native 0x004B1633..0x004B1ECB (2200 B).
+// WB 0x01230DD0 (EmotionTrackerUpdate::update) gives the name, the flow and the
+// accessed fields; retail (patch 1.03) differs from WB in details. ECX is the
+// update interface at module+0x10, so the module data and the tracked object
+// sit at ECX-0xC/-8. Layouts below expose only the fields this body uses;
+// offsets are native. Native scans the EmotionSystem ObjectIDs before the
+// nested nugget eligibility scans.
+// Evidence: reverse/attempt_support/0x004b1633-20261019-claude2.md,
+// reverse/attempt_support/0x004b1633-20261020-w2/readme.md and
+// reverse/attempt_support/emotiontracker-w5-20261020/readme.md.
 #define _STLP_USE_STATIC_LIB
 
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
-#include "../../reference/shims/bfme2_ascii/ascii_string.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "reference/shims/bfme2_ascii/ascii_string.h"
 #include <vector>
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
-#include "../../Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 
 #include <hash_map>
 typedef _STL::hash_map<ObjectID, Object *, _STL::hash<int>, _STL::equal_to<ObjectID> > ObjectPtrHash;
@@ -143,7 +105,7 @@ public:
     virtual ~EmotionModuleBase();
     Object *getObject() const { return m_object; }
     const EmotionUpdateData *getModuleData() const { return m_data; }
-    EmotionUpdateData *getEmotionTrackerUpdateModuleData() const { return m_data; }
+    EmotionUpdateData *getEmotionTrackerUpdateModuleData() const { return (EmotionUpdateData *)getModuleData(); }
     EmotionUpdateData *m_data;
     Object *m_object;
 };
@@ -220,18 +182,25 @@ extern GameLogic *TheGameLogic;
 extern EmotionSystem *TheEmotionSystem;
 extern GlobalData *TheWritableGlobalData;
 extern TerrainLogic *TheTerrainLogic;
-extern DebugDrawView *g_rva00DFEA3C;
+class View;
+extern View *TheTacticalView;
 extern PartitionManager *ThePartitionManager;
 inline unsigned long GameMakeColor(unsigned char r,unsigned char g,unsigned char b,unsigned char a) { return (a<<24)|(r<<16)|(g<<8)|b; }
 extern PartitionManager *TheShroudManager;
 extern PlayerList *ThePlayerList;
 extern ThingFactory *TheThingFactory;
-extern int g_rva00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 float GetGameLogicRandomValueReal(float,float,char *,int);
 
 
 UpdateSleepTime EmotionTrackerUpdate::update()
 {
+    // Inert locals. cl breaks the operand-order tie of the second layer
+    // compare (getObject()->rva0028B511()==other->rva0028B511(), native
+    // +0x572) by symbol number: retail calls `other` first, which this body
+    // reproduces with 29 to 35 more numbered locals (docs/recipes.md, "Local
+    // count decides commutative operand order").
+    int unused0 = 0, unused1 = 0, unused2 = 0, unused3 = 0, unused4 = 0, unused5 = 0, unused6 = 0, unused7 = 0, unused8 = 0, unused9 = 0, unused10 = 0, unused11 = 0, unused12 = 0, unused13 = 0, unused14 = 0, unused15 = 0, unused16 = 0, unused17 = 0, unused18 = 0, unused19 = 0, unused20 = 0, unused21 = 0, unused22 = 0, unused23 = 0, unused24 = 0, unused25 = 0, unused26 = 0, unused27 = 0, unused28 = 0;
     EmotionUpdateData *data=getEmotionTrackerUpdateModuleData();
     if(!data) return (UpdateSleepTime)0x3fffffff;
     Object *obj=getObject();
@@ -248,9 +217,9 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         Coord3D pos;
         pos.x=obj->pos.x; pos.y=obj->pos.y; pos.z=obj->pos.z;
         pos.z=((TerrainView *)TheTerrainLogic)->height(pos.x,pos.y,0);
-        if(data->interval) g_rva00DFEA3C->circle(&pos,data->range,GameMakeColor(0,0,255,255));
-        if(data->range20!=0.0f) g_rva00DFEA3C->circle(&pos,data->range20,GameMakeColor(0,255,255,255));
-        if(data->range24!=0.0f) g_rva00DFEA3C->circle(&pos,data->range24,GameMakeColor(255,0,0,255));
+        if(data->interval) ((DebugDrawView *)TheTacticalView)->circle(&pos,data->range,GameMakeColor(0,0,255,255));
+        if(data->range20!=0.0f) ((DebugDrawView *)TheTacticalView)->circle(&pos,data->range20,GameMakeColor(0,255,255,255));
+        if(data->range24!=0.0f) ((DebugDrawView *)TheTacticalView)->circle(&pos,data->range24,GameMakeColor(255,0,0,255));
     }
     Object *closest=0;
     float closestDist=3.402823466e+38f;
@@ -366,7 +335,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         if(!found) foundLatch=false;
         unsigned frame=TheGameLogic->getFrame();
         if(frame>nextFrame && bestNeutral && !foundLatch) {
-            nextFrame=frame+g_rva00DBA4E4*0x3c;
+            nextFrame=frame+BfmeLogicFramesPerSecond*0x3c;
             flags[2]=true;
             foundLatch=true;
         } else flags[2]=false;
