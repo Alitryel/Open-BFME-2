@@ -12,7 +12,12 @@ class Player;
 enum ObjectID;
 class WorkOrder : public Snapshot {
 public:
+    // Defined in AIPlayerTeamBuild.cpp without throw(); see TeamInQueue.h.
+#ifdef BFME_AIPLAYER_QUEUE_CTORS
+    WorkOrder();
+#else
     WorkOrder() throw();
+#endif
     virtual ~WorkOrder();
     bool isWaitingToBuild() const { if (m_numCompleted >= m_numRequired) return false; return true; }
     void validateFactory(Player *thisPlayer);

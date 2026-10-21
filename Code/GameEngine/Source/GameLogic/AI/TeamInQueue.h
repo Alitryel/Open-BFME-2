@@ -9,7 +9,15 @@ class WorkOrder;
 enum ObjectID;
 class TeamInQueue : public Snapshot {
 public:
+    // AIPlayerTeamBuild.cpp defines this constructor and WorkOrder's ahead of
+    // their users without an exception specification, so cl infers they
+    // cannot throw and its new-expressions carry no EH cleanup state (Zero
+    // Hour's are inline in AIPlayer.h); other units say throw() instead.
+#ifdef BFME_AIPLAYER_QUEUE_CTORS
+    TeamInQueue();
+#else
     TeamInQueue() throw();
+#endif
     virtual ~TeamInQueue();
     TeamInQueue *dlink_prev_TeamBuildQueue() const { return m_prev; }
     TeamInQueue *dlink_next_TeamBuildQueue() const { return m_next; }

@@ -55,9 +55,10 @@
 //    +0x54): ZH's bodies over the dozer KindOf bit (template +0x109 & 0x40).
 //    queueDozer walks TheThingFactory's template list (+0xC, next +0x484),
 //    keeps ZH's priority WorkOrder team and debug message and calls
-//    startTraining (+0x60) with the team's name. The WorkOrder and
-//    TeamInQueue constructors are declared throw() because retail's
-//    new-expressions carry no EH cleanup states.
+//    startTraining (+0x60) with the team's name. Retail's new-expressions
+//    carry no EH cleanup states: the WorkOrder (0x004F10E6) and TeamInQueue
+//    (0x004EF5CE) constructors are defined in this unit ahead of their
+//    users without throw(), so cl infers they cannot throw.
 //  - startTraining 0x004F2063 (370 bytes, vtable +0x60): ZH's factory
 //    queueing and "Queuing ... for ..." message. BFME 2 refuses an order
 //    whose flag +0x28 is set; when 0x002A8AB1 finds a record for the player
@@ -119,6 +120,13 @@
 //    or, without one, the home location (else the team centroid from Team
 //    0x0039DA2A). The disband deletes the team through its virtual
 //    destructor and global delete.
+//  - selectTeamToReinforce 0x004F3DB1 (985 bytes, vtable +0x5C): ZH's
+//    search for the highest-priority auto-reinforcing prototype (template
+//    info at +0x12C, flag +0xE7) with a short team. BFME 2 skips queueing
+//    and training when 0x002A8AB1 finds a record for the player, passes
+//    the unit info's int (+0x14) to tryToRecruit and guards the null order
+//    and queue entry. Only the merged new-expressions of the in-unit
+//    nothrow constructors give retail's allocation (the chosen team in ebx).
 //  - updateBridgeRepair 0x004F418A (500 bytes): ZH's body with the timer at
 //    +0x68 reset from the frame-rate global, the repair order through
 //    AICommandInterface 0x0036F19B (ZH aiRepair) and the return move adjusted
@@ -774,9 +782,30 @@ struct TCreateUnitsInfo
 };
 
 class Rva0039D761DwordClearer { public: void clear(); };
+
+// The prototype's TeamTemplateInfo starts at +0x12C (its Snapshot table
+// first); selectTeamToReinforce reads the unit infos, the reinforce flag and
+// the priority through it.
+class TeamTemplateInfo
+{
+public:
+	void *m_vtable;				// +0x00 (prototype +0x12C)
+	TCreateUnitsInfo m_unitsInfo[7];	// +0x04
+	Int m_numUnitsInfo;			// +0xAC
+	Coord3D m_homeLocation;			// +0xB0
+	Bool m_hasHomeLocation;			// +0xBC
+	char m_padBD[0xE7 - 0xBD];
+	Bool m_automaticallyReinforce;		// +0xE7
+	char m_padE8[0xEC - 0xE8];
+	Int m_maxInstances;			// +0xEC
+	Int m_productionPriority;		// +0xF0
+};
+
+template <class OBJCLASS> class DLINK_ITERATOR;
 class TeamPrototype
 {
 public:
+	const TeamTemplateInfo *getTemplateInfo() const { return (const TeamTemplateInfo *)((const char *)this + 0x12C); }
 	Bool evaluateProductionCondition();
 	Int countTeamInstances();
 	const AsciiString &getName() const { return m_name; }
@@ -807,6 +836,9 @@ public:
 	char m_pad241[0x31C - 0x241];
 	Bool m_bfme31C;				// +0x31C
 	Bool m_bfme31D;				// +0x31D
+	char m_pad31E[0x334 - 0x31E];
+	Team *m_teamInstances;			// +0x334
+	DLINK_ITERATOR<Team> iterate_TeamInstanceList() const;
 };
 
 template <class OBJCLASS> class DLINK_ITERATOR
@@ -836,27 +868,43 @@ private:
 	unsigned char m_state[20];
 };
 
-class Rva0055B156
+// Team has two bases, a memory-pool object at +0 and its Snapshot at +4:
+// retail's DLINK_ITERATOR<Team> carries the eight-byte member-function
+// pointer of a multiple-inheritance class (selectTeamToReinforce).
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+class TeamPoolView
+{
+public:
+	virtual ~TeamPoolView();
+};
+
+class Rva0055B156 : public Snapshot
 {
 public:
 	void rva0055B156(int val);
 };
 
-class Team
+class Team : public TeamPoolView, public Rva0055B156
 {
 public:
 	virtual ~Team();
-	Rva0055B156 m_bfme04;			// +0x04
-	char m_pad005[0x30 - 0x05];
+	Rva0055B156 *getSnapshotView() { return this; }	// +0x04
+	char m_pad008[0x30 - 0x08];
 	TeamPrototype *m_proto;			// +0x30
 	unsigned int m_id;			// +0x34
-	char m_pad038[0x5D - 0x38];
+	Object *m_firstMember;			// +0x38
+	char m_pad03C[0x5D - 0x3C];
 	Bool m_active;				// +0x5D
 	Bool m_created;				// +0x5E
 	char m_pad05F[0x110 - 0x5F];
 	Bool m_bfme110;				// +0x110
 	Bool m_bfme111;				// +0x111
 
+	Team *dlink_next_TeamInstanceList() const;
+	Bool hasAnyUnits();
+	void countObjectsByThingTemplate(Int numTmplates, const ThingTemplate *const *things, Bool ignoreDead, Int *counts, Bool ignoreUnderConstruction) const;
+	Object *getFirstItemIn_TeamMemberList() const { return m_firstMember; }
 	void rva0039D889(Bool flag);
 	void disband();
 	Object *tryToRecruit(const ThingTemplate *thing, const Coord3D *pos, Real maxDist, Int a, Int b, Int c);
@@ -871,12 +919,49 @@ public:
 	__forceinline void deleteInstance() { ::delete this; }
 };
 
+inline DLINK_ITERATOR<Team> TeamPrototype::iterate_TeamInstanceList() const
+{
+	return DLINK_ITERATOR<Team>(m_teamInstances, &Team::dlink_next_TeamInstanceList);
+}
+
+// The WorkOrder and TeamInQueue constructors are defined below, ahead of
+// their users and without an exception specification (see TeamInQueue.h).
+#define BFME_AIPLAYER_QUEUE_CTORS
 #include "WorkOrder.h"
 
 #include "TeamInQueue.h"
 
 // ?TeamInQueue::disband present-unmatched
 inline void TeamInQueue::disband() { if (m_team) m_team->disband(); }
+
+// TeamInQueue::TeamInQueue 0x004EF5CE (50 bytes): installs C62B78 and clears
+// the complete 0x30 queue node.
+TeamInQueue::TeamInQueue()
+{
+	m_prev=0; m_next=0; m_prevReady=0; m_nextReady=0;
+	m_workOrders=0; m_priorityBuild=0; m_team=0; m_unknown20=0;
+	m_frameStarted=0; m_sentToStartLocation=0; m_stopQueueing=0;
+	m_reinforcement=0; m_reinforcementID=(ObjectID)0;
+}
+
+// WorkOrder::WorkOrder 0x004F10E6 (48 bytes): Zero Hour's inline constructor
+// in AIPlayer.h (no thing, no factory, no next, 0 completed, 1 required, not
+// a resource gatherer; m_required is left alone) followed by BFME 2's fields
+// (target evidence): +0x1C = 1, the AsciiString at +0x20 empty, +0x2C = -1,
+// and the two flags at +0x28/+0x29 cleared last. +0x24 is not set.
+WorkOrder::WorkOrder() :
+	m_thing(NULL),
+	m_factoryID((ObjectID)0),
+	m_next(NULL),
+	m_numCompleted(0),
+	m_numRequired(1),
+	m_isResourceGatherer(false),
+	m_bfmeInt1C(1),
+	m_bfmeInt2C(-1)
+{
+	m_bfmeFlag28 = false;
+	m_bfmeFlag29 = false;
+}
 
 class GlobalData
 {
@@ -1430,9 +1515,9 @@ Bool AIPlayer::startTraining(WorkOrder *order, Bool busyOK, AsciiString teamName
 		{
 			for (Int i = order->m_numCompleted; i < order->m_numRequired; i++)
 			{
-				void *unit = record->rva004EC088(1, &team->m_bfme04, &order->m_thing->getName());
+				void *unit = record->rva004EC088(1, team->getSnapshotView(), &order->m_thing->getName());
 				if (unit)
-					team->m_bfme04.rva0055B156((int)unit);
+					team->getSnapshotView()->rva0055B156((int)unit);
 			}
 		}
 		order->m_bfmeFlag28 = true;
@@ -2307,4 +2392,124 @@ void AIPlayer::recruitSpecificAITeam(TeamPrototype *teamProto, Real recruitRadiu
 			TheScriptEngine->AppendDebugMessage(teamName, false);
 		}
 	}
+}
+
+Bool AIPlayer::selectTeamToReinforce( Int minPriority )
+{
+	// Find a high production priority team that needs reinforcements.
+	PlayerTeamList::const_iterator t;
+	Team *curTeam = NULL;
+	Int curPriority = minPriority; // Don't reinforce a team unless it is above min priority.
+	const ThingTemplate *curThing = NULL;
+	Int recruitType = -1;
+	for (t = m_player->getPlayerTeams()->begin(); t != m_player->getPlayerTeams()->end(); ++t)
+	{
+		TeamPrototype *proto = (*t);
+		Bool busy = false;
+		for ( DLINK_ITERATOR<TeamInQueue> iter = iterate_TeamBuildQueue(); !iter.done(); iter.advance())
+		{
+			TeamInQueue *team = iter.cur();
+			if (team->m_team->getPrototype() == proto) {
+				busy = true; // currently building one of these.
+			}
+		}
+		if (busy) continue;
+		if (proto->getTemplateInfo()->m_automaticallyReinforce && proto->getTemplateInfo()->m_productionPriority>curPriority) {
+			// Check the team instances.
+			for (DLINK_ITERATOR<Team> iter = proto->iterate_TeamInstanceList(); !iter.done(); iter.advance())
+			{
+				if (iter.cur()->hasAnyUnits() == false) 
+				{
+					continue; // empty.
+				}
+				const TCreateUnitsInfo *unitInfo = &iter.cur()->getPrototype()->getTemplateInfo()->m_unitsInfo[0];
+				for( int i=0; i<iter.cur()->getPrototype()->getTemplateInfo()->m_numUnitsInfo; i++ )
+				{
+					if (unitInfo[i].maxUnits < 1) continue;
+					const ThingTemplate *thing = TheThingFactory->findTemplate( unitInfo[i].unitThingName );
+					if (thing==NULL) continue;
+					Int count=0;
+					iter.cur()->countObjectsByThingTemplate(1, &thing, false, &count, true);
+					if (count < unitInfo[i].maxUnits) 
+					{
+						// See if there is a factory available.
+						if (NULL != findFactory(thing, false, NULL)) 
+						{
+							curTeam = iter.cur();
+							curPriority = proto->getTemplateInfo()->m_productionPriority;
+							curThing = thing;
+							recruitType = unitInfo[i].m_14;
+						}
+					}
+				}				
+			}
+		}
+	}
+	if (curTeam && curThing) 
+	{
+		/* We have something to build. */
+		TeamInQueue *teamQ = NULL;
+		WorkOrder *order = NULL;
+		if (!TheSkirmishAIManager->rva002A8AB1(m_player))
+		{
+			teamQ = new TeamInQueue;
+			// Put in front of queue.
+			prependTo_TeamBuildQueue(teamQ);
+			teamQ->m_priorityBuild = false;
+			teamQ->m_reinforcement = true;
+
+			order = new WorkOrder;
+			order->m_thing = curThing;
+			order->m_factoryID = (ObjectID)0;
+			order->m_numRequired = 1;
+			order->m_required = true;
+			// prepend to head of list
+			order->m_next = NULL;
+			teamQ->m_workOrders = order;
+			teamQ->m_frameStarted = TheGameLogic->getFrame();
+			teamQ->m_team = curTeam; 
+
+			AsciiString teamName = curTeam->getPrototype()->getName();
+			teamName.concat(" - AutoReinforcing one ");
+			teamName.concat(curThing->getName());
+			TheScriptEngine->AppendDebugMessage(teamName, false);
+		}
+
+		// start the creation of a new unit
+		Coord3D origin;
+		origin = curTeam->getPrototype()->getTemplateInfo()->m_homeLocation;
+		if (curTeam->getFirstItemIn_TeamMemberList()) 
+		{
+			origin = curTeam->getFirstItemIn_TeamMemberList()->m_pos;
+		}
+		Object *unit = curTeam->tryToRecruit(curThing, &origin, TheAI->getAiData()->m_maxRecruitDistance, recruitType, 0, 0);
+		if (unit) 
+		{
+			if (order) order->m_numCompleted = 1;
+
+			AsciiString teamStr = "Team '";
+			teamStr.concat(curTeam->getPrototype()->getName());
+			teamStr.concat("' recruits ");
+			teamStr.concat(curThing->getName());
+			teamStr.concat(" from team '");
+			teamStr.concat(unit->m_team->getPrototype()->getName());
+			teamStr.concat("'");
+			TheScriptEngine->AppendDebugMessage(teamStr, false);
+
+			unit->setTeam(curTeam);
+
+			if (teamQ) teamQ->m_reinforcementID = unit->getID();
+
+			AIUpdateInterface *ai = unit->m_ai;
+			if (ai) 
+			{
+				ai->getCommandInterface()->aiIdle(CMD_FROM_AI);
+			}
+		} else if (!TheSkirmishAIManager->rva002A8AB1(m_player)) {
+			startTraining( order, teamQ->m_priorityBuild, teamQ->m_team->getName());
+		}
+		m_teamDelay = 0;
+		return true;
+	}
+	return false;
 }
