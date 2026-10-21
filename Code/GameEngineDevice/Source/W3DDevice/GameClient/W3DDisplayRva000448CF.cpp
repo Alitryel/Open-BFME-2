@@ -1,8 +1,11 @@
 // cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE
 //
-// ?rva000448CF@W3DDisplay@@QAEXMMMMMK@Z @0x000448CF 89B.
+// ?drawLine@W3DDisplay@@UAEXMMMMMK@Z @0x000448CF 89B: BFME1's W3DDisplay::drawLine
+// (x1, y1, x2, y2, width, color) at 0x006E9B90 has the same shape (clear the
+// Render2D flag, Add_Line, ret 0x18); the two-color drawLine below likewise
+// matches BFME1 0x006E9C00 (ClipLine2D then Add_Line).
 // Render2D line wrapper reusing the target-proven W3DDisplay +0x168
-// Render2D view (same as rowed rva000433AC): clears the +0x48 byte in the
+// Render2D view (same as W3DDisplay::setWidth): clears the +0x48 byte in the
 // Render2D member, then forwards two Vector2 temps plus width/color to the
 // pinned Add_Line 0x00042A4D. Push order (color, width via fld/fstp dummy,
 // two Vector2 temps) and movss temps prove the (x1,y1,x2,y2,width,color)
@@ -55,8 +58,8 @@ public:
 class W3DDisplay : public Display
 {
 public:
-	void rva000448CF(float x1, float y1, float x2, float y2, float width, uint32 color);
-	void rva00044928(float x1, float y1, float x2, float y2, float width, uint32 color0, uint32 color1);
+	virtual void drawLine(float x1, float y1, float x2, float y2, float width, uint32 color);
+	virtual void drawLine(float x1, float y1, float x2, float y2, float width, uint32 color0, uint32 color1);
 private:
 	char m_pad14[0x164];
 	Render2DClass *m_render2D;
@@ -64,7 +67,7 @@ private:
 	bool m_isClippedEnabled; // native +0x17C
 };
 
-void W3DDisplay::rva000448CF(float x1, float y1, float x2, float y2, float width, uint32 color)
+void W3DDisplay::drawLine(float x1, float y1, float x2, float y2, float width, uint32 color)
 {
 	Render2DClass *rdClear = m_render2D;
 	rdClear->m_flag48 = 0;
@@ -77,8 +80,9 @@ void W3DDisplay::rva000448CF(float x1, float y1, float x2, float y2, float width
 // rowed ClipLine2D00025F406 and forwards two endpoint colours. Semantic lead
 // is BFME1/ZH W3DDisplay::drawLine (two colours) plus drawOpenRect's clipping
 // pattern, at BFME1 ba7ddda7e8. Target coordinates are floats, unlike the
-// donor's integer overload, and the original overload name remains unknown.
-void W3DDisplay::rva00044928(float x1, float y1, float x2, float y2, float width, uint32 color0, uint32 color1)
+// donor's integer overload; BFME1's ledger now rows this float overload as
+// ?drawLine@W3DDisplay@@UAEXMMMMMKK@Z (0x006E9C00, matched).
+void W3DDisplay::drawLine(float x1, float y1, float x2, float y2, float width, uint32 color0, uint32 color1)
 {
     m_render2D->m_flag48 = 0;
     if (m_isClippedEnabled) {

@@ -2236,24 +2236,7 @@ struct BfmePlayerBattlePlanField
 	BfmeBattlePlanBonuses *m_battlePlanBonuses;		///< retail this+0x70
 };
 
-// ?doesObjectQualifyForBattlePlan@Player@@QBE_NPAVObject@@@Z
-// ?Player::doesObjectQualifyForBattlePlan present-unmatched
-Bool Player::doesObjectQualifyForBattlePlan( Object *obj ) const
-{
-	const BfmePlayerBattlePlanField *self = (const BfmePlayerBattlePlanField *)this;
-
-	if( self->m_battlePlanBonuses && obj )
-	{
-		if( obj->isAnyKindOf( self->m_battlePlanBonuses->m_validKindOf ) )
-		{
-			if( !obj->isAnyKindOf( self->m_battlePlanBonuses->m_invalidKindOf ) )
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
+// Player::doesObjectQualifyForBattlePlan (0x002AA0DE) is defined with its retail body in PlayerRva002AA0DEKindTest.cpp.
 
 //-------------------------------------------------------------------------------------------------
 // note, bonus is an in-out parm.

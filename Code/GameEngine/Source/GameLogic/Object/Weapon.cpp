@@ -2043,22 +2043,7 @@ static void makeAssistanceRequest( Object *requestOf, void *userData )
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?processRequestAssistance@Weapon@@ present-unmatched
-void Weapon::processRequestAssistance( const Object *requestingObject, Object *victimObject )
-{
-	// Iterate through our player's objects, and tell everyone like us within our assistance range 
-	// who is free to do so to assist us on this shot.
-	Player *ourPlayer = requestingObject->getControllingPlayer();
-	if( !ourPlayer )
-		return;
-
-	AssistanceRequestData requestData;
-	requestData.m_requestingObject = requestingObject;
-	requestData.m_victimObject = victimObject;
-	requestData.m_requestDistanceSquared = m_template->getRequestAssistRange() * m_template->getRequestAssistRange();
-
-	ourPlayer->iterateObjects( makeAssistanceRequest, &requestData );
-}
+// Weapon::processRequestAssistance (0x002C9DF5) is defined with its retail body in WeaponRva002C9DF5.cpp.
 
 //-------------------------------------------------------------------------------------------------
 // Weapon::calcProjectileLaunchPosition (0x002C9E48) is defined with its retail body in WeaponProjectileLaunch.cpp.

@@ -354,7 +354,6 @@ class Weapon
     UnsignedInt getRemainingAmmo(bool) const;
     void reloadAmmo(const Object *sourceObj);
     void prepareProjectileStreamForFiring();
-    void rva002C9DF5(const Object *sourceObj, const void *victimObj) const;
     void setLeechUntil(Int delay)
     {
         rangeUntil = TheGameLogic->getFrame() + delay;
@@ -362,6 +361,7 @@ class Weapon
 
   protected:
     void computeBonus(const Object *source, UnsignedInt extra, WeaponBonus &bonus) const;
+    void processRequestAssistance(const Object *requestingObject, Object *victimObject);
 
   public:
     char pad00[4];
@@ -1138,7 +1138,7 @@ bool Weapon::privateFireWeapon(const Object *sourceObj, const Coord3D *sourcePos
         return false;
     // If we are a networked weapon, tell everyone nearby they might want to get in on this shot
     if (m_template->requestAssistRange && victimObj)
-        rva002C9DF5(sourceObj, victimObj);
+        processRequestAssistance(sourceObj, const_cast<Object *>(victimObj));
     //For weapon templates that have the leech range weapon flag set, it essentially grants
     //the weapon unlimited range for the remainder of the attack. While it's triggered here
     //it's the AIAttackState machine that actually uses and resets this value.

@@ -1,5 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva002C9DF5@Weapon@@QBEXPBVObject@@PBX@Z
+// ?processRequestAssistance@Weapon@@IAEXPBVObject@@PAV2@@Z
+// Zero Hour's Weapon::processRequestAssistance, also BFME1's (0x001E4BF0, same
+// size and callees in order); privateFireWeapon calls it as Zero Hour does.
 //
 // retail 0x002C9DF5 (83 bytes). Unlock: Player iterate with template+0x28 squared range.
 // Controlling player via Object getControllingPlayer (rowed 0x0028AFA9); if null return;
@@ -101,15 +103,15 @@ struct IterateData
 
 class Weapon
 {
-public:
-	void rva002C9DF5(const Object *source, const void *other) const;
+protected:
+	void processRequestAssistance(const Object *requestingObject, Object *victimObject);
 
 private:
 	char m_pad00[4];
 	const WeaponTemplateRange *m_template; // +4
 };
 
-void Weapon::rva002C9DF5(const Object *source, const void *other) const
+void Weapon::processRequestAssistance(const Object *source, Object *other)
 {
 	Player *player = source->getControllingPlayer();
 	if (player == 0)

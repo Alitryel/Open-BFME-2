@@ -1,6 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000433AC@W3DDisplay@@QAEXI@Z, retail 0x000433AC, 108 bytes.
-// Resolution apply: setWidth(arg), then floatconverted unsigned height (slot 17)
+// ?setWidth@W3DDisplay@@UAEXI@Z, retail 0x000433AC, 108 bytes: Zero Hour's and
+// BFME1's W3DDisplay::setWidth (BFME1 0x006E80A0, same callees in order).
+// Resolution apply: Display::setWidth(arg), then floatconverted unsigned height (slot 17)
 // and width (slot 16) build RectClass(0,0,w,h) for the +0x168 Render2D member's
 // Set_Coordinate_Range.
 // Evidence: same-this setWidth 0x0025C391; vtable slots 0x40/0x44 with fild
@@ -86,15 +87,15 @@ public:
 class W3DDisplay : public Display
 {
 public:
-	void rva000433AC(unsigned int width);
-	void rva00043340(unsigned int height);
+	virtual void setWidth(unsigned int width);
+	virtual void setHeight(unsigned int height);
 	void rva000465CE(Rva000465CEBuffer *buffer, float x0, float y0, float x1, float y1, int color);
 private:
 	char m_pad14[0x164];
 	Render2DClass *m_render2D;
 };
 
-void W3DDisplay::rva000433AC(unsigned int width)
+void W3DDisplay::setWidth(unsigned int width)
 {
 	Display::setWidth(width);
 	float h = (float)getHeight();
@@ -103,10 +104,10 @@ void W3DDisplay::rva000433AC(unsigned int width)
 	m_render2D->Set_Coordinate_Range(rc);
 }
 
-// ?rva00043340@W3DDisplay@@QAEXI@Z, retail 0x00043340, 108 bytes: the same body
+// ?setHeight@W3DDisplay@@UAEXI@Z, retail 0x00043340, 108 bytes: the same body
 // over Display::setHeight, which is Zero Hour's W3DDisplay::setHeight beside its
-// setWidth. Only the extended Display call differs from rva000433AC.
-void W3DDisplay::rva00043340(unsigned int height)
+// setWidth (BFME1 0x006E8140). Only the extended Display call differs.
+void W3DDisplay::setHeight(unsigned int height)
 {
 	Display::setHeight(height);
 	float h = (float)getHeight();

@@ -76,10 +76,11 @@ typedef bool Bool;
 
 
 class Thing;
+class Object;
 class Rva002AA123 {public:int rva002AA123(int);};
 class Player {
 public:
-    bool rva002AA0DE(const Thing *);
+    bool doesObjectQualifyForBattlePlan(Object *obj) const;
     int getBattlePlansActiveSpecific(int n) {return ((Rva002AA123*)this)->rva002AA123(n);}
     int getNumBattlePlansActive() const {return m_searchAndDestroy+m_holdTheLine+m_bombard;}
     char m_pad000[0xac];
@@ -337,7 +338,7 @@ void Drawable::rva002739D1()
 		return;
 	Player *active = obj->getControllingPlayer();
     Player *volatile player = active;
-	if (active && active->getNumBattlePlansActive() > 0 && active->rva002AA0DE((const Thing *)obj))
+	if (active && active->getNumBattlePlansActive() > 0 && active->doesObjectQualifyForBattlePlan(obj))
 	{
 		if (player->getBattlePlansActiveSpecific(1))
 		{
