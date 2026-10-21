@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /GX
-// ?rva003E84C5@ScriptConditions@@IAE_NPAVParameter@@0@Z @0x003E84C5 112B: free stdcall two Parameters team+waypoint path test.
+// ?evaluateTeamCanPathToWaypoint@ScriptConditions@@IAE_NPAVParameter@@0@Z @0x003E84C5 112B: free stdcall two Parameters team+waypoint path test.
 // Evidence: ret 8 two params; Parameter+0x10 AsciiString by-value plus false to ScriptEngine::getTeamNamed row; null je; Team::rva0039E8EB row null je; Parameter+0x10 to TheTerrainLogic slot 0x88 returning Waypoint with Coord3D at +0xc null jne; TheAI+0x10 Pathfinder::QuickDoesPathExist pin with teamObj positions plus 0; caller 0x003EC119.
 #include "ascii_string.h"
 class Parameter
@@ -61,10 +61,10 @@ extern AI *TheAI;
 class ScriptConditions
 {
 protected:
-	bool rva003E84C5(Parameter *p0, Parameter *p1);
+	bool evaluateTeamCanPathToWaypoint(Parameter *p0, Parameter *p1);
 };
 
-bool ScriptConditions::rva003E84C5(Parameter *parameter, Parameter *p1)
+bool ScriptConditions::evaluateTeamCanPathToWaypoint(Parameter *parameter, Parameter *p1)
 {
 	Team *team = TheScriptEngine->getTeamNamed(parameter->m_string, false);
 	if (!team)

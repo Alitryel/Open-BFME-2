@@ -14908,7 +14908,7 @@ _isdigit,0x00629982,Native6F97F0 suffix parser calls PE isdigit import thunk6299
 ?rva003E86A3@ScriptConditions@@IAE_NPAVParameter@@00@Z,0x003E86A3,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E8785@ScriptConditions@@IAE_NPAVParameter@@00@Z,0x003E8785,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E8863@ScriptConditions@@IAE_NPAVParameter@@000@Z,0x003E8863,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
-?rva003E89A9@ScriptConditions@@IAE_NPAVParameter@@0@Z,0x003E89A9,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
+?evaluateUnitHasToggledWeapon@ScriptConditions@@IAE_NPAVParameter@@0@Z,0x003E89A9,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E8B47@ScriptConditions@@IAE_NPAVParameter@@0@Z,0x003E8B47,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E8C24@ScriptConditions@@IAE_NPAVParameter@@0@Z,0x003E8C24,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z,0x003E8E23,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z

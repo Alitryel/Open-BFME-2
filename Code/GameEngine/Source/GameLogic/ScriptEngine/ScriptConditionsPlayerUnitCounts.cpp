@@ -19,7 +19,7 @@
 // method name, so the method keeps an address name; reading bit 90 as the
 // hero KindOf is an inference from the template name.
 //
-// ?rva003E8AA9@ScriptConditions@@IAE_NPAVParameter@@@Z @ 0x003E8AA9 158B
+// ?evaluateAnyUnitsUsingBloodthirsty@ScriptConditions@@IAE_NPAVParameter@@@Z @ 0x003E8AA9 158B
 // Target evidence: jump-table index 176 sends condition 181 here; the
 // template is named ANY_UNITS_USING_BLOODTHIRSTY. True when any member of the
 // player's teams has Object status 0x41 (rowed testStatus 0x0004E536). The
@@ -408,10 +408,10 @@ class ScriptConditions
 protected:
 	Bool rva003E8785(Parameter *playerParm, Parameter *countParm, Parameter *upgradeParm);
 	Bool rva003E85E0(Parameter *playerParm, Parameter *countParm, Parameter *rankParm);
-	Bool rva003E8AA9(Parameter *playerParm);
+	Bool evaluateAnyUnitsUsingBloodthirsty(Parameter *playerParm);
 	Bool rva003E86A3(Parameter *playerParm, Parameter *countParm, Parameter *modeParm);
 	Bool rva003E8863(Parameter *playerParm, Parameter *countParm, Parameter *loadedParm, Parameter *transportParm);
-	Bool rva003E89A9(Parameter *playerParm, Parameter *templateParm);
+	Bool evaluateUnitHasToggledWeapon(Parameter *playerParm, Parameter *templateParm);
 	Bool rva003E8B47(Parameter *playerParm, Parameter *templateParm);
 	Bool rva003E8C24(Parameter *playerParm, Parameter *templateParm);
 	Bool evaluateSkirmishUnownedFactionUnitComparison(Parameter *pSkirmishPlayerParm, Parameter *pComparisonParm, Parameter *pCountParm);
@@ -450,7 +450,7 @@ Bool ScriptConditions::rva003E85E0(Parameter *playerParm, Parameter *countParm, 
 	return false;
 }
 
-Bool ScriptConditions::rva003E8AA9(Parameter *playerParm)
+Bool ScriptConditions::evaluateAnyUnitsUsingBloodthirsty(Parameter *playerParm)
 {
 	Player *player = ThePlayerList->getPlayerFromMask(TheScriptEngine->rva00357B82(playerParm));
 	if (!player)
@@ -811,13 +811,13 @@ Bool ScriptConditions::rva003E8C24(Parameter *playerParm, Parameter *parameter)
 	return false;
 }
 
-// ?rva003E89A9@ScriptConditions@@IAE_NPAVParameter@@0@Z @ 0x003E89A9 256B
+// ?evaluateUnitHasToggledWeapon@ScriptConditions@@IAE_NPAVParameter@@0@Z @ 0x003E89A9 256B
 // Target evidence: jump-table condition for a named-template check. True when
 // any member of the player's teams is an equivalent of the template named by
 // the second Parameter (ThingFactory::findTemplate 0x002D06CA) and one of the
 // opaque bits 0x18, 0x19 or 0x1A (rowed twin 0x0028D891) or Object status 0x51
 // is set. A missing player or template is false. The bit names are unknown.
-Bool ScriptConditions::rva003E89A9(Parameter *playerParm, Parameter *parameter)
+Bool ScriptConditions::evaluateUnitHasToggledWeapon(Parameter *playerParm, Parameter *parameter)
 {
 	Player *player = ThePlayerList->getPlayerFromMask(TheScriptEngine->rva00357B82(playerParm));
 	if (!player)

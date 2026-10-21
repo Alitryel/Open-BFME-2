@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /GX
-// ?rva003E8535@ScriptConditions@@IAE_NPAVParameter@@0@Z @0x003E8535 105B: free stdcall two Parameters team+unit path test.
+// ?evaluateTeamCanPathToNamed@ScriptConditions@@IAE_NPAVParameter@@0@Z @0x003E8535 105B: free stdcall two Parameters team+unit path test.
 // Evidence: ret 8 two params; Parameter+0x10 AsciiString by-value plus false to ScriptEngine::getTeamNamed row; null je; Team::rva0039E8EB row null je; Parameter+? to getUnitNamed row null jne; TheAI+0x10 Pathfinder::QuickDoesPathExist pin with teamObj UnitObj positions plus 0; caller 0x003EC13F.
 #include "ascii_string.h"
 class Parameter
@@ -45,10 +45,10 @@ extern AI *TheAI;
 class ScriptConditions
 {
 protected:
-	bool rva003E8535(Parameter *p0, Parameter *p1);
+	bool evaluateTeamCanPathToNamed(Parameter *p0, Parameter *p1);
 };
 
-bool ScriptConditions::rva003E8535(Parameter *parameter, Parameter *p1)
+bool ScriptConditions::evaluateTeamCanPathToNamed(Parameter *parameter, Parameter *p1)
 {
 	Team *team = TheScriptEngine->getTeamNamed(parameter->m_string, false);
 	if (!team)

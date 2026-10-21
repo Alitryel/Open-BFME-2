@@ -1,5 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva003E50B4@ScriptConditions@@IAE_NPAVParameter@@0@Z
+// ?evaluateNamedCanPathToWaypoint@ScriptConditions@@IAE_NPAVParameter@@0@Z
 // retail 0x003E50B4 81B leaf free stdcall bool of 2x Parameter ret 8. Evidence:
 // rowed ScriptEngine::getUnitNamed via TheScriptEngine plus TerrainLogic slot 0x88
 // getWaypointByName via TheTerrainLogic with (Parameter+0x10) plus pin
@@ -89,10 +89,10 @@ extern AI *TheAI;
 class ScriptConditions
 {
 protected:
-	bool rva003E50B4(Parameter *a, Parameter *b);
+	bool evaluateNamedCanPathToWaypoint(Parameter *a, Parameter *b);
 };
 
-bool ScriptConditions::rva003E50B4(Parameter *parameter, Parameter *b)
+bool ScriptConditions::evaluateNamedCanPathToWaypoint(Parameter *parameter, Parameter *b)
 {
 	Object *object = TheScriptEngine->getUnitNamed(parameter);
 	if (!object)

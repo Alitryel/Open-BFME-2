@@ -179,17 +179,17 @@ protected:
 	bool evaluatePlayerHasComparisonValueExcessPower(Parameter *, Parameter *, Parameter *);
 	bool rva003E4F79(Parameter *, Parameter *, Parameter *);
 	bool rva003E5017(Parameter *, Parameter *, Parameter *);
-	bool rva003E50B4(Parameter *, Parameter *);
+	bool evaluateNamedCanPathToWaypoint(Parameter *, Parameter *);
 	bool rva003E5105(Parameter *, Parameter *);
 	bool rva003E514F(Parameter *, CondA003E514F *, CondB003E514F *);
 	bool rva003E52EB(Parameter *, CondA003E52EB *, CondB003E52EB *);
 	unsigned char rva003E5D95(Parameter *, Cond003E5D95 *);
 	bool rva003E7E54(Parameter *, Parameter *, Parameter *, Parameter *);
 	bool rva003E7F3A(Parameter *, Parameter *);
-	bool rva003E803D(Parameter *, Parameter *);
+	bool evaluateTeamIsLedByUnit(Parameter *, Parameter *);
 	bool rva003E80DA(Parameter *, Parameter *);
-	bool rva003E84C5(Parameter *, Parameter *);
-	bool rva003E8535(Parameter *, Parameter *);
+	bool evaluateTeamCanPathToWaypoint(Parameter *, Parameter *);
+	bool evaluateTeamCanPathToNamed(Parameter *, Parameter *);
 	bool evaluateAllBuildFacilitiesDestroyed(Parameter *);
 	bool evaluateAllDestroyed(Parameter *);
 	bool evaluateAudioHasCompleted(Parameter *);
@@ -291,7 +291,7 @@ protected:
 	bool rva003E6BC5(Condition *, Parameter *);
 	bool rva003E859E(Parameter *, Parameter *);
 	bool rva003E85E0(Parameter *, Parameter *, Parameter *);
-	bool rva003E8AA9(Parameter *);
+	bool evaluateAnyUnitsUsingBloodthirsty(Parameter *);
 	bool rva003E8D01(Parameter *, Parameter *, Parameter *);
 	bool evaluatePlayerHasCredits(Parameter *, Parameter *, Parameter *);
 	bool evaluateSkirmishSpecialPowerIsReady(Parameter *, Parameter *);
@@ -306,7 +306,7 @@ protected:
 	bool rva003E86A3(Parameter *, Parameter *, Parameter *);
 	bool rva003E8785(Parameter *, Parameter *, Parameter *);
 	bool rva003E8863(Parameter *, Parameter *, Parameter *, Parameter *);
-	bool rva003E89A9(Parameter *, Parameter *);
+	bool evaluateUnitHasToggledWeapon(Parameter *, Parameter *);
 	bool rva003E8C24(Parameter *, Parameter *);
 	bool rva003E8B47(Parameter *, Parameter *);
 };
@@ -625,7 +625,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 118:
 		return this->rva003E7F3A(condition->getParameter(0), condition->getParameter(1));
 	case 123:
-		return this->rva003E803D(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateTeamIsLedByUnit(condition->getParameter(0), condition->getParameter(1));
 	case 124:
 		return this->rva003E4F79(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 125:
@@ -649,13 +649,13 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 142:
 		return ((bool (__cdecl *)(void))Rva003E4C77Get)();
 	case 136:
-		return this->rva003E50B4(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateNamedCanPathToWaypoint(condition->getParameter(0), condition->getParameter(1));
 	case 137:
 		return this->rva003E5105(condition->getParameter(0), condition->getParameter(1));
 	case 139:
-		return this->rva003E84C5(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateTeamCanPathToWaypoint(condition->getParameter(0), condition->getParameter(1));
 	case 140:
-		return this->rva003E8535(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateTeamCanPathToNamed(condition->getParameter(0), condition->getParameter(1));
 	case 143:
 		return this->rva003E859E(condition->getParameter(0), condition->getParameter(1));
 	case 144:
@@ -691,11 +691,11 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 179:
 		return this->rva003E8863(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 180:
-		return this->rva003E89A9(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateUnitHasToggledWeapon(condition->getParameter(0), condition->getParameter(1));
 	case 182:
 		return this->rva003E8C24(condition->getParameter(0), condition->getParameter(1));
 	case 181:
-		return this->rva003E8AA9(condition->getParameter(0));
+		return this->evaluateAnyUnitsUsingBloodthirsty(condition->getParameter(0));
 	case 183:
 		return this->rva003E8B47(condition->getParameter(0), condition->getParameter(1));
 	case 184:
