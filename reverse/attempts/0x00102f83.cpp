@@ -1,5 +1,5 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.90858 date=2026-10-21
+// partial score=0.91179 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.885 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
@@ -590,9 +590,8 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     v->transform->Make_Identity();v->transform->Look_At(sourcePos,targetPos,v->roll);
     if(!v->special) {
         //WST 11/12/2002 New camera shaker system
-        CameraShakeSystemClass *system=*(CameraShakeSystemClass**)&CameraShakerSystem;
-        ((Rva0065CA4 *)system)->rva00065E3C(1.0f/30.0f);
-        system->Update_Camera_Shaker(sourcePos,&v->shakerAngles);
+        ((Rva0065CA4 *)*(CameraShakeSystemClass**)&CameraShakerSystem)->rva00065E3C(1.0f/30.0f);
+        (*(CameraShakeSystemClass**)&CameraShakerSystem)->Update_Camera_Shaker(sourcePos,&v->shakerAngles);
         v->transform->Rotate_X(v->shakerAngles.X);
         v->transform->Rotate_Y(v->shakerAngles.Y);
         v->transform->Rotate_Z(v->shakerAngles.Z);
@@ -613,7 +612,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
                         // Ok, slam it into the camera!
                         Matrix3D tm(false);di->boneTransform(v->boneName,&tm);*v->transform=tm;
                         // WST 10.22.2002. Update the Listener positions used by audio system
-                        Coord3D origin; origin.x=v->transform->Row[0][3]; origin.y=v->transform->Row[1][3]; origin.z=v->transform->Row[2][3]; v->previousPos=origin; break;
+                        Matrix3D *transform=v->transform; Coord3D origin; origin.x=transform->Row[0][3]; origin.y=transform->Row[1][3]; origin.z=transform->Row[2][3]; v->previousPos=origin; break;
                     }
                 }
             } else v->slaved=false;
