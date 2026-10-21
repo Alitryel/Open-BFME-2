@@ -25,6 +25,20 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include <new>
 
 #include "ascii_string.h"
+// Give the list-pair its native out-of-line destructor declaration. MSVC
+// still emits the implicit destructor when only that member is specialized.
+namespace _STL {
+template <> struct pair<const AsciiString, list<AsciiString> > {
+    typedef const AsciiString first_type;
+    typedef list<AsciiString> second_type;
+    const AsciiString first;
+    list<AsciiString> second;
+    ~pair();
+    pair(const AsciiString &key, const list<AsciiString> &value)
+        : first(key), second(value) {}
+};
+}
+
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
 // bfme link decl-only end

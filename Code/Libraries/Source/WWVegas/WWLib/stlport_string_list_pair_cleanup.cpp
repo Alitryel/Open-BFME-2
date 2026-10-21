@@ -19,6 +19,18 @@
 #include <list>
 
 #include "ascii_string.h"
+// Give the list-pair its native out-of-line destructor declaration. MSVC
+// still emits the implicit destructor when only that member is specialized.
+namespace _STL {
+template <> struct pair<const AsciiString, list<AsciiString> > {
+    typedef const AsciiString first_type;
+    typedef list<AsciiString> second_type;
+    const AsciiString first;
+    list<AsciiString> second;
+    ~pair();
+};
+}
+
 
 
 bool operator<(const AsciiString &left, const AsciiString &right);
