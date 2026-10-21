@@ -203,27 +203,6 @@ void W3DBufferManager::freeAllBuffers(void)
 	DEBUG_ASSERTCRASH(m_numEmptyIndexBuffersAllocated==0, ("Failed to free all empty index buffers"));
 }
 
-// ?ReleaseResources@W3DBufferManager@@ present-unmatched
-void W3DBufferManager::ReleaseResources(void)
-{
-	for (Int i=0; i<MAX_FVF; i++)
-	{
-		W3DVertexBuffer *vb = m_W3DVertexBuffers[i];
-		while (vb)
-		{
-			REF_PTR_RELEASE(vb->m_DX8VertexBuffer);
-			vb=vb->m_nextVB;	//get next vertex buffer of this type
-		}
-	}
-
-	W3DIndexBuffer *ib = m_W3DIndexBuffers;
-	while (ib)
-	{
-		REF_PTR_RELEASE(ib->m_DX8IndexBuffer);
-		ib=ib->m_nextIB;	//get next vertex buffer of this type
-	}
-}
-
 class BfmeDX8VertexBuffer
 {
 public:

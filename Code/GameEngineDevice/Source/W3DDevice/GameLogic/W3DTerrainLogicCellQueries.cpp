@@ -68,7 +68,7 @@ public:
 	virtual bool rva00063082(const Coord3D *pos) const;
 	virtual Rva0028170EArea *rva00062ACA(float x, float y, float z);
 	virtual void *rva00062AEC(const StringBase<char> &name);
-	virtual void rva00062B97();
+	virtual void update();
 	unsigned char m_unknown0004[0x1C - 4];
 	int m_width;  // +0x1C
 	int m_height; // +0x20
@@ -90,7 +90,7 @@ void *W3DTerrainLogic::rva00062AEC(const StringBase<char> &name)
 	return reinterpret_cast<Rva00282021WaterLookup *>(this)->rva00282021(name);
 }
 
-void W3DTerrainLogic::rva00062B97()
+void W3DTerrainLogic::update()
 {
 	reinterpret_cast<TerrainLogic *>(this)->TerrainLogic::update();
 }

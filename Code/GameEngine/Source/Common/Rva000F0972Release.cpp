@@ -14,7 +14,7 @@ struct IDirect3DVertexBuffer8; extern IDirect3DVertexBuffer8 *shadowVertexBuffer
 class W3DBufferManager
 {
 public:
-	void rva00115FF1();
+	void ReleaseResources();
 };
 extern class W3DBufferManager *TheW3DBufferManager;
 class W3DVolumetricShadowManager
@@ -40,7 +40,7 @@ void W3DVolumetricShadowManager::ReleaseResources()
 	(*(Rva000F0972Releasable * *)&shadowVertexBufferD3D) = 0;
 	if (mgr != 0)
 	{
-		mgr->rva00115FF1();
+		mgr->ReleaseResources();
 		invalidateCachedLightPositions();
 	}
 }

@@ -1470,15 +1470,6 @@ Weapon& Weapon::operator=(const Weapon& that)
 // Weapon::reloadAmmo: defined in WeaponReloadAmmo.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-// ?getClipReloadTime@Weapon@@ present-unmatched
-Int Weapon::getClipReloadTime(const Object *source) const
-{
-	WeaponBonus bonus;
-	computeBonus(source, 0, bonus);
-	return m_template->getClipReloadTime(bonus);
-}
-
-//-------------------------------------------------------------------------------------------------
 // Weapon::rebuildScatterTargets: defined in WeaponRebuildScatterTargets.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------

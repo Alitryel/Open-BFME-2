@@ -781,18 +781,6 @@ void GarrisonContain::moveObjectsWithMe( void )
 
 //-------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?GarrisonContain::onBodyDamageStateChange present-unmatched
-void GarrisonContain::onBodyDamageStateChange( const DamageInfo* , BodyDamageType , BodyDamageType newState )
-{
-	// This is an event triggered on edge, so we just need to look at the newState. We know a change happened.
-	// And we don't need to check Rubble, since death exiting is already handled. This is Garrison specific.
-	if( newState == BODY_REALLYDAMAGED && !getObject()->isKindOf( KINDOF_GARRISONABLE_UNTIL_DESTROYED ) )
-	{
-		if( getContainCount() > 0 )
-			orderAllPassengersToExit( CMD_FROM_AI, FALSE );
-	}
-}
-
 //-------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 // ?GarrisonContain::onObjectCreated present-unmatched

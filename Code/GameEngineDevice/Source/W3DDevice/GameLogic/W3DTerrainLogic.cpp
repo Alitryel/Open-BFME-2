@@ -110,13 +110,6 @@ void W3DTerrainLogic::newMap( Bool saveGame )
 //-------------------------------------------------------------------------------------------------
 /** Update */
 //-------------------------------------------------------------------------------------------------
-// ?update@W3DTerrainLogic@@ present-unmatched
-void W3DTerrainLogic::update( void )
-{
-	TerrainLogic::update();
-}  // end update
-
-//-------------------------------------------------------------------------------------------------
 /** Device DEPENDENT implementation for load details of logical terrain.
 Note - if query is true, we are  */
 //-------------------------------------------------------------------------------------------------

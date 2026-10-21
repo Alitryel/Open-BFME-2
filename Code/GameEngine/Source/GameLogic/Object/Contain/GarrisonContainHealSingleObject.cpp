@@ -95,11 +95,11 @@ public:
 class Rva004786F8DamageIface {
 public:
     virtual void d00();
-    virtual void rva0047876A(const DamageInfo* damageInfo, BodyDamageType oldState, BodyDamageType newState);
+    virtual void onBodyDamageStateChange(const DamageInfo* damageInfo, BodyDamageType oldState, BodyDamageType newState);
 };
 class GarrisonContain : public Rva004786F8Primary, public Rva004786F8ContainIface, public Rva004786F8DamageIface {
 public:
-    virtual void rva0047876A(const DamageInfo* damageInfo, BodyDamageType oldState, BodyDamageType newState);
+    virtual void onBodyDamageStateChange(const DamageInfo* damageInfo, BodyDamageType oldState, BodyDamageType newState);
 protected:
     void healSingleObject(Object*,float);
 };
@@ -115,7 +115,7 @@ void GarrisonContain::healSingleObject(Object* object,float framesForFullHeal) {
         healInfo.m_amount=body->getMaxHealth()/framesForFullHeal;
     body->attemptHealing((DamageInfo*)&healInfo);
 }
-void GarrisonContain::rva0047876A(const DamageInfo*, BodyDamageType, BodyDamageType newState) {
+void GarrisonContain::onBodyDamageStateChange(const DamageInfo*, BodyDamageType, BodyDamageType newState) {
     if(newState == BODY_RUBBLE && !(m_object->m_template->m_kindof111 & 0x80)) {
         if(getContainCount(0) > 0) {
             cSlot35(2);
