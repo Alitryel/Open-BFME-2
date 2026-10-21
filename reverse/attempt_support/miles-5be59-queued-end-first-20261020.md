@@ -103,3 +103,41 @@ Untried:
 - calling get2D through a member pointer or an out-of-TU wrapper, which would make the call opaque only at this site.
 
 Scratch for this session (untracked): `build/s5be/vg.py`, `run.sh`, `score.sh`, `rdis.py` (retail capstone), `kg.py` (kdum scan).
+
+## Session 2026-10-21b (claude-opus-5-5): WB frame says wide pan; loop-1 reload is an allocation outcome
+
+Bank unchanged (789 B, 0 regions, memory 8, register 1).
+
+**WorldBuilder frame (0x79F2C0, /Od).** Named slots: `it` -4 (one function-scope iterator shared by loops 1, 2 and 3), `playing` -8, `queuedEnd` -0xC, `pan` -0x10, `sample` -0x14, loop-1 `volume` -0x18, `sample3D` -0x1C, loop-2 `volume` -0x20, loop-3 `volume` -0x24, `musicSystem` -0x28, music `end` -0x38..-0x2C and `begin` -0x48..-0x3C (deque iterators, `begin` copied from +0, `end` from +0x10), `MusicStack &stack` -0x4C, queued `begin` -0x50. A calibration probe of this /Od compiler put function-scope locals first, then nested scopes in source DFS order. `pan` sitting with `it`, `playing` and `queuedEnd`, ahead of `sample`, therefore means function-scope pan, as in ZH.
+- Loops 1 and 2 have the same source shape: `playing->m_event->` (operator-> calls), the viewType through an inline getter temp, get2D or get3D(&playing), `592B8(*playing->m_event)` (operator*), and a named volume stored and then passed.
+- Loop 3 additionally reads `m_info[+0xB0]` through an inline getter temp (`!= 3`).
+- The music elements are `PlayingAudioRef`: WB inlines `operator=` with its self-assignment check.
+- The queued events are a vector with stride 0x90; their `m_info` ReferencePtr sits at +8.
+
+**get2D is pure in retail.** Retail 0x52FA0 keeps `ESI = *ref` across both get2D (+0xDA) and get3D (+0x86), but reloads `*ref` (`mov eax,[edi]` at +0x108) after the opaque `getGlobalReverbMultiplier` call. The loop-1 event reload in 0x5BE59 is therefore not a callee mod/ref effect. It is a register-allocation outcome:
+- loop 1: EDI goes to the iterator and the event CSE is rematerialised; `sample` is spilled to -0x14;
+- loop 2: the event wins EDI, and the iterator and `sample3D` are spilled.
+
+The real source (wide pan) must reach that outcome. Ours with wide pan instead gives `this` EBX for the whole function and the event EDI (766 B, 18 regions).
+
+**Slot packing with in-block pan.**
+- Retail: -0x18 = {volume, sample3D, music countdown}, -0x20 = {pan}.
+- Ours: -0x18 = {pan, countdown}, -0x20 = {volume, sample3D}.
+
+In retail the countdown joins volume's slot, which is again what wide pan predicts. No in-block spelling moved the countdown.
+
+**Disproven this session (scratch `build/s5/`, untracked):**
+- genx factorial of 288 variants with in-block pan. Inert:
+  - `sample` scope (same block, if-condition declaration, extra block);
+  - nested against single condition;
+  - three loop-2 forms (event local; the shared `it` with named sample3D/volume; `if (void *sample3D = ...)`);
+  - loop-3 volume naming.
+
+  Inlining the loop-1 volume costs 11 B. Only pan's placement moves the result: in-block gives 789/0/8/1, top of the loop body or wider gives 766/18.
+- Opaque get2D (declared, not defined in the TU): 796 B, register 36. `playing` is then never cached, so the in-TU escape analysis must see get2D.
+- 21 local-rename variants (name-hash order) are inert at /O1.
+- The full WB loop-2 shape is inert. The earlier families f1..f12, g, h, r and w are documented in their generators.
+
+**Next angles, untried:**
+1. With wide pan, change the weights of the loop-1 iterator against the event candidate, so the iterator keeps EDI and the event CSE is undone. Examples: a `while` form of loop 1 only, `it` re-read as `m_playingSounds.end()` once per iteration, or the shared `it` combined with the WB loop-3 getter temps.
+2. With wide pan, change what keeps `this` split in retail (ESI, spilled to -0x1C at +0x14) rather than in EBX for the whole function. The music/queued tail sets the threshold (cut5), so try tail forms that use `this` less, for example `m_queuedEvents[viewType]` bound to a reference first.
