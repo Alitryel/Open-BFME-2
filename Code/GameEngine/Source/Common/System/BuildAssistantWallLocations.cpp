@@ -1,8 +1,17 @@
-// ?rva0039380F@BuildAssistant@@UAE_NPAVRva0039205C@@PAVObject@@PBUCoord3D@@2I@Z
-// partial score=0.88 date=2026-10-21
-// Owner BuildAssistant.cpp at1cb1f3a7e4; retail39380F/WB F9C000. Comments trimmed; provenance in owner history.
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
+// BuildAssistantWallLocations.cpp -- BuildAssistant::rva0039380F (retail 0x0039380F,
+// 2217 bytes), the wall-segment placement walk split out of BuildAssistant.cpp.
+//
+// Identity (target evidence): WB F9C000 is the debug twin of the same member; its frame
+// shows delta, delta2, current, unit and previous as function-scope locals and unit as a
+// member-wise copy of delta with z cleared. Declarations are carried from the owner TU
+// BuildAssistant.cpp (BFME 1 / Zero Hour donor views); the body is reconstructed from
+// retail and the WB twin.
+//
+// Coord3D::length/normalize and Coord2D::toAngle get visible noinline bodies here: the
+// calls stay out of line (retail 0x3571, 0x35B6, 0x5923) but c2 then sees that `this`
+// does not escape, which gives retail's stack colouring (sub esp,0xe8).
 #include <list>
 class Drawable;
 class FreelistPool{public: void*pop();};
@@ -38,10 +47,10 @@ const _List_iterator<T,Traits>&b)
 #include <math.h>
 #include "ascii_string.h"
 #include "unicode_string.h"
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
-#include "../../Code/Libraries/Include/Lib/Coord2D.h"
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
-#include "../../Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+#include "../../../../Libraries/Include/Lib/Coord2DCtorView.h"
+#include "../GameLogicObjectLookupView.h"
+#include "../PartitionRangeQueryCallView.h"
 typedef bool Bool;
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -165,7 +174,7 @@ UPGRADE_TYPE_OBJECT
 enum{MAX_COMMANDS_PER_SET=32};
 class Player;
 class Object;
-#include "../../Code/Libraries/Include/Lib/Region3D.h"
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 class Team;
 struct Rva002A7557In;
 class Drawable
@@ -1002,71 +1011,6 @@ class Rva0028CBFD
 public:
 void rva0028CBFD();
 };
-void BuildAssistant::update(void)
-{
-ObjectSellInfo*sellInfo;
-Object*obj;
-ObjectSellListIterator it,thisIterator;
-for(it=m_sellList.begin();it !=m_sellList.end();)
-{
-sellInfo=(*it);
-thisIterator=it;
-++it;
-obj=TheGameLogic->findObjectByID(sellInfo->m_id);
-if(obj==NULL)
-{
-sellInfo->deleteInstance();
-m_sellList.erase(thisIterator);
-continue;
-}
-Player*player=obj->getControllingPlayer();
-if(player)
-{
-UnsignedInt sellValue;
-if(obj->getTemplate()->getRefundValue()!=0)
-sellValue=obj->getTemplate()->getRefundValue();
-else
-sellValue=(UnsignedInt)(obj->getBuildCost()*TheWritableGlobalData->m_sellPercentage);
-Real fraction=1.0f;
-BodyModuleInterface*body=obj->getBodyModule();
-if(body)
-fraction=body->slot05();
-sellValue=(UnsignedInt)(sellValue*fraction);
-player->getMoney()->rva003B0D7C(sellValue,NULL,TRUE);
-UnicodeString moneyString;
-moneyString.format(TheGameText->fetch("GUI:AddCash",NULL),sellValue);
-Coord3D pos;
-pos.x=obj->getPosition()->x;
-pos.y=obj->getPosition()->y;
-pos.z=obj->getPosition()->z;
-pos.z +=obj->getGeometryInfo().getMaxHeightAbovePosition();
-Color color=obj->getControllingPlayer()->getPlayerColor()| GameMakeColor(0,0,0,230);
-TheInGameUI->addFloatingText(moneyString,&pos,color);
-}
-ProductionUpdateInterface*pui=(ProductionUpdateInterface*)obj->rva0028BC58(0);
-if(pui)
-pui->cancelAndRefundAllProduction();
-Bool scored=FALSE;
-if(obj->isKindOf(KINDOF_STRUCTURE)&&obj->getBodyModule()->getDamageState()> BODY_DAMAGED)
-{
-ObjectID killerID=INVALID_OBJECT_ID;
-if(obj->rva0028C264((Int*)&killerID,4))
-{
-Object*killer=TheGameLogic->findObjectByID(killerID);
-if(killer)
-{
-reinterpret_cast< Rva00294D61* >(killer)->report(obj,1);
-scored=TRUE;
-}
-}
-}
-if(!scored)
-obj->getControllingPlayer()->getScoreKeeper()->addObjectLost(obj);
-obj->kill(DAMAGE_UNRESISTABLE,DEATH_8);
-sellInfo->deleteInstance();
-m_sellList.erase(thisIterator);
-}
-}
 struct ProductionCountData
 {
 UnsignedInt count;
@@ -1923,6 +1867,10 @@ Int status;
 ObjectID endID;
 __forceinline void setPos(UnsignedInt index,const Coord3D*p){((Rva003920F7*)this)->rva003920F7(index,(const Rva003920F7Src*)p);}
 };
+__declspec(noinline) inline float Coord3D::length() const { return (float)sqrt(x*x+y*y+z*z); }
+__declspec(noinline) inline void Coord3D::normalize() { float len=length(); if(len!=0.0f){ float scale=1.0f/len; x*=scale; y*=scale; z*=scale; } }
+inline float Coord2D::length() const { return (float)sqrt(x*x+y*y); }
+__declspec(noinline) inline float Coord2D::toAngle() const { float len=length(); if(len==0.0f) return 0.0f; const float raw=x/len; float cosine; if(raw<-1.0f) cosine=-1.0f; else if(raw>1.0f) cosine=1.0f; else cosine=raw; if(y<0.0f) return -(float)acos(cosine); return (float)acos(cosine); }
 Real normalizeAngle(Real angle);
 Bool BuildAssistant::rva0039380F(Rva0039205C*out,Object*builder,const Coord3D*start,const Coord3D*end,UnsignedInt key)
 {
@@ -1957,7 +1905,7 @@ if(module->getRange(&range)){
 Player*owner=builder->getControllingPlayer();
 if(owner)owner->rva002AF614(&points);
 }
-Coord3D delta={endPoint.x-start->x,endPoint.y-start->y,0.f};
+Coord3D delta;delta.x=endPoint.x-start->x;delta.y=endPoint.y-start->y;delta.z=0.f;
 Coord2D delta2;delta2.x=endPoint.x-start->x;delta2.y=endPoint.y-start->y;
 Real angle=normalizeAngle(delta2.toAngle()+1.5707964f);
 Coord3D current;current.x=start->x;current.y=start->y;current.z=start->z;
@@ -1988,14 +1936,14 @@ segment=module->getEnd();
 if(!segment)segment=builder->getTemplate();
 half=segment->getTemplateGeometryInfo().getBoxMinorRadius();half-=1.f;
 }
-Coord3D step;step.y=half*unit.y;step.x=half*unit.x;step.z=0.f;
+Coord3D step(unit.x*half,unit.y*half,0.f);
 previous=current;
 current.x+=step.x;current.y+=step.y;
 current.z=TheTerrainLogic->getGroundHeight(current.x,current.y,0);
 Int code=isLocationLegalToBuild(&current,segment,angle,0x55,builder,0);
 Bool blocked=!points.empty();
 for(_STL::vector<Coord3D>::iterator i=points.begin();i!=points.end();++i){
-Coord3D diff={current.x-i->x,current.y-i->y,current.z-i->z};
+Coord3D diff;diff.x=current.x-i->x;diff.y=current.y-i->y;diff.z=current.z-i->z;
 if(diff.length()<=range){blocked=false;break;}
 }
 if(blocked)code=9;
@@ -2035,14 +1983,14 @@ return slot21(out,builder,nearObject,key,false);
 }
 out->rva00392196(index-1,0);
 }else if(startNewHub){
-Coord3D step;step.y=hubHalf*unit.y;step.x=hubHalf*unit.x;step.z=0.f;
+Coord3D step(unit.x*hubHalf,unit.y*hubHalf,0.f);
 current.x+=step.x;current.y+=step.y;
 current.z=TheTerrainLogic->getGroundHeight(current.x,current.y,0);
 Int code=isLocationLegalToBuild(&current,hubTemplate,angle,0x55,builder,0);
 out->setPos(index,&current);out->rva00392129(index,angle);out->rva0039215F(index,hubTemplate->getName());
 Bool blocked=!points.empty();
 for(_STL::vector<Coord3D>::iterator i=points.begin();i!=points.end();++i){
-const Coord3D diff={current.x-i->x,current.y-i->y,current.z-i->z};
+Coord3D diff;diff.x=current.x-i->x;diff.y=current.y-i->y;diff.z=current.z-i->z;
 if(diff.length()<=range){blocked=false;break;}
 }
 if(blocked)code=9;

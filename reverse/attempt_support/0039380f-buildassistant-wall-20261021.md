@@ -46,3 +46,19 @@ constructors. In WB every Coord3D/Coord2D local has an EH state.
 Next: cross header (POD / CtorView / + `COORD3D_VIEW_DTOR`) with the step,
 delta, delta2, unit and diff forms, ranked on differing bytes and frame
 `sub esp,0xE8`.
+
+## Landed exact (2026-10-21, claude-opus-5-5)
+
+The stack-packing residue (bank 0.88, 120 differing bytes) came from address escape, not from declaration order.
+`delta.length()`, `normalize()` and `toAngle()` called non-visible out-of-line Coord3D/Coord2D members. c2 therefore treated each `this` as escaping, which extended those locals' live ranges to the end of the function.
+
+The fix is to give those callees visible `__declspec(noinline) inline` bodies in the TU:
+- `Coord3D::length` and `Coord3D::normalize`;
+- `Coord2D::toAngle` (with an inline `Coord2D::length`).
+
+The calls stay out of line at retail 0x3571, 0x35B6 and 0x5923. With the visible bodies, the colouring matches retail exactly: frame `sub esp,0xe8`.
+
+Combined with the CtorView headers, the member-wise unit and the ctor-form steps, this gives an exact 2217 B match. It lives in `Code/GameEngine/Source/Common/System/BuildAssistantWallLocations.cpp`.
+
+What did not get there:
+- Making only length and normalize visible still left 32 differing bytes. The delta2/loop-$T colour was wrong until toAngle was visible too.
