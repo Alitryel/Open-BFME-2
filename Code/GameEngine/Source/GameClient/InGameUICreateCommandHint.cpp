@@ -33,9 +33,9 @@ extern Mouse *TheMouse;
 class Player {public:char pad54[0x54];int index;char pad58[0x6f8];int value750;bool hasRadar() const;};
 class PlayerList {public:char pad10[0x10];Player *local;};
 extern PlayerList *ThePlayerList;
-class Radar {public:char pad10[0x10];bool hidden,forced;char pad12[0x1430-0x12];GameWindow *window;int rva0029A224(GameWindow *);};
+class Radar {public:char pad10[0x10];bool hidden,forced;char pad12[0x1430-0x12];GameWindow *window;int isRadarWindow(GameWindow *);};
 extern Radar *TheRadar;
-class Rva0029A224 {public:int rva0029A224(GameWindow *);};
+class Rva0029A224 {public:int isRadarWindow(GameWindow *);};
 class Rva00222A8BTarget {public:unsigned char rva00222A53();};
 class BfmeAptWindowManager;extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 class Rva0029B313 {public:void rva0029B313(int);};
@@ -428,7 +428,7 @@ void InGameUI::createCommandHint(const GameMessage *msg)
     CURSOR(0xd);
    else {
     Radar *radar=TheRadar;
-    if((unsigned char)radar->rva0029A224(window) && !radar->forced &&
+    if((unsigned char)radar->isRadarWindow(window) && !radar->forced &&
        (radar->hidden || !ThePlayerList->local->hasRadar()))
      CURSOR(2);
     else CURSOR(5);
