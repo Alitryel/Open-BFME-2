@@ -292,9 +292,67 @@ Allocator forcings that are not exact:
 3. `slotmove2` node@3 / node@5 with `dec=node:2`.
 4. Allowed set empty at R3, R4 or R5 entry (`dt10.txt`).
 
+### Fourth pass (2026-10-21, late): node's R2 neighbour set; why every natural route stays closed
+
+Bank unchanged at 0.9772 (`2196 25 0.95334`). New tracers: `t50.txt`, `t54.txt`, `t55.txt` (run from `build/c2tr/`; raw output in `t50_r2.out.txt`, `t55_rounds.out.txt`).
+
+**New exact forcing: node out of entry:12's neighbour set.** `t50.txt` dumps the set that `8368e` builds at each coloring (called at `82a0d`; the set is the pushed `esi` that `831f7` later strips the register from). With `CLR=2:entry:node` it clears node's bit in that set at R2:
+
+| R2 coloring | Neighbour set |
+|---|---|
+| this:67 (esi) | 28 records, all loop 2 or function-wide; no loop-1 record |
+| entry:12 (ebx) | unit:4, count:5, ai:7, **node:b**, index:10, ?:35, ?:65, victim:7e, this:7f |
+
+Clearing node:b gives **2199 0 exact**. That is the "not a neighbour of a record colored at R2" equivalence the third pass predicted, now tested directly.
+
+**How `8368e` builds the set, and why the route cannot occur naturally.** `t54.txt` breaks inside `8368e` (entry `8374a`, per-block setup `82ba4`/`82be3`, union point `95d97`):
+
+- It walks the colored record's blocks (`[rec+0x28]` list) and keeps those whose `[blk+0x50]` set has the record's bit.
+- For each block it starts from `L = [blk+0x4c] ∩ arg` (`[esp+0x90]`, the round's candidate set). A second set `[blk+0x44] ∩ [0x108a7b40+reg*4]` is empty here.
+- It walks the block's tuples, and at every tuple that defines the record (operand byte `[op+8]==1` with `[op+0x1c]==rec`) it unions `L` into the output set (`95d97` → `afac0`/`afb21`).
+- The neighbour set is therefore the set of records live at the record's definitions, here entry:12's `imul`/`add` pair in block cc0bfc.
+
+node:b is in every one of entry:12's blocks (cc0bfc, cc0d8c, cc0e54, cc0f1c, cc0fe4, cc10ac), because it is loop-carried: its latch use reaches back over the whole body. Any source whose latch is retail's `node=node->next` (load, dereference, compare, store) keeps node live at entry's definition. So this route is the same requirement as the phantom-register route: node must survive R2 some other way.
+
+**Round structure (from `t55.txt`, arguments of `82978` per round, with w3).**
+
+- Coloring pops records in w3 order, across rounds:
+  - R1 colors only entry:15 (loop 2, w3 374), which empties 19 records;
+  - R2 colors this:67 (149, esi), then entry:12 (121, ebx), which empties 8 records.
+- A round ends at the first coloring that empties neighbours. The next round's `82978` candidate set (arg3) is the previous round's split pieces; the surviving uncolored originals (node:b w3 32, unit:4 103, index:10 25) carry over.
+- node (w3 32) is far below entry:12 (121), so entry always sweeps it into the 8-record group. That group gets the complex path (104 IR blocks), and node is never per-reference split there.
+- Two routes stay closed:
+  - Failing alone would need node popped with an empty set *before* entry:12 colors. That means a priority above 121 plus a set already emptied in R1, and node meets no R1 coloring (entry:15 is confined to loop 2).
+  - Failing in a pair (simple path) would need a coloring that empties at most one other record. Any ebx coloring defined in loop 1 sees count:5, this:7f and victim:7e live as well, and all three are {ebx}-only by then.
+
+**Disproven or closed in this pass:**
+
+| Trial | Result |
+|---|---|
+| Hypothesis H: some of node's head/latch blocks have an empty free set at R2 (`t2c.txt`, breaks 40ad4/40aeb/40ea5) | only cc10ac is empty; head and latch have 4 to 6 free registers (tr43 had already shown that forcing them empty is not exact) |
+| entry:12 forcings at R2 (`e12a`, `e12c`) | unchanged 0.95334; R2 group stays n=8 |
+| entry:12 + unit:4 (`g1`) or + count:5 (`g2`) allowed set emptied at R2 | the group just fails at R5 with node (`R5 call0 n=6 ... node`); c2 produced no object |
+| Flag `[rec+5]&4` cleared alone | unchanged. `f4a`: flag cleared **and** `40941` forced nonzero routes node nowhere, so it fails alone later: **exact**. Not natural: every record with a def has flag 4, and `3fe0c` (remat on the w15 def tuple, node's indirect latch load) returns 0 |
+| node added to R1's split set (`addfp_c1`) | node:7d reaches R2 with [ebx, ebp], but `5a7c9` strips ebp from new pieces in R2's `8ba60`; unchanged 0.95334 |
+| R1 setup loop class filter | `84744..847d5` visits every integer class (cls 1, 2, 5 → table 0), so no class trick keeps ebp |
+| Phantom ecx/edx | impossible: node is live across every loop-1 call (rva0046ACF6, both testStatus, the virtual idleBlocked, aiIdle, rva002C97E8) |
+| TU context (`tu1/v1..v4`: real sort instantiated, preceding functions removed, a dummy heavy function before, explicit instantiation) | all unchanged 2196 25 0.95334 |
+| WB loop-1 statement order | matches the bank |
+
+**What is left.** All six exact forcings say one thing: retail's node did not fail in R2's 8-record group (or its R4 successor). Each natural mechanism is now traced to its c2 condition:
+
+- phantom register (calls, MOVSD block, `8011c`/`5a7c9` frame strip);
+- neighbour exclusion (liveness at entry's defs);
+- failure routing (flag 4, `3fe0c`);
+- pop order (w3);
+- split path (block count, free sets).
+
+None is reachable from the loop-1 shapes tried so far. The remaining untested family is a change outside loop 1 that alters **which records exist at R2** (R1's 19-record group and its complex split on c30d88), so that count:5, this:7f, victim:7e or entry:12 reach R2 with a different set or priority. Screen candidates with `t55.txt` (w3 order and arg3 pieces at R2) and `t50.txt` (entry:12's neighbour set) before scoring. A body is a candidate when R2's group no longer contains node, or contains fewer than 3 records.
+
 ## Open leads for the next session (ranked)
 
-0. **(Third pass, highest.)** Find the source shape that lets node reach R2 holding more than {ebx}; see "Third pass: a phantom register at R2 is exact". Screen candidates cheaply by dumping node:b's set at R2 entry (`fp2.txt` without `PFL`): any extra member other than esi/edi is the target state. Candidates are a loop-1 call with a narrow kill set, node as an inlined or temporary symbol that the R1 setup loop skips, and entry:12 splitting at R1.
+0. **(Fourth pass, highest.)** Change R2's record population from outside loop 1 (R1's group and split), screened with `t55.txt`/`t50.txt`; see "Fourth pass". The neighbour and pop-order routes are closed at the c2 level.
+0a. **(Third pass.)** Find the source shape that lets node reach R2 holding more than {ebx}; see "Third pass: a phantom register at R2 is exact". Screen candidates cheaply by dumping node:b's set at R2 entry (`fp2.txt` without `PFL`): any extra member other than esi/edi is the target state. Candidates are a loop-1 call with a narrow kill set, node as an inlined or temporary symbol that the R1 setup loop skips, and entry:12 splitting at R1.
 1. **Make node live through a block that pins esi/edi.** In the bank, node:b at R2 loses esi/edi only because it is live through cc10ac (the MOVSD block). After R2's group split, node's pieces leave cc10ac and get esi/edi back.
 
    A source shape where the head+latch piece itself crosses a MOVSD or fixed-register block would empty its set. Examples: a struct copy (`entry.position=unit->m_position` is the MOVSD) placed in a block node stays live through, or the copy moved to the loop tail/latch side.
@@ -341,4 +399,9 @@ Scripts added in the second pass (same conventions; each `.txt` is the `build/c2
 | `tr43.txt` | tr40 plus `FR`/`FB` free-set forcing at 40aeb |
 | `drop2.txt`, `drop2_r2node.out.txt` | drop.py plus per-round record dumps; the node-escapes-R2 trace |
 | `fp1.txt`..`fp5.txt`, `wset5.txt` | third pass: `fp1` traces the ebp flag `[0x108a7b30]` and the `8011c` setup visits; `fp3` forces the flag (`F30=round`); `fp2`/`fp4` add `PFL=10R:idx:bits` forcing plus `a9634` callers; `fp5` dumps every record (class, w1, set) at round `KD`; `wset5` is wset4 plus stack return addresses at each hit |
+| `t50.txt` | fourth pass: dumps every coloring's `8368e` neighbour set; `CLR=R:rec:victim` clears one member (the exact forcing `CLR=2:entry:node`) |
+| `t54.txt` | `8368e` decode: per-block live sets `[blk+0x4c]`/`[blk+0x44]`/`[blk+0x50]`, the candidate set and the def-tuple union points |
+| `t55.txt` | `82978` arguments per round with every member's w3 (pop order) |
+| `t2c.txt`, `t40.txt` | per-block free sets at R2 (40ad4/40aeb/40ea5) and the split-record trace |
+| `t50_r2.out.txt`, `t55_rounds.out.txt` | fourth-pass raw output |
 | `ae2_r2set.out.txt`, `ae3_14.out.txt`, `fp1.out.txt`, `fp5_r2entry.out.txt` | third-pass raw results (R2 phantom-register table, the ecx route, R1 setup visits, the record dump at R2 entry) |
