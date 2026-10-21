@@ -8,8 +8,9 @@ rules' figures for the very same objects in its *_prev_rule columns
 commit and appends that row; it never pushes. Which previous rules it
 measures, and how, follows from the history's last row:
 
-  PREVIOUS_RULES (retail-truth-1: RULES without keep_rule's `unreferenced`
-    exemption): measured in the same judgment as RULES, on the same link log,
+  PREVIOUS_RULES (retail-truth-2: RULES without keep_rule's `retail_kept`
+    exemption, so every copy proven wrong loses even when another object
+    supplies the retail copy): measured in the same judgment as RULES, on the same link log,
     /MAP and objects (link_census.record(rebaseline=REBASELINE_IN_PROCESS)).
     Steps 1, 3, 4 and 5 below; step 2 does not apply.
   LEGACY_RULES (majority-0): measured by the previous link_census.py, below.
@@ -195,9 +196,9 @@ def message_in_process(new):
         return 100 * int(new[field]) / int(new["game_code"])
     return (f"link_census: re-baseline LINKING under {link_census.RULES}\n\n"
             f"One census of {new['commit']} judged under both rules in one pass, on the\n"
-            f"same link log, /MAP and objects ({link_census.PREVIOUS_RULES}: every differing\n"
-            "copy of a COMDAT with no retail address loses; {RULES}: not when nothing the\n"
-            "link keeps references it).\n\n".replace("{RULES}", link_census.RULES) +
+            f"same link log, /MAP and objects ({link_census.PREVIOUS_RULES}: every COMDAT\n"
+            "copy proven not retail's loses; {RULES}: not when another object supplies\n"
+            "the retail-proven copy).\n\n".replace("{RULES}", link_census.RULES) +
             f"  {link_census.PREVIOUS_RULES:<22} {int(new['files_linked_prev_rule']):>6,} files  "
             f"{int(new['linked_authored_prev_rule']):>10,} B  {pct('linked_authored_prev_rule'):6.2f}%\n"
             f"  {link_census.RULES:<22} {int(new['files_linked']):>6,} files  "

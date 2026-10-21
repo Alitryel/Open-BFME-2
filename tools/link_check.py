@@ -13,8 +13,9 @@ COMDAT copies with their retail-truth verdicts, and every file's blockers):
               the real link would not find in an import library (excused())
   duplicate   a strong definition another object also defines
   comdat      a COMDAT copy that is not retail's body (link_census.keep_rule:
-              retail truth where the symbol has a retail address, else the
-              first copy in link order)
+              retail truth where the symbol has a retail address, unless
+              another object supplies the retail-proven copy, else the first
+              copy in link order)
   addresses   hard-coded image addresses in the source (link_debt.addresses)
   selected    a name the object defines or references whose definition the
               link keeps is proven not retail's (link_census.judge_selected:
@@ -173,12 +174,12 @@ def index_tables(present, facts, selection, references=None):
 def index_references(index):
     """The index's reference graph, or None when it predates RULES (an index
     a retail-truth-1 census wrote): every name is then judged referenced,
-    PREVIOUS_RULES, which can only over-count blockers."""
+    as retail-truth-1 did, which can only over-count blockers."""
     found = index.get("references")
     if not isinstance(found, dict) or found.get("schema") != REFERENCES_SCHEMA:
         if not index.get("_warned_references"):
             print(f"link_check: this census index has no reference graph (it predates {link_census.RULES}); "
-                  f"no-address COMDAT copies are judged under {link_census.PREVIOUS_RULES}", file=sys.stderr)
+                  f"no-address COMDAT copies are judged under {link_census.RETAIL_TRUTH_1}", file=sys.stderr)
             index["_warned_references"] = True
         return None
     return found
