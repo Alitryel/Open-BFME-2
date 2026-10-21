@@ -64,11 +64,13 @@ class basic_string
 public:
 	typedef unsigned int size_type;
 
+private:
+	// Private in STLport 4.5.3 (the constructors' helper), which is the
+	// AAE spelling every real-STLport caller references.
 	template <class ForwardIter>
 	void _M_range_initialize(ForwardIter first, ForwardIter last,
 			const forward_iterator_tag &);
 
-private:
 	__declspec(dllimport) __forceinline size_type max_size() const
 	{
 		return (size_type(-1) / sizeof(CharT)) - 1;

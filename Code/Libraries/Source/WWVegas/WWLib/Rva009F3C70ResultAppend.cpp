@@ -1,17 +1,10 @@
-// cl: /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc
 // stlport
 // The 103-byte method appends one two-int record to the result payload.
 // The body at 0x009F3C00 has the same layout and helper call, so this source
 // keeps the candidate's separate address-derived identity.
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
-// Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,
-// and this TU's COMDAT copy differs from the copy the link keeps.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
-{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
-}
 
 class OCLSpecialPowerModuleData
 {

@@ -72,6 +72,9 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > &basic_string<char, char_traits<char>, allocator<char> >::append(const char *); }
 namespace _STL { template <> size_t basic_string<char, char_traits<char>, allocator<char> >::find(const char *, size_t) const; }
 namespace _STL { template <> size_t basic_string<char, char_traits<char>, allocator<char> >::find_last_not_of(const char *, size_t, size_t) const; }
+// Retail's insert(iterator, n, c) at 0x00029530 is emitted by
+// stlport_string_insert_fill.cpp; this unit's copy precedes it in link order.
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::insert(char *, size_t, char); }
 // bfme link decl-only end
 
 template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;
