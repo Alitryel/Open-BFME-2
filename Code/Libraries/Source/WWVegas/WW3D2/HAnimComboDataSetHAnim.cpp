@@ -4,7 +4,7 @@
 // hanim.cpp bodies, so it is built here under that region's flags.
 #include "hanim.h"
 
-void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
+inline __declspec(noinline) void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
 {
 	if ( motion != NULL ) {
 		motion->Add_Ref();
@@ -13,4 +13,12 @@ void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
 		HAnim->Release_Ref();
 	}
 	HAnim = motion;
+}
+
+// The counted-holder callers also emit this header inline. Keep the rowed
+// provider as a select-any copy, with this non-retail anchor retaining emission.
+// ?bfmeAnchorHAnimComboDataSetHAnim absent-from-retail
+void bfmeAnchorHAnimComboDataSetHAnim(HAnimComboDataClass *data, HAnimClass *motion)
+{
+	data->Set_HAnim(motion);
 }
