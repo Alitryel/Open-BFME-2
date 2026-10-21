@@ -547,3 +547,19 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   real spelling instead (nine units' placeholder callees were rebound this
   way); dead pragmas whose alias another object defines, or that no object
   references, can simply be dropped.
+- **SSE allocation can inherit the preceding function's EBP availability.**
+  For ArmyDefinition's normalizer (0x0041F369), MSVC 7.1 runs SSE allocation
+  before refreshing its global `_regAvail[6]`; the later integer pass refreshes
+  it for the current function. Compiling the real framed interpolation sibling
+  (0x0041F2A8) immediately before the normalizer therefore gives SSE costs EBP
+  unavailable, then integer costs EBP available: the missing combination that
+  closes the isolated 200-byte candidate's nine differing XMM-register bytes.
+  Ordinary STLport `begin`/`end` copies emitted between them reset the state.
+  Equivalent `dllimport` + `forceinline` specializations, already used by
+  AIStatCollector, preserve their real inline operations and suppress those
+  unused external copies. Removing or moving the interpolation body restores
+  the mismatch; `/Oy-` alone fixes XMM roles but breaks integer allocation.
+  Verify actual compiler emission order and whole bodies with relocations;
+  recover supported real translation-unit context, never insert arbitrary
+  dummy functions to manipulate this state. See the
+  [traces, controls and three exact extents](../reverse/attempt_support/army-normalizer-41f369-20261021/recovery.md).
