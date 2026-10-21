@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva003427A9@Rva003427A9@@QAEXPAVXfer@@@Z @0x003427A9 42B.
+// ?xfer@Rva003427A9@@QAEXPAVXfer@@@Z @0x003427A9 42B.
 //
 // Xfer-driven member transfer: Version1 (rowed 0x000053EE) on the stream,
 // then the stream's virtual slots 30 and 24 over the +0x4C/+0x50 members
@@ -52,14 +52,14 @@ public:
 class Rva003427A9
 {
 public:
-	void rva003427A9(Xfer *x);
+	void xfer(Xfer *x);
 private:
 	char m_pad00[0x4c];
 	int m_4c; // +0x4C
 	int m_50; // +0x50
 };
 
-void Rva003427A9::rva003427A9(Xfer *xfer)
+void Rva003427A9::xfer(Xfer *xfer)
 {
 	xfer->Version1();
 	xfer->v30(&m_4c);

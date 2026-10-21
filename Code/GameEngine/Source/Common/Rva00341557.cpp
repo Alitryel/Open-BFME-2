@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva00341557@Rva00341557@@QAEXH@Z,
+// ?onExit@Rva00341557@@QAEXH@Z,
 // retail 0x00341557, 67 bytes. Dedicated TU.
 // Chain of freshly landed ?setCurrentVictim@AIUpdateInterface@@QAEXPBVObject@@@Z:
 // clears the current victim via the doubly indirect Object, clears +0x488,
@@ -50,11 +50,11 @@ class Rva00341557
 	Deletable *m_owned;
 
 public:
-	void rva00341557(int unused);
+	void onExit(int unused);
 };
 
-// ?rva00341557@Rva00341557@@QAEXH@Z
-void Rva00341557::rva00341557(int unused)
+// ?onExit@Rva00341557@@QAEXH@Z
+void Rva00341557::onExit(int unused)
 {
 	Object *obj = m_mid->m_obj;
 	AIUpdateInterface *ai = obj->getAI();

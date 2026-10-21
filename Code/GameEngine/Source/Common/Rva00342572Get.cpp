@@ -1,6 +1,6 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva00342572@Rva00342572@@QAEHXZ, retail 0x00342572, 46 bytes.
+// ?onEnter@Rva00342572@@QAEHXZ, retail 0x00342572, 46 bytes.
 // Chain from 0x0033F8D4 (AIUpdateInterface::rva0033F8D4 FLT_MAX check).
 // Gets AIUpdateInterface via this+0x18->+0x14->+0x258, calls the predicate;
 // when false returns -1, when true copies its +0x1A0 int to +0x20 and
@@ -31,7 +31,7 @@ struct Mid00342572_18
 class Rva00342572
 {
 public:
-	int rva00342572();
+	int onEnter();
 
 private:
 	char m_pad00[0x18];
@@ -40,7 +40,7 @@ private:
 	int m_20;
 };
 
-int Rva00342572::rva00342572()
+int Rva00342572::onEnter()
 {
 	Mid00342572_14 *mid14 = m_18->m_14;
 	AIUpdateInterface *ai = mid14->m_258;

@@ -51,7 +51,7 @@ class Rva0033FC42 : public Rva0049B47C
 {
 public:
 	virtual ~Rva0033FC42();
-	int rva0033FC9D();
+	int update();
 
 private:
 	char m_pad0C[0x18 - 0x0C];
@@ -69,7 +69,7 @@ Rva0033FC42::~Rva0033FC42()
 	}
 }
 
-int Rva0033FC42::rva0033FC9D()
+int Rva0033FC42::update()
 {
 	if (m_ptr20 == 0) {
 		return 0;

@@ -27650,7 +27650,7 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ?Rva000308B0Clear@@YAXXZ,,0x000308B0,17,Code/GameEngine/Source/Common/Rva000308B0Clear.cpp,matched,guard 0xDE0821 clear byte 0xDE0818 to 0 caller 0x225401
 ?rva0026EEA0@UpgradeCenter@@QBEPBVUpgradeTemplate@@H@Z,,0x0026EEA0,24,Code/GameEngine/Source/Common/System/UpgradeCenterFindUpgradeByKey.cpp,matched,UpgradeCenter list walk mask index at +0x38 next at +0x64 callers use TheUpgradeCenter 0x009FEB60 adjacent to findUpgradeByKey
 ??4Rva0033F16E@@QAEAAV0@ABV0@@Z,,0x0033F16E,151,Code/GameEngine/Source/Common/Rva0033F16ECopy.cpp,matched,assign copy 0x04 to 0x64 with 12B blocks caller 0x3427EC
-?rva0033FC9D@Rva0033FC42@@QAEHXZ,,0x0033FC9D,43,Code/GameEngine/Source/Common/Rva0033FC42Dtor.cpp,matched,slot6 vtable 0x811DB0 guard 0x38 method10
+?update@Rva0033FC42@@QAEHXZ,,0x0033FC9D,43,Code/GameEngine/Source/Common/Rva0033FC42Dtor.cpp,matched,slot6 vtable 0x811DB0 guard 0x38 method10
 ?Rva0033FA79Do@@YAXPBVObject0033FA79@@@Z,,0x0033FA79,21,Code/GameEngine/Source/Common/Rva0033FA79Do.cpp,matched,Object 0x258 AIUpdate slot142 with 0 twin FA64
 ?Rva0026EDC4Xfer@@YAXPAVXfer@@PAX@Z,,0x0026EDC4,24,Code/GameEngine/Source/Common/System/XferUpgradeStatusTransfer.cpp,matched,Free Xfer helper for UpgradeStatusType at slot 0x94 size 4 caller 0x0026EE11 string unique
 ?rva0026EE11@Rva0026EE11@@QAEXPAVXfer@@@Z,,0x0026EE11,31,Code/GameEngine/Source/Common/System/XferUpgradeStatusTransfer.cpp,matched,Chain of 0x0026EDC4 Version1 plus status helper status at +8 both callees rowed
@@ -27676,7 +27676,7 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ?_M_clear@?$vector@URva005F8F96@@V?$allocator@URva005F8F96@@@_STL@@@_STL@@IAEXXZ,,0x0015373C,30,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva005F8F96_dtor.cpp,matched,vector clear via rowed Destroy 0x153470 and free
 ??1?$vector@URva005F8F96@@V?$allocator@URva005F8F96@@@_STL@@@_STL@@QAE@XZ,,0x001536EA,63,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva005F8F96_dtor.cpp,matched,vector dtor EH via rowed Destroy 0x153470 and free
 ??_GRva005F8F96@@QAEPAXI@Z,,0x005CCCB4,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-6937.cpp,matched,deleting dtor calls rowed dtor 0x5F8F96 chain
-?rva00342572@Rva00342572@@QAEHXZ,,0x00342572,46,Code/GameEngine/Source/Common/Rva00342572Get.cpp,matched,chain F8D4 predicate copy 1A0 to 20 or -1
+?onEnter@Rva00342572@@QAEHXZ,,0x00342572,46,Code/GameEngine/Source/Common/Rva00342572Get.cpp,matched,chain F8D4 predicate copy 1A0 to 20 or -1
 ??0Rva00342FCD@@QAE@PAVStateMachine@@H@Z,,0x00342FCD,37,Code/GameEngine/Source/Common/Rva00342FCDCtor.cpp,matched,chain FE65 base 0 vtable 0x812FA0 store 0x28
 ?xfer@Rva00342502@@MAEXPAVXfer@@@Z,,0x00342502,42,Code/GameEngine/Source/Common/Rva00342502Xfer.cpp,matched,chain FF76 base Version1 bool 4C
 ??4Rva003427DD@@QAEAAV0@ABV0@@Z,,0x003427DD,45,Code/GameEngine/Source/Common/Rva003427DDCopy.cpp,matched,chain F16E assign plus 70 74 78
@@ -28208,7 +28208,7 @@ _FilterBlockBil_8_wmt,,0x001D7C80,204,Code/Libraries/Source/VP6/FilterBlockBil8W
 ??1Thing@@MAE@XZ,,0x0030A120,13,Code/GameEngine/Source/Common/Thing/ThingConstructor.cpp,matched,Thing::~Thing renamed from Rva0030A120 placeholder: retail stores the Thing vftable 008086E0 (whose slot 7 is the deleting dtor 0030A243) and decrements the live count 009FF4A8 that rowed Thing::Thing 0030A188 raises; WB name lead Thing::~Thing in Thing.cpp; protected access from ZH MEMORY_POOL_GLUE_ABC(Thing) (donor fact)
 ??_GThing@@MAEPAXI@Z,,0x0030A243,28,Code/GameEngine/Source/Common/Thing/ThingConstructor.cpp,matched,Thing scalar deleting destructor renamed from Rva0030A120 placeholder: slot 7 of the Thing vftable 008086E0; calls Thing::~Thing 0030A120 then operator delete; emitted beside the vftable by the Thing unit
 ?setCurrentVictim@AIUpdateInterface@@QAEXPBVObject@@@Z,,0x00268D1F,82,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterface_setCurrentVictim.cpp,matched,ZH donor AIUpdate.cpp:4193 sibling getCurrentVictim 0x00268D71 proves class and plus0x40
-?rva00341557@Rva00341557@@QAEXH@Z,,0x00341557,67,Code/GameEngine/Source/Common/Rva00341557.cpp,matched,chain-of-setCurrentVictim-clears-victim-plus488-then-deleteInstance
+?onExit@Rva00341557@@QAEXH@Z,,0x00341557,67,Code/GameEngine/Source/Common/Rva00341557.cpp,matched,chain-of-setCurrentVictim-clears-victim-plus488-then-deleteInstance
 ?xfer@Rva00341930@@MAEXPAVXfer@@@Z,,0x00341930,73,Code/GameEngine/Source/Common/Rva00341930Xfer.cpp,matched,Version12-baseRva0033FF2B-ObjectID-plus50-gated-uint
 ?rva0026DE3B@AIUpdateInterface@@QAEXH@Z,,0x0026DE3B,60,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterface_rva0026DE3B.cpp,matched,chain-victim-aiIdle-clear-minus3
 ??$copy_backward@PAU?$pair@W4ObjectID@@I@_STL@@PAU12@@_STL@@YAPAU?$pair@W4ObjectID@@I@0@PAU10@00@Z,,0x004C72FE,27,Code/GameEngine/Source/Common/VectorPairObjectIDCopyBackward.cpp,matched,pinned name; callee folded at 0x0030B378; caller linear_insert 0x005672AA; explicit instantiation exact mod reloc
@@ -30317,7 +30317,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ??0Rva00261790@@QAE@PAVArg00261790@@_N@Z,,0x00261790,88,Code/GameEngine/Source/Common/Rva00261790Ctor.cpp,matched,caller 0x00272B3E GlobalData DFE758 plus float BF8FFC sibling SSE pattern
 ??$__partial_sort@PAHHVRva00422CA8@@@_STL@@YAXPAH000VRva00422CA8@@@Z,,0x00424C21,93,Code/Libraries/Source/WWVegas/WWLib/stlport_push_heap_rva00422ca8.cpp,matched,chain partial sort via rowed heap sorts
 ?rva002618FA@Rva002618A2@@QAEPAV1@HHHHHH@Z,,0x002618FA,129,Code/GameEngine/Source/Common/Rva002618A2.cpp,matched,sibling 0x002618A2 same class 5-bit caller 0x00261CAD pushes 0 8 9 abc
-?rva00340C5F@Rva00340C5F@@QAEHXZ,,0x00340C5F,81,Code/GameEngine/Source/Common/Rva00340C5FMethod.cpp,matched,unlock turret goal copy flag
+?onEnter@Rva00340C5F@@QAEHXZ,,0x00340C5F,81,Code/GameEngine/Source/Common/Rva00340C5FMethod.cpp,matched,unlock turret goal copy flag
 ?rva004DFA0E@Rva004DFA0E@@QAEXPAX0@Z,,0x004DFA0E,53,Code/GameEngine/Source/Common/Rva004DFA0EChain.cpp,matched,guarded dispatch reusing arg slot plus base triple call
 ??$__uninitialized_fill_n@PAURva00423A4A@@IU1@@_STL@@YAPAURva00423A4A@@PAU1@IABU1@@Z,,0x004246EE,27,Code/Libraries/Source/WWVegas/WWLib/Rva00423A4AFillN.cpp,matched,chain filln dispatch via rowed false type
 ?rva003E40AF@ScriptConditions@@QAEHH@Z,,0x003E40AF,35,Code/GameEngine/Source/Common/Rva003E40AFGet.cpp,matched,ScriptConditions member: callers 0x003E56FC and 0x003E687D pass this in ECX; switch 0 1 2 to 1 2 4 else minus 1
@@ -50677,7 +50677,7 @@ _Rva006CD070Atof,,0x006CD070,14,Code/Libraries/Source/Apt/AptValue/AptNumericPar
 ?rva008A1CF0@Rva008A1CF0@@QAEHH@Z,,0x006E4610,135,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp,matched,BFME1 donor Rva008A1CF0.cpp paired by BSim; owner group field moved +0x10 to +0x14; same public135B provider rehomed for native caller read-only visibility
 ?ExecuteInitAction@AptCharacterAnimation@@QAEXPAVAptCIH@@H@Z,,0x006E6A30,209,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp,matched,
 ?ExportClassDefinitionAssets@AptCharacterAnimation@@QAEXPAVAptCIH@@@Z,,0x006E46A0,278,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp,matched,
-?rva00544E76@Rva00544C2A@@QAEHXZ,,0x00544E76,59,Code/GameEngine/Source/Common/Rva00544E76.cpp,matched,leaf slot 4 of 0x00869CF8 chains plus18 to slot 0x17C and TheGameLogic plus40 to slot 0x24
+?onEnter@Rva00544C2A@@QAEHXZ,,0x00544E76,59,Code/GameEngine/Source/Common/Rva00544E76.cpp,matched,leaf slot 4 of 0x00869CF8 chains plus18 to slot 0x17C and TheGameLogic plus40 to slot 0x24
 ?Rva00580BBFUnguardedSort@@YAXPAPAX0VRva000795C1Record@@@Z,,0x00580BBF,79,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,unguarded insertion sort wrapper calling 0x00580A54 with 16B record teardown
 ?rva002A0D11@Rva002A0D11@@QAEXXZ,,0x002A0D11,8,Code/GameEngine/Source/Common/RvaPlus4MemberForwarders.cpp,matched,Plus-N member forwarder tail jmp by REL32
 ?addEffect@Rva003BB730Owner@@QAEXAAVAsciiString@@PAVRva003BB730Record@@@Z,,0x003EE7C2,8,Code/GameEngine/Source/Common/RvaPlus4MemberForwarders.cpp,matched,Plus-N member forwarder tail jmp by REL32
@@ -50858,7 +50858,7 @@ _FilterBlockBil_8_mmx,,0x001D7200,204,Code/Libraries/Source/VP6/FilterBlockBil8M
 ?rva00338317RegisterScriptFunctions@LuaScriptEngine@@QAEXXZ,,0x00338317,1221,Code/GameEngine/Source/GameLogic/ScriptEngine/openLuaLibraries.cpp,matched,BFME1 donor LuaScriptEngineRegisterScriptFunctions.cpp; 41 Lua callbacks in retail order plus line hook; shares unit with static openLuaLibraries (esi convention)
 ?setMap@GameInfo@@QAEXVAsciiString@@@Z,,0x00400126,1030,Code/GameEngine/Source/GameNetwork/GameInfoSetMap.cpp,matched,BFME1 donor GameInfoSetMap.cpp ported with BFME2 offsets (m_inGame +0x10; m_mapName +0x40; m_mapMask +0x4C; amIHost slot +0x30)
 ?scatterToNearbyPosition@TunnelContain@@IAEXPAVObject@@@Z,,0x0047E16B,253,Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainScatter.cpp,matched,ZH TunnelContain scatter; file-lines 337/344; groundheight slot6; radius+0xB8; ai+0x258/cmd+0x20
-?rva003427A9@Rva003427A9@@QAEXPAVXfer@@@Z,,0x003427A9,42,Code/GameEngine/Source/Common/Rva003427A9Transfer.cpp,matched,xfer-family virtual Version1 plus stream slots 30 24 over plus-0x4C 0x50
+?xfer@Rva003427A9@@QAEXPAVXfer@@@Z,,0x003427A9,42,Code/GameEngine/Source/Common/Rva003427A9Transfer.cpp,matched,xfer-family virtual Version1 plus stream slots 30 24 over plus-0x4C 0x50
 ?rva0033D3B8@Rva0033D3B8@@QAEPBDABVAsciiString@@@Z,,0x0033D3B8,48,Code/GameEngine/Source/Common/Rva0033D3B8Lookup.cpp,matched,string-map lookup empty-gated find worker plus header-miss null
 ?rva0033B84E@Rva0033AFBB@@QAEXPAVINI@@PAVAsciiString@@@Z,,0x0033B84E,234,Code/GameEngine/Source/Common/System/INI_VeterancyLevelListParse.cpp,matched,multi-token INI bitstring-list driver over VeterancyLevelNames worker 0x33AFBB; quoted re-split via nextToken with trailing wasQuoted re-clear; NONE ends inner/inner-continue vs outer-break; join-append reads as worker member (edi homing); EH frame; accumulator reset via 0x36410 fold
 ?findBestInfoSlow@?$SparseMatchFinder@UModelConditionInfo@@V?$BitFlags@$0HF@@@@@ABEPBUModelConditionInfo@@ABV?$vector@UModelConditionInfo@@V?$allocator@UModelConditionInfo@@@_STL@@@_STL@@ABV?$BitFlags@$0HF@@@@Z,,0x0033BDF8,115,Code/GameEngine/Source/Common/Thing/SparseMatchFinderModelConditionBestInfoSlow117.cpp,matched,linear best-match over info vector; intersection score with inverse tie-break; (a>b||(a>=b&&c)) selection; f-ref cursor IV; end cache

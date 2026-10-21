@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva00340C5F@Rva00340C5F@@QAEHXZ, retail 0x00340C5F, 81 bytes.
+// ?onEnter@Rva00340C5F@@QAEHXZ, retail 0x00340C5F, 81 bytes.
 // Unlock method: goal object via TurretStateMachine at +0x18, null returns
 // -2, optional CritterDesync log via globals, then 12B copy from +0x38 to
 // +0x20, flag +0x48=1, state +0x4C=3, return 0. Evidence: callees rowed,
@@ -37,7 +37,7 @@ extern void *g_00DFEFF0;
 class Rva00340C5F
 {
 public:
-	int rva00340C5F();
+	int onEnter();
 private:
 	char m_00[0x18];
 	TurretStateMachine *m_18;
@@ -49,7 +49,7 @@ private:
 	int m_4C;
 };
 
-int Rva00340C5F::rva00340C5F()
+int Rva00340C5F::onEnter()
 {
 	Object *obj = m_18->getGoalObject();
 	if (obj == 0)

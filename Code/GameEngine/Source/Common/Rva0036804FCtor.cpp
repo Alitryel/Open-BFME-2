@@ -43,7 +43,7 @@ public:
 class Rva00340C5F
 {
 public:
-	int rva00340C5F();
+	int onEnter();
 };
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 class State
@@ -97,7 +97,7 @@ int Rva0036804F::rva00368067()
 	Object *crate = m_machine->m_owner->m_ai->checkForCrateToPickup();
 	if (crate != 0) {
 		m_machine->setGoalObject(crate);
-		return ((Rva00340C5F *)this)->rva00340C5F();
+		return ((Rva00340C5F *)this)->onEnter();
 	}
 	return -1;
 }

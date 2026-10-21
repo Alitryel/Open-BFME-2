@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva00544E76@Rva00544C2A@@QAEHXZ @0x00544E76 59B.
+// ?onEnter@Rva00544C2A@@QAEHXZ @0x00544E76 59B.
 // Leaf slot 4 of vtable 0x00869CF8 (class of Rva00544C2A ctor): chains
 // +0x18->+0x14->+0x258 through slot 0x17C, then TheGameLogic+0x40 plus
 // slot 0x24 into +0x20. Answers -2 on null and 0 after storing.
@@ -37,7 +37,7 @@ struct Rva00544E76Outer
 class Rva00544C2A
 {
 public:
-	int rva00544E76();
+	int onEnter();
 private:
 	char m_pad00[0x18];
 	Rva00544E76Outer *m_18;
@@ -45,7 +45,7 @@ private:
 	int m_20;
 };
 
-int Rva00544C2A::rva00544E76()
+int Rva00544C2A::onEnter()
 {
 	Rva00544E76Iface *iface = m_18->m_14->m_258;
 	void *obj = ((Rva00544E76Slot17c)iface->m_vtable[0x17C / 4])(iface);
