@@ -890,7 +890,7 @@ public:
 		Player *owner, int a, int b); // slot 0x1C
 };
 
-void ScriptActions::doBuildBuildingOnFoundation(const AsciiString &templateName, const AsciiString &unitName)
+void ScriptActions::doBuildBuildingOnFoundation(const AsciiString &buildingType, const AsciiString &unitName)
 {
 	Object *theUnit = TheScriptEngine->getUnitNamed(unitName);
 	if (!theUnit)
@@ -900,7 +900,7 @@ void ScriptActions::doBuildBuildingOnFoundation(const AsciiString &templateName,
 		return;
 	if (player != TheScriptEngine->getCurrentPlayer())
 		return;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(templateName);
+	const ThingTemplate *tmpl = TheThingFactory->findTemplate(buildingType);
 	if (!tmpl)
 		return;
 	if (!player->rva002AA00C((ThingTemplate *)tmpl, 0))
