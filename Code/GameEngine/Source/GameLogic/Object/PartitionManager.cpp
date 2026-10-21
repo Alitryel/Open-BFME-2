@@ -268,7 +268,7 @@ static int cellValueProc(PartitionCell* cell, void* userData);
 			(thus the normal for b is exactly opposite in direction)
 	-- collideNormal is guaranteed to be a unit vector
 */
-typedef Bool (*CollideTestProc)(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+typedef Bool (*CollideTestProc)(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
 
 // if the dist is greater than maxDist, return false, and the output stuff is undefined.
 typedef Bool (*DistCalcProc)
@@ -406,33 +406,33 @@ inline Real calcSqrDist_3D(const Coord3D *dist)
 }
 
 //-----------------------------------------------------------------------------
-inline Int absInt(Int a)
+inline Int absInt(Int lhs)
 {
-	if (a < 0) return -a; else return a;
+	if (lhs < 0) return -lhs; else return lhs;
 }
 
 //-----------------------------------------------------------------------------
-inline Int minInt(Int a, Int second)
+inline Int minInt(Int lhs, Int rhs)
 {
-	if (a < second) return a; else return second;
+	if (lhs < rhs) return lhs; else return rhs;
 }
 
 //-----------------------------------------------------------------------------
-inline Int maxInt(Int a, Int second)
+inline Int maxInt(Int lhs, Int rhs)
 {
-	if (a > second) return a; else return second;
+	if (lhs > rhs) return lhs; else return rhs;
 }
 
 //-----------------------------------------------------------------------------
-inline Real minReal(Real a, Real second)
+inline Real minReal(Real lhs, Real rhs)
 {
-	if (a < second) return a; else return second;
+	if (lhs < rhs) return lhs; else return rhs;
 }
 
 //-----------------------------------------------------------------------------
-inline Real maxReal(Real a, Real second)
+inline Real maxReal(Real lhs, Real rhs)
 {
-	if (a > second) return a; else return second;
+	if (lhs > rhs) return lhs; else return rhs;
 }
 
 //-----------------------------------------------------------------------------
@@ -445,30 +445,30 @@ static void projectCoord3D(Coord3D *coord, const Coord3D *unitDir, Real dist);
 static void flipCoord3D(Coord3D *coord);
 
 static void rectToFourPoints(
-	const CollideInfo *a,		// z is ignored
+	const CollideInfo *lhs,		// z is ignored
 	Coord2D pts[]
 );
 static void testRotatedPointsAgainstRect(
 	const Coord2D *pts,				// an array of 4
-	const CollideInfo *a,
+	const CollideInfo *lhs,
 	Coord2D *avg,
 	Int *avgTot
 );
 
-static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool xy_collideTest_Rect_Rect(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool xy_collideTest_Rect_Circle(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool xy_collideTest_Circle_Rect(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
 static Bool xy_collideTest_Circle_Circle(const Coord3D *a_pos, const Coord3D *b_pos, const Real a_radius, const Real b_radius, CollideLocAndNormal *cinfo);
 
-static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Sphere_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Sphere_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Cylinder_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Cylinder_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Cylinder_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Box_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Box_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
-static Bool collideTest_Box_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Sphere_Sphere(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Sphere_Cylinder(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Sphere_Box(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Cylinder_Sphere(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Cylinder_Cylinder(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Cylinder_Box(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Box_Sphere(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Box_Cylinder(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
+static Bool collideTest_Box_Box(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo);
 
 static Bool distCalcProc_CenterAndCenter_2D(const Coord3D *posA, const Object *objA, const Coord3D *posB, const Object *objB, Real& abDistSqr, Coord3D& abVec, Real maxDistSqr); 
 static Bool distCalcProc_BoundaryAndBoundary_2D(const Coord3D *posA, const Object *objA, const Coord3D *posB, const Object *objB, Real& abDistSqr, Coord3D& abVec, Real maxDistSqr); 
@@ -494,23 +494,23 @@ inline void flipCoord3D(Coord3D *coord)
 //-----------------------------------------------------------------------------
 static void testRotatedPointsAgainstRect(
 	const Coord2D *pts,				// an array of 4
-	const CollideInfo *a,
+	const CollideInfo *lhs,
 	Coord2D *avg,
 	Int *avgTot
 )
 {
 	//DEBUG_ASSERTCRASH(a->geom.getGeomType() == GEOMETRY_BOX, ("only boxes are ok here"));
-	Real major = a->geom.getMajorRadius();
-	Real minor = (a->geom.getGeomType() == GEOMETRY_SPHERE) ? a->geom.getMajorRadius() : a->geom.getMinorRadius();
+	Real major = lhs->geom.getMajorRadius();
+	Real minor = (lhs->geom.getGeomType() == GEOMETRY_SPHERE) ? lhs->geom.getMajorRadius() : lhs->geom.getMinorRadius();
 
-	Real cosine = (Real)Cos(-a->angle);
-	Real sine = (Real)Sin(-a->angle);
+	Real cosine = (Real)Cos(-lhs->angle);
+	Real sine = (Real)Sin(-lhs->angle);
 
 	for (Int i = 0; i < 4; ++i, ++pts)
 	{
 		// convert to a delta relative to rect ctr
-		Real ptx = pts->x - a->position.x;
-		Real pty = pts->y - a->position.y;
+		Real ptx = pts->x - lhs->position.x;
+		Real pty = pts->y - lhs->position.y;
 
 		// inverse-rotate it to the right coord system
 		Real ptx_new = (Real)fabs(ptx*cosine - pty*sine);
@@ -533,42 +533,42 @@ static void testRotatedPointsAgainstRect(
 
 //-----------------------------------------------------------------------------
 static void rectToFourPoints(
-	const CollideInfo *a,		// z is ignored
+	const CollideInfo *lhs,		// z is ignored
 	Coord2D pts[]
 )
 {
-	Real cosine = (Real)Cos(a->angle);
-	Real sine = (Real)Sin(a->angle);
+	Real cosine = (Real)Cos(lhs->angle);
+	Real sine = (Real)Sin(lhs->angle);
 
-	Real exc = a->geom.getMajorRadius()*cosine;
-	Real eyc = a->geom.getMinorRadius()*cosine;
-	Real exs = a->geom.getMajorRadius()*sine;
-	Real eys = a->geom.getMinorRadius()*sine;
+	Real exc = lhs->geom.getMajorRadius()*cosine;
+	Real eyc = lhs->geom.getMinorRadius()*cosine;
+	Real exs = lhs->geom.getMajorRadius()*sine;
+	Real eys = lhs->geom.getMinorRadius()*sine;
 
 	// tl
-	pts[0].x = a->position.x - exc - eys;
-	pts[0].y = a->position.y + eyc - exs;
+	pts[0].x = lhs->position.x - exc - eys;
+	pts[0].y = lhs->position.y + eyc - exs;
 
 	// tr
-	pts[1].x = a->position.x + exc - eys;
-	pts[1].y = a->position.y + eyc + exs;
+	pts[1].x = lhs->position.x + exc - eys;
+	pts[1].y = lhs->position.y + eyc + exs;
 
 	// bl
-	pts[2].x = a->position.x - exc + eys;
-	pts[2].y = a->position.y - eyc - exs;
+	pts[2].x = lhs->position.x - exc + eys;
+	pts[2].y = lhs->position.y - eyc - exs;
 
 	// br
-	pts[3].x = a->position.x + exc + eys;
-	pts[3].y = a->position.y - eyc + exs;
+	pts[3].x = lhs->position.x + exc + eys;
+	pts[3].y = lhs->position.y - eyc + exs;
 }
 
 //-----------------------------------------------------------------------------
 /**
 	2d utility routine for rect/cyl & rect/sphere collisions testing.
 */
-static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Circle_Rect(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	Bool result = xy_collideTest_Rect_Circle(second, a, cinfo);
+	Bool result = xy_collideTest_Rect_Circle(rhs, lhs, cinfo);
 	if (cinfo)
 		flipCoord3D(&cinfo->normal);
 	return result;
@@ -578,14 +578,14 @@ static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *
 /**
 	2d utility routine for rect/cyl & rect/sphere collisions testing.
 */
-static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Rect_Circle(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
 #if 1
 	/// @todo srj -- this is better than the other one, since it actually handles rotated rects,
 	// but still not as accurate as is could be. (srj)
-	CollideInfo btmp = *second;
+	CollideInfo btmp = *rhs;
 	btmp.geom.setMinorRadius(btmp.geom.getMajorRadius());
-	return xy_collideTest_Rect_Rect(a, &btmp, cinfo);
+	return xy_collideTest_Rect_Rect(lhs, &btmp, cinfo);
 #else
 	// note, this actually tests the intersection of the the rect with the circle's
 	// bounding box. in practice, this is usually good enough, since most of
@@ -593,25 +593,25 @@ static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *
 	// library takes a similar shortcut when colliding spheres with boxes in 3d.
 	// so I figured it was probably good enough for us too.)
 
-	Real circ_l = second->position.x - second->geom.getMajorRadius();
-	Real circ_r = second->position.x + second->geom.getMajorRadius();
-	Real circ_t = second->position.y - second->geom.getMajorRadius();
-	Real circ_b = second->position.y + second->geom.getMajorRadius();
-	Real rect_l = a->position.x - a->geom.getMajorRadius();
-	Real rect_r = a->position.x + a->geom.getMajorRadius();
-	Real rect_t = a->position.y - a->geom.getMinorRadius();
-	Real rect_b = a->position.y + a->geom.getMinorRadius();
+	Real circ_l = rhs->position.x - rhs->geom.getMajorRadius();
+	Real circ_r = rhs->position.x + rhs->geom.getMajorRadius();
+	Real circ_t = rhs->position.y - rhs->geom.getMajorRadius();
+	Real circ_b = rhs->position.y + rhs->geom.getMajorRadius();
+	Real rect_l = lhs->position.x - lhs->geom.getMajorRadius();
+	Real rect_r = lhs->position.x + lhs->geom.getMajorRadius();
+	Real rect_t = lhs->position.y - lhs->geom.getMinorRadius();
+	Real rect_b = lhs->position.y + lhs->geom.getMinorRadius();
 
 	if (circ_r >= rect_l &&	circ_l <= rect_r &&
 		circ_b >= rect_t &&	circ_t <= rect_b)
 	{
 		if (cinfo)
 		{
-			vecDiff_2D(&second->position, &a->position, &cinfo->normal);
+			vecDiff_2D(&rhs->position, &lhs->position, &cinfo->normal);
 			cinfo->normal.normalize();
 			cinfo->loc.x = (maxReal(circ_l, rect_l) + minReal(circ_r, rect_r)) * 0.5f;
 			cinfo->loc.y = (maxReal(circ_t, rect_t) + minReal(circ_b, rect_b)) * 0.5f;
-			cinfo->loc.z = (a->position.z + second->position.z) * 0.5f;
+			cinfo->loc.z = (lhs->position.z + rhs->position.z) * 0.5f;
 		}
 		return true;
 	}
@@ -623,12 +623,12 @@ static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *
 /**
 	2d utility routine for cyl & sphere collisions testing.
 */
-static Bool xy_collideTest_Circle_Circle(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Circle_Circle(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
 	Coord3D diff;
-	vecDiff_2D(&second->position, &a->position, &diff);
+	vecDiff_2D(&rhs->position, &lhs->position, &diff);
 	Real distSqr = calcSqrDist_2D(&diff);
-	Real touchingDistSqr = sqr(a->geom.getMajorRadius() + second->geom.getMajorRadius());
+	Real touchingDistSqr = sqr(lhs->geom.getMajorRadius() + rhs->geom.getMajorRadius());
 	if (distSqr <= touchingDistSqr)
 	{
 		// calc the approximate location and normal.
@@ -636,8 +636,8 @@ static Bool xy_collideTest_Circle_Circle(const CollideInfo *a, const CollideInfo
 		{
 			cinfo->normal = diff;
 			cinfo->normal.normalize();
-			cinfo->loc = a->position;
-			projectCoord3D(&cinfo->loc, &cinfo->normal, a->geom.getMajorRadius());
+			cinfo->loc = lhs->position;
+			projectCoord3D(&cinfo->loc, &cinfo->normal, lhs->geom.getMajorRadius());
 		}
 		
 		return true;
@@ -649,17 +649,17 @@ static Bool xy_collideTest_Circle_Circle(const CollideInfo *a, const CollideInfo
 /**
 	2d utility routine for rect collisions testing.
 */
-static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Rect_Rect(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
 	Coord2D pts[4];
 	Coord2D avg; avg.x = avg.y = 0.0f;
 	Int avgTot = 0;
 
-	rectToFourPoints(a, pts);
-	testRotatedPointsAgainstRect(pts, second, &avg, &avgTot);
+	rectToFourPoints(lhs, pts);
+	testRotatedPointsAgainstRect(pts, rhs, &avg, &avgTot);
 
-	rectToFourPoints(second, pts);
-	testRotatedPointsAgainstRect(pts, a, &avg, &avgTot);
+	rectToFourPoints(rhs, pts);
+	testRotatedPointsAgainstRect(pts, lhs, &avg, &avgTot);
 	
 	if (avgTot > 0)
 	{
@@ -668,7 +668,7 @@ static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *se
 			// this is a little hokey, but generally adequate...
 			cinfo->loc.x = avg.x / avgTot;
 			cinfo->loc.y = avg.y / avgTot;
-			cinfo->loc.z = (a->position.z + second->position.z) * 0.5f;
+			cinfo->loc.z = (lhs->position.z + rhs->position.z) * 0.5f;
 
 			// yow, what exactly does it mean to find the normal to two *intersecting*
 			// rects? with "true" physics we could project ahead and determine 
@@ -683,7 +683,7 @@ static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *se
 			// but until I either (a) rewrite everything to have predictive collisions, 
 			// or (b) come up with a better definition of a useful normal in this case,
 			// I'm not sure we can do a whole lot better... (srj)
-			vecDiff_2D(&second->position, &a->position, &cinfo->normal);
+			vecDiff_2D(&rhs->position, &lhs->position, &cinfo->normal);
 			cinfo->normal.normalize();
 		}
 		return true;
@@ -692,17 +692,17 @@ static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *se
 }
 
 //-----------------------------------------------------------------------------
-inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
 	// case 1: center of sphere is within the nonsphere z-space.
-	if (a->position.z >= second->position.z && a->position.z <= second->position.z + second->geom.getMaxHeightAbovePosition())
+	if (lhs->position.z >= rhs->position.z && lhs->position.z <= rhs->position.z + rhs->geom.getMaxHeightAbovePosition())
 	{
-		if (xyproc(a, second, cinfo))
+		if (xyproc(lhs, rhs, cinfo))
 		{
 			// a side-to-side collision; just need to adjust the z-coord of collideLoc
 			if (cinfo)
 			{
-				cinfo->loc.z = a->position.z;
+				cinfo->loc.z = lhs->position.z;
 			}
 			return true;
 		}
@@ -713,14 +713,14 @@ inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const Collide
 	// major-radius of top or bottom.
 
 	// 2a: sphere is below the nonsphere
-	Real b_bot = second->position.z;
-	if (a->position.z < b_bot && a->position.z + a->geom.getMajorRadius() >= b_bot)
+	Real b_bot = rhs->position.z;
+	if (lhs->position.z < b_bot && lhs->position.z + lhs->geom.getMajorRadius() >= b_bot)
 	{
 		// find the radius of the slice of the sphere that is at b_bot
-		CollideInfo amod = *a;
+		CollideInfo amod = *lhs;
 		amod.position.z = b_bot;
-		amod.geom.setMajorRadius((Real)sqrtf(sqr(a->geom.getMajorRadius()) - sqr(b_bot - a->position.z)));
-		if (xyproc(&amod, second, cinfo))
+		amod.geom.setMajorRadius((Real)sqrtf(sqr(lhs->geom.getMajorRadius()) - sqr(b_bot - lhs->position.z)));
+		if (xyproc(&amod, rhs, cinfo))
 		{
 			// if you want to have 'end' collisions, you should add something like:
 			//		if (circle a is contained by circle b) normal points straight up;
@@ -732,13 +732,13 @@ inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const Collide
 	}
 
 	// 2b: sphere is above the nonsphere
-	Real b_top = second->position.z + second->geom.getMaxHeightAbovePosition();
-	if (a->position.z > b_top && a->position.z - a->geom.getMajorRadius() <= b_top)
+	Real b_top = rhs->position.z + rhs->geom.getMaxHeightAbovePosition();
+	if (lhs->position.z > b_top && lhs->position.z - lhs->geom.getMajorRadius() <= b_top)
 	{
-		CollideInfo amod = *a;
+		CollideInfo amod = *lhs;
 		amod.position.z = b_top;
-		amod.geom.setMajorRadius((Real)sqrtf(sqr(a->geom.getMajorRadius()) - sqr(a->position.z - b_top)));
-		if (xyproc(&amod, second, cinfo))
+		amod.geom.setMajorRadius((Real)sqrtf(sqr(lhs->geom.getMajorRadius()) - sqr(lhs->position.z - b_top)));
+		if (xyproc(&amod, rhs, cinfo))
 		{
 			// if you want to have 'end' collisions, you should add something like:
 			//		if (circle a is contained by circle b) normal points straight down;
@@ -753,24 +753,24 @@ inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const Collide
 }
 
 //-----------------------------------------------------------------------------
-inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
 	// note: we already know that there is a z-intersection (our caller filters that out)
 	// so we need not recheck that here.
 
 	// Preflight for close objects.
-	Real dSqr = sqr(a->position.x-second->position.x) + sqr(a->position.y-second->position.y);
-	Real minRadius = a->geom.getMajorRadius();
-	Real r = a->geom.getMinorRadius();
+	Real dSqr = sqr(lhs->position.x-rhs->position.x) + sqr(lhs->position.y-rhs->position.y);
+	Real minRadius = lhs->geom.getMajorRadius();
+	Real r = lhs->geom.getMinorRadius();
 	if (minRadius>r) minRadius = r;
-	r = second->geom.getMajorRadius();
+	r = rhs->geom.getMajorRadius();
 	if (minRadius>r) minRadius = r;
-	r = second->geom.getMinorRadius();
+	r = rhs->geom.getMinorRadius();
 	if (minRadius>r) minRadius = r;
 	
 	Bool closeEnough = sqr(minRadius) > dSqr;
 
-	if (closeEnough || xyproc(a, second, cinfo))
+	if (closeEnough || xyproc(lhs, rhs, cinfo))
 	{
 		// since we allow objects to overlap at times, how do we distinguish
 		// between a "top-to-bottom" vs "side-to-side" collision?
@@ -782,10 +782,10 @@ inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const Coll
 		// just need to adjust the z-coord of collideLoc
 		if (cinfo)
 		{
-			if (second->position.z > a->position.z)
-				cinfo->loc.z = (second->position.z + a->position.z + a->geom.getMaxHeightAbovePosition()) * 0.5f;
+			if (rhs->position.z > lhs->position.z)
+				cinfo->loc.z = (rhs->position.z + lhs->position.z + lhs->geom.getMaxHeightAbovePosition()) * 0.5f;
 			else
-				cinfo->loc.z = (a->position.z + second->position.z + second->geom.getMaxHeightAbovePosition()) * 0.5f;
+				cinfo->loc.z = (lhs->position.z + rhs->position.z + rhs->geom.getMaxHeightAbovePosition()) * 0.5f;
 		}
 		return true;
 	}
@@ -794,20 +794,20 @@ inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const Coll
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Sphere_Sphere(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
 	Coord3D diff;
-	vecDiff_3D(&second->position, &a->position, &diff);
+	vecDiff_3D(&rhs->position, &lhs->position, &diff);
 	Real distSqr = calcSqrDist_3D(&diff);
-	Real touchingDistSqr = sqr(a->geom.getMajorRadius() + second->geom.getMajorRadius());
+	Real touchingDistSqr = sqr(lhs->geom.getMajorRadius() + rhs->geom.getMajorRadius());
 	if (distSqr <= touchingDistSqr)
 	{
 		if (cinfo)
 		{
 			cinfo->normal = diff;
 			cinfo->normal.normalize();
-			cinfo->loc = a->position;
-			projectCoord3D(&cinfo->loc, &cinfo->normal, a->geom.getMajorRadius());
+			cinfo->loc = lhs->position;
+			projectCoord3D(&cinfo->loc, &cinfo->normal, lhs->geom.getMajorRadius());
 		}
 
 		return true;
@@ -816,57 +816,57 @@ static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *s
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Sphere_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Sphere_Cylinder(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, a, second, cinfo);
+	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, lhs, rhs, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Sphere_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Sphere_Box(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, a, second, cinfo);
+	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, lhs, rhs, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Cylinder_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Cylinder_Sphere(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, second, a, cinfo);
+	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, rhs, lhs, cinfo);
 	if (cinfo)
 		flipCoord3D(&cinfo->normal);
 	return result;
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Cylinder_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Cylinder_Cylinder(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Circle, a, second, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Circle, lhs, rhs, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Cylinder_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Cylinder_Box(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Rect, a, second, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Rect, lhs, rhs, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Box_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Box_Sphere(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, second, a, cinfo);
+	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, rhs, lhs, cinfo);
 	if (cinfo)
 		flipCoord3D(&cinfo->normal);
 	return result;
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Box_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Box_Cylinder(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Circle, a, second, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Circle, lhs, rhs, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Box_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
+static Bool collideTest_Box_Box(const CollideInfo *lhs, const CollideInfo *rhs, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Rect, a, second, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Rect, lhs, rhs, cinfo);
 }
 
 //-----------------------------------------------------------------------------
@@ -2393,18 +2393,18 @@ void PartitionData::detachFromGhostObject(void)
 }
 
 //-----------------------------------------------------------------------------
-inline UnsignedInt hash2ints(Int a, Int second)
+inline UnsignedInt hash2ints(Int lhs, Int rhs)
 {
 	// do it this way so that [a,b] always hashes to the same value as [b,a].
 	// this is unsophisticated but reasonable, since all ObjectIDs will
 	// quite likely be well below 65536...
-	if (a < second)
+	if (lhs < rhs)
 	{
-		return (a<<16)+second;
+		return (lhs<<16)+rhs;
 	}
 	else
 	{
-		return (second<<16)+a;
+		return (rhs<<16)+lhs;
 	}
 }
 
@@ -3701,17 +3701,17 @@ SimpleObjectIterator* PartitionManager::iteratePotentialCollisions(
 
 //-----------------------------------------------------------------------------
 // ?isColliding@PartitionManager@@ present-unmatched
-Bool PartitionManager::isColliding( const Object *a, const Object *second ) const
+Bool PartitionManager::isColliding( const Object *lhs, const Object *rhs ) const
 {
 	//Make sure we have objects
-  if( !a || !second )
+  if( !lhs || !rhs )
 	{
     return false;
 	}
 
 	//Get both object's partition data
-  const PartitionData* ad = a->friend_getConstPartitionData();
-  const PartitionData* bd = second->friend_getConstPartitionData();
+  const PartitionData* ad = lhs->friend_getConstPartitionData();
+  const PartitionData* bd = rhs->friend_getConstPartitionData();
 
 	//Make sure we got it
   if( !ad || !bd )
