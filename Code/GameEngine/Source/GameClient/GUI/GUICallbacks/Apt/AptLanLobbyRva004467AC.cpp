@@ -264,7 +264,7 @@ public:
 class Rva004421E1
 {
 public:
-	void rva0043DE19();
+	void InitGadgets();
 	// Unrowed panel methods, pinned by address: 0x0043FFCF (8 bytes),
 	// 0x00440BDF (1693 bytes), 0x0044127C (544 bytes), 0x00443EA8 (358 bytes).
 	void rva0043FFCF();

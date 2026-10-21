@@ -500,7 +500,7 @@ class AptMpGameSetup
 {
 public:
 	void rva0043E5C1(int slot, int kind, int value);
-	void rva0043DE19();
+	void InitGadgets();
 	bool OnHostStartGame(bool host); // rowed 0x00440BDF (WB OnHostStartGame)
 	bool WaitStartGame();		 // rowed 0x0044127C
 	bool OnUpdate();			 // rowed 0x00443EA8
@@ -1344,7 +1344,7 @@ void AptOnlineCustomMatch::InitGadgets()
 {
 	m_prefsLoader.rva00580316(&m_prefs);
 	m_prefs.write();
-	((AptMpGameSetup *)&m_70)->rva0043DE19();
+	((AptMpGameSetup *)&m_70)->InitGadgets();
 	m_4b0 = 0;
 	if (TheWindowManager)
 		TheWindowManager->pad45();

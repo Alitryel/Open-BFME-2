@@ -903,7 +903,7 @@ public:
 	bool rva00442BCC();
 
 	void rva0043FA68(GameInfo *game);
-	void rva0043DE19();
+	void InitGadgets();
 	int rva00442CB3(unsigned int msg, unsigned int data1, unsigned int data2);
 	bool rva0043DCFA(int value);
 

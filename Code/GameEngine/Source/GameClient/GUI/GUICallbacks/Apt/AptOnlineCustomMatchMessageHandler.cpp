@@ -509,7 +509,7 @@ class AptMpGameSetup
 {
 public:
 	void rva0043E5C1(int slot, int kind, int value);
-	void rva0043DE19();
+	void InitGadgets();
 	bool OnHostStartGame(bool host); // rowed 0x00440BDF (WB OnHostStartGame)
 	bool WaitStartGame();		 // rowed 0x0044127C
 	bool OnUpdate();			 // rowed 0x00443EA8

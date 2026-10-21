@@ -32,7 +32,7 @@ class AptMpGameSetup
 public:
 	virtual ~AptMpGameSetup();
 	virtual void slot01();
-	void rva0043DE19();
+	void InitGadgets();
 };
 
 class Obj00521658_6C8
@@ -62,7 +62,7 @@ void Holder00521658::Rva00521658()
 	m_698.rva0043BE7C();
 	m_698.v3slotC();
 	m_288.slot01();
-	m_288.rva0043DE19();
+	m_288.InitGadgets();
 	m_6C4 &= 0;
 	m_6C8.slot01(0);
 }

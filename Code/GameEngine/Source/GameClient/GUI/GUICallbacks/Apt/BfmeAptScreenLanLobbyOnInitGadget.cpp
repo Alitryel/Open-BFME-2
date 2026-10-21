@@ -216,7 +216,7 @@ public:
 class AptMpGameSetup
 {
 public:
-	void rva0043DE19();
+	void InitGadgets();
 	void rva0043FFCF();
 	bool OnHostStartGame(bool flag);
 	bool WaitStartGame();
@@ -524,7 +524,7 @@ void AptLanLobby::rva00446772()
 	m_prefs.write();
 	rva00446386(false);
 	reinterpret_cast<Rva004442FD *>(this)->rva004442FD();
-	m_panel.rva0043DE19();
+	m_panel.InitGadgets();
 }
 
 // Retail 0x0044469C, 196 bytes. Name unknown. In state 1 with a non-blank

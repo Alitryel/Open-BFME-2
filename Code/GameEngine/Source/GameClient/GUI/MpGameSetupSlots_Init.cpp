@@ -934,7 +934,7 @@ public:
 	bool rva00442BCC();
 
 	void rva0043FA68(GameInfo *game);
-	void rva0043DE19();
+	void InitGadgets();
 	int rva00442CB3(unsigned int msg, unsigned int data1, unsigned int data2);
 	bool rva0043DCFA(int value);
 
@@ -1649,7 +1649,7 @@ void AptMpGameSetup::UpdateSlot(int slot)
 // its members, the six widget arrays, the map list and saved game, the
 // "MpGameSetup::InitGadgets" screen, the panel's own state and the eight
 // "ConnectionIcon~<slot>" Apt names.
-void AptMpGameSetup::rva0043DE19()
+void AptMpGameSetup::InitGadgets()
 {
 	rva0043DC0F();
 	((AptMapPreview *)&m_60)->rva0057D5E5();
@@ -1892,7 +1892,7 @@ void AptMpGameSetup::rva0044303D()
 	}
 	Rva00446A67Set(0);
 	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptMpGameSetup::InitGadgets);
+		FunctorMethod method = reinterpret_cast<FunctorMethod>(static_cast<void (AptMpGameSetup::*)(const char *, void *, GameWindow *)>(&AptMpGameSetup::InitGadgets));
 		AsciiString name("MpGameSetup::InitGadgets");
 		_bfme_setAptScreenRef(name, AptRef<AptScreenInitGadgets>(FunctorBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 		{

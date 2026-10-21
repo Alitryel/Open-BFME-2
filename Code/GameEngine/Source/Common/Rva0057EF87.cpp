@@ -3,7 +3,7 @@
 // Shutdown of the AptMpGameSetup +0xD0 member: refresh via pinned 0x0057EF18,
 // clear +0x58 target +8, resize Drawable vector +0x7C to 10, rowed clear
 // 0x0052493F, close AptMpGameRules::InitGadgets screen, erase voidptr vectors
-// +0x64/+0x70. Evidence: pin name, caller 0x0043DE41 in AptMpGameSetup::rva0043DE19,
+// +0x64/+0x70. Evidence: pin name, caller 0x0043DE41 in AptMpGameSetup::InitGadgets,
 // prev/next Rva0057EE5C.cpp // cl: /O1 /DNDEBUG /MD /GX, all callees rowed/pinned.
 #include "ascii_string.h"
 
