@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX- /GS-
-// ?rva00085FA8@Rva00085FA8@@QAEXPAM@Z 0x00085FA8 178B: thiscall projects two points via Camera at +0x104 and writes screen delta to out; caller 0x00087E4C
+// ?calcDeltaScroll@Rva00085FA8@@QAEXPAM@Z 0x00085FA8 178B: thiscall projects two points via Camera at +0x104 and writes screen delta to out; caller 0x00087E4C
 class Vector3
 {
 public:
@@ -32,10 +32,10 @@ public:
 	float m_23F8;
 	char m_pad23FC[0xC];
 	float m_2408;
-	void rva00085FA8(float *out);
+	void calcDeltaScroll(float *out);
 };
 
-void Rva00085FA8::rva00085FA8(float *out)
+void Rva00085FA8::calcDeltaScroll(float *out)
 {
 	out[0] = 0.0f;
 	out[1] = 0.0f;

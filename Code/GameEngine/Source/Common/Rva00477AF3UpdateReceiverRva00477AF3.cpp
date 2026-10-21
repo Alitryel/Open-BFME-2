@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD /EHsc
 //
-// ?rva00477AF3@Rva00477AF3UpdateReceiver@@QAEXXZ, retail 0x00477af3, 118 bytes. Banked partial (score 0.99) closed by tools/permute.py;
+// ?update@Rva00477AF3UpdateReceiver@@QAEXXZ, retail 0x00477af3, 118 bytes. Banked partial (score 0.99) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
 // BFME1 ba7ddda7 HordeContain/HordeTransportContain.cpp supplies update semantics.
 // Target ctor/Xfer prove outer+120 count and outer+124 latch; receiver is +10.
@@ -10,10 +10,10 @@ class HordeTransportContain {public:void rva004779F9();void rva0047748E();};
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
 class TransportContain {public:virtual UpdateSleepTime update();};
 class Rva00477AF3UpdateReceiver {
-public:void rva00477AF3();
+public:void update();
 private:char head[0x110];int frames;unsigned char enabled;
 };
-void Rva00477AF3UpdateReceiver::rva00477AF3()
+void Rva00477AF3UpdateReceiver::update()
 {
     if(enabled==1) {
         if(frames==-1000) {

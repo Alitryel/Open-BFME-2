@@ -198,7 +198,7 @@ public:
 };
 extern GameClient *TheGameClient;
 
-class Rva00085FA8 { public: void rva00085FA8(float *out); };
+class Rva00085FA8 { public: void calcDeltaScroll(float *out); };
 
 class View {
 public:
@@ -228,7 +228,7 @@ public:
 	bool m_isWireFrameEnabled;
 	bool m_nextWireFrameEnabled;
 	virtual void draw();
-	void calcDeltaScroll(Coord2D &screenDelta) { ((Rva00085FA8 *)this)->rva00085FA8(&screenDelta.x); }
+	void calcDeltaScroll(Coord2D &screenDelta) { ((Rva00085FA8 *)this)->calcDeltaScroll(&screenDelta.x); }
 };
 
 void W3DView::draw( void )

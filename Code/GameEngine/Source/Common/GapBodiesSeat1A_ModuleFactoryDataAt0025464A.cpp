@@ -321,10 +321,10 @@ private:
 class Rva00254628ModuleData
 {
 public:
-	static void rva00254628(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &p);
 };
 
-void Rva00254628ModuleData::rva00254628(MultiIniFieldParse &multiIniFieldParse)
+void Rva00254628ModuleData::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
 	multiIniFieldParse.add((const FieldParse *)Rva004CE29DGet(), 8);
 	multiIniFieldParse.add(s_Rva00254628FieldParse, 0);
@@ -337,17 +337,17 @@ ModuleData *ModuleFactoryDataAt0025464A(INI *ini)
 {
 	Rva0025460F *data = new Rva0025460F;
 	if (ini)
-		ini->initFromINIMultiProc(data, Rva00254628ModuleData::rva00254628);
+		ini->initFromINIMultiProc(data, Rva00254628ModuleData::buildFieldParse);
 	return (ModuleData *)data;
 }
 
 class Rva002546EBModuleData
 {
 public:
-	static void rva002546EB(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &p);
 };
 
-void Rva002546EBModuleData::rva002546EB(MultiIniFieldParse &multiIniFieldParse)
+void Rva002546EBModuleData::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
 	multiIniFieldParse.add((const FieldParse *)Rva004CE29DGet(), 8);
 	multiIniFieldParse.add(s_Rva002546EBFieldParse, 0);
@@ -357,7 +357,7 @@ ModuleData *ModuleFactoryDataAt0025470D(INI *ini)
 {
 	RadarUpgradeModuleData *data = new RadarUpgradeModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, Rva002546EBModuleData::rva002546EB);
+		ini->initFromINIMultiProc(data, Rva002546EBModuleData::buildFieldParse);
 	return (ModuleData *)data;
 }
 

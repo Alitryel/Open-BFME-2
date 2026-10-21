@@ -1,6 +1,6 @@
-// ?rva00108AD8@Rva00108AD8@@QAEXXZ
+// ?invalidateCachedLightPositions@Rva00108AD8@@QAEXXZ
 // cl: /O1 /arch:SSE /EHsc /DNDEBUG /MD
-// ?rva00108AD8@Rva00108AD8@@QAEXXZ @0x00108AD8 95B
+// ?invalidateCachedLightPositions@Rva00108AD8@@QAEXXZ @0x00108AD8 95B
 // Walks the member hash table and zeroes the three trailing floats of every
 // entry, via rowed First 0x00613DB0 and Next 0x00613D70.
 // The banked body declared HashTableIteratorClass with a `const HashTableClass
@@ -58,9 +58,9 @@ class Rva00108AD8
 {
 public:
 	HashTableClass *m_table;
-	void rva00108AD8();
+	void invalidateCachedLightPositions();
 };
-void Rva00108AD8::rva00108AD8()
+void Rva00108AD8::invalidateCachedLightPositions()
 {
 	HashTableClass *hashTable = m_table;
 	HashTableIteratorClass it(hashTable);

@@ -7,7 +7,7 @@
 class Rva00108AD8
 {
 public:
-	void rva00108AD8();
+	void invalidateCachedLightPositions();
 };
 
 struct Rva00109DCFRef
@@ -31,7 +31,7 @@ private:
 
 void Rva00109DCF::rva00109DCF()
 {
-	m_24C->rva00108AD8();
+	m_24C->invalidateCachedLightPositions();
 	Rva00109DCFRef *p258 = m_258;
 	if (p258 != 0)
 	{
@@ -56,5 +56,5 @@ void Rva00109DCF::rva00109DCF()
 // class, original-name assertion, offset shim, cast, or alias/pin.
 void Rva00109DCF::rva00108E28()
 {
-    m_24C->rva00108AD8();
+    m_24C->invalidateCachedLightPositions();
 }

@@ -426,7 +426,7 @@ private:
 class Rva00254628ModuleData
 {
 public:
-	static void rva00254628(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &p);
 };
 
 
@@ -434,7 +434,7 @@ public:
 class Rva002546EBModuleData
 {
 public:
-	static void rva002546EB(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &p);
 };
 
 
