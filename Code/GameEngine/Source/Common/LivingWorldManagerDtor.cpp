@@ -165,10 +165,11 @@ private:
 	char m_pad04[0x0C - 0x04];
 };
 
+// Its one slot is the 16-byte-argument no-op 0x001F01E8 (`ret 0x10`, ICF-folded).
 class LivingWorldObserver
 {
 public:
-	virtual void onLivingWorldEvent();
+	virtual void onLivingWorldEvent(int, int, int, int) {}
 protected:
 	~LivingWorldObserver() {}
 };

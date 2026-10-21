@@ -161,3 +161,25 @@ Rva002129DD::~Rva002129DD()
 {
 	((Rva000427195 *)this)->rva003A2A41();
 }
+
+// ??1Rva0021231B@@QAE@XZ @0x0021231B 57B: ~LivingWorldManager's (0x00214405, its
+// only caller) +0x218 hash table destructor (formerly the alias dup_0021231b);
+// the shape above, clearing through the node/bucket clear 0x001DBCDC
+// (?clear@Rva004DFC20@@QAEXXZ). Retail folds its EH handler with 0x002129DD's.
+struct Rva004DFC20
+{
+	void clear();
+};
+
+struct Rva0021231B
+{
+	~Rva0021231B();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva0021231B::~Rva0021231B()
+{
+	((Rva004DFC20 *)this)->clear();
+}

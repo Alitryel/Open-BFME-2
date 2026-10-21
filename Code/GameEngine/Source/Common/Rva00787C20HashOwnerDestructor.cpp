@@ -15,17 +15,14 @@
 #include <algorithm>
 #include <hash_map>
 #include <cstddef>
-// Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// Import-inline the vector<void*> accessors: the hashtable members inline them as
+// retail does (begin 0x00427195), and this unit's out-of-line copies are not the
+// ones the link keeps.
 namespace _STL {
-template <> void *&_STL::vector<void*>::operator[](size_t);
-}
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> size_t vector<void*>::size() const;
-template <> void **vector<void*>::begin();
-template <> void **vector<void*>::end();
+template <> __declspec(dllimport) __forceinline size_t vector<void*>::size() const { return size_t(_M_finish - _M_start); }
+template <> __declspec(dllimport) __forceinline void **vector<void*>::begin() { return _M_start; }
+template <> __declspec(dllimport) __forceinline void **vector<void*>::end() { return _M_finish; }
+template <> __declspec(dllimport) __forceinline void *&vector<void*>::operator[](size_t n) { return *(begin() + n); }
 }
 
 #include "ascii_string.h"
