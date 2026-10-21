@@ -181,7 +181,7 @@ public:
 	virtual ~Rva0037F57E();
 };
 struct Rva0037FE3DList;
-class Rva0037FE3D { public: void rva0037FE3D(const Rva0037FE3DList &list, int value); };
+class ArmyPlacer { public: void rva0037FE3D(const Rva0037FE3DList &list, int value); };
 
 class LinearCampaign
 {
@@ -271,7 +271,7 @@ void LinearCampaign::addCarryoverStuffToMap()
 				}
 
 				Rva0037F57E placer;
-				reinterpret_cast<Rva0037FE3D *>(&placer)->rva0037FE3D(
+				reinterpret_cast<ArmyPlacer *>(&placer)->rva0037FE3D(
 					*reinterpret_cast<const Rva0037FE3DList *>(&objects), (int)player);
 			}
 		}

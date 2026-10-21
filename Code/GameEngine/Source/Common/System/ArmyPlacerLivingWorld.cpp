@@ -12,7 +12,7 @@ typedef _STL::list<Object*,Rva001EB984PoolAllocator<Object*> > LoadedObjectList;
 struct Rva0037FE3DNode{Rva0037FE3DNode*next;};
 struct Rva0037FE3DList{Rva0037FE3DNode*head;};
 class Player;
-class Rva0037FE3D{public:void rva0037FAC6(const Rva0037FE3DList&,const Coord3D*,const Coord3D*,Player*,bool);};
+class ArmyPlacer{public:void rva0037FAC6(const Rva0037FE3DList&,const Coord3D*,const Coord3D*,Player*,bool);};
 class Rva002E2903Player{public:char bytes00[0x14];int playerID;};
 class ArmySummary{public:bool getSpawnPositions(int,Coord3D*,Coord3D*,bool);};
 struct Rva002B488EResult{char bytes00[0x78];ArmySummary*summary;};
@@ -108,7 +108,7 @@ void Rva0037F57E::rva0037FD2B(LoadedObjectList*list,Rva002E2903Player*lwPlayer,R
  if(!player)return;
  Coord3D spawn={0.f,0.f,0.f},gather={1.f,0.f,0.f};
  army->summary->getSpawnPositions(lwPlayer->playerID,&spawn,&gather,reinforcement);
- ((Rva0037FE3D*)this)->rva0037FAC6(view,&spawn,&gather,player,reinforcement);
+ ((ArmyPlacer*)this)->rva0037FAC6(view,&spawn,&gather,player,reinforcement);
  int playerID=lwPlayer->playerID;
  if(((Rva002B2B66*)TheLivingWorldLogic)->rva002B2B66()!=playerID)return;
  if(!reinforcement)((Rva0037FDE9CameraSlots*)TheTacticalView)->atC8(&gather,0,0.f,0.f);

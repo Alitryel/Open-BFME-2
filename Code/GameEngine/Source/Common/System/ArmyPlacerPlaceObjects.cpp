@@ -131,8 +131,8 @@ namespace _STL{template<class T>class char_traits;template<class T>class allocat
 class Rva00423FBDThis {public:void Delete(_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >*);};
 class Rva0036CB94 {public:Rva0036CB94(int,int,int,int,bool);int position;unsigned char waypoint;int ignore,target,facing,formation,player;bool attack;};
 extern "C" float __cdecl atan2f(float y, float x);	// math.h's atan2f body, retail 0x000422A0
-class Rva0037FE3D {public:void rva0037FAC6(const Rva0037FE3DList&,const Coord3D*,const Coord3D*,Player*,bool);};
-void Rva0037FE3D::rva0037FAC6(const Rva0037FE3DList&objects,const Coord3D*start,const Coord3D*goal,Player*player,bool walkOn) {
+class ArmyPlacer {public:void rva0037FAC6(const Rva0037FE3DList&,const Coord3D*,const Coord3D*,Player*,bool);};
+void ArmyPlacer::rva0037FAC6(const Rva0037FE3DList&objects,const Coord3D*start,const Coord3D*goal,Player*player,bool walkOn) {
  AIGroup*group=TheAI->createGroup();
  if(!group)return;
  for(Rva0037FE3DNode*it=objects.head->next;it!=objects.head;it=it->next)group->add(it->object);
