@@ -84,7 +84,7 @@ void parseRingEffect(INI *);
 void parseShadowMapBlock(INI *);
 void parseSubsystemLegendDefinition(INI *);
 void rva00219005(INI *);
-void rva00318ABB(INI *);
+void parseCloudBreakEffectDefinition(INI *);
 void rva00425B90(INI *);
 namespace StrategicHUD { void ParseSettings(INI *); }
 class ArmorStore
@@ -407,7 +407,7 @@ BlockParse theLivingWorldBuildingBlockParse = { 0, "LivingWorldBuilding", Rva002
 BlockParse theLivingWorldPlayerTemplateBlockParse = { 0, "LivingWorldPlayerTemplate", Rva002E2386Parse };	// VA 0x00DBD0A8 "LivingWorldPlayerTemplate", parse 0x002E2386
 BlockParse theFireBlockParse = { 0, "Fire", Rva0030AFFBParse };	// VA 0x00DBD9AC "Fire", parse 0x0030AFFB
 BlockParse theWeatherDataBlockParse = { 0, "WeatherData", GlobalWeatherSystem::parseWeatherData };	// VA 0x00DBE4C4 "WeatherData", parse 0x0031842A
-BlockParse theCloudBreakEffectBlockParse = { 0, "CloudBreakEffect", rva00318ABB };	// VA 0x00DBE4D0 "CloudBreakEffect", parse 0x00318ABB
+BlockParse theCloudBreakEffectBlockParse = { 0, "CloudBreakEffect", parseCloudBreakEffectDefinition };	// VA 0x00DBE4D0 "CloudBreakEffect", parse 0x00318ABB
 BlockParse theLivingWorldRegionEffectsBlockParse = { 0, "LivingWorldRegionEffects", Rva003EF467 };	// VA 0x00DC14B8 "LivingWorldRegionEffects", parse 0x003EF467
 BlockParse theLivingWorldArmyIconBlockParse = { 0, "LivingWorldArmyIcon", Rva003F9EDFParse };	// VA 0x00DC177C "LivingWorldArmyIcon", parse 0x003F9EDF
 BlockParse theLivingWorldSoundBlockParse = { 0, "LivingWorldSound", LivingWorldSound::ParseSound };	// VA 0x00DC17EC "LivingWorldSound", parse 0x003FB07D

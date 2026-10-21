@@ -55,7 +55,7 @@ public:
 class CloudBreakEffectManager;
 extern CloudBreakEffectManager *TheCloudBreakEffectManager;
 
-void rva00318ABB(INI *ini)
+void parseCloudBreakEffectDefinition(INI *ini)
 {
 	(*(AsciiString *)&g_Va00E01CF4) = (*(AsciiString *)&g_Va00E01CF0);
 	ini->initFromINI(&(*(AsciiString *)&g_Va00E01CF4), TheRva00318ABBSunbeam);
