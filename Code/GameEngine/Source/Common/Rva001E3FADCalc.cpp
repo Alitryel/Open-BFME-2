@@ -8,15 +8,15 @@
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
-float __cdecl Rva001E3FADGet(const Coord3D *a, const Coord3D *b)
+float __cdecl Rva001E3FADGet(const Coord3D *lhs, const Coord3D *rhs)
 {
 	Coord3D d;
-	d.x = b->x;
-	d.y = b->y;
-	d.z = b->z;
-	d.x -= a->x;
-	d.y -= a->y;
-	d.z -= a->z;
+	d.x = rhs->x;
+	d.y = rhs->y;
+	d.z = rhs->z;
+	d.x -= lhs->x;
+	d.y -= lhs->y;
+	d.z -= lhs->z;
 	d.normalize();
 	return (d.y + d.x) * 0.0f + d.z;
 }

@@ -16,11 +16,11 @@ struct AsciiRange002ADD75
 
 bool __cdecl Rva002ACFFBEqual(StringBase<char> *first1, StringBase<char> *last1, StringBase<char> *first2);
 
-int __cdecl Rva002ADD75Equal(const AsciiRange002ADD75 *a, const AsciiRange002ADD75 *b)
+int __cdecl Rva002ADD75Equal(const AsciiRange002ADD75 *lhs, const AsciiRange002ADD75 *rhs)
 {
-	int sizeA = (char const *)a->m_end - (char const *)a->m_begin;
-	int sizeB = (char const *)b->m_end - (char const *)b->m_begin;
-	if ((((sizeA ^ sizeB) & -4) == 0) && Rva002ACFFBEqual(a->m_begin, a->m_end, b->m_begin))
+	int sizeA = (char const *)lhs->m_end - (char const *)lhs->m_begin;
+	int sizeB = (char const *)rhs->m_end - (char const *)rhs->m_begin;
+	if ((((sizeA ^ sizeB) & -4) == 0) && Rva002ACFFBEqual(lhs->m_begin, lhs->m_end, rhs->m_begin))
 		return 1;
 	return 0;
 }

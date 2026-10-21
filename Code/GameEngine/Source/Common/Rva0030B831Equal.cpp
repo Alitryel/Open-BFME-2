@@ -14,10 +14,10 @@ struct Rva0030B831Item
 	char m_pad[0x28 - 8];
 	int m_28;
 };
-int __cdecl Rva0030B6A6Equal(const Rva0030B6A6Range *a, const Rva0030B6A6Range *b);
-int __cdecl Rva0030B831Equal(const Rva0030B831Item *a, const Rva0030B831Item *b)
+int __cdecl Rva0030B6A6Equal(const Rva0030B6A6Range *lhs, const Rva0030B6A6Range *rhs);
+int __cdecl Rva0030B831Equal(const Rva0030B831Item *lhs, const Rva0030B831Item *rhs)
 {
-	if ((unsigned char)Rva0030B6A6Equal(&a->range, &b->range) && a->m_28 == b->m_28)
+	if ((unsigned char)Rva0030B6A6Equal(&lhs->range, &rhs->range) && lhs->m_28 == rhs->m_28)
 		return 1;
 	return 0;
 }

@@ -19,9 +19,9 @@ public:
     Rva0021915B &operator=(const Rva0021915B &other);
 };
 
-void __cdecl Rva0021ACB9Swap(Rva0021915B *a, Rva0021915B *b)
+void __cdecl Rva0021ACB9Swap(Rva0021915B *lhs, Rva0021915B *rhs)
 {
-    Pair0021ACB9 tmp(*reinterpret_cast<const Pair0021ACB9 *>(a));
-    *a = *b;
-    *b = *reinterpret_cast<const Rva0021915B *>(&tmp);
+    Pair0021ACB9 tmp(*reinterpret_cast<const Pair0021ACB9 *>(lhs));
+    *lhs = *rhs;
+    *rhs = *reinterpret_cast<const Rva0021915B *>(&tmp);
 }

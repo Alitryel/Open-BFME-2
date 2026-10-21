@@ -12,7 +12,7 @@ struct Rva0039D8FBKey
 	int m_second;
 };
 
-int __cdecl Rva0039D8FBLess(const Rva0039D8FBKey& a, const Rva0039D8FBKey& b)
+int __cdecl Rva0039D8FBLess(const Rva0039D8FBKey& lhs, const Rva0039D8FBKey& rhs)
 {
-	return a.m_first < b.m_first || (!(b.m_first < a.m_first) && a.m_second < b.m_second);
+	return lhs.m_first < rhs.m_first || (!(rhs.m_first < lhs.m_first) && lhs.m_second < rhs.m_second);
 }

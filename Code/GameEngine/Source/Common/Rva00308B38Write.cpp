@@ -29,8 +29,8 @@ struct Rva00308B38Iterator {void *set;int index;Rva00308B38Iterator(void *p,int 
 struct Rva00308B38Entry {int key;Rva00308B38Water *water;};
 struct Rva00308B38Set {char pad00[0x14];_STL::vector<Rva00308B38Entry> entries; Rva00308B38Iterator begin(){return Rva00308B38Iterator(this,0);} Rva00308B38Iterator end(){return Rva00308B38Iterator(this,(int)entries.size());}};
 typedef _STL::pair<const unsigned,Rva0007E394Element*> BfmeEqualityWords;
-static __forceinline bool EqualIterators(const Rva00308B38Iterator &a,const Rva00308B38Iterator &b) {
- return *reinterpret_cast<const BfmeEqualityWords*>(&a)==*reinterpret_cast<const BfmeEqualityWords*>(&b);
+static __forceinline bool EqualIterators(const Rva00308B38Iterator &lhs,const Rva00308B38Iterator &rhs) {
+ return *reinterpret_cast<const BfmeEqualityWords*>(&lhs)==*reinterpret_cast<const BfmeEqualityWords*>(&rhs);
 }
 void __cdecl Rva00308B38Write(Rva00308B38Set *set, DataChunkOutput *out)
 {

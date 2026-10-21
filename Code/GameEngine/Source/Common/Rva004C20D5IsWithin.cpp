@@ -21,15 +21,15 @@ struct Coord2D
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
-bool __stdcall Rva004C20D5IsWithin(float dist, const Coord3D *a, const Coord3D *b)
+bool __stdcall Rva004C20D5IsWithin(float dist, const Coord3D *lhs, const Coord3D *rhs)
 {
 	Coord3D diff;
-	diff.x = b->x;
-	diff.y = b->y;
-	diff.z = b->z;
-	diff.x -= a->x;
-	diff.y -= a->y;
-	diff.z -= a->z;
+	diff.x = rhs->x;
+	diff.y = rhs->y;
+	diff.z = rhs->z;
+	diff.x -= lhs->x;
+	diff.y -= lhs->y;
+	diff.z -= lhs->z;
 	float len = ((const Coord2D *)&diff)->GetLength();
 	if (dist >= len)
 		return true;

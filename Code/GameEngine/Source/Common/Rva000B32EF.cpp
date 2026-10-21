@@ -82,7 +82,7 @@ public:
 	void rva000B32EF(Int *color);
 	void rva000B32C2(const Coord3D *pos);
 	void rva000B32D7(Real v);
-	void rva000B3198(const Coord3D &a, const Coord3D &b);
+	void rva000B3198(const Coord3D &lhs, const Coord3D &rhs);
 private:
 	char m_pad00[0x08];
 	Rva000B330COwner *m_08; // +0x08
@@ -119,10 +119,10 @@ void Rva000B32EF::rva000B32D7(Real v)
 	shadow->m_angle = v;
 }
 
-void Rva000B32EF::rva000B3198(const Coord3D &a, const Coord3D &b)
+void Rva000B32EF::rva000B3198(const Coord3D &lhs, const Coord3D &rhs)
 {
-	m_decal1D0.setPosition(a);
-	m_decal1D0.Rva00330E15(b);
+	m_decal1D0.setPosition(lhs);
+	m_decal1D0.Rva00330E15(rhs);
 }
 
 // ?rva000B330C@Rva000B32EF@@QAEXPBUCoord3D@@MPBI@Z, retail 0x000B330C, 49

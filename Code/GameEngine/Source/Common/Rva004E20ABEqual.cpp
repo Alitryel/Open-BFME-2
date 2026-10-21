@@ -16,10 +16,10 @@ struct Rva004E20ABRec
 	unsigned char m_10;
 };
 
-bool rva004E20AB(const Rva004E20ABRec *a, const Rva004E20ABRec *b)
+bool rva004E20AB(const Rva004E20ABRec *lhs, const Rva004E20ABRec *rhs)
 {
-	return a->m_04.compare(b->m_04) == 0
-		&& a->m_08.compare(b->m_08) == 0
-		&& a->m_0C.compare(b->m_0C) == 0
-		&& a->m_10 == b->m_10;
+	return lhs->m_04.compare(rhs->m_04) == 0
+		&& lhs->m_08.compare(rhs->m_08) == 0
+		&& lhs->m_0C.compare(rhs->m_0C) == 0
+		&& lhs->m_10 == rhs->m_10;
 }

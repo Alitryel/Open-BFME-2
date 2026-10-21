@@ -13,7 +13,7 @@ struct AsciiRange002ADD75
 	StringBase<char> *m_end;
 };
 
-int __cdecl Rva002ADD75Equal(const AsciiRange002ADD75 *a, const AsciiRange002ADD75 *b);
+int __cdecl Rva002ADD75Equal(const AsciiRange002ADD75 *lhs, const AsciiRange002ADD75 *rhs);
 
 struct Rva004E2CF7Data
 {
@@ -41,28 +41,28 @@ struct Rva004E2CF7Data
 	unsigned char m_55;
 };
 
-int __cdecl Rva004E2CF7Equal(const Rva004E2CF7Data *a, const Rva004E2CF7Data *b)
+int __cdecl Rva004E2CF7Equal(const Rva004E2CF7Data *lhs, const Rva004E2CF7Data *rhs)
 {
-	if (a->m_4C == b->m_4C
-		&& a->m_04.compare(b->m_04) == 0
-		&& a->m_08.compare(b->m_08) == 0
-		&& a->m_18.compare(b->m_18) == 0
-		&& a->m_0C.compare(b->m_0C) == 0
-		&& a->m_10.compare(b->m_10) == 0
-		&& a->m_14.compare(b->m_14) == 0
-		&& a->m_1C.compare(b->m_1C) == 0
-		&& a->m_20 == b->m_20
-		&& a->m_24 == b->m_24
-		&& a->m_28.compare(b->m_28) == 0
-		&& a->m_2C.compare(b->m_2C) == 0
-		&& a->m_30.compare(b->m_30) == 0
-		&& a->m_34.compare(b->m_34) == 0
-		&& a->m_54 == b->m_54
-		&& a->m_50.compare(b->m_50) == 0
-		&& a->m_44 == b->m_44
-		&& a->m_48 == b->m_48
-		&& (unsigned char)Rva002ADD75Equal(&a->m_38, &b->m_38)
-		&& a->m_55 == b->m_55)
+	if (lhs->m_4C == rhs->m_4C
+		&& lhs->m_04.compare(rhs->m_04) == 0
+		&& lhs->m_08.compare(rhs->m_08) == 0
+		&& lhs->m_18.compare(rhs->m_18) == 0
+		&& lhs->m_0C.compare(rhs->m_0C) == 0
+		&& lhs->m_10.compare(rhs->m_10) == 0
+		&& lhs->m_14.compare(rhs->m_14) == 0
+		&& lhs->m_1C.compare(rhs->m_1C) == 0
+		&& lhs->m_20 == rhs->m_20
+		&& lhs->m_24 == rhs->m_24
+		&& lhs->m_28.compare(rhs->m_28) == 0
+		&& lhs->m_2C.compare(rhs->m_2C) == 0
+		&& lhs->m_30.compare(rhs->m_30) == 0
+		&& lhs->m_34.compare(rhs->m_34) == 0
+		&& lhs->m_54 == rhs->m_54
+		&& lhs->m_50.compare(rhs->m_50) == 0
+		&& lhs->m_44 == rhs->m_44
+		&& lhs->m_48 == rhs->m_48
+		&& (unsigned char)Rva002ADD75Equal(&lhs->m_38, &rhs->m_38)
+		&& lhs->m_55 == rhs->m_55)
 		return 1;
 	return 0;
 }

@@ -14,9 +14,9 @@
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
 
-double __cdecl Rva00363C71Approx(const Coord3D *a, const Coord3D *b)
+double __cdecl Rva00363C71Approx(const Coord3D *lhs, const Coord3D *rhs)
 {
-	if (fabs(a->x - b->x) > fabs(a->y - b->y))
-		return fabs(a->x - b->x) + fabs(a->y - b->y) * 0.25f;
-	return fabs(a->y - b->y) + fabs(a->x - b->x) * 0.25f;
+	if (fabs(lhs->x - rhs->x) > fabs(lhs->y - rhs->y))
+		return fabs(lhs->x - rhs->x) + fabs(lhs->y - rhs->y) * 0.25f;
+	return fabs(lhs->y - rhs->y) + fabs(lhs->x - rhs->x) * 0.25f;
 }

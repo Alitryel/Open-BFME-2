@@ -43,9 +43,9 @@ inline Rva0040CB11Entry::~Rva0040CB11Entry()
 	if (p)
 		ReleaseTreeHintRef00217D4C(reinterpret_cast<TargetRef00217D4C *>(static_cast<char *>(p) + 0xAC));
 }
-void __cdecl Rva0040D11CSwap(Rva0040D0A4Entry *a, Rva0040D0A4Entry *b)
+void __cdecl Rva0040D11CSwap(Rva0040D0A4Entry *lhs, Rva0040D0A4Entry *rhs)
 {
-	Rva0040CB11Entry tmp(*reinterpret_cast<const Rva0040CB11Entry *>(a));
-	*a = *b;
-	*b = *reinterpret_cast<const Rva0040D0A4Entry *>(&tmp);
+	Rva0040CB11Entry tmp(*reinterpret_cast<const Rva0040CB11Entry *>(lhs));
+	*lhs = *rhs;
+	*rhs = *reinterpret_cast<const Rva0040D0A4Entry *>(&tmp);
 }

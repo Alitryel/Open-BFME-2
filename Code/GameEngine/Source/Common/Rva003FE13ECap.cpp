@@ -50,9 +50,9 @@ public:
 	float rva003FE13E();
 };
 
-template <class T> inline const T &Rva003FE13EMin(const T &a, const T &b)
+template <class T> inline const T &Rva003FE13EMin(const T &lhs, const T &rhs)
 {
-	return b < a ? b : a;
+	return rhs < lhs ? rhs : lhs;
 }
 
 float LivingWorldArmyIcon::rva003FE13E()

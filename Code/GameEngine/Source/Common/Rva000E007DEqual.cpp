@@ -9,9 +9,9 @@ struct Rva000E007DPair
 	int m04;
 };
 
-int __stdcall Rva000E007DEqual(const Rva000E007DPair *a, const Rva000E007DPair *b)
+int __stdcall Rva000E007DEqual(const Rva000E007DPair *lhs, const Rva000E007DPair *rhs)
 {
-	if (a->m00 != b->m00 || a->m04 != b->m04)
+	if (lhs->m00 != rhs->m00 || lhs->m04 != rhs->m04)
 		return 0;
 	return 1;
 }

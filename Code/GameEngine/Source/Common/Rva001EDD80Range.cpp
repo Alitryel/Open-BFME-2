@@ -15,16 +15,16 @@ struct Rva001EDD80Pair
 class Mouse
 {
 public:
-	bool rva001EDD80(const Rva001EDD80Pair *a, const Rva001EDD80Pair *b);
+	bool rva001EDD80(const Rva001EDD80Pair *lhs, const Rva001EDD80Pair *rhs);
 private:
 	char m_pad[0x12E8];
 	unsigned int m_thresh;
 };
 
-bool Mouse::rva001EDD80(const Rva001EDD80Pair *a, const Rva001EDD80Pair *b)
+bool Mouse::rva001EDD80(const Rva001EDD80Pair *lhs, const Rva001EDD80Pair *rhs)
 {
-	int dx = a->x - b->x;
-	int dy = a->y - b->y;
+	int dx = lhs->x - rhs->x;
+	int dy = lhs->y - rhs->y;
 	if (abs(dx) > m_thresh || abs(dy) > m_thresh)
 		return true;
 	return false;

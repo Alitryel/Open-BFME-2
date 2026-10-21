@@ -26,8 +26,8 @@ public:
 		float x, y, z;
 	};
 	Rva0027D244 *rva0027D244(int v);
-	void rva0027D1EF(Rva0027D244 *a, Rva0027D244 *b);
-	void rva0027D276(Rva0027D244 *a, Rva0027D244 *b);
+	void rva0027D1EF(Rva0027D244 *lhs, Rva0027D244 *rhs);
+	void rva0027D276(Rva0027D244 *lhs, Rva0027D244 *rhs);
 private:
 	Vec12 m_pos00;
 	int m_0C;
@@ -49,7 +49,7 @@ class Pathfinder
 {
 public:
 	bool QuickDoesPathExist(class Object *obj, const struct Coord3D *from, const struct Coord3D *to, int v);
-	bool IsGroundLineOnly(const struct Coord3D *a, const struct Coord3D *b);
+	bool IsGroundLineOnly(const struct Coord3D *lhs, const struct Coord3D *rhs);
 };
 
 class AI
@@ -77,24 +77,24 @@ Rva0027D244 *Rva0027D244::rva0027D244(int v)
 }
 
 
-void Rva0027D244::rva0027D276(Rva0027D244 *a, Rva0027D244 *b)
+void Rva0027D244::rva0027D276(Rva0027D244 *lhs, Rva0027D244 *rhs)
 {
-	Vec12 p = b->m_pos00;
-	float dx = p.x - a->m_pos00.x;
-	float dy = p.y - a->m_pos00.y;
+	Vec12 p = rhs->m_pos00;
+	float dx = p.x - lhs->m_pos00.x;
+	float dy = p.y - lhs->m_pos00.y;
 	float d2 = dx * dx + dy * dy;
 	if (m_0C != 0 && d2 >= m_10)
 		return;
 	Pathfinder *pf = TheAI->m_10;
 	Object *obj = (Object *)m_18;
-	if (!pf->QuickDoesPathExist(obj, &obj->m_38, (const Coord3D *)a, 0))
+	if (!pf->QuickDoesPathExist(obj, &obj->m_38, (const Coord3D *)lhs, 0))
 		return;
 	pf = TheAI->m_10;
 	obj = (Object *)m_18;
-	if (!pf->IsGroundLineOnly(&obj->m_38, (const Coord3D *)a))
+	if (!pf->IsGroundLineOnly(&obj->m_38, (const Coord3D *)lhs))
 		return;
-	m_0C = a->m_0C;
-	m_pos00 = a->m_pos00;
+	m_0C = lhs->m_0C;
+	m_pos00 = lhs->m_pos00;
 	m_10 = d2;
-	m_14 = (int)a;
+	m_14 = (int)lhs;
 }

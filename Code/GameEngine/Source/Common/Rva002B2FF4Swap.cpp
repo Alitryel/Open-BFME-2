@@ -54,9 +54,9 @@ private:
 };
 
 // ?Rva002B2FF4Swap@@YAXAAVRva002B2F97@@0@Z
-void __cdecl Rva002B2FF4Swap(Rva002B2F97 &a, Rva002B2F97 &b)
+void __cdecl Rva002B2FF4Swap(Rva002B2F97 &lhs, Rva002B2F97 &rhs)
 {
-	Rva002B2F97 tmp = a;
-	a = b;
-	b = tmp;
+	Rva002B2F97 tmp = lhs;
+	lhs = rhs;
+	rhs = tmp;
 }

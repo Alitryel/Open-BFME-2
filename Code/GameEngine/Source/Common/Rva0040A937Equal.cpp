@@ -11,16 +11,16 @@ private:
 	const int *m_end;
 };
 
-bool Rva0040A937Equal(const Rva0040A7D5 *a, const Rva0040A7D5 *b)
+bool Rva0040A937Equal(const Rva0040A7D5 *lhs, const Rva0040A7D5 *rhs)
 {
-	unsigned int na = (unsigned int)(a->m_end - a->m_begin);
-	unsigned int nb = (unsigned int)(b->m_end - b->m_begin);
+	unsigned int na = (unsigned int)(lhs->m_end - lhs->m_begin);
+	unsigned int nb = (unsigned int)(rhs->m_end - rhs->m_begin);
 	if (na != nb)
 		return false;
 	if (na == 0)
 		return false;
 	for (unsigned int i = 0; i < na; ++i) {
-		if (a->GetStatNameKey((int)i) != b->GetStatNameKey((int)i))
+		if (lhs->GetStatNameKey((int)i) != rhs->GetStatNameKey((int)i))
 			return false;
 	}
 	return true;

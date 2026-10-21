@@ -7,13 +7,13 @@ struct EmptyAlloc {};
 class Rva001DA112
 {
 public:
-	void rva001DA112(int a, int b, char *p);
+	void rva001DA112(int lhs, int rhs, char *p);
 };
-void Rva001DAB3F(int *range, Rva001DA112 *a, Rva001DA112 *b)
+void Rva001DAB3F(int *range, Rva001DA112 *lhs, Rva001DA112 *rhs)
 {
 	const EmptyAlloc &al = EmptyAlloc();
-	a->rva001DA112(range[0], range[1], (char *)&al);
-	*(int *)b = 0;
+	lhs->rva001DA112(range[0], range[1], (char *)&al);
+	*(int *)rhs = 0;
 	for (int *p = (int *)range[0]; p != (int *)range[1]; p += 2)
-		*(int *)b += p[1];
+		*(int *)rhs += p[1];
 }

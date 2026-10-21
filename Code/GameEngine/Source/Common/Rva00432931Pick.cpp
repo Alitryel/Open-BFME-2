@@ -15,15 +15,15 @@ struct Rva00432931Entry
 	char m_pad15[3];
 };
 
-struct Rva00432931Entry *Rva00432931Pick(struct Rva00432931Entry *a, struct Rva00432931Entry *b)
+struct Rva00432931Entry *Rva00432931Pick(struct Rva00432931Entry *lhs, struct Rva00432931Entry *rhs)
 {
-	if (a != 0 && ((a->m_14 & 1) == 0)) {
-		if (b == 0 || (b->m_14 & 1))
-			return a;
-		return (a->m_10 <= b->m_10) ? b : a;
+	if (lhs != 0 && ((lhs->m_14 & 1) == 0)) {
+		if (rhs == 0 || (rhs->m_14 & 1))
+			return lhs;
+		return (lhs->m_10 <= rhs->m_10) ? rhs : lhs;
 	} else {
-		if (b != 0 && ((b->m_14 & 1) == 0))
-			return b;
+		if (rhs != 0 && ((rhs->m_14 & 1) == 0))
+			return rhs;
 		return 0;
 	}
 }

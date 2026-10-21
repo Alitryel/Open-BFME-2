@@ -11,11 +11,11 @@
 typedef int Int;
 typedef float Real;
 
-template <class T> inline void swapRange(T &a, T &b)
+template <class T> inline void swapRange(T &lhs, T &rhs)
 {
-	T tmp = a;
-	a = b;
-	b = tmp;
+	T tmp = lhs;
+	lhs = rhs;
+	rhs = tmp;
 }
 
 class INI

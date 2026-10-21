@@ -12,11 +12,11 @@ struct Rva0030BFE8Range
 	const float *end;
 };
 
-int __cdecl Rva0030BFE8Equal(const Rva0030BFE8Range *a, const Rva0030BFE8Range *b)
+int __cdecl Rva0030BFE8Equal(const Rva0030BFE8Range *lhs, const Rva0030BFE8Range *rhs)
 {
-	int len1 = (const char *)a->end - (const char *)a->begin;
-	int len2 = (const char *)b->end - (const char *)b->begin;
-	if ((((len1 ^ len2) & 0xfffffff0) == 0) && Rva0030BF0CEqual(a->begin, a->end, b->begin))
+	int len1 = (const char *)lhs->end - (const char *)lhs->begin;
+	int len2 = (const char *)rhs->end - (const char *)rhs->begin;
+	if ((((len1 ^ len2) & 0xfffffff0) == 0) && Rva0030BF0CEqual(lhs->begin, lhs->end, rhs->begin))
 		return 1;
 	return 0;
 }
