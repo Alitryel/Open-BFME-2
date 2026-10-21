@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// Retail 0x004C888D (318 bytes): CombineHordeSpecialPower::rva004C888D, slot
+// Retail 0x004C888D (318 bytes): CombineHordeSpecialPower::doSpecialPower, slot
 // 10 of its special-power interface vftable 0x0085E708 (+0x10 subobject;
 // [ecx-8] is the Object, [ecx-0xC] the module data), beside the matched
 // CombineHordeSpecialPower pool key 0x004C880D. Name by address, as
@@ -192,7 +192,7 @@ template <> class Rva004C888DSPSlots<0>
 class Rva004C888DIface10 : public Rva004C888DSPSlots<10>
 {
 public:
-	virtual void rva004C888D(unsigned int options) = 0;
+	virtual void doSpecialPower(unsigned int options) = 0;
 	virtual void slot11() = 0;
 	virtual void slot12() = 0;
 	virtual void slot13() = 0;
@@ -212,7 +212,7 @@ struct CombineHordeSpecialPowerModuleData
 class CombineHordeSpecialPower : public SpecialPowerModule
 {
 public:
-	virtual void rva004C888D(unsigned int options);
+	virtual void doSpecialPower(unsigned int options);
 private:
 	const CombineHordeSpecialPowerModuleData *getCombineHordeSpecialPowerModuleData() const
 	{
@@ -220,7 +220,7 @@ private:
 	}
 };
 
-void CombineHordeSpecialPower::rva004C888D(unsigned int)
+void CombineHordeSpecialPower::doSpecialPower(unsigned int)
 {
 	Object *object = m_object;
 	if (object->m_disabledMask.any())

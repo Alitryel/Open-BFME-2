@@ -229,7 +229,7 @@ protected:
 class ReplaceObjectUpdate : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva004B2D28();
+	virtual void triggerAbilityEffect();
 	void rva004B2C00(Object *obj, Rva004B2A9D *entry);	// 0x004B2C00
 	void rva004B2A60(Object *obj);
 private:
@@ -249,7 +249,7 @@ void ReplaceObjectUpdate::rva004B2A60(Object *obj)
 	obj->attemptDamage((DamageInfo *)&info);
 	TheGameLogic->destroyObject(obj);
 }
-void ReplaceObjectUpdate::rva004B2D28()
+void ReplaceObjectUpdate::triggerAbilityEffect()
 {
 	SpecialAbilityUpdate::triggerAbilityEffect();
 	if (getObject()) {
