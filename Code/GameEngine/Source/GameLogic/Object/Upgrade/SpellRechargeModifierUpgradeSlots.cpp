@@ -38,7 +38,7 @@ struct SpellRechargeModifierUpgradeModuleData
 {
 	unsigned char m_pad000[0x118];
 	_STL::vector<float> m_modifiers; // +0x118
-	bool m_124; // +0x124
+	bool m_startsActive; // +0x124
 };
 
 // The clamps compare as (a < b) ? a : b and (a > b) ? a : b, the operand
@@ -135,7 +135,7 @@ void SpellRechargeModifierUpgrade::rva004B5E46()
 // ?rva004B5DDC@SpellRechargeModifierUpgrade@@UAEXXZ @0x004B5DDC
 void SpellRechargeModifierUpgrade::rva004B5DDC()
 {
-	if (m_moduleData->m_124)
+	if (m_moduleData->m_startsActive)
 	{
 		rva004B5F9F();
 		slot9(1);

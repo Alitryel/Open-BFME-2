@@ -194,9 +194,9 @@ class UpdateModule : public BehaviorModule, public BehaviorModuleInterface, publ
 struct SpecialEnemySenseUpdateModuleData
 {
 	unsigned char m_pad00[0x08];
-	int m_08;			// +0x08 what the 0x002614EC filter compares
-	float m_0C;			// +0x0C the radius
-	UpdateSleepTime m_10;		// +0x10 the delay
+	int m_specialEnemyFilter;			// +0x08 what the 0x002614EC filter compares
+	float m_scanRange;			// +0x0C the radius
+	UpdateSleepTime m_scanInterval;		// +0x10 the delay
 };
 
 class SpecialEnemySenseUpdate : public UpdateModule
@@ -214,8 +214,8 @@ UpdateSleepTime SpecialEnemySenseUpdate::update()
 {
 	Object *obj = getObject();
 	const SpecialEnemySenseUpdateModuleData *data = getSpecialEnemySenseUpdateModuleData();
-	Object *enemy = ThePartitionManager->getClosestObject(obj->getPosition(), data->m_0C, 0,
-		Rva0026119DFilter().link(&Rva002614ECFilter(&data->m_08, obj->getControllingPlayer(), true))
+	Object *enemy = ThePartitionManager->getClosestObject(obj->getPosition(), data->m_scanRange, 0,
+		Rva0026119DFilter().link(&Rva002614ECFilter(&data->m_specialEnemyFilter, obj->getControllingPlayer(), true))
 			->link(&Rva00260EB1Filter(obj, 1, false)));
 	if (enemy) {
 		Rva0049A037Members *members = obj->getContain() ? obj->getContain()->rva0049A037Slot31() : 0;
@@ -236,5 +236,5 @@ UpdateSleepTime SpecialEnemySenseUpdate::update()
 			clearModelConditionBit(obj, 258);
 		}
 	}
-	return data->m_10;
+	return data->m_scanInterval;
 }

@@ -184,12 +184,12 @@ public:
     AsciiString m_midRearRightTireBoneName;
     AsciiString m_midMidLeftTireBoneName;
     AsciiString m_midMidRightTireBoneName;
-    AsciiString field190;
-    AsciiString field194;
-    AsciiString field198;
-    AsciiString field19c;
-    AsciiString field1a0;
-    AsciiString field1a4;
+    AsciiString m_powerslideSpray;
+    AsciiString m_leftFrontTireBone;
+    AsciiString m_rightFrontTireBone;
+    AsciiString m_leftRearTireBone;
+    AsciiString m_rightRearTireBone;
+    AsciiString m_midLeftFrontTireBone;
     AsciiString m_cabBoneName, m_trailerBoneName;
     float m_cabRotationFactor, m_trailerRotationFactor, m_rotationDampingFactor, m_rotationSpeedMultiplier, m_powerslideRotationAddition;
 };

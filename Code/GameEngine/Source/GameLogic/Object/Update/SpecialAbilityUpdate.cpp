@@ -515,17 +515,17 @@ public:
 	unsigned char m_pad0C[0x10 - 0x0C];
 	OpaqueRefElement4 m_prepSoundLoop; // +0x10
 	unsigned char m_pad14[0x18 - 0x14];
-	ModelConditionFlagType m_18; // +0x18
+	ModelConditionFlagType m_customAnimAndDuration; // +0x18
 	unsigned int m_1C; // +0x1C
 	unsigned int m_20; // +0x20
 	ModelConditionFlagType m_24; // +0x24
 	unsigned int m_28; // +0x28
 	int m_2C; // +0x2C
-	float m_30; // +0x30
+	float m_grabPassengerHealGainPercent; // +0x30
 	unsigned char m_pad34[0x38 - 0x34];
 	Overridable *m_specialPowerTemplate; // +0x38
 	unsigned char m_pad3C[0x48 - 0x3C];
-	AsciiString m_48; // +0x48
+	AsciiString m_triggerAttributeModifier; // +0x48
 	float m_approachRange; // +0x4C
 	unsigned char m_pad50[0x54 - 0x50];
 	float m_packUnpackVariationFactor; // +0x54
@@ -538,8 +538,8 @@ public:
 	unsigned int m_packTime; // +0x84
 	unsigned int m_unpackTime; // +0x88
 	unsigned int m_preTriggerUnstealthFrames; // +0x8C
-	int m_90; // +0x90
-	int m_94; // +0x94
+	int m_paralyzeDurationWhenCompleted; // +0x90
+	int m_paralyzeDurationWhenAborted; // +0x94
 	unsigned char m_pad098[0xA9 - 0x98];
 	bool m_specialObjectsPersistent; // +0xA9
 	bool m_aa;
@@ -549,7 +549,7 @@ public:
 	char m_pad0AE[2];
 	bool m_loseStealth; // +0xB0
 	unsigned char m_padB1[0xB3 - 0xB1];
-	bool m_b3; // +0xB3
+	bool m_killAttributeModifierOnExit; // +0xB3
 	unsigned char m_padB4[0xBC - 0xB4];
 	AsciiString m_targetBone; // +0xBC
 	AsciiString m_commandButtonName; // +0xC0 issued on completion when set
@@ -710,9 +710,9 @@ void SpecialAbilityUpdate::rva0044EE07()
 			0x249, 0x24a, 0x24b, 0x6e, 0x6f));
 	}
 	const SpecialAbilityUpdateModuleData *data = (const SpecialAbilityUpdateModuleData *)m_moduleData;
-	if (data->m_18 != MODELCONDITION_INVALID && data->m_1C == 0)
+	if (data->m_customAnimAndDuration != MODELCONDITION_INVALID && data->m_1C == 0)
 	{
-		((Rva001E42F2 *)getObject())->rva001E42F2((const int *)&Rva0028F59A(0, data->m_18));
+		((Rva001E42F2 *)getObject())->rva001E42F2((const int *)&Rva0028F59A(0, data->m_customAnimAndDuration));
 		m_84 = 0;
 	}
 }
@@ -728,7 +728,7 @@ void SpecialAbilityUpdate::rva0044EE80()
 {
 	Object *object = m_object;
 	const SpecialAbilityUpdateModuleData *data = (const SpecialAbilityUpdateModuleData *)m_moduleData;
-	ModelConditionFlagType mc = data->m_18;
+	ModelConditionFlagType mc = data->m_customAnimAndDuration;
 	if (mc == MODELCONDITION_INVALID)
 		return;
 	if (data->m_1C == 0)
@@ -856,7 +856,7 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 					if (containModule)
 					{
 						containModule->s43(target, data->m_2C, obj);
-						float value = c->vslot05() * 100.0f + data->m_30;
+						float value = c->vslot05() * 100.0f + data->m_grabPassengerHealGainPercent;
 						if (value > 100.0f)
 							value = 100.0f;
 						c->vslot21(value, 0);
@@ -888,11 +888,11 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 	}
 	if (b)
 	{
-		if (data->m_94 && ai)
-			ai->rva0045003E(data->m_94, CMD_FROM_AI);
+		if (data->m_paralyzeDurationWhenAborted && ai)
+			ai->rva0045003E(data->m_paralyzeDurationWhenAborted, CMD_FROM_AI);
 	}
-	else if (data->m_90 && ai)
-		ai->rva0045003E(data->m_90, CMD_FROM_AI);
+	else if (data->m_paralyzeDurationWhenCompleted && ai)
+		ai->rva0045003E(data->m_paralyzeDurationWhenCompleted, CMD_FROM_AI);
 	if (!data->m_specialObjectsPersistent || cleanup && !data->m_specialObjectsPersistWhenOwnerDies)
 		killSpecialObjects();
 	if (m_82)
@@ -906,9 +906,9 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 	m_packingState = 0;
 	m_withinStartAbilityRange = false;
 	m_approached = false;
-	if (data->m_b3)
+	if (data->m_killAttributeModifierOnExit)
 	{
-		const AsciiString &name = data->m_48;
+		const AsciiString &name = data->m_triggerAttributeModifier;
 		if (!name.isEmpty())
 			obj->removeAttributeModifierFromPool(name);
 	}
@@ -946,7 +946,7 @@ void SpecialAbilityUpdate::startUnpacking()
 		case 6: self->setModelConditionState((ModelConditionFlagType)587); break;
 		}
 	}
-	if (specialAbilityUpdateModuleData->m_18 != MODELCONDITION_INVALID)
+	if (specialAbilityUpdateModuleData->m_customAnimAndDuration != MODELCONDITION_INVALID)
 	{
 		if (specialAbilityUpdateModuleData->m_20 == 0)
 			rva0044EE80();

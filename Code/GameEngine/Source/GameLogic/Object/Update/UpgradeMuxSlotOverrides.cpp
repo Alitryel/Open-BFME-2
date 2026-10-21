@@ -219,7 +219,7 @@ protected:
 struct ObjectCreationUpgradeModuleData
 {
 	unsigned char m_pad000[0x0C];
-	unsigned int m_0C; // +0x0C
+	unsigned int m_delay; // +0x0C
 	UpgradeMuxData m_upgradeMuxData; // +0x10
 };
 
@@ -254,7 +254,7 @@ void ObjectCreationUpgrade::upgradeImplementation()
 {
 	if (!m_2C)
 	{
-		m_28 = data()->m_0C + ((const GameLogicFrameView *)TheGameLogic)->m_frame;
+		m_28 = data()->m_delay + ((const GameLogicFrameView *)TheGameLogic)->m_frame;
 		m_2C = true;
 		setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 	}

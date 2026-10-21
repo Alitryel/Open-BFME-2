@@ -38,14 +38,14 @@ public:
 	AsciiString m_weldingSysName;
 	AsciiString m_weldingFXBone;
 	bool m_stayOnSameLayerAsMaster;
-	bool m_bfme55;
-	float m_bfme58;
+	bool m_dieOnMastersDeath;
+	float m_guardPositionOffset;
 	float m_bfme5C;
 	float m_bfme60;
-	int m_bfme64;
-	int m_bfme68;
-	bool m_bfme6C;
-	bool m_bfme6D;
+	int m_fadeOutRange;
+	int m_fadeTime;
+	bool m_markUnselectable;
+	bool m_useSlaverAsControlForEvaObjectSightedEvents;
 };
 
 inline SlavedUpdateModuleData::SlavedUpdateModuleData()
@@ -65,14 +65,14 @@ inline SlavedUpdateModuleData::SlavedUpdateModuleData()
 	, m_minWeldFrames(0)
 	, m_maxWeldFrames(0)
 	, m_stayOnSameLayerAsMaster(false)
-	, m_bfme55(false)
-	, m_bfme58(0.0f)
+	, m_dieOnMastersDeath(false)
+	, m_guardPositionOffset(0.0f)
 	, m_bfme5C(0.0f)
 	, m_bfme60(0.0f)
-	, m_bfme64(0)
-	, m_bfme68(0)
-	, m_bfme6C(true)
-	, m_bfme6D(false)
+	, m_fadeOutRange(0)
+	, m_fadeTime(0)
+	, m_markUnselectable(true)
+	, m_useSlaverAsControlForEvaObjectSightedEvents(false)
 {
 }
 

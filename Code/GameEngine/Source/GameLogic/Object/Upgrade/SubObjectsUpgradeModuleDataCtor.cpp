@@ -57,8 +57,8 @@ private:
 	_STL::vector<AsciiString> m_v124; // +0x124
 	_STL::vector<AsciiString> m_v130; // +0x130
 	_STL::vector<AsciiString> m_v13C; // +0x13C
-	float m_148; // +0x148
-	float m_14C; // +0x14C
+	float m_fadeTimeInSeconds; // +0x148
+	float m_waitBeforeFadeInSeconds; // +0x14C
 	unsigned char m_f150; // +0x150
 	unsigned char m_f151; // +0x151
 	unsigned char m_f152; // +0x152
@@ -69,12 +69,12 @@ private:
 inline SubObjectsUpgradeModuleData::SubObjectsUpgradeModuleData()
 	: m_vtable(reinterpret_cast<volatile const void *>(((unsigned int)vtbl_00BF41A8)))
 {
-	m_148 = 0.5f;
+	m_fadeTimeInSeconds = 0.5f;
 	m_f150 = 0;
 	m_f151 = 0;
 	m_f152 = 0;
 	m_f153 = 0;
-	m_14C = 0.0f;
+	m_waitBeforeFadeInSeconds = 0.0f;
 }
 
 // Header inlines that the units including the header emit as select-any

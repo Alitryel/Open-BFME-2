@@ -11,7 +11,7 @@ typedef bool Bool;
 struct WeaponFireSpecialAbilityUpdateModuleData
 {
 	unsigned char m_pad00[0xD0];
-	Bool m_D0; // +0xD0
+	Bool m_skipContinue; // +0xD0
 };
 class Object;
 class SpecialAbilityUpdate
@@ -34,7 +34,7 @@ public:
 };
 Bool WeaponFireSpecialAbilityUpdate::continuePreparation()
 {
-	if (m_moduleData->m_D0 && m_24 == 2)
+	if (m_moduleData->m_skipContinue && m_24 == 2)
 		return false;
 	return SpecialAbilityUpdate::continuePreparation();
 }

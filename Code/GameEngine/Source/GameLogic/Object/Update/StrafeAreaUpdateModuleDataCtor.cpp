@@ -50,7 +50,7 @@ private:
 	float m_sweepFrequency;			// +0x10
 	float m_sweepAmplitude;			// +0x14
 	float m_slope;				// +0x18
-	float m_unk1C;				// +0x1C
+	float m_initialSweepPhase;				// +0x1C
 };
 
 StrafeAreaUpdateModuleData::StrafeAreaUpdateModuleData()
@@ -61,6 +61,6 @@ StrafeAreaUpdateModuleData::StrafeAreaUpdateModuleData()
 	m_sweepFrequency = 0.4f;
 	m_sweepAmplitude = 100.0f;
 	m_slope = 50.0f;
-	m_unk1C = 0.0f;
+	m_initialSweepPhase = 0.0f;
 	m_weaponName.clear();
 }

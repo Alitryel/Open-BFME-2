@@ -106,8 +106,8 @@ struct WeaponFireSpecialAbilityUpdateModuleData
 	unsigned char m_pad00[0xC4];
 	Bool m_C4; // +0xC4
 	unsigned char m_padC5[0xD4 - 0xC5];
-	int m_D4; // +0xD4
-	Bool m_D8; // +0xD8
+	int m_busyForDuration; // +0xD4
+	Bool m_needLivingTargets; // +0xD8
 };
 
 class SpecialPowerModuleInterface
@@ -186,13 +186,13 @@ void WeaponFireSpecialAbilityUpdate::triggerAbilityEffect()
 			}
 			else
 			{
-				Bool useTargetPos = !(m_targetPos == Coord3D(0.0f, 0.0f, 0.0f)) && !data->m_D8;
+				Bool useTargetPos = !(m_targetPos == Coord3D(0.0f, 0.0f, 0.0f)) && !data->m_needLivingTargets;
 				const Coord3D *pos = useTargetPos ? &m_targetPos : &obj->m_38;
 				m_88->forceFireWeapon(obj, pos);
 				if (obj->m_240)
 					obj->m_240->shotFired(m_88, INVALID_OBJECT_ID, pos, true);
 			}
-			obj->rva002900E0(TheGameLogic->getFrame() + m_moduleData->m_D4);
+			obj->rva002900E0(TheGameLogic->getFrame() + m_moduleData->m_busyForDuration);
 		}
 	}
 	SpecialAbilityUpdate::triggerAbilityEffect();

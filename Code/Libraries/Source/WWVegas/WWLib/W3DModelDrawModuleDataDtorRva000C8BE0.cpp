@@ -162,68 +162,68 @@ public:
 private:
 	unsigned char m_pad04[4]; // +0x04..+0x07 (Snapshot is vptr-only)
 	Rva000C7720Vec m_08; // +0x08
-	AsciiString m_14; // +0x14
+	AsciiString m_wadingParticleSys; // +0x14
 	Rva000C8216Wrap m_18; // +0x18 vector via rowed 0xC8216 shape
 	Rva000C8B83Wrap m_24; // +0x24 vector<BfmePod248> via rowed 0xC8B83 shape
-	Rva0002CC70Wrap m_30; // +0x30 vector via rowed 0x2CC70 shape
-	AsciiString m_3C; // +0x3C
-	AsciiString m_40; // +0x40
-	AsciiString m_44; // +0x44
-	AsciiString m_48; // +0x48
+	Rva0002CC70Wrap m_extraPublicBone; // +0x30 vector via rowed 0x2CC70 shape
+	AsciiString m_trackMarks; // +0x3C
+	AsciiString m_attachToBoneInAnotherModule; // +0x40
+	AsciiString m_trackMarksLeftBone; // +0x44
+	AsciiString m_trackMarksRightBone; // +0x48
 	int m_4C; // +0x4C default state (-1)
-	unsigned int m_50; // +0x50
-	float m_54; // +0x54
-	float m_58; // +0x58
-	float m_5C; // +0x5C
-	float m_60; // +0x60
-	int m_64; // +0x64
-	bool m_68; // +0x68
-	bool m_69; // +0x69
-	bool m_6A; // +0x6A
-	bool m_6B; // +0x6B
+	unsigned int m_projectileBoneFeedbackEnabledSlots; // +0x50
+	float m_initialRecoilSpeed; // +0x54
+	float m_maxRecoilDistance; // +0x58
+	float m_recoilDamping; // +0x5C
+	float m_recoilSettleSpeed; // +0x60
+	int m_minLODRequired; // +0x64
+	bool m_okToChangeModelColor; // +0x68
+	bool m_noRotate; // +0x69
+	bool m_useFiringArcRotation; // +0x6A
+	bool m_animationsRequirePower; // +0x6B
 	bool m_6C; // +0x6C
 	unsigned char m_pad6D[3];
 	Rva000C1C6AWrap m_70; // +0x70 vector via rowed 0xC1C6A shape
 	Rva000C68C2Wrap m_7C; // +0x7C vector via rowed 0xC68C2 shape
-	bool m_88; // +0x88
+	bool m_randomTextureFixedRandomIndex; // +0x88
 	unsigned char m_pad89[3];
 	Rva00079554Record m_8C; // +0x8C record 0x2C
-	bool m_B8; // +0xB8
+	bool m_useProducerTexture; // +0xB8
 	unsigned char m_padB9[3];
 	Rva0042526Member m_BC; // +0xBC opaque 0x4C member
-	bool m_108; // +0x108
+	bool m_particlesAttachedToAnimatedBones; // +0x108
 	unsigned char m_pad109[3];
-	AsciiString m_10C; // +0x10C
-	AsciiString m_110; // +0x110
-	AsciiString m_114; // +0x114
-	AsciiString m_118; // +0x118
-	Rva000C0495 m_11C; // +0x11C vector via rowed 0xC0495
-	bool m_128; // +0x128
-	bool m_129; // +0x129
-	bool m_12A; // +0x12A
-	bool m_12B; // +0x12B
-	float m_12C; // +0x12C
-	float m_130; // +0x130
-	bool m_134; // +0x134
-	bool m_135; // +0x135
-	bool m_136; // +0x136
-	bool m_137; // +0x137
-	bool m_138; // +0x138
-	bool m_139; // +0x139
+	AsciiString m_wallBoundsMesh; // +0x10C
+	AsciiString m_raisedWallMesh; // +0x110
+	AsciiString m_rampMesh1; // +0x114
+	AsciiString m_rampMesh2; // +0x118
+	Rva000C0495 m_embedPortal; // +0x11C vector via rowed 0xC0495
+	bool m_glowEnabled; // +0x128
+	bool m_glowEmissive; // +0x129
+	bool m_particleBonesCheckDrawable; // +0x12A
+	bool m_shadowForceDisable; // +0x12B
+	float m_highDetailLODThreshold; // +0x12C
+	float m_lowDetailLODThreshold; // +0x130
+	bool m_switchModelLODMode; // +0x134
+	bool m_staticModelLODMode; // +0x135
+	bool m_showShadowWhileContained; // +0x136
+	bool m_useStandardModelNames; // +0x137
+	bool m_useDefaultAnimation; // +0x138
+	bool m_alphaRefAnimated; // +0x139
 	unsigned char m_pad13A[2];
-	int m_13C; // +0x13C
+	int m_alphaRefRange; // +0x13C
 	int m_140; // +0x140
-	float m_144; // +0x144
-	float m_148; // +0x148
-	float m_14C; // +0x14C
-	unsigned int m_150; // +0x150
-	bool m_154; // +0x154
+	float m_alphaCameraFadeOuterRadius; // +0x144
+	float m_alphaCameraFadeInnerRadius; // +0x148
+	float m_alphaCameraAtInnerRadius; // +0x14C
+	unsigned int m_birthFadeTime; // +0x150
+	bool m_birthFadeAdditive; // +0x154
 	unsigned char m_pad155[3];
-	int m_158; // +0x158
-	bool m_15C; // +0x15C
-	bool m_15D; // +0x15D
-	bool m_15E; // +0x15E
-	bool m_15F; // +0x15F
+	int m_staticSortLevelWhileFading; // +0x158
+	bool m_zWriteDisableOverride; // +0x15C
+	bool m_multiPlayerOnly; // +0x15D
+	bool m_affectedByStealth; // +0x15E
+	bool m_highDetailOnly; // +0x15F
 	W3DModelDrawArrayElement m_160[2]; // +0x160 array[2] 0x14 (ehvec 0x629110)
 };
 
@@ -239,51 +239,51 @@ W3DModelDrawModuleData::~W3DModelDrawModuleData()
 // default "<DefaultEmptyIdleAnimationState>" record pushed into +0x24.
 W3DModelDrawModuleData::W3DModelDrawModuleData() :
 	m_4C(-1),
-	m_64(0),
-	m_68(false),
-	m_69(false),
-	m_6A(false),
-	m_6B(true),
+	m_minLODRequired(0),
+	m_okToChangeModelColor(false),
+	m_noRotate(false),
+	m_useFiringArcRotation(false),
+	m_animationsRequirePower(true),
 	m_6C(false),
-	m_88(false),
-	m_B8(false),
-	m_108(false),
-	m_128(false),
-	m_129(false),
-	m_12A(false),
-	m_12B(false),
-	m_144(0.0f),
-	m_148(0.0f),
-	m_14C(1.0f),
-	m_150(0),
-	m_154(false),
-	m_158(-1),
-	m_15D(false),
-	m_15E(true),
-	m_15F(false)
+	m_randomTextureFixedRandomIndex(false),
+	m_useProducerTexture(false),
+	m_particlesAttachedToAnimatedBones(false),
+	m_glowEnabled(false),
+	m_glowEmissive(false),
+	m_particleBonesCheckDrawable(false),
+	m_shadowForceDisable(false),
+	m_alphaCameraFadeOuterRadius(0.0f),
+	m_alphaCameraFadeInnerRadius(0.0f),
+	m_alphaCameraAtInnerRadius(1.0f),
+	m_birthFadeTime(0),
+	m_birthFadeAdditive(false),
+	m_staticSortLevelWhileFading(-1),
+	m_multiPlayerOnly(false),
+	m_affectedByStealth(true),
+	m_highDetailOnly(false)
 {
-	m_50 = 0;
-	m_54 = 2.0f;
-	m_58 = 3.0f;
-	m_5C = 0.4f;
-	m_60 = 0.065f;
+	m_projectileBoneFeedbackEnabledSlots = 0;
+	m_initialRecoilSpeed = 2.0f;
+	m_maxRecoilDistance = 3.0f;
+	m_recoilDamping = 0.4f;
+	m_recoilSettleSpeed = 0.065f;
 
 	m_70.clear();
 	m_7C.clear();
 
-	m_12C = 0.0f;
-	m_130 = 0.0f;
-	m_134 = false;
-	m_135 = false;
-	m_136 = false;
-	m_137 = false;
-	m_138 = false;
+	m_highDetailLODThreshold = 0.0f;
+	m_lowDetailLODThreshold = 0.0f;
+	m_switchModelLODMode = false;
+	m_staticModelLODMode = false;
+	m_showShadowWhileContained = false;
+	m_useStandardModelNames = false;
+	m_useDefaultAnimation = false;
 
 	BfmePod248 temp;
 	temp.m_s00 = "<DefaultEmptyIdleAnimationState>";
 	m_24.push_back(temp);
 
-	m_139 = false;
-	m_13C = m_140 = 0x60;
-	m_15C = false;
+	m_alphaRefAnimated = false;
+	m_alphaRefRange = m_140 = 0x60;
+	m_zWriteDisableOverride = false;
 }

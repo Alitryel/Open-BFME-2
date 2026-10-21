@@ -140,8 +140,8 @@ private:
 	Int m_maxToppleDelay; // +0x3C
 	float m_structuralIntegrity; // +0x40
 	float m_structuralDecay; // +0x44
-	float m_unk48; // +0x48
-	Int m_unk4C; // +0x4C
+	float m_toppleAccelerationFactor; // +0x48
+	Int m_damageFXTypes; // +0x4C
 	void *m_toppleStartFXList; // +0x50
 	void *m_toppleDelayFXList; // +0x54
 	void *m_toppleDoneFXList; // +0x58
@@ -155,7 +155,7 @@ private:
 	Int m_oclCount[3]; // +0x94
 	_STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> > m_fxbones; // +0xA0
 	_STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> > m_angleFX; // +0xAC
-	float m_unkB8; // +0xB8
+	float m_forceToppleAngle; // +0xB8
 };
 
 // ??0StructureToppleUpdateModuleData@@QAE@XZ @0x00257A5E
@@ -167,7 +167,7 @@ inline StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
 	m_minToppleDelay = 0;
 	m_maxToppleDelay = 0;
 	m_structuralIntegrity = 0.1f;
-	m_unk4C = -1;
+	m_damageFXTypes = -1;
 	m_minToppleBurstDelay = 0;
 	m_maxToppleBurstDelay = 0;
 	m_structuralDecay = 0.0f;
@@ -177,8 +177,8 @@ inline StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
 	m_toppleDoneFXList = 0;
 	m_crushingFXList = 0;
 	m_crushingWeaponName.set("");
-	m_unk48 = 0.06f;
-	m_unkB8 = -9.87654f;
+	m_toppleAccelerationFactor = 0.06f;
+	m_forceToppleAngle = -9.87654f;
 	for (int i = 0; i < ST_PHASE_COUNT; ++i)
 		m_oclCount[i] = 1;
 	_STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> > &bones = m_fxbones;

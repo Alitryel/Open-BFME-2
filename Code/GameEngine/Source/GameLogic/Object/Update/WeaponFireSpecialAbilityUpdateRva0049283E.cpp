@@ -116,9 +116,9 @@ class WeaponFireSpecialAbilityUpdateModuleData
 public:
 	unsigned char m_pad[0xCC];
 	int m_CC; // +0xCC
-	bool m_D0; // +0xD0
+	bool m_skipContinue; // +0xD0
 	unsigned char m_padD1[0xD9 - 0xD1];
-	bool m_D9; // +0xD9
+	bool m_playWeaponPreFireFX; // +0xD9
 };
 class WeaponFireSpecialAbilityUpdate : public SpecialAbilityUpdate
 {
@@ -132,7 +132,7 @@ void WeaponFireSpecialAbilityUpdate::startUnpacking()
 	SpecialAbilityUpdate::startUnpacking();
 	const WeaponFireSpecialAbilityUpdateModuleData *data = (const WeaponFireSpecialAbilityUpdateModuleData *)m_moduleData;
 	Object *object = m_object;
-	if (!data->m_D0 || m_24 == 0)
+	if (!data->m_skipContinue || m_24 == 0)
 	{
 		switch (data->m_CC)
 		{
@@ -156,7 +156,7 @@ void WeaponFireSpecialAbilityUpdate::startUnpacking()
 			break;
 		}
 	}
-	if (data->m_D9 && m_88 && m_88->m_04)
+	if (data->m_playWeaponPreFireFX && m_88 && m_88->m_04)
 	{
 		const FXList *fx = m_88->m_04->m_B8;
 		if (fx)

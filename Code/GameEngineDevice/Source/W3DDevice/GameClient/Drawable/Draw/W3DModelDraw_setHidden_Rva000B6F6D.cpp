@@ -74,7 +74,7 @@ public:
 struct W3DModelDrawModuleData
 {
 	unsigned char m_pad00[0x15E];
-	Bool m_unknown15E;
+	Bool m_affectedByStealth;
 };
 
 class W3DModelDraw
@@ -107,7 +107,7 @@ void W3DModelDraw::setHidden(Bool hidden)
 {
 	if (!hidden && m_unknown4D)
 		return;
-	if (m_unknown28E && !m_moduleData->m_unknown15E)
+	if (m_unknown28E && !m_moduleData->m_affectedByStealth)
 		return;
 
 	m_hidden = hidden;

@@ -94,12 +94,12 @@ class W3DLightDrawModuleData
 {
 public:
 	unsigned char m_pad[0x30];
-	Real m_30;
-	Real m_34;
-	Real m_38;
-	Real m_3c;
-	Real m_40;
-	Real m_44;
+	Real m_intensity;
+	Real m_flickerAmplitude;
+	Real m_flickerFrequency;
+	Real m_pulseAmplitude;
+	Real m_pulseFrequency;
+	Real m_attachToBoneInAnotherModule;
 };
 
 class DrawModule
@@ -137,7 +137,7 @@ void W3DLightDraw::doDrawModule(const Matrix3D *)
 	const W3DLightDrawModuleData *data = m_moduleData;
 	if (data == 0)
 		return;
-	Real height = data->m_30;
+	Real height = data->m_intensity;
 	Drawable *drawable = m_drawable;
 	if (drawable != 0)
 	{
@@ -163,20 +163,20 @@ void W3DLightDraw::doDrawModule(const Matrix3D *)
 		m_light->Set_Transform(transform);
 	}
 
-	if (data->m_34 > 0.0f)
+	if (data->m_flickerAmplitude > 0.0f)
 	{
 		if (m_radius <= 0.0f)
 		{
-			m_radius = (Real)BfmeLogicFramesPerSecond / data->m_38;
-			Real minimum = -data->m_34;
-			Real maximum = data->m_34;
+			m_radius = (Real)BfmeLogicFramesPerSecond / data->m_flickerFrequency;
+			Real minimum = -data->m_flickerAmplitude;
+			Real maximum = data->m_flickerAmplitude;
 			m_angle = ((WWMath::Random_Float() * (maximum - minimum) + minimum) + height - m_height) / m_radius;
 		}
 		m_radius -= 1.0f;
 		height = m_angle + m_height;
 		m_height = height;
 	}
-	if (data->m_3c > 0.0f)
-		height = WWMath::Sin(m_phase * data->m_40 * 6.2831855f) * data->m_3c + height;
+	if (data->m_pulseAmplitude > 0.0f)
+		height = WWMath::Sin(m_phase * data->m_pulseFrequency * 6.2831855f) * data->m_pulseAmplitude + height;
 	*(Real *)((char *)m_light + 0xd0) = height;
 }

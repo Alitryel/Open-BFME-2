@@ -200,7 +200,7 @@ struct W3DTreeDrawModuleData
 	unsigned char m_pad00[0x54];
 	bool m_noSway;
 	unsigned char m_pad55[3];
-	int m_field58;
+	int m_fadeRate;
 };
 
 template <class T> struct PtrVector
@@ -405,11 +405,11 @@ void Rva000EC9C6::rva000EBFD1(void)
 			// Step the alpha toward its target by the type's fade step.
 			if (((Rva000EBFD1GlobalFade *)TheWritableGlobalData)->m_enabled && alpha != m_trees[curTree].m_fieldE4) {
 				if (alpha > m_trees[curTree].m_fieldE4) {
-					alpha -= m_treeTypes[type].m_data->m_field58;
+					alpha -= m_treeTypes[type].m_data->m_fadeRate;
 					if (alpha < m_trees[curTree].m_fieldE4)
 						alpha = m_trees[curTree].m_fieldE4;
 				} else {
-					alpha += m_treeTypes[type].m_data->m_field58;
+					alpha += m_treeTypes[type].m_data->m_fadeRate;
 					if (alpha > m_trees[curTree].m_fieldE4)
 						alpha = m_trees[curTree].m_fieldE4;
 				}

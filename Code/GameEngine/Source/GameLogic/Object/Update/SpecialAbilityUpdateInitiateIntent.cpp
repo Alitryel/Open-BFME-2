@@ -158,7 +158,7 @@ class SpecialAbilityUpdateModuleData
 {
 public:
 	unsigned char m_pad[0x18];
-	ModelConditionFlagType m_18; // +0x18
+	ModelConditionFlagType m_customAnimAndDuration; // +0x18
 	unsigned int m_1C; // +0x1C
 	unsigned char m_pad20[0x38 - 0x20];
 	const SpecialPowerTemplate *m_specialPowerTemplate; // +0x38
@@ -169,7 +169,7 @@ public:
 	unsigned char m_pad8C[0xA8 - 0x8C];
 	bool m_skipPackingWithNoTarget; // +0xA8
 	unsigned char m_padA9[0xB7 - 0xA9];
-	bool m_b7; // +0xB7
+	bool m_instant; // +0xB7
 };
 class ModuleData;
 class Waypoint;
@@ -395,7 +395,7 @@ void SpecialAbilityUpdate::initiateIntentToDoSpecialPower(const SpecialPowerTemp
 		m_targetPos = *targetPos;
 		m_5C = (int)way;
 	}
-	else if (data->m_b7)
+	else if (data->m_instant)
 	{
 		slot17();
 		SpecialPowerModuleInterface *spm = (SpecialPowerModuleInterface *)((Rva0044E633 *)this)->rva0044E633();
