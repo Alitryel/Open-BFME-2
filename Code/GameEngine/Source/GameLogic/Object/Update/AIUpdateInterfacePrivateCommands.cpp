@@ -308,8 +308,14 @@ public:
 	// whatever else holds; unnamed.
 	Bool m_bfmeFlag614;							// +0x614
 
-	// 0x0033C259: a float per locomotor set, which chooseLocomotorSet
-	// stores at AIUpdate +0x1F8; unnamed.
+};
+
+// 0x0033C259: a float per locomotor set, which chooseLocomotorSet stores at
+// AIUpdate +0x1F8. The matched body is rowed under this view's class name;
+// chooseLocomotorSet reaches it through the template pointer.
+class ModuleInfo
+{
+public:
 	float rva0033C259(Int locomotorSet) const;
 };
 
@@ -317,7 +323,7 @@ public:
 class Thing
 {
 public:
-	__forceinline UnsignedInt isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
+	__forceinline UnsignedInt isTemplateKindOf(KindOfType t) const { return m_template->isKindOf(t); }
 
 	virtual void slot00();
 	ThingTemplate *m_template;
@@ -373,10 +379,17 @@ public:
 	const CommandButton *getCommandButton(Int i) const;			///< pinned 0x00409EE8
 };
 
+// 0x0031D5F8: the ControlBar's command-set lookup, rowed under this view's
+// class name; takes the AsciiString by pointer.
+class Rva0031D5F8
+{
+public:
+	void *rva0031D5F8(const AsciiString *name);
+};
+
 class ControlBar
 {
 public:
-	const CommandSet *findCommandSet(const AsciiString &name);	///< pinned 0x0031D5F8
 };
 
 extern ControlBar *TheControlBar;
@@ -592,16 +605,15 @@ public:
 	const Coord3D *getPosition() const { return &m_cachedPos; }
 	const WeaponSetFlags &getWeaponSetFlags() const;
 	Weapon *getCurrentWeapon(WeaponSlotType *wslot);
-	const AsciiString &getCommandSetString() const;	///< pinned 0x00290E67
+	const AsciiString *rva00290E67() const;			///< pinned 0x00290E67
 	UnsignedInt isDisabledByType(Int type) const { return m_disabledMask & (1U << type); }
 	ObjectID getID() const { return m_id; }
 	Bool isEffectivelyDead() const { return (m_privateStatus & 0x01) != 0; }
 	__declspec(dllimport) __forceinline Bool isOffMap() const { return (m_privateStatus & 0x08) != 0; }
 	Team *getTeam() const { return m_team; }
 	// 0x0006F039 (ledger name Object::isKindOf) tests a bit of the word run
-	// at +0x10C; privateMoveAwayFromUnit asks it for bit 0x84. Reached under
-	// an address name here because that run is not the template's KindOf.
-	Bool rva0006F039(Int bit) const;
+	// at +0x10C; privateMoveAwayFromUnit asks it for bit 0x84.
+	Bool isKindOf(KindOfType bit) const;
 	// 0x0028CE7B: a small enum privateMoveAwayFromUnit compares against 4
 	// before telling moveAllies; unnamed.
 	signed char rva0028CE7B() const;
@@ -774,6 +786,7 @@ class Rva00263910
 {
 public:
 	void rva00263910(const Coord3D *pos, float range, int commandSource);
+	void rva00265667(const Coord3D *pos, int commandSource);
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
@@ -1114,7 +1127,6 @@ public:
 	virtual Bool bfmeCurrentWeaponTemplateFlag4() const;
 	virtual void clearGuardTargetType();
 
-	void setGoalPositionClipped(const Coord3D *position, CommandSourceType commandSource);
 	void setCurrentVictim(const Object *victim);	///< matched 0x00268D1F
 	void ignoreObstacle(const Object *obj);			///< matched 0x00268D88
 	Object *getCurrentVictim() const;				///< matched 0x00268D71
@@ -1340,7 +1352,7 @@ void AIUpdateInterface::bfmePrivateCommand02(const Coord3D *position, CommandSou
 
 	m_stateMachine->clear();
 	m_stateMachine->setGoalObject(0);
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_lastCommandSource = commandSource;
 	m_stateMachine->setState(BFME_AI_STATE_1B);
 }
@@ -1475,7 +1487,7 @@ void AIUpdateInterface::privateHunt(CommandSourceType commandSource)
 {
 	if (!getObject()->isMobile())
 		return;
-	if (getObject()->isKindOf(KINDOF_PROJECTILE))
+	if (getObject()->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 	if (getObject()->testStatus(BFME_OBJECT_STATUS_26))
 		return;
@@ -1508,7 +1520,7 @@ void AIUpdateInterface::bfmePrivateCommand37(Int value, CommandSourceType comman
 		return;
 	if (!obj->isMobile())
 		return;
-	if (getObject()->isKindOf(KINDOF_PROJECTILE))
+	if (getObject()->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 	m_guardMode = (GuardMode)value;
 	m_stateMachine->clear();
@@ -1550,7 +1562,7 @@ void AIUpdateInterface::bfmePrivateCommand20(const Rva00264D81Arg *target, Guard
 		return;
 	if (!obj->isMobile())
 		return;
-	if (getObject()->isKindOf(KINDOF_PROJECTILE))
+	if (getObject()->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 
 	if (m_guardTargetType[1] == GUARDTARGET_NONE)
@@ -1574,7 +1586,7 @@ void AIUpdateInterface::privateFacePosition(const Coord3D *position, CommandSour
 	if (!getObject()->isMobile())
 		return;
 	m_stateMachine->clear();
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1588,7 +1600,7 @@ void AIUpdateInterface::privateAttackArea(const PolygonTrigger *areaToGuard, Com
 {
 	if (!getObject()->isMobile())
 		return;
-	if (getObject()->isKindOf(KINDOF_PROJECTILE))
+	if (getObject()->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 
 	m_areaToGuard = areaToGuard;
@@ -1680,7 +1692,7 @@ void AIUpdateInterface::bfmePrivateCommand03(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1699,7 +1711,7 @@ void AIUpdateInterface::bfmePrivateCommand04(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1718,7 +1730,7 @@ void AIUpdateInterface::bfmePrivateCommand38(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1737,7 +1749,7 @@ void AIUpdateInterface::bfmePrivateCommand41(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1781,7 +1793,7 @@ void AIUpdateInterface::privateMoveToPositionSA(const Coord3D *position, Command
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1856,7 +1868,7 @@ void AIUpdateInterface::privateFollowWaypointPath(const Waypoint *way, CommandSo
 	m_lastCommandSource = commandSource;
 
 	const Waypoint *last;
-	if (obj->isKindOf(BFME_KINDOF_BF) && obj->m_contain && way
+	if (obj->isTemplateKindOf(BFME_KINDOF_BF) && obj->m_contain && way
 		&& (last = lastWaypoint(way)) != 0 && reinterpret_cast<Rva0028ECDBHost *>(obj)->rva0028ECDB(const_cast<Coord3D *>(last->getLocation())))
 		m_stateMachine->setState((StateID)0x49);
 	else
@@ -1956,7 +1968,7 @@ void AIUpdateInterface::privateCommandButton(const CommandButton *commandButton,
 {
 	if (!commandButton)
 		return;
-	if (getObject()->isKindOf(KINDOF_PROJECTILE))
+	if (getObject()->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 	Object *obj = getObject();
 	if (!obj)
@@ -1965,7 +1977,7 @@ void AIUpdateInterface::privateCommandButton(const CommandButton *commandButton,
 	if (!ai)
 		return;
 
-	const CommandSet *commandSet = TheControlBar->findCommandSet(obj->getCommandSetString());
+	const CommandSet *commandSet = (const CommandSet *)reinterpret_cast<Rva0031D5F8 *>(TheControlBar)->rva0031D5F8(obj->rva00290E67());
 	if (!commandSet)
 		return;
 	for (Int i = 0; i < 32; i++)
@@ -1984,7 +1996,7 @@ void AIUpdateInterface::privateCommandButtonPosition(const CommandButton *comman
 {
 	if (!commandButton)
 		return;
-	if (getObject()->isKindOf(KINDOF_PROJECTILE))
+	if (getObject()->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 	Object *obj = getObject();
 	if (!obj)
@@ -1992,7 +2004,7 @@ void AIUpdateInterface::privateCommandButtonPosition(const CommandButton *comman
 	if (!obj->m_ai)
 		return;
 
-	const CommandSet *commandSet = TheControlBar->findCommandSet(obj->getCommandSetString());
+	const CommandSet *commandSet = (const CommandSet *)reinterpret_cast<Rva0031D5F8 *>(TheControlBar)->rva0031D5F8(obj->rva00290E67());
 	if (!commandSet)
 		return;
 	for (Int i = 0; i < 32; i++)
@@ -2025,7 +2037,7 @@ void AIUpdateInterface::bfmePrivateCommand42(Object *obj, CommandSourceType comm
 	if (commandSource == CMD_FROM_PLAYER || commandSource == CMD_FROM_SCRIPT)
 		playMoveVoiceResponse(obj->getPosition());
 
-	if (obj->isKindOf(BFME_KINDOF_BF))
+	if (obj->isTemplateKindOf(BFME_KINDOF_BF))
 		reinterpret_cast<AICommandInterface *>(reinterpret_cast<char *>(obj->m_ai) + 0x20)->rva0026C486(m_object, commandSource);
 }
 
@@ -2199,7 +2211,7 @@ void AIUpdateInterface::privateMoveToPositionAmphibious(const Coord3D *position,
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	setGoalPositionClipped(position, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -2220,7 +2232,7 @@ void AIUpdateInterface::privateMoveToPositionAmphibious(const Coord3D *position,
 // that is not status 0x26 guards where it stands instead.
 void AIUpdateInterface::privateIdle(CommandSourceType commandSource)
 {
-	if (getObject()->isKindOf(KINDOF_PROJECTILE))
+	if (getObject()->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 	if (reinterpret_cast<const Rva0028B7AELeaGetter *>(getObject())->testBit8())
 		return;
@@ -2244,7 +2256,7 @@ void AIUpdateInterface::privateIdle(CommandSourceType commandSource)
 				AIUpdateInterface *ai = member ? member->getAI() : 0;
 				if (!ai)
 					continue;
-				if (!member->isKindOf(BFME_KINDOF_6D)
+				if (!member->isTemplateKindOf(BFME_KINDOF_6D)
 					|| reinterpret_cast<AIUpdateSlot110 *>(ai)->isAttacking()
 					|| ai->getCurrentVictim() != 0)
 					reinterpret_cast<AICommandInterface *>(reinterpret_cast<char *>(ai) + 0x20)->aiIdle(commandSource);
@@ -2255,7 +2267,7 @@ void AIUpdateInterface::privateIdle(CommandSourceType commandSource)
 	if (commandSource == CMD_FROM_PLAYER && getObject()->isMobile())
 	{
 		Object *obj = getObject();
-		if (!obj->testStatus(BFME_OBJECT_STATUS_26) && !obj->isKindOf(KINDOF_PROJECTILE))
+		if (!obj->testStatus(BFME_OBJECT_STATUS_26) && !obj->isTemplateKindOf(KINDOF_PROJECTILE))
 		{
 			reinterpret_cast<AIUpdateSlot63 *>(this)->privateGuardPosition(obj->getPosition(), GUARDMODE_NORMAL, commandSource);
 			return;
@@ -2340,7 +2352,7 @@ void AIUpdateInterface::privateAttackPosition(const Coord3D *pos, Int maxShotsTo
 
 	sm->clear();
 	destroyPath();
-	setGoalPositionClipped(&localPos, commandSource);
+	reinterpret_cast<Rva00263910 *>(this)->rva00265667(&localPos, commandSource);
 	m_lastCommandSource = commandSource;
 	m_stateMachine->setState(BFME_AI_ATTACK_POSITION);
 	m_stateMachine->setGoalObject(0);
@@ -2494,17 +2506,17 @@ void AIUpdateInterface::privateMoveAwayFromUnit(Object *unit, const Coord3D *pos
 		if (m_path)
 		{
 			Bool moveAllies;
-			if (m_path->m_bfmeFlag0D && !getObject()->isKindOf(KINDOF_NO_COLLIDE))
+			if (m_path->m_bfmeFlag0D && !getObject()->isTemplateKindOf(KINDOF_NO_COLLIDE))
 				moveAllies = true;
 			else
 				moveAllies = false;
 			Object *obj = getObject();
 			AI *ai = TheAI;
-			if (obj->isKindOf(BFME_KINDOF_6D) && !ai->getAiData()->m_bfmeFlagB9)
+			if (obj->isTemplateKindOf(BFME_KINDOF_6D) && !ai->getAiData()->m_bfmeFlagB9)
 				moveAllies = false;
-			if (obj->m_template->m_bfmeFlag614 || obj->isKindOf(BFME_KINDOF_7D))
+			if (obj->m_template->m_bfmeFlag614 || obj->isTemplateKindOf(BFME_KINDOF_7D))
 				moveAllies = true;
-			if (obj->testStatus((ObjectStatusTypes)0x39) || obj->testStatus((ObjectStatusTypes)0x32) || obj->rva0006F039(0x84))
+			if (obj->testStatus((ObjectStatusTypes)0x39) || obj->testStatus((ObjectStatusTypes)0x32) || obj->isKindOf((KindOfType)0x84))
 				moveAllies = false;
 			if (moveAllies)
 				ai->pathfinder()->MoveAllies(obj, m_path, obj->rva0028CE7B() >= 4);
@@ -2616,7 +2628,7 @@ Bool AIUpdateInterface::isAllowedToRespondToAiCommands(const AICommandParms *par
 		return false;
 
 	CommandSourceType source = parms->m_cmdSource;
-	if (source == CMD_FROM_PLAYER && (m_bfmeIgnorePlayerCommands || getObject()->rva0006F039(0xCE)))
+	if (source == CMD_FROM_PLAYER && (m_bfmeIgnorePlayerCommands || getObject()->isKindOf((KindOfType)0xCE)))
 		return false;
 	if (m_bfmeIgnoreScriptCommands && source == CMD_FROM_SCRIPT)
 		return false;
@@ -2639,7 +2651,7 @@ Object *AIUpdateInterface::getEnterTarget()
 	if (goal && stateType != 0x0F && stateType != 0x31 && stateType != 0x18
 		&& stateType != 0x2B && stateType != 0x19 && stateType != 0x34)
 	{
-		if (!goal->isKindOf(BFME_KINDOF_BF) || stateType != 0x38)
+		if (!goal->isTemplateKindOf(BFME_KINDOF_BF) || stateType != 0x38)
 			goal = 0;
 	}
 	return goal;
@@ -2663,7 +2675,7 @@ Bool AIUpdateInterface::chooseLocomotorSet(Int wst)
 	if (chooseLocomotorSetExplicit(wst))
 	{
 		chooseGoodLocomotorFromCurrentSet();
-		m_bfmeFloat1F8 = getObject()->m_template->rva0033C259(m_curLocomotorSet);
+		m_bfmeFloat1F8 = reinterpret_cast<ModuleInfo *>(getObject()->m_template)->rva0033C259(m_curLocomotorSet);
 		return true;
 	}
 
@@ -2857,7 +2869,7 @@ void AIUpdateInterface::privateGuardAreaFromPosition(const PolygonTrigger *area,
 		return;
 	if (!obj->isMobile())
 		return;
-	if (m_object->isKindOf(KINDOF_PROJECTILE))
+	if (m_object->isTemplateKindOf(KINDOF_PROJECTILE))
 		return;
 
 	if (m_guardTargetType[1] == GUARDTARGET_NONE)
@@ -2884,7 +2896,7 @@ void AIUpdateInterface::privateGuardAreaFromPosition(const PolygonTrigger *area,
 // BFME_KINDOF_02.
 static __forceinline Bool rva002697FCOwnerEligible(Object *obj)
 {
-	return !obj->testStatus(BFME_OBJECT_STATUS_26) && !obj->isKindOf(BFME_KINDOF_02);
+	return !obj->testStatus(BFME_OBJECT_STATUS_26) && !obj->isTemplateKindOf(BFME_KINDOF_02);
 }
 
 // AIUpdate vtable 0x00BFA480 slot 152, retail 0x002697FC (234 bytes). On the
@@ -2917,10 +2929,10 @@ Bool AIUpdateInterface::rva002697FC()
 			if (reinterpret_cast<AIUpdateSlot143 *>(this)->getLastCommandSource() == CMD_FROM_AI || state == 0x21)
 			{
 				Object *victim = getCurrentVictim();
-				if (victim && victim->isKindOf(BFME_KINDOF_07))
+				if (victim && victim->isTemplateKindOf(BFME_KINDOF_07))
 				{
 					Object *other = getNextMoodTarget(true, false);
-					if (other && other != victim && !other->isKindOf(BFME_KINDOF_07) &&
+					if (other && other != victim && !other->isTemplateKindOf(BFME_KINDOF_07) &&
 						TheAI->pathfinder()->CanApproachToTarget(obj, other->getPosition(),
 							(Rva002C9B80Owner *)obj->getCurrentWeapon(0), false))
 					{
