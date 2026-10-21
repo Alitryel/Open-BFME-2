@@ -16,12 +16,12 @@ int g_Va00DD2A6C[4] = {
 void __cdecl Rva0056EDBAPick(int *out1, int *out2);
 void __cdecl Rva0056EDBAPick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
 		rdtsc
-		mov t, eax
+		mov timeStamp, eax
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD2A6C[i];
 	*out2 = g_Va00DD2A5C[i];
 }
@@ -36,11 +36,11 @@ int g_Va00DD29CC[4] = {
 void __cdecl Rva0056ECDAPick(int *out1, int *out2);
 void __cdecl Rva0056ECDAPick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, esp
+		mov timeStamp, esp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD29CC[i];
 	*out2 = g_Va00DD29BC[i];
 }
@@ -55,41 +55,41 @@ struct Rva0056EF65
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056EF65 *rva0056EF65(void *a1, void *a2);
+	Rva0056EF65 *rva0056EF65(void *firstKey, void *secondKey);
 };
-Rva0056EF65 *Rva0056EF65::rva0056EF65(void *a1, void *a2)
+Rva0056EF65 *Rva0056EF65::rva0056EF65(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056ECDAPick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056ECDAPick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0x18245AC1;
 	m_08 = 0x18245AC5;
 	m_0c = 0x0C24180A;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0x18245AC1;
-	m_04 = e;
-	e *= b;
-	e ^= 0x18245AC5;
-	m_08 = e;
-	e *= b;
-	e ^= 0x0C24180A;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0x18245AC1;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x18245AC5;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x0C24180A;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?Rva0056ED34Pick@@YAXPAH0@Z @0x0056ED34 44B gap between 0x0056ECDA and 0x0056EDBA
@@ -104,11 +104,11 @@ int g_Va00DD2A0C[4] = {
 void __cdecl Rva0056ED34Pick(int *out1, int *out2);
 void __cdecl Rva0056ED34Pick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, esp
+		mov timeStamp, esp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD2A0C[i];
 	*out2 = g_Va00DD29FC[i];
 }
@@ -124,11 +124,11 @@ int g_Va00DD2A2C[4] = {
 void __cdecl Rva0056ED60Pick(int *out1, int *out2);
 void __cdecl Rva0056ED60Pick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, esp
+		mov timeStamp, esp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD2A2C[i];
 	*out2 = g_Va00DD2A1C[i];
 }
@@ -144,12 +144,12 @@ int g_Va00DD2A4C[4] = {
 void __cdecl Rva0056ED8CPick(int *out1, int *out2);
 void __cdecl Rva0056ED8CPick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
 		rdtsc
-		mov t, eax
+		mov timeStamp, eax
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD2A4C[i];
 	*out2 = g_Va00DD2A3C[i];
 }
@@ -165,12 +165,12 @@ int g_Va00DD2A8C[4] = {
 void __cdecl Rva0056EDE8Pick(int *out1, int *out2);
 void __cdecl Rva0056EDE8Pick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
 		rdtsc
-		mov t, eax
+		mov timeStamp, eax
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD2A8C[i];
 	*out2 = g_Va00DD2A7C[i];
 }
@@ -187,41 +187,41 @@ struct Rva0056F2A5
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056F2A5 *rva0056F2A5(void *a1, void *a2);
+	Rva0056F2A5 *rva0056F2A5(void *firstKey, void *secondKey);
 };
-Rva0056F2A5 *Rva0056F2A5::rva0056F2A5(void *a1, void *a2)
+Rva0056F2A5 *Rva0056F2A5::rva0056F2A5(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056EDBAPick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056EDBAPick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0x0C840885;
 	m_08 = 0x0C840881;
 	m_0c = 0x0C840885;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0x0C840885;
-	m_04 = e;
-	e *= b;
-	e ^= 0x0C840881;
-	m_08 = e;
-	e *= b;
-	e ^= 0x0C840885;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0x0C840885;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x0C840881;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x0C840885;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0056F21F@Rva0056F21F@@QAEPAU1@PAX0@Z @0x0056F21F 134B
@@ -237,41 +237,41 @@ struct Rva0056F21F
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056F21F *rva0056F21F(void *a1, void *a2);
+	Rva0056F21F *rva0056F21F(void *firstKey, void *secondKey);
 };
-Rva0056F21F *Rva0056F21F::rva0056F21F(void *a1, void *a2)
+Rva0056F21F *Rva0056F21F::rva0056F21F(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056ED8CPick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056ED8CPick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0x18245AC1;
 	m_08 = 0x18245AC5;
 	m_0c = 0x18245AC1;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0x18245AC1;
-	m_04 = e;
-	e *= b;
-	e ^= 0x18245AC5;
-	m_08 = e;
-	e *= b;
-	e ^= 0x18245AC1;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0x18245AC1;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x18245AC5;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x18245AC1;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0056F10C@Rva0056F10C@@QAEPAU1@PAX0@Z @0x0056F10C 134B
@@ -287,41 +287,41 @@ struct Rva0056F10C
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056F10C *rva0056F10C(void *a1, void *a2);
+	Rva0056F10C *rva0056F10C(void *firstKey, void *secondKey);
 };
-Rva0056F10C *Rva0056F10C::rva0056F10C(void *a1, void *a2)
+Rva0056F10C *Rva0056F10C::rva0056F10C(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056ED34Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056ED34Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0x0C841840;
 	m_08 = 0x14AC1A82;
 	m_0c = 0x0C841840;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0x0C841840;
-	m_04 = e;
-	e *= b;
-	e ^= 0x14AC1A82;
-	m_08 = e;
-	e *= b;
-	e ^= 0x0C841840;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0x0C841840;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x14AC1A82;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x0C841840;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0056F32B@Rva0056F32B@@QAEPAU1@PAX0@Z @0x0056F32B 134B
@@ -337,41 +337,41 @@ struct Rva0056F32B
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056F32B *rva0056F32B(void *a1, void *a2);
+	Rva0056F32B *rva0056F32B(void *firstKey, void *secondKey);
 };
-Rva0056F32B *Rva0056F32B::rva0056F32B(void *a1, void *a2)
+Rva0056F32B *Rva0056F32B::rva0056F32B(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056EDBAPick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056EDBAPick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0x0C840885;
 	m_08 = 0x100C1887;
 	m_0c = 0x0C840885;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0x0C840885;
-	m_04 = e;
-	e *= b;
-	e ^= 0x100C1887;
-	m_08 = e;
-	e *= b;
-	e ^= 0x0C840885;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0x0C840885;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x100C1887;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x0C840885;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0056F192@Rva0056F192@@QAEPAU1@PAX0@Z @0x0056F192 141B
@@ -387,41 +387,41 @@ struct Rva0056F192
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056F192 *rva0056F192(void *a1, void *a2);
+	Rva0056F192 *rva0056F192(void *firstKey, void *secondKey);
 };
-Rva0056F192 *Rva0056F192::rva0056F192(void *a1, void *a2)
+Rva0056F192 *Rva0056F192::rva0056F192(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056ED60Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056ED60Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0x18245AC1;
 	m_08 = 0x18245AC5;
 	m_0c = 0x488C00C6;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0x18245AC1;
-	m_04 = e;
-	e *= b;
-	e ^= 0x18245AC5;
-	m_08 = e;
-	e *= b;
-	e ^= 0x488C00C6;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0x18245AC1;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x18245AC5;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x488C00C6;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0056F3B1@Rva0056F3B1@@QAEPAU1@PAX0@Z @0x0056F3B1 141B
@@ -437,41 +437,41 @@ struct Rva0056F3B1
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056F3B1 *rva0056F3B1(void *a1, void *a2);
+	Rva0056F3B1 *rva0056F3B1(void *firstKey, void *secondKey);
 };
-Rva0056F3B1 *Rva0056F3B1::rva0056F3B1(void *a1, void *a2)
+Rva0056F3B1 *Rva0056F3B1::rva0056F3B1(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056EDE8Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056EDE8Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0x18245AC1;
 	m_08 = 0x18245AC5;
 	m_0c = 0x5C80520D;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0x18245AC1;
-	m_04 = e;
-	e *= b;
-	e ^= 0x18245AC5;
-	m_08 = e;
-	e *= b;
-	e ^= 0x5C80520D;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0x18245AC1;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x18245AC5;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x5C80520D;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 
@@ -492,11 +492,11 @@ int g_Va00DD29AC[4] = {
 void __cdecl Rva0056ECAEPick(int *out1, int *out2);
 void __cdecl Rva0056ECAEPick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, esp
+		mov timeStamp, esp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD29AC[i];
 	*out2 = g_Va00DD299C[i];
 }
@@ -513,12 +513,12 @@ int g_Va00DD29EC[4] = {
 void __cdecl Rva0056ED06Pick(int *out1, int *out2);
 void __cdecl Rva0056ED06Pick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
 		rdtsc
-		mov t, eax
+		mov timeStamp, eax
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DD29EC[i];
 	*out2 = g_Va00DD29DC[i];
 }
@@ -535,11 +535,11 @@ int g_Va00DBA32C[4] = {
 void __cdecl Rva00229A44Pick(int *out1, int *out2);
 void __cdecl Rva00229A44Pick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, esp
+		mov timeStamp, esp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DBA32C[i];
 	*out2 = g_Va00DBA31C[i];
 }
@@ -561,11 +561,11 @@ int g_Va00DBA30C[4] = {
 void __cdecl Rva00229A18Pick(int *out1, int *out2);
 void __cdecl Rva00229A18Pick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, ebp
+		mov timeStamp, ebp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DBA30C[i];
 	*out2 = g_Va00DBA2FC[i];
 }
@@ -582,11 +582,11 @@ int g_Va00DBA34C[4] = {
 void __cdecl Rva00229A70Pick(int *out1, int *out2);
 void __cdecl Rva00229A70Pick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, ebp
+		mov timeStamp, ebp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DBA34C[i];
 	*out2 = g_Va00DBA33C[i];
 }
@@ -603,11 +603,11 @@ int g_Va00DBA36C[4] = {
 void __cdecl Rva00229A9CPick(int *out1, int *out2);
 void __cdecl Rva00229A9CPick(int *out1, int *out2)
 {
-	unsigned int t = 0;
+	unsigned int timeStamp = 0;
 	__asm {
-		mov t, esp
+		mov timeStamp, esp
 	}
-	unsigned int i = t & 3;
+	unsigned int i = timeStamp & 3;
 	*out1 = g_Va00DBA36C[i];
 	*out2 = g_Va00DBA35C[i];
 }
@@ -627,41 +627,41 @@ struct Rva0022C743
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0022C743 *rva0022C743(void *a1, void *a2);
+	Rva0022C743 *rva0022C743(void *firstKey, void *secondKey);
 };
-Rva0022C743 *Rva0022C743::rva0022C743(void *a1, void *a2)
+Rva0022C743 *Rva0022C743::rva0022C743(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva00229A44Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva00229A44Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 9177732;
 	m_08 = 9177728;
 	m_0c = 9177732;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 9177732;
-	m_04 = e;
-	e *= b;
-	e ^= 9177728;
-	m_08 = e;
-	e *= b;
-	e ^= 9177732;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 9177732;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 9177728;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 9177732;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0022C7C9@Rva0022C7C9@@QAEPAU1@PAX0@Z @0x0022C7C9 141B
@@ -677,41 +677,41 @@ struct Rva0022C7C9
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0022C7C9 *rva0022C7C9(void *a1, void *a2);
+	Rva0022C7C9 *rva0022C7C9(void *firstKey, void *secondKey);
 };
-Rva0022C7C9 *Rva0022C7C9::rva0022C7C9(void *a1, void *a2)
+Rva0022C7C9 *Rva0022C7C9::rva0022C7C9(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva00229A70Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva00229A70Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 9177732;
 	m_08 = 9177728;
 	m_0c = 0x0C844203;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 9177732;
-	m_04 = e;
-	e *= b;
-	e ^= 9177728;
-	m_08 = e;
-	e *= b;
-	e ^= 0x0C844203;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 9177732;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 9177728;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x0C844203;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0022C6B6@Rva0022C6B6@@QAEPAU1@PAX0@Z @0x0022C6B6 141B
@@ -727,41 +727,41 @@ struct Rva0022C6B6
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0022C6B6 *rva0022C6B6(void *a1, void *a2);
+	Rva0022C6B6 *rva0022C6B6(void *firstKey, void *secondKey);
 };
-Rva0022C6B6 *Rva0022C6B6::rva0022C6B6(void *a1, void *a2)
+Rva0022C6B6 *Rva0022C6B6::rva0022C6B6(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva00229A18Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva00229A18Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 9177732;
 	m_08 = 9177728;
 	m_0c = 0x1C0C404F;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 9177732;
-	m_04 = e;
-	e *= b;
-	e ^= 9177728;
-	m_08 = e;
-	e *= b;
-	e ^= 0x1C0C404F;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 9177732;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 9177728;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x1C0C404F;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0022C856@Rva0022C856@@QAEPAU1@PAX0@Z @0x0022C856 141B
@@ -777,41 +777,41 @@ struct Rva0022C856
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0022C856 *rva0022C856(void *a1, void *a2);
+	Rva0022C856 *rva0022C856(void *firstKey, void *secondKey);
 };
-Rva0022C856 *Rva0022C856::rva0022C856(void *a1, void *a2)
+Rva0022C856 *Rva0022C856::rva0022C856(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva00229A9CPick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva00229A9CPick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 9177732;
 	m_08 = 9177728;
 	m_0c = 0x502808C8;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 9177732;
-	m_04 = e;
-	e *= b;
-	e ^= 9177728;
-	m_08 = e;
-	e *= b;
-	e ^= 0x502808C8;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 9177732;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 9177728;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x502808C8;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 struct Rva0056EED8
@@ -824,41 +824,41 @@ struct Rva0056EED8
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056EED8 *rva0056EED8(void *a1, void *a2);
+	Rva0056EED8 *rva0056EED8(void *firstKey, void *secondKey);
 };
-Rva0056EED8 *Rva0056EED8::rva0056EED8(void *a1, void *a2)
+Rva0056EED8 *Rva0056EED8::rva0056EED8(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056ECAEPick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056ECAEPick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0xc841840;
 	m_08 = 0x14ac1a82;
 	m_0c = 0x4044ad0;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0xc841840;
-	m_04 = e;
-	e *= b;
-	e ^= 0x14ac1a82;
-	m_08 = e;
-	e *= b;
-	e ^= 0x4044ad0;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0xc841840;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x14ac1a82;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x4044ad0;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 struct Rva0056EFF2
@@ -871,41 +871,41 @@ struct Rva0056EFF2
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056EFF2 *rva0056EFF2(void *a1, void *a2);
+	Rva0056EFF2 *rva0056EFF2(void *firstKey, void *secondKey);
 };
-Rva0056EFF2 *Rva0056EFF2::rva0056EFF2(void *a1, void *a2)
+Rva0056EFF2 *Rva0056EFF2::rva0056EFF2(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056ED06Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056ED06Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0xc840885;
 	m_08 = 0xc840881;
 	m_0c = 0x48845055;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0xc840885;
-	m_04 = e;
-	e *= b;
-	e ^= 0xc840881;
-	m_08 = e;
-	e *= b;
-	e ^= 0x48845055;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0xc840885;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0xc840881;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x48845055;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
 // ?rva0056F07F@Rva0056F07F@@QAEPAU1@PAX0@Z @0x0056F07F 141B gap between 0x0056EFF2 and 0x0056F10C
@@ -920,40 +920,40 @@ struct Rva0056F07F
 	int m_14;
 	int m_18;
 	int m_1c;
-	Rva0056F07F *rva0056F07F(void *a1, void *a2);
+	Rva0056F07F *rva0056F07F(void *firstKey, void *secondKey);
 };
-Rva0056F07F *Rva0056F07F::rva0056F07F(void *a1, void *a2)
+Rva0056F07F *Rva0056F07F::rva0056F07F(void *firstKey, void *secondKey)
 {
-	int p;
-	int q;
-	Rva0056ED06Pick(&p, &q);
-	m_00 = p;
+	int seed;
+	int multiplier;
+	Rva0056ED06Pick(&seed, &multiplier);
+	m_00 = seed;
 	m_04 = 0xc840885;
 	m_08 = 0x100c1887;
 	m_0c = 0x48845055;
-	m_10 = *(int *)a1;
-	m_14 = *(int *)a2;
-	int b = q;
-	int e = b;
-	e *= b;
-	e ^= 0xc840885;
-	m_04 = e;
-	e *= b;
-	e ^= 0x100c1887;
-	m_08 = e;
-	e *= b;
-	e ^= 0x48845055;
-	m_0c = e;
-	e *= b;
-	m_10 ^= e;
-	e = m_10;
-	e *= b;
-	m_14 ^= e;
-	e = m_14;
-	e *= b;
-	m_18 ^= e;
-	e = m_18;
-	e *= b;
-	m_1c ^= e;
+	m_10 = *(int *)firstKey;
+	m_14 = *(int *)secondKey;
+	int factor = multiplier;
+	int mixed = factor;
+	mixed *= factor;
+	mixed ^= 0xc840885;
+	m_04 = mixed;
+	mixed *= factor;
+	mixed ^= 0x100c1887;
+	m_08 = mixed;
+	mixed *= factor;
+	mixed ^= 0x48845055;
+	m_0c = mixed;
+	mixed *= factor;
+	m_10 ^= mixed;
+	mixed = m_10;
+	mixed *= factor;
+	m_14 ^= mixed;
+	mixed = m_14;
+	mixed *= factor;
+	m_18 ^= mixed;
+	mixed = m_18;
+	mixed *= factor;
+	m_1c ^= mixed;
 	return this;
 }
