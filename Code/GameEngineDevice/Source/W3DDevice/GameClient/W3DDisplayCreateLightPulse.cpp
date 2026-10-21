@@ -62,7 +62,7 @@ public:
 class RTS3DScene
 {
 public:
-	W3DDynamicLight *rva0006F94A(void);
+	W3DDynamicLight *getADynamicLight(void);
 };
 
 class W3DDisplay
@@ -80,7 +80,7 @@ void W3DDisplay::createLightPulse(const Coord3D *pos, const RGBColor *color, flo
 	float range = a + b;
 	if (21.0f > range)
 		return;
-	W3DDynamicLight *light = m_3DScene->rva0006F94A();
+	W3DDynamicLight *light = m_3DScene->getADynamicLight();
 	light->setEnabled(true);
 	Vector3 tmp;
 	tmp.x = color->red;

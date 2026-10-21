@@ -42,15 +42,15 @@ public:
 class RTS3DScene
 {
 public:
-	W3DDynamicLight *rva0006F94A();
+	W3DDynamicLight *getADynamicLight();
 
 private:
 	char m_fields[0x118];
 	Rva0006F94ANode m_lightSentinel;
 };
 
-// ?rva0006F94A@RTS3DScene@@QAEPAVW3DDynamicLight@@XZ @0x0006F94A
-W3DDynamicLight *RTS3DScene::rva0006F94A()
+// ?getADynamicLight@RTS3DScene@@QAEPAVW3DDynamicLight@@XZ @0x0006F94A
+W3DDynamicLight *RTS3DScene::getADynamicLight()
 {
 	for (Rva0006F94ANode *node = m_lightSentinel.m_next; node != &m_lightSentinel; node = node->m_next)
 	{

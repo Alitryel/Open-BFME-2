@@ -74,7 +74,7 @@ public:
 	virtual void v02();
 	virtual void rva0025DBAESlot(Bool flag, Int value);
 
-	void rva004CF90D(Int slot);
+	void voteForPlayerDisconnect(Int slot);
 
 	char m_pad04[0x20];
 	Rva0025DE76Slot m_slots[9];			// +0x24
@@ -121,7 +121,7 @@ private:
 };
 
 // ConnectionManager+0x12100's 0x004D3DF4 with this manager, when that object exists.
-void ConnectionManager::rva004CF90D(Int slot)
+void ConnectionManager::voteForPlayerDisconnect(Int slot)
 {
 	if (m_12100)
 		m_12100->voteForPlayerDisconnect(slot, this);
@@ -206,7 +206,7 @@ void Rva0025E4CD::rva0025E20F(Int slot)
 {
 	if (m_conMgr)
 	{
-		m_conMgr->rva004CF90D(slot);
+		m_conMgr->voteForPlayerDisconnect(slot);
 		TheGameLogic->rva0023D201(slot, 2);
 	}
 }

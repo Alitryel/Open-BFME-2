@@ -174,30 +174,8 @@ UpdateSleepTime calcSleepTime()
 //-------------------------------------------------------------------------------------------------
 // The BFME 2 definition is in AssaultTransportAIUpdateUpdate.cpp.
 
-// ?isAttackPointless@AssaultTransportAIUpdate@@ present-unmatched
-Bool AssaultTransportAIUpdate::isAttackPointless() const
-{
-	//If all members are new members (thus can't attack), and the transport itself
-	//is still attacking, stop!
-	const Object *transport = getObject();
-	if( transport->testStatus( OBJECT_STATUS_IS_ATTACKING ) )
-	{
-		for( int i = 0; i < m_currentMembers; i++ )
-		{
-			if( !m_newMember[ i ] )
-			{
-				//We have a non-new member, so attack is valid.
-				return FALSE;
-			}
-		}
-
-		//We are trying to attack, but can't because all our members are new.
-		return TRUE;
-	}
-
-	//We aren't trying to attack, so everything is good.
-	return FALSE;
-}
+// AssaultTransportAIUpdate::isAttackPointless: retail's body is the row at 0x0048F61A
+// (AssaultTransportAIUpdateCheck.cpp); this unit only declares it.
 
 //-------------------------------------------------------------------------------------------------
 // ?isMemberWounded@AssaultTransportAIUpdate@@ present-unmatched

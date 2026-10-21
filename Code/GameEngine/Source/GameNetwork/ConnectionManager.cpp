@@ -1371,12 +1371,8 @@ UnsignedInt ConnectionManager::getPacketArrivalCushion() {
 // ConnectionManager::getFileTransferProgress is defined with its retail-matched body in Code/GameEngine/Source/Common/ConnectionManagerRva004D28C6.cpp (0x004D28C6).
 
 
-// ?voteForPlayerDisconnect@ConnectionManager@@ present-unmatched
-void ConnectionManager::voteForPlayerDisconnect(Int slot) {
-	if (m_disconnectManager != NULL) {
-		m_disconnectManager->voteForPlayerDisconnect(slot, this);
-	}
-}
+// ConnectionManager::voteForPlayerDisconnect: retail's body is the row at 0x004CF90D
+// (VslotSmallBodiesBA.cpp); this unit only declares it.
 
 #pragma optimize("s", on)
 // Reference leads: ZH ConnectionManager.cpp and BFME1 4adca1fbe7 native_connection_timing.cpp.

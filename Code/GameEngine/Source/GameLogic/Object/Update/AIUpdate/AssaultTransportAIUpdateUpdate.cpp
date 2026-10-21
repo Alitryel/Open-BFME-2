@@ -213,7 +213,7 @@ public:
 	virtual UpdateSleepTime update();
 
 	void Rva0048F6EEHelper(); // giveFinalOrders
-	Bool Rva0048F61ACheck(); // isAttackPointless
+	Bool isAttackPointless() const;
 	Bool rva0048F64E(void *member); // isMemberWounded
 	Bool rva0048F472(const Object *member) const; // isMemberHealthy
 	void Rva0048F690Helper(); // retrieveMembers
@@ -334,7 +334,7 @@ UpdateSleepTime AssaultTransportAIUpdate::update( void )
 		m_newOccupantsAreNewMembers = TRUE;
 	}
 
-	if( Rva0048F61ACheck() )
+	if( isAttackPointless() )
 	{
 		aiIdle( CMD_FROM_AI );
 		return UPDATE_SLEEP_NONE;

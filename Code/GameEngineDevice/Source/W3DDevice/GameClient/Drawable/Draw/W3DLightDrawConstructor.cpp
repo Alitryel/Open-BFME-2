@@ -103,7 +103,7 @@ public:
 class RTS3DScene
 {
 public:
-	W3DDynamicLight *rva0006F94A(void);
+	W3DDynamicLight *getADynamicLight(void);
 };
 
 class W3DDisplay
@@ -169,7 +169,7 @@ W3DLightDraw::W3DLightDraw(Thing *thing, const ModuleData *moduleData)
 	m_angle = 0.0f;
 	m_height = 0.0f;
 	m_phase = WWMath::Random_Float() * 30.0f;
-	m_light = W3DDisplay::m_3DScene->rva0006F94A();
+	m_light = W3DDisplay::m_3DScene->getADynamicLight();
 	if (m_light)
 	{
 		m_light->Add_Ref();

@@ -1302,25 +1302,11 @@ void RTS3DScene::addDynamicLight(W3DDynamicLight * obj)
 //=============================================================================
 /** Adds a dynamic light. */
 //=============================================================================
-// ?RTS3DScene::getADynamicLight present-unmatched
-W3DDynamicLight * RTS3DScene::getADynamicLight(void)
-{
-		RefRenderObjListIterator dynaLightIt(&m_dynamicLightList);
-		W3DDynamicLight *pLight;
-		for (dynaLightIt.First(); !dynaLightIt.Is_Done(); dynaLightIt.Next())
-		{		
-			pLight = (W3DDynamicLight*)dynaLightIt.Peek_Obj();
-			if (!pLight->isEnabled()) {
-				pLight->setEnabled(true);
-				return(pLight);
-			}
-		}
-		pLight = NEW_REF(W3DDynamicLight, ());
-		addDynamicLight( pLight );
-		pLight->Release_Ref();
-		pLight->setEnabled(true);
-		return(pLight);
-}
+// RTS3DScene::getADynamicLight: retail's body is the row at 0x0006F94A
+// (RTS3DSceneGetADynamicLight.cpp); this unit only declares it.
+// Its Zero Hour body was the only caller of the rowed W3DDynamicLight::setEnabled, so keep it emitted.
+// ?bfmeAnchorW3DDynamicLightSetEnabled@@YAXPAVW3DDynamicLight@@@Z absent-from-retail
+void bfmeAnchorW3DDynamicLightSetEnabled(W3DDynamicLight *light) { light->setEnabled(true); }
 
 //=============================================================================
 // RTS3DScene::removeDynamicLight
