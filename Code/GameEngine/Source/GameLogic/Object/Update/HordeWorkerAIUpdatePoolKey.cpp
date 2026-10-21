@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00049ACD0@HordeWorkerAIUpdate@@SA?AW4NameKeyType@@XZ @0x49acd0
+// ?getModuleNameKey@HordeWorkerAIUpdate@@UBE?AW4NameKeyType@@XZ @0x49acd0
 // (69B): cached pool-name key for HordeWorkerAIUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("HordeWorkerAIUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HordeWorkerAIUpdate
 {
 public:
-	static NameKeyType rva00049ACD0();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049ACD0@HordeWorkerAIUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType HordeWorkerAIUpdate::rva00049ACD0()
+// ?getModuleNameKey@HordeWorkerAIUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType HordeWorkerAIUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheHordeWorkerAIUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("HordeWorkerAIUpdate");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004A1414@MonsterDockUpdate@@SA?AW4NameKeyType@@XZ @0x4a1414
+// ?getModuleNameKey@MonsterDockUpdate@@UBE?AW4NameKeyType@@XZ @0x4a1414
 // (69B): cached pool-name key for MonsterDockUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("MonsterDockUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class MonsterDockUpdate
 {
 public:
-	static NameKeyType rva0004A1414();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A1414@MonsterDockUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType MonsterDockUpdate::rva0004A1414()
+// ?getModuleNameKey@MonsterDockUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType MonsterDockUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheMonsterDockUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("MonsterDockUpdate");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00049056B@SiegeAIUpdate@@SA?AW4NameKeyType@@XZ @0x49056b
+// ?getModuleNameKey@SiegeAIUpdate@@UBE?AW4NameKeyType@@XZ @0x49056b
 // (69B): cached pool-name key for SiegeAIUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("SiegeAIUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SiegeAIUpdate
 {
 public:
-	static NameKeyType rva00049056B();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049056B@SiegeAIUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType SiegeAIUpdate::rva00049056B()
+// ?getModuleNameKey@SiegeAIUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SiegeAIUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheSiegeAIUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("SiegeAIUpdate");

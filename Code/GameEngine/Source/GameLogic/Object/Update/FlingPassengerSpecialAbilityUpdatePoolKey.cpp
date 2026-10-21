@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000494F3B@FlingPassengerSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x494f3b
+// ?getModuleNameKey@FlingPassengerSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x494f3b
 // (69B): cached pool-name key for FlingPassengerSpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("FlingPassengerSpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FlingPassengerSpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva000494F3B();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000494F3B@FlingPassengerSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType FlingPassengerSpecialAbilityUpdate::rva000494F3B()
+// ?getModuleNameKey@FlingPassengerSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType FlingPassengerSpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheFlingPassengerSpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("FlingPassengerSpecialAbilityUpdate");

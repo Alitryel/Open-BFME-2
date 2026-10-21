@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004921D0@HeroModeSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x4921d0
+// ?getModuleNameKey@HeroModeSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x4921d0
 // (69B): cached pool-name key for HeroModeSpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("HeroModeSpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HeroModeSpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva0004921D0();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004921D0@HeroModeSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType HeroModeSpecialAbilityUpdate::rva0004921D0()
+// ?getModuleNameKey@HeroModeSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType HeroModeSpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheHeroModeSpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("HeroModeSpecialAbilityUpdate");

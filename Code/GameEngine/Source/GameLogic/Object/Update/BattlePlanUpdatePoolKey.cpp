@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000497915@BattlePlanUpdate@@SA?AW4NameKeyType@@XZ @0x497915
+// ?getModuleNameKey@BattlePlanUpdate@@UBE?AW4NameKeyType@@XZ @0x497915
 // (69B): cached pool-name key for BattlePlanUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("BattlePlanUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BattlePlanUpdate
 {
 public:
-	static NameKeyType rva000497915();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000497915@BattlePlanUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType BattlePlanUpdate::rva000497915()
+// ?getModuleNameKey@BattlePlanUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType BattlePlanUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheBattlePlanUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("BattlePlanUpdate");

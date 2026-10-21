@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000485EFD@DamageFilteredCreateObjectDie@@SA?AW4NameKeyType@@XZ @0x485efd
+// ?getModuleNameKey@DamageFilteredCreateObjectDie@@UBE?AW4NameKeyType@@XZ @0x485efd
 // (69B): cached pool-name key for DamageFilteredCreateObjectDie. The class
 // identity comes from the pool-name string the body pushes
 // ("DamageFilteredCreateObjectDie"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DamageFilteredCreateObjectDie
 {
 public:
-	static NameKeyType rva000485EFD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000485EFD@DamageFilteredCreateObjectDie@@SA?AW4NameKeyType@@XZ
-NameKeyType DamageFilteredCreateObjectDie::rva000485EFD()
+// ?getModuleNameKey@DamageFilteredCreateObjectDie@@UBE?AW4NameKeyType@@XZ
+NameKeyType DamageFilteredCreateObjectDie::getModuleNameKey() const
 {
 	static NameKeyType TheDamageFilteredCreateObjectDiePoolKey =
 		TheNameKeyGenerator->nameToKey("DamageFilteredCreateObjectDie");

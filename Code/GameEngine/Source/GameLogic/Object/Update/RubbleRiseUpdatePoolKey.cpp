@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004A4C82@RubbleRiseUpdate@@SA?AW4NameKeyType@@XZ @0x4a4c82
+// ?getModuleNameKey@RubbleRiseUpdate@@UBE?AW4NameKeyType@@XZ @0x4a4c82
 // (69B): cached pool-name key for RubbleRiseUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("RubbleRiseUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RubbleRiseUpdate
 {
 public:
-	static NameKeyType rva0004A4C82();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A4C82@RubbleRiseUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType RubbleRiseUpdate::rva0004A4C82()
+// ?getModuleNameKey@RubbleRiseUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType RubbleRiseUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheRubbleRiseUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("RubbleRiseUpdate");
