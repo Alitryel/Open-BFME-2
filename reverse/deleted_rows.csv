@@ -1407,3 +1407,5 @@ __ehhandler$?rva007406E1@Rva007406E1@@QAEXAAVRenderInfoClass@@@Z,0x007AB4C5,"Ren
 __ehhandler$?rva00270276@Rva00270276Host@@QAE_NPAX000HH@Z,0x007732E8,"Renamed to __ehhandler$?calcPitchRoll@Rva00270276Host@@QAE_NPAX000HH@Z by tools/rename.py (canonical:wb)"
 ?bfmeBaseTL@BfmeThingTL@@QAEPAV1@PAXH@Z,0x0001C6F0,"Renamed to ?bfmeBaseTL@StdioStreambufBase@@QAEPAV1@PAXH@Z by tools/rename.py (inferred)"
 ?bfmeInitTL@BfmeThingTL@@QAEPAV1@PAX@Z,0x0001CDB0,"Renamed to ?bfmeInitTL@StdioStreambufBase@@QAEPAV1@PAX@Z by tools/rename.py (inferred)"
+?Rva00663700Handler@@YAXPAVBfmeDictESI@@PAVBfmeHostESI@@@Z,0x00663700,"Renamed to ?kickHandler@@YAXPAVBfmeDictESI@@PAVBfmeHostESI@@@Z by tools/rename.py (inferred)"
+?Rva00663710Handler@@YAXHPAVBfmeThingVJK@@@Z,0x00663710,"Renamed to ?pingHandler@@YAXHPAVBfmeThingVJK@@@Z by tools/rename.py (inferred)"

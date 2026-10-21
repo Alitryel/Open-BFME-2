@@ -98,12 +98,12 @@ void Rva006636F0Handler( void * value, Rva007F7980Browser *owner )
 	owner->rva007f63f0( value );
 }
 
-void Rva00663700Handler( BfmeDictESI * value, BfmeHostESI *owner )
+void kickHandler( BfmeDictESI * value, BfmeHostESI *owner )
 {
 	owner->bfmeApplyESI( value );
 }
 
-void Rva00663710Handler( int value, BfmeThingVJK *owner )
+void pingHandler( int value, BfmeThingVJK *owner )
 {
 	owner->bfmeGoVJK( value );
 }
@@ -249,8 +249,8 @@ void BfmeThingDGD::rva007F8400( unsigned char arg34, int arg35, void *forwarded 
 	m_14->v4( (void *)&bfmeRva0130AB18TagSlot, (void *)Rva006636F0Handler, this );
 	m_14->v4( (void *)&bfmeRva0130AB30TagSlot, (void *)Rva00664A60Handler, this );
 	m_14->v4( (void *)&bfmeRva0130AB00TagSlot, (void *)Rva00663FF0Handler, this );
-	m_14->v4( (void *)&bfmeRva0130AB24TagSlot, (void *)Rva00663700Handler, this );
-	m_14->v4( (void *)&bfmeRva0130AA88TagSlot, (void *)Rva00663710Handler, this );
+	m_14->v4( (void *)&bfmeRva0130AB24TagSlot, (void *)kickHandler, this );
+	m_14->v4( (void *)&bfmeRva0130AA88TagSlot, (void *)pingHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AA7CTagSlot, (void *)Rva00664A70Handler, this );
 
 	if( byte35 != 0 )

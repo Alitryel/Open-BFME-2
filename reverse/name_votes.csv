@@ -1,4 +1,8 @@
 key,hash,model,session,worker,date
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00663700|Rva00663700Handler,58701bad22fc06fcc19b7f16,seat-a,rn-1021-0-a,w-78d77f68cd31,2026-10-21
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00663710|Rva00663710Handler,ed120b77a3b910a30cf4be27,seat-a,rn-1021-0-a,w-78d77f68cd31,2026-10-21
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00663700|Rva00663700Handler,58701bad22fc06fcc19b7f16,seat-b-sonnet,rn-1021-0-b,w-f1638ed3998c,2026-10-21
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00663710|Rva00663710Handler,ed120b77a3b910a30cf4be27,seat-b-sonnet,rn-1021-0-b,w-f1638ed3998c,2026-10-21
 Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|class||BfmeThingTL,283e670a1196ced3d29fd596,seat-a,rn-1021-1-a,w-da086aee8446,2026-10-21
 Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|BfmeThingTL|m_bfmeBaseWhat,baa551b735911e8f2a74bcfe,seat-a,rn-1021-1-a,w-da086aee8446,2026-10-21
 Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|BfmeThingTL|m_bfmeBaseFlag,c172019a150744c1b8393bba,seat-a,rn-1021-1-a,w-da086aee8446,2026-10-21
