@@ -70,7 +70,7 @@ const FieldParse CreateAHeroBlingBinderFieldParse[] = {
  {0,0,0,0}
 };
 #define IS_EMPTY(s) (((const StringBase<char> *)&(s))->isEmpty())
-void Rva0021ECB2Parse(INI *ini)
+void parseCreateAHeroBlingBinderDefinition(INI *ini)
 {
  BfmeStringRecord00219A68 binder(0,AsciiString("None"),AsciiString("None"),-1,2);
  ini->initFromINI(&binder,CreateAHeroBlingBinderFieldParse);
@@ -112,7 +112,7 @@ const FieldParse CreateAHeroBlingFieldParse[] = {
  {"GroupName",NameKeyGenerator::parseStringAsNameKeyType,0,12},
  {0,0,0,0}
 };
-void Rva0021EAD3Parse(INI *ini)
+void parseCreateAHeroBlingDefinition(INI *ini)
 {
  BfmeStringRecord002199C8 bling(0,AsciiString("None"),AsciiString("None"),AsciiString("None"));
  ini->initFromINI(&bling,CreateAHeroBlingFieldParse);

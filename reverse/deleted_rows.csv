@@ -1480,3 +1480,7 @@ __ehhandler$?Rva0040C125Parse@@YAXPAVINI@@@Z,0x007856AE,"Renamed to __ehhandler$
 ?Rva002A8A31Parse@@YAXPAVINI@@@Z,0x002A8A31,"Renamed to ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva001DAAA8Parse@@YAXPAVINI@@@Z,0x001DAAA8,"Renamed to ?parseStreamedSoundDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva001DAAA8Parse@@YAXPAVINI@@@Z,0x00769763,"Renamed to __ehhandler$?parseStreamedSoundDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva0021EAD3Parse@@YAXPAVINI@@@Z,0x0021EAD3,"Renamed to ?parseCreateAHeroBlingDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva0021EAD3Parse@@YAXPAVINI@@@Z,0x0076E9BE,"Renamed to __ehhandler$?parseCreateAHeroBlingDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva0021ECB2Parse@@YAXPAVINI@@@Z,0x0021ECB2,"Renamed to ?parseCreateAHeroBlingBinderDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva0021ECB2Parse@@YAXPAVINI@@@Z,0x0076E9FA,"Renamed to __ehhandler$?parseCreateAHeroBlingBinderDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
