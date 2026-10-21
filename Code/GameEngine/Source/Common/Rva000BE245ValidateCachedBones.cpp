@@ -832,12 +832,18 @@ struct Rva000B2BE5Src
 // ?Rva000B2BA3Get@@YAHPBURva000B2BE5Src@@PA_N@Z, retail 0x000B2BA3..0x000B2BE5
 // (66 bytes): its body as rowed in W3DScriptedModelDrawAnimationFrameCount.cpp.
 // It must be compiled ahead of rva000BE245 in this unit (EDX live across it).
+// Internal linkage keeps the owner's strong symbol out of this object; the
+// volatile address escape forces the regular __cdecl shape (a plain static
+// gets an internal convention and changes the caller's bytes, while an
+// external definition duplicates the owner and fails the link).
 struct Rva000B2BA3LOD
 {
 	char m_pad0000[0x1774];
 	int m_mode1774; // +0x1774
 };
-int __cdecl Rva000B2BA3Get(const Rva000B2BE5Src *p, bool *forced)
+static __declspec(noinline) int __cdecl Rva000B2BA3Get(const Rva000B2BE5Src *p, bool *forced);
+static int (__cdecl * volatile s_Rva000B2BA3GetEscape)(const Rva000B2BE5Src *, bool *) = &Rva000B2BA3Get;
+static __declspec(noinline) int __cdecl Rva000B2BA3Get(const Rva000B2BE5Src *p, bool *forced)
 {
 	int mode = reinterpret_cast<Rva000B2BA3LOD *>(TheGameLODManager)->m_mode1774;
 	if (mode != 3 && p && (p->flag & 0x20))
