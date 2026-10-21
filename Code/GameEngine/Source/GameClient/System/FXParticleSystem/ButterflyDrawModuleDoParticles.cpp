@@ -68,7 +68,7 @@ class Vector4 {public:
  float X,Y,Z,W;
  // Constructors
  __forceinline Vector4() {}
- __forceinline Vector4(const Vector4 &v) {X=v.X;Y=v.Y;Z=v.Z;W=v.W;}
+ __forceinline Vector4(const Vector4 &vector4) {X=vector4.X;Y=vector4.Y;Z=vector4.Z;W=vector4.W;}
  __forceinline Vector4(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
  // Assignment
  __forceinline Vector4 &operator=(const Vector4 &v) {X=v.X;Y=v.Y;Z=v.Z;W=v.W;return *this;}
@@ -137,10 +137,10 @@ int ButterflyDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*parti
  Rva0007671F view;Rva0007671F matrixB,matrixC,matrixD,matrixA;  // slot order follows the names (hash), not declaration order
  DX8Wrapper::Get_Transform(2,view);
  if(!((unsigned char)((Rva0004CABDSevenEight*)getSystem())->get())){
- ButterflyParticle*p=getSystem()->storage->getFirstParticle();
- for(;p;p=p->next){
-  if(((Rva001F4E2D*)p)->rva001F4E2D())continue;
-  const Vector3*pos=&p->position;float size=((Rva001F4D2D*)p)->rva001F4D2D();float angle=((Rva001F4DC4*)p)->rva001F4DC4();
+ ButterflyParticle*butterflyParticle=getSystem()->storage->getFirstParticle();
+ for(;butterflyParticle;butterflyParticle=butterflyParticle->next){
+  if(((Rva001F4E2D*)butterflyParticle)->rva001F4E2D())continue;
+  const Vector3*pos=&butterflyParticle->position;float size=((Rva001F4D2D*)butterflyParticle)->rva001F4D2D();float angle=((Rva001F4DC4*)butterflyParticle)->rva001F4DC4();
   if(quadFabs(pos->X-cx)>ex+size)continue;
   if(quadFabs(pos->Y-cy)>ey+size)continue;
   if(quadFabs(pos->Z-cz)>ez+size)continue;
@@ -154,9 +154,9 @@ int ButterflyDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*parti
   vertices[2]=Vector4(0,low,0,1);vertices[3]=Vector4(wingWidth,low,wingHeight,1);
   vertices[4]=Vector4(0,size,0,1);vertices[5]=Vector4(negWing,size,wingHeight,1);
   vertices[6]=Vector4(0,low,0,1);vertices[7]=Vector4(negWing,low,wingHeight,1);
-  if(fabs(p->axis.X)>0.0001f){
+  if(fabs(butterflyParticle->axis.X)>0.0001f){
    Rva0007671F rotation;
-   float facing=(float)(Rva001333F0Atan2(0.0f-p->axis.Y,p->axis.X)-1.5707963267948966);
+   float facing=(float)(Rva001333F0Atan2(0.0f-butterflyParticle->axis.Y,butterflyParticle->axis.X)-1.5707963267948966);
    D3DXMatrixRotationZ((D3DXMATRIX*)&rotation,facing);
    for(int i=0;i<8;++i){transformed=rotation*vertices[i];vertices[i]=transformed;}
   }
@@ -164,7 +164,7 @@ int ButterflyDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*parti
   for(int j=0;j<8;++j){vertices[j]+=translation;transformed=view*vertices[j];
    positions[start+j].X=transformed.X;positions[start+j].Y=transformed.Y;positions[start+j].Z=transformed.Z;
   }
-  const RGBColor*color=((Rva001F4E1BSlot*)p)->get();float alpha=((Rva001F4DF9*)p)->rva001F4DF9();
+  const RGBColor*color=((Rva001F4E1BSlot*)butterflyParticle)->get();float alpha=((Rva001F4DF9*)butterflyParticle)->rva001F4DF9();
   if(color){for(int k=0;k<8;++k){colors[start+k].X=color->red;colors[start+k].Y=color->green;colors[start+k].Z=color->blue;colors[start+k].W=alpha;}}else{for(int k=0;k<8;++k)colors[start+k].Set(0,0,0,alpha);}
   count+=2;if(count>=512)break;
  }

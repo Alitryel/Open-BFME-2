@@ -436,35 +436,35 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 	}
 	case 4:
 	{
-		const GameMessageArgumentType *a = msg->getArgument(0);
-		m_04.x = a->pixel.x;
-		m_04.y = a->pixel.y;
+		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
+		m_04.x = gameMessageArgumentType->pixel.x;
+		m_04.y = gameMessageArgumentType->pixel.y;
 		m_18 = msg->getArgument(2)->integer;
 		m_14 = false;
 		break;
 	}
 	case 6:
 	{
-		const GameMessageArgumentType *a = msg->getArgument(0);
-		m_0c.x = a->pixel.x;
-		m_0c.y = a->pixel.y;
+		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
+		m_0c.x = gameMessageArgumentType->pixel.x;
+		m_0c.y = gameMessageArgumentType->pixel.y;
 		m_1c = msg->getArgument(2)->integer;
 		break;
 	}
 	case 0xE:
 	{
-		const GameMessageArgumentType *a = msg->getArgument(0);
-		m_20.x = a->pixel.x;
-		m_20.y = a->pixel.y;
+		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
+		m_20.x = gameMessageArgumentType->pixel.x;
+		m_20.y = gameMessageArgumentType->pixel.y;
 		m_34 = msg->getArgument(2)->integer;
 		m_30 = false;
 		break;
 	}
 	case 0x10:
 	{
-		const GameMessageArgumentType *a = msg->getArgument(0);
-		m_28.x = a->pixel.x;
-		m_28.y = a->pixel.y;
+		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
+		m_28.x = gameMessageArgumentType->pixel.x;
+		m_28.y = gameMessageArgumentType->pixel.y;
 		m_38 = msg->getArgument(2)->integer;
 		break;
 	}
@@ -474,20 +474,20 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 	if (command == 0)
 		return KEEP_MESSAGE;
 
-	bool a = (msg->m_type == 0x18 || msg->m_type == 0x17) && !m_14;
+	bool gameMessageArgumentType = (msg->m_type == 0x18 || msg->m_type == 0x17) && !m_14;
 	bool b = (msg->m_type == 0x1C || msg->m_type == 0x1B) && !m_30;
 	bool isDown = msg->m_type == 4;
 	bool x;
 	bool y;
 	if (command->m_commandType == 0xA && TheWritableGlobalData->m_flag5C)
 	{
-		x = a;
+		x = gameMessageArgumentType;
 		y = b;
 	}
 	else
 	{
 		x = b;
-		y = a;
+		y = gameMessageArgumentType;
 	}
 
 	if (!y && !x && !isDown)
@@ -527,8 +527,8 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		{
 			Coord3D world;
 			((TacticalView *)TheTacticalView)->screenToTerrain(&mouse, &world, false);
-			GameMessage *m = TheMessageStream->createMessage(0x455);
-			m->appendLocationArgument(world);
+			GameMessage *gameMessage = TheMessageStream->createMessage(0x455);
+			gameMessage->appendLocationArgument(world);
 			PickAndPlayInfo info;
 			info.m_14 = world;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_455, (PickAndPlayInfo *)&info);
@@ -540,8 +540,8 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		{
 			Coord3D world;
 			((TacticalView *)TheTacticalView)->screenToTerrain(&mouse, &world, false);
-			GameMessage *m = TheMessageStream->createMessage(0x41E);
-			m->appendLocationArgument(world);
+			GameMessage *gameMessage = TheMessageStream->createMessage(0x41E);
+			gameMessage->appendLocationArgument(world);
 			PickAndPlayInfo info;
 			info.m_14 = world;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_41E, (PickAndPlayInfo *)&info);
@@ -553,8 +553,8 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		{
 			Coord3D world;
 			((TacticalView *)TheTacticalView)->screenToTerrain(&mouse, &world, false);
-			GameMessage *m = TheMessageStream->createMessage(0x41F);
-			m->appendLocationArgument(world);
+			GameMessage *gameMessage = TheMessageStream->createMessage(0x41F);
+			gameMessage->appendLocationArgument(world);
 			PickAndPlayInfo info;
 			info.m_14 = world;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_41F, (PickAndPlayInfo *)&info);

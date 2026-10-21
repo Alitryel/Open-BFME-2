@@ -129,21 +129,21 @@ Bool CanSelectDrawable(const Drawable *draw, Bool dragSelecting)
 	const Object *obj = draw->m_object;
 	if ((obj->m_priv438 & 1) != 0)
 	{
-		ThingTemplate *tmpl = obj->m_template;
-		if (tmpl->m_byte632 == 0)
+		ThingTemplate *thingTemplate = obj->m_template;
+		if (thingTemplate->m_byte632 == 0)
 		{
-			if ((tmpl->m_byte10F & 4) == 0)
+			if ((thingTemplate->m_byte10F & 4) == 0)
 				return false;
 		}
 	}
 	{
-		ThingTemplate *tmpl = obj->m_template;
-		if ((tmpl->m_flags108 & 2) == 0)
+		ThingTemplate *thingTemplate = obj->m_template;
+		if ((thingTemplate->m_flags108 & 2) == 0)
 		{
-			if ((tmpl->m_byte110 & 0x10) != 0)
+			if ((thingTemplate->m_byte110 & 0x10) != 0)
 				return false;
 		}
-		if ((tmpl->m_byte118 & 0x40) != 0)
+		if ((thingTemplate->m_byte118 & 0x40) != 0)
 			return false;
 	}
 	if (((Rva00270260 *)draw)->rva00270260())

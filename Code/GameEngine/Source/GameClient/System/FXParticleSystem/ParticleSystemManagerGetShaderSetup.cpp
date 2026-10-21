@@ -32,7 +32,7 @@ template<class T> class RefCountPtr {
 public:
 RefCountPtr():m_ptr(0){}
  explicit RefCountPtr(T*p):m_ptr(p){}
- RefCountPtr(const RefCountPtr&o):m_ptr(o.m_ptr){if(m_ptr)m_ptr->Add_Ref();}
+ RefCountPtr(const RefCountPtr&refCountPtr):m_ptr(refCountPtr.m_ptr){if(m_ptr)m_ptr->Add_Ref();}
  ~RefCountPtr(){if(m_ptr)m_ptr->Release_Ref();}
  T*m_ptr;
 };

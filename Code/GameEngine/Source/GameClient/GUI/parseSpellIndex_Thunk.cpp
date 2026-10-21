@@ -54,7 +54,7 @@ template <class Value, class T, class Alloc> class _STLP_alloc_proxy : public Al
 {
 public:
 	Value m_data;
-	_STLP_alloc_proxy(const Alloc &a, Value p) : Alloc(a), m_data(p) {}
+	_STLP_alloc_proxy(const Alloc &alloc, Value p) : Alloc(alloc), m_data(p) {}
 };
 template <class T, class A> class _Vector_base
 {

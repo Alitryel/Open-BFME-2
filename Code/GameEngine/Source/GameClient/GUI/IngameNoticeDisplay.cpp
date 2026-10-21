@@ -165,8 +165,8 @@ Rva004E5B0A::Rva004E5B0A(const UnicodeString &text,Rva004E594EDescriptor *descri
 
 // Callers expose this 24-byte line-input view; it is distinct from the row owner.
 struct NoticeLineInputView {
-    NoticeLineInputView(int w,int c,_STL::vector<const ModuleData *> *o,NoticeResource *d)
-        :maxWidth(w),center(c),offsets(o),display(d),width(0) {}
+    NoticeLineInputView(int w,int c,_STL::vector<const ModuleData *> *o,NoticeResource *noticeResource)
+        :maxWidth(w),center(c),offsets(o),display(noticeResource),width(0) {}
     int maxWidth;
     int center;
     _STL::vector<const ModuleData *> *offsets;

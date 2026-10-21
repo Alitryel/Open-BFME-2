@@ -524,9 +524,9 @@ inline Shell::~Shell()
 
 #pragma inline_depth(0)
 // ?bfmeEmitShellTop@@YAXPAVShell@@@Z present-unmatched
-void bfmeEmitShellTop(Shell *p)
+void bfmeEmitShellTop(Shell *shell)
 {
-	p->Shell::~Shell();
+	shell->Shell::~Shell();
 }
 #pragma inline_depth()
 

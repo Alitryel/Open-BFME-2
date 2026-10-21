@@ -27,11 +27,11 @@ private:
 void BfmeStateDF::interpolate(Gen0060CBB0Pair *from, Gen0060CBB0Pair *to,
     Gen0060CBB0Pair *current, float progress)
 {
-    FCurve *c = &curve;
-    float factor = c->rva00504BA9(progress);
+    FCurve *fCurve = &curve;
+    float factor = fCurve->rva00504BA9(progress);
     float start = from->first;
     current->first = (to->first - start) * factor + start;
-    progress = c->rva00504BA9(progress);
+    progress = fCurve->rva00504BA9(progress);
     start = from->second;
     current->second = (to->second - start) * progress + start;
 }

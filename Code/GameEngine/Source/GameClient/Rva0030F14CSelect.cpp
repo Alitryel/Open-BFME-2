@@ -136,10 +136,10 @@ class Object
  bool testStatus(ObjectStatusTypes status) const;
  Int getSelectionPriority() const
  {
-  const ThingTemplateView *tmpl = getTemplate();
-  if (tmpl == 0)
+  const ThingTemplateView *thingTemplateView = getTemplate();
+  if (thingTemplateView == 0)
   return -1;
-  return tmpl->m_selectionPriority;
+  return thingTemplateView->m_selectionPriority;
  }
  void *m_vtable;
  const ThingTemplateView *m_template;
@@ -181,10 +181,10 @@ Int Rva0030F14CSelect(Drawable *draw, void *userData)
  Rva0030F14CSelectInfo *info = (Rva0030F14CSelectInfo *)userData;
  if (info->m_list == 0)
  return 2;
- const ThingTemplateView *tmpl = draw->getTemplate();
- if (!info->m_mustBe.test(tmpl->m_kindOf))
+ const ThingTemplateView *thingTemplateView = draw->getTemplate();
+ if (!info->m_mustBe.test(thingTemplateView->m_kindOf))
  return 2;
- if (info->m_mustNotBe.test(tmpl->m_kindOf))
+ if (info->m_mustNotBe.test(thingTemplateView->m_kindOf))
  return 2;
  Object *obj = draw->getObject();
  if (info->m_checkKind73 && obj && obj->isKindOf(KINDOF_73) && obj->getTemplate()->hasKindBit(14))

@@ -46,13 +46,13 @@ typedef _STL::map<AsciiString, AsciiString> AsciiPreferenceMap;
 
 Bool Rva00441E4DFaction(void *holder, const AsciiString &name)
 {
-	AsciiPreferenceMap *m = (AsciiPreferenceMap *)((char *)holder + 8);
-	if (m->empty())
+	AsciiPreferenceMap *asciiPreferenceMap = (AsciiPreferenceMap *)((char *)holder + 8);
+	if (asciiPreferenceMap->empty())
 		return true;
 	AsciiString tmp(name);
 	if (!((const StringBase<char> &)name).startsWith("Faction")) {
 		((StringBase<char> &)(AsciiString &)tmp).set("Faction");
 		((StringBase<char> &)(AsciiString &)tmp).concat((const StringBase<char> &)name);
 	}
-	return m->find(tmp) != m->end();
+	return asciiPreferenceMap->find(tmp) != asciiPreferenceMap->end();
 }

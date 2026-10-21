@@ -53,7 +53,7 @@ void Rva0041F042::rva0041E9A4()
 	WindowVideoManager::WindowVideoMap::iterator it = m_map0C.begin();
 	for (; it != m_map0C.end(); ++it)
 	{
-		WindowVideo *v = it->second;
-		((Rva0041E717Broadcast *)v)->notifyAll();
+		WindowVideo *windowVideo = it->second;
+		((Rva0041E717Broadcast *)windowVideo)->notifyAll();
 	}
 }

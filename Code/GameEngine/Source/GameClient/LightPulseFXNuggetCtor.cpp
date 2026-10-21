@@ -73,8 +73,8 @@ inline LightPulseFXNugget::LightPulseFXNugget()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeLightPulseFXNuggetInlineAnchor@@YAXPAVLightPulseFXNugget@@@Z absent-from-retail
-void _bfmeLightPulseFXNuggetInlineAnchor(LightPulseFXNugget *p)
+void _bfmeLightPulseFXNuggetInlineAnchor(LightPulseFXNugget *lightPulseFXNugget)
 {
-    p->LightPulseFXNugget::LightPulseFXNugget();
+    lightPulseFXNugget->LightPulseFXNugget::LightPulseFXNugget();
 }
 #pragma inline_depth()

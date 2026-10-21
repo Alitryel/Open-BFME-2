@@ -33,15 +33,15 @@ private:
 	EvaMessageInfo *m_04;
 };
 
-EvaMessageInfo *Rva00102087::rva00102087(EvaMessageInfo *a, EvaMessageInfo *b)
+EvaMessageInfo *Rva00102087::rva00102087(EvaMessageInfo *evaMessageInfo, EvaMessageInfo *b)
 {
 	_STL::__false_type f;
 	EvaMessageInfo *res = (EvaMessageInfo *)_STL::__copy_ptrs(
 		(const BfmeStringRecord00111ACF *)b,
 		(const BfmeStringRecord00111ACF *)m_04,
-		(BfmeStringRecord00111ACF *)a,
+		(BfmeStringRecord00111ACF *)evaMessageInfo,
 		f);
 	_STL::_Destroy(res, m_04);
 	m_04 = res;
-	return a;
+	return evaMessageInfo;
 }

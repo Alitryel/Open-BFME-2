@@ -372,11 +372,11 @@ inline __declspec(noinline) bool InGameUI::isSelecting( void )
 
 // Retain the inline bodies' ledger emission without changing their callers.
 // ?bfmeEmitInGameUIModeBits@@YAXPAVInGameUI@@@Z absent-from-retail
-void bfmeEmitInGameUIModeBits(InGameUI *p)
+void bfmeEmitInGameUIModeBits(InGameUI *inGameUI)
 {
-	p->InGameUI::isScrolling();
-	p->InGameUI::isSelecting();
-	p->InGameUI::setSelecting(false);
+	inGameUI->InGameUI::isScrolling();
+	inGameUI->InGameUI::isSelecting();
+	inGameUI->InGameUI::setSelecting(false);
 }
 
 void InGameUI::setScrollAmount( Coord2D amt )

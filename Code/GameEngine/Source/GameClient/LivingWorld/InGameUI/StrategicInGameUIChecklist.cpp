@@ -98,7 +98,7 @@ struct ChecklistItemRef
 {
 	ChecklistItem *m_ptr;
 	ChecklistItemRef() : m_ptr(0) {}
-	explicit ChecklistItemRef(ChecklistItem *p) : m_ptr(p)
+	explicit ChecklistItemRef(ChecklistItem *checklistItem) : m_ptr(checklistItem)
 	{ if (m_ptr) ++reinterpret_cast<int *>(m_ptr)[1]; }
 	ChecklistItemRef(const ChecklistItemRef &other) : m_ptr(other.m_ptr)
 	{ if (m_ptr) ++reinterpret_cast<int *>(m_ptr)[1]; }

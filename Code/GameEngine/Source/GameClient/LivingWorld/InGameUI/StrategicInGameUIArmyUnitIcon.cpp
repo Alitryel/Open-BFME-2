@@ -207,8 +207,8 @@ void StrategicInGameUI::ArmyUnitIcon::DoUpdate() {
  if((unsigned)index>=upgrades.size()) return;
  {
   int *first=upgrades.begin;
-  const UpgradeTemplate *u=TheUpgradeCenter->rva0026EEA0(first[index]);
-  if(!u) return;
-  TheMouse->rva001EEA6D(TheGameText->fetch(*(const AsciiString *)((const char *)u+0x28),0),-1,0,1.0f);
+  const UpgradeTemplate *upgradeTemplate=TheUpgradeCenter->rva0026EEA0(first[index]);
+  if(!upgradeTemplate) return;
+  TheMouse->rva001EEA6D(TheGameText->fetch(*(const AsciiString *)((const char *)upgradeTemplate+0x28),0),-1,0,1.0f);
  }
 }

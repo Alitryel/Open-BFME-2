@@ -122,7 +122,7 @@ public:
 	bool targetValid; // +0x194
 	__forceinline void setPosition(const Coord3D *p) { ((Rva001F3899Slot *)this)->set(*(const Rva001F3899Arg *)p); }
 	__forceinline void setLocalTransform(const Matrix3D *m) { ((Rva001F38C1Slot *)this)->set(*(const Rva001F38C1Arg *)m); }
-	__forceinline void attachToObject(const Object *p) { ((Rva001F3C43Slot *)this)->set((const Rva001F3C43Arg *)p); }
+	__forceinline void attachToObject(const Object *object) { ((Rva001F3C43Slot *)this)->set((const Rva001F3C43Arg *)object); }
 	__forceinline void setTarget(const Vector3 &p) { target = p; targetValid = true; }
 };
 ParticleSystem *Make001FCBD7();
@@ -177,8 +177,8 @@ static __forceinline long fast_float2long_round(float f)
 }
 #define REAL_TO_INT_CEIL(x) (fast_float2long_round(fast_float_ceil(x)))
 
-static __forceinline const Coord3D *objectPos(const Object *p) { return (const Coord3D *)((const char *)p + 0x38); }
-static __forceinline bool boneTransform(const Object *p, const AsciiString &name, Matrix3D &m) { return ((const Thing *)p)->getDrawable()->rva00272835((int)name.str(), (int)&m); }
+static __forceinline const Coord3D *objectPos(const Object *object) { return (const Coord3D *)((const char *)object + 0x38); }
+static __forceinline bool boneTransform(const Object *object, const AsciiString &name, Matrix3D &m) { return ((const Thing *)object)->getDrawable()->rva00272835((int)name.str(), (int)&m); }
 
 // FXList.cpp's adjustVector (0x001F2EAB), select-any in both units: with its body visible,
 // cl treats the offset passed to it as not escaping, which places the frame as retail does.
@@ -199,9 +199,9 @@ void ParticleSystemFXNugget::reallyDoFX(const Coord3D *primary, const Matrix3D *
 {
 	Vector3 offsetCopy = *(const Vector3 *)&m_offset; Vector3 &localOffset = offsetCopy;
 	if (mtx) adjustVector((Coord3D *)&localOffset, mtx);
-	const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate(m_name);
-	if (tmp) for (int i = 0; i < m_count; ++i) {
-		BfmeParticleSystemHandle sys = TheParticleSystemManager->createParticleSystem(tmp, true);
+	const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(m_name);
+	if (particleSystemTemplate) for (int i = 0; i < m_count; ++i) {
+		BfmeParticleSystemHandle sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate, true);
 		if (sys) {
 			Coord3D newPosStorage = {0, 0, 0}; Coord3D &newPos = newPosStorage;
 			float rad = m_radius.getValue();

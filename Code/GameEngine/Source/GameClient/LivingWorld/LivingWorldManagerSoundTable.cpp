@@ -35,7 +35,7 @@ struct SoundPair21386C
 {
     AsciiString name;
     void *sound;
-    SoundPair21386C(const AsciiString &n, void *s) : name(n), sound(s) {}
+    SoundPair21386C(const AsciiString &asciiString, void *s) : name(asciiString), sound(s) {}
 };
 class Rva00056F61
 {

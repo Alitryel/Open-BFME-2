@@ -629,24 +629,24 @@ void InGameUI::setRadiusCursor(RadiusCursorType cursorType, const SpecialPowerTe
 		return;
 
 	Real radius = 0.0f;
-	const Weapon* w = NULL;
+	const Weapon* weapon = NULL;
 	switch (cursorType)
 	{
 		// already handled
 		//case RADIUSCURSOR_NONE:
 		//	return;
 		case RADIUSCURSOR_ATTACK_DAMAGE_AREA:
-			w = obj->getWeaponInWeaponSlot(weaponSlot);
-			radius = w ? w->getPrimaryDamageRadius(obj) : 0.0f;
+			weapon = obj->getWeaponInWeaponSlot(weaponSlot);
+			radius = weapon ? weapon->getPrimaryDamageRadius(obj) : 0.0f;
 			break;
 		case RADIUSCURSOR_ATTACK_SCATTER_AREA:
-			w = obj->getWeaponInWeaponSlot(weaponSlot);
-			radius = w ? (w->getScatterRadius() + w->getScatterTargetScalar()) : 0.0f;
+			weapon = obj->getWeaponInWeaponSlot(weaponSlot);
+			radius = weapon ? (weapon->getScatterRadius() + weapon->getScatterTargetScalar()) : 0.0f;
 			break;
 		case RADIUSCURSOR_ATTACK_CONTINUE_AREA:
 		case RADIUSCURSOR_CLEARMINES:
-			w = obj->getWeaponInWeaponSlot(weaponSlot);
-			radius = w ? w->getContinueAttackRange() : 0.0f;
+			weapon = obj->getWeaponInWeaponSlot(weaponSlot);
+			radius = weapon ? weapon->getContinueAttackRange() : 0.0f;
 			break;
 		case RADIUSCURSOR_GUARD_AREA:
 			radius = AIGuardMachine::getStdGuardRange(obj);
@@ -1434,15 +1434,15 @@ Int InGameUI::selectAllUnitsByTypeAcrossRegion( IRegion2D *region, KindOfMaskTyp
 	else
 	{
 		// loop over the map
-		Drawable *temp = TheGameClient->firstDrawable();
-		while( temp )
+		Drawable *drawable = TheGameClient->firstDrawable();
+		while( drawable )
 		{
-			if( kindOfUnitSelection( temp, (void *)&data) )
+			if( kindOfUnitSelection( drawable, (void *)&data) )
 			{
 				newSelectionCount ++;
 			}
 
-			temp = temp->getNextDrawable();
+			drawable = drawable->getNextDrawable();
 		}
 	}
 	setDisplayedMaxWarning( FALSE );

@@ -141,18 +141,18 @@ class Rva0035BD3F {public:void rva0035BD3F();};
 
 void Shell::showShell(bool flag)
 {
-	GlobalData *g = TheWritableGlobalData;
-	if (!reinterpret_cast<const StringBase<char> *>(&g->m_unk_abc)->isEmpty() && !g->m_unk_ac5)
+	GlobalData *globalData = TheWritableGlobalData;
+	if (!reinterpret_cast<const StringBase<char> *>(&globalData->m_unk_abc)->isEmpty() && !globalData->m_unk_ac5)
 		return;
 	if (flag)
 	{
-		WindowLayout *t = top();
-		if (t != 0) {
-			t->runInit(0);
-			g = TheWritableGlobalData;
+		WindowLayout *windowLayout = top();
+		if (windowLayout != 0) {
+			windowLayout->runInit(0);
+			globalData = TheWritableGlobalData;
 		}
 	}
-	if (!g->m_unk_af0 && m_screenCount == 0)
+	if (!globalData->m_unk_af0 && m_screenCount == 0)
 	{
 		if (getenv("_EA_RTS_HEADLESS") != 0 || TheWritableGlobalData->m_unk_ac5)
 			TheShell->push(AsciiString("Menus/LanLobbyMenu.wnd"), false);

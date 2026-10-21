@@ -69,9 +69,9 @@ Rva00561D3D::Rva00561D3D()
 {
     FXParticleSystem::ConcreteModuleClass<FXParticleSystem::LightningDrawTag5>::getInstance();
     Rva005C7889Init();
-    StreakLineClass *p = new StreakLineClass;
-    g_00E0626C = p;
-    p->Set_Texture_Mapping_Mode((SegLineRendererClass::TextureMapMode)2);
+    StreakLineClass *streakLine = new StreakLineClass;
+    g_00E0626C = streakLine;
+    streakLine->Set_Texture_Mapping_Mode((SegLineRendererClass::TextureMapMode)2);
 }
 
 // Reference sources: whole clean BFME1 S5StaticLatches.cpp and refcount.h

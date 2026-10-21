@@ -591,7 +591,7 @@ struct Rva005CE172Context {
 };
 extern void *rva00E0672C;
 static const int MaximumQueuedIcons=7;
-inline void *rvaUnicodeAddress(const UnicodeString &s) { return (void *)&s; }
+inline void *rvaUnicodeAddress(const UnicodeString &unicodeString) { return (void *)&unicodeString; }
 class Rva005E8350 : public Rva005F830A, public Rva005E8350Observer08, public Rva005E8350Observer0C {
 public:
  Rva005E8350(Rva005E87E0 *,void *,void *,Rva005CE172Context *);

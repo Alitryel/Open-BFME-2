@@ -74,7 +74,7 @@ struct Rva002E6184Pair
 {
 	StringLookUp *first;
 	StringLookUp *second;
-	Rva002E6184Pair(StringLookUp *a, StringLookUp *b) : first(a), second(b) {}
+	Rva002E6184Pair(StringLookUp *stringLookUp, StringLookUp *b) : first(stringLookUp), second(b) {}
 };
 
 // ?Rva002E6184EqualRange@@YA?AURva002E6184Pair@@PAUStringLookUp@@0ABQBDURva002E5C15Comp@@PAH@Z

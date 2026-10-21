@@ -323,8 +323,8 @@ void InGameUI::updateFormationPreview() {
   }
   for(int i=0;i<4;++i)if(!arrows[i]) {
    FormationAssistant *fa=reinterpret_cast<FormationAssistant*>(TheFormationAssistant);
-   ThingTemplate *templ=fa->templates[i];if(i==3)templ=fa->templates[2];
-   if(templ)arrows[i]=owner->rva002A3E5A(templ);
+   ThingTemplate *thingTemplate=fa->templates[i];if(i==3)thingTemplate=fa->templates[2];
+   if(thingTemplate)arrows[i]=owner->rva002A3E5A(thingTemplate);
   }
   float arrowWidth=0.0f,lineWidth=0.0f;
   if(arrows[2] && arrows[2]->decal)arrowWidth=arrows[2]->decal->width();

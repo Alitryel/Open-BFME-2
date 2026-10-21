@@ -33,8 +33,8 @@ namespace _STL { template <> void _STLP_alloc_proxy<ModuleData const * *,ModuleD
 namespace _STL { template <> void allocator<ModuleData const *>::deallocate(ModuleData const * *,unsigned int) const; }
 namespace _STL { template <> void vector<ModuleData const *,_STL::allocator<ModuleData const *> >::push_back(ModuleData const * const &); }
 // bfme link decl-only end
-void Rva00223CBD::rva00223CBD(const ModuleData *p)
+void Rva00223CBD::rva00223CBD(const ModuleData *moduleData)
 {
-	m_vec.push_back(p);
+	m_vec.push_back(moduleData);
 	m_flag = true;
 }

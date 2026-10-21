@@ -969,9 +969,9 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
     if(type==CONTEXT_COMMAND) {
      const CommandButton*button=TheControlBar->findCommandButton(AsciiString("Command_SpecialAbilitySiegeDeploy"));
      if(button) {
-      GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);
-      m->appendIntegerArgument(((const ContextPower*)contextButton(button)->special->friend_getFinalOverride())->id);
-      m->appendObjectIDArgument(originalObject->getID());m->appendIntegerArgument(contextButton(button)->options);m->appendObjectIDArgument(OBJECTID_NONE);m->appendLocationArgument(*originalObject->getPosition());
+      GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);
+      gameMessage->appendIntegerArgument(((const ContextPower*)contextButton(button)->special->friend_getFinalOverride())->id);
+      gameMessage->appendObjectIDArgument(originalObject->getID());gameMessage->appendIntegerArgument(contextButton(button)->options);gameMessage->appendObjectIDArgument(OBJECTID_NONE);gameMessage->appendLocationArgument(*originalObject->getPosition());
       PickAndPlayInfo info;info.m_drawTarget=((Thing*)originalObject)->getDrawable();info.m_specialPowerType=(int)contextButton(button)->special;info.m_position=*pos;
       pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);
      }
@@ -979,19 +979,19 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    } else {msgType=0xa7;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(originalObject->getID());}
   }
   else if(TheInGameUI->canSelectedObjectsOverrideSpecialPowerDestination(pos,InGameUI::CONTEXT_ANY,CONTEXT_POWER_NONE)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=0x441;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendLocationArgument(*pos);m->appendIntegerArgument(0);m->appendObjectIDArgument(OBJECTID_NONE);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=0x441;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendLocationArgument(*pos);gameMessage->appendIntegerArgument(0);gameMessage->appendObjectIDArgument(OBJECTID_NONE);}}
    else {msgType=0xbd;TheMessageStream->appendMessage((GameMessage::Type)msgType);}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)7,obj,(InGameUI::SelectionRules)0,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1067;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1067;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
    else {msgType=174;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)3,obj,(InGameUI::SelectionRules)0,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1069;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1069;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
    else {msgType=177;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)4,obj,(InGameUI::SelectionRules)1,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1070;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendLocationArgument(*pos);PickAndPlayInfo info;info.m_position=*pos;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1070;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendLocationArgument(*pos);PickAndPlayInfo info;info.m_position=*pos;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
    else {msgType=178;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if((draw||originalDraw)&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)8,originalObject?originalObject:obj,InGameUI::CONTEXT_ANY,true)) {
@@ -999,15 +999,15 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    else {Object*target=originalObject?originalObject:obj;msgType=TheActionManager->rva0041CE06(target);hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(target->getID());}
   }
   else if(originalDraw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)6,originalObject,InGameUI::CONTEXT_ANY,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1066;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(originalObject->getID());PickAndPlayInfo info;info.m_drawTarget=originalDraw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1066;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendObjectIDArgument(originalObject->getID());PickAndPlayInfo info;info.m_drawTarget=originalDraw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
    else {msgType=173;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(originalObject->getID());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)2,obj,InGameUI::CONTEXT_ANY,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1064;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1064;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
    else {msgType=171;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)5,obj,InGameUI::CONTEXT_ANY,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1065;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {msgType=1065;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendObjectIDArgument(obj->getID());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
    else {msgType=172;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&draw->getObject()&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)10,draw->getObject(),InGameUI::CONTEXT_ANY,false)) {
@@ -1019,7 +1019,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    else {msgType=184;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&canSelectionSalvage(obj)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE){msgType=0x442;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendLocationArgument(*obj->getPosition());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE){msgType=0x442;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendLocationArgument(*obj->getPosition());PickAndPlayInfo info;info.m_drawTarget=draw;pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}}
    else {msgType=0xbe;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendLocationArgument(*obj->getPosition());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)9,obj,InGameUI::CONTEXT_ANY,true)) {
@@ -1068,14 +1068,14 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
   }
   else if(draw&&contextUI()->selectedCount()==1&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)16,draw->getObject(),InGameUI::CONTEXT_ALL,false)) {
    if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {
-    msgType=0x423;if(type==CONTEXT_COMMAND){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);Object*target=!draw?0:draw->getObject();ObjectID id=!target?OBJECTID_NONE:target->getID();m->appendObjectIDArgument(id);PickAndPlayInfo info;if(target){info.m_drawTarget=((Thing*)target)->getDrawable();info.m_position=*target->getPosition();}pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}
+    msgType=0x423;if(type==CONTEXT_COMMAND){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);Object*target=!draw?0:draw->getObject();ObjectID id=!target?OBJECTID_NONE:target->getID();gameMessage->appendObjectIDArgument(id);PickAndPlayInfo info;if(target){info.m_drawTarget=((Thing*)target)->getDrawable();info.m_position=*target->getPosition();}pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);}
    }else {msgType=0x7d7;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if((pos&&!draw&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)14,0,InGameUI::CONTEXT_ALL,false))||(draw&&obj&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)14,obj,InGameUI::CONTEXT_ANY,false))) {
    msgType=0x413;
    if(type==CONTEXT_COMMAND) {
     const SelectedDrawableList*selected=contextUI()->selected();
-    for(SelectedDrawableList::const_iterator it=selected->begin();it!=selected->end();++it){Drawable*drawable=*it;if(drawable&&drawable->getObject()){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(drawable->getObject()->getID());m->appendLocationArgument(*pos);bool queue=TheKeyboard->isShift()&&!draw;m->appendBooleanArgument(queue);m->appendObjectIDArgument(obj?obj->getID():OBJECTID_NONE);}}
+    for(SelectedDrawableList::const_iterator it=selected->begin();it!=selected->end();++it){Drawable*drawable=*it;if(drawable&&drawable->getObject()){GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendObjectIDArgument(drawable->getObject()->getID());gameMessage->appendLocationArgument(*pos);bool queue=TheKeyboard->isShift()&&!draw;gameMessage->appendBooleanArgument(queue);gameMessage->appendObjectIDArgument(obj?obj->getID():OBJECTID_NONE);}}
    }else if(type==CONTEXT_HINT){msgType=0xbc;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendLocationArgument(*pos);}
   }
   else if(draw&&result==1&&(!originalObject||!contextKind(obj,60)||contextKind(obj,150))) {
@@ -1098,7 +1098,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendLocationArgument(*pos);
   }
  } else if(type==CONTEXT_HINT&&contextUI()->selectedCount()>0&&!TheInGameUI->areSelectedObjectsControllable()) {
-  msgType=0xbf;GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendLocationArgument(*pos);
+  msgType=0xbf;GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);gameMessage->appendLocationArgument(*pos);
  }
  return (GameMessage::Type)msgType;
 }
@@ -1199,11 +1199,11 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
  case 0x6e:{GameLogic*logic=TheGameLogic;if(logic->isInMultiplayerGame()&&!((TranslateLogicFields*)logic)->isReplay()){Player*local=((ContextPlayers*)ThePlayerList)->getLocalPlayer();if(local||!translateGlobals()->netMinPlayers){if(((BfmeMemberRV*)local)->bfmeAskRV())AptInGameChat::OpenScreen(1);else AptInGameChat::OpenScreen(4);}}disp=DESTROY_MESSAGE;break;}
  case 0x6c:if(TheGameSpyBuddyMessageQueue){if(!AptMessenger::s_instance)AptMessenger::OpenScreen();else Rva00511730(0);}disp=DESTROY_MESSAGE;break;
  case 0x6f:{GameLogic*logic=TheGameLogic;if(logic->rva0042219()&&!((TranslateTransition*)TheTransitionHandler)->first&&!((TranslateTransition*)TheTransitionHandler)->second){if(logic->rva0023C6FD())AptPlayerTribute::OpenScreen();else Rva004E41AB();}disp=DESTROY_MESSAGE;break;}
- case 0x93:{GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)0x468);m->appendIntegerArgument(2);disp=DESTROY_MESSAGE;break;}
- case 0x95:{GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)0x468);m->appendIntegerArgument(1);disp=DESTROY_MESSAGE;break;}
- case 0x94:{GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)0x468);m->appendIntegerArgument(3);disp=DESTROY_MESSAGE;break;}
- case 0x97:{GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)0x469);m->appendIntegerArgument(1);m->appendIntegerArgument(0);disp=DESTROY_MESSAGE;break;}
- case 0x96:{GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)0x469);m->appendIntegerArgument(0);m->appendIntegerArgument(1);disp=DESTROY_MESSAGE;break;}
+ case 0x93:{GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)0x468);gameMessage->appendIntegerArgument(2);disp=DESTROY_MESSAGE;break;}
+ case 0x95:{GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)0x468);gameMessage->appendIntegerArgument(1);disp=DESTROY_MESSAGE;break;}
+ case 0x94:{GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)0x468);gameMessage->appendIntegerArgument(3);disp=DESTROY_MESSAGE;break;}
+ case 0x97:{GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)0x469);gameMessage->appendIntegerArgument(1);gameMessage->appendIntegerArgument(0);disp=DESTROY_MESSAGE;break;}
+ case 0x96:{GameMessage*gameMessage=TheMessageStream->appendMessage((GameMessage::Type)0x469);gameMessage->appendIntegerArgument(0);gameMessage->appendIntegerArgument(1);disp=DESTROY_MESSAGE;break;}
  case 0x98:TheMessageStream->appendMessage((GameMessage::Type)0x470);disp=DESTROY_MESSAGE;break;
  case 0x90:{GameLogic*logic=TheGameLogic;if(logic->isInMultiplayerGame()&&!((TranslateLogicFields*)logic)->isReplay()&&((BfmeMemberRV*)((ContextPlayers*)ThePlayerList)->getLocalPlayer())->bfmeAskRV()&&(!translateGlobals()->netMinPlayers||((TranslateGameInfo*)TheGameInfo)->multiplayer())){int count;Player*local=((ContextPlayers*)ThePlayerList)->getLocalPlayer();const ThingTemplate*thing=TheThingFactory->findTemplate(*(AsciiString*)((char*)(*(PlayerTemplate**)((char*)local+0x34))+0x17c));((ContextPlayers*)ThePlayerList)->getLocalPlayer()->countObjectsByThingTemplate(1,&thing,false,&count,true);int limit=*(int*)((char*)TheMultiplayerSettings+0x18);_ReadWriteBarrier();if(count<limit){const CommandButton*button=TheControlBar->findCommandButton(AsciiString("Command_PlaceBeacon"));contextUI()->setCommand(button);}}disp=DESTROY_MESSAGE;break;}
  case 0x91:disp=DESTROY_MESSAGE;break;

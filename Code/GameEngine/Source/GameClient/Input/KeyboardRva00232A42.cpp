@@ -102,10 +102,10 @@ void Keyboard::rva00232A42()
 	checkKeyRepeat();
 	if (m_modifiers != 0) {
 		KeyboardIO *last = (KeyboardIO *)m_keys._M_finish;
-		KeyboardIO *p = (KeyboardIO *)m_keys._M_start;
-		while (p != last) {
-			p->m_f2 |= m_modifiers;
-			++p;
+		KeyboardIO *keyboardIO = (KeyboardIO *)m_keys._M_start;
+		while (keyboardIO != last) {
+			keyboardIO->m_f2 |= m_modifiers;
+			++keyboardIO;
 		}
 	}
 }

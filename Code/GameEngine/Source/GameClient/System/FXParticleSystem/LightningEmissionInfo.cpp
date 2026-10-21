@@ -49,8 +49,8 @@ struct LightningCoordInfo
 {
     float x, y, z;
     LightningCoordInfo() {}
-    LightningCoordInfo(const LightningCoordInfo &p) { assign(p); }
-    void assign(const LightningCoordInfo &p) { x = p.x; y = p.y; z = p.z; }
+    LightningCoordInfo(const LightningCoordInfo &lightningCoordInfo) { assign(lightningCoordInfo); }
+    void assign(const LightningCoordInfo &lightningCoordInfo) { x = lightningCoordInfo.x; y = lightningCoordInfo.y; z = lightningCoordInfo.z; }
     void zero() { z = y = x = 0.0f; }
 };
 

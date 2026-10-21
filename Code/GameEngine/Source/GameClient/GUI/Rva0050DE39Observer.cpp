@@ -248,7 +248,7 @@ public:
 	void populateObserverList(void);
 	void populateObserverInfoWindow(void);
 	void initObserverControls(void);	// 0x0050DE39
-	void setObserverLookAtPlayer(Player *p) { m_observerLookAtPlayer = p; }
+	void setObserverLookAtPlayer(Player *player) { m_observerLookAtPlayer = player; }
 	Player *getObserverLookAtPlayer(void) { return m_observerLookAtPlayer; }
 	unsigned char m_00[0x210];
 	Player *m_observerLookAtPlayer;		// +0x210
@@ -292,19 +292,19 @@ void ControlBar::populateObserverList(void)
 			AsciiString name;
 			if (TheGameInfo)
 				name = TheGameInfo->getSlot(i)->m_name;
-			Player *p = ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name));
-			if (p && p->m_playerTemplate)
+			Player *player = ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name));
+			if (player && player->m_playerTemplate)
 			{
-				if (((const ParticleSystem *)p)->isSaveable())
+				if (((const ParticleSystem *)player)->isSaveable())
 					continue;
-				Rva00328518(buttonPlayer[currentButton], (Int)p);
-				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->getEnabledImage());
-				buttonPlayer[currentButton]->winSetTooltip(p->m_playerDisplayName);
+				Rva00328518(buttonPlayer[currentButton], (Int)player);
+				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], player->m_playerTemplate->getEnabledImage());
+				buttonPlayer[currentButton]->winSetTooltip(player->m_playerDisplayName);
 				buttonPlayer[currentButton]->winHide(false);
 				buttonPlayer[currentButton]->winSetStatus(0x200000);
 
 				const GameSlot *slot = TheGameInfo->getConstSlot(currentButton);
-				Int playerColor = p->m_color;
+				Int playerColor = player->m_color;
 				Int backColor = 0xFF000000;
 				staticTextPlayer[currentButton]->winSetEnabledTextColors(playerColor, backColor);
 				staticTextPlayer[currentButton]->winHide(false);
@@ -314,7 +314,7 @@ void ControlBar::populateObserverList(void)
 					teamStr = "Team:AI";
 
 				UnicodeString text;
-				text.format(TheGameText->fetchPtr("CONTROLBAR:ObsPlayerLabel"), p->m_playerDisplayName.str(),
+				text.format(TheGameText->fetchPtr("CONTROLBAR:ObsPlayerLabel"), player->m_playerDisplayName.str(),
 					TheGameText->fetch(teamStr).str());
 				GadgetStaticTextSetText(staticTextPlayer[currentButton], text);
 				++currentButton;
@@ -330,19 +330,19 @@ void ControlBar::populateObserverList(void)
 	{
 		for (i = 0; i < 20; ++i)
 		{
-			Player *p = ThePlayerList->getNthPlayer(i);
-			if (p && !((const ParticleSystem *)p)->isSaveable() && p->m_playerType == 0)
+			Player *player = ThePlayerList->getNthPlayer(i);
+			if (player && !((const ParticleSystem *)player)->isSaveable() && player->m_playerType == 0)
 			{
-				Rva00328518(buttonPlayer[currentButton], (Int)p);
-				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->getEnabledImage());
-				buttonPlayer[currentButton]->winSetTooltip(p->m_playerDisplayName);
+				Rva00328518(buttonPlayer[currentButton], (Int)player);
+				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], player->m_playerTemplate->getEnabledImage());
+				buttonPlayer[currentButton]->winSetTooltip(player->m_playerDisplayName);
 				buttonPlayer[currentButton]->winHide(false);
 				buttonPlayer[currentButton]->winSetStatus(0x200000);
-				Int playerColor = p->m_color;
+				Int playerColor = player->m_color;
 				Int backColor = 0xFF000000;
 				staticTextPlayer[currentButton]->winSetEnabledTextColors(playerColor, backColor);
 				staticTextPlayer[currentButton]->winHide(false);
-				GadgetStaticTextSetText(staticTextPlayer[currentButton], p->m_playerDisplayName);
+				GadgetStaticTextSetText(staticTextPlayer[currentButton], player->m_playerDisplayName);
 				++currentButton;
 				break;
 			}

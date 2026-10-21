@@ -119,8 +119,8 @@ inline ParticleSystemFXNugget::ParticleSystemFXNugget()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeParticleSystemFXNuggetInlineAnchor@@YAXPAVParticleSystemFXNugget@@@Z absent-from-retail
-void _bfmeParticleSystemFXNuggetInlineAnchor(ParticleSystemFXNugget *p)
+void _bfmeParticleSystemFXNuggetInlineAnchor(ParticleSystemFXNugget *particleSystemFXNugget)
 {
-    p->ParticleSystemFXNugget::ParticleSystemFXNugget();
+    particleSystemFXNugget->ParticleSystemFXNugget::ParticleSystemFXNugget();
 }
 #pragma inline_depth()

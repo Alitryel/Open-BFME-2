@@ -81,8 +81,8 @@ bool Win32BIGFileSystem::rva006042B6(const char *a1, const char *a2, int extra)
 	bool result = false;
 	for (_STL::set<AsciiString, BfmeStringNoCaseLess, _STL::allocator<AsciiString> >::iterator it = files.begin(); it != files.end(); ++it)
 	{
-		const AsciiString &a = *it;
-		const char *t = *(const char **)&a;
+		const AsciiString &asciiString = *it;
+		const char *t = *(const char **)&asciiString;
 		const char *s = t ? t + 8 : g_Rva0107301CEmptyString;
 		result |= helper(s, extra);
 	}

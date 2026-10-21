@@ -155,8 +155,8 @@ bool Rva0029DE76::rva0029DE76(const Coord3D *pos)
 	ObjList *list = getObjList();
 	for (ListNode *node = list->m_head->m_next; node != list->m_head; node = node->m_next)
 	{
-		Object *v = node->m_obj;
-		Object *inner = v ? v->m_fc : (Object *)0;
+		Object *object = node->m_obj;
+		Object *inner = object ? object->m_fc : (Object *)0;
 		AIUpdateInterface *ai = inner ? inner->m_ai : (AIUpdateInterface *)0;
 		if (!inner)
 			continue;

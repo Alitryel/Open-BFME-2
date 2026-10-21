@@ -235,29 +235,29 @@ Int StreakDrawModule::doParticles(RenderInfoClass &rinfo, void *bounds, Int *par
 	float extentY = box->m_extent.Y;
 	float extentZ = box->m_extent.Z;
 	UnsignedInt ids[512];
-	StreakParticle *p = 0;
+	StreakParticle *streakParticle = 0;
 
 	if (!(unsigned char)((Rva0004CABDSevenEight *)getSystem())->get())
-		p = getSystem()->m_storage->getFirstParticle();
+		streakParticle = getSystem()->m_storage->getFirstParticle();
 	{
-		for (; p != 0; p = p->m_next)
+		for (; streakParticle != 0; streakParticle = streakParticle->m_next)
 		{
-			if (((CPUParticle *)p)->rva001F4E2D())
+			if (((CPUParticle *)streakParticle)->rva001F4E2D())
 				continue;
-			const Vector3 *pos = &p->m_pos;
-			float size = ((Rva001F4D2D *)p)->rva001F4D2D();
+			const Vector3 *pos = &streakParticle->m_pos;
+			float size = ((Rva001F4D2D *)streakParticle)->rva001F4D2D();
 			if (StreakFabs(pos->X - centerX) > extentX + size)
 				continue;
 			if (StreakFabs(pos->Y - centerY) > extentY + size)
 				continue;
 			if (StreakFabs(pos->Z - centerZ) > extentZ + size)
 				continue;
-			ids[count] = p->m_id;
+			ids[count] = streakParticle->m_id;
 			locs[count].X = pos->X;
 			locs[count].Y = pos->Y;
 			locs[count].Z = pos->Z;
 			widths[count] = size;
-			const RGBColor *color = ((Rva001F4E1BSlot *)p)->get();
+			const RGBColor *color = ((Rva001F4E1BSlot *)streakParticle)->get();
 			if (color != 0)
 			{
 				colors[count].X = color->red;
@@ -270,8 +270,8 @@ Int StreakDrawModule::doParticles(RenderInfoClass &rinfo, void *bounds, Int *par
 				colors[count].Y = 0.0f;
 				colors[count].Z = 0.0f;
 			}
-			colors[count].W = ((Rva001F4DF9 *)p)->rva001F4DF9();
-			angles[count] = (unsigned char)(((Rva001F4DC4 *)p)->rva001F4DC4() * 255.0f / 6.2831855f);
+			colors[count].W = ((Rva001F4DF9 *)streakParticle)->rva001F4DF9();
+			angles[count] = (unsigned char)(((Rva001F4DC4 *)streakParticle)->rva001F4DC4() * 255.0f / 6.2831855f);
 			count++;
 			if (count == 512)
 				break;

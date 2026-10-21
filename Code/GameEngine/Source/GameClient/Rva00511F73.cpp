@@ -67,7 +67,7 @@ public:
  AptRef(void *&function) {
   ((Rva0023E8D8*)this)->Rva0023E8D8::Rva0023E8D8(&function);
  }
- AptRef(const AptRef&r):ptr(r.ptr){if(ptr)++ptr->references;}
+ AptRef(const AptRef&aptRef):ptr(aptRef.ptr){if(ptr)++ptr->references;}
  ~AptRef(){if(ptr)ReleaseTreeHintRef00217D4C(ptr);}
 };
 template<>class AptRef<AptExternHandler> {
@@ -76,7 +76,7 @@ public:
  AptRef(void *&function) {
   ((Rva004106FA*)this)->Rva004106FA::Rva004106FA((const int*)&function);
  }
- AptRef(const AptRef&r):ptr(r.ptr){if(ptr)++ptr->references;}
+ AptRef(const AptRef&aptRef):ptr(aptRef.ptr){if(ptr)++ptr->references;}
  ~AptRef(){if(ptr)ReleaseTreeHintRef00217D4C(ptr);}
 };
 class AptPlayer {

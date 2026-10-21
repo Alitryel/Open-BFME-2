@@ -88,8 +88,8 @@ inline void LightPulseFXNugget::doFXObj(const Object *primary, const Object *) c
 }
 #pragma inline_depth(0)
 // ?bfmeEmitLightPulseFXNuggetEffects@@YAXPAVLightPulseFXNugget@@@Z present-unmatched
-void bfmeEmitLightPulseFXNuggetEffects(LightPulseFXNugget *p)
+void bfmeEmitLightPulseFXNuggetEffects(LightPulseFXNugget *lightPulseFXNugget)
 {
-	p->LightPulseFXNugget::doFXObj(0, 0);
+	lightPulseFXNugget->LightPulseFXNugget::doFXObj(0, 0);
 }
 #pragma inline_depth()

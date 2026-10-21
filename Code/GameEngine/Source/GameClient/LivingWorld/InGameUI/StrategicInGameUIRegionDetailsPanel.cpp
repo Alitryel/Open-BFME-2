@@ -19,8 +19,8 @@ struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct PageRef {
  PageRefObjectView *ptr;
- PageRef(PageRefObjectView *p):ptr(p){if(p)++p->references;}
- PageRef(const PageRef &r):ptr(r.ptr){if(ptr)++ptr->references;}
+ PageRef(PageRefObjectView *pageRefObjectView):ptr(pageRefObjectView){if(pageRefObjectView)++pageRefObjectView->references;}
+ PageRef(const PageRef &pageRef):ptr(pageRef.ptr){if(ptr)++ptr->references;}
  ~PageRef(){if(ptr)ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)ptr);}
 };
 namespace StrategicInGameUI {class RegionDetailsPanel {public:class Impl;};}

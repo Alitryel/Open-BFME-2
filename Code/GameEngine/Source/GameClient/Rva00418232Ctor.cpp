@@ -19,8 +19,8 @@ private:
     AsciiString m_str;
     Rva004181A6 m_rva;
 };
-Rva00418232::Rva00418232(const AsciiString &a, const Rva004181A6 &b)
-    : m_str(a)
+Rva00418232::Rva00418232(const AsciiString &asciiString, const Rva004181A6 &b)
+    : m_str(asciiString)
     , m_rva(b)
 {
 }

@@ -432,14 +432,14 @@ class BfmeVecAK;
 class Gen_0018BC70 { public: BfmeVecAK *bfmeCompact(Bool); };
 class Rva004D6BCD;
 class Rva002AA191 { public: Rva004D6BCD *rva002AA176(Int); };
-static Object *nativeObject43003C(const Drawable *d) { return *(Object *const *)((const char *)d + 0xFC); }
-static ObjectID nativeID43003C(const Object *o) { return *(const ObjectID *)((const char *)o + 0x74); }
-static DrawableID nativeID43003C(const Drawable *d) { return *(const DrawableID *)((const char *)d + 0x8); }
-static Bool nativeSelected43003C(const Drawable *d) { return ((const Bool *)d)[0x43C]; }
-static Drawable *nativeNext43003C(const Drawable *d) { return *(Drawable *const *)((const char *)d + 0x104); }
-static Object *nativeContained43003C(const Object *o) { return *(Object *const *)((const char *)o + 0x274); }
-static Team *nativeTeam43003C(const Object *o) { return *(Team *const *)((const char *)o + 0x304); }
-static const ThingTemplate *nativeTemplate43003C(const Thing *t) { return *(const ThingTemplate *const *)((const char *)t + 4); }
+static Object *nativeObject43003C(const Drawable *drawable) { return *(Object *const *)((const char *)drawable + 0xFC); }
+static ObjectID nativeID43003C(const Object *object) { return *(const ObjectID *)((const char *)object + 0x74); }
+static DrawableID nativeID43003C(const Drawable *drawable) { return *(const DrawableID *)((const char *)drawable + 0x8); }
+static Bool nativeSelected43003C(const Drawable *drawable) { return ((const Bool *)drawable)[0x43C]; }
+static Drawable *nativeNext43003C(const Drawable *drawable) { return *(Drawable *const *)((const char *)drawable + 0x104); }
+static Object *nativeContained43003C(const Object *object) { return *(Object *const *)((const char *)object + 0x274); }
+static Team *nativeTeam43003C(const Object *object) { return *(Team *const *)((const char *)object + 0x304); }
+static const ThingTemplate *nativeTemplate43003C(const Thing *thing) { return *(const ThingTemplate *const *)((const char *)thing + 4); }
 struct KindOfBits43003C {
  unsigned int m_bits[7];
  UnsignedInt test(Int i) const { return m_bits[i >> 5] & (1u << (i & 31)); }

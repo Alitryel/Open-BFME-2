@@ -434,9 +434,9 @@ void InGameUI::objectChangedTeam( const Object *obj, int oldPlayerIndex, int new
 	{
 		ObjectID id = obj->getID();
 		AsciiString powerName;
-		for( BehaviorModule **m = obj->getBehaviorModules(); *m; ++m )
+		for( BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule )
 		{
-			SpecialPowerModuleInterface *sp = (*m)->getSpecialPower();
+			SpecialPowerModuleInterface *sp = (*behaviorModule)->getSpecialPower();
 			if( !sp )
 				continue;
 

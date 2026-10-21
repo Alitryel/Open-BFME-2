@@ -32,9 +32,9 @@ class Matrix3
 {
 public:
 	__forceinline Matrix3() {}
-	__forceinline Matrix3(const Matrix3 &m)
+	__forceinline Matrix3(const Matrix3 &matrix3)
 	{
-		Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2];
+		Row[0] = matrix3.Row[0]; Row[1] = matrix3.Row[1]; Row[2] = matrix3.Row[2];
 	}
 	// Preserve the inlined initialization without emitting its unused
 	// standalone constructor copy in this unit.

@@ -2186,13 +2186,13 @@ void bfmeEmitGameClientDrawableTOCConstruct(Rva0023AD91Record *__p, const Rva002
 void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *soundOff,
 	Rva000A8C9B *customInfo, bool *soundEnabled);
 
-void GameClient::rva0023B383(Dict *props, ThingTemplate *tmpl, const Coord3D *pos)
+void GameClient::rva0023B383(Dict *props, ThingTemplate *thingTemplate, const Coord3D *pos)
 {
 	bool soundOff = false;
 	bool soundEnabled = false;
 	Rva00239057Ref customInfo;
 
-	TranslateAudioProperties(props, 0, tmpl, &soundOff, (Rva000A8C9B *)&customInfo, &soundEnabled);
+	TranslateAudioProperties(props, 0, thingTemplate, &soundOff, (Rva000A8C9B *)&customInfo, &soundEnabled);
 	if (soundOff || !soundEnabled)
 		return;
 
@@ -2209,7 +2209,7 @@ void GameClient::rva0023B383(Dict *props, ThingTemplate *tmpl, const Coord3D *po
 	}
 	else
 	{
-		(OpaqueRefElement4 &)info = ((Rva00239435 *)tmpl)->rva00239435(0x25).m_info;
+		(OpaqueRefElement4 &)info = ((Rva00239435 *)thingTemplate)->rva00239435(0x25).m_info;
 		if (!info.referent)
 			return;
 	}

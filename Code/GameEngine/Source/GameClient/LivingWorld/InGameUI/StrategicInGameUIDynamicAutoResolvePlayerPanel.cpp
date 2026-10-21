@@ -76,7 +76,7 @@ class DynamicAutoResolveDialog::Impl::PlayerPanelMovieClip: public Rva0007DF07,p
 public:PlayerPanelMovieClip(Impl*,int,int,unsigned,const AsciiString&);virtual ~PlayerPanelMovieClip();int GetPlayerData();
 private:Impl *owner;int side,index,count;const Image *banners[2];
 };
-DynamicAutoResolveDialog::Impl::PlayerPanelMovieClip::PlayerPanelMovieClip(Impl *o,int s,int i,unsigned level,const AsciiString &name):Rva005FBBEE(level,name),owner(o),side(s),index(i) {
+DynamicAutoResolveDialog::Impl::PlayerPanelMovieClip::PlayerPanelMovieClip(Impl *impl,int s,int i,unsigned level,const AsciiString &name):Rva005FBBEE(level,name),owner(impl),side(s),index(i) {
  count=0;for(const Image **p=banners;p!=banners+2;++p)*p=0;
  PlayerDataView *data=(PlayerDataView*)GetPlayerData();
  ((Rva005FBBFC*)static_cast<Rva005FBBEE*>(this))->rva005FBBFC(data->player->name);

@@ -57,10 +57,10 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct Rva002BED91 { TargetRef00217D4C *m_ptr; void set(TargetRef00217D4C *); };
 class HeroClipReference {
 public:
- __forceinline HeroClipReference(ArmyHeroIconMovieClip *p) : m_ptr(p) {
-  if(p) ++((TargetRef00217D4C *)p)->references;
+ __forceinline HeroClipReference(ArmyHeroIconMovieClip *armyHeroIconMovieClip) : m_ptr(armyHeroIconMovieClip) {
+  if(armyHeroIconMovieClip) ++((TargetRef00217D4C *)armyHeroIconMovieClip)->references;
  }
- __forceinline HeroClipReference(const HeroClipReference &r) : m_ptr(r.m_ptr) {
+ __forceinline HeroClipReference(const HeroClipReference &heroClipReference) : m_ptr(heroClipReference.m_ptr) {
   if(m_ptr) ++((TargetRef00217D4C *)m_ptr)->references;
  }
  ~HeroClipReference() { if(m_ptr) ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)m_ptr); }

@@ -35,7 +35,7 @@ public:
 class LivingWorldVisualRow
 {
 public:
-	__forceinline LivingWorldVisualRow(const LivingWorldVisualRow &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline LivingWorldVisualRow(const LivingWorldVisualRow &livingWorldVisualRow) { X = livingWorldVisualRow.X; Y = livingWorldVisualRow.Y; Z = livingWorldVisualRow.Z; W = livingWorldVisualRow.W; }
 	Real &operator[](int i) { return (&X)[i]; }
 	Real X;
 	Real Y;
@@ -46,8 +46,8 @@ public:
 class LivingWorldVisualTransform
 {
 public:
-	__forceinline LivingWorldVisualTransform(const LivingWorldVisualTransform &m)
-		: Row0(m.Row0), Row1(m.Row1), Row2(m.Row2) {}
+	__forceinline LivingWorldVisualTransform(const LivingWorldVisualTransform &livingWorldVisualTransform)
+		: Row0(livingWorldVisualTransform.Row0), Row1(livingWorldVisualTransform.Row1), Row2(livingWorldVisualTransform.Row2) {}
 	LivingWorldVisualRow &operator[](int i) { return (&Row0)[i]; }
 	void Scale(Real scale)
 	{
@@ -187,10 +187,10 @@ void LivingWorldVisual::rva003FBFF3(const Matrix3D &transform)
 // TU-local established row/transform views reproduce the donor copy/Scale
 // structure without defining duplicate canonical Matrix3D/Vector4 bodies.
 void LivingWorldVisual::rva003FC291(float scale) {
- RenderObjClass *p=m_primaryRObj;
- if(!p)return;
+ RenderObjClass *renderObj=m_primaryRObj;
+ if(!renderObj)return;
  m_requestedScale=scale;
- LivingWorldVisualTransform tm=p->Get_Transform();
+ LivingWorldVisualTransform tm=renderObj->Get_Transform();
  const Real &extra=scale / m_primaryRObj->Get_ObjectScale();
  tm.Scale(extra);
  m_primaryRObj->Set_ObjectScale(scale);

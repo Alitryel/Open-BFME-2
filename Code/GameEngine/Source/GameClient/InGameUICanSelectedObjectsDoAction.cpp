@@ -98,7 +98,7 @@ extern ActionManager *TheActionManager;
 struct DrawableListNode { DrawableListNode *next,*prev; Drawable *value; };
 class DrawableList { public:
  class const_iterator { DrawableListNode *node; public:
- const_iterator(DrawableListNode*n):node(n){}
+ const_iterator(DrawableListNode*drawableListNode):node(drawableListNode){}
  bool operator!=(const const_iterator&b)const{return node!=b.node;}
  Drawable *operator*()const{return node->value;}
  const_iterator &operator++(){node=node->next;return *this;}

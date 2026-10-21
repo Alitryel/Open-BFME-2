@@ -61,8 +61,8 @@ Rva003B0344::Rva003B0344(const RvaSmartPtr12 &src) : Rva003B00D6(src)
     }
 }
 
-void Rva003B0433::rva003B0433(const ModuleData *&m)
+void Rva003B0433::rva003B0433(const ModuleData *&moduleData)
 {
-    c.push_back(m);
+    c.push_back(moduleData);
     _STL::push_heap((int *)c.begin(), (int *)c.end(), comp);
 }

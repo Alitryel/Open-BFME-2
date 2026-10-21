@@ -77,8 +77,8 @@ private:
 
 void RayEffectFXNugget::doFXPos(const Coord3D *primary, const Matrix3D * /*primaryMtx*/, float /*primarySpeed*/, const Coord3D *secondary) const
 {
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_templateName);
-	if (primary && secondary && tmpl)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(m_templateName);
+	if (primary && secondary && thingTemplate)
 	{
 		Coord3D sourcePos;
 		coordCopy(&sourcePos, primary);
@@ -92,6 +92,6 @@ void RayEffectFXNugget::doFXPos(const Coord3D *primary, const Matrix3D * /*prima
 		targetPos.y += m_secondaryOffset.y;
 		targetPos.z += m_secondaryOffset.z;
 
-		TheGameClient->createRayEffectByTemplate(&sourcePos, &targetPos, tmpl);
+		TheGameClient->createRayEffectByTemplate(&sourcePos, &targetPos, thingTemplate);
 	}
 }

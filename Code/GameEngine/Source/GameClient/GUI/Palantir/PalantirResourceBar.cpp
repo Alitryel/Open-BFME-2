@@ -34,8 +34,8 @@ public:
  // slot by the existing rowed wrapper constructors. Their int-pointer API
  // copies the descriptor's pointer bits; it does not dereference the bound
  // resource field. VC7.1's qualified constructor call preserves that ABI.
- __forceinline AptRef(const DelegateDesc *d){reinterpret_cast<Rva00579E47*>(this)->Rva00579E47::Rva00579E47(*d);}
- AptRef(const AptRef &a):ptr(a.ptr){if(ptr)++reinterpret_cast<int*>(ptr)[1];}
+ __forceinline AptRef(const DelegateDesc *delegateDesc){reinterpret_cast<Rva00579E47*>(this)->Rva00579E47::Rva00579E47(*delegateDesc);}
+ AptRef(const AptRef &aptRef):ptr(aptRef.ptr){if(ptr)++reinterpret_cast<int*>(ptr)[1];}
  ~AptRef(){if(ptr)ReleaseTreeHintRef00217D4C(reinterpret_cast<TargetRef00217D4C*>(ptr));}
  struct Resources {int *slot;};
  struct Multiplier {float *slot;};

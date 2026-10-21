@@ -125,9 +125,9 @@ unsigned int Rva0030EFD5(bool alternate)
 	if (!TheInGameUI->areSelectedObjectsControllable())
 		return 0;
 	Sel *sel = TheInGameUI->slot73();
-	for (ListNode *n = sel->m_head->m_next; n != sel->m_head; n = n->m_next)
+	for (ListNode *listNode = sel->m_head->m_next; listNode != sel->m_head; listNode = listNode->m_next)
 	{
-		DataWithObject *data = (DataWithObject *)n->m_data8;
+		DataWithObject *data = (DataWithObject *)listNode->m_data8;
 		if (data == 0)
 			continue;
 		Object *obj = data->m_obj;

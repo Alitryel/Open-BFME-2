@@ -1042,10 +1042,10 @@ void AptMpGameSetup::PopulatePlayerCombo(int slot)
         if(m_owner->v01() && mode1) {
             if(allowOpen && game) {
                 for(int i=1;i<8;++i) {
-                    GameSlot* g=game->getSlot(i);
-                    if(g) {
-                        if(g->m_state==0) {allowOpen=i==slot;break;}
-                        if(g->isHuman() && !g->isObserver()) {allowOpen=false;break;}
+                    GameSlot* gameSlot=game->getSlot(i);
+                    if(gameSlot) {
+                        if(gameSlot->m_state==0) {allowOpen=i==slot;break;}
+                        if(gameSlot->isHuman() && !gameSlot->isObserver()) {allowOpen=false;break;}
                     }
                 }
             }

@@ -49,8 +49,8 @@ inline RayEffectFXNugget::RayEffectFXNugget()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeRayEffectFXNuggetInlineAnchor@@YAXPAVRayEffectFXNugget@@@Z absent-from-retail
-void _bfmeRayEffectFXNuggetInlineAnchor(RayEffectFXNugget *p)
+void _bfmeRayEffectFXNuggetInlineAnchor(RayEffectFXNugget *rayEffectFXNugget)
 {
-    p->RayEffectFXNugget::RayEffectFXNugget();
+    rayEffectFXNugget->RayEffectFXNugget::RayEffectFXNugget();
 }
 #pragma inline_depth()

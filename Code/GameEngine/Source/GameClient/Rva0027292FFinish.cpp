@@ -36,7 +36,7 @@ private:
 // ?rva0027292F@Drawable@@QAEXPBUCoord3D@@0@Z
 void Drawable::rva0027292F(const Coord3D *position, const Coord3D *normal)
 {
-	DrawableDecalPositionModule **p = m_drawModules;
-	if (*p)
-		(*p)->rva0027292F(position, normal);
+	DrawableDecalPositionModule **drawableDecalPositionModule = m_drawModules;
+	if (*drawableDecalPositionModule)
+		(*drawableDecalPositionModule)->rva0027292F(position, normal);
 }

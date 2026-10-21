@@ -145,35 +145,35 @@ void InGameUI::rva002A4A68()
     _STL::list<int> &lst = *(_STL::list<int> *)((char *)this + 0x8d0);
     _STL::list<int>::iterator it = lst.begin();
     while (it != lst.end()) {
-        Payload *p = (Payload *)*it;
+        Payload *payload = (Payload *)*it;
         if (!TheGameLogic->isGamePaused()) {
             unsigned frame = ((ClientFrameSubsystem *)TheGameClient)->getFrame();
-            if (frame >= (unsigned)p->m_c || ((p->m_10 & 2) && (p->m_obj->m_flag10 & 4))) {
-                ::delete p->m_obj;
-                delete p;
-                it = (p ? lst.erase(it) : lst.erase(it));
+            if (frame >= (unsigned)payload->m_c || ((payload->m_10 & 2) && (payload->m_obj->m_flag10 & 4))) {
+                ::delete payload->m_obj;
+                delete payload;
+                it = (payload ? lst.erase(it) : lst.erase(it));
                 continue;
             }
         }
-        p->m_4 += p->m_14;
-        p->m_14 *= p->m_1c;
-        p->m_8 += p->m_18;
-        p->m_18 *= p->m_1c;
-        if (p->m_10 & 1) {
-            unsigned remaining = p->m_c - ((ClientFrameSubsystem *)TheGameClient)->getFrame();
+        payload->m_4 += payload->m_14;
+        payload->m_14 *= payload->m_1c;
+        payload->m_8 += payload->m_18;
+        payload->m_18 *= payload->m_1c;
+        if (payload->m_10 & 1) {
+            unsigned remaining = payload->m_c - ((ClientFrameSubsystem *)TheGameClient)->getFrame();
             if (remaining < g_00DFEE08) {
-                p->m_obj->m_1c = (float)remaining / (float)g_00DFEE08;
+                payload->m_obj->m_1c = (float)remaining / (float)g_00DFEE08;
             }
         }
         int v;
         if (TheWritableGlobalData->m_db0)
             v = (int)(TheWritableGlobalData->m_rand.getValue() + 0.5f);
         else
-            v = p->m_20;
-        Rva002D7127 *o2 = p->m_obj;
+            v = payload->m_20;
+        Rva002D7127 *o2 = payload->m_obj;
         o2->m_2c = v;
         o2->m_30 = v;
-        p->m_obj->rva002D6F80(p->m_4, p->m_8, TheWritableGlobalData->m_db4);
+        payload->m_obj->rva002D6F80(payload->m_4, payload->m_8, TheWritableGlobalData->m_db4);
         ++it;
     }
     if (lst.size() == 0) {

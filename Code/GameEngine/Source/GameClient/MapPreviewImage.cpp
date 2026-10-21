@@ -45,8 +45,8 @@ class Image {
 public:
  virtual ~Image();
  Image();
- void setName(const AsciiString &s) { m_name=s; }
- void setFilename(const AsciiString &s) { m_filename=s; }
+ void setName(const AsciiString &asciiString) { m_name=asciiString; }
+ void setFilename(const AsciiString &asciiString) { m_filename=asciiString; }
  unsigned int setStatus(unsigned int);
  void bfmeSetTexture(const BfmeMapPictureTexture &);
  void setUV(const Region2D *uv) {m_UVCoords=*uv;}

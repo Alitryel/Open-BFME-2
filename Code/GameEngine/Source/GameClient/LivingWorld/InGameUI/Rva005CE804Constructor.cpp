@@ -28,6 +28,6 @@ class Rva005CE804 : public Rva005E67FE, public Rva005CE804Observer {
  public: Rva005CE804(void*,int,int,int,int,FwdArg*); virtual ~Rva005CE804(); virtual void onBuildingChanged();
  private: int a; int b; int c; FwdArg *region; Rva005CEA51 owned;
 };
-Rva005CE804::Rva005CE804(void *owner,int context,int unused,int ui,int extra,FwdArg *r):Rva005E67FE(owner),a(context),b(ui),c(extra),region(r) {
+Rva005CE804::Rva005CE804(void *owner,int context,int unused,int ui,int extra,FwdArg *fwdArg):Rva005E67FE(owner),a(context),b(ui),c(extra),region(fwdArg) {
  ((Rva005E683EMid*)this)->fwd(region->id,(int)region);
 }

@@ -217,21 +217,21 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
  Vector4* colors=g_00E065CC->Get_Array();
  unsigned char* angles=g_00E065D4->Get_Array();
  bool refresh=false;unsigned savedSeed=1;unsigned ids[512];
- StreakParticle* p=0;
- if(!(unsigned char)((Rva0004CABDSevenEight*)getSystem())->get())p=getSystem()->m_storage->getFirstParticle();
- if(p){
-  if(tail!=p->frame){tail=p->frame;refresh=true;savedSeed=p->seed;if(value>WWMath::Random_Float())count=2;else count=1;}
- for(;p;p=p->m_next) {
-  float size=((Rva001F4D2D*)p)->rva001F4D2D();
-  if(refresh)p->seed=savedSeed;
-  ids[n]=p->m_id;
-  locs[n].X=p->m_pos.X;locs[n].Y=p->m_pos.Y;locs[n].Z=p->m_pos.Z;
+ StreakParticle* streakParticle=0;
+ if(!(unsigned char)((Rva0004CABDSevenEight*)getSystem())->get())streakParticle=getSystem()->m_storage->getFirstParticle();
+ if(streakParticle){
+  if(tail!=streakParticle->frame){tail=streakParticle->frame;refresh=true;savedSeed=streakParticle->seed;if(value>WWMath::Random_Float())count=2;else count=1;}
+ for(;streakParticle;streakParticle=streakParticle->m_next) {
+  float size=((Rva001F4D2D*)streakParticle)->rva001F4D2D();
+  if(refresh)streakParticle->seed=savedSeed;
+  ids[n]=streakParticle->m_id;
+  locs[n].X=streakParticle->m_pos.X;locs[n].Y=streakParticle->m_pos.Y;locs[n].Z=streakParticle->m_pos.Z;
   widths[n]=size;
-  const RGBColor* color=((Rva001F4E1BSlot*)p)->get();
+  const RGBColor* color=((Rva001F4E1BSlot*)streakParticle)->get();
   if(color){colors[n].X=color->red;colors[n].Y=color->green;colors[n].Z=color->blue;}
   else{colors[n].X=0;colors[n].Y=0;colors[n].Z=0;}
-  colors[n].W=((Rva001F4DF9*)p)->rva001F4DF9();
-  angles[n]=(unsigned char)(((Rva001F4DC4*)p)->rva001F4DC4()*255.0f/6.2831855f);
+  colors[n].W=((Rva001F4DF9*)streakParticle)->rva001F4DF9();
+  angles[n]=(unsigned char)(((Rva001F4DC4*)streakParticle)->rva001F4DC4()*255.0f/6.2831855f);
   n++;if(n==512)break;
  }
  }

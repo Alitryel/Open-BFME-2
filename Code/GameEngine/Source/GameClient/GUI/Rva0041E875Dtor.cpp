@@ -55,7 +55,7 @@ Rva0041E875::~Rva0041E875()
 	((Rva0041E7F2 *)this)->rva0041E7F2();
 }
 
-void Rva0041E875::rva0041E8E6(const ModuleData *arg)
+void Rva0041E875::rva0041E8E6(const ModuleData *moduleData)
 {
-	m_vec2.push_back(arg);
+	m_vec2.push_back(moduleData);
 }

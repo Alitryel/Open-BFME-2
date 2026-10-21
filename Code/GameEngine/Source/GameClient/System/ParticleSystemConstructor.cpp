@@ -31,7 +31,7 @@ public:
 class BfmeParticleSystemHandle {
 public:
  BfmeParticleSystemHandle():ptr(0),prev(0),next(0){}
- BfmeParticleSystemHandle(ParticleSystem *p) { ((RvaSmartPtr12*)this)->RvaSmartPtr12::RvaSmartPtr12(p); }
+ BfmeParticleSystemHandle(ParticleSystem *particleSystem) { ((RvaSmartPtr12*)this)->RvaSmartPtr12::RvaSmartPtr12(particleSystem); }
  BfmeParticleSystemHandle(const BfmeParticleSystemHandle &x) { ((RvaSmartPtr12*)this)->RvaSmartPtr12::RvaSmartPtr12(*(const RvaSmartPtr12*)&x); }
  BfmeParticleSystemHandle &operator=(const BfmeParticleSystemHandle &x) throw() { ((RvaSmartPtr12*)this)->operator=(*(const RvaSmartPtr12*)&x); return *this; }
  ~BfmeParticleSystemHandle() { if(ptr)((RvaSmartPtr12*)this)->rva0004CBC0(); }

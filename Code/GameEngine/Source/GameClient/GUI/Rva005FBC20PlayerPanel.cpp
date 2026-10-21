@@ -130,8 +130,8 @@ public: Rva00579E47Delegate(DelegateDesc d):Rva00579E47(d){}
 void Rva005FBC20::rva005FB5AE(const char*) { if(hitActive) owner->slot1(); }
 void Rva005FBC20::rva005FB5BE(const char*) { if(hitActive) {hitActive=false; owner->slot2();} }
 void Rva005FBC20::rva005FB5D2(const char*) { if(reinforceActive) {reinforceActive=false; owner->slot3();} }
-Rva005FBC20::Rva005FBC20(Rva005FBBEE *p,unsigned l,const AsciiString &n)
- :owner(p),level(l),name(n),field24(0),field2c(-1),field30(0),health(100.0f),cachedCount(-1),hitActive(false),reinforceActive(false)
+Rva005FBC20::Rva005FBC20(Rva005FBBEE *p,unsigned l,const AsciiString &asciiString)
+ :owner(p),level(l),name(asciiString),field24(0),field2c(-1),field30(0),health(100.0f),cachedCount(-1),hitActive(false),reinforceActive(false)
 {
  StrategicHUD::DynamicAutoResolvePlayerPanelMovieClip::Impl *view=reinterpret_cast<StrategicHUD::DynamicAutoResolvePlayerPanelMovieClip::Impl*>(this);
  view->SetPlayerNameString(UnicodeString::TheEmptyString);

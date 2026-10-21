@@ -31,8 +31,8 @@ inline int WinInstanceData::getTextLength()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeWinInstanceDataInlineAnchorWinInstanceDataTextLength@@YAXPAVWinInstanceData@@@Z absent-from-retail
-void _bfmeWinInstanceDataInlineAnchorWinInstanceDataTextLength(WinInstanceData *p)
+void _bfmeWinInstanceDataInlineAnchorWinInstanceDataTextLength(WinInstanceData *winInstanceData)
 {
-    p->getTextLength();
+    winInstanceData->getTextLength();
 }
 #pragma inline_depth()

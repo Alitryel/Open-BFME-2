@@ -38,13 +38,13 @@ public:
  bool compareRva005803C0(void *,void *) const;
 };
 bool Rva000795C1Record::compareRva005803C0(void *lhs,void *rhs) const {
- GameInfo *a=(GameInfo*)lhs,*b=(GameInfo*)rhs;
- int diff09=a->metric09()-b->metric09();
- int diff08=a->metric08()-b->metric08();
- int names=_wcsicmp((const wchar_t*)a->gameName().str(),(const wchar_t*)b->gameName().str());
- int diff21=a->metric21()-b->metric21();
- int maps=a->tag()==b->tag()?_strcmpi(a->getMap().str(),b->getMap().str()):0;
- reinterpret_cast<Rva005801F6 *>(const_cast<Rva000795C1Record *>(this))->rva005801F6(reinterpret_cast<Rva005801F6Probe *>(a),reinterpret_cast<Rva005801F6Probe *>(b));
+ GameInfo *gameInfo=(GameInfo*)lhs,*b=(GameInfo*)rhs;
+ int diff09=gameInfo->metric09()-b->metric09();
+ int diff08=gameInfo->metric08()-b->metric08();
+ int names=_wcsicmp((const wchar_t*)gameInfo->gameName().str(),(const wchar_t*)b->gameName().str());
+ int diff21=gameInfo->metric21()-b->metric21();
+ int maps=gameInfo->tag()==b->tag()?_strcmpi(gameInfo->getMap().str(),b->getMap().str()):0;
+ reinterpret_cast<Rva005801F6 *>(const_cast<Rva000795C1Record *>(this))->rva005801F6(reinterpret_cast<Rva005801F6Probe *>(gameInfo),reinterpret_cast<Rva005801F6Probe *>(b));
  int mode=key->primarySort;
  for(int pass=0;pass<2;++pass,mode=key->secondarySort) {
   bool descending=(mode&0x10000)==0x10000;
@@ -61,5 +61,5 @@ bool Rva000795C1Record::compareRva005803C0(void *lhs,void *rhs) const {
  if(diff09)return diff09<0;
  if(maps)return maps<0;
  if(diff21)return diff21<0;
- return a<b;
+ return gameInfo<b;
 }

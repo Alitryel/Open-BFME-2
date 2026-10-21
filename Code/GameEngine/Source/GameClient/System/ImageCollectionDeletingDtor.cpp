@@ -22,4 +22,4 @@ typedef bool Bool;
 class ImageCollection : public SubsystemInterface { public: ImageCollection(struct EmitVtableTag *); virtual ~ImageCollection(); virtual void init() {} virtual void reset() {} virtual void update() {} };
 // ?<ImageCollection::ImageCollection> absent-from-retail
 ImageCollection::ImageCollection(struct EmitVtableTag *) {}
-void ImageCollection_Delete(ImageCollection *p) { delete p; }
+void ImageCollection_Delete(ImageCollection *imageCollection) { delete imageCollection; }

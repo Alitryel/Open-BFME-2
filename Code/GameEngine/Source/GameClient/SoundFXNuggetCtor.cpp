@@ -44,8 +44,8 @@ inline SoundFXNugget::SoundFXNugget()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeSoundFXNuggetInlineAnchor@@YAXPAVSoundFXNugget@@@Z absent-from-retail
-void _bfmeSoundFXNuggetInlineAnchor(SoundFXNugget *p)
+void _bfmeSoundFXNuggetInlineAnchor(SoundFXNugget *soundFXNugget)
 {
-    p->SoundFXNugget::SoundFXNugget();
+    soundFXNugget->SoundFXNugget::SoundFXNugget();
 }
 #pragma inline_depth()

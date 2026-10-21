@@ -28,15 +28,15 @@ class Rva0043FE9A
 public:
 	bool rva0043FE9A(MapMetaData *a, MapMetaData *b);
 };
-bool Rva0043FE9A::rva0043FE9A(MapMetaData *a, MapMetaData *b)
+bool Rva0043FE9A::rva0043FE9A(MapMetaData *mapMetaData, MapMetaData *b)
 {
-	if (!a)
+	if (!mapMetaData)
 		return false;
 	if (!b)
 		return true;
-	int playerDiff = a->m_playerCount - b->m_playerCount;
-	int nameCmp = ((StringBase<unsigned short> &)a->bfme_getDisplayName(true)).compareNoCase((StringBase<unsigned short> &)b->bfme_getDisplayName(true));
-	int f4Diff = a->m_wordF4 - b->m_wordF4;
+	int playerDiff = mapMetaData->m_playerCount - b->m_playerCount;
+	int nameCmp = ((StringBase<unsigned short> &)mapMetaData->bfme_getDisplayName(true)).compareNoCase((StringBase<unsigned short> &)b->bfme_getDisplayName(true));
+	int f4Diff = mapMetaData->m_wordF4 - b->m_wordF4;
 	int key = m_sort0;
 	for (int i = 0; i < 2; ++i)
 	{
@@ -75,5 +75,5 @@ bool Rva0043FE9A::rva0043FE9A(MapMetaData *a, MapMetaData *b)
 		return playerDiff < 0;
 	if (f4Diff != 0)
 		return f4Diff < 0;
-	return a < b;
+	return mapMetaData < b;
 }

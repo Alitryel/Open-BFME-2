@@ -153,8 +153,8 @@ bool Drawable::getProjectileLaunchOffset(WeaponSlotType a0, int a1, Matrix3D *a2
             void *p = obj->slotA8();
             if (p != 0)
             {
-                Slot18Holder *h = (Slot18Holder *)p;
-                if (h->slot18(&m_258, a0, a1, a2, a3, a4, a5))
+                Slot18Holder *slot18Holder = (Slot18Holder *)p;
+                if (slot18Holder->slot18(&m_258, a0, a1, a2, a3, a4, a5))
                     return true;
             }
             ++arr;

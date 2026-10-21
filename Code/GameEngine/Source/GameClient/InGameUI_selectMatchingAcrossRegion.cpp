@@ -358,8 +358,8 @@ int InGameUI::selectMatchingAcrossRegion(IRegion2D *region) {
   data.type=reinterpret_cast<const ThingTemplate*>(*it);data.includeContained=false;
   if(region)newSelectionCount+=TheTacticalView->iterateDrawablesInRegion(region,Rva002A1EF5,&data);
   else {
-   Drawable *temp=TheGameClient->firstDrawable();
-   while(temp) {newSelectionCount+=Rva002A1EF5(temp,&data);temp=temp->next;}
+   Drawable *drawable=TheGameClient->firstDrawable();
+   while(drawable) {newSelectionCount+=Rva002A1EF5(drawable,&data);drawable=drawable->next;}
   }
   setDisplayedMaxWarning(false);
  }
@@ -367,8 +367,8 @@ int InGameUI::selectMatchingAcrossRegion(IRegion2D *region) {
   data.type=reinterpret_cast<const ThingTemplate*>(*it);data.includeContained=true;
   if(region)newSelectionCount+=TheTacticalView->iterateDrawablesInRegion(region,Rva002A1EF5,&data);
   else {
-   Drawable *temp=TheGameClient->firstDrawable();
-   while(temp) {newSelectionCount+=Rva002A1EF5(temp,&data);temp=temp->next;}
+   Drawable *drawable=TheGameClient->firstDrawable();
+   while(drawable) {newSelectionCount+=Rva002A1EF5(drawable,&data);drawable=drawable->next;}
   }
   setDisplayedMaxWarning(false);
  }

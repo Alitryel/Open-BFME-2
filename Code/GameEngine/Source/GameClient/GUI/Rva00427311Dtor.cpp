@@ -72,9 +72,9 @@ Rva00427311::~Rva00427311()
 	Rva00427311Map::iterator it = map.begin();
 	while (it != map.end())
 	{
-		AsciiString *p = (AsciiString *)it->second;
-		if (p)
-			delete p;
+		AsciiString *asciiString = (AsciiString *)it->second;
+		if (asciiString)
+			delete asciiString;
 		++it;
 	}
 }

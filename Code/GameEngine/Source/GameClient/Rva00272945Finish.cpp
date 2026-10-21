@@ -35,7 +35,7 @@ private:
 // ?rva00272945@Drawable@@QAEXH@Z
 void Drawable::rva00272945(int a)
 {
-	DrawModule **p = m_drawModules;
-	if (*p)
-		(*p)->slot60(a);
+	DrawModule **drawModule = m_drawModules;
+	if (*drawModule)
+		(*drawModule)->slot60(a);
 }

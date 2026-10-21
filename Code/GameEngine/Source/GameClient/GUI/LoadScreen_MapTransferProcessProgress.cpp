@@ -61,7 +61,7 @@ public:
 	char m_pad000[0x1F4];
 	Int m_1f4;	// +0x1F4: cleared by init; meaning unknown
 };
-inline void GadgetProgressBarSetEnabledBarColor(GameWindow *g, Int color) { g->winSetEnabledColor(4, color); }
+inline void GadgetProgressBarSetEnabledBarColor(GameWindow *gameWindow, Int color) { gameWindow->winSetEnabledColor(4, color); }
 
 class GameWindowManager
 {

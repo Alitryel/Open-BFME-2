@@ -115,7 +115,7 @@ struct HeroDetailsArmyEntry {int count;Rva005E4300Entry *entry;};
 struct HeroDetailsArmySummary {char pad[0x40];HeroDetailsArmyEntry *begin,*end;};
 struct HeroDetailsPair {
  HeroDetailsPair(){}
- HeroDetailsPair(const HeroDetailsPair &p):count(p.count),entry(p.entry){}
+ HeroDetailsPair(const HeroDetailsPair &heroDetailsPair):count(heroDetailsPair.count),entry(heroDetailsPair.entry){}
  HeroDetailsPair(const int &c,Rva005E4300Entry *const &e):count(c),entry(e){}
  int count;Rva005E4300Entry *entry;
 };
@@ -140,7 +140,7 @@ HeroDetailsPair Rva005E6CA1(Rva005E4300Context *context) {
 // and update class names remain unknown; the layouts describe target accesses.
 struct ExperienceLevelHandle {
  ExperienceLevelHandle() {}
- ExperienceLevelHandle(const ExperienceLevelHandle &r):list(r.list),node(r.node){}
+ ExperienceLevelHandle(const ExperienceLevelHandle &experienceLevelHandle):list(experienceLevelHandle.list),node(experienceLevelHandle.node){}
  void *list,*node;
 };
 class ExperienceLevelStore {public:

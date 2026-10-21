@@ -46,18 +46,18 @@ MetaMapRec *MetaMap::getMetaMapRec(GameMessage::Type t)
 		if (map->m_meta == t)
 			return map;
 	}
-	MetaMapRec *m = new MetaMapRec;
-	m->m_meta = t;
-	m->m_key = 0;
-	m->m_transition = 0;
-	m->m_modState = 0;
-	m->m_usableIn = 0;
-	m->m_category = 6;
-	m->m_description.clear();
-	m->m_displayName.clear();
-	m->m_next = m_metaMaps;
-	m_metaMaps = m;
-	return m;
+	MetaMapRec *metaMapRec = new MetaMapRec;
+	metaMapRec->m_meta = t;
+	metaMapRec->m_key = 0;
+	metaMapRec->m_transition = 0;
+	metaMapRec->m_modState = 0;
+	metaMapRec->m_usableIn = 0;
+	metaMapRec->m_category = 6;
+	metaMapRec->m_description.clear();
+	metaMapRec->m_displayName.clear();
+	metaMapRec->m_next = m_metaMaps;
+	m_metaMaps = metaMapRec;
+	return metaMapRec;
 }
 
 // Native1DB4C4..1DB4CF is a complete11-byte RET-delimited leaf after RET.

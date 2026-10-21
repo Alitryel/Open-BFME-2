@@ -83,27 +83,27 @@ private:
 	int m_58;
 };
 
-Rva005634F7::Rva005634F7(void *a, DrawInfo2 *b)
-	: ParticleModule005F2CA0(a, b)
+Rva005634F7::Rva005634F7(void *a, DrawInfo2 *drawInfo2)
+	: ParticleModule005F2CA0(a, drawInfo2)
 	, m_18()
 {
 	*(const void **)this = __identifier("??_7Rva003AE6A9@@6BModuleInfoHeadBase_3AE6A9@@@");
 	m_14 = (void *)&s_slot3E4first;
 	*(const void **)((char *)this + 0x18) = __identifier("??_7Rva003AE6A9@@6B@");
-	*(unsigned char *)((char *)this + 0x24) = b->m_14;
-	((StringBase<char> *)((char *)this + 0x28))->set(*(const StringBase<char> *)&b->m_18);
-	*(int *)((char *)this + 0x2c) = b->m_1c;
-	*(int *)((char *)this + 0x30) = b->m_20;
-	*(int *)((char *)this + 0x34) = b->m_24;
-	((StringBase<char> *)((char *)this + 0x38))->set(*(const StringBase<char> *)&b->m_28);
-	*(int *)((char *)this + 0x3c) = b->m_2c;
-	*(int *)((char *)this + 0x40) = b->m_30;
-	*(int *)((char *)this + 0x44) = b->m_34;
-	((StringBase<char> *)((char *)this + 0x48))->set(*(const StringBase<char> *)&b->m_38);
-	*(int *)((char *)this + 0x4c) = b->m_3c;
-	*(int *)((char *)this + 0x50) = b->m_40;
-	*(int *)((char *)this + 0x54) = b->m_44;
-	*(unsigned char *)((char *)this + 0x1c) = b->m_0c;
-	*(int *)((char *)this + 0x20) = b->m_10;
+	*(unsigned char *)((char *)this + 0x24) = drawInfo2->m_14;
+	((StringBase<char> *)((char *)this + 0x28))->set(*(const StringBase<char> *)&drawInfo2->m_18);
+	*(int *)((char *)this + 0x2c) = drawInfo2->m_1c;
+	*(int *)((char *)this + 0x30) = drawInfo2->m_20;
+	*(int *)((char *)this + 0x34) = drawInfo2->m_24;
+	((StringBase<char> *)((char *)this + 0x38))->set(*(const StringBase<char> *)&drawInfo2->m_28);
+	*(int *)((char *)this + 0x3c) = drawInfo2->m_2c;
+	*(int *)((char *)this + 0x40) = drawInfo2->m_30;
+	*(int *)((char *)this + 0x44) = drawInfo2->m_34;
+	((StringBase<char> *)((char *)this + 0x48))->set(*(const StringBase<char> *)&drawInfo2->m_38);
+	*(int *)((char *)this + 0x4c) = drawInfo2->m_3c;
+	*(int *)((char *)this + 0x50) = drawInfo2->m_40;
+	*(int *)((char *)this + 0x54) = drawInfo2->m_44;
+	*(unsigned char *)((char *)this + 0x1c) = drawInfo2->m_0c;
+	*(int *)((char *)this + 0x20) = drawInfo2->m_10;
 	m_58 = 8;
 }

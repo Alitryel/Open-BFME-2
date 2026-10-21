@@ -35,7 +35,7 @@ class RefCountClass;
 class Matrix4 : public Matrix4x4 {
 public:
  __forceinline void identity() {Make_Identity();}
- __forceinline void transposeFrom(const Matrix4 &m) {*(Matrix4x4*)this=m.Transpose();}
+ __forceinline void transposeFrom(const Matrix4 &matrix4) {*(Matrix4x4*)this=matrix4.Transpose();}
 };
 class Rva0007671F:public Matrix4 {public:Rva0007671F();};
 struct D3DXMATRIX {float m[4][4];};
@@ -59,22 +59,22 @@ enum D3DTRANSFORMSTATETYPE {D3DTS_VIEW=2,D3DTS_PROJECTION=3,D3DTS_WORLD=256,D3DT
 struct RenderStateStruct {char pad[0x1EC];Matrix4x4 world;Matrix4x4 view;};
 class DX8Wrapper {public:enum {WORLD_IDENTITY=1<<18,VIEW_IDENTITY=1<<19};static bool Get_Fog_Enable(){return FogEnable;}
  // BFME 2 DX8Wrapper::Get_Transform (WB 0x009C1560)
- static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m)
+ static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& matrix4x4)
 {
 	switch ((int)transform) {
 	case D3DTS_WORLD:
-		if (render_state_changed&WORLD_IDENTITY) m.Make_Identity();
-		else m=render_state.world.Transpose();
+		if (render_state_changed&WORLD_IDENTITY) matrix4x4.Make_Identity();
+		else matrix4x4=render_state.world.Transpose();
 		break;
 	case D3DTS_VIEW:
-		if (render_state_changed&VIEW_IDENTITY) m.Make_Identity();
-		else m=render_state.view.Transpose();
+		if (render_state_changed&VIEW_IDENTITY) matrix4x4.Make_Identity();
+		else matrix4x4=render_state.view.Transpose();
 		break;
 	case D3DTS_PROJECTION:
-		m=DeviceProjectionMatrix.Transpose();
+		matrix4x4=DeviceProjectionMatrix.Transpose();
 		break;
 	default:
-		m.Make_Identity();
+		matrix4x4.Make_Identity();
 		break;
 	}
 }
@@ -105,27 +105,27 @@ int QuadDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCo
  float ex=box->extent.X,ey=box->extent.Y,ez=box->extent.Z;
  Rva0007671F view;Rva0007671F rotation;
  DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
- QuadParticle*p=0;if(!((unsigned char)((Rva0004CABDSevenEight*)getSystem())->get()))
- p=getSystem()->storage->getFirstParticle();{
- for(;p;p=p->next){
-  if(((Rva001F4E2D*)p)->rva001F4E2D())continue;
-  const Vector3*pos=&p->position;float size=((Rva001F4D2D*)p)->rva001F4D2D();float angle=((Rva001F4DC4*)p)->rva001F4DC4();
+ QuadParticle*quadParticle=0;if(!((unsigned char)((Rva0004CABDSevenEight*)getSystem())->get()))
+ quadParticle=getSystem()->storage->getFirstParticle();{
+ for(;quadParticle;quadParticle=quadParticle->next){
+  if(((Rva001F4E2D*)quadParticle)->rva001F4E2D())continue;
+  const Vector3*pos=&quadParticle->position;float size=((Rva001F4D2D*)quadParticle)->rva001F4D2D();float angle=((Rva001F4DC4*)quadParticle)->rva001F4DC4();
   if(quadFabs(pos->X-cx)>ex+size)continue;
   if(quadFabs(pos->Y-cy)>ey+size)continue;
   if(quadFabs(pos->Z-cz)>ez+size)continue;
   Vector4 vertices[4];vertices[0].X=-size;vertices[0].Y=0;vertices[0].Z=size;vertices[0].W=1;vertices[1].X=size;vertices[1].Y=0;vertices[1].Z=size;vertices[1].W=1;vertices[2].X=-size;vertices[2].Y=0;vertices[2].Z=-size;vertices[2].W=1;vertices[3].X=size;vertices[3].Y=0;vertices[3].Z=-size;vertices[3].W=1;
-  int axis=((Rva001F4DE6*)p)->rva001F4DE6();
+  int axis=((Rva001F4DE6*)quadParticle)->rva001F4DE6();
   if(axis==4)D3DXMatrixRotationZ((D3DXMATRIX*)&rotation,angle);
   else if(axis==2)D3DXMatrixRotationX((D3DXMATRIX*)&rotation,angle);
   else if(axis==3)D3DXMatrixRotationY((D3DXMATRIX*)&rotation,angle);
-  else if(axis==5){Vector3 axisv(p->axis.X,-p->axis.Y,p->axis.Z);D3DXMatrixRotationAxis((D3DXMATRIX*)&rotation,&axisv,angle);}
+  else if(axis==5){Vector3 axisv(quadParticle->axis.X,-quadParticle->axis.Y,quadParticle->axis.Z);D3DXMatrixRotationAxis((D3DXMATRIX*)&rotation,&axisv,angle);}
   else rotation.identity();
   for(int i=0;i<4;++i)vertices[i]=rotation*vertices[i];
   Vector4 translation(pos->X,pos->Y,pos->Z,0);int start=count*4;
   for(int j=0;j<4;++j){vertices[j]+=translation;
    Vector4 out;out=view*vertices[j];positions[start+j].X=out[0];positions[start+j].Y=out[1];positions[start+j].Z=out[2];
   }
-  const RGBColor*color=((Rva001F4E1BSlot*)p)->get();float alpha=((Rva001F4DF9*)p)->rva001F4DF9();
+  const RGBColor*color=((Rva001F4E1BSlot*)quadParticle)->get();float alpha=((Rva001F4DF9*)quadParticle)->rva001F4DF9();
   if(color){for(int k=0;k<4;++k){colors[start+k].X=color->red;colors[start+k].Y=color->green;colors[start+k].Z=color->blue;colors[start+k].W=alpha;}}else{for(int k=0;k<4;++k)colors[start+k].Set(0,0,0,alpha);}
   if(++count==512)break;
  }

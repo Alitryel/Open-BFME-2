@@ -90,16 +90,16 @@ namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<Unico
 void LanguageFilter::init()
 {
     m_wordList.clear();
-    File *file1 = TheFileSystem->openFile(BadWordFileName,
+    File *file = TheFileSystem->openFile(BadWordFileName,
         File::READ | File::BINARY, 0);
-    if (file1 == 0)
+    if (file == 0)
         return;
-    file1 = file1->convertToRAMFile();
-    if (file1 == 0)
+    file = file->convertToRAMFile();
+    if (file == 0)
         return;
-    file1->deleteOnClose();
+    file->deleteOnClose();
     unsigned short word[128];
-    while (readWord(file1, word)) {
+    while (readWord(file, word)) {
         Int wordLen = wcslen(word);
         if (wordLen == 0)
             continue;
@@ -110,6 +110,6 @@ void LanguageFilter::init()
         unHaxor(uniword);
         m_wordList[uniword] = true;
     }
-    file1->close();
-    file1 = 0;
+    file->close();
+    file = 0;
 }

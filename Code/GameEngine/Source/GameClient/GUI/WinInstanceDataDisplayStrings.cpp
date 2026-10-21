@@ -124,9 +124,9 @@ inline UnicodeString WinInstanceData::getText()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeWinInstanceDataInlineAnchorWinInstanceDataDisplayStrings@@YAXPAVWinInstanceData@@@Z absent-from-retail
-void _bfmeWinInstanceDataInlineAnchorWinInstanceDataDisplayStrings(WinInstanceData *p)
+void _bfmeWinInstanceDataInlineAnchorWinInstanceDataDisplayStrings(WinInstanceData *winInstanceData)
 {
-    p->getTooltipText();
-    p->getText();
+    winInstanceData->getTooltipText();
+    winInstanceData->getText();
 }
 #pragma inline_depth()

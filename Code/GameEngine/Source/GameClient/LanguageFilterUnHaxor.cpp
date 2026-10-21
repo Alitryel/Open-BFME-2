@@ -15,7 +15,7 @@ template <typename T> class StringBase
 {
     friend class UnicodeString;
 public:
-    int getLength() const { Header *h = m_data; return h ? h->length : 0; }
+    int getLength() const { Header *header = m_data; return header ? header->length : 0; }
     T getCharAt(Int index) const;
     void concat(const T *text, Int length);
     void set(const StringBase<T> &other);

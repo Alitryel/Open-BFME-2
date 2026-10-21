@@ -186,11 +186,11 @@ void InGameUI::notifyOfHeroSpawnEvent(Object *obj, const char *typeName, const i
  UnicodeString format = TheGameText->fetchAscii(*(const AsciiString *)label, &exists);
  if (!exists)
   return;
- ThingTemplate *tmpl = obj->getTemplate();
+ ThingTemplate *thingTemplate = obj->getTemplate();
  UnicodeString text;
  text.format(format.str(), ((UnicodeString *)obj->getDisplayName())->str());
  Rva002217EA data = type->rva00221ABB();
- data.rva0010670B(getButtonImage(tmpl, obj));
+ data.rva0010670B(getButtonImage(thingTemplate, obj));
  InGameNotificationBoxMovieClip *movie = awardMovie;
  movie->Open(text, data, (int)(seconds * 1000.0f), 0, 0);
 }

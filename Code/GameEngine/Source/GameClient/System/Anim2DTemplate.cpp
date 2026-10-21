@@ -64,9 +64,9 @@ void Anim2DTemplate::parseNumImages(INI *ini, void *instance, void *store, const
 // application definition. This scaffold has no retail address.
 #pragma inline_depth(0)
 // ?Anim2DTemplateAccessorEmitAnchor absent-from-retail
-void Anim2DTemplateAccessorEmitAnchor(Anim2DTemplate*t,const Image*i,AsciiString*a,AsciiString*b)
+void Anim2DTemplateAccessorEmitAnchor(Anim2DTemplate*anim2DTemplate,const Image*i,AsciiString*asciiString,AsciiString*b)
 {
- *a=t->getName(); *b=i->getName();
+ *asciiString=anim2DTemplate->getName(); *b=i->getName();
 }
 #pragma inline_depth()
 

@@ -58,10 +58,10 @@ class Rva0029FB3BMember {public:
  {
   char nodeAlloc;
   ((FreelistProxyHead *)this)->setup(&nodeAlloc,0);
-  IdNode *n=(IdNode *)g_freelistPool.pop();
-  n->next=n;
-  n->prev=n;
-  node=n;
+  IdNode *idNode=(IdNode *)g_freelistPool.pop();
+  idNode->next=idNode;
+  idNode->prev=idNode;
+  node=idNode;
  }
  __declspec(dllimport) __forceinline ~Rva0029FB3BMember(){((PoolMember *)this)->Rva00268902();}
  IdNode *node;

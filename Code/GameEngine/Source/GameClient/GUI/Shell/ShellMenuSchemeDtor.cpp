@@ -92,15 +92,15 @@ Rva002007D5::~Rva002007D5()
 	m_4 = 0;
 	for (_STL::list<int>::iterator it = m_0.begin(); it._M_node != m_0.end()._M_node; )
 	{
-		ShellMenuScheme *p = (ShellMenuScheme *)(int)*it;
+		ShellMenuScheme *shellMenuScheme = (ShellMenuScheme *)(int)*it;
 		it = m_0.erase(it);
-		if (p != 0)
-			delete p;
+		if (shellMenuScheme != 0)
+			delete shellMenuScheme;
 	}
 }
 
 // ?forceShellMenuSchemeDelete@@YAXPAVShellMenuScheme@@@Z absent-from-retail
-void forceShellMenuSchemeDelete(ShellMenuScheme *p) { delete p; }
+void forceShellMenuSchemeDelete(ShellMenuScheme *shellMenuScheme) { delete shellMenuScheme; }
 
 // ?forceRva002007D5Delete@@YAXPAVRva002007D5@@@Z absent-from-retail
 void forceRva002007D5Delete(Rva002007D5 *p) { delete p; }

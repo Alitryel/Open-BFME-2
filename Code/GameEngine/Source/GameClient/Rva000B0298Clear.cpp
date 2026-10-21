@@ -27,8 +27,8 @@ private:
 void Rva000B0298::rva000B0298()
 {
 	_STL::_Destroy(m_00, m_04);
-	EvaMessageInfo *p = m_00;
-	if (!p)
+	EvaMessageInfo *evaMessageInfo = m_00;
+	if (!evaMessageInfo)
 		return;
-	_STL::free(p);
+	_STL::free(evaMessageInfo);
 }

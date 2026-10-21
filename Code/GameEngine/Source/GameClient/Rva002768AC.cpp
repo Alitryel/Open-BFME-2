@@ -74,9 +74,9 @@ private:
 	Matrix3D m_mats[16];
 };
 
-Rva002768AC::Rva002768AC(Drawable *d)
+Rva002768AC::Rva002768AC(Drawable *drawable)
 {
-	m_drawC = d;
+	m_drawC = drawable;
 	m_time4 = ((ClientFrameSubsystem *)TheGameClient)->GetTime();
 	m_count8 = 0;
 	rva002768AC();

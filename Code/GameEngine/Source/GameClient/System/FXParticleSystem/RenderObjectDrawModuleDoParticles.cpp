@@ -56,8 +56,8 @@ class TerrainLogic;
 extern TerrainLogic *TheTerrainLogic;
 class ParticleTerrainView:public ParticleSlots<6> {public:virtual float groundHeight(float,float,void*);};
 
-static __forceinline Matrix3 RenderRotationProduct(const Matrix3 &a,const Matrix3 &b) {
- return Matrix3(Vector3((a[0][0]*b[0][0]+a[0][1]*b[1][0]+a[0][2]*b[2][0]),(a[0][0]*b[0][1]+a[0][1]*b[1][1]+a[0][2]*b[2][1]),(a[0][0]*b[0][2]+a[0][1]*b[1][2]+a[0][2]*b[2][2])),Vector3((a[1][0]*b[0][0]+a[1][1]*b[1][0]+a[1][2]*b[2][0]),(a[1][0]*b[0][1]+a[1][1]*b[1][1]+a[1][2]*b[2][1]),(a[1][0]*b[0][2]+a[1][1]*b[1][2]+a[1][2]*b[2][2])),Vector3((a[2][0]*b[0][0]+a[2][1]*b[1][0]+a[2][2]*b[2][0]),(a[2][0]*b[0][1]+a[2][1]*b[1][1]+a[2][2]*b[2][1]),(a[2][0]*b[0][2]+a[2][1]*b[1][2]+a[2][2]*b[2][2])));
+static __forceinline Matrix3 RenderRotationProduct(const Matrix3 &matrix3,const Matrix3 &b) {
+ return Matrix3(Vector3((matrix3[0][0]*b[0][0]+matrix3[0][1]*b[1][0]+matrix3[0][2]*b[2][0]),(matrix3[0][0]*b[0][1]+matrix3[0][1]*b[1][1]+matrix3[0][2]*b[2][1]),(matrix3[0][0]*b[0][2]+matrix3[0][1]*b[1][2]+matrix3[0][2]*b[2][2])),Vector3((matrix3[1][0]*b[0][0]+matrix3[1][1]*b[1][0]+matrix3[1][2]*b[2][0]),(matrix3[1][0]*b[0][1]+matrix3[1][1]*b[1][1]+matrix3[1][2]*b[2][1]),(matrix3[1][0]*b[0][2]+matrix3[1][1]*b[1][2]+matrix3[1][2]*b[2][2])),Vector3((matrix3[2][0]*b[0][0]+matrix3[2][1]*b[1][0]+matrix3[2][2]*b[2][0]),(matrix3[2][0]*b[0][1]+matrix3[2][1]*b[1][1]+matrix3[2][2]*b[2][1]),(matrix3[2][0]*b[0][2]+matrix3[2][1]*b[1][2]+matrix3[2][2]*b[2][2])));
 }
 namespace FXParticleSystem {
 class RenderObjectDrawModule {
@@ -74,56 +74,56 @@ int RenderObjectDrawModule::doParticles(RenderInfoClass&,void *bounds,int*) {
  ParticleCullBox *box=(ParticleCullBox*)bounds;
  float cx=box->center.X,cy=box->center.Y,cz=box->center.Z;
  float ex=box->extent.X,ey=box->extent.Y,ez=box->extent.Z;
- RenderParticle *p=0;
+ RenderParticle *renderParticle=0;
  if(!(unsigned char)((Rva0004CABDSevenEight*)getSystem())->get())
-  p=getSystem()->storage->first();
- for(;p;p=p->next) {
-  if(((CPUParticle*)p)->rva001F4E2D())continue;
+  renderParticle=getSystem()->storage->first();
+ for(;renderParticle;renderParticle=renderParticle->next) {
+  if(((CPUParticle*)renderParticle)->rva001F4E2D())continue;
   // The x extent goes through a second local so its value merges in a register
   // first (measured: with this copy the plain row-major rotation product below
   // compiles to retail without hand-permuted terms).
-  float sxExtent=((Rva001F4D4F*)p)->rva001F4D4F();
+  float sxExtent=((Rva001F4D4F*)renderParticle)->rva001F4D4F();
   float sx=sxExtent;
-  float sy=((Rva001F4D76*)p)->rva001F4D76();
-  float sz=((Rva001F4D9D*)p)->rva001F4D9D();
-  if(WWMath::Fabs(p->position.X-cx)>sx+ex)continue;
-  if(WWMath::Fabs(p->position.Y-cy)>sy+ey)continue;
+  float sy=((Rva001F4D76*)renderParticle)->rva001F4D76();
+  float sz=((Rva001F4D9D*)renderParticle)->rva001F4D9D();
+  if(WWMath::Fabs(renderParticle->position.X-cx)>sx+ex)continue;
+  if(WWMath::Fabs(renderParticle->position.Y-cy)>sy+ey)continue;
   bool underground=false;
   if(groundClipping) {
-   if(p->position.Z-sz>cz+ez)continue;
-   if(((ParticleTerrainView*)TheTerrainLogic)->groundHeight(p->position.X,p->position.Y,0)>p->position.Z)underground=true;
-  } else if(WWMath::Fabs(p->position.Z-cz)>sz+ez)continue;
-  const RGBColor *color=((Rva001F4E1BSlot*)p)->get();
-  float alpha=((Rva001F4DF9*)p)->rva001F4DF9();
-  int axis=((Rva001F4DE6*)p)->rva001F4DE6();
-  float angle=((Rva001F4DC4*)p)->rva001F4DC4();
+   if(renderParticle->position.Z-sz>cz+ez)continue;
+   if(((ParticleTerrainView*)TheTerrainLogic)->groundHeight(renderParticle->position.X,renderParticle->position.Y,0)>renderParticle->position.Z)underground=true;
+  } else if(WWMath::Fabs(renderParticle->position.Z-cz)>sz+ez)continue;
+  const RGBColor *color=((Rva001F4E1BSlot*)renderParticle)->get();
+  float alpha=((Rva001F4DF9*)renderParticle)->rva001F4DF9();
+  int axis=((Rva001F4DE6*)renderParticle)->rva001F4DE6();
+  float angle=((Rva001F4DC4*)renderParticle)->rva001F4DC4();
   if(axis==4)D3DXMatrixRotationZ(&rotation,angle);
   else if(axis==2)D3DXMatrixRotationX(&rotation,angle);
   else if(axis==3)D3DXMatrixRotationY(&rotation,angle);
-  else if(axis==5) {Vector3 direction(p->axis.X,-p->axis.Y,p->axis.Z);D3DXMatrixRotationAxis(&rotation,&direction,angle);}
-  if(p->object) {
-   Matrix3D transform(p->getSystem()->transform);
+  else if(axis==5) {Vector3 direction(renderParticle->axis.X,-renderParticle->axis.Y,renderParticle->axis.Z);D3DXMatrixRotationAxis(&rotation,&direction,angle);}
+  if(renderParticle->object) {
+   Matrix3D transform(renderParticle->getSystem()->transform);
    if(underground) transform[2][3]=groundOffset+transform[2][3];
    else {
     if(axis!=1) {
      Matrix3 orientation(*(Matrix3D*)&rotation);
-     if(!p->getSystem()->independentRotation){Matrix3 base(transform);orientation=RenderRotationProduct(base,orientation);}
+     if(!renderParticle->getSystem()->independentRotation){Matrix3 base(transform);orientation=RenderRotationProduct(base,orientation);}
      transform.Set_Rotation(orientation);
     }
     if(sx<0.0001f)sx=0.0001f;
     if(sy<0.0001f)sy=0.0001f;
     if(sz<0.0001f)sz=0.0001f;
     if(sx!=1.0f||sy!=1.0f||sz!=1.0f)transform.Scale(sx,sy,sz);
-    transform.Set_Translation(Vector3(p->position.X,p->position.Y,p->position.Z));
+    transform.Set_Translation(Vector3(renderParticle->position.X,renderParticle->position.Y,renderParticle->position.Z));
    }
-   ((ParticleTransformView*)p->object)->setTransform(transform);
-   int shader=particleShader?p->shader:getSystem()->shader;
+   ((ParticleTransformView*)renderParticle->object)->setTransform(transform);
+   int shader=particleShader?renderParticle->shader:getSystem()->shader;
    switch(shader) {
-   case 10:Rva0010E676_SetEmissive(p->object,color->red*alpha,color->green*alpha,color->blue*alpha);break;
-   case 9:Rva0010E87A_SetOpacity(p->object,alpha);break;
-   case 8:Rva0010EA49_SetDiffuse(p->object,color->red*alpha,color->green*alpha,color->blue*alpha);break;
+   case 10:Rva0010E676_SetEmissive(renderParticle->object,color->red*alpha,color->green*alpha,color->blue*alpha);break;
+   case 9:Rva0010E87A_SetOpacity(renderParticle->object,alpha);break;
+   case 8:Rva0010EA49_SetDiffuse(renderParticle->object,color->red*alpha,color->green*alpha,color->blue*alpha);break;
    }
-   if(((ParticleSceneView*)p->object)->scene())((ParticleSceneView*)p->object)->setScene(0);
+   if(((ParticleSceneView*)renderParticle->object)->scene())((ParticleSceneView*)renderParticle->object)->setScene(0);
   }
   if(++count==512)break;
  }

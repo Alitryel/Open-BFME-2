@@ -118,14 +118,14 @@ void LivingWorldManager::rva0021427A()
 void LivingWorldManager::rva002142EA()
 {
     if (((Rva002D3627Host *)TheLivingWorld)->enabled()) {
-        ParticleSystemTemplate *templ;
+        ParticleSystemTemplate *particleSystemTemplate;
         {
             AsciiString name(m_template48.str());
-            templ=TheParticleSystemManager->findTemplate(name);
+            particleSystemTemplate=TheParticleSystemManager->findTemplate(name);
         }
-        if (templ) {
+        if (particleSystemTemplate) {
             LivingWorldParticleRecord record;
-            record.handle=TheParticleSystemManager->createParticleSystem(templ, true);
+            record.handle=TheParticleSystemManager->createParticleSystem(particleSystemTemplate, true);
             if (record.handle.system) {
                 record.id=record.handle.system->id;
                 reinterpret_cast<Rva001F3899Slot *>(record.handle.system)->set(m_position3C);

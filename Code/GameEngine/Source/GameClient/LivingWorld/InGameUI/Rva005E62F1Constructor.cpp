@@ -58,11 +58,11 @@ private:void*a4;int a8,aC;void*a10;Rva005CB84A*a14;void*a18;Rva005F2381 record;R
 Rva005E62F1::Rva005E62F1(void*p4,int p8,int pC,void*p10,Rva005CB84A*p14,void*p18,StrategicInGameUI::PlanningPhaseArmySelection::DetailsPanelFactoryFactory*factory):a4(p4),a8(p8),aC(pC),a10(p10),a14(p14),a18(p18),flag(false) {
  reinterpret_cast<Rva005A0B4CList*>(static_cast<char*>(a18)+8)->append(reinterpret_cast<Rva002BA8F1Listener*>(this));
  reinterpret_cast<Rva00319B0AOwner*>(a18)->rva00319B0A();
- Widget*w=reinterpret_cast<Widget*>(reinterpret_cast<Rva0042D703PtrChaseField*>(a10)->get());
- if(w) {
-  w->image(StrategicInGameUI::GetSelectionPortrait(reinterpret_cast<Rva005D2355In*>(a18)));
-  {int owner=reinterpret_cast<int>(a18);Rva005773DB temp(&owner);w->ref(temp);}
-  w->range(reinterpret_cast<Rva00318FBE*>(a18)->rva00318FBE(),GetMaxCommandPoints(a18));w->refresh();
+ Widget*widget=reinterpret_cast<Widget*>(reinterpret_cast<Rva0042D703PtrChaseField*>(a10)->get());
+ if(widget) {
+  widget->image(StrategicInGameUI::GetSelectionPortrait(reinterpret_cast<Rva005D2355In*>(a18)));
+  {int owner=reinterpret_cast<int>(a18);Rva005773DB temp(&owner);widget->ref(temp);}
+  widget->range(reinterpret_cast<Rva00318FBE*>(a18)->rva00318FBE(),GetMaxCommandPoints(a18));widget->refresh();
  }
  a14->rva005CB84A(reinterpret_cast<int>(reinterpret_cast<Rva00318C79Owner*>(a18)->rva00318C32()));
  int info=reinterpret_cast<Rva0042D6B4PtrChaseField*>(a10)->get();

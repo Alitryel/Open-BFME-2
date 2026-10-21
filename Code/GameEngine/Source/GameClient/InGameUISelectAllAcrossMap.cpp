@@ -191,15 +191,15 @@ void InGameUI::rva0029BE05(Bool viaLogic, Player *player)
 			continue;
 		if (obj->getContainedBy())
 			continue;
-		const ThingTemplate *tmpl = obj->getTemplate();
-		if (tmpl->isKindOf(KINDOF_BFME_91))
+		const ThingTemplate *thingTemplate = obj->getTemplate();
+		if (thingTemplate->isKindOf(KINDOF_BFME_91))
 			continue;
-		if (tmpl->isKindOf(KINDOF_BFME_3))
+		if (thingTemplate->isKindOf(KINDOF_BFME_3))
 		{
 		}
-		else if (tmpl->isKindOf(KINDOF_BFME_14))
+		else if (thingTemplate->isKindOf(KINDOF_BFME_14))
 			continue;
-		else if (tmpl->isKindOf(KINDOF_BFME_16))
+		else if (thingTemplate->isKindOf(KINDOF_BFME_16))
 			continue;
 		if (obj->isEffectivelyDead())
 			continue;
