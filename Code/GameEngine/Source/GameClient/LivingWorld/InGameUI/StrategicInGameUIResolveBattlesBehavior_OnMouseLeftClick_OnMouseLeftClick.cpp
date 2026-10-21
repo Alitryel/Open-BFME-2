@@ -164,11 +164,13 @@ private:
 class LivingWorldBattle { public: bool rva003F48EF(void *); };
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
-class Rva005D1DCB {
+// The constructor at 0x005D1DCB is rowed as Rva005D1D38(void *, void *).
+class Rva005D1D38 {
 public:
- Rva005D1DCB(void *, LivingWorldPendingBattle *);
+ Rva005D1D38(void *, void *);
  char storage[24];
 };
+class Rva005D1DCB : public Rva005D1D38 {};
 namespace StrategicInGameUI {
 struct ChecklistItemRef {
  Rva005D1DCB *m_ptr;
@@ -183,7 +185,7 @@ class Checklist { public: void AddItem(const ChecklistItemRef &); };
 // opaque pointer words, matching the existing constructor ABI.
 bool Rva005766B3::Visit(LivingWorldPendingBattle *battle) {
  if(((LivingWorldBattle *)battle)->rva003F48EF((void *)a)) {
-  StrategicInGameUI::ChecklistItemRef item(new Rva005D1DCB((void *)c,battle));
+  StrategicInGameUI::ChecklistItemRef item((Rva005D1DCB *)new Rva005D1D38((void *)c,battle));
   ((StrategicInGameUI::Checklist *)b)->AddItem(item);
  }
  return true;
@@ -208,7 +210,10 @@ class RegionAwardDispute { public: int GetResolvableBy(); };
 // Slot0 returns the allocation after flags0 destruction. The original class
 // identities remain unresolved; these views only express the witnessed ABI.
 class ResolveClickState { public: virtual void *deleteInstance(int); };
-class Rva0057647E : public ResolveClickState { public: Rva0057647E(void *,LivingWorldPendingBattle *); char data[8]; };
+// The constructor at 0x0057647E is rowed as Rva005764F9(Rva005764F9Holder *, int).
+struct Rva005764F9Holder;
+class Rva005764F9 : public ResolveClickState { public: Rva005764F9(Rva005764F9Holder *,int); char data[8]; };
+class Rva0057647E : public Rva005764F9 {};
 class Rva005765D1 : public ResolveClickState { public: Rva005765D1(void *,int,int); char data[8]; };
 template<class T> class ResolveClickHolder { public:
  T *p;
@@ -253,7 +258,7 @@ int StrategicInGameUI::ResolveBattlesBehavior::Impl::OnMouseLeftClick(const IReg
     LivingWorldRegionManager *manager=((ResolveBattleWorldView *)TheLivingWorldLogic)->regionManager;
     LivingWorldPendingBattle *battle=manager->rva0020E501(id);
     if(battle) {
-     state->battle.reset(new Rva0057647E(this,battle));
+     state->battle.reset((Rva0057647E *)new Rva005764F9((Rva005764F9Holder *)this,(int)battle));
      return 1;
     }
    }
