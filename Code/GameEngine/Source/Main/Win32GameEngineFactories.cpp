@@ -35,9 +35,13 @@
 // destructor, the this-adjusting thunks in slot 0 of the secondary tables
 // (0x00042068, 0x000420DC: sub ecx, 0xC then jump). The thunks name the
 // vector deleting destructor, which the linker resolves to the scalar one
-// (weak external); both are pinned at the scalar body's address. The
+// (weak external), so no pin is needed. The
 // destructors themselves (0x0004208C, 0x00042100) are lone tail jumps to
-// their bases' destructors and stay pinned, not defined.
+// their bases' destructors, defined in GapBodiesGE31.cpp. Slot 28's product
+// is W3DGameLogic (ZH NEW W3DGameLogic; its slot 14 builds a 0x1924-byte
+// terrain logic, ctor 0x00062A7E, as W3DGameLogic::createTerrainLogic does);
+// slot 31's is W3DModuleFactory (slot 1 of its table is the rowed
+// W3DModuleFactory::init 0x000652CA).
 
 class Rva004C743
 {
@@ -112,15 +116,15 @@ private:
 
 // Slot 14 of its vtable 0x00BC25E0 (0x00041FCF) is another factory of the
 // same shape: new 0x1924 bytes and the constructor 0x00062A7E (pinned).
-class Rva0004208C : public Rva002470AEBase
+class W3DGameLogic : public Rva002470AEBase
 {
 public:
-	__forceinline Rva0004208C() {}
-	virtual ~Rva0004208C();
+	__forceinline W3DGameLogic() {}
+	virtual ~W3DGameLogic();
 	void *rva00041FCF();
 };
 
-void *Rva0004208C::rva00041FCF()
+void *W3DGameLogic::rva00041FCF()
 {
 	return new Rva00062A7EProduct;
 }
@@ -133,11 +137,11 @@ private:
 	char m_unmodelled_10[0x28 - 0x10];
 };
 
-class Rva00042100 : public Rva00256E19Base
+class W3DModuleFactory : public Rva00256E19Base
 {
 public:
-	__forceinline Rva00042100() {}
-	virtual ~Rva00042100();
+	__forceinline W3DModuleFactory() {}
+	virtual ~W3DModuleFactory();
 };
 
 class Win32GameEngine
@@ -179,10 +183,10 @@ void *Win32GameEngine::rva00041E6A()
 
 void *Win32GameEngine::createGameLogic()
 {
-	return new Rva0004208C;
+	return new W3DGameLogic;
 }
 
 void *Win32GameEngine::rva00042091()
 {
-	return new Rva00042100;
+	return new W3DModuleFactory;
 }

@@ -848,10 +848,12 @@ const LocomotorTemplate *Rva0006F313::rva0006F313() const
 	return m_00.operator->();
 }
 
-// 0x0004208C / 0x00042100 (5B each), unreferenced: destructors of holders
-// whose only member with a destructor is a polymorphic object at +0, which
-// they destroy directly: tail jumps into the rowed ??1Rva00243BA0
-// (0x00243BA0) and ??1Rva00256E96 (0x00256E96).
+// 0x0004208C / 0x00042100 (5B each): ~W3DGameLogic and ~W3DModuleFactory,
+// the Win32GameEngine createGameLogic / slot-31 products' destructors (their
+// scalar deleting destructors 0x00042070 / 0x000420E4 call them), each a lone
+// tail jump into its base's rowed destructor ??1Rva00243BA0 (0x00243BA0,
+// GameLogic) and ??1Rva00256E96 (0x00256E96, ModuleFactory). novtable keeps
+// the dead vptr store out, as retail has none.
 class Rva00243BA0
 {
 public:
@@ -864,27 +866,23 @@ public:
 	virtual ~Rva00256E96();
 };
 
-class Rva0004208C
+class __declspec(novtable) W3DGameLogic : public Rva00243BA0
 {
 public:
-	~Rva0004208C();
-private:
-	Rva00243BA0 m_00;
+	virtual ~W3DGameLogic();
 };
 
-Rva0004208C::~Rva0004208C()
+W3DGameLogic::~W3DGameLogic()
 {
 }
 
-class Rva00042100
+class __declspec(novtable) W3DModuleFactory : public Rva00256E96
 {
 public:
-	~Rva00042100();
-private:
-	Rva00256E96 m_00;
+	virtual ~W3DModuleFactory();
 };
 
-Rva00042100::~Rva00042100()
+W3DModuleFactory::~W3DModuleFactory()
 {
 }
 
