@@ -1,8 +1,8 @@
 // cl: /Ireference/shims/bfme2_ascii /Oa /MD
 //
-// ?rva002CF172@Rva004CA13@@UAE_NPA_N@Z, retail 0x002CF172, 87 bytes.
+// ?rva002CF172@W3DThingFactory@@UAE_NPA_N@Z, retail 0x002CF172, 87 bytes.
 // Virtual slot 4 (offset 0x10) of vtable 0x007C4858 (class of
-// ??1Rva004CA13@@UAE@XZ) and of base vtable 0x0080233C (class of
+// ??1W3DThingFactory@@UAE@XZ) and of base vtable 0x0080233C (class of
 // ??1Rva002D0588@@UAE@XZ, pinned SEH base); both tables share slots 1-13,
 // only slot 0 differs, so the body belongs to the base family and is served
 // here under the derived opaque name per the packet. Slot 2 (+8) is the
@@ -56,17 +56,17 @@ extern bool g_flag2;
 // g_flag2: matched references place it at VA 0xdff005 (zero-filled .bss).
 bool g_flag2;
 
-class Rva004CA13
+class W3DThingFactory
 {
 public:
-	virtual ~Rva004CA13();
+	virtual ~W3DThingFactory();
 	virtual void slot1();
 	virtual bool slot2();
 	virtual void slot3();
 	virtual bool rva002CF172(bool *out);
 };
 
-bool Rva004CA13::rva002CF172(bool *out)
+bool W3DThingFactory::rva002CF172(bool *out)
 {
 	g_flag1 = false;
 	if (slot2()) {

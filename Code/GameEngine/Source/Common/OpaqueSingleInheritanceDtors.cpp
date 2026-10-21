@@ -50,13 +50,13 @@ public:
 	virtual ~Rva002D0588();
 };
 
-class Rva004CA13 : public Rva002D0588
+class W3DThingFactory : public Rva002D0588
 {
 public:
-	virtual ~Rva004CA13();
+	virtual ~W3DThingFactory();
 };
 
-inline Rva004CA13::~Rva004CA13()
+inline W3DThingFactory::~W3DThingFactory()
 {
 }
 
@@ -311,8 +311,8 @@ void _bfmeOpaqueSingleInheritanceDtorInlineAnchor(void *storage)
 {
 	Rva004C743 *rva004C743 = (Rva004C743 *)storage;
 	rva004C743->Rva004C743::Rva004C743();
-	Rva004CA13 *rva004CA13 = (Rva004CA13 *)storage;
-	rva004CA13->Rva004CA13::~Rva004CA13();
+	W3DThingFactory *rva004CA13 = (W3DThingFactory *)storage;
+	rva004CA13->W3DThingFactory::~W3DThingFactory();
 	Rva00514E6B *rva00514E6B = (Rva00514E6B *)storage;
 	rva00514E6B->Rva00514E6B::~Rva00514E6B();
 	Rva00628FD *rva00628FD = (Rva00628FD *)storage;

@@ -2367,7 +2367,7 @@ name,address,notes
 ??0Rva004C1590Base@@QAE@ABV0@@Z,0x00405A45,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva004C7330Sub@@QAE@ABU0@@Z,0x001F206E,subobject copy constructor: REL32 read at the tail call site in the 29B element copy ctor 0x004C7330; identity unproven
 ??0Rva004C743@@QAE@XZ,0x0004C43E,"constructor storing vtable 0x00BC4738 (??_7Rva004C743); REL32 in Win32GameEngine slot 29 factory 0x00041D86 after new 0x140"
-??0Rva004CA13@@QAE@XZ,0x0004CA01,"constructor storing vtable 0x00BC4858 (??_7Rva004CA13); REL32 in Win32GameEngine slot 32 factory 0x00041DB8 after new 0x28"
+??0W3DThingFactory@@QAE@XZ,0x0004CA01,"constructor storing vtable 0x00BC4858 (??_7W3DThingFactory); REL32 in Win32GameEngine slot 32 factory 0x00041DB8 after new 0x28"
 ??0Rva004CEE6EMember@@QAE@XZ,0x004CEE6E
 ??0Rva004CEE6EMemberTracked@@QAE@XZ,0x004CEE6E
 ??0Rva004D4A80Slot@@QAE@XZ,0x004D4A80,address read from REL32 at Transport ctor 0x4D4AF2 vector-ctor-iterator arg; zeroes 10 of 12 slot bytes; identity unproven
