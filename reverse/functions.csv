@@ -77021,7 +77021,7 @@ __ehhandler$?Rva000754DEInit@@YAXXZ,,0x0075EF58,10,Code/GameEngineDevice/Source/
 ??0Rva0010F058@@QAE@H@Z,,0x0010F058,108,Code/GameEngine/Source/Common/Rva0010F058Ctor.cpp,matched,
 ?rva0056D983@Rva0056D983@@QAEHPAX@Z,,0x0056D983,62,Code/GameEngine/Source/GameClient/GUI/Rva0056D983Ensure.cpp,matched,
 ?rva00273F74@Drawable@@QAEXXZ,,0x00273F74,427,Code/GameEngine/Source/GameClient/DrawableRva00273F74.cpp,matched,
-?rva00492BEB@SpecialAbilityUpdate@@QAE?AW4UpdateSleepTime@@XZ,,0x00492BEB,110,Code/GameEngine/Source/GameLogic/Object/Update/Rva00492BEBSpecialAbilityUpdate.cpp,matched,
+?update@WeaponFireSpecialAbilityUpdate@@UAE?AW4UpdateSleepTime@@XZ,,0x00492BEB,110,Code/GameEngine/Source/GameLogic/Object/Update/Rva00492BEBSpecialAbilityUpdate.cpp,matched,
 ?rva00397756@Rva00397756@@QAEXPAUIdRange@@H@Z,,0x00397756,59,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00397756IdSweep.cpp,matched,
 ?rva005FA98CSwap@@YIXPAVRva005FA98C@@HHHHHH@Z,,0x005FA98C,84,Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,matched,
 ?GetBlingIndex@CreateAHeroSubClass@CreateAHeroManager@@QAEHHABVAsciiString@@@Z,,0x0021BD41,106,Code/GameEngine/Source/Common/System/Rva0021BD41GetBlingIndex.cpp,matched,

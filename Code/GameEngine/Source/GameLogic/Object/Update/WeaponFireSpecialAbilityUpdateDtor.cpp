@@ -88,5 +88,5 @@ WeaponFireSpecialAbilityUpdate::~WeaponFireSpecialAbilityUpdate()
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?slot@WFS_Iface2@@UAEXXZ=?rva00492BEB@SpecialAbilityUpdate@@QAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?slot@WFS_Iface2@@UAEXXZ=?update@WeaponFireSpecialAbilityUpdate@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?slot@WFS_Iface3@@UAEXXZ=?initiateIntentToDoSpecialPower@SpecialAbilityUpdate@@UAEXPBVSpecialPowerTemplate@@PBVObject@@PBUCoord3D@@IPBVWaypoint@@@Z")
