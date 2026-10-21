@@ -1,6 +1,6 @@
 # HordeMeleeAmoeba::updateMeleeAttack 0x005881DB (2199 B): c2 allocator trace, 2026-10-21
 
-Result: the bank is unchanged: `reverse/attempts/0x005881db.cpp` emits 2196 B, scores 0.9772 and has one structural region left, residue (A) in the w6 note. Model claude-opus-5-5. No change to `Code/`, the ledger or pins.
+Result (two passes): the bank is unchanged: `reverse/attempts/0x005881db.cpp` emits 2196 B, scores 0.9772 and has one structural region left, residue (A) in the w6 note. Model claude-opus-5-5. No change to `Code/`, the ledger or pins.
 
 This pass ran MSVC 7.1 `c2.dll` (base 0x10700000) under winedbg and traced the register allocator on the bank. It found the exact allocator decision retail took differently and proved that decision is sufficient. The source shape that produces the decision is still open.
 
@@ -86,10 +86,138 @@ Node pieces:
 - Node cost <= 0 at R3 or R5 (`force.py`): goes to the 896ae spill, not exact.
 - Frame weight decrease of 1 or 3 (table above).
 
-## Open lead for the next session (untested, ranked)
+## Second pass, same day: what retail's node lacks
 
-1. **Simple path for a whole round.** Retail would split node per reference if the round that split node took a8f54's simple path. The complex path cannot produce that for node, as the tr40 trace shows. The simple path is taken when the IR block count `[0x108817b8]` is below 100, or when that round's failure set has fewer than 3 records. Next test: modify `inj.py` to set `[0x108817b8]` to 50 at the R2 (then R4) a8f54 entry and restore it at return, so that every record in the round is split per reference. If that is exact, retail's IR had fewer than 100 blocks at that point. Then look for a source shape with fewer IR blocks but the same final code: merged conditions, `&&` chains instead of nested `if`/`continue`, fewer EH or `continue` edges. The w6 note's "88 final blocks" threshold is probably this 100-block IR test.
-2. If only a small failure set fits: find which records retail lacked in the R4 set (ai, victim, ?:39, ?:69, index, count), so that node failed together with at most one other record.
+### Allowed-set decode
+
+Registers are bit numbers 1 eax, 2 ecx, 3 edx, 4 ebx, 6 ebp, 7 esi, 8 edi; the initial set is 0x1de. Removals for node:b (chunk 0xc7c978) at R2:
+
+| Removed | By | Why |
+|---|---|---|
+| eax, ecx, edx | `87b9b`, `5a2ac` | calls in node's range |
+| esi | `87b9b` in block cc10ac | the idle-branch MOVSD (aiIdle call + `movsd` x3) |
+| edi | `88ba6` in cc10ac | same block |
+| ebp | `5a7c9` | frame |
+
+That leaves {ebx}.
+
+R2 coloring order: R1 popped entry:15 (ebx) and 19 records failed. R2 pops this:67 (allowed [7,8], colors esi), then entry:12 (w3 121, allowed [4], colors ebx); node:b (allowed [4]) and this:7f fail.
+
+### 831f7 / a90e6 / 40941 failure routing
+
+When `831f7` (remove a newly colored register from the neighbours) empties a neighbour's set, `a90e6` tests `[rec+5]&4`:
+
+- set: the record goes to the failure set;
+- clear: `40941` decides. 0 goes to the failure set; nonzero goes to the arg4 set through `5a796`, or nowhere.
+
+`40941` is a rematerialization check, `3fe0c(def tuple of rec->w15)`. It returns 0 for node.
+
+### Hard-register removal at split time: `a85c4..a8ce1`
+
+The ebx bit of node's R3 piece (node:77, chunk 0xcb9108, created during R2's split) is cleared at `a8ce1`: 0x1d0 becomes 0x1c0.
+
+The loop at `a85f5`/`a8cb8` walks a block's tuples with a live-record list (chained through `+0x14`). For an operand whose record has an assigned register (`mask = 1<<reg`), it clears the mask from every live record. The `a8c44` path does this for operand records with kind byte `[+4]==2` and `[+5]&1`, skipping the record itself.
+
+So entry:12, which colored ebx in R2 and is used inside loop 1, strips ebx from node:77. Watch trace: `wset4.txt` with `WI=119 KA=2 KD=3 WATCH=cb9110`, raw output in `wset4_r2r3.out.txt`:
+
+- `af9b1` = 0, then `5a20c` = 0x1de;
+- `87b9b` removes ecx and eax, `5a2ac` gives 0x1d0, `87b9b` removes edx;
+- `a8ce1` gives 0x1c0;
+- `a8628` (x2) and `88ba6`/`87b9b` (ecx fixed uses in cc0e54, cc0f1c, cc81e0) leave it at 0x1c0;
+- `5a7c9` later removes ebp, so node:77 pops with [esi, edi].
+
+### R3 to R5 coloring of node's pieces (bank)
+
+| Round | Piece | Allowed at pop | Outcome |
+|---|---|---|---|
+| R3 | node:77 | [7,8] | high-priority loop-2 records pop first (?:47, leaderPos:30, leaderPos:34) |
+| R4 | node:77 | [7,8] | ?:4a takes eax, this:28 takes esi (7), unit:7c takes edi (8); node fails, R4 complex split |
+| R5 | node:44 (w9 6, cost 1, w3 51, blocks cc04f4..cc82a8, chunk 0x50 = {ebx, ebp}) | [4] | colors ebx, nb=6: **the residue** |
+
+R5 pop order is ?:6c (ecx), ?:26 (ebx), ?:58 (eax), node:44 (ebx).
+
+?:26 is a 5-reference piece confined to block cc81e0, the ordered-pointer store block (`ordered[count]` writes, `0x157..0x180`). It colors ebx but is not node:44's neighbour: node:44 is the head (0x71..0xdc) plus the latch (0x180..0x18d), with its middle in memory at [ebp+0x70].
+
+### New exact forcing: node's set empty at a later round entry
+
+`dt10.txt` with `PFL=1RR:idx:0` (allowed bits set to 0 at the 82978 entry of round RR):
+
+| Forcing | Result |
+|---|---|
+| `102:b:0` (R2) | 2196 25 0.95334 (unchanged) |
+| `103:77:0` (R3) | **2199 0 exact** |
+| `104:77:0` (R4) | **2199 0 exact** |
+| `105:44:0` (R5) | **2199 0 exact** |
+
+Retail therefore behaves as if node's R3+ pieces had no register left, and no frame-weight change is needed for this route.
+
+In retail ebx is unused at the loop-1 head and latch (entry holds ebx at 0xdf..0x156, the ordered pointer at 0x15d..0x180), so retail leaves the back-edge ebx gap empty.
+
+The source question is now: **what in retail removed esi and edi (and kept ebx removed) from node's head+latch piece?** The removal could come from block-based constraints (87b9b/88ba6, as the MOVSD block does) or from a precolored record used inside the piece (a8c44).
+
+### R1 takes the complex path; the "NEITHER" cut variants are a red herring
+
+The bank's IR has 104 blocks (`[0x108817b8]`), so R1's a8f54 takes the complex path. Only block c30d88 (loop 2) has an empty free set there.
+
+That split produces separate loop-1 pieces, this:7f (w9 9, cc029c..cc8370) and victim:7e (w9 4, cc029c..cc82a8), which fail at R2. The cut variants that turned loop 1 into retail's NEITHER state (c4, c7; 937 of 1024 `fcut` combinations) have fewer than 100 IR blocks, so every round takes the simple path. That is not retail's mechanism.
+
+`simp.txt` (block count forced to VAL in the listed rounds):
+
+| Simple path forced at | Result |
+|---|---|
+| R1 | 0.874 |
+| R1+R2, R1+R3, R1+R4, R1+R2+R3, all rounds | 0.849..0.874 |
+
+So retail's R1 was complex. The old lead "simple path for a whole round" is **disproven**: rounds R2 and R4 were tested in the first pass, R1 and combinations here.
+
+WorldBuilder facts are in `amoeba5881db_20261019/README.md` (section "WB 0x146DC50 facts") and the w6 note (best/bestCell at loop-2 body scope). Nothing new from WB this pass.
+
+### Disproven source shapes in this pass
+
+| Trial | Result |
+|---|---|
+| `f2.txt`, 1536-combination loop-2 factorial (pathfinder inline; cell init; candidate init; 3 leader forms; best-store order; distance operand order; both timer blocks inverted; flat `valid[9]`; `!i&&!j`) | all NODE state |
+| `f3.txt`, address-taken node (`**cur=&node` in 4 use forms; `*&cur` alias; `node[1]` array) | all NODE |
+| `gnest.txt`, 64 loop-1 continue-to-nesting combinations | all 2196 NODE |
+| Loop-1 forceinline helpers | 0.944 / 0.920 |
+| Victim/parent forms, leader local, ordered declared before range | identical |
+| count declared before range | worse |
+| Separate target variable | 0.87..0.88 |
+| Other-block reshapes r1..r9 | all NODE; r1 is 2199 B but 0.96588, other block differs |
+| while/goto loop forms | nd82 |
+| k4n / k2n | 2197 nd113 / 2192 nd173 |
+
+Allocator forcings that are not exact:
+
+| Forcing | Result |
+|---|---|
+| Flag bit 4 cleared | unchanged |
+| 0x80 flag | 0.923 |
+| Allowed set empty at R1 | 0.898 |
+| Allowed set {ebx} at R1 | unchanged |
+| Timer cut | 0.817 |
+| Priority raised | nd50 |
+| Cost edits | unchanged |
+| Simple path at R2 or R4 | not exact |
+
+### Exact forcings, all known
+
+1. Per-reference inject at R2 or R4 (`inj.txt`).
+2. Node dropped from the R2/R4 failure set.
+3. `slotmove2` node@3 / node@5 with `dec=node:2`.
+4. Allowed set empty at R3, R4 or R5 entry (`dt10.txt`).
+
+## Open leads for the next session (ranked)
+
+1. **Make node live through a block that pins esi/edi.** In the bank, node:b at R2 loses esi/edi only because it is live through cc10ac (the MOVSD block). After R2's group split, node's pieces leave cc10ac and get esi/edi back.
+
+   A source shape where the head+latch piece itself crosses a MOVSD or fixed-register block would empty its set. Examples: a struct copy (`entry.position=unit->m_position` is the MOVSD) placed in a block node stays live through, or the copy moved to the loop tail/latch side.
+
+   Trace each candidate with `wset4.txt` (watch node:77's chunk) before scoring.
+2. **A precolored record inside node's piece.** `a8c44` removes a colored record's register from all live records where it is used. A record colored esi/edi in R2 that is used inside the head or latch would strip that register from node.
+
+   Retail's head uses esi = this (`mov ecx,[esi+4]` at 0xb7) and edi = unit. In the bank, this:67 (esi) does not strip node:77, because this:67 is not kind 2 with `[+5]&1`, or is not referenced in node:77's blocks. Find which of this/unit is precolored at R3 entry (dump `[rec+4]`, `[rec+5]` of this:67 / unit at R3 with `wset4.txt`).
+3. Check the frame-weight route again: `slotmove` exactness needed `dec=node:2`, but the empty-set route needs no weight change, so the weight difference may be a consequence of the per-reference split rather than its cause.
 
 ## Files
 
@@ -109,3 +237,17 @@ The `*.txt` scripts are the scratch tools, renamed with a `.txt` suffix. They ru
 | `objscore.py` | scorer |
 | `vrun.sh` | 8-way parallel variant scoring |
 | `runf.sh` | forcing run plus score |
+
+Scripts added in the second pass (same conventions; each `.txt` is the `build/c2tr/*.py` of the same name):
+
+| Script | Purpose |
+|---|---|
+| `dt10.txt` | allocator forcings: `PFL` (`R:name:flags` at insert, `-R:name:v` at coloring, `100+R:idx:bits` allowed set at round entry), `PSET`, `TRACE=rounds` coloring trace, `WN`/`WI` watch a record, `F40941` |
+| `dt.txt`, `dt3..dt9.txt` | earlier versions of dt10 |
+| `wset.txt`..`wset4.txt` | allowed-set chunk watches; `wset4` arms `WATCH` at 82978 entry `KA` and dumps record `WI` at entry `KD` |
+| `simp.txt` | sets the IR block count `[0x108817b8]` to `VAL` in the listed rounds (simple path) |
+| `tr42.txt`, `tr41.txt`, `tr831.txt` | tr40 with a call-number filter; 831f7 neighbour-removal trace |
+| `inj2.txt`, `keep.txt`, `drop.txt`, `add.txt`, `prio.txt` | failure-set edits and priority forcing |
+| `chunk.txt`, `scr.txt`, `xref.txt`, `c2dis.txt` | set decoder, scratch, c2.dll xrefs and disassembly (capstone) |
+| `f2.txt`, `f3.txt`, `gnest.txt`, `fgen.txt`, `fcut.txt`, `fv1.txt`, `vstate.txt`, `vloop1.txt`, `s1f..s9f.txt` | source-variant generators and the loop-1 state classifier (NODE / NEITHER / IDX) |
+| `wset4_r2r3.out.txt` | raw a8ce1 watch output for node:77 |
