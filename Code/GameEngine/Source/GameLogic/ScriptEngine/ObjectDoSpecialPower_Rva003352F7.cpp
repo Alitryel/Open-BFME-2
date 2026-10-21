@@ -10,7 +10,7 @@
 // (donor revision 6583b3c1, donor flags /O2 /DNDEBUG /DWIN32 /D_WINDOWS /MD
 // /EHsc /Igame/Libraries/Source/WWVegas/WWLib), recompiled here at /O1 with
 // the bfme2_ascii shim (matched ScriptEngine siblings ObjectBroadcastEvent
-// 365-520B, Rva003C4245Do 116B, ObjectCountNearbyEnemies 310B all /O1).
+// 365-520B, doNamedFireSpecialPowerAtNamed 116B, ObjectCountNearbyEnemies 310B all /O1).
 //
 // Identity (target facts, read-only game.dat decode this seat):
 // - Registration at 0x00338670 pushes func VA 0x007352F7 (RVA 0x003352F7) with

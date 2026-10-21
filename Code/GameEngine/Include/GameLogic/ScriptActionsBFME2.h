@@ -100,7 +100,7 @@ public:
     void Rva003BB6C0Clear(AsciiString const &);
     void Rva003BF9FADo(AsciiString const &, float, AsciiString const &);
     void Rva003BF9C8Do(AsciiString const &);
-    void Rva003BFA77Do(Parameter const &, int);
+    void doNamedDamage(Parameter const &, int);
     void Rva003BF96FDo(AsciiString const &, AsciiString const &);
     void Rva003BF903Do(AsciiString const &, int);
     void Rva003BD153Set(void *, int, int);
@@ -149,7 +149,7 @@ public:
     void Rva003BC524Set(AsciiString const &, float);
     void Rva003BD003Forward(bool value);
     void Rva003C45D4Apply(Parameter *, AsciiString const &);
-    void Rva003C4003Apply(Parameter *, AsciiString const &, void *);
+    void doNamedFireSpecialPowerAtWaypoint(Parameter *, AsciiString const &, void *);
     void doTeamSetOverrideRelationToPlayer(AsciiString const &, AsciiString const &, Object *);
     void bfmeLinkObjectsA70(void *, void *);
     void bfmeGoFGE(void *a, void *b, bool c);
@@ -183,7 +183,7 @@ public:
     void Rva003C36C0Do(Parameter *, bool);
     void doNamedAddSpecialPowerCountdown(Parameter *, AsciiString const &, int);
     void Rva003C2E61Do(void const *, void const *, void const *);
-    void Rva003C4245Do(Parameter *, AsciiString const &, AsciiString const &);
+    void doNamedFireSpecialPowerAtNamed(Parameter *, AsciiString const &, AsciiString const &);
     void Rva003C8B62Do(AsciiString const &);
     void Rva003C8C6EDo(AsciiString const &);
     void Rva003C82EADo(Parameter *, Parameter *);
@@ -227,17 +227,17 @@ public:
     void Rva003C3A3FSet(AsciiString const &, int);
     void Rva003BEA10Do(AsciiString const *, void *);
     void Rva003BEBD6Do(AsciiString const *);
-    void Rva003C00CEDo(AsciiString const *, void *);
+    void doTeamRadarCreateEvent(AsciiString const *, void *);
     void Rva003C075BDo(AsciiString const *, AsciiString const *);
     void Rva003C1F6CDo(AsciiString const *, int);
     void Rva003C21E5Do(AsciiString const *, int, AsciiString const *, AsciiString const *);
     void Rva003C35AADo(const AsciiString *teamName, bool x, bool flag);
     void doMilitaryCaption(int, float);
-    void Rva003BB79DDo(Parameter *, void *);
+    void doObjectRadarCreateEvent(Parameter *, void *);
     void Rva003BB5B7Do(Parameter *, int, RGBColor *);
     void Rva003BB76EDo(Coord3D *, void *);
     void Rva003C4D5CDo(AsciiString const *);
-    void Rva003C0E87Do(AsciiString const &, int);
+    void doSetWarehouseValue(AsciiString const &, int);
     void doPlayerHunt(AsciiString const &);
     void doPlayerDisableFactories(AsciiString const &, int);
     void doPlayerEnableFactories(AsciiString const &, int);
@@ -250,7 +250,7 @@ public:
     void doZoomCamera(float, float, float, float);
     void Rva003BABCB(float, float, float, float);
     void doPitchCamera(float, float, float, float);
-    void Rva003BAECA(float, float, float, float);
+    void doRotateCamera(float, float, float, float);
     void Rva003BAF95(float, float, float, float);
     void Rva003BAFE8(Parameter *, float, float, float, float, float);
     void Rva003BB05FSet(int a1, float a2, float a3, float a4, bool a5);

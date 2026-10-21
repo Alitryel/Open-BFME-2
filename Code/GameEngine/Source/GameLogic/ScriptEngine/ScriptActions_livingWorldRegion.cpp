@@ -1050,7 +1050,7 @@ return;
 }
 case 18:
 {
-Rva003BAECA(REAL(0), REAL(1), REAL(2), REAL(3));
+doRotateCamera(REAL(0), REAL(1), REAL(2), REAL(3));
 return;
 }
 case 529:
@@ -1413,7 +1413,7 @@ return;
 }
 case 71:
 {
-Rva003BFA77Do(*(Parameter const *)(PARAM(0)), INTEGER(1));
+doNamedDamage(*(Parameter const *)(PARAM(0)), INTEGER(1));
 return;
 }
 case 436:
@@ -1591,12 +1591,12 @@ return;
 }
 case 217:
 {
-Rva003BB79DDo(PARAM(0), (void *)(INTEGER(1)));
+doObjectRadarCreateEvent(PARAM(0), (void *)(INTEGER(1)));
 return;
 }
 case 218:
 {
-Rva003C00CEDo(&TEXT(0), (void *)(INTEGER(1)));
+doTeamRadarCreateEvent(&TEXT(0), (void *)(INTEGER(1)));
 return;
 }
 case 91:
@@ -2077,7 +2077,7 @@ return;
 }
 case 171:
 {
-Rva003C4003Apply(PARAM(0), TEXT(1), (void *)(&TEXT(2)));
+doNamedFireSpecialPowerAtWaypoint(PARAM(0), TEXT(1), (void *)(&TEXT(2)));
 return;
 }
 case 571:
@@ -2107,7 +2107,7 @@ return;
 }
 case 172:
 {
-Rva003C4245Do(PARAM(0), TEXT(1), TEXT(2));
+doNamedFireSpecialPowerAtNamed(PARAM(0), TEXT(1), TEXT(2));
 return;
 }
 case 173:
@@ -2428,7 +2428,7 @@ return;
 }
 case 216:
 {
-Rva003C0E87Do(TEXT(0), INTEGER(1));
+doSetWarehouseValue(TEXT(0), INTEGER(1));
 return;
 }
 case 221:

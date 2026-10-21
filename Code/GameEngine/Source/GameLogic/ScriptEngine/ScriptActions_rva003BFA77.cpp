@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 //
-// ?Rva003BFA77Do@ScriptActions@@QAEXABVParameter@@H@Z @0x003BFA77 76B.
+// ?doNamedDamage@ScriptActions@@QAEXABVParameter@@H@Z @0x003BFA77 76B.
 // Script unit damage via getUnitNamed then DamageInfo 0x7C with int amount
 // as float and fixed 8.
 // Evidence: rowed getUnitNamed Rva00263895Member ctor, pin attemptDamage,
@@ -49,7 +49,7 @@ public:
 
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BFA77Do(const Parameter &parameter, int amount)
+void ScriptActions::doNamedDamage(const Parameter &parameter, int amount)
 {
 	Object *obj = TheScriptEngine->getUnitNamed((Parameter *)&parameter);
 	if (obj == 0)

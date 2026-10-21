@@ -1,7 +1,7 @@
 // stlport
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
-// ?doNamedStopSpecialPowerCountdown@ScriptActions@@QAEXPAVParameter@@ABVAsciiString@@PAX@Z @0x003C3E75 80B: resolve unit via ScriptEngine then SpecialPowerTemplate by name query Object special-power module then slot 0x24 virtual. Evidence: sibling Rva003C4003Apply same getUnitNamed 0x3588E7 via g_Va009FE16C findSpecialPowerTemplate 0x29B6EB via TheSpecialPowerStore Object::getSpecialPowerModule 0x28BB9E StringBase copy 0x365F0; caller 0x003CC661; ret 0xC stdcall.
+// ?doNamedStopSpecialPowerCountdown@ScriptActions@@QAEXPAVParameter@@ABVAsciiString@@PAX@Z @0x003C3E75 80B: resolve unit via ScriptEngine then SpecialPowerTemplate by name query Object special-power module then slot 0x24 virtual. Evidence: sibling doNamedFireSpecialPowerAtWaypoint same getUnitNamed 0x3588E7 via g_Va009FE16C findSpecialPowerTemplate 0x29B6EB via TheSpecialPowerStore Object::getSpecialPowerModule 0x28BB9E StringBase copy 0x365F0; caller 0x003CC661; ret 0xC stdcall.
 #include "ascii_string.h"
 
 class SpecialPowerTemplate;

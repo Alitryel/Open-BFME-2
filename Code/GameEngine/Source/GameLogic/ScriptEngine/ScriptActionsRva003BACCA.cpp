@@ -275,7 +275,7 @@ void ScriptActions::doPitchCamera(float a0, float a1, float a2, float a3)
 		a0, (int)(a1 * 1000.0f), a2 * 1000.0f, a3 * 1000.0f);
 }
 
-void ScriptActions::Rva003BAECA(float a0, float a1, float a2, float a3)
+void ScriptActions::doRotateCamera(float a0, float a1, float a2, float a3)
 {
 	reinterpret_cast<TacticalView *>(TheTacticalView)->s51(
 		a0, (int)(a1 * 1000.0f), 0, a2 * 1000.0f, a3 * 1000.0f);

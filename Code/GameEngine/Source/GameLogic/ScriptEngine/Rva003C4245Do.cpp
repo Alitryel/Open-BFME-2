@@ -59,7 +59,7 @@ public:
 	virtual void v11(Object *target, int flags);
 };
 
-void ScriptActions::Rva003C4245Do(Parameter *param, const AsciiString &asciiString, const AsciiString &b)
+void ScriptActions::doNamedFireSpecialPowerAtNamed(Parameter *param, const AsciiString &asciiString, const AsciiString &b)
 {
 	Object *src = TheScriptEngine->getUnitNamed(param);
 	Object *target = ((Rva00358752Opaque *)TheScriptEngine)->lookupUnitByValue(b);

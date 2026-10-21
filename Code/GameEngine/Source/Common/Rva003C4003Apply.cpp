@@ -1,7 +1,7 @@
 // stlport
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
-// ?Rva003C4003Apply@ScriptActions@@QAEXPAVParameter@@ABVAsciiString@@PAX@Z @0x003C4003 109B.
+// ?doNamedFireSpecialPowerAtWaypoint@ScriptActions@@QAEXPAVParameter@@ABVAsciiString@@PAX@Z @0x003C4003 109B.
 // Sibling of 0x003C41BA: resolve unit via ScriptEngine then SpecialPowerTemplate
 // by name, query Object special-power module, then apply via TerrainLogic helper and slot
 // 0x30 virtual. Evidence: rowed getUnitNamed 0x003588E7 via g_Va009FE16C,
@@ -98,7 +98,7 @@ public:
 	virtual void w12(void *helperSub, int flags);
 };
 
-void ScriptActions::Rva003C4003Apply(Parameter *parameter, const AsciiString &name, void *arg3)
+void ScriptActions::doNamedFireSpecialPowerAtWaypoint(Parameter *parameter, const AsciiString &name, void *arg3)
 {
 	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	const SpecialPowerTemplate *found = TheSpecialPowerStore->findSpecialPowerTemplate(name);
