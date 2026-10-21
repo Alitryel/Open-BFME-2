@@ -37,3 +37,22 @@ blocked placements and was interrupted after checking many homes. No full
 link cycle, census or maintainer-only runner was started.
 
 Scratch sources, before objects and command logs: `build/link-word-oct20/`.
+
+## 2026-10-21 publication reconciliation
+
+Rebasing the unpublished repair onto the concurrently landed UTF16 provider
+work left two definitions of the same imported inline allocator specialization.
+The push hook correctly rejected MSVC C2995. Remove only the duplicate; the
+upstream specialization already preserves the identical STLport operation.
+Current self-strict preparation passes all seven rows and all reference checks;
+the unit is no longer a compilation blocker for this outgoing batch. This is
+a prerequisite repair of the named word-vector unit, not additional linked
+coverage. The original paired 577-byte measurement above used the older index.
+
+The current 03035cf02c legacy index also contains a newly recovered Thai sentence
+consumer's non-retail resize COMDAT, so a single-unit current preview still
+links zero bytes (duplicate resize and the unrefreshed wide-string fill owner).
+The Thai consumer's declaration-only control changes its 2151-byte parent;
+restore its original and verify 2/2 rows. This remaining ownership/visibility
+problem is separately logged and its claims released. No closed-strict gain
+is claimed. Diagnostics: build/word-rebase-repair/, build/word-rebase-*.log.

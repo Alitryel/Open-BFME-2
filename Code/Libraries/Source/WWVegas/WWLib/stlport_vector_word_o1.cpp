@@ -56,9 +56,6 @@ void _Construct<unsigned short, unsigned short>(unsigned short *p, const unsigne
 // this TU takes them inline only.
 namespace _STL {
 template <> __declspec(dllimport) __forceinline
-unsigned short *_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t __n)
-{ return __stl_alloc_rebind(__STATIC_CAST(allocator<unsigned short>&, *this), (unsigned short *)0).allocate(__n, 0); }
-template <> __declspec(dllimport) __forceinline
 unsigned short *__uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *__first, unsigned int __n, const unsigned short &__x, const __true_type &)
 { return fill_n(__first, __n, __x); }
 template <> __declspec(dllimport) __forceinline
