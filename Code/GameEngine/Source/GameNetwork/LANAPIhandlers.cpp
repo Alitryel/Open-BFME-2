@@ -47,7 +47,7 @@
 // the game at +0xCC in the message tail at +0x1C8. The LAN slots are 0x1D0
 // bytes from +0xDC.
 //
-// LANAPI::handleGameOptions, retail 0x00582EB0 (273 bytes), message type 13:
+// LANAPI::handleGameStart, retail 0x00582EB0 (273 bytes), message type 13:
 // BFME 2's three-argument form of Zero Hour's handler. Options from the host
 // (slot 0's address) of a game not in progress go, with the 0x186-byte blob
 // at +0x1E, to slot 46 (BFME's OnGameOptions, as slot 0); the options string
@@ -515,7 +515,7 @@ protected:
 	void handleHasMap( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleInActive( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleRequestGameInfo( LANMessage *msg, const BfmeNetAddress *sender );
-	void handleGameOptions( LANMessage *msg, const BfmeNetAddress *sender, Bool flag );
+	void handleGameStart( LANMessage *msg, const BfmeNetAddress *sender, Bool flag );
 	void handleChat( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleJoinAccept( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleRequestGameLeave( LANMessage *msg, const BfmeNetAddress *sender, Bool flag );
@@ -690,7 +690,7 @@ void LANAPI::handleRequestGameInfo( LANMessage *msg, const BfmeNetAddress *sende
 	}
 }
 
-void LANAPI::handleGameOptions( LANMessage *msg, const BfmeNetAddress *sender, Bool flag )
+void LANAPI::handleGameStart( LANMessage *msg, const BfmeNetAddress *sender, Bool flag )
 {
 	if( !m_inLobby )
 	{

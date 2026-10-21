@@ -5,7 +5,7 @@
 // plus native BFME 2 dispatch and layout. The by-value player name comes from
 // rowed 0x004482B7 (Rva004482B7::rva004482B7, Zero Hour's
 // LANGameInfo::getPlayerName returning UnicodeString).
-// Cases 13/14: retail keeps case 13's copy of the shared handleGameOptions
+// Cases 13/14: retail keeps case 13's copy of the shared handleGameStart
 // call and branches back to it from case 14; MSVC 7.1 cross-jumps that way
 // only when the statement after the switch is a labelled jump target (without
 // the label it keeps case 14's copy and case 13 jumps forward), hence markRead.
@@ -56,7 +56,7 @@
 // the game at +0xCC in the message tail at +0x1C8. The LAN slots are 0x1D0
 // bytes from +0xDC.
 //
-// LANAPI::handleGameOptions, retail 0x00582EB0 (273 bytes), message type 13:
+// LANAPI::handleGameStart, retail 0x00582EB0 (273 bytes), message type 13:
 // BFME 2's three-argument form of Zero Hour's handler. Options from the host
 // (slot 0's address) of a game not in progress go, with the 0x186-byte blob
 // at +0x1E, to slot 46 (BFME's OnGameOptions, as slot 0); the options string
@@ -534,7 +534,7 @@ protected:
 	void handleHasMap( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleInActive( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleRequestGameInfo( LANMessage *msg, const BfmeNetAddress *sender );
-	void handleGameOptions( LANMessage *msg, const BfmeNetAddress *sender, Bool flag );
+	void handleGameStart( LANMessage *msg, const BfmeNetAddress *sender, Bool flag );
 	void handleChat( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleJoinAccept( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleRequestGameLeave( LANMessage *msg, const BfmeNetAddress *sender, Bool flag );
@@ -545,7 +545,7 @@ protected:
  void handleSetAccept(LANMessage*,const BfmeNetAddress*);
  void rva00581641(LANMessage*,const BfmeNetAddress*);
  void handleGameStartTimer(LANMessage*,const BfmeNetAddress*);
- void rva00582138(LANMessage*,const BfmeNetAddress*);
+ void handleGameOptions(LANMessage*,const BfmeNetAddress*);
  void rva005816E3(LANMessage*,const BfmeNetAddress*);
 
 	UnsignedByte m_pre0C[0x0C - 4];
@@ -617,10 +617,10 @@ void LANAPI::update() {
     case 10:handleHasMap(msg,&sender);break;
     case 11:handleChat(msg,&sender);break;
     case 12:rva00581641(msg,&sender);break;
-    case 13:handleGameOptions(msg,&sender,false);break;
-    case 14:handleGameOptions(msg,&sender,true);break;
+    case 13:handleGameStart(msg,&sender,false);break;
+    case 14:handleGameStart(msg,&sender,true);break;
     case 15:handleGameStartTimer(msg,&sender);break;
-    case 16:rva00582138(msg,&sender);break;
+    case 16:handleGameOptions(msg,&sender);break;
     case 17:handleInActive(msg,&sender);break;
     case 19:rva005816E3(msg,&sender);break;
     default:goto markRead;

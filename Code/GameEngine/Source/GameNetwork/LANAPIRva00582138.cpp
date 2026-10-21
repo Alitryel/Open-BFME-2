@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 //
-// ?rva00582138@LANAPI@@QAEXPAULANMessage@@PBUBfmeNetAddress@@@Z, retail 0x00582138, 101 bytes. Banked partial (score 0.95) closed by tools/permute.py;
+// ?handleGameOptions@LANAPI@@QAEXPAULANMessage@@PBUBfmeNetAddress@@@Z, retail 0x00582138, 101 bytes. Banked partial (score 0.95) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
 //
 // Chain via BfmeNetAddress compare 0x00248CBF plus LANAPI m_inLobby +0x41 plus
@@ -90,7 +90,7 @@ public:
 	virtual void slot43() = 0;
 	virtual void slot44() = 0;
 	virtual void slot45(const BfmeNetAddress *addr, int index, AsciiString str) = 0;
-	void rva00582138(LANMessage *msg, const BfmeNetAddress *addr);
+	void handleGameOptions(LANMessage *msg, const BfmeNetAddress *addr);
 
 private:
 	UnsignedByte m_pad04[0x41 - 4];
@@ -99,7 +99,7 @@ private:
 	LANGame *m_currentGame;
 };
 
-void LANAPI::rva00582138(LANMessage *msg, const BfmeNetAddress *addr)
+void LANAPI::handleGameOptions(LANMessage *msg, const BfmeNetAddress *addr)
 {
 	if (m_inLobby != 0)
 		return;
