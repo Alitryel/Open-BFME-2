@@ -1,4 +1,6 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
+// partial score=0.98 date=2026-10-21
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
 // partial score=0.95 date=2026-10-20
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // Compose with meshgeometry.cpp; target proof and provenance in re_attempts.log.
@@ -6,7 +8,7 @@
 // Shape follows WorldBuilder MeshGeometryClass::get_deformed_vertices (0xA0E990): buffers read through Get_Array(),
 // pivots through Get_Transform(), and the blend sums in the order of its Matrix3D helper (0xA0ECA0).
 // The blend (WB 0xA0ECA0) and the single-bone loop (WB BoneTransform::TransformPositionArray, 0xA0EE10) are members with
-// their loops inside, in WB's operand order with each output row in outer parentheses; the tree view is held in htree.
+// their loops inside, in WB's operand order; the tree view is held in htree.
 // This version compiles against the real WWMath vector3.h, vector4.h, matrix3d.h and quat.h; SkinMatrix3D stands in for
 // BFME 2's Matrix3D blend member. The locals are WB 0xA0E990's set plus the run-record pointer run, which replaces htree.
 #include "vector3.h"
@@ -26,9 +28,9 @@ public:
   float yw=Rotation.Y*Rotation.W*2.0f;
   float zz=Rotation.Z*Rotation.Z*2.0f;
   float zw=Rotation.Z*Rotation.W*2.0f;
-  m[0][0]=1.0f-yy-zz;m[0][1]=xy-zw;m[0][2]=xz+yw;
-  m[1][0]=xy+zw;m[1][1]=1.0f-zz-xx;m[1][2]=yz-xw;
-  m[2][0]=xz-yw;m[2][1]=yz+xw;m[2][2]=1.0f-yy-xx;
+  m[0][0]=(1.0f-yy-zz);m[0][1]=xy-zw;m[0][2]=xz+yw;
+  m[1][0]=xy+zw;m[1][1]=(1.0f-zz-xx);m[1][2]=yz-xw;
+  m[2][0]=xz-yw;m[2][1]=yz+xw;m[2][2]=(1.0f-yy-xx);
   m[0][3]=Translation.X;m[1][3]=Translation.Y;m[2][3]=Translation.Z;
  }
  void TransformPositionArray(const Vector3 *v,Vector3 *out,int count) const;
@@ -50,8 +52,8 @@ __forceinline void BoneTransform::TransformPositionArray(const Vector3 *v,Vector
   float z=Rotation.W*v->Z+(Rotation.X*v->Y-v->X*Rotation.Y);
   float w=-(Rotation.X*v->X+Rotation.Y*v->Y+Rotation.Z*v->Z);
   out->X=(x*Rotation.W-w*Rotation.X+(z*Rotation.Y-y*Rotation.Z)+Translation.X);
-  out->Y=(y*Rotation.W-w*Rotation.Y-(z*Rotation.X-x*Rotation.Z)+Translation.Y);
-  out->Z=(z*Rotation.W-w*Rotation.Z+(y*Rotation.X-x*Rotation.Y)+Translation.Z);
+  out->Y=y*Rotation.W-w*Rotation.Y-(z*Rotation.X-x*Rotation.Z)+Translation.Y;
+  out->Z=z*Rotation.W-w*Rotation.Z+(y*Rotation.X-x*Rotation.Y)+Translation.Z;
   v++;out++;
  }
 }
@@ -61,9 +63,9 @@ public:
 };
 __forceinline void SkinMatrix3D::Blend(const Vector3 *in0,const SkinMatrix3D &tm1,const Vector3 *in1,Vector3 *out,int count) const {
  while(count--) {
-  out->X=(Row[0].X*in0->X+Row[0].Y*in0->Y+Row[0].Z*in0->Z+Row[0].W+tm1.Row[0].X*in1->X+tm1.Row[0].Y*in1->Y+tm1.Row[0].Z*in1->Z+tm1.Row[0].W);
-  out->Y=(Row[1].X*in0->X+Row[1].Y*in0->Y+Row[1].Z*in0->Z+Row[1].W+tm1.Row[1].X*in1->X+tm1.Row[1].Y*in1->Y+tm1.Row[1].Z*in1->Z+tm1.Row[1].W);
-  out->Z=(Row[2].X*in0->X+Row[2].Y*in0->Y+Row[2].Z*in0->Z+Row[2].W+tm1.Row[2].X*in1->X+tm1.Row[2].Y*in1->Y+tm1.Row[2].Z*in1->Z+tm1.Row[2].W);
+  out->X=Row[0].X*in0->X+Row[0].Y*in0->Y+Row[0].Z*in0->Z+Row[0].W+tm1.Row[0].X*in1->X+tm1.Row[0].Y*in1->Y+tm1.Row[0].Z*in1->Z+tm1.Row[0].W;
+  out->Y=Row[1].X*in0->X+Row[1].Y*in0->Y+Row[1].Z*in0->Z+Row[1].W+tm1.Row[1].X*in1->X+tm1.Row[1].Y*in1->Y+tm1.Row[1].Z*in1->Z+tm1.Row[1].W;
+  out->Z=Row[2].X*in0->X+Row[2].Y*in0->Y+Row[2].Z*in0->Z+Row[2].W+tm1.Row[2].X*in1->X+tm1.Row[2].Y*in1->Y+tm1.Row[2].Z*in1->Z+tm1.Row[2].W;
   in0++;in1++;out++;
  }
 }
@@ -98,7 +100,7 @@ void MeshModelClass::get_deformed_vertices(Vector3 *dst_vert,const HTreeClass *h
   int bone1=bonelinks[vi];
   if(streams==2 && bone1) {
    float w0=bonelinks[vi*2]/100.0f;
-   float w1=bonelinks[vi*3]/100.0f;
+   float w1=(bonelinks[vi*3]/100.0f);
    SkinMatrix3D tm0;
    htree->Get_Transform(bone0).Get_Matrix3D(tm0);
    SkinMatrix3D tm1;
@@ -110,7 +112,7 @@ void MeshModelClass::get_deformed_vertices(Vector3 *dst_vert,const HTreeClass *h
    tm.TransformPositionArray(src[0],dst_vert,cnt);
   }
   bonelinks+=cnt;
-  for(i=0;i<streams;++i)src[i]+=cnt;
+  for(int k=0;k<streams;++k)src[k]+=cnt;
   dst_vert+=cnt;
  }
 }
