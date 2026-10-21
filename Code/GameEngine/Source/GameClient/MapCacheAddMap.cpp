@@ -48,6 +48,10 @@ namespace _STL {template<> struct less<AsciiString> { bool operator()(const Asci
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@UCoord3D@@@_STL@@@_STL@@QBEXPAU?$_List_node@UCoord3D:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void allocator<_List_node<Coord3D> >::deallocate(_List_node<Coord3D> *,unsigned int) const; }
 class WaypointMap : public _STL::map<AsciiString,Coord3D> {public: void update(); int numStartSpots;};
 struct PlayerPosition { unsigned char human,computer,loadAIScripts; int forceTeam; _STL::set<AsciiString> factions; };
 struct MapPlayers { PlayerPosition items[8]; };

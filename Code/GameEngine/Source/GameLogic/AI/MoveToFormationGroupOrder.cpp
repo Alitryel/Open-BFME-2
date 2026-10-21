@@ -32,6 +32,14 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::si
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Construct@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBW4Objec:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID; struct Coord3D;
+namespace _STL { template <> void _Construct<pair<ObjectID const ,Coord3D>,pair<ObjectID const ,Coord3D> >(pair<ObjectID const ,Coord3D> *,pair<ObjectID const ,Coord3D> const &); }
+// Suppress this TU's non-retail copy of ??0?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@QAE@ABU01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID; struct Coord3D;
+namespace _STL { template <> pair<ObjectID const ,Coord3D>::pair(pair<ObjectID const ,Coord3D> const &); }
 class Object{public:char pad[0x74];ObjectID id;};
 class Rva001EB769{public:void rva001EB769() throw();};
 namespace _STL{

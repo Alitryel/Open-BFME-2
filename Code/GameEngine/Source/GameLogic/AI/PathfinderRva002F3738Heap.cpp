@@ -17,6 +17,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <algorithm>
 #include <functional>
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__adjust_heap@PAURva002F0D35Record@@HU1@U?$less@URva002F0D35Record@@@_STL@@@_STL@@YAXPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva002F0D35Record;
+namespace _STL { template <> void __adjust_heap<Rva002F0D35Record *,int,Rva002F0D35Record,less<Rva002F0D35Record> >(Rva002F0D35Record *,int,int,Rva002F0D35Record,less<Rva002F0D35Record>); }
+// Suppress this TU's non-retail copy of ??$__push_heap@PAURva002F0D35Record@@HU1@U?$less@URva002F0D35Record@@@_STL@@@_STL@@YAXPAUR:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva002F0D35Record;
+namespace _STL { template <> void __push_heap<Rva002F0D35Record *,int,Rva002F0D35Record,less<Rva002F0D35Record> >(Rva002F0D35Record *,int,int,Rva002F0D35Record,less<Rva002F0D35Record>); }
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

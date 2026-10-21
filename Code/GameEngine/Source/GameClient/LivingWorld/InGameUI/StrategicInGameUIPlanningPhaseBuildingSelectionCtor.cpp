@@ -272,6 +272,10 @@ namespace _STL { void __cdecl free(void *); }
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBUTemplateCountKey@@H@_STL@@V?$allocator@U?$pair@$$CBUTempla:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct TemplateCountKey;
+namespace _STL { template <> _Rb_tree_base<pair<TemplateCountKey const ,int>,allocator<pair<TemplateCountKey const ,int> > >::~_Rb_tree_base(); }
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEX:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;

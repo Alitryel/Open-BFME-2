@@ -139,6 +139,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Hashtable_node@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class GameWindow; class WindowVideo;
+namespace _STL { template <> void allocator<_Hashtable_node<pair<GameWindow const * const,WindowVideo *> > >::deallocate(_Hashtable_node<pair<GameWindow const * const,WindowVideo *> > *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

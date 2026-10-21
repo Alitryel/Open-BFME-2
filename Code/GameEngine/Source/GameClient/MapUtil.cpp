@@ -228,6 +228,14 @@ MapUtilMetadataTree::iterator MapUtilMetadataTree::find<AsciiString>(const Ascii
 }
 }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; struct Coord3D;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const ,Coord3D> > >::deallocate(_Rb_tree_node<pair<AsciiString const ,Coord3D> > *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ??R?$less@VUnicodeString@@@_STL@@QBE_NABVUnicodeString@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class UnicodeString;
+namespace _STL { template <> bool less<UnicodeString>::operator()(UnicodeString const &,UnicodeString const &) const; }
 // Suppress this TU's non-retail copy of ??R?$less@VAsciiString@@@_STL@@QBE_NABVAsciiString@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;

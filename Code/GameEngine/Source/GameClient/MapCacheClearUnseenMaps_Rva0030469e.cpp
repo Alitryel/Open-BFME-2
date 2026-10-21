@@ -35,6 +35,14 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include <string.h>
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@U?$_Sele:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; class MapMetaData;
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const ,MapMetaData>,_Select1st<pair<AsciiString const ,MapMetaData> >,less<AsciiString>,allocator<pair<AsciiString const ,MapMetaData> > >::_M_erase(_Rb_tree_node<pair<AsciiString const ,MapMetaData> > *); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; class MapMetaData;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const ,MapMetaData> > >::deallocate(_Rb_tree_node<pair<AsciiString const ,MapMetaData> > *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
