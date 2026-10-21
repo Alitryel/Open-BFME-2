@@ -98,7 +98,7 @@ class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
 extern const FieldParse FireLogicSystemFields[];
 
-void Rva002859A8Parse(INI *ini)
+void parseFireLogicSystemDefinition(INI *ini)
 {
 	if (TheTriggerManager)
 		ini->initFromINI(TheTriggerManager, FireLogicSystemFields);

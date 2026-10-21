@@ -45,7 +45,7 @@ void parseCloudEffectDefinition(INI *);
 void Rva00215C38Parse(INI *);
 void parseArmySummaryDescriptionDefinition(INI *);
 void Rva0022232EParse(INI *);
-void Rva002859A8Parse(INI *);
+void parseFireLogicSystemDefinition(INI *);
 void parseExperienceScalarTableDefinition(INI *);
 void Rva002A8A31Parse(INI *);
 void Rva002A92F2Parse(INI *);
@@ -398,7 +398,7 @@ BlockParse theArmySummaryDescriptionBlockParse = { 0, "ArmySummaryDescription", 
 BlockParse theStrategicHUDBlockParse = { 0, "StrategicHUD", StrategicHUD::ParseSettings };	// VA 0x00DBA190 "StrategicHUD", parse 0x0022157B
 BlockParse theInGameNotificationBoxBlockParse = { 0, "InGameNotificationBox", Rva0022232EParse };	// VA 0x00DBA19C "InGameNotificationBox", parse 0x0022232E
 extern BlockParse theAptButtonTooltipMapBlockParse;	// VA 0x00DBA1CC "AptButtonTooltipMap", parse 0x00224DFF
-BlockParse theFireLogicSystemBlockParse = { 0, "FireLogicSystem", Rva002859A8Parse };	// VA 0x00DBB758 "FireLogicSystem", parse 0x002859A8
+BlockParse theFireLogicSystemBlockParse = { 0, "FireLogicSystem", parseFireLogicSystemDefinition };	// VA 0x00DBB758 "FireLogicSystem", parse 0x002859A8
 BlockParse theExperienceLevelBlockParse = { 0, "ExperienceLevel", ExperienceLevelStore::friend_parseExperienceLevelDefinition };	// VA 0x00DBB88C "ExperienceLevel", parse 0x0028A294
 BlockParse theExperienceScalarTableBlockParse = { 0, "ExperienceScalarTable", parseExperienceScalarTableDefinition };	// VA 0x00DBB898 "ExperienceScalarTable", parse 0x00289265
 BlockParse theAIDozerAssignmentBlockParse = { 0, "AIDozerAssignment", Rva002A92F2Parse };	// VA 0x00DBBC1C "AIDozerAssignment", parse 0x002A92F2
