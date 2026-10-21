@@ -968,16 +968,8 @@ const AudioEventRTS *ThingTemplate::getPerUnitSound(const AsciiString& soundName
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?ThingTemplate::getMaxSimultaneousOfType present-unmatched
-UnsignedInt ThingTemplate::getMaxSimultaneousOfType() const
-{
-  if ( m_maxSimultaneousDeterminedBySuperweaponRestriction && TheGameLogic )
-  {
-    return TheGameLogic->getSuperweaponRestriction();
-  }
-
-  return m_maxSimultaneousOfType;
-}
+// ThingTemplate::getMaxSimultaneousOfType: its only emitted copy is the inline one in
+// GenericObjectCreationNuggetReallyCreate.cpp.
 
 
 
