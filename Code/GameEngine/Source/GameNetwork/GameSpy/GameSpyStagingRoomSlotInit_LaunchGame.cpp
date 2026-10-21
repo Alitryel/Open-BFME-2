@@ -406,15 +406,18 @@ public:
 extern GameSpyInfoInterface *TheGameSpyInfo;
 extern GameSpyStagingRoom *TheGameSpyGame;
 
-// The global in Zero Hour's TheNAT position (0x00E063F8).
-class NAT { public: void rva005A6A4C(); };
+// The global in Zero Hour's TheNAT position (0x00E063F8); NAT::get is the
+// slot port getter rowed in NATUpdateBfme.cpp.
+struct NAT { void rva005A6A4C(); unsigned int get(unsigned int index) const; };
 class Rva005A6D47
 {
 public:
 	virtual ~Rva005A6D47();
-	UnsignedShort rva005A684F(Int slot);
 	/* the rowed NAT::rva005A6A4C */ __declspec(dllimport) __forceinline void rva005A6A4C() { ((NAT *)this)->rva005A6A4C(); }
-	Transport *rva005801F2(void);
+	// Zero Hour's out-of-line NAT::getTransport, which retail folds at 0x005801F2.
+	__declspec(noinline) Transport *rva005801F2(void) { return m_transport; }
+
+	Transport *m_transport; // +0x04
 };
 // Bind the existing NAT datum; retain this unit's access view at use sites.
 struct NAT;
@@ -556,7 +559,7 @@ void GameSpyStagingRoom::launchWOTRMPGame(void)
 	CreateTheNetwork();
 	BfmeNetAddress localAddress = m_localAddress;
 	if (((NAT *)TheNAT))
-		localAddress.m_port = ((Rva005A6D47 *)((NAT *)TheNAT))->rva005A684F(getLocalSlotNum());
+		localAddress.m_port = ((NAT *)TheNAT)->get(getLocalSlotNum());
 	TheNetwork->setLocalAddress(&localAddress);
 	if (((NAT *)TheNAT))
 	{
@@ -652,7 +655,7 @@ void GameSpyStagingRoom::launchGame(void)
 	CreateTheNetwork();
 	BfmeNetAddress localAddress = m_localAddress;
 	if (((NAT *)TheNAT))
-		localAddress.m_port = ((Rva005A6D47 *)((NAT *)TheNAT))->rva005A684F(getLocalSlotNum());
+		localAddress.m_port = ((NAT *)TheNAT)->get(getLocalSlotNum());
 	TheNetwork->setLocalAddress(&localAddress);
 	if (((NAT *)TheNAT))
 	{

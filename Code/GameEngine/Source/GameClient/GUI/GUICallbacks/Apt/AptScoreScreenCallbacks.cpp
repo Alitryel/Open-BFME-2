@@ -23,9 +23,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // bfme link decl-only begin
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter(); }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ??1?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@XZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
 // Suppress this TU's non-retail copy of ??0?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@ABV?$allocator@_N@1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Bvector_base<allocator<bool> >::_Bvector_base(const allocator<bool> &); }
@@ -87,8 +84,9 @@ public:
 
 extern GameWindowManager *TheWindowManager;
 
-class Rva00222A8BTarget;
-extern class Rva00222A8BTarget *TheRva00222A8BTarget;
+// The Apt window manager at 0x009FE4CC, under the ledger's name.
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 class Rva00222479ByteOneSetter
 {
@@ -210,6 +208,9 @@ namespace _STL
 {
 template <class RandomAccessIter> void sort(RandomAccessIter first, RandomAccessIter last);
 }
+// The rowed sort at 0x0051D9E1 (ScoreRowSort.cpp) names this 8-byte record
+// by its stand-in S4SortElem8.
+struct S4SortElem8;
 
 // The Apt callback functors (Rva0057BC63FunctorHolder.cpp, as in
 // AptQuitMenuCallbacks.cpp): a binding of an object and an eight-byte
@@ -400,7 +401,7 @@ void AptScoreScreen::OnInitialized(const char *unused)
 // Retail 0x0051BF9B, 14 bytes: "AptScoreScreen::Timeline".
 void AptScoreScreen::Timeline(const char *unused)
 {
-	((Rva00222479ByteOneSetter *)TheRva00222A8BTarget)->enable();
+	((Rva00222479ByteOneSetter *)g_bfmeAptWindowManager)->enable();
 }
 
 // Retail 0x0051BFA9, 13 bytes: "AptScoreScreen::RestartGame".
@@ -603,7 +604,7 @@ bool AptScoreScreen::PopulatePersistentUnitsListbox()
 	}
 	if (rows.size() == 0)
 		return false;
-	_STL::sort(rows.begin(), rows.end());
+	_STL::sort((S4SortElem8 *)rows.begin(), (S4SortElem8 *)rows.end());
 	GadgetListBoxReset(m_units);
 	if (GadgetListBoxGetNumColumns(m_units) < 7)
 	{
