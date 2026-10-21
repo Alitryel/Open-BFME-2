@@ -139,6 +139,12 @@ private:
 	int m_pad08;
 };
 
+// Declaration-only: the vector teardown's _Destroy is the rowed 0x00211F9A copy;
+// this TU would emit a private one through a scalar deleting destructor.
+namespace _STL {
+template <> void _Destroy<RvaSmartPtr12>(RvaSmartPtr12 *);
+}
+
 class ParticleSystemManager
 {
 public:

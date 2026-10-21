@@ -342,10 +342,12 @@ template void _STL::_Destroy<BfmeVectorRecord002AF478>(BfmeVectorRecord002AF478 
 struct BfmePod264 { BfmePod264(const BfmePod264 &); virtual ~BfmePod264(); int a[65]; };
 typedef _STL::pair<const int, _STL::list<BfmePod264> > Rva00288B89Pair;
 template <> Rva00288B89Pair::~pair();
+// The pair's +4 teardown is retail's call to 0x004EC395, the ICF-folded
+// _List_base<int> destructor row; no AudioEventRTS destructor is rowed.
 class AudioEventRTS
 {
 public:
-	~AudioEventRTS();
+	_STL::_List_base<int, _STL::allocator<int> > m_list;
 };
 typedef _STL::pair<AsciiString, AudioEventRTS> Rva002A12E1Pair;
 template <> Rva002A12E1Pair::~pair();
