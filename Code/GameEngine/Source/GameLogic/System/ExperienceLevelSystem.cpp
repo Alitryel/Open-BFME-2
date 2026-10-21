@@ -88,7 +88,7 @@ protected:
 class ExperienceLevel : public Overridable
 {
 public:
-	bool rva00288621(const ExperienceLevel &that) const;
+	bool operator<(const ExperienceLevel &that) const;
 
 	unsigned char m_pad08[0x14 - 8];
 	Int m_level;				// +0x14
@@ -364,7 +364,7 @@ bool ExperienceLevelStore::IsValid(ExperienceLevelHandle levelHandle) const
 // Retail 0x00288621 (WorldBuilder pairs it unnamed, ExperienceLevelSystem.cpp
 // line 174): orders two levels by the required experience of their final
 // overrides.
-bool ExperienceLevel::rva00288621(const ExperienceLevel &that) const
+bool ExperienceLevel::operator<(const ExperienceLevel &that) const
 {
 	const ExperienceLevel *experienceLevel = (const ExperienceLevel *)friend_getFinalOverride();
 	const ExperienceLevel *b = (const ExperienceLevel *)that.friend_getFinalOverride();

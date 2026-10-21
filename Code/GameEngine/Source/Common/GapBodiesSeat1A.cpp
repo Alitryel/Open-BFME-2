@@ -1147,7 +1147,7 @@ public:
 class ExperienceLevel
 {
 public:
-	bool rva00288621(const ExperienceLevel &other) const;	// 0x00288621
+	bool operator<(const ExperienceLevel &other) const;	// 0x00288621
 };
 
 class Rva00285A16
@@ -1164,7 +1164,7 @@ bool Rva00285A16::rva00285A16(const Rva00285672 *a, const Rva00285672 &b)
 
 bool Rva00285A16::rva0028878C(const ExperienceLevel *experienceLevel, const ExperienceLevel &b)
 {
-	return experienceLevel->rva00288621(b);
+	return experienceLevel->operator<(b);
 }
 
 // --- 0x0028667F (20B): the rowed 0x00286214 find returned by value.

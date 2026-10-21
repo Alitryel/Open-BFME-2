@@ -880,7 +880,7 @@ public:
 class ExperienceLevel
 {
 public:
-	bool rva00288621(const ExperienceLevel &other) const;	// 0x00288621
+	bool operator<(const ExperienceLevel &other) const;	// 0x00288621
 };
 
 class Rva00285A16

@@ -36,6 +36,6 @@ struct Rva00288874Record { unsigned char bytes[1]; bool operator==(const Rva0028
 template void _STL::_S_merge<Rva00288874Record, _STL::allocator<Rva00288874Record>, _STL::less<Rva00288874Record> >(_STL::list<Rva00288874Record, _STL::allocator<Rva00288874Record> > &, _STL::list<Rva00288874Record, _STL::allocator<Rva00288874Record> > &, _STL::less<Rva00288874Record>);
 
 // The retail call in this body reads 0x00288621, an address the ledger already
-// carries as ?rva00288621@ExperienceLevel@@QBE_NABV1@@Z. Bind the donor spelling to that rowed owner so one
+// carries as ??MExperienceLevel@@QBE_NABV0@@Z. Bind the donor spelling to that rowed owner so one
 // address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:??MRva00288874Record@@QBE_NABU0@@Z=?rva00288621@ExperienceLevel@@QBE_NABV1@@Z")
+#pragma comment(linker, "/alternatename:??MRva00288874Record@@QBE_NABU0@@Z=??MExperienceLevel@@QBE_NABV0@@Z")
