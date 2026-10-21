@@ -3114,7 +3114,7 @@ name,address,notes
 ??1Gen_uw_0007bb16@@QAE@XZ,0x0007BB16,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uw_0007c632@@QAE@XZ,0x0007C632,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_0007c632@@QAE@XZ,0x0007C632,gen-uw-pin dtor target read from the retail funclet bytes
-??1Gen_uwm_0007de9a@@QAE@XZ,0x0007DE9A,gen-uw-pin dtor target read from the retail funclet bytes
+??1Gen_uwm_0007de9a@@QAE@XZ,0x0007DE9A,dtor target read from the retail funclet bytes; held for RenderableRiverAreaCtor.cpp, which declares this class as a base (not gen_uw-owned, so land keeps it)
 ??1Gen_uwm_0007dea1@@QAE@XZ,0x0007DEA1,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_0007dea8@@QAE@XZ,0x0007DEA8,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_0007e2d7@@QAE@XZ,0x0007E2D7,gen-uw-pin dtor target read from the retail funclet bytes
@@ -3589,7 +3589,7 @@ name,address,notes
 ??1Gen_uwm_003ed94f@@QAE@XZ,0x003ED94F,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_003ef323@@QAE@XZ,0x003EF323,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uw_003f2517@@QAE@XZ,0x003F2517,gen-uw-pin dtor target read from the retail funclet bytes
-??1Gen_uwm_003f30d1@@QAE@XZ,0x003F30D1,gen-uw-pin dtor target read from the retail funclet bytes
+??1Gen_uwm_003f30d1@@QAE@XZ,0x003F30D1,dtor target read from the retail funclet bytes; held for LivingWorldRegionConstructor.cpp, which declares this class for its +0x180/+0x18C members (not gen_uw-owned, so land keeps it)
 ??1Gen_uwm_003f3f7c@@QAE@XZ,0x003F3F7C,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uw_003f535b@@QAE@XZ,0x003F535B,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_003f5e85@@QAE@XZ,0x003F5E85,gen-uw-pin dtor target read from the retail funclet bytes
