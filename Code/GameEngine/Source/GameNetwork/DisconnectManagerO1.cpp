@@ -214,7 +214,9 @@ public:
 };
 
 
-extern Int g_bfmeDisconnectPingResult;
+// Ping-result state that updateDisconnectStatus sets to 1 when under a tenth of
+// the pings came back; retail's .data starts it at 2.
+Int g_bfmeDisconnectPingResult = 2;
 
 #ifdef _INTERNAL
 // for occasional debugging...
