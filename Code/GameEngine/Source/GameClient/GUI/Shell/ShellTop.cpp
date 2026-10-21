@@ -195,7 +195,7 @@ public:
 	void loadScheme(AsciiString name);
 	void pop();
 	void popImmediate();
-	void rva0035C16A();
+	virtual void reset();
 	void shutdownComplete(WindowLayout *screen, Bool impendingPush);
 	void push(AsciiString filename, bool shutdownImmediate);
 	Bool showShellMap(Bool useShellMap, Bool restartShellGame);
@@ -259,7 +259,7 @@ WindowLayout *Shell::top()
 }
 
 // ?update@Shell@@UAEXXZ @ 0x0035C566 (334B), slot 10 of the Shell vftable
-// 0x00816208 (slot 9 is the rowed reset-like rva0035C16A). Zero Hour's timed
+// 0x00816208 (slot 9 is the rowed Shell::reset). Zero Hour's timed
 // layout update (30 per second via a static timeGetTime stamp), without the
 // m_background teardown; the scheme manager's update is the empty folded
 // 0x000B3FD0. BFME 2 then shows the "ShellMapLowLOD" backdrop once when the
@@ -484,9 +484,9 @@ void Shell::popImmediate()
 		TheIMEManager->m3C();
 }
 
-// ?rva0035C16A@Shell@@QAEXXZ @ 0x0035C16A (42B). Vtable slot 9 of 0x00816208; IMEManager m3C then while m_screenCount pop then tail reset slot 0x24.
+// ?reset@Shell@@UAEXXZ @ 0x0035C16A (42B). Vtable slot 9 of 0x00816208; IMEManager m3C then while m_screenCount pop then tail reset slot 0x24.
 // Evidence: callees TheIMEManager m3C pop rowed and animate reset slot 9; members +0x4C +0x60; chain via 0x0035BEC7.
-void Shell::rva0035C16A()
+void Shell::reset()
 {
 	if (TheIMEManager)
 		TheIMEManager->m3C();
