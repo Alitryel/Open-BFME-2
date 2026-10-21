@@ -323,7 +323,7 @@ class ScriptEngine : public SubsystemInterface
 {
 public:
 	void rva00205358(AssetList *assets, AssetLoadMode *mode);
-	void rva00207C02(void);
+	void newMap(void);	// 0x00207C02
 	void rva002047CF(void);
 	void forceAppContinue(void)
 	{
@@ -524,7 +524,7 @@ class SidesList
 {
 public:
 	void rva0032D554(void);
-	void rva0032F84F(void);
+	void parseCastleTemplateMaps(void);	// 0x0032F84F
 	void discardOverriddenScriptsAndTeams(void);
 	void rva0032FF91(void);
 	void addMusicScriptReference(void);
@@ -1016,7 +1016,7 @@ void GameLogic::init(void)
 	TheBuffLogic->setName("TheBuffLogic");
 
 	TheSidesList->rva0032D554();
-	TheSidesList->rva0032F84F();
+	TheSidesList->parseCastleTemplateMaps();
 
 	m_11d = false;
 	m_124 = false;
@@ -2941,6 +2941,7 @@ class StatsCollector
 public:
 	StatsCollector(void);
 	void rva00437DF8(void);
+	void update(void);	// 0x00437BB6
 
 private:
 	char m_pad00[0x68];
@@ -2991,10 +2992,10 @@ public:
 	void rva006C0820(void);
 };
 
-class Rva0023D494
+class Rva0023C641
 {
 public:
-	void rva0023D494(void);
+	void rva0023D494(void);	// 0x0023D494 (Rva0023C641Write.cpp)
 };
 
 class BfmeMemberRV
@@ -3120,7 +3121,7 @@ void GameLogic::rva0023F52C(bool loadingSaveGame)
 	Rva0134FAA0->slot28();
 	bfmeReleaseQueuedDeviceInterfaces();
 	if (*(unsigned char *)&g_00DFE7A8)
-		((Rva0023D494 *)&g_00DFE7A8)->rva0023D494();
+		((Rva0023C641 *)&g_00DFE7A8)->rva0023D494();
 	Rva0134FAA0->slot28();
 	bfmeReleaseQueuedDeviceInterfaces();
 
@@ -3365,6 +3366,12 @@ class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryC
 extern InGameUI *TheInGameUI;
 extern Display *TheDisplay;
 extern Rva002872BA *TheTriggerManager;
+// Its NewMap 0x00287015 is the rowed FireLogicSystem::NewMap.
+class FireLogicSystem
+{
+public:
+	void NewMap(void);
+};
 
 void bfmeStepReceiverRecord(int source);
 
@@ -3444,7 +3451,7 @@ void GameLogic::rva002469A5(bool loadingSaveGame, int *progress)
 	bfmeReleaseQueuedDeviceInterfaces();
 	ThePlayerList->p0e();
 	((Rva0023C7D2 *)this)->rva0023C7BB(0xd);
-	TheScriptEngine->rva00207C02();
+	TheScriptEngine->newMap();
 	Rva0134FAA0->slot28();
 	bfmeReleaseQueuedDeviceInterfaces();
 	((Rva0023C7D2 *)this)->rva0023C7BB(0xe);
@@ -3484,7 +3491,7 @@ void GameLogic::rva002469A5(bool loadingSaveGame, int *progress)
 	((Rva0020DXXX *)TheLargeGroupAudio)->rva0020D7F9();
 	((Rva0023C7D2 *)this)->rva0023C7BB(0x14);
 	TheAI->pathfinder()->NewMap();
-	TheTriggerManager->NewMap();
+	((FireLogicSystem *)TheTriggerManager)->NewMap();
 	((Rva0035A2DC *)m_170)->rva0035A2DC(&extent, TheWritableGlobalData->m_d8);
 	Rva0134FAA0->slot28();
 	bfmeReleaseQueuedDeviceInterfaces();
@@ -4815,11 +4822,6 @@ public:
 	static bool rva00232D38(void);
 };
 
-class StatsCollectorUpdate
-{
-public:
-	void rva00437BB6(void);
-};
 
 class GlobalWeatherSystem : public SubsystemInterface
 {
@@ -4986,7 +4988,7 @@ void GameLogic::update(int phase)
 	}
 
 	if (g_00E032F8 && first)
-		((StatsCollectorUpdate *)g_00E032F8)->rva00437BB6();
+		((StatsCollector *)g_00E032F8)->update();
 
 	if (first) {
 		TheRecorder->update();

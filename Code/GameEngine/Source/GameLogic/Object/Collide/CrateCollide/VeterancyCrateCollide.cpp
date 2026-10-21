@@ -88,12 +88,10 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
-// Owner row ?get@Rva0039ADAFByteChase32Field@@QBEEXZ (0x0039ADAF): the trainable byte.
-class Rva0039ADAFByteChase32Field { public: unsigned char get() const; };
-
 class ExperienceTracker
 {
 public:
+	bool isTrainable() const;	// 0x0039ADAF
 	bool rva0039ABFF() const;	// 0x0039ABFF
 	bool rva0039B4EC(int levels, bool flag1, bool flag2);	// 0x0039B4EC
 	char m_pad00[0x24];
@@ -178,7 +176,7 @@ bool VeterancyCrateCollide::isValidToExecute(const Object *other) const
 	if (levelsToGain <= 0)
 		return false;
 	const ExperienceTracker *tracker = other->getExperienceTracker();
-	if (!tracker || !((const Rva0039ADAFByteChase32Field *)tracker)->get())
+	if (!tracker || !tracker->isTrainable())
 		return false;
 	if (!tracker || !tracker->rva0039ABFF())
 		return false;

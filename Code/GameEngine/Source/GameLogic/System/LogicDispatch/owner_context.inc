@@ -445,7 +445,7 @@ struct TreeHintOpaque0043671B {
 };
 class GameState { public: int rva002DE3C1(TreeHintOpaque0043671B); };
 extern GameState *TheGameState;
-class Rva0023E7D9 { public: void rva0023F88C(int); };
+class Rva0023E7D9 { public: void rva0023F88C(bool); };
 class Rva00210C66CmpBoolField { public: bool get() const; };
 void Rva00437E9C(int);
 class BfmeAptWindowManager;

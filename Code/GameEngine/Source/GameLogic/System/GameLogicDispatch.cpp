@@ -104,7 +104,7 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 	{
 // Added cases reconstructed from BFME2 retail and WB F4C4F0.
 case ((GameMessage::Type)31):
-{ ((Rva0023E7D9 *)this)->rva0023F88C(0);
+{ ((Rva0023E7D9 *)this)->rva0023F88C(false);
 if(TheGameInfo && ((LogicDispatchGameInfoView *)TheGameInfo)->flag) {
  if(!TheGameState) break; TreeHintOpaque0043671B *save=((LogicDispatchGameInfoView *)TheGameInfo)->save;
  for(int i=0;i<8;++i) { LogicDispatchGameSlotView *slot=(LogicDispatchGameSlotView *)TheGameInfo->getSlot(i); LogicDispatchSavedSlot *saved=&((LogicDispatchSavedSlots *)save)->slots[i]; slot->value=saved->value; }
