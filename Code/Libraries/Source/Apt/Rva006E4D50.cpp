@@ -41,10 +41,10 @@ void AptActionQueueC::RemoveActionFor(AptValue *pArg)
 {
     rva006E3230(m_pCurrent);
     Rva006E3230Action *pCur = m_pCurrent;
-    AptValue *arg = pArg;
+    AptValue *aptValue = pArg;
     while (pCur != m_pEnd)
     {
-        if (pCur->eActionType == 1 && pCur->m_pValues[2] == arg)
+        if (pCur->eActionType == 1 && pCur->m_pValues[2] == aptValue)
         {
             if (pCur == m_pExec)
             {
@@ -57,7 +57,7 @@ void AptActionQueueC::RemoveActionFor(AptValue *pArg)
             }
             if (pCur < m_pEnd)
             {
-                arg->Release();
+                aptValue->Release();
                 memmove(pCur, pCur + 1, (m_pEnd - pCur - 1) * sizeof(Rva006E3230Action));
                 Rva006E3230Action *pNewEnd = m_pEnd - 1;
                 if (pNewEnd < m_aActionPool)
@@ -68,7 +68,7 @@ void AptActionQueueC::RemoveActionFor(AptValue *pArg)
             }
             if (pCur > m_pCurrent)
             {
-                arg->Release();
+                aptValue->Release();
                 memmove(m_pCurrent + 1, m_pCurrent, (pCur - m_pCurrent) * sizeof(Rva006E3230Action));
                 Rva006E3230Action *pNext = m_pCurrent + 1;
                 if (pNext == &m_aActionPool[m_iActionPoolSize])

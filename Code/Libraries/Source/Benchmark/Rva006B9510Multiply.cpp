@@ -524,7 +524,7 @@ return;
 ** a pair of NaN's.  This routine "selects" which NaN is
 ** to be returned.
 */
-static void choose_nan(InternalFPF *x,
+static void choose_nan(InternalFPF *internalFPF,
                 InternalFPF *y,
                 InternalFPF *z,
                 int intel_flag)
@@ -538,12 +538,12 @@ int i;
 */
 for (i=0; i<INTERNAL_FPF_PRECISION; i++)
 {
-        if (x->mantissa[i] > y->mantissa[i])
+        if (internalFPF->mantissa[i] > y->mantissa[i])
         {
-                memmove((void *)x,(void *)z,sizeof(InternalFPF));
+                memmove((void *)internalFPF,(void *)z,sizeof(InternalFPF));
                 return;
         }
-        if (x->mantissa[i] < y->mantissa[i])
+        if (internalFPF->mantissa[i] < y->mantissa[i])
         {
                 memmove((void *)y,(void *)z,sizeof(InternalFPF));
                 return;
@@ -555,7 +555,7 @@ for (i=0; i<INTERNAL_FPF_PRECISION; i++)
 */
 if (!intel_flag)
         /* if the operation is addition */
-        memmove((void *)x,(void *)z,sizeof(InternalFPF));
+        memmove((void *)internalFPF,(void *)z,sizeof(InternalFPF));
 else
         /* if the operation is multiplication */
         memmove((void *)y,(void *)z,sizeof(InternalFPF));
@@ -571,7 +571,7 @@ return;
 ** added/subtracted and the result returned in z.
 */
 static void AddSubInternalFPF(uchar operation,
-                InternalFPF *x,
+                InternalFPF *internalFPF,
                 InternalFPF *y,
                 InternalFPF *z)
 {
@@ -585,11 +585,11 @@ InternalFPF locx,locy;  /* Needed since we alter them */
 ** Following big switch statement handles the
 ** various combinations of operand types.
 */
-switch ((x->type * IFPF_TYPE_COUNT) + y->type)
+switch ((internalFPF->type * IFPF_TYPE_COUNT) + y->type)
 {
 case ZERO_ZERO:
-        memmove((void *)x,(void *)z,sizeof(InternalFPF));
-        if (x->sign ^ y->sign ^ operation)
+        memmove((void *)internalFPF,(void *)z,sizeof(InternalFPF));
+        if (internalFPF->sign ^ y->sign ^ operation)
         {
                 z->sign = 0; /* positive */
         }
@@ -604,7 +604,7 @@ case NORMAL_ZERO:
 case INFINITY_ZERO:
 case INFINITY_SUBNORMAL:
 case INFINITY_NORMAL:
-        memmove((void *)x,(void *)z,sizeof(InternalFPF));
+        memmove((void *)internalFPF,(void *)z,sizeof(InternalFPF));
         break;
 
 
@@ -632,7 +632,7 @@ case NORMAL_NORMAL:
         ** Copy x and y to locals, since we may have
         ** to alter them.
         */
-        memmove((void *)&locx,(void *)x,sizeof(InternalFPF));
+        memmove((void *)&locx,(void *)internalFPF,sizeof(InternalFPF));
         memmove((void *)&locy,(void *)y,sizeof(InternalFPF));
 
         /* compute sum/difference */
@@ -767,7 +767,7 @@ case INFINITY_INFINITY:
         break;
 
 case NAN_NAN:
-        choose_nan(x, y, z, 1);
+        choose_nan(internalFPF, y, z, 1);
         break;
 }
 
@@ -785,7 +785,7 @@ return;
 ** Two internal-representation numbers x and y are multiplied; the
 ** result is returned in z.
 */
-static void MultiplyInternalFPF(InternalFPF *x,
+static void MultiplyInternalFPF(InternalFPF *internalFPF,
                         InternalFPF *y,
                         InternalFPF *z)
 {
@@ -799,7 +799,7 @@ InternalFPF locy;       /* Needed since this will be altered */
 ** statement selects among the many combinations
 ** of operands.
 */
-switch ((x->type * IFPF_TYPE_COUNT) + y->type)
+switch ((internalFPF->type * IFPF_TYPE_COUNT) + y->type)
 {
 case INFINITY_SUBNORMAL:
 case INFINITY_NORMAL:
@@ -807,7 +807,7 @@ case INFINITY_INFINITY:
 case ZERO_ZERO:
 case ZERO_SUBNORMAL:
 case ZERO_NORMAL:
-        memmove((void *)x,(void *)z,sizeof(InternalFPF));
+        memmove((void *)internalFPF,(void *)z,sizeof(InternalFPF));
         z->sign ^= y->sign;
         break;
 
@@ -816,7 +816,7 @@ case NORMAL_INFINITY:
 case SUBNORMAL_ZERO:
 case NORMAL_ZERO:
         memmove((void *)y,(void *)z,sizeof(InternalFPF));
-        z->sign ^= x->sign;
+        z->sign ^= internalFPF->sign;
         break;
 
 case ZERO_INFINITY:
@@ -828,7 +828,7 @@ case NAN_ZERO:
 case NAN_SUBNORMAL:
 case NAN_NORMAL:
 case NAN_INFINITY:
-        memmove((void *)x,(void *)z,sizeof(InternalFPF));
+        memmove((void *)internalFPF,(void *)z,sizeof(InternalFPF));
         break;
 
 case ZERO_NAN:
@@ -852,20 +852,20 @@ case NORMAL_NORMAL:
         /*
         ** Check for unnormal zero arguments
         */
-        if (IsMantissaZero(x->mantissa) || IsMantissaZero(y->mantissa))
+        if (IsMantissaZero(internalFPF->mantissa) || IsMantissaZero(y->mantissa))
                 SetInternalFPFInfinity(z, 0);
 
         /*
         ** Initialize the result
         */
-        if (x->type == IFPF_IS_SUBNORMAL ||
+        if (internalFPF->type == IFPF_IS_SUBNORMAL ||
             y->type == IFPF_IS_SUBNORMAL)
                 z->type = IFPF_IS_SUBNORMAL;
         else
                 z->type = IFPF_IS_NORMAL;
 
-        z->sign = x->sign ^ y->sign;
-        z->exp = x->exp + y->exp ;
+        z->sign = internalFPF->sign ^ y->sign;
+        z->exp = internalFPF->exp + y->exp ;
         for (i=0; i<INTERNAL_FPF_PRECISION; i++)
         {
                 z->mantissa[i] = 0;
@@ -889,7 +889,7 @@ case NORMAL_NORMAL:
                                 Add16Bits(&carry,
                                         &z->mantissa[j],
                                         z->mantissa[j],
-                                        x->mantissa[j]);
+                                        internalFPF->mantissa[j]);
                 }
                 else
                 {
@@ -930,7 +930,7 @@ case NORMAL_NORMAL:
         break;
 
 case NAN_NAN:
-        choose_nan(x, y, z, 0);
+        choose_nan(internalFPF, y, z, 0);
         break;
 }
 
@@ -947,7 +947,7 @@ return;
 ***********************
 ** Divide internal FPF number x by y.  Return result in z.
 */
-static void DivideInternalFPF(InternalFPF *x,
+static void DivideInternalFPF(InternalFPF *internalFPF,
                         InternalFPF *y,
                         InternalFPF *z)
 {
@@ -962,7 +962,7 @@ InternalFPF locx;       /* Local for x number */
 ** statement selects among the various possible
 ** operands.
 */
-switch ((x->type * IFPF_TYPE_COUNT) + y->type)
+switch ((internalFPF->type * IFPF_TYPE_COUNT) + y->type)
 {
 case ZERO_ZERO:
 case INFINITY_INFINITY:
@@ -980,12 +980,12 @@ case ZERO_NORMAL:
 case ZERO_INFINITY:
 case SUBNORMAL_INFINITY:
 case NORMAL_INFINITY:
-        SetInternalFPFZero(z, x->sign ^ y->sign);
+        SetInternalFPFZero(z, internalFPF->sign ^ y->sign);
         break;
 
 case SUBNORMAL_ZERO:
 case NORMAL_ZERO:
-        if (IsMantissaZero(x->mantissa))
+        if (IsMantissaZero(internalFPF->mantissa))
         {
                 SetInternalFPFNaN(z);
                 break;
@@ -995,14 +995,14 @@ case INFINITY_ZERO:
 case INFINITY_SUBNORMAL:
 case INFINITY_NORMAL:
         SetInternalFPFInfinity(z, 0);
-        z->sign = x->sign ^ y->sign;
+        z->sign = internalFPF->sign ^ y->sign;
         break;
 
 case NAN_ZERO:
 case NAN_SUBNORMAL:
 case NAN_NORMAL:
 case NAN_INFINITY:
-        memmove((void *)x,(void *)z,sizeof(InternalFPF));
+        memmove((void *)internalFPF,(void *)z,sizeof(InternalFPF));
         break;
 
 case ZERO_NAN:
@@ -1020,7 +1020,7 @@ case NORMAL_NORMAL:
         ** Make local copy of x number, since we'll be
         ** altering it in the process of dividing.
         */
-        memmove((void *)&locx,(void *)x,sizeof(InternalFPF));
+        memmove((void *)&locx,(void *)internalFPF,sizeof(InternalFPF));
 
         /*
         ** Check for unnormal zero arguments
@@ -1042,9 +1042,9 @@ case NORMAL_NORMAL:
         /*
         ** Initialize the result
         */
-        z->type = x->type;
-        z->sign = x->sign ^ y->sign;
-        z->exp = x->exp - y->exp +
+        z->type = internalFPF->type;
+        z->sign = internalFPF->sign ^ y->sign;
+        z->exp = internalFPF->exp - y->exp +
                         ((INTERNAL_FPF_PRECISION * 16 * 2));
         for (i=0; i<INTERNAL_FPF_PRECISION; i++)
         {
@@ -1089,7 +1089,7 @@ case NORMAL_NORMAL:
         break;
 
 case NAN_NAN:
-        choose_nan(x, y, z, 0);
+        choose_nan(internalFPF, y, z, 0);
         break;
 }
 

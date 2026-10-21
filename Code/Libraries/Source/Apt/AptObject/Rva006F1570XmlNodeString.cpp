@@ -53,12 +53,12 @@ AptValue *rva006F1570(BfmeAptValue006DCD20 *value) {
   if (!(unsigned char)value->isXmlNode())
     return gpUndefinedValue;
   BfmeAptValue006DCD20 *xml = value->rva006DD220();
-  AptString *s = AptString::Create();
-  s->SetString(Rva0070B4F0GetString(0x62)->rva00620090());
+  AptString *aptString = AptString::Create();
+  aptString->SetString(Rva0070B4F0GetString(0x62)->rva00620090());
   if (xml->node) {
     const char *p = xml->node->stringValue();
     if (p)
-      s->SetString(p);
+      aptString->SetString(p);
   }
-  return s;
+  return aptString;
 }

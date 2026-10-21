@@ -186,10 +186,10 @@ AptValue *Rva006F1360::rva006F1600(AptValue *context,
       if (xml->node) {
         XmlAttribute attr = xml->node->firstAttribute();
         while (attr.key && attr.value) {
-          AptString *s = AptString::Create();
-          s->SetString(attr.value);
+          AptString *aptString = AptString::Create();
+          aptString->SetString(attr.value);
           EAStringC key(attr.key);
-          ((AptNativeHash *)((char *)attributes + 8))->Set(&key, s);
+          ((AptNativeHash *)((char *)attributes + 8))->Set(&key, aptString);
           attr = xml->node->nextAttribute();
         }
       }
@@ -251,28 +251,28 @@ AptValue *Rva006F1360::rva006F1600(AptValue *context,
       break;
     }
     case 10: {
-      AptString *s = AptString::Create();
-      s->SetString(Rva0070B4F0GetString(0x62)->rva00620090());
+      AptString *aptString = AptString::Create();
+      aptString->SetString(Rva0070B4F0GetString(0x62)->rva00620090());
       if (xml->node) {
         const char *p = xml->node->name();
         if (p)
-          s->SetString(p);
+          aptString->SetString(p);
       }
-      return s;
+      return aptString;
     }
     case 11:
       if (xml->node)
         return AptInteger::Create(xml->node->type());
       return gpUndefinedValue;
     case 12: {
-      AptString *s = AptString::Create();
-      s->SetString(Rva0070B4F0GetString(0x62)->rva00620090());
+      AptString *aptString = AptString::Create();
+      aptString->SetString(Rva0070B4F0GetString(0x62)->rva00620090());
       if (xml->node) {
         const char *p = xml->node->value();
         if (p)
-          s->SetString(p);
+          aptString->SetString(p);
       }
-      return s;
+      return aptString;
     }
     case 13: {
       AptValue *result = gpUndefinedValue;

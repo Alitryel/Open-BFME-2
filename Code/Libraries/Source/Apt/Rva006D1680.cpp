@@ -69,5 +69,5 @@ class Rva006CEB10Playback;
 extern Rva006CEB10Playback *g_aptPlaybackCheckpoints;
 void Rva006D1520(Rva006D07E0Key key){
  g_bfmeAptLinkerAtE176F8->rva006D1450(key);
- if(g_bfmeAptFlagAtE176D4){const EAStringC *name8=&key.m_object->name8;((Rva006CE660Vec *)g_aptPlaybackCheckpoints)->rva006D0930(name8,1,3,2);}
+ if(g_bfmeAptFlagAtE176D4){const EAStringC *eAStringC=&key.m_object->name8;((Rva006CE660Vec *)g_aptPlaybackCheckpoints)->rva006D0930(eAStringC,1,3,2);}
 }

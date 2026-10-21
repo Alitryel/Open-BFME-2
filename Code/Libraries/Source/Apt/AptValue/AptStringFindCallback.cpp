@@ -21,8 +21,8 @@ AptValue *Rva006D6EF0Find(AptValue *value,int argc) {
  AptValue *result;
  if(!argc) result=gpUndefinedValue;
  else {
-  AptValue *argument=(AptValue *)g_aptDateInterpreter.stack.At(0);
-  argument->toString(b);
+  AptValue *aptValue=(AptValue *)g_aptDateInterpreter.stack.At(0);
+  aptValue->toString(b);
   if(argc==2) {
    BfmeAptValue006DCD20 *start=g_aptDateInterpreter.stack.At(1);
    if(!((unsigned char)start->isInteger() || (unsigned char)start->isFloat())) {

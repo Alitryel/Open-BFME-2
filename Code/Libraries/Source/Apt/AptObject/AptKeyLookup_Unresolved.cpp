@@ -95,16 +95,16 @@ AptValue *AptKey::sMethod_getAnalogStickInfo(AptValue *,int)
  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(name,controllerValue);
  EAStringC temp("fXAxisValue");
  if(type==501) {
-  AptValue *x=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->leftX);
+  AptValue *aptValue=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->leftX);
   AptValue *y=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->leftY);
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,x);
+  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,aptValue);
   temp="fYAxisValue";
   reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,y);
   } else if(type==502) {
-  AptValue *x=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->rightX);
+  AptValue *aptValue=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->rightX);
   AptValue *y=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->rightY);
   temp="fXAxisValue";
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,x);
+  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,aptValue);
   temp="fYAxisValue";
   reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,y);
  }

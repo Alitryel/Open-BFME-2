@@ -24,19 +24,19 @@ extern EAStringC g_00E18650;
 bool Rva0070B5D0Check()
 {
 	int i = 0;
-	EAStringC *p = bfmeObjDAE;
+	EAStringC *eAStringC = bfmeObjDAE;
 	do
 	{
-		if (p->IsEmpty())
+		if (eAStringC->IsEmpty())
 			return false;
 		++i;
 		if (i < 0xb2)
 		{
-			if (((Rva008B4260StringRef *)p)->compare008B4260(*(Rva008B4260StringRef *)(p + 1)) >= 0)
+			if (((Rva008B4260StringRef *)eAStringC)->compare008B4260(*(Rva008B4260StringRef *)(eAStringC + 1)) >= 0)
 				return false;
 		}
-		++p;
-	} while ((int)p < (int)&g_00E18650);
+		++eAStringC;
+	} while ((int)eAStringC < (int)&g_00E18650);
 	return true;
 }
 

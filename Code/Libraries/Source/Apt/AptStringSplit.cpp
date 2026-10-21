@@ -91,9 +91,9 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 	if (argc >= 1)
 	{
 		EAStringC delimiter;
-		const AptValue * arg0=(const AptValue *)g_aptDateInterpreter.stack.At(0);
+		const AptValue * aptValue=(const AptValue *)g_aptDateInterpreter.stack.At(0);
 		int limit=999999;
-		arg0->toString(delimiter);
+		aptValue->toString(delimiter);
 		if (argc >= 2)
 			limit = g_aptDateInterpreter.stack.At(1)->toInteger();
 		EAStringC source(self->checkedString()->m_text);

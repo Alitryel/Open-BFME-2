@@ -100,10 +100,10 @@ void StringPool::Teardown()
 				}
 			}
 			StringNode0070D9F0 *next = node->m_next;
-			EAStringC *s = &node->m_str;
-			g_00E18374 += ((s->rva006D3750() + 10) & ~3) + 8;
-			unsigned int a = (s->rva006D3750() + 12) & ~3;
-			unsigned int b = (s->rva006D3750() + 10) & ~3;
+			EAStringC *eAStringC = &node->m_str;
+			g_00E18374 += ((eAStringC->rva006D3750() + 10) & ~3) + 8;
+			unsigned int a = (eAStringC->rva006D3750() + 12) & ~3;
+			unsigned int b = (eAStringC->rva006D3750() + 10) & ~3;
 			g_00E18374 += a - b + 8;
 			((AptValue *)node)->Release();
 			node = next;

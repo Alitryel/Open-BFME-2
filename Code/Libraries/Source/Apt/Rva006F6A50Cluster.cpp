@@ -868,13 +868,13 @@ class Rva006EBFF0 {public:void rva006EBE60(AptValue*);};
 struct TextInst {const void*vtable;int value;int frame;AptCharacter*character;char unknown10[8];EAStringC text,variable;char unknown20[0x6c-0x20];int flags;};
 class Rva006E34D0 {public:AptCIH**newInsts;int count;char unknown08[0xa4-8];int capacity;};
 extern Rva006E34D0*g_bfmeAptPtrAtE176D0;
-static __forceinline AptCharacterInst*spriteInst(AptCIH*p)
+static __forceinline AptCharacterInst*spriteInst(AptCIH*aptCIH)
 {
- if(!p->rva006CFCD0()) {
+ if(!aptCIH->rva006CFCD0()) {
   g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);
   if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
  }
- return (AptCharacterInst*)p->inst;
+ return (AptCharacterInst*)aptCIH->inst;
 }
 void AptDisplayList::instantiateCharacter(int depth,AptCharacter*character,EAStringC*name,AptCIH*parent,int replace,int value,AptCIH**out,int*created)
 {

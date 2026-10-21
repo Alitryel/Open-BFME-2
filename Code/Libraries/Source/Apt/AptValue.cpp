@@ -36,11 +36,11 @@ void __debugbreak();
 #define GLOBAL (*(AptValue **)&g_00E18650)
 static inline bool FindChildInherits(AptValue *value,AptValue *proto)
 {
- AptNativeHash *h=value->GetNativeHashVirtual();
+ AptNativeHash *aptNativeHash=value->GetNativeHashVirtual();
  AptValue *prototype;
- while(h && (prototype=h->mp__proto__)) {
+ while(aptNativeHash && (prototype=aptNativeHash->mp__proto__)) {
   if(prototype==proto) return true;
-  h=prototype->GetNativeHashVirtual();
+  aptNativeHash=prototype->GetNativeHashVirtual();
  }
  return false;
 }
@@ -53,11 +53,11 @@ static __forceinline AptValue *FindChildThis(AptValue *self)
   APT_ASSERT(pWithStkTop!=0,"pWithStkTop != NULL",0x42a);
   APT_ASSERT(pWithStkTop->ContainsNativeHashVirtual(),"pWithStkTop->ContainsNativeHashVirtual()",0x42b);
   if(context==pWithStkTop) return context;
-  AptNativeHash *h=pWithStkTop->GetNativeHashVirtual();
+  AptNativeHash *aptNativeHash=pWithStkTop->GetNativeHashVirtual();
   AptValue *prototype;
-  while(h && (prototype=h->mp__proto__)) {
+  while(aptNativeHash && (prototype=aptNativeHash->mp__proto__)) {
    if(prototype==context) return pWithStkTop;
-   h=prototype->GetNativeHashVirtual();
+   aptNativeHash=prototype->GetNativeHashVirtual();
   }
  }
  if(FindChildInherits(self,context)) return self;
@@ -98,18 +98,18 @@ AptValue *AptValue::findChild(const EAStringC *name,AptValue *context)
   case 17: return (AptValue *)g_Rva01337A20;
   case 18: {
    context=I->contexts.top();
-   AptNativeHash *h=context->GetNativeHashVirtual();
-   if(h && h->mp__proto__) {
-    AptValue *prototype=h->mp__proto__;
+   AptNativeHash *aptNativeHash=context->GetNativeHashVirtual();
+   if(aptNativeHash && aptNativeHash->mp__proto__) {
+    AptValue *prototype=aptNativeHash->mp__proto__;
     if(context!=this && ((Rva006DC9E0 *)context)->rva006DC9E0() && !(unsigned char)B(context)->isCIH(false)) {
      if((unsigned char)B(context)->isObject() && (((FindChildObjectView *)B(context)->rva006DD0E0())->flags&0x200)) {
-      h=prototype->GetNativeHashVirtual();
-      if(!h) return prototype;
-      prototype=h->mp__proto__;
+      aptNativeHash=prototype->GetNativeHashVirtual();
+      if(!aptNativeHash) return prototype;
+      prototype=aptNativeHash->mp__proto__;
      }
     } else if(!(unsigned char)B(context)->isPrototype() && !((unsigned char)B(prototype)->isPrototype() && ((FindChildObjectView *)B(prototype)->rva006DD120())->flags)) {
-     h=prototype->GetNativeHashVirtual();
-     if(h && h->mp__proto__) return h->mp__proto__;
+     aptNativeHash=prototype->GetNativeHashVirtual();
+     if(aptNativeHash && aptNativeHash->mp__proto__) return aptNativeHash->mp__proto__;
      return gpUndefinedValue;
     }
     return prototype;

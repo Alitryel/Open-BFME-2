@@ -44,10 +44,10 @@ HuffStat::~HuffStat()
     delete [] stat;
     }
 
-inline int cmpHuffStatTmpStruct( const HuffStatTmpStruct& a, const HuffStatTmpStruct& b )
+inline int cmpHuffStatTmpStruct( const HuffStatTmpStruct& huffStatTmp, const HuffStatTmpStruct& b )
     {
-    int cmp = b.n - a.n;
-    return cmp ? cmp : b.i - a.i;
+    int cmp = b.n - huffStatTmp.n;
+    return cmp ? cmp : b.i - huffStatTmp.i;
     }
 
 inline int operator <( const HuffStatTmpStruct& a, const HuffStatTmpStruct& b ) 
@@ -57,12 +57,12 @@ inline int operator <( const HuffStatTmpStruct& a, const HuffStatTmpStruct& b )
 
 static int /*__cdecl*/ _cmpStat( const void* a_, const void* b_ )
     {
-    HuffStatTmpStruct* a = (HuffStatTmpStruct*)a_;
+    HuffStatTmpStruct* huffStatTmp = (HuffStatTmpStruct*)a_;
     HuffStatTmpStruct* b = (HuffStatTmpStruct*)b_;
-    return cmpHuffStatTmpStruct( *a, *b );
+    return cmpHuffStatTmpStruct( *huffStatTmp, *b );
     }
 
-void shellSort( HuffStatTmpStruct* a, int N )
+void shellSort( HuffStatTmpStruct* huffStatTmp, int N )
     {
     int i, j;
     HuffStatTmpStruct v;
@@ -79,31 +79,31 @@ void shellSort( HuffStatTmpStruct* a, int N )
         {
         for ( i = h + 1; i <= N; ++i )
             {
-            v = a[i];
+            v = huffStatTmp[i];
             j = i;
-            while ( ( j > h ) && ( v < a[j - h] ) )
+            while ( ( j > h ) && ( v < huffStatTmp[j - h] ) )
                 {
-                a[j] = a[j-h];
+                huffStatTmp[j] = huffStatTmp[j-h];
                 j -= h;
                 }
-            a[j] = v;
+            huffStatTmp[j] = v;
             }
         }
     }
 
-int HuffStat::makeSortedTmp( HuffStatTmpStruct* s )
+int HuffStat::makeSortedTmp( HuffStatTmpStruct* huffStatTmp )
     {
     int total = 0;
     for( int j=0; j < NHUFFSYMBOLS ; ++j )
         {
-        s[ j ].i = j;
-        s[ j ].n = stat[ j ];
+        huffStatTmp[ j ].i = j;
+        huffStatTmp[ j ].n = stat[ j ];
         total += stat[ j ];
         stat[ j ] = HUFFRECALCSTAT( stat[ j ] );
         }
 
     //qsort( s, NHUFFSYMBOLS, sizeof(HuffStatTmpStruct), _cmpStat );
-    shellSort( s - 1, NHUFFSYMBOLS );
+    shellSort( huffStatTmp - 1, NHUFFSYMBOLS );
     return total;
     }
 

@@ -210,9 +210,9 @@ static __forceinline void aptAssert(const char *test, const char *file, int line
 		__asm int 3
 	}
 }
-static __forceinline void setSizeAndClearHash(EAStringC &s, unsigned int n)
+static __forceinline void setSizeAndClearHash(EAStringC &eAStringC, unsigned int n)
 {
-	EAStringC::StringDataC *p = s.m_pData;
+	EAStringC::StringDataC *p = eAStringC.m_pData;
 	if (n > p->m_uMaxSize)
 		aptAssert("uSize <= GetInternalMaxSize()", STRING_INL, 0x5C);
 	p->m_uSize = (unsigned short)n;

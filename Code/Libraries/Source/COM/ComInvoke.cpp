@@ -28,43 +28,43 @@ long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags
   memset(base,0,dp.cArgs*sizeof(VARIANTARG));
   dp.rgvarg=base;
   const unsigned short *type=types;
-  VARIANTARG *arg=base+dp.cArgs-1;
-  for(;*type;--arg,++type) {
-   arg->vt=*type & 0xF7FF;
-   switch(arg->vt) {
-   case VT_I2: case VT_UI2: arg->iVal=va_arg(args,short);break;
-   case VT_I4: case VT_ERROR: case VT_UI4: case VT_HRESULT: arg->lVal=va_arg(args,long);break;
-   case VT_BSTR: arg->bstrVal=va_arg(args,BSTR);break;
-   case VT_DISPATCH: arg->pdispVal=va_arg(args,IDispatch*);break;
-   case VT_UNKNOWN: arg->punkVal=va_arg(args,IUnknown*);break;
-   case VT_INT: arg->intVal=va_arg(args,int);break;
-   case VT_UINT: arg->uintVal=va_arg(args,unsigned);break;
-   case VT_RECORD: arg->byref=va_arg(args,void*);break;
-   case VT_R4: arg->vt=VT_R8;
-   case VT_R8: case VT_DATE: memcpy(&arg->dblVal,&va_arg(args,double),sizeof(double));break;
-   case VT_I8: arg->llVal=va_arg(args,LONGLONG);break;
-   case VT_UI8: arg->ullVal=va_arg(args,ULONGLONG);break;
-   case VT_CY: arg->cyVal=*va_arg(args,CY*);break;
-   case VT_BOOL: arg->boolVal=va_arg(args,short)?VARIANT_TRUE:VARIANT_FALSE;break;
-   case VT_VARIANT: *arg=*va_arg(args,VARIANT*);break;
-   case VT_DECIMAL: arg->decVal=*va_arg(args,DECIMAL*);arg->vt=VT_DECIMAL;break;
-   case VT_I1: case VT_UI1: arg->bVal=va_arg(args,BYTE);break;
+  VARIANTARG *vARIANTARG=base+dp.cArgs-1;
+  for(;*type;--vARIANTARG,++type) {
+   vARIANTARG->vt=*type & 0xF7FF;
+   switch(vARIANTARG->vt) {
+   case VT_I2: case VT_UI2: vARIANTARG->iVal=va_arg(args,short);break;
+   case VT_I4: case VT_ERROR: case VT_UI4: case VT_HRESULT: vARIANTARG->lVal=va_arg(args,long);break;
+   case VT_BSTR: vARIANTARG->bstrVal=va_arg(args,BSTR);break;
+   case VT_DISPATCH: vARIANTARG->pdispVal=va_arg(args,IDispatch*);break;
+   case VT_UNKNOWN: vARIANTARG->punkVal=va_arg(args,IUnknown*);break;
+   case VT_INT: vARIANTARG->intVal=va_arg(args,int);break;
+   case VT_UINT: vARIANTARG->uintVal=va_arg(args,unsigned);break;
+   case VT_RECORD: vARIANTARG->byref=va_arg(args,void*);break;
+   case VT_R4: vARIANTARG->vt=VT_R8;
+   case VT_R8: case VT_DATE: memcpy(&vARIANTARG->dblVal,&va_arg(args,double),sizeof(double));break;
+   case VT_I8: vARIANTARG->llVal=va_arg(args,LONGLONG);break;
+   case VT_UI8: vARIANTARG->ullVal=va_arg(args,ULONGLONG);break;
+   case VT_CY: vARIANTARG->cyVal=*va_arg(args,CY*);break;
+   case VT_BOOL: vARIANTARG->boolVal=va_arg(args,short)?VARIANT_TRUE:VARIANT_FALSE;break;
+   case VT_VARIANT: *vARIANTARG=*va_arg(args,VARIANT*);break;
+   case VT_DECIMAL: vARIANTARG->decVal=*va_arg(args,DECIMAL*);vARIANTARG->vt=VT_DECIMAL;break;
+   case VT_I1: case VT_UI1: vARIANTARG->bVal=va_arg(args,BYTE);break;
 #define REF(T) case VT_BYREF|T:
    REF(VT_I2) REF(VT_I4) REF(VT_R4) REF(VT_R8) REF(VT_CY) REF(VT_DATE)
    REF(VT_BSTR) REF(VT_DISPATCH) REF(VT_ERROR) REF(VT_BOOL) REF(VT_VARIANT)
    REF(VT_UNKNOWN) REF(VT_DECIMAL) REF(VT_I1) REF(VT_UI1) REF(VT_UI2)
    REF(VT_UI4) REF(VT_I8) REF(VT_UI8) REF(VT_INT) REF(VT_UINT) REF(VT_HRESULT) REF(VT_RECORD)
-    arg->byref=va_arg(args,void*);break;
+    vARIANTARG->byref=va_arg(args,void*);break;
 #undef REF
-   default: if(arg->vt&VT_ARRAY)arg->parray=va_arg(args,SAFEARRAY*);else return E_INVALIDARG;
+   default: if(vARIANTARG->vt&VT_ARRAY)vARIANTARG->parray=va_arg(args,SAFEARRAY*);else return E_INVALIDARG;
    }
   }
-  arg=base+dp.cNamedArgs;
+  vARIANTARG=base+dp.cNamedArgs;
   const unsigned short *tailType=types+dp.cArgs-dp.cNamedArgs-1;
   unsigned removed=0;
-  for(;tailType>=types;++arg,--tailType) {
+  for(;tailType>=types;++vARIANTARG,--tailType) {
    if((*tailType & ~VT_BYREF)!=0x080C)break;
-   VARIANT *probe=(*tailType & VT_BYREF)?arg->pvarVal:arg;
+   VARIANT *probe=(*tailType & VT_BYREF)?vARIANTARG->pvarVal:vARIANTARG;
    if(probe->vt!=VT_ERROR || probe->scode!=DISP_E_PARAMNOTFOUND)break;
    ++removed;
   }

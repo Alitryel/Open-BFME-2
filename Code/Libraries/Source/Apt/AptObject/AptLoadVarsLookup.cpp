@@ -85,9 +85,9 @@ AptValue *AptLoadVars::sMethod_getBytesLoaded(AptValue *,int)
 AptValue *AptLoadVars::sMethod_send(AptValue *value,int nParams)
 {
  if(nParams<=0||nParams>3)return AptBoolean::Create(false);
- AptValue *arg=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(0));
+ AptValue *aptValue=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(0));
  LoadVarsScopedString url;
- arg->toString(url);
+ aptValue->toString(url);
  LoadVarsScopedString target;
  if(nParams>1) {
   AptValue *targetValue=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(1));
@@ -114,9 +114,9 @@ AptValue *AptLoadVars::sMethod_sendAndLoad(AptValue *value,int nParams)
 {
  *reinterpret_cast<int *>(reinterpret_cast<char *>(reinterpret_cast<BfmeAptValue006DCD20 *>(value)->rva006DD2E0())+0x20)=0;
  if(nParams<=0||nParams>3)return AptBoolean::Create(false);
- AptValue *arg=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(0));
+ AptValue *aptValue=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(0));
  LoadVarsScopedString url;
- arg->toString(url);
+ aptValue->toString(url);
  AptValue *targetValue=0;
  LoadVarsScopedString target;
  if(nParams>1)targetValue=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(1));
@@ -147,9 +147,9 @@ AptValue *AptLoadVars::sMethod_load(AptValue *value,int nParams)
 {
  *reinterpret_cast<int *>(reinterpret_cast<char *>(reinterpret_cast<BfmeAptValue006DCD20 *>(value)->rva006DD2E0())+0x20)=0;
  if(nParams<=0||nParams>1)return AptBoolean::Create(false);
- AptValue *arg=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(0));
+ AptValue *aptValue=reinterpret_cast<AptValue *>(g_aptDateInterpreter.stack.At(0));
  LoadVarsScopedString url;
- arg->toString(url);
+ aptValue->toString(url);
  AptNativeHash *hash=value->GetNativeHashVirtual();
  if(!hash)return AptBoolean::Create(false);
  for(AsciiString *key=hash->rva0070AA40();key;key=reinterpret_cast<AsciiString *>(hash->rva0070AAA0(reinterpret_cast<AptNativeHash::Entry *>(key)))) {

@@ -149,9 +149,9 @@ AptValue *AptValueVector::operator[](int iPos) const
 // ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitAptValueVector@@YAXPAVAptValueNameEntry@@@Z present-unmatched
-void bfmeEmitAptValueVector(AptValueNameEntry *p)
+void bfmeEmitAptValueVector(AptValueNameEntry *aptValueNameEntry)
 {
-	p->AptValueNameEntry::AptValueNameEntry();
+	aptValueNameEntry->AptValueNameEntry::AptValueNameEntry();
 }
 #pragma inline_depth()
 

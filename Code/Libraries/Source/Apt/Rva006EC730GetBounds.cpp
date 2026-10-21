@@ -65,9 +65,9 @@ AptValue *__cdecl Rva006EC730GetBounds(AptValue *self,int count)
  if(count>1)return gpUndefinedValue;
  AptCIH *target=self->c_cih(false);
  if(count==1){
-  AptValue *arg=g_aptDateInterpreter.stack.At(0);
-  if(arg->isUndefined())return gpUndefinedValue;
-  target=arg->c_cih(false);
+  AptValue *aptValue=g_aptDateInterpreter.stack.At(0);
+  if(aptValue->isUndefined())return gpUndefinedValue;
+  target=aptValue->c_cih(false);
  }
  Rva006D6470Owner *object=new Rva006D6470Owner(0x1B,8);
  Rect bounds;

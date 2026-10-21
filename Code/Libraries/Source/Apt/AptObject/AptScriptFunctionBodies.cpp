@@ -68,7 +68,7 @@ void __debugbreak();
 // Later APT source supplies the preload algorithm; its override-this/super
 // arguments were added after this version and are absent in the PC body.
 // Native+0A flag tests and constant-string IDs A4/A0 establish the target data.
-__forceinline AptValue **advanceRegisters(AptValue **p,int n) { return p+n; }
+__forceinline AptValue **advanceRegisters(AptValue **aptValue,int n) { return aptValue+n; }
 void AptScriptFunction2::SetupBeforeExecution(_AptScriptFunctionState *pState, AptValue *pContext)
 {
     pState->mpFrameStack=spFrameStack;
@@ -141,8 +141,8 @@ AptCIH *_AptGetAnimationAtLevel(int);
 AptPrototype *gpObjectPrototype;
 // ?AptObject::AptObject present-unmatched
 inline AptObject::AptObject(AptVirtualFunctionTable_Indices t, int n) : AptValueWithHash(t,n), mnImplementedObjects(0), mbHasClass(0), mbIsInMainInst(0) {}
-inline void AptNativeHash::SetPrototype(AptValue *p) { if(p) p->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=p; }
-inline void AptNativeHash::Set__Proto__(AptValue *p) { if(p) p->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=p; }
+inline void AptNativeHash::SetPrototype(AptValue *aptValue) { if(aptValue) aptValue->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=aptValue; }
+inline void AptNativeHash::Set__Proto__(AptValue *aptValue) { if(aptValue) aptValue->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=aptValue; }
 // Original private PDB signature and three native derived constructors establish
 // this identity. Later source confirms scope/prototype ownership; native lacks
 // the later init-action test and function-prototype assignment. FuncInfo964088

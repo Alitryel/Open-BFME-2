@@ -40,17 +40,17 @@ public: static void operator delete(void *p,unsigned int n){g_pChainBlockAllocat
 void *pParentAnim;void *zID;const char *szName;
 protected: virtual ~AptSound();
 };
-AptSound::AptSound(AptCIH *p) : AptObject((AptVirtualFunctionTable_Indices)21) {
+AptSound::AptSound(AptCIH *aptCIH) : AptObject((AptVirtualFunctionTable_Indices)21) {
  zID=0;
- if(!p->rva006CFCD0()) {g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}
- pParentAnim=p->sprite->character->parent;szName=0;
+ if(!aptCIH->rva006CFCD0()) {g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}
+ pParentAnim=aptCIH->sprite->character->parent;szName=0;
 }
 
 class AptStringObject : public AptObject {
 public: static void operator delete(void *p,unsigned int n){g_pChainBlockAllocatorF4->freeBlock(p,n);}
  AptStringObject(AptString *);virtual ~AptStringObject();virtual AptValue *objectMemberLookup(AptValue *const,const EAStringC *const) const;AptString *mpStringObject;
 };
-AptStringObject::AptStringObject(AptString *p) : AptObject((AptVirtualFunctionTable_Indices)42) {((AptValue *)p)->AddRef();mpStringObject=p;}
+AptStringObject::AptStringObject(AptString *aptString) : AptObject((AptVirtualFunctionTable_Indices)42) {((AptValue *)aptString)->AddRef();mpStringObject=aptString;}
 class EAStringC {void *data;public:EAStringC(const char *);EAStringC(const EAStringC &);~EAStringC();EAStringC();const char *rva00620090() const;unsigned int rva006D3750() const;int rva006D36C0(const EAStringC *) const;bool rva006D3490(const char *) const;bool rva006D3510(const char *) const;};
 class AptError : public AptObject {
 public: static void operator delete(void *p,unsigned int n){g_pChainBlockAllocatorF4->freeBlock(p,n);}
@@ -157,8 +157,8 @@ extern Rva006E97A0Object *g_pRva006E97A0Object;
 void Rva006CC110Log(int,const char *,...);
 extern const char g_00CEC838[],g_00BBFDDC[],g_00CEC710[];
 AptValue *AptError::objectMemberLookup(AptValue *const context,const EAStringC *const name) const {
- if(name->rva006D3490("message")){AptValue *v=factoryCreateString();((BfmeAptValue006DCD20 *)v)->factorySetString(msMessage.rva00620090());return v;}
- if(name->rva006D3490("name")){AptValue *v=factoryCreateString();((BfmeAptValue006DCD20 *)v)->factorySetString(msName.rva00620090());return v;}
+ if(name->rva006D3490("message")){AptValue *aptValue=factoryCreateString();((BfmeAptValue006DCD20 *)aptValue)->factorySetString(msMessage.rva00620090());return aptValue;}
+ if(name->rva006D3490("name")){AptValue *aptValue=factoryCreateString();((BfmeAptValue006DCD20 *)aptValue)->factorySetString(msName.rva00620090());return aptValue;}
  if(name->rva006D3490("toString")){DISPATCH(g_errorToString,callback006E9730);}
  if(name->rva006D3510("message") || name->rva006D3510("name") || name->rva006D3510("toString")) {
  Rva006CC110Log(3,g_00CEC838,name->rva00620090());g_bfmeAptAssertAtE17734(g_00BBFDDC,g_00CEC710,0x4fa);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
@@ -261,14 +261,14 @@ AptValue *callback006F2760(AptValue *context,int count) {
  COLOUR_ASSERT(pSpr,0xcc);
  if(((AptValue *)pSpr)->getIsDefined()) {
  AptObject *obj=new(factoryObjectAllocation) AptObject((AptVirtualFunctionTable_Indices)27);
- {AptValue *v=AptInteger::Create((int)(pSpr->redMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(122);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
- {AptValue *v=AptInteger::Create((int)(pSpr->greenMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(58);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
- {AptValue *v=AptInteger::Create((int)(pSpr->blueMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(37);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
- {AptValue *v=AptInteger::Create((int)(pSpr->alphaMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(29);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
- {AptValue *v=AptInteger::Create((int)(pSpr->redOffset*255.f));EAStringC *name=Rva0070B4F0GetString(124);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
- {AptValue *v=AptInteger::Create((int)(pSpr->greenOffset*255.f));EAStringC *name=Rva0070B4F0GetString(59);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
- {AptValue *v=AptInteger::Create((int)(pSpr->blueOffset*255.f));EAStringC *name=Rva0070B4F0GetString(38);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
- {AptValue *v=AptInteger::Create((int)(pSpr->alphaOffset*255.f));EAStringC *name=Rva0070B4F0GetString(30);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)v);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->redMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(122);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->greenMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(58);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->blueMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(37);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->alphaMultiplier*100.f));EAStringC *name=Rva0070B4F0GetString(29);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->redOffset*255.f));EAStringC *name=Rva0070B4F0GetString(124);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->greenOffset*255.f));EAStringC *name=Rva0070B4F0GetString(59);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->blueOffset*255.f));EAStringC *name=Rva0070B4F0GetString(38);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
+ {AptValue *aptValue=AptInteger::Create((int)(pSpr->alphaOffset*255.f));EAStringC *name=Rva0070B4F0GetString(30);((Rva8D0D80Table *)((char *)obj+8))->add((Rva8D0D80String *)name,(Rva8D0D80Value *)aptValue);}
  return obj; }return gpUndefinedValue;
 }
 
@@ -285,14 +285,14 @@ AptValue *callback006F29C0(AptValue *context,int count) {
  if(((AptValue *)pSpr)->isUndefined())return gpUndefinedValue;
  if(pParam->getIsDefined() && (unsigned char)((BfmeAptValue006DCD20 *)pParam)->isObject()) {
  BfmeAptValue006DCD20 *obj=((BfmeAptValue006DCD20 *)pParam)->rva006DD0E0();
- {EAStringC *name=Rva0070B4F0GetString(122);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->redMultiplier=((BfmeAptValue006DCD20 *)v)->toInteger()*.01f;}
- {EAStringC *name=Rva0070B4F0GetString(124);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->redOffset=((BfmeAptValue006DCD20 *)v)->toInteger()*(1.0f/255.0f);}
- {EAStringC *name=Rva0070B4F0GetString(58);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->greenMultiplier=((BfmeAptValue006DCD20 *)v)->toInteger()*.01f;}
- {EAStringC *name=Rva0070B4F0GetString(59);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->greenOffset=((BfmeAptValue006DCD20 *)v)->toInteger()*(1.0f/255.0f);}
- {EAStringC *name=Rva0070B4F0GetString(37);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->blueMultiplier=((BfmeAptValue006DCD20 *)v)->toInteger()*.01f;}
- {EAStringC *name=Rva0070B4F0GetString(38);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->blueOffset=((BfmeAptValue006DCD20 *)v)->toInteger()*(1.0f/255.0f);}
- {EAStringC *name=Rva0070B4F0GetString(29);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->alphaMultiplier=((BfmeAptValue006DCD20 *)v)->toInteger()*.01f;}
- {EAStringC *name=Rva0070B4F0GetString(30);AptValue *v=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(v)pSpr->alphaOffset=((BfmeAptValue006DCD20 *)v)->toInteger()*(1.0f/255.0f);}
+ {EAStringC *name=Rva0070B4F0GetString(122);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->redMultiplier=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*.01f;}
+ {EAStringC *name=Rva0070B4F0GetString(124);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->redOffset=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*(1.0f/255.0f);}
+ {EAStringC *name=Rva0070B4F0GetString(58);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->greenMultiplier=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*.01f;}
+ {EAStringC *name=Rva0070B4F0GetString(59);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->greenOffset=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*(1.0f/255.0f);}
+ {EAStringC *name=Rva0070B4F0GetString(37);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->blueMultiplier=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*.01f;}
+ {EAStringC *name=Rva0070B4F0GetString(38);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->blueOffset=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*(1.0f/255.0f);}
+ {EAStringC *name=Rva0070B4F0GetString(29);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->alphaMultiplier=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*.01f;}
+ {EAStringC *name=Rva0070B4F0GetString(30);AptValue *aptValue=((AptNativeHash *)((char *)obj+8))->Lookup(name);if(aptValue)pSpr->alphaOffset=((BfmeAptValue006DCD20 *)aptValue)->toInteger()*(1.0f/255.0f);}
  }return gpUndefinedValue;
 }
 

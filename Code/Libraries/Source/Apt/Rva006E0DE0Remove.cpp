@@ -27,7 +27,7 @@ public:
     int rva006E0DE0(AptValue *p);
     void rva006E0E70();
 };
-int Rva006E0DE0::rva006E0DE0(AptValue *p)
+int Rva006E0DE0::rva006E0DE0(AptValue *aptValue)
 {
     if (m_nElements == 0)
         return 0;
@@ -39,7 +39,7 @@ int Rva006E0DE0::rva006E0DE0(AptValue *p)
     unsigned short nMax = m_nMaxElements;
     int i = 0;
     for (; i < m_nMaxElements; ++i) {
-        if (m_ppElements[i] == p)
+        if (m_ppElements[i] == aptValue)
             break;
     }
     if (i < nMax) {

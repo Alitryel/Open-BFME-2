@@ -638,9 +638,9 @@ bool EAStringC::rva006D36F0(const EAStringC *other) const
 // ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitEAStringCRefCount@@YAXPAVEAStringC@@@Z present-unmatched
-void bfmeEmitEAStringCRefCount(EAStringC *p)
+void bfmeEmitEAStringCRefCount(EAStringC *eAStringC)
 {
-	p->EAStringC::~EAStringC();
+	eAStringC->EAStringC::~EAStringC();
 }
 #pragma inline_depth()
 

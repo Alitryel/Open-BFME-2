@@ -84,19 +84,19 @@ void AptBasePtrStack::rva00700170(void *a1, void *a2)
 		m_0 = m_0 - 1;
 	}
 	rva006FE7B0((*(BfmeAptValue006DCD20 * *)&gpUndefinedValue));
-	AptNativeHash *h = v->v3();
-	while (h != 0) {
-		EAStringC *e = (EAStringC *)h->rva0070AA40();
-		while (e != 0) {
-			if (!e->rva006D3560(Rva0070B4F0GetString(0)) && !e->rva006D3560(Rva0070B4F0GetString(0x78))) {
+	AptNativeHash *aptNativeHash = v->v3();
+	while (aptNativeHash != 0) {
+		EAStringC *eAStringC = (EAStringC *)aptNativeHash->rva0070AA40();
+		while (eAStringC != 0) {
+			if (!eAStringC->rva006D3560(Rva0070B4F0GetString(0)) && !eAStringC->rva006D3560(Rva0070B4F0GetString(0x78))) {
 				BfmeAptValue006DCD20 *ns = (BfmeAptValue006DCD20 *)AptString::Create();
-				*(EAStringC *)((char *)ns + 8) = *e;
+				*(EAStringC *)((char *)ns + 8) = *eAStringC;
 				Push(ns);
 			}
-			e = (EAStringC *)h->rva0070AAA0((AptNativeHash::Entry *)e);
+			eAStringC = (EAStringC *)aptNativeHash->rva0070AAA0((AptNativeHash::Entry *)eAStringC);
 		}
-		BfmeAptValue006DCD20 *n8 = h->m_8;
-		h = n8 != 0 ? n8->v3() : 0;
+		BfmeAptValue006DCD20 *n8 = aptNativeHash->m_8;
+		aptNativeHash = n8 != 0 ? n8->v3() : 0;
 	}
 	v->v1();
 }

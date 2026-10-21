@@ -57,8 +57,8 @@ bool AptValue::toBool() const
         if (Rva006CD220Get() == 7) {
             return !c_string()->str.IsEmpty();
         } else {
-            AptString *s = c_string();
-            EAStringC *buf = s->GetInternalString();
+            AptString *aptString = c_string();
+            EAStringC *buf = aptString->GetInternalString();
             if (static_cast<int>(buf->rva006D3750()) > 2 &&
                 buf->GetAt(0) == '0' && buf->GetAt(1) == 'x') {
                 return strtol(buf->rva00620090(), 0, 16) != 0;

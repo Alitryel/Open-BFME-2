@@ -39,8 +39,8 @@ public:
 
 int Rva006DC9E0::rva006DC9E0()
 {
-	EAStringC *s1 = Rva0070B4F0GetString(0x5E);
-	BfmeN1034 *f1 = g_00E18650->rva0070A5C0((int)s1);
+	EAStringC *eAStringC = Rva0070B4F0GetString(0x5E);
+	BfmeN1034 *f1 = g_00E18650->rva0070A5C0((int)eAStringC);
 	Mid *m1 = ((VirtObj *)f1)->virt3();
 	void *edi = m1->fieldC;
 	EAStringC *s2 = Rva0070B4F0GetString(0x64);

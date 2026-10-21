@@ -54,14 +54,14 @@ private:
 void AptAnimationPoolData::_tickNewInsts()
 {
 	for (int i = 0; i < m_count; ++i) {
-		AptCIH *e = m_arr[i];
-		if (!e) {
+		AptCIH *aptCIH = m_arr[i];
+		if (!aptCIH) {
 			g_bfmeAptAssertAtE17734("this", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h", 0xB5);
 			if (g_bfmeAptBreakOnAssertAtDDC01C)
 				__debugbreak();
 		}
-		if (((const Rva006DBB30SarDwordField *)e)->get() == 0xE
-			&& !((const BfmeAptValue006DCD20 *)e)->isUndefined()) {
+		if (((const Rva006DBB30SarDwordField *)aptCIH)->get() == 0xE
+			&& !((const BfmeAptValue006DCD20 *)aptCIH)->isUndefined()) {
 			void *p = ((const AptCIH *)m_arr[i])->rva006E1090();
 			if (*(int *)((char *)p + 0x18) == 0)
 				m_arr[i]->rva006E1F00(1);

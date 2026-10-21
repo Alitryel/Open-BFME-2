@@ -200,10 +200,10 @@ void Rva006E34D0::rva006E47C0()
         {
             int nInner = m_pArray34[i].m_stack.m_nElements;
             for (int j = 0; j < nInner; ++j) {
-                AptValue *v = m_pArray34[i].m_stack.At(j);
-                if (!((const Rva006DBB40ShrAndField *)v)->get()) {
-                    v->setGCMark(true);
-                    v->unused13();
+                AptValue *aptValue = m_pArray34[i].m_stack.At(j);
+                if (!((const Rva006DBB40ShrAndField *)aptValue)->get()) {
+                    aptValue->setGCMark(true);
+                    aptValue->unused13();
                 }
             }
         }

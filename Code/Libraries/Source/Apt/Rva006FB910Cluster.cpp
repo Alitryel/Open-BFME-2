@@ -301,10 +301,10 @@ void AptAnimationPoolData::rva006FB5B0(int x, int y, int packed, int field)
                     if (m68==value) {
                         int delta=x;
                         if (y==4) delta=-delta;
-                        AptValue *arg=AptInteger::Create(delta);
+                        AptValue *aptValue=AptInteger::Create(delta);
                         EAStringC name("scroll");
                         value->rva006DCF60(false);
-                        rva006EE6C0((AptValue *)value,&name,arg);
+                        rva006EE6C0((AptValue *)value,&name,aptValue);
                     }
                 } else AddListenerToQueue(value,0x80000,packed);
                 break;

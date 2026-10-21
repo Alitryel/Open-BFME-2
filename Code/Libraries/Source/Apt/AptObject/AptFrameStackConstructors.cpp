@@ -19,8 +19,8 @@ public:
  static void operator delete(void *p,unsigned int size){g_pChainBlockAllocatorF4->freeBlock(p,size);}
  bool rva006FBBA0(const EAStringC *,AptValue *);
 };
-Rva006FBC90Owner::Rva006FBC90Owner(AptValue *p):AptValueWithHash((AptVirtualFunctionTable_Indices)20,4),parent(p){if(p)p->AddRef();}
-Rva006FBC90Owner::Rva006FBC90Owner(AptValue *p,int n):AptValueWithHash((AptVirtualFunctionTable_Indices)20,n),parent(p){if(p)p->AddRef();}
+Rva006FBC90Owner::Rva006FBC90Owner(AptValue *aptValue):AptValueWithHash((AptVirtualFunctionTable_Indices)20,4),parent(aptValue){if(aptValue)aptValue->AddRef();}
+Rva006FBC90Owner::Rva006FBC90Owner(AptValue *aptValue,int n):AptValueWithHash((AptVirtualFunctionTable_Indices)20,n),parent(aptValue){if(aptValue)aptValue->AddRef();}
 
 class Rva0070B380 {public:void *lookup(const EAStringC &);};
 bool Rva006FBC90Owner::rva006FBBA0(const EAStringC *key,AptValue *value) {
