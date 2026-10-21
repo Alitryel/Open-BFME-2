@@ -183,6 +183,30 @@ Probe `tr43.txt` (`FR=2 FB=<blocks>`: force the 40aeb free set empty in the list
 
 40ebc then gives per-record markers to ?:35 and this:7f too, not only node. Retail's head and latch blocks were therefore not register-full at R2.
 
+### The likely retail route: node escapes R2's split and fails alone at R4
+
+`drop2.txt` (drop.py plus a dump of record `WI` at every round entry): `WI=b drop2.py bank.cpp out.obj 2:node`, which removes node from R2's split set. Raw output in `drop2_r2node.out.txt`; the result is exact, like `drop.py`.
+
+| Round entry | node:b | Split sets |
+|---|---|---|
+| R1 | w1 d02, w3 32, w9 6, cost 16, blocks cc04f4..cc82a8, allowed [ebx, ebp] | node in neither R1 set |
+| R2 | w1 c02, allowed [ebx], reg 0 (not colored at R1, not split) | node dropped by the probe |
+| R3 | allowed **[]** (entry:12 keeps ebx inside node's range) | node **absent** from R3's 13-record set (loop 2) |
+| R4 | allowed [] | **call0 n=1: node:b alone**, so a8f54's simple path splits it per reference |
+| R5 | — | ai, victim, node:68, ?:69, ?:72, index:77, count:7a (the bank's R4 group, one round later) |
+
+So retail's node most plausibly took two uncolored-but-unsplit rounds and then failed alone. That is the same per-reference result as `inj.txt`, without touching the other records' group splits.
+
+The bank differs only at R2, where node fails together with seven other records and gets group-split. A record with an empty set at round entry is apparently not put into that round's split set but into the next round's; at R3 in this run node is skipped and fails at R4.
+
+The question for the source is therefore: **why did retail's node not fail at R2**, either not popped or routed "nowhere" by `a90e6`/`40941`? It is not because its set was empty at R2 entry: `102:b:0` is unchanged, so an empty set at R2 still lands in R2's set. The open sub-question is what distinguishes that from R3 here.
+
+Candidates:
+
+- node gets colored ebp at R1 and is uncolored when ebp becomes the frame pointer (`5a7c9`); the R1 entry set does include ebp;
+- node's R2 pop comes after R2's a8f54 call;
+- `[rec+5]` flag differences (d02 at R1, c02 at R2).
+
 ### R1 takes the complex path; the "NEITHER" cut variants are a red herring
 
 The bank's IR has 104 blocks (`[0x108817b8]`), so R1's a8f54 takes the complex path. Only block c30d88 (loop 2) has an empty free set there.
@@ -281,3 +305,4 @@ Scripts added in the second pass (same conventions; each `.txt` is the `build/c2
 | `f2.txt`, `f3.txt`, `gnest.txt`, `fgen.txt`, `fcut.txt`, `fv1.txt`, `vstate.txt`, `vloop1.txt`, `s1f..s9f.txt` | source-variant generators and the loop-1 state classifier (NODE / NEITHER / IDX) |
 | `wset4_r2r3.out.txt`, `wset4_r4r5.out.txt` | raw chunk watches for node:77 (R2 to R3) and node:44 (R4 to R5) |
 | `tr43.txt` | tr40 plus `FR`/`FB` free-set forcing at 40aeb |
+| `drop2.txt`, `drop2_r2node.out.txt` | drop.py plus per-round record dumps; the node-escapes-R2 trace |
