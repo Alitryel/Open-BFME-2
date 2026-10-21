@@ -100,8 +100,8 @@ public:
 	RvaFireColor m_08;
 	RvaFireColor m_14;
 	bool m_20;
-	GameClientRandomVariable m_24;
-	GameClientRandomVariable m_30;
+	GameClientRandomVariable m_scorchFrequency;
+	GameClientRandomVariable m_scorchSize;
 	float m_3C;
 };
 
@@ -113,8 +113,8 @@ Rva0030ADED::Rva0030ADED() :
 	m_20(false),
 	m_3C(0.95f)
 {
-	m_24.setRange(30.0f, 90.0f);
-	m_30.setRange(5.0f, 20.0f);
+	m_scorchFrequency.setRange(30.0f, 90.0f);
+	m_scorchSize.setRange(5.0f, 20.0f);
 }
 
 class FireManager
@@ -170,33 +170,33 @@ public:
 	AsciiString m_00;
 	AsciiString m_04;
 	AsciiString m_08;
-	int m_0C;
-	int m_10;
+	int m_propagateSpeed;
+	int m_angle;
 	AsciiString m_14;
-	int m_18;
-	int m_1C;
+	int m_dissipateStartLevel;
+	int m_dissipateSpeed;
 	S12 m_20;
-	S12 m_2C;
-	int m_38;
+	S12 m_darkeningFactorRain;
+	int m_darkeningRate;
 	int m_3C;
-	int m_40;
-	int m_44;
-	unsigned char m_48;
-	unsigned char m_49;
-	unsigned char m_4A;
-	int m_4C;
-	S12 m_50;
-	int m_5C;
-	GameClientRandomVariable m_60;
-	int m_6C;
-	GameClientRandomVariable m_70;
-	int m_7C;
+	int m_cloudScrollSpeed;
+	int m_dissipateRateScale;
+	unsigned char m_lightningShadows;
+	unsigned char m_jitterLightningLightPosition;
+	unsigned char m_jitterLightningLightIntensity;
+	int m_lightningChance;
+	S12 m_lightningShadowColor;
+	int m_lightningShadowIntensity;
+	GameClientRandomVariable m_lightningDuration;
+	int m_lightningFrequency;
+	GameClientRandomVariable m_lightningIntensity;
+	int m_lightningLightPosition1;
 	int m_80;
-	int m_84;
+	int m_lightningLightPosition2;
 	int m_88;
-	int m_8C;
+	int m_lightningLightPosition3;
 	int m_90;
-	AsciiString m_94;
+	AsciiString m_lightningFX;
 };
 
 // 0x002150CE (51B): the defaults, constructed into both settings globals by
