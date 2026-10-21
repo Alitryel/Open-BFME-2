@@ -11,7 +11,7 @@ struct Rva002A8AB1Record
 	void *m_164;
 };
 
-struct ArrayBounds002C5AE6
+struct InterestZoneVector
 {
 	void **m_start;
 	void **m_end;
@@ -64,7 +64,7 @@ float Rva002C589B::getEnemyThreat()
 {
 	float vmax = 0.0f;
 	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(*(void **)this);
-	ArrayBounds002C5AE6 *interestZones = (ArrayBounds002C5AE6 *)((char *)rec->m_164 + 0x20);
+	InterestZoneVector *interestZones = (InterestZoneVector *)((char *)rec->m_164 + 0x20);
 	void **it = interestZones->m_start;
 	void **end = interestZones->m_end;
 	while (it != end) {
