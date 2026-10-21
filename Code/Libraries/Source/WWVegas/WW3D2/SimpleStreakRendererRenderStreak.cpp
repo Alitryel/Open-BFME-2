@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Adapted from Command & Conquer Generals Zero Hour, copyright 2025 Electronic Arts Inc.
 // SimpleStreakRendererClass::RenderStreak (retail 0x00126433, 11984 B; WB twin 0xA1E840), kept on
-// the address-derived names Rva00126314::rva00126433. Evidence and the numbering record are in
+// the address-derived class name Rva00126314. Evidence and the numbering record are in
 // reverse/attempt_support/0x00126433_simplestreak_render.md.
 // The device declaration comes from reference/shims/bfme_d3d8_sdk_settransform (SDK-typed
 // SetTransform); u_values is stored element by element before `last`, in WB's order.
