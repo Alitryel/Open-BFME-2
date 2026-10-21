@@ -12,10 +12,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva001504A1Record@@@_STL@@YAXPAURva001504A1Record@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// Retail range cleanup is the rowed virtual-destruction dispatcher.
 struct Rva001504A1Record;
-namespace _STL { template <> void _Destroy<Rva001504A1Record *>(Rva001504A1Record *,Rva001504A1Record *); }
+class Rva0014F3E7;
+void __cdecl Rva0014F8AEDestroy(Rva0014F3E7*,Rva0014F3E7*);
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void _Destroy<Rva001504A1Record *>(Rva001504A1Record *first,Rva001504A1Record *last)
+{ Rva0014F8AEDestroy((Rva0014F3E7*)first,(Rva0014F3E7*)last); }
+}
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@URva001504A1Record@@@_STL@@QBEXPAURva001504A1Record@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001504A1Record;
@@ -25,70 +29,35 @@ struct Rva001504A1Record
 {
 	char bytes[76];
 };
-class TextureBaseClass
-{
-public:
-	void Add_Ref();
-	void Release_Ref();
-};
-
-class TextureClass : public TextureBaseClass
-{
-};
-
-template<class T>
-class RefCountPtr
-{
-public:
-	RefCountPtr(const RefCountPtr &other);
-	~RefCountPtr() { if (Referent) Referent->Release_Ref(); }
-	RefCountPtr const &operator=(RefCountPtr const &other);
-private:
-	T *Referent;
-};
-
-extern "C" const unsigned char __identifier("??_7Base@@6B@")[];
-
-class Rva00BC6F24Base
-{
-public:
-  virtual ~Rva00BC6F24Base();
-};
-
-// Same one-slot cleanup view as Rva00150558Dtor.cpp: retail resets
-// vtable 0x00BC6F24, distinct from canonical Snapshot's 0x00BBB554.
-// ??1Rva00BC6F24Base@@UAE@XZ present-unmatched
-inline Rva00BC6F24Base::~Rva00BC6F24Base()
-{
-	*(const void **)this = (const void *)__identifier("??_7Base@@6B@");
+// Retail 00150990 calls the established Shadow copy owner at 0014F4E3.
+// The temporary remains an opaque 76-byte view with its rowed destructor.
+namespace FXShaderParameterSourceNamespaceSAS {
+struct SourceNamespace_Shadow { SourceNamespace_Shadow(const SourceNamespace_Shadow&); };
 }
-
-class __declspec(novtable) Rva0014F699 : public Rva00BC6F24Base
+class __declspec(novtable) Rva0014F699
 {
 public:
-	Rva0014F699(const Rva0014F699 &other);
-	virtual ~Rva0014F699();
-	Rva0014F699 &operator=(const Rva0014F699 &other);
+    __declspec(dllimport) __forceinline Rva0014F699(const Rva0014F699 &other)
+    {
+        typedef FXShaderParameterSourceNamespaceSAS::SourceNamespace_Shadow T;
+        ((T*)this)->T::SourceNamespace_Shadow(*(const T*)&other);
+    }
+    virtual ~Rva0014F699();
+    Rva0014F699 &operator=(const Rva0014F699 &other);
 private:
-	int m_04;
-	int m_08;
-	int m_0c;
-	int m_10;
-	int m_14;
-	int m_18;
-	int m_1c;
-	int m_20;
-	int m_24;
-	int m_28;
-	int m_2c;
-	int m_30;
-	int m_34;
-	int m_38;
-	int m_3c;
-	int m_40;
-	int m_44;
-	RefCountPtr<TextureClass> m_48;
+    char bytes[72];
 };
+// Bind shared vector operations to their native rowed providers.
+struct Rva0014F647Element;
+class Rva0014F8C6 { public: void rva0014F8C6(); };
+namespace _STL {
+template<> void _Construct<Rva0014F647Element,Rva0014F647Element>(Rva0014F647Element*,const Rva0014F647Element&);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva001504A1Record,Rva001504A1Record>(Rva001504A1Record*p,const Rva001504A1Record&v)
+{ _Construct(reinterpret_cast<Rva0014F647Element*>(p),reinterpret_cast<const Rva0014F647Element&>(v)); }
+template<> __declspec(dllimport) __forceinline void vector<Rva001504A1Record>::_M_clear()
+{ ((Rva0014F8C6*)this)->rva0014F8C6(); }
+template<> void vector<Rva001504A1Record>::_M_insert_overflow(Rva001504A1Record*,const Rva001504A1Record&,const __false_type&,unsigned int,bool);
+}
 void __cdecl Rva0014FA0DCopyBackward(Rva0014F699 *first, Rva0014F699 *last, Rva0014F699 *result);
 typedef void (__cdecl *CopyBackward4Fn)(Rva0014F699 *first, Rva0014F699 *last, Rva0014F699 *result, const _STL::__false_type &tag);
 void __cdecl Rva0014FA2AFill(Rva0014F699 *first, Rva0014F699 *last, const Rva0014F699 &value);
