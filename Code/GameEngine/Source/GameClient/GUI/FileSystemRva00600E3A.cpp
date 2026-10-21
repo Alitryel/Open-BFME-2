@@ -52,17 +52,17 @@ extern char TheLangDir[];
 extern class LocalFileSystem *TheLocalFileSystem;
 char g_00DD509C[188] = "English";
 
-bool FileSystem::getFileInfo(const char *a, FileInfo *b) const
+bool FileSystem::getFileInfo(const char *a, FileInfo *fileInfo) const
 {
 	char buf[0x104];
 
-	if (b == 0)
+	if (fileInfo == 0)
 		return false;
 	if (TheFilePathGate) {
 		if (!TheFilePathGate->allow(a))
 			return false;
 	}
-	ji_006291ae((void *)b, 0, 0x10);
+	ji_006291ae((void *)fileInfo, 0, 0x10);
 	if (!BFME2PreferLocalFiles)
 		goto try_local;
 	if (TheArchiveFileSystem == 0)
@@ -72,25 +72,25 @@ bool FileSystem::getFileInfo(const char *a, FileInfo *b) const
 		sprintfImp = sprintf;
 		if (TheLangDir[0]) {
 			(*sprintfImp)(buf, "%s\\%s", TheLangDir, a);
-			if (TheArchiveFileSystem->doesFileExist2(buf, b))
+			if (TheArchiveFileSystem->doesFileExist2(buf, fileInfo))
 				return true;
 		}
 		if (g_00DD509C[0]) {
 			(*sprintfImp)(buf, "lang\\%s\\%s", g_00DD509C, a);
-			if (TheArchiveFileSystem->doesFileExist2(buf, b))
+			if (TheArchiveFileSystem->doesFileExist2(buf, fileInfo))
 				return true;
 		}
-		if (TheArchiveFileSystem->doesFileExist2(a, b))
+		if (TheArchiveFileSystem->doesFileExist2(a, fileInfo))
 			return true;
 	}
 try_local:
 	if ((*(Rva0060061AHelper **)&TheLocalFileSystem)) {
-		if ((*(Rva0060061AHelper **)&TheLocalFileSystem)->doesFileExist(a, b))
+		if ((*(Rva0060061AHelper **)&TheLocalFileSystem)->doesFileExist(a, fileInfo))
 			return true;
 	}
 	if (TheArchiveFileSystem != 0) {
 		if (!BFME2PreferLocalFiles) {
-			if (TheArchiveFileSystem->doesFileExist2(a, b))
+			if (TheArchiveFileSystem->doesFileExist2(a, fileInfo))
 				return true;
 		}
 	}
