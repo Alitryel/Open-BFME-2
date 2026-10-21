@@ -3945,7 +3945,6 @@ _NewPlayerA,,0x00606F50,193,Code/GameEngine/Source/GameNetwork/GameSpy/gstats/gs
 _NewTeamA,,0x00607070,193,Code/GameEngine/Source/GameNetwork/GameSpy/gstats/gstats.c,matched,vendored=gamespy-2004; unique complete source body; direct callees independently byte-verified; named PE import references audited
 _xcode_buf,,0x006071C0,42,Code/GameEngine/Source/GameNetwork/GameSpy/gstats/gstats.c,matched,vendored=gamespy-2004; unique complete source body; direct callees independently byte-verified; named PE import references audited
 _g_crc32,,0x006071F0,37,Code/GameEngine/Source/GameNetwork/GameSpy/gstats/gstats.c,matched,vendored=gamespy-2004; unique complete source body; direct callees independently byte-verified; named PE import references audited
-??0OBBoxClass@@QAE@ABV0@@Z,,0x000B4384,97,Code/Libraries/Source/WWVegas/WW3D2/coltest.cpp,matched,gen-alias;object-symbol=??0OBBoxClass@@QAE@ABV0@@Z;C++ alias
 ?_M_is_any@?$_Base_bitset@$03@_STL@@QBE_NXZ,,0x000454BA,20,Code/GameEngine/Source/Common/Thing/Thing.cpp,matched,gen-alias;object-symbol=?_M_is_any@?$_Base_bitset@$03@_STL@@QBE_NXZ;C++ alias
 ?Set_Y_Translation@Matrix3D@@QAEXM@Z,,0x00665600,10,Code/GameEngine/Source/Common/Thing/Thing.cpp,matched,gen-alias;object-symbol=?Set_Y_Translation@Matrix3D@@QAEXM@Z;C++ alias
 ?dup_000657d0@@YAXXZ,,0x000657D0,9,Code/Libraries/Source/WWVegas/WWLib/multilist.cpp,matched,gen-alias;object-symbol=??1BFMEPoolLock@@QAE@XZ;C++ alias
