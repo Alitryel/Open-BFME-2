@@ -1453,3 +1453,5 @@ __ehhandler$?rva00219005@@YAXPAVINI@@@Z,0x0076E53F,"Renamed to __ehhandler$?pars
 ?Rva0022232EParse@@YAXPAVINI@@@Z,0x0022232E,"Renamed to ?parseInGameNotificationBoxDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00420A29Parse@@YAXPAVINI@@@Z,0x00420A29,"Renamed to ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00420A29Parse@@YAXPAVINI@@@Z,0x00786EF6,"Renamed to __ehhandler$?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva003F9EDFParse@@YAXPAVINI@@@Z,0x003F9EDF,"Renamed to ?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva003F9EDFParse@@YAXPAVINI@@@Z,0x007843D1,"Renamed to __ehhandler$?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

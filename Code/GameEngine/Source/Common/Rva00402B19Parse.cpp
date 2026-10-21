@@ -126,7 +126,7 @@ extern const FieldParse LivingWorldArmyIconFields[] =
 	{ "Object",                                &Rva0056B668Parse, 0, 0x04 },
 	{ 0, 0, 0, 0 }
 };
-void Rva003F9EDFParse(INI *ini)
+void parseLivingWorldArmyIconDefinition(INI *ini)
 {
     if (ini->m_type == 2)
         throw INIException(8, "Cannot override Living World objects in map.ini");
