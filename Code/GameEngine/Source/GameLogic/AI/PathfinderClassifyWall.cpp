@@ -5,7 +5,7 @@
 #include <vector>
 #include "ascii_string.h"
 extern "C" void __cdecl free(void*);
-// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z retail 0x0052F63F..0x00530212 (3027 bytes).
+// ?ClassifyWall@Pathfinder@@QAEXPAVObject@@_N@Z retail 0x0052F63F..0x00530212 (3027 bytes).
 // BFME 2 wall classifier (WB twin Pathfinder::ClassifyWall; called from 0x00530F38 inside
 // 0x00530212). Target evidence: on insert it merges the wall's bridge polygon into a free
 // or overlapping layer 2..15, matches the wall height against the 64-entry height table
@@ -109,7 +109,7 @@ static __forceinline int float2long(float f){int i;__asm{
 class Pathfinder
 {
 public:
-	void rva0052F63F(Object *,bool);
+	void ClassifyWall(Object *,bool);
 	bool rva0052E6E6(int,int,PathfindCell *,PolygonTrigger *,int,bool);
 	float &heightForLayer(int layer){return *((float*)((char*)this+0x1be78)+layer);}
 	const AsciiString &nameForLayer(int layer){return names[layer-17];}
@@ -126,7 +126,7 @@ private:
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 static __forceinline void deletePoly(PolygonTrigger *p){operator delete(p?p->destroy(0):0);}
-void Pathfinder::rva0052F63F(Object*obj,bool insert)
+void Pathfinder::ClassifyWall(Object*obj,bool insert)
 {
  const float tolerance=3.5f;
  Int i, j;
@@ -253,7 +253,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    qc.lo.y=FLOOR(qb.lo.y/10)-2;
    qc.hi.x=CEIL(qb.hi.x/10)+2;
    qc.hi.y=CEIL(qb.hi.y/10)+2;
-   if((qc.lo.x<=cellBounds.hi.x&&qc.hi.x>=cellBounds.lo.x&&qc.lo.y<=cellBounds.hi.y&&qc.hi.y>=cellBounds.lo.y)){rva0052F63F(other,true);deletePoly(q);}
+   if((qc.lo.x<=cellBounds.hi.x&&qc.hi.x>=cellBounds.lo.x&&qc.lo.y<=cellBounds.hi.y&&qc.hi.y>=cellBounds.lo.y)){ClassifyWall(other,true);deletePoly(q);}
   }
  }
  deletePoly(area);

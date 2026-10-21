@@ -58,7 +58,7 @@ static __forceinline long float2long(float f){long i;__asm{
 #define CEIL(x) float2long(ceilf(x))
 enum PathfindLayerEnum{LayerGround=1};
 class Pathfinder{public:
- void rva00530212(Object*,bool,bool,bool);void rva0052F63F(Object*,bool);void rva0052E4C9(Object*,bool);PathfindCell *getCell(PathfindLayerEnum,int,int);
+ void rva00530212(Object*,bool,bool,bool);void ClassifyWall(Object*,bool);void rva0052E4C9(Object*,bool);PathfindCell *getCell(PathfindLayerEnum,int,int);
  char pad0[0x10];PathfindCell**map;FootprintBounds extent;char pad24[0x460-0x24];PathfindZoneManager zones;char pad461[0x1beb4-0x461];bool changedWall,changedGate;
 };
 void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
@@ -77,7 +77,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  if(wall){if(obj->templ->kind(150))wall=obj->getDrawable()->rva00272C1E();else if(obj->testStatus(Status77))wall=false;}
  // Don't add bounds that are up in the air....
  if(((Thing*)obj)->getHeightAboveTerrain()>10.0f&&!wall)return;
- if(wall&&drawable){float z;if(!drawable->rva0027257B((int)&z)){changedWall=true;rva0052F63F(obj,insert);return;}}
+ if(wall&&drawable){float z;if(!drawable->rva0027257B((int)&z)){changedWall=true;ClassifyWall(obj,insert);return;}}
  bool gate=obj->templ->kind(137)||wall;
  bool bit22=insert ? ((obj->templ->words120>>9)&1)!=0:false;
  if((gate||bit22)&&!insert)changedGate=true;
@@ -192,5 +192,5 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
    if(adjacent)map[i][j].pinch(true);
   }
  }
- if(wall&&drawable){float z;if(drawable->rva0027257B((int)&z))rva0052F63F(obj,insert);}
+ if(wall&&drawable){float z;if(drawable->rva0027257B((int)&z))ClassifyWall(obj,insert);}
 }
