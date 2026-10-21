@@ -18,18 +18,18 @@ public:
 class Rva0027D30D
 {
 public:
-	void rva0027D30D(Coord3D *p, int dummy);
+	void rva0027D30D(Coord3D *pos, int dummy);
 private:
 	int m_count;
 	PolygonTrigger *m_trigger;
 };
 
-void Rva0027D30D::rva0027D30D(Coord3D *p, int dummy)
+void Rva0027D30D::rva0027D30D(Coord3D *pos, int dummy)
 {
 	ICoord3D tmp;
-	tmp.x = (int)p->x;
-	tmp.y = (int)p->y;
-	tmp.z = (int)p->z;
+	tmp.x = (int)pos->x;
+	tmp.y = (int)pos->y;
+	tmp.z = (int)pos->z;
 	if (m_trigger->pointInTrigger(tmp))
 		++m_count;
 }

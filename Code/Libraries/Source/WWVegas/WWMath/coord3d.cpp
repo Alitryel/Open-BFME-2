@@ -196,9 +196,9 @@ __declspec(noinline) inline Coord3D &Coord3D::operator-=(const Coord3DBase &that
 }
 
 // ?bfmeAnchorCoord3DSubAssign absent-from-retail
-Coord3D &bfmeAnchorCoord3DSubAssign(Coord3D *p, const Coord3DBase &that)
+Coord3D &bfmeAnchorCoord3DSubAssign(Coord3D *pos, const Coord3DBase &that)
 {
-	return *p -= that;
+	return *pos -= that;
 }
 
 
@@ -336,9 +336,9 @@ __declspec(noinline) inline float Coord3D::GetLength() const
 }
 
 // ?bfmeAnchorCoord3DGetLength absent-from-retail
-float bfmeAnchorCoord3DGetLength(const Coord3D *p)
+float bfmeAnchorCoord3DGetLength(const Coord3D *pos)
 {
-	return p->GetLength();
+	return pos->GetLength();
 }
 
 
@@ -378,9 +378,9 @@ __declspec(noinline) inline float Coord3D::GetLengthSqrd2D() const
 }
 
 // ?bfmeAnchorCoord3DGetLengthSqrd2D absent-from-retail
-float bfmeAnchorCoord3DGetLengthSqrd2D(const Coord3D *p)
+float bfmeAnchorCoord3DGetLengthSqrd2D(const Coord3D *pos)
 {
-	return p->GetLengthSqrd2D();
+	return pos->GetLengthSqrd2D();
 }
 
 
@@ -413,9 +413,9 @@ __declspec(noinline) inline void Coord3D::add(const Coord3DBase *that)
 }
 
 // ?bfmeAnchorCoord3DAdd absent-from-retail
-void bfmeAnchorCoord3DAdd(Coord3D *p, const Coord3DBase *that)
+void bfmeAnchorCoord3DAdd(Coord3D *pos, const Coord3DBase *that)
 {
-	p->add(that);
+	pos->add(that);
 }
 
 
@@ -463,9 +463,9 @@ __declspec(noinline) inline float Coord3D::Normalize()
 }
 
 // ?bfmeAnchorCoord3DNormalize absent-from-retail
-float bfmeAnchorCoord3DNormalize(Coord3D *p)
+float bfmeAnchorCoord3DNormalize(Coord3D *pos)
 {
-	return p->Normalize();
+	return pos->Normalize();
 }
 
 
@@ -540,9 +540,9 @@ __declspec(noinline) inline float Coord3D::operator*(const Coord3DBase &that) co
 }
 
 // ?bfmeAnchorCoord3DDot absent-from-retail
-float bfmeAnchorCoord3DDot(const Coord3D *p, const Coord3DBase &that)
+float bfmeAnchorCoord3DDot(const Coord3D *pos, const Coord3DBase &that)
 {
-	return *p * that;
+	return *pos * that;
 }
 
 
@@ -618,9 +618,9 @@ __declspec(noinline) inline void Coord3D::sub(const Coord3DBase *that)
 }
 
 // ?bfmeAnchorCoord3DSub absent-from-retail
-void bfmeAnchorCoord3DSub(Coord3D *p, const Coord3DBase *that)
+void bfmeAnchorCoord3DSub(Coord3D *pos, const Coord3DBase *that)
 {
-	p->sub(that);
+	pos->sub(that);
 }
 
 

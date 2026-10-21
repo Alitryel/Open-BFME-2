@@ -34,7 +34,7 @@ enum DisabledType { DISABLED_SPECIAL_ABILITY = 3 };
 enum EvaEventID { EVA_CAPTURED = 17 };
 struct GrabPosition : Coord3D {
     GrabPosition() {}
-    GrabPosition(const Coord3D &p) { x=p.x; y=p.y; z=p.z; }
+    GrabPosition(const Coord3D &pos) { x=pos.x; y=pos.y; z=pos.z; }
     ~GrabPosition() {}
 };
 // Vector3::Rotate_Z from the cited ZH reference. Keep the CRT float

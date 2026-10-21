@@ -22,9 +22,9 @@ extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva004EBF4B { public: Coord3D rva004EBF4B(); };
 Coord3D __cdecl Rva00506CF5(void *, Coord3D *);
 
-static __forceinline float positionDistance(Coord3D saved, const Coord3D &p)
+static __forceinline float positionDistance(Coord3D saved, const Coord3D &pos)
 {
- float x = p.x - saved.x, y = p.y - saved.y, z = p.z - saved.z;
+ float x = pos.x - saved.x, y = pos.y - saved.y, z = pos.z - saved.z;
  return WWMath::Sqrt(z * z + y * y + x * x);
 }
 float Rva005A9562::rva005A92DE(void *other)

@@ -75,7 +75,7 @@ private:
 	_STL::vector<ObjectID> m_lastRequestedIDList;
 };
 
-static __forceinline void zero(Coord3D& p){p.x=0.0f;p.y=0.0f;p.z=0.0f;}
+static __forceinline void zero(Coord3D& pos){pos.x=0.0f;pos.y=0.0f;pos.z=0.0f;}
 AIGroup::AIGroup()
 {
 	m_groundPath = 0;

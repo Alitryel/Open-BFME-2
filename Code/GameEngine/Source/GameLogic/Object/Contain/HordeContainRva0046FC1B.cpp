@@ -65,7 +65,7 @@ public:
 };
 struct Rva002ED236Pos {
     float x,y,z;
-    Rva002ED236Pos(const Coord3D &p) { x=p.x; y=p.y; z=p.z; }
+    Rva002ED236Pos(const Coord3D &pos) { x=pos.x; y=pos.y; z=pos.z; }
     ~Rva002ED236Pos() {}
 };
 class Pathfinder { public: PathfindLayerEnum rva002ED236(Object *, Rva002ED236Pos); };

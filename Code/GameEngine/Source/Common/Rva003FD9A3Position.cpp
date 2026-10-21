@@ -17,7 +17,7 @@ struct Rva001F3899Arg { int a, b, c; };
 struct Rva003FD9A3Point
 {
 	float x, y, z;
-	Rva003FD9A3Point(const Coord3D &p) : x(p.x), y(p.y), z(p.z) {}
+	Rva003FD9A3Point(const Coord3D &pos) : x(pos.x), y(pos.y), z(pos.z) {}
 };
 
 class Rva001F3899Slot { public: void set(const Rva001F3899Arg &); };

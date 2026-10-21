@@ -158,9 +158,9 @@ public:
 	AIUpdateInterface *m_ai;			// +0x258
 };
 
-static __forceinline void copyCoord(Coord3D &c, const Coord3D *p) { c.x = p->x; c.y = p->y; c.z = p->z; }
-static __forceinline void subCoord(Coord3D &c, const Coord3D *p) { c.x -= p->x; c.y -= p->y; c.z -= p->z; }
-static __forceinline void addCoord(Coord3D &c, const Coord3D *p) { c.x += p->x; c.y += p->y; c.z += p->z; }
+static __forceinline void copyCoord(Coord3D &c, const Coord3D *pos) { c.x = pos->x; c.y = pos->y; c.z = pos->z; }
+static __forceinline void subCoord(Coord3D &c, const Coord3D *pos) { c.x -= pos->x; c.y -= pos->y; c.z -= pos->z; }
+static __forceinline void addCoord(Coord3D &c, const Coord3D *pos) { c.x += pos->x; c.y += pos->y; c.z += pos->z; }
 static __forceinline void scaleCoord(Coord3D &c, float s) { c.x *= s; c.y *= s; c.z *= s; }
 
 extern "C" int __cdecl fprintf(void *stream, const char *format, ...);

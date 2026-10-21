@@ -8,4 +8,4 @@ struct Rva0030B7C2Point { float x,y; };
 class Rva0030B719Shape;
 bool rva0030B7C2(const Rva0030B7C2Point*,Rva0030B719Shape*);
 class PolygonTrigger {public:bool rva002E3A39(const Coord3D&);};
-bool PolygonTrigger::rva002E3A39(const Coord3D&p){Rva0030B7C2Point point;point.x=p.x;point.y=p.y;return rva0030B7C2(&point,(Rva0030B719Shape*)((char*)this+8));}
+bool PolygonTrigger::rva002E3A39(const Coord3D&pos){Rva0030B7C2Point point;point.x=pos.x;point.y=pos.y;return rva0030B7C2(&point,(Rva0030B719Shape*)((char*)this+8));}

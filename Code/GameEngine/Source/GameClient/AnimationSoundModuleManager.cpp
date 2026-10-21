@@ -28,7 +28,7 @@ class AnimationSoundModuleManager {public:
  char prefix[0x0c];AnimationSoundClientBehavior *cleanHead,*cleanTail,*dirtyHead,*dirtyTail;
  int count;Coord3D listenerPosition;
 };
-static __forceinline float animationSoundLengthSquared(const Coord3D&p){return p.z*p.z+p.y*p.y+p.x*p.x;}
+static __forceinline float animationSoundLengthSquared(const Coord3D&pos){return pos.z*pos.z+pos.y*pos.y+pos.x*pos.x;}
 void AnimationSoundModuleManager::update(){
  const Coord3D *listener=((AnimationListenerCalls*)TheAudio)->listener();
  Coord3D delta;delta.x=listener->x;delta.y=listener->y;delta.z=listener->z;

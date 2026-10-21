@@ -8,14 +8,14 @@
 class Pathfinder
 {
 public:
-	void SetDebugPathPosition(const Coord3D *p);
+	void SetDebugPathPosition(const Coord3D *pos);
 
 private:
 	char m_pad00[0x4C];
 	Coord3D m_at4C;
 };
 
-void Pathfinder::SetDebugPathPosition(const Coord3D *p)
+void Pathfinder::SetDebugPathPosition(const Coord3D *pos)
 {
-	m_at4C = *p;
+	m_at4C = *pos;
 }

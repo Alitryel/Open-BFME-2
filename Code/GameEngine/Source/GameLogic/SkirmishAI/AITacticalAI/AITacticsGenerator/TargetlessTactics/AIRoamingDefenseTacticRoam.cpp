@@ -59,8 +59,8 @@ struct RoamVector3 {
  __forceinline RoamVector3 &operator*=(float k){X=X*k;Y=Y*k;Z=Z*k;return *this;}
  __forceinline void scale(float f){X*=f;Y*=f;Z*=f;}
 };
-static __forceinline void RoamSet(Coord3D *p,float x,float y,float z){p->x=x;p->y=y;p->z=z;}
-static __forceinline void RoamAdd(Coord3D *p,const Coord3D *q){p->x+=q->x;p->y+=q->y;p->z+=q->z;}
+static __forceinline void RoamSet(Coord3D *pos,float x,float y,float z){pos->x=x;pos->y=y;pos->z=z;}
+static __forceinline void RoamAdd(Coord3D *pos,const Coord3D *q){pos->x+=q->x;pos->y+=q->y;pos->z+=q->z;}
 static __forceinline float RoamDistance2(const RoamVector3 &roamVector3,const RoamVector3 &b){RoamVector3 diff(0,0,0);diff.Z=roamVector3.Z-b.Z;diff.Y=roamVector3.Y-b.Y;diff.X=roamVector3.X-b.X;return diff.length2();}
 class AIRoamingDefenseTactic {public:void roam(Object *);char pad[0x24];Player *owner;};
 void AIRoamingDefenseTactic::roam(Object *obj)

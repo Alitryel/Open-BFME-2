@@ -28,7 +28,7 @@ static const char *BfmeLivingWorldDefaultTexture="EXLaser.tga";
 LivingWorldDefaultTriple BfmeLivingWorldDefaultTriple1={1.0f,0.2f,0.2f};
 LivingWorldDefaultTriple BfmeLivingWorldDefaultTriple2={0.97f,0.64f,0.15f};
 LivingWorldDefaultTriple BfmeLivingWorldDefaultTriple3={0.97f,0.64f,0.15f};
-__forceinline void zeroCoord(Coord3D &p){p.x=0;p.y=0;p.z=0;}
+__forceinline void zeroCoord(Coord3D &pos){pos.x=0;pos.y=0;pos.z=0;}
 class Rva00212ED3:public AsciiString {
 public:Rva00212ED3(); ~Rva00212ED3();
 private:
