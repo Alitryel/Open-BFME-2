@@ -1,7 +1,10 @@
 """BFME1's declared-name metric, applied to tracked Code/ sources.
 
 Declaration parsing and placeholder rules ported from Open-BFME-1's
-name_lane.py and readability_metric.py at 7c4d488c5b. Generated dumps are
+name_lane.py and readability_metric.py at 7c4d488c5b, with the offset rule
+tightened (see `offset`): tools/rename.py shares this definition, and an
+inferred rename may replace only what it calls a placeholder, so a real name
+read as an offset (parseCoord3D, dwReserved1) would be open to replacement. Generated dumps are
 excluded; globals count once across extern declarations. This measures
 non-placeholder spelling, not proof of an original EA identity.
 """
@@ -26,7 +29,36 @@ FUNC = re.compile(r"^[ \t]*(?:[A-Za-z_][\w:<>,*& \t]*?[\s*&])?((?:[A-Za-z_]\w*::
 ADDRESSED = re.compile(r"(?:d|dup|sub|uw|eh|tg|fun|nullsub|loc|j)_[0-9A-Fa-f]{4,8}\b"
                        r"|Rva[0-9A-Fa-f]{6,8}\b|gen[0-9A-Fa-f]{6,8}\b|Gen_?[0-9A-Fa-f]{3,8}\b"
                        r"|Rva[0-9A-Fa-f]{4,8}(?-i:[A-Z])|Gen_?[0-9A-Fa-f]{6,8}(?-i:[A-Z])", re.I)
-OFFSET = re.compile(r"(?:m_)?[a-z][A-Za-z]*?_?(?:0x)?(?=[0-9a-fA-F]*\d)[0-9a-fA-F]{2,}")
+# An offset-derived name: m_ (or s_/g_) and nothing but hex (m_0C, m_B0,
+# m_64), a field-style prefix and hex (field_1C, unk14, off_20, m_var0), or a
+# lower-case word then an offset tail of two or more hex characters that starts
+# with a digit, or with an upper-case hex letter right after a lower-case one
+# (m_p10, slot20, m_value_84, m_valueC4, m_field_0x20). A one-digit tail
+# (data2, word1), a dimension or bit-width suffix (parseCoord3D, getInt64,
+# crc32, vec3d, sha256) and a *Reserved<n> field (dwReserved1) are real names:
+# BFME1's rule read any two-hex-character tail with a digit -- the 'd3D' of
+# parseCoord3D, the 'd1' of dwReserved1 -- as an offset.
+OFFSET_HEX = r"(?:0x)?(?=[0-9a-fA-F]*\d)[0-9a-fA-F]+"
+OFFSET_FIELD = re.compile(r"[msg]_" + OFFSET_HEX + r"|(?:[msg]_)?(?:field|unk|unknown|off|offset|var|dword|word"
+                          r"|byte|ptr)_?" + OFFSET_HEX)
+OFFSET_TAIL = re.compile(r"(?:m_)?[a-z][A-Za-z]*?_?((?:0x)?(?:\d[0-9a-fA-F]*|(?<=[a-z])[A-F][0-9A-F]*))")
+WIDTH = re.compile(r"(?:0x)?(?:8|16|32|64|128|256|[234][dD])")
+RESERVED = re.compile(r"\w*[Rr]eserved\d*")
+
+
+def offset(word):
+    """True for an offset-derived name (see OFFSET_FIELD and OFFSET_TAIL)."""
+    if RESERVED.fullmatch(word):
+        return False
+    if OFFSET_FIELD.fullmatch(word):
+        return True
+    match = OFFSET_TAIL.fullmatch(word)
+    if not match or not re.search(r"\d", match.group(1)):
+        return False
+    tail = match.group(1)[2:] if match.group(1).startswith("0x") else match.group(1)
+    return len(tail) >= 2 and not WIDTH.fullmatch(tail)
+
+
 OPAQUE = re.compile(r"[a-z]{1,2}Var\d+|local_[0-9a-fA-F]+|param_\d+|(?:in|extraout)_[A-Z]{2,3}|[av]\d{1,2}")
 HEXRUN = re.compile(r"(?i)(?=(?:[0-9a-f]*\d){3})[0-9a-f]{6,8}")
 WEAK_LOCAL = re.compile(r"(?i)[a-hl-z]|(?:tmp|temp)\w*|arg(?:ument)?\d*|[a-z]{1,2}\d+")
@@ -41,7 +73,7 @@ __cdecl __stdcall __thiscall __fastcall __declspec __int64 __asm""".split())
 @functools.lru_cache(maxsize=None)
 def placeholder(word):
     return bool(ADDRESSED.fullmatch(word) or re.search(r"(?i)(^|_)bfme", word) or re.search(r"[0-9A-F]{6,8}", word)
-                or HEXRUN.search(word) or (OFFSET.fullmatch(word) and not PAD.match(word)) or OPAQUE.fullmatch(word))
+                or HEXRUN.search(word) or (offset(word) and not PAD.match(word)) or OPAQUE.fullmatch(word))
 
 
 def weak(kind, name):

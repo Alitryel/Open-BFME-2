@@ -41,3 +41,8 @@ reverse/re_attempts.log text eol=lf merge=union
 reverse/body_owners.csv text eol=lf merge=union
 # data_rows.csv (tools/data_rows.py): one owner per address, appended like the others
 reverse/data_rows.csv text eol=lf merge=union
+# name_basis.csv, name_agreed.csv and name_votes.csv (tools/rename.py and its lane): append-only
+# provenance every seat and the daily pass write at end of file
+reverse/name_basis.csv text eol=lf merge=union
+reverse/name_agreed.csv text eol=lf merge=union
+reverse/name_votes.csv text eol=lf merge=union

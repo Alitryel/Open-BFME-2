@@ -81,3 +81,24 @@ def test_empty_scope_aborts(tmp_path, monkeypatch):
     monkeypatch.setattr(names, "ROOT", tmp_path)
     with pytest.raises(ValueError, match="No declared names"):
         names.readable()
+
+
+# Real names BFME1's two-hex-character offset rule read as placeholders (the
+# 'd3D' of parseCoord3D, the 'd1' of dwReserved1); tools/rename.py lets an
+# inferred name replace only a placeholder, so these must stay real.
+@pytest.mark.parametrize("name", [
+    "parseCoord3D", "parseBitString32", "getInt64", "addInt64", "getCoord3D", "initFilters3D",
+    "getCenterPoint2D", "readInt32", "getPosition3D", "m_sampleCount2D", "m_sampleCount3D", "data2",
+    "dwReserved1", "lpReserved2", "bfReserved1", "int64", "float32", "vec3d", "crc32", "sha256",
+    "readWord128", "texture_2D",
+])
+def test_dimension_width_and_reserved_names_are_real(name):
+    assert not names.placeholder(name)
+
+
+@pytest.mark.parametrize("name", [
+    "m_0C", "m_B0", "m_64", "m_4", "field_1C", "unk14", "off_20", "m_var0", "m_field_0x20", "m_value_84",
+    "m_valueC4", "m_value184", "m_unkC8", "m_p10", "m04", "slot20", "m_at0c",
+])
+def test_offset_names_are_placeholders(name):
+    assert names.placeholder(name)
