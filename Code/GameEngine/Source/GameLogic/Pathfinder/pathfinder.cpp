@@ -159,7 +159,7 @@ class Waypoint { public:
 class PathfindCell;
 class Path
 {
- friend class Pathfinder;
+ friend class Pathfinder;friend struct Rva002F5925Info;
 public:
  void prependNode(const Coord3D *,PathfindLayerEnum,Int);
 	Path();										///< matched 0x00363DC8
@@ -214,7 +214,7 @@ class Rva002E6AF3 { public: Int get() const; };
 class Rva002E6B06 { public: Int rva002E6B06(); };
 class Rva002E6C79;
 struct Rva002E8BCFSrc;
-class Rva002E8BCF { public: Rva002E8BCF(const Rva002E8BCFSrc *,Bool,Int,Bool); Int surfaces;Bool field4,field5;Int maxLayer;Bool fieldC; };
+class Rva002E8BCF { public: Rva002E8BCF(){} Rva002E8BCF(const Rva002E8BCFSrc *,Bool,Int,Bool); Int surfaces;Bool field4,field5;Int maxLayer;Bool fieldC; };
 class Rva002E6DC4
 {
 public:
@@ -839,6 +839,7 @@ protected:
 		Coord3D *adjustedTo);
 private:
 	Int iterateCellsAlongLine(const ICoord2D *,const ICoord2D *,PathfindLayerEnum,Rva002E7261Info *);
+	Int iterateCellsAlongLine(const ICoord2D *,const ICoord2D *,PathfindLayerEnum,struct Rva002F5925Info *);
 	char m_pad004[4];Bool m_isMapReady;char m_pad009[7];
 	int m_unknown10;
 	ICoord2D m_clampLo, m_clampHi;	// +0x14 cell extent the 0x002E7917 clamp uses
@@ -3523,6 +3524,131 @@ static __forceinline Bool checkCell(Pathfinder *pf, Object *obj, CheckMovementCe
 	checkCellFlags(pf, obj, cell, info);
 	return checkCellUnits(obj, cell, info, lastID);
 }
+static __forceinline Bool checkPairCellUnits(Object *&obj, CheckMovementCell *cell, TCheckMovementInfo &info, Int *lastID)
+	{
+		if (cell->rvaInfo14())
+			info.m_32 = true;
+
+		for (CheckMovementObjectNode *node = cell->getObjects(); node; node = node->m_next)
+		{
+			Object *unit = node->m_object;
+			if (unit == obj || unit->getID() == info.m_18 || unit->getID() == *lastID) continue;
+			*lastID = (Int)unit->getID();
+
+			Bool check = false;
+			Bool isAlly;
+			unsigned occupied=cell->hasObjects();
+			Object *owner=obj;
+			if (occupied)
+			{
+				isAlly = owner->getRelationship(unit) == ALLIES;
+				if (isAlly)
+					info.m_31 = true;
+				if (info.m_11)
+					check = true;
+				if (!isAlly && (info.m_14 & 0x10))
+					check = true;
+			}
+			if (unit->IsAtGoalPosition())
+			{
+				isAlly = owner->getRelationship(unit) == ALLIES;
+				check = true;
+			}
+			if (!check)
+				continue;
+
+			if (isAlly && owner->m_template->testKindWord(0x74) && unit->m_template->testKindWord(0x74))
+				continue;
+			if (owner->m_template->testKindWord(0x7D) && unit->m_template->testKindWord(8))
+				continue;
+			if (isAlly && owner->m_template->testKindWord(0xBA) && !unit->m_template->testKindWord(0xBA))
+			{
+				info.m_32 = false;
+				continue;
+			}
+			if (owner->m_template->testKindWord(0xBB))
+			{
+				info.m_32 = false;
+				continue;
+			}
+
+			if (isAlly)
+			{
+				if (!unit->getAI())
+					return false;
+				if (info.m_14 & 2)
+					return false;
+				info.m_2C = 1;
+				if (unit->m_template->testKindWord(0xBA) && !owner->m_template->testKindWord(0xBA))
+					return false;
+				continue;
+			}
+
+			if (owner->canCrushOrSquishNoAlly(unit, 2))
+				continue;
+			if (!(info.m_14 & 0x11))
+				continue;
+			AIUpdateInterface *ai = obj->getAI();
+			if (!ai)
+				return false;
+			Object *goal = ((CheckMovementAIView*)ai)->m_stateMachine->getGoalObject();
+			if (goal)
+			{
+				if (unit == goal || unit->container == goal)
+					continue;
+				goal = goal->container;
+				if (goal && (unit == goal || unit->container == goal))
+					continue;
+			}
+			Object *victim = ai->getCurrentVictim();
+			if (!victim)
+				return false;
+			if (unit == victim || unit->container == victim)
+				continue;
+			victim = victim->container;
+			if (!victim)
+				return false;
+			if (unit == victim || unit->container == victim)
+				continue;
+			return false;
+		}
+		return true;
+	}
+__declspec(noinline) inline Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell)
+{
+	info.m_2C = 0;
+	info.m_31 = false;
+	info.m_32 = false;
+	info.m_30 = false;
+	info.m_34 = 0;
+
+	Int numCellsAbove = info.radius;
+	if (info.centerInCell)
+		numCellsAbove++;
+
+	Int lastID = (Int)0;
+	for (Int i = info.cell.x - info.radius; i < info.cell.x + numCellsAbove; i++)
+	{
+		Bool inOtherX = i >= otherCell->x - info.radius && i < otherCell->x + numCellsAbove;
+		for (Int j = info.cell.y - info.radius; j < info.cell.y + numCellsAbove; j++)
+		{
+			CheckMovementCell *cell = (CheckMovementCell*)getCell(info.layer, i, j);
+			if (!cell)
+				return false;
+			if (inOtherX && j >= otherCell->y - info.radius && j < otherCell->y + numCellsAbove)
+			{
+				checkCellFlags(this, obj, cell, info);
+			}
+			else
+			{
+				checkCellFlags(this,obj,cell,info);
+				if (!checkPairCellUnits(obj, cell, info, &lastID))
+					return false;
+			}
+		}
+	}
+	return true;
+}
 Bool Pathfinder::checkForMovement(Object *obj, TCheckMovementInfo &info)
 {
 	info.m_2C = 0;
@@ -3587,6 +3713,179 @@ void *Pathfinder::rva001E3647Pos(int layer, const Coord3D *pos)
 	return cell;
 }
 struct PathfinderPatchLimitView { char pad[0x120C]; unsigned int maxCells; };
+struct Rva002F5925Info {Pathfinder *pathfinder;char data4[16];bool center,human;char pad16[2];int radius;Object*object;PathfindCell*goal;int ignoreID;ICoord2D previous;int range;int cellCallback(PathfindCell*,PathfindCell*,int,int);};
+extern unsigned PathfinderSearchCellsVisited;
+__declspec(noinline) inline Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell, 
+	const ICoord2D *destinationCell, PathfindLayerEnum layer, 
+	Rva002F5925Info *callbackInfo ) 
+{ 
+	Int delta_x = abs( destinationCell->x - startCell->x ); 
+	Int delta_y = abs( destinationCell->y - startCell->y ); 
+ 
+	Int xinc2, yinc1, xinc1, numpixels, numadd, den; 
+	Int yinc2, num; 
+	if (delta_x >= delta_y) 
+	{ 
+		numpixels = delta_x + 1; 
+		num = 2 * delta_y - delta_x; 
+		numadd = delta_y << 1; 
+		den = 2 * (delta_y - delta_x); 
+		xinc2 = 1; 
+		yinc2 = 0; 
+		yinc1 = 1; 
+		xinc1 = 1; 
+	} 
+	else 
+	{ 
+		numpixels = delta_y + 1; 
+		num = 2 * delta_x - delta_y; 
+		numadd = delta_x << 1; 
+		den = 2 * (delta_x - delta_y); 
+		yinc2 = 1; 
+		xinc2 = 0; 
+		yinc1 = 1; 
+		xinc1 = 1; 
+	} 
+ 
+	if (startCell->x > destinationCell->x) 
+	{ 
+		xinc2 = -xinc2; 
+		xinc1 = -1; 
+	} 
+	if (startCell->y > destinationCell->y) 
+	{ 
+		yinc2 = -yinc2; 
+		yinc1 = -1; 
+	} 
+ 
+	Int x = startCell->x; 
+	Int y = startCell->y; 
+	PathfindCell *previousCell = 0; 
+	for (Int curpixel = 0; curpixel < numpixels; curpixel++) 
+	{ 
+		PathfindCell *currentCell = getCell( layer, x, y ); 
+		if (currentCell == 0) 
+			return 0; 
+ 
+		Int ret = callbackInfo->cellCallback( previousCell, currentCell, x, y ); 
+		if (ret != 0) 
+			return ret; 
+		previousCell = currentCell; 
+ 
+		if (num < 0) 
+		{ 
+			num += numadd; 
+			x += xinc2; 
+			y += yinc2; 
+		} 
+		else 
+		{ 
+			num += den; 
+			x += xinc1; 
+			y += yinc1; 
+		} 
+	} 
+	return 0; 
+}
+class Rva002EAB6F {public:Rva002EAB6F(Int,const Rva002E8BCFSrc *,unsigned char,Int,Object *,unsigned char,Int,Int);int m0;Rva002E8BCF m4;unsigned char m14,m15;int m18;Object*m1C;int m20,m24;char pad28[8];int m30;};
+struct BurningCell {char pad[6];unsigned short count;char pad8[12];};
+struct BurningGrid {char pad[0x70];BurningCell **cells;char word74[4];Int width,height;};
+class Rva002872BA;extern Rva002872BA *TheTriggerManager;
+struct NeighborMovementInfo { ICoord2D cell;PathfindLayerEnum layer;Int radius;Bool centerInCell,considerTransient;char pad12[2];Int options,ignore;Rva002E8BCF movement;Int allyFixedCount;Bool flag30,flag31,allyGoal;char pad33;Int blockedCells; };
+struct NeighborWorldPoint:Coord3D {NeighborWorldPoint(){} ~NeighborWorldPoint(){}};
+static __forceinline Int neighborRealToIntFloor(float f){float floored=floor(f);long i;__asm { fld [floored] } __asm { fistp [i] } return i;}
+static __forceinline Bool nativeBurning(BurningGrid *grid,const Coord3D &point){Int fireX=neighborRealToIntFloor((point.x+0.5f)*0.1f);Int fireY=neighborRealToIntFloor((point.y+0.5f)*0.1f);if(fireX>=0 && fireX<grid->width && fireY>=0 && fireY<grid->height)return grid->cells[fireX][fireY].count>0;return false;}
+// Shared neighbor body from PathfinderSidewaysAttack.cpp; the index is unused.
+// ?Pathfinder::rva002F83F5 present-unmatched
+inline __declspec(noinline) Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
+{
+if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
+Bool canPathThroughUnits=false;
+if(obj->getAI())canPathThroughUnits=*(Bool *)((char *)obj->getAI()+0x3ba);
+if(!m_isTunneling && !locomotorSet.isDownhillOnly() && goalCell && !(parentCell->getXIndex()&3) && !(parentCell->getYIndex()&3)) {
+const ICoord2D *start=(const ICoord2D *)parentCell->m_pathInfo;
+ICoord2D end; if(m_1C1CC.empty()){end=*(const ICoord2D*)goalCell->m_pathInfo;}else{end=*(const ICoord2D*)&m_1C1CC.back().m_position;}PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();
+iterateCellsAlongLine(start,&end,layer,(Rva002F5925Info *)&Rva002EAB6F((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0));
+}
+{
+Int cellCount=0;
+NeighborMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
+info.layer=(PathfindLayerEnum)parentCell->getLayer();info.centerInCell=centerInCell;info.radius=radius;
+info.options=12;if(!obj->m_template->hasKind(90))info.options|=16;
+info.ignore=obj->getAI()?((Rva0006E009DwordField *)obj->getAI())->get():0;
+info.considerTransient=true;Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;
+info.movement=Rva002E8BCF((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
+// expand search to neighboring orthogonal cells
+static Int deltaX[]={1,0,-1,0,1,-1,-1,1};static Int deltaY[]={0,1,0,-1,1,1,-1,-1};
+Bool storage[8];Bool (&neighborFlags)[8]=storage;
+for(Int i=0;i<8;++i) {
+neighborFlags[i]=false;
+// determine neighbor cell to try
+Int x=parentCell->getXIndex()+deltaX[i],y=parentCell->getYIndex()+deltaY[i];ICoord2D coords={x,y};
+// get the neighboring cell
+PathfindCell *newCell=getCell((PathfindLayerEnum)parentCell->getLayer(),x,y);
+// check if cell is on the map
+if(!newCell)continue;
+// check if this neighbor cell is already on the open (waiting to be tried)
+// or closed (already tried) lists
+if((unsigned char)((Rva002E6B06 *)newCell)->rva002E6B06() || (unsigned char)((Rva002E6AF3 *)newCell)->get())continue;
+if(newCell->getLayer()!=parentCell->getLayer() && !(info.movement.surfaces&64) && newCell->getLayer()!=((parentCell->m_info>>10)&63) && ((newCell->m_info>>10)&63)!=parentCell->getLayer() && (((parentCell->m_info>>10)&63)!=16 || ((newCell->m_info>>10)&63)!=((parentCell->m_info>>10)&63)))continue;
+if(isHuman){
+// check if new cell is in logical map.	(computer can move off logical map)
+if(x<m_extentLowX)continue;if(y<m_extentLowY)continue;if(x>m_extentHighX)continue;if(y>m_extentHighY)continue;}
+// make sure one of the adjacent sides is open.
+if(i>=4 && !neighborFlags[i&3] && !neighborFlags[(i+1)&3])continue;
+// do the gravity check here
+if(locomotorSet.isDownhillOnly()) {
+NeighborWorldPoint fromPoint;fromPoint.x=(float)(parentCell->getXIndex()*10);fromPoint.y=(float)(parentCell->getYIndex()*10);fromPoint.z=TheTerrainLogic->getGroundHeight(fromPoint.x,fromPoint.y,0);
+NeighborWorldPoint toPoint;toPoint.x=(float)(x*10);toPoint.y=(float)(y*10);toPoint.z=TheTerrainLogic->getGroundHeight(toPoint.x,toPoint.y,0);
+if(fromPoint.z<toPoint.z)continue;
+}
+Bool movementValid=((Rva002E6DC4 *)this)->rva002E6DC4(&info.movement,newCell);
+Bool tunnelingValid=false;
+if(m_isTunneling)tunnelingValid=(newCell->getLayer()==parentCell->getLayer());
+if(!movementValid && !tunnelingValid){newCell->allocateInfo((In002E6BA1 *)&coords);newCell->PutOnClosedList(&m_closedList);continue;}
+neighborFlags[i]=true;
+info.cell.x=x;info.cell.y=y;
+if(!rva002EA658(obj,*(TCheckMovementInfo *)&info,(const ICoord2D *)parentCell->m_pathInfo)) {
+if(!tunnelingValid){newCell->allocateInfo((In002E6BA1 *)&coords);newCell->PutOnClosedList(&m_closedList);continue;}
+++info.blockedCells;
+} else {
+//Note to self - only turn off tunneling after check for movement.jba. 
+if(movementValid)m_isTunneling=false;}
+if(!newCell->m_pathInfo)++cellCount;
+newCell->allocateInfo((In002E6BA1 *)&coords);
+unsigned int newCostSoFar=0;
+Int dx=goalCell?abs(x-goalCell->getXIndex()):3;
+Int dy=goalCell?abs(y-goalCell->getYIndex()):3;
+if(newCell->getType()==2 && !(unsigned char)(newCell->m_info>>16&1)) {
+NeighborWorldPoint fromPoint;fromPoint.x=(float)(parentCell->getXIndex()*10);fromPoint.y=(float)(parentCell->getYIndex()*10);fromPoint.z=TheTerrainLogic->getGroundHeight(fromPoint.x,fromPoint.y,0);
+NeighborWorldPoint toPoint;toPoint.x=(float)(x*10);toPoint.y=(float)(y*10);toPoint.z=TheTerrainLogic->getGroundHeight(toPoint.x,toPoint.y,0);
+if(fabs(fromPoint.z-toPoint.z)<10.0f)newCostSoFar=98;
+} else if((unsigned char)(newCell->m_info>>16)&1 || (unsigned char)(newCell->m_info>>23)&1){if(dx+dy>3)newCostSoFar=10;}
+newCell->m_pathInfo->flags&=~1U;
+if(info.allyFixedCount){newCostSoFar+=14;if(!canPathThroughUnits)newCell->m_pathInfo->flags|=1;}
+Int remaining=0;
+if(goalCell){remaining=rva002F0A72(newCell,goalCell);if(attackMode && info.allyGoal)newCostSoFar+=30;}
+if((unsigned char)Rva002E6E6CGet(newCell->getLayer()) && !m_zoneManager.IsPassable(x,y) && !((unsigned char)(newCell->m_info>>21)&1))newCostSoFar+=1000;
+if(newCell->getType()==4){Int obstacle=newCell->m_pathInfo?newCell->m_pathInfo->obstacleID:0;if(obstacle!=m_ignoreObstacleID)newCostSoFar+=1000;}
+newCostSoFar+=info.blockedCells*10;
+if(m_isTunneling && !((Rva002E6DC4 *)this)->rva002E6DC4(&info.movement,newCell))newCostSoFar+=100;
+if((unsigned char)(newCell->m_info>>21)&1)newCostSoFar>>=1;
+newCostSoFar+=newCell->CalcCostSoFar((const Rva002E6C79 *)parentCell);
+newCostSoFar+=CalcExtraCosts(obj,parentCell,(Rva002EBC7FPair *)&coords,info.radius,info.radius+(info.centerInCell?1:0),true);
+Coord3D point;point.x=(float)(x*10);point.y=(float)(y*10);Bool burning=nativeBurning((BurningGrid*)TheTriggerManager,point);
+if(burning)newCostSoFar+=10;
+newCell->m_pathInfo->costSoFar=(unsigned short)newCostSoFar;
+// keep track of path we're building - point back to cell we moved here from
+newCell->SetParentCell((Int *)parentCell);
+if(m_isTunneling)remaining=0; // find the closest valid cell.
+newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+remaining);
+AddToOpenList(newCell);
+}
+return cellCount;
+}
+}
 Path *Pathfinder::PatchPath(Object *obj,const LocomotorSet &locomotorSet,Path *originalPath,Bool blocked)
 {
 	if (!originalPath) return 0;
@@ -5412,92 +5711,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
  return true;
 }
 
-class Rva002EAB6F {public:Rva002EAB6F(Int,const Rva002E8BCFSrc *,unsigned char,Int,Object *,unsigned char,Int,Int);char fields[0x34];};
-struct BurningCell {char pad[6];unsigned short count;char pad8[12];};
-struct BurningGrid {char pad[0x70];BurningCell **cells;char word74[4];Int width,height;};
-class Rva002872BA;extern Rva002872BA *TheTriggerManager;
-// Shared neighbor body from PathfinderSidewaysAttack.cpp; the index is unused.
-// ?Pathfinder::rva002F83F5 present-unmatched
-inline __declspec(noinline) Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
-{
-if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
-Bool canPathThroughUnits=false;
-if(obj->getAI())canPathThroughUnits=*(Bool *)((char *)obj->getAI()+0x3ba);
-if(!m_isTunneling && !locomotorSet.isDownhillOnly() && goalCell && !(parentCell->getXIndex()&3) && !(parentCell->getYIndex()&3)) {
-ICoord2D end;const ICoord2D *endPtr;
-if(m_1C1CC.empty()){endPtr=(ICoord2D *)goalCell->m_pathInfo;}
-else {endPtr=(ICoord2D *)&m_1C1CC.back().m_position;}
-end=*endPtr;PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();Rva002EAB6F query((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0);
-iterateCellsAlongLine((const ICoord2D *)parentCell->m_pathInfo,&end,layer,(Rva002E7261Info *)&query);
-}
-Int cellCount=0;
-TCheckMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
-info.layer=(PathfindLayerEnum)parentCell->getLayer();info.radius=radius;info.centerInCell=centerInCell;
-info.m_14=12;if(!obj->m_template->hasKind(90))info.m_14=28;
-info.m_18=(ObjectID)(obj->getAI()?((Rva0006E009DwordField *)obj->getAI())->get():0);
-Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;info.m_11=true;
-(*(Rva002E8BCF *)info.m_1C)=Rva002E8BCF((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
-static Int deltaX[]={1,0,-1,0,1,-1,-1,1};static Int deltaY[]={0,1,0,-1,1,1,-1,-1};
-Bool neighborFlags[8];
-for(Int i=0;i<8;++i) {
-neighborFlags[i]=false;
-Int x=parentCell->getXIndex()+deltaX[i],y=parentCell->getYIndex()+deltaY[i];ICoord2D coords={x,y};
-PathfindCell *newCell=getCell((PathfindLayerEnum)parentCell->getLayer(),x,y);
-if(!newCell)continue;
-if((unsigned char)((Rva002E6B06 *)newCell)->rva002E6B06() || (unsigned char)((Rva002E6AF3 *)newCell)->get())continue;
-if(newCell->getLayer()!=parentCell->getLayer() && !((*(Rva002E8BCF *)info.m_1C).surfaces&64) && newCell->getLayer()!=((parentCell->m_info>>10)&63) && ((newCell->m_info>>10)&63)!=parentCell->getLayer() && (((parentCell->m_info>>10)&63)!=16 || ((newCell->m_info>>10)&63)!=((parentCell->m_info>>10)&63)))continue;
-if(isHuman){if(x<m_extentLowX)continue;if(y<m_extentLowY)continue;if(x>m_extentHighX)continue;if(y>m_extentHighY)continue;}
-if(i>=4 && !neighborFlags[i&3] && !neighborFlags[(i+1)&3])continue;
-if(locomotorSet.isDownhillOnly()) {
-float oldZ=TheTerrainLogic->getGroundHeight((float)(parentCell->getXIndex()*10),(float)(parentCell->getYIndex()*10),0);
-float newZ=TheTerrainLogic->getGroundHeight((float)(x*10),(float)(y*10),0);
-if(oldZ<newZ)continue;
-}
-Bool movementValid=((Rva002E6DC4 *)this)->rva002E6DC4(&(*(Rva002E8BCF *)info.m_1C),newCell);
-Bool tunnelingValid=false;
-if(m_isTunneling)tunnelingValid=(newCell->getLayer()==parentCell->getLayer());
-if(!movementValid && !tunnelingValid){newCell->allocateInfo((In002E6BA1 *)&coords);newCell->PutOnClosedList(&m_closedList);continue;}
-neighborFlags[i]=true;
-info.cell.x=x;info.cell.y=y;
-if(!rva002EA658(obj,info,(const ICoord2D *)parentCell->m_pathInfo)) {
-if(!tunnelingValid){newCell->allocateInfo((In002E6BA1 *)&coords);newCell->PutOnClosedList(&m_closedList);continue;}
-++info.m_34;
-} else {if(movementValid)m_isTunneling=false;}
-if(!newCell->m_pathInfo)++cellCount;
-newCell->allocateInfo((In002E6BA1 *)&coords);
-unsigned int newCostSoFar=0;
-Int dx=goalCell?abs(x-goalCell->getXIndex()):3;
-Int dy=goalCell?abs(y-goalCell->getYIndex()):3;
-if(newCell->getType()==2 && !(unsigned char)(newCell->m_info>>16&1)) {
-float oldZ=TheTerrainLogic->getGroundHeight((float)(parentCell->getXIndex()*10),(float)(parentCell->getYIndex()*10),0);
-float newZ=TheTerrainLogic->getGroundHeight((float)(x*10),(float)(y*10),0);
-if(fabs(oldZ-newZ)<10.0f)newCostSoFar=98;
-} else if((unsigned char)(newCell->m_info>>16)&1 || (unsigned char)(newCell->m_info>>23)&1){if(dx+dy>3)newCostSoFar=10;}
-newCell->m_pathInfo->flags&=~1U;
-if(info.m_2C){newCostSoFar+=14;if(!canPathThroughUnits)newCell->m_pathInfo->flags|=1;}
-Int remaining=0;
-if(goalCell){remaining=rva002F0A72(newCell,goalCell);if(attackMode && info.m_32)newCostSoFar+=30;}
-if((unsigned char)Rva002E6E6CGet(newCell->getLayer()) && !m_zoneManager.IsPassable(x,y) && !((unsigned char)(newCell->m_info>>21)&1))newCostSoFar+=1000;
-if(newCell->getType()==4){Int obstacle=newCell->m_pathInfo?newCell->m_pathInfo->obstacleID:0;if(obstacle!=m_ignoreObstacleID)newCostSoFar+=1000;}
-newCostSoFar+=info.m_34*10;
-if(m_isTunneling && !((Rva002E6DC4 *)this)->rva002E6DC4(&(*(Rva002E8BCF *)info.m_1C),newCell))newCostSoFar+=100;
-if((unsigned char)(newCell->m_info>>21)&1)newCostSoFar>>=1;
-newCostSoFar+=newCell->CalcCostSoFar((const Rva002E6C79 *)parentCell);
-newCostSoFar+=CalcExtraCosts(obj,parentCell,(Rva002EBC7FPair *)&coords,info.radius,info.radius+(info.centerInCell?1:0),true);
-Int fireX=realToIntFloor(((float)(x*10)+0.5f)*0.1f);
-Int fireY=realToIntFloor(((float)(y*10)+0.5f)*0.1f);
-BurningGrid *grid=(BurningGrid *)TheTriggerManager;
-Bool burning=false;
-if(fireX>=0 && fireX<grid->width && fireY>=0 && fireY<grid->height)burning=grid->cells[fireX][fireY].count>0;
-if(burning)newCostSoFar+=10;
-newCell->m_pathInfo->costSoFar=(unsigned short)newCostSoFar;
-newCell->SetParentCell((Int *)parentCell);
-if(m_isTunneling)remaining=0;
-newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+remaining);
-AddToOpenList(newCell);
-}
-return cellCount;
-}
+
 
 // Pathfinder::FindCollisionFreeQuickPath, retail 0x002F64DD (1286 bytes) RET 12.
 // WorldBuilder D624A0 names it (pathfinder.cpp); native vtable C053F8 slot 10.
