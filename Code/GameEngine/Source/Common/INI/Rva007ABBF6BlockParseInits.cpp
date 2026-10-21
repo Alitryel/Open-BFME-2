@@ -52,7 +52,7 @@ void Rva002A92F2Parse(INI *);
 void parseLivingWorldBuildingDefinition(INI *);
 void parseLivingWorldPlayerTemplateDefinition(INI *);
 void parseFireDefinition(INI *);
-void Rva003EF467(INI *);
+void parseLivingWorldRegionEffectsDefinition(INI *);
 void parseLivingWorldArmyIconDefinition(INI *);
 void Rva003FD7CEParse(INI *);
 void parseLivingWorldBuildingIconDefinition(INI *);
@@ -408,7 +408,7 @@ BlockParse theLivingWorldPlayerTemplateBlockParse = { 0, "LivingWorldPlayerTempl
 BlockParse theFireBlockParse = { 0, "Fire", parseFireDefinition };	// VA 0x00DBD9AC "Fire", parse 0x0030AFFB
 BlockParse theWeatherDataBlockParse = { 0, "WeatherData", GlobalWeatherSystem::parseWeatherData };	// VA 0x00DBE4C4 "WeatherData", parse 0x0031842A
 BlockParse theCloudBreakEffectBlockParse = { 0, "CloudBreakEffect", parseCloudBreakEffectDefinition };	// VA 0x00DBE4D0 "CloudBreakEffect", parse 0x00318ABB
-BlockParse theLivingWorldRegionEffectsBlockParse = { 0, "LivingWorldRegionEffects", Rva003EF467 };	// VA 0x00DC14B8 "LivingWorldRegionEffects", parse 0x003EF467
+BlockParse theLivingWorldRegionEffectsBlockParse = { 0, "LivingWorldRegionEffects", parseLivingWorldRegionEffectsDefinition };	// VA 0x00DC14B8 "LivingWorldRegionEffects", parse 0x003EF467
 BlockParse theLivingWorldArmyIconBlockParse = { 0, "LivingWorldArmyIcon", parseLivingWorldArmyIconDefinition };	// VA 0x00DC177C "LivingWorldArmyIcon", parse 0x003F9EDF
 BlockParse theLivingWorldSoundBlockParse = { 0, "LivingWorldSound", LivingWorldSound::ParseSound };	// VA 0x00DC17EC "LivingWorldSound", parse 0x003FB07D
 BlockParse theLivingWorldAnimObjectBlockParse = { 0, "LivingWorldAnimObject", Rva003FD7CEParse };	// VA 0x00DC18EC "LivingWorldAnimObject", parse 0x003FD7CE

@@ -1467,3 +1467,5 @@ __ehhandler$?Rva00402B19Parse@@YAXPAVINI@@@Z,0x00784C2A,"Renamed to __ehhandler$
 __ehhandler$?Rva002E2386Parse@@YAXPAVINI@@@Z,0x00778840,"Renamed to __ehhandler$?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00210A14Parse@@YAXPAVINI@@@Z,0x00210A14,"Renamed to ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00210A14Parse@@YAXPAVINI@@@Z,0x0076D860,"Renamed to __ehhandler$?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva003EF467@@YAXPAVINI@@@Z,0x003EF467,"Renamed to ?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva003EF467@@YAXPAVINI@@@Z,0x00783951,"Renamed to __ehhandler$?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

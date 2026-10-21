@@ -117,11 +117,11 @@ struct S3RegionEntry {AsciiString name;LivingWorldRegionEffectsManager*manager;S
 // ?Rva003EF328::insert absent-from-retail
 // Typed bridge to the existing two-output-argument insertion ABI; fully inlined here.
 __forceinline void Rva003EF328::insert(S3RegionInsertResult &result,const S3RegionEntry &entry){Rva003EF34AOwner &owner=table;owner.fwd((int)&result,(int)&entry);}
-// ?Rva003EF467@@YAXPAVINI@@@Z
+// ?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z
 // Native3EF467..3EF584 block parser; WB10384A0 supplies the semantic spine.
 // Temporary string and pair live through insertion; the named receiver reference
 // preserves ADD ECX,0C before the output-buffer PUSH. Table bytes establish all6 entries.
-void Rva003EF467(INI *ini)
+void parseLivingWorldRegionEffectsDefinition(INI *ini)
 {
  if(ini->getLoadType()!=1)throw INIException(8,"Cannot parse LivingWorldRegionEffects except during game load");
  const char *name=ini->getNextToken(0);
