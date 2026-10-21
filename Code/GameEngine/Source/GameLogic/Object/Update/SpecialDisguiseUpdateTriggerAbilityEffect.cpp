@@ -39,6 +39,8 @@
 
 #define SLOT08(a,b,c,d,e,f,g,h) virtual void a(); virtual void b(); virtual void c(); virtual void d(); virtual void e(); virtual void f(); virtual void g(); virtual void h();
 
+enum ArmorSetType { ARMORSET_NONE = 0 };
+
 class AIUpdateInterface
 {
 public:
@@ -223,7 +225,7 @@ public:
 	void rva0028AE6D();
 	void *getTemplate() const { return m_template; }
 	void setWeaponSetFlag(WeaponSetType type);
-	void rva0028B78A(int value);
+	void setArmorSetFlag(ArmorSetType value);
 	Drawable *getDrawable() const;
 	Player *getControllingPlayer() const;
 
@@ -372,7 +374,7 @@ void SpecialDisguiseUpdate::rva004B04B2(bool value)
 		obj->setModelConditionState(214);
 		obj->m_ai->rva004B04B2Slot142(7);
 		obj->setWeaponSetFlag((WeaponSetType)0x15);
-		obj->rva0028B78A(6);
+		obj->setArmorSetFlag((ArmorSetType)6);
 	}
 	if (rva004B031E())
 	{

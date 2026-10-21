@@ -37,6 +37,8 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef float Real;
 
+enum ArmorSetType { ARMORSET_NONE = 0 };
+
 class Thing;
 class ModuleData
 {
@@ -102,7 +104,7 @@ class Object
 public:
 	void *rva0028BD17() const;
 	Bool testStatus(ObjectStatusTypes bit) const;
-	void rva0028B78A(int v);
+	void setArmorSetFlag(ArmorSetType v);
 	void rva0028AB75(bool v);
 	void rva0028AE6D();
 	Bool isEffectivelyDead() const { return (m_438 & 1) != 0; }
@@ -292,7 +294,7 @@ private:
 		Object *obj = m_object;
 		shim->RemoveObjectFromPathfindMapKeepingGateFlags(obj);
 		m_2C = 2;
-		obj->rva0028B78A(9);
+		obj->setArmorSetFlag((ArmorSetType)9);
 		const GateOpenAndCloseBehaviorModuleData *data = getGateModuleData();
 		for (BfmeStrF9 *p = data->m_vec2C.m_begin; p != data->m_vec2C.m_end; ++p)
 			(&obj->m_objA8)->setFlag(*p, 1);

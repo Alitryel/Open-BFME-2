@@ -17,6 +17,8 @@
 enum KindOfType { KIND_UNKNOWN=-1 };
 enum WeaponSetType { WEAPON_UNKNOWN=0 };
 enum NameKeyType { KEY_UNKNOWN=0 };
+enum ArmorSetType { ARMORSET_NONE = 0 };
+
 class Module;
 class NameKeyGenerator { public: NameKeyType nameToKey(const char *); };
 extern NameKeyGenerator *TheNameKeyGenerator;
@@ -146,8 +148,8 @@ public:
  void rva0028AE6D();
  void clearWeaponSetFlag(WeaponSetType);
  void setWeaponSetFlag(WeaponSetType);
- void rva0028B79C(int);
- void rva0028B78A(int);
+ void clearArmorSetFlag(ArmorSetType);
+ void setArmorSetFlag(ArmorSetType);
 protected:
  Module *findModule(NameKeyType) const;
  friend class ToggleMountedSpecialAbilityUpdate;
@@ -186,7 +188,7 @@ void ToggleMountedSpecialAbilityUpdate::triggerAbilityEffect()
   obj->clearCondition214();
   obj->ai->slot142(0);
   obj->clearWeaponSetFlag((WeaponSetType)21);
-  obj->rva0028B79C(6);
+  obj->clearArmorSetFlag((ArmorSetType)6);
   if(mountedDataView->cancelDisguise && obj->isKindOf((KindOfType)300)) {
    static const NameKeyType key=TheNameKeyGenerator->nameToKey("SpecialDisguiseUpdate");
    SpecialDisguiseUpdate *disguise=(SpecialDisguiseUpdate*)obj->findModule(key);
@@ -196,7 +198,7 @@ void ToggleMountedSpecialAbilityUpdate::triggerAbilityEffect()
   obj->setCondition214();
   obj->ai->slot142(7);
   obj->setWeaponSetFlag((WeaponSetType)21);
-  obj->rva0028B78A(6);
+  obj->setArmorSetFlag((ArmorSetType)6);
  }
  Drawable *drawable=obj->getDrawable();
  if(drawable && drawable->selected) TheControlBar->dirty=true;

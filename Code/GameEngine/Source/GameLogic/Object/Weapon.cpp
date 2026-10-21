@@ -1537,19 +1537,7 @@ void Weapon::onWeaponBonusChange(const Object *source)
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::isTooClose(const Object *source, const Object *target) const
-{
-	Real minAttackRange = m_template->getMinimumAttackRange();
-	if (minAttackRange == 0.0f)
-		return false;
-
-	Real distSqr = ThePartitionManager->getDistanceSquared( source, target, ATTACK_RANGE_CALC_TYPE );
-	if (distSqr < sqr(minAttackRange))
-	{
-		return true;
-	}
-	return false;	
-}
+// Owned by Rva002C96D8Finish.cpp.
 
 //-------------------------------------------------------------------------------------------------
 // Owned by WeaponIsTooClose.cpp.

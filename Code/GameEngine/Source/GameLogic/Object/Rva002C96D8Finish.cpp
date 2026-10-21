@@ -50,7 +50,7 @@ class Weapon
 {
 public:
 	bool isTooClose(const Object *source, const Coord3D *pos) const;
-	bool rva002C9AFE(const Object *source, const void *other) const;
+	bool isTooClose(const Object *source, const Object *other) const;
 	float rva002C957E() const;
 	bool rva002C95F0() const;
 	void rva002C95DE(int offset);
@@ -83,7 +83,7 @@ bool Weapon::isTooClose(const Object *source, const Coord3D *pos) const
 	return false;
 }
 
-bool Weapon::rva002C9AFE(const Object *source, const void *other) const
+bool Weapon::isTooClose(const Object *source, const Object *other) const
 {
 	float minRange = m_template->getMinimumAttackRange();
 	if (minRange == 0.0f)

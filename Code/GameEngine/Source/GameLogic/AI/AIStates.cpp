@@ -548,7 +548,7 @@ public:
 	const WeaponTemplate *getTemplate() const { return m_template; }
 	Bool isWithinAttackRange(const Object *source, const Object *target, Real extra, Int flag) const;
 	char isWithinAttackRange(Object *source, void *pos, Real extra, Int flag) const;
-	Bool rva002C9AFE(const Object *source, const void *target) const;
+	Bool isTooClose(const Object *source, const Object *target) const;
 	WeaponStatus getStatus() const;
 private:
 	unsigned char m_pad00[0x04];

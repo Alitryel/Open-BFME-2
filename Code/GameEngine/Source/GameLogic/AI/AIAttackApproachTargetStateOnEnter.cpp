@@ -560,7 +560,7 @@ public:
 	Bool isWithinAttackRange(const Object *source, const Object *target, Real extra, Int flag) const;
 	char isWithinAttackRange(Object *source, void *pos, Real extra, Int flag) const;
 	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *victim, const Coord3D *victimPos, Real extra, Bool flag);	// 0x002CB35C
-	Bool rva002C9AFE(const Object *source, const void *target) const;
+	Bool isTooClose(const Object *source, const Object *target) const;
 	WeaponStatus getStatus() const;
 private:
 	unsigned char m_pad00[0x04];
@@ -1114,7 +1114,7 @@ static Bool canPursue(Object *source, Weapon *weapon, Object *victim)
 		}
 	}
 
-	if (weapon->rva002C9AFE(source, victim))
+	if (weapon->isTooClose(source, victim))
 		return false;
 
 	Real ourMaxSpeed = source->getObservedAI()->getCurLocomotorSpeed();

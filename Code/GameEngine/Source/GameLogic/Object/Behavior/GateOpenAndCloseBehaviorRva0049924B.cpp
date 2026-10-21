@@ -1,12 +1,14 @@
 // cl: /DNDEBUG /MD /GX
 // ?rva0049924B@GateOpenAndCloseBehavior@@AAEX_N@Z @0x0049924B 138B: private helper;
 // if +0x2C==1 return; if flag runs pinned 0x00498FAA; removes object from
-// pathfind shim, sets state 1 via Object::rva0028B79C(9), clears two
+// pathfind shim, sets state 1 via Object::clearArmorSetFlag(9), clears two
 // BfmeStrF9 vectors through Object+0xA8 setFlag(0/1), notifies via
 // Object::rva0028AB75(true), re-adds to pathfind shim. Evidence: rowed
 // callees 0x002E71AD 0x0028B79C 0x006BF3C0 0x0028AB75 0x002E7178 plus pin
 // 0x00498FAA; callers 0x00499651 0x004996C8 0x004E8FE4 0x004E9021; neighbours
 // GateOpenAndCloseBehaviorSlots/ Rva0024A797Grandchildren.
+enum ArmorSetType { ARMORSET_NONE = 0 };
+
 class Object;
 class BfmeStrF9;
 class BfmeObjF9
@@ -30,7 +32,7 @@ extern AI *TheAI;
 class Object
 {
 public:
-	void rva0028B79C(int v);
+	void clearArmorSetFlag(ArmorSetType v);
 	void rva0028AB75(bool v);
 private:
 	unsigned char m_pad00[0xA8];
@@ -77,7 +79,7 @@ void GateOpenAndCloseBehavior::rva0049924B(bool flag)
 	Object *obj = m_object0C;
 	shim->RemoveObjectFromPathfindMapKeepingGateFlags(obj);
 	m_2C = 1;
-	obj->rva0028B79C(9);
+	obj->clearArmorSetFlag((ArmorSetType)9);
 	const GateOpenAndCloseBehaviorModuleData *data = m_data08;
 	BfmeObjF9 *f9 = &obj->m_objA8;
 	for (BfmeStrF9 *p = data->m_vec2C.m_begin; p != data->m_vec2C.m_end; ++p)
