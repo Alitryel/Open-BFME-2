@@ -1,4 +1,6 @@
 // ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
+// partial score=0.8797 date=2026-10-21
+// ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
 // partial score=0.887 date=2026-10-21
 // ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
 // partial score=0.8823982179152894 date=2026-10-19
@@ -561,7 +563,8 @@ Rva00394173Member get()const;};struct Rva00394879Exit
 {public:
 virtual void m00();virtual void m01();virtual void m02();virtual void m03();virtual void m04();virtual void m05();virtual void m06();virtual void m07();virtual void m08();virtual void m09();virtual void m10();virtual void m11();virtual void m12();virtual void m13();virtual void m14();virtual void m15();virtual void m16();virtual void m17();virtual void m18();virtual void m19();virtual void m20();virtual void m21();virtual void m22();virtual void m23();virtual void m24();virtual const Rva00394879Exit*rva00394879Exit()const;virtual void m26();virtual void m27();virtual void m28();virtual const Rva00394879Door*rva00394879Door()const;};__declspec(noinline)inline float Coord2D::length()const
 {return(float)sqrt(x* x + y* y);}__declspec(noinline)inline float Coord3D::GetLength()const
-{float x_value=x;float y_value=y;float z_value=z;return(float)sqrt(x_value* x_value + y_value* y_value + z_value* z_value);}Bool BuildAssistant::isLocationClearOfObjects(const Coord3D*worldPos,const ThingTemplate*build,Real angle,Object*builderObject,UnsignedInt options,Player*player,Bool flag)
+{float x_value=x;float y_value=y;float z_value=z;return(float)sqrt(x_value* x_value + y_value* y_value + z_value* z_value);}Rva00391667::Rva00391667(const void*pos){const Coord3D*p=(const Coord3D*)pos;m_pos.x=p->x;m_pos.y=p->y;m_pos.z=p->z;m_range=0.0f;}
+Bool BuildAssistant::isLocationClearOfObjects(const Coord3D*worldPos,const ThingTemplate*build,Real angle,Object*builderObject,UnsignedInt options,Player*player,Bool flag)
 {Bool b20=(options >> 5)& 1;Bool b40=(options >> 6)& 1;Bool b100=(options >> 8)& 1;Bool b200=(options >> 9)& 1;Bool b400=(options >> 10)& 1;Rva00391667 rangeFilter(worldPos);Rva0039161C collideFilter(worldPos,&build->getTemplateGeometryInfo(),angle,true);Real range;Rva000421C8*filter;const Rva0033B3D7Data*data=(const Rva0033B3D7Data*)build->rva0033B3D7();if(data)
 {range=TheWritableGlobalData->m_1220* 2.0f;rangeFilter.m_range=data->m_range;filter=&rangeFilter;}else
 {range=build->getTemplateGeometryInfo().getBoundingCircleRadius()+ TheWritableGlobalData->m_1220;if(build->isKindOf(KINDOF_189))
