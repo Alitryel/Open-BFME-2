@@ -6,7 +6,10 @@
 // plus mov eax,[ecx] plus jmp [eax+0x48]; callers at 0x0036A5A7/0x36A7C7.
 // Owner unproven so honest address class names used.
 //
-// ?rva0036A75C@Rva00368004@@QAEHXZ @0x0036A75C 127B
+// ?update@GiantBirdGuardOuterState@@UAE?AW4StateReturnType@@XZ @0x0036A75C 127B
+// (slot 6 of GiantBirdGuardOuterState's table, the state-family update slot;
+// 0x0036A524 is slot 6 of GiantBirdGuardInnerState's table. Both use the
+// shared Rva00368004 layout view as their base here.)
 // Flag-guarded refresh: when +0x40 is set, clear it and tail-jmp virtual
 // slot 0x10; with a null +0x3C inner return -1; otherwise resolve the
 // +0x18 info record's object id (+0x3C) via TheGameLogic and team id (+0x40)
@@ -97,10 +100,8 @@ public:
 	virtual void slot0C() = 0;
 	virtual int slot10() = 0;
 	bool rva00368004();
-	int rva0036A75C();
-	int rva0036A524();
 
-private:
+protected:
 	char m_pad04[0x14]; // +0x04..0x18 (vptr at +0x00)
 	Rva0036A75CInfo *m_info; // +0x18
 	char m_pad1C[0xC]; // +0x1C..0x28
@@ -111,20 +112,34 @@ public:
 	Rva00368004Inner *m_ptr; // +0x3C
 	bool m_flag40; // +0x40
 };
+enum StateReturnType
+{
+	STATE_CONTINUE = 0
+};
+class GiantBirdGuardOuterState : public Rva00368004
+{
+public:
+	virtual StateReturnType update();
+};
+class GiantBirdGuardInnerState : public Rva00368004
+{
+public:
+	virtual StateReturnType update();
+};
 bool Rva00368004::rva00368004()
 {
 	if (!m_ptr)
 		return false;
 	return m_ptr->slot48();
 }
-int Rva00368004::rva0036A75C()
+StateReturnType GiantBirdGuardOuterState::update()
 {
 	if (m_flag40) {
 		m_flag40 = false;
-		return slot10();
+		return (StateReturnType)slot10();
 	}
 	if (m_ptr == NULL)
-		return -1;
+		return (StateReturnType)-1;
 	Rva0036A75CInfo *info = m_info;
 	Object *obj = TheGameLogic->findObjectByID(info->m_objectID);
 	Team *team = TheTeamFactory->findTeamByID(info->m_teamID);
@@ -134,17 +149,17 @@ int Rva00368004::rva0036A75C()
 		team->rva0039E5B9(&m_pos);
 	int inner = m_ptr->slot18();
 	if (rva00368004())
-		return -1;
-	return inner;
+		return (StateReturnType)-1;
+	return (StateReturnType)inner;
 }
-int Rva00368004::rva0036A524()
+StateReturnType GiantBirdGuardInnerState::update()
 {
 	if (m_flag40) {
 		m_flag40 = false;
-		return slot10();
+		return (StateReturnType)slot10();
 	}
 	if (m_ptr == NULL)
-		return -1;
+		return (StateReturnType)-1;
 	Rva0036A75CInfo *info = m_info;
 	Object *obj = TheGameLogic->findObjectByID(info->m_objectID);
 	Team *team = TheTeamFactory->findTeamByID(info->m_teamID);
@@ -157,9 +172,9 @@ int Rva00368004::rva0036A524()
 	Object *goal = sm->getGoalObject();
 	if (goal != NULL) {
 		if ((*(unsigned char *)((char *)goal + 0x438) & 1) == 0)
-			return inner;
+			return (StateReturnType)inner;
 	}
 	if (rva00368004())
-		return -1;
-	return inner;
+		return (StateReturnType)-1;
+	return (StateReturnType)inner;
 }

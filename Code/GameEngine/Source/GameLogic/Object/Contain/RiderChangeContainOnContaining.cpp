@@ -247,8 +247,7 @@ protected:
 class Rva0047BA10 : public Rva0047E5D4Slots<39>
 {
 public:
-	virtual void onContaining(Object *rider, bool wasSelected) = 0;	// slot 39
-	void rva0047BA10(Object *rider, bool wasSelected);
+	virtual void onContaining(Object *rider, bool wasSelected);	// slot 39, 0x0047BA10
 };
 
 class RiderChangeContain : public Rva0047E5D4Module, public Rva0047BA10
@@ -268,7 +267,7 @@ void RiderChangeContain::onContaining(Object *rider, bool wasSelected)
 	Object *obj = getObject();
 	if (obj->getRelationship(rider) != ALLIES)
 	{
-		rva0047BA10(rider, wasSelected);
+		Rva0047BA10::onContaining(rider, wasSelected);
 		return;
 	}
 
@@ -318,6 +317,6 @@ void RiderChangeContain::onContaining(Object *rider, bool wasSelected)
 		}
 	}
 
-	rva0047BA10(rider, wasSelected);
+	Rva0047BA10::onContaining(rider, wasSelected);
 	m_containing = false;
 }

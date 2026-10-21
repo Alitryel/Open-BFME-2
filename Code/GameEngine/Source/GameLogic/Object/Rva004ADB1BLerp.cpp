@@ -3,6 +3,9 @@
 // ?handlePackingProcessing@Rva004ADB1B@@QAE_NXZ @0x004ADB1B 188B.
 // When the gate passes, lerp the drawable float at +0xb0 between 1.0f
 // and the source float at +0xc8. Kind 2 uses the +0x88 denominator.
+// ?handlePackingProcessing@Rva004B0164@@QAE_NXZ @0x004B0348: slot 20 of the
+// Rva004B0164 table (SpecialAbilityUpdate-family handlePackingProcessing slot),
+// same shape on the shared layout.
 
 extern float g_00BBB8D8;
 
@@ -31,14 +34,13 @@ public:
 };
 
 class Rva004ADB1B;
-class SpecialAbilityUpdate { friend class Rva004ADB1B; protected: bool handlePackingProcessing(); }; // rowed 0x0044F0B3
+class SpecialAbilityUpdate { friend class Rva004ADB1B; friend class Rva004B0164; protected: bool handlePackingProcessing(); }; // rowed 0x0044F0B3
 class Rva004ADB1B
 {
 public:
 	bool handlePackingProcessing();
-	bool rva004B0348();
 
-private:
+protected:
 	char m_pad0[4];
 	Src *m_src;
 	Thing *m_thing;
@@ -48,6 +50,12 @@ private:
 	int m_kind;
 	char m_pad34[0x8C - 0x34];
 	float m_result8C;
+};
+
+class Rva004B0164 : public Rva004ADB1B
+{
+public:
+	bool handlePackingProcessing();
 };
 
 bool Rva004ADB1B::handlePackingProcessing()
@@ -78,7 +86,7 @@ bool Rva004ADB1B::handlePackingProcessing()
 // Native 0x004B0348..0x004B0414: same guard and ratio as the rowed
 // sibling, but source value +CC and result retained at receiver +8C before
 // copying it to the drawable +B0. RET0 returns the guard bool unchanged.
-bool Rva004ADB1B::rva004B0348()
+bool Rva004B0164::handlePackingProcessing()
 {
 	bool ok = ((SpecialAbilityUpdate*)this)->handlePackingProcessing();
 	if (ok == 0)

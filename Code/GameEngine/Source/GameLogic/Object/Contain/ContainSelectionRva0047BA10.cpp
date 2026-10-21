@@ -1,7 +1,10 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
 // Native Ghidra 0047BA10..0047BA69, 89B, RET8. This is the contain-interface
 // receiver; accesses at this-1C/-18 are module data and the owner Object.
-// Original override and concrete contain class remain unresolved.
+// Concrete contain class remains unresolved; the method is the contain
+// interface's onContaining (sibling contain tables name the slot
+// onContaining, and RiderChangeContain::onContaining chains to it), spelled
+// as the virtual override.
 // Complete base-operation 46781F (665B, RET8) forwards Object*/bool to
 // 463097 and performs the common contain state/update work on this receiver.
 // Selection callees are native twins of named GameLogic operations: rowed
@@ -32,10 +35,10 @@ struct Rva0047BA10Prefix
 class Rva0047BA10
 {
 public:
-    void rva0047BA10(Object *object, bool flag);
+    virtual void onContaining(Object *object, bool flag);
 };
 
-void Rva0047BA10::rva0047BA10(Object *object, bool flag)
+void Rva0047BA10::onContaining(Object *object, bool flag)
 {
     reinterpret_cast<Rva0046781F *>(this)->rva0046781F(object, flag);
     Rva0047BA10Prefix *prefix = reinterpret_cast<Rva0047BA10Prefix *>(
