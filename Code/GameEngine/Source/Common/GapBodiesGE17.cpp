@@ -86,13 +86,13 @@ extern const FieldParse s_Rva002534B1FieldParse[] =
 class Rva0025349C
 {
 public:
-	Rva0025349C() : m_08(0.0f), m_0C(0) {}
+	Rva0025349C() : m_repairHealthPercentPerSecond(0.0f), m_buildVariation(0) {}
 	virtual ~Rva0025349C() {}
 	static void rva002534B1(MultiIniFieldParse &p);
 private:
 	int m_04;
-	float m_08;
-	int m_0C;
+	float m_repairHealthPercentPerSecond;
+	int m_buildVariation;
 };
 
 void Rva0025349C::rva002534B1(MultiIniFieldParse &p)
