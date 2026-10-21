@@ -34,3 +34,13 @@ Follow the repair plan in `df20-funclet-naming-20261021/handoff.md` (owner TU
 respelled to emit W<G> at 0xB3C0, W<G>@0x142D70 twin deleted, S<G> fold pin at
 0x142D70, callers respelled). Its measured link impact (10 units, 19.3 KB
 unlinked because their header views emit a 14 B W<G> COMDAT) is the open cost.
+
+## Landed (2026-10-21)
+
+DF20 landed in `Code/Libraries/Source/WWVegas/WWLib/stlport_wide_money_put_string.cpp`
+together with the true W/S naming reconciliation (0xB3C0 = ~basic_string<G>,
+0x142D70 = ~_String_base<G>). Wide money_get string (0x12190) moved its
+carrier from S phantoms to six late-folded W guards: phantom W carriers
+swapped the final-exit iterator copy (14 B at +0xA64). DF20's eight
+conditional-cleanup funclets (0x75BB6B..0x75BC65) and its __ehhandler$
+(0x75BCA7) were rowed from the verified EH graph.
