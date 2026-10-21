@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc
 // ??1Rva006D0D7@@UAE@XZ @0x0006D0D7 735B
 // Terrain render-object destructor (the class whose name getter 0x6D054
 // returns "BaseHeightMapRenderObjClass"; vtables BC5DB0/BC5DA8/BC5DA0/BC5D90).
@@ -18,9 +18,10 @@ struct FreeBuf {
 	void *p;
 	~FreeBuf() { if (p) Rva00030830GameFree(p); }
 };
+// Its destructor is the 7-byte vftable store retail folds at 0x0049B47C.
 class Rva001F3574Vec {
 public:
-	virtual ~Rva001F3574Vec();
+	virtual ~Rva001F3574Vec() {}
 private:
 	char m_pad[0x18];
 };
@@ -32,9 +33,9 @@ class W3DBibBuffer { public: ~W3DBibBuffer(); };
 class W3DRoadBuffer { public: ~W3DRoadBuffer(); };
 class W3DBridgeBuffer { public: ~W3DBridgeBuffer(); };
 class W3DWaypointBuffer { public: ~W3DWaypointBuffer(); };
-class Rva000E03E2 { public: virtual ~Rva000E03E2(); };
+class Rva000E0AE2 { public: ~Rva000E0AE2(); };
 class Rva0007311B { public: ~Rva0007311B(); };
-class Rva00073BFE { public: virtual ~Rva00073BFE(); };
+class W3DTaint { public: ~W3DTaint(); };
 
 class RO0 { public: virtual ~RO0(); private: char m_pad[4]; };
 class RO8 { public: virtual ~RO8(); private: char m_pad[0xB8]; };
@@ -87,12 +88,12 @@ private:
 	W3DBibBuffer *m_385c;
 	VBuf *m_3860;
 	W3DWaypointBuffer *m_3864;
-	Rva000E03E2 *m_3868;
+	Rva000E0AE2 *m_3868;
 	W3DRoadBuffer *m_386c;
 	W3DBridgeBuffer *m_3870;
 	Rva000D3A17 *m_3874;
 	Rva0007311B *m_3878;
-	Rva00073BFE *m_387c;
+	W3DTaint *m_387c;
 };
 
 Rva006D0D7::~Rva006D0D7()
