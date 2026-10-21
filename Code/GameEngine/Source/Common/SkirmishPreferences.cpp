@@ -51,6 +51,8 @@ namespace _STL { template <> _List_base<UnicodeString, allocator<UnicodeString> 
 namespace _STL { template <> _List_node<UnicodeString> * list<UnicodeString, allocator<UnicodeString> >::_M_create_node(UnicodeString const &); }
 namespace _STL { template <> void _List_base<UnicodeString, allocator<UnicodeString> >::clear(); }
 namespace _STL { template <> _List_iterator<UnicodeString, _Nonconst_traits<UnicodeString> > list<UnicodeString, allocator<UnicodeString> >::erase(_List_iterator<UnicodeString, _Nonconst_traits<UnicodeString> >); }
+namespace _STL { template <> _List_base<UnicodeString, allocator<UnicodeString> >::_List_base(allocator<UnicodeString> const &); }
+namespace _STL { template <> list<UnicodeString, allocator<UnicodeString> >::list(unsigned int); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@V1@@_STL@@@_STL@@@_STL@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -132,6 +134,12 @@ template <> struct less<AsciiString>
 namespace _STL {
 template <> AsciiString &map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<const AsciiString, AsciiString> > >::operator[](const AsciiString &);
 }
+// The two-string tree's _M_erase and erase(iterator) are the rowed
+// stlport_string_pair_cleanup.cpp bodies; this TU only calls them.
+// bfme link decl-only begin
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::_M_erase(_Rb_tree_node<pair<AsciiString const,AsciiString> > *); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::erase(_Rb_tree_iterator<pair<AsciiString const,AsciiString>,_Nonconst_traits<pair<AsciiString const,AsciiString> > >); }
+// bfme link decl-only end
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
 class UserPreferences : public PreferenceMap
@@ -229,7 +237,7 @@ public:
 	GameSlot *getSlot(int index);
 };
 
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+extern GameInfo *TheSkirmishGameInfo;
 
 AsciiString GameInfoToAsciiString(const GameInfo *info, bool flag);
 
@@ -354,7 +362,8 @@ void SkirmishPreferences::Rva0043BFDB(const UnicodeString &user, int profileInde
 	AsciiString prefix = encodeUserKey(user, "");
 	for (PreferenceMap::iterator it = begin(); it != end(); ) {
 		const AsciiString &key = it->first;
-		if (key.startsWith(prefix)) {
+		// Retail calls StringBase<char>::startsWith(const StringBase &) (row 0x00035FB0).
+		if (((const StringBase<char> &)key).startsWith((const StringBase<char> &)prefix)) {
 			PreferenceMap::iterator cur = it;
 			++it;
 			erase(cur);
@@ -454,9 +463,9 @@ void SkirmishPreferences::rva0043C612(const UnicodeString &user)
 // keeps its map and then its slots (0x0043BD36) in the preferences.
 void SkirmishPreferences::rva0043BE7C(void)
 {
-	if (!(*(GameInfo * *)&TheSkirmishGameInfo))
+	if (!TheSkirmishGameInfo)
 		return;
-	Rva0043BE36((*(GameInfo * *)&TheSkirmishGameInfo)->getMap());
+	Rva0043BE36(TheSkirmishGameInfo->getMap());
 	rva0043BD36();
 }
 
@@ -471,14 +480,14 @@ void SkirmishPreferences::rva0043BE7C(void)
 // TheSkirmishGameInfo 0x00A02EF0; strings GameInfo HeroIndexes %d:.
 void SkirmishPreferences::rva0043BD36(void)
 {
-	if (!(*(GameInfo * *)&TheSkirmishGameInfo))
+	if (!TheSkirmishGameInfo)
 		return;
-	AsciiString gameInfoValue = GameInfoToAsciiString((*(GameInfo * *)&TheSkirmishGameInfo), true);
+	AsciiString gameInfoValue = GameInfoToAsciiString(TheSkirmishGameInfo, true);
 	setAsciiString(buildProfileKey("GameInfo"), gameInfoValue);
 	gameInfoValue.set(":");
 	AsciiString num;
 	for (unsigned int i = 0; i < 8; ++i) {
-		GameSlot *slot = (*(GameInfo * *)&TheSkirmishGameInfo)->getSlot(i);
+		GameSlot *slot = TheSkirmishGameInfo->getSlot(i);
 		int v = -1;
 		if (slot)
 			v = slot->m_heroIndex5C;

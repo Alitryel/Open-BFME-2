@@ -77,6 +77,7 @@ template <typename T> struct BfmeStringData
 namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::~_Rb_tree(); }
 namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_clone_node(_Rb_tree_node<pair<int const, AsciiString> > *); }
 namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_create_node(pair<int const, AsciiString> const &); }
+namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_Rb_tree(_Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > > const &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHVAsciiString@@@_STL@@@_STL@@@_STL@@Q:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -102,6 +103,12 @@ namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;
 namespace _STL { template <> _Rb_tree_base<pair<const int, AsciiString>, allocator<pair<const int, AsciiString> > >::_Rb_tree_base(const allocator<pair<const int, AsciiString> > &); }
+// Nothing here calls the int-keyed tree base's destructor out of line, so this TU emits no copy of it.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_base<pair<const int, AsciiString>, allocator<pair<const int, AsciiString> > >::~_Rb_tree_base()
+{ _M_header.deallocate(_M_header._M_data, 1); }
+}
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
@@ -120,6 +127,15 @@ template <> struct less<AsciiString>
 	}
 };
 }
+
+// The two-string tree's destructor, _M_erase, erase(iterator) and _M_create_node are the
+// rowed stlport_string_pair_cleanup.cpp and stlport_rb_tree_hint_asciistring_pair.cpp bodies.
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::_M_erase(_Rb_tree_node<pair<AsciiString const,AsciiString> > *); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::erase(_Rb_tree_iterator<pair<AsciiString const,AsciiString>,_Nonconst_traits<pair<AsciiString const,AsciiString> > >); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const,AsciiString> > * _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::_M_create_node(pair<AsciiString const,AsciiString> const &); }
+// bfme link decl-only end
 
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
