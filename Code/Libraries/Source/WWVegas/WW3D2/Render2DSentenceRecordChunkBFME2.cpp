@@ -24,7 +24,8 @@ class W3DRadarResetSurface
 public:
 	__declspec(dllimport) __forceinline W3DRadarResetSurface() : m_surface(0) {}
 	~W3DRadarResetSurface();
-    W3DRadarResetSurface &operator=(const W3DRadarResetSurface &that) {
+    // Keep inline COM lifetime effects; the 43-byte outline owner is 0x00072381.
+    __declspec(dllimport) __forceinline W3DRadarResetSurface &operator=(const W3DRadarResetSurface &that) {
         if (that.m_surface) that.m_surface->AddRef();
         if (m_surface) m_surface->Release();
         m_surface=that.m_surface;
@@ -66,6 +67,8 @@ public:
 	// verified callee whose implementation is BfmeSentenceDataVector::Add.
 	struct SentenceDataStruct : public W3DRadarResetSurface
 	{
+		// Suppress this unit's implicit outline copy; the caller still inlines it exactly.
+		__declspec(dllimport) __forceinline SentenceDataStruct() {}
 		// Native record stubs, used by the existing vector implementation.
 		bool operator==(const SentenceDataStruct &) { return false; }
 		bool operator!=(const SentenceDataStruct &) { return true; }
