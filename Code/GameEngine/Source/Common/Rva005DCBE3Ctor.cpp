@@ -18,7 +18,7 @@ public:
 };
 
 // ??0Rva005DCBE3@@QAE@ABVAsciiString@@H@Z
-Rva005DCBE3::Rva005DCBE3(const AsciiString &s, int n) : AITactic(s, n)
+Rva005DCBE3::Rva005DCBE3(const AsciiString &asciiString, int n) : AITactic(asciiString, n)
 {
 }
 

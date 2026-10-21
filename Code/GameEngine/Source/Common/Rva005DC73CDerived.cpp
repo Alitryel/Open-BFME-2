@@ -27,9 +27,9 @@ __declspec(noinline) inline AIBasePenetrationTroopsTactic::~AIBasePenetrationTro
 }
 
 // ?bfmeAnchorAIBasePenetrationTroopsTacticDtor absent-from-retail
-void bfmeAnchorAIBasePenetrationTroopsTacticDtor(AIBasePenetrationTroopsTactic *p)
+void bfmeAnchorAIBasePenetrationTroopsTacticDtor(AIBasePenetrationTroopsTactic *aIBasePenetrationTroopsTactic)
 {
-	p->AIBasePenetrationTroopsTactic::~AIBasePenetrationTroopsTactic();
+	aIBasePenetrationTroopsTactic->AIBasePenetrationTroopsTactic::~AIBasePenetrationTroopsTactic();
 }
 
 class AISimpleAttackTactic : public AITacticOffensive
@@ -55,7 +55,7 @@ __declspec(noinline) inline AITacticSiege::~AITacticSiege()
 }
 
 // ?bfmeAnchorAITacticSiegeDtor absent-from-retail
-void bfmeAnchorAITacticSiegeDtor(AITacticSiege *p)
+void bfmeAnchorAITacticSiegeDtor(AITacticSiege *aITacticSiege)
 {
-	p->AITacticSiege::~AITacticSiege();
+	aITacticSiege->AITacticSiege::~AITacticSiege();
 }

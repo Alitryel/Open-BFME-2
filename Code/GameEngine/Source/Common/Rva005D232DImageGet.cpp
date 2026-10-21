@@ -35,8 +35,8 @@ const Image *StrategicInGameUI::GetSelectionPortrait(Rva005D232DIn *in)
 {
     void *q = in->p28;
     if (q != 0) {
-        const AsciiString &s = *(const AsciiString *)((char *)q + 0x0C);
-        void *v = (void *)TheThingFactory->findTemplate(s);
+        const AsciiString &asciiString = *(const AsciiString *)((char *)q + 0x0C);
+        void *v = (void *)TheThingFactory->findTemplate(asciiString);
         if (v != 0)
             return ((ThingTemplate *)v)->rva0033BA46();
     }

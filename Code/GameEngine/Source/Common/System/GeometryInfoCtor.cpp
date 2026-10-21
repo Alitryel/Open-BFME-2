@@ -132,8 +132,8 @@ GeometryInfo::GeometryInfo()
 // inline, so the owner must also emit a select-any (inline) copy.
 #pragma inline_depth(0)
 // ?bfmeEmitGeometryInfoCtor@@YAXPAVGeometryInfo@@@Z present-unmatched
-void bfmeEmitGeometryInfoCtor(GeometryInfo *p)
+void bfmeEmitGeometryInfoCtor(GeometryInfo *geometryInfo)
 {
-	p->GeometryInfo::GeometryInfo(GEOMETRY_SPHERE, true, 0, 0, 0);
+	geometryInfo->GeometryInfo::GeometryInfo(GEOMETRY_SPHERE, true, 0, 0, 0);
 }
 #pragma inline_depth()

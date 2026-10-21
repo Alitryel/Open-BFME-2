@@ -54,7 +54,7 @@ BfmeStringRecord002199C8::BfmeStringRecord002199C8(const BfmeStringRecord002199C
 // Same EH scope as the copy; callers 0x0021E9D8 0x0021EAD3 forward (w,a,b,c) and
 // destroy the temp via rowed dtor 0x0021A0C2; init permuted to retail push order.
 // ?rva0021997A ctor via declaration-order emission text0(b) text1(c) text2(a) word(w).
-BfmeStringRecord002199C8::BfmeStringRecord002199C8(unsigned int w, const AsciiString &a, const AsciiString &b, const AsciiString &c) : text0(b), text1(c), text2(a), word(w) {}
+BfmeStringRecord002199C8::BfmeStringRecord002199C8(unsigned int w, const AsciiString &asciiString, const AsciiString &b, const AsciiString &c) : text0(b), text1(c), text2(asciiString), word(w) {}
 template void _STL::_Construct<BfmeStringRecord002199C8,BfmeStringRecord002199C8>(BfmeStringRecord002199C8*,const BfmeStringRecord002199C8&);
 
 // Complete retail record copy at0x00219A68.
@@ -66,7 +66,7 @@ struct BfmeStringRecord00219A68 {
 BfmeStringRecord00219A68::BfmeStringRecord00219A68(const BfmeStringRecord00219A68 &source) : word0(source.word0), text0(source.text0), text1(source.text1), word1(source.word1), word2(source.word2) {}
 // Retail 0x00219A1B is the 5-arg ctor of the same record: word0 + two AsciiString copies via 0x365F0 + word1/word2.
 // Same EH scope as the copy (mov eax 0xb6e568); sole placed caller 0x0021ECB2 pushes (0, "None", "None", -1, 2).
-BfmeStringRecord00219A68::BfmeStringRecord00219A68(unsigned int w0, const AsciiString &t0, const AsciiString &t1, unsigned int w1, unsigned int w2) : word0(w0), text0(t0), text1(t1), word1(w1), word2(w2) {}
+BfmeStringRecord00219A68::BfmeStringRecord00219A68(unsigned int w0, const AsciiString &asciiString, const AsciiString &t1, unsigned int w1, unsigned int w2) : word0(w0), text0(asciiString), text1(t1), word1(w1), word2(w2) {}
 template void _STL::_Construct<BfmeStringRecord00219A68,BfmeStringRecord00219A68>(BfmeStringRecord00219A68*,const BfmeStringRecord00219A68&);
 
 // Complete retail record copy at0x0022074B.
@@ -97,7 +97,7 @@ BfmeStringRecord005D511F::BfmeStringRecord005D511F(const BfmeStringRecord005D511
 // ??0BfmeStringRecord005D511F@@QAE@ABVUnicodeString@@II0I@Z retail 0x005D516E 75B.
 // 5-arg ctor of the same 0x14 record: text0 via 0x37050 + word0/word1 + text1 via 0x37050 + word2.
 // Same EH scope as the copy (first StringBase before state 0, second after); callers 0x005D5604 0x005D5692.
-BfmeStringRecord005D511F::BfmeStringRecord005D511F(const UnicodeString &t0, unsigned int w0, unsigned int w1, const UnicodeString &t1, unsigned int w2) : text0(t0), word0(w0), word1(w1), text1(t1), word2(w2) {}
+BfmeStringRecord005D511F::BfmeStringRecord005D511F(const UnicodeString &unicodeString, unsigned int w0, unsigned int w1, const UnicodeString &t1, unsigned int w2) : text0(unicodeString), word0(w0), word1(w1), text1(t1), word2(w2) {}
 // ??1BfmeStringRecord005D511F@@QAE@XZ retail 0x005D51B9 53B.
 // Layout from the 0x005D511F copy ctor in this TU (UnicodeString +0 and +0xC with words at +4 +8 +0x10 = 0x14).
 // Retail destroys text1 (+0xC) then text0 (+0) via StringBase<ushort>::releaseBuffer 0x00036E70 with EH states 0 then -1.
@@ -296,7 +296,7 @@ BfmeStringRecord00219B0B::BfmeStringRecord00219B0B(const BfmeStringRecord00219B0
 // ??0BfmeStringRecord00219B0B@@QAE@IABVAsciiString@@00@Z @0x00219ABB 80B
 // 4-arg ctor of the same 0x10 record: word0 + three AsciiString copies via 0x365F0.
 // Same EH scope as the copy; caller 0x0021DEF9 forwards (w,t0,t1,t2) in order.
-BfmeStringRecord00219B0B::BfmeStringRecord00219B0B(unsigned int w0, const AsciiString &t0, const AsciiString &t1, const AsciiString &t2) : word0(w0), text0(t0), text1(t1), text2(t2) {}
+BfmeStringRecord00219B0B::BfmeStringRecord00219B0B(unsigned int w0, const AsciiString &asciiString, const AsciiString &t1, const AsciiString &t2) : word0(w0), text0(asciiString), text1(t1), text2(t2) {}
 BfmeStringRecord00219B0B::~BfmeStringRecord00219B0B() {}
 template void _STL::_Construct<BfmeStringRecord00219B0B,BfmeStringRecord00219B0B>(BfmeStringRecord00219B0B*,const BfmeStringRecord00219B0B&);
 

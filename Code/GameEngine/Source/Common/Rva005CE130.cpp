@@ -41,9 +41,9 @@ void Rva005CE130::NotifyBuildingAboutToBeDestroyedByUI(int arg)
 	Rva003F1093 *f1 = p->m_24;
 	if (f1 == 0)
 		return;
-	CreateAHeroData *f2 = p->rva004E05F0();
-	if (f2 == 0)
+	CreateAHeroData *createAHeroData = p->rva004E05F0();
+	if (createAHeroData == 0)
 		return;
 	Rva005E683EMid *outer = (Rva005E683EMid *)((char *)this - 8);
-	outer->fwd((int)f1, (int)f2);
+	outer->fwd((int)f1, (int)createAHeroData);
 }

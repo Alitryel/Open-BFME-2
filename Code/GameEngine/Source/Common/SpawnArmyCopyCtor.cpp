@@ -57,14 +57,14 @@ private:
     bool m_55;
 };
 
-SpawnArmy::SpawnArmy(const SpawnArmy &o)
-    : m_04(o.m_04), m_08(o.m_08), m_0c(o.m_0c), m_10(o.m_10),
-      m_14(o.m_14), m_18(o.m_18), m_1c(o.m_1c),
-      m_20(o.m_20), m_24(o.m_24),
-      m_28(o.m_28), m_2c(o.m_2c), m_30(o.m_30), m_34(o.m_34),
-      m_vec38(o.m_vec38),
-      m_44(o.m_44), m_48(o.m_48), m_4c(o.m_4c),
-      m_50(o.m_50), m_54(o.m_54), m_55(o.m_55)
+SpawnArmy::SpawnArmy(const SpawnArmy &spawnArmy)
+    : m_04(spawnArmy.m_04), m_08(spawnArmy.m_08), m_0c(spawnArmy.m_0c), m_10(spawnArmy.m_10),
+      m_14(spawnArmy.m_14), m_18(spawnArmy.m_18), m_1c(spawnArmy.m_1c),
+      m_20(spawnArmy.m_20), m_24(spawnArmy.m_24),
+      m_28(spawnArmy.m_28), m_2c(spawnArmy.m_2c), m_30(spawnArmy.m_30), m_34(spawnArmy.m_34),
+      m_vec38(spawnArmy.m_vec38),
+      m_44(spawnArmy.m_44), m_48(spawnArmy.m_48), m_4c(spawnArmy.m_4c),
+      m_50(spawnArmy.m_50), m_54(spawnArmy.m_54), m_55(spawnArmy.m_55)
 {
 }
 

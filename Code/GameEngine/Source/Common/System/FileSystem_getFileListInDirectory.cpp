@@ -71,9 +71,9 @@ public:
 
 // BFME2's AsciiString::str() is StringBase<char>::str(): an empty string reads
 // StringBase's shared TheNullChr.
-static inline const char *nameOf(const AsciiString &s)
+static inline const char *nameOf(const AsciiString &asciiString)
 {
-	return reinterpret_cast<const StringBase<char> *>(&s)->str();
+	return reinterpret_cast<const StringBase<char> *>(&asciiString)->str();
 }
 
 void FileSystem::getFileListInDirectory(const AsciiString &directory, const AsciiString &searchName,

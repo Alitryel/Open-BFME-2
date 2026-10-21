@@ -8,9 +8,9 @@ bool __cdecl Rva004128F0GetParam(const char *params, const char *key, AsciiStrin
 extern "C" __declspec(dllimport) int __cdecl isdigit(int c);
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *s);
 
-__forceinline const char *GetStr005F1A5F(const AsciiString &s)
+__forceinline const char *GetStr005F1A5F(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

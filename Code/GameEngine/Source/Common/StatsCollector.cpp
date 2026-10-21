@@ -443,22 +443,22 @@ void StatsCollector::collectScoreKeeperStats()
 void StatsCollector::writeFileEnd()
 {
 	UnicodeString fileName( m_statsFileName );
-	FILE *f = _wfopen( fileName.str(), L"a" );
-	if( !f )
+	FILE *fILE = _wfopen( fileName.str(), L"a" );
+	if( !fILE )
 		return;
 
 	m_timeCount += ( static_cast<GameLogic *>( TheGameLogic )->getFrame() - m_lastUpdate ) / LogicFramesPerSecond;
 	writeStatInfo();
-	fprintf( f, "---------------------------------------------------\n" );
+	fprintf( fILE, "---------------------------------------------------\n" );
 
 	time_t aclock;
 	time( &aclock );
 	struct tm *newTime = localtime( &aclock );
-	fprintf( f, "End Time:\t%s\n", asctime( newTime ) );
-	fprintf( f, "* Times are in Game Seconds which are based on logic FPS: current logic FPS is %d, max update FPS (game speed) is %d\n",
+	fprintf( fILE, "End Time:\t%s\n", asctime( newTime ) );
+	fprintf( fILE, "* Times are in Game Seconds which are based on logic FPS: current logic FPS is %d, max update FPS (game speed) is %d\n",
 		LogicFramesPerSecond, TheGameEngine->getFramesPerSecondLimit() );
 
-	fclose( f );
+	fclose( fILE );
 }
 
 // ?createFileName@StatsCollector@@AAEXXZ @0x00437CFF 249B
@@ -507,28 +507,28 @@ void StatsCollector::createFileName()
 void StatsCollector::writeStatInfo()
 {
 	UnicodeString fileName( m_statsFileName );
-	FILE *f = _wfopen( fileName.str(), L"a" );
-	if( !f )
+	FILE *fILE = _wfopen( fileName.str(), L"a" );
+	if( !fILE )
 		return;
 
 	Player *player = ThePlayerList->m_localPlayer;
-	fprintf( f, "%d\t", m_timeCount );
-	fprintf( f, "%.1f\t", TheDisplay ? TheDisplay->getAverageFPS() : 0.0f );
-	fprintf( f, "%.1f\t", TheGameEngine ? TheGameEngine->getInstantFPS() : 0.0f );
-	fprintf( f, "%d\t", m_buildCommands );
-	fprintf( f, "%d\t", m_moveCommands );
-	fprintf( f, "%d\t", m_attackCommands );
-	fprintf( f, "%d\t", m_scrollMapCommands );
-	fprintf( f, "%d\t", m_scrollTime / LogicFramesPerSecond );
-	fprintf( f, "%d\t", 0 );
-	fprintf( f, "%d\t", player->getMoney()->countMoney() );
-	fprintf( f, "%d\t", m_moneyWithdrawn );
-	fprintf( f, "%d\t", m_moneyDeposited );
-	fprintf( f, "%d\t", m_playerUnits );
-	fprintf( f, "%d\t", m_aiUnits );
-	fprintf( f, "%d\t", m_alliesKilled );
-	fprintf( f, "%d\t", m_enemiesKilled );
-	fprintf( f, "%d\t", m_neutralsKilled );
+	fprintf( fILE, "%d\t", m_timeCount );
+	fprintf( fILE, "%.1f\t", TheDisplay ? TheDisplay->getAverageFPS() : 0.0f );
+	fprintf( fILE, "%.1f\t", TheGameEngine ? TheGameEngine->getInstantFPS() : 0.0f );
+	fprintf( fILE, "%d\t", m_buildCommands );
+	fprintf( fILE, "%d\t", m_moveCommands );
+	fprintf( fILE, "%d\t", m_attackCommands );
+	fprintf( fILE, "%d\t", m_scrollMapCommands );
+	fprintf( fILE, "%d\t", m_scrollTime / LogicFramesPerSecond );
+	fprintf( fILE, "%d\t", 0 );
+	fprintf( fILE, "%d\t", player->getMoney()->countMoney() );
+	fprintf( fILE, "%d\t", m_moneyWithdrawn );
+	fprintf( fILE, "%d\t", m_moneyDeposited );
+	fprintf( fILE, "%d\t", m_playerUnits );
+	fprintf( fILE, "%d\t", m_aiUnits );
+	fprintf( fILE, "%d\t", m_alliesKilled );
+	fprintf( fILE, "%d\t", m_enemiesKilled );
+	fprintf( fILE, "%d\t", m_neutralsKilled );
 
 	player = ThePlayerList->m_localPlayer;
 	if( player )
@@ -536,19 +536,19 @@ void StatsCollector::writeStatInfo()
 		ScoreKeeper *scoreKeeper = player->getScoreKeeper();
 		if( scoreKeeper )
 		{
-			fprintf( f, "%d\t", scoreKeeper->getTotalMoneySpent() - m_scoreKeeperMoneySpent );
-			fprintf( f, "%d\t", scoreKeeper->getTotalMoneyEarned() - m_scoreKeeperMoneyEarned );
-			fprintf( f, "%d\t", scoreKeeper->getTotalUnitsDestroyed() - m_scoreKeeperUnitsDestroyed );
-			fprintf( f, "%d\t", scoreKeeper->getTotalUnitsBuilt() - m_scoreKeeperUnitsBuilt );
-			fprintf( f, "%d\t", scoreKeeper->getTotalUnitsLost() - m_scoreKeeperUnitsLost );
-			fprintf( f, "%d\t", scoreKeeper->getTotalBuildingsDestroyed() - m_scoreKeeperBuildingsDestroyed );
-			fprintf( f, "%d\t", scoreKeeper->getTotalBuildingsBuilt() - m_scoreKeeperBuildingsBuilt );
-			fprintf( f, "%d\t", scoreKeeper->getTotalBuildingsLost() - m_scoreKeeperBuildingsLost );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalMoneySpent() - m_scoreKeeperMoneySpent );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalMoneyEarned() - m_scoreKeeperMoneyEarned );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalUnitsDestroyed() - m_scoreKeeperUnitsDestroyed );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalUnitsBuilt() - m_scoreKeeperUnitsBuilt );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalUnitsLost() - m_scoreKeeperUnitsLost );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalBuildingsDestroyed() - m_scoreKeeperBuildingsDestroyed );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalBuildingsBuilt() - m_scoreKeeperBuildingsBuilt );
+			fprintf( fILE, "%d\t", scoreKeeper->getTotalBuildingsLost() - m_scoreKeeperBuildingsLost );
 		}
 	}
 
-	fprintf( f, "\n" );
-	fclose( f );
+	fprintf( fILE, "\n" );
+	fclose( fILE );
 }
 
 // ?TheGameLogic@@3PAXA: the global at this VA is ?TheGameLogic@@3PAVGameLogic@@A; this name is an alias for it.
@@ -561,43 +561,43 @@ void StatsCollector::writeStatInfo()
 void StatsCollector::writeInitialFileInfo()
 {
     UnicodeString fileName(m_statsFileName);
-    FILE *f = _wfopen(fileName.str(), L"w");
-    if (!f) return;
-    fprintf(f, "---------------------------------------------------\n");
+    FILE *fILE = _wfopen(fileName.str(), L"w");
+    if (!fILE) return;
+    fprintf(fILE, "---------------------------------------------------\n");
     time_t aclock;
     time(&aclock);
     struct tm *newTime=localtime(&aclock);
-    fprintf(f, "Date:\t%s", asctime(newTime));
-    fprintf(f, "Map:\t%s\n", TheWritableGlobalData->m_mapName.str());
-    fprintf(f, "Side:\t%s\n", ThePlayerList->m_localPlayer->getSideText());
-    fprintf(f, "---------------------------------------------------\n\n");
-    fprintf(f, "Time*\t");
-    fprintf(f, "Instant_Average_FPS\t");
-    fprintf(f, "Instant_Net_FPS\t");
-    fprintf(f, "Build_Commands\t");
-    fprintf(f, "Move_Commands\t");
-    fprintf(f, "Attack_Commands\t");
-    fprintf(f, "Scroll_Map_Commands\t");
-    fprintf(f, "Scroll_Time_in_Seconds\t");
-    fprintf(f, "Other_Commands_(N/A)\t");
-    fprintf(f, "Player_Money_Amount\t");
-    fprintf(f, "Player_Money_Withdrawn\t");
-    fprintf(f, "Player_Money_Deposited\t");
-    fprintf(f, "Player_Units\t");
-    fprintf(f, "AI_Units\t");
-    fprintf(f, "Allies_Killed\t");
-    fprintf(f, "Enemies_Killed\t");
-    fprintf(f, "Neutrals_Killed\t");
-    fprintf(f, "ScoreKeeper_MoneySpent\t");
-    fprintf(f, "ScoreKeeper_MoneyEarned\t");
-    fprintf(f, "ScoreKeeper_UnitsDestroyed\t");
-    fprintf(f, "ScoreKeeper_UnitsBuilt\t");
-    fprintf(f, "ScoreKeeper_UnitsLost\t");
-    fprintf(f, "ScoreKeeper_BuildingsDestroyed\t");
-    fprintf(f, "ScoreKeeper_BuildingsBuilt\t");
-    fprintf(f, "ScoreKeeper_BuildingsLost\t");
-    fprintf(f, "\n");
-    fclose(f);
+    fprintf(fILE, "Date:\t%s", asctime(newTime));
+    fprintf(fILE, "Map:\t%s\n", TheWritableGlobalData->m_mapName.str());
+    fprintf(fILE, "Side:\t%s\n", ThePlayerList->m_localPlayer->getSideText());
+    fprintf(fILE, "---------------------------------------------------\n\n");
+    fprintf(fILE, "Time*\t");
+    fprintf(fILE, "Instant_Average_FPS\t");
+    fprintf(fILE, "Instant_Net_FPS\t");
+    fprintf(fILE, "Build_Commands\t");
+    fprintf(fILE, "Move_Commands\t");
+    fprintf(fILE, "Attack_Commands\t");
+    fprintf(fILE, "Scroll_Map_Commands\t");
+    fprintf(fILE, "Scroll_Time_in_Seconds\t");
+    fprintf(fILE, "Other_Commands_(N/A)\t");
+    fprintf(fILE, "Player_Money_Amount\t");
+    fprintf(fILE, "Player_Money_Withdrawn\t");
+    fprintf(fILE, "Player_Money_Deposited\t");
+    fprintf(fILE, "Player_Units\t");
+    fprintf(fILE, "AI_Units\t");
+    fprintf(fILE, "Allies_Killed\t");
+    fprintf(fILE, "Enemies_Killed\t");
+    fprintf(fILE, "Neutrals_Killed\t");
+    fprintf(fILE, "ScoreKeeper_MoneySpent\t");
+    fprintf(fILE, "ScoreKeeper_MoneyEarned\t");
+    fprintf(fILE, "ScoreKeeper_UnitsDestroyed\t");
+    fprintf(fILE, "ScoreKeeper_UnitsBuilt\t");
+    fprintf(fILE, "ScoreKeeper_UnitsLost\t");
+    fprintf(fILE, "ScoreKeeper_BuildingsDestroyed\t");
+    fprintf(fILE, "ScoreKeeper_BuildingsBuilt\t");
+    fprintf(fILE, "ScoreKeeper_BuildingsLost\t");
+    fprintf(fILE, "\n");
+    fclose(fILE);
 }
 
 // ?zeroOutStats@StatsCollector@@AAEXXZ, retail 0x004376BB (63 bytes): ZH

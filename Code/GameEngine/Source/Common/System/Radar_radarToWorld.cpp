@@ -138,15 +138,15 @@ inline __declspec(noinline) bool Radar::worldToRadar(const Coord3D *world, ICoor
 }
 // ?TheTerrainLogic@@3PAVBfmeTerrainHeightView@@A: the global at VA 0xdfec50 is ?TheTerrainLogic@@3PAVTerrainLogic@@A.
 
-void Radar::internalCreateEvent(const Coord3D *pos, RadarEventType tag, float scale, const RGBAColorInt *a, const RGBAColorInt *b)
+void Radar::internalCreateEvent(const Coord3D *pos, RadarEventType tag, float scale, const RGBAColorInt *rGBAColorInt, const RGBAColorInt *b)
 {
- ICoord2D tmp; if(!pos||!a||!b)return; worldToRadar(pos,&tmp);
+ ICoord2D tmp; if(!pos||!rGBAColorInt||!b)return; worldToRadar(pos,&tmp);
  m_events[m_eventCount].type=tag;
  m_events[m_eventCount].active=true;
  m_events[m_eventCount].createFrame=reinterpret_cast<ClientFrameSubsystem*>(TheGameClient)->getFrame();
  m_events[m_eventCount].dieFrame=(unsigned int)((float)(unsigned)reinterpret_cast<ClientFrameSubsystem*>(TheGameClient)->getFrame()+(float)BfmeClientFramesPerSecond*scale);
  m_events[m_eventCount].fadeFrame=(unsigned int)((float)m_events[m_eventCount].dieFrame-(float)BfmeClientFramesPerSecond*BfmeRadarEventFadeFraction);
- m_events[m_eventCount].color1=*a;
+ m_events[m_eventCount].color1=*rGBAColorInt;
  m_events[m_eventCount].color2=*b;
  m_events[m_eventCount].worldLoc=*pos;
  m_events[m_eventCount].radarLoc=tmp;

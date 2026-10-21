@@ -44,10 +44,10 @@ extern class ArchiveFileSystem *TheArchiveFileSystem;
 File *FileSystem::rva00600676(const unsigned short *a1, int a2, int a3)
 {
 	Rva00600676Target *p = (*(Rva00600676Target **)&TheArchiveFileSystem);
-	File *r = 0;
+	File *file = 0;
 	if (p != 0)
-		r = p->v2(a1, a2, a3);
-	return r;
+		file = p->v2(a1, a2, a3);
+	return file;
 }
 
 // ?rva006006A9@FileSystem@@QAE_NPBG@Z @0x006006A9 20B (was the free

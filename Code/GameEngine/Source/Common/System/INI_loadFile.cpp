@@ -365,9 +365,9 @@ unsigned char INI::loadFile(AsciiString filename, INILoadType loadType, Xfer *pX
 			parseLine(filename);
 		}
 	}
-	catch (INIException &e)
+	catch (INIException &iNIException)
 	{
-		throw INIException(e.m_argCount, e.mFailureMessage);
+		throw INIException(iNIException.m_argCount, iNIException.mFailureMessage);
 	}
 	catch (...)
 	{

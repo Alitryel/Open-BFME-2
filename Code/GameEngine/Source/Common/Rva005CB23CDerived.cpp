@@ -81,10 +81,10 @@ inline AITargetHeuristicBaseDefense::~AITargetHeuristicBaseDefense()
 // it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitRva005CB23CDerived@@YAXPAVAITargetHeuristicExpansionBase@@PAVRva005734EB@@PAVAITargetHeuristicBaseDefense@@@Z present-unmatched
-void bfmeEmitRva005CB23CDerived(AITargetHeuristicExpansionBase *a, Rva005734EB *b, AITargetHeuristicBaseDefense *c)
+void bfmeEmitRva005CB23CDerived(AITargetHeuristicExpansionBase *aITargetHeuristicExpansionBase, Rva005734EB *b, AITargetHeuristicBaseDefense *aITargetHeuristicBaseDefense)
 {
-    a->AITargetHeuristicExpansionBase::~AITargetHeuristicExpansionBase();
+    aITargetHeuristicExpansionBase->AITargetHeuristicExpansionBase::~AITargetHeuristicExpansionBase();
     b->Rva005734EB::~Rva005734EB();
-    c->AITargetHeuristicBaseDefense::~AITargetHeuristicBaseDefense();
+    aITargetHeuristicBaseDefense->AITargetHeuristicBaseDefense::~AITargetHeuristicBaseDefense();
 }
 #pragma inline_depth()

@@ -215,10 +215,10 @@ protected:
 			decrementDataLeft(m_chunkStack->dataLeft);
 		}
 
-		InputChunk *c = m_chunkStack;
+		InputChunk *inputChunk = m_chunkStack;
 		m_chunkStack = m_chunkStack->next;
 		// Both node types expose the same scalar-deleting ABI at slot 0.
-		::operator delete(c != 0 ? ((UserParser *)c)->deleteInstance(0) : 0);
+		::operator delete(inputChunk != 0 ? ((UserParser *)inputChunk)->deleteInstance(0) : 0);
 	}
 
 public:
@@ -378,48 +378,48 @@ UserParser *DataChunkInput::registerParser(const AsciiString &label,
 	DataChunkParserPtr parser,
 	void *userData)
 {
-	UserParser *p;
+	UserParser *userParser;
 	DataChunkInput *self = this;
 
-	p = new UserParser;
-	((StringBase<char> *)&p->label)->set(*(const StringBase<char> *)&label);
-	((StringBase<char> *)&p->parentLabel)->set(*(const StringBase<char> *)&parentLabel);
-	p->parser = parser;
+	userParser = new UserParser;
+	((StringBase<char> *)&userParser->label)->set(*(const StringBase<char> *)&label);
+	((StringBase<char> *)&userParser->parentLabel)->set(*(const StringBase<char> *)&parentLabel);
+	userParser->parser = parser;
 
 	void *ud = userData;
 	UserParser **head = &self->m_parserList;
-	p->userData = ud;
+	userParser->userData = ud;
 
 	UserParser *next = *head;
-	UserParser **pn = &p->next;
+	UserParser **pn = &userParser->next;
 	*pn = next;
 	if (next != 0)
 		next->previous = pn;
-	p->previous = head;
-	*head = p;
-	return p;
+	userParser->previous = head;
+	*head = userParser;
+	return userParser;
 }
 
 AsciiString DataChunkInput::openDataChunk(DataChunkVersionType *ver)
 {
-	InputChunk *c = new InputChunk;
-	c->id = 0;
-	c->version = 0;
-	c->dataSize = 0;
-	m_file->read((char *)&c->id, sizeof(UnsignedInt));
+	InputChunk *inputChunk = new InputChunk;
+	inputChunk->id = 0;
+	inputChunk->version = 0;
+	inputChunk->dataSize = 0;
+	m_file->read((char *)&inputChunk->id, sizeof(UnsignedInt));
 	decrementDataLeft(sizeof(UnsignedInt));
-	m_file->read((char *)&c->version, sizeof(DataChunkVersionType));
+	m_file->read((char *)&inputChunk->version, sizeof(DataChunkVersionType));
 	decrementDataLeft(sizeof(DataChunkVersionType));
-	m_file->read((char *)&c->dataSize, sizeof(Int));
+	m_file->read((char *)&inputChunk->dataSize, sizeof(Int));
 	decrementDataLeft(sizeof(Int));
-	c->dataLeft = c->dataSize;
-	c->chunkStart = m_file->tell();
-	*ver = c->version;
-	c->next = m_chunkStack;
-	m_chunkStack = c;
+	inputChunk->dataLeft = inputChunk->dataSize;
+	inputChunk->chunkStart = m_file->tell();
+	*ver = inputChunk->version;
+	inputChunk->next = m_chunkStack;
+	m_chunkStack = inputChunk;
 	if (atEndOfFile())
 		return AsciiString("");
-	return m_contents.getName(c->id);
+	return m_contents.getName(inputChunk->id);
 }
 
 UserParser::~UserParser()
@@ -433,9 +433,9 @@ __declspec(noinline) inline DataChunkInfo::~DataChunkInfo()
 }
 
 // ?bfmeAnchorDataChunkInfoDtor absent-from-retail
-void bfmeAnchorDataChunkInfoDtor(DataChunkInfo *p)
+void bfmeAnchorDataChunkInfoDtor(DataChunkInfo *dataChunkInfo)
 {
-	p->DataChunkInfo::~DataChunkInfo();
+	dataChunkInfo->DataChunkInfo::~DataChunkInfo();
 }
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

@@ -33,10 +33,10 @@ private:
 
 AsciiString DataChunkTableOfContents::getName(UnsignedInt id)
 {
-	for (Mapping *m = m_list; m; m = m->next)
+	for (Mapping *mapping = m_list; mapping; mapping = mapping->next)
 	{
-		if (m->id == id)
-			return m->name;
+		if (mapping->id == id)
+			return mapping->name;
 	}
 	return AsciiString::TheEmptyString;
 }

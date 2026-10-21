@@ -13,9 +13,9 @@ public:
 AsciiString Rva00222834Get(int val);
 
 
-static __forceinline const char *GetStr(const AsciiString &s)
+static __forceinline const char *GetStr(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 
@@ -51,13 +51,13 @@ struct Rva005FFF62 {
   void SetSwapButtonVisibility(int idx, bool visible);
 };
 void Rva005FFF62::Set(int idx, bool flag) {
-  Elem* e = &m_4C[idx];
-  if (flag == e->_1) return;
+  Elem* elem = &m_4C[idx];
+  if (flag == elem->_1) return;
   const char* b = flag ? "_up" : "_disabled";
   const char* prefix = m_08.str();
   const char* name = "SetSwapButtonState";
   Rva005252CDInvoke(((Rva00222A8BTarget *)g_bfmeAptWindowManager), m_04, prefix, name, idx, b);
-  e->_1 = flag;
+  elem->_1 = flag;
 }
 // ?rva0060005A@Rva0060005A@@QAEXH_N@Z @0x0060005A 8B member forwarder to rowed
 // ?Set@Rva005FFF62@@QAEXH_N@Z (0x005FFF62; int bool args pass through shared

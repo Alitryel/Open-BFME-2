@@ -70,10 +70,10 @@ protected:
 };
 // ??1Rva006ED150Base@@UAE@XZ present-unmatched
 inline Rva006ED150Base::~Rva006ED150Base() {
-  AptNativeHash *p = m_10;
-  if (p) {
-    p->~AptNativeHash();
-    g_pChainBlockAllocator->freeBlock(p, 0x14);
+  AptNativeHash *aptNativeHash = m_10;
+  if (aptNativeHash) {
+    aptNativeHash->~AptNativeHash();
+    g_pChainBlockAllocator->freeBlock(aptNativeHash, 0x14);
   }
 }
 class Rva006ED150 : public Rva006ED150Base {

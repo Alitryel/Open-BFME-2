@@ -33,8 +33,8 @@ class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 class Rva003FF0E7DwordSlot {public:void set(int);};
 bool ParseAsciiStringToGameInfo(GameInfo*,AsciiString,bool);
 struct SkirmishStringDataView{char header[8];char text[1];};
-__forceinline const char *skirmishText(const AsciiString&s){
- const SkirmishStringDataView *data=*(const SkirmishStringDataView *const*)&s;return data?data->text:"";
+__forceinline const char *skirmishText(const AsciiString&asciiString){
+ const SkirmishStringDataView *data=*(const SkirmishStringDataView *const*)&asciiString;return data?data->text:"";
 }
 bool SkirmishPreferences::getGameInfo(){
  if(!(*(GameInfo * *)&TheSkirmishGameInfo))return false;

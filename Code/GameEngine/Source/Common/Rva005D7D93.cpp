@@ -52,8 +52,8 @@ private:
 
 bool AISpellBookStructureBreaker::shouldActivate(Object *source)
 {
-	Player *p1 = source->getControllingPlayer();
-	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(p1);
+	Player *player = source->getControllingPlayer();
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(player);
 	void *v = rec->rva002C6ACB();
 	if (v == 0)
 		return false;

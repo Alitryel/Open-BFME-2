@@ -149,8 +149,8 @@ void MilesAudioManager::GlobalVolumeData::rva00052048(int idx)
 	Factor *end = *(Factor **)(base + 0x50);
 	*slot = 1.0f;
 	float &r = *slot;
-	for (Factor *p = begin; p != end; ++p)
-		r = r * p->v;
+	for (Factor *factor = begin; factor != end; ++factor)
+		r = r * factor->v;
 	float v = r;
 	if (v < 0.0f)
 		v = 0.0f;

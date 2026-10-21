@@ -49,7 +49,7 @@ void AptCreateAHero::Manager::OnMyPowerRollOver(char *s)
 	int v = atoi(s) - 1;
 	if (v < 0 || v >= 10 || v == m_24)
 		return;
-	const CommandButton *p = ((CreateAHeroHero *)((char *)m_4 + 0x27c))->GetButtonForLevel(v);
-	Rva005B23D7HeroPowersDescription((void *)p, *(const AsciiString *)Rva005B5B39_K, *(const AsciiString *)Rva005B5B39_K);
+	const CommandButton *commandButton = ((CreateAHeroHero *)((char *)m_4 + 0x27c))->GetButtonForLevel(v);
+	Rva005B23D7HeroPowersDescription((void *)commandButton, *(const AsciiString *)Rva005B5B39_K, *(const AsciiString *)Rva005B5B39_K);
 	m_24 = v;
 }

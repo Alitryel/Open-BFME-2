@@ -50,9 +50,9 @@ const Image *StrategicInGameUI::GetButtonImage(void *in)
 	void *found;
 	if (!mid || !(found = (void *)TheThingFactory->findTemplate(mid->m_name)))
 		return 0;
-	ThingTemplate *tmpl = (ThingTemplate *)found;
-	const Image *img = tmpl->getButtonImage();
+	ThingTemplate *thingTemplate = (ThingTemplate *)found;
+	const Image *img = thingTemplate->getButtonImage();
 	if (img)
 		return img;
-	return tmpl->rva0033BA46();
+	return thingTemplate->rva0033BA46();
 }

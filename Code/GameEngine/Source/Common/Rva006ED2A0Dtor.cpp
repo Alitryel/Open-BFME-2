@@ -70,13 +70,13 @@ private:
 };
 Rva006ED2A0::~Rva006ED2A0()
 {
-    EAStringC *p68 = m_68;
+    EAStringC *eAStringC = m_68;
     m_24 = 0;
     m_64 = 0;
     m_60 = 0;
-    if (p68) {
-        p68->~EAStringC();
-        g_pChainBlockAllocator->freeBlock(p68, 0x20);
+    if (eAStringC) {
+        eAStringC->~EAStringC();
+        g_pChainBlockAllocator->freeBlock(eAStringC, 0x20);
         m_68 = 0;
     }
     void *p20 = m_20;

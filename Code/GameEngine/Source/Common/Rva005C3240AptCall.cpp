@@ -15,13 +15,13 @@ public:
 };
 
 
-static __forceinline const char *GetStr(const AsciiString &s)
+static __forceinline const char *GetStr(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 
-int __cdecl Rva005C3240AptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, const AsciiString &a0, const AsciiString &a1)
+int __cdecl Rva005C3240AptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, const AsciiString &asciiString, const AsciiString &a1)
 {
-	return target->rva00222B19(level, prefix, function, 2, GetStr(a0), (void *)GetStr(a1), 0, 0, 0);
+	return target->rva00222B19(level, prefix, function, 2, GetStr(asciiString), (void *)GetStr(a1), 0, 0, 0);
 }

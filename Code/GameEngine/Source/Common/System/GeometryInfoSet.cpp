@@ -105,7 +105,7 @@ private:
 
 #pragma optimize("t", off)
 #pragma optimize("s", on)
-static __forceinline void DestroyTmpName(AsciiString *p) { p->~AsciiString(); }
+static __forceinline void DestroyTmpName(AsciiString *asciiString) { asciiString->~AsciiString(); }
 #pragma optimize("", on)
 
 void GeometryInfo::set(GeometryType type, bool isSmall, float height, float majorRadius, float minorRadius)

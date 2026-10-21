@@ -142,8 +142,8 @@ Formation *FormationAssistant::rva00424E77(int type,Rva001EB130Holder*source,con
  DequeBase *last=first+1;
  if(type==-1 || type<0 || (unsigned)type>(unsigned)last->_M_subtract(*first))return 0;
  typedef _STL::_Deque_iterator<Rva00422D82Element,_STL::_Nonconst_traits<Rva00422D82Element> > TemplateIterator;
- FormationTemplateView *templ=(FormationTemplateView*)(*(TemplateIterator*)first)[type].value;
- if(!templ)return 0;
+ FormationTemplateView *formationTemplateView=(FormationTemplateView*)(*(TemplateIterator*)first)[type].value;
+ if(!formationTemplateView)return 0;
  FormationRowList rows;
  FormationObjectList objects;
  for(FormationObjectNode*it=(FormationObjectNode*)source->head->next;it!=(FormationObjectNode*)source->head;it=(FormationObjectNode*)it->link.next) {
@@ -155,8 +155,8 @@ Formation *FormationAssistant::rva00424E77(int type,Rva001EB130Holder*source,con
   typedef _STL::_List_iterator<GameWindow*,_STL::_Const_traits<GameWindow*> > Iter;
   ((Rva00423D92*)&objects)->rva00423D92(Iter(source->head->next),Iter(source->head),_STL::__false_type());
  }
- for(int i=0;i<(int)templ->rows.size();++i) {
-  FormationTemplateRows *row=&templ->rows[i].cells;
+ for(int i=0;i<(int)formationTemplateView->rows.size();++i) {
+  FormationTemplateRows *row=&formationTemplateView->rows[i].cells;
   if(rva0042481E(&rows,row,&objects)) {
    while(true) {
     FormationObjectNode *it;

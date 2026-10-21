@@ -27,9 +27,9 @@ __declspec(noinline) inline AIRoamingDefenseTactic::~AIRoamingDefenseTactic()
 }
 
 // ?bfmeAnchorAIRoamingDefenseTacticDtor absent-from-retail
-void bfmeAnchorAIRoamingDefenseTacticDtor(AIRoamingDefenseTactic *p)
+void bfmeAnchorAIRoamingDefenseTacticDtor(AIRoamingDefenseTactic *aIRoamingDefenseTactic)
 {
-	p->AIRoamingDefenseTactic::~AIRoamingDefenseTactic();
+	aIRoamingDefenseTactic->AIRoamingDefenseTactic::~AIRoamingDefenseTactic();
 }
 
 class AIStartWoTRBattleTactic : public Rva005DCC24
@@ -45,9 +45,9 @@ __declspec(noinline) inline AIStartWoTRBattleTactic::~AIStartWoTRBattleTactic()
 }
 
 // ?bfmeAnchorAIStartWoTRBattleTacticDtor absent-from-retail
-void bfmeAnchorAIStartWoTRBattleTacticDtor(AIStartWoTRBattleTactic *p)
+void bfmeAnchorAIStartWoTRBattleTacticDtor(AIStartWoTRBattleTactic *aIStartWoTRBattleTactic)
 {
-	p->AIStartWoTRBattleTactic::~AIStartWoTRBattleTactic();
+	aIStartWoTRBattleTactic->AIStartWoTRBattleTactic::~AIStartWoTRBattleTactic();
 }
 
 class AIReturnTheRingTactic : public Rva005DCC24
@@ -63,9 +63,9 @@ __declspec(noinline) inline AIReturnTheRingTactic::~AIReturnTheRingTactic()
 }
 
 // ?bfmeAnchorAIReturnTheRingTacticDtor absent-from-retail
-void bfmeAnchorAIReturnTheRingTacticDtor(AIReturnTheRingTactic *p)
+void bfmeAnchorAIReturnTheRingTacticDtor(AIReturnTheRingTactic *aIReturnTheRingTactic)
 {
-	p->AIReturnTheRingTactic::~AIReturnTheRingTactic();
+	aIReturnTheRingTactic->AIReturnTheRingTactic::~AIReturnTheRingTactic();
 }
 
 class AIRingHeroTactic : public Rva005DCC24
@@ -81,9 +81,9 @@ __declspec(noinline) inline AIRingHeroTactic::~AIRingHeroTactic()
 }
 
 // ?bfmeAnchorAIRingHeroTacticDtor absent-from-retail
-void bfmeAnchorAIRingHeroTacticDtor(AIRingHeroTactic *p)
+void bfmeAnchorAIRingHeroTacticDtor(AIRingHeroTactic *aIRingHeroTactic)
 {
-	p->AIRingHeroTactic::~AIRingHeroTactic();
+	aIRingHeroTactic->AIRingHeroTactic::~AIRingHeroTactic();
 }
 
 class AIFarmKillSquad : public Rva005DCC24
@@ -99,7 +99,7 @@ __declspec(noinline) inline AIFarmKillSquad::~AIFarmKillSquad()
 }
 
 // ?bfmeAnchorAIFarmKillSquadDtor absent-from-retail
-void bfmeAnchorAIFarmKillSquadDtor(AIFarmKillSquad *p)
+void bfmeAnchorAIFarmKillSquadDtor(AIFarmKillSquad *aIFarmKillSquad)
 {
-	p->AIFarmKillSquad::~AIFarmKillSquad();
+	aIFarmKillSquad->AIFarmKillSquad::~AIFarmKillSquad();
 }

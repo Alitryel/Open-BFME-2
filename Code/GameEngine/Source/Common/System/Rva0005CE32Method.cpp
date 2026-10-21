@@ -30,9 +30,9 @@ class Rva0005CE32
 public:
 	void rva0005CE32(const AsciiString &s);
 };
-void Rva0005CE32::rva0005CE32(const AsciiString &s)
+void Rva0005CE32::rva0005CE32(const AsciiString &asciiString)
 {
-	if (m_a0.erase(s) <= 0)
+	if (m_a0.erase(asciiString) <= 0)
 		return;
 	if (m_9c == g_Va00BBB8D8)
 		return;

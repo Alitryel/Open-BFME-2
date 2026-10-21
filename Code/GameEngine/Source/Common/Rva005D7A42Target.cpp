@@ -22,8 +22,8 @@ class Rva005D7A42 {public:bool rva005D7A42(Object*source);};
 bool Rva005D7A42::rva005D7A42(Object*source){
  Rva005D7A42Store*store=(Rva005D7A42Store*)TheSkirmishAIManager->rva002A8F24(source->getControllingPlayer());
  Rva005D7A42IDs*ids=(Rva005D7A42IDs*)store->owner->get();
- for(ObjectID*p=ids->begin;p!=ids->end;++p){
-  Object*object=TheGameLogic->findObjectByID(*p);
+ for(ObjectID*objectID=ids->begin;objectID!=ids->end;++objectID){
+  Object*object=TheGameLogic->findObjectByID(*objectID);
   if(object->body->value14()<0.5f)return ((Rva005EE816*)this)->rva005EE8DD((const Coord3D*)((char*)object+0x38),source);
  }
  return false;

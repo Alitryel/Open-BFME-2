@@ -45,9 +45,9 @@ extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 int __cdecl Rva0052519DFire(void *a1, void *a2, const char *a3, const char *a4, int *a5);
 
-__forceinline const char *GetStr005FEA02(const AsciiString &s)
+__forceinline const char *GetStr005FEA02(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

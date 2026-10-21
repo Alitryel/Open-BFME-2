@@ -36,11 +36,11 @@ void State::rva004D7127(const StateConditionInfo *conditions)
 	if (!conditions->test)
 		return;
 	m_transitionsFirst = conditions;
-	const StateConditionInfo *p = conditions;
+	const StateConditionInfo *stateConditionInfo = conditions;
 	int n = 0;
 	do {
-		++p;
+		++stateConditionInfo;
 		++n;
-	} while (p->test != 0);
+	} while (stateConditionInfo->test != 0);
 	m_transitionsCount = n;
 }

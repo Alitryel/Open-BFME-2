@@ -92,11 +92,11 @@ void INI::load(AsciiString filename, INILoadType loadType, Xfer *pXfer, INIBlock
 					{
 						parse(this);
 					}
-					catch (INIException &e)
+					catch (INIException &iNIException)
 					{
 						const char *name = m_filename.str();
-						char *msg = e.mFailureMessage;
-						int argCount = e.m_argCount;
+						char *msg = iNIException.mFailureMessage;
+						int argCount = iNIException.m_argCount;
 						throw INIException(argCount, "%s\n\nError parsing INI block '%s' in file '%s'.",
 							msg, token, name);
 					}
@@ -115,9 +115,9 @@ void INI::load(AsciiString filename, INILoadType loadType, Xfer *pXfer, INIBlock
 			}
 		}
 	}
-	catch (INIException &e)
+	catch (INIException &iNIException)
 	{
-		throw INIException(e.m_argCount, e.mFailureMessage);
+		throw INIException(iNIException.m_argCount, iNIException.mFailureMessage);
 	}
 	catch (...)
 	{

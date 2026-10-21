@@ -44,9 +44,9 @@ void Rva00709B80::DestroyGCPointers()
 {
 	if (m_28)
 		m_28->release();
-	AptReleaseSlot *a20 = m_20;
+	AptReleaseSlot *aptReleaseSlot = m_20;
 	m_28 = 0;
-	a20->release();
+	aptReleaseSlot->release();
 	AptReleaseSlot *a24 = m_24;
 	m_20 = 0;
 	a24->release();

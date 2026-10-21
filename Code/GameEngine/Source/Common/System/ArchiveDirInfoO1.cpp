@@ -60,15 +60,15 @@ namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Archi
 
 #pragma inline_depth(0)
 // ?_bfmeDetailedDirMapAnchor@@YAXPAV?$map@VAsciiString@@VDetailedArchivedDirectoryInfo@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@3@@_STL@@@Z absent-from-retail
-void _bfmeDetailedDirMapAnchor(DetailedArchivedDirectoryInfoMap *m)
+void _bfmeDetailedDirMapAnchor(DetailedArchivedDirectoryInfoMap *detailedArchivedDirectoryInfoMap)
 {
-	m->DetailedArchivedDirectoryInfoMap::map();
+	detailedArchivedDirectoryInfoMap->DetailedArchivedDirectoryInfoMap::map();
 }
 #pragma inline_depth()
 // ?_bfmeDetailedDirInfoAnchor@@YAXPAVDetailedArchivedDirectoryInfo@@@Z absent-from-retail
-void _bfmeDetailedDirInfoAnchor(DetailedArchivedDirectoryInfo *d)
+void _bfmeDetailedDirInfoAnchor(DetailedArchivedDirectoryInfo *detailedArchivedDirectoryInfo)
 {
-	d->~DetailedArchivedDirectoryInfo();
+	detailedArchivedDirectoryInfo->~DetailedArchivedDirectoryInfo();
 }
 
 typedef _STL::_Rb_tree<AsciiString, _STL::pair<const AsciiString, ArchivedFileInfo>, _STL::_Select1st<_STL::pair<const AsciiString, ArchivedFileInfo> >, _STL::less<AsciiString>, _STL::allocator<_STL::pair<const AsciiString, ArchivedFileInfo> > > ArchivedFileTree;

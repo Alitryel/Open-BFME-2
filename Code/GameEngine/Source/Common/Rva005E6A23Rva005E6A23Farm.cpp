@@ -81,7 +81,7 @@ struct HeroDetailsArmyEntry {int count;Rva005E4300Entry *entry;};
 struct HeroDetailsArmySummary {char pad[0x40];HeroDetailsArmyEntry *begin,*end;};
 struct HeroDetailsPair {
  HeroDetailsPair(){}
- HeroDetailsPair(const HeroDetailsPair &p):count(p.count),entry(p.entry){}
+ HeroDetailsPair(const HeroDetailsPair &heroDetailsPair):count(heroDetailsPair.count),entry(heroDetailsPair.entry){}
  HeroDetailsPair(const int &c,Rva005E4300Entry *const &e):count(c),entry(e){}
  int count;Rva005E4300Entry *entry;
 };

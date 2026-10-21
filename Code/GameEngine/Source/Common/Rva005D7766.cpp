@@ -83,16 +83,16 @@ bool AISpellBookTreeKiller::shouldActivate(Object *source)
 	unsigned int count = (unsigned int)(((char *)tbl->m_end - (char *)tbl->m_begin) >> 2);
 	for (unsigned int i = 0; i < count; ++i)
 	{
-		TableEntry *e = (TableEntry *)tbl->m_begin[i];
-		if (e->m_18 != 0)
+		TableEntry *tableEntry = (TableEntry *)tbl->m_begin[i];
+		if (tableEntry->m_18 != 0)
 			continue;
 		unsigned int c = (unsigned int)tbl->rva005D772D((int)i);
 		if (c <= bestCount)
 			continue;
 		Coord3D cur;
 		tbl->rva00049D20(&cur, (int)i);
-		Player *p = source->getControllingPlayer();
-		int idx = p->m_playerIndex;
+		Player *player = source->getControllingPlayer();
+		int idx = player->m_playerIndex;
 		if (TheShroudManager->getShroudStatusForPlayer(idx, &cur) == 2)
 			continue;
 		bestIdx = i;

@@ -28,8 +28,8 @@ inline MultiIniFieldParse::MultiIniFieldParse()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeMultiIniFieldParseInlineAnchor@@YAXPAVMultiIniFieldParse@@@Z absent-from-retail
-void _bfmeMultiIniFieldParseInlineAnchor(MultiIniFieldParse *p)
+void _bfmeMultiIniFieldParseInlineAnchor(MultiIniFieldParse *multiIniFieldParse)
 {
-    p->MultiIniFieldParse::MultiIniFieldParse();
+    multiIniFieldParse->MultiIniFieldParse::MultiIniFieldParse();
 }
 #pragma inline_depth()

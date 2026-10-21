@@ -14,9 +14,9 @@ class Rva002BFF5A { public: void rva002C004F(const char *name); };
 
 class LivingWorld; extern LivingWorld *TheLivingWorld;
 
-__forceinline const char *GetStr005DB221(const AsciiString &s)
+__forceinline const char *GetStr005DB221(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

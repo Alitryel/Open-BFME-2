@@ -114,17 +114,17 @@ private:
 	int m_sub; // +0x8
 };
 
-Rva005D62E8 *Rva005D62E8::rva005D62E8(PlayerInfo *p)
+Rva005D62E8 *Rva005D62E8::rva005D62E8(PlayerInfo *playerInfo)
 {
 	m_state = 0;
-	m_player = p;
+	m_player = playerInfo;
 	m_sub = 11;
-	if ((p->m_flags & 0x20) == 0 && !(*(Rva00E05FB4 **)&TheGameSpyConfig)->vf10(p->m_profileID))
+	if ((playerInfo->m_flags & 0x20) == 0 && !(*(Rva00E05FB4 **)&TheGameSpyConfig)->vf10(playerInfo->m_profileID))
 	{
 		_STL::map<int, int> *m = TheGameSpyInfo->vf24();
-		MapIntIntTree *t = (MapIntIntTree *)m;
-		_STL::_Rb_tree_node<IntIntPair> *node = t->_M_find(m_player->m_profileID);
-		if ((void *)node != *(void * *)t)
+		MapIntIntTree *mapIntIntTree = (MapIntIntTree *)m;
+		_STL::_Rb_tree_node<IntIntPair> *node = mapIntIntTree->_M_find(m_player->m_profileID);
+		if ((void *)node != *(void * *)mapIntIntTree)
 		{
 			m_state = 1;
 			m_sub = 8;

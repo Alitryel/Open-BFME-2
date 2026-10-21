@@ -12,4 +12,4 @@ struct Rva0023E30A {
  unsigned word;
  Rva0023E30A(const AsciiString &,unsigned);
 };
-Rva0023E30A::Rva0023E30A(const AsciiString &s,unsigned w) : text(s),word(w) {}
+Rva0023E30A::Rva0023E30A(const AsciiString &asciiString,unsigned w) : text(asciiString),word(w) {}

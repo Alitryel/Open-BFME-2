@@ -29,8 +29,8 @@ inline GeometryRecord &GeometryRecord::operator=( const GeometryRecord &other )
 
 #pragma inline_depth(0)
 // ?bfmeEmitGeometryRecordAssign@@YAXPAUGeometryRecord@@ABU1@@Z present-unmatched
-void bfmeEmitGeometryRecordAssign(GeometryRecord *p, const GeometryRecord &other)
+void bfmeEmitGeometryRecordAssign(GeometryRecord *geometryRecord, const GeometryRecord &other)
 {
-	*p = other;
+	*geometryRecord = other;
 }
 #pragma inline_depth()

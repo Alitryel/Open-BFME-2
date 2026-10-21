@@ -28,7 +28,7 @@ __declspec(noinline) inline AISimpleExpansionTactic::~AISimpleExpansionTactic()
 }
 
 // ?bfmeAnchorAISimpleExpansionTacticDtor absent-from-retail
-void bfmeAnchorAISimpleExpansionTacticDtor(AISimpleExpansionTactic *p)
+void bfmeAnchorAISimpleExpansionTacticDtor(AISimpleExpansionTactic *aISimpleExpansionTactic)
 {
-	p->AISimpleExpansionTactic::~AISimpleExpansionTactic();
+	aISimpleExpansionTactic->AISimpleExpansionTactic::~AISimpleExpansionTactic();
 }

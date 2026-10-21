@@ -123,10 +123,10 @@ inline UnicodeString::UnicodeString( const UnicodeString &stringSrc )
 
 UnsignedInt DataChunkTableOfContents::getID( const AsciiString& name )
 {
-	Mapping *m = findMapping( name );
+	Mapping *mapping = findMapping( name );
 
-	if (m)
-		return m->id;
+	if (mapping)
+		return mapping->id;
 
 	return 0;
 }

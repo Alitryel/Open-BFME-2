@@ -109,9 +109,9 @@ private:
 	_STL::map<int, int> m_map28;
 };
 
-bool Rva005D791C::rva005D796F(Object *arg)
+bool Rva005D791C::rva005D796F(Object *object)
 {
-	Player *player = arg->getControllingPlayer();
+	Player *player = object->getControllingPlayer();
 	void *arr = TheSkirmishAIManager->rva002A8F24(player);
 	const Rva005C4AD1LeaField *fld = *(const Rva005C4AD1LeaField *const *)((const char *)arr + 0x0C);
 	ObjectID **pp = (ObjectID **)fld->get();
@@ -124,7 +124,7 @@ bool Rva005D791C::rva005D796F(Object *arg)
 		int key = o->m_74;
 		if (m_map28.find(key) != m_map28.end())
 			continue;
-		if (!((Rva005EE816 *)this)->rva005EE8DD((const Coord3D *)((const char *)o + 0x38), arg))
+		if (!((Rva005EE816 *)this)->rva005EE8DD((const Coord3D *)((const char *)o + 0x38), object))
 			continue;
 		((_STL::set<int> *)&m_map28)->insert(key);
 		return true;

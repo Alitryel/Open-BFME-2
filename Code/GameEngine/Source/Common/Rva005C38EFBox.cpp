@@ -26,11 +26,11 @@ struct Rva005C38EFBox
 
 void Rva005C38EFBox::Run()
 {
-	Object *r = TheGameLogic->findObjectByID((ObjectID)m_10);
-	if (r != 0) {
+	Object *object = TheGameLogic->findObjectByID((ObjectID)m_10);
+	if (object != 0) {
 		if ((*(Rva002A7DDE **)&ThePlayerList) == 0)
 			return;
-		if (!(*(Rva002A7DDE **)&ThePlayerList)->rva002A7DDE((Rva002A7DDEArg *)r))
+		if (!(*(Rva002A7DDE **)&ThePlayerList)->rva002A7DDE((Rva002A7DDEArg *)object))
 			return;
 	}
 	TheControlBar->rva004C1B60((GameWindow *)m_C, 0);

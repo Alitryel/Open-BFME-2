@@ -41,7 +41,7 @@ Rva005D19F8Child::Rva005D19F8Child(Rva005D19F8*o,int r,int a):owner(o),root(r),s
  const AwardSource*data=(AwardSource*)source;
  int count=data->players.size();
  players.reserve(count);
- for(int i=0;i<count;i++){const ModuleData*p=((AwardSource*)source)->players[i];players.push_back(p);}
+ for(int i=0;i<count;i++){const ModuleData*moduleData=((AwardSource*)source)->players[i];players.push_back(moduleData);}
  const ModuleData*local=((AwardWorld*)TheLivingWorldLogic)->localPlayer;
  const ModuleData**first=players.begin();
  _ReadWriteBarrier();const ModuleData**found=(const ModuleData**)_STL::find((int*)first,(int*)players.end(),(const int&)local);

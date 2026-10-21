@@ -47,9 +47,9 @@ private:
 	UnicodeString m_str;
 };
 
-void Rva00225A79StringField::set(const UnicodeString &s)
+void Rva00225A79StringField::set(const UnicodeString &unicodeString)
 {
-	((StringBase<unsigned short> *)&m_str)->set((const StringBase<unsigned short> &)s);
+	((StringBase<unsigned short> *)&m_str)->set((const StringBase<unsigned short> &)unicodeString);
 }
 
 BFME_ASCII_FIELD_CLEAR(Rva0023DC86StringField, 0x18)

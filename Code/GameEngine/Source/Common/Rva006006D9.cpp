@@ -58,8 +58,8 @@ void Rva0060061A::rva006006D9(void *a1)
 {
 	Rva00604A5F *p1 = new Rva00604A5F();
 	TheArchiveFileSystem = (ArchiveFileSystem *)p1;
-	Win32BIGFileSystem *p2 = new Win32BIGFileSystem();
-	(*(Rva0060061AHelper **)&TheLocalFileSystem) = (Rva0060061AHelper *)p2;
+	Win32BIGFileSystem *win32BIGFileSystem = new Win32BIGFileSystem();
+	(*(Rva0060061AHelper **)&TheLocalFileSystem) = (Rva0060061AHelper *)win32BIGFileSystem;
 	TheArchiveFileSystem->A1();
 	(*(Rva0060061AHelper **)&TheLocalFileSystem)->v1(a1);
 	if (!TheArchiveFileSystem->doesFileExist("shaders.big"))

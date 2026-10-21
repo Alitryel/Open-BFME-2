@@ -21,8 +21,8 @@ struct Rva00600F9CElement {
  Rva00600F9CElement(const Rva00600F9CElement &);
  Rva00600F9CElement(const char *const &,const NativeNestedTree &);
 };
-Rva00600F9CElement::Rva00600F9CElement(const char *const &k,const NativeNestedTree &t) : key(k),tree(t) {}
+Rva00600F9CElement::Rva00600F9CElement(const char *const &k,const NativeNestedTree &nativeNestedTree) : key(k),tree(nativeNestedTree) {}
 
 // 0x00600F5B 27B: returned pair construction from key and nested tree.
 // Native hidden result pointer and nontrivial returned-object lifetime.
-Rva00600F9CElement __cdecl Rva00600F5B(const char *const &k,const NativeNestedTree &t) { return Rva00600F9CElement(k,t); }
+Rva00600F9CElement __cdecl Rva00600F5B(const char *const &k,const NativeNestedTree &nativeNestedTree) { return Rva00600F9CElement(k,nativeNestedTree); }

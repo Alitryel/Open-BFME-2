@@ -80,9 +80,9 @@ unsigned char SubsystemInterfaceList::rva001B505F()
 	unsigned char any = 0;
 	flag = any;
 	_STL::vector<const ModuleData *> collected;
-	for (SubsystemEntry8 *p = m_primary.begin(); p != m_primary.end(); ++p)
+	for (SubsystemEntry8 *subsystemEntry8 = m_primary.begin(); subsystemEntry8 != m_primary.end(); ++subsystemEntry8)
 	{
-		obj = (const ModuleData *)p->object;
+		obj = (const ModuleData *)subsystemEntry8->object;
 		if (obj != 0)
 		{
 			if (rva001B4E21((SubsystemInterface *)obj, &flag))
@@ -90,9 +90,9 @@ unsigned char SubsystemInterfaceList::rva001B505F()
 			collected.push_back(obj);
 		}
 	}
-	for (SubsystemInterface **q = m_pending.begin(); q != m_pending.end(); ++q)
+	for (SubsystemInterface **subsystem = m_pending.begin(); subsystem != m_pending.end(); ++subsystem)
 	{
-		obj = (const ModuleData *)*q;
+		obj = (const ModuleData *)*subsystem;
 		if (obj != 0)
 		{
 			if (rva001B4E21((SubsystemInterface *)obj, &flag))

@@ -21,7 +21,7 @@ private:
 
 LivingWorldRegionConnection *famgenNew_LivingWorldRegionConnection() { return new LivingWorldRegionConnection(0); }
 
-void famgenDelete(LivingWorldRegionConnection *p)
+void famgenDelete(LivingWorldRegionConnection *livingWorldRegionConnection)
 {
-	delete p;
+	delete livingWorldRegionConnection;
 }

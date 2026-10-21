@@ -38,7 +38,7 @@ protected: struct Ref {void*vt;int count;}; Ref*pointer;
 class AptCommandMap {};
 template<class T>class AptRef:public Rva00579E47 {
 public:
- AptRef(const RegionAwardBinding&d):Rva00579E47(d){}
+ AptRef(const RegionAwardBinding&regionAwardBinding):Rva00579E47(regionAwardBinding){}
  ~AptRef(){if(pointer)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)pointer);}
 };
 class AptCommandMapAdder {

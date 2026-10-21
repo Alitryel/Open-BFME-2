@@ -21,9 +21,9 @@ extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 int __cdecl Rva00525338Fire(void *a1, void *a2, const char *a3, const char *a4, int *a5, void *a6);
 
-__forceinline const char *GetStr005D2B2F(const AsciiString &s)
+__forceinline const char *GetStr005D2B2F(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

@@ -122,9 +122,9 @@ struct IniLoadFileList {AsciiString name;AsciiString *begin,*end,*capacity;};
 struct SubsystemLegendNode {SubsystemLegendNode *next,*prev;IniLoadFileList value;};
 class SubsystemLegend {public:IniLoadFileList *rva001B49C4(AsciiString name);char prefix[12];SubsystemLegendNode *head;};
 IniLoadFileList *SubsystemLegend::rva001B49C4(AsciiString name) {
- for(SubsystemLegendNode *p=head->next;p!=head;p=p->next) {
-  AsciiString current=p->value.name;
-  if(reinterpret_cast<const StringBase<char>*>(&current)->compare(*reinterpret_cast<const StringBase<char>*>(&name))==0) return &p->value;
+ for(SubsystemLegendNode *subsystemLegendNode=head->next;subsystemLegendNode!=head;subsystemLegendNode=subsystemLegendNode->next) {
+  AsciiString current=subsystemLegendNode->value.name;
+  if(reinterpret_cast<const StringBase<char>*>(&current)->compare(*reinterpret_cast<const StringBase<char>*>(&name))==0) return &subsystemLegendNode->value;
  }
  return 0;
 }

@@ -1498,9 +1498,9 @@ Bool BuildAssistant::isPossibleToMakeUnit( Object *builder, const ThingTemplate 
 
 	if( whatToBuild )
 	{
-		for( BehaviorModule **m = builder->getBehaviorModules(); *m; ++m )
+		for( BehaviorModule **behaviorModule = builder->getBehaviorModules(); *behaviorModule; ++behaviorModule )
 		{
-			Rva00392B10Interface *bi = (*m)->slot11();
+			Rva00392B10Interface *bi = (*behaviorModule)->slot11();
 			if( bi == NULL )
 				continue;
 			if( bi->slot00() == whatToBuild->getName() )
@@ -2231,15 +2231,15 @@ LegalBuildCode BuildAssistant::isLocationLegalToBuild( const Coord3D *worldPos,
 // WB 0x00F9BED0 independently repeats kind 156, link-ID comparisons and
 // the 0x28BD17 module query followed by virtual slot 23. The predicate's
 // original name and the kind/module labels remain unresolved.
-Bool Rva003919F6Connected(Object*a,Object*b)
+Bool Rva003919F6Connected(Object*object,Object*b)
 {
- if(a==0||b==0)return false;
- if(!a->isKindOf((KindOfType)156)||!b->isKindOf((KindOfType)156))return false;
- if(a->get7C()==b->getID() || b->get7C()==a->getID())return true;
- Rva0028BD17Interface *x=(Rva0028BD17Interface*)a->rva0028BD17();
+ if(object==0||b==0)return false;
+ if(!object->isKindOf((KindOfType)156)||!b->isKindOf((KindOfType)156))return false;
+ if(object->get7C()==b->getID() || b->get7C()==object->getID())return true;
+ Rva0028BD17Interface *x=(Rva0028BD17Interface*)object->rva0028BD17();
  if(x && x->slot23(b->getID()))return true;
  Rva0028BD17Interface *y=(Rva0028BD17Interface*)b->rva0028BD17();
- if(y && y->slot23(a->getID()))return true;
+ if(y && y->slot23(object->getID()))return true;
  return false;
 }
 
@@ -2508,11 +2508,11 @@ Bool BuildAssistant::rva0039321C(Rva0039205C *info, Object *first, Object *secon
 		if (i >= TheWritableGlobalData->m_maxLineBuildObjects - 1)
 			break;
 
-		const ThingTemplate *tmpl = list->getEntry(i);
-		if (tmpl == NULL)
-			tmpl = from->getTemplate();
+		const ThingTemplate *thingTemplate = list->getEntry(i);
+		if (thingTemplate == NULL)
+			thingTemplate = from->getTemplate();
 
-		Real size = tmpl->getTemplateGeometryInfo().getBoxMinorRadius() - 1.0f;
+		Real size = thingTemplate->getTemplateGeometryInfo().getBoxMinorRadius() - 1.0f;
 		Coord3D step;
 		step.x = dir.x * size;
 		step.y = dir.y * size;
@@ -2527,7 +2527,7 @@ Bool BuildAssistant::rva0039321C(Rva0039205C *info, Object *first, Object *secon
 		{
 			if (obj->isEffectivelyDead())
 			{
-				if (obj->getTemplate()->isEquivalentTo(tmpl))
+				if (obj->getTemplate()->isEquivalentTo(thingTemplate))
 					valid = true;
 			}
 			else
@@ -2541,7 +2541,7 @@ Bool BuildAssistant::rva0039321C(Rva0039205C *info, Object *first, Object *secon
 				offset.z -= pos.z;
 				Real objSize = obj->getGeometryInfo().getBoxMinorRadius();
 				if (offset.length() > 1.1f && size * 1.1f >= objSize
-					&& obj->getTemplate()->isEquivalentTo(tmpl))
+					&& obj->getTemplate()->isEquivalentTo(thingTemplate))
 				{
 					if (recursed)
 						return false;
@@ -2568,7 +2568,7 @@ Bool BuildAssistant::rva0039321C(Rva0039205C *info, Object *first, Object *secon
 
 		pos.x += step.x;
 		pos.y += step.y;
-		info->m_cost += tmpl->rva0033A69A(from->getControllingPlayer(), (Int)from, -1);
+		info->m_cost += thingTemplate->rva0033A69A(from->getControllingPlayer(), (Int)from, -1);
 		if (info->m_cost > money)
 		{
 			info->m_status = 7;

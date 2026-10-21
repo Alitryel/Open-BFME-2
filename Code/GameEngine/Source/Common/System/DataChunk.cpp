@@ -154,11 +154,11 @@ void DataChunkInput::clearChunkStack()
 // in the mapping list (name at Mapping +0x08; AsciiString compare 0x000069D6).
 Mapping *DataChunkTableOfContents::findMapping( const AsciiString& name )
 {
-	Mapping *m;
+	Mapping *mapping;
 
-	for( m=m_list; m; m=m->m_next )
-		if (name == m->m_name )
-			return m;
+	for( mapping=m_list; mapping; mapping=mapping->m_next )
+		if (name == mapping->m_name )
+			return mapping;
 
 	return 0;
 }
@@ -172,33 +172,33 @@ Mapping *DataChunkTableOfContents::findMapping( const AsciiString& name )
 // a known name's id, else prepend a new mapping (newed as in read()).
 unsigned int DataChunkTableOfContents::allocateID(const AsciiString& name )
 {
-	Mapping *m = findMapping( name );
+	Mapping *mapping = findMapping( name );
 
-	if (m)
-		return m->m_id;
+	if (mapping)
+		return mapping->m_id;
 	else
 	{
 		// allocate new id mapping
-		m = (Mapping *)new Rva0030714F;
+		mapping = (Mapping *)new Rva0030714F;
 
-		m->m_id = this->m_nextID++;
-		m->m_name = name ;
+		mapping->m_id = this->m_nextID++;
+		mapping->m_name = name ;
 
 		// prepend to list
-		m->m_next = this->m_list;
-		this->m_list = m;
+		mapping->m_next = this->m_list;
+		this->m_list = mapping;
 
 		this->m_listLength++;
 
-		return m->m_id;
+		return mapping->m_id;
 	}
 }
 
 #pragma inline_depth(0)
 // ?bfmeEmitDataChunkTableOfContentsCtor@@YAXPAVDataChunkTableOfContents@@@Z present-unmatched
-void bfmeEmitDataChunkTableOfContentsCtor(DataChunkTableOfContents *p)
+void bfmeEmitDataChunkTableOfContentsCtor(DataChunkTableOfContents *dataChunkTableOfContents)
 {
-	p->DataChunkTableOfContents::DataChunkTableOfContents();
+	dataChunkTableOfContents->DataChunkTableOfContents::DataChunkTableOfContents();
 }
 #pragma inline_depth()
 

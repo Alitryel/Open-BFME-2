@@ -82,9 +82,9 @@ bool SubTitleManager::HasBeenDisplayed(int index)
 		return m_list[index]->m_displayed;
 	_bfme_debugRecordCallsite(1);
 	theDebug->f24();
-	LogA *a = (LogA *)theDebug->f27(0, 0, 0);
-	LogB *b = (LogB *)a->g14("Index out of range in SubTitleManager::HasBeenDisplayed.");
-	b->h19(1);
+	LogA *logA = (LogA *)theDebug->f27(0, 0, 0);
+	LogB *logB = (LogB *)logA->g14("Index out of range in SubTitleManager::HasBeenDisplayed.");
+	logB->h19(1);
 	return false;
 }
 
@@ -102,9 +102,9 @@ void SubTitleManager::SetDisplayedStats(int index)
 	}
 	_bfme_debugRecordCallsite(1);
 	theDebug->f24();
-	LogA *a = (LogA *)theDebug->f27(0, 0, 0);
-	LogB *b = (LogB *)a->g14("Index out of range in SubTitleManager::SetDisplayedStats().");
-	b->h19(1);
+	LogA *logA = (LogA *)theDebug->f27(0, 0, 0);
+	LogB *logB = (LogB *)logA->g14("Index out of range in SubTitleManager::SetDisplayedStats().");
+	logB->h19(1);
 }
 
 // ?GetColor@SubTitleManager@@QAEIH@Z retail 0x000469CB 92B.
@@ -119,9 +119,9 @@ unsigned int SubTitleManager::GetColor(int index)
 		return m_list[index]->m_color;
 	_bfme_debugRecordCallsite(1);
 	theDebug->f24();
-	LogA *a = (LogA *)theDebug->f27(0, 0, 0);
-	LogB *b = (LogB *)a->g14("Index out of range in SubTitleManager::GetColor().");
-	b->h19(1);
+	LogA *logA = (LogA *)theDebug->f27(0, 0, 0);
+	LogB *logB = (LogB *)logA->g14("Index out of range in SubTitleManager::GetColor().");
+	logB->h19(1);
 	return 0xffff00ff;
 }
 
@@ -131,9 +131,9 @@ UnicodeString SubTitleManager::GetText(int index)
 		return ((Rva0022C4DF *)m_list[index])->rva0022C4DF();
 	_bfme_debugRecordCallsite(1);
 	theDebug->f24();
-	LogA *a = (LogA *)theDebug->f27(0, 0, 0);
-	LogB *b = (LogB *)a->g14("Index out of range in SubTitleManager::GetText().");
-	b->h19(1);
+	LogA *logA = (LogA *)theDebug->f27(0, 0, 0);
+	LogB *logB = (LogB *)logA->g14("Index out of range in SubTitleManager::GetText().");
+	logB->h19(1);
 	return UnicodeString();
 }
 

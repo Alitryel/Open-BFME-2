@@ -52,9 +52,9 @@ public:
 };
 
 // ?buildFieldParse@BuildableHeroListUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004B8310 (34B)
-void BuildableHeroListUpgradeModuleData::buildFieldParse(MultiIniFieldParse &p)
+void BuildableHeroListUpgradeModuleData::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	p.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
+	multiIniFieldParse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
+	multiIniFieldParse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
 }
 

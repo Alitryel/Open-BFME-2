@@ -63,7 +63,7 @@ public:
 	virtual ~Rva006CBDE0() {}
 };
 
-Rva006CBDE0::Rva006CBDE0(int type, void *p1, AptValue *p2) : BfmeAptValue006DCD20(type, 0)
+Rva006CBDE0::Rva006CBDE0(int type, void *p1, AptValue *aptValue) : BfmeAptValue006DCD20(type, 0)
 {
 	m_4c = p1;
 	m_0c = 0x3F800000;
@@ -81,9 +81,9 @@ Rva006CBDE0::Rva006CBDE0(int type, void *p1, AptValue *p2) : BfmeAptValue006DCD2
 	m_3c = 0;
 	m_40 = 0;
 	m_44 = 0;
-	m_48 = p2;
-	if (p2 != 0)
-		p2->AddRef();
+	m_48 = aptValue;
+	if (aptValue != 0)
+		aptValue->AddRef();
 	m_5c &= 0xFFF0FFFF;
 	*(unsigned short *)&m_5c = 0;
 	setGCRootCount(1);

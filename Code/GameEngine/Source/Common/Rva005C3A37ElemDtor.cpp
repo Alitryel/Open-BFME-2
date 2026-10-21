@@ -149,7 +149,7 @@ struct DelegateDesc {
 };
 // ?AptRef::AptRef present-unmatched (inline delegate adapter; no unique retail body)
 template<class T> __forceinline AptRef<T>::AptRef(DelegateDesc d):Rva00579E47(d) {}
-__forceinline void AptCommandMapAdder::AddCommandMapBinding(const AsciiString &n,DelegateDesc d) {AddCommandMap(n,d);}
+__forceinline void AptCommandMapAdder::AddCommandMapBinding(const AsciiString &asciiString,DelegateDesc d) {AddCommandMap(asciiString,d);}
 class Rva000B3F84Pair {public: Rva000B3F84Pair() {} Rva000B3F84Pair *init(const char *); const char *ptr; int size;};
 struct AsciiStringRef {const AsciiString *m_string;};
 struct AsciiStringPlusString : AsciiStringRef {AsciiStringRef m_second;};

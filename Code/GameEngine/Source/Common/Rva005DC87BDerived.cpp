@@ -27,9 +27,9 @@ __declspec(noinline) inline AISiegeGatesTactic::~AISiegeGatesTactic()
 }
 
 // ?bfmeAnchorAISiegeGatesTacticDtor absent-from-retail
-void bfmeAnchorAISiegeGatesTacticDtor(AISiegeGatesTactic *p)
+void bfmeAnchorAISiegeGatesTacticDtor(AISiegeGatesTactic *aISiegeGatesTactic)
 {
-	p->AISiegeGatesTactic::~AISiegeGatesTactic();
+	aISiegeGatesTactic->AISiegeGatesTactic::~AISiegeGatesTactic();
 }
 
 class AISimpleSiegeTactic : public AITacticSiege
@@ -45,7 +45,7 @@ __declspec(noinline) inline AISimpleSiegeTactic::~AISimpleSiegeTactic()
 }
 
 // ?bfmeAnchorAISimpleSiegeTacticDtor absent-from-retail
-void bfmeAnchorAISimpleSiegeTacticDtor(AISimpleSiegeTactic *p)
+void bfmeAnchorAISimpleSiegeTacticDtor(AISimpleSiegeTactic *aISimpleSiegeTactic)
 {
-	p->AISimpleSiegeTactic::~AISimpleSiegeTactic();
+	aISimpleSiegeTactic->AISimpleSiegeTactic::~AISimpleSiegeTactic();
 }

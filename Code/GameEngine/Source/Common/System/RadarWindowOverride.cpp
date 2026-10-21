@@ -198,9 +198,9 @@ bool RadarWindowOverrideSource::rva002D35E6( void ) const
 
 void RadarWindowOverrideSource::rva002D35F2( void )
 {
-	MovieWindowPlayback *p = m_inner->m_78;
-	if (p->m_flags & 1)
-		p->Rva00524A65(500);
+	MovieWindowPlayback *movieWindowPlayback = m_inner->m_78;
+	if (movieWindowPlayback->m_flags & 1)
+		movieWindowPlayback->Rva00524A65(500);
 }
 
 void RadarWindowOverrideSource::rva002D3615( bool value )

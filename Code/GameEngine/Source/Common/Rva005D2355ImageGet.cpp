@@ -65,9 +65,9 @@ const Image *GetButtonImage(Rva005D2355In *in);
 }
 const Image *StrategicInGameUI::GetSelectionPortrait(Rva005D2355In *in)
 {
-    const AsciiString &s = in->str18;
-    if (!((const StringBase<char> *)&s)->isEmpty()) {
-        void *v = (void *)TheThingFactory->findTemplate(s);
+    const AsciiString &asciiString = in->str18;
+    if (!((const StringBase<char> *)&asciiString)->isEmpty()) {
+        void *v = (void *)TheThingFactory->findTemplate(asciiString);
         if (v != 0)
             return ((ThingTemplate *)v)->rva0033BA46();
     }
@@ -87,9 +87,9 @@ const Image *StrategicInGameUI::GetSelectionPortrait(Rva005D2355In *in)
 // of the portrait one; called from 0x005E1B09 and 0x005FF04B.
 const Image *StrategicInGameUI::GetButtonImage(Rva005D2355In *in)
 {
-    const AsciiString &s = in->str18;
-    if (!((const StringBase<char> *)&s)->isEmpty()) {
-        void *v = (void *)TheThingFactory->findTemplate(s);
+    const AsciiString &asciiString = in->str18;
+    if (!((const StringBase<char> *)&asciiString)->isEmpty()) {
+        void *v = (void *)TheThingFactory->findTemplate(asciiString);
         if (v != 0)
             return ((ThingTemplate *)v)->getButtonImage();
     }

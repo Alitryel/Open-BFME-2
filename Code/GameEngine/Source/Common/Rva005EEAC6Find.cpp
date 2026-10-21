@@ -72,14 +72,14 @@ public:
 	bool findDenseStructureCenter(Player *a1, Player *a2, Coord3D *out);
 };
 
-bool AISpellBookBase::findDenseStructureCenter(Player *a1, Player *a2, Coord3D *out)
+bool AISpellBookBase::findDenseStructureCenter(Player *player, Player *a2, Coord3D *out)
 {
 	Coord3D tmp;
 	tmp.x = 0.0f;
 	tmp.y = 0.0f;
 	tmp.z = 0.0f;
 	*out = tmp;
-	void *store = TheSkirmishAIManager->rva002A8F24(a1);
+	void *store = TheSkirmishAIManager->rva002A8F24(player);
 	Rva005EEAC6Range *tbl = ((Rva005EEAC6Store *)store)->m_table;
 	unsigned int count = (unsigned int)(((char *)tbl->m_end - (char *)tbl->m_begin) >> 2);
 	unsigned int best = 0;

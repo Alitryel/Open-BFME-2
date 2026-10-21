@@ -39,12 +39,12 @@ const Image *W3DScriptedModelDraw::getButtonImage()
 	Rva000B9C8CData *d = m_data;
 	if (d != 0)
 	{
-		const AsciiString &a = d->m_a;
-		if (((const StringBase<char> &)m_name).compareNoCase((const StringBase<char> &)a) != 0)
+		const AsciiString &asciiString = d->m_a;
+		if (((const StringBase<char> &)m_name).compareNoCase((const StringBase<char> &)asciiString) != 0)
 		{
-			((StringBase<char> *)&m_name)->set(*(const StringBase<char> *)&a);
+			((StringBase<char> *)&m_name)->set(*(const StringBase<char> *)&asciiString);
 			if (!d->m_b.isEmpty())
-				m_img = TheMappedImageCollection->findImageByName(a);
+				m_img = TheMappedImageCollection->findImageByName(asciiString);
 			else
 				m_img = 0;
 		}

@@ -29,8 +29,8 @@ private:
 	_STL::vector<AsciiString> member0C;
 };
 
-Rva005C4A91::Rva005C4A91(const AsciiString &s)
-	: Rva004FA830(reinterpret_cast<const StringBase<char> &>(s))
+Rva005C4A91::Rva005C4A91(const AsciiString &asciiString)
+	: Rva004FA830(reinterpret_cast<const StringBase<char> &>(asciiString))
 	, unknown08(4)
 	, member0C()
 {

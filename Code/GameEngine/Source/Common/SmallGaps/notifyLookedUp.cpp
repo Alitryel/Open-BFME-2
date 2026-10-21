@@ -18,8 +18,8 @@ struct Rva0020AA00Owner { char m_pad[0x20]; int* m_begin; int* m_end; };
 void notifyLookedUp(Rva0020AA00Owner* owner, int a, int b)
 {
 	for (int* it = owner->m_begin; it != owner->m_end; ++it) {
-		const ThingTemplate* t = TheThingFactory->findTemplate(*(const AsciiString *)it);
-		if (t)
-			const_cast<ThingTemplate *>(t)->GetAssetList(a, b);
+		const ThingTemplate* thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)it);
+		if (thingTemplate)
+			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(a, b);
 	}
 }

@@ -28,8 +28,8 @@ const Image *StrategicInGameUI::GetTypeImage(Rva005F002CIn *in)
     if (p)
     {
         Rva005F002CHolder *h = *(Rva005F002CHolder **)((char *)p + 0x40);
-        const AsciiString &s = *(const AsciiString *)((char *)h + 0x20);
-        return TheMappedImageCollection->findImageByName(s);
+        const AsciiString &asciiString = *(const AsciiString *)((char *)h + 0x20);
+        return TheMappedImageCollection->findImageByName(asciiString);
     }
     return 0;
 }

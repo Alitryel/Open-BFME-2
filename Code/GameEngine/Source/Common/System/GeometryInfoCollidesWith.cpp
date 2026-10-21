@@ -112,31 +112,31 @@ private:
  GeometryContactVector contacts;
  Coord3D preferredPosition,defaultPosition;
 };
-static inline float topExtent(const GeometryShape &s) {
+static inline float topExtent(const GeometryShape &geometryShape) {
  float extent=0.0f;
- switch(s.type) { case 0: extent=s.major; break; case 1: case 2: extent=s.height; break; }
- return extent+s.offset.z;
+ switch(geometryShape.type) { case 0: extent=geometryShape.major; break; case 1: case 2: extent=geometryShape.height; break; }
+ return extent+geometryShape.offset.z;
 }
-static __forceinline bool overlap(GeometryContact &a,GeometryContact &b,bool cur) {
- switch(a.shape.type) {
+static __forceinline bool overlap(GeometryContact &geometryContact,GeometryContact &b,bool cur) {
+ switch(geometryContact.shape.type) {
  case 0: case 1:
-  if(b.shape.type==2) return rva00880D10((Rva00880D10Subject *)&a,(Rva00880D10Info *)&b);
-  return bfmeSphereOverlap((const BfmeCollisionShape *)&a,(const BfmeCollisionShape *)&b);
+  if(b.shape.type==2) return rva00880D10((Rva00880D10Subject *)&geometryContact,(Rva00880D10Info *)&b);
+  return bfmeSphereOverlap((const BfmeCollisionShape *)&geometryContact,(const BfmeCollisionShape *)&b);
  case 2:
-  if(b.shape.type==2) return rva006C0630((Rva00880D10Info *)&a,(Rva00880D10Info *)&b);
-  return rva00880D10((Rva00880D10Subject *)&b,(Rva00880D10Info *)&a);
+  if(b.shape.type==2) return rva006C0630((Rva00880D10Info *)&geometryContact,(Rva00880D10Info *)&b);
+  return rva00880D10((Rva00880D10Subject *)&b,(Rva00880D10Info *)&geometryContact);
  }
  return cur;
 }
 bool GeometryInfo::CollidesWith(const Coord3D &p,float angle,const GeometryInfo &other,const Coord3D &q,float otherAngle) const {
  bool found=false;
- for(GeometryShape *s=begin;s!=end;++s) {
-  if(!s->enabled) continue;
+ for(GeometryShape *geometryShape=begin;geometryShape!=end;++geometryShape) {
+  if(!geometryShape->enabled) continue;
   if(found) break;
   Rva0087E900Coord temp;
-  Rva006BEB80Point ownCenter=*Rva0087E900(&temp,(const Rva0087E900Coord *)&p,(const Rva0087E900Shape *)s,angle);
-  GeometryContact a(*s,ownCenter,angle);
-  float h=topExtent(*s);
+  Rva006BEB80Point ownCenter=*Rva0087E900(&temp,(const Rva0087E900Coord *)&p,(const Rva0087E900Shape *)geometryShape,angle);
+  GeometryContact a(*geometryShape,ownCenter,angle);
+  float h=topExtent(*geometryShape);
   for(GeometryShape *t=other.begin;t!=other.end;++t) {
    if(!t->enabled) continue;
    if(found) break;
@@ -195,10 +195,10 @@ bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const ch
   int count=(int)contacts.size();
   int best=count;float bestDistance=FLT_MAX;
   for(int i=0;i<count;++i){
-   const GeometryContactRecord *c;
-   if(label){const AsciiString &l=contacts[i].label;c=&contacts[i];if(l.compare(label)!=0)continue;}
-   else{const AsciiString &l=contacts[i].label;c=&contacts[i];if(l.compare("")!=0)continue;}
-   Coord3D pos=c->position;
+   const GeometryContactRecord *geometryContactRecord;
+   if(label){const AsciiString &asciiString=contacts[i].label;geometryContactRecord=&contacts[i];if(asciiString.compare(label)!=0)continue;}
+   else{const AsciiString &asciiString=contacts[i].label;geometryContactRecord=&contacts[i];if(asciiString.compare("")!=0)continue;}
+   Coord3D pos=geometryContactRecord->position;
    if(pos.z>getMaxHeightAbovePosition())pos.z=getMaxHeightAbovePosition();
    if(!ignoreCollision&&!CollidesWith(GeometryContactOrigin,0.0f,*(const GeometryInfo *)&GeometryContactSphere,pos,0.0f))continue;
    float dx=pos.x-caller->x,dy=pos.y-caller->y,dz=pos.z-caller->z;

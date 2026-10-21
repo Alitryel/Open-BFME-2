@@ -9,7 +9,7 @@
 extern "C" __declspec(dllimport) D3DXVECTOR4 * __stdcall D3DXVec4Transform(
     D3DXVECTOR4 *, const D3DXVECTOR4 *, const D3DXMATRIX *);
 extern "C" D3DXVECTOR4 * __stdcall rva0062AF4AD3DXVec4Transform(
-    D3DXVECTOR4 *out, const D3DXVECTOR4 *v, const D3DXMATRIX *matrix)
+    D3DXVECTOR4 *out, const D3DXVECTOR4 *d3DXVECTOR4, const D3DXMATRIX *matrix)
 {
-    return D3DXVec4Transform(out, v, matrix);
+    return D3DXVec4Transform(out, d3DXVECTOR4, matrix);
 }

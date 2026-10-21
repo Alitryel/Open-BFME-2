@@ -22,18 +22,18 @@ public:
 	int m_key;
 };
 
-Quaternion *Rva005C7098::doInterpolate(Quaternion *dst, float t, int a3, int a4, const Quaternion *src1, int a6, const Quaternion *src2, int a8, int a9, int a10)
+Quaternion *Rva005C7098::doInterpolate(Quaternion *dst, float t, int a3, int a4, const Quaternion *quaternion, int a6, const Quaternion *src2, int a8, int a9, int a10)
 {
 	Quaternion tmp;
 	const Quaternion *src;
 	if (m_key > 0 && m_key <= 2)
 	{
-		Slerp(tmp, *src1, *src2, t);
+		Slerp(tmp, *quaternion, *src2, t);
 		src = &tmp;
 	}
 	else
 	{
-		src = src1;
+		src = quaternion;
 	}
 	*dst = *src;
 	return dst;

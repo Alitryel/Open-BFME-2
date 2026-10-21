@@ -62,8 +62,8 @@ int __stdcall Rva0039BEC3Count(const BitFlags<116> &mustBeSet, const BitFlags<11
 	_STL::_Rb_tree_node_base *node = map->m_header->_M_left;
 	while (node != map->m_header)
 	{
-		const ThingTemplate *tmpl = (const ThingTemplate *)((ObjectCountNode *)node)->m_key;
-		if (tmpl && tmpl->isKindOfMulti(mustBeSet, mustBeClear))
+		const ThingTemplate *thingTemplate = (const ThingTemplate *)((ObjectCountNode *)node)->m_key;
+		if (thingTemplate && thingTemplate->isKindOfMulti(mustBeSet, mustBeClear))
 			total += ((ObjectCountNode *)node)->m_value;
 		node = _STL::_Rb_global<bool>::_M_increment(node);
 	}

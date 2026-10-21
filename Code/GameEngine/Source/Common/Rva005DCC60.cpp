@@ -36,9 +36,9 @@ void BuildPhase::rva005DCC60()
 {
 	for (Elem **it = m_begin; it != m_end; ++it)
 	{
-		Elem *e = *it;
-		if (e->m_10 != 0)
+		Elem *elem = *it;
+		if (elem->m_10 != 0)
 			continue;
-		e->target(m_14, 0);
+		elem->target(m_14, 0);
 	}
 }

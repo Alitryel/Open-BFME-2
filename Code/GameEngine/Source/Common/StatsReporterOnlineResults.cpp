@@ -303,7 +303,7 @@ extern NameKeyGenerator*TheNameKeyGenerator;extern PlayerList*ThePlayerList;
 extern int BfmeLogicFramesPerSecond;extern int g_009C0758;extern int g_009C075C;extern BitFlags<116>KINDOFMASK_NONE; // 0x009FEFA4
 template<class T>inline const T&maxRef(const T&a,const T&b){return a>b?a:b;}
 template<class T>inline const T&minRef(const T&a,const T&b){return a<b?a:b;}
-__forceinline const char*retailStr(const AsciiString&s){return reinterpret_cast<const StringBase<char>*>(&s)->str();}
+__forceinline const char*retailStr(const AsciiString&asciiString){return reinterpret_cast<const StringBase<char>*>(&asciiString)->str();}
 inline const BitFlags<116>&mask(const Rva00045411BitSet&x){return reinterpret_cast<const BitFlags<116>&>(x);}
 inline unsigned short&word(short&x){return reinterpret_cast<unsigned short&>(x);}
 // WB lead identifies ProcessOnlineGameResults. ZH ScoreScreen.cpp is the

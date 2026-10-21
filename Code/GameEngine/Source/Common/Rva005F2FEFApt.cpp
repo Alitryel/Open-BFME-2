@@ -220,9 +220,9 @@ void Rva005F2A32::rva005F3272(const UnicodeString &text)
 AsciiString Rva00222834Get(int val);
 AsciiString Rva002228E8Get(float val);
 
-__forceinline const char *GetStr005F2A52(const AsciiString &s)
+__forceinline const char *GetStr005F2A52(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

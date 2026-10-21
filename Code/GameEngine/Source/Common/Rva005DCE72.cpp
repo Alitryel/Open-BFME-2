@@ -143,8 +143,8 @@ void Rva005DCE72::rva005DCEB7(Rva005DCEB7Arg *p)
 	do
 	{
 		Rva00573E7C *nn = new Rva00573E7C;
-		const ModuleData *tmp = (const ModuleData *)nn;
-		((_STL::vector<const ModuleData *> *)base)->push_back(tmp);
+		const ModuleData *moduleData = (const ModuleData *)nn;
+		((_STL::vector<const ModuleData *> *)base)->push_back(moduleData);
 		++i;
 	} while (i < n);
 second:

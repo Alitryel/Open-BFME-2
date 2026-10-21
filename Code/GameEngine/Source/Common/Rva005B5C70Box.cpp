@@ -55,10 +55,10 @@ void Rva005B5C70Box::Run(int a)
 	Rva005B5C70Entry *e = (Rva005B5C70Entry *)GadgetListBoxGetItemData(m_8, r, 0);
 	if (e == 0)
 		return;
-	AptMyHero *s = (AptMyHero *)m_4;
+	AptMyHero *aptMyHero = (AptMyHero *)m_4;
 	int flag = (((unsigned char *)&a)[0] != 0);
-	s = (AptMyHero *)((char *)s + 0x27c);
-	s->rva005B21DA((CreateAHeroData *)e, false, flag);
+	aptMyHero = (AptMyHero *)((char *)aptMyHero + 0x27c);
+	aptMyHero->rva005B21DA((CreateAHeroData *)e, false, flag);
 	m_14 = 1;
 	if (e->m_48 == 0)
 		((unsigned char *)&a)[3] = 1;

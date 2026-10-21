@@ -185,12 +185,12 @@ class Rva005D719C {public:bool rva005D71C3(Object *);};
 bool Rva005D719C::rva005D71C3(Object *object) {
  NameKeyType key=Rva0045EE2CGet();
  if (((StancesBehavior *)object->findModule(key))->rva0045ED4B()!=3) {
- PredicateObjectPrefix *p=(PredicateObjectPrefix *)object;
- if (p->ai->getCurrentVictim()) {
+ PredicateObjectPrefix *predicateObjectPrefix=(PredicateObjectPrefix *)object;
+ if (predicateObjectPrefix->ai->getCurrentVictim()) {
  float value;
- if (*(const unsigned char *)((const char *)p->objectTemplate+0x115)&0x20)
+ if (*(const unsigned char *)((const char *)predicateObjectPrefix->objectTemplate+0x115)&0x20)
   value=((PredicateExtendedPrefix *)object->rva0028C197())->value();
- else value=((PredicateBodyPrefix *)p->body)->value();
+ else value=((PredicateBodyPrefix *)predicateObjectPrefix->body)->value();
  return value<0.5f;
  } }
  return false;

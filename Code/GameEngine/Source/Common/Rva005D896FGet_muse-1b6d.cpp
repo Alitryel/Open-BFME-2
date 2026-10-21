@@ -35,7 +35,7 @@ public:
 
 bool Rva005D898A::rva005D896F(Object *obj)
 {
-	const Weapon *w = obj->getCurrentWeapon((WeaponSlotType *)0);
-	unsigned char b = w->m_04->get();
+	const Weapon *weapon = obj->getCurrentWeapon((WeaponSlotType *)0);
+	unsigned char b = weapon->m_04->get();
 	return !b;
 }

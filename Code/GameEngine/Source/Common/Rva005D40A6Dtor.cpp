@@ -163,7 +163,7 @@ inline AsciiStringPlusStringText operator+(const AsciiStringPlusString &left,con
 class __single_inheritance FunctorTarget;
 typedef void (FunctorTarget::*FunctorMethod)(const char *);
 struct DelegateDesc {
-    DelegateDesc(FunctorMethod f,FunctorTarget *p):object(p),method(f) {}
+    DelegateDesc(FunctorMethod f,FunctorTarget *functorTarget):object(functorTarget),method(f) {}
     FunctorTarget *object; FunctorMethod method;
 };
 struct TargetRef00217D4C;
@@ -182,7 +182,7 @@ class AptCommandMap;
 class AptCommandMapAdder { public:
     void AddCommandMap(const AsciiString &,AptRef<AptCommandMap>);
 };
-static __forceinline DelegateDesc MakeBinding(FunctorMethod f,FunctorTarget *p) { return DelegateDesc(f,p); }
+static __forceinline DelegateDesc MakeBinding(FunctorMethod f,FunctorTarget *functorTarget) { return DelegateDesc(f,functorTarget); }
 
 class AptCustomRender;
 class AptCustomRenderAdder { public: void AddCustomRender(const AsciiString &,AptRef<AptCustomRender>); };

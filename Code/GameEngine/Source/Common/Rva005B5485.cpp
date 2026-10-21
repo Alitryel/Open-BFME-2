@@ -52,8 +52,8 @@ void AptCreateAHero::Class::ExternFunc(int sel, char *buf, bool flag)
         break;
     }
     case 0: {
-        CreateAHeroManager *g = TheCreateAHeroManager;
-        Vec32 *v = &g->m_outer;
+        CreateAHeroManager *createAHeroManager = TheCreateAHeroManager;
+        Vec32 *v = &createAHeroManager->m_outer;
         char *finish = (char *)v->m_finish;
         unsigned int count = (unsigned int)((finish - (char *)v->m_start) >> 5);
         _snprintf(buf, 0xFF, "%d", count);

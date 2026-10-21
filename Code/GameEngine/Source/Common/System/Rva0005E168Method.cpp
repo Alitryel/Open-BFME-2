@@ -35,8 +35,8 @@ private:
 	int m_9D4;
 };
 
-void Rva0005E168::rva0005E168(const AsciiString &s, int idx)
+void Rva0005E168::rva0005E168(const AsciiString &asciiString, int idx)
 {
 	MilesMutexGuard guard(&m_9D4, 0);
-	((Rva0005CE32 *)&m_arr[idx])->rva0005CE32(s);
+	((Rva0005CE32 *)&m_arr[idx])->rva0005CE32(asciiString);
 }

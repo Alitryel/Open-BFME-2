@@ -27,7 +27,7 @@ void Rva005D1D8F::rva005D1D8F(int)
 {
 	Rva002B7250 *o = (Rva002B7250 *)((char *)m_8 + 8);
 	int outer = (int)this - 12;
-	CreateAHeroData *v = outer ? (CreateAHeroData *)this : 0;
-	o->rva002B7250(v);
+	CreateAHeroData *createAHeroData = outer ? (CreateAHeroData *)this : 0;
+	o->rva002B7250(createAHeroData);
 	m_8 = 0;
 }

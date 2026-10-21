@@ -33,10 +33,10 @@ unsigned char Rva005CD737::rva005CD737(void * volatile p)
 {
 	if (((Rva005CCB3EByteChaseField *)p)->get() != 0)
 		return 1;
-	TextureClass *t = ((Font3DInstanceClass *)p)->Peek_Texture();
-	if (t == (TextureClass *)1)
+	TextureClass *texture = ((Font3DInstanceClass *)p)->Peek_Texture();
+	if (texture == (TextureClass *)1)
 	{
-		m_4 = (unsigned char)(unsigned int)t;
+		m_4 = (unsigned char)(unsigned int)texture;
 		return 0;
 	}
 	return 1;

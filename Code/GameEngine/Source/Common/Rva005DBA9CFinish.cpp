@@ -46,10 +46,10 @@ bool PortNegotiationSchema::rva005DBA9C(bool flag)
 			{
 				if (bx == bp)
 					continue;
-				GameSlot *a = m_slots[bx];
-				if (!a)
+				GameSlot *gameSlot = m_slots[bx];
+				if (!gameSlot)
 					continue;
-				if (!a->isHuman())
+				if (!gameSlot->isHuman())
 					continue;
 				GameSlot *b = m_slots[bp];
 				if (!b)
