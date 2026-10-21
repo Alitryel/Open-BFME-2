@@ -443,10 +443,10 @@ public:
 	static NetCommandMsg *rva0058E0B0(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E20D(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E2D7(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E367(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E3F4(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E481(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E511(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readInformPlayerLeaveFrameMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readRequestPlayerLeaveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readRequestFrameDataMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectFrameMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandRef *ConstructNetCommandMsgFromRawData(UnsignedByte *data, UnsignedShort dataLength);
 	// The type-17 reader the linker folded into the type-16 body; its own symbol
 	// keeps ConstructNetCommandMsgFromRawData's two call blocks apart.
@@ -2389,13 +2389,13 @@ NetCommandRef *NetPacket::ConstructNetCommandMsgFromRawData(UnsignedByte *data, 
 			} else if (commandType == 22) {
 				msg = rva0058E2D7(data, readOffset);
 			} else if (commandType == 8) {
-				msg = rva0058E367(data, readOffset);
+				msg = readInformPlayerLeaveFrameMessage(data, readOffset);
 			} else if (commandType == 7) {
-				msg = rva0058E3F4(data, readOffset);
+				msg = readRequestPlayerLeaveMessage(data, readOffset);
 			} else if (commandType == 9) {
-				msg = rva0058E481(data, readOffset);
+				msg = readRequestFrameDataMessage(data, readOffset);
 			} else if (commandType == 28) {
-				msg = rva0058E511(data, readOffset);
+				msg = readDisconnectFrameMessage(data, readOffset);
 			} else if (commandType == 5) {
 				msg = (NetCommandMsg *)Rva00592496Read((Int)data, (UnsignedInt *)&readOffset);
 			} else if (commandType == 6) {
@@ -3001,7 +3001,7 @@ NetCommandMsg *NetPacket::rva0058E2D7(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058E367@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E367 141B.
+// ?readInformPlayerLeaveFrameMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E367 141B.
 // Static NetCommandMsg factory reading leaving-player ID then leave frame.
 // Evidence: BFME1 donor NetPacket_read.cpp readInformPlayerLeaveFrameMessage
 // (same new plus setLeavingPlayerID plus setLeaveFrame order); neighbours
@@ -3009,7 +3009,7 @@ NetCommandMsg *NetPacket::rva0058E2D7(unsigned char *data, int &readOffset)
 // Rva004D59D1 ctor row (type 8 plus vtable 0x860274); setLeaveFrame row.
 // Retail defaults playerID to -1 where the donor uses 0 (or -1 proves it).
 // The 10B setter at 0x00317B9B is rowed YAXXZ (TYPES wrong); declared as used.
-NetCommandMsg *NetPacket::rva0058E367(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readInformPlayerLeaveFrameMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D59D1 *msg = new Rva004D59D1();
 	Int playerID = -1;
@@ -3023,13 +3023,13 @@ NetCommandMsg *NetPacket::rva0058E367(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058E3F4@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E3F4 141B.
+// ?readRequestPlayerLeaveMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E3F4 141B.
 // Static NetCommandMsg factory reading player index then leaving-player ID.
 // Evidence: neighbours 0x0058E367 and 0x0058E481 same NetPacket static factory
 // shape PAEAAH; new-0x24 plus Rva004D5A10 ctor row; memcpy plus Rva004D57AE
 // setter plus-0x1C; second setter at 0x00317B9B writes plus-0x20; first dword
 // defaults -1 like 0x0058E367.
-NetCommandMsg *NetPacket::rva0058E3F4(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readRequestPlayerLeaveMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D5A10 *msg = new Rva004D5A10();
 	UnsignedInt playerIndex = (UnsignedInt)-1;
@@ -3043,12 +3043,12 @@ NetCommandMsg *NetPacket::rva0058E3F4(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058E481@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E481 144B.
+// ?readRequestFrameDataMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E481 144B.
 // Static NetCommandMsg factory reading player index then second dword.
 // Evidence: neighbours 0x0058E367 and 0x0058E511; new-0x24 plus Rva004D5A30
 // ctor row type 9 vtable 0x860294; memcpy plus Rva004D57AE setter row at
 // plus-0x1C; second setter at 0x00317B9B writes plus-0x20.
-NetCommandMsg *NetPacket::rva0058E481(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readRequestFrameDataMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D5A30 *msg = new Rva004D5A30();
 	UnsignedInt playerIndex = 0;
@@ -3062,10 +3062,10 @@ NetCommandMsg *NetPacket::rva0058E481(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058E511@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E511 106B.
+// ?readDisconnectFrameMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E511 106B.
 // Static NetCommandMsg factory reading player index from data+offset.
 // Evidence: new-0x20 plus Rva004D59B8 ctor plus memcpy plus Rva004D57AE setter.
-NetCommandMsg *NetPacket::rva0058E511(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readDisconnectFrameMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D59B8 *msg = new Rva004D59B8();
 	UnsignedInt playerIndex = 0;

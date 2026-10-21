@@ -23,11 +23,11 @@ struct Rva0058BD4FPkt
 class Connection
 {
 public:
-	NetCommandRef *rva0058B9CA(UnsignedShort commandID, UnsignedByte playerID, UnsignedInt timestamp, UnsignedInt executionFrame);
+	NetCommandRef *processAck(UnsignedShort commandID, UnsignedByte playerID, UnsignedInt timestamp, UnsignedInt executionFrame);
 	NetCommandRef *rva0058BD4F(void *p);
 };
 NetCommandRef *Connection::rva0058BD4F(void *p)
 {
 	Rva0058BD4FPkt *pkt = (Rva0058BD4FPkt *)p;
-	return rva0058B9CA(((Rva004D5767WordField *)p)->get(), ((Rva004543C6ByteField *)p)->get(), pkt->field20, pkt->field24);
+	return processAck(((Rva004D5767WordField *)p)->get(), ((Rva004543C6ByteField *)p)->get(), pkt->field20, pkt->field24);
 }
