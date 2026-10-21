@@ -698,7 +698,7 @@ private:
 unsigned char m_pad04[0x0C - 0x04];
 ObjectSellList m_sellList;
 };
-BuildAssistant*TheBuildAssistant=NULL;
+extern BuildAssistant*TheBuildAssistant;
 class ThingFactory
 {
 public:
