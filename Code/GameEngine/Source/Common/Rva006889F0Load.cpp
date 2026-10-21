@@ -12,6 +12,14 @@ template <> __declspec(dllimport) __forceinline void StringBase<char>::set(const
     set(text, text ? strlen(text) : 0);
 }
 #include "ascii_string.h"
+// AsciiString::operator=(const char *) as an inline-only helper: the operator
+// itself would also emit this TU's copy of the 0x000065B8 body in its
+// strlen-inlined form (retail's copy calls the out-of-line setter).
+static __forceinline AsciiString &AssignCString(AsciiString &s, const char *text)
+{
+    ((StringBase<char> *)&s)->set(text);
+    return s;
+}
 class Xfer;
 enum INILoadType {INI_LOAD_INVALID,INI_LOAD_OVERWRITE};
 class INI {
@@ -34,7 +42,7 @@ private:
 void Rva00688980::rva006889F0(const char *path)
 {
     rva006888D0();
-    name = path;
+    AssignCString(name, path);
     INI ini;
     ini.load(path,INI_LOAD_OVERWRITE,0,INI::parseVideoDefinition);
 }

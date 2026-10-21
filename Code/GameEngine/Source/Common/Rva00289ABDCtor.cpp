@@ -150,7 +150,7 @@ public:
 	__declspec(dllimport) __forceinline BFME2NativeNetwork() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
 	virtual ~BFME2NativeNetwork() { _ReadWriteBarrier(); }
 private:
-	virtual void unused() = 0;
+	virtual void rva00289180() = 0;
 	char m_flag;
 	int m_value;
 };
@@ -167,6 +167,7 @@ public:
 	_STL::map<int, void *> m_map28;
 public:
 	virtual ~Rva00289ABD();	// rowed elsewhere; declared so this unit binds to it
+	virtual void rva00289180();	// slot 1, rowed in Rva00289180Finish.cpp (0x00289180)
 };
 Rva00289ABD::Rva00289ABD()
 	: m_vec14(_STL::allocator<BfmeE16>()), m_b24(0)

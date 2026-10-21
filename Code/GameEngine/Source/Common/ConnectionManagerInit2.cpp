@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // ??0ConnectionManager@@QAE@XZ @ 0x004D274B 263B
 // ConnectionManager::ConnectionManager: vtable + history[9] via ??_H + transport/localSlot/router + maps/set/array via ??_L + 8-way loop.
@@ -112,6 +112,23 @@ public:
 	void rva004D0FAB();
 };
 
+// The eight progress maps at +0x12150 are ConnectionManagerCtor.cpp's
+// Rva004D1D32 owner (retail's ??_L/??_M callbacks pass 0x0033C432/0x004D1D32,
+// not the generic map<int,void*> ctor/dtor), so this unit's copy of the
+// constructor is that unit's.
+typedef _STL::_Rb_tree<int, _STL::pair<const int, void *>,
+    _STL::_Select1st<_STL::pair<const int, void *> >, _STL::less<int>,
+    _STL::allocator<_STL::pair<const int, void *> > > ConnectionProgressTree;
+class Rva004D1D32
+{
+public:
+    Rva004D1D32()
+        : m_tree(_STL::less<int>(), ConnectionProgressTree::allocator_type()) {}
+    ~Rva004D1D32();
+private:
+    ConnectionProgressTree m_tree;
+};
+
 class ConnectionManager
 {
 public:
@@ -144,7 +161,7 @@ public:
 	char m_12136pad[2];
 	_STL::map<int, Rva004D1B38Mapped> m_12138;
 	_STL::set<AsciiString> m_12144;
-	_STL::map<int, void *> m_12150[8];
+	Rva004D1D32 m_12150[8];
 };
 
 __declspec(noinline) inline ConnectionManager::ConnectionManager()

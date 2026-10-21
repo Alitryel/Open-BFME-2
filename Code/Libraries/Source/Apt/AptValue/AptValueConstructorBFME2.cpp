@@ -7,7 +7,11 @@
 // are unknown. This body is not the DrawableModule constructor.
 class BfmeAptValue006DCD20
 {
-    virtual void vtableSlot0() {}
+    // The same one-slot vftable view Rva006DE2C0Ctors.cpp emits (declared virtual dtor),
+    // so the select-any ??_7BfmeAptValue006DCD20 copies agree.
+public:
+    virtual ~BfmeAptValue006DCD20();
+private:
     unsigned int m_flags;
     void setTypeAt006DBBC0(int type);
 public:
