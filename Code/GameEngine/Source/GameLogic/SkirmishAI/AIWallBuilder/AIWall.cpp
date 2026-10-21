@@ -297,9 +297,58 @@ template<> __declspec(dllimport) __forceinline void allocator<PolygonTrigger *>:
 template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<PolygonTrigger **,PolygonTrigger *,allocator<PolygonTrigger *> >::deallocate(PolygonTrigger **p,size_t n){static_cast<allocator<PolygonTrigger *> &>(*this).deallocate(p,n);}
 template<> __declspec(dllimport) __forceinline void vector<PolygonTrigger *,allocator<PolygonTrigger *> >::_M_clear(){_Destroy(_M_start,_M_finish);_M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);}
 }
+// Squared distance between two points, y term first.
+template <typename NUM> inline NUM sqr(NUM x) { return x * x; }
+static float calcDistSquared(const Coord2D &a, const Coord2D &b) { return sqr(a.y - b.y) + sqr(a.x - b.x); }
+
+// 0x004EACF5: squared distance from pt to the segment lineStart..lineEnd. Its
+// only caller is AIWall::rva004EADBA, and retail passes the three points in
+// private registers (lineStart EAX, lineEnd EDX, pt ECX) with the result in
+// xmm0, which the compiler gives a static noinline helper. The
+// pt - lineStart vector is a Coord2D, and the segment length is taken from a
+// local copy of the end point, as each early-out copies its endpoint.
+static __declspec(noinline) float rva004EACF5(const Coord2D *pt, const Coord2D *lineStart, const Coord2D *lineEnd)
+{
+	float dx = lineEnd->x;
+	float dy = lineEnd->y;
+	dx -= lineStart->x;
+	dy -= lineStart->y;
+	Coord2D ap;
+	ap.x = pt->x - lineStart->x;
+	ap.y = pt->y - lineStart->y;
+	float dot = ap.y * dy;
+	dot += ap.x * dx;
+	if (dot <= 0.0f)
+	{
+		// the closest point is lineStart
+		Coord2D closest;
+		closest.x = lineStart->x;
+		closest.y = lineStart->y;
+		return calcDistSquared(closest, *pt);
+	}
+	Coord2D end;
+	end.x = lineEnd->x;
+	end.y = lineEnd->y;
+	float lineLenSqr = calcDistSquared(end, *lineStart);
+	if (dot >= lineLenSqr)
+	{
+		// the closest point is lineEnd
+		Coord2D closest;
+		closest.x = lineEnd->x;
+		closest.y = lineEnd->y;
+		return calcDistSquared(closest, *pt);
+	}
+	float tmp = dot / lineLenSqr;
+	Coord2D closest;
+	closest.x = lineStart->x + tmp * dx;
+	closest.y = lineStart->y + tmp * dy;
+	return calcDistSquared(closest, *pt);
+}
+
 class AIWall
 {
 public:
+	float rva004EADBA(const Coord2D *pt);	// 0x004EADBA: smallest squared distance to the wall polyline
 	WallPositionValue calcGatePosition();	// 0x004EAFBD: WB names calcGatePosition; hidden value result
 	void buildGate();
 	void updateState(bool left);
@@ -318,6 +367,30 @@ private:
     _STL::vector<BfmeE8> triggerCounts28;
 	int state34, index38, state3c, index40;
 };
+
+// 0x004EADBA: the smallest squared distance from pt to the polyline that runs
+// from selected04's position through each orders08 entry's position (virtual
+// slot 13), in the plane. Native 4EADBA..4EAE9D RET4; no retail caller is known.
+float AIWall::rva004EADBA(const Coord2D *pt)
+{
+	float best = -1.0f;
+	WallBoundaryPoint p;
+	p.x = pt->x;
+	p.y = pt->y;
+	WallBoundaryPoint previous;
+	previous.set(selected04->position().x, selected04->position().y);
+	_STL::vector<WallPositionOrderView *>::iterator end = orders08.end();
+	for (_STL::vector<WallPositionOrderView *>::iterator order = orders08.begin(); order != end; ++order)
+	{
+		WallBoundaryPoint current;
+		current.set((*order)->position().x, (*order)->position().y);
+		float d = rva004EACF5(&p, &previous, &current);
+		if (best < 1.0f || d < best)
+			best = d;
+		previous = current;
+	}
+	return best;
+}
 
 void AIWall::buildGate()
 {
