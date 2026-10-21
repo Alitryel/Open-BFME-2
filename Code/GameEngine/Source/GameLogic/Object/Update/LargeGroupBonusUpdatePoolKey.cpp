@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00048FFD4@LargeGroupBonusUpdate@@SA?AW4NameKeyType@@XZ @0x48ffd4
+// ?getModuleNameKey@LargeGroupBonusUpdate@@UBE?AW4NameKeyType@@XZ @0x48ffd4
 // (69B): cached pool-name key for LargeGroupBonusUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("LargeGroupBonusUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class LargeGroupBonusUpdate
 {
 public:
-	static NameKeyType rva00048FFD4();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048FFD4@LargeGroupBonusUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType LargeGroupBonusUpdate::rva00048FFD4()
+// ?getModuleNameKey@LargeGroupBonusUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType LargeGroupBonusUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheLargeGroupBonusUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("LargeGroupBonusUpdate");

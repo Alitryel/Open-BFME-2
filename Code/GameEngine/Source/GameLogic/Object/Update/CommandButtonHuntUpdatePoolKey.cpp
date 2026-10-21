@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000495344@CommandButtonHuntUpdate@@SA?AW4NameKeyType@@XZ @0x495344
+// ?getModuleNameKey@CommandButtonHuntUpdate@@UBE?AW4NameKeyType@@XZ @0x495344
 // (69B): cached pool-name key for CommandButtonHuntUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("CommandButtonHuntUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CommandButtonHuntUpdate
 {
 public:
-	static NameKeyType rva000495344();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000495344@CommandButtonHuntUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType CommandButtonHuntUpdate::rva000495344()
+// ?getModuleNameKey@CommandButtonHuntUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType CommandButtonHuntUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheCommandButtonHuntUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("CommandButtonHuntUpdate");

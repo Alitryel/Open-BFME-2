@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000494E83@ScaleWallSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x494e83
+// ?getModuleNameKey@ScaleWallSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x494e83
 // (69B): cached pool-name key for ScaleWallSpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ScaleWallSpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ScaleWallSpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva000494E83();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000494E83@ScaleWallSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ScaleWallSpecialAbilityUpdate::rva000494E83()
+// ?getModuleNameKey@ScaleWallSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ScaleWallSpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheScaleWallSpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ScaleWallSpecialAbilityUpdate");

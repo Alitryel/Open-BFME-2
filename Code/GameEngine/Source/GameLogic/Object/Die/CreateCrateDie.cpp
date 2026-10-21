@@ -356,7 +356,7 @@ class CreateCrateDie : public DieModule
 {
 public:
 	CreateCrateDie(Thing *thing, const ModuleData *moduleData);
-	static NameKeyType rva0004854AB();
+	virtual NameKeyType getModuleNameKey() const;
 
 	virtual void onDie(const DamageInfo *damageInfo);
 
@@ -399,9 +399,9 @@ Bool CreateCrateDie::testKillerScience(const CrateTemplate *currentCrateData, Ob
 	return true;
 }
 
-// ?rva0004854AB@CreateCrateDie@@SA?AW4NameKeyType@@XZ
+// ?getModuleNameKey@CreateCrateDie@@UBE?AW4NameKeyType@@XZ
 // The cached pool-name key: retail stores nameToKey's result and returns it.
-NameKeyType CreateCrateDie::rva0004854AB()
+NameKeyType CreateCrateDie::getModuleNameKey() const
 {
 	static NameKeyType TheCreateCrateDiePoolKey =
 		TheNameKeyGenerator->nameToKey("CreateCrateDie");

@@ -138,7 +138,7 @@ public:
 	DieModule( Thing *thing, const ModuleData *moduleData );
 };
 
-// ?rva000486B75@UpgradeDie@@SA?AW4NameKeyType@@XZ @0x486b75
+// ?getModuleNameKey@UpgradeDie@@UBE?AW4NameKeyType@@XZ @0x486b75
 // (69B): cached pool-name key for UpgradeDie. The class
 // identity comes from the pool-name string the body pushes
 // ("UpgradeDie"); the body guards a function-local static
@@ -166,13 +166,13 @@ class UpgradeDie : public DieModule
 public:
 	UpgradeDie( Thing *thing, const ModuleData *moduleData );
 public:
-	static NameKeyType rva000486B75();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Die/UpgradeDiePoolKey.cpp
 
-// ?rva000486B75@UpgradeDie@@SA?AW4NameKeyType@@XZ
-NameKeyType UpgradeDie::rva000486B75()
+// ?getModuleNameKey@UpgradeDie@@UBE?AW4NameKeyType@@XZ
+NameKeyType UpgradeDie::getModuleNameKey() const
 {
 	static NameKeyType TheUpgradeDiePoolKey =
 		TheNameKeyGenerator->nameToKey("UpgradeDie");

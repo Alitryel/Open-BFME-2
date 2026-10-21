@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004A3BD6@SpawnPointProductionExitUpdate@@SA?AW4NameKeyType@@XZ @0x4a3bd6
+// ?getModuleNameKey@SpawnPointProductionExitUpdate@@UBE?AW4NameKeyType@@XZ @0x4a3bd6
 // (69B): cached pool-name key for SpawnPointProductionExitUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("SpawnPointProductionExitUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SpawnPointProductionExitUpdate
 {
 public:
-	static NameKeyType rva0004A3BD6();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A3BD6@SpawnPointProductionExitUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType SpawnPointProductionExitUpdate::rva0004A3BD6()
+// ?getModuleNameKey@SpawnPointProductionExitUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SpawnPointProductionExitUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheSpawnPointProductionExitUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("SpawnPointProductionExitUpdate");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00049A67C@HordeAIUpdate@@SA?AW4NameKeyType@@XZ @0x49a67c
+// ?getModuleNameKey@HordeAIUpdate@@UBE?AW4NameKeyType@@XZ @0x49a67c
 // (69B): cached pool-name key for HordeAIUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("HordeAIUpdate"); the body guards a function-local static
@@ -33,7 +33,7 @@ protected:
 class HordeAIUpdate : public AIUpdateInterface
 {
 public:
-	static NameKeyType rva00049A67C();
+	virtual NameKeyType getModuleNameKey() const;
 private:
  char m_gap04[4];
  Object *m_owner; // native module owner at +8
@@ -42,8 +42,8 @@ protected:
  virtual void bfmePrivateCommand42(Object *, CommandSourceType);
 };
 
-// ?rva00049A67C@HordeAIUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType HordeAIUpdate::rva00049A67C()
+// ?getModuleNameKey@HordeAIUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType HordeAIUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheHordeAIUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("HordeAIUpdate");
