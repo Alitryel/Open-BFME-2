@@ -31,8 +31,8 @@ void __cdecl parseAudioEventDefinition(INI *ini)
 	helper001DA770(ini, 2, &def, "AudioEvent");
 }
 
-// ?Rva001DAA14Parse@@YAXPAVINI@@@Z
-void __cdecl Rva001DAA14Parse(INI *ini)
+// ?parseDialogDefinition@@YAXPAVINI@@@Z
+void __cdecl parseDialogDefinition(INI *ini)
 {
 	AsciiString def("DefaultDialog");
 	helper001DA770(ini, 1, &def, "DialogEvent");

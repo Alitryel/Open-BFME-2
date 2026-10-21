@@ -31,7 +31,7 @@ class INI;
 void Rva000B3FD0AptFreeSound();
 void parseMusicTrackDefinition(INI *);
 void parseAudioEventDefinition(INI *);
-void Rva001DAA14Parse(INI *);
+void parseDialogDefinition(INI *);
 void parseAmbientStreamDefinition(INI *);
 void Rva001DAAA8Parse(INI *);
 void parseAerialPathfindNoFlyZoneDefinition(INI *);
@@ -316,7 +316,7 @@ BlockParse theAIDataBlockParse = { 0, "AIData", INI::parseAIDataDefinition };	//
 BlockParse theArmorBlockParse = { 0, "Armor", ArmorStore::parseArmorDefinition };	// VA 0x00DB8A74 "Armor", parse 0x001D9484
 BlockParse theMusicTrackBlockParse = { 0, "MusicTrack", parseMusicTrackDefinition };	// VA 0x00DB8B08 "MusicTrack", parse 0x001DA980
 BlockParse theAudioEventBlockParse = { 0, "AudioEvent", parseAudioEventDefinition };	// VA 0x00DB8B14 "AudioEvent", parse 0x001DA9CA
-BlockParse theDialogEventBlockParse = { 0, "DialogEvent", Rva001DAA14Parse };	// VA 0x00DB8B20 "DialogEvent", parse 0x001DAA14
+BlockParse theDialogEventBlockParse = { 0, "DialogEvent", parseDialogDefinition };	// VA 0x00DB8B20 "DialogEvent", parse 0x001DAA14
 BlockParse theAmbientStreamBlockParse = { 0, "AmbientStream", parseAmbientStreamDefinition };	// VA 0x00DB8B2C "AmbientStream", parse 0x001DAA5E
 BlockParse theStreamedSoundBlockParse = { 0, "StreamedSound", Rva001DAAA8Parse };	// VA 0x00DB8B38 "StreamedSound", parse 0x001DAAA8
 BlockParse theMultisoundBlockParse = { 0, "Multisound", AudioEventInfo::parseMultisoundDefinition };	// VA 0x00DB8B44 "Multisound", parse 0x001DA4DE

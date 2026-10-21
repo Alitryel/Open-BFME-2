@@ -1440,3 +1440,4 @@ __ehhandler$?Rva0041999FParse@@YAXPAVINI@@@Z,0x007867EB,"Renamed to __ehhandler$
 __ehhandler$?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z,0x0076ED7F,"Renamed to __ehhandler$?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00415D33Parse@@YAXPAVINI@@@Z,0x00415D33,"Renamed to ?parseCrowdResponseDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00415D33Parse@@YAXPAVINI@@@Z,0x00786241,"Renamed to __ehhandler$?parseCrowdResponseDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva001DAA14Parse@@YAXPAVINI@@@Z,0x001DAA14,"Renamed to ?parseDialogDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
