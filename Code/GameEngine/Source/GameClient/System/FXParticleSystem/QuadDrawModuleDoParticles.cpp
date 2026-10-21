@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfme_vp_math /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code /ICode/Libraries/Include/Lib /Ireference/shims /Ireference/shims/bfme_vp_math /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // retail 0x005601D9..0x00560A1B (2114 bytes EH thiscall RET 0xC).
 //
@@ -85,7 +85,7 @@ class Rva001F4E2D {public:bool rva001F4E2D();};
 class Rva001F4D2D {public:float rva001F4D2D();};
 class Rva001F4DC4 {public:float rva001F4DC4();};
 class Rva001F4DE6 {public:int rva001F4DE6();};
-#include "../../../../../Libraries/Include/Lib/RGBColor.h"
+#include "RGBColor.h"
 class Rva001F4E1BSlot {public:const RGBColor*get()const;};
 class Rva001F4DF9 {public:float rva001F4DF9();};
 struct QuadParticle {char prefix[16];Vector3 axis;Vector3 position;char gap[0x3c];QuadParticle*next;};
