@@ -70,6 +70,8 @@ MemoryPoolFactory *TheMemoryPoolFactory = 0;
 
 class Rva006C1F60 { public: void *rva00033ED0(unsigned int size, int flags); };
 
+void d_00032050();	// gen_asm dump row 0x00032050
+
 namespace EA
 {
 namespace Allocator
@@ -570,6 +572,14 @@ int GeneralAllocator::rva00031F90(void *block)
 // following chunk's in-use bit is clear (this chunk is free), plus one more
 // when the third argument is set, the fourth clear and the chunk's own
 // prev-in-use bit is clear. Argument labels are descriptive only.
+// 0x00032050 is still the gen_asm dump row ?d_00032050@@YAXXZ; the count is
+// called through that row's name with this thiscall signature.
+union Rva00032050Call
+{
+	void (*target)();
+	unsigned int (GeneralAllocator::*member)(void *, unsigned int);
+};
+
 unsigned int GeneralAllocator::rva000320E0(void *chunk, unsigned int flags, bool checkPrev, bool skipPrev)
 {
 	Lock *lock = m_4E4;
@@ -581,7 +591,8 @@ unsigned int GeneralAllocator::rva000320E0(void *chunk, unsigned int flags, bool
 
 	unsigned int *header = (unsigned int *)chunk;
 	unsigned int isFree = ((unsigned char)~*((unsigned char *)chunk + (header[1] & 0x7FFFFFF8) + 4)) & 1 && 1;
-	unsigned int result = rva00032050(chunk, flags) + isFree;
+	Rva00032050Call count = {&d_00032050};
+	unsigned int result = (this->*count.member)(chunk, flags) + isFree;
 	if (checkPrev && !skipPrev)
 		result += ((unsigned char)~*((unsigned char *)chunk + 4)) & 1 && 1;
 	if (lock != 0)
