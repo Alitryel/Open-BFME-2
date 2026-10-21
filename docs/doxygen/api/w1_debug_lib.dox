@@ -87,10 +87,13 @@
 ///   skip output classes that cannot supply typed input before it reads a
 ///   command line. The query's original name is not known.
 /// - The library takes its memory from the Win32 global heap
-///   (`GlobalAlloc`) through its own helpers (DebugFreeMemory() and its
-///   siblings), except the typed-command input buffers, which
-///   Debug::Update and Debug::GetInput grow with the C runtime's
-///   `realloc`. None of it uses the engine's memory pools.
+///   (`GlobalAlloc`), mostly through its own helpers (DebugFreeMemory() and
+///   its siblings, see \ref grp_w1020_debug_cmd_stream_alloc). The
+///   clipboard helper DebugCopyToClipboard() allocates its block directly,
+///   because the clipboard takes ownership of it. The helpers also serve
+///   the typed-command input buffers, which Debug::Update and
+///   Debug::GetInput grow with DebugReAllocMemory(). None of it uses the
+///   engine's memory pools.
 /// - The crash and exception dialogs are Win32 dialogs and message boxes;
 ///   the fatal crash path minimises the game window first.
 /// - Pointers are printed as 32-bit values (Debug::operator<<(const void *),
