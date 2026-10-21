@@ -1644,19 +1644,6 @@ void Rva005B7FFA::rva005B7FFA()
 	m_60.rva005DD22B();
 }
 
-class Rva005DD06D
-{
-public:
-	void rva005DD06D();
-};
-class Rva005B8002
-{
-public:
-	void rva005B8002();
-private:
-	char m_pad00[0x60];
-	Rva005DD06D m_60;
-};
 
 
 class Rva00517EA2

@@ -65,7 +65,7 @@ public:
  void InitializeFactionVariables();
  void rva005DD48C();void rva005DD22B();void rva005DD0EB(int);
  void StatsList(const char*,int,GameWindow*);void rva005DD1D0(const char*);
- virtual void rva005DD06D();
+ virtual void InitGadgets();
  void*owner;
  int m_word1c;
  std::vector<ScienceType> m_factionToTemplate;
@@ -258,7 +258,7 @@ AptStats::~AptStats() {}
 // labelled by the same string; the method's own name is not established.
 void _bfme_closeAptScreen(const AsciiString &name);
 class Rva005DE96B {public:void rva005DE96B();};
-void AptStats::rva005DD06D() {
+void AptStats::InitGadgets() {
  _bfme_closeAptScreen(AsciiString("AptStats::InitGadgets"));
  std::vector<unsigned int> widths;
  reinterpret_cast<Rva005DD7C3*>(this)->rva005DD7C3(0,reinterpret_cast<const Widths*>(&widths));

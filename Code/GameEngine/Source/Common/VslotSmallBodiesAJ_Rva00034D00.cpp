@@ -1377,7 +1377,7 @@ class AptStats
 {
 public:
 	void rva005DD22B();
-	virtual void rva005DD06D();	// rowed 0x005DD06D
+	virtual void InitGadgets();	// rowed 0x005DD06D
 };
 class Rva005B7FFA
 {
@@ -1399,7 +1399,7 @@ private:
 };
 void Rva005B8002::rva005B8002()
 {
-	m_60.AptStats::rva005DD06D();
+	m_60.AptStats::InitGadgets();
 }
 
 class Rva00517EA2
