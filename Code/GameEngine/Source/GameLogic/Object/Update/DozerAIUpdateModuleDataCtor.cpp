@@ -73,9 +73,9 @@ public:
 
 private:
 	// +0x64/+0x68/+0x6C float zeros (end at the rowed 0x70 instance size).
-	float m_64;
-	float m_68;
-	float m_6C;
+	float m_repairHealthPercentPerSecond;
+	float m_boredTime;
+	float m_boredRange;
 };
 
 // ??0DozerAIUpdateModuleData@@QAE@XZ @0x00488A81
@@ -84,9 +84,9 @@ DozerAIUpdateModuleData::DozerAIUpdateModuleData()
 {
 	float fzero = 0.0f;
 	*(unsigned int *)this = ((unsigned int)vtbl_00C4B6C8);
-	m_64 = fzero;
-	m_68 = fzero;
-	m_6C = fzero;
+	m_repairHealthPercentPerSecond = fzero;
+	m_boredTime = fzero;
+	m_boredRange = fzero;
 }
 
 // ?buildFieldParse@DozerAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x00488AA5
