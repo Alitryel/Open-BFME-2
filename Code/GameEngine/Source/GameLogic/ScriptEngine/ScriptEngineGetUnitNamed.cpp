@@ -63,15 +63,15 @@ public:
     Object *getUnitNamed(Parameter *);
 };
 
-Object *ScriptEngine::getUnitNamed(Parameter *p)
+Object *ScriptEngine::getUnitNamed(Parameter *unitName)
 {
-    ObjectID id = p->getObjectID();
+    ObjectID id = unitName->getObjectID();
     if (id != INVALID_OBJECT_ID) {
         Object *o = TheGameLogic->findObjectByID(id);
         if (o)
             return o;
     }
-    const AsciiString &s = p->getString();
+    const AsciiString &s = unitName->getString();
     if (s.isEmpty())
         return 0;
     return ((Rva00358752Opaque *)this)->lookupUnitByValue(s);
