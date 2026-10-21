@@ -151,8 +151,8 @@ ShaderClass ShaderClass::_PresetAlpha2DShader(SC_ALPHA_2D);
 at 0,0, then the cross product can be interpreted as -1 means v2 is to the right of v1, 
 1 means v2 is to the left of v1, and 0 means v2 is parallel to v1. */
 
-static Int xpSign(const Vector2 &v1, const Vector2 &v2) {
-	Real xpdct = v1.X*v2.Y - v1.Y*v2.X;
+static Int xpSign(const Vector2 &firstVec, const Vector2 &secondVec) {
+	Real xpdct = firstVec.X*secondVec.Y - firstVec.Y*secondVec.X;
 	if (xpdct<0) return -1;
 	if (xpdct>0) return 1;
 	return 0;
@@ -435,10 +435,10 @@ Int RoadSegment::GetIndices(UnsignedShort *destination_ib, Int numToCopy, Int of
 //=============================================================================
 /** Loads a tee into the vertex buffer for a road join. */
 //=============================================================================
-void W3DRoadBuffer::loadTee(RoadSegment *pRoad, Vector2 loc1, 
-														Vector2 loc2, Bool is4Way, Real scale)
+void W3DRoadBuffer::loadTee(RoadSegment *pRoad, Vector2 startLoc, 
+														Vector2 endLoc, Bool is4Way, Real scale)
 {
-	Vector2 roadVector(loc2.X-loc1.X, loc2.Y-loc1.Y);
+	Vector2 roadVector(endLoc.X-startLoc.X, endLoc.Y-startLoc.Y);
 	Vector2 roadNormal(-roadVector.Y, roadVector.X);
 //	Real roadLen = scale;
 	if (abs(roadVector.X) < MIN_ROAD_SEGMENT && abs(roadVector.Y) < MIN_ROAD_SEGMENT) {
@@ -457,7 +457,7 @@ void W3DRoadBuffer::loadTee(RoadSegment *pRoad, Vector2 loc1,
 	}
 	Real teeFactor = scale*TEE_WIDTH_ADJUSTMENT/2.0f;
 	Real left = pRoad->m_widthInTexture*scale/2.0f;
-	loadFloatSection(pRoad, loc1, loc2-loc1, teeFactor, left, teeFactor, uOffset, vOffset, scale);
+	loadFloatSection(pRoad, startLoc, endLoc-startLoc, teeFactor, left, teeFactor, uOffset, vOffset, scale);
 }
 				
 //=============================================================================
@@ -465,11 +465,11 @@ void W3DRoadBuffer::loadTee(RoadSegment *pRoad, Vector2 loc1,
 //=============================================================================
 /** Loads an alpha join into the vertex buffer for a road join. */
 //=============================================================================
-void W3DRoadBuffer::loadAlphaJoin(RoadSegment *pRoad, Vector2 loc1, 
-														Vector2 loc2,Real scale)
+void W3DRoadBuffer::loadAlphaJoin(RoadSegment *pRoad, Vector2 startLoc, 
+														Vector2 endLoc,Real scale)
 {
 	
-	Vector2 roadVector(loc2.X-loc1.X, loc2.Y-loc1.Y);
+	Vector2 roadVector(endLoc.X-startLoc.X, endLoc.Y-startLoc.Y);
 	Vector2 roadNormal(-roadVector.Y, roadVector.X);
 //	Real roadLen = scale;
 	if (abs(roadVector.X) < MIN_ROAD_SEGMENT && abs(roadVector.Y) < MIN_ROAD_SEGMENT) {
@@ -492,11 +492,11 @@ void W3DRoadBuffer::loadAlphaJoin(RoadSegment *pRoad, Vector2 loc1,
 
 	Vector2	corners[NUM_CORNERS];
 
-	corners[topLeft] =  loc1 + roadNormal*0.5f - roadVector*0.65f ;
+	corners[topLeft] =  startLoc + roadNormal*0.5f - roadVector*0.65f ;
 	corners[bottomLeft] = corners[topLeft] - roadNormal;
 	corners[bottomRight] = corners[bottomLeft] + roadVector;
 	corners[topRight] = corners[topLeft] + roadVector;
-	loadFloat4PtSection(pRoad, loc1, roadNormal, roadVector, corners, uOffset, vOffset, scale, uScale);
+	loadFloat4PtSection(pRoad, startLoc, roadNormal, roadVector, corners, uOffset, vOffset, scale, uScale);
 }
 				
 //=============================================================================
@@ -504,11 +504,11 @@ void W3DRoadBuffer::loadAlphaJoin(RoadSegment *pRoad, Vector2 loc1,
 //=============================================================================
 /** Loads a Y into the vertex buffer for a road join. */
 //=============================================================================
-void W3DRoadBuffer::loadY(RoadSegment *pRoad, Vector2 loc1, 
-														Vector2 loc2,Real scale)
+void W3DRoadBuffer::loadY(RoadSegment *pRoad, Vector2 startLoc, 
+														Vector2 endLoc,Real scale)
 {
 	
-	Vector2 roadVector(loc2.X-loc1.X, loc2.Y-loc1.Y);
+	Vector2 roadVector(endLoc.X-startLoc.X, endLoc.Y-startLoc.Y);
 	Vector2 roadNormal(-roadVector.Y, roadVector.X);
 //	Real roadLen = scale;
 	if (abs(roadVector.X) < MIN_ROAD_SEGMENT && abs(roadVector.Y) < MIN_ROAD_SEGMENT) {
@@ -531,11 +531,11 @@ void W3DRoadBuffer::loadY(RoadSegment *pRoad, Vector2 loc1,
 	Vector2	corners[NUM_CORNERS];
 
 	roadVector *= 1.59f;
-	corners[topLeft] =  loc1 + roadNormal*0.29f - roadVector*0.5f ;
+	corners[topLeft] =  startLoc + roadNormal*0.29f - roadVector*0.5f ;
 	corners[bottomLeft] = corners[topLeft] - roadNormal*1.08f;
 	corners[bottomRight] = corners[bottomLeft] + roadVector;
 	corners[topRight] = corners[topLeft] + roadVector;
-	loadFloat4PtSection(pRoad, loc1, roadNormal, roadVector, corners, uOffset, vOffset, scale, scale);
+	loadFloat4PtSection(pRoad, startLoc, roadNormal, roadVector, corners, uOffset, vOffset, scale, scale);
 }
 				
 //=============================================================================
@@ -543,11 +543,11 @@ void W3DRoadBuffer::loadY(RoadSegment *pRoad, Vector2 loc1,
 //=============================================================================
 /** Loads a h shaped tee into the vertex buffer for a road join. */
 //=============================================================================
-void W3DRoadBuffer::loadH(RoadSegment *pRoad, Vector2 loc1, 
-														Vector2 loc2, Bool flip, Real scale)
+void W3DRoadBuffer::loadH(RoadSegment *pRoad, Vector2 startLoc, 
+														Vector2 endLoc, Bool flip, Real scale)
 {
 	
-	Vector2 roadVector(loc2.X-loc1.X, loc2.Y-loc1.Y);
+	Vector2 roadVector(endLoc.X-startLoc.X, endLoc.Y-startLoc.Y);
 	Vector2 roadNormal(-roadVector.Y, roadVector.X);
 //	Real roadLen = scale;
 	if (abs(roadVector.X) < MIN_ROAD_SEGMENT && abs(roadVector.Y) < MIN_ROAD_SEGMENT) {
@@ -571,9 +571,9 @@ void W3DRoadBuffer::loadH(RoadSegment *pRoad, Vector2 loc1,
 
 	roadNormal *= 1.35f;
 	if (flip) {
-		corners[bottomLeft] = loc1 - roadNormal*0.20f - roadVector*pRoad->m_widthInTexture/2;
+		corners[bottomLeft] = startLoc - roadNormal*0.20f - roadVector*pRoad->m_widthInTexture/2;
 	}	else {
-		corners[bottomLeft] = loc1 - roadNormal*0.8f - roadVector*pRoad->m_widthInTexture/2;
+		corners[bottomLeft] = startLoc - roadNormal*0.8f - roadVector*pRoad->m_widthInTexture/2;
 	}
 	Vector2 width = roadVector*pRoad->m_widthInTexture/2;
 	width = width + roadVector * 1.2f;
@@ -581,7 +581,7 @@ void W3DRoadBuffer::loadH(RoadSegment *pRoad, Vector2 loc1,
 	corners[topRight] = corners[bottomRight] + roadNormal;
 	corners[topLeft] = corners[bottomLeft] + roadNormal;
 	if (flip) roadNormal = -roadNormal;
-	loadFloat4PtSection(pRoad, loc1, roadNormal, roadVector, corners, uOffset, vOffset, scale, scale);
+	loadFloat4PtSection(pRoad, startLoc, roadNormal, roadVector, corners, uOffset, vOffset, scale, scale);
 }
 				
 //=============================================================================
@@ -848,18 +848,18 @@ void W3DRoadBuffer::loadFloat4PtSection(RoadSegment *pRoad, Vector2 loc,
 	prevColumn.deleted = true;
 	curColumn.deleted = true;
 	Int i, j, k;
-	Vector2 v2 = cornersP[bottomLeft];
-	Vector3 origin(v2.X, v2.Y, 0);
-	v2 = cornersP[bottomRight] - cornersP[bottomLeft];
-	Vector3 uVector1(v2.X, v2.Y, 0);
-	v2 = cornersP[topRight] - cornersP[topLeft]; 
-	Vector3 uVector2(v2.X, v2.Y, 0);
-	v2 = cornersP[topLeft];
-	Vector3 origin2(v2.X, v2.Y, 0);
-	v2 = cornersP[topLeft] - cornersP[bottomLeft];
-	Vector3 vVector1(v2.X, v2.Y, 0);
-	v2 = cornersP[topRight] - cornersP[bottomRight];
-	Vector3 vVector2(v2.X, v2.Y, 0);
+	Vector2 secondVec = cornersP[bottomLeft];
+	Vector3 origin(secondVec.X, secondVec.Y, 0);
+	secondVec = cornersP[bottomRight] - cornersP[bottomLeft];
+	Vector3 uVector1(secondVec.X, secondVec.Y, 0);
+	secondVec = cornersP[topRight] - cornersP[topLeft]; 
+	Vector3 uVector2(secondVec.X, secondVec.Y, 0);
+	secondVec = cornersP[topLeft];
+	Vector3 origin2(secondVec.X, secondVec.Y, 0);
+	secondVec = cornersP[topLeft] - cornersP[bottomLeft];
+	Vector3 vVector1(secondVec.X, secondVec.Y, 0);
+	secondVec = cornersP[topRight] - cornersP[bottomRight];
+	Vector3 vVector2(secondVec.X, secondVec.Y, 0);
 	uVector2 += (vVector1 - vVector2);
 	for (i=0; i<=uCount; i++) {
 		Real iFactor = ((Real)i / (uCount-1));
@@ -1026,7 +1026,7 @@ void (LightClass::*Rva00066322GetFarAttenuationRangeEmission)(double &, double &
 //=============================================================================
 /** Loads a curve segment into the vertex buffer for a road end cap or join. */
 //=============================================================================
-void W3DRoadBuffer::loadCurve(RoadSegment *pRoad, Vector2 loc1, Vector2 loc2, Real scale)
+void W3DRoadBuffer::loadCurve(RoadSegment *pRoad, Vector2 startLoc, Vector2 endLoc, Real scale)
 {
 	
 	Real uOffset = (4.0f/512.0f);
@@ -1035,7 +1035,7 @@ void W3DRoadBuffer::loadCurve(RoadSegment *pRoad, Vector2 loc1, Vector2 loc2, Re
 		vOffset = (425.0f/512.0f);
 	}
 
-	Vector2 roadVector(loc2.X-loc1.X, loc2.Y-loc1.Y);
+	Vector2 roadVector(endLoc.X-startLoc.X, endLoc.Y-startLoc.Y);
 	Vector2 roadNormal(-roadVector.Y, roadVector.X);
 	Real roadLen = scale;
 
@@ -1049,7 +1049,7 @@ void W3DRoadBuffer::loadCurve(RoadSegment *pRoad, Vector2 loc1, Vector2 loc2, Re
 
 	Vector2	corners[NUM_CORNERS];
 
-	corners[bottomLeft] = loc1 - roadNormal;
+	corners[bottomLeft] = startLoc - roadNormal;
 	corners[bottomRight] = corners[bottomLeft];
 	corners[bottomRight] += roadVector;
 	corners[topRight] = corners[bottomRight];
@@ -1059,7 +1059,7 @@ void W3DRoadBuffer::loadCurve(RoadSegment *pRoad, Vector2 loc1, Vector2 loc2, Re
 
 	// Tweak a little 
 	if (pRoad->m_curveRadius == TIGHT_CORNER_RADIUS) {
-		corners[bottomLeft] = loc1 - roadNormal;
+		corners[bottomLeft] = startLoc - roadNormal;
 		corners[bottomRight] = corners[bottomLeft];
 		corners[bottomRight] += roadVector*0.5f;
 		corners[topRight] = corners[bottomRight];
@@ -1076,7 +1076,7 @@ void W3DRoadBuffer::loadCurve(RoadSegment *pRoad, Vector2 loc1, Vector2 loc2, Re
 		corners[topRight] -= roadVector*0.4f;
 		corners[topRight] += roadNormal*0.2f;
 	} else {
-		corners[bottomLeft] = loc1 - roadNormal;
+		corners[bottomLeft] = startLoc - roadNormal;
 		corners[bottomRight] = corners[bottomLeft];
 		corners[bottomRight] += roadVector;
 		corners[topRight] = corners[bottomRight];
@@ -1094,7 +1094,7 @@ void W3DRoadBuffer::loadCurve(RoadSegment *pRoad, Vector2 loc1, Vector2 loc2, Re
 		corners[topRight] += roadNormal*0.4f;
 	}
 
-	loadFloat4PtSection(pRoad, loc1, roadNormal, roadVector, corners, uOffset, vOffset, scale, scale);
+	loadFloat4PtSection(pRoad, startLoc, roadNormal, roadVector, corners, uOffset, vOffset, scale, scale);
 
 }
 																 																 
@@ -1384,7 +1384,7 @@ void W3DRoadBuffer::checkLinkBefore(Int ndx)
 		return;
 	}
 
-	Vector2 loc2 = m_roads[ndx].m_pt2.loc;
+	Vector2 endLoc = m_roads[ndx].m_pt2.loc;
 #ifdef _DEBUG
 	DEBUG_ASSERTLOG(m_roads[ndx].m_pt1.loc == m_roads[ndx+1].m_pt2.loc, ("Bad link\n"));
 	if (ndx>0) {
@@ -1401,15 +1401,15 @@ void W3DRoadBuffer::checkLinkBefore(Int ndx)
 	}
 	Int checkNdx = endOfCurSeg+1;
 	while (checkNdx < m_numRoads) {
-		if (m_roads[checkNdx].m_pt1.loc == loc2) {
+		if (m_roads[checkNdx].m_pt1.loc == endLoc) {
 #ifdef _DEBUG
 			DEBUG_ASSERTLOG(m_roads[checkNdx].m_pt1.count==1, ("Bad count\n"));
 #endif
 			moveRoadSegTo(checkNdx, ndx);
-			loc2 = m_roads[ndx].m_pt2.loc;
+			endLoc = m_roads[ndx].m_pt2.loc;
 			if (m_roads[ndx].m_pt2.count != 1) return;
 			endOfCurSeg++;
-		} else if (m_roads[checkNdx].m_pt2.loc == loc2) {
+		} else if (m_roads[checkNdx].m_pt2.loc == endLoc) {
 #ifdef _DEBUG
 			if (m_roads[checkNdx].m_pt2.count!=1) {
 				::OutputDebugString("fooey.\n");
@@ -1418,7 +1418,7 @@ void W3DRoadBuffer::checkLinkBefore(Int ndx)
 #endif
 			flipTheRoad(&m_roads[checkNdx]);
 			moveRoadSegTo(checkNdx, ndx);
-			loc2 = m_roads[ndx].m_pt2.loc;
+			endLoc = m_roads[ndx].m_pt2.loc;
 			if (m_roads[ndx].m_pt2.count != 1) return;
 			endOfCurSeg++;
 		}	else {
@@ -1450,22 +1450,22 @@ void W3DRoadBuffer::checkLinkAfter(Int ndx)
 		return;
 	}
 
-	Vector2 loc1 = m_roads[ndx].m_pt1.loc;
+	Vector2 startLoc = m_roads[ndx].m_pt1.loc;
 #ifdef _DEBUG
 	DEBUG_ASSERTLOG(m_roads[ndx].m_pt2.loc == m_roads[ndx-1].m_pt1.loc, ("Bad link\n"));
 #endif
 
 	Int checkNdx = ndx+1;
 	while (checkNdx < m_numRoads && ndx < m_numRoads-1) {
-		if (m_roads[checkNdx].m_pt2.loc == loc1) {
+		if (m_roads[checkNdx].m_pt2.loc == startLoc) {
 #ifdef _DEBUG
 			DEBUG_ASSERTLOG(m_roads[checkNdx].m_pt2.count==1, ("Bad count\n"));
 #endif
 			ndx++;
 			moveRoadSegTo(checkNdx, ndx);
-			loc1 = m_roads[ndx].m_pt1.loc;
+			startLoc = m_roads[ndx].m_pt1.loc;
 			if (m_roads[ndx].m_pt1.count != 1) return;
-		} else if (m_roads[checkNdx].m_pt1.loc == loc1) {
+		} else if (m_roads[checkNdx].m_pt1.loc == startLoc) {
 #ifdef _DEBUG
 			DEBUG_ASSERTLOG(m_roads[checkNdx].m_pt1.count==1, ("Wrong m_pt1.count.\n"));
 			if ( m_roads[checkNdx].m_pt1.count!=1) {
@@ -1475,7 +1475,7 @@ void W3DRoadBuffer::checkLinkAfter(Int ndx)
 			flipTheRoad(&m_roads[checkNdx]);
 			ndx++;
 			moveRoadSegTo(checkNdx, ndx);
-			loc1 = m_roads[ndx].m_pt1.loc;
+			startLoc = m_roads[ndx].m_pt1.loc;
 			if (m_roads[ndx].m_pt1.count != 1) return;
 		}	else {
 			checkNdx++;
@@ -1499,17 +1499,17 @@ void W3DRoadBuffer::addMapObject(RoadSegment *pRoad, Bool updateTheCounts)
 	if (!m_initialized) return;
 
 	RoadSegment cur = *pRoad;
-	Vector2 loc1, loc2;
-	loc1 = cur.m_pt1.loc;
-	loc2 = cur.m_pt2.loc;
- 	Vector2 roadVector(loc2.X-loc1.X, loc2.Y-loc1.Y);
+	Vector2 startLoc, endLoc;
+	startLoc = cur.m_pt1.loc;
+	endLoc = cur.m_pt2.loc;
+ 	Vector2 roadVector(endLoc.X-startLoc.X, endLoc.Y-startLoc.Y);
 	Vector2 roadNormal(-roadVector.Y, roadVector.X);
 	roadNormal.Normalize();
 	roadNormal *= (cur.m_scale*cur.m_widthInTexture/2.0f);
-	cur.m_pt1.top = loc1+roadNormal;
-	cur.m_pt1.bottom = loc1 - roadNormal;
-	cur.m_pt2.top = loc2+roadNormal;
-	cur.m_pt2.bottom = loc2 - roadNormal;
+	cur.m_pt1.top = startLoc+roadNormal;
+	cur.m_pt1.bottom = startLoc - roadNormal;
+	cur.m_pt2.top = endLoc+roadNormal;
+	cur.m_pt2.bottom = endLoc - roadNormal;
 
 	if (updateTheCounts) {
 		updateCounts(&cur);
@@ -1523,27 +1523,27 @@ void W3DRoadBuffer::addMapObject(RoadSegment *pRoad, Bool updateTheCounts)
 	Bool bothMatch = false;
 	for (i=0; i<m_numRoads; i++) {
 		bothMatch = false;
-		if ( (m_roads[i].m_pt1.loc==loc1 && m_roads[i].m_pt2.loc==loc2) ||
-			(m_roads[i].m_pt1.loc==loc2 && m_roads[i].m_pt2.loc==loc1) ) {
+		if ( (m_roads[i].m_pt1.loc==startLoc && m_roads[i].m_pt2.loc==endLoc) ||
+			(m_roads[i].m_pt1.loc==endLoc && m_roads[i].m_pt2.loc==startLoc) ) {
 			bothMatch = true;	// identical segment, so discard.
 			break; 
 		}
 		if (cur.m_pt1.count==1) {
-			if ((m_roads[i].m_pt1.loc == loc1)) {
+			if ((m_roads[i].m_pt1.loc == startLoc)) {
 				flip = true;
 				addAfter = true;
 			}
-			if ((m_roads[i].m_pt2.loc ==loc1)) {
+			if ((m_roads[i].m_pt2.loc ==startLoc)) {
 				flip = false;
 				addBefore = true;
 			}
 		}
 		if (cur.m_pt2.count==1) {
-			if ((m_roads[i].m_pt1.loc == loc2)) {
+			if ((m_roads[i].m_pt1.loc == endLoc)) {
 				flip = false;
 				addAfter = true;
 			}
-			if ((m_roads[i].m_pt2.loc == loc2)) {
+			if ((m_roads[i].m_pt2.loc == endLoc)) {
 				flip = true;
 				addBefore = true;
 			}
@@ -1660,13 +1660,13 @@ void W3DRoadBuffer::addMapObjects()
 #endif
 			if (pMapObj2==NULL) break;
 			if (!pMapObj2->getFlag(FLAG_ROAD_POINT2)) continue;
-			Vector2 loc1, loc2;
+			Vector2 startLoc, endLoc;
 			Real y1 = pMapObj->getLocation()->y;
-			loc1.Set(pMapObj->getLocation()->x, y1);
+			startLoc.Set(pMapObj->getLocation()->x, y1);
 			Real y2 = pMapObj2->getLocation()->y;
-			loc2.Set(pMapObj2->getLocation()->x, y2);
-			if (loc1.X==loc2.X && loc1.Y==loc2.Y) {
-				loc2.X += 0.25;
+			endLoc.Set(pMapObj2->getLocation()->x, y2);
+			if (startLoc.X==endLoc.X && startLoc.Y==endLoc.Y) {
+				endLoc.X += 0.25;
 			}
 			RoadSegment	curRoad;
 			curRoad.m_scale = DEFAULT_ROAD_SCALE; 
@@ -1686,10 +1686,10 @@ void W3DRoadBuffer::addMapObjects()
 				assets << pMapObj->getName();
 				bfmeMergeReceiverKeys((int)&assets);
 			}
-			curRoad.m_pt1.loc = loc1;
+			curRoad.m_pt1.loc = startLoc;
 			curRoad.m_pt1.isAngled = pMapObj->getFlag(FLAG_ROAD_CORNER_ANGLED);
 			curRoad.m_pt1.isJoin = pMapObj->getFlag(FLAG_ROAD_JOIN);
-			curRoad.m_pt2.loc =loc2;
+			curRoad.m_pt2.loc =endLoc;
 			curRoad.m_pt2.isAngled = pMapObj2->getFlag(FLAG_ROAD_CORNER_ANGLED);
 			curRoad.m_pt2.isJoin = pMapObj2->getFlag(FLAG_ROAD_JOIN);
 			curRoad.m_type = SEGMENT; 
@@ -1724,28 +1724,28 @@ void W3DRoadBuffer::updateCounts(RoadSegment *pRoad)
 	pRoad->m_pt2.multi = false;
 	pRoad->m_pt1.count = 0;
 	pRoad->m_pt2.count = 0;
-	Vector2 loc1, loc2;
-	loc1 = pRoad->m_pt1.loc;
-	loc2 = pRoad->m_pt2.loc;
+	Vector2 startLoc, endLoc;
+	startLoc = pRoad->m_pt1.loc;
+	endLoc = pRoad->m_pt2.loc;
 	Int i;
 	for (i=0; i<m_numRoads; i++) {
 		// Only connect same type of road.
 		if (m_roads[i].m_uniqueID != pRoad->m_uniqueID) {
 			continue;
 		}
-		if ((m_roads[i].m_pt1.loc == loc1)) {
+		if ((m_roads[i].m_pt1.loc == startLoc)) {
 			m_roads[i].m_pt1.count++;
 			pRoad->m_pt1.count++;
 		}
-		if ((m_roads[i].m_pt1.loc == loc2)) {
+		if ((m_roads[i].m_pt1.loc == endLoc)) {
 			m_roads[i].m_pt1.count++;
 			pRoad->m_pt2.count++;
 		}
-		if ((m_roads[i].m_pt2.loc ==loc1)) {
+		if ((m_roads[i].m_pt2.loc ==startLoc)) {
 			m_roads[i].m_pt2.count++;
 			pRoad->m_pt1.count++;
 		}
-		if ((m_roads[i].m_pt2.loc == loc2)) {
+		if ((m_roads[i].m_pt2.loc == endLoc)) {
 			m_roads[i].m_pt2.count++;
 			pRoad->m_pt2.count++;
 		}
@@ -1773,29 +1773,29 @@ void W3DRoadBuffer::updateCountsAndFlags()
 		m_roads[i].m_pt2.count = 0;
 	}
 	for (j=m_numRoads-1; j>0; j--) {
-		Vector2 loc1, loc2;
-		loc1 = m_roads[j].m_pt1.loc;
-		loc2 = m_roads[j].m_pt2.loc;
+		Vector2 startLoc, endLoc;
+		startLoc = m_roads[j].m_pt1.loc;
+		endLoc = m_roads[j].m_pt2.loc;
 		for (i=0; i<j; i++) {
 			if (m_roads[i].m_uniqueID != m_roads[j].m_uniqueID) {
 				continue;
 			}
-			if ((m_roads[i].m_pt1.loc == loc1)) {
+			if ((m_roads[i].m_pt1.loc == startLoc)) {
 				m_roads[i].m_pt1.last = false;
 				m_roads[i].m_pt1.count++;
 				m_roads[j].m_pt1.count++;
 			}
-			if ((m_roads[i].m_pt1.loc == loc2)) {
+			if ((m_roads[i].m_pt1.loc == endLoc)) {
 				m_roads[i].m_pt1.last = false;
 				m_roads[i].m_pt1.count++;
 				m_roads[j].m_pt2.count++;
 			}
-			if ((m_roads[i].m_pt2.loc ==loc1)) {
+			if ((m_roads[i].m_pt2.loc ==startLoc)) {
 				m_roads[i].m_pt2.last = false;
 				m_roads[i].m_pt2.count++;
 				m_roads[j].m_pt1.count++;
 			}
-			if ((m_roads[i].m_pt2.loc == loc2)) {
+			if ((m_roads[i].m_pt2.loc == endLoc)) {
 				m_roads[i].m_pt2.last = false;
 				m_roads[i].m_pt2.count++;
 				m_roads[j].m_pt2.count++;
@@ -1823,22 +1823,22 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 
 	// pr1-3 point to the points on the segments that form the tee.
 	// They are the points on the segments that are != loc.
-	TRoadPt *pr1=NULL;
-	TRoadPt *pr2=NULL;
+	TRoadPt *roadPt1=NULL;
+	TRoadPt *roadPt2=NULL;
 	TRoadPt *pr3=NULL;
 
 	// pc1-3 point to the center points of the segments.  These are the 
 	// points that are at loc.
-	TRoadPt *pc1=NULL;
-	TRoadPt *pc2=NULL;
-	TRoadPt *pc3=NULL;
+	TRoadPt *cornerPt1=NULL;
+	TRoadPt *cornerPt2=NULL;
+	TRoadPt *cornerPt3=NULL;
 
 	if (m_roads[index1].m_pt1.loc == loc) {
-		pr1 = &m_roads[index1].m_pt2;
-		pc1 = &m_roads[index1].m_pt1;
+		roadPt1 = &m_roads[index1].m_pt2;
+		cornerPt1 = &m_roads[index1].m_pt1;
 	} else {
-		pr1 = &m_roads[index1].m_pt1;
-		pc1 = &m_roads[index1].m_pt2;
+		roadPt1 = &m_roads[index1].m_pt1;
+		cornerPt1 = &m_roads[index1].m_pt2;
 	}
 	Int i;
 	Int index2=0;
@@ -1846,42 +1846,42 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 	for (i = index1+1; i<m_numRoads; i++) {
 		if (m_roads[i].m_pt1.loc == loc) {
 			m_roads[i].m_pt1.count = -2;
-			if (pr2==NULL) {
-				pr2 = &m_roads[i].m_pt2;
-				pc2 = &m_roads[i].m_pt1;
+			if (roadPt2==NULL) {
+				roadPt2 = &m_roads[i].m_pt2;
+				cornerPt2 = &m_roads[i].m_pt1;
 				index2 = i;
 			} else {
 				pr3 = &m_roads[i].m_pt2;
-				pc3 = &m_roads[i].m_pt1;
+				cornerPt3 = &m_roads[i].m_pt1;
 				index3 = i;
 			}
 		}
 		if (m_roads[i].m_pt2.loc == loc) {
 			m_roads[i].m_pt2.count = -2;
-			if (pr2==NULL) {
-				pr2 = &m_roads[i].m_pt1;
-				pc2 = &m_roads[i].m_pt2;
+			if (roadPt2==NULL) {
+				roadPt2 = &m_roads[i].m_pt1;
+				cornerPt2 = &m_roads[i].m_pt2;
 				index2 = i;
 			} else {
 				pr3 = &m_roads[i].m_pt1;
-				pc3 = &m_roads[i].m_pt2;
+				cornerPt3 = &m_roads[i].m_pt2;
 				index3 = i;
 			}
 		}
 	}
-	if (pr2 == NULL || pr3 == NULL) {
+	if (roadPt2 == NULL || pr3 == NULL) {
 		return;
 	}
 
-	Vector2 v1 = pr1->loc - loc;
-	v1.Normalize();
-	Vector2 v2 = pr2->loc - loc;
-	v2.Normalize();
+	Vector2 firstVec = roadPt1->loc - loc;
+	firstVec.Normalize();
+	Vector2 secondVec = roadPt2->loc - loc;
+	secondVec.Normalize();
 	Vector2 v3 = pr3->loc - loc;
 	v3.Normalize();
-	Real dot12 = v1.Dot_Product(v1, v2);
-	Real dot13 = v1.Dot_Product(v1, v3);
-	Real dot32 = v1.Dot_Product(v3, v2);
+	Real dot12 = firstVec.Dot_Product(firstVec, secondVec);
+	Real dot13 = firstVec.Dot_Product(firstVec, v3);
+	Real dot32 = firstVec.Dot_Product(v3, secondVec);
 	// The greatest negative dot product is the pair that is heading most opposite each other.
 	Bool do12 = false;
 	Bool do13 = false;
@@ -1904,16 +1904,16 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 	Vector2 upVector;
 	Vector2 decider;
 	if (do12) {
-		upVector = v2-v1;
+		upVector = secondVec-firstVec;
 		decider = v3;
 	}
 	if (do13) {
-		upVector = v3-v1;
-		decider = v2;
+		upVector = v3-firstVec;
+		decider = secondVec;
 	}
 	if (do32) {
-		upVector = v2-v3;
-		decider = v1;
+		upVector = secondVec-v3;
+		decider = firstVec;
 	}
 	upVector.Normalize();
 
@@ -1938,24 +1938,24 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 		Bool flip = false;
 		if (do12) {
 			flip = xpSign(teeVector, v3) == 1;
-			offsetH(pc1, pc2, pc3, loc, upVector, teeVector, flip, mirror, m_roads[index1].m_widthInTexture);
+			offsetH(cornerPt1, cornerPt2, cornerPt3, loc, upVector, teeVector, flip, mirror, m_roads[index1].m_widthInTexture);
 		}
 		if (do13) {
-			flip = xpSign(teeVector, v2) == 1;
-			offsetH(pc1, pc3, pc2, loc, upVector, teeVector, flip, mirror, m_roads[index1].m_widthInTexture);
+			flip = xpSign(teeVector, secondVec) == 1;
+			offsetH(cornerPt1, cornerPt3, cornerPt2, loc, upVector, teeVector, flip, mirror, m_roads[index1].m_widthInTexture);
 		}
 		if (do32) {
-			flip = xpSign(teeVector, v1) == 1;
-			offsetH(pc3, pc2, pc1, loc, upVector, teeVector, flip, mirror, m_roads[index1].m_widthInTexture);
+			flip = xpSign(teeVector, firstVec) == 1;
+			offsetH(cornerPt3, cornerPt2, cornerPt1, loc, upVector, teeVector, flip, mirror, m_roads[index1].m_widthInTexture);
 
 		}
 
-		pc1->last = true;
-		pc1->count = 0;
-		pc2->last = true;
-		pc2->count = 0;
-		pc3->last = true;
-		pc3->count = 0;
+		cornerPt1->last = true;
+		cornerPt1->count = 0;
+		cornerPt2->last = true;
+		cornerPt2->count = 0;
+		cornerPt3->last = true;
+		cornerPt3->count = 0;
 
 		CHECK_SEGMENTS;
 		m_roads[m_numRoads].m_pt1.loc.Set(loc);
@@ -1979,20 +1979,20 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 		teeVector.Rotate(angle);
 
 		if (do12) {
-			offset3Way(pc1, pc2, pc3, loc, upVector, teeVector, m_roads[index1].m_widthInTexture);
+			offset3Way(cornerPt1, cornerPt2, cornerPt3, loc, upVector, teeVector, m_roads[index1].m_widthInTexture);
 		}
 		if (do13) {
-			offset3Way(pc1, pc3, pc2, loc, upVector, teeVector, m_roads[index1].m_widthInTexture);
+			offset3Way(cornerPt1, cornerPt3, cornerPt2, loc, upVector, teeVector, m_roads[index1].m_widthInTexture);
 		}
 		if (do32) {
-			offset3Way(pc3, pc2, pc1, loc, upVector, teeVector, m_roads[index1].m_widthInTexture);
+			offset3Way(cornerPt3, cornerPt2, cornerPt1, loc, upVector, teeVector, m_roads[index1].m_widthInTexture);
 		}
-		pc1->last = true;
-		pc1->count = 0;
-		pc2->last = true;
-		pc2->count = 0;
-		pc3->last = true;
-		pc3->count = 0;
+		cornerPt1->last = true;
+		cornerPt1->count = 0;
+		cornerPt2->last = true;
+		cornerPt2->count = 0;
+		cornerPt3->last = true;
+		cornerPt3->count = 0;
 
 		CHECK_SEGMENTS;
 		m_roads[m_numRoads].m_pt1.loc.Set(loc);
@@ -2022,22 +2022,22 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 
 	// pr1-3 point to the points on the segments that form the tee.
 	// They are the points on the segments that are != loc.
-	TRoadPt *pr1=NULL;
-	TRoadPt *pr2=NULL;
+	TRoadPt *roadPt1=NULL;
+	TRoadPt *roadPt2=NULL;
 	TRoadPt *pr3=NULL;
 
 	// pc1-3 point to the center points of the segments.  These are the 
 	// points that are at loc.
-	TRoadPt *pc1=NULL;
-	TRoadPt *pc2=NULL;
-	TRoadPt *pc3=NULL;
+	TRoadPt *cornerPt1=NULL;
+	TRoadPt *cornerPt2=NULL;
+	TRoadPt *cornerPt3=NULL;
 
 	if (m_roads[index1].m_pt1.loc == loc) {
-		pr1 = &m_roads[index1].m_pt2;
-		pc1 = &m_roads[index1].m_pt1;
+		roadPt1 = &m_roads[index1].m_pt2;
+		cornerPt1 = &m_roads[index1].m_pt1;
 	} else {
-		pr1 = &m_roads[index1].m_pt1;
-		pc1 = &m_roads[index1].m_pt2;
+		roadPt1 = &m_roads[index1].m_pt1;
+		cornerPt1 = &m_roads[index1].m_pt2;
 	}
 	Int i;
 	Int index2=0;
@@ -2045,37 +2045,37 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 	for (i = index1+1; i<m_numRoads; i++) {
 		if (m_roads[i].m_pt1.loc == loc) {
 			m_roads[i].m_pt1.count = -2;
-			if (pr2==NULL) {
-				pr2 = &m_roads[i].m_pt2;
-				pc2 = &m_roads[i].m_pt1;
+			if (roadPt2==NULL) {
+				roadPt2 = &m_roads[i].m_pt2;
+				cornerPt2 = &m_roads[i].m_pt1;
 				index2 = i;
 			} else {
 				pr3 = &m_roads[i].m_pt2;
-				pc3 = &m_roads[i].m_pt1;
+				cornerPt3 = &m_roads[i].m_pt1;
 				index3 = i;
 			}
 		}
 		if (m_roads[i].m_pt2.loc == loc) {
 			m_roads[i].m_pt2.count = -2;
-			if (pr2==NULL) {
-				pr2 = &m_roads[i].m_pt1;
-				pc2 = &m_roads[i].m_pt2;
+			if (roadPt2==NULL) {
+				roadPt2 = &m_roads[i].m_pt1;
+				cornerPt2 = &m_roads[i].m_pt2;
 				index2 = i;
 			} else {
 				pr3 = &m_roads[i].m_pt1;
-				pc3 = &m_roads[i].m_pt2;
+				cornerPt3 = &m_roads[i].m_pt2;
 				index3 = i;
 			}
 		}
 	}
-	if (pr2 == NULL || pr3 == NULL) {
+	if (roadPt2 == NULL || pr3 == NULL) {
 		return false;												 
 	}
 
-	Vector2 v1 = pr1->loc - loc;
-	v1.Normalize();
-	Vector2 v2 = pr2->loc - loc;
-	v2.Normalize();
+	Vector2 firstVec = roadPt1->loc - loc;
+	firstVec.Normalize();
+	Vector2 secondVec = roadPt2->loc - loc;
+	secondVec.Normalize();
 	Vector2 v3 = pr3->loc - loc;
 	v3.Normalize();
 
@@ -2083,9 +2083,9 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 	Bool do13 = false;
 	Bool do32 = false;
 
-	Real dot12 = v1.Dot_Product(v1, v2);
-	Real dot13 = v1.Dot_Product(v1, v3);
-	Real dot32 = v1.Dot_Product(v3, v2);
+	Real dot12 = firstVec.Dot_Product(firstVec, secondVec);
+	Real dot13 = firstVec.Dot_Product(firstVec, v3);
+	Real dot32 = firstVec.Dot_Product(v3, secondVec);
 	Real score12 = 2.0f;
 	Real score13 = 2.0f;
 	Real score32 = 2.0f;
@@ -2101,35 +2101,35 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 
 
 	Int s1 = 0;
-	Int s2 = xpSign(v1, v2);
-	Int s3 = xpSign(v1, v3);
+	Int s2 = xpSign(firstVec, secondVec);
+	Int s3 = xpSign(firstVec, v3);
 
 	if (s2!=s3 && (s2+s3==0)) {
-		Vector2 v1_90(-v1.Y, v1.X);
-		if (xpSign(v1_90, v2) == 1 && xpSign(v1_90, v3) == 1) {
+		Vector2 v1_90(-firstVec.Y, firstVec.X);
+		if (xpSign(v1_90, secondVec) == 1 && xpSign(v1_90, v3) == 1) {
 			// s2 & s3 could be Y legs.
 			do32 = true;
 			score32 = fabs(dot12+cos45) + fabs(dot13+cos45);
 		}
 	}
 
-	s1 = xpSign(v3, v1);
-	s2 = xpSign(v3, v2);
+	s1 = xpSign(v3, firstVec);
+	s2 = xpSign(v3, secondVec);
 	if (s2!=s1 && (s2+s1==0)) {
 		// s2 & s3 could be Y legs.
 		Vector2 v3_90(-v3.Y, v3.X);
-		if (xpSign(v3_90, v2) == 1 && xpSign(v3_90, v1) == 1) {
+		if (xpSign(v3_90, secondVec) == 1 && xpSign(v3_90, firstVec) == 1) {
 			do12 = true;
 			score12 = fabs(dot13+cos45) + fabs(dot32+cos45);
 		}
 	}
 
-	s1 = xpSign(v2, v1);
-	s3 = xpSign(v2, v3);
+	s1 = xpSign(secondVec, firstVec);
+	s3 = xpSign(secondVec, v3);
 	if (s3!=s1 && (s3+s1==0)) {
 		// s2 & s3 could be Y legs.
-		Vector2 v2_90(-v2.Y, v2.X);
-		if (xpSign(v2_90, v3) == 1 && xpSign(v2_90, v1) == 1) {
+		Vector2 v2_90(-secondVec.Y, secondVec.X);
+		if (xpSign(v2_90, v3) == 1 && xpSign(v2_90, firstVec) == 1) {
 			do13 = true;
 			score13 = fabs(dot12+cos45) + fabs(dot32+cos45);
 		}
@@ -2156,9 +2156,9 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 	if (do12) {
 		upVector = v3;
 	} else if (do13) {
-		upVector = v2;
+		upVector = secondVec;
 	} else if (do32) {
-		upVector = v1;
+		upVector = firstVec;
 	} else {
 		return false;
 	}
@@ -2171,33 +2171,33 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 
 	// Offset the ends of the road to meet the stumps of the y.
 	if (do12) {
-		if (xpSign(v3, v1) == -1) {
-			offsetY(pc1, pc2, pc3, loc, upVector, m_roads[index1].m_widthInTexture);
+		if (xpSign(v3, firstVec) == -1) {
+			offsetY(cornerPt1, cornerPt2, cornerPt3, loc, upVector, m_roads[index1].m_widthInTexture);
 		} else {
-			offsetY(pc2, pc1, pc3, loc, upVector, m_roads[index1].m_widthInTexture);
+			offsetY(cornerPt2, cornerPt1, cornerPt3, loc, upVector, m_roads[index1].m_widthInTexture);
 		}
 	}
 	if (do13) {
-		if (xpSign(v2, v1) == -1) {
-			offsetY(pc1, pc3, pc2, loc, upVector, m_roads[index1].m_widthInTexture);
+		if (xpSign(secondVec, firstVec) == -1) {
+			offsetY(cornerPt1, cornerPt3, cornerPt2, loc, upVector, m_roads[index1].m_widthInTexture);
 		} else {
-			offsetY(pc3, pc1, pc2, loc, upVector, m_roads[index1].m_widthInTexture);
+			offsetY(cornerPt3, cornerPt1, cornerPt2, loc, upVector, m_roads[index1].m_widthInTexture);
 		}
 	}
 	if (do32) {
-		if (xpSign(v1, v3) == -1) {
-			offsetY(pc3, pc2, pc1, loc, upVector, m_roads[index1].m_widthInTexture);
+		if (xpSign(firstVec, v3) == -1) {
+			offsetY(cornerPt3, cornerPt2, cornerPt1, loc, upVector, m_roads[index1].m_widthInTexture);
 		} else {
-			offsetY(pc2, pc3, pc1, loc, upVector, m_roads[index1].m_widthInTexture);
+			offsetY(cornerPt2, cornerPt3, cornerPt1, loc, upVector, m_roads[index1].m_widthInTexture);
 		}
 	}
 
-	pc1->last = true;
-	pc1->count = 0;
-	pc2->last = true;
-	pc2->count = 0;
-	pc3->last = true;
-	pc3->count = 0;
+	cornerPt1->last = true;
+	cornerPt1->count = 0;
+	cornerPt2->last = true;
+	cornerPt2->count = 0;
+	cornerPt3->last = true;
+	cornerPt3->count = 0;
 
 	if (m_numRoads >= m_maxRoadSegments) return false;
 	m_roads[m_numRoads].m_pt1.loc.Set(loc);
@@ -2223,12 +2223,12 @@ Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
 /** Offsets the points coming into a 3 way intersection so that they move to 
 the join points of the 3 way intersection. */
 //=============================================================================
-void W3DRoadBuffer::offset3Way(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 loc, Vector2 upVector, 
+void W3DRoadBuffer::offset3Way(TRoadPt *cornerPt1, TRoadPt *cornerPt2, TRoadPt *cornerPt3, Vector2 loc, Vector2 upVector, 
 															 Vector2 teeVector, Real widthInTexture) 
 {
-	pc1->loc = loc - upVector;
-	pc2->loc = loc + upVector;
-	pc3->loc = loc + teeVector;
+	cornerPt1->loc = loc - upVector;
+	cornerPt2->loc = loc + upVector;
+	cornerPt3->loc = loc + teeVector;
 
 	// Adjust the top & bottoms, so they merge smoothly into the tee.
 
@@ -2241,30 +2241,30 @@ void W3DRoadBuffer::offset3Way(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2
 	}
 	rightTee *= (widthInTexture);
 
-	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(pc1->top.X-pc1->loc.X, pc1->top.Y-pc1->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(cornerPt1->top.X-cornerPt1->loc.X, cornerPt1->top.Y-cornerPt1->loc.Y,0));
 	if (xpdct>0) {
-		pc1->bottom = pc1->loc - rightTee;
-		pc1->top = pc1->loc + rightTee;
+		cornerPt1->bottom = cornerPt1->loc - rightTee;
+		cornerPt1->top = cornerPt1->loc + rightTee;
 	} else {
-		pc1->bottom = pc1->loc + rightTee;
-		pc1->top = pc1->loc - rightTee;
+		cornerPt1->bottom = cornerPt1->loc + rightTee;
+		cornerPt1->top = cornerPt1->loc - rightTee;
 	}
-	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(pc2->top.X-pc2->loc.X, pc2->top.Y-pc2->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(cornerPt2->top.X-cornerPt2->loc.X, cornerPt2->top.Y-cornerPt2->loc.Y,0));
 	if (xpdct>0) {
-		pc2->bottom = pc2->loc - rightTee;
-		pc2->top = pc2->loc + rightTee;
+		cornerPt2->bottom = cornerPt2->loc - rightTee;
+		cornerPt2->top = cornerPt2->loc + rightTee;
 	} else {
-		pc2->bottom = pc2->loc + rightTee;
-		pc2->top = pc2->loc - rightTee;
+		cornerPt2->bottom = cornerPt2->loc + rightTee;
+		cornerPt2->top = cornerPt2->loc - rightTee;
 	}
 	upVector *= (widthInTexture);
-	xpdct = Vector3::Cross_Product_Z(Vector3(rightTee.X, rightTee.Y, 0), Vector3(pc3->top.X-pc3->loc.X, pc3->top.Y-pc3->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(Vector3(rightTee.X, rightTee.Y, 0), Vector3(cornerPt3->top.X-cornerPt3->loc.X, cornerPt3->top.Y-cornerPt3->loc.Y,0));
 	if (xpdct<0) {
-		pc3->bottom = pc3->loc - upVector;
-		pc3->top = pc3->loc + upVector;
+		cornerPt3->bottom = cornerPt3->loc - upVector;
+		cornerPt3->top = cornerPt3->loc + upVector;
 	} else {
-		pc3->bottom = pc3->loc + upVector;
-		pc3->top = pc3->loc - upVector;
+		cornerPt3->bottom = cornerPt3->loc + upVector;
+		cornerPt3->top = cornerPt3->loc - upVector;
 	}
 }
 
@@ -2274,17 +2274,17 @@ void W3DRoadBuffer::offset3Way(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2
 /** Offsets the points coming into a 3 way intersection so that they move to 
 the join points of the 3 way intersection. */
 //=============================================================================
-void W3DRoadBuffer::offsetH(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 loc, 
+void W3DRoadBuffer::offsetH(TRoadPt *cornerPt1, TRoadPt *cornerPt2, TRoadPt *cornerPt3, Vector2 loc, 
 														Vector2 upVector, Vector2 teeVector, 
 														Bool flip, Bool mirror, Real widthInTexture) 
 {
 
 	if (flip != mirror) {
-		pc1->loc = loc - upVector*2.05f;
-		pc2->loc = loc + upVector*.46f;
+		cornerPt1->loc = loc - upVector*2.05f;
+		cornerPt2->loc = loc + upVector*.46f;
 	} else {
-		pc1->loc = loc - upVector*.46f;
-		pc2->loc = loc + upVector*2.05f;
+		cornerPt1->loc = loc - upVector*.46f;
+		cornerPt2->loc = loc + upVector*2.05f;
 	}
 	//pc3->loc = loc + teeVector;
 
@@ -2299,21 +2299,21 @@ void W3DRoadBuffer::offsetH(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 lo
 	}
 	rightTee *= (widthInTexture);
 
-	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(pc1->top.X-pc1->loc.X, pc1->top.Y-pc1->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(cornerPt1->top.X-cornerPt1->loc.X, cornerPt1->top.Y-cornerPt1->loc.Y,0));
 	if (xpdct>0) {
-		pc1->bottom = pc1->loc - rightTee;
-		pc1->top = pc1->loc + rightTee;
+		cornerPt1->bottom = cornerPt1->loc - rightTee;
+		cornerPt1->top = cornerPt1->loc + rightTee;
 	} else {
-		pc1->bottom = pc1->loc + rightTee;
-		pc1->top = pc1->loc - rightTee;
+		cornerPt1->bottom = cornerPt1->loc + rightTee;
+		cornerPt1->top = cornerPt1->loc - rightTee;
 	}
-	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(pc2->top.X-pc2->loc.X, pc2->top.Y-pc2->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(Vector3(upVector.X, upVector.Y, 0), Vector3(cornerPt2->top.X-cornerPt2->loc.X, cornerPt2->top.Y-cornerPt2->loc.Y,0));
 	if (xpdct>0) {
-		pc2->bottom = pc2->loc - rightTee;
-		pc2->top = pc2->loc + rightTee;
+		cornerPt2->bottom = cornerPt2->loc - rightTee;
+		cornerPt2->top = cornerPt2->loc + rightTee;
 	} else {
-		pc2->bottom = pc2->loc + rightTee;
-		pc2->top = pc2->loc - rightTee;
+		cornerPt2->bottom = cornerPt2->loc + rightTee;
+		cornerPt2->top = cornerPt2->loc - rightTee;
 	}
 
 
@@ -2326,14 +2326,14 @@ void W3DRoadBuffer::offsetH(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 lo
 	Vector2 armNormal(-arm.Y, arm.X);
 	armNormal *= widthInTexture;
 
-	pc3->loc += arm*2.10f;
-	xpdct = xpSign(arm, pc3->top-loc);
+	cornerPt3->loc += arm*2.10f;
+	xpdct = xpSign(arm, cornerPt3->top-loc);
 	if (xpdct==1) {
-		pc3->top = pc3->loc + armNormal;
-		pc3->bottom = pc3->loc - armNormal;
+		cornerPt3->top = cornerPt3->loc + armNormal;
+		cornerPt3->bottom = cornerPt3->loc - armNormal;
 	} else {
-		pc3->top = pc3->loc - armNormal;
-		pc3->bottom = pc3->loc + armNormal;
+		cornerPt3->top = cornerPt3->loc - armNormal;
+		cornerPt3->bottom = cornerPt3->loc + armNormal;
 	}
 
 }
@@ -2346,12 +2346,12 @@ void W3DRoadBuffer::offsetH(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 lo
 /** Offsets the points coming into a 3 way intersection so that they move to 
 the join points of the 3 way intersection. */
 //=============================================================================
-void W3DRoadBuffer::offsetY(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 loc, Vector2 upVector, 
+void W3DRoadBuffer::offsetY(TRoadPt *cornerPt1, TRoadPt *cornerPt2, TRoadPt *cornerPt3, Vector2 loc, Vector2 upVector, 
 															 Real widthInTexture) 
 {
-	pc3->loc += upVector*0.55f;
-	pc3->top += upVector*0.55f;
-	pc3->bottom += upVector*0.55f;
+	cornerPt3->loc += upVector*0.55f;
+	cornerPt3->top += upVector*0.55f;
+	cornerPt3->bottom += upVector*0.55f;
 
 	// Adjust the bottom, so they merge smoothly into the tee.
 
@@ -2360,14 +2360,14 @@ void W3DRoadBuffer::offsetY(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 lo
 	arm.Rotate(3*PI/4); 
 	Vector2 armNormal(-arm.Y, arm.X);
 	armNormal *= widthInTexture;
-	pc2->loc += arm*1.1f;
-	Int xpdct = xpSign(arm, pc2->top-loc);
+	cornerPt2->loc += arm*1.1f;
+	Int xpdct = xpSign(arm, cornerPt2->top-loc);
 	if (xpdct==1) {
-		pc2->top = pc2->loc + armNormal;
-		pc2->bottom = pc2->loc - armNormal;
+		cornerPt2->top = cornerPt2->loc + armNormal;
+		cornerPt2->bottom = cornerPt2->loc - armNormal;
 	} else {
-		pc2->top = pc2->loc - armNormal;
-		pc2->bottom = pc2->loc + armNormal;
+		cornerPt2->top = cornerPt2->loc - armNormal;
+		cornerPt2->bottom = cornerPt2->loc + armNormal;
 	}
 
 	arm = upVector;
@@ -2375,14 +2375,14 @@ void W3DRoadBuffer::offsetY(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 lo
 	armNormal.Set(-arm.Y, arm.X);
 	armNormal *= widthInTexture;
 
-	pc1->loc += arm*1.1f;
-	xpdct = xpSign(arm, pc1->top-loc);
+	cornerPt1->loc += arm*1.1f;
+	xpdct = xpSign(arm, cornerPt1->top-loc);
 	if (xpdct==1) {
-		pc1->top = pc1->loc + armNormal;
-		pc1->bottom = pc1->loc - armNormal;
+		cornerPt1->top = cornerPt1->loc + armNormal;
+		cornerPt1->bottom = cornerPt1->loc - armNormal;
 	} else {
-		pc1->top = pc1->loc - armNormal;
-		pc1->bottom = pc1->loc + armNormal;
+		cornerPt1->top = cornerPt1->loc - armNormal;
+		cornerPt1->bottom = cornerPt1->loc + armNormal;
 	}
 }
 
@@ -2392,11 +2392,11 @@ void W3DRoadBuffer::offsetY(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, Vector2 lo
 /** Offsets the points coming into a 4 way intersection so that they move to 
 the join points of the 4 way intersection. */
 //=============================================================================
-void W3DRoadBuffer::offset4Way(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, TRoadPt *pr3, 
+void W3DRoadBuffer::offset4Way(TRoadPt *cornerPt1, TRoadPt *cornerPt2, TRoadPt *cornerPt3, TRoadPt *pr3, 
 															 TRoadPt *pc4, Vector2 loc, Vector2 alignVector, Real widthInTexture) 
 {
-	pc1->loc = loc - alignVector;
-	pc2->loc = loc + alignVector;
+	cornerPt1->loc = loc - alignVector;
+	cornerPt2->loc = loc + alignVector;
 
 	Vector2 v3 = pr3->loc - loc;
 	Real angle = (PI/2); // 90 degrees.
@@ -2404,7 +2404,7 @@ void W3DRoadBuffer::offset4Way(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, TRoadPt
 	if (xpdct<0) angle = -angle;
 	Vector2 teeVector(alignVector);
 	teeVector.Rotate(angle);
-	pc3->loc = loc + teeVector;
+	cornerPt3->loc = loc + teeVector;
 	pc4->loc = loc - teeVector;
 
 	Vector2 realTee(alignVector);
@@ -2414,32 +2414,32 @@ void W3DRoadBuffer::offset4Way(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, TRoadPt
 	// Fix up the top & bottom points.
 	Vector3 align3(alignVector.X,alignVector.Y,0);
 
-	xpdct = Vector3::Cross_Product_Z(align3, Vector3(pc1->top.X-pc1->loc.X, pc1->top.Y-pc1->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(align3, Vector3(cornerPt1->top.X-cornerPt1->loc.X, cornerPt1->top.Y-cornerPt1->loc.Y,0));
 	if (xpdct>0) {
-		pc1->bottom = pc1->loc - realTee;
-		pc1->top = pc1->loc + realTee;
+		cornerPt1->bottom = cornerPt1->loc - realTee;
+		cornerPt1->top = cornerPt1->loc + realTee;
 	} else {
-		pc1->bottom = pc1->loc + realTee;
-		pc1->top = pc1->loc - realTee;
+		cornerPt1->bottom = cornerPt1->loc + realTee;
+		cornerPt1->top = cornerPt1->loc - realTee;
 	}
-	xpdct = Vector3::Cross_Product_Z(align3, Vector3(pc2->top.X-pc2->loc.X, pc2->top.Y-pc2->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(align3, Vector3(cornerPt2->top.X-cornerPt2->loc.X, cornerPt2->top.Y-cornerPt2->loc.Y,0));
 	if (xpdct>0) {
-		pc2->bottom = pc2->loc - realTee;
-		pc2->top = pc2->loc + realTee;
+		cornerPt2->bottom = cornerPt2->loc - realTee;
+		cornerPt2->top = cornerPt2->loc + realTee;
 	} else {
-		pc2->bottom = pc2->loc + realTee;
-		pc2->top = pc2->loc - realTee;
+		cornerPt2->bottom = cornerPt2->loc + realTee;
+		cornerPt2->top = cornerPt2->loc - realTee;
 	}
 	alignVector *= widthInTexture;
 
 	Vector3 tee3(realTee.X,realTee.Y,0);
-	xpdct = Vector3::Cross_Product_Z(tee3, Vector3(pc3->top.X-pc3->loc.X, pc3->top.Y-pc3->loc.Y,0));
+	xpdct = Vector3::Cross_Product_Z(tee3, Vector3(cornerPt3->top.X-cornerPt3->loc.X, cornerPt3->top.Y-cornerPt3->loc.Y,0));
 	if (xpdct<0) {
-		pc3->bottom = pc3->loc - alignVector;
-		pc3->top = pc3->loc + alignVector;
+		cornerPt3->bottom = cornerPt3->loc - alignVector;
+		cornerPt3->top = cornerPt3->loc + alignVector;
 	} else {
-		pc3->bottom = pc3->loc + alignVector;
-		pc3->top = pc3->loc - alignVector;
+		cornerPt3->bottom = cornerPt3->loc + alignVector;
+		cornerPt3->top = cornerPt3->loc - alignVector;
 	}
 	xpdct = Vector3::Cross_Product_Z(tee3, Vector3(pc4->top.X-pc4->loc.X, pc4->top.Y-pc4->loc.Y,0));
 	if (xpdct<0) {
@@ -2450,12 +2450,12 @@ void W3DRoadBuffer::offset4Way(TRoadPt *pc1, TRoadPt *pc2, TRoadPt *pc3, TRoadPt
 		pc4->top = pc4->loc - alignVector;
 	}
 
-	pc1->last = true;
-	pc1->count = 0;
-	pc2->last = true;
-	pc2->count = 0;
-	pc3->last = true;
-	pc3->count = 0;
+	cornerPt1->last = true;
+	cornerPt1->count = 0;
+	cornerPt2->last = true;
+	cornerPt2->count = 0;
+	cornerPt3->last = true;
+	cornerPt3->count = 0;
 	pc4->last = true;
 	pc4->count = 0;
 
@@ -2474,35 +2474,35 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 
 	// pr1-4 point to the points on the segments that form the tee.
 	// They are the points on the segments that are != loc.
-	TRoadPt *pr1=NULL;
-	TRoadPt *pr2=NULL;
+	TRoadPt *roadPt1=NULL;
+	TRoadPt *roadPt2=NULL;
 	TRoadPt *pr3=NULL;
 	TRoadPt *pr4=NULL;
 
 	// pc1-4 point to the center points of the segments.  These are the 
 	// points that are at loc.
-	TRoadPt *pc1=NULL;
-	TRoadPt *pc2=NULL;
-	TRoadPt *pc3=NULL;
+	TRoadPt *cornerPt1=NULL;
+	TRoadPt *cornerPt2=NULL;
+	TRoadPt *cornerPt3=NULL;
 	TRoadPt *pc4=NULL;
 
 	if (m_roads[index1].m_pt1.loc == loc) {
-		pr1 = &m_roads[index1].m_pt2;
-		pc1 = &m_roads[index1].m_pt1;
+		roadPt1 = &m_roads[index1].m_pt2;
+		cornerPt1 = &m_roads[index1].m_pt1;
 	} else {
-		pr1 = &m_roads[index1].m_pt1;
-		pc1 = &m_roads[index1].m_pt2;
+		roadPt1 = &m_roads[index1].m_pt1;
+		cornerPt1 = &m_roads[index1].m_pt2;
 	}
 	Int i;
 	for (i = index1+1; i<m_numRoads; i++) {
 		if (m_roads[i].m_pt1.loc == loc) {
 			m_roads[i].m_pt1.count = -2;
-			if (pr2==NULL) {
-				pr2 = &m_roads[i].m_pt2;
-				pc2 = &m_roads[i].m_pt1;
+			if (roadPt2==NULL) {
+				roadPt2 = &m_roads[i].m_pt2;
+				cornerPt2 = &m_roads[i].m_pt1;
 			} else if (pr3==NULL) {
 				pr3 = &m_roads[i].m_pt2;
-				pc3 = &m_roads[i].m_pt1;
+				cornerPt3 = &m_roads[i].m_pt1;
 			}	else {
 				pr4 = &m_roads[i].m_pt2;
 				pc4 = &m_roads[i].m_pt1;
@@ -2510,37 +2510,37 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 		}
 		if (m_roads[i].m_pt2.loc == loc) {
 			m_roads[i].m_pt2.count = -2;
-			if (pr2==NULL) {
-				pr2 = &m_roads[i].m_pt1;
-				pc2 = &m_roads[i].m_pt2;
+			if (roadPt2==NULL) {
+				roadPt2 = &m_roads[i].m_pt1;
+				cornerPt2 = &m_roads[i].m_pt2;
 			} else if (pr3==NULL) {
 				pr3 = &m_roads[i].m_pt1;
-				pc3 = &m_roads[i].m_pt2;
+				cornerPt3 = &m_roads[i].m_pt2;
 			}	else {
 				pr4 = &m_roads[i].m_pt1;
 				pc4 = &m_roads[i].m_pt2;
 			}
 		}
 	}
-	if (pr2 == NULL || pr3 == NULL || pr4==NULL) {
+	if (roadPt2 == NULL || pr3 == NULL || pr4==NULL) {
 		return;
 	}
 
-	Vector2 v1 = pr1->loc - loc;
-	v1.Normalize();
-	Vector2 v2 = pr2->loc - loc;
-	v2.Normalize();
+	Vector2 firstVec = roadPt1->loc - loc;
+	firstVec.Normalize();
+	Vector2 secondVec = roadPt2->loc - loc;
+	secondVec.Normalize();
 	Vector2 v3 = pr3->loc - loc;
 	v3.Normalize();
 	Vector2 v4 = pr4->loc - loc;
 	v4.Normalize();
 
-	Real dot12 = v1.Dot_Product(v1, v2);
-	Real dot13 = v1.Dot_Product(v1, v3);
-	Real dot14 = v1.Dot_Product(v1, v4);
-	Real dot23 = v1.Dot_Product(v2, v3);
-	Real dot24 = v1.Dot_Product(v2, v4);
-	Real dot34 = v1.Dot_Product(v3, v4);
+	Real dot12 = firstVec.Dot_Product(firstVec, secondVec);
+	Real dot13 = firstVec.Dot_Product(firstVec, v3);
+	Real dot14 = firstVec.Dot_Product(firstVec, v4);
+	Real dot23 = firstVec.Dot_Product(secondVec, v3);
+	Real dot24 = firstVec.Dot_Product(secondVec, v4);
+	Real dot34 = firstVec.Dot_Product(v3, v4);
 	// The most negative dot product is the pair that is heading most opposite each other.
 
 	Int curPair = 12;
@@ -2574,19 +2574,19 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 
 	Vector2 alignVector;
 	if (do12) {
-		alignVector = v2-v1;
+		alignVector = secondVec-firstVec;
 	}
 	if (do13) {
-		alignVector = v3-v1;
+		alignVector = v3-firstVec;
 	}
 	if (do14) {
-		alignVector = v4-v1;
+		alignVector = v4-firstVec;
 	}
 	if (do23) {
-		alignVector = v3-v2;
+		alignVector = v3-secondVec;
 	}
 	if (do24) {
-		alignVector = v4-v2;
+		alignVector = v4-secondVec;
 	}
 	if (do34) {
 		alignVector = v4-v3;
@@ -2596,22 +2596,22 @@ void W3DRoadBuffer::insert4Way(Vector2 loc, Int index1, Real scale)
 
 
 	if (do12) {
-		offset4Way(pc1, pc2, pc3, pr3, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt1, cornerPt2, cornerPt3, pr3, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do13) {
-		offset4Way(pc1, pc3, pc2, pr2, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt1, cornerPt3, cornerPt2, roadPt2, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do14) {
-		offset4Way(pc1, pc4, pc3, pr3, pc2, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt1, pc4, cornerPt3, pr3, cornerPt2, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do23) {
-		offset4Way(pc2, pc3, pc1, pr1, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt2, cornerPt3, cornerPt1, roadPt1, pc4, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do24) {
-		offset4Way(pc2, pc4, pc1, pr1, pc3, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt2, pc4, cornerPt1, roadPt1, cornerPt3, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (do34) {
-		offset4Way(pc3, pc4, pc1, pr1, pc2, loc, alignVector, m_roads[index1].m_widthInTexture);
+		offset4Way(cornerPt3, pc4, cornerPt1, roadPt1, cornerPt2, loc, alignVector, m_roads[index1].m_widthInTexture);
 	}
 	if (alignVector.X<0) {
 		// Since the 4 way intersection is symmetrical, make it go right (pos x)
@@ -2721,30 +2721,30 @@ Int W3DRoadBuffer::findCrossTypeJoinVector(Vector2 loc, Vector2 *joinVector, Int
 		if (m_roads[i].m_uniqueID == uniqueID) continue;
 		// Only join to straight line segments.
 		if (m_roads[i].m_type != SEGMENT) continue;
-		Vector2 loc1, loc2;
-		loc1 = m_roads[i].m_pt1.loc;
-		loc2 = m_roads[i].m_pt2.loc;
+		Vector2 startLoc, endLoc;
+		startLoc = m_roads[i].m_pt1.loc;
+		endLoc = m_roads[i].m_pt2.loc;
 		Region2D bounds;
-		bounds.lo.x = loc1.X;
-		bounds.lo.y = loc1.Y;
+		bounds.lo.x = startLoc.X;
+		bounds.lo.y = startLoc.Y;
 		bounds.hi = bounds.lo;
-		if (bounds.lo.x > loc2.X) bounds.lo.x = loc2.X;
-		if (bounds.lo.y > loc2.Y) bounds.lo.y = loc2.Y;
-		if (bounds.hi.x < loc2.X) bounds.hi.x = loc2.X;
-		if (bounds.hi.y < loc2.Y) bounds.hi.y = loc2.Y;
+		if (bounds.lo.x > endLoc.X) bounds.lo.x = endLoc.X;
+		if (bounds.lo.y > endLoc.Y) bounds.lo.y = endLoc.Y;
+		if (bounds.hi.x < endLoc.X) bounds.hi.x = endLoc.X;
+		if (bounds.hi.y < endLoc.Y) bounds.hi.y = endLoc.Y;
 		bounds.lo.x -= m_roads[i].m_scale/2;
 		bounds.lo.y -= m_roads[i].m_scale/2;
 		bounds.hi.x += m_roads[i].m_scale/2;
 		bounds.hi.y += m_roads[i].m_scale/2;
 		if (loc.X >= bounds.lo.x && loc.Y >= bounds.lo.y && loc.X <= bounds.hi.x && loc.Y <= bounds.hi.y) {
-			Vector3 v1 = Vector3(loc1.X, loc1.Y, 0);
-			Vector3 v2 = Vector3(loc2.X, loc2.Y, 0);
-			LineSegClass roadLine(v1,v2);
+			Vector3 firstVec = Vector3(startLoc.X, startLoc.Y, 0);
+			Vector3 secondVec = Vector3(endLoc.X, endLoc.Y, 0);
+			LineSegClass roadLine(firstVec,secondVec);
 			Vector3 vLoc(loc.X, loc.Y, 0);
 			Vector3 ptOnLine = roadLine.Find_Point_Closest_To(vLoc);
 			Real dist = Vector3::Distance(ptOnLine, vLoc);
 			if (dist < m_roads[i].m_scale*0.55f) {
-				Vector2 roadVec = loc2-loc1;
+				Vector2 roadVec = endLoc-startLoc;
 				if (xpSign(roadVec, *joinVector) == 1) {
 					roadVec.Rotate(PI/2);
 				} else {
@@ -2813,15 +2813,15 @@ void W3DRoadBuffer::insertCrossTypeJoins(void)
 	Int numRoadSegments = m_numRoads;
 	Int i;
 	for (i=0; i<numRoadSegments; i++) {
-		Vector2 loc1, loc2;
+		Vector2 startLoc, endLoc;
 		Bool isPt1 = false;
 		if ((m_roads[i].m_pt2.count==0 && m_roads[i].m_pt2.isJoin)) {
-			loc1 = m_roads[i].m_pt2.loc;
-			loc2 = m_roads[i].m_pt1.loc;
+			startLoc = m_roads[i].m_pt2.loc;
+			endLoc = m_roads[i].m_pt1.loc;
 
 		} else if ((m_roads[i].m_pt1.count==0 && m_roads[i].m_pt1.isJoin)) {
-			loc1 = m_roads[i].m_pt1.loc;
-			loc2 = m_roads[i].m_pt2.loc;
+			startLoc = m_roads[i].m_pt1.loc;
+			endLoc = m_roads[i].m_pt2.loc;
 			isPt1 = true;
 		}	else {
 			continue;
@@ -2829,10 +2829,10 @@ void W3DRoadBuffer::insertCrossTypeJoins(void)
 		Vector2 joinVector(1, 0);
 
 		
-		Vector2 roadVector(loc2.X-loc1.X, loc2.Y-loc1.Y);
+		Vector2 roadVector(endLoc.X-startLoc.X, endLoc.Y-startLoc.Y);
 		roadVector.Normalize();
 		joinVector = roadVector;
-		Int otherID = findCrossTypeJoinVector(loc1, &joinVector, m_roads[i].m_uniqueID);
+		Int otherID = findCrossTypeJoinVector(startLoc, &joinVector, m_roads[i].m_uniqueID);
 		if (!otherID ) {
 			joinVector*=100;
 		}
@@ -2840,15 +2840,15 @@ void W3DRoadBuffer::insertCrossTypeJoins(void)
 		Vector2 joinNormal(-joinVector.Y, joinVector.X);
 
 
-		Vector2 p1 = loc1 + roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
-		Vector2 p2 = loc2 + roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
+		Vector2 p1 = startLoc + roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
+		Vector2 p2 = endLoc + roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
 
-		Vector3 v1 = Vector3(p1.X, p1.Y, 0);
-		Vector3 v2 = Vector3(p2.X, p2.Y, 0);
-		LineSegClass roadLine(v1,v2);
-		Vector3 vLoc1(loc1.X, loc1.Y, 0);
-		v1 = Vector3(joinNormal.X, joinNormal.Y, 0)+vLoc1;
-		LineSegClass joinLine(vLoc1,v1);
+		Vector3 firstVec = Vector3(p1.X, p1.Y, 0);
+		Vector3 secondVec = Vector3(p2.X, p2.Y, 0);
+		LineSegClass roadLine(firstVec,secondVec);
+		Vector3 vLoc1(startLoc.X, startLoc.Y, 0);
+		firstVec = Vector3(joinNormal.X, joinNormal.Y, 0)+vLoc1;
+		LineSegClass joinLine(vLoc1,firstVec);
 		Vector3 pInt1, pInt2;
 		//Vector3 pInt3, pInt4;
 
@@ -2865,11 +2865,11 @@ void W3DRoadBuffer::insertCrossTypeJoins(void)
 				top = m_roads[i].m_pt2.bottom;
 			}
 		}
-		p1 = loc1 - roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
-		p2 = loc2 - roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
-		v1.Set(p1.X, p1.Y, 0);
-		v2.Set(p2.X, p2.Y, 0);
-		roadLine.Set(v1,v2);
+		p1 = startLoc - roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
+		p2 = endLoc - roadNormal * m_roads[i].m_scale * m_roads[i].m_widthInTexture / 2;
+		firstVec.Set(p1.X, p1.Y, 0);
+		secondVec.Set(p2.X, p2.Y, 0);
+		roadLine.Set(firstVec,secondVec);
 		Vector2 bottom = m_roads[i].m_pt1.bottom;
 		if (joinLine.Find_Intersection(roadLine, &pInt1, &nu, &pInt2, &nu) ) {
 			if (isPt1) {
@@ -2887,8 +2887,8 @@ void W3DRoadBuffer::insertCrossTypeJoins(void)
 			adjustStacking(m_roads[i].m_uniqueID, otherID);
 		}
 		CHECK_SEGMENTS;
-		m_roads[m_numRoads].m_pt1.loc.Set(loc1);
-		m_roads[m_numRoads].m_pt2.loc.Set(loc1+joinVector);
+		m_roads[m_numRoads].m_pt1.loc.Set(startLoc);
+		m_roads[m_numRoads].m_pt2.loc.Set(startLoc+joinVector);
 		m_roads[m_numRoads].m_pt1.last = true; // if not, that one will clear flag in prior loop.
 		m_roads[m_numRoads].m_pt2.last = true; // if not, that one will clear flag in prior loop.
 		m_roads[m_numRoads].m_scale = m_roads[i].m_scale; 
@@ -2956,7 +2956,7 @@ void W3DRoadBuffer::insertCurveSegmentAt(Int ndx1, Int ndx2)
 	// we got a segment.
 	LineSegClass line1(Vector3(m_roads[ndx1].m_pt1.loc.X, m_roads[ndx1].m_pt1.loc.Y, 0), Vector3(m_roads[ndx1].m_pt2.loc.X, m_roads[ndx1].m_pt2.loc.Y, 0));
 	LineSegClass line2(Vector3(m_roads[ndx2].m_pt1.loc.X, m_roads[ndx2].m_pt1.loc.Y, 0), Vector3(m_roads[ndx2].m_pt2.loc.X, m_roads[ndx2].m_pt2.loc.Y, 0));
-	Vector2 *pr1, *pr2, *pr3, *pr4;
+	Vector2 *roadPt1, *roadPt2, *pr3, *pr4;
 
 	if (m_roads[ndx1].m_uniqueID != m_roads[ndx2].m_uniqueID) {
 		return;
@@ -2965,18 +2965,18 @@ void W3DRoadBuffer::insertCurveSegmentAt(Int ndx1, Int ndx2)
 	Real xpdct = Vector3::Cross_Product_Z(line1.Get_Dir(), line2.Get_Dir());
 	Bool turnRight;
 	if (xpdct > 0) {
-		pr1 = &m_roads[ndx1].m_pt1.loc;
-		pr2 = &m_roads[ndx1].m_pt2.loc;
+		roadPt1 = &m_roads[ndx1].m_pt1.loc;
+		roadPt2 = &m_roads[ndx1].m_pt2.loc;
 		pr3 = &m_roads[ndx2].m_pt1.loc;
 		pr4 = &m_roads[ndx2].m_pt2.loc;
 		turnRight = true;
 	} else {
 		pr4 = &m_roads[ndx1].m_pt1.loc;
 		pr3 = &m_roads[ndx1].m_pt2.loc;
-		pr2 = &m_roads[ndx2].m_pt1.loc;
-		pr1 = &m_roads[ndx2].m_pt2.loc;
+		roadPt2 = &m_roads[ndx2].m_pt1.loc;
+		roadPt1 = &m_roads[ndx2].m_pt2.loc;
 		turnRight = false;
- 		line1.Set(Vector3(pr1->X, pr1->Y, 0), Vector3(pr2->X, pr2->Y, 0));
+ 		line1.Set(Vector3(roadPt1->X, roadPt1->Y, 0), Vector3(roadPt2->X, roadPt2->Y, 0));
  		line2.Set(Vector3(pr3->X, pr3->Y, 0), Vector3(pr4->X, pr4->Y, 0));
 	}
 	Real angle = WWMath::Acos(curSin);
@@ -2992,8 +2992,8 @@ void W3DRoadBuffer::insertCurveSegmentAt(Int ndx1, Int ndx2)
 	offset1.Rotate_Z(-PI/2);
 	offset2.Rotate_Z(-PI/2);
 
-	Vector3 p1 = Vector3(pr1->X, pr1->Y, 0)+offset1;
-	Vector3 p2 = Vector3(pr2->X, pr2->Y, 0)+offset1;
+	Vector3 p1 = Vector3(roadPt1->X, roadPt1->Y, 0)+offset1;
+	Vector3 p2 = Vector3(roadPt2->X, roadPt2->Y, 0)+offset1;
 	LineSegClass offsetLine1(p1,p2);
 	p1 = Vector3(pr3->X, pr3->Y, 0)+offset2;
 	p2 = Vector3(pr4->X, pr4->Y, 0)+offset2;
@@ -3010,14 +3010,14 @@ void W3DRoadBuffer::insertCurveSegmentAt(Int ndx1, Int ndx2)
 		// Make sure the lines didn't clip out of existence.
 		Real theDot = Vector3::Dot_Product(line2.Get_Dir(), pInt1-Vector3(pr3->X, pr3->Y, 0));
 		if (theDot < DOT_LIMIT) {
-			*pr1 = originalPt;
+			*roadPt1 = originalPt;
 			*pr4 = originalPt;
 			miter(ndx1, ndx2);
 			return;
 		}
-		theDot = Vector3::Dot_Product(line1.Get_Dir(), Vector3(pr2->X, pr2->Y, 0)-pInt3);
+		theDot = Vector3::Dot_Product(line1.Get_Dir(), Vector3(roadPt2->X, roadPt2->Y, 0)-pInt3);
 		if (theDot < DOT_LIMIT) {
-			*pr1 = originalPt;
+			*roadPt1 = originalPt;
 			*pr4 = originalPt;
 			miter(ndx1, ndx2);
 			return;
@@ -3070,12 +3070,12 @@ void W3DRoadBuffer::insertCurveSegmentAt(Int ndx1, Int ndx2)
 			}
 		}
 		
-		*pr1 = Vector2(pInt3.X, pInt3.Y);
+		*roadPt1 = Vector2(pInt3.X, pInt3.Y);
 
 		m_roads[ndx1].m_pt1.last = true;
 		if (count > 1.0) {
-			pt2 = *pr1;
-			pt1 = *pr1+*pr1-*pr2;
+			pt2 = *roadPt1;
+			pt1 = *roadPt1+*roadPt1-*roadPt2;
 			direction.Set(pt1.X-pt2.X, pt1.Y-pt2.Y);
 			pt1 = pt2+direction;
 			CHECK_SEGMENTS;
