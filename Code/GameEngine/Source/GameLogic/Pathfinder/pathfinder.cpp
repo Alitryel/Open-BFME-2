@@ -18,7 +18,14 @@ static inline const unsigned int &max(const unsigned int &lhs, const unsigned in
     return lhs < rhs ? rhs : lhs;
 }
 }
+#include <cstdlib>
+#include <cstring>
+void Rva00030830FreeAllocation(void *);
+// Retail STL storage frees through the rowed game allocator at 0x00030830,
+// not the CRT import; the same route PersistentStorageThread.cpp takes.
+#define free Rva00030830FreeAllocation
 #include <vector>
+#undef free
 #include <new>
 #include "../../Common/GameLogicObjectLookupView.h"
 typedef bool Bool;
