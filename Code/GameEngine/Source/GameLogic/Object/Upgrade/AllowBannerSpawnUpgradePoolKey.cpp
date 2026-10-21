@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004B8520@AllowBannerSpawnUpgrade@@SA?AW4NameKeyType@@XZ @0x004B8520
+// ?getModuleNameKey@AllowBannerSpawnUpgrade@@UBE?AW4NameKeyType@@XZ @0x004B8520
 // (69B): cached pool-name key for AllowBannerSpawnUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("AllowBannerSpawnUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AllowBannerSpawnUpgrade
 {
 public:
-	static NameKeyType rva004B8520();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B8520@AllowBannerSpawnUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType AllowBannerSpawnUpgrade::rva004B8520()
+// ?getModuleNameKey@AllowBannerSpawnUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType AllowBannerSpawnUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheAllowBannerSpawnUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("AllowBannerSpawnUpgrade");

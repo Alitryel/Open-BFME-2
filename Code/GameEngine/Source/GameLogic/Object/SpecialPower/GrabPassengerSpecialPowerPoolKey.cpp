@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C4FCE@GrabPassengerSpecialPower@@SA?AW4NameKeyType@@XZ @0x004C4FCE
+// ?getModuleNameKey@GrabPassengerSpecialPower@@UBE?AW4NameKeyType@@XZ @0x004C4FCE
 // (69B): cached pool-name key for GrabPassengerSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("GrabPassengerSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class GrabPassengerSpecialPower
 {
 public:
-	static NameKeyType rva004C4FCE();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C4FCE@GrabPassengerSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType GrabPassengerSpecialPower::rva004C4FCE()
+// ?getModuleNameKey@GrabPassengerSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType GrabPassengerSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheGrabPassengerSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("GrabPassengerSpecialPower");
