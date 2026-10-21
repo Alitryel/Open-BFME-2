@@ -66,3 +66,40 @@ Next angles, untried:
 3. Check the music-loop entry shape (cut5 showed jmp against a top test).
 
 Scratch generators for this session (untracked): `build/s5be59/gen.py` (`_g2dmod` probes), `mk.py`, `l1.sh` (loop-1 signature: retail shows `mov ebx,[ebp-10h]` and `push [ebx+1Ch]`).
+
+## Session 2026-10-21 (claude-opus-5-5): the whole residue is one event CSE across get2D
+
+The bank is unchanged (789 B, 0 regions, slot exchange only). The probes ran on the full owner unit replayed with the bank (`build/s5be/v/.../base.cpp`, scratch).
+
+**Diagnostic exact (must not land).** Widen `pan` to function scope as in ZH, which gives retail's slot grouping by itself. Then force the loop-1 `rva000592B8` argument to reload the event:
+
+```cpp
+rva000592B8(*(AudioEventRTS *volatile *)&playing->m_event);
+```
+
+That compiles to 789 B, 0 regions, memory 3 (the three import relocations) and register 0, which is byte-exact. Without the volatile, wide pan gives 766 B with 18 regions: `this` moves to EBX, and `playing->m_event` is CSE'd into EDI across the pure in-TU `get2DSampleHandleForPlayingAudio(&playing)` call (0x52696, 47 B). Retail reloads it (`push [ebx+1Ch]` at +0x86, with EBX = playing.m_ptr). So with wide pan, the only missing thing is that one memory kill between get2D and the 592B8 argument.
+
+Inert this session. Each gives the same 766 B / 18 regions with wide pan, or the bank's result with in-block pan:
+
+- `permute.py --flags`, 7 flag sets: best 0.9918, no close;
+- random permute: it stops with "only constants or offsets differ";
+- branch-weight probes s1, s3, s4: confirmed again that slot packing is by static weight only;
+- dummy-local k-scan wk0..wk11;
+- one `__forceinline` kdum expansion of k = 0..20 parameters (the 0x2FD344 lever) before the body, before get2D and after the 592B8 call: all 63 inert;
+- `*playing->m_event` spelling (operator*, as in WB);
+- an in-TU noinline stand-in for 592B8 (wq1, wq2);
+- a nested `if`, `getViewType()`, or `continue` in loop 1.
+- wide pan plus function-scope `sample`, `volume` or `sample3D` (alone or combined; sv1..sv9): slot map unchanged (-28 pan, -24 {tv287, sample3D, volume}, -20 {tv794, sample}), still 766 B / 18 regions; `volume` inlined into the `AIL_set_sample_volume_pan` call (sva): 755 B / 21 regions.
+
+The WB twins call the same get2D, so there is no ICF twin. Retail has no vtable reference to get2D.
+
+**Reading.** Retail loads `[ebx+1Ch]` three times in loop 1: at +0x50 (name), at +0x69 after the opaque compare call (viewType test), and at +0x86 after get2D (the 592B8 argument). EBX (`playing.m_ptr`) survives get2D. So retail did not treat get2D as an opaque call. Either the +0x69/+0x86 CSE candidate never existed in retail's source, or it lost register priority and was rematerialised. That is what in-block pan gets right and wide pan gets wrong.
+
+**What a closer needs.** A natural source in which the event is not available in a register after get2D, with pan at function scope. The earlier handoff showed that a global store inside get2D supplies the kill, but it breaks 0x52FA0, which relies on get2D being pure.
+
+Untried:
+- an event read through a non-inline or out-of-TU accessor of `PlayingAudio` (for example a `getEvent()` member defined in another TU);
+- a 592B8 argument taken from a local copied before get2D, once its lifetime is restructured;
+- calling get2D through a member pointer or an out-of-TU wrapper, which would make the call opaque only at this site.
+
+Scratch for this session (untracked): `build/s5be/vg.py`, `run.sh`, `score.sh`, `rdis.py` (retail capstone), `kg.py` (kdum scan).
