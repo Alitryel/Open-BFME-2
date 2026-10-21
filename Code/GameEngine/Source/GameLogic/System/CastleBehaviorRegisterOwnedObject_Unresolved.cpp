@@ -368,16 +368,14 @@ class ThingFactory { public: const ThingTemplate* findTemplate(const AsciiString
 extern ThingFactory* TheThingFactory;
 // Existing verified 8B ASCII-plus-word record view. The source pair's scalar
 // identity is unresolved; only the measured layout and copy ABI are used here.
-// inline_depth(0): the dtor's out-of-line copy tail-calls ~AsciiString (the copy the link keeps
-// first); callers still expand it.
-#pragma inline_depth(0)
+// The dtor's out-of-line copy (the unwind funclet's call) expands ~AsciiString into the
+// releaseBuffer tail jump, retail's 0x0048BA39 shape and the copy the link keeps first.
 struct BfmeAsciiScalarValue8 {
  AsciiString first;
  int second;
  BfmeAsciiScalarValue8(const BfmeAsciiScalarValue8&);
  ~BfmeAsciiScalarValue8() {}
 };
-#pragma inline_depth()
 class Rva003980BF { public: void* rva003980BF(void*,int,int); };
 class Rva00399959 { public: void unpack(bool); };
 class CastleConditionBits {
