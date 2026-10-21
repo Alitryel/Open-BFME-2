@@ -58,11 +58,11 @@ public:
 private:
 	int m_04;
 	AsciiString m_modelName;
-	bool m_0C;
+	bool m_distanceFog;
 };
 
 // ??0W3DPropDrawModuleData@@QAE@XZ @0x000CEF2B
-W3DPropDrawModuleData::W3DPropDrawModuleData() : m_0C(true)
+W3DPropDrawModuleData::W3DPropDrawModuleData() : m_distanceFog(true)
 {
 }
 
