@@ -4,7 +4,7 @@
 // 0x00C5E430 its matched ctor 0x004C81E3 installs at +0x10, compiled with that
 // subobject this. Names are by address.
 //
-// ?rva004C822C@DevastateSpecialPower@@UAEXH@Z, retail 0x004C822C, 68 bytes:
+// ?doSpecialPower@DevastateSpecialPower@@UAEXH@Z, retail 0x004C822C, 68 bytes:
 // slot 10 (the argument unread); the untargeted use only reports "Error!
 // Devastate Power requires either a target object or location" through the
 // Debug singleton (the GameLODManagerGetAudioLODIndex.cpp reporting shape).
@@ -81,7 +81,7 @@ public:
 	virtual void gap0() = 0; virtual void gap1() = 0; virtual void gap2() = 0; virtual void gap3() = 0;
 	virtual void gap4() = 0; virtual void gap5() = 0; virtual void gap6() = 0; virtual void gap7() = 0;
 	virtual void gap8() = 0; virtual void gap9() = 0;
-	virtual void rva004C822C(int options) = 0;
+	virtual void doSpecialPower(int options) = 0;
 	virtual void doSpecialPowerAtObject(Object *target, int options) = 0;
 	virtual void slot12(const Coord3D *pos, int options) = 0;
 };
@@ -93,12 +93,12 @@ class SpecialPowerModule : public BehaviorModule, public BehaviorModuleInterface
 class DevastateSpecialPower : public SpecialPowerModule
 {
 public:
-	virtual void rva004C822C(int options);
+	virtual void doSpecialPower(int options);
 	virtual void doSpecialPowerAtObject(Object *target, int options);
 };
 
-// ?rva004C822C@DevastateSpecialPower@@UAEXH@Z @0x004C822C
-void DevastateSpecialPower::rva004C822C(int)
+// ?doSpecialPower@DevastateSpecialPower@@UAEXH@Z @0x004C822C
+void DevastateSpecialPower::doSpecialPower(int)
 {
 	if (bfmeRva000387C0())
 	{

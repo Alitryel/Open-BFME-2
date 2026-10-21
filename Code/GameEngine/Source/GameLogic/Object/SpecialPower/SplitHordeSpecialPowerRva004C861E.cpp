@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// Retail 0x004C861E (123 bytes): SplitHordeSpecialPower::rva004C861E, slot 10
+// Retail 0x004C861E (123 bytes): SplitHordeSpecialPower::doSpecialPower, slot 10
 // of the vtable 0x00C5E598 that the matched SplitHordeSpecialPower ctor
 // installs at +0x10, compiled with that subobject this ([ecx-8] is the Object).
 // Name by address (one unsigned argument, unused here). Body: nothing when the
@@ -69,7 +69,7 @@ template <> class Rva004C861ESPSlots<0>
 class Rva004C861EIface10 : public Rva004C861ESPSlots<10>
 {
 public:
-	virtual void rva004C861E(unsigned int options) = 0;
+	virtual void doSpecialPower(unsigned int options) = 0;
 };
 class SpecialPowerModule : public BehaviorModule, public BehaviorModuleInterface, public Rva004C861EIface10
 {
@@ -77,9 +77,9 @@ class SpecialPowerModule : public BehaviorModule, public BehaviorModuleInterface
 class SplitHordeSpecialPower : public SpecialPowerModule
 {
 public:
-	virtual void rva004C861E(unsigned int options);
+	virtual void doSpecialPower(unsigned int options);
 };
-void SplitHordeSpecialPower::rva004C861E(unsigned int)
+void SplitHordeSpecialPower::doSpecialPower(unsigned int)
 {
 	Object *object = m_object;
 	if (object->isDisabled())
