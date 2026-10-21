@@ -171,4 +171,11 @@ template bool __cdecl __get_integer<wide_iterator, long>(
         wide_iterator &, wide_iterator &, int, long &,
         int, bool, char, const narrow_string &, const __false_type &);
 
+// The decimal reader also requests int; MSVC 7.1 uses the same signed
+// 32-bit arithmetic and ABI. The admission proof checks the whole body
+// and every relocation against the existing long owner.
+template bool __cdecl __get_integer<wide_iterator, int>(
+        wide_iterator &, wide_iterator &, int, int &,
+        int, bool, char, const narrow_string &, const __false_type &);
+
 }
