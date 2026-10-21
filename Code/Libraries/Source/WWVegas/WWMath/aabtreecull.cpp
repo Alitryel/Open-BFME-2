@@ -387,9 +387,9 @@ void AABTreeCullSystemClass::Add_Object_Recursive(AABTreeNodeClass * node,Cullab
 	AABTreeNodeClass * small_child = node->Back;
 
 	if (big_child && small_child && (big_child->Compute_Volume() < small_child->Compute_Volume())) {
-		AABTreeNodeClass * tmp = big_child;
+		AABTreeNodeClass * aABTreeNode = big_child;
 		big_child = small_child;
-		small_child = tmp;
+		small_child = aABTreeNode;
 	}
 	
 	// Can we fit in the smaller child?

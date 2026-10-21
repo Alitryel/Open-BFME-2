@@ -40,8 +40,8 @@ inline const StringClass &StringClass::operator=(const char *string)
 // only makes this unit emit its copy for the ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitwwstring_assign_cstr@@YAXPAVStringClass@@PBD@Z present-unmatched
-void bfmeEmitwwstring_assign_cstr(StringClass *p, const char *s)
+void bfmeEmitwwstring_assign_cstr(StringClass *string, const char *s)
 {
-	p->operator=(s);
+	string->operator=(s);
 }
 #pragma inline_depth()

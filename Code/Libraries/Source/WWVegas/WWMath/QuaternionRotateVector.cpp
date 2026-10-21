@@ -53,9 +53,9 @@ inline __declspec(noinline) void Quaternion::Rotate_Vector(const Vector3 &v, Vec
 
 // Retain the inline body's ledger emission without changing its callers.
 // ?bfmeEmitQuaternionRotateVector@@YAXPBVQuaternion@@ABVVector3@@@Z absent-from-retail
-void bfmeEmitQuaternionRotateVector(const Quaternion *q, const Vector3 &v)
+void bfmeEmitQuaternionRotateVector(const Quaternion *quaternion, const Vector3 &v)
 {
-	q->Quaternion::Rotate_Vector(v);
+	quaternion->Quaternion::Rotate_Vector(v);
 	Vector3 result;
-	q->Quaternion::Rotate_Vector(v, &result);
+	quaternion->Quaternion::Rotate_Vector(v, &result);
 }

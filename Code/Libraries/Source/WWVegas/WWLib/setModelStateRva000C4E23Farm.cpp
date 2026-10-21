@@ -555,10 +555,10 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		{
 			AsciiStringVec replacements;
 			AsciiStringVec originals;
-			for (const AsciiStringPair *p = m_38.begin(); p != m_38.end(); ++p)
+			for (const AsciiStringPair *asciiStringPair = m_38.begin(); asciiStringPair != m_38.end(); ++asciiStringPair)
 			{
-				originals.push_back(p->first);
-				replacements.push_back(p->second);
+				originals.push_back(asciiStringPair->first);
+				replacements.push_back(asciiStringPair->second);
 			}
 			for (const AsciiStringPair *q = newState->m_64.begin(); q != newState->m_64.end(); ++q)
 			{
@@ -666,8 +666,8 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 			stateRange, (Rva000C3886Obj *)arg, lastObject);
 		((Rva000C18E3 *)this)->rva000C18E3((SrcArg000C18E3 *)arg);
 
-		ThingTemplateView *tmpl = draw->m_template;
-		if (tmpl && m_renderObject && (tmpl->m_109 & 5))
+		ThingTemplateView *thingTemplateView = draw->m_template;
+		if (thingTemplateView && m_renderObject && (thingTemplateView->m_109 & 5))
 			((RenderObjView *)m_renderObject)->slot1C4(1);
 
 		RenderObjClass *robj = m_renderObject;
@@ -709,34 +709,34 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 				}
 			}
 		}
-		else if (m_renderObject && TheW3DShadowManager && tmpl && tmpl->m_shadowType && !getW3DScriptedModelDrawModuleData()->m_12B)
+		else if (m_renderObject && TheW3DShadowManager && thingTemplateView && thingTemplateView->m_shadowType && !getW3DScriptedModelDrawModuleData()->m_12B)
 		{
 			Shadow::ShadowTypeInfo info;
-			info.m_ShadowName = tmpl->m_shadowTexture;
-			info.m_type = tmpl->m_shadowType;
-			info.m_sizeX = tmpl->m_shadowSizeX;
-			info.m_sizeY = tmpl->m_shadowSizeY;
-			info.m_offsetX = tmpl->m_shadowOffsetX;
-			info.m_offsetY = tmpl->m_shadowOffsetY;
-			info.m_1C = tmpl->m_shadow500;
-			info.m_24 = tmpl->m_5ED;
+			info.m_ShadowName = thingTemplateView->m_shadowTexture;
+			info.m_type = thingTemplateView->m_shadowType;
+			info.m_sizeX = thingTemplateView->m_shadowSizeX;
+			info.m_sizeY = thingTemplateView->m_shadowSizeY;
+			info.m_offsetX = thingTemplateView->m_shadowOffsetX;
+			info.m_offsetY = thingTemplateView->m_shadowOffsetY;
+			info.m_1C = thingTemplateView->m_shadow500;
+			info.m_24 = thingTemplateView->m_5ED;
 			info.m_25 = 0;
 			info.m_26 = 1;
-			info.m_20 = tmpl->m_shadow504;
+			info.m_20 = thingTemplateView->m_shadow504;
 			m_shadow = TheW3DShadowManager->addShadow(m_renderObject, &info, (Drawable *)draw);
 			if (m_shadow)
 			{
 				m_shadow->enableShadowInvisible(m_49);
 				m_shadow->enableShadowRender(m_4A && !m_4B);
-				m_shadow->setFlag30(tmpl->m_5EF);
-				if (tmpl->m_5EE)
+				m_shadow->setFlag30(thingTemplateView->m_5EF);
+				if (thingTemplateView->m_5EE)
 					m_shadow->rva00330995((Int)((Rva000B4653 *)m_28)->rva000B4653(0));
 				Int opacity;
 				Real fadeIn;
 				Int opacity2;
 				Real fadeOut;
 				Int last;
-				((Rva0033A5F4 *)tmpl)->rva0033A5F4(&opacity, &fadeIn, &opacity2, &fadeOut, &last);
+				((Rva0033A5F4 *)thingTemplateView)->rva0033A5F4(&opacity, &fadeIn, &opacity2, &fadeOut, &last);
 				typedef void (Rva00330A37::*FadeFrames)(UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt);
 				if ((unsigned char)((const Rva000B22B3StateView*)m_shadow)->rva000B22B3())
 				{
@@ -751,7 +751,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 			}
 		}
 
-		if (m_renderObject && tmpl)
+		if (m_renderObject && thingTemplateView)
 		{
 			if (getW3DScriptedModelDrawModuleData()->m_128)
 			{

@@ -40,8 +40,8 @@ inline StringClass::StringClass(int value, bool flag)
 // row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitwwstring_ctor_int_bool@@YAXPAVStringClass@@H_N@Z present-unmatched
-void bfmeEmitwwstring_ctor_int_bool(StringClass *p, int value, bool flag)
+void bfmeEmitwwstring_ctor_int_bool(StringClass *string, int value, bool flag)
 {
-	p->StringClass::StringClass(value, flag);
+	string->StringClass::StringClass(value, flag);
 }
 #pragma inline_depth()

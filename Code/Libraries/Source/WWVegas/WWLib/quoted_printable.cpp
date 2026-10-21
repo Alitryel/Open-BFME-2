@@ -113,7 +113,7 @@ void bfmeEmitQuotedPrintableHelpers()
 {
 	(void)intToHexDigit(0);
 	(void)hexDigitToInt(0);
-	AsciiString *p = (AsciiString *)0;
-	(void)p->hasData();
+	AsciiString *asciiString = (AsciiString *)0;
+	(void)asciiString->hasData();
 }
 #pragma inline_depth()

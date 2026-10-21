@@ -30,10 +30,10 @@ void Matrix4::Inverse(Matrix4 *out) const
     struct Matrix4InverseWork
     {
     public:
-        __forceinline Matrix4InverseWork(const Matrix4 &m)
+        __forceinline Matrix4InverseWork(const Matrix4 &matrix4)
         {
-            Row[0] = m.Row[0]; Row[1] = m.Row[1];
-            Row[2] = m.Row[2]; Row[3] = m.Row[3];
+            Row[0] = matrix4.Row[0]; Row[1] = matrix4.Row[1];
+            Row[2] = matrix4.Row[2]; Row[3] = matrix4.Row[3];
         }
         __forceinline explicit Matrix4InverseWork(bool identity)
         {

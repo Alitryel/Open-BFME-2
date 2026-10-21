@@ -33,16 +33,16 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "rendobj.h"
 #include "matrix3d.h"
 
-void Matrix3D::Multiply(const Matrix3D & A,const Matrix3D & B,Matrix3D * set_res)
+void Matrix3D::Multiply(const Matrix3D & matrix3D,const Matrix3D & B,Matrix3D * set_res)
 {
 	Matrix3D tmp;
 	Matrix3D * Aptr;
 
-	if (set_res == &A) {
-		tmp = A;
+	if (set_res == &matrix3D) {
+		tmp = matrix3D;
 		Aptr = &tmp;
 	} else {
-		Aptr = (Matrix3D *)&A;
+		Aptr = (Matrix3D *)&matrix3D;
 	}
 
 	set_res->mul(*Aptr, B);

@@ -27,8 +27,8 @@ inline LineSegClass::LineSegClass(const Vector3 &p0, const Vector3 &p1) : P0(p0)
 // anchor only makes this unit emit its copy for the ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitLineSegVectorCtor@@YAXPAVLineSegClass@@ABVVector3@@@Z present-unmatched
-void bfmeEmitLineSegVectorCtor(LineSegClass *p, const Vector3 &v)
+void bfmeEmitLineSegVectorCtor(LineSegClass *lineSeg, const Vector3 &v)
 {
-	p->LineSegClass::LineSegClass(v, v);
+	lineSeg->LineSegClass::LineSegClass(v, v);
 }
 #pragma inline_depth()

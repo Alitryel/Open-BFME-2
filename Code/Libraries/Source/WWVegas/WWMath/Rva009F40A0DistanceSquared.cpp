@@ -7,12 +7,12 @@ public:
  virtual void slot0();
  virtual const Coord3DBase *position();
 };
-float Rva009F40A0DistanceSquared(const Coord3DBase *a,
+float Rva009F40A0DistanceSquared(const Coord3DBase *coord3DBase,
  Rva009F40A0PositionProvider *provider)
 {
  const Coord3DBase *b = provider->position();
- float dz = b->z - a->z;
- float dy = b->y - a->y;
- float dx = b->x - a->x;
+ float dz = b->z - coord3DBase->z;
+ float dy = b->y - coord3DBase->y;
+ float dx = b->x - coord3DBase->x;
  return dx * dx + dy * dy + dz * dz;
 }

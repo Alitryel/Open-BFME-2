@@ -28,9 +28,9 @@ inline __declspec(noinline) Vector3Randomizer::~Vector3Randomizer() {}
 Vector3Randomizer *g_randomizerAnchor;
 
 // Anchor: emits the ??_G scalar-deleting-destructor COMDAT.
-void deleteVector3Randomizer(Vector3Randomizer *p)
+void deleteVector3Randomizer(Vector3Randomizer *vector3Randomizer)
 {
-	delete p;
+	delete vector3Randomizer;
 }
 
 // ??1Vector3Randomizer is a header inline elsewhere: another unit emits a
@@ -39,8 +39,8 @@ void deleteVector3Randomizer(Vector3Randomizer *p)
 // ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitVector3RandomizerDeletingDestructors@@YAXPAVVector3Randomizer@@@Z present-unmatched
-void bfmeEmitVector3RandomizerDeletingDestructors(Vector3Randomizer *p)
+void bfmeEmitVector3RandomizerDeletingDestructors(Vector3Randomizer *vector3Randomizer)
 {
-	p->Vector3Randomizer::~Vector3Randomizer();
+	vector3Randomizer->Vector3Randomizer::~Vector3Randomizer();
 }
 #pragma inline_depth()

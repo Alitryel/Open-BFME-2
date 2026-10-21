@@ -253,19 +253,19 @@ bool Matrix3D::Solve_Linear_System(Matrix3D & system)
 	return true;
 }
 
-void Matrix3D::Set_Rotation(const Quaternion & q)
+void Matrix3D::Set_Rotation(const Quaternion & quaternion)
 {
-	Row[0][0] = (float)(1.0 - 2.0 * (q[1] * q[1] + q[2] * q[2]));
-	Row[0][1] = (float)(2.0 * (q[0] * q[1] - q[2] * q[3]));
-	Row[0][2] = (float)(2.0 * (q[2] * q[0] + q[1] * q[3]));
+	Row[0][0] = (float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[2] * quaternion[2]));
+	Row[0][1] = (float)(2.0 * (quaternion[0] * quaternion[1] - quaternion[2] * quaternion[3]));
+	Row[0][2] = (float)(2.0 * (quaternion[2] * quaternion[0] + quaternion[1] * quaternion[3]));
 
-	Row[1][0] = (float)(2.0 * (q[0] * q[1] + q[2] * q[3]));
-	Row[1][1] = (float)(1.0 - 2.0f * (q[2] * q[2] + q[0] * q[0]));
-	Row[1][2] = (float)(2.0 * (q[1] * q[2] - q[0] * q[3]));
+	Row[1][0] = (float)(2.0 * (quaternion[0] * quaternion[1] + quaternion[2] * quaternion[3]));
+	Row[1][1] = (float)(1.0 - 2.0f * (quaternion[2] * quaternion[2] + quaternion[0] * quaternion[0]));
+	Row[1][2] = (float)(2.0 * (quaternion[1] * quaternion[2] - quaternion[0] * quaternion[3]));
 
-	Row[2][0] = (float)(2.0 * (q[2] * q[0] - q[1] * q[3]));
-	Row[2][1] = (float)(2.0 * (q[1] * q[2] + q[0] * q[3]));
-	Row[2][2] =(float)(1.0 - 2.0 * (q[1] * q[1] + q[0] * q[0]));
+	Row[2][0] = (float)(2.0 * (quaternion[2] * quaternion[0] - quaternion[1] * quaternion[3]));
+	Row[2][1] = (float)(2.0 * (quaternion[1] * quaternion[2] + quaternion[0] * quaternion[3]));
+	Row[2][2] =(float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[0] * quaternion[0]));
 }
 
 void Matrix3D::Set(const Quaternion & rot,const Vector3 & pos)
@@ -274,16 +274,16 @@ void Matrix3D::Set(const Quaternion & rot,const Vector3 & pos)
    Set_Translation(pos);
 }
 
-void Matrix3D::Lerp(const Matrix3D &A, const Matrix3D &B, float factor, Matrix3D& result)
+void Matrix3D::Lerp(const Matrix3D &A, const Matrix3D &matrix3D, float factor, Matrix3D& result)
 {
 	// Lerp position
 	Vector3 pos;
-	Vector3::Lerp(A.Get_Translation(), B.Get_Translation(), factor, &pos);
+	Vector3::Lerp(A.Get_Translation(), matrix3D.Get_Translation(), factor, &pos);
 
 	float scale = WWMath::Sqrt(A[2].X * A[2].X + A[2].Y * A[2].Y + A[2].Z * A[2].Z);
 	if (fabs(scale - 1.0f) > 0.000001f) {
 		Matrix3D a = A;
-		Matrix3D b = B;
+		Matrix3D b = matrix3D;
 		a.Scale(1.0f / scale);
 		b.Scale(1.0f / scale);
 
@@ -294,7 +294,7 @@ void Matrix3D::Lerp(const Matrix3D &A, const Matrix3D &B, float factor, Matrix3D
 		result.Scale(scale);
 	} else {
 		Quaternion rot;
-		Slerp(rot, Build_Quaternion(A), Build_Quaternion(B), factor);
+		Slerp(rot, Build_Quaternion(A), Build_Quaternion(matrix3D), factor);
 		result.Set_Rotation(rot);
 		result.Set_Translation(pos);
 	}

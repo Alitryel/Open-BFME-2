@@ -84,7 +84,7 @@ static __forceinline float bfmeFastSlerpSin(float val)
 	return (1.0f - frac) * _FastSinTable[idx0] + frac * _FastSinTable[idx1];
 }
 
-void __cdecl Fast_Slerp(Quaternion& res, const Quaternion & p,const Quaternion & q,float alpha)
+void __cdecl Fast_Slerp(Quaternion& res, const Quaternion & quaternion,const Quaternion & q,float alpha)
 {
 	float beta;			// complementary interploation parameter
 	float theta;		// angle between p and q
@@ -93,12 +93,12 @@ void __cdecl Fast_Slerp(Quaternion& res, const Quaternion & p,const Quaternion &
 	int qflip;			// use flip of q?
 
 	if (!Rva00E1D058FastSlerpInline) {
-		rva0075B4C6D3DXQuaternionSlerp(&res, &p, &q, alpha);
+		rva0075B4C6D3DXQuaternionSlerp(&res, &quaternion, &q, alpha);
 		_ReadWriteBarrier();
 	} else {
 
 	// cos theta = dot product of p and q
-	cos_t = p.X * q.X + p.Y * q.Y + p.Z * q.Z + p.W * q.W;
+	cos_t = quaternion.X * q.X + quaternion.Y * q.Y + quaternion.Z * q.Z + quaternion.W * q.W;
 
 	// if q is on opposite hemisphere from A, use -B instead
 	if (cos_t < 0.0f) {
@@ -127,9 +127,9 @@ void __cdecl Fast_Slerp(Quaternion& res, const Quaternion & p,const Quaternion &
 		alpha = -alpha;
 	}
 
-	res.X = beta*p.X + alpha*q.X;
-	res.Y = beta*p.Y + alpha*q.Y;
-	res.Z = beta*p.Z + alpha*q.Z;
-	res.W = beta*p.W + alpha*q.W;
+	res.X = beta*quaternion.X + alpha*q.X;
+	res.Y = beta*quaternion.Y + alpha*q.Y;
+	res.Z = beta*quaternion.Z + alpha*q.Z;
+	res.W = beta*quaternion.W + alpha*q.W;
 	}
 }

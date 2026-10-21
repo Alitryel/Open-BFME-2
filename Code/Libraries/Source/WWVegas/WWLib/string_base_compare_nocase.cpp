@@ -50,8 +50,8 @@ __declspec(noinline) inline int WideCharCompare::compareNoCase(const wchar_t *a,
 }
 
 // ?bfmeAnchorWideCharCompare absent-from-retail
-int bfmeAnchorWideCharCompare(const WideCharCompare *p, const wchar_t *a, const wchar_t *b, int len)
+int bfmeAnchorWideCharCompare(const WideCharCompare *wideCharCompare, const wchar_t *a, const wchar_t *b, int len)
 {
-	return p->compareNoCase(a, b, len);
+	return wideCharCompare->compareNoCase(a, b, len);
 }
 

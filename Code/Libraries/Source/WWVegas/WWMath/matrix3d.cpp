@@ -137,19 +137,19 @@ inline void Matrix3D::Set(const Matrix3 & rot,const Vector3 & pos)
 }
 
 
-void Matrix3D::Set_Rotation(const Matrix3 & m)
+void Matrix3D::Set_Rotation(const Matrix3 & matrix3)
 {
-	Row[0][0] = m[0][0];
-	Row[0][1] = m[0][1];
-	Row[0][2] = m[0][2];
+	Row[0][0] = matrix3[0][0];
+	Row[0][1] = matrix3[0][1];
+	Row[0][2] = matrix3[0][2];
 
-	Row[1][0] = m[1][0];
-	Row[1][1] = m[1][1];
-	Row[1][2] = m[1][2];
+	Row[1][0] = matrix3[1][0];
+	Row[1][1] = matrix3[1][1];
+	Row[1][2] = matrix3[1][2];
 
-	Row[2][0] = m[2][0];
-	Row[2][1] = m[2][1];
-	Row[2][2] = m[2][2];
+	Row[2][0] = matrix3[2][0];
+	Row[2][1] = matrix3[2][1];
+	Row[2][2] = matrix3[2][2];
 }
 
 
@@ -202,9 +202,9 @@ inline Vector3 Matrix3D::Inverse_Rotate_Vector(const Vector3 &vect) const
 // The Vector3(float,float,float) copy this TU used to emit lost to retail's,
 // so this TU no longer constructs one (retail's copy serves every caller).
 // ?Matrix3DHelperAnchor present-unmatched
-void Matrix3DHelperAnchor(Vector3 &a, Vector3 &b, Vector4 &c)
+void Matrix3DHelperAnchor(Vector3 &a, Vector3 &b, Vector4 &vector4)
 {
 	float d = Vector3::Dot_Product(a, b);
 	float l = a.Length2();
-	c = Vector4(d, l, 0.0f, 1.0f);
+	vector4 = Vector4(d, l, 0.0f, 1.0f);
 }

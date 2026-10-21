@@ -61,18 +61,18 @@ public:
     }
     void Add_Sphere(const SphereClass& s);
 };
-inline void SphereClass::Add_Sphere(const SphereClass& s)
+inline void SphereClass::Add_Sphere(const SphereClass& sphere)
 {
-    if (s.Radius == 0.0f) return;
+    if (sphere.Radius == 0.0f) return;
 
-    Vector3 diff = s.Center - Center;
+    Vector3 diff = sphere.Center - Center;
     float dist = diff.Length();
     if (dist == 0.0f) {
-        Radius = (Radius > s.Radius) ? Radius : s.Radius;
+        Radius = (Radius > sphere.Radius) ? Radius : sphere.Radius;
         return;
     }
 
-    float rnew = (dist + Radius + s.Radius) / 2.0f;
+    float rnew = (dist + Radius + sphere.Radius) / 2.0f;
 
     // If rnew is smaller than either of the two sphere radii (it can't be
     // smaller than both of them), this means that the smaller sphere is
@@ -82,9 +82,9 @@ inline void SphereClass::Add_Sphere(const SphereClass& s)
     if (rnew < Radius) {
         // The existing sphere is the result - do nothing.
     } else {
-        if (rnew < s.Radius) {
+        if (rnew < sphere.Radius) {
             // The new sphere is the result:
-            Init(s.Center, s.Radius);
+            Init(sphere.Center, sphere.Radius);
         } else {
             // Neither sphere is completely inside the other, so rnew is the new
             // radius - calculate the new center

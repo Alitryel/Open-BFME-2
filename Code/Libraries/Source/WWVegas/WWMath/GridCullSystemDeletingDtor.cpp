@@ -30,7 +30,7 @@ private:
 
 GridCullSystemClass *famgenNew_GridCullSystemClass() { return new GridCullSystemClass(0); }
 
-void famgenDelete(GridCullSystemClass *p)
+void famgenDelete(GridCullSystemClass *gridCullSystem)
 {
-	delete p;
+	delete gridCullSystem;
 }

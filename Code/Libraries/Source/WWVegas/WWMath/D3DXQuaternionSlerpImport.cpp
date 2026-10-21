@@ -7,7 +7,7 @@
 // Ordinary C++ tail forwarding emits the entire thunk without inline assembly.
 class Quaternion;
 extern "C" __declspec(dllimport) Quaternion * __stdcall D3DXQuaternionSlerp(Quaternion *, const Quaternion *, const Quaternion *, float);
-extern "C" Quaternion * __stdcall rva0075B4C6D3DXQuaternionSlerp(Quaternion *res, const Quaternion *p, const Quaternion *q, float alpha)
+extern "C" Quaternion * __stdcall rva0075B4C6D3DXQuaternionSlerp(Quaternion *res, const Quaternion *quaternion, const Quaternion *q, float alpha)
 {
-    return D3DXQuaternionSlerp(res, p, q, alpha);
+    return D3DXQuaternionSlerp(res, quaternion, q, alpha);
 }

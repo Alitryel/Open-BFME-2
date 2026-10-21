@@ -20,7 +20,7 @@ class BoundsValue {
 public:
  float X,Y,Z;
  __forceinline BoundsValue() {}
- __forceinline BoundsValue(const BoundsValue &v) { X=v.X;Y=v.Y;Z=v.Z; }
+ __forceinline BoundsValue(const BoundsValue &boundsValue) { X=boundsValue.X;Y=boundsValue.Y;Z=boundsValue.Z; }
  __forceinline BoundsValue(float x,float y,float z) { X=x;Y=y;Z=z; }
  __forceinline BoundsValue &operator=(const BoundsValue &v) {X=v.X;Y=v.Y;Z=v.Z;return *this;}
 };
@@ -29,7 +29,7 @@ static __forceinline BoundsValue add(const Vector3 &a,const Vector3 &b){return B
 // ?sub present-unmatched
 static __forceinline BoundsValue sub(const Vector3 &a,const Vector3 &b){return BoundsValue(a.X-b.X,a.Y-b.Y,a.Z-b.Z);}
 // ?scale present-unmatched
-static __forceinline BoundsValue scale(const BoundsValue &a,float k){return BoundsValue(a.X*k,a.Y*k,a.Z*k);}
+static __forceinline BoundsValue scale(const BoundsValue &boundsValue,float k){return BoundsValue(boundsValue.X*k,boundsValue.Y*k,boundsValue.Z*k);}
 }
 
 class Rva000FE9E3PointBounds

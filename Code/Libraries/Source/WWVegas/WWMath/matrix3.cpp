@@ -142,47 +142,47 @@ const Matrix3 Matrix3::RotateZ270
  * HISTORY:                                                                                    * 
  *   06/02/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-Matrix3::Matrix3(const Matrix3D & m)
+Matrix3::Matrix3(const Matrix3D & matrix3D)
 {
-	Row[0].Set(m[0][0],m[0][1],m[0][2]);
-	Row[1].Set(m[1][0],m[1][1],m[1][2]);
-	Row[2].Set(m[2][0],m[2][1],m[2][2]);
+	Row[0].Set(matrix3D[0][0],matrix3D[0][1],matrix3D[0][2]);
+	Row[1].Set(matrix3D[1][0],matrix3D[1][1],matrix3D[1][2]);
+	Row[2].Set(matrix3D[2][0],matrix3D[2][1],matrix3D[2][2]);
 }
 
-Matrix3::Matrix3(const Matrix4 & m)
+Matrix3::Matrix3(const Matrix4 & matrix4)
 {
-	Row[0].Set(m[0][0],m[0][1],m[0][2]);
-	Row[1].Set(m[1][0],m[1][1],m[1][2]);
-	Row[2].Set(m[2][0],m[2][1],m[2][2]);
+	Row[0].Set(matrix4[0][0],matrix4[0][1],matrix4[0][2]);
+	Row[1].Set(matrix4[1][0],matrix4[1][1],matrix4[1][2]);
+	Row[2].Set(matrix4[2][0],matrix4[2][1],matrix4[2][2]);
 }
 
-void Matrix3::Set(const Matrix3D & m)
+void Matrix3::Set(const Matrix3D & matrix3D)
 {
-	Row[0].Set(m[0][0],m[0][1],m[0][2]);
-	Row[1].Set(m[1][0],m[1][1],m[1][2]);
-	Row[2].Set(m[2][0],m[2][1],m[2][2]);
+	Row[0].Set(matrix3D[0][0],matrix3D[0][1],matrix3D[0][2]);
+	Row[1].Set(matrix3D[1][0],matrix3D[1][1],matrix3D[1][2]);
+	Row[2].Set(matrix3D[2][0],matrix3D[2][1],matrix3D[2][2]);
 }
 
-void Matrix3::Set(const Matrix4 & m)
+void Matrix3::Set(const Matrix4 & matrix4)
 {
-	Row[0].Set(m[0][0],m[0][1],m[0][2]);
-	Row[1].Set(m[1][0],m[1][1],m[1][2]);
-	Row[2].Set(m[2][0],m[2][1],m[2][2]);
+	Row[0].Set(matrix4[0][0],matrix4[0][1],matrix4[0][2]);
+	Row[1].Set(matrix4[1][0],matrix4[1][1],matrix4[1][2]);
+	Row[2].Set(matrix4[2][0],matrix4[2][1],matrix4[2][2]);
 }
 
-void Matrix3::Set(const Quaternion & q)
+void Matrix3::Set(const Quaternion & quaternion)
 {
-	Row[0][0] = (float)(1.0 - 2.0 * (q[1] * q[1] + q[2] * q[2]));
-	Row[0][1] = (float)(2.0 * (q[0] * q[1] - q[2] * q[3]));
-	Row[0][2] = (float)(2.0 * (q[2] * q[0] + q[1] * q[3]));
+	Row[0][0] = (float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[2] * quaternion[2]));
+	Row[0][1] = (float)(2.0 * (quaternion[0] * quaternion[1] - quaternion[2] * quaternion[3]));
+	Row[0][2] = (float)(2.0 * (quaternion[2] * quaternion[0] + quaternion[1] * quaternion[3]));
 
-	Row[1][0] = (float)(2.0 * (q[0] * q[1] + q[2] * q[3]));
-	Row[1][1] = (float)(1.0 - 2.0f * (q[2] * q[2] + q[0] * q[0]));
-	Row[1][2] = (float)(2.0 * (q[1] * q[2] - q[0] * q[3]));
+	Row[1][0] = (float)(2.0 * (quaternion[0] * quaternion[1] + quaternion[2] * quaternion[3]));
+	Row[1][1] = (float)(1.0 - 2.0f * (quaternion[2] * quaternion[2] + quaternion[0] * quaternion[0]));
+	Row[1][2] = (float)(2.0 * (quaternion[1] * quaternion[2] - quaternion[0] * quaternion[3]));
 
-	Row[2][0] = (float)(2.0 * (q[2] * q[0] - q[1] * q[3]));
-	Row[2][1] = (float)(2.0 * (q[1] * q[2] + q[0] * q[3]));
-	Row[2][2] =(float)(1.0 - 2.0 * (q[1] * q[1] + q[0] * q[0]));
+	Row[2][0] = (float)(2.0 * (quaternion[2] * quaternion[0] - quaternion[1] * quaternion[3]));
+	Row[2][1] = (float)(2.0 * (quaternion[1] * quaternion[2] + quaternion[0] * quaternion[3]));
+	Row[2][2] =(float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[0] * quaternion[0]));
 }
 
 
@@ -193,9 +193,9 @@ void Matrix3::Set(const Quaternion & q)
 // keep this family covered; the assignment overloads cannot be pinned to a
 // specific address, so they are left unmatched rather than guessed.
 
-void Matrix3::Multiply(const Matrix3D & a, const Matrix3 & b,Matrix3 * res)
+void Matrix3::Multiply(const Matrix3D & matrix3D, const Matrix3 & matrix3,Matrix3 * res)
 {
-	#define ROWCOL(i,j) a[i][0]*b[0][j] + a[i][1]*b[1][j] + a[i][2]*b[2][j]
+	#define ROWCOL(i,j) matrix3D[i][0]*matrix3[0][j] + matrix3D[i][1]*matrix3[1][j] + matrix3D[i][2]*matrix3[2][j]
     
 	(*res)[0][0] = ROWCOL(0,0);
 	(*res)[0][1] = ROWCOL(0,1);
@@ -212,9 +212,9 @@ void Matrix3::Multiply(const Matrix3D & a, const Matrix3 & b,Matrix3 * res)
 	#undef ROWCOL
 }
 
-void Matrix3::Multiply(const Matrix3 & a, const Matrix3D & b,Matrix3 * res)
+void Matrix3::Multiply(const Matrix3 & matrix3, const Matrix3D & matrix3D,Matrix3 * res)
 {
-	#define ROWCOL(i,j) a[i][0]*b[0][j] + a[i][1]*b[1][j] + a[i][2]*b[2][j]
+	#define ROWCOL(i,j) matrix3[i][0]*matrix3D[0][j] + matrix3[i][1]*matrix3D[1][j] + matrix3[i][2]*matrix3D[2][j]
     
 	(*res)[0][0] = ROWCOL(0,0);
 	(*res)[0][1] = ROWCOL(0,1);
@@ -263,7 +263,7 @@ Matrix3 operator * (const Matrix3 & a, const Matrix3D & b)
 // scratch code.
 
 
-void Matrix3::Multiply(const Matrix3 & A,const Matrix3 & B,Matrix3 * set_res)
+void Matrix3::Multiply(const Matrix3 & matrix3,const Matrix3 & B,Matrix3 * set_res)
 {
 	Matrix3 tmp;
 	Matrix3 * Aptr;
@@ -272,11 +272,11 @@ void Matrix3::Multiply(const Matrix3 & A,const Matrix3 & B,Matrix3 * set_res)
 	// Check for aliased parameters, copy the 'A' matrix into a temporary if the 
 	// result is going into 'A'. (in this case, this function is no better than 
 	// the overloaded C++ operator...)
-	if (set_res == &A) {
-		tmp = A;
+	if (set_res == &matrix3) {
+		tmp = matrix3;
 		Aptr = &tmp;
 	} else {
-		Aptr = (Matrix3 *)&A;	
+		Aptr = (Matrix3 *)&matrix3;	
 	}
 
 	tmp1 = B[0][0];

@@ -227,9 +227,9 @@ RandomAlphaKeyframe &RandomAlphaKeyframe::operator=(const RandomAlphaKeyframe &t
 
 #pragma inline_depth(0)
 // ?bfmeEmitcolor@@YAXPAURGBColor@@@Z present-unmatched
-void bfmeEmitcolor(RGBColor *p)
+void bfmeEmitcolor(RGBColor *rGBColor)
 {
-    p->getAsInt();
-    p->setFromInt(0);
+    rGBColor->getAsInt();
+    rGBColor->setFromInt(0);
 }
 #pragma inline_depth()

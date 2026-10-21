@@ -14,9 +14,9 @@
 // copies for the rows. It is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeMatrix3DScaleAnchor@@YAXAAVMatrix3D@@AAVVector3@@@Z absent-from-retail
-void _bfmeMatrix3DScaleAnchor(Matrix3D &m, Vector3 &scale)
+void _bfmeMatrix3DScaleAnchor(Matrix3D &matrix3D, Vector3 &scale)
 {
-	m.Scale(1.0f, 1.0f, 1.0f);
-	m.Scale(scale);
+	matrix3D.Scale(1.0f, 1.0f, 1.0f);
+	matrix3D.Scale(scale);
 }
 #pragma inline_depth()

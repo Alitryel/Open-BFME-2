@@ -381,25 +381,25 @@ uint32 ChunkSaveClass::Write(const void * buf, uint32 nbytes)
 }
 
 
-uint32 ChunkSaveClass::Write(const IOVector2Struct & v)
+uint32 ChunkSaveClass::Write(const IOVector2Struct & iOVector2)
 {
-	return Write(&v,sizeof(v));
+	return Write(&iOVector2,sizeof(iOVector2));
 }
 
 
-uint32 ChunkSaveClass::Write(const IOVector3Struct & v)
+uint32 ChunkSaveClass::Write(const IOVector3Struct & iOVector3)
 {
-	return Write(&v,sizeof(v));
+	return Write(&iOVector3,sizeof(iOVector3));
 }
 
 
-uint32 ChunkSaveClass::Write(const IOVector4Struct & v)
+uint32 ChunkSaveClass::Write(const IOVector4Struct & iOVector4)
 {
-	return Write(&v,sizeof(v));
+	return Write(&iOVector4,sizeof(iOVector4));
 }
 
 
-uint32 ChunkSaveClass::Write(const IOQuaternionStruct & q)
+uint32 ChunkSaveClass::Write(const IOQuaternionStruct & iOQuaternion)
 {
-	return Write(&q,sizeof(q));
+	return Write(&iOQuaternion,sizeof(iOQuaternion));
 }

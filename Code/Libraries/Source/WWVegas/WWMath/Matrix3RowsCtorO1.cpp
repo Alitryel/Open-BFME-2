@@ -13,8 +13,8 @@
 
 #pragma inline_depth(0)
 // ?_bfmeMatrix3RowsCtorAnchor@@YAXPAVMatrix3@@ABVVector3@@11@Z absent-from-retail
-void _bfmeMatrix3RowsCtorAnchor(Matrix3 *m, const Vector3 &r0, const Vector3 &r1, const Vector3 &r2)
+void _bfmeMatrix3RowsCtorAnchor(Matrix3 *matrix3, const Vector3 &r0, const Vector3 &r1, const Vector3 &r2)
 {
-	m->Matrix3::Matrix3(r0, r1, r2);
+	matrix3->Matrix3::Matrix3(r0, r1, r2);
 }
 #pragma inline_depth()

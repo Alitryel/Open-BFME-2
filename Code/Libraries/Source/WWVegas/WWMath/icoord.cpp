@@ -256,8 +256,8 @@ void bfmeEmitICoord3DComponentCtor(ICoord3D *p, int x, int y, int z)
 // retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitICoord2DEquals@@YA_NPBUICoord2D@@PBUICoord2DBase@@@Z present-unmatched
-bool bfmeEmitICoord2DEquals(const ICoord2D *p, const ICoord2DBase *q)
+bool bfmeEmitICoord2DEquals(const ICoord2D *p, const ICoord2DBase *coord2DBase)
 {
-    return *p == *q;
+    return *p == *coord2DBase;
 }
 #pragma inline_depth()

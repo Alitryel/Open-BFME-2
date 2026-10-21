@@ -64,9 +64,9 @@ void GameWindowManager::rva002C5761(GameWindow *window)
 	int *fin = (int *)(( _STL::vector<const ModuleData *> *)&tmp)->end();
 	if (src != fin) {
 		do {
-			RvaNode *n = (RvaNode *)*src;
-			*dst = n;
-			n->m_prev = prev;
+			RvaNode *rvaNode = (RvaNode *)*src;
+			*dst = rvaNode;
+			rvaNode->m_prev = prev;
 			prev = *dst;
 			++src;
 			dst = &prev->m_next;

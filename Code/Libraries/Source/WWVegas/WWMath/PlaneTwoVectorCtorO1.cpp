@@ -15,8 +15,8 @@
 
 #pragma inline_depth(0)
 // ?_bfmePlaneTwoVectorCtorAnchor@@YAXPAVPlaneClass@@ABVVector3@@1@Z absent-from-retail
-void _bfmePlaneTwoVectorCtorAnchor(PlaneClass *p, const Vector3 &n, const Vector3 &point)
+void _bfmePlaneTwoVectorCtorAnchor(PlaneClass *plane, const Vector3 &n, const Vector3 &point)
 {
-	p->PlaneClass::PlaneClass(n, point);
+	plane->PlaneClass::PlaneClass(n, point);
 }
 #pragma inline_depth()
