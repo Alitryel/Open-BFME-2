@@ -368,3 +368,15 @@ Still untried, ranked:
 
 Untracked tools (recreate): `build/scratch/apt/scan_exit4.py` (scan above),
 `build/scratch/probe/probe.py file.cpp f` (compile + disassemble one symbol).
+
+## Round h1 (2026-10-21, claude-opus-5-5, ~25 min, bank unchanged at 0.79096)
+
+30 variants (scratch build/apt/genh1.py, h1/): shared `bool b`/`int v`
+return labels for cases 10/18/21, `number` with `goto retNum` to one
+`return MakeFloat(number)`, a final `return MakeFloat` after the switch, and
+function-scope versus case-scope declarations. Best 0.78046 (rets 73 vs bank
+55): every IR join with two or more predecessors is re-duplicated before RA,
+so no join spelling reproduces EXIT4. Retail's case 10 loads multiline into
+esi (`mov esi,[eax+0x2c]; test esi,0xffffff`), a callee-saved register for a
+single use, which hints the value was a variable live across a merged edge.
+Untried items 1 and 2 above remain open.
