@@ -54,13 +54,13 @@ class Rva00064390
 {
 public:
 	Rva00064390();
-	int m_00;
+	int m_intensity;
 	int m_04;
 	int m_08;
 	int m_0C;
-	float m_10;
-	float m_14;
-	unsigned int m_18;
+	float m_easeIn;
+	float m_easeOut;
+	unsigned int m_time;
 };
 
 class Rva0050406E
@@ -105,7 +105,7 @@ void Rva0050407AParseColorControlPointBlock(INI *ini, void *instance, void *, co
 	if (ini && instance) {
 		Rva0050406E record;
 		ini->initFromINI(&record, g_00C63CE8);
-		record.m_base.m_18 = msecToFramesRva00503E4F(record.m_base.m_18);
+		record.m_base.m_time = msecToFramesRva00503E4F(record.m_base.m_time);
 		Rva002BE7DBValue tmp;
 		Rva002BE7DBValue &rv = ((Rva002BE7DB *)&record)->rva002BE7DB(tmp);
 		float v = rv.x;
