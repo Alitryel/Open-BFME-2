@@ -98,7 +98,12 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "aabox.h"
 #include "statistics.h"
 #include "simplevec.h"
+// TextureBaseClass::Add_Ref at 0x000424B6 is the size-optimised word
+// increment, as sphereobj.cpp parses it.
+#pragma optimize("t", off)
+#pragma optimize("s", on)
 #include "texture.h"
+#pragma optimize("", on)
 #include "vector.h"
 #include "vp.h"
 #include "matrix4.h"

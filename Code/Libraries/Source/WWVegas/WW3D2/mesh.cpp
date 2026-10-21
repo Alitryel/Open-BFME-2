@@ -163,7 +163,7 @@ template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
 
 
 bool MeshClass::Legacy_Meshes_Fogged = true;
-static SimpleDynVecClass<uint32> temp_apt;
+static SimpleDynVecClass<Vector4> temp_apt;	// retail 0x001AC680 loads the Vector4 tables 0x7D71C8/0x7D71D4
 
 /*
 ** This #define causes the collision code to always recompute the triangle normals rather

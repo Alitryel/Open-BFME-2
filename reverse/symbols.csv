@@ -6052,7 +6052,7 @@ name,address,notes
 ?Reset_Device@DX8Wrapper@@SA_N_N@Z,0x00122600,address read from the REL32 displacement at a placed body
 ?Reset_Geometry@MeshGeometryClass@@QAEXHH_N@Z,0x0016A320,retail callee of the BFME1-donor MeshGeometryClass dtor (0x0016CCC0); body ends ret 0xC so it takes three args
 ?Reset_List@?$RefMultiListClass@VRenderObjClass@@@@QAEXXZ,0x0006F2DF,
-?Resize@?$SimpleVecClass@K@@UAE_NH@Z,0x001A7C80
+?Resize@?$SimpleVecClass@K@@UAE_NH@Z,0x00143E90,fold-proof=Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp; ICF fold of SimpleVecClass<TextureClass*>::Resize (decalmsh 129 B): the unsigned-long instantiation compiles to the same 4-byte-element body and masked .text search places it only there; the old 0x1A7C80 pin named the 16-byte Vector4 Resize
 ?Resize@?$SimpleVecClass@VVector4@@@@UAE_NH@Z,0x001A7C80,SimpleVec<Vector4> table VA BD71C8 slot1; slot2 is independently matched Vector4 Grow RVA1A7D60; both allocate16-byte elements through the same array constructor; direct callee of exact39-byte Vector4 ctor RVA1A8070
 ?Resize@?$VectorClass@UAddInfoStruct@MixFileFactoryClass@@@@UAE_NHPBUAddInfoStruct@MixFileFactoryClass@@@Z,0x00155690,slot 2 of ??_7VectorClass<AddInfoStruct> 0x00BD3BC8; DynamicVectorClass<AddInfoStruct>::Resize at 0x001567D0 calls it
 ?Resize@?$VectorClass@UTextureStatisticsStruct@@@@UAE_NHPBUTextureStatisticsStruct@@@Z,0x00129990,address read from the REL32 displacement at a placed body; stlport 4.5.3
