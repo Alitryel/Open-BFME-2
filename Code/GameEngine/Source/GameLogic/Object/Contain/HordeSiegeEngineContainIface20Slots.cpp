@@ -51,7 +51,7 @@ public:
 struct HordeSiegeEngineContainModuleData
 {
 	unsigned char m_pad000[0x19C];
-	float m_19C; // +0x19C
+	float m_speedPercentPerCrew; // +0x19C
 };
 
 struct Iface00 { virtual void f00(); const ModuleData *m_moduleData; Object *m_object; };
@@ -104,7 +104,7 @@ private:
 // ?rva0047CADB@SiegeEngineContain@@UAEMXZ @0x0047BAE7
 float SiegeEngineContain::rva0047CADB()
 {
-	return m_120 * ((const HordeSiegeEngineContainModuleData *)m_moduleData)->m_19C;
+	return m_120 * ((const HordeSiegeEngineContainModuleData *)m_moduleData)->m_speedPercentPerCrew;
 }
 
 // ?rva004624EB@SiegeEngineContain@@UAEXAAURva0046247DPair@@@Z @0x0047C018
@@ -140,7 +140,7 @@ bool HordeSiegeEngineContain::isSpecificRiderFreeToExit(Object *obj)
 // ?rva0047CADB@HordeSiegeEngineContain@@UAEMXZ @0x0047CADB
 float HordeSiegeEngineContain::rva0047CADB()
 {
-	return m_12C * ((const HordeSiegeEngineContainModuleData *)m_moduleData)->m_19C;
+	return m_12C * ((const HordeSiegeEngineContainModuleData *)m_moduleData)->m_speedPercentPerCrew;
 }
 
 // ?rva004624EB@HordeSiegeEngineContain@@UAEXAAURva0046247DPair@@@Z @0x0047D087

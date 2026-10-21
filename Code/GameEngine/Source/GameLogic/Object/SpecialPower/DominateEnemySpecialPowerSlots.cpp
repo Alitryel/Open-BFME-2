@@ -195,12 +195,12 @@ class DominateEnemySpecialPowerModuleData
 {
 public:
 	char m_pad00[0xC8];
-	float m_C8;			// +0xC8 the radius
+	float m_dominateRadius;			// +0xC8 the radius
 	const FXList *m_CC;		// +0xCC
 	const FXList *m_D0;		// +0xD0
-	bool m_D4;			// +0xD4
+	bool m_permanentlyConvert;			// +0xD4
 	char m_padD5[3];
-	Rva2225E0Filter m_D8;		// +0xD8
+	Rva2225E0Filter m_attributeModifierAffects;		// +0xD8
 };
 
 class SpecialAbilityUpdate
@@ -234,7 +234,7 @@ void DominateEnemySpecialPower::rva004CCB0E(Object *target, Object *owner,
 		return;
 	if (target->m_304 == owner->m_304)
 		return;
-	if (!((Rva2225E0Filter &)data->m_D8).accepts(target, owner->getControllingPlayer()))
+	if (!((Rva2225E0Filter &)data->m_attributeModifierAffects).accepts(target, owner->getControllingPlayer()))
 		return;
 	if (target->testStatus((ObjectStatusTypes)2))
 		return;
@@ -246,7 +246,7 @@ void DominateEnemySpecialPower::rva004CCB0E(Object *target, Object *owner,
 	}
 	if (target->rva004CCB0EBit6())
 		return;
-	if (data->m_D4)
+	if (data->m_permanentlyConvert)
 		target->rva00298979(owner, true);
 	else
 		target->rva00298979(owner, false);
@@ -268,7 +268,7 @@ void DominateEnemySpecialPower::triggerAbilityEffect()
 		return;
 	}
 	ObjectStatusMask bits;
-	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_44, data->m_C8, 0,
+	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_44, data->m_dominateRadius, 0,
 		Rva00260EB1Filter(owner, 1, false).link(&Rva0026119DFilter())->link(&Rva002611BFFilter(owner))
 			->link(&Rva002FDF1C(*(BfmeObject872Header *)(ObjectStatusMask *)((Rva0023DA79 *)&bits)->rva0023DA79(0, OBJECT_STATUS_RVA004CCBDF_38),
 				*(BfmeObject872Header *)&ObjectStatusMaskNone())), 1);

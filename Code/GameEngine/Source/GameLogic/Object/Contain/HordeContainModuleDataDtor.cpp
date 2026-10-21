@@ -100,7 +100,7 @@ private:
 	unsigned char m_pad230[0x23C - 0x230];
 	AsciiString m_s23C;
 	unsigned char m_pad240[0x258 - 0x240];
-	HordeContainOwned *m_258;
+	HordeContainOwned *m_meleeBehavior;
 	unsigned char m_pad25C[0x274 - 0x25C];
 };
 
@@ -132,5 +132,5 @@ HordeContainModuleData::~HordeContainModuleData()
 	v20C.erase(v20C.begin(), v20C.end());
 	m_vec224.clear();
 
-	::delete m_258;
+	::delete m_meleeBehavior;
 }

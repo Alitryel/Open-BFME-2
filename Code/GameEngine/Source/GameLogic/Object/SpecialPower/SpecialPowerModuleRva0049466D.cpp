@@ -296,11 +296,11 @@ public:
 	char m_pad40[0x44 - 0x40];
 	const FXList *m_fx44; // +0x44
 	char m_pad48[0x5D - 0x48];
-	bool m_5d; // +0x5D
+	bool m_idleWhenStartingPower; // +0x5D
 	char m_pad5E[0x74 - 0x5E];
-	bool m_74;
+	bool m_useDistanceFromCommandCenter;
 	char m_pad75[0x78 - 0x75];
-	float m_78;
+	float m_distanceFromCommandCenter;
 };
 
 // Interface returned by BehaviorModuleInterface slot 25.
@@ -406,7 +406,7 @@ bool SpecialPowerModule::rva004932DC()
 {
 	if (m_moduleData)
 	{
-		if (m_moduleData->m_74)
+		if (m_moduleData->m_useDistanceFromCommandCenter)
 			return true;
 	}
 	return false;
@@ -467,7 +467,7 @@ bool SpecialPowerModule::rva00494599(const Coord3D *pos)
 		delta.x = dx;
 		delta.y = dy;
 		delta.z = dz;
-		if (delta.length() <= data->m_78)
+		if (delta.length() <= data->m_distanceFromCommandCenter)
 		{
 			found = true;
 			break;
@@ -551,7 +551,7 @@ void SpecialPowerModule::initiateIntentToDoSpecialPower(const Object *targetObj,
 		}
 	}
 
-	if (getSpecialPowerModuleData()->m_5d)
+	if (getSpecialPowerModuleData()->m_idleWhenStartingPower)
 	{
 		AIUpdateInterface *ai = getObject()->getAI();
 		if (ai)

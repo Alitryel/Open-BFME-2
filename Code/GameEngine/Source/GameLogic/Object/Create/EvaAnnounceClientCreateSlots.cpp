@@ -85,13 +85,13 @@ extern GameLogic *TheGameLogic;
 struct EvaAnnounceClientCreateModuleData
 {
 	unsigned char m_pad00[0x08];
-	int m_08; // +0x08
-	int m_0C; // +0x0C
+	int m_announcementEventEnemy; // +0x08
+	int m_announcementEventAlly; // +0x0C
 	int m_10; // +0x10
 	UnsignedInt m_delay; // +0x14
-	bool m_18; // +0x18
-	bool m_19; // +0x19
-	bool m_1A; // +0x1A
+	bool m_onlyIfVisible; // +0x18
+	bool m_countAsFirstSightedAnnoucement; // +0x19
+	bool m_useObjectsPosition; // +0x1A
 };
 
 class ClientCreateModule
@@ -145,12 +145,12 @@ void EvaAnnounceClientCreate::clientUpdate()
 	Drawable *draw = m_drawable;
 	const EvaAnnounceClientCreateModuleData *evaAnnounceClientCreateModuleData = m_moduleData;
 	m_10 = 0;
-	if (evaAnnounceClientCreateModuleData->m_18 && (draw->m_440 || ((Rva00270260 *)draw)->rva00270260()))
+	if (evaAnnounceClientCreateModuleData->m_onlyIfVisible && (draw->m_440 || ((Rva00270260 *)draw)->rva00270260()))
 		return;
 	Object *obj = draw->m_FC;
 	if (obj == 0)
 		return;
-	if (evaAnnounceClientCreateModuleData->m_19)
+	if (evaAnnounceClientCreateModuleData->m_countAsFirstSightedAnnoucement)
 		draw->m_114 |= 0x80;
 	int event;
 	Player *ctl = obj->getControllingPlayer();
@@ -162,10 +162,10 @@ void EvaAnnounceClientCreate::clientUpdate()
 		{
 		case ENEMIES:
 		case NEUTRAL:
-			event = evaAnnounceClientCreateModuleData->m_08;
+			event = evaAnnounceClientCreateModuleData->m_announcementEventEnemy;
 			break;
 		case ALLIES:
-			event = evaAnnounceClientCreateModuleData->m_0C;
+			event = evaAnnounceClientCreateModuleData->m_announcementEventAlly;
 			break;
 		default:
 			event = -1;
@@ -175,7 +175,7 @@ void EvaAnnounceClientCreate::clientUpdate()
 	if (event == -1)
 		return;
 	const Coord3D *pos = 0;
-	if (evaAnnounceClientCreateModuleData->m_1A)
+	if (evaAnnounceClientCreateModuleData->m_useObjectsPosition)
 		pos = draw->getPosition();
 	TheEva->reportEvaEvent((EvaEventID)event, pos, draw->getPosition());
 }

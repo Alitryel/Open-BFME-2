@@ -138,8 +138,8 @@ class SiegeEngineContainModuleData
 {
 public:
 	unsigned char m_pad[0x18C];
-	BfmeTab1026 m_18C; // +0x18C
-	int m_190; // +0x190
+	BfmeTab1026 m_crewFilter; // +0x18C
+	int m_crewMax; // +0x190
 };
 struct Iface00 { virtual void f00(); const ModuleData *m_moduleData; Object *m_object; };
 struct Iface0C { virtual void f0C(); };
@@ -195,7 +195,7 @@ private:
 void SiegeEngineContain::removeFromContainList(Object *rider)
 {
 	SiegeEngineContainModuleData *data = (SiegeEngineContainModuleData *)m_moduleData;
-	if (data->m_18C.accepts(rider, m_object->getControllingPlayer()) && data->m_190 > 0)
+	if (data->m_crewFilter.accepts(rider, m_object->getControllingPlayer()) && data->m_crewMax > 0)
 	{
 		m_list11C.remove(reinterpret_cast<const int &>(rider));
 		--m_120;

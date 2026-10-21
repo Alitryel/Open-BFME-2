@@ -139,7 +139,7 @@ struct DamageFilteredCreateObjectDieModuleData
 	unsigned char m_pad00[0x38];
 	ObjectCreationList *m_creationList;
 	int m_dieDamage;
-	int m_40;
+	int m_damageTypeTriggersForDuration;
 	unsigned int m_timeWindow;			// +0x44
 };
 class ModuleData;

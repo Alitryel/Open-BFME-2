@@ -47,7 +47,7 @@ public:
 struct DamageFilteredCreateObjectDieModuleData
 {
 	unsigned char m_pad00[0x40];
-	int m_40;			// +0x40
+	int m_damageTypeTriggersForDuration;			// +0x40
 };
 class ModuleData;
 class ModuleBase
@@ -92,7 +92,7 @@ void DamageFilteredCreateObjectDie::rva004860E9(DamageInfo *damageInfo)
 		return;
 	const DamageFilteredCreateObjectDieModuleData *data =
 		(const DamageFilteredCreateObjectDieModuleData *)m_moduleData;
-	if (data && data->m_40 == damageInfo->m_18)
+	if (data && data->m_damageTypeTriggersForDuration == damageInfo->m_18)
 	{
 		m_frame = TheGameLogic->getFrame();
 		Object *source = TheGameLogic->findObjectByID(damageInfo->m_sourceID);

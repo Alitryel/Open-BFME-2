@@ -139,7 +139,7 @@ struct FreezingRainSpecialPowerModuleData
 {
 	unsigned char m_pad00[0x80];
 	const FXList *m_fx;
-	int m_84;			// +0x84
+	int m_burnRateModifier;			// +0x84
 };
 
 class FreezingRainSpecialPower : public SpecialPowerModule
@@ -200,7 +200,7 @@ void FreezingRainSpecialPower::doSpecialPowerAtLocation(const Coord3D *loc, unsi
 		return;
 	SpecialPowerModule::doSpecialPowerAtLocation(loc, options);
 	rva004C4C99(loc);
-	((Rva00287519Host *)TheTriggerManager)->rva00287519(getData()->m_84);
+	((Rva00287519Host *)TheTriggerManager)->rva00287519(getData()->m_burnRateModifier);
 }
 
 void CloudBreakSpecialPower::doSpecialPowerAtLocation(const Coord3D *loc, unsigned int options)

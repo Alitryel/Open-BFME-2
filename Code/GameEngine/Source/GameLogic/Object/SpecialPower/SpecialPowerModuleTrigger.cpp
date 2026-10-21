@@ -281,37 +281,37 @@ class SpecialPowerModuleData : public ModuleData
 public:
 	int m_unknown4;
 	const SpecialPowerTemplate *m_specialPowerTemplate;	// +0x08
-	bool m_0C;
+	bool m_updateModuleStartsAttack;
 	char m_pad0D[0x18 - 0x0D];
-	AsciiString m_18;	// +0x18
+	AsciiString m_attributeModifier;	// +0x18
 	float m_radius;		// +0x1C
 	bool m_includeSelf;	// +0x20
 	char m_pad21[0x24 - 0x21];
-	int m_24;		// +0x24
+	int m_attributeModifierAffects;		// +0x24
 	char m_pad28[0x2C - 0x28];
-	bool m_2C;
+	bool m_attributeModifierWeatherBased;
 	char m_pad2D[0x30 - 0x2D];
 	int m_30;
 	BitFlags<11> m_mask;	// +0x34
 	char m_pad38[0x40 - 0x38];
-	bool m_40;
-	bool m_41;
-	bool m_42;
+	bool m_targetEnemy;
+	bool m_targetAllSides;
+	bool m_reEnableAntiCategory;
 	char m_pad43[0x48 - 0x43];
 	const FXList *m_fx48;
 	const FXList *m_fx4C;
-	ModelConditionFlagType m_50;
-	float m_54;
+	ModelConditionFlagType m_setModelCondition;
+	float m_setModelConditionTime;
 	char m_pad58[0x5C - 0x58];
-	bool m_5C;
+	bool m_disableDuringAnimDuration;
 	char m_pad5D;
-	bool m_5E;
-	bool m_5F;
+	bool m_affectGood;
+	bool m_affectEvil;
 	char m_pad60[0x64 - 0x60];
-	int m_64;
+	int m_changeWeather;
 	char m_pad68[0x6C - 0x68];
-	AsciiString m_6C;
-	int m_70;
+	AsciiString m_onTriggerRechargeSpecialPower;
+	int m_burnDecayModifier;
 };
 
 class SpecialPowerModuleInterface;
@@ -396,11 +396,11 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 	createViewObject(location);
 
 	const SpecialPowerModuleData *specialPowerModuleData = getSpecialPowerModuleData();
-	if (!specialPowerModuleData->m_0C)
+	if (!specialPowerModuleData->m_updateModuleStartsAttack)
 		startPowerRecharge(1.0f);
 
-	if (!((const StringBase<char> *)&specialPowerModuleData->m_6C)->isEmpty()
-		&& ((const StringBase<char> *)&specialPowerModuleData->m_6C)->compare(*(const StringBase<char> *)&specialPowerModuleData->m_specialPowerTemplate->getName()) != 0)
+	if (!((const StringBase<char> *)&specialPowerModuleData->m_onTriggerRechargeSpecialPower)->isEmpty()
+		&& ((const StringBase<char> *)&specialPowerModuleData->m_onTriggerRechargeSpecialPower)->compare(*(const StringBase<char> *)&specialPowerModuleData->m_specialPowerTemplate->getName()) != 0)
 	{
 		for (BehaviorModule **behaviorModule = getObject()->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 		{
@@ -411,7 +411,7 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 			if (!specialPowerTemplate)
 				continue;
 			const StringBase<char> *name = (const StringBase<char> *)&specialPowerTemplate->getName();
-			if (name->compare(*(const StringBase<char> *)&specialPowerModuleData->m_6C) == 0)
+			if (name->compare(*(const StringBase<char> *)&specialPowerModuleData->m_onTriggerRechargeSpecialPower) == 0)
 				sp->startPowerRecharge(1.0f);
 		}
 	}
@@ -420,11 +420,11 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 	if (player)
 		((Rva002A9EFB *)player)->rva002A9EFB(specialPowerModuleData->m_specialPowerTemplate->get30());
 
-	if (specialPowerModuleData->m_50 != MODELCONDITION_INVALID && specialPowerModuleData->m_54 > 0.0f)
+	if (specialPowerModuleData->m_setModelCondition != MODELCONDITION_INVALID && specialPowerModuleData->m_setModelConditionTime > 0.0f)
 	{
-		unsigned int frames = (unsigned int)(BfmeLogicFramesPerSecond * specialPowerModuleData->m_54);
-		getObject()->setSpecialModelConditionState(specialPowerModuleData->m_50, frames);
-		if (specialPowerModuleData->m_5C)
+		unsigned int frames = (unsigned int)(BfmeLogicFramesPerSecond * specialPowerModuleData->m_setModelConditionTime);
+		getObject()->setSpecialModelConditionState(specialPowerModuleData->m_setModelCondition, frames);
+		if (specialPowerModuleData->m_disableDuringAnimDuration)
 			getObject()->setDisabledUntil(DISABLED_3, TheGameLogic->getFrame() + frames);
 	}
 
@@ -436,23 +436,23 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 			FXList::doFXObj(specialPowerModuleData->m_fx48, getObject(), 0);
 	}
 
-	if (specialPowerModuleData->m_2C)
+	if (specialPowerModuleData->m_attributeModifierWeatherBased)
 	{
-		if (specialPowerModuleData->m_42)
+		if (specialPowerModuleData->m_reEnableAntiCategory)
 			((Rva00318333 *)TheGlobalWeatherSystem)->rva00318719();
 		else
 		{
 			int kind = 1;
-			if (specialPowerModuleData->m_5F)
+			if (specialPowerModuleData->m_affectEvil)
 				kind = 2;
-			else if (specialPowerModuleData->m_5E)
+			else if (specialPowerModuleData->m_affectGood)
 				kind = 3;
-			((Rva00318333 *)TheGlobalWeatherSystem)->rva00318807(kind, (int *)&specialPowerModuleData->m_24, player,
-				(const StringBase<char> *)&specialPowerModuleData->m_18, (int *)&specialPowerModuleData->m_mask, specialPowerModuleData->m_30);
+			((Rva00318333 *)TheGlobalWeatherSystem)->rva00318807(kind, (int *)&specialPowerModuleData->m_attributeModifierAffects, player,
+				(const StringBase<char> *)&specialPowerModuleData->m_attributeModifier, (int *)&specialPowerModuleData->m_mask, specialPowerModuleData->m_30);
 		}
-		int type = specialPowerModuleData->m_64;
+		int type = specialPowerModuleData->m_changeWeather;
 		if (type != 5)
-			((Rva003186EE *)TheGlobalWeatherSystem)->rva003186EE(type, specialPowerModuleData->m_70, specialPowerModuleData->m_30);
+			((Rva003186EE *)TheGlobalWeatherSystem)->rva003186EE(type, specialPowerModuleData->m_burnDecayModifier, specialPowerModuleData->m_30);
 		return;
 	}
 
@@ -467,11 +467,11 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 	else
 		pos = *obj->getPosition();
 	int relationship = 4;
-	if (specialPowerModuleData->m_40)
+	if (specialPowerModuleData->m_targetEnemy)
 		relationship = 1;
-	if (specialPowerModuleData->m_41)
+	if (specialPowerModuleData->m_targetAllSides)
 		relationship = 7;
-	else if (specialPowerModuleData->m_42)
+	else if (specialPowerModuleData->m_reEnableAntiCategory)
 		relationship = 5;
 	else if (hasMask)
 	{
@@ -481,7 +481,7 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 			relationship = 1;
 	}
 
-	Rva002614ECFilter filterWhat(&specialPowerModuleData->m_24, obj->getControllingPlayer(), true);
+	Rva002614ECFilter filterWhat(&specialPowerModuleData->m_attributeModifierAffects, obj->getControllingPlayer(), true);
 	Rva00260EB1Filter filterRelationship(obj, relationship, false);
 	Rva0026119DFilter filterAlive;
 	Rva002611BFFilter filterMapStatus(obj);

@@ -174,7 +174,7 @@ public:
 	char m_pad2C[0x34 - 0x2C];
 	BitFlags<11> m_mask;
 	char m_pad38[0x42 - 0x38];
-	bool m_42;
+	bool m_reEnableAntiCategory;
 	char m_pad43[0x4C - 0x43];
 	const FXList *m_fx4C;
 	char m_pad50[0x58 - 0x50];
@@ -271,7 +271,7 @@ void SpecialPowerModule::ApplyPowerToObject(Object *obj, int frame, const BitFla
 	{
 		AttributeModifierPoolUpdate *pool = obj->findAttributeModifierPoolUpdate();
 		bool useNow = false;
-		if (modData->m_42)
+		if (modData->m_reEnableAntiCategory)
 		{
 			if (modData->m_onlyFlaggedPlayers && obj->getControllingPlayer()->rva0049402BFlag())
 				useNow = true;

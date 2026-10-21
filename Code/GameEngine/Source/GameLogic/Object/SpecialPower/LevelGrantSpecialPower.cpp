@@ -378,7 +378,7 @@ class LevelGrantSpecialPowerModuleData
 {
 public:
 	char m_pad00[0xC8];
-	int m_C8;		// +0xC8 the amount
+	int m_experience;		// +0xC8 the amount
 	float m_CC;		// +0xCC the radius
 	char m_D0[4];		// +0xD0
 	const FXList *m_D4;	// +0xD4
@@ -440,14 +440,14 @@ void rva004C2B57(Object *obj, void *userData)
 void LevelGrantSpecialPower::rva004C2C7B(Object *obj)
 {
 	const LevelGrantSpecialPowerModuleData *data = getLevelGrantSpecialPowerModuleData();
-	if (data->m_C8 <= 0)
+	if (data->m_experience <= 0)
 		return;
 	if (obj->rva004C2D2BBit13()) {
 		Rva0029439DResult *source = (Rva0029439DResult *)obj->rva0029439D();
 		unsigned count = source ? source->rvaSlot96(0) : 0;
 		if (count) {
 			Rva004C2B57Args args;
-			args.m_amount = (float)data->m_C8 / (float)count;
+			args.m_amount = (float)data->m_experience / (float)count;
 			args.m_D4 = data->m_D4;
 			args.m_source = source;
 			obj->m_250->rvaSlot68(rva004C2B57, &args, true);
@@ -455,7 +455,7 @@ void LevelGrantSpecialPower::rva004C2C7B(Object *obj)
 	} else {
 		Rva004C2B57Args args;
 		args.m_source = 0;
-		args.m_amount = (float)data->m_C8;
+		args.m_amount = (float)data->m_experience;
 		args.m_D4 = data->m_D4;
 		rva004C2B57(obj, &args);
 	}

@@ -50,7 +50,7 @@ public:
 	void *m_vtable;
 	char m_pad[0xCC - 4];
 	AsciiString m_CC;
-	_STL::_Base_bitset<4> m_D0;
+	_STL::_Base_bitset<4> m_flagsUsedForToggle;
 };
 
 class GiveOrRestoreUpgradeSpecialPower : public SpecialAbilityUpdate
@@ -85,7 +85,7 @@ void GiveOrRestoreUpgradeSpecialPower::triggerAbilityEffect()
 				obj->rva00293077(up);
 		}
 		m_88 = 0;
-		const _STL::_Base_bitset<4> *bits = &data->m_D0;
+		const _STL::_Base_bitset<4> *bits = &data->m_flagsUsedForToggle;
 		if (bits->_M_is_any())
 			obj->rva00290AC1(*(const Rva0028C570 *)(const void *)bits);
 	}
@@ -99,7 +99,7 @@ void GiveOrRestoreUpgradeSpecialPower::triggerAbilityEffect()
 			if (up)
 				obj->rva00293077(up);
 		}
-		const _STL::_Base_bitset<4> *bits = &data->m_D0;
+		const _STL::_Base_bitset<4> *bits = &data->m_flagsUsedForToggle;
 		m_88 = 1;
 		if (bits->_M_is_any())
 			((Rva0028D86F *)obj)->rva0028D86F(*bits);

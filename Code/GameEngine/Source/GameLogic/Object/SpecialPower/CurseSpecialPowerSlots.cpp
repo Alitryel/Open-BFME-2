@@ -181,7 +181,7 @@ public:
 	char m_pad00[0xC8];
 	const FXList *m_C8;	// +0xC8
 	const FXList *m_CC;	// +0xCC
-	float m_D0;		// +0xD0
+	float m_cursePercentage;		// +0xD0
 };
 
 // 0x005F6B0B (module data +0x38) is rowed as Rva005F6B0BPtrChaseField::get.
@@ -229,7 +229,7 @@ void CurseSpecialPower::rva004CCE85(Object *obj)
 		return;
 	if (obj->testStatus(OBJECT_STATUS_RVA004CCE85_2))
 		return;
-	obj->rva0028B701(data->m_D0);
+	obj->rva0028B701(data->m_cursePercentage);
 	FXList::doFXObj(data->m_CC, obj, 0);
 }
 

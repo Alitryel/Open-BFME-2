@@ -39,8 +39,8 @@ public:
 struct ProductionSpeedBonusModuleData
 {
 	unsigned char m_pad00[0x7C];
-	int m_7C; // +0x7C
-	float m_80; // +0x80
+	int m_numberOfFrames; // +0x7C
+	float m_speedMulitplier; // +0x80
 	const AsciiString *m_begin; // +0x84
 	const AsciiString *m_end; // +0x88
 };
@@ -79,7 +79,7 @@ void ProductionSpeedBonus::rva004C2F6A(int options)
 	const ProductionSpeedBonusModuleData *productionSpeedBonusModuleData = m_moduleData;
 	Player *player = obj->getControllingPlayer();
 	for (const AsciiString *it = productionSpeedBonusModuleData->m_begin; it != productionSpeedBonusModuleData->m_end; ++it)
-		player->rva002AE8CF(it, (float)((productionSpeedBonusModuleData->m_80 - 1.0) / (productionSpeedBonusModuleData->m_80 * -1.0)), productionSpeedBonusModuleData->m_7C);
+		player->rva002AE8CF(it, (float)((productionSpeedBonusModuleData->m_speedMulitplier - 1.0) / (productionSpeedBonusModuleData->m_speedMulitplier * -1.0)), productionSpeedBonusModuleData->m_numberOfFrames);
 	if (!obj->m_disabled.any())
 		rva004C2F6ASlot12(&obj->m_pos, options);
 }

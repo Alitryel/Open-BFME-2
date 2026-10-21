@@ -120,44 +120,44 @@ private:
 	Rva00257464 m_list48;				// +0x48
 	Rva00256641 m_set4C;				// +0x4C
 	Rva0024CA24Bits m_bits58;			// +0x58
-	float m_68;
-	float m_6C;
-	int m_70;
-	int m_74;
-	int m_78;
-	bool m_7C;
-	bool m_7D;
-	bool m_7E;
-	bool m_7F;
-	bool m_80;
-	bool m_81;
-	bool m_82;
-	bool m_83;
-	bool m_84;
-	bool m_85;
+	float m_passengersTestCollisionHeight;
+	float m_damagePercentToUnits;
+	int m_containMax;
+	int m_numberOfExitPaths;
+	int m_doorOpenTime;
+	bool m_allowOwnPlayerInsideOverride;
+	bool m_allowAlliesInside;
+	bool m_allowEnemiesInside;
+	bool m_allowNeutralInside;
+	bool m_showPips;
+	bool m_collidePickup;
+	bool m_ejectPassengersOnDeath;
+	bool m_killPassengersOnDeath;
+	bool m_enabled;
+	bool m_passengersInTurret;
 	bool m_86;
 	_STL::vector<AsciiString> m_vec88;		// +0x88
-	int m_94;
+	int m_modifierRequiredTime;
 };
 
 OpenContainModuleData::OpenContainModuleData()
 {
-	m_70 = -1;
-	m_68 = -1000.0f;
-	m_85 = false;
-	m_74 = 1;
-	m_6C = 0.0f;
-	m_78 = 1;
-	m_7C = false;
-	m_7D = true;
-	m_7E = true;
-	m_7F = true;
-	m_80 = true;
-	m_81 = true;
-	m_82 = true;
-	m_83 = false;
-	m_84 = true;
+	m_containMax = -1;
+	m_passengersTestCollisionHeight = -1000.0f;
+	m_passengersInTurret = false;
+	m_numberOfExitPaths = 1;
+	m_damagePercentToUnits = 0.0f;
+	m_doorOpenTime = 1;
+	m_allowOwnPlayerInsideOverride = false;
+	m_allowAlliesInside = true;
+	m_allowEnemiesInside = true;
+	m_allowNeutralInside = true;
+	m_showPips = true;
+	m_collidePickup = true;
+	m_ejectPassengersOnDeath = true;
+	m_killPassengersOnDeath = false;
+	m_enabled = true;
 	m_86 = false;
 	m_vec88.clear();
-	m_94 = 100;
+	m_modifierRequiredTime = 100;
 }

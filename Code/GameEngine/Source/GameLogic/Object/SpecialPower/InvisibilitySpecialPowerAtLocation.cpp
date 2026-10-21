@@ -109,7 +109,7 @@ struct InvisibilitySpecialPowerModuleData
 	char m_pad080[0x134 - 0x80];
 	float m_radius;			// +0x134
 	char m_138[4];			// +0x138
-	int m_13C;			// +0x13C
+	int m_duration;			// +0x13C
 };
 
 class Rva00439CF7
@@ -185,7 +185,7 @@ void InvisibilitySpecialPower::doSpecialPowerAtObject(Object *obj, unsigned int 
 {
 	SpecialPowerModule::doSpecialPowerAtObject(obj, options);
 	const InvisibilitySpecialPowerModuleData *data = getData();
-	TheGameLogic->rva00439CF7Owner()->rva00439CF7(m_object, data->m_13C, data->m_7C);
+	TheGameLogic->rva00439CF7Owner()->rva00439CF7(m_object, data->m_duration, data->m_7C);
 }
 
 void InvisibilitySpecialPower::doSpecialPowerAtLocation(const Coord3D *loc, unsigned int options)
@@ -203,5 +203,5 @@ void InvisibilitySpecialPower::doSpecialPowerAtLocation(const Coord3D *loc, unsi
 	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(loc, data->m_radius, 0, &first, 1);
 	Object *target;
 	while ((target = hits.next()) != 0)
-		TheGameLogic->rva00439CF7Owner()->rva00439CF7(target, data->m_13C, data->m_7C);
+		TheGameLogic->rva00439CF7Owner()->rva00439CF7(target, data->m_duration, data->m_7C);
 }
