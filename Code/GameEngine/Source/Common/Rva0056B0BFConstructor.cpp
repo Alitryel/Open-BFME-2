@@ -40,7 +40,6 @@ class __declspec(novtable) Rva0056B0BFB1
 {
 public:
 	virtual ~Rva0056B0BFB1() {}
-	virtual void b1Anchor();
 	int m_a8;
 	int m_bC;
 };
