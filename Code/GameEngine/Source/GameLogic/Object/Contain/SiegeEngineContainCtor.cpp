@@ -61,7 +61,8 @@ class TransportContain
 {
 public:
 	TransportContain(Thing *thing, const ModuleData *moduleData);
-	~TransportContain();
+	// Match the rowed destructor unit's primary virtual contract.
+	virtual ~TransportContain();
 
 private:
 	unsigned char m_pad100[0x11C - 0x100];
@@ -77,6 +78,7 @@ class SiegeEngineContain : public TransportContain
 {
 public:
 	SiegeEngineContain(Thing *thing, const ModuleData *moduleData);
+	virtual ~SiegeEngineContain();
 	virtual void f00();
 	virtual void f20();
 	virtual void f30();
