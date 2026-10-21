@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0Rva0021DB35@@QAE@XZ
@@ -54,6 +54,10 @@ struct BfmeStringNoCaseLess
 	bool operator()(const AsciiString &a, const AsciiString &b) const;
 };
 typedef _STL::set<AsciiString, BfmeStringNoCaseLess> FilenameList;
+// Declaration-only: the set's tree teardown is the rowed 0x0002CC38 copy.
+namespace _STL {
+template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess, allocator<AsciiString> >::~_Rb_tree();
+}
 
 // The wide file list (a set of UnicodeString) under its rowed spelling: its
 // constructor is the folded set constructor 0x000D3A71, its destructor
@@ -74,6 +78,15 @@ class Rva006007DAFileSystem
 {
 public:
 	void rva006007DA(const UnicodeString *directory, const UnicodeString *searchName, Rva0021C459 *filenameList, bool searchSubdirectories);	// 0x006007DA
+};
+// The listing is rowed as the free Rva006007DAOpen: the 81-byte provider ignores
+// ECX and takes four stack words, so call that owner with the receiver this
+// caller loads (the AptSaveLoadRva0043684C.cpp idiom).
+void __stdcall Rva006007DAOpen(void *, void *, void *, void *);
+union Rva006007DACall
+{
+	void (__stdcall *target)(void *, void *, void *, void *);
+	void (Rva006007DAFileSystem::*member)(const UnicodeString *, const UnicodeString *, Rva0021C459 *, bool);
 };
 extern FileSystem *TheFileSystem;
 
@@ -138,7 +151,8 @@ Rva0021DB35::Rva0021DB35()
 	if (!g_rva005B5C02Flag)
 	{
 		Rva0021C459 filenameList;
-		((Rva006007DAFileSystem *)TheFileSystem)->rva006007DA(byAddress(((const Rva002DC267 *)TheGameState)->rva002DC267()),
+		Rva006007DACall listing = {&Rva006007DAOpen};
+		(((Rva006007DAFileSystem *)TheFileSystem)->*listing.member)(byAddress(((const Rva002DC267 *)TheGameState)->rva002DC267()),
 			byAddress(UnicodeString(L"MyHero*.cah")), &filenameList, false);
 		for (FilenameList::iterator it = filenameList.begin(); it != filenameList.end(); ++it)
 		{
