@@ -92,14 +92,14 @@ protected:
 	bool rva003E50B4(Parameter *a, Parameter *b);
 };
 
-bool ScriptConditions::rva003E50B4(Parameter *a, Parameter *b)
+bool ScriptConditions::rva003E50B4(Parameter *parameter, Parameter *b)
 {
-	Object *o1 = TheScriptEngine->getUnitNamed(a);
-	if (!o1)
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
+	if (!object)
 		return false;
 	Waypoint *way = TheTerrainLogic->getWaypointByName((const void *)((const char *)b + 0x10));
 	if (!way)
 		return false;
 	Pathfinder *pf = TheAI->m_10;
-	return pf->QuickDoesPathExist(o1, &o1->m_38, &way->m_0c, 0);
+	return pf->QuickDoesPathExist(object, &object->m_38, &way->m_0c, 0);
 }

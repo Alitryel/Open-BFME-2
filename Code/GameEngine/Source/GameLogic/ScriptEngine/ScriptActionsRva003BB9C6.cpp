@@ -40,8 +40,8 @@ void ScriptActions::Rva003BB9C6Reveal(bool reveal, const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0) {
 		for (int i = 0; i < ThePlayerList->m_playerCount; ++i) {
-			Player *p = ThePlayerList->getNthPlayer(i);
-			if (p->m_field5C != 0)
+			Player *player = ThePlayerList->getNthPlayer(i);
+			if (player->m_field5C != 0)
 				continue;
 			if (reveal)
 				TheShroudManager->revealMapForPlayerPermanently(i);
@@ -49,14 +49,14 @@ void ScriptActions::Rva003BB9C6Reveal(bool reveal, const AsciiString &name)
 				TheShroudManager->undoRevealMapForPlayerPermanently(i);
 		}
 	} else {
-		Player *p;
+		Player *player;
 		do {
-			p = ThePlayerList->getEachPlayerFromMask(mask);
-			if (p) {
+			player = ThePlayerList->getEachPlayerFromMask(mask);
+			if (player) {
 				if (reveal)
-					TheShroudManager->revealMapForPlayerPermanently(p->m_index54);
+					TheShroudManager->revealMapForPlayerPermanently(player->m_index54);
 				else
-					TheShroudManager->undoRevealMapForPlayerPermanently(p->m_index54);
+					TheShroudManager->undoRevealMapForPlayerPermanently(player->m_index54);
 			}
 		} while (mask != 0);
 	}

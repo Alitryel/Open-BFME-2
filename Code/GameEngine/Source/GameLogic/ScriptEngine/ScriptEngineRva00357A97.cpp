@@ -35,9 +35,9 @@ private:
 	_STL::list<ObjectID, _STL::allocator<ObjectID> > m_list1A260; // +0x1A260
 };
 
-bool ScriptEngine::rva00357A97(const AsciiString &s, bool remove)
+bool ScriptEngine::rva00357A97(const AsciiString &asciiString, bool remove)
 {
-	ObjectID crc = (ObjectID)Rva003ECA13Get(s);
+	ObjectID crc = (ObjectID)Rva003ECA13Get(asciiString);
 	_STL::list<ObjectID, _STL::allocator<ObjectID> >::iterator it = _STL::find(m_list1A260.begin(), m_list1A260.end(), crc);
 	if (it != m_list1A260.end())
 	{

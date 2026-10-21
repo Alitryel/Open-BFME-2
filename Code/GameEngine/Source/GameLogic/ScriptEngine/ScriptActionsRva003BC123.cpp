@@ -97,11 +97,11 @@ protected:
 	void doNamedBuildStructureAtWaypoint(Parameter *param, const AsciiString &arg2, float f, const AsciiString &wayName);
 };
 
-void ScriptActions::doNamedBuildStructureAtWaypoint(Parameter *param, const AsciiString &arg2, float f, const AsciiString &wayName)
+void ScriptActions::doNamedBuildStructureAtWaypoint(Parameter *param, const AsciiString &asciiString, float f, const AsciiString &wayName)
 {
 	Object *obj = TheScriptEngine->getUnitNamed(param);
 	Waypoint *way = TheTerrainLogic->getWaypointByName(wayName);
-	void *lookup = (void *)TheThingFactory->findTemplate(arg2);
+	void *lookup = (void *)TheThingFactory->findTemplate(asciiString);
 	if (!obj || !way || !lookup)
 		return;
 	AIUpdateInterface *ai = obj->getAI();

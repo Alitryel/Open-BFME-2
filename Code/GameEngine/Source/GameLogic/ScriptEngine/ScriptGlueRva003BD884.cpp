@@ -58,9 +58,9 @@ extern PlayerList *ThePlayerList;
 
 int __cdecl rva003BA83F(void *p, int v);
 
-void ScriptActions::Rva003BD884Set(Parameter *p1, const AsciiString *name)
+void ScriptActions::Rva003BD884Set(Parameter *parameter, const AsciiString *name)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(p1);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	int mask = TheScriptEngine->rva00357475(*name, 0);
 	Player *pl = ThePlayerList->getPlayerFromMask(mask);
 	if (obj == 0)

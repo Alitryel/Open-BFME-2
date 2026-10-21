@@ -23,10 +23,10 @@ extern GameLogic *TheGameLogic;
 
 void ScriptActions::Rva003C1FADDestroy(void)
 {
-	Object *o = TheGameLogic->getFirstObject();
-	while (o != 0) {
-		if ((o->m_flags1c8 & 0x20) != 0)
-			TheGameLogic->destroyObject(o);
-		o = o->m_next;
+	Object *object = TheGameLogic->getFirstObject();
+	while (object != 0) {
+		if ((object->m_flags1c8 & 0x20) != 0)
+			TheGameLogic->destroyObject(object);
+		object = object->m_next;
 	}
 }

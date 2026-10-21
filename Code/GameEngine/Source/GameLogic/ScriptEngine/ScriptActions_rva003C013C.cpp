@@ -53,7 +53,7 @@ void ScriptActions::rva003C013C(const AsciiString &areaName, const AsciiString &
 	FloatRect0073CE30 rect;
 	trig->getBounds(&rect);
 	int mask = TheScriptEngine->rva00357475(playerName, 0);
-	PolygonTrigger *trig38 = (PolygonTrigger *)((char *)trig + 0x38);
-	((Rva00739AF0 *)TheShroudManager)->rva00739AF0(&rect, (int)trig38, (unsigned int)mask);
-	((Rva00739CA0 *)TheShroudManager)->rva00739CA0(&rect, (int)trig38, (unsigned int)mask);
+	PolygonTrigger *polygonTrigger = (PolygonTrigger *)((char *)trig + 0x38);
+	((Rva00739AF0 *)TheShroudManager)->rva00739AF0(&rect, (int)polygonTrigger, (unsigned int)mask);
+	((Rva00739CA0 *)TheShroudManager)->rva00739CA0(&rect, (int)polygonTrigger, (unsigned int)mask);
 }

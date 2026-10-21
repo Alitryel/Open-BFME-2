@@ -64,9 +64,9 @@ protected:
 
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003C2DEADo(Parameter *a, Parameter *b)
+void ScriptActions::Rva003C2DEADo(Parameter *parameter, Parameter *b)
 {
-	Team *team = TheScriptEngine->getTeamNamed(a->m_string, false);
+	Team *team = TheScriptEngine->getTeamNamed(parameter->m_string, false);
 	if (team == 0)
 		return;
 	int total = 0;
@@ -74,6 +74,6 @@ void ScriptActions::Rva003C2DEADo(Parameter *a, Parameter *b)
 		Object *obj = it.cur();
 		total += obj->m_p4->m_618;
 	}
-	ScriptCounter *c = TheScriptEngine->bfmeCounter(b->m_string);
-	c->m_value = total;
+	ScriptCounter *scriptCounter = TheScriptEngine->bfmeCounter(b->m_string);
+	scriptCounter->m_value = total;
 }

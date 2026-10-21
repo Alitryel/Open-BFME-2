@@ -38,12 +38,12 @@ private:
 	_STL::list<Rva003572DEEntry, _STL::allocator<Rva003572DEEntry> > m_lists[20]; // +0x1A358
 };
 
-bool ScriptEngine::rva003572DE(int playerIndex, const AsciiString &s, bool remove, int val)
+bool ScriptEngine::rva003572DE(int playerIndex, const AsciiString &asciiString, bool remove, int val)
 {
 	if (playerIndex < 0 || playerIndex >= 20)
 		return false;
 	_STL::list<Rva003572DEEntry, _STL::allocator<Rva003572DEEntry> > &lst = m_lists[playerIndex];
-	unsigned long crc = Rva003ECA13Get(s);
+	unsigned long crc = Rva003ECA13Get(asciiString);
 	for (_STL::list<Rva003572DEEntry, _STL::allocator<Rva003572DEEntry> >::iterator it = lst.begin(); it._M_node != lst.end()._M_node; ++it)
 	{
 		if (it->m_key == (int)crc && (val == 0 || val == it->m_val))

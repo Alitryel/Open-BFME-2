@@ -95,9 +95,9 @@ public:
 	int m_320;
 };
 
-void ScriptActions::Rva003C7A30Do(Parameter *p, int id)
+void ScriptActions::Rva003C7A30Do(Parameter *parameter, int id)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(p);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	if (obj == 0)
 		return;
 	Waypoint *wp = TheTerrainLogic->s34(id);

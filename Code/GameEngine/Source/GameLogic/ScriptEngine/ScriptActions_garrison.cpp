@@ -397,7 +397,7 @@ public:
 class Rva00261750Filter : public Rva000421C8
 {
 public:
-	Rva00261750Filter(const ThingTemplate *tmpl, bool match) : m_template(tmpl), m_match(match) {}
+	Rva00261750Filter(const ThingTemplate *thingTemplate, bool match) : m_template(thingTemplate), m_match(match) {}
 	virtual bool allow(Object *obj);
 	const ThingTemplate *m_template;
 	bool m_match;

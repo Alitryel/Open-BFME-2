@@ -49,9 +49,9 @@ public:
 
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BFA77Do(const Parameter &p, int amount)
+void ScriptActions::Rva003BFA77Do(const Parameter &parameter, int amount)
 {
-	Object *obj = TheScriptEngine->getUnitNamed((Parameter *)&p);
+	Object *obj = TheScriptEngine->getUnitNamed((Parameter *)&parameter);
 	if (obj == 0)
 		return;
 	Rva00263895Member dmg;

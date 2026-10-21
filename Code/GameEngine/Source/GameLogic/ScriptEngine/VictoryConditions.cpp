@@ -140,11 +140,11 @@ private:
 // Zero Hour's file-static areAllies, retail 0x0041FE35 (46 bytes): kept out
 // of line, cl 7.1 passes its two players in EDI and ESI.
 #pragma auto_inline(off)
-static Bool areAllies(const Player *p1, const Player *p2)
+static Bool areAllies(const Player *player, const Player *p2)
 {
-	if (p1 != p2 &&
-		p1->getRelationship(p2->getDefaultTeam()) == ALLIES &&
-		p2->getRelationship(p1->getDefaultTeam()) == ALLIES)
+	if (player != p2 &&
+		player->getRelationship(p2->getDefaultTeam()) == ALLIES &&
+		p2->getRelationship(player->getDefaultTeam()) == ALLIES)
 		return true;
 	return false;
 }

@@ -628,8 +628,8 @@ void ScriptEngine::update()
 		char buf[256];
 		sprintf(buf, "slow script on logic frame %d = %d ms\n", TheGameLogic->getFrame(), elapsed);
 		Int n = 1;
-		for (AsciiString *p = slowScripts->begin(); p != slowScripts->end(); ++p, ++n)
-			sprintf(buf, "    %d %s\n", n, p->str());
+		for (AsciiString *asciiString = slowScripts->begin(); asciiString != slowScripts->end(); ++asciiString, ++n)
+			sprintf(buf, "    %d %s\n", n, asciiString->str());
 	}
 
 	ThePlayerList->updateTeamStates();

@@ -211,9 +211,9 @@ class ObjectTypes
 public:
 	ObjectTypes();
 	virtual ~ObjectTypes();
-	Bool isInSet(const ThingTemplate *tmpl) const
+	Bool isInSet(const ThingTemplate *thingTemplate) const
 	{
-		return ((Rva00376A62 *)this)->rva00376A84(tmpl);
+		return ((Rva00376A62 *)this)->rva00376A84(thingTemplate);
 	}
 private:
 	unsigned char m_typesState[0x14 - 4]; // 0x14-byte object (ctor 0x003769F9)

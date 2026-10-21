@@ -311,155 +311,155 @@ protected:
 	bool rva003E8B47(Parameter *, Parameter *);
 };
 
-bool ScriptConditions::evaluateConditionHelper(Condition *c)
+bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 {
-	switch (c->getType()) {
+	switch (condition->getType()) {
 	case 5:
-		return this->evaluateAllDestroyed(c->getParameter(0));
+		return this->evaluateAllDestroyed(condition->getParameter(0));
 	case 6:
-		return this->evaluateAllBuildFacilitiesDestroyed(c->getParameter(0));
+		return this->evaluateAllBuildFacilitiesDestroyed(condition->getParameter(0));
 	case 7:
-		return this->evaluateTeamInsideAreaPartially(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamInsideAreaPartially(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 13:
-		return this->evaluateNamedInsideArea(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedInsideArea(condition->getParameter(0), condition->getParameter(1));
 	case 8:
-		return this->evaluateIsDestroyed(c->getParameter(0));
+		return this->evaluateIsDestroyed(condition->getParameter(0));
 	case 170:
-		return this->evaluateTeamCountCompare(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamCountCompare(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 172:
-		return this->evaluateNamedUnitRankLevel(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedUnitRankLevel(condition->getParameter(0), condition->getParameter(1));
 	case 15:
-		return this->evaluateNamedUnitDestroyed(c->getParameter(0));
+		return this->evaluateNamedUnitDestroyed(condition->getParameter(0));
 	case 56:
-		return this->evaluateNamedUnitDying(c->getParameter(0));
+		return this->evaluateNamedUnitDying(condition->getParameter(0));
 	case 57:
-		return this->evaluateNamedUnitTotallyDead(c->getParameter(0));
+		return this->evaluateNamedUnitTotallyDead(condition->getParameter(0));
 	case 16:
-		return this->evaluateNamedUnitExists(c->getParameter(0));
+		return this->evaluateNamedUnitExists(condition->getParameter(0));
 	case 10:
-		return this->evaluateHasUnits(c->getParameter(0));
+		return this->evaluateHasUnits(condition->getParameter(0));
 	case 9:
 		return TheTacticalView->isCameraMovementFinished();
 	case 189:
-		return Rva003E4ED5Get(c->getParameter(0));
+		return Rva003E4ED5Get(condition->getParameter(0));
 	case 190:
-		return Rva003E4F05Get(c->getParameter(0));
+		return Rva003E4F05Get(condition->getParameter(0));
 	case 191:
-		return Rva003E4F3BGet(c->getParameter(0));
+		return Rva003E4F3BGet(condition->getParameter(0));
 	case 192:
 		return Rva003E4F6BGet();
 	case 11:
-		return this->evaluateTeamStateIs(c->getParameter(0), c->getParameter(1));
+		return this->evaluateTeamStateIs(condition->getParameter(0), condition->getParameter(1));
 	case 12:
-		return this->evaluateTeamStateIsNot(c->getParameter(0), c->getParameter(1));
+		return this->evaluateTeamStateIsNot(condition->getParameter(0), condition->getParameter(1));
 	case 14:
-		return this->evaluateNamedOutsideArea(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedOutsideArea(condition->getParameter(0), condition->getParameter(1));
 	case 17:
-		return this->evaluateTeamInsideAreaEntirely(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamInsideAreaEntirely(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 18:
-		return this->evaluateTeamOutsideAreaEntirely(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamOutsideAreaEntirely(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 19:
-		return this->evaluateNamedAttackedByType(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedAttackedByType(condition->getParameter(0), condition->getParameter(1));
 	case 20:
-		return this->evaluateTeamAttackedByType(c->getParameter(0), c->getParameter(1));
+		return this->evaluateTeamAttackedByType(condition->getParameter(0), condition->getParameter(1));
 	case 21:
-		return this->evaluateNamedAttackedByPlayer(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedAttackedByPlayer(condition->getParameter(0), condition->getParameter(1));
 	case 22:
-		return this->evaluateTeamAttackedByPlayer(c->getParameter(0), c->getParameter(1));
+		return this->evaluateTeamAttackedByPlayer(condition->getParameter(0), condition->getParameter(1));
 	case 23:
-		return this->evaluateBuiltByPlayer(c, c->getParameter(0), c->getParameter(1));
+		return this->evaluateBuiltByPlayer(condition, condition->getParameter(0), condition->getParameter(1));
 	case 24:
-		return this->evaluateNamedCreated(c->getParameter(0));
+		return this->evaluateNamedCreated(condition->getParameter(0));
 	case 25:
-		return (this->*(bool (ScriptConditions::*)(Parameter *))&ScriptConditions::evaluateTeamCreated)(c->getParameter(0));
+		return (this->*(bool (ScriptConditions::*)(Parameter *))&ScriptConditions::evaluateTeamCreated)(condition->getParameter(0));
 	case 26:
-		return this->rva003E3F59(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E3F59(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 54:
-		return this->evaluateBridgeRepaired(c->getParameter(0));
+		return this->evaluateBridgeRepaired(condition->getParameter(0));
 	case 55:
-		return this->evaluateBridgeBroken(c->getParameter(0));
+		return this->evaluateBridgeBroken(condition->getParameter(0));
 	case 27:
-		return this->rva003E6A2B(c->getParameter(0), c->getParameter(1));
+		return this->rva003E6A2B(condition->getParameter(0), condition->getParameter(1));
 	case 28:
-		return this->rva003E6AA9(c->getParameter(0), c->getParameter(1));
+		return this->rva003E6AA9(condition->getParameter(0), condition->getParameter(1));
 	case 51:
-		return this->evaluateBuildingEntered(c->getParameter(0), c->getParameter(1));
+		return this->evaluateBuildingEntered(condition->getParameter(0), condition->getParameter(1));
 	case 52:
-		if (c->getNumParameters() < 3)
+		if (condition->getNumParameters() < 3)
 			return false;
-		return this->rva003E56C5(*(const AsciiString *)c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E56C5(*(const AsciiString *)condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 133:
-		return this->rva003E6835(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E6835(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 77:
-		return this->rva003EA3AB(*(const AsciiString *)c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003EA3AB(*(const AsciiString *)condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 78:
-		return this->evaluateIsBuildingEmpty(c->getParameter(0));
+		return this->evaluateIsBuildingEmpty(condition->getParameter(0));
 	case 30:
-		return this->evaluateNamedOwnedByPlayer(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedOwnedByPlayer(condition->getParameter(0), condition->getParameter(1));
 	case 31:
-		return this->evaluateTeamOwnedByPlayer(c->getParameter(0), c->getParameter(1));
+		return this->evaluateTeamOwnedByPlayer(condition->getParameter(0), condition->getParameter(1));
 	case 32:
-		return this->evaluatePlayerHasNOrFewerBuildings(c->getParameter(1), c->getParameter(0));
+		return this->evaluatePlayerHasNOrFewerBuildings(condition->getParameter(1), condition->getParameter(0));
 	case 79:
-		return this->rva003E586B(c->getParameter(1), c->getParameter(0));
+		return this->rva003E586B(condition->getParameter(1), condition->getParameter(0));
 	case 131:
-		return this->rva003E58F0(c->getParameter(1), c->getParameter(0));
+		return this->rva003E58F0(condition->getParameter(1), condition->getParameter(0));
 	case 33:
-		return this->evaluatePlayerHasPower(c->getParameter(0));
+		return this->evaluatePlayerHasPower(condition->getParameter(0));
 	case 47:
-		return !this->evaluatePlayerHasPower(c->getParameter(0));
+		return !this->evaluatePlayerHasPower(condition->getParameter(0));
 	case 34:
-		return this->evaluateNamedReachedWaypointsEnd(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedReachedWaypointsEnd(condition->getParameter(0), condition->getParameter(1));
 	case 35:
-		return this->evaluateTeamReachedWaypointsEnd(c->getParameter(0), c->getParameter(1));
+		return this->evaluateTeamReachedWaypointsEnd(condition->getParameter(0), condition->getParameter(1));
 	case 200:
-		return this->rva003E6BC5(c, c->getParameter(0));
+		return this->rva003E6BC5(condition, condition->getParameter(0));
 	case 37:
-		return this->evaluateNamedSelected(c, c->getParameter(0));
+		return this->evaluateNamedSelected(condition, condition->getParameter(0));
 	case 38:
-		return this->evaluateNamedEnteredArea(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedEnteredArea(condition->getParameter(0), condition->getParameter(1));
 	case 39:
-		return this->evaluateNamedExitedArea(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedExitedArea(condition->getParameter(0), condition->getParameter(1));
 	case 40:
-		return this->evaluateTeamEnteredAreaEntirely(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamEnteredAreaEntirely(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 121:
-		return this->evaluateNamedBaseUnpackableForPlayer(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedBaseUnpackableForPlayer(condition->getParameter(0), condition->getParameter(1));
 	case 41:
-		return this->evaluateTeamEnteredAreaPartially(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamEnteredAreaPartially(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 42:
-		return this->evaluateTeamExitedAreaEntirely(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamExitedAreaEntirely(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 43:
-		return this->evaluateTeamExitedAreaPartially(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateTeamExitedAreaPartially(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 147:
-		return this->rva003E51D9(c->getParameter(0), c->getParameter(1));
+		return this->rva003E51D9(condition->getParameter(0), condition->getParameter(1));
 	case 148:
-		return this->rva003E6ED0(c->getParameter(0), (const AsciiString *)c->getParameter(1), 0, true, false);
+		return this->rva003E6ED0(condition->getParameter(0), (const AsciiString *)condition->getParameter(1), 0, true, false);
 	case 149:
-		return this->rva003E6ED0(c->getParameter(0), (const AsciiString *)c->getParameter(1), 0, true, true);
+		return this->rva003E6ED0(condition->getParameter(0), (const AsciiString *)condition->getParameter(1), 0, true, true);
 	case 150:
-		return this->rva003E6ED0(c->getParameter(0), (const AsciiString *)c->getParameter(1), 0, false, false);
+		return this->rva003E6ED0(condition->getParameter(0), (const AsciiString *)condition->getParameter(1), 0, false, false);
 	case 151:
-		return this->rva003E6ED0(c->getParameter(0), (const AsciiString *)c->getParameter(1), 0, false, true);
+		return this->rva003E6ED0(condition->getParameter(0), (const AsciiString *)condition->getParameter(1), 0, false, true);
 	case 152:
-		return this->rva003E6ED0(c->getParameter(0), 0, c->getParameter(1), true, false);
+		return this->rva003E6ED0(condition->getParameter(0), 0, condition->getParameter(1), true, false);
 	case 153:
-		return this->rva003E6ED0(c->getParameter(0), 0, c->getParameter(1), true, true);
+		return this->rva003E6ED0(condition->getParameter(0), 0, condition->getParameter(1), true, true);
 	case 154:
-		return this->rva003E6ED0(c->getParameter(0), 0, c->getParameter(1), false, false);
+		return this->rva003E6ED0(condition->getParameter(0), 0, condition->getParameter(1), false, false);
 	case 155:
-		return this->rva003E6ED0(c->getParameter(0), 0, c->getParameter(1), false, true);
+		return this->rva003E6ED0(condition->getParameter(0), 0, condition->getParameter(1), false, true);
 	case 156:
-		return this->rva003E59B0(c->getParameter(0), c->getParameter(1), 0, true);
+		return this->rva003E59B0(condition->getParameter(0), condition->getParameter(1), 0, true);
 	case 157:
-		return this->rva003E59B0(c->getParameter(0), c->getParameter(1), 0, false);
+		return this->rva003E59B0(condition->getParameter(0), condition->getParameter(1), 0, false);
 	case 158:
-		return this->rva003E59B0(c->getParameter(0), 0, c->getParameter(1), true);
+		return this->rva003E59B0(condition->getParameter(0), 0, condition->getParameter(1), true);
 	case 159:
-		return this->rva003E59B0(c->getParameter(0), 0, c->getParameter(1), false);
+		return this->rva003E59B0(condition->getParameter(0), 0, condition->getParameter(1), false);
 	case 138:
-		return this->rva003E5CB1(c->getParameter(0), c->getParameter(1));
+		return this->rva003E5CB1(condition->getParameter(0), condition->getParameter(1));
 	case 141:
-		return this->rva003E83AF(c->getParameter(0), c->getParameter(1));
+		return this->rva003E83AF(condition->getParameter(0), condition->getParameter(1));
 	case 44:
 		return ((UnknownE03138 *)TheVictoryConditions)->isLocalAlliedVictory();
 	case 45:
@@ -467,247 +467,247 @@ bool ScriptConditions::evaluateConditionHelper(Condition *c)
 	case 46:
 		return ((bool (__cdecl *)(void))Rva003E468FCheck)();
 	case 36:
-		return Rva003E41CBGet(c->getParameter(0));
+		return Rva003E41CBGet(condition->getParameter(0));
 	case 48:
-		return this->evaluateVideoHasCompleted(c->getParameter(0));
+		return this->evaluateVideoHasCompleted(condition->getParameter(0));
 	case 49:
-		return this->evaluateSpeechHasCompleted(c->getParameter(0));
+		return this->evaluateSpeechHasCompleted(condition->getParameter(0));
 	case 50:
-		return this->evaluateAudioHasCompleted(c->getParameter(0));
+		return this->evaluateAudioHasCompleted(condition->getParameter(0));
 	case 53:
-		return this->evaluateUnitHealth(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateUnitHealth(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 61:
-		return this->evaluatePlayerSpecialPowerFromUnitTriggered(c->getParameter(0), c->getParameter(1), 0);
+		return this->evaluatePlayerSpecialPowerFromUnitTriggered(condition->getParameter(0), condition->getParameter(1), 0);
 	case 64:
-		return this->evaluatePlayerSpecialPowerFromUnitTriggered(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluatePlayerSpecialPowerFromUnitTriggered(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 63:
-		return this->evaluatePlayerSpecialPowerFromUnitMidway(c->getParameter(0), c->getParameter(1), 0);
+		return this->evaluatePlayerSpecialPowerFromUnitMidway(condition->getParameter(0), condition->getParameter(1), 0);
 	case 66:
-		return this->evaluatePlayerSpecialPowerFromUnitMidway(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluatePlayerSpecialPowerFromUnitMidway(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 62:
-		return this->evaluatePlayerSpecialPowerFromUnitComplete(c->getParameter(0), c->getParameter(1), 0);
+		return this->evaluatePlayerSpecialPowerFromUnitComplete(condition->getParameter(0), condition->getParameter(1), 0);
 	case 65:
-		return this->evaluatePlayerSpecialPowerFromUnitComplete(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluatePlayerSpecialPowerFromUnitComplete(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 100:
-		return this->evaluateScienceAcquired(c->getParameter(0), c->getParameter(1));
+		return this->evaluateScienceAcquired(condition->getParameter(0), condition->getParameter(1));
 	case 102:
-		return this->evaluateCanPurchaseScience(c->getParameter(0), c->getParameter(1));
+		return this->evaluateCanPurchaseScience(condition->getParameter(0), condition->getParameter(1));
 	case 101:
-		return this->evaluateSciencePurchasePoints(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSciencePurchasePoints(condition->getParameter(0), condition->getParameter(1));
 	case 173:
-		return this->rva003E4519(c->getParameter(0));
+		return this->rva003E4519(condition->getParameter(0));
 	case 69:
-		return this->evaluateUpgradeFromUnitComplete(c->getParameter(0), c->getParameter(1), 0);
+		return this->evaluateUpgradeFromUnitComplete(condition->getParameter(0), condition->getParameter(1), 0);
 	case 70:
-		return this->evaluateUpgradeFromUnitComplete(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateUpgradeFromUnitComplete(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 58:
-		return this->evaluatePlayerUnitCondition(c, c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3));
+		return this->evaluatePlayerUnitCondition(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 71:
-		return this->evaluatePlayerDestroyedNOrMoreBuildings(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluatePlayerDestroyedNOrMoreBuildings(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 74:
 		{
-		Parameter *p4;
-		if (c->getNumParameters() < 5)
+		Parameter *parameter;
+		if (condition->getNumParameters() < 5)
 			return false;
-		p4 = c->getParameter(4);
-		return this->rva003E61A4(c, c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3), p4, 0, false);
+		parameter = condition->getParameter(4);
+		return this->rva003E61A4(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, 0, false);
 		}
 	case 188:
 		{
-		Parameter *p4;
-		if (c->getNumParameters() < 5)
+		Parameter *parameter;
+		if (condition->getNumParameters() < 5)
 			return false;
-		p4 = c->getParameter(4);
-		return this->rva003E61A4(c, c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3), p4, 0, true);
+		parameter = condition->getParameter(4);
+		return this->rva003E61A4(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, 0, true);
 		}
 	case 110:
 		{
-		Parameter *p4;
+		Parameter *parameter;
 		Parameter *p5;
-		if (c->getNumParameters() < 6)
+		if (condition->getNumParameters() < 6)
 			return false;
-		p5 = c->getParameter(5);
-		p4 = c->getParameter(4);
-		return this->rva003E61A4(c, c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3), p4, p5, false);
+		p5 = condition->getParameter(5);
+		parameter = condition->getParameter(4);
+		return this->rva003E61A4(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, p5, false);
 		}
 	case 194:
 		return TheFormationAssistant->m_flag34();
 	case 75:
 		{
-		Parameter *p4;
-		if (c->getNumParameters() < 5)
+		Parameter *parameter;
+		if (condition->getNumParameters() < 5)
 			return false;
-		p4 = c->getParameter(4);
-		return this->rva003E64A6(c, c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3), p4);
+		parameter = condition->getParameter(4);
+		return this->rva003E64A6(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter);
 		}
 	case 160:
-		return this->evaluatePlayerHasNumberObjectsWithModelCondition(c->getParameter(0), (CondA003E5F73 *)c->getParameter(1), (CondB003E5F73 *)c->getParameter(2), (CondC003E5F73 *)c->getParameter(3));
+		return this->evaluatePlayerHasNumberObjectsWithModelCondition(condition->getParameter(0), (CondA003E5F73 *)condition->getParameter(1), (CondB003E5F73 *)condition->getParameter(2), (CondC003E5F73 *)condition->getParameter(3));
 	case 161:
-		return this->evaluatePlayerHasNumberUnitsDistanceFromObject(c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3), c->getParameter(4));
+		return this->evaluatePlayerHasNumberUnitsDistanceFromObject(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), condition->getParameter(4));
 	case 76:
-		return this->evaluateUnitHasEmptied(c->getParameter(0));
+		return this->evaluateUnitHasEmptied(condition->getParameter(0));
 	case 83:
-		return this->rva003E46B4(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E46B4(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 84:
-		return this->rva003E477F(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E477F(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 85:
-		return this->evaluateSkirmishSpecialPowerIsReady(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishSpecialPowerIsReady(condition->getParameter(0), condition->getParameter(1));
 	case 171:
-		return this->evaluateSkirmishCanFireSpecialPowerOnTeam(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateSkirmishCanFireSpecialPowerOnTeam(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 80:
-		return this->evaluateUnitHasObjectStatus(c->getParameter(0), c->getParameter(1));
+		return this->evaluateUnitHasObjectStatus(condition->getParameter(0), condition->getParameter(1));
 	case 193:
-		return this->rva003E5267(c->getParameter(0), c->getParameter(1));
+		return this->rva003E5267(condition->getParameter(0), condition->getParameter(1));
 	case 81:
-		return this->evaluateTeamHasObjectStatus(c->getParameter(0), c->getParameter(1), true);
+		return this->evaluateTeamHasObjectStatus(condition->getParameter(0), condition->getParameter(1), true);
 	case 82:
-		return this->evaluateTeamHasObjectStatus(c->getParameter(0), c->getParameter(1), false);
+		return this->evaluateTeamHasObjectStatus(condition->getParameter(0), condition->getParameter(1), false);
 	case 86:
-		return this->evaluateSkirmishValueInArea(c, c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3));
+		return this->evaluateSkirmishValueInArea(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 87:
-		return this->evaluateSkirmishPlayerIsFaction(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishPlayerIsFaction(condition->getParameter(0), condition->getParameter(1));
 	case 88:
-		return this->rva003EA566(c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3));
+		return this->rva003EA566(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 89:
-		return this->slot15(c->getParameter(0), c->getParameter(1), c->getParameter(2), true);
+		return this->slot15(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), true);
 	case 90:
-		return this->slot15(c->getParameter(0), c->getParameter(1), c->getParameter(2), false);
+		return this->slot15(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), false);
 	case 91:
-		return this->evaluateSkirmishUnownedFactionUnitComparison(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateSkirmishUnownedFactionUnitComparison(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 92:
-		return this->evaluateSkirmishPlayerHasPrereqsToBuild(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishPlayerHasPrereqsToBuild(condition->getParameter(0), condition->getParameter(1));
 	case 93:
-		return this->evaluateSkirmishPlayerHasComparisonGarrisoned(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateSkirmishPlayerHasComparisonGarrisoned(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 94:
-		return this->evaluateSkirmishPlayerHasComparisonCapturedUnits(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluateSkirmishPlayerHasComparisonCapturedUnits(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 95:
-		return this->evaluateSkirmishNamedAreaExists(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishNamedAreaExists(condition->getParameter(0), condition->getParameter(1));
 	case 96:
-		return this->evaluateSkirmishPlayerHasUnitsInArea(c, c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishPlayerHasUnitsInArea(condition, condition->getParameter(0), condition->getParameter(1));
 	case 97:
-		return this->evaluateSkirmishPlayerHasBeenAttackedByPlayer(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishPlayerHasBeenAttackedByPlayer(condition->getParameter(0), condition->getParameter(1));
 	case 98:
-		return this->evaluateSkirmishPlayerIsOutsideArea(c, c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishPlayerIsOutsideArea(condition, condition->getParameter(0), condition->getParameter(1));
 	case 99:
-		return this->evaluateSkirmishPlayerHasDiscoveredPlayer(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishPlayerHasDiscoveredPlayer(condition->getParameter(0), condition->getParameter(1));
 	case 103:
-		return this->evaluateMusicHasCompleted(c->getParameter(0), c->getParameter(1));
+		return this->evaluateMusicHasCompleted(condition->getParameter(0), condition->getParameter(1));
 	case 105:
-		return this->rva003E4A63(c, c->getParameter(0), c->getParameter(1));
+		return this->rva003E4A63(condition, condition->getParameter(0), condition->getParameter(1));
 	case 106:
-		return this->rva003E4AE4(c->getParameter(0));
+		return this->rva003E4AE4(condition->getParameter(0));
 	case 107:
-		return this->evaluateSkirmishStartPosition(c->getParameter(0), c->getParameter(1));
+		return this->evaluateSkirmishStartPosition(condition->getParameter(0), condition->getParameter(1));
 	case 108:
-		return c->getParameter(1)->getInt() <= 0;
+		return condition->getParameter(1)->getInt() <= 0;
 	case 109:
-		return Rva003E4B83Get(c->getParameter(0));
+		return Rva003E4B83Get(condition->getParameter(0));
 	case 104:
-		return this->evaluatePlayerLostObjectType(c->getParameter(0), c->getParameter(1));
+		return this->evaluatePlayerLostObjectType(condition->getParameter(0), condition->getParameter(1));
 	case 120:
-		return Rva003E4EA5Get(c->getParameter(0));
+		return Rva003E4EA5Get(condition->getParameter(0));
 	case 132:
-		return Rva003E7FD5Get(c->getParameter(0));
+		return Rva003E7FD5Get(condition->getParameter(0));
 	case 111:
-		return this->evaluateCounterCounter(c);
+		return this->evaluateCounterCounter(condition);
 	case 112:
-		return this->evaluateCounterSeconds(c);
+		return this->evaluateCounterSeconds(condition);
 	case 113:
-		return this->evaluateDistanceBetweenObjects(c);
+		return this->evaluateDistanceBetweenObjects(condition);
 	case 114:
-		return this->evaluateDistanceBetweenTeams(c);
+		return this->evaluateDistanceBetweenTeams(condition);
 	case 115:
-		return this->rva003E4D93(c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3));
+		return this->rva003E4D93(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 116:
-		return this->rva003E7E54(c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3));
+		return this->rva003E7E54(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 117:
-		return Rva003E4E6AGet(c->getParameter(0));
+		return Rva003E4E6AGet(condition->getParameter(0));
 	case 118:
-		return this->rva003E7F3A(c->getParameter(0), c->getParameter(1));
+		return this->rva003E7F3A(condition->getParameter(0), condition->getParameter(1));
 	case 123:
-		return this->rva003E803D(c->getParameter(0), c->getParameter(1));
+		return this->rva003E803D(condition->getParameter(0), condition->getParameter(1));
 	case 124:
-		return this->rva003E4F79(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E4F79(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 125:
-		return this->rva003E80DA(c->getParameter(0), c->getParameter(1));
+		return this->rva003E80DA(condition->getParameter(0), condition->getParameter(1));
 	case 126:
-		return this->evaluateHasCommandPointsToBuildUnit(c->getParameter(0), c->getParameter(1));
+		return this->evaluateHasCommandPointsToBuildUnit(condition->getParameter(0), condition->getParameter(1));
 	case 127:
-		return this->evaluateCanBuildAtBase(c->getParameter(0), c->getParameter(1));
+		return this->evaluateCanBuildAtBase(condition->getParameter(0), condition->getParameter(1));
 	case 169:
-		return this->rva003E5017(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E5017(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 128:
-		return this->evaluatePlayerHasKilledKindOfUnits(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluatePlayerHasKilledKindOfUnits(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 129:
-		return this->evaluatePlayerHasKilledTypeUnits(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->evaluatePlayerHasKilledTypeUnits(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 130:
-		return this->evaluateNamedDestroyedByType(c->getParameter(0), c->getParameter(1));
+		return this->evaluateNamedDestroyedByType(condition->getParameter(0), condition->getParameter(1));
 	case 134:
-		return this->rva003E63CD(c, c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E63CD(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 135:
-		return this->rva003E3EC3(c->getParameter(0));
+		return this->rva003E3EC3(condition->getParameter(0));
 	case 142:
 		return ((bool (__cdecl *)(void))Rva003E4C77Get)();
 	case 136:
-		return this->rva003E50B4(c->getParameter(0), c->getParameter(1));
+		return this->rva003E50B4(condition->getParameter(0), condition->getParameter(1));
 	case 137:
-		return this->rva003E5105(c->getParameter(0), c->getParameter(1));
+		return this->rva003E5105(condition->getParameter(0), condition->getParameter(1));
 	case 139:
-		return this->rva003E84C5(c->getParameter(0), c->getParameter(1));
+		return this->rva003E84C5(condition->getParameter(0), condition->getParameter(1));
 	case 140:
-		return this->rva003E8535(c->getParameter(0), c->getParameter(1));
+		return this->rva003E8535(condition->getParameter(0), condition->getParameter(1));
 	case 143:
-		return this->rva003E859E(c->getParameter(0), c->getParameter(1));
+		return this->rva003E859E(condition->getParameter(0), condition->getParameter(1));
 	case 144:
-		return this->rva003E514F(c->getParameter(0), (CondA003E514F *)c->getParameter(1), (CondB003E514F *)c->getParameter(2));
+		return this->rva003E514F(condition->getParameter(0), (CondA003E514F *)condition->getParameter(1), (CondB003E514F *)condition->getParameter(2));
 	case 145:
-		return this->rva003E52EB(c->getParameter(0), (CondA003E52EB *)c->getParameter(1), (CondB003E52EB *)c->getParameter(2));
+		return this->rva003E52EB(condition->getParameter(0), (CondA003E52EB *)condition->getParameter(1), (CondB003E52EB *)condition->getParameter(2));
 	case 146:
-		return this->rva003E8E23(c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3));
+		return this->rva003E8E23(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 162:
-		return Rva003E537DCheck(c->getParameter(0));
+		return Rva003E537DCheck(condition->getParameter(0));
 	case 163:
-		return this->rva003EA12A(c->getParameter(0));
+		return this->rva003EA12A(condition->getParameter(0));
 	case 164:
-		return this->rva003EA228(c->getParameter(0), true);
+		return this->rva003EA228(condition->getParameter(0), true);
 	case 165:
-		return this->rva003EA228(c->getParameter(0), false);
+		return this->rva003EA228(condition->getParameter(0), false);
 	case 166:
-		return ((bool (__stdcall *)(char))bfmeGo939D)(c->getParameter(0)->getInt() != 0);
+		return ((bool (__stdcall *)(char))bfmeGo939D)(condition->getParameter(0)->getInt() != 0);
 	case 201:
-		return this->evaluateGameModeActive(c->getParameter(0));
+		return this->evaluateGameModeActive(condition->getParameter(0));
 	case 168:
-		return this->evaluateNumPlayersInGame((CondA003E53C8 *)c->getParameter(0), (CondB003E53C8 *)c->getParameter(1));
+		return this->evaluateNumPlayersInGame((CondA003E53C8 *)condition->getParameter(0), (CondB003E53C8 *)condition->getParameter(1));
 	case 174:
-		return this->rva003E8D01(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E8D01(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 175:
-		return (this->*(bool (ScriptConditions::*)(Parameter *, Cond003E5D95 *))&ScriptConditions::rva003E5D95)(c->getParameter(0), (Cond003E5D95 *)c->getParameter(1));
+		return (this->*(bool (ScriptConditions::*)(Parameter *, Cond003E5D95 *))&ScriptConditions::rva003E5D95)(condition->getParameter(0), (Cond003E5D95 *)condition->getParameter(1));
 	case 176:
-		return this->rva003E85E0(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E85E0(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 177:
-		return this->rva003E86A3(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E86A3(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 178:
-		return this->rva003E8785(c->getParameter(0), c->getParameter(1), c->getParameter(2));
+		return this->rva003E8785(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 179:
-		return this->rva003E8863(c->getParameter(0), c->getParameter(1), c->getParameter(2), c->getParameter(3));
+		return this->rva003E8863(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 180:
-		return this->rva003E89A9(c->getParameter(0), c->getParameter(1));
+		return this->rva003E89A9(condition->getParameter(0), condition->getParameter(1));
 	case 182:
-		return this->rva003E8C24(c->getParameter(0), c->getParameter(1));
+		return this->rva003E8C24(condition->getParameter(0), condition->getParameter(1));
 	case 181:
-		return this->rva003E8AA9(c->getParameter(0));
+		return this->rva003E8AA9(condition->getParameter(0));
 	case 183:
-		return this->rva003E8B47(c->getParameter(0), c->getParameter(1));
+		return this->rva003E8B47(condition->getParameter(0), condition->getParameter(1));
 	case 184:
-		return Rva003E8FEE(c->getParameter(0));
+		return Rva003E8FEE(condition->getParameter(0));
 	case 185:
-		return Rva003E9029(c->getParameter(0)->getString());
+		return Rva003E9029(condition->getParameter(0)->getString());
 	case 186:
-		return this->evaluateHasEvaEventPlayedInLastNSeconds(*c->getParameter(0)->getString(), c->getParameter(1)->getReal());
+		return this->evaluateHasEvaEventPlayedInLastNSeconds(*condition->getParameter(0)->getString(), condition->getParameter(1)->getReal());
 	case 187:
-		return this->evaluateIsNumOfUnitsBelongingToPlayerNearEvaEventLastPlayedLocationComparisonInt(c->getParameter(0), c->getParameter(1)->getReal(), c->getParameter(2)->getString(), c->getParameter(3)->getInt(), c->getParameter(4)->getInt());
+		return this->evaluateIsNumOfUnitsBelongingToPlayerNearEvaEventLastPlayedLocationComparisonInt(condition->getParameter(0), condition->getParameter(1)->getReal(), condition->getParameter(2)->getString(), condition->getParameter(3)->getInt(), condition->getParameter(4)->getInt());
 	case 195:
-		return this->evaluateHasDelayedCarryoverUnitOfType(*c->getParameter(0)->getString(), c->getParameter(1));
+		return this->evaluateHasDelayedCarryoverUnitOfType(*condition->getParameter(0)->getString(), condition->getParameter(1));
 	case 196:
 		return Rva0056815AAny();
 	case 197:
@@ -715,7 +715,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *c)
 	case 198:
 		return g_Va00E04450 != 0;
 	case 199:
-		return this->evaluatePlayerIsInPlanningMode(c->getParameter(0));
+		return this->evaluatePlayerIsInPlanningMode(condition->getParameter(0));
 	default:
 		return false;
 	}

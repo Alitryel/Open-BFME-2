@@ -42,9 +42,9 @@ public:
 
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BF9FADo(const AsciiString &a1, float f, const AsciiString &a3)
+void ScriptActions::Rva003BF9FADo(const AsciiString &asciiString, float f, const AsciiString &a3)
 {
-	TeamPrototype *proto = TheScriptEngine->rva003570D1(a1);
+	TeamPrototype *proto = TheScriptEngine->rva003570D1(asciiString);
 	if (proto == 0)
 		return;
 	Rva002A9DFE *handler = proto->m_handler08;

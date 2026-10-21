@@ -42,9 +42,9 @@ public:
 	void rva002ACEDF(void *p);	// row ?rva002ACEDF@Rva002ABFA0 (Rva002ABFA0Remove.cpp)
 };
 
-void ScriptActions::Rva003BD062Set(void *p, const AsciiString *templateName, bool flag)
+void ScriptActions::Rva003BD062Set(void *p, const AsciiString *asciiString, bool flag)
 {
-	void *t = (void *)TheThingFactory->findTemplate(*templateName);
+	void *t = (void *)TheThingFactory->findTemplate(*asciiString);
 	if (t == 0)
 		return;
 	const AsciiString &name = *(const AsciiString *)((const char *)p + 0x10);

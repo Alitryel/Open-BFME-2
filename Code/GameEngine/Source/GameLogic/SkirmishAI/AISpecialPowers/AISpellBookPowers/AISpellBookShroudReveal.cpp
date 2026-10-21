@@ -190,8 +190,8 @@ bool AISpellBookShroudReveal::shouldActivate(Object *source)
 // The original standalone function name remains unproved.
 Waypoint *Rva005D7E45FindWaypoint(AsciiString key)
 {
-	Waypoint *p = TheTerrainLogic->firstWaypoint();
-	for (; p; p = p->m_next1c)
-		if (p->m_name08.compare(*(const StringBase<char> *)&key) == 0) break;
-	return p;
+	Waypoint *waypoint = TheTerrainLogic->firstWaypoint();
+	for (; waypoint; waypoint = waypoint->m_next1c)
+		if (waypoint->m_name08.compare(*(const StringBase<char> *)&key) == 0) break;
+	return waypoint;
 }

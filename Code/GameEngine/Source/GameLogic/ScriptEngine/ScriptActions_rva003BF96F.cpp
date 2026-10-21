@@ -50,12 +50,12 @@ public:
 extern class ScriptEngine *TheScriptEngine;
 extern PlayerList *ThePlayerList;
 
-void ScriptActions::Rva003BF96FDo(const AsciiString &a1, const AsciiString &a2)
+void ScriptActions::Rva003BF96FDo(const AsciiString &asciiString, const AsciiString &a2)
 {
 	Object *obj = ((Rva00358752Opaque *)TheScriptEngine)->lookupUnitByValue(a2);
 	if (obj == 0)
 		return;
-	int mask = TheScriptEngine->rva00357475(a1, 0);
+	int mask = TheScriptEngine->rva00357475(asciiString, 0);
 	Player *player = ThePlayerList->getEachPlayerFromMask(mask);
 	if (player == 0)
 		return;

@@ -23,10 +23,10 @@ public:
     Object *getUnitNamed(Parameter *);
 };
 extern class ScriptEngine *TheScriptEngine;
-bool __stdcall Rva003E4E6AGet(Parameter *p)
+bool __stdcall Rva003E4E6AGet(Parameter *parameter)
 {
-    if (p) {
-        Object *obj = TheScriptEngine->getUnitNamed(p);
+    if (parameter) {
+        Object *obj = TheScriptEngine->getUnitNamed(parameter);
         if (obj) {
             MeshGeometryClass *mesh = obj->m_mesh264;
             if (mesh) {

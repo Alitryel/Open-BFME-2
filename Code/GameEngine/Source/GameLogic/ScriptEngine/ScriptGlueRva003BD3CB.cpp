@@ -65,8 +65,8 @@ void ScriptActions::rva003BD3CB(void *p, float f, int c)
 	void *r = TheTerrainLogic->t34(p);
 	if (r == 0)
 		return;
-	FireLogicSystem *h = TheRva002871A4Host;
-	if (h == 0)
+	FireLogicSystem *fireLogicSystem = TheRva002871A4Host;
+	if (fireLogicSystem == 0)
 		return;
-	h->ChangeBurnRateInArea((const Coord3D *)((char *)r + 0x0C), f, c, false);
+	fireLogicSystem->ChangeBurnRateInArea((const Coord3D *)((char *)r + 0x0C), f, c, false);
 }

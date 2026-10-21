@@ -61,14 +61,14 @@ private:
 
 bool ScriptEngine::rva00357AF8(void *p)
 {
-	ScriptArg *arg = (ScriptArg *)p;
-	if (arg->m_str88.compare(g_str009E0878) != 0)
+	ScriptArg *scriptArg = (ScriptArg *)p;
+	if (scriptArg->m_str88.compare(g_str009E0878) != 0)
 		return true;
 	_STL::_Rb_tree_node_base *header = m_header190B8;
 	_STL::_Rb_tree_node_base *node = header->_M_left;
 	while (node != header)
 	{
-		if (((MapNode *)node)->m_id18 == arg->m_id74)
+		if (((MapNode *)node)->m_id18 == scriptArg->m_id74)
 			return true;
 		node = _STL::_Rb_global<bool>::_M_increment(node);
 	}

@@ -115,16 +115,16 @@ void ScriptActions::doTeamFollowSkirmishApproachPath(const AsciiString &teamName
 	Object *first = 0;
 	DLINK_ITERATOR<Object> it = team->iterate_TeamMemberList();
 	while (!it.done()) {
-		Object *o = it.cur();
-		float x = o->m_position.x;
-		float y = o->m_position.y;
-		float z = o->m_position.z;
+		Object *object = it.cur();
+		float x = object->m_position.x;
+		float y = object->m_position.y;
+		float z = object->m_position.z;
 		sum.x += x;
 		sum.y += y;
 		sum.z += z;
 		++n;
 		if (first == 0)
-			first = o;
+			first = object;
 		it.advance();
 	}
 	if (n == 0)

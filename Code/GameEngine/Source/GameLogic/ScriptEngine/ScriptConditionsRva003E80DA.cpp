@@ -83,14 +83,14 @@ protected:
 	bool rva003E80DA(Parameter *p0, Parameter *p1);
 };
 
-bool ScriptConditions::rva003E80DA(Parameter *p0, Parameter *p1)
+bool ScriptConditions::rva003E80DA(Parameter *parameter, Parameter *p1)
 {
 	AsciiString s1 = p1->m_string;
 	AsciiString s2 = TheScriptEngine->resolveName(s1);
 	TeamPrototype *proto = TheTeamFactory->findTeamPrototype(s2, s1);
 	if (proto == 0)
 		return false;
-	int mask = TheScriptEngine->rva00357B82(p0);
+	int mask = TheScriptEngine->rva00357B82(parameter);
 	if (mask == 0)
 		return false;
 	Player *player = ThePlayerList->getPlayerFromMask(mask);
@@ -99,10 +99,10 @@ bool ScriptConditions::rva003E80DA(Parameter *p0, Parameter *p1)
 	int thresh = ((Rva002A7461 *)((char *)player + 0x60))->rva002A7548(1);
 	int total = 0;
 	for (int i = 0; i < proto->m_1D8; ++i) {
-		TeamEntry &e = proto->m_entries[i];
-		void *found = (void *)TheThingFactory->findTemplate(e.m_10);
+		TeamEntry &teamEntry = proto->m_entries[i];
+		void *found = (void *)TheThingFactory->findTemplate(teamEntry.m_10);
 		if (found != 0) {
-			int c = e.m_00 + e.m_04;
+			int c = teamEntry.m_00 + teamEntry.m_04;
 			float f = (float)c * g_Va007C26F0;
 			int ci = (int)f;
 			int v = *(int *)((char *)found + 0x618);

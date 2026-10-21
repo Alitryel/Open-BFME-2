@@ -26,10 +26,10 @@ private:
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > m_lists1A268[20];
 };
 
-void ScriptEngine::rva00357E7B(int playerIndex, const AsciiString &s, int val)
+void ScriptEngine::rva00357E7B(int playerIndex, const AsciiString &asciiString, int val)
 {
 	BfmeSpecialPowerTimer8 timer;
-	timer.m_templateID = Rva003ECA13Get(s);
+	timer.m_templateID = Rva003ECA13Get(asciiString);
 	timer.m_readyFrame = (unsigned int)val;
 	m_lists1A268[playerIndex].push_back(timer);
 }

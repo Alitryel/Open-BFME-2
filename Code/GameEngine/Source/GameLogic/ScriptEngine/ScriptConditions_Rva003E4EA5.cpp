@@ -27,9 +27,9 @@ public:
 };
 extern class View *TheTacticalView;
 
-bool __stdcall Rva003E4EA5Get(Parameter *p)
+bool __stdcall Rva003E4EA5Get(Parameter *parameter)
 {
-	void *cell = TheTerrainLogic->slot88((void *)((char *)p + 0x10));
+	void *cell = TheTerrainLogic->slot88((void *)((char *)parameter + 0x10));
 	if (cell) {
 		int val = *(int *)((char *)cell + 4);
 		return ((TacticalView *)TheTacticalView)->slot6C(val);

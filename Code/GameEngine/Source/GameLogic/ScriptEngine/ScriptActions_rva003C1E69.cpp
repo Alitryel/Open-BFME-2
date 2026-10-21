@@ -20,7 +20,7 @@ public:
 	Team *rva003C1E69(const AsciiString &, const AsciiString &a2);
 };
 
-Team *Rva003C1E69::rva003C1E69(const AsciiString &, const AsciiString &a2)
+Team *Rva003C1E69::rva003C1E69(const AsciiString &, const AsciiString &asciiString)
 {
-	return TheScriptEngine->getTeamNamed(a2, false);
+	return TheScriptEngine->getTeamNamed(asciiString, false);
 }

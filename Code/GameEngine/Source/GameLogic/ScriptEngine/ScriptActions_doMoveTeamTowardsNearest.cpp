@@ -74,7 +74,7 @@ public:
 class Rva00261750Filter : public Rva000421C8
 {
 public:
-	Rva00261750Filter(const ThingTemplate *tmpl, bool match) : m_template(tmpl), m_match(match) {}
+	Rva00261750Filter(const ThingTemplate *thingTemplate, bool match) : m_template(thingTemplate), m_match(match) {}
 	virtual bool allow(Object *obj);
 	const ThingTemplate *m_template;
 	bool m_match;
@@ -198,8 +198,8 @@ void ScriptActions::doMoveTeamTowardsNearest(const AsciiString &teamName, const 
 	if (!team)
 		return;
 
-	const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
-	if (!templ)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+	if (!thingTemplate)
 		return;
 
 	PolygonTrigger *trig = TheScriptEngine->getQualifiedTriggerAreaByName(triggerName);
@@ -211,7 +211,7 @@ void ScriptActions::doMoveTeamTowardsNearest(const AsciiString &teamName, const 
 		AIUpdateInterface *ai = obj->getAIUpdateInterface();
 		if (ai) {
 			Object *bestObj = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, FROM_CENTER_3D,
-				Rva00261750Filter(templ, true).link(Rva00261723Filter(trig).link(&Rva002611BFFilter(obj))));
+				Rva00261750Filter(thingTemplate, true).link(Rva00261723Filter(trig).link(&Rva002611BFFilter(obj))));
 			if (!bestObj)
 				return;
 			ai->m_commands.aiMoveToObject(bestObj, CMD_FROM_SCRIPT);

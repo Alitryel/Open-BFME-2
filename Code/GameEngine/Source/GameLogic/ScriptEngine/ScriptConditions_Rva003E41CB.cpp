@@ -22,7 +22,7 @@ public:
 };
 extern class ScriptEngine *TheScriptEngine;
 
-bool __stdcall Rva003E41CBGet(Parameter *p)
+bool __stdcall Rva003E41CBGet(Parameter *parameter)
 {
-    return TheScriptEngine->rva00357A97(p->m_string, true);
+    return TheScriptEngine->rva00357A97(parameter->m_string, true);
 }

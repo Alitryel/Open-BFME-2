@@ -44,9 +44,9 @@ for(int i=0;i<TheSidesList->count;++i){
 currentPlayer=ThePlayerList->getNthPlayer(i);Rva002048A2 playerScope(&playerName,TheNameKeyGenerator->keyToName(currentPlayer->nameKey));
 ScriptList*list=&TheSidesList->getSideInfo(i)->scripts;
 if(list){for(int slot=list->first;slot!=-1;slot=list->entries[slot].next){
-ScriptEntry*eb=list->entries;ScriptEntry*eb2=list->entries;int off=slot*0x14;int off2=slot*0x14;
+ScriptEntry*eb=list->entries;ScriptEntry*scriptEntry=list->entries;int off=slot*0x14;int off2=slot*0x14;
 Script*script=(*(ScriptNodePayload**)((char*)eb+off2+0x10))->script();
-const AsciiString&name=*(const AsciiString*)((char*)eb2+off+8);
+const AsciiString&name=*(const AsciiString*)((char*)scriptEntry+off+8);
 checkConditionsForTeamNames(script,name);}}
 }
 firstUpdate=true;fadeMode=4;curFrame=0;minFade=1;maxFade=0;fadeIncrease=0;fadeHold=0;fadeDecrease=0;curFade=0;

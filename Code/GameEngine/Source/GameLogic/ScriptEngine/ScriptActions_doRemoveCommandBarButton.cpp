@@ -125,14 +125,14 @@ static __forceinline void removeCommandSetButton(const AsciiString &commandSetNa
 
 void ScriptActions::doRemoveCommandBarButton(const AsciiString &buttonName, const AsciiString &objectType)
 {
-	const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
-	if (!templ) {
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+	if (!thingTemplate) {
 		return;
 	}
 
-	removeCommandSetButton(templ->friend_getCommandSetString(), buttonName);
+	removeCommandSetButton(thingTemplate->friend_getCommandSetString(), buttonName);
 
-	const ModuleInfo &mi = templ->getBehaviorModuleInfo();
+	const ModuleInfo &mi = thingTemplate->getBehaviorModuleInfo();
 	for (Int j = 0; j < mi.getCount(); ++j)
 	{
 		const ModuleData *md = mi.getNthData(j);

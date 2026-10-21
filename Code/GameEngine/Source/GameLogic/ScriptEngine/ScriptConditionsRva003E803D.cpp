@@ -84,9 +84,9 @@ protected:
 	bool rva003E803D(Parameter *p0, Parameter *p1);
 };
 
-bool ScriptConditions::rva003E803D(Parameter *p0, Parameter *p1)
+bool ScriptConditions::rva003E803D(Parameter *parameter, Parameter *p1)
 {
-	Team *team = TheScriptEngine->getTeamNamed(p0->m_string, false);
+	Team *team = TheScriptEngine->getTeamNamed(parameter->m_string, false);
 	Object *unit = TheScriptEngine->getUnitNamed(p1);
 	if (team == 0 || unit == 0)
 		return false;

@@ -18,10 +18,10 @@ public:
 	Object *getUnitNamed(Parameter *p);
 };
 extern class ScriptEngine *TheScriptEngine;
-void ScriptActions::Rva003BB4F7Kill(Parameter *p)
+void ScriptActions::Rva003BB4F7Kill(Parameter *parameter)
 {
-	Object *o = TheScriptEngine->getUnitNamed(p);
-	if (!o)
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
+	if (!object)
 		return;
-	o->kill((DamageType)8, (DeathType)0);
+	object->kill((DamageType)8, (DeathType)0);
 }

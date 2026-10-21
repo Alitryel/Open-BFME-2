@@ -40,10 +40,10 @@ public:
 	void rva003C1FDE(const AsciiString &a1, bool dead);
 };
 
-void Rva003C1FDE::rva003C1FDE(const AsciiString &a1, bool dead)
+void Rva003C1FDE::rva003C1FDE(const AsciiString &asciiString, bool dead)
 {
 	(void)dead;
 	w15(1);
-	TheDisplay->v67((AsciiString &)a1, dead, 0x30);
+	TheDisplay->v67((AsciiString &)asciiString, dead, 0x30);
 	TheDisplay->m_flag10c = 1;
 }

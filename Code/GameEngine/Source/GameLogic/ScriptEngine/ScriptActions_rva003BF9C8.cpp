@@ -31,9 +31,9 @@ public:
 
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BF9C8Do(const AsciiString &a1)
+void ScriptActions::Rva003BF9C8Do(const AsciiString &asciiString)
 {
-	TeamPrototype *proto = TheScriptEngine->rva003570D1(a1);
+	TeamPrototype *proto = TheScriptEngine->rva003570D1(asciiString);
 	if (proto == 0)
 		return;
 	Rva002A9DCF *handler = proto->m_handler08;

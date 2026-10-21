@@ -13,12 +13,12 @@ public:
 };
 extern class ScriptEngine *TheScriptEngine;
 extern float g_Va007C26F0;
-void ScriptActions::Rva003BBF51Set(Parameter *p, float f)
+void ScriptActions::Rva003BBF51Set(Parameter *parameter, float f)
 {
-	Object *o = TheScriptEngine->getUnitNamed(p);
-	if (!o)
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
+	if (!object)
 		return;
-	char *ai = *(char **)((char *)o + 0x258);
+	char *ai = *(char **)((char *)object + 0x258);
 	if (!ai)
 		return;
 	char *sub = *(char **)(ai + 0x1F0);

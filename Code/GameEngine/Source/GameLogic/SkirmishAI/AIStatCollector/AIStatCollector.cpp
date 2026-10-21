@@ -133,9 +133,9 @@ AIStatCollector::AIStatCollector(Player *owner)
 // Independently recovered native cdecl callback at4DF983..4DF98B.
 void *Rva004DF983Field(void *owner) { return static_cast<char *>(owner)+0x38; }
 
-void AIStatCollector::Register(Object *a,int mask) {
+void AIStatCollector::Register(Object *object,int mask) {
  const ModuleData **beg= listeners.begin(); const ModuleData **end=listeners.end();
- for (;beg!=end;++beg) { Rva004DF98BReceiver *e=(Rva004DF98BReceiver *)*beg; if(e->m_flags & mask) e->v0(a,mask); }
+ for (;beg!=end;++beg) { Rva004DF98BReceiver *e=(Rva004DF98BReceiver *)*beg; if(e->m_flags & mask) e->v0(object,mask); }
 }
 
 // WB addInfoReceiver at129B9C0; native appends one pointer at vector2C.

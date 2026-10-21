@@ -52,15 +52,15 @@ protected:
 extern class ScriptEngine *TheScriptEngine;
 extern PlayerList *ThePlayerList;
 
-void ScriptActions::Rva003C2D90Do(Parameter *a, Parameter *b)
+void ScriptActions::Rva003C2D90Do(Parameter *parameter, Parameter *b)
 {
-	int mask = TheScriptEngine->rva00357475(a->m_string, (bool *)0);
+	int mask = TheScriptEngine->rva00357475(parameter->m_string, (bool *)0);
 	if (mask == 0)
 		return;
 	Player *player = ThePlayerList->getPlayerFromMask(mask);
 	if (player == 0)
 		return;
 	int v = player->m_60.rva002A7461();
-	ScriptCounter *c = TheScriptEngine->bfmeCounter(b->m_string);
-	c->m_value = v;
+	ScriptCounter *scriptCounter = TheScriptEngine->bfmeCounter(b->m_string);
+	scriptCounter->m_value = v;
 }

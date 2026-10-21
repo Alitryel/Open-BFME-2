@@ -184,20 +184,20 @@ void ScriptActions::doBuildBaseBuilding(const AsciiString &buildingType, Paramet
 	if (player != TheScriptEngine->getCurrentPlayer())
 		return;
 
-	ThingTemplate *tmpl = (ThingTemplate *)TheThingFactory->findTemplate(buildingType);
-	if (!tmpl)
+	ThingTemplate *thingTemplate = (ThingTemplate *)TheThingFactory->findTemplate(buildingType);
+	if (!thingTemplate)
 		return;
 
 	NameKeyType castleKey = CastleBehavior::rva0003955DA();
 	Module *castle = base->findModule(castleKey);
 	if (!castle)
 		return;
-	if (!((Rva003971BF *)castle)->rva003971BF((Arg3971BF *)tmpl))
+	if (!((Rva003971BF *)castle)->rva003971BF((Arg3971BF *)thingTemplate))
 		return;
-	if (!player->rva002AA00C(tmpl, 0))
+	if (!player->rva002AA00C(thingTemplate, 0))
 		return;
 
-	Object *obj = (Object *)((Rva003980BF *)castle)->rva003980BF(tmpl, -2, 0);
+	Object *obj = (Object *)((Rva003980BF *)castle)->rva003980BF(thingTemplate, -2, 0);
 	if (!obj)
 		return;
 	if (referenceName.isEmpty())
@@ -221,20 +221,20 @@ void ScriptActions::doBuildBaseBuildingInSlot(const AsciiString &buildingType, P
 	if (player != TheScriptEngine->getCurrentPlayer())
 		return;
 
-	ThingTemplate *tmpl = (ThingTemplate *)TheThingFactory->findTemplate(buildingType);
-	if (!tmpl)
+	ThingTemplate *thingTemplate = (ThingTemplate *)TheThingFactory->findTemplate(buildingType);
+	if (!thingTemplate)
 		return;
 
 	NameKeyType castleKey = CastleBehavior::rva0003955DA();
 	Module *castle = base->findModule(castleKey);
 	if (!castle)
 		return;
-	if (!((Rva003971BF *)castle)->rva003971BF((Arg3971BF *)tmpl))
+	if (!((Rva003971BF *)castle)->rva003971BF((Arg3971BF *)thingTemplate))
 		return;
-	if (!player->rva002AA00C(tmpl, 0))
+	if (!player->rva002AA00C(thingTemplate, 0))
 		return;
 
-	Object *obj = (Object *)((Rva003980BF *)castle)->rva003980BF(tmpl, slotParm->bfme_getInt_d5339(), 0);
+	Object *obj = (Object *)((Rva003980BF *)castle)->rva003980BF(thingTemplate, slotParm->bfme_getInt_d5339(), 0);
 	if (!obj)
 		return;
 	if (referenceName.isEmpty())
@@ -258,23 +258,23 @@ void ScriptActions::rva003C66F1(const AsciiString &buildingType, Parameter *mode
 	if (player != TheScriptEngine->getCurrentPlayer())
 		return;
 
-	ThingTemplate *tmpl = (ThingTemplate *)TheThingFactory->findTemplate(buildingType);
-	if (!tmpl)
+	ThingTemplate *thingTemplate = (ThingTemplate *)TheThingFactory->findTemplate(buildingType);
+	if (!thingTemplate)
 		return;
 
 	NameKeyType castleKey = CastleBehavior::rva0003955DA();
 	Module *castle = base->findModule(castleKey);
 	if (!castle)
 		return;
-	if (!((Rva003971BF *)castle)->rva003971BF((Arg3971BF *)tmpl))
+	if (!((Rva003971BF *)castle)->rva003971BF((Arg3971BF *)thingTemplate))
 		return;
-	if (!player->rva002AA00C(tmpl, 0))
+	if (!player->rva002AA00C(thingTemplate, 0))
 		return;
 
 	if (!TheWritableGlobalData->m_1110) {
 		AssetLoadMode mode;
 		AssetList assets;
-		tmpl->GetAssetList((int)&assets, (int)&mode);
+		thingTemplate->GetAssetList((int)&assets, (int)&mode);
 		bfmeMergeReceiverKeys((int)&assets);
 	}
 
@@ -285,9 +285,9 @@ void ScriptActions::rva003C66F1(const AsciiString &buildingType, Parameter *mode
 		pos.x = marker->getPosition()->x;
 		pos.y = marker->getPosition()->y;
 		pos.z = marker->getPosition()->z;
-		obj = ((CastleBehavior *)castle)->rva0039815B(tmpl, &pos, modeParm->bfme_getInt_d5339());
+		obj = ((CastleBehavior *)castle)->rva0039815B(thingTemplate, &pos, modeParm->bfme_getInt_d5339());
 	} else {
-		obj = (Object *)((Rva003980BF *)castle)->rva003980BF(tmpl, -2, 0);
+		obj = (Object *)((Rva003980BF *)castle)->rva003980BF(thingTemplate, -2, 0);
 	}
 	if (!obj)
 		return;

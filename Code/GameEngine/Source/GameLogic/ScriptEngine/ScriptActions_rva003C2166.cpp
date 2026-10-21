@@ -59,11 +59,11 @@ void ScriptActions::rva003C2166(const AsciiString &teamName, int count, const As
 	Team *team = TheScriptEngine->getTeamNamed(teamName, true);
 	if (team)
 	{
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(thingName);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(thingName);
 		ObjectTypes *types = TheScriptEngine->getObjectTypes(thingName);
 		if (team->hasAnyObjects(false))
-			team->rva003A1AA3(tmpl, types, count, TheAI->m_aiData->m_recruitRadius);
+			team->rva003A1AA3(thingTemplate, types, count, TheAI->m_aiData->m_recruitRadius);
 		else
-			team->rva003A1AA3(tmpl, types, count, 1000000.0f);
+			team->rva003A1AA3(thingTemplate, types, count, 1000000.0f);
 	}
 }

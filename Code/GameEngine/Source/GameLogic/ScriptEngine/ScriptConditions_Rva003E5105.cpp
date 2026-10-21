@@ -43,14 +43,14 @@ protected:
 	bool rva003E5105(Parameter *a, Parameter *b);
 };
 
-bool ScriptConditions::rva003E5105(Parameter *a, Parameter *b)
+bool ScriptConditions::rva003E5105(Parameter *parameter, Parameter *b)
 {
-	Object *o1 = TheScriptEngine->getUnitNamed(a);
-	if (!o1)
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
+	if (!object)
 		return false;
 	Object *o2 = TheScriptEngine->getUnitNamed(b);
 	if (!o2)
 		return false;
 	Pathfinder *pf = TheAI->m_10;
-	return pf->QuickDoesPathExist(o1, &o1->m_38, &o2->m_38, 0);
+	return pf->QuickDoesPathExist(object, &object->m_38, &o2->m_38, 0);
 }

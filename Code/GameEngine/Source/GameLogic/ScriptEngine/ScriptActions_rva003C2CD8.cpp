@@ -62,30 +62,30 @@ protected:
 extern class ScriptEngine *TheScriptEngine;
 extern PlayerList *ThePlayerList;
 
-void ScriptActions::Rva003C2CD8Do(Parameter *a, Parameter *b)
+void ScriptActions::Rva003C2CD8Do(Parameter *parameter, Parameter *b)
 {
-	int mask = TheScriptEngine->rva00357475(a->m_string, (bool *)0);
+	int mask = TheScriptEngine->rva00357475(parameter->m_string, (bool *)0);
 	if (mask == 0)
 		return;
 	Player *player = ThePlayerList->getPlayerFromMask(mask);
 	if (player == 0)
 		return;
 	int v = player->m_60.get(1);
-	ScriptCounter *c = TheScriptEngine->bfmeCounter(b->m_string);
-	c->m_value = v;
+	ScriptCounter *scriptCounter = TheScriptEngine->bfmeCounter(b->m_string);
+	scriptCounter->m_value = v;
 }
 
-void ScriptActions::Rva003C2D34Do(Parameter *a, Parameter *b)
+void ScriptActions::Rva003C2D34Do(Parameter *parameter, Parameter *b)
 {
-	int mask = TheScriptEngine->rva00357475(a->m_string, (bool *)0);
+	int mask = TheScriptEngine->rva00357475(parameter->m_string, (bool *)0);
 	if (mask == 0)
 		return;
 	Player *player = ThePlayerList->getPlayerFromMask(mask);
 	if (player == 0)
 		return;
 	int v = ((Rva002A7461 *)&player->m_60)->rva002A7548(1);
-	ScriptCounter *c = TheScriptEngine->bfmeCounter(b->m_string);
-	c->m_value = v;
+	ScriptCounter *scriptCounter = TheScriptEngine->bfmeCounter(b->m_string);
+	scriptCounter->m_value = v;
 }
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.

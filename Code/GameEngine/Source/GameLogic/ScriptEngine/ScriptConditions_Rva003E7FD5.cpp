@@ -44,9 +44,9 @@ public:
     bool pointInTrigger(const ICoord3D &point);
 };
 
-bool __stdcall Rva003E7FD5Get(Parameter *p)
+bool __stdcall Rva003E7FD5Get(Parameter *parameter)
 {
-    PolygonTrigger *trig = TheScriptEngine->getQualifiedTriggerAreaByName(p->getString());
+    PolygonTrigger *trig = TheScriptEngine->getQualifiedTriggerAreaByName(parameter->getString());
     if (trig)
     {
         float f[3];

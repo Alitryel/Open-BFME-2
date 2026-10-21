@@ -28,10 +28,10 @@ void ScriptActions::Rva003BB6C0Clear(const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			((Rva002A9D98ByteSlot *)p)->set(0);
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			((Rva002A9D98ByteSlot *)player)->set(0);
 	} while (mask != 0);
 }

@@ -132,10 +132,10 @@ void ScriptEngine::rva0020A7C9()
 {
 	_STL::vector<FXBoneInfo> &fv = (_STL::vector<FXBoneInfo> &)m_vec;
 	fv.erase(fv.begin(), fv.end());
-	GameLogic *g = TheGameLogic;
-	if (g == 0)
+	GameLogic *gameLogic = TheGameLogic;
+	if (gameLogic == 0)
 		return;
-	Object *obj = g->getFirstObject();
+	Object *obj = gameLogic->getFirstObject();
 	if (obj == 0)
 		return;
 	for (; obj != 0; obj = obj->getNextObject()) {

@@ -132,8 +132,8 @@ void Rva003BBAD3Set()
 {
 	TheInGameUI->setInputEnabled(false);
 	TheMouse->setVisibility(false);
-	GameMessage *m = TheMessageStream->m18(0x3ec);
-	m->appendBooleanArgument(true);
+	GameMessage *gameMessage = TheMessageStream->m18(0x3ec);
+	gameMessage->appendBooleanArgument(true);
 	TheInGameUI->s68();
 	((char *)TheInGameUI)[0x8b0] = 0;
 	((Rva00405AA7 *)(*(BfmeWorldRV **)&TheControlBar))->rva00405AA7();
@@ -153,8 +153,8 @@ void Rva003BBAD3::rva003BBAD3()
 {
 	TheInGameUI->setInputEnabled(false);
 	TheMouse->setVisibility(false);
-	GameMessage *m = TheMessageStream->m18(0x3ec);
-	m->appendBooleanArgument(true);
+	GameMessage *gameMessage = TheMessageStream->m18(0x3ec);
+	gameMessage->appendBooleanArgument(true);
 	TheInGameUI->s68();
 	((char *)TheInGameUI)[0x8b0] = 0;
 	((Rva00405AA7 *)(*(BfmeWorldRV **)&TheControlBar))->rva00405AA7();

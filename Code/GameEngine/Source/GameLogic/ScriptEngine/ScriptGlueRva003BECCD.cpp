@@ -24,9 +24,9 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BECCDSet(const AsciiString &team, const AsciiString &a, bool b)
+void ScriptActions::Rva003BECCDSet(const AsciiString &team, const AsciiString &asciiString, bool b)
 {
 	Team *t = TheScriptEngine->getTeamNamed(team, false);
 	if (t != 0)
-		t->rva003A38E9(a, b);
+		t->rva003A38E9(asciiString, b);
 }

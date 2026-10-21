@@ -48,24 +48,24 @@ void ScriptEngine::rva0020517D(Object *obj)
 	int id = obj->m_74;
 	SequentialScript **it = m_begin;
 	while (it != m_end) {
-		SequentialScript *s = *it;
-		if (!s || s->m_8 == id)
+		SequentialScript *sequentialScript = *it;
+		if (!sequentialScript || sequentialScript->m_8 == id)
 			it = cleanupSequentialScript(it, true, true);
 		else
 			++it;
 	}
 }
 
-void ScriptEngine::rva00205140(SequentialScript *arg)
+void ScriptEngine::rva00205140(SequentialScript *sequentialScript)
 {
-	if (!arg)
+	if (!sequentialScript)
 		return;
-	if (!arg->m_10)
+	if (!sequentialScript->m_10)
 		return;
 	SequentialScript **it = m_begin;
 	while (it != m_end) {
 		SequentialScript *s = *it;
-		if (s && s->m_14 == arg)
+		if (s && s->m_14 == sequentialScript)
 			it = cleanupSequentialScript(it, true, true);
 		else
 			++it;
@@ -82,8 +82,8 @@ void ScriptEngine::rva002051B7(Object *obj)
 	if (!obj)
 		return;
 	for (SequentialScript **it = m_begin; it != m_end; ++it) {
-		SequentialScript *s = *it;
-		if (!s || s->m_04 == obj)
+		SequentialScript *sequentialScript = *it;
+		if (!sequentialScript || sequentialScript->m_04 == obj)
 			cleanupSequentialScript(it, true, false);
 	}
 	if (m_1A110 == obj)

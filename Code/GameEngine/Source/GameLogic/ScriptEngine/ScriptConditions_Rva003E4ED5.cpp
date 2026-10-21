@@ -176,21 +176,21 @@ public:
 extern class View *TheTacticalView;
 
 // ?Rva003E4ED5Get@@YG_NPAVParameter@@@Z @0x003E4ED5 48B
-bool __stdcall Rva003E4ED5Get(Parameter *p)
+bool __stdcall Rva003E4ED5Get(Parameter *parameter)
 {
-	return ((TacticalView *)TheTacticalView)->slot23C() > p->getReal();
+	return ((TacticalView *)TheTacticalView)->slot23C() > parameter->getReal();
 }
 
 // ?Rva003E4F05Get@@YG_NPAVParameter@@@Z @0x003E4F05 54B
-bool __stdcall Rva003E4F05Get(Parameter *p)
+bool __stdcall Rva003E4F05Get(Parameter *parameter)
 {
-	return ((TacticalView *)TheTacticalView)->slot240() > p->getReal() * 0.017453292f;
+	return ((TacticalView *)TheTacticalView)->slot240() > parameter->getReal() * 0.017453292f;
 }
 
 // ?Rva003E4F3BGet@@YG_NPAVParameter@@@Z @0x003E4F3B 48B
-bool __stdcall Rva003E4F3BGet(Parameter *p)
+bool __stdcall Rva003E4F3BGet(Parameter *parameter)
 {
-	return ((TacticalView *)TheTacticalView)->slot244() > p->getReal();
+	return ((TacticalView *)TheTacticalView)->slot244() > parameter->getReal();
 }
 
 // ?Rva003E4F6BGet@@YG_NXZ @0x003E4F6B 14B

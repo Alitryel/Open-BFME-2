@@ -73,9 +73,9 @@ protected:
 	void doUnpackBase(Parameter *p1, const AsciiString *str, int flag);
 };
 
-void ScriptActions::doUnpackBase(Parameter *p1, const AsciiString *str, int flag)
+void ScriptActions::doUnpackBase(Parameter *parameter, const AsciiString *str, int flag)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(p1);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	if (obj == 0)
 		return;
 	Player *pl = obj->getControllingPlayer();

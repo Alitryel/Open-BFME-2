@@ -549,8 +549,8 @@ void AIBase::buildFortressIfNeeded()
 {
 	GameSlot *slot = Rva00506C82Find((const Rva00506C82Arg *)m_owner);
 	const AsciiString &side = ThePlayerTemplateStore->getNthPlayerTemplate(slot->m_18)->m_side;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(side);
-	if (!((Player *)m_owner)->canBuild(tmpl))
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(side);
+	if (!((Player *)m_owner)->canBuild(thingTemplate))
 		return;
 	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	int count = record->m_16C;

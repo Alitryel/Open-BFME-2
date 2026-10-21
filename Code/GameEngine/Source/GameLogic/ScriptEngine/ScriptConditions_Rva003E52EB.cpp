@@ -53,9 +53,9 @@ protected:
 	bool rva003E52EB(Parameter *a, CondA003E52EB *b, CondB003E52EB *c);
 };
 
-bool ScriptConditions::rva003E52EB(Parameter *a, CondA003E52EB *b, CondB003E52EB *c)
+bool ScriptConditions::rva003E52EB(Parameter *parameter, CondA003E52EB *b, CondB003E52EB *c)
 {
-	int mask = TheScriptEngine->rva00357475(a->m_10, 0);
+	int mask = TheScriptEngine->rva00357475(parameter->m_10, 0);
 	Player *pl = ThePlayerList->getPlayerFromMask(mask);
 	if (!pl)
 		return false;

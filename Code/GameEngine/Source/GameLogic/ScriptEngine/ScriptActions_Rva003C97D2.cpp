@@ -171,8 +171,8 @@ void ScriptActions::doAttackMoveTeamTowardsNearest(const AsciiString &teamName, 
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(objectType);
 	bool deleteTypes = false;
 	if (!types) {
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(objectType);
-		if (tmpl == 0)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+		if (thingTemplate == 0)
 			return;
 		types = new ObjectTypes;
 		types->addObjectType(objectType);

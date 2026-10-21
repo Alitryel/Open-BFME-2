@@ -36,9 +36,9 @@ protected:
 	void rva003C09DA(const AsciiString &, const AsciiString &);
 };
 
-void ScriptActions::rva003C09DA(const AsciiString &teamName1, const AsciiString &teamName2)
+void ScriptActions::rva003C09DA(const AsciiString &asciiString, const AsciiString &teamName2)
 {
-	Team *team1 = TheScriptEngine->getTeamNamed(teamName1, false);
+	Team *team1 = TheScriptEngine->getTeamNamed(asciiString, false);
 	Team *team2 = TheScriptEngine->getTeamNamed(teamName2, false);
 	if (team1 == 0)
 		return;

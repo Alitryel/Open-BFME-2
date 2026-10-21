@@ -662,15 +662,15 @@ ScriptGroup *ScriptGroup::duplicate(void) const
 		Script *dst = NULL;
 		while (src)
 		{
-			Script *tmp = src->duplicate();
+			Script *script = src->duplicate();
 
 			if (dst)
-				dst->setNextScript(tmp);
+				dst->setNextScript(script);
 			else
-				pNew->m_firstScript = tmp;
+				pNew->m_firstScript = script;
 
 			src = src->getNext();
-			dst = tmp;
+			dst = script;
 		}
 	}
 
@@ -698,15 +698,15 @@ ScriptGroup *ScriptGroup::duplicateAndQualify(const AsciiString& qualifier,
 		Script *dst = NULL;
 		while (src)
 		{
-			Script *tmp = src->duplicateAndQualify(qualifier, playerTemplateName, newPlayerName);
+			Script *script = src->duplicateAndQualify(qualifier, playerTemplateName, newPlayerName);
 
 			if (dst)
-				dst->setNextScript(tmp);
+				dst->setNextScript(script);
 			else
-				pNew->m_firstScript = tmp;
+				pNew->m_firstScript = script;
 
 			src = src->getNext();
-			dst = tmp;
+			dst = script;
 		}
 	}
 

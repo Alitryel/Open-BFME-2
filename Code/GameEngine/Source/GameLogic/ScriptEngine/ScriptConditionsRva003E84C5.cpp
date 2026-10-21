@@ -64,9 +64,9 @@ protected:
 	bool rva003E84C5(Parameter *p0, Parameter *p1);
 };
 
-bool ScriptConditions::rva003E84C5(Parameter *p0, Parameter *p1)
+bool ScriptConditions::rva003E84C5(Parameter *parameter, Parameter *p1)
 {
-	Team *team = TheScriptEngine->getTeamNamed(p0->m_string, false);
+	Team *team = TheScriptEngine->getTeamNamed(parameter->m_string, false);
 	if (!team)
 		return false;
 	Object *teamObj = team->rva0039E8EB();

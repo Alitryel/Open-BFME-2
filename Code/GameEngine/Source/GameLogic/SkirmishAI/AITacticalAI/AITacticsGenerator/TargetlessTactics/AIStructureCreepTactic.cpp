@@ -502,7 +502,7 @@ public:
 	char m_pad22[0x28 - 0x22];
 	bool m_28;		// +0x28
 	void setTarget(ObjectID id) { m_08 = id; }
-	void setName(const AsciiString &n) { m_name = n; }
+	void setName(const AsciiString &asciiString) { m_name = asciiString; }
 	char m_pad29[0x40 - 0x29];
 };
 
@@ -587,9 +587,9 @@ __declspec(noinline) inline AIStructureCreepTactic::~AIStructureCreepTactic()
 }
 
 // ?bfmeAnchorAIStructureCreepTacticDtor absent-from-retail
-void bfmeAnchorAIStructureCreepTacticDtor(AIStructureCreepTactic *p)
+void bfmeAnchorAIStructureCreepTacticDtor(AIStructureCreepTactic *aIStructureCreepTactic)
 {
-	p->AIStructureCreepTactic::~AIStructureCreepTactic();
+	aIStructureCreepTactic->AIStructureCreepTactic::~AIStructureCreepTactic();
 }
 
 void AIStructureCreepTactic::xfer(Xfer *xfer)
@@ -808,11 +808,11 @@ public:
 };
 
 // Zero Hour's inline Coord3D::add.
-static inline void Coord3DAdd(Coord3D *c, const Coord3DBase *a)
+static inline void Coord3DAdd(Coord3D *c, const Coord3DBase *coord3DBase)
 {
-	c->x += a->x;
-	c->y += a->y;
-	c->z += a->z;
+	c->x += coord3DBase->x;
+	c->y += coord3DBase->y;
+	c->z += coord3DBase->z;
 }
 
 // WWMath's inline Vector3 operations (operator-=, Length2, Normalize via
@@ -820,7 +820,7 @@ static inline void Coord3DAdd(Coord3D *c, const Coord3DBase *a)
 struct BfmeVector3
 {
 	BfmeVector3(float x,float y,float z){X = x; Y = y; Z = z;}
-	BfmeVector3(const Coord3DBase &c){X = c.x; Y = c.y; Z = c.z;}
+	BfmeVector3(const Coord3DBase &coord3DBase){X = coord3DBase.x; Y = coord3DBase.y; Z = coord3DBase.z;}
 	BfmeVector3 &operator-=(const BfmeVector3 &b) { X -= b.X; Y -= b.Y; Z -= b.Z; return *this; }
 	void Scale(const BfmeVector3 &s) { X *= s.X; Y *= s.Y; Z *= s.Z; }
 	float Length2() const { return X * X + (Y * Y + Z * Z); }

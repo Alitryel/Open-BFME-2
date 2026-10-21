@@ -35,11 +35,11 @@ protected:
 	bool rva003E7F3A(Parameter *p1, Parameter *p2);
 };
 
-bool ScriptConditions::rva003E7F3A(Parameter *p1, Parameter *p2)
+bool ScriptConditions::rva003E7F3A(Parameter *parameter, Parameter *p2)
 {
-    if (!p1 || !p2)
+    if (!parameter || !p2)
         return false;
-    Object *obj = TheScriptEngine->getUnitNamed(p1);
+    Object *obj = TheScriptEngine->getUnitNamed(parameter);
     if (!obj)
         return false;
     AsciiString tmp = p2->getString();

@@ -40,17 +40,17 @@ void ScriptActions::Rva003BB94CReveal(const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0) {
 		for (int i = 0; i < ThePlayerList->m_playerCount; ++i) {
-			Player *p = ThePlayerList->getNthPlayer(i);
-			if (p->m_field5C != 0)
+			Player *player = ThePlayerList->getNthPlayer(i);
+			if (player->m_field5C != 0)
 				continue;
 			((Rva00739780 *)TheShroudManager)->rva00739780(i);
 		}
 	} else {
-		Player *p;
+		Player *player;
 		do {
-			p = ThePlayerList->getEachPlayerFromMask(mask);
-			if (p)
-				((Rva00739780 *)TheShroudManager)->rva00739780(p->m_index54);
+			player = ThePlayerList->getEachPlayerFromMask(mask);
+			if (player)
+				((Rva00739780 *)TheShroudManager)->rva00739780(player->m_index54);
 		} while (mask != 0);
 	}
 }

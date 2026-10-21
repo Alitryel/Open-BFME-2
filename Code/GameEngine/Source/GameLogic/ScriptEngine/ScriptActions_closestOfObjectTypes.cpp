@@ -74,7 +74,7 @@ public:
 class Rva00261750Filter : public Rva000421C8
 {
 public:
-	Rva00261750Filter(const ThingTemplate *tmpl, bool match) : m_template(tmpl), m_match(match) {}
+	Rva00261750Filter(const ThingTemplate *thingTemplate, bool match) : m_template(thingTemplate), m_match(match) {}
 	virtual bool allow(Object *obj);
 	const ThingTemplate *m_template;
 	bool m_match;
@@ -225,10 +225,10 @@ void ScriptActions::rva003C2662(const AsciiString &teamName, const AsciiString &
 	if (types) {
 		obj = rva003C24F0(&pos, types, 0, false);
 	} else {
-		const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
-		if (!templ)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+		if (!thingTemplate)
 			return;
-		obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0, &Rva00261750Filter(templ, true));
+		obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0, &Rva00261750Filter(thingTemplate, true));
 	}
 	if (!obj)
 		return;
@@ -262,11 +262,11 @@ void ScriptActions::rva003C4625(const AsciiString &objectType, Parameter *teamPa
 	if (types) {
 		obj = rva003C24F0(&pos, types, team->getControllingPlayer(), false);
 	} else {
-		const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
-		if (!templ)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+		if (!thingTemplate)
 			return;
 		obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0,
-			Rva00261750Filter(templ, true).link(&Rva0026137EFilter(team->getControllingPlayer(), true)));
+			Rva00261750Filter(thingTemplate, true).link(&Rva0026137EFilter(team->getControllingPlayer(), true)));
 	}
 	if (obj) {
 		TheScriptEngine->rva00208968(unitName, obj);
@@ -292,11 +292,11 @@ void ScriptActions::rva003C55A6(void *what, const AsciiString &name, const Ascii
 		if (types) {
 			obj = rva003C24F0(&pos, types, player, false);
 		} else {
-			const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
-			if (!templ)
+			const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+			if (!thingTemplate)
 				continue;
 			obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0,
-				Rva00261750Filter(templ, true).link(&Rva0026137EFilter(player, true)));
+				Rva00261750Filter(thingTemplate, true).link(&Rva0026137EFilter(player, true)));
 		}
 		if (obj) {
 			bfmeAddBH(*(const AsciiString *)what, (const AsciiStringBH &)name, (BfmeTargetBH *)obj);
@@ -318,10 +318,10 @@ void ScriptActions::rva003C56D6(void *what, const AsciiString &name, const Ascii
 	if (types) {
 		obj = rva003C24F0(&pos, types, 0, false);
 	} else {
-		const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
-		if (!templ)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+		if (!thingTemplate)
 			return;
-		obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0, &Rva00261750Filter(templ, true));
+		obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0, &Rva00261750Filter(thingTemplate, true));
 	}
 	if (obj)
 		bfmeAddBH(*(const AsciiString *)what, (const AsciiStringBH &)name, (BfmeTargetBH *)obj);
@@ -346,10 +346,10 @@ void ScriptActions::rva003C33C9(Parameter *typeParm, Parameter *playerParm, Para
 		else
 			obj = rva003C24F0(&pos, types, player, false);
 	} else {
-		const ThingTemplate *templ = TheThingFactory->findTemplate(typeParm->getString());
-		if (!templ)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(typeParm->getString());
+		if (!thingTemplate)
 			return;
-		Rva00261750Filter thingFilter(templ, true);
+		Rva00261750Filter thingFilter(thingTemplate, true);
 		Rva0026137EFilter playerFilter(player, true);
 		Rva0026149CFilter extraFilter(false);
 		thingFilter.link(&playerFilter);
@@ -371,10 +371,10 @@ void ScriptActions::rva003C276A(const AsciiString &teamName, const AsciiString &
 	Coord3D pos;
 	team->rva0039E5B9(&pos);
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(objectType);
-	const ThingTemplate *templ = 0;
+	const ThingTemplate *thingTemplate = 0;
 	if (!types) {
-		templ = TheThingFactory->findTemplate(objectType);
-		if (!templ)
+		thingTemplate = TheThingFactory->findTemplate(objectType);
+		if (!thingTemplate)
 			return;
 	}
 	Object *best = 0;
@@ -389,7 +389,7 @@ void ScriptActions::rva003C276A(const AsciiString &teamName, const AsciiString &
 			obj = rva003C24F0(&pos, types, player, false);
 		else
 			obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0,
-				Rva00261750Filter(templ, true).link(&Rva0026137EFilter(player, true)));
+				Rva00261750Filter(thingTemplate, true).link(&Rva0026137EFilter(player, true)));
 		if (obj) {
 			Coord3D delta;
 			delta.x = obj->getPosition()->x;

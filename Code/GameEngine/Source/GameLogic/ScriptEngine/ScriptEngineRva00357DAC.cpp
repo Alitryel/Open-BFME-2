@@ -39,8 +39,8 @@ private:
 	_STL::list<int, _STL::allocator<int> > m_list1A260; // +0x1A260
 };
 
-void ScriptEngine::rva00357DAC(const AsciiString &s)
+void ScriptEngine::rva00357DAC(const AsciiString &asciiString)
 {
-	unsigned long crc = Rva003ECA13Get(s);
+	unsigned long crc = Rva003ECA13Get(asciiString);
 	m_list1A260.push_back((int)crc);
 }

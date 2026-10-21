@@ -1694,8 +1694,8 @@ bool ScriptConditions::rva003E6BC5(Condition *pCondition, Parameter *pTypeParm)
 			continue;
 		ObjectTypesTemp types;
 		Script_objectTypesFromParam(pTypeParm, types.m_types);
-		const ThingTemplate *tmpl = obj->getTemplate();
-		if (tmpl && types.m_types->isInSet(tmpl->getName()))
+		const ThingTemplate *thingTemplate = obj->getTemplate();
+		if (thingTemplate && types.m_types->isInSet(thingTemplate->getName()))
 		{
 			isSelected = true;
 			break;
@@ -2304,9 +2304,9 @@ bool ScriptConditions::rva003E64A6(Condition *pCondition, Parameter *pPlayerParm
 					if (!pObj)
 						continue;
 					_ReadWriteBarrier();
-					const ThingTemplate *tmpl = pObj->getTemplate();
-					if (tmpl->isKindOf(kind)) {
-						if (!tmpl->testKindOf59() && pObj->isInside(pTrig)) {
+					const ThingTemplate *thingTemplate = pObj->getTemplate();
+					if (thingTemplate->isKindOf(kind)) {
+						if (!thingTemplate->testKindOf59() && pObj->isInside(pTrig)) {
 							if (!pObj->isEffectivelyDead())
 								count++;
 						}

@@ -39,8 +39,8 @@ private:
 	_STL::list<int, _STL::allocator<int> > m_list1A264; // +0x1A264
 };
 
-void ScriptEngine::rva00357DD2(const AsciiString &s)
+void ScriptEngine::rva00357DD2(const AsciiString &asciiString)
 {
-	unsigned long crc = Rva003ECA13Get(s);
+	unsigned long crc = Rva003ECA13Get(asciiString);
 	m_list1A264.push_front((int)crc);
 }

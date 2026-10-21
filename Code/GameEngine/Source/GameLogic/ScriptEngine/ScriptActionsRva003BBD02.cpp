@@ -27,9 +27,9 @@ extern class ScriptEngine *TheScriptEngine;
 
 
 
-void ScriptActions::doNamedEnableCameraFading(Parameter *p, bool arg)
+void ScriptActions::doNamedEnableCameraFading(Parameter *parameter, bool arg)
 {
-    Object *obj = TheScriptEngine->getUnitNamed(p);
+    Object *obj = TheScriptEngine->getUnitNamed(parameter);
     if (!obj)
         return;
     if (!obj->getDrawable())

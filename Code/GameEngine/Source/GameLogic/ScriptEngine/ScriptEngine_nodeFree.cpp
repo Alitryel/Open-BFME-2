@@ -22,14 +22,14 @@ public:
 
 void Rva00204136::rva00204136(void *p)
 {
-	Node *n = (Node *)p;
-	if (!n)
+	Node *node = (Node *)p;
+	if (!node)
 		return;
-	while (n) {
-		rva00204136(n->pOther);
-		Node *next = n->pNext;
-		free(n);
-		n = next;
+	while (node) {
+		rva00204136(node->pOther);
+		Node *next = node->pNext;
+		free(node);
+		node = next;
 	}
 }
 

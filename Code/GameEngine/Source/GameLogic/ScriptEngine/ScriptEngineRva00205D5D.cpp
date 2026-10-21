@@ -143,16 +143,16 @@ private:
 
 extern ScriptEngine *TheScriptEngine;
 
-Rva00205D5DEntry *ScriptEngine::rva00205D5D(const AsciiString &s, bool create)
+Rva00205D5DEntry *ScriptEngine::rva00205D5D(const AsciiString &asciiString, bool create)
 {
 	for (int i = 1; i < m_count; ++i)
 	{
-		if (m_table[i].m_name.compare(s) == 0)
+		if (m_table[i].m_name.compare(asciiString) == 0)
 			return &m_table[i];
 	}
 	if (create && m_count < 0x100)
 	{
-		m_table[m_count].m_name = s;
+		m_table[m_count].m_name = asciiString;
 		++m_count;
 		return &m_table[m_count - 1];
 	}

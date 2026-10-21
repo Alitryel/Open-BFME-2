@@ -137,8 +137,8 @@ bool ScriptConditions::evaluateBuildingEntered(Parameter *pPlayerParm, Parameter
 	}
 	int mask = TheScriptEngine->rva00357B82(pPlayerParm);
 	while (mask) {
-		Player *p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (owner == p) {
+		Player *player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (owner == player) {
 			return true;
 		}
 	}

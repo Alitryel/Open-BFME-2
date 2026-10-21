@@ -48,7 +48,7 @@ private:
 // result is the receiver of swap (mov ecx,eax; a named local gives lea), and
 // keeps 'this' unpushed until after that constructor call. Passing the
 // temporary and 'this' to a forced-inline helper reproduces both.
-static __forceinline void swapIn(ScriptList &t, ScriptList *o) { t.swap(o); }
+static __forceinline void swapIn(ScriptList &scriptList, ScriptList *o) { scriptList.swap(o); }
 void ScriptList::clear()
 {
 	swapIn(ScriptList(), this);

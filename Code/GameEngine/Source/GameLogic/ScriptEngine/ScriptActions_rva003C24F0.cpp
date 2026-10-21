@@ -46,7 +46,7 @@ public:
 class Rva00261750Filter : public Rva000421C8
 {
 public:
-	Rva00261750Filter(const ThingTemplate *tmpl, bool match) : m_template(tmpl), m_match(match) {}
+	Rva00261750Filter(const ThingTemplate *thingTemplate, bool match) : m_template(thingTemplate), m_match(match) {}
 	virtual bool allow(Object *obj);
 	const ThingTemplate *m_template;
 	bool m_match;
@@ -119,10 +119,10 @@ Object *ScriptActions::rva003C24F0(const Coord3D *pos, ObjectTypes *types, Playe
 	float bestDistSqr = HUGE_DIST;
 	int count = types->getListSize();
 	for (int i = 0; i < count; ++i) {
-		const ThingTemplate *templ = TheThingFactory->findTemplate(types->getNthInList(i));
-		if (!templ)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(types->getNthInList(i));
+		if (!thingTemplate)
 			continue;
-		Rva00261750Filter thing(templ, true);
+		Rva00261750Filter thing(thingTemplate, true);
 		Rva0026137EFilter owned(player, true);
 		Rva0026149CFilter third(false);
 		if (player)

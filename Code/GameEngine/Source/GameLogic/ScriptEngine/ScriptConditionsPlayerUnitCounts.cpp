@@ -741,12 +741,12 @@ Bool ScriptConditions::rva003E8863(Parameter *playerParm, Parameter *countParm, 
 // ThingTemplate::isEquivalentTo 0x0033BB04) and its Object::rva0028C197
 // module's vtable slot 59 reports false (retail returns true on a zero answer).
 // A missing player or template is false.
-Bool ScriptConditions::rva003E8B47(Parameter *playerParm, Parameter *templateParm)
+Bool ScriptConditions::rva003E8B47(Parameter *playerParm, Parameter *parameter)
 {
 	Player *player = ThePlayerList->getPlayerFromMask(TheScriptEngine->rva00357B82(playerParm));
 	if (!player)
 		return false;
-	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*templateParm->getString());
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*parameter->getString());
 	if (!thingTemplate)
 		return false;
 	PlayerTeamNode *head = player->getPlayerTeams();
@@ -778,12 +778,12 @@ Bool ScriptConditions::rva003E8B47(Parameter *playerParm, Parameter *templatePar
 // Target evidence: jump-table index 177 (condition 182) sends here; same walk
 // as rva003E8B47, but the equivalent member's Object::rva0028BD92(0x27)
 // record must hold a +0x20 sub-object answering vtable slot 2.
-Bool ScriptConditions::rva003E8C24(Parameter *playerParm, Parameter *templateParm)
+Bool ScriptConditions::rva003E8C24(Parameter *playerParm, Parameter *parameter)
 {
 	Player *player = ThePlayerList->getPlayerFromMask(TheScriptEngine->rva00357B82(playerParm));
 	if (!player)
 		return false;
-	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*templateParm->getString());
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*parameter->getString());
 	if (!thingTemplate)
 		return false;
 	PlayerTeamNode *head = player->getPlayerTeams();
@@ -817,12 +817,12 @@ Bool ScriptConditions::rva003E8C24(Parameter *playerParm, Parameter *templatePar
 // the second Parameter (ThingFactory::findTemplate 0x002D06CA) and one of the
 // opaque bits 0x18, 0x19 or 0x1A (rowed twin 0x0028D891) or Object status 0x51
 // is set. A missing player or template is false. The bit names are unknown.
-Bool ScriptConditions::rva003E89A9(Parameter *playerParm, Parameter *templateParm)
+Bool ScriptConditions::rva003E89A9(Parameter *playerParm, Parameter *parameter)
 {
 	Player *player = ThePlayerList->getPlayerFromMask(TheScriptEngine->rva00357B82(playerParm));
 	if (!player)
 		return false;
-	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*templateParm->getString());
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*parameter->getString());
 	if (!thingTemplate)
 		return false;
 	PlayerTeamNode *head = player->getPlayerTeams();

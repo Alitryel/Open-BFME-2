@@ -88,7 +88,7 @@ protected:
 	bool rva003E5017(Parameter *a, Parameter *b, Parameter *c);
 };
 
-bool ScriptConditions::rva003E5017(Parameter *a, Parameter *b, Parameter *c)
+bool ScriptConditions::rva003E5017(Parameter *parameter, Parameter *b, Parameter *c)
 {
 	void *payload = (void *)TheThingFactory->findTemplate(c->m_string10);
 	if (!payload)
@@ -96,7 +96,7 @@ bool ScriptConditions::rva003E5017(Parameter *a, Parameter *b, Parameter *c)
 	Object *obj = TheScriptEngine->getUnitNamed(b);
 	if (!obj)
 		return false;
-	int mask = TheScriptEngine->rva00357B82(a);
+	int mask = TheScriptEngine->rva00357B82(parameter);
 	if (!mask)
 		return false;
 	Player *player = ThePlayerList->getPlayerFromMask(mask);

@@ -38,7 +38,7 @@ class ThingTemplate;
 class Rva00261750Filter : public Rva000421C8
 {
 public:
-	Rva00261750Filter(const ThingTemplate *tmpl, bool match) : m_template(tmpl), m_match(match) {}
+	Rva00261750Filter(const ThingTemplate *thingTemplate, bool match) : m_template(thingTemplate), m_match(match) {}
 	virtual bool allow(Object *obj);
 	const ThingTemplate *m_template;
 	bool m_match;
@@ -135,19 +135,19 @@ void ScriptActions::rva003C951B(const AsciiString &unitName, const AsciiString &
 	AIUpdateInterface *ai = obj->getAIUpdateInterface();
 	if (!ai)
 		return;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(thingName);
-	if (!tmpl)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(thingName);
+	if (!thingTemplate)
 		return;
 	Object *target = 0;
 	if (playerName.compare(AsciiString::TheEmptyString) == 0) {
-		Rva00261750Filter thingFilter(tmpl, true);
+		Rva00261750Filter thingFilter(thingTemplate, true);
 		target = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, FROM_CENTER_3D,
 			&thingFilter);
 	} else {
 		int mask = TheScriptEngine->rva00357475(playerName, 0);
 		if (mask) {
 			Rva002613AFFilter playerFilter(mask, true);
-			Rva00261750Filter thingFilter(tmpl, true);
+			Rva00261750Filter thingFilter(thingTemplate, true);
 			target = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, FROM_CENTER_3D,
 				thingFilter.link(&playerFilter));
 		} else {

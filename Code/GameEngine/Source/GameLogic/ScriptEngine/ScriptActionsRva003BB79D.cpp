@@ -35,12 +35,12 @@ public:
 };
 extern class Eva *TheEva;
 // g_00BC2918 was the retail address alias (RVA 0x007C2918) of the constant 4.0f; the literal is the source.
-void ScriptActions::Rva003BB79DDo(Parameter *p, void *extra)
+void ScriptActions::Rva003BB79DDo(Parameter *parameter, void *extra)
 {
-	Object *o = TheScriptEngine->getUnitNamed(p);
-	if (!o)
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
+	if (!object)
 		return;
-	const Coord3D *pos = o->getPosition();
+	const Coord3D *pos = object->getPosition();
 	if (!pos)
 		return;
 	TheRadar->createEvent((Coord3D *)pos, (RadarEventType)(int)extra, 4.0f);

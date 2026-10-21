@@ -45,9 +45,9 @@ protected:
 
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003C2C8FDo(Parameter *a, Parameter *b)
+void ScriptActions::Rva003C2C8FDo(Parameter *parameter, Parameter *b)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(a);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	if (obj == 0)
 		return;
 	ExperienceTracker *tracker = obj->m_264;
