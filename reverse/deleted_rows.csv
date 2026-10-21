@@ -1420,3 +1420,4 @@ __ehhandler$?rva00270276@Rva00270276Host@@QAE_NPAX000HH@Z,0x007732E8,"Renamed to
 __ehhandler$?Rva0041EC73Load@@YAXPAVINI@@@Z,0x00786C79,"Renamed to __ehhandler$?parseAIBaseDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00200FE3Parse@@YAXPAVINI@@@Z,0x00200FE3,"Renamed to ?parseAerialPathfindNoFlyZoneDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00200FE3Parse@@YAXPAVINI@@@Z,0x0076C4A0,"Renamed to __ehhandler$?parseAerialPathfindNoFlyZoneDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva001DAA5EParse@@YAXPAVINI@@@Z,0x001DAA5E,"Renamed to ?parseAmbientStreamDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

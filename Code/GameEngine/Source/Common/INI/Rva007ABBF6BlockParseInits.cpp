@@ -32,7 +32,7 @@ void Rva000B3FD0AptFreeSound();
 void parseMusicTrackDefinition(INI *);
 void Rva001DA9CAParse(INI *);
 void Rva001DAA14Parse(INI *);
-void Rva001DAA5EParse(INI *);
+void parseAmbientStreamDefinition(INI *);
 void Rva001DAAA8Parse(INI *);
 void parseAerialPathfindNoFlyZoneDefinition(INI *);
 void Rva00202BB2Parse(INI *);
@@ -317,7 +317,7 @@ BlockParse theArmorBlockParse = { 0, "Armor", ArmorStore::parseArmorDefinition }
 BlockParse theMusicTrackBlockParse = { 0, "MusicTrack", parseMusicTrackDefinition };	// VA 0x00DB8B08 "MusicTrack", parse 0x001DA980
 BlockParse theAudioEventBlockParse = { 0, "AudioEvent", Rva001DA9CAParse };	// VA 0x00DB8B14 "AudioEvent", parse 0x001DA9CA
 BlockParse theDialogEventBlockParse = { 0, "DialogEvent", Rva001DAA14Parse };	// VA 0x00DB8B20 "DialogEvent", parse 0x001DAA14
-BlockParse theAmbientStreamBlockParse = { 0, "AmbientStream", Rva001DAA5EParse };	// VA 0x00DB8B2C "AmbientStream", parse 0x001DAA5E
+BlockParse theAmbientStreamBlockParse = { 0, "AmbientStream", parseAmbientStreamDefinition };	// VA 0x00DB8B2C "AmbientStream", parse 0x001DAA5E
 BlockParse theStreamedSoundBlockParse = { 0, "StreamedSound", Rva001DAAA8Parse };	// VA 0x00DB8B38 "StreamedSound", parse 0x001DAAA8
 BlockParse theMultisoundBlockParse = { 0, "Multisound", AudioEventInfo::parseMultisoundDefinition };	// VA 0x00DB8B44 "Multisound", parse 0x001DA4DE
 BlockParse theBridgeBlockParse = { 0, "Bridge", INI::parseTerrainBridgeDefinition };	// VA 0x00DB8B8C "Bridge", parse 0x001DAEB8

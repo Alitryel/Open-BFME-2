@@ -38,8 +38,8 @@ void __cdecl Rva001DAA14Parse(INI *ini)
 	helper001DA770(ini, 1, &def, "DialogEvent");
 }
 
-// ?Rva001DAA5EParse@@YAXPAVINI@@@Z
-void __cdecl Rva001DAA5EParse(INI *ini)
+// ?parseAmbientStreamDefinition@@YAXPAVINI@@@Z
+void __cdecl parseAmbientStreamDefinition(INI *ini)
 {
 	AsciiString def("DefaultAmbientStream");
 	helper001DA770(ini, 3, &def, "AmbientStream");
