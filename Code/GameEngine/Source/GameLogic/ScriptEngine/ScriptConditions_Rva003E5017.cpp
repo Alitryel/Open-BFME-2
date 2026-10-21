@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii
-// ?rva003E5017@ScriptConditions@@IAE_NPAVParameter@@00@Z
+// ?evaluateCanBuildObjectTypeAtBase@ScriptConditions@@IAE_NPAVParameter@@00@Z
 // retail 0x003E5017 157B leaf free stdcall bool of 3x Parameter ret 0xc. Evidence:
 // rowed ThingFactory::rva002D06CA via g_009FF000 with (Parameter+0x10 AsciiString)
 // plus rowed ScriptEngine::getUnitNamed via g_Va009FE16C plus rowed rva00357B82
@@ -85,10 +85,10 @@ protected:
 class ScriptConditions
 {
 protected:
-	bool rva003E5017(Parameter *a, Parameter *b, Parameter *c);
+	bool evaluateCanBuildObjectTypeAtBase(Parameter *a, Parameter *b, Parameter *c);
 };
 
-bool ScriptConditions::rva003E5017(Parameter *parameter, Parameter *b, Parameter *c)
+bool ScriptConditions::evaluateCanBuildObjectTypeAtBase(Parameter *parameter, Parameter *b, Parameter *c)
 {
 	void *payload = (void *)TheThingFactory->findTemplate(c->m_string10);
 	if (!payload)

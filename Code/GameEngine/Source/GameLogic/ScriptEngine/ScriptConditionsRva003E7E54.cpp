@@ -25,9 +25,9 @@ public:
 extern ScriptEngine *TheScriptEngine;
 class ScriptConditions {
 protected:
-    bool rva003E7E54(Parameter *teamName,Parameter *comparison,Parameter *threshold,Parameter *input);
+    bool evaluateTeamCachedFloatCompare(Parameter *teamName,Parameter *comparison,Parameter *threshold,Parameter *input);
 };
-bool ScriptConditions::rva003E7E54(Parameter *teamName,Parameter *comparison,Parameter *threshold,Parameter *input)
+bool ScriptConditions::evaluateTeamCachedFloatCompare(Parameter *teamName,Parameter *comparison,Parameter *threshold,Parameter *input)
 {
     if (!teamName || !input || !comparison || !threshold)
         return false;

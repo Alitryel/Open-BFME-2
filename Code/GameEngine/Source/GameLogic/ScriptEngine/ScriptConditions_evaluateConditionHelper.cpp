@@ -177,17 +177,17 @@ protected:
 	bool evaluatePlayerHasUnitKindInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *);
 	bool evaluatePlayerHasComparisonPercentPower(Parameter *, Parameter *, Parameter *);
 	bool evaluatePlayerHasComparisonValueExcessPower(Parameter *, Parameter *, Parameter *);
-	bool rva003E4F79(Parameter *, Parameter *, Parameter *);
-	bool rva003E5017(Parameter *, Parameter *, Parameter *);
+	bool evaluatePlayerCompareLightPoints(Parameter *, Parameter *, Parameter *);
+	bool evaluateCanBuildObjectTypeAtBase(Parameter *, Parameter *, Parameter *);
 	bool evaluateNamedCanPathToWaypoint(Parameter *, Parameter *);
 	bool rva003E5105(Parameter *, Parameter *);
 	bool rva003E514F(Parameter *, CondA003E514F *, CondB003E514F *);
 	bool rva003E52EB(Parameter *, CondA003E52EB *, CondB003E52EB *);
 	unsigned char rva003E5D95(Parameter *, Cond003E5D95 *);
-	bool rva003E7E54(Parameter *, Parameter *, Parameter *, Parameter *);
+	bool evaluateTeamCachedFloatCompare(Parameter *, Parameter *, Parameter *, Parameter *);
 	bool rva003E7F3A(Parameter *, Parameter *);
 	bool evaluateTeamIsLedByUnit(Parameter *, Parameter *);
-	bool rva003E80DA(Parameter *, Parameter *);
+	bool evaluateHasCommandPointsToBuildTeam(Parameter *, Parameter *);
 	bool evaluateTeamCanPathToWaypoint(Parameter *, Parameter *);
 	bool evaluateTeamCanPathToNamed(Parameter *, Parameter *);
 	bool evaluateAllBuildFacilitiesDestroyed(Parameter *);
@@ -283,7 +283,7 @@ protected:
 	bool rva003E51D9(Parameter *, Parameter *);
 	bool rva003E5267(Parameter *, Parameter *);
 	bool evaluatePlayerHasNOrFewerFactionBuildings(Parameter *, Parameter *);
-	bool rva003E58F0(Parameter *, Parameter *);
+	bool evaluatePlayerHasNOrFewerBases(Parameter *, Parameter *);
 	bool evaluatePlayerHasUnitTypeInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, bool);
 	bool rva003E63CD(Condition *, Parameter *, Parameter *, Parameter *);
 	bool evaluateNamedDiscovered(Parameter *, Parameter *);
@@ -403,7 +403,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 79:
 		return this->evaluatePlayerHasNOrFewerFactionBuildings(condition->getParameter(1), condition->getParameter(0));
 	case 131:
-		return this->rva003E58F0(condition->getParameter(1), condition->getParameter(0));
+		return this->evaluatePlayerHasNOrFewerBases(condition->getParameter(1), condition->getParameter(0));
 	case 33:
 		return this->evaluatePlayerHasPower(condition->getParameter(0));
 	case 47:
@@ -619,7 +619,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 115:
 		return this->rva003E4D93(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 116:
-		return this->rva003E7E54(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
+		return this->evaluateTeamCachedFloatCompare(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 117:
 		return Rva003E4E6AGet(condition->getParameter(0));
 	case 118:
@@ -627,15 +627,15 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 123:
 		return this->evaluateTeamIsLedByUnit(condition->getParameter(0), condition->getParameter(1));
 	case 124:
-		return this->rva003E4F79(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
+		return this->evaluatePlayerCompareLightPoints(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 125:
-		return this->rva003E80DA(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateHasCommandPointsToBuildTeam(condition->getParameter(0), condition->getParameter(1));
 	case 126:
 		return this->evaluateHasCommandPointsToBuildUnit(condition->getParameter(0), condition->getParameter(1));
 	case 127:
 		return this->evaluateCanBuildAtBase(condition->getParameter(0), condition->getParameter(1));
 	case 169:
-		return this->rva003E5017(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
+		return this->evaluateCanBuildObjectTypeAtBase(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 128:
 		return this->evaluatePlayerHasKilledKindOfUnits(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 129:

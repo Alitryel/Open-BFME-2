@@ -70,7 +70,7 @@ class ScriptConditions
 {
 protected:
     bool evaluatePlayerHasNOrFewerFactionBuildings(Parameter *pBuildingCountParm, Parameter *pPlayerParm);
-    bool rva003E58F0(Parameter *pBuildingCountParm, Parameter *pPlayerParm);
+    bool evaluatePlayerHasNOrFewerBases(Parameter *pBuildingCountParm, Parameter *pPlayerParm);
 };
 bool ScriptConditions::evaluatePlayerHasNOrFewerFactionBuildings(Parameter *pBuildingCountParm, Parameter *pPlayerParm)
 {
@@ -91,11 +91,11 @@ bool ScriptConditions::evaluatePlayerHasNOrFewerFactionBuildings(Parameter *pBui
     return false;
 }
 
-// ScriptConditions::rva003E58F0, retail 0x003E58F0 (192B; dispatcher call
+// ScriptConditions::evaluatePlayerHasNOrFewerBases, retail 0x003E58F0 (192B; dispatcher call
 // 0x003EAFB3): the same count for kind 177 alone, held off like the rowed
 // evaluateAllDestroyed until frames-per-second times TheGlobalData +0x110C
 // seconds (25 frames without global data) have passed.
-bool ScriptConditions::rva003E58F0(Parameter *pBuildingCountParm, Parameter *pPlayerParm)
+bool ScriptConditions::evaluatePlayerHasNOrFewerBases(Parameter *pBuildingCountParm, Parameter *pPlayerParm)
 {
     float delay = TheWritableGlobalData ? LogicFramesPerSecond * TheWritableGlobalData->m_secondsBeforeBaseCheckActive : 25.0f;
     if (TheGameLogic->getFrame() < (unsigned int)(int)delay)
