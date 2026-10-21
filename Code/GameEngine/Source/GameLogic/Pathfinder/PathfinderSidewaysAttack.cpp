@@ -518,7 +518,7 @@ void *rva001E3647Pos(int layer, const Coord3D *pos);
 bool IsPointOnRamp(const Coord3D *pos);
 PathfindLayerEnum rva002ED236(Object *obj, Rva002ED236Pos pos);
 Bool CheckDestination(Object *,Int,Int,PathfindLayerEnum,Int,Bool,Int *,Bool);
-Int rva002EED80(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E9D09 *);
+Int IterateCellsInRectangle(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E9D09 *);
 void SetBridgeStateRepaired(PathfindLayerEnum layer, Bool repaired);
 void ForceMapRecalculation();
 void Rva0052F2EC();

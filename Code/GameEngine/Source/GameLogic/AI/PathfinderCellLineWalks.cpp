@@ -135,9 +135,9 @@ class Pathfinder
 {
 public:
 	PathfindCell *getCell( PathfindLayerEnum layer, Int cellX, Int cellY );
-	Int rva002EB7B4(Int*,Int*,Int,Int,Rva002E9D09*);
+	Int ProcessConvexPoly(Int*,Int*,Int,Int,Rva002E9D09*);
 	Int rva004DDA9A(Int*,Int*,Int,Int,Rva004DD9E3*);
-	Int rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor );
+	Int ProcessConvexPoly( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor );
 	Int rva002E7749(void *unused, Int cellX, Int cellY, Int layer, Int arg, bool check);
 	friend Int bfmeAnchorRva002F6B22( Pathfinder *, const ICoord2D *, const ICoord2D *, PathfindLayerEnum, Rva002F5925Info * );
 
@@ -447,7 +447,7 @@ Int Pathfinder::rva002E8251(const ICoord2D *startCell, const ICoord2D *destinati
 	return 0;
 }
 
-// ?rva002E8773@Pathfinder@@QAEHPAH0HHPAVRva002E7E26@@@Z @0x002E8773 724B.
+// ?ProcessConvexPoly@Pathfinder@@QAEHPAH0HHPAVRva002E7E26@@@Z @0x002E8773 724B.
 // Pathfinder::ProcessConvexPoly for the 0x002E7E26 visitor: WorldBuilder twin
 // 0xD71F60 (pathfinder.inl, assert "!(numEdges<3)" at line 479) gives the
 // statement order.  Repeated and closing duplicate vertices are dropped and
@@ -464,8 +464,8 @@ Int Pathfinder::rva002E8251(const ICoord2D *startCell, const ICoord2D *destinati
 #define prevIndex(i, n) ((i) != 0 ? (i) - 1 : (n) - 1)
 
 // Select-any: pathfinder.cpp keeps a visible inline copy of this body for
-// getClosestPointOnLand / rva002EB4DF (same name), so both copies are COMDATs.
-__declspec(noinline) inline Int Pathfinder::rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor )
+// getClosestPointOnLand / IterateCellsInRectangle (same name), so both copies are COMDATs.
+__declspec(noinline) inline Int Pathfinder::ProcessConvexPoly( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor )
 {
 	Int i;
 	Int j = 1;
@@ -548,7 +548,7 @@ __declspec(noinline) inline Int Pathfinder::rva002E8773( Int *xPts, Int *yPts, I
 // The anchors keep the rowed select-any bodies emitted (0x002E6D2F is
 // auto-inlined into its caller, so only its address keeps a copy).
 // ?bfmeAnchorRva002E8773@@YAXPAVPathfinder@@@Z absent-from-retail
-void bfmeAnchorRva002E8773(Pathfinder *p) { p->rva002E8773(0, 0, 0, 0, 0); }
+void bfmeAnchorRva002E8773(Pathfinder *p) { p->ProcessConvexPoly(0, 0, 0, 0, (Rva002E7E26 *)0); }
 // ?bfmeAnchorRva002E6D2F@@YAP8Rva002E6CFE@@AE_NXZXZ absent-from-retail
 bool (Rva002E6CFE::*bfmeAnchorRva002E6D2F())() { return &Rva002E6CFE::rva002E6D2F; }
 
@@ -558,7 +558,7 @@ bool (Rva002E6CFE::*bfmeAnchorRva002E6D2F())() { return &Rva002E6CFE::rva002E6D2
 // establish the same ProcessConvexPoly family; visitor identities remain opaque.
 // The second visitor retains its existing integer cell-pointer ABI. Visible
 // edge setup and four-word walker recover both twins of landed 002E8773.
-Int Pathfinder::rva002EB7B4( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E9D09 *visitor )
+Int Pathfinder::ProcessConvexPoly( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E9D09 *visitor )
 {
 	Int i;
 	Int j = 1;

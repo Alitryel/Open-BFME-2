@@ -784,7 +784,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
 	bool IsPointOnRamp(const Coord3D *pos);
 	PathfindLayerEnum rva002ED236(Object *obj, Rva002ED236Pos pos);
 	Bool CheckDestination(Object *,Int,Int,PathfindLayerEnum,Int,Bool,Int *,Bool);
-    Int rva002EED80(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E9D09 *);
+    Int IterateCellsInRectangle(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E9D09 *);
 	void SetBridgeStateRepaired(PathfindLayerEnum layer, Bool repaired);
 	void ForceMapRecalculation();
 	void Rva0052F2EC();
@@ -856,8 +856,8 @@ private:
  char pad1c1e0[0x1d1f0-0x1c1e0];PathfinderOpenQueue m_openCells;
 public:
 	Bool getClosestPointOnLand(const Coord3D *position, Object *object, Coord3D *out);
-	Int rva002EB4DF(const ICoord2DBase *center, const ICoord2DBase *diameter, float angle, int layer, Rva002E7E26 *visitor);
-	Int rva002E8773(Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor);
+	Int IterateCellsInRectangle(const ICoord2DBase *center, const ICoord2DBase *diameter, float angle, int layer, Rva002E7E26 *visitor);
+	Int ProcessConvexPoly(Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor);
  int rva002EB4A0(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, void *info);
  void AdjustFlingDestination(Object *obj, const Coord3D *from_, Coord3D *to);
 private:
@@ -1605,7 +1605,7 @@ Bool Pathfinder::CheckDestination(Object *obj,Int cellX,Int cellY,PathfindLayerE
                 size.y=(int)((size.y-2.0f)*fraction+2.0f);
             }
         }
-        return !rva002EED80(&position,&size,obj->GetGoalAngle(),layer,(Rva002E9D09 *)&info);
+        return !IterateCellsInRectangle(&position,&size,obj->GetGoalAngle(),layer,(Rva002E9D09 *)&info);
     }
     if (g_00E03745 && g_00DFEFF0) {
         fprintf((PathfinderLogFile *)g_00DFEFF0,"          BEGIN cell iteration (deep innards), i from %d to %d, j from %d to %d",
@@ -5031,7 +5031,7 @@ inline bool Rva002E6CFE::rva002E6D2F()
 }
 #define nextIndex(i,n) ((i)+1==(n)?0:(i)+1)
 #define prevIndex(i,n) ((i)!=0?(i)-1:(n)-1)
-inline Int Pathfinder::rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor )
+inline Int Pathfinder::ProcessConvexPoly( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor )
 
 {
  Int i;
@@ -5132,7 +5132,7 @@ inline Int Pathfinder::rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int laye
 }
 #undef nextIndex
 #undef prevIndex
-inline int Pathfinder::rva002EB4DF(const ICoord2DBase *center,const ICoord2DBase *diameter,float angle,int layer,Rva002E7E26 *visitor)
+inline int Pathfinder::IterateCellsInRectangle(const ICoord2DBase *center,const ICoord2DBase *diameter,float angle,int layer,Rva002E7E26 *visitor)
 
 {
  if (diameter->x==1 && diameter->y==1) 
@@ -5173,7 +5173,7 @@ inline int Pathfinder::rva002EB4DF(const ICoord2DBase *center,const ICoord2DBase
   y[2]=y[3]=center->y+diameter->y-hy-1;
   
  }
- return rva002E8773(x,y,4,layer,visitor);
+ return ProcessConvexPoly(x,y,4,layer,visitor);
  
 }
 extern float g_Va00BBB8E0;
@@ -5221,7 +5221,7 @@ Bool Pathfinder::getClosestPointOnLand(const Coord3D *position, Object *object, 
     x, y 
    }
    ;
-   rva002EB4DF(&center, &diameter, object->m_orientation, 1, reinterpret_cast<Rva002E7E26 *>(&visitor));
+   IterateCellsInRectangle(&center, &diameter, object->m_orientation, 1, reinterpret_cast<Rva002E7E26 *>(&visitor));
    *out = visitor.closest;
    return visitor.found;
    

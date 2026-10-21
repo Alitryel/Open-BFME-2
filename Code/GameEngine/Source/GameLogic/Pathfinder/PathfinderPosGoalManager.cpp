@@ -260,10 +260,10 @@ class Rva002E9D09 { public: int rva002E9D09(Object *,int,int); };
 class Rva002E7E26 { public: int rva002E7E26(Object *,int,int); int owner; Coord3D source,closest;float cost;bool found; };
 class Pathfinder {
 public:
-    int rva002EED80(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E9D09 *);
-    int rva002EB7B4(int *,int *,int,int,Rva002E9D09 *);
-    int rva002EB4DF(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E7E26 *);
-    int rva002E8773(int *,int *,int,int,Rva002E7E26 *);
+    int IterateCellsInRectangle(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E9D09 *);
+    int ProcessConvexPoly(int *,int *,int,int,Rva002E9D09 *);
+    int IterateCellsInRectangle(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E7E26 *);
+    int ProcessConvexPoly(int *,int *,int,int,Rva002E7E26 *);
     PathfindCell *getCell(PathfindLayerEnum,int,int);
     void *rva001E3647Pos(int,const Coord3D *);
     bool enabled() const { return m_enabled; }
@@ -351,7 +351,7 @@ int Pathfinder::rva004DDDA4(const ICoord2DBase *center,const ICoord2DBase *diame
 // supports the rectangle traversal independently of the matched sibling above.
 // Its visitor and polygon worker use different native REL32 targets. The
 // fsincos block has the same demonstrated VC7 code-generation blocker.
-int Pathfinder::rva002EED80(const ICoord2DBase *center,const ICoord2DBase *diameter,float angle,int layer,Rva002E9D09 *visitor)
+int Pathfinder::IterateCellsInRectangle(const ICoord2DBase *center,const ICoord2DBase *diameter,float angle,int layer,Rva002E9D09 *visitor)
 {
  if (diameter->x==1 && diameter->y==1) {
    PathfindCell *cell=getCell((PathfindLayerEnum)layer,center->x,center->y);
@@ -381,10 +381,10 @@ int Pathfinder::rva002EED80(const ICoord2DBase *center,const ICoord2DBase *diame
    x[1]=x[2]=center->x+diameter->x-hx-1;
    y[2]=y[3]=center->y+diameter->y-hy-1;
  }
- return rva002EB7B4(x,y,4,layer,visitor);
+ return ProcessConvexPoly(x,y,4,layer,visitor);
 }
 
-// 0x002EB4DF (406B, twin of rva002EED80 above with visitor 0x002E7E26 and
+// 0x002EB4DF (406B, twin of IterateCellsInRectangle above with visitor 0x002E7E26 and
 // worker 0x002E8773) and the 176B 0x002E7E26 body are compiled inline by
 // pathfinder.cpp, which owns their rows: this TU's /Gy out-of-line copies were
 // LNK2005 duplicates of its select-any copies, and this TU's /Oy- frame made

@@ -13903,7 +13903,7 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ??0Rva00308E63@@QAE@H_N@Z,0x00308E63,callee of ?rva0032927A@@YAXPAURva003294B3Obj@@H@Z
 ?rva0030912A@Rva0030912A@@QAEXHVStandingWaterRef@@@Z,0x0030912A,callee of ?rva0032927A@@YAXPAURva003294B3Obj@@H@Z
 ?rva002E9D09@Rva002E9D09@@QAEHPAVObject@@HH@Z,0x002E9D09,Native rectangle002EED80 calls at002EEDBA and002EEF0B establish opaque thiscall three-arg visitor and five-arg polygon ABIs; WB D6BF90 corroborates matching callgraph; original visitor and instantiation names unknown
-?rva002EB7B4@Pathfinder@@QAEHPAH0HHPAVRva002E9D09@@@Z,0x002EB7B4,Native rectangle002EED80 calls at002EEDBA and002EEF0B establish opaque thiscall three-arg visitor and five-arg polygon ABIs; WB D6BF90 corroborates matching callgraph; original visitor and instantiation names unknown
+?ProcessConvexPoly@Pathfinder@@QAEHPAH0HHPAVRva002E9D09@@@Z,0x002EB7B4,Native rectangle002EED80 calls at002EEDBA and002EEF0B establish opaque thiscall three-arg visitor and five-arg polygon ABIs; WB D6BF90 corroborates matching callgraph; original visitor and instantiation names unknown
 ?update@AIBuilder@@QAEXXZ,0x004ECB19,Native SkirmishAI update 002C6BFF calls 004ECB19 after updatePhase; WB SkirmishAI update 00E8A830 same branch calls named AIBuilder update 0136EAF0; native boundary 004ECB19 size 646; corroborated receiver is SkirmishAI base.
 ??0AIBuilder@@QAE@PAVPlayer@@@Z,0x004EC430,SkirmishAI native constructor 002C6EE0 directly initializes offset-zero base at 004EC430 and EH cleanup B76F1A calls 004EC59A; WB named SkirmishAI constructor E8A420 agrees; shared subsystem fields match existing named AIBuilder DoXfer; AIBuilder base ctor/dtor ownership is structural inference from these initialization and cleanup relationships.
 ??1AIBuilder@@QAE@XZ,0x004EC59A,SkirmishAI native constructor 002C6EE0 directly initializes offset-zero base at 004EC430 and EH cleanup B76F1A calls 004EC59A; WB named SkirmishAI constructor E8A420 agrees; shared subsystem fields match existing named AIBuilder DoXfer; AIBuilder base ctor/dtor ownership is structural inference from these initialization and cleanup relationships.
@@ -14948,7 +14948,7 @@ _D3DXCreateTextureFromFileInMemoryEx@60,0x0062AF7A,Named d3dx9_27.dll PE import 
 ?rva00223BF6@Rva00223BF6@@QAEPAURadialClockResult@@PAU2@PBD1@Z,0x00223BF6,
 ?rva0022274A@AptPlayer@@QAEXXZ,0x0022274A,
 ?rva002E7E26@Rva002E7E26@@QAEHPAVObject@@HH@Z,0x002E7E26,callee of ?rva002EB4DF@Pathfinder@@QAEHPBUICoord2DBase@@0MHPAVRva002E7E26@@@Z
-?rva002E8773@Pathfinder@@QAEHPAH0HHPAVRva002E7E26@@@Z,0x002E8773,callee of ?rva002EB4DF@Pathfinder@@QAEHPBUICoord2DBase@@0MHPAVRva002E7E26@@@Z
+?ProcessConvexPoly@Pathfinder@@QAEHPAH0HHPAVRva002E7E26@@@Z,0x002E8773,callee of ?rva002EB4DF@Pathfinder@@QAEHPBUICoord2DBase@@0MHPAVRva002E7E26@@@Z
 ??0SubTitleWindow@@QAE@PAVGameFont@@MMHHHH@Z,0x00260865,callee of ?rva00051353@MilesAudioManager@@QAEXABVUnicodeString@@@Z
 ??0Rva004121D1Context@@QAE@XZ,0x0022239C,"Folded13-word default initializer called at registry4121D1+487: BF1f989 WindowManagerRegisterAptCallbacks00464080 supplies semantic opaque52B context; native zeros13 words complete22239C..2223C7 RET0, isolated emitted helper full43B byte-and-relocation twin (no relocations). Existing ArcInfoStruct real owner retained; neutral name disclaims original context identity."
 ?Rva006DDCE0@@YAPAVAptValue@@PAV1@H@Z,0x006DDCE0,native AptValue callback registered by _constructBuiltInObjects 0x006DE8E0 (only used as a function pointer)
