@@ -50,20 +50,77 @@ void GadgetTextEntrySetText(GameWindow *g, UnicodeString text);
 UnicodeString __cdecl GadgetTextEntryGetText(GameWindow *g);
 extern "C" __declspec(dllimport) int __cdecl _wtoi(const wchar_t *s);
 
+// The money a player holds sits at Player+0x90; like Zero Hour's Money it
+// starts with a vtable, and countMoney() reads the amount at +4.
+class Money
+{
+public:
+	virtual ~Money();
+	unsigned int countMoney() const { return m_money; }
+private:
+	unsigned int m_money;
+};
+
+class Player
+{
+public:
+	Money *getMoney() { return &m_money; }
+private:
+	char m_pad00[0x90];
+	Money m_money;
+};
+
+// TheSkirmishAIManager's per-player statistics: 0x002A8F24 returns the
+// collector, whose +0x0C economy record holds an amount at +0x14 (WB
+// 0x01357250 asserts statCollector and economyStats).
+struct EconomyStats
+{
+	char m_pad00[0x14];
+	int m_14;
+};
+
+struct StatCollector
+{
+	char m_pad00[0x0C];
+	EconomyStats *m_0c;
+};
+
+struct Rva002A8AB1Record;
+
+class Rva002A8F24
+{
+public:
+	Rva002A8AB1Record *rva002A8AB1(void *owner);
+	void *rva002A8F24(Player *owner);
+};
+
+extern Rva002A8F24 *TheSkirmishAIManager;
+
+class Rva0050F041
+{
+public:
+	void rva0050F041(int v, const UnicodeString &s);
+};
+
 class Rva0050F0AB
 {
 public:
+	virtual void slot00();
+	virtual int slot01();
 	void rva0050F0AB();
 	void rva0050F420(unsigned int val);
 	void rva0050F290();
+	void rva0050F306();
 	void rva0050F450();
 	void InitSlider(const char *name, void *argument, GameWindow *window);
 	void InitTextEntry(const char *name, void *argument, GameWindow *window);
 private:
-	char m_pad00[0x68];
+	char m_pad04[0x64 - 0x04];
+	Player *m_64;
 	unsigned int m_68;
 	unsigned int m_6c;
-	char m_pad70[0x78 - 0x70];
+	int m_70;
+	char m_pad74[0x78 - 0x74];
 	GameWindow *m_78;
 	GameWindow *m_7c;
 };
@@ -99,6 +156,32 @@ void Rva0050F0AB::rva0050F290()
 	GameWindow *win = m_78;
 	if (win)
 		Rva0050E776Send(win, 0);
+}
+
+// ?rva0050F306@Rva0050F0AB@@QAEXXZ @0x0050F306 154B. WB 0x01357250
+// (AptPlayerTribute.cpp, TributeRow::UpdateMoney asserts at lines 744/747):
+// the slot-1 amount plus the owner's money, plus its economy statistic when
+// TheSkirmishAIManager tracks the owner; the text is refreshed through
+// 0x0050F041 only when the total changed or was never shown (m_70 == -1).
+void Rva0050F0AB::rva0050F306()
+{
+	int money = slot01();
+	Money *pMoney = m_64->getMoney();
+	if (pMoney)
+		money += pMoney->countMoney();
+	if (TheSkirmishAIManager->rva002A8AB1(m_64))
+	{
+		StatCollector *statCollector = (StatCollector *)TheSkirmishAIManager->rva002A8F24(m_64);
+		EconomyStats *economyStats = statCollector->m_0c;
+		money += economyStats->m_14;
+	}
+	if (money != m_70 || m_70 == -1)
+	{
+		UnicodeString text;
+		text.format(L"%u", money);
+		((Rva0050F041 *)this)->rva0050F041(1, text);
+		m_70 = money;
+	}
 }
 
 void Rva0050F0AB::rva0050F450()
