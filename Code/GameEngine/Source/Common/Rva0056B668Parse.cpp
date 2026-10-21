@@ -69,10 +69,10 @@ public:
 
 private:
 	char m_pad[0x58];
-	unsigned m_58;
-	unsigned char m_5C;
-	unsigned char m_5D;
-	unsigned char m_5E;
+	unsigned m_visibleArmySizes;
+	unsigned char m_clickable;
+	unsigned char m_displayAtRallyPoint;
+	unsigned char m_showOnlyAfterMoveOrder;
 };
 
 struct Rva004DFCB0Element
