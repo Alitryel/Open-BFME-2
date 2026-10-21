@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /O1 /MD /Ireference/shims/moduledata
 //
 // Scalar deleting-destructor wrappers with audited owner attributions.
 // Target facts: 28-byte flag-test wrappers, their call destinations, and the
@@ -12,11 +12,15 @@
 // The noinline empty destructor is an unmatched compilation scaffold; the
 // verified wrapper call resolves to the retail destructor through its pin.
 
+#include "Common/Snapshot.h"
+
 struct EmitVtableTag;
 
 // ??_GSubObjectsUpgradeModuleData@@UAEPAXI@Z @0x002577F0 28B: slot 0 of vtable 0x00BF41A8; calls ??1 at 0x004B5214.
 // Owner evidence (audited 2026-09-26): retail registration SubObjectsUpgrade -> data factory RVA 0x0025780C -> ctor RVA 0x00257768; primary vptr store RVA 0x0025777E.
-class SubObjectsUpgradeModuleData { public: SubObjectsUpgradeModuleData(EmitVtableTag *); virtual ~SubObjectsUpgradeModuleData(); };
+// Its destructor unit derives the class from the canonical Snapshot; both
+// units then emit the same vtable.
+class SubObjectsUpgradeModuleData : public Snapshot { public: SubObjectsUpgradeModuleData(EmitVtableTag *); virtual ~SubObjectsUpgradeModuleData(); };
 // ?<SubObjectsUpgradeModuleData::SubObjectsUpgradeModuleData> absent-from-retail
 SubObjectsUpgradeModuleData::SubObjectsUpgradeModuleData(EmitVtableTag *) {}
 

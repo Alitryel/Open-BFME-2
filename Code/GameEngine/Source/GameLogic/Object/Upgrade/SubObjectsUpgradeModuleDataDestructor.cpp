@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 //
 // ??1SubObjectsUpgradeModuleData@@UAE@XZ @0x004B5214, 127 bytes.
@@ -12,13 +12,11 @@
 // that BFME2 stores 8-byte replacement-model values in the final vector, so
 // this target-specific declaration uses values rather than donor pointers.
 
-extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
-
 #include <vector>
 
 
 #include "ascii_string.h"
+#include "Common/Snapshot.h"
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
@@ -37,18 +35,13 @@ struct Rva00B6CF1
 	AsciiString m_replacement;
 };
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-
-private:
-	unsigned char m_pad[0x118 - 4];
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(((unsigned int)vtbl_00BBB554));
+// The replacement-model vector's destructor and range erase are retail's
+// rowed copies (0x000C03D8 and 0x000C0628, stlport_vector_rva00b6cf1_*.cpp);
+// declaring the specializations keeps this unit from emitting its own.
+namespace _STL {
+template <> vector<Rva00B6CF1, allocator<Rva00B6CF1> >::~vector();
+template <> _Vector_base<Rva00B6CF1, allocator<Rva00B6CF1> >::~_Vector_base();
+template <> Rva00B6CF1 *vector<Rva00B6CF1, allocator<Rva00B6CF1> >::erase(Rva00B6CF1 *first, Rva00B6CF1 *last);
 }
 
 class SubObjectsUpgradeModuleData : public Snapshot
@@ -57,6 +50,7 @@ public:
 	virtual ~SubObjectsUpgradeModuleData();
 
 private:
+	unsigned char m_moduleData[0x118 - 4];	// ModuleData fields up to the upgrade's own
 	_STL::vector<AsciiString> m_showSubObjectNames;
 	_STL::vector<AsciiString> m_hideSubObjectNames;
 	_STL::vector<AsciiString> m_upgradeSubObjectNames;
