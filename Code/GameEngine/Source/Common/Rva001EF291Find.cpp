@@ -77,12 +77,12 @@ public:
 	int getCursorIndex(const AsciiString &s);
 };
 
-int Mouse::getCursorIndex(const AsciiString &s)
+int Mouse::getCursorIndex(const AsciiString &name)
 {
-	if (s.isEmpty())
+	if (name.isEmpty())
 		return -1;
 	for (int i = 0; i < 0x38; ++i) {
-		if (((const StringBase<char> &)s).compareNoCase(g_00DB9058[i]) == 0)
+		if (((const StringBase<char> &)name).compareNoCase(g_00DB9058[i]) == 0)
 			return i;
 	}
 	return -1;
