@@ -846,7 +846,7 @@ class ContextUI : public ContextSlots<47> { public:
 };
 static __forceinline ContextUI* contextUI() { return (ContextUI*)TheInGameUI; }
 struct ContextButton { int getType() const {return type;} char pad[0x14];int type;int word18;unsigned options; unsigned getOptions() const {return options;}char pad20[0x24];class Overridable* special; };
-static __forceinline const ContextButton* contextButton(const CommandButton*c) { return (const ContextButton*)c; }
+static __forceinline const ContextButton* contextButton(const CommandButton*button) { return (const ContextButton*)button; }
 class Overridable { public: const Overridable* friend_getFinalOverride() const; };
 struct ContextPower { char pad[0x14];int id;int word18;int type; };
 struct ContextObject { char pad0[0x250];void* container;int word254;void* ai;char pad25c[0xa8];Team* team;Team*getTeam() const {return team;} char pad308[0x131];bool masked; };
@@ -899,7 +899,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
  bool allSpecial=false,allOther=false,hasSpecial=false,hasOther=false,hasGround=false,hasNonGround=false;
  const SelectedDrawableList*selection=contextUI()->selected();
  for(SelectedDrawableList::const_iterator it=selection->begin();it!=selection->end();++it) {
-  Drawable*d=*it;Object*o=d?d->getObject():0;
+  Drawable*drawable=*it;Object*o=drawable?drawable->getObject():0;
   if(o) {
    if(contextKind(o,134))hasSpecial=true;else hasOther=true;
    if(((Thing*)o)->isAnyKindOf(Rva0006EE7A(0,55,147)))hasGround=true;else hasNonGround=true;
@@ -967,12 +967,12 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {
     msgType=0x412;
     if(type==CONTEXT_COMMAND) {
-     const CommandButton*c=TheControlBar->findCommandButton(AsciiString("Command_SpecialAbilitySiegeDeploy"));
-     if(c) {
+     const CommandButton*button=TheControlBar->findCommandButton(AsciiString("Command_SpecialAbilitySiegeDeploy"));
+     if(button) {
       GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);
-      m->appendIntegerArgument(((const ContextPower*)contextButton(c)->special->friend_getFinalOverride())->id);
-      m->appendObjectIDArgument(originalObject->getID());m->appendIntegerArgument(contextButton(c)->options);m->appendObjectIDArgument(OBJECTID_NONE);m->appendLocationArgument(*originalObject->getPosition());
-      PickAndPlayInfo info;info.m_drawTarget=((Thing*)originalObject)->getDrawable();info.m_specialPowerType=(int)contextButton(c)->special;info.m_position=*pos;
+      m->appendIntegerArgument(((const ContextPower*)contextButton(button)->special->friend_getFinalOverride())->id);
+      m->appendObjectIDArgument(originalObject->getID());m->appendIntegerArgument(contextButton(button)->options);m->appendObjectIDArgument(OBJECTID_NONE);m->appendLocationArgument(*originalObject->getPosition());
+      PickAndPlayInfo info;info.m_drawTarget=((Thing*)originalObject)->getDrawable();info.m_specialPowerType=(int)contextButton(button)->special;info.m_position=*pos;
       pickAndPlayUnitVoiceResponse((const DrawableList*)contextUI()->selected(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);
      }
     }
@@ -1038,16 +1038,16 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    Object*selected=contextUI()->first()->getObject();
    CommandSet*set=(CommandSet*)((Rva0031D5F8*)TheControlBar)->rva0031D5F8(selected->rva00290E67());
    if(set)for(int i=0;i<32;++i) {
-    const CommandButton*c=set->getCommandButton(i);
-    if(c&&contextButton(c)->type==24) {
-     int power=((const ContextPower*)contextButton(c)->special->friend_getFinalOverride())->type;
-     if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {if(power==26||power==29){msgType=issueSpecialPowerCommand(c,type,draw,pos,0);break;}}
+    const CommandButton*button=set->getCommandButton(i);
+    if(button&&contextButton(button)->type==24) {
+     int power=((const ContextPower*)contextButton(button)->special->friend_getFinalOverride())->type;
+     if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {if(power==26||power==29){msgType=issueSpecialPowerCommand(button,type,draw,pos,0);break;}}
      else if(power==29){msgType=0xb9;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
     }
    }
   }
   else if(draw&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)18,obj,InGameUI::CONTEXT_ANY,false)) {
-   if(type==CONTEXT_COMMAND){const CommandButton*c=rva0042970A(51);if(c)msgType=issueSpecialPowerCommand(c,type,draw,pos,0);}
+   if(type==CONTEXT_COMMAND){const CommandButton*button=rva0042970A(51);if(button)msgType=issueSpecialPowerCommand(button,type,draw,pos,0);}
    else {
     msgType=0x7d6;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());
     Object*selected=contextUI()->first()->getObject();void*power=((Rva0026F0F0*)TheUpgradeCenter)->rva0026F0F0((char*)selected+0x284);
@@ -1058,7 +1058,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
   else if(draw&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)17,obj,InGameUI::CONTEXT_ALL,false)) {
    if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {
     Object*selected=contextUI()->first()->getObject();CommandSet*set=(CommandSet*)((Rva0031D5F8*)TheControlBar)->rva0031D5F8(selected->rva00290E67());
-    if(set)for(int i=0;i<32;++i){const CommandButton*c=set->getCommandButton(i);if(c&&contextButton(c)->type==24){int power=((const ContextPower*)contextButton(c)->special->friend_getFinalOverride())->type;if(power==39){msgType=issueSpecialPowerCommand(c,type,draw,pos,0);break;}}}
+    if(set)for(int i=0;i<32;++i){const CommandButton*button=set->getCommandButton(i);if(button&&contextButton(button)->type==24){int power=((const ContextPower*)contextButton(button)->special->friend_getFinalOverride())->type;if(power==39){msgType=issueSpecialPowerCommand(button,type,draw,pos,0);break;}}}
    } else {
     bool reachable=true;
     if(obj&&pos&&contextKind(obj,94)){Object*selected=contextUI()->first()->getObject();if(selected&&!((ContextAI*)TheAI)->getPathfinder()->QuickDoesPathExist(selected,selected->getPosition(),pos,0))reachable=false;}
@@ -1075,7 +1075,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    msgType=0x413;
    if(type==CONTEXT_COMMAND) {
     const SelectedDrawableList*selected=contextUI()->selected();
-    for(SelectedDrawableList::const_iterator it=selected->begin();it!=selected->end();++it){Drawable*d=*it;if(d&&d->getObject()){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(d->getObject()->getID());m->appendLocationArgument(*pos);bool queue=TheKeyboard->isShift()&&!draw;m->appendBooleanArgument(queue);m->appendObjectIDArgument(obj?obj->getID():OBJECTID_NONE);}}
+    for(SelectedDrawableList::const_iterator it=selected->begin();it!=selected->end();++it){Drawable*drawable=*it;if(drawable&&drawable->getObject()){GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)msgType);m->appendObjectIDArgument(drawable->getObject()->getID());m->appendLocationArgument(*pos);bool queue=TheKeyboard->isShift()&&!draw;m->appendBooleanArgument(queue);m->appendObjectIDArgument(obj?obj->getID():OBJECTID_NONE);}}
    }else if(type==CONTEXT_HINT){msgType=0xbc;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendLocationArgument(*pos);}
   }
   else if(draw&&result==1&&(!originalObject||!contextKind(obj,60)||contextKind(obj,150))) {
@@ -1205,9 +1205,9 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
  case 0x97:{GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)0x469);m->appendIntegerArgument(1);m->appendIntegerArgument(0);disp=DESTROY_MESSAGE;break;}
  case 0x96:{GameMessage*m=TheMessageStream->appendMessage((GameMessage::Type)0x469);m->appendIntegerArgument(0);m->appendIntegerArgument(1);disp=DESTROY_MESSAGE;break;}
  case 0x98:TheMessageStream->appendMessage((GameMessage::Type)0x470);disp=DESTROY_MESSAGE;break;
- case 0x90:{GameLogic*logic=TheGameLogic;if(logic->isInMultiplayerGame()&&!((TranslateLogicFields*)logic)->isReplay()&&((BfmeMemberRV*)((ContextPlayers*)ThePlayerList)->getLocalPlayer())->bfmeAskRV()&&(!translateGlobals()->netMinPlayers||((TranslateGameInfo*)TheGameInfo)->multiplayer())){int count;Player*local=((ContextPlayers*)ThePlayerList)->getLocalPlayer();const ThingTemplate*thing=TheThingFactory->findTemplate(*(AsciiString*)((char*)(*(PlayerTemplate**)((char*)local+0x34))+0x17c));((ContextPlayers*)ThePlayerList)->getLocalPlayer()->countObjectsByThingTemplate(1,&thing,false,&count,true);int limit=*(int*)((char*)TheMultiplayerSettings+0x18);_ReadWriteBarrier();if(count<limit){const CommandButton*c=TheControlBar->findCommandButton(AsciiString("Command_PlaceBeacon"));contextUI()->setCommand(c);}}disp=DESTROY_MESSAGE;break;}
+ case 0x90:{GameLogic*logic=TheGameLogic;if(logic->isInMultiplayerGame()&&!((TranslateLogicFields*)logic)->isReplay()&&((BfmeMemberRV*)((ContextPlayers*)ThePlayerList)->getLocalPlayer())->bfmeAskRV()&&(!translateGlobals()->netMinPlayers||((TranslateGameInfo*)TheGameInfo)->multiplayer())){int count;Player*local=((ContextPlayers*)ThePlayerList)->getLocalPlayer();const ThingTemplate*thing=TheThingFactory->findTemplate(*(AsciiString*)((char*)(*(PlayerTemplate**)((char*)local+0x34))+0x17c));((ContextPlayers*)ThePlayerList)->getLocalPlayer()->countObjectsByThingTemplate(1,&thing,false,&count,true);int limit=*(int*)((char*)TheMultiplayerSettings+0x18);_ReadWriteBarrier();if(count<limit){const CommandButton*button=TheControlBar->findCommandButton(AsciiString("Command_PlaceBeacon"));contextUI()->setCommand(button);}}disp=DESTROY_MESSAGE;break;}
  case 0x91:disp=DESTROY_MESSAGE;break;
- case 0x70:{TranslateTransition*c=(TranslateTransition*)TheTransitionHandler;if(c&&(c->first||c->second))c->flag=true;else Rva0051B8EA();disp=DESTROY_MESSAGE;break;}
+ case 0x70:{TranslateTransition*button=(TranslateTransition*)TheTransitionHandler;if(button&&(button->first||button->second))button->flag=true;else Rva0051B8EA();disp=DESTROY_MESSAGE;break;}
  case 0x71: {
   Shell*shell=TheShell;bool shellMap=*(bool*)((char*)shell+0x5c);_ReadWriteBarrier();if(shellMap){WindowLayout*w=shell->top();if(w)w->hide(!w->m_hidden);}
   else if(!(((Bfme939Helper *)TheRecorder)&&((Bfme939Helper *)TheRecorder)->get()==1)) {
@@ -1244,12 +1244,12 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
  case 0x7c:if(TheDisplay)((TranslateDisplay*)TheDisplay)->screenshot(0);disp=DESTROY_MESSAGE;break;
  case 0x3e9:case 0x3eb:case 0x3f8:case 0x3f9:case 0x3fa:case 0x3fb:case 0x3fc:case 0x3fd:case 0x3fe:case 0x3ff:case 0x400:case 0x401:case 0x461:{
   SelectedDrawableList list=*contextUI()->selected();
-  for(SelectedDrawableList::iterator it=list.begin();it!=list.end();) {Drawable*d=*it;if(d->getObject()&&d->getObject()->isLocallyControlled()){++it;continue;}else it=_STL::eraseDrawableListNode(it);}
+  for(SelectedDrawableList::iterator it=list.begin();it!=list.end();) {Drawable*drawable=*it;if(drawable->getObject()&&drawable->getObject()->isLocallyControlled()){++it;continue;}else it=_STL::eraseDrawableListNode(it);}
   if(!list.empty())pickAndPlayUnitVoiceResponse((const DrawableList*)&list,t,0);m_teamExists=true;break;
  }
  case 0x3ea:case 0x402:case 0x403:case 0x404:case 0x405:case 0x406:case 0x407:case 0x408:case 0x409:case 0x40a:case 0x40b:m_teamExists=true;break;
  case 0x3ec:m_teamExists=false;break;
- case 0xa2:{bool selected=contextUI()->selectedCount()>0;if(!selected){const CommandButton*c=contextUI()->command();if(c){int commandType=contextButton(c)->type;if(commandType==32||commandType==38)selected=true;}}if(selected){Drawable*d=((TranslateGameClient*)TheGameClient)->find(msg->getArgument(0)->drawableID);if(d){if(contextUI()->forceAttackMode())evaluateForceAttack(d,d->getPosition(),DO_HINT);else evaluateContextCommand(d,d->getPosition(),CONTEXT_HINT);}}break;}
+ case 0xa2:{bool selected=contextUI()->selectedCount()>0;if(!selected){const CommandButton*button=contextUI()->command();if(button){int commandType=contextButton(button)->type;if(commandType==32||commandType==38)selected=true;}}if(selected){Drawable*drawable=((TranslateGameClient*)TheGameClient)->find(msg->getArgument(0)->drawableID);if(drawable){if(contextUI()->forceAttackMode())evaluateForceAttack(drawable,drawable->getPosition(),DO_HINT);else evaluateContextCommand(drawable,drawable->getPosition(),CONTEXT_HINT);}}break;}
  case 0xa3:{ContextPoint position(msg->getArgument(0)->location);if(contextUI()->forceAttackMode())evaluateForceAttack(0,&position,DO_HINT);else evaluateContextCommand(0,&position,CONTEXT_HINT);break;}
  case 0xe:m_mouseRightDragAnchor=msg->getArgument(0)->pixel;m_mouseRightDown=msg->getArgument(2)->integer;field2c=false;break;
  case 3:{ICoord2D current=msg->getArgument(0)->pixel;if(TheMouse->rva001EDD80((const Rva001EDD80Pair*)&m_mouseRightDragAnchor,(const Rva001EDD80Pair*)&current))field2c=true;break;}
@@ -1261,7 +1261,7 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
   const CommandButton*command=contextUI()->command();int commandType=command?contextButton(command)->getType():0;
   if(command&&commandType!=10)break;
   if(translateGlobals()->alternate&&isPoint){if(!TheTacticalView)break;Coord3D pos;((ContextView*)TheTacticalView)->screenToTerrain(&msg->getArgument(0)->pixel,&pos,0);bool controllable=TheInGameUI->areSelectedObjectsControllable();if(!controllable&&command&&(commandType==32||commandType==38))controllable=true;
-   if(controllable){int pickType=Rva0030F099(contextUI()->forceAttackMode());Drawable*d=TheTacticalView->pickDrawable(&msg->getArgument(0)->pixelRegion.lo,contextUI()->forceAttackMode(),pickType);if(contextUI()->forceAttackMode())evaluateForceAttack(d,&pos,DO_COMMAND);else {int result=evaluateContextCommand(d,&pos,CONTEXT_COMMAND);bool special=commandType==24;_ReadWriteBarrier();if(special&&result==0xa5)contextUI()->setCommand(0);}disp=DESTROY_MESSAGE;}
+   if(controllable){int pickType=Rva0030F099(contextUI()->forceAttackMode());Drawable*drawable=TheTacticalView->pickDrawable(&msg->getArgument(0)->pixelRegion.lo,contextUI()->forceAttackMode(),pickType);if(contextUI()->forceAttackMode())evaluateForceAttack(drawable,&pos,DO_COMMAND);else {int result=evaluateContextCommand(drawable,&pos,CONTEXT_COMMAND);bool special=commandType==24;_ReadWriteBarrier();if(special&&result==0xa5)contextUI()->setCommand(0);}disp=DESTROY_MESSAGE;}
   }break;
  }
  case 0x17:{
@@ -1272,7 +1272,7 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
   if((!command||commandType==10)&&translateGlobals()->alternate)break;
   Coord3D pos;((ContextView*)TheTacticalView)->screenToTerrain(&msg->getArgument(0)->pixel,&pos,0);
   bool controllable=TheInGameUI->areSelectedObjectsControllable();if(!controllable&&command&&(commandType==32||commandType==38))controllable=true;
-  if(isPoint&&controllable){int pickType=Rva0030F099(contextUI()->forceAttackMode());Drawable*d=TheTacticalView->pickDrawable(&msg->getArgument(0)->pixelRegion.lo,contextUI()->forceAttackMode(),pickType);if(contextUI()->forceAttackMode())evaluateForceAttack(d,&pos,DO_COMMAND);else{int result=evaluateContextCommand(d,&pos,CONTEXT_COMMAND);if(commandType==24&&result==0xa5)contextUI()->setCommand(0);}disp=DESTROY_MESSAGE;}
+  if(isPoint&&controllable){int pickType=Rva0030F099(contextUI()->forceAttackMode());Drawable*drawable=TheTacticalView->pickDrawable(&msg->getArgument(0)->pixelRegion.lo,contextUI()->forceAttackMode(),pickType);if(contextUI()->forceAttackMode())evaluateForceAttack(drawable,&pos,DO_COMMAND);else{int result=evaluateContextCommand(drawable,&pos,CONTEXT_COMMAND);if(commandType==24&&result==0xa5)contextUI()->setCommand(0);}disp=DESTROY_MESSAGE;}
   break;
  }
  case 0x18:rva0042AF97((GameMessage*)msg);break;
