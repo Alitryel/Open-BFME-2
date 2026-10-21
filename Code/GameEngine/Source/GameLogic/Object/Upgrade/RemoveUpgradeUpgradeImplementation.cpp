@@ -14,7 +14,7 @@
 // (mux slot 0) it removes every UpgradeToRemove (module data +0x118):
 // player upgrades from the controlling player (rowed Player::rva002ADAC3,
 // passing SuppressEvaEventForRemoval +0x130), object upgrades from the
-// owner (rowed Object::rva00290D42) and, with RemoveFromAllPlayerObjects
+// owner (rowed Object::removeUpgrade) and, with RemoveFromAllPlayerObjects
 // (+0x131), from the player too. It then collects the IDs of the module's
 // own activation mask (+0x08) and, for each UpgradeGroupsToRemove name
 // (+0x124), removes every completed owner upgrade (Object +0x284) whose
@@ -121,7 +121,7 @@ class Object
 {
 public:
 	Player *getControllingPlayer() const;
-	void rva00290D42(const UpgradeTemplate *upgrade);
+	void removeUpgrade(const UpgradeTemplate *upgrade);
 
 	unsigned char m_pad000[0x284];
 	BfmeFixedStorage128 m_completedUpgrades; // +0x284
@@ -205,7 +205,7 @@ void RemoveUpgradeUpgrade::upgradeImplementation()
 			}
 			else
 			{
-				obj->rva00290D42(upgrade);
+				obj->removeUpgrade(upgrade);
 				if (removeUpgradeUpgradeModuleData->m_removeFromAllPlayerObjects)
 					obj->getControllingPlayer()->rva002ADAC3(upgrade, 0);
 			}
@@ -240,7 +240,7 @@ void RemoveUpgradeUpgrade::upgradeImplementation()
 				else
 				{
 					if (upgrade->m_groupKey == TheNameKeyGenerator->nameToKey(*group))
-						obj->rva00290D42(upgrade);
+						obj->removeUpgrade(upgrade);
 					completed.clearBit(upgrade->getUpgradeID());
 				}
 			}

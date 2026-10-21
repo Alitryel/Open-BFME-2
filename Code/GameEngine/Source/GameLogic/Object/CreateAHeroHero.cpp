@@ -279,7 +279,7 @@ public:
 	const AsciiString &rva00292330(const AsciiString &);
 	Drawable *getDrawable() const;
 	void rva00293077(const void *upgrade);
-	void rva00290D42(const UpgradeTemplate *upgrade);
+	void removeUpgrade(const UpgradeTemplate *upgrade);
 	void setSpecialModelConditionState(ModelConditionFlagType type, UnsignedInt frames);
 
 	unsigned char m_pad00[0x88];
@@ -796,8 +796,8 @@ Bool CreateAHeroHero::Update(Int flags)
 	Drawable *drawable = object->getDrawable();
 	Bool useShort = false, useFull = false;
 	if (onUpgrade && offUpgrade) {
-		if (manager->m_active) { object->rva00293077(onUpgrade); object->rva00290D42(offUpgrade); }
-		else { object->rva00293077(offUpgrade); object->rva00290D42(onUpgrade); }
+		if (manager->m_active) { object->rva00293077(onUpgrade); object->removeUpgrade(offUpgrade); }
+		else { object->rva00293077(offUpgrade); object->removeUpgrade(onUpgrade); }
 	}
 	Int changes = 0;
 	m_state38 |= flags;

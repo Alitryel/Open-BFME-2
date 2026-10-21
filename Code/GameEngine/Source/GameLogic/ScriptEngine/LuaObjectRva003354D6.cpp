@@ -8,7 +8,7 @@
 // rowed findUpgrade 0x0026F26D, rowed releaseBuffer 0x00036410,
 // rowed getControllingPlayer 0x0028AFA9, rowed Player rva002AE329 0x002AE329,
 // rowed Player rva002ADAC3 0x002ADAC3, rowed Object rva00293077 0x00293077,
-// rowed Object rva00290D42 0x00290D42.
+// rowed Object removeUpgrade 0x00290D42.
 #include "ascii_string.h"
 
 struct lua_State;
@@ -39,7 +39,7 @@ class Object
 public:
 	Player *getControllingPlayer() const;
 	void rva00293077(const void *a);
-	void rva00290D42(const UpgradeTemplate *u);
+	void removeUpgrade(const UpgradeTemplate *u);
 };
 
 class Player
@@ -101,7 +101,7 @@ int LuaScriptEngine::ObjectModifyUpgrade(lua_State *L, bool b)
 		if (b != 0) {
 			obj->rva00293077(tpl);
 		} else {
-			obj->rva00290D42(tpl);
+			obj->removeUpgrade(tpl);
 		}
 	}
 	return 1;

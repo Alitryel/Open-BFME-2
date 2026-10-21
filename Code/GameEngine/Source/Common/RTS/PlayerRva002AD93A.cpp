@@ -86,7 +86,7 @@ class Object
 {
 public:
 	void updateUpgradeModules();
-	void rva00290D42(const UpgradeTemplate *upgrade);
+	void removeUpgrade(const UpgradeTemplate *upgrade);
 };
 
 class Team : public MemoryPoolObject, public Snapshot
@@ -193,7 +193,7 @@ void Player::onUpgradeCompleted(const UpgradeTemplate *upgrade, Int x)
 }
 
 // Target: 0x002AD9FD..0x002ADAC3, same list and iterator ABI as above.
-// Calls rowed Object::rva00290D42 with the template; Eva fields +58/+5C/+60.
+// Calls rowed Object::removeUpgrade with the template; Eva fields +58/+5C/+60.
 // Named onUpgradeRemoved: removeUpgrade (0x002ADAC3) calls it where ZH's
 // removeUpgrade calls onUpgradeRemoved (ZH's own body is empty).
 void Player::onUpgradeRemoved(const UpgradeTemplate *upgrade, Int x)
@@ -210,7 +210,7 @@ void Player::onUpgradeRemoved(const UpgradeTemplate *upgrade, Int x)
 				Object *obj = iter2.cur();
 				if (!obj)
 					continue;
-				obj->rva00290D42(upgrade);
+				obj->removeUpgrade(upgrade);
 			}
 		}
 	}

@@ -147,7 +147,7 @@ public:
 	void *rva0028BC58(int query);
 	Module *findUpdateModule(NameKeyType key) const { return findModule(key); }
 	void rva00293077(const void *upgrade);
-	void rva00290D42(const UpgradeTemplate *upgrade);
+	void removeUpgrade(const UpgradeTemplate *upgrade);
 	int getID() const { return m_id; }
 protected:
 	Module *findModule(NameKeyType key) const;
@@ -297,7 +297,7 @@ UpdateSleepTime ObjectCreationUpgrade::update()
 
 	upgrade = TheUpgradeCenter->findUpgrade(data->m_removeUpgrade);
 	if (upgrade)
-		getObject()->rva00290D42(upgrade);
+		getObject()->removeUpgrade(upgrade);
 
 	return UPDATE_SLEEP_FOREVER;
 	}

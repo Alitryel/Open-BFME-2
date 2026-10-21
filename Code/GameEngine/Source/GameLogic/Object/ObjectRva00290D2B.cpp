@@ -67,7 +67,7 @@ class Object
 public:
 	bool rva0028D9E5(int bit) const;
 	bool hasUpgrade(const UpgradeTemplate *tmpl) const;
-	void rva00290D42(const UpgradeTemplate *upgrade);
+	void removeUpgrade(const UpgradeTemplate *upgrade);
 
 private:
 	char m_pad00[0x244];
@@ -83,7 +83,7 @@ bool Object::hasUpgrade(const UpgradeTemplate *upgradeT) const
 	return rva0028D9E5(upgradeT->m_bitIndex);
 }
 
-void Object::rva00290D42(const UpgradeTemplate *upgrade)
+void Object::removeUpgrade(const UpgradeTemplate *upgrade)
 {
 	m_bits284[upgrade->m_bitIndex >> 5] &= ~(1u << (upgrade->m_bitIndex & 31));
 	for (BehaviorModule **m = m_modules244; *m; ++m)

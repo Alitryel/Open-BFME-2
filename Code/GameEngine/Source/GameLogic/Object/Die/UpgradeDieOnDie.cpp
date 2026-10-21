@@ -21,7 +21,7 @@
 // AsciiString m_upgradeName at +0x38. All seven emitted callees are rowed or
 // pinned: isDieApplicable 0x45CEA7, findUpgrade 0x26F26D,
 // getControllingPlayer 0x28AFA9, rva002ADAC3 0x2ADAC3 (pin), findObjectByID
-// 0x49DC5, hasUpgrade, rva00290D42. TheUpgradeCenter via the
+// 0x49DC5, hasUpgrade, removeUpgrade. TheUpgradeCenter via the
 // Rva00485C86Finish alternatename precedent; TheGameLogic via the
 // HeroDieOnDie plain-extern precedent.
 #include "ascii_string.h"
@@ -47,7 +47,7 @@ public:
 	Player *getControllingPlayer() const;	// 0x0028AFA9
 	ObjectID getProducerID() const { return m_producerID; }
 	bool hasUpgrade(const UpgradeTemplate *tmpl) const;
-	void rva00290D42(const UpgradeTemplate *upgrade);
+	void removeUpgrade(const UpgradeTemplate *upgrade);
 
 private:
 	unsigned char m_pad00[0x04];
@@ -150,5 +150,5 @@ void UpgradeDie::onDie(const DamageInfo *damageInfo)
 	// We found our parent: see if it has the upgrade set, then remove it.
 	if (!producer->hasUpgrade(upgrade))
 		return;
-	producer->rva00290D42(upgrade);
+	producer->removeUpgrade(upgrade);
 }

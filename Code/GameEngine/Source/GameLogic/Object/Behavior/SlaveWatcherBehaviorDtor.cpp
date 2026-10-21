@@ -64,7 +64,7 @@ class Object
 public:
 	void kill(DamageType type, DeathType death);
 	void updateUpgradeModules();
-	void rva00290D42(const UpgradeTemplate *upgrade);
+	void removeUpgrade(const UpgradeTemplate *upgrade);
 	void rva00293077(const void *upgrade);
 	bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	unsigned char m_pad00[0x284];
@@ -201,7 +201,7 @@ UpdateSleepTime SlaveWatcherBehavior::update()
 			const UpgradeTemplate *granted = TheUpgradeCenter->findUpgrade(data->m_upgradeOnRelease);
 			const UpgradeTemplate *removed = TheUpgradeCenter->findUpgrade(data->m_upgradeToRemove);
 			if (granted)
-				me->rva00290D42(granted);
+				me->removeUpgrade(granted);
 			if (removed)
 				me->rva00293077(removed);
 			me->updateUpgradeModules();

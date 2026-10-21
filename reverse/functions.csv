@@ -28941,7 +28941,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva00225375@BfmeAptWindowManager@@QAEXABVAsciiString@@0_N@Z,,0x00225375,77,Code/GameEngine/Source/GameClient/GUI/AptMapPreviewSetMapTitle.cpp,matched,apt translate plus settext nine callers same this EH
 ?rva003182CD@Rva003182CD@@QAEEXZ,,0x003182CD,20,Code/GameEngine/Source/Common/Rva003182CDCheck.cpp,matched,index at +0x10 with 5x8 table at +0x34; callers at 0x00095400 and 0x0009836E
 ??0Rva0015334F@@QAE@XZ,,0x0015334F,25,Code/Libraries/Source/WWVegas/WWLib/Rva0015334FCtor.cpp,matched,default ctor zero plus Vector_base 0x211E58 callers 0x153F49 0x215B00 0x215BEB 0x5AA28C
-?rva00290D42@Object@@QAEXPBVUpgradeTemplate@@@Z,,0x00290D42,121,Code/GameEngine/Source/GameLogic/Object/ObjectRva00290D2B.cpp,matched,Object removeUpgrade clears bit resets modules
+?removeUpgrade@Object@@QAEXPBVUpgradeTemplate@@@Z,,0x00290D42,121,Code/GameEngine/Source/GameLogic/Object/ObjectRva00290D2B.cpp,matched,Object removeUpgrade clears bit resets modules
 ?rva002900FA@Object@@QAEXH@Z,,0x002900FA,26,Code/GameEngine/Source/GameLogic/Object/ObjectRva002900E0.cpp,matched,Object status 4 plus 430 frame same-this setStatus
 ??$__uninitialized_fill_n@PAUBfmeAssignRecord32@@IU1@@_STL@@YAPAUBfmeAssignRecord32@@PAU1@IABU1@ABU__false_type@0@@Z,,0x0017381C,37,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bfmeassignrecord32_allocate_copy.cpp,matched,fill_n via rowed Construct 0x1737EF stride 0x20
 ??$__uninitialized_copy@PBUBfmeAssignRecord32@@PAU1@@_STL@@YAPAUBfmeAssignRecord32@@PBU1@0PAU1@ABU__false_type@0@@Z,,0x0017398C,38,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bfmeassignrecord32_allocate_copy.cpp,matched,uninit copy via rowed Construct 0x1737EF stride 0x20
