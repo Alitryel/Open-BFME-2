@@ -43,10 +43,10 @@ class Rva004E16D9Record
 {
 public:
 	Rva004E16D9Record();
-	~Rva004E16D9Record();
+	virtual ~Rva004E16D9Record();
 
 private:
-	char m_body[ 0x28 ];
+	char m_body[ 0x28 - 4 ];	// +0x04 (vptr at +0x00)
 };
 
 struct BfmePod40;
