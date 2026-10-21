@@ -74,3 +74,29 @@ transitionLiveMode invisible, escaping X/Y via an extern at the end, kind-of
 layer variants, real STLport bitset.
 
 t=600 model=claude-opus-5-5
+
+## Allocator probes (2026-10-22, same seat)
+
+- Compiler builds ruled out: `// compiler: vc71-sp1` (13.10.6030) and
+  `vc71-ddk-4035` emit byte-identical bodies for the faithful base.
+- Flags ruled out on the faithful base: /Op /O2 /Ox /Oy- /G6 /Ob1 /GX
+  /arch:SSE2 /GS /Gf- (identical or far worse).
+- Aliasing ruled out: escaping sourcePos/targetPos at function start or end,
+  hiding transitionLiveMode, definition order, unrelated TU declarations.
+- `forcecost.py.txt` (diagnostic, runtime patch of Spillcosts results): forcing
+  the four main X/Y globs to negative cost lifts the faithful base 0.88426 ->
+  0.94869 (4298 B); the whole matrix/translation block (+0x44d..+0x56b) then
+  matches retail. Remaining 92 insns: live arm +0x6d2..+0x7c8, pitch arms
+  +0x85d/+0x915, final hash wrap +0xf62.
+- `invsearch.py.txt` greedy single-glob cost flips from that seed plateau at
+  84 changed (`invsearch-best.json`: globs #4500/#4501 also to memory, body
+  grows to 4313 B), so the residue is register choice/order, not only
+  register-vs-memory.
+- `colorprobe.py.txt`: OrderGlobregs (3077 0x8482f) returns with pop 8, Color
+  (0x821a7) with pop 4. After Color, glob w4 points into a c2 table with
+  stride 0x60 = assigned register (faithful base: sX 1, tX 2, tY 3, tZ 4, sY 5,
+  sZ 6). Priority w3 = cost*100/L: short globs L ~1.75/1.82 (cost*57 / cost*55),
+  long camera globs L sX 1.56, tX 0.91, tZ 2.06, sY 1.41, sZ 5.7 (live-range
+  length measure, not yet decoded).
+- SubsumePseudos (0x97082) merges every translation copy on the faithful base;
+  the temp flags it tests (byte+5 sign, byte+7 0x40) are clear.
