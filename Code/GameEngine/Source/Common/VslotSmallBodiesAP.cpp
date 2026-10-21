@@ -38,14 +38,14 @@ Rva00078AE3& Rva00078AE3::rva00078AE3(const Rva00078AE3 *other)
 class Rva00078ADB
 {
 public:
-	void rva00078ADB(Int a0);
+	void rva00078ADB(Int firstValue);
 private:
 	char m_pad00[0x1C];
 	Rva00078AE3 m_1C;
 };
-void Rva00078ADB::rva00078ADB(Int a0)
+void Rva00078ADB::rva00078ADB(Int firstValue)
 {
-	m_1C.rva00078AE3(reinterpret_cast<const Rva00078AE3*>(a0));
+	m_1C.rva00078AE3(reinterpret_cast<const Rva00078AE3*>(firstValue));
 }
 
 class DataChunkInput;
@@ -53,75 +53,75 @@ struct DataChunkInfo;
 class WorldHeightMap
 {
 public:
-	bool ParseSizeOnly(DataChunkInput &a0, DataChunkInfo *a1);
+	bool ParseSizeOnly(DataChunkInput &firstValue, DataChunkInfo *secondValue);
 };
 typedef WorldHeightMap Rva000B0F82;
 class Rva000B197C
 {
 public:
-	void rva000B197C(Int a0, Int a1);
+	void rva000B197C(Int firstValue, Int secondValue);
 private:
 	char m_pad00[0x0C];
 	Rva000B0F82 *m_0C;
 };
-void Rva000B197C::rva000B197C(Int a0, Int a1)
+void Rva000B197C::rva000B197C(Int firstValue, Int secondValue)
 {
-	m_0C->ParseSizeOnly(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
+	m_0C->ParseSizeOnly(*(DataChunkInput *)firstValue, (DataChunkInfo *)secondValue);
 }
 
 class Rva005254C5
 {
 public:
-	void rva005254C5(Int a0);
+	void rva005254C5(Int firstValue);
 };
 class Rva005259B1
 {
 public:
-	void rva005259B1(Int a0);
+	void rva005259B1(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva005254C5 m_08;
 };
-void Rva005259B1::rva005259B1(Int a0)
+void Rva005259B1::rva005259B1(Int firstValue)
 {
-	m_08.rva005254C5(a0);
+	m_08.rva005254C5(firstValue);
 }
 
 class Holder00527BA2
 {
 public:
-	void Rva00527BA2(char *a0, Int a1, Int a2);
+	void Rva00527BA2(char *firstValue, Int secondValue, Int thirdValue);
 };
 typedef Holder00527BA2 Rva00527BA2;
 class Rva00527B9A
 {
 public:
-	void rva00527B9A(Int a0, Int a1, Int a2);
+	void rva00527B9A(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_pad00[0x04];
 	Rva00527BA2 *m_04;
 };
-void Rva00527B9A::rva00527B9A(Int a0, Int a1, Int a2)
+void Rva00527B9A::rva00527B9A(Int firstValue, Int secondValue, Int thirdValue)
 {
-	m_04->Rva00527BA2((char *)a0, a1, a2);
+	m_04->Rva00527BA2((char *)firstValue, secondValue, thirdValue);
 }
 
 class Rva005394F0
 {
 public:
-	void rva005394F0(Int a0, Int a1);
+	void rva005394F0(Int firstValue, Int secondValue);
 };
 class Rva00539611
 {
 public:
-	void rva00539611(Int a0, Int a1);
+	void rva00539611(Int firstValue, Int secondValue);
 private:
 	char m_pad00[0x08];
 	Rva005394F0 *m_08;
 };
-void Rva00539611::rva00539611(Int a0, Int a1)
+void Rva00539611::rva00539611(Int firstValue, Int secondValue)
 {
-	m_08->rva005394F0(a0, a1);
+	m_08->rva005394F0(firstValue, secondValue);
 }
 
 namespace InGameSimpleHelp
@@ -129,21 +129,21 @@ namespace InGameSimpleHelp
 class Impl
 {
 public:
-	Int rva0053973F(Int a0);
+	Int rva0053973F(Int firstValue);
 };
 }
 typedef InGameSimpleHelp::Impl Rva0053973F;
 class Rva005397D3
 {
 public:
-	void rva005397D3(Int a0);
+	void rva005397D3(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva0053973F *m_08;
 };
-void Rva005397D3::rva005397D3(Int a0)
+void Rva005397D3::rva005397D3(Int firstValue)
 {
-	m_08->rva0053973F(a0);
+	m_08->rva0053973F(firstValue);
 }
 
 struct FloatPair;
@@ -151,108 +151,108 @@ class InGameCommandButtonHelp { public: class Impl; };
 class InGameCommandButtonHelp::Impl
 {
 public:
-	Int SetWidthAndComputeHeight(Int a0);
+	Int SetWidthAndComputeHeight(Int firstValue);
 	void Render(const FloatPair &position, const FloatPair &size);
 };
 typedef InGameCommandButtonHelp::Impl Rva0056CA31;
 class Rva0056D2BD
 {
 public:
-	void rva0056D2BD(Int a0);
+	void rva0056D2BD(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva0056CA31 *m_08;
 };
-void Rva0056D2BD::rva0056D2BD(Int a0)
+void Rva0056D2BD::rva0056D2BD(Int firstValue)
 {
-	m_08->SetWidthAndComputeHeight(a0);
+	m_08->SetWidthAndComputeHeight(firstValue);
 }
 
 class Rva0056D2C5
 {
 public:
-	void rva0056D2C5(Int a0, Int a1);
+	void rva0056D2C5(Int firstValue, Int secondValue);
 private:
 	char m_pad00[0x08];
 	InGameCommandButtonHelp::Impl *m_08;
 };
-void Rva0056D2C5::rva0056D2C5(Int a0, Int a1)
+void Rva0056D2C5::rva0056D2C5(Int firstValue, Int secondValue)
 {
-	m_08->Render(*reinterpret_cast<const FloatPair *>(a0),
-		*reinterpret_cast<const FloatPair *>(a1));
+	m_08->Render(*reinterpret_cast<const FloatPair *>(firstValue),
+		*reinterpret_cast<const FloatPair *>(secondValue));
 }
 
 struct Rva005757F9Value;
 class Rva005757F9
 {
 public:
-	void rva005757F9(Rva005757F9Value *a0);
+	void rva005757F9(Rva005757F9Value *firstValue);
 };
 class Rva00575DBA
 {
 public:
-	void rva00575DBA(Int a0);
+	void rva00575DBA(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva005757F9 *m_08;
 };
-void Rva00575DBA::rva00575DBA(Int a0)
+void Rva00575DBA::rva00575DBA(Int firstValue)
 {
-	m_08->rva005757F9((Rva005757F9Value *)a0);
+	m_08->rva005757F9((Rva005757F9Value *)firstValue);
 }
 
 class Rva0057590E
 {
 public:
-	void rva0057590E(Int a0);
+	void rva0057590E(Int firstValue);
 };
 class Rva00575DC2
 {
 public:
-	void rva00575DC2(Int a0);
+	void rva00575DC2(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva0057590E *m_08;
 };
-void Rva00575DC2::rva00575DC2(Int a0)
+void Rva00575DC2::rva00575DC2(Int firstValue)
 {
-	m_08->rva0057590E(a0);
+	m_08->rva0057590E(firstValue);
 }
 
 class Rva005759A5
 {
 public:
-	void rva005759A5(Int a0);
+	void rva005759A5(Int firstValue);
 };
 class Rva00575DCA
 {
 public:
-	void rva00575DCA(Int a0);
+	void rva00575DCA(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva005759A5 *m_08;
 };
-void Rva00575DCA::rva00575DCA(Int a0)
+void Rva00575DCA::rva00575DCA(Int firstValue)
 {
-	m_08->rva005759A5(a0);
+	m_08->rva005759A5(firstValue);
 }
 
 class Rva00575A3F
 {
 public:
-	void rva00575A3F(Int a0);
+	void rva00575A3F(Int firstValue);
 };
 class Rva00575DD2
 {
 public:
-	void rva00575DD2(Int a0);
+	void rva00575DD2(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva00575A3F *m_08;
 };
-void Rva00575DD2::rva00575DD2(Int a0)
+void Rva00575DD2::rva00575DD2(Int firstValue)
 {
-	m_08->rva00575A3F(a0);
+	m_08->rva00575A3F(firstValue);
 }
 
 namespace StrategicInGameUI
@@ -302,27 +302,27 @@ class UnicodeString;
 class Rva005D40A6
 {
 public:
-	void rva005D46E3(const UnicodeString &a0);
+	void rva005D46E3(const UnicodeString &firstValue);
 };
 typedef Rva005D40A6 Rva005D46E3;
 class Rva0057A362
 {
 public:
-	void rva0057A362(Int a0);
+	void rva0057A362(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva005D46E3 m_08;
 };
-void Rva0057A362::rva0057A362(Int a0)
+void Rva0057A362::rva0057A362(Int firstValue)
 {
-	m_08.rva005D46E3(*(const UnicodeString *)a0);
+	m_08.rva005D46E3(*(const UnicodeString *)firstValue);
 }
 
 class Rva005D3F93
 {
 public:
 	unsigned char rva005D3F8D() const;
-	void rva005D3F93(bool a0);
+	void rva005D3F93(bool firstValue);
 };
 typedef Rva005D3F93 Rva005D3F8D;
 class Rva0057A36A
@@ -341,50 +341,50 @@ void Rva0057A36A::rva0057A36A()
 class Rva0057A372
 {
 public:
-	void rva0057A372(Int a0);
+	void rva0057A372(Int firstValue);
 private:
 	char m_pad00[0x08];
 	Rva005D3F93 m_08;
 };
-void Rva0057A372::rva0057A372(Int a0)
+void Rva0057A372::rva0057A372(Int firstValue)
 {
-	m_08.rva005D3F93(*(bool *)&a0);
+	m_08.rva005D3F93(*(bool *)&firstValue);
 }
 
 class Rva005D4E37
 {
 public:
-	void rva005D4E37(Int a0, const char *a1, bool a2);
+	void rva005D4E37(Int firstValue, const char *secondValue, bool thirdValue);
 };
 class Rva0057AA3D
 {
 public:
-	void rva0057AA3D(Int a0, Int a1, Int a2);
+	void rva0057AA3D(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_pad00[0x08];
 	Rva005D4E37 m_08;
 };
-void Rva0057AA3D::rva0057AA3D(Int a0, Int a1, Int a2)
+void Rva0057AA3D::rva0057AA3D(Int firstValue, Int secondValue, Int thirdValue)
 {
-	m_08.rva005D4E37(a0, (const char *)a1, *(bool *)&a2);
+	m_08.rva005D4E37(firstValue, (const char *)secondValue, *(bool *)&thirdValue);
 }
 
 class Rva0059B428
 {
 public:
-	void rva0059B428(Int a0, Int a1, Int a2);
+	void rva0059B428(Int firstValue, Int secondValue, Int thirdValue);
 };
 class Rva0059B420
 {
 public:
-	void rva0059B420(Int a0, Int a1, Int a2);
+	void rva0059B420(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_pad00[0x04];
 	Rva0059B428 *m_04;
 };
-void Rva0059B420::rva0059B420(Int a0, Int a1, Int a2)
+void Rva0059B420::rva0059B420(Int firstValue, Int secondValue, Int thirdValue)
 {
-	m_04->rva0059B428(a0, a1, a2);
+	m_04->rva0059B428(firstValue, secondValue, thirdValue);
 }
 
 class Rva005C33DD
@@ -462,19 +462,19 @@ void Rva005C359E::rva005C359E()
 class Rva005CB9D1
 {
 public:
-	bool rva005CB9D1(Int a0);
+	bool rva005CB9D1(Int firstValue);
 };
 class Rva005CBAE6
 {
 public:
-	void rva005CBAE6(Int a0);
+	void rva005CBAE6(Int firstValue);
 private:
 	char m_pad00[0x04];
 	Rva005CB9D1 m_04;
 };
-void Rva005CBAE6::rva005CBAE6(Int a0)
+void Rva005CBAE6::rva005CBAE6(Int firstValue)
 {
-	m_04.rva005CB9D1(a0);
+	m_04.rva005CB9D1(firstValue);
 }
 
 class Rva005CEA1CHolder
