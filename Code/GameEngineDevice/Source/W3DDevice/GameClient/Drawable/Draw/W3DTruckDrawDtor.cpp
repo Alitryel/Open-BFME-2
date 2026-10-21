@@ -112,4 +112,4 @@ void bfmeAnchorW3DTruckDrawDtor(W3DTruckDraw *w3DTruckDraw)
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?slot8C@DrawInterface8C@@UAEXXZ=?rva000BFB76@Rva000BFB76Interface@@UAEXABVModelConditionFlags@@_NH@Z")
-#pragma comment(linker, "/alternatename:?slotC@DrawInterfaceC@@UAEXXZ=?rva000B34D8@Rva000B34D8@@QAE_NPAVVector3@@PAMPAURva000B34D8Out30@@@Z")
+#pragma comment(linker, "/alternatename:?slotC@DrawInterfaceC@@UAEXXZ=?rva000B34D8@Rva000B34D8@@UAE_NPAVVector3@@PAMPAURva000B34D8Out30@@@Z")
