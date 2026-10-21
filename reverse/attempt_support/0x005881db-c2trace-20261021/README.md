@@ -358,6 +358,8 @@ Bank unchanged at `2196 25 0.95334`. All of these were scored with `vrun.sh`; no
 | Address-taken node: `AmoebaNode *node; AmoebaNode **cur=&node;` (at1), loop through `*cur` (at2), `AmoebaNode *node[1]` (at3) | 2196 27 / 2196 27 / 2196 25 identical. c2 resolves the pointer, so node stays a register candidate |
 | Sort element types, 2^5 factorial (`fxgen.txt`, writes `fx/v*.cpp` from `bank.cpp`): `int m_04`, `Object *m_08` without casts, `if(!unit)` split from the flags test, `bool forcePosition` declared before loop 1, source pointer `p` into `ordered` | the first four do nothing in any combination (2196 25). The source pointer `p` gives 2196 29 0.95107, worse |
 | WB twin, loop 1 | `parent` / `if(parent) victim=parent` store to the argument and the WB statement order match the bank. WB keeps `info` as a pointer local, so dropping the entry variable contradicts the twin; it was not tried |
+| Real multiple-inheritance views (`mi/` variants): `AmoebaAI : AmoebaAIHead, AICommandInterface` (polymorphic, at +0x20) with `ai->aiIdle(...)`, and `AmoebaHeld : head, list provider (+0x20), position provider (+0x11c)` with `held->fill(&range)`, `held->setLeader(...)` | byte-identical to the bank once the offsets are right. The `AmoebaSlots<0>` empty base displaces a following empty base by 1 byte and a third base by 4, so pads need checking (`sizeof(X)==N?1:-1` typedef probes; cl 7.1 has no `/d1reportSingleClassLayout`) |
+| c2 forcing: loop 1's entry:12 popped first at R1 (`prio.txt` with `IDX=12`, `1:entry:0xc:400`) | 2199 B but nd 313: R1 then empties 10 loop-1 records, node still ends in ebx and the frame shrinks to 0x2fc. Retail did not color loop 1's entry ahead of loop 2's |
 
 ## Open leads for the next session (ranked)
 

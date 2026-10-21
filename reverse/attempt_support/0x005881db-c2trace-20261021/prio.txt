@@ -43,7 +43,7 @@ while True:
                 q=b
                 while q:
                     w=d.words(q,18)
-                    if nm(w[0]) in TN and (w[9]&0xffff)>=2:
+                    if nm(w[0]) in TN and (w[9]&0xffff)>=2 and (not os.environ.get('IDX') or w[7]==int(os.environ['IDX'],16)):
                         print('set',nm(w[0]),hex(w[7]),'off',hex(OFF),'old',d.words(q+OFF,1)[0],'->',VAL,'w3',w[3],'cost',d.words(q+0x40,1)[0],flush=True)
                         d.prompt('set *(int*)0x%x = %d'%(q+OFF,VAL))
                     q=w[12]
