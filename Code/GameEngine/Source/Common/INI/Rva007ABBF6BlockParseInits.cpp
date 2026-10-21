@@ -49,7 +49,7 @@ void parseFireLogicSystemDefinition(INI *);
 void parseExperienceScalarTableDefinition(INI *);
 void Rva002A8A31Parse(INI *);
 void Rva002A92F2Parse(INI *);
-void Rva002E048CParse(INI *);
+void parseLivingWorldBuildingDefinition(INI *);
 void Rva002E2386Parse(INI *);
 void parseFireDefinition(INI *);
 void Rva003EF467(INI *);
@@ -403,7 +403,7 @@ BlockParse theExperienceLevelBlockParse = { 0, "ExperienceLevel", ExperienceLeve
 BlockParse theExperienceScalarTableBlockParse = { 0, "ExperienceScalarTable", parseExperienceScalarTableDefinition };	// VA 0x00DBB898 "ExperienceScalarTable", parse 0x00289265
 BlockParse theAIDozerAssignmentBlockParse = { 0, "AIDozerAssignment", Rva002A92F2Parse };	// VA 0x00DBBC1C "AIDozerAssignment", parse 0x002A92F2
 BlockParse theSkirmishAIDataBlockParse = { 0, "SkirmishAIData", Rva002A8A31Parse };	// VA 0x00DBBC28 "SkirmishAIData", parse 0x002A8A31
-BlockParse theLivingWorldBuildingBlockParse = { 0, "LivingWorldBuilding", Rva002E048CParse };	// VA 0x00DBD078 "LivingWorldBuilding", parse 0x002E048C
+BlockParse theLivingWorldBuildingBlockParse = { 0, "LivingWorldBuilding", parseLivingWorldBuildingDefinition };	// VA 0x00DBD078 "LivingWorldBuilding", parse 0x002E048C
 BlockParse theLivingWorldPlayerTemplateBlockParse = { 0, "LivingWorldPlayerTemplate", Rva002E2386Parse };	// VA 0x00DBD0A8 "LivingWorldPlayerTemplate", parse 0x002E2386
 BlockParse theFireBlockParse = { 0, "Fire", parseFireDefinition };	// VA 0x00DBD9AC "Fire", parse 0x0030AFFB
 BlockParse theWeatherDataBlockParse = { 0, "WeatherData", GlobalWeatherSystem::parseWeatherData };	// VA 0x00DBE4C4 "WeatherData", parse 0x0031842A

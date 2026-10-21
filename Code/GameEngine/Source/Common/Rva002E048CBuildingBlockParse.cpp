@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?Rva002E048CParse@@YAXPAVINI@@@Z retail 0x002E048C 318 bytes.
+// ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z retail 0x002E048C 318 bytes.
 // LivingWorldBuilding INI block parse: the parse function of the block-parse
 // entry at 0x009BD07C (name VA 0x00C046E8 "LivingWorldBuilding") and its only
 // reference. Reads the quoted name (rowed INI::getNextQuotedAsciiString
@@ -149,7 +149,7 @@ struct _s__ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
-void __cdecl Rva002E048CParse(INI *ini)
+void __cdecl parseLivingWorldBuildingDefinition(INI *ini)
 {
 	AsciiString name = ini->getNextQuotedAsciiString();
 	if (TheLivingWorldBuildingTemplateStore == 0)
