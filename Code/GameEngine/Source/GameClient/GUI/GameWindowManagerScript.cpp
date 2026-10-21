@@ -49,6 +49,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
+// BFME2's UnicodeString is a StringBase<unsigned short> subclass; skip Zero
+// Hour's own class.
+#include "unicode_string.h"
+#define UNICODESTRING_H
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #include <list>
 
@@ -263,7 +267,7 @@ static Bool parseBitFlag( const char *flagString, UnsignedInt *bits,
 	for( i = 0, c = flagList; *c; i++, c++ )
 	{
 
-		if( !stricmp( *c, flagString ) )
+		if( !_strcmpi( *c, flagString ) )
 		{
 			*bits |= (1 << i);
 			return TRUE;
@@ -543,17 +547,8 @@ static Bool parseDefaultFont( GameFont *font, File *inFile, char *buffer )
 // parseTooltip ===============================================================
 /** Parse the tooltip field */
 //=============================================================================
-static Bool parseTooltip( char *token, WinInstanceData *instData, 
-													char *buffer, void *data )
-{
-	UnicodeString tooltip;
-	tooltip.set(L"Need tooltip translation");
-	/// @todo need to parse the tooltip in multibyte here
-
-	instData->setTooltipText( tooltip );
-	return TRUE;
-
-}  // end parseTooltip
+// The retail body is rowed in GameWindowManagerScript_parseTooltip.cpp; call that one.
+Bool parseTooltip( char *token, WinInstanceData *instData, char *buffer, void *data );
 
 // parseScreenRect ============================================================
 /** Parse the screen rect entry which tells us the position and size
@@ -654,49 +649,8 @@ static Bool parseImageOffset( char *token, WinInstanceData *instData,
 // parseFont ==================================================================
 /** Parse the font field */
 //=============================================================================
-static Bool parseFont( char *token, WinInstanceData *instData, 
-											 char *buffer, void *data )
-{
-	char *c, *ptr;
-	char *seps = " ,\n\r\t";
-	char *stringSeps = ":,\n\r\t\"";
-	char fontName[ 256 ];
-	Int fontSize;
-	Int fontBold;
-
-	// "NAME"
-	c = strtok( buffer, seps );  // label
-	// scan to the first " mark
-	ptr = buffer;
-	while( *ptr != '"' )
-		ptr++;
-	ptr++;  // skip the "
-	c = strtok( ptr, stringSeps );  // value
-	strcpy( fontName, c );
-
-	// "SIZE"
-	c = strtok( NULL, seps );  // label
-	c = strtok( NULL, seps );  // value
-	scanInt( c, fontSize );
-
-	// "BOLD"
-	c = strtok( NULL, seps );  // label
-	c = strtok( NULL, seps );  // value
-	scanInt( c, fontBold );
-
-	if( TheFontLibrary )
-	{
-		GameFont *font;
-
-		font = TheFontLibrary->getFont( AsciiString(fontName), fontSize, fontBold );
-		if( font )
-			instData->m_font = font;
-
-	}  // end if
-
-	return TRUE;
-
-}  // end parseFont
+// The retail body is rowed in GameWindowManagerScript_parseFont.cpp; call that one.
+Bool parseFont( char *token, WinInstanceData *instData, char *buffer, void *data );
 
 // parseName =================================================================
 /** Parse the NAME field */
@@ -806,78 +760,8 @@ static Bool parseHeaderTemplate( char *token, WinInstanceData *instData,
 // parseListboxData ===========================================================
 /** Parse listbox data entry */
 //=============================================================================
-static Bool parseListboxData( char *token, WinInstanceData *instData,
-															char *buffer, void *data )
-{
-	ListboxData *listData = (ListboxData *)data;
-	char *c;
-	char *seps = " :,\n\r\t";
-
-	// "LENGTH"
-	c = strtok( buffer, seps );  // label
-	c = strtok( NULL, seps );
-	scanShort( c, listData->listLength );
-
-	// "AUTOSCROLL"
-	c = strtok( NULL, seps );  // label
-	c = strtok( NULL, seps );  // value
-	scanBool( c, listData->autoScroll );
-
-	// "SCROLLIFATEND" (optional)
-	c = strtok( NULL, seps );  // label
-	if ( !stricmp(c, "ScrollIfAtEnd") )
-	{
-		c = strtok( NULL, seps );  // value
-		scanBool( c, listData->scrollIfAtEnd );
-		c = strtok( NULL, seps );  // label
-	}
-	else
-	{
-		listData->scrollIfAtEnd = FALSE;
-	}
-
-	// "AUTOPURGE"
-	c = strtok( NULL, seps );  // value
-	scanBool( c, listData->autoPurge );
-
-	// "SCROLLBAR"
-	c = strtok( NULL, seps );  // label
-	c = strtok( NULL, seps );  // value
-	scanBool( c, listData->scrollBar );
-
-	// "MULTISELECT"
-	c = strtok( NULL, seps );  // label
-	c = strtok( NULL, seps );  // value
-	scanBool( c, listData->multiSelect );
-
-	// "COLUMNS"
-	c = strtok( NULL, seps );  // label
-	c = strtok( NULL, seps );  // value
-	scanShort( c, listData->columns );
-	if(listData->columns > 1)
-	{
-		listData->columnWidthPercentage = NEW Int[listData->columns];	
-		for(Int i = 0; i < listData->columns; i++ )
-		{
-			// "COLUMNS"
-			c = strtok( NULL, seps );  // label
-			c = strtok( NULL, seps );  // value
-			scanInt( c, listData->columnWidthPercentage[i] );
-		}
-	}
-	else
-		listData->columnWidthPercentage = NULL;
-	listData->columnWidth = NULL;
-	// "FORCESELECT"
-	c = strtok( NULL, seps );  // label
-	c = strtok( NULL, seps );  // value
-	scanBool( c, listData->forceSelect );
-
-	
-	// "	
-	return TRUE;
-
-}  // end parseListboxData
+// The retail body is rowed in GameWindowManagerScript_parseListboxData.cpp; call that one.
+Bool parseListboxData( char *token, WinInstanceData *instData, char *buffer, void *data );
 
 // parseComboBoxData ===========================================================
 /** Parse Combo Box data entry */
@@ -960,35 +844,8 @@ static Bool parseRadioButtonData( char *token, WinInstanceData *instData,
 // parseTooltipText ===========================================================
 /** Parse the TOOLTIPTEXT field */
 //=============================================================================
-static Bool parseTooltipText( char *token, WinInstanceData *instData, 
-											 char *buffer, void *data )
-{
-	char *ptr = buffer;
-	char *c;
-	char *stringSeps = "\n\r\t\""; 
-
-	// scan to the first " mark
-	while( *ptr != '"' )
-		ptr++;
-	ptr++;  // skip the "
-	if(strlen( ptr ) == 1 )
-		return TRUE;
-	c = strtok( ptr, stringSeps );  // value
-	if( strlen( c ) >= MAX_TEXT_LABEL )
-	{
-		
-		DEBUG_LOG(( "TextTooltip label '%s' is too long, max is '%d'\n", c, MAX_TEXT_LABEL ));
-		assert( 0 );
-		return FALSE;
-
-	}  // end if
-	instData->m_tooltipString.set(c);
-	instData->setTooltipText(TheGameText->fetch(c));
-	
-
-  return TRUE;
-
-}  // end parseTooltipText
+// The retail body is rowed in GameWindowManagerScript_parseTooltipText.cpp; call that one.
+Bool parseTooltipText( char *token, WinInstanceData *instData, char *buffer, void *data );
 
 // parseTooltipDelay =======================================================
 /** Parse the tooltip delay */

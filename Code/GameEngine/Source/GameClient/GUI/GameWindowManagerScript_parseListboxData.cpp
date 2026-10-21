@@ -90,7 +90,7 @@ extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *del
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
 
 // ?parseListboxData@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseListboxData(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseListboxData(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	ListboxData *listData = (ListboxData *)data;
 	char *c;

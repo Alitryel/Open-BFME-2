@@ -83,7 +83,7 @@ public:
 };
 
 // ?parseTooltipText@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseTooltipText(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseTooltipText(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *ptr = buffer;
 	char *c;

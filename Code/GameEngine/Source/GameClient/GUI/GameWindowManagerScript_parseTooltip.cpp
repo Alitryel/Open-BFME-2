@@ -41,7 +41,7 @@ public:
 };
 
 // ?parseTooltip@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseTooltip(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseTooltip(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	UnicodeString tooltip;
 	tooltip.set(L"Need tooltip translation");

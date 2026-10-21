@@ -66,7 +66,7 @@ extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *del
 extern "C" char *__cdecl _mbscpy(char *dst, const char *src);
 
 // ?parseFont@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseFont(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseFont(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *c, *ptr;
 	char *seps = " ,\n\r\t";
