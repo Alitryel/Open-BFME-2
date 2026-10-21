@@ -97,10 +97,9 @@ public:
 
 class DrawableModule
 {
-public:
+protected:
 	virtual ~DrawableModule();
 
-protected:
 	W3DLaserDrawModuleData *m_moduleData;
 	Int m_bfmeField;
 };
@@ -109,7 +108,9 @@ class DrawModule : public DrawableModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
-	virtual void doDrawModule(const Matrix3D *transform) = 0;
+
+protected:
+	virtual ~DrawModule() {}
 };
 
 class LaserDrawInterface
@@ -277,7 +278,7 @@ public:
 	virtual void bfmeVpad104();
 	virtual void Set_Visible(Int visible);
 
-	void Set_Texture(const RefCountPtr<TextureClass> &texture);
+	void Set_Texture(TextureClass *texture);
 	void Set_Shader(ShaderClass shader);
 	void Set_Width(Real width);
 	void Set_Color(const Vector3 &color);
@@ -390,7 +391,7 @@ W3DLaserDraw::W3DLaserDraw( Thing *thing, const ModuleData* moduleData ) :
 			SegmentedLineClass *line = m_line3D[ index ];
 			if( line )
 			{
-				line->Set_Texture(*(const RefCountPtr<TextureClass> *)m_textureVector.begin());
+				line->Set_Texture((TextureClass *)m_textureVector.begin());
 				line->Set_Shader( ShaderClass::_PresetAdditiveShader );
 				line->Set_Width( width );
 				line->Set_Color( Vector3( red, green, blue ) );
