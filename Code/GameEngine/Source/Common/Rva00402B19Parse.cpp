@@ -154,7 +154,7 @@ extern const FieldParse LivingWorldBuildPlotIconFields[] =
 	{ "Object",                   &Rva0056BF1FParse, 0, 0x04 },
 	{ 0, 0, 0, 0 }
 };
-void Rva00402E30Parse(INI *ini)
+void parseLivingWorldBuildPlotIconDefinition(INI *ini)
 {
     if (ini->m_type == 2)
         throw INIException(8, "Cannot override Living World objects in map.ini");

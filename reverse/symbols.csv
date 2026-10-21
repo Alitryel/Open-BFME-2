@@ -13358,7 +13358,7 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva0027E79E@Rva0027E79E@@QAEXPAUCoord3D@@MPAVRva0027D35F@@_NH@Z,0x0027E79E,callee of ?rva0027F2B2@BfmeThingCME@@QAEXPAUCoord3D@@ME@Z
 ?rva002E7749@Pathfinder@@QAEHPAXHHHH_N@Z,0x002E7749,callee of ?cellCallback@Rva002E7B29Info@@QAEHPAVPathfindCell@@0HH@Z
 ?rva00214060@LivingWorldManager@@QAEPAVRva003F9FA9@@ABVAsciiString@@@Z,0x00214060,callee of ?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z
-?rva00214156@LivingWorldManager@@QAEPAVRva00402EFA@@ABVAsciiString@@@Z,0x00214156,callee of ?Rva00402E30Parse@@YAXPAVINI@@@Z
+?rva00214156@LivingWorldManager@@QAEPAVRva00402EFA@@ABVAsciiString@@@Z,0x00214156,callee of ?parseLivingWorldBuildPlotIconDefinition@@YAXPAVINI@@@Z
 ?adjustDamage@Armor@@QBEMPBVDamageInfoInput@@PBVObject@@_N@Z,0x001D90A1,Armor::adjustDamage (Zero Hour name; BFME 2 takes the DamageInfoInput; the Object and a flag): thiscall ret 0xC returning x87 float; called by ActiveBody::attemptHealing at 0x004BEEC1 with ecx = body +0xF8 (the cached Armor) and (&info->in; object; false); address from that REL32. Its body returns the input amount at once for damage type 7
 ?Rva0030EFD5@@YAI_N@Z,0x0030EFD5,callee of ?Rva0030F099@@YAI_N@Z
 ?DoShroudReveal@ShroudManagerImpl@@AAEXHHPAXMH@Z,0x0073CAF0,callee of ?rva00739A30@Rva00739A30@@QAEXPAUPair00739BE0@@MH@Z
