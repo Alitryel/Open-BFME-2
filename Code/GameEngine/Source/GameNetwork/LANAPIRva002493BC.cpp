@@ -122,7 +122,7 @@ protected:
 	Holder44 *m_holder;
 };
 
-void LANAPI::OnPlayerJoin(int unused, UnicodeString arg)
+void LANAPI::OnPlayerJoin(int unused, UnicodeString playerName)
 {
 	Holder44 *holder = m_holder;
 	if (holder == 0)
