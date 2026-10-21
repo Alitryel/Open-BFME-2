@@ -219,6 +219,8 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::SelectQueueIndex(int queue
 #include "unicode_string.h"
 class Image;
 class SpawnArmy { public:
+	UnicodeString rva004E25AF(int);
+	UnicodeString rva004E265F(int);
  SpawnArmy(int index);
  const Image *GetPortraitImage(int index);	// 0x004E24DC
  virtual ~SpawnArmy();
@@ -253,7 +255,6 @@ __declspec(noinline) static void *rva005E72B4Get(Rva005E72B4Queue *queue,int id)
 }
 
 class Image;
-class Rva00319CED { public: UnicodeString rva004E25AF(int); UnicodeString rva004E265F(int); };
 class ThingTemplate;
 class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); };
 extern ThingFactory *TheThingFactory;
@@ -289,7 +290,7 @@ namespace StrategicInGameUI {
 __declspec(noinline) static UnicodeString GetDisplayName(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
- if(queue->slot4(id,&army)) return ((Rva00319CED *)&army)->rva004E25AF(context->m_id);
+ if(queue->slot4(id,&army)) return ((SpawnArmy *)&army)->rva004E25AF(context->m_id);
  return UnicodeString::TheEmptyString;
 }
 }
@@ -330,7 +331,7 @@ namespace StrategicInGameUI {
 __declspec(noinline) static UnicodeString GetDisplayDescription(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
- if(queue->slot4(id,&army)) return ((Rva00319CED *)&army)->rva004E265F(context->m_id);
+ if(queue->slot4(id,&army)) return ((SpawnArmy *)&army)->rva004E265F(context->m_id);
  return UnicodeString::TheEmptyString;
 }
 }

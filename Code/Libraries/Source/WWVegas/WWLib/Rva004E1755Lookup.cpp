@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
 //
-// Dump-range-25 string-keyed lookup trio on Rva00319CED (whose rowed layout
+// Dump-range-25 string-keyed lookup trio on SpawnArmy (whose rowed layout
 // is pad[0x2C] plus AsciiString m_2C): 0x4E1755 returns the rowed-pinned
 // BfmeY1038 int for a non-empty key's lookup hit, 0x4E23C1 returns the
 // 0x3B8E89 lookup hit itself when the rowed 0x319CED check passes, and
@@ -14,7 +14,7 @@
 class LivingWorldCampaignManager;
 class Rva00E02D6C; extern Rva00E02D6C *TheCampaignManager;	// defined once, in Rva002B47B1Get.cpp
 
-class Rva00319CED
+class SpawnArmy
 {
 public:
 	bool rva00319CED();
@@ -59,8 +59,8 @@ struct Rva004E23E2Pair
 	int m_44;
 };
 
-// ?rva004E1755@Rva00319CED@@QAEHXZ @0x004E1755 43B.
-int Rva00319CED::rva004E1755()
+// ?rva004E1755@SpawnArmy@@QAEHXZ @0x004E1755 43B.
+int SpawnArmy::rva004E1755()
 {
 	AsciiString *asciiString = &m_2C;
 	if (asciiString->isEmpty())
@@ -71,8 +71,8 @@ int Rva00319CED::rva004E1755()
 	return 0;
 }
 
-// ?rva004E23C1@Rva00319CED@@QAEPAXXZ @0x004E23C1 33B.
-void *Rva00319CED::rva004E23C1()
+// ?rva004E23C1@SpawnArmy@@QAEPAXXZ @0x004E23C1 33B.
+void *SpawnArmy::rva004E23C1()
 {
 	char *p = (char *)this;
 	if (!rva00319CED())
@@ -81,8 +81,8 @@ void *Rva00319CED::rva004E23C1()
 	return ((Rva003B8E89 *)((LivingWorldCampaignManager *)TheCampaignManager))->rva003B8E89(p);
 }
 
-// ?rva004E23E2@Rva00319CED@@QAEPAXXZ @0x004E23E2 42B.
-void *Rva00319CED::rva004E23E2()
+// ?rva004E23E2@SpawnArmy@@QAEPAXXZ @0x004E23E2 42B.
+void *SpawnArmy::rva004E23E2()
 {
 	Rva004E23E2Pair *p = (Rva004E23E2Pair *)rva004E23C1();
 	if (p == 0)

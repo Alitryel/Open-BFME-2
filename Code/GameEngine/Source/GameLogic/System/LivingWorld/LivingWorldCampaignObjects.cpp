@@ -26,6 +26,11 @@ extern LivingWorldManager *TheLivingWorldManager;
 struct FieldParse;
 class Image;
 class SpawnArmy:public Snapshot{public:SpawnArmy(int);virtual ~SpawnArmy();
+	void *rva004E23E2();
+	UnicodeString rva004E25AF(int);
+	UnicodeString rva004E265F(int);
+	int rva004E1755();
+	bool rva00319CED();
  SpawnArmy(const SpawnArmy&);
  const Image *GetButtonImage(int);
  const Image *GetPortraitImage(int);
@@ -227,7 +232,6 @@ extern ImageCollection *TheMappedImageCollection;
 class CreateAHeroHero;
 class CreateAHeroManager { public:const AsciiString &GetButtonImageName(const CreateAHeroHero*); };
 extern CreateAHeroManager *TheCreateAHeroManager;
-class Rva00319CED { public:void *rva004E23E2(); UnicodeString rva004E25AF(int); UnicodeString rva004E265F(int); int rva004E1755(); bool rva00319CED(); };
 struct Rva002B2579Result;
 class Rva002BA8F1Logic { public:Rva002B2579Result *rva002B2579(int); };
 class Rva002E2903Player;
@@ -242,7 +246,7 @@ class LivingWorldPlayer { public:
 // Complete native body and associated EH graph verified against retail.
 const Image *SpawnArmy::GetButtonImage(int id) {
  static const Image *missing=TheMappedImageCollection->findImageByName(AsciiString("BuildingNoArt"));
- void *thing=((Rva00319CED*)this)->rva004E23E2();
+ void *thing=((SpawnArmy*)this)->rva004E23E2();
  if(!thing)return missing;
  const Image *image;
  if(*((unsigned char*)thing+0x11f)&0x40) {
@@ -262,7 +266,7 @@ class ThingTemplate { public:const Image *getButtonImage(); };
 // Complete native body and associated EH graph verified against retail.
 const Image *SpawnArmy::GetPortraitImage(int id) {
  static const Image *missing=TheMappedImageCollection->findImageByName(AsciiString("BuildingNoArt"));
- void *thing=((Rva00319CED*)this)->rva004E23E2();
+ void *thing=((SpawnArmy*)this)->rva004E23E2();
  if(!thing)return missing;
  const Image *image;
  if(*((unsigned char*)thing+0x11f)&0x40) {
@@ -280,7 +284,7 @@ const Image *SpawnArmy::GetPortraitImage(int id) {
 // WB128BD80 identifies SpawnArmy::GetButtonTitle. Native 4E25AF/176B
 // returns UnicodeString by value, including the hidden output pointer and
 // every EH state transition. The old pointer-return interpretation missed
-// those states. Preserve the existing Rva00319CED binding used by callers.
+// those states. Preserve the existing SpawnArmy binding used by callers.
 // The native AsciiString text-fetch overload occupies vtable slot0x38;
 // this interface and ABI also match AptMapPreview's existing consumers.
 class GameTextInterface { public:
@@ -293,7 +297,7 @@ class GameTextInterface { public:
  virtual UnicodeString fetch(const AsciiString&,bool* =0)=0;
 };
 extern GameTextInterface *TheGameText;
-UnicodeString Rva00319CED::rva004E25AF(int id) {
+UnicodeString SpawnArmy::rva004E25AF(int id) {
  UnicodeString title=TheGameText->fetch(((SpawnArmy*)this)->m_constructButtonTitle);
  void *thing=rva004E23E2();
  if(thing && (*((unsigned char*)thing+0x11f)&0x40)) {
@@ -378,7 +382,7 @@ struct ArmyHelpBuildingView { unsigned char pad[0x24]; Rva0020E89C *region; };
 // help` site (the null army and null region tests are two ifs, not one ||) and
 // the queued-building counter sits in its own block, which lets cl share its
 // slot with the fetch return temporary like retail.
-UnicodeString Rva00319CED::rva004E265F(int id)
+UnicodeString SpawnArmy::rva004E265F(int id)
 {
  SpawnArmy *spawn=(SpawnArmy *)this;
  UnicodeString help=TheGameText->fetch(spawn->m_14);

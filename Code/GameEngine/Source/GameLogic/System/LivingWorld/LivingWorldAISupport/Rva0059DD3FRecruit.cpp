@@ -27,8 +27,8 @@ bool less<int>::operator()(const int &a, const int &b) const
 namespace _STL {
 template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; }
 }
-class Rva00319CED;
-struct BfmeE8 {int id;Rva00319CED*unit;};
+class SpawnArmy;
+struct BfmeE8 {int id;SpawnArmy*unit;};
 struct Rva0059D90CSource {char pad[0x34];_STL::vector<int> first,second;};
 class Rva004FF8DA;
 class Rva004FF5B7;

@@ -101,7 +101,7 @@ public:
 };
 
 // The unit being spawned; its command-point cost comes from 0x004E1755.
-class Rva00319CED
+class SpawnArmy
 {
 public:
 	Int rva004E1755();
@@ -165,8 +165,8 @@ public:
     Bool DebugValidatePlacementSpot(const Coord2D &spot,Coord2D *out,const char *kind);
     void DoXfer(Xfer *);
     Bool IsOwnedByTeam(Int teamID) const;
-	Bool CanSpawnUnitWithinCPLimit(Rva00319CED *unit) const;
-	Bool rva003F0201(Rva00319CED *unit) const;
+	Bool CanSpawnUnitWithinCPLimit(SpawnArmy *unit) const;
+	Bool rva003F0201(SpawnArmy *unit) const;
 	LivingWorldBuilding *GetBuildingByIndex(Int index) const;
 	Int rva003F05CE();
 	void *rva003F0588();

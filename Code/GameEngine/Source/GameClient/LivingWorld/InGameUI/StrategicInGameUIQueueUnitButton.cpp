@@ -49,6 +49,11 @@ extern ImageCollection *TheMappedImageCollection;
 class SpawnArmy
 {
 public:
+	UnicodeString rva004E25AF(int playerID);
+	UnicodeString rva004E265F(int playerID);
+	unsigned char m_pad00[0x48];
+	int m_48;
+	int m_4c;
 	const Image *GetButtonImage(int playerID);
 };
 
@@ -129,17 +134,8 @@ const Image *GetButtonImage(int playerID, SpawnArmy *army)
 
 // The spawnable unit's rowed title and description getters (0x004E25AF,
 // pinned 0x004E265F) and its +0x48/+0x4C words.
-class Rva00319CED
-{
-public:
-	UnicodeString rva004E25AF(int playerID);
-	UnicodeString rva004E265F(int playerID);
-	unsigned char m_pad00[0x48];
-	int m_48;
-	int m_4c;
-};
 
-// ??0Rva005E8908@@QAE@HHPAVRva00319CED@@@Z, native 5F8C48..5F8CAE (104B,
+// ??0Rva005E8908@@QAE@HHPAVSpawnArmy@@@Z, native 5F8C48..5F8CAE (104B,
 // RET 0xC; caller 0x005E8B66, the army spawn button list): a button record
 // holding its first argument and player id, the unit's button image
 // (GetButtonImage above), the unit's +0x4C and +0x48 words and its title
@@ -147,7 +143,7 @@ public:
 class Rva005E8908
 {
 public:
-	Rva005E8908(int value, int playerID, Rva00319CED *unit);
+	Rva005E8908(int value, int playerID, SpawnArmy *unit);
 
 	int m_value;					// +0x00
 	int m_playerID;					// +0x04
@@ -158,7 +154,7 @@ public:
 	UnicodeString m_description;	// +0x18
 };
 
-Rva005E8908::Rva005E8908(int value, int playerID, Rva00319CED *unit)
+Rva005E8908::Rva005E8908(int value, int playerID, SpawnArmy *unit)
 	: m_value(value), m_playerID(playerID),
 	  m_image(StrategicInGameUI::GetButtonImage(playerID, (SpawnArmy *)unit)),
 	  m_0c(unit->m_4c), m_10(unit->m_48),

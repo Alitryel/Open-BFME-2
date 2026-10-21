@@ -115,11 +115,11 @@ public:
 	virtual void listUnits(_STL::vector<int> *ids);					// +0x0C
 	virtual bool describe(int id, SpawnArmy *unit);					// +0x10
 };
-class Rva00319CED;
+class SpawnArmy;
 class Rva005E8908
 {
 public:
-	Rva005E8908(int value, int playerID, Rva00319CED *unit);
+	Rva005E8908(int value, int playerID, SpawnArmy *unit);
 	~Rva005E8908();
 private:
 	unsigned char m_data[0x1C];
@@ -139,7 +139,7 @@ void Rva005E8C54::rva005E8B66(int b)
 	{
 		if (source->describe(*it, &unit))
 		{
-			rva005E8ADF(&m_member04, Rva005E8908(b, (int)m_source18, (Rva00319CED *)&unit));
+			rva005E8ADF(&m_member04, Rva005E8908(b, (int)m_source18, (SpawnArmy *)&unit));
 		}
 	}
 }

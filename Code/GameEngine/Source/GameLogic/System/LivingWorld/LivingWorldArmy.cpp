@@ -85,7 +85,6 @@ struct Rva0031A02ASummary { char opaque00[0x1C]; int owner; };
 
 
 class ThingTemplate { public: int rva0033B479() const; };
-class Rva00319CED { public: bool rva00319CED(); void *rva004E23C1(); char pad00[0x4C]; int source4C; };
 class Rva0040CB2CIndexedField { public: int get(int) const; };
 class Rva0037DCA5 { public: void *GetThingTemplate(); };
 class ExperienceLevelList;
@@ -294,7 +293,7 @@ struct CtorArmyMinusOneWord { int word; __forceinline CtorArmyMinusOneWord(int v
 struct CtorArmyPair {float x,y; __forceinline CtorArmyPair():x(0),y(0){} };
 struct CtorArmyLastPair {float x,y; __forceinline CtorArmyLastPair():x(0),y(0){_ReadWriteBarrier();} };
 
-class SpawnArmy {public: char pad00[4]; AsciiString a04,a08; char pad0C[12]; AsciiString a18; char pad1C[12]; AsciiString a28; char pad2C[24]; float f44; char pad48[8]; AsciiString a50; bool b54;};
+class SpawnArmy {public: bool rva00319CED(); void *rva004E23C1(); char pad00[4]; AsciiString a04,a08; char pad0C[12]; AsciiString a18; char pad1C[12]; AsciiString a28; char pad2C[24]; float f44; char pad48[4]; int source4C; AsciiString a50; bool b54;};
 struct Rva002B6A04Player {char pad00[20];int id14;};
 class LivingWorldArmyLine {public:void rva00539141();};
 struct Rva00318E8COut {float f;int i;};
@@ -325,7 +324,7 @@ public:
     // Native primary table C0C82C has four slots: deleting dtor,
     // presentation/load phase, const name getter319E76, xfer31A6DB.
     virtual const char *GetSnapshotName() const; virtual void xfer(Xfer *); virtual void loadPostProcess();
-    void UseArmySummary(Rva00319CED *source);
+    void UseArmySummary(SpawnArmy *source);
     void initiateMove(const Coord2D &,Rva00318C32Ret *,int);
     __declspec(noinline) Rva00318F42View *rva00318B83() const;
     void KillSummaryEntry(int index);
@@ -362,7 +361,7 @@ LivingWorldArmy::LivingWorldArmy(int owner,SpawnArmy *desc,Rva002B6A04Player *pl
  if(player)owner54=player->id14;
  if(!b74)((LivingWorldArmyLine*)&member90)->rva00539141();
  ((Rva00575674*)&summary78)->rva00575674((Object*)new ArmySummary);
- if(((Rva00319CED*)desc)->rva00319CED())((LivingWorldArmy*)this)->UseArmySummary((Rva00319CED*)desc);
+ if(desc->rva00319CED())((LivingWorldArmy*)this)->UseArmySummary(desc);
  ((ArmySummaryView*)summary78.m_summary)->owner1C=owner;
  ((AsciiString*)((char*)summary78.m_summary+0x20))->setCopyInline(name28);
  createVisualObjects(&desc->a04);
@@ -384,7 +383,7 @@ LivingWorldArmy::LivingWorldArmy(int owner,SpawnArmy *desc,Rva002B6A04Player *pl
 }
 
 
-void LivingWorldArmy::UseArmySummary(Rva00319CED *source)
+void LivingWorldArmy::UseArmySummary(SpawnArmy *source)
 {
     if (!TheCampaignManager) return;
     void *summary = source->rva004E23C1();

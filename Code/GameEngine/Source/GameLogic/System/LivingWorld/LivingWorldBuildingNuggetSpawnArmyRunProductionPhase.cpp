@@ -11,7 +11,7 @@
 // an unproducible entry is dropped, otherwise the build counter at +0x2C runs
 // up to the temporary's +0x48 before the army is placed at the region's
 // garrison spot and spawned.  Callee owners keep their ledger spellings, so
-// the temporary is passed under the Rva00319CED view where those rows use it.
+// the temporary is passed under the SpawnArmy view where those rows use it.
 //
 // canQueueUnit (retail 0x004FA83E, 247 bytes, slot 7 of the second base's
 // table 0x00C633FC; WB 0x01309FE0 LivingWorldBuildingNuggetSpawnArmy.cpp
@@ -32,7 +32,7 @@ namespace _STL
 template <> ObjectID *vector<ObjectID, allocator<ObjectID> >::erase(ObjectID *);
 }
 
-class Rva00319CED;
+class SpawnArmy;
 
 struct Rva003F0F13Elem
 {
@@ -43,6 +43,8 @@ struct Rva003F0F13Elem
 class SpawnArmy
 {
 public:
+	void *rva004E23C1();
+	int rva004E1755();
 	SpawnArmy(int v);
 	virtual ~SpawnArmy();
 
@@ -57,7 +59,7 @@ class LivingWorldRegion
 {
 public:
 	void GetGarrisonArmyPlacementSpot(Rva003F0F13Elem *out);
-	bool CanSpawnUnitWithinCPLimit(Rva00319CED *ctx) const;
+	bool CanSpawnUnitWithinCPLimit(SpawnArmy *ctx) const;
 
 	char m_pad0[0x13C];
 	int m_ownerId;	// +0x13C owning player's LivingWorld id
@@ -90,14 +92,14 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva002E112A
 {
 public:
-	bool rva002E112A(Rva00319CED *ctx);
+	bool rva002E112A(SpawnArmy *ctx);
 };
 
 class LivingWorldPlayer
 {
 public:
-	void OnUnitDequeued(Rva00319CED *ctx);
-	bool rva002E1155(Rva00319CED *ctx);
+	void OnUnitDequeued(SpawnArmy *ctx);
+	bool rva002E1155(SpawnArmy *ctx);
 	bool rva002E12F3(int id);
 	bool HasArmyQueuedInAnyBuilding(void *army, int *index, int flags);
 };
@@ -107,12 +109,6 @@ class Rva002B2646
 {
 public:
 	bool rva002B2646(Arg54 *nugget, Arg54 *id);
-};
-class Rva00319CED
-{
-public:
-	void *rva004E23C1();
-	int rva004E1755();
 };
 class Rva0040CB2CIndexedField
 {
@@ -226,14 +222,14 @@ void LivingWorldBuildingNuggetSpawnArmy::runProductionPhase()
 		Rva002E2903Player *owner = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(ownerId, 0);
 		if (!owner)
 			return;
-		if (((Rva002E112A *)owner)->rva002E112A((Rva00319CED *)&army) && region->CanSpawnUnitWithinCPLimit((Rva00319CED *)&army))
+		if (((Rva002E112A *)owner)->rva002E112A((SpawnArmy *)&army) && region->CanSpawnUnitWithinCPLimit((SpawnArmy *)&army))
 		{
 			if (!TheLivingWorldLogic->spawnArmy(&army, (Rva002B6A04Player *)owner, false))
 				return;
 			m_queue.erase(m_queue.begin());
 			rva004FA992(&Rva004FA953Listener::v01, static_cast<Rva004FA992 *>(this), 0);
 			rva004FA992(&Rva004FA953Listener::v03, static_cast<Rva004FA992 *>(this), id);
-			((LivingWorldPlayer *)owner)->OnUnitDequeued((Rva00319CED *)&army);
+			((LivingWorldPlayer *)owner)->OnUnitDequeued((SpawnArmy *)&army);
 			m_count = 0;
 		}
 	}
@@ -241,7 +237,7 @@ void LivingWorldBuildingNuggetSpawnArmy::runProductionPhase()
 }
 
 
-// ?rva004FA6B5@Rva004FA992@@QAEHXZ @0x004FA6B5 131B. Totals rowed Rva00319CED::rva004E1755 (the
+// ?rva004FA6B5@Rva004FA992@@QAEHXZ @0x004FA6B5 131B. Totals rowed SpawnArmy::rva004E1755 (the
 // SpawnArmy's non-empty-key lookup to an int getter) over every queued unit the building can
 // produce (slot 4 fills a SpawnArmy temporary per entry). The temporary exists only for a
 // non-empty queue. Evidence: target bytes and WB debug body 0130A8F0 (unnamed): same loop; the
@@ -256,7 +252,7 @@ int Rva004FA992::rva004FA6B5()
 		{
 			ObjectID id = m_queue[i];
 			if (canProduce(id, &army))
-				total += ((Rva00319CED *)&army)->rva004E1755();
+				total += ((SpawnArmy *)&army)->rva004E1755();
 		}
 	}
 	return total;

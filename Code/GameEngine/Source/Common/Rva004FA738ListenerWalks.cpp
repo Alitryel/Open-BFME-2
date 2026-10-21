@@ -297,11 +297,11 @@ public:
 // LivingWorldPlayer.cpp); same receiver-view + temp-storage idiom as the
 // landed rva002E074E call below, so this resolves to the rowed body
 // instead of the unrowed Rva002E2903Player spelling.
-class Rva00319CED;
+class SpawnArmy;
 class LivingWorldPlayer
 {
 public:
-	void OnUnitDequeued(Rva00319CED *unit);
+	void OnUnitDequeued(SpawnArmy *unit);
 };
 
 struct Rva003F0F13Elem
@@ -392,7 +392,7 @@ void Rva004FA992Owner::rva004FA9B1(int index)
 	{
 		SpawnArmy tmp(0);
 		if (checkId(*elem, &tmp))
-			((LivingWorldPlayer *)player)->OnUnitDequeued((Rva00319CED *)&tmp);
+			((LivingWorldPlayer *)player)->OnUnitDequeued((SpawnArmy *)&tmp);
 	}
 	m_ids.erase(elem);
 	((LivingWorldBuildingNuggetSpawnArmy *)((char *)this - 12))->rva004FA659();
@@ -406,11 +406,11 @@ void Rva004FA992Owner::rva004FA9B1(int index)
 // this unit's current names.
 // The ledger rows the void worker at 0x002E074E under its own address-derived
 // receiver; the call passes the same Player pointer and temp address.
-class Rva00319CED;
+class SpawnArmy;
 class Rva002E074E
 {
 public:
-	void rva002E074E(Rva00319CED *ctx);
+	void rva002E074E(SpawnArmy *ctx);
 };
 
 struct Rva004FAEAASeen
@@ -437,7 +437,7 @@ bool Rva004FA992Owner::rva004FAEAA(ScienceType p)
 	{
 		SpawnArmy tmp(0);
 		if (checkId((ObjectID)p, &tmp))
-			((Rva002E074E *)player)->rva002E074E((Rva00319CED *)&tmp);
+			((Rva002E074E *)player)->rva002E074E((SpawnArmy *)&tmp);
 	}
 	return true;
 }

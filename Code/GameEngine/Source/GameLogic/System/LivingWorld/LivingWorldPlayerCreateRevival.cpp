@@ -163,7 +163,7 @@ class Rva002E02F0 {public: void rva002E02F0(int,std::vector<ScienceType>*);};
 class Rva002B6498 {public: ArmorTemplate *rva002B6498(NameKeyType);};
 class BuildingNuggetView;
 class LivingWorldBuildingTemplate {public: BuildingNuggetView *findNugget(const AsciiString &) const;};
-class Rva00319CED {public: void *rva004E23C1();};
+class SpawnArmy {public: void *rva004E23C1();};
 class Rva0040CB2CIndexedField {public: int get(int) const;};
 struct SpawnArmyRecordView {char unknown00[0x4C]; int key; char unknown50[8];};
 struct SpawnArmyNuggetView {char unknown00[8]; SpawnArmyRecordView *begin,*end;};
@@ -189,7 +189,7 @@ void LivingWorldPlayer::InitBuildableHeroes() {
   if(!nugget) continue;
   for(unsigned int j=0;j<(unsigned int)(nugget->end-nugget->begin);++j) {
    SpawnArmyRecordView *record=&nugget->begin[j];
-   const ArmySummaryView *summary=(const ArmySummaryView*)((Rva00319CED*)record)->rva004E23C1();
+   const ArmySummaryView *summary=(const ArmySummaryView*)((SpawnArmy*)record)->rva004E23C1();
    if(!summary || summary->end-summary->begin==0) continue;
    const RevivalSourceView *unit=(const RevivalSourceView*)((const Rva0040CB2CIndexedField*)summary)->get(0);
    const ThingTemplate *thing=(const ThingTemplate*)((Rva0037DCA5*)unit)->GetThingTemplate();

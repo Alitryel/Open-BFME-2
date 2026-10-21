@@ -83,8 +83,8 @@ template <> void _List_base<UnicodeString, allocator<UnicodeString> >::clear();
 struct LivingWorldArmy;
 struct LivingWorldRevivalUnitDataView;
 class SpawnArmy;
-class Rva00319CED;
-class Rva002E112A { public: Bool rva002E112A(Rva00319CED *); };
+class SpawnArmy;
+class Rva002E112A { public: Bool rva002E112A(SpawnArmy *); };
 class LivingWorldPlayer { public:
  int GetConflictResolveType();
  void MarkUnitsForUpgrades(void *region);
@@ -597,6 +597,8 @@ struct LivingWorldBuildPlot*rva003F088C(int)const;void BuildBuilding(class Rva00
 class SpawnArmy
 {
 public:
+	void *rva004E23C1();
+	// 0x004E23C1
 	SpawnArmy(int index);					// 0x004E30D5
 	virtual ~SpawnArmy();					// 0x004E3184
 
@@ -1451,11 +1453,6 @@ bool isHuman()const;
 	unsigned char m_pad61[3];
 	unsigned char m_playerData[1];
 };
-class Rva00319CED
-{
-public:
-	void *rva004E23C1();					// 0x004E23C1
-};
 class Rva0040CB2CIndexedField
 {
 public:
@@ -1488,7 +1485,7 @@ Bool LivingWorldLogic::canBuildUnit(LivingWorldBuildingNuggetSpawnArmy *nugget, 
 		SpawnArmy spawn(0);
 		if (!((Rva002B3325BuildInterface *)((char *)nugget + 0x0c))->build(token, &spawn))
 			return false;
-		Rva002B3325Summary *summary = (Rva002B3325Summary *)((Rva00319CED *)&spawn)->rva004E23C1();
+		Rva002B3325Summary *summary = (Rva002B3325Summary *)((SpawnArmy *)&spawn)->rva004E23C1();
 		if (summary == 0)
 			return false;
 		if (summary->m_entries.size() == 0)
@@ -3039,7 +3036,7 @@ class Rva00319AA0 {public:void rva00319AA0(const Coord2D *);};
 LivingWorldArmy *LivingWorldLogic::spawnArmy(SpawnArmy *spawn,Rva002B6A04Player *player,Bool bypass)
 {
  if(spawn->flagged())return 0;
- if(!bypass && !((Rva002E112A*)player)->rva002E112A((Rva00319CED*)spawn))return 0;
+ if(!bypass && !((Rva002E112A*)player)->rva002E112A((SpawnArmy*)spawn))return 0;
  LivingWorldArmy *army=::new LivingWorldArmy(++m_field9C,spawn,player);
  ((Rva00318D14ByteSlot*)army)->set(1);
  ((LivingWorldPlayer*)player)->AddArmy(army);

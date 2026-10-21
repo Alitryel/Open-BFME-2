@@ -45,7 +45,6 @@ struct Rva003F751ANode {char gap[0x18];int value;};
 class Rva003F751A {public:Rva003F751ANode*rva003F751A(const int*);};
 struct StrengthenKey {int minCount;float weaponBonus,armorBonus,experienceBonus;};
 struct StrengthenNugget {char gap[16];Rva003F751ANode*header;};
-class Rva00319CED {public:bool rva00319CED();};
 class Rva003B8E89 {public:void*rva003B8E89(void*);};
 class Rva0040CB2CIndexedField {public:int get(int)const;};
 class BfmeY1038 {public:int bfmeVal1038();};
@@ -53,7 +52,7 @@ class Rva0033A674 {public:void*rva0033A674();};
 class ThingTemplate;class ThingFactory {public:const ThingTemplate*findTemplate(const AsciiString&);};extern ThingFactory*TheThingFactory;
 struct TemplateView {char gap[0x5c4];int category;};
 struct SummaryView {char gap[0x40];_STL::vector<_STL::pair<int,int> >entries;};
-class SpawnArmy {public:virtual ~SpawnArmy();SpawnArmy(const SpawnArmy&);char data[84];};
+class SpawnArmy {public:virtual ~SpawnArmy();SpawnArmy(const SpawnArmy&);bool rva00319CED();char data[84];};
 class Rva00500500 {public:Rva00500500(void*&,const SpawnArmy&);Rva00500500(const Rva00500500&);void*key;SpawnArmy value;};
 struct SpawnView {char gap[8];_STL::vector<SpawnArmy>entries;};
 struct BfmePod88 {char body[88];};
@@ -234,7 +233,7 @@ void Rva00502FE9::rva00502FE9(int playerID) {
   SpawnView*spawn=(SpawnView*)((LivingWorldBuildingTemplate*)((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)spawnBuildings[i]))->findNugget(AsciiString("SpawnArmy"));
   if(spawn){_STL::vector<SpawnArmy>&entries=spawn->entries;for(unsigned j=0;j<entries.size();++j){
    SpawnArmy&entry=entries[j];
-   if(((Rva00319CED*)&entry)->rva00319CED()){
+   if(((SpawnArmy*)&entry)->rva00319CED()){
     SummaryView*summary=(SummaryView*)((Rva003B8E89*)TheCampaignManager)->rva003B8E89((char*)&entry+0x2c);
     int size=summary->entries.size();
     for(int k=0;k<size;++k){

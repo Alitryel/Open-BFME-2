@@ -26,7 +26,7 @@
 #include "Common/Snapshot.h"
 
 struct Rva004FAFF2;
-class Rva00319CED;
+class SpawnArmy;
 class Rva002E2903Player;
 
 class Rva004FB0C7Registry
@@ -38,7 +38,7 @@ public:
 class LivingWorldPlayer
 {
 public:
-	void OnUnitDequeued(Rva00319CED *unit);
+	void OnUnitDequeued(SpawnArmy *unit);
 };
 
 class LivingWorldBuildingNuggetSpawnArmy
@@ -106,7 +106,7 @@ Rva004FB130::~Rva004FB130()
 			int id = m_ids[i];
 			Rva004FB0C7Registry *registry = m_registry;
 			if (registry->rva004FB0C7(id, (Rva004FAFF2 *)&army))
-				((LivingWorldPlayer *)owner)->OnUnitDequeued((Rva00319CED *)&army);
+				((LivingWorldPlayer *)owner)->OnUnitDequeued((SpawnArmy *)&army);
 		}
 	}
 	((Rva004FA978 *)static_cast<SecondaryBase *>(this))->rva004FA978(&Rva004FA935Listener::notify, static_cast<SecondaryBase *>(this));

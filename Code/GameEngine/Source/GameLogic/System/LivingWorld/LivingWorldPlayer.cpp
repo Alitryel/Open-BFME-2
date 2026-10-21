@@ -71,7 +71,7 @@ public:
 
 extern GameLogic *TheGameLogic;
 
-class Rva00319CED
+class SpawnArmy
 {
 public:
 	Int rva004E1755();			// 0x004E1755, command-point cost
@@ -140,8 +140,8 @@ public:
     void RemoveUpgrade(void *upgrade);
     void rva002E14E9(const BfmeFixedStorage128 &mask);
 
-	bool rva002E1155(Rva00319CED *unit);
-	void OnUnitDequeued(Rva00319CED *unit);
+	bool rva002E1155(SpawnArmy *unit);
+	void OnUnitDequeued(SpawnArmy *unit);
 	void SetColorIndex(Int color);
     void AddArmy(LivingWorldArmy *army);
 	void *FindArmyWithHero(void *thing, int key);
@@ -177,7 +177,7 @@ class Rva002E0CD4 { public: Int get() const; };
 // canQueueUnit proves the LivingWorldPlayer receiver. The dequeuing sibling
 // identifies +298 as queued command points; count queued and active points
 // together with the new unit before comparing against the player's limit.
-bool LivingWorldPlayer::rva002E1155(Rva00319CED *unit)
+bool LivingWorldPlayer::rva002E1155(SpawnArmy *unit)
 {
     Int queuedCommandPoints = m_queuedCommandPoints;
     return ((Rva002E0C68 *)this)->rva002E0C68() + queuedCommandPoints
@@ -185,7 +185,7 @@ bool LivingWorldPlayer::rva002E1155(Rva00319CED *unit)
 }
 
 // LivingWorldPlayer::OnUnitDequeued, retail 0x002E0764.
-void LivingWorldPlayer::OnUnitDequeued(Rva00319CED *unit)
+void LivingWorldPlayer::OnUnitDequeued(SpawnArmy *unit)
 {
 	m_queuedCommandPoints -= unit->rva004E1755();
 	if (m_queuedCommandPoints < 0)

@@ -88,7 +88,7 @@ public:
 };
 
 // The unit being spawned; its command-point cost comes from 0x004E1755.
-class Rva00319CED
+class SpawnArmy
 {
 public:
 	Int rva004E1755();
@@ -152,8 +152,8 @@ public:
     Bool DebugValidatePlacementSpot(const Coord2D &spot,Coord2D *out,const char *kind);
     void DoXfer(Xfer *);
     Bool IsOwnedByTeam(Int teamID) const;
-	Bool CanSpawnUnitWithinCPLimit(Rva00319CED *unit) const;
-	Bool rva003F0201(Rva00319CED *unit) const;
+	Bool CanSpawnUnitWithinCPLimit(SpawnArmy *unit) const;
+	Bool rva003F0201(SpawnArmy *unit) const;
 	LivingWorldBuilding *GetBuildingByIndex(Int index) const;
 	Int rva003F05CE();
 	void *rva003F0588();
@@ -222,7 +222,7 @@ LivingWorldBuilding *LivingWorldRegion::GetBuildingByIndex(Int index) const
 // Retail 0x003F0201 (88 bytes), just before CanSpawnUnitWithinCPLimit: the
 // same command-point check without its owner-id comparison, so the unit's
 // cost always counts. Its original name is not established.
-Bool LivingWorldRegion::rva003F0201(Rva00319CED *unit) const
+Bool LivingWorldRegion::rva003F0201(SpawnArmy *unit) const
 {
 	if (m_ownerPlayerID == -1)
 		return true;
@@ -235,7 +235,7 @@ Bool LivingWorldRegion::rva003F0201(Rva00319CED *unit) const
 // LivingWorldRegion::CanSpawnUnitWithinCPLimit, retail 0x003F0259: an
 // unowned region always allows it; the owner's own region counts the new
 // unit's cost against the limit.
-Bool LivingWorldRegion::CanSpawnUnitWithinCPLimit(Rva00319CED *unit) const
+Bool LivingWorldRegion::CanSpawnUnitWithinCPLimit(SpawnArmy *unit) const
 {
 	if (m_ownerPlayerID == -1)
 		return true;

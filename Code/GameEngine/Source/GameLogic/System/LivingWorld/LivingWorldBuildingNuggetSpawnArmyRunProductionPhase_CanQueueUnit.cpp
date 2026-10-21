@@ -13,7 +13,7 @@
 // an unproducible entry is dropped, otherwise the build counter at +0x2C runs
 // up to the temporary's +0x48 before the army is placed at the region's
 // garrison spot and spawned.  Callee owners keep their ledger spellings, so
-// the temporary is passed under the Rva00319CED view where those rows use it.
+// the temporary is passed under the SpawnArmy view where those rows use it.
 //
 // canQueueUnit (retail 0x004FA83E, 247 bytes, slot 7 of the second base's
 // table 0x00C633FC; WB 0x01309FE0 LivingWorldBuildingNuggetSpawnArmy.cpp
@@ -34,7 +34,7 @@ namespace _STL
 template <> ObjectID *vector<ObjectID, allocator<ObjectID> >::erase(ObjectID *);
 }
 
-class Rva00319CED;
+class SpawnArmy;
 
 struct Rva003F0F13Elem
 {
@@ -45,6 +45,8 @@ struct Rva003F0F13Elem
 class SpawnArmy
 {
 public:
+	void *rva004E23C1();
+	int rva004E1755();
 	SpawnArmy(int v);
 	virtual ~SpawnArmy();
 
@@ -59,7 +61,7 @@ class LivingWorldRegion
 {
 public:
 	void GetGarrisonArmyPlacementSpot(Rva003F0F13Elem *out);
-	bool CanSpawnUnitWithinCPLimit(Rva00319CED *ctx) const;
+	bool CanSpawnUnitWithinCPLimit(SpawnArmy *ctx) const;
 
 	char m_pad0[0x13C];
 	int m_ownerId;	// +0x13C owning player's LivingWorld id
@@ -92,14 +94,14 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva002E112A
 {
 public:
-	bool rva002E112A(Rva00319CED *ctx);
+	bool rva002E112A(SpawnArmy *ctx);
 };
 
 class LivingWorldPlayer
 {
 public:
-	void OnUnitDequeued(Rva00319CED *ctx);
-	bool rva002E1155(Rva00319CED *ctx);
+	void OnUnitDequeued(SpawnArmy *ctx);
+	bool rva002E1155(SpawnArmy *ctx);
 	bool rva002E12F3(int id);
 	bool HasArmyQueuedInAnyBuilding(void *army, int *index, int flags);
 };
@@ -109,12 +111,6 @@ class Rva002B2646
 {
 public:
 	bool rva002B2646(Arg54 *nugget, Arg54 *id);
-};
-class Rva00319CED
-{
-public:
-	void *rva004E23C1();
-	int rva004E1755();
 };
 class Rva0040CB2CIndexedField
 {
@@ -214,8 +210,8 @@ bool LivingWorldBuildingNuggetSpawnArmy::canQueueUnit(ObjectID id)
 	if (canProduce(id, &army))
 		result = ((Rva002B2646 *)TheLivingWorldLogic)->rva002B2646((Arg54 *)this, (Arg54 *)(int)id)
 		&& (owner = (LivingWorldPlayer *)getOwningPlayer()) != 0
-		&& owner->rva002E1155((Rva00319CED *)&army)
-		&& (summary = ((Rva00319CED *)&army)->rva004E23C1()) != 0
+		&& owner->rva002E1155((SpawnArmy *)&army)
+		&& (summary = ((SpawnArmy *)&army)->rva004E23C1()) != 0
 		&& (tmpl = (Rva004FA83ETemplate *)((Rva0037DCA5 *)((Rva0040CB2CIndexedField *)summary)->get(0))->GetThingTemplate()) != 0
 		&& ((tmpl->m_kind113 & 4) == 0
 			|| (((LivingWorldPlayer *)((Rva004E0705 *)m_building)->rva004E0705())->rva002E12F3(id)

@@ -73,7 +73,7 @@ struct Rva0059DA34Region
 
 typedef _STL::map<int, int> Rva004FFA6EIntMap;
 
-class Rva00319CED
+class SpawnArmy
 {
 public:
 	int rva004E1755();
@@ -84,7 +84,7 @@ public:
 struct BfmeE8
 {
 	int id;
-	Rva00319CED *unit;
+	SpawnArmy *unit;
 };
 // bfme link decl-only begin
 // The rowed body calls the 8-byte push_back 0x00539A2E
@@ -230,7 +230,7 @@ bool Rva0059DA34::rva0059DB48(_STL::vector<BfmeE8> *out, const Rva0059D90CSource
 				if (!types->rva0050010D(type, key1))
 					continue;
 				int key2 = ((Rva0059D90CRegion *)TheLivingWorldLogic->getRegionManager()->rva0020EEF4((*ids)[ii]))->m_type->m_key;
-				Rva00319CED *unit = (Rva00319CED *)types->rva0050024C(type, key2);
+				SpawnArmy *unit = (SpawnArmy *)types->rva0050024C(type, key2);
 				void *summary = ((Rva003B8E89 *)TheCampaignManager)->rva003B8E89(&unit->m_name);
 				AsciiString name(((Rva005E7322MidRet *)((Rva0040CB2CIndexedField *)summary)->get(0))->text);
 				int kind = TheThingFactory->findTemplate(name)->kind;

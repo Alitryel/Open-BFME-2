@@ -15,7 +15,7 @@
 // and GetUnitOfType (rowed 0x004FF910). Other rowed callees: region lookup
 // Rva0020EEF4Outer::rva0020EEF4 0x0020EEF4 on TheLivingWorldLogic +0xB0 (as
 // in LivingWorldLogic.cpp) then region +0x28 -> +4 as the type key
-// Rva00319CED::rva004E1755 0x004E1755 (unit cost) and
+// SpawnArmy::rva004E1755 0x004E1755 (unit cost) and
 // vector<BfmeE8>::push_back 0x00539A2E (8-byte {id unit} record as in WB's
 // adjacent locals). Receiver and source identities are unproven; names are
 // address-derived.
@@ -35,7 +35,7 @@ namespace _STL
 
 }
 
-class Rva00319CED
+class SpawnArmy
 {
 public:
 	int rva004E1755();
@@ -44,7 +44,7 @@ public:
 struct BfmeE8
 {
 	int id;
-	Rva00319CED *unit;
+	SpawnArmy *unit;
 };
 
 class Rva004FF8DA
@@ -122,7 +122,7 @@ bool Rva0059D90C::rva0059D90C(_STL::vector<BfmeE8> *out, const Rva0059D90CSource
 				--m_counts[bestType];
 				BfmeE8 entry;
 				entry.id = (*ids)[i];
-				entry.unit = (Rva00319CED *)types->rva004FF910(bestType, ((Rva0059D90CRegion *)TheLivingWorldLogic->getRegionManager()->rva0020EEF4((*ids)[i]))->m_type->m_key);
+				entry.unit = (SpawnArmy *)types->rva004FF910(bestType, ((Rva0059D90CRegion *)TheLivingWorldLogic->getRegionManager()->rva0020EEF4((*ids)[i]))->m_type->m_key);
 				if (entry.unit->rva004E1755() < budget - *spent)
 				{
 					out->push_back(entry);
