@@ -265,7 +265,9 @@ checks indefinitely.
 
 A matched row whose unit cannot link is half done. `reverse/link_status.csv` and
 `tools/link_census.py` measure it under Open-BFME-1's rules: a COMDAT copy loses
-when retail's bytes prove it wrong (else when it differs from the first copy in
+when retail's bytes prove it wrong (since `retail-truth-3`, not when another
+object supplies the retail-proven copy, which the link keeps and runs) (else
+when it differs from the first copy in
 link order; never by majority, STLport included; since `retail-truth-2` not when
 the name has no retail address and nothing the link keeps references it), and a file fails when a name it
 touches resolves to a kept definition proven not retail's (`wrong_selected`). It
