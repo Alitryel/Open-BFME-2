@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
-// ?rva005CFE30@Rva005CFA87@@UAEXXZ @0x005CFE30 62B.
-// VSlot 1 of vtable 0x008752DC (Rva005CFA87): time-guarded setter.
+// ?Update@Rva005CFA87@@UAEXXZ @0x005CFE30 62B.
+// VSlot 1 (Update) of vtable 0x008752DC (Rva005CFA87): time-guarded setter.
 // Evidence: vtable slot via donor Rva005CF9FFFlagNotifyDtors plus IAT timeGetTime plus global g_00E06640 plus new 8B vtable g_00C752A8 plus rowed 0x00575674 setter.
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 // Owned here (its only reader); retail .data zero-initializes it (VA 0x00E06640, BSS tail).
@@ -17,16 +17,17 @@ class Rva005CF872
 {
 public:
 	virtual ~Rva005CF872() {}
+	virtual void Update() {}
 	void *m_04;
 };
 class Rva005CFA87 : public Rva005CF872
 {
 public:
-	virtual void rva005CFE30();
+	virtual void Update();
 	unsigned int m_08;
 	bool m_flag;
 };
-void Rva005CFA87::rva005CFE30()
+void Rva005CFA87::Update()
 {
 	unsigned int now = timeGetTime();
 	if (now - m_08 < g_00E06640)

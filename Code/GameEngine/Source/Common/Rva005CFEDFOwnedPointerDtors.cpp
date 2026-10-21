@@ -13,7 +13,7 @@
 // 48B and ??1Rva005D10F9@@UAE@XZ @0x005D10F9 48B: no own vptr store (the
 // implicit dtor); destroy the owning-pointer member at +0x08 through the
 // dtors above under EH state 0 for the base, whose inline dtor then resets
-// to its vtable. Bases: 0x00C75290 (Rva005CF872 { ??_G, slot 1, slot 2 },
+// to its vtable. Bases: 0x00C75290 (Rva005CF872 { ??_G, Update },
 // as in the rowed Rva005CFDA6Dtor.cpp) for 0x005CFEDF/0x005CFFB8, and
 // 0x00C7559C (Rva005D1035 { ??_G, __purecall }) for 0x005D10F9. Own vtables
 // 0x00C752E4, 0x00C752EC and 0x00C755AC (two slots each; 0x00C755AC#1 is the
@@ -55,8 +55,7 @@ class Rva005CF872
 {
 public:
 	virtual ~Rva005CF872() {}
-	virtual void slot1();
-	virtual void slot2();
+	virtual void Update() {}
 
 private:
 	int m_04;
@@ -76,7 +75,7 @@ class Rva005CFEDF : public Rva005CF872
 {
 public:
 	Rva005CFEDF();
-	virtual void slot1();
+	virtual void Update();
 
 private:
 	Rva005EBC74 m_08;
@@ -86,7 +85,7 @@ class Rva005CFFB8 : public Rva005CF872
 {
 public:
 	Rva005CFFB8();
-	virtual void slot1();
+	virtual void Update();
 
 private:
 	Rva005EC422 m_08;

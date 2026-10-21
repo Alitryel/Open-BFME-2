@@ -10,7 +10,7 @@
 // a byte-and-relocation twin except the independently owned vtable.
 class Rva005EC832Owner{public:Rva005EC832Owner*rva005EC832(int);};
 class Rva005EC422{public:Rva005EC422(void*p){((Rva005EC832Owner*)this)->rva005EC832((int)p);}~Rva005EC422();void*ptr;};
-class Rva005CF872{public:Rva005CF872(void*p):owner(p){}virtual~Rva005CF872(){}virtual void slot1();void*owner;};
+class Rva005CF872{public:Rva005CF872(void*p):owner(p){}virtual~Rva005CF872(){}virtual void Update(){}void*owner;};
 class StrategicVeterancy{public:bool Show();};
-class Rva005CFFB8:public Rva005CF872{public:Rva005CFFB8(void*,void*);virtual~Rva005CFFB8();virtual void slot1();Rva005EC422 view;};
+class Rva005CFFB8:public Rva005CF872{public:Rva005CFFB8(void*,void*);virtual~Rva005CFFB8();virtual void Update();Rva005EC422 view;};
 Rva005CFFB8::Rva005CFFB8(void*p,void*s):Rva005CF872(p),view(s){((StrategicVeterancy*)&view)->Show();}

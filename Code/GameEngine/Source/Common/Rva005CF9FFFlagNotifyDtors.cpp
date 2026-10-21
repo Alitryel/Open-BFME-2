@@ -36,8 +36,7 @@ class Rva005CF872
 public:
 	Rva005CF872(void *owner):m_04((int)owner) {}
 	virtual ~Rva005CF872() {}
-	virtual void slot1();
-	virtual void slot2();
+	virtual void Update() {}	// retail 0x00C75290 slot 1, the shared empty body
 
 private:
 	int m_04;
@@ -48,7 +47,7 @@ class Rva005CF9FF : public Rva005CF872
 public:
 	Rva005CF9FF(void*,int,int,bool);
  virtual ~Rva005CF9FF();
-	virtual void slot1();
+	virtual void Update();	// 0x005D0EB8
 
 private:
 	int m_08;
@@ -66,8 +65,7 @@ class Rva005CFA43 : public Rva005CF872
 {
 public:
 	Rva005CFA43(void*,int,bool);
- virtual ~Rva005CFA43();
-	virtual void slot1();
+ virtual ~Rva005CFA43();	// retail 0x00C752D4 keeps the base Update
 
 private:
 	bool m_flag;
@@ -84,7 +82,7 @@ class Rva005CFA87 : public Rva005CF872
 public:
 	Rva005CFA87(void *owner, bool change);
 	virtual ~Rva005CFA87();
-	virtual void slot1();
+	virtual void Update();	// 0x005CFE30
 
 private:
 	int m_08;

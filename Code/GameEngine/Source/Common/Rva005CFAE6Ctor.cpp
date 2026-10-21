@@ -7,6 +7,7 @@ class Rva005CF872
 public:
 	Rva005CF872(void *p) : m_04(p) {}
 	virtual ~Rva005CF872() {}
+	virtual void Update() {}	// retail 0x00C75290 slot 1
 protected:
 	void *m_04;
 };
@@ -31,7 +32,7 @@ class Rva005CFEDF : public Rva005CF872
 {
 public:
 	Rva005CFEDF(void *);
-	virtual void slot1();
+	virtual void Update();	// 0x005CFF0F
 private:
 	Rva005EBC74 m_08;
 };

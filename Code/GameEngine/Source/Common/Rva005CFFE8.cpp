@@ -1,6 +1,7 @@
 // cl: /MD /EHsc
 //
-// ?rva005CFFE8@Rva005CFFE8@@QAEXXZ @0x005CFFE8 76B: chain from 0x005EC4AF.
+// ?Update@Rva005CFFB8@@UAEXXZ @0x005CFFE8 76B: Rva005CFFB8's Update (slot 1 of
+// its table 0x00C752EC; dtor 0x005CFFB8), chain from 0x005EC4AF.
 // Sibling of ?rva005D1129@Rva005D1129@@QAEXXZ (same 76B shape): calls the
 // wrapper cleanup at 0x005EC4AF on +8, tests it with rowed 0x005EB87A,
 // allocates an 8-byte link node with vtable 0x00C752A8, then updates the
@@ -60,19 +61,27 @@ public:
 	virtual void slot1() = 0;
 };
 
-class Rva005CFFE8
+// The battle resolver state base (vtable 0x00C75290: ??_G, Update).
+class Rva005CF872
 {
 public:
-	void rva005CFFE8();
-private:
-	void *m_00;
+	virtual ~Rva005CF872() {}
+	virtual void Update() {}
+protected:
 	Rva005CFFE8Prev *m_04;
+};
+
+class Rva005CFFB8 : public Rva005CF872
+{
+public:
+	virtual void Update();
+private:
 	Rva005D1129Pointer m_08;
 };
 
 void *__cdecl operator new(unsigned int size);
 
-void Rva005CFFE8::rva005CFFE8()
+void Rva005CFFB8::Update()
 {
 	((Rva005D1129Pointer *)&m_08)->~Rva005D1129Pointer();
 	if (((Rva005EB87A *)&m_08)->rva005EB87A())

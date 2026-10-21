@@ -181,12 +181,22 @@ Rva005CFDA6::Rva005CFDA6(EmitVtableTag *)
 {
 }
 
-class Rva005CF9FF
+// The battle resolver state base (vtable 0x00C75290: ??_G, Update), declared
+// as every other unit declares it so each state's two-slot table agrees.
+class Rva005CF872
+{
+public:
+	virtual ~Rva005CF872() {}
+	virtual void Update() {}
+};
+
+class Rva005CF9FF : public Rva005CF872
 {
 public:
 	Rva005CF9FF(EmitVtableTag *);
 public:
 	virtual ~Rva005CF9FF();
+	virtual void Update();
 };
 
 // ?<Rva005CF9FF::Rva005CF9FF> absent-from-retail
@@ -194,7 +204,7 @@ Rva005CF9FF::Rva005CF9FF(EmitVtableTag *)
 {
 }
 
-class Rva005CFA43
+class Rva005CFA43 : public Rva005CF872
 {
 public:
 	Rva005CFA43(EmitVtableTag *);
@@ -207,12 +217,13 @@ Rva005CFA43::Rva005CFA43(EmitVtableTag *)
 {
 }
 
-class Rva005CFA87
+class Rva005CFA87 : public Rva005CF872
 {
 public:
 	Rva005CFA87(EmitVtableTag *);
 public:
 	virtual ~Rva005CFA87();
+	virtual void Update();
 };
 
 // ?<Rva005CFA87::Rva005CFA87> absent-from-retail
@@ -220,12 +231,13 @@ Rva005CFA87::Rva005CFA87(EmitVtableTag *)
 {
 }
 
-class Rva005CFEDF
+class Rva005CFEDF : public Rva005CF872
 {
 public:
 	Rva005CFEDF(EmitVtableTag *);
 public:
 	virtual ~Rva005CFEDF();
+	virtual void Update();
 };
 
 // ?<Rva005CFEDF::Rva005CFEDF> absent-from-retail
@@ -233,12 +245,13 @@ Rva005CFEDF::Rva005CFEDF(EmitVtableTag *)
 {
 }
 
-class Rva005CFFB8
+class Rva005CFFB8 : public Rva005CF872
 {
 public:
 	Rva005CFFB8(EmitVtableTag *);
 public:
 	virtual ~Rva005CFFB8();
+	virtual void Update();
 };
 
 // ?<Rva005CFFB8::Rva005CFFB8> absent-from-retail

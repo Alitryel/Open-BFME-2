@@ -63,8 +63,7 @@ void StrategicInGameUI::BattleResolver::Impl::OnLivingWorldAutoResolveBattleComp
 class Rva005CF872 {
 public:
  virtual ~Rva005CF872();
- virtual void slot1();
- virtual void slot2();
+ virtual void Update() {}
 protected: void *m_04;
 };
 class Rva005E9F3F {
@@ -79,8 +78,7 @@ class Rva0057C394;
 class Rva005CFDA6 : public Rva005CF872, public Rva005E9F3F {
 public:
  Rva005CFDA6(Rva005CF937Owner *,Rva0057C394 *,void *,void *,void *);
- virtual void slot1();
- virtual void slot2();
+ virtual void Update();
 };
 // The existing79B constructor and48B destructor own this12B state identity.
 class Rva005CFEDF : public Rva005CF872 {
@@ -138,7 +136,7 @@ void StrategicInGameUI::BattleResolver::Impl::StartUpStateHandler::Update()
      Rva005CFDA6 *next=new Rva005CFDA6(reinterpret_cast<Rva005CF937Owner *>(owner),
       reinterpret_cast<Rva0057C394 *>(a),(void *)b,(void *)c,(void *)d);
      owner->m_state.rva00575674(reinterpret_cast<Object *>(next));
-     reinterpret_cast<Rva005CFDA6 *>(owner->m_state.m_ptr)->slot1();
+     reinterpret_cast<Rva005CFDA6 *>(owner->m_state.m_ptr)->Update();
     }
    }
   }
@@ -174,9 +172,9 @@ class Rva005EB753{public:Rva005EB753(void*,void*,void*);virtual ~Rva005EB753();v
 class Rva005D06CB:public Rva005CF872,public Rva005D06CBB2,public Rva005EB753{public:Rva005D06CB(Rva005D06CBOwner*,void*,void*);virtual ~Rva005D06CB();virtual void veterancySlot04();bool flag14;};
 struct ResolveBattleIDView{char unknown[0x34];int id;};
 struct ResolvePlanView{char unknown[0xc];Rva0042D6BAPtrChaseField*argument;void*unknown10;ResolveBattleIDView*battle;void*unknown18;Rva00575674 state;};
-class Rva005CF9FF:public Rva005CF872{public:Rva005CF9FF(void*,int,int,bool);virtual ~Rva005CF9FF();virtual void slot1();static unsigned delay;int m_08;unsigned m_0C;bool m_flag;};
+class Rva005CF9FF:public Rva005CF872{public:Rva005CF9FF(void*,int,int,bool);virtual ~Rva005CF9FF();virtual void Update();static unsigned delay;int m_08;unsigned m_0C;bool m_flag;};
 unsigned Rva005CF9FF::delay;
-void Rva005CF9FF::slot1(){
+void Rva005CF9FF::Update(){
  if(((Rva002BA8F1Logic*)TheLivingWorldLogic)->rva002B5256(false)>1 && timeGetTime()-m_0C<delay)return;
  bool showDialog=true;if(TheGameInfo)showDialog=((ResolveGameInfoView*)TheGameInfo)->isEmpty();
  if(showDialog){

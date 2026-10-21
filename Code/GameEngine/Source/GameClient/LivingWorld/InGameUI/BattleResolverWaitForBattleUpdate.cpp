@@ -36,12 +36,12 @@ __declspec(noinline) Rva005D087F operator+(const WideStringChar&left,const Unico
 // Body108 runs with this at+8; body105 with this at+C, as their negative
 // owner offsets independently prove. Rehome existing constructor/listener
 // with this complete class view instead of retaining competing private views.
-class Rva005CF872{public:Rva005CF872(void*p):owner(p){}virtual~Rva005CF872(){}virtual void rva005D08FD(){}protected:void*owner;};
+class Rva005CF872{public:Rva005CF872(void*p):owner(p){}virtual~Rva005CF872(){}virtual void Update(){}protected:void*owner;};
 class Rva005D0643Base8{public:virtual void rva005D052D(int,int,int)=0;virtual void b1()=0;virtual void b2()=0;~Rva005D0643Base8(){}};
 class Rva005D0643BaseC{public:virtual void rva005D0599(int,int){}virtual void c1(int,int){}~Rva005D0643BaseC(){}};
 struct WaitOwnerView{char pad[0x14];Rva0056A989*resolver;char gap[4];Rva00575674 nextState;};
-class Rva005D0643:public Rva005CF872,public Rva005D0643Base8,public Rva005D0643BaseC{public:Rva005D0643(void*,int);virtual~Rva005D0643();virtual void rva005D08FD();virtual void rva005D052D(int,int,int);virtual void rva005D0599(int,int);unsigned startTime;int selected;bool shown;};
-void Rva005D0643::rva005D08FD(){
+class Rva005D0643:public Rva005CF872,public Rva005D0643Base8,public Rva005D0643BaseC{public:Rva005D0643(void*,int);virtual~Rva005D0643();virtual void Update();virtual void rva005D052D(int,int,int);virtual void rva005D0599(int,int);unsigned startTime;int selected;bool shown;};
+void Rva005D0643::Update(){
 if(((WaitOwnerView*)owner)->resolver->rva0056A989()){
  bool change=shown;shown=false;
  ((WaitOwnerView*)owner)->nextState.rva00575674((Object*)new Rva005CFA87(owner,change));
