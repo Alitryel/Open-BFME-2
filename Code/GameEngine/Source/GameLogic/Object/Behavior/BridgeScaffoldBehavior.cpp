@@ -42,11 +42,9 @@
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ??1BridgeScaffoldBehavior@@MAE@XZ present-unmatched
-BridgeScaffoldBehavior::~BridgeScaffoldBehavior( void )
-{
+// Unverified definition preserved in
+// reverse/attempt_support/update-virtual-link-20261021/BridgeScaffoldBehavior.cpp.txt.
 
-}  // end ~BridgeScaffoldBehavior
 
 // ------------------------------------------------------------------------------------------------
 /** Set all of the target positions that we're care about as a moving scaffold object */
@@ -143,14 +141,9 @@ void BridgeScaffoldBehavior::reverseMotion( void )
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@BridgeScaffoldBehavior@@MAEXPAVXfer@@@Z present-unmatched
-void BridgeScaffoldBehavior::crc( Xfer *xfer )
-{
+// Unverified definition preserved in
+// reverse/attempt_support/update-virtual-link-20261021/BridgeScaffoldBehavior.cpp.txt.
 
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}  // end crc
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
