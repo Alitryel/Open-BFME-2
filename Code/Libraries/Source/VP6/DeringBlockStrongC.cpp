@@ -1,18 +1,16 @@
-// _DeringBlockStrong_C
-// partial score=0.998 date=2026-10-21
-// _DeringBlockStrong_C
-// partial score=0.998 date=2026-10-21
 // cl: /O2 /G6 /DNDEBUG /MD
-// Clean-room specs 001c1ad0 and 001c22c0, plus complete retail disassembly.
-// No external decoder source was consulted.
-// Output loop: a basic row-offset induction variable (off += pitch) with uniform
-// source/below/above/destination[off + k] spellings reproduces retail's cursor
-// families, invariants and the exact 2030-byte size. Pixels 0 and 7 keep centre
-// and right pixel locals loaded before the weights (pixel-0 schedule, hrow-loop
-// operand order); pixels 1-6 read every pixel inline, which gives retail's
-// right-before-left product order in pixels 2 and 3.
-// Not exact (1 instruction): store 2 is [edi + ebx] where retail has [ebx + edi].
-// Evidence: reverse/attempt_support/dering-strong-offset-20261021.md.
+// Clean room: reverse/vp6_cleanroom/specs/001c1ad0.md plus retail only. No
+// decoder source was consulted.
+//
+// DeringBlockStrong_C (retail 0x001C1AD0, 2030 bytes): cdecl adaptive smoothing
+// of one 8x8 block. Vertical and horizontal neighbour weights come from the
+// pixel differences, capped at 3 * Q (at most 32) and replaced by the sharpen
+// modifier for strong edges; each output pixel blends itself with its four
+// neighbours, and a row is computed into temporaries before it is stored.
+// Codegen notes (see reverse/attempt_support/dering-strong-offset-20261021.md):
+// the row offset is a basic induction variable (off += pitch); pixels 0 and 7
+// keep centre/right pixel locals loaded before the weights while pixels 1-6
+// read inline; the row store is eight explicit c = k statements.
 extern "C" int g_vp6SharpenModifier[64];
 
 extern "C" void __cdecl DeringBlockStrong_C(void *instance, const unsigned char *source,
@@ -167,8 +165,14 @@ extern "C" void __cdecl DeringBlockStrong_C(void *instance, const unsigned char 
 			else temp[7] = value;
 		}
 
-		for (c = 0; c < 8; c++)
-			destination[off + c] = (unsigned char)temp[c];
+		c = 0; destination[off + c] = (unsigned char)temp[c];
+		c = 1; destination[off + c] = (unsigned char)temp[c];
+		c = 2; destination[off + c] = (unsigned char)temp[c];
+		c = 3; destination[off + c] = (unsigned char)temp[c];
+		c = 4; destination[off + c] = (unsigned char)temp[c];
+		c = 5; destination[off + c] = (unsigned char)temp[c];
+		c = 6; destination[off + c] = (unsigned char)temp[c];
+		c = 7; destination[off + c] = (unsigned char)temp[c];
 		off += pitch;
 	}
 }

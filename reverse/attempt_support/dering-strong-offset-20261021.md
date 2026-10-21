@@ -2,8 +2,10 @@
 
 Session 3 (2026-10-21, claude-opus-5-5). Continues
 `dering-strong-anchors-20261021.md` and `dering-strong-bias-20261020.md`.
-Banked body: `reverse/attempts/0x001c1ad0.cpp` (2030 B, exact size,
-one differing instruction, the SIB of store 2; see "Session 3b" below).
+LANDED exact (2026-10-21) in `Code/Libraries/Source/VP6/DeringBlockStrongC.cpp`:
+the last residue (store 2's SIB order) fell to writing the row store as eight
+explicit `c = k; destination[off + c] = (unsigned char)temp[c];` statements
+(see "Session 3c" below).
 
 ## Finding: a basic offset induction variable
 
@@ -98,7 +100,19 @@ Disproven for store 2 (all leave index 581 alone or add residue):
 - `below`/`above` spelled `source[off + pitch + k]` / `source[off - pitch + k]`:
   much worse.
 
-## Next angles
+## Session 3c: the row store (exact)
+
+Probing the store loop showed the store 2 SIB order depends on how the row
+stores enter the IR, not on the pixel code: storing only c = 1..7 already gave
+retail's `[ebx + edi]`. Explicit stores `destination[off + k] = ...` (constant
+index) give 2022 B, but eight `c = k; destination[off + c] =
+(unsigned char)temp[c];` statements give retail's bytes exactly. Compiler flags
+(24 sets), parameter/temp types (54 combinations), identifier names (72) and the
+weight-loop `difference`/`weight` forms (225) were tested first and changed
+nothing at store 2. The weak twin `_DeringBlockWeak_C` (0x1C22C0) may share
+both the offset IV and this store shape.
+
+## Next angles (superseded: the body landed)
 
 - The pixel 2/3 product order is a c2 reassociation rank question, so it needs
   changes to the expression DAG, not spelling: weight sharing (pixel k's right
