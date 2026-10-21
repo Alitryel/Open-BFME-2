@@ -6,15 +6,16 @@
 // 122-byte head and the 2680-byte tail at 0x0001220A; its ret 0x24 ends at
 // 0x00012C82 and the five switch-table words that follow are data.
 //
-// Retail's destruction map: the wide string destructor ~_String_base<wchar_t>
+// Retail's destruction map: the wide string destructor ~basic_string<wchar_t>
 // (0xB3C0) is called out of line at the 13 cold sites (ternary temporaries,
 // the currency symbol's scope end, both early-exit groups) and inlined, with
 // no inner EH state, at the final exit; narrow strings and ~locale are inline
 // everywhere. MSVC 7.1 sizes an inline candidate by its out-of-line compiled
 // body: cold sites are outlined above about 80 bytes, the hot final exit stays
-// inline up to about 96. The TU-local ~_String_base<wchar_t> below adds empty
-// member-destructor calls (7 bytes each out of line, nothing once inlined) to
-// land in that window, and the visible _M_assign_dispatch<wchar_t*> uses its
+// inline up to about 96. The TU-local ~basic_string<wchar_t> below adds
+// `this == 0` guards that fold only after the inline decision, landing in
+// that window (empty member-destructor carriers reorder the final exit's
+// iterator copy), and the visible _M_assign_dispatch<wchar_t*> uses its
 // __false_type tag so the caller keeps the tag's zero store and bool slot.
 // The vendor allocator keeps the inlined copies free of proxy EH states.
 /*
@@ -98,19 +99,16 @@ namespace _STL { template<> void* __malloc_alloc<0>::allocate(size_t); }
 namespace _STL {
 struct _MoneyLeak { ~_MoneyLeak() { if (_MONEY_LEAKS_CHECK) free(0); } };
 struct _MoneyPhantom { _MoneyLeak l; };
-template <> inline _String_base<unsigned short, allocator<unsigned short> >::~_String_base() {
-  _M_deallocate_block();
-  // Nine empty member destructors: each adds out-of-line cost and nothing
+template <> inline basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string() {
+  // Six guards that fold away late: they add out-of-line cost and nothing
   // once inlined (see the file comment).
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
-  ((_MoneyPhantom *)this)->~_MoneyPhantom();
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  _Destroy(this->_M_start, this->_M_finish + 1);
 }
 template <> template <> basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >&
 basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::_M_assign_dispatch<wchar_t*>(wchar_t* __f, wchar_t* __l, const __false_type& __t) {

@@ -1,13 +1,9 @@
-// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9937 date=2026-10-21
-// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9937 (1.0 under true naming) date=2026-10-21
 // cl:  /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 //
-// Partial reconstruction of STLport 4.5.3 wide monetary string formatting.
-// Retail DF20..E952 is 2610 bytes; this bank emits all 2610 with the retail
-// 0x118 frame and every instruction identical except one relocation.
+// Reconstructed STLport 4.5.3 wide monetary string formatting.
+// Retail DF20..E952 is 2610 bytes, emitted exactly with the retail 0x118
+// frame.
 // The out-of-line __copy<const wchar_t*, _MoneyOut, int> (0xE9C0) is only
 // declared here: once c2 has compiled a same-TU callee it knows the tag
 // reference does not escape and overlaps the tag temporaries with the
@@ -23,13 +19,8 @@
 // return 1 (retail's unwind and call map). A late fold stops the 4-iteration
 // unroll of the space-count loop; reading the pattern as two halfwords gives
 // retail's scalar form (cmp al/ah, shr 16, cmp al/ah) regardless.
-// Status: byte-exact (2610 B, every relocation) under the TRUE string-dtor
-// naming (W<G> = 0xB3C0, S<G> = 0x142D70; scorer build/b3df20/sct.py).
-// Under the current ledger naming (W<G> twin at 0x142D70, S<G> at 0xB3C0) all
-// nine destructor relocations are swapped (fit 0.9937). Landing needs the
-// ledger reconciliation in
-// reverse/attempt_support/df20-funclet-naming-20261021/handoff.md.
-// Do not mask or pin this away. Evidence:
+// Calls resolve to the true string destructor names: ~basic_string<wchar_t>
+// at 0xB3C0 and ~_String_base<wchar_t> at 0x142D70. Evidence:
 // reverse/attempt_support/df20-exact-true-naming-20261021/handoff.md.
 //
 /*

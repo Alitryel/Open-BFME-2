@@ -6,11 +6,13 @@
 // buffer through the string overload. Keep that behavior for byte matching.
 //
 // Retail's three-entry unwind map identifies a locale, an empty allocator
-// temporary, and the string's base. The allocator cleanup at RVA 0x69E440 is
+// temporary, and the string. The allocator cleanup at RVA 0x69E440 is
 // a bare ret, but an empty C++ destructor is eliminated before MSVC 7.1
 // assigns EH states. Disabled bookkeeping retains the state until optimization,
-// as in stlport_narrow_string_base_dtor.cpp. The string destructor must remain
-// out of line; the call at RVA 0xBEE9 reaches the ICF-folded body at 0x142D70.
+// as in stlport_narrow_string_base_dtor.cpp. ~basic_string is inlined on the
+// normal path, leaving the out-of-line ~_String_base call at RVA 0xBEE9
+// (0x142D70); the unwind funclet destroys the complete temporary through
+// ~basic_string (0xB3C0).
 
 void __cdecl free(void *);
 namespace _STL
@@ -63,14 +65,20 @@ public:
     }
 };
 
-template <class CharT, class Traits, class Alloc> class basic_string {
+template <class CharT, class Alloc> class _String_base {
 public:
-    basic_string(const CharT *, const Alloc & = Alloc());
-    ~basic_string();
-private:
+    ~_String_base();
+protected:
     CharT *_M_start;
     CharT *_M_finish;
     CharT *_M_end_of_storage;
+};
+
+template <class CharT, class Traits, class Alloc> class basic_string
+    : private _String_base<CharT, Alloc> {
+public:
+    basic_string(const CharT *, const Alloc & = Alloc());
+    ~basic_string() {}
 };
 
 template <class CharT, class Traits> class basic_streambuf;

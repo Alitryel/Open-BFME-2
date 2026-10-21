@@ -3,7 +3,7 @@
 //
 // STLport num_put<wchar_t>::do_put(bool), retail RVA 0x0000EB60, 371 bytes.
 // The boolalpha body is _num_put.c's algorithm. Retail destroys the two
-// conditional return-value temporaries through _String_base out of line,
+// conditional return-value temporaries through ~basic_string out of line,
 // but frees the named string inline. A separate storage owner expresses that
 // distinction without changing the string constructor or facet identities.
 //
@@ -51,6 +51,12 @@ size_t __cdecl wcstombs(char *dest, const unsigned short *source, size_t count);
 int __cdecl wctomb(char *dest, unsigned short ch);
 }
 
+#include <string>
+
+// Both return-value temporaries call the out-of-line 63-byte complete-object
+// destructor at 0x0000B3C0.
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string(); }
+
 #include <locale>
 // bfme link decl-only begin
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __copy_integer_and_fill<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(unsigned short const *, int, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, int, int, unsigned short, unsigned short, unsigned short); }
@@ -78,8 +84,6 @@ public:
 };
 inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
-// Both return-value temporaries call the 63-byte ICF-folded destructor.
-template <> _String_base<unsigned short, allocator<unsigned short> >::~_String_base();
 }
 
 // The storage is owned by the caller, so failed construction has no allocation

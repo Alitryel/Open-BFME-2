@@ -1,19 +1,19 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// STLport 4.5.3 _String_base<char>::~_String_base, the out-of-line COMDAT the
-// wide num_get readers reach when they drop the narrow strings numpunct hands
-// them back. The body is the inlined _M_deallocate_block - `if (_M_start)
-// free(_M_start)` against the game allocator - wrapped in a full /EHsc frame.
+// STLport 4.5.3 basic_string<wchar_t>::~basic_string, the out-of-line COMDAT
+// at 0x0000B3C0. The body is the inlined ~_String_base - `if (_M_start)
+// free(_M_start)`, its _M_deallocate_block against the game allocator -
+// wrapped in a full /EHsc frame.
 //
-// The frame is the identity here, and it is what tells this destructor apart
-// from ??1?$basic_string@D...@XZ at 0x00142D70, which carries the same four
-// instructions with no frame at all. Retail stores one unwind state at
-// [esp+0x0C], never lowers it, and the funclet behind it destroys the
-// allocator proxy at this+8: an offset that only makes sense inside
-// _String_base, whose three members are _M_start, _M_finish and
-// _M_end_of_storage. In ~basic_string the proxy sits in the base subobject and
-// the cleanup would run ~_String_base at this+0 instead.
+// Retail's unwind maps name the two string destructor bodies. A state that
+// holds a complete string (the atexit thunks 0x007B6A00/10/40, state 22 of
+// 0x0000DF20) jumps here; a base-only state inside a basic_string constructor
+// (0x00009100, 0x00009170, 0x0000BF20, 0x0000EA90, 0x00017830) jumps to the
+// frameless 14-byte ~_String_base at 0x00142D70 instead. This body is the
+// complete-object destructor with the base destructor inlined: its one unwind
+// state covers the free call, and the funclet behind it destroys the
+// allocator proxy member at this+8.
 //
 // Three things the body needs:
 //
@@ -41,6 +41,9 @@ enum { _STLP_LEAKS_CHECK = 0 };
 template <class T>
 class allocator {};
 
+template <class CharT>
+class char_traits {};
+
 template <class Pointer, class Value, class Alloc>
 class _STLP_alloc_proxy : public Alloc
 {
@@ -58,25 +61,29 @@ template <class CharT, class Alloc>
 class _String_base
 {
 public:
-	~_String_base();
+	~_String_base()
+	{
+		if (_M_start != 0)
+			free(_M_start);
+	}
 
 	CharT *_M_start;
 	CharT *_M_finish;
 	_STLP_alloc_proxy<CharT *, CharT, Alloc> _M_end_of_storage;
 };
 
-template <class CharT, class Alloc>
-_String_base<CharT, Alloc>::~_String_base()
+template <class CharT, class Traits, class Alloc>
+class basic_string : private _String_base<CharT, Alloc>
 {
-	if (_M_start != 0)
-		free(_M_start);
+public:
+	~basic_string();
+};
+
+template <class CharT, class Traits, class Alloc>
+basic_string<CharT, Traits, Alloc>::~basic_string()
+{
 }
 
-template class _String_base<char, allocator<char> >;
-
-// The wide instantiation compiles to the same 63 bytes and the image keeps one
-// body for both (the bool num_put readers call 0x0000B3C0 for their wide
-// strings); every other unit's wide copy is the frameless 14-byte form.
-template class _String_base<unsigned short, allocator<unsigned short> >;
+template class basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >;
 
 }

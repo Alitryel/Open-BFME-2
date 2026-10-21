@@ -165,13 +165,6 @@ class char_traits {};
 template <class T>
 class allocator {};
 
-template <class CharT, class Alloc>
-class _String_base
-{
-public:
-	~_String_base();
-};
-
 template <class CharT, class Traits, class Alloc>
 class basic_string
 {
@@ -181,7 +174,7 @@ public:
 }
 
 typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > StlNarrowString;
-typedef _STL::_String_base<char, _STL::allocator<char> > StlNarrowStringBase;
+typedef _STL::basic_string<unsigned short, _STL::char_traits<unsigned short>, _STL::allocator<unsigned short> > StlWideString;
 
 namespace _STL { extern StlNarrowString _Nameless; } // 0x009DEB2C, defined in Rva007AB8D0StringInits.cpp
 extern unsigned g_Va00DDEF08;
@@ -200,25 +193,25 @@ void __cdecl rva007B68C0()
 	return receiver->~basic_string();
 }
 
-// ?rva007B6A00@@YAXXZ @ 0x007B6A00 (10B). Global string base dtor thunk: ecx=&g_Va00DDEEF0 then tail-jmp to rowed ??1?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAE@XZ (0x0000B3C0).
+// ?rva007B6A00@@YAXXZ @ 0x007B6A00 (10B). Global wide string dtor thunk: ecx=&g_Va00DDEEF0 then tail-jmp to rowed ??1?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@XZ (0x0000B3C0).
 void __cdecl rva007B6A00()
 {
-	StlNarrowStringBase *receiver = (StlNarrowStringBase *)&g_Va00DDEEF0;
-	return receiver->~_String_base();
+	StlWideString *receiver = (StlWideString *)&g_Va00DDEEF0;
+	return receiver->~basic_string();
 }
 
-// ?rva007B6A10@@YAXXZ @ 0x007B6A10 (10B). Global string base dtor thunk: ecx=&g_Va00DDEF20 then tail-jmp to rowed ??1?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAE@XZ (0x0000B3C0).
+// ?rva007B6A10@@YAXXZ @ 0x007B6A10 (10B). Global wide string dtor thunk: ecx=&g_Va00DDEF20 then tail-jmp to rowed ??1?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@XZ (0x0000B3C0).
 void __cdecl rva007B6A10()
 {
-	StlNarrowStringBase *receiver = (StlNarrowStringBase *)&g_Va00DDEF20;
-	return receiver->~_String_base();
+	StlWideString *receiver = (StlWideString *)&g_Va00DDEF20;
+	return receiver->~basic_string();
 }
 
-// ?rva007B6A40@@YAXXZ @ 0x007B6A40 (10B). Global string base dtor thunk: ecx=&g_Va00DDEF2C then tail-jmp to rowed ??1?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAE@XZ (0x0000B3C0).
+// ?rva007B6A40@@YAXXZ @ 0x007B6A40 (10B). Global wide string dtor thunk: ecx=&g_Va00DDEF2C then tail-jmp to rowed ??1?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@XZ (0x0000B3C0).
 void __cdecl rva007B6A40()
 {
-	StlNarrowStringBase *receiver = (StlNarrowStringBase *)&g_Va00DDEF2C;
-	return receiver->~_String_base();
+	StlWideString *receiver = (StlWideString *)&g_Va00DDEF2C;
+	return receiver->~basic_string();
 }
 
 // ?rva007B69D0@@YAXXZ @ 0x007B69D0 (10B). Global string dtor thunk: ecx=&g_Va00DDEF08 then tail-jmp to rowed ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ (0x00142D70).
