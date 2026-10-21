@@ -1,4 +1,4 @@
-# VertexUV ownership: prepared consolidation, awaiting approval
+# VertexUV ownership: approved consolidation banked after receipt refusal
 
 Inputs: BFME2 f4afb09f6c23fa56054e34df2d34023c7c69b0ed; committed and checked-out BFME1 a80da2e3be84ebdb3b6bc280faca3f99a44788af. Model GPT-6, lane R, budget 30m; about 16 minutes through the review packet. This is a linking/data repair, zero new matched coverage and no measured link-cycle credit.
 
@@ -10,7 +10,7 @@ Plain external binding emits 1575B rather than native1583B. Static references/po
 
 ## Prepared result
 
-The proposed-source.patch contains a **draft only**, never applied to Code. It consolidates seven source files into pointgr.cpp, keeps VertexUV internal to that one owner and puts every actual UV reader/writer in the owner. PointGroupClassRva0017A890.cpp merely declares VertexUV and has no UV data relocation, so it is excluded (its separate VertexLoc problem remains outside this repair).
+The proposed-source.patch preserves the reviewed source proposal. The user explicitly approved the seven-file consolidation; implementation and ordinary verification follow below. It consolidates seven source files into pointgr.cpp, keeps VertexUV internal to that one owner and puts every actual UV reader/writer in the owner. PointGroupClassRva0017A890.cpp merely declares VertexUV and has no UV data relocation, so it is excluded (its separate VertexLoc problem remains outside this repair).
 
 The common class declaration is the committed BFME1 pointgr.h extended only with the already-target-proven BFME2 helper declarations. The combined unit uses the existing banked_segline Draw_Triangles signature and string configuration from the verified submit helper, plus the existing Matrix4 link view from Render. No shared header was changed. Moving the sizing helper out of the class preserves the original global initializer ordering and compiler label bindings.
 
@@ -25,6 +25,19 @@ This is private-object evidence only: no production build, full associative EH a
 3. Re-derive data_ledger.csv through its own tool, inspect the UV entry for one internal definition and no remaining competing external binding. Do not hand-edit that generated ledger or expand a baseline.
 4. Run the ordinary scoped build, data identity check, frozen-file check and link prediction on providers/consumers together. Resolve any normal gate refusal before publishing; do not claim the draft alone as progress.
 
-Independent explanations covered: reference/helper ABI and constness; global linkage and array-pointer alias views; optimizer settings; complete owner/class context; static data definition and initialization order; the submit dependency's actual Draw_Triangles signature. The remaining prerequisite is approval/admission of the prepared broader source consolidation, not another blind spelling sweep.
+Independent explanations covered: reference/helper ABI and constness; global linkage and array-pointer alias views; optimizer settings; complete owner/class context; static data definition and initialization order; the submit dependency's actual Draw_Triangles signature. The broader source consolidation was explicitly approved on 2026-10-21 after the initial automatic execution review refusal.
 
-All claims acquired for this investigation are released when this packet is saved. The source repair is not applied. Production remains exactly as before the investigation.
+Explicit user approval remains valid for this consolidation. Production changes were reverted after the strict receipt refusal below; all body and file claims are released at session end.
+
+
+## Approved implementation and stop, 2026-10-21
+
+The user explicitly approved the seven-file consolidation. All fourteen moves passed ordinary add_match --replace-existing verification, preserving both pre-existing ICF sizing names. The final ordinary source build passed **58/58 ledger rows**, including the two existing generated funclets, with string/float/import checks passing. normal-admission.json and normal-build-58.txt preserve this admission evidence. The six old files had no remaining function rows before removal. find_declared_unmatched and check_csv passed; git diff --check was clean after trimming only copied-header whitespace.
+
+The data-ledger tool generated one internal `_VertexUV` owner at RVA009F94C0, size16, defs1, refs18. Only that generated row was transplanted; full regeneration lacked23403 unrelated local objects and must never replace the committed complete ledger. generated-vertexuv-row.json preserves the exact tool-produced row.
+
+**Stop:** tools/link_check.py --prepare-current pointgr.cpp compiled a strict receipt and ran the ordinary58/58 gate, then exited1: `link_check: prepared receipt went stale during normal gates`. No downstream data_check, eh_verify or link preview ran because the shell stopped on that exit. This is not evidence of a byte mismatch or measured credit.
+
+A concurrent evidence write created reverse/attempt_support/vertexuv-ownership-20261021/normal-admission.json while that preparation was running. Because the approved source needs /I., tools/build.py inventories the checkout's non-.cpp filenames (build and .git excluded); adding this JSON can invalidate the strict receipt. This is the supported explanation, not a proven verifier bug: no false-reject claim, gate changes, receipt edit or bypass was attempted. At the next authorized retry, finish all evidence writes before preparing the strict receipt and keep its search inventory unchanged through verification. Then run the still-pending data identity, complete EH and provider/consumer linking checks, followed by the ordinary commit/push hooks.
+
+Per the user's stop-on-gate-refusal instruction, the exact approved implementation is banked in approved-source-and-ledger.patch and the production source/ledgers are restored. The patch contains the fully checked source and row moves; do not treat its banked bytes as progress. Zero new matched bytes and zero measured link-cycle credit. About29min total target investigation/implementation, GPT-6, laneR, budget30m; publication/claim cleanup follows separately.
