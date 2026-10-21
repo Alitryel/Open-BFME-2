@@ -306,21 +306,20 @@ protected:
 
 // WorldBuilder's Observable<StrategicHUD::ArmyMemberIconMovieClipObserver>
 // (addObserver / dispatchNotice) is the owner's second base at +0x08: the
-// observer list, built by the pinned 0x00330757 (vector plus index -1).
-template <class T> class Observable
+// observer list (vector plus index -1), built and destroyed by the rowed
+// 0x00330757 / 0x0007FAB3 pair, so it is declared under those rows' class name.
+class Rva00330757Member
 {
 public:
-	Observable(); // 0x00330757 (pinned)
-	~Observable();
+	Rva00330757Member(); // 0x00330757
+	~Rva00330757Member(); // 0x0007FAB3
 
 protected:
 	Rva005FCA6DList m_observers;
 };
 
 namespace StrategicHUD {
-class ArmyMemberIconMovieClipObserver;
-
-class ArmyMemberIconMovieClip : public Rva007C6F20Base, public Observable<ArmyMemberIconMovieClipObserver>
+class ArmyMemberIconMovieClip : public Rva007C6F20Base, public Rva00330757Member
 {
 public:
 	class Impl;
@@ -405,6 +404,12 @@ StrategicHUD::ArmyMemberIconMovieClip::Impl::Impl(ArmyMemberIconMovieClip *owner
 StrategicHUD::ArmyMemberIconMovieClip::ArmyMemberIconMovieClip(AptMovieClipFrame *frame, const AsciiString &type)
 	: m_impl(new Impl(this, frame, type))
 {
+}
+
+// ?ArmyMemberIconMovieClip::DoUpdate present-unmatched (pinned at 0x005FC9F8, rowed there as Rva005FC9F8::rva005FC9F8)
+void StrategicHUD::ArmyMemberIconMovieClip::DoUpdate()
+{
+	m_impl->Update();
 }
 
 StrategicHUD::ArmyHeroIconMovieClip::ArmyHeroIconMovieClip(AptMovieClipFrame *frame)

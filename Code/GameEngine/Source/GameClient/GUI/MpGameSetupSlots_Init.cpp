@@ -263,7 +263,6 @@ public:
 };
 
 extern MultiplayerSettings *TheMultiplayerSettings;
-extern const unsigned short g_00C3D9D4[];
 void GadgetComboBoxReset(GameWindow *comboBox);
 int GadgetComboBoxAddEntry(GameWindow *comboBox, UnicodeString text, int color);
 void GadgetComboBoxSetItemData(GameWindow *comboBox, int index, void *data);
@@ -324,7 +323,9 @@ public:
 	virtual void *v21();
 };
 
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+// The Apt window manager at 0x009FE4CC, under the ledger's name.
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 // A hero as 0x0043DD34 and 0x0044149C read it.
 class CreateAHeroData
@@ -424,9 +425,8 @@ public:
 	Rva0057C71FEntry *rva0057C71F(int slot);
 	// Unrowed 0x0057C7BA (216 bytes; stores the mode at +0x1C), pinned.
 	void rva0057C7BA(int mode);
-	// Unrowed 0x0057E058 (499 bytes) and 0x0057DFFB (65 bytes; switches on
-	// the mode at +0x1C), pinned by address.
-	void rva0057DFFB(int value);
+	// 0x0057DFFB (65 bytes; switches on the mode at +0x1C) is rowed as
+	// Rva0057DFFB::rva0057DFFB(bool) (LanGameOptionsMenu.cpp).
 	// Unrowed 0x0057CDA1 (34 bytes; ret 0xC: 1 after handling a combo box
 	// selection of its +0x50 window, else 0), pinned by address.
 	int rva0057CDA1(unsigned int msg, unsigned int data1, unsigned int data2);
@@ -440,9 +440,11 @@ public:
 	unsigned char m_pad62[0x70 - 0x62];
 };
 
+class Rva0057DFFB { public: bool rva0057DFFB(bool flag); };
+
 // The member at +0xD0 (destroyed through ??1Rva0057EE5C); its 0x0057EA0F
 // (158 bytes) is unrowed and pinned.
-class AptMpGameRules { public: void rva0057F0AA(); };
+class AptMpGameRules { public: void rva0057F0AA(); bool rva0057E707(int msg, GameWindow *window, int data2); };
 class Rva0057EE5C
 {
 public:
@@ -457,8 +459,7 @@ public:
 	// Unrowed 0x0057EF87 (123 bytes; called by the panel's 0x0043DE19
 	// shutdown), pinned.
 	void rva0057EF87();
-	// Unrowed 0x0057E707 (114 bytes; ret 0xC, its window messages), pinned.
-	bool rva0057E707(unsigned int msg, unsigned int data1, unsigned int data2);
+	// Its window messages (0x0057E707, ret 0xC) are rowed as AptMpGameRules::rva0057E707.
 };
 
 // The member at +0x190's base (Rva004421E1Dtor.cpp's Rva0057F2DE).
@@ -554,23 +555,11 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 // Rva00511730Save.cpp's text entry helper.
 void Rva00511730(int value);
 
-// StringBase<char>::isEmpty (0x00001E2F) called out of line and nothrow:
-// OnReadyPress keeps no unwind state around it while the slot's tag
-// temporary is alive. The shared shim declares neither, so the call goes
-// through this one-pointer view (pinned to that body, like
-// Rva002DC681DiskSpaceFinish.cpp's nothrow view).
-class MpGameSetupTagView
-{
-public:
-	bool isEmpty() const throw();
-
-private:
-	void *m_data;
-};
-
+// StringBase<char>::isEmpty (0x00001E2F) called out of line and nothrow, as
+// the shared shim declares it: OnReadyPress keeps no unwind state around it.
 static inline bool tagIsEmpty(const AsciiString &tag)
 {
-	return ((const MpGameSetupTagView *)&tag)->isEmpty();
+	return ((const StringBase<char> *)&tag)->isEmpty();
 }
 
 // Retail expands UnicodeString::isEmpty inline as the header test
@@ -746,7 +735,7 @@ public:
 	TargetRef00217D4C *rva0043F103(int index);
 };
 
-// TheRva00222A8BTarget (0x00DFE4CC) as the Apt window manager whose
+// The Apt window manager (0x00DFE4CC) whose
 // bfmeSetText (0x00225301) AptMapPreviewSetMapTitle.cpp pins.
 class BfmeAptWindowManager
 {
@@ -777,7 +766,7 @@ public:
 	void rva0052493F();
 };
 
-// TheRva00222A8BTarget's erase by name (rowed 0x00223A94).
+// The Apt window manager's erase by name (rowed 0x00223A94).
 class Rva00223A94
 {
 public:
@@ -1061,7 +1050,7 @@ int Rva0043F1A4(Rva00222A8BTarget *target, void *owner, const char *name, const 
 
 // Retail 0x0043E253, 188 bytes. Name unknown. Populates the handicap combo
 // box (+0x354) with 0 down to -95 step -5, each entry formatted through
-// g_00C3D9D4 with the default color's +0x10 value and item data equal to the
+// L"%d%%" with the default color's +0x10 value and item data equal to the
 // handicap, then selects 0 and limits display through 0x0043DDF8.
 // Evidence: callers 0x004427E8; callees all rowed; TheMultiplayerSettings
 // getColor(-1) plus GadgetComboBoxReset/AddEntry/SetItemData/SetSelectedPos/
@@ -1075,7 +1064,7 @@ void AptMpGameSetup::rva0043E253(int slot)
 	for (int handicap = 0; handicap >= -0x5F; handicap -= 5)
 	{
 		UnicodeString text;
-		text.format(g_00C3D9D4, handicap);
+		text.format(L"%d%%", handicap);	// the compiler literal at VA 0xC3D9D4
 		int index = GadgetComboBoxAddEntry(m_handicap[slot], text, color->m_color);
 		GadgetComboBoxSetItemData(m_handicap[slot], index, (void *)handicap);
 	}
@@ -1307,7 +1296,7 @@ bool AptMpGameSetup::OnUpdate()
 		if (m_2be && haveLocal)
 		{
 			m_2be = false;
-			m_60.rva0057DFFB(0);
+			((Rva0057DFFB *)&m_60)->rva0057DFFB(false);
 			changed = true;
 		}
 		m_244.rva0057FDB0(changed);
@@ -1685,7 +1674,7 @@ void AptMpGameSetup::rva0043DE19()
 		char name[128];
 		sprintf(name, "ConnectionIcon~%d", slot);
 		AsciiString key(name);
-		((Rva00223A94 *)TheRva00222A8BTarget)->rva00223A94(&key);
+		((Rva00223A94 *)g_bfmeAptWindowManager)->rva00223A94(&key);
 	}
 }
 void Rva0043E8F1Tooltip(GameWindow *window, WinInstanceData *instData, unsigned int mouse);
@@ -1709,7 +1698,7 @@ int AptMpGameSetup::rva00442CB3(unsigned int msg, unsigned int data1, unsigned i
 		return 0;
 	if (rva0043E1CC(m_60.rva0057CDA1(msg, data1, data2)))
 		return 1;
-	if (m_d0.rva0057E707(msg, data1, data2))
+	if (((AptMpGameRules *)&m_d0)->rva0057E707(msg, (GameWindow *)data1, data2))
 		return 1;
 	if (m_190.rva0057FC75(msg, data1, data2))
 		return 1;
