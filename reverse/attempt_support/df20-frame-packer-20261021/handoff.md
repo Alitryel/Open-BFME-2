@@ -142,3 +142,75 @@ and no toy has reproduced retail's exact layout yet.
 
 Scratch (untracked): `build/b3df20/g34`–`g40` generators and variants,
 `cur2.cpp` (= bank), `dd.py`, `odis.py`, `probe.py`, `runm.sh`, `toy6/`.
+
+## Round g48-g58 (2026-10-21): tag packing solved, bank 0.9993
+
+Base: g50 `2Bnna`. It is retail-structured: a depth-2 forceinline range ctor
+calls the 3-arg 0xBF90, with a plain `bool __is_negative`. It scored 0.9127
+(nd 185) before the fix.
+
+**Finding: the visibility of the `__copy` callee decides the tag slots.**
+- When do_put's TU has compiled `__copy<const wchar_t*, _MoneyOut, int>`
+  (0xE9C0), c2 knows that the `const random_access_iterator_tag&` parameter
+  does not escape. It then overlaps both out-of-line tag temporaries with the
+  allocator/forward-tag byte.
+- With an opaque callee, retail's exact packing appears:
+  - the sym tag shares esp+0x17 with is_neg;
+  - alloc and fwd sit at 0x2e, next to gen_curr at 0x2f;
+  - the ext tag is alone at 0x4f.
+- Controls:
+  - An extern `__tuse(tag)` replacing one copy fixes that copy's tag only (g52
+    u0/u1/u2).
+  - A same-TU definition of the callee placed after do_put still merges (x4),
+    also when it is `noinline` (x6).
+  - The same definition storing `&tag` to a global does not merge (x5). So the
+    analysis is a parameter escape analysis, not an ordering effect.
+  - Toy `build/b3df20/toy7` reproduces it: an extern `use()` gives distinct
+    slots, a TU-defined `use()` merges them.
+- Spelling:
+  - Declare the explicit specialisation
+    `template <> _MoneyOut __copy<const wchar_t*, _MoneyOut, ptrdiff_t>(...)`
+    before its first use, and do not define it.
+  - Route the four inlined copies through the `long` distance instantiation
+    (`__copy(first, last, result, tag, (long*)0)` in the `copy`
+    specialisation): the body is identical and the mangled name is different.
+  - A hand-written loop in `copy` costs 4 instructions at +0x772 (0.9953).
+  - Direct `__copy(..., random_access_iterator_tag(), (ptrdiff_t*)0)` calls at
+    the sym/ext sites instead of the depth-0 helpers are worse (0.8754).
+  - `copy()` at the sym site is worse (0.9084).
+- Why retail was opaque is open. The 0xE9C0 COMDAT is owned by
+  `stlport_wide_num_put.cpp`. Retail's do_put TU apparently did not see its
+  body: a separate instantiation unit, or `_STLP_NO_...` config.
+
+**The only remaining difference is the +0x28c destructor relocation.** The
+return-1 path destroys `__curr_sym`. Ours calls `~_String_base<G>` there,
+which the ledger maps to 0xB3C0; retail calls 0x142D70. Every other byte and
+relocation matches under the current ledger naming.
+
+The +0x28c reloc and the destructor naming:
+- Under the naming that `df20-funclet-naming-20261021` proves, the bank is the
+  mirror image. Retail calls S (0x142D70) at 236/259/28c and W (0xB3C0) at
+  375..42f. The bank calls W at 236/259 (the depth-0 pragma on `__curr_sym`)
+  and S at 28c and 375..42f (the phantom cost on S).
+- The natural retail mechanism looks like this: W is inlined at the three early
+  sites with S outlined, and W is outlined at the six late sites.
+
+Phantom grid (g53/g55-g58, curr_sym depth 0/1/2/255, return-1 depth 0/1/2/255,
+kS 0..12 phantoms on S, kW 0..30 phantoms on W):
+- kS <= 8: S always inlined.
+- kS >= 9: S always outlined, and W never outlined, for any kW.
+- kS < 9 with kW >= 1: W is outlined at exactly the six late sites (W@37c..43b,
+  fit 0.9330). This is the retail budget pattern for W, but the early S stays
+  inlined.
+- inline_depth 1 and 2 are inert in every placement. Depth 0 at the return-1
+  statement outlines W at 28c, but also the narrow grouping and the locale, so
+  the tail is not shared (0.9349).
+- No grid point gives early "W inlined, S outlined" together with late "W
+  outlined".
+
+Next steps:
+1. Ledger world (the gate today): only 28c has to call W<G>.
+2. Corrected-naming world: needs the ledger reconciliation listed in
+   `df20-funclet-naming-20261021` (about 8 units), then a source that outlines
+   S under an inlined W early and outlines W late. Try S with a real EH-framed
+   body, as retail's own 0xB3C0 shape suggests for its framed destructor.

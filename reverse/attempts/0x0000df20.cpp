@@ -1,31 +1,27 @@
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9272 date=2026-10-21
-// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9272 date=2026-10-21
-// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9272 date=2026-10-21 (build/b3df20 sc.py permute.fitness; the previous bank scores 0.9127 on it)
+// partial score=0.9993 date=2026-10-21
 // cl:  /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 //
 // Partial reconstruction of STLport 4.5.3 wide monetary string formatting.
-// Retail DF20..E952 is 2610 bytes; this bank emits 2610 bytes with the
-// retail 0x118 frame and a destructor call at all nine retail offsets.
+// Retail DF20..E952 is 2610 bytes; this bank emits all 2610 with the retail
+// 0x118 frame and every instruction identical except one relocation.
+// The out-of-line __copy<const wchar_t*, _MoneyOut, int> (0xE9C0) is only
+// declared here: once c2 has compiled a same-TU callee it knows the tag
+// reference does not escape and overlaps the tag temporaries with the
+// allocator/forward-tag slot; an opaque callee gives retail's packing (sym
+// tag with the sign flag at esp+0x17, extension tag alone at esp+0x4f). The
+// inlined copies use the long-distance instantiation, which has the same body.
 // The wide _String_base destructor carries nine qualified calls of a phantom
 // struct destructor that compile to nothing: they raise its inline cost so it
-// is outlined at every early exit and conditional temporary but stays inline
-// in the final teardown, without dropping the EH frame. Depth 0 on the
-// currency declaration outlines its two temporaries as whole-string calls.
-// The new_digits constructor and the 2-arg range initializer are TU-local
-// depth-0 forceinline specialisations, so the forward tag temporary leaves
-// this frame; _MoneySignPolicy carries the sign flag (a slot hack).
-// Residue: +0x452 calls the 2-arg _M_range_initialize where retail calls the
-// 3-arg 0xBF90 with the tag at esp+0x2e; byte slots alloc 0x2b/gen_curr 0x37
-// (retail 0x2e/0x2f, ext tag 0x4f); dword permutations 0x28/0x30, 0x44/0x48,
-// 0x50/0x5c, locale 0x44 (retail 0x3c); pads at 5dc/6be; +0x481 zero-extends
-// the grouping char (retail movsx); +0x28c destructor target. Do not mask or
-// pin this away. Measurements and rejected hypotheses:
-// reverse/attempt_support/df20-frame-packer-20261021/handoff.md and
-// reverse/attempt_support/df20-ret1-goto-20261021/handoff.md.
+// is outlined at early exits and conditional temporaries.
+// Residue: +0x28c (return 1) calls ~_String_base<G>, which the ledger maps to
+// 0xB3C0; retail calls 0x142D70. The ledger names the two wide string
+// destructors the wrong way round
+// (reverse/attempt_support/df20-funclet-naming-20261021/handoff.md); under
+// the corrected naming this body has the inverse problem at 236/259/375..42f.
+// Do not mask or pin this away. Measurements and rejected hypotheses:
+// reverse/attempt_support/df20-frame-packer-20261021/handoff.md.
 //
 /*
  * Copyright (c) 1999
@@ -151,7 +147,7 @@ template <> basic_string<wchar_t>::basic_string(const basic_string<wchar_t>&);
 #pragma inline_depth(0)
 template <> template <> __forceinline void basic_string<wchar_t>::_M_range_initialize(const wchar_t* f, const wchar_t* l) { _M_range_initialize(f, l, forward_iterator_tag()); }
 #pragma inline_depth(255)
-#pragma inline_depth(0)
+#pragma inline_depth(2)
 template <> template <> __forceinline basic_string<wchar_t>::basic_string(const wchar_t* first,const wchar_t* last,const allocator<wchar_t>& a) : _String_base<wchar_t,allocator<wchar_t> >(a) { _M_range_initialize(first,last); }
 #pragma inline_depth(255)
 }
@@ -164,17 +160,20 @@ template <> __forceinline _MoneyOut fill_n(_MoneyOut first, unsigned int n, cons
  for(;n>0;--n) first=value; return first;
 }
 #pragma inline_depth(255)
+template <> _MoneyOut __copy<const wchar_t*, _MoneyOut, ptrdiff_t>(const wchar_t* first, const wchar_t* last, _MoneyOut out, const random_access_iterator_tag&, ptrdiff_t*);
 template <> __forceinline _MoneyOut copy(const wchar_t* first, const wchar_t* last, _MoneyOut result) {
   random_access_iterator_tag tag;
-  return __copy(first, last, result, tag, (ptrdiff_t*)0);
+  return __copy(first, last, result, tag, (long*)0);
 }
 
 #pragma inline_depth(0)
 __forceinline void __money_write_point(_MoneyOut& out,const wchar_t& value) { out = value; }
 #pragma inline_depth(255)
-struct _MoneySignPolicy : random_access_iterator_tag { bool negative; };
 #pragma inline_depth(0)
-__forceinline _MoneyOut __money_copy_symbol(const wchar_t* first,const wchar_t* last,_MoneyOut out,const _MoneySignPolicy& policy) { return __copy(first,last,out,policy,(ptrdiff_t*)0); }
+__forceinline _MoneyOut __money_copy_sym2(const wchar_t* first, const wchar_t* last, _MoneyOut out) {
+  random_access_iterator_tag tag;
+  return __copy(first, last, out, tag, (ptrdiff_t*)0);
+}
 __forceinline _MoneyOut __money_copy_external(const wchar_t* first, const wchar_t* last, _MoneyOut out) {
   random_access_iterator_tag tag;
   return __copy(first, last, out, tag, (ptrdiff_t*)0);
@@ -230,16 +229,15 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   string_type::const_iterator __digits_first = __digits.begin();
   string_type::const_iterator __digits_last  = __digits.end();
 
-  _MoneySignPolicy __sign_policy;
-  __sign_policy.negative = *__digits_first == __minus;
-  if (__sign_policy.negative)
+  bool __is_negative = *__digits_first == __minus;
+  if (__is_negative)
     ++__digits_first;
 
   string_type __sign = __intl ?
-			 __sign_policy.negative ? __punct_intl.negative_sign()
+			 __is_negative ? __punct_intl.negative_sign()
 				       : __punct_intl.positive_sign()
 			      :
-			 __sign_policy.negative ? __punct.negative_sign()
+			 __is_negative ? __punct.negative_sign()
 				       : __punct.positive_sign();
 #pragma inline_depth(255)
   string_type::const_iterator __cp = __digits_first;
@@ -295,9 +293,9 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   if (__generate_curr)
     __length += __curr_sym.size();
   money_base::pattern __format =
-    __intl ? (__sign_policy.negative ? __punct_intl.neg_format()
+    __intl ? (__is_negative ? __punct_intl.neg_format()
                             : __punct_intl.pos_format())
-           : (__sign_policy.negative ? __punct.neg_format()
+           : (__is_negative ? __punct.neg_format()
                             : __punct.pos_format());
   for (int __i = 0; __i < 4; ++__i)
     if (__format.field[__i] == (char) money_base::space)
@@ -324,7 +322,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
     }
     else if (__ffield == money_base::symbol) {
       if (__generate_curr)
-        __s = __money_copy_symbol(__curr_sym.begin(), __curr_sym.end(), __s, __sign_policy);
+        __s = __money_copy_sym2(__curr_sym.begin(), __curr_sym.end(), __s);
     }
     else if (__ffield == money_base::sign) {
       if (__sign.size() != 0)
