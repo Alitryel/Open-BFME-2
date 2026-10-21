@@ -1,6 +1,6 @@
 # HordeMeleeAmoeba::updateMeleeAttack 0x005881DB (2199 B): c2 allocator trace, 2026-10-21
 
-Result (two passes): the bank is unchanged: `reverse/attempts/0x005881db.cpp` emits 2196 B, scores 0.9772 and has one structural region left, residue (A) in the w6 note. Model claude-opus-5-5. No change to `Code/`, the ledger or pins.
+Result (three passes): the bank is unchanged: `reverse/attempts/0x005881db.cpp` emits 2196 B, scores 0.9772 and has one structural region left, residue (A) in the w6 note. Model claude-opus-5-5. No change to `Code/`, the ledger or pins.
 
 This pass ran MSVC 7.1 `c2.dll` (base 0x10700000) under winedbg and traced the register allocator on the bank. It found the exact allocator decision retail took differently and proved that decision is sufficient. The source shape that produces the decision is still open.
 
@@ -201,11 +201,44 @@ The bank differs only at R2, where node fails together with seven other records 
 
 The question for the source is therefore: **why did retail's node not fail at R2**, either not popped or routed "nowhere" by `a90e6`/`40941`? It is not because its set was empty at R2 entry: `102:b:0` is unchanged, so an empty set at R2 still lands in R2's set. The open sub-question is what distinguishes that from R3 here.
 
-Candidates:
+Candidates as first listed (answered in the next section): node colored ebp at R1 and uncolored by `5a7c9`; node's R2 pop after R2's a8f54 call; `[rec+5]` flag differences (d02 at R1, c02 at R2).
 
-- node gets colored ebp at R1 and is uncolored when ebp becomes the frame pointer (`5a7c9`); the R1 entry set does include ebp;
-- node's R2 pop comes after R2's a8f54 call;
-- `[rec+5]` flag differences (d02 at R1, c02 at R2).
+### Third pass: a phantom register at R2 is exact
+
+node:b is never popped (w9, the reference count, is 6; the `82978` filter only queues w9 == 2). It fails at R2 only because `831f7` empties its set when entry:12 colors ebx. If node still holds any register it can never get, it survives R2 uncolored, and the body is exact.
+
+`dt10.txt` forcing `PFL=102:b:BITS` (node's set at R2 entry; `ae2_*.out`):
+
+| R2 set | Score |
+|---|---|
+| {ebx} (bank) | 0.95334 |
+| {ebx, ebp} `50` | **exact** |
+| {ebx, ecx} `14` | **exact** |
+| {ebx, edx} `18` | **exact** |
+| {ebx, eax} `12` | 2199 B, 4 diffs, 0.99827 |
+| {ebx, esi} `90` | 0.93473 (node fails at R4 with the group) |
+| {ebx, edi} `110` | 0.95334 |
+| {ebx, esi, edi} `190` | 0.95334 |
+
+The route in the `14` run (`fp4.txt`, `ae3_14.out`):
+
+- node keeps [ecx] through R3 and R4;
+- it is never in an a8f54 set;
+- the record disappears during R4, when R4's complex split of {ai, victim, ?:69, ?:72, index, count} runs;
+- at R5 its piece node:5c pops with an empty set and goes to `a9634` (per reference) from `22d4e`.
+
+How the bank loses ebp (`fp1.txt`, `wset5.txt` with `WATCH=c7c980`, chunk of node:b):
+
+- ebp is removed during R1 by `8011c`, called from the setup loop `84744..847d5`, which walks the record hash table once, in R1 only (53 visits), and filters on the symbol class `[sym+0x10]>>12`.
+- `8011c`: if `[rec+5]&0x80`, the set is intersected with `[0x108b0050]` and ebp is not removed. Otherwise, if `[0x108a7b30]==0` (ebp not allocatable), it removes ebp. If `[0x108a7b28]==0`, it removes ebx.
+- The flag is 0 from R1 on. Forcing `[0x108a7b30]=1` at R1 (`fp3.txt`) gives 0.68389, so retail's frame decision is the same.
+- Pieces created later by splits keep ebp in their sets (`fp5.txt` dump at R2 entry: this:7f and victim:7e have [ebx, ebp]).
+
+So retail's node most likely reached R2 holding more than {ebx}. Equivalently, it was not a neighbour of a record colored at R2 while its set was {ebx}. Untested source-side explanations:
+
+1. A call in loop 1 whose clobber set misses ecx or edx. A helper that c2 models with a narrow kill set would leave node a phantom ecx or edx.
+2. node is a record that the R1 setup loop does not visit (a different symbol class: an inlined callee's local or a compiler temporary), so it keeps ebp. The plain STLport iterator was byte-identical to the bank (2026-10-19 list), so its `_M_node` already gets class 1.
+3. entry:12 not colored at R2, for example because entry also splits at R1.
 
 ### R1 takes the complex path; the "NEITHER" cut variants are a red herring
 
@@ -261,6 +294,7 @@ Allocator forcings that are not exact:
 
 ## Open leads for the next session (ranked)
 
+0. **(Third pass, highest.)** Find the source shape that lets node reach R2 holding more than {ebx}; see "Third pass: a phantom register at R2 is exact". Screen candidates cheaply by dumping node:b's set at R2 entry (`fp2.txt` without `PFL`): any extra member other than esi/edi is the target state. Candidates are a loop-1 call with a narrow kill set, node as an inlined or temporary symbol that the R1 setup loop skips, and entry:12 splitting at R1.
 1. **Make node live through a block that pins esi/edi.** In the bank, node:b at R2 loses esi/edi only because it is live through cc10ac (the MOVSD block). After R2's group split, node's pieces leave cc10ac and get esi/edi back.
 
    A source shape where the head+latch piece itself crosses a MOVSD or fixed-register block would empty its set. Examples: a struct copy (`entry.position=unit->m_position` is the MOVSD) placed in a block node stays live through, or the copy moved to the loop tail/latch side.
@@ -306,3 +340,5 @@ Scripts added in the second pass (same conventions; each `.txt` is the `build/c2
 | `wset4_r2r3.out.txt`, `wset4_r4r5.out.txt` | raw chunk watches for node:77 (R2 to R3) and node:44 (R4 to R5) |
 | `tr43.txt` | tr40 plus `FR`/`FB` free-set forcing at 40aeb |
 | `drop2.txt`, `drop2_r2node.out.txt` | drop.py plus per-round record dumps; the node-escapes-R2 trace |
+| `fp1.txt`..`fp5.txt`, `wset5.txt` | third pass: `fp1` traces the ebp flag `[0x108a7b30]` and the `8011c` setup visits; `fp3` forces the flag (`F30=round`); `fp2`/`fp4` add `PFL=10R:idx:bits` forcing plus `a9634` callers; `fp5` dumps every record (class, w1, set) at round `KD`; `wset5` is wset4 plus stack return addresses at each hit |
+| `ae2_r2set.out.txt`, `ae3_14.out.txt`, `fp1.out.txt`, `fp5_r2entry.out.txt` | third-pass raw results (R2 phantom-register table, the ecx route, R1 setup visits, the record dump at R2 entry) |
