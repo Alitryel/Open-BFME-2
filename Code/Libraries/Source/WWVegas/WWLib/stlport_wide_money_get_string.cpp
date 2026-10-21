@@ -82,6 +82,9 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 // Only pointer calls to streambuf are needed here. Keeping this interface
 // opaque preserves the retail sbumpc call inside inline iterator increment.
 #define _STLP_INTERNAL_STREAMBUF
+#include <stl/_alloc.h>
+// Use the rowed malloc allocator provider instead of emitting a competing copy.
+namespace _STL { template <> void *__malloc_alloc<0>::allocate(size_t); }
 #include <memory>
 enum { _MONEY_LEAKS_CHECK = 0 };
 #include <string>

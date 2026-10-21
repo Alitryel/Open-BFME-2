@@ -11,6 +11,9 @@
 // 0x004DFA43 and the append is the four-byte pointer-vector push_back fold at 0x004DFCB0
 // (its rowed instance is vector<const ModuleData *>, so the key is spelled const ModuleData *;
 // the key's real type stays open).
+#include <stl/_alloc.h>
+// Use the rowed malloc allocator provider instead of emitting a competing copy.
+namespace _STL { template <> void *__malloc_alloc<0>::allocate(size_t); }
 #include <vector>
 #define COORD3D_VIEW_INLINE
 #include "Coord3DCtorView.h"
