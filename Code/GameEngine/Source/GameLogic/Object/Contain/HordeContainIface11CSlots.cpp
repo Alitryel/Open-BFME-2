@@ -805,12 +805,6 @@ public:
 		return &p;
 	}
 };
-// The rowed 0x0046E740 on the HordeContain base (slots 30 and 49 pass 0).
-class Rva0046E740
-{
-public:
-	void rva0046E740(int a1);
-};
 // Counts the nodes of the pair's +4 list.
 class Rva00291793
 {
@@ -1287,6 +1281,7 @@ float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 class HordeContain : public TransportContain, public Rva0046BB38Iface11C
 {
 public:
+	void rva0046E740(int a1);	// 0x0046E740 (slots 30 and 49 pass 0)
 	virtual void attackTargetNow(Object *target, int select);
 	virtual void rva004726DD(Object *target);
 	virtual void rva0046E7E3(const UpgradeTemplate *upgrade, bool all);
@@ -3493,7 +3488,7 @@ void HordeContain::rva00473799(const _STL::list<Object *> &items)
 		}
 	}
 	m_object->m_264->rva0039B3D1(best, true);
-	((Rva0046E740 *)(UpdateModule *)this)->rva0046E740(0);
+	rva0046E740(0);
 	rva0046981C();
 	returnToFormation(0);
 }
@@ -3549,7 +3544,7 @@ void HordeContain::rva004707DB(Object *obj, float amount)
 		int level = tracker->m_24;
 		tracker->rva0039B3D1(data.m_value, false);
 		if (m_object->m_264->m_24 > level)
-			((Rva0046E740 *)(UpdateModule *)this)->rva0046E740(1);
+			rva0046E740(1);
 	}
 }
 
@@ -3588,7 +3583,7 @@ void HordeContain::rva004739B4()
 			m_258[obj->m_template->m_5D8] = v;
 		}
 	}
-	((Rva0046E740 *)(UpdateModule *)this)->rva0046E740(0);
+	rva0046E740(0);
 }
 
 // ?rva0046C3FE@HordeContain@@UAEXPAVPlayer@@@Z @0x0046C3FE: slot 53, which

@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// ?rva0046CF21@Rva0046E740@@QAEXXZ -- retail 0x0046CF21..0x0046D158 (567 bytes).
+// ?rva0046CF21@HordeContain@@QAEXXZ -- retail 0x0046CF21..0x0046D158 (567 bytes).
 // Banner carrier spawn of the horde contain. Identity: the WorldBuilder twin
 // HordeContain::spawnBannerCarrier (HordeContain.cpp; "Banner Carrier template
 // not found!" and "Banner Carrier Update Module Not Found!" assertions) has the
@@ -159,7 +159,35 @@ struct HordeBannerCarrierUpdate
 	BannerCarrierUpdateModuleData *m_moduleData;	// +0x04
 };
 
-class HordeContain {};
+class Rva0046E740Iface11C
+{
+public:
+	virtual void vf00(); virtual void vf04(); virtual void vf08(); virtual void vf0C();
+	virtual void vf10(); virtual void vf14(); virtual void vf18(); virtual void vf1C();
+	virtual void vf20(); virtual void vf24(); virtual void vf28(); virtual void vf2C();
+	virtual void vf30(); virtual void vf34(); virtual void vf38(); virtual void vf3C();
+	virtual void vf40(); virtual void vf44(); virtual void vf48(); virtual void vf4C();
+	virtual void vf50(); virtual void vf54(); virtual void vf58(); virtual void vf5C();
+	virtual void vf60(); virtual void vf64(); virtual void vf68(); virtual void vf6C();
+	virtual void vf70();
+	virtual void vf74(Object *newObj, Object *source, bool flag);	// +0x74
+};
+
+class HordeContain
+{
+public:
+	void rva0046CF21();
+
+	void *m_vtbl;	// +0x00
+	HordeContainModuleData *m_moduleData;	// +0x04
+	Object *m_object;	// +0x08
+	char pad00C[0x11C - 0x0C];
+	Rva0046E740Iface11C m_iface11C;	// +0x11C
+	char pad120[0x26C - 0x120];
+	int m_state;	// +0x26C
+	char pad270[0x27C - 0x270];
+	unsigned int m_countdown;	// +0x27C
+};
 class Module;
 Module *__stdcall Rva00468E26Get(Object *);
 // The native BannerCarrierUpdate getter ignores ambientECX and returns the
@@ -176,42 +204,13 @@ public:
 	void rva00469B73(void *obj);
 };
 
-class Rva0046E740Iface11C
-{
-public:
-	virtual void vf00(); virtual void vf04(); virtual void vf08(); virtual void vf0C();
-	virtual void vf10(); virtual void vf14(); virtual void vf18(); virtual void vf1C();
-	virtual void vf20(); virtual void vf24(); virtual void vf28(); virtual void vf2C();
-	virtual void vf30(); virtual void vf34(); virtual void vf38(); virtual void vf3C();
-	virtual void vf40(); virtual void vf44(); virtual void vf48(); virtual void vf4C();
-	virtual void vf50(); virtual void vf54(); virtual void vf58(); virtual void vf5C();
-	virtual void vf60(); virtual void vf64(); virtual void vf68(); virtual void vf6C();
-	virtual void vf70();
-	virtual void vf74(Object *newObj, Object *source, bool flag);	// +0x74
-};
-
 extern ThingFactory *TheThingFactory;
 extern TeamFactory *TheTeamFactory;
 extern PlayerList *ThePlayerList;
 extern GameLogic *TheGameLogic;
 
-class Rva0046E740
-{
-public:
-	void rva0046CF21();
 
-	void *m_vtbl;	// +0x00
-	HordeContainModuleData *m_moduleData;	// +0x04
-	Object *m_object;	// +0x08
-	char pad00C[0x11C - 0x0C];
-	Rva0046E740Iface11C m_iface11C;	// +0x11C
-	char pad120[0x26C - 0x120];
-	int m_state;	// +0x26C
-	char pad270[0x27C - 0x270];
-	unsigned int m_countdown;	// +0x27C
-};
-
-void Rva0046E740::rva0046CF21()
+void HordeContain::rva0046CF21()
 {
 	if (m_state != 0)
 		return;
@@ -294,7 +293,7 @@ void Rva0046E740::rva0046CF21()
 	m_iface11C.vf74(newObj, obj, true);
 	((Rva00469B73 *)this)->rva00469B73(newObj);
 	NativeBannerUpdateCall getter={&Rva00468E26Get};
-	HordeBannerCarrierUpdate *update = (HordeBannerCarrierUpdate *)(((HordeContain *)this)->*getter.member)(newObj);
+	HordeBannerCarrierUpdate *update = (HordeBannerCarrierUpdate *)(this->*getter.member)(newObj);
 	if (update)
 		m_countdown = update->m_moduleData->m_countdown;
 }

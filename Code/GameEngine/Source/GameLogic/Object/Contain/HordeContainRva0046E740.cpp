@@ -33,7 +33,7 @@ struct Rva0046E740Countdown {
 };
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
-class Rva0046E740 {
+class HordeContain {
 public:
     void rva0046E740(int);
     void rva0046CF21();
@@ -44,7 +44,7 @@ public:
     char unknown270[0x27C - 0x270];
     Rva0046E740Countdown countdown;
 };
-void Rva0046E740::rva0046E740(int flags)
+void HordeContain::rva0046E740(int flags)
 {
     Object *object = owner;
     if (!object->ai)

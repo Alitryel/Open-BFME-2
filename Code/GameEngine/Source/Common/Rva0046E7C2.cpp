@@ -7,7 +7,7 @@ struct Rva0046E7C2Module {
 	void *field258;
 };
 
-class Rva0046E740 {
+class HordeContain {
 public:
 	void rva0046E740(int value);
 };
@@ -24,7 +24,7 @@ void Rva0046E7C2::rva0046E7C2()
 	Rva0046E7C2Module *module = this->module;
 	if (module ? module->field258 : 0) {
 		if (module) {
-			((Rva0046E740 *)this)->rva0046E740(0);
+			((HordeContain *)this)->rva0046E740(0);
 		}
 	}
 }

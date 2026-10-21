@@ -83,7 +83,6 @@ class TransportContain : public BehaviorModule, public BehaviorModuleInterface, 
 public: virtual UpdateSleepTime update();
 };
 class Rva0046E7C2 { public: void rva0046E7C2(); };
-class Rva0046E740 { public: void rva0046E740(int); };
 class Rva0046AB7D { public: void rva0046AB7D(); };
 struct UpdateListNode { UpdateListNode *next,*prev; Object *object; };
 struct UpdateList { UpdateListNode *head; };
@@ -91,6 +90,7 @@ struct Rva0046247DPair { void *lock; UpdateList *list; };
 class Rva0046247D { public: void rva0046247D(Rva0046247DPair &); };
 class HordeContain {
 public:
+    void rva0046E740(int);
 #define V(n) virtual void slot##n();
     V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08) V(09)
     V(10) V(11) V(12) V(13) V(14) V(15) V(16) V(17) V(18) V(19)
@@ -159,7 +159,7 @@ int Rva0046FC1B::rva0046FC1B()
         *(int *)(self+0x2a0) = 0;
     }
     HordeContain *horde = (HordeContain *)(self-0x10);
-    ((Rva0046E740 *)horde)->rva0046E740(0);
+    horde->rva0046E740(0);
     if (((UpdateLogicView *)TheGameLogic)->frame % (unsigned int)BfmeLogicFramesPerSecond == 0 && horde->slot31())
         return UPDATE_SLEEP_NONE;
     if (*(bool *)(self+0x110) || *(int *)(self+0x194) != 0 || *(int *)(self+0x1a0)) {
