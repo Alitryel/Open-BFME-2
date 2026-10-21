@@ -8,11 +8,55 @@ public:
 	void rva002707FA(unsigned char value);
 };
 
+// InGameUI view: the original member names remain unresolved.
+// Native81: four nullable pool pointers +5B4 and 12-byte entry vector +5A0.
+// Only nonnull slots are dismissed/cleared. The vector end is captured before
+// forming its address; after dismissing each +8 pointer the native calls the
+// independently rowed 12-byte vector erase. No allocation layout is asserted.
+#include <vector>
+#include <map>
+
+struct Gen_p12pod;
+
+struct FormationVectorView
+{
+	Gen_p12pod *begin;
+	Gen_p12pod *end;
+	Gen_p12pod *capacity;
+};
+
+class ThingTemplate;
+class Object;
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../Libraries/Include/Lib/RGBColor.h"
+
+class Rva0029B63A
+{
+public:
+	_STL::_Rb_tree_node_base *head;
+	int count;
+	void rva0029E015();
+};
+
 class InGameUI
 {
 public:
 	class FormationPreviewPoolObject;
+private:
+	char unknown[0x590];
+	Rva0029B63A tree;
+	char gap598[8];
+	FormationVectorView entries;
+	char gap[8];
+	InGameUI::FormationPreviewPoolObject *slots[4];
+public:
+	__declspec(noinline) void clearFormationPreviewDrawables();
+	void rva002A3E24();
+	InGameUI::FormationPreviewPoolObject *rva002A3E5A(ThingTemplate *type);
+	void rva002A470F(ThingTemplate *type, const ICoord2D *position, RGBColor color);
+	void rva002A4BFC(Object *object, ThingTemplate *type, const ICoord2D *position, RGBColor color);
 };
+
 class InGameUI::FormationPreviewPoolObject
 {
 	Rva002707FA *m00;
@@ -38,14 +82,6 @@ void InGameUI::FormationPreviewPoolObject::assign()
 	m08 = 1;
 }
 
-// Borrowed owner view: identity and original member names remain unresolved.
-// Native81: four nullable pool pointers +5B4 and 12-byte entry vector +5A0.
-// Only nonnull slots are dismissed/cleared. The vector end is captured before
-// forming its address; after dismissing each +8 pointer the native calls the
-// independently rowed 12-byte vector erase. No allocation layout is asserted.
-#include <vector>
-#include <map>
-
 struct Gen_p12pod
 {
 	int unknown[2];
@@ -57,43 +93,8 @@ template <> Gen_p12pod *vector<Gen_p12pod, allocator<Gen_p12pod> >::erase(Gen_p1
 }
 extern template class _STL::vector<Gen_p12pod>;
 
-struct FormationVectorView
-{
-	Gen_p12pod *begin;
-	Gen_p12pod *end;
-	Gen_p12pod *capacity;
-};
 
-class ThingTemplate;
-class Object;
-#include "../../../Libraries/Include/Lib/ICoord2D.h"
-#include "../../../Libraries/Include/Lib/RGBColor.h"
-
-class Rva0029B63A
-{
-public:
-	_STL::_Rb_tree_node_base *head;
-	int count;
-	void rva0029E015();
-};
-
-class Rva002A3DD3
-{
-	char unknown[0x590];
-	Rva0029B63A tree;
-	char gap598[8];
-	FormationVectorView entries;
-	char gap[8];
-	InGameUI::FormationPreviewPoolObject *slots[4];
-public:
-	__declspec(noinline) void clearFormationPreviewDrawables();
-	void rva002A3E24();
-	InGameUI::FormationPreviewPoolObject *rva002A3E5A(ThingTemplate *type);
-	void rva002A470F(ThingTemplate *type, const ICoord2D *position, RGBColor color);
-	void rva002A4BFC(Object *object, ThingTemplate *type, const ICoord2D *position, RGBColor color);
-};
-
-void Rva002A3DD3::clearFormationPreviewDrawables()
+void InGameUI::clearFormationPreviewDrawables()
 {
 	InGameUI::FormationPreviewPoolObject **p = slots;
 	for (int n = 4; n != 0; --n, ++p) {
@@ -114,7 +115,7 @@ void Rva002A3DD3::clearFormationPreviewDrawables()
 // Native54 2A3E24..2A3E5A: same owner as the dismiss method, then tree+590
 // node payload+14 invokes named FormationPreviewPoolObject::releaseAssets.
 // The iterator and tree clear both resolve to independently rowed providers.
-void Rva002A3DD3::rva002A3E24()
+void InGameUI::rva002A3E24()
 {
 	clearFormationPreviewDrawables();
 	Rva0029B63A &pool = tree;
@@ -150,7 +151,7 @@ private: PrereqUnitRec *first,*last,*limit;
 };
 }
 
-void Rva002A3DD3::rva002A470F(ThingTemplate *type,const ICoord2D *position,RGBColor color) {
+void InGameUI::rva002A470F(ThingTemplate *type,const ICoord2D *position,RGBColor color) {
  InGameUI::FormationPreviewPoolObject *pool=rva002A3E5A(type);
  // These borrowed ABI views preserve the existing pool's drawable/holder
  // declarations; the complete native helper establishes these operations.
@@ -333,7 +334,7 @@ public:
  virtual void slot128();
  virtual _STL::vector<FormationGroup *> *groups();
 };
-void Rva002A3DD3::rva002A4BFC(Object *object,ThingTemplate *type,const ICoord2D *position,RGBColor color) {
+void InGameUI::rva002A4BFC(Object *object,ThingTemplate *type,const ICoord2D *position,RGBColor color) {
  if(!type) type=object->type;
  Rva0029B732 *name=&object->type->hordeName;
  if((object->type->kindOf115 & 0x20) && BfmeFormationPreviewUseDecals &&

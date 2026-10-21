@@ -1,4 +1,4 @@
-// ?rva002A3E5A@Rva002A3DD3@@QAEPAVFormationPreviewPoolObject@InGameUI@@PAVThingTemplate@@@Z
+// ?rva002A3E5A@InGameUI@@QAEPAVFormationPreviewPoolObject@1@PAVThingTemplate@@@Z
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /I.
 // stlport
 // WB00DC4300 and native002A3E5A..002A3F56 establish the pool lookup,
@@ -21,15 +21,16 @@ bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const
 }
 #include "reference/shims/bfme2_ascii/ascii_string.h"
 class ThingTemplate;
-class InGameUI { public: class FormationPreviewPoolObject; class FormationPreviewDecal; };
+class InGameUI {
+public: class FormationPreviewPoolObject; class FormationPreviewDecal;
+ FormationPreviewPoolObject *rva002A3E5A(ThingTemplate *type);
+private:
+ char unknown[0x590];
+ struct TreeView { _STL::_Rb_tree_node_base *head; unsigned count; } tree;
+};
 class InGameUI::FormationPreviewPoolObject {
  void *drawable; void *decal; bool assigned;
 public: void assign();
-};
-class Rva002A3DD3 {
- char unknown[0x590];
- struct TreeView { _STL::_Rb_tree_node_base *head; unsigned count; } tree;
-public: InGameUI::FormationPreviewPoolObject *rva002A3E5A(ThingTemplate *type);
 };
 extern bool BfmeFormationPreviewUseDecals;
 struct Source0029E159 { AsciiString m_name; float m_x,m_y; };
@@ -44,7 +45,7 @@ typedef _STL::_Rb_tree<unsigned,LowerPair,_STL::_Select1st<LowerPair>,_STL::less
 typedef _STL::_Rb_tree<unsigned,PreviewPair,_STL::_Select1st<PreviewPair>,_STL::less<unsigned>,_STL::allocator<PreviewPair> > PreviewInsertTree;
 
 
-InGameUI::FormationPreviewPoolObject *Rva002A3DD3::rva002A3E5A(ThingTemplate *type) {
+InGameUI::FormationPreviewPoolObject *InGameUI::rva002A3E5A(ThingTemplate *type) {
  PreviewLowerTree &lookup=reinterpret_cast<PreviewLowerTree&>(tree);
  _STL::multimap<unsigned,Rva002A147EElement> &pool=reinterpret_cast<_STL::multimap<unsigned,Rva002A147EElement>&>(tree);
  PreviewInsertTree::iterator cursor(reinterpret_cast<_STL::_Rb_tree_node<PreviewPair>*>(lookup.lower_bound(reinterpret_cast<const unsigned&>(type))._M_node));

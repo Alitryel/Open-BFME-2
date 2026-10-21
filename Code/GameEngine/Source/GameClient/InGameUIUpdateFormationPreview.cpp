@@ -113,6 +113,10 @@ public:
  virtual const DrawableList *getAllSelectedDrawables();
  Coord2D rva0029D9F9();
  void updateFormationPreview();
+ void rva002A3E24();
+ void clearFormationPreviewDrawables();
+ FormationPreviewPoolObject *rva002A3E5A(ThingTemplate*);
+ void rva002A4BFC(Object*,ThingTemplate*,const ICoord2D*,RGBColor);
 private:
  char prefix[0x59C-4];int selectionHash;
  struct BfmeE12View {int x,y;FormationPreviewPoolObject *pool;} *first,*last,*limit;
@@ -120,13 +124,6 @@ private:
  char gap5C4[0x98C-0x5C4];bool valid,directionValid;char gap98E[2];Coord3D start,end;Coord2D direction;int formation;
 };
 class InGameUI::FormationPreviewPoolObject {public:Drawable *drawable;Rva0029A469 *decal;bool assigned;};
-class Rva002A3DD3 {
-public:
- void rva002A3E24();
- void clearFormationPreviewDrawables();
- InGameUI::FormationPreviewPoolObject *rva002A3E5A(ThingTemplate*);
- void rva002A4BFC(Object*,ThingTemplate*,const ICoord2D*,RGBColor);
-};
 struct BfmeE12 {int id;float key,z;};
 namespace _STL {template<> void vector<BfmeE12>::reserve(unsigned);}
 static __forceinline float sqr(float v){return v*v;}
@@ -251,7 +248,7 @@ __declspec(noinline) inline Coord2D InGameUI::rva0029D9F9() {
 }
 
 void InGameUI::updateFormationPreview() {
- Rva002A3DD3 *owner=reinterpret_cast<Rva002A3DD3*>(this);
+ InGameUI *owner=this;
  if(!formationMode()) {
   if((unsigned)(last-first)>0) {
    unsigned now=TheGameClient->getFrame();
