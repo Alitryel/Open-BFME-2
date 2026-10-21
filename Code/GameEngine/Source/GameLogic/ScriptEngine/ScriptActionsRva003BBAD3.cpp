@@ -161,9 +161,9 @@ void Rva003BBAD3::rva003BBAD3()
 	return ((Rva005B5440 *)((BfmeOwnVVD *)TheLookAtTranslator))->clearFlags();
 }
 
-// ?Rva003BBB36Enable@ScriptActions@@QAEXXZ @0x003BBB36 27B leaf caller 0x003CBF3E globals TheInGameUI TheMouse callees setInputEnabled setVisibility
+// ?doEnableInput@ScriptActions@@QAEXXZ @0x003BBB36 27B leaf caller 0x003CBF3E globals TheInGameUI TheMouse callees setInputEnabled setVisibility
 // Evidence: mov ecx,[TheInGameUI] push 1 call setInputEnabled mov ecx,[TheMouse] push 1 call setVisibility ret.
-void ScriptActions::Rva003BBB36Enable()
+void ScriptActions::doEnableInput()
 {
 	TheInGameUI->setInputEnabled(true);
 	TheMouse->setVisibility(true);

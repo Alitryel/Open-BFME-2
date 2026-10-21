@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 //
-// ?Rva003BFAC3Set@ScriptActions@@QAEXABVAsciiString@@H@Z @0x003BFAC3 49B (dump range 18).
+// ?doTeamDelete@ScriptActions@@QAEXABVAsciiString@@H@Z @0x003BFAC3 49B (dump range 18).
 // Team int setter through the doSetTeamState argument idiom: copies the
 // name through the rowed StringBase copy ctor, resolves the team through
 // rowed ScriptEngine 0x003584E9 getTeamNamed, and applies the pinned
@@ -26,7 +26,7 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BFAC3Set(const AsciiString &team, int v)
+void ScriptActions::doTeamDelete(const AsciiString &team, int v)
 {
 	Team *t = TheScriptEngine->getTeamNamed(team, false);
 	if (t != 0)

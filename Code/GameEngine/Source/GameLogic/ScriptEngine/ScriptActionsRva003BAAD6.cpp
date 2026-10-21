@@ -157,8 +157,8 @@ void ScriptActions::Rva003BB141Notify(const StringBase<char> &key)
 		Rva00DFEA3C->s026(e);
 }
 
-// ?Rva003BB61E@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BB61E 14B free forwarder to virtual slot 0x15C via global 0xDFEDF0 caller 0x003CBBCE
-void ScriptActions::Rva003BB61E(const AsciiString &name)
+// ?doMoviePlayRadar@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BB61E 14B free forwarder to virtual slot 0x15C via global 0xDFEDF0 caller 0x003CBBCE
+void ScriptActions::doMoviePlayRadar(const AsciiString &name)
 {
 	Rva00DFEDF0->s087(name);
 }
@@ -183,14 +183,14 @@ void ScriptActions::Rva003BB7F0()
 	Rva00DFF028->rva002D3615(true);
 }
 
-// ?Rva003BBF8F@ScriptActions@@QAEXXZ @0x003BBF8F 17B free caller of vslot 0x94 with false via global 0xDFEDF0 caller 0x003CC44C
-void ScriptActions::Rva003BBF8F()
+// ?doDisableSpecialPowerDisplay@ScriptActions@@QAEXXZ @0x003BBF8F 17B free caller of vslot 0x94 with false via global 0xDFEDF0 caller 0x003CC44C
+void ScriptActions::doDisableSpecialPowerDisplay()
 {
 	Rva00DFEDF0->s037(false);
 }
 
-// ?Rva003BBFA0@ScriptActions@@QAEXXZ @0x003BBFA0 17B free caller of vslot 0x94 with true via global 0xDFEDF0 caller 0x003CC458
-void ScriptActions::Rva003BBFA0()
+// ?doEnableSpecialPowerDisplay@ScriptActions@@QAEXXZ @0x003BBFA0 17B free caller of vslot 0x94 with true via global 0xDFEDF0 caller 0x003CC458
+void ScriptActions::doEnableSpecialPowerDisplay()
 {
 	Rva00DFEDF0->s037(true);
 }

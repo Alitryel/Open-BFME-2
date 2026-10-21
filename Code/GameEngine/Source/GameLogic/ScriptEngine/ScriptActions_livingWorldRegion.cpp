@@ -1368,7 +1368,7 @@ return;
 }
 case 62:
 {
-Rva003BB2DFClear(TEXT(0));
+doPlayerSellEverything(TEXT(0));
 return;
 }
 case 63:
@@ -1428,12 +1428,12 @@ return;
 }
 case 73:
 {
-Rva003BFAC3Set(TEXT(0), 0);
+doTeamDelete(TEXT(0), 0);
 return;
 }
 case 330:
 {
-Rva003BFAC3Set(TEXT(0), 1);
+doTeamDelete(TEXT(0), 1);
 return;
 }
 case 115:
@@ -1540,7 +1540,7 @@ return;
 }
 case 83:
 {
-Rva003BB61E(TEXT(0));
+doMoviePlayRadar(TEXT(0));
 return;
 }
 case 84:
@@ -1646,7 +1646,7 @@ return;
 }
 case 105:
 {
-Rva003BB94CReveal(TEXT(0));
+doRevealMapEntire(TEXT(0));
 return;
 }
 case 233:
@@ -1661,7 +1661,7 @@ return;
 }
 case 149:
 {
-Rva003BBA59Reveal(TEXT(0));
+doShroudMapEntire(TEXT(0));
 return;
 }
 case 94:
@@ -1691,7 +1691,7 @@ return;
 }
 case 98:
 {
-Rva003BBB36Enable();
+doEnableInput();
 return;
 }
 case 321:
@@ -1962,12 +1962,12 @@ return;
 }
 case 159:
 {
-Rva003BBF8F();
+doDisableSpecialPowerDisplay();
 return;
 }
 case 160:
 {
-Rva003BBFA0();
+doEnableSpecialPowerDisplay();
 return;
 }
 case 161:
@@ -1982,7 +1982,7 @@ return;
 }
 case 145:
 {
-Rva003BBF51Set(PARAM(0), REAL(1));
+doNamedSetStoppingDistance(PARAM(0), REAL(1));
 return;
 }
 case 229:
@@ -1992,17 +1992,17 @@ return;
 }
 case 147:
 {
-Rva003BBFFBSet(1, REAL(0));
+doAudioSetVolume(1, REAL(0));
 return;
 }
 case 319:
 {
-Rva003BBFFBSet(22, REAL(0));
+doAudioSetVolume(22, REAL(0));
 return;
 }
 case 320:
 {
-Rva003BBFFBSet(8, REAL(0));
+doAudioSetVolume(8, REAL(0));
 return;
 }
 case 156:

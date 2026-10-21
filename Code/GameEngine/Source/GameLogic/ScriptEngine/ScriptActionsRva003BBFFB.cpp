@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BBFFBSet@ScriptActions@@QAEXHM@Z @0x003BBFFB 77B leaf caller 0x003CC50F globals 0xBCF628 0xBBB8D8 TheAudio slot 0xEC
+// ?doAudioSetVolume@ScriptActions@@QAEXHM@Z @0x003BBFFB 77B leaf caller 0x003CC50F globals 0xBCF628 0xBBB8D8 TheAudio slot 0xEC
 // Evidence: float clamp of arg2 scaled by g_Va00BCF628 into 0..g_Va00BBB8D8 then TheAudio virtual 0xEC with (clamped, arg1, 0).
 class AudioManager
 {
@@ -71,7 +71,7 @@ public:
 extern AudioManager *TheAudio;
 extern float g_Va00BCF628;
 extern float g_Va00BBB8D8;
-void ScriptActions::Rva003BBFFBSet(int a, float b)
+void ScriptActions::doAudioSetVolume(int a, float b)
 {
 	float v = *(const volatile float *)&b * g_Va00BCF628;
 	if (v < 0.0f)
