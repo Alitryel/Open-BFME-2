@@ -100,7 +100,7 @@ public:
 class Rva0057A4E7
 {
 public:
-	~Rva0057A4E7();
+	virtual ~Rva0057A4E7();
 };
 
 class Rva0005970E6DwordImmSetter
@@ -770,11 +770,11 @@ void __cdecl rva007B94C8()
 	p->Rva00579731::~Rva00579731();
 }
 
-// ?rva007B94D2@@YAXXZ @ 0x007B94D2 (10B): ecx=&g_Va00E06360, tail-jump to rowed ??1Rva0057A4E7@@QAE@XZ (0x0057A4E7)
+// ?rva007B94D2@@YAXXZ @ 0x007B94D2 (10B): ecx=&g_Va00E06360, tail-jump to rowed ??1Rva0057A4E7@@UAE@XZ (0x0057A4E7)
 void __cdecl rva007B94D2()
 {
 	Rva0057A4E7 *p = (Rva0057A4E7 *)&g_Va00E06360;
-	p->~Rva0057A4E7();
+	p->Rva0057A4E7::~Rva0057A4E7();
 }
 
 // ?rva007B957C@@YAXXZ @ 0x007B957C (10B): ecx=&g_Va00E063B8, tail-jump to rowed ?apply@Rva0005970E6DwordImmSetter@@QAEXXZ (0x005970E6)
