@@ -121,14 +121,11 @@ void MaterialInfoClass::Process_Texture_Reduction(void)
 // MaterialRemapperClass::Remap_Vertex_Material and Remap_Mesh are owned by
 // MaterialRemapMesh.cpp, where their shared body visibility matches retail.
 
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorClass_ctor_Thunk.cpp
-// ??0MaterialCollectorClass@@QAE@XZ present-unmatched
-MaterialCollectorClass::MaterialCollectorClass(void)
-{
-	LastShader = ShaderClass(0xFFFFFFFF);
-	LastMaterial = NULL;
-	LastTexture = NULL;
-}
+// MaterialCollectorClass::MaterialCollectorClass is defined with its retail-matched body in
+// MaterialCollectorClassCtor.cpp. Its member vectors' constructors are rowed here.
+template DynamicVectorClass<ShaderClass>::DynamicVectorClass(unsigned, ShaderClass const *);
+template DynamicVectorClass<VertexMaterialClass *>::DynamicVectorClass(unsigned, VertexMaterialClass * const *);
+template DynamicVectorClass<TextureClass *>::DynamicVectorClass(unsigned, TextureClass * const *);
 
 // MaterialCollectorClass::~MaterialCollectorClass is defined with its retail-matched body in MaterialCollectorDestructor.cpp.
 
