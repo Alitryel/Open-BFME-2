@@ -1,5 +1,7 @@
 // ?rva007586F0@CollisionManagerImpl@@QAEXXZ
-// partial score=0.61 date=2026-10-20
+// partial score=0.93 date=2026-10-21
+// ?rva007586F0@CollisionManagerImpl@@QAEXXZ
+// partial score=0.93 date=2026-10-21
 // cl: /O2 /G6 /DNDEBUG /MD
 // collisionmanager_impl.cpp -- CollisionManagerImpl::UpdateSort, retail
 // 0x00759600 (1244 bytes). WorldBuilder names the function and its file (WB
@@ -341,61 +343,95 @@ void CollisionManagerImpl::UpdateSort()
 	}
 }
 
-struct SortChain {
-    Rva009A3AD0Endpoint *head, *tail;
-    unsigned count;
-    void prepend(Rva009A3AD0Endpoint *n) { Rva009A3AD0Endpoint *old=head; head=n; n->m_next=old; ++count; }
-    Rva009A3AD0Endpoint *pop() { --count; Rva009A3AD0Endpoint *n=head; head=n->m_next; return n; }
-    void append(Rva009A3AD0Endpoint *n) {
-        if(count==0) { head=tail=n; count=1; }
-        else { tail->m_next=n; tail=n; ++count; }
-    }
+struct SortList
+{
+	Rva009A3AD0Endpoint *head;
+	Rva009A3AD0Endpoint *tail;
+	unsigned int count;
 };
+typedef Rva009A3AD0Endpoint Endpoint;
 void CollisionManagerImpl::rva007586F0()
 {
-    for(unsigned index=0;index<m_axisCount;++index) {
-        SortChain lists[4];
-        unsigned side=0;
-        lists[0].count=lists[1].count=0;
-        lists[0].head=0;
-        Rva009A3AD0Endpoint *node=m_axisHeads[index];
-        while(node) {
-            Rva009A3AD0Endpoint *next=node->m_next;
-            Rva009A3AD0Endpoint *old=lists[side].head;
-            lists[side].head=node;
-            node->m_next=old;
-            ++lists[side].count;
-            side ^= 1;
-            node=next;
-        }
-        unsigned source=0;
-        unsigned run=1;
-        while(lists[source+1].count) {
-            SortChain *a=&lists[source], *b=&lists[source+1];
-            unsigned output=source^2;
-            lists[output].count=lists[output+1].count=0;
-            while(a->count) {
-                unsigned left=run, right=run;
-                SortChain &d=lists[output];
-                for(;;) {
-                    SortChain *chosen;
-                    if(left && a->count && (!right || !b->count || !(a->head->m_value>b->head->m_value))) {
-                        --left; chosen=a;
-                    } else if(right && b->count) {
-                        --right; chosen=b;
-                    } else break;
-                    Rva009A3AD0Endpoint *picked=chosen->pop();
-                    if(d.count==0){d.head=picked;d.tail=picked;d.count++;} else {d.tail->m_next=picked;d.tail=picked;d.count++;}
-                }
-                output^=1;
-            }
-            source^=2;
-            run<<=1;
-        }
-        if(lists[source].count>1) lists[source].tail->m_next=0;
-        m_axisHeads[index]=lists[source].head;
-        m_axisHeads[index]->m_prev=0;
-        for(Rva009A3AD0Endpoint *p=m_axisHeads[index];p->m_next;p=p->m_next)
-            p->m_next->m_prev=p;
-    }
+	for (unsigned int k = 0; k < m_axisCount; k++)
+	{
+		SortList lists[4];
+		lists[1].count = 0;
+		lists[0].count = 0;
+		lists[0].head = 0;
+		int i = 0;
+		Endpoint *cur = m_axisHeads[k];
+		while (cur)
+		{
+			Endpoint *next = cur->m_next;
+			cur->m_next = lists[i].head;
+			lists[i].head = cur;
+			lists[i].count++;
+			i ^= 1;
+			cur = next;
+		}
+		int src = 0;
+		unsigned int runLen = 1;
+		while (lists[src + 1].count != 0)
+		{
+			SortList *A = &lists[src];
+			SortList *B = A + 1;
+			
+			int out = src ^ 2;
+			lists[out + 1].count = 0;
+			lists[out].count = 0;
+			while (A->count != 0)
+			{
+				unsigned int b = runLen;
+				unsigned int a = runLen;
+				SortList *o = &lists[out];
+				for (;;)
+				{
+					SortList *from;
+					if (a != 0 && A->count != 0)
+					{
+						if (b != 0 && B->count != 0 && A->head->m_value > B->head->m_value)
+						{
+							from = B;
+							b--;
+						}
+						else
+						{
+							from = A;
+							a--;
+						}
+					}
+					else if (b != 0 && B->count != 0)
+					{
+						from = B;
+						b--;
+					}
+					else
+						break;
+					from->count--;
+					Endpoint *e = from->head;
+					from->head = e->m_next;
+					if (o->count == 0)
+					{
+						o->head = e;
+						o->tail = e;
+					}
+					else
+					{
+						o->tail->m_next = e;
+						o->tail = e;
+					}
+					o->count++;
+				}
+				out ^= 1;
+			}
+			runLen <<= 1;
+			src ^= 2;
+		}
+		if (lists[src].count > 1)
+			lists[src].tail->m_next = 0;
+		m_axisHeads[k] = lists[src].head;
+		m_axisHeads[k]->m_prev = 0;
+		for (Endpoint *p = m_axisHeads[k]; p->m_next != 0; p = p->m_next)
+			p->m_next->m_prev = p;
+	}
 }
