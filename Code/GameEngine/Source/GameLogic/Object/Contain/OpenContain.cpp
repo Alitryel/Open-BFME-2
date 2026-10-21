@@ -417,30 +417,8 @@ void OpenContain::iterateContained( ContainIterateFunc func, void *userData, Boo
 
 //-------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?OpenContain::getClosestRider present-unmatched
-Object* OpenContain::getClosestRider( const Coord3D *pos )
-{
-	Object *closest = NULL;
-	Real closestDistance;
-
-	for(ContainedItemsList::const_iterator it = m_containList.begin(); it != m_containList.end(); ++it)
-	{
-    Object *rider = *it;
-
-    if (rider)
-    {
-      Real distance = ThePartitionManager->getDistanceSquared( rider, pos, FROM_CENTER_2D );
-	    if( !closest || closestDistance > distance ) 
-	    {
-		    closest = rider;
-		    closestDistance = distance; 
-	    }
-    }
-
-  }
-
-   return closest; //Could be null!
-}
+// OpenContain::getClosestRider: retail's body is the row at 0x004632E0
+// (OpenContainRva004638F1.cpp); this unit only declares it, so its vtable binds there.
 
 
 

@@ -72,7 +72,7 @@ class OpenContain
 {
 public:
 	virtual void addToContainList(Object *rider);
-	virtual Object *rva004632E0(const Coord3D *pos);
+	virtual Object *getClosestRider(const Coord3D *pos);
 private:
 	char m_pad[0x30];
 	_STL::list<int> m_list;
@@ -99,11 +99,11 @@ void bfmeEmitOpenContainAddToContainList(OpenContain *openContain)
 	openContain->OpenContain::addToContainList((Object *)0);
 }
 
-// ?rva004632E0@OpenContain@@UAEPAVObject@@PBUCoord3D@@@Z @0x004632E0 91B (RET 4):
+// ?getClosestRider@OpenContain@@UAEPAVObject@@PBUCoord3D@@@Z @0x004632E0 91B (RET 4):
 // the shared contain-interface slot every OpenContain-derived table holds
 // (e.g. 0x008434A4, 0x00843B64): the contained object nearest, in the ground
 // plane, to the given position, or null when nothing is inside.
-Object *OpenContain::rva004632E0(const Coord3D *pos)
+Object *OpenContain::getClosestRider(const Coord3D *pos)
 {
 	Object *closest = 0;
 	float closestDistSqr = 3.402823466e+38f;
