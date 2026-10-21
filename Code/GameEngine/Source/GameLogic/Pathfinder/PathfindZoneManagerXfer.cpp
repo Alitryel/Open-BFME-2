@@ -20,7 +20,7 @@ struct Rva005334A4Element {unsigned short first, second;};
 // Reusing the transferred count as the cell index matches WB source lifetime
 // and native stack layout. The block's vector call retains its transfer chain.
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
-static __forceinline void zeroICoord2D(ICoord2D &c) {c.x=0;c.y=0;}
+static __forceinline void zeroICoord2D(ICoord2D &zoneCell) {zoneCell.x=0;zoneCell.y=0;}
 #include "../../../../Libraries/Include/Lib/IRegion2D.h"
 class Xfer
 {
@@ -280,28 +280,28 @@ void PathfindZoneManager::CreateEquivalencySet(unsigned variant, unsigned equiva
 // describe their uses; original bitfield names remain unproven. A packed
 // bitfield view reproduces every byte including shared true/false tails.
 bool PathfindZoneManager::CouldBeInEquivSet(unsigned equivalent, unsigned zone) {
- CellType *c = reinterpret_cast<CellType *>(unknown0C)+zone;
+ CellType *zoneCell = reinterpret_cast<CellType *>(unknown0C)+zone;
 switch (equivalent) {
 case 0:
  break;
 case 1:
- if (c->type != 0 && c->type != 2) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 2) return false;
  break;
 case 2:
- if (c->type != 0 && c->type != 7 && c->type != 1) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 7 && zoneCell->type != 1) return false;
  break;
 case 4:
- if (c->type != 7 && c->type != 1) return false;
+ if (zoneCell->type != 7 && zoneCell->type != 1) return false;
  break;
 case 3:
- if (c->type != 0 && c->type != 3) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 3) return false;
  break;
 case 6:
- if (c->type != 0 && c->type != 3 && c->type != 4) return false;
- if (c->type == 4 && !c->bridge) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 3 && zoneCell->type != 4) return false;
+ if (zoneCell->type == 4 && !zoneCell->bridge) return false;
  break;
 case 5:
- if (c->type != 2) return false;
+ if (zoneCell->type != 2) return false;
  break;
 }
  return true;
@@ -315,37 +315,37 @@ case 5:
 // reproduce native XOR/TEST AX primary-ID checks and full260B body.
 
 bool PathfindZoneManager::InEquivSet(unsigned equivalent, unsigned first, unsigned second) {
- CellType *a = reinterpret_cast<CellType *>(unknown0C)+first;
- CellType *c = reinterpret_cast<CellType *>(unknown0C)+second;
- if (a->type == c->type) {
- if (a->id == c->id || a->id == c->secondary || a->secondary == c->id || (a->secondary == 16 && c->secondary == 16)) return true;
+ CellType *firstCell = reinterpret_cast<CellType *>(unknown0C)+first;
+ CellType *zoneCell = reinterpret_cast<CellType *>(unknown0C)+second;
+ if (firstCell->type == zoneCell->type) {
+ if (firstCell->id == zoneCell->id || firstCell->id == zoneCell->secondary || firstCell->secondary == zoneCell->id || (firstCell->secondary == 16 && zoneCell->secondary == 16)) return true;
  }
 switch (equivalent) {
 case 0:
  return false;
 case 1:
- if (a->id != c->id) return false;
- if (c->type != 0 && c->type != 2) return false;
+ if (firstCell->id != zoneCell->id) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 2) return false;
  break;
 case 2:
- if (a->id != c->id) return false;
- if (c->type != 0 && c->type != 7 && c->type != 1) return false;
+ if (firstCell->id != zoneCell->id) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 7 && zoneCell->type != 1) return false;
  break;
 case 4:
- if (a->id != c->id) return false;
- if (c->type != 7 && c->type != 1) return false;
+ if (firstCell->id != zoneCell->id) return false;
+ if (zoneCell->type != 7 && zoneCell->type != 1) return false;
  break;
 case 3:
- if (a->id != c->id) return false;
- if (c->type != 0 && c->type != 3) return false;
+ if (firstCell->id != zoneCell->id) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 3) return false;
  break;
 case 6:
- if (a->id != c->id) return false;
- if (c->type != 0 && c->type != 3 && c->type != 4) return false;
- if (c->type == 4 && !c->bridge) return false;
+ if (firstCell->id != zoneCell->id) return false;
+ if (zoneCell->type != 0 && zoneCell->type != 3 && zoneCell->type != 4) return false;
+ if (zoneCell->type == 4 && !zoneCell->bridge) return false;
  break;
 case 5:
- if (c->type != 2) return false;
+ if (zoneCell->type != 2) return false;
  break;
 }
  return true;
@@ -356,16 +356,16 @@ case 5:
 // own parent/next/last with rank0. WB uses a32-bit following index, then
 // narrows when advancing the16-bit member; this reproduces native peeling.
 // Original reset method name remains unknown; no getter identity inferred.
-void Rva00531A44::rva00531B3A(unsigned short n) {
- n = FindSet(n);
+void Rva00531A44::rva00531B3A(unsigned short index) {
+ index = FindSet(index);
  do {
-  int following = next[n];
-  last[n] = n;
-  next[n] = n;
-  parents[n] = n;
-  ranks[n] = 0;
-  if (following == n) break;
-  n = (unsigned short)following;
+  int following = next[index];
+  last[index] = index;
+  next[index] = index;
+  parents[index] = index;
+  ranks[index] = 0;
+  if (following == index) break;
+  index = (unsigned short)following;
  } while (true);
 }
 
@@ -382,16 +382,16 @@ public: unsigned short rva00531C5A(unsigned short);
  unsigned char *ranks;
  unsigned short *next, *last;
 };
-void Rva00531C5A::rva00531C8C(unsigned short n) {
- n = rva00531C5A(n);
+void Rva00531C5A::rva00531C8C(unsigned short index) {
+ index = rva00531C5A(index);
  do {
-  int following = next[n];
-  last[n] = n;
-  next[n] = n;
-  parents[n] = n;
-  ranks[n] = 0;
-  if (following == n) break;
-  n = (unsigned short)following;
+  int following = next[index];
+  last[index] = index;
+  next[index] = index;
+  parents[index] = index;
+  ranks[index] = 0;
+  if (following == index) break;
+  index = (unsigned short)following;
  } while (true);
 }
 
@@ -405,17 +405,17 @@ class Rva005321D1 { public: void LinkSets(unsigned short,unsigned short); };
 // Original method name unknown; manager receiver follows independently
 // verified cell/union layout and Update533BEC callers. No new pins.
 void PathfindZoneManager::rva005324D8(unsigned char incremental,unsigned short first,unsigned short second) {
- CellType *a=reinterpret_cast<CellType *>(unknown0C)+first;
+ CellType *firstCell=reinterpret_cast<CellType *>(unknown0C)+first;
  CellType *b=reinterpret_cast<CellType *>(unknown0C)+second;
- unsigned mask=(1u<<a->type)|(1u<<b->type);
+ unsigned mask=(1u<<firstCell->type)|(1u<<b->type);
  for(int variant=incremental ? 1:0;variant<8;variant+=2) {
   if(!rva00531720(variant,first) || !rva00531720(variant,second))continue;
   bool joined=false;
-  if(a->type==b->type && (a->id==b->id || a->id==b->secondary || a->secondary==b->id || (a->secondary==16 && b->secondary==16))) {
+  if(firstCell->type==b->type && (firstCell->id==b->id || firstCell->id==b->secondary || firstCell->secondary==b->id || (firstCell->secondary==16 && b->secondary==16))) {
    joined=true;
    ((Rva00532165 *)&unions[variant][0])->LinkSets(first,second);
   }
-  if(a->id==b->id || joined) {
+  if(firstCell->id==b->id || joined) {
    if(!(mask & ~5u)) ((Rva00532165 *)&unions[variant][1])->LinkSets(first,second);
    if(!(mask & ~3u)) ((Rva00532165 *)&unions[variant][2])->LinkSets(first,second);
    if(!(mask & ~0x81u)) ((Rva00532165 *)&unions[variant][2])->LinkSets(first,second);
@@ -425,12 +425,12 @@ void PathfindZoneManager::rva005324D8(unsigned char incremental,unsigned short f
     ((Rva00532165 *)&unions[variant][3])->LinkSets(first,second);
     ((Rva00532165 *)&unions[variant][6])->LinkSets(first,second);
    }
-   if(!(mask & ~0x11u) && (a->type!=4 || a->bridge) && (b->type!=4 || b->bridge))
+   if(!(mask & ~0x11u) && (firstCell->type!=4 || firstCell->bridge) && (b->type!=4 || b->bridge))
     ((Rva00532165 *)&unions[variant][6])->LinkSets(first,second);
   }
   if(mask==4) ((Rva00532165 *)&unions[variant][5])->LinkSets(first,second);
  }
- if(incremental && a->id==b->id && !(mask & ~0x11u))
+ if(incremental && firstCell->id==b->id && !(mask & ~0x11u))
   ((Rva005321D1 *)&finalUnion)->LinkSets(first,second);
 }
 
@@ -449,9 +449,9 @@ public:
  unsigned char get22() const { return (unsigned char)flag22; }
 };
 
-bool Rva0053166DEqual(const PathfindCell *a,const PathfindCell *b) {
- return a->type==b->type && a->id==b->id && a->secondary==b->secondary &&
-  a->get17()==b->get17() && a->get18()==b->get18() && a->kind==b->kind && a->get22()==b->get22();
+bool Rva0053166DEqual(const PathfindCell *firstCell,const PathfindCell *b) {
+ return firstCell->type==b->type && firstCell->id==b->id && firstCell->secondary==b->secondary &&
+  firstCell->get17()==b->get17() && firstCell->get18()==b->get18() && firstCell->kind==b->kind && firstCell->get22()==b->get22();
 }
 
 // WB 0x012D0A40 and native 0x0053166D..0x005316E0 prove this comparison.
@@ -464,10 +464,10 @@ bool Rva0053166DEqual(const PathfindCell *a,const PathfindCell *b) {
 // CellType fields are independently supported by DoXfer and equivalency methods.
 unsigned char PathfindZoneManager::rva005316E0(unsigned short first,unsigned short second) {
  if(first==second)return 0;
- CellType *a=(CellType*)((char*)this+0xC)+first;
+ CellType *firstCell=(CellType*)((char*)this+0xC)+first;
  CellType *b=(CellType*)((char*)this+0xC)+second;
- unsigned av=a->value,bv=b->value;
- if(a->id==b->id)return 1;
+ unsigned av=firstCell->value,bv=b->value;
+ if(firstCell->id==b->id)return 1;
  unsigned char type=av;
  type^=bv;
  return (type & 7)==0;
@@ -510,21 +510,21 @@ void PathfindZoneManager::rva005329C8(PathfindCell **map,const IRegion2D &region
     }
    }
    if(cell->zone==0xFFFF) {
-    unsigned n=count++;
-    local.MakeSet((unsigned short)n);
-    cell->zone=(unsigned short)n;
+    unsigned index=count++;
+    local.MakeSet((unsigned short)index);
+    cell->zone=(unsigned short)index;
    }
   }
  }
- for(unsigned n=0;n<count;++n) {
-  if(((Rva00531ED3 *)&local)->rva00531ED3((unsigned short)n)!=n)continue;
-  initialized[n]=false;
-  mappedID[n]=GetAndUseNew();
-  changed.SetBit(mappedID[n]);
+ for(unsigned index=0;index<count;++index) {
+  if(((Rva00531ED3 *)&local)->rva00531ED3((unsigned short)index)!=index)continue;
+  initialized[index]=false;
+  mappedID[index]=GetAndUseNew();
+  changed.SetBit(mappedID[index]);
   for(int variant=0;variant<8;variant+=2)
    for(int equivalent=0;equivalent<7;++equivalent)
-    unions[variant][equivalent].MakeSet(mappedID[n]);
-  finalUnion.MakeSet(mappedID[n]);
+    unions[variant][equivalent].MakeSet(mappedID[index]);
+  finalUnion.MakeSet(mappedID[index]);
  }
  for(x=region.lo.x;x<=region.hi.x;++x) {
   for(int y=region.lo.y;y<=region.hi.y;++y) {
@@ -737,9 +737,9 @@ struct Rva00534557EmptyBase{};
 struct Rva00534557Record : Rva00534557EmptyBase { Rva00534557Record(int a,int b):x(a),y(b){}
  int x,y; };
 Rva00534557Record rva0053442A(const int *src) {
- const volatile int &x=src[0], &y=src[1]; int a=x/16;
+ const volatile int &x=src[0], &y=src[1]; int firstCell=x/16;
  int b=y/16;
- return Rva00534557Record(a,b);
+ return Rva00534557Record(firstCell,b);
 }
 
 
@@ -887,18 +887,18 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
    affected.rva00530FC5();
    changed.ResetEnum();
    {
-   int n;
-   while(changed.DoEnum(&n)) {
-    if((unsigned)n<oldEnd) {
-     unsigned short member=unions[v][e].FindSet((unsigned short)n);
+   int index;
+   while(changed.DoEnum(&index)) {
+    if((unsigned)index<oldEnd) {
+     unsigned short member=unions[v][e].FindSet((unsigned short)index);
      for(;;) {
       affected.SetBit(member);
       unsigned short next=unions[v][e].GetNextSetMember(member);
       if(next==member)break;
       member=next;
      }
-     unions[v][e].rva00531B3A((unsigned short)n);
-    } else {unions[v][e].MakeSet((unsigned short)n);affected.SetBit(n);}
+     unions[v][e].rva00531B3A((unsigned short)index);
+    } else {unions[v][e].MakeSet((unsigned short)index);affected.SetBit(index);}
    }
    }
    affected.ResetEnum();
@@ -920,18 +920,18 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
   affected.rva00530FC5();
   changed.ResetEnum();
   {
-  int n;
-  while(changed.DoEnum(&n)) {
-   if((unsigned)n<oldEnd) {
-    unsigned short member=((Rva00531C5A *)&finalUnion)->rva00531C5A((unsigned short)n);
+  int index;
+  while(changed.DoEnum(&index)) {
+   if((unsigned)index<oldEnd) {
+    unsigned short member=((Rva00531C5A *)&finalUnion)->rva00531C5A((unsigned short)index);
     for(;;) {
      affected.SetBit(member);
      unsigned short next=((Rva00531C5A *)&finalUnion)->GetNextSetMember(member);
      if(next==member)break;
      member=next;
     }
-    ((Rva00531C5A *)&finalUnion)->rva00531C8C((unsigned short)n);
-   } else {finalUnion.MakeSet((unsigned short)n);affected.SetBit(n);}
+    ((Rva00531C5A *)&finalUnion)->rva00531C8C((unsigned short)index);
+   } else {finalUnion.MakeSet((unsigned short)index);affected.SetBit(index);}
   }
   }
   affected.ResetEnum();
