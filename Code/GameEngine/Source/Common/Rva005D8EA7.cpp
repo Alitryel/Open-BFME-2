@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva005D8EA7@Rva005D8C25@@UAE_NPAVObject@@@Z @0x005D8EA7 47B
+// ?shouldActivate@Rva005D8C25@@UAE_NPAVObject@@@Z @0x005D8EA7 47B
 // Evidence: vslot 6 of 0x00876230 class Rva005D8C25 plus AI victim plus picker 0x005D8C4C.
 class Object;
 class AIUpdateInterface { public: Object *getCurrentVictim() const; };
@@ -11,9 +11,9 @@ public:
 class Rva005EE30C { public: virtual ~Rva005EE30C(); };
 class Rva005D8C25 : public Rva005EE30C {
 public:
-	virtual bool rva005D8EA7(Object *other);
+	virtual bool shouldActivate(Object *other);
 };
-bool Rva005D8C25::rva005D8EA7(Object *other)
+bool Rva005D8C25::shouldActivate(Object *other)
 {
 	Object *victim = other->getAI()->getCurrentVictim();
 	if (victim) {

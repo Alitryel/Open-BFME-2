@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHs-c- /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// ?rva005D796F@Rva005D791C@@UAE_NPAVObject@@@Z @0x005D796F 154B, slot 6
+// ?shouldActivate@Rva005D791C@@UAE_NPAVObject@@@Z @0x005D796F 154B, slot 6
 // (offset 0x18) of vtable 0x00875DFC (class of rowed dtor 0x005D791C).
 // For each ObjectID in the array behind rowed rva002A8F24 (via global
 // TheSkirmishAIManager) plus rowed LeaField get 0x005C4AD1: resolve it through rowed
@@ -103,13 +103,13 @@ public:
 	virtual void gap3() = 0;
 	virtual void gap4() = 0;
 	virtual void gap5() = 0;
-	virtual bool rva005D796F(Object *arg);
+	virtual bool shouldActivate(Object *arg);
 private:
 	unsigned char m_pad04[0x28 - 0x04];
 	_STL::map<int, int> m_map28;
 };
 
-bool Rva005D791C::rva005D796F(Object *object)
+bool Rva005D791C::shouldActivate(Object *object)
 {
 	Player *player = object->getControllingPlayer();
 	void *arr = TheSkirmishAIManager->rva002A8F24(player);

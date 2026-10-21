@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva005D9C77@Rva005D9C6C@@UAE_NPAVObject@@@Z @0x005D9C77 48B
+// ?shouldActivate@Rva005D9C6C@@UAE_NPAVObject@@@Z @0x005D9C77 48B
 // Evidence: gap between Rva005D9C6C dtor 0x005D9C6C and deleting dtor 0x005D9CA7 plus vslot 6 of 0x008763FC.
 class Object;
 class AIUpdateInterface { public: Object *getCurrentVictim() const; };
@@ -11,9 +11,9 @@ public:
 class Rva005EE30C { public: virtual ~Rva005EE30C(); };
 class Rva005D9C6C : public Rva005EE30C {
 public:
-	virtual bool rva005D9C77(Object *other);
+	virtual bool shouldActivate(Object *other);
 };
-bool Rva005D9C6C::rva005D9C77(Object *other)
+bool Rva005D9C6C::shouldActivate(Object *other)
 {
 	Object *victim = other->getAI()->getCurrentVictim();
 	if (!victim) {
