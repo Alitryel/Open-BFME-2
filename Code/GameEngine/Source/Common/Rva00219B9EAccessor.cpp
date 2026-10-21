@@ -195,84 +195,84 @@ const CreateAHeroSubClass *CreateAHeroClass::rva00219B9E(UnsignedInt subClassInd
 // 0x00219CDF 23B (unnamed in WB): subclass +0x10 or 0.
 Int CreateAHeroClass::rva00219CDF(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_10;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_10;
     return 0;
 }
 // 0x00219CF6 23B (unnamed in WB): subclass +0x14 or 0.
 Int CreateAHeroClass::rva00219CF6(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_14;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_14;
     return 0;
 }
 // 0x00219D0D 23B (unnamed in WB): subclass +0x18 or 0.
 Int CreateAHeroClass::rva00219D0D(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_18;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_18;
     return 0;
 }
 // 0x00219D3B 23B (unnamed in WB): subclass +0x58 or 0.
 Int CreateAHeroClass::rva00219D3B(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_58;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_58;
     return 0;
 }
 // CreateAHeroClass::GetSubClassSpendableAttributePoints, retail 0x00219D24 23B.
 Int CreateAHeroClass::GetSubClassSpendableAttributePoints(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_spendableAttributePoints;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_spendableAttributePoints;
     return 0;
 }
 // CreateAHeroClass::GetPreferedFaction, retail 0x00219C93 24B; -1 on a bad
 // index (or eax,-1).
 Int CreateAHeroClass::GetPreferedFaction(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (!p)
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (!subClass)
         return -1;
-    return p->m_preferedFaction;
+    return subClass->m_preferedFaction;
 }
 // CreateAHeroClass::GetButtonImageName, retail 0x00219CAB 26B.
 const AsciiString &CreateAHeroClass::GetButtonImageName(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_buttonImageName;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_buttonImageName;
     return AsciiString::TheEmptyString;
 }
 // CreateAHeroClass::GetSubClassUpgradeName, retail 0x00219CC5 26B.
 const AsciiString &CreateAHeroClass::GetSubClassUpgradeName(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_upgradeName;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_upgradeName;
     return AsciiString::TheEmptyString;
 }
 // CreateAHeroClass::GetStatCount, retail 0x00219BE1 31B: size of the
 // subclass's stat key vector at +0x3C.
 Int CreateAHeroClass::GetStatCount(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_statNameKeys.m_finish - p->m_statNameKeys.m_start;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_statNameKeys.m_finish - subClass->m_statNameKeys.m_start;
     return 0;
 }
 // CreateAHeroClass::GetAwardCount, retail 0x00219C1F 31B: size of the
 // subclass's award key vector at +0x30.
 Int CreateAHeroClass::GetAwardCount(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_awardNameKeys.m_finish - p->m_awardNameKeys.m_start;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_awardNameKeys.m_finish - subClass->m_awardNameKeys.m_start;
     return 0;
 }
 // CreateAHeroClass::GetSubClassNameTag, retail 0x0021ADF8 94B: the
@@ -280,27 +280,27 @@ Int CreateAHeroClass::GetAwardCount(UnsignedInt subClassIndex)
 const AsciiString &CreateAHeroClass::GetSubClassNameTag(UnsignedInt subClassIndex)
 {
     static AsciiString err("ERROR: Invalid SubCalssIndex");
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_nameTag;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_nameTag;
     return err;
 }
 // CreateAHeroClass::GetSubClassImageName, retail 0x0021AE56 99B.
 const AsciiString &CreateAHeroClass::GetSubClassImageName(UnsignedInt subClassIndex)
 {
     static AsciiString err("ERROR: Invalid SubCalssIndex");
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_imageName;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_imageName;
     return err;
 }
 // CreateAHeroClass::GetSubClassDescTag, retail 0x0021AEB9 99B.
 const AsciiString &CreateAHeroClass::GetSubClassDescTag(UnsignedInt subClassIndex)
 {
     static AsciiString err("ERROR: Invalid SubCalssIndex");
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_descTag;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_descTag;
     return err;
 }
 // CreateAHeroManager::GetClassNameTag, retail 0x0021AF7E 108B.
@@ -503,8 +503,8 @@ void *CreateAHeroClass::GetFactionMaskType(UnsignedInt subClassIndex)
         g_00DFE368 |= 1;
         ji_006291ae(&g_00DFE364, 0, 4);
     }
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    return (char *)p + 0x68;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    return (char *)subClass + 0x68;
 }
 // CreateAHeroManager::GetFactionMaskType, retail 0x00219F8E 85B: same guard
 // idiom; a bad class index returns &g_00DFE3E0.
@@ -535,9 +535,9 @@ Int CreateAHeroSubClass::GetAwardNameKey(UnsignedInt index) const
 // CreateAHeroClass::GetAwardNameKey, retail 0x00219C3E 31B.
 Int CreateAHeroClass::GetAwardNameKey(UnsignedInt subClassIndex, UnsignedInt index)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->GetAwardNameKey(index);
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->GetAwardNameKey(index);
     return 0;
 }
 // CreateAHeroManager::GetAwardNameKey, retail 0x00219F00 54B.
@@ -564,9 +564,9 @@ Int CreateAHeroSubClass::GetStatNameKey(UnsignedInt index) const
 // CreateAHeroClass::GetStatNameKey, retail 0x00219C00 31B.
 Int CreateAHeroClass::GetStatNameKey(UnsignedInt subClassIndex, UnsignedInt index)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->GetStatNameKey(index);
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->GetStatNameKey(index);
     return 0;
 }
 // CreateAHeroManager::GetStatNameKey, retail 0x00219E9F 54B.
@@ -649,9 +649,9 @@ const AsciiString &CreateAHeroManager::GetBlingNameTag(Int blingKey, UnsignedInt
     static AsciiString err("ERROR: Invalid CalssIndex");
     unsigned int count = ClassCount(&m_classes);
     if (classIndex < count) {
-        CreateAHeroSubClass *p = (CreateAHeroSubClass *)m_classes.m_start[classIndex].rva00219B9E(subClassIndex);
-        if (p)
-            return *(const AsciiString *)p->rva0021C9A6(blingKey, index);
+        CreateAHeroSubClass *subClass = (CreateAHeroSubClass *)m_classes.m_start[classIndex].rva00219B9E(subClassIndex);
+        if (subClass)
+            return *(const AsciiString *)subClass->rva0021C9A6(blingKey, index);
     }
     return err;
 }
@@ -662,9 +662,9 @@ const AsciiString &CreateAHeroManager::GetBlingDescTag(Int blingKey, UnsignedInt
     static AsciiString err("ERROR: Invalid CalssIndex");
     unsigned int count = ClassCount(&m_classes);
     if (classIndex < count) {
-        CreateAHeroSubClass *p = (CreateAHeroSubClass *)m_classes.m_start[classIndex].rva00219B9E(subClassIndex);
-        if (p)
-            return *p->rva0021C970(blingKey, index);
+        CreateAHeroSubClass *subClass = (CreateAHeroSubClass *)m_classes.m_start[classIndex].rva00219B9E(subClassIndex);
+        if (subClass)
+            return *subClass->rva0021C970(blingKey, index);
     }
     return err;
 }
@@ -684,16 +684,16 @@ Int CreateAHeroManager::rva002196EC()
 // 0x00219BCA 23B (unnamed in WB): subclass +0x28 or 0.
 Int CreateAHeroClass::rva00219BCA(UnsignedInt subClassIndex)
 {
-    const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-    if (p)
-        return p->m_28;
+    const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->m_28;
     return 0;
 }
 // 0x0021ADD9 31B (unnamed in WB): the subclass's 0x0021AD5D answer or 0.
 void *CreateAHeroClass::rva0021ADD9(UnsignedInt index, UnsignedInt subClassIndex)
 {
-    CreateAHeroSubClass *p = (CreateAHeroSubClass *)rva00219B9E(subClassIndex);
-    if (p)
-        return p->GetBlingGroupNameKey(index);
+    CreateAHeroSubClass *subClass = (CreateAHeroSubClass *)rva00219B9E(subClassIndex);
+    if (subClass)
+        return subClass->GetBlingGroupNameKey(index);
     return 0;
 }
