@@ -89,7 +89,7 @@ public:
 	virtual void slot18() = 0;
 	virtual void slot1C() = 0;
 	virtual void slot20() = 0;
-	virtual void rva00218BEF();
+	virtual void reset();
 	virtual void slot28() = 0;
 	virtual void slot2C() = 0;
 	virtual void slot30() = 0;
@@ -194,7 +194,7 @@ void Rva00218410::rva00218410()
 // the deleteAllFonts purpose; retail additionally walks the map at this+0x20,
 // beginning at header+8, deletes each nonnull value at node+0x14, and tails
 // to deleteAllFonts. Retail keeps the map nodes and stored pointers intact.
-void FontLibrary::rva00218BEF()
+void FontLibrary::reset()
 {
 	_STL::_Rb_tree_node_base *node = m_table2.m_header->_M_left;
 	while (node != m_table2.m_header)
