@@ -63,3 +63,31 @@ a9d0sig-true-naming (0.9986) and work only the return-2 S/W choice.
 
 Scratch: `build/b3df20/` (sc.py ledger scorer, sct.py true scorer, runt.sh,
 h3gen.py/h4gen.py, s3/gen9.py, gen10.py).
+
+## Later trials, same session (all on the a9d0sig true-naming base, true scorer)
+
+- s5, cumulative inline-budget: `__bfme_burn()` (inline or forceinline)
+  with 1..32 volatile stores at the start, the end or both of do_put.
+  The return-2 map never moves, so this is disproven.
+- s6, W under `#pragma inline_depth(0)` with 0..16 nop calls: 2530 B, and
+  S is called at the final exit too (0.9290). A depth(0) helper with N nops
+  called from W is inert (0.9958, all S).
+- s7, W specialisation defined under `inline_depth(d)` for d in {1,2,3,4,6},
+  crossed with kS {0,4,9,12} phantoms and sig pragma {0,1}:
+  - the best is 0.9986, identical to a9 (return 2 still S);
+  - d1 gives 2530 B.
+- s8, early-folding cost carriers in W, 1..12 copies each, on the nosig base:
+  - `int z=0; if(z) exit`;
+  - `if(z) _M_start=0`;
+  - `inline zero()` test;
+  - `q=_M_start; q!=_M_start`;
+  - `z*=3`.
+  All are inert (0.9958, all S). The inliner does not count folded statements.
+- p6, roll mechanism isolated in a 291 B reproducer
+  (`build/b3df20/p6/d4/b_sign+signsz+fill.cpp`, not tracked):
+  - only a late-folded branch inside an inlined W (`this==0`,
+    `_M_finish!=_M_finish`) rolls the 4-iteration `__format` copy;
+  - volatile or global stores, extern calls, dead member stores and
+    `if(_M_start==0)` keep the unroll but emit bytes.
+  So the late-fold carrier route (ex_n6_k9) cannot keep retail's unroll.
+- Verdict unchanged: walled by the ledger W/S naming. Bank stays 0.9993.
