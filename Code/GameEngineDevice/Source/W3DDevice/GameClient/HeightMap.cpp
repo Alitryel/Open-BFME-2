@@ -2520,4 +2520,14 @@ void HeightMapRenderObjClass::renderExtraBlendTiles(void)
 		}
   }
 }
+
+// Set_Transform(Matrix3D) is import-inlined, so no local body emits Matrix4(Vector4 x4);
+// the anchor retains this unit's row copy (0x6A34E) and is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeHeightMapMatrix4RowsCtorAnchor absent-from-retail
+void _bfmeHeightMapMatrix4RowsCtorAnchor(Matrix4x4 *m, const Vector4 *rows)
+{
+	m->Matrix4x4::Matrix4x4(rows[0], rows[1], rows[2], rows[3]);
+}
+#pragma inline_depth()
 #endif

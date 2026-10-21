@@ -105,7 +105,10 @@ void __cdecl operator delete(void *) throw();
 // the different donor destructor under this unit's frozen flags.
 template <> SimpleDynVecClass<Vector3>::~SimpleDynVecClass();
 #include "texture.h"
-#include "dx8wrapper.h"
+// Link view: Set_Transform(Matrix3D) stays inline without a copy competing with retail's row (0x6A553).
+// Zero Hour's dx8caps.h first, as the vendored dx8wrapper.h reads it, not the bfmeshader one.
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/dx8caps.h"
+#include "../../../../../reference/shims/bfme_decalmsh_link/dx8wrapper.h"
 #include "dx8caps.h"
 // bfme link decl-only begin
 template <> SimpleDynVecClass<Vector3>::SimpleDynVecClass(int);
