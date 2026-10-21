@@ -72,17 +72,9 @@ namespace rts
 {
 	template <class T> struct hash
 	{
-		unsigned int operator()(T value) const
-		{
-			const char *text = value.str();
-			int result = 0;
-			while (*text != 0)
-			{
-				result = result * 5 + *text;
-				++text;
-			}
-			return result;
-		}
+		// Reuse the kept hash copy from ThingFactory rather than emitting a
+		// second definition compiled against this unit's StringInline view.
+		unsigned int operator()(T value) const;
 	};
 }
 
