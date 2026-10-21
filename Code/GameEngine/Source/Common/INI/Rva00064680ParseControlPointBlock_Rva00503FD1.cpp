@@ -42,9 +42,9 @@ class Rva00064390
 {
 public:
 	Rva00064390();
-	int m_00, m_04, m_08, m_0C;
-	float m_10, m_14;
-	unsigned int m_18;
+	int m_position, m_04, m_08, m_angle;
+	float m_easeIn, m_easeOut;
+	unsigned int m_time;
 };
 
 // Retail RVA 0x00863C48: five fields followed by the null terminator.
@@ -85,7 +85,7 @@ void Rva00064680::parseControlPointBlock( INI *ini, void *instance, void *, cons
 	{
 		Rva00064390 record;
 		ini->initFromINI( &record, Rva00064680FieldParseTable );
-		record.m_18 = msecToFramesRva00503E4F( record.m_18 );
+		record.m_time = msecToFramesRva00503E4F( record.m_time );
 		Rva00064680Callback callback = (Rva00064680Callback)userData;
 		if( callback )
 			callback( instance, &record );
