@@ -231,6 +231,61 @@ function no budget move works:
 - **Still open:** the 0x6238 frame (only the post-IL pad29 reaches it) and E
   parity.
 
+## Confirmed target: byte-exact with three numbering changes (2026-10-21)
+
+Two independent methods give the same answer:
+- agAL's key-substitution oracle, `build/agAL/ksub.py`. It hooks c2's leaf-hash
+  X loads and maps X to X′ from the pool model.
+- agAK's physical allocator patch, `build/agAK/symshift.py` with `batch.py`.
+  Spare symbols are injected onto the free lists in the running c2; no pool is
+  ever shrunk.
+
+Base: `build/agAL/base.cpp`, which is faithful_fullset plus
+`Get_Location_Offset(0)`, without /Oy-. It scores 12017 B, nd 435. With these
+three changes it compiles to **11984 B, nd 0, 0 non-relocation byte diffs**:
+
+1. **A −3:** three fewer fresh A. Exact anywhere from IL time (k1017) through
+   k5074. It fails at k6005 (nd 94).
+2. **A −1:** one fewer fresh A, exact anywhere in about [7700, 15000].
+
+   | k | 5000 | 7501 | 7717 | 9000 | 12000 | 15032 | 20054 |
+   |---|---|---|---|---|---|---|---|
+   | nd | 111 | 2 | 0 | 0 | 0 | 0 | 56 |
+
+3. **E −12 or −16:** fewer GlobalOptimize hash vars, at any position (k0 and
+   k30000 are both exact).
+
+   | E change | −4 | −8 | −11 | −13 | −20 |
+   |---|---|---|---|---|---|
+   | nd | 10 | 10 | 210 | 124 | 71 |
+
+The counts are exact:
+
+| Variant | nd |
+|---|---|
+| A −2 instead of −3 | 380 |
+| A −4 instead of −3 | 115 |
+| without the A −1 | 66 |
+| without the E change | 23 |
+
+No IL-time insertion is needed. It is also exact on faithful_fullset at the
+fs_m00 positions. After the byte gate resolves REL32s, the only bytes left
+differing are 6 calls to names missing from the symbol map: `??0Matrix4@@QAE@XZ`,
+the ShadowPtr destructor and operator=, and `?Rva000032B8@@YAMM@Z`.
+
+So the source is complete apart from three numbering effects. The open task is
+to find the faithful source forms behind them:
+- **The −3 A.** IL-time is allowed, so /Od-invisible IL constructs qualify. One
+  example is `u_values` written as element stores, the ZH donor form, which
+  gives −1 IL A piece and +1 C.
+- **The −1 A.**
+- **The −12/−16 E.** Candidates are FP parentheses, which are /Od-invisible and
+  add one hash var each, and variables shared across branches (lexical CSE).
+
+0x743700 has the same kind of target (2 fewer fresh A in its identical
+Get_Transform/identity/Set_Transform prefix), while SegLine does not. Look for a
+cause the two BFME-added renderers share.
+
 **Later 2026-10-21 results.** Scratch is in `build/agAH/`, `build/agAJ/` and
 `build/bank126433/`, all untracked.
 
