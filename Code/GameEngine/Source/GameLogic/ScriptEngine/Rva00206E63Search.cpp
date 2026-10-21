@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD
 //
-// ?Rva00206E63Search@@YAXPAVINI@@@Z @0x00206E63 100B: chain sibling of 0x00206DFF.
+// ?parseScriptCondition@@YAXPAVINI@@@Z @0x00206E63 100B: chain sibling of 0x00206DFF.
 // Builds local Rva003B39C7 via ctor 0x003B39C7, initFromINI with table
 // g_00BE3908, then if g_Va009FE16C is set calls Rva00205A8D::rva00205A8D with
 // the local as Arg205A8D, then dtor 0x002045AB. Evidence: packet disassembly
@@ -74,7 +74,7 @@ public:
 class ScriptEngine;
 extern class ScriptEngine *TheScriptEngine;
 
-void __cdecl Rva00206E63Search(INI *ini)
+void __cdecl parseScriptCondition(INI *ini)
 {
     Rva003B39C7 tmp;
     ini->initFromINI(&tmp, g_00BE3908);

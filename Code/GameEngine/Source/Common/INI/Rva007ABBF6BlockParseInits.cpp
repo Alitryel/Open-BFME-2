@@ -37,7 +37,7 @@ void Rva001DAAA8Parse(INI *);
 void parseAerialPathfindNoFlyZoneDefinition(INI *);
 void Rva00202BB2Parse(INI *);
 void parseScriptAction(INI *);
-void Rva00206E63Search(INI *);
+void parseScriptCondition(INI *);
 void parseLivingWorldRegionCampaignDefinition(INI *);
 void parseLivingWorldMapInfoDefinition(INI *);
 void Rva0021376BParse(INI *);
@@ -375,7 +375,7 @@ BlockParse theStaticGameLODBlockParse = { 0, "StaticGameLOD", Rva00202BB2Parse }
 BlockParse theDynamicGameLODBlockParse = { 0, "DynamicGameLOD", INI::parseStaticGameLODDefinition };	// VA 0x00DB977C "DynamicGameLOD", parse 0x00202F05
 BlockParse theAudioLODBlockParse = { 0, "AudioLOD", INI::parseAudioLODDefinition };	// VA 0x00DB9788 "AudioLOD", parse 0x00202F8A
 BlockParse theScriptActionBlockParse = { 0, "ScriptAction", parseScriptAction };	// VA 0x00DB97D0 "ScriptAction", parse 0x00206DFF
-BlockParse theScriptConditionBlockParse = { 0, "ScriptCondition", Rva00206E63Search };	// VA 0x00DB97DC "ScriptCondition", parse 0x00206E63
+BlockParse theScriptConditionBlockParse = { 0, "ScriptCondition", parseScriptCondition };	// VA 0x00DB97DC "ScriptCondition", parse 0x00206E63
 BlockParse theSkyboxTextureSetBlockParse = { 0, "SkyboxTextureSet", iniParseEnvironmentSkyboxTextureDefinition };	// VA 0x00DB984C "SkyboxTextureSet", parse 0x0020D6F5
 BlockParse theGlowEffectBlockParse = { 0, "GlowEffect", parseGlowEffect };	// VA 0x00DB9858 "GlowEffect", parse 0x00309FB3
 BlockParse theRingEffectBlockParse = { 0, "RingEffect", parseRingEffect };	// VA 0x00DB9864 "RingEffect", parse 0x00309FFD
