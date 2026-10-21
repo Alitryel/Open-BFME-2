@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004832D7@RebuildHoleBehavior@@SA?AW4NameKeyType@@XZ @0x4832d7
+// ?getModuleNameKey@RebuildHoleBehavior@@UBE?AW4NameKeyType@@XZ @0x4832d7
 // (69B): cached pool-name key for RebuildHoleBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("RebuildHoleBehavior"); the body guards a function-local static
@@ -76,11 +76,10 @@ extern AI *TheAI;
 class RebuildHoleBehavior
 {
 public:
-	static NameKeyType rva0004832D7();
+	virtual NameKeyType getModuleNameKey() const;
 	void newWorkerRespawnProcess(Object *existingWorker);
 
 private:
-	void *m_vtbl;
 	const ModuleData *m_moduleData;				// +0x04
 	Object *m_object;					// +0x08
 	unsigned char m_pad0C[0x28 - 0xc];
@@ -89,8 +88,8 @@ private:
 	unsigned int m_workerWaitCounter;			// +0x34
 };
 
-// ?rva0004832D7@RebuildHoleBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType RebuildHoleBehavior::rva0004832D7()
+// ?getModuleNameKey@RebuildHoleBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType RebuildHoleBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheRebuildHoleBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("RebuildHoleBehavior");

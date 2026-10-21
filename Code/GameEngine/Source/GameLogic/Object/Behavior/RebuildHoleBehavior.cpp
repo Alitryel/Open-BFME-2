@@ -231,7 +231,7 @@ RebuildHoleBehavior::RebuildHoleBehavior(Thing *thing, const ModuleData *moduleD
 	m_44 = true;
 }
 
-// tu-skeleton: 0x004832D7 69B ?rva0004832D7@RebuildHoleBehavior@@SA?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/RebuildHoleBehaviorPoolKey.cpp (not merged yet)
+// tu-skeleton: 0x004832D7 69B ?getModuleNameKey@RebuildHoleBehavior@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/RebuildHoleBehaviorPoolKey.cpp (not merged yet)
 
 // tu-skeleton: 0x0048331C 6B ?name@Rva0048331CNamed@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters.cpp (not merged yet)
 
