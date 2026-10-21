@@ -105,7 +105,7 @@ public:
 	void rva001E42F2(const int *mask);
 	const Coord3D *getPosition() const { return &m_position; }
 	ObjectID getID() const { return m_id; }
-	void friend_setUndetectedDefector(bool status)
+	void setUndetectedDefectorInline(bool status)
 	{
 		if (status)
 			m_privateStatus |= UNDETECTED_DEFECTOR;
@@ -155,6 +155,6 @@ void Object::preFireCurrentWeapon(const Object *victim, const Coord3D *pos)
 			m_drawable->rva00274176(false);
 		}
 		weapon->preFireWeapon(this, victim, pos);
-		friend_setUndetectedDefector(false);
+		setUndetectedDefectorInline(false);
 	}
 }

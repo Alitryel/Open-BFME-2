@@ -9,7 +9,7 @@
 // rank with lower ObjectID74 tie-break, else walk all members; for the chosen
 // object(s) store arg5 to AI+0x48 (gated by AI+0x3C5 when arg5 is 0), call
 // rva00293105 when arg5 is 0, then canDo/doSpecialPowerAtLocation plus
-// rva0028AC34(false), returning whether any power fired.
+// friend_setUndetectedDefector(false), returning whether any power fired.
 // Evidence: flanked by AIGroup rows 0x0036D837/0x0036DBBA, list at this+0x04
 // with payload at node+0x08, callees findSpecialPowerTemplateByID pin
 // 0x003B0FD0 plus ExperienceTracker 0x0039AC0C plus IsValid pin 0x0028891F
@@ -102,7 +102,7 @@ class Object
 public:
 	void rva00293105();
 	void doSpecialPower(const SpecialPowerTemplate *, UnsignedInt, bool);
-	void rva0028AC34(bool on);
+	void friend_setUndetectedDefector(bool on);
 	void doSpecialPowerAtLocation(const SpecialPowerTemplate *specialPowerTemplate, const Coord3D *loc, UnsignedInt commandOptions, bool forceUsable);
 
 	char m_pad00[0x04];
@@ -178,7 +178,7 @@ bool AIGroup::groupDoSpecialPowerAtLocation(UnsignedInt id, const Coord3D *loc, 
 		if (!TheActionManager->canDoSpecialPowerAtLocation(object, loc, CMD_FROM_PLAYER, spTemplate, objectInWay, commandOptions, true))
 			continue;
 		object->doSpecialPowerAtLocation(spTemplate, loc, commandOptions, false);
-		object->rva0028AC34(false);
+		object->friend_setUndetectedDefector(false);
 		done = true;
 	}
 	} else {
@@ -195,7 +195,7 @@ bool AIGroup::groupDoSpecialPowerAtLocation(UnsignedInt id, const Coord3D *loc, 
 		if (spTemplate != 0) {
 			if (TheActionManager->canDoSpecialPowerAtLocation(best, loc, CMD_FROM_PLAYER, spTemplate, objectInWay, commandOptions, true)) {
 				best->doSpecialPowerAtLocation(spTemplate, loc, commandOptions, false);
-				best->rva0028AC34(false);
+				best->friend_setUndetectedDefector(false);
 				done = true;
 			}
 		}

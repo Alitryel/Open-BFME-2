@@ -205,7 +205,7 @@ public:
 	Player *getControllingPlayer() const;
 	Bool testStatus(ObjectStatusTypes bit) const;
 	void *rva0028BC58(int which);
-	void rva0028AC34(bool undetected);
+	void friend_setUndetectedDefector(bool undetected);
 	void setTeam(Team *team);
 	void makeDirty();
 	void rva00298C76(Team *newTeam, UnsignedInt detectionTime);
@@ -251,7 +251,7 @@ void Object::rva00298C76(Team *newTeam, UnsignedInt detectionTime)
 	if (m_radarData && newTeam->getControllingPlayer()->rva002AA245() && myTeam->getControllingPlayer()->rva002AA245())
 		TheRadar->tryInfiltrationEvent(this);
 
-	rva0028AC34(detectionTime > 0);
+	friend_setUndetectedDefector(detectionTime > 0);
 
 	if (m_defectionHelper)
 		m_defectionHelper->rva004DF725(detectionTime, true);

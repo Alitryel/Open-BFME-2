@@ -61,13 +61,12 @@ class Object : public Thing
 {
 public:
 	Bool testStatus(ObjectStatusTypes bit) const;
-	void rva0028AC34(Bool undetectedDefector);
+	void friend_setUndetectedDefector(Bool undetectedDefector);
 
 	Int getID() const { return m_id; }
 	AIUpdateInterface *getAI() const { return m_ai; }
 	Bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	Bool getIsUndetectedDefector() const { return (m_privateStatus & 2) != 0; }
-	__declspec(dllimport) __forceinline void friend_setUndetectedDefector(Bool status) { rva0028AC34(status); }
 
 private:
 	unsigned char m_unmodelled00[0x74];

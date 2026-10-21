@@ -14,7 +14,7 @@
 //   (groupChangeStance 0x0036E269 and others).
 // - The calls are rowed or pinned: findSpecialPowerTemplateByID,
 //   ActionManager::canDoSpecialPowerAtObject, Object::doSpecialPowerAtObject and
-//   rva0028AC34, ExperienceTracker::rva0039AC0C, IsValid and GetLevelRank.
+//   friend_setUndetectedDefector, ExperienceTracker::rva0039AC0C, IsValid and GetLevelRank.
 // - WorldBuilder 0x00EE9F50 is the same function before the retail-only
 //   changes noted below.
 //
@@ -133,7 +133,7 @@ public:
 	ExperienceTracker *getExperienceTracker() const { return m_experienceTracker; }
 	Int getID() const { return m_id; }
 	void doSpecialPowerAtObject(const SpecialPowerTemplate *spTemplate, Object *target, unsigned commandOptions, bool forced);
-	void rva0028AC34(Bool value);
+	void friend_setUndetectedDefector(Bool value);
 
 	unsigned char m_pad000[4];
 	const ThingTemplate *m_template;					// +0x04
@@ -246,7 +246,7 @@ void AIGroup::groupDoSpecialPowerAtObject(UnsignedInt specialPowerID, Object *ta
 			if (TheActionManager->canDoSpecialPowerAtObject(obj, target, CMD_FROM_PLAYER, spTemplate, commandOptions, checkSourceRequirements))
 			{
 				obj->doSpecialPowerAtObject(spTemplate, target, commandOptions, 0);
-				obj->rva0028AC34(false);
+				obj->friend_setUndetectedDefector(false);
 			}
 		}
 	}
@@ -263,7 +263,7 @@ void AIGroup::groupDoSpecialPowerAtObject(UnsignedInt specialPowerID, Object *ta
 		if (spTemplate && TheActionManager->canDoSpecialPowerAtObject(best, target, CMD_FROM_PLAYER, spTemplate, commandOptions, checkSourceRequirements))
 		{
 			best->doSpecialPowerAtObject(spTemplate, target, commandOptions, 0);
-			best->rva0028AC34(false);
+			best->friend_setUndetectedDefector(false);
 		}
 	}
 }

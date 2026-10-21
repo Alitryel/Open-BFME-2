@@ -330,7 +330,7 @@ class Object: public Thing
  bool rva0028F44C(const Object*)const;
  bool rva0028CECF();
  void attemptDamage(DamageInfo*);
- void rva0028AC34(bool);
+ void friend_setUndetectedDefector(bool);
  GeometryInfo const&getGeometryInfo()const
  {
   return geometry;
@@ -515,5 +515,5 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
   Weapon *crushedWeapon=self->crushedWeapon;
   if(crushedWeapon && !self->rva0028F44C(other))crushedWeapon->rva002CE6C5(self,other->getID(),other,0);
  }
- other->rva0028AC34(false);
+ other->friend_setUndetectedDefector(false);
 }

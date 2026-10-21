@@ -117,7 +117,7 @@ public:
 	bool setWeaponLock(WeaponSlotType weaponSlot, WeaponLockType lockType);
 	void releaseWeaponLock(WeaponLockType lockType);
 	bool testStatus(ObjectStatusTypes bit) const;
-	void friend_setUndetectedDefector(bool status)
+	void setUndetectedDefectorInline(bool status)
 	{
 		if (status)
 			m_privateStatus |= UNDETECTED_DEFECTOR;
@@ -154,7 +154,7 @@ void Object::fireCurrentWeapon(Object *target, int fireParam)
 				m_firingTracker->shotFired(weapon, (ObjectID)fireParam, 0, false);
 			if (weapon->getTemplate()->getValue78() == -1)
 				releaseWeaponLock(LOCKED_TEMPORARILY);
-			friend_setUndetectedDefector(false);
+			setUndetectedDefectorInline(false);
 		}
 	}
 }
@@ -178,7 +178,7 @@ void Object::fireCurrentWeapon(const Coord3D *pos)
 				m_firingTracker->shotFired(weapon, INVALID_ID, pos, false);
 			if (reloaded)
 				releaseWeaponLock(LOCKED_TEMPORARILY);
-			friend_setUndetectedDefector(false);
+			setUndetectedDefectorInline(false);
 		}
 	}
 }
