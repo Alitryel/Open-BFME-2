@@ -39,4 +39,14 @@ namespace _STL { template <> vector<BfmePod88, allocator<BfmePod88> >::~vector()
 
 typedef _STL::map<int, _STL::vector<_STL::vector<BfmePod88> > > IntPod88VectorVectorMap;
 
-template class _STL::map<int, _STL::vector<_STL::vector<BfmePod88> > >;
+// Instantiate only the insert path the rows cover. A whole-class instantiation
+// also emits the erase/operator[] chain and with it a pair destructor that
+// jumps to this unit's _free-based vector destructor, not retail's 0x00500E3D;
+// that copy came first in link order and outvoted the retail-shaped one the
+// 0x00502FE9 unwind funclets call (LivingWorldAIBuildingTypes.cpp, 0x005011B4).
+typedef IntPod88VectorVectorMap::value_type IntPod88VectorVectorPair;
+typedef _STL::vector<_STL::vector<BfmePod88> > Pod88VectorVector;
+
+template _STL::pair<IntPod88VectorVectorMap::iterator, bool> IntPod88VectorVectorMap::insert(const IntPod88VectorVectorPair &);
+template IntPod88VectorVectorMap::iterator IntPod88VectorVectorMap::insert(IntPod88VectorVectorMap::iterator, const IntPod88VectorVectorPair &);
+template _STL::pair<const int, Pod88VectorVector>::pair(const int &, const Pod88VectorVector &);
