@@ -28,3 +28,41 @@ or additional gains claimed. Existing BFME1 emitter provenance is documented
 in ../particle-shader-link-20261021/readme.md and this session's MetaImpact
 record; no donor source imported or pointer advanced. No maintainer-only
 runner or census build/measure/history was started.
+
+
+Independent seat corroboration follows. Upstream a51b86bb29 already landed this source repair during publication; this rebased evidence commit claims zero additional linked bytes.
+
+Butterfly particle link repair, 2026-10-21
+
+The previous attempt deferred this unit because the published census did not
+contain it. Index 2b4d1fb42a (2026-10-21 06:00) now measures it: three blockers,
+0 -> 2,153 nonpadding matched bytes after this repair. This is a paired legacy
+preview with self-strict consumer/provider receipts. Closed-strict closure and
+executable placement are unmeasured.
+
+Bind the four-byte type-2 shader view at native RVA 009B6250 to existing storage
+owner BfmeParticleType2ShaderBits (StreakDrawModuleDoParticles.cpp). Bind the world
+matrix cache at 009EE7C4 to existing 64-byte BFME2World storage
+(Rva00785FD0RendererReset.cpp). Their complete data rows verify. No new storage,
+pin, original shader name or class-layout fact is asserted. Target address/data
+rows establish these relationships; the source's private views remain views.
+
+Keep Vector4's component constructor operations visible as imported forceinline,
+following the established BFME2 particle siblings and bfme_vp_math header. The
+SSE external copy differs from retail's integer-move owner. It disappears with
+no import reference or retained incoming relocation. Every retained nondebug
+section, byte, flag, definition and symbolic relocation is identical after the
+two known global rebindings. The unreferenced Get_Transform diagnostic remains.
+
+Ordinary byte gate 4/4; strict consumer plus two providers 12/12, two data rows,
+two strings plus two empty references, 17 float references, zero imports.
+Full parent EH verification passes despite a compiler-local label renumbering.
+Undeclared-definition and new-COMDAT-variant checks pass. proof.py reproduces the
+paired check with the original object basename; index/status are unchanged.
+
+Cause sweep finds no remaining old shader/world name in the particle family;
+other Vector4 consumers have independent unresolved blockers. Prior donor review
+at BFME1 68c5ce2789e9 and c1315665a1b22 is retained in
+../quad-vector4-link-20261021/readme.md. Current verified donor pointer 5987fd1b
+was reviewed for this session; target byte/data evidence decides the adaptation.
+t=10 model=gpt-6.1-sol.
