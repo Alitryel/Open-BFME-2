@@ -39,7 +39,9 @@ Rva005EC422::~Rva005EC422()
 class Rva005EBC74
 {
 public:
-	~Rva005EBC74();
+	// Native 0x005CFEDF calls the 5-byte destructor at 0x005EBCC9,
+	// not its clear() target at 0x005EBC74. Keep both wrappers out of line.
+	__declspec(noinline) ~Rva005EBC74();
 	void clear();
 
 private:
