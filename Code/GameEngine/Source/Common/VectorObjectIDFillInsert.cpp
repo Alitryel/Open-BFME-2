@@ -17,10 +17,19 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 enum ObjectID { INVALID_ID = 0 };
-// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+// Bind the allocator, base teardown and clear to the kept retail copies (InGameUIXfer.cpp emits them).
 namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
+namespace _STL { template <> _Vector_base<ObjectID, allocator<ObjectID> >::~_Vector_base(); }
+namespace _STL { template <> ObjectID *allocator<ObjectID>::allocate(size_t, const void *) const; }
+namespace _STL { template <> void vector<ObjectID>::_M_clear(); }
 
-template class _STL::vector<ObjectID>;
+// The rowed members, plus the copy constructor Player.cpp and Rva00500659ClosestArmies.cpp bind to.
+template void _STL::vector<ObjectID>::_M_fill_insert(ObjectID *, size_t, const ObjectID &);
+template void _STL::vector<ObjectID>::insert(ObjectID *, size_t, const ObjectID &);
+template ObjectID *_STL::vector<ObjectID>::insert(ObjectID *, const ObjectID &);
+template ObjectID *_STL::vector<ObjectID>::erase(ObjectID *);
+template _STL::vector<ObjectID>::vector(size_t, const ObjectID &, const _STL::allocator<ObjectID> &);
+template _STL::vector<ObjectID>::vector(const _STL::vector<ObjectID> &);
 
 // ??$copy_backward@PAW4ObjectID@@PAW41@@_STL@@YAPAW4ObjectID@@PAW41@00@Z RVA 0x005E42D3 size 27
 // Evidence: callee __copy_backward_ptrs ObjectID rowed at 0x00583709; callers __linear_insert-like at 0x0040AE5E and 0x005E4862; explicit instantiation exact mod reloc.
