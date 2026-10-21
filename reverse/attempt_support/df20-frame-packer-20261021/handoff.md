@@ -296,3 +296,37 @@ the class-level reconciliation in `df20-funclet-naming-20261021/handoff.md`:
 - then re-run the natural V3 a9 w1 shape on the real body (phantom cost on S so that S is never inlined; W at the default budget).
 
 Shared-delta lead for that pass: in retail, S appears never to be inlined (warm sites call it, and the 63 B W<G> calls it), while D always folds into S's 14 B body.
+
+## Session 2026-10-21 (late): reproducing 0xB3C0 and the inliner levers
+
+Two files are banked here:
+- `a9d0sig-true-naming-0.9986.cpp.txt` is the best body under the true naming: fit 0.9986, nd 2. Only return 2 (41e/42f) calls S where retail calls W.
+- `w63-v2-b3c0-repro.cpp.txt` is the evidence for 0xB3C0.
+
+**Target fact.** Retail 0xB3C0 is the 63 B framed W<G>. It is reproduced byte-for-byte when the TU specialises `_STLP_alloc_proxy<unsigned short*,unsigned short,allocator<unsigned short> >` with a non-empty destructor, `~_STLP_alloc_proxy() { if (0) free(_M_data); }`. Specialised that way, W keeps an EH frame and calls S out of line. S is also 63 B in that build. The funclet of 0xB3C0 calls 0x69E440 (an empty ret) on this+8, which is the proxy dtor before folding. So the units that should emit W<G> at 0xB3C0 need this proxy shape (or the source that produced it) as part of the naming reconciliation.
+
+Disproven this session (bank 0.9993 under the ledger naming is unchanged):
+- (a) W bodies on the `_Destroy` path are inert.
+- (b) depth(1) on the sign or return statement is inert under kS=9.
+- (c) depth(0) at return 2 also outlines w and L, costing +32 B.
+- (d) A `__forceinline` locale and narrow chain does not survive depth(0).
+- (e) W phantom kinds:
+  - empty, folded and extern "C" phantoms cost nothing;
+  - throw(), nothrow and _MoneyLeak phantoms add EH states (+16 B).
+- (f) A real non-trivial proxy dtor inside do_put gives frame 0xd8 and proxy EH states. That is wrong for do_put, which has no proxy state.
+- (g) A function-level `inline_depth` of 1–5 is worse; 6 and above is inert.
+- (h) K-kind W phantoms at kW 16/32/64 with kS=9 never outline W.
+- (i) t13 grid on a9d0sig: kS∈{0,4,8}, kW∈{1,2}, depth(1) before curr_sym, sig depth(0) on/off, depth(1) around return 1. All 48 variants give the same result: fit 0.9366, frame 0x118, W called at every late site, and nothing called at 236/259/28c. With S inlinable, the W phantom outlines W at the cold sites, but S is then inlined at the warm sites. No statement-level depth fixes that, because S has to be outlined everywhere while W is inlined only at warm sites.
+
+Next angle: do the naming reconciliation first. Then search with S non-inlinable, which matches retail (S is never inlined anywhere), and with W at the default budget. The remaining residue is return 2, which is cold but must call W. Return 1 is warm and inlines W. Try changing the frequency of return 2 so it counts as cold: for example `__builtin`-free shapes such as a `goto` to a shared return.
+- (j) t14, return-2 shapes on a9d0sig (true naming). These are inert, scoring 0.9986 with the same map:
+  - duplicate nested condition, `!(!=)`, `do{}while(0)`;
+  - the return moved inside the scanning loop;
+  - a nested non-foldable condition with both arms returning.
+  
+  These are worse:
+  - `__cp-__digits_first==0` scores 0.9572 (warm sites shift);
+  - the `for` scan loop scores 0.9638 (return 2 merges into a shared exit, 2578 B);
+  - `if(!=);else` scores 0.9147.
+  
+  Return 2's W/S choice did not respond to any frequency shape tried. The return-2 residue needs the reconciled S (never inlined) rather than a statement shape.
