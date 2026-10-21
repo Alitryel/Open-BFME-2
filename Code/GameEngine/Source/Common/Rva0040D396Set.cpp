@@ -1,5 +1,5 @@
 // cl: /MD
-// ?CallArmyToEngageInBattleByID@ArmySummarySystem@@QAEXH@Z @0x0040D396 32B: chain from the army lookup ArmySummarySystem::rva0040D008 0x0040D008 then Rva0040C985::rva0040C985 0x0040C985 with TheGameLogic frame does nothing when null. Evidence: calls rowed 0x0040D008 0x0040C985; TheGameLogic at VA 0x009FE78C; single caller jmp at 0x0023D086; prev 0x0040D380 next 0x0040D3B6 in Common.
+// ?CallArmyToEngageInBattleByID@ArmySummarySystem@@QAEXH@Z @0x0040D396 32B: chain from the army lookup ArmySummarySystem::rva0040D008 0x0040D008 then ArmySummary::rva0040C985 0x0040C985 with TheGameLogic frame does nothing when null. Evidence: calls rowed 0x0040D008 0x0040C985; TheGameLogic at VA 0x009FE78C; single caller jmp at 0x0023D086; prev 0x0040D380 next 0x0040D3B6 in Common.
 class BfmeY1038
 {
 public:
@@ -13,7 +13,7 @@ public:
 };
 class GameLogic;
 extern GameLogic *TheGameLogic;
-class Rva0040C985
+class ArmySummary
 {
 public:
 	void rva0040C985(int x);
@@ -30,5 +30,5 @@ void ArmySummarySystem::CallArmyToEngageInBattleByID(int v)
 	BfmeY1038 *y = (BfmeY1038 *)rva0040D008(v);
 	if (y == 0)
 		return;
-	((Rva0040C985 *)y)->rva0040C985(((Rva00DFE78C *)TheGameLogic)->m_40);
+	((ArmySummary *)y)->rva0040C985(((Rva00DFE78C *)TheGameLogic)->m_40);
 }

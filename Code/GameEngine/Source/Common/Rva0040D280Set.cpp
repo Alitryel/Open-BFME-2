@@ -3,7 +3,7 @@
 // ArmySummarySystem member (ret 8) taking Object plus int: PlaceLivingWorld-
 // ObjectsForPlayer calls it at 0x002411F4 with ECX = TheGameLogic + 0x184, and
 // forwarder 0x0023D0C2 adds the same 0x184. Looks up BfmeY1038 via the army
-// lookup 0x0040D008 on its own this, derives int via rowed Rva0040C985::rva0040CA24,
+// lookup 0x0040D008 on its own this, derives int via rowed ArmySummary::rva0040CA24,
 // gets Drawable via rowed Thing::getDrawable and when non-null stores via
 // rowed Object::setCustomIndicatorColor plus Object::rva0028BAAE.
 // Evidence: callees all rowed or pinned; caller jmp at 0x0023D0C8 and call
@@ -15,7 +15,7 @@ public:
 	Drawable *getDrawable() const;
 };
 class BfmeY1038;
-class Rva0040C985
+class ArmySummary
 {
 public:
 	int rva0040CA24();
@@ -39,7 +39,7 @@ void ArmySummarySystem::rva0040D280(Object *obj, int val)
 	BfmeY1038 *y = (BfmeY1038 *)rva0040D008(val);
 	if (y == 0)
 		return;
-	int v = ((Rva0040C985 *)y)->rva0040CA24();
+	int v = ((ArmySummary *)y)->rva0040CA24();
 	Drawable *drawable = obj->getDrawable();
 	if (drawable == 0)
 		return;

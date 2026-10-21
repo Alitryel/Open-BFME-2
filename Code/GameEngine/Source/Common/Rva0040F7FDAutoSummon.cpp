@@ -30,7 +30,7 @@ public:
 	void addSubsystem(SubsystemInterface *subsystem);
 };
 
-class Rva0040C985
+class ArmySummary
 {
 public:
 	void rva0040C985(int x);
@@ -59,10 +59,10 @@ void BfmeY1038::rva0040F7FD()
 		message.format("Auto-Summoning army %d into battle", m_1C);
 		reinterpret_cast<SubsystemInterfaceList *>(TheLivingWorldLogic)->addSubsystem(
 			reinterpret_cast<SubsystemInterface *>(&message));
-		reinterpret_cast<Rva0040C985 *>(this)->rva0040C985(reinterpret_cast<Rva00DFE78C *>(TheGameLogic)->m_frame);
+		reinterpret_cast<ArmySummary *>(this)->rva0040C985(reinterpret_cast<Rva00DFE78C *>(TheGameLogic)->m_frame);
 		break;
 	case 2:
-		reinterpret_cast<Rva0040C985 *>(this)->rva0040CA09();
+		reinterpret_cast<ArmySummary *>(this)->rva0040CA09();
 		break;
 	case 3:
 		rva0040F7E5();

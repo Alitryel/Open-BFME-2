@@ -314,6 +314,11 @@ class ArmySummary
 {
 public:
 	ArmySummaryEntryRef GetEntry(Int entryID);		// 0x0040CBD7
+	void rva0040C985(Int arg);				// 0x0040C985
+	void rva0040CA3A(Int offset);				// 0x0040CA3A
+
+	unsigned char m_pad00[0x2c];
+	Int m_battleState;					// +0x2C
 };
 
 class SpawnArmy;
@@ -2408,7 +2413,7 @@ done:
 // PrepareBattleForLoading's views: the campaign's +0x38 spacing (current
 // campaign of TheCampaignManager, or none); an army's summary at +0x78 with
 // its battle state word at +0x2C, offset setter 0x0040CA3A and engage
-// 0x0040C985 (rowed under the placeholder Rva0040C985; WorldBuilder
+// 0x0040C985 (ArmySummary, address-named; WorldBuilder
 // ArmySummary::EngageBattle); and the army's placement in the region
 // (rowed 0x00318BA5).
 struct Rva002B792ECampaign
@@ -2424,21 +2429,12 @@ struct Rva002B792ECampaignManager
 	Int m_campaignIndex;					// +0x10
 	_STL::vector<Rva002B792ECampaign *> m_campaigns;	// +0x14
 };
-class Rva0040C985
-{
-public:
-	void rva0040C985(Int arg);				// 0x0040C985
-	void rva0040CA3A(Int offset);				// 0x0040CA3A
-
-	unsigned char m_pad00[0x2c];
-	Int m_battleState;					// +0x2C
-};
 struct Rva002B792EArmy
 {
 	unsigned char m_pad00[0x18];
 	StringBase<char> m_templateName;			// +0x18
 	unsigned char m_pad1C[0x78 - 0x1c];
-	Rva0040C985 *m_summary;					// +0x78
+	ArmySummary *m_summary;					// +0x78
 };
 class Rva00318BA5
 {
@@ -2495,12 +2491,12 @@ void LivingWorldLogic::PrepareBattleForLoading(LivingWorldBattle *battle)
 						if (engaged > 0 && spacing > 0)
 						{
 							unit->m_summary->rva0040CA3A(offset);
-							Rva0040C985 *summary = unit->m_summary;
+							ArmySummary *summary = unit->m_summary;
 							summary->rva0040C985(0);
 						}
 						else
 						{
-							Rva0040C985 *summary = unit->m_summary;
+							ArmySummary *summary = unit->m_summary;
 							summary->m_battleState = 4;
 							((Rva00318BA5 *)armies[k])->rva00318BA5((LivingWorldRegion *)battle->m_region);
 						}
@@ -2509,7 +2505,7 @@ void LivingWorldLogic::PrepareBattleForLoading(LivingWorldBattle *battle)
 					}
 					else
 					{
-						Rva0040C985 *summary = unit->m_summary;
+						ArmySummary *summary = unit->m_summary;
 						summary->m_battleState = 4;
 					}
 				} while (++u < unitCount);

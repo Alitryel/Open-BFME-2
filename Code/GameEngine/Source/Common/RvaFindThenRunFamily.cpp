@@ -6,7 +6,7 @@
 //   opaque run; row keeps the peer pin),
 // 0x003551D3 (same finder -> opaque run at 0x00548632),
 // 0x0040D3E8 (ArmySummarySystem::GetArmyCurFramesToReinforceByID: the army
-//   lookup 0x0040D008 on its own this -> rowed Rva0040C985::rva0040C9F4;
+//   lookup 0x0040D008 on its own this -> rowed ArmySummary::rva0040C9F4;
 //   WorldBuilder's twin 0x0108DDB0 bears the name and makes the same two
 //   calls; GameLogic forwarder 0x0023D0AC adds 0x184 and tail-jumps here).
 // Finder/callee identities otherwise unproven; new names address-derived.
@@ -25,7 +25,7 @@ public:
 	const ArmorTemplate *rva0035516C(NameKeyType key) const;
 };
 
-class Rva0040C985
+class ArmySummary
 {
 public:
 	int rva0040C9F4();
@@ -75,7 +75,7 @@ void AiOrdersManager::rva003551D3(int value)
 
 int ArmySummarySystem::GetArmyCurFramesToReinforceByID(int id)
 {
-	Rva0040C985 *found = (Rva0040C985 *)rva0040D008(id);
+	ArmySummary *found = (ArmySummary *)rva0040D008(id);
 	int frames = (int)found;
 	if (found)
 		frames = found->rva0040C9F4();

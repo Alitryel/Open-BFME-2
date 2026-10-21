@@ -46,7 +46,7 @@ int Rva002B2AFD::rva002B2AFD()
 // Target objects supply a state object at +0x78; its +0x2C is compared with 2.
 // The callback's established int ABI carries that pointer-sized value.
 // Original visitor identity and the meaning of its state remain open.
-class Rva0040C985 {
+class ArmySummary {
 public: void rva0040CA09();
 char pad[0x2c]; int state;
 };
@@ -61,7 +61,7 @@ public:
 };
 bool Rva002B31DB::invoke(int value)
 {
- Rva0040C985 *state=*(Rva0040C985 **)((char *)value+0x78);
+ ArmySummary *state=*(ArmySummary **)((char *)value+0x78);
  if (state->state==2) state->rva0040CA09();
  return true;
 }

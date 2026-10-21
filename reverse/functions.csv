@@ -26970,7 +26970,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ??0Rva004A699C@@QAE@PAVStateMachine@@@Z,,0x004A699C,29,Code/GameEngine/Source/Common/StateDerivedCtors_muse-a7a4.cpp,matched,State derived ctor hash 0xE6B21889 vtable 0x00852E90 via I base pin
 ?releaseBuffer@?$StringBase@D@@AAEXXZ,0x00036410,0x00036410,133,Code/Libraries/Source/WWVegas/WWLib/StringBaseWideReleaseBuffer.cpp,matched,BFME2 export narrow releaseBuffer via ZH donor and rowed lock singleton and free
 ??_GGarrisonContainModuleData@@UAEPAXI@Z,,0x0047981E,28,Code/GameEngine/Source/GameLogic/Object/Contain/ContainModuleDeletingDtors.cpp,matched,slot0 wrapper calls rowed dtor 0x00257507 plus delete 0x0002FD60 vtable 0x00C462D8 from ctor 0x0047978F
-?rva0040C985@Rva0040C985@@QAEXH@Z,,0x0040C985,31,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,leaf init touches 0x2C to 0x38 with 3 callers no vtable O1
+?rva0040C985@ArmySummary@@QAEXH@Z,,0x0040C985,31,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,leaf init touches 0x2C to 0x38 with 3 callers no vtable O1
 ?rva0040C598@Rva0040C598@@QAEXPBH@Z,,0x0040C598,25,Code/GameEngine/Source/Common/Rva0040C598BitAnd.cpp,matched,leaf 32-dword AND loop 1 caller no vtable O1
 ?Rva0070DF60@Rva006DE2B0@@UAEXXZ,,0x0070DF60,30,Code/GameEngine/Source/Common/Rva006DE2B0Slot11.cpp,matched,slot11 of vtable 0x008EB150 via rowed dtor and clear
 ??0FontLibrary@@QAE@XZ,,0x00218942,103,Code/GameEngine/Source/GameClient/GUI/FontLibraryCtor.cpp,matched,FontLibrary ctor via BFME1 donor plus rowed map workers
@@ -29158,9 +29158,9 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ??_GBfmeStringRecord002199C8@@QAEPAXI@Z,,0x0021AC81,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-0a3a.cpp,matched,Deleting dtor for BfmeStringRecord002199C8 via AudioEventRTS shape
 ?Rva002AC04EAlloc@@YGPAXPAPAX@Z,,0x002AC04E,28,Code/GameEngine/Source/Common/Rva002AC04EAlloc.cpp,matched,Freelist node alloc via rowed pop same as Rva00239BD8Alloc
 ??$_M_allocate_and_copy@PAVRva00064640Record@@@?$vector@VRva00064640Record@@V?$allocator@VRva00064640Record@@@_STL@@@_STL@@IAEPAVRva00064640Record@@IPAV2@0@Z,,0x00469CED,45,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00064640_fill_n.cpp,matched,allocate via twin pin at 0xB40EA then rowed copy 0x469CA2 caller 0x46EE72; non-const iterators: its only retail caller is reserve 0x46EE38 passing _M_start/_M_finish
-?rva0040C9F4@Rva0040C985@@QAEHXZ,,0x0040C9F4,21,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,same TU Rva0040C985 m_34 plus TheGameLogic frame plus caller 0x0040D3E8
+?rva0040C9F4@ArmySummary@@QAEHXZ,,0x0040C9F4,21,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,same TU ArmySummary m_34 plus TheGameLogic frame plus caller 0x0040D3E8
 ??0Rva005DD9F9@@QAE@M@Z,,0x005DD9F9,94,Code/GameEngine/Source/Common/Rva005DD772Ctor.cpp,matched,chain of base 0x5DD772 rounds float via 0.5 plus slot44 WinPercent format
-?rva0040CA24@Rva0040C985@@QAEHXZ,,0x0040CA24,22,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,same TU Rva0040C985 m_24 m_28 plus TheGlobalData plus caller 0x0040D299
+?rva0040CA24@ArmySummary@@QAEHXZ,,0x0040CA24,22,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,same TU ArmySummary m_24 m_28 plus TheGlobalData plus caller 0x0040D299
 ?rva005391FD@Rva005391FD@@QAEXXZ,,0x005391FD,42,Code/GameEngine/Source/Common/Rva005391FD.cpp,matched,chain loop via slots 0x34 0x3C then 0x005C4CC1
 ?rva00539227@Rva005391FD@@QAEXXZ,,0x00539227,42,Code/GameEngine/Source/Common/Rva005391FD.cpp,matched,chain loop via slots 0x34 0x3C then 0x005C4CD4
 ?Pop_Material_Pass@RenderInfoClass@@QAEXXZ,,0x00142BE0,52,Code/Libraries/Source/WWVegas/WW3D2/rinfo.cpp,matched,ZH rinfo.cpp body on the BFME2 layout; inlined into the dtor 0x00142FE0 pop loop
@@ -29820,7 +29820,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva0029B132@Rva0029B132@@QAEPAV1@XZ,,0x0029B132,56,Code/GameEngine/Source/GameClient/Rva0029B132Init.cpp,matched,unlocks 0x002A0F19 zero plus 1.0f 0xBBB8D8 plus 0x20
 ??1Rva002E5711@@QAE@XZ,,0x002E5711,8,Code/GameEngine/Source/GameClient/Rva002E5711Dtor.cpp,matched,Nonvirtual dtor tail-jump releaseBuffer via Unicode member
 ??_GRva002E5711@@QAEPAXI@Z,,0x002E5D46,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse07-2E5711.cpp,matched,Deleting dtor calls rowed dtor plus delete
-?rva0040CA09@Rva0040C985@@QAEXXZ,,0x0040CA09,27,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,gap frame check plus state 2 to 3 callers 0x002B31E8 0x0040F82C
+?rva0040CA09@ArmySummary@@QAEXXZ,,0x0040CA09,27,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,gap frame check plus state 2 to 3 callers 0x002B31E8 0x0040F82C
 ?rva00330B2E@Rva00330B2E@@QAEXXZ,,0x00330B2E,19,Code/GameEngine/Source/GameClient/Rva00330B2EMemberCall.cpp,matched,member plus8 clear then slot12 chain 0x30B9CA
 ?Rva002E180DReinsert@@YAXPAPAX0PAX@Z,,0x002E180D,23,Code/GameEngine/Source/Common/Rva002E08A2Insert.cpp,matched,wrapper passing zero through to reinsert caller 0x002E2313
 ?Rva002E1EB7Insert@@YAXPAPAX0PAX1@Z,,0x002E1EB7,58,Code/GameEngine/Source/Common/Rva002E1EB7Insert.cpp,matched,guarded insert via copy-backward or Rva002E08A2Insert caller 0x002E2167
@@ -36283,7 +36283,7 @@ _CpuProbe_Sse2Executes,,0x001D5540,126,Code/Libraries/Source/VP6/CpuProbeSse2.cp
 ??$make_pair@VAsciiString@@E@_STL@@YA?AU?$pair@VAsciiString@@E@0@ABVAsciiString@@ABE@Z,,0x002056C1,27,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineRva0020881A.cpp,matched,Native byte-map pair ABI and whole209811 caller prove two-argument pair/make_pair relationship; renamed neutral owner; unchanged extent; original mapped typedef remains unknown. See byte-map209811 evidence.
 ??_GRva0022D249@@QAEPAXI@Z,,0x0022D904,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva0022D249.cpp,matched,chain packet you-just-landed callee plus 28B push-esi call-test-je delete shape
 ?rva00205CE7@ScriptEngine@@QAE?AVAsciiString@@V2@@Z,,0x00205CE7,118,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineRva00205CE7.cpp,matched,ScriptEngine path join via pinned resolveName slash concat callers 0x003C03C6 0x003C04C8
-?rva0040CA3A@Rva0040C985@@QAEXH@Z,,0x0040CA3A,28,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,and-zero 0x2C float-scale 0x30 via g_00DBA4F4 caller 0x002B7A8B
+?rva0040CA3A@ArmySummary@@QAEXH@Z,,0x0040CA3A,28,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,matched,and-zero 0x2C float-scale 0x30 via g_00DBA4F4 caller 0x002B7A8B
 ?rva002051B7@ScriptEngine@@QAEXPAVObject@@@Z,,0x002051B7,81,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineRva0020517D.cpp,matched,ScriptEngine clear slots plus 0x1A110 0x1A118 via rowed cleanup callers 0x003A3583
 ?rva004E3C71@Rva004E3C71@@QAEXXZ,,0x004E3C71,30,Code/GameEngine/Source/Common/Rva004E3C71DestroyFree.cpp,matched,destroy Rva004E2382 range via 0x004E377E then free via 0x00030830 caller 0x004E3DE8
 ?rva0022DBAA@Rva0022DBAA@@QAEXPAX@Z,,0x0022DBAA,28,Code/GameEngine/Source/Common/Rva0022DBAAFree.cpp,matched,chain body calls just-landed 0x0022D249 and rowed _free 0x00030830
@@ -37814,7 +37814,7 @@ _rva006D9D70Comparator,,0x006D9D70,203,Code/Libraries/Source/Apt/AptValue/Rva006
 ??$_M_allocate_and_copy@PAUAngleFXInfo@@@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@IAEPAUAngleFXInfo@@IPAU2@0@Z,,0x00181500,78,Code/GameEngine/Source/GameLogic/Object/Update/Rva00181500Finish.cpp,matched,explicit member-template specialization of the vendored 4.5.3 _M_allocate_and_copy; source-pointer chase + derived-destination null check reproduces the 76B retail loop where the implicit _Construct loop emits a 79B destination-indexed loop
 ??0Rva00540D94@@QAE@ABURva00540E9DSrc@@MMH@Z,,0x00540D94,54,Code/GameEngine/Source/Common/Rva00540D94Finish.cpp,matched,int-lvalue field copy keeps the 12B src run ahead of the +0x10 float store where field-named assignment sinks the last word; sibling of Rva00540E82Init.cpp
 ?rva0030B135@AreaPolygonBase@@QAEXPBUBfmePod8@@@Z,,0x0030B135,114,Code/GameEngine/Source/Common/Rva0030B135Finish.cpp,matched,float-lvalue array spelling pins member-first addss for all four mids; field-named += emits argument-first for the first two
-?rva0040C9A4@Rva0040C985@@QAEMXZ,,0x0040C9A4,80,Code/GameEngine/Source/Common/Rva0040C9A4Finish.cpp,matched,same-class neighbour of Rva0040C985Init; double 1.0 literal emits fcomip and early return keeps the x87 tail; arch:SSE required
+?rva0040C9A4@ArmySummary@@QAEMXZ,,0x0040C9A4,80,Code/GameEngine/Source/Common/Rva0040C9A4Finish.cpp,matched,same-class neighbour of Rva0040C985Init; double 1.0 literal emits fcomip and early return keeps the x87 tail; arch:SSE required
 ?rva003F036E@Rva003F02E4@@QAEHXZ,,0x003F036E,32,Code/GameEngine/Source/Common/Rva003F036EFinish.cpp,matched,vector non-empty or rowed sibling predicate; unsigned count >0 reproduces retail sar-2 count check
 ?Rva00521CBAAdvance@@YAXPAPAURva00521CBANode@@HPAX@Z,,0x00521CBA,41,Code/GameEngine/Source/Common/Rva00521CBAFinish.cpp,matched,linked-list advance by +/-count; shared materialised loop var avoids O2 loop-align NOP
 ??_GRva001164F5@@UAEPAXI@Z,,0x0011653F,28,Code/GameEngine/Source/Common/Rva0011653FCluster.cpp,matched,scalar deleting dtor of the 0x1164F5 destructor class (ctor 0x1164D3 vtable 0xBCFB38 base 0xBC5128); calls pinned dtor 0x1164F5 plus delete 0x2FD60
