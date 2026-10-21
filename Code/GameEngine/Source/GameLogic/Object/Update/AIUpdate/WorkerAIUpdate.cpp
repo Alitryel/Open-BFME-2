@@ -815,22 +815,8 @@ const Coord3D* WorkerAIUpdate::getDockPoint( DozerTask task, DozerDockPoint poin
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?loseOneBox@WorkerAIUpdate@@UAE_NXZ present-unmatched
-Bool WorkerAIUpdate::loseOneBox()
-{
-	if( m_numberBoxes == 0 )
-		return FALSE;
-
-	m_numberBoxes--;
-
-	Drawable *draw = getObject()->getDrawable();
-	if( draw )
-	{
-		draw->updateDrawableSupplyStatus( getWorkerAIUpdateModuleData()->m_maxBoxesData, m_numberBoxes );
-	}
-
-	return TRUE;
-}
+// WorkerAIUpdate::loseOneBox: retail's body is the row at 0x004A98AC
+// (WorkerAIUpdateCtor.cpp); this unit only declares it, so its vtable binds there.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

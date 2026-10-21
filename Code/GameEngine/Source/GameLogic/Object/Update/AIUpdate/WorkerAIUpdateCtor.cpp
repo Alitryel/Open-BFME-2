@@ -816,7 +816,7 @@ class SupplyTruckAIInterface
 public:
 	virtual void supplyTruckSlot0() = 0;
 	virtual void st01() = 0; virtual void st02() = 0;
-	virtual Bool rva004A98AC() = 0; // vslot 3 (+0x0C)
+	virtual Bool loseOneBox() = 0; // vslot 3 (+0x0C)
 	virtual Bool gainOneBox(Int remainingStock) = 0; // vslot 4 (+0x10)
 	virtual void st05() = 0; virtual void st06() = 0; virtual void st07() = 0; virtual void st08() = 0;
 	virtual void st09() = 0; virtual Real getWarehouseScanDistance() const = 0; virtual void st11() = 0; // vslot 10 (+0x28)
@@ -903,7 +903,7 @@ public:
 	virtual void onDelete();
 	virtual void supplyTruckSlot0();
 	virtual void aiDoCommand(const AICommandParms *parms);
-	virtual Bool rva004A98AC();
+	virtual Bool loseOneBox();
 	virtual Bool gainOneBox(Int remainingStock);
 	virtual void exitingSupplyTruckState();
 	virtual Bool isForcedIntoWantingState() const;
@@ -1098,7 +1098,7 @@ Bool WorkerStateMachine::supplyTruckSubMachineReadyToLeave(State *thisState, voi
 	return !supplyTruckSubMachineWantsToEnter(thisState, 0) && update->isSupplyTruckBrainActiveAndBusy();
 }
 
-Bool WorkerAIUpdate::rva004A98AC()
+Bool WorkerAIUpdate::loseOneBox()
 {
 	if (m_4A0 == 0)
 		return FALSE;
