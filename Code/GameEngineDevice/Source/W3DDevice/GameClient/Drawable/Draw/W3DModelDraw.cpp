@@ -438,14 +438,14 @@ W3DAnimationInfo::W3DAnimationInfo(const AsciiString& name, Bool isIdle, Real di
 
 //-------------------------------------------------------------------------------------------------
 // ??0W3DAnimationInfo@@ present-unmatched
-W3DAnimationInfo::W3DAnimationInfo( const W3DAnimationInfo &r ) : 
-	m_name(r.m_name),
+W3DAnimationInfo::W3DAnimationInfo( const W3DAnimationInfo &w3DAnimationInfo ) : 
+	m_name(w3DAnimationInfo.m_name),
 #ifdef RETAIN_ANIM_HANDLES
-	m_handle(r.m_handle),
+	m_handle(w3DAnimationInfo.m_handle),
 #endif
-	m_distanceCovered(r.m_distanceCovered),
-	m_isIdleAnim(r.m_isIdleAnim),
-	m_naturalDurationInMsec(r.m_naturalDurationInMsec)
+	m_distanceCovered(w3DAnimationInfo.m_distanceCovered),
+	m_isIdleAnim(w3DAnimationInfo.m_isIdleAnim),
+	m_naturalDurationInMsec(w3DAnimationInfo.m_naturalDurationInMsec)
 {
 #ifdef RETAIN_ANIM_HANDLES
 	if (m_handle)
@@ -1115,9 +1115,9 @@ void ModelConditionInfo::loadAnimations() const
 #ifdef RETAIN_ANIM_HANDLES
 	for (W3DAnimationVector::const_iterator it2 = m_animations.begin(); it2 != m_animations.end(); ++it2)
 	{
-		HAnimClass* h = it2->getAnimHandle();	// just force it to get loaded
-		REF_PTR_RELEASE(h);	
-		h = NULL;
+		HAnimClass* hAnim = it2->getAnimHandle();	// just force it to get loaded
+		REF_PTR_RELEASE(hAnim);	
+		hAnim = NULL;
 	}
 #else
 	// srj sez: I think there is no real reason to preload these all anymore. things that need the anims
@@ -1261,9 +1261,9 @@ void W3DModelDrawModuleData::preloadAssets( TimeOfDay timeOfDay, Real scale ) co
 
 //-------------------------------------------------------------------------------------------------
 // ?getBestModelNameForWB@W3DModelDrawModuleData@@ present-unmatched
-AsciiString W3DModelDrawModuleData::getBestModelNameForWB(const ModelConditionFlags& c) const
+AsciiString W3DModelDrawModuleData::getBestModelNameForWB(const ModelConditionFlags& modelConditionFlags) const
 {
-	const ModelConditionInfo* info = findBestInfo(c);
+	const ModelConditionInfo* info = findBestInfo(modelConditionFlags);
 	if (info)
 		return info->m_modelName;
 	return AsciiString::TheEmptyString;
@@ -1500,13 +1500,13 @@ static void parseBoneNameKey(INI* ini, void *instance, void * store, const void 
 }
 
 //-------------------------------------------------------------------------------------------------
-static Bool doesStateExist(const ModelConditionVector& v, const ModelConditionFlags& f)
+static Bool doesStateExist(const ModelConditionVector& modelConditionVector, const ModelConditionFlags& modelConditionFlags)
 {
-	for (ModelConditionVector::const_iterator it = v.begin(); it != v.end(); ++it)
+	for (ModelConditionVector::const_iterator it = modelConditionVector.begin(); it != modelConditionVector.end(); ++it)
 	{
 		for (Int i = it->getConditionsYesCount()-1; i >= 0; --i)
 		{
-			if (f == it->getNthConditionsYes(i))
+			if (modelConditionFlags == it->getNthConditionsYes(i))
 				return true;
 		}
 	}
@@ -1808,9 +1808,9 @@ static Int countOnBits(UnsignedInt val)
 
 //-------------------------------------------------------------------------------------------------
 // ?findBestInfo@W3DModelDrawModuleData@@ present-unmatched
-const ModelConditionInfo* W3DModelDrawModuleData::findBestInfo(const ModelConditionFlags& c) const
+const ModelConditionInfo* W3DModelDrawModuleData::findBestInfo(const ModelConditionFlags& modelConditionFlags) const
 {
-	ModelConditionFlags bits = c;
+	ModelConditionFlags bits = modelConditionFlags;
 	bits.clear(m_ignoreConditionStates);
 	return m_conditionStateMap.findBestInfo(m_conditionStates, bits);
 }
@@ -1917,21 +1917,21 @@ void W3DModelDraw::onDrawableBoundToObject(void)
 // ?allocateShadows@W3DModelDraw@@ present-unmatched
 void W3DModelDraw::allocateShadows(void)
 {
-	const ThingTemplate *tmplate=getDrawable()->getTemplate();
+	const ThingTemplate *thingTemplate=getDrawable()->getTemplate();
 
 	//Check if we don't already have a shadow but need one for this type of model.
-	if (m_shadow == NULL && m_renderObject && TheW3DShadowManager && tmplate->getShadowType() != SHADOW_NONE)
+	if (m_shadow == NULL && m_renderObject && TheW3DShadowManager && thingTemplate->getShadowType() != SHADOW_NONE)
 	{	
 		Shadow::ShadowTypeInfo shadowInfo;
-		strcpy(shadowInfo.m_ShadowName, tmplate->getShadowTextureName().str());
+		strcpy(shadowInfo.m_ShadowName, thingTemplate->getShadowTextureName().str());
 		DEBUG_ASSERTCRASH(shadowInfo.m_ShadowName[0] != '\0', ("this should be validated in ThingTemplate now"));
 		shadowInfo.allowUpdates			= FALSE;		//shadow image will never update
 		shadowInfo.allowWorldAlign	= TRUE;	//shadow image will wrap around world objects
-		shadowInfo.m_type						= (ShadowType)tmplate->getShadowType();
-		shadowInfo.m_sizeX					= tmplate->getShadowSizeX();
-		shadowInfo.m_sizeY					= tmplate->getShadowSizeY();
-		shadowInfo.m_offsetX				= tmplate->getShadowOffsetX();
-		shadowInfo.m_offsetY				= tmplate->getShadowOffsetY();
+		shadowInfo.m_type						= (ShadowType)thingTemplate->getShadowType();
+		shadowInfo.m_sizeX					= thingTemplate->getShadowSizeX();
+		shadowInfo.m_sizeY					= thingTemplate->getShadowSizeY();
+		shadowInfo.m_offsetX				= thingTemplate->getShadowOffsetX();
+		shadowInfo.m_offsetY				= thingTemplate->getShadowOffsetY();
   		m_shadow = TheW3DShadowManager->addShadow(m_renderObject, &shadowInfo);
 		if (m_shadow)
 		{	m_shadow->enableShadowInvisible(m_fullyObscuredByShroud);
@@ -2014,11 +2014,11 @@ void W3DModelDraw::setFullyObscuredByShroud(Bool fullyObscured)
 }
 
 //-------------------------------------------------------------------------------------------------
-static Bool isAnimationComplete(RenderObjClass* r)
+static Bool isAnimationComplete(RenderObjClass* renderObj)
 {
-	if (r && r->Class_ID() == RenderObjClass::CLASSID_HLOD)
+	if (renderObj && renderObj->Class_ID() == RenderObjClass::CLASSID_HLOD)
 	{
-		HLodClass *hlod = (HLodClass*)r;
+		HLodClass *hlod = (HLodClass*)renderObj;
 		return hlod->Is_Animation_Complete();
 	}
 
@@ -2057,10 +2057,10 @@ void W3DModelDraw::adjustAnimSpeedToMovementSpeed()
 // ?adjustTransformMtx@W3DModelDraw@@ present-unmatched
 void W3DModelDraw::adjustTransformMtx(Matrix3D& mtx) const
 {
-	const W3DModelDrawModuleData* d = getW3DModelDrawModuleData();
+	const W3DModelDrawModuleData* w3DModelDrawModuleData = getW3DModelDrawModuleData();
 
 #ifdef CACHE_ATTACH_BONE
-	const Vector3* offset = d->getAttachToDrawableBoneOffset(getDrawable());
+	const Vector3* offset = w3DModelDrawModuleData->getAttachToDrawableBoneOffset(getDrawable());
 	if (offset)
 	{
 		Vector3 tmp = mtx.Rotate_Vector(*offset);
@@ -2069,12 +2069,12 @@ void W3DModelDraw::adjustTransformMtx(Matrix3D& mtx) const
 		mtx.Adjust_Z_Translation(tmp.Z);
 	}
 #else
-	if (d->m_attachToDrawableBone.isNotEmpty())
+	if (w3DModelDrawModuleData->m_attachToDrawableBone.isNotEmpty())
 	{
 		// override the mtx in this case. yes, call drawable, since the bone in question is 
 		// likely to be in another module!
 		Matrix3D boneMtx;
-		if (getDrawable()->getCurrentWorldspaceClientBonePositions(d->m_attachToDrawableBone.str(), boneMtx))
+		if (getDrawable()->getCurrentWorldspaceClientBonePositions(w3DModelDrawModuleData->m_attachToDrawableBone.str(), boneMtx))
 		{
 			mtx = boneMtx;
 		}
@@ -2698,15 +2698,15 @@ void W3DModelDraw::hideAllMuzzleFlashes(const ModelConditionInfo* state, RenderO
 }
 
 //-------------------------------------------------------------------------------------------------
-static Bool turretNamesDiffer(const ModelConditionInfo* a, const ModelConditionInfo* b)
+static Bool turretNamesDiffer(const ModelConditionInfo* modelConditionInfo, const ModelConditionInfo* b)
 {
-	if (!(a->m_validStuff & ModelConditionInfo::TURRETS_VALID) || !(b->m_validStuff & ModelConditionInfo::TURRETS_VALID))
+	if (!(modelConditionInfo->m_validStuff & ModelConditionInfo::TURRETS_VALID) || !(b->m_validStuff & ModelConditionInfo::TURRETS_VALID))
 	{
 		return true;
 	}
 	for (int i = 0; i < MAX_TURRETS; ++i)
-		if (a->m_turrets[i].m_turretAngleNameKey != b->m_turrets[i].m_turretAngleNameKey || 
-				a->m_turrets[i].m_turretPitchNameKey != b->m_turrets[i].m_turretPitchNameKey)
+		if (modelConditionInfo->m_turrets[i].m_turretAngleNameKey != b->m_turrets[i].m_turretAngleNameKey || 
+				modelConditionInfo->m_turrets[i].m_turretPitchNameKey != b->m_turrets[i].m_turretPitchNameKey)
 			return true;
 
 	return false;
@@ -2991,11 +2991,11 @@ void W3DModelDraw::setModelState(const ModelConditionInfo* newState)
 
 //-------------------------------------------------------------------------------------------------
 // ?replaceModelConditionState@W3DModelDraw@@ present-unmatched
-void W3DModelDraw::replaceModelConditionState(const ModelConditionFlags& c)
+void W3DModelDraw::replaceModelConditionState(const ModelConditionFlags& modelConditionFlags)
 {
-	m_hideHeadlights = c.test(MODELCONDITION_NIGHT) ? false : true;
+	m_hideHeadlights = modelConditionFlags.test(MODELCONDITION_NIGHT) ? false : true;
 
-	const ModelConditionInfo* info = findBestInfo(c);
+	const ModelConditionInfo* info = findBestInfo(modelConditionFlags);
 	if (info)
 		setModelState(info);
 
@@ -3034,11 +3034,11 @@ void W3DModelDraw::replaceIndicatorColor(Color color)
 			m_hexColor = newColor;
 
 			// set these to NULL to force a regen of everything in setModelState.
-			const ModelConditionInfo* tmp = m_curState;
+			const ModelConditionInfo* modelConditionInfo = m_curState;
 			m_curState = NULL;
 			m_nextState = NULL;
 			m_nextStateAnimLoopDuration = NO_NEXT_DURATION;
-			setModelState(tmp);
+			setModelState(modelConditionInfo);
 		}
 	}
 }
@@ -3388,9 +3388,9 @@ Bool W3DModelDraw::getCurrentWorldspaceClientBonePositions(const char* boneName,
 
 //-------------------------------------------------------------------------------------------------
 // ?findBestInfo@W3DModelDraw@@ present-unmatched
-const ModelConditionInfo* W3DModelDraw::findBestInfo(const ModelConditionFlags& c) const
+const ModelConditionInfo* W3DModelDraw::findBestInfo(const ModelConditionFlags& modelConditionFlags) const
 {
-	return getW3DModelDrawModuleData()->findBestInfo(c);
+	return getW3DModelDrawModuleData()->findBestInfo(modelConditionFlags);
 }
 
 //-------------------------------------------------------------------------------------------------

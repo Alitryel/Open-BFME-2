@@ -39,17 +39,17 @@ typedef int (BfmeBoneRenderDispatch::*BoneGetIndex)(RenderObjClass *) const;
 typedef int (BfmeBoneRenderDispatch::*BoneGetCount)() const;
 typedef void (BfmeBoneRenderDispatch::*BoneSetHidden)(int);
 // ?nativeSubObject absent-from-retail
-__forceinline RenderObjClass *nativeSubObject(RenderObjClass *o, int index) { return (((BfmeBoneRenderDispatch *)o)->*(*(BoneGetSub *)&(*(void ***)o)[30]))(index); }
+__forceinline RenderObjClass *nativeSubObject(RenderObjClass *renderObj, int index) { return (((BfmeBoneRenderDispatch *)renderObj)->*(*(BoneGetSub *)&(*(void ***)renderObj)[30]))(index); }
 // ?nativeSubBone absent-from-retail
-__forceinline int nativeSubBone(RenderObjClass *o, RenderObjClass *child) { return (((BfmeBoneRenderDispatch *)o)->*(*(BoneGetIndex *)&(*(void ***)o)[36]))(child); }
+__forceinline int nativeSubBone(RenderObjClass *renderObj, RenderObjClass *child) { return (((BfmeBoneRenderDispatch *)renderObj)->*(*(BoneGetIndex *)&(*(void ***)renderObj)[36]))(child); }
 // ?nativeBoneCount absent-from-retail
-__forceinline int nativeBoneCount(RenderObjClass *o) { return (((BfmeBoneRenderDispatch *)o)->*(*(BoneGetCount *)&(*(void ***)o)[48]))(); }
+__forceinline int nativeBoneCount(RenderObjClass *renderObj) { return (((BfmeBoneRenderDispatch *)renderObj)->*(*(BoneGetCount *)&(*(void ***)renderObj)[48]))(); }
 // ?nativeSetHidden absent-from-retail
-__forceinline void nativeSetHidden(RenderObjClass *o, int hidden) { (((BfmeBoneRenderDispatch *)o)->*(*(BoneSetHidden *)&(*(void ***)o)[101]))(hidden); }
+__forceinline void nativeSetHidden(RenderObjClass *renderObj, int hidden) { (((BfmeBoneRenderDispatch *)renderObj)->*(*(BoneSetHidden *)&(*(void ***)renderObj)[101]))(hidden); }
 struct BfmeBoneRefCount { void *vtable; mutable int refs; };
 typedef void (BfmeBoneRenderDispatch::*BoneDestroy)();
 // ?nativeRelease absent-from-retail
-__forceinline void nativeRelease(RenderObjClass *o) { if (--((BfmeBoneRefCount *)o)->refs == 0) (((BfmeBoneRenderDispatch *)o)->*(*(BoneDestroy *)&(*(void ***)o)[0]))(); }
+__forceinline void nativeRelease(RenderObjClass *renderObj) { if (--((BfmeBoneRefCount *)renderObj)->refs == 0) (((BfmeBoneRenderDispatch *)renderObj)->*(*(BoneDestroy *)&(*(void ***)renderObj)[0]))(); }
 static void doHideShowBoneSubObjs(Bool state, Int numSubObjects, Int boneIdx, RenderObjClass *fullObject, const HTreeClass *htree)
 {
 	for (Int i=0; i < numSubObjects; i++) 

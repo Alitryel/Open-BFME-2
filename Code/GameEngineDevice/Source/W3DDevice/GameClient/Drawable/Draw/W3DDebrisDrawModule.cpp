@@ -270,11 +270,11 @@ private:
 };
 
 //-------------------------------------------------------------------------------------------------
-static Bool isAnimationComplete(RenderObjClass* r)
+static Bool isAnimationComplete(RenderObjClass* renderObj)
 {
-	if (r->Class_ID() == RenderObjClass::CLASSID_HLOD)
+	if (renderObj->Class_ID() == RenderObjClass::CLASSID_HLOD)
 	{
-		HLodClass *hlod = (HLodClass*)r;
+		HLodClass *hlod = (HLodClass*)renderObj;
 		return hlod->Is_Animation_Complete();
 	}
 
@@ -287,8 +287,8 @@ static Bool isAnimationComplete(RenderObjClass* r)
 // link order (other views place the fields elsewhere), so the unit could not link; Matrix3D likewise
 // drops its empty user-declared default constructor. The inlined code is unchanged.
 struct BfmeDebrisDrawableOps {
-	static __forceinline Object *getObject( Drawable *d ) { return d->m_object; }
-	static __forceinline Real getInstanceScale( const Drawable *d ) { return d->m_instanceScale; }
+	static __forceinline Object *getObject( Drawable *drawable ) { return drawable->m_object; }
+	static __forceinline Real getInstanceScale( const Drawable *drawable ) { return drawable->m_instanceScale; }
 };
 
 void W3DDebrisDraw::doDrawModule(const Matrix3D* transformMtx)

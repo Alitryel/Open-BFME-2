@@ -43,8 +43,8 @@ extern "C" {
 // _D3DXMatrixMultiply@12
 typedef D3DXMATRIX* (__stdcall *PFN_D3DXMatrixMultiply)(D3DXMATRIX *, const D3DXMATRIX *, const D3DXMATRIX *);
 extern PFN_D3DXMatrixMultiply __identifier("_imp__D3DXMatrixMultiply@12");
-D3DXMATRIX* __stdcall D3DXMatrixMultiply(D3DXMATRIX *pOut, const D3DXMATRIX *pM1, const D3DXMATRIX *pM2) {
- return __identifier("_imp__D3DXMatrixMultiply@12")(pOut, pM1, pM2);
+D3DXMATRIX* __stdcall D3DXMatrixMultiply(D3DXMATRIX *pOut, const D3DXMATRIX *d3DXMATRIX, const D3DXMATRIX *pM2) {
+ return __identifier("_imp__D3DXMatrixMultiply@12")(pOut, d3DXMATRIX, pM2);
 }
 
 // _D3DXMatrixScaling@16

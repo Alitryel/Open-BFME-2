@@ -204,10 +204,10 @@ void W3DRadar::deleteResources( void )
 	char *radar = reinterpret_cast<char *>(this);
 
 	reinterpret_cast<BfmeResetTextureRef *>(radar + 0x1470)->clear();
-	W3DRadarDeleteImage *&image0 = *reinterpret_cast<W3DRadarDeleteImage **>(radar + 0x146c);
-	if (image0)
-		::delete image0;
-	image0 = NULL;
+	W3DRadarDeleteImage *&w3DRadarDeleteImage = *reinterpret_cast<W3DRadarDeleteImage **>(radar + 0x146c);
+	if (w3DRadarDeleteImage)
+		::delete w3DRadarDeleteImage;
+	w3DRadarDeleteImage = NULL;
 
 	reinterpret_cast<BfmeResetTextureRef *>(radar + 0x1480)->clear();
 	W3DRadarDeleteImage *&image1 = *reinterpret_cast<W3DRadarDeleteImage **>(radar + 0x147c);

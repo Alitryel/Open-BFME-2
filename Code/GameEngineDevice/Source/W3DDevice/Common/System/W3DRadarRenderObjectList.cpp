@@ -414,12 +414,12 @@ void W3DRadar::rva00050125(const RadarObject *listHead, const CursorTextureSlot 
 		radarPoint.y = (Int)(pos->y * scaleY);
 		Color c = Rva0004D76EBlend(rObj->getColor(), alpha);
 
-		const ThingTemplate *tmpl = obj->getTemplate();
+		const ThingTemplate *thingTemplate = obj->getTemplate();
 		Rva00373EC6 *disguise = obj->rva0028F4BC();
 		if (disguise && disguise->m_template && obj->getControllingPlayer() != ThePlayerList->radarLocalPlayer())
-			tmpl = disguise->m_template;
+			thingTemplate = disguise->m_template;
 
-		if (tmpl->m_110_bit26)
+		if (thingTemplate->m_110_bit26)
 		{
 			if (!rva0004E704(obj, &c))
 				continue;

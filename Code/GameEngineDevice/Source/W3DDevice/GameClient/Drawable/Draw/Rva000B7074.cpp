@@ -42,13 +42,13 @@ void Rva000B7074::rva000B7074()
 	if (f1 > 0.0f)
 	{
 		Cont000B7074 *c = m_cont;
-		Object *o = c->m_obj;
-		if (o != 0)
+		Object *object = c->m_obj;
+		if (object != 0)
 		{
-			float f2 = o->rva0028AC7D();
+			float f2 = object->rva0028AC7D();
 			if (f2 == 0.0f)
 			{
-				Object *p = o->rva002931F5(false);
+				Object *p = object->rva002931F5(false);
 				if (p != 0)
 					f2 = p->rva0028AC7D();
 			}

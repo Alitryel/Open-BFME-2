@@ -48,9 +48,9 @@ bool MilesAudioManager::rva00056670(ObjectID id)
 	int val = 0;
 	if (obj)
 	{
-		Drawable *d = obj->getDrawable();
-		if (d)
-			val = ((Rva0055A88BDwordField *)d)->get();
+		Drawable *drawable = obj->getDrawable();
+		if (drawable)
+			val = ((Rva0055A88BDwordField *)drawable)->get();
 	}
 	return rva00054899(id, val);
 }

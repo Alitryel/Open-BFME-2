@@ -242,7 +242,7 @@ struct DoDrawIDNode
 struct DoDrawIDIterator
 {
 	DoDrawIDNode *m_node;
-	DoDrawIDIterator(DoDrawIDNode *n) : m_node(n) {}
+	DoDrawIDIterator(DoDrawIDNode *doDrawIDNode) : m_node(doDrawIDNode) {}
 	const int &operator*() const { return m_node->m_value; }
 	bool operator!=(const DoDrawIDIterator &o) const { return m_node != o.m_node; }
 	DoDrawIDIterator &operator++()
@@ -370,20 +370,20 @@ void W3DModelDraw::doDrawModule(const Matrix3D *transformMtx)
 	if (!m_bA0 && m_A4)
 		return;
 
-	const W3DModelDrawModuleData *d = getW3DModelDrawModuleData();
-	if (d->m_b15D)
+	const W3DModelDrawModuleData *w3DModelDrawModuleData = getW3DModelDrawModuleData();
+	if (w3DModelDrawModuleData->m_b15D)
 	{
 		if (!TheGameLogic->isInMultiplayerGame())
 			return;
 		if (((DoDrawGlobalDataView *)TheWritableGlobalData)->m_bD45)
 			return;
 	}
-	if (d->m_b15F && m_BC)
+	if (w3DModelDrawModuleData->m_b15F && m_BC)
 		return;
 
 	m_bA0 = false;
 
-	if (testModelCondition239() && !d->m_particleName.isEmpty())
+	if (testModelCondition239() && !w3DModelDrawModuleData->m_particleName.isEmpty())
 	{
 		Vector3 v = transformMtx->Get_Translation();
 		Coord3D pos = *(const Coord3D *)&v;
@@ -394,10 +394,10 @@ void W3DModelDraw::doDrawModule(const Matrix3D *transformMtx)
 		}
 		else
 		{
-			const ParticleSystemTemplate *tmpl = TheParticleSystemManager->findTemplate(d->m_particleName);
-			if (tmpl)
+			const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(w3DModelDrawModuleData->m_particleName);
+			if (particleSystemTemplate)
 			{
-				m_particleSystem = TheParticleSystemManager->createParticleSystem(tmpl, true);
+				m_particleSystem = TheParticleSystemManager->createParticleSystem(particleSystemTemplate, true);
 				if (m_particleSystem)
 				{
 					((Rva001F3899Slot *)m_particleSystem.operator->())->set(*(const Rva001F3899Arg *)&pos);
@@ -422,14 +422,14 @@ void W3DModelDraw::doDrawModule(const Matrix3D *transformMtx)
 			mtx.Set_Translation(transformMtx->Get_Translation());
 			mtx.Rotate_Z(TheTacticalView->getAngle());
 		}
-		else if (!d->m_bfmeFlag69 && !d->m_bfmeFlag6A)
+		else if (!w3DModelDrawModuleData->m_bfmeFlag69 && !w3DModelDrawModuleData->m_bfmeFlag6A)
 		{
 			mtx = *transformMtx;
 		}
 		else
 		{
 			mtx.Set_Translation(transformMtx->Get_Translation());
-			if (d->m_bfmeFlag6A)
+			if (w3DModelDrawModuleData->m_bfmeFlag6A)
 			{
 				Object *obj = getDrawable()->getObject();
 				Real angle;
@@ -460,7 +460,7 @@ void W3DModelDraw::doDrawModule(const Matrix3D *transformMtx)
 	handleClientTurretPositioning();
 	rva000C6E1A();
 
-	if (d->m_b108)
+	if (w3DModelDrawModuleData->m_b108)
 		ifaceSlot27(0);
 
 	if (m_drawIDs.size())
@@ -483,7 +483,7 @@ void W3DModelDraw::doDrawModule(const Matrix3D *transformMtx)
 
 	Object *obj = getDrawable()->getObject();
 	DoDrawSlaveOwner *owner;
-	if (obj && (owner = obj->m_owner274) != 0 && !d->m_b136 && !owner->m_slave->isHidden())
+	if (obj && (owner = obj->m_owner274) != 0 && !w3DModelDrawModuleData->m_b136 && !owner->m_slave->isHidden())
 	{
 		if (!m_b4B)
 			m_b4B = true;

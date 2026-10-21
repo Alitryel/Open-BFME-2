@@ -173,12 +173,12 @@ static __forceinline Bool boneNameEmpty(const AsciiString &name)
 
 Bool W3DQuadrupedDraw::getFootLocations(Coord3DVector &feet, Bool worldSpace)
 {
-	const W3DQuadrupedDrawModuleData *d = m_moduleData;
-	if (!d)
+	const W3DQuadrupedDrawModuleData *w3DQuadrupedDrawModuleData = m_moduleData;
+	if (!w3DQuadrupedDrawModuleData)
 		return false;
-	if (boneNameEmpty(d->m_footBones[0]) && boneNameEmpty(d->m_footBones[1]))
+	if (boneNameEmpty(w3DQuadrupedDrawModuleData->m_footBones[0]) && boneNameEmpty(w3DQuadrupedDrawModuleData->m_footBones[1]))
 		return false;
-	if (boneNameEmpty(d->m_footBones[2]) && boneNameEmpty(d->m_footBones[3]))
+	if (boneNameEmpty(w3DQuadrupedDrawModuleData->m_footBones[2]) && boneNameEmpty(w3DQuadrupedDrawModuleData->m_footBones[3]))
 		return false;
 
 	const Matrix3D *xform = 0;
@@ -201,19 +201,19 @@ Bool W3DQuadrupedDraw::getFootLocations(Coord3DVector &feet, Bool worldSpace)
 	Matrix3D mtx;
 	for (Int i = 0; i < 4; i++)
 	{
-		if (boneNameEmpty(d->m_footBones[i]))
+		if (boneNameEmpty(w3DQuadrupedDrawModuleData->m_footBones[i]))
 		{
 			found[i] = false;
 			continue;
 		}
 		if (worldSpace)
 		{
-			found[i] = getPristineBonePositionsForConditionState(draw->getModelConditionFlags(), d->m_footBones[i].str(), 0, 0, &mtx, 1, 0);
+			found[i] = getPristineBonePositionsForConditionState(draw->getModelConditionFlags(), w3DQuadrupedDrawModuleData->m_footBones[i].str(), 0, 0, &mtx, 1, 0);
 			mtx.preMul(*xform);
 		}
 		else
 		{
-			found[i] = getCurrentWorldspaceClientBonePositions(d->m_footBones[i].str(), mtx);
+			found[i] = getCurrentWorldspaceClientBonePositions(w3DQuadrupedDrawModuleData->m_footBones[i].str(), mtx);
 		}
 		if (found[i])
 		{

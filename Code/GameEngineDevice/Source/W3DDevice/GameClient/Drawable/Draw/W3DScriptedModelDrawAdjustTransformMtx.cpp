@@ -277,11 +277,11 @@ void W3DScriptedModelDraw::rva000B710D(Matrix3D &mtx)
 				++g_Va00DEAF14;
 		}
 	}
-	const W3DScriptedModelDrawData *d = m_moduleData;
-	if (!((const StringBase<char> *)&d->m_attachToBone)->isEmpty())
+	const W3DScriptedModelDrawData *w3DScriptedModelDrawData = m_moduleData;
+	if (!((const StringBase<char> *)&w3DScriptedModelDrawData->m_attachToBone)->isEmpty())
 	{
 		Matrix3D boneMtx;
-		if (getDrawable()->rva00272835((int)d->m_attachToBone.str(), (int)&boneMtx))
+		if (getDrawable()->rva00272835((int)w3DScriptedModelDrawData->m_attachToBone.str(), (int)&boneMtx))
 		{
 			mtx = boneMtx;
 			adjustAttachedTransform(&mtx);

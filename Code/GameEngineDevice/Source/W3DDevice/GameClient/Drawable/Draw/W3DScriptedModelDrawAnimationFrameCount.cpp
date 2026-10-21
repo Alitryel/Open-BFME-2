@@ -382,9 +382,9 @@ public:
 	void rva000C2CBF(int count, _STL::vector<AsciiString> *originals, _STL::vector<AsciiString> *replacements);
 	// The one-character append retail expands in place (StringBase concat
 	// 0x000369A0 on a stack copy of the character).
-	static __forceinline void appendChar(AsciiString &s, char c)
+	static __forceinline void appendChar(AsciiString &asciiString, char c)
 	{
-		((StringBase<char> *)&s)->concat(&c, 1);
+		((StringBase<char> *)&asciiString)->concat(&c, 1);
 	}
 
 private:
@@ -782,56 +782,56 @@ class ScriptedDrawView{public:__forceinline Rva0027532F*GetDrawable(){return dra
  char pad28d[0x2d8-0x28d];bool reselect;
 };
 void W3DScriptedModelDraw::processAnimations(){
- ScriptedDrawView*v=(ScriptedDrawView*)this;
- if(!v->render || !v->state)return;
- ModelDataView*module=v->data;
+ ScriptedDrawView*scriptedDrawView=(ScriptedDrawView*)this;
+ if(!scriptedDrawView->render || !scriptedDrawView->state)return;
+ ModelDataView*module=scriptedDrawView->data;
  ((Rva000B5C41*)this)->rva000B5A72((Arg000B5A72*)module);
- if(!v->slots[0].motion && !v->slots[1].motion){
-  if(v->transition){void*next=((Rva000B4BED*)module)->rva000B4BED(v->signature);if(next){v->pending=false;((Rva000B8F5AOuter*)this)->rva000BF9FC(next,0,0);}v->transition=false;v->nextState=0;}return;
+ if(!scriptedDrawView->slots[0].motion && !scriptedDrawView->slots[1].motion){
+  if(scriptedDrawView->transition){void*next=((Rva000B4BED*)module)->rva000B4BED(scriptedDrawView->signature);if(next){scriptedDrawView->pending=false;((Rva000B8F5AOuter*)this)->rva000BF9FC(next,0,0);}scriptedDrawView->transition=false;scriptedDrawView->nextState=0;}return;
  }
- unsigned delta=(unsigned)g_bfmeDisplayAnimationSyncClock-v->lastSync;v->lastSync=g_bfmeDisplayAnimationSyncClock;
- if(v->firstFrame){v->firstFrame=false;delta=WW3D::Delta();}
- ((PauseAnimationIface*)((char*)this+0xc))->Pause(!v->GetDrawable()->rva0027532F(module->requirePower));
- if(!v->slots[0].motion && v->slots[1].motion){
+ unsigned delta=(unsigned)g_bfmeDisplayAnimationSyncClock-scriptedDrawView->lastSync;scriptedDrawView->lastSync=g_bfmeDisplayAnimationSyncClock;
+ if(scriptedDrawView->firstFrame){scriptedDrawView->firstFrame=false;delta=WW3D::Delta();}
+ ((PauseAnimationIface*)((char*)this+0xc))->Pause(!scriptedDrawView->GetDrawable()->rva0027532F(module->requirePower));
+ if(!scriptedDrawView->slots[0].motion && scriptedDrawView->slots[1].motion){
   ((Rva000B3C61*)this)->rva000B3CCF(0,1);
-  if(v->slots[2].motion){
+  if(scriptedDrawView->slots[2].motion){
    ((Rva000B3C61*)this)->rva000B3CCF(1,2);
-   float limit=v->slots[1].unused;
+   float limit=scriptedDrawView->slots[1].unused;
    float duration;
-   if(limit>0.0f){float last=v->slots[1].motion->NumFrames()-1.0f;duration=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(limit,last));}
-   else{float last=v->slots[1].motion->NumFrames()-1.0f;duration=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(5.0f,last));}
-   v->blend=v->blendTotal=duration;
+   if(limit>0.0f){float last=scriptedDrawView->slots[1].motion->NumFrames()-1.0f;duration=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(limit,last));}
+   else{float last=scriptedDrawView->slots[1].motion->NumFrames()-1.0f;duration=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(5.0f,last));}
+   scriptedDrawView->blend=scriptedDrawView->blendTotal=duration;
   }
  }
- for(int i=0;i<3;++i){AnimSlot&s=((ScriptedDrawView*)this)->slots[i];if(s.motion){
-  float step=s.motion->FrameRate()*v->multiplier*v->speed*delta*0.001f;
-  float last=s.motion->NumFrames()-1.0f;
-  s.previous=s.frame;s.completed=false;
-  switch(s.mode){
-  case 1:s.frame=step+s.frame;if(s.frame>last){s.frame-=int(s.frame/last)*last;s.completed=true;}break;
-  case 2:s.frame=step+s.frame;if(s.frame>last){s.frame=last;s.completed=true;}break;
-  case 3:{float frame=s.frame+s.direction*step;s.frame=frame;if(s.direction==1){if(frame>last){s.direction=-1;float repeated=int(frame/last)*last;repeated+=last;s.frame=repeated-frame;s.completed=true;}}else if(s.frame<0.0f){int repeats=(int)(fabs((double)s.frame)/last);if(repeats>0)s.frame+=repeats*last;s.frame=-s.frame;s.direction=1;s.completed=true;}break;}
-  case 5:{s.frame-=step;if(s.frame<0.0f){float repeated=(int)(fabs((double)s.frame)/last)*(*(volatile float*)&last);repeated+=last;s.frame+=repeated;s.completed=true;}break;}
-  case 6:s.frame-=step;if(s.frame<0.0f){s.frame=0.0f;s.completed=true;}break;
+ for(int i=0;i<3;++i){AnimSlot&animSlot=((ScriptedDrawView*)this)->slots[i];if(animSlot.motion){
+  float step=animSlot.motion->FrameRate()*scriptedDrawView->multiplier*scriptedDrawView->speed*delta*0.001f;
+  float last=animSlot.motion->NumFrames()-1.0f;
+  animSlot.previous=animSlot.frame;animSlot.completed=false;
+  switch(animSlot.mode){
+  case 1:animSlot.frame=step+animSlot.frame;if(animSlot.frame>last){animSlot.frame-=int(animSlot.frame/last)*last;animSlot.completed=true;}break;
+  case 2:animSlot.frame=step+animSlot.frame;if(animSlot.frame>last){animSlot.frame=last;animSlot.completed=true;}break;
+  case 3:{float frame=animSlot.frame+animSlot.direction*step;animSlot.frame=frame;if(animSlot.direction==1){if(frame>last){animSlot.direction=-1;float repeated=int(frame/last)*last;repeated+=last;animSlot.frame=repeated-frame;animSlot.completed=true;}}else if(animSlot.frame<0.0f){int repeats=(int)(fabs((double)animSlot.frame)/last);if(repeats>0)animSlot.frame+=repeats*last;animSlot.frame=-animSlot.frame;animSlot.direction=1;animSlot.completed=true;}break;}
+  case 5:{animSlot.frame-=step;if(animSlot.frame<0.0f){float repeated=(int)(fabs((double)animSlot.frame)/last)*(*(volatile float*)&last);repeated+=last;animSlot.frame+=repeated;animSlot.completed=true;}break;}
+  case 6:animSlot.frame-=step;if(animSlot.frame<0.0f){animSlot.frame=0.0f;animSlot.completed=true;}break;
   }
  }}
- if(v->slots[0].motion && v->slots[1].motion){
-  float step=v->slots[1].motion->FrameRate()*v->multiplier*v->speed*delta;
-  v->blend-=step*0.001f;
-  if(v->blend<0.0f){((Rva000B3C61*)this)->rva000B3CCF(0,1);if(v->slots[2].motion){
+ if(scriptedDrawView->slots[0].motion && scriptedDrawView->slots[1].motion){
+  float step=scriptedDrawView->slots[1].motion->FrameRate()*scriptedDrawView->multiplier*scriptedDrawView->speed*delta;
+  scriptedDrawView->blend-=step*0.001f;
+  if(scriptedDrawView->blend<0.0f){((Rva000B3C61*)this)->rva000B3CCF(0,1);if(scriptedDrawView->slots[2].motion){
    ((Rva000B3C61*)this)->rva000B3CCF(1,2);
-   float limit=v->slots[1].unused;
-   if(limit>0.0f){float last=v->slots[1].motion->NumFrames()-1.0f;v->blend=v->blendTotal=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(limit,last));}
-   else{float last=v->slots[1].motion->NumFrames()-1.0f;v->blend=v->blendTotal=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(5.0f,last));}
-  }else v->blend=0.0f;}
+   float limit=scriptedDrawView->slots[1].unused;
+   if(limit>0.0f){float last=scriptedDrawView->slots[1].motion->NumFrames()-1.0f;scriptedDrawView->blend=scriptedDrawView->blendTotal=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(limit,last));}
+   else{float last=scriptedDrawView->slots[1].motion->NumFrames()-1.0f;scriptedDrawView->blend=scriptedDrawView->blendTotal=Rva000B2B95FloatMax(1.0f,Rva000B2B87FloatMin(5.0f,last));}
+  }else scriptedDrawView->blend=0.0f;}
  }
- if(!((Rva000B3A68*)this)->rva000B3A68() && Rva000B2E4CComplete(v->render,&v->slots[0],v->transition) && v->render && v->state && v->whichAnimation!=-1){
-  if(v->transition){void*next=((Rva000B4BED*)module)->rva000B4BED(v->signature);if(next){v->nextState=0;v->pending=false;((Rva000B8F5AOuter*)this)->rva000BF9FC(next,0,0);if(!v->nextState)v->transition=false;return;}else{v->transition=false;v->nextState=0;}}
-  ModelStateView*cur=v->state;
+ if(!((Rva000B3A68*)this)->rva000B3A68() && Rva000B2E4CComplete(scriptedDrawView->render,&scriptedDrawView->slots[0],scriptedDrawView->transition) && scriptedDrawView->render && scriptedDrawView->state && scriptedDrawView->whichAnimation!=-1){
+  if(scriptedDrawView->transition){void*next=((Rva000B4BED*)module)->rva000B4BED(scriptedDrawView->signature);if(next){scriptedDrawView->nextState=0;scriptedDrawView->pending=false;((Rva000B8F5AOuter*)this)->rva000BF9FC(next,0,0);if(!scriptedDrawView->nextState)scriptedDrawView->transition=false;return;}else{scriptedDrawView->transition=false;scriptedDrawView->nextState=0;}}
+  ModelStateView*cur=scriptedDrawView->state;
   if(!cur->flags.rva000B3EB3())((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,false,false,false);
-  else if(Flag(cur->stateFlags)){((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,false,false,false);v->changed=true;}
+  else if(Flag(cur->stateFlags)){((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,false,false,false);scriptedDrawView->changed=true;}
  }
- if(v->reselect){v->reselect=false;((Rva000B8F5AOuter*)this)->rva000BEE25(0,-1.0f,false,false,false);}
+ if(scriptedDrawView->reselect){scriptedDrawView->reselect=false;((Rva000B8F5AOuter*)this)->rva000BEE25(0,-1.0f,false,false,false);}
  ((Rva000B5C41*)this)->rva000B5C41();((Rva000B7074*)this)->rva000B7074();
 }
 
@@ -890,73 +890,73 @@ static __forceinline unsigned char AdjustBit0(unsigned f){return f&1;}
 static __forceinline unsigned char AdjustBit1(unsigned f){return (f>>1)&1;}
 static __forceinline unsigned char AdjustBit2(unsigned f){return (f>>2)&1;}
 void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,bool preserve,bool force,bool reset){
- AdjustView*s=(AdjustView*)this;
- if(!s->state||!s->model)return;
- Object*object=s->getDrawable()->getObject();AdjustData*data=s->data;
- bool scripted=!((StringBase<char>*)&s->state->script)->isEmpty();
- int oldIndex=s->selected;
- if(reset){old=0;oldIndex=-1;s->lastSelected=0;}
- int count=s->state->animations.size();AdjustAnimation*info=0;
+ AdjustView*adjustView=(AdjustView*)this;
+ if(!adjustView->state||!adjustView->model)return;
+ Object*object=adjustView->getDrawable()->getObject();AdjustData*data=adjustView->data;
+ bool scripted=!((StringBase<char>*)&adjustView->state->script)->isEmpty();
+ int oldIndex=adjustView->selected;
+ if(reset){old=0;oldIndex=-1;adjustView->lastSelected=0;}
+ int count=adjustView->state->animations.size();AdjustAnimation*info=0;
  if(count<=0&&!scripted){
-  if(s->render){((Rva000B3C61*)this)->rva000B3C61(0);((Rva000B3C61*)this)->rva000B3C61(1);s->render->clear();}s->selected=-1;return;
+  if(adjustView->render){((Rva000B3C61*)this)->rva000B3C61(0);((Rva000B3C61*)this)->rva000B3C61(1);adjustView->render->clear();}adjustView->selected=-1;return;
  }
  if(!preserve){
-  if(s->render&&count==0){((Rva000B3C61*)this)->rva000B3C61(0);((Rva000B3C61*)this)->rva000B3C61(1);s->render->clear();}
-  s->selected=-1;
+  if(adjustView->render&&count==0){((Rva000B3C61*)this)->rva000B3C61(0);((Rva000B3C61*)this)->rva000B3C61(1);adjustView->render->clear();}
+  adjustView->selected=-1;
   if(scripted){
-   int chosen=-1;Rva000B7539 context;context.source=s->getDrawable();
+   int chosen=-1;Rva000B7539 context;context.source=adjustView->getDrawable();
    if(((AdjustState*)old)&&oldIndex>=0&&oldIndex<count)context.animation=((AdjustState*)old)->animations[oldIndex].previousName;
-   if(((AdjustState*)old)&&((AdjustState*)old)!=s->state){context.previous=((AdjustState*)old)->name;context.fraction=fraction;}
-   AsciiString result=TheLuaScriptEngine->rva00334133(s->state->script.str(),s->state->script.getLength(),(Rva00334133Context*)&context);
-   if(s->transition&&!context.transition.isEmpty()){s->transition=false;s->next=0;}
-   if(!context.transition.isEmpty()&&!s->transition){
+   if(((AdjustState*)old)&&((AdjustState*)old)!=adjustView->state){context.previous=((AdjustState*)old)->name;context.fraction=fraction;}
+   AsciiString result=TheLuaScriptEngine->rva00334133(adjustView->state->script.str(),adjustView->state->script.getLength(),(Rva00334133Context*)&context);
+   if(adjustView->transition&&!context.transition.isEmpty()){adjustView->transition=false;adjustView->next=0;}
+   if(!context.transition.isEmpty()&&!adjustView->transition){
     AdjustState*it;
-    for(it=data->first;it!=data->last;++it){if(it->name.compareNoCase(context.transition)==0){s->transition=true;s->next=s->state;s->sequential=false;rva000BF9FC(it,false,0);return;}}
+    for(it=data->first;it!=data->last;++it){if(it->name.compareNoCase(context.transition)==0){adjustView->transition=true;adjustView->next=adjustView->state;adjustView->sequential=false;rva000BF9FC(it,false,0);return;}}
     if(bfmeRva000387C0()){ADSTART();const char*objectName=object?object->getTemplate()->name.str():"NoObject";const char*stateName=context.transition.str();AdjustReport*out=ADDBG->report(0,0,0);(*out<<Debug::Format("W3DScriptedModelDraw::adjustAnimation: Unable to find transition state named '%s' in '%s'",stateName,objectName)).finish(2);}
    }
-   AnimSlot*slot=&s->slots[0];if(s->slots[1].motion)slot=&s->slots[1];
-   if(((AdjustState*)old)&&context.finish&&!Rva000B2E4CComplete((RenderAnimationObj*)s->render,slot,false)){
-    s->transition=true;s->next=s->state;slot->completed=false;
-    ((Rva000B9A0E*)s->state)->rva000B9A0E(s->getDrawable()->getObject(),2,0);s->state=((AdjustState*)old);
-    ((Rva000B9A0E*)s->state)->rva000B9A0E(s->getDrawable()->getObject(),1,0);s->selected=0;return;
+   AnimSlot*slot=&adjustView->slots[0];if(adjustView->slots[1].motion)slot=&adjustView->slots[1];
+   if(((AdjustState*)old)&&context.finish&&!Rva000B2E4CComplete((RenderAnimationObj*)adjustView->render,slot,false)){
+    adjustView->transition=true;adjustView->next=adjustView->state;slot->completed=false;
+    ((Rva000B9A0E*)adjustView->state)->rva000B9A0E(adjustView->getDrawable()->getObject(),2,0);adjustView->state=((AdjustState*)old);
+    ((Rva000B9A0E*)adjustView->state)->rva000B9A0E(adjustView->getDrawable()->getObject(),1,0);adjustView->selected=0;return;
    }
    if(!result.isEmpty()){
-    for(int i=0;i<count;++i){const AsciiString&n=s->state->animations[i].name;if(n.compareNoCase(result)==0){chosen=i;break;}}
+    for(int i=0;i<count;++i){const AsciiString&asciiString=adjustView->state->animations[i].name;if(asciiString.compareNoCase(result)==0){chosen=i;break;}}
     if(chosen==-1&&bfmeRva000387C0()){ADSTART();ADDBG->report(0,0,0)->text("Cannot find animation named ")->text(result.str())->finish(2);}
-    if(chosen!=-1)s->selected=chosen;else s->selected=0;
+    if(chosen!=-1)adjustView->selected=chosen;else adjustView->selected=0;
    }
   }
-  if(count<1){s->selected=-1;return;}
-  if(count==1)s->selected=0;
-  else if(s->sequential&&count>1)s->selected=(oldIndex+1)%count;
-  else if(s->selected<0){int avoid=-1;if(((AdjustState*)old)==s->state&&!s->state->allowRepeat)avoid=oldIndex;
-   int maximum=((AdjustVirtual*)this)->maximum();AnimConditionInfo*current=(AnimConditionInfo*)s->state;if(((Rva000B49F9*)current)->rva000B49F9())maximum=9999;
-   s->selected=current->pickRandomAnimation(avoid,maximum);
+  if(count<1){adjustView->selected=-1;return;}
+  if(count==1)adjustView->selected=0;
+  else if(adjustView->sequential&&count>1)adjustView->selected=(oldIndex+1)%count;
+  else if(adjustView->selected<0){int avoid=-1;if(((AdjustState*)old)==adjustView->state&&!adjustView->state->allowRepeat)avoid=oldIndex;
+   int maximum=((AdjustVirtual*)this)->maximum();AnimConditionInfo*current=(AnimConditionInfo*)adjustView->state;if(((Rva000B49F9*)current)->rva000B49F9())maximum=9999;
+   adjustView->selected=current->pickRandomAnimation(avoid,maximum);
   }
  }
- info=&s->state->animations[s->selected];
- if(!force&&!preserve&&((AdjustState*)old)==s->state&&!s->state->restart&&s->selected==oldIndex){if(((Rva000B3A68*)this)->rva000B3A68()||!Rva000B2E4CComplete((RenderAnimationObj*)s->render,&s->slots[0],false))return;}
+ info=&adjustView->state->animations[adjustView->selected];
+ if(!force&&!preserve&&((AdjustState*)old)==adjustView->state&&!adjustView->state->restart&&adjustView->selected==oldIndex){if(((Rva000B3A68*)this)->rva000B3A68()||!Rva000B2E4CComplete((RenderAnimationObj*)adjustView->render,&adjustView->slots[0],false))return;}
  AdjustMotion*motion=0;
- if(data->fixedNumber)motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[s->selected])->rva000BE027(s->model->name,s->model->variant,true,Rva000B2BA3Get((Rva000B2BE5Src*)s->getDrawable(),0));
- else if(data->numbered)motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[s->selected])->rva000BE027(s->model->name,s->model->variant,true,Rva000B2BE5Get((Rva000B2BE5Src*)s->getDrawable(),s->numbering));
- else motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[s->selected])->rva000BE027(s->model->name,s->model->variant,false,0);
- if(!motion&&bfmeRva000387C0()){ADSTART();const char*objectName=object?object->definition->name.str():"NoObject";const char*modelName=s->model->name.str();AdjustAnimation&a=s->state->animations[s->selected];const char*animName=((Rva000B4926*)&a)->rva000B4926().str();AdjustReport*out=ADDBG->report(0,0,0);(*out<<Debug::Format("Unable to locate asset: %s for Model %s in %s",animName,modelName,objectName)).finish(2);}
- if(!motion&&(unsigned)s->state->animations.size()>1){
-  for(unsigned i=0;i<(unsigned)s->state->animations.size();++i){if(i!=(unsigned)s->selected){
-   if(data->fixedNumber)motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[i])->rva000BE027(s->model->name,s->model->variant,true,Rva000B2BA3Get((Rva000B2BE5Src*)s->getDrawable(),0));
-   else if(data->numbered)motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[i])->rva000BE027(s->model->name,s->model->variant,true,Rva000B2BE5Get((Rva000B2BE5Src*)s->getDrawable(),s->numbering));
-   else motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[i])->rva000BE027(s->model->name,s->model->variant,false,0);
-   if(motion){s->selected=i;break;}
+ if(data->fixedNumber)motion=(AdjustMotion*)((Rva000BE027Anim*)&adjustView->state->animations[adjustView->selected])->rva000BE027(adjustView->model->name,adjustView->model->variant,true,Rva000B2BA3Get((Rva000B2BE5Src*)adjustView->getDrawable(),0));
+ else if(data->numbered)motion=(AdjustMotion*)((Rva000BE027Anim*)&adjustView->state->animations[adjustView->selected])->rva000BE027(adjustView->model->name,adjustView->model->variant,true,Rva000B2BE5Get((Rva000B2BE5Src*)adjustView->getDrawable(),adjustView->numbering));
+ else motion=(AdjustMotion*)((Rva000BE027Anim*)&adjustView->state->animations[adjustView->selected])->rva000BE027(adjustView->model->name,adjustView->model->variant,false,0);
+ if(!motion&&bfmeRva000387C0()){ADSTART();const char*objectName=object?object->definition->name.str():"NoObject";const char*modelName=adjustView->model->name.str();AdjustAnimation&adjustAnimation=adjustView->state->animations[adjustView->selected];const char*animName=((Rva000B4926*)&adjustAnimation)->rva000B4926().str();AdjustReport*out=ADDBG->report(0,0,0);(*out<<Debug::Format("Unable to locate asset: %s for Model %s in %s",animName,modelName,objectName)).finish(2);}
+ if(!motion&&(unsigned)adjustView->state->animations.size()>1){
+  for(unsigned i=0;i<(unsigned)adjustView->state->animations.size();++i){if(i!=(unsigned)adjustView->selected){
+   if(data->fixedNumber)motion=(AdjustMotion*)((Rva000BE027Anim*)&adjustView->state->animations[i])->rva000BE027(adjustView->model->name,adjustView->model->variant,true,Rva000B2BA3Get((Rva000B2BE5Src*)adjustView->getDrawable(),0));
+   else if(data->numbered)motion=(AdjustMotion*)((Rva000BE027Anim*)&adjustView->state->animations[i])->rva000BE027(adjustView->model->name,adjustView->model->variant,true,Rva000B2BE5Get((Rva000B2BE5Src*)adjustView->getDrawable(),adjustView->numbering));
+   else motion=(AdjustMotion*)((Rva000BE027Anim*)&adjustView->state->animations[i])->rva000BE027(adjustView->model->name,adjustView->model->variant,false,0);
+   if(motion){adjustView->selected=i;break;}
   }}
  }
- s->lastSelected=s->selected;
+ adjustView->lastSelected=adjustView->selected;
  if(!motion)return;
  int start=0,direction=1;
- if(preserve){start=(int)s->slots[0].frame;direction=s->slots[0].direction;}
+ if(preserve){start=(int)adjustView->slots[0].frame;direction=adjustView->slots[0].direction;}
  else {
-  if(((AnimConditionInfo*)s->state)->rva000B495B()==6||((AnimConditionInfo*)s->state)->rva000B495B()==5){start=motion->frames()-1;direction=-1;}
+  if(((AnimConditionInfo*)adjustView->state)->rva000B495B()==6||((AnimConditionInfo*)adjustView->state)->rva000B495B()==5){start=motion->frames()-1;direction=-1;}
   if(force&&fraction>=0.0)start=(int)(fraction*motion->frames());
-  else{AdjustState*state=s->state;
+  else{AdjustState*state=adjustView->state;
   if(AdjustBit0(state->flags)){if(((Rva000B49F9*)state)->rva000B49F9()&&((AdjustLOD*)TheGameLODManager)->limit>0)start=((W3DScriptedModelDraw*)this)->rva000B3E96(motion->frames());else start=((AdjustVirtual*)this)->randomFrame(motion->frames());}
   else if(AdjustBit1(state->flags))start=0;
   else if(AdjustBit2(state->flags))start=motion->frames()-1;
@@ -966,7 +966,7 @@ void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,bool preserve,bool f
  if(info->minSpeed!=1.0f||info->maxSpeed!=1.0f)rate=GetGameClientRandomValueReal(info->minSpeed,info->maxSpeed,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Drawable\\W3DScriptedModelDraw.cpp",0x1114);
  if(info->weaponTiming&&object){Weapon*w=object->getCurrentWeapon(0);if(w){int duration=(int)(info->duration*0.005f),time;if(w->computeStatus(0)==3)time=((Rva002C9504BinarySubField*)w)->get();else time=w->getPreAttackDelay(object,0,0)+w->rva002C9D3B(object,0);rate=(float)duration/(float)time;}}
  float blend=info->blend;int mode=info->mode;
- if(s->sequential){rate=1;start=0;blend=0;if(mode==2&&count==1)mode=1;}
+ if(adjustView->sequential){rate=1;start=0;blend=0;if(mode==2&&count==1)mode=1;}
  float end=(float)direction*-0.00001f;end+=(float)start;
  ((W3DScriptedModelDraw*)this)->rva000B5D7F((HAnimClass*)motion,info->flag,mode,blend,(float)start,end,0,rate);
  if(--motion->refs==0)motion->release();

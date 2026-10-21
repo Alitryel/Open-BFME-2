@@ -57,22 +57,22 @@ struct Rva000CED4BArg
 	Rva001E11F8 *m_50;
 };
 
-void __cdecl Rva000CED4BUpdate(void *p, AssetList *b, int c)
+void __cdecl Rva000CED4BUpdate(void *p, AssetList *assetList, int c)
 {
 	Rva000CED4BArg *a = (Rva000CED4BArg *)p;
-	*b << a->m_08;
-	*b << a->m_0c;
+	*assetList << a->m_08;
+	*assetList << a->m_0c;
 	if (a->m_20)
-		a->m_20->rva001E11F8((int)b, c);
+		a->m_20->rva001E11F8((int)assetList, c);
 	if (a->m_24)
-		a->m_24->rva001E11F8((int)b, c);
+		a->m_24->rva001E11F8((int)assetList, c);
 	if (((StringBase<char> *)&a->m_28)->isEmpty() == false)
-		*b << a->m_28;
+		*assetList << a->m_28;
 	if (((StringBase<char> *)&a->m_48)->isEmpty() == false) {
 		void *t = (void *)TheThingFactory->findTemplate(a->m_48);
 		if (t != 0)
-			((ThingTemplate *)t)->GetAssetList((int)b, c);
+			((ThingTemplate *)t)->GetAssetList((int)assetList, c);
 	}
 	if (a->m_50)
-		a->m_50->rva001E11F8((int)b, c);
+		a->m_50->rva001E11F8((int)assetList, c);
 }

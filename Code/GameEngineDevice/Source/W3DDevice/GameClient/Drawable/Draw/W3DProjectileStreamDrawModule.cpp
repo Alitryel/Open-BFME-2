@@ -79,7 +79,7 @@ public:
 class ShaderClass
 {
 public:
-	ShaderClass( const ShaderClass &s ) { ShaderBits = s.ShaderBits; }
+	ShaderClass( const ShaderClass &shader ) { ShaderBits = shader.ShaderBits; }
 	static ShaderClass _PresetAdditiveSpriteShader;
 private:
 	unsigned int ShaderBits;

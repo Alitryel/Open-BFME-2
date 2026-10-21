@@ -21,10 +21,10 @@ public:
 void W3DTankDraw::rva000CE0EA()
 {
 	if (m_emit1.m_system) {
-		ParticleSystem *p = m_emit1.m_system;
-		if (!p)
-			p = Make001FCBD7();
-		((Rva001F3852ByteOneSetter *)p)->enable();
+		ParticleSystem *particleSystem = m_emit1.m_system;
+		if (!particleSystem)
+			particleSystem = Make001FCBD7();
+		((Rva001F3852ByteOneSetter *)particleSystem)->enable();
 	}
 	if (m_emit2.m_system) {
 		ParticleSystem *q = m_emit2.m_system;

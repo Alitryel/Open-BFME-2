@@ -29,10 +29,10 @@ void W3DTankDraw::rva000CE09E()
 	if (m_guard->rva00270260())
 		return;
 	if (m_emit1.m_system) {
-		ParticleSystem *p = m_emit1.m_system;
-		if (!p)
-			p = Make001FCBD7();
-		((Rva001F384AByteZeroSetter *)p)->disable();
+		ParticleSystem *particleSystem = m_emit1.m_system;
+		if (!particleSystem)
+			particleSystem = Make001FCBD7();
+		((Rva001F384AByteZeroSetter *)particleSystem)->disable();
 	}
 	if (m_emit2.m_system) {
 		ParticleSystem *q = m_emit2.m_system;

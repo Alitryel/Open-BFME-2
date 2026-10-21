@@ -108,7 +108,7 @@ class W3DModelDraw {public:
 };
 void W3DModelDraw::handleClientRecoil() {
  if(!loadedState)return;
- const RecoilMDView*d=data;
+ const RecoilMDView*recoilMDView=data;
  if(!(loadedState->flags&8))return;
  for(int wslot=0;wslot<6;++wslot) {
   if(!state->hasRecoil[wslot])continue;
@@ -123,12 +123,12 @@ void W3DModelDraw::handleClientRecoil() {
      case 0:break;
      case 1:case 2:
       r[i].shift+=r[i].rate;
-      r[i].rate*=d->damping;
-      if(r[i].shift>=d->maxRecoil){r[i].shift=d->maxRecoil;r[i].state=3;}
+      r[i].rate*=recoilMDView->damping;
+      if(r[i].shift>=recoilMDView->maxRecoil){r[i].shift=recoilMDView->maxRecoil;r[i].state=3;}
       else if(fabs(r[i].rate)<0.01f)r[i].state=3;
       break;
      case 3:
-      r[i].shift-=d->settle;
+      r[i].shift-=recoilMDView->settle;
       if(r[i].shift<=0){r[i].shift=0;r[i].state=0;}
       break;
     }

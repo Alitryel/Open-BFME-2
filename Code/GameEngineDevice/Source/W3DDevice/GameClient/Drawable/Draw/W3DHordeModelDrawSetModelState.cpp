@@ -354,7 +354,7 @@ __declspec(noinline) bool StringBase<CHAR>::isEmpty() const throw()
 {
     return m_data == 0 || m_data->length == 0;
 }
-static __forceinline bool HordeNamesDiffer(const AsciiString &a,const AsciiString &b) {return ((const StringBase<char>*)&a)->compare(*(const StringBase<char>*)&b)!=0;}
+static __forceinline bool HordeNamesDiffer(const AsciiString &asciiString,const AsciiString &b) {return ((const StringBase<char>*)&asciiString)->compare(*(const StringBase<char>*)&b)!=0;}
 bool W3DHordeModelDraw::setModelState(HordeModelState *newState,bool force,Rva000C3886Obj *obj)
 {
  if(!newState)return false;
@@ -461,8 +461,8 @@ bool W3DHordeModelDraw::setModelState(HordeModelState *newState,bool force,Rva00
    {
     if(!((const StringBase<char>*)&data->trackFile)->isEmpty())
     {
-     W3DHordeModelDrawModuleData *m=data;
-     track=((Rva00084C05System*)TheTerrainTracksRenderObjClassSystem)->bind((Rva00084B18RenderObj*)trackRender,10.0f,m->trackFile.str(),m->left.str(),m->right.str());
+     W3DHordeModelDrawModuleData *w3DHordeModelDrawModuleData=data;
+     track=((Rva00084C05System*)TheTerrainTracksRenderObjClassSystem)->bind((Rva00084B18RenderObj*)trackRender,10.0f,w3DHordeModelDrawModuleData->trackFile.str(),w3DHordeModelDrawModuleData->left.str(),w3DHordeModelDrawModuleData->right.str());
      if(track)track->owner=draw;
     }
    }

@@ -20,9 +20,9 @@
 #include "ascii_string.h"
 // Retail calls StringBase<char>::find (0x0002C459) itself; AsciiString's
 // forwarder would add a jmp stub retail never had, so call the base directly.
-static __forceinline const char *bfmeFind(const AsciiString &s, char c)
+static __forceinline const char *bfmeFind(const AsciiString &asciiString, char c)
 {
-	return ((const StringBase<char> *)&s)->find(c);
+	return ((const StringBase<char> *)&asciiString)->find(c);
 }
 typedef int Int;
 class RenderObjClass

@@ -136,8 +136,8 @@ struct ModelConditionInfo {
  }
 };
 class W3DModelDrawModuleData {public:
- const ModelConditionInfo*findBestInfo(const ModelConditionFlags&c)const{return (const ModelConditionInfo*)((Rva000B4B23*)this)->rva000B4B23(c);}
- const ModelConditionInfo*rva00765DC0(const ModelConditionFlags&c)const{return (const ModelConditionInfo*)((Rva000B4BED*)this)->rva000B4BED(&c);}
+ const ModelConditionInfo*findBestInfo(const ModelConditionFlags&modelConditionFlags)const{return (const ModelConditionInfo*)((Rva000B4B23*)this)->rva000B4B23(modelConditionFlags);}
+ const ModelConditionInfo*rva00765DC0(const ModelConditionFlags&modelConditionFlags)const{return (const ModelConditionInfo*)((Rva000B4BED*)this)->rva000B4BED(&modelConditionFlags);}
  UnsignedByte m_unmodelled00[0x30];_STL::vector<AsciiString>m_extraPublicBones;
 };
 class NameKeyGenerator
@@ -181,9 +181,9 @@ public:
 		Int maxBones, Int *boneIndices) const;
 
 	const W3DModelDrawModuleData *getW3DModelDrawModuleData() const { return getModuleData(); }
-	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &c) const
+	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &modelConditionFlags) const
 	{
-		return getW3DModelDrawModuleData()->findBestInfo(c);
+		return getW3DModelDrawModuleData()->findBestInfo(modelConditionFlags);
 	}
 
 	UnsignedByte m_unmodelled10[4];

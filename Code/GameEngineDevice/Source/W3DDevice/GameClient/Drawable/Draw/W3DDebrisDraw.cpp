@@ -188,11 +188,11 @@ void W3DDebrisDraw::setAnimNames(AsciiString initial, AsciiString flying, AsciiS
 }
 
 //-------------------------------------------------------------------------------------------------
-static Bool isAnimationComplete(RenderObjClass* r)
+static Bool isAnimationComplete(RenderObjClass* renderObj)
 {
-	if (r->Class_ID() == RenderObjClass::CLASSID_HLOD)
+	if (renderObj->Class_ID() == RenderObjClass::CLASSID_HLOD)
 	{
-		HLodClass *hlod = (HLodClass*)r;
+		HLodClass *hlod = (HLodClass*)renderObj;
 		return hlod->Is_Animation_Complete();
 	}
 

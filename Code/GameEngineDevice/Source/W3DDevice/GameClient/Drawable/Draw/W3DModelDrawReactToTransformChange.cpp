@@ -127,27 +127,27 @@ private:
 
 void W3DModelDraw::reactToTransformChange(const Matrix3D *oldMtx, const Coord3D *oldPos, Real oldAngle)
 {
-	const W3DModelDrawModuleData *d = getW3DModelDrawModuleData();
-	const ThingTemplate *tmpl = getDrawable()->getTemplate();
+	const W3DModelDrawModuleData *w3DModelDrawModuleData = getW3DModelDrawModuleData();
+	const ThingTemplate *thingTemplate = getDrawable()->getTemplate();
 	const Coord3D *pos = getDrawable()->getPosition();
 
-	if (tmpl->m_float4A8 > 1.0f)
+	if (thingTemplate->m_float4A8 > 1.0f)
 	{
-		TheTerrainRenderObject->getMask()->rva000ADF90((const MaskCirclePoint *)oldPos, tmpl->m_float4A8, 1);
-		TheTerrainRenderObject->getMask()->rva000ADF90((const MaskCirclePoint *)pos, tmpl->m_float4A8, 0);
+		TheTerrainRenderObject->getMask()->rva000ADF90((const MaskCirclePoint *)oldPos, thingTemplate->m_float4A8, 1);
+		TheTerrainRenderObject->getMask()->rva000ADF90((const MaskCirclePoint *)pos, thingTemplate->m_float4A8, 0);
 	}
 
 	if (m_renderObject)
 	{
 		Matrix3D mtx(true);
-		if (!d->m_bfmeFlag69 && !d->m_bfmeFlag6A)
+		if (!w3DModelDrawModuleData->m_bfmeFlag69 && !w3DModelDrawModuleData->m_bfmeFlag6A)
 		{
 			mtx = *getDrawable()->getTransformMatrix();
 		}
 		else
 		{
 			mtx.Set_Translation(getDrawable()->getTransformMatrix()->Get_Translation());
-			if (d->m_bfmeFlag6A)
+			if (w3DModelDrawModuleData->m_bfmeFlag6A)
 			{
 				Object *obj = getDrawable()->getObject();
 				Real angle;

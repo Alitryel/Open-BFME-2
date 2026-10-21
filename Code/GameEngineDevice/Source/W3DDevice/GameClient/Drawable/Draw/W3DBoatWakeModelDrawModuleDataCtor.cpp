@@ -88,8 +88,8 @@ void W3DBoatWakeModelDrawModuleData::buildFieldParse(MultiIniFieldParse &parse)
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeW3DBoatWakeModelDrawModuleDataInlineAnchor@@YAXPAVW3DBoatWakeModelDrawModuleData@@@Z absent-from-retail
-void _bfmeW3DBoatWakeModelDrawModuleDataInlineAnchor(W3DBoatWakeModelDrawModuleData *p)
+void _bfmeW3DBoatWakeModelDrawModuleDataInlineAnchor(W3DBoatWakeModelDrawModuleData *w3DBoatWakeModelDrawModuleData)
 {
-    p->W3DBoatWakeModelDrawModuleData::W3DBoatWakeModelDrawModuleData();
+    w3DBoatWakeModelDrawModuleData->W3DBoatWakeModelDrawModuleData::W3DBoatWakeModelDrawModuleData();
 }
 #pragma inline_depth()

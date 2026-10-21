@@ -174,9 +174,9 @@ __declspec(noinline) inline const Coord3D *Drawable::getPosition() const
 }
 
 // ?bfmeAnchorDrawableGetPosition absent-from-retail
-const Coord3D *bfmeAnchorDrawableGetPosition(const Drawable *p)
+const Coord3D *bfmeAnchorDrawableGetPosition(const Drawable *drawable)
 {
-	return p->getPosition();
+	return drawable->getPosition();
 }
 
 
