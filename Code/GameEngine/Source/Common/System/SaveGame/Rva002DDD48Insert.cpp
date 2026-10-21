@@ -71,7 +71,7 @@ private:
 	};
 };
 
-void Rva002DDD48::rva002DDD48(SaveMapPreview *pos, const SaveMapPreview &x, const _STL::__false_type &, unsigned int n, bool at_end)
+void Rva002DDD48::rva002DDD48(SaveMapPreview *pos, const SaveMapPreview &saveMapPreview, const _STL::__false_type &, unsigned int n, bool at_end)
 {
 	unsigned int old_size = (unsigned int)(m_finish - m_start);
 	const unsigned int &maxv = old_size < n ? n : old_size;
@@ -81,12 +81,12 @@ void Rva002DDD48::rva002DDD48(SaveMapPreview *pos, const SaveMapPreview &x, cons
 	if (n == 1)
 	{
 		if (new_finish != 0)
-			new (new_finish) SaveMapPreview(x);
+			new (new_finish) SaveMapPreview(saveMapPreview);
 		++new_finish;
 	}
 	else
 	{
-		new_finish = _STL::__uninitialized_fill_n<SaveMapPreview *, unsigned int, SaveMapPreview>(new_finish, n, x, *(const _STL::__false_type *)((char *)&at_end + 3));
+		new_finish = _STL::__uninitialized_fill_n<SaveMapPreview *, unsigned int, SaveMapPreview>(new_finish, n, saveMapPreview, *(const _STL::__false_type *)((char *)&at_end + 3));
 	}
 	if (!at_end)
 	{
@@ -103,13 +103,13 @@ void Rva002DDD48::rva002DDD48(SaveMapPreview *pos, const SaveMapPreview &x, cons
 // finish when capacity remains, otherwise the 0x002DDD48 overflow insert of
 // one element at the end. Its only caller is the save-game info xfer
 // 0x002DDEC0 (SaveGameInfoCopyBFME2.cpp), which fills the +0x38 preview range.
-void Rva002DDD48::push_back(const SaveMapPreview &x)
+void Rva002DDD48::push_back(const SaveMapPreview &saveMapPreview)
 {
 	if (m_finish != m_end)
 	{
-		new (m_finish) SaveMapPreview(x);
+		new (m_finish) SaveMapPreview(saveMapPreview);
 		++m_finish;
 	}
 	else
-		rva002DDD48(m_finish, x, _STL::__false_type(), 1, true);
+		rva002DDD48(m_finish, saveMapPreview, _STL::__false_type(), 1, true);
 }

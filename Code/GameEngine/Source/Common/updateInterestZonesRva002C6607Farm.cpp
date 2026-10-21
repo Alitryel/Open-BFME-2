@@ -103,11 +103,11 @@ struct Coord3DBase
 {
 public:
     Coord3DBase() { x=0.0f; y=0.0f; z=0.0f; }
-    Coord3DBase(const Coord3DBase &v):x(v.x),y(v.y),z(v.z){}
+    Coord3DBase(const Coord3DBase &coord3DBase):x(coord3DBase.x),y(coord3DBase.y),z(coord3DBase.z){}
     // Native retains a temporary cleanup state with no destructor instruction.
     ~Coord3DBase() {}
     float x,y,z;
-    Coord3DBase &Sub(const Coord3DBase &b) {x-=b.x; y-=b.y; z-=b.z; return *this;}
+    Coord3DBase &Sub(const Coord3DBase &coord3DBase) {x-=coord3DBase.x; y-=coord3DBase.y; z-=coord3DBase.z; return *this;}
     float GetLengthSqrd2D() const {return x*x+y*y;}
 };
 class Player;

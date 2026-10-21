@@ -161,10 +161,10 @@ void Rva005CB748::rva005CB748()
 		Rva002B2B66 *logic = (Rva002B2B66 *)TheLivingWorldLogic;
 		Int total, available;
 		Rva003F287F *r = (Rva003F287F *)m_region;
-		RegionUI *ui2 = m_ui;
+		RegionUI *regionUI = m_ui;
 		Int playerId = logic->rva002B2B66();
 		TheLivingWorldLogic->GetNumUpgradeableTroopsInRegionForPlayer(r, playerId, &available, &total);
-		ui2->SetUpgradeCounts(total - available, total);
+		regionUI->SetUpgradeCounts(total - available, total);
 	}
 	LivingWorldRegion *lwr = (LivingWorldRegion *)m_region;
 	Rva002E2903Player *player = *(Rva002E2903Player **)((char *)TheLivingWorldLogic + 0x98);

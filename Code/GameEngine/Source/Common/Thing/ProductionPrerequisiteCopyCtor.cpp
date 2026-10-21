@@ -48,8 +48,8 @@ inline ProductionPrerequisite::ProductionPrerequisite(const ProductionPrerequisi
 
 #pragma inline_depth(0)
 // ?bfmeEmitProductionPrerequisiteCopyCtor@@YAXPAVProductionPrerequisite@@ABV1@@Z present-unmatched
-void bfmeEmitProductionPrerequisiteCopyCtor(ProductionPrerequisite *p, const ProductionPrerequisite &other)
+void bfmeEmitProductionPrerequisiteCopyCtor(ProductionPrerequisite *productionPrerequisite, const ProductionPrerequisite &other)
 {
-	p->ProductionPrerequisite::ProductionPrerequisite(other);
+	productionPrerequisite->ProductionPrerequisite::ProductionPrerequisite(other);
 }
 #pragma inline_depth()

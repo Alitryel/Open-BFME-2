@@ -82,9 +82,9 @@ public:
 	void append(const char *s, StringBase<char> *b);
 };
 
-__forceinline const char *GetStr000B937E(const AsciiString &s)
+__forceinline const char *GetStr000B937E(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

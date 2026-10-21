@@ -103,8 +103,8 @@ void Drawable::rva002791E7(const ModelConditionFlags &flags,
 
 	if ((unsigned char)forceReplace == 1) {
 		ObjectDrawInterface **end = m_drawInterfaceEnd;
-		for (ObjectDrawInterface **p = m_drawInterfaceBegin; p != end; ++p)
-			(*p)->replaceModelConditionState(m_conditionState, true, effect);
+		for (ObjectDrawInterface **objectDraw = m_drawInterfaceBegin; objectDraw != end; ++objectDraw)
+			(*objectDraw)->replaceModelConditionState(m_conditionState, true, effect);
 		m_isModelDirty = false;
 	} else {
 		m_isModelDirty = true;

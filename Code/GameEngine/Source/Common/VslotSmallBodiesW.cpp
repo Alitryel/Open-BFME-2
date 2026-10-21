@@ -109,8 +109,8 @@ bool Rva003412A5::rva003412A5()
 {
 	Object *owner = m_18->m_owner14;
 	WeaponSlotType slot;
-	const Weapon *w = owner->getCurrentWeapon(&slot);
-	if (w && (w->m_04->get() || w->m_04->m_78 >= 0))
+	const Weapon *weapon = owner->getCurrentWeapon(&slot);
+	if (weapon && (weapon->m_04->get() || weapon->m_04->m_78 >= 0))
 		return true;
 	return false;
 }

@@ -41,8 +41,8 @@ namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned 
 namespace _STL { template <> void allocator<ModuleData const *>::deallocate(ModuleData const * *,unsigned int) const; }
 namespace _STL { template <> void vector<ModuleData const *,_STL::allocator<ModuleData const *> >::push_back(ModuleData const * const &); }
 // bfme link decl-only end
-void Rva003F255C::rva003F255C(const ModuleData *p)
+void Rva003F255C::rva003F255C(const ModuleData *moduleData)
 {
-	if (p != 0)
-		m_vec.push_back(p);
+	if (moduleData != 0)
+		m_vec.push_back(moduleData);
 }

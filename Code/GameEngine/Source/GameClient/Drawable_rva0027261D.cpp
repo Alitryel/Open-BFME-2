@@ -41,9 +41,9 @@ int Drawable::rva0027261D()
 {
 	Elem **pp = m_arr;
 	while (*pp != 0) {
-		Elem2 *e = (*pp)->t42();
-		if (e != 0) {
-			int v = e->s40();
+		Elem2 *elem2 = (*pp)->t42();
+		if (elem2 != 0) {
+			int v = elem2->s40();
 			if (v != 0)
 				return v;
 		}

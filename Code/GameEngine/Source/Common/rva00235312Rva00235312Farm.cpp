@@ -64,7 +64,7 @@ Bool GlobalData::rva00235312(TimeOfDay from, TimeOfDay to, Real t)
 	Int i;
 	for (i = 0; i < 3; i++)
 	{
-		TerrainLighting &d = m_terrainLighting[TIME_OF_DAY_INTERPOLATE][0];
+		TerrainLighting &terrainLighting = m_terrainLighting[TIME_OF_DAY_INTERPOLATE][0];
 		const TerrainLighting &a = m_terrainLighting[from][i];
 		const TerrainLighting &b = m_terrainLighting[to][i];
 		m_terrainLighting[TIME_OF_DAY_INTERPOLATE][i].ambient.red = a.ambient.red * inv + b.ambient.red * t;

@@ -416,8 +416,8 @@ private:
 	W3DFloorBuffer *m_member;
 };
 
-void BaseHeightMapRenderObjClass::rva00068395(Int a0, AsciiString *a1, AsciiString *a2, bool a3, bool a4)
+void BaseHeightMapRenderObjClass::rva00068395(Int a0, AsciiString *asciiString, AsciiString *a2, bool a3, bool a4)
 {
 	if (m_member)
-		m_member->addFloor(a0, a1, a2, a3, a4);
+		m_member->addFloor(a0, asciiString, a2, a3, a4);
 }

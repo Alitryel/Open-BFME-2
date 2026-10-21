@@ -432,4 +432,4 @@ void Drawable::rva00277669()
 }
 // Select-any: another unit compiles a copy of the same names; the anchor keeps the rowed bodies emitted.
 // ?bfmeAnchorDrawableRva00273755 absent-from-retail
-void bfmeAnchorDrawableRva00273755(Drawable *p) { p->rva00273755(); p->drawAmmo(); }
+void bfmeAnchorDrawableRva00273755(Drawable *drawable) { drawable->rva00273755(); drawable->drawAmmo(); }

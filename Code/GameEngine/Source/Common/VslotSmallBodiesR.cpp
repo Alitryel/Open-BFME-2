@@ -78,9 +78,9 @@ public:
 };
 void Rva00200BD9::rva00200BD9()
 {
-	Overridable *o = (*(Rva00200BD9Holder **)&TheWaterTransparency)->m_04;
-	if (o)
-		o->friend_getFinalOverride();
+	Overridable *overridable = (*(Rva00200BD9Holder **)&TheWaterTransparency)->m_04;
+	if (overridable)
+		overridable->friend_getFinalOverride();
 }
 
 // slot at 0x00222D26: writes the +0x04 object's leading byte, then its +0x04

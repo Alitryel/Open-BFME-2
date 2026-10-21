@@ -54,36 +54,36 @@ public:
 };
 typedef char BfmeSaveElementSizeCheck[sizeof(GameSlot) == 0x1AC ? 1 : -1];
 
-GameSlot &GameSlot::rva002DBAB9(const GameSlot &o)
+GameSlot &GameSlot::rva002DBAB9(const GameSlot &gameSlot)
 {
-	word04 = o.word04;
-	flag08 = o.flag08;
-	flag09 = o.flag09;
-	flag0A = o.flag0A;
-	word0C = o.word0C;
-	word10 = o.word10;
-	word14 = o.word14;
-	word18 = o.word18;
-	word1C = o.word1C;
-	word20 = o.word20;
-	word24 = o.word24;
-	word28 = o.word28;
-	word2C = o.word2C;
-	text30 = o.text30;
-	text34 = o.text34;
-	word38 = o.word38;
-	word3C = o.word3C;
-	word40 = o.word40;
-	word44 = o.word44;
-	flag48 = o.flag48;
-	word4C = o.word4C;
-	word50 = o.word50;
-	word54 = o.word54;
-	word58 = o.word58;
-	word5C = o.word5C;
-	flag60 = o.flag60;
-	*reinterpret_cast<CreateAHeroData *>(&hero64) = *reinterpret_cast<const CreateAHeroData *>(&o.hero64);
-	flag1A4 = o.flag1A4;
-	text1A8 = o.text1A8;
+	word04 = gameSlot.word04;
+	flag08 = gameSlot.flag08;
+	flag09 = gameSlot.flag09;
+	flag0A = gameSlot.flag0A;
+	word0C = gameSlot.word0C;
+	word10 = gameSlot.word10;
+	word14 = gameSlot.word14;
+	word18 = gameSlot.word18;
+	word1C = gameSlot.word1C;
+	word20 = gameSlot.word20;
+	word24 = gameSlot.word24;
+	word28 = gameSlot.word28;
+	word2C = gameSlot.word2C;
+	text30 = gameSlot.text30;
+	text34 = gameSlot.text34;
+	word38 = gameSlot.word38;
+	word3C = gameSlot.word3C;
+	word40 = gameSlot.word40;
+	word44 = gameSlot.word44;
+	flag48 = gameSlot.flag48;
+	word4C = gameSlot.word4C;
+	word50 = gameSlot.word50;
+	word54 = gameSlot.word54;
+	word58 = gameSlot.word58;
+	word5C = gameSlot.word5C;
+	flag60 = gameSlot.flag60;
+	*reinterpret_cast<CreateAHeroData *>(&hero64) = *reinterpret_cast<const CreateAHeroData *>(&gameSlot.hero64);
+	flag1A4 = gameSlot.flag1A4;
+	text1A8 = gameSlot.text1A8;
 	return *this;
 }

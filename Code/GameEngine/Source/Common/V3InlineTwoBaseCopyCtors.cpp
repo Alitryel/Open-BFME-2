@@ -88,7 +88,7 @@ V3_SECOND_BASE_WIDE( 0107375C )
 	public:                                                               \
 		NAME( const NAME & );                                             \
 	};                                                                    \
-	NAME::NAME( const NAME &o ) : V3Vt01111D90( o ) {}
+	NAME::NAME( const NAME &nAME ) : V3Vt01111D90( nAME ) {}
 
 V3_INLINE_COPY_CTOR( Rva005EA430, V3Vt0110F978 )
 V3_INLINE_COPY_CTOR( Rva005EA6F0, V3Vt01073760 )

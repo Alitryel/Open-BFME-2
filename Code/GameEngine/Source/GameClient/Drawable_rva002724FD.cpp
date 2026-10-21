@@ -72,14 +72,14 @@ public:
 	void rva002723ED();
 };
 
-void Drawable::rva002724FD(const AsciiString &a, int b, int c, float d, float e)
+void Drawable::rva002724FD(const AsciiString &asciiString, int b, int c, float d, float e)
 {
 	BfmeDrawModuleForRva2724FD **modules =
 		*reinterpret_cast<BfmeDrawModuleForRva2724FD ***>((unsigned char *)this + 0x14C);
 	for (BfmeDrawModuleForRva2724FD **dm = modules; *dm; ++dm) {
 		BfmeObjectDrawForRva2724FD *di = (*dm)->getObjectDrawInterface();
 		if (di) {
-			di->rva002724FDTarget(a, b, c, d, e);
+			di->rva002724FDTarget(asciiString, b, c, d, e);
 		}
 	}
 }
@@ -164,7 +164,7 @@ public:
 	virtual BfmeObjectDrawForRva272414 *getObjectDrawInterface() = 0;
 };
 
-void Drawable::rva00272414(const SubObjectExclusionList *arg)
+void Drawable::rva00272414(const SubObjectExclusionList *subObjectExclusionList)
 {
 	if (*(unsigned char *)((unsigned char *)this + 0x3AA) == 0)
 		return;
@@ -180,7 +180,7 @@ void Drawable::rva00272414(const SubObjectExclusionList *arg)
 	for (BfmeDrawModuleForRva272414 **dm = modules; *dm; ++dm) {
 		BfmeObjectDrawForRva272414 *di = (*dm)->getObjectDrawInterface();
 		if (di)
-			di->rva00272414Target(arg);
+			di->rva00272414Target(subObjectExclusionList);
 	}
 }
 

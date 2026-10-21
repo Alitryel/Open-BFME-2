@@ -28,9 +28,9 @@ public:
 	Coord3D m_cachedPos;
 };
 
-bool Rva002629EACheck(const Thing *a, const Thing *b)
+bool Rva002629EACheck(const Thing *thing, const Thing *b)
 {
-	const Coord3D *d = a->getUnitDirectionVector2D();
+	const Coord3D *d = thing->getUnitDirectionVector2D();
 	Coord3D dirA;
 	dirA.x = d->x;
 	dirA.y = d->y;
@@ -44,8 +44,8 @@ bool Rva002629EACheck(const Thing *a, const Thing *b)
 	sum.X = dirA.x + dirB.x;
 	sum.Y = dirA.y + dirB.y;
 	Vector2 delta(0.0f, 0.0f);
-	delta.X = b->getPosition()->x - a->getPosition()->x;
-	delta.Y = b->getPosition()->y - a->getPosition()->y;
+	delta.X = b->getPosition()->x - thing->getPosition()->x;
+	delta.Y = b->getPosition()->y - thing->getPosition()->y;
 	if (Vector2::Dot_Product(sum, delta) < 0.0f)
 		return true;
 	return false;

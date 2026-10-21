@@ -94,11 +94,11 @@ public:
 
 bool UpgradeSoundSelectorClientBehavior::rva004CB3F8(int index, Rva002C99FB *out)
 {
-	const UpgradeSoundSelectorClientBehaviorModuleData *d = m_moduleData;
+	const UpgradeSoundSelectorClientBehaviorModuleData *upgradeSoundSelectorClientBehaviorModuleData = m_moduleData;
 	Object *obj = m_drawable->getObject();
 	if (obj == 0)
 		return false;
-	for (Rva004CB51CEntry *e = d->m_begin, *end = d->m_end; e != end; ++e)
+	for (Rva004CB51CEntry *e = upgradeSoundSelectorClientBehaviorModuleData->m_begin, *end = upgradeSoundSelectorClientBehaviorModuleData->m_end; e != end; ++e)
 	{
 		if (((UpgradeMuxData *)e)->rva004CB333(obj))
 		{
@@ -112,11 +112,11 @@ bool UpgradeSoundSelectorClientBehavior::rva004CB3F8(int index, Rva002C99FB *out
 
 bool UpgradeSoundSelectorClientBehavior::rva004CB48A(const AsciiString &name, Rva002C99FB *out)
 {
-	const UpgradeSoundSelectorClientBehaviorModuleData *d = m_moduleData;
+	const UpgradeSoundSelectorClientBehaviorModuleData *upgradeSoundSelectorClientBehaviorModuleData = m_moduleData;
 	Object *obj = m_drawable->getObject();
 	if (obj == 0)
 		return false;
-	for (Rva004CB51CEntry *e = d->m_begin, *end = d->m_end; e != end; ++e)
+	for (Rva004CB51CEntry *e = upgradeSoundSelectorClientBehaviorModuleData->m_begin, *end = upgradeSoundSelectorClientBehaviorModuleData->m_end; e != end; ++e)
 	{
 		if (((UpgradeMuxData *)e)->rva004CB333(obj))
 		{

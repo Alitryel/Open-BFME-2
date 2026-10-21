@@ -128,7 +128,7 @@ class ModelConditionFlags : public BitFlags<591> {};
 class Vector4
 {
 public:
-	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline Vector4(const Vector4 &vector4) { X = vector4.X; Y = vector4.Y; Z = vector4.Z; W = vector4.W; }
 	float X, Y, Z, W;
 };
 class Matrix3D

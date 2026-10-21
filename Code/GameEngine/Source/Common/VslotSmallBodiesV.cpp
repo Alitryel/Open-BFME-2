@@ -123,9 +123,9 @@ void Rva001E30F5::rva001E30F5(Int a, Int b)
 {
 	if (!m_14C)
 	{
-		const ThingTemplate *t = TheThingFactory->findTemplate(*(const AsciiString *)&m_154);
-		if (t)
-			const_cast<ThingTemplate *>(t)->GetAssetList(a, b);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_154);
+		if (thingTemplate)
+			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(a, b);
 	}
 }
 

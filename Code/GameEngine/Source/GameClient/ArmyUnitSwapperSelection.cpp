@@ -225,7 +225,7 @@ void StrategicInGameUI::SendUpgradeMessages(LivingWorldArmy *army,Rva005F56B0Sel
 class Rva005F5B77 {
 public:void rva005F5B77();
  char prefix[0x20];LivingWorldArmy *army;Rva005F56B0Selection *selection;
- __forceinline int enabled(){LivingWorldArmy*a=army;Rva005F56B0Selection*b=selection;return (StrategicInGameUI::CanCancelAnyUpgrades(a,b)||StrategicInGameUI::CanUpgradeAny(a,b))?1:0;}
+ __forceinline int enabled(){LivingWorldArmy*livingWorldArmy=army;Rva005F56B0Selection*b=selection;return (StrategicInGameUI::CanCancelAnyUpgrades(livingWorldArmy,b)||StrategicInGameUI::CanUpgradeAny(livingWorldArmy,b))?1:0;}
 };
 void Rva005F5B77::rva005F5B77(){
  int word=enabled();bool flag;memcpy(&flag,&word,sizeof flag);

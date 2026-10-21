@@ -178,7 +178,7 @@ struct Rva0010F149Handle
 	Rva0010F149Handle() : referent(0) {}
 	Rva0010F149Handle(const Rva0010F149Handle &);
 	~Rva0010F149Handle() { if (referent) referent->Release_Ref(); }
-	void set(OpaqueRefCounted *p) { reinterpret_cast<Rva000A8C9B *>(this)->rva000A8CE5(p); }
+	void set(OpaqueRefCounted *opaqueRefCounted) { reinterpret_cast<Rva000A8C9B *>(this)->rva000A8CE5(opaqueRefCounted); }
 	OpaqueRefCounted *referent;
 };
 
@@ -280,7 +280,7 @@ class ModelConditionFlags : public BitFlags<591>
 class Vector4
 {
 public:
-	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline Vector4(const Vector4 &vector4) { X = vector4.X; Y = vector4.Y; Z = vector4.Z; W = vector4.W; }
 	float X;
 	float Y;
 	float Z;

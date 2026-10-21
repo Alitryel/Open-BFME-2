@@ -44,20 +44,20 @@ void *CreateAHeroManager::CreateAHeroSubClass::GetBling(int key, unsigned int in
 	void *node = 0;
 	if (!rva0021BC0D(key, &node))
 		return 0;
-	MapNodeVec *n = (MapNodeVec *)node;
-	unsigned int count = (unsigned int)(((char *)n->m_finish - (char *)n->m_start) >> 2);
+	MapNodeVec *mapNodeVec = (MapNodeVec *)node;
+	unsigned int count = (unsigned int)(((char *)mapNodeVec->m_finish - (char *)mapNodeVec->m_start) >> 2);
 	if (index >= count)
 		return 0;
-	return TheCreateAHeroManager->GetBling(n->m_start[index]);
+	return TheCreateAHeroManager->GetBling(mapNodeVec->m_start[index]);
 }
 unsigned int CreateAHeroManager::CreateAHeroSubClass::GetBlingIndex(int key, unsigned int index)
 {
 	void *node = 0;
 	if (!rva0021BC0D(key, &node))
 		return 0;
-	MapNodeVec *n = (MapNodeVec *)node;
-	unsigned int count = (unsigned int)(((char *)n->m_finish - (char *)n->m_start) >> 2);
+	MapNodeVec *mapNodeVec = (MapNodeVec *)node;
+	unsigned int count = (unsigned int)(((char *)mapNodeVec->m_finish - (char *)mapNodeVec->m_start) >> 2);
 	if (index >= count)
 		return 0;
-	return n->m_start[index];
+	return mapNodeVec->m_start[index];
 }

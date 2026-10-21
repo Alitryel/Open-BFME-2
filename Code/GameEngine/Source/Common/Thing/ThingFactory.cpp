@@ -155,12 +155,12 @@ const ThingTemplate *ThingFactory::findByTemplateID( UnsignedShort id )
 		unsigned char padId[0x478 - 0x38c - sizeof(ThingTemplate *)];
 		UnsignedShort templateID;
 	};
-	for (ThingTemplate *tmpl = m_firstTemplate; tmpl; )
+	for (ThingTemplate *thingTemplate = m_firstTemplate; thingTemplate; )
 	{
-		BFMEThingTemplateLinks *links = reinterpret_cast<BFMEThingTemplateLinks *>(tmpl);
+		BFMEThingTemplateLinks *links = reinterpret_cast<BFMEThingTemplateLinks *>(thingTemplate);
 		if (links->templateID == id)
-			return tmpl;
-		tmpl = links->nextTemplate;
+			return thingTemplate;
+		thingTemplate = links->nextTemplate;
 	}
 	return NULL;
 }
@@ -180,14 +180,14 @@ ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name, Bool
 #ifdef LOAD_TEST_ASSETS
 	if (!strncmp(name.str(), TEST_STRING, strlen(TEST_STRING))) 
 	{
-		ThingTemplate *tmplate = newTemplate( AsciiString( "Un-namedTemplate" ) );
+		ThingTemplate *thingTemplate = newTemplate( AsciiString( "Un-namedTemplate" ) );
 
 		// load the values
-		tmplate->initForLTA( name );
+		thingTemplate->initForLTA( name );
 
 		// Kinda lame, but necessary.
 		m_templateHashMap.erase("Un-namedTemplate");
-		m_templateHashMap[name] = tmplate;
+		m_templateHashMap[name] = thingTemplate;
 
 		// add tmplate template to the database
 		return findTemplateInternal( name );
@@ -206,32 +206,32 @@ ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name, Bool
 
 //=============================================================================
 // ?newObject@ThingFactory@@ present-unmatched
-Object *ThingFactory::newObject( const ThingTemplate *tmplate, Team *team, ObjectStatusMaskType statusBits )
+Object *ThingFactory::newObject( const ThingTemplate *thingTemplate, Team *team, ObjectStatusMaskType statusBits )
 {
-	if (tmplate == NULL)
+	if (thingTemplate == NULL)
 		throw ERROR_BAD_ARG;
 
-	const std::vector<AsciiString>& asv = tmplate->getBuildVariations();
+	const std::vector<AsciiString>& asv = thingTemplate->getBuildVariations();
 	if (!asv.empty())
 	{
 		Int which = GameLogicRandomValue(0, asv.size()-1);
 		const ThingTemplate* tmp = findTemplate( asv[which] );
 		if (tmp != NULL)
-			tmplate = tmp;
+			thingTemplate = tmp;
 	}
 
-	DEBUG_ASSERTCRASH(!tmplate->isKindOf(KINDOF_DRAWABLE_ONLY), ("You may not create Objects with the template %s, only Drawables\n",tmplate->getName().str()));
+	DEBUG_ASSERTCRASH(!thingTemplate->isKindOf(KINDOF_DRAWABLE_ONLY), ("You may not create Objects with the template %s, only Drawables\n",thingTemplate->getName().str()));
 
 	// have the game logic create an object of the correct type.
 	// (this will throw an exception on failure.)
 	//Added ability to pass in optional statusBits. This is needed to be set prior to
 	//the onCreate() calls... in the case of constructing.
-	Object *obj = TheGameLogic->friend_createObject( tmplate, statusBits, team );
+	Object *obj = TheGameLogic->friend_createObject( thingTemplate, statusBits, team );
 
 	// run the create function for the thing
-	for (BehaviorModule** m = obj->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule** behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		CreateModuleInterface* create = (*m)->getCreate();
+		CreateModuleInterface* create = (*behaviorModule)->getCreate();
 		if (!create)
 			continue;
 	

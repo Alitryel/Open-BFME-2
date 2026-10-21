@@ -40,8 +40,8 @@ void AnimationSoundModuleManager::update(){
   dirtyHead=0;dirtyTail=0;
  }
  if(!dirtyHead)listenerPosition=*((AnimationListenerCalls*)TheAudio)->listener();
- for(AnimationSoundClientBehavior *b=cleanHead;b;){
-  AnimationSoundClientBehavior *next=b->next;
-  b->updateAnimationSounds();b=next;
+ for(AnimationSoundClientBehavior *animationSoundClientBehavior=cleanHead;animationSoundClientBehavior;){
+  AnimationSoundClientBehavior *next=animationSoundClientBehavior->next;
+  animationSoundClientBehavior->updateAnimationSounds();animationSoundClientBehavior=next;
  }
 }

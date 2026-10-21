@@ -30,9 +30,9 @@ private:
 };
 int Drawable::rva00272709()
 {
-	for (DrawModule **p = m_drawModules; *p; ++p)
+	for (DrawModule **drawModule = m_drawModules; *drawModule; ++drawModule)
 	{
-		int v = (*p)->slotCC();
+		int v = (*drawModule)->slotCC();
 		if (v != 0)
 			return v;
 	}

@@ -5,9 +5,9 @@
 #include <string.h>
 
 
-__forceinline const char *GetStr0026F28B(const AsciiString &s)
+__forceinline const char *GetStr0026F28B(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

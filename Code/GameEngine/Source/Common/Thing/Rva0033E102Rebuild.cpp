@@ -83,18 +83,18 @@ public:
 	unsigned char m_flag5e9; // +0x5e9
 };
 
-void rva0033E102(void *arg1, ThingTemplate *t)
+void rva0033E102(void *arg1, ThingTemplate *thingTemplate)
 {
-	if (t->m_flag5e9 == 1) {
-		_STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> > *v = &t->m_vec370;
-		t->m_flag5e9 = 0;
+	if (thingTemplate->m_flag5e9 == 1) {
+		_STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> > *v = &thingTemplate->m_vec370;
+		thingTemplate->m_flag5e9 = 0;
 		v->erase(v->begin(), v->end());
 	}
 
 	MyRecord rec;
 	rec.rva0033C247(arg1);
-	t->m_vec370.push_back((const BfmeContainerRecord002CF46E &)rec);
-	t->m_tree37c.rva002CF7DE();
+	thingTemplate->m_vec370.push_back((const BfmeContainerRecord002CF46E &)rec);
+	thingTemplate->m_tree37c.rva002CF7DE();
 }
 
 // Each retail call in this body reads an address the ledger already carries

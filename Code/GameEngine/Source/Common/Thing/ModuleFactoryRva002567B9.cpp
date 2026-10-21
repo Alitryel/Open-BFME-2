@@ -30,10 +30,10 @@ void ModuleFactory::GetAssetList(const AsciiString &name, int a, ModuleType type
 {
 	if (a == 0)
 		return;
-	const ModuleTemplate *tmpl = findModuleTemplate(name, type);
-	if (tmpl == 0)
+	const ModuleTemplate *moduleTemplate = findModuleTemplate(name, type);
+	if (moduleTemplate == 0)
 		return;
-	if (tmpl->m_create08 == 0)
+	if (moduleTemplate->m_create08 == 0)
 		return;
-	tmpl->m_create08(a, c, b);
+	moduleTemplate->m_create08(a, c, b);
 }

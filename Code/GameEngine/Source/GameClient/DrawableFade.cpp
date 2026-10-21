@@ -127,11 +127,11 @@ float Drawable::rva00272C9E(int key)
 	float v = m_opacityB4;
 	if (key != 0)
 	{
-		for (DrawModule **p = m_drawModules; *p; ++p)
+		for (DrawModule **drawModule = m_drawModules; *drawModule; ++drawModule)
 		{
-			if ((*p)->slotC4() == key)
+			if ((*drawModule)->slotC4() == key)
 			{
-				if (!(*p)->slotF0())
+				if (!(*drawModule)->slotF0())
 					v = 1.0f;
 				break;
 			}

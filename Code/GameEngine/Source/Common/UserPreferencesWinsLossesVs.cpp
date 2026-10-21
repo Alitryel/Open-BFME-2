@@ -64,31 +64,31 @@ public:
 	AsciiString rva005377B6();
 };
 
-Int UserPreferences::rva00537505(AsciiString a, const AsciiString &b)
+Int UserPreferences::rva00537505(AsciiString a, const AsciiString &asciiString)
 {
 	((StringBase<char> *)&a)->concat("LossesVs");
-	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&b);
+	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&asciiString);
 	return getInt(a, 0);
 }
 
-void UserPreferences::rva005374B3(AsciiString a, const AsciiString &b, Int v)
+void UserPreferences::rva005374B3(AsciiString a, const AsciiString &asciiString, Int v)
 {
 	((StringBase<char> *)&a)->concat("LossesVs");
-	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&b);
+	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&asciiString);
 	setInt(a, v);
 }
 
-Int UserPreferences::rva0053745E(AsciiString a, const AsciiString &b)
+Int UserPreferences::rva0053745E(AsciiString a, const AsciiString &asciiString)
 {
 	((StringBase<char> *)&a)->concat("WinsVs");
-	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&b);
+	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&asciiString);
 	return getInt(a, 0);
 }
 
-void UserPreferences::rva0053740C(AsciiString a, const AsciiString &b, Int v)
+void UserPreferences::rva0053740C(AsciiString a, const AsciiString &asciiString, Int v)
 {
 	((StringBase<char> *)&a)->concat("WinsVs");
-	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&b);
+	((StringBase<char> *)&a)->concat(*(const StringBase<char> *)&asciiString);
 	setInt(a, v);
 }
 

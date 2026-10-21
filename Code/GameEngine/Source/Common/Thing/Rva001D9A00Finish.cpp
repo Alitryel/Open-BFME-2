@@ -47,8 +47,8 @@ bool Rva001D9A00::rva001D9A00()
 		return m_beg1 != m_end1 || m_beg2 != m_end2 || m_beg3 != m_end3;
 	case 5:
 		{
-			VecPair *v = &m_v4;
-			return v->beg != v->end;
+			VecPair *vecPair = &m_v4;
+			return vecPair->beg != vecPair->end;
 		}
 	default:
 		return !m_str.isEmpty();

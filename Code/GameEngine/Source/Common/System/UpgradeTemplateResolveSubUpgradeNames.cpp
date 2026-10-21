@@ -87,6 +87,6 @@ void UpgradeTemplate::friend_resolveSubUpgradeNames()
 // ?rva0026F93C@UpgradeCenter@@QAEXXZ @0x0026F93C (22B)
 void UpgradeCenter::rva0026F93C()
 {
-	for (UpgradeTemplate *u = m_upgradeTemplates; u != 0; u = u->getNextTemplate())
-		u->friend_resolveSubUpgradeNames();
+	for (UpgradeTemplate *upgradeTemplate = m_upgradeTemplates; upgradeTemplate != 0; upgradeTemplate = upgradeTemplate->getNextTemplate())
+		upgradeTemplate->friend_resolveSubUpgradeNames();
 }

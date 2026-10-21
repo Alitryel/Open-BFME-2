@@ -83,19 +83,19 @@ private:
 	Rva000B9DD9Cached *m5c;
 };
 
-void Rva000B9DD9::rva000B9DD9(const AsciiString &s)
+void Rva000B9DD9::rva000B9DD9(const AsciiString &asciiString)
 {
 	if (m5c != 0)
 		m5c->v2();
 	m5c = 0;
-	if (((const StringBase<char> &)s).isEmpty())
+	if (((const StringBase<char> &)asciiString).isEmpty())
 		return;
 	Rva000B9DD9Floats *f = (Rva000B9DD9Floats *)m08->m04;
 	Shadow::ShadowTypeInfo ev;
 	ev.m25 = 0;
 	ev.m26 = 1;
 	ev.m08 = 0x20;
-	((StringBase<char> &)ev.m_first).set((const StringBase<char> &)s);
+	((StringBase<char> &)ev.m_first).set((const StringBase<char> &)asciiString);
 	ev.m0c = f->m4e8;
 	ev.m10 = f->m4ec;
 	ev.m14 = f->m4f0;

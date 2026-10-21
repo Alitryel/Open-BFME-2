@@ -107,9 +107,9 @@ void CameraMarkerList::remove(CameraMarker *marker)
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeCameraMarkerInlineAnchor@@YAXPAVCameraMarker@@@Z absent-from-retail
-void _bfmeCameraMarkerInlineAnchor(CameraMarker *p)
+void _bfmeCameraMarkerInlineAnchor(CameraMarker *cameraMarker)
 {
-    p->CameraMarker::~CameraMarker();
+    cameraMarker->CameraMarker::~CameraMarker();
 }
 #pragma inline_depth()
 

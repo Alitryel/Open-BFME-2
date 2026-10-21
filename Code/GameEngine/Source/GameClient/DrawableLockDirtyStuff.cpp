@@ -51,9 +51,9 @@ void Drawable::friend_lockDirtyStuffForIteration()
 	{
 		if (TheGameClient)
 		{
-			for (Drawable *d = ((GameClientView *)TheGameClient)->firstDrawable(); d != 0; d = d->getNextDrawable())
+			for (Drawable *drawable = ((GameClientView *)TheGameClient)->firstDrawable(); drawable != 0; drawable = drawable->getNextDrawable())
 			{
-				d->getDrawModules();
+				drawable->getDrawModules();
 			}
 		}
 	}

@@ -15,9 +15,9 @@ public:
 	void append(const char *s, StringBase<char> *b);
 };
 
-__forceinline const char *GetStr00256499(const AsciiString &s)
+__forceinline const char *GetStr00256499(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

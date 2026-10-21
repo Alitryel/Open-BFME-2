@@ -82,9 +82,9 @@ void Rva0033B9D1::rva0033B9D1()
         while (slot != vec->m_end) {
             Elem0033B9D1 *elem = (Elem0033B9D1 *)*slot;
             if (elem != 0 && elem->m_cond >= 1) {
-                LocomotorTemplate *t = TheLocomotorStore->findLocomotorTemplate(elem->m_name);
-                if (t != 0) {
-                    *slot = t;
+                LocomotorTemplate *locomotorTemplate = TheLocomotorStore->findLocomotorTemplate(elem->m_name);
+                if (locomotorTemplate != 0) {
+                    *slot = locomotorTemplate;
                     ++slot;
                 } else {
                     slot = ((_STL::vector<void *, _STL::allocator<void *> > *)vec)->erase(slot);

@@ -71,17 +71,17 @@ class CreateAHeroData : public Snapshot {
     BfmeHeroElement005C39DE elements80[15];
     unsigned int word134, word138, word13C;
 public:
-    CreateAHeroData(const CreateAHeroData &o)
-        : Snapshot(o), word04(o.word04), text08(o.text08),
-          word0C(o.word0C), word10(o.word10), map14(o.map14), map20(o.map20),
-          word2C(o.word2C), word30(o.word30), word34(o.word34), word38(0x2FF),
-          strings3C(o.strings3C), flag48(o.flag48), text4C(o.text4C),
-          map50(o.map50), bits5C(o.bits5C), flag70(0), flag71(o.flag71),
-          map74(o.map74), elements80(), word134(o.word134),
-          word138(o.word138), word13C(o.word13C)
+    CreateAHeroData(const CreateAHeroData &createAHeroData)
+        : Snapshot(createAHeroData), word04(createAHeroData.word04), text08(createAHeroData.text08),
+          word0C(createAHeroData.word0C), word10(createAHeroData.word10), map14(createAHeroData.map14), map20(createAHeroData.map20),
+          word2C(createAHeroData.word2C), word30(createAHeroData.word30), word34(createAHeroData.word34), word38(0x2FF),
+          strings3C(createAHeroData.strings3C), flag48(createAHeroData.flag48), text4C(createAHeroData.text4C),
+          map50(createAHeroData.map50), bits5C(createAHeroData.bits5C), flag70(0), flag71(createAHeroData.flag71),
+          map74(createAHeroData.map74), elements80(), word134(createAHeroData.word134),
+          word138(createAHeroData.word138), word13C(createAHeroData.word13C)
     {
         for (int i = 0; i < 15; ++i)
-            elements80[i] = o.elements80[i];
+            elements80[i] = createAHeroData.elements80[i];
         RegisterCreateAHeroAtRva0021D517(this);
     }
     virtual ~CreateAHeroData();

@@ -145,15 +145,15 @@ Rva003F2D03::Rva003F2D03(const AsciiString &name)
  :m00(name),m04(),m14(_STL::allocator<AsciiString>()),m20("APT:LivingWorldRegionConqueredNotice"),m24(),m28(),m2c(),m30(),m34(),m40(),m44(20),m48(0),m58(),m5c(),m74(true),m75(false),m94(false),m95(false),m96(false),m97(false),m98(0),ma4(),mcc(),mf4(1000),mf8(400),m108(false),m10c(),m110(),m114()
 {
 
- {ConnectionVec *v=(ConnectionVec*)&m4c;v->rva003F35B0(v->start,v->finish);}
- {_STL::vector<BfmePod8> *v=(_STL::vector<BfmePod8>*)&m60;v->erase(v->begin(),v->end());}
- {_STL::vector<void*> *v=(_STL::vector<void*>*)&ma8;v->erase(v->begin(),v->end());}
- {_STL::vector<void*> *v=(_STL::vector<void*>*)&mb4;v->erase(v->begin(),v->end());}
- {_STL::vector<void*> *v=(_STL::vector<void*>*)&mc0;v->erase(v->begin(),v->end());}
+ {ConnectionVec *connectionVec=(ConnectionVec*)&m4c;connectionVec->rva003F35B0(connectionVec->start,connectionVec->finish);}
+ {_STL::vector<BfmePod8> *connectionVec=(_STL::vector<BfmePod8>*)&m60;connectionVec->erase(connectionVec->begin(),connectionVec->end());}
+ {_STL::vector<void*> *connectionVec=(_STL::vector<void*>*)&ma8;connectionVec->erase(connectionVec->begin(),connectionVec->end());}
+ {_STL::vector<void*> *connectionVec=(_STL::vector<void*>*)&mb4;connectionVec->erase(connectionVec->begin(),connectionVec->end());}
+ {_STL::vector<void*> *connectionVec=(_STL::vector<void*>*)&mc0;connectionVec->erase(connectionVec->begin(),connectionVec->end());}
  m78.reset();
- {_STL::vector<BfmePod8> *v=(_STL::vector<BfmePod8>*)&md0;v->erase(v->begin(),v->end());}
- {_STL::vector<BfmePod8> *v=(_STL::vector<BfmePod8>*)&mdc;v->erase(v->begin(),v->end());}
- {_STL::vector<BfmePod8> *v=(_STL::vector<BfmePod8>*)&me8;v->erase(v->begin(),v->end());}
+ {_STL::vector<BfmePod8> *connectionVec=(_STL::vector<BfmePod8>*)&md0;connectionVec->erase(connectionVec->begin(),connectionVec->end());}
+ {_STL::vector<BfmePod8> *connectionVec=(_STL::vector<BfmePod8>*)&mdc;connectionVec->erase(connectionVec->begin(),connectionVec->end());}
+ {_STL::vector<BfmePod8> *connectionVec=(_STL::vector<BfmePod8>*)&me8;connectionVec->erase(connectionVec->begin(),connectionVec->end());}
 }
 
 typedef char RegionDefinitionSizeCheck[sizeof(Rva003F2D03)==0x118?1:-1];

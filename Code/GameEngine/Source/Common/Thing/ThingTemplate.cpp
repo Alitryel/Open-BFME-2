@@ -881,16 +881,16 @@ void ThingTemplate::initForLTA(const AsciiString& name)
 
 //=============================================================================
 // ?ThingTemplate::findArmorTemplateSet present-unmatched
-const ArmorTemplateSet* ThingTemplate::findArmorTemplateSet(const ArmorSetFlags& t) const
+const ArmorTemplateSet* ThingTemplate::findArmorTemplateSet(const ArmorSetFlags& armorSetFlags) const
 {
-  return m_armorTemplateSetFinder.findBestInfo(m_armorTemplateSets, t);
+  return m_armorTemplateSetFinder.findBestInfo(m_armorTemplateSets, armorSetFlags);
 }
 
 //=============================================================================
 // ?ThingTemplate::findWeaponTemplateSet present-unmatched
-const WeaponTemplateSet* ThingTemplate::findWeaponTemplateSet(const WeaponSetFlags& t) const
+const WeaponTemplateSet* ThingTemplate::findWeaponTemplateSet(const WeaponSetFlags& weaponSetFlags) const
 {
-  return m_weaponTemplateSetFinder.findBestInfo(m_weaponTemplateSets, t);
+  return m_weaponTemplateSetFinder.findBestInfo(m_weaponTemplateSets, weaponSetFlags);
 }
 
 //-----------------------------------------------------------------------------
@@ -1054,11 +1054,11 @@ Int ThingTemplate::calcTimeToBuild( const Player* player) const
 
 	if (getBuildCompletion() == BC_APPEARS_AT_RALLY_POINT)
 	{
-		const ThingTemplate *tmpl = getBuildFacilityTemplate(player);	// could be null if none exist
+		const ThingTemplate *thingTemplate = getBuildFacilityTemplate(player);	// could be null if none exist
 		Int count = 0;
-		if (tmpl)
+		if (thingTemplate)
 		{
-			player->countObjectsByThingTemplate(1, &tmpl, false, &count);
+			player->countObjectsByThingTemplate(1, &thingTemplate, false, &count);
 			Real factoryMult = TheGlobalData->m_MultipleFactory;
 			if (factoryMult > 0.0f)
 			{

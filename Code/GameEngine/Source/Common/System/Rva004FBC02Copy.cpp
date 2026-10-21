@@ -28,7 +28,7 @@ class Rva00579E47 { public: Rva00579E47() {} Rva00579E47(const DelegateDesc &); 
 struct TreeHintRef00217D4C : public Rva00579E47
 {
 	TreeHintRef00217D4C() { ptr = 0; }
-	TreeHintRef00217D4C(const DelegateDesc &d) : Rva00579E47(d) {}
+	TreeHintRef00217D4C(const DelegateDesc &delegateDesc) : Rva00579E47(delegateDesc) {}
 	TreeHintRef00217D4C(const TreeHintRef00217D4C &o) : Rva00579E47(o) { if (ptr) ++((int *)ptr)[1]; }
 	~TreeHintRef00217D4C();
 };

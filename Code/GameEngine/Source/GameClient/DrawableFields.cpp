@@ -48,8 +48,8 @@ inline const TWheelInfo *Drawable::getWheelInfo( void ) const
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeDrawableInlineAnchor@@YAXPAVDrawable@@@Z absent-from-retail
-void _bfmeDrawableInlineAnchor(Drawable *p)
+void _bfmeDrawableInlineAnchor(Drawable *drawable)
 {
-    p->getWheelInfo();
+    drawable->getWheelInfo();
 }
 #pragma inline_depth()

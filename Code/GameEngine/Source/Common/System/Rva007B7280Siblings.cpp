@@ -65,78 +65,78 @@ void *const RvaBd4e9cVtable[7] = { 0 };
 
 void rva007B7280()
 {
-	RvaVectorClass &v = *(RvaVectorClass *)&PointGroupClass::compressed_loc;
-	void *vec = v.vector;
-	v.vptr = (void *)&RvaBcefacVtable;
-	if (vec != 0 && v.isAllocated) {
+	RvaVectorClass &rvaVector = *(RvaVectorClass *)&PointGroupClass::compressed_loc;
+	void *vec = rvaVector.vector;
+	rvaVector.vptr = (void *)&RvaBcefacVtable;
+	if (vec != 0 && rvaVector.isAllocated) {
 		operator delete[](vec);
-		v.vector = 0;
+		rvaVector.vector = 0;
 	}
-	v.isAllocated = false;
-	v.vectorMax = 0;
+	rvaVector.isAllocated = false;
+	rvaVector.vectorMax = 0;
 }
 
 void rva007B72C0()
 {
-	RvaVectorClass &v = *(RvaVectorClass *)&PointGroupClass::compressed_diffuse;
-	void *vec = v.vector;
-	v.vptr = (void *)&RvaBd4eb4Vtable;
-	if (vec != 0 && v.isAllocated) {
+	RvaVectorClass &rvaVector = *(RvaVectorClass *)&PointGroupClass::compressed_diffuse;
+	void *vec = rvaVector.vector;
+	rvaVector.vptr = (void *)&RvaBd4eb4Vtable;
+	if (vec != 0 && rvaVector.isAllocated) {
 		operator delete[](vec);
-		v.vector = 0;
+		rvaVector.vector = 0;
 	}
-	v.isAllocated = false;
-	v.vectorMax = 0;
+	rvaVector.isAllocated = false;
+	rvaVector.vectorMax = 0;
 }
 
 void rva007B7300()
 {
-	RvaVectorClass &v = *(RvaVectorClass *)&PointGroupClass::compressed_size;
-	void *vec = v.vector;
-	v.vptr = (void *)&RvaBd4eccVtable;
-	if (vec != 0 && v.isAllocated) {
+	RvaVectorClass &rvaVector = *(RvaVectorClass *)&PointGroupClass::compressed_size;
+	void *vec = rvaVector.vector;
+	rvaVector.vptr = (void *)&RvaBd4eccVtable;
+	if (vec != 0 && rvaVector.isAllocated) {
 		operator delete[](vec);
-		v.vector = 0;
+		rvaVector.vector = 0;
 	}
-	v.isAllocated = false;
-	v.vectorMax = 0;
+	rvaVector.isAllocated = false;
+	rvaVector.vectorMax = 0;
 }
 
 void rva007B7340()
 {
-	RvaVectorClass &v = *(RvaVectorClass *)&PointGroupClass::compressed_orient;
-	void *vec = v.vector;
-	v.vptr = (void *)&RvaBd4e9cVtable;
-	if (vec != 0 && v.isAllocated) {
+	RvaVectorClass &rvaVector = *(RvaVectorClass *)&PointGroupClass::compressed_orient;
+	void *vec = rvaVector.vector;
+	rvaVector.vptr = (void *)&RvaBd4e9cVtable;
+	if (vec != 0 && rvaVector.isAllocated) {
 		operator delete[](vec);
-		v.vector = 0;
+		rvaVector.vector = 0;
 	}
-	v.isAllocated = false;
-	v.vectorMax = 0;
+	rvaVector.isAllocated = false;
+	rvaVector.vectorMax = 0;
 }
 
 void rva007B7380()
 {
-	RvaVectorClass &v = *(RvaVectorClass *)&PointGroupClass::compressed_frame;
-	void *vec = v.vector;
-	v.vptr = (void *)&RvaBd4e9cVtable;
-	if (vec != 0 && v.isAllocated) {
+	RvaVectorClass &rvaVector = *(RvaVectorClass *)&PointGroupClass::compressed_frame;
+	void *vec = rvaVector.vector;
+	rvaVector.vptr = (void *)&RvaBd4e9cVtable;
+	if (vec != 0 && rvaVector.isAllocated) {
 		operator delete[](vec);
-		v.vector = 0;
+		rvaVector.vector = 0;
 	}
-	v.isAllocated = false;
-	v.vectorMax = 0;
+	rvaVector.isAllocated = false;
+	rvaVector.vectorMax = 0;
 }
 
 void rva007B7400()
 {
-	RvaVectorClass &v = *(RvaVectorClass *)&VertexLoc;
-	void *vec = v.vector;
-	v.vptr = (void *)&RvaBcefacVtable;
-	if (vec != 0 && v.isAllocated) {
+	RvaVectorClass &rvaVector = *(RvaVectorClass *)&VertexLoc;
+	void *vec = rvaVector.vector;
+	rvaVector.vptr = (void *)&RvaBcefacVtable;
+	if (vec != 0 && rvaVector.isAllocated) {
 		operator delete[](vec);
-		v.vector = 0;
+		rvaVector.vector = 0;
 	}
-	v.isAllocated = false;
-	v.vectorMax = 0;
+	rvaVector.isAllocated = false;
+	rvaVector.vectorMax = 0;
 }

@@ -7,9 +7,9 @@ public:
     const Image *rva0033BA46();
 };
 
-const Image *__cdecl Rva0033BC53Get(ThingTemplate *t, void *u)
+const Image *__cdecl Rva0033BC53Get(ThingTemplate *thingTemplate, void *u)
 {
-    if (t == 0 || u == 0)
+    if (thingTemplate == 0 || u == 0)
         return 0;
-    return t->rva0033BA46();
+    return thingTemplate->rva0033BA46();
 }

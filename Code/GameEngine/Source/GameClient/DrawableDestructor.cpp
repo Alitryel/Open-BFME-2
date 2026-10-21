@@ -415,10 +415,10 @@ Drawable::~Drawable()
 
 	for (int i = 0; i < 3; ++i)
 	{
-		for (Module **m = m_modules[i]; m && *m; ++m)
+		for (Module **module = m_modules[i]; module && *module; ++module)
 		{
-			::operator delete((*m)->deleteInstance(0));
-			*m = 0;
+			::operator delete((*module)->deleteInstance(0));
+			*module = 0;
 		}
 		delete[] m_modules[i];
 		m_modules[i] = 0;

@@ -36,10 +36,10 @@ public:
 	Rva0031AB1ENode *m_2c;
 };
 
-Rva0031AB1ENode *Rva0031AB1EOwner::rva0031AB1E(const AsciiString *arg)
+Rva0031AB1ENode *Rva0031AB1EOwner::rva0031AB1E(const AsciiString *asciiString)
 {
 	Rva0031AB1ENode *fresh = (Rva0031AB1ENode *)new Rva0035BB4B();
-	fresh->m_10 = *arg;
+	fresh->m_10 = *asciiString;
 	Rva0031AB1ENode *old = m_2c;
 	fresh->m_18 = old;
 	m_2c = fresh;

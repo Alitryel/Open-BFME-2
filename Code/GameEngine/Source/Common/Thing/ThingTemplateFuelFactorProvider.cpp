@@ -117,8 +117,8 @@ void __cdecl rva0033B677(INI *ini, void * /*instance*/, void *store, const void 
 	int idx = 0;
 	if (((const char *)info->m_end - (const char *)info->m_begin) / 20 > 0) {
 		do {
-			const ModuleData *d = info->getNthData(idx);
-			if (d->isBodyLike())
+			const ModuleData *moduleData = info->getNthData(idx);
+			if (moduleData->isBodyLike())
 				break;
 			++idx;
 		} while (idx < ((const char *)info->m_end - (const char *)info->m_begin) / 20);

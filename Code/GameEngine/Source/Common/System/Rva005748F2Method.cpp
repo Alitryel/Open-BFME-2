@@ -31,11 +31,11 @@ private:
 
 void Rva005748F2::rva005748F2()
 {
-	Pointee *p = (Pointee *)m_holder.m_ptr;
-	if (!p)
+	Pointee *pointee = (Pointee *)m_holder.m_ptr;
+	if (!pointee)
 		return;
 	if (m_flag)
-		p->slot1();
+		pointee->slot1();
 	else
 		m_holder.clear();
 }

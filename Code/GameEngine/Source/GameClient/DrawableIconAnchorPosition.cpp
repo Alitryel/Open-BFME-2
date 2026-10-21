@@ -132,9 +132,9 @@ void Drawable::rva002775C9(Coord3D *pos)
 	}
 	*pos = *reinterpret_cast<const Rva00276470Drawable *>(this)->rva00276470();
 	Real height = 10.0f;
-	const ThingTemplate *tmpl = getTemplate();
-	if (tmpl != 0)
-		height = tmpl->getHeight();
+	const ThingTemplate *thingTemplate = getTemplate();
+	if (thingTemplate != 0)
+		height = thingTemplate->getHeight();
 	pos->z += height;
 	if (obj != 0)
 		pos->z += obj->getGeometryInfo().rva006BD830();

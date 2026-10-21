@@ -182,8 +182,8 @@ void Rva000E0856::render(RenderContext*ctx){
  int mode=TheInGameUI->mode;
  if(TheInGameUI->mode==1||mode==2){
   unsigned selected=TheInGameUI->slot93();
-  if(selected){DrawableView*d=TheGameClient->lookup(selected);
-   if(d){Rva000E07F4Obj*o=d->object;
+  if(selected){DrawableView*drawableView=TheGameClient->lookup(selected);
+   if(drawableView){Rva000E07F4Obj*o=drawableView->object;
     if(o&&((((unsigned char*)o->inner)[0x10D]&0x80)==0) ){Player*local=ThePlayerList->local;if(((Object*)o)->getControllingPlayer()==local){
      Object*adjusted=((Object*)o)->rva002931F5(false);if(adjusted)o=(Rva000E07F4Obj*)adjusted;
      ((Rva000E0123*)this)->rva000E0123(3.0f);((Rva000E0123*)this)->rva000E00C0(1.0f);((Rva000E07F4Host*)this)->rva000E0584(o);((Rva000E0123*)this)->rva000E0123(1.5f);

@@ -131,35 +131,35 @@ public:
 // with those four values preceded on the stack by the hidden most-derived
 // true word. The helper's purpose beyond
 // constructing an Object remains inferred from the caller and target calls.
-Object *GameLogic::friend_createObject(const ThingTemplate *tmplate, const CreateMask *mask, Team *team, bool flag)
+Object *GameLogic::friend_createObject(const ThingTemplate *thingTemplate, const CreateMask *mask, Team *team, bool flag)
 {
 	// Retail forwards the complete four-byte argument slot to ObjectID.
-	return new Object(tmplate, mask, team, *reinterpret_cast<const ObjectID *>(&flag));
+	return new Object(thingTemplate, mask, team, *reinterpret_cast<const ObjectID *>(&flag));
 }
 
-Object *ThingFactory::newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag)
+Object *ThingFactory::newObject(const ThingTemplate *thingTemplate, Team *team, const CreateMask *mask, bool flag)
 {
-	if (tmplate == 0)
+	if (thingTemplate == 0)
 		return 0;
 
 	if (g_00DFF004)
 		Sleep(0);
 
-	if (tmplate->hasBuildVariations())
+	if (thingTemplate->hasBuildVariations())
 	{
-		Int which = GetGameLogicRandomValue(0, tmplate->getBuildVariationCount() - 1, THINGFACTORY_FILE, 0x20B);
-		const ThingTemplate *tmp = findTemplate(tmplate->getBuildVariation(which));
+		Int which = GetGameLogicRandomValue(0, thingTemplate->getBuildVariationCount() - 1, THINGFACTORY_FILE, 0x20B);
+		const ThingTemplate *tmp = findTemplate(thingTemplate->getBuildVariation(which));
 		if (tmp != 0)
-			tmplate = tmp;
+			thingTemplate = tmp;
 	}
 
-	Object *obj = TheGameLogic->friend_createObject(tmplate, mask, team, flag);
+	Object *obj = TheGameLogic->friend_createObject(thingTemplate, mask, team, flag);
 
-	for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
 		if (g_00DFF004)
 			Sleep(0);
-		CreateModuleInterface *create = (*m)->getCreate();
+		CreateModuleInterface *create = (*behaviorModule)->getCreate();
 		if (!create)
 			continue;
 		create->onCreate();
@@ -172,7 +172,7 @@ Object *ThingFactory::newObject(const ThingTemplate *tmplate, Team *team, const 
 		Sleep(0);
 
 	if (g_00DFEFF0)
-		fprintf((FprintfTarget *)g_00DFEFF0, "newObj %s id %i", tmplate->getName().str(), obj->getID());
+		fprintf((FprintfTarget *)g_00DFEFF0, "newObj %s id %i", thingTemplate->getName().str(), obj->getID());
 
 	return obj;
 }

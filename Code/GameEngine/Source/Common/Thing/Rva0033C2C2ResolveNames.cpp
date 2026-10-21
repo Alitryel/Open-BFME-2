@@ -59,12 +59,12 @@ void ThingTemplate::resolveNames()
 	}
 
 	const int MAX_BF = 32;
-	const ThingTemplate *tmpls[MAX_BF];
+	const ThingTemplate *thingTemplate[MAX_BF];
 	for (i = 0; i < m_prereqInfo.size(); i++) {
-		int count = m_prereqInfo.begin()[i].getAllPossibleBuildFacilityTemplates(tmpls, MAX_BF);
+		int count = m_prereqInfo.begin()[i].getAllPossibleBuildFacilityTemplates(thingTemplate, MAX_BF);
 		for (j = 0; j < count; j++) {
-			if (tmpls[j])
-				((ThingTemplate *)tmpls[j])->m_isBuildFacility = true;
+			if (thingTemplate[j])
+				((ThingTemplate *)thingTemplate[j])->m_isBuildFacility = true;
 		}
 	}
 

@@ -123,24 +123,24 @@ private:
 
 void ThingFactory::reset()
 {
-    for (ThingTemplate *t = m_firstTemplate; t; )
+    for (ThingTemplate *thingTemplate = m_firstTemplate; thingTemplate; )
     {
         bool possibleAdjustment = false;
-        ThingTemplate *nextT = t->m_nextTemplate;
-        if (t == m_firstTemplate)
+        ThingTemplate *nextT = thingTemplate->m_nextTemplate;
+        if (thingTemplate == m_firstTemplate)
             possibleAdjustment = true;
 
-        AsciiString templateName = t->m_name;
-        Overridable *stillValid = t->deleteOverrides();
+        AsciiString templateName = thingTemplate->m_name;
+        Overridable *stillValid = thingTemplate->deleteOverrides();
         if (!stillValid && possibleAdjustment)
             m_firstTemplate = nextT;
 
-        if (t->m_flags11F & 0x40)
+        if (thingTemplate->m_flags11F & 0x40)
         {
-            int count = moduleRecordCount(&t->m_modules);
+            int count = moduleRecordCount(&thingTemplate->m_modules);
             for (int i = 0; i < count; ++i)
             {
-                const ModuleData *data = t->m_modules.getNthData(i);
+                const ModuleData *data = thingTemplate->m_modules.getNthData(i);
                 if (data)
                 {
                     Rva000B4BED *cache = data->slot18();
@@ -151,7 +151,7 @@ void ThingFactory::reset()
         }
         if (!stillValid)
             m_templateHashMap.rva00223429(&templateName);
-        t = nextT;
+        thingTemplate = nextT;
     }
 }
 
@@ -170,19 +170,19 @@ void Rva00361439Resolve();
 // initializes the template's +0x520 threat state through existing row 33A920.
 void ThingFactory::postProcessLoad()
 {
-    for (ThingTemplate *t = m_firstTemplate; t; t = t->m_nextTemplate)
+    for (ThingTemplate *thingTemplate = m_firstTemplate; thingTemplate; thingTemplate = thingTemplate->m_nextTemplate)
     {
-        t->resolveNames();
-        int count = moduleRecordCount(&t->m_behaviorModules);
+        thingTemplate->resolveNames();
+        int count = moduleRecordCount(&thingTemplate->m_behaviorModules);
         for (int i = 0; i < count; ++i)
         {
-            const ModuleData *data = t->m_behaviorModules.getNthData(i);
+            const ModuleData *data = thingTemplate->m_behaviorModules.getNthData(i);
             if (data && data->slot08() && !data->m_flag86)
                 throw INIException(3,
                     "ENTRY MISSING: ObjectStatusOfContained entry required within ContainModule for %s.",
-                    t->m_name.str());
+                    thingTemplate->m_name.str());
         }
-        ((ThreatBreakdown *)((char *)t + 0x520))->rva0033A920(t);
+        ((ThreatBreakdown *)((char *)thingTemplate + 0x520))->rva0033A920(thingTemplate);
     }
     Rva00361439Resolve();
 }
@@ -197,9 +197,9 @@ void ThingFactory::freeDatabase()
 {
     while (m_firstTemplate)
     {
-        ThingTemplate *tmpl = m_firstTemplate;
+        ThingTemplate *thingTemplate = m_firstTemplate;
         m_firstTemplate = m_firstTemplate->m_nextTemplate;
-        ::delete tmpl;
+        ::delete thingTemplate;
     }
     m_templateHashMap.rva003A2A41();
     bfmeGoEBL();
@@ -207,22 +207,22 @@ void ThingFactory::freeDatabase()
 
 // BFME1 cac38f/ZH addTemplate supplies insertion semantics; WB a93870 and
 // retail 2D04A3..2D0583 supply replacement path, ID and count behavior.
-void ThingFactory::addTemplate(ThingTemplate *tmplate)
+void ThingFactory::addTemplate(ThingTemplate *thingTemplate)
 {
-    const AsciiString *name = &tmplate->m_name;
+    const AsciiString *name = &thingTemplate->m_name;
     Rva0041534BIter found = ((Rva00056F61 *)&m_templateHashMap)->rva0041534B(name);
     if (found.m_node && m_flag) {
         ThingTemplate *old = *(ThingTemplate **)((char *)found.m_node + 8);
-        tmplate->m_templateID = old->m_templateID;
+        thingTemplate->m_templateID = old->m_templateID;
         unsigned int replacementID = g_replacementTemplateCounter.storage;
         --g_replacementTemplateCounter.nextID;
         old->m_templateID = (unsigned short)replacementID;
         m_templateHashMap.rva00223429(name);
-        *(ThingTemplate **)((Rva002CFEA5 *)&m_templateHashMap)->rva002CFEA5(name) = tmplate;
-        tmplate->m_nextTemplate = m_firstTemplate;
-        m_firstTemplate = tmplate;
+        *(ThingTemplate **)((Rva002CFEA5 *)&m_templateHashMap)->rva002CFEA5(name) = thingTemplate;
+        thingTemplate->m_nextTemplate = m_firstTemplate;
+        m_firstTemplate = thingTemplate;
         old->m_matchingReplacementCount = 0;
-        tmplate->m_matchingReplacementCount = 0;
+        thingTemplate->m_matchingReplacementCount = 0;
         ThingTemplate *t=m_firstTemplate;
         g_flag1 = true;
         for (; t; t=t->m_nextTemplate) {
@@ -230,8 +230,8 @@ void ThingFactory::addTemplate(ThingTemplate *tmplate)
                 ++t->m_matchingReplacementCount;
         }
     } else {
-        tmplate->m_nextTemplate = m_firstTemplate;
-        m_firstTemplate = tmplate;
-        *(ThingTemplate **)((Rva002CFEA5 *)&m_templateHashMap)->rva002CFEA5(name) = tmplate;
+        thingTemplate->m_nextTemplate = m_firstTemplate;
+        m_firstTemplate = thingTemplate;
+        *(ThingTemplate **)((Rva002CFEA5 *)&m_templateHashMap)->rva002CFEA5(name) = thingTemplate;
     }
 }

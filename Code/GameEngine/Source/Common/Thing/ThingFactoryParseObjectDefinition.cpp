@@ -129,30 +129,30 @@ virtual char *settings();
 };
 void ThingFactory::parseObjectDefinition(INI *ini,const AsciiString &name,const AsciiString &reskinFrom,const AsciiString &childOf)
 {
-    ThingTemplate *tmplate = 0;
+    ThingTemplate *thingTemplate = 0;
     if (TheThingFactory->rva002D06AA(name))
-        tmplate = (ThingTemplate *)TheThingFactory->findTemplate(name);
-    if (!tmplate) {
-        tmplate = TheThingFactory->newTemplate(name);
-        if (ini->loadType==2) tmplate->isOverride = true;
+        thingTemplate = (ThingTemplate *)TheThingFactory->findTemplate(name);
+    if (!thingTemplate) {
+        thingTemplate = TheThingFactory->newTemplate(name);
+        if (ini->loadType==2) thingTemplate->isOverride = true;
     } else if (ini->loadType==5) {
-        tmplate = TheThingFactory->newTemplate(name);
+        thingTemplate = TheThingFactory->newTemplate(name);
         ((ParserUI *)TheInGameUI)->message(UnicodeString(L"The ThingTemplate, '%S' was reloaded."),name.str());
         BfmeAudioEventPrefix136 event(*(OpaqueRefElement4 *)(((ParserAudio *)TheAudio)->settings()+0xC8),0);
         ((ParserAudio *)TheAudio)->addEvent(&event);
     } else if (ini->loadType==2) {
-        tmplate = TheThingFactory->newOverride(tmplate);
+        thingTemplate = TheThingFactory->newOverride(thingTemplate);
     }
     MultiIniFieldParse fields;
     Rva0033A8FC::buildFieldParse(fields);
     if (!childOf.isEmpty()) {
         ThingTemplate *parent = (ThingTemplate *)TheThingFactory->findTemplate(childOf);
         if (parent) {
-            tmplate->copyFrom(parent);
-            tmplate->setCopiedFromDefault();
+            thingTemplate->copyFrom(parent);
+            thingTemplate->setCopiedFromDefault();
             int oldType=ini->loadType;
             ini->loadType=4;
-            ini->initFromINIMulti(tmplate,fields);
+            ini->initFromINIMulti(thingTemplate,fields);
             ini->loadType=oldType;
         } else {
             throw INIException(3,"ChildObject must come after the original Object (%s, %s).",childOf.str(),name.str());
@@ -160,15 +160,15 @@ void ThingFactory::parseObjectDefinition(INI *ini,const AsciiString &name,const 
     } else if (!reskinFrom.isEmpty()) {
         ThingTemplate *reskin=(ThingTemplate *)TheThingFactory->findTemplate(reskinFrom);
         if (reskin) {
-            tmplate->copyFrom(reskin);
-            tmplate->setCopiedFromDefault();
-            ((Rva0033E06A *)tmplate)->rva0033E06A((Rva0033E06AArg *)reskin);
-            ini->initFromINIMulti(tmplate,fields);
+            thingTemplate->copyFrom(reskin);
+            thingTemplate->setCopiedFromDefault();
+            ((Rva0033E06A *)thingTemplate)->rva0033E06A((Rva0033E06AArg *)reskin);
+            ini->initFromINIMulti(thingTemplate,fields);
         } else {
             throw INIException(3,"ObjectReskin must come after the original Object (%s, %s).",reskinFrom.str(),name.str());
         }
     } else {
-        ini->initFromINIMulti(tmplate,fields);
+        ini->initFromINIMulti(thingTemplate,fields);
     }
-    tmplate->validate();
+    thingTemplate->validate();
 }

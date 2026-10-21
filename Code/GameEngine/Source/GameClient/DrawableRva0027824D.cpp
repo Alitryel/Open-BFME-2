@@ -13,7 +13,7 @@ class Rva0036CA00Str {
 public:
  AudioEventInfoRef handle;
  Rva0036CA00Str() {}
- Rva0036CA00Str(const AudioEventInfo *p):handle(p){}
+ Rva0036CA00Str(const AudioEventInfo *audioEventInfo):handle(audioEventInfo){}
  Rva0036CA00Str(const Rva0036CA00Str &) throw();
  ~Rva0036CA00Str(){if(handle.value)handle.value->Release_Ref();}
 };

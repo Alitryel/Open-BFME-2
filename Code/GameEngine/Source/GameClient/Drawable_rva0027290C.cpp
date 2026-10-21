@@ -53,18 +53,18 @@ void Drawable::rva0027290C(int x)
 	if (x == 0)
 		return;
 	m_44C = x;
-	DrawModule *m = m_drawModules[0];
-	if (m != 0)
-		m->slot5C(x);
+	DrawModule *drawModule = m_drawModules[0];
+	if (drawModule != 0)
+		drawModule->slot5C(x);
 }
 void Drawable::rva00272870(int x)
 {
 	if (m_0A8 == x)
 		return;
 	m_0A8 = x;
-	DrawModule *m = m_drawModules[0];
-	if (m != 0)
-		m->slot50(x);
+	DrawModule *drawModule = m_drawModules[0];
+	if (drawModule != 0)
+		drawModule->slot50(x);
 }
 
 // ?rva00272895@Drawable@@QAEHPAX@Z @ 0x00272895 (48B): address-derived

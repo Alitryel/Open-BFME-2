@@ -44,14 +44,14 @@ void BfmeStateDF::rva002BEACD(BfmeStateDFVector3 *from, BfmeStateDFVector3 *to,
                              BfmeStateDFVector3 *result, float progress)
 {
     float factor;
-    FCurve *c = &curve;
-    factor = c->rva00504BA9(progress);
+    FCurve *fCurve = &curve;
+    factor = fCurve->rva00504BA9(progress);
     float start = from->x;
     result->x = (to->x - start) * factor + start;
-    float secondFactor = c->rva00504BA9(progress);
+    float secondFactor = fCurve->rva00504BA9(progress);
     start = from->y;
     result->y = (to->y - start) * secondFactor + start;
-    progress = c->rva00504BA9(progress);
+    progress = fCurve->rva00504BA9(progress);
     start = from->z;
     result->z = (to->z - start) * progress + start;
 }

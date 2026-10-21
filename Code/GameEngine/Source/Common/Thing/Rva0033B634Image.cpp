@@ -24,14 +24,14 @@ class ThingTemplate {
 public:
 	const Image *getButtonImage();
 };
-const Image *getButtonImage(ThingTemplate *tmpl, Object *h)
+const Image *getButtonImage(ThingTemplate *thingTemplate, Object *object)
 {
-	if (tmpl == 0 || h == 0)
+	if (thingTemplate == 0 || object == 0)
 		return 0;
-	if ((h->m_04->m_11F & 0x40) == 0)
+	if ((object->m_04->m_11F & 0x40) == 0)
 		goto fallback;
 	{
-		void *r = TheCreateAHeroManager->rva002197A6(h->m_74);
+		void *r = TheCreateAHeroManager->rva002197A6(object->m_74);
 		if (r == 0)
 			goto fallback;
 		void *img = *(void **)((char *)r + 0x13c);
@@ -39,5 +39,5 @@ const Image *getButtonImage(ThingTemplate *tmpl, Object *h)
 			return (const Image *)img;
 	}
 fallback:
-	return tmpl->getButtonImage();
+	return thingTemplate->getButtonImage();
 }

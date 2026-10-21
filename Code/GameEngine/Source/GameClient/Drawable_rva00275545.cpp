@@ -64,8 +64,8 @@ void Drawable::rva00275545()
     TheRva00DFE77C->m_b8 &= 0;
     void *p = obj->rva0028C197();
     if (p != 0) {
-        SlotE0Holder *h = (SlotE0Holder *)p;
-        return h->slotE0();
+        SlotE0Holder *slotE0Holder = (SlotE0Holder *)p;
+        return slotE0Holder->slotE0();
     }
     if (!obj->isLocallyControlled())
         return;
@@ -115,9 +115,9 @@ void Drawable::rva002754E3()
         return;
     Rva00DFE77CHolder *holder = TheRva00DFE77C;
     holder->m_b8 = obj->m_74;
-    Slot3CHolder *p250 = obj->m_250;
-    if (p250 != 0)
-        p250->slot3C();
+    Slot3CHolder *slot3CHolder = obj->m_250;
+    if (slot3CHolder != 0)
+        slot3CHolder->slot3C();
     void *p = obj->rva0028C197();
     if (p != 0)
         return ((SlotE4Holder *)p)->slotE4();

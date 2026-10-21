@@ -51,11 +51,11 @@ Rva004C9E94::Rva004C9E94(
     const Rva0036CA00Str &s,
     const int *p,
     float f,
-    const WeaponTemplateSetHead &a,
+    const WeaponTemplateSetHead &weaponTemplateSetHead,
     const WeaponTemplateSetHead &b)
-    : m_0(*p), m_1(s), m_2(f), m_3(a), m_4(b)
+    : m_0(*p), m_1(s), m_2(f), m_3(weaponTemplateSetHead), m_4(b)
 {
-    m_5 = a.m_flags.rva000B3EB3() || b.m_flags.rva000B3EB3();
+    m_5 = weaponTemplateSetHead.m_flags.rva000B3EB3() || b.m_flags.rva000B3EB3();
 }
 Rva004C9E94::Rva004C9E94(const Rva004C9E94 &that)
 	: m_0(that.m_0), m_1(that.m_1), m_2(that.m_2), m_3(that.m_3), m_4(that.m_4), m_5(that.m_5)

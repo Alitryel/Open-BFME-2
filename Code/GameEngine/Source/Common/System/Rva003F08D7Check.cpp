@@ -25,8 +25,8 @@ public:
 // ?rva003F08D7@Rva003F08D7@@QAEHH@Z
 int Rva003F08D7::rva003F08D7(int x)
 {
-	CreateAHeroData *d = ((Rva003F1093 *)this)->rva003F083A((void *)x);
-	if (d != 0)
-		return d->m_20;
+	CreateAHeroData *createAHeroData = ((Rva003F1093 *)this)->rva003F083A((void *)x);
+	if (createAHeroData != 0)
+		return createAHeroData->m_20;
 	return 0;
 }

@@ -189,7 +189,7 @@ typedef _STL::_Ht_iterator<VideoPair, _STL::_Nonconst_traits<VideoPair>, const G
 typedef _STL::hash_map<int, Rva004DAADEElement, _STL::hash<int>, _STL::equal_to<int>,
 	_STL::allocator<_STL::pair<const int, Rva004DAADEElement> > > ObjectIndexMap;
 typedef ObjectIndexMap ObjectIndexTable;
-inline ObjectIndexIterator objectsBegin(ObjectIndexTable &t) { return ((VideoTable *)&t)->begin(); }
+inline ObjectIndexIterator objectsBegin(ObjectIndexTable &objectIndexTable) { return ((VideoTable *)&objectIndexTable)->begin(); }
 
 typedef _STL::map<int, void *, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > CrowdCountMap;
 typedef _STL::pair<const unsigned int, Image *> CrowdPair;
@@ -256,7 +256,7 @@ public:
 	public:
 		struct value_type
 		{
-			value_type(const Object *o, int i) : first((int)o), second((void *)i) {}
+			value_type(const Object *object, int i) : first((int)object), second((void *)i) {}
 			int first;
 			void *second;
 		};
@@ -266,8 +266,8 @@ public:
 			Bucket *first;
 			KeyToBucketMap *second;
 			bool inserted;
-			insert_result(Bucket *f, KeyToBucketMap *s, bool i)
-				: first(f), second(s), inserted(i)
+			insert_result(Bucket *bucket, KeyToBucketMap *keyToBucketMap, bool i)
+				: first(bucket), second(keyToBucketMap), inserted(i)
 			{
 			}
 		};
@@ -336,11 +336,11 @@ public:
 	char m_pad14[0x154 - 0x14];
 };
 
-inline LocomotorTemplate *finalOverrideOf(LocomotorTemplate *t)
+inline LocomotorTemplate *finalOverrideOf(LocomotorTemplate *locomotorTemplate)
 {
-	if (t->m_next)
-		return (LocomotorTemplate *)t->m_next->friend_getFinalOverride();
-	return t;
+	if (locomotorTemplate->m_next)
+		return (LocomotorTemplate *)locomotorTemplate->m_next->friend_getFinalOverride();
+	return locomotorTemplate;
 }
 
 class LocomotorSet
@@ -1089,18 +1089,18 @@ static void doPickAndPlayForAttackCommand(GameMessage::Type type, PickAndPlayInf
 
 	if (!record->isFilled() && info && info->m_drawTarget)
 	{
-		const ThingTemplateView *tmpl = info->m_drawTarget->getTemplate();
-		if (tmpl)
+		const ThingTemplateView *thingTemplateView = info->m_drawTarget->getTemplate();
+		if (thingTemplateView)
 		{
-			const AsciiString &templateName=tmpl->m_name;
+			const AsciiString &asciiString=thingTemplateView->m_name;
 			AsciiString name(isSiege ? "VoiceEnterStateAttackUnit" : "VoiceAttackUnit");
-			name += templateName;
+			name += asciiString;
 			record->rva004D9874(name);
 			if (!record->isFilled())
 			{
-				if (tmpl->isKindOf<7>())
+				if (thingTemplateView->isKindOf<7>())
 					record->rva004D97B0(ids.m_ids[3]);
-				else if (tmpl->isKindOf<11>())
+				else if (thingTemplateView->isKindOf<11>())
 					record->rva004D97B0(ids.m_ids[4]);
 			}
 		}
@@ -1271,11 +1271,11 @@ static void doPickAndPlayForMoveCommand(int command, Rva004DA57ATarget *target, 
 		}
 		if (!record->isFilled())
 		{
-			const DrawableTemplateView *tmpl = drawable->getTemplate();
-			if (tmpl && tmpl->getMaxHeight() > 0.0f)
+			const DrawableTemplateView *drawableTemplateView = drawable->getTemplate();
+			if (drawableTemplateView && drawableTemplateView->getMaxHeight() > 0.0f)
 			{
 				float heightDiff = target->m_pos.z - drawable->getPosition()->z;
-				if (heightDiff > tmpl->getMaxHeight())
+				if (heightDiff > drawableTemplateView->getMaxHeight())
 					record->rva004D97B0(ids.m_ids[4]);
 			}
 		}
@@ -1709,11 +1709,11 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		case 0x7DA:
 		{
 			if (info && info->m_source) {
-			const ThingTemplateView *tmpl = info->m_source->m_template;
-			if (tmpl)
+			const ThingTemplateView *thingTemplateView = info->m_source->m_template;
+			if (thingTemplateView)
 			{
 				AsciiString voice("VoiceCreatedFrom");
-				voice += tmpl->m_name;
+				voice += thingTemplateView->m_name;
 				rec->rva004D9874(voice);
 			}
 			}
@@ -1754,11 +1754,11 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		case 0x7E2:
 		{
 			if (info && info->m_source) {
-			const ThingTemplateView *tmpl = info->m_source->m_template;
-			if (tmpl)
+			const ThingTemplateView *thingTemplateView = info->m_source->m_template;
+			if (thingTemplateView)
 			{
 				AsciiString voice("VoiceFullyCreatedFrom");
-				voice += tmpl->m_name;
+				voice += thingTemplateView->m_name;
 				rec->rva004D9874(voice);
 			}
 			}
@@ -1857,9 +1857,9 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		{
 			for (oit = objectsBegin(objects); oit._M_cur != 0; ++oit)
 			{
-				Object *o = oit._M_cur->m_key;
-				if (o) {
-				Drawable *d = o->getDrawable();
+				Object *object = oit._M_cur->m_key;
+				if (object) {
+				Drawable *d = object->getDrawable();
 				if (d) {
 				if (remember)
 					d->rva002766F8(*(const OpaqueRefElement4 *)&sound);

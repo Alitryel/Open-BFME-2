@@ -20,8 +20,8 @@ public:
 Player *Rva005A910E::rva005A910E()
 {
 	int idx = m_14;
-	Player *p = 0;
+	Player *player = 0;
 	if (idx != -1)
-		p = ThePlayerList->getNthPlayer(idx);
-	return p;
+		player = ThePlayerList->getNthPlayer(idx);
+	return player;
 }

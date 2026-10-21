@@ -471,49 +471,49 @@ Drawable::Drawable(const ThingTemplate *thingTemplate, DrawableStatus statusBits
 		lodLevel = TheGameLODManager->m_staticLODLevel;
 
 	int modIdx;
-	Module **m;
+	Module **module;
 
 	const ModuleInfo &drawMI = thingTemplate->m_drawModuleInfo;
-	m = m_modules[0] = new Module *[drawMI.getCount() + 1];
+	module = m_modules[0] = new Module *[drawMI.getCount() + 1];
 	for (modIdx = 0; modIdx < drawMI.getCount(); ++modIdx)
 	{
 		const ModuleData *newModData = drawMI.getNthData(modIdx);
 		if (TheWritableGlobalData->m_useDrawModuleLOD && newModData->getMinimumRequiredGameLOD() > lodLevel)
 			continue;
-		*m = TheModuleFactory->newModule(this, drawMI.getNthName(modIdx), newModData, MODULETYPE_DRAW);
-		addIface((*m)->rva28());
+		*module = TheModuleFactory->newModule(this, drawMI.getNthName(modIdx), newModData, MODULETYPE_DRAW);
+		addIface((*module)->rva28());
 		if (!newModData->rva78())
 			m_3ab = true;
-		++m;
+		++module;
 	}
-	*m = 0;
+	*module = 0;
 
 	const ModuleInfo &cuMI = thingTemplate->m_clientUpdateModuleInfo;
 	if (cuMI.getCount())
 	{
-		m = m_modules[1] = new Module *[cuMI.getCount() + 1];
+		module = m_modules[1] = new Module *[cuMI.getCount() + 1];
 		for (modIdx = 0; modIdx < cuMI.getCount(); ++modIdx)
 		{
 			const ModuleData *newModData = cuMI.getNthData(modIdx);
-			*m = TheModuleFactory->newModule(this, cuMI.getNthName(modIdx), newModData, MODULETYPE_CLIENT_UPDATE);
-			addIface((*m)->rva28());
-			++m;
+			*module = TheModuleFactory->newModule(this, cuMI.getNthName(modIdx), newModData, MODULETYPE_CLIENT_UPDATE);
+			addIface((*module)->rva28());
+			++module;
 		}
-		*m = 0;
+		*module = 0;
 	}
 
-	const ModuleInfo &mi3 = thingTemplate->m_moduleInfo308;
-	if (mi3.getCount())
+	const ModuleInfo &moduleInfo = thingTemplate->m_moduleInfo308;
+	if (moduleInfo.getCount())
 	{
-		m = m_modules[2] = new Module *[mi3.getCount() + 1];
-		for (modIdx = 0; modIdx < mi3.getCount(); ++modIdx)
+		module = m_modules[2] = new Module *[moduleInfo.getCount() + 1];
+		for (modIdx = 0; modIdx < moduleInfo.getCount(); ++modIdx)
 		{
-			const ModuleData *newModData = mi3.getNthData(modIdx);
-			*m = TheModuleFactory->newModule(this, mi3.getNthName(modIdx), newModData, MODULETYPE_3);
-			addIface((*m)->rva28());
-			++m;
+			const ModuleData *newModData = moduleInfo.getNthData(modIdx);
+			*module = TheModuleFactory->newModule(this, moduleInfo.getNthName(modIdx), newModData, MODULETYPE_3);
+			addIface((*module)->rva28());
+			++module;
 		}
-		*m = 0;
+		*module = 0;
 	}
 
 	for (i = 0; i < 3; ++i)

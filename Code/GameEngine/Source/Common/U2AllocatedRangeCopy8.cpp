@@ -17,14 +17,14 @@ struct U2Elem8
 void *Rva0083F3B0Duplicate(const U2Elem8 *src, int count)
 {
 	unsigned int bytes = (unsigned int)count << 3;
-	U2Elem8 *p = (U2Elem8 *)malloc(bytes);
-	if (p != 0)
+	U2Elem8 *u2Elem8 = (U2Elem8 *)malloc(bytes);
+	if (u2Elem8 != 0)
 	{
 		int n = (int)bytes >> 3;
-		unsigned int dst = (unsigned int)p;
+		unsigned int dst = (unsigned int)u2Elem8;
 		if (n > 0)
 		{
-			int off = (int)src - (int)p;
+			int off = (int)src - (int)u2Elem8;
 			do
 			{
 				*(U2Elem8 *)dst = *(U2Elem8 *)(off + dst);
@@ -34,5 +34,5 @@ void *Rva0083F3B0Duplicate(const U2Elem8 *src, int count)
 			while (n);
 		}
 	}
-	return p;
+	return u2Elem8;
 }

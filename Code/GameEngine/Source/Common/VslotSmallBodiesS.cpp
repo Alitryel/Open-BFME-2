@@ -55,9 +55,9 @@ private:
 };
 void Rva0050B95B::rva0050B95B(Int a, Int b)
 {
-	const ThingTemplate *t = TheThingFactory->findTemplate(*(const AsciiString *)&m_12C);
-	if (t)
-		const_cast<ThingTemplate *>(t)->GetAssetList(a, b);
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_12C);
+	if (thingTemplate)
+		const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(a, b);
 }
 
 // 0x0050BDD5: own virtual slot 6 with the argument and the +0x38 member of
@@ -107,9 +107,9 @@ private:
 	char m_pad21[3];
 	Rva0050F5A6 *m_24;
 };
-Int Rva005101C0::rva005101C0(UnsignedInt a, GameWindow *w, UnsignedInt b)
+Int Rva005101C0::rva005101C0(UnsignedInt a, GameWindow *gameWindow, UnsignedInt b)
 {
-	if (m_24 && m_24->rva0050FF7F(a, w, b) == 1)
+	if (m_24 && m_24->rva0050FF7F(a, gameWindow, b) == 1)
 		return 1;
 	return 0;
 }
@@ -250,11 +250,11 @@ private:
 };
 void RadialWindowController::EnableButtonInput(Int i, bool clear)
 {
-	GameWindow *w = m_3C[i];
+	GameWindow *gameWindow = m_3C[i];
 	if (clear)
-		w->winClearStatus(0x200);
+		gameWindow->winClearStatus(0x200);
 	else
-		w->winSetStatus(0x200);
+		gameWindow->winSetStatus(0x200);
 }
 
 // 0x00540131 and 0x005411A3: overrides of the rowed chunk writer 0x0053F8E9
@@ -368,20 +368,20 @@ private:
 };
 void Rva005450B5::rva005450B5(Int)
 {
-	Object *o = m_18->m_14;
-	if (o->m_conditionBits.test(256) != 0)
+	Object *object = m_18->m_14;
+	if (object->m_conditionBits.test(256) != 0)
 	{
-		o->m_conditionBits.clear(256);
-		o->rva0028AE6D();
+		object->m_conditionBits.clear(256);
+		object->rva0028AE6D();
 	}
 }
 void Rva005450B5::rva005451F3(Int)
 {
-	Object *o = m_18->m_14;
-	if (o->m_conditionBits.test(257) != 0)
+	Object *object = m_18->m_14;
+	if (object->m_conditionBits.test(257) != 0)
 	{
-		o->m_conditionBits.clear(257);
-		o->rva0028AE6D();
+		object->m_conditionBits.clear(257);
+		object->rva0028AE6D();
 	}
 }
 

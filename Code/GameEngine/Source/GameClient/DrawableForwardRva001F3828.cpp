@@ -37,8 +37,8 @@ private:
 
 bool Rva001F3828::rva001F3828(int a, int b)
 {
-	Drawable *o = (Drawable *)TheGameClient->slot0x40(m_keyB0);
-	if (o == 0)
+	Drawable *drawable = (Drawable *)TheGameClient->slot0x40(m_keyB0);
+	if (drawable == 0)
 		return false;
-	return o->rva002788C7(a, b);
+	return drawable->rva002788C7(a, b);
 }

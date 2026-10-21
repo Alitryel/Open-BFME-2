@@ -81,16 +81,16 @@ private:
 };
 void RadialWindowController::PositionButton(Int i, const Rva0053EC7DPair *pos, const Rva0053EC7DPair *size)
 {
-	GameWindow *w = m_3C[i];
-	w->winSetPosition(pos->x, pos->y);
-	w->winSetSize(size->x, size->y);
+	GameWindow *gameWindow = m_3C[i];
+	gameWindow->winSetPosition(pos->x, pos->y);
+	gameWindow->winSetSize(size->x, size->y);
 }
 bool RadialWindowController::ShouldButtonFlash(Int i)
 {
-	GameWindow *w = m_3C[i];
-	if (!w->winIsHidden())
+	GameWindow *gameWindow = m_3C[i];
+	if (!gameWindow->winIsHidden())
 	{
-		Rva0053ECD1ButtonData *data = (Rva0053ECD1ButtonData *)GadgetButtonGetData(w);
+		Rva0053ECD1ButtonData *data = (Rva0053ECD1ButtonData *)GadgetButtonGetData(gameWindow);
 		if (data && data->m_F8 > 0)
 			return true;
 	}

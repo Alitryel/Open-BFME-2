@@ -108,9 +108,9 @@ unsigned int UpgradeTemplate::calcCostToBuild(Player *player, unsigned int reque
 {
 	if (!m_buildTemplateName.isEmpty())
 	{
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_buildTemplateName);
-		if (tmpl)
-			return tmpl->rva0033A69A(player, (int)requester, m_cost);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(m_buildTemplateName);
+		if (thingTemplate)
+			return thingTemplate->rva0033A69A(player, (int)requester, m_cost);
 	}
 
 	int cost = m_cost;

@@ -20,9 +20,9 @@ public:
 
 bool Rva004FBEAB::rva004FBEAB(CreateAHeroData *val)
 {
-	CreateAHeroData *v = val;
+	CreateAHeroData *createAHeroData = val;
 	CreateAHeroData **b = m_begin;
 	CreateAHeroData **e = m_end;
-	CreateAHeroData **found = _STL::find(b, e, v);
+	CreateAHeroData **found = _STL::find(b, e, createAHeroData);
 	return found != e;
 }

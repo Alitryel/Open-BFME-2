@@ -41,8 +41,8 @@ bool Rva001D98BD::rva001D98BD(int v)
 		Entry *end = m_end;
 		Entry *beg = m_begin;
 		bool ok = false;
-		for (Entry *p = beg; p != end; ++p) {
-			Rva001D98BD *child = p->child;
+		for (Entry *entry = beg; entry != end; ++entry) {
+			Rva001D98BD *child = entry->child;
 			if (child) {
 				if (!child->rva001D98BD(v))
 					return false;
@@ -66,8 +66,8 @@ bool Rva001D98BD::rva001D9781()
 		} else {
 			Entry *beg = m_begin;
 			Entry *end = m_end;
-			for (Entry *p = beg; p != end; ++p) {
-				Rva001D98BD *child = p->child;
+			for (Entry *entry = beg; entry != end; ++entry) {
+				Rva001D98BD *child = entry->child;
 				if (child && child->rva001D9781())
 					return true;
 			}
@@ -86,8 +86,8 @@ bool Rva001D98BD::rva001D97D9()
 	if (m_B0 == 5) {
 		Entry *beg = m_begin;
 		Entry *end = m_end;
-		for (Entry *p = beg; p != end; ++p) {
-			Rva001D98BD *child = p->child;
+		for (Entry *entry = beg; entry != end; ++entry) {
+			Rva001D98BD *child = entry->child;
 			if (child && child->rva001D97D9())
 				return true;
 		}

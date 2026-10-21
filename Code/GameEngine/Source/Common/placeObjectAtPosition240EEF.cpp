@@ -149,11 +149,11 @@ static Object *placeObjectAtPosition(int slot, AsciiString name, const Coord3D *
 	void *tmplRaw = (void *)TheThingFactory->findTemplate(name);
 	if (tmplRaw == 0)
 		return 0;
-	ThingTemplate *tmpl = (ThingTemplate *)tmplRaw;
+	ThingTemplate *thingTemplate = (ThingTemplate *)tmplRaw;
 	if (TheWritableGlobalData->m_1110 == 0) {
 		AssetLoadMode mode;
 		AssetList receivers;
-		tmpl->GetAssetList((int)&receivers, (int)&mode);
+		thingTemplate->GetAssetList((int)&receivers, (int)&mode);
 		bfmeMergeReceiverKeys((int)&receivers);
 	}
 	Object *obj;
@@ -161,7 +161,7 @@ static Object *placeObjectAtPosition(int slot, AsciiString name, const Coord3D *
 	CreateMask mask;
 	memset(&mask, 0, 0x10);
 	Team *team = player->m_team;
-	obj = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, false);
+	obj = TheThingFactory->newObject((const ThingTemplate *)thingTemplate, team, &mask, false);
 	}
 	if (obj) {
 	ThingTemplate *t2 = *(ThingTemplate **)((char *)obj + 4);

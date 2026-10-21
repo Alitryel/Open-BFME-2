@@ -102,11 +102,11 @@ private:
 	_STL::vector<_STL::vector<const ModuleData *> > m_slotsBlank; // +0x18c
 };
 
-bool LivingWorldRegionConnection::rva003F26AA(const ModuleData *a, Rva003F26AAPair *out)
+bool LivingWorldRegionConnection::rva003F26AA(const ModuleData *moduleData, Rva003F26AAPair *out)
 {
 	Rva003F26AAPair **tab;
 	_STL::vector<_STL::vector<const ModuleData *> > *slots;
-	if (!a->m_name.isEmpty()) {
+	if (!moduleData->m_name.isEmpty()) {
 		tab = &m_tabFull;
 		slots = &m_slotsFull;
 	} else {
@@ -117,7 +117,7 @@ bool LivingWorldRegionConnection::rva003F26AA(const ModuleData *a, Rva003F26AAPa
 	for (unsigned i = 0; i < n; ++i) {
 		_STL::vector<const ModuleData *> &slot = (*slots)[i];
 		if ((((char *)slot.end() - (char *)slot.begin()) & ~3) == 0) {
-			const ModuleData *md = a;
+			const ModuleData *md = moduleData;
 			(*slots)[i].push_back(md);
 			*out = (*tab)[i];
 			return true;

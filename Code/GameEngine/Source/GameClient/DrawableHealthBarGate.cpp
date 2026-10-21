@@ -234,13 +234,13 @@ void Rva0027601BHost::rva0027601B()
 			&& team->getRelationship(localPlayer->getDefaultTeam()) != ALLIES)
 			return;
 	}
-	const ThingTemplate *tmpl = obj->getTemplate();
-	if (!tmpl->isKindOf(0x5A) && !tmpl->isKindOf(0x0B) && !tmpl->isKindOf(0x0A)
-		&& !tmpl->isKindOf(0x37) && !tmpl->isKindOf(0x07) && !tmpl->isKindOf(0xAA))
+	const ThingTemplate *thingTemplate = obj->getTemplate();
+	if (!thingTemplate->isKindOf(0x5A) && !thingTemplate->isKindOf(0x0B) && !thingTemplate->isKindOf(0x0A)
+		&& !thingTemplate->isKindOf(0x37) && !thingTemplate->isKindOf(0x07) && !thingTemplate->isKindOf(0xAA))
 	{
 		if (!TheWritableGlobalData->m_9BE)
 			return;
-		if (!tmpl->isKindOf(0x08) && !tmpl->isKindOf(0x09))
+		if (!thingTemplate->isKindOf(0x08) && !thingTemplate->isKindOf(0x09))
 			return;
 	}
 	if (obj->getTemplate()->isKindOf(0x96))

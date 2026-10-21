@@ -44,13 +44,13 @@ T2ElemA *T2OwnerA::at(int index)
 
 T2ElemA *T2OwnerA::find(int id)
 {
-	T2ElemA *p = m_base;
+	T2ElemA *t2ElemA = m_base;
 	T2ElemA *end = m_base + m_count;
-	while (p < end)
+	while (t2ElemA < end)
 	{
-		if (p->m_id == id)
-			return p;
-		++p;
+		if (t2ElemA->m_id == id)
+			return t2ElemA;
+		++t2ElemA;
 	}
 	return 0;
 }
@@ -103,13 +103,13 @@ T2ElemC *T2OwnerC::at(int index)
 
 T2ElemC *T2OwnerC::find(int id)
 {
-	T2ElemC *p = m_base;
+	T2ElemC *t2ElemC = m_base;
 	T2ElemC *end = m_base + m_count;
-	while (p < end)
+	while (t2ElemC < end)
 	{
-		if (p->m_id == id)
-			return p;
-		++p;
+		if (t2ElemC->m_id == id)
+			return t2ElemC;
+		++t2ElemC;
 	}
 	return 0;
 }

@@ -53,16 +53,16 @@ Bool SubsystemInterface::loadIniFilesFromLegend(){
  BfmeLegendLoadRecord *entry=reinterpret_cast<BfmeLegendLoadRecord*>(TheSubsystemLegend->rva001B49C4(name));
  if(!entry)return false;
  _STL::vector<AsciiString> excluded;
- for(AsciiString *p=entry->excludePaths.begin();p!=entry->excludePaths.end();++p)excluded.push_back(*p);
+ for(AsciiString *asciiString=entry->excludePaths.begin();asciiString!=entry->excludePaths.end();++asciiString)excluded.push_back(*asciiString);
  if(!skipCinematicSubsystemExclusions)
-  for(AsciiString *p=entry->cinematicPaths.begin();p!=entry->cinematicPaths.end();++p)excluded.push_back(*p);
+  for(AsciiString *asciiString=entry->cinematicPaths.begin();asciiString!=entry->cinematicPaths.end();++asciiString)excluded.push_back(*asciiString);
  INI ini;
  Bool flag=m_flag; INILoadType type=(INILoadType)(flag?5:1);
- for(AsciiString *p=entry->files.begin();p!=entry->files.end();++p){
-  if(!Rva0002C5E6(reinterpret_cast<const StringBase<char>&>(*p),reinterpret_cast<const Rva0002C5E6Range*>(&excluded)))
-   if(ini.loadFile(*p,type,reinterpret_cast<BfmeSubsystemLoadXfer*>(TheSubsystemList)->xfer))loaded=true;
+ for(AsciiString *asciiString=entry->files.begin();asciiString!=entry->files.end();++asciiString){
+  if(!Rva0002C5E6(reinterpret_cast<const StringBase<char>&>(*asciiString),reinterpret_cast<const Rva0002C5E6Range*>(&excluded)))
+   if(ini.loadFile(*asciiString,type,reinterpret_cast<BfmeSubsystemLoadXfer*>(TheSubsystemList)->xfer))loaded=true;
  }
- for(AsciiString *p=entry->paths.begin();p!=entry->paths.end();++p)
-  if(ini.loadDirectory(*p,true,type,reinterpret_cast<BfmeSubsystemLoadXfer*>(TheSubsystemList)->xfer,reinterpret_cast<int>(&excluded)))loaded=true;
+ for(AsciiString *asciiString=entry->paths.begin();asciiString!=entry->paths.end();++asciiString)
+  if(ini.loadDirectory(*asciiString,true,type,reinterpret_cast<BfmeSubsystemLoadXfer*>(TheSubsystemList)->xfer,reinterpret_cast<int>(&excluded)))loaded=true;
  return loaded;
 }

@@ -89,8 +89,8 @@ bool operator!=(const GameClientRandomVariable &a, const GameClientRandomVariabl
 // keeps this unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeGameClientRandomVariableInlineAnchor absent-from-retail
-void _bfmeGameClientRandomVariableInlineAnchor(GameClientRandomVariable *v)
+void _bfmeGameClientRandomVariableInlineAnchor(GameClientRandomVariable *gameClientRandomVariable)
 {
-    v->GameClientRandomVariable::GameClientRandomVariable();
+    gameClientRandomVariable->GameClientRandomVariable::GameClientRandomVariable();
 }
 #pragma inline_depth()

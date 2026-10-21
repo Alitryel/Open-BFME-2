@@ -31,8 +31,8 @@ bool Rva001D990C::rva001D990C(int v)
 		Entry *end = m_end;
 		Entry *beg = m_begin;
 		bool ok = false;
-		for (Entry *p = beg; p != end; ++p) {
-			Rva001D990C *child = p->child;
+		for (Entry *entry = beg; entry != end; ++entry) {
+			Rva001D990C *child = entry->child;
 			if (child) {
 				if (!child->rva001D990C(v))
 					return false;

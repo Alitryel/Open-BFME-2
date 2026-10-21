@@ -139,22 +139,22 @@ void __cdecl xferUpgradeMask(Xfer *xfer, Rva00291440 *bits)
 	if (x->IsStoring()) {
 		AsciiString tmp;
 		unsigned int count = 0;
-		const UpgradeTemplate *t = TheUpgradeCenter->rva001DB0A8();
-		while (t) {
-			unsigned int bit = t->m_bitIndex;
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->rva001DB0A8();
+		while (upgradeTemplate) {
+			unsigned int bit = upgradeTemplate->m_bitIndex;
 			if (b->testBit(bit))
 				count++;
-			t = t->m_next;
+			upgradeTemplate = upgradeTemplate->m_next;
 		}
 		*x == *reinterpret_cast<unsigned short*>(&count);
-		t = TheUpgradeCenter->rva001DB0A8();
-		while (t) {
-			unsigned int bit = t->m_bitIndex;
+		upgradeTemplate = TheUpgradeCenter->rva001DB0A8();
+		while (upgradeTemplate) {
+			unsigned int bit = upgradeTemplate->m_bitIndex;
 			if (b->testBit(bit)) {
-				((StringBase<char> &)(tmp)).set((const StringBase<char> &)(t->m_name));
+				((StringBase<char> &)(tmp)).set((const StringBase<char> &)(upgradeTemplate->m_name));
 				*x == tmp;
 			}
-			t = t->m_next;
+			upgradeTemplate = upgradeTemplate->m_next;
 		}
 	} else {
 		AsciiString tmp;

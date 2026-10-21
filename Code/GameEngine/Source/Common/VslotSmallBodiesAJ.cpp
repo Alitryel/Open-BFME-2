@@ -738,9 +738,9 @@ class Rva0033FCDC : public StateMachine
 public:
 	void rva0033FCDC(Object *a);
 };
-void Rva0033FCDC::rva0033FCDC(Object *a)
+void Rva0033FCDC::rva0033FCDC(Object *object)
 {
-	StateMachine::rva004D750F(a);
+	StateMachine::rva004D750F(object);
 }
 
 // 0x00341D1C: tail jump to AIExitState::onEnter.
@@ -903,9 +903,9 @@ class Rva004766BE : public HordeContain
 public:
 	void rva004766BE(const Object *a);
 };
-void Rva004766BE::rva004766BE(const Object *a)
+void Rva004766BE::rva004766BE(const Object *object)
 {
-	HordeContain::slot42(a);
+	HordeContain::slot42(object);
 }
 
 // 0x0047E33F: tail jump to TransportContain::onCapture.

@@ -177,14 +177,14 @@ private:
 		ListNode *m_prev;
 	};
 	// 1 when the chunk lies in none of the sentinel regions from s up to end.
-	static int ChunkOutsideRegions(Rva00031BF0Chunk *c, ListNode *s, ListNode *end)
+	static int ChunkOutsideRegions(Rva00031BF0Chunk *c, ListNode *listNode, ListNode *end)
 	{
-		while (s != end)
+		while (listNode != end)
 		{
-			if ((unsigned int)c >= (unsigned int)s &&
-				(unsigned int)c < (unsigned int)s + s->m_size)
+			if ((unsigned int)c >= (unsigned int)listNode &&
+				(unsigned int)c < (unsigned int)listNode + listNode->m_size)
 				return 0;
-			s = s->m_next;
+			listNode = listNode->m_next;
 		}
 		return 1;
 	}
@@ -1017,61 +1017,61 @@ void *GeneralAllocator::rva000344A0(unsigned int size, unsigned int alignment, u
 	{
 		ChunkScanRange range = MakeChunkScanRange(Rva000344A0Unsorted(this));
 		Chunk *bin = range.end;
-		Chunk *p;
-		for (p = range.first; p != bin; p = p->next)
+		Chunk *chunk;
+		for (chunk = range.first; chunk != bin; chunk = chunk->next)
 		{
-			if ((p->size & 0x7ffffff8) == nb && (alignment == 0 || (((unsigned int)p + offset + 8) & (alignment - 1)) == 0))
-				return Rva000344A0Take(p, nb);
+			if ((chunk->size & 0x7ffffff8) == nb && (alignment == 0 || (((unsigned int)chunk + offset + 8) & (alignment - 1)) == 0))
+				return Rva000344A0Take(chunk, nb);
 		}
 		unsigned int idx = nb < 0x200 ? nb >> 3 : GetLargeBinIndexFromChunkSize(nb);
 		range = MakeChunkScanRange(Rva000344A0Bin(this, idx));
 		bin = range.end;
-		for (p = range.first; p != bin; p = p->next)
+		for (chunk = range.first; chunk != bin; chunk = chunk->next)
 		{
-			if ((p->size & 0x7ffffff8) == nb && (alignment == 0 || (((unsigned int)p + offset + 8) & (alignment - 1)) == 0))
-				return Rva000344A0Take(p, nb);
+			if ((chunk->size & 0x7ffffff8) == nb && (alignment == 0 || (((unsigned int)chunk + offset + 8) & (alignment - 1)) == 0))
+				return Rva000344A0Take(chunk, nb);
 		}
 	}
 
 	void *mem = ((::Rva006C1F60 *)this)->rva00033ED0(nb + alignment + offset + 16, flags);
 	if (mem != 0)
 	{
-		Chunk *p = (Chunk *)((char *)mem - 8);
+		Chunk *chunk = (Chunk *)((char *)mem - 8);
 		if (((unsigned int)mem + offset) % alignment != 0)
 		{
 			Chunk *newp = (Chunk *)((((unsigned int)mem + alignment + offset - 1) & -alignment) - offset - 8);
-			if ((unsigned int)((char *)newp - (char *)p) < 16)
+			if ((unsigned int)((char *)newp - (char *)chunk) < 16)
 				newp = (Chunk *)((char *)newp + alignment);
-			unsigned int leadSize = (char *)newp - (char *)p;
-			unsigned int newSize = (p->size & 0x7ffffff8) - leadSize;
-			if (p->size & 2)
+			unsigned int leadSize = (char *)newp - (char *)chunk;
+			unsigned int newSize = (chunk->size & 0x7ffffff8) - leadSize;
+			if (chunk->size & 2)
 			{
-				newp->previousSize = p->previousSize + leadSize;
+				newp->previousSize = chunk->previousSize + leadSize;
 				newp->size = newSize | 2;
 				return (char *)newp + 8;
 			}
 			newp->size = newSize | 1;
 			*(unsigned int *)((char *)newp + newSize + 4) |= 1;
 			*(unsigned int *)((char *)newp + newSize) = newSize;
-			p->size = (p->size & 0x80000007) | leadSize;
+			chunk->size = (chunk->size & 0x80000007) | leadSize;
 			newp->previousSize = leadSize;
 			int saved = *(int *)((char *)this + 0x478);
 			*(int *)((char *)this + 0x478) = 0;
-			rva00033150((char *)p + 8);
+			rva00033150((char *)chunk + 8);
 			*(int *)((char *)this + 0x478) = saved;
-			p = newp;
+			chunk = newp;
 		}
 
-		unsigned int chunkSize = p->size;
+		unsigned int chunkSize = chunk->size;
 		if (!(chunkSize & 2))
 		{
 			chunkSize &= 0x7ffffff8;
 			if (chunkSize > nb + 16)
 			{
 				unsigned int remSize = chunkSize - nb;
-				Chunk *rem = (Chunk *)((char *)p + nb);
+				Chunk *rem = (Chunk *)((char *)chunk + nb);
 				rem->size = remSize | 1;
-				p->size = (p->size & 0x80000007) | nb;
+				chunk->size = (chunk->size & 0x80000007) | nb;
 				Chunk *next = (Chunk *)((char *)rem + remSize);
 				unsigned int nextSize = next->size & 0x7ffffff8;
 				if (((Chunk *)((char *)next + nextSize))->size & 1)
@@ -1080,7 +1080,7 @@ void *GeneralAllocator::rva000344A0(unsigned int size, unsigned int alignment, u
 					*(int *)((char *)this + 0x478) = 0;
 					rva00033150((char *)rem + 8);
 					*(int *)((char *)this + 0x478) = saved;
-					return (char *)p + 8;
+					return (char *)chunk + 8;
 				}
 				next->previous->next = next->next;
 				next->next->previous = next->previous;
@@ -1107,7 +1107,7 @@ void *GeneralAllocator::rva000344A0(unsigned int size, unsigned int alignment, u
 				}
 			}
 		}
-		return (char *)p + 8;
+		return (char *)chunk + 8;
 	}
 	return 0;
 }
@@ -1874,13 +1874,13 @@ int GeneralAllocator::rva000321F0(int level)
 						unsigned int runSize = run->size & 0x7ffffff8u;
 						if (runSize < 0x10)
 						{
-							ListNode *s = m_sentinel.m_next;
-							for (; s != &m_sentinel; s = s->m_next)
+							ListNode *listNode = m_sentinel.m_next;
+							for (; listNode != &m_sentinel; listNode = listNode->m_next)
 							{
-								if ((unsigned int)run >= (unsigned int)s &&
-									(unsigned int)run < (unsigned int)s + s->m_size)
+								if ((unsigned int)run >= (unsigned int)listNode &&
+									(unsigned int)run < (unsigned int)listNode + listNode->m_size)
 								{
-									if ((unsigned int)run >= (unsigned int)s + s->m_size - 0x10)
+									if ((unsigned int)run >= (unsigned int)listNode + listNode->m_size - 0x10)
 										goto runDone;
 									break;
 								}
@@ -1897,14 +1897,14 @@ runDone:
 			}
 
 			// Sentinel region counters.
-			RegionLink *r = m_regions.m_next;
+			RegionLink *regionLink = m_regions.m_next;
 			RegionLink *rend = &m_regions;
-			while (r != rend)
+			while (regionLink != rend)
 			{
-				errors += CheckCount((r->m_size & 2) != 0);
-				unsigned int base = r->m_base;
-				Rva00031BF0Chunk *prev = (Rva00031BF0Chunk *)((char *)r - base);
-				r = r->m_next;
+				errors += CheckCount((regionLink->m_size & 2) != 0);
+				unsigned int base = regionLink->m_base;
+				Rva00031BF0Chunk *prev = (Rva00031BF0Chunk *)((char *)regionLink - base);
+				regionLink = regionLink->m_next;
 				errors += CheckCount((prev->size & 2) != 0);
 			}
 		}
@@ -1916,23 +1916,23 @@ runDone:
 	if (level >= 3)
 	{
 		// Region link list: each link must report a valid owner.
-		RegionLink *r = m_regions.m_next;
+		RegionLink *regionLink = m_regions.m_next;
 		RegionLink *rend = &m_regions;
-		while (r != rend)
+		while (regionLink != rend)
 		{
-			void *owner = (char *)r - r->m_base;
+			void *owner = (char *)regionLink - regionLink->m_base;
 			errors += rva00032160(owner);
-			r = r->m_next;
+			regionLink = regionLink->m_next;
 		}
 
 		// Full sentinel walk: every chunk run must be valid and end at the top.
-		ListNode *s = m_sentinel.m_prev;
+		ListNode *listNode = m_sentinel.m_prev;
 		ListNode *end = &m_sentinel;
-		while (s != end)
+		while (listNode != end)
 		{
-			unsigned int size = s->m_size;
-			Rva00031BF0Chunk *c = (Rva00031BF0Chunk *)s->m_unk0;
-			unsigned int endAddr = (unsigned int)s + size - 0x10;
+			unsigned int size = listNode->m_size;
+			Rva00031BF0Chunk *c = (Rva00031BF0Chunk *)listNode->m_unk0;
+			unsigned int endAddr = (unsigned int)listNode + size - 0x10;
 			while ((unsigned int)c < endAddr)
 			{
 				unsigned int csize = c->size & 0x7ffffff8u;
@@ -1948,7 +1948,7 @@ runDone:
 				}
 				c = (Rva00031BF0Chunk *)((char *)c + (c->size & 0x7ffffff8u));
 			}
-			s = s->m_prev;
+			listNode = listNode->m_prev;
 		}
 	}
 

@@ -13,9 +13,9 @@ const Rva002195E6 *CreateAHeroManager::GetViewInfo(unsigned c,unsigned s){
  static Rva002195E6 fallback;
  if(c>=(unsigned)(((char *)end-(char *)begin)>>5))return &fallback;
  _ReadWriteBarrier();
- const CreateAHeroSubClass *p=begin[c].rva00219B9E(s);
- if(!p)return &fallback;
- return reinterpret_cast<const Rva002195E6 *>((const char *)p+0x6C);
+ const CreateAHeroSubClass *createAHeroSub=begin[c].rva00219B9E(s);
+ if(!createAHeroSub)return &fallback;
+ return reinterpret_cast<const Rva002195E6 *>((const char *)createAHeroSub+0x6C);
 }
 
 // Identity: WB B7AF90 asserts GetViewInfo at CreateAHero.cpp1468/1471;

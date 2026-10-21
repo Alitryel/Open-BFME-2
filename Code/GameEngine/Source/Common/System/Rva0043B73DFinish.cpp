@@ -144,7 +144,7 @@ void DOTManager::update()
 		}
 		node = (MapNode *)_STL::_Rb_global<bool>::_M_increment((_STL::_Rb_tree_node_base *)node);
 	}
-	for (ScienceType *p = ((_STL::vector<ScienceType> &)vecRaw).begin(); p != ((_STL::vector<ScienceType> &)vecRaw).end(); ++p)
-		rva0043B72D(*p);
+	for (ScienceType *scienceType = ((_STL::vector<ScienceType> &)vecRaw).begin(); scienceType != ((_STL::vector<ScienceType> &)vecRaw).end(); ++scienceType)
+		rva0043B72D(*scienceType);
 //</REGION>
 }

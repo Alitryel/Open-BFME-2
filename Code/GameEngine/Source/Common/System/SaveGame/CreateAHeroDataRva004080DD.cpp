@@ -115,11 +115,11 @@ bool CreateAHeroData::GetStat(const AsciiString &key, unsigned int *out)
 	return false;
 }
 
-unsigned int CreateAHeroData::GetStatValue(const NameKeyType *p)
+unsigned int CreateAHeroData::GetStatValue(const NameKeyType *nameKeyType)
 {
-	if (p == 0)
+	if (nameKeyType == 0)
 		return 0;
-	AsciiString tmp = TheNameKeyGenerator->keyToName(*p);
+	AsciiString tmp = TheNameKeyGenerator->keyToName(*nameKeyType);
 	unsigned int out = 0;
 	GetStat(tmp, &out);
 	return out;
