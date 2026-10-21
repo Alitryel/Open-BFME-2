@@ -201,7 +201,7 @@ class GlobalData
 {
 public:
 	char m_pad000[0xEB4];
-	int m_EB4;		// +0xEB4 what the 0x002614EC filter compares
+	int m_camouflageDetectorObjectFilter;		// +0xEB4 what the 0x002614EC filter compares
 };
 extern class GlobalData *TheWritableGlobalData;
 
@@ -245,7 +245,7 @@ bool Rva004389AE::rva0043912F(Object *obj, const Coord3D *pos, Rva004388E3Templa
 	Rva0026119DFilter alive;
 	Rva0026118BFilter third;
 	Rva002611BFFilter notSelf(obj);
-	Rva002614ECFilter same(&TheWritableGlobalData->m_EB4, obj->getControllingPlayer(), true);
+	Rva002614ECFilter same(&TheWritableGlobalData->m_camouflageDetectorObjectFilter, obj->getControllingPlayer(), true);
 	Rva00260EB1Filter relationship(obj, flags, true);
 	notThis.link(&alive);
 	notThis.link(&third);

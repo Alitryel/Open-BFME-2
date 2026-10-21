@@ -78,9 +78,9 @@ struct ThingTemplate
 	char m_pad00[0x108];
 	unsigned char m_kindOf0;
 	char m_pad109[0x56C - 0x109];
-	Int m_56c;
+	Int m_slopeLimitIndex;
 	char m_pad570[0x634 - 0x570];
-	Bool m_634;
+	Bool m_canPathThroughGates;
 };
 
 class Object
@@ -173,8 +173,8 @@ Bool Pathfinder::IsValidObjectMovement(Object *obj, const Coord3D *oldPos, const
 	ObjectID saved = m_ignoreObstacleID;
 	m_ignoreObstacleID = (ObjectID)((Rva0006E009DwordField *)ai)->get();
 	const ThingTemplate *thingTemplate = obj->getTemplate();
-	Int maxLayer = thingTemplate->m_56c;
-	Bool flag = thingTemplate->m_634;
+	Int maxLayer = thingTemplate->m_slopeLimitIndex;
+	Bool flag = thingTemplate->m_canPathThroughGates;
 	AIUpdateInterface *aIUpdate = obj->getAI();
 
 	Bool ok;

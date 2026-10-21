@@ -17,7 +17,7 @@ class UpgradeTemplate
 {
 public:
 	int m_00;
-	int m_04;
+	int m_type;
 };
 
 class Player;
@@ -94,7 +94,7 @@ void SupplyWarehouseCreate::rva004B9093()
 	if (upgradeTemplate == 0)
 		return;
 	Object *obj = m_object08;
-	if (upgradeTemplate->m_04 == 0)
+	if (upgradeTemplate->m_type == 0)
 	{
 		Player *player = obj->getControllingPlayer();
 		player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);

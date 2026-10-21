@@ -71,7 +71,7 @@ extern TeamFactory *TheTeamFactory;
 struct TAiData
 {
 	unsigned char m_pad00[0x44];
-	int m_44; // +0x44 update interval in frames
+	int m_guardEnemyReturnScanRate; // +0x44 update interval in frames
 };
 
 class AI
@@ -143,7 +143,7 @@ int Rva0036A88AOwner::rva0036A88A()
 {
 	UnsignedInt frame = TheGameLogic->m_frame;
 	if (frame >= m_nextFrame) {
-		m_nextFrame = TheAI->m_aiData->m_44 + frame;
+		m_nextFrame = TheAI->m_aiData->m_guardEnemyReturnScanRate + frame;
 		if (m_machine->lookForInnerTarget())
 			return -2;
 	}

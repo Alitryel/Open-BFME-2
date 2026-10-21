@@ -59,7 +59,7 @@ public:
 	unsigned char m_pad000[0xA0];
 	GeometryInfo m_geometryInfo; // +0xA0
 	unsigned char m_padA1[0x5F7 - 0xA1];
-	signed char m_5F7; // +0x5F7
+	signed char m_structureRubbleHeight; // +0x5F7
 };
 
 class Drawable
@@ -131,7 +131,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0xAE4];
-	Real m_AE4; // +0xAE4
+	Real m_defaultStructureRubbleHeight; // +0xAE4
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -310,9 +310,9 @@ void SymbioticStructuresBody::rva004C0B63()
 	else
 	{
 		Object *object = m_object;
-		Real height = (Real)object->getTemplate()->m_5F7;
+		Real height = (Real)object->getTemplate()->m_structureRubbleHeight;
 		if (height <= 0.0f)
-			height = TheGlobalData->m_AE4;
+			height = TheGlobalData->m_defaultStructureRubbleHeight;
 		object->setGeometryInfoZ(height);
 		m_object->setStatus((ObjectStatusTypes)4, true);
 	}

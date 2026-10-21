@@ -313,9 +313,9 @@ public:
 	unsigned char m_pad11C[0x122 - 0x11C];
 	unsigned char m_122; // +0x122
 	unsigned char m_pad123[0x53C - 0x123];
-	Real m_53c; // +0x53C
+	Real m_firingArc; // +0x53C
 	unsigned char m_pad540[0x5FD - 0x540];
-	Bool m_5fd; // +0x5FD
+	Bool m_useCrushAttack; // +0x5FD
 };
 
 class Thing
@@ -539,7 +539,7 @@ public:
 	Real m_aimDelta; // +0x2C
 	Real m_aimOffset; // +0x30
 	unsigned char m_pad34[0x16B - 0x34];
-	Bool m_16b; // +0x16B
+	Bool m_noVictimNeeded; // +0x16B
 };
 
 class Weapon
@@ -989,7 +989,7 @@ StateReturnType AIAttackMeleeEngageState::updateInternal()
 		return STATE_FAILURE;
 
 	ai->setCurrentVictim(victim);
-	if (source->rva0029493F(victim, 2) && source->getTemplate()->m_5fd &&
+	if (source->rva0029493F(victim, 2) && source->getTemplate()->m_useCrushAttack &&
 		source->rva0028CECF())
 		return STATE_SUCCESS;
 
@@ -1179,7 +1179,7 @@ StateReturnType AIAttackPositionAimAtTargetState::updateInternal(Bool firstFrame
 	goal.y = goalPos->y;
 	goal.z = goalPos->z;
 	Real relAngle = source->GetRelativeAngle(&goal);
-	const Real *threshold = &source->getTemplate()->m_53c;
+	const Real *threshold = &source->getTemplate()->m_firingArc;
 	if (*threshold < 360.0f)
 	{
 		Bool beyond = false;
@@ -1368,7 +1368,7 @@ StateReturnType AIAttackFireWeaponState::onEnter()
 	}
 	obj->setStatus(OBJECT_STATUS_0D, true);
 	obj->preFireCurrentWeapon(getObservedMachineGoalObject(), getMachineGoalPosition());
-	if (weapon->getTemplate()->m_16b && victim)
+	if (weapon->getTemplate()->m_noVictimNeeded && victim)
 		getMachine()->setGoalPosition(victim->getPosition());
 	return STATE_CONTINUE;
 }

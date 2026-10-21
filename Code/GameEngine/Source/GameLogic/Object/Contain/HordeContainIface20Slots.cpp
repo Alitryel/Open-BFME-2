@@ -121,7 +121,7 @@ class GlobalData
 {
 public:
  unsigned char m_pad000[0x9A6];
- bool m_9A6;
+ bool m_useSimpleHordeDecals;
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -237,7 +237,7 @@ void HordeContain::onRemoving(Object *object)
   Drawable *ownerDraw = m_object->getDrawable();
   if (ownerDraw && ownerDraw->m_43C)
   {
-   if (TheWritableGlobalData->m_9A6)
+   if (TheWritableGlobalData->m_useSimpleHordeDecals)
     ownerDraw->rva00272945(rva0046D3FC(0));
    else
    {

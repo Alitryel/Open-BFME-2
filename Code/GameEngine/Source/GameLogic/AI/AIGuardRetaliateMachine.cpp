@@ -166,7 +166,7 @@ extern PartitionManager *ThePartitionManager;
 struct TAiData
 {
 	char m_pad00[0xC8];
-	float m_C8;		// +0xC8
+	float m_maxRetaliateDistance;		// +0xC8
 };
 
 class AI
@@ -210,7 +210,7 @@ bool AIGuardRetaliateMachine::lookForInnerTarget()
 	f1.link(f2.link(&filterMapStatus));
 	f1.link(&f3);
 	f1.link(&f8);
-	float visionRange = TheAI->m_aiData->m_C8 * 0.3;
+	float visionRange = TheAI->m_aiData->m_maxRetaliateDistance * 0.3;
 	Coord3D pos;
 	pos.x = owner->m_pos.x;
 	pos.y = owner->m_pos.y;

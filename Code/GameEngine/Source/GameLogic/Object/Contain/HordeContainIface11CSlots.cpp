@@ -293,10 +293,10 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0x9A6];
-	bool m_9A6; // +0x9A6
+	bool m_useSimpleHordeDecals; // +0x9A6
 	unsigned char m_pad9A7[0x1230 - 0x9A7];
-	int m_1230; // +0x1230
-	int m_1234; // +0x1234
+	int m_maxNumMembersToForceToImmediatelyEnter; // +0x1230
+	int m_waitToForceMemberToEnterDelay; // +0x1234
 };
 extern GlobalData *TheWritableGlobalData;
 class Player;
@@ -459,7 +459,7 @@ public:
 	unsigned char m_pad124[0x2E4 - 0x124];
 	ModuleInfo m_moduleInfo; // +0x2E4
 	unsigned char m_pad2F0[0x528 - 0x2F0];
-	float m_528; // +0x528 (an angle slot 130 adds to a wall's orientation)
+	float m_geometryFrontAngle; // +0x528 (an angle slot 130 adds to a wall's orientation)
 	unsigned char m_pad52C[0x5D8 - 0x52C];
 	short m_5D8; // +0x5D8
 };
@@ -1769,7 +1769,7 @@ void HordeContain::rva00469967()
 		}
 		else if (!onRamp)
 		{
-			((Thing *)obj)->setOrientation(wall->m_orientation + wall->m_template->m_528);
+			((Thing *)obj)->setOrientation(wall->m_orientation + wall->m_template->m_geometryFrontAngle);
 		}
 		m_120 = true;
 	}
@@ -3231,7 +3231,7 @@ __declspec(noinline) bool HordeContain::rva00468F0F(Object *obj, Object *target)
 // +0x11C interface.
 void HordeContain::rva004738B6(Object *target)
 {
-	unsigned int remaining = TheWritableGlobalData->m_1230;
+	unsigned int remaining = TheWritableGlobalData->m_maxNumMembersToForceToImmediatelyEnter;
 	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); )
 	{
 		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
@@ -3250,7 +3250,7 @@ void HordeContain::rva004738B6(Object *target)
 		if (rva0046F7F8() && remaining > 0)
 		{
 			unsigned int now = TheGameLogic->m_frame;
-			if (now - rva0046F7F8() > (unsigned int)TheWritableGlobalData->m_1234)
+			if (now - rva0046F7F8() > (unsigned int)TheWritableGlobalData->m_waitToForceMemberToEnterDelay)
 			{
 				Rva0046A2ECSlot39 *contain = (Rva0046A2ECSlot39 *)target->m_250;
 				if (contain)
@@ -3631,7 +3631,7 @@ void HordeContain::rva0046C327()
 	if (self && self->getControllingPlayer() == local)
 	{
 		Drawable *draw = ((Thing *)self)->getDrawable();
-		if (TheWritableGlobalData->m_9A6)
+		if (TheWritableGlobalData->m_useSimpleHordeDecals)
 		{
 			if (draw)
 				draw->rva00272BE7();
@@ -3906,7 +3906,7 @@ void HordeContain::rva0046C20B()
 	if (self && self->getControllingPlayer() == local)
 	{
 		Drawable *draw = ((Thing *)self)->getDrawable();
-		if (TheWritableGlobalData->m_9A6)
+		if (TheWritableGlobalData->m_useSimpleHordeDecals)
 		{
 			if (draw)
 				draw->rva00272BAB(rva0046D3FC(0), slot101(self));
@@ -4899,7 +4899,7 @@ void HordeContain::notifyOfMemberDeath(Object *obj)
 		TheGameLogic->destroyObject(m_object);
 	}
 	m_298 = TheGameLogic->m_frame;
-	if (TheWritableGlobalData->m_9A6) {
+	if (TheWritableGlobalData->m_useSimpleHordeDecals) {
 		Drawable *draw = ((Thing *)m_object)->getDrawable();
 		if (draw && ((HordeDeathDrawable *)draw)->refresh)
 			draw->rva00272945(rva0046D3FC(0));

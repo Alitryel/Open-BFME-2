@@ -392,7 +392,7 @@ class GlobalData
 {
 public:
 	char m_pad00[0xA60];
-	Int m_A60; // +0xA60
+	Int m_supplyBoxesPerTree; // +0xA60
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -566,7 +566,7 @@ void TerrainLogic::addTree(const ThingTemplate *thingTemplate, const Coord3D *po
 	short *bucket = &m_words[(short)getPartitionBucket((float *)pos)];
 	short next = *bucket;
 	*bucket = (short)m_records.size();
-	Int v = TheWritableGlobalData->m_A60;
+	Int v = TheWritableGlobalData->m_supplyBoxesPerTree;
 	if (thingTemplate->get5B8() > 0)
 		v = thingTemplate->get5B8();
 	Rva0027D02F *rec = new Rva0027D02F((const unsigned int *)pos, id, m_field48++, (int)thingTemplate, next, v,

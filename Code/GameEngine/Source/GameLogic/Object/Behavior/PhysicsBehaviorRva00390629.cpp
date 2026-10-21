@@ -40,7 +40,7 @@ class ThingTemplate
 {
 public:
 	unsigned char m_pad[0x610];
-	float m_610; // +0x610
+	float m_shockwaveResistance; // +0x610
 };
 class Object
 {
@@ -125,7 +125,7 @@ void PhysicsBehavior::rva00390629(bool enable)
 	Object *obj = m_object;
 	const ThingTemplate *thingTemplate = obj->getTemplate();
 	const Object *container = obj->getContainedBy();
-	if (thingTemplate->m_610 >= 100.0f || (container && container->getTemplate()->m_610 >= 100.0f))
+	if (thingTemplate->m_shockwaveResistance >= 100.0f || (container && container->getTemplate()->m_shockwaveResistance >= 100.0f))
 		enable = false;
 	m_5C = enable;
 	if (enable)
@@ -140,7 +140,7 @@ void PhysicsBehavior::rva003906BF()
 	Object *obj = m_object;
 	const ThingTemplate *thingTemplate = obj->getTemplate();
 	const Object *container = obj->getContainedBy();
-	if (thingTemplate->m_610 >= 100.0f || (container && container->getTemplate()->m_610 >= 100.0f))
+	if (thingTemplate->m_shockwaveResistance >= 100.0f || (container && container->getTemplate()->m_shockwaveResistance >= 100.0f))
 		return;
 	obj->setModelConditionState(4 * 32 + 0);
 	m_5C = true;

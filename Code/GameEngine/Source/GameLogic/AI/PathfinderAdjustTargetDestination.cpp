@@ -38,7 +38,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad00[0x11F8];
-	Int m_11f8;
+	Int m_maxCellsAdjustTargetDestination;
 };
 extern class GlobalData *TheWritableGlobalData;
 
@@ -56,6 +56,6 @@ Bool Pathfinder::AdjustTargetDestination(Object *obj, Int a, Int b, Int c, const
 	if (cell.x < 0)
 		return false;
 	Rva002ED7B6 info;
-	return rva002F379E(&cell, TheWritableGlobalData->m_11f8,
+	return rva002F379E(&cell, TheWritableGlobalData->m_maxCellsAdjustTargetDestination,
 		info.rva002ED7B6((Int)this, obj, a, b, c, (Int)dest));
 }

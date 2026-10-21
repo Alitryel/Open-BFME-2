@@ -133,7 +133,7 @@ class WeaponTemplate
 {
 public:
 	char m_pad000[0x131];
-	bool m_131;	// +0x131 fire at the victim
+	bool m_hitStoredTarget;	// +0x131 fire at the victim
 };
 
 class WeaponStore
@@ -203,7 +203,7 @@ void BezierProjectileBehavior::rva0045C026()
 		Object *producer = TheGameLogic->findObjectByID(producerID);
 		if (producer)
 			source = producer;
-		if (victim && m_detonationWeaponTmpl->m_131)
+		if (victim && m_detonationWeaponTmpl->m_hitStoredTarget)
 			TheWeaponStore->rva002CE964(m_detonationWeaponTmpl, source, victim);
 		else
 			TheWeaponStore->handleProjectileDetonation(m_detonationWeaponTmpl, &m_launchPos, source, obj->getPosition(),

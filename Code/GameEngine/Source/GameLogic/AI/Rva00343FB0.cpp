@@ -247,7 +247,7 @@ class WeaponTemplate
 public:
 	Bool isContactWeapon() const;
 	unsigned char m_pad00[0x16B];
-	Bool m_16b; // +0x16B
+	Bool m_noVictimNeeded; // +0x16B
 };
 
 class Weapon
@@ -521,7 +521,7 @@ __declspec(noinline) inline StateReturnType AIAttackApproachTargetState::onEnter
 	}
 	else
 	{
-		if (!weapon || !weapon->getTemplate()->m_16b)
+		if (!weapon || !weapon->getTemplate()->m_noVictimNeeded)
 			return STATE_FAILURE;
 		if (weapon->isWithinAttackRange(source, (void *)getMachineGoalPosition(), 0.0f, 1))
 			return STATE_SUCCESS;

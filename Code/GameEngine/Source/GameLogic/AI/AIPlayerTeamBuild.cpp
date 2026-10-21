@@ -222,7 +222,7 @@ public:
 	unsigned char m_pad11C[0x484 - 0x11C];
 	ThingTemplate *m_nextThingTemplate;		// +0x484
 	unsigned char m_pad488[0x633 - 0x488];
-	unsigned char m_bfme633;			// +0x633
+	unsigned char m_isAutoBuilt;			// +0x633
 };
 
 class Object;
@@ -1142,7 +1142,7 @@ Object *AIPlayer::findFactory(const ThingTemplate *thing, Bool busyOK, Int *buil
 				case 1:
 				case 3:
 					ThingTemplate *entryThing = entry->m_thing;
-					if (entryThing != NULL && entryThing->m_bfme633 && !thing->isEquivalentTo(entryThing))
+					if (entryThing != NULL && entryThing->m_isAutoBuilt && !thing->isEquivalentTo(entryThing))
 						return factory;
 				}
 			}

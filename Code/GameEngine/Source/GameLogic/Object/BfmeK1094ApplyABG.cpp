@@ -9,7 +9,7 @@ class CommandButton
 {
 public:
 	int m_pad[5];
-	int m_14;
+	int m_command;
 };
 
 class CommandSet
@@ -47,7 +47,7 @@ void BfmeK1094::bfmeApplyABG(void *a, void *b)
 	for (int i = 0; i < 0x20; ++i)
 	{
 		const CommandButton *btn = cmdSet->getCommandButton(i);
-		if (btn->m_14 == 0x2e)
+		if (btn->m_command == 0x2e)
 		{
 			if (commandIndex == 0)
 			{

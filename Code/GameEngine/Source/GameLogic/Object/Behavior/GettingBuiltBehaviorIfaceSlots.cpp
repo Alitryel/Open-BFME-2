@@ -88,7 +88,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0xA88];
-	int m_A88; // +0xA88
+	int m_timeAfterDamageUntilRepairAllowed; // +0xA88
 };
 
 extern class GlobalData *TheWritableGlobalData;
@@ -606,7 +606,7 @@ bool GettingBuiltBehavior::rva004533B2()
 		if (data()->m_spawnTimer < 0.0f)
 		{
 			int out = 0;
-			ready = !m_object->rva0028C264(&out, TheWritableGlobalData->m_A88) && body->rva004533B2Slot5() < 1.0f;
+			ready = !m_object->rva0028C264(&out, TheWritableGlobalData->m_timeAfterDamageUntilRepairAllowed) && body->rva004533B2Slot5() < 1.0f;
 		}
 		else
 			ready = body->rva0045342FSlot8() == 3;

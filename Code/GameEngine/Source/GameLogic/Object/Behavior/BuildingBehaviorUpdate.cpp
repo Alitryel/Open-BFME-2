@@ -57,7 +57,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0x134];
-	Int m_134;											// +0x134
+	Int m_timeOfDay;											// +0x134
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -126,7 +126,7 @@ UpdateSleepTime BuildingBehavior::update()
 	{
 		for (Int i = 0; i < 4; ++i)
 			rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 0);
-		if (TheWritableGlobalData->m_134 == 4)
+		if (TheWritableGlobalData->m_timeOfDay == 4)
 			rva0045628C(&buildingBehaviorModuleData->m_windows[0], draw, 1);
 		m_field21 = false;
 		draw->rva002723ED();
@@ -137,7 +137,7 @@ UpdateSleepTime BuildingBehavior::update()
 		m_field20 = true;
 		for (Int i = 0; i < 4; ++i)
 		{
-			if (TheWritableGlobalData->m_134 == 4 && i == 3)
+			if (TheWritableGlobalData->m_timeOfDay == 4 && i == 3)
 				rva0045628C(&buildingBehaviorModuleData->m_windows[3], draw, 1);
 			else if (i == 1 || i == 2)
 				rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 1);
@@ -152,7 +152,7 @@ UpdateSleepTime BuildingBehavior::update()
 		m_field20 = false;
 		for (Int i = 0; i < 4; ++i)
 			rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 0);
-		if (TheWritableGlobalData->m_134 == 4)
+		if (TheWritableGlobalData->m_timeOfDay == 4)
 			rva0045628C(&buildingBehaviorModuleData->m_windows[0], draw, 1);
 		draw->rva002723ED();
 	}

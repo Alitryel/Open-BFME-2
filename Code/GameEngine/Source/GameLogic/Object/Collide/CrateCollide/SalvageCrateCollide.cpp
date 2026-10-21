@@ -194,7 +194,7 @@ class ThingTemplate
 {
 public:
 	char m_pad000[0x108];
-	unsigned m_108;		// +0x108 (bit 2 tested)
+	unsigned m_kindOf;		// +0x108 (bit 2 tested)
 };
 
 class Object
@@ -277,7 +277,7 @@ void SalvageCrateCollide::rva004BD2D0(BfmeWideResult *hits)
 bool SalvageCrateCollide::isValidToExecute(const Object *other) const
 {
 	if (CrateCollide::isValidToExecute(other) && other->m_ai != 0
-			&& !(other->m_template->m_108 & 4))
+			&& !(other->m_template->m_kindOf & 4))
 		return true;
 	return false;
 }
