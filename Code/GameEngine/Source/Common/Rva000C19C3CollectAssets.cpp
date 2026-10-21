@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 // ?rva000C19C3@Rva000C19C3@@QAEXPAXPB_N@Z, retail 0x000C19C3 (542B, EH frame, RET 8).
 // Asset-list collector of a model draw-module data object (WB twin 0x0094A4E0, unnamed; reached through the
@@ -29,7 +29,6 @@ namespace _STL { template <> set<AsciiString, less<AsciiString>, allocator<Ascii
 // Suppress this TU's non-retail copy of ??R?$less@VAsciiString@@@_STL@@QBE_NABVAsciiString@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;
-namespace _STL { template <> bool less<AsciiString>::operator()(const AsciiString &, const AsciiString &) const; }
 struct AsciiStringRef{const AsciiString*m_string;};
 class Rva000B3F84Pair{public:Rva000B3F84Pair(){}const char*m_ptr;int m_len;};
 struct AsciiStringPlusText:AsciiStringRef{operator AsciiString();Rva000B3F84Pair m_right;};
