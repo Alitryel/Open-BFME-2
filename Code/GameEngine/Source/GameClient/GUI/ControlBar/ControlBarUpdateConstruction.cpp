@@ -500,43 +500,7 @@ void ControlBar::updateConstructionTextDisplay(Object *obj)
 	m_displayedConstructPercent = obj->getConstructionPercent();
 }
 
-// ?rva0053E4B1@ControlBar@@QAEXXZ @0x0053E4B1 64B: inspect the selected
-// object's status bit 2, then compare its +0x280 construction value to the
-// cached ControlBar value at +0x78. The owner path through +0x6C/+0xFC is a
-// target-layout view; the original method name remains unknown.
-void ControlBar::rva0053E4B1()
-{
-	Object *obj = m_6c->m_fc;
-	if (!obj->testStatus(Rva0053E4B1Status)) {
-		return rva0031D230();
-	}
-	if (m_displayedConstructPercent != obj->getConstructionPercent()) {
-		updateConstructionTextDisplay(obj);
-	}
-}
 
-// Retail 0x0053EB81, 114 bytes. Address-derived method name. The ControlBar
-// association follows the target thiscall shape and the +0x6C owner path also
-// used by matched sibling 0x0053E4B1. The selected object at
-// owner->object+0x250 is only an ABI view; its class and virtual method
-// meanings remain unresolved.
-void ControlBar::updateContextContestedStructureInventory()
-{
-	Rva0053E4B1Owner *owner = m_6c;
-	Object *object = owner->m_fc;
-	Rva0053EB81Subject *subject = object->m_250;
-	if (!subject)
-	{
-		switchToContext(0, owner);
-		return;
-	}
-
-	int localPlayer = ThePlayerList->m_10;
-	if (!subject->rva0053EB81SlotD8() || subject->rva0053EB81SlotE0() != localPlayer)
-		return rva0031D230();
-	if (m_80 != subject->rva0053EB81Slot12C())
-		populateStructureInventory(object, true);
-}
 
 // Target 0x0053EAEC..0x0053EB80, 149 bytes. The same-name BFME1
 // updateContextStructureInventory is the semantic donor. Target bytes support
@@ -625,13 +589,6 @@ void ControlBar::populateUnderConstruction(Object *objectUnderConstruction)
     overlaySink->rva0053EFC7(*(WindowList *)&windows);
 }
 
-// Complete native53E6E1..53E6E6: unchanged-this, zero-argument tail call.
-// The owned per-frame update invokes it in context4. Its historical method
-// identity is unresolved; retain the existing address-derived binding.
-void ControlBar::rva0053E6E1()
-{
-    rva0031D230();
-}
 
 // The inventory callback's native call53E727 reaches the shared null-return
 // body atD43D0 with one cdecl Object pointer. WB1118900 also returns null.
