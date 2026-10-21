@@ -185,7 +185,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0xAF0];
-	bool m_AF0; // +0xAF0
+	bool m_shellMapOn; // +0xAF0
 	unsigned char m_padAF1[0xD36 - 0xAF1];
 	bool m_D36; // +0xD36
 };
@@ -377,6 +377,6 @@ AptMainMenu::AptMainMenu(void *context)
 		preferences.setBool(AsciiString("FlashTutorial"), false);
 	}
 	preferences.write();
-	if (!TheWritableGlobalData->m_AF0)
+	if (!TheWritableGlobalData->m_shellMapOn)
 		m_27E = true;
 }

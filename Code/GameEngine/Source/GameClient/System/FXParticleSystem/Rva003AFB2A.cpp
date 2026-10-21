@@ -7,7 +7,7 @@ class GlobalData
 {
 public:
 	char m_pad[0x9EC];
-	volatile float m_09EC;
+	volatile float m_particleScale;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -32,9 +32,9 @@ void Rva003AFB2A::rva003AFB2A(Coord3D *out, float a, float b, unsigned int c, un
 {
 	Coord3D tmp;
 	vf07(&tmp, a, b, c, d);
-	tmp.x = (TheWritableGlobalData->m_09EC + g_Va00BBB8D8) * g_Va007C26F0 * tmp.x;
-	tmp.y = (TheWritableGlobalData->m_09EC + g_Va00BBB8D8) * g_Va007C26F0 * tmp.y;
-	tmp.z = (TheWritableGlobalData->m_09EC + g_Va00BBB8D8) * g_Va007C26F0 * tmp.z;
+	tmp.x = (TheWritableGlobalData->m_particleScale + g_Va00BBB8D8) * g_Va007C26F0 * tmp.x;
+	tmp.y = (TheWritableGlobalData->m_particleScale + g_Va00BBB8D8) * g_Va007C26F0 * tmp.y;
+	tmp.z = (TheWritableGlobalData->m_particleScale + g_Va00BBB8D8) * g_Va007C26F0 * tmp.z;
 	out->x = tmp.x;
 	out->y = tmp.y;
 	out->z = tmp.z;

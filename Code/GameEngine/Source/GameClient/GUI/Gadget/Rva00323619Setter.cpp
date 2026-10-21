@@ -12,7 +12,7 @@ class GlobalData
 {
 public:
 	char _pad[0x34];
-	int m_34;
+	int m_yResolution;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -34,7 +34,7 @@ void Rva00323619::rva00323619(int v)
 	if (gameWindow == 0)
 		return;
 	int *p = (int *)gameWindow->winGetUserData();
-	*p = (TheWritableGlobalData->m_34 * v) / 0x300;
+	*p = (TheWritableGlobalData->m_yResolution * v) / 0x300;
 }
 
 // ?rva00323642@Rva00323619@@QAEXXZ @0x00323642 21B

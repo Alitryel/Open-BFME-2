@@ -203,7 +203,7 @@ class WeaponTemplate
 {
 public:
 	char m_pad[0x16A];
-	bool m_16A;
+	bool m_shareTimers;
 };
 
 class Weapon
@@ -378,7 +378,7 @@ bool AIGroup::setWeaponLockForGroup(WeaponSlotType weaponSlot, WeaponLockType lo
 			const Weapon *weapon = object->getCurrentWeapon(0);
 			if (object->setWeaponLock(weaponSlot, lockType))
 				any = true;
-			if (weapon && weapon->m_template->m_16A) {
+			if (weapon && weapon->m_template->m_shareTimers) {
 				if (weapon->computeStatus(0)) {
 					Weapon *current = const_cast<Weapon *>(object->getCurrentWeapon(0));
 					current->m_18 = weapon->m_18;

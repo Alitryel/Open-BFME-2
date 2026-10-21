@@ -238,7 +238,7 @@ private:
 struct TAiData
 {
 	char m_pad00[0x54];
-	Real m_54;	// +0x54
+	Real m_attackPriorityDistanceModifier;	// +0x54
 };
 
 class AI
@@ -332,7 +332,7 @@ Object *AI::rva002FF8DD(const PolygonTrigger *area, Object *owner, const AttackP
 				priority = data.m_bestPriority;
 		}
 		Real dist = sqrt(owner->rva00263763(obj));
-		Int adjusted = (Int)(priority - (Int)(dist / TheAI->getAiData()->m_54));
+		Int adjusted = (Int)(priority - (Int)(dist / TheAI->getAiData()->m_attackPriorityDistanceModifier));
 		if (adjusted < 1)
 			adjusted = 1;
 		if (adjusted > bestPriority || (adjusted == bestPriority && priority > bestRaw))

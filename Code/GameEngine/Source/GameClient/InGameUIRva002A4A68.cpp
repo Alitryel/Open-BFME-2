@@ -102,9 +102,9 @@ class GlobalData {
 public:
     char _pad0[0xda4];
     GameClientRandomVariable m_rand;
-    unsigned char m_db0;
+    unsigned char m_particleCursorPerFrameSize;
     char _pad1[3];
-    int m_db4;
+    int m_particleCursorAlpha;
 };
 
 class Rva002D7127 {
@@ -166,14 +166,14 @@ void InGameUI::rva002A4A68()
             }
         }
         int v;
-        if (TheWritableGlobalData->m_db0)
+        if (TheWritableGlobalData->m_particleCursorPerFrameSize)
             v = (int)(TheWritableGlobalData->m_rand.getValue() + 0.5f);
         else
             v = payload->m_20;
         Rva002D7127 *o2 = payload->m_obj;
         o2->m_2c = v;
         o2->m_30 = v;
-        payload->m_obj->rva002D6F80(payload->m_4, payload->m_8, TheWritableGlobalData->m_db4);
+        payload->m_obj->rva002D6F80(payload->m_4, payload->m_8, TheWritableGlobalData->m_particleCursorAlpha);
         ++it;
     }
     if (lst.size() == 0) {

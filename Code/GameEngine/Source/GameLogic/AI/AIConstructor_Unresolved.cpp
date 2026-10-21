@@ -87,7 +87,7 @@ private:
 	Real m_formationRowDepth;
 	Real m_formationSquadSpacing;
 	Real m_narrowPassageScale;
-	Real m_unknownB0;
+	Real m_minFlightHeight;
 	UnsignedInt m_formationColumns;
 	Bool m_waitForOthers;
 	Bool m_hordesWaitForHordes;
@@ -107,7 +107,7 @@ private:
 	AsciiString m_lowLodTreeNameNoHarvest;
 	Real m_lowLodTreeScale;
 	Bool m_disableTrees;
-	Real m_unknownF0;
+	Real m_artilleryMaxFriendlyFire;
 	Rva002FE620 *m_sideInfo;
 	Gen0014AE40 *m_sideBuildLists;
 	Rva002FED8D *m_namedLists;
@@ -162,7 +162,7 @@ TAiData::TAiData() :
 	m_formationRowDepth( 65.0f ),
 	m_formationSquadSpacing( 30.0f ),
 	m_narrowPassageScale( 1.0f ),
-	m_unknownB0( 3.4028234663852886e+38f ),
+	m_minFlightHeight( 3.4028234663852886e+38f ),
 	m_formationColumns( 2 ),
 	m_waitForOthers( 0 ),
 	m_hordesWaitForHordes( 1 ),
@@ -187,7 +187,7 @@ TAiData::TAiData() :
 	m_namedLists( 0 ),
 	m_next( 0 )
 {
-	m_unknownF0 = 1.0f;
+	m_artilleryMaxFriendlyFire = 1.0f;
 }
 
 #include "subsystem_interface.h"

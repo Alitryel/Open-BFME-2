@@ -162,14 +162,14 @@ public:
 	char m_pad0[0xA9C];
 	float m_horizontalScrollSpeedFactor; // +0xA9C
 	float m_verticalScrollSpeedFactor;   // +0xAA0
-	float m_AA4;                         // +0xAA4
+	float m_screenEdgeScrollSpeedFactor;                         // +0xAA4
 	int m_edgeScrollTime;                // +0xAA8
 	char m_padAAC[0xAF8 - 0xAAC];
 	float m_keyboardScrollFactor;        // +0xAF8
 	char m_padAFC[0xB70 - 0xAFC];
 	bool m_saveCameraInReplay;           // +0xB70
 	char m_padB71[0xC2C - 0xB71];
-	float m_C2C;                         // +0xC2C
+	float m_keyboardCameraRotateSpeed;                         // +0xC2C
 };
 
 class Mouse
@@ -314,13 +314,13 @@ void BfmeOwnVVD::rva0042F213()
 				unsigned int height = TheDisplay->getHeight();
 				unsigned int width = TheDisplay->getWidth();
 				if (m_currentPos.y < 3)
-					offset.y -= amount * TheWritableGlobalData->m_verticalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_AA4;
+					offset.y -= amount * TheWritableGlobalData->m_verticalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_screenEdgeScrollSpeedFactor;
 				if (m_currentPos.y >= height - 3)
-					offset.y += amount * TheWritableGlobalData->m_verticalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_AA4;
+					offset.y += amount * TheWritableGlobalData->m_verticalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_screenEdgeScrollSpeedFactor;
 				if (m_currentPos.x < 3)
-					offset.x -= amount * TheWritableGlobalData->m_horizontalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_AA4;
+					offset.x -= amount * TheWritableGlobalData->m_horizontalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_screenEdgeScrollSpeedFactor;
 				if (m_currentPos.x >= width - 3)
-					offset.x += amount * TheWritableGlobalData->m_horizontalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_AA4;
+					offset.x += amount * TheWritableGlobalData->m_horizontalScrollSpeedFactor * TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_screenEdgeScrollSpeedFactor;
 			}
 			break;
 		}
@@ -364,9 +364,9 @@ void BfmeOwnVVD::rva0042F213()
 	if (TheInGameUI->m_15 && TheInGameUI->m_16)
 	{
 		if (m_154)
-			TheTacticalView->setAngle(TheTacticalView->getAngle() - TheWritableGlobalData->m_C2C);
+			TheTacticalView->setAngle(TheTacticalView->getAngle() - TheWritableGlobalData->m_keyboardCameraRotateSpeed);
 		if (m_155)
-			TheTacticalView->setAngle(TheTacticalView->getAngle() + TheWritableGlobalData->m_C2C);
+			TheTacticalView->setAngle(TheTacticalView->getAngle() + TheWritableGlobalData->m_keyboardCameraRotateSpeed);
 		if (m_156)
 			TheTacticalView->slot134();
 		if (m_157)

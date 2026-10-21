@@ -373,7 +373,7 @@ public:
 	unsigned char m_pad9bf[0xA54 - 0x9BF];
 	int m_firewallPortOverride; // +0xA54
 	unsigned char m_padA58[0xA9C - 0xA58];
-	float m_a9c; // +0xA9C
+	float m_horizontalScrollSpeedFactor; // +0xA9C
 	float m_keyboardScrollFactor; // +0xAA0
 	unsigned char m_padAA4[0xAFC - 0xAA4];
 	float m_keyboardDefaultScrollFactor; // +0xAFC
@@ -716,7 +716,7 @@ void AptOptions::Save(const char *unused)
 		{
 			val = _STL::max(val, 1);
 			TheWritableGlobalData->m_keyboardScrollFactor = val / 50.0f;
-			TheWritableGlobalData->m_a9c = val / 50.0f;
+			TheWritableGlobalData->m_horizontalScrollSpeedFactor = val / 50.0f;
 			AsciiString prefString;
 			prefString.format("%d", val);
 			pref["ScrollFactor"] = prefString;

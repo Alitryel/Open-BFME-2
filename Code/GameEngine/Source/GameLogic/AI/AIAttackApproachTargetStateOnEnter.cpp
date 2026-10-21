@@ -395,9 +395,9 @@ public:
 	unsigned char m_pad11C[0x122 - 0x11C];
 	unsigned char m_122; // +0x122
 	unsigned char m_pad123[0x53C - 0x123];
-	Real m_53c; // +0x53C
+	Real m_firingArc; // +0x53C
 	unsigned char m_pad540[0x5FD - 0x540];
-	Bool m_5fd; // +0x5FD
+	Bool m_useCrushAttack; // +0x5FD
 };
 
 class Thing
@@ -547,7 +547,7 @@ public:
 	unsigned char m_pad34[0x148 - 0x34];
 	Real m_continueAttackRange; // +0x148
 	unsigned char m_pad14C[0x161 - 0x14C];
-	Bool m_161; // +0x161 (keeps attacking a dead victim)
+	Bool m_finishAttackOnceStarted; // +0x161 (keeps attacking a dead victim)
 	unsigned char m_pad162[0x16B - 0x162];
 	Bool m_16b; // +0x16B
 	Bool is16b() const { return m_16b; }
@@ -1498,7 +1498,7 @@ StateReturnType AIAttackMeleeSquishState::onEnter()
 {
 	StateMachine *machine = getMachine();
 	Object *source = machine->getOwner();
-	if (!source->testStatus(OBJECT_STATUS_44) && !source->m_ai->m_3cc && source->getTemplate()->m_5fd)
+	if (!source->testStatus(OBJECT_STATUS_44) && !source->m_ai->m_3cc && source->getTemplate()->m_useCrushAttack)
 	{
 		if (!((TurretStateMachine *)machine)->rva004D7ADD())
 		{

@@ -106,7 +106,7 @@ public:
 	unsigned char m_pad00[0x108];
 	unsigned char m_kindOf[0x1C]; // +0x108
 	unsigned char m_pad124[0x53C - 0x124];
-	Real m_53c; // +0x53C
+	Real m_firingArc; // +0x53C
 };
 class Rva002C9400ByteField
 {
@@ -268,7 +268,7 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
 			return STATE_FAILURE;
 		if (victim->rva002943B2(source->getControllingPlayer()))
 			return STATE_FAILURE;
-		if (source->getTemplate()->m_53c < 360.0f && sourceAI->slot143() != 2 &&
+		if (source->getTemplate()->m_firingArc < 360.0f && sourceAI->slot143() != 2 &&
 			!((Rva0028F326Owner *)source)->rva0028F326((unsigned int)victim, source->getVisionRange() * 10.0f))
 			return STATE_FAILURE;
 	}
@@ -322,10 +322,10 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
 		}
 	}
 	Real relAngle = source->GetRelativeAngle(&goalPos);
-	if (source->getTemplate()->m_53c < 360.0f)
+	if (source->getTemplate()->m_firingArc < 360.0f)
 	{
 		Bool turned = false;
-		Real turnLimitValue = source->getTemplate()->m_53c;
+		Real turnLimitValue = source->getTemplate()->m_firingArc;
 		if (fabs(relAngle) > turnLimitValue * 3.141f / 360.0f)
 			turned = true;
 		sourceAI->chooseLocomotorSet(turned ? 15 : 0);

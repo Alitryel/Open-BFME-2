@@ -65,8 +65,8 @@ public:
 	// Target performs this read before +0x94 after length() in both checks.
 	// The volatile access view enforces that observed order; it is not a
 	// claim that the donor declared its storage volatile.
-	volatile Real m_90; // +0x90
-	Real m_94; // +0x94
+	volatile Real m_meleeApproachTolerance; // +0x90
+	Real m_meleeApproachDist; // +0x94
 };
 
 class AI
@@ -222,7 +222,7 @@ class AIAttackMeleeApproachState : public AIInternalMoveToState
 public:
 	virtual StateReturnType onEnter();
 private:
-	__forceinline Bool isCloseToVictim(const Object*source)const{MeleeCoordCopy raw(*source->getPosition());raw.sub(&m_50);float dx=raw.x,dy=raw.y;const TAiData*data=TheAI->getAiDataRV();MeleeCoordCopy delta(dx,dy,0.0f);return delta.length()<data->m_90+data->m_94;}
+	__forceinline Bool isCloseToVictim(const Object*source)const{MeleeCoordCopy raw(*source->getPosition());raw.sub(&m_50);float dx=raw.x,dy=raw.y;const TAiData*data=TheAI->getAiDataRV();MeleeCoordCopy delta(dx,dy,0.0f);return delta.length()<data->m_meleeApproachTolerance+data->m_meleeApproachDist;}
 	Int m_4C; // +0x4C
 	Coord3D m_50; // +0x50
 	Int m_5C; // +0x5C

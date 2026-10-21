@@ -57,7 +57,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad[0x138];
-	int m_138;
+	int m_weather;
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -110,7 +110,7 @@ bool Rva001DFEAABase::rva001DFF5D(Object *primary, Object *secondary)
 		if (!secondary->m_modelConditions.rva001DFE56(&m_maskA8, &m_maskF4))
 			return false;
 	}
-	if (m_140 != 2 && TheWritableGlobalData->m_138 != m_140)
+	if (m_140 != 2 && TheWritableGlobalData->m_weather != m_140)
 		return false;
 	return true;
 }

@@ -85,7 +85,7 @@ private:
 	Real m_formationRowDepth;
 	Real m_formationSquadSpacing;
 	Real m_narrowPassageScale;
-	Real m_unknownB0;
+	Real m_minFlightHeight;
 	UnsignedInt m_formationColumns;
 	Bool m_waitForOthers;
 	Bool m_hordesWaitForHordes;
@@ -105,7 +105,7 @@ private:
 	AsciiString m_lowLodTreeNameNoHarvest;
 	Real m_lowLodTreeScale;
 	Bool m_disableTrees;
-	Real m_unknownF0;
+	Real m_artilleryMaxFriendlyFire;
 	Rva002FE620 *m_sideInfo;
 	Gen0014AE40 *m_sideBuildLists;
 	Rva002FED8D *m_namedLists;
@@ -197,7 +197,7 @@ TAiData&TAiData::operator=(const TAiData&other){
  m_formationRowDepth=other.m_formationRowDepth;
  m_formationSquadSpacing=other.m_formationSquadSpacing;
  m_narrowPassageScale=other.m_narrowPassageScale;
- m_unknownB0=other.m_unknownB0;
+ m_minFlightHeight=other.m_minFlightHeight;
  m_formationColumns=other.m_formationColumns;
  m_waitForOthers=other.m_waitForOthers;
  m_hordesWaitForHordes=other.m_hordesWaitForHordes;
@@ -217,7 +217,7 @@ TAiData&TAiData::operator=(const TAiData&other){
  m_lowLodTreeNameNoHarvest=other.m_lowLodTreeNameNoHarvest;
  m_lowLodTreeScale=other.m_lowLodTreeScale;
  m_disableTrees=other.m_disableTrees;
- m_unknownF0=other.m_unknownF0;
+ m_artilleryMaxFriendlyFire=other.m_artilleryMaxFriendlyFire;
  m_sideInfo=other.m_sideInfo;
  m_sideBuildLists=other.m_sideBuildLists;
  m_namedLists=other.m_namedLists;

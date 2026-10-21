@@ -37,7 +37,7 @@ public:
 	AsciiString getPicturePath() const;
 
 	unsigned char m_pad00[0x62];
-	bool m_62; // +0x62
+	bool m_useShadowMapping; // +0x62
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -242,10 +242,10 @@ private:
 void AptCreateAHero::DrawMapComponent(const Coord2D *origin, const Coord2D *extent, void *unused3, void *unused4)
 {
 	TheShell->m_5d = false;
-	if (Rva00DE1FF8Manager && TheWritableGlobalData->m_62)
+	if (Rva00DE1FF8Manager && TheWritableGlobalData->m_useShadowMapping)
 		Rva00DE1FF8Manager->rva0007C18E();
 	TheDisplay->drawMapView(origin, extent);
-	if (Rva00DE1FF8Manager && TheWritableGlobalData->m_62)
+	if (Rva00DE1FF8Manager && TheWritableGlobalData->m_useShadowMapping)
 		Rva00DE1FF8Manager->rva0007B6F3();
 	if (TheDisplay->m_141)
 	{

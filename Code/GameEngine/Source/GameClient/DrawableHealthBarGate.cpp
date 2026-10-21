@@ -32,7 +32,7 @@ class GlobalData
 {
 public:
 	char m_pad000[0x9BD];
-	Bool m_9BD; // +0x9BD
+	Bool m_showObjectHealth; // +0x9BD
 	Bool m_9BE; // +0x9BE
 };
 
@@ -200,7 +200,7 @@ public:
 void Rva0027601BHost::rva0027601B()
 {
 	Drawable *self = reinterpret_cast<Drawable *>(this);
-	if (!TheWritableGlobalData->m_9BD)
+	if (!TheWritableGlobalData->m_showObjectHealth)
 		return;
 	Bool selected = self->bfme_is_selected_nz();
 	if (!selected)

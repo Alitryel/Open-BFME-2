@@ -23,7 +23,7 @@ class GlobalData
 {
 public:
 	char m_opaque000[0xDD0];
-	bool m_unknownDD0;	// +0xDD0
+	bool m_useHelpTextSystem;	// +0xDD0
 };
 extern GlobalData *TheWritableGlobalData;
 #define TheGlobalData ((const GlobalData *)TheWritableGlobalData)
@@ -65,7 +65,7 @@ void InGameUI::clearRva0029B060()
 // ?areTooltipsDisabled@InGameUI@@UBE_NXZ
 bool InGameUI::areTooltipsDisabled() const
 {
-	if (!TheGlobalData->m_unknownDD0)
+	if (!TheGlobalData->m_useHelpTextSystem)
 		return true;
 	BfmeSelectionState *state = *(BfmeSelectionState **)&TheLivingWorldLogic;
 	return !(state && state->isSelectionLocked()) && TheGameLogic->getFrame() < m_7EC;
