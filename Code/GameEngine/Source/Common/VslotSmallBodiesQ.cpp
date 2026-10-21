@@ -17,9 +17,10 @@ class Rva007E8810Message
 public:
 	Int getInt(const char *key, Int defaultValue);
 };
-extern const char *g_rva00665450Key;
-extern const char *g_rva00665560Key;
-extern const char *g_rva00668090Key;
+const char *g_rva00665450Key = "errorCode";
+const char *g_rva00665560Key = "decodedSize";
+// Native DD8310 already belongs to BfmeConv482.cpp.
+extern void *g_bfmeWhatBKG;
 class Rva00665450
 {
 public:
@@ -37,7 +38,7 @@ Int Rva00665450::rva00665560(Rva007E8810Message *msg)
 }
 Int Rva00665450::rva00668090(Rva007E8810Message *msg)
 {
-	return msg->getInt(g_rva00668090Key, 0);
+	return msg->getInt((const char *)g_bfmeWhatBKG, 0);
 }
 
 // slot at VA 0x00CE3790: the entry of the NULL-terminated table at VA
@@ -53,7 +54,82 @@ struct Rva00669410Arg
 	char m_pad00[0x1C];
 	Int m_1C;
 };
-extern Rva00669410Entry *g_rva00669410Table[];
+// Native DD8320: all35 complete protocol slots already have definitions in
+// StaticTagInitializers.cpp; preserve those names and the native pointer order.
+class Rva007F0210;
+extern Rva007F0210 bfmeRva0130A9C8TagSlot;
+extern Rva007F0210 bfmeRva0130AA1CTagSlot;
+extern Rva007F0210 bfmeRva0130AAF4TagSlot;
+extern Rva007F0210 bfmeRva0130A9D4TagSlot;
+extern Rva007F0210 bfmeRva0130A9BCTagSlot;
+extern Rva007F0210 bfmeRva0130A9F8TagSlot;
+extern Rva007F0210 bfmeRva0130AB48TagSlot;
+extern Rva007F0210 bfmeRva0130AAACTagSlot;
+extern Rva007F0210 bfmeRva0130AAA0TagSlot;
+extern Rva007F0210 bfmeRva0130AA58TagSlot;
+extern Rva007F0210 bfmeRva0130AADCTagSlot;
+extern Rva007F0210 bfmeRva0130AA28TagSlot;
+extern Rva007F0210 bfmeRva0130AAB8TagSlot;
+extern Rva007F0210 bfmeRva0130AA10TagSlot;
+extern Rva007F0210 bfmeRva0130AB3CTagSlot;
+extern Rva007F0210 bfmeRva0130AA4CTagSlot;
+extern Rva007F0210 bfmeRva0130AB30TagSlot;
+extern Rva007F0210 bfmeRva0130AA34TagSlot;
+extern Rva007F0210 bfmeRva0130AB18TagSlot;
+extern Rva007F0210 bfmeRva0130AA64TagSlot;
+extern Rva007F0210 bfmeRva0130AB00TagSlot;
+extern Rva007F0210 bfmeRva0130AAC4TagSlot;
+extern Rva007F0210 bfmeRva0130AA94TagSlot;
+extern Rva007F0210 bfmeRva0130AA04TagSlot;
+extern Rva007F0210 bfmeRva0130AA88TagSlot;
+extern Rva007F0210 bfmeRva0130AB0CTagSlot;
+extern Rva007F0210 bfmeRva0130AAE8TagSlot;
+extern Rva007F0210 bfmeRva0130AB24TagSlot;
+extern Rva007F0210 bfmeRva0130AA7CTagSlot;
+extern Rva007F0210 bfmeRva0130A9ECTagSlot;
+extern Rva007F0210 bfmeRva0130AA40TagSlot;
+extern Rva007F0210 bfmeRva0130AA70TagSlot;
+extern Rva007F0210 bfmeRva0130AAD0TagSlot;
+extern Rva007F0210 bfmeRva0130A9B0TagSlot;
+extern Rva007F0210 bfmeRva0130A9E0TagSlot;
+Rva00669410Entry *g_rva00669410Table[] = {
+    (Rva00669410Entry *)&bfmeRva0130A9C8TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA1CTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AAF4TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130A9D4TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130A9BCTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130A9F8TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AB48TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AAACTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AAA0TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA58TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AADCTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA28TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AAB8TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA10TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AB3CTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA4CTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AB30TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA34TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AB18TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA64TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AB00TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AAC4TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA94TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA04TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA88TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AB0CTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AAE8TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AB24TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA7CTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130A9ECTagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA40TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AA70TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130AAD0TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130A9B0TagSlot,
+    (Rva00669410Entry *)&bfmeRva0130A9E0TagSlot,
+    0
+};
 class Rva00669410
 {
 public:
