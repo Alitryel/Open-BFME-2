@@ -1,7 +1,7 @@
 // stlport
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
-// ?Rva003C3EC5Apply@ScriptActions@@QAEXPAVParameter@@ABVAsciiString@@H@Z @0x003C3EC5 97B: resolve unit via ScriptEngine then SpecialPowerTemplate by name query Object special-power module then slot 0x20 virtual with scaled GameLogic frame. Evidence: sibling Rva003C3E75Apply same getUnitNamed 0x3588E7 via g_Va009FE16C findSpecialPowerTemplate 0x29B6EB via TheSpecialPowerStore Object::getSpecialPowerModule 0x28BB9E StringBase copy 0x365F0; caller 0x003CC68F; ret 0xC stdcall.
+// ?doNamedSetSpecialPowerCountdown@ScriptActions@@QAEXPAVParameter@@ABVAsciiString@@H@Z @0x003C3EC5 97B: resolve unit via ScriptEngine then SpecialPowerTemplate by name query Object special-power module then slot 0x20 virtual with scaled GameLogic frame. Evidence: sibling doNamedStopSpecialPowerCountdown same getUnitNamed 0x3588E7 via g_Va009FE16C findSpecialPowerTemplate 0x29B6EB via TheSpecialPowerStore Object::getSpecialPowerModule 0x28BB9E StringBase copy 0x365F0; caller 0x003CC68F; ret 0xC stdcall.
 #include "ascii_string.h"
 
 class SpecialPowerTemplate;
@@ -57,7 +57,7 @@ public:
 	virtual void w08(int arg);
 };
 
-void ScriptActions::Rva003C3EC5Apply(Parameter *parameter, const AsciiString &name, int arg3)
+void ScriptActions::doNamedSetSpecialPowerCountdown(Parameter *parameter, const AsciiString &name, int arg3)
 {
 	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	const SpecialPowerTemplate *found = TheSpecialPowerStore->findSpecialPowerTemplate(name);

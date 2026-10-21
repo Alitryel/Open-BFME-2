@@ -1861,12 +1861,12 @@ return;
 }
 case 118:
 {
-Rva003BBE04(true);
+doLetterBoxMode(true);
 return;
 }
 case 119:
 {
-Rva003BBE04(false);
+doLetterBoxMode(false);
 return;
 }
 case 347:
@@ -1891,12 +1891,12 @@ return;
 }
 case 128:
 {
-Rva003BBE44Set(true, (PARAM(0) ? INTEGER(0) : 0));
+doBlackWhiteMode(true, (PARAM(0) ? INTEGER(0) : 0));
 return;
 }
 case 129:
 {
-Rva003BBE44Set(false, (PARAM(0) ? INTEGER(0) : 0));
+doBlackWhiteMode(false, (PARAM(0) ? INTEGER(0) : 0));
 return;
 }
 case 136:
@@ -1943,7 +1943,7 @@ return;
 }
 case 142:
 {
-Rva003BBEF4((int)(&TEXT(0)), REAL(1));
+doMilitaryCaption((int)(&TEXT(0)), REAL(1));
 return;
 }
 case 144:
@@ -1972,12 +1972,12 @@ return;
 }
 case 161:
 {
-Rva003BBFB1Select(PARAM(0));
+doNamedHideSpecialPowerDisplay(PARAM(0));
 return;
 }
 case 162:
 {
-Rva003BBFD6Select(PARAM(0));
+doNamedShowSpecialPowerDisplay(PARAM(0));
 return;
 }
 case 145:
@@ -2042,32 +2042,32 @@ return;
 }
 case 166:
 {
-Rva003BC107();
+doDisableCountdownTimerDisplay();
 return;
 }
 case 165:
 {
-Rva003BC115();
+doEnableCountdownTimerDisplay();
 return;
 }
 case 167:
 {
-Rva003C3E75Apply(PARAM(0), TEXT(1), (void *)(1));
+doNamedStopSpecialPowerCountdown(PARAM(0), TEXT(1), (void *)(1));
 return;
 }
 case 168:
 {
-Rva003C3E75Apply(PARAM(0), TEXT(1), (void *)(0));
+doNamedStopSpecialPowerCountdown(PARAM(0), TEXT(1), (void *)(0));
 return;
 }
 case 169:
 {
-Rva003C3EC5Apply(PARAM(0), TEXT(1), INTEGER(2));
+doNamedSetSpecialPowerCountdown(PARAM(0), TEXT(1), INTEGER(2));
 return;
 }
 case 170:
 {
-Rva003C3F9EApply(PARAM(0), TEXT(1), INTEGER(2));
+doNamedAddSpecialPowerCountdown(PARAM(0), TEXT(1), INTEGER(2));
 return;
 }
 case 578:

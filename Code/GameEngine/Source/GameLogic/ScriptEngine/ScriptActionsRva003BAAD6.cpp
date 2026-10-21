@@ -219,7 +219,7 @@ void ScriptActions::Rva003BB654()
 		p->s095();
 }
 
-// ?Rva003BBFB1Select@ScriptActions@@QAEXPAVParameter@@@Z @0x003BBFB1 37B leaf caller 0x003CC46D globals 0xDFE16C 0xDFEDF0 slots getUnitNamed 0x9C
+// ?doNamedHideSpecialPowerDisplay@ScriptActions@@QAEXPAVParameter@@@Z @0x003BBFB1 37B leaf caller 0x003CC46D globals 0xDFE16C 0xDFEDF0 slots getUnitNamed 0x9C
 // Evidence: push [esp+4] mov ecx,[0xDFE16C] call ?getUnitNamed@ScriptEngine@@QAEPAVObject@@PAVParameter@@@Z test eax je then TheInGameUI vslot 0x9C with Object*.
 class Object;
 class Parameter;
@@ -274,14 +274,14 @@ public:
 	virtual void s39(Object *);
 };
 #define Rva00DFEDF0_BFB1 (*(Rva003BBFB1Holder **)&TheInGameUI)
-void ScriptActions::Rva003BBFB1Select(Parameter *p)
+void ScriptActions::doNamedHideSpecialPowerDisplay(Parameter *p)
 {
 	Object *o = TheScriptEngine->getUnitNamed(p);
 	if (o)
 		Rva00DFEDF0_BFB1->s39(o);
 }
 
-// ?Rva003BBFD6Select@ScriptActions@@QAEXPAVParameter@@@Z @0x003BBFD6 37B leaf caller 0x003CC482 globals 0xDFE16C 0xDFEDF0 slots getUnitNamed 0xA0
+// ?doNamedShowSpecialPowerDisplay@ScriptActions@@QAEXPAVParameter@@@Z @0x003BBFD6 37B leaf caller 0x003CC482 globals 0xDFE16C 0xDFEDF0 slots getUnitNamed 0xA0
 // Evidence: same shape as 0x003BBFB1 but InGameUI vslot 0xA0 with Object*.
 class Rva003BBFD6Holder
 {
@@ -329,7 +329,7 @@ public:
 	virtual void s40(Object *);
 };
 #define Rva00DFEDF0_BFD6 (*(Rva003BBFD6Holder **)&TheInGameUI)
-void ScriptActions::Rva003BBFD6Select(Parameter *p)
+void ScriptActions::doNamedShowSpecialPowerDisplay(Parameter *p)
 {
 	Object *o = TheScriptEngine->getUnitNamed(p);
 	if (o)
@@ -373,7 +373,7 @@ void ScriptActions::Rva003BBF23Disable(Parameter *p, bool b)
 	o->setDisabledUntil(DISABLED_TYPE_3, b ? 0x3FFFFFFF : 0);
 }
 
-// ?Rva003BBEF4@ScriptActions@@QAEXHM@Z @0x003BBEF4 47B leaf caller 0x003CC3CC globals g_00BBE358 TheInGameUI slot 0x5c ceil ftol2 x87
+// ?doMilitaryCaption@ScriptActions@@QAEXHM@Z @0x003BBEF4 47B leaf caller 0x003CC3CC globals g_00BBE358 TheInGameUI slot 0x5c ceil ftol2 x87
 // Evidence: fld [esp+8] fmul g_00BBE358 fstp call ceil call ftol2 then TheInGameUI vslot 0x5c with first arg and int result ret 8.
 // Shape lever x87-operand-order: extern float puts const first; literal loads local first like retail. Trying 1000.0f (msec scale).
 extern "C" __declspec(dllimport) double __cdecl ceil(double);
@@ -406,7 +406,7 @@ public:
 	virtual void s23(int a1, int a2);
 };
 #define Rva00DFEDF0_BBEF4 (*(Rva003BBEF4Holder **)&TheInGameUI)
-void ScriptActions::Rva003BBEF4(int a1, float a2)
+void ScriptActions::doMilitaryCaption(int a1, float a2)
 {
 	int v = (int)ceil(a2 * 1000.0f);
 	Rva00DFEDF0_BBEF4->s23(a1, v);

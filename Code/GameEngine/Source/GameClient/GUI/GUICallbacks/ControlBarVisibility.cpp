@@ -229,10 +229,10 @@ void ToggleControlBar(Bool immediate)
 	}
 }
 
-// ?Rva003BBE04@ScriptActions@@QAEX_N@Z @0x003BBE04, 46 retail bytes. It selects the
+// ?doLetterBoxMode@ScriptActions@@QAEX_N@Z @0x003BBE04, 46 retail bytes. It selects the
 // existing control bar callbacks and forwards the same flag to Display slot
 // 86; the action's semantic name is not established by target evidence.
-void ScriptActions::Rva003BBE04(Bool immediate)
+void ScriptActions::doLetterBoxMode(Bool immediate)
 {
 	if (immediate)
 	{
@@ -250,8 +250,8 @@ void ScriptActions::Rva003BBE04(Bool immediate)
 // Canonical ScriptActions owner; address-derived verbs remain uncertain.
 
 // Native 3BBE32..3BBE3B and 3BBE3B..3BBE44 (9B each), between the rowed
-// ScriptActions::Rva003BBE04 and Rva003BBE44Set: the two control-bar halves
-// of Rva003BBE04 on their own - HideControlBar(true) and
+// ScriptActions::doLetterBoxMode and doBlackWhiteMode: the two control-bar halves
+// of doLetterBoxMode on their own - HideControlBar(true) and
 // ShowControlBar(false). Neither uses ECX, so they are written as free
 // functions; whether retail had them as argument-free ScriptActions members
 // is unproven. Address-derived names.

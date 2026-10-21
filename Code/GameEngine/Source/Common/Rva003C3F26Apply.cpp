@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?doPlayerSetSpecialPowerCountdown@ScriptActions@@IAEXABVAsciiString@@0H@Z @0x003C3F26 120B: player object via NameKeyGenerator PlayerList then SpecialPowerTemplate by name query Object special-power module then slot 0x20 with scaled GameLogic frame. Evidence: sibling Rva003C3EC5Apply same findSpecialPowerTemplate 0x29B6EB via g_00E02D4C Object::getSpecialPowerModule 0x28BB9E StringBase copy 0x365F0 plus rowed nameToKey 0x9FA65 findPlayerWithNameKey 0x2A7A41 rva002AC629 0x2AC629; caller 0x003CC6EE; ret 0xC stdcall.
+// ?doPlayerSetSpecialPowerCountdown@ScriptActions@@IAEXABVAsciiString@@0H@Z @0x003C3F26 120B: player object via NameKeyGenerator PlayerList then SpecialPowerTemplate by name query Object special-power module then slot 0x20 with scaled GameLogic frame. Evidence: sibling doNamedSetSpecialPowerCountdown same findSpecialPowerTemplate 0x29B6EB via g_00E02D4C Object::getSpecialPowerModule 0x28BB9E StringBase copy 0x365F0 plus rowed nameToKey 0x9FA65 findPlayerWithNameKey 0x2A7A41 rva002AC629 0x2AC629; caller 0x003CC6EE; ret 0xC stdcall.
 #include "ascii_string.h"
 
 enum NameKeyType { NK_NONE = 0 };

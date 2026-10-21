@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BBE44Set@ScriptActions@@QAEX_NH@Z @0x003BBE44 77B leaf caller 0x003CC2BA globals 0xDFEA3C slots 0xB4 0xBC 0xB0 0xC0
+// ?doBlackWhiteMode@ScriptActions@@QAEX_NH@Z @0x003BBE44 77B leaf caller 0x003CC2BA globals 0xDFEA3C slots 0xB4 0xBC 0xB0 0xC0
 // Evidence: TheTacticalView virtual calls with 1 1 and (v, 1/-1); else-branch checks s44==1.
 class TacticalView
 {
@@ -58,7 +58,7 @@ public:
 	virtual void s48(int a, int b);
 };
 extern class View *TheTacticalView;
-void ScriptActions::Rva003BBE44Set(bool flag, int v)
+void ScriptActions::doBlackWhiteMode(bool flag, int v)
 {
 	if (flag)
 	{

@@ -3,7 +3,7 @@
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?Rva003BC115@ScriptActions@@QAEXXZ @0x003BC115 14B: free setter of InGameUI byte +0x779 to 1.
+// ?doEnableCountdownTimerDisplay@ScriptActions@@QAEXXZ @0x003BC115 14B: free setter of InGameUI byte +0x779 to 1.
 // Evidence: mov ecx,[0x00DFEDF0] push 1 call 0x0029A61A ret; same global and
 // callee as sibling 0x003BC107 (push 0); caller 0x003CC63A in ScriptActions.
 
@@ -17,7 +17,7 @@ public:
 
 #define Rva00DFEDF0 (*(Rva0029A61AByteSlot **)&TheInGameUI)
 
-void ScriptActions::Rva003BC115()
+void ScriptActions::doEnableCountdownTimerDisplay()
 {
 	Rva00DFEDF0->set(1);
 }
