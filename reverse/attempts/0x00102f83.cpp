@@ -1,4 +1,6 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.90858 date=2026-10-21
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.885 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.885 date=2026-10-21
@@ -550,8 +552,10 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
             sourcePos.Z*=capped*0.75f+0.25f; // move camera down physically
             pitchAdjust=capped; // adjust camera to pitch up
         }
-        // do fxPitch adjustment
         v->fxPitch=1.0f*(0.25f+pitchAdjust*0.75f);
+    }
+    // do fxPitch adjustment
+    if(v->realZoom) {
         float inversePitch=1.0f/v->fxPitch;
         sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)*inversePitch;
         sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch;
@@ -571,8 +575,8 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     }
     if(v->positionHold) {
         Vector3 delta(v->source.X-sourcePos.X,v->source.Y-sourcePos.Y,v->source.Z-sourcePos.Z);
-        targetPos.X+=delta.X;targetPos.Y+=delta.Y;targetPos.Z+=delta.Z;
         sourcePos=v->source;
+        targetPos.X+=delta.X;targetPos.Y+=delta.Y;targetPos.Z+=delta.Z;
         v->pos=v->previousPos;v->pos.x+=delta.X;v->pos.y+=delta.Y;v->previousPos=v->pos;
         if(!v->retainHold)v->positionHold=false;
     }
