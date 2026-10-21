@@ -110,3 +110,32 @@ Measured with `build/fx/score.py`; the bank scores fit 0.99637, mem 7:
 
 None of these fixes the residue. Landing also still needs the +0x473
 `_Vector_base<short>` fold pin (F/G family, see `../fxinit-r46-20261020`).
+
+## 2026-10-21 deepseek-v4.1 follow-up (~40 min)
+
+New levers tested against the committed 0.996 bank; none improved it.
+
+- **P/N hoist before the pass/bone arm** (the WB source order at WB
+  0xA3A22C/0xA3A251): both `if(positions[1])`/`if(normals[1])` stores moved
+  after the basis block and before `if(m_Passes>1)` (patch:
+  `pn-before.patch`). Compiles **2326 B** (7 B short), with the P/N stores at
+  0x18CF55 and the remap at 0x18CFC5. **The remap order flips to retail's**:
+  `movzx edx,[ecx+eax]; movzx eax,[eax]; movsx eax,[ecx+eax*2]` (R0) then
+  `movsx edx,[ecx+edx*2]` (R1). This confirms the order is decided by the
+  arm's surrounding code, but the source position also moves 7 B of layout, so
+  the variant is not a candidate. A spelling that flips the order while keeping
+  retail's 2333 B store layout (stores inside the 2-bone arm after W) remains
+  the open question.
+- **Commutative sum swap** `(remap[links[1][i]]<<8)+remap[links[0][i]]`:
+  2333 B, first diff still +0x708 (compiler canonicalizes the add). Inert.
+- **`*256` instead of `<<8`**: 2333 B, first diff still +0x708. Inert.
+- **Flags**: `/Oa` 2336 B (first diff +0xC); `/Ow` 2313 B (+0x2C); `/O2`
+  2663 B with unresolved calls. Base `/O1 /G7 /arch:SSE` remains the only close
+  setting.
+
+Note: on the committed bank `explain_mismatch` reports the first diff at
+**+0x708** (older notes say +0x707). The SIB slot order is D-base/index-P in
+both; only the register roles differ (`mov ecx,D; mov eax,P` retail vs
+`mov eax,D; mov ecx,P` bank), consistent with the model above.
+
+No source, ledger row or pin changed. Bank unchanged at 0.996.
