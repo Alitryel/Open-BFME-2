@@ -15,7 +15,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmeStringRecord000B94D2 {
     AsciiString text0, text1;
     BfmeStringRecord000B94D2();
-    BfmeStringRecord000B94D2(const BfmeStringRecord000B94D2 &o) : text0(o.text0), text1(o.text1) {}
+    BfmeStringRecord000B94D2(const BfmeStringRecord000B94D2 &other) : text0(other.text0), text1(other.text1) {}
 };
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord000B94D2,BfmeStringRecord000B94D2>(BfmeStringRecord000B94D2*,const BfmeStringRecord000B94D2&);

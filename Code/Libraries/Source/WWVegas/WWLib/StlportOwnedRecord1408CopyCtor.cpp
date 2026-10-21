@@ -14,7 +14,7 @@ class PSPlayerAllStats
 {
 public:
 	char m_body[0x548];
-	PSPlayerAllStats(const PSPlayerAllStats &o);
+	PSPlayerAllStats(const PSPlayerAllStats &other);
 	~PSPlayerAllStats();
 };
 
@@ -37,21 +37,21 @@ struct BfmeOpaqueOwnedRecord1408
 	unsigned int m_578;
 	unsigned char m_57c;
 	unsigned char m_57d;
-	BfmeOpaqueOwnedRecord1408(const BfmeOpaqueOwnedRecord1408 &o);
+	BfmeOpaqueOwnedRecord1408(const BfmeOpaqueOwnedRecord1408 &other);
 };
 
-BfmeOpaqueOwnedRecord1408::BfmeOpaqueOwnedRecord1408(const BfmeOpaqueOwnedRecord1408 &o)
-	: m_00(o.m_00)
-	, m_04(o.m_04)
-	, m_08(o.m_08)
-	, m_550(o.m_550)
-	, m_564(o.m_564)
-	, m_568(o.m_568)
-	, m_56c(o.m_56c)
-	, m_570(o.m_570)
-	, m_574(o.m_574)
-	, m_578(o.m_578)
-	, m_57c(o.m_57c)
-	, m_57d(o.m_57d)
+BfmeOpaqueOwnedRecord1408::BfmeOpaqueOwnedRecord1408(const BfmeOpaqueOwnedRecord1408 &other)
+	: m_00(other.m_00)
+	, m_04(other.m_04)
+	, m_08(other.m_08)
+	, m_550(other.m_550)
+	, m_564(other.m_564)
+	, m_568(other.m_568)
+	, m_56c(other.m_56c)
+	, m_570(other.m_570)
+	, m_574(other.m_574)
+	, m_578(other.m_578)
+	, m_57c(other.m_57c)
+	, m_57d(other.m_57d)
 {
 }

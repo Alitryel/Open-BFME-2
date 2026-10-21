@@ -40,7 +40,7 @@ public:
 struct Rva005564EBSub
 {
 	char m_body[0x548];
-	Rva005564EBSub(const Rva005564EBSub &o);
+	Rva005564EBSub(const Rva005564EBSub &other);
 	~Rva005564EBSub() { ((PSPlayerAllStats *)this)->PSPlayerAllStats::~PSPlayerAllStats(); }
 };
 
@@ -58,21 +58,21 @@ struct BfmeOpaqueOwnedRecord1432
 	unsigned int m_584;
 	unsigned int m_588;
 	_STL::string m_58c;
-	BfmeOpaqueOwnedRecord1432(const BfmeOpaqueOwnedRecord1432 &o);
+	BfmeOpaqueOwnedRecord1432(const BfmeOpaqueOwnedRecord1432 &other);
 };
 
-BfmeOpaqueOwnedRecord1432::BfmeOpaqueOwnedRecord1432(const BfmeOpaqueOwnedRecord1432 &o)
-	: m_00(o.m_00)
-	, m_04(o.m_04)
-	, m_08(o.m_08)
-	, m_550(o.m_550)
-	, m_55c(o.m_55c)
-	, m_568(o.m_568)
-	, m_574(o.m_574)
-	, m_580(o.m_580)
-	, m_581(o.m_581)
-	, m_584(o.m_584)
-	, m_588(o.m_588)
-	, m_58c(o.m_58c)
+BfmeOpaqueOwnedRecord1432::BfmeOpaqueOwnedRecord1432(const BfmeOpaqueOwnedRecord1432 &other)
+	: m_00(other.m_00)
+	, m_04(other.m_04)
+	, m_08(other.m_08)
+	, m_550(other.m_550)
+	, m_55c(other.m_55c)
+	, m_568(other.m_568)
+	, m_574(other.m_574)
+	, m_580(other.m_580)
+	, m_581(other.m_581)
+	, m_584(other.m_584)
+	, m_588(other.m_588)
+	, m_58c(other.m_58c)
 {
 }

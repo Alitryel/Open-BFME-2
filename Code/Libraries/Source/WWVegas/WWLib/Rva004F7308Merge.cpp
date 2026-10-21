@@ -16,8 +16,8 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 struct TreeHintRef00217D4C
 {
 	TargetRef00217D4C *m_ptr;
-	TreeHintRef00217D4C(const TreeHintRef00217D4C &o) : m_ptr(o.m_ptr) { if (m_ptr) ++m_ptr->m_refs; }
-	TreeHintRef00217D4C &operator=(const TreeHintRef00217D4C &o);
+	TreeHintRef00217D4C(const TreeHintRef00217D4C &other) : m_ptr(other.m_ptr) { if (m_ptr) ++m_ptr->m_refs; }
+	TreeHintRef00217D4C &operator=(const TreeHintRef00217D4C &other);
 	~TreeHintRef00217D4C() { if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr); }
 };
 TreeHintRef00217D4C *Rva004F6E47Copy(TreeHintRef00217D4C *first, TreeHintRef00217D4C *last, TreeHintRef00217D4C *result);

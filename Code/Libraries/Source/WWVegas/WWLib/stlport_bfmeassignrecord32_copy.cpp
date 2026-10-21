@@ -24,7 +24,7 @@ class Rva00087A93 {
 	};
 	Data *m_data;
 public:
-	Rva00087A93(const Rva00087A93 &o) : m_data(o.m_data) { if (m_data) ++m_data->ref; }
+	Rva00087A93(const Rva00087A93 &other) : m_data(other.m_data) { if (m_data) ++m_data->ref; }
 	~Rva00087A93();
 };
 

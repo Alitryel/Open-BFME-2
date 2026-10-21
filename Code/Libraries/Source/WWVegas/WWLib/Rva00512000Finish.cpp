@@ -26,7 +26,7 @@ struct Rva00511E48
 	char m_c;
 	char m_pad[3];
 	Rva00511E48() : m_str(AsciiString::TheEmptyString), m_c(0) {}
-	Rva00511E48(const Rva00511E48 &o) : m_str(o.m_str), m_c(o.m_c) {}
+	Rva00511E48(const Rva00511E48 &other) : m_str(other.m_str), m_c(other.m_c) {}
 	~Rva00511E48() {}
 };
 

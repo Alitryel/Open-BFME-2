@@ -22,8 +22,8 @@ struct BfmeStringRecord000B9534 {
     unsigned char flag;
     unsigned int word0, word1, word2, word3;
     BfmeStringRecord000B9534();
-    BfmeStringRecord000B9534(const BfmeStringRecord000B9534 &o)
-      : text(o.text), flag(o.flag), word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3) {}
+    BfmeStringRecord000B9534(const BfmeStringRecord000B9534 &other)
+      : text(other.text), flag(other.flag), word0(other.word0), word1(other.word1), word2(other.word2), word3(other.word3) {}
 };
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord000B9534,BfmeStringRecord000B9534>(BfmeStringRecord000B9534*,const BfmeStringRecord000B9534&);

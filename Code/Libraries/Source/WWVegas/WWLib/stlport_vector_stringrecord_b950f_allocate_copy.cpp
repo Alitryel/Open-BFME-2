@@ -17,7 +17,7 @@ struct BfmeStringRecord000B950F {
     AsciiString text;
     unsigned int word1;
     BfmeStringRecord000B950F();
-    BfmeStringRecord000B950F(const BfmeStringRecord000B950F &o) : word0(o.word0), text(o.text), word1(o.word1) {}
+    BfmeStringRecord000B950F(const BfmeStringRecord000B950F &other) : word0(other.word0), text(other.text), word1(other.word1) {}
 };
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord000B950F,BfmeStringRecord000B950F>(BfmeStringRecord000B950F*,const BfmeStringRecord000B950F&);

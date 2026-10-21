@@ -38,8 +38,8 @@ struct Rva000BBA1ARecord8 {
     AsciiString text;
     unsigned int value;
     Rva000BBA1ARecord8();
-    Rva000BBA1ARecord8(const Rva000BBA1ARecord8 &o)
-        : text(o.text), value(o.value) {}
+    Rva000BBA1ARecord8(const Rva000BBA1ARecord8 &other)
+        : text(other.text), value(other.value) {}
 };
 
 // Observed native clear provider: 004C3D8B reads start/finish at0/4,

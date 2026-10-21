@@ -16,7 +16,7 @@ struct BfmeRecord0040B61A
 class Rva0040B707
 {
 public:
-	Rva0040B707(const Rva0040B707 &o);
+	Rva0040B707(const Rva0040B707 &other);
 private:
 	int m_00;
 	_STL::vector<ScienceType> m_04;
@@ -51,6 +51,6 @@ namespace _STL { template <> void allocator<BfmeRecord0040B61A>::deallocate(Bfme
 namespace _STL { template <> void allocator<ScienceType>::deallocate(ScienceType *,unsigned int) const; }
 namespace _STL { template <> unsigned int vector<BfmeRecord0040B61A,_STL::allocator<BfmeRecord0040B61A> >::size() const; }
 // bfme link decl-only end
-Rva0040B707::Rva0040B707(const Rva0040B707 &o) : m_00(o.m_00), m_04(o.m_04), m_10(o.m_10), m_14(o.m_14), m_18(o.m_18), m_1C(o.m_1C)
+Rva0040B707::Rva0040B707(const Rva0040B707 &other) : m_00(other.m_00), m_04(other.m_04), m_10(other.m_10), m_14(other.m_14), m_18(other.m_18), m_1C(other.m_1C)
 {
 }

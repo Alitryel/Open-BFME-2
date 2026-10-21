@@ -23,7 +23,7 @@ namespace _STL { template <> void _Construct<pair<int const ,Rva00501E3FElement>
 
 struct Rva00501656
 {
-	Rva00501656(const Rva00501656 &o);
+	Rva00501656(const Rva00501656 &other);
 	int m_00;
 	int m_04;
 	int m_08;
@@ -36,16 +36,16 @@ struct Rva00501656
 	_STL::map<int, Rva00501E3FElement> m_4c;
 };
 
-Rva00501656::Rva00501656(const Rva00501656 &o)
-	: m_00(o.m_00)
-	, m_04(o.m_04)
-	, m_08(o.m_08)
-	, m_0c(o.m_0c)
-	, m_10(o.m_10)
-	, m_1c(o.m_1c)
-	, m_28(o.m_28)
-	, m_34(o.m_34)
-	, m_40(o.m_40)
-	, m_4c(o.m_4c)
+Rva00501656::Rva00501656(const Rva00501656 &other)
+	: m_00(other.m_00)
+	, m_04(other.m_04)
+	, m_08(other.m_08)
+	, m_0c(other.m_0c)
+	, m_10(other.m_10)
+	, m_1c(other.m_1c)
+	, m_28(other.m_28)
+	, m_34(other.m_34)
+	, m_40(other.m_40)
+	, m_4c(other.m_4c)
 {
 }

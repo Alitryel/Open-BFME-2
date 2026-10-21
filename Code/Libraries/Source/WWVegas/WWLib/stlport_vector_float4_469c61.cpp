@@ -22,8 +22,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmeFloat4Record00469C61 {
     float x, y, z, w;
     BfmeFloat4Record00469C61() {}
-    BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &o) : x(o.x), y(o.y), z(o.z), w(o.w) {}
-    BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &o) { x=o.x; y=o.y; z=o.z; w=o.w; return *this; }
+    BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &other) : x(other.x), y(other.y), z(other.z), w(other.w) {}
+    BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &other) { x=other.x; y=other.y; z=other.z; w=other.w; return *this; }
 };
 template BfmeFloat4Record00469C61 *_STL::vector<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> >::_M_allocate_and_copy<BfmeFloat4Record00469C61 *>(unsigned int, BfmeFloat4Record00469C61 *, BfmeFloat4Record00469C61 *);
 template void _STL::vector<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> >::reserve(unsigned int);

@@ -54,16 +54,16 @@ class Rva006D07E0Key
 {
 public:
 	Rva006D07E0Key(Rva006D0280 *p = 0) : m_object(p) { if (p) ++p->m_useCount; }
-	Rva006D07E0Key(const Rva006D07E0Key &o) : m_object(o.m_object) { if (m_object) ++m_object->m_useCount; }
-	__forceinline Rva006D07E0Key &operator=(const Rva006D07E0Key &o)
+	Rva006D07E0Key(const Rva006D07E0Key &other) : m_object(other.m_object) { if (m_object) ++m_object->m_useCount; }
+	__forceinline Rva006D07E0Key &operator=(const Rva006D07E0Key &other)
 	{
-		if (&o != this) {
+		if (&other != this) {
 			if (m_object && dec(&m_object->m_useCount) == 0) {
 				Rva006D0280 *p = m_object;
 				p->~Rva006D0280();
 				g_pChainBlockAllocator->freeBlock(p, 0x1c);
 			}
-			m_object = o.m_object;
+			m_object = other.m_object;
 			if (m_object)
 				++m_object->m_useCount;
 		}
@@ -92,13 +92,13 @@ public:
 int __cdecl Rva006CFDF0DecRef(int *p);
 void __cdecl bfmeDropVGO(void *p);
 class Rva00894D80Accessor { public: static unsigned int increment(unsigned int *p); };
-__declspec(noinline) inline BfmeRefVGO &BfmeRefVGO::bfmeAssignVGO(const BfmeRefVGO &o)
+__declspec(noinline) inline BfmeRefVGO &BfmeRefVGO::bfmeAssignVGO(const BfmeRefVGO &other)
 {
-	if (&o != this)
+	if (&other != this)
 	{
 		if (m_object && Rva006CFDF0DecRef((int *)m_object) == 0)
 			bfmeDropVGO(m_object);
-		m_object = o.m_object;
+		m_object = other.m_object;
 		if (m_object)
 			Rva00894D80Accessor::increment((unsigned int *)m_object);
 	}
@@ -108,7 +108,7 @@ __declspec(noinline) inline BfmeRefVGO &BfmeRefVGO::bfmeAssignVGO(const BfmeRefV
 class BfmeHolderDB
 {
 public:
-	BfmeHolderDB(const BfmeHolderDB &o) : m_object(o.m_object) { if (m_object) ++m_object->m_useCount; }
+	BfmeHolderDB(const BfmeHolderDB &other) : m_object(other.m_object) { if (m_object) ++m_object->m_useCount; }
 	~BfmeHolderDB()
 	{
 		if (m_object && dec(&m_object->m_useCount) == 0) {
@@ -149,7 +149,7 @@ class Rva006D0790Ref
 {
 public:
 	Rva006D0790Ref(Rva006D0790 *p) : ptr(p) { if (p) ++p->count; }
-	Rva006D0790Ref(const Rva006D0790Ref &o) : ptr(o.ptr) { if (ptr) ++ptr->count; }
+	Rva006D0790Ref(const Rva006D0790Ref &other) : ptr(other.ptr) { if (ptr) ++ptr->count; }
 	__forceinline Rva006D0790 *operator->() const { return ptr; }
 	~Rva006D0790Ref()
 	{
@@ -345,8 +345,8 @@ protected:
 		__forceinline Iter(const Iter &iter) : node(iter.node) {}
 		__forceinline Iter &operator++() { node = node->next; return *this; }
 		__forceinline Rva006D0790Ref &operator*() const { return node->entry; }
-		__forceinline bool operator!=(const Iter &o) const { return node != o.node; }
-		__forceinline bool operator==(const Iter &o) const { return node == o.node; }
+		__forceinline bool operator!=(const Iter &other) const { return node != other.node; }
+		__forceinline bool operator==(const Iter &other) const { return node == other.node; }
 	};
 	__forceinline Iter begin() const { return Iter(m_head); }
 	__forceinline Iter end() const { return Iter(0); }

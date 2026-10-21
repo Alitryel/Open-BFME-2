@@ -29,7 +29,7 @@ struct BfmeCopyRecord8
 	Foo00549DCB *a;
 	float b;
 	BfmeCopyRecord8() {}
-	BfmeCopyRecord8(const BfmeCopyRecord8 &o) : a(o.a), b(o.b) {}
+	BfmeCopyRecord8(const BfmeCopyRecord8 &other) : a(other.a), b(other.b) {}
 };
 
 struct BfmeCopyRecord8KeyAscending

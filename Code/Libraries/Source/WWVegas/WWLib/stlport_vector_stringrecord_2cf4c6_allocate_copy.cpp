@@ -19,7 +19,7 @@ struct BfmeStringRecord002CF4C6 {
     unsigned int word0, word1;
     unsigned char flag0, flag1;
     BfmeStringRecord002CF4C6();
-    BfmeStringRecord002CF4C6(const BfmeStringRecord002CF4C6 &o) : text0(o.text0), text1(o.text1), word0(o.word0), word1(o.word1), flag0(o.flag0), flag1(o.flag1) {}
+    BfmeStringRecord002CF4C6(const BfmeStringRecord002CF4C6 &other) : text0(other.text0), text1(other.text1), word0(other.word0), word1(other.word1), flag0(other.flag0), flag1(other.flag1) {}
 };
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord002CF4C6,BfmeStringRecord002CF4C6>(BfmeStringRecord002CF4C6*,const BfmeStringRecord002CF4C6&);

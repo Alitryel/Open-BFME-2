@@ -25,7 +25,7 @@ struct BfmeStringRecord000B94D2
 struct Rva00B6CF1
 {
 	~Rva00B6CF1();
-	Rva00B6CF1 &operator=(const Rva00B6CF1 &o);
+	Rva00B6CF1 &operator=(const Rva00B6CF1 &other);
 
 	AsciiString m_s0;
 	AsciiString m_s1;
@@ -50,10 +50,10 @@ template _STL::vector<Rva00B6CF1>::~vector();
 // destroy above (fold-proof pins in reverse/symbols.csv).
 template _STL::vector<BfmeStringRecord000B94D2>::~vector();
 
-inline Rva00B6CF1 &Rva00B6CF1::operator=(const Rva00B6CF1 &o)
+inline Rva00B6CF1 &Rva00B6CF1::operator=(const Rva00B6CF1 &other)
 {
-	m_s0 = o.m_s0;
-	m_s1 = o.m_s1;
+	m_s0 = other.m_s0;
+	m_s1 = other.m_s1;
 	return *this;
 }
 
@@ -67,9 +67,9 @@ template Rva00B6CF1 *_STL::__copy<Rva00B6CF1 *, Rva00B6CF1 *, int>(Rva00B6CF1 *,
 // rows; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitVectorRva00B6CF1Destroy@@YAXPAURva00B6CF1@@ABU1@@Z present-unmatched
-void bfmeEmitVectorRva00B6CF1Destroy(Rva00B6CF1 *p, const Rva00B6CF1 &o)
+void bfmeEmitVectorRva00B6CF1Destroy(Rva00B6CF1 *p, const Rva00B6CF1 &other)
 {
 	_STL::_Destroy(p, p + 1);
-	*p = o;
+	*p = other;
 }
 #pragma inline_depth()

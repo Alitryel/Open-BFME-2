@@ -21,7 +21,7 @@ struct BfmeStringRecord000331962 {
     unsigned char flag;
     BfmeStringRecord000331962();
     ~BfmeStringRecord000331962();
-    BfmeStringRecord000331962(const BfmeStringRecord000331962 &o) : word(o.word), text(o.text), flag(o.flag) {}
+    BfmeStringRecord000331962(const BfmeStringRecord000331962 &other) : word(other.word), text(other.text), flag(other.flag) {}
 };
 #include <memory>
 namespace _STL {
