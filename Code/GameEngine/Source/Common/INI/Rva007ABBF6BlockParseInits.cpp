@@ -83,7 +83,7 @@ void parseReallyLowMHz(INI *);
 void parseRingEffect(INI *);
 void parseShadowMapBlock(INI *);
 void parseSubsystemLegendDefinition(INI *);
-void rva00219005(INI *);
+void parseFontSubstitutionDefinition(INI *);
 void parseCloudBreakEffectDefinition(INI *);
 void rva00425B90(INI *);
 namespace StrategicHUD { void ParseSettings(INI *); }
@@ -392,7 +392,7 @@ BlockParse theVictorySystemDataBlockParse = { 0, "VictorySystemData", iniParseVi
 BlockParse theFactionVictoryDataBlockParse = { 0, "FactionVictoryData", iniParseFactionVictoryDefinition };	// VA 0x00DB9BB0 "FactionVictoryData", parse 0x00215D0B
 BlockParse theBannerTypeBlockParse = { 0, "BannerType", BannerUI::ParseBannerTypeInfo };	// VA 0x00DB9BF8 "BannerType", parse 0x00217194
 BlockParse theFontDefaultSettingsBlockParse = { 0, "FontDefaultSettings", FontLibrary::ParseFontDefaultSettings };	// VA 0x00DB9C04 "FontDefaultSettings", parse 0x00218C82
-BlockParse theFontSubstitutionBlockParse = { 0, "FontSubstitution", rva00219005 };	// VA 0x00DB9C10 "FontSubstitution", parse 0x00219005
+BlockParse theFontSubstitutionBlockParse = { 0, "FontSubstitution", parseFontSubstitutionDefinition };	// VA 0x00DB9C10 "FontSubstitution", parse 0x00219005
 BlockParse theCreateAHeroSystemBlockParse = { 0, "CreateAHeroSystem", CreateAHeroManager::iniParseCreateAHeroSystem };	// VA 0x00DB9D38 "CreateAHeroSystem", parse 0x0022044C
 BlockParse theArmySummaryDescriptionBlockParse = { 0, "ArmySummaryDescription", parseArmySummaryDescriptionDefinition };	// VA 0x00DBA184 "ArmySummaryDescription", parse 0x00221012
 BlockParse theStrategicHUDBlockParse = { 0, "StrategicHUD", StrategicHUD::ParseSettings };	// VA 0x00DBA190 "StrategicHUD", parse 0x0022157B

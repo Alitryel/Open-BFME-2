@@ -130,7 +130,7 @@ void FontLibrary::parseFontSizeMapping(INI *ini, void * /*instance*/, void *stor
 		out->push_back(info);
 }
 
-void rva00219005(INI *ini)
+void parseFontSubstitutionDefinition(INI *ini)
 {
 	(void)&ini;
 	AsciiString name = ini->getNextQuotedAsciiString();
