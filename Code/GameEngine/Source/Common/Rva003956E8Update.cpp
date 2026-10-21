@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva003956E8@Rva003956E8@@QAEXXZ, retail 0x003956E8, 32 bytes.
+// ?loadPostProcess@Rva003956E8@@UAEXXZ, retail 0x003956E8, 32 bytes.
 // Module-style update: chain the rowed Rva00497805::loadPostProcess on our
 // own this, then when the +0x34 flag is set forward our +0x08 object to the
 // pathfinder shim reached through TheAI (0x00DFF0F8) at +0x10 via the rowed
@@ -37,7 +37,7 @@ extern AI *TheAI;
 class Rva003956E8 : public Rva00497805
 {
 public:
-	void rva003956E8();
+	void loadPostProcess();
 private:
 	char m_pad04[4];
 	Object *m_08;
@@ -45,7 +45,7 @@ private:
 	int m_34;
 };
 
-void Rva003956E8::rva003956E8()
+void Rva003956E8::loadPostProcess()
 {
 	// Qualified to the Rva00497805 spelling: retail calls 0x00497805
 	// directly, not through the module vtable slot.

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva004D6806@Rva004D6806@@QAE?AVAsciiString@@XZ, retail 0x004D6806, 192 bytes.
+// ?getContentsAsAsciiString@Rva004D6806@@UAE?AVAsciiString@@XZ, retail 0x004D6806, 192 bytes.
 // Rva004D6806 contents: base NetCommandMsg::rva004D5B4C plus
 // "%s, action=%d reason = %d, filename=%s" with dwords +0x1c/+0x20 and
 // UnicodeString +0x24 translated to AsciiString.
@@ -50,14 +50,14 @@ protected:
 class Rva004D6806 : public NetCommandMsg
 {
 public:
-	AsciiString rva004D6806();
+	AsciiString getContentsAsAsciiString();
 private:
 	int m_action;
 	int m_reason;
 	UnicodeString m_filename;
 };
 
-AsciiString Rva004D6806::rva004D6806()
+AsciiString Rva004D6806::getContentsAsAsciiString()
 {
 	AsciiString result;
 	AsciiString filenameAscii;

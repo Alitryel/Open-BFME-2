@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva004D650E@Rva004D64F5@@QAE?AVAsciiString@@XZ, retail 0x004D650E, 152 bytes.
+// ?getContentsAsAsciiString@Rva004D64F5@@UAE?AVAsciiString@@XZ, retail 0x004D650E, 152 bytes.
 // Rva004D64F5 (type 5, AsciiString +0x1c) contents: base
 // NetCommandMsg::rva004D5B4C plus ", challenge=%s" with the +0x1c string.
 // Identity from vtable slot 3 of 0x0086050C, format "%s, challenge=%s" at
@@ -48,12 +48,12 @@ protected:
 class Rva004D64F5 : public NetCommandMsg
 {
 public:
-	AsciiString rva004D650E();
+	AsciiString getContentsAsAsciiString();
 private:
 	AsciiString m_1c;
 };
 
-AsciiString Rva004D64F5::rva004D650E()
+AsciiString Rva004D64F5::getContentsAsAsciiString()
 {
 	AsciiString result;
 	result.format("%s, challenge=%s", GetStr004D650E(((NetCommandMsg *)this)->rva004D5B4C()), GetStr004D650E(m_1c));

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva004D6661@Rva004D65DC@@QAE?AVAsciiString@@XZ, retail 0x004D6661, 167 bytes.
+// ?getContentsAsAsciiString@Rva004D65DC@@UAE?AVAsciiString@@XZ, retail 0x004D6661, 167 bytes.
 // Rva004D65DC (type 6, AsciiStrings +0x1c/+0x20) contents slot 3 of 0x00860530:
 // base NetCommandMsg::rva004D5B4C plus ", authToken=%s, authKey=%s".
 // Identity from vtable slot 3, ctor 0x004D65DC layout, setter 0x004D662D (+0x20),
@@ -48,13 +48,13 @@ protected:
 class Rva004D65DC : public NetCommandMsg
 {
 public:
-	AsciiString rva004D6661();
+	AsciiString getContentsAsAsciiString();
 private:
 	AsciiString m_authKey;
 	AsciiString m_authToken;
 };
 
-AsciiString Rva004D65DC::rva004D6661()
+AsciiString Rva004D65DC::getContentsAsAsciiString()
 {
 	AsciiString result;
 	result.format("%s, authToken=%s, authKey=%s", GetStr004D6661(((NetCommandMsg *)this)->rva004D5B4C()), GetStr004D6661(m_authToken), GetStr004D6661(m_authKey));
