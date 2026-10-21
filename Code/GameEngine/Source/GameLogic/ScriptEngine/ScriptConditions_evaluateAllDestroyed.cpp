@@ -48,7 +48,7 @@ class GlobalData
 {
 public:
     unsigned char m_pad[0x110C];
-    float m_110C; // +0x110C, seconds before the destroyed conditions may fire
+    float m_secondsBeforeBaseCheckActive; // +0x110C, seconds before the destroyed conditions may fire
 };
 extern class GlobalData *TheWritableGlobalData;
 extern int BfmeLogicFramesPerSecond; // logic frames per second
@@ -64,7 +64,7 @@ protected:
 bool ScriptConditions::evaluateAllDestroyed(Parameter *pPlayerParm)
 {
     unsigned int now = TheGameLogic->getFrame();
-    float delay = TheWritableGlobalData ? LogicFramesPerSecond * TheWritableGlobalData->m_110C : 25.0f;
+    float delay = TheWritableGlobalData ? LogicFramesPerSecond * TheWritableGlobalData->m_secondsBeforeBaseCheckActive : 25.0f;
     if (now < (unsigned int)(int)delay)
         return false;
     PlayerMaskType mask = TheScriptEngine->rva00357B82(pPlayerParm);
@@ -80,7 +80,7 @@ bool ScriptConditions::evaluateAllDestroyed(Parameter *pPlayerParm)
 bool ScriptConditions::evaluateAllBuildFacilitiesDestroyed(Parameter *pPlayerParm)
 {
     unsigned int now = TheGameLogic->getFrame();
-    float delay = TheWritableGlobalData ? LogicFramesPerSecond * TheWritableGlobalData->m_110C : 25.0f;
+    float delay = TheWritableGlobalData ? LogicFramesPerSecond * TheWritableGlobalData->m_secondsBeforeBaseCheckActive : 25.0f;
     if (now < (unsigned int)(int)delay)
         return false;
     PlayerMaskType mask = TheScriptEngine->rva00357B82(pPlayerParm);

@@ -61,7 +61,7 @@ class GlobalData
 {
 public:
     unsigned char m_pad[0x110C];
-    float m_110C; // +0x110C
+    float m_secondsBeforeBaseCheckActive; // +0x110C
 };
 extern class GlobalData *TheWritableGlobalData;
 extern int BfmeLogicFramesPerSecond; // logic frames per second
@@ -97,7 +97,7 @@ bool ScriptConditions::rva003E586B(Parameter *pBuildingCountParm, Parameter *pPl
 // seconds (25 frames without global data) have passed.
 bool ScriptConditions::rva003E58F0(Parameter *pBuildingCountParm, Parameter *pPlayerParm)
 {
-    float delay = TheWritableGlobalData ? LogicFramesPerSecond * TheWritableGlobalData->m_110C : 25.0f;
+    float delay = TheWritableGlobalData ? LogicFramesPerSecond * TheWritableGlobalData->m_secondsBeforeBaseCheckActive : 25.0f;
     if (TheGameLogic->getFrame() < (unsigned int)(int)delay)
         return false;
     PlayerMaskType playerMask = TheScriptEngine->rva00357B82(pPlayerParm);

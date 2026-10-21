@@ -40,7 +40,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad00[0x60];
-	bool m_60;
+	bool m_useShadowVolumes;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -101,7 +101,7 @@ float W3DScriptedModelDraw::rva000B61AB()
 	if (obj && (obj->m_template04->m_flags108 & 0x40))
 		return draw->getGeometry()->getMaxHeightAbovePosition() * 4.0f;
 	unsigned short flags = tmpl->m_flags5E2;
-	if (!((flags & 0x386) || ((flags & 0xC000) && TheWritableGlobalData->m_60)) || !m_4a)
+	if (!((flags & 0x386) || ((flags & 0xC000) && TheWritableGlobalData->m_useShadowVolumes)) || !m_4a)
 		return 0.0f;
 	const Coord3D *p = draw->rva00276470();
 	Coord3D pos;

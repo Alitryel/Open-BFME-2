@@ -174,9 +174,9 @@ class GlobalData
 {
 public:
 	char m_pad00[0x3c];
-	bool m_3c;
+	bool m_useCloudMap;
 	char m_pad3d[0x48 - 0x3d];
-	bool m_48;
+	bool m_useLightMap;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -197,7 +197,7 @@ void Rva000E222FResourceTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 
 void Rva000E227FMacroTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 {
-	if (TheTerrainRenderObject && TheTerrainRenderObject->rva000E234E() && TheWritableGlobalData && TheWritableGlobalData->m_48)
+	if (TheTerrainRenderObject && TheTerrainRenderObject->rva000E234E() && TheWritableGlobalData && TheWritableGlobalData->m_useLightMap)
 		effect->SetTexture(handle, TheTerrainRenderObject->rva000E234E().Peek_D3D_Base_Texture());
 	else
 		effect->SetTexture(handle, Rva00132E76WhiteTexture().Peek_D3D_Base_Texture());
@@ -239,7 +239,7 @@ void Rva000E29A2HighTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 
 void Rva000E2B00CloudTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 {
-	if (TheTerrainRenderObject && TheTerrainRenderObject->rva000E2BCF() && TheWritableGlobalData && TheWritableGlobalData->m_3c)
+	if (TheTerrainRenderObject && TheTerrainRenderObject->rva000E2BCF() && TheWritableGlobalData && TheWritableGlobalData->m_useCloudMap)
 		effect->SetTexture(handle, TheTerrainRenderObject->rva000E2BCF().Peek_D3D_Base_Texture());
 	else
 		effect->SetTexture(handle, Rva00132E76WhiteTexture().Peek_D3D_Base_Texture());

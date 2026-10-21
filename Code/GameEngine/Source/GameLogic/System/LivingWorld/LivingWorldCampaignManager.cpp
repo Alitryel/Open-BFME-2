@@ -22,9 +22,9 @@ class GlobalData
 {
 public:
 	char m_pad[0x86];
-	unsigned char m_86;
+	unsigned char m_liveCampaignMode;
 	char m_pad87[0x8C - 0x87];
-	AsciiString m_8C;
+	AsciiString m_livingWorldCampaignOverrride;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -197,8 +197,8 @@ void LivingWorldCampaignManager::StartNewCampaign(Int campaignIndex)
 		}
 	}
 	TheGameLogic->rva0023D033();
-	if (TheWritableGlobalData->m_86 == 0
-		&& reinterpret_cast<const StringBase<char> *>(&TheWritableGlobalData->m_8C)->isEmpty())
+	if (TheWritableGlobalData->m_liveCampaignMode == 0
+		&& reinterpret_cast<const StringBase<char> *>(&TheWritableGlobalData->m_livingWorldCampaignOverrride)->isEmpty())
 		return;
 	m_2C = m_campaignVector[m_campaignIndex]->m_4D;
 	m_campaignVector[m_campaignIndex]->rva0052C9F9();
@@ -207,7 +207,7 @@ void LivingWorldCampaignManager::StartNewCampaign(Int campaignIndex)
 // ?rva003B8CAC@LivingWorldCampaignManager@@QAE_NXZ, retail 0x003B8CAC (52 bytes).
 bool LivingWorldCampaignManager::rva003B8CAC()
 {
-	if (TheWritableGlobalData->m_86 != 0)
+	if (TheWritableGlobalData->m_liveCampaignMode != 0)
 	{
 		if (m_campaignIndex >= 0 && (UnsignedInt)m_campaignIndex < m_campaignVector.size())
 		{

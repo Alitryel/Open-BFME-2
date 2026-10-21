@@ -277,8 +277,8 @@ class GlobalData
 {
 public:
 	char m_pad[0x9A7];
-	Bool m_9A7;	// +0x9A7
-	Real m_9A8;	// +0x9A8
+	Bool m_useSimpleMergeDecals;	// +0x9A7
+	Real m_opacityOfSimpleMergeDecals;	// +0x9A8
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -374,7 +374,7 @@ void W3DProjectedShadowManager::flushDecals(ShadowType type, W3DShadowTexture *t
 	{
 		if (DX8Wrapper::Has_Stencil())
 		{
-			if (TheWritableGlobalData->m_9A7)
+			if (TheWritableGlobalData->m_useSimpleMergeDecals)
 			{
 				DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILFUNC, D3DCMP_NOTEQUAL);
 				DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
@@ -382,7 +382,7 @@ void W3DProjectedShadowManager::flushDecals(ShadowType type, W3DShadowTexture *t
 				DX8Wrapper::Set_Shader(BfmeShadowStencilAlphaTestShader);
 				DX8Wrapper::Apply_Render_State_Changes();
 				DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
-				Int alphaRef = (Int)(TheWritableGlobalData->m_9A8 * 255.0f);
+				Int alphaRef = (Int)(TheWritableGlobalData->m_opacityOfSimpleMergeDecals * 255.0f);
 				if (alphaRef < 0)
 					alphaRef = 0;
 				else if (alphaRef > 255)

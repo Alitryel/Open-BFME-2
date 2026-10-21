@@ -270,7 +270,7 @@ public:
 	char m_pad000[0x60];
 	Bool m_useShadowVolumes;
 	char m_pad061[0x68 - 0x61];
-	Bool m_68;
+	Bool m_useBehindBuildingMarker;
 	char m_pad069[0x984 - 0x69];
 	Real m_occludedLuminanceScale;
 };
@@ -309,7 +309,7 @@ public:
 	virtual const Vector3 &Get_Ambient_Light() const;
 	static __forceinline Bool drawOccludedColors()
 	{
-		return TheWritableGlobalData->m_68 && ((const char *)TheGameLogic)[0x99] && !WW3D::IsCurrentlyRenderingShadowMap;
+		return TheWritableGlobalData->m_useBehindBuildingMarker && ((const char *)TheGameLogic)[0x99] && !WW3D::IsCurrentlyRenderingShadowMap;
 	}
 protected:
 	void renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, Int localPlayerIndex, Int flag);

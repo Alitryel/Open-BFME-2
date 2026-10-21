@@ -153,7 +153,7 @@ class ThingTemplate
 {
 public:
 	char m_pad000[0x5DA];
-	unsigned short m_5DA;	// +0x5DA
+	unsigned short m_buildCost;	// +0x5DA
 };
 
 // ContainModuleInterface view for allow 0x0026144C: isGarrisonable is
@@ -587,7 +587,7 @@ void ScriptActions::rva003C7018(const AsciiString &teamName, const AsciiString &
 		Object *best = hits.next();
 		Object *obj;
 		while ((obj = hits.next()) != 0)
-			if (obj->getTemplate()->m_5DA > best->getTemplate()->m_5DA)
+			if (obj->getTemplate()->m_buildCost > best->getTemplate()->m_buildCost)
 				best = obj;
 		if (best)
 			theGroup->groupDoCommandButtonAtPosition(commandButton, best->getPosition(), CMD_FROM_SCRIPT);
@@ -598,7 +598,7 @@ void ScriptActions::rva003C7018(const AsciiString &teamName, const AsciiString &
 		Object *best = hits.next();
 		Object *obj;
 		while ((obj = hits.next()) != 0)
-			if (obj->getTemplate()->m_5DA > best->getTemplate()->m_5DA)
+			if (obj->getTemplate()->m_buildCost > best->getTemplate()->m_buildCost)
 				best = obj;
 		if (best)
 			theGroup->groupDoCommandButtonAtObject(commandButton, best, CMD_FROM_SCRIPT);

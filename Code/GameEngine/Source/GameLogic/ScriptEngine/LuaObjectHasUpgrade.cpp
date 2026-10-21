@@ -46,7 +46,7 @@ class UpgradeTemplate
 {
 public:
 	int m_00;
-	int m_04;
+	int m_type;
 };
 
 class UpgradeCenter
@@ -75,7 +75,7 @@ int ObjectHasUpgrade(lua_State *L)
 			tpl = TheUpgradeCenter->findUpgrade(tmp);
 		}
 		if (tpl != 0) {
-			if (tpl->m_04 == 0) {
+			if (tpl->m_type == 0) {
 				if (obj->getControllingPlayer()->rva002AB87D(tpl))
 					result = 1.0;
 			}

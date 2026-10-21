@@ -768,21 +768,21 @@ struct AudioSettings {
     float m_at30[5];                     // +0x30, init()'s per-index 0x524EE volumes
     char at44[0x64 - 0x44];
     int m_at64;                          // +0x64, with +0x68 init()'s loop-buffer count
-    int m_at68;                          // +0x68
+    int m_sampleCount3D;                          // +0x68
     char at6C[0x74 - 0x6C];
-    int m_at74;
-    int m_at78;                          // +0x78, compared with a loop's +0x30 (0x59CE6)
-    int m_at7C;
+    int m_globalMaxRange;
+    int m_timeToFadeAudio;                          // +0x78, compared with a loop's +0x30 (0x59CE6)
+    int m_ambientStreamHysteresisVolume;
     unsigned int m_at80;                 // +0x80, handed to the file cache's 0xA77D9
     char at84[0x8C - 0x84];
     unsigned int m_at8C;                 // +0x8C, over +0x90 the loop-buffer thread's sleep
     unsigned int m_at90;                 // +0x90
     char at94[0xA8 - 0x94];
-    int m_atA8;                          // +0xA8, seconds before 0x61C87 reopens the device
+    int m_forceResetTimeSeconds;                          // +0xA8, seconds before 0x61C87 reopens the device
     int m_atAC;                          // +0xAC, seconds before the update reopens the device
     float m_atB0;                        // +0xB0, position change 0x55C5D ignores
     int m_preloadLimit;                          // +0xB4, processRequest's preload limit
-    float m_atB8;
+    float m_minSampleVolume;
     bool m_disableOcclusion;                         // +0xBC, disables occlusion
     char atBD[0xC0 - 0xBD];
     float m_occlusionFloor;                        // +0xC0, occlusion floor
@@ -2194,7 +2194,7 @@ void MilesAudioManager::init()
     rva000541DB();
     for (int i = 0; i < 5; ++i)
         GlobalVolumeData::setGlobalSystemVolume(i, m_audioSettings ? m_audioSettings->m_at30[i] : 0.55f);
-    m_numLoopBuffers = m_audioSettings->m_at68 + m_audioSettings->m_at64;
+    m_numLoopBuffers = m_audioSettings->m_sampleCount3D + m_audioSettings->m_at64;
     m_loopBuffers = new LoopBuffer[m_numLoopBuffers];
     m_stopLoopBufferThread = false;
     m_loopBufferThread = CreateThread(0, 0, rva0005F267, this, 0, 0);
@@ -2324,9 +2324,9 @@ void MilesAudioManager::rva00061C87(unsigned int viewMask)
     reinterpret_cast<Rva00057FC1 *>(&m_fileText)->rva00057FC1();
     m_pendingFileText.clear();
     m_unknownFileNames.clear();
-    m_unknownFileNames.reserve(m_audioSettings->m_at68 + m_audioSettings->m_at64);
-    if ((viewMask & 1) && m_audioSettings->m_atA8 > 0) {
-        if (_time64(0) - m_lastDeviceOpenTime > m_audioSettings->m_atA8) {
+    m_unknownFileNames.reserve(m_audioSettings->m_sampleCount3D + m_audioSettings->m_at64);
+    if ((viewMask & 1) && m_audioSettings->m_forceResetTimeSeconds > 0) {
+        if (_time64(0) - m_lastDeviceOpenTime > m_audioSettings->m_forceResetTimeSeconds) {
             static bool allowReinitialize = rva006AD9B0();
             if (allowReinitialize)
                 rva0006179C(1);
@@ -2826,7 +2826,7 @@ void MilesAudioManager::rva00059CE6(PlayingAudioRef &looping)
     request->m_at11 = true;
     request->m_at12 = looping->m_at49;
     request->m_at13 = looping->m_at4A;
-    if (looping->m_at30 >= m_audioSettings->m_at78)
+    if (looping->m_at30 >= m_audioSettings->m_timeToFadeAudio)
         ((Weapon *)request->m_pendingEvent.operator->())->setLeechRangeActive(true);
     request->m_at08 = request->m_pendingEvent->m_playingHandle;
     if (looping->m_at40 > 0.0f) {
@@ -3538,8 +3538,8 @@ void MilesAudioManager::prep3DSample(PlayingAudioRef &playing, const Coord3D *po
         rva000581FA(*reinterpret_cast<const Rva0005BA08InfoRef *>(&event->m_info), event->m_viewType);
     float minDistance;
     if ((event->m_info->m_type & 8)
-        || reinterpret_cast<Rva002DA153 *>(event.operator->())->rva002DA153() > m_audioSettings->m_atB8)
-        minDistance = (float)m_audioSettings->m_at74;
+        || reinterpret_cast<Rva002DA153 *>(event.operator->())->rva002DA153() > m_audioSettings->m_minSampleVolume)
+        minDistance = (float)m_audioSettings->m_globalMaxRange;
     else
         minDistance = event->m_info->m_minDistance;
     minDistance *= 2.0f;
@@ -4344,7 +4344,7 @@ void MilesAudioManager::rva0005634C(int handle, float volume, int mode)
             }
         } else if (playing.get()) {
             playing->m_at3C = volume;
-            playing->m_at40 = static_cast<float>(m_audioSettings->m_at78);
+            playing->m_at40 = static_cast<float>(m_audioSettings->m_timeToFadeAudio);
         } else if (event) {
             reinterpret_cast<Rva00481FAFFloatSlot *>(event)->store(volume);
         }
@@ -4760,7 +4760,7 @@ void MilesAudioManager::processPushMusicRequest(Rva00051107AudioRequest *req)
         putPlayingMusicOnStack(viewType, req->m_at10 == 0);
         if (((Rva000CB12FByteField *)playing->m_event.get())->get()) {
             playing->m_pushedTrackResumed = true;
-            playing->m_at30 = (float)m_audioSettings->m_at78;
+            playing->m_at30 = (float)m_audioSettings->m_timeToFadeAudio;
             ((Weapon *)playing->m_event.get())->setLeechRangeActive(false);
         }
     }
@@ -5100,7 +5100,7 @@ void MilesAudioManager::removeCurrentlyPlayingMusic(int viewType, int arg)
         } else {
             playing->m_at44 = 0;
             ((MilesStreamRef *)&playing->m_at0C)->rva000A8AC0();
-            playing->m_at30 = (float)m_audioSettings->m_at78;
+            playing->m_at30 = (float)m_audioSettings->m_timeToFadeAudio;
             reinterpret_cast<OpaqueRefList &>(m_playingStreams).erase(
                 OpaqueRefList::iterator((OpaqueRefList::_Node *)it._M_node));
         }
@@ -5379,7 +5379,7 @@ void MilesAudioManager::playAudioEvent(Rva00051107AudioRequest *req)
     event->m_at4F = false;
     if (reinterpret_cast<Rva000CB12FByteField *>(event.get())->get()) {
         playing->m_pushedTrackResumed = true;
-        playing->m_at30 = (float)m_audioSettings->m_at78;
+        playing->m_at30 = (float)m_audioSettings->m_timeToFadeAudio;
         reinterpret_cast<Weapon *>(event.get())->setLeechRangeActive(false);
     }
     event->m_at4B = false;
@@ -6062,8 +6062,8 @@ bool MilesAudioManager::processFade(PlayingAudioRef &playing)
     }
     if (playing->m_at44 || playing->m_at46) {
         playing->m_at30 += elapsed;
-        if (playing->m_at30 >= (float)m_audioSettings->m_at78) {
-            playing->m_at30 = (float)m_audioSettings->m_at78;
+        if (playing->m_at30 >= (float)m_audioSettings->m_timeToFadeAudio) {
+            playing->m_at30 = (float)m_audioSettings->m_timeToFadeAudio;
             if (!playing->m_at44)
                 playing->m_at48 = true;
             playing->m_at44 = false;
@@ -6104,7 +6104,7 @@ private:
 };
 float Rva0005117B::rva0005117B(float v)
 {
-    float f = 1.0f - v / (float)m_audioSettings->m_at78;
+    float f = 1.0f - v / (float)m_audioSettings->m_timeToFadeAudio;
     if (f < 0.0f)
         v = 0.0f;
     else if (f > 1.0f)
@@ -6134,8 +6134,8 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
     QueuedAudioEvents &events = m_queuedEvents[m_at678];
     QueuedAudioEvents::iterator eventEnd = events.end();
     PlayingAudioList::iterator streamEnd = m_playingStreams.end();
-    float minimum = m_audioSettings->m_atB8;
-    int fadeTime = m_audioSettings->m_at78;
+    float minimum = m_audioSettings->m_minSampleVolume;
+    int fadeTime = m_audioSettings->m_timeToFadeAudio;
 
     // Loudest queued markers not yet playing, and the loudest marker that
     // matches each playing stream.
@@ -6230,7 +6230,7 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
                 continue;
             float value = oldVolume[i];
             if (value > 0.0f && !(*streams[i])->m_at44)
-                value += m_audioSettings->m_at7C * 0.01f;
+                value += m_audioSettings->m_ambientStreamHysteresisVolume * 0.01f;
             if (value < low) {
                 low = value;
                 weakest = i;
@@ -6431,7 +6431,7 @@ void MilesAudioManager::putPlayingMusicOnStack(int viewType, int arg)
         } else {
             playing->m_at44 = false;
             ((MilesStreamRef *)&playing->m_at0C)->rva000A8AC0();
-            playing->m_at30 = (float)m_audioSettings->m_at78;
+            playing->m_at30 = (float)m_audioSettings->m_timeToFadeAudio;
             reinterpret_cast<OpaqueRefList &>(m_playingStreams).erase(
                 OpaqueRefList::iterator((OpaqueRefList::_Node *)it._M_node));
         }
@@ -6575,7 +6575,7 @@ void Rva000535CC::rva000535CC(void *p)
     if (m_at6B0 != 0)
         return;
     (*(PlayingAudio **)p)->m_pushedTrackResumed = 1;
-    (*(PlayingAudio **)p)->m_at30 = (float)m_audioSettings->m_at78;
+    (*(PlayingAudio **)p)->m_at30 = (float)m_audioSettings->m_timeToFadeAudio;
 }
 
 // Retail 0x00052F1E: an event stays audible below the settings' +0xB8
@@ -6584,7 +6584,7 @@ void Rva000535CC::rva000535CC(void *p)
 int MilesAudioManager::rva00052F1E(void *event)
 {
     AudioEventRTS *audioEventRTS = (AudioEventRTS *)event;
-    if ((audioEventRTS->m_info->m_type & 8) || audioEventRTS->m_info->m_priority == 4 || audioEventRTS->m_info->m_at1C >= m_audioSettings->m_atB8)
+    if ((audioEventRTS->m_info->m_type & 8) || audioEventRTS->m_info->m_priority == 4 || audioEventRTS->m_info->m_at1C >= m_audioSettings->m_minSampleVolume)
         return true;
     return false;
 }
@@ -6670,7 +6670,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
         if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
             audio->m_at44 = true;
         bool fading = processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_timeToFadeAudio && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
                 rva0005AA72(playing);
@@ -6706,7 +6706,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
         if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
             audio->m_at44 = true;
         processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_timeToFadeAudio && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
         void *sample3D = get3DSampleHandleForPlayingAudio(playing);
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
@@ -6732,7 +6732,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             float volume = rva0005A9F8(&playing, 0, 0);
             AudioEventRTS *event = audio->m_event.operator->();
             unsigned char audible = (unsigned char)rva00052F1E(event);
-            if (m_audioSettings->m_atB8 > volume && !audible) {
+            if (m_audioSettings->m_minSampleVolume > volume && !audible) {
                 if (event->hasMoreLoops())
                     rva0005AA72(playing);
                 AIL_register_3D_EOS_callback(sample3D, 0);
@@ -6789,7 +6789,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
                 audio->m_status = 1;
         }
         bool fading = processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_timeToFadeAudio && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
                 rva0005AA72(playing);

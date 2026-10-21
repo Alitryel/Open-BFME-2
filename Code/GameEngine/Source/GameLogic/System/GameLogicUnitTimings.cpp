@@ -112,7 +112,7 @@ public:
 	unsigned char m_pad488[0x4E0 - 0x488];
 	float m_treeScale;               // +0x4E0
 	unsigned char m_pad4E4[0x5F4 - 0x4E4];
-	unsigned char m_5F4;             // +0x5F4
+	unsigned char m_editorSorting;             // +0x5F4
 };
 
 class Thing
@@ -630,7 +630,7 @@ void Rva002431CB::rva002431CB()
 				continue;
 			if (btt->getName().compare("FlockOfBirds") == 0)
 				continue;
-			if (btt->m_5F4 == 0xD)
+			if (btt->m_editorSorting == 0xD)
 				continue;
 			if (((const unsigned char *)btt)[0x120] & 1)
 				continue;

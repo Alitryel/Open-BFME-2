@@ -47,7 +47,7 @@ bool Rva002CAAFA::rva002CAAFA(Object *victim,Coord3D *out)
 // victim==0 -> out (0,0,0); else the logical-bone helper fills pos; else the
 // flagged path asks the victim for its worldspace best contact point with a
 // GetGameLogicRandomValue jitter, and the plain path copies the victim's
-// position and clamps a +0xA8 float offset by GlobalData::m_11C4 when the
+// position and clamps a +0xA8 float offset by GlobalData::m_clampedLOSHeightForCastleStructures when the
 // victim template is structure-kind, the source template lacks kind byte
 // +0x109 bit 8 and neither object carries status 0x55.
 struct ThingKindBytes
@@ -68,7 +68,7 @@ class GlobalData
 {
 public:
 	char m_pad00[0x11C4];
-	float m_11C4;
+	float m_clampedLOSHeightForCastleStructures;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -116,8 +116,8 @@ TargetCoord WeaponTemplate::adjustTargetPositionOnVictim(Object *source, Object 
 			!source->testStatus((ObjectStatusTypes)0x55) &&
 			victim->testStatus((ObjectStatusTypes)0x55))
 		{
-			if (offset > TheWritableGlobalData->m_11C4)
-				pos.z = TheWritableGlobalData->m_11C4 + pos.z;
+			if (offset > TheWritableGlobalData->m_clampedLOSHeightForCastleStructures)
+				pos.z = TheWritableGlobalData->m_clampedLOSHeightForCastleStructures + pos.z;
 			else
 				pos.z = pos.z + offset;
 		}

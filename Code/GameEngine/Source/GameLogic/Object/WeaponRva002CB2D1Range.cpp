@@ -98,7 +98,7 @@ class WeaponTemplate
 public:
 	float getMinimumAttackRange() const;
 	char m_pad000[0x125];
-	bool m_125;							// +0x125: melee
+	bool m_meleeWeapon;							// +0x125: melee
 };
 
 class Rva002C9B80Owner
@@ -157,7 +157,7 @@ bool Weapon::isSourceObjectWithGoalPositionWithinAttackRange(const Object *sourc
 bool Weapon::isWithinAttackRange(Object *source, const Coord3D *pos,
 	Object *victim, const Coord3D *victimPos, float bonus, bool checkMinimum)
 {
-	if (m_04->m_125)
+	if (m_04->m_meleeWeapon)
 	{
 		if (!victim)
 			return false;

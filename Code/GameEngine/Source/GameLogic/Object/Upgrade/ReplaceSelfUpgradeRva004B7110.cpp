@@ -120,7 +120,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0xA70];
-	Real m_a70;					// +0xA70
+	Real m_allowedHeightVariationForBuilding;					// +0xA70
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -335,7 +335,7 @@ Bool ReplaceSelfUpgrade::rva004CE2B0(Rva00406F9C *mask)
 			{
 				Rva0087E900Shape *shape = (Rva0087E900Shape *)geom.getShape(k);
 				shape->rva006BE220((const Rva0087E900Coord *)&cur, angle, (Rva0087E900Coord *)&step);
-				if (fabs(TheTerrainLogic->getGroundHeight(step.x, step.y, 0) - height) > TheWritableGlobalData->m_a70)
+				if (fabs(TheTerrainLogic->getGroundHeight(step.x, step.y, 0) - height) > TheWritableGlobalData->m_allowedHeightVariationForBuilding)
 					return false;
 			}
 		}

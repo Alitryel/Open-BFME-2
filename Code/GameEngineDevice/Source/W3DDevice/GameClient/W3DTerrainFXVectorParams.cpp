@@ -247,7 +247,7 @@ class GlobalData
 {
 public:
 	char m_pad000[0xC6A];
-	bool m_C6A;
+	bool m_taintOn;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -301,7 +301,7 @@ void Rva000E249DObjectShroudStatus(ID3DXEffect *effect, D3DXHANDLE handle)
 void Rva000E26CFIsEnabled(ID3DXEffect *effect, D3DXHANDLE handle)
 {
 	if (TheWritableGlobalData)
-		effect->SetBool(handle, TheWritableGlobalData->m_C6A);
+		effect->SetBool(handle, TheWritableGlobalData->m_taintOn);
 	else
 		effect->SetBool(handle, 0);
 }

@@ -120,7 +120,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad00[0x62];
-	bool m_62; // +0x62
+	bool m_useShadowMapping; // +0x62
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -137,7 +137,7 @@ private:
 // Retail 0x0007C18E, 206 bytes.
 void Rva0007DA23ResourceManager::rva0007C18E()
 {
-	if (TheWritableGlobalData->m_62)
+	if (TheWritableGlobalData->m_useShadowMapping)
 	{
 		Rva0007671F projection;
 		m_camera->rva00134A80(&projection);

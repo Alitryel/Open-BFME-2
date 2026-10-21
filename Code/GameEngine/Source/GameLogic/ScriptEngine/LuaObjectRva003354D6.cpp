@@ -53,7 +53,7 @@ class UpgradeTemplate
 {
 public:
 	int m_00;
-	int m_04;
+	int m_type;
 };
 
 class UpgradeCenter
@@ -90,7 +90,7 @@ int LuaScriptEngine::ObjectModifyUpgrade(lua_State *L, bool b)
 	}
 	if (tpl == 0)
 		return 0;
-	if (tpl->m_04 == 0) {
+	if (tpl->m_type == 0) {
 		Player *player = obj->getControllingPlayer();
 		if (b != 0) {
 			player->rva002AE329(tpl, (UpgradeStatusType)2, 0);

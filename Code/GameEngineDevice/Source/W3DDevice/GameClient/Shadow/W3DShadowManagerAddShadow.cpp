@@ -73,7 +73,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad00[0x60];
-	bool m_60; // +0x60
+	bool m_useShadowVolumes; // +0x60
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -92,7 +92,7 @@ Shadow *W3DShadowManager::addShadow(RenderObjClass *robj, Shadow::ShadowTypeInfo
 	Shadow::ShadowTypeInfo localInfo;
 	if (shadowInfo && (type == 0x4000 || type == 0x8000))
 	{
-		if (TheWritableGlobalData->m_60)
+		if (TheWritableGlobalData->m_useShadowVolumes)
 		{
 			if (type == 0x4000)
 				type = 2;

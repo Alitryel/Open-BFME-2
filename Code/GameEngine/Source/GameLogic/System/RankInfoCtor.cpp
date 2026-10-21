@@ -70,13 +70,13 @@ public:
 private:
 	StringBase<wchar_t> m_rankName; // +0x10, null
 	Int m_skillPointsNeeded; // +0x14, 0
-	Int m_bfme18; // +0x18, -1
-	Int m_bfme1C; // +0x1C, -1
-	Int m_bfme20; // +0x20, -1
-	Int m_bfme24; // +0x24, -1
-	Int m_bfme28; // +0x28, -1
-	Int m_bfme2C; // +0x2C, -1
-	Int m_bfme30; // +0x30, -1
+	Int m_skillPointsNeededCampaign; // +0x18, -1
+	Int m_skillPointsNeededMen; // +0x1C, -1
+	Int m_skillPointsNeededElves; // +0x20, -1
+	Int m_skillPointsNeededDwarves; // +0x24, -1
+	Int m_skillPointsNeededIsengard; // +0x28, -1
+	Int m_skillPointsNeededMordor; // +0x2C, -1
+	Int m_skillPointsNeededWild; // +0x30, -1
 	Int m_sciencePurchasePointsGranted; // +0x34, 0
 	_STL::vector<Int> m_sciencesGranted; // +0x38
 };
@@ -85,13 +85,13 @@ private:
 RankInfo::RankInfo()
 {
 	m_skillPointsNeeded = 0;
-	m_bfme18 = -1;
-	m_bfme1C = -1;
-	m_bfme20 = -1;
-	m_bfme24 = -1;
-	m_bfme28 = -1;
-	m_bfme2C = -1;
-	m_bfme30 = -1;
+	m_skillPointsNeededCampaign = -1;
+	m_skillPointsNeededMen = -1;
+	m_skillPointsNeededElves = -1;
+	m_skillPointsNeededDwarves = -1;
+	m_skillPointsNeededIsengard = -1;
+	m_skillPointsNeededMordor = -1;
+	m_skillPointsNeededWild = -1;
 	m_sciencePurchasePointsGranted = 0;
 }
 
@@ -101,13 +101,13 @@ RankInfo &RankInfo::operator=(const RankInfo &that)
 	Overridable::operator=(that);
 	m_rankName.set(that.m_rankName);
 	m_skillPointsNeeded = that.m_skillPointsNeeded;
-	m_bfme18 = that.m_bfme18;
-	m_bfme1C = that.m_bfme1C;
-	m_bfme20 = that.m_bfme20;
-	m_bfme24 = that.m_bfme24;
-	m_bfme28 = that.m_bfme28;
-	m_bfme2C = that.m_bfme2C;
-	m_bfme30 = that.m_bfme30;
+	m_skillPointsNeededCampaign = that.m_skillPointsNeededCampaign;
+	m_skillPointsNeededMen = that.m_skillPointsNeededMen;
+	m_skillPointsNeededElves = that.m_skillPointsNeededElves;
+	m_skillPointsNeededDwarves = that.m_skillPointsNeededDwarves;
+	m_skillPointsNeededIsengard = that.m_skillPointsNeededIsengard;
+	m_skillPointsNeededMordor = that.m_skillPointsNeededMordor;
+	m_skillPointsNeededWild = that.m_skillPointsNeededWild;
 	m_sciencePurchasePointsGranted = that.m_sciencePurchasePointsGranted;
 	m_sciencesGranted = that.m_sciencesGranted;
 	return *this;

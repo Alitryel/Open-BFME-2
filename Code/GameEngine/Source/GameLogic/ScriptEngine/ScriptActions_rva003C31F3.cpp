@@ -12,7 +12,7 @@ class CommandButton
 {
 public:
 	char m_pad[0x10c];
-	unsigned char m_10c;
+	unsigned char m_autoAbility;
 };
 class ControlBar
 {
@@ -70,7 +70,7 @@ void ScriptActions::Rva003C31F3Do(const AsciiString &unitName, const AsciiString
 	const CommandButton *button = TheControlBar->findCommandButton(buttonName);
 	if (button == 0)
 		return;
-	if (button->m_10c == 0)
+	if (button->m_autoAbility == 0)
 		return;
 	void *cmdSet = ((Rva0031D5F8 *)((BfmeWorldRV *)TheControlBar))->rva0031D5F8(obj->rva00290E67());
 	if (cmdSet == 0)
