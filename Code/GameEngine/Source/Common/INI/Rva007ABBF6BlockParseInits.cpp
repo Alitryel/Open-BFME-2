@@ -33,7 +33,7 @@ void parseMusicTrackDefinition(INI *);
 void parseAudioEventDefinition(INI *);
 void parseDialogDefinition(INI *);
 void parseAmbientStreamDefinition(INI *);
-void Rva001DAAA8Parse(INI *);
+void parseStreamedSoundDefinition(INI *);
 void parseAerialPathfindNoFlyZoneDefinition(INI *);
 void Rva00202BB2Parse(INI *);
 void parseScriptAction(INI *);
@@ -318,7 +318,7 @@ BlockParse theMusicTrackBlockParse = { 0, "MusicTrack", parseMusicTrackDefinitio
 BlockParse theAudioEventBlockParse = { 0, "AudioEvent", parseAudioEventDefinition };	// VA 0x00DB8B14 "AudioEvent", parse 0x001DA9CA
 BlockParse theDialogEventBlockParse = { 0, "DialogEvent", parseDialogDefinition };	// VA 0x00DB8B20 "DialogEvent", parse 0x001DAA14
 BlockParse theAmbientStreamBlockParse = { 0, "AmbientStream", parseAmbientStreamDefinition };	// VA 0x00DB8B2C "AmbientStream", parse 0x001DAA5E
-BlockParse theStreamedSoundBlockParse = { 0, "StreamedSound", Rva001DAAA8Parse };	// VA 0x00DB8B38 "StreamedSound", parse 0x001DAAA8
+BlockParse theStreamedSoundBlockParse = { 0, "StreamedSound", parseStreamedSoundDefinition };	// VA 0x00DB8B38 "StreamedSound", parse 0x001DAAA8
 BlockParse theMultisoundBlockParse = { 0, "Multisound", AudioEventInfo::parseMultisoundDefinition };	// VA 0x00DB8B44 "Multisound", parse 0x001DA4DE
 BlockParse theBridgeBlockParse = { 0, "Bridge", INI::parseTerrainBridgeDefinition };	// VA 0x00DB8B8C "Bridge", parse 0x001DAEB8
 BlockParse theCommandButtonBlockParse = { 0, "CommandButton", ControlBar::parseCommandButtonDefinition };	// VA 0x00DB8BBC "CommandButton", parse 0x001DAF81

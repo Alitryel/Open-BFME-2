@@ -45,8 +45,8 @@ void __cdecl parseAmbientStreamDefinition(INI *ini)
 	helper001DA770(ini, 3, &def, "AmbientStream");
 }
 
-// ?Rva001DAAA8Parse@@YAXPAVINI@@@Z
-void __cdecl Rva001DAAA8Parse(INI *ini)
+// ?parseStreamedSoundDefinition@@YAXPAVINI@@@Z
+void __cdecl parseStreamedSoundDefinition(INI *ini)
 {
 	AsciiString def("DefaultStreamedSound");
 	helper001DA770(ini, 4, &def, "StreamedSound");
