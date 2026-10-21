@@ -12,6 +12,7 @@
 // as an inline noinline copy; PathNode with class-scoped pooled new/delete.
 // provides portal20, optimized-link8, options0/1/4/8, and all call addresses.
 #define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_INLINE_ONLY
 #define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
 #include <math.h>

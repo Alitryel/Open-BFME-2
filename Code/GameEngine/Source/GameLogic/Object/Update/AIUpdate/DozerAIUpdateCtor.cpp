@@ -179,6 +179,7 @@ template<> __declspec(dllimport) inline bool StringBase<unsigned short>::isEmpty
 
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_INLINE_ONLY
 #include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 typedef bool Bool;
