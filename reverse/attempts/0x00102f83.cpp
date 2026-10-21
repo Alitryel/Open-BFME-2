@@ -1,4 +1,9 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.95707 date=2026-10-22
+// Diagnostic WorldBuilder-faithful six-edit baseline, 2026-10-21.
+// Derived from reverse/attempts/0x00102f83.cpp; see wb-faithful-evidence.json.
+// Earlier bank scores below describe the input, not this candidate.
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.91326 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.91179 date=2026-10-21
@@ -191,6 +196,7 @@ class Vector4 {
 public:
     float X,Y,Z,W;
     Vector4() {}
+    __forceinline Vector4 &operator=(const Vector4 &v) {X=v.X;Y=v.Y;Z=v.Z;W=v.W;return *this;}
     __forceinline void Set(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
     float &operator[](int i) {return (&X)[i];}
     const float &operator[](int i)const {return (&X)[i];}
@@ -220,19 +226,7 @@ public:
             0.0f);
     }
     __forceinline Matrix3D &operator=(const Matrix3D &m) {
-        Row[0][0]=m.Row[0][0];
-        Row[0][1]=m.Row[0][1];
-        Row[0][2]=m.Row[0][2];
-        Row[0][3]=m.Row[0][3];
-        Row[1][0]=m.Row[1][0];
-        Row[1][1]=m.Row[1][1];
-        Row[1][2]=m.Row[1][2];
-        Row[1][3]=m.Row[1][3];
-        Row[2][0]=m.Row[2][0];
-        Row[2][1]=m.Row[2][1];
-        Row[2][2]=m.Row[2][2];
-        Row[2][3]=m.Row[2][3];
-        return *this;
+        Row[0]=m.Row[0];Row[1]=m.Row[1];Row[2]=m.Row[2];return *this;
     }
     __forceinline void Make_Identity() {
         Row[0][0]=1; Row[0][1]=0; Row[0][2]=0; Row[0][3]=0;
@@ -244,6 +238,12 @@ public:
         float x=Row[0][0]*v.X+Row[0][1]*v.Y+Row[0][2]*v.Z+Row[0][3];
         float y=Row[1][0]*v.X+Row[1][1]*v.Y+Row[1][2]*v.Z+Row[1][3];
         float z=Row[2][0]*v.X+Row[2][1]*v.Y+Row[2][2]*v.Z+Row[2][3];
+        v.Set(x,y,z);
+    }
+    __forceinline void mulCameraAngleVector(Vector3 &v) const {
+        float x=Row[0][0]*v.X+Row[0][1]*v.Y+Row[0][2]*v.Z+Row[0][3];
+        float y=(Row[1][0]*v.X+Row[1][1]*v.Y)+Row[1][2]*v.Z+Row[1][3];
+        float z=(Row[2][0]*v.X+Row[2][1]*v.Y)+Row[2][2]*v.Z+Row[2][3];
         v.Set(x,y,z);
     }
     __forceinline void Rotate_X(float theta) {
@@ -276,6 +276,22 @@ public:
 	Row[2][0] = (float)(c*tmp1 - s*tmp2);
 	Row[2][2] = (float)(s*tmp1 + c*tmp2);
     }
+    __forceinline void Rotate_Y(float s,float c)
+{
+	float tmp1,tmp2;
+
+	tmp1 = Row[0][0]; tmp2 = Row[0][2];
+	Row[0][0] = (float)(c*tmp1 - s*tmp2);
+	Row[0][2] = (float)(s*tmp1 + c*tmp2);
+
+	tmp1 = Row[1][0]; tmp2 = Row[1][2];
+	Row[1][0] = (float)(c*tmp1 - s*tmp2);
+	Row[1][2] = (float)(s*tmp1 + c*tmp2);
+
+	tmp1 = Row[2][0]; tmp2 = Row[2][2];
+	Row[2][0] = (float)(c*tmp1 - s*tmp2);
+	Row[2][2] = (float)(s*tmp1 + c*tmp2);
+}
     __forceinline void Rotate_Z(float theta) {
 	float tmp1,tmp2;
 	float c,s;
@@ -474,6 +490,10 @@ void W3DCamTransform::transitionLiveMode(Vector3 *pos, Vector3 *target, View *vi
 // Identity: enclosing W3DCamTransform and reference camera algorithm;
 // original entry-point/descriptor names are not independently established.
 // r55: the else arm through a division helper keeps the two pitch arms apart (no tail merge)
+static __forceinline void translateCameraPair(Vector3 &s,Vector3 &t,float x,float y) {s.X+=x;s.Y+=y;t.X+=x;t.Y+=y;}
+static __forceinline Vector3 pitchCamera(Vector3 s,const Vector3 &t,float p) {s.X=(s.X-t.X)/p+t.X;s.Y=(s.Y-t.Y)/p+t.Y;return s;}
+struct CameraTransformInput;static __forceinline Vector3 translated(Vector3 p,const CameraTransformInput *v);
+static __forceinline Vector3 translated(Vector3 p,const CameraTransformInput *v) {p.X+=v->pos.x;p.Y+=v->pos.y;return p;}
 static __forceinline void addXY(Vector3 &p,const Coord3D &c){p.X+=c.x;p.Y+=c.y;}
 static __forceinline void adjustPitch(Vector3 &s,const Vector3 &t,float p){s.X=t.X+(s.X-t.X)/p;s.Y=t.Y+(s.Y-t.Y)/p;}
 __forceinline float cameraMin(float a,float b) {return a<b?a:b;}
@@ -526,24 +546,21 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     // construct a matrix to rotate around the horizontal vector by the given angle
     Matrix3D pitchTransform(Vector3(1,0,0),v->pitch);
     // rotate camera position (pitch, then angle)
-    pitchTransform.mulVector3(sourcePos); angleTransform.mulVector3(sourcePos);
-    sourcePos.X*=factor;sourcePos.Y*=factor;sourcePos.Z*=factor;
+    pitchTransform.mulVector3(sourcePos); angleTransform.mulCameraAngleVector(sourcePos);
+    sourcePos *= factor;
     // translate to current XY position
-    addXY(sourcePos,v->pos);
-    addXY(targetPos,v->pos);
+    sourcePos=translated(sourcePos,v);targetPos=translated(targetPos,v);
     Object *object=v->liveCamera?TheGameLogic->findObjectByID(v->lock):0;
-    float targetHeight;
     if(v->liveCamera && (!object || (object->cameraKindFlags()&0x10))) {
         Matrix3D angleTransform2(Vector3(0,0,1),v->angle);
         Matrix3D pitchTransform2(Vector3(1,0,0),v->pitch);
-        pitchTransform2.mulVector3(sourcePos);angleTransform2.mulVector3(sourcePos);
-        targetPos.X+=v->pos.x;targetPos.Y+=v->pos.y;targetHeight=v->pos.z+v->targetZAdjustment;
-        sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;sourcePos.Z+=v->pos.z;
+        pitchTransform2.mulVector3(sourcePos);angleTransform2.mulCameraAngleVector(sourcePos);
+        sourcePos=translated(sourcePos,v);targetPos=translated(targetPos,v);
+        sourcePos.Z+=v->pos.z;targetPos.Z+=v->pos.z+v->targetZAdjustment;
     } else {
         sourcePos.Z+=v->groundLevel;
-        targetHeight=v->groundLevel+v->targetZAdjustment;
+        targetPos.Z+=v->groundLevel+v->targetZAdjustment;
     }
-    targetPos.Z+=targetHeight;
     // The following code moves camera down and pitch up when player zooms in.
     // Use scripts to switch to useRealZoomCam
     if(v->realZoom) {
@@ -556,24 +573,22 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
             pitchAdjust=capped; // adjust camera to pitch up
         }
         v->fxPitch=1.0f*(0.25f+pitchAdjust*0.75f);
-    }
-    if(v->realZoom) {
-        sourcePos.X=(sourcePos.X-targetPos.X)/v->fxPitch+targetPos.X;
-        sourcePos.Y=(sourcePos.Y-targetPos.Y)/v->fxPitch+targetPos.Y;
+        sourcePos=pitchCamera(sourcePos,targetPos,v->fxPitch);
     } else if(v->fxPitch <= 1.0f || v->liveCamera) {
         if(v->liveCamera) {
         if(m_cameraFlag)m_cameraFlag=false;
         m_cameraSource=sourcePos;
-        float dx=targetPos.X-sourcePos.X,dy=targetPos.Y-sourcePos.Y;
-        float distance=WWMath::Sqrt(dx*dx+dy*dy);
+        Vector3 p1=targetPos; p1.Z=0;
+        Vector3 p2=sourcePos; p2.Z=0;
+        float distance=Vector3::Distance(p1,p2);
         float height=tan(v->fxPitch)*distance;
         targetPos.Z=sourcePos.Z-height;
         } else {
             float height=sourcePos.Z-targetPos.Z; height*=v->fxPitch;targetPos.Z=sourcePos.Z-height;
         }
     } else {
-        sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)/v->fxPitch;
-        sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)/v->fxPitch;
+        sourcePos.X=(sourcePos.X-targetPos.X)/v->fxPitch+targetPos.X;
+        sourcePos.Y=(sourcePos.Y-targetPos.Y)/v->fxPitch+targetPos.Y;
     }
     if(v->positionHold) {
         Vector3 delta=v->source-sourcePos;
@@ -585,7 +600,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     v->source=sourcePos;v->target=targetPos;
     Vector3 delta=v->source;
     delta-=v->target;
-    v->distance=delta.Length();
+    v->distance=WWMath::Sqrt(((delta.X*delta.X) + delta.Z*delta.Z) + delta.Y*delta.Y);
     if(!v->special) transitionLiveMode(&sourcePos,&targetPos,(View*)v);
     if(v->explicitTarget.lengthSqr()>0)targetPos.Set(v->explicitTarget.x,v->explicitTarget.y,v->explicitTarget.z);
     // build new camera transform
@@ -620,7 +635,11 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
             } else v->slaved=false;
         } else v->slaved=false;
     }
-    v->transform->Rotate_Y(v->finalRotation);
+    float finalAngle=v->finalRotation;
+    Matrix3D *finalTransform=v->transform;
+    float finalSin=sinf(finalAngle);
+    float finalCos=cosf(finalAngle);
+    finalTransform->Rotate_Y(finalSin,finalCos);
     if(v->special&&v->nearAdjust) {
         sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)/(90.0f+v->fxPitch);
         sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)/(90.0f+v->fxPitch);
@@ -629,5 +648,5 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     }
 }
 
-// Target-height join follows native +0x7B5..+0x7EF; evidence: reverse/attempt_support/camera-transform-00102f83-20261019.md.
+// Target Z updates are kept inside their WB-proven live/non-live arms.
 // Alignment and remaining compiler-shape differences are recorded with the handoff.
