@@ -17,7 +17,7 @@ struct InterestZoneVector
 	void **m_end;
 };
 
-struct Elem002C5AE6
+struct InterestZone
 {
 	char _pad[0x18];
 	float m_18;
@@ -68,7 +68,7 @@ float Rva002C589B::getEnemyThreat()
 	void **it = interestZones->m_start;
 	void **end = interestZones->m_end;
 	while (it != end) {
-		Elem002C5AE6 *zone = *(Elem002C5AE6 **)it;
+		InterestZone *zone = *(InterestZone **)it;
 		if (zone->m_18 > vmax)
 			vmax = zone->m_18;
 		it++;
