@@ -90,9 +90,9 @@ static void __cdecl embedPristineMap(AsciiString path, Xfer *xfer)
 	File *f = TheFileSystem->openFile(name, 0x41, 0);
 	if (!f)
 	{
-		BfmeFormattedText tmp;
-		bfmeFormatText(&tmp, 5, (const char *)0);
-		_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
+		BfmeFormattedText exceptionText;
+		bfmeFormatText(&exceptionText, 5, (const char *)0);
+		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
 	unsigned int size = f->seek(0, 2);
@@ -100,18 +100,18 @@ static void __cdecl embedPristineMap(AsciiString path, Xfer *xfer)
 	char *buf = new char[size];
 	if (!buf)
 	{
-		BfmeFormattedText tmp;
-		bfmeFormatText(&tmp, 5, (const char *)0);
-		_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
+		BfmeFormattedText exceptionText;
+		bfmeFormatText(&exceptionText, 5, (const char *)0);
+		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
 	int got = f->read(buf, size);
 	if (got != size)
 	{
 		delete[] buf;
-		BfmeFormattedText tmp;
-		bfmeFormatText(&tmp, 5, (const char *)0);
-		_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
+		BfmeFormattedText exceptionText;
+		bfmeFormatText(&exceptionText, 5, (const char *)0);
+		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
 	f->close();
@@ -149,9 +149,9 @@ static void __cdecl embedInUseMap(AsciiString path, Xfer *xfer)
 	File *f = TheFileSystem->openFile(name, 0x41, 0);
 	if (!f)
 	{
-		BfmeFormattedText tmp;
-		bfmeFormatText(&tmp, 5, (const char *)0);
-		_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
+		BfmeFormattedText exceptionText;
+		bfmeFormatText(&exceptionText, 5, (const char *)0);
+		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
 	unsigned int size = f->seek(0, 2);
@@ -159,18 +159,18 @@ static void __cdecl embedInUseMap(AsciiString path, Xfer *xfer)
 	char *buf = new char[size];
 	if (!buf)
 	{
-		BfmeFormattedText tmp;
-		bfmeFormatText(&tmp, 5, (const char *)0);
-		_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
+		BfmeFormattedText exceptionText;
+		bfmeFormatText(&exceptionText, 5, (const char *)0);
+		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
 	int got = f->read(buf, size);
 	if (got != size)
 	{
 		delete[] buf;
-		BfmeFormattedText tmp;
-		bfmeFormatText(&tmp, 5, (const char *)0);
-		_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
+		BfmeFormattedText exceptionText;
+		bfmeFormatText(&exceptionText, 5, (const char *)0);
+		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
 	f->close();
@@ -196,18 +196,18 @@ static void __cdecl extractAndSaveMap(AsciiString path, Xfer *xfer)
  char *t=*(char **)(void *)&path;
  const char *name=t?t+8:"";
  File *f=TheFileSystem->openFile(name,0x4a,0);
- if(!f){BfmeFormattedText tmp;bfmeFormatText(&tmp,5,(const char*)0);
- _CxxThrowException(&tmp,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
+ if(!f){BfmeFormattedText exceptionText;bfmeFormatText(&exceptionText,5,(const char*)0);
+ _CxxThrowException(&exceptionText,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
  xfer->beginBlock("EmbeddedMap");
  unsigned int size;
  xfer->xferUnsignedInt(&size);
  char *buf=new char[size];
- if(!buf){BfmeFormattedText tmp;bfmeFormatText(&tmp,5,(const char*)0);
- _CxxThrowException(&tmp,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
+ if(!buf){BfmeFormattedText exceptionText;bfmeFormatText(&exceptionText,5,(const char*)0);
+ _CxxThrowException(&exceptionText,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
  xfer->xferUser(buf,size);
  int got=f->write(buf,size);
- if(got!=size){delete[]buf;BfmeFormattedText tmp;bfmeFormatText(&tmp,5,(const char*)0);
- _CxxThrowException(&tmp,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
+ if(got!=size){delete[]buf;BfmeFormattedText exceptionText;bfmeFormatText(&exceptionText,5,(const char*)0);
+ _CxxThrowException(&exceptionText,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
  f->close();xfer->endBlock();delete[]buf;
 }
 // ?Rva0041AEF8Caller@@YAXVAsciiString@@PAVXfer@@@Z present-unmatched
@@ -280,23 +280,23 @@ void GameStateMap::DoXfer(Xfer*xfer) {
  if(xfer->isStoring()) {
   if((TheLivingWorldLogic && ((BfmeSelectionState*)TheLivingWorldLogic)->isSelectionLocked()) ||
      (TheLinearCampaignManager && ((Rva001EB0B9*)TheLinearCampaignManager)->rva001EB0B9())) {
-   transferMap=false;AsciiString tmp;xfer->xferAsciiString(&tmp);
+   transferMap=false;AsciiString exceptionText;xfer->xferAsciiString(&exceptionText);
   } else {
    AsciiString mapLeafName=TheGameState->getMapLeafName(TheWritableGlobalData->m_mapName);
    saveGameInfo->saveGameMapName=AsciiString(((Rva002DC74A*)TheGameState)->rva002DC74A(UnicodeString(mapLeafName)));
-   {AsciiString tmp=TheGameState->realMapPathToPortableMapPath(saveGameInfo->saveGameMapName);xfer->xferAsciiString(&tmp);}
+   {AsciiString exceptionText=TheGameState->realMapPathToPortableMapPath(saveGameInfo->saveGameMapName);xfer->xferAsciiString(&exceptionText);}
    if(!((Rva002DC7C1*)TheGameState)->rva002DC7C1(UnicodeString(TheWritableGlobalData->m_mapName))) {
     saveGameInfo->pristineMapName=TheWritableGlobalData->m_mapName;firstSave=true;
    }
-   {AsciiString tmp=TheGameState->realMapPathToPortableMapPath(saveGameInfo->pristineMapName);xfer->xferAsciiString(&tmp);}
+   {AsciiString exceptionText=TheGameState->realMapPathToPortableMapPath(saveGameInfo->pristineMapName);xfer->xferAsciiString(&exceptionText);}
   }
   int gameMode=TheGameLogic->m_110;xfer->xferInt(&gameMode);
   int gameMode2=TheGameLogic->m_114;xfer->xferInt(&gameMode2);
  } else {
-  AsciiString tmp;xfer->xferAsciiString(&tmp);
-  if(tmp.isEmpty()) {transferMap=false;TheWritableGlobalData->m_mapName="NOMAP";}
+  AsciiString exceptionText;xfer->xferAsciiString(&exceptionText);
+  if(exceptionText.isEmpty()) {transferMap=false;TheWritableGlobalData->m_mapName="NOMAP";}
   else {
-   saveGameInfo->saveGameMapName=TheGameState->portableMapPathToRealMapPath(tmp);
+   saveGameInfo->saveGameMapName=TheGameState->portableMapPathToRealMapPath(exceptionText);
    if(!((Rva002DC7C1*)TheGameState)->rva002DC7C1(UnicodeString(saveGameInfo->saveGameMapName))) {
     BfmeFormattedText err;bfmeFormatText(&err,5,(const char*)0);
     _CxxThrowException(&err,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);
