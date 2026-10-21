@@ -604,7 +604,7 @@ static __declspec(noinline) void parseBoneNameKey(INI *ini, void *instance, void
  else *key = TheNameKeyGenerator->nameToKey(((const StringBase<char> *)&tmp)->str());
 }
 struct BfmePod24 { int a[6]; };
-// Row in stlport_pod_vector_bodies.cpp; Rva000C2C5FParseBoneRecord calls it out of line.
+// Row in stlport_vector_pod24_overflow.cpp; Rva000C2C5FParseBoneRecord calls it out of line.
 namespace _STL { template <> void vector<BfmePod24, allocator<BfmePod24> >::push_back(const BfmePod24 &); }
 struct Rva000C2C5FRecord {
  int key, at04; float at08, at0C; int at10, at14;

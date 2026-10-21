@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_CRTIMP= /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // ?initOffsets@AODHordeContain@@QAEXPAX@Z, retail 0x0047B690, 757 bytes.
@@ -24,15 +24,24 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmePod24 { int a[6]; };
 struct Rva0047B35EElement { int opaque[6]; };
 
-struct AODOffset2D
+class Rva00468E98Point
 {
-	AODOffset2D() {}
-	AODOffset2D(float px, float py) : x(px), y(py) {}
-	AODOffset2D(const AODOffset2D &other) : x(other.x), y(other.y) {}
-	~AODOffset2D() {}
+public:
+	Rva00468E98Point() {}
+	Rva00468E98Point(float px, float py) : x(px), y(py) {}
+	Rva00468E98Point(const Rva00468E98Point &other) : x(other.x), y(other.y) {}
+	~Rva00468E98Point() {}
 	float x;
 	float y;
 };
+namespace _STL {
+template <> void vector<Rva0047B35EElement>::reserve(unsigned int);
+}
+
+// The newly recovered owners preserve this receiver and stack-argument ABI.
+class Rva00474431 { public: void rva00474519(int); };
+class Rva00468E98 { public: Rva00468E98Point rotate(Rva00468E98Point); };
+
 struct Float3
 {
 	Float3() {}
@@ -84,8 +93,6 @@ class AODHordeContain
 {
 public:
 	void initOffsets(void *arg);
-	void rva00474519(void *arg);
-	AODOffset2D *rva00468E98(AODOffset2D *out, AODOffset2D offset);
 	void rva0047A729(const Float3 *position);
 
 private:
@@ -105,7 +112,7 @@ void AODHordeContain::initOffsets(void *arg)
 {
 	Object *object = m_object;
 	const AODModuleDataView *data = m_moduleData;
-	rva00474519(arg);
+	((Rva00474431 *)this)->rva00474519((int)arg);
 	int count = m_records.size();
 	m_jitter.reserve(count);
 	for (int i = 0; i < count; ++i)
@@ -142,9 +149,8 @@ void AODHordeContain::initOffsets(void *arg)
 		m_rows[m_numRows].m_key = key;
 		if (m_numRows == 0)
 			first = key;
-		AODOffset2D rotated;
-		AODOffset2D offset(key - first, 0.0f);
-		rva00468E98(&rotated, offset);
+		Rva00468E98Point offset(key - first, 0.0f);
+		Rva00468E98Point rotated = ((Rva00468E98 *)this)->rotate(offset);
 		m_rows[m_numRows].m_valid = true;
 		Float3 position(object->m_position);
 		position.x += rotated.x;

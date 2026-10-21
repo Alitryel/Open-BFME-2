@@ -67,6 +67,12 @@ struct BfmePod44;
 namespace _STL { template <> void vector<BfmePod44, allocator<BfmePod44> >::_M_insert_overflow(BfmePod44 *, const BfmePod44 &, const __false_type &, size_t, bool); }
 struct BfmePod20 { int a[5]; };
 struct BfmePod24 { int a[6]; };
+// Keep the no-EH 24-byte helpers in their existing retail owners.
+namespace _STL {
+template <> void vector<BfmePod24>::push_back(const BfmePod24 &);
+template <> void vector<BfmePod24>::_M_insert_overflow(BfmePod24 *, const BfmePod24 &, const __false_type &, unsigned int, bool);
+template <> template <> BfmePod24 *vector<BfmePod24>::_M_allocate_and_copy<const BfmePod24 *>(unsigned int, const BfmePod24 *, const BfmePod24 *);
+}
 // The dedicated no-EH provider owns this type's allocation/copy helper.
 // Assignment is unrowed here; leave it uninstantiated in this EH profile.
 namespace _STL { template <> vector<BfmePod24, allocator<BfmePod24> > &
