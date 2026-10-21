@@ -333,16 +333,16 @@ struct Rva00479CD9Pos
 class Rva00479CD9Iface
 {
 public:
-	virtual bool rva00479CD9(Rva00479CD9Pos *out, int unused);
+	virtual bool getNaturalRallyPoint(Rva00479CD9Pos *out, int unused);
 };
 
 class Rva00479CD9 : public Rva00479CD9Base0, public Rva00479CD9Iface
 {
 public:
-	virtual bool rva00479CD9(Rva00479CD9Pos *out, int unused);
+	virtual bool getNaturalRallyPoint(Rva00479CD9Pos *out, int unused);
 };
 
-bool Rva00479CD9::rva00479CD9(Rva00479CD9Pos *out, int)
+bool Rva00479CD9::getNaturalRallyPoint(Rva00479CD9Pos *out, int)
 {
 	*out = *(const Rva00479CD9Pos *)s88();
 	return true;

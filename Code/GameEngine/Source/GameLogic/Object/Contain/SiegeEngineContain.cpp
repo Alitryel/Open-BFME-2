@@ -132,14 +132,14 @@ struct Rva0047BEF8Node
 class __declspec(novtable) Rva0047BEF8
 {
 public:
-	virtual void rva0047BEF8(Object *rider, bool wasSelected);
+	virtual void onContaining(Object *rider, bool wasSelected);
 
 private:
 	unsigned char m_pad04[0xFC - 4];
 	Rva0047BEF8Node *m_headFC;
 };
 
-void Rva0047BEF8::rva0047BEF8(Object *rider, bool wasSelected)
+void Rva0047BEF8::onContaining(Object *rider, bool wasSelected)
 {
 	Rva0047BEF8Node *current = m_headFC;
 	if (current != current->m_next) {

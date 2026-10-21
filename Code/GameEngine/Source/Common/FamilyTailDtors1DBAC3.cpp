@@ -9,7 +9,7 @@
 // vslot 0x0035DD08 (?update@MainMenuMediumScaleUpTransition@@UAEXH@Z, 148B, slot 2 offset 0x8
 // of vtable 0x00816574): range-select hide via rowed winHide 0x00313C64;
 // sets +0x28 to -1 then to index in middle range. Evidence: vtable 0x00816574.
-// vslot 0x0035E0F7 (?Rva0035E0F7@Rva0035E00F@@UAEXH@Z, 142B, slot 2 offset 0x8
+// vslot 0x0035E0F7 (?update@Rva0035E00F@@UAEXH@Z, 142B, slot 2 offset 0x8
 // of vtable 0x00816594): same range-select shape with second window at +0x4C
 // (not +0x44); first equality branch hides only m_44. Evidence: vtable
 // 0x00816594 slot 2 plus rowed winHide 0x00313C64.
@@ -134,7 +134,7 @@ class Rva0035E00F : public Rva001DBAA4
 public:
 	virtual ~Rva0035E00F();
 	virtual void slot1();
-	virtual void Rva0035E0F7(int index);
+	virtual void update(int index);
 	virtual void slot3();
 	virtual void slot4();
 	virtual void slot5();
@@ -151,7 +151,7 @@ private:
 Rva0035E00F::~Rva0035E00F() { m_C = 0; }
 void famgenDelete(Rva0035E00F *p) { delete p; }
 
-void Rva0035E00F::Rva0035E0F7(int index)
+void Rva0035E00F::update(int index)
 {
 	m_28 = -1;
 	if (index < m_10)
