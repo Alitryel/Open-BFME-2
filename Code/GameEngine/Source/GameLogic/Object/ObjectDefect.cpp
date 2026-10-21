@@ -2,7 +2,7 @@
 // stlport
 //
 //
-// ?rva00298C76@Object@@QAEXPAVTeam@@I@Z retail 0x00298C76..0x00298E6A (500B,
+// ?defect@Object@@QAEXPAVTeam@@I@Z retail 0x00298C76..0x00298E6A (500B,
 // thiscall RET 8, __EH_prolog frame). Zero Hour Object::defect(Team *,
 // UnsignedInt) (GeneralsMD Object.cpp) supplies the purpose and order: no
 // defection while contained (+0x274), without a controlling player or into
@@ -208,7 +208,7 @@ public:
 	void friend_setUndetectedDefector(bool undetected);
 	void setTeam(Team *team);
 	void makeDirty();
-	void rva00298C76(Team *newTeam, UnsignedInt detectionTime);
+	void defect(Team *newTeam, UnsignedInt detectionTime);
 
 	Bool isContained() const { return m_containedBy != 0; }
 
@@ -228,7 +228,7 @@ public:
 	Object *m_containedBy;
 };
 
-void Object::rva00298C76(Team *newTeam, UnsignedInt detectionTime)
+void Object::defect(Team *newTeam, UnsignedInt detectionTime)
 {
 	if (isContained())
 		return;

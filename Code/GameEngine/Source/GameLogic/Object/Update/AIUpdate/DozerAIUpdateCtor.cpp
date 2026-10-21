@@ -719,7 +719,7 @@ public:
 	Bool isLocallyControlled() const;
 	void *getDisplayName();
 	// ZH's attemptHealingFromSoleBenefactor (amount, source, duration).
-	Bool rva0028FEA7(Real amount, const Object *source, UnsignedInt duration);
+	Bool attemptHealingFromSoleBenefactor(Real amount, const Object *source, UnsignedInt duration);
 	Int get45C() const { return m_45C; }
 private:
 	unsigned char m_pad048[0x74 - 0x48];
@@ -2463,7 +2463,7 @@ StateReturnType DozerActionDoActionState::update()
 						Real health = body->getMaxHealth() * dozerAI->getRepairHealthPerSecond() / BfmeLogicFramesPerSecond;
 
 						// try to give it a little bit-o-health
-						if (!goalObject->rva0028FEA7(health, dozer, 2)) // this frame and the next
+						if (!goalObject->attemptHealingFromSoleBenefactor(health, dozer, 2)) // this frame and the next
 						{
 							dozerAI->internalTaskComplete(m_task);
 							getMachine()->setGoalObject(0);

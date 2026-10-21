@@ -29,15 +29,15 @@ class UpgradeCenter
 {
 public:
 	void rva0026F93C();										// 0x0026F93C
-	void rva0026FBBC();
+	virtual void reset();
 private:
-	char m_pad[0x0C];
+	char m_pad[0x08];										// after the vftable pointer
 	UpgradeTemplate *m_upgradeList;							// +0x0C
 	char m_pad10[0x14 - 0x10];
 	bool m_buttonImagesCached;								// +0x14
 };
 
-void UpgradeCenter::rva0026FBBC()
+void UpgradeCenter::reset()
 {
 	if (TheMappedImageCollection && !m_buttonImagesCached)
 	{

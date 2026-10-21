@@ -483,7 +483,7 @@ public:
 	Player *getControllingPlayer() const;
 	Bool isEffectivelyDead() const { return (m_privateStatus & EFFECTIVELY_DEAD) != 0; }
 	void kill(DamageType damageType = DAMAGE_UNRESISTABLE, DeathType deathType = DEATH_NORMAL);
-	void rva00298C76(Team *newTeam, UnsignedInt detectionTime);	// 0x00298C76 Object::defect
+	void defect(Team *newTeam, UnsignedInt detectionTime);	// 0x00298C76 Object::defect
 	Int rva0028B511() const;
 	void setLayer(PathfindLayerEnum layer);
 	// Inline ABI adapters only: emitting a wrapper would compete with the
@@ -1314,7 +1314,7 @@ UpdateSleepTime SlavedUpdate::update()
 	}
 	if (master->getTeam()->getRelationship(me->getTeam()) != ALLIES)
 	{
-		me->rva00298C76(master->getTeam(), 0);
+		me->defect(master->getTeam(), 0);
 		stopSlavedEffects();
 		return UPDATE_SLEEP_FOREVER;
 	}

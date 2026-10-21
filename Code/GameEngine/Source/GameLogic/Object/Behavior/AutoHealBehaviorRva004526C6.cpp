@@ -1,6 +1,6 @@
 // cl: /MD /DNDEBUG
 // ?pulseHealObject@AutoHealBehavior@@QAEXPAVObject@@_N@Z @0x004526C6 207B via AutoHeal pulse with nonStackable gate plus attribute bonus plus FX flag
-// Evidence: prev onDamage 0x0045266B same TU layout +0x04/+0x08/+0x2C/+0x30; callees rowed rva0028C149 0x13 bonus attemptHealing rva0028FEA7 doFXObj; TheGameLogic frame +0x40; ModuleData 0x11C/0x120/0x128/0x150/0x154 from ModuleDataCtor 0x160.
+// Evidence: prev onDamage 0x0045266B same TU layout +0x04/+0x08/+0x2C/+0x30; callees rowed rva0028C149 0x13 bonus attemptHealing attemptHealingFromSoleBenefactor doFXObj; TheGameLogic frame +0x40; ModuleData 0x11C/0x120/0x128/0x150/0x154 from ModuleDataCtor 0x160.
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -42,7 +42,7 @@ class Object
 public:
 	Bool rva0028C149(Int attribute, Real *value, Int arg);
 	void attemptHealing(Real amount, const Object *source);
-	Bool rva0028FEA7(Real amount, const Object *source, UnsignedInt extra);
+	Bool attemptHealingFromSoleBenefactor(Real amount, const Object *source, UnsignedInt extra);
 
 	unsigned char m_pad00[0x254];
 	Body *m_body;
@@ -104,7 +104,7 @@ void AutoHealBehavior::pulseHealObject(Object *obj, Bool flag)
 	if (data->m_radius == zero)
 		obj->attemptHealing((Real)truncated, m_object);
 	else
-		obj->rva0028FEA7((Real)truncated, m_object, data->m_healingDelay);
+		obj->attemptHealingFromSoleBenefactor((Real)truncated, m_object, data->m_healingDelay);
 	if (flag)
 		FXList::doFXObj(data->m_unitHealPulseFX, obj, (const Object *)zero);
 	m_soonestHealFrame = TheGameLogic->m_frame + data->m_healingDelay;

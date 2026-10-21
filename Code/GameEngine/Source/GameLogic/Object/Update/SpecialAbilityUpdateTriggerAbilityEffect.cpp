@@ -339,7 +339,7 @@ class Object : public Thing {
     void rva0028CFB2(const int *, const int *);
     void *rva0028BD17() const;
     void rva0028DA28();
-    void rva00298C76(Team *, unsigned);
+    void defect(Team *, unsigned);
     void kill(DamageType, DeathType);
     bool setWeaponLock(WeaponSlotType, WeaponLockType);
     Rva00373EC6 *rva0028F4BC();
@@ -864,11 +864,11 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
             if (draw)
                 draw->rva00274176(false);
             target->rva0028DA28();
-            target->rva00298C76(newTeam, 1);
+            target->defect(newTeam, 1);
         }
         TheSkirmishAIManager->UnRegister(captured);
         captured->rva0028DA28();
-        captured->rva00298C76(newTeam, 1);
+        captured->defect(newTeam, 1);
         ((Rva001E431E *)captured)->rva001E431E((const int *)&Rva0028F59A(0, 119));
         target->captor = 0;
         TheSkirmishAIManager->rva002A9365(captured);

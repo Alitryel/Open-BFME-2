@@ -204,7 +204,7 @@ public:
 	Player *getControllingPlayer() const;
 	Bool clearDisabled( DisabledType type );
 	void rva0028DCC4();
-	void rva00298C76( Team *team, UnsignedInt detectionTime );
+	void defect( Team *team, UnsignedInt detectionTime );
 	const Coord3D *getPosition() const { return reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this) + 0x38); }
 	BehaviorModule **getBehaviorModules() const { return *reinterpret_cast<BehaviorModule **const *>(reinterpret_cast<const char *>(this) + 0x244); }
 	Rva0010CBits &getConditionBits() { return *reinterpret_cast<Rva0010CBits *>(reinterpret_cast<char *>(this) + 0x10C); }
@@ -516,7 +516,7 @@ void CaveContain::rva00466848( Team *newTeam, Bool setOriginalTeams )
 			else
 				caveModule->setOriginalTeam( 0 );
 
-			currentCave->rva00298C76( newTeam, 0 );
+			currentCave->defect( newTeam, 0 );
 		}
 	}
 }

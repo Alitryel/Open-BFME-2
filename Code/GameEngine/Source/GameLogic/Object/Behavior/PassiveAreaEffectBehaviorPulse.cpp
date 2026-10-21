@@ -14,7 +14,7 @@
 // body (+0x254) below its maximum (body slots 4 and 6), optionally gated by
 // the body's slot-17 frame plus the delay at +0x10 against TheGameLogic's
 // frame when the bool at +0x28 is set, heals max * rate / LOGICFRAMES (times
-// the delay when set) through the rowed Object::rva0028FEA7 with this
+// the delay when set) through the rowed Object::attemptHealingFromSoleBenefactor with this
 // module's object as the source, then plays the FXList at +0x34.
 //
 // ?rva00484A08@PassiveAreaEffectBehavior@@UAEXPAVObject@@@Z, retail 0x00484A08, 95 bytes.
@@ -73,7 +73,7 @@ class Object
 	friend class PassiveAreaEffectBehavior;
 public:
 	bool rva0028C264(int *out, int frames);
-	bool rva0028FEA7(float amount, const Object *source, unsigned int delay);
+	bool attemptHealingFromSoleBenefactor(float amount, const Object *source, unsigned int delay);
 	bool addAttributeModifierToPool(const AsciiString &name, int value);
 	bool isEffectivelyDead() const { return (m_438 & 1) != 0; }
 	BodyModule *getBodyModule() const { return m_body; }
@@ -157,7 +157,7 @@ void PassiveAreaEffectBehavior::rva0048491F(Object *obj)
 			float amount = body->getMaxHealth() * (rate / BfmeLogicFramesPerSecond);
 			if (passiveAreaEffectBehaviorModuleData->m_pingDelay)
 				amount *= passiveAreaEffectBehaviorModuleData->m_pingDelay;
-			obj->rva0028FEA7(amount, m_object, passiveAreaEffectBehaviorModuleData->m_pingDelay);
+			obj->attemptHealingFromSoleBenefactor(amount, m_object, passiveAreaEffectBehaviorModuleData->m_pingDelay);
 
 			if (passiveAreaEffectBehaviorModuleData->m_34)
 				FXList::doFXObj(passiveAreaEffectBehaviorModuleData->m_34, obj, 0);

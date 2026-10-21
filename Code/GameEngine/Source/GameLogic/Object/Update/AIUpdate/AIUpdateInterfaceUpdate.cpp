@@ -109,7 +109,7 @@ public:
 	// across this call and the planar estimate: both are known not to throw.
 	Coord3D rva00265514(const Object *other) const throw();
 	void rva0028AE6D();
-	void rva00298C76(Team *team, unsigned int flags);
+	void defect(Team *team, unsigned int flags);
 
 	const AIUpdateThingTemplateView *getTemplate() const { return m_template; }
 	int getID() const { return m_id; }
@@ -383,7 +383,7 @@ UpdateSleepTime AIUpdateInterface::update()
 	{
 		Team *team = TheTeamFactory->findTeamByID(m_teamID);
 		if (team)
-			getObject()->rva00298C76(team, 0);
+			getObject()->defect(team, 0);
 		m_teamID = 0;
 	}
 	return sleep;

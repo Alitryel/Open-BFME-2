@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva0028FEA7@Object@@QAE_NMPBV1@I@Z @0x0028FEA7 (247B).
+// ?attemptHealingFromSoleBenefactor@Object@@QAE_NMPBV1@I@Z @0x0028FEA7 (247B).
 // Object healing-benefactor update plus body DamageInfo forward plus
 // effectively-dead handling. Evidence: neighbours Object_attemptHealing
 // 0x0028FE55 and Object_healCompletely 0x0028FF9E prove Object class and
@@ -54,7 +54,7 @@ public:
 class Object
 {
 public:
-	bool rva0028FEA7(float amount, const Object *source, UnsignedInt extra);
+	bool attemptHealingFromSoleBenefactor(float amount, const Object *source, UnsignedInt extra);
 	void rva0028AE6D();
 	void setEffectivelyDead(bool dead);
 
@@ -77,7 +77,7 @@ private:
 	unsigned char m_flag438; // +0x438
 };
 
-bool Object::rva0028FEA7(float amount, const Object *source, UnsignedInt extra)
+bool Object::attemptHealingFromSoleBenefactor(float amount, const Object *source, UnsignedInt extra)
 {
 	if (!source)
 		return false;

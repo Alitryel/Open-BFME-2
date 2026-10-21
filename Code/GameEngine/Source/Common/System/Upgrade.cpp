@@ -239,21 +239,6 @@ UpgradeCenter::UpgradeCenter( void )
 //-------------------------------------------------------------------------------------------------
 /** Upgrade center system reset */
 //-------------------------------------------------------------------------------------------------
-// ?reset@UpgradeCenter@@ present-unmatched
-void UpgradeCenter::reset( void )
-{
-	if( TheMappedImageCollection && !buttonImagesCached )
-	{
-		UpgradeTemplate *upgrade;
-		for( upgrade = m_upgradeList; upgrade; upgrade = upgrade->friend_getNext() )
-		{
-			upgrade->cacheButtonImage();
-		}
-		buttonImagesCached = TRUE;
-	}
-}
-
-//-------------------------------------------------------------------------------------------------
 /** Find upgrade matching name key */
 //-------------------------------------------------------------------------------------------------
 const UpgradeTemplate *UpgradeCenter::findVeterancyUpgrade( VeterancyLevel level ) const

@@ -26,7 +26,7 @@ class Object {
 public:
  bool rva0028C264(int *,int);
  Player *getControllingPlayer()const;
- bool rva0028FEA7(float,const Object *,unsigned int);
+ bool attemptHealingFromSoleBenefactor(float,const Object *,unsigned int);
  unsigned char pad0[4];ThingTemplate *tmplate;
  unsigned char pad8[0x38-8];Coord3D position;
  float orientation;unsigned char pad48[0x74-0x48];ObjectID id,producer,builder;
@@ -102,7 +102,7 @@ UpdateSleepTime GettingBuiltBehaviorUpdateReceiver::update()
          TheBuildAssistant->moveObjectsForConstruction(thingTemplate,&obj->position,orientation,player);
        }
      }
-     obj->rva0028FEA7(health,obj,2);
+     obj->attemptHealingFromSoleBenefactor(health,obj,2);
      obj->progress=body->fraction()*100.0f;
      if(!*((bool *)this+0x25))body->clearRecent();
    }

@@ -6,7 +6,7 @@
 // 0x00849248 (class of ??1Rva0048180C). Evidence: rowed getControllingPlayer
 // 0x0028AFA9 plus rowed Player::rva002AB87D 0x002AB87D over +0x2c template
 // plus rowed Rva0028ADECmpBoolField::get plus Object body at +0x254 slot 6
-// plus BfmeLogicFramesPerSecond int plus rva0028FEA7 row; neighbours 0x00481A54 and
+// plus BfmeLogicFramesPerSecond int plus attemptHealingFromSoleBenefactor row; neighbours 0x00481A54 and
 // BitFlags 0x00481B7F share /O1.
 
 typedef unsigned int UnsignedInt;
@@ -49,7 +49,7 @@ class Object
 {
 public:
 	Player *getControllingPlayer() const;
-	bool rva0028FEA7(float amount, const Object *source, UnsignedInt extra);
+	bool attemptHealingFromSoleBenefactor(float amount, const Object *source, UnsignedInt extra);
 	// Retail keeps the whole 32-bit flag word live in eax across the test and the
 	// set: `mov eax,[esi+0x380]` / `mov ecx,eax` / `shr ecx,8` / `test cl,1` /
 	// `jne skip` / `or ah,0x1` / `mov [esi+0x380],eax`. Two facts pin the source:
@@ -129,7 +129,7 @@ void Rva0048180C::rva00481A9E(Object *tgt, bool flag, Rva00481A9EInfo *info)
 		// Retail ends the x87 chain with a single `fmulp st(1),st`; the product
 		// is a named float argument temp (inline call-argument forms keep the
 		// non-pop `fmul` plus a separate `fstp st(0)`).
-		float arg = body->f6() * (fsel / (float)BfmeLogicFramesPerSecond); tgt->rva0028FEA7(arg, m_owner, info->m_extra);
+		float arg = body->f6() * (fsel / (float)BfmeLogicFramesPerSecond); tgt->attemptHealingFromSoleBenefactor(arg, m_owner, info->m_extra);
 	} else {
 		((unsigned char *)&tgt->m_flags380)[1] &= 0x7e;
 	}
