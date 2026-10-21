@@ -77,24 +77,24 @@ public:
 	virtual void slot00(int); virtual void slot04(int); virtual void slot08(int);
 };
 
-void Player::onStructureCreated(Object *a, Object *b)
+void Player::onStructureCreated(Object *builder, Object *structure)
 {
-	if (a == 0 || b == 0)
+	if (builder == 0 || structure == 0)
 		return;
-	if (!(a->m_thing->m_flag114 & 0x100) && !(a->m_thing->m_flag109 & 0x40))
+	if (!(builder->m_thing->m_flag114 & 0x100) && !(builder->m_thing->m_flag109 & 0x40))
 		return;
-	Rva002AA559Dispatch *dispatch = (Rva002AA559Dispatch *)b->rva0028BD17();
+	Rva002AA559Dispatch *dispatch = (Rva002AA559Dispatch *)structure->rva0028BD17();
 	if (dispatch == 0)
 		return;
-	if (a->m_thing->m_flag114 & 0x100) {
-		Rva002AA559Tag *tag = (Rva002AA559Tag *)a->rva0028BCF4();
+	if (builder->m_thing->m_flag114 & 0x100) {
+		Rva002AA559Tag *tag = (Rva002AA559Tag *)builder->rva0028BCF4();
 		if (tag != 0) {
-			tag->slot08(b->m_word74);
+			tag->slot08(structure->m_word74);
 			dispatch->slot28(1);
 			dispatch->slot04(1);
 		}
 	}
-	if (a->m_thing->m_flag109 & 0x40)
+	if (builder->m_thing->m_flag109 & 0x40)
 		dispatch->slot28(1);
 }
 
