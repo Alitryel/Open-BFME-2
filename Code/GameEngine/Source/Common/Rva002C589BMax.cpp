@@ -64,13 +64,13 @@ float Rva002C589B::getEnemyThreat()
 {
 	float vmax = 0.0f;
 	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(*(void **)this);
-	ArrayBounds002C5AE6 *b = (ArrayBounds002C5AE6 *)((char *)rec->m_164 + 0x20);
-	void **it = b->m_start;
-	void **end = b->m_end;
+	ArrayBounds002C5AE6 *interestZones = (ArrayBounds002C5AE6 *)((char *)rec->m_164 + 0x20);
+	void **it = interestZones->m_start;
+	void **end = interestZones->m_end;
 	while (it != end) {
-		Elem002C5AE6 *e = *(Elem002C5AE6 **)it;
-		if (e->m_18 > vmax)
-			vmax = e->m_18;
+		Elem002C5AE6 *zone = *(Elem002C5AE6 **)it;
+		if (zone->m_18 > vmax)
+			vmax = zone->m_18;
 		it++;
 	}
 	return (vmax > m_28) ? vmax : m_28;
