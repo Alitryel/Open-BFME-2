@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C9EF3@AnimationSoundClientBehavior@@SA?AW4NameKeyType@@XZ @0x4C9EF3
+// ?getModuleNameKey@AnimationSoundClientBehavior@@UBE?AW4NameKeyType@@XZ @0x4C9EF3
 // (69B): cached pool-name key for AnimationSoundClientBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("AnimationSoundClientBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AnimationSoundClientBehavior
 {
 public:
-	static NameKeyType rva0004C9EF3();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C9EF3@AnimationSoundClientBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType AnimationSoundClientBehavior::rva0004C9EF3()
+// ?getModuleNameKey@AnimationSoundClientBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType AnimationSoundClientBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheAnimationSoundClientBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("AnimationSoundClientBehavior");

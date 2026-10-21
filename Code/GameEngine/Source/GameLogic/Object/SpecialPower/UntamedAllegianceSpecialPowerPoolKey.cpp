@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C7B4F@UntamedAllegianceSpecialPower@@SA?AW4NameKeyType@@XZ @0x004C7B4F
+// ?getModuleNameKey@UntamedAllegianceSpecialPower@@UBE?AW4NameKeyType@@XZ @0x004C7B4F
 // (69B): cached pool-name key for UntamedAllegianceSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("UntamedAllegianceSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class UntamedAllegianceSpecialPower
 {
 public:
-	static NameKeyType rva004C7B4F();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C7B4F@UntamedAllegianceSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType UntamedAllegianceSpecialPower::rva004C7B4F()
+// ?getModuleNameKey@UntamedAllegianceSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType UntamedAllegianceSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheUntamedAllegianceSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("UntamedAllegianceSpecialPower");

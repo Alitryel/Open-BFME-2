@@ -26,7 +26,7 @@ class InvisibilityUpdate
 {
 public:
 	static NameKeyType rva0004A393C();
-	static NameKeyType rva0004A38BF();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 // ?rva0004A393C@InvisibilityUpdate@@SA?AW4NameKeyType@@XZ
@@ -37,13 +37,13 @@ NameKeyType InvisibilityUpdate::rva0004A393C()
 	return TheInvisibilityUpdatePoolKey;
 }
 
-// ?rva0004A38BF@InvisibilityUpdate@@SA?AW4NameKeyType@@XZ @0x4A38BF
+// ?getModuleNameKey@InvisibilityUpdate@@UBE?AW4NameKeyType@@XZ @0x4A38BF
 // (69B): the same cached key shape over the same "InvisibilityUpdate"
 // literal with its own static; this is the copy slot 4 of
 // ??_7InvisibilityUpdate 0x00C52534 holds (the slot the other modules'
 // pool-name keys occupy). Address name: which of the two is which member
 // is not established.
-NameKeyType InvisibilityUpdate::rva0004A38BF()
+NameKeyType InvisibilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheInvisibilityUpdateSlotKey =
 		TheNameKeyGenerator->nameToKey("InvisibilityUpdate");

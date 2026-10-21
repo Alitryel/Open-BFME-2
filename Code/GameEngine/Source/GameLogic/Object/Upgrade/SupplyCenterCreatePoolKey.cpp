@@ -1,5 +1,5 @@
 // cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004B8DCA@SupplyCenterCreate@@SA?AW4NameKeyType@@XZ @0x004B8DCA
+// ?getModuleNameKey@SupplyCenterCreate@@UBE?AW4NameKeyType@@XZ @0x004B8DCA
 // (69B): cached pool-name key for SupplyCenterCreate. The class
 // identity comes from the pool-name string the body pushes
 // ("SupplyCenterCreate"); the body guards a function-local static
@@ -82,12 +82,12 @@ protected:
 class SupplyCenterCreate : public CreateModule
 {
 public:
-	static NameKeyType rva004B8DCA();
+	virtual NameKeyType getModuleNameKey() const;
 	virtual void onBuildComplete();
 };
 
-// ?rva004B8DCA@SupplyCenterCreate@@SA?AW4NameKeyType@@XZ
-NameKeyType SupplyCenterCreate::rva004B8DCA()
+// ?getModuleNameKey@SupplyCenterCreate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SupplyCenterCreate::getModuleNameKey() const
 {
 	static NameKeyType TheSupplyCenterCreatePoolKey =
 		TheNameKeyGenerator->nameToKey("SupplyCenterCreate");
