@@ -179,215 +179,215 @@ public:
 	virtual void v2();
 	virtual void v3();
 	virtual void v4();
-	virtual float v5(const AsciiString &s, float x);
-	virtual int v6(const AsciiString &s, int x);
+	virtual float v5(const AsciiString &valueText, float amount);
+	virtual int v6(const AsciiString &valueText, int amount);
 	virtual void v7();
 	virtual AsciiString v8(const AsciiString &key, const AsciiString &def);
 	virtual void v9();
-	virtual void v10(const AsciiString &s, float x);
-	virtual void v11(const AsciiString &s, int x);
+	virtual void v10(const AsciiString &valueText, float amount);
+	virtual void v11(const AsciiString &valueText, int amount);
 	virtual void v12(const AsciiString &a, const AsciiString &b);
-	int rva00535CE4(AsciiString arg);
+	int rva00535CE4(AsciiString factionPrefix);
 	AsciiString rva00535820();
-	void rva00536B3F(AsciiString arg, int x);
-	int rva00536B86(AsciiString arg);
-	void rva00536BD0(AsciiString arg, int x);
-	int rva00536C17(AsciiString arg);
+	void rva00536B3F(AsciiString factionPrefix, int amount);
+	int rva00536B86(AsciiString factionPrefix);
+	void rva00536BD0(AsciiString factionPrefix, int amount);
+	int rva00536C17(AsciiString factionPrefix);
 	int rva0053700F();
 	int rva005370D2();
 	AsciiString rva00537261();
 	void rva00537058(int bits);
-	void rva0053711B(AsciiString arg, int x, int value);
+	void rva0053711B(AsciiString factionPrefix, int amount, int value);
 	UnicodeString rva00535B32(float seconds);
-	void rva0053587C(AsciiString arg, int x);
-	void rva00535BAF(AsciiString arg, int x);
-	void rva00535C9D(AsciiString arg, int x);
-	void rva00535D2E(AsciiString arg, int x);
-	void rva00535DBF(AsciiString arg, int x);
-	void rva00535E50(AsciiString arg, int x);
-	void rva00535EE1(AsciiString arg, int x);
-	void rva00535F72(int x);
-	void rva00536003(int x);
-	void rva00536094(int x);
-	void rva00536125(int x);
+	void rva0053587C(AsciiString factionPrefix, int amount);
+	void rva00535BAF(AsciiString factionPrefix, int amount);
+	void rva00535C9D(AsciiString factionPrefix, int amount);
+	void rva00535D2E(AsciiString factionPrefix, int amount);
+	void rva00535DBF(AsciiString factionPrefix, int amount);
+	void rva00535E50(AsciiString factionPrefix, int amount);
+	void rva00535EE1(AsciiString factionPrefix, int amount);
+	void rva00535F72(int amount);
+	void rva00536003(int amount);
+	void rva00536094(int amount);
+	void rva00536125(int amount);
 	int rva0053604B();
 	int rva005360DC();
 	int rva0053616D();
-	void rva005361B6(AsciiString arg);
+	void rva005361B6(AsciiString factionPrefix);
 	AsciiString rva0053620F();
 	int rva00535FBA();
-	int rva005358C3(AsciiString arg);
-	int rva00535BF6(AsciiString arg);
+	int rva005358C3(AsciiString factionPrefix);
+	int rva00535BF6(AsciiString factionPrefix);
 	int rva00535C40();
 	int rva005373AF();
-	int rva0053734E(AsciiString arg);
+	int rva0053734E(AsciiString factionPrefix);
 	int rva00537C28();
 	UnicodeString rva00537C3F();
-	void rva00536C61(AsciiString arg, int x);
-	int rva00536CA8(AsciiString arg);
-	void rva00536CF2(AsciiString arg, int x);
-	int rva00536D39(AsciiString arg);
-	void rva00536D83(AsciiString arg, int x);
-	int rva00536DCA(AsciiString arg);
-	void rva00536E14(AsciiString arg, int x);
-	int rva00536E5B(AsciiString arg);
-	void rva00536EA5(AsciiString arg, int x);
-	int rva00536EEC(AsciiString arg);
-	void rva00536F36(AsciiString arg, int x);
-	int rva00536F7D(AsciiString arg);
-	void rva00536FC7(int x);
-	int rva00535D75(AsciiString arg);
-	int rva00535E06(AsciiString arg);
-	int rva00535E97(AsciiString arg);
-	int rva00535F28(AsciiString arg);
-	void rva0053595E(AsciiString arg, float x);
-	float rva0053590D(AsciiString arg);
-	float rva005359A9(AsciiString arg);
-	float rva00535A45(AsciiString arg);
-	float rva00535AE1(AsciiString arg);
-	void rva005359FA(AsciiString arg, float x);
-	void rva00535A96(AsciiString arg, float x);
+	void rva00536C61(AsciiString factionPrefix, int amount);
+	int rva00536CA8(AsciiString factionPrefix);
+	void rva00536CF2(AsciiString factionPrefix, int amount);
+	int rva00536D39(AsciiString factionPrefix);
+	void rva00536D83(AsciiString factionPrefix, int amount);
+	int rva00536DCA(AsciiString factionPrefix);
+	void rva00536E14(AsciiString factionPrefix, int amount);
+	int rva00536E5B(AsciiString factionPrefix);
+	void rva00536EA5(AsciiString factionPrefix, int amount);
+	int rva00536EEC(AsciiString factionPrefix);
+	void rva00536F36(AsciiString factionPrefix, int amount);
+	int rva00536F7D(AsciiString factionPrefix);
+	void rva00536FC7(int amount);
+	int rva00535D75(AsciiString factionPrefix);
+	int rva00535E06(AsciiString factionPrefix);
+	int rva00535E97(AsciiString factionPrefix);
+	int rva00535F28(AsciiString factionPrefix);
+	void rva0053595E(AsciiString factionPrefix, float amount);
+	float rva0053590D(AsciiString factionPrefix);
+	float rva005359A9(AsciiString factionPrefix);
+	float rva00535A45(AsciiString factionPrefix);
+	float rva00535AE1(AsciiString factionPrefix);
+	void rva005359FA(AsciiString factionPrefix, float amount);
+	void rva00535A96(AsciiString factionPrefix, float amount);
 	void rva00535781();
-	int rva00537190(AsciiString arg, int x);
-	void rva005372BD(int x);
+	int rva00537190(AsciiString factionPrefix, int amount);
+	void rva005372BD(int amount);
 	int rva00537305();
-	void rva00537208(AsciiString arg);
-	void rva0053626B(AsciiString arg, int x);
-	int rva005362B2(AsciiString arg);
-	void rva005362FC(AsciiString arg, int x);
-	int rva00536343(AsciiString arg);
-	void rva0053638D(AsciiString arg, int x);
-	int rva005363D4(AsciiString arg);
-	void rva0053641E(AsciiString arg, int x);
-	int rva00536465(AsciiString arg);
-	void rva005364AF(AsciiString arg, int x);
-	int rva005364F6(AsciiString arg);
-	void rva00536540(AsciiString arg, int x);
-	int rva00536587(AsciiString arg);
-	void rva005365D1(AsciiString arg, int x);
-	int rva00536618(AsciiString arg);
-	void rva00536662(AsciiString arg, int x);
-	int rva005366A9(AsciiString arg);
-	void rva005366F3(AsciiString arg, int x);
-	int rva0053673A(AsciiString arg);
-	void rva00536784(AsciiString arg, int x);
-	int rva005367CB(AsciiString arg);
-	int rva00536815(AsciiString arg);
-	void rva0053685F(AsciiString arg, int x);
-	int rva005368A6(AsciiString arg);
-	void rva005368F0(AsciiString arg, int x);
-	int rva00536937(AsciiString arg);
-	void rva00536981(AsciiString arg, float x);
-	float rva005369CC(AsciiString arg);
-	void rva00536A1D(AsciiString arg, int x);
-	int rva00536A64(AsciiString arg);
-	void rva00536AAE(AsciiString arg, int x);
-	int rva00536AF5(AsciiString arg);
+	void rva00537208(AsciiString factionPrefix);
+	void rva0053626B(AsciiString factionPrefix, int amount);
+	int rva005362B2(AsciiString factionPrefix);
+	void rva005362FC(AsciiString factionPrefix, int amount);
+	int rva00536343(AsciiString factionPrefix);
+	void rva0053638D(AsciiString factionPrefix, int amount);
+	int rva005363D4(AsciiString factionPrefix);
+	void rva0053641E(AsciiString factionPrefix, int amount);
+	int rva00536465(AsciiString factionPrefix);
+	void rva005364AF(AsciiString factionPrefix, int amount);
+	int rva005364F6(AsciiString factionPrefix);
+	void rva00536540(AsciiString factionPrefix, int amount);
+	int rva00536587(AsciiString factionPrefix);
+	void rva005365D1(AsciiString factionPrefix, int amount);
+	int rva00536618(AsciiString factionPrefix);
+	void rva00536662(AsciiString factionPrefix, int amount);
+	int rva005366A9(AsciiString factionPrefix);
+	void rva005366F3(AsciiString factionPrefix, int amount);
+	int rva0053673A(AsciiString factionPrefix);
+	void rva00536784(AsciiString factionPrefix, int amount);
+	int rva005367CB(AsciiString factionPrefix);
+	int rva00536815(AsciiString factionPrefix);
+	void rva0053685F(AsciiString factionPrefix, int amount);
+	int rva005368A6(AsciiString factionPrefix);
+	void rva005368F0(AsciiString factionPrefix, int amount);
+	int rva00536937(AsciiString factionPrefix);
+	void rva00536981(AsciiString factionPrefix, float amount);
+	float rva005369CC(AsciiString factionPrefix);
+	void rva00536A1D(AsciiString factionPrefix, int amount);
+	int rva00536A64(AsciiString factionPrefix);
+	void rva00536AAE(AsciiString factionPrefix, int amount);
+	int rva00536AF5(AsciiString factionPrefix);
 };
 
 static const char *kFactions[] = { "Men", "Elves", "Dwarves", "Isengard", "Mordor", "Wild" };
 
-int UserPreferences::rva00535CE4(AsciiString arg)
+int UserPreferences::rva00535CE4(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("Losses");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("Losses");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva0053587C(AsciiString arg, int x)
+void UserPreferences::rva0053587C(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("Points");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("Points");
+	v11(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535BAF(AsciiString arg, int x)
+void UserPreferences::rva00535BAF(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("Wins");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("Wins");
+	v11(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535C9D(AsciiString arg, int x)
+void UserPreferences::rva00535C9D(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("Losses");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("Losses");
+	v11(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535D2E(AsciiString arg, int x)
+void UserPreferences::rva00535D2E(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("WinStreak");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("WinStreak");
+	v11(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535DBF(AsciiString arg, int x)
+void UserPreferences::rva00535DBF(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("LossStreak");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("LossStreak");
+	v11(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535E50(AsciiString arg, int x)
+void UserPreferences::rva00535E50(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("BestWinStreak");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("BestWinStreak");
+	v11(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535EE1(AsciiString arg, int x)
+void UserPreferences::rva00535EE1(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("WorstLossStreak");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("WorstLossStreak");
+	v11(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535F72(int x)
+void UserPreferences::rva00535F72(int amount)
 {
-	AsciiString tmp("OverallWinStreak");
-	v11(tmp, x);
+	AsciiString keyName("OverallWinStreak");
+	v11(keyName, amount);
 }
 
-void UserPreferences::rva00536003(int x)
+void UserPreferences::rva00536003(int amount)
 {
-	AsciiString tmp("OverallBestWinStreak");
-	v11(tmp, x);
+	AsciiString keyName("OverallBestWinStreak");
+	v11(keyName, amount);
 }
 
-void UserPreferences::rva00536094(int x)
+void UserPreferences::rva00536094(int amount)
 {
-	AsciiString tmp("OverallLossStreak");
-	v11(tmp, x);
+	AsciiString keyName("OverallLossStreak");
+	v11(keyName, amount);
 }
 
-void UserPreferences::rva00536125(int x)
+void UserPreferences::rva00536125(int amount)
 {
-	AsciiString tmp("OverallWorstLossStreak");
-	v11(tmp, x);
+	AsciiString keyName("OverallWorstLossStreak");
+	v11(keyName, amount);
 }
 
 int UserPreferences::rva0053604B()
 {
-	AsciiString tmp("OverallBestWinStreak");
-	int ret = v6(tmp, 0);
+	AsciiString keyName("OverallBestWinStreak");
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
 int UserPreferences::rva005360DC()
 {
-	AsciiString tmp("OverallLossStreak");
-	int ret = v6(tmp, 0);
+	AsciiString keyName("OverallLossStreak");
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
 int UserPreferences::rva0053616D()
 {
-	AsciiString tmp("OverallWorstLossStreak");
-	int ret = v6(tmp, 0);
+	AsciiString keyName("OverallWorstLossStreak");
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
 // ?rva005361B6@UserPreferences@@QAEXVAsciiString@@@Z @0x005361B6 89B
 // UserPreferences FavoriteSide path: local AsciiString FavoriteSide with (tmp, arg) v12 void ret 4.
 // Evidence: StringBase PBD ctor 0x00037BA0 slot 0x30 releaseBuffer gap same TU unlock.
-void UserPreferences::rva005361B6(AsciiString arg)
+void UserPreferences::rva005361B6(AsciiString factionPrefix)
 {
-	AsciiString tmp("FavoriteSide");
-	v12(tmp, arg);
+	AsciiString keyName("FavoriteSide");
+	v12(keyName, factionPrefix);
 }
 
 // ?rva0053620F@UserPreferences@@QAE?AVAsciiString@@XZ @0x0053620F 92B
@@ -395,28 +395,28 @@ void UserPreferences::rva005361B6(AsciiString arg)
 // Evidence: StringBase PBD ctor 0x00037BA0 slot 0x20 releaseBuffer gap same TU unlock.
 AsciiString UserPreferences::rva0053620F()
 {
-	AsciiString tmp("FavoriteSide");
-	return v8(tmp, AsciiString::TheEmptyString);
+	AsciiString keyName("FavoriteSide");
+	return v8(keyName, AsciiString::TheEmptyString);
 }
 
 int UserPreferences::rva00535FBA()
 {
-	AsciiString tmp("OverallWinStreak");
-	int ret = v6(tmp, 0);
+	AsciiString keyName("OverallWinStreak");
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
-int UserPreferences::rva005358C3(AsciiString arg)
+int UserPreferences::rva005358C3(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("Points");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("Points");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-int UserPreferences::rva00535BF6(AsciiString arg)
+int UserPreferences::rva00535BF6(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("Wins");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("Wins");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
@@ -438,10 +438,10 @@ int UserPreferences::rva005373AF()
 	return sum;
 }
 
-int UserPreferences::rva0053734E(AsciiString arg)
+int UserPreferences::rva0053734E(AsciiString factionPrefix)
 {
-	int wins = rva00535BF6(arg);
-	int losses = rva00535CE4(arg);
+	int wins = rva00535BF6(factionPrefix);
+	int losses = rva00535CE4(factionPrefix);
 	return wins + losses;
 }
 
@@ -452,488 +452,488 @@ int UserPreferences::rva00537C28()
 	return losses + wins;
 }
 
-void UserPreferences::rva00536C61(AsciiString arg, int x)
+void UserPreferences::rva00536C61(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("BattlesLostRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesLostRTS");
+	v11(factionPrefix, amount);
 }
 
-int UserPreferences::rva00536CA8(AsciiString arg)
+int UserPreferences::rva00536CA8(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("BattlesLostRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesLostRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva00536CF2(AsciiString arg, int x)
+void UserPreferences::rva00536CF2(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("BattlesWonRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesWonRTS");
+	v11(factionPrefix, amount);
 }
 
-int UserPreferences::rva00536D39(AsciiString arg)
+int UserPreferences::rva00536D39(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("BattlesWonRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesWonRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva00536D83(AsciiString arg, int x)
+void UserPreferences::rva00536D83(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("BattlesLostAutoResolve");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesLostAutoResolve");
+	v11(factionPrefix, amount);
 }
 
-int UserPreferences::rva00536DCA(AsciiString arg)
+int UserPreferences::rva00536DCA(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("BattlesLostAutoResolve");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesLostAutoResolve");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva00536E14(AsciiString arg, int x)
+void UserPreferences::rva00536E14(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("BattlesWonAutoResolve");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesWonAutoResolve");
+	v11(factionPrefix, amount);
 }
 
-int UserPreferences::rva00536E5B(AsciiString arg)
+int UserPreferences::rva00536E5B(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("BattlesWonAutoResolve");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("BattlesWonAutoResolve");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva00536EA5(AsciiString arg, int x)
+void UserPreferences::rva00536EA5(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("RegionsConquered");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("RegionsConquered");
+	v11(factionPrefix, amount);
 }
 
-int UserPreferences::rva00536EEC(AsciiString arg)
+int UserPreferences::rva00536EEC(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("RegionsConquered");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("RegionsConquered");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva00536F36(AsciiString arg, int x)
+void UserPreferences::rva00536F36(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("RegionsLost");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("RegionsLost");
+	v11(factionPrefix, amount);
 }
 
-int UserPreferences::rva00536F7D(AsciiString arg)
+int UserPreferences::rva00536F7D(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("RegionsLost");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("RegionsLost");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva00536FC7(int x)
+void UserPreferences::rva00536FC7(int amount)
 {
-	AsciiString tmp("Challenge");
-	v11(tmp, x);
+	AsciiString keyName("Challenge");
+	v11(keyName, amount);
 }
 
-int UserPreferences::rva00535D75(AsciiString arg)
+int UserPreferences::rva00535D75(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("WinStreak");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("WinStreak");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-int UserPreferences::rva00535E06(AsciiString arg)
+int UserPreferences::rva00535E06(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("LossStreak");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("LossStreak");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-int UserPreferences::rva00535E97(AsciiString arg)
+int UserPreferences::rva00535E97(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("BestWinStreak");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("BestWinStreak");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-int UserPreferences::rva00535F28(AsciiString arg)
+int UserPreferences::rva00535F28(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("WorstLossStreak");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("WorstLossStreak");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva0053595E(AsciiString arg, float x)
+void UserPreferences::rva0053595E(AsciiString factionPrefix, float amount)
 {
-	((StringBase<char> *)&arg)->concat("LongestGameTime");
-	v10(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("LongestGameTime");
+	v10(factionPrefix, amount);
 }
 
-float UserPreferences::rva0053590D(AsciiString arg)
+float UserPreferences::rva0053590D(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("TimePlayed");
-	float ret = v5(arg, 0.0f);
+	((StringBase<char> *)&factionPrefix)->concat("TimePlayed");
+	float ret = v5(factionPrefix, 0.0f);
 	return ret;
 }
 
-float UserPreferences::rva005359A9(AsciiString arg)
+float UserPreferences::rva005359A9(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("LongestGameTime");
-	float ret = v5(arg, 0.0f);
+	((StringBase<char> *)&factionPrefix)->concat("LongestGameTime");
+	float ret = v5(factionPrefix, 0.0f);
 	return ret;
 }
 
-float UserPreferences::rva00535A45(AsciiString arg)
+float UserPreferences::rva00535A45(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("ShortestGameTime");
-	float ret = v5(arg, 0.0f);
+	((StringBase<char> *)&factionPrefix)->concat("ShortestGameTime");
+	float ret = v5(factionPrefix, 0.0f);
 	return ret;
 }
 
-float UserPreferences::rva00535AE1(AsciiString arg)
+float UserPreferences::rva00535AE1(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("AverageGameTime");
-	float ret = v5(arg, 0.0f);
+	((StringBase<char> *)&factionPrefix)->concat("AverageGameTime");
+	float ret = v5(factionPrefix, 0.0f);
 	return ret;
 }
 
-void UserPreferences::rva005359FA(AsciiString arg, float x)
+void UserPreferences::rva005359FA(AsciiString factionPrefix, float amount)
 {
-	((StringBase<char> *)&arg)->concat("ShortestGameTime");
-	v10(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("ShortestGameTime");
+	v10(factionPrefix, amount);
 }
 
-void UserPreferences::rva00535A96(AsciiString arg, float x)
+void UserPreferences::rva00535A96(AsciiString factionPrefix, float amount)
 {
-	((StringBase<char> *)&arg)->concat("AverageGameTime");
-	v10(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("AverageGameTime");
+	v10(factionPrefix, amount);
 }
 
 void UserPreferences::rva00535781()
 {
 	SYSTEMTIME st;
 	GetLocalTime(&st);
-	UnicodeString tmp = Rva002DBFAD(st);
+	UnicodeString keyName = Rva002DBFAD(st);
 	AsciiString val;
-	val.translate(tmp);
+	val.translate(keyName);
 	AsciiString key("ProfileCreatedDate");
 	v12(key, val);
 }
 
-int UserPreferences::rva00537190(AsciiString arg, int x)
+int UserPreferences::rva00537190(AsciiString factionPrefix, int amount)
 {
-	AsciiString tmp;
-	const char *base = *(const char **)&arg;
-	const char *s = base ? base + 8 : "";
-	tmp.format("%s_%d", s, x);
-	int ret = v6(tmp, 0);
+	AsciiString keyName;
+	const char *base = *(const char **)&factionPrefix;
+	const char *valueText = base ? base + 8 : "";
+	keyName.format("%s_%d", valueText, amount);
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
-void UserPreferences::rva005372BD(int x)
+void UserPreferences::rva005372BD(int amount)
 {
-	AsciiString tmp("LoyalGames");
-	v11(tmp, x);
+	AsciiString keyName("LoyalGames");
+	v11(keyName, amount);
 }
 
 int UserPreferences::rva00537305()
 {
-	AsciiString tmp("LoyalGames");
-	int ret = v6(tmp, 0);
+	AsciiString keyName("LoyalGames");
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
-void UserPreferences::rva00537208(AsciiString arg)
+void UserPreferences::rva00537208(AsciiString factionPrefix)
 {
-	AsciiString tmp("LastHouse");
-	v12(tmp, arg);
+	AsciiString keyName("LastHouse");
+	v12(keyName, factionPrefix);
 }
 
 // ?rva0053626B@UserPreferences@@QAEXVAsciiString@@H@Z @0x0053626B 71B
 // UserPreferences StructuresCreatedRTS-void path: append StructuresCreatedRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat StructuresCreatedRTS 0x00868F2C slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva0053626B(AsciiString arg, int x)
+void UserPreferences::rva0053626B(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("StructuresCreatedRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresCreatedRTS");
+	v11(factionPrefix, amount);
 }
 
-int UserPreferences::rva005362B2(AsciiString arg)
+int UserPreferences::rva005362B2(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("StructuresCreatedRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresCreatedRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva005362FC@UserPreferences@@QAEXVAsciiString@@H@Z @0x005362FC 71B
 // UserPreferences StructuresLostRTS-void path: append StructuresLostRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat StructuresLostRTS 0x00868F44 slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva005362FC(AsciiString arg, int x)
+void UserPreferences::rva005362FC(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("StructuresLostRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresLostRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536343@UserPreferences@@QAEHVAsciiString@@@Z @0x00536343 74B
 // UserPreferences StructuresLostRTS-getter path: append StructuresLostRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat StructuresLostRTS 0x00868F44 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536343(AsciiString arg)
+int UserPreferences::rva00536343(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("StructuresLostRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresLostRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva0053638D@UserPreferences@@QAEXVAsciiString@@H@Z @0x0053638D 71B
 // UserPreferences StructuresKilledRTS-void path: append StructuresKilledRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat StructuresKilledRTS 0x00868F58 slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva0053638D(AsciiString arg, int x)
+void UserPreferences::rva0053638D(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("StructuresKilledRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresKilledRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva005363D4@UserPreferences@@QAEHVAsciiString@@@Z @0x005363D4 74B
 // UserPreferences StructuresKilledRTS-getter path: append StructuresKilledRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat StructuresKilledRTS 0x00868F58 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva005363D4(AsciiString arg)
+int UserPreferences::rva005363D4(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("StructuresKilledRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresKilledRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva0053641E@UserPreferences@@QAEXVAsciiString@@H@Z @0x0053641E 71B
 // UserPreferences UnitsCreatedRTS-void path: append UnitsCreatedRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat UnitsCreatedRTS 0x00868F6C slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva0053641E(AsciiString arg, int x)
+void UserPreferences::rva0053641E(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("UnitsCreatedRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsCreatedRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536465@UserPreferences@@QAEHVAsciiString@@@Z @0x00536465 74B
 // UserPreferences UnitsCreatedRTS-getter path: append UnitsCreatedRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat UnitsCreatedRTS 0x00868F6C slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536465(AsciiString arg)
+int UserPreferences::rva00536465(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("UnitsCreatedRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsCreatedRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva005364AF@UserPreferences@@QAEXVAsciiString@@H@Z @0x005364AF 71B
 // UserPreferences UnitsLostRTS-void path: append UnitsLostRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat UnitsLostRTS 0x00868F7C slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva005364AF(AsciiString arg, int x)
+void UserPreferences::rva005364AF(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("UnitsLostRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsLostRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva005364F6@UserPreferences@@QAEHVAsciiString@@@Z @0x005364F6 74B
 // UserPreferences UnitsLostRTS-getter path: append UnitsLostRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat UnitsLostRTS 0x00868F7C slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva005364F6(AsciiString arg)
+int UserPreferences::rva005364F6(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("UnitsLostRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsLostRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva00536540@UserPreferences@@QAEXVAsciiString@@H@Z @0x00536540 71B
 // UserPreferences UnitsKilledRTS-void path: append UnitsKilledRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat UnitsKilledRTS 0x00868F8C slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva00536540(AsciiString arg, int x)
+void UserPreferences::rva00536540(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("UnitsKilledRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsKilledRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536587@UserPreferences@@QAEHVAsciiString@@@Z @0x00536587 74B
 // UserPreferences UnitsKilledRTS-getter path: append UnitsKilledRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat UnitsKilledRTS 0x00868F8C slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536587(AsciiString arg)
+int UserPreferences::rva00536587(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("UnitsKilledRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsKilledRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva005365D1@UserPreferences@@QAEXVAsciiString@@H@Z @0x005365D1 71B
 // UserPreferences ResourcesGatheredRTS-void path: append ResourcesGatheredRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat ResourcesGatheredRTS 0x00868F9C slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva005365D1(AsciiString arg, int x)
+void UserPreferences::rva005365D1(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("ResourcesGatheredRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("ResourcesGatheredRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536618@UserPreferences@@QAEHVAsciiString@@@Z @0x00536618 74B
 // UserPreferences ResourcesGatheredRTS-getter path: append ResourcesGatheredRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat ResourcesGatheredRTS 0x00868F9C slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536618(AsciiString arg)
+int UserPreferences::rva00536618(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("ResourcesGatheredRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("ResourcesGatheredRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva00536662@UserPreferences@@QAEXVAsciiString@@H@Z @0x00536662 71B
 // UserPreferences ResourcesSpentRTS-void path: append ResourcesSpentRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat ResourcesSpentRTS 0x00868FB4 slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva00536662(AsciiString arg, int x)
+void UserPreferences::rva00536662(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("ResourcesSpentRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("ResourcesSpentRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva005366A9@UserPreferences@@QAEHVAsciiString@@@Z @0x005366A9 74B
 // UserPreferences ResourcesSpentRTS-getter path: append ResourcesSpentRTS to by-value AsciiString slot 0x18 with (arg, -1) int ret 4.
 // Evidence: concat ResourcesSpentRTS 0x00868FB4 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva005366A9(AsciiString arg)
+int UserPreferences::rva005366A9(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("ResourcesSpentRTS");
-	int ret = v6(arg, -1);
+	((StringBase<char> *)&factionPrefix)->concat("ResourcesSpentRTS");
+	int ret = v6(factionPrefix, -1);
 	return ret;
 }
 
 // ?rva005366F3@UserPreferences@@QAEXVAsciiString@@H@Z @0x005366F3 71B
 // UserPreferences HeroesBuiltRTS-void path: append HeroesBuiltRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat HeroesBuiltRTS 0x00868FC8 slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva005366F3(AsciiString arg, int x)
+void UserPreferences::rva005366F3(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("HeroesBuiltRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("HeroesBuiltRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva0053673A@UserPreferences@@QAEHVAsciiString@@@Z @0x0053673A 74B
 // UserPreferences HeroesBuiltRTS-getter path: append HeroesBuiltRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat HeroesBuiltRTS 0x00868FC8 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva0053673A(AsciiString arg)
+int UserPreferences::rva0053673A(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("HeroesBuiltRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("HeroesBuiltRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva00536784@UserPreferences@@QAEXVAsciiString@@H@Z @0x00536784 71B
 // UserPreferences HeroesLostRTS-void path: append HeroesLostRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat HeroesLostRTS 0x00868FD8 slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva00536784(AsciiString arg, int x)
+void UserPreferences::rva00536784(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("HeroesLostRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("HeroesLostRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva005367CB@UserPreferences@@QAEHVAsciiString@@@Z @0x005367CB 74B
 // UserPreferences HeroesLostRTS-getter path: append HeroesLostRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat HeroesLostRTS 0x00868FD8 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva005367CB(AsciiString arg)
+int UserPreferences::rva005367CB(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("HeroesLostRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("HeroesLostRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva00536815@UserPreferences@@QAEHVAsciiString@@@Z @0x00536815 74B
 // UserPreferences TurnsPlayed-getter path: append TurnsPlayed to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat TurnsPlayed 0x00868FE8 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536815(AsciiString arg)
+int UserPreferences::rva00536815(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("TurnsPlayed");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("TurnsPlayed");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva0053685F@UserPreferences@@QAEXVAsciiString@@H@Z @0x0053685F 71B
 // UserPreferences LongestGameTurns-void path: append LongestGameTurns slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat LongestGameTurns 0x00868FF4 slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva0053685F(AsciiString arg, int x)
+void UserPreferences::rva0053685F(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("LongestGameTurns");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("LongestGameTurns");
+	v11(factionPrefix, amount);
 }
 
 // ?rva005368A6@UserPreferences@@QAEHVAsciiString@@@Z @0x005368A6 74B
 // UserPreferences LongestGameTurns-getter path: append LongestGameTurns to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat LongestGameTurns 0x00868FF4 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva005368A6(AsciiString arg)
+int UserPreferences::rva005368A6(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("LongestGameTurns");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("LongestGameTurns");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva005368F0@UserPreferences@@QAEXVAsciiString@@H@Z @0x005368F0 71B
 // UserPreferences ShortestGameTurns-void path: append ShortestGameTurns slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat ShortestGameTurns 0x00869008 slot 0x2C releaseBuffer gap same TU unlock.
-void UserPreferences::rva005368F0(AsciiString arg, int x)
+void UserPreferences::rva005368F0(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("ShortestGameTurns");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("ShortestGameTurns");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536937@UserPreferences@@QAEHVAsciiString@@@Z @0x00536937 74B
 // UserPreferences ShortestGameTurns-getter path: append ShortestGameTurns to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat ShortestGameTurns 0x00869008 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536937(AsciiString arg)
+int UserPreferences::rva00536937(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("ShortestGameTurns");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("ShortestGameTurns");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva00536981@UserPreferences@@QAEXVAsciiString@@M@Z @0x00536981 75B
 // UserPreferences AverageGameTurns-setter path: append AverageGameTurns to by-value AsciiString slot 0x28 with (arg, float) void ret 8.
 // Evidence: concat AverageGameTurns 0x0086901C slot 0x28 releaseBuffer gap same TU unlock.
-void UserPreferences::rva00536981(AsciiString arg, float x)
+void UserPreferences::rva00536981(AsciiString factionPrefix, float amount)
 {
-	((StringBase<char> *)&arg)->concat("AverageGameTurns");
-	v10(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("AverageGameTurns");
+	v10(factionPrefix, amount);
 }
 
 // ?rva005369CC@UserPreferences@@QAEMVAsciiString@@@Z @0x005369CC 72B
 // UserPreferences AverageGameTurns getter: same string 0x00C6901C as the
 // setter above, slot 0x14 float read with 0.0f default (fldz), caller
 // 0x005378E9 (turn stats). Same shape as the TimePlayed getter 0x0053590D.
-float UserPreferences::rva005369CC(AsciiString arg)
+float UserPreferences::rva005369CC(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("AverageGameTurns");
-	float ret = v5(arg, 0.0f);
+	((StringBase<char> *)&factionPrefix)->concat("AverageGameTurns");
+	float ret = v5(factionPrefix, 0.0f);
 	return ret;
 }
 
-void UserPreferences::rva00536A1D(AsciiString arg, int x)
+void UserPreferences::rva00536A1D(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("StructuresLostNonRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresLostNonRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536A64@UserPreferences@@QAEHVAsciiString@@@Z @0x00536A64 74B
 // UserPreferences StructuresLostNonRTS-getter path: append StructuresLostNonRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat StructuresLostNonRTS 0x00869030 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536A64(AsciiString arg)
+int UserPreferences::rva00536A64(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("StructuresLostNonRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresLostNonRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
-void UserPreferences::rva00536AAE(AsciiString arg, int x)
+void UserPreferences::rva00536AAE(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("StructuresKilledNonRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresKilledNonRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536AF5@UserPreferences@@QAEHVAsciiString@@@Z @0x00536AF5 74B
 // UserPreferences StructuresKilledNonRTS-getter path: append StructuresKilledNonRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat StructuresKilledNonRTS 0x00869048 slot 0x18 releaseBuffer gap same TU unlock.
-int UserPreferences::rva00536AF5(AsciiString arg)
+int UserPreferences::rva00536AF5(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("StructuresKilledNonRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("StructuresKilledNonRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
@@ -942,43 +942,43 @@ int UserPreferences::rva00536AF5(AsciiString arg)
 // Evidence: StringBase PBD ctor 0x00037BA0 slot 0x20 releaseBuffer, the FavoriteSide body's shape.
 AsciiString UserPreferences::rva00535820()
 {
-	AsciiString tmp("ProfileCreatedDate");
-	return v8(tmp, AsciiString::TheEmptyString);
+	AsciiString keyName("ProfileCreatedDate");
+	return v8(keyName, AsciiString::TheEmptyString);
 }
 
 // ?rva00536B3F@UserPreferences@@QAEXVAsciiString@@H@Z @0x00536B3F 71B
 // UserPreferences UnitsLostNonRTS-void path: append UnitsLostNonRTS slot 0x2C with (arg, x) void ret 8.
 // Evidence: concat UnitsLostNonRTS 0x00869060 slot 0x2C releaseBuffer gap same TU.
-void UserPreferences::rva00536B3F(AsciiString arg, int x)
+void UserPreferences::rva00536B3F(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("UnitsLostNonRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsLostNonRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536B86@UserPreferences@@QAEHVAsciiString@@@Z @0x00536B86 74B
 // UserPreferences UnitsLostNonRTS-getter path: append UnitsLostNonRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
 // Evidence: concat UnitsLostNonRTS 0x00869060 slot 0x18 releaseBuffer gap same TU.
-int UserPreferences::rva00536B86(AsciiString arg)
+int UserPreferences::rva00536B86(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("UnitsLostNonRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsLostNonRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
 // ?rva00536BD0@UserPreferences@@QAEXVAsciiString@@H@Z @0x00536BD0 71B
 // UserPreferences UnitsKilledNonRTS-void path: append UnitsKilledNonRTS slot 0x2C with (arg, x) void ret 8.
-void UserPreferences::rva00536BD0(AsciiString arg, int x)
+void UserPreferences::rva00536BD0(AsciiString factionPrefix, int amount)
 {
-	((StringBase<char> *)&arg)->concat("UnitsKilledNonRTS");
-	v11(arg, x);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsKilledNonRTS");
+	v11(factionPrefix, amount);
 }
 
 // ?rva00536C17@UserPreferences@@QAEHVAsciiString@@@Z @0x00536C17 74B
 // UserPreferences UnitsKilledNonRTS-getter path: append UnitsKilledNonRTS to by-value AsciiString slot 0x18 with (arg, 0) int ret 4.
-int UserPreferences::rva00536C17(AsciiString arg)
+int UserPreferences::rva00536C17(AsciiString factionPrefix)
 {
-	((StringBase<char> *)&arg)->concat("UnitsKilledNonRTS");
-	int ret = v6(arg, 0);
+	((StringBase<char> *)&factionPrefix)->concat("UnitsKilledNonRTS");
+	int ret = v6(factionPrefix, 0);
 	return ret;
 }
 
@@ -987,8 +987,8 @@ int UserPreferences::rva00536C17(AsciiString arg)
 // Evidence: StringBase PBD ctor 0x00037BA0 slot 0x18 releaseBuffer, the OverallWinStreak getter's shape.
 int UserPreferences::rva0053700F()
 {
-	AsciiString tmp("Challenge");
-	int ret = v6(tmp, 0);
+	AsciiString keyName("Challenge");
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
@@ -996,8 +996,8 @@ int UserPreferences::rva0053700F()
 // UserPreferences Honors-getter path: local AsciiString Honors slot 0x18 with (tmp, 0) int ret 0.
 int UserPreferences::rva005370D2()
 {
-	AsciiString tmp("Honors");
-	int ret = v6(tmp, 0);
+	AsciiString keyName("Honors");
+	int ret = v6(keyName, 0);
 	return ret;
 }
 
@@ -1005,8 +1005,8 @@ int UserPreferences::rva005370D2()
 // UserPreferences LastHouse path: local AsciiString LastHouse getAsciiString with (tmp, Empty) hidden-ptr ret 4.
 AsciiString UserPreferences::rva00537261()
 {
-	AsciiString tmp("LastHouse");
-	return v8(tmp, AsciiString::TheEmptyString);
+	AsciiString keyName("LastHouse");
+	return v8(keyName, AsciiString::TheEmptyString);
 }
 
 // ?rva00537058@UserPreferences@@QAEXH@Z @0x00537058 122B
@@ -1016,23 +1016,23 @@ void UserPreferences::rva00537058(int bits)
 {
 	int honors;
 	{
-		AsciiString tmp("Honors");
-		honors = v6(tmp, 0);
+		AsciiString keyName("Honors");
+		honors = v6(keyName, 0);
 	}
-	AsciiString tmp("Honors");
-	v11(tmp, honors | bits);
+	AsciiString keyName("Honors");
+	v11(keyName, honors | bits);
 }
 
 // ?rva0053711B@UserPreferences@@QAEXVAsciiString@@HH@Z @0x0053711B 117B
 // UserPreferences indexed setter: format "%s_%d" from the by-value key and index and
 // store the value (slot 0x2C); the setter twin of the getter at 0x00537190, ret 0xC.
-void UserPreferences::rva0053711B(AsciiString arg, int x, int value)
+void UserPreferences::rva0053711B(AsciiString factionPrefix, int amount, int value)
 {
-	AsciiString tmp;
-	const char *base = *(const char **)&arg;
-	const char *s = base ? base + 8 : "";
-	tmp.format("%s_%d", s, x);
-	v11(tmp, value);
+	AsciiString keyName;
+	const char *base = *(const char **)&factionPrefix;
+	const char *valueText = base ? base + 8 : "";
+	keyName.format("%s_%d", valueText, amount);
+	v11(keyName, value);
 }
 
 // ?rva00535B32@UserPreferences@@QAE?AVUnicodeString@@M@Z @0x00535B32 125B
