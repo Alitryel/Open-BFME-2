@@ -360,6 +360,21 @@ Bank unchanged at `2196 25 0.95334`. All of these were scored with `vrun.sh`; no
 | WB twin, loop 1 | `parent` / `if(parent) victim=parent` store to the argument and the WB statement order match the bank. WB keeps `info` as a pointer local, so dropping the entry variable contradicts the twin; it was not tried |
 | Real multiple-inheritance views (`mi/` variants): `AmoebaAI : AmoebaAIHead, AICommandInterface` (polymorphic, at +0x20) with `ai->aiIdle(...)`, and `AmoebaHeld : head, list provider (+0x20), position provider (+0x11c)` with `held->fill(&range)`, `held->setLeader(...)` | byte-identical to the bank once the offsets are right. The `AmoebaSlots<0>` empty base displaces a following empty base by 1 byte and a third base by 4, so pads need checking (`sizeof(X)==N?1:-1` typedef probes; cl 7.1 has no `/d1reportSingleClassLayout`) |
 | c2 forcing: loop 1's entry:12 popped first at R1 (`prio.txt` with `IDX=12`, `1:entry:0xc:400`) | 2199 B but nd 313: R1 then empties 10 loop-1 records, node still ends in ebx and the frame shrinks to 0x2fc. Retail did not color loop 1's entry ahead of loop 2's |
+| c2 forcing of node:b like the memory-resident records (`force.py`, `ROUND idx:field:val`): cost 0 (field 16) at R1 or R2, w3 0 at R1 or R2, w3 −11 (count's value) at R1 | all 2196 25, unchanged: later rounds recompute the field |
+| node:b w3 −11 at R2 (`2 b:3:-11`) | 2199 73 0.94293: node still ebx at the loop-1 head, only the frame slots shift by 4. Making node merely low-priority at R2 is not retail's route |
+| `AmoebaNode *volatile node` | 2199 33 0.94428: node lives in memory at [ebp+0x6c] but volatile re-reads it at the compare, and count and the score temps move. Not retail's head/latch |
+| `register` on node or unit | identical to the bank |
+| TU context, 7 variants (`q2/`): drop or duplicate `startMeleeAttack`/`rva005872CF`, reorder them, a dummy function before or after | all identical: the neighbours do not reach this function's -O2 code |
+| Renames from WB asserts and frame (`q3/`): index→`offsetIndex`, entry→`info`, node→`it`, unit→`obj`, all combined | all identical (names do not reach -O2 output) |
+| WB loop-2 element local (`q4/`): `Rva00588195Elem &elem=ordered[n]`, the const ref, a pointer, `ordered+n` with an `info` pointer, unit and entry read through it | all 2196 25 identical |
+
+### WB frame as a declared-locals oracle (fourth pass, end)
+
+`dbg.txt` compiles a source at `/Od -GX -FAs` and prints its frame offsets. Probes (`od/p2_*`) show that cl 7.1 `/Od` orders slots within a scope by name hash, not by declaration order: `unit, ai, index, entry` declared in any order always gives index, entry, unit, ai. So the WB twin's frame (WB 0x146dc50, 11826 B, a newer build with an EH frame for `range` and a /GS cookie) shows the original locals' names, scopes and sizes, not their order.
+
+WB map: function scope `ordered` 0x258 at local_264, `range` local_26c, `forcePosition` 26d, `count` 274, `parent` 278; loop 1 `it` 27c, `offsetIndex` 280, `info` 284 (a pointer), `unit` 288, `ai` 28c. Loop 2: `n` 290, `bestCell` 294/298 (initialized from the global at 0x1dd08d8), the element pointer `&ordered[n]` at 29c (unit at 2a0 and `info=&m_attackInfo[elem->m_04]` at 2cc read through it), `best` 2a4–2ac (initialized three times from the global at 0x1dd08e0), `bestScore` 2c0, `current` 2c4/2c8, `outside` 2cd, `attack` 2d4, `i`/`j` 2d8/2dc (−1), score 2e0 (10000.0f), the second search's i/j at 324/328 (−1) with score 32c (1000000.0f). WB loop 1 uses begin/end temporaries and an inlined `operator!=` per iteration; the bank's statement order matches it.
+
+Untried from this map: `bestCell`/`best` initialized from those globals at their declaration (as copies, not zero-fills), the second search's i/j/score as separate locals declared in their own scope, and WB's per-iteration begin/end temporaries in loop 1. These are lead-0 candidates (they change R1's records, not loop 1's).
 
 ## Open leads for the next session (ranked)
 
