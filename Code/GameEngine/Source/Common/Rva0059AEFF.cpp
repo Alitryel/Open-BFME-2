@@ -14,6 +14,22 @@ public:
 	int m_08;
 };
 extern int g_00C70E5C;
+
+// The retail table at RVA 0x00870E5C: four code pointers, the sink's dispatch
+// head. The ledger records only the first word under this name; the other three
+// are separately rowed owners.
+extern "C" {
+void __identifier("?rva0059B14E@Rva0059B14E@@QAEHH@Z")();
+void __identifier("?rva0059B19A@Rva0059B19A@@QBEHXZ")();
+void __identifier("?rva0059B420@Rva0059B420@@QAEXHHH@Z")();
+void __identifier("?rva0059B3C1@Rva0059B3C1@@QAEHPAD@Z")();
+}
+extern "C" const void *const __identifier("?g_00C70E5C@@3HA")[4] = {
+	(const void *)&__identifier("?rva0059B14E@Rva0059B14E@@QAEHH@Z"), // slot 0 0x0059B14E
+	(const void *)&__identifier("?rva0059B19A@Rva0059B19A@@QBEHXZ"), // slot 1 0x0059B19A
+	(const void *)&__identifier("?rva0059B420@Rva0059B420@@QAEXHHH@Z"), // slot 2 0x0059B420
+	(const void *)&__identifier("?rva0059B3C1@Rva0059B3C1@@QAEHPAD@Z"), // slot 3 0x0059B3C1
+};
 class Rva0037DCA5
 {
 public:
