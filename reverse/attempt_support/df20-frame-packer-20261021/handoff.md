@@ -214,3 +214,47 @@ Next steps:
    `df20-funclet-naming-20261021` (about 8 units), then a source that outlines
    S under an inlined W early and outlines W late. Try S with a real EH-framed
    body, as retail's own 0xB3C0 shape suggests for its framed destructor.
+
+## Session 2026-10-21 (late): g69-g73 and inliner toys (bank still 0.9993)
+
+All of these trials score at or below the bank. The only residue is still the
++0x28c reloc: the bank calls S (ledger 0xB3C0), where retail calls F (0x142D70).
+
+Disproven trials (do not repeat):
+- g69: a goto at return 1, which also repeats the earlier ret1-goto handoff.
+  W is outlined at 27e and the result stores move after the call (0.9949).
+- g70: a forceinline locale/narrow chain under a depth-0 return 1 (0.9349).
+  The tail is still not shared.
+- g71: `#pragma inline_depth(0)` placed at p1-p8 around return 1 and
+  `__curr_sym`. inline_depth is sampled between `return` and `;`, and every
+  destructor run at one return shares that depth. No placement separates
+  curr_sym from the locale and grouping.
+- g72: a forceinline helper that splits out curr_sym. C4714: a forceinline
+  helper that has EH locals and returns a class by value is never inlined.
+  Helpers that return void or have no EH locals do inline, but they change
+  the frame.
+- g73: `__curr_sym` as `const string_type&` or `const string_type`. Byte-
+  identical to the bank. Without the depth-0 pragma it scores 0.9979.
+- `__forceinline` never overrides depth 0.
+
+Inliner facts from the toy8 toys (C++ linkage unless noted):
+- Top-level W at a return is graded by a binary frequency class. A site
+  guarded by a single `if` is warm (W inlined). A site nested under two `if`s
+  is cold (W outlined). The condition form does not matter.
+- Nested D and S decisions are uniform per carrier budget: D is outlined at
+  b>=9 phantoms, S at a+b>=9, except inside loops, where the final site is hot.
+- An early return makes the code after it colder.
+- `extern "C"` toys inline differently (W is outlined everywhere), so toys
+  must use C++ linkage.
+
+Conclusion: in the ledger naming (28c mapped to F, S late) no return-statement
+mechanism outlines only curr_sym and keeps the result stores first. The
+remaining paths are:
+1. The true-naming reconciliation in `df20-funclet-naming-20261021`
+   (F=S, B=W). Under that naming the natural toy V3 a9 w1 reproduces retail.
+   It is a class-level pass over the wide basic_string views in about 10
+   units (19.3 KB of link cost), not a per-body change.
+2. Untried: make only the return-1 site cold (a nested two-condition class)
+   so that natural W grading outlines W there alone. This is unlikely, since
+   retail's source has a single `if`, but it is cheap to test with the
+   toy8/sm.sh harness.
