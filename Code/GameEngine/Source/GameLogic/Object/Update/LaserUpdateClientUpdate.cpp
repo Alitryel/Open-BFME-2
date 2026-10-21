@@ -91,10 +91,10 @@ public:
     unsigned m_parentID, m_targetID;
 };
 
-static void InitLaserMatrix3D(Matrix3D &m, bool init)
+static void InitLaserMatrix3D(Matrix3D &matrix3D, bool init)
 {
     if (init)
-        m.Make_Identity();
+        matrix3D.Make_Identity();
 }
 
 void LaserUpdate::clientUpdate()

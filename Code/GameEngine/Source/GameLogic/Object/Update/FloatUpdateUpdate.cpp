@@ -61,11 +61,11 @@ public:
 class Matrix3D
 {
 public:
-	__forceinline Matrix3D(const Matrix3D &m)
+	__forceinline Matrix3D(const Matrix3D &matrix3D)
 	{
-		Row[0] = m.Row[0];
-		Row[1] = m.Row[1];
-		Row[2] = m.Row[2];
+		Row[0] = matrix3D.Row[0];
+		Row[1] = matrix3D.Row[1];
+		Row[2] = matrix3D.Row[2];
 	}
 
 	float Get_Z_Rotation(void) const;

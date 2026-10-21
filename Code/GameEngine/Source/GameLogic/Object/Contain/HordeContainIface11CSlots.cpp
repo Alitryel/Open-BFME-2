@@ -257,11 +257,11 @@ struct Vector4
 class Matrix3D
 {
 public:
-	__forceinline Matrix3D(const Matrix3D &m)
+	__forceinline Matrix3D(const Matrix3D &matrix3D)
 	{
-		Row[0] = m.Row[0];
-		Row[1] = m.Row[1];
-		Row[2] = m.Row[2];
+		Row[0] = matrix3D.Row[0];
+		Row[1] = matrix3D.Row[1];
+		Row[2] = matrix3D.Row[2];
 	}
 	Vector4 Row[3];
 };
@@ -4853,9 +4853,9 @@ class Rva0046247DDescriptor { public: Rva0036AE51ListView rva0046247D(); };
 // the shared Coord2D contract. Retail proves the two-float layout and arithmetic.
 struct HordeDelta2D : public Coord2D {
  HordeDelta2D(const Coord2D &p) { x=p.x; y=p.y; }
- HordeDelta2D(const HordeDelta2D &p) { x=p.x; y=p.y; }
+ HordeDelta2D(const HordeDelta2D &hordeDelta2D) { x=hordeDelta2D.x; y=hordeDelta2D.y; }
  ~HordeDelta2D() {}
- HordeDelta2D &Sub(const HordeDelta2D &p) { x-=p.x; y-=p.y; return *this; }
+ HordeDelta2D &Sub(const HordeDelta2D &hordeDelta2D) { x-=hordeDelta2D.x; y-=hordeDelta2D.y; return *this; }
  float lengthSq() const { return x*x+y*y; }
 };
 // Retail invokes slot 12 with the selected object and its new formation index.

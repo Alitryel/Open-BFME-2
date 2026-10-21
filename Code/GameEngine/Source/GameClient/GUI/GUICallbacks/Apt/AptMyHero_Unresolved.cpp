@@ -150,16 +150,16 @@ __forceinline void Matrix3D::Set(const Vector3 &axis,float s,float c){
  Row[1].Set((float)(axis[0]*axis[1]*(1.0f-c)+axis[2]*s),(float)(axis[1]*axis[1]+c*(1.0f-axis[1]*axis[1])),(float)(axis[1]*axis[2]*(1.0f-c)-axis[0]*s),0.0f);
  Row[2].Set((float)(axis[2]*axis[0]*(1.0f-c)-axis[1]*s),(float)(axis[1]*axis[2]*(1.0f-c)+axis[0]*s),(float)(axis[2]*axis[2]+c*(1-axis[2]*axis[2])),0.0f);
 }
-__forceinline void Matrix3D::mul(const Matrix3D &A,const Matrix3D &B){
+__forceinline void Matrix3D::mul(const Matrix3D &matrix3D,const Matrix3D &B){
  float tmp1,tmp2,tmp3;
  tmp1=B.Row[0].X;tmp2=B.Row[1].X;tmp3=B.Row[2].X;
- Row[0].X=submul(A.Row[0],tmp1,tmp2,tmp3);Row[1].X=submul(A.Row[1],tmp1,tmp2,tmp3);Row[2].X=submul(A.Row[2],tmp1,tmp2,tmp3);
+ Row[0].X=submul(matrix3D.Row[0],tmp1,tmp2,tmp3);Row[1].X=submul(matrix3D.Row[1],tmp1,tmp2,tmp3);Row[2].X=submul(matrix3D.Row[2],tmp1,tmp2,tmp3);
  tmp1=B.Row[0].Y;tmp2=B.Row[1].Y;tmp3=B.Row[2].Y;
- Row[0].Y=submul(A.Row[0],tmp1,tmp2,tmp3);Row[1].Y=submul(A.Row[1],tmp1,tmp2,tmp3);Row[2].Y=submul(A.Row[2],tmp1,tmp2,tmp3);
+ Row[0].Y=submul(matrix3D.Row[0],tmp1,tmp2,tmp3);Row[1].Y=submul(matrix3D.Row[1],tmp1,tmp2,tmp3);Row[2].Y=submul(matrix3D.Row[2],tmp1,tmp2,tmp3);
  tmp1=B.Row[0].Z;tmp2=B.Row[1].Z;tmp3=B.Row[2].Z;
- Row[0].Z=submul(A.Row[0],tmp1,tmp2,tmp3);Row[1].Z=submul(A.Row[1],tmp1,tmp2,tmp3);Row[2].Z=submul(A.Row[2],tmp1,tmp2,tmp3);
+ Row[0].Z=submul(matrix3D.Row[0],tmp1,tmp2,tmp3);Row[1].Z=submul(matrix3D.Row[1],tmp1,tmp2,tmp3);Row[2].Z=submul(matrix3D.Row[2],tmp1,tmp2,tmp3);
  tmp1=B.Row[0].W;tmp2=B.Row[1].W;tmp3=B.Row[2].W;
- Row[0].W=submul(A.Row[0],tmp1,tmp2,tmp3)+A.Row[0].W;Row[1].W=submul(A.Row[1],tmp1,tmp2,tmp3)+A.Row[1].W;Row[2].W=submul(A.Row[2],tmp1,tmp2,tmp3)+A.Row[2].W;
+ Row[0].W=submul(matrix3D.Row[0],tmp1,tmp2,tmp3)+matrix3D.Row[0].W;Row[1].W=submul(matrix3D.Row[1],tmp1,tmp2,tmp3)+matrix3D.Row[1].W;Row[2].W=submul(matrix3D.Row[2],tmp1,tmp2,tmp3)+matrix3D.Row[2].W;
 }
 class View {
 public:

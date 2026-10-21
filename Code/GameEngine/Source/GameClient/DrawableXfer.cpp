@@ -290,7 +290,7 @@ public:
 class Matrix3D
 {
 public:
-	__forceinline Matrix3D(const Matrix3D &m) : Row0(m.Row0), Row1(m.Row1), Row2(m.Row2) {}
+	__forceinline Matrix3D(const Matrix3D &matrix3D) : Row0(matrix3D.Row0), Row1(matrix3D.Row1), Row2(matrix3D.Row2) {}
 	Vector4 Row0;
 	Vector4 Row1;
 	Vector4 Row2;

@@ -71,7 +71,7 @@ struct Vector4
 class Matrix3D
 {
 public:
-	__forceinline Matrix3D(const Matrix3D &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; }
+	__forceinline Matrix3D(const Matrix3D &matrix3D) { Row[0] = matrix3D.Row[0]; Row[1] = matrix3D.Row[1]; Row[2] = matrix3D.Row[2]; }
 	Vector4 &operator[](int i) { return Row[i]; }
 	Vector4 Row[3];
 };

@@ -1012,7 +1012,7 @@ class Rva001E4912 { public:
 // returned speed. Reading that speed through a volatile float view keeps the
 // native FSTP float rounding before SSE halving. The flag starts after the call
 // and before halving; the special pivot's constant offset is a const reference.
-static __forceinline void preRotateZ(Matrix3D&m,float s,float c){m.In_Place_Pre_Rotate_Z(s,c);}
+static __forceinline void preRotateZ(Matrix3D&matrix3D,float s,float c){matrix3D.In_Place_Pre_Rotate_Z(s,c);}
 void Rva001E46E1::rva001E56DC(Object *obj,const Coord3D *goal,float maxTurnRate,float *relAngle)
 {
     union PivotValue {float *output;float speed;};PivotValue value;value.output=relAngle;

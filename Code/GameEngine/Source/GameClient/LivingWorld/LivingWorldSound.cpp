@@ -222,7 +222,7 @@ struct LivingWorldSoundPosition
 };
 struct LivingWorldSoundZoom
 {
-    LivingWorldSoundZoom(const Region2D &r) : x_min(r.x_min), y_min(r.y_min), x_max(r.x_max), y_max(r.y_max) {}
+    LivingWorldSoundZoom(const Region2D &region2D) : x_min(region2D.x_min), y_min(region2D.y_min), x_max(region2D.x_max), y_max(region2D.y_max) {}
     float x_min, y_min, x_max, y_max;
 };
 class Rva003FAFB9 : public Snapshot

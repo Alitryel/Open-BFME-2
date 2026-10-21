@@ -42,9 +42,9 @@ extern ControlBar*TheControlBar;
 class CommandTranslator {public:void rva0042AF97(GameMessage*);};
 void CommandTranslator::rva0042AF97(GameMessage*msg){
  if(TheInGameUI->forceAttack)return;
- const IRegion2D&r=msg->getArgument(0)->pixelRegion;
- if(r.height()!=0||r.width()!=0)return;
- Drawable*draw=((TacticalView*)TheTacticalView)->pickDrawable(&r.lo,false,4);
+ const IRegion2D&region2D=msg->getArgument(0)->pixelRegion;
+ if(region2D.height()!=0||region2D.width()!=0)return;
+ Drawable*draw=((TacticalView*)TheTacticalView)->pickDrawable(&region2D.lo,false,4);
  if(!draw)return;
  Object*obj=draw->object;if(!obj)return;
  if(obj->testStatus((ObjectStatusTypes)38)){

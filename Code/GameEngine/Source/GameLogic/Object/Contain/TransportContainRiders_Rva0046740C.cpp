@@ -145,9 +145,9 @@ static inline Vector3 operator*(const Matrix3D &A, const Vector3 &a)
 		(A.Row[2][0] * a.X + A.Row[2][1] * a.Y + A.Row[2][2] * a.Z + A.Row[2][3]));
 }
 
-static inline Vector3 getTranslation(const Matrix3D &A)
+static inline Vector3 getTranslation(const Matrix3D &matrix3D)
 {
-	return Vector3(A.Row[0][3], A.Row[1][3], A.Row[2][3]);
+	return Vector3(matrix3D.Row[0][3], matrix3D.Row[1][3], matrix3D.Row[2][3]);
 }
 
 // Coord3D::set; its arguments are evaluated right to left.

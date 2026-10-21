@@ -110,8 +110,8 @@ class Player;
 #include "../../../../Libraries/Include/Lib/Region2D.h"
 // Region2D::width()/height() of ZH BaseType.h, as TU helpers: the canonical
 // header carries the data layout only.
-inline Real regionWidth(const Region2D &r) { return r.hi.x - r.lo.x; }
-inline Real regionHeight(const Region2D &r) { return r.hi.y - r.lo.y; }
+inline Real regionWidth(const Region2D &region2D) { return region2D.hi.x - region2D.lo.x; }
+inline Real regionHeight(const Region2D &region2D) { return region2D.hi.y - region2D.lo.y; }
 
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_INLINE

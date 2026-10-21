@@ -30,7 +30,7 @@ __declspec(noinline) inline void Coord3D::normalize()
 }
 
 
-__forceinline void ITR1(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+__forceinline void ITR1(const Matrix3D & matrix3D,const Vector3 & in,Vector3 * out)
 {
 	Vector3 tmp;
 	Vector3 * v;
@@ -40,11 +40,11 @@ __forceinline void ITR1(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 	} else {
 		v = (Vector3 *)&in;
 	}
-	out->X = (A[0][0] * v->X + A[1][0] * v->Y + A[2][0] * v->Z);
-	out->Y = (A[0][1] * v->X + A[1][1] * v->Y + A[2][1] * v->Z);
-	out->Z = (A[0][2] * v->X + (A[1][2] * v->Y + A[2][2] * v->Z));
+	out->X = (matrix3D[0][0] * v->X + matrix3D[1][0] * v->Y + matrix3D[2][0] * v->Z);
+	out->Y = (matrix3D[0][1] * v->X + matrix3D[1][1] * v->Y + matrix3D[2][1] * v->Z);
+	out->Z = (matrix3D[0][2] * v->X + (matrix3D[1][2] * v->Y + matrix3D[2][2] * v->Z));
 }
-__forceinline void ITV1(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+__forceinline void ITV1(const Matrix3D & matrix3D,const Vector3 & in,Vector3 * out)
 {
 	Vector3 tmp;
 	Vector3 * v;
@@ -54,14 +54,14 @@ __forceinline void ITV1(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 	} else {
 		v = (Vector3 *)&in;
 	}
-	Vector3 diff(v->X - A[0][3], v->Y - A[1][3], v->Z - A[2][3]);
-	ITR1(A, diff, out);
+	Vector3 diff(v->X - matrix3D[0][3], v->Y - matrix3D[1][3], v->Z - matrix3D[2][3]);
+	ITR1(matrix3D, diff, out);
 }
 
 // A parenthesized float subexpression is a paren IL node: (A[0][2] * v->X) reaches the final
 // canonical sort as a temporary keyed above the plain products, so it leads the Z sum and is the
 // destination, as in retail's second transform. ITR1's grouped Z sum leads with A[2][2]*z instead.
-__forceinline void ITR2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+__forceinline void ITR2(const Matrix3D & matrix3D,const Vector3 & in,Vector3 * out)
 {
 	Vector3 tmp;
 	Vector3 * v;
@@ -71,11 +71,11 @@ __forceinline void ITR2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 	} else {
 		v = (Vector3 *)&in;
 	}
-	out->X = (A[0][0] * v->X + A[1][0] * v->Y + A[2][0] * v->Z);
-	out->Y = (A[0][1] * v->X + A[1][1] * v->Y + A[2][1] * v->Z);
-	out->Z = ((A[0][2] * v->X) + A[1][2] * v->Y + A[2][2] * v->Z);
+	out->X = (matrix3D[0][0] * v->X + matrix3D[1][0] * v->Y + matrix3D[2][0] * v->Z);
+	out->Y = (matrix3D[0][1] * v->X + matrix3D[1][1] * v->Y + matrix3D[2][1] * v->Z);
+	out->Z = ((matrix3D[0][2] * v->X) + matrix3D[1][2] * v->Y + matrix3D[2][2] * v->Z);
 }
-__forceinline void ITV2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+__forceinline void ITV2(const Matrix3D & matrix3D,const Vector3 & in,Vector3 * out)
 {
 	Vector3 tmp;
 	Vector3 * v;
@@ -85,8 +85,8 @@ __forceinline void ITV2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 	} else {
 		v = (Vector3 *)&in;
 	}
-	Vector3 diff(v->X - A[0][3], v->Y - A[1][3], v->Z - A[2][3]);
-	ITR2(A, diff, out);
+	Vector3 diff(v->X - matrix3D[0][3], v->Y - matrix3D[1][3], v->Z - matrix3D[2][3]);
+	ITR2(matrix3D, diff, out);
 }
 class GameClientRandomVariable
 {
@@ -213,13 +213,13 @@ Coord3D LightningEmissionModule::getPosition(float, float, int index, int count)
 			RvaSmartPtr12 handle = ((const Rva0055DDB6SmartField *)this)->get();
 			if (((ParticleSystemView *)handle.system())->m_isLocal)
 			{
-				const Matrix3D &m = ((ParticleSystemView *)handle.system())->m_transform;
+				const Matrix3D &matrix3D = ((ParticleSystemView *)handle.system())->m_transform;
 				Vector3 a;
-				ITV1(m, m.Get_Translation(), &a);
+				ITV1(matrix3D, matrix3D.Get_Translation(), &a);
 				start = *(Coord3D *)&a;
 				const Vector3 *p = &((ParticleSystemView *)handle.system())->m_position;
 				Vector3 b;
-				ITV2(m, Vector3(p->X, p->Y, p->Z), &b);
+				ITV2(matrix3D, Vector3(p->X, p->Y, p->Z), &b);
 				end = *(Coord3D *)&b;
 			}
 			Coord3D delta;

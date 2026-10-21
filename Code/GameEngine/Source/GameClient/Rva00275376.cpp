@@ -126,7 +126,7 @@ class Rva00275376 : public Drawable
     void rva002752F8();
 };
 
-bool Drawable::getProjectileLaunchOffset(WeaponSlotType a0, int a1, Matrix3D *a2,
+bool Drawable::getProjectileLaunchOffset(WeaponSlotType a0, int a1, Matrix3D *matrix3D,
                                          WhichTurretType a3, Coord3D *a4, Coord3D *a5) const
 {
     if (m_443)
@@ -154,7 +154,7 @@ bool Drawable::getProjectileLaunchOffset(WeaponSlotType a0, int a1, Matrix3D *a2
             if (p != 0)
             {
                 Slot18Holder *slot18Holder = (Slot18Holder *)p;
-                if (slot18Holder->slot18(&m_258, a0, a1, a2, a3, a4, a5))
+                if (slot18Holder->slot18(&m_258, a0, a1, matrix3D, a3, a4, a5))
                     return true;
             }
             ++arr;

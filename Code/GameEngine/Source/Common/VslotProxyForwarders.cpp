@@ -567,12 +567,12 @@ public:
 // same proxy getter rva003F81B0; tail-jmp to rowed
 // ?setWaterTransform@W3DTerrainVisual@@UAEXPBVMatrix3D@@@Z 0x003F8067;
 // caller at 0x005E95E2; ret 4 passthrough.
-void Rva003F81FDProxy::rva003F8361(const Matrix3D *m)
+void Rva003F81FDProxy::rva003F8361(const Matrix3D *matrix3D)
 {
 	Rva003F7D86Inner *inner = rva003F81B0();
 	if (!inner)
 		return;
-	((W3DTerrainVisual *)inner)->W3DTerrainVisual::setWaterTransform(m);
+	((W3DTerrainVisual *)inner)->W3DTerrainVisual::setWaterTransform(matrix3D);
 }
 
 class Rva003F8083

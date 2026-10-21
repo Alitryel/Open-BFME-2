@@ -20,32 +20,32 @@ static __forceinline void bfmeSetV3(Vector3 &v,float x,float y,float z) {v.X=x;v
 static __forceinline float boneSubmul(const Vector4 &row,float x,float y,float z) {return row.Z*z+row.Y*y+row.X*x;}
 class Matrix3D {public:
  Vector4 Row[3];
- __forceinline void bfme_mul_bp(const Matrix3D &a,const Matrix3D &b) {
+ __forceinline void bfme_mul_bp(const Matrix3D &matrix3D,const Matrix3D &b) {
   float x,y,z;
   x=b.Row[0].X;y=b.Row[1].X;z=b.Row[2].X;
-  Row[0].X=boneSubmul(a.Row[0],x,y,z);
-  Row[1].X=boneSubmul(a.Row[1],x,y,z);
-  Row[2].X=boneSubmul(a.Row[2],x,y,z);
+  Row[0].X=boneSubmul(matrix3D.Row[0],x,y,z);
+  Row[1].X=boneSubmul(matrix3D.Row[1],x,y,z);
+  Row[2].X=boneSubmul(matrix3D.Row[2],x,y,z);
   x=b.Row[0].Y;y=b.Row[1].Y;z=b.Row[2].Y;
-  Row[0].Y=boneSubmul(a.Row[0],x,y,z);
-  Row[1].Y=boneSubmul(a.Row[1],x,y,z);
-  Row[2].Y=boneSubmul(a.Row[2],x,y,z);
+  Row[0].Y=boneSubmul(matrix3D.Row[0],x,y,z);
+  Row[1].Y=boneSubmul(matrix3D.Row[1],x,y,z);
+  Row[2].Y=boneSubmul(matrix3D.Row[2],x,y,z);
   x=b.Row[0].Z;y=b.Row[1].Z;z=b.Row[2].Z;
-  Row[0].Z=boneSubmul(a.Row[0],x,y,z);
-  Row[1].Z=boneSubmul(a.Row[1],x,y,z);
-  Row[2].Z=boneSubmul(a.Row[2],x,y,z);
+  Row[0].Z=boneSubmul(matrix3D.Row[0],x,y,z);
+  Row[1].Z=boneSubmul(matrix3D.Row[1],x,y,z);
+  Row[2].Z=boneSubmul(matrix3D.Row[2],x,y,z);
   x=b.Row[0].W;y=b.Row[1].W;z=b.Row[2].W;
-  Row[0].W=boneSubmul(a.Row[0],x,y,z)+a.Row[0].W;
-  Row[1].W=boneSubmul(a.Row[1],x,y,z)+a.Row[1].W;
-  Row[2].W=boneSubmul(a.Row[2],x,y,z)+a.Row[2].W;
+  Row[0].W=boneSubmul(matrix3D.Row[0],x,y,z)+matrix3D.Row[0].W;
+  Row[1].W=boneSubmul(matrix3D.Row[1],x,y,z)+matrix3D.Row[1].W;
+  Row[2].W=boneSubmul(matrix3D.Row[2],x,y,z)+matrix3D.Row[2].W;
   }
- static __forceinline void Transform_Vector(const Matrix3D &a,const Vector3 &in,Vector3 *out) {
+ static __forceinline void Transform_Vector(const Matrix3D &matrix3D,const Vector3 &in,Vector3 *out) {
   Vector3 tmp;
   Vector3 *v;
   if(out==&in) {bfmeCopyV3(tmp,in);v=&tmp;} else v=(Vector3 *)&in;
-  out->X=a.Row[0].X*v->X+a.Row[0].Y*v->Y+a.Row[0].Z*v->Z+a.Row[0].W;
-  out->Y=a.Row[1].X*v->X+a.Row[1].Y*v->Y+a.Row[1].Z*v->Z+a.Row[1].W;
-  out->Z=a.Row[2].X*v->X+a.Row[2].Y*v->Y+a.Row[2].Z*v->Z+a.Row[2].W;
+  out->X=matrix3D.Row[0].X*v->X+matrix3D.Row[0].Y*v->Y+matrix3D.Row[0].Z*v->Z+matrix3D.Row[0].W;
+  out->Y=matrix3D.Row[1].X*v->X+matrix3D.Row[1].Y*v->Y+matrix3D.Row[1].Z*v->Z+matrix3D.Row[1].W;
+  out->Z=matrix3D.Row[2].X*v->X+matrix3D.Row[2].Y*v->Y+matrix3D.Row[2].Z*v->Z+matrix3D.Row[2].W;
  }
 };
 class Thing {public:

@@ -84,11 +84,11 @@ class Matrix3D
     float Row[3][4];
 };
 
-template <class T> __forceinline void Rva0046B05BTransform(const Matrix3D &m, T *v)
+template <class T> __forceinline void Rva0046B05BTransform(const Matrix3D &matrix3D, T *v)
 {
-    float x = m.Row[0][0] * v->x + m.Row[0][1] * v->y + m.Row[0][2] * v->z + m.Row[0][3];
-    float y = m.Row[1][0] * v->x + m.Row[1][1] * v->y + m.Row[1][2] * v->z + m.Row[1][3];
-    float z = m.Row[2][0] * v->x + m.Row[2][1] * v->y + m.Row[2][2] * v->z + m.Row[2][3];
+    float x = matrix3D.Row[0][0] * v->x + matrix3D.Row[0][1] * v->y + matrix3D.Row[0][2] * v->z + matrix3D.Row[0][3];
+    float y = matrix3D.Row[1][0] * v->x + matrix3D.Row[1][1] * v->y + matrix3D.Row[1][2] * v->z + matrix3D.Row[1][3];
+    float z = matrix3D.Row[2][0] * v->x + matrix3D.Row[2][1] * v->y + matrix3D.Row[2][2] * v->z + matrix3D.Row[2][3];
     v->x = x;
     v->y = y;
     v->z = z;

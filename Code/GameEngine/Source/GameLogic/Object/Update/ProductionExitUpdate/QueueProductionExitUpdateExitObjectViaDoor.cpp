@@ -142,7 +142,7 @@ struct Vector3
 class Matrix3D
 {
 public:
-	static __forceinline void Transform_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+	static __forceinline void Transform_Vector(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 	{
 		Vector3 tmp;
 		const Vector3 *v;
@@ -152,9 +152,9 @@ public:
 		} else {
 			v = &in;
 		}
-		out->X = (A.Row[0][0] * v->X + A.Row[0][1] * v->Y + A.Row[0][2] * v->Z + A.Row[0][3]);
-		out->Y = (A.Row[1][0] * v->X + A.Row[1][1] * v->Y + A.Row[1][2] * v->Z + A.Row[1][3]);
-		out->Z = (A.Row[2][0] * v->X + A.Row[2][1] * v->Y + A.Row[2][2] * v->Z + A.Row[2][3]);
+		out->X = (matrix3D.Row[0][0] * v->X + matrix3D.Row[0][1] * v->Y + matrix3D.Row[0][2] * v->Z + matrix3D.Row[0][3]);
+		out->Y = (matrix3D.Row[1][0] * v->X + matrix3D.Row[1][1] * v->Y + matrix3D.Row[1][2] * v->Z + matrix3D.Row[1][3]);
+		out->Z = (matrix3D.Row[2][0] * v->X + matrix3D.Row[2][1] * v->Y + matrix3D.Row[2][2] * v->Z + matrix3D.Row[2][3]);
 	}
 
 	Real Row[3][4];

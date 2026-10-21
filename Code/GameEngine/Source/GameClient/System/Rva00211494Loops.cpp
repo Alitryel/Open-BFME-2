@@ -172,7 +172,7 @@ BfmeParticleSystemHandle Rva0021122A::rva0021122A() const {return particle1C;}
 // what the inline vector operator[] reference gives.
 struct Vec3 {
  Vec3(){}
- Vec3(const Vec3 &v){x=v.x;y=v.y;z=v.z;}
+ Vec3(const Vec3 &vec3){x=vec3.x;y=vec3.y;z=vec3.z;}
  float x,y,z;
 };
 class Rva003F936EHost {public:void rva003FB793(Vec3 *);};

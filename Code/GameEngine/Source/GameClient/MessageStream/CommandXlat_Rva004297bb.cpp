@@ -1104,8 +1104,8 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
 }
 
 #include "../../../Include/Common/BfmeAudioEventPrefix136.h"
-static __forceinline int translateHeight(const IRegion2D&r){return r.hi.y-r.lo.y;}
-static __forceinline int translateWidth(const IRegion2D&r){return r.hi.x-r.lo.x;}
+static __forceinline int translateHeight(const IRegion2D&region2D){return region2D.hi.y-region2D.lo.y;}
+static __forceinline int translateWidth(const IRegion2D&region2D){return region2D.hi.x-region2D.lo.x;}
 struct TranslateUIInput { char pad[0x15];bool enabled,active;bool getInputEnabled() const {return enabled&&active;} };
 struct TranslateMouseFields {char pad[0x12e8];unsigned dragTolerance;int pad12ec;unsigned clickTime;};
 struct TranslateGlobalFields {char pad[0x5c];bool alternate;char pad5d[0xa44-0x5d];int netMinPlayers;char pada48[0xbbd-0xa48];bool fastMode;char padbbe[0x11c9-0xbbe];bool timeControls;};

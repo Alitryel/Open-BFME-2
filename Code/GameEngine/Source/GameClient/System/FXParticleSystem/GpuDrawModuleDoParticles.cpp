@@ -151,9 +151,9 @@ public:
 class Matrix4
 {
 public:
-	__forceinline explicit Matrix4(const Matrix3D &m)
+	__forceinline explicit Matrix4(const Matrix3D &matrix3D)
 	{
-		Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		Row[0] = matrix3D[0]; Row[1] = matrix3D[1]; Row[2] = matrix3D[2]; Row[3] = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 	__forceinline Matrix4() {}
 	__forceinline explicit Matrix4(bool identity)

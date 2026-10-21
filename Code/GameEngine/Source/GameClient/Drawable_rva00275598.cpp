@@ -177,7 +177,7 @@ public:
  void fadeIn(unsigned);
  void setDrawableHidden(bool hidden);
  __forceinline DrawableDrawSlots **getDrawModules(){return draw14C;}
- void setTransformMatrix(const Matrix3D *m){reinterpret_cast<Thing *>(this)->setTransformMatrix(m);}
+ void setTransformMatrix(const Matrix3D *matrix3D){reinterpret_cast<Thing *>(this)->setTransformMatrix(matrix3D);}
 
     void rva00272DEE();
 private:

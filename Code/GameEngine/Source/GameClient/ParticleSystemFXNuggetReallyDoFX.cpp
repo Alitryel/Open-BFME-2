@@ -121,7 +121,7 @@ public:
 	Vector3 target; // +0x188
 	bool targetValid; // +0x194
 	__forceinline void setPosition(const Coord3D *p) { ((Rva001F3899Slot *)this)->set(*(const Rva001F3899Arg *)p); }
-	__forceinline void setLocalTransform(const Matrix3D *m) { ((Rva001F38C1Slot *)this)->set(*(const Rva001F38C1Arg *)m); }
+	__forceinline void setLocalTransform(const Matrix3D *matrix3D) { ((Rva001F38C1Slot *)this)->set(*(const Rva001F38C1Arg *)matrix3D); }
 	__forceinline void attachToObject(const Object *object) { ((Rva001F3C43Slot *)this)->set((const Rva001F3C43Arg *)object); }
 	__forceinline void setTarget(const Vector3 &p) { target = p; targetValid = true; }
 };
@@ -178,7 +178,7 @@ static __forceinline long fast_float2long_round(float f)
 #define REAL_TO_INT_CEIL(x) (fast_float2long_round(fast_float_ceil(x)))
 
 static __forceinline const Coord3D *objectPos(const Object *object) { return (const Coord3D *)((const char *)object + 0x38); }
-static __forceinline bool boneTransform(const Object *object, const AsciiString &name, Matrix3D &m) { return ((const Thing *)object)->getDrawable()->rva00272835((int)name.str(), (int)&m); }
+static __forceinline bool boneTransform(const Object *object, const AsciiString &name, Matrix3D &matrix3D) { return ((const Thing *)object)->getDrawable()->rva00272835((int)name.str(), (int)&matrix3D); }
 
 // FXList.cpp's adjustVector (0x001F2EAB), select-any in both units: with its body visible,
 // cl treats the offset passed to it as not escaping, which places the frame as retail does.
