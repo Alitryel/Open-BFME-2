@@ -5,6 +5,10 @@
 // Suppress this TU's non-retail copy of ?_M_clear@?$vector@HV?$allocator@H@_STL@@@_STL@@IAEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void vector<int, allocator<int> >::_M_clear(); }
+// Suppress this TU's /O2 copy of ?allocate@?$__node_alloc@$00$0A@@_STL@@SAPAXI@Z:
+// first in link order, it differed from every /O1 unit's copy. The insert-overflow
+// call keeps the same name. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void *__node_alloc<true, 0>::allocate(size_t); }
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator and
 // _STLP_alloc_proxy deallocate COMDATs (one byte shape per TU flags); explicit
