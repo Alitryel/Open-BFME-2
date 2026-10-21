@@ -32,7 +32,7 @@ class PartitionFilterRejectBuildings:public Rva000421C8 {
 public:
  PartitionFilterRejectBuildings(Object *obj);
  __declspec(noinline) virtual ~PartitionFilterRejectBuildings();
- virtual bool rva00261B7E(Object *);
+ virtual bool allow(Object *);
 private:
  Object *m_obj;
  bool m_flag;
