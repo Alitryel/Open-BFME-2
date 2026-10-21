@@ -24,8 +24,8 @@ void __cdecl parseMusicTrackDefinition(INI *ini)
 	helper001DA770(ini, 0, &def, "MusicTrack");
 }
 
-// ?Rva001DA9CAParse@@YAXPAVINI@@@Z
-void __cdecl Rva001DA9CAParse(INI *ini)
+// ?parseAudioEventDefinition@@YAXPAVINI@@@Z
+void __cdecl parseAudioEventDefinition(INI *ini)
 {
 	AsciiString def("DefaultSoundEffect");
 	helper001DA770(ini, 2, &def, "AudioEvent");

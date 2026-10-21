@@ -1423,3 +1423,4 @@ __ehhandler$?Rva00200FE3Parse@@YAXPAVINI@@@Z,0x0076C4A0,"Renamed to __ehhandler$
 ?Rva001DAA5EParse@@YAXPAVINI@@@Z,0x001DAA5E,"Renamed to ?parseAmbientStreamDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?rva00224DFF@@YAXPAVINI@@@Z,0x00224DFF,"Renamed to ?parseAptButtonTooltipMapDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00221012Parse@@YAXPAVINI@@@Z,0x00221012,"Renamed to ?parseArmySummaryDescriptionDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva001DA9CAParse@@YAXPAVINI@@@Z,0x001DA9CA,"Renamed to ?parseAudioEventDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
