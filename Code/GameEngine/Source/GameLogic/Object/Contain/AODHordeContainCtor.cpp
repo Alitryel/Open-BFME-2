@@ -59,13 +59,14 @@ class HordeContain
 {
 public:
 	HordeContain(Thing *thing, const ModuleData *moduleData);
-	~HordeContain();
-	void rva00470DC1();
+	virtual ~HordeContain();
+	virtual void rva00470DC1();
 public: void rva0047A413(); };
 
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+namespace _STL { template <> _Vector_base<BfmeE16, allocator<BfmeE16> >::~_Vector_base(); }
 // Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
@@ -140,6 +141,7 @@ class AODHordeContain : public HordeContain
 {
 public:
 	AODHordeContain(Thing *thing, const ModuleData *moduleData);
+	virtual ~AODHordeContain();
 	int rva0047A6ED() const;
 	void rva0047A729(const Float3 *position);
 	void rva0047A77E();
