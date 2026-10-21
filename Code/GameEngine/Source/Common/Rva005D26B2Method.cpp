@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
 //
-// ?rva005D26B2@Rva005D2664@@QAEXPBD@Z @0x005D26B2 268B: parse idx/name, alloc Rva005D2462, Set.
+// ?OnButtonFrameLoaded@Rva005D2664@@QAEXPBD@Z @0x005D26B2 268B: parse idx/name, alloc Rva005D2462, Set.
 // Computes elem = this + (idx+1)*0x1C, checks [elem]==0, new 0x18 Rva005D2462
 // from AfterLevel(name)/GetLevel(name) plus elem +4/+8, Set via rowed 0x00575674.
 // Evidence: chain from 0x005D2505Get, retail inc/imul-0x1C/add, push-0x18/new,
@@ -38,12 +38,12 @@ private:
 class Rva005D2664
 {
 public:
-	void rva005D26B2(const char *params);
+	void OnButtonFrameLoaded(const char *params);
 private:
 	char m_header00[0x1C];
 };
 
-void Rva005D2664::rva005D26B2(const char *params)
+void Rva005D2664::OnButtonFrameLoaded(const char *params)
 {
 	AsciiString name;
 	Rva00575674 *elem;

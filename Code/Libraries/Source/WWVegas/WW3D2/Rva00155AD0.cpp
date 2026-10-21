@@ -145,14 +145,14 @@ public:
 struct Render2DRawArray {void *Data;unsigned Size,Count;int GrowthStep;};
 class Rva00118F50 {
 public:
-    void rva00118F50();
+    void Render();
 private:
     unsigned shader;float scale[2],offset[2];Render2DRawArray vertices,indices;
     char batches[12];BFME2TextureRef texture;
 };
 // ?<ComposeShader> absent-from-retail
 static __forceinline unsigned ComposeShader(unsigned state,unsigned extra) { return state | (extra<<3); }
-void Rva00118F50::rva00118F50() {
+void Rva00118F50::Render() {
     if(vertices.Count) {
     Matrix4 view,proj;
     Matrix4 identity;identity.Make_Identity();
@@ -219,7 +219,7 @@ void Rva00155AD0::rva00155AD0()
 	((Rva00154FD0 *)this)->rva00154FD0();
 	Rva00118810();
 	for (int i = 0; i < m_count; ++i) {
-		m_array[i].obj->rva00118F50();
+		m_array[i].obj->Render();
 	}
 	Rva001188A0();
 }

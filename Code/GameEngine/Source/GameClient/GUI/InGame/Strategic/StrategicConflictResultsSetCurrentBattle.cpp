@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// ?rva005EBDBF@Rva005EB8D6@@QAE_NPAX@Z @0x005EBDBF 600B (thiscall ret 4).
+// ?SetCurrentBattle@Rva005EB8D6@@QAE_NPAX@Z @0x005EBDBF 600B (thiscall ret 4).
 // WorldBuilder 0x015E8FD0 StrategicConflictResults::Impl::SetCurrentBattle
 // (StrategicConflictResults.cpp:347 assert compiled out); the pinned
 // address-derived spelling keeps the constructor's class name (ctor
@@ -112,7 +112,7 @@ public:
 class Rva005EB8D6
 {
 public:
-	bool rva005EBDBF(void *battle);
+	bool SetCurrentBattle(void *battle);
 private:
 	static int getPlayerKey(int side, int army) { return side * 10000 + army; }
 
@@ -124,7 +124,7 @@ private:
 	_STL::map<int, int> m_playerRemap;   // +0x44
 };
 
-bool Rva005EB8D6::rva005EBDBF(void *battle)
+bool Rva005EB8D6::SetCurrentBattle(void *battle)
 {
 	m_battle = (LivingWorldBattle *)battle;
 	reinterpret_cast<StrategicConflictResults::Impl *>(this)->CalcPlayerRemap();

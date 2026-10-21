@@ -10,7 +10,7 @@
 #include "ww3d.h"
 struct PointStorage {void*vt;Vector3*Vector;int Capacity,Count;};
 struct WidthStorage {void*vt;float*Vector;int Capacity,Count;};
-class Rva00126314 {public:void rva00126433(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);ShaderClass Get_Shader()const{return shader;}private:void*texture;ShaderClass shader;char rest[28];};
+class Rva00126314 {public:void RenderStreak(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);ShaderClass Get_Shader()const{return shader;}private:void*texture;ShaderClass shader;char rest[28];};
 class Rva001684D6:public RenderObjClass {public:virtual void Render(RenderInfoClass&);private:PointStorage points;WidthStorage widths;Rva00126314 renderer;};
 void Rva001684D6::Render(RenderInfoClass&rinfo){
 if(!Is_Not_Hidden_At_All())return;
@@ -18,4 +18,4 @@ unsigned level=0;if(!WW3D::Is_Sorting_Enabled())level=renderer.Get_Shader().Gues
 if(WW3D::Are_Static_Sort_Lists_Enabled()&&level!=0){WW3D::Add_To_Static_Sort_List(this,level);return;}
 if(points.Count<2)return;if(points.Count!=widths.Count)return;
 SphereClass sphere;Get_Obj_Space_Bounding_Sphere(sphere);
-renderer.rva00126433(rinfo,Transform,points.Count,points.Vector,widths.Vector,sphere);}
+renderer.RenderStreak(rinfo,Transform,points.Count,points.Vector,widths.Vector,sphere);}

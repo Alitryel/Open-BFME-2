@@ -10010,7 +10010,7 @@ name,address,notes
 ?rva0010f820MapPathCode@GameState@@QBE?AVAsciiString@@ABV2@@Z,0x002DCB9C,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?rva001171B0Notify@@YAXXZ,0x001171B0,sole tail-notify target of dword option setter at 0x00117BB0 (guard byte + store + jmp); SEH body calls 0x51F520 + 0xA1F110; identity unproven address-derived pin
 ?rva00118A90@Rva0008FF12Host@@QAEXXZ,0x00118A90,"member vtable slot 0x0008FF12 calls first; opaque address name"
-?rva00118F50@Rva00118F50@@QAEXXZ,0x00118F50,"thiscall per-element op, no args; loop target over [0x38]-array"
+?Render@Rva00118F50@@QAEXXZ,0x00118F50,"thiscall per-element op, no args; loop target over [0x38]-array"
 ?rva00119F00@Rva00119F00Target@@QAEXXZ,0x00119F00,"method a vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva0011A040@Rva0011A040Target@@QAEXXZ,0x0011A040,callee of ?rva000448C4@Rva000448C4Forwarder@@QAEXXZ at retail 0x000448C4 read from its REL32 displacement; argument count from the callee's ret
 ?rva001216E7ShutdownPhase@@YAXXZ,0x000B3FD0,Address-derived no-argument shutdown phase; native1215F0 REL32 at+F7 reaches folded1-byte RETB3FD0; original identity unproven; W3DNoDraw kept provider independently verifies same RET
@@ -14972,7 +14972,7 @@ _D3DXCreateTextureFromFileInMemoryEx@60,0x0062AF7A,Named d3dx9_27.dll PE import 
 ??0?$_List_base@V?$vector@IV?$allocator@I@_STL@@@_STL@@V?$allocator@V?$vector@IV?$allocator@I@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@V?$vector@IV?$allocator@I@_STL@@@_STL@@@1@@Z,0x00280A8D,Horde manager constructor7A498 initializes map00 and list0C of12B slot vectors; full template bodies and all owner recursive relocations proven; fold-proof=Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DHordeModelDraw.cpp
 ?rva0043979D@Rva00439CF7@@QAE_NPAVObject@@PAURva004393D6@@@Z,0x0043979D,Native439CF7 call at439DEB passes Object and record list; native43979D independent192B RET8 returns AL. WB1281C30 manager helper. Neutral owner role; no donor identity claimed.
 ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z,0x00307EDC,callee of ?rva00308050@Rva00240000@@QAE_NVAsciiString@@@Z
-?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z,0x00126433,callee of ?Render@Rva001684D6@@UAEXAAVRenderInfoClass@@@Z
+?RenderStreak@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z,0x00126433,callee of ?Render@Rva001684D6@@UAEXAAVRenderInfoClass@@@Z
 ?createMountedTemplate@ToggleMountedSpecialAbilityUpdate@@QAEXXZ,0x004ADD8D,Native direct call at 004ADF5D enters complete382B body004ADD8D..004ADF0B; WB1228F20 names ToggleMountedSpecialAbilityUpdate::createMountedTemplate and matching instance factory24F68A ctor4ADAB5 establish owning class; receiver has data4 and owner8; no arguments; return ignored
 ?computePath@AIUpdateInterface@@QAE_NPAVPathfindServicesInterface@@PAUCoord3D@@@Z,0x00265E0B,"Zero Hour computeAttackPath calls computePath at corresponding contact-weapon branch; WorldBuilder E43A60 unnamed strings twin; native REL32 at00266C37 from WB-confirmed computeAttackPath passes services and mutable Coord3D; RET8 boundary265E0B..266AA2; donor identity, body unrowed"
 ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z,0x002CAEA3,"WorldBuilder Weapon::computeApproachTarget BB55F0 callgraph twin; native REL32 at00266D94 from WB-confirmed computeAttackPath passes shooter/victim/position/0.0/output Coord3D; donor const Weapon declaration, body unrowed"

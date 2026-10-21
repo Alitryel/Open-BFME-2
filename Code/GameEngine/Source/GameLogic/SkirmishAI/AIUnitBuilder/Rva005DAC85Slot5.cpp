@@ -111,7 +111,7 @@ private:
 class Rva005DAC85 : public Rva0055B0CC
 {
 public:
-	void rva005DACC0();
+	void updatePriority();
 private:
 	char m_pad2C[0x14];
 	void *m_40;
@@ -124,7 +124,7 @@ struct Rva005DACC0PlayerView { char pad[0x60]; Rva002A7389 sk; };
 // score-keeper subobject (+0x60) is read through a typed view: a pointer
 // local cast from m_40 gives the native register roles. The x87 lower
 // clamp is written as a negated >= test, then capped at 1800 + 300 * (1 - ratio).
-void Rva005DAC85::rva005DACC0()
+void Rva005DAC85::updatePriority()
 {
 	IntMap *map = *(IntMap **)((char *)TheSkirmishAIManager->rva002A8F24((Player *)m_40) + 0xC);
 	if (map->bucket_count() < 2)

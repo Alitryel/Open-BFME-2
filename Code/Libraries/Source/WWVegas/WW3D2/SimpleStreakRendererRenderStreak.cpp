@@ -1229,10 +1229,10 @@ struct SimpleTextureHolder { TextureClass *Ptr; bool Is_Valid() const { return P
 class Rva00126314 {public:
 __forceinline void agpad(){}
 
-void rva00126433(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);
+void RenderStreak(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);
 SimpleTextureHolder Texture; ShaderClass Shader; float Width; Vector3 Color; float Opacity,TextureLength; bool SortingDisabled; int Is_Sorting_Disabled()const{return SortingDisabled;}
 };
-void Rva00126314::rva00126433(RenderInfoClass &rinfo,const Matrix3D &transform,unsigned num_points,Vector3 *input_points,float *texture_positions,const SphereClass &obj_sphere)
+void Rva00126314::RenderStreak(RenderInfoClass &rinfo,const Matrix3D &transform,unsigned num_points,Vector3 *input_points,float *texture_positions,const SphereClass &obj_sphere)
 {
 if(WW3D::Is_Currently_Rendering_Shadow_Map() && (!s_AlphaShadowFXShader.IsBound() || !s_AdditiveShadowFXShader.IsBound()))return;
 Matrix4 view;

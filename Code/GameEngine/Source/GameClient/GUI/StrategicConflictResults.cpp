@@ -74,7 +74,7 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva005EB8D6
 {
 public:
-    bool rva005EBDBF(void *battle);
+    bool SetCurrentBattle(void *battle);
     void *owner;
     int level;
     int state;
@@ -93,7 +93,7 @@ bool Rva005EBC74::rva005EC017(void *battle)
         return false;
     if ((unsigned char)((Rva002B254F *)TheLivingWorldLogic)->rva002B254F())
         return false;
-    if (!m_impl->rva005EBDBF(battle))
+    if (!m_impl->SetCurrentBattle(battle))
         return false;
     switch (m_impl->state) {
     case 0:
