@@ -1,10 +1,10 @@
-// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
-// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
-// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
-// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
+// ?rva00759490@CollisionManagerImpl@@QAEXPAURva009A3540OpaqueOwner@@0@Z
+// ?rva00759490@CollisionManagerImpl@@QAEXPAURva009A3540OpaqueOwner@@0@Z
+// ?rva00759490@CollisionManagerImpl@@QAEXPAURva009A3540OpaqueOwner@@0@Z
+// ?rva00759490@CollisionManagerImpl@@QAEXPAURva009A3540OpaqueOwner@@0@Z
 // cl: /O2 /DNDEBUG /MD /EHsc
 //
-// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z retail 0x00759490 363B
+// ?rva00759490@CollisionManagerImpl@@QAEXPAURva009A3540OpaqueOwner@@0@Z retail 0x00759490 363B
 // Evidence: same Owner layout as removePair 0x00759130 (buckets +0x18 divisor 0x2b7b freeList +0xae04 small table +0xae10 limit +0xc068) same param offsets +0x9c +0xa0 +0x20 same Node size 0x34 same callee insert 0x00759360; callers 0x00759600 x4.
 #include <string.h>
 #pragma intrinsic(memcpy)
@@ -52,13 +52,13 @@ struct Rva009A3540OpaqueOwner
     Rva009A3540PairNode *buckets[0x2b7b];
 };
 
-class Rva009A3540PairOwner
+class CollisionManagerImpl
 {
 public:
     void rva00759490(Rva009A3540OpaqueOwner *lhs, Rva009A3540OpaqueOwner *rhs);
 };
 
-void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *lhs, Rva009A3540OpaqueOwner *rhs)
+void CollisionManagerImpl::rva00759490(Rva009A3540OpaqueOwner *lhs, Rva009A3540OpaqueOwner *rhs)
 {
     unsigned int aGroup = (1 ? (*(unsigned int *)((char *)lhs + 0xa0)) : (*(unsigned int *)((char *)lhs + 0xa0)));
     if (aGroup != 0 && aGroup == *(unsigned int *)((char *)rhs + 0xa0))

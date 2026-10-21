@@ -87,17 +87,11 @@ public:
 	void collectAll();
 };
 
-// 0x00759490 is the rowed overlap-pair adder (WB CollisionManagerImpl::_AddOverlap).
-class Rva009A3540PairOwner
-{
-public:
-	void rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
-};
-
 class CollisionManagerImpl
 {
 public:
 	void UpdateSort();
+	void rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);	// 0x00759490, WB _AddOverlap
 	void unlinkChain(Rva009A36F0Thing *thing);
 	void _RemoveOverlap(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
 	void rva007586F0();
@@ -152,7 +146,7 @@ public:
 		{
 			while (open != 0)
 			{
-				((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)open, (Rva009A3540OpaqueOwner *)node);
+				rva00759490((Rva009A3540OpaqueOwner *)open, (Rva009A3540OpaqueOwner *)node);
 				Rva009A45A0CollisionData *closed = open;
 				if (closed->m_openNext != 0)
 					closed->m_openNext->m_openPrev = closed->m_openPrev;
@@ -165,7 +159,7 @@ public:
 				if (!(cur->m_value < value))
 					break;
 				if (cur->isMin())
-					((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)cur->m_node, (Rva009A3540OpaqueOwner *)node);
+					rva00759490((Rva009A3540OpaqueOwner *)cur->m_node, (Rva009A3540OpaqueOwner *)node);
 				prev = cur;
 				cur = cur->m_next;
 			}
@@ -275,7 +269,7 @@ void CollisionManagerImpl::UpdateSort()
 				{
 					Rva009A3AD0Endpoint *before = pos->m_prev;
 					if (before->m_isMax && cur->isMin())
-						((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)before->m_node, (Rva009A3540OpaqueOwner *)cur->m_node);
+						rva00759490((Rva009A3540OpaqueOwner *)before->m_node, (Rva009A3540OpaqueOwner *)cur->m_node);
 					else if (before->isMin() && cur->m_isMax)
 						_RemoveOverlap(
 							(Rva009A3540OpaqueOwner *)before->m_node,
@@ -321,7 +315,7 @@ void CollisionManagerImpl::UpdateSort()
 			if (cur->isMin())
 			{
 				for (Rva009A45A0CollisionData *other = open; other != 0; other = other->m_openNext)
-					((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)other, (Rva009A3540OpaqueOwner *)cur->m_node);
+					rva00759490((Rva009A3540OpaqueOwner *)other, (Rva009A3540OpaqueOwner *)cur->m_node);
 				cur->m_node->m_openPrev = &open;
 				cur->m_node->m_openNext = open;
 				if (cur->m_node->m_openNext != 0)
