@@ -1392,34 +1392,34 @@ Bool NetPacket::isRoomForGameMessage(NetCommandRef *msg, GameMessage *gmsg)
 	++msglen;
 	msglen += sizeof(Int);
 	msglen += sizeof(UnsignedByte);
-	Rva0054D593 *arg = parser->getFirstArgumentType();
-	while (arg != 0) {
+	Rva0054D593 *argument = parser->getFirstArgumentType();
+	while (argument != 0) {
 		msglen += 2 * sizeof(UnsignedByte);
-		GameMessageArgumentDataType type = arg->getType();
+		GameMessageArgumentDataType type = argument->getType();
 		if (type == ARGUMENTDATATYPE_INTEGER) {
-			msglen += arg->getArgCount() * sizeof(Int);
+			msglen += argument->getArgCount() * sizeof(Int);
 		} else if (type == ARGUMENTDATATYPE_REAL) {
-			msglen += arg->getArgCount() * sizeof(float);
+			msglen += argument->getArgCount() * sizeof(float);
 		} else if (type == ARGUMENTDATATYPE_BOOLEAN) {
-			msglen += arg->getArgCount() * sizeof(Bool);
+			msglen += argument->getArgCount() * sizeof(Bool);
 		} else if (type == ARGUMENTDATATYPE_OBJECTID) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_DRAWABLEID) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_TEAMID) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_LOCATION) {
-			msglen += arg->getArgCount() * (3 * sizeof(float));
+			msglen += argument->getArgCount() * (3 * sizeof(float));
 		} else if (type == ARGUMENTDATATYPE_PIXEL) {
-			msglen += arg->getArgCount() * (2 * sizeof(Int));
+			msglen += argument->getArgCount() * (2 * sizeof(Int));
 		} else if (type == ARGUMENTDATATYPE_PIXELREGION) {
-			msglen += arg->getArgCount() * (4 * sizeof(Int));
+			msglen += argument->getArgCount() * (4 * sizeof(Int));
 		} else if (type == ARGUMENTDATATYPE_TIMESTAMP) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_WIDECHAR) {
-			msglen += arg->getArgCount() * sizeof(unsigned short);
+			msglen += argument->getArgCount() * sizeof(unsigned short);
 		}
-		arg = arg->getNext();
+		argument = argument->getNext();
 	}
 	::delete parser;
 	parser = 0;
@@ -1449,34 +1449,34 @@ UnsignedInt NetPacket::GetGameCommandSize(NetCommandMsg *msg)
 	Rva0054D54A *parser = new Rva0054D54A(gmsg);
 	msglen += sizeof(Int);
 	msglen += sizeof(UnsignedByte);
-	Rva0054D593 *arg = parser->getFirstArgumentType();
-	while (arg != 0) {
+	Rva0054D593 *argument = parser->getFirstArgumentType();
+	while (argument != 0) {
 		msglen += 2 * sizeof(UnsignedByte);
-		GameMessageArgumentDataType type = arg->getType();
+		GameMessageArgumentDataType type = argument->getType();
 		if (type == ARGUMENTDATATYPE_INTEGER) {
-			msglen += arg->getArgCount() * sizeof(Int);
+			msglen += argument->getArgCount() * sizeof(Int);
 		} else if (type == ARGUMENTDATATYPE_REAL) {
-			msglen += arg->getArgCount() * sizeof(float);
+			msglen += argument->getArgCount() * sizeof(float);
 		} else if (type == ARGUMENTDATATYPE_BOOLEAN) {
-			msglen += arg->getArgCount() * sizeof(Bool);
+			msglen += argument->getArgCount() * sizeof(Bool);
 		} else if (type == ARGUMENTDATATYPE_OBJECTID) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_DRAWABLEID) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_TEAMID) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_LOCATION) {
-			msglen += arg->getArgCount() * (3 * sizeof(float));
+			msglen += argument->getArgCount() * (3 * sizeof(float));
 		} else if (type == ARGUMENTDATATYPE_PIXEL) {
-			msglen += arg->getArgCount() * (2 * sizeof(Int));
+			msglen += argument->getArgCount() * (2 * sizeof(Int));
 		} else if (type == ARGUMENTDATATYPE_PIXELREGION) {
-			msglen += arg->getArgCount() * (4 * sizeof(Int));
+			msglen += argument->getArgCount() * (4 * sizeof(Int));
 		} else if (type == ARGUMENTDATATYPE_TIMESTAMP) {
-			msglen += arg->getArgCount() * sizeof(UnsignedInt);
+			msglen += argument->getArgCount() * sizeof(UnsignedInt);
 		} else if (type == ARGUMENTDATATYPE_WIDECHAR) {
-			msglen += arg->getArgCount() * sizeof(unsigned short);
+			msglen += argument->getArgCount() * sizeof(unsigned short);
 		}
-		arg = arg->getNext();
+		argument = argument->getNext();
 	}
 	::delete parser;
 	parser = 0;
@@ -2500,41 +2500,41 @@ void NetPacket::FillBufferWithGameCommand(UnsignedByte *buffer, NetCommandRef *r
 	Int numArgs = gmsg->getArgumentCount();
 	for (Int i = 0; i < numArgs; ++i) {
 		GameMessageArgumentDataType type = gmsg->getArgumentDataType(i);
-		GameMessageArgumentType arg = *(gmsg->getArgument(i));
+		GameMessageArgumentType argument = *(gmsg->getArgument(i));
 
 		if (type == ARGUMENTDATATYPE_INTEGER) {
-			memcpy(buffer + offset, &(arg.integer), sizeof(arg.integer));
-			offset += sizeof(arg.integer);
+			memcpy(buffer + offset, &(argument.integer), sizeof(argument.integer));
+			offset += sizeof(argument.integer);
 		} else if (type == ARGUMENTDATATYPE_REAL) {
-			memcpy(buffer + offset, &(arg.real), sizeof(arg.real));
-			offset += sizeof(arg.real);
+			memcpy(buffer + offset, &(argument.real), sizeof(argument.real));
+			offset += sizeof(argument.real);
 		} else if (type == ARGUMENTDATATYPE_BOOLEAN) {
-			memcpy(buffer + offset, &(arg.boolean), sizeof(arg.boolean));
-			offset += sizeof(arg.boolean);
+			memcpy(buffer + offset, &(argument.boolean), sizeof(argument.boolean));
+			offset += sizeof(argument.boolean);
 		} else if (type == ARGUMENTDATATYPE_OBJECTID) {
-			memcpy(buffer + offset, &(arg.objectID), sizeof(arg.objectID));
-			offset += sizeof(arg.objectID);
+			memcpy(buffer + offset, &(argument.objectID), sizeof(argument.objectID));
+			offset += sizeof(argument.objectID);
 		} else if (type == ARGUMENTDATATYPE_DRAWABLEID) {
-			memcpy(buffer + offset, &(arg.drawableID), sizeof(arg.drawableID));
-			offset += sizeof(arg.drawableID);
+			memcpy(buffer + offset, &(argument.drawableID), sizeof(argument.drawableID));
+			offset += sizeof(argument.drawableID);
 		} else if (type == ARGUMENTDATATYPE_TEAMID) {
-			memcpy(buffer + offset, &(arg.teamID), sizeof(arg.teamID));
-			offset += sizeof(arg.teamID);
+			memcpy(buffer + offset, &(argument.teamID), sizeof(argument.teamID));
+			offset += sizeof(argument.teamID);
 		} else if (type == ARGUMENTDATATYPE_LOCATION) {
-			memcpy(buffer + offset, &(arg.location), sizeof(arg.location));
-			offset += sizeof(arg.location);
+			memcpy(buffer + offset, &(argument.location), sizeof(argument.location));
+			offset += sizeof(argument.location);
 		} else if (type == ARGUMENTDATATYPE_PIXEL) {
-			memcpy(buffer + offset, &(arg.pixel), sizeof(arg.pixel));
-			offset += sizeof(arg.pixel);
+			memcpy(buffer + offset, &(argument.pixel), sizeof(argument.pixel));
+			offset += sizeof(argument.pixel);
 		} else if (type == ARGUMENTDATATYPE_PIXELREGION) {
-			memcpy(buffer + offset, &(arg.pixelRegion), sizeof(arg.pixelRegion));
-			offset += sizeof(arg.pixelRegion);
+			memcpy(buffer + offset, &(argument.pixelRegion), sizeof(argument.pixelRegion));
+			offset += sizeof(argument.pixelRegion);
 		} else if (type == ARGUMENTDATATYPE_TIMESTAMP) {
-			memcpy(buffer + offset, &(arg.timestamp), sizeof(arg.timestamp));
-			offset += sizeof(arg.timestamp);
+			memcpy(buffer + offset, &(argument.timestamp), sizeof(argument.timestamp));
+			offset += sizeof(argument.timestamp);
 		} else if (type == ARGUMENTDATATYPE_WIDECHAR) {
-			memcpy(buffer + offset, &(arg.wChar), sizeof(arg.wChar));
-			offset += sizeof(arg.wChar);
+			memcpy(buffer + offset, &(argument.wChar), sizeof(argument.wChar));
+			offset += sizeof(argument.wChar);
 		}
 	}
 
@@ -2549,41 +2549,41 @@ void NetPacket::FillBufferWithGameCommand(UnsignedByte *buffer, NetCommandRef *r
 // ZH's writeGameMessageArgumentToPacket: copy the argument's member for its
 // type. addGameCommand passes the 16-byte argument union by value, which is
 // how retail's caller builds the call (four movsd into the outgoing slot).
-void NetPacket::writeGameMessageArgumentToPacket(GameMessageArgumentDataType type, GameMessageArgumentType arg)
+void NetPacket::writeGameMessageArgumentToPacket(GameMessageArgumentDataType type, GameMessageArgumentType argument)
 {
 	if (type == ARGUMENTDATATYPE_INTEGER) {
-		memcpy(m_packet + m_packetLen, &(arg.integer), sizeof(arg.integer));
-		m_packetLen += sizeof(arg.integer);
+		memcpy(m_packet + m_packetLen, &(argument.integer), sizeof(argument.integer));
+		m_packetLen += sizeof(argument.integer);
 	} else if (type == ARGUMENTDATATYPE_REAL) {
-		memcpy(m_packet + m_packetLen, &(arg.real), sizeof(arg.real));
-		m_packetLen += sizeof(arg.real);
+		memcpy(m_packet + m_packetLen, &(argument.real), sizeof(argument.real));
+		m_packetLen += sizeof(argument.real);
 	} else if (type == ARGUMENTDATATYPE_BOOLEAN) {
-		memcpy(m_packet + m_packetLen, &(arg.boolean), sizeof(arg.boolean));
-		m_packetLen += sizeof(arg.boolean);
+		memcpy(m_packet + m_packetLen, &(argument.boolean), sizeof(argument.boolean));
+		m_packetLen += sizeof(argument.boolean);
 	} else if (type == ARGUMENTDATATYPE_OBJECTID) {
-		memcpy(m_packet + m_packetLen, &(arg.objectID), sizeof(arg.objectID));
-		m_packetLen += sizeof(arg.objectID);
+		memcpy(m_packet + m_packetLen, &(argument.objectID), sizeof(argument.objectID));
+		m_packetLen += sizeof(argument.objectID);
 	} else if (type == ARGUMENTDATATYPE_DRAWABLEID) {
-		memcpy(m_packet + m_packetLen, &(arg.drawableID), sizeof(arg.drawableID));
-		m_packetLen += sizeof(arg.drawableID);
+		memcpy(m_packet + m_packetLen, &(argument.drawableID), sizeof(argument.drawableID));
+		m_packetLen += sizeof(argument.drawableID);
 	} else if (type == ARGUMENTDATATYPE_TEAMID) {
-		memcpy(m_packet + m_packetLen, &(arg.teamID), sizeof(arg.teamID));
-		m_packetLen += sizeof(arg.teamID);
+		memcpy(m_packet + m_packetLen, &(argument.teamID), sizeof(argument.teamID));
+		m_packetLen += sizeof(argument.teamID);
 	} else if (type == ARGUMENTDATATYPE_LOCATION) {
-		memcpy(m_packet + m_packetLen, &(arg.location), sizeof(arg.location));
-		m_packetLen += sizeof(arg.location);
+		memcpy(m_packet + m_packetLen, &(argument.location), sizeof(argument.location));
+		m_packetLen += sizeof(argument.location);
 	} else if (type == ARGUMENTDATATYPE_PIXEL) {
-		memcpy(m_packet + m_packetLen, &(arg.pixel), sizeof(arg.pixel));
-		m_packetLen += sizeof(arg.pixel);
+		memcpy(m_packet + m_packetLen, &(argument.pixel), sizeof(argument.pixel));
+		m_packetLen += sizeof(argument.pixel);
 	} else if (type == ARGUMENTDATATYPE_PIXELREGION) {
-		memcpy(m_packet + m_packetLen, &(arg.pixelRegion), sizeof(arg.pixelRegion));
-		m_packetLen += sizeof(arg.pixelRegion);
+		memcpy(m_packet + m_packetLen, &(argument.pixelRegion), sizeof(argument.pixelRegion));
+		m_packetLen += sizeof(argument.pixelRegion);
 	} else if (type == ARGUMENTDATATYPE_TIMESTAMP) {
-		memcpy(m_packet + m_packetLen, &(arg.timestamp), sizeof(arg.timestamp));
-		m_packetLen += sizeof(arg.timestamp);
+		memcpy(m_packet + m_packetLen, &(argument.timestamp), sizeof(argument.timestamp));
+		m_packetLen += sizeof(argument.timestamp);
 	} else if (type == ARGUMENTDATATYPE_WIDECHAR) {
-		memcpy(m_packet + m_packetLen, &(arg.wChar), sizeof(arg.wChar));
-		m_packetLen += sizeof(arg.wChar);
+		memcpy(m_packet + m_packetLen, &(argument.wChar), sizeof(argument.wChar));
+		m_packetLen += sizeof(argument.wChar);
 	}
 }
 
@@ -5000,8 +5000,8 @@ Bool NetPacket::addGameCommand(NetCommandRef *msg)
 		Int numArgs = gmsg->getArgumentCount();
 		for (Int i = 0; i < numArgs; ++i) {
 			GameMessageArgumentDataType type = gmsg->getArgumentDataType(i);
-			GameMessageArgumentType arg = *(gmsg->getArgument(i));
-			writeGameMessageArgumentToPacket(type, arg);
+			GameMessageArgumentType argument = *(gmsg->getArgument(i));
+			writeGameMessageArgumentToPacket(type, argument);
 		}
 		::delete parser;
 		parser = 0;
