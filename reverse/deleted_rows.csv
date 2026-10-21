@@ -1451,3 +1451,5 @@ __ehhandler$?rva00219005@@YAXPAVINI@@@Z,0x0076E53F,"Renamed to __ehhandler$?pars
 ?rva00425B90@@YAXPAVINI@@@Z,0x00425B90,"Renamed to ?parseFormationAssistantDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00417A94Parse@@YAXPAVINI@@@Z,0x00417A94,"Renamed to ?parseHouseColorDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva0022232EParse@@YAXPAVINI@@@Z,0x0022232E,"Renamed to ?parseInGameNotificationBoxDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva00420A29Parse@@YAXPAVINI@@@Z,0x00420A29,"Renamed to ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva00420A29Parse@@YAXPAVINI@@@Z,0x00786EF6,"Renamed to __ehhandler$?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

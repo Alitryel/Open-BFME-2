@@ -163,10 +163,10 @@ void Rva002E2386Parse(INI *ini)
 	TheLivingWorldPlayerTemplateStore->m_vec.push_back(obj);
 }
 
-// ?Rva00420A29Parse@@YAXPAVINI@@@Z
+// ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z
 // Native 0x00420A29..0x00420B10; LivingWorldAITemplate registration at
 // 0x00DC8478. Retail retains the PlayerTemplateStore error strings here.
-void Rva00420A29Parse(INI *ini)
+void parseLivingWorldAITemplateDefinition(INI *ini)
 {
 	if (ini == 0)
 	{
