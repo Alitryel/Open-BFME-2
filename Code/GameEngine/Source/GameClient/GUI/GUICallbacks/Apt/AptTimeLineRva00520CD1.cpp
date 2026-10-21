@@ -20,11 +20,11 @@ class NameKeyGenerator {public:NameKeyType nameToKey(const AsciiString &);};
 extern NameKeyGenerator *TheNameKeyGenerator;
 class PlayerList {public:Player *findPlayerWithNameKey(NameKeyType);char pad00[0x10];Player *m_local;};
 extern PlayerList *ThePlayerList;
-class Player {public:bool rva002AA223()const;};
+class Player {public:bool isPlayerObserver()const;};
 class GameSlot {public:bool isOccupied()const;char pad00[0x34];AsciiString m_name;char pad38[0x4c-0x38];void *m_template; void *getTemplate()const{return m_template;}};
 class GameInfo {public:GameSlot *getSlot(int);};
 extern GameInfo *TheGameInfo;
-extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 class LivingWorldPlayer;
 class Rva002E2903Player;
 class Rva002BA8F1Logic {public:Rva002E2903Player *rva002B52A8(int);char pad00[0x8c];_STL::vector<LivingWorldPlayer*>m_players;};
@@ -53,7 +53,7 @@ void AptTimeLine::rva00520CD1()
 	if(m_mode==6 || m_mode==7){
 		reinterpret_cast<Rva00520703Vector*>(&m_players)->resize(1);
 		GameInfo *game=0;
-		if(m_mode==6)game=TheSkirmishGameInfo;
+		if(m_mode==6)game=reinterpret_cast<GameInfo*>(TheSkirmishGameInfo);
 		else if(m_mode==7)game=TheGameInfo;
 		if(game) {
 			for(int i=0;i<(int)reinterpret_cast<Rva002BA8F1Logic*>(TheLivingWorldLogic)->m_players.size();++i) {
@@ -65,14 +65,14 @@ void AptTimeLine::rva00520CD1()
 				if(TheGameSpyGame && reinterpret_cast<Rva002E0687*>(player)->rva002E0687() && m_mode==7) {
 					AsciiString name=slot->m_name;
 					Player *tactical=ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name));
-					if(tactical && !tactical->rva002AA223())StatsReporter::ProcessOnlineGameResults(tactical);
+					if(tactical && !tactical->isPlayerObserver())StatsReporter::ProcessOnlineGameResults(tactical);
 				}
 				CollectPlayerData(player,reinterpret_cast<Rva00520923Source*>(slot));
 			}
 		}
 	}else{
 		if(TheGameInfo) {
-			m_observer=ThePlayerList->m_local->rva002AA223();
+			m_observer=ThePlayerList->m_local->isPlayerObserver();
 			reinterpret_cast<IDBufferClass*>(m_stats)->Enable_Two_Sided_Rendering(m_observer);
 			if(!m_observer)reinterpret_cast<Rva00520703Vector*>(&m_players)->resize(1);
 			for(int i=0;i<8;++i) {
@@ -81,7 +81,7 @@ void AptTimeLine::rva00520CD1()
 					AsciiString name=slot->m_name;
 					if(!name.isEmpty()) {
 						Player *player=ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name));
-						if(player && !player->rva002AA223())CollectPlayerData(player,slot);
+						if(player && !player->isPlayerObserver())CollectPlayerData(player,slot);
 					}
 				}
 			}
