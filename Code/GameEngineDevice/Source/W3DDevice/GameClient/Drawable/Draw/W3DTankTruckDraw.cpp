@@ -41,6 +41,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // Draw TankTrucks.  Actually, this draws quad cannon which has both treads and wheels.
 // Author: Mark Wilczynski, August 2002
 
+#include "../../../../../../../reference/shims/bfme_wwmath_floor_link/wwmath.h"
 #include <stdlib.h>
 #include <math.h>
 
