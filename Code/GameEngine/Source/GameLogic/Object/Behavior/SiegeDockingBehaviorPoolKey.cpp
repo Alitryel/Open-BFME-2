@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004599E5@SiegeDockingBehavior@@SA?AW4NameKeyType@@XZ @0x4599E5
+// ?getModuleNameKey@SiegeDockingBehavior@@UBE?AW4NameKeyType@@XZ @0x4599E5
 // (69B): cached pool-name key for SiegeDockingBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("SiegeDockingBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SiegeDockingBehavior
 {
 public:
-	static NameKeyType rva0004599E5();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004599E5@SiegeDockingBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType SiegeDockingBehavior::rva0004599E5()
+// ?getModuleNameKey@SiegeDockingBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType SiegeDockingBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheSiegeDockingBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("SiegeDockingBehavior");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00049B5DC@AttributeModifierAuraUpdate@@SA?AW4NameKeyType@@XZ @0x49B5DC
+// ?getModuleNameKey@AttributeModifierAuraUpdate@@UBE?AW4NameKeyType@@XZ @0x49B5DC
 // (69B): cached pool-name key for AttributeModifierAuraUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("AttributeModifierAuraUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AttributeModifierAuraUpdate
 {
 public:
-	static NameKeyType rva00049B5DC();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049B5DC@AttributeModifierAuraUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType AttributeModifierAuraUpdate::rva00049B5DC()
+// ?getModuleNameKey@AttributeModifierAuraUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType AttributeModifierAuraUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheAttributeModifierAuraUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("AttributeModifierAuraUpdate");

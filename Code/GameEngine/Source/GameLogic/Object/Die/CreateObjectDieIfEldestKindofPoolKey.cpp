@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000485A2F@CreateObjectDieIfEldestKindof@@SA?AW4NameKeyType@@XZ @0x485A2F
+// ?getModuleNameKey@CreateObjectDieIfEldestKindof@@UBE?AW4NameKeyType@@XZ @0x485A2F
 // (69B): cached pool-name key for CreateObjectDieIfEldestKindof. The class
 // identity comes from the pool-name string the body pushes
 // ("CreateObjectDieIfEldestKindof"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CreateObjectDieIfEldestKindof
 {
 public:
-	static NameKeyType rva000485A2F();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000485A2F@CreateObjectDieIfEldestKindof@@SA?AW4NameKeyType@@XZ
-NameKeyType CreateObjectDieIfEldestKindof::rva000485A2F()
+// ?getModuleNameKey@CreateObjectDieIfEldestKindof@@UBE?AW4NameKeyType@@XZ
+NameKeyType CreateObjectDieIfEldestKindof::getModuleNameKey() const
 {
 	static NameKeyType TheCreateObjectDieIfEldestKindofPoolKey =
 		TheNameKeyGenerator->nameToKey("CreateObjectDieIfEldestKindof");

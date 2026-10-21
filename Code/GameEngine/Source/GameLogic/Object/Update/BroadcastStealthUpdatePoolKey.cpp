@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004A34C6@BroadcastStealthUpdate@@SA?AW4NameKeyType@@XZ @0x4A34C6
+// ?getModuleNameKey@BroadcastStealthUpdate@@UBE?AW4NameKeyType@@XZ @0x4A34C6
 // (69B): cached pool-name key for BroadcastStealthUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("BroadcastStealthUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BroadcastStealthUpdate
 {
 public:
-	static NameKeyType rva0004A34C6();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A34C6@BroadcastStealthUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType BroadcastStealthUpdate::rva0004A34C6()
+// ?getModuleNameKey@BroadcastStealthUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType BroadcastStealthUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheBroadcastStealthUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("BroadcastStealthUpdate");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00048B16A@DynamicShroudClearingRangeUpdate@@SA?AW4NameKeyType@@XZ @0x48B16A
+// ?getModuleNameKey@DynamicShroudClearingRangeUpdate@@UBE?AW4NameKeyType@@XZ @0x48B16A
 // (69B): cached pool-name key for DynamicShroudClearingRangeUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("DynamicShroudClearingRangeUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DynamicShroudClearingRangeUpdate
 {
 public:
-	static NameKeyType rva00048B16A();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048B16A@DynamicShroudClearingRangeUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType DynamicShroudClearingRangeUpdate::rva00048B16A()
+// ?getModuleNameKey@DynamicShroudClearingRangeUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType DynamicShroudClearingRangeUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheDynamicShroudClearingRangeUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("DynamicShroudClearingRangeUpdate");
