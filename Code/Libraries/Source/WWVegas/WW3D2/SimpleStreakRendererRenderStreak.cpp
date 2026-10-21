@@ -11,9 +11,13 @@
 // copy that competes with retail's integer-move owner (0x006D8A30).
 #include "reference/shims/bfme_matrix3d_sse_link/vector4.h"
 #define Matrix4x4 Matrix4
+// ShaderClass's copy ctor is emitted here; every other copy is the speed-optimized
+// one (mov edx), so this /O1 unit compiles shader.h for speed to agree with it.
+#pragma optimize("gty", on)
 #define inline __forceinline
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/shader.h"
 #undef inline
+#pragma optimize("", on)
 void operator delete[](void*) throw();
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/texture.h"
 #include "reference/shims/bfmestreak/streakrender.h"
@@ -1188,7 +1192,8 @@ static bool _Is_Triangle_Draw_Enabled() { return _EnableTriangleDraw; }
 #include "sortingrenderer.h"
 struct TargetCenter3 { float x,y,z; };
 class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCenter3 &, unsigned, unsigned, unsigned, unsigned); };
-__forceinline void Rva0012630BForward(const TargetCenter3 &targetCenter3,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count){BfmeSortingDispatchAt0012FE00::Insert(targetCenter3,start_index,polygon_count,min_vertex_index,vertex_count);}
+// TU-local: SortingRendererForward.cpp owns the out-of-line 0x0012630B row.
+static __forceinline void Rva0012630BForward(const TargetCenter3 &targetCenter3,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count){BfmeSortingDispatchAt0012FE00::Insert(targetCenter3,start_index,polygon_count,min_vertex_index,vertex_count);}
 struct BFME2TextureRef { TextureBaseClass *Ptr; };
 void BFME2Set_Texture(unsigned stage,const BFME2TextureRef &texture);
 #include "vp.h"
