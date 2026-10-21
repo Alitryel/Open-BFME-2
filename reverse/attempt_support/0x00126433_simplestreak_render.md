@@ -231,6 +231,54 @@ function no budget move works:
 - **Still open:** the 0x6238 frame (only the post-IL pad29 reaches it) and E
   parity.
 
+## SOLVED and landed (2026-10-21)
+
+0x126433 is matched in `Code/Libraries/Source/WWVegas/WW3D2/SimpleStreakRendererRenderStreak.cpp`.
+`./build.sh` reports OK, and eh_verify reports EXACT. The EH handler 0x7654CA is
+rowed.
+
+**Base.** The faithful set from the sections below: tail {G,H,F,A,B,C,I,E,D},
+C1/MIN/W, and WB's indexed `FVFInfoClass::Get_Location_Offset(0)`.
+
+**Two further faithful changes:**
+1. **SDK-typed SetTransform.** `IDirect3DDevice8::SetTransform(D3DTRANSFORMSTATETYPE,
+   const D3DMATRIX*)` comes from the TU-scoped shim
+   `reference/shims/bfme_d3d8_sdk_settransform/`, first on the `// cl:` include
+   list. The shared `reference/shims/d3d8_shim_validated.h` declares
+   `SetTransform(DWORD, const void*)`.
+   - The enum→unsigned conversion at Set_Transform's default-arm `DX8CALL` stops
+     c2 from substituting the constant `transform`. Inline cleanup then keeps the
+     formal, along with 4 `transform` hash vars, in each inlined Set_Transform.
+   - With the SDK type the three expansions give E −12, and three fresh A become
+     recycled.
+   - Conversions to `int`/`long` do not block; the pointer type is inert (agAM).
+2. **`u_values` as element stores.** `float u_values[2]; u_values[0]=0.0f;
+   u_values[1]=1.0f;`, placed before `last`, where WB stores local_f8/local_f4.
+   This is the ZH donor form and removes the IL piece of the aggregate
+   initialiser: one A.
+
+**Callee naming.**
+- The shadow FX holder class is named after its ledger row, Rva00087A93. Its
+  out-of-line destructor 0x7B724 resolves to that row.
+- Three admitted pins cover the rest:
+  - `??0Matrix4@@QAE@XZ` at 0x7671F, whose 22 B body equals the placeholder row
+    Rva0007671F;
+  - `??4Rva00087A93@@QAEAAV0@ABV0@@Z` at 0x72A94, rowed as Rva00072A94;
+  - `?Rva000032B8@@YAMM@Z`, the float view of the rowed wrapper at 0x32B8.
+- An `/alternatename` maps that wrapper for the linker.
+
+**Flags.** The region default (/O1 /arch:SSE /G7) already matches, so no
+override is needed. Retail built this TU without /Oy-.
+
+**The fix cannot be shared.** The same SDK signature breaks the matched SegLine
+Render (nd 2493), Render2DClass::Render (nd 3) and LineGroupClass::Render
+(nd 17), so it stays TU-scoped. 0x743700 (StreakRendererClass::RenderStreak)
+needs the same TU-scoped shim and landed the same day.
+
+**Credits.** agAL found the mechanism with ksub (key-substitution oracle) and
+the pool/site model. agAK validated it with allocator patches. agAE, agAG, agAH,
+agAJ and agAM supplied the forms and the audits.
+
 ## Confirmed target: byte-exact with three numbering changes (2026-10-21)
 
 Two independent methods give the same answer:

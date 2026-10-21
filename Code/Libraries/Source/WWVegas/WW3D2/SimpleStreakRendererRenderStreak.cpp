@@ -1,13 +1,12 @@
-// ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
-// partial score=0.9107 date=2026-10-21
-// SimpleStreak renderer126433..129303; WB A1E840 and ZH Streak geometry.
-// Native layouts/calls adapted; donor mathematical structure. Bank only.
-// /Oy- (WW3D2 sibling flag) gives 12022 B vs 11984; ALLOW_TEMPORARIES operator* form is worse.
-// /Oy- plus assign-then-clamp point_cnt (both seats' 2026-10-17 banks combined): 0.7808, 12025 B.
-// cl: /O1 /I. /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep /Oy-
+// cl: /O1 /Ireference/shims/bfme_d3d8_sdk_settransform /I. /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Adapted from Command & Conquer Generals Zero Hour, copyright 2025 Electronic Arts Inc.
+// SimpleStreakRendererClass::RenderStreak (retail 0x00126433, 11984 B; WB twin 0xA1E840), kept on
+// the address-derived names Rva00126314::rva00126433. Evidence and the numbering record are in
+// reverse/attempt_support/0x00126433_simplestreak_render.md.
+// The device declaration comes from reference/shims/bfme_d3d8_sdk_settransform (SDK-typed
+// SetTransform); u_values is stored element by element before `last`, in WB's order.
 #define Matrix4x4 Matrix4
 #define inline __forceinline
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/shader.h"
@@ -454,17 +453,14 @@ mutable unsigned FVF;
 bool AdditionalBasis;
 unsigned ExtensionCount;
 mutable unsigned						fvf_size;
-unsigned							location_offset;
-unsigned							normal_offset;
-unsigned							blend_offset;
-unsigned target_unknown_1c_20[2];
+unsigned							location_offset[5];
 unsigned							texcoord_offset[D3DDP_MAXTEXCOORD];
 unsigned							diffuse_offset;
 unsigned							specular_offset;
 public:
 FVFInfoClass(unsigned FVF, unsigned vertex_size=0);
-inline unsigned Get_Location_Offset() const { return location_offset; }
-inline unsigned Get_Normal_Offset() const { return normal_offset; }
+inline unsigned Get_Location_Offset(unsigned int n) const { return location_offset[n]; }
+inline unsigned Get_Normal_Offset() const { return location_offset[1]; }
 #ifdef WWDEBUG
 inline unsigned Get_Tex_Offset(unsigned int n) const { WWASSERT(n<D3DDP_MAXTEXCOORD); return texcoord_offset[n]; }
 #else
@@ -575,6 +571,7 @@ VertexFormatXYZNDUV2 * Get_Formatted_Vertex_Array();
 };
 friend WriteLock;
 };
+// ?Get_Formatted_Vertex_Array@WriteLock@DynamicVBAccessClass present-unmatched
 inline VertexFormatXYZNDUV2 * DynamicVBAccessClass::WriteLock::Get_Formatted_Vertex_Array()
 {
 WWASSERT(DynamicVBAccess->VertexBuffer->FVF_Info().Get_FVF() == (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX2|D3DFVF_DIFFUSE));
@@ -829,6 +826,7 @@ bool m_disableConsole;
 int  m_debugLinesToShow;
 int	 m_sleepTime;
 public:
+// ?DX8_Stats@DX8_Stats present-unmatched
 DX8_Stats::DX8_Stats(void) {
 m_disableConsole = m_showingStats = m_disableTerrain = m_disableWater = m_disableOverhead = m_disableObjects = false;
 m_sleepTime = 0;
@@ -902,7 +900,7 @@ static unsigned Convert_Color(const Vector4&);
 static unsigned Convert_Color(const Vector3&,float);
 static unsigned Convert_Color_Clamp(Vector4);
 static void Clamp_Color(Vector4&);
-static IDirect3DDevice8* _Get_D3D_Device8();
+static IDirect3DDevice8* _Get_D3D_Device8() { return D3DDevice; }
 protected:
 static IDirect3DDevice8 *D3DDevice;
 static RenderStateStruct render_state;
@@ -1055,54 +1053,8 @@ mov dword ptr[esi+12],edi
 }
 WWINLINE unsigned int DX8Wrapper::Convert_Color_Clamp(Vector4 color)
 {
-Vector4 *clamped_color = &color;
-if (!CPUDetectClass::Has_CMOV_Instruction()) {
-clamped_color->X = clamped_color->X <= 0.0f ? 0.0f : (clamped_color->X > 1.0f ? 1.0f : clamped_color->X);
-clamped_color->Y = clamped_color->Y <= 0.0f ? 0.0f : (clamped_color->Y > 1.0f ? 1.0f : clamped_color->Y);
-clamped_color->Z = clamped_color->Z <= 0.0f ? 0.0f : (clamped_color->Z > 1.0f ? 1.0f : clamped_color->Z);
-clamped_color->W = clamped_color->W <= 0.0f ? 0.0f : (clamped_color->W > 1.0f ? 1.0f : clamped_color->W);
-} else {
-__asm
-{
-mov	esi,dword ptr clamped_color
-mov edx,0x3f800000
-mov edi,dword ptr[esi]
-mov ebx,edi
-sar edi,31
-not edi
-and edi,ebx
-cmp edi,edx
-cmovnb edi,edx
-mov dword ptr[esi],edi
-mov edi,dword ptr[esi+4]
-mov ebx,edi
-sar edi,31
-not edi
-and edi,ebx
-cmp edi,edx
-cmovnb edi,edx
-mov dword ptr[esi+4],edi
-mov edi,dword ptr[esi+8]
-mov ebx,edi
-sar edi,31
-not edi
-and edi,ebx
-cmp edi,edx
-cmovnb edi,edx
-mov dword ptr[esi+8],edi
-mov edi,dword ptr[esi+12]
-mov ebx,edi
-sar edi,31
-not edi
-and edi,ebx
-cmp edi,edx
-cmovnb edi,edx
-mov dword ptr[esi+12],edi
-}
-}
-const float alpha = (*clamped_color)[3];
-const Vector3 &rgb = reinterpret_cast<const Vector3 &>(*clamped_color);
-return Convert_Color(rgb, alpha);
+Clamp_Color(color);
+return Convert_Color(reinterpret_cast<const Vector3&>(color),color[3]);
 }
 #endif
 WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
@@ -1128,13 +1080,13 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 switch ((int)transform) {
 case D3DTS_WORLD:
 render_state.world=m.Transpose();
-render_state_changed&=~(unsigned)WORLD_IDENTITY;
 render_state_changed|=(unsigned)WORLD_CHANGED;
+render_state_changed&=~(unsigned)WORLD_IDENTITY;
 break;
 case D3DTS_VIEW:
 render_state.view=m.Transpose();
-render_state_changed&=~(unsigned)VIEW_IDENTITY;
 render_state_changed|=(unsigned)VIEW_CHANGED;
+render_state_changed&=~(unsigned)VIEW_IDENTITY;
 break;
 case D3DTS_PROJECTION:
 ProjectionMatrix=m.Transpose();
@@ -1156,13 +1108,13 @@ Matrix4x4 m2(m);
 switch ((int)transform) {
 case D3DTS_WORLD:
 render_state.world=m2.Transpose();
-render_state_changed&=~(unsigned)WORLD_IDENTITY;
 render_state_changed|=(unsigned)WORLD_CHANGED;
+render_state_changed&=~(unsigned)WORLD_IDENTITY;
 break;
 case D3DTS_VIEW:
 render_state.view=m2.Transpose();
-render_state_changed&=~(unsigned)VIEW_IDENTITY;
 render_state_changed|=(unsigned)VIEW_CHANGED;
+render_state_changed&=~(unsigned)VIEW_IDENTITY;
 break;
 default:
 DX8_RECORD_MATRIX_CHANGE();
@@ -1251,16 +1203,20 @@ void BFME2Set_Texture(unsigned stage,const BFME2TextureRef &texture);
 extern unsigned number_of_DX8_calls;
 struct SimpleShaderDeviceVTable {void *unused0[92]; long (__stdcall *SetVS)(void*,unsigned); void *unused93[14];long (__stdcall *SetPS)(void*,unsigned);};
 struct SimpleShaderDevice {SimpleShaderDeviceVTable *v;};
-__forceinline void DX8Wrapper::Set_Vertex_Shader(DWORD shader){SimpleShaderDevice *d=(SimpleShaderDevice*)D3DDevice;d->v->SetVS(d,shader);++number_of_DX8_calls;}
-__forceinline void DX8Wrapper::Set_Pixel_Shader(DWORD shader){SimpleShaderDevice *d=(SimpleShaderDevice*)D3DDevice;d->v->SetPS(d,shader);++number_of_DX8_calls;}
+struct SimpleD3DDevice9 {virtual long __stdcall m0();virtual long __stdcall m1();virtual long __stdcall m2();virtual long __stdcall m3();virtual long __stdcall m4();virtual long __stdcall m5();virtual long __stdcall m6();virtual long __stdcall m7();virtual long __stdcall m8();virtual long __stdcall m9();virtual long __stdcall m10();virtual long __stdcall m11();virtual long __stdcall m12();virtual long __stdcall m13();virtual long __stdcall m14();virtual long __stdcall m15();virtual long __stdcall m16();virtual long __stdcall m17();virtual long __stdcall m18();virtual long __stdcall m19();virtual long __stdcall m20();virtual long __stdcall m21();virtual long __stdcall m22();virtual long __stdcall m23();virtual long __stdcall m24();virtual long __stdcall m25();virtual long __stdcall m26();virtual long __stdcall m27();virtual long __stdcall m28();virtual long __stdcall m29();virtual long __stdcall m30();virtual long __stdcall m31();virtual long __stdcall m32();virtual long __stdcall m33();virtual long __stdcall m34();virtual long __stdcall m35();virtual long __stdcall m36();virtual long __stdcall m37();virtual long __stdcall m38();virtual long __stdcall m39();virtual long __stdcall m40();virtual long __stdcall m41();virtual long __stdcall m42();virtual long __stdcall m43();virtual long __stdcall SetTransform(D3DTRANSFORMSTATETYPE,const D3DMATRIX*);virtual long __stdcall m45();virtual long __stdcall m46();virtual long __stdcall m47();virtual long __stdcall m48();virtual long __stdcall m49();virtual long __stdcall m50();virtual long __stdcall m51();virtual long __stdcall m52();virtual long __stdcall m53();virtual long __stdcall m54();virtual long __stdcall m55();virtual long __stdcall m56();virtual long __stdcall m57();virtual long __stdcall m58();virtual long __stdcall m59();virtual long __stdcall m60();virtual long __stdcall m61();virtual long __stdcall m62();virtual long __stdcall m63();virtual long __stdcall m64();virtual long __stdcall m65();virtual long __stdcall m66();virtual long __stdcall m67();virtual long __stdcall m68();virtual long __stdcall m69();virtual long __stdcall m70();virtual long __stdcall m71();virtual long __stdcall m72();virtual long __stdcall m73();virtual long __stdcall m74();virtual long __stdcall m75();virtual long __stdcall m76();virtual long __stdcall m77();virtual long __stdcall m78();virtual long __stdcall m79();virtual long __stdcall m80();virtual long __stdcall m81();virtual long __stdcall m82();virtual long __stdcall m83();virtual long __stdcall m84();virtual long __stdcall m85();virtual long __stdcall m86();virtual long __stdcall m87();virtual long __stdcall m88();virtual long __stdcall m89();virtual long __stdcall m90();virtual long __stdcall m91();virtual long __stdcall SetVertexShader(unsigned);virtual long __stdcall m93();virtual long __stdcall m94();virtual long __stdcall m95();virtual long __stdcall m96();virtual long __stdcall m97();virtual long __stdcall m98();virtual long __stdcall m99();virtual long __stdcall m100();virtual long __stdcall m101();virtual long __stdcall m102();virtual long __stdcall m103();virtual long __stdcall m104();virtual long __stdcall m105();virtual long __stdcall m106();virtual long __stdcall SetPixelShader(unsigned);};
+// ?Set_Vertex_Shader@DX8Wrapper present-unmatched
+__forceinline void DX8Wrapper::Set_Vertex_Shader(DWORD vertex_shader){((SimpleD3DDevice9*)DX8Wrapper::_Get_D3D_Device8())->SetVertexShader(vertex_shader);number_of_DX8_calls++;}
+// ?Set_Pixel_Shader@DX8Wrapper present-unmatched
+__forceinline void DX8Wrapper::Set_Pixel_Shader(DWORD pixel_shader){((SimpleD3DDevice9*)DX8Wrapper::_Get_D3D_Device8())->SetPixelShader(pixel_shader);number_of_DX8_calls++;}
 float Rva000032B8(float);
 class SimpleShadowPass { public: virtual void Delete_This(); virtual void slot1(); virtual bool Begin(unsigned*,unsigned); virtual void BeginPass(unsigned); virtual void slot4(); virtual void EndPass(); virtual void End(); int refs; };
 class FXShaderSetup;
-class Rva00072A94 {public:Rva00072A94 &operator=(const RefCountPtr<FXShaderSetup> &r){return *this=*(const Rva00072A94*)&r;}Rva00072A94 &operator=(const Rva00072A94&);};
-class Rva00087A93 {public: Rva00087A93():p(0){} ~Rva00087A93(); SimpleShadowPass *p;};
-template<class T> class ShadowPtr { public: ShadowPtr(T*obj=0):m_obj(obj){} bool IsBound()const{return m_obj!=0;} ~ShadowPtr(){if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}} ShadowPtr&operator=(const ShadowPtr&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}m_obj=r.m_obj;}return *this;} T*operator->()const{return m_obj;} T*m_obj; };
-#define s_AlphaShadowFXShader (*(ShadowPtr<SimpleShadowPass>*)&g_Va00DEE870)
-#define s_AdditiveShadowFXShader (*(ShadowPtr<SimpleShadowPass>*)&g_Va00DEE86C)
+// Shadow FX holder (WB refcount.h shapes); its out-of-line destructor and operator= are retail
+// 0x0007B724 (rowed as Rva00087A93) and 0x00072A94 (rowed as Rva00072A94).
+class Rva00087A93 { public: Rva00087A93(SimpleShadowPass*obj=0):m_obj(obj){} bool IsBound()const{return m_obj!=0;} ~Rva00087A93(){if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}} Rva00087A93&operator=(const Rva00087A93&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}m_obj=r.m_obj;}return *this;} SimpleShadowPass*operator->()const{return m_obj;} SimpleShadowPass*m_obj; };
+#pragma comment(linker, "/alternatename:?Rva000032B8@@YAMM@Z=?Rva000032B8@@YANM@Z")
+#define s_AlphaShadowFXShader (*(Rva00087A93*)&g_Va00DEE870)
+#define s_AdditiveShadowFXShader (*(Rva00087A93*)&g_Va00DEE86C)
 class Rva007B7024Object;
 extern Rva007B7024Object *g_Va00DEE870;
 extern Rva007B7024Object *g_Va00DEE86C;
@@ -1271,8 +1227,10 @@ struct SimpleTextureRefPtr : BFME2TextureRef {SimpleTextureRefPtr(){Ptr=0;} ~Sim
 struct SimpleTextureTemp : SimpleTextureRefPtr {SimpleTextureTemp(){}};
 struct SimpleTextureHolder { TextureClass *Ptr; bool Is_Valid() const { return Ptr != 0; } };
 class Rva00126314 {public:
+__forceinline void agpad(){}
+
 void rva00126433(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);
-SimpleTextureHolder Texture; ShaderClass Shader; float Width; Vector3 Color; float Opacity,TextureLength; bool SortingDisabled; bool Is_Sorting_Disabled()const{return SortingDisabled;}
+SimpleTextureHolder Texture; ShaderClass Shader; float Width; Vector3 Color; float Opacity,TextureLength; bool SortingDisabled; int Is_Sorting_Disabled()const{return SortingDisabled;}
 };
 void Rva00126314::rva00126433(RenderInfoClass &rinfo,const Matrix3D &transform,unsigned num_points,Vector3 *input_points,float *texture_positions,const SphereClass &obj_sphere)
 {
@@ -1282,12 +1240,12 @@ DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 Matrix4 identity(true);DX8Wrapper::Set_Transform(D3DTS_WORLD,identity);DX8Wrapper::Set_Transform(D3DTS_VIEW,identity);
 const float parallel_factor=.9f;unsigned chunk_size=129;if(chunk_size>num_points)chunk_size=num_points;
 for(unsigned chunkIndex=0;chunkIndex<num_points-1;chunkIndex+=chunk_size-1){
-unsigned point_cnt=num_points-chunkIndex;if(point_cnt>=chunk_size)point_cnt=chunk_size;unsigned pointIndex,segmentIndex,intersectionIndex;
+unsigned point_cnt=num_points-chunkIndex;point_cnt=MIN(point_cnt,chunk_size);unsigned pointIndex,segmentIndex,intersectionIndex;
 Vector3 xformed_pts[129];
 Matrix3D view2(view[0].X,view[0].Y,view[0].Z,view[0].W,view[1].X,view[1].Y,view[1].Z,view[1].W,view[2].X,view[2].Y,view[2].Z,view[2].W);
 Matrix3D modelview;modelview.mul(view2,transform);
 VectorProcessorClass::Transform(xformed_pts,input_points+chunkIndex,modelview,point_cnt);
-Vector3 *points=xformed_pts;float u_values[2]={0,1};float tex_v[129];
+Vector3 *points=xformed_pts;float u_values[2];u_values[0]=0.0f;u_values[1]=1.0f;float tex_v[129];
 float last=texture_positions[point_cnt-1];float end=last-TextureLength;
 for(pointIndex=0;pointIndex<point_cnt;++pointIndex)tex_v[pointIndex]=(texture_positions[pointIndex]-end)/TextureLength;
 enum SegmentEdge
@@ -1643,10 +1601,10 @@ break;
 }
 }
 bool sorting=(!Is_Sorting_Disabled())&&(Shader.Get_Dst_Blend_Func()!=ShaderClass::DSTBLEND_ZERO&&Shader.Get_Alpha_Test()==ShaderClass::ALPHATEST_DISABLE);
-ShadowPtr<SimpleShadowPass> shadow(0);
+Rva00087A93 shadow(0);
 if(WW3D::Is_Currently_Rendering_Shadow_Map()){
 sorting=false; bool additive=Shader.Get_Src_Blend_Func()==ShaderClass::SRCBLEND_ONE&&Shader.Get_Dst_Blend_Func()==ShaderClass::DSTBLEND_ONE;
-shadow=*(const ShadowPtr<SimpleShadowPass>*)(additive?&g_Va00DEE86C:&g_Va00DEE870);
+shadow=additive?s_AdditiveShadowFXShader:s_AlphaShadowFXShader;
 BFME2Set_Texture(0,SimpleTextureTemp());
 unsigned passes=0;if(!shadow->Begin(&passes,65535))continue;if(passes!=1)continue;shadow->BeginPass(0);
 }else{
@@ -1658,7 +1616,7 @@ DX8Wrapper::Set_Shader(shader);
 }
 DynamicVBAccessClass Verts(sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8,5,vnum,0);
 {DynamicVBAccessClass::WriteLock Lock(&Verts);unsigned char *vb=(unsigned char*)Lock.Get_Formatted_Vertex_Array();const FVFInfoClass &fvfinfo=Verts.FVF_Info();
-const unsigned verticesOffset=fvfinfo.Get_Location_Offset(),diffuseOffset=fvfinfo.Get_Diffuse_Offset(),textureOffset=fvfinfo.Get_Tex_Offset(0),vbSize=fvfinfo.Get_FVF_Size();
+const unsigned verticesOffset=fvfinfo.Get_Location_Offset(0),diffuseOffset=fvfinfo.Get_Diffuse_Offset(),textureOffset=fvfinfo.Get_Tex_Offset(0),vbSize=fvfinfo.Get_FVF_Size();
 unsigned argb=DX8Wrapper::Convert_Color_Clamp(Vector4(Color.X,Color.Y,Color.Z,Opacity));
 for(unsigned i=0;i<vnum;++i){Vector3 *vertex=(Vector3*)(vb+verticesOffset);vertex->X=vertexArray[i].x;vertex->Y=vertexArray[i].y;vertex->Z=vertexArray[i].z;
 *(unsigned*)(vb+diffuseOffset)=argb;Vector2 *texture=(Vector2*)(vb+textureOffset);texture->U=vertexArray[i].u1;texture->V=vertexArray[i].v1;vb+=vbSize;}}
@@ -1718,18 +1676,3 @@ class SimpleStreakRendererClass
 public:
 static void Init(bool enableShadows);
 };
-void SimpleStreakRendererClass::Init(bool enableShadows)
-{
-if (g_Va00DEE870 || g_Va00DEE86C || !enableShadows)
-return;
-Rva00082EB8 parameters;
-Rva0007BB16Record blendMode("BlendMode", 6);
-blendMode.m_record.m_int = 1;
-parameters.rva00082EB8(*(const Rva00082EB8Rec *)&blendMode);
-*(Rva00072A94 *)&g_Va00DEE870 = Rva00152C47_CreateFXShaderSetup(
-"Shadow.fx", "_CreateShadowMapStreak", &parameters, 4);
-blendMode.m_record.m_int = 2;
-parameters.rva00082EB8(*(const Rva00082EB8Rec *)&blendMode);
-*(Rva00072A94 *)&g_Va00DEE86C = Rva00152C47_CreateFXShaderSetup(
-"Shadow.fx", "_CreateShadowMapStreak", &parameters, 4);
-}
