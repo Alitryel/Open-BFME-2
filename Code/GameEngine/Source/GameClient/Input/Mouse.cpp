@@ -226,42 +226,7 @@ void MouseCursorInfoArrayAnchor()
 /** Initialize the mouse */
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameClient/Input/Mouse_init.cpp
-// ?init@Mouse@@ present-unmatched
-void Mouse::init( void )
-{
-	if (TheGlobalData && TheGlobalData->m_winCursors)
-		m_currentRedrawMode = RM_WINDOWS;
-
-	// device info
-	m_numButtons = 2;  // by default just have 2 buttons
-	m_numAxes = 2;  // by default a normal mouse moves in a 2d plane
-	m_forceFeedback = FALSE;
-	mouseNotifyResolutionChange();
-	m_tooltipString.clear();	// redundant
-	m_displayTooltip = FALSE;
-
-	// initialize all the mouse io data
-	memset( m_mouseEvents, 0, sizeof( m_mouseEvents ) );
-	memset( &m_currMouse, 0, sizeof( m_currMouse ) );
-	memset( &m_prevMouse, 0, sizeof( m_prevMouse ) );
-
-	m_minX = 0;
-	m_maxX = 799;
-	m_minY = 0;
-	m_maxY = 599;
-
-	m_inputFrame = 0;
-	m_deadInputFrame =0;
-
-	m_inputMovesAbsolute = FALSE;
-	m_eventsThisFrame = 0;
-
-	m_currentCursor = ARROW;
-
- 	// allocate a new display string
-	m_cursorTextDisplayString = TheDisplayStringManager->newDisplayString();
-
-}  // end init
+// Mouse::init is the retail-matched body below (0x001EE4DC, subsystem slot 1).
 
 //-------------------------------------------------------------------------------------------------
 /** Tell mouse system display resolution changed. */
@@ -288,9 +253,9 @@ public:
 	virtual void mrs12(); virtual void mrs13();
 	virtual DisplayString *newDisplayString();
 };
-void Mouse::reset( void )
+void Mouse::init( void )
 {
-	// Retail 0x001EE4DC, 226 bytes: BFME2-specific reset, far beyond ZH's
+	// Retail 0x001EE4DC, 226 bytes: subsystem slot 1 (init), far beyond ZH's
 	// cursor-text stub. Target facts: TheGlobalData (0xDFE758) +0x9C6 gate
 	// zeroes +0x12DC; StringBase<G> releaseBuffer 0x00036E70 on the wide
 	// strings at +0x12FC and +0x1300 (UnicodeString::clear, public inline);

@@ -419,23 +419,7 @@ extern void j_000350bc( void );
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 
-// ?init@W3DMouse@@UAEXXZ present-unmatched
-void W3DMouse::init( void )
-{
-
-	//check if system already initialized and texture assets loaded.
-	Win32Mouse::init();
-	((BfmeVirtualMouseSetCursor *)this)->setCursor(ARROW);	//set default starting cursor image
-
-	WWASSERT(!thread.Is_Running());
-
-
-	isThread=FALSE;
-	if (m_currentRedrawMode == RM_DX8)
-		thread.Execute();
-	thread.Set_Priority(0);
-	
-}  // end int
+// W3DMouse::init is the retail-matched body below (0x000990CF, subsystem slot 1).
 
 //-------------------------------------------------------------------------------------------------
 /** Reset */
@@ -467,11 +451,11 @@ public:
 	virtual void slot48() = 0;
 	virtual void setCursor(Int cursor) = 0;
 };
-void W3DMouse::reset( void )
+void W3DMouse::init( void )
 {
 
 	// extend
-	Win32Mouse::reset();
+	Win32Mouse::init();
 	((BfmeW3DMouseResetVtable *)this)->setCursor(ARROW);
 
 	isThread=FALSE;
@@ -479,7 +463,7 @@ void W3DMouse::reset( void )
 		thread.Execute();
 	thread.Set_Priority(0);
 
-}  // end reset
+}  // end init
 
 //-------------------------------------------------------------------------------------------------
 /** Super basic simplistic cursor */
