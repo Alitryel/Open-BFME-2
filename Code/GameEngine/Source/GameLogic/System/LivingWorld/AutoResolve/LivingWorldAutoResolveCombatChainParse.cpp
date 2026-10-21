@@ -1,7 +1,7 @@
 // The complete native parents and associative EH code/data graphs prove
 // the naturally emitted handlers recorded with this unit. Each has one
 // primary owner and its full 10-byte extent.
-// ?Rva004193E5Parse@@YAXPAVINI@@@Z
+// ?parseAutoResolveCombatChainDefinition@@YAXPAVINI@@@Z
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii
 // Native4193E5..4194D6 parser; registration7B00C7 names AutoResolveCombatChain.
 // Native41926B..4192A4 constructs the24B string/record pair. Target's getter,
@@ -35,7 +35,7 @@ struct InsertRet00419331 {void *node;void *owner;unsigned char found;};
 class Rva000427195 {public:InsertRet00419331 rva004193AD(const void*); __forceinline InsertRet00419331 rva004193D1(const void *value) {return rva004193AD(value);}};
 class Rva0041811D {public:void *rva00419154();unsigned char pad[12];Rva000427195 table;};
 extern Rva0041811D *TheLivingWorldAutoResolveCombatChainStore;
-void Rva004193E5Parse(INI *ini)
+void parseAutoResolveCombatChainDefinition(INI *ini)
 {
  const char *token=ini->getNextToken();
  const Rva004190DA *defaults=static_cast<const Rva004190DA*>(TheLivingWorldAutoResolveCombatChainStore->rva00419154());

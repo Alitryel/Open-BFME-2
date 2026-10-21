@@ -65,7 +65,7 @@ void Rva00415D33Parse(INI *);
 void Rva00417A94Parse(INI *);
 void Rva004183ACParse(INI *);
 void parseAutoResolveBodyDefinition(INI *);
-void Rva004193E5Parse(INI *);
+void parseAutoResolveCombatChainDefinition(INI *);
 void Rva0041999FParse(INI *);
 void parseAIBaseDefinition(INI *);
 void Rva0041FD3DParse(INI *);
@@ -425,7 +425,7 @@ BlockParse theCrowdResponseBlockParse = { 0, "CrowdResponse", Rva00415D33Parse }
 BlockParse theHouseColorBlockParse = { 0, "HouseColor", Rva00417A94Parse };	// VA 0x00DC822C "HouseColor", parse 0x00417A94
 BlockParse theAutoResolveLeadershipBlockParse = { 0, "AutoResolveLeadership", Rva004183ACParse };	// VA 0x00DC8238 "AutoResolveLeadership", parse 0x004183AC
 BlockParse theAutoResolveBodyBlockParse = { 0, "AutoResolveBody", parseAutoResolveBodyDefinition };	// VA 0x00DC8244 "AutoResolveBody", parse 0x00418AC6
-BlockParse theAutoResolveCombatChainBlockParse = { 0, "AutoResolveCombatChain", Rva004193E5Parse };	// VA 0x00DC8250 "AutoResolveCombatChain", parse 0x004193E5
+BlockParse theAutoResolveCombatChainBlockParse = { 0, "AutoResolveCombatChain", parseAutoResolveCombatChainDefinition };	// VA 0x00DC8250 "AutoResolveCombatChain", parse 0x004193E5
 BlockParse theAutoResolveWeaponBlockParse = { 0, "AutoResolveWeapon", Rva0041999FParse };	// VA 0x00DC825C "AutoResolveWeapon", parse 0x0041999F
 BlockParse theAIBaseBlockParse = { 0, "AIBase", parseAIBaseDefinition };	// VA 0x00DC83F4 "AIBase", parse 0x0041EC73
 BlockParse theArmyDefinitionBlockParse = { 0, "ArmyDefinition", ArmyDefinitionManager::parseArmyDefinition };	// VA 0x00DC8424 "ArmyDefinition", parse 0x0041F871

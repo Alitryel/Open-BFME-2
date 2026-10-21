@@ -1426,3 +1426,5 @@ __ehhandler$?Rva00200FE3Parse@@YAXPAVINI@@@Z,0x0076C4A0,"Renamed to __ehhandler$
 ?Rva001DA9CAParse@@YAXPAVINI@@@Z,0x001DA9CA,"Renamed to ?parseAudioEventDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00418AC6Parse@@YAXPAVINI@@@Z,0x00418AC6,"Renamed to ?parseAutoResolveBodyDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00418AC6Parse@@YAXPAVINI@@@Z,0x007866D0,"Renamed to __ehhandler$?parseAutoResolveBodyDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva004193E5Parse@@YAXPAVINI@@@Z,0x004193E5,"Renamed to ?parseAutoResolveCombatChainDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva004193E5Parse@@YAXPAVINI@@@Z,0x00786765,"Renamed to __ehhandler$?parseAutoResolveCombatChainDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
