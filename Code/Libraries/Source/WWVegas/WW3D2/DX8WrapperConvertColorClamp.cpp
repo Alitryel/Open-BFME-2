@@ -120,7 +120,7 @@ not_changed:
 }
 
 // ?Clamp_Color@DX8Wrapper@@SAXAAVVector4@@@Z
-void DX8Wrapper::Clamp_Color(Vector4 &color)
+inline __declspec(noinline) void DX8Wrapper::Clamp_Color(Vector4 &color)
 {
 	if (!CPUDetectClass::Has_CMOV_Instruction()) {
 		color[0] = color[0] <= 0.0f ? 0.0f : (color[0] > 1.0f ? 1.0f : color[0]);
@@ -175,7 +175,7 @@ void DX8Wrapper::Clamp_Color(Vector4 &color)
 }
 
 // ?Convert_Color_Clamp@DX8Wrapper@@SAIVVector4@@@Z
-unsigned int DX8Wrapper::Convert_Color_Clamp(Vector4 color)
+inline __declspec(noinline) unsigned int DX8Wrapper::Convert_Color_Clamp(Vector4 color)
 {
 	Vector4 *clamped_color = &color;
 
@@ -231,4 +231,12 @@ unsigned int DX8Wrapper::Convert_Color_Clamp(Vector4 color)
 	const float alpha = (*clamped_color)[3];
 	const Vector3 &rgb = reinterpret_cast<const Vector3 &>(*clamped_color);
 	return Convert_Color(rgb, alpha);
+}
+
+// Keep the two rowed COMDAT bodies emitted in this owner unit.
+// ?bfmeAnchorDX8ColorClamp absent-from-retail
+unsigned int bfmeAnchorDX8ColorClamp(Vector4 &color)
+{
+	DX8Wrapper::Clamp_Color(color);
+	return DX8Wrapper::Convert_Color_Clamp(color);
 }
