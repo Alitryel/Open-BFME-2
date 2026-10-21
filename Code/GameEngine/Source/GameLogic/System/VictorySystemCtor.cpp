@@ -15,6 +15,7 @@
 typedef bool Bool;
 #include "subsystem_interface.h"
 #define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
 #include "Common/Snapshot.h"
 class Rva00404781 {public:__declspec(dllimport) __forceinline Rva00404781(){rva0040475C();}__declspec(nothrow) void rva0040475C();float first[20],second[20];unsigned flags0,flags1;};
 struct Rva0040538FElement {char bytes[24];};
@@ -23,7 +24,7 @@ typedef _STL::_Vector_base<Rva0040538FElement,_STL::allocator<Rva0040538FElement
 struct Rva00405350:public VictoryParameterBase {__forceinline Rva00405350():VictoryParameterBase(_STL::allocator<Rva0040538FElement>()){}~Rva00405350();Rva0040538FElement*first(){return _M_start;}Rva0040538FElement*last(){return _M_finish;}};
 class CellGrid;
 class VictorySystem:public SubsystemInterface,public Snapshot {
-public:VictorySystem();virtual ~VictorySystem();virtual void init();virtual void reset();virtual void update();virtual void loadPostProcess(){}virtual const char*GetSnapshotName()const{return "VictorySystem";}virtual void xfer(Xfer*);virtual void rva00404DE5();
+public:VictorySystem();virtual ~VictorySystem();virtual void init();virtual void reset();virtual void update();virtual void LoadPostProcess(){}virtual const char*GetSnapshotName()const{return "VictorySystem";}virtual void DoXfer(Xfer*);virtual void newMap();
  float cellSize10;unsigned field14;float firstScale18,secondScale1c,field20,field24;
  int playerParameterIndex28[20];Rva00404781 root78;Rva00405350 parameters120;
  CellGrid*grids12c[2];bool initialized134;unsigned activeGrid138,currentPlayer13c;

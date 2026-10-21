@@ -3,7 +3,7 @@
 // ??0RegionAwardDispute@@QAE@HABV?$vector@IV?$allocator@I@_STL@@@_STL@@H@Z,
 // retail 0x004FC002 (90 bytes, RET 0x0C): the living-world region award
 // dispute's constructor (vtable 0x00BFE280, the class whose destructor is
-// rowed as Rva002B644A 0x004FC05C; its only caller 0x002B9A90). It keeps the
+// rowed at 0x004FC05C; its only caller 0x002B9A90). It keeps the
 // region (+4), copies the disputing players' IDs (+8, rowed STLport
 // vector<unsigned int> copy constructor 0x002CFAB9), takes the flags with
 // bit 0x20 set (+0x14), no winner yet (+0x18 = -1) and unresolved (+0x1C),
@@ -31,6 +31,7 @@ private:
 
 // The Snapshot base (its vtable 0x00BBB554 is restored by the rowed
 // destructor) is a constructed subobject while the members are built.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 struct RegionAwardDisputeFlags
@@ -50,6 +51,11 @@ public:
 	int GetResolvableBy();			// 0x004FBED6
 	void rva004FC0ED(const _STL::vector<int> &players);
 	void rva004FBDB0(bool local);		// rowed 0x004FBDB0
+protected:
+	// Retail vftable 0x00BFE280 slots 1..3: 0x004FBFFD, 0x002B6476, 0x004FBDF7.
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
 private:
 	int m_region;				// +0x04
 	_STL::vector<unsigned int> m_players;	// +0x08

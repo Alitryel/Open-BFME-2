@@ -25,15 +25,16 @@ class Player {public:char unknown00[0x58];AsciiString faction;};
 class PlayerList {public:Player *getNthPlayer(int);char unknown00[0x14];unsigned count;};
 extern PlayerList *ThePlayerList;
 class CellGrid {public:CellGrid(int,int,float,float);private:int width,height;unsigned count;float size,offset;void *cells,*values;};
-class VictorySystem {public:void rva00404B03();};
 class Rva00404D70 {public:int rva00404D70(const AsciiString &) throw();};
-class VictorySystemNewMapView {public:void newMap();private:
- char unknown00[0x10];float cellSize;unsigned playerCount;float scale,subtract,radius,bonus;
+// VictorySystem: newMap is slot 14 of retail vftable 0x008388D4 (ctor
+// 0x004054E1). Call-only view: the unit emits no vftable.
+class VictorySystem {public:void rva00404B03();virtual void newMap();private:
+ char unknown04[0x10-0x04];float cellSize;unsigned playerCount;float scale,subtract,radius,bonus;
  unsigned playerParameterIndex[20];char unknown78[0x12c-0x78];CellGrid *grids[2];bool initialized;
 };
-void VictorySystemNewMapView::newMap()
+void VictorySystem::newMap()
 {
- reinterpret_cast<VictorySystem *>(this)->rva00404B03();
+ rva00404B03();
  if(cellSize>0.0f){
   Region3D extent;
   cellSize=100.0f>cellSize?100.0f:cellSize;

@@ -1,8 +1,8 @@
 // cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva004FBDF7@RegionAwardDispute@@QAEXPAVXfer@@@Z, retail 0x004FBDF7..0x004FBE7A
-// (131B, RET 4): the dispute's Xfer. Version {1,2}; region id at +4 through
+// ?xfer@RegionAwardDispute@@MAEXPAVXfer@@@Z, retail 0x004FBDF7..0x004FBE7A
+// (131B, RET 4): the dispute's Xfer (vftable 0x00BFE280 slot 3). Version {1,2}; region id at +4 through
 // the rowed 0x003EFE82; the dispute type at +0x14 is read through the
 // rowed enum helper 0x004FBDDF for the old version (1 keeps 0x20, anything
 // else becomes 0x22) and through the rowed 0x002B24F0 otherwise; a 4-byte
@@ -53,13 +53,20 @@ public:
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 
-class RegionAwardDispute
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+// Retail vftable 0x00BFE280 slot 3 (the Snapshot xfer).
+class RegionAwardDispute : public Snapshot
 {
 public:
-	void rva004FBDF7(Xfer *xfer);
+	virtual ~RegionAwardDispute();
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
 
 private:
-	int m_00;
 	int m_regionID;				// +0x04
 	_STL::vector<const ModuleData *> m_disputants;	// +0x08
 	int m_disputeType;			// +0x14
@@ -67,7 +74,7 @@ private:
 	int m_1C;				// +0x1C
 };
 
-void RegionAwardDispute::rva004FBDF7(Xfer *xfer)
+void RegionAwardDispute::xfer(Xfer *xfer)
 {
 	XferVersion version;
 	version.m_version = 1;

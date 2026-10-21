@@ -5,18 +5,20 @@
 // WB10771D0 names VictorySystem::DoXfer and VictorySystem.cpp. Native
 // 4056ED..40596C proves twenty indices, 168-byte root cell, 24-byte faction
 // records, grid transfer56C50E and the diagnostic string/return chain.
-// This view starts at the Snapshot subobject, twelve bytes after the complete
-// VictorySystem (independently proved by GameStateInit). It preserves the
-// canonical Snapshot base and does not assert a complete subsystem layout.
-// Primary slot38's original method name remains unresolved. Member labels
+// xfer runs on the Snapshot subobject, twelve bytes after the complete
+// VictorySystem (independently proved by GameStateInit). After loading a
+// grid it calls primary slot 14 (+0x38), newMap (0x00404DE5). Member labels
 // follow the donor only where the target transfer sequence agrees.
 // Native Xfer table7BB910 proves Version10, raw9, float28, uint30 and bool36.
 // The record constructor is expanded at its sole use, as native instructions
 // show; no imported constructor call or standalone constructor body is used.
 #include <vector>
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
 #include "Common/Snapshot.h"
 typedef bool Bool;
+#include "../../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
 typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef float Real;
@@ -94,23 +96,6 @@ class VictoryTransferDiagnosticView {public:
  virtual VictoryTransferStreamView *Get_Stream(int,int,int);
 };
 void _bfme_debugRecordCallsite(int);
-class VictoryPrimaryView {public:
- virtual void slot00();
- virtual void slot01();
- virtual void slot02();
- virtual void slot03();
- virtual void slot04();
- virtual void slot05();
- virtual void slot06();
- virtual void slot07();
- virtual void slot08();
- virtual void slot09();
- virtual void slot10();
- virtual void slot11();
- virtual void slot12();
- virtual void slot13();
- virtual void slot38();
-};
 struct BfmeStringRecord00404BF3 {
  __declspec(dllimport) __forceinline BfmeStringRecord00404BF3() : name()
  {
@@ -146,10 +131,20 @@ class CellGrid
 public:
 	Bool rva0056C50E(Xfer *);
 };
-class VictorySystemSnapshotView : public Snapshot
+// xfer is slot 3 of the Snapshot vftable 0x008388C4; its this is the
+// Snapshot subobject (+0x0C), so member offsets come out twelve less.
+class VictorySystem : public SubsystemInterface, public Snapshot
 {
 public:
-	void rva004056ED(Xfer *xfer);
+	VictorySystem();
+	virtual ~VictorySystem();
+	virtual void init();
+	virtual void reset();
+	virtual void update();
+	virtual void LoadPostProcess() {}
+	virtual const char *GetSnapshotName() const { return "VictorySystem"; }
+	virtual void DoXfer(Xfer *xfer);
+	virtual void newMap();
 private:
  Real m_cellSize;UnsignedInt m_field10;Real m_firstScale,m_secondScale,m_field1c,m_field20;
  Int m_playerParameterIndex[20];
@@ -158,7 +153,7 @@ private:
  CellGrid *m_cellGrids[2];
  Bool m_initialized;unsigned char m_padding[3];UnsignedInt m_activeGrid,m_currentPlayer;
 };
-void VictorySystemSnapshotView::rva004056ED(Xfer *xfer)
+void VictorySystem::DoXfer(Xfer *xfer)
 {
 	UnsignedInt gridCount;
 	XferVersion version;
@@ -228,7 +223,7 @@ void VictorySystemSnapshotView::rva004056ED(Xfer *xfer)
 		}
 
 		if (anyGrid)
-			reinterpret_cast<VictoryPrimaryView *>(reinterpret_cast<char *>(this)-12)->slot38();
+			newMap();
 	}
 	else if (xfer->IsStoring())
 	{

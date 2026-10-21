@@ -39,14 +39,21 @@ public:
 };
 extern LivingWorldManager *TheLivingWorldManager;
 
-class RegionAwardDispute
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+class RegionAwardDispute : public Snapshot
 {
 public:
+	virtual ~RegionAwardDispute();
 	void rva004FBF8E();
 	int GetResolvableBy();	// 0x004FBED6
 	void rva004FBDB0(bool resolvable);	// 0x004FBDB0
-
-	void *m_vptr00;
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
+public:
 	int m_region04;	// +0x04
 	char m_pad08[0x18 - 0x08];
 	int m_beaconId18;	// +0x18
@@ -66,4 +73,11 @@ void RegionAwardDispute::rva004FBF8E()
 		int resolvableBy = GetResolvableBy();
 		rva004FBDB0(reinterpret_cast<Rva002B2B66 *>(TheLivingWorldLogic)->rva002B2B66() == resolvableBy);
 	}
+}
+
+// Retail 0x004FBFFD (5 bytes, right after the evaluation): vftable 0x00BFE280
+// slot 1, a tail jump into the evaluation above.
+void RegionAwardDispute::loadPostProcess()
+{
+	rva004FBF8E();
 }

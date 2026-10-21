@@ -2,13 +2,13 @@
 //
 // ?rva002B9CFC@Rva002B9CFC@@QAEXPAVOther002B9CFC@@@Z @0x002B9CFC 203B
 // Rebuild with Other virtuals (0x28/4/0x78/0x30) plus Rva clear 0x002B6900
-// plus new 0x20 plus ctor 0x002B644A plus map<int int> subscript 0x0028932C
+// plus new 0x20 plus ctor 0x002B644A (RegionAwardDispute) plus map<int int> subscript 0x0028932C
 // plus increment 0x00024250 loop; minimal _STL forward declares (no <map>
 // to keep direct E8 calls and avoid dllimport/redefinition).
-class Rva002B644A
+class RegionAwardDispute
 {
 public:
-	Rva002B644A();
+	RegionAwardDispute();
 };
 
 void *__cdecl operator new(unsigned int size);
@@ -104,7 +104,7 @@ public:
 };
 
 // ?rva002B6900@Rva002B6900@@QAEXXZ @0x002B6900 rowed
-// ??0Rva002B644A@@QAE@XZ @0x002B644A rowed
+// ??0RegionAwardDispute@@QAE@XZ @0x002B644A rowed
 // ??A?$map@HHU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@QAEAAHABH@Z @0x0028932C rowed
 // ??2@YAPAXI@Z @0x0002FDA0 rowed
 // ?_M_increment@?$_Rb_global@_N@_STL@@SAPAU_Rb_tree_node_base@2@PAU32@@Z @0x00024250 rowed
@@ -125,8 +125,8 @@ void Rva002B9CFC::rva002B9CFC(Other002B9CFC *other)
 			unsigned int i = 0;
 			do
 			{
-				Rva002B644A *p = (Rva002B644A *)::operator new(0x20);
-				p = p ? (Rva002B644A *)new (p) Rva002B644A() : 0;
+				RegionAwardDispute *p = (RegionAwardDispute *)::operator new(0x20);
+				p = p ? (RegionAwardDispute *)new (p) RegionAwardDispute() : 0;
 				other->v30(p);
 				int key = *(int *)((char *)p + 4);
 				(*map130)[key] = (int)p;

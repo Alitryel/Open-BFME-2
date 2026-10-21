@@ -1,7 +1,7 @@
 // cl: /MD
 // stlport
 //
-// ??0Rva002B644A@@QAE@XZ @0x002B644A 44B
+// ??0RegionAwardDispute@@QAE@XZ @0x002B644A 44B
 // Ctor with vtable 0x007FE280 plus BfmeE16 vector at +8 via rowed
 // Vector_base 0x00211E58 plus ints +4=-1 +0x14=0 +0x18=-1 +0x1C=0.
 // Evidence: vtable store; Vector_base call; int stores; caller 0x002B9D5B;
@@ -21,18 +21,36 @@ namespace _STL {
 template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
 }
 
-class Rva002B644A
+// The living-world region award dispute (the 0x004FC002 constructor stores
+// the same vftable). Retail vftable 0x00BFE280: ??_G 0x002B647C,
+// loadPostProcess 0x004FBFFD, GetSnapshotName 0x002B6476, xfer 0x004FBDF7.
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+class RegionAwardDispute : public Snapshot
 {
-	virtual ~Rva002B644A();
+public:
+	RegionAwardDispute();
+	virtual ~RegionAwardDispute();
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
+private:
 	int m_4;
 	_STL::vector<BfmeE16> m_vec8;
 	int m_14;
 	int m_18;
 	unsigned char m_1C;
-public:
-	Rva002B644A();
 };
 
-Rva002B644A::Rva002B644A() : m_4(-1), m_14(0), m_18(-1), m_1C(0)
+RegionAwardDispute::RegionAwardDispute() : m_4(-1), m_14(0), m_18(-1), m_1C(0)
 {
+}
+
+// Retail 0x002B6476 (6 bytes) sits between this constructor and the
+// deleting destructor: the class-name getter in vftable slot 2.
+const char *RegionAwardDispute::GetSnapshotName() const
+{
+	return "RegionAwardDispute";
 }

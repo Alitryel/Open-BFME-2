@@ -4624,7 +4624,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007FE240,24,.rdata,string,??_C@_0BF@BIHPFAFE@Gui_VictoryCheerEvil?$AA@,,literal,,0,2
 0x007FE258,20,.rdata,string,??_C@_0BB@CMJFFIFA@Gui_DefeatScreen?$AA@,,literal,,0,2
 0x007FE26C,20,.rdata,string,??_C@_0BC@MBJNEIBM@Gui_VictoryScreen?$AA@,,literal,,0,2
-0x007FE280,16,.rdata,vtable,??_7Rva002B644A@@6B@,,literal,,0,2
+0x007FE280,16,.rdata,vtable,??_7RegionAwardDispute@@6B@,,literal,,0,2
 0x007FE290,140,.rdata,string,??_C@_0BD@GICLADNO@RegionAwardDispute?$AA@,,literal,,0,1
 0x007FE31C,236,.rdata,string,??_C@_0BB@CPNICBBB@LivingWorldLogic?$AA@,,literal,,0,1
 0x007FE408,28,.rdata,vtable,??_7BfmeRectVNI@@6B@,,literal,??_7BfmeRectVNI@@6B@;??_7Rva003C2F40Owner@@6B@,0,2
@@ -9933,8 +9933,8 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00838760,96,.rdata,global,_FactionVictoryFieldParse,Code/GameEngine/Source/Common/INI/INIVictorySystem.cpp,owned,,1,1
 0x008387C0,248,.rdata,global,_VictorySystemFieldParse,Code/GameEngine/Source/Common/INI/INIVictorySystem.cpp,owned,,1,1
 0x008388B8,12,.rdata,string,??_C@_08DJIJBBHL@Civilian?$AA@,,literal,,0,1
-0x008388C4,16,.rdata,vtable,??_7Rva004053C2@@6BSnapshot@@@,,literal,,0,1
-0x008388D4,60,.rdata,vtable,??_7Rva004053C2@@6BSubsystemInterface@@@,,literal,,0,1
+0x008388C4,16,.rdata,vtable,??_7VictorySystem@@6BSnapshot@@@,,literal,,0,1
+0x008388D4,60,.rdata,vtable,??_7VictorySystem@@6BSubsystemInterface@@@,,literal,,0,1
 0x00838910,16,.rdata,string,??_C@_0O@NOAKGJOP@VictorySystem?$AA@,,literal,,0,1
 0x00838920,56,.rdata,string,??_C@_0DG@GJEDBPKH@Cell?5Grid?5count?5?$CB?$DN?5VS_CELL_GRID_@,,literal,,0,1
 0x00838958,24,.rdata,global,?g_00C38958@@3QBQBXB,,unowned,,0,1

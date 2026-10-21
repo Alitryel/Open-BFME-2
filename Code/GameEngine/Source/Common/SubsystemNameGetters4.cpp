@@ -19,7 +19,7 @@
 	}
 
 BFME_LITERAL_NAME_GETTER(Rva00271892Named, "TintEnvelope")
-BFME_LITERAL_NAME_GETTER(Rva002B6476Named, "RegionAwardDispute")
+// RegionAwardDispute::GetSnapshotName is owned by Rva002B644ACtor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva0033F517Named, "AIAttackSquadState")
 BFME_LITERAL_NAME_GETTER(Rva0033FB6DNamed, "AttackHordeStateMachine")
 BFME_LITERAL_NAME_GETTER(Rva0033FC04Named, "AttackPositionHordeStateMachine")
@@ -56,7 +56,7 @@ BFME_LITERAL_NAME_GETTER(Rva003F6A8BNamed, "LivingWorldBattle")
 BFME_LITERAL_NAME_GETTER(Rva003F9CCCNamed, "LivingWorldEyeTower")
 BFME_LITERAL_NAME_GETTER(Rva003FD374Named, "DelayedRegionFlashModule")
 BFME_LITERAL_NAME_GETTER(Rva00403A5BNamed, "AttributeModifierPoolUpdate")
-BFME_LITERAL_NAME_GETTER(Rva00405411Named, "VictorySystem")
+// VictorySystem::GetSnapshotName is owned by Rva004053C2Dtor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva005C43C9Named, "LivingWorldBuildingNuggetIncreaseCommandPoints")
 BFME_LITERAL_NAME_GETTER(Rva00351753Named, "AIStateMachine")
 BFME_LITERAL_NAME_GETTER(Rva0037BB4DNamed, "GameInfo")
