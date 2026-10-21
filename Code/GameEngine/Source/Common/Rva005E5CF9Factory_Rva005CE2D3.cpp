@@ -91,10 +91,6 @@ struct Rva005FB418
 	RvaF1Handle rva005FB418(unsigned int first, unsigned int second);
 };
 
-RvaF1Handle Rva005CE2D3::rva005CE2D3(unsigned int argument)
-{
-	return RvaF1Handle(new Rva005E8D71((void *)argument, (Rva005E8DCFIn *)&m_context));
-}
 
 RvaF1Handle Rva005FB418::rva005FB418(unsigned int first, unsigned int second)
 {
