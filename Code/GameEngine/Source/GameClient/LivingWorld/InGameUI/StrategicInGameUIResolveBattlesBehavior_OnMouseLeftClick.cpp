@@ -175,17 +175,7 @@ struct ChecklistItemRef {
 };
 class Checklist { public: void AddItem(const ChecklistItemRef &); };
 }
-// Native vtable86E7D0 slot0 reaches5766D3; pending/completed enumerators
-// invoke it with one battle pointer and inspect AL. WB14CFA70 confirms the
-// filtered checklist allocation and counted reference. Fields4/8/C remain
-// opaque pointer words, matching the existing constructor ABI.
-bool Rva005766B3::Visit(LivingWorldPendingBattle *battle) {
- if(((LivingWorldBattle *)battle)->rva003F48EF((void *)a)) {
-  StrategicInGameUI::ChecklistItemRef item(new Rva005D1DCB((void *)c,battle));
-  ((StrategicInGameUI::Checklist *)b)->AddItem(item);
- }
- return true;
-}
+
 
 
 class Rva002C025AViewer { public: void *rva002C025A(void *, unsigned, bool); };
@@ -224,62 +214,7 @@ struct ResolveClickView {
  char unknown0[0x10]; ResolveClickUI *ui; Rva002C025AViewer *viewer;
  ResolveClickPlayer *player; ResolveClickHolder<Rva0057647E> battle; char unknown20[0x20]; ResolveClickHolder<Rva005765D1> ownership;
 };
-// Native576946..576ACB and WB14D0EE0 (OnMouseLeftClick, asserts at
-// StrategicInGameUIResolveBattlesBehavior.cpp:531..561) independently show
-// the point-pick, battle lookup and dispute-resolution branches. The handler
-// is a virtual: nothing calls it directly, and it fills slot 18 (+0x48) of
-// the Impl vftable 0x00C6E7F0, whose slot 0 is this unit's
-// translateGameMessage 0x0057667D and which the Impl constructor 0x00576DF1
-// and destructor 0x00576C4B (rowed as Rva00576C4B) install. The base UserInputTranslator::translateGameMessage
-// 0x005CBC95 (WB name) dispatches slot +0x48 with argument 0's record (the
-// pixel region) and argument 1's integer; WB measures the first argument with
-// IRegion2D::width/height (pointer or reference: the codegen is the same).
-// The second word is unused here. Point temporaries end immediately after
-// picking, allowing retail's subsequent allocation reuse.
-int StrategicInGameUI::ResolveBattlesBehavior::Impl::OnMouseLeftClick(const IRegion2D &region, int modifiers) {
- ResolveClickView *state=(ResolveClickView *)this;
- if(region.hi.x-region.lo.x>0 || region.hi.y-region.lo.y>0) return 0;
- if(!state->battle.p) {
-  ResolveClickObject *object;
-  {
-   ICoord2D point; point.x=region.lo.x; point.y=region.lo.y;
-   object=(ResolveClickObject *)state->viewer->rva002C025A(&point,1,false);
-  }
-  if(object) {
-   int id=(int)((Rva00212728 *)g_00DFE1C8)->rva00212728(object->key);
-   if(id>=0) {
-    LivingWorldRegionManager *manager=((ResolveBattleWorldView *)TheLivingWorldLogic)->regionManager;
-    LivingWorldPendingBattle *battle=manager->rva0020E501(id);
-    if(battle) {
-     state->battle.reset(new Rva0057647E(this,battle));
-     return 1;
-    }
-   }
-  }
- }
- int hud=state->ui->impl->get();
- Rva0057C22FByteChaseField *dialog=(Rva0057C22FByteChaseField *)((Rva0042D6BAPtrChaseField *)hud)->get();
- if(dialog && !dialog->get()) {
-  ResolveClickObject *object;
-  {
-   ICoord2D point; point.x=region.lo.x; point.y=region.lo.y;
-   object=(ResolveClickObject *)state->viewer->rva002C025A(&point,2,false);
-  }
-  if(object) {
-   int id=(int)((Rva00212728 *)g_00DFE1C8)->rva00212728(object->key);
-   if(id>=0) {
-    RegionAwardDispute *dispute=(RegionAwardDispute *)((Rva002B5C5E *)TheLivingWorldLogic)->rva002B5C5E(id);
-    if(dispute) {
-     int playerId=state->player->id;
-     if(dispute->GetResolvableBy()!=playerId) return 0;
-     state->ownership.reset(new Rva005765D1(this,(int)dialog,(int)dispute));
-     return 1;
-    }
-   }
-  }
- }
- return 0;
-}
+
 
 // 0x0057539C is rowed as Rva00575383's member forwarder (Rva0057539CForwarders.cpp).
 class Rva00575383 { public: void rva0057539C(); };
