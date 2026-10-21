@@ -275,9 +275,7 @@ private:
 class BuildListInfo
 {
 public:
-	// getBuildingName and getTemplateName: retail calls the folded by-value
-	// AsciiString copies of +4 and +8.
-	AsciiString rva00564DF2() const;
+	// getTemplateName: retail calls the folded by-value AsciiString copy of +8.
 	AsciiString getTemplateName() const;
 	Int getHealth() const { return m_health; }
 	Bool getUnsellable() const { return m_unsellable; }
@@ -306,6 +304,9 @@ public:
 	Int m_desiredGatherers;			// +0x78
 	Int m_currentGatherers;			// +0x7C
 };
+
+// The building name is the folded by-value copy of +4, rowed under this view.
+class Rva00564DF2NameView { public: AsciiString rva00564DF2() const; };
 
 class Player
 {
@@ -901,10 +902,20 @@ class ScriptEngine
 public:
 	void AppendDebugMessage(const AsciiString &message, Bool forcePause);
 	void addObjectToCache(Object *obj, const AsciiString &name);
-	Script *rva003573C4(const AsciiString &owner, const AsciiString &name, AsciiString *outName);
-	void rva0020D451(AsciiString &scope, void *action, Script *script, const AsciiString &scriptName, int flags);
 };
 extern ScriptEngine *TheScriptEngine;
+
+class BfmeRoomZC;
+class Rva003573C4Owner
+{
+public:
+	void *rva003573C4(const AsciiString &owner, const BfmeRoomZC &name, void *outName);	// rowed 0x003573C4
+};
+class Rva0020D451Engine
+{
+public:
+	void rva0020D451(const AsciiString &scope, void *action, void *script, void *scriptName, Team *team);	// rowed 0x0020D451
+};
 
 enum { MAX_STRUCTURES_TO_REPAIR = 2 };
 
@@ -1328,9 +1339,9 @@ void AIPlayer::checkQueuedTeams()
 			{
 				AsciiString scope;
 				const AsciiString &cond = team->m_team->getPrototype()->getProductionCondition();
-				Script *script = TheScriptEngine->rva003573C4(team->m_team->getOwnerName(), cond, &scope);
+				Script *script = (Script *)((Rva003573C4Owner *)TheScriptEngine)->rva003573C4(team->m_team->getOwnerName(), reinterpret_cast<const BfmeRoomZC &>(cond), &scope);
 				if (script)
-					TheScriptEngine->rva0020D451(scope, script->getAction(), script, cond, (int)team->m_team);
+					((Rva0020D451Engine *)TheScriptEngine)->rva0020D451(scope, script->getAction(), script, (void *)&cond, team->m_team);
 			}
 		}
 	}
@@ -1878,7 +1889,7 @@ void AIPlayer::checkReadyTeams()
 			}
 			if (anyIdle && team->m_team->getPrototype()->getExecuteActions())
 			{
-				Script *script = TheScriptEngine->rva003573C4(team->m_team->getOwnerName(), team->m_team->getPrototype()->getProductionCondition(), NULL);
+				Script *script = (Script *)((Rva003573C4Owner *)TheScriptEngine)->rva003573C4(team->m_team->getOwnerName(), reinterpret_cast<const BfmeRoomZC &>(team->m_team->getPrototype()->getProductionCondition()), NULL);
 				if (script && script->getAction())
 					allIdle = true;
 			}
@@ -2030,7 +2041,7 @@ void AIPlayer::onStructureProduced(Object *factory, Object *bldg)
 		if (info->getObjectID() != bldg->getID())
 			continue;
 		Dict d;
-		d.setAsciiString(TheKey_objectName, info->rva00564DF2());
+		d.setAsciiString(TheKey_objectName, reinterpret_cast<const Rva00564DF2NameView *>(info)->rva00564DF2());
 		d.setInt(TheKey_objectInitialHealth, info->getHealth());
 		d.setBool(TheKey_objectUnsellable, info->getUnsellable());
 
@@ -2179,9 +2190,9 @@ void AIPlayer::buildSpecificAITeam(TeamPrototype *teamProto, Bool priorityBuild)
 			{
 				AsciiString scope;
 				const AsciiString &cond = team->m_team->getPrototype()->getProductionCondition();
-				Script *script = TheScriptEngine->rva003573C4(team->m_team->getOwnerName(), cond, &scope);
+				Script *script = (Script *)((Rva003573C4Owner *)TheScriptEngine)->rva003573C4(team->m_team->getOwnerName(), reinterpret_cast<const BfmeRoomZC &>(cond), &scope);
 				if (script && script->getAction())
-					TheScriptEngine->rva0020D451(scope, script->getAction(), script, cond, (int)team->m_team);
+					((Rva0020D451Engine *)TheScriptEngine)->rva0020D451(scope, script->getAction(), script, (void *)&cond, team->m_team);
 			}
 		}
 		else
