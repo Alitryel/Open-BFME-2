@@ -1,7 +1,5 @@
 // ?render@AptShapeContainer@@QAEXXZ
-// partial score=0.955 date=2026-10-19
-// ?render@AptShapeContainer@@QAEXXZ
-// partial score=0.94 date=2026-10-19
+// partial score=0.96 date=2026-10-21
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /ICode/Libraries/Include/Lib
 // stlport
 // W3DAptAux.cpp -- W3DAptAux members recovered from WorldBuilder leads
@@ -566,7 +564,15 @@ void AptShapeContainer::render()
 			AptVertex *v = (AptVertex *)((W3DAptRenderer *)W3DAptAux::s_renderer)->BeginTriangleList(textured->m_triangles.size());
 			if (v) {
 				const AptRenderTransform &uvTransform = textured->m_uvTransform;
+				int unusedSlot0 = 0;
+				int unusedSlot1 = 0;
+				int unusedSlot2 = 0;
+				int unusedSlot3 = 0;
+				int unusedSlot4 = 0;
 				for (_STL::vector<AptTriangle>::iterator t = textured->m_triangles.begin(); t != textured->m_triangles.end(); ++t) {
+					int unusedSlot5 = 0;
+					int unusedSlot6 = 0;
+					int unusedSlot7 = 0;
 					const AptTriangle &tri = *t;
 					aptMatrixMul(v->pos, tri.p[1], m_transform);
 					v->z = 0.0f;
@@ -598,6 +604,11 @@ void AptShapeContainer::render()
 			if (!v)
 				break;
 			for (_STL::vector<AptTriangle>::iterator t = solid->m_triangles.begin(); t != solid->m_triangles.end(); ++t) {
+				int unusedSlot8 = 0;
+				int unusedSlot9 = 0;
+				int unusedSlot10 = 0;
+				int unusedSlot11 = 0;
+				int unusedSlot12 = 0;
 				const AptTriangle &tri = *t;
 				aptMatrixMulNamedProducts(v->pos, tri.p[0], m_transform);
 				v->z = 0.0f;

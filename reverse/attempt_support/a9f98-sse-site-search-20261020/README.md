@@ -44,3 +44,44 @@ out/in aliasing; greedy descent from the best config over all 294 spellings per
 site finds no improvement (still 29 + 3). Spelling-level levers at the helper
 are exhausted; the remaining lever is outside the helper (loop/pointer shape,
 which prior seats also swept).
+
+## Round 3 (2026-10-21, claude-opus-5-5, t=150): symbol-number pad lever, 29 -> 24
+
+Mechanism: c2 FactCanonSort (c2_l.dll RVA 0x5CD11) orders commutative SSE
+operands by key; a memory leaf keys about `0x10008 + 0x2000*(F&7)` with F the
+base symbol number. Locals are numbered in declaration order; compiler temps
+(inline-instance symbols of the helper, induction temps) are numbered after all
+source locals. Unused `int unusedSlotN = 0;` locals therefore shift every later
+symbol, period 8. See also the 0x6227E0 note
+(`0x006227e0-reduction-mechanism-20261021.md`).
+
+Bank updated (size-exact, 24 differing insns + the 3 end-list calls): helper
+config unchanged `[0,0,0,0,49,0,8,0,49,1,49]`, plus 5 unused locals after
+`uvTransform`, 3 at the start of the textured loop body, 5 at the start of the
+solid loop body. `pad_combo.py.txt` builds helper-config x pad-map sources;
+window and iterative searches (about 19k compiles) find nothing below 24.
+
+Decomposition (`pad_decomp.py.txt`, 512 residue combos of the six
+shift-sensitive anchors U=uvTransform, textured/solid/line iterators, segment,
+and the temps): only U, t_T, t_S, g, segment and the temps move any site;
+`it`, shape, textured, texture, color, v and tri are inert. Sites Lb
+(+0xF4..+0x137), S3 (+0x27B..+0x2C0), T2 (+0x401..+0x450) and T6
+(+0x524..+0x570) are wrong under EVERY combo: their compares are temp vs temp,
+so no source-local pad reaches them. Retail T2: X row `X*a` point-first, `c*Y`
+matrix-first; Y row both point-first. Retail Lb: X point higher than the
+matrix, Y point lower, both rows.
+
+Refuted this round: helper taking the matrix directly with no cast local
+(`const AptMatrix &m` param with call-site casts: 57-63; union-typed
+AptRenderTransform with `.a..ty` fields and no local: 63). The cast local is
+part of the right shape.
+
+Also refuted: unused locals inside the inlined helper (1-7 `int` before the
+cast local, after it, or at the end; each of the 11 sites alone, 231 trials):
+best still 24, and no trial changes the wrong-site set {Lb, S3, T2, T4, T6}.
+Helper-local numbering does not reach these sites either.
+
+Remaining untried angles: the loop/iterator shape around the Lb/S3/T2/T6
+instances (retail strength-reduces `iterator+0x14` into ECX for one point),
+e.g. spelling the triangle/segment points through explicit pointer locals
+declared in the loop, then re-running the pad search from that base.
