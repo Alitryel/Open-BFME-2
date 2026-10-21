@@ -1358,7 +1358,7 @@ return;
 }
 case 99:
 {
-Rva003BB29D(TEXT(0));
+doPlayerHunt(TEXT(0));
 return;
 }
 case 468:
@@ -1373,27 +1373,27 @@ return;
 }
 case 63:
 {
-Rva003BB31DClear(TEXT(0));
+doPlayerDisableBaseConstruction(TEXT(0));
 return;
 }
 case 64:
 {
-Rva003BB35B(TEXT(0), (int)(&TEXT(1)));
+doPlayerDisableFactories(TEXT(0), (int)(&TEXT(1)));
 return;
 }
 case 65:
 {
-Rva003BB39EClear(TEXT(0));
+doPlayerDisableUnitConstruction(TEXT(0));
 return;
 }
 case 66:
 {
-Rva003BB3DCSet(TEXT(0));
+doPlayerEnableBaseConstruction(TEXT(0));
 return;
 }
 case 67:
 {
-Rva003BB41A(TEXT(0), (int)(&TEXT(1)));
+doPlayerEnableFactories(TEXT(0), (int)(&TEXT(1)));
 return;
 }
 case 257:
@@ -1403,7 +1403,7 @@ return;
 }
 case 68:
 {
-Rva003BB45DSet(TEXT(0));
+doPlayerEnableUnitConstruction(TEXT(0));
 return;
 }
 case 70:
@@ -1488,7 +1488,7 @@ return;
 }
 case 77:
 {
-Rva003BB518Clear(TEXT(0));
+doPlayerKill(TEXT(0));
 return;
 }
 case 78:

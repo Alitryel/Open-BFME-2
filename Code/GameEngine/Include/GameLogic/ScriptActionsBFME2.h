@@ -93,10 +93,10 @@ public:
     void Rva003BB94CReveal(AsciiString const &);
     void Rva003BBA59Reveal(AsciiString const &);
     void Rva003BB9C6Reveal(bool, AsciiString const &);
-    void Rva003BB31DClear(AsciiString const &);
-    void Rva003BB39EClear(AsciiString const &);
-    void Rva003BB3DCSet(AsciiString const &);
-    void Rva003BB45DSet(AsciiString const &);
+    void doPlayerDisableBaseConstruction(AsciiString const &);
+    void doPlayerDisableUnitConstruction(AsciiString const &);
+    void doPlayerEnableBaseConstruction(AsciiString const &);
+    void doPlayerEnableUnitConstruction(AsciiString const &);
     void Rva003BB6C0Clear(AsciiString const &);
     void Rva003BF9FADo(AsciiString const &, float, AsciiString const &);
     void Rva003BF9C8Do(AsciiString const &);
@@ -238,9 +238,9 @@ public:
     void Rva003BB76EDo(Coord3D *, void *);
     void Rva003C4D5CDo(AsciiString const *);
     void Rva003C0E87Do(AsciiString const &, int);
-    void Rva003BB29D(AsciiString const &);
-    void Rva003BB35B(AsciiString const &, int);
-    void Rva003BB41A(AsciiString const &, int);
+    void doPlayerHunt(AsciiString const &);
+    void doPlayerDisableFactories(AsciiString const &, int);
+    void doPlayerEnableFactories(AsciiString const &, int);
     void Rva003BC9E0Do(AsciiString const &, float, AsciiString const &, AsciiString const &);
     void Rva003BC582Set(AsciiString const &, int);
     void Rva003BB898(bool, bool);
@@ -262,7 +262,7 @@ public:
     void Rva003BB163Set(AsciiString const &, int);
     void Rva003BB2DFClear(AsciiString const &);
     void Rva003BB4BDApply(Parameter *, float, float, float, int);
-    void Rva003BB518Clear(AsciiString const &);
+    void doPlayerKill(AsciiString const &);
     void Rva003BB7FESet(int, bool);
     void Rva003BBC81Set(bool, bool, int);
     void Rva003BBCB3Set(bool);

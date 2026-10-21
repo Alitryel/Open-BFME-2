@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BB39EClear@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BB39E 62B: ScriptActions member clearing Player byte +0x338 for each player in a name mask.
+// ?doPlayerDisableUnitConstruction@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BB39E 62B: ScriptActions member clearing Player byte +0x338 for each player in a name mask.
 // Target evidence: calls ScriptEngine::rva00357475 (0x00357475) once then getEachPlayerFromMask (0x002A7BC9) loop writing byte [eax+0x338]=0; globals g_Va009FE16C (0x009FE16C) and ThePlayerList (0x009FEEE8); ret 4; caller 0x003CB804; sibling of 0x003BB31D (+0x339).
 class AsciiString;
 class Player
@@ -23,7 +23,7 @@ public:
 	Player *getEachPlayerFromMask(int &mask);
 };
 extern PlayerList *ThePlayerList;
-void ScriptActions::Rva003BB39EClear(const AsciiString &name)
+void ScriptActions::doPlayerDisableUnitConstruction(const AsciiString &name)
 {
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
