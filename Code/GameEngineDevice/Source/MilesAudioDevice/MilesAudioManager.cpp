@@ -1204,7 +1204,7 @@ public:
     void rva0005E377(const AsciiString &key, int viewType);
     void setViewFocus(int viewType);
     int rva0005A7BE(AudioEventRTS *event, int arg1);
-    void rva0005AF92(AudioEventInfo *info);
+    void friend_onAudioEventInfoDestruction(AudioEventInfo *info);
     AsciiString rva0005B19E(const AsciiString &key);
     AsciiString rva0005B1FA(const AsciiString &key);
     // These audio INI calls use the manager receiver and an explicit INI*.
@@ -2621,7 +2621,7 @@ public:
 // Retail 0x0005AF92 (address-derived): under the mutex, erases the table entry
 // for the info's name when it still maps to this very info, then marks the
 // name tree stale.
-void MilesAudioManager::rva0005AF92(AudioEventInfo *info)
+void MilesAudioManager::friend_onAudioEventInfoDestruction(AudioEventInfo *info)
 {
     MilesMutexGuard guard(&m_mutex, 0);
     Rva0041534BIter found = reinterpret_cast<Rva00056F61 *>(&m_allAudioEventInfo)->rva0041534B(&info->m_audioName);

@@ -654,7 +654,7 @@ public:
 	void SelectCampaign(Int campaign);
 	void UpdateStrategicScenarioDesc();	// 0x0057C99E
 	Int GetCurrentStrategicScenario();
-	void rva0057C5B9(const Coord2D *pos, const Coord2D *size, void *unused3, void *unused4);
+	void PictureCustomRender(const Coord2D *pos, const Coord2D *size, void *unused3, void *unused4);
 	void GameMapType(int query, char *result, bool skip);
 	void MapGadgetInit(const char *name, void *argument, GameWindow *window);
 	void rva0057E45C();
@@ -761,10 +761,10 @@ void AptMapPreview::UpdateStrategicScenarioDesc()
 	GadgetListBoxSetTopVisibleEntry(m_strategicScenarioDesc, 0);
 }
 
-// AptMapPreview::rva0057C5B9, retail 0x0057C5B9: the "AptMapPreview::Picture"
+// AptMapPreview::PictureCustomRender, retail 0x0057C5B9: the "AptMapPreview::Picture"
 // custom render (bound by 0x0057E4C2): draws the +0x5C picture over the
 // given rectangle, dropping a picture that is no longer readable.
-void AptMapPreview::rva0057C5B9(const Coord2D *pos, const Coord2D *size, void *unused3, void *unused4)
+void AptMapPreview::PictureCustomRender(const Coord2D *pos, const Coord2D *size, void *unused3, void *unused4)
 {
 	if (m_picture == 0)
 		return;
@@ -1105,7 +1105,7 @@ void AptMapPreview::rva0057E45C()
 	}
 	{
 		AsciiString name("AptMapPreview::Picture");
-		TheAptPlayer->AddCustomRender(name, AptRef<AptCustomRender>(DelegateDesc(this, reinterpret_cast<AptMapPreviewHandler>(&AptMapPreview::rva0057C5B9))));
+		TheAptPlayer->AddCustomRender(name, AptRef<AptCustomRender>(DelegateDesc(this, reinterpret_cast<AptMapPreviewHandler>(&AptMapPreview::PictureCustomRender))));
 	}
 	{
 		AsciiString name("AptMapPreview::GameMapType");
