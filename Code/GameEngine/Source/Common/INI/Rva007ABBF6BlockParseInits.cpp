@@ -25,136 +25,420 @@ extern BlockParse *theBlockParseList;
 // retail .data starts it at 0.
 BlockParse *theBlockParseList = 0;
 
-extern BlockParse theAudioSettingsBlockParse;	// VA 0x00DB3A08 "AudioSettings", parse 0x0004171A
-extern BlockParse theShadowMapBlockParse;	// VA 0x00DB4488 "ShadowMap", parse 0x0007BE1E
-extern BlockParse theLoadSubsystemBlockParse;	// VA 0x00DB7034 "LoadSubsystem", parse 0x001B4E07
-extern BlockParse theAIDataBlockParse;	// VA 0x00DB8934 "AIData", parse 0x001D8E7A
-extern BlockParse theArmorBlockParse;	// VA 0x00DB8A74 "Armor", parse 0x001D9484
-extern BlockParse theMusicTrackBlockParse;	// VA 0x00DB8B08 "MusicTrack", parse 0x001DA980
-extern BlockParse theAudioEventBlockParse;	// VA 0x00DB8B14 "AudioEvent", parse 0x001DA9CA
-extern BlockParse theDialogEventBlockParse;	// VA 0x00DB8B20 "DialogEvent", parse 0x001DAA14
-extern BlockParse theAmbientStreamBlockParse;	// VA 0x00DB8B2C "AmbientStream", parse 0x001DAA5E
-extern BlockParse theStreamedSoundBlockParse;	// VA 0x00DB8B38 "StreamedSound", parse 0x001DAAA8
-extern BlockParse theMultisoundBlockParse;	// VA 0x00DB8B44 "Multisound", parse 0x001DA4DE
-extern BlockParse theBridgeBlockParse;	// VA 0x00DB8B8C "Bridge", parse 0x001DAEB8
-extern BlockParse theCommandButtonBlockParse;	// VA 0x00DB8BBC "CommandButton", parse 0x001DAF81
-extern BlockParse theCommandMapBlockParse;	// VA 0x00DB8C14 "CommandMap", parse 0x001DB5A2
-extern BlockParse theDebugCommandMapBlockParse;	// VA 0x00DB8C20 "DebugCommandMap", parse 0x001DB4CF
-extern BlockParse theCommandSetBlockParse;	// VA 0x00DB8C50 "CommandSet", parse 0x0031EC03
-extern BlockParse theControlBarSchemeBlockParse;	// VA 0x00DB8C80 "ControlBarScheme", parse 0x001DB68C
-extern BlockParse theControlBarResizerBlockParse;	// VA 0x00DB8CB0 "ControlBarResizer", parse 0x000B3FD0
-extern BlockParse theCrateDataBlockParse;	// VA 0x00DB8CBC "CrateData", parse 0x0035CFEA
-extern BlockParse theWindowTransitionBlockParse;	// VA 0x00DB8CEC "WindowTransition", parse 0x001DC66F
-extern BlockParse theDamageFXBlockParse;	// VA 0x00DB8D1C "DamageFX", parse 0x00360B0F
-extern BlockParse theDrawGroupInfoBlockParse;	// VA 0x00DB8D28 "DrawGroupInfo", parse 0x001DCC9F
-extern BlockParse thePredefinedEvaEventBlockParse;	// VA 0x00DB8D70 "PredefinedEvaEvent", parse 0x001DEA96
-extern BlockParse theNewEvaEventBlockParse;	// VA 0x00DB8D7C "NewEvaEvent", parse 0x001DF42D
-extern BlockParse theEvaEventForwardReferenceBlockParse;	// VA 0x00DB8D88 "EvaEventForwardReference", parse 0x001DF6A8
-extern BlockParse theMiscEvaDataBlockParse;	// VA 0x00DB8D94 "MiscEvaData", parse 0x001DCFE5
-extern BlockParse theFXListBlockParse;	// VA 0x00DB8DDC "FXList", parse 0x001E2CAE
-extern BlockParse theGameDataBlockParse;	// VA 0x00DB8DF4 "GameData", parse 0x00237AB1
-extern BlockParse theLocomotorBlockParse;	// VA 0x00DB8F84 "Locomotor", parse 0x001E8A94
-extern BlockParse theLanguageBlockParse;	// VA 0x00DB8F98 "Language", parse 0x001EA3F4
-extern BlockParse theLinearCampaignBlockParse;	// VA 0x00DB8FE0 "LinearCampaign", parse 0x001ED580
-extern BlockParse theMappedImageBlockParse;	// VA 0x00DB9004 "MappedImage", parse 0x001ED63C
-extern BlockParse theMiscAudioBlockParse;	// VA 0x00DB9010 "MiscAudio", parse 0x001ED6EE
-extern BlockParse theMouseCursorBlockParse;	// VA 0x00DB9138 "MouseCursor", parse 0x001EF2CB
-extern BlockParse theMouseBlockParse;	// VA 0x00DB9144 "Mouse", parse 0x001EE050
-extern BlockParse theMultiplayerSettingsBlockParse;	// VA 0x00DB9150 "MultiplayerSettings", parse 0x001EF367
-extern BlockParse theMultiplayerColorBlockParse;	// VA 0x00DB915C "MultiplayerColor", parse 0x001EF3BF
-extern BlockParse theOnlineChatColorsBlockParse;	// VA 0x00DB918C "OnlineChatColors", parse 0x001EF471
-extern BlockParse theObjectBlockParse;	// VA 0x00DB9248 "Object", parse 0x001EFFC6
-extern BlockParse theObjectReskinBlockParse;	// VA 0x00DB9254 "ObjectReskin", parse 0x001F0016
-extern BlockParse theChildObjectBlockParse;	// VA 0x00DB9260 "ChildObject", parse 0x001F008C
-extern BlockParse theObjectCreationListBlockParse;	// VA 0x00DB9344 "ObjectCreationList", parse 0x001F0C0B
-extern BlockParse theFXParticleSystemBlockParse;	// VA 0x00DB938C "FXParticleSystem", parse 0x001FD0B4
-extern BlockParse thePlayerTemplateBlockParse;	// VA 0x00DB93BC "PlayerTemplate", parse 0x001FEFEC
-extern BlockParse theRoadBlockParse;	// VA 0x00DB9404 "Road", parse 0x001FF288
-extern BlockParse theScienceBlockParse;	// VA 0x00DB9434 "Science", parse 0x001FFF3A
-extern BlockParse theRankBlockParse;	// VA 0x00DB947C "Rank", parse 0x0020038E
-extern BlockParse theSpecialPowerBlockParse;	// VA 0x00DB94A4 "SpecialPower", parse 0x003B15D6
-extern BlockParse theShellMenuSchemeBlockParse;	// VA 0x00DB94D4 "ShellMenuScheme", parse 0x00200984
-extern BlockParse theTerrainBlockParse;	// VA 0x00DB94E0 "Terrain", parse 0x00200A65
-extern BlockParse theWaterTextureListBlockParse;	// VA 0x00DB94EC "WaterTextureList", parse 0x00200AEA
-extern BlockParse theUpgradeBlockParse;	// VA 0x00DB94F8 "Upgrade", parse 0x0026FA05
-extern BlockParse theWaterSetBlockParse;	// VA 0x00DB9504 "WaterSet", parse 0x00200BEB
-extern BlockParse theWaterTransparencyBlockParse;	// VA 0x00DB9510 "WaterTransparency", parse 0x00200EE4
-extern BlockParse theAerialPathfindNoFlyZoneBlockParse;	// VA 0x00DB9558 "AerialPathfindNoFlyZone", parse 0x00200FE3
-extern BlockParse theWeatherBlockParse;	// VA 0x00DB9588 "Weather", parse 0x0020187A
-extern BlockParse theWeaponBlockParse;	// VA 0x00DB95B8 "Weapon", parse 0x002CE102
-extern BlockParse theHeaderTemplateBlockParse;	// VA 0x00DB95C4 "HeaderTemplate", parse 0x00201CAF
-extern BlockParse theReallyLowMHzBlockParse;	// VA 0x00DB9740 "ReallyLowMHz", parse 0x00201E56
-extern BlockParse theAudioLowMHzBlockParse;	// VA 0x00DB974C "AudioLowMHz", parse 0x00201E81
-extern BlockParse theBenchProfileBlockParse;	// VA 0x00DB9758 "BenchProfile", parse 0x002026D4
-extern BlockParse theLODPresetBlockParse;	// VA 0x00DB9764 "LODPreset", parse 0x00202E23
-extern BlockParse theStaticGameLODBlockParse;	// VA 0x00DB9770 "StaticGameLOD", parse 0x00202BB2
-extern BlockParse theDynamicGameLODBlockParse;	// VA 0x00DB977C "DynamicGameLOD", parse 0x00202F05
-extern BlockParse theAudioLODBlockParse;	// VA 0x00DB9788 "AudioLOD", parse 0x00202F8A
-extern BlockParse theScriptActionBlockParse;	// VA 0x00DB97D0 "ScriptAction", parse 0x00206DFF
-extern BlockParse theScriptConditionBlockParse;	// VA 0x00DB97DC "ScriptCondition", parse 0x00206E63
-extern BlockParse theSkyboxTextureSetBlockParse;	// VA 0x00DB984C "SkyboxTextureSet", parse 0x0020D6F5
-extern BlockParse theGlowEffectBlockParse;	// VA 0x00DB9858 "GlowEffect", parse 0x00309FB3
-extern BlockParse theRingEffectBlockParse;	// VA 0x00DB9864 "RingEffect", parse 0x00309FFD
-extern BlockParse theFireEffectBlockParse;	// VA 0x00DB9870 "FireEffect", parse 0x0030A040
-extern BlockParse theLargeGroupAudioMapBlockParse;	// VA 0x00DB98A0 "LargeGroupAudioMap", parse 0x0020E027
-extern BlockParse theLargeGroupAudioUnusedKnownKeysBlockParse;	// VA 0x00DB98AC "LargeGroupAudioUnusedKnownKeys", parse 0x0020DE03
-extern BlockParse theLivingWorldRegionCampaignBlockParse;	// VA 0x00DB993C "LivingWorldRegionCampaign", parse 0x00210A14
-extern BlockParse theLivingWorldObjectBlockParse;	// VA 0x00DB9A20 "LivingWorldObject", parse 0x0021376B
-extern BlockParse theLivingWorldMapInfoBlockParse;	// VA 0x00DB9A2C "LivingWorldMapInfo", parse 0x00210F64
-extern BlockParse theModifierListBlockParse;	// VA 0x00DB9AD0 "ModifierList", parse 0x00214C4E
-extern BlockParse theCloudEffectBlockParse;	// VA 0x00DB9B68 "CloudEffect", parse 0x0021526C
-extern BlockParse thePlayerAITypeBlockParse;	// VA 0x00DB9B74 "PlayerAIType", parse 0x00215C38
-extern BlockParse theVictorySystemDataBlockParse;	// VA 0x00DB9BA4 "VictorySystemData", parse 0x00215C54
-extern BlockParse theFactionVictoryDataBlockParse;	// VA 0x00DB9BB0 "FactionVictoryData", parse 0x00215D0B
-extern BlockParse theBannerTypeBlockParse;	// VA 0x00DB9BF8 "BannerType", parse 0x00217194
-extern BlockParse theFontDefaultSettingsBlockParse;	// VA 0x00DB9C04 "FontDefaultSettings", parse 0x00218C82
-extern BlockParse theFontSubstitutionBlockParse;	// VA 0x00DB9C10 "FontSubstitution", parse 0x00219005
-extern BlockParse theCreateAHeroSystemBlockParse;	// VA 0x00DB9D38 "CreateAHeroSystem", parse 0x0022044C
-extern BlockParse theArmySummaryDescriptionBlockParse;	// VA 0x00DBA184 "ArmySummaryDescription", parse 0x00221012
-extern BlockParse theStrategicHUDBlockParse;	// VA 0x00DBA190 "StrategicHUD", parse 0x0022157B
-extern BlockParse theInGameNotificationBoxBlockParse;	// VA 0x00DBA19C "InGameNotificationBox", parse 0x0022232E
+// Callback declarations retain the existing matched names and cdecl ABI.
+// These static-only class declarations assert no instance layout.
+class INI;
+void Rva000B3FD0AptFreeSound();
+void Rva001DA980Parse(INI *);
+void Rva001DA9CAParse(INI *);
+void Rva001DAA14Parse(INI *);
+void Rva001DAA5EParse(INI *);
+void Rva001DAAA8Parse(INI *);
+void Rva00200FE3Parse(INI *);
+void Rva00202BB2Parse(INI *);
+void Rva00206DFFSearch(INI *);
+void Rva00206E63Search(INI *);
+void Rva00210A14Parse(INI *);
+void Rva00210F64Parse(INI *);
+void Rva0021376BParse(INI *);
+void Rva0021526CParse(INI *);
+void Rva00215C38Parse(INI *);
+void Rva00221012Parse(INI *);
+void Rva0022232EParse(INI *);
+void Rva002859A8Parse(INI *);
+void Rva00289265Parse(INI *);
+void Rva002A8A31Parse(INI *);
+void Rva002A92F2Parse(INI *);
+void Rva002E048CParse(INI *);
+void Rva002E2386Parse(INI *);
+void Rva0030AFFBParse(INI *);
+void Rva003EF467(INI *);
+void Rva003F9EDFParse(INI *);
+void Rva003FD7CEParse(INI *);
+void Rva00402B19Parse(INI *);
+void Rva00402E30Parse(INI *);
+void Rva0040C32BParse(INI *);
+void Rva0040F0F0Parse(INI *);
+void Rva0041355DParse(INI *);
+void Rva00413D58Parse(INI *);
+void Rva00415D33Parse(INI *);
+void Rva00417A94Parse(INI *);
+void Rva004183ACParse(INI *);
+void Rva00418AC6Parse(INI *);
+void Rva004193E5Parse(INI *);
+void Rva0041999FParse(INI *);
+void Rva0041EC73Load(INI *);
+void Rva0041FD3DParse(INI *);
+void Rva00420A29Parse(INI *);
+void iniParseEnvironmentSkyboxTextureDefinition(INI *);
+void iniParseFactionVictoryDefinition(INI *);
+void iniParseVictorySystemDefinition(INI *);
+void iniParseWaterTexturesDefinition(INI *);
+void parseAnimationSoundClientBehaviorGlobalSetting(INI *);
+void parseAudioLowMHz(INI *);
+void parseDebugCommandMap(INI *);
+void parseFireEffect(INI *);
+void parseGlowEffect(INI *);
+void parseReallyLowMHz(INI *);
+void parseRingEffect(INI *);
+void parseShadowMapBlock(INI *);
+void parseSubsystemLegendDefinition(INI *);
+void rva00219005(INI *);
+void rva00318ABB(INI *);
+void rva00425B90(INI *);
+namespace StrategicHUD { void ParseSettings(INI *); }
+class ArmorStore
+{
+public:
+	static void parseArmorDefinition(INI *);
+};
+class ArmyDefinitionManager
+{
+public:
+	static void parseArmyDefinition(INI *);
+};
+class AttributeModifierStore
+{
+public:
+	static void parseModifierListDefinition(INI *);
+};
+class AudioEventInfo
+{
+public:
+	static void parseMultisoundDefinition(INI *);
+};
+class BannerUI
+{
+public:
+	static void ParseBannerTypeInfo(INI *);
+};
+class ControlBar
+{
+public:
+	static void parseCommandButtonDefinition(INI *);
+	static void parseCommandSetDefinition(INI *);
+};
+class CrateSystem
+{
+public:
+	static void parseCrateTemplateDefinition(INI *);
+};
+class CreateAHeroManager
+{
+public:
+	static void iniParseCreateAHeroSystem(INI *);
+};
+class DamageFXStore
+{
+public:
+	static void parseDamageFXDefinition(INI *);
+};
+class EmotionNuggetTemplate
+{
+public:
+	static void friend_parseEmotionNugget(INI *);
+};
+class Eva
+{
+public:
+	static void iniParseEvaEventForwardReference(INI *);
+	static void iniParseNewEvaEvent(INI *);
+	static void iniParsePredefinedEvaEvent(INI *);
+};
+class ExperienceLevelStore
+{
+public:
+	static void friend_parseExperienceLevelDefinition(INI *);
+};
+class FXListStore
+{
+public:
+	static void parseFXListDefinition(INI *);
+};
+class FontLibrary
+{
+public:
+	static void ParseFontDefaultSettings(INI *);
+};
+class GlobalData
+{
+public:
+	static void parseGameDataDefinition(INI *);
+};
+class GlobalWeatherSystem
+{
+public:
+	static void parseWeatherData(INI *);
+};
+class INI
+{
+public:
+	static void parseAIDataDefinition(INI *);
+	static void parseAudioLODDefinition(INI *);
+	static void parseAudioSettingsDefinition(INI *);
+	static void parseBenchProfile(INI *);
+	static void parseChildObjectDefinition(INI *);
+	static void parseControlBarSchemeDefinition(INI *);
+	static void parseDrawGroupNumberDefinition(INI *);
+	static void parseHeaderTemplateDefinition(INI *);
+	static void parseLODPreset(INI *);
+	static void parseLanguageDefinition(INI *);
+	static void parseMappedImageDefinition(INI *);
+	static void parseMiscAudio(INI *);
+	static void parseMiscEvaData(INI *);
+	static void parseMouseCursorDefinition(INI *);
+	static void parseMouseDefinition(INI *);
+	static void parseMultiplayerColorDefinition(INI *);
+	static void parseMultiplayerSettingsDefinition(INI *);
+	static void parseObjectDefinition(INI *);
+	static void parseObjectReskinDefinition(INI *);
+	static void parseOnlineChatColorDefinition(INI *);
+	static void parseParticleSystemDefinition(INI *);
+	static void parseShellMenuSchemeDefinition(INI *);
+	static void parseStaticGameLODDefinition(INI *);
+	static void parseTerrainBridgeDefinition(INI *);
+	static void parseTerrainDefinition(INI *);
+	static void parseTerrainRoadDefinition(INI *);
+	static void parseWaterSettingDefinition(INI *);
+	static void parseWaterTransparencyDefinition(INI *);
+	static void parseWeatherDefinition(INI *);
+	static void parseWindowTransitions(INI *);
+};
+class LargeGroupAudio
+{
+public:
+	static void parseLargeGroupAudioMapDefinition(INI *);
+	static void parseLargeGroupAudioUnusedKnownKeysDefinition(INI *);
+};
+class LightPointSystem
+{
+public:
+	static void friend_parseLightPointLevelDefinition(INI *);
+};
+class LinearCampaignManager
+{
+public:
+	static void parseLinearCampaignIniBlock(INI *);
+};
+class LivingWorldAutoResolveArmorStore
+{
+public:
+	static void parseArmorDefinition(INI *);
+};
+class LivingWorldAutoResolveResourceBonusScheduleStore
+{
+public:
+	static void parseLivingWorldAutoResolveResourceBonusBlock(INI *);
+};
+class LivingWorldAutoResolveSciencePurchasePointBonusScheduleStore
+{
+public:
+	static void parseLivingWorldAutoResolveSciencePurchasePointBonusBlock(INI *);
+};
+class LivingWorldCampaign
+{
+public:
+	static void ParseLivingWorldCampaignBlock(INI *);
+};
+class LivingWorldSound
+{
+public:
+	static void ParseSound(INI *);
+};
+class LocomotorStore
+{
+public:
+	static void parseLocomotorTemplateDefinition(INI *);
+};
+class MetaMap
+{
+public:
+	static void parseMetaMap(INI *);
+};
+class MissionObjectiveTracker
+{
+public:
+	static void ParseMapMissionObjective(INI *);
+};
+class ObjectCreationListStore
+{
+public:
+	static void parseObjectCreationListDefinition(INI *);
+};
+class PlayerTemplateStore
+{
+public:
+	static void parsePlayerTemplateDefinition(INI *);
+};
+class RankInfoStore
+{
+public:
+	static void friend_parseRankDefinition(INI *);
+};
+class Rva00425F10
+{
+public:
+	static void parseStanceTemplateDefinition(INI *);
+};
+class ScienceStore
+{
+public:
+	static void friend_parseScienceDefinition(INI *);
+};
+class ScoredKillEvaAnnouncerController
+{
+public:
+	static void iniParseScoredKillEvaAnnouncerBlock(INI *);
+};
+class SpecialPowerStore
+{
+public:
+	static void parseSpecialPowerDefinition(INI *);
+};
+class UpgradeCenter
+{
+public:
+	static void parseUpgradeDefinition(INI *);
+};
+class WeaponStore
+{
+public:
+	static void parseWeaponTemplateDefinition(INI *);
+};
+// ControlBarResizer points to the shared one-byte RET at 0x000B3FD0.
+// Reuse an existing cdecl owner without assigning a recovered callback name.
+// The Apt tooltip node keeps its existing 44-byte owner in Rva00224A3F.cpp.
+
+BlockParse theAudioSettingsBlockParse = { 0, "AudioSettings", INI::parseAudioSettingsDefinition };	// VA 0x00DB3A08 "AudioSettings", parse 0x0004171A
+BlockParse theShadowMapBlockParse = { 0, "ShadowMap", parseShadowMapBlock };	// VA 0x00DB4488 "ShadowMap", parse 0x0007BE1E
+BlockParse theLoadSubsystemBlockParse = { 0, "LoadSubsystem", parseSubsystemLegendDefinition };	// VA 0x00DB7034 "LoadSubsystem", parse 0x001B4E07
+BlockParse theAIDataBlockParse = { 0, "AIData", INI::parseAIDataDefinition };	// VA 0x00DB8934 "AIData", parse 0x001D8E7A
+BlockParse theArmorBlockParse = { 0, "Armor", ArmorStore::parseArmorDefinition };	// VA 0x00DB8A74 "Armor", parse 0x001D9484
+BlockParse theMusicTrackBlockParse = { 0, "MusicTrack", Rva001DA980Parse };	// VA 0x00DB8B08 "MusicTrack", parse 0x001DA980
+BlockParse theAudioEventBlockParse = { 0, "AudioEvent", Rva001DA9CAParse };	// VA 0x00DB8B14 "AudioEvent", parse 0x001DA9CA
+BlockParse theDialogEventBlockParse = { 0, "DialogEvent", Rva001DAA14Parse };	// VA 0x00DB8B20 "DialogEvent", parse 0x001DAA14
+BlockParse theAmbientStreamBlockParse = { 0, "AmbientStream", Rva001DAA5EParse };	// VA 0x00DB8B2C "AmbientStream", parse 0x001DAA5E
+BlockParse theStreamedSoundBlockParse = { 0, "StreamedSound", Rva001DAAA8Parse };	// VA 0x00DB8B38 "StreamedSound", parse 0x001DAAA8
+BlockParse theMultisoundBlockParse = { 0, "Multisound", AudioEventInfo::parseMultisoundDefinition };	// VA 0x00DB8B44 "Multisound", parse 0x001DA4DE
+BlockParse theBridgeBlockParse = { 0, "Bridge", INI::parseTerrainBridgeDefinition };	// VA 0x00DB8B8C "Bridge", parse 0x001DAEB8
+BlockParse theCommandButtonBlockParse = { 0, "CommandButton", ControlBar::parseCommandButtonDefinition };	// VA 0x00DB8BBC "CommandButton", parse 0x001DAF81
+BlockParse theCommandMapBlockParse = { 0, "CommandMap", MetaMap::parseMetaMap };	// VA 0x00DB8C14 "CommandMap", parse 0x001DB5A2
+BlockParse theDebugCommandMapBlockParse = { 0, "DebugCommandMap", parseDebugCommandMap };	// VA 0x00DB8C20 "DebugCommandMap", parse 0x001DB4CF
+BlockParse theCommandSetBlockParse = { 0, "CommandSet", ControlBar::parseCommandSetDefinition };	// VA 0x00DB8C50 "CommandSet", parse 0x0031EC03
+BlockParse theControlBarSchemeBlockParse = { 0, "ControlBarScheme", INI::parseControlBarSchemeDefinition };	// VA 0x00DB8C80 "ControlBarScheme", parse 0x001DB68C
+BlockParse theControlBarResizerBlockParse = { 0, "ControlBarResizer", (INIBlockParse)Rva000B3FD0AptFreeSound };	// VA 0x00DB8CB0 "ControlBarResizer", parse 0x000B3FD0
+BlockParse theCrateDataBlockParse = { 0, "CrateData", CrateSystem::parseCrateTemplateDefinition };	// VA 0x00DB8CBC "CrateData", parse 0x0035CFEA
+BlockParse theWindowTransitionBlockParse = { 0, "WindowTransition", INI::parseWindowTransitions };	// VA 0x00DB8CEC "WindowTransition", parse 0x001DC66F
+BlockParse theDamageFXBlockParse = { 0, "DamageFX", DamageFXStore::parseDamageFXDefinition };	// VA 0x00DB8D1C "DamageFX", parse 0x00360B0F
+BlockParse theDrawGroupInfoBlockParse = { 0, "DrawGroupInfo", INI::parseDrawGroupNumberDefinition };	// VA 0x00DB8D28 "DrawGroupInfo", parse 0x001DCC9F
+BlockParse thePredefinedEvaEventBlockParse = { 0, "PredefinedEvaEvent", Eva::iniParsePredefinedEvaEvent };	// VA 0x00DB8D70 "PredefinedEvaEvent", parse 0x001DEA96
+BlockParse theNewEvaEventBlockParse = { 0, "NewEvaEvent", Eva::iniParseNewEvaEvent };	// VA 0x00DB8D7C "NewEvaEvent", parse 0x001DF42D
+BlockParse theEvaEventForwardReferenceBlockParse = { 0, "EvaEventForwardReference", Eva::iniParseEvaEventForwardReference };	// VA 0x00DB8D88 "EvaEventForwardReference", parse 0x001DF6A8
+BlockParse theMiscEvaDataBlockParse = { 0, "MiscEvaData", INI::parseMiscEvaData };	// VA 0x00DB8D94 "MiscEvaData", parse 0x001DCFE5
+BlockParse theFXListBlockParse = { 0, "FXList", FXListStore::parseFXListDefinition };	// VA 0x00DB8DDC "FXList", parse 0x001E2CAE
+BlockParse theGameDataBlockParse = { 0, "GameData", GlobalData::parseGameDataDefinition };	// VA 0x00DB8DF4 "GameData", parse 0x00237AB1
+BlockParse theLocomotorBlockParse = { 0, "Locomotor", LocomotorStore::parseLocomotorTemplateDefinition };	// VA 0x00DB8F84 "Locomotor", parse 0x001E8A94
+BlockParse theLanguageBlockParse = { 0, "Language", INI::parseLanguageDefinition };	// VA 0x00DB8F98 "Language", parse 0x001EA3F4
+BlockParse theLinearCampaignBlockParse = { 0, "LinearCampaign", LinearCampaignManager::parseLinearCampaignIniBlock };	// VA 0x00DB8FE0 "LinearCampaign", parse 0x001ED580
+BlockParse theMappedImageBlockParse = { 0, "MappedImage", INI::parseMappedImageDefinition };	// VA 0x00DB9004 "MappedImage", parse 0x001ED63C
+BlockParse theMiscAudioBlockParse = { 0, "MiscAudio", INI::parseMiscAudio };	// VA 0x00DB9010 "MiscAudio", parse 0x001ED6EE
+BlockParse theMouseCursorBlockParse = { 0, "MouseCursor", INI::parseMouseCursorDefinition };	// VA 0x00DB9138 "MouseCursor", parse 0x001EF2CB
+BlockParse theMouseBlockParse = { 0, "Mouse", INI::parseMouseDefinition };	// VA 0x00DB9144 "Mouse", parse 0x001EE050
+BlockParse theMultiplayerSettingsBlockParse = { 0, "MultiplayerSettings", INI::parseMultiplayerSettingsDefinition };	// VA 0x00DB9150 "MultiplayerSettings", parse 0x001EF367
+BlockParse theMultiplayerColorBlockParse = { 0, "MultiplayerColor", INI::parseMultiplayerColorDefinition };	// VA 0x00DB915C "MultiplayerColor", parse 0x001EF3BF
+BlockParse theOnlineChatColorsBlockParse = { 0, "OnlineChatColors", INI::parseOnlineChatColorDefinition };	// VA 0x00DB918C "OnlineChatColors", parse 0x001EF471
+BlockParse theObjectBlockParse = { 0, "Object", INI::parseObjectDefinition };	// VA 0x00DB9248 "Object", parse 0x001EFFC6
+BlockParse theObjectReskinBlockParse = { 0, "ObjectReskin", INI::parseObjectReskinDefinition };	// VA 0x00DB9254 "ObjectReskin", parse 0x001F0016
+BlockParse theChildObjectBlockParse = { 0, "ChildObject", INI::parseChildObjectDefinition };	// VA 0x00DB9260 "ChildObject", parse 0x001F008C
+BlockParse theObjectCreationListBlockParse = { 0, "ObjectCreationList", ObjectCreationListStore::parseObjectCreationListDefinition };	// VA 0x00DB9344 "ObjectCreationList", parse 0x001F0C0B
+BlockParse theFXParticleSystemBlockParse = { 0, "FXParticleSystem", INI::parseParticleSystemDefinition };	// VA 0x00DB938C "FXParticleSystem", parse 0x001FD0B4
+BlockParse thePlayerTemplateBlockParse = { 0, "PlayerTemplate", PlayerTemplateStore::parsePlayerTemplateDefinition };	// VA 0x00DB93BC "PlayerTemplate", parse 0x001FEFEC
+BlockParse theRoadBlockParse = { 0, "Road", INI::parseTerrainRoadDefinition };	// VA 0x00DB9404 "Road", parse 0x001FF288
+BlockParse theScienceBlockParse = { 0, "Science", ScienceStore::friend_parseScienceDefinition };	// VA 0x00DB9434 "Science", parse 0x001FFF3A
+BlockParse theRankBlockParse = { 0, "Rank", RankInfoStore::friend_parseRankDefinition };	// VA 0x00DB947C "Rank", parse 0x0020038E
+BlockParse theSpecialPowerBlockParse = { 0, "SpecialPower", SpecialPowerStore::parseSpecialPowerDefinition };	// VA 0x00DB94A4 "SpecialPower", parse 0x003B15D6
+BlockParse theShellMenuSchemeBlockParse = { 0, "ShellMenuScheme", INI::parseShellMenuSchemeDefinition };	// VA 0x00DB94D4 "ShellMenuScheme", parse 0x00200984
+BlockParse theTerrainBlockParse = { 0, "Terrain", INI::parseTerrainDefinition };	// VA 0x00DB94E0 "Terrain", parse 0x00200A65
+BlockParse theWaterTextureListBlockParse = { 0, "WaterTextureList", iniParseWaterTexturesDefinition };	// VA 0x00DB94EC "WaterTextureList", parse 0x00200AEA
+BlockParse theUpgradeBlockParse = { 0, "Upgrade", UpgradeCenter::parseUpgradeDefinition };	// VA 0x00DB94F8 "Upgrade", parse 0x0026FA05
+BlockParse theWaterSetBlockParse = { 0, "WaterSet", INI::parseWaterSettingDefinition };	// VA 0x00DB9504 "WaterSet", parse 0x00200BEB
+BlockParse theWaterTransparencyBlockParse = { 0, "WaterTransparency", INI::parseWaterTransparencyDefinition };	// VA 0x00DB9510 "WaterTransparency", parse 0x00200EE4
+BlockParse theAerialPathfindNoFlyZoneBlockParse = { 0, "AerialPathfindNoFlyZone", Rva00200FE3Parse };	// VA 0x00DB9558 "AerialPathfindNoFlyZone", parse 0x00200FE3
+BlockParse theWeatherBlockParse = { 0, "Weather", INI::parseWeatherDefinition };	// VA 0x00DB9588 "Weather", parse 0x0020187A
+BlockParse theWeaponBlockParse = { 0, "Weapon", WeaponStore::parseWeaponTemplateDefinition };	// VA 0x00DB95B8 "Weapon", parse 0x002CE102
+BlockParse theHeaderTemplateBlockParse = { 0, "HeaderTemplate", INI::parseHeaderTemplateDefinition };	// VA 0x00DB95C4 "HeaderTemplate", parse 0x00201CAF
+BlockParse theReallyLowMHzBlockParse = { 0, "ReallyLowMHz", parseReallyLowMHz };	// VA 0x00DB9740 "ReallyLowMHz", parse 0x00201E56
+BlockParse theAudioLowMHzBlockParse = { 0, "AudioLowMHz", parseAudioLowMHz };	// VA 0x00DB974C "AudioLowMHz", parse 0x00201E81
+BlockParse theBenchProfileBlockParse = { 0, "BenchProfile", INI::parseBenchProfile };	// VA 0x00DB9758 "BenchProfile", parse 0x002026D4
+BlockParse theLODPresetBlockParse = { 0, "LODPreset", INI::parseLODPreset };	// VA 0x00DB9764 "LODPreset", parse 0x00202E23
+BlockParse theStaticGameLODBlockParse = { 0, "StaticGameLOD", Rva00202BB2Parse };	// VA 0x00DB9770 "StaticGameLOD", parse 0x00202BB2
+BlockParse theDynamicGameLODBlockParse = { 0, "DynamicGameLOD", INI::parseStaticGameLODDefinition };	// VA 0x00DB977C "DynamicGameLOD", parse 0x00202F05
+BlockParse theAudioLODBlockParse = { 0, "AudioLOD", INI::parseAudioLODDefinition };	// VA 0x00DB9788 "AudioLOD", parse 0x00202F8A
+BlockParse theScriptActionBlockParse = { 0, "ScriptAction", Rva00206DFFSearch };	// VA 0x00DB97D0 "ScriptAction", parse 0x00206DFF
+BlockParse theScriptConditionBlockParse = { 0, "ScriptCondition", Rva00206E63Search };	// VA 0x00DB97DC "ScriptCondition", parse 0x00206E63
+BlockParse theSkyboxTextureSetBlockParse = { 0, "SkyboxTextureSet", iniParseEnvironmentSkyboxTextureDefinition };	// VA 0x00DB984C "SkyboxTextureSet", parse 0x0020D6F5
+BlockParse theGlowEffectBlockParse = { 0, "GlowEffect", parseGlowEffect };	// VA 0x00DB9858 "GlowEffect", parse 0x00309FB3
+BlockParse theRingEffectBlockParse = { 0, "RingEffect", parseRingEffect };	// VA 0x00DB9864 "RingEffect", parse 0x00309FFD
+BlockParse theFireEffectBlockParse = { 0, "FireEffect", parseFireEffect };	// VA 0x00DB9870 "FireEffect", parse 0x0030A040
+BlockParse theLargeGroupAudioMapBlockParse = { 0, "LargeGroupAudioMap", LargeGroupAudio::parseLargeGroupAudioMapDefinition };	// VA 0x00DB98A0 "LargeGroupAudioMap", parse 0x0020E027
+BlockParse theLargeGroupAudioUnusedKnownKeysBlockParse = { 0, "LargeGroupAudioUnusedKnownKeys", LargeGroupAudio::parseLargeGroupAudioUnusedKnownKeysDefinition };	// VA 0x00DB98AC "LargeGroupAudioUnusedKnownKeys", parse 0x0020DE03
+BlockParse theLivingWorldRegionCampaignBlockParse = { 0, "LivingWorldRegionCampaign", Rva00210A14Parse };	// VA 0x00DB993C "LivingWorldRegionCampaign", parse 0x00210A14
+BlockParse theLivingWorldObjectBlockParse = { 0, "LivingWorldObject", Rva0021376BParse };	// VA 0x00DB9A20 "LivingWorldObject", parse 0x0021376B
+BlockParse theLivingWorldMapInfoBlockParse = { 0, "LivingWorldMapInfo", Rva00210F64Parse };	// VA 0x00DB9A2C "LivingWorldMapInfo", parse 0x00210F64
+BlockParse theModifierListBlockParse = { 0, "ModifierList", AttributeModifierStore::parseModifierListDefinition };	// VA 0x00DB9AD0 "ModifierList", parse 0x00214C4E
+BlockParse theCloudEffectBlockParse = { 0, "CloudEffect", Rva0021526CParse };	// VA 0x00DB9B68 "CloudEffect", parse 0x0021526C
+BlockParse thePlayerAITypeBlockParse = { 0, "PlayerAIType", Rva00215C38Parse };	// VA 0x00DB9B74 "PlayerAIType", parse 0x00215C38
+BlockParse theVictorySystemDataBlockParse = { 0, "VictorySystemData", iniParseVictorySystemDefinition };	// VA 0x00DB9BA4 "VictorySystemData", parse 0x00215C54
+BlockParse theFactionVictoryDataBlockParse = { 0, "FactionVictoryData", iniParseFactionVictoryDefinition };	// VA 0x00DB9BB0 "FactionVictoryData", parse 0x00215D0B
+BlockParse theBannerTypeBlockParse = { 0, "BannerType", BannerUI::ParseBannerTypeInfo };	// VA 0x00DB9BF8 "BannerType", parse 0x00217194
+BlockParse theFontDefaultSettingsBlockParse = { 0, "FontDefaultSettings", FontLibrary::ParseFontDefaultSettings };	// VA 0x00DB9C04 "FontDefaultSettings", parse 0x00218C82
+BlockParse theFontSubstitutionBlockParse = { 0, "FontSubstitution", rva00219005 };	// VA 0x00DB9C10 "FontSubstitution", parse 0x00219005
+BlockParse theCreateAHeroSystemBlockParse = { 0, "CreateAHeroSystem", CreateAHeroManager::iniParseCreateAHeroSystem };	// VA 0x00DB9D38 "CreateAHeroSystem", parse 0x0022044C
+BlockParse theArmySummaryDescriptionBlockParse = { 0, "ArmySummaryDescription", Rva00221012Parse };	// VA 0x00DBA184 "ArmySummaryDescription", parse 0x00221012
+BlockParse theStrategicHUDBlockParse = { 0, "StrategicHUD", StrategicHUD::ParseSettings };	// VA 0x00DBA190 "StrategicHUD", parse 0x0022157B
+BlockParse theInGameNotificationBoxBlockParse = { 0, "InGameNotificationBox", Rva0022232EParse };	// VA 0x00DBA19C "InGameNotificationBox", parse 0x0022232E
 extern BlockParse theAptButtonTooltipMapBlockParse;	// VA 0x00DBA1CC "AptButtonTooltipMap", parse 0x00224DFF
-extern BlockParse theFireLogicSystemBlockParse;	// VA 0x00DBB758 "FireLogicSystem", parse 0x002859A8
-extern BlockParse theExperienceLevelBlockParse;	// VA 0x00DBB88C "ExperienceLevel", parse 0x0028A294
-extern BlockParse theExperienceScalarTableBlockParse;	// VA 0x00DBB898 "ExperienceScalarTable", parse 0x00289265
-extern BlockParse theAIDozerAssignmentBlockParse;	// VA 0x00DBBC1C "AIDozerAssignment", parse 0x002A92F2
-extern BlockParse theSkirmishAIDataBlockParse;	// VA 0x00DBBC28 "SkirmishAIData", parse 0x002A8A31
-extern BlockParse theLivingWorldBuildingBlockParse;	// VA 0x00DBD078 "LivingWorldBuilding", parse 0x002E048C
-extern BlockParse theLivingWorldPlayerTemplateBlockParse;	// VA 0x00DBD0A8 "LivingWorldPlayerTemplate", parse 0x002E2386
-extern BlockParse theFireBlockParse;	// VA 0x00DBD9AC "Fire", parse 0x0030AFFB
-extern BlockParse theWeatherDataBlockParse;	// VA 0x00DBE4C4 "WeatherData", parse 0x0031842A
-extern BlockParse theCloudBreakEffectBlockParse;	// VA 0x00DBE4D0 "CloudBreakEffect", parse 0x00318ABB
-extern BlockParse theLivingWorldRegionEffectsBlockParse;	// VA 0x00DC14B8 "LivingWorldRegionEffects", parse 0x003EF467
-extern BlockParse theLivingWorldArmyIconBlockParse;	// VA 0x00DC177C "LivingWorldArmyIcon", parse 0x003F9EDF
-extern BlockParse theLivingWorldSoundBlockParse;	// VA 0x00DC17EC "LivingWorldSound", parse 0x003FB07D
-extern BlockParse theLivingWorldAnimObjectBlockParse;	// VA 0x00DC18EC "LivingWorldAnimObject", parse 0x003FD7CE
-extern BlockParse theLivingWorldBuildingIconBlockParse;	// VA 0x00DC1AB4 "LivingWorldBuildingIcon", parse 0x00402B19
-extern BlockParse theLivingWorldBuildPlotIconBlockParse;	// VA 0x00DC1B04 "LivingWorldBuildPlotIcon", parse 0x00402E30
-extern BlockParse theAwardSystemBlockParse;	// VA 0x00DC1D9C "AwardSystem", parse 0x0040C32B
-extern BlockParse theLivingWorldPlayerArmyBlockParse;	// VA 0x00DC1F68 "LivingWorldPlayerArmy", parse 0x0040F0F0
-extern BlockParse theAutoResolveHandicapLevelBlockParse;	// VA 0x00DC2044 "AutoResolveHandicapLevel", parse 0x0041355D
-extern BlockParse theLivingWorldAutoResolveSciencePurchasePointBonusBlockParse;	// VA 0x00DC2050 "LivingWorldAutoResolveSciencePurchasePointBonus", parse 0x00413B4D
-extern BlockParse theAutoResolveReinforcementScheduleBlockParse;	// VA 0x00DC205C "AutoResolveReinforcementSchedule", parse 0x00413D58
-extern BlockParse theLivingWorldAutoResolveResourceBonusBlockParse;	// VA 0x00DC2068 "LivingWorldAutoResolveResourceBonus", parse 0x0041428F
-extern BlockParse theScoredKillEvaAnnouncerBlockParse;	// VA 0x00DC20B0 "ScoredKillEvaAnnouncer", parse 0x00414F85
-extern BlockParse theCrowdResponseBlockParse;	// VA 0x00DC20E0 "CrowdResponse", parse 0x00415D33
-extern BlockParse theHouseColorBlockParse;	// VA 0x00DC822C "HouseColor", parse 0x00417A94
-extern BlockParse theAutoResolveLeadershipBlockParse;	// VA 0x00DC8238 "AutoResolveLeadership", parse 0x004183AC
-extern BlockParse theAutoResolveBodyBlockParse;	// VA 0x00DC8244 "AutoResolveBody", parse 0x00418AC6
-extern BlockParse theAutoResolveCombatChainBlockParse;	// VA 0x00DC8250 "AutoResolveCombatChain", parse 0x004193E5
-extern BlockParse theAutoResolveWeaponBlockParse;	// VA 0x00DC825C "AutoResolveWeapon", parse 0x0041999F
-extern BlockParse theAIBaseBlockParse;	// VA 0x00DC83F4 "AIBase", parse 0x0041EC73
-extern BlockParse theArmyDefinitionBlockParse;	// VA 0x00DC8424 "ArmyDefinition", parse 0x0041F871
-extern BlockParse theMeshNameMatchesBlockParse;	// VA 0x00DC8430 "MeshNameMatches", parse 0x0041FD3D
-extern BlockParse theLivingWorldAITemplateBlockParse;	// VA 0x00DC8478 "LivingWorldAITemplate", parse 0x00420A29
-extern BlockParse theLightPointLevelBlockParse;	// VA 0x00DC84C4 "LightPointLevel", parse 0x00421572
-extern BlockParse theFormationAssistantBlockParse;	// VA 0x00DC84F8 "FormationAssistant", parse 0x00425B90
-extern BlockParse theStanceTemplateBlockParse;	// VA 0x00DC8540 "StanceTemplate", parse 0x00426203
-extern BlockParse theEmotionNuggetBlockParse;	// VA 0x00DC8570 "EmotionNugget", parse 0x004DCAE4
-extern BlockParse theMissionObjectiveListBlockParse;	// VA 0x00DC85B8 "MissionObjectiveList", parse 0x00426D14
-extern BlockParse theAutoResolveArmorBlockParse;	// VA 0x00DC85E8 "AutoResolveArmor", parse 0x00427392
-extern BlockParse theAnimationSoundClientBehaviorGlobalSettingBlockParse;	// VA 0x00DC8990 "AnimationSoundClientBehaviorGlobalSetting", parse 0x004330EE
-extern BlockParse theLivingWorldCampaignBlockParse;	// VA 0x00DD19A0 "LivingWorldCampaign", parse 0x0052D04E
+BlockParse theFireLogicSystemBlockParse = { 0, "FireLogicSystem", Rva002859A8Parse };	// VA 0x00DBB758 "FireLogicSystem", parse 0x002859A8
+BlockParse theExperienceLevelBlockParse = { 0, "ExperienceLevel", ExperienceLevelStore::friend_parseExperienceLevelDefinition };	// VA 0x00DBB88C "ExperienceLevel", parse 0x0028A294
+BlockParse theExperienceScalarTableBlockParse = { 0, "ExperienceScalarTable", Rva00289265Parse };	// VA 0x00DBB898 "ExperienceScalarTable", parse 0x00289265
+BlockParse theAIDozerAssignmentBlockParse = { 0, "AIDozerAssignment", Rva002A92F2Parse };	// VA 0x00DBBC1C "AIDozerAssignment", parse 0x002A92F2
+BlockParse theSkirmishAIDataBlockParse = { 0, "SkirmishAIData", Rva002A8A31Parse };	// VA 0x00DBBC28 "SkirmishAIData", parse 0x002A8A31
+BlockParse theLivingWorldBuildingBlockParse = { 0, "LivingWorldBuilding", Rva002E048CParse };	// VA 0x00DBD078 "LivingWorldBuilding", parse 0x002E048C
+BlockParse theLivingWorldPlayerTemplateBlockParse = { 0, "LivingWorldPlayerTemplate", Rva002E2386Parse };	// VA 0x00DBD0A8 "LivingWorldPlayerTemplate", parse 0x002E2386
+BlockParse theFireBlockParse = { 0, "Fire", Rva0030AFFBParse };	// VA 0x00DBD9AC "Fire", parse 0x0030AFFB
+BlockParse theWeatherDataBlockParse = { 0, "WeatherData", GlobalWeatherSystem::parseWeatherData };	// VA 0x00DBE4C4 "WeatherData", parse 0x0031842A
+BlockParse theCloudBreakEffectBlockParse = { 0, "CloudBreakEffect", rva00318ABB };	// VA 0x00DBE4D0 "CloudBreakEffect", parse 0x00318ABB
+BlockParse theLivingWorldRegionEffectsBlockParse = { 0, "LivingWorldRegionEffects", Rva003EF467 };	// VA 0x00DC14B8 "LivingWorldRegionEffects", parse 0x003EF467
+BlockParse theLivingWorldArmyIconBlockParse = { 0, "LivingWorldArmyIcon", Rva003F9EDFParse };	// VA 0x00DC177C "LivingWorldArmyIcon", parse 0x003F9EDF
+BlockParse theLivingWorldSoundBlockParse = { 0, "LivingWorldSound", LivingWorldSound::ParseSound };	// VA 0x00DC17EC "LivingWorldSound", parse 0x003FB07D
+BlockParse theLivingWorldAnimObjectBlockParse = { 0, "LivingWorldAnimObject", Rva003FD7CEParse };	// VA 0x00DC18EC "LivingWorldAnimObject", parse 0x003FD7CE
+BlockParse theLivingWorldBuildingIconBlockParse = { 0, "LivingWorldBuildingIcon", Rva00402B19Parse };	// VA 0x00DC1AB4 "LivingWorldBuildingIcon", parse 0x00402B19
+BlockParse theLivingWorldBuildPlotIconBlockParse = { 0, "LivingWorldBuildPlotIcon", Rva00402E30Parse };	// VA 0x00DC1B04 "LivingWorldBuildPlotIcon", parse 0x00402E30
+BlockParse theAwardSystemBlockParse = { 0, "AwardSystem", Rva0040C32BParse };	// VA 0x00DC1D9C "AwardSystem", parse 0x0040C32B
+BlockParse theLivingWorldPlayerArmyBlockParse = { 0, "LivingWorldPlayerArmy", Rva0040F0F0Parse };	// VA 0x00DC1F68 "LivingWorldPlayerArmy", parse 0x0040F0F0
+BlockParse theAutoResolveHandicapLevelBlockParse = { 0, "AutoResolveHandicapLevel", Rva0041355DParse };	// VA 0x00DC2044 "AutoResolveHandicapLevel", parse 0x0041355D
+BlockParse theLivingWorldAutoResolveSciencePurchasePointBonusBlockParse = { 0, "LivingWorldAutoResolveSciencePurchasePointBonus", LivingWorldAutoResolveSciencePurchasePointBonusScheduleStore::parseLivingWorldAutoResolveSciencePurchasePointBonusBlock };	// VA 0x00DC2050 "LivingWorldAutoResolveSciencePurchasePointBonus", parse 0x00413B4D
+BlockParse theAutoResolveReinforcementScheduleBlockParse = { 0, "AutoResolveReinforcementSchedule", Rva00413D58Parse };	// VA 0x00DC205C "AutoResolveReinforcementSchedule", parse 0x00413D58
+BlockParse theLivingWorldAutoResolveResourceBonusBlockParse = { 0, "LivingWorldAutoResolveResourceBonus", LivingWorldAutoResolveResourceBonusScheduleStore::parseLivingWorldAutoResolveResourceBonusBlock };	// VA 0x00DC2068 "LivingWorldAutoResolveResourceBonus", parse 0x0041428F
+BlockParse theScoredKillEvaAnnouncerBlockParse = { 0, "ScoredKillEvaAnnouncer", ScoredKillEvaAnnouncerController::iniParseScoredKillEvaAnnouncerBlock };	// VA 0x00DC20B0 "ScoredKillEvaAnnouncer", parse 0x00414F85
+BlockParse theCrowdResponseBlockParse = { 0, "CrowdResponse", Rva00415D33Parse };	// VA 0x00DC20E0 "CrowdResponse", parse 0x00415D33
+BlockParse theHouseColorBlockParse = { 0, "HouseColor", Rva00417A94Parse };	// VA 0x00DC822C "HouseColor", parse 0x00417A94
+BlockParse theAutoResolveLeadershipBlockParse = { 0, "AutoResolveLeadership", Rva004183ACParse };	// VA 0x00DC8238 "AutoResolveLeadership", parse 0x004183AC
+BlockParse theAutoResolveBodyBlockParse = { 0, "AutoResolveBody", Rva00418AC6Parse };	// VA 0x00DC8244 "AutoResolveBody", parse 0x00418AC6
+BlockParse theAutoResolveCombatChainBlockParse = { 0, "AutoResolveCombatChain", Rva004193E5Parse };	// VA 0x00DC8250 "AutoResolveCombatChain", parse 0x004193E5
+BlockParse theAutoResolveWeaponBlockParse = { 0, "AutoResolveWeapon", Rva0041999FParse };	// VA 0x00DC825C "AutoResolveWeapon", parse 0x0041999F
+BlockParse theAIBaseBlockParse = { 0, "AIBase", Rva0041EC73Load };	// VA 0x00DC83F4 "AIBase", parse 0x0041EC73
+BlockParse theArmyDefinitionBlockParse = { 0, "ArmyDefinition", ArmyDefinitionManager::parseArmyDefinition };	// VA 0x00DC8424 "ArmyDefinition", parse 0x0041F871
+BlockParse theMeshNameMatchesBlockParse = { 0, "MeshNameMatches", Rva0041FD3DParse };	// VA 0x00DC8430 "MeshNameMatches", parse 0x0041FD3D
+BlockParse theLivingWorldAITemplateBlockParse = { 0, "LivingWorldAITemplate", Rva00420A29Parse };	// VA 0x00DC8478 "LivingWorldAITemplate", parse 0x00420A29
+BlockParse theLightPointLevelBlockParse = { 0, "LightPointLevel", LightPointSystem::friend_parseLightPointLevelDefinition };	// VA 0x00DC84C4 "LightPointLevel", parse 0x00421572
+BlockParse theFormationAssistantBlockParse = { 0, "FormationAssistant", rva00425B90 };	// VA 0x00DC84F8 "FormationAssistant", parse 0x00425B90
+BlockParse theStanceTemplateBlockParse = { 0, "StanceTemplate", Rva00425F10::parseStanceTemplateDefinition };	// VA 0x00DC8540 "StanceTemplate", parse 0x00426203
+BlockParse theEmotionNuggetBlockParse = { 0, "EmotionNugget", EmotionNuggetTemplate::friend_parseEmotionNugget };	// VA 0x00DC8570 "EmotionNugget", parse 0x004DCAE4
+BlockParse theMissionObjectiveListBlockParse = { 0, "MissionObjectiveList", MissionObjectiveTracker::ParseMapMissionObjective };	// VA 0x00DC85B8 "MissionObjectiveList", parse 0x00426D14
+BlockParse theAutoResolveArmorBlockParse = { 0, "AutoResolveArmor", LivingWorldAutoResolveArmorStore::parseArmorDefinition };	// VA 0x00DC85E8 "AutoResolveArmor", parse 0x00427392
+BlockParse theAnimationSoundClientBehaviorGlobalSettingBlockParse = { 0, "AnimationSoundClientBehaviorGlobalSetting", parseAnimationSoundClientBehaviorGlobalSetting };	// VA 0x00DC8990 "AnimationSoundClientBehaviorGlobalSetting", parse 0x004330EE
+BlockParse theLivingWorldCampaignBlockParse = { 0, "LivingWorldCampaign", LivingWorldCampaign::ParseLivingWorldCampaignBlock };	// VA 0x00DD19A0 "LivingWorldCampaign", parse 0x0052D04E
 
 struct Rva007ABBF6BlockParseInits
 {

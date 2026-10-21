@@ -47,9 +47,28 @@ public:
 };
 
 class LivingWorldManager; extern LivingWorldManager *TheLivingWorldManager;
-struct LookupListRec { const char *name; int value; };
-// The retail lookup list at RVA 0x009C18A8 (8 names and the null terminator).
-extern const LookupListRec g_00DC18A8[9] = { { "SHADOW_DECAL", 12355808 }, { "SHADOW_VOLUME_NEW", 12355760 }, { "SHADOW_DIRECTIONAL_PROJECTION", 12355708 }, { "SHADOW_ADDITIVE_DECAL", 12355656 }, { "SHADOW_VOLUME_NON_SELF_2", 12355600 }, { "SHADOW_ALPHA_DECAL_DYNAMIC", 12355540 }, { "SHADOW_MERGE_DECAL", 12355492 }, { "SHADOW_VOLUME_OR_DECAL", 12355440 }, { 0, 0 } };
+// Native DC18A8 is a null-terminated list of16 bit names, consumed by
+// parseBitString16/32. Its final null ends at DC18EC, where the next
+// BlockParse node begins; there is no trailing integer value.
+extern const char * const g_00DC18A8[17] = {
+    "SHADOW_DECAL",
+    "SHADOW_VOLUME",
+    "SHADOW_VOLUME_NEW",
+    "SHADOW_DYNAMIC_PROJECTION",
+    "SHADOW_DIRECTIONAL_PROJECTION",
+    "SHADOW_ALPHA_DECAL",
+    "SHADOW_ADDITIVE_DECAL",
+    "SHADOW_VOLUME_NON_SELF_1",
+    "SHADOW_VOLUME_NON_SELF_2",
+    "SHADOW_VOLUME_NON_SELF_3",
+    "SHADOW_ALPHA_DECAL_DYNAMIC",
+    "SHADOW_ADDITIVE_DECAL_DYNAMIC",
+    "SHADOW_MERGE_DECAL",
+    "SHADOW_DECAL_TERRAIN_CLAIM",
+    "SHADOW_VOLUME_OR_DECAL",
+    "SHADOW_VOLUME_NEW_OR_DECAL",
+    0
+};
 extern "C" {
 void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseCoord3D@INI@@SAXPAV1@PAX1PBX@Z")();
