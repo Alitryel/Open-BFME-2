@@ -49,6 +49,10 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "Common/GameState.h"
+// Link view of StealthUpdate.h, ahead of Object.h's include of the shared header, so
+// getStealthLevel binds to its retail row; WeaponSetType.h is the view's one prerequisite.
+#include "GameLogic/WeaponSetType.h"
+#include "../../../../../../reference/shims/bfme_stealth_level_link/StealthUpdate.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
 #include "Common/Radar.h"
