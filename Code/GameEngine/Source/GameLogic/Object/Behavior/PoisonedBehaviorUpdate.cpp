@@ -170,7 +170,7 @@ private:
 
 UpdateSleepTime PoisonedBehavior::update()
 {
-	const PoisonedBehaviorModuleData* d = getPoisonedBehaviorModuleData();
+	const PoisonedBehaviorModuleData* poisonedBehaviorModuleData = getPoisonedBehaviorModuleData();
 	unsigned now = TheGameLogic->bfme_getFrame_9b0c3();
 
 	if( m_poisonOverallStopFrame == 0 )
@@ -190,7 +190,7 @@ UpdateSleepTime PoisonedBehavior::update()
 		damage.m_14 = 0x1b;		// in.m_damageFXOverride = DAMAGE_POISON
 		getObject()->attemptDamage( &damage );
 
-		m_poisonDamageFrame = now + d->m_poisonDamageIntervalData;
+		m_poisonDamageFrame = now + poisonedBehaviorModuleData->m_poisonDamageIntervalData;
 	}
 
 	// If we are now at zero we need to turn off our special effects...
@@ -219,19 +219,19 @@ void PoisonedBehavior::onHealing( DamageInfo *damageInfo )
 
 void PoisonedBehavior::startPoisonedEffects( const DamageInfo *damageInfo )
 {
-	const PoisonedBehaviorModuleData* d = getPoisonedBehaviorModuleData();
+	const PoisonedBehaviorModuleData* poisonedBehaviorModuleData = getPoisonedBehaviorModuleData();
 	unsigned now = TheGameLogic->bfme_getFrame_9b0c3();
 
 	// We are going to take the damage dealt by the original poisoner every so often for a while.
 	m_poisonDamageAmount = damageInfo->m_70;
 
-	m_poisonOverallStopFrame = now + d->m_poisonDurationData;
+	m_poisonOverallStopFrame = now + poisonedBehaviorModuleData->m_poisonDurationData;
 
 	// If we are getting re-poisoned, don't reset the damage counter if running, but do set it if unset
 	if( m_poisonDamageFrame != 0 )
-		m_poisonDamageFrame = pbMin( m_poisonDamageFrame, now + d->m_poisonDamageIntervalData );
+		m_poisonDamageFrame = pbMin( m_poisonDamageFrame, now + poisonedBehaviorModuleData->m_poisonDamageIntervalData );
 	else
-		m_poisonDamageFrame = now + d->m_poisonDamageIntervalData;
+		m_poisonDamageFrame = now + poisonedBehaviorModuleData->m_poisonDamageIntervalData;
 
 	m_deathType = damageInfo->m_1C;
 

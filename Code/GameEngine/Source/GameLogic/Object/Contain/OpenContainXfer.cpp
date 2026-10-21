@@ -322,9 +322,9 @@ void OpenContain::xfer(Xfer *xfer)
 			m_containListSize = 0;
 			for (_STL::list<Int>::iterator it = m_containList.begin(); it != m_containList.end(); )
 			{
-				Object *tmp = (Object *)*it;
+				Object *object = (Object *)*it;
 				it = m_containList.erase(it);
-				TheGameLogic->destroyObject(tmp);
+				TheGameLogic->destroyObject(object);
 			}
 			m_containList.clear();
 		}

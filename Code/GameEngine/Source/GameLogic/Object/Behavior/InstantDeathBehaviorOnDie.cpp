@@ -35,7 +35,7 @@ void InstantDeathBehavior::onDie(const DamageInfo*damageInfo){
  char*file="C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Behavior\\InstantDeathBehavior.cpp";
  int count=self->fx.size();if(count>0){int n=GetGameLogicRandomValue(0,count-1,file,135);const FXList*fx=self->fx[n];Object*obj=object;FXList::doFXObj(fx,obj,0);}
  count=self->ocls.size();if(count>0){int n=GetGameLogicRandomValue(0,count-1,file,145);ObjectCreationList*ocl=self->ocls[n];Object*obj=object;if(ocl)ocl->create(obj,0,0);}
- count=self->weapons.size();if(count>0){int n=GetGameLogicRandomValue(0,count-1,file,155);const WeaponTemplate*w=self->weapons[n];if(w){Object*obj=object;const Coord3D*pos=(const Coord3D*)obj->position;TheWeaponStore->createAndFireTempWeapon(w,obj,pos);}}
+ count=self->weapons.size();if(count>0){int n=GetGameLogicRandomValue(0,count-1,file,155);const WeaponTemplate*weaponTemplate=self->weapons[n];if(weaponTemplate){Object*obj=object;const Coord3D*pos=(const Coord3D*)obj->position;TheWeaponStore->createAndFireTempWeapon(weaponTemplate,obj,pos);}}
  count=self->sounds.size();if(count>0){int n=GetGameLogicRandomValue(0,count-1,file,169);const Rva0036CA00Str*ss=self->sounds.begin;Rva0036CA00Str sound(ss[n]);if(sound.item && TheAudio){BfmeAudioEventPrefix136 event(*(const OpaqueRefElement4*)&sound,object->id);TheAudio->addAudioEvent(&event);}}
  TheGameLogic->destroyObject(object);
 }

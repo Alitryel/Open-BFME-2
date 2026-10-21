@@ -107,7 +107,7 @@ private:
 
 void GettingBuiltBehavior::rva00453905(Object *other)
 {
-    const GettingBuiltCallbackData *d = data;
+    const GettingBuiltCallbackData *gettingBuiltCallbackData = data;
     Object *obj = object;
     if (obj) {
         GettingBuiltProductionView *production = (GettingBuiltProductionView *)object->rva0028BC58(0);
@@ -120,7 +120,7 @@ void GettingBuiltBehavior::rva00453905(Object *other)
         events.parameters[0].integer = obj->getID();
         events.parameters[0].type = 3;
         ((BfmeObjectEventDispatch *)TheLuaScriptEngine)->rva003360D2(13, obj, (BfmeDelayedLuaEventList *)&events);
-        if (!d->workerName.isEmpty()) return;
+        if (!gettingBuiltCallbackData->workerName.isEmpty()) return;
         if (obj && other && obj->getBuilderID() == other->getID() &&
             other->getProducerID() == obj->getID() && other->getID() != obj->getID())
             other->kill(DAMAGE_WORKER, DEATH_WORKER);

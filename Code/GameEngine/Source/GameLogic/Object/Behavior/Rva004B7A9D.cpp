@@ -44,10 +44,10 @@ public:
 void Rva004B7A9D::rva004B7A9D()
 {
 	Thing *thing = *(Thing **)((char *)this - 8);
-	Drawable *d = thing->getDrawable();
-	if (d != 0) {
-		((Rva002793AF *)d)->rva002793AF(*(const AsciiString *)(*(char **)((char *)this - 0xC) + 0x118));
-		d->rva00274C88((AsciiString *)(*(char **)((char *)this - 0xC) + 0x11C));
+	Drawable *drawable = thing->getDrawable();
+	if (drawable != 0) {
+		((Rva002793AF *)drawable)->rva002793AF(*(const AsciiString *)(*(char **)((char *)this - 0xC) + 0x118));
+		drawable->rva00274C88((AsciiString *)(*(char **)((char *)this - 0xC) + 0x11C));
 	}
 	(*(BfmeWorldRV **)&TheControlBar)->m_28 = 1;
 }

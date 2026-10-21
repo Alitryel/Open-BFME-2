@@ -182,9 +182,9 @@ void FlightDeckBehaviorModuleData::parseRunwayStrip( INI* ini, void *instance, v
 
 //-------------------------------------------------------------------------------------------------
 // ?FlightDeckBehaviorModuleData::buildFieldParse present-unmatched
-void FlightDeckBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
+void FlightDeckBehaviorModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-	AIUpdateModuleData::buildFieldParse(p);
+	AIUpdateModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -220,7 +220,7 @@ void FlightDeckBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
 
 		{ 0, 0, 0, 0 }
 	};
-	p.add(dataFieldParse);
+	multiIniFieldParse.add(dataFieldParse);
 }
 
 
@@ -574,7 +574,7 @@ Bool FlightDeckBehavior::reserveSpace(ObjectID id, Real parkingOffset, ParkingPl
 	buildInfo();
 	purgeDead();
 
-	const FlightDeckBehaviorModuleData* d = getFlightDeckBehaviorModuleData();
+	const FlightDeckBehaviorModuleData* flightDeckBehaviorModuleData = getFlightDeckBehaviorModuleData();
 
 	FlightDeckInfo* ppi = findPPI(id);
 	if (ppi == NULL)
@@ -590,7 +590,7 @@ Bool FlightDeckBehavior::reserveSpace(ObjectID id, Real parkingOffset, ParkingPl
 	ppi->m_objectInSpace = id;
 	//validateAssignments();
 	
-	if( d->m_landingDeckHeightOffset )
+	if( flightDeckBehaviorModuleData->m_landingDeckHeightOffset )
 	{
 		Object *obj = TheGameLogic->findObjectByID( id );
 		if( obj )
@@ -652,7 +652,7 @@ void FlightDeckBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 
 	if( info )
 	{
-		const FlightDeckBehaviorModuleData* d = getFlightDeckBehaviorModuleData();
+		const FlightDeckBehaviorModuleData* flightDeckBehaviorModuleData = getFlightDeckBehaviorModuleData();
 		const Real APPROACH_DIST = 0.75f;
 		info->parkingSpace = ppi->m_prep;
 		info->runwayPrep = ppi->m_prep;
@@ -662,14 +662,14 @@ void FlightDeckBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 		info->runwayExit = rr.m_end;
 		info->runwayExit.x += (rr.m_end.x - rr.m_start.x) * APPROACH_DIST;
 		info->runwayExit.y += (rr.m_end.y - rr.m_start.y) * APPROACH_DIST;
-		info->runwayExit.z = rr.m_end.z + d->m_approachHeight + d->m_landingDeckHeightOffset;
+		info->runwayExit.z = rr.m_end.z + flightDeckBehaviorModuleData->m_approachHeight + flightDeckBehaviorModuleData->m_landingDeckHeightOffset;
 
 		info->runwayLandingStart = rr.m_landingStart;
 		info->runwayLandingEnd = rr.m_landingEnd;
 		info->runwayApproach = rr.m_landingStart;
 		info->runwayApproach.x += (rr.m_landingStart.x - rr.m_landingEnd.x) * APPROACH_DIST;
 		info->runwayApproach.y += (rr.m_landingStart.y - rr.m_landingEnd.y) * APPROACH_DIST;
-		info->runwayApproach.z = rr.m_landingStart.z + d->m_approachHeight + d->m_landingDeckHeightOffset;
+		info->runwayApproach.z = rr.m_landingStart.z + flightDeckBehaviorModuleData->m_approachHeight + flightDeckBehaviorModuleData->m_landingDeckHeightOffset;
 
 		//Cache the runway's takeoff distance used by JetAIUpdate for calculating lift.
 		Coord3D vector = info->runwayStart;

@@ -156,19 +156,19 @@ class AimWeaponBehavior:public Module,public BehaviorInterface,public UpdateInte
 __forceinline const int *aimFlagWords(const Rva0028F59A &v){return v.words;}
 struct AimDelta {
  float x,y,z;
- __forceinline AimDelta(const AimDelta&p):x(p.x),y(p.y),z(p.z){}
- __forceinline void sub(const AimDelta&p){x-=p.x;y-=p.y;z-=p.z;}
+ __forceinline AimDelta(const AimDelta&aimDelta):x(aimDelta.x),y(aimDelta.y),z(aimDelta.z){}
+ __forceinline void sub(const AimDelta&aimDelta){x-=aimDelta.x;y-=aimDelta.y;z-=aimDelta.z;}
  __forceinline double lengthSqr2D()const{return y*y+x*x;}
 };
 UpdateSleepTime AimWeaponBehavior::update(){
  Object*o=object;
  AimAIView*ai=o->ai;
  Drawable*draw=((const Thing*)o)->getDrawable();
- Weapon*w=o->getCurrentWeapon(0);
- if(!ai || !draw || !w)return UPDATE_SLEEP_FOREVER;
+ Weapon*weapon=o->getCurrentWeapon(0);
+ if(!ai || !draw || !weapon)return UPDATE_SLEEP_FOREVER;
  bool changed=false;
- unsigned char active=ai->attacking();active|=w->rva002C9586();
- if(w->data->useAimConditions && active){
+ unsigned char active=ai->attacking();active|=weapon->rva002C9586();
+ if(weapon->data->useAimConditions && active){
   AimDelta delta(*(const AimDelta*)&o->aim);delta.sub(*(const AimDelta*)&o->position);
   float len=(float)sqrt(delta.lengthSqr2D());
   float ten=10.0f;

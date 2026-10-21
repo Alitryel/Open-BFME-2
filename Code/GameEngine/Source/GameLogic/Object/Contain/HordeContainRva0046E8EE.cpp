@@ -201,8 +201,8 @@ void HordeContain::rva0046E8EE()
 			for (; *mods; ++mods)
 			{
 				ModIface *mi = (ModIface *)((char *)*mods + 0x0C);
-				ModIface *t = mi->check();
-				if (t)
+				ModIface *modIface = mi->check();
+				if (modIface)
 					goto found;
 			}
 			goto done;

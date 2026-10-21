@@ -63,7 +63,7 @@ struct SwarmNode { SwarmNode *next,*prev; Object *object; };
 struct SwarmList { SwarmNode *head; };
 struct SwarmRange {
  void *owner; SwarmList *list;
- unsigned int size() const { unsigned int n=0; for(SwarmNode *p=list->head->next;p!=list->head;p=p->next) ++n; return n; }
+ unsigned int size() const { unsigned int n=0; for(SwarmNode *swarmNode=list->head->next;swarmNode!=list->head;swarmNode=swarmNode->next) ++n; return n; }
 };
 class SwarmListProvider : public SwarmSlots<70> { public: virtual void fill(SwarmRange *)=0; };
 struct SwarmHeld { unsigned char pad[0x120]; bool active; };

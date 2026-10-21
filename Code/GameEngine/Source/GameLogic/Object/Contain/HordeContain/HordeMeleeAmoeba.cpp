@@ -61,7 +61,7 @@ struct AmoebaNode { AmoebaNode *next,*prev; Object *object; };
 struct AmoebaList { AmoebaNode *head; };
 struct AmoebaRange {
  void *owner; AmoebaList *list;
- unsigned int size() const { unsigned int n=0; for(AmoebaNode *p=list->head->next;p!=list->head;p=p->next) ++n; return n; }
+ unsigned int size() const { unsigned int n=0; for(AmoebaNode *amoebaNode=list->head->next;amoebaNode!=list->head;amoebaNode=amoebaNode->next) ++n; return n; }
 };
 class AmoebaListProvider : public AmoebaSlots<70> { public: virtual void fill(AmoebaRange *)=0; };
 struct AmoebaHeld { unsigned char pad[0x120]; bool active; };

@@ -69,12 +69,12 @@ public:
 bool StancesBehavior::changeStanceFromXfer(int arg)
 {
 	IfaceA *iface = m_08->m_250;
-	IfaceBig *b;
+	IfaceBig *ifaceBig;
 	if (iface != 0)
-		b = iface->get();
+		ifaceBig = iface->get();
 	else
-		b = 0;
-	if (b != 0)
+		ifaceBig = 0;
+	if (ifaceBig != 0)
 	{
 		int key = m_04->m_08;
 		if (key == 0)
@@ -82,7 +82,7 @@ bool StancesBehavior::changeStanceFromXfer(int arg)
 		int *found = (*(Rva004260DE * *)&TheStancesStore)->rva004260DE(key);
 		if (found == 0)
 			return false;
-		b->doIt(found[arg * 2 + 2]);
+		ifaceBig->doIt(found[arg * 2 + 2]);
 	}
 	return true;
 }

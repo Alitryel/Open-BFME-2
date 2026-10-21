@@ -66,9 +66,9 @@ inline CollideModule::CollideModule(Thing *thing, const ModuleData *moduleData) 
 
 #pragma inline_depth(0)
 // ?bfmeEmitCollideModuleCtor@@YAXPAVCollideModule@@PAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitCollideModuleCtor(CollideModule *p, Thing *thing, const ModuleData *moduleData)
+void bfmeEmitCollideModuleCtor(CollideModule *collideModule, Thing *thing, const ModuleData *moduleData)
 {
-	p->CollideModule::CollideModule(thing, moduleData);
+	collideModule->CollideModule::CollideModule(thing, moduleData);
 }
 #pragma inline_depth()
 

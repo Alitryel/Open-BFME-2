@@ -51,8 +51,8 @@ inline VeterancyCrateCollideModuleData::VeterancyCrateCollideModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeVeterancyCrateCollideModuleDataInlineAnchor@@YAXPAVVeterancyCrateCollideModuleData@@@Z absent-from-retail
-void _bfmeVeterancyCrateCollideModuleDataInlineAnchor(VeterancyCrateCollideModuleData *p)
+void _bfmeVeterancyCrateCollideModuleDataInlineAnchor(VeterancyCrateCollideModuleData *veterancyCrateCollideModuleData)
 {
-    p->VeterancyCrateCollideModuleData::VeterancyCrateCollideModuleData();
+    veterancyCrateCollideModuleData->VeterancyCrateCollideModuleData::VeterancyCrateCollideModuleData();
 }
 #pragma inline_depth()

@@ -65,12 +65,12 @@ public:
 
 bool UpgradeSoundSelectorClientBehavior::rva004CB51C(int *out)
 {
-	const UpgradeSoundSelectorClientBehaviorModuleData *d = m_moduleData;
+	const UpgradeSoundSelectorClientBehaviorModuleData *upgradeSoundSelectorClientBehaviorModuleData = m_moduleData;
 	Object *obj = m_drawable->getObject();
 	if (obj == 0)
 		return false;
-	Rva004CB51CEntry *end = d->m_end;
-	for (Rva004CB51CEntry *e = d->m_begin; e != end; ++e)
+	Rva004CB51CEntry *end = upgradeSoundSelectorClientBehaviorModuleData->m_end;
+	for (Rva004CB51CEntry *e = upgradeSoundSelectorClientBehaviorModuleData->m_begin; e != end; ++e)
 	{
 		if (((UpgradeMuxData *)e)->rva004CB333(obj))
 		{

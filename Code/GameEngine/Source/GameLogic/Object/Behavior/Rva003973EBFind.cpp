@@ -109,12 +109,12 @@ private:
 };
 
 // ?rva003973EB@Rva003973EB@@QAE_NPAVPlayer@@H@Z
-bool Rva003973EB::rva003973EB(Player *p, int /*unused*/)
+bool Rva003973EB::rva003973EB(Player *player, int /*unused*/)
 {
 	Rva003973EBInner *inner = m_inner04;
 	if (inner->m_tree68.m_count <= 0)
 		return false;
-	int key = TheNameKeyGenerator->nameToKey(p->m_name58);
+	int key = TheNameKeyGenerator->nameToKey(player->m_name58);
 	Rva003973EBNode *found = inner->m_tree68._M_find(key);
 	bool ok = (found != (Rva003973EBNode *)inner->m_tree68.m_header);
 	return ok;

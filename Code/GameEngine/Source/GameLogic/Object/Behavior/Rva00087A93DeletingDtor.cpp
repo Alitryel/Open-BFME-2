@@ -14,9 +14,9 @@ class Rva00087A93 {
 public:
 	~Rva00087A93()
 	{
-		Data *d = m_data;
-		if (d && --d->ref == 0)
-			d->slot();
+		Data *data = m_data;
+		if (data && --data->ref == 0)
+			data->slot();
 	}
 };
 

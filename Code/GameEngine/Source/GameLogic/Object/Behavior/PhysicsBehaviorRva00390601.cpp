@@ -176,7 +176,7 @@ __declspec(noinline) inline void PhysicsBehavior::rva00390557(const Coord3D *whe
 }
 // Select-any like PhysicsBehaviorTrajectory.cpp's copy; the anchor keeps it emitted.
 // ?bfmeAnchorRva00390557 absent-from-retail
-void bfmeAnchorRva00390557(PhysicsBehavior *p, const Coord3D *where) { p->rva00390557(where, 0.0f, 0.0f, 0, 0); }
+void bfmeAnchorRva00390557(PhysicsBehavior *physicsBehavior, const Coord3D *where) { physicsBehavior->rva00390557(where, 0.0f, 0.0f, 0, 0); }
 
 
 // Receiver comes from Object+25C; native 390533..390557 reads its Object+8.

@@ -234,18 +234,18 @@ void CitadelSlaughterHordeContain::rva00480E9A(Object *obj)
 	ai->aiIdle(ai->rva143());
 	TheAiOrdersManager->rva003551D3(obj->getID());
 
-	const CitadelSlaughterHordeContainModuleData *d = getModuleData();
-	if (d->m_statusToSet.any())
-		obj->rva0028CDEB(d->m_statusToSet, false);
+	const CitadelSlaughterHordeContainModuleData *citadelSlaughterHordeContainModuleData = getModuleData();
+	if (citadelSlaughterHordeContainModuleData->m_statusToSet.any())
+		obj->rva0028CDEB(citadelSlaughterHordeContainModuleData->m_statusToSet, false);
 
 	Object *closest = ThePartitionManager->getClosestObject(me->getPosition(), g_00DC9EB4, 3,
-		&Rva002614ECFilter(d->m_filterWhat, obj->getControllingPlayer(), true));
+		&Rva002614ECFilter(citadelSlaughterHordeContainModuleData->m_filterWhat, obj->getControllingPlayer(), true));
 	if (closest)
 		TheGameLogic->destroyObject(closest);
 
-	if (d->m_upgrades.size() > 0)
+	if (citadelSlaughterHordeContainModuleData->m_upgrades.size() > 0)
 	{
-		for (_STL::vector<AsciiString>::const_iterator it = d->m_upgrades.begin(); it != d->m_upgrades.end(); ++it)
+		for (_STL::vector<AsciiString>::const_iterator it = citadelSlaughterHordeContainModuleData->m_upgrades.begin(); it != citadelSlaughterHordeContainModuleData->m_upgrades.end(); ++it)
 		{
 			const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(*it);
 			if (upgrade->getUpgradeType() == UPGRADE_TYPE_PLAYER)
@@ -255,7 +255,7 @@ void CitadelSlaughterHordeContain::rva00480E9A(Object *obj)
 		}
 	}
 
-	const FXList *fx = d->m_fx;
+	const FXList *fx = citadelSlaughterHordeContainModuleData->m_fx;
 	if (fx)
 		FXList::doFXObj(fx, me, 0);
 

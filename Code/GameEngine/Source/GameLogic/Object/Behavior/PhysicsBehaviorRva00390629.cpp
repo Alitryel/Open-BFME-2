@@ -123,9 +123,9 @@ private:
 void PhysicsBehavior::rva00390629(bool enable)
 {
 	Object *obj = m_object;
-	const ThingTemplate *tmpl = obj->getTemplate();
+	const ThingTemplate *thingTemplate = obj->getTemplate();
 	const Object *container = obj->getContainedBy();
-	if (tmpl->m_610 >= 100.0f || (container && container->getTemplate()->m_610 >= 100.0f))
+	if (thingTemplate->m_610 >= 100.0f || (container && container->getTemplate()->m_610 >= 100.0f))
 		enable = false;
 	m_5C = enable;
 	if (enable)
@@ -138,9 +138,9 @@ void PhysicsBehavior::rva00390629(bool enable)
 void PhysicsBehavior::rva003906BF()
 {
 	Object *obj = m_object;
-	const ThingTemplate *tmpl = obj->getTemplate();
+	const ThingTemplate *thingTemplate = obj->getTemplate();
 	const Object *container = obj->getContainedBy();
-	if (tmpl->m_610 >= 100.0f || (container && container->getTemplate()->m_610 >= 100.0f))
+	if (thingTemplate->m_610 >= 100.0f || (container && container->getTemplate()->m_610 >= 100.0f))
 		return;
 	obj->setModelConditionState(4 * 32 + 0);
 	m_5C = true;

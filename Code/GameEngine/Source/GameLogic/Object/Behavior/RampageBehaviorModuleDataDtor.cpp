@@ -39,7 +39,7 @@ RampageBehaviorModuleData::RampageBehaviorModuleData(int)
 {
 }
 
-void deleteRampageBehaviorModuleData(RampageBehaviorModuleData *p)
+void deleteRampageBehaviorModuleData(RampageBehaviorModuleData *rampageBehaviorModuleData)
 {
-    delete p;
+    delete rampageBehaviorModuleData;
 }

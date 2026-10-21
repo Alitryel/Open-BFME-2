@@ -136,9 +136,9 @@ void MineshaftPortalNetworkManager::update()
             }
         }
         _STL::_Rb_tree_node_base *treeHeader = (_STL::_Rb_tree_node_base *)tree.header;
-        for (TreeNode *a = (TreeNode *)treeHeader->_M_left; a != (TreeNode *)treeHeader;
-             a = (TreeNode *)_STL::_Rb_global<bool>::_M_increment(a)) {
-            Rva00373373Portal *wa = TheTerrainLogic->portalAt(a->id);
+        for (TreeNode *treeNode = (TreeNode *)treeHeader->_M_left; treeNode != (TreeNode *)treeHeader;
+             treeNode = (TreeNode *)_STL::_Rb_global<bool>::_M_increment(treeNode)) {
+            Rva00373373Portal *wa = TheTerrainLogic->portalAt(treeNode->id);
             for (TreeNode *b = (TreeNode *)((_STL::_Rb_tree_node_base *)tree.header)->_M_left; b != (TreeNode *)treeHeader;
                  b = (TreeNode *)_STL::_Rb_global<bool>::_M_increment(b)) {
                 Rva00373373Portal *wb = TheTerrainLogic->portalAt(b->id);

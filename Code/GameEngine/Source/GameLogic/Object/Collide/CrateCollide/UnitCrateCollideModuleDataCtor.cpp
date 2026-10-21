@@ -62,8 +62,8 @@ inline UnitCrateCollideModuleData::UnitCrateCollideModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeUnitCrateCollideModuleDataInlineAnchor@@YAXPAVUnitCrateCollideModuleData@@@Z absent-from-retail
-void _bfmeUnitCrateCollideModuleDataInlineAnchor(UnitCrateCollideModuleData *p)
+void _bfmeUnitCrateCollideModuleDataInlineAnchor(UnitCrateCollideModuleData *unitCrateCollideModuleData)
 {
-    p->UnitCrateCollideModuleData::UnitCrateCollideModuleData();
+    unitCrateCollideModuleData->UnitCrateCollideModuleData::UnitCrateCollideModuleData();
 }
 #pragma inline_depth()

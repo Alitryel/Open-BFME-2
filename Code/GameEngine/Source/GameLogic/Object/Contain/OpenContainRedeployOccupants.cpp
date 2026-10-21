@@ -210,9 +210,9 @@ private:
     char pad24[0x3C-0x24];
     Rva004650A0 names;
 };
-static __forceinline void appendChar(AsciiString &s,char c)
+static __forceinline void appendChar(AsciiString &asciiString,char c)
 {
-    ((StringBase<char>*)&s)->concat(&c,1);
+    ((StringBase<char>*)&asciiString)->concat(&c,1);
 }
 void OpenContain::privateRedeployOccupants(const _STL::list<Object*> *objects,_STL::map<int,int> *oldPoints)
 {

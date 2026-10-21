@@ -303,17 +303,17 @@ void SymbioticStructuresBody::rva004C0B63()
 	obj->setEffectivelyDead(rva004C0D9C() <= 0.0f);
 	if (getDamageState() != BODY_RUBBLE)
 	{
-		Object *o = m_object;
-		o->setGeometryInfoZ(o->getTemplate()->getGeometryInfo().getMaxHeightAbovePosition());
+		Object *object = m_object;
+		object->setGeometryInfoZ(object->getTemplate()->getGeometryInfo().getMaxHeightAbovePosition());
 		m_object->setStatus((ObjectStatusTypes)4, false);
 	}
 	else
 	{
-		Object *o = m_object;
-		Real height = (Real)o->getTemplate()->m_5F7;
+		Object *object = m_object;
+		Real height = (Real)object->getTemplate()->m_5F7;
 		if (height <= 0.0f)
 			height = TheGlobalData->m_AE4;
-		o->setGeometryInfoZ(height);
+		object->setGeometryInfoZ(height);
 		m_object->setStatus((ObjectStatusTypes)4, true);
 	}
 	TheAI->pathfinder()->RemoveObjectFromPathfindMap(m_object);
@@ -450,16 +450,16 @@ void SymbioticStructuresBody::loadPostProcess()
 	Object *obj = m_object;
 	if (obj == 0)
 		return;
-	const SymbioticStructuresBodyModuleData *d = (const SymbioticStructuresBodyModuleData *)m_moduleData;
-	Object *o = TheGameLogic->getFirstObject();
+	const SymbioticStructuresBodyModuleData *symbioticStructuresBodyModuleData = (const SymbioticStructuresBodyModuleData *)m_moduleData;
+	Object *object = TheGameLogic->getFirstObject();
 	AsciiString name;
-	for (; o; o = o->m_8C)
+	for (; object; object = object->m_8C)
 	{
-		name = o->m_88;
-		if (name.compare(d->m_64) == 0)
+		name = object->m_88;
+		if (name.compare(symbioticStructuresBodyModuleData->m_64) == 0)
 		{
-			obj->setTransformMatrix((const Matrix3D *)o->m_transform);
-			m_104 = o->getID();
+			obj->setTransformMatrix((const Matrix3D *)object->m_transform);
+			m_104 = object->getID();
 			rva004C0C52();
 			break;
 		}

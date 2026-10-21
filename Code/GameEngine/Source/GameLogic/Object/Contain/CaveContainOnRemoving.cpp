@@ -491,9 +491,9 @@ static CaveInterface *findCave( Object *obj )
 {
 	for( BehaviorModule **i = obj->getBehaviorModules(); *i; ++i )
 	{
-		CaveInterface *c = (*i)->m_interface.getCaveInterface();
-		if( c != 0 )
-			return c;
+		CaveInterface *cave = (*i)->m_interface.getCaveInterface();
+		if( cave != 0 )
+			return cave;
 	}
 	return 0;
 }

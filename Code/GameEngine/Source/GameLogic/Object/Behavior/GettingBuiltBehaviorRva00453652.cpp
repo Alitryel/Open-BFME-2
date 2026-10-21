@@ -325,7 +325,7 @@ void GettingBuiltBehavior::rva00453652(bool forced)
 	m_3C = false;
 	setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 
-	const GettingBuiltBehaviorModuleData *d = data();
+	const GettingBuiltBehaviorModuleData *gettingBuiltBehaviorModuleData = data();
 	if (TheAudio)
 	{
 		if (m_soundHandle >= 5)
@@ -333,18 +333,18 @@ void GettingBuiltBehavior::rva00453652(bool forced)
 		Rva00453652Sound sound;
 		if (m_35)
 		{
-			if (d->m_rubbleRepairSound.referent)
-				sound.OpaqueRefElement4::operator=(d->m_rubbleRepairSound);
+			if (gettingBuiltBehaviorModuleData->m_rubbleRepairSound.referent)
+				sound.OpaqueRefElement4::operator=(gettingBuiltBehaviorModuleData->m_rubbleRepairSound);
 		}
 		else if (!m_33)
 		{
-			if (d->m_constructionSound.referent)
-				sound.OpaqueRefElement4::operator=(d->m_constructionSound);
+			if (gettingBuiltBehaviorModuleData->m_constructionSound.referent)
+				sound.OpaqueRefElement4::operator=(gettingBuiltBehaviorModuleData->m_constructionSound);
 		}
 		else
 		{
-			if (d->m_reconstructionSound.referent)
-				sound.OpaqueRefElement4::operator=(d->m_reconstructionSound);
+			if (gettingBuiltBehaviorModuleData->m_reconstructionSound.referent)
+				sound.OpaqueRefElement4::operator=(gettingBuiltBehaviorModuleData->m_reconstructionSound);
 		}
 		if (sound.referent)
 		{

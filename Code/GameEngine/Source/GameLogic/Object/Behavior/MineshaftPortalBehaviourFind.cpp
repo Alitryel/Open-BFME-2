@@ -37,11 +37,11 @@ struct Holder
 void *Rva00372D3AFind(void *arg)
 {
 	static NameKeyType s_key = TheNameKeyGenerator->nameToKey("MineshaftPortalBehaviour");
-	Behaviour **p = ((Holder *)arg)->m_list;
-	while (*p) {
-		if ((*p)->getKey() == s_key)
-			return *p;
-		++p;
+	Behaviour **behaviour = ((Holder *)arg)->m_list;
+	while (*behaviour) {
+		if ((*behaviour)->getKey() == s_key)
+			return *behaviour;
+		++behaviour;
 	}
 	return 0;
 }
@@ -56,15 +56,15 @@ void *Rva00372D3AFind(void *arg)
 void *Rva00498725Find(void *arg)
 {
 	static NameKeyType s_key = TheNameKeyGenerator->nameToKey("GateOpenAndCloseBehavior");
-	Behaviour **p = ((Holder *)arg)->m_list;
-	while (*p) {
-		if ((*p)->getKey() == s_key) {
-			Behaviour *hit = *p;
+	Behaviour **behaviour = ((Holder *)arg)->m_list;
+	while (*behaviour) {
+		if ((*behaviour)->getKey() == s_key) {
+			Behaviour *hit = *behaviour;
 			if (hit == 0)
 				return 0;
 			return (char *)hit - 4;
 		}
-		++p;
+		++behaviour;
 	}
 	return 0;
 }

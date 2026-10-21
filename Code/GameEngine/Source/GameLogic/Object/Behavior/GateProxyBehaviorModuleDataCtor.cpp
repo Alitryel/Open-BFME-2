@@ -34,8 +34,8 @@ inline GateProxyBehaviorModuleData::GateProxyBehaviorModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeGateProxyBehaviorModuleDataInlineAnchor@@YAXPAVGateProxyBehaviorModuleData@@@Z absent-from-retail
-void _bfmeGateProxyBehaviorModuleDataInlineAnchor(GateProxyBehaviorModuleData *p)
+void _bfmeGateProxyBehaviorModuleDataInlineAnchor(GateProxyBehaviorModuleData *gateProxyBehaviorModuleData)
 {
-    p->GateProxyBehaviorModuleData::GateProxyBehaviorModuleData();
+    gateProxyBehaviorModuleData->GateProxyBehaviorModuleData::GateProxyBehaviorModuleData();
 }
 #pragma inline_depth()

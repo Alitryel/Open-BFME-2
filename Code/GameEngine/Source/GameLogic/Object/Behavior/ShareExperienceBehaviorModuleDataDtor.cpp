@@ -40,9 +40,9 @@ inline ShareExperienceBehaviorModuleData::ShareExperienceBehaviorModuleData()
 	: m_r8(0.0f), m_rC(0.0f), m_r10(1.0f)
 {
 }
-void deleteShareExperienceBehaviorModuleData(ShareExperienceBehaviorModuleData *p)
+void deleteShareExperienceBehaviorModuleData(ShareExperienceBehaviorModuleData *shareExperienceBehaviorModuleData)
 {
-	delete p;
+	delete shareExperienceBehaviorModuleData;
 }
 
 // Force the real inline constructor and its implicit virtual destructor family.

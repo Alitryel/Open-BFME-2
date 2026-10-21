@@ -94,9 +94,9 @@ inline void OpenContain::addToContainList(Object *rider)
 
 // Retain the inline body's ledger emission without changing its callers.
 // ?bfmeEmitOpenContainAddToContainList@@YAXPAVOpenContain@@@Z absent-from-retail
-void bfmeEmitOpenContainAddToContainList(OpenContain *p)
+void bfmeEmitOpenContainAddToContainList(OpenContain *openContain)
 {
-	p->OpenContain::addToContainList((Object *)0);
+	openContain->OpenContain::addToContainList((Object *)0);
 }
 
 // ?rva004632E0@OpenContain@@UAEPAVObject@@PBUCoord3D@@@Z @0x004632E0 91B (RET 4):

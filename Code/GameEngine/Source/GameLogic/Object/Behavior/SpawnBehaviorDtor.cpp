@@ -146,8 +146,8 @@ inline SpawnBehavior::~SpawnBehavior()
 // row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitSpawnBehaviorDtor@@YAXPAVSpawnBehavior@@@Z present-unmatched
-void bfmeEmitSpawnBehaviorDtor(SpawnBehavior *p)
+void bfmeEmitSpawnBehaviorDtor(SpawnBehavior *spawnBehavior)
 {
-	p->SpawnBehavior::~SpawnBehavior();
+	spawnBehavior->SpawnBehavior::~SpawnBehavior();
 }
 #pragma inline_depth()

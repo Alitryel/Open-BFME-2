@@ -48,9 +48,9 @@ inline Object *GameLogic::findObjectByID(ObjectID id)
 {
 	if (id == 0)
 		return 0;
-	ObjectPtrHashVF &m = *(ObjectPtrHashVF *)((char *)this + 0xB4);
-	ObjectPtrHashVF::iterator it = m.find(id);
-	if (it == m.end())
+	ObjectPtrHashVF &objectPtrHashVF = *(ObjectPtrHashVF *)((char *)this + 0xB4);
+	ObjectPtrHashVF::iterator it = objectPtrHashVF.find(id);
+	if (it == objectPtrHashVF.end())
 		return 0;
 	return (*it).second;
 }

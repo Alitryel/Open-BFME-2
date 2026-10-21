@@ -140,27 +140,27 @@ void PassiveAreaEffectBehavior::rva0048491F(Object *obj)
 	if (obj->rva0028C264(&gate, 4))
 		return;
 
-	const PassiveAreaEffectBehaviorModuleData *d = m_moduleData;
-	if (d->m_0C > 0.0f)
+	const PassiveAreaEffectBehaviorModuleData *passiveAreaEffectBehaviorModuleData = m_moduleData;
+	if (passiveAreaEffectBehaviorModuleData->m_0C > 0.0f)
 	{
 		BodyModule *body = obj->getBodyModule();
 		if (body && body->getHealth() != body->getMaxHealth())
 		{
-			if (d->m_28)
+			if (passiveAreaEffectBehaviorModuleData->m_28)
 			{
 				unsigned int now = TheGameLogic->getFrame();
-				if (body->getLastDamageFrame() + d->m_10 > now)
+				if (body->getLastDamageFrame() + passiveAreaEffectBehaviorModuleData->m_10 > now)
 					return;
 			}
 
-			float rate = d->m_0C;
+			float rate = passiveAreaEffectBehaviorModuleData->m_0C;
 			float amount = body->getMaxHealth() * (rate / BfmeLogicFramesPerSecond);
-			if (d->m_10)
-				amount *= d->m_10;
-			obj->rva0028FEA7(amount, m_object, d->m_10);
+			if (passiveAreaEffectBehaviorModuleData->m_10)
+				amount *= passiveAreaEffectBehaviorModuleData->m_10;
+			obj->rva0028FEA7(amount, m_object, passiveAreaEffectBehaviorModuleData->m_10);
 
-			if (d->m_34)
-				FXList::doFXObj(d->m_34, obj, 0);
+			if (passiveAreaEffectBehaviorModuleData->m_34)
+				FXList::doFXObj(passiveAreaEffectBehaviorModuleData->m_34, obj, 0);
 		}
 	}
 }
@@ -171,15 +171,15 @@ void PassiveAreaEffectBehavior::rva00484A08(Object *obj)
 	if (obj == 0)
 		return;
 
-	const PassiveAreaEffectBehaviorModuleData *d = m_moduleData;
-	for (const AsciiString *it = d->m_14Begin; it != d->m_14End; ++it)
+	const PassiveAreaEffectBehaviorModuleData *passiveAreaEffectBehaviorModuleData = m_moduleData;
+	for (const AsciiString *it = passiveAreaEffectBehaviorModuleData->m_14Begin; it != passiveAreaEffectBehaviorModuleData->m_14End; ++it)
 		obj->addAttributeModifierToPool(*it, -1);
 
 	AttributeModifierPoolUpdate *pool = obj->findAttributeModifierPoolUpdate();
 	if (pool)
 	{
-		pool->rva00403415((int *)&d->m_2C, TheGameLogic->getFrame() + d->m_10);
-		if (d->m_30)
-			FXList::doFXObj(d->m_30, obj, 0);
+		pool->rva00403415((int *)&passiveAreaEffectBehaviorModuleData->m_2C, TheGameLogic->getFrame() + passiveAreaEffectBehaviorModuleData->m_10);
+		if (passiveAreaEffectBehaviorModuleData->m_30)
+			FXList::doFXObj(passiveAreaEffectBehaviorModuleData->m_30, obj, 0);
 	}
 }

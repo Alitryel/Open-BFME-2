@@ -602,42 +602,42 @@ private:
 
 void SlowDeathBehavior::doPhaseStuff(SlowDeathPhaseType sdphase)
 {
-	const SlowDeathBehaviorModuleData *d = getSlowDeathBehaviorModuleData();
+	const SlowDeathBehaviorModuleData *slowDeathBehaviorModuleData = getSlowDeathBehaviorModuleData();
 	Int idx, listSize;
 
-	if (!d->m_maskOfLoadedEffects)
+	if (!slowDeathBehaviorModuleData->m_maskOfLoadedEffects)
 		return;
 
-	listSize = d->m_fx[sdphase].size();
+	listSize = slowDeathBehaviorModuleData->m_fx[sdphase].size();
 	if (listSize > 0)
 	{
 		idx = GameClientRandomValue(0, listSize - 1, 531);
-		const FXList *fxl = d->m_fx[sdphase][idx];
+		const FXList *fxl = slowDeathBehaviorModuleData->m_fx[sdphase][idx];
 		FXList::doFXObj(fxl, getObject(), 0);
 	}
 
-	listSize = d->m_ocls[sdphase].size();
+	listSize = slowDeathBehaviorModuleData->m_ocls[sdphase].size();
 	if (listSize > 0)
 	{
 		idx = GameLogicRandomValue(0, listSize - 1, 541);
-		const ObjectCreationList *ocl = d->m_ocls[sdphase][idx];
+		const ObjectCreationList *ocl = slowDeathBehaviorModuleData->m_ocls[sdphase][idx];
 		ObjectCreationList::create(ocl, getObject(), 0);
 	}
 
-	listSize = d->m_weapons[sdphase].size();
+	listSize = slowDeathBehaviorModuleData->m_weapons[sdphase].size();
 	if (listSize > 0)
 	{
 		idx = GameLogicRandomValue(0, listSize - 1, 551);
-		const WeaponTemplate *wt = d->m_weapons[sdphase][idx];
+		const WeaponTemplate *wt = slowDeathBehaviorModuleData->m_weapons[sdphase][idx];
 		if (wt)
 			TheWeaponStore->createAndFireTempWeapon(wt, getObject(), getObject()->getPosition());
 	}
 
-	listSize = d->m_sounds[sdphase].size();
+	listSize = slowDeathBehaviorModuleData->m_sounds[sdphase].size();
 	if (listSize > 0)
 	{
 		idx = GameClientRandomValue(0, listSize - 1, 564);
-		Rva0036CA00Str sound = d->m_sounds[sdphase][idx];
+		Rva0036CA00Str sound = slowDeathBehaviorModuleData->m_sounds[sdphase][idx];
 		if (sound.m_item && TheAudio)
 		{
 			BfmeAudioEventPrefix136 event((const OpaqueRefElement4 &)sound, getObject()->getID());
@@ -648,14 +648,14 @@ void SlowDeathBehavior::doPhaseStuff(SlowDeathPhaseType sdphase)
 
 UpdateSleepTime SlowDeathBehavior::update()
 {
-	const SlowDeathBehaviorModuleData *d = getSlowDeathBehaviorModuleData();
+	const SlowDeathBehaviorModuleData *slowDeathBehaviorModuleData = getSlowDeathBehaviorModuleData();
 	Object *obj = getObject();
 	if (!obj)
 		return UPDATE_SLEEP_FOREVER;
 
 	Real timeScale = TheGameLODManager->getSlowDeathScale();
 
-	if (timeScale != 1.0f && m_acceleratedTimeScale == 1.0f && !d->hasNonLodEffects())
+	if (timeScale != 1.0f && m_acceleratedTimeScale == 1.0f && !slowDeathBehaviorModuleData->hasNonLodEffects())
 	{
 		if (timeScale == 0)
 		{
@@ -700,13 +700,13 @@ UpdateSleepTime SlowDeathBehavior::update()
 	}
 
 	Drawable *drawable = obj->getDrawable();
-	if (drawable && now >= m_fadeFrame && d->m_fadeDelay != 0xFACADE00 && !m_fadeStarted)
+	if (drawable && now >= m_fadeFrame && slowDeathBehaviorModuleData->m_fadeDelay != 0xFACADE00 && !m_fadeStarted)
 	{
 		m_fadeStarted = true;
-		drawable->fadeOut((Real)TheGameEngine->getFramesPerSecondLimit() * d->m_fadeTime);
+		drawable->fadeOut((Real)TheGameEngine->getFramesPerSecondLimit() * slowDeathBehaviorModuleData->m_fadeTime);
 	}
 
-	if (now >= m_sinkFrame && d->m_sinkRate > 0.0f)
+	if (now >= m_sinkFrame && slowDeathBehaviorModuleData->m_sinkRate > 0.0f)
 	{
 		PhysicsBehavior *phys = obj->getPhysics();
 		if (!(phys && phys->rva0039051E()) && !(obj->getStatusBits() & 8) && !obj->isSignificantlyAboveTerrain())
@@ -716,7 +716,7 @@ UpdateSleepTime SlowDeathBehavior::update()
 		pos.x = obj->getPosition()->x;
 		pos.y = obj->getPosition()->y;
 		pos.z = obj->getPosition()->z;
-		pos.z -= d->m_sinkRate / m_acceleratedTimeScale;
+		pos.z -= slowDeathBehaviorModuleData->m_sinkRate / m_acceleratedTimeScale;
 		if (TheTerrainLogic->getLayerHeight(pos.x, pos.y, obj->rva0028B511(), 0, true) < pos.z)
 			pos.z -= 5.7f;
 		obj->setPosition(&pos);
@@ -744,25 +744,25 @@ void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
 {
 	if ((m_flags & (1 << SLOW_DEATH_ACTIVATED)) == 0)
 	{
-		const SlowDeathBehaviorModuleData *d = getSlowDeathBehaviorModuleData();
+		const SlowDeathBehaviorModuleData *slowDeathBehaviorModuleData = getSlowDeathBehaviorModuleData();
 		Object *obj = getObject();
 		if (!obj)
 			return;
 
 		obj->clearModelConditionState(MODELCONDITION_BIT37);
 		m_44 = obj->rva0028B875();
-		if (d->m_statusMask._M_is_any())
-			obj->rva0028CDEB(*(const Rva00346BC0 *)&d->m_statusMask, true);
+		if (slowDeathBehaviorModuleData->m_statusMask._M_is_any())
+			obj->rva0028CDEB(*(const Rva00346BC0 *)&slowDeathBehaviorModuleData->m_statusMask, true);
 
 		Drawable *draw = obj->getDrawable();
-		if (d->m_modelConditionMask.rva000B3EB3())
+		if (slowDeathBehaviorModuleData->m_modelConditionMask.rva000B3EB3())
 		{
-			obj->rva001E431E((const int *)&d->m_modelConditionMask);
+			obj->rva001E431E((const int *)&slowDeathBehaviorModuleData->m_modelConditionMask);
 			obj->setModelConditionState(MODELCONDITION_BIT62);
 		}
 		if (draw)
 		{
-			if (!d->m_keepShadows)
+			if (!slowDeathBehaviorModuleData->m_keepShadows)
 				obj->getDrawable()->rva00272A02(false);
 			((Rva00270644 *)draw)->rva00270644(0.0f, -0.2f);
 		}
@@ -770,7 +770,7 @@ void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
 		Real timeScale = TheGameLODManager->getSlowDeathScale();
 		m_acceleratedTimeScale = 1.0f;
 
-		if (timeScale == 0.0f && !d->hasNonLodEffects())
+		if (timeScale == 0.0f && !slowDeathBehaviorModuleData->hasNonLodEffects())
 		{
 			TheGameLogic->destroyObject(obj);
 			return;
@@ -785,19 +785,19 @@ void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
 		}
 		else
 		{
-			m_sinkFrame = timeScale * (d->m_sinkDelay + GameLogicRandomValue(0, d->m_sinkDelayVariance, 420));
-			m_destructionFrame = timeScale * (d->m_destructionDelay + GameLogicRandomValue(0, d->m_destructionDelayVariance, 421));
-			m_dyingFrame = timeScale * d->m_dyingDelay;
+			m_sinkFrame = timeScale * (slowDeathBehaviorModuleData->m_sinkDelay + GameLogicRandomValue(0, slowDeathBehaviorModuleData->m_sinkDelayVariance, 420));
+			m_destructionFrame = timeScale * (slowDeathBehaviorModuleData->m_destructionDelay + GameLogicRandomValue(0, slowDeathBehaviorModuleData->m_destructionDelayVariance, 421));
+			m_dyingFrame = timeScale * slowDeathBehaviorModuleData->m_dyingDelay;
 			m_midpointFrame = GameLogicRandomValue(0.35f * m_destructionFrame, 0.65f * m_destructionFrame, 423);
 			m_acceleratedTimeScale = timeScale;
 		}
 
-		if (d->m_fadeDelay != 0xFACADE00)
-			m_fadeFrame = timeScale * d->m_fadeDelay;
+		if (slowDeathBehaviorModuleData->m_fadeDelay != 0xFACADE00)
+			m_fadeFrame = timeScale * slowDeathBehaviorModuleData->m_fadeDelay;
 
 		UnsignedInt now = TheGameLogic->getFrame();
 
-		if (d->m_flingForce > 0)
+		if (slowDeathBehaviorModuleData->m_flingForce > 0)
 		{
 			if (0)
 			{
@@ -829,8 +829,8 @@ void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
 				}
 
 				Coord3D force;
-				calcRandomForceRva0045D636(d->m_flingForce, d->m_flingForce + d->m_flingForceVariance,
-					d->m_flingPitch, d->m_flingPitch + d->m_flingPitchVariance, &force);
+				calcRandomForceRva0045D636(slowDeathBehaviorModuleData->m_flingForce, slowDeathBehaviorModuleData->m_flingForce + slowDeathBehaviorModuleData->m_flingForceVariance,
+					slowDeathBehaviorModuleData->m_flingPitch, slowDeathBehaviorModuleData->m_flingPitch + slowDeathBehaviorModuleData->m_flingPitchVariance, &force);
 				((Rva003909FAObj *)physics)->consume(&force, 0, 0);
 				Real orientation = atan2(force.y, force.x);
 				obj->setOrientation(orientation);
@@ -902,8 +902,8 @@ void SlowDeathBehavior::onDie(const DamageInfo *damageInfo)
 
 	TheGameLogic->deselectObject(getObject(), 0xFFFFF, true);
 
-	const ThingTemplate *tmpl = getObject()->getTemplate();
-	if (tmpl && !tmpl->isSelectableWhenDead())
+	const ThingTemplate *thingTemplate = getObject()->getTemplate();
+	if (thingTemplate && !thingTemplate->isSelectableWhenDead())
 		getObject()->setSelectable(false);
 
 	Int total = 0;

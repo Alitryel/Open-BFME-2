@@ -24,7 +24,7 @@ public:
 };
 class Rva002614ECFilter : public Rva000421C8 {
 public:
- Rva002614ECFilter(const void *f,Player *p,bool m):m_what(f),m_player(p),m_match(m){}
+ Rva002614ECFilter(const void *f,Player *player,bool m):m_what(f),m_player(player),m_match(m){}
  virtual bool allow(Object *);
  const void *m_what;Player *m_player;bool m_match;
 };
@@ -70,14 +70,14 @@ public:
 void GettingBuiltBehavior::rva0045479A()
 {
  rva00453D92();flag3e=rva00453DCF();
- const GettingBuiltBehaviorTickData *d=data;
+ const GettingBuiltBehaviorTickData *gettingBuiltBehaviorTickData=data;
  Object *obj=object;
  {
  Rva0045342FBody *body=obj->body;
  if (!body) return;
  if (obj->privateStatus&1) {
-   if (!d->nearby) return;
-   BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&obj->position,d->radius,1,&Rva002614ECFilter(&d->filter,obj->getControllingPlayer(),true),0);
+   if (!gettingBuiltBehaviorTickData->nearby) return;
+   BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&obj->position,gettingBuiltBehaviorTickData->radius,1,&Rva002614ECFilter(&gettingBuiltBehaviorTickData->filter,obj->getControllingPlayer(),true),0);
    Object *found;
    while ((found=result.next())!=0) if (found!=obj && !(found->privateStatus&1)) return;
  }
@@ -91,9 +91,9 @@ void GettingBuiltBehavior::rva0045479A()
  }
  Object *builder=TheGameLogic->findObjectByID(obj->builderID);
  bool special=builder && (builder->tmplate->kindFlags&0x10);
- if (d->builder.isEmpty() && (!builder || builder==obj || special)) {
+ if (gettingBuiltBehaviorTickData->builder.isEmpty() && (!builder || builder==obj || special)) {
    if (!busy && !iface.active()) {
-     if (d->countdown) { if(timer>0.0f)timer-=1.0f;if(timer>0.0f)return; }
+     if (gettingBuiltBehaviorTickData->countdown) { if(timer>0.0f)timer-=1.0f;if(timer>0.0f)return; }
      else if (timer<0.0f)return;
      iface.start(true);
    }

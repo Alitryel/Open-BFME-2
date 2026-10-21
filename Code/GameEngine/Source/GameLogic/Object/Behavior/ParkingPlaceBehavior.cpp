@@ -154,17 +154,17 @@ void ParkingPlaceBehavior::buildInfo()
 			getObject()->testStatus(OBJECT_STATUS_SOLD))
 		return;
 
-	const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
+	const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
 	ProductionUpdateInterface* pu = getObject()->getProductionUpdateInterface();
 
-	m_spaces.reserve(d->m_numRows * d->m_numCols);
+	m_spaces.reserve(parkingPlaceBehaviorModuleData->m_numRows * parkingPlaceBehaviorModuleData->m_numCols);
 
 	Int door = 0;
 	{
 		ParkingPlaceInfo info;
-		for (Int row = 0; row < d->m_numRows; ++row)
+		for (Int row = 0; row < parkingPlaceBehaviorModuleData->m_numRows; ++row)
 		{
-			for (Int col = 0; col < d->m_numCols; ++col)
+			for (Int col = 0; col < parkingPlaceBehaviorModuleData->m_numCols; ++col)
 			{
 				AsciiString tmp;
 				Matrix3D mtx;
@@ -192,11 +192,11 @@ void ParkingPlaceBehavior::buildInfo()
 		}
 	}
 
-	if (d->m_hasRunways)
+	if (parkingPlaceBehaviorModuleData->m_hasRunways)
 	{
 		RunwayInfo info;
-		m_runways.reserve(d->m_numCols);
-		for (Int col = 0; col < d->m_numCols; ++col)
+		m_runways.reserve(parkingPlaceBehaviorModuleData->m_numCols);
+		for (Int col = 0; col < parkingPlaceBehaviorModuleData->m_numCols; ++col)
 		{
 			AsciiString tmp;
 
@@ -411,7 +411,7 @@ Bool ParkingPlaceBehavior::reserveSpace(ObjectID id, Real parkingOffset, Parking
 	buildInfo();
 	purgeDead();
 
-	const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
+	const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
 
 	ParkingPlaceInfo* ppi = findPPI(id);
 	if (ppi == NULL)
@@ -427,7 +427,7 @@ Bool ParkingPlaceBehavior::reserveSpace(ObjectID id, Real parkingOffset, Parking
 	ppi->m_objectInSpace = id;
 	ppi->m_reservedForExit = false;
 	
-	if( d->m_landingDeckHeightOffset )
+	if( parkingPlaceBehaviorModuleData->m_landingDeckHeightOffset )
 	{
 		Object *obj = TheGameLogic->findObjectByID( id );
 		if( obj )
@@ -468,10 +468,10 @@ void ParkingPlaceBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 
 	if( info )
 	{
-		const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
-		info->parkingSpace = d->m_parkInHangars ? ppi->m_hangarStart : ppi->m_location;
+		const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
+		info->parkingSpace = parkingPlaceBehaviorModuleData->m_parkInHangars ? ppi->m_hangarStart : ppi->m_location;
 		info->runwayPrep = ppi->m_prep;
-		info->parkingOrientation = d->m_parkInHangars ? ppi->m_hangarStartOrient : ppi->m_orientation;
+		info->parkingOrientation = parkingPlaceBehaviorModuleData->m_parkInHangars ? ppi->m_hangarStartOrient : ppi->m_orientation;
 		info->runwayStart = rr.m_start;
 		info->runwayEnd = rr.m_end;
 		info->runwayApproach = rr.m_end;
@@ -479,7 +479,7 @@ void ParkingPlaceBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 		const Real APPROACH_DIST = 0.75f;
 		info->runwayApproach.x += (rr.m_end.x - rr.m_start.x) * APPROACH_DIST;
 		info->runwayApproach.y += (rr.m_end.y - rr.m_start.y) * APPROACH_DIST;
-		info->runwayApproach.z = rr.m_end.z + d->m_approachHeight + d->m_landingDeckHeightOffset;
+		info->runwayApproach.z = rr.m_end.z + parkingPlaceBehaviorModuleData->m_approachHeight + parkingPlaceBehaviorModuleData->m_landingDeckHeightOffset;
 		info->runwayExit = info->runwayApproach;
 		info->hangarInternal = ppi->m_hangarStart;
 		info->hangarInternalOrient = ppi->m_hangarStartOrient;
@@ -771,7 +771,7 @@ UpdateSleepTime ParkingPlaceBehavior::update()
 	if (now >= m_nextHealFrame)
 	{
 		m_nextHealFrame = now + HEAL_RATE_FRAMES;
-		const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
+		const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
 		for (std::list<HealingInfo>::iterator it = m_healing.begin(); it != m_healing.end(); /*++it*/)
 		{
 			if (it->m_gettingHealedID != INVALID_ID)
@@ -787,7 +787,7 @@ UpdateSleepTime ParkingPlaceBehavior::update()
 					healInfo.in.m_damageType = DAMAGE_HEALING;
 					healInfo.in.m_deathType = DEATH_NONE;
 					healInfo.in.m_sourceID = getObject()->getID();
-  				healInfo.in.m_amount = HEAL_RATE_FRAMES * d->m_healAmount * SECONDS_PER_LOGICFRAME_REAL;
+  				healInfo.in.m_amount = HEAL_RATE_FRAMES * parkingPlaceBehaviorModuleData->m_healAmount * SECONDS_PER_LOGICFRAME_REAL;
 
 //          if ( objToHeal->isKindOf( KINDOF_PRODUCED_AT_HELIPAD ) )
 //            healInfo.in.m_amount += HEAL_RATE_FRAMES * d->m_extraHealAmount4Helicopters * SECONDS_PER_LOGICFRAME_REAL;

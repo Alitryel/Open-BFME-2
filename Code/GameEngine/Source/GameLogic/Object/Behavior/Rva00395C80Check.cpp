@@ -58,8 +58,8 @@ struct Rva00395C80Key
 int rva00395C80(Object *obj)
 {
 	static Rva00395C80Key s_key("CastleMemberBehavior");
-	Module *m = obj->findModule(s_key.key);
-	if (m != 0 && m->m_flag25 != 0 && m->m_next->m_flag19 != 0)
+	Module *module = obj->findModule(s_key.key);
+	if (module != 0 && module->m_flag25 != 0 && module->m_next->m_flag19 != 0)
 		return false;
 	return true;
 }

@@ -53,10 +53,10 @@ extern void (Matrix3D::*const g_bfmeSetAxisAngleAnchor)(const Vector3 &, float);
 void (Matrix3D::*const g_bfmeSetAxisAngleAnchor)(const Vector3 &, float) = &Matrix3D::Set;
 #pragma inline_depth(0)
 // ?_bfmeMatrixCtorAnchor@@YAXPAVMatrix3D@@PAVOBBoxClass@@ABVVector3@@@Z absent-from-retail
-void _bfmeMatrixCtorAnchor(Matrix3D *m, OBBoxClass *b, const Vector3 &v)
+void _bfmeMatrixCtorAnchor(Matrix3D *m, OBBoxClass *oBBox, const Vector3 &v)
 {
 	new (m) Matrix3D(v);
 	new (m) Matrix3D(v, 0.0f);
-	new (b) OBBoxClass(v, v);
+	new (oBBox) OBBoxClass(v, v);
 }
 #pragma inline_depth()

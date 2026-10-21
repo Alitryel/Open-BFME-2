@@ -17,10 +17,10 @@ struct ConnectionVec
 	LivingWorldRegionConnection *m_finish;
 	LivingWorldRegionConnection *m_end;
 };
-LivingWorldRegionConnection *ConnectionVec::rva003F35B0(LivingWorldRegionConnection *a, LivingWorldRegionConnection *b)
+LivingWorldRegionConnection *ConnectionVec::rva003F35B0(LivingWorldRegionConnection *livingWorldRegionConnection, LivingWorldRegionConnection *b)
 {
-	Rva003F2A11 *mid = ((Rva003F325A4Fn)&Rva003F325ACopy)((Rva003F2A11 *)(void *)b, (Rva003F2A11 *)(void *)m_finish, (Rva003F2A11 *)(void *)a, (char *)&a + 3);
+	Rva003F2A11 *mid = ((Rva003F325A4Fn)&Rva003F325ACopy)((Rva003F2A11 *)(void *)b, (Rva003F2A11 *)(void *)m_finish, (Rva003F2A11 *)(void *)livingWorldRegionConnection, (char *)&livingWorldRegionConnection + 3);
 	Rva003F0CA1_DestroyRange((LivingWorldRegionConnection *)(void *)mid, m_finish);
 	m_finish = (LivingWorldRegionConnection *)(void *)mid;
-	return a;
+	return livingWorldRegionConnection;
 }

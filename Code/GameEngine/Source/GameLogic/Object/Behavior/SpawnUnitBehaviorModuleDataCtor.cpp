@@ -76,8 +76,8 @@ inline SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeSpawnUnitBehaviorModuleDataInlineAnchor@@YAXPAVSpawnUnitBehaviorModuleData@@@Z absent-from-retail
-void _bfmeSpawnUnitBehaviorModuleDataInlineAnchor(SpawnUnitBehaviorModuleData *p)
+void _bfmeSpawnUnitBehaviorModuleDataInlineAnchor(SpawnUnitBehaviorModuleData *spawnUnitBehaviorModuleData)
 {
-    p->SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData();
+    spawnUnitBehaviorModuleData->SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData();
 }
 #pragma inline_depth()

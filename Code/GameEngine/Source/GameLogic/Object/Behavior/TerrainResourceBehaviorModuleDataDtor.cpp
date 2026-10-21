@@ -40,7 +40,7 @@ private:
 TerrainResourceBehaviorModuleData::TerrainResourceBehaviorModuleData(TerrainResourceDtorVtableTag *)
 {
 }
-void deleteTerrainResourceBehaviorModuleData(TerrainResourceBehaviorModuleData *p)
+void deleteTerrainResourceBehaviorModuleData(TerrainResourceBehaviorModuleData *terrainResourceBehaviorModuleData)
 {
-	delete p;
+	delete terrainResourceBehaviorModuleData;
 }

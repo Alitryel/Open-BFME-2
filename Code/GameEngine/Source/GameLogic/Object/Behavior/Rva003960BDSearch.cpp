@@ -57,9 +57,9 @@ bool __cdecl rva003960BD(Int rel, const Rva0036BDD0Vec *v1, const Rva0036BDD0Vec
 	Rva0036BDD0 box;
 	box.set(v1, v2);
 	while (mask != 0) {
-		Player *p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p != 0) {
-			if (p->iterateObjects(rva00796023, &box) == 0)
+		Player *player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player != 0) {
+			if (player->iterateObjects(rva00796023, &box) == 0)
 				return false;
 		}
 	}

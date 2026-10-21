@@ -60,7 +60,7 @@ __declspec(noinline) inline SpawnBehaviorModuleData::~SpawnBehaviorModuleData()
 }
 
 // ?bfmeAnchorSpawnBehaviorModuleDataDtor absent-from-retail
-void bfmeAnchorSpawnBehaviorModuleDataDtor(SpawnBehaviorModuleData *p)
+void bfmeAnchorSpawnBehaviorModuleDataDtor(SpawnBehaviorModuleData *spawnBehaviorModuleData)
 {
-	p->SpawnBehaviorModuleData::~SpawnBehaviorModuleData();
+	spawnBehaviorModuleData->SpawnBehaviorModuleData::~SpawnBehaviorModuleData();
 }

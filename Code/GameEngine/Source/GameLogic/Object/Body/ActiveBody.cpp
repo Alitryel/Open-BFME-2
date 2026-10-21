@@ -1111,8 +1111,8 @@ void ActiveBody::attemptHealing(DamageInfo *damageInfo)
 		return;
 	}
 
-	const ThingTemplate *tmpl = obj->getTemplate();
-	if (!tmpl->m_byte632 && !tmpl->testKindOf(150) && !tmpl->testKindOf(22) && !tmpl->testKindOf(24)
+	const ThingTemplate *thingTemplate = obj->getTemplate();
+	if (!thingTemplate->m_byte632 && !thingTemplate->testKindOf(150) && !thingTemplate->testKindOf(22) && !thingTemplate->testKindOf(24)
 		&& (obj->m_flags438 & 1))
 		return;
 
@@ -1131,11 +1131,11 @@ void ActiveBody::attemptHealing(DamageInfo *damageInfo)
 
 		if (m_currentHealth > m_prevHealth)
 		{
-			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 			{
-				DamageModuleInterface *d = (*m)->m_iface.getDamage();
-				if (d)
-					d->onHealing(damageInfo);
+				DamageModuleInterface *damageModule = (*behaviorModule)->m_iface.getDamage();
+				if (damageModule)
+					damageModule->onHealing(damageInfo);
 			}
 
 			if (!obj->getTemplate()->testKindOf(7) && md->m_healingFX && !obj->testStatusBit6())
@@ -1146,11 +1146,11 @@ void ActiveBody::attemptHealing(DamageInfo *damageInfo)
 
 		if (m_curDamageState != oldState)
 		{
-			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 			{
-				DamageModuleInterface *d = (*m)->m_iface.getDamage();
-				if (d)
-					d->onBodyDamageStateChange(damageInfo, oldState, m_curDamageState);
+				DamageModuleInterface *damageModule = (*behaviorModule)->m_iface.getDamage();
+				if (damageModule)
+					damageModule->onBodyDamageStateChange(damageInfo, oldState, m_curDamageState);
 			}
 
 			if (m_linkedObjectID)
@@ -1414,10 +1414,10 @@ void ActiveBody::internalChangeHealth(Real delta, DamageInfo *damageInfo)
 // detected (bit 17), and the object must not have status 24.
 Bool ActiveBody::shouldRetaliate(Object *obj)
 {
-	const ThingTemplate *tmpl = obj->getTemplate();
-	if (tmpl->testKindOf(173))
+	const ThingTemplate *thingTemplate = obj->getTemplate();
+	if (thingTemplate->testKindOf(173))
 		return false;
-	if (tmpl->testKindOf(2))
+	if (thingTemplate->testKindOf(2))
 		return false;
 
 	AIUpdateInterface *ai = obj->getAI();
@@ -1753,8 +1753,8 @@ struct ActiveBodySidePoint
 {
 	Real x, y, z;
 	ActiveBodySidePoint() {}
-	ActiveBodySidePoint(const ActiveBodySidePoint &r)
-	{ x = r.x; y = r.y; z = r.z; }
+	ActiveBodySidePoint(const ActiveBodySidePoint &activeBodySidePoint)
+	{ x = activeBodySidePoint.x; y = activeBodySidePoint.y; z = activeBodySidePoint.z; }
 	~ActiveBodySidePoint() {}
 };
 struct ActiveBodyDamageVector
@@ -1857,7 +1857,7 @@ class Vector4
 public:
 	float X, Y, Z, W;
 	Vector4() {}
-	Vector4(const Vector4 &r) { X = r.X; Y = r.Y; Z = r.Z; W = r.W; }
+	Vector4(const Vector4 &vector4) { X = vector4.X; Y = vector4.Y; Z = vector4.Z; W = vector4.W; }
 	__forceinline Vector4 &operator=(const Vector4 &r)
 	{ X = r.X; Y = r.Y; Z = r.Z; W = r.W; return *this; }
 	float &operator[](int i) { return (&X)[i]; }
@@ -1940,8 +1940,8 @@ static inline const Real &healthMin(const Real &a,const Real &b) { return b<a?b:
 // The mask tests go through inline helpers taking the object (they keep
 // damageInfo in EBX), and the second contain lookup re-fetches through
 // getContainedBy() as retail reloads it.
-static inline Bool testStatusAny(const Object *o, const ObjectStatusMaskType &m) { return m.testForAny(&o->m_status); }
-static inline Bool testKindAny(const Object *o, const KindOfMaskType &m) { return m.anyIntersectionWith(o->m_kindOfMask); }
+static inline Bool testStatusAny(const Object *object, const ObjectStatusMaskType &objectStatusMaskType) { return objectStatusMaskType.testForAny(&object->m_status); }
+static inline Bool testKindAny(const Object *object, const KindOfMaskType &kindOfMaskType) { return kindOfMaskType.anyIntersectionWith(object->m_kindOfMask); }
 void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 {
 	validateArmorAndDamageFX();
@@ -2075,11 +2075,11 @@ void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 
 		if (m_currentHealth < m_prevHealth)
 		{
-			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 			{
-				DamageModuleInterface *d = (*m)->m_iface.getDamage();
-				if (d)
-					d->onDamage(damageInfo);
+				DamageModuleInterface *damageModule = (*behaviorModule)->m_iface.getDamage();
+				if (damageModule)
+					damageModule->onDamage(damageInfo);
 			}
 
 			if (damager)
@@ -2088,11 +2088,11 @@ void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 
 		if (m_curDamageState != oldState)
 		{
-			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 			{
-				DamageModuleInterface *d = (*m)->m_iface.getDamage();
-				if (d)
-					d->onBodyDamageStateChange(damageInfo, oldState, m_curDamageState);
+				DamageModuleInterface *damageModule = (*behaviorModule)->m_iface.getDamage();
+				if (damageModule)
+					damageModule->onBodyDamageStateChange(damageInfo, oldState, m_curDamageState);
 			}
 
 			if (m_curDamageState == BODY_DAMAGED && md->m_damagedDisableFrames > 0.0f)

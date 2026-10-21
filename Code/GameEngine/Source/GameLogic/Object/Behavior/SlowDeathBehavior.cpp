@@ -87,8 +87,8 @@ static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*u
 	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
 	{
 		const FXList *fxl = TheFXListStore->findFXList((token));	// could be null! this is OK!
-		FXListVec * const bfmeFx = (FXListVec *)((char *)self + 0x58);
-		bfmeFx[sdphase].push_back(fxl);
+		FXListVec * const fXListVec = (FXListVec *)((char *)self + 0x58);
+		fXListVec[sdphase].push_back(fxl);
 		if (fxl)
 			*((Byte *)self + 0x1A4) |= SlowDeathBehaviorModuleData::HAS_FX;
 	}
@@ -107,8 +107,8 @@ static void parseOCL( INI* ini, void *instance, void * /*store*/, const void* /*
 		// lea esi,[ebx+ecx*4+0x88]. Correcting the header is the real fix and
 		// the full gate is red (docs/lessons.md), so the array base is taken at
 		// the retail offset here.
-		OCLVec * const bfmeOcls = (OCLVec *)((char *)self + 0x88);
-		bfmeOcls[sdphase].push_back(ocl);
+		OCLVec * const oCLVec = (OCLVec *)((char *)self + 0x88);
+		oCLVec[sdphase].push_back(ocl);
 		if (ocl)
 			// and m_maskOfLoadedEffects at this+0x1A4, not +0xBC: retail
 			// @0x00209862 does or byte ptr [ebx+0x1A4],2.

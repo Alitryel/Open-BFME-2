@@ -60,7 +60,7 @@ struct FormationNode { FormationNode *next,*prev; Object *object; };
 struct FormationList { FormationNode *head; };
 struct FormationRange {
  void *owner; FormationList *list;
- unsigned int size() const { unsigned int n=0; for(FormationNode *p=list->head->next;p!=list->head;p=p->next) ++n; return n; }
+ unsigned int size() const { unsigned int n=0; for(FormationNode *formationNode=list->head->next;formationNode!=list->head;formationNode=formationNode->next) ++n; return n; }
 };
 class FormationListProvider : public FormationSlots<70> { public: virtual void fill(FormationRange *)=0; };
 struct FormationHeld { unsigned char pad[0x120]; bool active; };

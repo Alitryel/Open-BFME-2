@@ -25,10 +25,10 @@ struct AODSway : Coord2D
   x=v.x;
   y=v.y;
  }
- AODSway(const AODSway &v)
+ AODSway(const AODSway &aODSway)
  {
-  x=v.x;
-  y=v.y;
+  x=aODSway.x;
+  y=aODSway.y;
  }
  ~AODSway()
  {

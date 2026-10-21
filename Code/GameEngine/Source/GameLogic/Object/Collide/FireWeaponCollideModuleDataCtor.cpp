@@ -61,8 +61,8 @@ inline FireWeaponCollideModuleData::FireWeaponCollideModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeFireWeaponCollideModuleDataInlineAnchor@@YAXPAVFireWeaponCollideModuleData@@@Z absent-from-retail
-void _bfmeFireWeaponCollideModuleDataInlineAnchor(FireWeaponCollideModuleData *p)
+void _bfmeFireWeaponCollideModuleDataInlineAnchor(FireWeaponCollideModuleData *fireWeaponCollideModuleData)
 {
-    p->FireWeaponCollideModuleData::FireWeaponCollideModuleData();
+    fireWeaponCollideModuleData->FireWeaponCollideModuleData::FireWeaponCollideModuleData();
 }
 #pragma inline_depth()

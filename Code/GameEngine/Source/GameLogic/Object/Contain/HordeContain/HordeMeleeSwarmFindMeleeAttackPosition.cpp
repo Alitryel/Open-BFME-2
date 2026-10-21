@@ -276,9 +276,9 @@ Bool HordeMeleeSwarm::findMeleeAttackPosition(Object *obj, Coord3D *result, Obje
 						Int ids[16];
 						if (TheAI->pathfinder()->GetOverlapGoalUnits(obj, &cand, ids) == 2 && weapon)
 						{
-							Object *a = TheGameLogic->findObjectByID((ObjectID)ids[0]);
+							Object *object = TheGameLogic->findObjectByID((ObjectID)ids[0]);
 							Object *b = TheGameLogic->findObjectByID((ObjectID)ids[1]);
-							if (a && b && a->getTeamValue() == b->getTeamValue() && obj->getTeamValue() == a->getTeamValue())
+							if (object && b && object->getTeamValue() == b->getTeamValue() && obj->getTeamValue() == object->getTeamValue())
 							{
 								if (const_cast<Weapon *>(weapon)->isWithinAttackRange(obj, &cand, victim, victimPos, 0.0f, true))
 								{

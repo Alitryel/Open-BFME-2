@@ -29,10 +29,10 @@ private:
 	char m_pad04[4];
 	DynamicPortalLink *m_finish;
 };
-DynamicPortalLink *Rva003F3159::rva003F3159(DynamicPortalLink *a, DynamicPortalLink *b)
+DynamicPortalLink *Rva003F3159::rva003F3159(DynamicPortalLink *dynamicPortalLink, DynamicPortalLink *b)
 {
-	DynamicPortalLink *mid = (DynamicPortalLink *)((Rva003F2460Copy4Fn)&Rva003F2460Copy)((char *)b, (char *)m_finish, (char *)a, (char *)&a + 3);
+	DynamicPortalLink *mid = (DynamicPortalLink *)((Rva003F2460Copy4Fn)&Rva003F2460Copy)((char *)b, (char *)m_finish, (char *)dynamicPortalLink, (char *)&dynamicPortalLink + 3);
 	_STL::_Destroy(mid, m_finish);
 	m_finish = mid;
-	return a;
+	return dynamicPortalLink;
 }

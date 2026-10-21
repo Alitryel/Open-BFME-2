@@ -27,8 +27,8 @@ inline Module *CaveContain::friend_newModuleInstance(Thing *thing, const ModuleD
 }
 #pragma inline_depth(0)
 // ?bfmeEmitCaveContainFriendNew@@YAXPAVCaveContain@@@Z present-unmatched
-void bfmeEmitCaveContainFriendNew(CaveContain *p)
+void bfmeEmitCaveContainFriendNew(CaveContain *caveContain)
 {
-	p->friend_newModuleInstance(0, 0);
+	caveContain->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

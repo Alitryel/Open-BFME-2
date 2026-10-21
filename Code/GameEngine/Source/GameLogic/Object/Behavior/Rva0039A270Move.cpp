@@ -273,16 +273,16 @@ void Rva0039A270MoveOwner::rva0039A270Move(Object *src)
         &pos, radius, 3, &Rva00261603Filter(pos, gi, src->m_angle44, true), 0);
     for (Object *them = iter.next(); them; them = iter.next())
     {
-        ThingTemplate *tmpl = them->m_template04;
-        if (tmpl->m_kind0B & 2)
+        ThingTemplate *thingTemplate = them->m_template04;
+        if (thingTemplate->m_kind0B & 2)
             continue;
-        if (tmpl->m_kind10 & 0x40)
+        if (thingTemplate->m_kind10 & 0x40)
             continue;
-        if (tmpl->m_kind0D & 1)
+        if (thingTemplate->m_kind0D & 1)
             continue;
-        if (tmpl->m_kind07 & 0x10)
+        if (thingTemplate->m_kind07 & 0x10)
             continue;
-        if (tmpl->m_kind00 & 4)
+        if (thingTemplate->m_kind00 & 4)
             continue;
         Slot114Module *mod = (Slot114Module *)them->rva0029439D();
         if (mod && mod->slot114())

@@ -91,7 +91,7 @@ bool Rva0046333B::rva0046333B(int*a,int*b,int*c,int*d,int*e,int*f){
   reinterpret_cast<Rva0046247D*>(reinterpret_cast<char*>(this)-0x20)->rva0046247D(pair);
   *c=0;
   Node**head=static_cast<Node**>(pair.b);
-  for(Node*n=(*head)->next;n!=*head;n=n->next)if(n->object->type->kindof&1)++*c;
+  for(Node*node=(*head)->next;node!=*head;node=node->next)if(node->object->type->kindof&1)++*c;
   return true;
  }
  *a=0;*b=0;return false;

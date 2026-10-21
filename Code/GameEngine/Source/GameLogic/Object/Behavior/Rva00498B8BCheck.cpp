@@ -18,15 +18,15 @@ public:
 	int rva0028B511() const;
 };
 
-unsigned char __cdecl Rva00498B8BGet(Object *p)
+unsigned char __cdecl Rva00498B8BGet(Object *object)
 {
-	if (p == 0)
+	if (object == 0)
 		return 0;
 	else
 	{
-		Rva00498B8BInner *inner = p->m_inner;
+		Rva00498B8BInner *inner = object->m_inner;
 		if ((inner->m_flag108 & 4) != 0)
 			return 0;
-		return (unsigned char)(p->rva0028B511() == 1);
+		return (unsigned char)(object->rva0028B511() == 1);
 	}
 }

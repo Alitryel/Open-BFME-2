@@ -26,14 +26,14 @@ public:
 	unsigned int m_11C; // +0x11C
 };
 
-static inline unsigned int rva004534F5TestA(const ThingTemplate *t)
+static inline unsigned int rva004534F5TestA(const ThingTemplate *thingTemplate)
 {
-	return t->m_11C & 0x20000000;
+	return thingTemplate->m_11C & 0x20000000;
 }
 
-static inline unsigned int rva004534F5TestB(const ThingTemplate *t)
+static inline unsigned int rva004534F5TestB(const ThingTemplate *thingTemplate)
 {
-	return t->m_118 & 0x10000000;
+	return thingTemplate->m_118 & 0x10000000;
 }
 
 // ThingFactory::findTemplate (0x002D06CA) is rowed as ThingFactory::rva002D06CA.
@@ -43,9 +43,9 @@ public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
 };
 class ThingFactory;
-static inline const ThingTemplate *rva004534F5Find(ThingFactory *f, const AsciiString &name)
+static inline const ThingTemplate *rva004534F5Find(ThingFactory *thingFactory, const AsciiString &name)
 {
-	return ((ThingFactory *)f)->findTemplate(name);
+	return ((ThingFactory *)thingFactory)->findTemplate(name);
 }
 
 extern ThingFactory *TheThingFactory;
@@ -151,8 +151,8 @@ void GettingBuiltBehavior::rva004534F5()
 		else
 			named = rva004534F5Find(TheThingFactory, data->m_14);
 	}
-	const ThingTemplate *tmpl = obj->m_template;
-	if (rva004534F5TestA(tmpl) || (rva004534F5TestB(tmpl) && (!named || rva004534F5TestA(named) || rva004534F5TestB(named))))
+	const ThingTemplate *thingTemplate = obj->m_template;
+	if (rva004534F5TestA(thingTemplate) || (rva004534F5TestB(thingTemplate) && (!named || rva004534F5TestA(named) || rva004534F5TestB(named))))
 		rva00453652(1);
 	Object *me = m_object;
 	if (me->testStatus((ObjectStatusTypes)0x57))

@@ -331,9 +331,9 @@ bool OpenContainActionIface::rva00462955(Object *obj, int)
 	return true;
 }
 
-char OpenContainActionIface::rva00462BFF(const Object *a, const Object *b) const
+char OpenContainActionIface::rva00462BFF(const Object *object, const Object *b) const
 {
-	if (a && b)
+	if (object && b)
 	{
 		const OpenContain *contain = (const OpenContain *)((const char *)this - 0x20);
 		const OpenContainModuleDataView *md = (const OpenContainModuleDataView *)contain->m_moduleData;
@@ -341,17 +341,17 @@ char OpenContainActionIface::rva00462BFF(const Object *a, const Object *b) const
 			return 0;
 
 		const Object *owner = contain->m_object;
-		if (a->m_pos38.z - owner->m_pos38.z > md->m_threshold68)
+		if (object->m_pos38.z - owner->m_pos38.z > md->m_threshold68)
 			return 0;
 
 		Coord3D ab;
 		coordSet(ab, &b->m_pos38);
-		coordSub(ab, &a->m_pos38);
+		coordSub(ab, &object->m_pos38);
 		ab.z = 0.0f;
 
 		Coord3D ao;
 		coordSet(ao, &owner->m_pos38);
-		coordSub(ao, &a->m_pos38);
+		coordSub(ao, &object->m_pos38);
 		ao.z = 0.0f;
 
 		if (Vector3::Dot_Product(Vector3(ao.x, ao.y, ao.z), Vector3(ab.x, ab.y, ab.z)) < 0.0f)

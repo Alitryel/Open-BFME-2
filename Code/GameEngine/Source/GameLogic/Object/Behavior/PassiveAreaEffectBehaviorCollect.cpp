@@ -122,14 +122,14 @@ struct AreaData {char pad00[8];float radius;char pad0C[0x20-0x0C];char sub20;};
 class PassiveAreaEffectBehavior {public:virtual void rva00484C8B();AreaData *data;Object *object;char pad0C[0x24-0x0C];_STL::list<int> ids;};
 void PassiveAreaEffectBehavior::rva00484C8B()
 {
- Object *owner=object;AreaData *d=data;
+ Object *owner=object;AreaData *areaData=data;
  ids.clear();
  Rva00260EB1Filter relationship(owner,4,false);
  Rva0026119DFilter alive;
  Rva002611BFFilter sameMap(owner);
- Rva002614ECFilter match(&d->sub20,owner->getControllingPlayer(),true);
+ Rva002614ECFilter match(&areaData->sub20,owner->getControllingPlayer(),true);
  relationship.link(&alive);relationship.link(&sameMap);relationship.link(&match);
- BfmeWideResult iterator=ThePartitionManager->iterateObjectsInRange(&owner->position,d->radius,0,&relationship,1);
+ BfmeWideResult iterator=ThePartitionManager->iterateObjectsInRange(&owner->position,areaData->radius,0,&relationship,1);
  Object *other=iterator.next();
  if(other)do{
   if(other!=owner&&!((const Thing*)other)->isAnyKindOf(Rva0006EE7A(0,47,151))){

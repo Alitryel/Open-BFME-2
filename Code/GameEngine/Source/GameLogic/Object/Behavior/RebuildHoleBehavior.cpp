@@ -180,9 +180,9 @@ RebuildHoleBehaviorInterface *RebuildHoleBehavior::getRebuildHoleBehaviorInterfa
 	{
 		if ((*i)->getModuleTag() == key)
 		{
-			BehaviorModule *m = *i;
-			if (m)
-				return (RebuildHoleBehaviorInterface *)((char *)m + 0x24);
+			BehaviorModule *behaviorModule = *i;
+			if (behaviorModule)
+				return (RebuildHoleBehaviorInterface *)((char *)behaviorModule + 0x24);
 			return 0;
 		}
 	}

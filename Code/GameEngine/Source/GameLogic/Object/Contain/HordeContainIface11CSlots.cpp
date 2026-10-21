@@ -591,7 +591,7 @@ public:
 	}
 	bool test110(int bit) const { return ((m_110 >> bit) & 1) != 0; }
 	const Coord3D *getPosition() const { return &m_position; }
-	bool isEquivalentTemplate(const ThingTemplate *t) const { return m_template->isEquivalentTo(t); }
+	bool isEquivalentTemplate(const ThingTemplate *thingTemplate) const { return m_template->isEquivalentTo(thingTemplate); }
 	// This local +0x114 mask view must not emit the generic +0x108 kind helper.
 	__forceinline unsigned int hordeKindMask(int kind) const
 	{
@@ -2926,10 +2926,10 @@ Object *HordeContain::rva004708BC(const Matrix3D *mtx)
 	Rva0046A2ECContain *contain = self->m_250;
 	if (contain)
 	{
-	const ThingTemplate *tmpl = (const ThingTemplate *)rva0046AF12();
-	if (tmpl)
+	const ThingTemplate *thingTemplate = (const ThingTemplate *)rva0046AF12();
+	if (thingTemplate)
 	{
-		result = ((Rva00466FE0Iface *)((char *)(UpdateModule *)this + 0xFC))->rva00466FE0(tmpl, contain, self, tmpl->m_64.str(), 0);
+		result = ((Rva00466FE0Iface *)((char *)(UpdateModule *)this + 0xFC))->rva00466FE0(thingTemplate, contain, self, thingTemplate->m_64.str(), 0);
 		if (self->testStatus((ObjectStatusTypes)0x3E))
 			self->bfmeTransferReplacementState(result);
 		TheGameLogic->rva0023D0C2(result, self->m_45C);
@@ -3334,16 +3334,16 @@ void rva004698EE(Object *obj, void *userData)
 {
 	if (!obj)
 		return;
-	const ThingTemplate *tmpl = obj->m_template;
-	if (!tmpl || tmpl->hordeKindMask(68))
+	const ThingTemplate *thingTemplate = obj->m_template;
+	if (!thingTemplate || thingTemplate->hordeKindMask(68))
 		return;
 	Rva004698EEData *data = (Rva004698EEData *)userData;
 	if (data->m_value == 0)
 	{
-		data->m_value = tmpl->m_5D8;
+		data->m_value = thingTemplate->m_5D8;
 		return;
 	}
-	if (tmpl->m_5D8 != data->m_value)
+	if (thingTemplate->m_5D8 != data->m_value)
 		data->m_differs = true;
 }
 
@@ -3374,8 +3374,8 @@ void rva00469689(Object *obj, void *userData)
 {
 	if (!obj)
 		return;
-	const ThingTemplate *tmpl = obj->m_template;
-	if (!tmpl || tmpl->hordeKindMask(68))
+	const ThingTemplate *thingTemplate = obj->m_template;
+	if (!thingTemplate || thingTemplate->hordeKindMask(68))
 		return;
 	Rva00469689Data *data = (Rva00469689Data *)userData;
 	if (data->m_id != INVALID_ID && !(obj->m_264->m_10 > data->m_best))
@@ -3507,11 +3507,11 @@ void rva00468AEC(Object *obj, void *userData)
 {
 	if (!obj)
 		return;
-	const ThingTemplate *tmpl = obj->m_template;
-	if (!tmpl)
+	const ThingTemplate *thingTemplate = obj->m_template;
+	if (!thingTemplate)
 		return;
 	Rva00468AECData *data = (Rva00468AECData *)userData;
-	if (tmpl->m_5D8 != data->m_key)
+	if (thingTemplate->m_5D8 != data->m_key)
 		return;
 	if (obj->m_264)
 		obj->m_264->rva0039B3D1(data->m_value, false);
@@ -3838,10 +3838,10 @@ bool HordeContain::rva0046CDC9()
 	unsigned int count = objects.size();
 	if (count >= 1)
 	{
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(fields()->m_1B0);
-		if (tmpl)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(fields()->m_1B0);
+		if (thingTemplate)
 		{
-			const ModuleInfo *info = &tmpl->m_moduleInfo;
+			const ModuleInfo *info = &thingTemplate->m_moduleInfo;
 			int n = info->getCount();
 			for (int i = 0; i < n; ++i)
 			{
@@ -3872,10 +3872,10 @@ bool HordeContain::rva0046CCEF(const ThingTemplate *want)
 	unsigned int count = objects.size();
 	if (count < 1)
 		return false;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(fields()->m_1B0);
-	if (!tmpl || want != tmpl)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(fields()->m_1B0);
+	if (!thingTemplate || want != thingTemplate)
 		return false;
-	const ModuleInfo *info = &tmpl->m_moduleInfo;
+	const ModuleInfo *info = &thingTemplate->m_moduleInfo;
 	int n = info->getCount();
 	for (int i = 0; i < n; ++i)
 	{
@@ -4334,8 +4334,8 @@ bool HordeContain::rva0046970D(Object *obj, int a2, const Rva00469851Names *name
 	short key = obj->m_template->m_5D8;
 	for (const AsciiString *name = names->begin(); name != names->end(); ++name)
 	{
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(*name);
-		if (tmpl && tmpl->m_5D8 == key)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*name);
+		if (thingTemplate && thingTemplate->m_5D8 == key)
 			return true;
 	}
 	return false;
@@ -4428,18 +4428,18 @@ void HordeContain::checkSpecialUnitDeath(Object *obj)
 // the first; the entry's template is reported and its index returned.
 int HordeContain::getBannerCarrierIndexToUse(const Object *obj, const ThingTemplate **outTemplate)
 {
-	const ThingTemplate *tmpl = obj->m_template;
+	const ThingTemplate *thingTemplate = obj->m_template;
 	const _STL::vector<BannerIndexEntry *> &indexVec = m_bannerIndices;
 	if (indexVec.empty())
 		return -1;
-	if (tmpl->hordeKindMask(13))
+	if (thingTemplate->hordeKindMask(13))
 	{
 		*outTemplate = indexVec[0]->m_template;
 		return indexVec[0]->m_index;
 	}
 	for (unsigned int i = 0; i < indexVec.size(); ++i)
 	{
-		if (indexVec[i]->m_template == tmpl)
+		if (indexVec[i]->m_template == thingTemplate)
 		{
 			*outTemplate = indexVec[i]->m_template;
 			return indexVec[i]->m_index;

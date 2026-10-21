@@ -27,8 +27,8 @@ inline Module *FireWeaponWhenDeadBehavior::friend_newModuleInstance(Thing *thing
 }
 #pragma inline_depth(0)
 // ?bfmeEmitFireWeaponWhenDeadBehaviorFriendNew@@YAXPAVFireWeaponWhenDeadBehavior@@@Z present-unmatched
-void bfmeEmitFireWeaponWhenDeadBehaviorFriendNew(FireWeaponWhenDeadBehavior *p)
+void bfmeEmitFireWeaponWhenDeadBehaviorFriendNew(FireWeaponWhenDeadBehavior *fireWeaponWhenDeadBehavior)
 {
-	p->friend_newModuleInstance(0, 0);
+	fireWeaponWhenDeadBehavior->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

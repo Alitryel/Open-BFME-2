@@ -97,9 +97,9 @@ UpdateSleepTime GettingBuiltBehaviorUpdateReceiver::update()
          TheAI->pathfinder->RemoveObjectFromPathfindMap(obj);
          TheAI->pathfinder->AddObjectToPathfindMap(obj);
          float orientation=obj->orientation;
-         const ThingTemplate *tmplate=obj->tmplate;
+         const ThingTemplate *thingTemplate=obj->tmplate;
          Player *player=obj->getControllingPlayer();
-         TheBuildAssistant->moveObjectsForConstruction(tmplate,&obj->position,orientation,player);
+         TheBuildAssistant->moveObjectsForConstruction(thingTemplate,&obj->position,orientation,player);
        }
      }
      obj->rva0028FEA7(health,obj,2);

@@ -68,8 +68,8 @@ inline FireWeaponWhenDamagedBehaviorModuleData::FireWeaponWhenDamagedBehaviorMod
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeFireWeaponWhenDamagedBehaviorModuleDataInlineAnchor@@YAXPAVFireWeaponWhenDamagedBehaviorModuleData@@@Z absent-from-retail
-void _bfmeFireWeaponWhenDamagedBehaviorModuleDataInlineAnchor(FireWeaponWhenDamagedBehaviorModuleData *p)
+void _bfmeFireWeaponWhenDamagedBehaviorModuleDataInlineAnchor(FireWeaponWhenDamagedBehaviorModuleData *fireWeaponWhenDamagedBehaviorModuleData)
 {
-    p->FireWeaponWhenDamagedBehaviorModuleData::FireWeaponWhenDamagedBehaviorModuleData();
+    fireWeaponWhenDamagedBehaviorModuleData->FireWeaponWhenDamagedBehaviorModuleData::FireWeaponWhenDamagedBehaviorModuleData();
 }
 #pragma inline_depth()

@@ -87,10 +87,10 @@ void HorseHordeContain::rva00476749(){
 bool HorseHordeContain::rva0047676B(float angle){
  Rva0046247DPair pair;
  reinterpret_cast<ContainView*>(reinterpret_cast<char*>(this)-0xFC)->items(pair);
- Node*n=(*static_cast<Node**>(pair.b))->next;
+ Node*node=(*static_cast<Node**>(pair.b))->next;
  float maxTurn=0.0f;
- for(;n!=*static_cast<Node**>(pair.b);n=n->next){
-  Object*o=n->object;
+ for(;node!=*static_cast<Node**>(pair.b);node=node->next){
+  Object*o=node->object;
   if(maxTurn==0.0f && o->rva0028AC4E())maxTurn=reinterpret_cast<const Locomotor*>(o->rva0028AC4E())->getMaxTurnRate(o);
   if(fabs(normalizeAngle(angle-o->getOrientation()))>maxTurn)return false;
  }

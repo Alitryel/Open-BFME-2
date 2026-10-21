@@ -57,13 +57,13 @@ public:
 
 void Rva00397756::rva00397756(IdRange *range, int arg)
 {
-	ObjectID *p = range->first;
-	if (p == range->last)
+	ObjectID *objectID = range->first;
+	if (objectID == range->last)
 		return;
 	do {
-		Object *obj = TheGameLogic->findObjectByID(*p);
+		Object *obj = TheGameLogic->findObjectByID(*objectID);
 		if (obj != 0)
 			TheGameLogic->rva0023D0C2(obj, arg);
-		++p;
-	} while (p != range->last);
+		++objectID;
+	} while (objectID != range->last);
 }

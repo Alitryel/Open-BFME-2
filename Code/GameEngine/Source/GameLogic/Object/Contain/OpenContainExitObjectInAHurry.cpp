@@ -116,9 +116,9 @@ public:
  char pad34[0x6c-0x34];int whichExitPath;unsigned int doorCloseCountdown;
  char pad74[0xd0-0x74];Coord3D rallyPoint;bool rallyPointExists;
 };
-static __forceinline void concatChar(AsciiString &s,char c)
+static __forceinline void concatChar(AsciiString &asciiString,char c)
 {
- ((StringBase<char>*)&s)->concat(&c,1);
+ ((StringBase<char>*)&asciiString)->concat(&c,1);
 }
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z, retail 0x0046525F..0x004656DF
 // (1152 bytes, EH, RET 8). BFME2 adds the arrival branch for owners without exit paths; the

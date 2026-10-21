@@ -270,12 +270,12 @@ private:
 
 UpdateSleepTime TerrainResourceBehavior::update()
 {
-	const TerrainResourceBehaviorModuleData *d = getTerrainResourceBehaviorModuleData();
+	const TerrainResourceBehaviorModuleData *terrainResourceBehaviorModuleData = getTerrainResourceBehaviorModuleData();
 	Object *obj = getObject();
 	if (!m_registered)
 	{
 		reinterpret_cast<TerrainResourceLogicView *>(TheGameLogic)->getManager()->rva0035A238(
-			reinterpret_cast<Rva0035A238Argument *>(obj), d->m_radius, d->m_visible, d->m_highPriority);
+			reinterpret_cast<Rva0035A238Argument *>(obj), terrainResourceBehaviorModuleData->m_radius, terrainResourceBehaviorModuleData->m_visible, terrainResourceBehaviorModuleData->m_highPriority);
 		m_registered = true;
 		if (m_sleepAfterRegister)
 			return UPDATE_SLEEP_FOREVER;
@@ -286,8 +286,8 @@ UpdateSleepTime TerrainResourceBehavior::update()
 	{
 		TerrainResourceCountData data;
 		Real bonus = 1.0f;
-		if (d->m_upgrade && player->rva002AB87D(d->m_upgrade) && player->rva002AB2D9(d->upgradeMustBePresent(), true))
-			bonus = d->m_upgradeBonusPercent;
+		if (terrainResourceBehaviorModuleData->m_upgrade && player->rva002AB87D(terrainResourceBehaviorModuleData->m_upgrade) && player->rva002AB2D9(terrainResourceBehaviorModuleData->upgradeMustBePresent(), true))
+			bonus = terrainResourceBehaviorModuleData->m_upgradeBonusPercent;
 
 		Real percent = 0.0f;
 		obj->rva0028C15E(0x0D, &percent, 0, 1);
@@ -311,7 +311,7 @@ UpdateSleepTime TerrainResourceBehavior::update()
 			}
 		}
 
-		Int amount = REAL_TO_INT_CEIL(d->m_maxIncome * m_incomeScale * percent * bonus);
+		Int amount = REAL_TO_INT_CEIL(terrainResourceBehaviorModuleData->m_maxIncome * m_incomeScale * percent * bonus);
 		if (amount > 0)
 		{
 			amount = REAL_TO_INT_CEIL(amount * factor);
@@ -334,5 +334,5 @@ UpdateSleepTime TerrainResourceBehavior::update()
 		if (tracker && ((Rva0039ADF3 *)tracker)->rva0039AE04())
 			tracker->rva0039B315((Real)amount, true, true, true, false);
 	}
-	return (UpdateSleepTime)d->m_incomeInterval;
+	return (UpdateSleepTime)terrainResourceBehaviorModuleData->m_incomeInterval;
 }

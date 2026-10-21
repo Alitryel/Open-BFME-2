@@ -201,7 +201,7 @@ private:
 
 void FireWeaponWhenDeadBehavior::onDie( const DamageInfo *damageInfo )
 {
-	const FireWeaponWhenDeadBehaviorModuleData* d = getFireWeaponWhenDeadBehaviorModuleData();
+	const FireWeaponWhenDeadBehaviorModuleData* fireWeaponWhenDeadBehaviorModuleData = getFireWeaponWhenDeadBehaviorModuleData();
 	if (m_delayCount > 0)
 	{
 		m_damageInfo = *(const Rva003427DD *)damageInfo;
@@ -210,12 +210,12 @@ void FireWeaponWhenDeadBehavior::onDie( const DamageInfo *damageInfo )
 	}
 	if (!isActiveUpgrade() && !getFireWeaponWhenDeadBehaviorModuleData()->m_startsActive)
 		return;
-	if (!d->m_dieMuxData.isDieApplicable(getObject(), damageInfo))
+	if (!fireWeaponWhenDeadBehaviorModuleData->m_dieMuxData.isDieApplicable(getObject(), damageInfo))
 		return;
 	Object *obj = getObject();
 	if (obj->testStatus(OBJECT_STATUS_BFME_56))
 		return;
-	if (!d->m_activeDuringConstruction && obj->testStatus(OBJECT_STATUS_BFME_2))
+	if (!fireWeaponWhenDeadBehaviorModuleData->m_activeDuringConstruction && obj->testStatus(OBJECT_STATUS_BFME_2))
 		return;
 	UpgradeMaskType activation, conflicting;
 	getUpgradeActivationMasks( activation, conflicting );
@@ -224,10 +224,10 @@ void FireWeaponWhenDeadBehavior::onDie( const DamageInfo *damageInfo )
 		return;
 	if( owner->getControllingPlayer()->testForAnyCompletedUpgrade( conflicting ) )
 		return;
-	if (d->m_deathWeapon)
+	if (fireWeaponWhenDeadBehaviorModuleData->m_deathWeapon)
 	{
 		Coord3D pos;
-		getObject()->transformPoint(&d->m_weaponOffset, &pos);
-		TheWeaponStore->createAndFireTempWeapon(d->m_deathWeapon, getObject(), &pos);
+		getObject()->transformPoint(&fireWeaponWhenDeadBehaviorModuleData->m_weaponOffset, &pos);
+		TheWeaponStore->createAndFireTempWeapon(fireWeaponWhenDeadBehaviorModuleData->m_deathWeapon, getObject(), &pos);
 	}
 }

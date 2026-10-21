@@ -101,11 +101,11 @@ private:
 };
 void GarrisonContain::rva004787B0()
 {
-	HolderData *a = m_4;
-	int count = a->m_count;
+	HolderData *holderData = m_4;
+	int count = holderData->m_count;
 	if (count <= 0)
 		return;
-	void *tmpl = (void *)TheThingFactory->findTemplate(*((const AsciiString *)&a->m_nameOpaque));
+	void *tmpl = (void *)TheThingFactory->findTemplate(*((const AsciiString *)&holderData->m_nameOpaque));
 	Object *obj = m_8;
 	CreateMask mask;
 	for (int i = 0; i < count; ++i)
@@ -114,10 +114,10 @@ void GarrisonContain::rva004787B0()
 		Player *player = obj->getControllingPlayer();
 		Team *team = player->m_team;
 		Object *created = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, false);
-		Payload *p = obj->m_250;
-		if (p)
+		Payload *payload = obj->m_250;
+		if (payload)
 		{
-			if (p->v38(created, 1, 0))
+			if (payload->v38(created, 1, 0))
 				obj->m_250->v39(created);
 		}
 	}

@@ -237,12 +237,12 @@ void FireWeaponWhenDamagedBehavior::onDamage(DamageInfo *damageInfo)
 	if (!isUpgradeActive())
 		return;
 
-	const FireWeaponWhenDamagedBehaviorModuleData *d = getFireWeaponWhenDamagedBehaviorModuleData();
+	const FireWeaponWhenDamagedBehaviorModuleData *fireWeaponWhenDamagedBehaviorModuleData = getFireWeaponWhenDamagedBehaviorModuleData();
 
-	if ((d->m_damageTypes & (1 << (damageInfo->in.m_damageType - 1))) == 0)
+	if ((fireWeaponWhenDamagedBehaviorModuleData->m_damageTypes & (1 << (damageInfo->in.m_damageType - 1))) == 0)
 		return;
 
-	if (damageInfo->out.m_actualDamageDealt < d->m_damageAmount)
+	if (damageInfo->out.m_actualDamageDealt < fireWeaponWhenDamagedBehaviorModuleData->m_damageAmount)
 		return;
 
 	const Object *obj = getObject();

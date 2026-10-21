@@ -144,9 +144,9 @@ private:
 void DetachableRiderBody::attemptDamage(DamageInfo *damageInfo)
 {
 	Object *obj = m_object;
-	const DetachableRiderBodyModuleData *d = data();
+	const DetachableRiderBodyModuleData *detachableRiderBodyModuleData = data();
 	bool active = isUpgradeActive();
-	bool keepRider = GetGameLogicRandomValueReal(0.0f, 1.0f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\DetachableRiderBody.cpp", 94) < d->m_17C;
+	bool keepRider = GetGameLogicRandomValueReal(0.0f, 1.0f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\DetachableRiderBody.cpp", 94) < detachableRiderBodyModuleData->m_17C;
 	if (obj->test114Bit8())
 		keepRider = true;
 

@@ -26,7 +26,7 @@ private:
 	WeaponTemplateSetHead m_head;
 };
 
-Rva0046262D::Rva0046262D(void *a, const WeaponTemplateSetHead &b)
-	: m_first(*(void **)a), m_head(b)
+Rva0046262D::Rva0046262D(void *a, const WeaponTemplateSetHead &weaponTemplateSetHead)
+	: m_first(*(void **)a), m_head(weaponTemplateSetHead)
 {
 }

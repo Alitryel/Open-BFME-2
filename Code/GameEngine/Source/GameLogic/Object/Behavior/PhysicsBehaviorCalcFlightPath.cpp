@@ -33,11 +33,11 @@ public:bool calcFlightPath(bool,float);
 template<class T> inline const T &physicsRefMax(const T&a,const T&b){return a>b?a:b;}
 bool PhysicsBehavior::calcFlightPath(bool recalc,float maxHeight)
 {
- const PhysicsFlightData *d=data;
+ const PhysicsFlightData *physicsFlightData=data;
  if(maxHeight<0.5f)maxHeight=0.5f;
  float firstPct,secondPct;
- if(!alternate)firstPct=d->percent1;else firstPct=d->percentB1;
- if(!alternate)secondPct=d->percent2;else secondPct=d->percentB2;
+ if(!alternate)firstPct=physicsFlightData->percent1;else firstPct=physicsFlightData->percentB1;
+ if(!alternate)secondPct=physicsFlightData->percent2;else secondPct=physicsFlightData->percentB2;
  Coord3D cp[4];
  static_cast<Coord3D&>(cp[0])=source;static_cast<Coord3D&>(cp[3])=target;
  float z=source.z-target.z;if(z<0.0f)z=0.0f;
@@ -47,18 +47,18 @@ bool PhysicsBehavior::calcFlightPath(bool recalc,float maxHeight)
  cp[1].y=firstPct*(cp[3].y-cp[0].y)+cp[0].y;
  cp[2].x=(cp[3].x-cp[0].x)*secondPct+cp[0].x;
  cp[2].y=(cp[3].y-cp[0].y)*secondPct+cp[0].y;
- if(d->simpleZ){
-  cp[1].z=(cp[3].z-cp[0].z)*d->zPercent1+cp[0].z;
-  cp[2].z=(cp[3].z-cp[0].z)*d->zPercent2+cp[0].z;
+ if(physicsFlightData->simpleZ){
+  cp[1].z=(cp[3].z-cp[0].z)*physicsFlightData->zPercent1+cp[0].z;
+  cp[2].z=(cp[3].z-cp[0].z)*physicsFlightData->zPercent2+cp[0].z;
  }else{
   float highest=((PhysicsFlightTerrain *)TheTerrainLogic)->highest(&cp[0],&cp[3]);
   float firstHeight,secondHeight;
-  if(!alternate)firstHeight=d->height1;else firstHeight=d->heightB1;
-  if(!alternate)secondHeight=d->height2;else secondHeight=d->heightB2;
+  if(!alternate)firstHeight=physicsFlightData->height1;else firstHeight=physicsFlightData->heightB1;
+  if(!alternate)secondHeight=physicsFlightData->height2;else secondHeight=physicsFlightData->heightB2;
   firstHeight*=maxHeight;secondHeight*=scale*maxHeight;
-  if(d->heightRange>0.0f){
+  if(physicsFlightData->heightRange>0.0f){
    Vector3 delta;delta.X=cp[3].x-cp[0].x;delta.Y=cp[3].y-cp[0].y;delta.Z=cp[3].z-cp[0].z;
-   float factor=delta.Length()/d->heightRange;if(factor>1.0f)factor=1.0f;
+   float factor=delta.Length()/physicsFlightData->heightRange;if(factor>1.0f)factor=1.0f;
    cp[1].z=firstPct*(cp[3].z-cp[0].z)+cp[0].z;
    float z2=(cp[3].z-cp[0].z)*secondPct+cp[0].z;
    if(cp[1].z<highest)cp[1].z=highest;

@@ -89,7 +89,7 @@ inline ActiveBody::~ActiveBody()
 {
 }
 
-void ActiveBody_Delete(ActiveBody *p) { delete p; }
+void ActiveBody_Delete(ActiveBody *activeBody) { delete activeBody; }
 
 // ??1ActiveBody is a header inline elsewhere: other units emit select-any
 // copies, so a strong definition here was a duplicate in the linked build.
@@ -97,9 +97,9 @@ void ActiveBody_Delete(ActiveBody *p) { delete p; }
 // not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitBodyModuleDeletingDtors@@YAXPAVActiveBody@@@Z present-unmatched
-void bfmeEmitBodyModuleDeletingDtors(ActiveBody *p)
+void bfmeEmitBodyModuleDeletingDtors(ActiveBody *activeBody)
 {
-	p->ActiveBody::~ActiveBody();
+	activeBody->ActiveBody::~ActiveBody();
 }
 #pragma inline_depth()
 

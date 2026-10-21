@@ -184,7 +184,7 @@ struct FormationNode { FormationNode *next,*prev; Object *object; };
 struct FormationList { FormationNode *head; };
 struct FormationRange {
  void *owner; FormationList *list;
- unsigned int size() const { unsigned int n=0; for(FormationNode *p=list->head->next;p!=list->head;p=p->next) ++n; return n; }
+ unsigned int size() const { unsigned int n=0; for(FormationNode *formationNode=list->head->next;formationNode!=list->head;formationNode=formationNode->next) ++n; return n; }
 };
 class FormationListProvider : public FormationSlots<70> { public: virtual void fill(FormationRange *)=0; };
 class FormationLeaderProvider : public FormationSlots<38> { public: virtual void setLeader(Object *)=0; };
@@ -390,9 +390,9 @@ Bool HordeMeleeFormation::findMeleeAttackPosition(Object *obj, Coord3D *result, 
 						Int ids[16];
 						if (TheAI->pathfinder()->GetOverlapGoalUnits(obj, &cand, ids) == 2 && weapon)
 						{
-							Object *a = TheGameLogic->findObjectByID((ObjectID)ids[0]);
+							Object *object = TheGameLogic->findObjectByID((ObjectID)ids[0]);
 							Object *b = TheGameLogic->findObjectByID((ObjectID)ids[1]);
-							if (a && b && a->getTeamValue() == b->getTeamValue() && obj->getTeamValue() == a->getTeamValue())
+							if (object && b && object->getTeamValue() == b->getTeamValue() && obj->getTeamValue() == object->getTeamValue())
 							{
 								if (const_cast<Weapon *>(weapon)->isWithinAttackRange(obj, &cand, victim, victimPos, 0.0f, true))
 								{

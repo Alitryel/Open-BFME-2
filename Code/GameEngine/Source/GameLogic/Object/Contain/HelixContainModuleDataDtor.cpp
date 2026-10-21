@@ -57,8 +57,8 @@ inline CursorParticleSystemFXNugget::~CursorParticleSystemFXNugget() {}
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeCursorParticleSystemFXNuggetInlineAnchor@@YAXPAVCursorParticleSystemFXNugget@@@Z absent-from-retail
-void _bfmeCursorParticleSystemFXNuggetInlineAnchor(CursorParticleSystemFXNugget *p)
+void _bfmeCursorParticleSystemFXNuggetInlineAnchor(CursorParticleSystemFXNugget *cursorParticleSystemFXNugget)
 {
-    p->CursorParticleSystemFXNugget::~CursorParticleSystemFXNugget();
+    cursorParticleSystemFXNugget->CursorParticleSystemFXNugget::~CursorParticleSystemFXNugget();
 }
 #pragma inline_depth()

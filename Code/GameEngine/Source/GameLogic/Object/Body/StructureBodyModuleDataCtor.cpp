@@ -81,8 +81,8 @@ inline StructureBodyModuleData::StructureBodyModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeStructureBodyModuleDataInlineAnchor@@YAXPAVStructureBodyModuleData@@@Z absent-from-retail
-void _bfmeStructureBodyModuleDataInlineAnchor(StructureBodyModuleData *p)
+void _bfmeStructureBodyModuleDataInlineAnchor(StructureBodyModuleData *structureBodyModuleData)
 {
-    p->StructureBodyModuleData::StructureBodyModuleData();
+    structureBodyModuleData->StructureBodyModuleData::StructureBodyModuleData();
 }
 #pragma inline_depth()

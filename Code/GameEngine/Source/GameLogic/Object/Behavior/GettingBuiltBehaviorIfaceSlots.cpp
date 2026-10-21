@@ -414,7 +414,7 @@ bool GettingBuiltBehavior::rva0045362B(int id)
 void GettingBuiltBehavior::rva00453F31(int a1)
 {
 	Object *me = m_object;
-	const ThingTemplate *tmpl = me->m_template;
+	const ThingTemplate *thingTemplate = me->m_template;
 	int id = me->m_74;
 	if (!rva00453F31Flag(me))
 		return;
@@ -424,7 +424,7 @@ void GettingBuiltBehavior::rva00453F31(int a1)
 	int upId = id + 1;
 	while ((other = TheGameLogic->findObjectByID((ObjectID)upId)) != 0)
 	{
-		if (!other->m_template->isEquivalentTo(tmpl) || !rva00453F31Flag(other))
+		if (!other->m_template->isEquivalentTo(thingTemplate) || !rva00453F31Flag(other))
 			break;
 		GettingBuiltBehaviorInterface *gbi = interfaceOf(other);
 		if (gbi)
@@ -433,7 +433,7 @@ void GettingBuiltBehavior::rva00453F31(int a1)
 	}
 	while ((other = TheGameLogic->findObjectByID((ObjectID)--id)) != 0)
 	{
-		if (!other->m_template->isEquivalentTo(tmpl) || !rva00453F31Flag(other))
+		if (!other->m_template->isEquivalentTo(thingTemplate) || !rva00453F31Flag(other))
 			break;
 		GettingBuiltBehaviorInterface *gbi = interfaceOf(other);
 		if (gbi)
@@ -456,7 +456,7 @@ static __forceinline bool rva004540F5Ready(GettingBuiltBehavior *self, const Obj
 bool GettingBuiltBehavior::rva004540F5()
 {
 	Object *me = m_object;
-	const ThingTemplate *tmpl = me->m_template;
+	const ThingTemplate *thingTemplate = me->m_template;
 	int id = me->m_74;
 	if (!rva004540F5Ready(this, me))
 		return false;
@@ -466,7 +466,7 @@ bool GettingBuiltBehavior::rva004540F5()
 		int upId = id + 1;
 		while ((other = TheGameLogic->findObjectByID((ObjectID)upId)) != 0)
 		{
-			if (!other->m_template->isEquivalentTo(tmpl) || !rva00453F31Flag(other))
+			if (!other->m_template->isEquivalentTo(thingTemplate) || !rva00453F31Flag(other))
 				break;
 			GettingBuiltBehaviorInterface *gbi = interfaceOf(other);
 			if (gbi && gbi->rva004533B2())
@@ -475,7 +475,7 @@ bool GettingBuiltBehavior::rva004540F5()
 		}
 		while ((other = TheGameLogic->findObjectByID((ObjectID)--id)) != 0)
 		{
-			if (!other->m_template->isEquivalentTo(tmpl) || !rva00453F31Flag(other))
+			if (!other->m_template->isEquivalentTo(thingTemplate) || !rva00453F31Flag(other))
 				break;
 			GettingBuiltBehaviorInterface *gbi = interfaceOf(other);
 			if (gbi && gbi->rva004533B2())
@@ -498,7 +498,7 @@ float GettingBuiltBehavior::rva00453FE7(Object *obj)
 	int id = me->m_74;
 	if (!rva00453F31Flag(me))
 		return 0.0f;
-	const ThingTemplate *tmpl = me->m_template;
+	const ThingTemplate *thingTemplate = me->m_template;
 	if (rva004533B2())
 		total = rva0045342F(obj);
 
@@ -506,7 +506,7 @@ float GettingBuiltBehavior::rva00453FE7(Object *obj)
 	int upId = id + 1;
 	while ((other = TheGameLogic->findObjectByID((ObjectID)upId)) != 0)
 	{
-		if (!other->m_template->isEquivalentTo(tmpl) || !rva00453F31Flag(other))
+		if (!other->m_template->isEquivalentTo(thingTemplate) || !rva00453F31Flag(other))
 			break;
 		GettingBuiltBehaviorInterface *gbi = interfaceOf(other);
 		if (gbi && gbi->rva004533B2())
@@ -516,7 +516,7 @@ float GettingBuiltBehavior::rva00453FE7(Object *obj)
 	int downId = id;
 	while ((other = TheGameLogic->findObjectByID((ObjectID)--downId)) != 0)
 	{
-		if (!other->m_template->isEquivalentTo(tmpl) || !rva00453F31Flag(other))
+		if (!other->m_template->isEquivalentTo(thingTemplate) || !rva00453F31Flag(other))
 			break;
 		GettingBuiltBehaviorInterface *gbi = interfaceOf(other);
 		if (gbi && gbi->rva004533B2())

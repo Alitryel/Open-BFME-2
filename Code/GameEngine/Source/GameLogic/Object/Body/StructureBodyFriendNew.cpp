@@ -27,8 +27,8 @@ inline Module *StructureBody::friend_newModuleInstance(Thing *thing, const Modul
 }
 #pragma inline_depth(0)
 // ?bfmeEmitStructureBodyFriendNew@@YAXPAVStructureBody@@@Z present-unmatched
-void bfmeEmitStructureBodyFriendNew(StructureBody *p)
+void bfmeEmitStructureBodyFriendNew(StructureBody *structureBody)
 {
-	p->friend_newModuleInstance(0, 0);
+	structureBody->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

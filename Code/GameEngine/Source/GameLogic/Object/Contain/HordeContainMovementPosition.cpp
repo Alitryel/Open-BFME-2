@@ -29,11 +29,11 @@ struct MovementVector : Coord3D
         y = p.y;
         z = p.z;
     }
-    MovementVector(const MovementVector &p)
+    MovementVector(const MovementVector &movementVector)
     {
-        x = p.x;
-        y = p.y;
-        z = p.z;
+        x = movementVector.x;
+        y = movementVector.y;
+        z = movementVector.z;
     }
     ~MovementVector()
     {
@@ -263,8 +263,8 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
         target.z = zValue + dir.z;
     }
 
-    Object *o = Rva0046B05BFindAt(TheTerrainLogic->getLayerForDestination(obj, &target), &target);
-    if (o == 0)
+    Object *object = Rva0046B05BFindAt(TheTerrainLogic->getLayerForDestination(obj, &target), &target);
+    if (object == 0)
     {
         if (!obj->isKindOf(KINDOF_67) && !obj->isKindOf(KINDOF_69) &&
             !obj->isSignificantlyAboveTerrain())
@@ -273,27 +273,27 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
             mid.z = target.z;
             mid.x = (target.x + start.x) * 0.5f;
             mid.y = (target.y + start.y) * 0.5f;
-            o = Rva0046B05BFindAt(TheTerrainLogic->getLayerForDestination(obj, &mid), &mid);
-            if (o)
+            object = Rva0046B05BFindAt(TheTerrainLogic->getLayerForDestination(obj, &mid), &mid);
+            if (object)
                 target = mid;
         }
     }
 
     unsigned char raised = false;
     bool lowered = false;
-    if (o && (o->m_template->m_121 & 2) && !(o->m_438 & 1))
+    if (object && (object->m_template->m_121 & 2) && !(object->m_438 & 1))
     {
-        if (o->m_74 != m_2F0)
+        if (object->m_74 != m_2F0)
         {
             Object *owner = TheGameLogic->findObjectByID(m_2F0);
             if (owner)
-                o = owner;
+                object = owner;
         }
         MovementPoint local(target.x, target.y, target.z);
         Matrix3D inverse;
-        o->m_transform.Get_Orthogonal_Inverse(inverse);
+        object->m_transform.Get_Orthogonal_Inverse(inverse);
         Rva0046B05BTransform(inverse, &local);
-        GeometryInfo *geom = &o->m_geometry;
+        GeometryInfo *geom = &object->m_geometry;
         bool inside =
             fabs(local.x) <= geom->movementMajorRadius() && geom->getMaxHeightAbovePosition() >= local.z;
         if ((inside == 0) && !obj->isKindOf(KINDOF_67) && !obj->isKindOf(KINDOF_69) &&
@@ -308,7 +308,7 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
         if (inside)
         {
             float top = geom->getMaxHeightAbovePosition();
-            float baseZ = o->m_position.z;
+            float baseZ = object->m_position.z;
             float topZ = baseZ + top;
             if (start.z < topZ)
             {
@@ -318,7 +318,7 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
                     startPoint.x = geom->movementMajorRadius();
                 else if (-geom->movementMajorRadius() > startPoint.x)
                     startPoint.x = -geom->movementMajorRadius();
-                Rva0046B05BTransform(o->m_transform, &startPoint);
+                Rva0046B05BTransform(object->m_transform, &startPoint);
                 start.x = startPoint.x;
                 start.y = startPoint.y;
                 start.z = startPoint.z;
@@ -348,7 +348,7 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
                 start.z = ground;
             lowered = true;
         }
-        else if (o && (o->m_template->m_11A & 0x1040) && o->m_74 != m_2F0)
+        else if (object && (object->m_template->m_11A & 0x1040) && object->m_74 != m_2F0)
         {
             Object *owner = TheGameLogic->findObjectByID(m_2F0);
             if (owner)
@@ -356,7 +356,7 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
                 MovementVector a(owner->m_position);
                 a.sub(obj->m_position);
                 MovementVector b(obj->m_position);
-                b.sub(o->m_position);
+                b.sub(object->m_position);
                 b.scale(2.0f);
                 a.add(b);
                 a.normalize();

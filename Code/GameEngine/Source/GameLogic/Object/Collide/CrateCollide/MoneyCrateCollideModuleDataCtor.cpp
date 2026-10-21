@@ -86,8 +86,8 @@ inline MoneyCrateCollideModuleData::MoneyCrateCollideModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeMoneyCrateCollideModuleDataInlineAnchor@@YAXPAVMoneyCrateCollideModuleData@@@Z absent-from-retail
-void _bfmeMoneyCrateCollideModuleDataInlineAnchor(MoneyCrateCollideModuleData *p)
+void _bfmeMoneyCrateCollideModuleDataInlineAnchor(MoneyCrateCollideModuleData *moneyCrateCollideModuleData)
 {
-    p->MoneyCrateCollideModuleData::MoneyCrateCollideModuleData();
+    moneyCrateCollideModuleData->MoneyCrateCollideModuleData::MoneyCrateCollideModuleData();
 }
 #pragma inline_depth()

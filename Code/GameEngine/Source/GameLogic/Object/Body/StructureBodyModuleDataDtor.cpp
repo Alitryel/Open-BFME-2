@@ -25,7 +25,7 @@ __declspec(noinline) inline StructureBodyModuleData::~StructureBodyModuleData()
 }
 
 // ?bfmeAnchorStructureBodyModuleDataDtor absent-from-retail
-void bfmeAnchorStructureBodyModuleDataDtor(StructureBodyModuleData *p)
+void bfmeAnchorStructureBodyModuleDataDtor(StructureBodyModuleData *structureBodyModuleData)
 {
-	p->StructureBodyModuleData::~StructureBodyModuleData();
+	structureBodyModuleData->StructureBodyModuleData::~StructureBodyModuleData();
 }

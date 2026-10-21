@@ -69,8 +69,8 @@ private:
 };
 
 // ??0SpawnUnitBehavior@@QAE@PAVThing@@PBVModuleData@@@Z
-SpawnUnitBehavior::SpawnUnitBehavior(Thing *t, const ModuleData *m)
-    : UpdateModule(t, m)
+SpawnUnitBehavior::SpawnUnitBehavior(Thing *thing, const ModuleData *moduleData)
+    : UpdateModule(thing, moduleData)
 {
     m_spawnOnce = *(reinterpret_cast<const unsigned char *>(m_moduleData) + 0x1C);
 }

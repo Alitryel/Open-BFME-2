@@ -178,10 +178,10 @@ bool HordeContain::dissolveComboHordeIfNeeded()
 					continue;
 				if (member->templateKindOfBits(68))
 					continue;
-				const ThingTemplate *tmpl = member->m_template;
+				const ThingTemplate *thingTemplate = member->m_template;
 				if (!first)
-					first = tmpl;
-				else if (tmpl && !first->isEquivalentTo(tmpl))
+					first = thingTemplate;
+				else if (thingTemplate && !first->isEquivalentTo(thingTemplate))
 				{
 					same = false;
 					break;

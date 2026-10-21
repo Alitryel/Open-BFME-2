@@ -236,11 +236,11 @@ void PropagandaTowerBehavior::doScan()
 	}
 
 	for (ObjectTracker *curr = m_insideList; curr; curr = curr->next) {
-		ObjectTracker *o;
-		for (o = newInsideList; o; o = o->next)
-			if (o->objectID == curr->objectID)
+		ObjectTracker *objectTracker;
+		for (objectTracker = newInsideList; objectTracker; objectTracker = objectTracker->next)
+			if (objectTracker->objectID == curr->objectID)
 				break;
-		if (o == 0) {
+		if (objectTracker == 0) {
 			obj = TheGameLogic->findObjectByID(curr->objectID);
 			if (obj)
 				effectLogic(obj, false, modData);

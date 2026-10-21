@@ -59,10 +59,10 @@ private:
 void Rva00397791::rva00397791(int x)
 {
 	m_arg90 = x;
-	GameLogic *g = TheGameLogic;
-	Object *o = g->findObjectByID(m_id2c);
-	if (o != 0)
-		g->rva0023D0C2(o, x);
+	GameLogic *gameLogic = TheGameLogic;
+	Object *object = gameLogic->findObjectByID(m_id2c);
+	if (object != 0)
+		gameLogic->rva0023D0C2(object, x);
 	Rva00397756 *outer = (Rva00397756 *)((char *)this - 0xc);
 	outer->rva00397756(&m_range44, x);
 	outer->rva00397756(&m_range68, x);

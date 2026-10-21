@@ -102,8 +102,8 @@ void GateOpenAndCloseBehavior::rva00498F46(Rva00498DF3Arg *arg, int u1, int u2)
 	Rva00498DF3Mid *mid = arg->m_mid258;
 	if (mid != 0)
 	{
-		Object *o1 = m_objC;
-		if (mid->m_turret30->getGoalObject() == o1)
+		Object *object = m_objC;
+		if (mid->m_turret30->getGoalObject() == object)
 			return;
 		Object *o2 = m_objC;
 		if (((AIUpdateInterface *)mid)->getCurrentVictim() == o2)

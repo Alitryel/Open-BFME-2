@@ -46,9 +46,9 @@ inline CaveContainModuleData::CaveContainModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeCaveContainModuleDataInlineAnchor@@YAXPAVCaveContainModuleData@@@Z absent-from-retail
-void _bfmeCaveContainModuleDataInlineAnchor(CaveContainModuleData *p)
+void _bfmeCaveContainModuleDataInlineAnchor(CaveContainModuleData *caveContainModuleData)
 {
-    p->CaveContainModuleData::CaveContainModuleData();
+    caveContainModuleData->CaveContainModuleData::CaveContainModuleData();
 }
 #pragma inline_depth()
 

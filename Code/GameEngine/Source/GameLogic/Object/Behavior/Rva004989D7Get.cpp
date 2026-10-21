@@ -37,7 +37,7 @@ Player *GateOpenAndCloseBehavior::getControllingPlayer() const
 	return m_obj->getControllingPlayer();
 }
 
-Relationship GateOpenAndCloseBehavior::getRelationship(const Player *p) const
+Relationship GateOpenAndCloseBehavior::getRelationship(const Player *player) const
 {
-	return p->getRelationship(m_obj);
+	return player->getRelationship(m_obj);
 }

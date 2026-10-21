@@ -159,16 +159,16 @@ Object*owner()const{return *(Object*const*)((const char*)this-8);}
 };
 void PillageModule::rva00484FE2(int,Object*victim)
 {
- const PillageModuleData*d=data();
- const PillageModuleData *volatile saved=d;
- if(!d)return;
+ const PillageModuleData*pillageModuleData=data();
+ const PillageModuleData *volatile saved=pillageModuleData;
+ if(!pillageModuleData)return;
  Object*self=owner();
  if(!self)return;
- if(!((Rva2225E0Filter*)&d->filter)->accepts(victim,0))return;
+ if(!((Rva2225E0Filter*)&pillageModuleData->filter)->accepts(victim,0))return;
 	else
 	{
  ++events;
- if(events<d->eventThreshold)return;
+ if(events<pillageModuleData->eventThreshold)return;
  events=0;
  Player*targetPlayer=victim->getControllingPlayer();
  Player*selfPlayer=self->getControllingPlayer();

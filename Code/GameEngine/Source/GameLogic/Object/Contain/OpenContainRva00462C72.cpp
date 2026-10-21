@@ -51,11 +51,11 @@ public:
 void OpenContain::rva00462C72()
 {
 	Store84 tmp;
-	Drawable *d = m_thing->getDrawable();
+	Drawable *drawable = m_thing->getDrawable();
 	memset(&tmp, 0, 0x4C);
-	if (!d)
+	if (!drawable)
 		return;
-	tmp = d->m_store;
+	tmp = drawable->m_store;
 	if (Rva00045473Equal(&tmp, &m_store84))
 		return;
 	s18();

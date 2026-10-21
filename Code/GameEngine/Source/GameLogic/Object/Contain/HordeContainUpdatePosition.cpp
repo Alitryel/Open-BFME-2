@@ -25,10 +25,10 @@ struct MovementCoord : Coord3D {
         y = p.y;
         z = p.z;
     }
-    MovementCoord(const MovementCoord &p) {
-        x = p.x;
-        y = p.y;
-        z = p.z;
+    MovementCoord(const MovementCoord &movementCoord) {
+        x = movementCoord.x;
+        y = movementCoord.y;
+        z = movementCoord.z;
     }
     ~MovementCoord() {}
     void sub(const Coord3D &p) {

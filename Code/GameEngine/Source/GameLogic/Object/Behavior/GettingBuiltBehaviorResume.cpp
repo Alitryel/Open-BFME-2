@@ -65,15 +65,15 @@ void GettingBuiltBehaviorSecondary::resumeBuildingConstruction(bool instant)
  Player *player = object->getControllingPlayer();
  if (!player) return;
  if (!object->getControllingPlayer()->rva002AA245()) return;
- const ThingTemplate *tmplate;
+ const ThingTemplate *thingTemplate;
  if (data->alternate && object->getControllingPlayer()->part->alternate)
-   tmplate = TheThingFactory->findTemplate(data->alternateBuilder);
- else tmplate = TheThingFactory->findTemplate(data->builder);
- if (!tmplate) return;
+   thingTemplate = TheThingFactory->findTemplate(data->alternateBuilder);
+ else thingTemplate = TheThingFactory->findTemplate(data->builder);
+ if (!thingTemplate) return;
  CreateMask mask;
  memset(&mask,0,sizeof(mask));
  Team *team = player->team;
- Object *builder = TheThingFactory->newObject(tmplate,team,&mask,false);
+ Object *builder = TheThingFactory->newObject(thingTemplate,team,&mask,false);
  if (!builder) return;
  builder->setPosition(&object->position);
  builder->setProducer(object);

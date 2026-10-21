@@ -52,9 +52,9 @@ private:
 void Rva00479B3A::rva00479B3A(Object *obj)
 {
 	((GarrisonContain *)((char *)this + 0x20))->GarrisonContain::onRemoving(obj);
-	Drawable *d = ((Thing *)obj)->getDrawable();
-	if (d && ((Rva00270260 *)d)->rva00270260() == 1)
-		d->setDrawableHidden(false);
+	Drawable *drawable = ((Thing *)obj)->getDrawable();
+	if (drawable && ((Rva00270260 *)drawable)->rva00270260() == 1)
+		drawable->setDrawableHidden(false);
 	if (obj->m_454 == 0)
 		obj->rva0028DCC4();
 }
