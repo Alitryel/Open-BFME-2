@@ -7,9 +7,16 @@
 // 0), stores arg2 at +0x4c and arg3 at +0x48 with conditional AddRef, inits
 // GC bits at +0x5c/+0x58 and clears bit 5 of base flags. Evidence: unlock lane;
 // callees rowed (Bfme HI ctor clear setGCRootCount); 5 callers; unblocks 5.
-class BfmeAptValue006DCD20
+class AptValue
 {
-	virtual void vtableSlot0();
+public:
+	virtual void AddRef();
+	virtual void Release();
+};
+
+// Retail vtable 0x008EA228 starts with the rowed AptValue::AddRef (0x006DCAC0) and Release.
+class BfmeAptValue006DCD20 : public AptValue
+{
 	void setTypeAt006DBBC0(int type);
 public:
 	BfmeAptValue006DCD20(int type, unsigned int unused);
@@ -24,13 +31,6 @@ public:
 	EAStringC();
 	EAStringC &clear();
 	~EAStringC();
-};
-
-class AptValue
-{
-public:
-	virtual void AddRef();
-	virtual void Release();
 };
 
 class Rva006CBDE0 : public BfmeAptValue006DCD20

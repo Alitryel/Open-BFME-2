@@ -17,8 +17,15 @@ public:
   void freeBlock(void *, int);
 };
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
-class BfmeAptValue006DCD20 {
-  virtual void vtableSlot0();
+class AptValue
+{
+public:
+    virtual void AddRef();
+    virtual void Release();
+};
+// Retail vtable 0x008EA228 starts with the rowed AptValue::AddRef (0x006DCAC0) and Release.
+class BfmeAptValue006DCD20 : public AptValue
+{
   unsigned int flags;
 
 public:

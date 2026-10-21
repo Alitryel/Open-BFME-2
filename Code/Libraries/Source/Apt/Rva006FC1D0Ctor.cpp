@@ -5,20 +5,20 @@
 // via inlined Rva006D6360 base then own vtable 0x008EC7A8; clears bits at +0x1C with 0xFFFFFCFF
 // mask and zeroes +0x20; single caller at 0x00707155 in 0x00706A40; donor TU
 // Code/Libraries/Source/Apt/Rva006D6360Ctor.cpp for layout and flags.
-class BfmeAptValue006DCD20
-{
-    virtual void vtableSlot0();
-    unsigned int m_flags;
-    void setTypeAt006DBBC0(int type);
-public:
-    BfmeAptValue006DCD20(int type);
-    virtual ~BfmeAptValue006DCD20();
-};
 class AptValue
 {
 public:
     virtual void AddRef();
     virtual void Release();
+};
+// Retail vtable 0x008EA228 starts with the rowed AptValue::AddRef (0x006DCAC0) and Release.
+class BfmeAptValue006DCD20 : public AptValue
+{
+    unsigned int m_flags;
+    void setTypeAt006DBBC0(int type);
+public:
+    BfmeAptValue006DCD20(int type);
+    virtual ~BfmeAptValue006DCD20();
 };
 class AptNativeHash
 {
