@@ -50,8 +50,8 @@ Rva0052CA6C m_14;
 Rva004FABE2 m_20;
 Rva0052CC25 m_2C;
 Rva0052CCC4 m_38;
-AsciiVec m_44;
-AsciiString m_50;
+AsciiVec m_callActSubroutine;
+AsciiString m_jumpToAct;
 Rva0052CD03 m_54;
 Rva0052CD42 m_60;
 Rva0052CCC4 m_6C;
@@ -60,9 +60,9 @@ Rva0052CDE1 m_84;
 Rva0052D1CD m_90;
 Rva0052D20C m_9C;
 Rva0052CC25 m_A8;
-bool m_B4;
+bool m_endAct;
 };
-Rva0056616B::Rva0056616B(const AsciiString &name):m_04(name),m_B4(false) {
+Rva0056616B::Rva0056616B(const AsciiString &name):m_04(name),m_endAct(false) {
 reinterpret_cast<_STL::vector<Rva00565865Element,_STL::allocator<Rva00565865Element> >*>(&m_08)->clear();
 reinterpret_cast<_STL::vector<Rva00566A42Element,_STL::allocator<Rva00566A42Element> >*>(&m_20)->clear();
 reinterpret_cast<Rva00565898*>(&m_2C)->clear();
@@ -71,7 +71,7 @@ reinterpret_cast<_STL::vector<Rva00565964Element,_STL::allocator<Rva00565964Elem
 reinterpret_cast<_STL::vector<Rva00565931Element,_STL::allocator<Rva00565931Element> >*>(&m_6C)->clear();
 reinterpret_cast<_STL::vector<Rva005658FEElement,_STL::allocator<Rva005658FEElement> >*>(&m_54)->clear();
 reinterpret_cast<Rva00566B81Vector*>(&m_60)->clear();
-reinterpret_cast<_STL::vector<AsciiString,_STL::allocator<AsciiString> >*>(&m_44)->clear();
+reinterpret_cast<_STL::vector<AsciiString,_STL::allocator<AsciiString> >*>(&m_callActSubroutine)->clear();
 reinterpret_cast<_STL::vector<Rva00565997Element,_STL::allocator<Rva00565997Element> >*>(&m_A8)->clear();
 }
 
@@ -152,7 +152,7 @@ class SpawnArmy:public Snapshot { public:
  AsciiString m_04,m_08,m_0c,m_10,m_14,m_18,m_1c;
  float m_20,m_24; AsciiString m_28,m_2c,m_30,m_34;
  _STL::vector<AsciiString,_STL::allocator<AsciiString> > m_38;
- float m_44; int m_48,m_4c; AsciiString m_50; bool m_54,m_55;
+ float m_callActSubroutine; int m_48,m_4c; AsciiString m_jumpToAct; bool m_54,m_55;
 };
 struct Rva004FAFF2 { Rva004FAFF2 &rva004FAFF2(const Rva004FAFF2&); };
 struct Rva00318E8COut {float f;int i;};
