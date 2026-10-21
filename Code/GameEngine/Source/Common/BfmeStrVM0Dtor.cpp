@@ -291,7 +291,7 @@ public:
 	virtual void v67();
 	virtual void v68();
 	void rva0025D19E();
-	void rva0025D9E3();
+	void reset();
 	void rva00049F94(AsciiString s);
 private:
 	char m_pad0C[0x10];
@@ -327,7 +327,7 @@ Display::~Display()
 // ?rva0025D358 (0x0025D358, the UnicodeString setter of the +0xB0 block) lives in
 // BfmeStrVM0SetText.cpp, which includes the canonical unicode_string.h.
 
-// ?rva0025D9E3@Display@@QAEXXZ, retail 0x0025D9E3, 116 bytes.
+// ?reset@Display@@QAEXXZ, retail 0x0025D9E3, 116 bytes.
 // Slot-9 virtual of Display: when +0x114 is clear, zeroes +0xD4/+0xD8, runs
 // the slot-68 virtual plus the W3DDisplay clear helper; then always clears
 // +0x114/+0x120, walks the +0x1C list via slot-5 plus getNext, and zeroes
@@ -335,7 +335,7 @@ Display::~Display()
 // Evidence: vtable slot 9 of 0x7F5DA0; same +0xB0/+0xC8/+0xD0/+0x114/+0x120
 // layout as this TU and ctor 0x0025D489; callees slot-68 plus rowed
 // rva0025D2F6 plus node slots 5/152; caller 0x00043427.
-void Display::rva0025D9E3()
+void Display::reset()
 {
 	if (m_b114 == 0)
 	{
@@ -365,7 +365,7 @@ void Display::rva0025D9E3()
 // Slot-38 virtual of Display: unless the GameLogic mode predicate says
 // otherwise with the global 0xA01E48 byte at +0x5D set, walks the +0x1C
 // node list calling slot-94 on each node and advancing via getNext.
-// Evidence: vtable slot 38 of 0x7F5DA0; same +0x1C list as rva0025D9E3 and
+// Evidence: vtable slot 38 of 0x7F5DA0; same +0x1C list as reset and
 // rva0025C18B in this TU; callees rowed rva00085124 0x00085124 plus node
 // slots 94/152 predeclared in this TU; no callers.
 void Display::rva0025C14D()
@@ -388,7 +388,7 @@ void Display::rva0025C14D()
 // two no-arg ints plus an out-pair, converts both float args to int for the
 // first round of node slots, then replays the saved values through the same
 // slots and advances via getNext.
-// Evidence: vtable slot 39 of 0x7F5DA0; same +0x1C list as rva0025D9E3 in this
+// Evidence: vtable slot 39 of 0x7F5DA0; same +0x1C list as reset in this
 // TU; node slots 14-19/94/152 predeclared in this TU; no callers.
 void Display::rva0025C18B(Rva0025C18BCoord *a, Rva0025C18BCoord *b)
 {
@@ -431,7 +431,7 @@ void Display::rva00049F94(AsciiString s)
 #pragma comment(linker, "/alternatename:?v05@Display@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
 #pragma comment(linker, "/alternatename:?v06@Display@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?v08@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v09@Display@@UAEXXZ=?rva0025D9E3@Display@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v09@Display@@UAEXXZ=?reset@Display@@QAEXXZ")
 #pragma comment(linker, "/alternatename:?v11@Display@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
 #pragma comment(linker, "/alternatename:?v14@Display@@UAEXXZ=?setHeight@Display@@UAEXI@Z")
 #pragma comment(linker, "/alternatename:?v15@Display@@UAEXXZ=?setWidth@Display@@UAEXI@Z")
@@ -463,7 +463,7 @@ void Display::rva0025C238()
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?v02@Display@@UAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")
-#pragma comment(linker, "/alternatename:?v10@Display@@UAEXXZ=?rva0025C4F3@Display@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v10@Display@@UAEXXZ=?update@Display@@QAEXXZ")
 #pragma comment(linker, "/alternatename:?v12@Display@@UAEXXZ=?rva0025C25A@Rva0025C25AForwarder@@QAEXXZ")
 #pragma comment(linker, "/alternatename:?v18@Display@@UAEXXZ=?set@Rva002B22A5DwordSlot@@QAEXH@Z")
 #pragma comment(linker, "/alternatename:?v20@Display@@UAEXXZ=?set@Rva00049F2BByteSlot@@QAEXE@Z")

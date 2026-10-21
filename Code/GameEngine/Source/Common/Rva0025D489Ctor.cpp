@@ -322,7 +322,7 @@ public:
 	virtual void v68();
 	void rva0025D19E();
 	void rva0025D358(UnicodeString s, float fC0, float fC4, int iB4, int iB8, int iBC);
-	void rva0025D9E3();
+	void reset();
 	void rva00049F94(AsciiString s);
 private:
 int widthC,height10,bitDepth14; bool window18; char gap19[3];
@@ -346,7 +346,7 @@ int widthC,height10,bitDepth14; bool window18; char gap19[3];
 #pragma comment(linker, "/alternatename:?v05@Display@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
 #pragma comment(linker, "/alternatename:?v06@Display@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?v08@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v09@Display@@UAEXXZ=?rva0025D9E3@Display@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v09@Display@@UAEXXZ=?reset@Display@@QAEXXZ")
 #pragma comment(linker, "/alternatename:?v11@Display@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
 #pragma comment(linker, "/alternatename:?v14@Display@@UAEXXZ=?setHeight@Display@@UAEXI@Z")
 #pragma comment(linker, "/alternatename:?v15@Display@@UAEXXZ=?setWidth@Display@@UAEXI@Z")

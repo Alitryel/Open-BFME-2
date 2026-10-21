@@ -168,7 +168,7 @@ public:
 	virtual void v66();
 	virtual void v67();
 	virtual void stopMovie();
-	void rva0025C4F3();
+	void update();
 	Bool rva0025CC7A(Bool skip);
 
 private:
@@ -309,7 +309,7 @@ double MovieFrameSum;
 int MovieFrameCount, MovieFrameDropped;
 class Rva0025C3AA { public: void rva0025C3AA(); };
 
-void Display::rva0025C4F3()
+void Display::update()
 {
     char text[40];
     if (m_videoStream && !m_field44) {

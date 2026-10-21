@@ -21,7 +21,7 @@ public:
 class Display
 {
 public:
-	void rva0025C4F3();
+	void update();
 };
 
 class Rva0004378D
@@ -36,7 +36,7 @@ private:
 
 void Rva0004378D::method()
 {
-	((Display *)this)->rva0025C4F3();
+	((Display *)this)->update();
 	((Rva00043511 *)&m_280)->rva0004353C();
 }
 

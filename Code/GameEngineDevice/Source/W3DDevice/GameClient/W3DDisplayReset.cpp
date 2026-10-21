@@ -83,7 +83,7 @@ public:
 class Display
 {
 public:
-	void rva0025D9E3();
+	void reset();
 };
 
 class W3DDisplay
@@ -104,7 +104,7 @@ private:
 
 void W3DDisplay::reset()
 {
-	((Display *)this)->rva0025D9E3();
+	((Display *)this)->reset();
 	TheWritableGlobalData->m_flagBBD = false;
 
 	SceneIterator *sceneIter = m_3DScene->Create_Iterator();
