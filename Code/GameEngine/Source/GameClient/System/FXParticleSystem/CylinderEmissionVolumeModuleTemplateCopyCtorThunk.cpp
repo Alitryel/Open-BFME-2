@@ -13,17 +13,19 @@ public:
 	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class CylinderEmissionVolumeModuleTemplateSubCopyShim
+// Retail's sub copy is the rowed LineEmissionVolumeInfo copy ctor at 0x003A653B.
+class LineEmissionVolumeInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	LineEmissionVolumeInfo(const LineEmissionVolumeInfo &that);
 	virtual void dummy();
 };
 
-// CylinderEmissionVolumeModuleTemplate_cvtbl0: matched references place it at VA 0xc1bb90 (retail .rdata value -86).
-extern "C" char CylinderEmissionVolumeModuleTemplate_cvtbl0 = -86;
-extern "C" char CylinderEmissionVolumeModuleTemplate_cvtbl4;
-extern "C" char CylinderEmissionVolumeModuleTemplate_csub_vtbl;
+// The three vftables (VA 0xc1bb90, 0xc1c780, 0xc1bb10) are the class's own,
+// emitted by FXParticleSystem.cpp; __identifier spells those symbols exactly.
+extern "C" char __identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BModuleTemplate@1@@");
+extern "C" char __identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BSecondaryModuleBase@1@@");
+extern "C" char __identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BCylinderEmissionVolumeInfo@1@@");
 
 class CylinderEmissionVolumeModuleTemplate
 {
@@ -44,14 +46,11 @@ CylinderEmissionVolumeModuleTemplate::CylinderEmissionVolumeModuleTemplate(
 	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
 		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	CylinderEmissionVolumeModuleTemplateSubCopyShim *sub =
-		(CylinderEmissionVolumeModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	LineEmissionVolumeInfo *sub = (LineEmissionVolumeInfo *)((char *)this + 8);
+	sub->LineEmissionVolumeInfo::LineEmissionVolumeInfo(*(const LineEmissionVolumeInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
-	*(void **)sub = &CylinderEmissionVolumeModuleTemplate_csub_vtbl;
-	m_v0 = &CylinderEmissionVolumeModuleTemplate_cvtbl0;
-	m_v4 = &CylinderEmissionVolumeModuleTemplate_cvtbl4;
+	*(void **)sub = &__identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BCylinderEmissionVolumeInfo@1@@");
+	m_v0 = &__identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BModuleTemplate@1@@");
+	m_v4 = &__identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BSecondaryModuleBase@1@@");
 }
 }
-// _CylinderEmissionVolumeModuleTemplate_cvtbl4: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
-#pragma comment(linker, "/alternatename:_CylinderEmissionVolumeModuleTemplate_cvtbl4=?vftable_0112B89C@@3HA")

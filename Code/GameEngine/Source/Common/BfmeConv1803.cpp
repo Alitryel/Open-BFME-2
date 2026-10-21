@@ -7,11 +7,17 @@
 // Callee addresses are read off retail call sites (reverse/symbols.csv).
 extern int BfmeVfZQ;
 
+// The base constructor is rowed as ??0Rva00131BE5 (WW3D2/Rva00131BE5Ctor.cpp).
+class Rva00131BE5
+{
+public:
+	Rva00131BE5(void *first, void *second, void *third, void *fourth, int fifth, int sixth);
+};
+
 class BfmeOwnerZQ
 {
 public:
 	BfmeOwnerZQ(void *first, void *second, void *third, void *fourth);
-	void bfmeBaseInitZQ(void *first, void *second, void *third, void *fourth, int fifth, int sixth);
 
 	void *m_bfmeVfZQ;
 	char unknown04[0x3C-4];
@@ -19,7 +25,7 @@ public:
 
 BfmeOwnerZQ::BfmeOwnerZQ(void *first, void *second, void *third, void *fourth)
 {
-	bfmeBaseInitZQ(first, second, third, fourth, 1, 0);
+	((Rva00131BE5 *)this)->Rva00131BE5::Rva00131BE5(first, second, third, fourth, 1, 0);
 	m_bfmeVfZQ = &BfmeVfZQ;
 
 }

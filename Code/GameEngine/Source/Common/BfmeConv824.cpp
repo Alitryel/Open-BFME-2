@@ -7,20 +7,19 @@
 // Callee addresses are read off retail call sites (reverse/symbols.csv).
 
 extern void *g_activeObj12F0610;
-extern const char bfmeString10CF748[];
 void __cdecl bfmeLogMsg574(const char *msg);
-void __cdecl bfmeNotify1_574(void *obj, void *param);
-// The console hook is rowed as Rva00333CD1Console(void *, LuaAr *)
-// (ScriptEngine/Rva00333CD1Console.cpp).
+// The traceback printer and the console hook are rowed as Rva00333BCALog and
+// Rva00333CD1Console (ScriptEngine/Rva00333BCALog.cpp, Rva00333CD1Console.cpp).
 struct LuaAr;
+void __cdecl Rva00333BCALog(void *L, LuaAr *ar);
 int __cdecl Rva00333CD1Console(void *L, LuaAr *ar);
 
 void __cdecl bfmeHandleDeactivation574(void *obj, void *param)
 {
 	if (g_activeObj12F0610 == obj) {
 		g_activeObj12F0610 = 0;
-		bfmeLogMsg574(bfmeString10CF748);
-		bfmeNotify1_574(obj, param);
+		bfmeLogMsg574("Step to ");
+		Rva00333BCALog(obj, (LuaAr *)param);
 		Rva00333CD1Console(obj, (LuaAr *)param);
 	}
 }

@@ -1,23 +1,18 @@
 // cl: -Ireference/open-bfme-1/game/GameEngine/Source/Common
 // Open-BFME5 conversions.
 //
-// ?bfmeGo1042D@BfmeA1042N@@QAEXXZ, retail 0x0044BD79, 41 bytes. Both callee pins
-// read off retail's REL32 displacements: 0x002035E2 is the local construction of
-// the 0xC-byte error object (already rowed as ??0FunctorNotSet@@QAE@XZ), and
-// 0x00629094 is retail's _CxxThrowException, already pinned for the CRT throw.
+// ?bfmeGo1042D@BfmeA1042N@@QAEXXZ, retail 0x0044BD79, 41 bytes. With no
+// target it throws FunctorNotSet: the rowed ctor ??0FunctorNotSet@@QAE@XZ at
+// 0x002035E2, then _CxxThrowException with the shared 0x00D0B644 throw info.
 
-class FunctorNotSet { public: FunctorNotSet(); };
-class BfmeErr1042
+class FunctorNotSet
 {
 public:
-	// Construction is the rowed ??0FunctorNotSet, reached by a qualified call.
-	__declspec(dllimport) __forceinline BfmeErr1042() { ((FunctorNotSet *)this)->FunctorNotSet::FunctorNotSet(); }
-
-	char m_bfmePad[0xc];
+	FunctorNotSet();
+	virtual ~FunctorNotSet();
+private:
+	char m_pad[0x0C - 4];
 };
-
-extern char g_bfmeMsg1042[];
-__declspec(noreturn) void __stdcall bfmeFatal1042(BfmeErr1042 *e, char *m);
 
 class BfmeB1042N
 {
@@ -38,11 +33,8 @@ void BfmeA1042N::bfmeGo1042D(void)
 {
 	BfmeB1042N *p = m_bfmeP;
 
-	if (p == 0) {
-		BfmeErr1042 e;
-
-		bfmeFatal1042(&e, g_bfmeMsg1042);
-	}
+	if (p == 0)
+		throw FunctorNotSet();
 
 	p->bfmeDoN1042();
 }

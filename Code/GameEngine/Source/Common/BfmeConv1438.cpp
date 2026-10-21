@@ -1,5 +1,13 @@
 // cl: /Od
 
+// Const-source range insertion (pos, first, last, forward tag), rowed at 0x00028820.
+struct BfmeRangeTag;
+class Rva008314E0String
+{
+public:
+	void insertRange(char *pos, char *first, char *last, const BfmeRangeTag &tag);
+};
+
 struct BfmePadVMR
 {
 	char m[48];
@@ -15,7 +23,6 @@ class BfmeStrVMR
 {
 public:
 	void bfmeFwdVMR(int a, int b, int c);
-	void bfmeImplVMR(int a, int b, int c);
 };
 
 void BfmeStrVMR::bfmeFwdVMR(int a, int b, int c)
@@ -36,6 +43,6 @@ void BfmeStrVMR::bfmeFwdVMR(int a, int b, int c)
 		mov ecx, dword ptr a
 		push ecx
 		mov ecx, this
-		call bfmeImplVMR
+		call Rva008314E0String::insertRange
 	}
 }

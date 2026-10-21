@@ -2,9 +2,9 @@
 // Reconstruction of the 58B dense-wheel copier at 0x00319831: when the
 // Drawable wheel info is present and dense, run the pinned 0x538ED1
 // worker on the second fetch, then mirror +0x44/+0x48 into +0x3C/+0x40;
-// then run the rowed listener forEach on the +0x08 list and tail-jump
-// the rowed 0x3195C9 gate. The 0x538ED1 worker reads its second word
-// from the stale stack slot holding pushed-esi (the owner), so it is
+// then run the rowed listener forEach on the +0x08 list with listener
+// slot +0x10 (vcall thunk 0x005CB26A). The 0x538ED1 worker reads its second
+// word from the stale stack slot holding pushed-esi (the owner), so it is
 // declared here taking only this (no pushes emitted); the bytes and the
 // runtime owner both match. The second getWheelInfo call reuses stale
 // ecx with no reload, which MSVC does not emit for an opaque thiscall,
@@ -32,7 +32,11 @@ public:
 class Rva003197EEListener
 {
 public:
-	virtual void notify(void *);
+	virtual void notify00(void *);
+	virtual void notify04(void *);
+	virtual void notify08(void *);
+	virtual void notify0C(void *);
+	virtual void notify10(void *);
 };
 
 class Rva003197EEList
@@ -63,10 +67,5 @@ void Rva003195C9Owner::rva00319831(void *arg)
 	}
 	m_3c = m_44;
 	m_40 = m_48;
-	union {
-		int addr;
-		void (Rva003197EEListener::*notify)(void *);
-	} u;
-	u.addr = 0x9cb26a;
-	((Rva003197EEList *)(((char *)this) + 8))->forEach(u.notify, this);
+	((Rva003197EEList *)(((char *)this) + 8))->forEach(&Rva003197EEListener::notify10, this);
 }
