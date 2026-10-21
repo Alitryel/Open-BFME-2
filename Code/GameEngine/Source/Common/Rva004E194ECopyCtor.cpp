@@ -6,7 +6,7 @@ class Rva004E194E
 {
 public:
 	virtual ~Rva004E194E();
-	Rva004E194E(const Rva004E194E &o);
+	Rva004E194E(const Rva004E194E &other);
 private:
 	int m_04;
 	int m_08;
@@ -14,6 +14,6 @@ private:
 	unsigned char m_10;
 };
 
-Rva004E194E::Rva004E194E(const Rva004E194E &o) : m_04(o.m_04), m_08(o.m_08), m_0C(o.m_0C), m_10(o.m_10)
+Rva004E194E::Rva004E194E(const Rva004E194E &other) : m_04(other.m_04), m_08(other.m_08), m_0C(other.m_0C), m_10(other.m_10)
 {
 }

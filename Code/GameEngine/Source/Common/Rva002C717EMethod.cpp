@@ -9,7 +9,7 @@ struct TreeHintPayload001F8ACB
 {
 	int m_val;
 	TreeHintPayload001F8ACB() : m_val(0) {}
-	TreeHintPayload001F8ACB(const TreeHintPayload001F8ACB &o) : m_val(o.m_val) {}
+	TreeHintPayload001F8ACB(const TreeHintPayload001F8ACB &other) : m_val(other.m_val) {}
 };
 
 typedef _STL::pair<const AsciiString, TreeHintPayload001F8ACB> TreeHintPair001F8ACB;

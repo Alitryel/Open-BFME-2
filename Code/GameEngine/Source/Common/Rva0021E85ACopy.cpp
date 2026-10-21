@@ -35,7 +35,7 @@ namespace _STL { template <> void _Construct<pair<long const ,LadderPref>,pair<l
 class BfmeFixedStorage002CF0F0
 {
 public:
-	BfmeFixedStorage002CF0F0(const BfmeFixedStorage002CF0F0 &o) throw();
+	BfmeFixedStorage002CF0F0(const BfmeFixedStorage002CF0F0 &other) throw();
 private:
 	int m_00;
 };
@@ -48,7 +48,7 @@ struct Tail108
 class Rva0021E85A
 {
 public:
-	Rva0021E85A(const Rva0021E85A &o);
+	Rva0021E85A(const Rva0021E85A &other);
 private:
 	AsciiString m_00;
 	AsciiString m_04;
@@ -71,24 +71,24 @@ private:
 	Tail108 m_6c;
 };
 
-Rva0021E85A::Rva0021E85A(const Rva0021E85A &o)
-	: m_00(o.m_00)
-	, m_04(o.m_04)
-	, m_08(o.m_08)
-	, m_0c(o.m_0c)
-	, m_10(o.m_10)
-	, m_14(o.m_14)
-	, m_18(o.m_18)
-	, m_1c(o.m_1c)
-	, m_20(o.m_20)
-	, m_24(o.m_24)
-	, m_30(o.m_30)
-	, m_3c(o.m_3c)
-	, m_48(o.m_48)
-	, m_54(o.m_54)
-	, m_60(o.m_60)
-	, m_64(o.m_64)
-	, m_68(o.m_68)
-	, m_6c(o.m_6c)
+Rva0021E85A::Rva0021E85A(const Rva0021E85A &other)
+	: m_00(other.m_00)
+	, m_04(other.m_04)
+	, m_08(other.m_08)
+	, m_0c(other.m_0c)
+	, m_10(other.m_10)
+	, m_14(other.m_14)
+	, m_18(other.m_18)
+	, m_1c(other.m_1c)
+	, m_20(other.m_20)
+	, m_24(other.m_24)
+	, m_30(other.m_30)
+	, m_3c(other.m_3c)
+	, m_48(other.m_48)
+	, m_54(other.m_54)
+	, m_60(other.m_60)
+	, m_64(other.m_64)
+	, m_68(other.m_68)
+	, m_6c(other.m_6c)
 {
 }

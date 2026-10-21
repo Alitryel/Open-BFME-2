@@ -23,14 +23,14 @@ void __stdcall rva0010EE29(void *stream)
 class Rva001100D6
 {
 public:
-	bool rva001100D6(const Rva001100D6 &o) const;
+	bool rva001100D6(const Rva001100D6 &other) const;
 private:
 	int m_00;
 };
 
-bool Rva001100D6::rva001100D6(const Rva001100D6 &o) const
+bool Rva001100D6::rva001100D6(const Rva001100D6 &other) const
 {
-	return m_00 != o.m_00;
+	return m_00 != other.m_00;
 }
 
 // --- 0x001116E7 (67B): an 8-bit BGR triple scaled to 5:5:5.

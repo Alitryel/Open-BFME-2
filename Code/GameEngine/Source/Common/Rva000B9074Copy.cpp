@@ -17,7 +17,7 @@ class StringBase
 
 	Header *m_data;
 
-	StringBase(const StringBase &o);
+	StringBase(const StringBase &other);
 
 	friend class Rva000B9074;
 };
@@ -25,7 +25,7 @@ class StringBase
 class Rva000B9074
 {
 public:
-	Rva000B9074(const Rva000B9074 &o);
+	Rva000B9074(const Rva000B9074 &other);
 private:
 	int m_0;
 	int m_4;
@@ -35,11 +35,11 @@ private:
 	StringBase<char> m_str10;
 };
 
-Rva000B9074::Rva000B9074(const Rva000B9074 &o)
-	: m_0(o.m_0)
-	, m_4(o.m_4)
-	, m_8(o.m_8)
-	, m_C(o.m_C)
-	, m_str10(o.m_str10)
+Rva000B9074::Rva000B9074(const Rva000B9074 &other)
+	: m_0(other.m_0)
+	, m_4(other.m_4)
+	, m_8(other.m_8)
+	, m_C(other.m_C)
+	, m_str10(other.m_str10)
 {
 }

@@ -43,7 +43,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 struct TreeHintRef00217D4C
 {
     TargetRef00217D4C *m_ptr;
-    TreeHintRef00217D4C(const TreeHintRef00217D4C &o) : m_ptr(o.m_ptr)
+    TreeHintRef00217D4C(const TreeHintRef00217D4C &other) : m_ptr(other.m_ptr)
     {
         if (m_ptr)
             ++m_ptr->m_references;

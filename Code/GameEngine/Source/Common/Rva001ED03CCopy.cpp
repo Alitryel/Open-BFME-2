@@ -9,13 +9,13 @@
 class Rva001ECF66
 {
 public:
-	Rva001ECF66(const Rva001ECF66 &o);
+	Rva001ECF66(const Rva001ECF66 &other);
 };
 
 class Rva001ED03C
 {
 public:
-	Rva001ED03C(const Rva001ED03C &o);
+	Rva001ED03C(const Rva001ED03C &other);
 private:
 	AsciiString m_00;
 	AsciiString m_04;
@@ -24,11 +24,11 @@ private:
 	Rva001ECF66 m_18;
 };
 
-Rva001ED03C::Rva001ED03C(const Rva001ED03C &o)
-	: m_00(o.m_00),
-	  m_04(o.m_04),
-	  m_08(o.m_08),
-	  m_0c(o.m_0c),
-	  m_18(o.m_18)
+Rva001ED03C::Rva001ED03C(const Rva001ED03C &other)
+	: m_00(other.m_00),
+	  m_04(other.m_04),
+	  m_08(other.m_08),
+	  m_0c(other.m_0c),
+	  m_18(other.m_18)
 {
 }

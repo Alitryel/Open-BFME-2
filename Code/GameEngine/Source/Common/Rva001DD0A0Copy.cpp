@@ -20,13 +20,13 @@ struct Rva001DD0A0 {
     int f28;
     int f2C;
     int f30;
-    Rva001DD0A0(const Rva001DD0A0 &o);
+    Rva001DD0A0(const Rva001DD0A0 &other);
 };
-Rva001DD0A0::Rva001DD0A0(const Rva001DD0A0 &o)
-    : f00(o.f00), f04(o.f04), f08(o.f08), f0C(o.f0C),
-      f10(o.f10), f14(o.f14), f18(o.f18), f1C(o.f1C),
-      b20(o.b20), b21(o.b21), b22(o.b22),
-      f24(o.f24), f28(o.f28), f2C(o.f2C), f30(o.f30)
+Rva001DD0A0::Rva001DD0A0(const Rva001DD0A0 &other)
+    : f00(other.f00), f04(other.f04), f08(other.f08), f0C(other.f0C),
+      f10(other.f10), f14(other.f14), f18(other.f18), f1C(other.f1C),
+      b20(other.b20), b21(other.b21), b22(other.b22),
+      f24(other.f24), f28(other.f28), f2C(other.f2C), f30(other.f30)
 {
 }
 

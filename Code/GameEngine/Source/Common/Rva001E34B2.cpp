@@ -22,7 +22,7 @@ struct Rva001E34B2Point
 	Real y;
 	Real z;
 	Rva001E34B2Point(Real ax, Real ay, Real az) { x = ax; y = ay; z = az; }
-	Rva001E34B2Point(const Rva001E34B2Point &o) { x = o.x; y = o.y; z = o.z; }
+	Rva001E34B2Point(const Rva001E34B2Point &other) { x = other.x; y = other.y; z = other.z; }
 };
 
 struct Rva001E34B2Node

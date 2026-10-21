@@ -17,17 +17,17 @@ protected:
 class Rva00405B60 : public Rva00405A45
 {
 public:
-	Rva00405B60(const Rva00405B60 &o);
+	Rva00405B60(const Rva00405B60 &other);
 private:
 	int m_4;
 	int m_8;
 	int m_c;
 };
 
-Rva00405B60::Rva00405B60(const Rva00405B60 &o) : Rva00405A45((int)&o)
+Rva00405B60::Rva00405B60(const Rva00405B60 &other) : Rva00405A45((int)&other)
 {
 	m_vtable = __identifier("??_7Rva004C1B60Adapter@@6B@");
-	m_4 = o.m_4;
-	m_8 = o.m_8;
-	m_c = o.m_c;
+	m_4 = other.m_4;
+	m_8 = other.m_8;
+	m_c = other.m_c;
 }

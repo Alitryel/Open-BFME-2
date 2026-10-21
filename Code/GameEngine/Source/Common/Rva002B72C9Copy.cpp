@@ -23,9 +23,9 @@ struct Rva002B72C9
 	unsigned int word0;
 	unsigned int word4;
 	_STL::vector<unsigned int> values08;
-	Rva002B72C9(const Rva002B72C9 &o);
+	Rva002B72C9(const Rva002B72C9 &other);
 };
 
-Rva002B72C9::Rva002B72C9(const Rva002B72C9 &o) : word0(o.word0), word4(o.word4), values08(o.values08)
+Rva002B72C9::Rva002B72C9(const Rva002B72C9 &other) : word0(other.word0), word4(other.word4), values08(other.values08)
 {
 }

@@ -3,7 +3,7 @@
 class Rva0036CA00Str
 {
 public:
-	Rva0036CA00Str(const Rva0036CA00Str &o);
+	Rva0036CA00Str(const Rva0036CA00Str &other);
 private:
 	int m_00;
 };
@@ -12,13 +12,13 @@ class Rva004E18A2
 {
 public:
 	virtual ~Rva004E18A2();
-	Rva004E18A2(const Rva004E18A2 &o);
+	Rva004E18A2(const Rva004E18A2 &other);
 private:
 	int m_04;
 	Rva0036CA00Str m_08;
 	unsigned char m_0C;
 };
 
-Rva004E18A2::Rva004E18A2(const Rva004E18A2 &o) : m_04(o.m_04), m_08(o.m_08), m_0C(o.m_0C)
+Rva004E18A2::Rva004E18A2(const Rva004E18A2 &other) : m_04(other.m_04), m_08(other.m_08), m_0C(other.m_0C)
 {
 }

@@ -8,7 +8,7 @@
 template <typename T> class StringBase
 {
 public:
-	void set(const StringBase &o);
+	void set(const StringBase &other);
 private:
 	T *m_data;
 };
@@ -17,7 +17,7 @@ class GameSlot {
 public:
 	virtual ~GameSlot();
 	char _pad[0x1AC - 4];
-	GameSlot &rva002DBAB9(const GameSlot &o);
+	GameSlot &rva002DBAB9(const GameSlot &other);
 };
 
 struct Rva004479FD
@@ -29,7 +29,7 @@ struct Rva004479FD
 	int m_10;
 	int m_14;
 	int m_18;
-	Rva004479FD &rva004479FD(const Rva004479FD &o);
+	Rva004479FD &rva004479FD(const Rva004479FD &other);
 };
 
 struct Rva00447B0E
@@ -38,15 +38,15 @@ struct Rva00447B0E
 	Rva004479FD m_1AC;
 	StringBase<char> m_1C8;
 	int m_1CC;
-	Rva00447B0E &rva00447B58(const Rva00447B0E &o);
+	Rva00447B0E &rva00447B58(const Rva00447B0E &other);
 };
 typedef char Rva00447B0ESizeCheck[sizeof(Rva00447B0E) == 0x1D0 ? 1 : -1];
 
-Rva00447B0E &Rva00447B0E::rva00447B58(const Rva00447B0E &o)
+Rva00447B0E &Rva00447B0E::rva00447B58(const Rva00447B0E &other)
 {
-	m_base00.rva002DBAB9(o.m_base00);
-	m_1AC.rva004479FD(o.m_1AC);
-	m_1C8.set(o.m_1C8);
-	m_1CC = o.m_1CC;
+	m_base00.rva002DBAB9(other.m_base00);
+	m_1AC.rva004479FD(other.m_1AC);
+	m_1C8.set(other.m_1C8);
+	m_1CC = other.m_1CC;
 	return *this;
 }

@@ -3,7 +3,7 @@
 class Rva00469155
 {
 public:
-	Rva00469155 &operator=(const Rva00469155 &o);
+	Rva00469155 &operator=(const Rva00469155 &other);
 
 private:
 	struct Float3
@@ -20,7 +20,7 @@ class Rva00469BEA
 {
 public:
 	Rva00469BEA(const int &a, const Rva00469155 &b);
-	Rva00469BEA(const Rva00469BEA &o);
+	Rva00469BEA(const Rva00469BEA &other);
 
 private:
 	int m_00;
@@ -32,9 +32,9 @@ __declspec(noinline) inline Rva00469BEA::Rva00469BEA(const int &a, const Rva0046
 	m_04 = b;
 }
 
-Rva00469BEA::Rva00469BEA(const Rva00469BEA &o) : m_00(o.m_00)
+Rva00469BEA::Rva00469BEA(const Rva00469BEA &other) : m_00(other.m_00)
 {
-	m_04 = o.m_04;
+	m_04 = other.m_04;
 }
 
 // Select-any: HordeContainIface11CSlots.cpp compiles an identical copy; the anchor keeps the rowed body emitted.

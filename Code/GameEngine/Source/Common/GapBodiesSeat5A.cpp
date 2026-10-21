@@ -204,7 +204,7 @@ void Rva005F5FD9::rva005F5FD9(const char *)
 // read keeps the pointer in eax.
 struct Rva005964B0Position
 {
-	Rva005964B0Position(const Rva005964B0Position &o) : x(o.x), y(o.y), z(o.z) {}
+	Rva005964B0Position(const Rva005964B0Position &other) : x(other.x), y(other.y), z(other.z) {}
 	float x;
 	float y;
 	float z;

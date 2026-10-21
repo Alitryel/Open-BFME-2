@@ -13,14 +13,14 @@ struct Rva001DD063 {
     int f14;
     int f18;
     int f1C;
-    Rva001DD063(const Rva001DD063 &o);
+    Rva001DD063(const Rva001DD063 &other);
 };
 struct Rva001DD1B3 {
     int f00;
     Rva001DD063 f04;
-    Rva001DD1B3(const Rva001DD1B3 &o);
+    Rva001DD1B3(const Rva001DD1B3 &other);
 };
-Rva001DD1B3::Rva001DD1B3(const Rva001DD1B3 &o)
-    : f00(o.f00), f04(o.f04)
+Rva001DD1B3::Rva001DD1B3(const Rva001DD1B3 &other)
+    : f00(other.f00), f04(other.f04)
 {
 }

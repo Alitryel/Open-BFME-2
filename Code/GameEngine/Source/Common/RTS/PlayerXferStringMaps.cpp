@@ -107,7 +107,7 @@ struct _Ht_iterator
 {
 	_Ht_iterator() {}
 	_Ht_iterator(void *cur, void *ht) : _M_cur(cur), _M_ht(ht) {}
-	_Ht_iterator(const _Ht_iterator &o) : _M_cur(o._M_cur), _M_ht(o._M_ht) {}
+	_Ht_iterator(const _Ht_iterator &other) : _M_cur(other._M_cur), _M_ht(other._M_ht) {}
 	void *_M_cur;
 	void *_M_ht;
 };
@@ -138,7 +138,7 @@ class Rva000411084
 {
 public:
 	Rva000411084() {}
-	Rva000411084 &operator=(const WVIter &o) { m_current = o._M_cur; m_owner = o._M_ht; return *this; }
+	Rva000411084 &operator=(const WVIter &other) { m_current = other._M_cur; m_owner = other._M_ht; return *this; }
 	Rva000411084(const WVIter &wVIter) : m_current(wVIter._M_cur), m_owner(wVIter._M_ht) {}
 	__declspec(noinline) void *next()					// 0x00411084
 	{

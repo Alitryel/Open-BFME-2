@@ -50,16 +50,16 @@ struct Rva001EB15A
 	StringBase<char> m_str10;
 	unsigned char m_14;
 	Rva001EB15A();
-	Rva001EB15A(const Rva001EB15A &o);
+	Rva001EB15A(const Rva001EB15A &other);
 };
 
-Rva001EB15A::Rva001EB15A(const Rva001EB15A &o)
-	: m_00(o.m_00)
-	, m_04(o.m_04)
-	, m_08(o.m_08)
-	, m_wstr0C(o.m_wstr0C)
-	, m_str10(o.m_str10)
-	, m_14(o.m_14)
+Rva001EB15A::Rva001EB15A(const Rva001EB15A &other)
+	: m_00(other.m_00)
+	, m_04(other.m_04)
+	, m_08(other.m_08)
+	, m_wstr0C(other.m_wstr0C)
+	, m_str10(other.m_str10)
+	, m_14(other.m_14)
 {
 }
 

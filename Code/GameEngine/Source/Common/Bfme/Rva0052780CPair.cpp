@@ -10,7 +10,7 @@ struct Rva0052780CPair
 	char flag;
 	int value;
 	Rva0052780CPair() {}
-	Rva0052780CPair(const Rva0052780CPair &o) { *(long long *)this = *(const long long *)&o; }
+	Rva0052780CPair(const Rva0052780CPair &other) { *(long long *)this = *(const long long *)&other; }
 };
 
 Rva0052780CPair Rva0052780C(char flag, int value)

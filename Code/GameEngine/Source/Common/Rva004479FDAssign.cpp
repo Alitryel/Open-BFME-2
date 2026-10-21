@@ -7,7 +7,7 @@
 template <typename T> class StringBase
 {
 public:
-	void set(const StringBase &o);
+	void set(const StringBase &other);
 private:
 	T *m_data;
 };
@@ -21,17 +21,17 @@ struct Rva004479FD
 	int m_10;
 	int m_14;
 	int m_18;
-	Rva004479FD &rva004479FD(const Rva004479FD &o);
+	Rva004479FD &rva004479FD(const Rva004479FD &other);
 };
 
-Rva004479FD &Rva004479FD::rva004479FD(const Rva004479FD &o)
+Rva004479FD &Rva004479FD::rva004479FD(const Rva004479FD &other)
 {
-	m_00.set(o.m_00);
-	m_04.set(o.m_04);
-	m_08.set(o.m_08);
-	m_0C = o.m_0C;
-	m_10 = o.m_10;
-	m_14 = o.m_14;
-	m_18 = o.m_18;
+	m_00.set(other.m_00);
+	m_04.set(other.m_04);
+	m_08.set(other.m_08);
+	m_0C = other.m_0C;
+	m_10 = other.m_10;
+	m_14 = other.m_14;
+	m_18 = other.m_18;
 	return *this;
 }

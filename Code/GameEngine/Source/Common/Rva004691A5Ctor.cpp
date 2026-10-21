@@ -20,7 +20,7 @@ class Rva00469155
 {
 public:
 	Rva00469155();
-	Rva00469155 &operator=(const Rva00469155 &o);
+	Rva00469155 &operator=(const Rva00469155 &other);
 
 private:
 	struct Float3
@@ -52,17 +52,17 @@ void *bfmeAnchorRva00469155(void *where)
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
-__declspec(noinline) inline Rva00469155 &Rva00469155::operator=(const Rva00469155 &o)
+__declspec(noinline) inline Rva00469155 &Rva00469155::operator=(const Rva00469155 &other)
 {
-	m_pos = o.m_pos;
-	m_0C = o.m_0C;
+	m_pos = other.m_pos;
+	m_0C = other.m_0C;
 	return *this;
 }
 
 // ?bfmeAnchorRva00469155Assign absent-from-retail
-Rva00469155 &bfmeAnchorRva00469155Assign(Rva00469155 *p, const Rva00469155 &o)
+Rva00469155 &bfmeAnchorRva00469155Assign(Rva00469155 *p, const Rva00469155 &other)
 {
-	return *p = o;
+	return *p = other;
 }
 
 

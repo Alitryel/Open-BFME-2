@@ -56,7 +56,7 @@ struct Rva00170EFEIter
 {
 	Rva00170EFENode *node;
 	Rva00170EFEIter(Rva00170EFENode *p) : node(p) {}
-	Rva00170EFEIter(const Rva00170EFEIter &o) : node(o.node) {}
+	Rva00170EFEIter(const Rva00170EFEIter &other) : node(other.node) {}
 };
 
 struct Rva00170DB7Out

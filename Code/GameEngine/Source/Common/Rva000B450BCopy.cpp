@@ -8,7 +8,7 @@ namespace _STL
 class gslice
 {
 public:
-	gslice(const gslice &o);
+	gslice(const gslice &other);
 private:
 	char m_pad[0x14];
 };
@@ -17,7 +17,7 @@ private:
 class Rva000B3F15
 {
 public:
-	Rva000B3F15 &operator=(const Rva000B3F15 &o);
+	Rva000B3F15 &operator=(const Rva000B3F15 &other);
 private:
 	void *m_ptr;
 };
@@ -25,13 +25,13 @@ private:
 class Rva000B450B
 {
 public:
-	Rva000B450B(const Rva000B450B &o);
+	Rva000B450B(const Rva000B450B &other);
 private:
 	_STL::gslice m_slice;
 	Rva000B3F15 m_other;
 };
 
-Rva000B450B::Rva000B450B(const Rva000B450B &o) : m_slice(o.m_slice)
+Rva000B450B::Rva000B450B(const Rva000B450B &other) : m_slice(other.m_slice)
 {
-	m_other = o.m_other;
+	m_other = other.m_other;
 }

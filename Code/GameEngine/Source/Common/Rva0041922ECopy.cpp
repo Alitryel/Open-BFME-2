@@ -19,4 +19,4 @@ struct Rva0041922E {
  Rva0041922E(const Rva0041922E &);
  AsciiString m_00; Rva004191E5 m_04;
 };
-Rva0041922E::Rva0041922E(const Rva0041922E &o):m_00(o.m_00),m_04(o.m_04){}
+Rva0041922E::Rva0041922E(const Rva0041922E &other):m_00(other.m_00),m_04(other.m_04){}

@@ -22,7 +22,7 @@ public:
 	struct Vec12
 	{
 		Vec12() {}
-		Vec12(const Vec12 &o) : x(o.x), y(o.y), z(o.z) {}
+		Vec12(const Vec12 &other) : x(other.x), y(other.y), z(other.z) {}
 		float x, y, z;
 	};
 	Rva0027D244 *rva0027D244(int v);
