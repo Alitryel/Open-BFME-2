@@ -185,6 +185,7 @@ public:
 	Rva005F4EE8(EmitVtableTag *);
 public:
 	virtual ~Rva005F4EE8();
+	virtual void notifyClosed();	// slot 1, rowed in Rva005F4DC4Create.cpp (0x005F4B48)
 };
 
 // ?<Rva005F4EE8::Rva005F4EE8> absent-from-retail
