@@ -76,11 +76,11 @@ private:
 	unsigned int m_bits284[4];
 };
 
-bool Object::hasUpgrade(const UpgradeTemplate *tmpl) const
+bool Object::hasUpgrade(const UpgradeTemplate *upgradeT) const
 {
-	if (!tmpl)
+	if (!upgradeT)
 		return false;
-	return rva0028D9E5(tmpl->m_bitIndex);
+	return rva0028D9E5(upgradeT->m_bitIndex);
 }
 
 void Object::rva00290D42(const UpgradeTemplate *upgrade)
