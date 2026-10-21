@@ -11,7 +11,7 @@
 // spelling without asserting that its pointee is a coordinate at this call.
 // Same-valued owner-conditioned AI PHI keeps the native ECX load. Declaring
 // zero angle before the iface pointer gives the native order of stack stores.
-// cl: /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD /ICode/Libraries/Include /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 #include "Lib/Coord3D.h"
 #include <map>

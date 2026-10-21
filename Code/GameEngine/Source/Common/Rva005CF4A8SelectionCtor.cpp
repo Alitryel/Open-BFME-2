@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /Oy- /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
+// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
 // stlport
 // ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z, retail 0x005CF4A8, 525 bytes: selection-command constructor.
 // Codegen levers: the building lookup is an equal-arm conditional on the iterator (it ? call : call), which
