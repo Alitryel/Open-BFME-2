@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /DNDEBUG /MD
 //
-// ?rva004ADB1B@Rva004ADB1B@@QAE_NXZ @0x004ADB1B 188B.
+// ?handlePackingProcessing@Rva004ADB1B@@QAE_NXZ @0x004ADB1B 188B.
 // When the gate passes, lerp the drawable float at +0xb0 between 1.0f
 // and the source float at +0xc8. Kind 2 uses the +0x88 denominator.
 
@@ -35,7 +35,7 @@ class SpecialAbilityUpdate { friend class Rva004ADB1B; protected: bool handlePac
 class Rva004ADB1B
 {
 public:
-	bool rva004ADB1B();
+	bool handlePackingProcessing();
 	bool rva004B0348();
 
 private:
@@ -50,7 +50,7 @@ private:
 	float m_result8C;
 };
 
-bool Rva004ADB1B::rva004ADB1B()
+bool Rva004ADB1B::handlePackingProcessing()
 {
 	bool ok = ((SpecialAbilityUpdate*)this)->handlePackingProcessing();
 	if (ok == 0)

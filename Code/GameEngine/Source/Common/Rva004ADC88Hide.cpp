@@ -1,7 +1,7 @@
 // cl: /O1 /arch:SSE /DNDEBUG /MD
 //
 // ?rva004AD9E0@Rva004ADC88@@QAEXXZ @0x004AD9E0 77B.
-// ?rva004ADC88@Rva004ADC88@@QAEXXZ @0x004ADC88 96B.
+// ?finishAbility@Rva004ADC88@@QAEXXZ @0x004ADC88 96B.
 // 0x004AD9E0 drops the object at +8: 0x0028BAC0, leaveGroup, hide its
 // drawable, notify TheAI's +0x10 shim, then GameLogic::destroyObject.
 // 0x004ADC88 runs the virtual at 0x00451B92, writes 1.0f at the drawable's
@@ -78,7 +78,7 @@ class Rva004ADC88
 {
 public:
 	void rva004AD9E0();
-	void rva004ADC88();
+	void finishAbility();
 
 private:
 	char m_pad[4];
@@ -100,7 +100,7 @@ void Rva004ADC88::rva004AD9E0()
 	TheGameLogic->destroyObject(obj);
 }
 
-void Rva004ADC88::rva004ADC88()
+void Rva004ADC88::finishAbility()
 {
 	((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::rva00451B92();
 	void *other = m_other;

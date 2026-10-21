@@ -10,7 +10,7 @@
 // which tail-jmps here with the same this; noinline keeps that tail as a
 // jmp instead of inlining this 10B body.
 //
-// ?rva0049CA2F@Rva0044E6AE@@QAEXXZ @0x0049CA2F 296B (RF-1296-49CA2F)
+// ?triggerAbilityEffect@Rva0044E6AE@@QAEXXZ @0x0049CA2F 296B (RF-1296-49CA2F)
 // A set byte at +0x88 returns. Otherwise the base slot runs, the +0x40 id is
 // resolved, and a rejected target is told to idle. An accepted target clears
 // +0x89, applies the upgrade at object+0x284 through the provider slot 0x46
@@ -150,7 +150,7 @@ public:
 	virtual void virt34(int a, int b);
 	__declspec(noinline) void rva0044E6AE();
 	void rva0049C8FC();
-	void rva0049CA2F();
+	void triggerAbilityEffect();
 	char m_pad04[4];
 	Object *m_obj08;		// +0x08
 	char m_pad0C[0x40 - 0x0C];
@@ -184,8 +184,8 @@ void Rva0044E6AE::rva0049C8FC()
 	return rva0044E6AE();
 }
 
-// ?rva0049CA2F@Rva0044E6AE@@QAEXXZ @0x0049CA2F 296B
-void Rva0044E6AE::rva0049CA2F()
+// ?triggerAbilityEffect@Rva0044E6AE@@QAEXXZ @0x0049CA2F 296B
+void Rva0044E6AE::triggerAbilityEffect()
 {
 	if (m_flag88 != 0)
 		return;

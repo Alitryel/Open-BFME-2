@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD /EHsc
 //
-// ?rva004B5A65@Rva004B5A65_Secondary@@QAEXXZ @0x004B5A65 91B: secondary-slot
+// ?upgradeRemovalImplementation@Rva004B5A65_Secondary@@QAEXXZ @0x004B5A65 91B: secondary-slot
 // UpgradeModule apply (vtable 0x00C580E8 slot 0) with the twins' MI shape:
 // mask owner at this-0x0C (flag byte at +0x128), status target at this-8,
 // vfunc00 gate, vfunc09(0) tail. Flag set: controlling player grants
@@ -71,12 +71,12 @@ public:
 	virtual void vfunc07() = 0;
 	virtual void vfunc08() = 0;
 	virtual void vfunc09(int arg) = 0;
-	void rva004B5A65();
-	void rva004B5B4C();
+	void upgradeRemovalImplementation();
+	void upgradeImplementation();
 };
 
-// ?rva004B5A65@Rva004B5A65_Secondary@@QAEXXZ
-void Rva004B5A65_Secondary::rva004B5A65()
+// ?upgradeRemovalImplementation@Rva004B5A65_Secondary@@QAEXXZ
+void Rva004B5A65_Secondary::upgradeRemovalImplementation()
 {
 	if (!vfunc00())
 		return;
@@ -102,8 +102,8 @@ void Rva004B5A65_Secondary::rva004B5A65()
 	vfunc09(0);
 }
 
-// ?rva004B5B4C@Rva004B5A65_Secondary@@QAEXXZ
-void Rva004B5A65_Secondary::rva004B5B4C()
+// ?upgradeImplementation@Rva004B5A65_Secondary@@QAEXXZ
+void Rva004B5A65_Secondary::upgradeImplementation()
 {
 	Object *target = *(Object * *)((char *)this - 8);
 	Player *player = target->getControllingPlayer();

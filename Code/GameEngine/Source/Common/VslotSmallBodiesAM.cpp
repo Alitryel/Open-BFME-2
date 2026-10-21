@@ -131,20 +131,20 @@ public:
 	virtual void v07();
 	virtual void v08();
 	virtual void v09(Int a);
-	void rva004523E9();
-	void rva0045F393();
+	void upgradeRemovalImplementation();
+	void upgradeImplementation();
 	void rva004B471F();
 private:
 	Int m_04;
 	Int m_08;
 	Int m_0C;
 };
-void Rva004523E9::rva004523E9()
+void Rva004523E9::upgradeRemovalImplementation()
 {
 	m_0C = 0;
 	v09(0);
 }
-void Rva004523E9::rva0045F393()
+void Rva004523E9::upgradeImplementation()
 {
 	v09(1);
 }

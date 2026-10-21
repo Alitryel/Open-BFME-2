@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva004B3AFF@Rva004B3AFF@@QAEXXZ @0x004B3AFF 67B.
+// ?upgradeImplementation@Rva004B3AFF@@QAEXXZ @0x004B3AFF 67B.
 // Run the upgrade hook at this-0x10, push the AsciiString at +0x118 of
 // the object at this-0xC onto the Object at this-8, tell the skirmish
 // manager about that object twice, and mark TheControlBar +0x28.
@@ -46,10 +46,10 @@ extern ControlBar *TheControlBar;
 class Rva004B3AFF
 {
 public:
-	void rva004B3AFF();
+	void upgradeImplementation();
 };
 
-void Rva004B3AFF::rva004B3AFF()
+void Rva004B3AFF::upgradeImplementation()
 {
 	((UpgradeModule *)((char *)this - 0x10))->rva004CE4A0();
 	StringHolder *holder = *(StringHolder **)((char *)this - 0x0C);
