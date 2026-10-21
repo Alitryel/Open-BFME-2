@@ -121,4 +121,10 @@ namespace _STL { template <> pair<istreambuf_iterator<unsigned short,char_traits
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
-template class _STL::money_get<wchar_t, _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > >;
+// The locale owner emits the rowed constructor. Instantiate only this numeric
+// overload here so its vtable does not pull in the separate string parser.
+template _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> >
+_STL::money_get<wchar_t, _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > >::do_get(
+    _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> >,
+    _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> >,
+    bool, _STL::ios_base &, int &, long double &) const;
