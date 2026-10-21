@@ -13,15 +13,20 @@
 // Native-derived reconstruction; remaining code generation and declaration-binding evidence is in reverse/attempt_support/0007f0fb-20261019.md.
 // The transposed camera matrix is filled through the 16-float Matrix4x4 constructor, as ZH's FullMatrix; round 3 evidence is in reverse/attempt_support/0007f0fb-20261020.md.
 #include <float.h>
+// Use the retail-owned outline helpers while retaining the native inline arithmetic.
+class Vector4;
+__declspec(dllimport) __forceinline Vector4 operator * (const Vector4 &a, float k);
+#include "../../../../../../reference/shims/bfme_vp_math/vector4.h"
 #include "vector2.h"
 #include "vector3.h"
 #include "vector4.h"
 
 class Matrix3D;
-struct Matrix4 {
+class Matrix4 {
+public:
  float m[4][4];
  Matrix4(){}
- __forceinline Matrix4(const Matrix3D &s);
+ __declspec(dllimport) __forceinline Matrix4(const Matrix3D &s);
  __forceinline void Init(const Matrix3D &s);
  __forceinline Vector4 &operator[](int i) { return *(Vector4*)m[i]; }
  __forceinline const Vector4 &operator[](int i) const { return *(const Vector4*)m[i]; }
@@ -55,7 +60,7 @@ public:
   m[2][0]=s.m[2][0]; m[2][1]=s.m[2][1]; m[2][2]=s.m[2][2]; m[2][3]=s.m[2][3];
  }
 };
-__forceinline Matrix4::Matrix4(const Matrix3D &s) {
+__declspec(dllimport) __forceinline Matrix4::Matrix4(const Matrix3D &s) {
  Init(s);
 }
 __forceinline void Matrix4::Init(const Matrix3D &s) {
