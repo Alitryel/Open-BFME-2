@@ -1,19 +1,20 @@
 // ?do_get@?$money_get@GV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@0_NAAVios_base@2@AAHAAV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.845 date=2026-10-20
+// partial score=0.898 date=2026-10-21
 // ?do_get@?$money_get@GV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@0_NAAVios_base@2@AAHAAV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.845 date=2026-10-20
-// cl: /Ob1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
+// partial score=0.898 date=2026-10-21
+// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 // STLport4.5.3 wide money_get string parser; complete source, partial bytes.
 // Native 12190..12C82 is 2802 B code; 20 B switch table follows before padding.
 // Retire both the 122 B head 12190 and the 2680 B tail 1220A only on full verification.
-// claude3 2026-10-20: forceinline __get_string(const wchar_t*)/__get_symbol, a
-// decl-only wide ~_String_base specialization, and _MoneyNameStorage owners for
-// __ns/__ps/__buf (inline free). 2764 B; first 0x23D bytes exact, edi prologue ok.
-// Residue: retail calls the wide dtor out of line at 13 sites (ternary temps x6,
-// __cs scope end, two early-exit groups) yet frees the same three names inline at
-// the final exit; ours inlines the named owners everywhere and outlines ~locale at
-// two early exits (retail: ~locale always inline). Handoff:
+// claude3 2026-10-21 round 4: natural vendor body (n1) plus per-site
+// #pragma inline_depth(0) around the __ns/__ps/__cs declarations (ternary temps
+// outlined), the symbol case's break (__cs scope end) and loop returns 0, 3, 4.
+// Fit 0.898 (bank v2 0.845), nd 109. Residue: depth-0 sites call
+// ??1basic_string<G> (ledger 0x142D70) where retail calls ~_String_base<G> 0xB3C0;
+// early exits also outline ~locale (retail keeps it inline); retail inlines
+// __get_string at cs/ps/ns with const G* (ours: out-of-line call at cs, mismatch<PAG>
+// at ps/ns); __symbol_required slot [esp+0x1a] vs retail [esp+0x12]. Handoff:
 // reverse/attempt_support/wide-money-get-string-12190-20261020/handoff.md
 /*
  * Copyright (c) 1999
@@ -137,43 +138,14 @@ istreambuf_iterator<wchar_t, char_traits<wchar_t> >::operator++() {
     _M_have_c = false;
     return *this;
 }
-// These string operations are separate functions in this retail instantiation.
 }
 namespace _STL {
 typedef istreambuf_iterator<wchar_t, char_traits<wchar_t> > _MoneyIn;
-
-template <> __forceinline pair<_MoneyIn, bool> __get_string(_MoneyIn first, _MoneyIn last, const wchar_t* start, const wchar_t* end) {
-  pair<_MoneyIn, const wchar_t*> result = mismatch(first, last, start);
-  return make_pair(result.first, result.second == end);
-}
-
-// Same operation as __get_string; retail inlines only the symbol case.
-__forceinline pair<_MoneyIn, bool> __get_symbol(_MoneyIn first, _MoneyIn last, const wchar_t* start, const wchar_t* end) {
-  pair<_MoneyIn, const wchar_t*> result = mismatch(first, last, start);
-  return make_pair(result.first, result.second == end);
-}
-template <> _String_base<unsigned short, allocator<unsigned short> >::~_String_base();
-typedef basic_string<wchar_t> _MoneyString;
-class _MoneyNameStorage {
- union { unsigned char storage[sizeof(_MoneyString)]; void *alignment; };
-public:
- __forceinline _MoneyNameStorage() { new(storage,_MoneyStorageTag()) _MoneyString; }
- __forceinline _MoneyNameStorage(const _MoneyString &value) { new(storage,_MoneyStorageTag()) _MoneyString(value); }
- __forceinline ~_MoneyNameStorage() { wchar_t *p=ref().begin(); if(p) free(p); }
- __forceinline _MoneyString &ref() { return *reinterpret_cast<_MoneyString *>(storage); }
- __forceinline const _MoneyString &ref() const { return *reinterpret_cast<const _MoneyString *>(storage); }
- __forceinline operator _MoneyString &() { return ref(); }
- __forceinline operator const _MoneyString &() const { return ref(); }
- __forceinline const wchar_t *data() const { return ref().data(); }
- __forceinline size_t size() const { return ref().size(); }
- __forceinline wchar_t *begin() { return ref().begin(); }
- __forceinline wchar_t &operator[](size_t i) { return ref()[i]; }
- __forceinline void insert(wchar_t *p,wchar_t c) { ref().insert(p,c); }
-};
 template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn __end, bool __intl, ios_base& __str, ios_base::iostate& __err, basic_string<wchar_t>& __digits) const
 {
   typedef wchar_t _CharT;
   typedef _MoneyIn _InputIter;
+
   if (__s == __end) {
     __err |= ios_base::eofbit;
     return __s;
@@ -190,15 +162,24 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
                    
   money_base::pattern __format = __intl ? __punct_intl.neg_format()
                                         : __punct.neg_format();
-  _MoneyNameStorage __ns = __intl ? __punct_intl.negative_sign()
+  
+#pragma inline_depth(0)
+string_type __ns = __intl ? __punct_intl.negative_sign()
                             : __punct.negative_sign();
-  _MoneyNameStorage __ps = __intl ? __punct_intl.positive_sign()
+#pragma inline_depth()
+
+  
+#pragma inline_depth(0)
+string_type __ps = __intl ? __punct_intl.positive_sign()
                             : __punct.positive_sign();
+#pragma inline_depth()
+
   int __i;
   bool __is_positive = true;
   bool __symbol_required = (__str.flags() & ios_base::showbase) !=0;
-  _MoneyNameStorage __buf;
+  string_type __buf;
   back_insert_iterator<string_type> __out(__buf);
+//  pair<iter_type, bool> __result;
 
   for (__i = 0; __i < 4; ++__i) {
     switch (__format.field[__i]) {
@@ -206,7 +187,11 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
       if (__i == 3) {
         if (__c_type.is(ctype_base::space, *__s)) {
           __err = ios_base::failbit;
-          return __s;
+          
+#pragma inline_depth(0)
+return __s;
+#pragma inline_depth()
+
         }
         break;
       }
@@ -223,14 +208,20 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
         ++__s;
       break;
     case money_base::symbol: {
-      string_type __cs = __intl ? __punct_intl.curr_symbol()
+      
+#pragma inline_depth(0)
+string_type __cs = __intl ? __punct_intl.curr_symbol()
                                 : __punct.curr_symbol();
+#pragma inline_depth()
+
       pair<iter_type, bool>
-      __result  = __get_symbol(__s, __end, __cs.begin(), __cs.end());
+      __result  = __get_string(__s, __end, __cs.begin(), __cs.end());
       if (!__result.second && __symbol_required)
         __err = ios_base::failbit;
       __s = __result.first;
+#pragma inline_depth(0)
       break;
+#pragma inline_depth()
     }
     case money_base::sign: {
       if (__s == __end) {
@@ -253,6 +244,7 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
             break;
           }
           __err = ios_base::failbit;
+	  //          return __s;
         } 
         else {
           if (*__s == __ps[0]) {
@@ -267,9 +259,15 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
             break;
           }
           __err = ios_base::failbit;
+	  //          return __s;
         }
       }
-      return __s;
+      
+#pragma inline_depth(0)
+return __s;
+#pragma inline_depth()
+
+      //      break;
     }
     case money_base::value: {
       _CharT __point = __intl ? __punct_intl.decimal_point()
@@ -294,7 +292,11 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
         __err |= ios_base::failbit;
       if (!__result) {
         __err = ios_base::failbit;
-        return __s;
+        
+#pragma inline_depth(0)
+return __s;
+#pragma inline_depth()
+
       }
       break;
       
@@ -307,7 +309,7 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
   if (__is_positive) {
     if (__ps.size() > 1) {
       pair<_InputIter, bool>
-        __result = __get_string(__s, __end, ((const _MoneyNameStorage&)__ps).ref().begin() + 1, ((const _MoneyNameStorage&)__ps).ref().end());
+        __result = __get_string(__s, __end, __ps.begin() + 1, __ps.end());
       __s = __result.first;
       if (!__result.second)
 	__err |= ios::failbit;
@@ -318,7 +320,7 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
   else {
     if (__ns.size() > 1) {
       pair<_InputIter, bool>
-        __result = __get_string(__s, __end, ((const _MoneyNameStorage&)__ns).ref().begin() + 1, ((const _MoneyNameStorage&)__ns).ref().end());
+        __result = __get_string(__s, __end, __ns.begin() + 1, __ns.end());
       __s = __result.first;
       if (!__result.second)
 	__err |= ios::failbit;
