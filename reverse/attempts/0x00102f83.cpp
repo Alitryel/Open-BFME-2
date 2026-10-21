@@ -1,5 +1,7 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.878 date=2026-10-21
+// partial score=0.885 date=2026-10-21
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.885 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // hack-free r53 candidate fit=0.8782 date=2026-10-20 (bank 0.9045 used non-landable levers)
 // W7-ASTRA r3: full4319/4299B bank; normal REL32 all resolve.
@@ -465,6 +467,8 @@ void W3DCamTransform::transitionLiveMode(Vector3 *pos, Vector3 *target, View *vi
 // Whole native 0x00102F83..0x0010404E, 4299 bytes, RET4.
 // Identity: enclosing W3DCamTransform and reference camera algorithm;
 // original entry-point/descriptor names are not independently established.
+// r55: the else arm through a division helper keeps the two pitch arms apart (no tail merge)
+static __forceinline void adjustPitch(Vector3 &s,const Vector3 &t,float p){s.X=t.X+(s.X-t.X)/p;s.Y=t.Y+(s.Y-t.Y)/p;}
 __forceinline float cameraMin(float a,float b) {return a<b?a:b;}
 __forceinline float cameraMax(float a,float b) {return a>b?a:b;}
 /** @todo This is inefficient. We should construct the matrix directly using vectors. */
@@ -561,9 +565,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
             float height=sourcePos.Z-targetPos.Z; height*=v->fxPitch;targetPos.Z=sourcePos.Z-height;
         }
     } else {
-        float inversePitch=1.0f/v->fxPitch;
-        sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)*inversePitch;
-        sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch;
+        adjustPitch(sourcePos,targetPos,v->fxPitch);
     }
     if(v->positionHold) {
         Vector3 delta(v->source.X-sourcePos.X,v->source.Y-sourcePos.Y,v->source.Z-sourcePos.Z);
