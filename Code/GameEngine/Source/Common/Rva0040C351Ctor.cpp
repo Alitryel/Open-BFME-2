@@ -44,9 +44,9 @@ private:
 };
 struct MemberAC
 {
-	MemberAC() : m_vtable((void *)((unsigned int)vtbl_00BC6F20)), m_04(0) {}
+	MemberAC() : m_vtable((void *)((unsigned int)vtbl_00BC6F20)), m_thingTemplate(0) {}
 	void *m_vtable;
-	int m_04;
+	int m_thingTemplate;
 };
 class ArmySummaryEntry : public CarryoverUnit
 {
@@ -65,7 +65,7 @@ private:
 	int m_bc;
 	int m_c0;
 	unsigned char m_c4;
-	unsigned char m_c5;
+	unsigned char m_default;
 };
 typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
 struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
