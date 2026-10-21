@@ -56,7 +56,7 @@ public:
 	void initFromINIMulti(void *what, const MultiIniFieldParse &parse);
 
 	int m_00;
-	int m_04;
+	int m_thingTemplate;
 	int m_type;
 };
 
