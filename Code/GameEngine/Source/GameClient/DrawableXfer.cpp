@@ -351,7 +351,6 @@ public:
 };
 
 class Rva00270BA8 { public: Rva00270025 *rva00270BA8(); };
-class Rva00271058 { public: void setID(void *); };
 class Rva002716Holder { public: void rva00271547(); };
 class Rva0027974B { public: void rva0027974B(); };
 class Rva00279354Host { public: void rva00279354(bool); };
@@ -444,6 +443,7 @@ public:
 class Drawable : public Thing, public Snapshot
 {
 public:
+	void setID(void *);	// 0x00271058
 	const Matrix3D *getTransformMatrix() const;
 	void rva00272870(int decal);
 	void xferDrawableModules(Xfer *xfer);
@@ -451,7 +451,7 @@ public:
 	void rva002791E7(const ModelConditionFlags &flags, unsigned int a, unsigned int b);
 	bool rva00272C1E();
 
-	void setID(int id) { reinterpret_cast<Rva00271058 *>(this)->setID((void *)id); }
+	void setID(int id) { setID((void *)id); }
 	Rva00270025 *getIconInfo() { return reinterpret_cast<Rva00270BA8 *>(this)->rva00270BA8(); }
 
 	void createEmbeddedPortals();

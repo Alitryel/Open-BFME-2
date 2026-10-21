@@ -311,7 +311,6 @@ public:
 	ObjectID m_id;						// +0x74
 };
 
-class Rva00271058 { public: void setID(void *id); };
 class Rva002716Holder { public: void rva00271547(); };
 class Rva00279354Host { public: void rva00279354(bool b); };
 class Rva0027974B { public: void rva0027974B(); };
@@ -327,6 +326,7 @@ public:
 class Drawable : public Thing, public Snapshot
 {
 public:
+	void setID(void *id);	// 0x00271058
 	virtual ~Drawable();
 	virtual void LoadPostProcess();
 	virtual const char *GetSnapshotName() const;
@@ -421,7 +421,7 @@ void Drawable::DoXfer(Xfer *xfer)
 
 	int id = m_id;
 	XferDrawableID(xfer, &id);
-	((Rva00271058 *)this)->setID((void *)id);
+	setID((void *)id);
 
 	m_conditionState.xfer(xfer);
 	m_pendingClear.xfer(xfer);

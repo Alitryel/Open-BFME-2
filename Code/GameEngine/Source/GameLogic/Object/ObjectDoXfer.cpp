@@ -291,12 +291,7 @@ public:
 	virtual void slot13();         // +0x34
 
 	DrawableID getID() const;
-};
-
-class Rva00271058
-{
-public:
-	void setID(void *id);
+	void setID(void *id);	// 0x00271058
 };
 
 class BodyModule
@@ -698,7 +693,7 @@ void Object::xfer(Xfer *xfer)
 	{
 		if (draw == 0)
 			throw XferException(0, 0);
-		((Rva00271058 *)draw)->setID((void *)drawableID);
+		draw->setID((void *)drawableID);
 	}
 
 	*xfer == m_name;
