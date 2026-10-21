@@ -118,12 +118,12 @@ Object *SpecialAbilityUpdate::rva0044FEB6()
 			return 0;
 		killSpecialObjects();
 	}
-	const ThingTemplate *tmplRaw = TheThingFactory->findTemplate(md->m_name40);
-	if (tmplRaw != 0) {
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(md->m_name40);
+	if (thingTemplate != 0) {
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
 		Team *team = m_object->m_team304;
-		newObj = TheThingFactory->newObject(tmplRaw, team, &mask, false);
+		newObj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
 		if (newObj != 0) {
 			int id = newObj->m_id74;
 			m_list64.push_back(id);

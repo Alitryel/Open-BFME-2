@@ -62,18 +62,18 @@ StructureCollapseUpdate::StructureCollapseUpdate()
 
 void StructureCollapseUpdate::onDie(const DamageInfo *damageInfo)
 {
-	SCUView *v = (SCUView *)((char *)this - 0x1c);
-	Object *obj = v->m_object;
-	StructureCollapseUpdateModuleData *d = v->m_moduleData;
-	if (!d->m_dieMuxData.isDieApplicable(obj, damageInfo))
+	SCUView *sCUView = (SCUView *)((char *)this - 0x1c);
+	Object *obj = sCUView->m_object;
+	StructureCollapseUpdateModuleData *structureCollapseUpdateModuleData = sCUView->m_moduleData;
+	if (!structureCollapseUpdateModuleData->m_dieMuxData.isDieApplicable(obj, damageInfo))
 		return;
 
-	AIUpdateInterface *ai = ((ObjectView *)v->m_object)->m_ai;
+	AIUpdateInterface *ai = ((ObjectView *)sCUView->m_object)->m_ai;
 	if (ai)
 		ai->markAsDead();
 
 	// deselect this object for all players.
-	TheGameLogic->deselectObject(v->m_object, 0xfffff, true);
+	TheGameLogic->deselectObject(sCUView->m_object, 0xfffff, true);
 
 	((StructureCollapseUpdate *)((char *)this - 0x20))->beginStructureCollapse(damageInfo);
 }

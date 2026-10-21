@@ -116,7 +116,7 @@ private:
 
 UpdateSleepTime OneRingPenaltyUpdate::update()
 {
-	const OneRingPenaltyUpdateModuleData *d = m_moduleData;
+	const OneRingPenaltyUpdateModuleData *oneRingPenaltyUpdateModuleData = m_moduleData;
 	Object *obj = m_object;
 	Bool wearing = false;
 	if (obj->rva0028F518() || obj->testStatus((ObjectStatusTypes)0xF))
@@ -126,7 +126,7 @@ UpdateSleepTime OneRingPenaltyUpdate::update()
 			wearing = true;
 	}
 	UnsignedInt now = TheGameLogic->getFrame();
-	if (m_30 != 0 && now > d->m_14 + m_30)
+	if (m_30 != 0 && now > oneRingPenaltyUpdateModuleData->m_14 + m_30)
 		rva00499C35();
 	else if (m_28 == 0)
 	{
@@ -141,7 +141,7 @@ UpdateSleepTime OneRingPenaltyUpdate::update()
 	}
 	else if (m_24)
 		rva00499D23();
-	else if (now > d->m_0C + m_28)
+	else if (now > oneRingPenaltyUpdateModuleData->m_0C + m_28)
 		rva00499AFD();
 	return (UpdateSleepTime)BfmeLogicFramesPerSecond;
 }

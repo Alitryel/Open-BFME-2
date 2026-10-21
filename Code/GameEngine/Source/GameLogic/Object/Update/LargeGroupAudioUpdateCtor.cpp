@@ -117,8 +117,8 @@ LargeGroupAudioUpdate::LargeGroupAudioUpdate(Thing *thing, const ModuleData *mod
 	*slot24 = (int)((unsigned int)vtbl_00C548B8);
 	m_state28 = fzero;
 	m_state2C = fzero;
-	CondStore *cond30 = &m_condition30;
-	((Rva0042526Member *)cond30)->Rva0042526Member::Rva0042526Member();
+	CondStore *condStore = &m_condition30;
+	((Rva0042526Member *)condStore)->Rva0042526Member::Rva0042526Member();
 	((_STL::bitset<128> *)m_flags7C)->reset();
 	m_state90 |= -1;
 	m_flag8C = false;

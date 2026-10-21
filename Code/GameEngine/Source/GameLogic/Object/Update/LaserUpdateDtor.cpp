@@ -126,9 +126,9 @@ public:
 float LaserUpdate::getCurrentLaserRadius() const
 {
     const Drawable *draw = m_drawable;
-    for (LaserRadiusDrawModule **d = (LaserRadiusDrawModule **)((const Rva002B224BDwordField *)draw)->get(); *d; ++d)
+    for (LaserRadiusDrawModule **laserRadiusDrawModule = (LaserRadiusDrawModule **)((const Rva002B224BDwordField *)draw)->get(); *laserRadiusDrawModule; ++laserRadiusDrawModule)
     {
-        LaserDrawInterface *ldi = (*d)->getLaserDrawInterface();
+        LaserDrawInterface *ldi = (*laserRadiusDrawModule)->getLaserDrawInterface();
         if (ldi)
             return ldi->getLaserTemplateWidth() * m_currentWidthScalar;
     }

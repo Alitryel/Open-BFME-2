@@ -132,8 +132,8 @@ public:
  Player *getControllingPlayer() const; bool rva0028C15E(int, float *, int, int);
  const Coord3D *getPosition() const { return (const Coord3D *)((char *)this + 0x38); }
 };
-inline BFMEAIUpdateInterface *bfmeGetAI(const Object *o) { return *(BFMEAIUpdateInterface **)((char *)o + 0x258); }
-inline ExperienceTracker *bfmeGetExperienceTracker(const Object *o) { return *(ExperienceTracker **)((char *)o + 0x264); }
+inline BFMEAIUpdateInterface *bfmeGetAI(const Object *object) { return *(BFMEAIUpdateInterface **)((char *)object + 0x258); }
+inline ExperienceTracker *bfmeGetExperienceTracker(const Object *object) { return *(ExperienceTracker **)((char *)object + 0x264); }
 class BfmeGlob939D { public: char bfmeCall939D(); };
 class PlayerList { public: int rva002A7C0B(bool); };
 class MultiPlayMults { public: float getMoneyMult(int) const; };

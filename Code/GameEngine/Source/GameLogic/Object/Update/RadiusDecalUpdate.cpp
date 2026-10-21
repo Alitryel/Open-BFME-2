@@ -57,10 +57,10 @@ private:
 	bool m_killWhenNoLongerAttacking;
 };
 
-void RadiusDecalUpdate::createRadiusDecal(const RadiusDecalTemplate &tmpl, float radius, const Coord3D &pos)
+void RadiusDecalUpdate::createRadiusDecal(const RadiusDecalTemplate &radiusDecalTemplate, float radius, const Coord3D &pos)
 {
 	m_deliveryDecal.clear();
-	tmpl.createRadiusDecal(pos, radius, getObject()->getControllingPlayer(), m_deliveryDecal);
+	radiusDecalTemplate.createRadiusDecal(pos, radius, getObject()->getControllingPlayer(), m_deliveryDecal);
 	setWakeFrame(getObject(), (UpdateSleepTime)(m_killWhenNoLongerAttacking ? 0x3FFFFFFF : 1));
 }
 

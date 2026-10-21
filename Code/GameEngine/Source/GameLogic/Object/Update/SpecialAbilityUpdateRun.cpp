@@ -193,14 +193,14 @@ virtual void onExit(bool,bool);
 };
 UpdateSleepTime SpecialAbilityUpdate::update()
 {
- const SpecialAbilityUpdateModuleData *d=m_data;
+ const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData=m_data;
  validateSpecialObjects();
  if(m_object->isEffectivelyDead()){onExit(true,true);return rva0044F881();}
  if(m_expiryFrame && m_expiryFrame<TheGameLogic->getFrame())saSlot18();
  if(m_effectFrame && m_effectFrame<TheGameLogic->getFrame()){rva0044EE80();m_effectFrame=0;}
  if(!((Rva0044E7A8*)this)->rva0044E7A8(0)){
   onExit(false,true);
-  if(d->m_removeModifierOnAbort&&!d->m_modifier.isEmpty())m_object->removeAttributeModifierFromPool(d->m_modifier);
+  if(specialAbilityUpdateModuleData->m_removeModifierOnAbort&&!specialAbilityUpdateModuleData->m_modifier.isEmpty())m_object->removeAttributeModifierFromPool(specialAbilityUpdateModuleData->m_modifier);
   rva0044F881();return UPDATE_SLEEP_FOREVER;
  }
  if(m_active){
@@ -209,21 +209,21 @@ UpdateSleepTime SpecialAbilityUpdate::update()
   if(m_targetID){Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);if(target)m_targetPos=target->m_position;}
   if(ai->getLastCommandSource()!=2){onExit(false,true);return rva0044F881();}
   bool shouldAbort=false;
-  if(d->m_specialPower->friend_getFinalOverride()->m_type==0x2A){
+  if(specialAbilityUpdateModuleData->m_specialPower->friend_getFinalOverride()->m_type==0x2A){
    Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);
    if(target&&target->isEffectivelyDead()&&ai->isIdle())shouldAbort=true;
    if(ai->isIdle()&&m_approached)shouldAbort=true;
   }
   if(handlePackingProcessing()&&!shouldAbort)return rva0044F881();
   if(m_targetID){Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);
-   if(target){int type=d->m_specialPower->friend_getFinalOverride()->m_type;
+   if(target){int type=specialAbilityUpdateModuleData->m_specialPower->friend_getFinalOverride()->m_type;
     if(type==0x1D||type==0x1A){
      if(target->m_team==m_object->m_team)shouldAbort=true;
      if(target->isEffectivelyDead() && (!(target->m_data[0x10E]&2)|| !(bool)((target->m_modelWord1>>28)&1)))shouldAbort=true;
     } else if(target->isEffectivelyDead())shouldAbort=true;
    }
   }
-  if(shouldAbort&&!d->m_continueOnAbort){((AICommandInterface*)((char*)ai+0x20))->aiIdle(CMD_FROM_AI);onExit(false,true);return rva0044F881();}
+  if(shouldAbort&&!specialAbilityUpdateModuleData->m_continueOnAbort){((AICommandInterface*)((char*)ai+0x20))->aiIdle(CMD_FROM_AI);onExit(false,true);return rva0044F881();}
   if(m_prepFrames){
    --m_prepFrames;
    if(!m_prepFrames){triggerAbilityEffect();
@@ -234,7 +234,7 @@ UpdateSleepTime SpecialAbilityUpdate::update()
    }
   } else if(isWithinStartAbilityRange()){
    m_withinStartAbilityRange=true;
-   if(!d->m_ignoreFacing){
+   if(!specialAbilityUpdateModuleData->m_ignoreFacing){
     if(!((Rva0044E655*)this)->rva0044E655() && ((Rva0044E655*)this)->rva0044E689()){((Rva00451EAC*)this)->rva00451EAC();return rva0044F881();}
     if(((Rva0044E655*)this)->rva0044E655() && ((Rva0044E655*)this)->rva0044E689())return rva0044F881();
    }
@@ -245,20 +245,20 @@ UpdateSleepTime SpecialAbilityUpdate::update()
  return rva0044F881();
 }
 
-bool SpecialAbilityUpdate::rva0044F679(){if(!m_persistenceCount)return false;const SpecialAbilityUpdateModuleData *d=m_data;Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);if(d->m_specialPower->friend_getFinalOverride()->m_type==0x27){
- if(!target && m_useCount<=1)return d->m_persistenceFrames>0;
- if(target && ((target->m_data[0x108]&0x40)||(target->m_data[0x108]&0x40)) && m_useCount<=1)return d->m_persistenceFrames>0;
+bool SpecialAbilityUpdate::rva0044F679(){if(!m_persistenceCount)return false;const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData=m_data;Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);if(specialAbilityUpdateModuleData->m_specialPower->friend_getFinalOverride()->m_type==0x27){
+ if(!target && m_useCount<=1)return specialAbilityUpdateModuleData->m_persistenceFrames>0;
+ if(target && ((target->m_data[0x108]&0x40)||(target->m_data[0x108]&0x40)) && m_useCount<=1)return specialAbilityUpdateModuleData->m_persistenceFrames>0;
  return false;
  }
- return d->m_persistenceFrames>0;
+ return specialAbilityUpdateModuleData->m_persistenceFrames>0;
 }
 void SpecialAbilityUpdate::rva0044F6D0()
 {
- const SpecialAbilityUpdateModuleData *d=m_data;
- Overridable *power=d->m_specialPower;
+ const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData=m_data;
+ Overridable *power=specialAbilityUpdateModuleData->m_specialPower;
  Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);
  if(m_persistenceCount>0)--m_persistenceCount;
- if(power->friend_getFinalOverride()->m_type!=0x27 || (target && ((target=(Object*)target->m_data,((unsigned char*)target)[0x108]&0x40)||((unsigned char*)target)[0x114]&8)))m_prepFrames=d->m_persistenceFrames;
+ if(power->friend_getFinalOverride()->m_type!=0x27 || (target && ((target=(Object*)target->m_data,((unsigned char*)target)[0x108]&0x40)||((unsigned char*)target)[0x114]&8)))m_prepFrames=specialAbilityUpdateModuleData->m_persistenceFrames;
  else m_prepFrames=0;
 }
 
@@ -271,9 +271,9 @@ extern int g_00E033D0;
 UpdateSleepTime SpecialAbilityUpdate::rva0044F881()
 {
  if(m_active || m_data->m_alwaysValidate || m_expiryFrame)return UPDATE_SLEEP_NONE;
- const SpecialAbilityUpdateModuleData *d=m_data;
+ const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData=m_data;
  {
-   if(d->m_specialPower->friend_getFinalOverride()->m_type==0x1D){
+   if(specialAbilityUpdateModuleData->m_specialPower->friend_getFinalOverride()->m_type==0x1D){
     Object *self=m_object;
     Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);
     if(self && target){
@@ -292,7 +292,7 @@ UpdateSleepTime SpecialAbilityUpdate::rva0044F881()
      }
     }
    }
-   if(!d->m_minPause && !d->m_maxPause)return UPDATE_SLEEP_FOREVER;
+   if(!specialAbilityUpdateModuleData->m_minPause && !specialAbilityUpdateModuleData->m_maxPause)return UPDATE_SLEEP_FOREVER;
  }
  return UPDATE_SLEEP_NONE;
 }
@@ -324,9 +324,9 @@ class Rva002D9531 {public:void rva002D9531(int);};
 // retains an opening SSE codegen wall and is not compiled in this unit.
 bool SpecialAbilityUpdate::continuePreparation()
 {
- const SpecialAbilityUpdateModuleData *d=m_data;
- const Overridable *power=d->m_specialPower;
- if(d->m_abortRange<10000000.0f && !isWithinAbilityAbortRange())return false;
+ const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData=m_data;
+ const Overridable *power=specialAbilityUpdateModuleData->m_specialPower;
+ if(specialAbilityUpdateModuleData->m_abortRange<10000000.0f && !isWithinAbilityAbortRange())return false;
  int type=power->friend_getFinalOverride()->m_type;
  if(type==0x15){
   Object *target=TheGameLogic->findObjectByID((ObjectID)m_targetID);
@@ -342,11 +342,11 @@ bool SpecialAbilityUpdate::continuePreparation()
   if(!target)return false;
   Relationship r=m_object->getRelationship(target);
   if(r==ALLIES)return false;
-  if(d->m_doCaptureFX){
+  if(specialAbilityUpdateModuleData->m_doCaptureFX){
    Drawable *draw=((Thing*)target)->getDrawable();
    if(draw){
     bool lastPhase=(int(m_captureFlashPhase)&1)!=0;
-    unsigned denom=d->m_preparationFrames<1?1:d->m_preparationFrames;
+    unsigned denom=specialAbilityUpdateModuleData->m_preparationFrames<1?1:specialAbilityUpdateModuleData->m_preparationFrames;
     float denominator=float(denom);
     float increment=1.0f-(float(m_prepFrames)/denominator);
     m_captureFlashPhase+=increment/3.0f;
@@ -379,14 +379,14 @@ class LaserUpdate{public:void initLaser(const Object*,const Coord3D*,const Coord
 // provider is preserved; it does not assert an original geometry method name.
 bool SpecialAbilityUpdate::initLaser(Object *specialObject,Object *target)
 {
- const SpecialAbilityUpdateModuleData *d=m_data;
+ const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData=m_data;
  static NameKeyType key_LaserUpdate=TheNameKeyGenerator->nameToKey("LaserUpdate");
  Drawable *draw=((Thing*)specialObject)->getDrawable();
  if(!draw){killSpecialObjects();return false;}
  LaserUpdate *update=(LaserUpdate*)draw->findClientUpdateModule(key_LaserUpdate);
  if(!update){killSpecialObjects();return false;}
  Coord3D startPos;
- if(!getObject()->getSingleLogicalBonePosition(d->m_attachBone.str(),&startPos,0)){
+ if(!getObject()->getSingleLogicalBonePosition(specialAbilityUpdateModuleData->m_attachBone.str(),&startPos,0)){
   const Coord3D *position=&m_object->m_position;
   startPos.x=position->x;startPos.y=position->y;startPos.z=position->z;
  }

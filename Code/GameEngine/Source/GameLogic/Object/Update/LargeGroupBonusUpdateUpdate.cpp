@@ -121,8 +121,8 @@ public:
 	unsigned int isKindOf109Bit1() const { return m_template->m_words[0] & 0x200; }
 	__forceinline Rva00490225Member *findMember() const
 	{
-		for (BehaviorModule **m = getBehaviorModules(); *m; ++m) {
-			Rva00490225Member *member = (*m)->getMember();
+		for (BehaviorModule **behaviorModule = getBehaviorModules(); *behaviorModule; ++behaviorModule) {
+			Rva00490225Member *member = (*behaviorModule)->getMember();
 			if (member)
 				return member;
 		}

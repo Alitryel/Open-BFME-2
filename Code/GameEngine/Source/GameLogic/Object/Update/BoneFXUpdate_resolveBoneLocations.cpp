@@ -110,30 +110,30 @@ void BoneFXUpdate::resolveBoneLocations()
 {
 	int i;
 	Object *building = getObject();
-	const BoneFXUpdateModuleData *d = getBoneFXUpdateModuleData();
+	const BoneFXUpdateModuleData *boneFXUpdateModuleData = getBoneFXUpdateModuleData();
 	if (building == 0) {
 		return;
 	}
 
 	Drawable *drawable = building->getDrawable();
 
-	if (d == 0) {
+	if (boneFXUpdateModuleData == 0) {
 		return;
 	}
 
 	for (i = 0; i < 8; ++i) {
-		if (d->m_fxList[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
-			const BoneFXListInfo *info = &(d->m_fxList[m_curBodyState][i]);
+		if (boneFXUpdateModuleData->m_fxList[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
+			const BoneFXListInfo *info = &(boneFXUpdateModuleData->m_fxList[m_curBodyState][i]);
 			drawable->getPristineBonePositions(info->boneName.str(), 0, &m_FXBonePositions[m_curBodyState][i], 0, 1, 0);
 		}
 
-		if (d->m_OCL[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
-			const BoneOCLInfo *info = &(d->m_OCL[m_curBodyState][i]);
+		if (boneFXUpdateModuleData->m_OCL[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
+			const BoneOCLInfo *info = &(boneFXUpdateModuleData->m_OCL[m_curBodyState][i]);
 			drawable->getPristineBonePositions(info->boneName.str(), 0, &m_OCLBonePositions[m_curBodyState][i], 0, 1, 0);
 		}
 
-		if (d->m_particleSystem[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
-			const BoneParticleSystemInfo *info = &(d->m_particleSystem[m_curBodyState][i]);
+		if (boneFXUpdateModuleData->m_particleSystem[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
+			const BoneParticleSystemInfo *info = &(boneFXUpdateModuleData->m_particleSystem[m_curBodyState][i]);
 			drawable->getPristineBonePositions(info->boneName.str(), 0, &m_PSBonePositions[m_curBodyState][i], 0, 1, 0);
 		}
 	}

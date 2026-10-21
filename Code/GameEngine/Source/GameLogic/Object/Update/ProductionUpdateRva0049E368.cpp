@@ -69,9 +69,9 @@ private:
 
 void ProductionUpdate::rva0049E368()
 {
-	for (AsciiString *p = m_vec130.m_start; p != m_vec130.m_finish; ++p)
+	for (AsciiString *asciiString = m_vec130.m_start; asciiString != m_vec130.m_finish; ++asciiString)
 	{
-		void *tmpl = (void *)TheThingFactory->findTemplate(*p);
+		void *tmpl = (void *)TheThingFactory->findTemplate(*asciiString);
 		m_iface20.slot34(tmpl, 1);
 	}
 	_STL::vector<AsciiString, _STL::allocator<AsciiString> > &v = m_vec130;

@@ -103,34 +103,34 @@ private:
 // ?update@MonitorConditionUpdate@@UAE?AW4UpdateSleepTime@@XZ @0x0049176C
 UpdateSleepTime MonitorConditionUpdate::update()
 {
-	const MonitorConditionUpdateModuleData *d = m_moduleData;
+	const MonitorConditionUpdateModuleData *monitorConditionUpdateModuleData = m_moduleData;
 	Object *obj = m_object;
-	if (obj == 0 || d == 0)
+	if (obj == 0 || monitorConditionUpdateModuleData == 0)
 		return UPDATE_SLEEP_NONE;
 
-	if (obj->getMask10C()->rva00263546(&d->m_mask))
+	if (obj->getMask10C()->rva00263546(&monitorConditionUpdateModuleData->m_mask))
 	{
 		const AsciiString *current = obj->rva00290E67();
-		if (current->compare(d->m_maskCommandSet) == 0)
+		if (current->compare(monitorConditionUpdateModuleData->m_maskCommandSet) == 0)
 			return UPDATE_SLEEP_NONE;
 		current = obj->rva00290E67();
-		if (current->compare(d->m_statusCommandSet) != 0)
+		if (current->compare(monitorConditionUpdateModuleData->m_statusCommandSet) != 0)
 			((StringBase<char> *)&m_rememberedCommandSet)->set(*(const StringBase<char> *)obj->rva00290E67());
-		obj->setCommandSetStringOverride(d->m_maskCommandSet);
+		obj->setCommandSetStringOverride(monitorConditionUpdateModuleData->m_maskCommandSet);
 		TheControlBar->markUIDirty();
 	}
 	else
 	{
 	const Rva00331682Holder *status = obj->getStatus370();
-	if (status->test(d->m_status))
+	if (status->test(monitorConditionUpdateModuleData->m_status))
 	{
 		const AsciiString *current = obj->rva00290E67();
-		if (current->compare(d->m_statusCommandSet) == 0)
+		if (current->compare(monitorConditionUpdateModuleData->m_statusCommandSet) == 0)
 			return UPDATE_SLEEP_NONE;
 		current = obj->rva00290E67();
-		if (current->compare(d->m_maskCommandSet) != 0)
+		if (current->compare(monitorConditionUpdateModuleData->m_maskCommandSet) != 0)
 			((StringBase<char> *)&m_rememberedCommandSet)->set(*(const StringBase<char> *)obj->rva00290E67());
-		obj->setCommandSetStringOverride(d->m_statusCommandSet);
+		obj->setCommandSetStringOverride(monitorConditionUpdateModuleData->m_statusCommandSet);
 		TheControlBar->markUIDirty();
 	}
 	else

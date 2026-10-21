@@ -27,8 +27,8 @@ inline Module *ProductionUpdate::friend_newModuleInstance(Thing *thing, const Mo
 }
 #pragma inline_depth(0)
 // ?bfmeEmitProductionUpdateFriendNew@@YAXPAVProductionUpdate@@@Z present-unmatched
-void bfmeEmitProductionUpdateFriendNew(ProductionUpdate *p)
+void bfmeEmitProductionUpdateFriendNew(ProductionUpdate *productionUpdate)
 {
-	p->friend_newModuleInstance(0, 0);
+	productionUpdate->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

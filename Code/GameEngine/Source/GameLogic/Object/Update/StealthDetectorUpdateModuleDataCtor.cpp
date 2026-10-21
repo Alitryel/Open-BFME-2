@@ -67,8 +67,8 @@ inline StealthDetectorUpdateModuleData::StealthDetectorUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeStealthDetectorUpdateModuleDataInlineAnchor@@YAXPAVStealthDetectorUpdateModuleData@@@Z absent-from-retail
-void _bfmeStealthDetectorUpdateModuleDataInlineAnchor(StealthDetectorUpdateModuleData *p)
+void _bfmeStealthDetectorUpdateModuleDataInlineAnchor(StealthDetectorUpdateModuleData *stealthDetectorUpdateModuleData)
 {
-    p->StealthDetectorUpdateModuleData::StealthDetectorUpdateModuleData();
+    stealthDetectorUpdateModuleData->StealthDetectorUpdateModuleData::StealthDetectorUpdateModuleData();
 }
 #pragma inline_depth()

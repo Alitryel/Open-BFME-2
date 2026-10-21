@@ -330,16 +330,16 @@ private:
 // ?getCollapseHeight@StructureCollapseUpdate@@IBEMXZ
 Real StructureCollapseUpdate::getCollapseHeight() const
 {
-	const StructureCollapseUpdateModuleData *d = getStructureCollapseUpdateModuleData();
-	if (d->m_destroyObjectWhenDone)
-		return max(d->m_collapseHeight, getObject()->getTemplate()->getTemplateGeometryInfo().getMaxHeightAbovePosition());
-	return d->m_collapseHeight;
+	const StructureCollapseUpdateModuleData *structureCollapseUpdateModuleData = getStructureCollapseUpdateModuleData();
+	if (structureCollapseUpdateModuleData->m_destroyObjectWhenDone)
+		return max(structureCollapseUpdateModuleData->m_collapseHeight, getObject()->getTemplate()->getTemplateGeometryInfo().getMaxHeightAbovePosition());
+	return structureCollapseUpdateModuleData->m_collapseHeight;
 }
 
 // ?update@StructureCollapseUpdate@@UAE?AW4UpdateSleepTime@@XZ
 UpdateSleepTime StructureCollapseUpdate::update( void )
 {
-	const StructureCollapseUpdateModuleData *d = getStructureCollapseUpdateModuleData();
+	const StructureCollapseUpdateModuleData *structureCollapseUpdateModuleData = getStructureCollapseUpdateModuleData();
 
 	if (m_collapseState == COLLAPSESTATE_STANDING)
 	{
@@ -356,7 +356,7 @@ UpdateSleepTime StructureCollapseUpdate::update( void )
 		const Coord3D *currentPosition = building->getPosition();
 		Vector3 shudder;
 #line 202 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\StructureCollapseUpdate.cpp"
-		shudder.Set(GameClientRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), GameClientRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), 0);
+		shudder.Set(GameClientRandomValueReal(-(structureCollapseUpdateModuleData->m_maxShudder), structureCollapseUpdateModuleData->m_maxShudder), GameClientRandomValueReal(-(structureCollapseUpdateModuleData->m_maxShudder), structureCollapseUpdateModuleData->m_maxShudder), 0);
 
 		const Matrix3D *instMatrix = building->getDrawable()->getInstanceMatrix();
 		Matrix3D newInstMatrix;
@@ -371,7 +371,7 @@ UpdateSleepTime StructureCollapseUpdate::update( void )
 			doPhaseStuff(SCPHASE_BURST, currentPosition);
 			// This has to use a game logic random value since the bursts can spawn debris, and debris is sync'd.
 #line 216
-			m_burstFrame = now + GameLogicRandomValue(d->m_minBurstDelay, d->m_maxBurstDelay);
+			m_burstFrame = now + GameLogicRandomValue(structureCollapseUpdateModuleData->m_minBurstDelay, structureCollapseUpdateModuleData->m_maxBurstDelay);
 		}
 	}
 
@@ -381,11 +381,11 @@ UpdateSleepTime StructureCollapseUpdate::update( void )
 		Object *building = getObject();
 		UnsignedInt now = TheGameLogic->getFrame();
 		m_currentHeight -= m_collapseVelocity;
-		m_collapseVelocity -= TheGlobalData->m_gravity * (1.0 - d->m_collapseDamping);
+		m_collapseVelocity -= TheGlobalData->m_gravity * (1.0 - structureCollapseUpdateModuleData->m_collapseDamping);
 
 		Vector3 shudder;
 #line 238
-		shudder.Set(GameLogicRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), GameLogicRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), m_currentHeight);
+		shudder.Set(GameLogicRandomValueReal(-(structureCollapseUpdateModuleData->m_maxShudder), structureCollapseUpdateModuleData->m_maxShudder), GameLogicRandomValueReal(-(structureCollapseUpdateModuleData->m_maxShudder), structureCollapseUpdateModuleData->m_maxShudder), m_currentHeight);
 
 		Coord3D newPos;
 		newPos.x = m_collapsePosition.x + shudder.X;
@@ -396,7 +396,7 @@ UpdateSleepTime StructureCollapseUpdate::update( void )
 		if (now >= m_burstFrame)
 		{
 #line 247
-			if (GameLogicRandomValue(1, d->m_bigBurstFrequency) == 1)
+			if (GameLogicRandomValue(1, structureCollapseUpdateModuleData->m_bigBurstFrequency) == 1)
 			{
 				doPhaseStuff(SCPHASE_BURST, building->getPosition());
 			}
@@ -406,7 +406,7 @@ UpdateSleepTime StructureCollapseUpdate::update( void )
 			}
 			// This has to use a game logic random value since the bursts can spawn debris, and debris is sync'd.
 #line 256
-			m_burstFrame += GameLogicRandomValue(d->m_minBurstDelay, d->m_maxBurstDelay);
+			m_burstFrame += GameLogicRandomValue(structureCollapseUpdateModuleData->m_minBurstDelay, structureCollapseUpdateModuleData->m_maxBurstDelay);
 		}
 
 		Real collapseHeight = getCollapseHeight();
@@ -451,14 +451,14 @@ UpdateSleepTime StructureCollapseUpdate::update( void )
 // ?beginStructureCollapse@StructureCollapseUpdate@@IAEXPBVDamageInfo@@@Z
 void StructureCollapseUpdate::beginStructureCollapse(const DamageInfo *damageInfo)
 {
-	const StructureCollapseUpdateModuleData *d = getStructureCollapseUpdateModuleData();
+	const StructureCollapseUpdateModuleData *structureCollapseUpdateModuleData = getStructureCollapseUpdateModuleData();
 
 	Object *building = getObject();
 	m_collapsePosition = *building->getPosition();
 	UnsignedInt now = TheGameLogic->getFrame();
 	// This has to use a game logic random value since the bursts can spawn debris, and debris is sync'd.
 #line 141 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\StructureCollapseUpdate.cpp"
-	m_collapseFrame = now + GameLogicRandomValue(d->m_minCollapseDelay, d->m_maxCollapseDelay);
+	m_collapseFrame = now + GameLogicRandomValue(structureCollapseUpdateModuleData->m_minCollapseDelay, structureCollapseUpdateModuleData->m_maxCollapseDelay);
 
 	doPhaseStuff(SCPHASE_INITIAL, building->getPosition());
 

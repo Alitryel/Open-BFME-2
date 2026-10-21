@@ -102,8 +102,8 @@ inline FadeAndDieOrnamentUpdateModuleData::FadeAndDieOrnamentUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeFadeAndDieOrnamentUpdateModuleDataInlineAnchor@@YAXPAVFadeAndDieOrnamentUpdateModuleData@@@Z absent-from-retail
-void _bfmeFadeAndDieOrnamentUpdateModuleDataInlineAnchor(FadeAndDieOrnamentUpdateModuleData *p)
+void _bfmeFadeAndDieOrnamentUpdateModuleDataInlineAnchor(FadeAndDieOrnamentUpdateModuleData *fadeAndDieOrnamentUpdateModuleData)
 {
-    p->FadeAndDieOrnamentUpdateModuleData::FadeAndDieOrnamentUpdateModuleData();
+    fadeAndDieOrnamentUpdateModuleData->FadeAndDieOrnamentUpdateModuleData::FadeAndDieOrnamentUpdateModuleData();
 }
 #pragma inline_depth()

@@ -88,8 +88,8 @@ inline FlammableUpdateModuleData::~FlammableUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeFlammableUpdateModuleDataInlineAnchor@@YAXPAVFlammableUpdateModuleData@@@Z absent-from-retail
-void _bfmeFlammableUpdateModuleDataInlineAnchor(FlammableUpdateModuleData *p)
+void _bfmeFlammableUpdateModuleDataInlineAnchor(FlammableUpdateModuleData *flammableUpdateModuleData)
 {
-    p->FlammableUpdateModuleData::~FlammableUpdateModuleData();
+    flammableUpdateModuleData->FlammableUpdateModuleData::~FlammableUpdateModuleData();
 }
 #pragma inline_depth()

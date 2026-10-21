@@ -277,9 +277,9 @@ void ReplaceObjectUpdate::rva004B2D28()
 void ReplaceObjectUpdate::rva004B2C00(Object *obj, Rva004B2A9D *entry)
 {
 	const ReplaceObjectUpdateModuleData *data = getReplaceObjectData();
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(*(const AsciiString *)entry->rva004B2A9D());
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)entry->rva004B2A9D());
 	void *owner = ThePlayerList->m_18;	// a named local keeps the register roles retail uses
-	Object *created = ((BuildAssistantView *)TheBuildAssistant)->buildObjectNow(getObject(), tmpl, obj->getPosition(), obj->getOrientation(), owner);
+	Object *created = ((BuildAssistantView *)TheBuildAssistant)->buildObjectNow(getObject(), thingTemplate, obj->getPosition(), obj->getOrientation(), owner);
 	if (created) {
 		FXList::doFXObj(data->m_D8, created, 0);
 		if (data->m_DC) {

@@ -744,10 +744,10 @@ void SpecialAbilityUpdate::rva0044EE80()
 SpecialPowerType SpecialAbilityUpdate::getSpecialPowerType() const
 {
 	const SpecialAbilityUpdateModuleData *data = (const SpecialAbilityUpdateModuleData *)m_moduleData;
-	Overridable *o = data->m_specialPowerTemplate;
-	if (o == 0)
+	Overridable *overridable = data->m_specialPowerTemplate;
+	if (overridable == 0)
 		return (SpecialPowerType)0;
-	return (SpecialPowerType)o->friend_getFinalOverride()->m_val1C;
+	return (SpecialPowerType)overridable->friend_getFinalOverride()->m_val1C;
 }
 
 // ?rva0044F633@Rva0044F633@@QAEPAXXZ, retail 0x0044F633, 70 bytes.
@@ -851,11 +851,11 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 					obj->clearModelConditionState((ModelConditionFlagType)0xb0);
 				if (m_6C & 0x4000)
 				{
-					ContainModuleInterface *a = obj->m_contain;
+					ContainModuleInterface *containModule = obj->m_contain;
 					Rva0045050A *c = obj->m_254;
-					if (a)
+					if (containModule)
 					{
-						a->s43(target, data->m_2C, obj);
+						containModule->s43(target, data->m_2C, obj);
 						float value = c->vslot05() * 100.0f + data->m_30;
 						if (value > 100.0f)
 							value = 100.0f;
@@ -924,19 +924,19 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 // power type 0x84.
 void SpecialAbilityUpdate::startUnpacking()
 {
-	const SpecialAbilityUpdateModuleData *d = (const SpecialAbilityUpdateModuleData *)m_moduleData;
+	const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData = (const SpecialAbilityUpdateModuleData *)m_moduleData;
 	Object *self = m_object;
 	m_packingState = 2;
-	float variation = GetGameLogicRandomValueReal(1.0f - d->m_packUnpackVariationFactor,
-		1.0f + d->m_packUnpackVariationFactor,
+	float variation = GetGameLogicRandomValueReal(1.0f - specialAbilityUpdateModuleData->m_packUnpackVariationFactor,
+		1.0f + specialAbilityUpdateModuleData->m_packUnpackVariationFactor,
 		"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\SpecialAbilityUpdate.cpp",
 		1370);
-	m_animFrames = (unsigned int)(d->m_unpackTime * variation);
+	m_animFrames = (unsigned int)(specialAbilityUpdateModuleData->m_unpackTime * variation);
 	self->rva0028CFB2((const int *)&Rva0028F59A(0, 0x5e), (const int *)&Rva0028F59A(0, 0x60));
 	self->setStatus(OBJECT_STATUS_46, true);
-	if (d->m_6C)
+	if (specialAbilityUpdateModuleData->m_6C)
 	{
-		switch (d->m_6C)
+		switch (specialAbilityUpdateModuleData->m_6C)
 		{
 		case 1: self->setModelConditionState((ModelConditionFlagType)97); break;
 		case 2: self->setModelConditionState((ModelConditionFlagType)98); break;
@@ -946,15 +946,15 @@ void SpecialAbilityUpdate::startUnpacking()
 		case 6: self->setModelConditionState((ModelConditionFlagType)587); break;
 		}
 	}
-	if (d->m_18 != MODELCONDITION_INVALID)
+	if (specialAbilityUpdateModuleData->m_18 != MODELCONDITION_INVALID)
 	{
-		if (d->m_20 == 0)
+		if (specialAbilityUpdateModuleData->m_20 == 0)
 			rva0044EE80();
 		else
-			m_84 = d->m_20 + TheGameLogic->getFrame();
+			m_84 = specialAbilityUpdateModuleData->m_20 + TheGameLogic->getFrame();
 	}
 	Object *target = TheGameLogic->findObjectByID(m_targetID);
-	int type = d->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C;
+	int type = specialAbilityUpdateModuleData->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C;
 	if (type == 0x28)
 	{
 		if (target && (target->m_base4[0x118] & 0x10))
@@ -991,19 +991,19 @@ void SpecialAbilityUpdate::startPacking(bool success)
 {
 	Object *self = m_object;
 	Player *player = self->getControllingPlayer();
-	const SpecialAbilityUpdateModuleData *d = (const SpecialAbilityUpdateModuleData *)m_moduleData;
+	const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData = (const SpecialAbilityUpdateModuleData *)m_moduleData;
 	m_packingState = 1;
-	float variation = GetGameLogicRandomValueReal(1.0f - d->m_packUnpackVariationFactor,
-		1.0f + d->m_packUnpackVariationFactor,
+	float variation = GetGameLogicRandomValueReal(1.0f - specialAbilityUpdateModuleData->m_packUnpackVariationFactor,
+		1.0f + specialAbilityUpdateModuleData->m_packUnpackVariationFactor,
 		"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\SpecialAbilityUpdate.cpp",
 		1281);
-	m_animFrames = (unsigned int)(d->m_packTime * variation);
+	m_animFrames = (unsigned int)(specialAbilityUpdateModuleData->m_packTime * variation);
 	Rva001E4912 clearMask;
 	self->rva0028CFB2((const int *)clearMask.rva001E4912(0, 0x60, 0x76), (const int *)&Rva0028F59A(0, 0x5e));
 	self->setStatus(OBJECT_STATUS_46, true);
-	if (d->m_6C)
+	if (specialAbilityUpdateModuleData->m_6C)
 	{
-		switch (d->m_6C)
+		switch (specialAbilityUpdateModuleData->m_6C)
 		{
 		case 1: self->setModelConditionState((ModelConditionFlagType)97); break;
 		case 2: self->setModelConditionState((ModelConditionFlagType)98); break;
@@ -1013,7 +1013,7 @@ void SpecialAbilityUpdate::startPacking(bool success)
 		case 6: self->setModelConditionState((ModelConditionFlagType)587); break;
 		}
 	}
-	BfmeAudioEventPrefix136 sound(d->m_packSound, 0);
+	BfmeAudioEventPrefix136 sound(specialAbilityUpdateModuleData->m_packSound, 0);
 	((Rva002D9531 *)&sound)->rva002D9531(self->m_id);
 	TheAudio->addAudioEvent(&sound);
 	TheAudio->removeAudioEvent(m_packSoundHandle);
@@ -1021,7 +1021,7 @@ void SpecialAbilityUpdate::startPacking(bool success)
 	Drawable *draw = self->getDrawable();
 	if (draw)
 		draw->rva002723C0(m_animFrames);
-	if (d->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C != 0x2a)
+	if (specialAbilityUpdateModuleData->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C != 0x2a)
 	{
 		unsigned char *ai = self->m_ai;
 		if (ai)
@@ -1032,15 +1032,15 @@ void SpecialAbilityUpdate::startPacking(bool success)
 		DrawableList list;
 		list.push_back(draw);
 		PickAndPlayInfo info;
-		info.m_10 = d->m_specialPowerTemplate;
-		if (d->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C == 0x1a
-			|| d->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C == 0x1d)
+		info.m_10 = specialAbilityUpdateModuleData->m_specialPowerTemplate;
+		if (specialAbilityUpdateModuleData->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C == 0x1a
+			|| specialAbilityUpdateModuleData->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C == 0x1d)
 			pickAndPlayUnitVoiceResponse(&list, GameMessage::MSG_BFME2_0x7DD, &info);
 		else
 			pickAndPlayUnitVoiceResponse(&list, GameMessage::MSG_BFME2_0x7DE, &info);
 		if (player && player->isLocalPlayer())
 		{
-			int evaEvent = d->m_specialPowerTemplate->friend_getFinalOverride()->m_evaEvent44;
+			int evaEvent = specialAbilityUpdateModuleData->m_specialPowerTemplate->friend_getFinalOverride()->m_evaEvent44;
 			TheEva->reportEvaEvent((EvaEventID)evaEvent, &self->m_position, 0);
 		}
 	}
@@ -1088,8 +1088,8 @@ bool SpecialAbilityUpdate::rva00450AE9()
 			Overridable *spTemplate=data->m_specialPowerTemplate;
 			bool moveToPosition=data->m_approachRange>50.0f;
 			if(spTemplate->friend_getFinalOverride()->m_val1C==0x27){
-				ApproachTargetContainer *c=target->m_targetContainer;
-				if(c && (c->m_data[0x115]&0x20)) self->m_specialTargetID=c->m_targetID;
+				ApproachTargetContainer *approachTargetContainer=target->m_targetContainer;
+				if(approachTargetContainer && (approachTargetContainer->m_data[0x115]&0x20)) self->m_specialTargetID=approachTargetContainer->m_targetID;
 				else self->m_specialTargetID=m_targetID;
 			}
 			AIUpdateInterface *ai=self->getAI();
@@ -1137,8 +1137,8 @@ bool SpecialAbilityUpdate::rva00450AE9()
 // preparation sound started.
 void SpecialAbilityUpdate::startPreparation()
 {
-	const SpecialAbilityUpdateModuleData *d = (const SpecialAbilityUpdateModuleData *)m_moduleData;
-	Overridable *power = d->m_specialPowerTemplate;
+	const SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData = (const SpecialAbilityUpdateModuleData *)m_moduleData;
+	Overridable *power = specialAbilityUpdateModuleData->m_specialPowerTemplate;
 	m_prepFrames = (unsigned int)((Rva0044F633 *)this)->rva0044F633();
 	if (m_prepFrames)
 	{
@@ -1149,9 +1149,9 @@ void SpecialAbilityUpdate::startPreparation()
 		Object *self = m_object;
 		Rva001E4912 clearMask;
 		self->rva0028CFB2((const int *)clearMask.rva001E4912(0, 0x60, 0x76), (const int *)&Rva0028F59A(0, 0x5f));
-		if (d->m_6C)
+		if (specialAbilityUpdateModuleData->m_6C)
 		{
-			switch (d->m_6C)
+			switch (specialAbilityUpdateModuleData->m_6C)
 			{
 			case 1: self->setModelConditionState((ModelConditionFlagType)97); break;
 			case 2: self->setModelConditionState((ModelConditionFlagType)98); break;
@@ -1181,7 +1181,7 @@ void SpecialAbilityUpdate::startPreparation()
 		m_object->clearAndSetModelConditionState((ModelConditionFlagType)0x60, (ModelConditionFlagType)0x76);
 		Drawable *draw = m_object->getDrawable();
 		if (draw)
-			draw->rva002723C0(d->m_preparationFrames);
+			draw->rva002723C0(specialAbilityUpdateModuleData->m_preparationFrames);
 		if (target && target->isLocallyControlled())
 			TheEva->reportEvaEvent((EvaEventID)0x10, &target->m_position, 0);
 	}
@@ -1210,7 +1210,7 @@ void SpecialAbilityUpdate::startPreparation()
 		getObject()->getAI()->aiIdle(CMD_FROM_AI);
 	Object *obj = m_object;
 	obj->rva0028CDEB(*(const Rva00346BC0 *)&Rva00391F4E(0, 0x18, 0x46), true);
-	BfmeAudioEventPrefix136 sound(d->m_prepSoundLoop, 0);
+	BfmeAudioEventPrefix136 sound(specialAbilityUpdateModuleData->m_prepSoundLoop, 0);
 	((Rva002D9531 *)&sound)->rva002D9531(m_object->m_id);
 	m_prepSoundLoop = TheAudio->addAudioEvent(&sound);
 }

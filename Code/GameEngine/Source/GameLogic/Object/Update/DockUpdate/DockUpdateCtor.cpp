@@ -304,9 +304,9 @@ DockUpdate::DockUpdate(
 
 #pragma inline_depth(0)
 // ?bfmeEmitDockUpdateCtor@@YAXPAV?$vector@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitDockUpdateCtor(ObjectIDVector *v)
+void bfmeEmitDockUpdateCtor(ObjectIDVector *objectIDVector)
 {
-	v->erase((ObjectID *)0, (ObjectID *)0);
+	objectIDVector->erase((ObjectID *)0, (ObjectID *)0);
 }
 #pragma inline_depth()
 

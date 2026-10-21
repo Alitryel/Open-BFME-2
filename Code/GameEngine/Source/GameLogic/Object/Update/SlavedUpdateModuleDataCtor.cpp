@@ -81,8 +81,8 @@ inline SlavedUpdateModuleData::SlavedUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeSlavedUpdateModuleDataInlineAnchor@@YAXPAVSlavedUpdateModuleData@@@Z absent-from-retail
-void _bfmeSlavedUpdateModuleDataInlineAnchor(SlavedUpdateModuleData *p)
+void _bfmeSlavedUpdateModuleDataInlineAnchor(SlavedUpdateModuleData *slavedUpdateModuleData)
 {
-    p->SlavedUpdateModuleData::SlavedUpdateModuleData();
+    slavedUpdateModuleData->SlavedUpdateModuleData::SlavedUpdateModuleData();
 }
 #pragma inline_depth()

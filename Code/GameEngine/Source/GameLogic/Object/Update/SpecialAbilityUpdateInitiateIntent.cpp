@@ -433,9 +433,9 @@ void SpecialAbilityUpdate::initiateIntentToDoSpecialPower(const SpecialPowerTemp
 	m_active = true;
 	m_78 = 0;
 
-	for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		SpecialPowerUpdateInterface *spu = (*m)->getSpecialPowerUpdateInterface();
+		SpecialPowerUpdateInterface *spu = (*behaviorModule)->getSpecialPowerUpdateInterface();
 		if (spu && spu->isSpecialAbility() && spu->isPowerCurrentlyInUse(0))
 		{
 			SpecialAbilityUpdate *other = static_cast<SpecialAbilityUpdate *>(spu);

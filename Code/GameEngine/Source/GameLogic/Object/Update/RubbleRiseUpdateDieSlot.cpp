@@ -49,8 +49,8 @@ public:
 void RubbleRiseUpdate::rva004A4D98(const DamageInfo *damageInfo)
 {
 	Object *obj = m_object;
-	const RubbleRiseUpdateModuleData *d = m_moduleData;
-	if (!d->m_dieMuxData.isDieApplicable(obj, damageInfo))
+	const RubbleRiseUpdateModuleData *rubbleRiseUpdateModuleData = m_moduleData;
+	if (!rubbleRiseUpdateModuleData->m_dieMuxData.isDieApplicable(obj, damageInfo))
 		return;
 	rva004A4D70();
 }

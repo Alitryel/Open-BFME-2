@@ -65,9 +65,9 @@ namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned 
 
 static HordeUpdateInterface* getHUI(Object* obj)
 {
-	for( BehaviorModule** u = obj->getBehaviorModules(); *u; ++u )
+	for( BehaviorModule** behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule )
 	{
-		HordeUpdateInterface* hui = (*u)->getHordeUpdateInterface();
+		HordeUpdateInterface* hui = (*behaviorModule)->getHordeUpdateInterface();
 		if( hui )
 			return hui;
 	}
@@ -142,9 +142,9 @@ HordeUpdateModuleData::HordeUpdateModuleData() :
 }
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void HordeUpdateModuleData::buildFieldParse(MultiIniFieldParse& p)
+/*static*/ void HordeUpdateModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-	ModuleData::buildFieldParse(p);
+	ModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -160,7 +160,7 @@ HordeUpdateModuleData::HordeUpdateModuleData() :
 		{ "AllowedNationalism", INI::parseBool, NULL, offsetof(HordeUpdateModuleData, m_allowedNationalism) },
 		{ 0, 0, 0, 0 }
 	};
-	p.add(dataFieldParse);
+	multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -205,8 +205,8 @@ void HordeUpdate::joinOrLeaveHorde(SimpleObjectIterator *iter, Bool join)
 
 
 
-	const HordeUpdateModuleData* d = getHordeUpdateModuleData();
-	switch (d->m_action)
+	const HordeUpdateModuleData* hordeUpdateModuleData = getHordeUpdateModuleData();
+	switch (hordeUpdateModuleData->m_action)
 	{
 		case HORDEACTION_HORDE:
 			{
@@ -234,14 +234,14 @@ void HordeUpdate::joinOrLeaveHorde(SimpleObjectIterator *iter, Bool join)
 // ?showHideFlag@HordeUpdate@@ present-unmatched
 void HordeUpdate::showHideFlag(Bool show)
 {
-	const HordeUpdateModuleData* d = getHordeUpdateModuleData();
-	if (!d->m_flagSubObjNames.empty())
+	const HordeUpdateModuleData* hordeUpdateModuleData = getHordeUpdateModuleData();
+	if (!hordeUpdateModuleData->m_flagSubObjNames.empty())
 	{
 		Drawable* draw = getObject()->getDrawable();
 		Object *obj = getObject();
 		if (draw && obj)
 		{
-			for (std::vector<AsciiString>::const_iterator it = d->m_flagSubObjNames.begin(); it != d->m_flagSubObjNames.end(); ++it)
+			for (std::vector<AsciiString>::const_iterator it = hordeUpdateModuleData->m_flagSubObjNames.begin(); it != hordeUpdateModuleData->m_flagSubObjNames.end(); ++it)
 				draw->showSubObject(*it, show);
 			draw->updateSubObjects();
 		}

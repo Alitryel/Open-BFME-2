@@ -19,7 +19,7 @@
 struct NotifyCoord:Coord3D{
  __forceinline NotifyCoord(){}
  __forceinline NotifyCoord(const Coord3D&r){x=r.x;y=r.y;z=r.z;}
- __forceinline NotifyCoord(const NotifyCoord&r){x=r.x;y=r.y;z=r.z;}
+ __forceinline NotifyCoord(const NotifyCoord&notifyCoord){x=notifyCoord.x;y=notifyCoord.y;z=notifyCoord.z;}
  __forceinline ~NotifyCoord(){}
  __forceinline void scale(float s){x*=s;y*=s;z*=s;}
  __forceinline void add(const Coord3D&r){x+=r.x;y+=r.y;z+=r.z;}

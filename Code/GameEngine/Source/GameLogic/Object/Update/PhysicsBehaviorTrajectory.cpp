@@ -89,18 +89,18 @@ public:
  Coord3D start,end; float at44,at48; int at4C,index,bounces,phaseTimer;
  bool active,repeat,dirty,at5F; int at60,at64;
 };
-static __forceinline void setCondition(Object *o,int bit) {
- if(!o->conditions.mask(bit)) { o->conditions.set(bit); o->rva0028AE6D(); }
+static __forceinline void setCondition(Object *object,int bit) {
+ if(!object->conditions.mask(bit)) { object->conditions.set(bit); object->rva0028AE6D(); }
 }
-static __forceinline void resetCondition(Object *o,int bit) {
- if(o->conditions.mask(bit)) { o->conditions.reset(bit); o->rva0028AE6D(); }
+static __forceinline void resetCondition(Object *object,int bit) {
+ if(object->conditions.mask(bit)) { object->conditions.reset(bit); object->rva0028AE6D(); }
 }
 void PhysicsBehavior::rva00390FAF()
 {
  if(points.size()<=0) return;
- const PhysicsTrajectoryConfig *d=data;
+ const PhysicsTrajectoryConfig *physicsTrajectoryConfig=data;
  Object *obj=object;
- FXList::doFXPos(d->completionFX,&obj->position,0,0.0f,0);
+ FXList::doFXPos(physicsTrajectoryConfig->completionFX,&obj->position,0,0.0f,0);
  bool changed=false;
  if(obj->conditions.test(72)) {
   setCondition(obj,122);
@@ -114,13 +114,13 @@ void PhysicsBehavior::rva00390FAF()
   if(obj->status438&1) { setCondition(obj,62);setCondition(obj,122); }
   else {
    setCondition(obj,128);
-   phaseTimer=GetGameLogicRandomValue(d->delayMin,d->delayMax,
+   phaseTimer=GetGameLogicRandomValue(physicsTrajectoryConfig->delayMin,physicsTrajectoryConfig->delayMax,
     "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\PhysicsUpdate.cpp",752);
    changed=true;
   }
  }
  if(changed && obj->getDrawable()) obj->getDrawable()->rva00274176(0);
- if((repeat || d->at58) && bounces<d->maxBounces) { rva00390E61(false);return; }
+ if((repeat || physicsTrajectoryConfig->at58) && bounces<physicsTrajectoryConfig->maxBounces) { rva00390E61(false);return; }
  rva00390CCA(true);
 }
 
@@ -206,7 +206,7 @@ extern AI *TheAI;
 // body emitted.
 inline UpdateSleepTime PhysicsBehavior::update()
 {
- const PhysicsTrajectoryConfig *d=data;
+ const PhysicsTrajectoryConfig *physicsTrajectoryConfig=data;
  Object *obj=object;
  dirty=false;
  bool changed=false;
@@ -215,7 +215,7 @@ inline UpdateSleepTime PhysicsBehavior::update()
    if(obj->conditions.test(128)) {
     resetCondition(obj,128);
     setCondition(obj,163);
-    phaseTimer=d->phaseFrames;
+    phaseTimer=physicsTrajectoryConfig->phaseFrames;
     changed=true;
    } else if(obj->conditions.test(163)) {
     resetCondition(obj,163);
@@ -228,10 +228,10 @@ inline UpdateSleepTime PhysicsBehavior::update()
  if(index>=points.size()) { rva00390FAF(); return rva00390601(); }
  if(changed && obj->getDrawable()) obj->getDrawable()->rva00274176(false);
  const Coord3D *current=&points[index];
- if(d->at41 && !d->at40 && index>0) {
+ if(physicsTrajectoryConfig->at41 && !physicsTrajectoryConfig->at40 && index>0) {
   const Coord3D *previous=&points[index-1];
   Vector3 direction(current->x-previous->x,current->y-previous->y,current->z-previous->z);
-  if(bounces>0) direction.Z=TheWritableGlobalData->gravity*d->at4C*100.0f;
+  if(bounces>0) direction.Z=TheWritableGlobalData->gravity*physicsTrajectoryConfig->at4C*100.0f;
   direction.bfme_Normalize_05402();
   Vector3 position(current->x,current->y,current->z);
   Matrix3D transform;
@@ -260,7 +260,7 @@ inline UpdateSleepTime PhysicsBehavior::update()
 
 // Retain the inline body's ledger emission without changing its callers.
 // ?bfmeEmitPhysicsBehaviorUpdate@@YAXPAVPhysicsBehavior@@@Z absent-from-retail
-void bfmeEmitPhysicsBehaviorUpdate(PhysicsBehavior *p)
+void bfmeEmitPhysicsBehaviorUpdate(PhysicsBehavior *physicsBehavior)
 {
-	p->PhysicsBehavior::update();
+	physicsBehavior->PhysicsBehavior::update();
 }

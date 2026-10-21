@@ -51,7 +51,7 @@ protected:
 
 struct ObjectHack : public Object
 {
-	static Module *find(const Object *o, NameKeyType k) { return ((ObjectHack *)o)->findModule(k); }
+	static Module *find(const Object *object, NameKeyType k) { return ((ObjectHack *)object)->findModule(k); }
 };
 
 class Rva00496B48
@@ -65,19 +65,19 @@ private:
 
 bool Rva00496B48::rva00496B48()
 {
-	Object *o = m_obj08;
-	if (o != 0) {
-		for (; o != 0; o = o->m_next274) {
-			if (o->m_next274 == 0)
+	Object *object = m_obj08;
+	if (object != 0) {
+		for (; object != 0; object = object->m_next274) {
+			if (object->m_next274 == 0)
 				break;
 		}
-		if (o != 0) {
-			ObjectInner04 *inner = o->m_04;
+		if (object != 0) {
+			ObjectInner04 *inner = object->m_04;
 			if (inner->m_116 & 0x40) {
 				static NameKeyType s_key = TheNameKeyGenerator->nameToKey("AllowBannerSpawnUpgrade");
-				Module *m = ObjectHack::find(o, s_key);
-				if (m != 0) {
-					if (!(&m->m_10)->allow())
+				Module *module = ObjectHack::find(object, s_key);
+				if (module != 0) {
+					if (!(&module->m_10)->allow())
 						return false;
 				}
 			}

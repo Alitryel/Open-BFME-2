@@ -366,14 +366,14 @@ void FoundationAIUpdate::rva00455B42(int value)
 }
 
 // ?rva00456134@FoundationAIUpdate@@UAEPAVObject@@PAXPBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H@Z @0x00456134
-Object *FoundationAIUpdate::rva00456134(void *, const ThingTemplate *tmpl, const Coord3D *pos, float angle,
+Object *FoundationAIUpdate::rva00456134(void *, const ThingTemplate *thingTemplate, const Coord3D *pos, float angle,
 	Player *owner, int a6)
 {
-	if (!tmpl || !pos || !owner)
+	if (!thingTemplate || !pos || !owner)
 		return 0;
-	rva00455BDD(tmpl, pos, angle);
-	Object *obj = slot7(tmpl, pos, angle, owner, 0, a6);
-	rva00455C98(tmpl, pos, angle, owner);
+	rva00455BDD(thingTemplate, pos, angle);
+	Object *obj = slot7(thingTemplate, pos, angle, owner, 0, a6);
+	rva00455C98(thingTemplate, pos, angle, owner);
 	return obj;
 }
 
@@ -461,9 +461,9 @@ extern PartitionManager *ThePartitionManager;
 
 // Native187B entry; ZH BuildAssistant removal search and filter are semantic
 // ancestors. WB body corroborates kind bit58 protects removable objects.
-void FoundationAIUpdate::rva00455BDD(const ThingTemplate *tmpl, const Coord3D *pos, float angle)
+void FoundationAIUpdate::rva00455BDD(const ThingTemplate *thingTemplate, const Coord3D *pos, float angle)
 {
- BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(pos, tmpl->getBoundingCircleRadius() * 1.1F, 3, &Rva00261603Filter(*pos, tmpl->getGeometryInfo(), angle, true), 0);
+ BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(pos, thingTemplate->getBoundingCircleRadius() * 1.1F, 3, &Rva00261603Filter(*pos, thingTemplate->getGeometryInfo(), angle, true), 0);
  Object *obj;
  while ((obj = hits.next()) != 0) {
   if (isRemovableForConstruction(obj) == true && !obj->getTemplate()->constructionKind(58))
@@ -521,9 +521,9 @@ void FoundationAIUpdate::rva0045537F()
 float GetGameLogicRandomValueReal(float, float, char *, int);
 // Reference-first adaptation of ZH BuildAssistant::moveObjectsForConstruction;
 // WB's paired Foundation body supplies the two destinations and line-build branch.
-bool FoundationAIUpdate::rva00455C98(const ThingTemplate *tmpl, const Coord3D *pos, float angle, Player *owner)
+bool FoundationAIUpdate::rva00455C98(const ThingTemplate *thingTemplate, const Coord3D *pos, float angle, Player *owner)
 {
- float minor=tmpl->getGeometryInfo().m_minor28, major=tmpl->getGeometryInfo().m_major24;
+ float minor=thingTemplate->getGeometryInfo().m_minor28, major=thingTemplate->getGeometryInfo().m_major24;
  GeometryInfo gi(GEOMETRY_BOX,false,50.0F,major*1.5F,minor*1.5F);
  float radius=gi.m_radius10*1.5F;
  bool anyUnmovables=false;
@@ -540,7 +540,7 @@ bool FoundationAIUpdate::rva00455C98(const ThingTemplate *tmpl, const Coord3D *p
      char *src="C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\AIUpdate\\FoundationAIUpdate.cpp";
      float variedRadius=GetGameLogicRandomValueReal(0.5F,1.5F,src,683)*radius;
      Coord3D dest1,dest2;
-     if (!tmpl->constructionKind(60)) {
+     if (!thingTemplate->constructionKind(60)) {
       angle=GetGameLogicRandomValueReal(-3.1415927410125732F,3.1415927410125732F,src,687);
       Vector3 vec(variedRadius,0.0F,0.0F);vec.Rotate_Z(angle);
       dest1.x=pos->x+vec.X;dest1.y=pos->y+vec.Y;dest1.z=pos->z+vec.Z;

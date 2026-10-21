@@ -23,9 +23,9 @@ const AsciiString &Rva004CE3B9::rva004CE3B9()
 {
     for (int i = 0; i < 0x400; ++i) {
         if (m_bits[(unsigned int)i >> 5] & (1 << (i & 31))) {
-            const UpgradeTemplate *t = TheUpgradeCenter->rva0026EEA0(i);
-            if (t)
-                return t->m_name;
+            const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->rva0026EEA0(i);
+            if (upgradeTemplate)
+                return upgradeTemplate->m_name;
         }
     }
     return AsciiString::TheEmptyString;

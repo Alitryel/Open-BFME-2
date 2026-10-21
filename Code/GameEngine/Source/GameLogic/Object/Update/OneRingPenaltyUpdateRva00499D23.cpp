@@ -144,13 +144,13 @@ private:
 
 void OneRingPenaltyUpdate::rva00499D23()
 {
-	const OneRingPenaltyUpdateModuleData *d = m_moduleData;
+	const OneRingPenaltyUpdateModuleData *oneRingPenaltyUpdateModuleData = m_moduleData;
 	Object *obj = m_object;
 	GameLogic *logic = TheGameLogic;
 	Object *ringer = logic->findObjectByID(m_24);
 	UnsignedInt now = logic->getFrame();
-	UnsignedInt start = m_28 + d->m_0C;
-	UnsignedInt end = start + d->m_10;
+	UnsignedInt start = m_28 + oneRingPenaltyUpdateModuleData->m_0C;
+	UnsignedInt end = start + oneRingPenaltyUpdateModuleData->m_10;
 
 	if (now >= end)
 	{
@@ -170,13 +170,13 @@ void OneRingPenaltyUpdate::rva00499D23()
 		Real radius;
 		if (now - start == 0)
 		{
-			radius = d->m_18;
+			radius = oneRingPenaltyUpdateModuleData->m_18;
 		}
 		else
 		{
-			Real startRadius = d->m_18;
+			Real startRadius = oneRingPenaltyUpdateModuleData->m_18;
 			Real ratio = (Real)(now - start) / (Real)(end - start);
-			radius = startRadius + ratio * (d->m_18 / 2.0f - startRadius);
+			radius = startRadius + ratio * (oneRingPenaltyUpdateModuleData->m_18 / 2.0f - startRadius);
 		}
 		pos.x += Cos(m_2C) * radius;
 		Real sine = Sin(m_2C);

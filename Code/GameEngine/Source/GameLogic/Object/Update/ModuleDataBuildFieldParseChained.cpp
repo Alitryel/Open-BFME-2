@@ -395,9 +395,9 @@ __declspec(noinline) inline void SpecialAbilityUpdateModuleData::buildFieldParse
 }
 
 // ?bfmeAnchorSpecialAbilityUpdateModuleDatabuildFieldParse absent-from-retail
-void bfmeAnchorSpecialAbilityUpdateModuleDatabuildFieldParse(SpecialAbilityUpdateModuleData *p, MultiIniFieldParse &parse)
+void bfmeAnchorSpecialAbilityUpdateModuleDatabuildFieldParse(SpecialAbilityUpdateModuleData *specialAbilityUpdateModuleData, MultiIniFieldParse &parse)
 {
-	p->buildFieldParse(parse);
+	specialAbilityUpdateModuleData->buildFieldParse(parse);
 }
 
 void DockUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)

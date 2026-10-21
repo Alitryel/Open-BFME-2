@@ -61,9 +61,9 @@ inline OilSpillUpdate::~OilSpillUpdate()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeOilSpillUpdateInlineAnchor@@YAXPAVOilSpillUpdate@@@Z absent-from-retail
-void _bfmeOilSpillUpdateInlineAnchor(OilSpillUpdate *p)
+void _bfmeOilSpillUpdateInlineAnchor(OilSpillUpdate *oilSpillUpdate)
 {
-    p->OilSpillUpdate::~OilSpillUpdate();
+    oilSpillUpdate->OilSpillUpdate::~OilSpillUpdate();
 }
 #pragma inline_depth()
 

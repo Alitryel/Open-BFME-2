@@ -67,11 +67,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // vftable slot) emitted out of line. Not retail code.
 #pragma inline_depth(0)
 // ?_bfmeQueueExitRallyPointAnchor absent-from-retail
-const Coord3D *_bfmeQueueExitRallyPointAnchor(const QueueProductionExitUpdate *q)
+const Coord3D *_bfmeQueueExitRallyPointAnchor(const QueueProductionExitUpdate *queueProductionExitUpdate)
 {
-	if (q->QueueProductionExitUpdate::isExitBusy())
+	if (queueProductionExitUpdate->QueueProductionExitUpdate::isExitBusy())
 		return 0;
-	return q->QueueProductionExitUpdate::getRallyPoint();
+	return queueProductionExitUpdate->QueueProductionExitUpdate::getRallyPoint();
 }
 #pragma inline_depth()
 

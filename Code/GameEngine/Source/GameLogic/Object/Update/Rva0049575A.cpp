@@ -79,22 +79,22 @@ void Rva0049575A::rva0049575A(const AsciiString *name)
 	Object *obj = m_8;
 	((StringBase<char> *)&m_20)->set(*(const StringBase<char> *)name);
 	m_24 = 0;
-	const AsciiString *s = obj->rva00290E67();
-	void *p = ((Rva0031D5F8 *)(*(BfmeWorldRV **)&TheControlBar))->rva0031D5F8(s);
+	const AsciiString *asciiString = obj->rva00290E67();
+	void *p = ((Rva0031D5F8 *)(*(BfmeWorldRV **)&TheControlBar))->rva0031D5F8(asciiString);
 	CommandSet *cmdSet = (CommandSet *)p;
 	if (cmdSet != 0)
 	{
 		*(int *)&name = 0;
 		for (*(int *)&name = 0; *(int *)&name < 0x20; ++*(int *)&name)
 		{
-			const CommandButton *b = cmdSet->getCommandButton(*(int *)&name);
-			m_24 = b;
-			if (b == 0)
+			const CommandButton *commandButton = cmdSet->getCommandButton(*(int *)&name);
+			m_24 = commandButton;
+			if (commandButton == 0)
 			{
 				m_24 = 0;
 				continue;
 			}
-			const StringBase<char> *bs = (const StringBase<char> *)((char *)b + 0x10);
+			const StringBase<char> *bs = (const StringBase<char> *)((char *)commandButton + 0x10);
 			if (bs->isEmpty())
 			{
 				m_24 = 0;

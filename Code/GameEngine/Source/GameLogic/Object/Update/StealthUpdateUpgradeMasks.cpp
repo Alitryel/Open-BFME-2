@@ -69,14 +69,14 @@ void StealthUpdate::rva003748BD()
 	_STL::vector<AsciiString>::const_iterator it;
 	for (it = data->m_vecB0.begin(); it != data->m_vecB0.end(); ++it)
 	{
-		const UpgradeTemplate *templ = TheUpgradeCenter->findUpgrade(*it);
-		if (templ)
-			m_mask48.set(templ->getUpgradeMask());
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*it);
+		if (upgradeTemplate)
+			m_mask48.set(upgradeTemplate->getUpgradeMask());
 	}
 	for (it = data->m_vecBC.begin(); it != data->m_vecBC.end(); ++it)
 	{
-		const UpgradeTemplate *templ = TheUpgradeCenter->findUpgrade(*it);
-		if (templ)
-			m_maskC8.set(templ->getUpgradeMask());
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*it);
+		if (upgradeTemplate)
+			m_maskC8.set(upgradeTemplate->getUpgradeMask());
 	}
 }

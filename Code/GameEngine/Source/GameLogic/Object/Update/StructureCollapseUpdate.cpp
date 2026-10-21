@@ -157,34 +157,34 @@ void StructureCollapseUpdate::doPhaseStuff(StructureCollapsePhaseType scphase, c
 		Int m_oclCount[5];
 		Int m_fxCount[5];
 	};
-	const StructureCollapseUpdateModuleDataBFME2View* d = (const StructureCollapseUpdateModuleDataBFME2View*)getStructureCollapseUpdateModuleData();
+	const StructureCollapseUpdateModuleDataBFME2View* structureCollapseUpdateModuleDataBFME2View = (const StructureCollapseUpdateModuleDataBFME2View*)getStructureCollapseUpdateModuleData();
 	Int i, idx, count, listSize;
 	Int idxList[MAX_IDX];
 
-	listSize = d->m_fxs[scphase].size();
+	listSize = structureCollapseUpdateModuleDataBFME2View->m_fxs[scphase].size();
 	if (listSize > 0)
 	{
-		count = d->m_fxCount[scphase];
+		count = structureCollapseUpdateModuleDataBFME2View->m_fxCount[scphase];
 		buildNonDupRandomIndexList(listSize, count, idxList);
 		for (i = 0; i < count; ++i)
 		{
 			idx = idxList[i];
-			const FXVec& v = d->m_fxs[scphase];
+			const FXVec& v = structureCollapseUpdateModuleDataBFME2View->m_fxs[scphase];
 			DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
 			const FXList* fxl = v[idx];
 			FXList::doFXPos(fxl, target, NULL, 0.0f, NULL);
 		}
 	}
 
-	listSize = d->m_ocls[scphase].size();
+	listSize = structureCollapseUpdateModuleDataBFME2View->m_ocls[scphase].size();
 	if (listSize > 0)
 	{
-		count = d->m_oclCount[scphase];
+		count = structureCollapseUpdateModuleDataBFME2View->m_oclCount[scphase];
 		buildNonDupRandomIndexList(listSize, count, idxList);
 		for (i = 0; i < count; ++i)
 		{
 			idx = idxList[i];
-			const OCLVec& v = d->m_ocls[scphase];
+			const OCLVec& v = structureCollapseUpdateModuleDataBFME2View->m_ocls[scphase];
 			DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
 			const ObjectCreationList* ocl = v[idx];
 			if (ocl != NULL)

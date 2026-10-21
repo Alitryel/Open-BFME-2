@@ -71,11 +71,11 @@ bool WeaponModeSpecialPowerUpdateBase::rva00589297()
 	if (outer != 0) {
 		Player *player = outer->getControllingPlayer();
 		if (player != 0) {
-			const SpecialPowerTemplate *tmpl = *(const SpecialPowerTemplate **)((char *)p2 + 8);
-			const Overridable *fin = ((const Overridable *)tmpl)->friend_getFinalOverride();
+			const SpecialPowerTemplate *specialPowerTemplate = *(const SpecialPowerTemplate **)((char *)p2 + 8);
+			const Overridable *fin = ((const Overridable *)specialPowerTemplate)->friend_getFinalOverride();
 			if (fin->m_hasOverride != 0) {
 				unsigned int frame = (unsigned int)TheGameLogic->m_frame40;
-				unsigned int ready = ((Rva002AC6B1PlayerTimers *)player)->getOrStart(tmpl);
+				unsigned int ready = ((Rva002AC6B1PlayerTimers *)player)->getOrStart(specialPowerTemplate);
 				return frame >= ready;
 			}
 		}

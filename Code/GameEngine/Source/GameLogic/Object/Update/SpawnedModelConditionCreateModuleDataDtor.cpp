@@ -35,7 +35,7 @@ __declspec(noinline) inline SpawnedModelConditionCreateModuleData::~SpawnedModel
 }
 
 // ?bfmeAnchorSpawnedModelConditionCreateModuleDataDtor absent-from-retail
-void bfmeAnchorSpawnedModelConditionCreateModuleDataDtor(SpawnedModelConditionCreateModuleData *p)
+void bfmeAnchorSpawnedModelConditionCreateModuleDataDtor(SpawnedModelConditionCreateModuleData *spawnedModelConditionCreateModuleData)
 {
-	p->SpawnedModelConditionCreateModuleData::~SpawnedModelConditionCreateModuleData();
+	spawnedModelConditionCreateModuleData->SpawnedModelConditionCreateModuleData::~SpawnedModelConditionCreateModuleData();
 }

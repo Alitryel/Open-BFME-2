@@ -356,7 +356,7 @@ private:
 UpdateSleepTime BoneFXUpdate::update( void )
 {
 /// @todo srj use SLEEPY_UPDATE here
-	const BoneFXUpdateModuleData *d = getBoneFXUpdateModuleData();
+	const BoneFXUpdateModuleData *boneFXUpdateModuleData = getBoneFXUpdateModuleData();
 	Int now = TheGameLogic->getFrame();
 
 	if (m_active == FALSE) {
@@ -367,16 +367,16 @@ UpdateSleepTime BoneFXUpdate::update( void )
 	for (Int i = 0; i < BONE_FX_MAX_BONES; ++i) {
 		//Check to see if its time to fire off any cool stuff.
 		if ((m_nextFXFrame[m_curBodyState][i] != -1) && (m_nextFXFrame[m_curBodyState][i] <= now)) {
-			doFXListAtBone(d->m_fxList[m_curBodyState][i].fx, &(m_FXBonePositions[m_curBodyState][i]));
-			computeNextLogicFXTime(&(d->m_fxList[m_curBodyState][i]), m_nextFXFrame[m_curBodyState][i]);
+			doFXListAtBone(boneFXUpdateModuleData->m_fxList[m_curBodyState][i].fx, &(m_FXBonePositions[m_curBodyState][i]));
+			computeNextLogicFXTime(&(boneFXUpdateModuleData->m_fxList[m_curBodyState][i]), m_nextFXFrame[m_curBodyState][i]);
 		}
 		if ((m_nextOCLFrame[m_curBodyState][i] != -1) && (m_nextOCLFrame[m_curBodyState][i] <= now)) {
-			doOCLAtBone(d->m_OCL[m_curBodyState][i].ocl, &(m_OCLBonePositions[m_curBodyState][i]));
-			computeNextLogicFXTime(&(d->m_OCL[m_curBodyState][i]), m_nextOCLFrame[m_curBodyState][i]);
+			doOCLAtBone(boneFXUpdateModuleData->m_OCL[m_curBodyState][i].ocl, &(m_OCLBonePositions[m_curBodyState][i]));
+			computeNextLogicFXTime(&(boneFXUpdateModuleData->m_OCL[m_curBodyState][i]), m_nextOCLFrame[m_curBodyState][i]);
 		}
 		if ((m_nextParticleSystemFrame[m_curBodyState][i] != -1) && (m_nextParticleSystemFrame[m_curBodyState][i] <= now)) {
-			doParticleSystemAtBone(d->m_particleSystem[m_curBodyState][i].particleSysTemplate, &(m_PSBonePositions[m_curBodyState][i]));
-			computeNextClientFXTime(&(d->m_particleSystem[m_curBodyState][i]), m_nextParticleSystemFrame[m_curBodyState][i]);
+			doParticleSystemAtBone(boneFXUpdateModuleData->m_particleSystem[m_curBodyState][i].particleSysTemplate, &(m_PSBonePositions[m_curBodyState][i]));
+			computeNextClientFXTime(&(boneFXUpdateModuleData->m_particleSystem[m_curBodyState][i]), m_nextParticleSystemFrame[m_curBodyState][i]);
 		}
 	}
 	return UPDATE_SLEEP_NONE;
@@ -390,9 +390,9 @@ void BoneFXUpdate::doFXListAtBone(const FXList *fxList, const Coord3D *bonePosit
 	}
 
 	// if we are restricted by the damage type executing effect, bail out of here
-	const BoneFXUpdateModuleData *d = getBoneFXUpdateModuleData();
+	const BoneFXUpdateModuleData *boneFXUpdateModuleData = getBoneFXUpdateModuleData();
 	const DamageInfo *lastDamageInfo = getObject()->getBodyModule()->getLastDamageInfo();
-	if( lastDamageInfo && getDamageTypeFlag( d->m_damageFXTypes, lastDamageInfo->in.m_damageType ) == FALSE )
+	if( lastDamageInfo && getDamageTypeFlag( boneFXUpdateModuleData->m_damageFXTypes, lastDamageInfo->in.m_damageType ) == FALSE )
 		return;
 
 	// the bonePosition variable will have been made right by the call to
@@ -416,9 +416,9 @@ void BoneFXUpdate::doOCLAtBone(const ObjectCreationList *ocl, const Coord3D *bon
 	}
 
 	// if we are restricted by the damage type executing effect, bail out of here
-	const BoneFXUpdateModuleData *d = getBoneFXUpdateModuleData();
+	const BoneFXUpdateModuleData *boneFXUpdateModuleData = getBoneFXUpdateModuleData();
 	const DamageInfo *lastDamageInfo = getObject()->getBodyModule()->getLastDamageInfo();
-	if( lastDamageInfo && getDamageTypeFlag( d->m_damageOCLTypes, lastDamageInfo->in.m_damageType ) == FALSE )
+	if( lastDamageInfo && getDamageTypeFlag( boneFXUpdateModuleData->m_damageOCLTypes, lastDamageInfo->in.m_damageType ) == FALSE )
 		return;
 
 	// the bonePosition variable will have been made right by the call to
@@ -440,9 +440,9 @@ void BoneFXUpdate::doParticleSystemAtBone(const ParticleSystemTemplate *particle
 	}
 
 	// if we are restricted by the damage type executing effect, bail out of here
-	const BoneFXUpdateModuleData *d = getBoneFXUpdateModuleData();
+	const BoneFXUpdateModuleData *boneFXUpdateModuleData = getBoneFXUpdateModuleData();
 	const DamageInfo *lastDamageInfo = getObject()->getBodyModule()->getLastDamageInfo();
-	if( lastDamageInfo && getDamageTypeFlag( d->m_damageParticleTypes, lastDamageInfo->in.m_damageType ) == FALSE )
+	if( lastDamageInfo && getDamageTypeFlag( boneFXUpdateModuleData->m_damageParticleTypes, lastDamageInfo->in.m_damageType ) == FALSE )
 		return;
 
 	Object *building = getObject();

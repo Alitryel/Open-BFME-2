@@ -93,8 +93,8 @@ inline StructureCollapseUpdateModuleData::~StructureCollapseUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeStructureCollapseUpdateModuleDataInlineAnchorStructureCollapseUpdateModuleDataDtor@@YAXPAVStructureCollapseUpdateModuleData@@@Z absent-from-retail
-void _bfmeStructureCollapseUpdateModuleDataInlineAnchorStructureCollapseUpdateModuleDataDtor(StructureCollapseUpdateModuleData *p)
+void _bfmeStructureCollapseUpdateModuleDataInlineAnchorStructureCollapseUpdateModuleDataDtor(StructureCollapseUpdateModuleData *structureCollapseUpdateModuleData)
 {
-    p->StructureCollapseUpdateModuleData::~StructureCollapseUpdateModuleData();
+    structureCollapseUpdateModuleData->StructureCollapseUpdateModuleData::~StructureCollapseUpdateModuleData();
 }
 #pragma inline_depth()

@@ -169,8 +169,8 @@ void OneRingPenaltyUpdate::rva00499AFD()
 {
 	const OneRingPenaltyUpdateModuleData *data = (const OneRingPenaltyUpdateModuleData *)m_moduleData;
 	Object *obj = m_object;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(data->m_specialObjectName);
-	if (!tmpl)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(data->m_specialObjectName);
+	if (!thingTemplate)
 		return;
 	else
 	{
@@ -191,7 +191,7 @@ void OneRingPenaltyUpdate::rva00499AFD()
 		};
 		MaskPos u;
 		ji_006291ae(&u.mask, 0, sizeof(u.mask));
-		Object *newObj = TheThingFactory->newObject(tmpl, team, &u.mask, false);
+		Object *newObj = TheThingFactory->newObject(thingTemplate, team, &u.mask, false);
 		if (!newObj)
 			return;
 		m_24 = newObj->m_id74;

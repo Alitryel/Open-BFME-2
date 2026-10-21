@@ -969,9 +969,9 @@ __declspec(noinline) inline UnsignedInt StealthUpdate::getStealthLevel() const
 }
 
 // ?bfmeAnchorStealthUpdategetStealthLevel absent-from-retail
-UnsignedInt bfmeAnchorStealthUpdategetStealthLevel(const StealthUpdate *p)
+UnsignedInt bfmeAnchorStealthUpdategetStealthLevel(const StealthUpdate *stealthUpdate)
 {
-	return p->getStealthLevel();
+	return stealthUpdate->getStealthLevel();
 }
 
 // ?rva00373D23@StealthUpdate@@QAEXXZ @0x00373D23

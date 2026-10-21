@@ -136,7 +136,7 @@ void StickyBombUpdate::initStickyBomb( Object *target, const Object *bomber, con
 
 	if( target )
 	{
-		const StickyBombUpdateModuleData* d = getStickyBombUpdateModuleData();
+		const StickyBombUpdateModuleData* stickyBombUpdateModuleData = getStickyBombUpdateModuleData();
 		Coord3D pos = *target->getPosition();
 
 		if( specificPos )
@@ -153,7 +153,7 @@ void StickyBombUpdate::initStickyBomb( Object *target, const Object *bomber, con
 			//keep it at ground height for mine clearing units to reach
 		}
 		else
-			pos.z += d->m_offsetZ; // ride on the roof of the truck/tank
+			pos.z += stickyBombUpdateModuleData->m_offsetZ; // ride on the roof of the truck/tank
 
 		getObject()->setPosition( &pos );
 
@@ -199,12 +199,12 @@ UpdateSleepTime StickyBombUpdate::update( void )
 		}
 		else // make the bomb follow the target around
 		{
-			const StickyBombUpdateModuleData* d = getStickyBombUpdateModuleData();
+			const StickyBombUpdateModuleData* stickyBombUpdateModuleData = getStickyBombUpdateModuleData();
 			const Coord3D *pos = target->getPosition();
 			Coord3D newPos;
 			newPos.x = pos->x;
 			newPos.y = pos->y;
-			newPos.z = pos->z + d->m_offsetZ;
+			newPos.z = pos->z + stickyBombUpdateModuleData->m_offsetZ;
 
 			self->setPosition( &newPos );
 		}

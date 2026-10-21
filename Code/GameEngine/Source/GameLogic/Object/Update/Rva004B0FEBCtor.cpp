@@ -18,8 +18,8 @@ class Rva000421C8 {public:Rva000421C8():next(0){}virtual ~Rva000421C8();virtual 
 class EmotionTrackerUpdate::TauntPointFilter:public Rva000421C8 {public:TauntPointFilter(EmotionTrackerUpdate*);virtual bool Allow(Object*);virtual int getPlayerMask();
  EmotionTrackerUpdate *module;Object *object;Player *player;int enemyCount,allyCount;Object *cached;bool tested;
 };
-EmotionTrackerUpdate::TauntPointFilter::TauntPointFilter(EmotionTrackerUpdate *m):module(m),cached(0),tested(false) {
- object=m->object;enemyCount=0;allyCount=0;player=object?object->getControllingPlayer():0;
+EmotionTrackerUpdate::TauntPointFilter::TauntPointFilter(EmotionTrackerUpdate *emotionTrackerUpdate):module(emotionTrackerUpdate),cached(0),tested(false) {
+ object=emotionTrackerUpdate->object;enemyCount=0;allyCount=0;player=object?object->getControllingPlayer():0;
  if(player){unsigned allies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),3,false);
  unsigned enemies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),4,false);
  enemyCount=((Rva00739830 *)TheShroudManager)->rva00739830((const BfmePointFD *)&object->pos,1,enemies);

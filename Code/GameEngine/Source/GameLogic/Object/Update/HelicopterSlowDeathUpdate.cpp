@@ -112,9 +112,9 @@ HelicopterSlowDeathBehaviorModuleData::HelicopterSlowDeathBehaviorModuleData( vo
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ void HelicopterSlowDeathBehaviorModuleData::buildFieldParse( MultiIniFieldParse &p ) 
+/*static*/ void HelicopterSlowDeathBehaviorModuleData::buildFieldParse( MultiIniFieldParse &multiIniFieldParse ) 
 {
-  SlowDeathBehaviorModuleData::buildFieldParse( p );
+  SlowDeathBehaviorModuleData::buildFieldParse( multiIniFieldParse );
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -149,7 +149,7 @@ HelicopterSlowDeathBehaviorModuleData::HelicopterSlowDeathBehaviorModuleData( vo
 
 	};
 
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 
 }  // end buildFieldParse
 

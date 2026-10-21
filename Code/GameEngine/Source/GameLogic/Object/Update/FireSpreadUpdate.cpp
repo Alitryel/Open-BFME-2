@@ -117,8 +117,8 @@ void FireSpreadUpdate::startFireSpreading()
 // ?FireSpreadUpdate::calcNextSpreadDelay present-unmatched
 UnsignedInt FireSpreadUpdate::calcNextSpreadDelay()
 {
-	const FireSpreadUpdateModuleData* d = getFireSpreadUpdateModuleData();
-	UnsignedInt delay = GameLogicRandomValue( d->m_minSpreadTryDelayData, d->m_maxSpreadTryDelayData );
+	const FireSpreadUpdateModuleData* fireSpreadUpdateModuleData = getFireSpreadUpdateModuleData();
+	UnsignedInt delay = GameLogicRandomValue( fireSpreadUpdateModuleData->m_minSpreadTryDelayData, fireSpreadUpdateModuleData->m_maxSpreadTryDelayData );
 	if (delay < 1)
 		delay = 1;
 	return delay;

@@ -495,14 +495,14 @@ void FireWeaponUpdate::Rva0048BDF8Helper()
 	for (_STL::list<FireWeaponNugget *>::const_iterator it = data->m_nuggets.begin(); it != data->m_nuggets.end(); ++it)
 	{
 		const FireWeaponNugget *nugget = *it;
-		const WeaponTemplate *tmpl = TheWeaponStore->findWeaponTemplate(nugget->m_weaponName);
-		if (tmpl)
+		const WeaponTemplate *weaponTemplate = TheWeaponStore->findWeaponTemplate(nugget->m_weaponName);
+		if (weaponTemplate)
 		{
 			Rva0048BDF8Entry *entry = new Rva0048BDF8Entry;
 			entry->m_oneShot = nugget->m_oneShot;
 			entry->m_nextFireFrame = nugget->m_fireDelay + now;
 			entry->m_offset = nugget->m_offset;
-			entry->m_weapon = TheWeaponStore->allocateNewWeapon(tmpl, PRIMARY_WEAPON);
+			entry->m_weapon = TheWeaponStore->allocateNewWeapon(weaponTemplate, PRIMARY_WEAPON);
 			entry->m_weapon->setOwnerID(getObject()->getID());
 			entry->m_weapon->loadAmmoNow(getObject());
 			m_entries.push_back(entry);

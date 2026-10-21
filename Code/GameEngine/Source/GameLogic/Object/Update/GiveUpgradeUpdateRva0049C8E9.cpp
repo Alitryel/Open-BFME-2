@@ -205,9 +205,9 @@ void GiveUpgradeUpdate::GetDeliveryTarget()
 			continue;
 		Object *rider = other->rva002931F5(false);
 		if (!rider && other->m_78) {
-			Object *p = TheGameLogic->findObjectByID(other->m_78);
-			if (p && !(p->m_template->m_108 & 0x80))
-				rider = p;
+			Object *object = TheGameLogic->findObjectByID(other->m_78);
+			if (object && !(object->m_template->m_108 & 0x80))
+				rider = object;
 		}
 		if (rider) {
 			if (rider->testStatus(OBJECT_STATUS_RVA0049C73A_66) || rider->testStatus(OBJECT_STATUS_RVA0049C73A_2))

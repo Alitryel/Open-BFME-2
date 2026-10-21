@@ -308,8 +308,8 @@ void EMPUpdate::doDisableAttack( void )
 			if ( drw )
 			{
 
-				const ParticleSystemTemplate *tmp = data->m_disableFXParticleSystem;
-				if (tmp)
+				const ParticleSystemTemplate *particleSystemTemplate = data->m_disableFXParticleSystem;
+				if (particleSystemTemplate)
 				{
 					Real victimHeight = curVictim->getGeometryInfo().getMaxHeightAbovePosition();
 					Real victimFootprintArea = curVictim->getGeometryInfo().getFootprintArea();
@@ -320,7 +320,7 @@ void EMPUpdate::doDisableAttack( void )
 					for (Int e = 0 ; e < emitterCount; ++e)
 					{
 
-						ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+						ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 						
 						if (sys)
 						{
@@ -449,10 +449,10 @@ UpdateSleepTime LeafletDropBehavior::update( void )
   {
     // start shoveling out those leaflets, boys.
 	  const LeafletDropBehaviorModuleData *data = getLeafletDropBehaviorModuleData();
-	  const ParticleSystemTemplate *tmp = data->m_leafletFXParticleSystem;
-	  if (tmp)
+	  const ParticleSystemTemplate *particleSystemTemplate = data->m_leafletFXParticleSystem;
+	  if (particleSystemTemplate)
 	  {
-		  ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+		  ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 		  if (sys)
 			  sys->attachToObject(getObject());
     }

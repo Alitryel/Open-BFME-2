@@ -305,10 +305,10 @@ void LaserUpdate::initLaser( const Object *parent, const Object *target, const C
 			//If we don't have a particle system for the lense flare (muzzle flare), create it.
 			if( data->m_particleSystemName.isNotEmpty() )
 			{
-				const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate( data->m_particleSystemName );
-				if( tmp )
+				const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate( data->m_particleSystemName );
+				if( particleSystemTemplate )
 				{
-					system = TheParticleSystemManager->createParticleSystem( tmp );
+					system = TheParticleSystemManager->createParticleSystem( particleSystemTemplate );
 					if( system )
 					{
 						m_particleSystemID = system->getSystemID();
@@ -319,10 +319,10 @@ void LaserUpdate::initLaser( const Object *parent, const Object *target, const C
 			//If we don't have a particle system for the target effect, create it.
 			if( data->m_targetParticleSystemName.isNotEmpty() )
 			{
-				const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate( data->m_targetParticleSystemName );
-				if( tmp )
+				const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate( data->m_targetParticleSystemName );
+				if( particleSystemTemplate )
 				{
-					system = TheParticleSystemManager->createParticleSystem( tmp );
+					system = TheParticleSystemManager->createParticleSystem( particleSystemTemplate );
 					if( system )
 					{
 						m_targetParticleSystemID = system->getSystemID();
@@ -419,5 +419,5 @@ void LaserUpdate::loadPostProcess( void )
 // inline ctor forces both it and its base to emit without changing their bytes.
 #pragma inline_depth(0)
 // ?RvaLaserAnchor present-unmatched
-void RvaLaserAnchor(Thing *thing, const ModuleData *moduleData) { char buf[sizeof(LaserUpdate)]; LaserUpdate *p = ::new (buf) LaserUpdate(thing, moduleData); (void)p; }
+void RvaLaserAnchor(Thing *thing, const ModuleData *moduleData) { char buf[sizeof(LaserUpdate)]; LaserUpdate *laserUpdate = ::new (buf) LaserUpdate(thing, moduleData); (void)laserUpdate; }
 #pragma inline_depth()

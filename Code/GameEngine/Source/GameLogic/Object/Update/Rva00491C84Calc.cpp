@@ -107,10 +107,10 @@ void AttachUpdate::rva00491C84(Coord3D *out, const Object *obj)
 	unsigned char *flagBase = (unsigned char *)obj->m_unk04;
 	if ((flagBase[0x115] & 0x20) != 0 && obj->m_provider250 != 0)
 	{
-		FilterObj *p = (FilterObj *)obj->rva0028C197();
-		if (p != 0)
+		FilterObj *filterObj = (FilterObj *)obj->rva0028C197();
+		if (filterObj != 0)
 		{
-			if (!p->check(&tmp))
+			if (!filterObj->check(&tmp))
 			{
 				tmp = *src;
 			}

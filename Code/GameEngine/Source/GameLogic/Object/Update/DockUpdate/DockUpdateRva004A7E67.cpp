@@ -93,27 +93,27 @@ private:
 	int m_count; // +0x68
 };
 
-bool Rva004A7E67::rva004A7E67(Object *t, int unused)
+bool Rva004A7E67::rva004A7E67(Object *object, int unused)
 {
 	if (m_count == 0)
 		return false;
-	float r = t->m_radius;
+	float r = object->m_radius;
 	float rr = r + r;
-	float e = t->rva00263763(*(void **)((char *)this - 0x18));
+	float e = object->rva00263763(*(void **)((char *)this - 0x18));
 	if (e > rr * rr) {
 		Coord3D p;
-		p.x = t->m_pos.x;
-		p.y = t->m_pos.y;
-		p.z = t->m_pos.z;
+		p.x = object->m_pos.x;
+		p.y = object->m_pos.y;
+		p.z = object->m_pos.z;
 		p.x += (float)GetGameLogicRandomValue(-4, 4, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\DockUpdate\\SupplyWarehouseDockUpdate.cpp", 0x57);
 		p.y += (float)GetGameLogicRandomValue(-4, 4, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\DockUpdate\\SupplyWarehouseDockUpdate.cpp", 0x58);
-		t->setPosition(&p);
+		object->setPosition(&p);
 		return false;
 	}
 	--m_count;
-	IfaceA *a = (IfaceA *)t->m_iface;
-	IfaceB *b = a->s95();
-	if (b == 0 || !b->check(m_count)) {
+	IfaceA *ifaceA = (IfaceA *)object->m_iface;
+	IfaceB *ifaceB = ifaceA->s95();
+	if (ifaceB == 0 || !ifaceB->check(m_count)) {
 		++m_count;
 		return false;
 	}

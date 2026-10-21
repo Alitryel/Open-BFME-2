@@ -260,12 +260,12 @@ void FloodUpdate::rva0048E189()
 		const FloodMember *member = *it;
 		Rva0048E16C *record = new Rva0048E16C;
 		Rva0048E16C *entry = record; // the list entry keeps its own slot in retail
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(member->m_templateName);
-		if (tmpl)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(member->m_templateName);
+		if (thingTemplate)
 		{
 			CreateMask mask;
 			memset(&mask, 0, sizeof(mask));
-			Object *obj = TheThingFactory->newObject(tmpl, team, &mask, false);
+			Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
 			if (obj)
 			{
 				record->m_id = obj->getID();

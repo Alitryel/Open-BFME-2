@@ -33,27 +33,27 @@ class UpdateModule:public BehaviorModule,public UpdateModuleInterface {public:vi
 class Secondary20 {public:virtual void rvaSlot0(float)=0;};
 class RainOfFireUpdate:public UpdateModule,public Secondary20 {public:virtual UpdateSleepTime update();void rva004AC18D(float);unsigned frame;float darkness,scale,pending,ramp;};
 UpdateSleepTime RainOfFireUpdate::update() {
- Object *obj=object;const RainOfFireUpdateModuleData *d=data;
- if(!d)return UPDATE_SLEEP_FOREVER;
+ Object *obj=object;const RainOfFireUpdateModuleData *rainOfFireUpdateModuleData=data;
+ if(!rainOfFireUpdateModuleData)return UPDATE_SLEEP_FOREVER;
  unsigned elapsed=TheGameLogic->getFrame()-frame;
- if(elapsed<=d->darknessFadeTime) {
-  float value=d->darknessFadeTime ? (float)elapsed/(float)d->darknessFadeTime:1.0f;
+ if(elapsed<=rainOfFireUpdateModuleData->darknessFadeTime) {
+  float value=rainOfFireUpdateModuleData->darknessFadeTime ? (float)elapsed/(float)rainOfFireUpdateModuleData->darknessFadeTime:1.0f;
   rva004AC18D(value);
  }
- if(elapsed>=d->startRainTime) {
-  if(ramp<1.0f) {ramp+=1.0f/d->rampup;if(ramp>1.0f)ramp=1.0f;}
-  pending+=GetGameLogicRandomValueReal(d->dpsMin,d->dpsMax,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\RainOfFireUpdate.cpp",125)*scale*ramp/BfmeLogicFramesPerSecond;
+ if(elapsed>=rainOfFireUpdateModuleData->startRainTime) {
+  if(ramp<1.0f) {ramp+=1.0f/rainOfFireUpdateModuleData->rampup;if(ramp>1.0f)ramp=1.0f;}
+  pending+=GetGameLogicRandomValueReal(rainOfFireUpdateModuleData->dpsMin,rainOfFireUpdateModuleData->dpsMax,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\RainOfFireUpdate.cpp",125)*scale*ramp/BfmeLogicFramesPerSecond;
   Weapon *weapon=obj->getWeapon();
   if(weapon) {
-   Coord3D center;TheTacticalView->rvaSlot70(&center);center.z=d->height;
+   Coord3D center;TheTacticalView->rvaSlot70(&center);center.z=rainOfFireUpdateModuleData->height;
    while(pending>=1.0f) {
     Coord3D pos={center.x,center.y,center.z};
-    if(d->jitter>0.0f) {
+    if(rainOfFireUpdateModuleData->jitter>0.0f) {
      float angle=GetGameLogicRandomValueReal(0.0f,6.2831855f,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\RainOfFireUpdate.cpp",142);
-     float radius=GetGameLogicRandomValueReal(0.0f,d->jitter,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\RainOfFireUpdate.cpp",143);
+     float radius=GetGameLogicRandomValueReal(0.0f,rainOfFireUpdateModuleData->jitter,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\RainOfFireUpdate.cpp",143);
      pos.x+=Cos(angle)*radius;pos.y+=Sin(angle)*radius;
     }
-    Coord3D target;target.z=pos.z;target.x=pos.x+d->offset.x;target.y=pos.y+d->offset.y;
+    Coord3D target;target.z=pos.z;target.x=pos.x+rainOfFireUpdateModuleData->offset.x;target.y=pos.y+rainOfFireUpdateModuleData->offset.y;
     PathfindLayerEnum layer=TheTerrainLogic->getHighestLayerForDestination(&target,false);
     target.z=TheTerrainLogic->rvaSlot7(target.x,target.y,layer,0,true);
     Vector3 dir=Vector3(target.x,target.y,target.z)-Vector3(pos.x,pos.y,pos.z);dir.Normalize();

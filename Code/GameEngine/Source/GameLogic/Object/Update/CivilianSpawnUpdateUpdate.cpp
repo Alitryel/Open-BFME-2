@@ -276,19 +276,19 @@ private:
 
 UpdateSleepTime CivilianSpawnUpdate::update()
 {
-	const CivilianSpawnUpdateModuleData *d = getCivilianSpawnUpdateModuleData();
+	const CivilianSpawnUpdateModuleData *civilianSpawnUpdateModuleData = getCivilianSpawnUpdateModuleData();
 	Object *obj = getObject();
-	Int index = GetGameLogicRandomValue(0, (d->m_civilianFinish - d->m_civilianStart) - 1, CIVILIAN_SPAWN_FILE, 0x55);
-	const ThingTemplate *unitTemplate = TheThingFactory->findTemplate(d->m_civilianStart[index]);
+	Int index = GetGameLogicRandomValue(0, (civilianSpawnUpdateModuleData->m_civilianFinish - civilianSpawnUpdateModuleData->m_civilianStart) - 1, CIVILIAN_SPAWN_FILE, 0x55);
+	const ThingTemplate *unitTemplate = TheThingFactory->findTemplate(civilianSpawnUpdateModuleData->m_civilianStart[index]);
 	if (!unitTemplate)
 		return UPDATE_SLEEP_FOREVER;
 
 	Rva0026119DFilter filterAlive;
 	Rva002611BFFilter filterNotSelf(obj);
-	Rva002614ECFilter filterObjects(&d->m_runToFilter, obj->getControllingPlayer(), true);
+	Rva002614ECFilter filterObjects(&civilianSpawnUpdateModuleData->m_runToFilter, obj->getControllingPlayer(), true);
 	filterAlive.link(&filterNotSelf);
 	filterAlive.link(&filterObjects);
-	BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(obj->getPosition(), (Real)d->m_maximumDistance, 0, &filterAlive, 0);
+	BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(obj->getPosition(), (Real)civilianSpawnUpdateModuleData->m_maximumDistance, 0, &filterAlive, 0);
 	Int count = CivilianSpawnHitCount(iter);
 	if (count == 0)
 		return m_spawnFrame;

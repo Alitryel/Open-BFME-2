@@ -49,12 +49,12 @@ public:
 ModelConditionUpgradeModuleData::ModelConditionUpgradeModuleData()
 	: Rva00253487Base()
 {
-	CondStore *stor118 = &m_118;
+	CondStore *condStore = &m_118;
 	*(unsigned int *)this = ((unsigned int)vtbl_00BF2558);
-	((Rva0042526Member *)stor118)->Rva0042526Member::Rva0042526Member();
+	((Rva0042526Member *)condStore)->Rva0042526Member::Rva0042526Member();
 	CondStore *stor164 = &m_164;
 	((Rva0042526Member *)stor164)->Rva0042526Member::Rva0042526Member();
-	memset(stor118, 0, 0x4C);
+	memset(condStore, 0, 0x4C);
 	memset(stor164, 0, 0x4C);
 	m_1B0 |= -1;
 	m_1B4 = 0.0f;

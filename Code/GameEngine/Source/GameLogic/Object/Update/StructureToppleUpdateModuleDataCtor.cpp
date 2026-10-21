@@ -192,8 +192,8 @@ inline StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeStructureToppleUpdateModuleDataInlineAnchor@@YAXPAVStructureToppleUpdateModuleData@@@Z absent-from-retail
-void _bfmeStructureToppleUpdateModuleDataInlineAnchor(StructureToppleUpdateModuleData *p)
+void _bfmeStructureToppleUpdateModuleDataInlineAnchor(StructureToppleUpdateModuleData *structureToppleUpdateModuleData)
 {
-    p->StructureToppleUpdateModuleData::StructureToppleUpdateModuleData();
+    structureToppleUpdateModuleData->StructureToppleUpdateModuleData::StructureToppleUpdateModuleData();
 }
 #pragma inline_depth()

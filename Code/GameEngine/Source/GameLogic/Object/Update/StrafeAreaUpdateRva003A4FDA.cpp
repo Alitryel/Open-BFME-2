@@ -83,13 +83,13 @@ class Object:public Thing {public:
 struct StrafeAreaUpdateModuleData {char pad[8];AsciiString weaponName;float radius,frequency,amplitude,slope,initialPhase;};
 struct StrafeDirection:public Coord3D {
  __forceinline StrafeDirection scaled(float a) const {return StrafeDirection(x*a,y*a,z*a);}
- __forceinline StrafeDirection plus(const StrafeDirection &v) const {return StrafeDirection(x+v.x,y+v.y,z+v.z);}
+ __forceinline StrafeDirection plus(const StrafeDirection &strafeDirection) const {return StrafeDirection(x+strafeDirection.x,y+strafeDirection.y,z+strafeDirection.z);}
 
  StrafeDirection() {}
  __forceinline StrafeDirection(float a,float b,float c){x=a;y=b;z=c;}
  __forceinline Coord3D *coord(){return this;}
  __forceinline void scale(float a){x*=a;y*=a;z*=a;}
- __forceinline void add(const StrafeDirection &v){x+=v.x;y+=v.y;z+=v.z;}
+ __forceinline void add(const StrafeDirection &strafeDirection){x+=strafeDirection.x;y+=strafeDirection.y;z+=strafeDirection.z;}
  __forceinline void add(const Coord3D &v){x+=v.x;y+=v.y;z+=v.z;}
  __forceinline StrafeDirection(const Coord3D &v){x=v.x;y=v.y;z=v.z;}
  __forceinline void sub(const Coord3D &v){x-=v.x;y-=v.y;z-=v.z;}
@@ -128,7 +128,7 @@ inline __declspec(noinline) void Coord3D::normalize()
 }
 
 UpdateSleepTime StrafeAreaUpdate::update() {
- const StrafeAreaUpdateModuleData *d=data;Object *obj=object;
+ const StrafeAreaUpdateModuleData *strafeAreaUpdateModuleData=data;Object *obj=object;
  AIUpdateInterface *ai=obj->ai;
  if(!ai) return UPDATE_SLEEP_FOREVER;
  AIUpdateInterface *aircraft=ai->rvaSlot98();
@@ -138,31 +138,31 @@ UpdateSleepTime StrafeAreaUpdate::update() {
  switch(state) {
  case 0:
   aircraft->chooseLocomotorSet(6);
-  if(distance<=d->radius+d->slope*2.0f) obj->setFiring();
-  if(distance<=d->radius+d->slope) {
+  if(distance<=strafeAreaUpdateModuleData->radius+strafeAreaUpdateModuleData->slope*2.0f) obj->setFiring();
+  if(distance<=strafeAreaUpdateModuleData->radius+strafeAreaUpdateModuleData->slope) {
    aircraft->chooseLocomotorSet(0);state=1;nextFire=TheGameLogic->getFrame()+12;
   }
   break;
  case 1: {
-  const WeaponTemplate *weapon=(TheWeaponStore?TheWeaponStore:TheWeaponStore)->findWeaponTemplate(d->weaponName);
+  const WeaponTemplate *weapon=(TheWeaponStore?TheWeaponStore:TheWeaponStore)->findWeaponTemplate(strafeAreaUpdateModuleData->weaponName);
   if(weapon && TheGameLogic->getFrame()>=nextFire) {
    StrafeDirection firingPosition(obj->position);
    StrafeDirection direction(*obj->getUnitDirectionVector2D());direction.coord()->normalize();
    StrafeDirection perpendicular(direction.y,-direction.x,0.0f);
-   phase+=d->frequency;
-   float offset=sin(phase)*d->amplitude;
+   phase+=strafeAreaUpdateModuleData->frequency;
+   float offset=sin(phase)*strafeAreaUpdateModuleData->amplitude;
    perpendicular.scale(offset);
-   direction.scale(d->slope);
+   direction.scale(strafeAreaUpdateModuleData->slope);
    firingPosition.add(direction);
    firingPosition.add(perpendicular);
    firingPosition.z=TheTerrainLogic->getGroundHeight(firingPosition.x,firingPosition.y);
    TheWeaponStore->createAndFireTempWeapon(weapon,obj,firingPosition.coord());
   }
   obj->setFiring();
-  if(started && distance>d->radius-d->slope) {
+  if(started && distance>strafeAreaUpdateModuleData->radius-strafeAreaUpdateModuleData->slope) {
    state=2;aircraft->chooseLocomotorSet(6);obj->clearFiring();break;
   }
-  if(distance<d->radius/12.0f && aircraft->rvaSlot110()) {
+  if(distance<strafeAreaUpdateModuleData->radius/12.0f && aircraft->rvaSlot110()) {
    StrafeDirection onward(target);onward.sub(start);onward.coord()->normalize();{float s=500.0f;onward.x*=s;onward.y*=s;onward.z*=s;}
    onward.add(target);
    Coord3D adjusted;TheTerrainLogic->rvaSlot13(&adjusted,onward.coord());
@@ -171,7 +171,7 @@ UpdateSleepTime StrafeAreaUpdate::update() {
   break;
  }
  case 2:
-  if(distance>d->radius && aircraft->rvaSlot110() && !(obj->status&1)) obj->kill(DAMAGE_UNRESISTABLE,DEATH_ANONYMOUS);
+  if(distance>strafeAreaUpdateModuleData->radius && aircraft->rvaSlot110() && !(obj->status&1)) obj->kill(DAMAGE_UNRESISTABLE,DEATH_ANONYMOUS);
   break;
  }
  return UPDATE_SLEEP_NONE;

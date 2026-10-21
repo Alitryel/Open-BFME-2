@@ -45,7 +45,7 @@ class Object {
 public:
  Drawable*getDrawable()const;bool clearDisabled(DisabledType);bool setWeaponLock(WeaponSlotType,WeaponLockType);void releaseWeaponLock(WeaponLockType);void setStatus(ObjectStatusTypes,bool);bool testStatus(ObjectStatusTypes)const;void rva0028AE6D();
  char pad[0x110];RiderConditionBits conditions;char pad15c[0x250-0x15c];RiderContainInterface*contain;char pad254[4];RiderAI*ai;char pad25c[0x274-0x25c];Object*parent;
- __forceinline RiderInterface*getRider(){RiderContainInterface*c=contain;return c?c->getRider():0;}
+ __forceinline RiderInterface*getRider(){RiderContainInterface*riderContain=contain;return riderContain?riderContain->getRider():0;}
 };
 struct RiderRecord {int mask[19];unsigned opaque4c;ObjectCreationList*creation;};
 struct RiderData {char pad[8];_STL::vector<RiderRecord> records;_STL::vector<AsciiString> names;WeaponSlotType weapon;bool flag24;bool flag25;};
@@ -69,7 +69,7 @@ UpdateSleepTime DetachableRiderUpdateUpdateReceiver::update(){
    Object*parent=object->parent;
    if(parent){
     RiderInterface*rider=parent->getRider();
-    if(rider)rider->release(object);else {RiderContainInterface*c=parent->contain;if(c)c->remove(object,false);}
+    if(rider)rider->release(object);else {RiderContainInterface*riderContain=parent->contain;if(riderContain)riderContain->remove(object,false);}
     if(object->ai)object->ai->commands.aiIdle(SOURCE2);
    }
    TheGameLogic->deselectObject(object,0xfffff,true);

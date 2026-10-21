@@ -136,8 +136,8 @@ int WeaponModeSpecialPowerUpdateBase::rva005893AD()
 		if (outer != 0) {
 			Player *player = outer->getControllingPlayer();
 			if (player != 0) {
-				const Overridable *ov2 = ((const VirtPrimary *)this)->f6();
-				return (int)((Rva002AC6B1PlayerTimers *)player)->getOrStart((const SpecialPowerTemplate *)ov2);
+				const Overridable *overridable = ((const VirtPrimary *)this)->f6();
+				return (int)((Rva002AC6B1PlayerTimers *)player)->getOrStart((const SpecialPowerTemplate *)overridable);
 			}
 		}
 	}

@@ -98,7 +98,7 @@ public:
     _STL::map<unsigned short, int> templates20;
     unsigned until2c, activated30;
 };
-static inline void doFX(const FXList *fx, const Object *a, const Object *b) { FXList::doFXObj(fx, a, b); }
+static inline void doFX(const FXList *fx, const Object *object, const Object *b) { FXList::doFXObj(fx, object, b); }
 void EmotionNugget::OnActivation(Object *target, int duration)
 {
     activated30 = TheGameLogic->getFrame();

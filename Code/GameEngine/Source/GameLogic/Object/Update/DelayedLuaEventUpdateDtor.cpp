@@ -84,8 +84,8 @@ inline DelayedLuaEventUpdate::~DelayedLuaEventUpdate()
 
 #pragma inline_depth(0)
 // ?bfmeEmitDelayedLuaEventUpdateDtor@@YAXPAVDelayedLuaEventUpdate@@@Z present-unmatched
-void bfmeEmitDelayedLuaEventUpdateDtor(DelayedLuaEventUpdate *p)
+void bfmeEmitDelayedLuaEventUpdateDtor(DelayedLuaEventUpdate *delayedLuaEventUpdate)
 {
-	p->DelayedLuaEventUpdate::~DelayedLuaEventUpdate();
+	delayedLuaEventUpdate->DelayedLuaEventUpdate::~DelayedLuaEventUpdate();
 }
 #pragma inline_depth()

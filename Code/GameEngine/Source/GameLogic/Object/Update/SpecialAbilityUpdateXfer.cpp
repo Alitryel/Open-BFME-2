@@ -434,8 +434,8 @@ void SpecialAbilityUpdate::killSpecialObjects()
 	const Overridable *ov = holder->friend_getFinalOverride();
 	if (ov->m_val1C != 0x15)
 		return;
-	Object *o = m_object;
-	if (o->m_pass330.Peek_Texture(zero) == 0)
+	Object *object = m_object;
+	if (object->m_pass330.Peek_Texture(zero) == 0)
 		return;
-	o->setWeaponLock((WeaponSlotType)zero, (WeaponLockType)1);
+	object->setWeaponLock((WeaponSlotType)zero, (WeaponLockType)1);
 }

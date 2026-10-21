@@ -93,19 +93,19 @@ public:
 	void update();
 };
 
-void ScriptTracker::setCurScript(SequentialScript *p, bool b, int dummy)
+void ScriptTracker::setCurScript(SequentialScript *sequentialScript, bool b, int dummy)
 {
 	(void)dummy;
 	if (m_08 != 0) {
 		if (m_0A == 0)
 			goto store;
 	}
-	if (p != m_04 && m_04 != 0 && m_04->m_10 != 0) {
+	if (sequentialScript != m_04 && m_04 != 0 && m_04->m_10 != 0) {
 		TheScriptEngine->rva00205140(m_04);
 		m_0A = 0;
 	}
 store:
-	m_04 = p;
+	m_04 = sequentialScript;
 	m_08 = 0;
 	m_0B = 0;
 	m_09 = b;

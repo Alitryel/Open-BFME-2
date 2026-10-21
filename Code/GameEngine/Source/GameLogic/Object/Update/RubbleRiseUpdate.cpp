@@ -360,33 +360,33 @@ static void rva004A4C3F(Int range, Int count, Int idxList[])
 // ?doPhaseStuff@RubbleRiseUpdate@@IAEXW4RubbleRisePhaseType@@PBUCoord3D@@@Z
 void RubbleRiseUpdate::doPhaseStuff(RubbleRisePhaseType rrphase, const Coord3D *target)
 {
-	const RubbleRiseUpdateModuleData *d = getRubbleRiseUpdateModuleData();
+	const RubbleRiseUpdateModuleData *rubbleRiseUpdateModuleData = getRubbleRiseUpdateModuleData();
 	Int i, idx, count, listSize;
 	Int idxList[MAX_IDX];
 
-	listSize = d->m_fxs[rrphase].size();
+	listSize = rubbleRiseUpdateModuleData->m_fxs[rrphase].size();
 	if (listSize > 0)
 	{
-		count = d->m_fxCount[rrphase];
+		count = rubbleRiseUpdateModuleData->m_fxCount[rrphase];
 		rva004A4C3F(listSize, count, idxList);
 		for (i = 0; i < count; ++i)
 		{
 			idx = idxList[i];
-			const FXVec &v = d->m_fxs[rrphase];
+			const FXVec &v = rubbleRiseUpdateModuleData->m_fxs[rrphase];
 			const FXList *fxl = v[idx];
 			FXList::doFXPos(fxl, target, 0, 0.0f, 0);
 		}
 	}
 
-	listSize = d->m_ocls[rrphase].size();
+	listSize = rubbleRiseUpdateModuleData->m_ocls[rrphase].size();
 	if (listSize > 0)
 	{
-		count = d->m_oclCount[rrphase];
+		count = rubbleRiseUpdateModuleData->m_oclCount[rrphase];
 		rva004A4C3F(listSize, count, idxList);
 		for (i = 0; i < count; ++i)
 		{
 			idx = idxList[i];
-			const OCLVec &v = d->m_ocls[rrphase];
+			const OCLVec &v = rubbleRiseUpdateModuleData->m_ocls[rrphase];
 			const ObjectCreationList *ocl = v[idx];
 			if (ocl != 0)
 				((ObjectCreationList *)ocl)->create(getObject(), (void *)target, 0, 0);
@@ -397,7 +397,7 @@ void RubbleRiseUpdate::doPhaseStuff(RubbleRisePhaseType rrphase, const Coord3D *
 // ?update@RubbleRiseUpdate@@UAE?AW4UpdateSleepTime@@XZ
 UpdateSleepTime RubbleRiseUpdate::update()
 {
-	const RubbleRiseUpdateModuleData *d = getRubbleRiseUpdateModuleData();
+	const RubbleRiseUpdateModuleData *rubbleRiseUpdateModuleData = getRubbleRiseUpdateModuleData();
 	Object *obj = getObject();
 	Drawable *drawable = obj->getDrawable();
 
@@ -409,7 +409,7 @@ UpdateSleepTime RubbleRiseUpdate::update()
 
 		Vector3 shudder;
 #line 157
-		shudder.Set(GameClientRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), GameClientRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), 0);
+		shudder.Set(GameClientRandomValueReal(-(rubbleRiseUpdateModuleData->m_maxShudder), rubbleRiseUpdateModuleData->m_maxShudder), GameClientRandomValueReal(-(rubbleRiseUpdateModuleData->m_maxShudder), rubbleRiseUpdateModuleData->m_maxShudder), 0);
 
 		const Matrix3D *instMatrix = obj->getDrawable()->getInstanceMatrix();
 		Matrix3D newInstMatrix;
@@ -422,8 +422,8 @@ UpdateSleepTime RubbleRiseUpdate::update()
 
 		UnsignedInt now = TheGameLogic->getFrame();
 #line 171
-		m_nextBurstFrame = now + GameLogicRandomValue(d->m_minBurstDelay, d->m_maxBurstDelay);
-		m_riseVelocity = -TheGlobalData->m_gravity * (1.0 - d->m_rubbleRiseDamping) * 20.0;
+		m_nextBurstFrame = now + GameLogicRandomValue(rubbleRiseUpdateModuleData->m_minBurstDelay, rubbleRiseUpdateModuleData->m_maxBurstDelay);
+		m_riseVelocity = -TheGlobalData->m_gravity * (1.0 - rubbleRiseUpdateModuleData->m_rubbleRiseDamping) * 20.0;
 		m_rubbleHeight = TheTerrainLogic->getLayerHeight(obj->getPosition()->x, obj->getPosition()->y, obj->rva0028B511(), 0, true);
 		m_currentHeight = 0;
 		m_risePosition = *pos;
@@ -434,7 +434,7 @@ UpdateSleepTime RubbleRiseUpdate::update()
 		UnsignedInt now = TheGameLogic->getFrame();
 
 #line 196
-		Vector3 shudder(GameLogicRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), GameLogicRandomValueReal(-(d->m_maxShudder), d->m_maxShudder), (m_currentHeight += m_riseVelocity));
+		Vector3 shudder(GameLogicRandomValueReal(-(rubbleRiseUpdateModuleData->m_maxShudder), rubbleRiseUpdateModuleData->m_maxShudder), GameLogicRandomValueReal(-(rubbleRiseUpdateModuleData->m_maxShudder), rubbleRiseUpdateModuleData->m_maxShudder), (m_currentHeight += m_riseVelocity));
 
 		Coord3D newPos;
 		const Coord3D *rise = &m_risePosition;
@@ -446,7 +446,7 @@ UpdateSleepTime RubbleRiseUpdate::update()
 		if (now >= m_nextBurstFrame)
 		{
 #line 205
-			if (GameLogicRandomValue(1, d->m_bigBurstFrequency) == 1)
+			if (GameLogicRandomValue(1, rubbleRiseUpdateModuleData->m_bigBurstFrequency) == 1)
 			{
 				doPhaseStuff(RRPHASE_BURST, obj->getPosition());
 			}
@@ -455,7 +455,7 @@ UpdateSleepTime RubbleRiseUpdate::update()
 				doPhaseStuff(RRPHASE_DELAY, obj->getPosition());
 			}
 #line 214
-			m_nextBurstFrame += GameLogicRandomValue(d->m_minBurstDelay, d->m_maxBurstDelay);
+			m_nextBurstFrame += GameLogicRandomValue(rubbleRiseUpdateModuleData->m_minBurstDelay, rubbleRiseUpdateModuleData->m_maxBurstDelay);
 		}
 
 		if (m_currentHeight >= m_rubbleHeight - m_risePosition.z)

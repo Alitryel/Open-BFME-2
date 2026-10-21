@@ -49,11 +49,11 @@ public:
 	void *rva0049C5F4(Object *arg);
 };
 
-void *Rva0049C5F4::rva0049C5F4(Object *arg)
+void *Rva0049C5F4::rva0049C5F4(Object *object)
 {
-	if (arg == 0)
+	if (object == 0)
 		return 0;
-	Object *found = TheGameLogic->findObjectByID(arg->m_id78);
+	Object *found = TheGameLogic->findObjectByID(object->m_id78);
 	if (found == 0)
 		return 0;
 	Provider31 *prov = found->m_prov250;

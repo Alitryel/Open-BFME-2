@@ -151,9 +151,9 @@ static ProjectileUpdateInterface* getPui(Object* obj)
 		return NULL;
 
 	ProjectileUpdateInterface* objPui = NULL;
-	for (BehaviorModule** u = obj->getBehaviorModules(); *u; ++u)
+	for (BehaviorModule** behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		if ((objPui = (*u)->getProjectileUpdateInterface()) != NULL)
+		if ((objPui = (*behaviorModule)->getProjectileUpdateInterface()) != NULL)
 			return objPui;
 	}
 	return NULL;
@@ -561,7 +561,7 @@ inline UpdateSleepTime PhysicsBehavior::update()
 	USE_PERF_TIMER(PhysicsBehavior)
 
 	Object*														obj = getObject();
-	const PhysicsBehaviorModuleData*	d = getPhysicsBehaviorModuleData();
+	const PhysicsBehaviorModuleData*	physicsBehaviorModuleData = getPhysicsBehaviorModuleData();
 	Bool															airborneAtStart = obj->isAboveTerrain();
 	Real															activeVelZ = 0;
 	Coord3D														bounceForce;
@@ -664,9 +664,9 @@ inline UpdateSleepTime PhysicsBehavior::update()
 			
 			// only update the position if we are not HELD
 			// (otherwise, slowdeath sinking into ground won't work)
-			Real yawRateToUse = m_yawRate * d->m_pitchRollYawFactor;
-			Real pitchRateToUse = m_pitchRate * d->m_pitchRollYawFactor;
-			Real rollRateToUse = m_rollRate * d->m_pitchRollYawFactor;
+			Real yawRateToUse = m_yawRate * physicsBehaviorModuleData->m_pitchRollYawFactor;
+			Real pitchRateToUse = m_pitchRate * physicsBehaviorModuleData->m_pitchRollYawFactor;
+			Real rollRateToUse = m_rollRate * physicsBehaviorModuleData->m_pitchRollYawFactor;
 
 			// With a center of mass listing, pitchRate needs to dampen towards straight down/straight up
 			Real offset = getCenterOfMassOffset();
@@ -794,7 +794,7 @@ inline UpdateSleepTime PhysicsBehavior::update()
 		// also note: since projectiles are immune to falling damage, don't
 		// even bother doing this check here.
 		//
-		Real netSpeed = -activeVelZ - d->m_minFallSpeedForDamage;
+		Real netSpeed = -activeVelZ - physicsBehaviorModuleData->m_minFallSpeedForDamage;
 		
 		if (netSpeed > 0.0f && m_pui == NULL)
 		{
@@ -805,7 +805,7 @@ inline UpdateSleepTime PhysicsBehavior::update()
 			if ((fabs(m_vel.x) <= TINY_DELTA || fabs(activeVelZ / m_vel.x) >= MIN_ANGLE_TAN) && 
 				(fabs(m_vel.y) <= TINY_DELTA || fabs(activeVelZ / m_vel.y) >= MIN_ANGLE_TAN))
 			{
-				Real damageAmt = netSpeed * getMass() * d->m_fallHeightDamageFactor;
+				Real damageAmt = netSpeed * getMass() * physicsBehaviorModuleData->m_fallHeightDamageFactor;
 
 				DamageInfo damageInfo;
 				damageInfo.in.m_damageType = DAMAGE_FALLING;
@@ -836,7 +836,7 @@ inline UpdateSleepTime PhysicsBehavior::update()
 
 
 	// If we are effectively dead, we shouldn't recall kill.
-	if (d->m_killWhenRestingOnGround && !airborneAtEnd && isVerySmall3D(m_vel))
+	if (physicsBehaviorModuleData->m_killWhenRestingOnGround && !airborneAtEnd && isVerySmall3D(m_vel))
 	{
 		if( !obj->isKindOf( KINDOF_DRONE ) || obj->isEffectivelyDead() || obj->isDisabledByType( DISABLED_UNMANNED ) )
 		{

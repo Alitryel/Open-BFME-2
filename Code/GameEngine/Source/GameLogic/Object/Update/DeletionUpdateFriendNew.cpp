@@ -26,8 +26,8 @@ inline Module *DeletionUpdate::friend_newModuleInstance(Thing *thing, const Modu
 }
 #pragma inline_depth(0)
 // ?bfmeEmitDeletionUpdateFriendNew@@YAXPAVDeletionUpdate@@@Z present-unmatched
-void bfmeEmitDeletionUpdateFriendNew(DeletionUpdate *p)
+void bfmeEmitDeletionUpdateFriendNew(DeletionUpdate *deletionUpdate)
 {
-	p->friend_newModuleInstance(0, 0);
+	deletionUpdate->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

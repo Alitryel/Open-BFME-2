@@ -68,13 +68,13 @@ private:
 
 // ?createGridDecals@DynamicShroudClearingRangeUpdate@@QAEXABVRadiusDecalTemplate@@MABUCoord3D@@@Z @0x0048B20E
 void DynamicShroudClearingRangeUpdate::createGridDecals(
-	const RadiusDecalTemplate &tmpl, float radius, const Coord3D &pos)
+	const RadiusDecalTemplate &radiusDecalTemplate, float radius, const Coord3D &pos)
 {
 	RadiusDecal *decal = m_gridDecal;
 	int decalsLeft = 30;
 	do {
 		decal->clear();
-		tmpl.createRadiusDecal(pos, radius, m_object->getControllingPlayer(), *decal);
+		radiusDecalTemplate.createRadiusDecal(pos, radius, m_object->getControllingPlayer(), *decal);
 		decal->setPosition(pos);
 		++decal;
 	} while (--decalsLeft != 0);

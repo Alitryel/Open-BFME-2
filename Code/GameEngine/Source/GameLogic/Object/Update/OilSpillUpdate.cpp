@@ -303,11 +303,11 @@ UpdateSleepTime OilSpillUpdate::update()
 		}
 		if (drop)
 		{
-			const ThingTemplate *tmpl = TheThingFactory->findTemplate(data->m_breadcrumbName);
-			if (tmpl)
+			const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(data->m_breadcrumbName);
+			if (thingTemplate)
 			{
 				Object *obj = getObject();
-				((Rva00A027B8 *)TheBuildAssistant)->buildObjectNow(obj, tmpl, &pos, 0.0f, obj->getControllingPlayer());
+				((Rva00A027B8 *)TheBuildAssistant)->buildObjectNow(obj, thingTemplate, &pos, 0.0f, obj->getControllingPlayer());
 				FXList::doFXPos(data->m_oilSpillFX, &pos, NULL, 0.0f, NULL);
 			}
 			m_breadcrumbs.push_back(pos);

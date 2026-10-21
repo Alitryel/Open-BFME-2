@@ -1613,9 +1613,9 @@ ProductionUpdateInterface *ProductionUpdate::getProductionUpdateInterfaceFromObj
 	if( obj == NULL )
 		return NULL;
 
-	for( BehaviorModule **u = obj->getBehaviorModules(); *u; ++u )
+	for( BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule )
 	{
-		ProductionUpdateInterface *pui = (*u)->getProductionUpdateInterface();
+		ProductionUpdateInterface *pui = (*behaviorModule)->getProductionUpdateInterface();
 		if( pui )
 			return pui;
 	}
@@ -1891,7 +1891,7 @@ void ProductionUpdate::rva0049CF25()
 UpdateSleepTime ProductionUpdate::update()
 {
  static NameKeyType respawnKey=NAMEKEY("RespawnUpdate");
- const ProductionUpdateModuleData *d=getProductionUpdateModuleData();
+ const ProductionUpdateModuleData *productionUpdateModuleData=getProductionUpdateModuleData();
  unsigned int now=TheGameLogic->getFrame();
  Object *us=getObject();
  void *experience=us->m_experience;
@@ -1899,24 +1899,24 @@ UpdateSleepTime ProductionUpdate::update()
  rva0049CF25();
  Rva0049D1B1 *production=const_cast<Rva0049D1B1 *>(GetEntryToProcess());
  if(us->getControllingPlayer()) {
-  if(d->m_economyCondition) {
-   if(((Rva002AE98B *)us->getControllingPlayer())->rva002AE98B(&d->m_economyKey)<0.0f) {
+  if(productionUpdateModuleData->m_economyCondition) {
+   if(((Rva002AE98B *)us->getControllingPlayer())->rva002AE98B(&productionUpdateModuleData->m_economyKey)<0.0f) {
     us->setProductionCondition();
    } else us->clearProductionCondition();
   }
-  if(d->m_economySound) {
-   if(((Rva002AE98B *)us->getControllingPlayer())->rva002AE98B(&d->m_economyKey)<0.0f && !(us->m_flag438&1) && !us->testStatus((ObjectStatusTypes)2)) {
+  if(productionUpdateModuleData->m_economySound) {
+   if(((Rva002AE98B *)us->getControllingPlayer())->rva002AE98B(&productionUpdateModuleData->m_economyKey)<0.0f && !(us->m_flag438&1) && !us->testStatus((ObjectStatusTypes)2)) {
     if(!((ProductionAudioView *)TheAudio)->isPlaying(m_bfme12C)) {
-     BfmeAudioEventPrefix136 sound(*(const OpaqueRefElement4 *)&d->m_economySound,us->m_id);
+     BfmeAudioEventPrefix136 sound(*(const OpaqueRefElement4 *)&productionUpdateModuleData->m_economySound,us->m_id);
      ((Rva0033F15DDwordSlot *)&sound)->set(us->getControllingPlayer()->m_playerIndex);
      m_bfme12C=((ProductionAudioView *)TheAudio)->addEvent(&sound);
     }
    } else { ((ProductionAudioView *)TheAudio)->stopEvent(m_bfme12C); m_bfme12C=1; }
   }
  }
- if(d->m_numDoorAnimations>0) rva0049D3BC();
+ if(productionUpdateModuleData->m_numDoorAnimations>0) rva0049D3BC();
  if(m_bfme128>0) --m_bfme128;
- if(m_constructionCompleteFrame && now-m_constructionCompleteFrame>d->m_constructionCompleteDuration) {
+ if(m_constructionCompleteFrame && now-m_constructionCompleteFrame>productionUpdateModuleData->m_constructionCompleteDuration) {
   m_constructionCompleteFrame=0;
   m_clearFlags.set(74,true); m_setFlags.set(74,false); m_flagsDirty=true;
  }
@@ -1960,7 +1960,7 @@ UpdateSleepTime ProductionUpdate::update()
    if(exitDoor==(ExitDoorType)-1) { exitDoor=exitInterface->reserveDoorForExit(production->m_objectToProduce,0); production->m_exitDoor=exitDoor; }
    if(exitDoor==(ExitDoorType)-1) continue;
    DoorInfo *door=(exitDoor>=0 && exitDoor<4)? &m_doors[exitDoor] : 0;
-   if(d->m_numDoorAnimations>0 && door) {
+   if(productionUpdateModuleData->m_numDoorAnimations>0 && door) {
     if(door->m_doorOpenedFrame==0 && door->m_doorWaitOpenFrame==0 && door->m_doorClosedFrame==0) {
      door->m_doorOpenedFrame=now; m_setFlags.set(ProductionDoorOpeningFlags[exitDoor]); m_flagsDirty=true;
     } else if(door->m_doorWaitOpenFrame!=0) door->m_doorWaitOpenFrame=now;
@@ -1972,7 +1972,7 @@ UpdateSleepTime ProductionUpdate::update()
     }
    }
    if(m_constructionCompleteFrame==0) { m_constructionCompleteFrame=now; m_setFlags.set(74); m_flagsDirty=true; }
-   if(d->m_numDoorAnimations!=0 && door && door->m_doorWaitOpenFrame==0) continue;
+   if(productionUpdateModuleData->m_numDoorAnimations!=0 && door && door->m_doorWaitOpenFrame==0) continue;
    Object *newObj;
    if(m_bfme120==0) {
     Coord3D pos; pos.z=pos.y=pos.x=0.0f; float angle=0.0f;
@@ -2007,21 +2007,21 @@ UpdateSleepTime ProductionUpdate::update()
       static NameKeyType slaveKey=NAMEKEY("SlaveWatcherBehavior");
       Module *watcher=getObject()->findUpdateModule(slaveKey);
       if(watcher) ((SlaveWatcherBehavior *)watcher)->rva00484869(newObj->m_id);
-      for(BehaviorModule **m=newObj->getBehaviorModules();*m;++m) {
-       ProductionSlaveInterface *slave=((ProductionBehaviorView *)((char *)*m+0xc))->getSlave();
+      for(BehaviorModule **behaviorModule=newObj->getBehaviorModules();*behaviorModule;++behaviorModule) {
+       ProductionSlaveInterface *slave=((ProductionBehaviorView *)((char *)*behaviorModule+0xc))->getSlave();
        if(slave && getObject()) slave->setMaster(getObject());
       }
      }
      rva0049CD24(newObj);
-     if(d->m_specialDuration>0) newObj->setSpecialModelConditionState((ModelConditionFlagType)0x14a,d->m_specialDuration);
+     if(productionUpdateModuleData->m_specialDuration>0) newObj->setSpecialModelConditionState((ModelConditionFlagType)0x14a,productionUpdateModuleData->m_specialDuration);
      newObj->m_bfme324=(float)production->m_cost;
      TheGameLogic->rva0023D0C2(newObj,us->m_handle45C);
     }
     m_bfme120=newObj->m_id; newObj->setProducer(us);
     if(((Thing *)newObj)->getDrawable() && us->getShroudStatusForPlayer(((ProductionPlayerListView *)ThePlayerList)->localPlayer->m_playerIndex)>=3) ((Thing *)newObj)->getDrawable()->setFullyObscuredByShroud(true);
     void *newExperience=newObj->m_experience;
-    if(d->m_inheritVeterancy && newExperience && ((ProductionExperienceView *)experience)->level>=3) ((Rva003BD306Target *)newExperience)->rva0039B2C7(1,0);
-    if(experience && !d->m_noExperience && ((Rva0039ADF3 *)experience)->rva0039AE04()) {
+    if(productionUpdateModuleData->m_inheritVeterancy && newExperience && ((ProductionExperienceView *)experience)->level>=3) ((Rva003BD306Target *)newExperience)->rva0039B2C7(1,0);
+    if(experience && !productionUpdateModuleData->m_noExperience && ((Rva0039ADF3 *)experience)->rva0039AE04()) {
      int cost=production->m_objectToProduce->rva0033A69A(0,0,-1);
      if(cost>0) ((ExperienceTracker *)experience)->rva0039B315((float)cost,true,true,true,false);
     }
@@ -2031,9 +2031,9 @@ UpdateSleepTime ProductionUpdate::update()
       pos.z+=250.0f; newObj->teleportTo(&pos,true); ((Thing *)newObj)->setOrientation(angle);
      } else { ((Thing *)newObj)->setOrientation(angle); ((ProductionTerrainView *)TheTerrainLogic)->terrainHeight(pos.x,pos.y,&pos.z,0,0); newObj->teleportTo(&pos,true); }
     }
-    const ThingTemplate *tmpl=newObj->m_template;
+    const ThingTemplate *thingTemplate=newObj->m_template;
     newObj->setStatus((ObjectStatusTypes)0x5a,true);
-    if(tmpl->m_buildVariationDuration>0.0f) {
+    if(thingTemplate->m_buildVariationDuration>0.0f) {
      Coord3D rally; if(exitInterface->getNaturalRallyPoint(&rally,true)) ((ProductionAIView *)TheAI)->getPathfinder()->MoveAlliesAwayFromDestination(newObj,&us->m_position,&rally);
     }
     if(production->m_bfme30!=-1) {
@@ -2053,13 +2053,13 @@ UpdateSleepTime ProductionUpdate::update()
      pickAndPlayUnitVoiceResponse(&list,(GameMessage::Type)0x7da,(PickAndPlayInfo *)&info);
     }
     rva0049DF81((Rva0049DF81Input *)production,newObj);
-    float buildDuration=tmpl->m_buildVariationDuration;
+    float buildDuration=thingTemplate->m_buildVariationDuration;
     m_bfme118=(unsigned int)(buildDuration*(float)BfmeLogicFramesPerSecond);
     newObj->setSpecialModelConditionState((ModelConditionFlagType)0xda,m_bfme118);
     newObj->setSpecialModelConditionState((ModelConditionFlagType)0x14d,5);
     newObj->setDisabledUntil((DisabledType)3,TheGameLogic->getFrame()+m_bfme118);
     if(!revival) { Drawable *draw=((Thing *)newObj)->getDrawable(); if(draw) { drawable->rva002723C0(m_bfme118); draw->rva00274176(true); } }
-    const _STL::vector<AsciiString> &names=tmpl->m_auxiliaryTemplates;
+    const _STL::vector<AsciiString> &names=thingTemplate->m_auxiliaryTemplates;
     if(!names.empty()) {
      for(_STL::vector<AsciiString>::const_iterator it=names.begin();it!=names.end();++it) {
       const ThingTemplate *extraTemplate=TheThingFactory->findTemplate(*it); if(!extraTemplate) continue;
@@ -2080,8 +2080,8 @@ UpdateSleepTime ProductionUpdate::update()
    } else { newObj=TheGameLogic->findObjectByID(m_bfme120); if(!newObj) { removeFromProductionQueue(production); ::delete production; return UPDATE_SLEEP_NONE; } }
    ProductionContainView *contain=newObj->m_contain;
    ProductionHordeInterface *horde=contain ? contain->getHorde() : 0;
-   if(horde) { const ThingTemplate *tmpl=TheThingFactory->findTemplate(horde->getTemplateName()); int extraCount=horde->getExtraCount();
-    if(tmpl) { ++extraCount; production->m_cost=0; production->m_objectToProduce=tmpl; production->m_productionQuantityTotal=extraCount; production->m_bfme34=true; } }
+   if(horde) { const ThingTemplate *thingTemplate=TheThingFactory->findTemplate(horde->getTemplateName()); int extraCount=horde->getExtraCount();
+    if(thingTemplate) { ++extraCount; production->m_cost=0; production->m_objectToProduce=thingTemplate; production->m_productionQuantityTotal=extraCount; production->m_bfme34=true; } }
    if(!m_bfme11C) {
     float duration=getObject()->m_template->m_buildVariationDuration;
     if(!m_createdAuxiliary.empty()) for(_STL::list<ObjectID>::iterator it=m_createdAuxiliary.begin();it!=m_createdAuxiliary.end();++it) {
@@ -2093,7 +2093,7 @@ UpdateSleepTime ProductionUpdate::update()
    }
    if(m_bfme118) { --m_bfme118; return UPDATE_SLEEP_NONE; }
    if(newObj->m_modelConditionFlags.test(218)) { newObj->m_modelConditionFlags.set(218,false); newObj->rva0028AE6D(); }
-   if(d->m_completeDuration>0) newObj->setSpecialModelConditionState((ModelConditionFlagType)0x5f,d->m_completeDuration);
+   if(productionUpdateModuleData->m_completeDuration>0) newObj->setSpecialModelConditionState((ModelConditionFlagType)0x5f,productionUpdateModuleData->m_completeDuration);
    if(newObj->isKindOf((KindOfType)0xda)) newObj->clearDisabled((DisabledType)3);
    m_bfme120=(ObjectID)0;
    if(!newObj->findUpdateModule(respawnKey)) exitInterface->exitObjectViaDoor(newObj,exitDoor);
@@ -2115,7 +2115,7 @@ UpdateSleepTime ProductionUpdate::update()
  }
  case PRODUCTION_UPGRADE: {
   const UpgradeTemplate *upgrade=production->m_upgradeToResearch;
-  if(experience && !d->m_noExperience && ((Rva0039ADF3 *)experience)->rva0039AE04()) { int cost=upgrade->calcCostToBuild(0,0); if(cost>0) ((ExperienceTracker *)experience)->rva0039B315((float)cost,true,true,true,false); }
+  if(experience && !productionUpdateModuleData->m_noExperience && ((Rva0039ADF3 *)experience)->rva0039AE04()) { int cost=upgrade->calcCostToBuild(0,0); if(cost>0) ((ExperienceTracker *)experience)->rva0039B315((float)cost,true,true,true,false); }
   ObjectID producerID=us->m_id;
   int producerPlayer=us->getControllingPlayer()->m_playerIndex;
   TheScriptEngine->rva00357F11(producerPlayer,upgrade->getUpgradeName(),producerID);

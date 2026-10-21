@@ -24,7 +24,7 @@ private:
 EvacuateDamageModuleData::EvacuateDamageModuleData(EmitVtableTag *)
 {
 }
-void deleteEvacuateDamageModuleData(EvacuateDamageModuleData *p)
+void deleteEvacuateDamageModuleData(EvacuateDamageModuleData *evacuateDamageModuleData)
 {
-	delete p;
+	delete evacuateDamageModuleData;
 }

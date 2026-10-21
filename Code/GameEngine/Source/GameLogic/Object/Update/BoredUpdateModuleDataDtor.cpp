@@ -39,7 +39,7 @@ private:
 BoredUpdateModuleData::BoredUpdateModuleData(EmitVtableTag *)
 {
 }
-void deleteBoredUpdateModuleData(BoredUpdateModuleData *p)
+void deleteBoredUpdateModuleData(BoredUpdateModuleData *boredUpdateModuleData)
 {
-	delete p;
+	delete boredUpdateModuleData;
 }

@@ -41,8 +41,8 @@ inline LifetimeUpdateModuleData::LifetimeUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeLifetimeUpdateModuleDataInlineAnchor@@YAXPAVLifetimeUpdateModuleData@@@Z absent-from-retail
-void _bfmeLifetimeUpdateModuleDataInlineAnchor(LifetimeUpdateModuleData *p)
+void _bfmeLifetimeUpdateModuleDataInlineAnchor(LifetimeUpdateModuleData *lifetimeUpdateModuleData)
 {
-    p->LifetimeUpdateModuleData::LifetimeUpdateModuleData();
+    lifetimeUpdateModuleData->LifetimeUpdateModuleData::LifetimeUpdateModuleData();
 }
 #pragma inline_depth()

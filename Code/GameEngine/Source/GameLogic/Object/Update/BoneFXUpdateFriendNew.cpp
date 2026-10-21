@@ -27,8 +27,8 @@ inline Module *BoneFXUpdate::friend_newModuleInstance(Thing *thing, const Module
 }
 #pragma inline_depth(0)
 // ?bfmeEmitBoneFXUpdateFriendNew@@YAXPAVBoneFXUpdate@@@Z present-unmatched
-void bfmeEmitBoneFXUpdateFriendNew(BoneFXUpdate *p)
+void bfmeEmitBoneFXUpdateFriendNew(BoneFXUpdate *boneFXUpdate)
 {
-	p->friend_newModuleInstance(0, 0);
+	boneFXUpdate->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

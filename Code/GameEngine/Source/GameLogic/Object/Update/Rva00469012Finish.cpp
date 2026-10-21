@@ -29,13 +29,13 @@ public:
 	Thing *m_thing;
 };
 
-bool Rva00469012::rva00469012(Object *a, Coord3D const *b)
+bool Rva00469012::rva00469012(Object *object, Coord3D const *b)
 {
 	Coord3D delta;
 	delta.x = b->x;
 	delta.y = b->y;
-	delta.x -= a->m_38;
-	delta.y -= a->m_3C;
+	delta.x -= object->m_38;
+	delta.y -= object->m_3C;
 	if (m_thing == 0)
 		return false;
 	Coord3D dir;

@@ -72,10 +72,10 @@ HijackerUpdate::~HijackerUpdate( void )
 // The header setters setIsInVehicle (0x004A3F81) and setUpdate (0x0066CA90)
 // are rowed in this unit; the anchor keeps their out-of-line bodies emitted.
 // ?bfmeAnchorHijackerUpdateSetters absent-from-retail
-void bfmeAnchorHijackerUpdateSetters(HijackerUpdate *p)
+void bfmeAnchorHijackerUpdateSetters(HijackerUpdate *hijackerUpdate)
 {
-	p->setIsInVehicle(FALSE);
-	p->setUpdate(FALSE);
+	hijackerUpdate->setIsInVehicle(FALSE);
+	hijackerUpdate->setUpdate(FALSE);
 }
 
 
@@ -109,9 +109,9 @@ __declspec(noinline) inline void HijackerUpdate::setTargetObject( const Object *
 }
 
 // ?bfmeAnchorHijackerUpdatesetTargetObject absent-from-retail
-void bfmeAnchorHijackerUpdatesetTargetObject(HijackerUpdate *p, const Object *object)
+void bfmeAnchorHijackerUpdatesetTargetObject(HijackerUpdate *hijackerUpdate, const Object *object)
 {
-	p->setTargetObject(object);
+	hijackerUpdate->setTargetObject(object);
 }
 
 Object* HijackerUpdate::getTargetObject() const

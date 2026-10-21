@@ -1131,10 +1131,10 @@ void SlavedUpdate::setRepairState(RepairStates repairState)
 
 			if (!data->m_weldingSysName.isEmpty())
 			{
-				const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate(data->m_weldingSysName);
-				if (tmp)
+				const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(data->m_weldingSysName);
+				if (particleSystemTemplate)
 				{
-					BfmeParticleSystemHandle weldingSys = TheParticleSystemManager->createParticleSystem(tmp, true);
+					BfmeParticleSystemHandle weldingSys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate, true);
 					if (weldingSys)
 					{
 						Coord3D pos;

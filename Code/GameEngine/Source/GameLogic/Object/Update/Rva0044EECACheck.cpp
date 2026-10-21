@@ -41,9 +41,9 @@ private:
 bool Rva0044EECA::rva0044EECA(Rva0044EECAParam *p)
 {
 	if (p != 0) {
-		Overridable *o = p->m_over44;
-		if (o != 0) {
-			const Overridable *f = o->friend_getFinalOverride();
+		Overridable *overridable = p->m_over44;
+		if (overridable != 0) {
+			const Overridable *f = overridable->friend_getFinalOverride();
 			if (f->m_val1C == 0x16 && (p->m_flags1D & 2) == 0)
 				return m_val48 == 0;
 		}

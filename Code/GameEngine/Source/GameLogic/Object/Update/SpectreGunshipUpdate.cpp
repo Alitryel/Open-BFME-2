@@ -123,9 +123,9 @@ SpectreGunshipUpdateModuleData::SpectreGunshipUpdateModuleData()
 
 static Real zero = 0.0f;
 //-------------------------------------------------------------------------------------------------
-/*static*/ void SpectreGunshipUpdateModuleData::buildFieldParse(MultiIniFieldParse& p)
+/*static*/ void SpectreGunshipUpdateModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-	ModuleData::buildFieldParse(p);
+	ModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -150,7 +150,7 @@ static Real zero = 0.0f;
 
     { 0, 0, 0, 0 }
 	};
-	p.add(dataFieldParse);
+	multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -661,8 +661,8 @@ UpdateSleepTime SpectreGunshipUpdate::update()
 
 
           // GATTLING TARGETING LOGIC------------------------------------------
-				  const ParticleSystemTemplate *tmp = data->m_gattlingStrafeFXParticleSystem;
-				  if (tmp && gattling && gattling->testStatus( OBJECT_STATUS_IS_FIRING_WEAPON) )
+				  const ParticleSystemTemplate *particleSystemTemplate = data->m_gattlingStrafeFXParticleSystem;
+				  if (particleSystemTemplate && gattling && gattling->testStatus( OBJECT_STATUS_IS_FIRING_WEAPON) )
 				  {
 
 
@@ -695,7 +695,7 @@ UpdateSleepTime SpectreGunshipUpdate::update()
 			{
 
 				// This makes the client smoke effects of the gattling cannon strafing the ground toward the attack position
-						  ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+						  ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 						  if (sys)
 				{
 				  Coord3D impactPosition;

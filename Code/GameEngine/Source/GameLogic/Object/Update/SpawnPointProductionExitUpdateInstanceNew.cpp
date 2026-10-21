@@ -27,8 +27,8 @@ inline Module *SpawnPointProductionExitUpdate::friend_newModuleInstance(Thing *t
 }
 #pragma inline_depth(0)
 // ?bfmeEmitSpawnPointProductionExitUpdateInstanceNew@@YAXPAVSpawnPointProductionExitUpdate@@@Z present-unmatched
-void bfmeEmitSpawnPointProductionExitUpdateInstanceNew(SpawnPointProductionExitUpdate *p)
+void bfmeEmitSpawnPointProductionExitUpdateInstanceNew(SpawnPointProductionExitUpdate *spawnPointProductionExitUpdate)
 {
-	p->friend_newModuleInstance(0, 0);
+	spawnPointProductionExitUpdate->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

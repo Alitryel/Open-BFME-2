@@ -24,12 +24,12 @@ class StrafeAreaUpdate {public:
  char pad00[4];const StrafeAreaUpdateModuleData *data;Object *object;char pad0C[0x14];Coord3D target,start;unsigned word38,state;bool started;
 };
 bool StrafeAreaUpdate::rva003A4F21(const Coord3D *from,const Coord3D *to) {
- const StrafeAreaUpdateModuleData *d=data;
+ const StrafeAreaUpdateModuleData *strafeAreaUpdateModuleData=data;
  AIUpdateInterface *ai=object->ai;
  if(!ai) return false;
  AIUpdateInterface *aircraft=ai->rvaSlot98();
  if(!aircraft) return false;
- target=*to;start=*from;word38=d->word1C;state=0;started=false;
+ target=*to;start=*from;word38=strafeAreaUpdateModuleData->word1C;state=0;started=false;
  StrafeDirection direction(target);direction.sub(start);
  float angle=atan2(direction.y,direction.x);
  object->setOrientation(angle);

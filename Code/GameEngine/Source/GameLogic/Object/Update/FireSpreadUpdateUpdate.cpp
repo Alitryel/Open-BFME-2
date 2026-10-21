@@ -216,25 +216,25 @@ protected:
 // ?update@FireSpreadUpdate@@UAE?AW4UpdateSleepTime@@XZ @0x0048B7FD 315B
 UpdateSleepTime FireSpreadUpdate::update( void )
 {
-	const FireSpreadUpdateModuleData* d = getFireSpreadUpdateModuleData();
+	const FireSpreadUpdateModuleData* fireSpreadUpdateModuleData = getFireSpreadUpdateModuleData();
 	Object* me = getObject();
 
 	if( !me->testStatus( OBJECT_STATUS_AFLAME ) )
 		return UPDATE_SLEEP_FOREVER;		// not on fire -- sleep forever
 	{
-		ObjectCreationList::create( d->m_oclEmbers, me, NULL );
+		ObjectCreationList::create( fireSpreadUpdateModuleData->m_oclEmbers, me, NULL );
 
-		if( d->m_spreadTryRange != 0 )
+		if( fireSpreadUpdateModuleData->m_spreadTryRange != 0 )
 		{
 			// This will spread fire explicitly
 			Object* objectToLight;
 			{
 				PartitionFilterFlammable fFilter;
-				objectToLight = ThePartitionManager->getClosestObject(getObject()->getPosition(), d->m_spreadTryRange, FROM_CENTER_3D, &fFilter);
+				objectToLight = ThePartitionManager->getClosestObject(getObject()->getPosition(), fireSpreadUpdateModuleData->m_spreadTryRange, FROM_CENTER_3D, &fFilter);
 			}
 			if( objectToLight == NULL && TheAI->getAiData()->m_bfmeBC )
 			{
-				void *found = (void *)((BfmeThingCME *)TheTerrainLogic)->rva0027F108( (void *)me->getPosition(), d->m_spreadTryRange, 1, 0 );
+				void *found = (void *)((BfmeThingCME *)TheTerrainLogic)->rva0027F108( (void *)me->getPosition(), fireSpreadUpdateModuleData->m_spreadTryRange, 1, 0 );
 				if( found )
 					objectToLight = TheTerrainLogic->rva00283D70( (const Coord3D *)found );
 			}

@@ -52,8 +52,8 @@
 DeletionUpdate::DeletionUpdate( Thing *thing, const ModuleData* moduleData ) : UpdateModule( thing, moduleData )
 {
 	m_dieFrame = 0;
-	const DeletionUpdateModuleData* d = getDeletionUpdateModuleData();
-	UnsignedInt delay = calcSleepDelay(d->m_minFrames, d->m_maxFrames);
+	const DeletionUpdateModuleData* deletionUpdateModuleData = getDeletionUpdateModuleData();
+	UnsignedInt delay = calcSleepDelay(deletionUpdateModuleData->m_minFrames, deletionUpdateModuleData->m_maxFrames);
 	setWakeFrame(getObject(), UPDATE_SLEEP(delay));
 }
 

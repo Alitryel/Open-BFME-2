@@ -952,10 +952,10 @@ UpdateSleepTime FlammableUpdate::update()
 					{
 						if (data->m_flag48)
 						{
-							AIUpdateInterface *ai2 = me->m_ai;
-							if (ai2)
+							AIUpdateInterface *aIUpdate = me->m_ai;
+							if (aIUpdate)
 							{
-								ai2->rva142(4);
+								aIUpdate->rva142(4);
 								me->m_ai->m_flag3C9 = true;
 								m_flag4C = true;
 							}

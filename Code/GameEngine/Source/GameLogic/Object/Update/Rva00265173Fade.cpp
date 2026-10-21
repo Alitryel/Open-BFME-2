@@ -62,15 +62,15 @@ void Rva00265173::rva00265173()
 	Drawable *volatile vsaved = saved;
 	if (saved == 0)
 		return;
-	Drawable *d = saved;
-	Thing *t2 = m_8->m_thing274;
-	if (t2)
+	Drawable *drawable = saved;
+	Thing *thing = m_8->m_thing274;
+	if (thing)
 	{
-		d = t2->getDrawable();
-		if (d == 0)
+		drawable = thing->getDrawable();
+		if (drawable == 0)
 			goto after_flag;
 	}
-	flag = d->m_43c != 0;
+	flag = drawable->m_43c != 0;
 after_flag:;
 	Rva001E3591 *p = m_140;
 	bool r = false;

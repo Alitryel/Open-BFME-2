@@ -62,15 +62,15 @@ EvacuateGarrisonSpecialPowerModuleData::~EvacuateGarrisonSpecialPowerModuleData(
 // for EvacuateGarrisonSpecialPower; the body extends the shared base parser
 // with an empty table and no member offsets.
 // ?buildFieldParse@EvacuateGarrisonSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004CDBE1
-void EvacuateGarrisonSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse &p)
+void EvacuateGarrisonSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	SpecialAbilityUpdateModuleData::buildFieldParse(p);
-	p.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
+	SpecialAbilityUpdateModuleData::buildFieldParse(multiIniFieldParse);
+	multiIniFieldParse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
 }
 
 // ?buildFieldParse@UnleashSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004CDFEB
-void UnleashSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse &p)
+void UnleashSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	SpecialAbilityUpdateModuleData::buildFieldParse(p);
-	p.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
+	SpecialAbilityUpdateModuleData::buildFieldParse(multiIniFieldParse);
+	multiIniFieldParse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
 }

@@ -85,8 +85,8 @@ float Rva005892F6::rva005892F6()
 		{
 			if (target->m_8->friend_getFinalOverride()->m_59 != 0)
 			{
-				const SpecialPowerTemplate *tmpl = slot6();
-				frame = (int)reinterpret_cast<Rva002AC6B1PlayerTimers *>(player)->getOrStart(tmpl);
+				const SpecialPowerTemplate *specialPowerTemplate = slot6();
+				frame = (int)reinterpret_cast<Rva002AC6B1PlayerTimers *>(player)->getOrStart(specialPowerTemplate);
 			}
 		}
 	}

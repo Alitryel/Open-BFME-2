@@ -78,7 +78,7 @@ class ControlBar {public:char pad[0x28];bool dirty;};extern ControlBar *TheContr
 // Whole466-byte body, including both state branches, matches retail.
 UpdateSleepTime RespawnUpdate::update() {
  Object *obj=0;
- const RespawnUpdateModuleData *d=getData();
+ const RespawnUpdateModuleData *respawnUpdateModuleData=getData();
  obj=getObject();
  switch(state) {
  case 2:return UPDATE_SLEEP_FOREVER;
@@ -92,19 +92,19 @@ UpdateSleepTime RespawnUpdate::update() {
    if(exit) exit->getExitPosition(&pos,true);
   }
   obj->restoreObjectToWorld(&pos);
-  obj->rva001E431E(d->conditions58);
-  FXList::doFXObj(d->reviveFX,obj,0);
-  obj->setDisabledUntil((DisabledType)4,TheGameLogic->getFrame()+d->reviveTime);
+  obj->rva001E431E(respawnUpdateModuleData->conditions58);
+  FXList::doFXObj(respawnUpdateModuleData->reviveFX,obj,0);
+  obj->setDisabledUntil((DisabledType)4,TheGameLogic->getFrame()+respawnUpdateModuleData->reviveTime);
   state=4;
   obj->body->setInitialHealth(health*100.0f,false);
   at34=(unsigned)-1;at38=(unsigned)-1;
   if(ThePlayerList->getLocalPlayer()==obj->getControllingPlayer()) TheControlBar->dirty=true;
   (void)obj->getControllingPlayer();
-  return (UpdateSleepTime)d->reviveTime;
+  return (UpdateSleepTime)respawnUpdateModuleData->reviveTime;
  }
  case 4: {
-  obj->rva001E42F2(d->conditions58);
-  obj->rva001E42F2(d->conditionsA4);
+  obj->rva001E42F2(respawnUpdateModuleData->conditions58);
+  obj->rva001E42F2(respawnUpdateModuleData->conditionsA4);
   obj->setStatus((ObjectStatusTypes)3,false);
   obj->clearDisabled((DisabledType)4);
   state=0;

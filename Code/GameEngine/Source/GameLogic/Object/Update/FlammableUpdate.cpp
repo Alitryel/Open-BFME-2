@@ -222,8 +222,8 @@ void FlammableUpdate::loadPostProcess( void )
 // This empty inline virtual only gets an out-of-line copy when something in the
 // TU needs one; a qualified call with inlining off is the smallest way to ask.
 #pragma inline_depth(0)
-void forceFlammableOnBodyDamageStateChange(FlammableUpdate *u)
+void forceFlammableOnBodyDamageStateChange(FlammableUpdate *flammableUpdate)
 {
-	u->FlammableUpdate::onBodyDamageStateChange(NULL, BODY_PRISTINE, BODY_PRISTINE);
+	flammableUpdate->FlammableUpdate::onBodyDamageStateChange(NULL, BODY_PRISTINE, BODY_PRISTINE);
 }
 #pragma inline_depth()
