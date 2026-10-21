@@ -33,7 +33,7 @@
 // nodes are template-shared across the image, so their bodies sit far from
 // the registry code that first used them here.
 
-extern "C" void *__cdecl memcpy(void *dst, const void *src, unsigned int n);
+extern "C" void *__cdecl memcpy(void *dst, const void *src, unsigned int written);
 
 class AsciiString;
 
@@ -201,8 +201,8 @@ struct Rva005EF5CA : AsciiStringPlusStringText
 
 int Rva005EF5CA::write(char *dst)
 {
-	int n = AsciiStringPlusStringText::write(dst);
-	return n + ((AsciiStringRef *)((char *)this + 0x10))->write(dst + n);
+	int written = AsciiStringPlusStringText::write(dst);
+	return written + ((AsciiStringRef *)((char *)this + 0x10))->write(dst + written);
 }
 
 // ?write@Rva000B3F84Pair@@QAEHPAD@Z @0xB44F0
@@ -223,9 +223,9 @@ inline __declspec(noinline) int AsciiStringRef::write(char *dst)
 // ?write@AsciiStringRefWithChar@@QAEHPAD@Z @0x2C7A7
 inline __declspec(noinline) int AsciiStringRefWithChar::write(char *dst)
 {
-	int n = AsciiStringRef::write(dst);
-	dst[n] = m_char;
-	return n + 1;
+	int written = AsciiStringRef::write(dst);
+	dst[written] = m_char;
+	return written + 1;
 }
 
 // ?length@AsciiStringPlusText@@QBEHXZ @0x2DBF50
@@ -237,8 +237,8 @@ int AsciiStringPlusText::length() const
 // ?write@AsciiStringPlusText@@QAEHPAD@Z @0xBBD41
 int AsciiStringPlusText::write(char *dst)
 {
-	int n = AsciiStringRef::write(dst);
-	return n + m_right.write(dst + n);
+	int written = AsciiStringRef::write(dst);
+	return written + m_right.write(dst + written);
 }
 
 // ??BAsciiStringPlusText@@QAE?AVAsciiString@@XZ @0xBC4F7
@@ -268,8 +268,8 @@ int AsciiStringCharPlusText::length() const
 // ?write@AsciiStringCharPlusText@@QAEHPAD@Z @0x2349D8
 int AsciiStringCharPlusText::write(char *dst)
 {
-	int n = AsciiStringRefWithChar::write(dst);
-	return n + m_right.write(dst + n);
+	int written = AsciiStringRefWithChar::write(dst);
+	return written + m_right.write(dst + written);
 }
 
 // ??BAsciiStringCharPlusText@@QAE?AVAsciiString@@XZ @0x234CA6
@@ -289,8 +289,8 @@ inline __declspec(noinline) int AsciiStringPlusString::length() const
 // ?write@AsciiStringPlusString@@QAEHPAD@Z @0xBBD1C
 inline __declspec(noinline) int AsciiStringPlusString::write(char *dst)
 {
-	int n = AsciiStringRef::write(dst);
-	return n + m_second.write(dst + n);
+	int written = AsciiStringRef::write(dst);
+	return written + m_second.write(dst + written);
 }
 
 // ??BAsciiStringPlusString@@QAE?AVAsciiString@@XZ @0xBC495
@@ -304,16 +304,16 @@ AsciiStringPlusString::operator AsciiString()
 // ?write@AsciiStringPlusStringChar@@QAEHPAD@Z @0x50EE58
 int AsciiStringPlusStringChar::write(char *dst)
 {
-	int n = AsciiStringPlusString::write(dst);
-	dst[n] = m_char;
-	return n + 1;
+	int written = AsciiStringPlusString::write(dst);
+	dst[written] = m_char;
+	return written + 1;
 }
 
 // ?write@AsciiStringPlusStringText@@QAEHPAD@Z @0x50F219
 inline __declspec(noinline) int AsciiStringPlusStringText::write(char *dst)
 {
-	int n = AsciiStringPlusString::write(dst);
-	return n + m_text.write(dst + n);
+	int written = AsciiStringPlusString::write(dst);
+	return written + m_text.write(dst + written);
 }
 
 // ?write@Rva0050F23E@@QAEHPAD@Z @0x0050F23E 37B narrow concat node two-ref plus char plus trailing text: base PlusStringChar write 0x0050EE58 then Rva pair write 0x000B44F0; caller is materializer 0x0050F7B4.
@@ -327,8 +327,8 @@ struct Rva0050F23E : AsciiStringPlusStringChar
 
 int Rva0050F23E::write(char *dst)
 {
-	int n = AsciiStringPlusStringChar::write(dst);
-	return n + m_text.write(dst + n);
+	int written = AsciiStringPlusStringChar::write(dst);
+	return written + m_text.write(dst + written);
 }
 
 // ?write@Rva005D32EC@@QAEHPAD@Z @0x005D32EC 37B narrow concat node two-ref plus trailing text: base PlusStringText write 0x0050F219 then Rva pair write 0x000B44F0; caller materializer 0x005D3311.
@@ -341,8 +341,8 @@ struct Rva005D32EC : AsciiStringPlusStringText
 
 int Rva005D32EC::write(char *dst)
 {
-	int n = AsciiStringPlusStringText::write(dst);
-	return n + m_text2.write(dst + n);
+	int written = AsciiStringPlusStringText::write(dst);
+	return written + m_text2.write(dst + written);
 }
 
 // ?write@Rva005D3311@@QAEHPAD@Z @0x005D3311 37B narrow concat node: base Rva005D32EC write 0x005D32EC then Rva pair write 0x000B44F0 at +0x18; callers 0x005D3365 0x005F985C.
@@ -365,8 +365,8 @@ int Rva005D3311::length() const
 
 int Rva005D3311::write(char *dst)
 {
-	int n = Rva005D32EC::write(dst);
-	return n + m_text3.write(dst + n);
+	int written = Rva005D32EC::write(dst);
+	return written + m_text3.write(dst + written);
 }
 
 // ??BRva005D3311@@QAE?AVAsciiString@@XZ 0x005D3336 98B narrow concat materializer: sized getBufferForRead then Rva005D3311 write; same shape as Rva005F9852 0x005F9D69.
@@ -392,14 +392,14 @@ struct Rva005F9852 : Rva005D3311
 // adds the three-span base length; no original template name is inferred.
 int Rva005F9852::length() const
 {
-	int n = m_ref.m_string->getLength();
-	return Rva005D3311::length() + n;
+	int written = m_ref.m_string->getLength();
+	return Rva005D3311::length() + written;
 }
 
 int Rva005F9852::write(char *dst)
 {
-	int n = Rva005D3311::write(dst);
-	return n + m_ref.write(dst + n);
+	int written = Rva005D3311::write(dst);
+	return written + m_ref.write(dst + written);
 }
 
 // 0x005F9D69..0x005F9DCB: same owning-string materialization as the
@@ -472,8 +472,8 @@ int Rva002226E5TextPlusString::length() const
 
 int Rva002226E5TextPlusString::write(char *dst)
 {
-	int n = m_left.write(dst);
-	return n + m_right.write(dst + n);
+	int written = m_left.write(dst);
+	return written + m_right.write(dst + written);
 }
 
 // ??BRva002226E5TextPlusString@@QAE?AVAsciiString@@XZ @0x0022309D 98B
@@ -678,8 +678,8 @@ struct Rva0002C9C2
 
 int Rva0002C9C2::write(char *dst)
 {
-	int n = m_first.write(dst);
-	return n + m_second.write(dst + n);
+	int written = m_first.write(dst);
+	return written + m_second.write(dst + written);
 }
 
 // ?write@Rva0020F58E@@QAEHPAD@Z @0x0020F58E 37B narrow concat node PlusText plus Ref via rowed writes 0xBBD41 plus 0x2C5B1.
@@ -702,8 +702,8 @@ int Rva0020F58E::length() const
 
 int Rva0020F58E::write(char *dst)
 {
-	int n = m_first.write(dst);
-	return n + m_second.write(dst + n);
+	int written = m_first.write(dst);
+	return written + m_second.write(dst + written);
 }
 
 Rva0020F58E::operator AsciiString()
@@ -744,8 +744,8 @@ struct Rva00238C34 : Rva0020F58E
 
 int Rva00238C34::write(char *dst)
 {
-	int n = Rva0020F58E::write(dst);
-	return n + m_text2.write(dst + n);
+	int written = Rva0020F58E::write(dst);
+	return written + m_text2.write(dst + written);
 }
 
 // ??BRva00238C34@@QAE?AVAsciiString@@XZ @0x00238C59 105B narrow materializer: sized getBufferForRead via base length 0x0020F0D3 plus trailing text len then write 0x00238C34; caller 0x00238CC2.
