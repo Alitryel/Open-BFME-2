@@ -42,7 +42,7 @@ void parseLivingWorldRegionCampaignDefinition(INI *);
 void parseLivingWorldMapInfoDefinition(INI *);
 void Rva0021376BParse(INI *);
 void parseCloudEffectDefinition(INI *);
-void Rva00215C38Parse(INI *);
+void parsePlayerAITypeDefinition(INI *);
 void parseArmySummaryDescriptionDefinition(INI *);
 void parseInGameNotificationBoxDefinition(INI *);
 void parseFireLogicSystemDefinition(INI *);
@@ -387,7 +387,7 @@ BlockParse theLivingWorldObjectBlockParse = { 0, "LivingWorldObject", Rva0021376
 BlockParse theLivingWorldMapInfoBlockParse = { 0, "LivingWorldMapInfo", parseLivingWorldMapInfoDefinition };	// VA 0x00DB9A2C "LivingWorldMapInfo", parse 0x00210F64
 BlockParse theModifierListBlockParse = { 0, "ModifierList", AttributeModifierStore::parseModifierListDefinition };	// VA 0x00DB9AD0 "ModifierList", parse 0x00214C4E
 BlockParse theCloudEffectBlockParse = { 0, "CloudEffect", parseCloudEffectDefinition };	// VA 0x00DB9B68 "CloudEffect", parse 0x0021526C
-BlockParse thePlayerAITypeBlockParse = { 0, "PlayerAIType", Rva00215C38Parse };	// VA 0x00DB9B74 "PlayerAIType", parse 0x00215C38
+BlockParse thePlayerAITypeBlockParse = { 0, "PlayerAIType", parsePlayerAITypeDefinition };	// VA 0x00DB9B74 "PlayerAIType", parse 0x00215C38
 BlockParse theVictorySystemDataBlockParse = { 0, "VictorySystemData", iniParseVictorySystemDefinition };	// VA 0x00DB9BA4 "VictorySystemData", parse 0x00215C54
 BlockParse theFactionVictoryDataBlockParse = { 0, "FactionVictoryData", iniParseFactionVictoryDefinition };	// VA 0x00DB9BB0 "FactionVictoryData", parse 0x00215D0B
 BlockParse theBannerTypeBlockParse = { 0, "BannerType", BannerUI::ParseBannerTypeInfo };	// VA 0x00DB9BF8 "BannerType", parse 0x00217194

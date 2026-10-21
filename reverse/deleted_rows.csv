@@ -1476,3 +1476,4 @@ __ehhandler$?Rva00206DFFSearch@@YAXPAVINI@@@Z,0x0076C936,"Renamed to __ehhandler
 ?Rva00206E63Search@@YAXPAVINI@@@Z,0x00206E63,"Renamed to ?parseScriptCondition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva0040C125Parse@@YAXPAVINI@@@Z,0x0040C125,"Renamed to ?parseObjectAwardDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva0040C125Parse@@YAXPAVINI@@@Z,0x007856AE,"Renamed to __ehhandler$?parseObjectAwardDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva00215C38Parse@@YAXPAVINI@@@Z,0x00215C38,"Renamed to ?parsePlayerAITypeDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

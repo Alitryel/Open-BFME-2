@@ -63,7 +63,7 @@ public:
 
 extern PlayerAITypeSet *ThePlayerAITypeSet;
 
-void Rva00215C38Parse(INI *ini)
+void parsePlayerAITypeDefinition(INI *ini)
 {
 	ThePlayerAITypeSet->rva00215B14(ini);
 }
