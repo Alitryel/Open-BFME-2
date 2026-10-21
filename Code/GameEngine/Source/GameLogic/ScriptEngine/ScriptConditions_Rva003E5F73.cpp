@@ -61,13 +61,13 @@ protected:
 	bool evaluatePlayerHasNumberObjectsWithModelCondition(Parameter *param, CondA003E5F73 *a, CondB003E5F73 *b, CondC003E5F73 *c);
 };
 
-bool ScriptConditions::evaluatePlayerHasNumberObjectsWithModelCondition(Parameter *param, CondA003E5F73 *a, CondB003E5F73 *b, CondC003E5F73 *c)
+bool ScriptConditions::evaluatePlayerHasNumberObjectsWithModelCondition(Parameter *param, CondA003E5F73 *modelConditionParm, CondB003E5F73 *comparisonParm, CondC003E5F73 *countParm)
 {
 	int mask = TheScriptEngine->rva00357B82(param);
-	int limit = c->m_limit;
+	int limit = countParm->m_limit;
 	int total = 0;
 
-	void *holder = a->m_holder;
+	void *holder = modelConditionParm->m_holder;
 	const char *name = holder ? (const char *)holder + 8 : "";
 	int bit = BitFlags<304>::getSingleBitFromName(name);
 
@@ -82,7 +82,7 @@ bool ScriptConditions::evaluatePlayerHasNumberObjectsWithModelCondition(Paramete
 		}
 	}
 
-	int op = b->m_op;
+	int op = comparisonParm->m_op;
 
 	switch (op)
 	{
