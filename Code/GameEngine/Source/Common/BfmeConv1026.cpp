@@ -60,8 +60,8 @@ void BfmeF1026::bfmeGo1026F(int h, int u1, int u2)
 		return;
 
 	BfmeOwner1026 *o = *(BfmeOwner1026 **)((char *)this - 0xc);
-	Object *p = *(Object **)((char *)this - 8);
+	Object *object = *(Object **)((char *)this - 8);
 
-	if (((Rva2225E0Filter *)&o->m_bfmeTab)->accepts((Object *)h, (Player *)p->getControllingPlayer()) != 0)
+	if (((Rva2225E0Filter *)&o->m_bfmeTab)->accepts((Object *)h, (Player *)object->getControllingPlayer()) != 0)
 		TheGameLogic->destroyObject((Object *)h);
 }

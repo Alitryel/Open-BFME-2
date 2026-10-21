@@ -5,4 +5,4 @@ public:
 	~AptTranslator();
 };
 
-void Rva0043283C_Delete(AptTranslator *p) { delete p; }
+void Rva0043283C_Delete(AptTranslator *aptTranslator) { delete aptTranslator; }

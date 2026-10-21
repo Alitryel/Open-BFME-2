@@ -30,8 +30,8 @@ Object *BfmeWideResult::next()
 	if (q->m_bfmeCur == q->m_bfmeEnd)
 		return 0;
 	void **cur = q->m_bfmeCur;
-	Object *v = (Object *)*cur;
+	Object *object = (Object *)*cur;
 	q->m_bfmeCur = cur + 2;
-	return v;
+	return object;
 }
 

@@ -63,8 +63,8 @@ extern class ScriptEngine *TheScriptEngine;
 
 void ScriptActions::bfmeGoFGE(void *a, void *b, bool c)
 {
-	Object *r = TheScriptEngine->getUnitNamed((Parameter *)a);
+	Object *object = TheScriptEngine->getUnitNamed((Parameter *)a);
 
-	if (r)
-		r->setStatus((ObjectStatusTypes)(int)b, c);
+	if (object)
+		object->setStatus((ObjectStatusTypes)(int)b, c);
 }

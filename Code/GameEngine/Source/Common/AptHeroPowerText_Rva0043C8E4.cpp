@@ -165,9 +165,9 @@ public:
 };
 
 // StringBase<unsigned short>::isEmpty, inline here as retail expands it.
-static inline bool Rva00513497IsEmpty(const UnicodeString &s)
+static inline bool Rva00513497IsEmpty(const UnicodeString &unicodeString)
 {
-	const char *data = *(const char *const *)&s;
+	const char *data = *(const char *const *)&unicodeString;
 	return data == 0 || *(const unsigned short *)(data + 4) == 0;
 }
 

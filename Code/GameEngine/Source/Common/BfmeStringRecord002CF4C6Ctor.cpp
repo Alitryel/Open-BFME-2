@@ -16,7 +16,7 @@ struct BfmeStringRecord002CF4C6
 	BfmeStringRecord002CF4C6(const AsciiString &t0, const AsciiString &t1, unsigned int w0, unsigned int w1, unsigned char f1);
 };
 
-BfmeStringRecord002CF4C6::BfmeStringRecord002CF4C6(const AsciiString &t0, const AsciiString &t1, unsigned int w0, unsigned int w1, unsigned char f1)
-	: text0(t0), text1(t1), word0(w0), word1(w1), flag0(0), flag1(f1)
+BfmeStringRecord002CF4C6::BfmeStringRecord002CF4C6(const AsciiString &asciiString, const AsciiString &t1, unsigned int w0, unsigned int w1, unsigned char f1)
+	: text0(asciiString), text1(t1), word0(w0), word1(w1), flag0(0), flag1(f1)
 {
 }

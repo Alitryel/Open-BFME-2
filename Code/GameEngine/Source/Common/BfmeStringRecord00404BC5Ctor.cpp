@@ -13,7 +13,7 @@ struct BfmeStringRecord00404BF3
 	BfmeStringRecord00404BF3(const AsciiString &s);
 };
 
-BfmeStringRecord00404BF3::BfmeStringRecord00404BF3(const AsciiString &s) : text(s), f0(0.0f), f1(0.0f), f2(0.0f), f3(0.0f), f4(0.0f)
+BfmeStringRecord00404BF3::BfmeStringRecord00404BF3(const AsciiString &asciiString) : text(asciiString), f0(0.0f), f1(0.0f), f2(0.0f), f3(0.0f), f4(0.0f)
 {
 }
 

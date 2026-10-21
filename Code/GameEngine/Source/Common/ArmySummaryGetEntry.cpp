@@ -80,9 +80,9 @@ __declspec(noinline) inline ArmySummaryEntryRef ArmySummary::GetEntry(int key)
 }
 
 // ?bfmeAnchorArmySummaryGetEntry absent-from-retail
-ArmySummaryEntryRef bfmeAnchorArmySummaryGetEntry(ArmySummary *p, int key)
+ArmySummaryEntryRef bfmeAnchorArmySummaryGetEntry(ArmySummary *armySummary, int key)
 {
-	return p->GetEntry(key);
+	return armySummary->GetEntry(key);
 }
 
 

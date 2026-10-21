@@ -29,10 +29,10 @@ void Rva00889C90Class::d_00889c90( void* arg1, void* arg2 )
 
 	for ( unsigned int i = 0; i < m_size; ++i )
 	{
-		Element* p = &m_data[i];
-		if ( p->val4 == arg1 && p->val8 == arg2 )
+		Element* element = &m_data[i];
+		if ( element->val4 == arg1 && element->val8 == arg2 )
 		{
-			memmove( p, p + 1, (m_size - i - 1) * sizeof(m_data) );
+			memmove( element, element + 1, (m_size - i - 1) * sizeof(m_data) );
 			m_data = m_data - 1;
 			m_data = (Element*)DebugReAllocMemory( m_data, m_size * sizeof(Element) );
 		}

@@ -139,27 +139,27 @@ public:
  unsigned char p9c[0x28]; unsigned int flags[1];
  __forceinline bool test(unsigned int bit) const {return (flags[bit>>5] & (1u<<(bit&31)))!=0;}
 };
-void DynamicAudioEventInfo::xferNoName(Xfer *x) {
- Xfer::Version version(1,1); *x == version;
- if(x->IsLoading()) {
-  unsigned char bits; *x == bits;
+void DynamicAudioEventInfo::xferNoName(Xfer *xfer) {
+ Xfer::Version version(1,1); *xfer == version;
+ if(xfer->IsLoading()) {
+  unsigned char bits; *xfer == bits;
   for(int i=0;i<8;++i)
    ((WeaponTemplateSetHead *)flags)->rva000B3FA5(i,(bits & (1<<i))!=0);
  } else {
   unsigned char bits=0;
   for(int i=0;i<8;++i) if(test(i)) bits |= 1<<i;
-  *x == bits;
+  *xfer == bits;
  }
  if(test(1)) {
-  bool b=(control&1)!=0; *x == b;
-  if(x->IsLoading()) {
+  bool b=(control&1)!=0; *xfer == b;
+  if(xfer->IsLoading()) {
    if(b) ((Rva001D96FF*)this)->rva001D96FF(1);
    else ((Rva001D9709*)this)->rva001D9709(1);
   }
  }
- if(test(3)){float v=at10; *x == v; ((W3DRopeDraw*)this)->W3DRopeDraw::setRopeCurLen(v);}
- if(test(4)){float v=at1c; *x == v; ((Anim2D*)this)->setAlpha(v);}
- if(test(5)){float v=at94; *x == v; ((Rva001D972BFloatField*)this)->set(v);}
- if(test(6)){float v=at98; *x == v; ((Rva00210C91FloatField*)this)->set(v);}
- if(test(7)){unsigned char v=priority; *x == v; ((AudioEventInfo*)this)->Rva0041FDEE((AudioPriority)v);}
+ if(test(3)){float v=at10; *xfer == v; ((W3DRopeDraw*)this)->W3DRopeDraw::setRopeCurLen(v);}
+ if(test(4)){float v=at1c; *xfer == v; ((Anim2D*)this)->setAlpha(v);}
+ if(test(5)){float v=at94; *xfer == v; ((Rva001D972BFloatField*)this)->set(v);}
+ if(test(6)){float v=at98; *xfer == v; ((Rva00210C91FloatField*)this)->set(v);}
+ if(test(7)){unsigned char v=priority; *xfer == v; ((AudioEventInfo*)this)->Rva0041FDEE((AudioPriority)v);}
 }

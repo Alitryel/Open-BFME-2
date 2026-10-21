@@ -170,7 +170,7 @@ Rva004E156B::Rva004E156B() {}
 // ??0GameFont@@QAE@XZ
 __declspec(noinline) inline GameFont::GameFont() {}
 // ?bfmeAnchorGameFont absent-from-retail
-void bfmeAnchorGameFont(GameFont *p) { p->GameFont::GameFont(); }
+void bfmeAnchorGameFont(GameFont *gameFont) { gameFont->GameFont::GameFont(); }
 // Rva0030714F's identical mapping-constructor shape at 0x00307126 is
 // owned by System/DataChunk.cpp, which already emits its exact 13B body.
 

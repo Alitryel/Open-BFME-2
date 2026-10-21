@@ -49,7 +49,7 @@ void famgenDelete(Rva0035D47B *p) { delete p; }
 
 class ScoreScaleUpTransition : public Rva001DBAA4 { public: virtual ~ScoreScaleUpTransition(); };
 ScoreScaleUpTransition::~ScoreScaleUpTransition() { m_C = 0; }
-void famgenDelete(ScoreScaleUpTransition *p) { delete p; }
+void famgenDelete(ScoreScaleUpTransition *scoreScaleUpTransition) { delete scoreScaleUpTransition; }
 
 class Rva0035DA01 : public Rva001DBAA4 { public: virtual ~Rva0035DA01(); };
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
@@ -87,14 +87,14 @@ private:
 	GameWindow *m_44;
 };
 MainMenuMediumScaleUpTransition::~MainMenuMediumScaleUpTransition() { m_C = 0; }
-void famgenDelete(MainMenuMediumScaleUpTransition *p) { delete p; }
+void famgenDelete(MainMenuMediumScaleUpTransition *mainMenuMediumScaleUpTransition) { delete mainMenuMediumScaleUpTransition; }
 
 void MainMenuMediumScaleUpTransition::Rva0035DD9C()
 {
-	GameWindow *w1 = m_C;
+	GameWindow *gameWindow = m_C;
 	m_8 = false;
 	m_9 = false;
-	w1->winHide(true);
+	gameWindow->winHide(true);
 	m_44->winHide(true);
 }
 

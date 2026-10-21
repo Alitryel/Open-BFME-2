@@ -32,14 +32,14 @@ private:
 	Coord3D m_coord28;
 	bool m_flag34;
 };
-void *Rva004DEA70::rva004DEA70(Arg1_004DEA70 *a1, const Coord3DBase *a2)
+void *Rva004DEA70::rva004DEA70(Arg1_004DEA70 *a1, const Coord3DBase *coord3DBase)
 {
 	if (a1 == 0) {
 		if (m_flag34 == 0)
 			return 0;
-		if (a2 == 0)
+		if (coord3DBase == 0)
 			return 0;
-		if (!m_coord28.equals(*a2))
+		if (!m_coord28.equals(*coord3DBase))
 			return 0;
 	} else {
 		if (m_flag34 != 0)

@@ -174,9 +174,9 @@ void ConnectionManager::init()
 		m_connections[i] = 0;
 	if (m_12124 == 0)
 	{
-		NetCommandList *p = new NetCommandList;
-		m_12124 = (unsigned int)p;
-		p->reset();
+		NetCommandList *netCommandList = new NetCommandList;
+		m_12124 = (unsigned int)netCommandList;
+		netCommandList->reset();
 	}
 	((NetCommandList *)m_12124)->reset();
 	if (m_12128 == 0)

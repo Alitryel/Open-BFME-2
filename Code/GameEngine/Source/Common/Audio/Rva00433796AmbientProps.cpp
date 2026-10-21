@@ -181,7 +181,7 @@ public:
 extern AudioManager *TheAudio;
 
 // WorldBuilder TranslateAudioProperties, WB VA 0x00ED7010 (callgraph lead, score 5.0).
-void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *forceOff,
+void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *thingTemplate, bool *forceOff,
 	Rva000A8C9B *customInfo, bool *soundEnabled)
 {
 	*forceOff = false;
@@ -220,12 +220,12 @@ void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, 
 			if (!customInfo->m_ptr)
 			{
 				AudioEventInfoRef base;
-				if (!draw && !tmpl)
+				if (!draw && !thingTemplate)
 					return;
 				if (draw)
 					base = draw->rva0027682F().m_info;
 				else
-					base = ((Rva00239435 *)tmpl)->rva00239435(0x25).m_info;
+					base = ((Rva00239435 *)thingTemplate)->rva00239435(0x25).m_info;
 				Rva001DA2D5 *info = base.get();
 				if (info)
 					customInfo->rva000A8CE5(new Rva004333C0(*info, 0));
@@ -269,12 +269,12 @@ void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, 
 		else
 		{
 			AudioEventInfoRef base;
-			if (draw || tmpl)
+			if (draw || thingTemplate)
 			{
 				if (draw)
 					base = draw->rva0027682F().m_info;
 				else
-					base = ((Rva00239435 *)tmpl)->rva00239435(0x25).m_info;
+					base = ((Rva00239435 *)thingTemplate)->rva00239435(0x25).m_info;
 			}
 			if (base.referent)
 				*soundEnabled = base.get()->isPermanentSound();

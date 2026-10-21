@@ -7,7 +7,7 @@ struct EmitVtableTag;
 
 // ??_GArmorTemplate@@QAEPAXI@Z @0x1d8fe5
 class ArmorTemplate { public: ~ArmorTemplate(); };
-void famgenDelete(ArmorTemplate *p) { delete p; }
+void famgenDelete(ArmorTemplate *armorTemplate) { delete armorTemplate; }
 
 class Rva00255CD1
 {

@@ -52,9 +52,9 @@ __declspec(noinline) inline FunctorNotSet::~FunctorNotSet()
 }
 
 // ?bfmeAnchorFunctorNotSetDtor absent-from-retail
-void bfmeAnchorFunctorNotSetDtor(FunctorNotSet *p)
+void bfmeAnchorFunctorNotSetDtor(FunctorNotSet *functorNotSet)
 {
-	p->FunctorNotSet::~FunctorNotSet();
+	functorNotSet->FunctorNotSet::~FunctorNotSet();
 }
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

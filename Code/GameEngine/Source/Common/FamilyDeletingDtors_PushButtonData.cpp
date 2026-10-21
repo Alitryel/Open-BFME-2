@@ -3,4 +3,4 @@
 // Non-virtual public QAE shape like ??_GRva004F6986 precedent; prev/next PushButtonDataDtor and GadgetButtonSetText.
 
 class PushButtonData { public: ~PushButtonData(); };
-void famgenDelete(PushButtonData *p) { delete p; }
+void famgenDelete(PushButtonData *pushButtonData) { delete pushButtonData; }

@@ -5,7 +5,7 @@
 struct EmitVtableTag;
 
 class W3DBufferManager { public: ~W3DBufferManager(); };
-void famgenDelete(W3DBufferManager *p) { delete p; }
+void famgenDelete(W3DBufferManager *w3DBufferManager) { delete w3DBufferManager; }
 
 // ??_GOpenContainModuleData@@UAEPAXI@Z @0x00465221 28B; calls rowed ??1OpenContainModuleData@@UAE@XZ @0x00257481 then delete. Slot0 of vtable 0x00C43658 per ledger.
 class OpenContainModuleData { public: OpenContainModuleData(EmitVtableTag *); virtual ~OpenContainModuleData(); };

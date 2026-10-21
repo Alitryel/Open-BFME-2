@@ -256,7 +256,7 @@ void *AnimationSoundTree::rva004CA19C(void const *v)
 // caller at 0x004CA6C6; prev/next same // cl: line.
 void AnimationSoundTree::rva004CA293(
 	AnimationSoundTreeNode *&out,
-	AnimationSoundTreeNode *a,
+	AnimationSoundTreeNode *animationSoundTreeNode,
 	AnimationSoundTreeNode *b,
 	void const *v,
 	AnimationSoundTreeNode *c)
@@ -264,7 +264,7 @@ void AnimationSoundTree::rva004CA293(
 	AnimationSoundTreeNode *node;
 	if (b != (AnimationSoundTreeNode *)m_handle.m_header
 		&& (c != 0
-			|| (a == 0
+			|| (animationSoundTreeNode == 0
 				&& !m_compare.rva004C9D93Compare((void *)v, (char *)b + 0x10))))
 	{
 		node = (AnimationSoundTreeNode *)rva004CA19C(v);

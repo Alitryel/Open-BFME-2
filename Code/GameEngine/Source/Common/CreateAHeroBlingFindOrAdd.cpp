@@ -47,14 +47,14 @@ public:
     _STL::vector<BfmeStringRecord002199C8> m_records15c;
     int rva0021E9D8Call(unsigned int word, const AsciiString &a, const AsciiString &b, const AsciiString &c);
 };
-int Rva0021E9D8Call::rva0021E9D8Call(unsigned int word, const AsciiString &a, const AsciiString &b, const AsciiString &c)
+int Rva0021E9D8Call::rva0021E9D8Call(unsigned int word, const AsciiString &asciiString, const AsciiString &b, const AsciiString &c)
 {
     int count = (int)m_records15c.size();
     const BfmeStringRecord002199C8 *found = (const BfmeStringRecord002199C8 *)Rva0021D120Find(
         (const Rva0021BBDCRecord *)m_records15c.begin(), (const Rva0021BBDCRecord *)m_records15c.end(),
-        (const StringBase<char> *)&a);
+        (const StringBase<char> *)&asciiString);
     if (found == m_records15c.end())
-        m_records15c.push_back(BfmeStringRecord002199C8(word, a, b, c));
+        m_records15c.push_back(BfmeStringRecord002199C8(word, asciiString, b, c));
     else
         count = (int)(found - m_records15c.begin());
     return count;

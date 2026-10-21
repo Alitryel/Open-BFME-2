@@ -13,7 +13,7 @@ public:
 	~CDownload();
 };
 
-void CDownload_Delete(CDownload *p) { delete p; }
+void CDownload_Delete(CDownload *download) { delete download; }
 
 // The table as DownloadManager.cpp (first in link order) has it: the five
 // download-callback slots, the deleting dtor (slot 5), then downloadFile.

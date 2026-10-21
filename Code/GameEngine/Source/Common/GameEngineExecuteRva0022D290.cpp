@@ -472,10 +472,10 @@ void GameEngine::rva0022D290()
    Profile::StopRange(0);
    
   }
-  catch(INIException &e) 
+  catch(INIException &iNIException) 
   
   {
-   char *failure=e.mFailureMessage;
+   char *failure=iNIException.mFailureMessage;
    if(failure) 
    
    {
@@ -485,7 +485,7 @@ void GameEngine::rva0022D290()
     manager=DEBUG_MANAGER;
     CrashMessage *message=manager->getCrashMessage(0,0,0);
     message=message->setText("\n\n");
-    char *text=e.mFailureMessage;
+    char *text=iNIException.mFailureMessage;
     message->setText(text)->show(true);
     
    }

@@ -2,9 +2,9 @@
 // Existing105B position overload at2D982A; use the canonical136-byte layout.
 #include "Common/BfmeAudioEventPrefix136.h"
 
-BfmeAudioEventPrefix136::BfmeAudioEventPrefix136(const OpaqueRefElement4 &arg, const BfmeEventPositionView &pos, int value30)
+BfmeAudioEventPrefix136::BfmeAudioEventPrefix136(const OpaqueRefElement4 &opaqueRefElement4, const BfmeEventPositionView &pos, int value30)
 {
-	rva002D96D3(arg);
+	rva002D96D3(opaqueRefElement4);
 	m_position = pos;
 	m_int38 = 0;
 	m_int30 = value30;

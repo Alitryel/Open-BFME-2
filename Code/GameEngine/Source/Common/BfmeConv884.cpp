@@ -43,7 +43,7 @@ public:
 	void *m_bfmeP;
 };
 
-bool Rva00260E2AFilter::allow(Object *o)
+bool Rva00260E2AFilter::allow(Object *object)
 {
-	return m_bfmeP == o->getControllingPlayer();
+	return m_bfmeP == object->getControllingPlayer();
 }

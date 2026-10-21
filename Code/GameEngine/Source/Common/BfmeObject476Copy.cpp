@@ -161,7 +161,7 @@ template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(Asc
 class S3Money : public Snapshot { public: int words[2];
  __forceinline S3Money(){words[0]=0;words[1]=0;}
  // ?S3Money::S3Money present-unmatched
- __forceinline S3Money(const S3Money&r){words[0]=r.words[0];words[1]=r.words[1];}
+ __forceinline S3Money(const S3Money&s3Money){words[0]=s3Money.words[0];words[1]=s3Money.words[1];}
  virtual ~S3Money() {}
  virtual void loadPostProcess();
  virtual const char* GetSnapshotName()const;

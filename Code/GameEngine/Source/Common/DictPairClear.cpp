@@ -409,12 +409,12 @@ void Dict::sortPairs()
 		{
 			for (int j = i - gap; j >= 0; j -= gap)
 			{
-				DictPair *a = (DictPair *)(m_data + 1) + j;
+				DictPair *dictPair = (DictPair *)(m_data + 1) + j;
 				DictPair *b = (DictPair *)(m_data + 1) + j + gap;
-				if ((int)((unsigned int)a->m_key >> 8) > (int)((unsigned int)b->m_key >> 8))
+				if ((int)((unsigned int)dictPair->m_key >> 8) > (int)((unsigned int)b->m_key >> 8))
 				{
-					DictPair tmp = *a;
-					*a = *b;
+					DictPair tmp = *dictPair;
+					*dictPair = *b;
 					*b = tmp;
 				}
 				else

@@ -17,9 +17,9 @@ public:
 };
 
 // StringBase<char>::str() (TheNullChr for an empty string) of a temporary.
-static inline const char *Rva002162CFStr(const AsciiString &s)
+static inline const char *Rva002162CFStr(const AsciiString &asciiString)
 {
-	return ((const StringBase<char> *)&s)->str();
+	return ((const StringBase<char> *)&asciiString)->str();
 }
 
 AsciiString __cdecl Rva00222834Get(int value);

@@ -3,9 +3,9 @@
 
 // Native boundary2D97D6-2D982A. Six owned members default-initialize before
 // the shared259B initializer; native ret8 consumes reference and the value stored at +0x30.
-BfmeAudioEventPrefix136::BfmeAudioEventPrefix136(const OpaqueRefElement4 &arg, int value30)
+BfmeAudioEventPrefix136::BfmeAudioEventPrefix136(const OpaqueRefElement4 &opaqueRefElement4, int value30)
 {
-    rva002D96D3(arg);
+    rva002D96D3(opaqueRefElement4);
     m_int30 = value30;
 }
 

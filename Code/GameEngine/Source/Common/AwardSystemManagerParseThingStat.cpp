@@ -153,15 +153,15 @@ void AwardSystemManager::parseThingStat(INI *ini, void *, void *, const void *)
 	for (i = 0; i < stat.getIncludedCount(); ++i)
 	{
 		AsciiString templateName = TheNameKeyGenerator->keyToName((NameKeyType)((const Rva0040A7F1 *)&stat)->rva0040A7F1(i));
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(templateName);
-		if (tmpl == 0)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(templateName);
+		if (thingTemplate == 0)
 			throw INIException(3, "The ThingTemplate %s does not exist in AwardSystemManager::parseThingStat.", STR(templateName));
 	}
 	for (i = 0; i < stat.getExcludedCount(); ++i)
 	{
 		AsciiString templateName = TheNameKeyGenerator->keyToName((NameKeyType)((const Rva0040A80F *)&stat)->rva0040A80F(i));
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(templateName);
-		if (tmpl == 0)
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(templateName);
+		if (thingTemplate == 0)
 			throw INIException(3, "The ThingTemplate %s does not exist in AwardSystemManager::parseThingStat.", STR(templateName));
 	}
 

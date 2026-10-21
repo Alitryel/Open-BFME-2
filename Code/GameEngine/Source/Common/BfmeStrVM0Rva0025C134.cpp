@@ -163,7 +163,7 @@ private:
 	int m_1c;
 };
 
-void Display::rva0025C134(Display *arg)
+void Display::rva0025C134(Display *display)
 {
-	m_1c = arg->v151(m_1c);
+	m_1c = display->v151(m_1c);
 }

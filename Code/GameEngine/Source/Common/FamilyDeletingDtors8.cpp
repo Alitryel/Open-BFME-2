@@ -26,7 +26,7 @@ void famgenDelete(Rva002C589B *p) { delete p; }
 // ??_GAIBase@@QAEPAXI@Z @0x00506B58 28B: calls rowed ~AIBase 0x005ADA40
 class AIBase
 { public: ~AIBase(); };
-void famgenDelete(AIBase *p) { delete p; }
+void famgenDelete(AIBase *aIBase) { delete aIBase; }
 
 // ??_GRva0052A470@@QAEPAXI@Z @0x0052A5E7 28B: calls rowed ~Rva0052A470 0x0052A470
 class Rva0052A470 { public: ~Rva0052A470(); };

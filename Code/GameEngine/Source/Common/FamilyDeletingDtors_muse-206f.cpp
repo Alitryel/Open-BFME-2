@@ -13,5 +13,5 @@
 
 // ??_GAutoAbilityBehaviorModuleData@@UAEPAXI@Z @0x45a4fb
 class AutoAbilityBehaviorModuleData { public: explicit AutoAbilityBehaviorModuleData(int) {} virtual ~AutoAbilityBehaviorModuleData(); private: int m_famgen; };
-void famgenDelete(AutoAbilityBehaviorModuleData *p) { delete p; }
+void famgenDelete(AutoAbilityBehaviorModuleData *autoAbilityBehaviorModuleData) { delete autoAbilityBehaviorModuleData; }
 AutoAbilityBehaviorModuleData *famgenNew_AutoAbilityBehaviorModuleData() { return new AutoAbilityBehaviorModuleData(0); }

@@ -43,7 +43,7 @@ struct Impl : ImplBase {
 	virtual void rva005b4c73(const char *argument);
 	void *m_object;
 	void *m_method;
-	Impl(const DelegateDesc &d) : m_object(d.m_object), m_method(d.m_method) {}
+	Impl(const DelegateDesc &delegateDesc) : m_object(delegateDesc.m_object), m_method(delegateDesc.m_method) {}
 };
 
 class Rva00579E47 {
@@ -158,7 +158,7 @@ Rva00527827::Rva00527827(int arg, const AsciiString &name)
 struct Rva00527B03Arguments {
     char separator;
     const AsciiString *name;
-    Rva00527B03Arguments(const char &a,const AsciiString &b):separator(a),name(&b) {}
+    Rva00527B03Arguments(const char &a,const AsciiString &asciiString):separator(a),name(&asciiString) {}
 };
 AsciiString &Rva0052798FAppend(AsciiString &,const char *);
 static __forceinline void Rva00527B03Append(AsciiString &text,Rva00527B03Arguments value)

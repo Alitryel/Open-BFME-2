@@ -8,4 +8,4 @@ class MetaMapRec
 public:
 	~MetaMapRec();
 };
-void famgenDelete(MetaMapRec *p) { delete p; }
+void famgenDelete(MetaMapRec *metaMapRec) { delete metaMapRec; }

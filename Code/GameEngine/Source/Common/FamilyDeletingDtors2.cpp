@@ -9,7 +9,7 @@ void famgenDelete(BfmeStringTailRecord144 *p) { delete p; }
 
 // ??_GRadiusDecal@@QAEPAXI@Z @0xd1687
 class RadiusDecal { public: ~RadiusDecal(); };
-void famgenDelete(RadiusDecal *p) { delete p; }
+void famgenDelete(RadiusDecal *radiusDecal) { delete radiusDecal; }
 
 // ??_GBfmeStringTailRecord156@@QAEPAXI@Z @0x1d99cb
 class BfmeStringTailRecord156 { public: ~BfmeStringTailRecord156(); };
@@ -17,7 +17,7 @@ void famgenDelete(BfmeStringTailRecord156 *p) { delete p; }
 
 // ??_GPath@@QAEPAXI@Z @0x262895
 class Path { public: ~Path(); };
-void famgenDelete(Path *p) { delete p; }
+void famgenDelete(Path *path) { delete path; }
 
 // ??_GRva002AF6C5Element@@QAEPAXI@Z @0x2af4d1 (the 0x24-byte record whose dtor is 0x2af1ec)
 struct Rva002AF6C5Element { ~Rva002AF6C5Element(); };

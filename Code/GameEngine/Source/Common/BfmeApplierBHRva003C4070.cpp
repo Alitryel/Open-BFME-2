@@ -59,32 +59,32 @@ public:
 		const SpecialPowerTemplate *power, const Coord3D *position) throw();
 };
 
-void ScriptActions::rva003C4070(const AsciiString &a, const AsciiString &b)
+void ScriptActions::rva003C4070(const AsciiString &asciiString, const AsciiString &b)
 {
 	Player *enemy = TheScriptEngine->getSkirmishEnemyPlayer();
 	if (enemy == 0)
 		return;
 	void *unk54 = *(void **)((char *)enemy + 0x54);
-	const SpecialPowerTemplate *tmpl = TheSpecialPowerStore->findSpecialPowerTemplate(b);
-	if (tmpl == 0)
+	const SpecialPowerTemplate *specialPowerTemplate = TheSpecialPowerStore->findSpecialPowerTemplate(b);
+	if (specialPowerTemplate == 0)
 		return;
 	float f = 50.0f;
-	const Overridable *ov = ((const Overridable *)tmpl)->friend_getFinalOverride();
+	const Overridable *ov = ((const Overridable *)specialPowerTemplate)->friend_getFinalOverride();
 	float g = ov->m_54;
 	if (g > 50.0f) {
-		ov = ((const Overridable *)tmpl)->friend_getFinalOverride();
+		ov = ((const Overridable *)specialPowerTemplate)->friend_getFinalOverride();
 		f = ov->m_54;
 	}
-	int mask = TheScriptEngine->rva00357475(a, 0);
+	int mask = TheScriptEngine->rva00357475(asciiString, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p != 0) {
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player != 0) {
 			char out[12];
-			p->v04(tmpl, out, unk54, f);
-			if (FireSpecialPowerAtPosition(a, tmpl, (const Coord3D *)out))
+			player->v04(specialPowerTemplate, out, unk54, f);
+			if (FireSpecialPowerAtPosition(asciiString, specialPowerTemplate, (const Coord3D *)out))
 				return;
 		}
 	} while (mask != 0);

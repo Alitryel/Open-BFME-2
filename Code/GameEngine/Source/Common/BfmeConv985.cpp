@@ -23,9 +23,9 @@ public:
 	int m_bfmeVal;
 };
 
-bool Rva00261130Filter::allow(Object *a)
+bool Rva00261130Filter::allow(Object *object)
 {
-	if (a->affectedByUpgrade((const UpgradeTemplate *)m_bfmeVal) && !a->hasUpgrade((const UpgradeTemplate *)m_bfmeVal))
+	if (object->affectedByUpgrade((const UpgradeTemplate *)m_bfmeVal) && !object->hasUpgrade((const UpgradeTemplate *)m_bfmeVal))
 		return true;
 
 	return false;

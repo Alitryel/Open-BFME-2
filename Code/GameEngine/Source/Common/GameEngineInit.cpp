@@ -1050,14 +1050,14 @@ void GameEngine::init(Int argc, char *argv[])
 			theDebug->stream(0, 0, 0)->write(mesg.str())->finish(1);
 		}
 	}
-	catch (INIException &e)
+	catch (INIException &iNIException)
 	{
-		const char *failure = e.mFailureMessage;
+		const char *failure = iNIException.mFailureMessage;
 		if (failure)
 		{
 			_bfme_debugRecordCallsite(1);
 			theDebug->crashBegin();
-			put(put(theDebug->stream(0, 0, 0), "\n\n"), e.mFailureMessage)->finish(1);
+			put(put(theDebug->stream(0, 0, 0), "\n\n"), iNIException.mFailureMessage)->finish(1);
 		}
 		else
 		{

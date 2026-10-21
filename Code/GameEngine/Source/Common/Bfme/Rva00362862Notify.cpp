@@ -55,11 +55,11 @@ void Rva00362862Item::rva00362862(int a, int b)
 	if (m_04 != 0)
 		((Rva003626CE *)this)->rva003626EA(*(const Block3 *)((Drawable *)m_04)->getPosition());
 	if ((char)b) {
-		BuffInstance *e = m_entries;
+		BuffInstance *buffInstance = m_entries;
 		int n = 9;
 		do {
-			e->Update((unsigned int)a);
-			++e;
+			buffInstance->Update((unsigned int)a);
+			++buffInstance;
 		} while (--n != 0);
 		((Rva0036276F *)this)->rva0036276F();
 	}

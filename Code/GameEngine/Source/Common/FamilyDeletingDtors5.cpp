@@ -6,7 +6,7 @@
 
 // ??_GDX8MeshRendererClass@@QAEPAXI@Z @0x11cbf0
 class DX8MeshRendererClass { public: ~DX8MeshRendererClass(); };
-void famgenDelete(DX8MeshRendererClass *p) { delete p; }
+void famgenDelete(DX8MeshRendererClass *dX8MeshRenderer) { delete dX8MeshRenderer; }
 
 // ??_GBfmeEnumerationCaps@@QAEPAXI@Z @0x11fe00
 class BfmeEnumerationCaps { public: ~BfmeEnumerationCaps(); };
@@ -15,7 +15,7 @@ void famgenDelete(BfmeEnumerationCaps *p) { delete p; }
 // Native 0x0013D550 calls the real destructor at 0x0013C990.
 // vertmaterial.cpp already emits its matching scalar wrapper.
 class VertexMaterialClass { public: virtual ~VertexMaterialClass(); };
-void famgenDelete(VertexMaterialClass *p) { delete p; }
+void famgenDelete(VertexMaterialClass *vertexMaterial) { delete vertexMaterial; }
 
 // Native 0x006560C0 calls the real seven-byte destructor at 0x00658650.
 // Its scalar wrapper is emitted by DirtySock/BfmeDirtyBaseDtor.cpp.

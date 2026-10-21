@@ -26,12 +26,12 @@ _STLP_END_NAMESPACE
 typedef _STL::vector<Drawable *, _STL::allocator<Drawable *> > DrawablePtrVector;
 
 // ?resize@?$vector@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAEXIPAVDrawable@@@Z
-void DrawablePtrVector::resize(unsigned int n, Drawable *x)
+void DrawablePtrVector::resize(unsigned int n, Drawable *drawable)
 {
 	if (n < size())
 		reinterpret_cast<_STL::vector<void *, _STL::allocator<void *> > *>(this)->erase(
 			reinterpret_cast<void **>(_M_start + n),
 			reinterpret_cast<void **>(_M_finish));
 	else
-		_M_fill_insert(_M_finish, n - size(), x);
+		_M_fill_insert(_M_finish, n - size(), drawable);
 }

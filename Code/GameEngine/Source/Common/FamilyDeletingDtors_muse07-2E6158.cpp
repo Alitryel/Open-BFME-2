@@ -3,4 +3,4 @@
 // Evidence: retail push esi mov esi ecx call test flag delete ret 4 shape; QAE non-virtual so QAEPAXI; chain from 0x002E6158 landing.
 class GameTextTable { public: ~GameTextTable(); };
 // ?famgenDelete002E6158@@YAXPAVGameTextTable@@@Z present-unmatched
-void famgenDelete002E6158(GameTextTable *p) { delete p; }
+void famgenDelete002E6158(GameTextTable *gameTextTable) { delete gameTextTable; }

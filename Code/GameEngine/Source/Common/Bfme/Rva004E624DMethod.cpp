@@ -45,7 +45,7 @@ void Rva004E624D::rva004E624D()
 {
 	if (m_1c != 0)
 		m_1c->v2();
-	DisplayString *s = m_10;
-	if (s != 0)
-		TheDisplayStringManager->freeDisplayString(s);
+	DisplayString *displayString = m_10;
+	if (displayString != 0)
+		TheDisplayStringManager->freeDisplayString(displayString);
 }

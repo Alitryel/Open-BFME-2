@@ -53,6 +53,6 @@ public:
 
 void BfmeThing940D::bfmeGo940D()
 {
-	DockUpdateInterface *r = m_bfmeSrc->getDockUpdateInterface();
-	r->bfmeSendBEC(0);
+	DockUpdateInterface *dockUpdate = m_bfmeSrc->getDockUpdateInterface();
+	dockUpdate->bfmeSendBEC(0);
 }

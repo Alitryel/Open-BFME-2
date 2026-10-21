@@ -61,9 +61,9 @@ public:
 	const char *rva0002DFE2(const char *seps, bool *substituted);
 };
 
-__forceinline const char *GetStr003B1017(const AsciiString &s)
+__forceinline const char *GetStr003B1017(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

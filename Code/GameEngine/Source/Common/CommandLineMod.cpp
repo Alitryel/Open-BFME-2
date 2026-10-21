@@ -45,12 +45,12 @@ public:
 class UnicodeString:public StringBase<Wide> {
 public:
     UnicodeString(const AsciiString&);
-    UnicodeString(const UnicodeString& s):StringBase<Wide>(s){}
+    UnicodeString(const UnicodeString& unicodeString):StringBase<Wide>(unicodeString){}
     UnicodeString& operator=(const UnicodeString& s){set(s);return *this;}
 };
 struct BFME2WideConcatPair {
     const UnicodeString *a,*b;
-    BFME2WideConcatPair(const UnicodeString& x,const UnicodeString& y){b=&y;a=&x;}
+    BFME2WideConcatPair(const UnicodeString& unicodeString,const UnicodeString& y){b=&y;a=&unicodeString;}
     operator StringBase<Wide>();
 };
 inline BFME2WideConcatPair operator+(const UnicodeString& a,const UnicodeString& b) {

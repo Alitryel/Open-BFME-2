@@ -49,7 +49,7 @@ public:
 	void *m_bfme14;
 };
 
-bool Rva002614BCFilter::allow(Object *a)
+bool Rva002614BCFilter::allow(Object *object)
 {
-	return (m_bfmeObj->*reinterpret_cast<Rva0035B2C3CharShape>(&Rva0035B2C3::rva0035B2C3))(m_bfme8, a, 0, m_bfme14) == m_bfme10;
+	return (m_bfmeObj->*reinterpret_cast<Rva0035B2C3CharShape>(&Rva0035B2C3::rva0035B2C3))(m_bfme8, object, 0, m_bfme14) == m_bfme10;
 }

@@ -69,8 +69,8 @@ DrawableLocoInfo::DrawableLocoInfo() throw()
 
 #pragma inline_depth(0)
 // ?bfmeEmitDrawableLocoInfoDtor@@YAXPAVDrawableLocoInfo@@@Z present-unmatched
-void bfmeEmitDrawableLocoInfoDtor(DrawableLocoInfo *p)
+void bfmeEmitDrawableLocoInfoDtor(DrawableLocoInfo *drawableLocoInfo)
 {
-	p->DrawableLocoInfo::~DrawableLocoInfo();
+	drawableLocoInfo->DrawableLocoInfo::~DrawableLocoInfo();
 }
 #pragma inline_depth()

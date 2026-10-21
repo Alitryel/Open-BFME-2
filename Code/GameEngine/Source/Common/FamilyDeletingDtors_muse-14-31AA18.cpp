@@ -3,4 +3,4 @@
 // Evidence: retail push esi mov esi ecx call test flag delete ret 4 shape; QAE non-virtual so QAEPAXI; chain from 0x003204D9 landing.
 class ControlBarSchemeManager { public: ~ControlBarSchemeManager(); };
 // ?famgenDelete0031AA18@@YAXPAVControlBarSchemeManager@@@Z present-unmatched
-void famgenDelete0031AA18(ControlBarSchemeManager *p) { delete p; }
+void famgenDelete0031AA18(ControlBarSchemeManager *controlBarSchemeManager) { delete controlBarSchemeManager; }
