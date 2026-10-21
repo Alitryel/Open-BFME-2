@@ -2,7 +2,7 @@
 // cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BC259Remove@ScriptActions@@QAEXPAVParameter@@@Z @0x003BC259 34B: script action removing sequential scripts for a named unit.
+// ?doUnitStopSequentialScript@ScriptActions@@QAEXPAVParameter@@@Z @0x003BC259 34B: script action removing sequential scripts for a named unit.
 // Evidence: calls rowed getUnitNamed 0x003588E7 with Parameter* then rowed ScriptEngine::rva0020517D 0x0020517D on the Object*; same TheScriptEngine global and stdcall shape as Rva003BE26DGrantUpgrade; caller 0x003CCE3E in dispatch.
 class Parameter;
 class Object;
@@ -16,7 +16,7 @@ public:
 
 extern ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BC259Remove(Parameter *param)
+void ScriptActions::doUnitStopSequentialScript(Parameter *param)
 {
 	Object *obj = TheScriptEngine->getUnitNamed(param);
 	if (obj == 0)

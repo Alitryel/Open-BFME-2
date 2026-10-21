@@ -257,7 +257,7 @@ void ScriptActions::Rva003BAC6D(float a0, float a1, float a2, float a3)
 // and truncates the second argument to an integer. Slots and the extra
 // mode argument below are read separately from each bounded retail body.
 // The original action and virtual-method names remain unresolved.
-void ScriptActions::Rva003BAB7A(float a0, float a1, float a2, float a3)
+void ScriptActions::doZoomCamera(float a0, float a1, float a2, float a3)
 {
 	reinterpret_cast<TacticalView *>(TheTacticalView)->s59(
 		a0, (int)(a1 * 1000.0f), a2 * 1000.0f, a3 * 1000.0f);
@@ -269,7 +269,7 @@ void ScriptActions::Rva003BABCB(float a0, float a1, float a2, float a3)
 		a0, (int)(a1 * 1000.0f), a2 * 1000.0f, a3 * 1000.0f);
 }
 
-void ScriptActions::Rva003BAC1C(float a0, float a1, float a2, float a3)
+void ScriptActions::doPitchCamera(float a0, float a1, float a2, float a3)
 {
 	reinterpret_cast<TacticalView *>(TheTacticalView)->s61(
 		a0, (int)(a1 * 1000.0f), a2 * 1000.0f, a3 * 1000.0f);

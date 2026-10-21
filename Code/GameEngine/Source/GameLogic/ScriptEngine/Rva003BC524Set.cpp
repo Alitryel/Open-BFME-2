@@ -2,7 +2,7 @@
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
 // ?Rva003BC524Set@ScriptActions@@QAEXABVAsciiString@@M@Z @0x003BC524 43B: script audio slot 0xc0 with scaled float.
-// Evidence: mov ecx,[0xFE6E8]=TheAudio movss xmm0,[esp+8] mulss xmm0,[0xBCF628]=g_Va00BCF628 mov eax,[ecx] push 0 push ecx movss [esp],xmm0 push [esp+0xc] call [eax+0xc0] ret 8; caller 0x003CD206; neighbours Rva003BC4ABSet Rva003BC5CESet same (AsciiString,*) stdcall shape.
+// Evidence: mov ecx,[0xFE6E8]=TheAudio movss xmm0,[esp+8] mulss xmm0,[0xBCF628]=g_Va00BCF628 mov eax,[ecx] push 0 push ecx movss [esp],xmm0 push [esp+0xc] call [eax+0xc0] ret 8; caller 0x003CD206; neighbours doModifyBuildableStatus Rva003BC5CESet same (AsciiString,*) stdcall shape.
 #include "ascii_string.h"
 
 class AudioManager

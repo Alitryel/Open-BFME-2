@@ -56,8 +56,8 @@ public:
     void Rva003BB654(void);
     void Rva003C4570Do(AsciiString const &, AsciiString const &);
     void Rva003C89D1Guard(Parameter *, Parameter *);
-    void Rva003C43A3Do(AsciiString const &, AsciiString const &);
-    void Rva003C4350Do(AsciiString const &, AsciiString const &, Object *);
+    void doPlayerRemoveOverrideRelationToTeam(AsciiString const &, AsciiString const &);
+    void doPlayerSetOverrideRelationToTeam(AsciiString const &, AsciiString const &, Object *);
     void Rva003BD405Set(unsigned char);
     void Rva003C2A29Do(AsciiString const &, AsciiString const &);
     void Rva003BF7ACDo(AsciiString const &, Parameter *);
@@ -68,9 +68,9 @@ public:
     void Rva003BFC27Do(AsciiString const &);
     void Rva003BFB8CDo(AsciiString const &, int);
     void Rva003BFCBFDo(AsciiString const &, int);
-    void Rva003C4449Do(AsciiString const &, AsciiString const &);
+    void doTeamRemoveOverrideRelationToPlayer(AsciiString const &, AsciiString const &);
     void Rva003C4DC2Do(AsciiString const &);
-    void Rva003BC259Remove(Parameter *);
+    void doUnitStopSequentialScript(Parameter *);
     void doDestroyAllContained(Parameter *, int);
     void Rva003BCCC6Do(Parameter *, Parameter *);
     void Rva003C4E28Find(AsciiString const &, float, float, float);
@@ -117,7 +117,7 @@ public:
     void Rva003BCD45Do(Parameter *);
     void Rva003BCDD7Do(Parameter *);
     void Rva003BCCA2Do(void);
-    void Rva003BC4ABSet(AsciiString const &, int);
+    void doModifyBuildableStatus(AsciiString const &, int);
     void Rva003BC96FDo(Parameter *, int);
     void Rva003BCD1BDo(Parameter *);
     void doCameraSetDefault(float, float, float);
@@ -126,7 +126,7 @@ public:
     void doWaterChangeHeight(Parameter *, float);
     void Rva003BCAA1Set(float);
     void Rva003BC830Clear(AsciiString const &);
-    void Rva003BC33DDo(Parameter *, float, float, float);
+    void doWaterChangeHeightOverTime(Parameter *, float, float, float);
     void Rva003BCADAForward(const AsciiString &a, const AsciiString &b);
     void Rva003BCAE8Forward(void);
     void Rva003BCAF6Do(Parameter *, float, float, float);
@@ -150,7 +150,7 @@ public:
     void Rva003BD003Forward(bool value);
     void Rva003C45D4Apply(Parameter *, AsciiString const &);
     void Rva003C4003Apply(Parameter *, AsciiString const &, void *);
-    void Rva003C43F3Do(AsciiString const &, AsciiString const &, Object *);
+    void doTeamSetOverrideRelationToPlayer(AsciiString const &, AsciiString const &, Object *);
     void bfmeLinkObjectsA70(void *, void *);
     void bfmeGoFGE(void *a, void *b, bool c);
     void Rva003C0DE1Do(AsciiString const &, bool);
@@ -223,7 +223,7 @@ public:
     void Rva003BECCDSet(const AsciiString &team, const AsciiString &key, bool state);
     void doTeamDelete(AsciiString const &, int);
     void doTeamKill(AsciiString const &);
-    void Rva003C0C3ESet(AsciiString const &);
+    void doTeamStopSequentialScript(AsciiString const &);
     void Rva003C3A3FSet(AsciiString const &, int);
     void Rva003BEA10Do(AsciiString const *, void *);
     void Rva003BEBD6Do(AsciiString const *);
@@ -247,9 +247,9 @@ public:
     void doLetterBoxMode(bool);
     void Rva003BD108SetGamePaused(void);
     void Rva003BAC6D(float, float, float, float);
-    void Rva003BAB7A(float, float, float, float);
+    void doZoomCamera(float, float, float, float);
     void Rva003BABCB(float, float, float, float);
-    void Rva003BAC1C(float, float, float, float);
+    void doPitchCamera(float, float, float, float);
     void Rva003BAECA(float, float, float, float);
     void Rva003BAF95(float, float, float, float);
     void Rva003BAFE8(Parameter *, float, float, float, float, float);

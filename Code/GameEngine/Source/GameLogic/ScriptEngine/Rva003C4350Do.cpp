@@ -1,10 +1,10 @@
 // cl: -O1 -arch:SSE -G7 -Ireference/shims/bfme2_ascii -DNDEBUG -MD -EHsc -Ireference/shims/bfme2_ascii -Ireference/shims/bfmealloc -D_STLP_USE_STATIC_LIB -D_CRTIMP=
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
-// ?Rva003C4350Do@ScriptActions@@QAEXABVAsciiString@@0PAVObject@@@Z @0x003C4350 83B.
+// ?doPlayerSetOverrideRelationToTeam@ScriptActions@@QAEXABVAsciiString@@0PAVObject@@@Z @0x003C4350 83B.
 // Script free function finding Player by name key and Team named then
 // calling rowed rva002ADFC7 store. Evidence: prev doTeamAttackNamed and
-// next Rva003C43A3Do share /O1 /EHsc and ScriptEngine global 0xDFE16C;
+// next doPlayerRemoveOverrideRelationToTeam share /O1 /EHsc and ScriptEngine global 0xDFE16C;
 // callees nameToKey 0x9FA65 and findPlayer 0x2A7A41 and getTeamNamed
 // 0x3584E9 and rva002ADFC7 0x2ADFC7 match retail call order.
 typedef int Int;
@@ -42,7 +42,7 @@ public:
 	void rva002ADFC7(const Team *t, Object *o);
 };
 #define TheNameKeyGen TheNameKeyGenerator
-void ScriptActions::Rva003C4350Do(const AsciiString &playerName, const AsciiString &teamName, Object *obj)
+void ScriptActions::doPlayerSetOverrideRelationToTeam(const AsciiString &playerName, const AsciiString &teamName, Object *obj)
 {
 	NameKeyType key = TheNameKeyGen->nameToKey(playerName);
 	Player *player = ThePlayerList->findPlayerWithNameKey(key);

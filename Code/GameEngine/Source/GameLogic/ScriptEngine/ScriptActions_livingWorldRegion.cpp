@@ -990,7 +990,7 @@ return;
 }
 case 120:
 {
-Rva003BAB7A(REAL(0), REAL(1), REAL(2), REAL(3));
+doZoomCamera(REAL(0), REAL(1), REAL(2), REAL(3));
 return;
 }
 case 389:
@@ -1000,7 +1000,7 @@ return;
 }
 case 121:
 {
-Rva003BAC1C(REAL(0), REAL(1), REAL(2), REAL(3));
+doPitchCamera(REAL(0), REAL(1), REAL(2), REAL(3));
 return;
 }
 case 346:
@@ -2162,22 +2162,22 @@ return;
 }
 case 187:
 {
-Rva003C43F3Do(TEXT(0), TEXT(1), (Object *)(INTEGER(2)));
+doTeamSetOverrideRelationToPlayer(TEXT(0), TEXT(1), (Object *)(INTEGER(2)));
 return;
 }
 case 188:
 {
-Rva003C4449Do(TEXT(0), TEXT(1));
+doTeamRemoveOverrideRelationToPlayer(TEXT(0), TEXT(1));
 return;
 }
 case 189:
 {
-Rva003C4350Do(TEXT(0), TEXT(1), (Object *)(INTEGER(2)));
+doPlayerSetOverrideRelationToTeam(TEXT(0), TEXT(1), (Object *)(INTEGER(2)));
 return;
 }
 case 190:
 {
-Rva003C43A3Do(TEXT(0), TEXT(1));
+doPlayerRemoveOverrideRelationToTeam(TEXT(0), TEXT(1));
 return;
 }
 case 186:
@@ -2302,7 +2302,7 @@ return;
 }
 case 193:
 {
-Rva003BC259Remove(PARAM(0));
+doUnitStopSequentialScript(PARAM(0));
 return;
 }
 case 194:
@@ -2317,7 +2317,7 @@ return;
 }
 case 196:
 {
-Rva003C0C3ESet(TEXT(0));
+doTeamStopSequentialScript(TEXT(0));
 return;
 }
 case 197:
@@ -2373,7 +2373,7 @@ return;
 }
 case 204:
 {
-Rva003BC33DDo((Parameter *)(&TEXT(0)), REAL(1), REAL(2), REAL(3));
+doWaterChangeHeightOverTime((Parameter *)(&TEXT(0)), REAL(1), REAL(2), REAL(3));
 return;
 }
 case 205:
@@ -2418,7 +2418,7 @@ return;
 }
 case 215:
 {
-Rva003BC4ABSet(TEXT(0), INTEGER(1));
+doModifyBuildableStatus(TEXT(0), INTEGER(1));
 return;
 }
 case 228:

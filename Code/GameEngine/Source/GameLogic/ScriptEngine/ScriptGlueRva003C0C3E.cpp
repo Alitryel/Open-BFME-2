@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 //
-// ?Rva003C0C3ESet@ScriptActions@@QAEXABVAsciiString@@@Z @0x003C0C3E 51B (dump range 18).
+// ?doTeamStopSequentialScript@ScriptActions@@QAEXABVAsciiString@@@Z @0x003C0C3E 51B (dump range 18).
 // Team forward through the doSetTeamState argument idiom: copies the name
 // through the rowed StringBase copy ctor, resolves the team through rowed
 // ScriptEngine 0x003584E9 getTeamNamed, and forwards it to the pinned
@@ -20,7 +20,7 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003C0C3ESet(const AsciiString &team)
+void ScriptActions::doTeamStopSequentialScript(const AsciiString &team)
 {
 	Team *t = TheScriptEngine->getTeamNamed(team, false);
 	if (t != 0)

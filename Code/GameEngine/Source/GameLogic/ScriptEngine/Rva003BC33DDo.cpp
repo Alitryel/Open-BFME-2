@@ -2,7 +2,7 @@
 // cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BC33DDo@ScriptActions@@QAEXPAVParameter@@MMM@Z @0x003BC33D 63B: script TerrainLogic slot 0x74 then slot 0x80 with 3 floats.
+// ?doWaterChangeHeightOverTime@ScriptActions@@QAEXPAVParameter@@MMM@Z @0x003BC33D 63B: script TerrainLogic slot 0x74 then slot 0x80 with 3 floats.
 // Evidence: mov ecx,[0xDFEC50]=TheTerrainLogic push [esp+4] mov eax,[ecx] call [eax+0x74] test eax je; fld [esp+0x10] mov ecx,[TheTerrainLogic] mov edx,[ecx] sub esp,0xc fstp [esp+8] fld [esp+0x18] fstp [esp+4] fld [esp+0x14] fstp [esp] push eax call [edx+0x80] ret 0x10; caller 0x003CD047; sibling doWaterChangeHeight same slot 0x74 then float slot shape.
 class Parameter
 {
@@ -47,7 +47,7 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 
-void ScriptActions::Rva003BC33DDo(Parameter *param, float f2, float f3, float f4)
+void ScriptActions::doWaterChangeHeightOverTime(Parameter *param, float f2, float f3, float f4)
 {
 	void *res = TheTerrainLogic->s29(param);
 	if (res == 0)
