@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004663FF@CaveContain@@SA?AW4NameKeyType@@XZ @0x4663ff
+// ?getModuleNameKey@CaveContain@@UBE?AW4NameKeyType@@XZ @0x4663ff
 // (69B): cached pool-name key for CaveContain. The class
 // identity comes from the pool-name string the body pushes
 // ("CaveContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CaveContain
 {
 public:
-	static NameKeyType rva0004663FF();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004663FF@CaveContain@@SA?AW4NameKeyType@@XZ
-NameKeyType CaveContain::rva0004663FF()
+// ?getModuleNameKey@CaveContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType CaveContain::getModuleNameKey() const
 {
 	static NameKeyType TheCaveContainPoolKey =
 		TheNameKeyGenerator->nameToKey("CaveContain");

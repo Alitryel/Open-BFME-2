@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00047F97E@CivilianSpawnUpdate@@SA?AW4NameKeyType@@XZ @0x47f97e
+// ?getModuleNameKey@CivilianSpawnUpdate@@UBE?AW4NameKeyType@@XZ @0x47f97e
 // (69B): cached pool-name key for CivilianSpawnUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("CivilianSpawnUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CivilianSpawnUpdate
 {
 public:
-	static NameKeyType rva00047F97E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00047F97E@CivilianSpawnUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType CivilianSpawnUpdate::rva00047F97E()
+// ?getModuleNameKey@CivilianSpawnUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType CivilianSpawnUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheCivilianSpawnUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("CivilianSpawnUpdate");

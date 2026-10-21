@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000483A1C@SupplyWarehouseCripplingBehavior@@SA?AW4NameKeyType@@XZ @0x483a1c
+// ?getModuleNameKey@SupplyWarehouseCripplingBehavior@@UBE?AW4NameKeyType@@XZ @0x483a1c
 // (69B): cached pool-name key for SupplyWarehouseCripplingBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("SupplyWarehouseCripplingBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SupplyWarehouseCripplingBehavior
 {
 public:
-	static NameKeyType rva000483A1C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000483A1C@SupplyWarehouseCripplingBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType SupplyWarehouseCripplingBehavior::rva000483A1C()
+// ?getModuleNameKey@SupplyWarehouseCripplingBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType SupplyWarehouseCripplingBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheSupplyWarehouseCripplingBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("SupplyWarehouseCripplingBehavior");

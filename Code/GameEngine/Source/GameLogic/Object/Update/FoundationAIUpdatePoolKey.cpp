@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000455167@FoundationAIUpdate@@SA?AW4NameKeyType@@XZ @0x455167
+// ?getModuleNameKey@FoundationAIUpdate@@UBE?AW4NameKeyType@@XZ @0x455167
 // (69B): cached pool-name key for FoundationAIUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("FoundationAIUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FoundationAIUpdate
 {
 public:
-	static NameKeyType rva000455167();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000455167@FoundationAIUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType FoundationAIUpdate::rva000455167()
+// ?getModuleNameKey@FoundationAIUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType FoundationAIUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheFoundationAIUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("FoundationAIUpdate");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004595AB@ClickReactionBehavior@@SA?AW4NameKeyType@@XZ @0x4595ab
+// ?getModuleNameKey@ClickReactionBehavior@@UBE?AW4NameKeyType@@XZ @0x4595ab
 // (69B): cached pool-name key for ClickReactionBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("ClickReactionBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ClickReactionBehavior
 {
 public:
-	static NameKeyType rva0004595AB();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004595AB@ClickReactionBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType ClickReactionBehavior::rva0004595AB()
+// ?getModuleNameKey@ClickReactionBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType ClickReactionBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheClickReactionBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("ClickReactionBehavior");
