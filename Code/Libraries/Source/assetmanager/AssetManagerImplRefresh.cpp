@@ -1,16 +1,8 @@
-// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.9988 date=2026-10-20
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
 // stlport
-// Refresh at retail 006227E0..0062348C, 3244 bytes; banked, not matched.
-// 2026-10-19: complete3244B, frame0xBC and EH graph exact; actual ledger
-// bindings resolve every callee. Eight start-cursor displacement operands
-// differ in the two final count branches: native s2,s0,s1; ours s2,s1,s0.
-// See reverse/attempt_support/asset-refresh-parent-20261019/readme.md.
-// Pending key/payload are target-proven unsigned / element pointer; reuse
-// the corrected Rva00620A00Record and admitted insertion/copy identities.
-// Source type spelling remains neutral inference, not an original name.
-// The obsolete const_cast on the non-const second member is removed at parity.
+// Refresh at retail 006227E0..0062348C, 3244 bytes, frame 0xBC, EH graph
+// exact. WB twin: AssetManagerImpl::UpdateActiveAssets (WB 0x167A320); the
+// target name remains the pinned neutral receiver label.
 //
 // BFME1 009EFF50 is the semantic guide. Five matched target callers and the
 // existing refresh pin establish this member's relationship to the asset
@@ -18,15 +10,21 @@
 // is +68, hash map +4C, seven deques +80, set wrappers +198/+1AC/+1C0/+1D4,
 // and output counters +1E8/+1EC. Size200 is checked below.
 // The +20/+28 cost and budget are signed64: native adc/sbb0 of unsigned
-// slot38 cost, signed64 comparisons. Pending entries are key+pointer pairs.
+// slot38 cost, signed64 comparisons. Pending entries are key+pointer pairs
+// (target-proven unsigned key / element pointer).
 //
 // Under the lock, normalize/copy the known-key sets; sweep seven queues;
 // collect eligible queue3 entries in the pending multimap, move queue4
 // entries to3, and evict by cost/budget. Retain/subtract key-set passes
 // return queue7 entries to0 and record active deque0..2 totals.
-// The volatile eight-bit queue field remains supported by native full-word
-// accesses/reloads and the landed AssetManagerImplUpdate sibling. No new
-// compiler barrier, volatile local, naked body or inline assembly is used.
+// The volatile eight-bit queue field is supported by native full-word
+// accesses/reloads and the landed AssetManagerImplUpdate sibling.
+//
+// Count tails: c2 sorts the flattened size() terms by a hash of their
+// address temporaries and local symbols, so the declaration order of the
+// deque references (r1 before r0) and the per-arm addressing fix the
+// node/finish/start operand order (handoff
+// reverse/attempt_support/0x006227e0-reduction-mechanism-20261021.md).
 
 #include <deque>
 #include <hash_map>
@@ -259,8 +257,8 @@ void Q1Receiver0134FAAC::refresh()
 		m_deques78[3].push_back(*(const int *)&it->second.m_entry);
 
 	Q1ReceiverQueue *queues = m_deques78;
-	Q1ReceiverQueue &r0 = m_deques78[0];
 	Q1ReceiverQueue &r1 = m_deques78[1];
+	Q1ReceiverQueue &r0 = m_deques78[0];
 	Q1ReceiverQueue &r2 = m_deques78[2];
 	for (int pass = 0; pass < 2; ++pass)
 	{
@@ -294,8 +292,8 @@ void Q1Receiver0134FAAC::refresh()
 		}
 
 		if (pass == 0)
-			m_field1e0 = r0.size() + r1.size() + r2.size();
+			m_field1e0 = r0.size() + r1.size() + queues[2].size();
 		else
-			m_field1e4 = m_deques78[0].size() + r1.size() + queues[2].size() - m_field1e0;
+			m_field1e4 = r0.size() + r1.size() + r2.size() - m_field1e0;
 	}
 }
