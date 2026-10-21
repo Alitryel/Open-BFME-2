@@ -71,7 +71,6 @@ class Rva00506B1B
 public:
 	Rva00506B1B();										// 0x00506B1B
 	virtual ~Rva00506B1B() {}
-	virtual void v1();
 	bool m_04;
 };
 
@@ -79,8 +78,7 @@ class Rva00598B2A : public Rva00506B1B
 {
 public:
 	Rva00598B2A(void *owner);
-	virtual ~Rva00598B2A();
-	virtual void v1();
+	virtual ~Rva00598B2A();	// virtual list as Rva00598CFDDtor.cpp declares it
 
 private:
 	_STL::map<int, Rva00501875Count> m_counts;			// +0x08
