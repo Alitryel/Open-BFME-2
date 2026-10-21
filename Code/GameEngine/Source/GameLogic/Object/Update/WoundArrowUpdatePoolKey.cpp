@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C6999@WoundArrowUpdate@@SA?AW4NameKeyType@@XZ @0x4C6999
+// ?getModuleNameKey@WoundArrowUpdate@@UBE?AW4NameKeyType@@XZ @0x4C6999
 // (69B): cached pool-name key for WoundArrowUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("WoundArrowUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class WoundArrowUpdate
 {
 public:
-	static NameKeyType rva004C6999();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C6999@WoundArrowUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType WoundArrowUpdate::rva004C6999()
+// ?getModuleNameKey@WoundArrowUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType WoundArrowUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheWoundArrowUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("WoundArrowUpdate");

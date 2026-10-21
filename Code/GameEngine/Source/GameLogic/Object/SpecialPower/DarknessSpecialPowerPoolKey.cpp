@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C4E02@DarknessSpecialPower@@SA?AW4NameKeyType@@XZ @0x4C4E02
+// ?getModuleNameKey@DarknessSpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C4E02
 // (69B): cached pool-name key for DarknessSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("DarknessSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DarknessSpecialPower
 {
 public:
-	static NameKeyType rva0004C4E02();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C4E02@DarknessSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType DarknessSpecialPower::rva0004C4E02()
+// ?getModuleNameKey@DarknessSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType DarknessSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheDarknessSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("DarknessSpecialPower");

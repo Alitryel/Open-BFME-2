@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004AD5CE@GloriousChargeUpdate@@SA?AW4NameKeyType@@XZ @0x4AD5CE
+// ?getModuleNameKey@GloriousChargeUpdate@@UBE?AW4NameKeyType@@XZ @0x4AD5CE
 // (69B): cached pool-name key for GloriousChargeUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("GloriousChargeUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class GloriousChargeUpdate
 {
 public:
-	static NameKeyType rva0004AD5CE();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004AD5CE@GloriousChargeUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType GloriousChargeUpdate::rva0004AD5CE()
+// ?getModuleNameKey@GloriousChargeUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType GloriousChargeUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheGloriousChargeUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("GloriousChargeUpdate");

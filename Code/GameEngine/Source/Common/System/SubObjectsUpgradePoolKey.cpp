@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004B4D1E@SubObjectsUpgrade@@SA?AW4NameKeyType@@XZ @0x4b4d1e
+// ?getModuleNameKey@SubObjectsUpgrade@@UBE?AW4NameKeyType@@XZ @0x4b4d1e
 // (69B): cached pool-name key for SubObjectsUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("SubObjectsUpgrade"); the body guards a function-local static
@@ -28,11 +28,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SubObjectsUpgrade
 {
 public:
-	static NameKeyType rva0004B4D1E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B4D1E@SubObjectsUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType SubObjectsUpgrade::rva0004B4D1E()
+// ?getModuleNameKey@SubObjectsUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType SubObjectsUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheSubObjectsUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("SubObjectsUpgrade");

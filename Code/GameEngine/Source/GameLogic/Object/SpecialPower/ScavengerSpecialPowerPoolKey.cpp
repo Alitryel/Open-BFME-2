@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C43BC@ScavengerSpecialPower@@SA?AW4NameKeyType@@XZ @0x004C43BC
+// ?getModuleNameKey@ScavengerSpecialPower@@UBE?AW4NameKeyType@@XZ @0x004C43BC
 // (69B): cached pool-name key for ScavengerSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("ScavengerSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ScavengerSpecialPower
 {
 public:
-	static NameKeyType rva004C43BC();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C43BC@ScavengerSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType ScavengerSpecialPower::rva004C43BC()
+// ?getModuleNameKey@ScavengerSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType ScavengerSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheScavengerSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("ScavengerSpecialPower");
