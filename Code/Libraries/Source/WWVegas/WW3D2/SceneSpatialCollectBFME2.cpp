@@ -47,6 +47,86 @@ public:
 typedef char SceneCollectIndexMatches[(sizeof(BfmeSceneVector)==sizeof(BFME2SceneSpatialIndex))?1:-1];
 typedef char SceneCollectCellMatches[(sizeof(SceneCollectCell)==sizeof(BFME2SceneSpatialNode))?1:-1];
 
+// The 8-byte list-node pool (defined with its grow 0x0006EFC8 and pop 0x00141800
+// in Rva0006EFC8Grow.cpp); rva00142170 inlines the pop.
+class Rva0006EFC8
+{
+public:
+	bool rva0006EFC8(int arena, int size);
+
+	int m_00;
+	void *m_04;
+	void *m_head;
+	void *(__cdecl *m_alloc)(int size, int arg);
+	void (__cdecl *m_free)(void *ptr, int arg);
+	int m_14;
+};
+
+extern Rva0006EFC8 g_BfmeSceneNodePool;
+
+// Pops an 8-byte node, growing the pool until it has one; the operation of 0x00141800, inlined here.
+inline void *bfmeSceneNodePoolPop()
+{
+	void *node;
+retry:
+	if (g_BfmeSceneNodePool.m_head) goto found;
+	{
+		int size = g_BfmeSceneNodePool.m_00 * 8 + 4;
+		if (g_BfmeSceneNodePool.rva0006EFC8(0, size))
+			goto retry;
+	}
+	return 0;
+found:
+	node = g_BfmeSceneNodePool.m_head;
+	g_BfmeSceneNodePool.m_head = *(void **)node;
+	return node;
+}
+
+// Layout view of a cell list's sentinel (GenericMultiListClass::Head is protected).
+// The emptiness test reads it directly: GenericMultiListClass::Is_Empty() compiles
+// to the same compare, but its inlined call leaves one more coalesced copy on
+// c2's globreg free list and swaps the xmin/ymin reloads after the first
+// quadrant call.
+struct SceneCollectListView
+{
+	void *vtable;
+	MultiListNodeClass Head;
+};
+
+// rva00142170, retail 0x00142170 (443 bytes, RET40): recursive 28-byte-stride
+// quadrant-tree rectangle query. Drains each visited cell's object list into
+// the pooled output list, then recurses into the overlapping quadrants; the
+// last quadrant is a tail call. Shape of BFME 1's Rva009441D0Recurse (early
+// return on an empty subtree, in-place halving, repeated midpoint sums). The
+// sibling rva00142330 establishes the signature. Original names are unknown.
+void BfmeSceneVector::rva00142170(Gen_00943CF0_Node **out, SceneCollectCell *node, unsigned n, int xmin, int ymin, int xmax, int ymax, int ox, int oy, int extent)
+{
+	if (((SceneCollectListView *)&node->objects)->Head.Next != &((SceneCollectListView *)&node->objects)->Head) {
+		MultiListIterator<RenderObjClass> it(&node->objects);
+		for (; !it.Is_Done(); it.Next()) {
+			RenderObjClass *object = it.Peek_Obj();
+			Gen_00943CF0_Node *item = (Gen_00943CF0_Node *)bfmeSceneNodePoolPop();
+			void **valuePtr = (void **)((char *)item + 4);
+			if (valuePtr) *valuePtr = object;
+			item->m_next = 0;
+			item->m_next = *out;
+			*out = item;
+		}
+	}
+	if (node->count == 0)
+		return;
+	extent /= 2;
+	++node;
+	if (ymin < oy + extent) {
+		if (xmin < ox + extent) rva00142170(out, node, n >> 2, xmin, ymin, xmax, ymax, ox, oy, extent);
+		if (xmax >= ox + extent) rva00142170(out, node + n, n >> 2, xmin, ymin, xmax, ymax, ox + extent, oy, extent);
+	}
+	if (ymax >= oy + extent) {
+		if (xmin < ox + extent) rva00142170(out, node + 2 * n, n >> 2, xmin, ymin, xmax, ymax, ox, oy + extent, extent);
+		if (xmax >= ox + extent) rva00142170(out, node + 3 * n, n >> 2, xmin, ymin, xmax, ymax, ox + extent, oy + extent, extent);
+	}
+}
+
 void BfmeSceneVector::rva00142330(Gen_00943CF0_Node **out,const SceneCollectRect &rect,const float *margin)
 {
  int x0=((Gen_009431F0*)this)->map_x(rect.min.X-(margin ? margin[0] : 0.0f));
