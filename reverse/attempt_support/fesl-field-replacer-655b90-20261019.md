@@ -92,3 +92,56 @@ EBX/EBP choice is set by the final address forms; only a real loop displacement 
 Retail's identical code with the opposite roles points to a toolchain or IL difference not
 reachable from this source family. One untested lead: a VC 7.0 or VC6 build of the EA FESL
 library. No profile for either is in the tree.
+
+## Session 2026-10-21c (claude-opus-5-5): tail solved, the role tie is still open
+
+Candidates: `fesl-655b90-volatile-tail-20261021.patch.txt` (patches against the bank).
+
+**Tail residue solved (target evidence).** Retail's tail compares `cmp byte [0xDD7F45],0xa`
+and reloads the separator in the else arm. That is a volatile access. Two forms each give
+exactly retail's tail: `*(volatile char *)&g_bfmeFeslFieldSeparator` on the condition, or in
+the else-arm read. The head still reads the separator once, non-volatile. Every non-volatile
+form hoists the load into a register: if/else shapes, nested ifs, flag locals, inline helpers,
+statics, arrays, a struct member, 26 flag sets, the SP1 and DDK profiles, and now LTCG too (SP1
+`msobj71.dll`, `link /LTCG`; the tail probe still hoists).
+A volatile on the separator also fits an EA lib reading a global that another thread or module
+may change. Structural inference: it is not proven to be in the original header.
+
+**d0_e** = the donor loop (`for ( i = 0; field[ i ] >= ' '; i++ ) {} i++;`) + the volatile
+else arm. It is exactly 549 B and every instruction and branch lines up with retail. The only
+residue is that pValue and i swap EBX and EBP: retail pushes ebp late (0x157), d0_e at 0x29.
+Two padding shifts follow from that (0xaa `jmp` vs `lea ebx,[ebx]`, 0x15f `mov edi,edi` vs
+`nop`). By permute fitness it is 0.896 because of the swaps. **base_e** = the bank loop + the
+volatile arm: 551 B, roles right, loop rotated, fitness 0.9557 < bank 0.957. Bank unchanged.
+
+Disproved for the role tie, all on the volatile base:
+- control flow and declaration scope: a 576-variant factorial (`build/f655/gen3.py`).
+  It crossed decl order ×4, int vs unsigned i, a separate head index j, assignment form ×3,
+  volatile placement ×3, for vs while, and a pBuffer alias. None flips.
+- permute.py, 793 trials: none flips.
+- compile as C (`.c`): none flips.
+- compiler settings: the SP1 and DDK-4035 profiles, and LTCG (`/GL` + `link /LTCG`). None flips.
+- callee visibility: the tail and loop have no calls, and memmove/Rva007EC030 visibility
+  does not touch the loop region.
+
+More families on d0_e (scripts `build/f655/gen4.py`..`gen7.py`, untracked):
+- lifetime: the `*field` byte that shares EBX in both builds (retail: bl, then pValue; d0_e: bl,
+  then i) made an explicit local. 4 types × 2 forms × 3 decl positions × 2 bases × 2 volatile
+  placements = 96 variants: none flips (d0 stays regs=26, or worse).
+- length loop spellings: `field[ i++ ]` in while/for/do (556 B), a pointer scan with
+  `i = q - field` (542/545 B), `++i`, `i += 1`, `(unsigned char)`, `i = -1; do`: none flips.
+- split length variable `j` + `i = j + 1` / `j++; i = j` / `i = ++j`, at function or block
+  scope, int or unsigned: 552 B, worse.
+- operand order: `i[ field ]`, `*( i + field )`, `i[ pValue ]`, `*( pValue + i )`, and three
+  iDelta commutations (80 variants). cl canonicalises them all to identical code.
+  Note: d0_e's `[ebx+esi]` vs retail's `[esi+ebp]` is no independent clue; ebp cannot be a SIB
+  base without a displacement.
+- types: pValue as `char *` / `signed char *`. The parameters are free because the name is a
+  placeholder: field `const char` / `const unsigned char` / `char` / `unsigned char` pointer,
+  buffer `char *`, size unsigned (16 variants). All give identical code.
+- control flow: one common `pValue = pTail` at the join (break + goto, 3 forms) merges the
+  duplicated append blocks (486/502 B). Retail keeps the donor's per-branch assignments.
+
+Next leads:
+1. A VC 7.0 c2 (cl 13.00), which no profile in the tree provides. An older register
+   allocator could explain the tie that every VC 7.1 build reproduces.
