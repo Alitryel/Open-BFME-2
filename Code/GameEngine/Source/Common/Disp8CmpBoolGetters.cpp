@@ -257,7 +257,19 @@ BFME_DISP8_BACK_PTR_TERNARY_BOOL_GETTER(Rva00462CD3, 0x1C, 0x86)
 BFME_DISP8_BACK_PTR_TERNARY_BOOL_GETTER(Rva0047CB3F, 0x1C, 0x1A0)
 BFME_DISP8_BACK_PTR_TERNARY_BOOL_GETTER(Rva0049CF9E, 0x1C, 0x4C)
 BFME_DISP8_CMP_ZERO_BOOL_GETTER(Rva00497960CmpBoolField, 0x10, !=)
-BFME_DISP8_CMP_ZERO_BOOL_GETTER(Rva004A8125CmpBoolField, 0x38, ==)
+// 0x004A8125 is ToppleUpdate::isAbleToBeToppled (pinned under that name from
+// Object::topple 0x0028CF37; ZH: m_toppleState == TOPPLE_UPRIGHT, state at +0x38).
+class ToppleUpdate
+{
+public:
+	bool isAbleToBeToppled() const;
+	char m_lead[0x38];
+	int m_toppleState;
+};
+bool ToppleUpdate::isAbleToBeToppled() const
+{
+	return m_toppleState == 0;
+}
 BFME_DISP8_CMP_ZERO_BOOL_GETTER(Rva004D374CCmpBoolField, 0x120, !=)
 BFME_DISP8_CMP_IMM_BOOL_GETTER(Rva004D86B1CmpBoolField, 0x28, 1, ==)
 BFME_DISP8_TERNARY_CMP_BOOL_GETTER(Rva004D393ACmpBoolField, 0x0C, 1, ==)

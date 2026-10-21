@@ -1,5 +1,8 @@
 // cl: /MD
-// ?rva00410619@Rva00410619@@QAEXPAURva00410619Arg@@@Z, retail 0x00410619 111B.
+// ?process@Rva0045F0A0@@QAEXPAURva0045F0A0Input@@@Z, retail 0x00410619 111B:
+// the per-entry body of the window enable functor that
+// Rva00462710ModeCheckForEach.cpp's for_each<..., Rva0045F0A0> (0x004113F4)
+// calls (formerly rowed as ?rva00410619@Rva00410619@@..., same bytes).
 // Syncs GameWindow enabled bit with bool at +0 when AsciiString at +4 matches
 // arg AsciiString at +0x10 via strncmp IAT. Evidence: strncmp FF15,
 // winGetStatus row 0x30F45F mov eax [ecx+8], winEnable row 0x313BEC,
@@ -28,24 +31,24 @@ public:
 	int winEnable(bool enable);
 };
 
-struct Rva00410619Arg
+struct Rva0045F0A0Input
 {
 	char m_00[0x10];
 	AsciiString m_10;
 	GameWindow *m_14;
 };
 
-class Rva00410619
+class Rva0045F0A0
 {
 public:
-	void rva00410619(Rva00410619Arg *arg);
+	void process(Rva0045F0A0Input *arg);
 private:
 	bool m_flag;
 	char m_pad[3];
 	AsciiString m_name;
 };
 
-void Rva00410619::rva00410619(Rva00410619Arg *arg)
+void Rva0045F0A0::process(Rva0045F0A0Input *arg)
 {
 	AsciiHeader *asciiHeader = m_name.m_data;
 	unsigned int len;

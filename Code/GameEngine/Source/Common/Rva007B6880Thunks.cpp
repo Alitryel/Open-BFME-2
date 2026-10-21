@@ -6234,11 +6234,15 @@ class ParticleSystem
 public:
 	virtual ~ParticleSystem();
 };
-class Rva001FBF4D
+// 0x001FBF4D is the rowed FXParticleSystem::ParticleSystemTemplate destructor.
+namespace FXParticleSystem
+{
+class ParticleSystemTemplate
 {
 public:
-	virtual ~Rva001FBF4D();
+	virtual ~ParticleSystemTemplate();
 };
+}
 
 extern unsigned g_Va00DFDD0C;
 unsigned int g_Va00DFDD0C;
@@ -6266,8 +6270,8 @@ unsigned int g_Va00DFDF40;
 // ?rva007B75A6@@YAXXZ @ 0x007B75A6 (10B). Global Rva001FBF4D dtor thunk: ecx=&g_Va00DFDF40 then tail-jmp to pinned ??1Rva001FBF4D@@UAE@XZ (0x001FBF4D; vector deleting dtor 0x001FC052, element 0xD4, vtable 0x00BE1A28#0). No callers. Honest address name.
 void __cdecl rva007B75A6()
 {
-	Rva001FBF4D *receiver = (Rva001FBF4D *)&g_Va00DFDF40;
-	return receiver->Rva001FBF4D::~Rva001FBF4D();
+	FXParticleSystem::ParticleSystemTemplate *receiver = (FXParticleSystem::ParticleSystemTemplate *)&g_Va00DFDF40;
+	return receiver->FXParticleSystem::ParticleSystemTemplate::~ParticleSystemTemplate();
 }
 
 // Faction-set tree teardown view for the thunks below. The destructor is
@@ -6671,90 +6675,92 @@ void __cdecl rva007B99B5()
 // initializer for a global whose constructor is undefined in this TU
 // (verified with a minimal TU), so these thunks reproduce the
 // compiler-generated dynamic-initializer shape (mov ecx,OFFSET + tail-jmp to
-// the rowed ctor) through an init alias pinned in symbols.csv. The six
-// globals hold Rva00552F2E objects (see Rva00552F2EHelpers.cpp).
-struct Rva00552F2EInit
+// the rowed ctor) through an explicit call of the rowed ??0Rva00552F2E@@QAE@XZ.
+// The six globals hold Rva00552F2E objects (see Rva00552F2EHelpers.cpp).
+class Rva00552F2E
 {
-	void init();
+public:
+	Rva00552F2E();
 };
 
 extern unsigned g_Va00E06484;
 unsigned int g_Va00E06484;
 
-// ?rva007B474C@@YAXXZ @ 0x007B474C (10B). Rva00552F2E construction thunk: ecx=&g_Va00E06484 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E) via init alias. No callers. Honest address name.
+// ?rva007B474C@@YAXXZ @ 0x007B474C (10B). Rva00552F2E construction thunk: ecx=&g_Va00E06484 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E). No callers. Honest address name.
 void __cdecl rva007B474C()
 {
-	Rva00552F2EInit *receiver = (Rva00552F2EInit *)&g_Va00E06484;
-	return receiver->init();
+	Rva00552F2E *receiver = (Rva00552F2E *)&g_Va00E06484;
+	receiver->Rva00552F2E::Rva00552F2E();
 }
 
 extern unsigned g_Va00E064A4;
 unsigned int g_Va00E064A4;
 
-// ?rva007B4756@@YAXXZ @ 0x007B4756 (10B). Rva00552F2E construction thunk: ecx=&g_Va00E064A4 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E) via init alias. No callers. Honest address name.
+// ?rva007B4756@@YAXXZ @ 0x007B4756 (10B). Rva00552F2E construction thunk: ecx=&g_Va00E064A4 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E). No callers. Honest address name.
 void __cdecl rva007B4756()
 {
-	Rva00552F2EInit *receiver = (Rva00552F2EInit *)&g_Va00E064A4;
-	return receiver->init();
+	Rva00552F2E *receiver = (Rva00552F2E *)&g_Va00E064A4;
+	receiver->Rva00552F2E::Rva00552F2E();
 }
 
 extern unsigned g_Va00E064C4;
 unsigned int g_Va00E064C4;
 
-// ?rva007B4760@@YAXXZ @ 0x007B4760 (10B). Rva00552F2E construction thunk: ecx=&g_Va00E064C4 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E) via init alias. No callers. Honest address name.
+// ?rva007B4760@@YAXXZ @ 0x007B4760 (10B). Rva00552F2E construction thunk: ecx=&g_Va00E064C4 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E). No callers. Honest address name.
 void __cdecl rva007B4760()
 {
-	Rva00552F2EInit *receiver = (Rva00552F2EInit *)&g_Va00E064C4;
-	return receiver->init();
+	Rva00552F2E *receiver = (Rva00552F2E *)&g_Va00E064C4;
+	receiver->Rva00552F2E::Rva00552F2E();
 }
 
 extern unsigned g_Va00E064E4;
 unsigned int g_Va00E064E4;
 
-// ?rva007B476A@@YAXXZ @ 0x007B476A (10B). Rva00552F2E construction thunk: ecx=&g_Va00E064E4 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E) via init alias. No callers. Honest address name.
+// ?rva007B476A@@YAXXZ @ 0x007B476A (10B). Rva00552F2E construction thunk: ecx=&g_Va00E064E4 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E). No callers. Honest address name.
 void __cdecl rva007B476A()
 {
-	Rva00552F2EInit *receiver = (Rva00552F2EInit *)&g_Va00E064E4;
-	return receiver->init();
+	Rva00552F2E *receiver = (Rva00552F2E *)&g_Va00E064E4;
+	receiver->Rva00552F2E::Rva00552F2E();
 }
 
 extern unsigned g_Va00E06504;
 unsigned int g_Va00E06504;
 
-// ?rva007B4774@@YAXXZ @ 0x007B4774 (10B). Rva00552F2E construction thunk: ecx=&g_Va00E06504 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E) via init alias. No callers. Honest address name.
+// ?rva007B4774@@YAXXZ @ 0x007B4774 (10B). Rva00552F2E construction thunk: ecx=&g_Va00E06504 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E). No callers. Honest address name.
 void __cdecl rva007B4774()
 {
-	Rva00552F2EInit *receiver = (Rva00552F2EInit *)&g_Va00E06504;
-	return receiver->init();
+	Rva00552F2E *receiver = (Rva00552F2E *)&g_Va00E06504;
+	receiver->Rva00552F2E::Rva00552F2E();
 }
 
 extern unsigned g_Va00E06524;
 unsigned int g_Va00E06524;
 
-// ?rva007B477E@@YAXXZ @ 0x007B477E (10B). Rva00552F2E construction thunk: ecx=&g_Va00E06524 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E) via init alias. No callers. Honest address name.
+// ?rva007B477E@@YAXXZ @ 0x007B477E (10B). Rva00552F2E construction thunk: ecx=&g_Va00E06524 then tail-jmp to rowed ??0Rva00552F2E@@QAE@XZ (0x00552F2E). No callers. Honest address name.
 void __cdecl rva007B477E()
 {
-	Rva00552F2EInit *receiver = (Rva00552F2EInit *)&g_Va00E06524;
-	return receiver->init();
+	Rva00552F2E *receiver = (Rva00552F2E *)&g_Va00E06524;
+	receiver->Rva00552F2E::Rva00552F2E();
 }
 
 // CPUDetectInitClass construction view for the thunk below. The rowed ctor
 // (0x006130C0, cpudetect.cpp) is defined in its own TU, so this thunk
 // reproduces the compiler-generated dynamic-initializer shape through an
-// init alias pinned in symbols.csv. The global holds a CPUDetectInitClass.
-struct CPUDetectInitThunk
+// explicit call of that ctor. The global holds a CPUDetectInitClass.
+class CPUDetectInitClass
 {
-	void init();
+public:
+	CPUDetectInitClass();
 };
 
 extern unsigned g_Va00E08D38;
 unsigned int g_Va00E08D38;
 
-// ?rva007B54E0@@YAXXZ @ 0x007B54E0 (10B). CPUDetectInitClass construction thunk: ecx=&g_Va00E08D38 then tail-jmp to rowed ??0CPUDetectInitClass@@QAE@XZ (0x006130C0) via init alias. No callers. Honest address name.
+// ?rva007B54E0@@YAXXZ @ 0x007B54E0 (10B). CPUDetectInitClass construction thunk: ecx=&g_Va00E08D38 then tail-jmp to rowed ??0CPUDetectInitClass@@QAE@XZ (0x006130C0). No callers. Honest address name.
 void __cdecl rva007B54E0()
 {
-	CPUDetectInitThunk *receiver = (CPUDetectInitThunk *)&g_Va00E08D38;
-	return receiver->init();
+	CPUDetectInitClass *receiver = (CPUDetectInitClass *)&g_Va00E08D38;
+	receiver->CPUDetectInitClass::CPUDetectInitClass();
 }
 
 extern unsigned g_Va00E02C48;
@@ -6797,20 +6803,21 @@ void __cdecl rva007B6BF5()
 // FrustumClass construction view for the thunk below. The rowed ctor
 // (0x000F0F5B, FrustumCtorO1.cpp) is defined in its own TU, so this thunk
 // reproduces the compiler-generated dynamic-initializer shape through an
-// init alias pinned in symbols.csv. The global holds a FrustumClass.
-struct FrustumInitThunk
+// explicit call of that ctor. The global holds a FrustumClass.
+class FrustumClass
 {
-	void init();
+public:
+	FrustumClass();
 };
 
 extern unsigned g_Va00DEBD00;
 unsigned int g_Va00DEBD00;
 
-// ?rva007AC7F5@@YAXXZ @ 0x007AC7F5 (10B). FrustumClass construction thunk: ecx=&g_Va00DEBD00 then tail-jmp to rowed ??0FrustumClass@@QAE@XZ (0x000F0F5B) via init alias. No callers. Honest address name.
+// ?rva007AC7F5@@YAXXZ @ 0x007AC7F5 (10B). FrustumClass construction thunk: ecx=&g_Va00DEBD00 then tail-jmp to rowed ??0FrustumClass@@QAE@XZ (0x000F0F5B). No callers. Honest address name.
 void __cdecl rva007AC7F5()
 {
-	FrustumInitThunk *receiver = (FrustumInitThunk *)&g_Va00DEBD00;
-	return receiver->init();
+	FrustumClass *receiver = (FrustumClass *)&g_Va00DEBD00;
+	receiver->FrustumClass::FrustumClass();
 }
 
 // Opaque-class view for the thunk below. The destructor is declared only;
@@ -6920,10 +6927,11 @@ void __cdecl rva007B6A50()
 	return receiver->rva00007670();
 }
 
-class Rva00422CE9Tree
+// The teardown at 0x00422CE9 is rowed as the plain member Rva00422CE9::rva00422CE9.
+class Rva00422CE9
 {
 public:
-	~Rva00422CE9Tree();
+	void rva00422CE9();
 };
 
 extern unsigned g_Va00E03168;
@@ -6932,14 +6940,15 @@ unsigned int g_Va00E03168;
 // ?rva007B82D3@@YAXXZ @ 0x007B82D3 (10B). Tree teardown: ecx=&g_Va00E03168 then tail-jmp to the 0x00422CE9 stub for tree dtor ??1Rva00421BF7@@QAE@XZ (0x0042263D). No callers. Honest address name.
 void __cdecl rva007B82D3()
 {
-	Rva00422CE9Tree *receiver = (Rva00422CE9Tree *)&g_Va00E03168;
-	return receiver->~Rva00422CE9Tree();
+	Rva00422CE9 *receiver = (Rva00422CE9 *)&g_Va00E03168;
+	return receiver->rva00422CE9();
 }
 
-class Rva00422CEETree
+// The teardown at 0x00422CEE is rowed as the plain member Rva00422CEE::rva00422CEE.
+class Rva00422CEE
 {
 public:
-	~Rva00422CEETree();
+	void rva00422CEE();
 };
 
 // 0x00A0319C: defined elsewhere as ?g_Va00E0319C@@3PAIA.
@@ -6948,8 +6957,8 @@ extern unsigned *g_Va00E0319C;
 // ?rva007B82DD@@YAXXZ @ 0x007B82DD (10B). Tree teardown: ecx=&g_Va00E0319C then tail-jmp to the 0x00422CEE stub for tree dtor ??1Rva00421C24@@QAE@XZ (0x00422675). No callers. Honest address name.
 void __cdecl rva007B82DD()
 {
-	Rva00422CEETree *receiver = (Rva00422CEETree *)&g_Va00E0319C;
-	return receiver->~Rva00422CEETree();
+	Rva00422CEE *receiver = (Rva00422CEE *)&g_Va00E0319C;
+	return receiver->rva00422CEE();
 }
 
 class Rva0030AF8FAudioEventRTS
@@ -7130,10 +7139,11 @@ void __cdecl rva007B71AA()
 	return receiver->~Rva0007C632Dtor();
 }
 
-class Rva002213C0Dtor
+// The teardown at 0x002213C0 is rowed as the plain member Rva002213C0::rva002213C0.
+class Rva002213C0
 {
 public:
-	~Rva002213C0Dtor();
+	void rva002213C0();
 };
 
 extern unsigned g_Va00DFE4AC;
@@ -7142,8 +7152,8 @@ unsigned int g_Va00DFE4AC;
 // ?rva007B7704@@YAXXZ @ 0x007B7704 (10B). Global dtor thunk: ecx=&g_Va00DFE4AC then tail-jmp to pinned ??1Rva002213C0Dtor@@QAE@XZ (0x002213C0). No callers. Honest address name.
 void __cdecl rva007B7704()
 {
-	Rva002213C0Dtor *receiver = (Rva002213C0Dtor *)&g_Va00DFE4AC;
-	return receiver->~Rva002213C0Dtor();
+	Rva002213C0 *receiver = (Rva002213C0 *)&g_Va00DFE4AC;
+	return receiver->rva002213C0();
 }
 
 class Rva003ED94FDtor
@@ -7245,10 +7255,11 @@ void __cdecl rva007B9049()
 	return receiver->~Rva00502D03Dtor();
 }
 
-class Rva005011AADtor
+// The teardown at 0x005011AA is rowed as the plain member Rva005011AA::rva005011AA.
+class Rva005011AA
 {
 public:
-	~Rva005011AADtor();
+	void rva005011AA();
 };
 
 extern unsigned g_Va00E04544;
@@ -7257,8 +7268,8 @@ unsigned int g_Va00E04544;
 // ?rva007B9071@@YAXXZ @ 0x007B9071 (10B). Global dtor thunk: ecx=&g_Va00E04544 then tail-jmp to pinned ??1Rva005011AADtor@@QAE@XZ (0x005011AA). No callers. Honest address name.
 void __cdecl rva007B9071()
 {
-	Rva005011AADtor *receiver = (Rva005011AADtor *)&g_Va00E04544;
-	return receiver->~Rva005011AADtor();
+	Rva005011AA *receiver = (Rva005011AA *)&g_Va00E04544;
+	return receiver->rva005011AA();
 }
 
 class Rva00524CC1Dtor
@@ -7406,10 +7417,11 @@ void __cdecl rva007B7CD7()
 	return receiver->~Rva002859EADtor();
 }
 
-class Rva003ED94ADtor
+// The teardown at 0x003ED94A is rowed as the plain member Rva003ED94A::rva003ED94A.
+class Rva003ED94A
 {
 public:
-	~Rva003ED94ADtor();
+	void rva003ED94A();
 };
 
 extern unsigned g_Va00E02E50;
@@ -7418,8 +7430,8 @@ unsigned int g_Va00E02E50;
 // ?rva007B80F1@@YAXXZ @ 0x007B80F1 (10B). Global dtor thunk: ecx=&g_Va00E02E50 then tail-jmp to pinned ??1Rva003ED94ADtor@@QAE@XZ (0x003ED94A). No callers. Honest address name.
 void __cdecl rva007B80F1()
 {
-	Rva003ED94ADtor *receiver = (Rva003ED94ADtor *)&g_Va00E02E50;
-	return receiver->~Rva003ED94ADtor();
+	Rva003ED94A *receiver = (Rva003ED94A *)&g_Va00E02E50;
+	return receiver->rva003ED94A();
 }
 
 class Rva003B55F9Dtor

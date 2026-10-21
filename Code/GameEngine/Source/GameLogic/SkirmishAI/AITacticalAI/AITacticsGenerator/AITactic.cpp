@@ -209,12 +209,17 @@ public:
 extern Rva002A8F24 *TheSkirmishAIManager;
 extern int g_00E044AC;
 
-// The tactic's target (WorldBuilder AITarget); rowed under a placeholder owner.
+// The tactic's target (WorldBuilder AITarget); rowed under a placeholder owner,
+// except markApproachHazard 0x002C590F, rowed under AITarget.
+class AITarget
+{
+public:
+	void markApproachHazard(const Coord3D *area);
+};
 class Rva002C589B
 {
 public:
 	void rva002C5843(bool flag);				// 0x002C5843
-	void markApproachHazard(void *area);			// 0x002C590F
 	int rva0030F2C7() const;
     void removeTactic() { --m_numTactics; }
 
@@ -360,7 +365,7 @@ void AITactic::end(bool a, bool b)
 		if (a)
 			m_20->rva002C5843(true);
 		else if (!b && getNumberOfTeamsNeeded() > 0)
-			m_20->markApproachHazard(&m_38);
+			((AITarget *)m_20)->markApproachHazard((const Coord3D *)&m_38);
 		m_20->removeTactic();
 		m_20 = 0;
 	}

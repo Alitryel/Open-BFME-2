@@ -413,9 +413,15 @@ enum ObjectStatusTypes
 	OBJECT_STATUS_97 = 97 // BFME 2's; set on a worker given a build or repair task
 };
 
+// The clear-then-set 0x0023DA79, rowed as Rva0023DA79::rva0023DA79(int, int).
+class Rva0023DA79
+{
+public:
+	Rva0023DA79 *rva0023DA79(int reserved, int bit);
+};
+
 struct ObjectStatusMask
 {
-	ObjectStatusMask *Rva0023DA79(int reserved, ObjectStatusTypes bit);
 	void set(ObjectStatusTypes bit) { m_bits[bit >> 5] |= 1U << (bit & 31); }
 	UnsignedInt m_bits[4];
 };
@@ -1260,7 +1266,7 @@ Object *WorkerAIUpdate::construct(const ThingTemplate *what, const Coord3D *pos,
 
 	// what will our initial status bits
 	CreateMask statusBits;
-	statusBits.Rva0023DA79(0, OBJECT_STATUS_UNDER_CONSTRUCTION);
+	((Rva0023DA79 *)&statusBits)->rva0023DA79(0, OBJECT_STATUS_UNDER_CONSTRUCTION);
 	if (isRebuild)
 		statusBits.set(OBJECT_STATUS_RECONSTRUCTING);
 

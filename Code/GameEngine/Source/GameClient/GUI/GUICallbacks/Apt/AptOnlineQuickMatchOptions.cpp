@@ -111,9 +111,10 @@ struct SlotFields {char pad[0x1ac];int profile;};
 class GameInfo {public:V(0)V(1)V(2)V(3)V(4)V(5)V(6)V(7)V(8)V(9)virtual void clear();virtual void startGame(int);V(12)virtual int localSlot();char pad04[0xd];bool inProgress;int getSlotNum(AsciiString)const;void enterGame();void setSeed(int);void setMap(AsciiString);};
 class GameSpyGameSlot:public GameSlot {public:char at44[0x18c];int rva1d0,rva1d4;};class GameSpyStagingRoom:public GameInfo {public:GameSpyGameSlot *getGameSpySlot(int);void launchGame();};
 extern GameSpyStagingRoom *TheGameSpyGame;
-class Rva005A6D47 {public:virtual void *destroy(unsigned);int rva005A8F57();void rva005A8ABF(int,const char *);};
+class Rva005A6D47 {public:virtual void *destroy(unsigned);int rva005A8F57();};
 // Bind the existing NAT datum; retain this unit's access view at use sites.
-struct NAT;
+struct NAT {void processGlobalMessage(int,const char *);	// 0x005A8ABF, rowed
+ void attachSlotList(GameInfo*,int,unsigned,unsigned,bool);};
 extern NAT *TheNAT;
 struct Rva005BA3AD {bool rva005BA3AD();};struct Rva005BA31F {int rva005BA31F();};
 class Rva00222A8BTarget {public:int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);};
@@ -170,7 +171,7 @@ void AptOnlineQuickMatch::rva005BB5F6(){
     for(int i=0;i<8;++i){GameSlot *slot=TheGameSpyGame->getGameSpySlot(i);if(slot&&slot->isHuman()&&((Rva004FDCE1AsciiField *)slot)->get().compareNoCase(nick)==0){((SlotFields *)slot)->profile=id;break;}}
    }else{
     int slot=TheGameSpyGame->getSlotNum(nick);
-    if(slot>=0&&slot<8&&!_strcmpi(r.unknown_e8.c_str(),"NAT")){important=true;if(TheNAT)((Rva005A6D47 *)TheNAT)->rva005A8ABF(slot,r.unknown_f4.c_str());}
+    if(slot>=0&&slot<8&&!_strcmpi(r.unknown_e8.c_str(),"NAT")){important=true;if(TheNAT)TheNAT->processGlobalMessage(slot,r.unknown_f4.c_str());}
    }
   }break;
   case 1:{important=true;UnicodeString title,body;AsciiString reason;reason.format("GUI:GSDisconReason%d",r.payload_word0.value);
@@ -531,7 +532,7 @@ void AptOnlineQuickMatch::rva005BBF15() {
 class MapMetaData {public:char pad[0x20];int players;};class MapCache{public:const MapMetaData *findMap(AsciiString);};extern MapCache *TheMapCache;
 class Rva003821E2 {public:void assign(UnicodeString);};class Rva004FDD36AsciiField{public:void rva004FDD36(AsciiString);};
 class MpGameRules { public: static void GetDefaults(int,void*); };void SendStatsToOtherPlayers(GameInfo*);
-class Rva005A734B{public:char storage[0x974];Rva005A734B();};struct NAT{public:void attachSlotList(GameInfo*,int,unsigned,unsigned,bool);};
+class Rva005A734B{public:char storage[0x974];Rva005A734B();};
 void AptOnlineQuickMatch::OnMatched(PeerResponse &resp){
  TheGameSpyGame->clear();TheGameSpyGame->enterGame();TheGameSpyGame->setSeed(resp.payload_572.words[3]);
  {GameSpyStagingRoom *game=TheGameSpyGame;int m=mode;*(bool*)((char*)game+0xff4)=true;*(int*)((char*)game+0xff8)=m;}

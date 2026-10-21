@@ -217,8 +217,10 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::SelectQueueIndex(int queue
 // implicit in the old standalone wrapper. Each new helper is rowed separately.
 #include "ascii_string.h"
 #include "unicode_string.h"
+class Image;
 class SpawnArmy { public:
  SpawnArmy(int index);
+ const Image *GetPortraitImage(int index);	// 0x004E24DC
  virtual ~SpawnArmy();
  char pad04[0x2c-4]; AsciiString name; char pad30[0x48-0x30]; int m_48; char pad4C[0x58-0x4c];
 };
@@ -251,12 +253,13 @@ __declspec(noinline) static void *rva005E72B4Get(Rva005E72B4Queue *queue,int id)
 }
 
 class Image;
-class Rva00319CED { public: const Image *rva004E24DC(int); UnicodeString rva004E25AF(int); UnicodeString rva004E265F(int); };
+class Rva00319CED { public: UnicodeString rva004E25AF(int); UnicodeString rva004E265F(int); };
 class ThingTemplate;
 class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); };
 extern ThingFactory *TheThingFactory;
 struct Rva005E7322MidRet { char pad[4]; AsciiString text; };
-class Rva005E7322R { public: Rva005E7322MidRet *mid(int); };
+// 0x0040CB2C, the rowed indexed getter Rva0040CB2CIndexedField::get (second dword).
+class Rva0040CB2CIndexedField { public: int get(int) const; };
 struct Rva005E76AEContext { char pad[0x18]; int m_id; };
 // WorldBuilder StrategicInGameUI::GetThingTemplate, WB VA 0x016025A0 (callgraph lead, score 1.0).
 namespace StrategicInGameUI {
@@ -264,7 +267,7 @@ __declspec(noinline) static void *GetThingTemplate(Rva005E72B4Queue *queue,int i
 {
  void *r=rva005E72B4Get(queue,id);
  if(!r) return 0;
- AsciiString *name=&((Rva005E7322R *)r)->mid(0)->text;
+ AsciiString *name=&((Rva005E7322MidRet *)((const Rva0040CB2CIndexedField *)r)->get(0))->text;
  if(name->isEmpty()) return 0;
  return (void *)TheThingFactory->findTemplate(*name);
 }
@@ -375,7 +378,7 @@ namespace StrategicInGameUI {
 __declspec(noinline) static const Image *GetPortraitImage(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
- if(queue->slot4(id,&army)) return ((Rva00319CED *)&army)->rva004E24DC(context->m_id);
+ if(queue->slot4(id,&army)) return army.GetPortraitImage(context->m_id);
  return 0;
 }
 }
@@ -407,7 +410,7 @@ class Rva0037E07C { public: int rva0037E07C(); };
 __declspec(noinline) static int rva005E77F0Get(Rva005E72B4Queue *queue,int index)
 {
  void *summary=rva005E72B4Get(queue,queue->slot13()->begin[index]);
- if(summary) return ((Rva0037E07C *)((Rva005E7322R *)summary)->mid(0))->rva0037E07C();
+ if(summary) return ((Rva0037E07C *)((const Rva0040CB2CIndexedField *)summary)->get(0))->rva0037E07C();
  return 0;
 }
 // Native 5E735D..5E73B2: three by-id helpers emitted after GetThingTemplate
@@ -430,7 +433,7 @@ __declspec(noinline) static const Image *rva005E7375Get(Rva005E72B4Queue *queue,
 __declspec(noinline) static int rva005E7391Get(Rva005E72B4Queue *queue,int id)
 {
  void *summary=rva005E72B4Get(queue,id);
- if(summary) return ((Rva0037E07C *)((Rva005E7322R *)summary)->mid(0))->rva0037E07C();
+ if(summary) return ((Rva0037E07C *)((const Rva0040CB2CIndexedField *)summary)->get(0))->rva0037E07C();
  return 0;
 }
 // Retail keeps the three helpers above without any surviving caller; this
@@ -662,7 +665,7 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon::Update()
 inline static const Image *rva005E704EInline(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
- if(queue->slot4(id,&army)) return ((Rva00319CED *)&army)->rva004E24DC(context->m_id);
+ if(queue->slot4(id,&army)) return army.GetPortraitImage(context->m_id);
  return 0;
 }
 inline static const Image *rva005E7607Inline(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int index)

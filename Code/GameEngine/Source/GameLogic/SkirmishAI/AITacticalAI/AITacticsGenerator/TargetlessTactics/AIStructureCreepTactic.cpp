@@ -254,7 +254,13 @@ class AIDozerManager
 {
 public:
 	void rva00599825(int id);
-	void *rva00599870(const Coord3D &point, int a);
+};
+// The dozer pick nearest a position, 0x00599870, rowed as Rva005997CD::rva00599870.
+struct Vec2;
+class Rva005997CD
+{
+public:
+	ObjectID rva00599870(const Vec2 *pos, bool flag);
 };
 
 class AIEconomyStats
@@ -657,7 +663,7 @@ bool AIStructureCreepTactic::canRun(void *request)
 		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 		if (record->rva002C7196(AIStructureCreep_IsRunning) == 0
 			&& !record->m_160->m_names.empty()
-			&& record->m_140.rva00599870(((Rva004EBF4B *)record)->rva004EBF4B(), 0) != 0) {
+			&& ((Rva005997CD *)&record->m_140)->rva00599870((const Vec2 *)&static_cast<const Coord3D &>(((Rva004EBF4B *)record)->rva004EBF4B()), false) != 0) {
 			AIEconomyStats *stats = ((Rva005AB7E5Objects *)TheSkirmishAIManager->rva002A8F24(m_owner))->m_0C;
 			if (stats->getTotalMoney() >= 700u && findBestInterestZone())
 				return true;
@@ -747,7 +753,7 @@ void AIStructureCreepTactic::run()
 		Player *owner = m_owner;
 		Rva005ABEA2Site *site = getMyZone(owner, m_68);
 		if (site != 0) {
-			m_58 = (ObjectID)(int)record->m_140.rva00599870(site->m_pos, 0);
+			m_58 = ((Rva005997CD *)&record->m_140)->rva00599870((const Vec2 *)&site->m_pos, false);
 			Object *obj = TheGameLogic->findObjectByID(m_58);
 			if (obj != 0) {
 				AsciiString teamName;

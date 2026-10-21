@@ -477,12 +477,19 @@ public:
 	static PingerInterface *createNewPingerInterface(void);
 };
 
-// LadderList (0xC bytes): ctor 0x0054E546, non-virtual dtor rowed at 0x0054D974.
+// LadderList (0xC bytes): ctor 0x0054E546 (rowed as LadderList::LadderList),
+// non-virtual dtor rowed at 0x0054D974 under the address name the global keeps.
 class Rva0054D974
 {
 public:
-	Rva0054D974();
 	~Rva0054D974();
+private:
+	void *m_lists[3];
+};
+class LadderList
+{
+public:
+	LadderList();
 private:
 	void *m_lists[3];
 };
@@ -1446,7 +1453,7 @@ void SetUpGameSpy(const char *motdBuffer, const char *configBuffer)
 
 	TheGameSpyConfig = GameSpyConfigInterface::create(configBuffer);
 
-	TheLadderList = new Rva0054D974;
+	TheLadderList = (Rva0054D974 *)new LadderList;
 
 	ThePinger = reinterpret_cast<PingerInterface *>(Rva005503B1::rva005503B1());
 	ThePinger->startThreads();

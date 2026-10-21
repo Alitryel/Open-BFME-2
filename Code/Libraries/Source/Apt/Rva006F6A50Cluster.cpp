@@ -20,18 +20,17 @@ public:
 
 class EAStringC {void*data;public:EAStringC(const char*);~EAStringC();EAStringC&operator=(const EAStringC&);bool IsEmpty()const;bool IsEqualTo(const EAStringC*)const;};
 struct AptCharacter;struct AptCharacterInst;
+class AptRenderingContext;
 class AptCIH
 {
 public:
 	virtual void v0();
  virtual void Release();
  void *rva006E1170()const;void rva006E1F00(int);
-	bool rva006E24E0();
 	bool rva006E24E0() const;
 	void rva006E2560(int arg);
 	void rva006E2D60();
-	void rva006E1C40(void *a, void *b);
-	void rva006E1540();
+	void rva006E1C40(AptRenderingContext *context, int flags);	// 0x006E1C40
 	bool rva006CFCD0() const;
 	void ClearCIH(int arg);
 
@@ -98,6 +97,7 @@ public:
  void *rva006E0F40()const;
 	void setGCRootCount(unsigned int n);
 	int rva006E02B0() const;
+	void rva006E1540();	// 0x006E1540, the AptCIH sprite worker (Rva006E0D40Cluster.cpp)
 	unsigned int m_flags;
 };
 
@@ -437,7 +437,7 @@ void AptDisplayList::rva006F79B0(void *arg1, void *arg2)
 		if (!((const BfmeAptValue006DCD20 *)node)->isUndefined()) {
 			if (!rva006F79B0IsType19(node)) {
 				if (*(int *)((char *)node->pData + 4) < 0)
-					node->rva006E1C40(arg1, arg2);
+					node->rva006E1C40((AptRenderingContext *)arg1, (int)arg2);
 			}
 		}
 		node = node->m_next;
@@ -560,7 +560,7 @@ void AptDisplayList::rva006F76B0()
 	AptCIH *node = (AptCIH *)m_query->m_root->m_54;
 	Rva006F7540 array;
 	while (node != 0) {
-		node->rva006E1540();
+		((BfmeAptValue006DCD20 *)node)->rva006E1540();
 		node = node->m_next;
 	}
 }
