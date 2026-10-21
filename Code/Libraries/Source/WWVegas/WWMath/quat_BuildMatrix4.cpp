@@ -19,7 +19,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #include "quat.h"
 #include "matrix3d.h"
-#include "matrix4.h"
+#define BFME_MATRIX4_INCLASS_DEFAULT_CTOR
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_bfme1_rows_link.h"
 #include "wwmath.h"
 
 Matrix4 Build_Matrix4(const Quaternion & quaternion)

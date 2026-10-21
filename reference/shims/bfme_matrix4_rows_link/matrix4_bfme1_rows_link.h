@@ -84,7 +84,7 @@ public:
 	** Constructors
 	*/
 #ifdef BFME_MATRIX4_INCLASS_DEFAULT_CTOR
-	Matrix4(void) {};
+	explicit Matrix4(const struct BfmeMatrix4DefaultTag * = 0) {};
 #else
 	Matrix4(void);
 #endif
