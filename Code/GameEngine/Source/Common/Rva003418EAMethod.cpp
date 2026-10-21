@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva003418EA@Rva00341796@@UAEXH@Z @0x003418EA 70B: Rva00341796 slot 5.
+// ?onExit@Rva00341796@@UAEXH@Z @0x003418EA 70B: Rva00341796 slot 5.
 // Member at +0x20 via virtual slot15 then slot0 with 0 plus delete plus clear plus ptr chase +0x18 +0x14 +0x258 null-checked plus byte at +0x3BA cleared.
 // Precedent Rva00341796 dtor member shape plus State m_machine chase.
 // Vtable 0x008113B8 slot 5.
@@ -51,12 +51,12 @@ struct StateMachine {
 };
 class Rva00341796 : public FXParticleSystem::WindModuleInfo {
 public:
-	virtual void rva003418EA(int arg);
+	virtual void onExit(int arg);
 private:
 	Rva003418EAMember *m_20;
 };
 void __cdecl operator delete(void *);
-void Rva00341796::rva003418EA(int arg)
+void Rva00341796::onExit(int arg)
 {
 	(void)arg;
 	if (m_20) {

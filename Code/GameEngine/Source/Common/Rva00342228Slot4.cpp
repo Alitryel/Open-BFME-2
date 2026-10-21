@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva0034230C@Rva00342228@@UAEHXZ, retail 0x0034230C, 64 bytes.
+// ?onEnter@Rva00342228@@UAEHXZ, retail 0x0034230C, 64 bytes.
 // Virtual slot 4 (offset 0x10) of vtable 0x00811900, the class whose dtor
 // ??1Rva00342228@@UAE@XZ is rowed in Rva00342228Dtor.cpp (same // cl: line,
 // sibling of the landed Rva00342157 slot-4 body at 0x003421B2). Body:
@@ -73,7 +73,7 @@ public:
 	virtual void _slot01();
 	virtual void _slot02();
 	virtual void _slot03();
-	virtual int rva0034230C();
+	virtual int onEnter();
 
 private:
 	char m_pad0C[0x18 - 0x0C];
@@ -83,7 +83,7 @@ private:
 	unsigned int m_24;
 };
 
-int Rva00342228::rva0034230C()
+int Rva00342228::onEnter()
 {
 	m_ptr20 = m_ptr18->getPtr20();
 	unsigned int frame = TheGameLogic->m_40;

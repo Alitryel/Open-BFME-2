@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva003421B2@Rva00342157@@UAEHXZ, retail 0x003421B2, 66 bytes.
+// ?onEnter@Rva00342157@@UAEHXZ, retail 0x003421B2, 66 bytes.
 // Virtual slot 4 (offset 0x10) of vtable 0x008118B0, the class whose dtor
 // ??1Rva00342157@@UAE@XZ is rowed in Rva00342157Dtor.cpp (same // cl: line).
 // Body: m_ptr20 = m_ptr18->slot9() (call [eax+0x24]); m_24 =
@@ -74,7 +74,7 @@ public:
 	virtual void _slot01();
 	virtual void _slot02();
 	virtual void _slot03();
-	virtual int rva003421B2();
+	virtual int onEnter();
 
 private:
 	char m_pad0C[0x18 - 0x0C];
@@ -84,7 +84,7 @@ private:
 	unsigned int m_24;
 };
 
-int Rva00342157::rva003421B2()
+int Rva00342157::onEnter()
 {
 	m_ptr20 = m_ptr18->getPtr20();
 	int hi = Int00DBA4E4 * 3;

@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ?rva00341F5D@Rva00341E70@@UAEHXZ @0x00341F5D 60B: Rva00341E70 virtual slot 6 (offset 0x18) of vtable 0x008117F0.
+// ?update@Rva00341E70@@UAEHXZ @0x00341F5D 60B: Rva00341E70 virtual slot 6 (offset 0x18) of vtable 0x008117F0.
 // Evidence: vslot packet; class of ??1Rva00341E70@@UAE@XZ; calls rowed ?getGoalObject@TurretStateMachine@@QAEPAVObject@@XZ twice plus vtable slots 0x38 (setGoalObject) and 0x10 tail.
 class Object;
 class TurretStateMachine
@@ -45,11 +45,11 @@ public:
 	virtual void _s03();
 	virtual void _s04();
 	virtual void _s05();
-	virtual int rva00341F5D();
+	virtual int update();
 private:
 	TurretStateMachine *m_20;
 };
-int Rva00341E70::rva00341F5D()
+int Rva00341E70::update()
 {
 	if (!m_20)
 		return -2;

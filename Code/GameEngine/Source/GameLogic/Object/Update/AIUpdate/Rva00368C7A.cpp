@@ -160,8 +160,8 @@ struct FollowVector{float X,Y,Z;__forceinline FollowVector(float xx,float yy,flo
 struct FollowMatrix{float Row[3][4];__forceinline FollowVector Get_X_Vector()const{return FollowVector(Row[0][0],Row[1][0],Row[2][0]);}};
 struct FollowSamplingData{char pad0[0x74];float limit,step,slope;};
 struct FollowAIData{char pad0[4];FollowSamplingData*data;};
-class Rva0036C6AFState:public FollowSlots<4>{public:virtual StateReturnType rva0036C6AF();FollowPosition rva0036C8A5(bool*,bool);bool rva0036CA3B(const Coord3D*,float);char pad4[0x18-4];StateMachine*machine;char pad1c[4];bool enabled;char pad21[3];int counter;};
-StateReturnType Rva0036C6AFState::rva0036C6AF(){
+class Rva0036C6AFState:public FollowSlots<4>{public:virtual StateReturnType onEnter();FollowPosition rva0036C8A5(bool*,bool);bool rva0036CA3B(const Coord3D*,float);char pad4[0x18-4];StateMachine*machine;char pad1c[4];bool enabled;char pad21[3];int counter;};
+StateReturnType Rva0036C6AFState::onEnter(){
  counter=0;Object*owner=machine->owner;owner->clear(155);FollowAI*ai=owner->ai;if(!ai)return STATE_FAILURE;ai->follow=true;if(owner->status&1)return STATE_FAILURE;
  ai->chooseLocomotorSet(0);Rva00368C7AMetrics*locomotor=ai->metrics;if(!locomotor)return STATE_FAILURE;
  bool result=false;FollowPosition goal=rva0036C8A5(&result,enabled);float desired=goal.z+(this?locomotor:locomotor)->value48;
