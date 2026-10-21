@@ -169,15 +169,15 @@ protected:
 class Rva00C4AA84Iface
 {
 public:
-	virtual void rva004860E9(DamageInfo *damageInfo) = 0;
-	virtual void rva00485EF6(void *arg) = 0;
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(void *arg) = 0;
 };
 class DamageFilteredCreateObjectDie : public DieModule, public Rva00C4AA84Iface
 {
 public:
-	virtual void rva004860E9(DamageInfo *damageInfo);
+	virtual void onDamage(DamageInfo *damageInfo);
 	virtual void onDie(const DamageInfo *damageInfo);
-	virtual void rva00485EF6(void *arg);
+	virtual void onHealing(void *arg);
 protected:
 	virtual void xfer(Xfer *xfer);
 private:

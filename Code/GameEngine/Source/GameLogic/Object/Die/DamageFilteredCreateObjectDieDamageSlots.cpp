@@ -74,19 +74,19 @@ class DieModule : public ModuleBase, public BehaviorModuleInterface, public DieM
 class Rva00C4AA84Iface
 {
 public:
-	virtual void rva004860E9(DamageInfo *damageInfo) = 0;
-	virtual void rva00485EF6(void *arg) = 0;
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(void *arg) = 0;
 };
 class DamageFilteredCreateObjectDie : public DieModule, public Rva00C4AA84Iface
 {
 public:
-	virtual void rva004860E9(DamageInfo *damageInfo);
-	virtual void rva00485EF6(void *arg);
+	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onHealing(void *arg);
 private:
 	unsigned int m_frame;		// +0x18
 	int m_playerValue;		// +0x1C
 };
-void DamageFilteredCreateObjectDie::rva004860E9(DamageInfo *damageInfo)
+void DamageFilteredCreateObjectDie::onDamage(DamageInfo *damageInfo)
 {
 	if (damageInfo == 0)
 		return;
@@ -104,7 +104,7 @@ void DamageFilteredCreateObjectDie::rva004860E9(DamageInfo *damageInfo)
 		}
 	}
 }
-void DamageFilteredCreateObjectDie::rva00485EF6(void *arg)
+void DamageFilteredCreateObjectDie::onHealing(void *arg)
 {
 	m_frame = 0;
 }
