@@ -44,22 +44,22 @@ namespace FXParticleSystem { class DefaultColorModuleInfo { public: void tintAll
 class Rva00330E2DTarget
 {
 public:
-	void rva00330E2D(Int a0);
+	void rva00330E2D(Int firstValue);
 };
 
 class Rva000B318DForwarder
 {
 public:
-	void rva000B318D(Int a0);
+	void rva000B318D(Int firstValue);
 private:
 	char m_lead[0x1D0];
 	Rva00330E2DTarget m_member;
 };
 
 // vtable 0x00BCBC40#24
-void Rva000B318DForwarder::rva000B318D(Int a0)
+void Rva000B318DForwarder::rva000B318D(Int firstValue)
 {
-	((Rva00330E2DFrameOpacity *)&m_member)->rva00330E2D(a0);
+	((Rva00330E2DFrameOpacity *)&m_member)->rva00330E2D(firstValue);
 }
 
 class Rva00330DBATarget
@@ -86,22 +86,22 @@ void Rva000B3266Forwarder::rva000B3266()
 class Rva000055F5Target
 {
 public:
-	void rva000055F5(Int a0);
+	void rva000055F5(Int firstValue);
 };
 
 class Rva000B5FB3Forwarder
 {
 public:
-	void rva000B5FB3(Int a0);
+	void rva000B5FB3(Int firstValue);
 private:
 	char m_lead[0x260];
 	Rva000055F5Target m_member;
 };
 
 // vtable 0x00BCBC40#53
-void Rva000B5FB3Forwarder::rva000B5FB3(Int a0)
+void Rva000B5FB3Forwarder::rva000B5FB3(Int firstValue)
 {
-	((StringBase<char> *)&m_member)->set((const char *)a0);
+	((StringBase<char> *)&m_member)->set((const char *)firstValue);
 }
 
 class Rva0013132DTarget
@@ -128,43 +128,43 @@ void Rva00131CD3Forwarder::rva00131CD3()
 class Rva0013EA30Target
 {
 public:
-	void rva0013EA30(Int a0);
+	void rva0013EA30(Int firstValue);
 };
 
 class Rva00131CEAForwarder
 {
 public:
-	void rva00131CEA(Int a0);
+	void rva00131CEA(Int firstValue);
 private:
 	char m_lead[0x1C];
 	Rva0013EA30Target m_member;
 };
 
 // vtable 0x00BD25D8#16
-void Rva00131CEAForwarder::rva00131CEA(Int a0)
+void Rva00131CEAForwarder::rva00131CEA(Int firstValue)
 {
-	((TextureFilterClass *)&m_member)->Apply(a0);
+	((TextureFilterClass *)&m_member)->Apply(firstValue);
 }
 
 class Rva0055B863Target
 {
 public:
-	void rva0055B863(Int a0);
+	void rva0055B863(Int firstValue);
 };
 
 class Rva003ABCE6Forwarder
 {
 public:
-	void rva003ABCE6(Int a0);
+	void rva003ABCE6(Int firstValue);
 private:
 	char m_lead[0x1C];
 	Rva0055B863Target m_member;
 };
 
 // vtable 0x00C1C53C#4
-void Rva003ABCE6Forwarder::rva003ABCE6(Int a0)
+void Rva003ABCE6Forwarder::rva003ABCE6(Int firstValue)
 {
-	((FXParticleSystem::DefaultColorModuleInfo *)&m_member)->tintAllColors(a0);
+	((FXParticleSystem::DefaultColorModuleInfo *)&m_member)->tintAllColors(firstValue);
 }
 
 class Rva0023DAA5Target
@@ -212,43 +212,43 @@ void Rva002D35C7Forwarder::rva002D35C7()
 class Rva002D6460Target
 {
 public:
-	void rva002D6460(Int a0);
+	void rva002D6460(Int firstValue);
 };
 
 class Rva002D65EEForwarder
 {
 public:
-	void rva002D65EE(Int a0);
+	void rva002D65EE(Int firstValue);
 private:
 	char m_lead[0x4];
 	Rva002D6460Target *m_member;
 };
 
 // vtable 0x00C02A84#7
-void Rva002D65EEForwarder::rva002D65EE(Int a0)
+void Rva002D65EEForwarder::rva002D65EE(Int firstValue)
 {
-	((AptPalantir *)m_member)->xfer((Xfer *)a0);
+	((AptPalantir *)m_member)->xfer((Xfer *)firstValue);
 }
 
 class Rva003295B4Target
 {
 public:
-	void rva003295B4(Int a0, Int a1);
+	void rva003295B4(Int firstValue, Int secondValue);
 };
 
 class Rva0032965BForwarder
 {
 public:
-	void rva0032965B(Int a0, Int a1);
+	void rva0032965B(Int firstValue, Int secondValue);
 private:
 	char m_lead[0x4];
 	Rva003295B4Target *m_member;
 };
 
 // vtable 0x00C0D8C4#1
-void Rva0032965BForwarder::rva0032965B(Int a0, Int a1)
+void Rva0032965BForwarder::rva0032965B(Int firstValue, Int secondValue)
 {
-	((OldPolygonTriggerDataChunkParserBase::Impl *)m_member)->parseWaterAreasChunkImpl(*(DataChunkInput *)a0, (const DataChunkInfo *)a1);
+	((OldPolygonTriggerDataChunkParserBase::Impl *)m_member)->parseWaterAreasChunkImpl(*(DataChunkInput *)firstValue, (const DataChunkInfo *)secondValue);
 }
 
 class Rva00119F00Target
@@ -296,22 +296,22 @@ void Rva000791DDForwarder::rva000791DD()
 class Rva00079186Target
 {
 public:
-	void rva00079186(Int a0);
+	void rva00079186(Int firstValue);
 };
 
 class Rva000791E5Forwarder
 {
 public:
-	void rva000791E5(Int a0);
+	void rva000791E5(Int firstValue);
 private:
 	char m_lead[0x4];
 	Rva00079186Target *m_member;
 };
 
 // vtable 0x00BC68F0#67
-void Rva000791E5Forwarder::rva000791E5(Int a0)
+void Rva000791E5Forwarder::rva000791E5(Int firstValue)
 {
-	((W3DHordeModelDrawModuleData *)m_member)->rva00079186(a0);
+	((W3DHordeModelDrawModuleData *)m_member)->rva00079186(firstValue);
 }
 
 class Rva00210E9DTarget
@@ -339,22 +339,22 @@ void Rva0009AD42Forwarder::rva0009AD42()
 class Rva000B0DA8Target
 {
 public:
-	void ParseHeightMapData(Int a0, Int a1);
+	void ParseHeightMapData(Int firstValue, Int secondValue);
 };
 
 class Rva000B1974Forwarder
 {
 public:
-	void rva000B1974(Int a0, Int a1);
+	void rva000B1974(Int firstValue, Int secondValue);
 private:
 	char m_lead[0xC];
 	Rva000B0DA8Target *m_member;
 };
 
 // vtable 0x00BC95B8#1
-void Rva000B1974Forwarder::rva000B1974(Int a0, Int a1)
+void Rva000B1974Forwarder::rva000B1974(Int firstValue, Int secondValue)
 {
-	((WorldHeightMap *)m_member)->ParseHeightMapData(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
+	((WorldHeightMap *)m_member)->ParseHeightMapData(*(DataChunkInput *)firstValue, (DataChunkInfo *)secondValue);
 }
 
 class Rva001B4C7ATarget
@@ -381,22 +381,22 @@ void Rva001B4CD0Forwarder::rva001B4CD0()
 class Rva00222D47Target
 {
 public:
-	void rva00222D47(Int a0, Int a1, Int a2);
+	void rva00222D47(Int firstValue, Int secondValue, Int thirdValue);
 };
 
 class Rva00222D3FForwarder
 {
 public:
-	void rva00222D3F(Int a0, Int a1, Int a2);
+	void rva00222D3F(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_lead[0x4];
 	Rva00222D47Target *m_member;
 };
 
 // vtable 0x00BE6D5C#1
-void Rva00222D3FForwarder::rva00222D3F(Int a0, Int a1, Int a2)
+void Rva00222D3FForwarder::rva00222D3F(Int firstValue, Int secondValue, Int thirdValue)
 {
-	m_member->rva00222D47(a0, a1, a2);
+	m_member->rva00222D47(firstValue, secondValue, thirdValue);
 }
 
 class Rva0022C9D2Forwarder
@@ -438,43 +438,43 @@ void Rva0025DC30Forwarder::rva0025DC30()
 class Rva004D01D5Target
 {
 public:
-	void rva004D01D5(Int a0, Int a1, Int a2, Int a3);
+	void rva004D01D5(Int firstValue, Int secondValue, Int thirdValue, Int fourthValue);
 };
 
 class Rva0025DC56Forwarder
 {
 public:
-	void rva0025DC56(Int a0, Int a1, Int a2, Int a3);
+	void rva0025DC56(Int firstValue, Int secondValue, Int thirdValue, Int fourthValue);
 private:
 	char m_lead[0xC];
 	Rva004D01D5Target *m_member;
 };
 
 // vtable 0x00BF6040#34
-void Rva0025DC56Forwarder::rva0025DC56(Int a0, Int a1, Int a2, Int a3)
+void Rva0025DC56Forwarder::rva0025DC56(Int firstValue, Int secondValue, Int thirdValue, Int fourthValue)
 {
-	((ConnectionManager *)m_member)->sendHero((CreateAHeroData *)a0, a1, (unsigned short)a2, (unsigned char)a3);
+	((ConnectionManager *)m_member)->sendHero((CreateAHeroData *)firstValue, secondValue, (unsigned short)thirdValue, (unsigned char)fourthValue);
 }
 
 class Rva004D0E93Target
 {
 public:
-	void rva004D0E93(Int a0, Int a1, Int a2);
+	void rva004D0E93(Int firstValue, Int secondValue, Int thirdValue);
 };
 
 class Rva0025DEDDForwarder
 {
 public:
-	void rva0025DEDD(Int a0, Int a1, Int a2);
+	void rva0025DEDD(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_lead[0xC];
 	Rva004D0E93Target *m_member;
 };
 
 // vtable 0x00BF6040#66
-void Rva0025DEDDForwarder::rva0025DEDD(Int a0, Int a1, Int a2)
+void Rva0025DEDDForwarder::rva0025DEDD(Int firstValue, Int secondValue, Int thirdValue)
 {
-	((Rva004D0E93 *)m_member)->rva004D0E93(a0, a1, *(const UnicodeString *)a2);
+	((Rva004D0E93 *)m_member)->rva004D0E93(firstValue, secondValue, *(const UnicodeString *)thirdValue);
 }
 
 class Rva002034E9Target
@@ -523,85 +523,85 @@ void Rva002AADAEForwarder::rva002AADAE()
 class Rva00222D9ATarget
 {
 public:
-	void rva00222D9A(Int a0);
+	void rva00222D9A(Int firstValue);
 };
 
 class Rva002AC2BFForwarder
 {
 public:
-	void rva002AC2BF(Int a0);
+	void rva002AC2BF(Int firstValue);
 private:
 	char m_lead[0x4];
 	Rva00222D9ATarget *m_member;
 };
 
 // vtable 0x00BFDC6C#2
-void Rva002AC2BFForwarder::rva002AC2BF(Int a0)
+void Rva002AC2BFForwarder::rva002AC2BF(Int firstValue)
 {
-	((Rva002226E5TextPlusString *)m_member)->write((char *)a0);
+	((Rva002226E5TextPlusString *)m_member)->write((char *)firstValue);
 }
 
 class Rva002AC2CFTarget
 {
 public:
-	void rva002AC2CF(Int a0, Int a1, Int a2);
+	void rva002AC2CF(Int firstValue, Int secondValue, Int thirdValue);
 };
 
 class Rva002AC2C7Forwarder
 {
 public:
-	void rva002AC2C7(Int a0, Int a1, Int a2);
+	void rva002AC2C7(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_lead[0x4];
 	Rva002AC2CFTarget *m_member;
 };
 
 // vtable 0x00BFDC6C#1
-void Rva002AC2C7Forwarder::rva002AC2C7(Int a0, Int a1, Int a2)
+void Rva002AC2C7Forwarder::rva002AC2C7(Int firstValue, Int secondValue, Int thirdValue)
 {
-	m_member->rva002AC2CF(a0, a1, a2);
+	m_member->rva002AC2CF(firstValue, secondValue, thirdValue);
 }
 
 class Rva003003C5Target
 {
 public:
-	void rva003003C5(Int a0, Int a1);
+	void rva003003C5(Int firstValue, Int secondValue);
 };
 
 class Rva00300481Forwarder
 {
 public:
-	void rva00300481(Int a0, Int a1);
+	void rva00300481(Int firstValue, Int secondValue);
 private:
 	char m_lead[0xC];
 	Rva003003C5Target *m_member;
 };
 
 // vtable 0x00C07484#1
-void Rva00300481Forwarder::rva00300481(Int a0, Int a1)
+void Rva00300481Forwarder::rva00300481(Int firstValue, Int secondValue)
 {
-	((BfmeOwnCO *)m_member)->bfmeGuardedCO((BfmeTargetCN *)a0, (void *)a1);
+	((BfmeOwnCO *)m_member)->bfmeGuardedCO((BfmeTargetCN *)firstValue, (void *)secondValue);
 }
 
 class Rva003294D6Target
 {
 public:
-	void rva003294D6(Int a0, Int a1);
+	void rva003294D6(Int firstValue, Int secondValue);
 };
 
 class Rva00329653Forwarder
 {
 public:
-	void rva00329653(Int a0, Int a1);
+	void rva00329653(Int firstValue, Int secondValue);
 private:
 	char m_lead[0x4];
 	Rva003294D6Target *m_member;
 };
 
 // vtable 0x00C0D8C4#0
-void Rva00329653Forwarder::rva00329653(Int a0, Int a1)
+void Rva00329653Forwarder::rva00329653(Int firstValue, Int secondValue)
 {
-	((OldPolygonTriggerDataChunkParserBase::Impl *)m_member)->parsePolygonTriggersChunkImpl(*(DataChunkInput *)a0, (const DataChunkInfo *)a1);
+	((OldPolygonTriggerDataChunkParserBase::Impl *)m_member)->parsePolygonTriggersChunkImpl(*(DataChunkInput *)firstValue, (const DataChunkInfo *)secondValue);
 }
 
 class Rva002198C8Target
@@ -628,43 +628,43 @@ void Rva0032AF9CForwarder::rva0032AF9C()
 class Rva0032AFD4Target
 {
 public:
-	void rva0032AFD4(Int a0, Int a1, Int a2);
+	void rva0032AFD4(Int firstValue, Int secondValue, Int thirdValue);
 };
 
 class Rva0032AFCCForwarder
 {
 public:
-	void rva0032AFCC(Int a0, Int a1, Int a2);
+	void rva0032AFCC(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_lead[0x4];
 	Rva0032AFD4Target *m_member;
 };
 
 // vtable 0x00C0D938#1
-void Rva0032AFCCForwarder::rva0032AFCC(Int a0, Int a1, Int a2)
+void Rva0032AFCCForwarder::rva0032AFCC(Int firstValue, Int secondValue, Int thirdValue)
 {
-	((Rva0032AFD4 *)m_member)->rva0032AFD4((char *)a0, a1, a2);
+	((Rva0032AFD4 *)m_member)->rva0032AFD4((char *)firstValue, secondValue, thirdValue);
 }
 
 class Rva0033082FTarget
 {
 public:
-	unsigned char rva0033082F(Int a0, Int a1);
+	unsigned char rva0033082F(Int firstValue, Int secondValue);
 };
 
 class Rva003308EEForwarder
 {
 public:
-	void rva003308EE(Int a0, Int a1);
+	void rva003308EE(Int firstValue, Int secondValue);
 private:
 	char m_lead[0xC];
 	Rva0033082FTarget *m_member;
 };
 
 // vtable 0x00C0DB58#1
-void Rva003308EEForwarder::rva003308EE(Int a0, Int a1)
+void Rva003308EEForwarder::rva003308EE(Int firstValue, Int secondValue)
 {
-	m_member->rva0033082F(a0, a1);
+	m_member->rva0033082F(firstValue, secondValue);
 }
 
 class Rva00358F7CTarget
@@ -712,23 +712,23 @@ void Rva003922B7Forwarder::rva003922B7()
 class Rva003A547ETarget
 {
 public:
-	void rva003A547E(Int a0);
+	void rva003A547E(Int firstValue);
 };
 
 class Rva003A5896Forwarder
 {
 public:
 	// virtual: also reached through the this-0x1C thunk 0x003A589E.
-	virtual void rva003A5896(Int a0);
+	virtual void rva003A5896(Int firstValue);
 private:
 	char m_lead[0x1C - 4];
 	Rva003A547ETarget m_member;
 };
 
 // vtable 0x00C1B5A8#3
-void Rva003A5896Forwarder::rva003A5896(Int a0)
+void Rva003A5896Forwarder::rva003A5896(Int firstValue)
 {
-	((FXParticleSystem::WindModuleInfo *)&m_member)->FXParticleSystem::WindModuleInfo::DoXfer(*(Xfer *)a0);
+	((FXParticleSystem::WindModuleInfo *)&m_member)->FXParticleSystem::WindModuleInfo::DoXfer(*(Xfer *)firstValue);
 }
 
 class Rva004DFC20
@@ -776,20 +776,20 @@ void Rva003FCE30Forwarder::rva003FCE30()
 class Rva003FD05ETarget
 {
 public:
-	void rva003FD05E(Int a0, Int a1, Int a2);
+	void rva003FD05E(Int firstValue, Int secondValue, Int thirdValue);
 };
 
 class Rva003FD056Forwarder
 {
 public:
-	void rva003FD056(Int a0, Int a1, Int a2);
+	void rva003FD056(Int firstValue, Int secondValue, Int thirdValue);
 private:
 	char m_lead[0x4];
 	Rva003FD05ETarget *m_member;
 };
 
 // vtable 0x00C37C20#1
-void Rva003FD056Forwarder::rva003FD056(Int a0, Int a1, Int a2)
+void Rva003FD056Forwarder::rva003FD056(Int firstValue, Int secondValue, Int thirdValue)
 {
-	m_member->rva003FD05E(a0, a1, a2);
+	m_member->rva003FD05E(firstValue, secondValue, thirdValue);
 }
