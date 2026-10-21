@@ -76,7 +76,7 @@ bool Rva006C17B0::rva006C21C0(unsigned int len, void *buf)
 
 class Rva00033E90 { public: void freeBlock(void *); };
 namespace EA { namespace Allocator {
-class GeneralAllocator { public: void rva000338F0(void *); };
+class GeneralAllocator { public: void rva000338F0(void *); bool rva00033D50(); };
 } }
 class Rva006C39F0Owner { public: void *rva006C3940Alloc(unsigned int); };
 
@@ -84,7 +84,8 @@ class Rva00033B90Allocator
 {
 public:
 	Rva00033B90Allocator(void *a, unsigned int size, bool b, void *c, void *d, void *e);
-	~Rva00033B90Allocator();
+	// Retail's base destructor 0x00034D00 is a tail jump to the rowed teardown 0x00033D50.
+	~Rva00033B90Allocator() { ((EA::Allocator::GeneralAllocator *)this)->rva00033D50(); }
 	bool rva00033700(void *a, unsigned int size, bool b, void *c, void *d, void *e);
 protected:
 	unsigned char m_base000[0x508];

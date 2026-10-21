@@ -99,7 +99,6 @@ private:
 
 struct Rva0008DE1CElement { char m_pad[24]; };
 namespace _STL {
-template <> vector<Rva0008DE1CElement, allocator<Rva0008DE1CElement> >::~vector();
 template <> void vector<Rva0008DE1CElement, allocator<Rva0008DE1CElement> >::reserve(size_t);
 }
 

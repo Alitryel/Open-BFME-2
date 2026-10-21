@@ -108,8 +108,18 @@ public:
 		: coordinate(other.coordinate) { command = other.command; }
 	virtual ~Rva00318B5C() {}
 	virtual void loadPostProcess() {}
-	virtual const char *GetSnapshotName() const;
-	virtual void xfer(Xfer *);
+	// Same ArmyMoveCommand slots as Rva00538E43Result: retail shares vtable 0x0080C7D0.
+	virtual const char *GetSnapshotName() const { return "ArmyMoveCommand"; }
+	virtual void xfer(Xfer *stream)
+	{
+		Rva00538CB4Input *input = reinterpret_cast<Rva00538CB4Input *>(stream);
+		bool flags[2];
+		flags[0] = 1;
+		flags[1] = 1;
+		input->slot28(flags);
+		input->slot50(&coordinate);
+		Rva003EFE82Get((Rva003EFE82Obj *)input, &command);
+	}
 	Rva00538E43Coord coordinate;
 	int command;
 };
@@ -124,10 +134,10 @@ struct Rva00319F5A
 struct Elem003AF9E0
 {
 	virtual ~Elem003AF9E0();
-	char m_body[0x0C];
+	Rva00538E43Coord m_coordinate;
+	int m_command;
 	Elem003AF9E0();
 	Elem003AF9E0(const Elem003AF9E0 &);
-	Elem003AF9E0 &operator=(const Elem003AF9E0 &);
 };
 
 // The queue's sixteen-byte move records. Their vector destructor is the rowed

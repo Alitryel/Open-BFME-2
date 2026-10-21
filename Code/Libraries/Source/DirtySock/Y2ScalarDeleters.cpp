@@ -156,9 +156,10 @@ struct __declspec(novtable) Gen007F4D00Owner
 	virtual ~Gen007F4D00Owner();		// retail 0x00666BA0
 };
 
+// Its own deleting dtor 0x006613E0 shows an empty inline destructor.
 struct Gen007F4D00Listener
 {
-	virtual ~Gen007F4D00Listener();
+	virtual ~Gen007F4D00Listener() {}
 };
 
 struct Gen007F4D00 : Gen007F4D00Owner, Gen007F4D00Listener
@@ -409,7 +410,6 @@ Gen0080ACD0::~Gen0080ACD0()
 //                     through the shared pool free 0x0065D030.
 struct Rva00666BA0View
 {
-	Rva00666BA0View();
 	virtual ~Rva00666BA0View() {}
 };
 
@@ -424,7 +424,6 @@ Rva00666E10::Rva00666E10() {}
 
 struct Rva00672490View
 {
-	Rva00672490View();
 	virtual ~Rva00672490View() {}
 };
 
@@ -432,7 +431,8 @@ struct Rva00672460 : Rva00672490View
 {
 	Rva00672460();
 	virtual ~Rva00672460() {}
-	void operator delete( void *p, unsigned int n );
+	// The shared pool free 0x0065D030 that ICF folds every sized class delete onto.
+	__declspec(noinline) void operator delete( void *p, unsigned int ) { Gen007EFFC0()->release( p, 0 ); }
 
 	char m_bfmePad[ 0x48 - 4 ];
 };

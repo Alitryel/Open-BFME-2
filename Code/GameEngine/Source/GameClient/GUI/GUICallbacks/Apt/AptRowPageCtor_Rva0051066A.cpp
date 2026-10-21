@@ -112,11 +112,13 @@ private:
 	unsigned char m_names[0xC];
 };
 
+// Retail hands the vector iterator the two-word zeroing ctor 0x0007E81F.
 struct Rva0050ED58Elem
 {
-	Rva0050ED58Elem();
+	Rva0050ED58Elem() : m_00(0), m_04(0) {}
 	~Rva0050ED58Elem();
-	char m_data[8];
+	int m_00;
+	int m_04;
 };
 
 class Rva0050F10B
@@ -130,6 +132,14 @@ class Rva0050F5A6
 public:
 	void rva0050F5A6(int v);
 	void rva0050F4D0();
+	void rva0050FFEC(const char *params); // "_OnRowShown"
+	void rva0050EB0A(const char *params); // "_Send"
+};
+
+class Rva0050E952
+{
+public:
+	void rva0050E952(int which, char *result, bool skip); // "_NumOfPlayers"
 };
 
 class Rva0050E8D6
@@ -143,11 +153,6 @@ class Rva0050ED58
 public:
 	Rva0050ED58(int level, const AsciiString &name);
 	~Rva0050ED58();
-
-	// Bound callbacks with no row yet (pinned by address).
-	void rva0050FFEC(const char *params); // "_OnRowShown"
-	void rva0050EB0A(const char *params); // "_Send"
-	void rva0050E952(int which, char *result, bool skip); // "_NumOfPlayers"
 
 private:
 	int m_level; // +0x00
@@ -165,11 +170,11 @@ Rva0050ED58::Rva0050ED58(int level, const AsciiString &name)
 {
 	AsciiString prefix;
 	prefix.format("_level%u.", m_level);
-	m_commandMaps.AddCommandMap(prefix + m_name + "_OnRowShown", AptRef<AptCommandMap>(DelegateDesc(this, &Rva0050ED58::rva0050FFEC)));
+	m_commandMaps.AddCommandMap(prefix + m_name + "_OnRowShown", AptRef<AptCommandMap>(DelegateDesc(this, reinterpret_cast<CommandMethod>(&Rva0050F5A6::rva0050FFEC))));
 	m_commandMaps.AddCommandMap(prefix + m_name + "_OnRowHidden", AptRef<AptCommandMap>(DelegateDesc(this, reinterpret_cast<CommandMethod>(&Rva0050F10B::rva0050F10B))));
 	m_commandMaps.AddCommandMap(prefix + m_name + "_Reset", AptRef<AptCommandMap>(DelegateDesc(this, reinterpret_cast<CommandMethod>(&Rva0050F5A6::rva0050F5A6))));
-	m_commandMaps.AddCommandMap(prefix + m_name + "_Send", AptRef<AptCommandMap>(DelegateDesc(this, &Rva0050ED58::rva0050EB0A)));
-	((AptExternHandlerAdder *)&m_externHandlers)->AddExternHandler(prefix + m_name + "_NumOfPlayers", 0, AptRef<AptExternHandler>(DelegateDesc(this, reinterpret_cast<CommandMethod>(&Rva0050ED58::rva0050E952))));
+	m_commandMaps.AddCommandMap(prefix + m_name + "_Send", AptRef<AptCommandMap>(DelegateDesc(this, reinterpret_cast<CommandMethod>(&Rva0050F5A6::rva0050EB0A))));
+	((AptExternHandlerAdder *)&m_externHandlers)->AddExternHandler(prefix + m_name + "_NumOfPlayers", 0, AptRef<AptExternHandler>(DelegateDesc(this, reinterpret_cast<CommandMethod>(&Rva0050E952::rva0050E952))));
 	((Rva0050E8D6 *)this)->rva0050E8D6();
 	((Rva0050F5A6 *)this)->rva0050F4D0();
 }
