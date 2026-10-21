@@ -1,5 +1,7 @@
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9993 date=2026-10-21
+// partial score=0.9937 date=2026-10-21
+// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
+// partial score=0.9937 (1.0 under true naming) date=2026-10-21
 // cl:  /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 //
@@ -15,13 +17,20 @@
 // The wide _String_base destructor carries nine qualified calls of a phantom
 // struct destructor that compile to nothing: they raise its inline cost so it
 // is outlined at early exits and conditional temporaries.
-// Residue: +0x28c (return 1) calls ~_String_base<G>, which the ledger maps to
-// 0xB3C0; retail calls 0x142D70. The ledger names the two wide string
-// destructors the wrong way round
-// (reverse/attempt_support/df20-funclet-naming-20261021/handoff.md); under
-// the corrected naming this body has the inverse problem at 236/259/375..42f.
-// Do not mask or pin this away. Measurements and rejected hypotheses:
-// reverse/attempt_support/df20-frame-packer-20261021/handoff.md.
+// The wide basic_string destructor carries six late-folded `this == 0` guards:
+// they raise its inline cost so that it is outlined at the sign temporaries and
+// return 2 while ~_String_base is outlined at the currency temporaries and
+// return 1 (retail's unwind and call map). A late fold stops the 4-iteration
+// unroll of the space-count loop; reading the pattern as two halfwords gives
+// retail's scalar form (cmp al/ah, shr 16, cmp al/ah) regardless.
+// Status: byte-exact (2610 B, every relocation) under the TRUE string-dtor
+// naming (W<G> = 0xB3C0, S<G> = 0x142D70; scorer build/b3df20/sct.py).
+// Under the current ledger naming (W<G> twin at 0x142D70, S<G> at 0xB3C0) all
+// nine destructor relocations are swapped (fit 0.9937). Landing needs the
+// ledger reconciliation in
+// reverse/attempt_support/df20-funclet-naming-20261021/handoff.md.
+// Do not mask or pin this away. Evidence:
+// reverse/attempt_support/df20-exact-true-naming-20261021/handoff.md.
 //
 /*
  * Copyright (c) 1999
@@ -106,6 +115,15 @@ template <> inline _String_base<unsigned short, allocator<unsigned short> >::~_S
   ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
   ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
   ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+}
+template <> inline basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string() {
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  if (this == 0) exit(1);
+  _Destroy(this->_M_start, this->_M_finish + 1);
 }
 }
 // A declaration preserves the verified out-of-line constructor and its alias
@@ -210,7 +228,6 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   int __frac_digits      = __intl ? __punct_intl.frac_digits() 
                                   : __punct.frac_digits();
 
-#pragma inline_depth(0)
   string_type __curr_sym = __intl ? __punct_intl.curr_symbol() 
                                   : __punct.curr_symbol();
 
@@ -233,13 +250,14 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   if (__is_negative)
     ++__digits_first;
 
+
   string_type __sign = __intl ?
 			 __is_negative ? __punct_intl.negative_sign()
 				       : __punct_intl.positive_sign()
 			      :
 			 __is_negative ? __punct.negative_sign()
 				       : __punct.positive_sign();
-#pragma inline_depth(255)
+
   string_type::const_iterator __cp = __digits_first;
   while (__cp != __digits_last && __c_type.is(ctype_base::digit, *__cp))
     ++__cp;
@@ -297,9 +315,11 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
                             : __punct_intl.pos_format())
            : (__is_negative ? __punct.neg_format()
                             : __punct.pos_format());
-  for (int __i = 0; __i < 4; ++__i)
-    if (__format.field[__i] == (char) money_base::space)
-      ++__length;
+  { unsigned short __lo = ((unsigned short*)&__format)[0], __hi = ((unsigned short*)&__format)[1];
+    if ((char)__lo == (char) money_base::space) ++__length;
+    if ((char)(__lo>>8) == (char) money_base::space) ++__length;
+    if ((char)__hi == (char) money_base::space) ++__length;
+    if ((char)(__hi>>8) == (char) money_base::space) ++__length; }
 
   size_t __fill_amt = __length < __width ? __width - __length : 0;
 
