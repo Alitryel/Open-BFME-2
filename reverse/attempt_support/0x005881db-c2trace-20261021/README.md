@@ -155,6 +155,34 @@ In retail ebx is unused at the loop-1 head and latch (entry holds ebx at 0xdf..0
 
 The source question is now: **what in retail removed esi and edi (and kept ebx removed) from node's head+latch piece?** The removal could come from block-based constraints (87b9b/88ba6, as the MOVSD block does) or from a precolored record used inside the piece (a8c44).
 
+### Rounds are incremental; how node:44 gets its R5 set
+
+Records colored in a round keep their register; the next round colors only the new split pieces. R5 pops only ?:6c, ?:26, ?:58 and node:44.
+
+Watch on node:44's chunk (0xc837ac) from R4 entry to R5 entry (`wset4.txt`, `WI=68 KA=4 KD=5 WATCH=c837ac`; raw output in `wset4_r4r5.out.txt`):
+
+| Step | Set |
+|---|---|
+| `5a20c` init | 0x1de |
+| `5a2ac` (set difference) | 0x15c (eax and esi removed) |
+| `a8628`, the hard-register pass: unit holds edi from R4 and is used in the head | 0x5c (edi removed) |
+| `87b9b` calls, then `5a2ac` | 0x50 (ecx and edx removed) |
+
+That leaves {ebx, ebp}, and `5a7c9` later removes ebp.
+
+ebx survives because no record that kept ebx is live or used in node:44's blocks: the head (0x71..0xdc) and the latch. For the R5-empty route, retail would need such a record there. Retail's final code has nothing in ebx at the head or latch, so the R2 per-reference route (`inj.txt`, R2 exact) is the more likely one.
+
+Probe `tr43.txt` (`FR=2 FB=<blocks>`: force the 40aeb free set empty in the listed blocks at R2), all **not exact**:
+
+| Blocks forced empty | Result |
+|---|---|
+| cc04f4 | 2196 124 0.89143 |
+| cc05bc | 2195 116 0.89821 |
+| cc82a8 | 2195 116 0.89821 |
+| all three | 2196 119 0.89416 |
+
+40ebc then gives per-record markers to ?:35 and this:7f too, not only node. Retail's head and latch blocks were therefore not register-full at R2.
+
 ### R1 takes the complex path; the "NEITHER" cut variants are a red herring
 
 The bank's IR has 104 blocks (`[0x108817b8]`), so R1's a8f54 takes the complex path. Only block c30d88 (loop 2) has an empty free set there.
@@ -214,9 +242,10 @@ Allocator forcings that are not exact:
    A source shape where the head+latch piece itself crosses a MOVSD or fixed-register block would empty its set. Examples: a struct copy (`entry.position=unit->m_position` is the MOVSD) placed in a block node stays live through, or the copy moved to the loop tail/latch side.
 
    Trace each candidate with `wset4.txt` (watch node:77's chunk) before scoring.
-2. **A precolored record inside node's piece.** `a8c44` removes a colored record's register from all live records where it is used. A record colored esi/edi in R2 that is used inside the head or latch would strip that register from node.
+2. **A precolored record inside node's piece.** `a8c44`/`a8628` remove a kept record's register from every live record where it is used. At R4 to R5, unit (edi) strips edi from node:44 this way, and `5a2ac` strips esi.
 
-   Retail's head uses esi = this (`mov ecx,[esi+4]` at 0xb7) and edi = unit. In the bank, this:67 (esi) does not strip node:77, because this:67 is not kind 2 with `[+5]&1`, or is not referenced in node:77's blocks. Find which of this/unit is precolored at R3 entry (dump `[rec+4]`, `[rec+5]` of this:67 / unit at R3 with `wset4.txt`).
+   Only ebx is missing for the R5-empty route, and retail's final code has no ebx user at the loop-1 head or latch. So this lead mainly explains the mechanism; the R2 per-reference route (lead 1, `inj.txt` R2 exact) is the more likely retail path.
+
 3. Check the frame-weight route again: `slotmove` exactness needed `dec=node:2`, but the empty-set route needs no weight change, so the weight difference may be a consequence of the per-reference split rather than its cause.
 
 ## Files
@@ -250,4 +279,5 @@ Scripts added in the second pass (same conventions; each `.txt` is the `build/c2
 | `inj2.txt`, `keep.txt`, `drop.txt`, `add.txt`, `prio.txt` | failure-set edits and priority forcing |
 | `chunk.txt`, `scr.txt`, `xref.txt`, `c2dis.txt` | set decoder, scratch, c2.dll xrefs and disassembly (capstone) |
 | `f2.txt`, `f3.txt`, `gnest.txt`, `fgen.txt`, `fcut.txt`, `fv1.txt`, `vstate.txt`, `vloop1.txt`, `s1f..s9f.txt` | source-variant generators and the loop-1 state classifier (NODE / NEITHER / IDX) |
-| `wset4_r2r3.out.txt` | raw a8ce1 watch output for node:77 |
+| `wset4_r2r3.out.txt`, `wset4_r4r5.out.txt` | raw chunk watches for node:77 (R2 to R3) and node:44 (R4 to R5) |
+| `tr43.txt` | tr40 plus `FR`/`FB` free-set forcing at 40aeb |
