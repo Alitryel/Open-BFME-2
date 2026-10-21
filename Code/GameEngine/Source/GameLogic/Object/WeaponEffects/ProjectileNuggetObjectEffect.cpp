@@ -274,9 +274,9 @@ void ProjectileNugget::doEffectObject(const ProjectileNuggetFireInfo *info, Obje
 	}
 
 	ProjectileUpdateInterface *pui = 0;
-	for (BehaviorModule **u = projectile->getBehaviorModules(); *u; ++u)
+	for (BehaviorModule **behaviorModule = projectile->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		if ((pui = (*u)->projectileUpdateInterfaceView()) != 0)
+		if ((pui = (*behaviorModule)->projectileUpdateInterfaceView()) != 0)
 			break;
 	}
 	if (pui)

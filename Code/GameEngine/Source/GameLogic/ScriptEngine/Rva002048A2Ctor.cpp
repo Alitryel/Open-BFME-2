@@ -16,12 +16,12 @@ struct Rva002048A2
     Rva002048A2(AsciiString *a1, const AsciiString &a2);
 };
 
-Rva002048A2::Rva002048A2(AsciiString *a1, const AsciiString &a2)
+Rva002048A2::Rva002048A2(AsciiString *asciiString, const AsciiString &a2)
     : m_str()
 {
-    m_alias = a1;
-    m_str = *a1;
-    *a1 = a2;
+    m_alias = asciiString;
+    m_str = *asciiString;
+    *asciiString = a2;
 }
 
 // BFME1 donor1281192f68 BfmeConv1764.cpp supplies the restore-on-destruction

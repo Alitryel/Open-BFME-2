@@ -11,4 +11,4 @@ public:
 };
 // Existing delete-array emission anchor, renamed with the corrected type.
 // ?bfmeEmitPathfindCellVectorDtor@@YAXPAVPathfindCell@@@Z absent-from-retail
-void bfmeEmitPathfindCellVectorDtor(PathfindCell *p) { delete[] p; }
+void bfmeEmitPathfindCellVectorDtor(PathfindCell *pathfindCell) { delete[] pathfindCell; }

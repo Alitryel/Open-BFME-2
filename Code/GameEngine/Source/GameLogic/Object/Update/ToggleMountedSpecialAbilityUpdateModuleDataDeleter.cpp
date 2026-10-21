@@ -21,7 +21,7 @@ ToggleMountedSpecialAbilityUpdateModuleData::ToggleMountedSpecialAbilityUpdateMo
 {
 }
 
-void deleteToggleMountedSpecialAbilityUpdateModuleData(ToggleMountedSpecialAbilityUpdateModuleData *p)
+void deleteToggleMountedSpecialAbilityUpdateModuleData(ToggleMountedSpecialAbilityUpdateModuleData *toggleMountedSpecialAbilityUpdateModuleData)
 {
-	delete p;
+	delete toggleMountedSpecialAbilityUpdateModuleData;
 }

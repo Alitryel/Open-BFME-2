@@ -59,9 +59,9 @@ inline UpdateModule::UpdateModule(Thing *thing, const ModuleData *moduleData)
 // it inline, so the owner must also emit a select-any (inline) copy.
 #pragma inline_depth(0)
 // ?bfmeEmitUpdateModuleCtor@@YAXPAVUpdateModule@@PAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitUpdateModuleCtor(UpdateModule *p, Thing *thing, const ModuleData *moduleData)
+void bfmeEmitUpdateModuleCtor(UpdateModule *updateModule, Thing *thing, const ModuleData *moduleData)
 {
-	p->UpdateModule::UpdateModule(thing, moduleData);
+	updateModule->UpdateModule::UpdateModule(thing, moduleData);
 }
 #pragma inline_depth()
 

@@ -39,11 +39,11 @@ void ScriptActions::Rva003BC830Clear(const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			((Rva002A9F0FDwordClearer *)p)->clear();
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			((Rva002A9F0FDwordClearer *)player)->clear();
 	} while (mask != 0);
 }
 
@@ -52,11 +52,11 @@ void ScriptActions::Rva003BB2DFClear(const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			((Rva002AB5C7Player *)p)->rva002AB5C7();
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			((Rva002AB5C7Player *)player)->rva002AB5C7();
 	} while (mask != 0);
 }
 
@@ -65,11 +65,11 @@ void ScriptActions::Rva003BB518Clear(const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			((Rva002AB5C7Player *)p)->rva002AB44A();
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			((Rva002AB5C7Player *)player)->rva002AB44A();
 	} while (mask != 0);
 }
 

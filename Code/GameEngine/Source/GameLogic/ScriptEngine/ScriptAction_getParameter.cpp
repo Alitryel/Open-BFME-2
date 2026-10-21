@@ -39,8 +39,8 @@ __declspec(noinline) inline Parameter *ScriptAction::getParameter(int ndx)
 }
 
 // ?bfmeAnchorScriptActionGetParameter absent-from-retail
-Parameter *bfmeAnchorScriptActionGetParameter(ScriptAction *p, int ndx)
+Parameter *bfmeAnchorScriptActionGetParameter(ScriptAction *scriptAction, int ndx)
 {
-	return p->getParameter(ndx);
+	return scriptAction->getParameter(ndx);
 }
 

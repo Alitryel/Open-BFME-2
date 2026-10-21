@@ -82,7 +82,7 @@ __declspec(noinline) inline StructureToppleUpdateModuleData::~StructureToppleUpd
 }
 
 // ?bfmeAnchorStructureToppleUpdateModuleDataDtor absent-from-retail
-void bfmeAnchorStructureToppleUpdateModuleDataDtor(StructureToppleUpdateModuleData *p)
+void bfmeAnchorStructureToppleUpdateModuleDataDtor(StructureToppleUpdateModuleData *structureToppleUpdateModuleData)
 {
-	p->StructureToppleUpdateModuleData::~StructureToppleUpdateModuleData();
+	structureToppleUpdateModuleData->StructureToppleUpdateModuleData::~StructureToppleUpdateModuleData();
 }

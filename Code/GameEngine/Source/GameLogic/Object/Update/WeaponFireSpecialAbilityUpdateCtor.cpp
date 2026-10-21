@@ -118,10 +118,10 @@ WeaponFireSpecialAbilityUpdate::WeaponFireSpecialAbilityUpdate(Thing *thing, con
 	*(const void **)((char *)this + 0x20) = (const void *)((unsigned int)vtbl_00C4E05C);
 	m_weapon = 0;
 	AsciiString weaponName(getWeaponFireModuleData()->m_weaponName);
-	const WeaponTemplate *templ = TheWeaponStore->findWeaponTemplate(weaponName);
-	if (templ != 0)
+	const WeaponTemplate *weaponTemplate = TheWeaponStore->findWeaponTemplate(weaponName);
+	if (weaponTemplate != 0)
 	{
-		m_weapon = TheWeaponStore->allocateNewWeapon(templ, PRIMARY_WEAPON);
+		m_weapon = TheWeaponStore->allocateNewWeapon(weaponTemplate, PRIMARY_WEAPON);
 		m_weapon->m_status = 0;
 		m_weapon->Rva002CE1AC(m_object);
 	}

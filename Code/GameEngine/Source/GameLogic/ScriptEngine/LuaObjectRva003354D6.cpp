@@ -91,11 +91,11 @@ int LuaScriptEngine::ObjectModifyUpgrade(lua_State *L, bool b)
 	if (tpl == 0)
 		return 0;
 	if (tpl->m_04 == 0) {
-		Player *p = obj->getControllingPlayer();
+		Player *player = obj->getControllingPlayer();
 		if (b != 0) {
-			p->rva002AE329(tpl, (UpgradeStatusType)2, 0);
+			player->rva002AE329(tpl, (UpgradeStatusType)2, 0);
 		} else {
-			p->rva002ADAC3(tpl, 0);
+			player->rva002ADAC3(tpl, 0);
 		}
 	} else {
 		if (b != 0) {

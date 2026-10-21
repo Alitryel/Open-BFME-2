@@ -68,8 +68,8 @@ extern ThingFactory *TheThingFactory;
 // WorldBuilder Weapon::prepareProjectileStreamForFiring, WB VA 0x00BBA3B0 (callgraph lead, score 2; no args).
 void Weapon::prepareProjectileStreamForFiring()
 {
-	const AsciiString &tmplName = (m_template ? m_template : m_template)->m_name178;
-	if ((m_template ? (((const StringBase<char> *)&tmplName)->isEmpty()) : (((const StringBase<char> *)&tmplName)->isEmpty())))
+	const AsciiString &asciiString = (m_template ? m_template : m_template)->m_name178;
+	if ((m_template ? (((const StringBase<char> *)&asciiString)->isEmpty()) : (((const StringBase<char> *)&asciiString)->isEmpty())))
 		return;
 	Object *owner;
 	GameLogic *logic = TheGameLogic;
@@ -84,7 +84,7 @@ void Weapon::prepareProjectileStreamForFiring()
 	if (spawned)
 		return;
 	m_spawned5C = INVALID_OBJECT_ID;
-	void *tmpl = (void *)TheThingFactory->findTemplate(tmplName);
+	void *tmpl = (void *)TheThingFactory->findTemplate(asciiString);
 	CreateMask mask;
 	memset(&mask, 0, 0x10);
 	Player *player = owner->getControllingPlayer();

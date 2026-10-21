@@ -95,37 +95,37 @@ private:
 	DataChunkTableOfContents m_contents;	// +0x08
 };
 
-void DataChunkOutput::writeDict(const Dict &d)
+void DataChunkOutput::writeDict(const Dict &dict)
 {
-	UnsignedShort len = d.getPairCount();
+	UnsignedShort len = dict.getPairCount();
 	::fwrite((const char *)&len, sizeof(UnsignedShort), 1, m_tmp_file);
 	for (int i = 0; i < len; i++)
 	{
-		NameKeyType k = d.getNthKey(i);
+		NameKeyType k = dict.getNthKey(i);
 		AsciiString kname = TheNameKeyGenerator->keyToName(k);
 
 		Int keyAndType = m_contents.allocateID(kname);
 		keyAndType <<= 8;
-		Dict::DataType t = d.getNthType(i);
+		Dict::DataType t = dict.getNthType(i);
 		keyAndType |= (t & 0xff);
 		writeInt(keyAndType);
 
 		switch (t)
 		{
 			case Dict::DICT_BOOL:
-				writeByte(d.getNthBool(i) ? 1 : 0);
+				writeByte(dict.getNthBool(i) ? 1 : 0);
 				break;
 			case Dict::DICT_INT:
-				writeInt(d.getNthInt(i));
+				writeInt(dict.getNthInt(i));
 				break;
 			case Dict::DICT_REAL:
-				writeReal(d.getNthReal(i));
+				writeReal(dict.getNthReal(i));
 				break;
 			case Dict::DICT_ASCIISTRING:
-				writeAsciiString(d.getNthAsciiString(i));
+				writeAsciiString(dict.getNthAsciiString(i));
 				break;
 			case Dict::DICT_UNICODESTRING:
-				writeUnicodeString(d.getNthUnicodeString(i));
+				writeUnicodeString(dict.getNthUnicodeString(i));
 				break;
 			default:
 				break;

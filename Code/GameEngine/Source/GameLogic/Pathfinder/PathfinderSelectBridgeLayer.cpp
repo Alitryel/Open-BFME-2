@@ -118,21 +118,21 @@ bool Pathfinder::rva002ED313(Object *obj)
  int id=obj->id;
  for(int x=cell.x-below;x<cell.x+above;++x) {
   for(int y=cell.y-below;y<cell.y+above;++y) {
-   PathfindCell *c=getCell(layer,x,y);
-   if(!c || (c->flags&0xF)==5)return false;
-   if(((unsigned char)(c->flags>>18)&1) && obj->rva0028AFBB())return false;
-   if((c->flags&0xF)==4)return false;
-   if(c->hasActual() || c->hasReserved()) {
-    RectCellInfo *info=c->info;
+   PathfindCell *pathfindCell=getCell(layer,x,y);
+   if(!pathfindCell || (pathfindCell->flags&0xF)==5)return false;
+   if(((unsigned char)(pathfindCell->flags>>18)&1) && obj->rva0028AFBB())return false;
+   if((pathfindCell->flags&0xF)==4)return false;
+   if(pathfindCell->hasActual() || pathfindCell->hasReserved()) {
+    RectCellInfo *info=pathfindCell->info;
     if(obj->templ->flag122&0x10) {
-     if(info)for(RectNode *n=info->actual;n;n=n->next) {
-      Object *other=n->object;
+     if(info)for(RectNode *rectNode=info->actual;rectNode;rectNode=rectNode->next) {
+      Object *other=rectNode->object;
       if(other->id!=id) {
        for(RectNode *r=info->reserved;r;r=r->next)
         if(r->object==other){if(r->object->templ->flag122&0x10)return false;break;}
       }
      }
-    } else if(((Rva0052DB11 *)c)->rva0052DB11(id))return false;
+    } else if(((Rva0052DB11 *)pathfindCell)->rva0052DB11(id))return false;
    }
   }
  }

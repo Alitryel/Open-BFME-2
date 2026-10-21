@@ -693,7 +693,7 @@ struct PathfinderAttackCoord : Coord3D
 {
 	__forceinline PathfinderAttackCoord() {}
 	__forceinline PathfinderAttackCoord(const Coord3D &v) { x = v.x; y = v.y; z = v.z; }
-	__forceinline PathfinderAttackCoord(const PathfinderAttackCoord &v) { x = v.x; y = v.y; z = v.z; }
+	__forceinline PathfinderAttackCoord(const PathfinderAttackCoord &pathfinderAttackCoord) { x = pathfinderAttackCoord.x; y = pathfinderAttackCoord.y; z = pathfinderAttackCoord.z; }
 };
 
 inline float sqr(float v) { return v * v; }
@@ -734,7 +734,7 @@ extern unsigned int PathfinderSearchCellsVisited; extern bool PathfinderFaceGoal
 void Rva002EBCA7Split(void *,Int *,unsigned char *);
 struct PathfinderCellPoint : Coord3D {
  __forceinline PathfinderCellPoint() {}
- __forceinline PathfinderCellPoint(const PathfinderCellPoint &o) { x=o.x; y=o.y; z=o.z; }
+ __forceinline PathfinderCellPoint(const PathfinderCellPoint &pathfinderCellPoint) { x=pathfinderCellPoint.x; y=pathfinderCellPoint.y; z=pathfinderCellPoint.z; }
  __forceinline ~PathfinderCellPoint() {}
 };
 PathfinderCellPoint rva002E79A8(Bool center, Int x, Int y, PathfindLayerEnum layer);

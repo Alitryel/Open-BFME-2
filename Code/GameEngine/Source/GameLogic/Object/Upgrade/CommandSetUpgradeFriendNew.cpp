@@ -27,8 +27,8 @@ inline Module *CommandSetUpgrade::friend_newModuleInstance(Thing *thing, const M
 }
 #pragma inline_depth(0)
 // ?bfmeEmitCommandSetUpgradeFriendNew@@YAXPAVCommandSetUpgrade@@@Z present-unmatched
-void bfmeEmitCommandSetUpgradeFriendNew(CommandSetUpgrade *p)
+void bfmeEmitCommandSetUpgradeFriendNew(CommandSetUpgrade *commandSetUpgrade)
 {
-	p->friend_newModuleInstance(0, 0);
+	commandSetUpgrade->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

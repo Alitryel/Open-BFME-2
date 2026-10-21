@@ -75,15 +75,15 @@ bool Pathfinder::isAttackViewBlockedByObstacle(const Object *attacker, const Coo
     if (!victim || (!attacker->definition->test(AttackViewKind59) && !attacker->definition->test(AttackViewKind214)))
         return false;
     {
-        Weapon *w = (Weapon *)attacker->getCurrentWeapon(0);
+        Weapon *weapon = (Weapon *)attacker->getCurrentWeapon(0);
         if (attacker->definition->test(AttackViewKind2))
-            w = 0;
-        if (w) {
+            weapon = 0;
+        if (weapon) {
             bool blocked;
             if (victim)
-                blocked = !(unsigned char)w->isClearGoalFiringLineOfSightTerrain(attacker, &attackerPos, victim);
+                blocked = !(unsigned char)weapon->isClearGoalFiringLineOfSightTerrain(attacker, &attackerPos, victim);
             else
-                blocked = !w->isClearGoalFiringLineOfSightTerrain(attacker, attackerPos, victimPos);
+                blocked = !weapon->isClearGoalFiringLineOfSightTerrain(attacker, attackerPos, victimPos);
             if (blocked)
                 return true;
         }

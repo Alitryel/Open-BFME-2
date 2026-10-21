@@ -13,10 +13,10 @@ struct PathWorkingCoord {
  float x,y,z;
  __forceinline PathWorkingCoord(){} __forceinline PathWorkingCoord(float a,float b,float c):x(a),y(b),z(c){}
  __forceinline PathWorkingCoord(const Coord3D &p):x(p.x),y(p.y),z(p.z){}
- __forceinline PathWorkingCoord(const PathWorkingCoord &p):x(p.x),y(p.y),z(p.z){}
+ __forceinline PathWorkingCoord(const PathWorkingCoord &pathWorkingCoord):x(pathWorkingCoord.x),y(pathWorkingCoord.y),z(pathWorkingCoord.z){}
  __forceinline ~PathWorkingCoord(){}
  __forceinline void scale(float s){x*=s;y*=s;z*=s;}
- __forceinline void add(const PathWorkingCoord &p){x+=p.x;y+=p.y;z+=p.z;}
+ __forceinline void add(const PathWorkingCoord &pathWorkingCoord){x+=pathWorkingCoord.x;y+=pathWorkingCoord.y;z+=pathWorkingCoord.z;}
  __forceinline void subtract(const Coord3D &p){x-=p.x;y-=p.y;z-=p.z;}
  __forceinline void normalize(){((Coord3D *)this)->normalize();}
  __forceinline const Coord3D *coord()const{return (const Coord3D *)this;}

@@ -359,18 +359,18 @@ WeaponTemplate *WeaponStore::newWeaponTemplate(const AsciiString &name)
 // to +0x18 and sets its +0x174 flag, which the parser clears on its replacement.
 // Receiver, argument and fields are target facts; the original method name is
 // still unknown, so retain the RVA spelling rather than invent a semantic name.
-void WeaponStore::rva002CDB0E(const WeaponTemplate *arg)
+void WeaponStore::rva002CDB0E(const WeaponTemplate *weaponTemplate)
 {
-    if (!arg)
+    if (!weaponTemplate)
         return;
     WeaponTemplate **finish = m_weaponTemplateVector.end();
     for (WeaponTemplate **it = m_weaponTemplateVector.begin(); it != finish; ++it)
     {
-        if (arg == *it)
+        if (weaponTemplate == *it)
         {
-            arg->m_retired = 1;
+            weaponTemplate->m_retired = 1;
             m_weaponTemplateVector.erase(it);
-            m_retiredTemplates.push_back(arg);
+            m_retiredTemplates.push_back(weaponTemplate);
             return;
         }
     }

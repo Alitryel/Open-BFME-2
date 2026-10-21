@@ -82,8 +82,8 @@ inline SubObjectsUpgradeModuleData::SubObjectsUpgradeModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeSubObjectsUpgradeModuleDataInlineAnchor@@YAXPAVSubObjectsUpgradeModuleData@@@Z absent-from-retail
-void _bfmeSubObjectsUpgradeModuleDataInlineAnchor(SubObjectsUpgradeModuleData *p)
+void _bfmeSubObjectsUpgradeModuleDataInlineAnchor(SubObjectsUpgradeModuleData *subObjectsUpgradeModuleData)
 {
-    p->SubObjectsUpgradeModuleData::SubObjectsUpgradeModuleData();
+    subObjectsUpgradeModuleData->SubObjectsUpgradeModuleData::SubObjectsUpgradeModuleData();
 }
 #pragma inline_depth()

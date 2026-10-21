@@ -204,9 +204,9 @@ void Weapon::xfer(Xfer *xfer)
 	AsciiString nameTmp(m_template ? m_template->getName() : AsciiString(""));
 	*xfer == nameTmp;
 	if (xfer->IsLoading()) {
-		const WeaponTemplate *tmpl = TheWeaponStore->findWeaponTemplate(nameTmp);
-		m_template = tmpl;
-		if (!tmpl) {
+		const WeaponTemplate *weaponTemplate = TheWeaponStore->findWeaponTemplate(nameTmp);
+		m_template = weaponTemplate;
+		if (!weaponTemplate) {
 			throw XferException(5, 0);
 		}
 	}
@@ -224,19 +224,19 @@ void Weapon::xfer(Xfer *xfer)
 	*xfer == m_numShotsForCurBarrel;
 	UnsignedShort count = (UnsignedShort)m_scatterTargets.size();
 	*xfer == count;
-	const ModuleData *tmp;
+	const ModuleData *moduleData;
 	if (xfer->IsStoring()) {
 		for (const ModuleData **it = (const ModuleData **)m_scatterTargets.begin(); it != (const ModuleData **)m_scatterTargets.end(); ++it) {
-			tmp = *it;
-			*xfer == *(int *)&tmp;
+			moduleData = *it;
+			*xfer == *(int *)&moduleData;
 		}
 	} else {
 		_STL::vector<void *> *targets = (_STL::vector<void *> *)&m_scatterTargets;
 		targets->clear();
 		UnsignedShort idx = 0;
 		for (; idx < count; ++idx) {
-			*xfer == *(int *)&tmp;
-			m_scatterTargets.push_back(tmp);
+			*xfer == *(int *)&moduleData;
+			m_scatterTargets.push_back(moduleData);
 		}
 	}
 	*xfer == m_pitchLimited;

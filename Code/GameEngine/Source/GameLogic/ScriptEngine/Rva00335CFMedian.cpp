@@ -6,9 +6,9 @@
 // Caller 0x00337D5A.
 #include "ascii_string.h"
 
-const AsciiString *Rva00335CFMedian(const AsciiString *a, const AsciiString *b, const AsciiString *c)
+const AsciiString *Rva00335CFMedian(const AsciiString *asciiString, const AsciiString *b, const AsciiString *c)
 {
-	const StringBase<char> &ra = (const StringBase<char> &)*a;
+	const StringBase<char> &ra = (const StringBase<char> &)*asciiString;
 	const StringBase<char> &rb = (const StringBase<char> &)*b;
 	const StringBase<char> &rc = (const StringBase<char> &)*c;
 	if (ra.compare(rb) < 0)
@@ -17,12 +17,12 @@ const AsciiString *Rva00335CFMedian(const AsciiString *a, const AsciiString *b, 
 			return b;
 		if (ra.compare(rc) < 0)
 			return c;
-		return a;
+		return asciiString;
 	}
 	else
 	{
 		if (ra.compare(rc) < 0)
-			return a;
+			return asciiString;
 		if (rb.compare(rc) < 0)
 			return c;
 		return b;

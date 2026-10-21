@@ -240,13 +240,13 @@ UpdateSleepTime ObjectCreationUpgrade::update()
 	const ObjectCreationUpgradeModuleData *data = getObjectCreationUpgradeModuleData();
 	if (data && !((const StringBase<char> &)data->m_thingToSpawn).isEmpty())
 	{
-		const ThingTemplate *tmplate = TheThingFactory->findTemplate(data->m_thingToSpawn);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(data->m_thingToSpawn);
 		if (data->m_useSpecialContext)
 		{
 			OCUSpecialContext *context = (OCUSpecialContext *)getObject()->rva0028BC58(0);
 			if (context)
 			{
-				if (!context->accept(tmplate, -1, context->prepare(-1, 0, &AsciiString::TheEmptyString, 1)))
+				if (!context->accept(thingTemplate, -1, context->prepare(-1, 0, &AsciiString::TheEmptyString, 1)))
 					return UPDATE_SLEEP_NONE;
 			}
 		}
@@ -261,7 +261,7 @@ UpdateSleepTime ObjectCreationUpgrade::update()
 
 			Object *owner = getObject();
 			Real angle = owner->getOrientation();
-			Object *obj = TheBuildAssistant->buildObjectNow(owner, tmplate, (const Coord3D *)&pos,
+			Object *obj = TheBuildAssistant->buildObjectNow(owner, thingTemplate, (const Coord3D *)&pos,
 				angle + data->m_angleOffset, owner->getControllingPlayer());
 			if (obj == 0)
 				return UPDATE_SLEEP_FOREVER;

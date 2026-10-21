@@ -36,9 +36,9 @@ inline UpgradeMux::UpgradeMux()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeUpgradeMuxInlineAnchor@@YAXPAVUpgradeMux@@@Z absent-from-retail
-void _bfmeUpgradeMuxInlineAnchor(UpgradeMux *p)
+void _bfmeUpgradeMuxInlineAnchor(UpgradeMux *upgradeMux)
 {
-    p->UpgradeMux::UpgradeMux();
+    upgradeMux->UpgradeMux::UpgradeMux();
 }
 #pragma inline_depth()
 

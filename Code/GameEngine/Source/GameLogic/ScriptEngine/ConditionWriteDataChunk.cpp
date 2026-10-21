@@ -215,7 +215,7 @@ void DataChunkOutput::closeDataChunk(void)
 
 	fseek(m_tmp_file, here, SEEK_SET_);
 
-	OutputChunk *c = m_chunkStack;
+	OutputChunk *outputChunk = m_chunkStack;
 	m_chunkStack = m_chunkStack->next;
-	::delete c;
+	::delete outputChunk;
 }

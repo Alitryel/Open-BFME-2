@@ -27,8 +27,8 @@ inline Module *TransportAIUpdate::friend_newModuleInstance(Thing *thing, const M
 }
 #pragma inline_depth(0)
 // ?bfmeEmitTransportAIUpdateFriendNew@@YAXPAVTransportAIUpdate@@@Z present-unmatched
-void bfmeEmitTransportAIUpdateFriendNew(TransportAIUpdate *p)
+void bfmeEmitTransportAIUpdateFriendNew(TransportAIUpdate *transportAIUpdate)
 {
-	p->friend_newModuleInstance(0, 0);
+	transportAIUpdate->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

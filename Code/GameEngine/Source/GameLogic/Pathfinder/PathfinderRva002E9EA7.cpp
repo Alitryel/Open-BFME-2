@@ -16,7 +16,7 @@ typedef unsigned int UnsignedInt;
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 struct PathfinderCellPoint : Coord3D {
 	__forceinline PathfinderCellPoint() {}
-	__forceinline PathfinderCellPoint(const PathfinderCellPoint &o) { x = o.x; y = o.y; z = o.z; }
+	__forceinline PathfinderCellPoint(const PathfinderCellPoint &pathfinderCellPoint) { x = pathfinderCellPoint.x; y = pathfinderCellPoint.y; z = pathfinderCellPoint.z; }
 	__forceinline ~PathfinderCellPoint() {}
 };
 enum Relationship { ENEMIES = 0, NEUTRAL, ALLIES };
@@ -197,11 +197,11 @@ bool Pathfinder::rva002E9EA7(Object *obj, Int cellX, Int cellY, PathfindLayerEnu
 				else if (unit->IsAtGoalPosition())
 					return false;
 			}
-			for (PathfindObjectNode *node2 = cell->getInfo() ? cell->getInfo()->m_presentList : 0; node2; node2 = node2->m_next)
+			for (PathfindObjectNode *pathfindObjectNode = cell->getInfo() ? cell->getInfo()->m_presentList : 0; pathfindObjectNode; pathfindObjectNode = pathfindObjectNode->m_next)
 			{
-				if (node2->m_obj->getID() == objID)
+				if (pathfindObjectNode->m_obj->getID() == objID)
 					continue;
-				Object *unit = node2->m_obj;
+				Object *unit = pathfindObjectNode->m_obj;
 				if (unit->getContainedBy() == obj)
 					continue;
 				if (obj->getRelationship(unit) == ALLIES)

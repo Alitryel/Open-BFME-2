@@ -43,11 +43,11 @@ void ScriptActions::Rva003BC996Do(Parameter *param, const StringBase<char> &anim
 	Object *obj = TheScriptEngine->getUnitNamed(param);
 	if (obj == 0)
 		return;
-	Drawable *d = obj->getDrawable();
-	if (d == 0)
+	Drawable *drawable = obj->getDrawable();
+	if (drawable == 0)
 		return;
 	int v = (int)((float)BfmeLogicFramesPerSecond * f);
-	d->setEmoticon(animName, v);
+	drawable->setEmoticon(animName, v);
 }
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.

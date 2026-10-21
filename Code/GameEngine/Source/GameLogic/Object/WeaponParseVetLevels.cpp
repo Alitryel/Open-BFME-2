@@ -51,42 +51,42 @@ typedef int Int;
 void parseAllVetLevelsFXList(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
 {
 	typedef const FXList *ConstFXListPtr;
-	ConstFXListPtr *s = (ConstFXListPtr *)store;
+	ConstFXListPtr *constFXListPtr = (ConstFXListPtr *)store;
 	ConstFXListPtr fx = NULL;
 	INI::parseFXList(ini, NULL, &fx, NULL);
 	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = fx;
+		constFXListPtr[i] = fx;
 }
 
 // ?parsePerVetLevelFXList@@YAXPAVINI@@PAX1PBX@Z
 void parsePerVetLevelFXList(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
 {
 	typedef const FXList *ConstFXListPtr;
-	ConstFXListPtr *s = (ConstFXListPtr *)store;
+	ConstFXListPtr *constFXListPtr = (ConstFXListPtr *)store;
 	VeterancyLevel v = (VeterancyLevel)ini->scanIndexList(ini->getNextToken(NULL), TheVeterancyNames);
 	ConstFXListPtr fx = NULL;
 	INI::parseFXList(ini, NULL, &fx, NULL);
-	s[v] = fx;
+	constFXListPtr[v] = fx;
 }
 
 // ?parseAllVetLevelsPSys@@YAXPAVINI@@PAX1PBX@Z
 void parseAllVetLevelsPSys(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
 {
 	typedef const ParticleSystemTemplate *ConstParticleSystemTemplatePtr;
-	ConstParticleSystemTemplatePtr *s = (ConstParticleSystemTemplatePtr *)store;
+	ConstParticleSystemTemplatePtr *constParticleSystemTemplatePtr = (ConstParticleSystemTemplatePtr *)store;
 	ConstParticleSystemTemplatePtr pst = NULL;
 	INI::parseParticleSystemTemplate(ini, NULL, &pst, NULL);
 	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = pst;
+		constParticleSystemTemplatePtr[i] = pst;
 }
 
 // ?parsePerVetLevelPSys@@YAXPAVINI@@PAX1PBX@Z
 void parsePerVetLevelPSys(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
 {
 	typedef const ParticleSystemTemplate *ConstParticleSystemTemplatePtr;
-	ConstParticleSystemTemplatePtr *s = (ConstParticleSystemTemplatePtr *)store;
+	ConstParticleSystemTemplatePtr *constParticleSystemTemplatePtr = (ConstParticleSystemTemplatePtr *)store;
 	VeterancyLevel v = (VeterancyLevel)ini->scanIndexList(ini->getNextToken(NULL), TheVeterancyNames);
 	ConstParticleSystemTemplatePtr pst = NULL;
 	INI::parseParticleSystemTemplate(ini, NULL, &pst, NULL);
-	s[v] = pst;
+	constParticleSystemTemplatePtr[v] = pst;
 }

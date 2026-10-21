@@ -23,9 +23,9 @@ typedef float Real;
 typedef bool Bool;
 
 
-static const char *inlineStr(const AsciiString &s)
+static const char *inlineStr(const AsciiString &asciiString)
 {
-	const char *text = *reinterpret_cast<const char *const *>(&s);
+	const char *text = *reinterpret_cast<const char *const *>(&asciiString);
 	return text ? text + 8 : "";
 }
 
@@ -247,9 +247,9 @@ void BaseUpgrade::upgradeImplementation()
 	}
 
 	CreateMask status;
-	Team *team230 = player->team230();
+	Team *team = player->team230();
 	Object *newObject = TheThingFactory->newObject(
-		thingTemplate, team230, &status, false);
+		thingTemplate, team, &status, false);
 	newObject->setProducer(object);
 	newObject->setBuilder(object);
 	reinterpret_cast<Thing *>(newObject)->setPosition(&position);

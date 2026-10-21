@@ -56,8 +56,8 @@ inline StatusBitsUpgradeModuleData::StatusBitsUpgradeModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeStatusBitsUpgradeModuleDataInlineAnchor@@YAXPAVStatusBitsUpgradeModuleData@@@Z absent-from-retail
-void _bfmeStatusBitsUpgradeModuleDataInlineAnchor(StatusBitsUpgradeModuleData *p)
+void _bfmeStatusBitsUpgradeModuleDataInlineAnchor(StatusBitsUpgradeModuleData *statusBitsUpgradeModuleData)
 {
-    p->StatusBitsUpgradeModuleData::StatusBitsUpgradeModuleData();
+    statusBitsUpgradeModuleData->StatusBitsUpgradeModuleData::StatusBitsUpgradeModuleData();
 }
 #pragma inline_depth()

@@ -128,8 +128,8 @@ void ObjectTypes::xfer(Xfer *xfer)
 	unsigned short count = (unsigned short)m_objectTypes.size();
 	*xfer == count;
 	if (xfer->IsStoring()) {
-		for (AsciiString *p = m_objectTypes.begin(); p != m_objectTypes.end(); ++p)
-			*xfer == *p;
+		for (AsciiString *asciiString = m_objectTypes.begin(); asciiString != m_objectTypes.end(); ++asciiString)
+			*xfer == *asciiString;
 	} else {
 		if (!m_objectTypes.empty()) {
 			throw XferException(5, (const char *)0);

@@ -298,4 +298,4 @@ __declspec(noinline) inline Bool Pathfinder::rva002EA658(Object *obj, TCheckMove
 
 // Select-any: PathfinderRva002F83F5Neighbors.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorRva002EA658 absent-from-retail
-Bool bfmeAnchorRva002EA658(Pathfinder *p, Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell) { return p->rva002EA658(obj, info, otherCell); }
+Bool bfmeAnchorRva002EA658(Pathfinder *pathfinder, Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell) { return pathfinder->rva002EA658(obj, info, otherCell); }

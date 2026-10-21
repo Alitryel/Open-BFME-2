@@ -27,8 +27,8 @@ inline Module *StatusBitsUpgrade::friend_newModuleInstance(Thing *thing, const M
 }
 #pragma inline_depth(0)
 // ?bfmeEmitStatusBitsUpgradeFriendNew@@YAXPAVStatusBitsUpgrade@@@Z present-unmatched
-void bfmeEmitStatusBitsUpgradeFriendNew(StatusBitsUpgrade *p)
+void bfmeEmitStatusBitsUpgradeFriendNew(StatusBitsUpgrade *statusBitsUpgrade)
 {
-	p->friend_newModuleInstance(0, 0);
+	statusBitsUpgrade->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

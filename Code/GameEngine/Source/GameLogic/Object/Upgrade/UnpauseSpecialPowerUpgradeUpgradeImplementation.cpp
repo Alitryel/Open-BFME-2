@@ -127,13 +127,13 @@ void UnpauseSpecialPowerUpgrade::onCreate()
 }
 void UnpauseSpecialPowerUpgrade::upgradeImplementation()
 {
-	for (BehaviorModule **m = getObject()->m_behaviors; *m; ++m)
+	for (BehaviorModule **behaviorModule = getObject()->m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		SpecialPowerModuleInterface *sp = (*m)->getBehaviorModuleInterface()->getSpecialPower();
+		SpecialPowerModuleInterface *sp = (*behaviorModule)->getBehaviorModuleInterface()->getSpecialPower();
 		if (!sp)
 			continue;
-		const SpecialPowerTemplate *tmpl = sp->getSpecialPowerTemplate();
-		if (tmpl != getUnpauseSpecialPowerUpgradeModuleData()->m_specialPower)
+		const SpecialPowerTemplate *specialPowerTemplate = sp->getSpecialPowerTemplate();
+		if (specialPowerTemplate != getUnpauseSpecialPowerUpgradeModuleData()->m_specialPower)
 			continue;
 		sp->pauseCountdown(FALSE);
 		if (!getUnpauseSpecialPowerUpgradeModuleData()->m_11C)
@@ -144,9 +144,9 @@ void UnpauseSpecialPowerUpgrade::upgradeRemovalImplementation()
 {
 	if (!slot00())
 		return;
-	for (BehaviorModule **m = getObject()->m_behaviors; *m; ++m)
+	for (BehaviorModule **behaviorModule = getObject()->m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		SpecialPowerModuleInterface *sp = (*m)->getBehaviorModuleInterface()->getSpecialPower();
+		SpecialPowerModuleInterface *sp = (*behaviorModule)->getBehaviorModuleInterface()->getSpecialPower();
 		if (!sp)
 			continue;
 		if (sp->getSpecialPowerTemplate() != getUnpauseSpecialPowerUpgradeModuleData()->m_specialPower)

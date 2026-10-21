@@ -123,14 +123,14 @@ private:
 // ?upgradeImplementation@AudioLoopUpgrade@@MAEXXZ
 void AudioLoopUpgrade::upgradeImplementation()
 {
-	const AudioLoopUpgradeModuleData *d = getAudioLoopUpgradeModuleData();
+	const AudioLoopUpgradeModuleData *audioLoopUpgradeModuleData = getAudioLoopUpgradeModuleData();
 	if (TheAudio)
 	{
 		if (m_soundHandle != AHSV_NoSound)
 			TheAudio->removeAudioEvent(m_soundHandle);
-		BfmeAudioEventPrefix136 soundToPlay(d->m_soundToPlay, getObject()->getID());
+		BfmeAudioEventPrefix136 soundToPlay(audioLoopUpgradeModuleData->m_soundToPlay, getObject()->getID());
 		m_soundHandle = TheAudio->addAudioEvent(&soundToPlay);
 	}
-	if (d->m_killAfterMS > 0)
-		setWakeFrame(getObject(), (UpdateSleepTime)d->m_killAfterMS);
+	if (audioLoopUpgradeModuleData->m_killAfterMS > 0)
+		setWakeFrame(getObject(), (UpdateSleepTime)audioLoopUpgradeModuleData->m_killAfterMS);
 }

@@ -290,10 +290,10 @@ Bool ReplaceSelfUpgrade::rva004CE2B0(Rva00406F9C *mask)
 	Real totalLength = 0.0f;
 	for (Int i = 0; i < count; i++)
 	{
-		const ThingTemplate *tmpl = ((ThingFactory *)TheThingFactory)->findTemplate(names[i]);
-		if (!tmpl)
+		const ThingTemplate *thingTemplate = ((ThingFactory *)TheThingFactory)->findTemplate(names[i]);
+		if (!thingTemplate)
 			return false;
-		totalLength += tmpl->getC8();
+		totalLength += thingTemplate->getC8();
 	}
 
 	Coord3D perp;
@@ -311,20 +311,20 @@ Bool ReplaceSelfUpgrade::rva004CE2B0(Rva00406F9C *mask)
 
 	for (Int j = 0; j < count; j++)
 	{
-		const ThingTemplate *tmpl = ((ThingFactory *)TheThingFactory)->findTemplate(names[j]);
+		const ThingTemplate *thingTemplate = ((ThingFactory *)TheThingFactory)->findTemplate(names[j]);
 
 		Coord3D step;
 		copyCoord(step, &perp);
-		scaleCoord(step, -tmpl->getC8());
+		scaleCoord(step, -thingTemplate->getC8());
 		addCoord(cur, &step);
 
-		const GeometryInfo &geom = tmpl->getTemplateGeometryInfo();
-		BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(&pos, tmpl->getB0() * 3.0f, 3,
+		const GeometryInfo &geom = thingTemplate->getTemplateGeometryInfo();
+		BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(&pos, thingTemplate->getB0() * 3.0f, 3,
 			Rva00261603Filter(pos, geom, angle, true).link(&Rva003959FA(Rva0006EE7A(0, 0x96, 0x9C))), 0);
 
 		for (Object *other = iter.next(); other; other = iter.next())
 		{
-			if (!tmpl->isKindOf28() || other->getTemplate()->isKindOf28())
+			if (!thingTemplate->isKindOf28() || other->getTemplate()->isKindOf28())
 				return false;
 		}
 

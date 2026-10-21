@@ -333,8 +333,8 @@ class WeaponTemplateSet { public:
 };
 void WeaponSet::updateWeaponSet(const Object *obj)
 {
- ThingTemplate *templ=obj->m_template;
- const WeaponTemplateSet *set=templ->findWeaponTemplateSet(*(const BitFlags<117> *)((const Rva0028B7AELeaGetter *)obj)->get());
+ ThingTemplate *thingTemplate=obj->m_template;
+ const WeaponTemplateSet *set=thingTemplate->findWeaponTemplateSet(*(const BitFlags<117> *)((const Rva0028B7AELeaGetter *)obj)->get());
  if(set && set!=m_set) {
    SavedWeaponState state[6];
    SavedWeaponState *saved=0;
@@ -405,29 +405,29 @@ void WeaponSet::releaseWeaponLock(WeaponLockType lockType)
 // live in this unit. Airborne-target status is bit 6 of Object +0x94.
 static int getVictimAntiMask(const Object *victim)
 {
-	const ThingTemplate *tmpl = victim->m_template;
-	if (tmpl->m_kindOf[1] & 0x800000)
+	const ThingTemplate *thingTemplate = victim->m_template;
+	if (thingTemplate->m_kindOf[1] & 0x800000)
 		return 0x12;
-	if (tmpl->m_kindOf[1] & 0x100000)
+	if (thingTemplate->m_kindOf[1] & 0x100000)
 		return 8;
-	if (tmpl->m_kindOf[2] & 0x800)
+	if (thingTemplate->m_kindOf[2] & 0x800)
 		return 0x40;
-	if (tmpl->m_kindOf[0] & 0x2000000)
+	if (thingTemplate->m_kindOf[0] & 0x2000000)
 		return 4;
 	if ((bool)((victim->m_status >> 6) & 1))
 	{
-		if (tmpl->m_kindOf[0] & 0x200)
+		if (thingTemplate->m_kindOf[0] & 0x200)
 			return 1;
-		if (tmpl->m_kindOf[0] & 0x100)
+		if (thingTemplate->m_kindOf[0] & 0x100)
 			return 0x20;
-		if (tmpl->m_kindOf[0] & 0x400)
+		if (thingTemplate->m_kindOf[0] & 0x400)
 			return 0x200;
-		if (tmpl->m_kindOf[2] & 0x4000)
+		if (thingTemplate->m_kindOf[2] & 0x4000)
 			return 0x80;
 		return 0;
 	}
 	// Ground victim: 2, plus 0x100 for KindOf bit 7 (retail selects 0x102/2).
-	return (tmpl->m_kindOf[0] & 0x80) ? 0x102 : (tmpl->m_kindOf[0] & 0x80) + 2;
+	return (thingTemplate->m_kindOf[0] & 0x80) ? 0x102 : (thingTemplate->m_kindOf[0] & 0x80) + 2;
 }
 
 class ContainedItemsListView;

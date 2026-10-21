@@ -171,7 +171,7 @@ private:
 struct Rva002E8C23Pair { Int x,y; };
 struct PathfinderCellPoint : Coord3D {
 	__forceinline PathfinderCellPoint() {}
-	__forceinline PathfinderCellPoint(const PathfinderCellPoint &o) { x = o.x; y = o.y; z = o.z; }
+	__forceinline PathfinderCellPoint(const PathfinderCellPoint &pathfinderCellPoint) { x = pathfinderCellPoint.x; y = pathfinderCellPoint.y; z = pathfinderCellPoint.z; }
 	__forceinline ~PathfinderCellPoint() {}
 };
 PathfinderCellPoint rva002E79A8(Bool centerInCell, Int cellX, Int cellY, PathfindLayerEnum layer);
@@ -666,7 +666,7 @@ extern void *g_00DFEFF0;
 // copy constructor, like PathfinderCellPoint below.
 struct PathfinderCellIndex : ICoord2D {
 	__forceinline PathfinderCellIndex() {}
-	__forceinline PathfinderCellIndex(const PathfinderCellIndex &o) { x = o.x; y = o.y; }
+	__forceinline PathfinderCellIndex(const PathfinderCellIndex &pathfinderCellIndex) { x = pathfinderCellIndex.x; y = pathfinderCellIndex.y; }
 };
 class Rva002F6F90Context { public: Bool rva002F6F90(unsigned int,Int); };
 class Rva002F70E5Context { public: Bool rva002F70E5(unsigned int,Int); };
@@ -3171,7 +3171,7 @@ class HierarchicalPath { public: Int lookUpPositionOnPath(const Coord3D *); };
 struct PathfinderCellLimitView { char pad[0x1210]; unsigned int maxCells; };
 extern unsigned int PathfinderSearchCellsVisited;	// 0x00DFF0CC, also cleared by FindSafePath
 // A cell centre temporary passed on by address.
-static __forceinline Coord3D *cellPointArg(const PathfinderCellPoint &p) { return (Coord3D *)&p; }
+static __forceinline Coord3D *cellPointArg(const PathfinderCellPoint &pathfinderCellPoint) { return (Coord3D *)&pathfinderCellPoint; }
 // A Bool argument travels as its whole stack dword (push dword ptr [bool]).
 static __forceinline void *boolArg(const Bool &value) { return *(void *const *)&value; }
 static __forceinline Bool pathfinderLogOn() { return g_00E03745 && g_00DFEFF0; }
@@ -3710,7 +3710,7 @@ int Rva002E9B31Get(void *);
 // segment loop body (one load of nextOptimized), via PathNode's getPosition/getNextOptimized.
 // 0x002F9DBA: a flood search from the mover's cell for the nearest cell whose
 // box (grown by both movers' radii) avoids both avoided paths and objects.
-Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToAvoid,Object *otherObj2,Path *pathToAvoid2)
+Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToAvoid,Object *otherObj2,Path *path)
 {
  if(!m_isMapReady)return 0;
  Bool isHuman=true;
@@ -3757,8 +3757,8 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
    }
   }
   if(bounds.lo.x<otherObj->position[0] && bounds.hi.x>otherObj->position[0] && bounds.lo.y<otherObj->position[1] && bounds.hi.y>otherObj->position[1])overlap=true;
-  if(!overlap && pathToAvoid2) {
-   for(node=pathToAvoid2->firstNode;node && node->getNextOptimized();node=node->getNextOptimized()) {
+  if(!overlap && path) {
+   for(node=path->firstNode;node && node->getNextOptimized();node=node->getNextOptimized()) {
     Coord2D first,last;first.x=node->getPosition()->x;first.y=node->getPosition()->y;
     last.x=node->getNextOptimized()->getPosition()->x;last.y=node->getNextOptimized()->getPosition()->y;
     if(LineInRegion(&first,&last,&bounds)){overlap=true;break;}
@@ -4462,7 +4462,7 @@ inline float Rva002E8D74::rva002E8D74(int lhs, int rhs)
 struct MeleeSearchLimit {char pad[0x11ec];int searchLimit;};
 struct SearchCoordinate:Coord3D {
  SearchCoordinate(const Coord3D &p){x=p.x;y=p.y;z=p.z;}
- SearchCoordinate(const SearchCoordinate &p){x=p.x;y=p.y;z=p.z;}
+ SearchCoordinate(const SearchCoordinate &searchCoordinate){x=searchCoordinate.x;y=searchCoordinate.y;z=searchCoordinate.z;}
  void zero(){x=0;y=0;z=0;}
  void scale(float f){x*=f;y*=f;z*=f;}
  void add(const Coord3D &p){x+=p.x;y+=p.y;z+=p.z;}
@@ -4639,11 +4639,11 @@ bool Rva002F23A6::rva002F23A6(Object *unit,int weapon,int locomotor,Coord3D *des
 // BFME1 cee35b7d8 PathfinderAdjustToPossibleDestination semantic donor.
 // WB D455F0; native 002F287A..002F2B88 RET12. One spiral counter spans
 // all four legs, matching the sibling melee search and retail stack reuse.
-static __forceinline bool possibleFootprint(Pathfinder *p,Object *object,int x,int y,int layer,int radius,bool center) {
+static __forceinline bool possibleFootprint(Pathfinder *pathfinder,Object *object,int x,int y,int layer,int radius,bool center) {
  // Native RET24 uses four-byte words and tests only the final low-byte bool.
  typedef unsigned char (Pathfinder::*Call)(Object *,int,int,int,int,bool);
  Call typed=reinterpret_cast<Call>(&Pathfinder::bfmeWrapE6E90);
- return (p->*typed)(object,x,y,layer,radius,center)!=0;
+ return (pathfinder->*typed)(object,x,y,layer,radius,center)!=0;
 }
 bool Pathfinder::adjustToPossibleDestination(Object *object,const LocomotorSet &set,Coord3D *destination) {
  int radius; bool center;
@@ -4701,10 +4701,10 @@ bool Pathfinder::adjustToPossibleDestination(Object *object,const LocomotorSet &
 // name Pathfinder::SnapClosestGoalPosition. Native 002F2B88..002F2FA4 RET8.
 class Rva0052DB73 { public: bool rva0052DB73(int); };
 class Rva0052DB11 { public: bool rva0052DB11(int); };
-static __forceinline bool snapDestination(Pathfinder *p,Object *obj,int x,int y,int layer,int radius,bool center) {
+static __forceinline bool snapDestination(Pathfinder *pathfinder,Object *obj,int x,int y,int layer,int radius,bool center) {
  typedef unsigned char (Pathfinder::*Call)(Object *,int,int,int,int,bool);
  Call typed=reinterpret_cast<Call>(&Pathfinder::bfmeWrapE6E90);
- return (p->*typed)(obj,x,y,layer,radius,center)!=0;
+ return (pathfinder->*typed)(obj,x,y,layer,radius,center)!=0;
 }
 void Pathfinder::SnapClosestGoalPosition(Object *obj,Coord3D *pos)
 {
@@ -5367,7 +5367,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
    for(;y<lastY;++y)
     for(Int l=0;l<layerCount;++l) {
      PathCollisionCell *pathCell=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[l],x,y));
-     if(pathCell && pathCell->info)for(PathCollisionNode *n=pathCell->info->occupants;n;n=n->next)if(n->object!=obj)++oldCount;
+     if(pathCell && pathCell->info)for(PathCollisionNode *pathCollisionNode=pathCell->info->occupants;pathCollisionNode;pathCollisionNode=pathCollisionNode->next)if(pathCollisionNode->object!=obj)++oldCount;
     }
   }
  }
@@ -5391,11 +5391,11 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
     PathCollisionInfo *info=reinterpret_cast<PathCollisionCell *>(pathCell)->info;
     if(info) {
      if(!((Rva002E6DC4 *)this)->rva002E6DC4(&query,pathCell))return false;
-     for(PathCollisionNode *n=info->occupants;n;n=n->next) {
-      if(n->object==obj)continue;
+     for(PathCollisionNode *pathCollisionNode=info->occupants;pathCollisionNode;pathCollisionNode=pathCollisionNode->next) {
+      if(pathCollisionNode->object==obj)continue;
       ++newCount;
       if(newCount>=oldCount)return false;
-      Object *effective=n->object->rva002931F5(true);if(!effective)effective=n->object;
+      Object *effective=pathCollisionNode->object->rva002931F5(true);if(!effective)effective=pathCollisionNode->object;
       char *other=effective->m_258;
       if(other && *(Int *)(other+0x16C)>0)return false;
      }
@@ -5754,7 +5754,7 @@ static __forceinline void hierarchySetParent(PathfindCell *cell,PathfindCell *pa
 static __forceinline bool hierarchyClosed(PathfindCell *cell) { return (unsigned char)((Rva002E6B06 *)cell)->rva002E6B06()!=0; }
 static __forceinline bool hierarchyOpen(PathfindCell *cell) { return (unsigned char)((Rva002E6AF3 *)cell)->get()!=0; }
 struct HierarchyPoint : public Coord3D { HierarchyPoint(){}
- HierarchyPoint(const HierarchyPoint &c) { x=c.x;y=c.y;z=c.z; }
+ HierarchyPoint(const HierarchyPoint &hierarchyPoint) { x=hierarchyPoint.x;y=hierarchyPoint.y;z=hierarchyPoint.z; }
  HierarchyPoint(const Coord3D &c) { x=c.x;y=c.y;z=c.z; }
  HierarchyPoint &operator=(const Coord3D &c) { *(Coord3D *)this=c;return *this; }
 };
@@ -6272,7 +6272,7 @@ __declspec(noinline) Rva002E8BCF::Rva002E8BCF(const Rva002E8BCFSrc*src,Bool lhs,
 struct PathfinderAttackCoord : Coord3D {
     __forceinline PathfinderAttackCoord() {}
     __forceinline PathfinderAttackCoord(const Coord3D &v) { x=v.x;y=v.y;z=v.z; }
-    __forceinline PathfinderAttackCoord(const PathfinderAttackCoord &v) { x=v.x;y=v.y;z=v.z; }
+    __forceinline PathfinderAttackCoord(const PathfinderAttackCoord &pathfinderAttackCoord) { x=pathfinderAttackCoord.x;y=pathfinderAttackCoord.y;z=pathfinderAttackCoord.z; }
     __forceinline ~PathfinderAttackCoord(){}
     void set(float xx,float yy,float zz){x=xx;y=yy;z=zz;}
     void sub(const Coord3D&p){x-=p.x;y-=p.y;z-=p.z;}

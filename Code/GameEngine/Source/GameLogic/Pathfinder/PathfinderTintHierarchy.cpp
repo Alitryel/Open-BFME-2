@@ -35,12 +35,12 @@ public:
 };
 void Rva002EBD99(Object *obj,const RGBColor00271779 *color)
 {
- Drawable *d=obj->getDrawable();
- if(d) {
-  d->flags|=0x20;
+ Drawable *drawable=obj->getDrawable();
+ if(drawable) {
+  drawable->flags|=0x20;
   RGBColor00271779 red={1.0f,0.0f,0.0f};
   if(!color)color=&red;
-  ((Rva00271779 *)d)->rva00271779(*color,0,0,100,0.0f,0.0f);
+  ((Rva00271779 *)drawable)->rva00271779(*color,0,0,100,0.0f,0.0f);
  }
  Rva002EBD99Contain *contain=obj->contain;
  if(contain) {

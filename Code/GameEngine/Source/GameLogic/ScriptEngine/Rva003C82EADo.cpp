@@ -40,19 +40,19 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003C82EADo(Parameter *p1, Parameter *p2)
+void ScriptActions::Rva003C82EADo(Parameter *parameter, Parameter *p2)
 {
-	Object *o1 = TheScriptEngine->getUnitNamed(p1);
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
 	Object *o2 = TheScriptEngine->getUnitNamed(p2);
-	if (!o1)
+	if (!object)
 		return;
 	if (!o2)
 		return;
-	AIUpdateInterface *ai = o1->getAI();
+	AIUpdateInterface *ai = object->getAI();
 	if (!ai)
 		return;
-	o1->leaveGroup();
-	if ((unsigned char)o1->rva0028B38D())
+	object->leaveGroup();
+	if ((unsigned char)object->rva0028B38D())
 		ai->m_command.rva0036EFF5(o2, CMD_FROM_SCRIPT);
 	else
 		ai->m_command.rva0026C2D9(o2, 0x7FFFFFFF, CMD_FROM_SCRIPT);

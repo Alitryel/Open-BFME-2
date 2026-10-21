@@ -45,10 +45,10 @@ void q4Notify002CC5E1(void *ini, DamageNugget *m, int c, int d);
 // ?parseDamageNugget@@YAXPAVINI@@PAVWeaponTemplate@@@Z
 void parseDamageNugget(INI *ini, WeaponTemplate *weapon)
 {
-	DamageNugget *m = new DamageNugget;
-	m->m_owner = weapon;
-	q4Notify002CC5E1(ini, m, 0, 0);
-	weapon->rva002CBA59(m);
+	DamageNugget *damageNugget = new DamageNugget;
+	damageNugget->m_owner = weapon;
+	q4Notify002CC5E1(ini, damageNugget, 0, 0);
+	weapon->rva002CBA59(damageNugget);
 	weapon->m_flag114 = true;
 }
 

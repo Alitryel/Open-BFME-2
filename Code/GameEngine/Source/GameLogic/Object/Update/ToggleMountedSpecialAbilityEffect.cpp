@@ -177,9 +177,9 @@ void ToggleMountedSpecialAbilityUpdate::triggerAbilityEffect()
  MountedAIView *ai=obj->ai;
  flag8C=false;
  if(!ai->isIdle()) return;
- const MountedDataView *d=data;
+ const MountedDataView *mountedDataView=data;
  if(state!=1) return;
- if(!d->mountedTemplate.isEmpty()) createMountedTemplate();
+ if(!mountedDataView->mountedTemplate.isEmpty()) createMountedTemplate();
  else if(obj->isKindOf((KindOfType)214)) {
   MountedContainView *contain=obj->contain;
   if(contain && contain->slot69(0)>0) obj->contain->slot42(0);
@@ -187,7 +187,7 @@ void ToggleMountedSpecialAbilityUpdate::triggerAbilityEffect()
   obj->ai->slot142(0);
   obj->clearWeaponSetFlag((WeaponSetType)21);
   obj->rva0028B79C(6);
-  if(d->cancelDisguise && obj->isKindOf((KindOfType)300)) {
+  if(mountedDataView->cancelDisguise && obj->isKindOf((KindOfType)300)) {
    static const NameKeyType key=TheNameKeyGenerator->nameToKey("SpecialDisguiseUpdate");
    SpecialDisguiseUpdate *disguise=(SpecialDisguiseUpdate*)obj->findModule(key);
    if(disguise) disguise->rva004B05F5(true);

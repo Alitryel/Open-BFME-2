@@ -113,62 +113,62 @@ const DistanceCalculationType DAMAGE_RANGE_CALC_TYPE = FROM_BOUNDINGSPHERE_3D;
 //-------------------------------------------------------------------------------------------------
 static void parsePerVetLevelAsciiString( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
-	AsciiString* s = (AsciiString*)store;
+	AsciiString* asciiString = (AsciiString*)store;
 	VeterancyLevel v = (VeterancyLevel)INI::scanIndexList(ini->getNextToken(), TheVeterancyNames);
-	s[v] = ini->getNextAsciiString();
+	asciiString[v] = ini->getNextAsciiString();
 }
 
 //-------------------------------------------------------------------------------------------------
 static void parseAllVetLevelsAsciiString( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
-	AsciiString* s = (AsciiString*)store;
+	AsciiString* asciiString = (AsciiString*)store;
 	AsciiString a = ini->getNextAsciiString();
 	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = a;
+		asciiString[i] = a;
 }
 
 //-------------------------------------------------------------------------------------------------
 static void parsePerVetLevelFXList( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
 	typedef const FXList* ConstFXListPtr;
-	ConstFXListPtr* s = (ConstFXListPtr*)store;
+	ConstFXListPtr* constFXListPtr = (ConstFXListPtr*)store;
 	VeterancyLevel v = (VeterancyLevel)INI::scanIndexList(ini->getNextToken(), TheVeterancyNames);
 	const FXList* fx = NULL;
 	INI::parseFXList(ini, NULL, &fx, NULL);
-	s[v] = fx;
+	constFXListPtr[v] = fx;
 }
 
 //-------------------------------------------------------------------------------------------------
 static void parseAllVetLevelsFXList( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
 	typedef const FXList* ConstFXListPtr;
-	ConstFXListPtr* s = (ConstFXListPtr*)store;
+	ConstFXListPtr* constFXListPtr = (ConstFXListPtr*)store;
 	const FXList* fx = NULL;
 	INI::parseFXList(ini, NULL, &fx, NULL);
 	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = fx;
+		constFXListPtr[i] = fx;
 }
 
 //-------------------------------------------------------------------------------------------------
 static void parsePerVetLevelPSys( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
 	typedef const ParticleSystemTemplate* ConstParticleSystemTemplatePtr;
-	ConstParticleSystemTemplatePtr* s = (ConstParticleSystemTemplatePtr*)store;
+	ConstParticleSystemTemplatePtr* constParticleSystemTemplatePtr = (ConstParticleSystemTemplatePtr*)store;
 	VeterancyLevel v = (VeterancyLevel)INI::scanIndexList(ini->getNextToken(), TheVeterancyNames);
 	ConstParticleSystemTemplatePtr pst = NULL;
 	INI::parseParticleSystemTemplate(ini, NULL, &pst, NULL);
-	s[v] = pst;
+	constParticleSystemTemplatePtr[v] = pst;
 }
 
 //-------------------------------------------------------------------------------------------------
 static void parseAllVetLevelsPSys( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
 	typedef const ParticleSystemTemplate* ConstParticleSystemTemplatePtr;
-	ConstParticleSystemTemplatePtr* s = (ConstParticleSystemTemplatePtr*)store;
+	ConstParticleSystemTemplatePtr* constParticleSystemTemplatePtr = (ConstParticleSystemTemplatePtr*)store;
 	ConstParticleSystemTemplatePtr pst = NULL;
 	INI::parseParticleSystemTemplate(ini, NULL, &pst, NULL);
 	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = pst;
+		constParticleSystemTemplatePtr[i] = pst;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

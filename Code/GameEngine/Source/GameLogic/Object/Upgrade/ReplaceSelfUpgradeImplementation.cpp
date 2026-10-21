@@ -295,17 +295,17 @@ void ReplaceSelfUpgrade::upgradeImplementation()
  if(TheAI)TheAI->getPathfinder()->RemoveObjectFromPathfindMap(getObject());
  TheGameLogic->destroyObject(m_object);
  Real totalLength=0;
- for(Int i=0;i<count;++i){const ThingTemplate *tmpl=TheThingFactory->findTemplate(names[i]);if(!tmpl)return;totalLength+=tmpl->getC8();}
+ for(Int i=0;i<count;++i){const ThingTemplate *thingTemplate=TheThingFactory->findTemplate(names[i]);if(!thingTemplate)return;totalLength+=thingTemplate->getC8();}
  Coord3D perp;const Coord3D *direction=m_object->getUnitDirectionVector2D();
  copyCoord(perp,direction);Real t=-perp.y;perp.y=perp.x;perp.x=t;
  Coord3D cur;copyCoord(cur,&perp);scaleCoord(cur,totalLength);const Object *owner=m_object;addCoord(cur,owner->getPosition());
  for(Int j=0;j<count;++j){
-  const ThingTemplate *tmpl=TheThingFactory->findTemplate(names[j]);
-  Coord3D step;copyCoord(step,&perp);scaleCoord(step,-tmpl->getC8());addCoord(cur,&step);
-  BfmeWideResult iter=ThePartitionManager->iterateObjectsInRange(&pos,tmpl->getB0()*0.5f,1,Rva00261603Filter(pos,tmpl->getTemplateGeometryInfo(),angle,true).link(&Rva0004584D(Rva00045411BitSet(0,0xBD),*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE)),0);
+  const ThingTemplate *thingTemplate=TheThingFactory->findTemplate(names[j]);
+  Coord3D step;copyCoord(step,&perp);scaleCoord(step,-thingTemplate->getC8());addCoord(cur,&step);
+  BfmeWideResult iter=ThePartitionManager->iterateObjectsInRange(&pos,thingTemplate->getB0()*0.5f,1,Rva00261603Filter(pos,thingTemplate->getTemplateGeometryInfo(),angle,true).link(&Rva0004584D(Rva00045411BitSet(0,0xBD),*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE)),0);
   for(Object *other=iter.next();other;other=iter.next())other->kill((DamageType)8,(DeathType)0);
   Object *constructor=m_object;
-  Object *created=TheBuildAssistant->buildObjectNow(constructor,tmpl,&cur,angle,constructor->getControllingPlayer());
+  Object *created=TheBuildAssistant->buildObjectNow(constructor,thingTemplate,&cur,angle,constructor->getControllingPlayer());
   if(!created)return;
   created->teleportTo(&cur,false);created->name=name;addCoord(cur,&step);
   ReplaceInfo *info=(ReplaceInfo*)((Rva0026F0F0*)TheUpgradeCenter)->rva0026F0F0((const char*)data+8);

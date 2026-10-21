@@ -83,11 +83,11 @@ void LuaScriptEngine::rva002E9680ParseModelConditionEvent(BfmeLexEAN *parser)
   }
   if(!found)m_modelConditionEvents.push_back(*reinterpret_cast<Rva00336AB2Element *>(&record));
   else return;
- } catch(INIException &e) {
+ } catch(INIException &iNIException) {
   if(_bfme_debugReportingEnabled()) {
    _bfme_debugRecordCallsite(1);
    reinterpret_cast<LuaParseDebug *>(theDebug)->v24();
-   LuaParseLog *log=reinterpret_cast<LuaParseDebug *>(theDebug)->line(0,0,0)->write("Error during parsing XML data: "); const char *message=e.mFailureMessage; log->write(message)->end(2);
+   LuaParseLog *log=reinterpret_cast<LuaParseDebug *>(theDebug)->line(0,0,0)->write("Error during parsing XML data: "); const char *message=iNIException.mFailureMessage; log->write(message)->end(2);
   }
  } catch(...) {}
  if(reinterpret_cast<XmlNameSlotList *>(parser)->finish()==2)reinterpret_cast<XmlNameSlotList *>(parser)->finish();

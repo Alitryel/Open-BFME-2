@@ -67,13 +67,13 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate *wt, const Object
 {
 	if (wt == 0)
 		return;
-	Weapon *w = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
+	Weapon *weapon = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
 	if (source != 0)
-		w->m_ownerID = (unsigned int)source->m_id;
-	w->loadAmmoNow(source);
-	w->m_50 = TheGameLogic->m_frame + 1;
-	w->fireWeapon(source, pos, 0);
-	::operator delete(w->deleteInstance(0));
+		weapon->m_ownerID = (unsigned int)source->m_id;
+	weapon->loadAmmoNow(source);
+	weapon->m_50 = TheGameLogic->m_frame + 1;
+	weapon->fireWeapon(source, pos, 0);
+	::operator delete(weapon->deleteInstance(0));
 }
 
 // 0x002CE8AA 90B: same allocate plus loadAmmoNow plus deleteInstance family as
@@ -84,12 +84,12 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate *wt, const Object
 // proves the WeaponStore thiscall class and the 5-arg order.
 void WeaponStore::handleProjectileDetonation(const WeaponTemplate *wt, const Coord3D *pos1, const Object *source, const Coord3D *pos2, int x)
 {
-	Weapon *w = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
+	Weapon *weapon = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
 	if (source != 0)
-		w->m_ownerID = (unsigned int)source->m_id;
-	w->loadAmmoNow(source);
-	w->fireProjectileDetonationWeapon(source, pos1, pos2, x);
-	::operator delete(w != 0 ? w->deleteInstance(0) : 0);
+		weapon->m_ownerID = (unsigned int)source->m_id;
+	weapon->loadAmmoNow(source);
+	weapon->fireProjectileDetonationWeapon(source, pos1, pos2, x);
+	::operator delete(weapon != 0 ? weapon->deleteInstance(0) : 0);
 }
 
 // 0x002CE964: victim-target overload of the same family: wt null check, ownerID
@@ -102,13 +102,13 @@ void WeaponStore::rva002CE964(const WeaponTemplate *wt, const Object *source, co
 {
 	if (wt == 0)
 		return;
-	Weapon *w = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
+	Weapon *weapon = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
 	if (source != 0)
-		w->m_ownerID = (unsigned int)source->m_id;
-	w->loadAmmoNow(source);
-	w->m_50 = TheGameLogic->m_frame + 1;
-	w->rva002CE6C5(source, victim->m_id, victim, 0);
-	::operator delete(w->deleteInstance(0));
+		weapon->m_ownerID = (unsigned int)source->m_id;
+	weapon->loadAmmoNow(source);
+	weapon->m_50 = TheGameLogic->m_frame + 1;
+	weapon->rva002CE6C5(source, victim->m_id, victim, 0);
+	::operator delete(weapon->deleteInstance(0));
 }
 
 // 0x002CE9C8 90B: the next overload of the family: wt null check, ownerID from
@@ -120,10 +120,10 @@ void WeaponStore::rva002CE9C8(const WeaponTemplate *wt, const Object *source, co
 {
 	if (wt == 0)
 		return;
-	Weapon *w = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
+	Weapon *weapon = TheWeaponStore->allocateNewWeapon(wt, WEAPON_SLOT_PRIMARY);
 	if (source != 0)
-		w->m_ownerID = (unsigned int)source->m_id;
-	w->loadAmmoNow(source);
-	w->rva002CE74B(source, victim);
-	::operator delete(w != 0 ? w->deleteInstance(0) : 0);
+		weapon->m_ownerID = (unsigned int)source->m_id;
+	weapon->loadAmmoNow(source);
+	weapon->rva002CE74B(source, victim);
+	::operator delete(weapon != 0 ? weapon->deleteInstance(0) : 0);
 }

@@ -191,22 +191,22 @@ void RemoveUpgradeUpgrade::upgradeImplementation()
 	if (isAlreadyUpgraded())
 		return;
 
-	const RemoveUpgradeUpgradeModuleData *d = getRemoveUpgradeUpgradeModuleData();
+	const RemoveUpgradeUpgradeModuleData *removeUpgradeUpgradeModuleData = getRemoveUpgradeUpgradeModuleData();
 	Object *obj = m_object;
 
-	for (_STL::vector<AsciiString>::const_iterator it = d->m_upgradeToRemove.begin(); it != d->m_upgradeToRemove.end(); ++it)
+	for (_STL::vector<AsciiString>::const_iterator it = removeUpgradeUpgradeModuleData->m_upgradeToRemove.begin(); it != removeUpgradeUpgradeModuleData->m_upgradeToRemove.end(); ++it)
 	{
 		const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(*it);
 		if (upgrade)
 		{
 			if ((upgrade->m_type ? upgrade->m_type : upgrade->m_type) == 0)
 			{
-				obj->getControllingPlayer()->rva002ADAC3(upgrade, d->m_suppressEvaEventForRemoval != 0);
+				obj->getControllingPlayer()->rva002ADAC3(upgrade, removeUpgradeUpgradeModuleData->m_suppressEvaEventForRemoval != 0);
 			}
 			else
 			{
 				obj->rva00290D42(upgrade);
-				if (d->m_removeFromAllPlayerObjects)
+				if (removeUpgradeUpgradeModuleData->m_removeFromAllPlayerObjects)
 					obj->getControllingPlayer()->rva002ADAC3(upgrade, 0);
 			}
 		}
@@ -215,7 +215,7 @@ void RemoveUpgradeUpgrade::upgradeImplementation()
 	{
 		_STL::vector<UpgradeID> keep;
 		{
-			BfmeFixedStorage128 mask(d->m_activationMask);
+			BfmeFixedStorage128 mask(removeUpgradeUpgradeModuleData->m_activationMask);
 			while (((Rva00046827 *)&mask)->rva00046827() > 0)
 			{
 				const UpgradeTemplate *upgrade = (const UpgradeTemplate *)((Rva0026F0F0 *)TheUpgradeCenter)->rva0026F0F0(&mask);
@@ -225,7 +225,7 @@ void RemoveUpgradeUpgrade::upgradeImplementation()
 			}
 		}
 
-		for (_STL::vector<AsciiString>::const_iterator group = d->m_upgradeGroupsToRemove.begin(); group != d->m_upgradeGroupsToRemove.end(); ++group)
+		for (_STL::vector<AsciiString>::const_iterator group = removeUpgradeUpgradeModuleData->m_upgradeGroupsToRemove.begin(); group != removeUpgradeUpgradeModuleData->m_upgradeGroupsToRemove.end(); ++group)
 		{
 			BfmeFixedStorage128 completed(obj->m_completedUpgrades);
 			while (((Rva00046827 *)&completed)->rva00046827() > 0)

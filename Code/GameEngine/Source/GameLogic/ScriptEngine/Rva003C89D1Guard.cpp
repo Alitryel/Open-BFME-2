@@ -34,16 +34,16 @@ public:
 extern ScriptEngine *TheScriptEngine;
 
 
-void ScriptActions::Rva003C89D1Guard(Parameter *p1, Parameter *p2)
+void ScriptActions::Rva003C89D1Guard(Parameter *parameter, Parameter *p2)
 {
-	Object *o2 = TheScriptEngine->getUnitNamed(p2);
-	Object *o1 = TheScriptEngine->getUnitNamed(p1);
+	Object *object = TheScriptEngine->getUnitNamed(p2);
+	Object *o1 = TheScriptEngine->getUnitNamed(parameter);
 	if (!o1)
 		return;
 	AIUpdateInterface *ai = o1->getAI();
 	if (!ai)
 		return;
-	if (!o2)
+	if (!object)
 		return;
-	ai->m_command.aiGuardObject(o2, 0, CMD_FROM_SCRIPT);
+	ai->m_command.aiGuardObject(object, 0, CMD_FROM_SCRIPT);
 }

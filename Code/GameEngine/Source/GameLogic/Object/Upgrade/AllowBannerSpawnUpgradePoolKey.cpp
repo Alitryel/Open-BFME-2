@@ -52,9 +52,9 @@ public:
 };
 
 // ?buildFieldParse@AllowBannerSpawnUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004B8565 (34B)
-void AllowBannerSpawnUpgradeModuleData::buildFieldParse(MultiIniFieldParse &p)
+void AllowBannerSpawnUpgradeModuleData::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	p.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
+	multiIniFieldParse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
+	multiIniFieldParse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
 }
 

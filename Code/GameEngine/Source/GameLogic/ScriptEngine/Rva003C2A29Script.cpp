@@ -48,13 +48,13 @@ extern AI *TheAI;
 
 void ScriptActions::Rva003C2A29Do(const AsciiString &team1, const AsciiString &team2)
 {
-	Team *t1 = TheScriptEngine->getTeamNamed((AsciiString &)team1, false);
+	Team *team = TheScriptEngine->getTeamNamed((AsciiString &)team1, false);
 	Team *t2 = TheScriptEngine->getTeamNamed((AsciiString &)team2, false);
-	if (t1 == 0 || t2 == 0)
+	if (team == 0 || t2 == 0)
 		return;
-	AIGroup *g = TheAI->createGroup();
-	if (g == 0)
+	AIGroup *aIGroup = TheAI->createGroup();
+	if (aIGroup == 0)
 		return;
-	t1->getTeamAsAIGroup(g);
-	g->rva00370451(t2, 0, CMD_FROM_SCRIPT);
+	team->getTeamAsAIGroup(aIGroup);
+	aIGroup->rva00370451(t2, 0, CMD_FROM_SCRIPT);
 }

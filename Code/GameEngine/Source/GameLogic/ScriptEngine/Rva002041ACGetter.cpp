@@ -31,10 +31,10 @@ public:
 AsciiString ObjectTypes::getNthInList(unsigned int index) const
 {
     unsigned int count = (unsigned)(((char *)m_end - (char *)m_start) >> 2);
-    const AsciiString *p;
+    const AsciiString *asciiString;
     if (index < count)
-        p = m_startVolatile + index;
+        asciiString = m_startVolatile + index;
     else
-        p = &AsciiString::TheEmptyString;
-    return *p;
+        asciiString = &AsciiString::TheEmptyString;
+    return *asciiString;
 }

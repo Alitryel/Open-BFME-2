@@ -229,7 +229,7 @@ struct Rva003BAFE8Object
 	unsigned int objectID;
 };
 
-void ScriptActions::Rva003BACCA(Parameter *p)
+void ScriptActions::Rva003BACCA(Parameter *parameter)
 {
 	Rva003BACCAPoint v;
 	v.x = g_00BBB9B0;
@@ -291,10 +291,10 @@ void ScriptActions::Rva003BAF95(float a0, float a1, float a2, float a3)
 // The rowed Parameter lookup is 0x003588E7. A missing object returns;
 // otherwise slot 52 receives Object+0x74, two truncated scaled floats,
 // two scaled floats and the last input unchanged. Original names unknown.
-void ScriptActions::Rva003BAFE8(Parameter *p, float a1, float a2,
+void ScriptActions::Rva003BAFE8(Parameter *parameter, float a1, float a2,
 	float a3, float a4, float a5)
 {
-	Object *object = TheScriptEngine->getUnitNamed(p);
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
 	if (object)
 	{
 		reinterpret_cast<TacticalView *>(TheTacticalView)->s52(
@@ -450,9 +450,9 @@ public:
 // ZH doCameraTetherNamed supplies the lock/snap/tether workflow. Native
 // 0x003BAA46 adds Drawable-ID slot103 before snap and uses slots97/98/100/99;
 // dispatcher0x003CAD35 and RET12 prove Parameter*, bool, float free ABI.
-void ScriptActions::Rva003BAA46(Parameter *p, bool snap, float play)
+void ScriptActions::Rva003BAA46(Parameter *parameter, bool snap, float play)
 {
-    Object *object = TheScriptEngine->getUnitNamed(p);
+    Object *object = TheScriptEngine->getUnitNamed(parameter);
     if (object)
     {
         reinterpret_cast<TacticalView *>(TheTacticalView)->s97(

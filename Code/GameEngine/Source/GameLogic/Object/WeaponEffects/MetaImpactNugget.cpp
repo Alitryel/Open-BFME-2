@@ -336,19 +336,19 @@ checkBit:
 		}
 	}
 	{
-		Object *o = shooter;
-		void *tail = (void *)*(int *)((char *)o + 0x274);
-		if (o->testStatus(ST_26) && tail && *(int *)((char *)tail + 0x274) &&
+		Object *object = shooter;
+		void *tail = (void *)*(int *)((char *)object + 0x274);
+		if (object->testStatus(ST_26) && tail && *(int *)((char *)tail + 0x274) &&
             (*(unsigned char *)((char *)*(void **)((char *)tail + 4) + 0x115) & 0x20))
         {
-		void *t274 = (void *)*(int *)(*(char **)((char *)o + 0x274) + 0x274);
+		void *t274 = (void *)*(int *)(*(char **)((char *)object + 0x274) + 0x274);
 		void *t250 = (void *)*(int *)((char *)t274 + 0x250);
 		if (!t250)
 			return;
 		Object *found2 = TheGameLogic->findObjectByID((ObjectID)*(int *)((char *)a + 8));
 		if (found2)
-			((Rva00294D61 *)found2)->report(o, 1);
-		((DamageInfoish *)((TargetIface *)t250)->v01())->v15(((TargetIface *)t250)->v31(o));
+			((Rva00294D61 *)found2)->report(object, 1);
+		((DamageInfoish *)((TargetIface *)t250)->v01())->v15(((TargetIface *)t250)->v31(object));
 		return;
         }
 	}

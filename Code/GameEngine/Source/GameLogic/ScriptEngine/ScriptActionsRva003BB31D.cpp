@@ -32,11 +32,11 @@ void ScriptActions::Rva003BB31DClear(const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			p->m_flag339 = 0;
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			player->m_flag339 = 0;
 	} while (mask != 0);
 }
 
@@ -53,11 +53,11 @@ void ScriptActions::Rva003BB29D(const AsciiString &name)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			p->setUnitsShouldHunt(true, CMD_FROM_SCRIPT);
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			player->setUnitsShouldHunt(true, CMD_FROM_SCRIPT);
 	} while (mask != 0);
 }
 
@@ -66,11 +66,11 @@ void ScriptActions::Rva003BB35B(const AsciiString &name, int arg)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			p->setObjectsEnabled(*(const AsciiString *)arg, false);
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			player->setObjectsEnabled(*(const AsciiString *)arg, false);
 	} while (mask != 0);
 }
 
@@ -79,11 +79,11 @@ void ScriptActions::Rva003BB41A(const AsciiString &name, int arg)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			p->setObjectsEnabled(*(const AsciiString *)arg, true);
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			player->setObjectsEnabled(*(const AsciiString *)arg, true);
 	} while (mask != 0);
 }
 

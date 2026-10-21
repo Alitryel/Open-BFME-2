@@ -53,8 +53,8 @@ inline DoCommandUpgradeModuleData::DoCommandUpgradeModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeDoCommandUpgradeModuleDataInlineAnchor@@YAXPAVDoCommandUpgradeModuleData@@@Z absent-from-retail
-void _bfmeDoCommandUpgradeModuleDataInlineAnchor(DoCommandUpgradeModuleData *p)
+void _bfmeDoCommandUpgradeModuleDataInlineAnchor(DoCommandUpgradeModuleData *doCommandUpgradeModuleData)
 {
-    p->DoCommandUpgradeModuleData::DoCommandUpgradeModuleData();
+    doCommandUpgradeModuleData->DoCommandUpgradeModuleData::DoCommandUpgradeModuleData();
 }
 #pragma inline_depth()

@@ -59,14 +59,14 @@ public:
 	virtual void v11(Object *target, int flags);
 };
 
-void ScriptActions::Rva003C4245Do(Parameter *param, const AsciiString &a, const AsciiString &b)
+void ScriptActions::Rva003C4245Do(Parameter *param, const AsciiString &asciiString, const AsciiString &b)
 {
 	Object *src = TheScriptEngine->getUnitNamed(param);
 	Object *target = ((Rva00358752Opaque *)TheScriptEngine)->lookupUnitByValue(b);
-	const SpecialPowerTemplate *tmpl = TheSpecialPowerStore->findSpecialPowerTemplate(a);
-	if (src == 0 || tmpl == 0 || target == 0)
+	const SpecialPowerTemplate *specialPowerTemplate = TheSpecialPowerStore->findSpecialPowerTemplate(asciiString);
+	if (src == 0 || specialPowerTemplate == 0 || target == 0)
 		return;
-	void *bec = src->getSpecialPowerModule(tmpl);
+	void *bec = src->getSpecialPowerModule(specialPowerTemplate);
 	if (bec == 0)
 		return;
 	((BecSlot *)bec)->v11(target, 0x40000);

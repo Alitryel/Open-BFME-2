@@ -96,15 +96,15 @@ public:
 };
 extern class View *TheTacticalView;
 
-void ScriptActions::Rva003BAD15(const AsciiString &n0, float f1, float f2, const AsciiString &n3)
+void ScriptActions::Rva003BAD15(const AsciiString &asciiString, float f1, float f2, const AsciiString &n3)
 {
-	TerrainLogicPos *a = TheTerrainLogic->s34(n0);
-	if (!a)
+	TerrainLogicPos *terrainLogicPos = TheTerrainLogic->s34(asciiString);
+	if (!terrainLogicPos)
 		return;
 	Coord3D ca;
-	ca.x = a->m_pos.x;
-	ca.y = a->m_pos.y;
-	ca.z = a->m_pos.z;
+	ca.x = terrainLogicPos->m_pos.x;
+	ca.y = terrainLogicPos->m_pos.y;
+	ca.z = terrainLogicPos->m_pos.z;
 	TerrainLogicPos *b = TheTerrainLogic->s34(n3);
 	if (!b)
 		return;

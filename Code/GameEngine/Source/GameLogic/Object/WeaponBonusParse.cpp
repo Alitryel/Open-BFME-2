@@ -74,7 +74,7 @@ __declspec(noinline) inline void WeaponBonusSet::parseWeaponBonusSet(INI *ini)
 }
 
 // ?bfmeAnchorWeaponBonusSetparseWeaponBonusSet absent-from-retail
-void bfmeAnchorWeaponBonusSetparseWeaponBonusSet(WeaponBonusSet *p, INI *ini)
+void bfmeAnchorWeaponBonusSetparseWeaponBonusSet(WeaponBonusSet *weaponBonusSet, INI *ini)
 {
-	p->parseWeaponBonusSet(ini);
+	weaponBonusSet->parseWeaponBonusSet(ini);
 }

@@ -74,7 +74,7 @@ extern AudioManager *TheAudio;
 
 void ScriptActions::Rva003BA96F(float a0, float a1, float a2, float a3, float a4)
 {
-	AudioManager *p = TheAudio;
-	if (p)
-		p->slot61(a0, a1, a2, a3, a4, 0);
+	AudioManager *audioManager = TheAudio;
+	if (audioManager)
+		audioManager->slot61(a0, a1, a2, a3, a4, 0);
 }

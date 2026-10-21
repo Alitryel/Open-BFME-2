@@ -406,16 +406,16 @@ class Rva005321D1 { public: void LinkSets(unsigned short,unsigned short); };
 // verified cell/union layout and Update533BEC callers. No new pins.
 void PathfindZoneManager::rva005324D8(unsigned char incremental,unsigned short first,unsigned short second) {
  CellType *firstCell=reinterpret_cast<CellType *>(unknown0C)+first;
- CellType *b=reinterpret_cast<CellType *>(unknown0C)+second;
- unsigned mask=(1u<<firstCell->type)|(1u<<b->type);
+ CellType *cellType=reinterpret_cast<CellType *>(unknown0C)+second;
+ unsigned mask=(1u<<firstCell->type)|(1u<<cellType->type);
  for(int variant=incremental ? 1:0;variant<8;variant+=2) {
   if(!rva00531720(variant,first) || !rva00531720(variant,second))continue;
   bool joined=false;
-  if(firstCell->type==b->type && (firstCell->id==b->id || firstCell->id==b->secondary || firstCell->secondary==b->id || (firstCell->secondary==16 && b->secondary==16))) {
+  if(firstCell->type==cellType->type && (firstCell->id==cellType->id || firstCell->id==cellType->secondary || firstCell->secondary==cellType->id || (firstCell->secondary==16 && cellType->secondary==16))) {
    joined=true;
    ((Rva00532165 *)&unions[variant][0])->LinkSets(first,second);
   }
-  if(firstCell->id==b->id || joined) {
+  if(firstCell->id==cellType->id || joined) {
    if(!(mask & ~5u)) ((Rva00532165 *)&unions[variant][1])->LinkSets(first,second);
    if(!(mask & ~3u)) ((Rva00532165 *)&unions[variant][2])->LinkSets(first,second);
    if(!(mask & ~0x81u)) ((Rva00532165 *)&unions[variant][2])->LinkSets(first,second);
@@ -425,12 +425,12 @@ void PathfindZoneManager::rva005324D8(unsigned char incremental,unsigned short f
     ((Rva00532165 *)&unions[variant][3])->LinkSets(first,second);
     ((Rva00532165 *)&unions[variant][6])->LinkSets(first,second);
    }
-   if(!(mask & ~0x11u) && (firstCell->type!=4 || firstCell->bridge) && (b->type!=4 || b->bridge))
+   if(!(mask & ~0x11u) && (firstCell->type!=4 || firstCell->bridge) && (cellType->type!=4 || cellType->bridge))
     ((Rva00532165 *)&unions[variant][6])->LinkSets(first,second);
   }
   if(mask==4) ((Rva00532165 *)&unions[variant][5])->LinkSets(first,second);
  }
- if(incremental && firstCell->id==b->id && !(mask & ~0x11u))
+ if(incremental && firstCell->id==cellType->id && !(mask & ~0x11u))
   ((Rva005321D1 *)&finalUnion)->LinkSets(first,second);
 }
 
@@ -449,9 +449,9 @@ public:
  unsigned char get22() const { return (unsigned char)flag22; }
 };
 
-bool Rva0053166DEqual(const PathfindCell *firstCell,const PathfindCell *b) {
- return firstCell->type==b->type && firstCell->id==b->id && firstCell->secondary==b->secondary &&
-  firstCell->get17()==b->get17() && firstCell->get18()==b->get18() && firstCell->kind==b->kind && firstCell->get22()==b->get22();
+bool Rva0053166DEqual(const PathfindCell *firstCell,const PathfindCell *pathfindCell) {
+ return firstCell->type==pathfindCell->type && firstCell->id==pathfindCell->id && firstCell->secondary==pathfindCell->secondary &&
+  firstCell->get17()==pathfindCell->get17() && firstCell->get18()==pathfindCell->get18() && firstCell->kind==pathfindCell->kind && firstCell->get22()==pathfindCell->get22();
 }
 
 // WB 0x012D0A40 and native 0x0053166D..0x005316E0 prove this comparison.
@@ -465,9 +465,9 @@ bool Rva0053166DEqual(const PathfindCell *firstCell,const PathfindCell *b) {
 unsigned char PathfindZoneManager::rva005316E0(unsigned short first,unsigned short second) {
  if(first==second)return 0;
  CellType *firstCell=(CellType*)((char*)this+0xC)+first;
- CellType *b=(CellType*)((char*)this+0xC)+second;
- unsigned av=firstCell->value,bv=b->value;
- if(firstCell->id==b->id)return 1;
+ CellType *cellType=(CellType*)((char*)this+0xC)+second;
+ unsigned av=firstCell->value,bv=cellType->value;
+ if(firstCell->id==cellType->id)return 1;
  unsigned char type=av;
  type^=bv;
  return (type & 7)==0;

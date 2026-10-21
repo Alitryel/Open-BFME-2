@@ -48,10 +48,10 @@ private:
 	Rva003317B0 *m_end;
 };
 
-void BfmeObjectEventDispatch::rva00335FE1(const WeaponTemplateSetHead *a, const WeaponTemplateSetHead *b, void *obj)
+void BfmeObjectEventDispatch::rva00335FE1(const WeaponTemplateSetHead *weaponTemplateSetHead, const WeaponTemplateSetHead *b, void *obj)
 {
 	for (Rva003317B0 *p = m_begin; p != m_end; ++p) {
-		if (!p->rva003317B0(a))
+		if (!p->rva003317B0(weaponTemplateSetHead))
 			continue;
 		if (p->rva003317B0(b))
 			continue;

@@ -123,10 +123,10 @@ Weapon::Weapon(const Weapon &that)
 // what parks the vector's default-argument allocator temporary in the
 // template parameter's slot ([ebp+0xb]), as retail does; the vector is left
 // to its default argument.
-Weapon::Weapon(const WeaponTemplate *tmpl, WeaponSlotType wslot)
+Weapon::Weapon(const WeaponTemplate *weaponTemplate, WeaponSlotType wslot)
 {
 	m_tailState = 0;
-	m_template = tmpl;
+	m_template = weaponTemplate;
 	m_wslot = wslot;
 	m_ownerID = 0;
 	m_status = 1;
@@ -138,12 +138,12 @@ Weapon::Weapon(const WeaponTemplate *tmpl, WeaponSlotType wslot)
 	m_projectileStreamID = 0;
 	m_leechWeaponRangeActive = 0;
 	m_unknown54 = 0;
-	m_pitchLimited = tmpl && (tmpl->bfme_min_pitch() > -3.14159265f || tmpl->bfme_max_pitch() < 3.14159265f);
+	m_pitchLimited = weaponTemplate && (weaponTemplate->bfme_min_pitch() > -3.14159265f || weaponTemplate->bfme_max_pitch() < 3.14159265f);
 	m_maxShotCount = 0x7fffffff;
 	m_curBarrel = 0;
-	m_numShotsForCurBarrel = tmpl ? tmpl->bfme_shots_per_barrel() : 1;
+	m_numShotsForCurBarrel = weaponTemplate ? weaponTemplate->bfme_shots_per_barrel() : 1;
 	m_unknown2C = 0;
-	unsigned int suspend = tmpl ? TheGameLogic->getFrame() + tmpl->getSuspendFXDelay() : 0;
+	unsigned int suspend = weaponTemplate ? TheGameLogic->getFrame() + weaponTemplate->getSuspendFXDelay() : 0;
 	m_extra5C = 0;
 	m_suspendFXFrame = suspend;
 }

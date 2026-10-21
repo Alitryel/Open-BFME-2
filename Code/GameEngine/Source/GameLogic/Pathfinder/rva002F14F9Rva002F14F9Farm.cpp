@@ -1243,12 +1243,12 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
     }
     for(int k=0;k<layerCount;++k) 
     {
-     PathCollisionCell *c=(PathCollisionCell *)getCell((PathfindLayerEnum)layers[k],x,y);
-     if(c && c->info) 
+     PathCollisionCell *pathCollisionCell=(PathCollisionCell *)getCell((PathfindLayerEnum)layers[k],x,y);
+     if(pathCollisionCell && pathCollisionCell->info) 
      {
-      if(c->info->fallbackID) 
+      if(pathCollisionCell->info->fallbackID) 
       {
-       Object *candidate=TheGameLogic->findObjectByID(c->info->fallbackID);
+       Object *candidate=TheGameLogic->findObjectByID(pathCollisionCell->info->fallbackID);
        if(candidate) 
        {
         Relationship relation=obj->getRelationship(candidate);
@@ -1271,7 +1271,7 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
        }
        
       }
-      for(PathCollisionNode *node=c->info->goals;node;node=node->next) 
+      for(PathCollisionNode *node=pathCollisionCell->info->goals;node;node=node->next) 
       {
        if(node->object->rva002E6B89())continue;
        Object *candidate=node->object;

@@ -80,9 +80,9 @@ private:
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > m_list1A25C;
 };
 
-bool ScriptEngine::rva00358076(const AsciiString &s, bool remove)
+bool ScriptEngine::rva00358076(const AsciiString &asciiString, bool remove)
 {
-	unsigned long crc = Rva003ECA13Get(s);
+	unsigned long crc = Rva003ECA13Get(asciiString);
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > &lst = m_list1A25C;
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> >::iterator it;
 	for (it = lst.begin(); it != lst.end(); ++it) {
@@ -93,7 +93,7 @@ bool ScriptEngine::rva00358076(const AsciiString &s, bool remove)
 		BfmeSpecialPowerTimer8 timer;
 		timer.m_templateID = 0;
 		timer.m_readyFrame = 0;
-		AudioRef ref = ((AudioManagerView *)TheAudio)->getAudioRef(s);
+		AudioRef ref = ((AudioManagerView *)TheAudio)->getAudioRef(asciiString);
 		if (ref.referent == 0)
 			return true;
 		{
@@ -117,9 +117,9 @@ bool ScriptEngine::rva00358076(const AsciiString &s, bool remove)
 
 // Twin of the function above on the neighbouring timer list (+0x1A258): the
 // retail bytes differ only in that member offset (WorldBuilder names neither).
-bool ScriptEngine::rva00357F5E(const AsciiString &s, bool remove)
+bool ScriptEngine::rva00357F5E(const AsciiString &asciiString, bool remove)
 {
-	unsigned long crc = Rva003ECA13Get(s);
+	unsigned long crc = Rva003ECA13Get(asciiString);
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > &lst = m_list1A258;
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> >::iterator it;
 	for (it = lst.begin(); it != lst.end(); ++it) {
@@ -130,7 +130,7 @@ bool ScriptEngine::rva00357F5E(const AsciiString &s, bool remove)
 		BfmeSpecialPowerTimer8 timer;
 		timer.m_templateID = 0;
 		timer.m_readyFrame = 0;
-		AudioRef ref = ((AudioManagerView *)TheAudio)->getAudioRef(s);
+		AudioRef ref = ((AudioManagerView *)TheAudio)->getAudioRef(asciiString);
 		if (ref.referent == 0)
 			return true;
 		{

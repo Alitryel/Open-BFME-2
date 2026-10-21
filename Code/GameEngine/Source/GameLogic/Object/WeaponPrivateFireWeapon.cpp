@@ -87,11 +87,11 @@ struct WeaponScatterPoint : Coord3D
         y = p.y;
         z = p.z;
     }
-    WeaponScatterPoint(const WeaponScatterPoint &p)
+    WeaponScatterPoint(const WeaponScatterPoint &weaponScatterPoint)
     {
-        x = p.x;
-        y = p.y;
-        z = p.z;
+        x = weaponScatterPoint.x;
+        y = weaponScatterPoint.y;
+        z = weaponScatterPoint.z;
     }
 };
 typedef float Real;
@@ -904,25 +904,25 @@ Bool WeaponTemplate::shouldProjectileCollideWith(
             requiredMask |= WEAPON_COLLIDE_STRUCTURES;
     }
 
-    const ThingTemplate *tmpl = thingWeCollidedWith->getTemplate();
-    if (tmpl->testKindOf(0, 0x40))
+    const ThingTemplate *thingTemplate = thingWeCollidedWith->getTemplate();
+    if (thingTemplate->testKindOf(0, 0x40))
         requiredMask |= WEAPON_COLLIDE_SHRUBBERY;
-    if (tmpl->testKindOf(0, 0x2000000))
+    if (thingTemplate->testKindOf(0, 0x2000000))
         requiredMask |= WEAPON_COLLIDE_PROJECTILE;
-    if (tmpl->getFenceWidth() > 0)
+    if (thingTemplate->getFenceWidth() > 0)
         requiredMask |= WEAPON_COLLIDE_WALLS;
-    if (tmpl->testKindOf(1, 0x100000))
+    if (thingTemplate->testKindOf(1, 0x100000))
         requiredMask |= WEAPON_COLLIDE_SMALL_MISSILES;
-    if (tmpl->testKindOf(2, 0x800))
+    if (thingTemplate->testKindOf(2, 0x800))
         requiredMask |= WEAPON_COLLIDE_BALLISTIC_MISSILES;
-    if (tmpl->testKindOf(0, 0x400))
+    if (thingTemplate->testKindOf(0, 0x400))
         requiredMask |= WEAPON_COLLIDE_BFME2_400;
 
     // if any in requiredMask are present in collidemask, do the collision. (srj)
     if ((getProjectileCollideMask() & requiredMask) == 0)
         return false;
 
-    if (tmpl->testKindOf(1, 0x10000000) && intendedVictimID != INVALID_OBJECT_ID)
+    if (thingTemplate->testKindOf(1, 0x10000000) && intendedVictimID != INVALID_OBJECT_ID)
     {
         Object *victim = TheGameLogic->findObjectByID(intendedVictimID);
         if (victim && victim->rva0028B511() > 1)

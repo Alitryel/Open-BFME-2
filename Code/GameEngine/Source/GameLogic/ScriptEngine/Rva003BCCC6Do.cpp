@@ -43,13 +43,13 @@ public:
 
 extern ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BCCC6Do(Parameter *a, Parameter *b)
+void ScriptActions::Rva003BCCC6Do(Parameter *parameter, Parameter *b)
 {
-	Object *u1 = TheScriptEngine->getUnitNamed(a);
+	Object *object = TheScriptEngine->getUnitNamed(parameter);
 	Object *u2 = TheScriptEngine->getUnitNamed(b);
-	if (u1 == 0 || u2 == 0)
+	if (object == 0 || u2 == 0)
 		return;
-	SpecialPowerModuleInterface *sp = u1->findSpecialPowerModuleInterface((SpecialPowerType)0x2d);
+	SpecialPowerModuleInterface *sp = object->findSpecialPowerModuleInterface((SpecialPowerType)0x2d);
 	if (sp == 0)
 		return;
 	if (!sp->isReady())

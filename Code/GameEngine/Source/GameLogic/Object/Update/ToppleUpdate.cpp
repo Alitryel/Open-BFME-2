@@ -68,25 +68,25 @@ class CollideModuleInterface {public:virtual void onCollide(Object *,const Coord
 class ToppleUpdate:public UpdateModule,public CollideModuleInterface {public:virtual UpdateSleepTime update();virtual void onCollide(Object *,const Coord3D *,const Coord3D *);void applyTopplingForce(const Coord3D *,float,unsigned);float velocity,acceleration;Coord3D direction;int state;float accumulation,angleDelta;int countDelta;bool bounceFX;unsigned options,stumpID;float state54;};
 void ToppleUpdate::applyTopplingForce(const Coord3D *toppleDirection,float toppleSpeed,unsigned opts) {
  if(object->status438&1)return;
- const ToppleUpdateModuleData *d=data;
- if(toppleSpeed<d->minSpeed)toppleSpeed=d->minSpeed;
+ const ToppleUpdateModuleData *toppleUpdateModuleData=data;
+ if(toppleSpeed<toppleUpdateModuleData->minSpeed)toppleSpeed=toppleUpdateModuleData->minSpeed;
  Drawable *draw=object->getDrawable();setWakeFrame(getObject(),UPDATE_SLEEP_NONE);
- if(d->killWhenStart){setWakeFrame(object,UPDATE_SLEEP_FOREVER);object->kill(DAMAGE_UNRESISTABLE,DEATH_NORMAL);return;}
+ if(toppleUpdateModuleData->killWhenStart){setWakeFrame(object,UPDATE_SLEEP_FOREVER);object->kill(DAMAGE_UNRESISTABLE,DEATH_NORMAL);return;}
  direction=*toppleDirection;direction.normalize();TheScriptEngine->rva00357340(getObject(),&direction);
- velocity=toppleSpeed*d->initialVelocity;acceleration=toppleSpeed*d->initialAccel;state=1;options=opts;
+ velocity=toppleSpeed*toppleUpdateModuleData->initialVelocity;acceleration=toppleSpeed*toppleUpdateModuleData->initialAccel;state=1;options=opts;
  static NameKeyType sway=TheNameKeyGenerator->nameToKey("SwayClientUpdate");
  ClientUpdateModule **modules=draw->modules;
  if(modules){while(*modules){if((*modules)->getModuleNameKey()==sway)(*modules)->sway=0;++modules;}}
  float currentAngle=normalizeAngle(object->angle);
  float toppleAngle=normalizeAngle(atan2(direction.y,direction.x));
- if(d->leftRight){toppleAngle=angleClosestTo(currentAngle+PI/2,currentAngle-PI/2,toppleAngle);direction.x=Cos(toppleAngle);direction.y=Sin(toppleAngle);TheAI->pathfinder->RemoveObjectFromPathfindMap(object);}
+ if(toppleUpdateModuleData->leftRight){toppleAngle=angleClosestTo(currentAngle+PI/2,currentAngle-PI/2,toppleAngle);direction.x=Cos(toppleAngle);direction.y=Sin(toppleAngle);TheAI->pathfinder->RemoveObjectFromPathfindMap(object);}
  float desiredAngle=angleClosestTo(toppleAngle+PI/2,toppleAngle-PI/2,currentAngle);
  countDelta=REAL_TO_INT_FLOOR(ANGULAR_LIMIT/(velocity*(float)2));
  if(countDelta<1)countDelta=1;
- angleDelta=(desiredAngle-currentAngle)/countDelta;object->setCondition0();FXList::doFXObj(d->toppleFX,object,0);
- if(!d->stump.isEmpty()) {
-  const ThingTemplate *t=TheThingFactory->findTemplate(d->stump);
-  CreateMask mask;memset(&mask,0,sizeof(mask));Object *stump=TheThingFactory->newObject(t,0,&mask,false);
+ angleDelta=(desiredAngle-currentAngle)/countDelta;object->setCondition0();FXList::doFXObj(toppleUpdateModuleData->toppleFX,object,0);
+ if(!toppleUpdateModuleData->stump.isEmpty()) {
+  const ThingTemplate *thingTemplate=TheThingFactory->findTemplate(toppleUpdateModuleData->stump);
+  CreateMask mask;memset(&mask,0,sizeof(mask));Object *stump=TheThingFactory->newObject(thingTemplate,0,&mask,false);
   if(stump){stump->setPosition(&object->position);stump->setOrientation(object->angle);stumpID=stump->id;
    Drawable *ownerDraw=object->getDrawable();
    if(ownerDraw && (ownerDraw->flags262&1)) {
@@ -114,7 +114,7 @@ UpdateSleepTime ToppleUpdate::update()
 	if ((state == 0) || (state == 2))
 		return UPDATE_SLEEP_FOREVER;
 
-	const ToppleUpdateModuleData *d = data;
+	const ToppleUpdateModuleData *toppleUpdateModuleData = data;
 	const float VELOCITY_BOUNCE_LIMIT = 0.01f;
 	const float VELOCITY_BOUNCE_SOUND_LIMIT = 0.03f;
 
@@ -140,7 +140,7 @@ UpdateSleepTime ToppleUpdate::update()
 	accumulation += curVelToUse;
 	if ((accumulation >= ANGULAR_LIMIT) && (velocity > 0))
 	{
-		float bounceVelocity = d->bounceVelocity - state54;
+		float bounceVelocity = toppleUpdateModuleData->bounceVelocity - state54;
 		minimumBounceVelocity = 0.05f;
 		const float *bounceVelocityToUse =
 			(0.05f > bounceVelocity) ?
@@ -155,10 +155,10 @@ UpdateSleepTime ToppleUpdate::update()
 			velocity = 0;
 			state = 2;
 
-			if (d->killWhenToppled)
+			if (toppleUpdateModuleData->killWhenToppled)
 			{
 				Rva004A82BAAttemptDamage(obj);
-				if (d->reorient)
+				if (toppleUpdateModuleData->reorient)
 				{
 					Vector3 pos;
 					pos.X = 0;
@@ -175,7 +175,7 @@ UpdateSleepTime ToppleUpdate::update()
 				}
 			}
 
-			if (d->killStump)
+			if (toppleUpdateModuleData->killStump)
 			{
 				Object *stump = TheGameLogic->findObjectByID(static_cast<ObjectID>(stumpID));
 				if (stump)
@@ -187,7 +187,7 @@ UpdateSleepTime ToppleUpdate::update()
 		else if (fabs(velocity) >= VELOCITY_BOUNCE_SOUND_LIMIT)
 		{
 			if ((options & 2) == 0)
-				FXList::doFXObj(d->bounceFX, obj, 0);
+				FXList::doFXObj(toppleUpdateModuleData->bounceFX, obj, 0);
 		}
 	}
 	else

@@ -49,8 +49,8 @@ inline RadarUpgradeModuleData::RadarUpgradeModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeRadarUpgradeModuleDataInlineAnchor@@YAXPAVRadarUpgradeModuleData@@@Z absent-from-retail
-void _bfmeRadarUpgradeModuleDataInlineAnchor(RadarUpgradeModuleData *p)
+void _bfmeRadarUpgradeModuleDataInlineAnchor(RadarUpgradeModuleData *radarUpgradeModuleData)
 {
-    p->RadarUpgradeModuleData::RadarUpgradeModuleData();
+    radarUpgradeModuleData->RadarUpgradeModuleData::RadarUpgradeModuleData();
 }
 #pragma inline_depth()

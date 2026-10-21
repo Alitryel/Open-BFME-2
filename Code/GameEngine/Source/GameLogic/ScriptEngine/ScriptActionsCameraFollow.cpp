@@ -70,9 +70,9 @@ public:
 class View;
 extern View *TheTacticalView;
 
-void ScriptActions::Rva003BC1B2Do(Parameter *p, bool flag, float v)
+void ScriptActions::Rva003BC1B2Do(Parameter *parameter, bool flag, float v)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(p);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	if (obj == 0)
 		return;
 	reinterpret_cast<ScriptActionsFollowView *>(TheTacticalView)->s097(obj->m_74);

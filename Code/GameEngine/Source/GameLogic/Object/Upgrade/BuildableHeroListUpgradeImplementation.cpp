@@ -116,8 +116,8 @@ void BuildableHeroListUpgrade::upgradeImplementation()
 	_STL::vector<AsciiString> &names = player->m_34->m_names;
 	for (_STL::vector<AsciiString>::iterator it = names.begin(); it != names.end(); ++it)
 	{
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(*it);
-		player->m_738.addInitialBuildUnit(tmpl, player);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*it);
+		player->m_738.addInitialBuildUnit(thingTemplate, player);
 	}
 	TheControlBar->m_28 = true;
 	rva004CE4A0();
@@ -129,9 +129,9 @@ void BuildableHeroListUpgrade::upgradeRemovalImplementation()
 	UnitRevivalTracker *holder = &player->m_738;
 	for (_STL::vector<AsciiString>::iterator it = names.begin(); it != names.end(); ++it)
 	{
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(*it);
-		rva004B83D2(tmpl);
-		holder->removeBuildUnit(tmpl);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*it);
+		rva004B83D2(thingTemplate);
+		holder->removeBuildUnit(thingTemplate);
 	}
 	TheControlBar->m_28 = true;
 	rva004CE4A8();
@@ -213,7 +213,7 @@ public:
 // and slot34(template,0). Original query type and its public methods are
 // unresolved; the module's established class identity and neutral helper
 // name are retained separately from these structural target facts.
-void BuildableHeroListUpgrade::rva004B83D2(const ThingTemplate *tmpl)
+void BuildableHeroListUpgrade::rva004B83D2(const ThingTemplate *thingTemplate)
 {
     Player *player = getObject()->getControllingPlayer();
     for (PlayerTeamNode *node = player->m_teamHead->next; node != player->m_teamHead; node = node->next)
@@ -231,7 +231,7 @@ void BuildableHeroListUpgrade::rva004B83D2(const ThingTemplate *tmpl)
 _ReadWriteBarrier();
                     Rva004B83D2Query *query = (Rva004B83D2Query *)obj->rva0028BC58(0);
                     if (query && query->count() > 0)
-                        query->remove(tmpl, false);
+                        query->remove(thingTemplate, false);
                 }
             }
         }

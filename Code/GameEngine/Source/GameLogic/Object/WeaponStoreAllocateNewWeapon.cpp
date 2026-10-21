@@ -32,9 +32,9 @@ public:
 	Weapon *allocateNewWeapon(const WeaponTemplate *tmpl, WeaponSlotType slot) const;
 };
 
-inline Weapon *WeaponStore::allocateNewWeapon(const WeaponTemplate *tmpl, WeaponSlotType slot) const
+inline Weapon *WeaponStore::allocateNewWeapon(const WeaponTemplate *weaponTemplate, WeaponSlotType slot) const
 {
-	return new Weapon(tmpl, slot);
+	return new Weapon(weaponTemplate, slot);
 }
 
 // Header inlines that the units including the header emit as select-any

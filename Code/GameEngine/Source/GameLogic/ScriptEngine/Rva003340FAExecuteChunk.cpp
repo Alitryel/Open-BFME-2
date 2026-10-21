@@ -8,9 +8,9 @@
 // address-derived.
 #include "ascii_string.h"
 
-__forceinline const char *GetStr003340FA(const AsciiString &s)
+__forceinline const char *GetStr003340FA(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

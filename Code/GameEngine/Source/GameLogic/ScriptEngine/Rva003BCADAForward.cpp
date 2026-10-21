@@ -51,7 +51,7 @@ public:
 };
 extern class View *TheTacticalView;
 
-void ScriptActions::Rva003BCADAForward(const AsciiString &a, const AsciiString &b)
+void ScriptActions::Rva003BCADAForward(const AsciiString &asciiString, const AsciiString &b)
 {
-	((TacticalView *)TheTacticalView)->s40(a,b);
+	((TacticalView *)TheTacticalView)->s40(asciiString,b);
 }

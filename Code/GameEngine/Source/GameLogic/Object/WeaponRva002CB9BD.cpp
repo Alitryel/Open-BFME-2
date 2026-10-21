@@ -48,12 +48,12 @@ int Weapon::isClearGoalFiringLineOfSightTerrain(const Object *source, const Coor
     firingOrigin.x = pos->x;
     firingOrigin.y = pos->y;
     firingOrigin.z = pos->z;
-    const Object *v = victim;
+    const Object *object = victim;
     Coord3D adjustedVictim;
     getFiringLineOfSightOrigin(source, firingOrigin);
-    adjustedVictim = bfmeGetLOSVictimPos(source, v, 0);
-    if (v != 0) {
-        FlagBlock *blk = *(FlagBlock **)((char *)v + 4);
+    adjustedVictim = bfmeGetLOSVictimPos(source, object, 0);
+    if (object != 0) {
+        FlagBlock *blk = *(FlagBlock **)((char *)object + 4);
         if ((blk->m_flags & 0x10) != 0) {
             AI *ai = TheAI;
             if (ai != 0) {

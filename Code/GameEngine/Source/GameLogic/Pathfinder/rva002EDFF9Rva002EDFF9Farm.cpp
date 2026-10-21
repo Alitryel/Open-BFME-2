@@ -139,8 +139,8 @@ return false;
 if ((cell->m_flags0C & 0xF) == 6)
 return false;
 CellHead *head = cell->m_head00;
-ListNode *l1 = head ? head->m_list20 : 0;
-for (ListNode *n = l1; n; n = n->m_next)
+ListNode *listNode = head ? head->m_list20 : 0;
+for (ListNode *n = listNode; n; n = n->m_next)
 {
 Object *other = n->m_obj08;
 if (other == obj)

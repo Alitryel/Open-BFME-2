@@ -45,7 +45,7 @@ void *bfmeAnchorUpgradeModuleDataCtor(void *where)
 	return ::new (where) UpgradeModuleData();
 }
 
-void deleteUpgradeModuleData(UpgradeModuleData *p)
+void deleteUpgradeModuleData(UpgradeModuleData *upgradeModuleData)
 {
-	delete p;
+	delete upgradeModuleData;
 }

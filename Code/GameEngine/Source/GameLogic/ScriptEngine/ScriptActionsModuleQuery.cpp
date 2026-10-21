@@ -65,9 +65,9 @@ public:
     Module **m_modules;
     __forceinline ActionTarget *getActionTarget() const
     {
-        for (Module **p = m_modules; *p; ++p)
+        for (Module **module = m_modules; *module; ++module)
         {
-            ActionTarget *target = (*p)->slot16();
+            ActionTarget *target = (*module)->slot16();
             if (target)
                 return target;
         }

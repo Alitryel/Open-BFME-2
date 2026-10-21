@@ -43,11 +43,11 @@ void ScriptActions::Rva003BB1A4Grant(const AsciiString &playerName, const AsciiS
 	if (mask == 0)
 		return;
 	while (mask != 0) {
-		Player *p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p != 0) {
+		Player *player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player != 0) {
 			const UpgradeTemplate *tpl = TheUpgradeCenter->findUpgrade(upgradeName);
 			if (tpl->m_val04 == 0)
-				p->rva002AE329(tpl, UPGRADE_STATUS_COMPLETE, 0);
+				player->rva002AE329(tpl, UPGRADE_STATUS_COMPLETE, 0);
 		}
 	}
 }

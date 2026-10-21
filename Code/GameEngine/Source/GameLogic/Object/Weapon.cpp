@@ -135,18 +135,18 @@ const DistanceCalculationType DAMAGE_RANGE_CALC_TYPE = FROM_BOUNDINGSPHERE_3D;
 //-------------------------------------------------------------------------------------------------
 static void parsePerVetLevelAsciiString( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
-	AsciiString* s = (AsciiString*)store;
+	AsciiString* asciiString = (AsciiString*)store;
 	VeterancyLevel v = (VeterancyLevel)INI::scanIndexList(ini->getNextToken(), TheVeterancyNames);
-	s[v] = ini->getNextAsciiString();
+	asciiString[v] = ini->getNextAsciiString();
 }
 
 //-------------------------------------------------------------------------------------------------
 static void parseAllVetLevelsAsciiString( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
-	AsciiString* s = (AsciiString*)store;
+	AsciiString* asciiString = (AsciiString*)store;
 	AsciiString a = ini->getNextAsciiString();
 	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = a;
+		asciiString[i] = a;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -980,8 +980,8 @@ void WeaponTemplate::trimOldHistoricDamage() const
 	UnsignedInt expirationDate = TheGameLogic->getFrame() - TheGlobalData->m_historicDamageLimit;
 	while (m_historicDamage.size() > 0)
 	{
-		HistoricWeaponDamageInfo& h = m_historicDamage.front();
-		if (h.frame <= expirationDate)
+		HistoricWeaponDamageInfo& historicWeaponDamageInfo = m_historicDamage.front();
+		if (historicWeaponDamageInfo.frame <= expirationDate)
 		{
 			m_historicDamage.pop_front();
 			continue;
@@ -1266,9 +1266,9 @@ void WeaponTemplate::dealDamageInternal(ObjectID sourceID, ObjectID victimID, co
 			// this is much more useful for the AI...
 			if (source && source->isKindOf(KINDOF_PROJECTILE))
 			{
-				for (BehaviorModule** u = source->getBehaviorModules(); *u; ++u)
+				for (BehaviorModule** behaviorModule = source->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 				{
-					ProjectileUpdateInterface* pui = (*u)->getProjectileUpdateInterface();
+					ProjectileUpdateInterface* pui = (*behaviorModule)->getProjectileUpdateInterface();
 					if (pui != NULL)
 					{
 						damageInfo.in.m_sourceID = pui->projectileGetLauncherID();
@@ -1323,10 +1323,10 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate* wt, const Object
 	//CRCDEBUG_LOG(("WeaponStore::createAndFireTempWeapon() for %s\n", DescribeObject(source)));
 	if (wt == NULL)
 		return;
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
-	w->loadAmmoNow(source);
-	w->fireWeapon(source, target);
-	w->deleteInstance();
+	Weapon* weapon = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
+	weapon->loadAmmoNow(source);
+	weapon->fireWeapon(source, target);
+	weapon->deleteInstance();
 }
 
 //-------------------------------------------------------------------------------------------------

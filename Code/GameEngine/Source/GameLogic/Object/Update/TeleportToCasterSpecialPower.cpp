@@ -185,7 +185,7 @@ public:
 class Rva002611BFFilter : public Rva000421C8
 {
 public:
-	Rva002611BFFilter(Object *o) : m_object(o) {}
+	Rva002611BFFilter(Object *object) : m_object(object) {}
 	virtual bool allow(Object *obj);
 	Object *m_object;
 };
@@ -193,7 +193,7 @@ public:
 class Rva00260EB1Filter : public Rva000421C8
 {
 public:
-	Rva00260EB1Filter(Object *o, int flags, bool inverse) : m_object(o), m_flags(flags), m_inverse(inverse) {}
+	Rva00260EB1Filter(Object *object, int flags, bool inverse) : m_object(object), m_flags(flags), m_inverse(inverse) {}
 	virtual bool allow(Object *obj);
 	virtual int getPlayerMask();
 	Object *m_object;
@@ -210,7 +210,7 @@ public:
 class Rva002614DFFilter : public Rva000421C8
 {
 public:
-	Rva002614DFFilter(Object *o) : m_object(o) {}
+	Rva002614DFFilter(Object *object) : m_object(object) {}
 	virtual bool allow(Object *obj);
 	Object *m_object;
 };

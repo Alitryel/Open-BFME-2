@@ -83,19 +83,19 @@ struct ProjectileNuggetMath
 	static __forceinline void transformVector(const Matrix3D &A, const ProjectileNuggetVector3 &in, ProjectileNuggetVector3 *out)
 	{
 		ProjectileNuggetVector3 tmp;
-		const ProjectileNuggetVector3 *v;
+		const ProjectileNuggetVector3 *projectileNuggetVector3;
 		if (out == &in)
 		{
 			tmp = in;
-			v = &tmp;
+			projectileNuggetVector3 = &tmp;
 		}
 		else
 		{
-			v = &in;
+			projectileNuggetVector3 = &in;
 		}
-		out->X = (A.Row[0].X * v->X + A.Row[0].Y * v->Y + A.Row[0].Z * v->Z + A.Row[0].W);
-		out->Y = (A.Row[1].X * v->X + A.Row[1].Y * v->Y + A.Row[1].Z * v->Z + A.Row[1].W);
-		out->Z = (A.Row[2].X * v->X + A.Row[2].Y * v->Y + A.Row[2].Z * v->Z + A.Row[2].W);
+		out->X = (A.Row[0].X * projectileNuggetVector3->X + A.Row[0].Y * projectileNuggetVector3->Y + A.Row[0].Z * projectileNuggetVector3->Z + A.Row[0].W);
+		out->Y = (A.Row[1].X * projectileNuggetVector3->X + A.Row[1].Y * projectileNuggetVector3->Y + A.Row[1].Z * projectileNuggetVector3->Z + A.Row[1].W);
+		out->Z = (A.Row[2].X * projectileNuggetVector3->X + A.Row[2].Y * projectileNuggetVector3->Y + A.Row[2].Z * projectileNuggetVector3->Z + A.Row[2].W);
 	}
 };
 
@@ -281,9 +281,9 @@ void ProjectileNugget::rva00509A3C(const ProjectileNuggetFireInfo *info, const C
 	}
 
 	ProjectileUpdateInterface *pui = 0;
-	for (BehaviorModule **u = projectile->getBehaviorModules(); *u; ++u)
+	for (BehaviorModule **behaviorModule = projectile->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		if ((pui = (*u)->projectileUpdateInterfaceView()) != 0)
+		if ((pui = (*behaviorModule)->projectileUpdateInterfaceView()) != 0)
 			break;
 	}
 	if (pui)

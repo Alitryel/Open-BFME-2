@@ -16,5 +16,5 @@ inline PathfindCell::~PathfindCell() {
 // Preserve the existing inline destructor emission policy after identity repair.
 #pragma inline_depth(0)
 // ?bfmeEmitPathfindCellDtor@@YAXPAVPathfindCell@@@Z absent-from-retail
-void bfmeEmitPathfindCellDtor(PathfindCell *p) { p->PathfindCell::~PathfindCell(); }
+void bfmeEmitPathfindCellDtor(PathfindCell *pathfindCell) { pathfindCell->PathfindCell::~PathfindCell(); }
 #pragma inline_depth()

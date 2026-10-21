@@ -55,7 +55,7 @@ void PathfindCell::DoXfer(Xfer*xfer){
  if(info){
   xfer->xferICoord2D(&info->coordinates);
   xfer->xferUnsignedShort(&info->first);xfer->xferUnsignedShort(&info->second);
-  for(int i=0;i<5;++i)for(CellXferLink*p=info->lists[i];p;p=p->next){ObjectID id=p->object->id;XferObjectID(xfer,&id);}
+  for(int i=0;i<5;++i)for(CellXferLink*cellXferLink=info->lists[i];cellXferLink;cellXferLink=cellXferLink->next){ObjectID id=cellXferLink->object->id;XferObjectID(xfer,&id);}
   XferObjectID(xfer,&info->owner);
   int state0=info->state0;xfer->xferInt(&state0);
   int state1=info->state1;xfer->xferInt(&state1);
