@@ -18,6 +18,13 @@ namespace _STL {
 template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::_Vector_base(const allocator<void *> &__a) : _M_start(0), _M_finish(0), _M_end_of_storage(__a, 0) {}
 }
 #include <hash_map>
+// This unrowed wrapper is not part of this provider's matched interface.
+// Its declaration avoids instantiating an unrelated iterator-erase callee.
+namespace _STL { template <> void hash_map<int, int, hash<int>, equal_to<int>,
+    allocator<pair<const int, int> > >::erase(iterator); }
+
+// Reuse the rowed iterator comparison from the next-size provider.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool _STLP_CALL operator==(const _Ht_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> >, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > > &__x, const _Ht_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> >, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > > &__y) { return __x._M_cur == __y._M_cur; } }
 // bfme link decl-only begin
 namespace _STL { template <> void ** __uninitialized_fill_n<void **, unsigned int, void *>(void **, unsigned int, void *const &, __true_type const &); }
 namespace _STL { template <> hash_map<int, int, hash<int>, equal_to<int>, allocator<pair<int const, int> > >::hash_map(); }
