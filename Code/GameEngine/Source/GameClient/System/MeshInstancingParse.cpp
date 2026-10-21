@@ -18,7 +18,7 @@ struct NoCaseTreeValue4 {char body[4];};
 // Retail inlines the pair default ctor and has no out-of-line copy; another
 // unit's copy is first in link order, so dllimport keeps this one inline-only.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<const AsciiString,NoCaseTreeValue4>::pair() : first(AsciiString()), second(NoCaseTreeValue4()) {} }
-void Rva0041FD3DParse(INI *ini)
+void parseMeshNameMatchesDefinition(INI *ini)
 {
  if(TheMeshInstancingManager) {
   _STL::pair<const AsciiString,NoCaseTreeValue4> value;

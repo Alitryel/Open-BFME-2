@@ -68,7 +68,7 @@ void parseAutoResolveBodyDefinition(INI *);
 void parseAutoResolveCombatChainDefinition(INI *);
 void parseAutoResolveWeaponDefinition(INI *);
 void parseAIBaseDefinition(INI *);
-void Rva0041FD3DParse(INI *);
+void parseMeshNameMatchesDefinition(INI *);
 void parseLivingWorldAITemplateDefinition(INI *);
 void iniParseEnvironmentSkyboxTextureDefinition(INI *);
 void iniParseFactionVictoryDefinition(INI *);
@@ -429,7 +429,7 @@ BlockParse theAutoResolveCombatChainBlockParse = { 0, "AutoResolveCombatChain", 
 BlockParse theAutoResolveWeaponBlockParse = { 0, "AutoResolveWeapon", parseAutoResolveWeaponDefinition };	// VA 0x00DC825C "AutoResolveWeapon", parse 0x0041999F
 BlockParse theAIBaseBlockParse = { 0, "AIBase", parseAIBaseDefinition };	// VA 0x00DC83F4 "AIBase", parse 0x0041EC73
 BlockParse theArmyDefinitionBlockParse = { 0, "ArmyDefinition", ArmyDefinitionManager::parseArmyDefinition };	// VA 0x00DC8424 "ArmyDefinition", parse 0x0041F871
-BlockParse theMeshNameMatchesBlockParse = { 0, "MeshNameMatches", Rva0041FD3DParse };	// VA 0x00DC8430 "MeshNameMatches", parse 0x0041FD3D
+BlockParse theMeshNameMatchesBlockParse = { 0, "MeshNameMatches", parseMeshNameMatchesDefinition };	// VA 0x00DC8430 "MeshNameMatches", parse 0x0041FD3D
 BlockParse theLivingWorldAITemplateBlockParse = { 0, "LivingWorldAITemplate", parseLivingWorldAITemplateDefinition };	// VA 0x00DC8478 "LivingWorldAITemplate", parse 0x00420A29
 BlockParse theLightPointLevelBlockParse = { 0, "LightPointLevel", LightPointSystem::friend_parseLightPointLevelDefinition };	// VA 0x00DC84C4 "LightPointLevel", parse 0x00421572
 BlockParse theFormationAssistantBlockParse = { 0, "FormationAssistant", parseFormationAssistantDefinition };	// VA 0x00DC84F8 "FormationAssistant", parse 0x00425B90
