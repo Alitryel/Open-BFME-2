@@ -2262,13 +2262,13 @@ public:
 Rva002B74DE::Rva002B74DE(LivingWorldLogic *logic, Int battle)
 	: m_logic(logic), m_battle(battle)
 {
-	LivingWorldBattle *b = (LivingWorldBattle *)battle;
-	Int field34 = b->m_field34;
+	LivingWorldBattle *livingWorldBattle = (LivingWorldBattle *)battle;
+	Int field34 = livingWorldBattle->m_field34;
 	((LivingWorldRegionManager *)m_logic->m_field0B0)->SetActiveBattleID(field34, 1);
-	Int count = b->rva003F459A();
+	Int count = livingWorldBattle->rva003F459A();
 	_STL::vector<Rva002BBB96Element> results;
 	m_holder08.rva002B2EC7((Item002B2EC7 *)new Rva002B2508[count]);
-	m_logic->rva002BCCFB(b, (Int)&results, (Int)&m_holder08);
+	m_logic->rva002BCCFB(livingWorldBattle, (Int)&results, (Int)&m_holder08);
 	m_holder0C.reset(new LivingWorldAutoResolveBattle(*(const PlayerStorage *)&results));
 	m_logic->m_resolverListeners.forEach(&Rva002B6126Listener::notify, m_logic, battle, (int)m_holder0C.get());
 }
@@ -3693,11 +3693,11 @@ static __declspec(noinline) Bool rva002B2D92IntegerFromMessage(Int *value, const
 Bool Rva002B5414Anchor(const GameMessage *msg, void *battle, LivingWorldRegion *region)
 {
 	Rva002E2903Player *player;
-	ArmorTemplate *tmpl;
+	ArmorTemplate *armorTemplate;
 	LivingWorldBuildPlot *plot;
 	void *result;
 	Int value;
-	return rva002B5414PlayerFromMessage(&player, msg, 0) && rva002B6F31TemplateFromMessage(&tmpl, msg, 1)
+	return rva002B5414PlayerFromMessage(&player, msg, 0) && rva002B6F31TemplateFromMessage(&armorTemplate, msg, 1)
 		&& rva002B2CA9ValidArmyIndex((Rva003F468D *)battle, 0, 1) && rva002B2CC6ValidUnitIndex((Rva003F4DCA *)battle, 0, 1, 2)
 		&& rva002B2D14PlotFromMessage(&plot, msg, 2, region) && rva002B2D38ResultFromMessage(&result, msg, 3)
 		&& rva002B2D92IntegerFromMessage(&value, msg, 4);
@@ -3831,7 +3831,7 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
  case 1705:{LivingWorldArmy*army;if(getArmyFromMessage(&army,msg,0))rva002B2834(army,1);break;}
  case 1706:{Rva0020E89C*region;if(rva002B2CE7(msg,&region,0)){
   LivingWorldBuildPlot*plot=((LivingWorldRegion*)region)->rva003F088C(msg->getArgument(1)->integer);
-  if(plot){ArmorTemplate*t=((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)msg->getArgument(2)->integer);if(t)((LivingWorldRegion*)region)->BuildBuilding((Rva003F1C56Plot*)plot,(const Rva003F1BD3TemplateView*)t);}
+  if(plot){ArmorTemplate*armorTemplate=((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)msg->getArgument(2)->integer);if(armorTemplate)((LivingWorldRegion*)region)->BuildBuilding((Rva003F1C56Plot*)plot,(const Rva003F1BD3TemplateView*)armorTemplate);}
  }break;}
  case 1707:{Rva0020E89C*region;if(rva002B2CE7(msg,&region,0)){LivingWorldBuildPlot*plot=((LivingWorldRegion*)region)->rva003F088C(msg->getArgument(1)->integer);if(plot)((Rva003F1093*)region)->rva003F1CA2((CreateAHeroData*)plot,true);}break;}
  case 1708:{void*playerView;if(rva002B2D5E(msg,&playerView,0)){int key=msg->getArgument(1)->integer;if(key)((DispatcherSpawn*)playerView)->s14(key);}break;}
@@ -3875,7 +3875,7 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
   }}
   break;
  }
- case 1717:{LivingWorldBattle*b=(LivingWorldBattle*)m_field0B0->rva0020E501(msg->getArgument(0)->integer);if(b)rva002BD90D(8,(int)b);break;}
+ case 1717:{LivingWorldBattle*livingWorldBattle=(LivingWorldBattle*)m_field0B0->rva0020E501(msg->getArgument(0)->integer);if(livingWorldBattle)rva002BD90D(8,(int)livingWorldBattle);break;}
  case 1702:{int turn=msg->getArgument(0)->integer;int phase=msg->getArgument(1)->integer;
   if(turn==m_turn&&phase==m_turnPhase){int id=msg->getArgument(2)->integer;DispatcherPlayer*playerView=(DispatcherPlayer*)((Rva002BA8F1Logic*)this)->find(id,0);if(playerView)playerView->ready=1;}break;}
  case 1720:{int id=msg->getArgument(0)->integer;*((bool*)this+0x175)=true;
@@ -3924,12 +3924,12 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
   {GameLogic*logic=TheGameLogic;if(((Rva00210C66CmpBoolField*)logic)->get())logic->CreateWOTRMPPlayers();}
   ((Rva0023D2DD*)TheGameLogic)->rva0023D2DD();((DispatcherGameLogic*)TheGameLogic)->field44=true;break;
  case 1725:{
-  if(!m_autoBattleResolver.get())break;void*b;
-  if(getBattleFromMessage(msg,&b,0)&&b==((DispatcherResolver*)m_autoBattleResolver.get())->battle){int id=player->id;((Rva002B9349*)m_autoBattleResolver.get())->rva002B9349(id,msg->getArgument(1)->integer);}break;
+  if(!m_autoBattleResolver.get())break;void*livingWorldBattle;
+  if(getBattleFromMessage(msg,&livingWorldBattle,0)&&livingWorldBattle==((DispatcherResolver*)m_autoBattleResolver.get())->battle){int id=player->id;((Rva002B9349*)m_autoBattleResolver.get())->rva002B9349(id,msg->getArgument(1)->integer);}break;
  }
  case 1726:{
-  if(!m_autoBattleResolver.get())break;void*b;
-  if(getBattleFromMessage(msg,&b,0)&&b==((DispatcherResolver*)m_autoBattleResolver.get())->battle)((Rva002B9386*)m_autoBattleResolver.get())->rva002B9386((ScienceType)player->id);break;
+  if(!m_autoBattleResolver.get())break;void*livingWorldBattle;
+  if(getBattleFromMessage(msg,&livingWorldBattle,0)&&livingWorldBattle==((DispatcherResolver*)m_autoBattleResolver.get())->battle)((Rva002B9386*)m_autoBattleResolver.get())->rva002B9386((ScienceType)player->id);break;
  }
  case 1727:HandleMarkUnitForUpgradeMessage(msg);break;
  case 1728:HandleUnmarkUnitForUpgradeMessage(msg);break;

@@ -31,19 +31,19 @@ public:
 
 void LANAPI::removePlayer( LANPlayer *player )
 {
-	LANPlayer *p = m_lobbyPlayers;
+	LANPlayer *lANPlayer = m_lobbyPlayers;
 	if( !player )
 		return;
-	else if( p == player )
+	else if( lANPlayer == player )
 	{
-		m_lobbyPlayers = p->getNext();
+		m_lobbyPlayers = lANPlayer->getNext();
 	}
 	else
 	{
-		while( p->getNext() && p->getNext() != player )
-			p = p->getNext();
-		if( p->getNext() == player )
-			p->setNext( player->getNext() );
+		while( lANPlayer->getNext() && lANPlayer->getNext() != player )
+			lANPlayer = lANPlayer->getNext();
+		if( lANPlayer->getNext() == player )
+			lANPlayer->setNext( player->getNext() );
 	}
 	player->setNext( 0 );
 }

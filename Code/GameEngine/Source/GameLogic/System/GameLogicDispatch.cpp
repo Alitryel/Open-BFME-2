@@ -149,7 +149,7 @@ case ((GameMessage::Type)30):
 		}
 
         case ((GameMessage::Type)1137):
-{ int playerIndex=msg->getArgument(0)->integer; Player *player=ThePlayerList->getNthPlayer(playerIndex); if(player) { const UpgradeTemplate *u=TheUpgradeCenter->findUpgrade("Upgrade_AllFactionUpgrade"); if(u) player->rva002AE329(u,(UpgradeStatusType)2,0); } break; }
+{ int playerIndex=msg->getArgument(0)->integer; Player *player=ThePlayerList->getNthPlayer(playerIndex); if(player) { const UpgradeTemplate *upgradeTemplate=TheUpgradeCenter->findUpgrade("Upgrade_AllFactionUpgrade"); if(upgradeTemplate) player->rva002AE329(upgradeTemplate,(UpgradeStatusType)2,0); } break; }
 case ((GameMessage::Type)29):
         {
             if(currentlySelectedGroup) TheAI->destroyGroup(currentlySelectedGroup);
@@ -305,15 +305,15 @@ case ((GameMessage::Type)1111):
 if(id && sample) { individually=false; enable=!(((unsigned char *)((Rva0028B7AELeaGetter *)sample)->get())[3]&1); }
 if(!currentlySelectedGroup) break; const VecObjectID &ids=currentlySelectedGroup->getAllIDs();
 VecObjectID::const_iterator it=ids.begin(); if(it!=ids.end()) do { Object *obj=findObjectByID(*it); if(!obj) continue;
-LogicDispatchObjectView *v=(LogicDispatchObjectView *)obj;
-LogicDispatchContainView *&contain=v->contain; if(contain && !contain->s7c() && contain->s114(0)>0) continue;
-if(sample) { const ThingTemplate *sampleTemplate=((LogicDispatchObjectView *)sample)->tmpl; _ReadWriteBarrier(); if(!v->tmpl->isEquivalentTo(sampleTemplate) && (!(((LogicDispatchTemplateView *)v->tmpl)->kind118&2) || !(((LogicDispatchTemplateView *)((LogicDispatchObjectView *)sample)->tmpl)->kind118&2))) continue; }
+LogicDispatchObjectView *logicDispatchObjectView=(LogicDispatchObjectView *)obj;
+LogicDispatchContainView *&contain=logicDispatchObjectView->contain; if(contain && !contain->s7c() && contain->s114(0)>0) continue;
+if(sample) { const ThingTemplate *sampleTemplate=((LogicDispatchObjectView *)sample)->tmpl; _ReadWriteBarrier(); if(!logicDispatchObjectView->tmpl->isEquivalentTo(sampleTemplate) && (!(((LogicDispatchTemplateView *)logicDispatchObjectView->tmpl)->kind118&2) || !(((LogicDispatchTemplateView *)((LogicDispatchObjectView *)sample)->tmpl)->kind118&2))) continue; }
 unsigned char flag=((unsigned char *)((Rva0028B7AELeaGetter *)obj)->get())[3];
 if(individually) enable=!(flag&1); else if((flag&1)==enable) continue;
 Object *horde=obj->rva002931F5(false);
 if(!enable) { if(horde) obj->clearWeaponSetFlagForHorde((WeaponSetType)24); else obj->clearWeaponSetFlag((WeaponSetType)24); }
 else { if(horde) obj->setWeaponSetFlagForHorde((WeaponSetType)24); else obj->setWeaponSetFlag((WeaponSetType)24); }
-if(v->ai && !v->ai->isMoving()) { if(obj->rva00293926((KindOfType)37)) { ((AICommandInterface *)((char *)v->ai+0x20))->aiIdle(CMD_FROM_AI); obj->rva002900E0(TheGameLogic->getFrame()+BfmeLogicFramesPerSecond); } if(v->firing) v->firing->coolDown(true); }
+if(logicDispatchObjectView->ai && !logicDispatchObjectView->ai->isMoving()) { if(obj->rva00293926((KindOfType)37)) { ((AICommandInterface *)((char *)logicDispatchObjectView->ai+0x20))->aiIdle(CMD_FROM_AI); obj->rva002900E0(TheGameLogic->getFrame()+BfmeLogicFramesPerSecond); } if(logicDispatchObjectView->firing) logicDispatchObjectView->firing->coolDown(true); }
 } while(++it!=ids.end()); break; }
 case ((GameMessage::Type)1115):
 { ObjectID id=msg->getArgument(0)->objectID; bool individually=(id==0); Object *partner=0; bool enable=false;
@@ -322,10 +322,10 @@ if(!currentlySelectedGroup) break; const VecObjectID &ids=currentlySelectedGroup
 for(VecObjectID::const_iterator it=ids.begin();it!=ids.end();++it) { ObjectID oid=*it; Object *obj=findObjectByID(oid); if(!obj) continue;
 if(obj->rva0028C4ED() && obj->rva00293408()) partner=TheGameLogic->findObjectByID(obj->rva0028C513());
 if(individually) enable=!obj->testStatus((ObjectStatusTypes)23); else if(obj->testStatus((ObjectStatusTypes)23)==enable) continue;
-LogicDispatchObjectView *v=(LogicDispatchObjectView *)obj;
-if(!enable) { if((((LogicDispatchTemplateView *)v->tmpl)->kind115 & 0x20)!=0) obj->rva00346C53((ObjectStatusTypes)23,false); else obj->setStatus((ObjectStatusTypes)23,false); if(partner) partner->setStatus((ObjectStatusTypes)23,false); }
-else { if((((LogicDispatchTemplateView *)v->tmpl)->kind115 & 0x20)!=0) obj->rva00346C53((ObjectStatusTypes)23,true); else obj->setStatus((ObjectStatusTypes)23,true);
-AIUpdateInterface *ai=v->ai; if(ai && ((LogicDispatchAIView *)ai)->s1bc()) ((AICommandInterface *)((char *)ai+0x20))->aiIdle(CMD_FROM_PLAYER);
+LogicDispatchObjectView *logicDispatchObjectView=(LogicDispatchObjectView *)obj;
+if(!enable) { if((((LogicDispatchTemplateView *)logicDispatchObjectView->tmpl)->kind115 & 0x20)!=0) obj->rva00346C53((ObjectStatusTypes)23,false); else obj->setStatus((ObjectStatusTypes)23,false); if(partner) partner->setStatus((ObjectStatusTypes)23,false); }
+else { if((((LogicDispatchTemplateView *)logicDispatchObjectView->tmpl)->kind115 & 0x20)!=0) obj->rva00346C53((ObjectStatusTypes)23,true); else obj->setStatus((ObjectStatusTypes)23,true);
+AIUpdateInterface *ai=logicDispatchObjectView->ai; if(ai && ((LogicDispatchAIView *)ai)->s1bc()) ((AICommandInterface *)((char *)ai+0x20))->aiIdle(CMD_FROM_PLAYER);
 if(partner) { partner->setStatus((ObjectStatusTypes)23,true); AIUpdateInterface *ai=partner->getAIUpdateInterface(); if(ai && ((LogicDispatchAIView *)ai)->s1bc()) ((AICommandInterface *)((char *)ai+0x20))->aiIdle(CMD_FROM_PLAYER); } }
 } break; }
 case ((GameMessage::Type)1099):
@@ -1357,7 +1357,7 @@ case ((GameMessage::Type)1118):
 case ((GameMessage::Type)1119):
 { TheGameLogic->rva0023D08B(msg->getArgument(0)->integer); break; }
 case ((GameMessage::Type)1126):
-{ const GameMessageArgumentType *a2=msg->getArgument(2); const GameMessageArgumentType *a1=msg->getArgument(1); const GameMessageArgumentType *a0=msg->getArgument(0); TheGameLogic->CallPlayerGiveMoney(a0->integer,a1->integer,a2->integer); break; }
+{ const GameMessageArgumentType *gameMessageArgumentType=msg->getArgument(2); const GameMessageArgumentType *a1=msg->getArgument(1); const GameMessageArgumentType *a0=msg->getArgument(0); TheGameLogic->CallPlayerGiveMoney(a0->integer,a1->integer,gameMessageArgumentType->integer); break; }
 
 	}
 

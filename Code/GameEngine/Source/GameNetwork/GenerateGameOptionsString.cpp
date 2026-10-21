@@ -130,8 +130,8 @@ char *Rva00447891Write1(char*,char,char*);
 char *Rva00447891Write1(char*,unsigned char,char*);
 unsigned char Rva0056BD91Pack(unsigned char,unsigned char,char,char);
 
-static inline const unsigned short *lanWideText(const UnicodeString &s) {
-    const unsigned short *data=*reinterpret_cast<const unsigned short *const*>(&s);
+static inline const unsigned short *lanWideText(const UnicodeString &unicodeString) {
+    const unsigned short *data=*reinterpret_cast<const unsigned short *const*>(&unicodeString);
     return data ? data+4 : reinterpret_cast<const unsigned short*>(L"");
 }
 

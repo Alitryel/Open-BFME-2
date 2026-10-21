@@ -101,7 +101,7 @@ private:
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-LWPlayerDef::LWPlayerDef(const LWPlayerDef&s):m_04(s.m_04),m_08(s.m_08),m_0c(s.m_0c),m_10(s.m_10),m_14(s.m_14){m_18=s.m_18;m_1c=s.m_1c;m_20=s.m_20;m_24=s.m_24;}
+LWPlayerDef::LWPlayerDef(const LWPlayerDef&lWPlayerDef):m_04(lWPlayerDef.m_04),m_08(lWPlayerDef.m_08),m_0c(lWPlayerDef.m_0c),m_10(lWPlayerDef.m_10),m_14(lWPlayerDef.m_14){m_18=lWPlayerDef.m_18;m_1c=lWPlayerDef.m_1c;m_20=lWPlayerDef.m_20;m_24=lWPlayerDef.m_24;}
 
 typedef char LWDefSize[sizeof(LWPlayerDef)==40?1:-1];
 void LWPlayerDef::xfer(Xfer *xfer)

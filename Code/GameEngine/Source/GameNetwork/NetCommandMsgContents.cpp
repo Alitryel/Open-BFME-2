@@ -25,9 +25,9 @@ bool DoesCommandRequireACommandID(NetCommandType type);
 AsciiString Rva005813D4Get(int type);
 
 
-__forceinline const char *GetStr004D5B4C(const AsciiString &s)
+__forceinline const char *GetStr004D5B4C(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

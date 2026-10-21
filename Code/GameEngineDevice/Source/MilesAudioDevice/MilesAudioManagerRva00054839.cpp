@@ -99,17 +99,17 @@ bool MilesAudioManager::rva00054839(AudioEventRTS *event)
 {
 	if (!event->isPositionalAudio())
 	{
-		for (ListNode *p = m_playing->m_next; p != m_playing; p = p->m_next)
+		for (ListNode *listNode = m_playing->m_next; listNode != m_playing; listNode = listNode->m_next)
 		{
-			if (p->m_data->m_event->m_id == event->m_id)
+			if (listNode->m_data->m_event->m_id == event->m_id)
 				return true;
 		}
 	}
 	else
 	{
-		for (ListNode *p = m_playing3D->m_next; p != m_playing3D; p = p->m_next)
+		for (ListNode *listNode = m_playing3D->m_next; listNode != m_playing3D; listNode = listNode->m_next)
 		{
-			if (p->m_data->m_event->m_id == event->m_id)
+			if (listNode->m_data->m_event->m_id == event->m_id)
 				return true;
 		}
 	}
@@ -117,29 +117,29 @@ bool MilesAudioManager::rva00054839(AudioEventRTS *event)
 }
 bool MilesAudioManager::rva00054899(ObjectID arg1, int arg2)
 {
-	for (ListNode *p = m_playing->m_next; p != m_playing; p = p->m_next)
+	for (ListNode *listNode = m_playing->m_next; listNode != m_playing; listNode = listNode->m_next)
 	{
-		PlayingAudio *pa = p->m_data;
+		PlayingAudio *pa = listNode->m_data;
 		AudioEventRTS *ev = pa->m_event;
-		Holder *h = ev->m_holder;
-		if (h->m_flag & 0x10)
+		Holder *holder = ev->m_holder;
+		if (holder->m_flag & 0x10)
 		{
 			if (ev->getObjectID() == arg1)
 				return true;
-			if (((Rva002D9576 *)p->m_data->m_event)->rva002D9576() == arg2)
+			if (((Rva002D9576 *)listNode->m_data->m_event)->rva002D9576() == arg2)
 				return true;
 		}
 	}
-	for (ListNode *p = m_playing3D->m_next; p != m_playing3D; p = p->m_next)
+	for (ListNode *listNode = m_playing3D->m_next; listNode != m_playing3D; listNode = listNode->m_next)
 	{
-		PlayingAudio *pa = p->m_data;
+		PlayingAudio *pa = listNode->m_data;
 		AudioEventRTS *ev = pa->m_event;
-		Holder *h = ev->m_holder;
-		if (h->m_flag & 0x10)
+		Holder *holder = ev->m_holder;
+		if (holder->m_flag & 0x10)
 		{
 			if (ev->getObjectID() == arg1)
 				return true;
-			if (((Rva002D9576 *)p->m_data->m_event)->rva002D9576() == arg2)
+			if (((Rva002D9576 *)listNode->m_data->m_event)->rva002D9576() == arg2)
 				return true;
 		}
 	}

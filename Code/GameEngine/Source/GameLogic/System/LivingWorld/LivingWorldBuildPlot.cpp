@@ -113,11 +113,11 @@ void LivingWorldBuildPlot::CreateIcon(const AsciiString &iconName)
 {
     if (((const StringBase<char> *)&iconName)->isEmpty())
         return;
-    LivingWorldBuildPlotIconTemplate *templ = (LivingWorldBuildPlotIconTemplate *)
+    LivingWorldBuildPlotIconTemplate *livingWorldBuildPlotIconTemplate = (LivingWorldBuildPlotIconTemplate *)
         ((Rva00213148 *)TheLivingWorldManager)->rva00213148(&iconName);
-    if (templ)
+    if (livingWorldBuildPlotIconTemplate)
     {
-        m_icon.rva00575674((Object *)new LivingWorldBuildPlotIcon(templ, this, m_position));
+        m_icon.rva00575674((Object *)new LivingWorldBuildPlotIcon(livingWorldBuildPlotIconTemplate, this, m_position));
         m_icon.get()->slot20(m_building.isBound(), true);
     }
 }

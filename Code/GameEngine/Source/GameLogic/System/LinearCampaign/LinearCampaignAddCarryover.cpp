@@ -234,9 +234,9 @@ void LinearCampaign::addCarryoverStuffToMap()
 
 				for (int i = 0; i < 1024; ++i) {
 					if (m_upgrades[(unsigned int)i >> 5] & (1 << (i & 0x1f))) {
-						const UpgradeTemplate *tmpl = TheUpgradeCenter->rva0026EEA0(i);
-						if (tmpl)
-							player->rva002AE329(tmpl, UPGRADE_STATUS_2, 1);
+						const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->rva0026EEA0(i);
+						if (upgradeTemplate)
+							player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_2, 1);
 					}
 				}
 				player->rva002A9E25(m_A0);

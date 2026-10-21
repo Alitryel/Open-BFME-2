@@ -132,7 +132,7 @@ void Rva002B8BFE::rva002B8BFE(Xfer*xfer){
    ((Rva002B8106*)&records)->rva002B8106(value);
   }
  }else{
-  for(RecordNode*p=((RecordList*)&records)->head->next;p!=((RecordList*)&records)->head;p=p->next){BfmeStringRecord002B4DC1 value=p->value;
+  for(RecordNode*recordNode=((RecordList*)&records)->head->next;recordNode!=((RecordList*)&records)->head;recordNode=recordNode->next){BfmeStringRecord002B4DC1 value=recordNode->value;
    xfer->xferWide(&value.text);xfer->xferInt((int*)&value.word0);xfer->xferRaw(&value.word1,4);
   }
  }

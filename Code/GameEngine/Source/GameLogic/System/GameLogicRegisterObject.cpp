@@ -139,9 +139,9 @@ void GameLogic::registerObject( Object *obj )
 	if( now == 0 )
 		now = 1;
 
-	for( BehaviorModule **b = obj->getBehaviorModules(); *b; ++b )
+	for( BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule )
 	{
-		UpdateModulePtr u = static_cast<UpdateModulePtr>( (*b)->getUpdate() );
+		UpdateModulePtr u = static_cast<UpdateModulePtr>( (*behaviorModule)->getUpdate() );
 		const ModuleData *entry = reinterpret_cast<const ModuleData *>( u );
 		if( !u )
 			continue;

@@ -236,9 +236,9 @@ bool ObjectFilter::testKindOf(const BitFlags<218> *kindOf, const Player *player,
 // Native3618B9..361B12 and WB ED2690 testTemplate. The common validation
 // pattern is independently verified in testKindOf. The four explicit template
 // collections precede the mask rules; name comparison and equivalence differ.
-bool ObjectFilter::testTemplate(const ThingTemplate *tmpl, const Player *player, const Player *context)
+bool ObjectFilter::testTemplate(const ThingTemplate *thingTemplate, const Player *player, const Player *context)
 {
- if(!tmpl) return false;
+ if(!thingTemplate) return false;
  if(m_id >= (g_validityEnd-g_validityBegin)/(int)sizeof(Rva00360F55)) return false;
  if(m_id == -1) m_id=Rva00361790(&Rva00360F55());
  Rva00360F55 *data=reinterpret_cast<Rva00360F55*>(g_validityBegin)+m_id;
@@ -266,33 +266,33 @@ bool ObjectFilter::testTemplate(const ThingTemplate *tmpl, const Player *player,
   const _STL::vector<ThingTemplate*> *list=reinterpret_cast<const _STL::vector<ThingTemplate*>*>(data->bytes+0x18);
   int count=list->size();
   for(int i=0;i<count;++i)
-   if(tmpl->name.compare((*list)[i]->name)==0) return true;
+   if(thingTemplate->name.compare((*list)[i]->name)==0) return true;
  }
  {
   const _STL::vector<ThingTemplate*> *list=reinterpret_cast<const _STL::vector<ThingTemplate*>*>(data->bytes+0x24);
   int count=list->size();
   for(int i=0;i<count;++i)
-   if(tmpl->name.compare((*list)[i]->name)==0) return false;
+   if(thingTemplate->name.compare((*list)[i]->name)==0) return false;
  }
  {
   const _STL::vector<ThingTemplate*> *list=reinterpret_cast<const _STL::vector<ThingTemplate*>*>(data->bytes+0x30);
   int count=list->size();
   for(int i=0;i<count;++i)
-   if(tmpl->isEquivalentTo((*list)[i])) return true;
+   if(thingTemplate->isEquivalentTo((*list)[i])) return true;
  }
  {
   const _STL::vector<ThingTemplate*> *list=reinterpret_cast<const _STL::vector<ThingTemplate*>*>(data->bytes+0x3c);
   int count=list->size();
   for(int i=0;i<count;++i)
-   if(tmpl->isEquivalentTo((*list)[i])) return false;
+   if(thingTemplate->isEquivalentTo((*list)[i])) return false;
  }
  BitFlags<218> *reject=reinterpret_cast<BitFlags<218>*>(data->bytes+0x64);
- if(reject->any() && reinterpret_cast<BitFlags<69>*>(reject)->test(tmpl->kindOf)) return false;
+ if(reject->any() && reinterpret_cast<BitFlags<69>*>(reject)->test(thingTemplate->kindOf)) return false;
  int &mode=*reinterpret_cast<int*>(data->bytes+0x80);
 
  switch(mode) {
-  case 2: { BitFlags<218> *require=reinterpret_cast<BitFlags<218>*>(data->bytes+0x48); if(require->any() && reinterpret_cast<BitFlags<69>*>(require)->test(tmpl->kindOf)) return true; break; }
-  case 1: { BitFlags<218> *require=reinterpret_cast<BitFlags<218>*>(data->bytes+0x48); if(require->any() && reinterpret_cast<const BitFlags<116>*>(tmpl->kindOf)->testSetAndClear(*reinterpret_cast<BitFlags<116>*>(require),KINDOFMASK_NONE)) return true; break; }
+  case 2: { BitFlags<218> *require=reinterpret_cast<BitFlags<218>*>(data->bytes+0x48); if(require->any() && reinterpret_cast<BitFlags<69>*>(require)->test(thingTemplate->kindOf)) return true; break; }
+  case 1: { BitFlags<218> *require=reinterpret_cast<BitFlags<218>*>(data->bytes+0x48); if(require->any() && reinterpret_cast<const BitFlags<116>*>(thingTemplate->kindOf)->testSetAndClear(*reinterpret_cast<BitFlags<116>*>(require),KINDOFMASK_NONE)) return true; break; }
   case 0: mode=3; break;
  }
  bool result=mode==3; return result;

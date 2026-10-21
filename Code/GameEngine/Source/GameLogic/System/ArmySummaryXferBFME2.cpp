@@ -120,8 +120,8 @@ public:
 struct ArmySummaryEntryRef
 {
 	ArmySummaryEntry *value;
-	ArmySummaryEntryRef(ArmySummaryEntry *p) : value(p) { if (value) ++static_cast<TargetRef00217D4C *>(value)->references; }
-	ArmySummaryEntryRef(const ArmySummaryEntryRef &x) : value(x.value) { if (value) ++static_cast<TargetRef00217D4C *>(value)->references; }
+	ArmySummaryEntryRef(ArmySummaryEntry *armySummaryEntry) : value(armySummaryEntry) { if (value) ++static_cast<TargetRef00217D4C *>(value)->references; }
+	ArmySummaryEntryRef(const ArmySummaryEntryRef &armySummaryEntryRef) : value(armySummaryEntryRef.value) { if (value) ++static_cast<TargetRef00217D4C *>(value)->references; }
 	~ArmySummaryEntryRef() { if (value) ReleaseTreeHintRef00217D4C(static_cast<TargetRef00217D4C *>(value)); }
 	ArmySummaryEntry *operator->() const { return value; }
 };

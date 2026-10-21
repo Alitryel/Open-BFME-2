@@ -117,26 +117,26 @@ void NetCommandWrapperList::removeFromList(NetCommandWrapperListNode *node) {
 		return;
 	}
 
-	NetCommandWrapperListNode *temp = m_list;
+	NetCommandWrapperListNode *netCommandWrapperListNode = m_list;
 	NetCommandWrapperListNode *prev = NULL;
 
-	while ((temp != NULL) && (temp->getCommandID() != node->getCommandID())) {
-		prev = temp;
-		temp = temp->m_next;
+	while ((netCommandWrapperListNode != NULL) && (netCommandWrapperListNode->getCommandID() != node->getCommandID())) {
+		prev = netCommandWrapperListNode;
+		netCommandWrapperListNode = netCommandWrapperListNode->m_next;
 	}
 
-	if (temp == NULL) {
+	if (netCommandWrapperListNode == NULL) {
 		return;
 	}
 
 	if (prev == NULL) {
-		m_list = temp->m_next;
-		::delete temp;
-		temp = NULL;
+		m_list = netCommandWrapperListNode->m_next;
+		::delete netCommandWrapperListNode;
+		netCommandWrapperListNode = NULL;
 	} else {
-		prev->m_next = temp->m_next;
-		::delete temp;
-		temp = NULL;
+		prev->m_next = netCommandWrapperListNode->m_next;
+		::delete netCommandWrapperListNode;
+		netCommandWrapperListNode = NULL;
 	}
 }
 
@@ -145,13 +145,13 @@ NetCommandList *NetCommandWrapperList::getReadyCommands()
 	NetCommandList *retlist = new NetCommandList;
 	retlist->reset();
 
-	NetCommandWrapperListNode *temp = m_list;
+	NetCommandWrapperListNode *netCommandWrapperListNode = m_list;
 	NetCommandWrapperListNode *next = NULL;
 
-	while (temp != NULL) {
-		next = temp->m_next;
-		if (temp->isComplete()) {
-			NetCommandRef *msg = NetPacket::ConstructNetCommandMsgFromRawData(temp->getRawData(), temp->getRawDataLength());
+	while (netCommandWrapperListNode != NULL) {
+		next = netCommandWrapperListNode->m_next;
+		if (netCommandWrapperListNode->isComplete()) {
+			NetCommandRef *msg = NetPacket::ConstructNetCommandMsgFromRawData(netCommandWrapperListNode->getRawData(), netCommandWrapperListNode->getRawDataLength());
 			if (msg != NULL) {
 				NetCommandRef *ret = retlist->addMessage(msg->getCommand());
 				ret->setRelay(msg->getRelay());
@@ -160,10 +160,10 @@ NetCommandList *NetCommandWrapperList::getReadyCommands()
 				msg = NULL;
 			}
 
-			removeFromList(temp);
-			temp = NULL;
+			removeFromList(netCommandWrapperListNode);
+			netCommandWrapperListNode = NULL;
 		}
-		temp = next;
+		netCommandWrapperListNode = next;
 	}
 
 	return retlist;

@@ -33,7 +33,7 @@ public:
  __forceinline Rva004F6093Holder():value(0){}
  __declspec(noinline) inline Rva004F6093Holder(const Rva004F6093Holder&x):value(x.value){if(value)++value->ref.references;}
  __forceinline ArmySummaryEntry*operator->()const{return value;}
- __forceinline Rva004F6093Holder(ArmySummaryEntry*p):value(p){if(value)++value->ref.references;}
+ __forceinline Rva004F6093Holder(ArmySummaryEntry*armySummaryEntry):value(armySummaryEntry){if(value)++value->ref.references;}
  __forceinline ~Rva004F6093Holder(){if(value)ReleaseTreeHintRef00217D4C(&value->ref);}
 };
 class Rva0040CB11Entry {public:int key;Rva004F6093Holder value;};

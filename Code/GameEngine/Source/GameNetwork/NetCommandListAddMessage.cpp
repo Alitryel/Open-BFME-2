@@ -69,9 +69,9 @@ private:
 // inline comparator; with it MSVC 7.1 calls the incoming command's virtual
 // first and keeps its result in EBX (reloading cmdMsg from its argument home),
 // as retail does. Spelled inline in the condition, the queued call comes first.
-static __forceinline bool sortGreater(NetCommandMsg *a, NetCommandMsg *b)
+static __forceinline bool sortGreater(NetCommandMsg *netCommandMsg, NetCommandMsg *b)
 {
-	return a->getSortNumber() > b->getSortNumber();
+	return netCommandMsg->getSortNumber() > b->getSortNumber();
 }
 NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 {
@@ -156,16 +156,16 @@ NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 		return msg;
 	}
 
-	NetCommandRef *tempmsg = m_first;
-	while ((tempmsg != 0) &&
+	NetCommandRef *netCommandRef = m_first;
+	while ((netCommandRef != 0) &&
 		((cmdMsg->getTimestamp() > m_first->getCommand()->getTimestamp()) ||
-		 (cmdMsg->getNetCommandType() > tempmsg->getCommand()->getNetCommandType()) ||
-		 (cmdMsg->getPlayerID() > tempmsg->getCommand()->getPlayerID()) ||
-		 sortGreater(cmdMsg, tempmsg->getCommand()))) {
-		tempmsg = tempmsg->getNext();
+		 (cmdMsg->getNetCommandType() > netCommandRef->getCommand()->getNetCommandType()) ||
+		 (cmdMsg->getPlayerID() > netCommandRef->getCommand()->getPlayerID()) ||
+		 sortGreater(cmdMsg, netCommandRef->getCommand()))) {
+		netCommandRef = netCommandRef->getNext();
 	}
 
-	if (tempmsg == 0) {
+	if (netCommandRef == 0) {
 		if (isEqualCommandMsg(m_last->getCommand(), cmdMsg)) {
 			delete msg;
 			msg = 0;
@@ -180,7 +180,7 @@ NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 		return msg;
 	}
 
-	if (tempmsg == m_first) {
+	if (netCommandRef == m_first) {
 		if (isEqualCommandMsg(m_first->getCommand(), cmdMsg)) {
 			delete msg;
 			return 0;
@@ -194,16 +194,16 @@ NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 		return msg;
 	}
 
-	if (isEqualCommandMsg(tempmsg->getCommand(), cmdMsg)) {
+	if (isEqualCommandMsg(netCommandRef->getCommand(), cmdMsg)) {
 		delete msg;
 		msg = 0;
 		return 0;
 	}
 
-	msg->setNext(tempmsg);
-	msg->setPrev(tempmsg->getPrev());
+	msg->setNext(netCommandRef);
+	msg->setPrev(netCommandRef->getPrev());
 	msg->getPrev()->setNext(msg);
-	tempmsg->setPrev(msg);
+	netCommandRef->setPrev(msg);
 	m_lastMessageInserted = msg;
 
 	return msg;

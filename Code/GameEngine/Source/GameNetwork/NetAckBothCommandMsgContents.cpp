@@ -20,9 +20,9 @@ enum NetCommandType
 class MemoryPool;
 
 
-__forceinline const char *GetStr004D5DEF(const AsciiString &s)
+__forceinline const char *GetStr004D5DEF(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

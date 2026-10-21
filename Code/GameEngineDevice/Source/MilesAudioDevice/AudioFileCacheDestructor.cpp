@@ -22,10 +22,10 @@ struct VideoNode {VideoNode *next;AsciiString name;Rva0010EDC2 *entry;};
 struct AudioCacheCursor {
  struct{void *first,*second;}s;
  AudioCacheCursor(void*a,void*b){s.first=a;s.second=b;}
- AudioCacheCursor(const AudioCacheCursor &v){s.first=v.s.first;s.second=v.s.second;}
+ AudioCacheCursor(const AudioCacheCursor &audioCacheCursor){s.first=audioCacheCursor.s.first;s.second=audioCacheCursor.s.second;}
 };
 struct VideoPair { struct {void *first,*second;}s;
- __forceinline VideoPair(const VideoPair&v) {s.first=v.s.first;s.second=v.s.second;}
+ __forceinline VideoPair(const VideoPair&videoPair) {s.first=videoPair.s.first;s.second=videoPair.s.second;}
 };
 class Rva000427195 {
  void *unused;

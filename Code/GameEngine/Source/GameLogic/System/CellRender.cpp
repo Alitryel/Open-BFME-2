@@ -16,11 +16,11 @@ public: void rva0040495D(const Coord3D*,float,int,void*);
 private: float first[20],second[20];
 };
 void Rva0040495D::rva0040495D(const Coord3D *position,float size,int index,void *parameters) {
- const CellDrawParameters *p=(const CellDrawParameters*)parameters;
- float value=first[index]*p->enemyScale-second[index]*p->allyScale;
+ const CellDrawParameters *cellDrawParameters=(const CellDrawParameters*)parameters;
+ float value=first[index]*cellDrawParameters->enemyScale-second[index]*cellDrawParameters->allyScale;
  if (!(value>0.0f)) value=0.0f;
- if (!(value<p->threshold)) value=p->threshold;
- float ratio=value/p->threshold;
+ if (!(value<cellDrawParameters->threshold)) value=cellDrawParameters->threshold;
+ float ratio=value/cellDrawParameters->threshold;
  CellDrawTriple triple;
  triple.first=1.0f;
  triple.third=1.0f;

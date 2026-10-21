@@ -15,9 +15,9 @@ public:
 	NetGameCommandMsgArg *m_next; // +0x04
 };
 
-__forceinline void deleteInstance(NetGameCommandMsgArg *arg)
+__forceinline void deleteInstance(NetGameCommandMsgArg *netGameCommandMsgArg)
 {
-	::delete arg;
+	::delete netGameCommandMsgArg;
 }
 
 typedef int Int;
@@ -63,9 +63,9 @@ __declspec(noinline) inline NetGameCommandMsg::~NetGameCommandMsg()
 }
 
 // ?bfmeAnchorNetGameCommandMsgDtor absent-from-retail
-void bfmeAnchorNetGameCommandMsgDtor(NetGameCommandMsg *p)
+void bfmeAnchorNetGameCommandMsgDtor(NetGameCommandMsg *netGameCommandMsg)
 {
-	p->NetGameCommandMsg::~NetGameCommandMsg();
+	netGameCommandMsg->NetGameCommandMsg::~NetGameCommandMsg();
 }
 
 

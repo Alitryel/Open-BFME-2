@@ -183,9 +183,9 @@ class Rva005020CCDistanceTable
 public:
 	unsigned int size() const { return _M_t.size(); }
 	GlobalTree::iterator begin() { return _M_t.begin(); }
-	__forceinline GlobalTree::iterator insert(const GlobalTree::iterator &position, const GlobalValue &x)
+	__forceinline GlobalTree::iterator insert(const GlobalTree::iterator &position, const GlobalValue &globalValue)
 	{
-		return _M_t.insert_unique_00501587(position, x);
+		return _M_t.insert_unique_00501587(position, globalValue);
 	}
 	GlobalTree _M_t;
 };
@@ -232,15 +232,15 @@ class LivingWorldLogic
 public:
 	__forceinline _STL::vector<LivingWorldRegion *> *getRegions()
 	{
-		LivingWorldCampaign *c = m_campaign;
-		if (c->m_regionManager)
-			return &c->m_regionManager->m_regions;
+		LivingWorldCampaign *livingWorldCampaign = m_campaign;
+		if (livingWorldCampaign->m_regionManager)
+			return &livingWorldCampaign->m_regionManager->m_regions;
 		return 0;
 	}
 	__forceinline Rva003EF8E1 *getPathFinder()
 	{
-		LivingWorldRegionManager *m = m_campaign->m_regionManager;
-		return m ? m->m_pathFinder : 0;
+		LivingWorldRegionManager *livingWorldRegionManager = m_campaign->m_regionManager;
+		return livingWorldRegionManager ? livingWorldRegionManager->m_pathFinder : 0;
 	}
 	__forceinline int findShortestPath(LivingWorldSearchCallback *callback, int a, int from, int to, _STL::vector<ObjectID> *path, bool b)
 	{

@@ -25,8 +25,8 @@ inline AsciiString GameInfo::getMap() const
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeGameInfoInlineAnchor@@YAXPAVGameInfo@@@Z absent-from-retail
-void _bfmeGameInfoInlineAnchor(GameInfo *p)
+void _bfmeGameInfoInlineAnchor(GameInfo *gameInfo)
 {
-    p->getMap();
+    gameInfo->getMap();
 }
 #pragma inline_depth()

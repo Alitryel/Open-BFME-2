@@ -85,10 +85,10 @@ struct WallPositionValue : Coord3D {
     WallPositionValue() {}
     WallPositionValue(float a, float b, float c) { x=a; y=b; z=c; }
     void scale(float factor) { x=x*factor; y=y*factor; z=z*factor; }
-    static void crossProduct(const WallPositionValue &a, const WallPositionValue &b, WallPositionValue *result) {
-        result->x = a.y*b.z - a.z*b.y;
-        result->y = a.z*b.x - a.x*b.z;
-        result->z = a.x*b.y - a.y*b.x;
+    static void crossProduct(const WallPositionValue &wallPositionValue, const WallPositionValue &b, WallPositionValue *result) {
+        result->x = wallPositionValue.y*b.z - wallPositionValue.z*b.y;
+        result->y = wallPositionValue.z*b.x - wallPositionValue.x*b.z;
+        result->z = wallPositionValue.x*b.y - wallPositionValue.y*b.x;
     }
 
     WallPositionValue(const Coord3D &other) {
@@ -339,8 +339,8 @@ void AIWall::buildGate()
 			const UpgradeTemplate *upgrade = button->m_24;
 			if (!upgrade)
 				continue;
-			const ThingTemplate *tmpl = button->rva0035B570();
-			if (!tmpl || !(tmpl->m_120 & 0x800))
+			const ThingTemplate *thingTemplate = button->rva0035B570();
+			if (!thingTemplate || !(thingTemplate->m_120 & 0x800))
 				continue;
 			if (other->affectedByUpgrade(upgrade)) {
 				m_14->m_2C = upgrade->calcCostToBuild(m_18, (unsigned)other);

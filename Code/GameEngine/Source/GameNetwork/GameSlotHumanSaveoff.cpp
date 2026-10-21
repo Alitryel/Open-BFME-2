@@ -65,8 +65,8 @@ void GameSlot::saveOffOriginalInfo()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeGameSlotInlineAnchorGameSlotHumanSaveoff@@YAXPAVGameSlot@@@Z absent-from-retail
-void _bfmeGameSlotInlineAnchorGameSlotHumanSaveoff(GameSlot *p)
+void _bfmeGameSlotInlineAnchorGameSlotHumanSaveoff(GameSlot *gameSlot)
 {
-    p->isHuman();
+    gameSlot->isHuman();
 }
 #pragma inline_depth()

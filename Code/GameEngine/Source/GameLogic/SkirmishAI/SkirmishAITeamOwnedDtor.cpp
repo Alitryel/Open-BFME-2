@@ -65,7 +65,7 @@ Rva004E9657::~Rva004E9657(){
  Map::iterator end=map.end();
  for(Map::iterator i=map.begin();i!=end;++i)delete i->second;
  reinterpret_cast<Rva004E9419*>(&map00)->rva004E94A1();
- TeamOwnedPoly**i=vector18.begin();TeamOwnedPoly**end18=vector18.end();
- for(;i!=end18;)::delete *i;
+ TeamOwnedPoly**i=vector18.begin();TeamOwnedPoly**teamOwnedPoly=vector18.end();
+ for(;i!=teamOwnedPoly;)::delete *i;
  _ReadWriteBarrier();_STL::vector<void*>*vec=reinterpret_cast<_STL::vector<void*>*>(&vector18);reinterpret_cast<RvaVector*>(vec)->erase(vec->begin(),vec->end());
 }

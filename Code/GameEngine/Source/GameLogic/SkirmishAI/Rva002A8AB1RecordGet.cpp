@@ -53,6 +53,6 @@ void *Rva002A8AB1Record::rva002C6ACB()
 {
 	Rva004E9600 *mid = TheSkirmishAIManager->rva002A8B24(m_15c);
 	void *found = mid->getMasterPlayer();
-	Player *p = (Player *)TheSkirmishAIManager->rva002A8AB1(found);
-	return p->m_164->rva002C5FD9();
+	Player *player = (Player *)TheSkirmishAIManager->rva002A8AB1(found);
+	return player->m_164->rva002C5FD9();
 }

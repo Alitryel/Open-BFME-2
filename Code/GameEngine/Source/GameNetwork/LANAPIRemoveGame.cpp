@@ -37,17 +37,17 @@ void LANAPI::removeGame( LANGameInfo *game )
 	if( (*(LANGameInfo **)&TheGameInfo) == game )
 		(*(LANGameInfo **)&TheGameInfo) = 0;
 
-	LANGameInfo *g = m_games;
-	if( !game || !g )
+	LANGameInfo *lANGameInfo = m_games;
+	if( !game || !lANGameInfo )
 		return;
-	else if( g == game )
-		m_games = g->getNext();
+	else if( lANGameInfo == game )
+		m_games = lANGameInfo->getNext();
 	else
 	{
-		while( g->getNext() && g->getNext() != game )
-			g = g->getNext();
-		if( g->getNext() == game )
-			g->setNext( game->getNext() );
+		while( lANGameInfo->getNext() && lANGameInfo->getNext() != game )
+			lANGameInfo = lANGameInfo->getNext();
+		if( lANGameInfo->getNext() == game )
+			lANGameInfo->setNext( game->getNext() );
 	}
 }
 
@@ -59,9 +59,9 @@ Bool LANAPI::ValidateGameInfo( LANGameInfo *game )
 {
 	if( game == 0 )
 		return false;
-	for( LANGameInfo *g = m_games; g != 0; g = g->m_next )
+	for( LANGameInfo *lANGameInfo = m_games; lANGameInfo != 0; lANGameInfo = lANGameInfo->m_next )
 	{
-		if( g == game )
+		if( lANGameInfo == game )
 			return true;
 	}
 	return false;

@@ -24,14 +24,14 @@ typedef bool Bool;
 // StringBase<char>::concat(&c, 1): retail stores the byte to a stack slot and
 // calls concat(text, len) at 0x000369A0. The shared header's concat(char)
 // reaches StringBase<char>::concat(char) instead, so spell the donor's form.
-static inline void concatChar(AsciiString &s, char c)
+static inline void concatChar(AsciiString &asciiString, char c)
 {
-	((StringBase<char> *)&s)->concat(&c, 1);
+	((StringBase<char> *)&asciiString)->concat(&c, 1);
 }
 
-static inline void concatStringBase(AsciiString &s, const AsciiString &value)
+static inline void concatStringBase(AsciiString &asciiString, const AsciiString &value)
 {
-	((StringBase<char> *)&s)->concat(*(const StringBase<char> *)&value);
+	((StringBase<char> *)&asciiString)->concat(*(const StringBase<char> *)&value);
 }
 
 class GameState

@@ -51,10 +51,10 @@ class LinearCampaign {public:void onCurrentMissionWon();char p0[0x10];int value1
 void LinearCampaign::onCurrentMissionWon(){
  won=true;
  if(TheGameLogic){
-  for(Object*o=TheGameLogic->getFirstObject();o;o=o->next){
-   if((o->status&0x10)&&!(o->status&1)){
+  for(Object*object=TheGameLogic->getFirstObject();object;object=object->next){
+   if((object->status&0x10)&&!(object->status&1)){
     units.push_back(*reinterpret_cast<const BfmePod172*>(&CarryoverUnit()));
-    reinterpret_cast<Rva00291198Host*>(o)->rva002910B7(reinterpret_cast<Rva00291198Dest*>(&units.back()));
+    reinterpret_cast<Rva00291198Host*>(object)->rva002910B7(reinterpret_cast<Rva00291198Dest*>(&units.back()));
     ++units.back().a[0x94/4];
    }
   }
@@ -86,7 +86,7 @@ void LinearCampaign::onCurrentMissionWon(){
    for(_STL::vector<ScienceType>::const_iterator it=ps.begin(),end=ps.end();it!=end;++it){ms.s=*it;if(TheScienceStore->isScienceGrantable(ms.s))sciences.push_back(ms.s);}
    memset(&upgrades,0,sizeof(upgrades));
    const Bits1024 &have=player->upgrades;
-   for(int i=0;i<1024;++i){if(have.test(i)){const UpgradeTemplate*t=TheUpgradeCenter->rva0026EEA0(i);if(t&&t->carryover)upgrades.set(i);}}
+   for(int i=0;i<1024;++i){if(have.test(i)){const UpgradeTemplate*upgradeTemplate=TheUpgradeCenter->rva0026EEA0(i);if(upgradeTemplate&&upgradeTemplate->carryover)upgrades.set(i);}}
    valueA0=player->value314;
   }
  }

@@ -222,7 +222,7 @@ void Rva00502FE9::rva00502FE9(int playerID) {
   BuildingNuggetView*upgrade=((LivingWorldBuildingTemplate*)((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)buildings[i]))->findNugget(AsciiString("UpgradeTroops"));
   if(command && command->type!=1)command=0;
   if(command){commandBuilding=buildings[i];commandPoints=command->amount;}
-  else if(strengthen){strengthBuilding=buildings[i];StrengthenKey key;key.minCount=1;StrengthenNugget*s=(StrengthenNugget*)strengthen;Rva003F751ANode*it=((Rva003F751A*)&s->header)->rva003F751A(&key.minCount);if(it!=s->header)strengthenAmount=it->value;}
+  else if(strengthen){strengthBuilding=buildings[i];StrengthenKey key;key.minCount=1;StrengthenNugget*strengthenNugget=(StrengthenNugget*)strengthen;Rva003F751ANode*it=((Rva003F751A*)&strengthenNugget->header)->rva003F751A(&key.minCount);if(it!=strengthenNugget->header)strengthenAmount=it->value;}
   else if(upgrade){upgradeBuilding=buildings[i];upgradeAmount=10;}
   if(spawn){if(!command&&!strengthen&&!upgrade)spawnBuilding=buildings[i];spawnBuildings.push_back(buildings[i]);}
  }

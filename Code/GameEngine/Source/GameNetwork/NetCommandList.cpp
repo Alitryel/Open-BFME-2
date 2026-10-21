@@ -113,7 +113,7 @@ void NetCommandList::reset()
 {
 	while (m_first != 0)
 	{
-		NetCommandNode *temp = m_first->m_next;
+		NetCommandNode *netCommandNode = m_first->m_next;
 		m_first->m_next = 0;
 		m_first->m_prev = 0;
 		NetCommandNode *node = m_first;
@@ -122,7 +122,7 @@ void NetCommandList::reset()
 			node->detach();
 			delete node;
 		}
-		m_first = temp;
+		m_first = netCommandNode;
 	}
 	m_last = 0;
 	m_lastMessageInserted = 0;
@@ -246,9 +246,9 @@ void NetCommandList::appendList(NetCommandList *list)
 	NetCommandRef *next = 0;
 	while (msg != 0) {
 		next = msg->getNext();
-		NetCommandRef *temp = addMessage(msg->getCommand());
-		if (temp != 0) {
-			temp->setRelay(msg->getRelay());
+		NetCommandRef *netCommandRef = addMessage(msg->getCommand());
+		if (netCommandRef != 0) {
+			netCommandRef->setRelay(msg->getRelay());
 		}
 
 		msg = next;

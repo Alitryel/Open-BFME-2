@@ -28,7 +28,7 @@ class Rva0022D214 {
 public:Rva0022D214(const AsciiString&,const Rva004191E5&);~Rva0022D214();
 private:AsciiString key;Rva004191E5 value;
 };
-Rva0022D214::Rva0022D214(const AsciiString&n,const Rva004191E5&v):key(n),value(v){}
+Rva0022D214::Rva0022D214(const AsciiString&asciiString,const Rva004191E5&v):key(asciiString),value(v){}
 #pragma pack(push,1)
 struct InsertRet00419331 {void *node;void *owner;unsigned char found;};
 #pragma pack(pop)

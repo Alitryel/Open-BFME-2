@@ -187,8 +187,8 @@ void NAT::rva005A7A96(const std::vector<Rva005A7A96Pair> *pairs)
 	}
 }
 
-__forceinline void natAppendChar(AsciiString &s,char c) {
- ((StringBase<char> *)&s)->concat(&c,1);
+__forceinline void natAppendChar(AsciiString &asciiString,char c) {
+ ((StringBase<char> *)&asciiString)->concat(&c,1);
 }
 // Reference family: BFME1 nat.cpp notifyUsersOfConnectionDone (9cbfb551fe20).
 // Target574D8..57683 carries both endpoint indices and the action cookie,

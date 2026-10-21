@@ -884,8 +884,8 @@ void _STLP_alloc_proxy<unsigned int, MilesAliasNode, allocator<MilesAliasNode> >
 { static_cast<allocator<MilesAliasNode>&>(*this).deallocate(p, n); }
 // ?MilesAliasTable::_M_delete_node present-unmatched
 template<> __declspec(dllimport) __forceinline
-void MilesAliasTable::_M_delete_node(MilesAliasNode *p)
-{ _Destroy(&p->_M_val); _M_num_elements.deallocate(p, 1); }
+void MilesAliasTable::_M_delete_node(MilesAliasNode *milesAliasNode)
+{ _Destroy(&milesAliasNode->_M_val); _M_num_elements.deallocate(milesAliasNode, 1); }
 }
 
 // Miles handle -> PlayingAudio maps at +0xB98/+0xBAC/+0xBC0. The mapped
@@ -2786,8 +2786,8 @@ void MilesAudioManager::rva0005B256(Xfer *xfer, PlayingAudioRef &playing, int *u
         AsciiString file = playing->m_event->getFilename();
         void *owner = m_atB90;
         ((Rva000A8D0B *)&playing->m_at0C)->rva000A8D0B(owner, file, 0);
-        PlayingAudio *p = playing.get();
-        ((Rva000A8AD8 *)&p->m_at0C)->rva000A8AD8(((Rva002D94DD *)p->m_event.get())->rva002D94DD());
+        PlayingAudio *playingAudio = playing.get();
+        ((Rva000A8AD8 *)&playingAudio->m_at0C)->rva000A8AD8(((Rva002D94DD *)playingAudio->m_event.get())->rva002D94DD());
         playing->m_type = 4;
         playAndStoreStream(playing, &resumePosition);
     } else {
@@ -4675,8 +4675,8 @@ void MilesAudioManager::processPushMusicRequest(Rva00051107AudioRequest *req)
     AsciiString file = playing->m_event->getFilename();
     void *owner = m_atB90;
     ((Rva000A8D0B *)&playing->m_at0C)->rva000A8D0B(owner, file, 0);
-    PlayingAudio *p = playing.get();
-    ((Rva000A8AD8 *)&p->m_at0C)->rva000A8AD8(((Rva002D94DD *)p->m_event.get())->rva002D94DD());
+    PlayingAudio *playingAudio = playing.get();
+    ((Rva000A8AD8 *)&playingAudio->m_at0C)->rva000A8AD8(((Rva002D94DD *)playingAudio->m_event.get())->rva002D94DD());
     rva0005DB6C(file);
     playing->m_type = 4;
     if (musicSystem == *active) {
@@ -5606,7 +5606,7 @@ void MilesAudioManager::rva0006179C(int skipRequestRefresh)
         Xfer *xfer = &xferSave;
         xfer->xferSnapshot(this);
         ((Gen009D6DD0 *)&xferSave)->bfmeClose();
-    } catch (const XferException &e) {
+    } catch (const XferException &xferException) {
         // WorldBuilder reports e here; retail keeps only its catch-object slot.
     }
     for (PlayingAudioList::iterator it = m_playingSounds.begin(); it != m_playingSounds.end(); ++it)
@@ -5648,7 +5648,7 @@ void MilesAudioManager::rva0006179C(int skipRequestRefresh)
         ((Rva0060C45E *)&xferLoad)->clear();
         m_at6B0 = 1;
         loadPostProcess();
-    } catch (const XferException &e) {
+    } catch (const XferException &xferException) {
         // WorldBuilder reports "internal xfer load failed" with e here.
     }
     free(buffer);
@@ -5928,10 +5928,10 @@ void MilesAudioManager::recalculateMicrophone(void)
         if (next == 5)
             next = 1;
         if (m_corners[i].m_valid && m_corners[next].m_valid) {
-            const AudioAreaCorner &a = m_corners[i];
+            const AudioAreaCorner &audioAreaCorner = m_corners[i];
             const AudioAreaCorner &b = m_corners[next];
-            float ex = a.m_pos.x - b.m_pos.x;
-            float ey = a.m_pos.y - b.m_pos.y;
+            float ex = audioAreaCorner.m_pos.x - b.m_pos.x;
+            float ey = audioAreaCorner.m_pos.y - b.m_pos.y;
             float edgeSqr = ex * ex + ey * ey;
             if (shortest > edgeSqr)
                 shortest = edgeSqr;
@@ -6037,16 +6037,16 @@ float Rva0005117B::rva0005117B(float v)
     return v;
 }
 struct AmbientInfoNameView {virtual void slot0();virtual const AsciiString &slot1();};
-static __forceinline bool ambientSameName(AudioEventInfo *a, AudioEventInfo *b)
+static __forceinline bool ambientSameName(AudioEventInfo *audioEventInfo, AudioEventInfo *b)
 {
- const AsciiString &left=reinterpret_cast<AmbientInfoNameView*>(a)->slot1();
+ const AsciiString &left=reinterpret_cast<AmbientInfoNameView*>(audioEventInfo)->slot1();
  const AsciiString &right=reinterpret_cast<AmbientInfoNameView*>(b)->slot1();
  return reinterpret_cast<const StringBase<char> &>(right).compare(reinterpret_cast<const StringBase<char> &>(left))==0;
 }
-static __forceinline bool ambientSameNameR(AudioEventInfo *b, AudioEventInfo *a)
+static __forceinline bool ambientSameNameR(AudioEventInfo *audioEventInfo, AudioEventInfo *a)
 {
  const AsciiString &left=reinterpret_cast<AmbientInfoNameView*>(a)->slot1();
- const AsciiString &right=reinterpret_cast<AmbientInfoNameView*>(b)->slot1();
+ const AsciiString &right=reinterpret_cast<AmbientInfoNameView*>(audioEventInfo)->slot1();
  return reinterpret_cast<const StringBase<char> &>(right).compare(reinterpret_cast<const StringBase<char> &>(left))==0;
 }
 void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *streams)
@@ -6506,8 +6506,8 @@ void Rva000535CC::rva000535CC(void *p)
 // reaches the cutoff.
 int MilesAudioManager::rva00052F1E(void *event)
 {
-    AudioEventRTS *e = (AudioEventRTS *)event;
-    if ((e->m_info->m_type & 8) || e->m_info->m_priority == 4 || e->m_info->m_at1C >= m_audioSettings->m_atB8)
+    AudioEventRTS *audioEventRTS = (AudioEventRTS *)event;
+    if ((audioEventRTS->m_info->m_type & 8) || audioEventRTS->m_info->m_priority == 4 || audioEventRTS->m_info->m_at1C >= m_audioSettings->m_atB8)
         return true;
     return false;
 }

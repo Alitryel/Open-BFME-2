@@ -82,9 +82,9 @@ void Rva0020DXXX::rva0020D7F9()
 		((Rva0020DXXXElem *)*i)->rva003EDC31();
 	m_38 = 0;
 	m_3A = 0;
-	GameLogic *g = TheGameLogic;
-	if (g != 0)
-		m_3C = g->m_frame;
+	GameLogic *gameLogic = TheGameLogic;
+	if (gameLogic != 0)
+		m_3C = gameLogic->m_frame;
 	else
 		m_3C = 0;
 }
@@ -95,9 +95,9 @@ void Rva0020DXXX::rva0020D834()
 	for (void **i = m_vec10.m_begin; i != fin; ++i)
 		((Rva003EDC16 *)*i)->rva003EDC16();
 	m_3A = 0;
-	GameLogic *g = TheGameLogic;
-	if (g != 0)
-		m_3C = g->m_frame;
+	GameLogic *gameLogic = TheGameLogic;
+	if (gameLogic != 0)
+		m_3C = gameLogic->m_frame;
 	else
 		m_3C = 0;
 }

@@ -11,9 +11,9 @@ public:
 	virtual AsciiString getPath();
 };
 
-int __cdecl Rva0059100AGet(CDDrive *p)
+int __cdecl Rva0059100AGet(CDDrive *cDDrive)
 {
-	CDDrive *o = p;
+	CDDrive *o = cDDrive;
 	int len = o->CDDrive::getPath().getLength();
 	return len + 0x13;
 }

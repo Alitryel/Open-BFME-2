@@ -146,9 +146,9 @@ void AITeamBuilder::checkIdleTeams() {
   Team* defaultTeam=owner14->defaultTeam;
   for(int i=0;i<count;++i) {
    Object* obj=((Rva0025BFF8*)units)->rva0025BFF8(i);
-   RecruitThingTemplate* tmpl = obj->objectTemplate;
+   RecruitThingTemplate* recruitThingTemplate = obj->objectTemplate;
    RecruitThingTemplate* tmplCopy = obj->objectTemplate;
-   if((tmpl->kindOf().test(3)&&!tmplCopy->kindOf().test(7))||tmpl->kindOf().test(90)) {
+   if((recruitThingTemplate->kindOf().test(3)&&!tmplCopy->kindOf().test(7))||recruitThingTemplate->kindOf().test(90)) {
     if(obj->team==defaultTeam&&!obj->testStatus(STATUS_90)) {
      int id=obj->objectID;
      if(idleIDs.find(id)==idleIDs.end()&&TheGameLogic->getFrame()-obj->frame4c0>=(unsigned)g_00E063E0) {

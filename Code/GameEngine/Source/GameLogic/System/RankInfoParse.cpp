@@ -81,7 +81,7 @@ class RankInfo : public Overridable
 public:
 	RankInfo();
 	RankInfo &operator=(const RankInfo &that);
-	void setNextOverride(RankInfo *o) { m_nextOverride = o; }
+	void setNextOverride(RankInfo *rankInfo) { m_nextOverride = rankInfo; }
 	void markAsOverride() { m_isAllocatedOverride = true; }
 
 private:

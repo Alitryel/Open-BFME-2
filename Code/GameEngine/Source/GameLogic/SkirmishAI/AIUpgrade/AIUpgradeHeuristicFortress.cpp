@@ -52,7 +52,7 @@ public:
 };
 class Rva00261409Filter:public Rva000421C8 {
 public:
- Rva00261409Filter(Player *p,bool match,int flags):m_player(p),m_match(match),m_flags(flags) {}
+ Rva00261409Filter(Player *player,bool match,int flags):m_player(player),m_match(match),m_flags(flags) {}
  virtual ~Rva00261409Filter() {}
  virtual bool allow(Object *);
  virtual int getPlayerMask();

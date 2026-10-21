@@ -41,19 +41,19 @@ public:
 
 void Connection::clearCommandsExceptFrom(Int playerIndex)
 {
-	NetCommandRef *tmp = m_netCommandList->getFirstMessage();
-	while (tmp != 0)
+	NetCommandRef *netCommandRef = m_netCommandList->getFirstMessage();
+	while (netCommandRef != 0)
 	{
-		if (tmp->getCommand()->m_playerID != playerIndex)
+		if (netCommandRef->getCommand()->m_playerID != playerIndex)
 		{
-			m_netCommandList->removeMessage(tmp);
-			NetCommandRef *toDelete = tmp;
-			tmp = tmp->getNext();
+			m_netCommandList->removeMessage(netCommandRef);
+			NetCommandRef *toDelete = netCommandRef;
+			netCommandRef = netCommandRef->getNext();
 			delete toDelete;
 		}
 		else
 		{
-			tmp = tmp->getNext();
+			netCommandRef = netCommandRef->getNext();
 		}
 	}
 }

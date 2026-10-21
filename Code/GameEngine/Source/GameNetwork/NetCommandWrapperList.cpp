@@ -105,7 +105,7 @@ __declspec(noinline) inline Bool NetCommandWrapperListNode::isComplete() {
 
 // Select-any like NetCommandWrapperList_getReadyCommands.cpp's in-class copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorNetCommandWrapperListNodeIsComplete absent-from-retail
-Bool bfmeAnchorNetCommandWrapperListNodeIsComplete(NetCommandWrapperListNode *n) { return n->isComplete(); }
+Bool bfmeAnchorNetCommandWrapperListNodeIsComplete(NetCommandWrapperListNode *netCommandWrapperListNode) { return netCommandWrapperListNode->isComplete(); }
 // A value of 100 means every chunk arrived. Partial transfers are capped at
 // 99 even when the floating-point percentage rounds up. Retail uses the normal
 // C++ x87-to-int conversion helper; no assembly escape hatch is needed.
@@ -182,12 +182,12 @@ NetCommandWrapperList::NetCommandWrapperList() {
 }
 
 NetCommandWrapperList::~NetCommandWrapperList() {
-	NetCommandWrapperListNode *temp;
+	NetCommandWrapperListNode *netCommandWrapperListNode;
 	while (m_list != NULL) {
-		temp = m_list->m_next;
+		netCommandWrapperListNode = m_list->m_next;
 		void *p = m_list ? ((NetWrapperListNodeDeleterSlot *)m_list)->slot0(0) : 0;
 		::operator delete(p);
-		m_list = temp;
+		m_list = netCommandWrapperListNode;
 	}
 }
 
@@ -197,46 +197,46 @@ void NetCommandWrapperList::init() {
 }
 
 void NetCommandWrapperList::reset() {
-	NetCommandWrapperListNode *temp;
+	NetCommandWrapperListNode *netCommandWrapperListNode;
 	while (m_list != NULL) {
-		temp = m_list->m_next;
+		netCommandWrapperListNode = m_list->m_next;
 		void *p = m_list ? ((NetWrapperListNodeDeleterSlot *)m_list)->slot0(0) : 0;
 		::operator delete(p);
-		m_list = temp;
+		m_list = netCommandWrapperListNode;
 	}
 }
 
 Int NetCommandWrapperList::getPercentComplete(UnsignedShort wrappedCommandID)
 {
-	NetCommandWrapperListNode *temp = m_list;
+	NetCommandWrapperListNode *netCommandWrapperListNode = m_list;
 
-	while ((temp != NULL) && (temp->getCommandID() != wrappedCommandID)) {
-		temp = temp->m_next;
+	while ((netCommandWrapperListNode != NULL) && (netCommandWrapperListNode->getCommandID() != wrappedCommandID)) {
+		netCommandWrapperListNode = netCommandWrapperListNode->m_next;
 	}
 
-	if (!temp)
+	if (!netCommandWrapperListNode)
 		return 0;
 
-	return temp->getPercentComplete();
+	return netCommandWrapperListNode->getPercentComplete();
 }
 
 void NetCommandWrapperList::processWrapper(NetCommandRef *ref) {
-	NetCommandWrapperListNode *temp = m_list;
+	NetCommandWrapperListNode *netCommandWrapperListNode = m_list;
 	// BFME de-pooled NetCommandRef: the command pointer is at +0, without
 	// the reference header's inherited pool/vtable field. This is getCommand().
 	NetWrapperCommandMsg *msg = *(NetWrapperCommandMsg **)ref;
 
-	while ((temp != NULL) && (temp->getCommandID() != msg->getWrappedCommandID())) {
-		temp = temp->m_next;
+	while ((netCommandWrapperListNode != NULL) && (netCommandWrapperListNode->getCommandID() != msg->getWrappedCommandID())) {
+		netCommandWrapperListNode = netCommandWrapperListNode->m_next;
 	}
 
-	if (temp == NULL) {
-		temp = newInstance(NetCommandWrapperListNode)(msg);
-		temp->m_next = m_list;
-		m_list = temp;
+	if (netCommandWrapperListNode == NULL) {
+		netCommandWrapperListNode = newInstance(NetCommandWrapperListNode)(msg);
+		netCommandWrapperListNode->m_next = m_list;
+		m_list = netCommandWrapperListNode;
 	}
 
-	temp->copyChunkData(msg);
+	netCommandWrapperListNode->copyChunkData(msg);
 }
 
 // getReadyCommands (0x0058C2AD) and removeFromList (0x0058C1A5) live in

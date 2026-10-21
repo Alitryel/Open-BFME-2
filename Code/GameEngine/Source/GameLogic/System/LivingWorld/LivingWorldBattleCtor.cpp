@@ -79,7 +79,7 @@ struct LivingWorldBattleArmyView
 struct LivingWorldBattleCoord
 {
 	LivingWorldBattleCoord() { *(float *)&m_a = 0.0f; *(float *)&m_b = 0.0f; }
-	LivingWorldBattleCoord(const LivingWorldBattleCoord &o) : m_a(o.m_a), m_b(o.m_b) {}
+	LivingWorldBattleCoord(const LivingWorldBattleCoord &livingWorldBattleCoord) : m_a(livingWorldBattleCoord.m_a), m_b(livingWorldBattleCoord.m_b) {}
 	Int m_a;
 	Int m_b;
 };

@@ -122,8 +122,8 @@ void LANAPI::rva00449FE8(void *arg)
 	LANMessage msg;
 	msg.type = 0x12;
 	fillInLANMessage(&msg);
-	LANGameInfo2 *g1 = v100();
-	*(int *)((char *)&msg + 0x1e) = *(int *)g1;
+	LANGameInfo2 *lANGameInfo2 = v100();
+	*(int *)((char *)&msg + 0x1e) = *(int *)lANGameInfo2;
 	LANGameInfo2 *g2 = v100();
 	*(unsigned short *)((char *)&msg + 0x22) = *(unsigned short *)((char *)g2 + 4);
 	const WideChar *name = (m_14 != 0) ? (const WideChar *)((char *)m_14 + 8) : (const WideChar *)L"";

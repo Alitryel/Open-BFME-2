@@ -96,7 +96,7 @@ class vector : public _Vector_base<T, Alloc>
 public:
 	typedef T *iterator;
 
-	explicit vector(const Alloc &a = Alloc()) : _Vector_base<T, Alloc>(a) {}
+	explicit vector(const Alloc &alloc = Alloc()) : _Vector_base<T, Alloc>(alloc) {}
 	~vector() { _Destroy(this->_M_start, this->_M_finish); }
 
 	iterator begin() { return this->_M_start; }

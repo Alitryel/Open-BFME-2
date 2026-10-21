@@ -431,8 +431,8 @@ void LivingWorldPlayer::ParseLivingWorldPlayer(INI *ini, void *instance)
 	if (record.m_isDumb)
 		goto append;
 	{
-		AsciiString *found2 = TheLivingWorldAITemplateStore->find(record.m_10);
-		if (found2 == 0)
+		AsciiString *asciiString = TheLivingWorldAITemplateStore->find(record.m_10);
+		if (asciiString == 0)
 			goto done;
 	}
 append:
@@ -557,21 +557,21 @@ struct LivingWorldUpgradeTemplateView
 
 void LivingWorldPlayer::RemoveUpgrade(void *argp)
 {
-	LivingWorldUpgradeTemplateView *arg = (LivingWorldUpgradeTemplateView *)argp;
-	if (arg->m_04 != 0)
+	LivingWorldUpgradeTemplateView *livingWorldUpgradeTemplateView = (LivingWorldUpgradeTemplateView *)argp;
+	if (livingWorldUpgradeTemplateView->m_04 != 0)
 		return;
-	unsigned int bit = (unsigned int)arg->m_38;
+	unsigned int bit = (unsigned int)livingWorldUpgradeTemplateView->m_38;
 	m_upgradeBits[bit >> 5] &= ~(1u << (bit & 31));
 }
 
 void LivingWorldPlayer::AddUpgrade(void *argp, bool flag)
 {
-	LivingWorldUpgradeTemplateView *arg = (LivingWorldUpgradeTemplateView *)argp;
-	if (arg->m_04 != 0)
+	LivingWorldUpgradeTemplateView *livingWorldUpgradeTemplateView = (LivingWorldUpgradeTemplateView *)argp;
+	if (livingWorldUpgradeTemplateView->m_04 != 0)
 		return;
-	if (flag != 0 && arg->m_78 == 0)
+	if (flag != 0 && livingWorldUpgradeTemplateView->m_78 == 0)
 		return;
-	unsigned int bit = (unsigned int)arg->m_38;
+	unsigned int bit = (unsigned int)livingWorldUpgradeTemplateView->m_38;
 	m_upgradeBits[bit >> 5] |= (1u << (bit & 31));
 }
 
@@ -596,15 +596,15 @@ void LivingWorldPlayer::rva002E14E9(const BfmeFixedStorage128 &mask)
 	BfmeFixedStorage128 unchecked(mask);
 	BfmeFixedStorage128 accepted(mask);
 	while (reinterpret_cast<Rva00046827 *>(&unchecked)->rva00046827() > 0) {
-		LivingWorldUpgradeTemplateView *arg = static_cast<LivingWorldUpgradeTemplateView *>(
+		LivingWorldUpgradeTemplateView *livingWorldUpgradeTemplateView = static_cast<LivingWorldUpgradeTemplateView *>(
 			reinterpret_cast<Rva0026F0F0 *>(TheUpgradeCenter)->rva0026F0F0(&unchecked));
-		if (!arg)
+		if (!livingWorldUpgradeTemplateView)
 			break;
-		if (!arg->m_78 || arg->m_04 != 0) {
-			unsigned int bit = static_cast<unsigned int>(arg->m_38);
+		if (!livingWorldUpgradeTemplateView->m_78 || livingWorldUpgradeTemplateView->m_04 != 0) {
+			unsigned int bit = static_cast<unsigned int>(livingWorldUpgradeTemplateView->m_38);
 			reinterpret_cast<unsigned int *>(accepted.bytes)[bit >> 5] &= ~(1u << (bit & 31));
 		}
-		unsigned int bit = static_cast<unsigned int>(arg->m_38);
+		unsigned int bit = static_cast<unsigned int>(livingWorldUpgradeTemplateView->m_38);
 		reinterpret_cast<unsigned int *>(unchecked.bytes)[bit >> 5] &= ~(1u << (bit & 31));
 	}
 	*reinterpret_cast<BfmeFixedStorage128 *>(m_upgradeBits) = accepted;

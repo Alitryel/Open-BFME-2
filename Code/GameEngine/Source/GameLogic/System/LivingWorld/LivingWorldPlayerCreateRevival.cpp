@@ -174,7 +174,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
 struct RevivalHandleView {char unknown00[0xAC]; TargetRef00217D4C *ref; int useCount;};
 class Rva002E3518Handle {
 public:
- Rva002E3518Handle(const RevivalSourceView *p):value(p){if(p)++((RevivalHandleView*)p)->useCount;}
+ Rva002E3518Handle(const RevivalSourceView *revivalSourceView):value(revivalSourceView){if(revivalSourceView)++((RevivalHandleView*)revivalSourceView)->useCount;}
  ~Rva002E3518Handle(){if(value)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)&((RevivalHandleView*)value)->ref);}
  const RevivalSourceView *value;
 };

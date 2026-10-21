@@ -41,8 +41,8 @@ Rva0022CA74::~Rva0022CA74()
 {
  for(int i=0; i<(int)ranks.size(); ++i)
  {
-  RankInfo *r=(RankInfo *)ranks[i];
-  if(r) ::delete r;
+  RankInfo *rankInfo=(RankInfo *)ranks[i];
+  if(rankInfo) ::delete rankInfo;
  }
  std::vector<void *> &cleared=reinterpret_cast<std::vector<void *> &>(ranks);
  cleared.erase(cleared.begin(),cleared.end());

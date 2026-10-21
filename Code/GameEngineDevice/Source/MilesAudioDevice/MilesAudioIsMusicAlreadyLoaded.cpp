@@ -37,7 +37,7 @@ public:
 };
 struct NonNullAudioRef {
  AudioEventInfoRef value;
- __forceinline NonNullAudioRef(const AudioEventInfo*p):value(p){}
+ __forceinline NonNullAudioRef(const AudioEventInfo*audioEventInfo):value(audioEventInfo){}
  __forceinline ~NonNullAudioRef(){ ((OpaqueRefCounted*)value.info)->Release_Ref(); }
 };
 struct ScopedMusicRef {
@@ -57,9 +57,9 @@ bool AudioManager::isMusicAlreadyLoaded()const {
  { Rva000411084 first; table.first(&first); it=first; }
  while ((true) && it.current==it.current && it.current==it.current) {
   if(!it.current)break;
-  const AudioEventInfo *p=((AudioEventNode*)it.current)->info;
-  if(p) {
-   NonNullAudioRef ref(p);
+  const AudioEventInfo *audioEventInfo=((AudioEventNode*)it.current)->info;
+  if(audioEventInfo) {
+   NonNullAudioRef ref(audioEventInfo);
    const AudioEventInfo *info=ref.value.info;
    if(info->kindB0==0 && !(info->flags49&6))
     music.value=*(const OpaqueRefElement4*)&ref.value;

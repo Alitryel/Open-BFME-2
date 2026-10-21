@@ -244,9 +244,9 @@ void GameLogic::destroyObject(Object *obj)
 {
 	if (!obj || (obj->m_statusByte0 & 1))
 		return;
-	for (BehaviorModule **m = obj->m_modules; *m; ++m)
+	for (BehaviorModule **behaviorModule = obj->m_modules; *behaviorModule; ++behaviorModule)
 	{
-		DestroyModuleInterface *destroy = (*m)->m_behavior.getDestroy();
+		DestroyModuleInterface *destroy = (*behaviorModule)->m_behavior.getDestroy();
 		if (destroy)
 			destroy->onDestroy();
 	}

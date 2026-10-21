@@ -366,10 +366,10 @@ bool ExperienceLevelStore::IsValid(ExperienceLevelHandle levelHandle) const
 // overrides.
 bool ExperienceLevel::rva00288621(const ExperienceLevel &that) const
 {
-	const ExperienceLevel *a = (const ExperienceLevel *)friend_getFinalOverride();
+	const ExperienceLevel *experienceLevel = (const ExperienceLevel *)friend_getFinalOverride();
 	const ExperienceLevel *b = (const ExperienceLevel *)that.friend_getFinalOverride();
-	if (a && b)
-		return a->m_requiredExperience < b->m_requiredExperience;
+	if (experienceLevel && b)
+		return experienceLevel->m_requiredExperience < b->m_requiredExperience;
 	return false;
 }
 

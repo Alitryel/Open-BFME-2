@@ -70,13 +70,13 @@ void LANAPI::addGame( LANGameInfo *game )
 		}
 		else
 		{
-			LANGameInfo *g = m_games;
-			while (g->getNext() && g->getNext()->getName().compareNoCase(game->getName()) > 0)
+			LANGameInfo *lANGameInfo = m_games;
+			while (lANGameInfo->getNext() && lANGameInfo->getNext()->getName().compareNoCase(game->getName()) > 0)
 			{
-				g = g->getNext();
+				lANGameInfo = lANGameInfo->getNext();
 			}
-			game->setNext(g->getNext());
-			g->setNext(game);
+			game->setNext(lANGameInfo->getNext());
+			lANGameInfo->setNext(game);
 			return;
 		}
 	}

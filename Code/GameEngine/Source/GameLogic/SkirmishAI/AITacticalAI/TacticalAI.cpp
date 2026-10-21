@@ -288,7 +288,7 @@ struct Rva002C600AArg1
 // Native2C600A..2C60A9: opponent kind120 bit10, registry owner relations,
 // then current victim ID74. Positive guards and one disjunction preserve
 // the target shared return paths; all callees use existing verified owners.
-bool TacticalAI::checkEnemyForAttackMove(Object *a, Object *b)
+bool TacticalAI::checkEnemyForAttackMove(Object *object, Object *b)
 {
     Object *obj = b;
     Rva002C600AFlag *flag = (Rva002C600AFlag *)obj->m_ptr4;
@@ -302,7 +302,7 @@ bool TacticalAI::checkEnemyForAttackMove(Object *a, Object *b)
             return rec1->rva002C6ACB() == player ||
                 rec2->rva002C6ACB() == obj->getControllingPlayer() ||
                 (obj->m_ai258 != 0 && obj->m_ai258->getCurrentVictim() != 0 &&
-                 obj->m_ai258->getCurrentVictim()->m_74 == a->m_74);
+                 obj->m_ai258->getCurrentVictim()->m_74 == object->m_74);
         }
         return true;
     }

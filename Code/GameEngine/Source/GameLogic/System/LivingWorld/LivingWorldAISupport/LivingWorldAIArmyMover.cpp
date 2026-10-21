@@ -334,9 +334,9 @@ void LivingWorldAIArmyMover::rva0059C93C(_STL::vector<BfmePod20>*moves,int playe
   for(IntTree::iterator it=range.first;it!=range.second;++it) {
    Rva004FF5B7Iter region=info->GetRegionInfo(it->second);
    int score=region.m_ptr->region.m_08;
-   ArmyMoverRegion*r=(ArmyMoverRegion*)((Rva0020EAF6View*)((StrategyLogic*)TheLivingWorldLogic)->getManager())->rva0020EAF6(region.m_ptr->region.id);
-   int outcome=WinTestBattle(r,1,playerID,(const ModuleData*)army,unused,info,difficulty);
-   if(r->enabled) {
+   ArmyMoverRegion*armyMoverRegion=(ArmyMoverRegion*)((Rva0020EAF6View*)((StrategyLogic*)TheLivingWorldLogic)->getManager())->rva0020EAF6(region.m_ptr->region.id);
+   int outcome=WinTestBattle(armyMoverRegion,1,playerID,(const ModuleData*)army,unused,info,difficulty);
+   if(armyMoverRegion->enabled) {
    if(region.m_ptr->key==-1) {
     score+=10;
     if(rva0050059A(region.m_ptr->region.id,closest)<closestDistance)score+=10;

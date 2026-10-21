@@ -129,7 +129,7 @@ public:
 	unsigned int winGetStatus(void);
 	Int winSetEnabledColor(Int index, Int color);
 };
-inline void GadgetButtonSetEnabledColor(GameWindow *g, Int color) { g->winSetEnabledColor(0, color); }
+inline void GadgetButtonSetEnabledColor(GameWindow *gameWindow, Int color) { gameWindow->winSetEnabledColor(0, color); }
 class GameWindowManager
 {
 public:

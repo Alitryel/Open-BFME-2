@@ -55,8 +55,8 @@ void AITargetHeuristicEnemyStructure::findBestTarget(AITarget *target, Player *a
 			continue;
 		ObjectID best = INVALID_OBJECT_ID;
 		float bestDistance = -1.0f;
-		for (ObjectID *s = structures->begin(); s != structures->end(); ++s) {
-			Object *obj = TheGameLogic->findObjectByID(*s);
+		for (ObjectID *objectID = structures->begin(); objectID != structures->end(); ++objectID) {
+			Object *obj = TheGameLogic->findObjectByID(*objectID);
 			if (obj && (unsigned char)isValidTarget((Thing *)obj, attacker)) {
 				float dx = obj->pos.x - unit->pos.x;
 				float dy = obj->pos.y - unit->pos.y;

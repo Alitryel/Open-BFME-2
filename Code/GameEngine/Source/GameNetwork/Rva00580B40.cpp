@@ -31,10 +31,10 @@ private:
     unsigned char m_15;
 };
 
-void Rva00580B40::rva00580B40(const ModuleData *p)
+void Rva00580B40::rva00580B40(const ModuleData *moduleData)
 {
-    if (p != 0) {
-        m_vec.push_back(p);
+    if (moduleData != 0) {
+        m_vec.push_back(moduleData);
         m_15 = 0;
     }
 }

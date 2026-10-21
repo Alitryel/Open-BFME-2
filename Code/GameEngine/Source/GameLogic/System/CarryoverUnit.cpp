@@ -90,13 +90,13 @@ public:
 };
 Object *CarryoverUnit::createSingleObject(Player *player)
 {
-    const ThingTemplate *tmplate = (const ThingTemplate *)((Rva0037DCA5 *)this)->GetThingTemplate();
-    if (!tmplate) return 0;
+    const ThingTemplate *thingTemplate = (const ThingTemplate *)((Rva0037DCA5 *)this)->GetThingTemplate();
+    if (!thingTemplate) return 0;
     bool old = ((CarryoverGameLogicView *)TheGameLogic)->get();
     ((CarryoverGameLogicView *)TheGameLogic)->set(false);
     CreateMask mask;
     memset(&mask,0,sizeof(mask));
-    Object *object = TheThingFactory->newObject(tmplate,((CarryoverPlayerView *)player)->getTeam(),&mask,false);
+    Object *object = TheThingFactory->newObject(thingTemplate,((CarryoverPlayerView *)player)->getTeam(),&mask,false);
     if (!object) {
         ((CarryoverGameLogicView *)TheGameLogic)->set(old);
         return 0;

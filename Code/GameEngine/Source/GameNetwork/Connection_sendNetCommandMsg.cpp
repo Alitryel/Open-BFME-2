@@ -135,10 +135,10 @@ void Connection::sendNetCommandMsg(NetCommandMsg *msg, UnsignedByte relay)
 		return;
 
 	packet->reset();
-	NetCommandRef *tempref = new NetCommandRef(msg);
-	Bool msgFits = packet->addCommand(tempref);
-	delete tempref;
-	tempref = 0;
+	NetCommandRef *netCommandRef = new NetCommandRef(msg);
+	Bool msgFits = packet->addCommand(netCommandRef);
+	delete netCommandRef;
+	netCommandRef = 0;
 
 	if (!msgFits) {
 		NetCommandRef *origref = new NetCommandRef(msg);

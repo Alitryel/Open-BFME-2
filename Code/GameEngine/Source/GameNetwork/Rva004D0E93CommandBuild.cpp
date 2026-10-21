@@ -60,12 +60,12 @@ private:
 	int m_12028;
 };
 
-void Rva004D0E93::rva004D0E93(int a, int b, const UnicodeString &s)
+void Rva004D0E93::rva004D0E93(int a, int b, const UnicodeString &unicodeString)
 {
 	NetCommandMsg *msg = (NetCommandMsg *)new Rva004D67D0();
 	*(int *)((char *)msg + 0x1C) = a;
 	*(int *)((char *)msg + 0x20) = b;
-	((Rva004D05D7 *)msg)->rva004D05D7(s);
+	((Rva004D05D7 *)msg)->rva004D05D7(unicodeString);
 	*(int *)((char *)msg + 0xC) = m_12028;
 	if (DoesCommandRequireACommandID((NetCommandType)*(int *)((char *)msg + 0x14)))
 		*(unsigned short *)((char *)msg + 0x10) = GenerateNextCommandID();

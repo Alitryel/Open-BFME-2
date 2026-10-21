@@ -57,16 +57,16 @@ void Rva0035A8D7::rva0035A8D7(void *pa, void *pb, void *pc)
 		return;
 	if (y >= m_height)
 		return;
-	RvaCell *c = &base[y * m_width + x];
-	switch (c->state) {
+	RvaCell *rvaCell = &base[y * m_width + x];
+	switch (rvaCell->state) {
 	case 0:
 		return;
 	case 1:
 		return;
 	case 2: {
 		bool b = true;
-		if (!c->vec.empty()) {
-			for (BfmePod8 *p = c->vec.begin(); p != c->vec.end(); ++p) {
+		if (!rvaCell->vec.empty()) {
+			for (BfmePod8 *p = rvaCell->vec.begin(); p != rvaCell->vec.end(); ++p) {
 				if (p->a[1] != val) {
 					if (p->a[0] != -1)
 						b = false;
@@ -79,16 +79,16 @@ void Rva0035A8D7::rva0035A8D7(void *pa, void *pb, void *pc)
 			if (!b)
 				return;
 		}
-		c->state = 0;
-		if (b) { c->vec.erase(c->vec.begin(), c->vec.end()); } else { c->vec.erase(c->vec.begin(), c->vec.end()); }
+		rvaCell->state = 0;
+		if (b) { rvaCell->vec.erase(rvaCell->vec.begin(), rvaCell->vec.end()); } else { rvaCell->vec.erase(rvaCell->vec.begin(), rvaCell->vec.end()); }
 		break;
 	}
 	case 3: {
-		if (c->vec.size() >= 1) {
-			if (c->vec[0].a[1] != val)
+		if (rvaCell->vec.size() >= 1) {
+			if (rvaCell->vec[0].a[1] != val)
 				return;
 		}
-		c->state = 0;
+		rvaCell->state = 0;
 		break;
 	}
 	}

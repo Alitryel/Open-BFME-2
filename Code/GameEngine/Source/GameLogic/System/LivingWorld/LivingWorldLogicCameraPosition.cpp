@@ -13,7 +13,7 @@ struct RvaFloatPair
 {
     float x, y;
     RvaFloatPair() {}
-    RvaFloatPair(const RvaFloatPair &a) { x = a.x; y = a.y; }
+    RvaFloatPair(const RvaFloatPair &rvaFloatPair) { x = rvaFloatPair.x; y = rvaFloatPair.y; }
     ~RvaFloatPair() {}
 };
 class Rva002BECCD

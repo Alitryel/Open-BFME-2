@@ -267,7 +267,7 @@ struct Rva004FA1F3Player {
 };
 struct PlayerStorage {
  Rva004FA1F3Player *start,*finish,*capacity;
- PlayerStorage(const PlayerStorage&p){((PlayerCopy*)this)->PlayerCopy::vector(*(const PlayerCopy*)&p);}
+ PlayerStorage(const PlayerStorage&playerStorage){((PlayerCopy*)this)->PlayerCopy::vector(*(const PlayerCopy*)&playerStorage);}
  ~PlayerStorage() {
   typedef _STL::vector<Rva002BBB96Element> P;
   ((P*)this)->P::~vector();

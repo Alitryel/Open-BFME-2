@@ -184,12 +184,12 @@ void ArmySummarySystem::rva0040F87E()
 
 		BfmeFixedStorage128 upgrades(lwPlayer->m_1D8);
 		while (reinterpret_cast<Rva00046827 *>(&upgrades)->rva00046827() > 0) {
-			UpgradeTemplate *tmpl = static_cast<UpgradeTemplate *>(
+			UpgradeTemplate *upgradeTemplate = static_cast<UpgradeTemplate *>(
 				reinterpret_cast<Rva0026F0F0 *>(TheUpgradeCenter)->rva0026F0F0(&upgrades));
-			if (!tmpl)
+			if (!upgradeTemplate)
 				break;
-			player->rva002AE329(tmpl, UPGRADE_STATUS_2, 0);
-			unsigned int bit = tmpl->m_bit;
+			player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_2, 0);
+			unsigned int bit = upgradeTemplate->m_bit;
 			upgrades.m_bits[bit >> 5] &= ~(1 << (bit & 0x1f));
 		}
 

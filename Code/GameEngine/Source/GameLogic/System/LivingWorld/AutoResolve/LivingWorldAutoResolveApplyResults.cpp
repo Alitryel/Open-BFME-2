@@ -26,7 +26,7 @@ class ArmySummaryEntry {public:
 };
 class Rva004F6093Holder {public:
  ArmySummaryEntry *value;
- Rva004F6093Holder(ArmySummaryEntry *v):value(v){if(value)++value->ref.references;}
+ Rva004F6093Holder(ArmySummaryEntry *armySummaryEntry):value(armySummaryEntry){if(value)++value->ref.references;}
  ~Rva004F6093Holder(){if(value)ReleaseTreeHintRef00217D4C(&value->ref);}
 };
 struct Rva004E0790Inner;

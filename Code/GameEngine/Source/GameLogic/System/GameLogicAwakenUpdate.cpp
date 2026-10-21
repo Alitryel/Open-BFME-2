@@ -229,23 +229,23 @@ private:
 };
 extern GameLogic *TheGameLogic;
 
-void GameLogic::friend_awakenUpdateModule(Object *obj, UpdateModule *u, UnsignedInt when)
+void GameLogic::friend_awakenUpdateModule(Object *obj, UpdateModule *updateModule, UnsignedInt when)
 {
 	UnsignedInt now = TheGameLogic->m_frame;
-	if (u == current)
+	if (updateModule == current)
 		return;
-	if (when == u->friend_getNextCallFrame())
+	if (when == updateModule->friend_getNextCallFrame())
 		return;
-	if (now > 0 && u->friend_getNextCallFrame() == now && when == now + 1)
+	if (now > 0 && updateModule->friend_getNextCallFrame() == now && when == now + 1)
 		return;
 
-	Int phase = u->m_phaseInLogic;
-	Int idx = u->m_indexInLogic;
+	Int phase = updateModule->m_phaseInLogic;
+	Int idx = updateModule->m_indexInLogic;
 	if (obj->isInList(&objList))
 	{
 		if (phase < 0 && when < UPDATE_SLEEP_FOREVER)
 		{
-			Int newPhase = u->getUpdatePhase();
+			Int newPhase = updateModule->getUpdatePhase();
 			if (idx < (Int)sleeping.size() - 1)
 			{
 				sleeping[idx] = sleeping.back();
@@ -253,10 +253,10 @@ void GameLogic::friend_awakenUpdateModule(Object *obj, UpdateModule *u, Unsigned
 			}
 			sleeping.pop_back();
 			Int newIndex = (Int)phaseUpdates[newPhase].size();
-			phaseUpdates[newPhase].push_back(u);
-			u->friend_setIndexInLogic(newIndex, newPhase);
+			phaseUpdates[newPhase].push_back(updateModule);
+			updateModule->friend_setIndexInLogic(newIndex, newPhase);
 		}
-		u->friend_setNextCallFrame(when);
+		updateModule->friend_setNextCallFrame(when);
 	}
 	else
 	{
@@ -267,7 +267,7 @@ void GameLogic::friend_awakenUpdateModule(Object *obj, UpdateModule *u, Unsigned
 			TheBfmeAwakenDebug->slot6C(0, 0, 0)->slot38("fatal error! sleepy update module index mismatch.\n")->slot4C(1);
 			return;
 		}
-		u->friend_setNextCallFrame(when);
+		updateModule->friend_setNextCallFrame(when);
 	}
 }
 
@@ -285,19 +285,19 @@ void GameLogic::processDestroyList()
 	for (_STL::list<Object *>::iterator it = destroy.begin(); it._M_node != destroy.end()._M_node; it._M_node = it._M_node->_M_next)
 	{
 		Object *obj = *it;
-		for (BehaviorModule **m = obj->m_modules; *m; ++m)
+		for (BehaviorModule **behaviorModule = obj->m_modules; *behaviorModule; ++behaviorModule)
 		{
-			void *iface = (*m)->m_behavior.getUpdate();
-			UpdateModule *u = iface
+			void *iface = (*behaviorModule)->m_behavior.getUpdate();
+			UpdateModule *updateModule = iface
 				? reinterpret_cast<UpdateModule *>(static_cast<char *>(iface) - 0x10)
 				: 0;
-			if (!u)
+			if (!updateModule)
 				continue;
-			Int index = u->m_indexInLogic;
-			Int phase = u->m_phaseInLogic;
+			Int index = updateModule->m_indexInLogic;
+			Int phase = updateModule->m_phaseInLogic;
 			if (index == -1)
 				continue;
-			u->friend_setIndexInLogic(-1);
+			updateModule->friend_setIndexInLogic(-1);
 			if (phase < 0)
 			{
 				if (index < (Int)sleeping.size() - 1)

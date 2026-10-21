@@ -20,9 +20,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 #pragma inline_depth(0)
 // ?_bfmeCDownloadCtorAnchor@@ absent-from-retail
-void _bfmeCDownloadCtorAnchor(CDownload *d, IDownload *listener)
+void _bfmeCDownloadCtorAnchor(CDownload *download, IDownload *listener)
 {
-	d->CDownload::CDownload(listener);
+	download->CDownload::CDownload(listener);
 }
 #pragma inline_depth()
 

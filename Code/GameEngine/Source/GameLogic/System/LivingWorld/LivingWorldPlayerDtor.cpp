@@ -93,7 +93,7 @@ class Rva002E18C3Lookup {public:AsciiString *find(const AsciiString&);};
 extern Rva002E18C3Lookup *TheLivingWorldAITemplateStore;
 struct Rva004FB303Target;
 class Rva004FB222Owner {public:void rva004FB222(Rva004FB303Target*,int);};
-void Rva002E2AAE::loadPostProcess(){AsciiString*s=TheLivingWorldAITemplateStore->find(zero48);if(!s)return;((Rva004FB222Owner*)&ai)->rva004FB222((Rva004FB303Target*)this,(int)s);}
+void Rva002E2AAE::loadPostProcess(){AsciiString*asciiString=TheLivingWorldAITemplateStore->find(zero48);if(!asciiString)return;((Rva004FB222Owner*)&ai)->rva004FB222((Rva004FB303Target*)this,(int)asciiString);}
 const char *Rva002E2AAE::GetSnapshotName()const{return "LivingWorldPlayer";}
 typedef char PlayerSize[sizeof(Rva002E2AAE)==0x3c8?1:-1];
 

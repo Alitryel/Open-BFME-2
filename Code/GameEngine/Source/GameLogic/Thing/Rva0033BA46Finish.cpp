@@ -84,9 +84,9 @@ public:
 
 extern Debug *theDebug;
 
-static const char *strOf(const AsciiString &s)
+static const char *strOf(const AsciiString &asciiString)
 {
-    return s.m_data != 0 ? (const char *)s.m_data + 8 : "";
+    return asciiString.m_data != 0 ? (const char *)asciiString.m_data + 8 : "";
 }
 
 class ThingTemplate

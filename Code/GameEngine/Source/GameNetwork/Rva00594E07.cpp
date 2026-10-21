@@ -74,13 +74,13 @@ unsigned short Rva00594E07::rva00594E07(unsigned short a, int b)
 {
 	(void)b;
 	ManglerMessage *sel = 0;
-	SpareSocket *s = m_spare;
+	SpareSocket *spareSocket = m_spare;
 	int i = 0;
 	sockaddr_in from;
 	unsigned int crc;
-	for (; i < 8; ++i, ++s)
+	for (; i < 8; ++i, ++spareSocket)
 	{
-		UDP *udp = s->m_udp;
+		UDP *udp = spareSocket->m_udp;
 		if (udp != 0)
 		{
 			ManglerMessage *msg = ((FirewallHelperClass *)this)->findEmptyMessage();

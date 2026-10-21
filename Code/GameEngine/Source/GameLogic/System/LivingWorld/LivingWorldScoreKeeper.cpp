@@ -131,9 +131,9 @@ void LivingWorldScoreKeeper::event1_3(const Rva004E06FBPtrChase32Field*a,int b) 
  if(b==m_playerIndex)++m_98;
 }
 void LivingWorldScoreKeeper::event3_0(int,int) {if(m_startTime==0)return;int now=time(0);m_6C+=now-m_startTime;m_startTime=0;}
-void LivingWorldScoreKeeper::event3_1(int unused,LivingWorldBattle*p) {
- m_startTime=time(0);if(!p->rva003F486C(m_playerIndex))return;
- int tmp38=*(int*)((char*)p+0x38);int v=p->rva003F4798(tmp38,m_playerIndex);if(v>=0)++m_D8;else ++m_DC;
+void LivingWorldScoreKeeper::event3_1(int unused,LivingWorldBattle*livingWorldBattle) {
+ m_startTime=time(0);if(!livingWorldBattle->rva003F486C(m_playerIndex))return;
+ int tmp38=*(int*)((char*)livingWorldBattle+0x38);int v=livingWorldBattle->rva003F4798(tmp38,m_playerIndex);if(v>=0)++m_D8;else ++m_DC;
 }
 void LivingWorldScoreKeeper::event4_0(int,int a,int b) {if(a!=b){if(a==m_playerIndex)m_EC++;else if(b==m_playerIndex)m_E8++;}}
 void LivingWorldScoreKeeper::event1_0(Rva004E06FBPtrChase32Field*a) {
@@ -196,12 +196,12 @@ struct Rva004EE260Q
 };
 
 
-void LivingWorldScoreKeeper::event2_2(int unused, LivingWorldBattle *p, void *qraw)
+void LivingWorldScoreKeeper::event2_2(int unused, LivingWorldBattle *livingWorldBattle, void *qraw)
 {
 	(void)unused;
-	if (p->rva003F486C(m_playerIndex)) {
-		int tmp38 = *(int *)((char *)p + 0x38);
-		int v = p->rva003F4798(tmp38, m_playerIndex);
+	if (livingWorldBattle->rva003F486C(m_playerIndex)) {
+		int tmp38 = *(int *)((char *)livingWorldBattle + 0x38);
+		int v = livingWorldBattle->rva003F4798(tmp38, m_playerIndex);
 		if (v == -1)
 			++m_E4;
 		else
@@ -245,7 +245,7 @@ class ThingTemplate;
 struct TemplateCountKey {
  const ThingTemplate *pointer;
  __forceinline TemplateCountKey() {}
- __forceinline TemplateCountKey(const ThingTemplate *p):pointer(p) {}
+ __forceinline TemplateCountKey(const ThingTemplate *thingTemplate):pointer(thingTemplate) {}
  __forceinline bool operator<(const TemplateCountKey &other)const {return pointer<other.pointer;}
 };
 class SpawnArmy:public Snapshot {public:

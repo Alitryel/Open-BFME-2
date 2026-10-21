@@ -133,9 +133,9 @@ namespace {
 class CrateTemplateDeleteHelper : public CrateTemplate
 {
 public:
-	static void destroy(CrateTemplate *p)
+	static void destroy(CrateTemplate *crateTemplate)
 	{
-		delete static_cast<CrateTemplateDeleteHelper *>(p);
+		delete static_cast<CrateTemplateDeleteHelper *>(crateTemplate);
 	}
 };
 }

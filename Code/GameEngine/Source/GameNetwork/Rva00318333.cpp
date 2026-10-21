@@ -100,20 +100,20 @@ void Rva00318333::rva00318333(Object *obj, bool flag)
 	if (!m_18)
 		return;
 	if (m_18 == 2) {
-		Player *p = obj->getControllingPlayer();
-		if (p) {
-			p = obj->getControllingPlayer();
-			PlayerStats *st = p->m_34;
+		Player *player = obj->getControllingPlayer();
+		if (player) {
+			player = obj->getControllingPlayer();
+			PlayerStats *st = player->m_34;
 			unsigned char f = st ? st->m_1BC : 0;
 			if (!f)
 				return;
 		}
 	}
 	if (m_18 == 3) {
-		Player *p = obj->getControllingPlayer();
-		if (p) {
-			p = obj->getControllingPlayer();
-			PlayerStats *st = p->m_34;
+		Player *player = obj->getControllingPlayer();
+		if (player) {
+			player = obj->getControllingPlayer();
+			PlayerStats *st = player->m_34;
 			unsigned char f = st ? st->m_1BC : 0;
 			if (f)
 				return;

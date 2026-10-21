@@ -159,9 +159,9 @@ protected:
 
 // StringBase<char>::str(): an empty serial reads the function-local
 // TheNullChr, which the compiler cannot fold into RequestGameJoin's "" literals.
-static inline const char *serialText( const AsciiString &s )
+static inline const char *serialText( const AsciiString &asciiString )
 {
-	return ((const StringBase<char> *)&s)->str();
+	return ((const StringBase<char> *)&asciiString)->str();
 }
 
 void LANAPI::RequestGameJoin( LANGameInfo *game, const BfmeNetAddress &ip )

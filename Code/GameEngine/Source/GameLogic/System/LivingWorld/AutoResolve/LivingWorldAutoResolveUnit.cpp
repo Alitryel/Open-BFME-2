@@ -56,8 +56,8 @@ public:
  const ThingTemplate *thing;
  unsigned player;
 };
-LivingWorldAutoResolveUnit::LivingWorldAutoResolveUnit(const Rva0040DC56Element &source,unsigned p,ArmySummary *a)
- :entry(new ArmySummaryEntry(*source.entry)),hitpoints(0.0f),current(0.0f),maximum(0.0f),flag18(false),unknown1C(0),army(a),player(p) {
+LivingWorldAutoResolveUnit::LivingWorldAutoResolveUnit(const Rva0040DC56Element &source,unsigned p,ArmySummary *armySummary)
+ :entry(new ArmySummaryEntry(*source.entry)),hitpoints(0.0f),current(0.0f),maximum(0.0f),flag18(false),unknown1C(0),army(armySummary),player(p) {
  thing=TheThingFactory->findTemplate(*(const AsciiString *)((const char *)source.entry+4));
  tracker=new ExperienceTrackerAutoResolve(this,entry);
  ((Rva005DB023 *)tracker)->rva005DB023();
@@ -68,6 +68,6 @@ LivingWorldAutoResolveUnit::LivingWorldAutoResolveUnit(const Rva0040DC56Element 
 // Keep the owned21B constructor visible (outlined) so the compiler sees
 // its entry/count writes. It is rehomed from Rva002B2F0CSet.cpp with the
 // same whole body; this is the same real name, not an alias.
-inline Rva004F6093Holder::Rva004F6093Holder(ArmySummaryEntry *p):entry(p) {
- if(p) ++p->reference.references;
+inline Rva004F6093Holder::Rva004F6093Holder(ArmySummaryEntry *armySummaryEntry):entry(armySummaryEntry) {
+ if(armySummaryEntry) ++armySummaryEntry->reference.references;
 }

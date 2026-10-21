@@ -145,20 +145,20 @@ typedef _STL::_Rb_tree_node<AIObjectKeyValue> AIObjectKeyNode;
 typedef _STL::_Rb_tree<NameKeyType,AIObjectKeyValue,_STL::_Select1st<AIObjectKeyValue>,_STL::less<NameKeyType>,_STL::allocator<AIObjectKeyValue> > AIObjectKeyTree;
 namespace _STL {
 template<> AIObjectKeyNode *AIObjectKeyTree::_M_lower_bound(const NameKeyType &key) const {
- AIObjectKeyNode *y=this->_M_header._M_data;
+ AIObjectKeyNode *aIObjectKeyNode=this->_M_header._M_data;
  AIObjectKeyNode *x=_M_root();
  while(x) {
-  if(!(x->_M_value_field.first<key)) {y=x; x=_S_left(x);} else x=_S_right(x);
+  if(!(x->_M_value_field.first<key)) {aIObjectKeyNode=x; x=_S_left(x);} else x=_S_right(x);
  }
- return y;
+ return aIObjectKeyNode;
 }
 template<> AIObjectKeyNode *AIObjectKeyTree::_M_upper_bound(const NameKeyType &key) const {
- AIObjectKeyNode *y=this->_M_header._M_data;
+ AIObjectKeyNode *aIObjectKeyNode=this->_M_header._M_data;
  AIObjectKeyNode *x=_M_root();
  while(x) {
-  if(key<x->_M_value_field.first) {y=x; x=_S_left(x);} else x=_S_right(x);
+  if(key<x->_M_value_field.first) {aIObjectKeyNode=x; x=_S_left(x);} else x=_S_right(x);
  }
- return y;
+ return aIObjectKeyNode;
 }
 }
 class AIUnitBuilder

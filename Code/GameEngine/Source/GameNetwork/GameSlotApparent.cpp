@@ -582,9 +582,9 @@ UnicodeString GameSlot::getApparentPlayerTemplateDisplayName() const
 
 
 // ?bfmeAnchorGameSlotsetMapAvailability absent-from-retail
-void bfmeAnchorGameSlotsetMapAvailability(GameSlot *p, Bool hasMap)
+void bfmeAnchorGameSlotsetMapAvailability(GameSlot *gameSlot, Bool hasMap)
 {
-	p->setMapAvailability(hasMap);
+	gameSlot->setMapAvailability(hasMap);
 }
 
 // ?isSkirmish@GameInfo@@UAE_NXZ
@@ -670,9 +670,9 @@ Int GameInfo::getLocalSlotNum() const
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeGameSlotInlineAnchorGameSlotApparent@@YAXPAVGameSlot@@@Z absent-from-retail
-void _bfmeGameSlotInlineAnchorGameSlotApparent(GameSlot *p)
+void _bfmeGameSlotInlineAnchorGameSlotApparent(GameSlot *gameSlot)
 {
-    p->unAccept();
+    gameSlot->unAccept();
 }
 #pragma inline_depth()
 
@@ -953,11 +953,11 @@ void GameInfo::adjustSlotsForMap()
 
 		for (i = 0; i < MAX_SLOTS; ++i)
 		{
-			GameSlot *tempSlot = getSlot(i);
-			if (tempSlot->isOccupied())
+			GameSlot *gameSlot = getSlot(i);
+			if (gameSlot->isOccupied())
 			{
 				++numPlayerSlots;
-				if (tempSlot->isHuman())
+				if (gameSlot->isHuman())
 					++numHumanSlots;
 			}
 		}
@@ -1014,23 +1014,23 @@ void GameInfo::adjustSlotsForMap()
 // StringBase<char>::concat(char) expanded in place, as in the sibling
 // GameInfoSetMap.cpp: the byte goes to a stack slot and into concat(text, 1)
 // at 0x000369A0.
-static inline void concatChar(AsciiString &s, char c)
+static inline void concatChar(AsciiString &asciiString, char c)
 {
-	((StringBase<char> *)&s)->concat(&c, 1);
+	((StringBase<char> *)&asciiString)->concat(&c, 1);
 }
 
 // StringBase<char>::str(): an empty string reads the function-local
 // TheNullChr (0x00BBAC1C) rather than the shared header's "" literal.
-static inline const char *baseStr(const AsciiString &s)
+static inline const char *baseStr(const AsciiString &asciiString)
 {
-	return ((const StringBase<char> *)&s)->str();
+	return ((const StringBase<char> *)&asciiString)->str();
 }
 
 // StringBase<unsigned short>::isEmpty expanded in place, as AsciiString's
 // in ascii_string.h: no buffer, or a zero length in its header.
-static inline bool wideIsEmpty(const UnicodeString &s)
+static inline bool wideIsEmpty(const UnicodeString &unicodeString)
 {
-	const char *data = *(const char *const *)&s;
+	const char *data = *(const char *const *)&unicodeString;
 	return data == 0 || *(const unsigned short *)(data + 4) == 0;
 }
 

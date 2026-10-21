@@ -136,11 +136,11 @@ EnumeratedIP *IPEnumeration::getAddresses(void)
 		}
 		else
 		{
-			EnumeratedIP *p = m_IPlist;
-			while (p->getNext() && p->getNext()->getIP() < newIP->getIP())
-				p = p->getNext();
-			newIP->setNext(p->getNext());
-			p->setNext(newIP);
+			EnumeratedIP *enumeratedIP = m_IPlist;
+			while (enumeratedIP->getNext() && enumeratedIP->getNext()->getIP() < newIP->getIP())
+				enumeratedIP = enumeratedIP->getNext();
+			newIP->setNext(enumeratedIP->getNext());
+			enumeratedIP->setNext(newIP);
 		}
 	}
 

@@ -77,7 +77,7 @@ class Rva00056F61;
 struct Rva0041534BIter {
  AudioCacheFileNode *m_node;
  Rva00056F61 *m_table;
- Rva0041534BIter(AudioCacheFileNode *n,Rva00056F61 *t) : m_node(n), m_table(t) {}
+ Rva0041534BIter(AudioCacheFileNode *audioCacheFileNode,Rva00056F61 *t) : m_node(audioCacheFileNode), m_table(t) {}
  Rva0041534BIter() {}
 };
 // Find returning an iterator over the AsciiString-keyed bucket table owned

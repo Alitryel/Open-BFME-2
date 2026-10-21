@@ -43,9 +43,9 @@ enum { MAX_PACKET_SIZE = 0x1DC };
 // StringBase<char>::getCharAt specialization: that specialization's COMDAT copy is
 // not retail's out-of-line getCharAt and stopped this unit linking. AsciiString
 // holds one pointer to its buffer header; the characters start at +8.
-static inline char npCharAt(const AsciiString &s, int i)
+static inline char npCharAt(const AsciiString &asciiString, int i)
 {
-	const char *data = *(const char *const *)&s;
+	const char *data = *(const char *const *)&asciiString;
 	return data ? data[8 + i] : 0;
 }
 #include "../../../Libraries/Include/Lib/Coord3D.h"

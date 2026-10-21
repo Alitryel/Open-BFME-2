@@ -105,11 +105,11 @@ void LivingWorldRegionManager::UpdateBattleMarkers()
 	LivingWorldBattle **begin = m_begin;
 	LivingWorldBattle **end = m_end;
 	for (; begin != end; ++begin) {
-		LivingWorldBattle *e = *begin;
-		if (e->rva003F4831() == n) {
-			if (!e)
+		LivingWorldBattle *livingWorldBattle = *begin;
+		if (livingWorldBattle->rva003F4831() == n) {
+			if (!livingWorldBattle)
 				break;
-			TmpBE433C tmp(e);
+			TmpBE433C tmp(livingWorldBattle);
 			EnumeratePendingBattles(*(PendingBattleVisitor *)&tmp);
 			return;
 		}

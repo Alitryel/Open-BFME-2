@@ -24,7 +24,7 @@ class Rva004F6093Holder {
 public:
  ArmySummaryEntry*value;
  __forceinline ArmySummaryEntry*operator->()const{return value;}
- __forceinline Rva004F6093Holder(ArmySummaryEntry*p):value(p){if(value)++value->ref.references;}
+ __forceinline Rva004F6093Holder(ArmySummaryEntry*armySummaryEntry):value(armySummaryEntry){if(value)++value->ref.references;}
  __forceinline ~Rva004F6093Holder(){if(value)ReleaseTreeHintRef00217D4C(&value->ref);}
 };
 class Rva0040CB11Entry {public:int key;Rva004F6093Holder value;};
@@ -174,10 +174,10 @@ void ArmySummary::Load(bool battle,bool first,int overrideID)
   }
  }
  if(TheGameLogic->m_114!=3 && battle && first){
-  PlayerTemplate*tmplate=player->tmplate;
-  for(unsigned index=0;index<tmplate->startingUnits.size();++index){
+  PlayerTemplate*playerTemplate=player->tmplate;
+  for(unsigned index=0;index<playerTemplate->startingUnits.size();++index){
    Rva004F6093Holder entry(new ArmySummaryEntry);
-   entry->templateName=tmplate->startingUnits[index];
+   entry->templateName=playerTemplate->startingUnits[index];
    entry->count=1;
    self->LoadArmyEntry((Rva0040E534Input*)&entry,1,&loaded,overrideID);
   }

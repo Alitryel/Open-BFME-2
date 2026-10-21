@@ -53,9 +53,9 @@ AsciiString GetPicPreviewFromMap(AsciiString mapName);
 // The donor's StringBase<char>::concat(char): the character goes through its
 // own one-byte slot (retail's [ebp-0x10]) into concat(text, 1). The canonical
 // operator+=(char) shares a slot and leaves the frame four bytes short.
-static inline void concatChar(AsciiString &s, char c)
+static inline void concatChar(AsciiString &asciiString, char c)
 {
-	((StringBase<char> *)&s)->concat(&c, 1);
+	((StringBase<char> *)&asciiString)->concat(&c, 1);
 }
 
 class GameInfo

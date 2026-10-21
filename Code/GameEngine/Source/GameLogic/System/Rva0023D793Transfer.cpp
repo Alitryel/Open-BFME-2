@@ -61,7 +61,7 @@ void GameLogic::CallPlayerGiveMoney(int a1, int a2, int a3)
 		return;
 	if (a2 < 0 || a2 >= 20)
 		return;
-	Player *p2 = 0;
+	Player *player = 0;
 	Player *p1 = 0;
 	for (int i = 0; i < 20; i++) {
 		Player *p = ThePlayerList->getNthPlayer(i);
@@ -70,18 +70,18 @@ void GameLogic::CallPlayerGiveMoney(int a1, int a2, int a3)
 		if (p->m_playerIndex == a1)
 			p1 = p;
 		else if (p->m_playerIndex == a2)
-			p2 = p;
+			player = p;
 		if (p1 == 0)
 			continue;
-		if (p2 == 0)
+		if (player == 0)
 			continue;
 		break;
 	}
-	if (p1 == 0 || p2 == 0)
+	if (p1 == 0 || player == 0)
 		return;
 	if (((Rva002AA22AByteField *)p1)->get() != 0)
 		return;
-	if (((Rva002AA22AByteField *)p2)->get() != 0)
+	if (((Rva002AA22AByteField *)player)->get() != 0)
 		return;
 	Rva003B0D7C *m1 = &p1->m_money;
 	if (m1 == 0)
@@ -91,8 +91,8 @@ void GameLogic::CallPlayerGiveMoney(int a1, int a2, int a3)
 	unsigned int *pmin = (balSlot < reqSlot) ? &balSlot : &reqSlot;
 	Rva0039B795 *t1 = (Rva0039B795 *)p1->m_track;
 	unsigned int got = m1->withdraw(*pmin, t1, true);
-	Rva0039B795 *t2 = (Rva0039B795 *)p2->m_track;
-	Rva003B0D7C *m2 = &p2->m_money;
+	Rva0039B795 *t2 = (Rva0039B795 *)player->m_track;
+	Rva003B0D7C *m2 = &player->m_money;
 	m2->rva003B0D7C((int)got, (Rva0039B7AD *)t2, true);
 	t1->rva0039B7E3((int)got);
 	t2->rva0039B7CB((int)got);
