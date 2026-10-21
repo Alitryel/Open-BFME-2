@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // Pristine STLport 4.5.3 hash_map/hash_set members for placeholder values,
@@ -60,6 +60,11 @@ inline bool operator==(const BfmePod72 &x, const BfmePod72 &y) { return x.a[0] =
 // Retail's pair<const int,BfmePod72> ctor (0x002E00AF, StlportPairConstructFamily.cpp) copies through a
 // non-trivial BfmePod72 copy ctor: a different real type. This unit's unreferenced copy loop is not it.
 namespace _STL { template <> pair<const int, BfmePod72>::pair(const int &, const BfmePod72 &); }
+// Native pair copying uses the non-trivial provider rowed in StlportPairConstructFamily.cpp.
+namespace _STL {
+template <> pair<const int, BfmePod72>::pair(const pair<const int, BfmePod72> &);
+template <> void _Construct<pair<const int, BfmePod72>, pair<const int, BfmePod72> >(pair<const int, BfmePod72> *, const pair<const int, BfmePod72> &);
+}
 namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }

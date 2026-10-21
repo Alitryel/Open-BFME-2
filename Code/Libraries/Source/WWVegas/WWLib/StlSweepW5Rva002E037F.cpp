@@ -11,5 +11,14 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector
 
 struct Rva002E037FElement {Rva002E037FElement();Rva002E037FElement(const Rva002E037FElement&);Rva002E037FElement&operator=(const Rva002E037FElement&);~Rva002E037FElement(){}char bytes[72]; bool operator==(const Rva002E037FElement&)const;};
 
+// Native node construction at 0x002E0273 calls the rowed pair worker
+// at 0x002E00CC. Keep the opaque element identity while using that provider.
+struct BfmePod72 { int a[18]; BfmePod72(const BfmePod72&); };
+namespace _STL {
+template<> void _Construct<pair<const int,BfmePod72>,pair<const int,BfmePod72> >(pair<const int,BfmePod72>*,const pair<const int,BfmePod72>&);
+template<> __declspec(dllimport) __forceinline void _Construct<pair<const int,Rva002E037FElement>,pair<const int,Rva002E037FElement> >(pair<const int,Rva002E037FElement>*p,const pair<const int,Rva002E037FElement>&v)
+{ _Construct(reinterpret_cast<pair<const int,BfmePod72>*>(p),reinterpret_cast<const pair<const int,BfmePod72>&>(v)); }
+}
+
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::pair<_STL::_Ht_iterator<_STL::pair<int const, Rva002E037FElement>, _STL::_Nonconst_traits<_STL::pair<int const, Rva002E037FElement> >, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva002E037FElement> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva002E037FElement> > >, bool> _STL::hashtable<_STL::pair<int const, Rva002E037FElement>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva002E037FElement> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva002E037FElement> > >::insert_unique_noresize(_STL::pair<int const, Rva002E037FElement> const &);
