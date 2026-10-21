@@ -3,6 +3,8 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.885 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.885 date=2026-10-21
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // hack-free r53 candidate fit=0.8782 date=2026-10-20 (bank 0.9045 used non-landable levers)
 // W7-ASTRA r3: full4319/4299B bank; normal REL32 all resolve.
 // Corrected live-camera pitch semantics: no XY inverse-pitch adjustment on that branch.
