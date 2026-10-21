@@ -3,8 +3,8 @@ Link seat handoff, 2026-10-21
 
 Three source repairs committed, paired legacy LINKED gain +717 B:
 * HAnim setter owner +237 B, evidence ../link-seat-20261021-hanim/readme.md.
-* Mode-check hash +307 B, evidence ../link-seat-20261021-hash/readme.md.
-* Material collector shader vector +173 B, evidence readme.md.
+* Mode-check hash +307 B, upstream evidence ../component-hash-link-20261021/readme.md.
+* Material collector shader vector +173 B, upstream evidence ../material-vector-link-20261021/readme.md.
 All changed source rows, exact EH graphs, strict reusable compiler receipts,
 frozen-source checks and normal commit hooks passed. No self-strict or
 closed-strict placement measurement, census, full link cycle or authored-C++
@@ -48,3 +48,29 @@ is the explicit paired link-check result, not an updated census statistic.
 Continue with current blockers, using the published index and paired cohorts.
 Retain the tracked earlier handoffs and donor review; do not repeat unchanged
 failed attempts or count reference byte placements as identity proof.
+
+Preparation recovery, 2026-10-21
+--------------------------------
+
+Rebased onto the preparation record's upstream 4f5eb39d51 without aborting.
+Retained the HAnim repair as 8ec95b32e8 and the locale blocker/handoff as
+f20634f1c1. Skipped local 1931726b7b and 79fa63ad94 because upstream already
+holds the same hash and shader-vector repairs in 2728875a90 and c9fd32ea24.
+Preserved upstream's declaration-only hash and shader-vector specialization;
+the skipped alternatives and their original evidence remain in backup ref
+refs/runner/preparation/1792611327592121069 (tip 314a1fb083). No stash,
+resync stash, untracked files or other saved edits were recorded or present.
+The links above now name the retained upstream evidence instead of documents
+from the skipped commits. The original +717 B describes the earlier session;
+only the retained HAnim +237 B is additional to the preparation upstream.
+
+Recovery acceptance: check_csv passes; the three source units pass 10/10 rows,
+all reference checks, find_declared_unmatched, and two exact EH graphs.
+HAnim owner plus mesh-holder consumer pass prepare-current on 11/11 rows with
+strict reusable receipts. A current-object legacy preview of the seven-unit
+HAnim cohort plus the two retained upstream repairs finds 6/9 clean, 2,043 B:
+HAnim owner 37 B, mesh holder 200 B, camera holder 141 B, string_base 1,185 B,
+mode-check 307 B, material collector 173 B. The unrelated GameLogicDoXfer,
+OceanWater and HAnimComboBFME1 blockers remain; this mixed cohort's census
+delta is not a new repair gain. No self-strict or closed-strict placement gain
+is claimed. The published index and status were not rewritten.
