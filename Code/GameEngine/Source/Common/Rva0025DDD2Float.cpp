@@ -45,11 +45,11 @@ float Rva0025DDD2::rva0025DDD2() const
 {
 	volatile float result;
 	BFMEConnectionManager *mgr = m_mgr0C;
-	Transport *t = 0;
+	Transport *transport = 0;
 	if (mgr != 0)
-		t = mgr->m_transport12024;
-	if (t != 0)
-		result = t->rva004D5046();
+		transport = mgr->m_transport12024;
+	if (transport != 0)
+		result = transport->rva004D5046();
 	else
 		result = 0.0f;
 	return result;
@@ -59,11 +59,11 @@ float Rva0025DDD2::rva0025DDA4() const
 {
 	volatile float result;
 	BFMEConnectionManager *mgr = m_mgr0C;
-	Transport *t = 0;
+	Transport *transport = 0;
 	if (mgr != 0)
-		t = mgr->m_transport12024;
-	if (t != 0)
-		result = t->rva004D5002();
+		transport = mgr->m_transport12024;
+	if (transport != 0)
+		result = transport->rva004D5002();
 	else
 		result = 0.0f;
 	return result;
@@ -73,11 +73,11 @@ float Rva0025DDD2::rva0025DE00() const
 {
 	volatile float result;
 	BFMEConnectionManager *mgr = m_mgr0C;
-	Transport *t = 0;
+	Transport *transport = 0;
 	if (mgr != 0)
-		t = mgr->m_transport12024;
-	if (t != 0)
-		result = t->rva004D508A();
+		transport = mgr->m_transport12024;
+	if (transport != 0)
+		result = transport->rva004D508A();
 	else
 		result = 0.0f;
 	return result;
@@ -87,11 +87,11 @@ float Rva0025DDD2::rva0025DD76() const
 {
 	volatile float result;
 	BFMEConnectionManager *mgr = m_mgr0C;
-	Transport *t = 0;
+	Transport *transport = 0;
 	if (mgr != 0)
-		t = mgr->m_transport12024;
-	if (t != 0)
-		result = t->rva004D4FBE();
+		transport = mgr->m_transport12024;
+	if (transport != 0)
+		result = transport->rva004D4FBE();
 	else
 		result = 0.0f;
 	return result;
@@ -115,11 +115,11 @@ float Rva0025DDD2::rva0025DD48() const
 {
 	volatile float result;
 	BFMEConnectionManager *mgr = m_mgr0C;
-	Transport *t = 0;
+	Transport *transport = 0;
 	if (mgr != 0)
-		t = mgr->m_transport12024;
-	if (t != 0)
-		result = t->rva004D4F7A();
+		transport = mgr->m_transport12024;
+	if (transport != 0)
+		result = transport->rva004D4F7A();
 	else
 		result = 0.0f;
 	return result;

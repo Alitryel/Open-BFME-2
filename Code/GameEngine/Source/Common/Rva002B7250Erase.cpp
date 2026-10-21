@@ -27,9 +27,9 @@ private:
     unsigned int m_selected;
 };
 
-void Rva002B7250::rva002B7250(CreateAHeroData *v)
+void Rva002B7250::rva002B7250(CreateAHeroData *createAHeroData)
 {
-    CreateAHeroData *key = v;
+    CreateAHeroData *key = createAHeroData;
     CreateAHeroData **b = (CreateAHeroData **)m_vec.begin();
     CreateAHeroData **e = (CreateAHeroData **)m_vec.end();
     CreateAHeroData **it = _STL::find(b, e, key);

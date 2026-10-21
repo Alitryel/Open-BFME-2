@@ -24,8 +24,8 @@ private:
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_18;
 };
 
-Rva001ED0A9::Rva001ED0A9(const AsciiString &s)
-	: m_00(s),
+Rva001ED0A9::Rva001ED0A9(const AsciiString &asciiString)
+	: m_00(asciiString),
 	  m_04(0),
 	  m_08(0)
 {

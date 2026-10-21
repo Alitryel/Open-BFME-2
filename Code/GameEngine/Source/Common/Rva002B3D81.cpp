@@ -27,10 +27,10 @@ int rva002B3D81()
 {
 	if (!rva002B2BAA())
 		return 0x7FFFFFFF;
-	LANGameInfo *p = ((LANGameInfo *)TheGameInfo);
-	if (p == 0)
+	LANGameInfo *lANGameInfo = ((LANGameInfo *)TheGameInfo);
+	if (lANGameInfo == 0)
 		return 0x7FFFFFFF;
-	return p->m_78 * BfmeLogicFramesPerSecond;
+	return lANGameInfo->m_78 * BfmeLogicFramesPerSecond;
 }
 
 class Rva002B3DB2

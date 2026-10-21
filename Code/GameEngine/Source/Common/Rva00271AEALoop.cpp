@@ -38,6 +38,6 @@ private:
 
 void Rva00271AEA::rva00271AEA()
 {
-	for (LoopElem **p = m_array; *p; ++p)
-		(*p)->slot3C();
+	for (LoopElem **loopElem = m_array; *loopElem; ++loopElem)
+		(*loopElem)->slot3C();
 }

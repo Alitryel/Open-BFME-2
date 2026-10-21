@@ -97,10 +97,10 @@ private:
 
 void LivingWorldLogic::ShowEndGameSplashScreen()
 {
-	const PlayerTemplate *tmpl = ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(m_98->m_40->m_name));
-	if (!tmpl)
+	const PlayerTemplate *playerTemplate = ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(m_98->m_40->m_name));
+	if (!playerTemplate)
 		return;
-	unsigned char isEvil = tmpl->m_1BC;
+	unsigned char isEvil = playerTemplate->m_1BC;
 	bool isVictory = m_98->m_3C4 == 0;
 	AsciiString screen(isVictory ? "Gui_VictoryScreen" : "Gui_DefeatScreen");
 	AsciiString cheer(isEvil ? "Gui_VictoryCheerEvil" : "Gui_VictoryCheerGood");

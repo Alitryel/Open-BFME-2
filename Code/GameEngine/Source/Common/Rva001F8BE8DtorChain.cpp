@@ -114,8 +114,8 @@ public:
 __declspec(noinline) inline ParticleSystemTemplateTail::~ParticleSystemTemplateTail() {}
 
 // ?bfmeAnchorParticleSystemTemplateTailDtor absent-from-retail
-void bfmeAnchorParticleSystemTemplateTailDtor(ParticleSystemTemplateTail *p)
+void bfmeAnchorParticleSystemTemplateTailDtor(ParticleSystemTemplateTail *particleSystemTemplateTail)
 {
-	p->ParticleSystemTemplateTail::~ParticleSystemTemplateTail();
+	particleSystemTemplateTail->ParticleSystemTemplateTail::~ParticleSystemTemplateTail();
 }
 } // namespace FXParticleSystem

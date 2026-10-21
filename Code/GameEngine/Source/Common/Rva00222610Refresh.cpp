@@ -58,10 +58,10 @@ void Rva00062908Host::rva00222610()
 // ?rva00222647@Slot@Rva00062908Host retail 0x00222647 78B true size to ret.
 // Slot assign from 4 args then clears flag bits 2 1 8. Evidence: leaf lane,
 // caller 0x002247C2, callees StringBase set rowed, prev/next same Host block.
-void Rva00062908Host::Slot::rva00222647(int c, const AsciiString &s4, const AsciiString &s0, int b8)
+void Rva00062908Host::Slot::rva00222647(int c, const AsciiString &asciiString, const AsciiString &s0, int b8)
 {
 	m_s0.setCopyInline(s0);
-	m_s4.setCopyInline(s4);
+	m_s4.setCopyInline(asciiString);
 	m_c = c;
 	if (m_flags & 2)
 		m_flags &= (unsigned char)~2;

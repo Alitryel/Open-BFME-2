@@ -30,7 +30,7 @@ private:
 	WeaponTemplateSetHead m_b;
 };
 
-Rva00332F5B::Rva00332F5B(const WeaponTemplateSetHead &a, const WeaponTemplateSetHead &b) : m_uni(), m_a(a), m_b(b)
+Rva00332F5B::Rva00332F5B(const WeaponTemplateSetHead &weaponTemplateSetHead, const WeaponTemplateSetHead &b) : m_uni(), m_a(weaponTemplateSetHead), m_b(b)
 {
 }
 

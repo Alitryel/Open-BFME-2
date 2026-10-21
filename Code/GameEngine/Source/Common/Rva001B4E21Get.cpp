@@ -23,9 +23,9 @@ public:
 	unsigned char rva001B4E21(SubsystemInterface *arg1, unsigned char *arg2);
 };
 
-unsigned char SubsystemInterfaceList::rva001B4E21(SubsystemInterface *arg1, unsigned char *arg2)
+unsigned char SubsystemInterfaceList::rva001B4E21(SubsystemInterface *subsystem, unsigned char *arg2)
 {
-	Rva001B4E21Arg *obj = (Rva001B4E21Arg *)arg1;
+	Rva001B4E21Arg *obj = (Rva001B4E21Arg *)subsystem;
 	unsigned char result = 0;
 	obj->m_4 = 1;
 	if (obj->v4(arg2))

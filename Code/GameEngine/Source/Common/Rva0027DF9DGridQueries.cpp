@@ -718,12 +718,12 @@ Object *TerrainLogic::rva00283D70(const Coord3D *pos)
 	}
 	Object *obj = 0;
 	if (rec) {
-		const ThingTemplate *tmpl = rec->m_14;
-		if (tmpl) {
+		const ThingTemplate *thingTemplate = rec->m_14;
+		if (thingTemplate) {
 			CreateMask mask;
 			memset(&mask, 0, sizeof(mask));
 			Team *team = ThePlayerList->m_18->m_2EC;
-			obj = TheThingFactory->newObject(tmpl, team, &mask, false);
+			obj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
 			obj->teleportTo(reinterpret_cast<const Coord3D *>(rec), false);
 		}
 		unsigned int id = rec->m_0C;

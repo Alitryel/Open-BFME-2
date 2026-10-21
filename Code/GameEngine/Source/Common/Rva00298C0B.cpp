@@ -105,7 +105,7 @@ private:
 	void *m_250;
 };
 
-void Rva00298C0B::rva00298C0B(Team *t)
+void Rva00298C0B::rva00298C0B(Team *team)
 {
 	void *p = m_250;
 	if (p == 0)
@@ -118,11 +118,11 @@ void Rva00298C0B::rva00298C0B(Team *t)
 		return;
 	do
 	{
-		Object *o = *(Object **)((char *)cur + 8);
-		if (*(void **)((char *)o + 0x250) != 0)
-			((Rva00298C0B *)o)->rva00298C0B(t);
-		((Object *)o)->setTeam(t);
-		void *m = *(void **)((char *)o + 0x258);
+		Object *object = *(Object **)((char *)cur + 8);
+		if (*(void **)((char *)object + 0x250) != 0)
+			((Rva00298C0B *)object)->rva00298C0B(team);
+		((Object *)object)->setTeam(team);
+		void *m = *(void **)((char *)object + 0x258);
 		if (m != 0)
 			((AICommandInterface *)((char *)m + 0x20))->aiIdle(CST_2);
 		cur = *(void **)cur;

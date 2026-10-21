@@ -199,11 +199,11 @@ void Rva0029EAFA::rva0029EAFA(const GameMessage *msg)
 				return;
 		}
 	}
-	const GameMessageArgumentType *arg = msg->getArgument(0);
+	const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
 	Coord3D pos;
-	pos.x = arg->location.x;
-	pos.y = arg->location.y;
-	pos.z = arg->location.z;
+	pos.x = gameMessageArgumentType->location.x;
+	pos.y = gameMessageArgumentType->location.y;
+	pos.z = gameMessageArgumentType->location.z;
 	if (!((Rva0029DE76 *)this)->rva0029DE76(&pos))
 		return;
 	((Rva0029ACA0 *)this)->expireAllHints(0);

@@ -221,8 +221,8 @@ Rva002C5EF0::Rva002C5EF0(const Coord3DBase &position, float radius, Player *play
     Object *obj;
     while ((obj = hits.next()) != 0) {
         if (reinterpret_cast<Thing *>(obj)->isAnyKindOf(mask)) {
-            const ThingTemplate *t = reinterpret_cast<Thing *>(obj)->m_template;
-            m_18 += t->m_51C;
+            const ThingTemplate *thingTemplate = reinterpret_cast<Thing *>(obj)->m_template;
+            m_18 += thingTemplate->m_51C;
         }
     }
 }

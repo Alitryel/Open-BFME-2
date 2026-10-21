@@ -17,7 +17,7 @@ private:
 };
 struct IterBase {
  const HashTableClass *m_table;
- IterBase(HashTableClass *t) : m_table(t) {}
+ IterBase(HashTableClass *hashTable) : m_table(hashTable) {}
 };
 // The target-region defaults now emit the kept iterator support copies.
 // The former optimization window made the deleting destructor differ; removing
@@ -27,7 +27,7 @@ class HashTableIteratorClass : public IterBase {
  HashableClass *m_cur;
  HashableClass *m_next;
 public:
- HashTableIteratorClass(HashTableClass *t) : IterBase(t) {}
+ HashTableIteratorClass(HashTableClass *hashTable) : IterBase(hashTable) {}
  virtual ~HashTableIteratorClass() {}
  void First();
  void Next();
@@ -40,12 +40,12 @@ struct W3DShadowGeometryManager {
 };
 void W3DShadowGeometryManager::rva000F1AD8()
 {
- HashTableClass *t = m_00;
- HashTableIteratorClass it(t);
+ HashTableClass *hashTable = m_00;
+ HashTableIteratorClass it(hashTable);
  it.First();
  while (!it.Is_Done()) {
- HashableClass *e = it.Get_Current();
- HashableClass *b = e ? (HashableClass*)((char*)e - 8) : 0;
+ HashableClass *hashable = it.Get_Current();
+ HashableClass *b = hashable ? (HashableClass*)((char*)hashable - 8) : 0;
  if (--b->m_ref == 0)
  b->release();
  it.Next();
@@ -70,13 +70,13 @@ public:
 };
 void BfmeSub928F::bfmeTail928F()
 {
-    HashTableClass *t = m_texturePtrTable;
-    HashTableIteratorClass it(t);
+    HashTableClass *hashTable = m_texturePtrTable;
+    HashTableIteratorClass it(hashTable);
     it.First();
     while (!it.Is_Done())
     {
-        HashableClass *e = it.Get_Current();
-        HashableClass *b = e ? (HashableClass*)((char*)e - 8) : 0;
+        HashableClass *hashable = it.Get_Current();
+        HashableClass *b = hashable ? (HashableClass*)((char*)hashable - 8) : 0;
         if (--b->m_ref == 0)
             b->release();
         it.Next();
@@ -101,8 +101,8 @@ BfmeSub928F::~BfmeSub928F()
 }
 
 // ?Rva00109DB3EmissionPattern absent-from-retail
-void Rva00109DB3EmissionPattern(BfmeSub928F *p, HashTableClass *q)
+void Rva00109DB3EmissionPattern(BfmeSub928F *p, HashTableClass *hashTable)
 {
     delete p;
-    delete q;
+    delete hashTable;
 }

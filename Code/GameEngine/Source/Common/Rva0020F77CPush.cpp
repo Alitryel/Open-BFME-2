@@ -40,8 +40,8 @@ namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned 
 namespace _STL { template <> void allocator<ObjectCreationNugget *>::deallocate(ObjectCreationNugget * *,unsigned int) const; }
 namespace _STL { template <> void vector<ObjectCreationNugget *,_STL::allocator<ObjectCreationNugget *> >::push_back(ObjectCreationNugget * const &); }
 // bfme link decl-only end
-void Rva0020F77C::rva0020F77C(ObjectCreationNugget *x)
+void Rva0020F77C::rva0020F77C(ObjectCreationNugget *objectCreationNugget)
 {
-	ObjectCreationNugget *y = x;
+	ObjectCreationNugget *y = objectCreationNugget;
 	m_vec5C.push_back(y);
 }

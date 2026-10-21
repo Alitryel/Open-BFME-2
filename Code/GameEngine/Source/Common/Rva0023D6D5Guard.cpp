@@ -27,11 +27,11 @@ void Rva0023D6D5::rva0023D6D5(int arg)
 		char m_pad[0x10];
 		int m_10;
 	};
-	Guard *g = (Guard *)TheLinearCampaignManager;
-	if (g->m_10 == 0)
+	Guard *guard = (Guard *)TheLinearCampaignManager;
+	if (guard->m_10 == 0)
 		return;
 	if ((arg & 0xFF) != 0)
 		return;
-	Rva0023D6D5Callee *c = (Rva0023D6D5Callee *)g;
+	Rva0023D6D5Callee *c = (Rva0023D6D5Callee *)guard;
 	c->thru();
 }

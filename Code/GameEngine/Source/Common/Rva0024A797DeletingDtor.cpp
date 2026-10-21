@@ -57,8 +57,8 @@ void operator delete(void *p);
 // Anchor: new/delete devirtualizes to a direct ??_G call, emitting the COMDAT.
 void Rva0024A797_Anchor()
 {
-	UpdateModule *p = new UpdateModule;
-	delete p;
+	UpdateModule *updateModule = new UpdateModule;
+	delete updateModule;
 }
 
 // UpdateModule::~UpdateModule is this body (symbols.csv pins ??1UpdateModule@@UAE@XZ here: the rowed

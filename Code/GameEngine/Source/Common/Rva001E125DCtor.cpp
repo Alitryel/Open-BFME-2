@@ -42,7 +42,7 @@ public:
 void Rva001E125D::rva001E0AA5(int a1, int a2)
 {
 	AsciiString tmp(m_str160);
-	ParticleSystemTemplate *t = TheParticleSystemManager->rva001F9343(tmp, a1);
-	(void)t;
+	ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->rva001F9343(tmp, a1);
+	(void)particleSystemTemplate;
 	(void)a2;
 }

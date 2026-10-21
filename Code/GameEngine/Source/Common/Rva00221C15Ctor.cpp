@@ -81,9 +81,9 @@ private:
 	Rva00221B42 m_08;
 };
 
-Rva00221C15::Rva00221C15(const AsciiString &a, const Rva00221A58 &b, INI *ini)
+Rva00221C15::Rva00221C15(const AsciiString &asciiString, const Rva00221A58 &b, INI *ini)
 	: Rva00221C15Base()
-	, m_08(a, b, ini)
+	, m_08(asciiString, b, ini)
 {
 	*(const void **)&m_vtable = g_00BE6C38;
 }

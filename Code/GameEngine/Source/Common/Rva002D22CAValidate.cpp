@@ -47,9 +47,9 @@ bool Rva002D22CA::rva002D22D5()
 	int nOuter = 12;
 	do
 	{
-		for (TableEntry *e = (TableEntry *)*pOuter; e != 0 && e->key != 0; e++)
+		for (TableEntry *tableEntry = (TableEntry *)*pOuter; tableEntry != 0 && tableEntry->key != 0; tableEntry++)
 		{
-			int unk = e->unk;
+			int unk = tableEntry->unk;
 			if (unk == 0)
 				continue;
 			void **pMiddle = m_tables;
@@ -58,7 +58,7 @@ bool Rva002D22CA::rva002D22D5()
 			{
 				for (TableEntry *f = (TableEntry *)*pMiddle; f != 0 && f->key != 0; f++)
 				{
-					if (e == f)
+					if (tableEntry == f)
 						continue;
 					if (unk != f->unk)
 						continue;

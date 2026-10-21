@@ -64,10 +64,10 @@ void Rva002E9042::rva002E9042(void *p)
 	Rva002E9042Arg *arg = (Rva002E9042Arg *)p;
 	ICoord2D cell;
 	Rva002E7875WorldToCell(&cell, true, &arg->m_0C);
-	PathfindCell *c = ((Pathfinder *)this)->getCell((PathfindLayerEnum)1, cell.x, cell.y);
-	if (c != 0 && ((Rva0052DA63 *)c)->m_04 == p)
+	PathfindCell *pathfindCell = ((Pathfinder *)this)->getCell((PathfindLayerEnum)1, cell.x, cell.y);
+	if (pathfindCell != 0 && ((Rva0052DA63 *)pathfindCell)->m_04 == p)
 	{
-		((Rva0052DA63 *)c)->SetPortal(0);
+		((Rva0052DA63 *)pathfindCell)->SetPortal(0);
 		m_grid.rva0053155E(cell.x, cell.y, false, (int)p);
 	}
 	arg->m_48 = 0;
@@ -79,10 +79,10 @@ void Rva002E9042::AddPortal(void *p)
 	Rva002E9042Arg *arg = (Rva002E9042Arg *)p;
 	ICoord2D cell;
 	Rva002E7875WorldToCell(&cell, true, &arg->m_0C);
-	PathfindCell *c = ((Pathfinder *)this)->getCell((PathfindLayerEnum)1, cell.x, cell.y);
-	if (c != 0 && ((Rva0052DA63 *)c)->m_04 == 0)
+	PathfindCell *pathfindCell = ((Pathfinder *)this)->getCell((PathfindLayerEnum)1, cell.x, cell.y);
+	if (pathfindCell != 0 && ((Rva0052DA63 *)pathfindCell)->m_04 == 0)
 	{
-		((Rva0052DA63 *)c)->SetPortal(p);
+		((Rva0052DA63 *)pathfindCell)->SetPortal(p);
 		m_grid.rva0053155E(cell.x, cell.y, true, (int)p);
 	}
 	arg->m_48 = 1;

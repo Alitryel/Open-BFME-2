@@ -23,11 +23,11 @@ class Rva00239FE4
 public:
 	void rva00239FE4(const ModuleData *p);
 };
-void Rva00239FE4::rva00239FE4(const ModuleData *p)
+void Rva00239FE4::rva00239FE4(const ModuleData *moduleData)
 {
 	for (_STL::vector<const ModuleData *>::iterator it = m_vec.begin(); it != m_vec.end(); ++it) {
-		if (*it == p)
+		if (*it == moduleData)
 			return;
 	}
-	m_vec.push_back(p);
+	m_vec.push_back(moduleData);
 }

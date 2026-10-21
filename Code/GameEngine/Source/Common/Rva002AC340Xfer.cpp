@@ -128,9 +128,9 @@ void Rva002AC340::xfer(Xfer *xfer)
 	} else {
 		*xfer == count;
 		for (int i = 0; i < count; ++i) {
-			const ModuleData *tmp;
-			*xfer == (int &)tmp;
-			m_vec.push_back(tmp);
+			const ModuleData *moduleData;
+			*xfer == (int &)moduleData;
+			m_vec.push_back(moduleData);
 		}
 	}
 }

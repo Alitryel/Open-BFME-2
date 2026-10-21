@@ -47,20 +47,20 @@ typedef CreateAHeroManager::CreateAHeroSubClass CreateAHeroSubClass;
 
 int CreateAHeroClass::GetAttributeMinValue(UnsignedInt attribute, UnsignedInt subClassIndex)
 {
-	const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-	return p ? p->GetAttributeMinValue(attribute) : -1;
+	const CreateAHeroSubClass *createAHeroSub = rva00219B9E(subClassIndex);
+	return createAHeroSub ? createAHeroSub->GetAttributeMinValue(attribute) : -1;
 }
 
 int CreateAHeroClass::GetAttributeMaxValue(UnsignedInt attribute, UnsignedInt subClassIndex)
 {
-	const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-	return p ? p->GetAttributeMaxValue(attribute) : -1;
+	const CreateAHeroSubClass *createAHeroSub = rva00219B9E(subClassIndex);
+	return createAHeroSub ? createAHeroSub->GetAttributeMaxValue(attribute) : -1;
 }
 
 int CreateAHeroClass::GetAttributeDefaultValue(UnsignedInt attribute, UnsignedInt subClassIndex)
 {
-	const CreateAHeroSubClass *p = rva00219B9E(subClassIndex);
-	return p ? p->GetAttributeDefaultValue(attribute) : -1;
+	const CreateAHeroSubClass *createAHeroSub = rva00219B9E(subClassIndex);
+	return createAHeroSub ? createAHeroSub->GetAttributeDefaultValue(attribute) : -1;
 }
 
 // Subclass getters: look the attribute up through 0x0021BD22, then read it

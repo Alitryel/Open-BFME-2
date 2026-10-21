@@ -38,10 +38,10 @@ void Rva0022CA74::rva002000A4()
 	_STL::vector<void *>::iterator it = m_vec.begin();
 	while (it != m_vec.end())
 	{
-		Overridable *o = (Overridable *)*it;
-		if (o == 0)
+		Overridable *overridable = (Overridable *)*it;
+		if (overridable == 0)
 			continue;
-		if (o->deleteOverrides() == 0)
+		if (overridable->deleteOverrides() == 0)
 			it = m_vec.erase(it);
 		else
 			++it;

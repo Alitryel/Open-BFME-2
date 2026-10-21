@@ -14,7 +14,7 @@ class Rva002FE371Filter {
 public: virtual ~Rva002FE371Filter(); virtual bool allow(Object *argument);
 private: unsigned char unknown4[4]; Object *word8;
 };
-bool Rva002FE371Filter::allow(Object *argument)
+bool Rva002FE371Filter::allow(Object *object)
 {
-    return AI::rva002FE193(word8, argument);
+    return AI::rva002FE193(word8, object);
 }

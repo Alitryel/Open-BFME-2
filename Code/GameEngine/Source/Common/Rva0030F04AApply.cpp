@@ -79,8 +79,8 @@ void Rva0030F04AApply(int flags, Rva0030F04AOut *out)
 {
 	if (flags & 4) {
 		out->m_00 |= 2;
-		Slot48Ret *p = TheInGameUI->slot48();
-		if (p && p->m_0014 == 0x18)
+		Slot48Ret *slot48Ret = TheInGameUI->slot48();
+		if (slot48Ret && slot48Ret->m_0014 == 0x18)
 			out->m_07 |= 0x10;
 	}
 	if (flags & 8)

@@ -35,7 +35,7 @@ class UnicodeString
 {
 public:
 	__forceinline UnicodeString() : m_data() {}
-	UnicodeString(const UnicodeString &o) : m_data(o.m_data) {}
+	UnicodeString(const UnicodeString &unicodeString) : m_data(unicodeString.m_data) {}
 	~UnicodeString();
 private:
 	StringBase<WideChar> m_data;

@@ -16,7 +16,7 @@ extern GameLogic *TheGameLogic;
 struct MotionCoord:Coord3D{
  __forceinline MotionCoord(){}
  __forceinline MotionCoord(const Coord3D&r){x=r.x;y=r.y;z=r.z;}
- __forceinline MotionCoord(const MotionCoord&r){x=r.x;y=r.y;z=r.z;}
+ __forceinline MotionCoord(const MotionCoord&motionCoord){x=motionCoord.x;y=motionCoord.y;z=motionCoord.z;}
  __forceinline void add(const Coord3D&r){x+=r.x;y+=r.y;z+=r.z;}
  __forceinline void sub(const Coord3D&r){x-=r.x;y-=r.y;z-=r.z;}
  __forceinline void scale(float f){x*=f;y*=f;z*=f;}

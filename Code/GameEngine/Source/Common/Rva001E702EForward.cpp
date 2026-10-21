@@ -28,8 +28,8 @@ private:
 };
 
 // ?rva001E702E@Rva001E702E@@QAEXPAVThing@@HH@Z
-void Rva001E702E::rva001E702E(Thing *o, int b, int c)
+void Rva001E702E::rva001E702E(Thing *thing, int b, int c)
 {
-	((Rva001E685F *)this)->rva001E685F((Object *)o, (const Coord3D *)b, (float *)c);
-	o->setTransformMatrix((const Matrix3D *)&m_mat);
+	((Rva001E685F *)this)->rva001E685F((Object *)thing, (const Coord3D *)b, (float *)c);
+	thing->setTransformMatrix((const Matrix3D *)&m_mat);
 }

@@ -31,7 +31,7 @@ private:
     void const *m_14;
 };
 
-Rva0010F185::Rva0010F185(const Rva0036CA00Str &a1, void const *a2, const AsciiString &a3, void const *a4)
-    : Rva001164D3(a1), m_0C(a2), m_s10(a3), m_14(a4)
+Rva0010F185::Rva0010F185(const Rva0036CA00Str &a1, void const *a2, const AsciiString &asciiString, void const *a4)
+    : Rva001164D3(a1), m_0C(a2), m_s10(asciiString), m_14(a4)
 {
 }

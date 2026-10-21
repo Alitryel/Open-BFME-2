@@ -40,12 +40,12 @@ unsigned int __cdecl calcCRC(AsciiString a, AsciiString b)
 	char *pt = *(char * const *)&path;
 	const char *ps = pt ? pt + 8 : "";
 	unsigned int crc = 0;
-	File *f = TheFileSystem->openFile(ps, 1, 0);
-	if (f) {
+	File *file = TheFileSystem->openFile(ps, 1, 0);
+	if (file) {
 		int n;
-		while ((n = f->readFile(filebuf, 4096)) > 0)
+		while ((n = file->readFile(filebuf, 4096)) > 0)
 			crc = ComputeCRC((const unsigned char *)filebuf, (unsigned int)n, crc);
-		f->closeFile();
+		file->closeFile();
 	}
 	return crc;
 }

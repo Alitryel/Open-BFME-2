@@ -29,12 +29,12 @@ int Rva00202613::rva00202613(float v)
 {
 	int level = (int)v;
 	int idx = 4;
-	LODEntry *e = &m_lod[4];
+	LODEntry *lODEntry = &m_lod[4];
 	do {
-		if (e->m_threshold < level)
+		if (lODEntry->m_threshold < level)
 			return idx;
 		--idx;
-		--e;
+		--lODEntry;
 	} while (idx >= 0);
 	return 0;
 }

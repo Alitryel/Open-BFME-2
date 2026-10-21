@@ -16,8 +16,8 @@ namespace {
 class CurveValue {
 public:
  float X,Y,Z;
- __forceinline CurveValue(const D3DXVECTOR3 &v){X=v.x;Y=v.y;Z=v.z;}
- __forceinline CurveValue(const CurveValue &v){X=v.X;Y=v.Y;Z=v.Z;}
+ __forceinline CurveValue(const D3DXVECTOR3 &d3DXVECTOR3){X=d3DXVECTOR3.x;Y=d3DXVECTOR3.y;Z=d3DXVECTOR3.z;}
+ __forceinline CurveValue(const CurveValue &curveValue){X=curveValue.X;Y=curveValue.Y;Z=curveValue.Z;}
  __forceinline CurveValue(float x,float y,float z){X=x;Y=y;Z=z;}
 };
 // ?operatorPlus present-unmatched
@@ -29,12 +29,12 @@ static __forceinline CurveValue operator*(const CurveValue &a,float k){return Cu
 // ?operatorLeftTimes present-unmatched
 static __forceinline CurveValue operator*(float k,const CurveValue &a){return CurveValue(a.X*k,a.Y*k,a.Z*k);}
 }
-D3DXVECTOR3 *rva00311638CatmullRom(D3DXVECTOR3 *out,const D3DXVECTOR3 *p0,const D3DXVECTOR3 *p1,const D3DXVECTOR3 *p2,const D3DXVECTOR3 *p3,float t,bool imported)
+D3DXVECTOR3 *rva00311638CatmullRom(D3DXVECTOR3 *out,const D3DXVECTOR3 *d3DXVECTOR3,const D3DXVECTOR3 *p1,const D3DXVECTOR3 *p2,const D3DXVECTOR3 *p3,float t,bool imported)
 {
- if(imported) return rva0062AFC8D3DXVec3CatmullRom(out,p0,p1,p2,p3,t);
+ if(imported) return rva0062AFC8D3DXVec3CatmullRom(out,d3DXVECTOR3,p1,p2,p3,t);
  float t2=t*t;
  float t3=t*t2;
- CurveValue a=*p0,b=*p1,c=*p2,d=*p3;
+ CurveValue a=*d3DXVECTOR3,b=*p1,c=*p2,d=*p3;
  CurveValue q0=2.0f*b;
  CurveValue q1=(c-a)*t;
  CurveValue q2=(2.0f*a-5.0f*b+4.0f*c-d)*t2;

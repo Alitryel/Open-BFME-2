@@ -36,8 +36,8 @@ private:
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_3c;
 };
 
-Rva002DFA7A::Rva002DFA7A(int val, const AsciiString &s)
-	: m_00(s),
+Rva002DFA7A::Rva002DFA7A(int val, const AsciiString &asciiString)
+	: m_00(asciiString),
 	  m_04(val),
 	  m_08(false),
 	  m_0c(0),

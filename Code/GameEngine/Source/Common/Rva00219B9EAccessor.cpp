@@ -606,11 +606,11 @@ Int CreateAHeroManager::GetPreferedFaction(UnsignedInt classIndex, UnsignedInt s
 // the class index is the middle argument.
 Int CreateAHeroManager::GetSubClassAttributeMinValue(UnsignedInt attribute, UnsignedInt classIndex, UnsignedInt subClassIndex)
 {
-    ClassVec *v = &m_classes;
-    unsigned int count = ClassCount(v);
+    ClassVec *classVec = &m_classes;
+    unsigned int count = ClassCount(classVec);
     if (classIndex < count) {
         _ReadWriteBarrier();
-        CreateAHeroClass *base = v->m_start;
+        CreateAHeroClass *base = classVec->m_start;
         return base[classIndex].GetAttributeMinValue(attribute, subClassIndex);
     }
     return -1;
@@ -618,11 +618,11 @@ Int CreateAHeroManager::GetSubClassAttributeMinValue(UnsignedInt attribute, Unsi
 // CreateAHeroManager::GetSubClassAttributeMaxValue, retail 0x0021BF74 50B.
 Int CreateAHeroManager::GetSubClassAttributeMaxValue(UnsignedInt attribute, UnsignedInt classIndex, UnsignedInt subClassIndex)
 {
-    ClassVec *v = &m_classes;
-    unsigned int count = ClassCount(v);
+    ClassVec *classVec = &m_classes;
+    unsigned int count = ClassCount(classVec);
     if (classIndex < count) {
         _ReadWriteBarrier();
-        CreateAHeroClass *base = v->m_start;
+        CreateAHeroClass *base = classVec->m_start;
         return base[classIndex].GetAttributeMaxValue(attribute, subClassIndex);
     }
     return -1;
@@ -630,11 +630,11 @@ Int CreateAHeroManager::GetSubClassAttributeMaxValue(UnsignedInt attribute, Unsi
 // CreateAHeroManager::GetSubClassAttributeDefaultValue, retail 0x0021BFA6 50B.
 Int CreateAHeroManager::GetSubClassAttributeDefaultValue(UnsignedInt attribute, UnsignedInt classIndex, UnsignedInt subClassIndex)
 {
-    ClassVec *v = &m_classes;
-    unsigned int count = ClassCount(v);
+    ClassVec *classVec = &m_classes;
+    unsigned int count = ClassCount(classVec);
     if (classIndex < count) {
         _ReadWriteBarrier();
-        CreateAHeroClass *base = v->m_start;
+        CreateAHeroClass *base = classVec->m_start;
         return base[classIndex].GetAttributeDefaultValue(attribute, subClassIndex);
     }
     return -1;

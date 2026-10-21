@@ -37,11 +37,11 @@ int __cdecl CountOwnedUnits(Rva002E0D02Arg *arg)
 {
 	Pair1B8 *p = &arg->m_pair;
 	Elem *end = p->m_1BC;
-	Elem *b = p->m_1B8;
+	Elem *elem = p->m_1B8;
 	int total = 0;
-	if (b != end) {
+	if (elem != end) {
 		do {
-			Rva0040CB2CIndexedField *f = b->m_ptr->m_78;
+			Rva0040CB2CIndexedField *f = elem->m_ptr->m_78;
 			int cnt = (int)((char *)f->m_end - (char *)f->m_begin) >> 3;
 			int i = 0;
 			if (cnt > 0) {
@@ -51,8 +51,8 @@ int __cdecl CountOwnedUnits(Rva002E0D02Arg *arg)
 					++i;
 				} while (i < cnt);
 			}
-			b = (Elem *)((char *)b + 4);
-		} while (b != end);
+			elem = (Elem *)((char *)elem + 4);
+		} while (elem != end);
 	}
 	return total;
 }

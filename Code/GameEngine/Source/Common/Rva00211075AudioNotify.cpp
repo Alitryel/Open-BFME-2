@@ -54,9 +54,9 @@ void Rva00211075::rva00211075()
 	m_flag2c0 = true;
 	if (TheAudio == 0)
 		return;
-	OpaqueRefElement4 *p = &m_elem164;
-	if (p->referent == 0)
+	OpaqueRefElement4 *opaqueRefElement4 = &m_elem164;
+	if (opaqueRefElement4->referent == 0)
 		return;
-	BfmeAudioEventPrefix136 event(*p, 1);
+	BfmeAudioEventPrefix136 event(*opaqueRefElement4, 1);
 	reinterpret_cast<Rva00211075AudioView *>(TheAudio)->addAudioEvent(&event);
 }

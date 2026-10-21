@@ -29,12 +29,12 @@ void __cdecl Rva00331E28MakeHeap(S4SortElem12 *first, S4SortElem12 *last, S4Cmp0
 	if (len < 2)
 		return;
 	int parent = (len - 2) / 2;
-	S4SortElem12 *p = first + parent;
+	S4SortElem12 *s4SortElem12 = first + parent;
 	for (;;) {
-		_STL::__adjust_heap<S4SortElem12 *, int, S4SortElem12, S4Cmp002E1690>(first, parent, len, *p, comp);
+		_STL::__adjust_heap<S4SortElem12 *, int, S4SortElem12, S4Cmp002E1690>(first, parent, len, *s4SortElem12, comp);
 		if (parent == 0)
 			break;
 		--parent;
-		--p;
+		--s4SortElem12;
 	}
 }

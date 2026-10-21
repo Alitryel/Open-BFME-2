@@ -45,20 +45,20 @@ private:
 	Node *m_head14;
 	Node *m_tail18;
 };
-void Rva0010B9E5::rva0010B9E5(Node *arg)
+void Rva0010B9E5::rva0010B9E5(Node *node)
 {
 	Node *cur = m_head14;
 	Node *prev = 0;
 	while (cur != 0) {
-		if (cur == arg) {
+		if (cur == node) {
 			if (prev != 0)
-				prev->m_next64 = arg->m_next64;
+				prev->m_next64 = node->m_next64;
 			else
-				m_head14 = arg->m_next64;
+				m_head14 = node->m_next64;
 			Node *tail = m_tail18;
-			arg->m_next64 = tail;
-			m_tail18 = arg;
-			arg->rva0010959E();
+			node->m_next64 = tail;
+			m_tail18 = node;
+			node->rva0010959E();
 		}
 		prev = cur;
 		cur = cur->m_next64;

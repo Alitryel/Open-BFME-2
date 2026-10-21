@@ -39,23 +39,23 @@ private:
 
 void Rva0031F89E::rva0031F89E(float a, float b, int c, int d)
 {
-	Node **p = &m_lists[2];
+	Node **node = &m_lists[2];
 	int n = 3;
 	do
 	{
-		Node *cur = (*p)->m_next;
-		while (cur != *p)
+		Node *cur = (*node)->m_next;
+		while (cur != *node)
 		{
-			Entry *e = cur->m_data;
-			if (e && e->m_14)
-				((W3DDisplay *)TheDisplay)->rva0004D6B3(e->m_14,
-					(float)e->m_4 * a + (float)c,
-					(float)e->m_8 * b + (float)d,
-					(float)(e->m_c + e->m_4) * a + (float)c,
-					(float)(e->m_10 + e->m_8) * b + (float)d, -1, 2);
+			Entry *entry = cur->m_data;
+			if (entry && entry->m_14)
+				((W3DDisplay *)TheDisplay)->rva0004D6B3(entry->m_14,
+					(float)entry->m_4 * a + (float)c,
+					(float)entry->m_8 * b + (float)d,
+					(float)(entry->m_c + entry->m_4) * a + (float)c,
+					(float)(entry->m_10 + entry->m_8) * b + (float)d, -1, 2);
 			cur = cur->m_next;
 		}
-		--p;
+		--node;
 		--n;
 	} while (n != 0);
 }

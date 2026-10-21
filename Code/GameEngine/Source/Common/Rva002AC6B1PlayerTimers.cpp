@@ -25,9 +25,9 @@ public:
  unsigned char pad6FC[8];
  _STL::list<BfmeSpecialPowerTimer8> timers;
 };
-void Rva002AC6B1PlayerTimers::addTimer(const SpecialPowerTemplate *temp,unsigned frame) {
+void Rva002AC6B1PlayerTimers::addTimer(const SpecialPowerTemplate *specialPowerTemplate,unsigned frame) {
  BfmeSpecialPowerTimer8 timer;
- timer.m_templateID=((const Rva002AC6B1TemplateView*)((const Overridable*)temp)->friend_getFinalOverride())->id;
+ timer.m_templateID=((const Rva002AC6B1TemplateView*)((const Overridable*)specialPowerTemplate)->friend_getFinalOverride())->id;
  timer.m_readyFrame=frame;
  timers.push_back(timer);
 }
@@ -35,41 +35,41 @@ void Rva002AC6B1PlayerTimers::addTimer(const SpecialPowerTemplate *temp,unsigned
 // (WorldBuilder 0xC1DDD0 by callgraph; ZH Player::resetOrStartSpecialPowerReadyFrame).
 // Matching timers rearm at now plus the final override's reload (+20) and that
 // reload scaled by the player float at +6F8 when the scaled part is smaller.
-void Rva002AC6B1PlayerTimers::resetOrStart(const SpecialPowerTemplate *temp) {
- unsigned lookupID=((const Rva002AC6B1TemplateView*)((const Overridable*)temp)->friend_getFinalOverride())->id;
+void Rva002AC6B1PlayerTimers::resetOrStart(const SpecialPowerTemplate *specialPowerTemplate) {
+ unsigned lookupID=((const Rva002AC6B1TemplateView*)((const Overridable*)specialPowerTemplate)->friend_getFinalOverride())->id;
  unsigned now=((Rva002AC6B1FrameView*)TheGameLogic)->frame;
  for(_STL::_List_node_base *it=timers.begin()._M_node;it!=timers.end()._M_node;it=it->_M_next) {
   BfmeSpecialPowerTimer8 &timer=((_STL::_List_node<BfmeSpecialPowerTimer8>*)it)->_M_data;
   if(timer.m_templateID==lookupID) {
-   unsigned reload=((const Rva002AC6B1TemplateView*)((const Overridable*)temp)->friend_getFinalOverride())->reloadTime;
+   unsigned reload=((const Rva002AC6B1TemplateView*)((const Overridable*)specialPowerTemplate)->friend_getFinalOverride())->reloadTime;
    unsigned scaled=(unsigned)(reload*reloadScale);
    timer.m_readyFrame=now+(reload>scaled?reload+scaled:0);
    return;
   }
  }
- addTimer(temp,now);
+ addTimer(specialPowerTemplate,now);
 }
-unsigned Rva002AC6B1PlayerTimers::getOrStart(const SpecialPowerTemplate *temp) {
- unsigned lookupID=((const Rva002AC6B1TemplateView*)((const Overridable*)temp)->friend_getFinalOverride())->id;
+unsigned Rva002AC6B1PlayerTimers::getOrStart(const SpecialPowerTemplate *specialPowerTemplate) {
+ unsigned lookupID=((const Rva002AC6B1TemplateView*)((const Overridable*)specialPowerTemplate)->friend_getFinalOverride())->id;
  unsigned now=((Rva002AC6B1FrameView*)TheGameLogic)->frame;
  // Native list-node traversal avoids emitting competing iterator COMDATs.
  for(_STL::_List_node_base *it=timers.begin()._M_node;it!=timers.end()._M_node;it=it->_M_next) {
   const BfmeSpecialPowerTimer8 &timer=((_STL::_List_node<BfmeSpecialPowerTimer8>*)it)->_M_data;
   if(timer.m_templateID==lookupID)return timer.m_readyFrame;
  }
- addTimer(temp,now);
+ addTimer(specialPowerTemplate,now);
  return now;
 }
 
-void Rva002AC6B1PlayerTimers::rva002AC75C(const SpecialPowerTemplate *temp, unsigned frame)
+void Rva002AC6B1PlayerTimers::rva002AC75C(const SpecialPowerTemplate *specialPowerTemplate, unsigned frame)
 {
  _STL::_List_node_base *head=timers.end()._M_node;
  for(_STL::_List_node_base *it=timers.begin()._M_node;it!=head;it=it->_M_next) {
   const BfmeSpecialPowerTimer8 &timer=((_STL::_List_node<BfmeSpecialPowerTimer8>*)it)->_M_data;
-  if(timer.m_templateID==((const Rva002AC6B1TemplateView*)((const Overridable*)temp)->friend_getFinalOverride())->id) {
+  if(timer.m_templateID==((const Rva002AC6B1TemplateView*)((const Overridable*)specialPowerTemplate)->friend_getFinalOverride())->id) {
    ((_STL::_List_node<BfmeSpecialPowerTimer8>*)it)->_M_data.m_readyFrame=frame;
    return;
   }
  }
- addTimer(temp,frame);
+ addTimer(specialPowerTemplate,frame);
 }

@@ -60,8 +60,8 @@ Rva002A8AE4Record *Rva002A8F24::rva002A8AE4(void *key)
 	Rva002A8AB1Record *r = rva002A8AB1(key);
 	if (r != 0 && !r->get())
 	{
-		Player *p = ThePlayerList->getNthPlayer(r->m_value);
-		return (Rva002A8AE4Record *)rva002A8AB1(p);
+		Player *player = ThePlayerList->getNthPlayer(r->m_value);
+		return (Rva002A8AE4Record *)rva002A8AB1(player);
 	}
 	return (Rva002A8AE4Record *)r;
 }

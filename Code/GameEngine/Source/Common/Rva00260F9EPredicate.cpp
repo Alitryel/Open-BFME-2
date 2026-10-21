@@ -135,9 +135,9 @@ private:
 };
 
 // ?allow@Rva00260F9EFilter@@UAE_NPAVObject@@@Z
-bool Rva00260F9EFilter::allow(Object *o)
+bool Rva00260F9EFilter::allow(Object *object)
 {
-	void *p = o->rva0028C197();
+	void *p = object->rva0028C197();
 	if (p == 0) {
 		return m_0C == 0;
 	}

@@ -85,10 +85,10 @@ private:
 
 bool PartitionFilterRejectBuildings::rva00261B7E(Object *obj)
 {
-	ObjectTemplate *t = obj->m_template04;
-	if ((t->m_108 & 0x80) == 0)
+	ObjectTemplate *objectTemplate = obj->m_template04;
+	if ((objectTemplate->m_108 & 0x80) == 0)
 		goto success;
-	if ((t->m_10E & 0x80) != 0)
+	if ((objectTemplate->m_10E & 0x80) != 0)
 		goto success;
 	Player *pThis = m_obj->getControllingPlayer();
 	if (pThis == 0)

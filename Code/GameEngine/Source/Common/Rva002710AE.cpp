@@ -33,11 +33,11 @@ private:
 	unsigned char m_446;
 };
 
-void Rva002710AE::rva002710AE(BuildListInfo *a1, Arg2 *a2)
+void Rva002710AE::rva002710AE(BuildListInfo *buildListInfo, Arg2 *a2)
 {
 	if (!a2->v5())
 		return;
-	unsigned char *p = (unsigned char *)a1->getDesiredGatherers();
+	unsigned char *p = (unsigned char *)buildListInfo->getDesiredGatherers();
 	if (!p)
 		return;
 	m_445 = *(p + 0x445);

@@ -11,9 +11,9 @@
 #include "ascii_string.h"
 
 
-__forceinline const char *GetStr001B4EAB(const AsciiString &s)
+__forceinline const char *GetStr001B4EAB(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

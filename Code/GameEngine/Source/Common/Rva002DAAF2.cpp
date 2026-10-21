@@ -18,10 +18,10 @@ private:
 	AsciiString m_str10;
 };
 
-bool Rva002DAAF2::rva002DAAF2(const AsciiString &s, int a, int b, int c, int d)
+bool Rva002DAAF2::rva002DAAF2(const AsciiString &asciiString, int a, int b, int c, int d)
 {
-	if (s.isEmpty())
+	if (asciiString.isEmpty())
 		return false;
-	((StringBase<char> *)&m_str10)->set(*(const StringBase<char> *)&s);
+	((StringBase<char> *)&m_str10)->set(*(const StringBase<char> *)&asciiString);
 	return true;
 }

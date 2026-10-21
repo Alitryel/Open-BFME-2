@@ -20,7 +20,7 @@ public:
 struct IterBase
 {
 	const HashTableClass *m_table;
-	IterBase(HashTableClass *t) : m_table(t) {}
+	IterBase(HashTableClass *hashTable) : m_table(hashTable) {}
 };
 // Current region flags already preserve the native95B loop. As in the
 // verified Rva000F1AD8Clear peer, leave iterator support under those flags
@@ -31,7 +31,7 @@ class HashTableIteratorClass : public IterBase
 	HashableClass *m_cur;
 	HashableClass *m_next;
 public:
-	HashTableIteratorClass(HashTableClass *t) : IterBase(t) {}
+	HashTableIteratorClass(HashTableClass *hashTable) : IterBase(hashTable) {}
 	virtual ~HashTableIteratorClass() {}
 	void First();
 	void Next();
@@ -62,8 +62,8 @@ public:
 };
 void Rva00108AD8::rva00108AD8()
 {
-	HashTableClass *t = m_table;
-	HashTableIteratorClass it(t);
+	HashTableClass *hashTable = m_table;
+	HashTableIteratorClass it(hashTable);
 	it.First();
 	while (!it.Is_Done())
 	{

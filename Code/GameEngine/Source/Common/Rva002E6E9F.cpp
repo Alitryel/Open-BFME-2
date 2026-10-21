@@ -56,10 +56,10 @@ void *__cdecl Rva002E6E9FGet(void *arg)
     };
     Elem **pp = ((Table *)arg)->m_ptr;
     for (;;) {
-        Elem *e = *pp;
-        if (e == 0)
+        Elem *elem = *pp;
+        if (elem == 0)
             return 0;
-        void *w = e->m_sub.v26();
+        void *w = elem->m_sub.v26();
         if (w != 0)
             return ((Res0 *)w)->first();
         ++pp;

@@ -58,11 +58,11 @@ void W3DTreeBuffer::rva000EA24D()
 	for (int i = 0; i < 0x40; ++i)
 	{
 		RefItem *&slot = m_array[i].m_ptr;
-		RefItem *p = slot;
-		if (p != 0)
+		RefItem *refItem = slot;
+		if (refItem != 0)
 		{
-			if (--p->m_ref == 0)
-				p->Release();
+			if (--refItem->m_ref == 0)
+				refItem->Release();
 			slot = 0;
 		}
 	}

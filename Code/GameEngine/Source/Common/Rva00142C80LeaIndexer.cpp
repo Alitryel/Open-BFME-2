@@ -64,9 +64,9 @@ private:
 	bool m_flag88;
 };
 
-void Rva00308139::rva00308139(const AsciiString &s)
+void Rva00308139::rva00308139(const AsciiString &asciiString)
 {
-	m_str80 = s;
+	m_str80 = asciiString;
 	m_flag88 = true;
 }
 
@@ -86,9 +86,9 @@ private:
 	bool m_flag9C;
 };
 
-void Rva0030815D::rva0030815D(const AsciiString &s)
+void Rva0030815D::rva0030815D(const AsciiString &asciiString)
 {
-	m_str8C = s;
+	m_str8C = asciiString;
 	m_flag9C = true;
 }
 

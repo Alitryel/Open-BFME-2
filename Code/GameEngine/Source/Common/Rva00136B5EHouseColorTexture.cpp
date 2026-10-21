@@ -14,7 +14,7 @@
 template<class T> inline RefCountPtr<T>::~RefCountPtr(){if(Ptr)Ptr->Release_Ref();}
 struct BfmeResetTagged;
 struct BfmeResetAnyRef{BfmeResetTagged*pointer;};
-inline unsigned BfmeTexIdOf(TextureClass*t){return *(unsigned*)((char*)t+8);}
+inline unsigned BfmeTexIdOf(TextureClass*texture){return *(unsigned*)((char*)texture+8);}
 class Rva00131DCBTextureRef:public RefCountPtr<TextureClass>{public:Rva00131DCBTextureRef(const BfmeResetAnyRef&);__forceinline ~Rva00131DCBTextureRef() {}
  unsigned getID() const {return Ptr?BfmeTexIdOf(Ptr):~0u;}};
 class Rva009EBCE0AssetReference {public:TextureClass*ptr;~Rva009EBCE0AssetReference(){if(ptr)ptr->Release_Ref();}};

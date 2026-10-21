@@ -31,11 +31,11 @@ private:
 	WeaponTemplateSetHead m_04;
 	Rva00263546 m_50;
 };
-bool Rva003317B0::rva003317B0(const WeaponTemplateSetHead *arg)
+bool Rva003317B0::rva003317B0(const WeaponTemplateSetHead *weaponTemplateSetHead)
 {
-	if (m_50.rva00263546((const Rva00263546 *)arg))
+	if (m_50.rva00263546((const Rva00263546 *)weaponTemplateSetHead))
 		return false;
-	WeaponTemplateSetHead tmp(*arg);
+	WeaponTemplateSetHead tmp(*weaponTemplateSetHead);
 	tmp.rva000B3ED3(m_04);
 	unsigned char eq = Rva00045473Equal(&m_04, &tmp);
 	return eq;

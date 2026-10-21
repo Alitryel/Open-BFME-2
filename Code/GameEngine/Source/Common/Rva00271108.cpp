@@ -132,9 +132,9 @@ bool Drawable::handleWeaponFireFX(int a0, int a1, int a2, float a3, float a4, fl
 	}
 	Node **pp = m_list;
 	for (; *pp != 0; pp++) {
-		Target *t = (*pp)->get();
-		if (t != 0) {
-			if (t->check(a0, a1, a2, a3, a6))
+		Target *target = (*pp)->get();
+		if (target != 0) {
+			if (target->check(a0, a1, a2, a3, a6))
 				return true;
 		}
 	}

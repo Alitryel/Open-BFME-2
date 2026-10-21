@@ -68,9 +68,9 @@ void Palantir::SetPlanningModeEnabled(unsigned char v)
 	if (v == 0) {
 		Rva002D37BDMid *mid = ThePlayerList->m_mid;
 		if (mid != 0 && mid->m_750 == 2) {
-			GameMessage *m = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);
-			m->appendIntegerArgument(0);
-			m->appendIntegerArgument(2);
+			GameMessage *gameMessage = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);
+			gameMessage->appendIntegerArgument(0);
+			gameMessage->appendIntegerArgument(2);
 		}
 	}
 	m_10->m_128 = v;

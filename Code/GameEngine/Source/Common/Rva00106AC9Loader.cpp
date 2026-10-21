@@ -63,9 +63,9 @@ private:
 	int m_size;
 };
 
-__forceinline const char *GetStr00106AC9(const AsciiString &s)
+__forceinline const char *GetStr00106AC9(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(const void *)&s;
+	char *t = *(char * *)(const void *)&asciiString;
 	return t ? t + 8 : "";
 }
 
@@ -84,9 +84,9 @@ bool Rva00106AC9::rva00106AC9(const char *path, int mode, bool flag)
 			m_mode = 5;
 		} else {
 			p = GetStr00106AC9(m_path);
-			File *f = TheFileSystem->openFile(p, 0x141, 0);
-			m_file = f;
-			int sz = f->getSize();
+			File *file = TheFileSystem->openFile(p, 0x141, 0);
+			m_file = file;
+			int sz = file->getSize();
 			m_size = sz;
 			m_mode = 6;
 			if (sz >= 8) {
@@ -103,10 +103,10 @@ bool Rva00106AC9::rva00106AC9(const char *path, int mode, bool flag)
 		}
 	} else if (mode == 2) {
 		const char *p = GetStr00106AC9(m_path);
-		File *f = TheFileSystem->openFile(p, 0x5a, 0);
-		m_file = f;
+		File *file = TheFileSystem->openFile(p, 0x5a, 0);
+		m_file = file;
 		m_mode = 3;
-		if (f != 0) {
+		if (file != 0) {
 			m_mode = 7;
 			done = true;
 		}

@@ -92,9 +92,9 @@ template <> MapIntPtrTree::_Link_type MapIntPtrTree::_M_lower_bound(const unsign
 Rva00170999Data *Rva00170BFF::rva00171128(const AssetReference &ref)
 {
 	const unsigned &key = *(const unsigned *)&ref;
-	MapIntPtr &m = *(MapIntPtr *)this;
-	MapIntPtr::iterator it = m.lower_bound(key);
-	if (it == m.end()) {
+	MapIntPtr &mapIntPtr = *(MapIntPtr *)this;
+	MapIntPtr::iterator it = mapIntPtr.lower_bound(key);
+	if (it == mapIntPtr.end()) {
 		goto insert;
 	}
 	if (key >= it->first) {

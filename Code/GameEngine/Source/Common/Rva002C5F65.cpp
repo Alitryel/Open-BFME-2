@@ -18,8 +18,8 @@ private:
 
 void Rva002C5F65::rva002C5F65()
 {
-	AITargetChooser *p = m_c;
-	if (!p)
+	AITargetChooser *aITargetChooser = m_c;
+	if (!aITargetChooser)
 		return;
-	return p->rva005058F7();
+	return aITargetChooser->rva005058F7();
 }

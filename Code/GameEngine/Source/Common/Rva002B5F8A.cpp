@@ -70,10 +70,10 @@ bool Rva002B5F8A::rva002B5F8A()
 {
 	if (m_f4 < 6) {
 		if (((Rva002B5EB5 *)this)->rva002B5EB5()) {
-			GameMessage *m = TheMessageStream->appendMessage(GameMessage::T_6A6);
-			m->appendIntegerArgument(m_fc);
-			m->appendIntegerArgument(m_f4);
-			m->appendIntegerArgument(m_ptr98->m_14);
+			GameMessage *gameMessage = TheMessageStream->appendMessage(GameMessage::T_6A6);
+			gameMessage->appendIntegerArgument(m_fc);
+			gameMessage->appendIntegerArgument(m_f4);
+			gameMessage->appendIntegerArgument(m_ptr98->m_14);
 			m_10A = 1;
 			return true;
 		}

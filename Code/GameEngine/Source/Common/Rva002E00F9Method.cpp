@@ -42,7 +42,7 @@ void Rva002E00F9::rva002E00F9(void *arg1, void *arg2)
 	for (; p != end; ++p)
 	{
 		const ModuleData *res = (*p)->rva002E00F9Get(arg1);
-		const ModuleData *tmp = res;
-		out->push_back(tmp);
+		const ModuleData *moduleData = res;
+		out->push_back(moduleData);
 	}
 }

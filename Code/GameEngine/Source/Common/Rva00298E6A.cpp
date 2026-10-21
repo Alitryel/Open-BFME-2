@@ -194,9 +194,9 @@ public:
 void Rva00298E6A::rva00298E6A()
 {
 	Inner250 *p = m_250;
-	Inner250Res *r = p ? p->w31() : 0;
-	if (r)
-		return r->v120();
+	Inner250Res *inner250Res = p ? p->w31() : 0;
+	if (inner250Res)
+		return inner250Res->v120();
 	AttributeModifierPoolUpdate *pool = ((Object *)this)->findAttributeModifierPoolUpdate();
 	if (pool) {
 		Rva002983DAVector *vec = &pool->m_vec;

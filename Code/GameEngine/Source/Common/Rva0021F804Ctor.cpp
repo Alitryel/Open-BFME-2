@@ -27,12 +27,12 @@ private:
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_14;
 };
 
-Rva0021F804::Rva0021F804(const AsciiString &a4, const AsciiString &a0, const AsciiString &a1, const AsciiString &a2, const AsciiString &a3)
+Rva0021F804::Rva0021F804(const AsciiString &asciiString, const AsciiString &a0, const AsciiString &a1, const AsciiString &a2, const AsciiString &a3)
 	: m_00(a0)
 	, m_04(a1)
 	, m_08(a2)
 	, m_0C(a3)
-	, m_10(a4)
+	, m_10(asciiString)
 	, m_14()
 {
 }

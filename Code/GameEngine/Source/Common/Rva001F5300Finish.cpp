@@ -36,10 +36,10 @@ void Rva001F5300::rva001F5300(float *out)
     f[0] = g_Va00BBB8D8;
     f[1] = g_Va00BBB8D8;
     Inner **pp = &m_1C4;
-    Inner *p = *pp;
-    if (p)
+    Inner *inner = *pp;
+    if (inner)
     {
-        f[0] = (float)p->s8();
+        f[0] = (float)inner->s8();
         f[1] = (float)(*pp)->s9();
     }
     out[0] = f[0];

@@ -32,8 +32,8 @@ void Rva000F26DC::rva000F074E(int a, int b)
 {
     if (a < 0 || a >= 1)
         return;
-    Geometry *p = m_a[b + a * 0xA0];
-    if (p == 0)
+    Geometry *geometry = m_a[b + a * 0xA0];
+    if (geometry == 0)
         return;
     W3DBufferManager::W3DVertexBufferSlot *vb = m_b[b + a * 0xA0];
     if (vb != 0) {
@@ -45,5 +45,5 @@ void Rva000F26DC::rva000F074E(int a, int b)
         TheW3DBufferManager->releaseSlot(ib);
         m_c[b + a * 0xA0] = 0;
     }
-    p->Geometry::~Geometry();
+    geometry->Geometry::~Geometry();
 }

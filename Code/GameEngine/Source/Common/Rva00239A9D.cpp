@@ -215,8 +215,8 @@ void Rva00239A9D::rva00239A9D()
 			m_max = cur->get() + 1;
 		cur = *(Rva0055A88BDwordField **)((char *)cur + 0x104);
 	}
-	AsciiString &s = m_str;
-	if (((const StringBase<char> &)s).isEmpty())
+	AsciiString &asciiString = m_str;
+	if (((const StringBase<char> &)asciiString).isEmpty())
 		return;
-	TheTacticalView->slot137(s);
+	TheTacticalView->slot137(asciiString);
 }

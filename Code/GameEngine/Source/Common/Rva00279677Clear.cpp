@@ -36,8 +36,8 @@ void Rva00279677::rva00279677()
 {
 	for (void **it = m_vec.begin(); it != m_vec.end(); ++it) {
 		void *p = *it;
-		RvaVecElem *e = (RvaVecElem *)p;
-		void *q = e ? e->func0(0) : (void *)0;
+		RvaVecElem *rvaVecElem = (RvaVecElem *)p;
+		void *q = rvaVecElem ? rvaVecElem->func0(0) : (void *)0;
 		::operator delete(q);
 	}
 	_STL::vector<void *> &v = m_vec;

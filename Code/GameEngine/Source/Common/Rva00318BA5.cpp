@@ -25,8 +25,8 @@ private:
 	Rva003F0F13Elem m_34;
 };
 
-void Rva00318BA5::rva00318BA5(LivingWorldRegion *x)
+void Rva00318BA5::rva00318BA5(LivingWorldRegion *livingWorldRegion)
 {
-	x->GetGarrisonArmyPlacementSpot(&m_34);
-	m_2c = *(int *)((char *)x + 0x12c);
+	livingWorldRegion->GetGarrisonArmyPlacementSpot(&m_34);
+	m_2c = *(int *)((char *)livingWorldRegion + 0x12c);
 }

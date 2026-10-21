@@ -43,8 +43,8 @@ public:
 
 Rva00180AF9 *Rva00180AF9::rva00180AF9(const RefCountPtr<TextureClass> &other)
 {
-    TextureClass *p = other.Referent;
-    if (p != 0 && p->v13() != 0x41474752)
+    TextureClass *texture = other.Referent;
+    if (texture != 0 && texture->v13() != 0x41474752)
         ((BfmeResetTextureRef *)this)->clear();
     else
         ((RefCountPtr<TextureClass> *)this)->operator=(other);

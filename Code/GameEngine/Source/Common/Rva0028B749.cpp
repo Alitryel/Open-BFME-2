@@ -28,7 +28,7 @@ public:
 // ?rva0028B749@Rva0028B749Host@@QAEXHM@Z
 void Rva0028B749Host::rva0028B749(int a, float b)
 {
-	Player *p = ((const Object *)this)->getControllingPlayer();
-	if (p != 0)
-		p->addSkillPointsForDamage((Object *)this, (const Object *)a, b);
+	Player *player = ((const Object *)this)->getControllingPlayer();
+	if (player != 0)
+		player->addSkillPointsForDamage((Object *)this, (const Object *)a, b);
 }

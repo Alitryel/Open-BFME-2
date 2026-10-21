@@ -77,9 +77,9 @@ private:
 	AsciiString m_1C;
 };
 
-Rva00221B42::Rva00221B42(const AsciiString &a, const Rva00221A58 &b, INI *ini)
+Rva00221B42::Rva00221B42(const AsciiString &asciiString, const Rva00221A58 &b, INI *ini)
 	: m_00(b)
-	, m_1C(a)
+	, m_1C(asciiString)
 {
 	ini->initFromINI(this, g_00BE6BD8);
 }

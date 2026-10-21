@@ -19,8 +19,8 @@ public:
 
 void Rva00210EE1::rva00210EE1()
 {
-	LivingWorldEyeTower *p = m_eye;
-	if (!p)
+	LivingWorldEyeTower *livingWorldEyeTower = m_eye;
+	if (!livingWorldEyeTower)
 		return;
-	p->rva003F9B5A();
+	livingWorldEyeTower->rva003F9B5A();
 }

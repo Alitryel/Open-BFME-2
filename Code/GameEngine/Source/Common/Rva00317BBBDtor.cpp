@@ -29,11 +29,11 @@ Rva00317BBB::~Rva00317BBB()
   if (m_head != 0) {
     ListNode *next;
     do {
-      ListNode *p = m_head;
-      next = p->m_next;
+      ListNode *listNode = m_head;
+      next = listNode->m_next;
       void *mem;
       if (m_head != 0)
-        mem = p->destroy(0);
+        mem = listNode->destroy(0);
       else
         mem = 0;
       ::operator delete(mem);

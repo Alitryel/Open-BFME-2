@@ -45,11 +45,11 @@ void __cdecl Rva00328A8AParse(DataChunkInput &file, int unused, void *outPtr)
 	}
 	out.m_0c = file.readByte() != 0;
 	out.m_10 = file.readInt();
-	AsciiString *p = out.m_14;
+	AsciiString *asciiString = out.m_14;
 	int n = 6;
 	do {
-		*p = file.readAsciiString();
-		++p;
+		*asciiString = file.readAsciiString();
+		++asciiString;
 	} while (--n != 0);
 	out.m_2c = file.readByte() != 0;
 	out.m_30.setFromInt(file.readInt());

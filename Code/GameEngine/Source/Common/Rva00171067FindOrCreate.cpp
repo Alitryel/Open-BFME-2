@@ -138,8 +138,8 @@ void TexturePacker::rva00171067(const BFME2ParticleTextureHandle &texture)
 	}
 	typedef _STL::map<unsigned, void *> MapIntPtr;
 	const unsigned &key = *(const unsigned *)&texture;
-	MapIntPtr &m = *(MapIntPtr *)&m_bff;
-	if (m.find(key) != m.end()) {
+	MapIntPtr &mapIntPtr = *(MapIntPtr *)&m_bff;
+	if (mapIntPtr.find(key) != mapIntPtr.end()) {
 		return;
 	}
 	rva00171067Insert(m_bff, Rva00170A58Get((const AssetReference &)texture, Rva00170999Data()));

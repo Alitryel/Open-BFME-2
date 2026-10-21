@@ -45,17 +45,17 @@ return d->m_b102 == 0;
 }
 const void * __stdcall Rva00288940Find(const void *arg)
 {
-Sentinel *s = (Sentinel *)arg;
-Node *n = s->m_head;
-if (n != *(Node **)n)
+Sentinel *sentinel = (Sentinel *)arg;
+Node *node = sentinel->m_head;
+if (node != *(Node **)node)
 {
 do
 {
-const Overridable *g = ((Overridable *)((char *)n->m_next + 8))->friend_getFinalOverride();
-if (Rva0028867DCheck(g))
-return g;
-n = n->m_next;
-} while (n != *(Node **)s->m_head);
+const Overridable *overridable = ((Overridable *)((char *)node->m_next + 8))->friend_getFinalOverride();
+if (Rva0028867DCheck(overridable))
+return overridable;
+node = node->m_next;
+} while (node != *(Node **)sentinel->m_head);
 }
 return 0;
 }

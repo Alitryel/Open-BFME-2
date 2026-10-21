@@ -168,8 +168,8 @@ void LocomotorStore::parseLocomotorTemplateDefinition(INI *ini) {
  loco=original;
  if(loco) {
   if(ini->type==2) {
-   LocomotorParserView *v=(LocomotorParserView *)loco;
-   LocomotorTemplate *final=v->next ? (LocomotorTemplate *)v->next->friend_getFinalOverride() : loco;
+   LocomotorParserView *locomotorParserView=(LocomotorParserView *)loco;
+   LocomotorTemplate *final=locomotorParserView->next ? (LocomotorTemplate *)locomotorParserView->next->friend_getFinalOverride() : loco;
    loco=store->newOverride(final);
   } else if(ini->type==5) {
    ((LocomotorParserView *)loco)->retired=1;

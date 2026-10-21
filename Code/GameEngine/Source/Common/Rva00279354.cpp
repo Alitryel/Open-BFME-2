@@ -42,10 +42,10 @@ void Rva00279354Host::rva00279354(bool v)
 	if (v != 0)
 		((Rva002783F6Host *)this)->rva002783F6(0);
 }
-void Rva00279354Host::setCustomSoundAmbientInfo(const OpaqueRefElement4 &v)
+void Rva00279354Host::setCustomSoundAmbientInfo(const OpaqueRefElement4 &opaqueRefElement4)
 {
 	rva00279354(false);
-	*(OpaqueRefElement4 *)((char *)this + 0x10C) = v;
+	*(OpaqueRefElement4 *)((char *)this + 0x10C) = opaqueRefElement4;
 	((Rva002783F6Host *)this)->rva002783F6(0);
 }
 

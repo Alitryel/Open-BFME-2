@@ -45,15 +45,15 @@ private:
 };
 
 // ?rva002E10BD@Rva002E10BDOwner@@QAEXPAVCreateAHeroData@@@Z
-void Rva002E10BDOwner::rva002E10BD(CreateAHeroData *o)
+void Rva002E10BDOwner::rva002E10BD(CreateAHeroData *createAHeroData)
 {
 	void *end = *(void **)((char *)this + 0x1bc);
 	Rva002E10BDVec *v = &m_1b8;
-	CreateAHeroData **it = _STL::find<CreateAHeroData **, CreateAHeroData *>((CreateAHeroData **)v->m_begin, (CreateAHeroData **)end, o);
+	CreateAHeroData **it = _STL::find<CreateAHeroData **, CreateAHeroData *>((CreateAHeroData **)v->m_begin, (CreateAHeroData **)end, createAHeroData);
 	if (it == end)
 		return;
 	((_STL::vector<void *> *)v)->erase((void **)it);
-	TheGameLogic->rva0023D007(*(const int *)((const char *)o + 0x78));
+	TheGameLogic->rva0023D007(*(const int *)((const char *)createAHeroData + 0x78));
 }
 
 // ?rva002E10FE@Rva002E10BDOwner@@QAEXH@Z

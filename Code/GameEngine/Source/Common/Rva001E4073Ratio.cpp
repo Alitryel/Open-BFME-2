@@ -115,9 +115,9 @@ public:
 float Rva001E4073::rva001E4073(Object *obj, float *out)
 {
 	Rva001E4073 *self = this;
-	Object *o = obj;
-	float v1 = ((Rva001E3F08 *)self)->rva001E3F08((Rva001E3F08Arg *)o);
-	float maxTurn = ((const Locomotor *)self)->getMaxTurnRate(o);
+	Object *object = obj;
+	float v1 = ((Rva001E3F08 *)self)->rva001E3F08((Rva001E3F08Arg *)object);
+	float maxTurn = ((const Locomotor *)self)->getMaxTurnRate(object);
 	float ratio;
 	if (maxTurn > 0.0f)
 		ratio = v1 / maxTurn;

@@ -85,9 +85,9 @@ void Rva00289ABD::rva00289180()
 	WindowVideoMap::iterator jt = tmp;
 	for (; jt != m_hash0C->end(); ++jt)
 	{
-		WindowVideo *&v = (*jt).second;
-		for (ListNode *n = v->m_head; n != (ListNode *)v; n = n->m_next)
-			((Overridable *)((char *)n + 8))->deleteOverrides();
+		WindowVideo *&windowVideo = (*jt).second;
+		for (ListNode *listNode = windowVideo->m_head; listNode != (ListNode *)windowVideo; listNode = listNode->m_next)
+			((Overridable *)((char *)listNode + 8))->deleteOverrides();
 	}
 	m_map28.rva002889BB();
 }

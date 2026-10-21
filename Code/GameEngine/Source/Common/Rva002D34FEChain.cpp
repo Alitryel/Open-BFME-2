@@ -40,8 +40,8 @@ void Rva002D34FE::rva002D34FE(int)
 {
 	if (((const StringBase<char> *)this)->isEmpty())
 		return;
-	const CommandButton *r = TheControlBar->findCommandButton(*(const AsciiString *)this);
-	if (!r)
+	const CommandButton *commandButton = TheControlBar->findCommandButton(*(const AsciiString *)this);
+	if (!commandButton)
 		return;
-	TheControlBar->rva004C1B60(0, (void *)r);
+	TheControlBar->rva004C1B60(0, (void *)commandButton);
 }

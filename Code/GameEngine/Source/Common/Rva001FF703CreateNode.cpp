@@ -37,7 +37,7 @@ struct ScienceTreeExposer : public ScienceTree
 };
 
 // ?callCreate@ScienceTreeExposer@@SAPAU?$_Rb_tree_node@U?$pair@$$CBW4ScienceType@@_N@_STL@@@_STL@@AAU1@ABU?$pair@$$CBW4ScienceType@@_N@3@@Z present-unmatched
-ScienceTree::_Link_type ScienceTreeExposer::callCreate(ScienceTreeExposer &t, const ScienceTree::value_type &v)
+ScienceTree::_Link_type ScienceTreeExposer::callCreate(ScienceTreeExposer &scienceTreeExposer, const ScienceTree::value_type &v)
 {
-	return t._M_create_node(v);
+	return scienceTreeExposer._M_create_node(v);
 }

@@ -15,4 +15,4 @@ _STL::vector<BfmeE16> m_vec;
 AsciiString m_str;
 Rva00288BBA(const AsciiString &s);
 };
-Rva00288BBA::Rva00288BBA(const AsciiString &s) : m_str(s) {}
+Rva00288BBA::Rva00288BBA(const AsciiString &asciiString) : m_str(asciiString) {}

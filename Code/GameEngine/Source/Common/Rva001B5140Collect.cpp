@@ -81,8 +81,8 @@ bool Rva001B5140::rva001B5140()
 		found = true;
 		m_vec.push_back(obj);
 	}
-	for (const ModuleData **q = m_secondBegin; q != m_secondEnd; ++q) {
-		const ModuleData *obj = *q;
+	for (const ModuleData **moduleData = m_secondBegin; moduleData != m_secondEnd; ++moduleData) {
+		const ModuleData *obj = *moduleData;
 		if (obj == 0)
 			continue;
 		if (!((Rva001B5140Pred *)obj)->vf5())

@@ -172,26 +172,26 @@ bool BfmeSubBGB::rva00298893()
 	Elem **pp = m_244;
 	if (pp) {
 		do {
-			Elem *e = *pp;
-			if (!e)
+			Elem *elem = *pp;
+			if (!elem)
 				break;
-			found = e->m_inner.v35();
+			found = elem->m_inner.v35();
 			if (found)
 				break;
 			++pp;
 		} while (pp);
 	}
 	ObjectID oid = m_254->v15() ? m_254->v15()->m_id : INVALID_OBJECT_ID;
-	Object *o = TheGameLogic->findObjectByID(oid);
-	if (o)
-		((Rva00294D61 *)o)->report((Object *)this, 1);
+	Object *object = TheGameLogic->findObjectByID(oid);
+	if (object)
+		((Rva00294D61 *)object)->report((Object *)this, 1);
 	if (found) {
 		Ptr274 *p274 = m_274;
 		if (p274) {
 			Inner250 *p250 = p274->m_ptr;
-			Inner250Res *r = p250 ? p250->w31() : 0;
-			if (r)
-				r->v14(this);
+			Inner250Res *inner250Res = p250 ? p250->w31() : 0;
+			if (inner250Res)
+				inner250Res->v14(this);
 		}
 		found->v0();
 		return true;

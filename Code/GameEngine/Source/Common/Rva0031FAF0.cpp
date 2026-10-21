@@ -101,20 +101,20 @@ private:
 
 void ControlBarScheme::reset()
 {
-	ListA *p = m_lists;
+	ListA *listA = m_lists;
 	int n = 6;
 	do
 	{
-		NodeA *cur = p->m_header->m_next;
-		while (cur != p->m_header)
+		NodeA *cur = listA->m_header->m_next;
+		while (cur != listA->m_header)
 		{
 			Rva002004FD *obj = cur->m_obj;
 			if (obj)
 				delete obj;
 			cur = cur->m_next;
 		}
-		(( _STL::ListBaseInt *)p)->clear();
-		++p;
+		(( _STL::ListBaseInt *)listA)->clear();
+		++listA;
 		--n;
 	} while (n != 0);
 

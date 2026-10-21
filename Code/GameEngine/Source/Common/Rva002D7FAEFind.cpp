@@ -44,8 +44,8 @@ void Rva002D7FAEOwner::rva002D7FAE(Object *obj)
 {
 	if (obj == 0)
 		return;
-	Player *p = obj->getControllingPlayer();
-	if (p == 0)
+	Player *player = obj->getControllingPlayer();
+	if (player == 0)
 		return;
 	Rva002D7FAENode *n = m_14;
 	while (n != 0) {
@@ -55,7 +55,7 @@ void Rva002D7FAEOwner::rva002D7FAE(Object *obj)
 	}
 	return;
 FOUND:
-	n->m_0c = rva002D7BFD(p->m_280);
+	n->m_0c = rva002D7BFD(player->m_280);
 }
 
 

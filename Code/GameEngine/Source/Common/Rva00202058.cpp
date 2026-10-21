@@ -92,10 +92,10 @@ void Rva00202058::rva00202058(OptionPreferences *prefs)
 			}
 		}
 	}
-	LODDef *d1 = &m_defs[idx1];
-	m_184 = d1->f8;
-	m_1c0 = d1->f44;
-	m_1c4 = d1->f48;
+	LODDef *lODDef = &m_defs[idx1];
+	m_184 = lODDef->f8;
+	m_1c0 = lODDef->f44;
+	m_1c4 = lODDef->f48;
 	int widx;
 	if (prefs->Rva002E4306Forward() < 1 || prefs->Rva002E4306Forward() > 2)
 		widx = 0;

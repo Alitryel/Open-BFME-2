@@ -145,4 +145,4 @@ template <class _T1> void _Destroy(_T1 *__pointer) { __pointer->~_T1(); }
 template void _STL::_Destroy<Rva00151DAB>(Rva00151DAB *);
 // Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorRva00170999 absent-from-retail
-void bfmeAnchorRva00170999(Rva00170999 *p, const AssetReference *a, const Rva00170999Data *d) { p->Rva00170999::Rva00170999(*a, *d); Rva00170A58Get(*a, *d); }
+void bfmeAnchorRva00170999(Rva00170999 *p, const AssetReference *assetReference, const Rva00170999Data *d) { p->Rva00170999::Rva00170999(*assetReference, *d); Rva00170A58Get(*assetReference, *d); }
