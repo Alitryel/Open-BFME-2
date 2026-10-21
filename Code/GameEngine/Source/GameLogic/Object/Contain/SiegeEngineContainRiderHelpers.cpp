@@ -1,6 +1,6 @@
 // cl: /O1 /MD /DNDEBUG /I.
 // stlport
-// ?rva0047BDED@Rva0047BDED@@QAEX_N@Z @0x0047BDED 54B: drain the contained list, calling
+// ?removeAllContained@Rva0047BDED@@QAEX_N@Z @0x0047BDED 54B: drain the contained list, calling
 // virtual slot 41 on each non-null node value with the flag, then removeAllContained.
 #include <list>
 class OpenContain {public: virtual void removeAllContained(bool);};
@@ -64,7 +64,7 @@ public:
 	virtual void rva0047BDEDV40();
 	virtual void rva0047BDEDVirt41(void *value, bool flag);
 	void rva0047BE23(int unused);
-	void rva0047BDED(bool flag);
+	void removeAllContained(bool flag);
 
 private:
 	char m_pad00[0xFC - 4];
@@ -77,7 +77,7 @@ private:
 // ZH OpenContain list iteration guides semantics; distinct slot names/owner
 // remain address-derived. Iterator dereference at dispatch closes native
 // loop shape/registers; a separately cached payload does not.
-void Rva0047BDED::rva0047BDED(bool flag)
+void Rva0047BDED::removeAllContained(bool flag)
 {
  for(;;) {
   _STL::list<void*>::iterator it=m_fc.begin();

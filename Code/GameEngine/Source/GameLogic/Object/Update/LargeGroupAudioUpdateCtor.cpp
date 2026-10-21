@@ -27,12 +27,12 @@ extern "C" const void *const vtbl_00C548E8[];  // ??_7LargeGroupAudioUpdate@@6BL
 // word is not a code address or starts another ledger datum).
 extern "C" {
 void __identifier("?update@LargeGroupAudioUpdate@@UAE?AW4UpdateSleepTime@@XZ")();
-void __identifier("?rva004AB9D5@Rva004AB9D5@@QAE?AVBfmeFixedStorage002CF0F0@@XZ")();
+void __identifier("?getDisabledTypesToProcess@Rva004AB9D5@@QAE?AVBfmeFixedStorage002CF0F0@@XZ")();
 void __identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z")();
 }
 extern "C" const void *const vtbl_00C548F0[3] = {
 	(const void *)&__identifier("?update@LargeGroupAudioUpdate@@UAE?AW4UpdateSleepTime@@XZ"), // slot 0 0x004ABB4B
-	(const void *)&__identifier("?rva004AB9D5@Rva004AB9D5@@QAE?AVBfmeFixedStorage002CF0F0@@XZ"), // slot 1 0x004AB9D5
+	(const void *)&__identifier("?getDisabledTypesToProcess@Rva004AB9D5@@QAE?AVBfmeFixedStorage002CF0F0@@XZ"), // slot 1 0x004AB9D5
 	(const void *)&__identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z"), // slot 2 0x0044DF8D
 };
 extern "C" const void *const vtbl_00C54900[];  // ??_7LargeGroupAudioUpdate@@6BMiBase1@@@

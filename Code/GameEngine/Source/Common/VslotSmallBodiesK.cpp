@@ -37,9 +37,9 @@ private:
 class Rva004AB9D5
 {
 public:
-	BfmeFixedStorage002CF0F0 rva004AB9D5();
+	BfmeFixedStorage002CF0F0 getDisabledTypesToProcess();
 };
-BfmeFixedStorage002CF0F0 Rva004AB9D5::rva004AB9D5()
+BfmeFixedStorage002CF0F0 Rva004AB9D5::getDisabledTypesToProcess()
 {
 	return *(const BfmeFixedStorage002CF0F0 *)&DISABLEDMASK_ALL;
 }

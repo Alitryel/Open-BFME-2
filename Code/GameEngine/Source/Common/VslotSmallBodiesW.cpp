@@ -60,12 +60,12 @@ extern void *g_00DFEFF0;
 class Rva003400F9
 {
 public:
-	bool rva003400F9();
+	bool computePath();
 private:
 	char m_pad00[0x49];
 	bool m_49;
 };
-bool Rva003400F9::rva003400F9()
+bool Rva003400F9::computePath()
 {
 	if (g_00E03745 && g_00DFEFF0)
 		fprintf((FILE *)g_00DFEFF0, "CritterDesync: ComputePath3");

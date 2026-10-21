@@ -1,9 +1,9 @@
-// ?rva004C4430@Rva004C4430@@QAEX_N@Z
+// ?pauseCountdown@Rva004C4430@@QAEX_N@Z
 // partial score=0.97 date=2026-10-03
-// ?rva004C4430@Rva004C4430@@QAEX_N@Z
+// ?pauseCountdown@Rva004C4430@@QAEX_N@Z
 // partial score=0.97 date=2026-10-03
 // cl: /DNDEBUG /MD
-// ?rva004C4430@Rva004C4430@@QAEX_N@Z @0x004C4430 77B: chain from 0x00492FC2
+// ?pauseCountdown@Rva004C4430@@QAEX_N@Z @0x004C4430 77B: chain from 0x00492FC2
 // Evidence: thiscall bool (cmp byte [ebp+8] ret 4); +0x24 gate then float from [this-0xC]+0x7C
 // zeroed when arg!=0 via movss/xorps; Object at [this-8] -> getControllingPlayer (row 0x0028AFA9)
 // -> Player::rva002A9E25(float) (row 0x002A9E25) with early push/fstp reuse; tail
@@ -37,14 +37,14 @@ public:
 class Rva004C4430
 {
 public:
-	void rva004C4430(bool flag);
+	void pauseCountdown(bool flag);
 
 private:
 	char m_pad[0x24];
 	unsigned char m_24;
 };
 
-void Rva004C4430::rva004C4430(bool flag)
+void Rva004C4430::pauseCountdown(bool flag)
 {
 	if (m_24 != 0) {
 		float f = (*(FloatHolder004C4430 **)((char *)this - 12))->m_7C;
