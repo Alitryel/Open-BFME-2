@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000028CA4D@ObjectRecoveryHelper@@SA?AW4NameKeyType@@XZ @0x28CA4D
+// ?getModuleNameKey@ObjectRecoveryHelper@@UBE?AW4NameKeyType@@XZ @0x28CA4D
 // (69B): cached pool-name key for ObjectRecoveryHelper. The class
 // identity comes from the pool-name string the body pushes
 // ("ObjectRecoveryHelper"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ObjectRecoveryHelper
 {
 public:
-	static NameKeyType rva000028CA4D();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000028CA4D@ObjectRecoveryHelper@@SA?AW4NameKeyType@@XZ
-NameKeyType ObjectRecoveryHelper::rva000028CA4D()
+// ?getModuleNameKey@ObjectRecoveryHelper@@UBE?AW4NameKeyType@@XZ
+NameKeyType ObjectRecoveryHelper::getModuleNameKey() const
 {
 	static NameKeyType TheObjectRecoveryHelperPoolKey =
 		TheNameKeyGenerator->nameToKey("ObjectRecoveryHelper");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004ACED8@RousingSpeechUpdate@@SA?AW4NameKeyType@@XZ @0x4ACED8
+// ?getModuleNameKey@RousingSpeechUpdate@@UBE?AW4NameKeyType@@XZ @0x4ACED8
 // (69B): cached pool-name key for RousingSpeechUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("RousingSpeechUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RousingSpeechUpdate
 {
 public:
-	static NameKeyType rva0004ACED8();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004ACED8@RousingSpeechUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType RousingSpeechUpdate::rva0004ACED8()
+// ?getModuleNameKey@RousingSpeechUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType RousingSpeechUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheRousingSpeechUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("RousingSpeechUpdate");

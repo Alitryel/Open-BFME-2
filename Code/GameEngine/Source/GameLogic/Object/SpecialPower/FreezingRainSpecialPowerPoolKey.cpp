@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C4BEA@FreezingRainSpecialPower@@SA?AW4NameKeyType@@XZ @0x4C4BEA
+// ?getModuleNameKey@FreezingRainSpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C4BEA
 // (69B): cached pool-name key for FreezingRainSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("FreezingRainSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FreezingRainSpecialPower
 {
 public:
-	static NameKeyType rva0004C4BEA();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C4BEA@FreezingRainSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType FreezingRainSpecialPower::rva0004C4BEA()
+// ?getModuleNameKey@FreezingRainSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType FreezingRainSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheFreezingRainSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("FreezingRainSpecialPower");

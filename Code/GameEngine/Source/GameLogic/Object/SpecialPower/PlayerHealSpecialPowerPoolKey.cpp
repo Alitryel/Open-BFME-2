@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C7EFB@PlayerHealSpecialPower@@SA?AW4NameKeyType@@XZ @0x4C7EFB
+// ?getModuleNameKey@PlayerHealSpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C7EFB
 // (69B): cached pool-name key for PlayerHealSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("PlayerHealSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PlayerHealSpecialPower
 {
 public:
-	static NameKeyType rva0004C7EFB();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C7EFB@PlayerHealSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType PlayerHealSpecialPower::rva0004C7EFB()
+// ?getModuleNameKey@PlayerHealSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType PlayerHealSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType ThePlayerHealSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("PlayerHealSpecialPower");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004AE502@ToggleDeploySpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x4AE502
+// ?getModuleNameKey@ToggleDeploySpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x4AE502
 // (69B): cached pool-name key for ToggleDeploySpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ToggleDeploySpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ToggleDeploySpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva004AE502();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004AE502@ToggleDeploySpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ToggleDeploySpecialAbilityUpdate::rva004AE502()
+// ?getModuleNameKey@ToggleDeploySpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ToggleDeploySpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheToggleDeploySpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ToggleDeploySpecialAbilityUpdate");

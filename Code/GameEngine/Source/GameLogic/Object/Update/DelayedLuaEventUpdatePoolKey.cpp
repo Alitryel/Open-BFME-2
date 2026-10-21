@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004A8D99@DelayedLuaEventUpdate@@SA?AW4NameKeyType@@XZ @0x4A8D99
+// ?getModuleNameKey@DelayedLuaEventUpdate@@UBE?AW4NameKeyType@@XZ @0x4A8D99
 // (69B): cached pool-name key for DelayedLuaEventUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("DelayedLuaEventUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DelayedLuaEventUpdate
 {
 public:
-	static NameKeyType rva0004A8D99();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A8D99@DelayedLuaEventUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType DelayedLuaEventUpdate::rva0004A8D99()
+// ?getModuleNameKey@DelayedLuaEventUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType DelayedLuaEventUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheDelayedLuaEventUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("DelayedLuaEventUpdate");

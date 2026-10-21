@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C2034@PorcupineFormationBodyModule@@SA?AW4NameKeyType@@XZ @0x4C2034
+// ?getModuleNameKey@PorcupineFormationBodyModule@@UBE?AW4NameKeyType@@XZ @0x4C2034
 // (69B): cached pool-name key for PorcupineFormationBodyModule. The class
 // identity comes from the pool-name string the body pushes
 // ("PorcupineFormationBodyModule"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PorcupineFormationBodyModule
 {
 public:
-	static NameKeyType rva0004C2034();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C2034@PorcupineFormationBodyModule@@SA?AW4NameKeyType@@XZ
-NameKeyType PorcupineFormationBodyModule::rva0004C2034()
+// ?getModuleNameKey@PorcupineFormationBodyModule@@UBE?AW4NameKeyType@@XZ
+NameKeyType PorcupineFormationBodyModule::getModuleNameKey() const
 {
 	static NameKeyType ThePorcupineFormationBodyModulePoolKey =
 		TheNameKeyGenerator->nameToKey("PorcupineFormationBodyModule");

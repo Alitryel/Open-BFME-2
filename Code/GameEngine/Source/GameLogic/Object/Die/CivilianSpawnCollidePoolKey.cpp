@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004BD60C@CivilianSpawnCollide@@SA?AW4NameKeyType@@XZ @0x4BD60C
+// ?getModuleNameKey@CivilianSpawnCollide@@UBE?AW4NameKeyType@@XZ @0x4BD60C
 // (69B): cached pool-name key for CivilianSpawnCollide. The class
 // identity comes from the pool-name string the body pushes
 // ("CivilianSpawnCollide"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CivilianSpawnCollide
 {
 public:
-	static NameKeyType rva0004BD60C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004BD60C@CivilianSpawnCollide@@SA?AW4NameKeyType@@XZ
-NameKeyType CivilianSpawnCollide::rva0004BD60C()
+// ?getModuleNameKey@CivilianSpawnCollide@@UBE?AW4NameKeyType@@XZ
+NameKeyType CivilianSpawnCollide::getModuleNameKey() const
 {
 	static NameKeyType TheCivilianSpawnCollidePoolKey =
 		TheNameKeyGenerator->nameToKey("CivilianSpawnCollide");

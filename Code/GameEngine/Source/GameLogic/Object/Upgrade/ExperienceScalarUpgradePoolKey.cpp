@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004B6142@ExperienceScalarUpgrade@@SA?AW4NameKeyType@@XZ @0x4B6142
+// ?getModuleNameKey@ExperienceScalarUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B6142
 // (69B): cached pool-name key for ExperienceScalarUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("ExperienceScalarUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ExperienceScalarUpgrade
 {
 public:
-	static NameKeyType rva0004B6142();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B6142@ExperienceScalarUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType ExperienceScalarUpgrade::rva0004B6142()
+// ?getModuleNameKey@ExperienceScalarUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType ExperienceScalarUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheExperienceScalarUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("ExperienceScalarUpgrade");
