@@ -39,10 +39,10 @@ template <> void vector<AsciiString, allocator<AsciiString> >::push_back(const A
 template <> void vector<AsciiString, allocator<AsciiString> >::_M_insert_overflow(AsciiString*, const AsciiString&, const __false_type&, size_t, bool);
 }
 
-class B0 { public: virtual void b0(); protected: const ModuleData *m_moduleData; Object *m_object; };
+class B0 { public: virtual void b0(); virtual void onCapture(int a1, int a2) = 0; protected: const ModuleData *m_moduleData; Object *m_object; };
 class B1 { public: virtual void b1(); };
 class B2 { public: virtual void b2(); private: unsigned char m_pad[12]; };
-class B3 { public: virtual void b3(); };
+class B3 { public: virtual void b3(); virtual void onCapture(int a1, int a2) = 0; };
 class B4 { public: virtual void b4(); };
 class B5 { public: virtual void b5(); };
 class B6 { public: virtual void b6(); };
@@ -56,7 +56,12 @@ public:
 	virtual ~OpenContain();
 };
 
-class TransportExtra { public: virtual void transportExtra(); };
+class ThingTemplate;
+class PayloadContainView;
+
+// Retail's TransportExtra vftable (0x00C1C780) holds __purecall in slot 0;
+// TransportContain's (0x00C47834) holds createPayloadMember (0x00466FE0).
+class TransportExtra { public: virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int index) = 0; };
 
 struct TransportPayloadEntry
 {
@@ -75,7 +80,9 @@ public:
 class TransportContain : public OpenContain, public TransportExtra
 {
 public:
+	virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int index);
 	TransportContain(Thing *thing, const ModuleData *moduleData);
+	virtual void onCapture(int a1, int a2);
 	virtual ~TransportContain(); // declared only; defined in TransportContainDtor.cpp (0x00467E61)
 	const TransportContainModuleData *getTransportContainModuleData() const { return (const TransportContainModuleData *)m_moduleData; }
 private:
