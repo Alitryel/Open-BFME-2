@@ -204,7 +204,7 @@ class ExperienceLevelSystem;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
 extern const FieldParse ExperienceScalarTableFields[];
 
-void Rva00289265Parse(INI *ini)
+void parseExperienceScalarTableDefinition(INI *ini)
 {
 	if (TheExperienceLevelSystem == 0)
 		return;

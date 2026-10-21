@@ -46,7 +46,7 @@ void Rva00215C38Parse(INI *);
 void parseArmySummaryDescriptionDefinition(INI *);
 void Rva0022232EParse(INI *);
 void Rva002859A8Parse(INI *);
-void Rva00289265Parse(INI *);
+void parseExperienceScalarTableDefinition(INI *);
 void Rva002A8A31Parse(INI *);
 void Rva002A92F2Parse(INI *);
 void Rva002E048CParse(INI *);
@@ -400,7 +400,7 @@ BlockParse theInGameNotificationBoxBlockParse = { 0, "InGameNotificationBox", Rv
 extern BlockParse theAptButtonTooltipMapBlockParse;	// VA 0x00DBA1CC "AptButtonTooltipMap", parse 0x00224DFF
 BlockParse theFireLogicSystemBlockParse = { 0, "FireLogicSystem", Rva002859A8Parse };	// VA 0x00DBB758 "FireLogicSystem", parse 0x002859A8
 BlockParse theExperienceLevelBlockParse = { 0, "ExperienceLevel", ExperienceLevelStore::friend_parseExperienceLevelDefinition };	// VA 0x00DBB88C "ExperienceLevel", parse 0x0028A294
-BlockParse theExperienceScalarTableBlockParse = { 0, "ExperienceScalarTable", Rva00289265Parse };	// VA 0x00DBB898 "ExperienceScalarTable", parse 0x00289265
+BlockParse theExperienceScalarTableBlockParse = { 0, "ExperienceScalarTable", parseExperienceScalarTableDefinition };	// VA 0x00DBB898 "ExperienceScalarTable", parse 0x00289265
 BlockParse theAIDozerAssignmentBlockParse = { 0, "AIDozerAssignment", Rva002A92F2Parse };	// VA 0x00DBBC1C "AIDozerAssignment", parse 0x002A92F2
 BlockParse theSkirmishAIDataBlockParse = { 0, "SkirmishAIData", Rva002A8A31Parse };	// VA 0x00DBBC28 "SkirmishAIData", parse 0x002A8A31
 BlockParse theLivingWorldBuildingBlockParse = { 0, "LivingWorldBuilding", Rva002E048CParse };	// VA 0x00DBD078 "LivingWorldBuilding", parse 0x002E048C

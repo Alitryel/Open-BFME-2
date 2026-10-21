@@ -1441,3 +1441,5 @@ __ehhandler$?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z,0x0076ED7F,"Renamed t
 ?Rva00415D33Parse@@YAXPAVINI@@@Z,0x00415D33,"Renamed to ?parseCrowdResponseDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00415D33Parse@@YAXPAVINI@@@Z,0x00786241,"Renamed to __ehhandler$?parseCrowdResponseDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva001DAA14Parse@@YAXPAVINI@@@Z,0x001DAA14,"Renamed to ?parseDialogDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva00289265Parse@@YAXPAVINI@@@Z,0x00289265,"Renamed to ?parseExperienceScalarTableDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva00289265Parse@@YAXPAVINI@@@Z,0x00774057,"Renamed to __ehhandler$?parseExperienceScalarTableDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
