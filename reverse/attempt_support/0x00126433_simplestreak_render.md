@@ -231,10 +231,69 @@ function no budget move works:
 - **Still open:** the 0x6238 frame (only the post-IL pad29 reaches it) and E
   parity.
 
+**Later 2026-10-21 results.** Scratch is in `build/agAH/`, `build/agAJ/` and
+`build/bank126433/`, all untracked.
+
+**WB-attested fix for both renderers (inert here).** WB calls
+`fvfinfo.Get_Location_Offset(0)` at a2099b. So BFME2's FVFInfoClass has
+`unsigned location_offset[5]` at +0x10, and the getter takes an index. On this
+function it adds post-IL C +1 and leaves nd unchanged.
+
+**Retail built this TU without /Oy-.** Retail's orphan COMDATs Get_Tex_Offset
+(0x126077, texcoord_offset at +0x24) and Clamp_Color (0x126082) are byte-exact
+only without /Oy-. RenderStreak itself is identical either way.
+
+**The compiler version is not the lever.**
+- The game.dat Rich header lists 3 C++ objects built with cl 13.10.4035.
+- Compiling with the repo's `// compiler: vc71-ddk-4035` profile is identical to
+  3077 for both renderers. SP1 is far worse.
+
+**Full /Od comparison against WB 0xa1e840** (`build/agAH/t/odfront.py`):
+- From entry to first_point the code is instruction-identical: 12 `op[]` calls
+  for view2, Set on intersection[0], and every this-piece trigger.
+- Over the full body, the only differences are WB's asserts, EH code,
+  relocations and the Get_Location_Offset item.
+- Every tail helper body equals its WB /Od twin (`build/agAJ` audit). The
+  window's inline content is therefore WB-pinned.
+
+**IL-time-invisible constructs** (about 150 micro-functions,
+`build/agAH/micro/`):
+- Only aggregate initialisers create IL-time A with no /Od trace: float
+  arrays +(n−1).
+- Direct field writes, this-pieces, constant-index local-array reads and
+  by-value class arguments all leave /Od code differences.
+- `(void)local;` reorders IL numbering (by first reference) with no /Od trace.
+  It cannot add symbols, though, and only `intersectionIndex` is declared
+  before first_point but first used after it. That is at most +1.
+
+**c2 A allocation.**
+- There is one allocator (0x73f83), reached only through SymAlloc (0x5a0c5).
+- A symbols are kinds 4, 5 and 13.
+- In this function they come from three sites:
+  - the IL symbol reader 0x6f087, which also reads inlinee IL;
+  - symbol duplication / piece split 0x69fdf;
+  - SymInit.
+- No decision is keyed on numbering. The only count-sensitive input is the
+  inline budget.
+
+**Debug-assert residue is refuted.** `(void)(expr)` asserts add C only.
+WWASSERT(Is_Valid()) re-added as IL changes the code or the budget.
+
+**Pool-model constraints for the 8 piece sites** (`build/agAJ/kmx.py`, checked
+by compiles). With k = 3..9 IL-time A before first_point, any one of these
+works:
+- window −29..−60 C, or window −32..−62 A;
+- front −7..−9 A anywhere up to alloc event 5500;
+- −32..−48 B anywhere up to event 10000.
+
+k ≥ 10 has no fix. About 99 B pieces in the window are split-pass pieces of
+render_state, DeviceProjectionMatrix and ProjectionMatrix.
+
 **Next:**
-- Find a faithful source of about one C pool fewer in the tail inlining
-  inside the window. Use exact-matched siblings that inline the same helpers
-  (shader setters, REF_PTR, texture temp, VB/IB access) as form oracles.
+- Audit the 176 B symbols and the front A symbols for reconstruction
+  artefacts.
+- Validate the model end to end by patching c2's allocator during a compile
+  (diagnostic) and checking that it gives byte-exact output.
 - Find the IL-time-invisible constructs that supply the ≥3 symbols before
   first_point.
 
