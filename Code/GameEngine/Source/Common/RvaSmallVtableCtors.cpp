@@ -21,13 +21,13 @@ struct RvaSmallVtableZeroBase
 class Rva000ABD56
 {
 public:
-	Rva000ABD56(void *p);
+	Rva000ABD56(void *payload);
 	virtual ~Rva000ABD56() {}
 private:
 	void *m_04;
 };
 
-Rva000ABD56::Rva000ABD56(void *p) : m_04(p)
+Rva000ABD56::Rva000ABD56(void *payload) : m_04(payload)
 {
 }
 
@@ -35,13 +35,13 @@ Rva000ABD56::Rva000ABD56(void *p) : m_04(p)
 class Rva00222A19
 {
 public:
-	Rva00222A19(void *p);
+	Rva00222A19(void *payload);
 	virtual ~Rva00222A19() {}
 private:
 	void *m_04;
 };
 
-Rva00222A19::Rva00222A19(void *p) : m_04(p)
+Rva00222A19::Rva00222A19(void *payload) : m_04(payload)
 {
 }
 
@@ -49,13 +49,13 @@ Rva00222A19::Rva00222A19(void *p) : m_04(p)
 class Rva002293F9
 {
 public:
-	Rva002293F9(void *p);
+	Rva002293F9(void *payload);
 	virtual ~Rva002293F9() {}
 private:
 	void *m_04;
 };
 
-Rva002293F9::Rva002293F9(void *p) : m_04(p)
+Rva002293F9::Rva002293F9(void *payload) : m_04(payload)
 {
 }
 
@@ -63,13 +63,13 @@ Rva002293F9::Rva002293F9(void *p) : m_04(p)
 class Rva002AAD77
 {
 public:
-	Rva002AAD77(void *p);
+	Rva002AAD77(void *payload);
 	virtual ~Rva002AAD77() {}
 private:
 	void *m_04;
 };
 
-Rva002AAD77::Rva002AAD77(void *p) : m_04(p)
+Rva002AAD77::Rva002AAD77(void *payload) : m_04(payload)
 {
 }
 
@@ -77,13 +77,13 @@ Rva002AAD77::Rva002AAD77(void *p) : m_04(p)
 class Rva002AAD9C
 {
 public:
-	Rva002AAD9C(void *p);
+	Rva002AAD9C(void *payload);
 	virtual ~Rva002AAD9C() {}
 private:
 	void *m_04;
 };
 
-Rva002AAD9C::Rva002AAD9C(void *p) : m_04(p)
+Rva002AAD9C::Rva002AAD9C(void *payload) : m_04(payload)
 {
 }
 
@@ -91,13 +91,13 @@ Rva002AAD9C::Rva002AAD9C(void *p) : m_04(p)
 class Rva002B29D8
 {
 public:
-	Rva002B29D8(void *p);
+	Rva002B29D8(void *payload);
 	virtual ~Rva002B29D8() {}
 private:
 	void *m_04;
 };
 
-Rva002B29D8::Rva002B29D8(void *p) : m_04(p)
+Rva002B29D8::Rva002B29D8(void *payload) : m_04(payload)
 {
 }
 
@@ -105,13 +105,13 @@ Rva002B29D8::Rva002B29D8(void *p) : m_04(p)
 class Rva0032A3C6
 {
 public:
-	Rva0032A3C6(void *p);
+	Rva0032A3C6(void *payload);
 	virtual ~Rva0032A3C6() {}
 private:
 	void *m_04;
 };
 
-Rva0032A3C6::Rva0032A3C6(void *p) : m_04(p)
+Rva0032A3C6::Rva0032A3C6(void *payload) : m_04(payload)
 {
 }
 
@@ -119,7 +119,7 @@ Rva0032A3C6::Rva0032A3C6(void *p) : m_04(p)
 class Rva003A538E
 {
 public:
-	Rva003A538E(void *p);
+	Rva003A538E(void *payload);
 	virtual ~Rva003A538E();
 private:
 	void *m_04;
@@ -131,7 +131,7 @@ Rva003A538E::~Rva003A538E()
 {
 }
 
-Rva003A538E::Rva003A538E(void *p) : m_04(p)
+Rva003A538E::Rva003A538E(void *payload) : m_04(payload)
 {
 }
 
@@ -139,13 +139,13 @@ Rva003A538E::Rva003A538E(void *p) : m_04(p)
 class Rva003EE734
 {
 public:
-	Rva003EE734(void *p);
+	Rva003EE734(void *payload);
 	virtual ~Rva003EE734() {}
 private:
 	void *m_04;
 };
 
-Rva003EE734::Rva003EE734(void *p) : m_04(p)
+Rva003EE734::Rva003EE734(void *payload) : m_04(payload)
 {
 }
 
@@ -153,13 +153,13 @@ Rva003EE734::Rva003EE734(void *p) : m_04(p)
 class Rva003F3FEC
 {
 public:
-	Rva003F3FEC(void *p);
+	Rva003F3FEC(void *payload);
 	virtual ~Rva003F3FEC() {}
 private:
 	void *m_04;
 };
 
-Rva003F3FEC::Rva003F3FEC(void *p) : m_04(p)
+Rva003F3FEC::Rva003F3FEC(void *payload) : m_04(payload)
 {
 }
 
@@ -167,13 +167,13 @@ Rva003F3FEC::Rva003F3FEC(void *p) : m_04(p)
 class Rva003F424F
 {
 public:
-	Rva003F424F(void *p);
+	Rva003F424F(void *payload);
 	virtual ~Rva003F424F() {}
 private:
 	void *m_04;
 };
 
-Rva003F424F::Rva003F424F(void *p) : m_04(p)
+Rva003F424F::Rva003F424F(void *payload) : m_04(payload)
 {
 }
 
@@ -181,13 +181,13 @@ Rva003F424F::Rva003F424F(void *p) : m_04(p)
 class Rva003F82E2
 {
 public:
-	Rva003F82E2(void *p);
+	Rva003F82E2(void *payload);
 	virtual ~Rva003F82E2() {}
 private:
 	void *m_04;
 };
 
-Rva003F82E2::Rva003F82E2(void *p) : m_04(p)
+Rva003F82E2::Rva003F82E2(void *payload) : m_04(payload)
 {
 }
 
@@ -195,13 +195,13 @@ Rva003F82E2::Rva003F82E2(void *p) : m_04(p)
 class Rva003FC428
 {
 public:
-	Rva003FC428(void *p);
+	Rva003FC428(void *payload);
 	virtual ~Rva003FC428() {}
 private:
 	void *m_04;
 };
 
-Rva003FC428::Rva003FC428(void *p) : m_04(p)
+Rva003FC428::Rva003FC428(void *payload) : m_04(payload)
 {
 }
 
@@ -209,13 +209,13 @@ Rva003FC428::Rva003FC428(void *p) : m_04(p)
 class Rva004318C6
 {
 public:
-	Rva004318C6(void *p);
+	Rva004318C6(void *payload);
 	virtual ~Rva004318C6();
 private:
 	void *m_04;
 };
 
-Rva004318C6::Rva004318C6(void *p) : m_04(p)
+Rva004318C6::Rva004318C6(void *payload) : m_04(payload)
 {
 }
 
@@ -224,7 +224,7 @@ Rva004318C6::Rva004318C6(void *p) : m_04(p)
 struct RvaSmallVtablePtrBase
 {
 	void *m_04;
-	RvaSmallVtablePtrBase(void *p) : m_04(p) {}
+	RvaSmallVtablePtrBase(void *payload) : m_04(payload) {}
 };
 
 // ??0Rva004318FC@@QAE@PAX@Z @0x004318FC 18B, vtable VA 0xc3c97c (slot 0 the shared
@@ -232,11 +232,11 @@ struct RvaSmallVtablePtrBase
 class Rva004318FC : public RvaSmallVtablePtrBase
 {
 public:
-	Rva004318FC(void *p);
+	Rva004318FC(void *payload);
 	virtual ~Rva004318FC() {}
 };
 
-Rva004318FC::Rva004318FC(void *p) : RvaSmallVtablePtrBase(p)
+Rva004318FC::Rva004318FC(void *payload) : RvaSmallVtablePtrBase(payload)
 {
 }
 
@@ -245,11 +245,11 @@ Rva004318FC::Rva004318FC(void *p) : RvaSmallVtablePtrBase(p)
 class Rva0043190E : public RvaSmallVtablePtrBase
 {
 public:
-	Rva0043190E(void *p);
+	Rva0043190E(void *payload);
 	virtual ~Rva0043190E() {}
 };
 
-Rva0043190E::Rva0043190E(void *p) : RvaSmallVtablePtrBase(p)
+Rva0043190E::Rva0043190E(void *payload) : RvaSmallVtablePtrBase(payload)
 {
 }
 
@@ -258,11 +258,11 @@ Rva0043190E::Rva0043190E(void *p) : RvaSmallVtablePtrBase(p)
 class Rva004319C2 : public RvaSmallVtablePtrBase
 {
 public:
-	Rva004319C2(void *p);
+	Rva004319C2(void *payload);
 	virtual ~Rva004319C2() {}
 };
 
-Rva004319C2::Rva004319C2(void *p) : RvaSmallVtablePtrBase(p)
+Rva004319C2::Rva004319C2(void *payload) : RvaSmallVtablePtrBase(payload)
 {
 }
 
@@ -270,13 +270,13 @@ Rva004319C2::Rva004319C2(void *p) : RvaSmallVtablePtrBase(p)
 class Rva0059B060
 {
 public:
-	Rva0059B060(void *p);
+	Rva0059B060(void *payload);
 	virtual ~Rva0059B060() {}
 private:
 	void *m_04;
 };
 
-Rva0059B060::Rva0059B060(void *p) : m_04(p)
+Rva0059B060::Rva0059B060(void *payload) : m_04(payload)
 {
 }
 
@@ -284,7 +284,7 @@ Rva0059B060::Rva0059B060(void *p) : m_04(p)
 class Rva005B253F
 {
 public:
-	Rva005B253F(void *p);
+	Rva005B253F(void *payload);
 	virtual ~Rva005B253F();
 private:
 	void *m_04;
@@ -292,7 +292,7 @@ private:
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
-__declspec(noinline) inline Rva005B253F::Rva005B253F(void *p) : m_04(p)
+__declspec(noinline) inline Rva005B253F::Rva005B253F(void *payload) : m_04(payload)
 {
 }
 
@@ -307,13 +307,13 @@ void *bfmeAnchorRva005B253F(void *where, void *p)
 class Rva005C1860
 {
 public:
-	Rva005C1860(void *p);
+	Rva005C1860(void *payload);
 	virtual ~Rva005C1860() {}
 private:
 	void *m_04;
 };
 
-Rva005C1860::Rva005C1860(void *p) : m_04(p)
+Rva005C1860::Rva005C1860(void *payload) : m_04(payload)
 {
 }
 
@@ -321,13 +321,13 @@ Rva005C1860::Rva005C1860(void *p) : m_04(p)
 class Rva005CD9AE
 {
 public:
-	Rva005CD9AE(void *p);
+	Rva005CD9AE(void *payload);
 	virtual ~Rva005CD9AE() {}
 private:
 	void *m_04;
 };
 
-Rva005CD9AE::Rva005CD9AE(void *p) : m_04(p)
+Rva005CD9AE::Rva005CD9AE(void *payload) : m_04(payload)
 {
 }
 
@@ -338,7 +338,7 @@ Rva005CD9AE::Rva005CD9AE(void *p) : m_04(p)
 class Rva005CF872
 {
 public:
-	Rva005CF872(void *p);
+	Rva005CF872(void *payload);
 	virtual ~Rva005CF872() {}
 	virtual void rva005D08FD() {}
 private:
@@ -347,7 +347,7 @@ private:
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
-__declspec(noinline) inline Rva005CF872::Rva005CF872(void *p) : m_04(p)
+__declspec(noinline) inline Rva005CF872::Rva005CF872(void *payload) : m_04(payload)
 {
 }
 
@@ -362,13 +362,13 @@ void *bfmeAnchorRva005CF872(void *where, void *p)
 class Rva005EA1D5
 {
 public:
-	Rva005EA1D5(void *p);
+	Rva005EA1D5(void *payload);
 	virtual ~Rva005EA1D5() {}
 private:
 	void *m_04;
 };
 
-Rva005EA1D5::Rva005EA1D5(void *p) : m_04(p)
+Rva005EA1D5::Rva005EA1D5(void *payload) : m_04(payload)
 {
 }
 
@@ -376,13 +376,13 @@ Rva005EA1D5::Rva005EA1D5(void *p) : m_04(p)
 class Rva00656090
 {
 public:
-	Rva00656090(void *p);
+	Rva00656090(void *payload);
 	virtual ~Rva00656090() {}
 private:
 	void *m_04;
 };
 
-Rva00656090::Rva00656090(void *p) : m_04(p)
+Rva00656090::Rva00656090(void *payload) : m_04(payload)
 {
 }
 
@@ -1098,11 +1098,11 @@ Rva006003EF::Rva006003EF()
 class Rva005CF913 : public RvaSmallVtablePtrBase
 {
 public:
-	Rva005CF913(void *p);
+	Rva005CF913(void *payload);
 	virtual ~Rva005CF913() {}
 };
 
-Rva005CF913::Rva005CF913(void *p) : RvaSmallVtablePtrBase(p)
+Rva005CF913::Rva005CF913(void *payload) : RvaSmallVtablePtrBase(payload)
 {
 }
 
@@ -1110,11 +1110,11 @@ Rva005CF913::Rva005CF913(void *p) : RvaSmallVtablePtrBase(p)
 class Rva005CF925 : public RvaSmallVtablePtrBase
 {
 public:
-	Rva005CF925(void *p);
+	Rva005CF925(void *payload);
 	virtual ~Rva005CF925() {}
 };
 
-Rva005CF925::Rva005CF925(void *p) : RvaSmallVtablePtrBase(p)
+Rva005CF925::Rva005CF925(void *payload) : RvaSmallVtablePtrBase(payload)
 {
 }
 
@@ -1122,11 +1122,11 @@ Rva005CF925::Rva005CF925(void *p) : RvaSmallVtablePtrBase(p)
 class Rva005D1052 : public RvaSmallVtablePtrBase
 {
 public:
-	Rva005D1052(void *p);
+	Rva005D1052(void *payload);
 	virtual ~Rva005D1052() {}
 };
 
-Rva005D1052::Rva005D1052(void *p) : RvaSmallVtablePtrBase(p)
+Rva005D1052::Rva005D1052(void *payload) : RvaSmallVtablePtrBase(payload)
 {
 }
 
@@ -1134,13 +1134,13 @@ Rva005D1052::Rva005D1052(void *p) : RvaSmallVtablePtrBase(p)
 class Rva000EF9F3
 {
 public:
-	Rva000EF9F3(void *p);
+	Rva000EF9F3(void *payload);
 	virtual ~Rva000EF9F3() {}
 private:
 	void *m_04;
 };
 
-Rva000EF9F3::Rva000EF9F3(void *p) : m_04(p)
+Rva000EF9F3::Rva000EF9F3(void *payload) : m_04(payload)
 {
 }
 
@@ -1148,13 +1148,13 @@ Rva000EF9F3::Rva000EF9F3(void *p) : m_04(p)
 class Rva002B29F8
 {
 public:
-	Rva002B29F8(void *p);
+	Rva002B29F8(void *payload);
 	virtual ~Rva002B29F8() {}
 private:
 	void *m_04;
 };
 
-Rva002B29F8::Rva002B29F8(void *p) : m_04(p)
+Rva002B29F8::Rva002B29F8(void *payload) : m_04(payload)
 {
 }
 
@@ -1162,13 +1162,13 @@ Rva002B29F8::Rva002B29F8(void *p) : m_04(p)
 class Rva00306A36
 {
 public:
-	Rva00306A36(void *p);
+	Rva00306A36(void *payload);
 	virtual ~Rva00306A36() {}
 private:
 	void *m_04;
 };
 
-Rva00306A36::Rva00306A36(void *p) : m_04(p)
+Rva00306A36::Rva00306A36(void *payload) : m_04(payload)
 {
 }
 
@@ -1176,13 +1176,13 @@ Rva00306A36::Rva00306A36(void *p) : m_04(p)
 class Rva0052787E
 {
 public:
-	Rva0052787E(void *p);
+	Rva0052787E(void *payload);
 	virtual ~Rva0052787E() {}
 private:
 	void *m_04;
 };
 
-Rva0052787E::Rva0052787E(void *p) : m_04(p)
+Rva0052787E::Rva0052787E(void *payload) : m_04(payload)
 {
 }
 
@@ -1190,13 +1190,13 @@ Rva0052787E::Rva0052787E(void *p) : m_04(p)
 class Rva0056AC9C
 {
 public:
-	Rva0056AC9C(void *p);
+	Rva0056AC9C(void *payload);
 	virtual ~Rva0056AC9C() {}
 private:
 	void *m_04;
 };
 
-Rva0056AC9C::Rva0056AC9C(void *p) : m_04(p)
+Rva0056AC9C::Rva0056AC9C(void *payload) : m_04(payload)
 {
 }
 
@@ -1204,13 +1204,13 @@ Rva0056AC9C::Rva0056AC9C(void *p) : m_04(p)
 class Rva005754ED
 {
 public:
-	Rva005754ED(void *p);
+	Rva005754ED(void *payload);
 	virtual ~Rva005754ED() {}
 private:
 	void *m_04;
 };
 
-Rva005754ED::Rva005754ED(void *p) : m_04(p)
+Rva005754ED::Rva005754ED(void *payload) : m_04(payload)
 {
 }
 
@@ -1218,13 +1218,13 @@ Rva005754ED::Rva005754ED(void *p) : m_04(p)
 class Rva005CDCDC
 {
 public:
-	Rva005CDCDC(void *p);
+	Rva005CDCDC(void *payload);
 	virtual ~Rva005CDCDC() {}
 private:
 	void *m_04;
 };
 
-Rva005CDCDC::Rva005CDCDC(void *p) : m_04(p)
+Rva005CDCDC::Rva005CDCDC(void *payload) : m_04(payload)
 {
 }
 
@@ -1232,13 +1232,13 @@ Rva005CDCDC::Rva005CDCDC(void *p) : m_04(p)
 class Rva005CE8DC
 {
 public:
-	Rva005CE8DC(void *p);
+	Rva005CE8DC(void *payload);
 	virtual ~Rva005CE8DC() {}
 private:
 	void *m_04;
 };
 
-Rva005CE8DC::Rva005CE8DC(void *p) : m_04(p)
+Rva005CE8DC::Rva005CE8DC(void *payload) : m_04(payload)
 {
 }
 
@@ -1246,13 +1246,13 @@ Rva005CE8DC::Rva005CE8DC(void *p) : m_04(p)
 class Rva005D1023
 {
 public:
-	Rva005D1023(void *p);
+	Rva005D1023(void *payload);
 	virtual ~Rva005D1023() {}
 private:
 	void *m_04;
 };
 
-Rva005D1023::Rva005D1023(void *p) : m_04(p)
+Rva005D1023::Rva005D1023(void *payload) : m_04(payload)
 {
 }
 
@@ -1260,13 +1260,13 @@ Rva005D1023::Rva005D1023(void *p) : m_04(p)
 class Rva005E9F69
 {
 public:
-	Rva005E9F69(void *p);
+	Rva005E9F69(void *payload);
 	virtual ~Rva005E9F69() {}
 private:
 	void *m_04;
 };
 
-Rva005E9F69::Rva005E9F69(void *p) : m_04(p)
+Rva005E9F69::Rva005E9F69(void *payload) : m_04(payload)
 {
 }
 
@@ -1274,13 +1274,13 @@ Rva005E9F69::Rva005E9F69(void *p) : m_04(p)
 class Rva005E9F92
 {
 public:
-	Rva005E9F92(void *p);
+	Rva005E9F92(void *payload);
 	virtual ~Rva005E9F92() {}
 private:
 	void *m_04;
 };
 
-Rva005E9F92::Rva005E9F92(void *p) : m_04(p)
+Rva005E9F92::Rva005E9F92(void *payload) : m_04(payload)
 {
 }
 
