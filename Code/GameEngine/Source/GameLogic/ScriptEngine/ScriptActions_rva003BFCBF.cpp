@@ -19,7 +19,7 @@ template <typename T> struct BfmeStringData
 class TeamPrototype
 {
 public:
-	void rva0039D73A();
+	void decreaseAIPriorityForFailure();
 	void rva0039D747(int delta);
 	void rva0039D754(int delta);
 private:

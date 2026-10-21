@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva0039DFF8@Team@@QAE_NXZ @0x0039DFF8 (74B).
+// ?isIdle@Team@@QBE_NXZ @0x0039DFF8 (74B).
 // Team member scan returning false on first live AI member whose slot 0x1b8
 // virtual returns false else true. Retail reads AI at Object+0x258 and dead
 // bit at Object+0x438 bit0 then virtual call [eax+0x1b8] with no args.
@@ -152,10 +152,10 @@ class Team
 {
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
-	bool rva0039DFF8();
+	bool isIdle() const;
 };
 
-bool Team::rva0039DFF8()
+bool Team::isIdle() const
 {
 	bool ok = true;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {

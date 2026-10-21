@@ -939,7 +939,7 @@ public:
 	void rva0039D889(Bool flag);
 	void disband();
 	Object *tryToRecruit(const ThingTemplate *thing, const Coord3D *pos, Real maxDist, Int a, Int b, Int c);
-	Bool rva0039DFF8();
+	Bool isIdle() const;
 	Bool hasAnyObjects(Bool ignoreBuilding);
 	void setActive() { if (!m_active) { m_created = true; m_active = true; } }
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
@@ -1995,7 +1995,7 @@ void AIPlayer::checkReadyTeams()
 			}
 			else
 			{
-				allIdle = team->m_team->rva0039DFF8();
+				allIdle = team->m_team->isIdle();
 				for (DLINK_ITERATOR<Object> it = team->m_team->iterate_TeamMemberList(); !it.done(); it.advance())
 				{
 					Object *obj = it.cur();

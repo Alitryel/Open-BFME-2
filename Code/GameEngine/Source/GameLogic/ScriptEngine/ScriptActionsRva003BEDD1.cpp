@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
 // ?rva003BEDD1@ScriptActions@@IAEXABVAsciiString@@0@Z @ 0x003BEDD1 (141B). Sets attack priority info on a team and its members.
-// Evidence: neighbours ScriptActions_doTeamAttackTeam 0x003BED59 Rva003BEE5EFinish 0x003BEE5E same flags; callees getTeamNamed 0x003584E9 getAttackInfo pinned isEmpty rva0039F094 iterate advance rowed; caller 1 unclaimed.
+// Evidence: neighbours ScriptActions_doTeamAttackTeam 0x003BED59 Rva003BEE5EFinish 0x003BEE5E same flags; callees getTeamNamed 0x003584E9 getAttackInfo pinned isEmpty setAttackPriorityName iterate advance rowed; caller 1 unclaimed.
 #include "ascii_string.h"
 class Team;
 class Object;
@@ -39,7 +39,7 @@ extern class ScriptEngine *TheScriptEngine;
 class Team
 {
 public:
-	void rva0039F094(AsciiString);
+	void setAttackPriorityName(AsciiString);
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
 };
 class ScriptActions
@@ -59,7 +59,7 @@ void ScriptActions::rva003BEDD1(const AsciiString &teamName, const AsciiString &
 	}
 	else
 	{
-		team->rva0039F094(*(AsciiString *)name);
+		team->setAttackPriorityName(*(AsciiString *)name);
 	}
 	for (DLINK_ITERATOR<Object> it = team->iterate_TeamMemberList(); !it.done(); it.advance())
 	{

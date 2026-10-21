@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva0039F094@Team@@QAEXVAsciiString@@@Z @0x0039F094 62B
+// ?setAttackPriorityName@Team@@QAEXVAsciiString@@@Z @0x0039F094 62B
 // Team AsciiString setter by value. Loads +0x30 inner then sets AsciiString
 // at +0x318 from the by-value param at [ebp+8] via rowed StringBase set
 // 0x000366F0 with EH states 0 then -1 and releaseBuffer 0x00036410.
@@ -16,13 +16,13 @@ struct TeamRvaInner
 class Team
 {
 public:
-	void rva0039F094(AsciiString name);
+	void setAttackPriorityName(AsciiString name);
 private:
 	unsigned char m_pad00[0x30];
 	TeamRvaInner *m_ptr30;
 };
 
-void Team::rva0039F094(AsciiString name)
+void Team::setAttackPriorityName(AsciiString name)
 {
 	TeamRvaInner *inner = m_ptr30;
 	if (inner) {
