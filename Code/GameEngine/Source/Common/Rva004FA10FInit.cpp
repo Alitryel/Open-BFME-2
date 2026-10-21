@@ -15,12 +15,7 @@ public:
 	void rva004F6187();	// rowed 0x004F6187 (Rva004F8B89Fwd.cpp)
 	void rva004F61B1();	// rowed 0x004F61B1 (Rva004F8B89Fwd.cpp)
 	void rva004F971E();	// rowed 0x004F971E (chooseTargets)
-};
-
-class Rva004F9F39
-{
-public:
-	void rva004F9F39();
+	void rva004F9F39();	// rowed 0x004F9F39 (LivingWorldAutoResolveBattleLeadership.cpp)
 };
 
 class Rva004F9E59
@@ -47,7 +42,7 @@ void Rva004FA10FOwner::rva004FA10F()
 	m_7C++;
 	((LivingWorldAutoResolveBattle *)this)->addUnitsForCurrentRound(0);
 	((LivingWorldAutoResolveBattle *)this)->rva004F6187();
-	((Rva004F9F39 *)this)->rva004F9F39();
+	((LivingWorldAutoResolveBattle *)this)->rva004F9F39();
 	bool ready = false;
 	do
 	{
