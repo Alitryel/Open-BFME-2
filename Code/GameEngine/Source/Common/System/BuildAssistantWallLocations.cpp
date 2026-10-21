@@ -1198,7 +1198,10 @@ __forceinline void setPos(UnsignedInt index,const Coord3D*p){((Rva003920F7*)this
 __declspec(noinline) inline float Coord3D::length() const { return (float)sqrt(x*x+y*y+z*z); }
 __declspec(noinline) inline void Coord3D::normalize() { float len=length(); if(len!=0.0f){ float scale=1.0f/len; x*=scale; y*=scale; z*=scale; } }
 inline float Coord2D::length() const { return (float)sqrt(x*x+y*y); }
-__declspec(noinline) inline float Coord2D::toAngle() const { float len=length(); if(len==0.0f) return 0.0f; const float raw=x/len; float cosine; if(raw<-1.0f) cosine=-1.0f; else if(raw>1.0f) cosine=1.0f; else cosine=raw; if(y<0.0f) return -(float)acos(cosine); return (float)acos(cosine); }
+// Use retail's float ACos helper (0x00873940), as the rowed Coord2D owner does.
+// Calling CRT double acos here emitted a divergent out-of-line toAngle copy.
+float ACos(float value);
+__declspec(noinline) inline float Coord2D::toAngle() const { float len=length(); if(len==0.0f) return 0.0f; const float raw=x/len; float cosine; if(raw<-1.0f) cosine=-1.0f; else if(raw>1.0f) cosine=1.0f; else cosine=raw; if(y<0.0f) return -ACos(cosine); return ACos(cosine); }
 Real normalizeAngle(Real angle);
 Bool BuildAssistant::rva0039380F(Rva0039205C*out,Object*builder,const Coord3D*start,const Coord3D*end,UnsignedInt key)
 {
