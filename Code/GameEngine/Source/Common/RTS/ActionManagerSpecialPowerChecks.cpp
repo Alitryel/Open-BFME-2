@@ -300,21 +300,21 @@ public:
 };
 
 bool ActionManager::canConvertObjectToCarBomb(
-	const Object *a, const Object *b, CommandSourceType c)
+	const Object *obj, const Object *objectToConvert, CommandSourceType commandSource)
 {
-	if (!a || !b)
+	if (!obj || !objectToConvert)
 		return false;
-	if (*reinterpret_cast<const unsigned char *>(reinterpret_cast<const char *>(b) + 0x438) & 1)
+	if (*reinterpret_cast<const unsigned char *>(reinterpret_cast<const char *>(objectToConvert) + 0x438) & 1)
 		return false;
-	if (isObjectShroudedForAction(a, b, c))
+	if (isObjectShroudedForAction(obj, objectToConvert, commandSource))
 		return false;
 	void **modules = *reinterpret_cast<void ***>(
-		reinterpret_cast<char *>(const_cast<Object *>(a)) + 0x244);
+		reinterpret_cast<char *>(const_cast<Object *>(obj)) + 0x244);
 	for (; *modules; ++modules) {
 		BfmeActionBehaviorView *module = reinterpret_cast<BfmeActionBehaviorView *>(
 			reinterpret_cast<char *>(*modules) + 0x0c);
 		BfmeCarBombCollideView *collide = module->getCollide();
-		if (collide && collide->wouldLikeToCollideWith(b) && collide->isCarBombCrateCollide())
+		if (collide && collide->wouldLikeToCollideWith(objectToConvert) && collide->isCarBombCrateCollide())
 			return true;
 	}
 	return false;
