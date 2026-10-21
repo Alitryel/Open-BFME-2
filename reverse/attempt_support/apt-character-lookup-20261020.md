@@ -306,3 +306,65 @@ Next leads:
    (L0011 lost the 18->10 T-merge);
 3. tell apart a case-count threshold from a tail-size one at Z13->Z14:
    pad one Z13 case, or swap the 14th case.
+
+## Round 2026-10-21 (claude-opus-5-5, t=70)
+
+Ran alongside claudeb2's rounds above, measured against the older 0.7896
+bank; the best body is still their L0011 (0.79096). Local scorer numbers
+below use the `sc.py` metric (old bank = 0.7846 on it).
+
+Retail exit structure, offsets from 0x6EFBC0:
+
+- `EXIT4` at 0x238 is the only non-duplicated `add esp,4` + EH epilogue. Case
+  10 (0x223: `mov eax,[esi+0xc]; mov esi,[eax+0x2c]; test esi,0xffffff;
+  setne cl; push ecx; call AptBoolean::Create`) falls into it.
+- Case 18 (0x3d1) loads `[eax+0x30]` and does `jmp 0x229`, landing on case 10's
+  `test esi,0xffffff`. Case 21 (0x486: `mov edx,[esi+0x74]; shr edx,3;
+  and edx,0xffffff01; push edx`) does `jmp 0x233`, landing on case 10's
+  `call Create`. That is classic post-RA cross-jumping against the fall-through
+  predecessor, not IR tail merging.
+- Cases 19 and 20 share 20's `fst [esp+0x10]` (19 does `jmp 0x45e`), clamp
+  through `number`'s slot [esp+0x10], then `push ecx; call MakeFloat;
+  jmp 0x238`.
+- Every numeric case of switch 2 (0x529..0x674) does `jmp 0x238` after its own
+  `mov edx,[esp+0x10]; push edx; mov [esp+0x14],edx; call MakeFloat`. The
+  push/call was tail-duplicated into each case after RA, with store forwarding.
+- Cases 2..7 and 8 each keep their own full epilogue.
+
+Whole-binary scan (`call; jmp T`, where T is `add esp,4`, a call precedes T and
+a ret follows within 26 bytes): 0x6EFBC0 is the ONLY function with it. The
+other hits are if/else joins followed by more code: Apt Add 0x700720,
+Subtract 0x700880, Multiply 0x7009E0, ToNumber 0x703730, Increment 0x703F40,
+Decrement 0x704020, ProcessAdHocData 0x6A9920, End_Scene 0x122BE0,
+Lua 0x754780/0x74A9B0, GameSpy 0x699F20/0x6A52C0/0x6B2970. So no matched
+sibling demonstrates the source shape.
+
+Disproven this round (none produces EXIT4; our cl duplicates the epilogue into
+every return site, joins included):
+
+- base4: helpers `refreshText`/`lookupCheckedCIH` spelled inline at each site:
+  0.7323, worse.
+- v1: cases 10/18/21 assign `AptValue *result` and `goto done` to one
+  `return result;`: 0.7780.
+- t1: v1 plus cases 19/20 join the same `result`: 0.7764.
+- t2: 19/20/21 plus switch 2 funnel through `number` and one
+  `return MakeFloat(number)`: 0.7182.
+- Synthetic probes p1..p6 (a 13-case model with an EAStringC EH local): goto
+  joins, ternary returns, a shared int local (copy-propagated away), and a
+  24-bit bitfield view of multiline/wordWrap (`common2.h`: still emits
+  `test dword ptr [mem],imm` and no esi load). Every one duplicates the
+  epilogue. The IR tail merge of identical long tails keeps the LATER copy
+  (19→20 `fst` reproduces); case 18→10 and 21→10 never merge.
+
+Still untried, ranked:
+
+1. J content removed after the epilogue-duplication decision, e.g. an EH
+   state store or a dead store at the shared join that a late pass drops.
+   Look for a scoped EH object or a `volatile`-free dead local whose last use
+   is the join.
+2. Float homing of `number` through an address-exposed use, which might keep
+   `number` in [esp+0x10] the way retail does. An `/Op`-scoped
+   `#pragma optimize` is an escape hatch: measure it only as a diagnostic.
+
+Untracked tools (recreate): `build/scratch/apt/scan_exit4.py` (scan above),
+`build/scratch/probe/probe.py file.cpp f` (compile + disassemble one symbol).
