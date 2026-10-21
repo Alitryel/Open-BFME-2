@@ -119,24 +119,24 @@ private:
 	Rva004E35D5 m_owner;
 };
 
-void Rva003EE900::rva003EE900(Int arg)
+void Rva003EE900::rva003EE900(Int regionArg)
 {
-	m_owner.rva004E35D5(g_Rva00E02E7C, (Int)((char *)arg + 0x54), 0);
+	m_owner.rva004E35D5(g_Rva00E02E7C, (Int)((char *)regionArg + 0x54), 0);
 }
 
-void LivingWorldRegionEffectsManager::rva003EE884(Int arg)
+void LivingWorldRegionEffectsManager::rva003EE884(Int regionArg)
 {
-	m_owner.rva004E35D5(g_Rva00E02E78, (Int)((char *)arg + 0x54), 0);
+	m_owner.rva004E35D5(g_Rva00E02E78, (Int)((char *)regionArg + 0x54), 0);
 }
 
-void Rva003EE966::rva003EE966(Int arg)
+void Rva003EE966::rva003EE966(Int regionArg)
 {
-	m_owner.rva004E35D5(g_Rva00E02E80, (Int)((char *)arg + 0x54), 0);
+	m_owner.rva004E35D5(g_Rva00E02E80, (Int)((char *)regionArg + 0x54), 0);
 }
 
-void Rva003EEA9D::rva003EEA9D(Int arg)
+void Rva003EEA9D::rva003EEA9D(Int regionArg)
 {
-	m_owner.rva004E35D5(g_Rva00E02E68, (Int)((char *)arg + 0x54), 0);
+	m_owner.rva004E35D5(g_Rva00E02E68, (Int)((char *)regionArg + 0x54), 0);
 }
 
 void LivingWorldRegionEffectsManager::rva003EE84A(Int a, Int b)
@@ -268,9 +268,9 @@ void Rva003EEFA0::rva003EEFA0(Int p)
 {
 	Int *arr = (Int *)p;
 	for (unsigned int i = 0; i < (unsigned int)((arr[1] - arr[0]) >> 2); ++i) {
-		Int v = *(Int *)(arr[0] + i * 4);
-		if (v != 0)
-			((Rva003EEA9D *)this)->rva003EEA9D(v);
+		Int entry = *(Int *)(arr[0] + i * 4);
+		if (entry != 0)
+			((Rva003EEA9D *)this)->rva003EEA9D(entry);
 	}
 }
 
@@ -352,11 +352,11 @@ private:
 };
 void Rva003EE91A::rva003EE91A(Int a)
 {
-	Int tmp[3];
-	((Rva003EE7CA *)this)->rva003EE7CA((Int)&tmp, a);
+	Int values[3];
+	((Rva003EE7CA *)this)->rva003EE7CA((Int)&values, a);
 	char *p = (char *)a + 0x54;
 	m_owner.rva004E35D5(g_Rva00E02E80, (Int)p, 1);
-	((Rva004E35FF *)&m_owner)->rva004E35FF(g_Rva00E02E80, (Int)p, (Int)&tmp);
+	((Rva004E35FF *)&m_owner)->rva004E35FF(g_Rva00E02E80, (Int)p, (Int)&values);
 	((Rva004E35AF *)&m_owner)->rva004E35AF(g_Rva00E02E80, 0);
 }
 
@@ -376,10 +376,10 @@ void Rva003EEEB3::rva003EEEB3(Int p)
 	((Rva004E3629 *)&m_owner)->rva004E3629(g_Rva00E02E6C, 1);
 	Int *arr = (Int *)p;
 	for (unsigned int i = 0; i < (unsigned int)((arr[1] - arr[0]) >> 2); ++i) {
-		Int v = *(Int *)(arr[0] + i * 4);
-		if (v != 0) {
-			Int tmp[3];
-			((Rva003EEA1A *)this)->rva003EEA1A(v, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&tmp, v));
+		Int entry = *(Int *)(arr[0] + i * 4);
+		if (entry != 0) {
+			Int values[3];
+			((Rva003EEA1A *)this)->rva003EEA1A(entry, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&values, entry));
 		}
 	}
 }
@@ -401,11 +401,11 @@ void Rva003EEF38::rva003EEF38(Int p)
 	((Rva004E3629 *)&m_owner)->rva004E3629(g_Rva00E02E68, 1);
 	Int *arr = (Int *)p;
 	for (unsigned int i = 0; i < (unsigned int)((arr[1] - arr[0]) >> 2); ++i) {
-		Int v = *(Int *)(arr[0] + i * 4);
-		if (v != 0) {
-			Int tmp[3];
-			((Rva003EEA63 *)this)->rva003EEA63(v, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&tmp, v));
-			m_saved = v;
+		Int entry = *(Int *)(arr[0] + i * 4);
+		if (entry != 0) {
+			Int values[3];
+			((Rva003EEA63 *)this)->rva003EEA63(entry, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&values, entry));
+			m_saved = entry;
 		}
 	}
 }
@@ -424,8 +424,8 @@ private:
 void Rva003EF041::rva003EF041()
 {
 	if (m_saved != 0) {
-		Int tmp[3];
-		((Rva003EEE64 *)this)->rva003EEE64(((Rva003EE7CA *)this)->rva003EE7CA((Int)&tmp, m_saved));
+		Int values[3];
+		((Rva003EEE64 *)this)->rva003EEE64(((Rva003EE7CA *)this)->rva003EE7CA((Int)&values, m_saved));
 	}
 }
 
@@ -442,8 +442,8 @@ private:
 };
 void Rva003EEE8E::rva003EEE8E(Int a)
 {
-	Int tmp[3];
-	((Rva003EEB9F *)this)->rva003EEB9F(a, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&tmp, a));
+	Int values[3];
+	((Rva003EEB9F *)this)->rva003EEB9F(a, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&values, a));
 }
 // ?rva003EEF13@Rva003EEF13@@QAEXH@Z @0x003EEF13 37B chain via 0x003EE7CA+0x003EEBC4
 // Retail: tmp[3] at ebp-0xc; this->rva003EE7CA(&tmp,arg) then
@@ -458,8 +458,8 @@ private:
 };
 void Rva003EEF13::rva003EEF13(Int a)
 {
-	Int tmp[3];
-	((Rva003EEBC4 *)this)->rva003EEBC4(a, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&tmp, a));
+	Int values[3];
+	((Rva003EEBC4 *)this)->rva003EEBC4(a, ((Rva003EE7CA *)this)->rva003EE7CA((Int)&values, a));
 }
 // ?rva003EE8D8@Rva003EE8D8@@QAEXH@Z @0x003EE8D8 40B chain via 0x003EE7CA+0x003EE89E
 // Retail: tmp[3] at ebp-0xc; this->rva003EE7CA(&tmp,arg) then
@@ -474,9 +474,9 @@ private:
 };
 void Rva003EE8D8::rva003EE8D8(Int a)
 {
-	Int tmp[3];
-	((Rva003EE7CA *)this)->rva003EE7CA((Int)&tmp, a);
-	((Rva003EE89E *)this)->rva003EE89E(a, (Int)&tmp);
+	Int values[3];
+	((Rva003EE7CA *)this)->rva003EE7CA((Int)&values, a);
+	((Rva003EE89E *)this)->rva003EE89E(a, (Int)&values);
 }
 
 // Native 003EEDD6..003EEE64: 142B campaign-region range update.
@@ -554,10 +554,10 @@ void Rva003EEBEF::rva003EEBEF(Int p)
 	Rva003EEBEFGate *gate = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->m_B0->m_holder;
 	if (gate == 0)
 		return;
-	Rva003EEBEFArg *arg = (Rva003EEBEFArg *)p;
-	int count = arg->m_records.size();
+	Rva003EEBEFArg *regionArg = (Rva003EEBEFArg *)p;
+	int count = regionArg->m_records.size();
 	for (int i = 0; i < count; ++i) {
-		Rva0020E89C *found = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->getLookup()->rva0020EAF6(arg->m_records[i].m_index);
-		((LivingWorldRegionEffectsManager *)this)->rva003EE84A((Int)found, (Int)&arg->m_records[i].m_payload);
+		Rva0020E89C *found = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->getLookup()->rva0020EAF6(regionArg->m_records[i].m_index);
+		((LivingWorldRegionEffectsManager *)this)->rva003EE84A((Int)found, (Int)&regionArg->m_records[i].m_payload);
 	}
 }
