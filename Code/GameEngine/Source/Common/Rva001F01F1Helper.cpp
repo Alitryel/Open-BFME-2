@@ -40,10 +40,10 @@ class ApplyRandomForceNugget
 {
 public:
 	virtual void create(const Object *primary, const Object *secondary, unsigned int lifetimeFrames) const;
-	float m_04;
-	float m_08;
-	float m_0C;
-	float m_10;
+	float m_minForceMagnitude;
+	float m_maxForceMagnitude;
+	float m_minForcePitch;
+	float m_maxForcePitch;
 };
 
 void ApplyRandomForceNugget::create(const Object *primary, const Object *, unsigned int) const
@@ -54,6 +54,6 @@ void ApplyRandomForceNugget::create(const Object *primary, const Object *, unsig
 	if (obj == 0)
 		return;
 	Coord3D force;
-	calcRandomForce(m_04, m_08, m_0C, m_10, &force);
+	calcRandomForce(m_minForceMagnitude, m_maxForceMagnitude, m_minForcePitch, m_maxForcePitch, &force);
 	obj->consume(&force, 0, 0);
 }
