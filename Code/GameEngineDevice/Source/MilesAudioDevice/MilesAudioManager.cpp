@@ -327,7 +327,7 @@ public:
     bool m_at4C;             // +0x4C, the loop-buffer thread's decay/loop test
     char at4D[0x4F - 0x4D];
     bool m_at4F;             // +0x4F, cleared by playAudioEvent
-    bool m_at50;             // +0x50, set once a sample starts playing
+    bool m_startedPlaying;             // +0x50, set once a sample starts playing
     char at51[0x52 - 0x51];
     bool m_at52;             // +0x52, playAudioEvent tests it after starting a stream
     bool m_at53;
@@ -417,7 +417,7 @@ struct PlayingAudio {
     float m_at3C;                        // +0x3C, extra volume handed to a requeued loop
     float m_at40;                        // +0x40, cleared once that volume is handed on
     bool m_at44;                         // +0x44, tested with +0x46 by checkForNaturalSoundCompletion
-    bool m_at45;                         // +0x45, set when a pushed track resumes
+    bool m_pushedTrackResumed;                         // +0x45, set when a pushed track resumes
     bool m_at46;                         // +0x46
     bool m_fadeUpFromShroud;                         // +0x47, fade-up-from-shroud flag (processFade)
     bool m_at48;                         // +0x48, overrides +0x44/+0x46 in that test
@@ -425,7 +425,7 @@ struct PlayingAudio {
     bool m_at4A;                         // +0x4A
     bool m_at4B;                         // +0x4B, set by 0x000535A6
     bool m_at4C;
-    bool m_at4D;                         // +0x4D, raise the event's script flag on release (0x5FDCA)
+    bool m_raiseScriptFlagOnRelease;                         // +0x4D, raise the event's script flag on release (0x5FDCA)
     bool m_hasLastTestedPosition;                         // +0x4E, m_at24 holds a position
     bool m_at4F;                         // +0x4F, set when 0x5634C hands on a new extra volume
 };
@@ -781,11 +781,11 @@ struct AudioSettings {
     int m_atA8;                          // +0xA8, seconds before 0x61C87 reopens the device
     int m_atAC;                          // +0xAC, seconds before the update reopens the device
     float m_atB0;                        // +0xB0, position change 0x55C5D ignores
-    int m_atB4;                          // +0xB4, processRequest's preload limit
+    int m_preloadLimit;                          // +0xB4, processRequest's preload limit
     float m_atB8;
-    bool m_atBC;                         // +0xBC, disables occlusion
+    bool m_disableOcclusion;                         // +0xBC, disables occlusion
     char atBD[0xC0 - 0xBD];
-    float m_atC0;                        // +0xC0, occlusion floor
+    float m_occlusionFloor;                        // +0xC0, occlusion floor
     char atC4[0x12C - 0xC4];
     MicrophoneSettings m_microphoneSettings[3]; // +0x12C
 };
@@ -1418,17 +1418,17 @@ private:
     int m_num3DSamplesPlaying;           // +0x688, counted up by playAudioEvent
     int m_at68C;                         // +0x68C, zeroed by 0x60309
     unsigned int m_at690;                // +0x690, per-view-type bits 0x61C87 clears
-    unsigned int m_at694;                // +0x694, view types whose music is paused for affect bit 0x20 (0x583BA)
+    unsigned int m_musicPausedViewTypes;                // +0x694, view types whose music is paused for affect bit 0x20 (0x583BA)
     unsigned int m_at698;                // +0x698, per-view-type bits processAudioCompletion clears
     unsigned short m_maxAmbientStreams;  // +0x69C
     bool m_at69E, m_at69F, m_at6A0, m_at6A1, m_at6A2, m_at6A3;
     bool m_at6A4;                        // +0x6A4
-    bool m_at6A5;                        // +0x6A5, marks a view-type change (0x5DAFC, xfer)
+    bool m_viewTypeChanged;                        // +0x6A5, marks a view-type change (0x5DAFC, xfer)
     bool m_forceHeadphones;             // +0x6A6, provider speaker override
     bool m_at6A7;                        // +0x6A7, read by 0x52F4C and 0x53AFA
     bool m_at6A8;                        // +0x6A8, cleared by the update
-    bool m_at6A9;                        // +0x6A9, set by the update when areas need a retest
-    bool m_at6AA;                        // +0x6AA, retest areas on every call (0x55C5D)
+    bool m_areasNeedRetest;                        // +0x6A9, set by the update when areas need a retest
+    bool m_retestAreasEveryCall;                        // +0x6AA, retest areas on every call (0x55C5D)
     bool m_at6AB;                        // +0x6AB, set by loadPostProcess
     bool m_at6AC;                        // +0x6AC, cleared by loadPostProcess
     char at6AD[0x6B0 - 0x6AD];
@@ -1470,15 +1470,15 @@ private:
     LoopBuffer *m_loopBuffers;           // +0xBD4 (WB assert name)
     int m_numLoopBuffers;                // +0xBD8
     void *m_loopBufferThread;            // +0xBDC, CreateThread handle
-    bool m_atBE0;                        // +0xBE0, stops the 0x5EFE9 thread loop
+    bool m_stopLoopBufferThread;                        // +0xBE0, stops the 0x5EFE9 thread loop
     char atBE1[0xBE4 - 0xBE1];
-    int m_atBE4;                         // +0xBE4, reverb room type (0x530DF zeroes it)
+    int m_reverbRoomType;                         // +0xBE4, reverb room type (0x530DF zeroes it)
     class SubTitleWindow *m_subTitleWindow; // +0xBE8, deleted by the update once finished
-    unsigned int m_atBEC;                // +0xBEC, view types reset since the last update
+    unsigned int m_viewTypesResetSinceUpdate;                // +0xBEC, view types reset since the last update
     int m_selectedSpeakerType;          // +0xBF0, provider-selection speaker type
     char atBF4[0xBF8 - 0xBF4];
-    __int64 m_atBF8;                     // +0xBF8, _time64 of the last device open
-    bool m_atC00;                        // +0xC00, view type 2 is transferred when set (version 3+)
+    __int64 m_lastDeviceOpenTime;                     // +0xBF8, _time64 of the last device open
+    bool m_transferViewType2;                        // +0xC00, view type 2 is transferred when set (version 3+)
 };
 
 namespace _STL {
@@ -1495,15 +1495,15 @@ MilesAudioManager::MilesAudioManager()
     : m_audioSettings(0), m_at14(0), m_micPos(0.0f, 0.0f, 0.0f), m_micDir(0.0f, 1.0f, 0.0f),
       m_cameraPos(0.0f, 0.0f, 0.0f), m_at8C(0.0f), m_at90(g_00DBA4FC), m_at94(0),
       m_nextHandle(5), m_at678(2), m_at67C(0), m_at680(0),
-      m_num2DSamplesPlaying(0), m_num3DSamplesPlaying(0), m_at68C(0), m_at690(0), m_at694(0), m_at698(0),
+      m_num2DSamplesPlaying(0), m_num3DSamplesPlaying(0), m_at68C(0), m_at690(0), m_musicPausedViewTypes(0), m_at698(0),
       m_maxAmbientStreams(2), m_at69E(true), m_at69F(true), m_at6A0(true), m_at6A1(true), m_at6A2(true),
-      m_at6A3(false), m_at6A4(false), m_at6A5(false), m_forceHeadphones(false), m_at6A7(false),
-      m_at6A8(false), m_at6A9(false), m_at6AA(false), m_at6AB(true), m_at6AC(false), m_at6B0(0),
+      m_at6A3(false), m_at6A4(false), m_viewTypeChanged(false), m_forceHeadphones(false), m_at6A7(false),
+      m_at6A8(false), m_areasNeedRetest(false), m_retestAreasEveryCall(false), m_at6AB(true), m_at6AC(false), m_at6B0(0),
       m_providerCount(0), m_selectedProvider((unsigned int)-1), m_mutex(1, 0, 0),
       m_at9DC(0), m_listener(0), m_at9E4(0),
       m_audioFileCache(0),
-      m_loopBuffers(0), m_numLoopBuffers(0), m_loopBufferThread(0), m_atBE0(false), m_atBE4(0),
-      m_subTitleWindow(0), m_atBEC(7), m_selectedSpeakerType(0), m_atBF8(_time64(0)), m_atC00(false)
+      m_loopBuffers(0), m_numLoopBuffers(0), m_loopBufferThread(0), m_stopLoopBufferThread(false), m_reverbRoomType(0),
+      m_subTitleWindow(0), m_viewTypesResetSinceUpdate(7), m_selectedSpeakerType(0), m_lastDeviceOpenTime(_time64(0)), m_transferViewType2(false)
 {
     m_atB0.clear();
     for (int i = 0; i < 3; ++i) {
@@ -1551,9 +1551,9 @@ struct MilesAudioManager::LoopBuffer {
     ~LoopBuffer();
 
     bool m_isValid;                      // +0x00 (WB assert name)
-    volatile bool m_at01;                // +0x01, shared with the loop-buffer thread; held paused
+    volatile bool m_heldPaused;                // +0x01, shared with the loop-buffer thread; held paused
     bool m_is3D;                         // +0x02 selects the handle below
-    bool m_at03;                         // +0x03, completion check pending
+    bool m_completionCheckPending;                         // +0x03, completion check pending
     void *m_3DSample;                    // +0x04
     void *m_sample;                      // +0x08
     LoopBufferSourceRef m_source;        // +0x0C
@@ -1576,7 +1576,7 @@ struct MilesAudioManager::LoopBuffer {
 // Retail 0x00052568, the element constructor init()'s new[] hands to the
 // vector constructor iterator: an empty, invalid 3D buffer.
 MilesAudioManager::LoopBuffer::LoopBuffer()
-    : m_isValid(false), m_at01(false), m_is3D(true), m_at03(false), m_3DSample(0), m_sample(0),
+    : m_isValid(false), m_heldPaused(false), m_is3D(true), m_completionCheckPending(false), m_3DSample(0), m_sample(0),
       m_at10(false), m_playingAudio(0), m_at18(0), m_playBufferSize(0),
       m_at2C(0), m_at30(0), m_endOfLastCopy(0), m_at38(0), m_at3C(0), m_at40(0), m_at44(false)
 {
@@ -1610,7 +1610,7 @@ void deleteLoopBuffers(MilesAudioManager::LoopBuffer *loopBuffers)
 void MilesAudioManager::putFileIntoLoopBuffer(LoopBuffer *buffer, const AudioFileContainer &file, int arg)
 {
     BfmePoolRef10 &source = (BfmePoolRef10 &)buffer->m_source;
-    source->m_at50 = true;
+    source->m_startedPlaying = true;
     if (source->getNextPlayPortion() != 2 || arg == 1)
         source->advanceNextPlayPortion();
     source->rva002D9ADC();
@@ -1641,9 +1641,9 @@ void MilesAudioManager::cleanUpLoopBuffer(LoopBuffer *buffer)
 {
     if (!((Rva0005F279Elem *)buffer)->rva0005106A())
         return;
-    if (buffer->m_at03) {
+    if (buffer->m_completionCheckPending) {
         checkForNaturalSoundCompletion(PlayingAudioRef(buffer->m_playingAudio));
-        buffer->m_at03 = false;
+        buffer->m_completionCheckPending = false;
     }
     if (buffer->m_is3D) {
         if (buffer->m_3DSample) {
@@ -1726,7 +1726,7 @@ void MilesAudioManager::transferBytesToPlayBuffer(LoopBuffer &buffer, unsigned i
             } else {
                 if (source->m_portionToPlayNext == 2) {
                     if (((Rva00050DBD *)&buffer.m_at28)->rva00050DBD()) {
-                        source->m_at50 = true;
+                        source->m_startedPlaying = true;
                         putFileIntoLoopBuffer(&buffer, buffer.m_at28.rva000A89E3(), 1);
                     } else if (!buffer.m_at28.isValid()) {
                         reinterpret_cast<Rva00691040Handle &>(buffer.m_at28) = m_audioFileCache->requestFile(source, 2);
@@ -1740,7 +1740,7 @@ void MilesAudioManager::transferBytesToPlayBuffer(LoopBuffer &buffer, unsigned i
                     }
                 } else if (source->m_portionToPlayNext != 3) {
                     if (((Rva00050DD0 *)&buffer.m_at24)->rva00050DD0()) {
-                        source->m_at50 = true;
+                        source->m_startedPlaying = true;
                         source->rva002D9ADC();
                         reinterpret_cast<Rva00691040Handle &>(buffer.m_at24) = m_audioFileCache->requestFile(source, 2);
                     } else if (!((Rva00050DBD *)&buffer.m_at24)->rva00050DBD() && buffer.m_at24.getAt3C() < 2) {
@@ -1931,7 +1931,7 @@ void MilesAudioManager::checkForNaturalSoundCompletion(PlayingAudioRef &playing)
         }
     }
     if (!playing->m_event->getAt84().isEmpty())
-        playing->m_at4D = true;
+        playing->m_raiseScriptFlagOnRelease = true;
 }
 
 // Retail 0x0005DF9D (WorldBuilder twin 0x0079C1D0, names from its asserts):
@@ -2083,7 +2083,7 @@ extern "C" __declspec(dllimport) unsigned int __stdcall AIL_ms_count(void);
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long milliseconds);
 
 // Retail 0x0005EFE9 (WorldBuilder twin 0x0077C240): the loop-buffer thread.
-// Reads the cycle time from the settings, then until m_atBE0 is set refills
+// Reads the cycle time from the settings, then until m_stopLoopBufferThread is set refills
 // every valid loop buffer under the manager mutex and sleeps out the cycle.
 void MilesAudioManager::rva0005EFE9(void)
 {
@@ -2091,13 +2091,13 @@ void MilesAudioManager::rva0005EFE9(void)
     {
         MilesMutexGuard guard(&m_mutex, 1);
         while (!guard.rva00041037(100)) {
-            if (m_atBE0)
+            if (m_stopLoopBufferThread)
                 return;
         }
         if (m_audioSettings)
             sleepTime = m_audioSettings->m_at8C / m_audioSettings->m_at90;
     }
-    if (m_atBE0)
+    if (m_stopLoopBufferThread)
         return;
     do {
         unsigned int start = AIL_ms_count();
@@ -2107,12 +2107,12 @@ void MilesAudioManager::rva0005EFE9(void)
                 continue;
             MilesMutexGuard guard(&m_mutex, 1);
             while (!guard.rva00041037(100)) {
-                if (m_atBE0)
+                if (m_stopLoopBufferThread)
                     return;
             }
             if (!buffer->m_isValid)
                 continue;
-            if (buffer->m_at01) {
+            if (buffer->m_heldPaused) {
                 ((Rva00050FE3 *)buffer)->rva00050FE3();
                 buffer->m_isValid = false;
                 continue;
@@ -2143,19 +2143,19 @@ void MilesAudioManager::rva0005EFE9(void)
             }
             if (!keepGoing) {
                 if (!source->m_at4C)
-                    buffer->m_at03 = true;
+                    buffer->m_completionCheckPending = true;
                 buffer->m_isValid = false;
             } else if (buffer->m_at44 && !wasFull) {
                 ((Rva00050FC9 *)buffer)->rva00050FC9();
                 pauseResumeSound(PlayingAudioRef(buffer->m_playingAudio));
             }
         }
-        if (m_atBE0)
+        if (m_stopLoopBufferThread)
             return;
         unsigned int now = AIL_ms_count();
         if (now - start <= sleepTime)
             Sleep(start - now + sleepTime);
-    } while (!m_atBE0);
+    } while (!m_stopLoopBufferThread);
 }
 
 unsigned long __stdcall rva0005F267(void *param)
@@ -2196,7 +2196,7 @@ void MilesAudioManager::init()
         GlobalVolumeData::setGlobalSystemVolume(i, m_audioSettings ? m_audioSettings->m_at30[i] : 0.55f);
     m_numLoopBuffers = m_audioSettings->m_at68 + m_audioSettings->m_at64;
     m_loopBuffers = new LoopBuffer[m_numLoopBuffers];
-    m_atBE0 = false;
+    m_stopLoopBufferThread = false;
     m_loopBufferThread = CreateThread(0, 0, rva0005F267, this, 0, 0);
     openDevice();
     ((Rva000A77D9 *)m_audioFileCache)->rva000A77D9((void *)m_audioSettings->m_at80);
@@ -2306,10 +2306,10 @@ void MilesAudioManager::rva00061C87(unsigned int viewMask)
     if (viewMask & 1) {
         slot91();
         m_triggerAreas.clear();
-        m_at6AA = true;
+        m_retestAreasEveryCall = true;
         m_at94 = 0;
     }
-    m_atBEC |= viewMask;
+    m_viewTypesResetSinceUpdate |= viewMask;
     for (int i = 0; i < 3; ++i) {
         if (viewMask & (1 << i)) {
             reinterpret_cast<GlobalVolumeData *>(&m_volumeData[i])->reset();
@@ -2326,7 +2326,7 @@ void MilesAudioManager::rva00061C87(unsigned int viewMask)
     m_unknownFileNames.clear();
     m_unknownFileNames.reserve(m_audioSettings->m_at68 + m_audioSettings->m_at64);
     if ((viewMask & 1) && m_audioSettings->m_atA8 > 0) {
-        if (_time64(0) - m_atBF8 > m_audioSettings->m_atA8) {
+        if (_time64(0) - m_lastDeviceOpenTime > m_audioSettings->m_atA8) {
             static bool allowReinitialize = rva006AD9B0();
             if (allowReinitialize)
                 rva0006179C(1);
@@ -3363,7 +3363,7 @@ void MilesAudioManager::rva00052FA0(PlayingAudioRef &playing)
 void MilesAudioManager::setOcclusionLevels(PlayingAudioRef &playing, const Coord3D *pos)
 {
     void *sample3D = get3DSampleHandleForPlayingAudio(playing);
-    if (m_audioSettings->m_atBC || rva000516EF(pos)) {
+    if (m_audioSettings->m_disableOcclusion || rva000516EF(pos)) {
         AIL_set_3D_sample_occlusion(sample3D, 0.0f);
         return;
     }
@@ -3382,7 +3382,7 @@ void MilesAudioManager::setOcclusionLevels(PlayingAudioRef &playing, const Coord
     float finalOcclusion = 1.0f - occlusion;
     if (finalOcclusion > 1.0f)
         finalOcclusion = 1.0f;
-    else if (finalOcclusion < m_audioSettings->m_atC0)
+    else if (finalOcclusion < m_audioSettings->m_occlusionFloor)
         finalOcclusion = 0.0f;
     AIL_set_3D_sample_occlusion(sample3D, finalOcclusion);
 }
@@ -3602,12 +3602,12 @@ void MilesAudioManager::rva00055C5D(PlayingAudioRef &playing, bool *result)
             playing->m_at34 = 1.0f;
             return;
         }
-        if (!m_at6AA) {
+        if (!m_retestAreasEveryCall) {
             *result = false;
             return;
         }
         static_cast<Coord3D &>(pos) = playing->m_at24;
-    } else if (!m_at6AA) {
+    } else if (!m_retestAreasEveryCall) {
         float dx = pos.x - playing->m_at24.x;
         float dy = pos.y - playing->m_at24.y;
         float limit = m_audioSettings->m_atB0;
@@ -3655,7 +3655,7 @@ bool MilesAudioManager::playSample(PlayingAudioRef &playing)
         prepSample(&playing);
         AIL_set_sample_file(sample, playing->m_file.getFileImage(), 0);
         AIL_start_sample(sample);
-        event->m_at50 = true;
+        event->m_startedPlaying = true;
         rva000535A6(playing);
         pauseResumeSound(playing);
         rva0005DB6C(playing->m_file.getFileName());
@@ -3680,7 +3680,7 @@ bool MilesAudioManager::playSample3D(PlayingAudioRef &playing)
             prep3DSample(playing, &pos);
             AIL_set_3D_sample_loop_count(sample3D, 1);
             AIL_start_3D_sample(sample3D);
-            event->m_at50 = true;
+            event->m_startedPlaying = true;
             rva000535A6(playing);
             pauseResumeSound(playing);
             return true;
@@ -3696,7 +3696,7 @@ void MilesAudioManager::processRequest(Rva00051107AudioRequest *req, bool *remov
     int canPlay = 2;
     if (req->m_request == 0 && !req->m_file.isOpen() && req->m_pendingEvent.operator->()) {
         float length = req->m_pendingEvent->m_at64;
-        if ((float)m_audioSettings->m_atB4 > length
+        if ((float)m_audioSettings->m_preloadLimit > length
             && req->m_pendingEvent->m_info->m_atB0 == 2) {
             if (canPlay == 2)
                 canPlay = reinterpret_cast<Rva0005E13CHost *>(this)->rva0005E13C(
@@ -3983,7 +3983,7 @@ void MilesAudioManager::rva0005824D(PolygonTrigger *trigger, float level)
         if (it->m_trigger == trigger) {
             if (it->m_level != level) {
                 it->m_level = level;
-                m_at6AA = true;
+                m_retestAreasEveryCall = true;
             }
             return;
         }
@@ -3992,7 +3992,7 @@ void MilesAudioManager::rva0005824D(PolygonTrigger *trigger, float level)
     area.m_trigger = trigger;
     area.m_level = level;
     m_triggerAreas.push_back(area);
-    m_at6AA = true;
+    m_retestAreasEveryCall = true;
 }
 
 // Native 000583BA..00058591. Under the mutex, pauses every sound (affect bit
@@ -4043,7 +4043,7 @@ void MilesAudioManager::rva000583BA(unsigned int affect, unsigned int viewMask, 
     }
     if (affect & 0x10) {
         if (affect & 0x20)
-            m_at694 |= viewMask;
+            m_musicPausedViewTypes |= viewMask;
         else
             m_at690 |= viewMask;
     }
@@ -4108,7 +4108,7 @@ void MilesAudioManager::rva00058591(unsigned int affect, unsigned int viewMask, 
     }
     if (affect & 0x10) {
         if (affect & 0x20)
-            m_at694 &= ~viewMask;
+            m_musicPausedViewTypes &= ~viewMask;
         else
             m_at690 &= ~viewMask;
     }
@@ -4147,7 +4147,7 @@ void MilesAudioManager::rva000606CE(bool accelerated)
     }
     selectProvider(accelerated);
     if (m_selectedProvider != (unsigned int)-1) {
-        internalSetReverbRoomType(m_atBE4);
+        internalSetReverbRoomType(m_reverbRoomType);
         update();
     }
 }
@@ -4197,7 +4197,7 @@ void MilesAudioManager::onAudioLODChanged(void)
     if (needReselect)
         rva000606CE(false);
     else
-        internalSetReverbRoomType(m_atBE4);
+        internalSetReverbRoomType(m_reverbRoomType);
     setMaxAmbientStreams();
 }
 
@@ -4394,8 +4394,8 @@ void MilesAudioManager::setViewFocus(int viewType)
     MilesMutexGuard guard(&m_mutex, 0);
     if (viewType != m_at678) {
         m_at678 = viewType;
-        m_at6A5 = true;
-        internalSetReverbRoomType(m_atBE4);
+        m_viewTypeChanged = true;
+        internalSetReverbRoomType(m_reverbRoomType);
         recalculateMicrophone();
         reinterpret_cast<Rva0005C892 *>(this)->rva0005C892();
     }
@@ -4480,7 +4480,7 @@ void MilesAudioManager::pauseResumeSound(PlayingAudioRef &playing)
     } else if (status == 8) {
         if (audio->m_type == 3 || audio->m_type == 1) {
             LoopBuffer *buffer = &m_loopBuffers[audio->m_handle];
-            if (buffer->m_at01)
+            if (buffer->m_heldPaused)
                 return;
         }
         if (!sample)
@@ -4578,7 +4578,7 @@ Xfer *xferAsciiStringVector(Xfer *xfer, _STL::vector<AsciiString> *vec);
 
 // WorldBuilder twin 0x7AA970 (MilesAudioManager::DoXfer). Snapshot slot 3,
 // reached through the +0x0C Snapshot subobject. Version 3 skips view type 2
-// unless m_atC00 is set; version 4 adds the per-view affect masks.
+// unless m_transferViewType2 is set; version 4 adds the per-view affect masks.
 void MilesAudioManager::xfer(Xfer *transfer)
 {
     if (transfer->isCRC())
@@ -4595,12 +4595,12 @@ void MilesAudioManager::xfer(Xfer *transfer)
     int oldViewType = m_at678;
     Rva00050C61Dispatch(reinterpret_cast<AudioReceiver *>(transfer), &m_at678);
     if (oldViewType != m_at678)
-        m_at6A5 = true;
+        m_viewTypeChanged = true;
     Rva00050C79Dispatch(reinterpret_cast<AudioReceiver *>(transfer), &m_at690);
     transfer->xferBool(&m_at6A7);
     int viewType;
     for (viewType = 0; viewType < 3; ++viewType) {
-        if (viewType == 2 && version.m_currentVersion >= 3 && !m_atC00)
+        if (viewType == 2 && version.m_currentVersion >= 3 && !m_transferViewType2)
             continue;
         Rva00050C91Dispatch(reinterpret_cast<AudioReceiver *>(transfer), &m_activeMusicSystem[viewType]);
         reinterpret_cast<GlobalVolumeData *>(&m_volumeData[viewType])->rva0005CE7E(transfer);
@@ -4619,7 +4619,7 @@ void MilesAudioManager::xfer(Xfer *transfer)
             m_savedTriggerAreas.push_back(area);
             --count;
         }
-        m_at6AA = true;
+        m_retestAreasEveryCall = true;
     } else {
         int count = static_cast<int>(m_triggerAreas.size());
         transfer->xferInt(&count);
@@ -4630,9 +4630,9 @@ void MilesAudioManager::xfer(Xfer *transfer)
             transfer->xferReal(&level);
         }
     }
-    transfer->xferInt(&m_atBE4);
+    transfer->xferInt(&m_reverbRoomType);
     if (transfer->isLoading())
-        internalSetReverbRoomType(m_atBE4);
+        internalSetReverbRoomType(m_reverbRoomType);
     if (version.m_currentVersion >= 2)
         transfer->xferUnsignedInt(reinterpret_cast<unsigned int *>(&m_at94));
     else
@@ -4652,7 +4652,7 @@ void MilesAudioManager::xfer(Xfer *transfer)
             startPendingMusicTracks();
         }
         for (viewType = 0; viewType < 3; ++viewType) {
-            if (viewType == 2 && version.m_currentVersion >= 3 && !m_atC00)
+            if (viewType == 2 && version.m_currentVersion >= 3 && !m_transferViewType2)
                 continue;
             for (int musicSystem = 0; musicSystem < 2; ++musicSystem) {
                 MusicStack &stack = m_musicStack[viewType][musicSystem];
@@ -4669,7 +4669,7 @@ void MilesAudioManager::xfer(Xfer *transfer)
             }
         }
         for (viewType = 0; viewType < 3; ++viewType) {
-            if (viewType == 2 && version.m_currentVersion >= 3 && !m_atC00)
+            if (viewType == 2 && version.m_currentVersion >= 3 && !m_transferViewType2)
                 continue;
             reinterpret_cast<Rva000A8C9B *>(&m_playingMusic[viewType])->clear();
         }
@@ -4681,7 +4681,7 @@ void MilesAudioManager::xfer(Xfer *transfer)
             PlayingAudioRef &playing = *it;
             if (playing.get() && playing->m_event.get() &&
                 (playing->m_event->getAudioEventInfo()->m_atB0 == 0 || playing->m_event->getAudioEventInfo()->m_atB0 == 1) &&
-                (playing->m_event->m_viewType != 2 || m_atC00) && !playing->m_at44 &&
+                (playing->m_event->m_viewType != 2 || m_transferViewType2) && !playing->m_at44 &&
                 !playing->m_event->at51[0])
                 savedStreams.push_back(playing);
         }
@@ -4692,7 +4692,7 @@ void MilesAudioManager::xfer(Xfer *transfer)
             rva0005B256(transfer, playing, reinterpret_cast<int *>(&version));
         }
         for (viewType = 0; viewType < 3; ++viewType) {
-            if (viewType == 2 && version.m_currentVersion >= 3 && !m_atC00)
+            if (viewType == 2 && version.m_currentVersion >= 3 && !m_transferViewType2)
                 continue;
             for (int musicSystem = 0; musicSystem < 2; ++musicSystem) {
                 MusicStack &stack = m_musicStack[viewType][musicSystem];
@@ -4759,7 +4759,7 @@ void MilesAudioManager::processPushMusicRequest(Rva00051107AudioRequest *req)
     if (musicSystem == *active) {
         putPlayingMusicOnStack(viewType, req->m_at10 == 0);
         if (((Rva000CB12FByteField *)playing->m_event.get())->get()) {
-            playing->m_at45 = true;
+            playing->m_pushedTrackResumed = true;
             playing->m_at30 = (float)m_audioSettings->m_at78;
             ((Weapon *)playing->m_event.get())->setLeechRangeActive(false);
         }
@@ -4804,7 +4804,7 @@ bool MilesAudioManager::playSample2DOr3DUsingCallbackBuffers(PlayingAudioRef &pl
     loop->m_is3D = is3D;
     loop->m_3DSample = sample3D;
     loop->m_sample = sample;
-    loop->m_at01 = false;
+    loop->m_heldPaused = false;
     loop->m_at44 = false;
     (BfmePoolRef10 &)loop->m_source = playing->m_event;
     loop->m_endOfLastCopy = 0;
@@ -5094,7 +5094,7 @@ void MilesAudioManager::removeCurrentlyPlayingMusic(int viewType, int arg)
         if (it._M_node == m_playingStreams.end()._M_node)
             return;
         PlayingAudioRef playing = *it;
-        playing->m_at45 = false;
+        playing->m_pushedTrackResumed = false;
         if (!arg) {
             playing->m_at44 = 1;
         } else {
@@ -5150,7 +5150,7 @@ void MilesAudioManager::releaseMilesHandles(PlayingAudio &playing)
             }
             break;
         }
-        if (playing.m_at4D)
+        if (playing.m_raiseScriptFlagOnRelease)
             *TheScriptEngine->bfmeFlagForWrite(*(const AsciiString *)((const char *)playing.m_event.get() + 0x84)) = true;
     }
     bool released = false;
@@ -5378,7 +5378,7 @@ void MilesAudioManager::playAudioEvent(Rva00051107AudioRequest *req)
         reinterpret_cast<Weapon *>(event.get())->setLeechRangeActive(true);
     event->m_at4F = false;
     if (reinterpret_cast<Rva000CB12FByteField *>(event.get())->get()) {
-        playing->m_at45 = true;
+        playing->m_pushedTrackResumed = true;
         playing->m_at30 = (float)m_audioSettings->m_at78;
         reinterpret_cast<Weapon *>(event.get())->setLeechRangeActive(false);
     }
@@ -5601,7 +5601,7 @@ void MilesAudioManager::update()
         return;
     LatchRestore<bool> latch(inUpdate, true);
     if (m_audioSettings->m_atAC > 0) {
-        if (_time64(0) - m_atBF8 > m_audioSettings->m_atAC) {
+        if (_time64(0) - m_lastDeviceOpenTime > m_audioSettings->m_atAC) {
             static bool allowReinitialize = rva006AD9B0();
             if (allowReinitialize)
                 rva0006179C(1);
@@ -5609,8 +5609,8 @@ void MilesAudioManager::update()
     }
     ((Rva00056DA2 *)&atB78)->rva00056DA2();
     m_at90 = slot109();
-    if (m_at6AA || (!m_triggerAreas.empty() && TheGameEngine && TheGameEngine->rva00225D38()))
-        m_at6A9 = true;
+    if (m_retestAreasEveryCall || (!m_triggerAreas.empty() && TheGameEngine && TheGameEngine->rva00225D38()))
+        m_areasNeedRetest = true;
     if (m_at6AB)
         recalculateMicrophone();
     reinterpret_cast<GlobalVolumeData *>(&m_volumeData[2])->rva000521F4(m_at90);
@@ -5624,10 +5624,10 @@ void MilesAudioManager::update()
     processPlayingList(&ambient);
     rva0005F2BB(&ambient);
     rva0005B708();
-    m_at6A5 = false;
+    m_viewTypeChanged = false;
     m_at6A8 = false;
-    m_at6A9 = false;
-    m_at6AA = false;
+    m_areasNeedRetest = false;
+    m_retestAreasEveryCall = false;
     for (int i = 0; i < 3; ++i)
         reinterpret_cast<GlobalVolumeData *>(&m_volumeData[i])->rva000520C6();
     SubTitleWindow *subTitles = m_subTitleWindow;
@@ -5673,7 +5673,7 @@ class Rva002DAAD5Owner { public: void rva002DAAD5(); };
 // MilesAudioManager::reinitializeAudioSystem): snapshot, reopen and reload the device.
 void MilesAudioManager::rva0006179C(int skipRequestRefresh)
 {
-    LatchRestore<bool> latch(m_atC00, true);
+    LatchRestore<bool> latch(m_transferViewType2, true);
     BfmeMade_009CB5F0 *writeFile = bfmeMake_009CB5F0(0);
     if (!writeFile)
         return;
@@ -6068,16 +6068,16 @@ bool MilesAudioManager::processFade(PlayingAudioRef &playing)
                 playing->m_at48 = true;
             playing->m_at44 = false;
             playing->m_at46 = false;
-            playing->m_at45 = false;
+            playing->m_pushedTrackResumed = false;
             playing->m_fadeUpFromShroud = false;
         }
         return true;
     }
-    if (playing->m_at45 || playing->m_fadeUpFromShroud) {
+    if (playing->m_pushedTrackResumed || playing->m_fadeUpFromShroud) {
         playing->m_at30 -= elapsed;
         if (playing->m_at30 <= 0.0f) {
             playing->m_at30 = 0.0f;
-            playing->m_at45 = false;
+            playing->m_pushedTrackResumed = false;
             playing->m_fadeUpFromShroud = false;
         }
         return true;
@@ -6129,7 +6129,7 @@ static __forceinline bool ambientSameNameR(AudioEventInfo *audioEventInfo, Audio
 void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *streams)
 {
     unsigned int view = 1 << m_at678;
-    if ((m_at690 & view) || (m_at694 & view) || !slot56(16))
+    if ((m_at690 & view) || (m_musicPausedViewTypes & view) || !slot56(16))
         return;
     QueuedAudioEvents &events = m_queuedEvents[m_at678];
     QueuedAudioEvents::iterator eventEnd = events.end();
@@ -6257,9 +6257,9 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
                 playing->m_at30 -= m_at90;
                 if (playing->m_at30 < 0.0f) {
                     playing->m_at30 = 0;
-                    playing->m_at45 = false;
+                    playing->m_pushedTrackResumed = false;
                 } else {
-                    playing->m_at45 = true;
+                    playing->m_pushedTrackResumed = true;
                 }
             }
         }
@@ -6306,11 +6306,11 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
             reinterpret_cast<Rva000A8D0B *>(&playing->m_at0C)->rva000A8D0B(owner, filename, 0);
             playing->m_type = 4;
             playing->m_at30 = fadeTime - g_00DBA4FC;
-            if (m_atBEC & (1 << m_at678)) {
+            if (m_viewTypesResetSinceUpdate & (1 << m_at678)) {
                 playing->m_at30 = 0;
-                playing->m_at45 = false;
+                playing->m_pushedTrackResumed = false;
             } else {
-                playing->m_at45 = true;
+                playing->m_pushedTrackResumed = true;
             }
             rva0005DB6C(filename);
             if (0) { AsciiString dbg(filename); rva0005DB6C(dbg); }
@@ -6340,7 +6340,7 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
             }
         }
     }
-    m_atBEC &= ~(1 << m_at678);
+    m_viewTypesResetSinceUpdate &= ~(1 << m_at678);
 }
 
 
@@ -6383,7 +6383,7 @@ void MilesAudioManager::rva00053646(Rva00051107AudioRequest *req, bool *removeRe
         int oldPortion = event->m_portionToPlayNext;
         event->m_at53 = true;
         event->advanceNextPlayPortion();
-        event->m_at50 = true;
+        event->m_startedPlaying = true;
         event->rva002D9ADC();
         if (event->m_portionToPlayNext != 3) {
             if (oldPortion != event->m_portionToPlayNext) {
@@ -6393,7 +6393,7 @@ void MilesAudioManager::rva00053646(Rva00051107AudioRequest *req, bool *removeRe
                 for (int i=0; i<count; ++i) {
                     reinterpret_cast<Rva00691040Handle &>(req->m_file) = m_audioFileCache->requestFile(event, req->m_file.getAt3C());
                     if (!reinterpret_cast<Rva00050DD0 *>(&req->m_file)->rva00050DD0()) break;
-                    event->m_at50 = true;
+                    event->m_startedPlaying = true;
                     event->rva002D9ADC();
                 }
                 if (reinterpret_cast<Rva00050DD0 *>(&req->m_file)->rva00050DD0()) *removeRequest = true;
@@ -6425,7 +6425,7 @@ void MilesAudioManager::putPlayingMusicOnStack(int viewType, int arg)
         const Rva0036CA00Str ref(*reinterpret_cast<const Rva0036CA00Str *>(&*it));
         ((Rva00058B90 *)&m_musicStack[viewType][activeMusicSystem])->rva00058B90(ref);
         PlayingAudio *playing = ref.get();
-        playing->m_at45 = false;
+        playing->m_pushedTrackResumed = false;
         if (!arg) {
             playing->m_at44 = true;
         } else {
@@ -6574,7 +6574,7 @@ void Rva000535CC::rva000535CC(void *p)
     (*(PlayingAudio **)p)->m_at4C = 0;
     if (m_at6B0 != 0)
         return;
-    (*(PlayingAudio **)p)->m_at45 = 1;
+    (*(PlayingAudio **)p)->m_pushedTrackResumed = 1;
     (*(PlayingAudio **)p)->m_at30 = (float)m_audioSettings->m_at78;
 }
 
@@ -6660,7 +6660,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             it = reinterpret_cast<OpaqueRefList &>(m_playingSounds).erase(it);
             continue;
         }
-        if (m_at6A5 || (audio->m_at4C && !m_at6AC)) {
+        if (m_viewTypeChanged || (audio->m_at4C && !m_at6AC)) {
             ((Rva000535CC *)this)->rva000535CC(&playing);
             rva000535A6(playing);
             pauseResumeSound(playing);
@@ -6670,7 +6670,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
         if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
             audio->m_at44 = true;
         bool fading = processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_fadeUpFromShroud;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
                 rva0005AA72(playing);
@@ -6680,7 +6680,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             it = reinterpret_cast<OpaqueRefList &>(m_playingSounds).erase(it);
         } else {
             if (reinterpret_cast<GlobalVolumeData *>(&m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
-                || m_at6A5 || fading || audio->m_at4F)
+                || m_viewTypeChanged || fading || audio->m_at4F)
                 adjustPlayingVolume(&playing);
             if (m_at6A8)
                 rva00052FA0(playing);
@@ -6696,7 +6696,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             it = reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).erase(it);
             continue;
         }
-        if (m_at6A5 || (audio->m_at4C && !m_at6AC)) {
+        if (m_viewTypeChanged || (audio->m_at4C && !m_at6AC)) {
             ((Rva000535CC *)this)->rva000535CC(&playing);
             rva000535A6(playing);
             pauseResumeSound(playing);
@@ -6706,7 +6706,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
         if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
             audio->m_at44 = true;
         processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_fadeUpFromShroud;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
         void *sample3D = get3DSampleHandleForPlayingAudio(playing);
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
@@ -6741,7 +6741,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             }
             setOcclusionLevels(playing, reinterpret_cast<const Coord3D *>(&pos));
             bool retest = false;
-            if (m_at6A9 && audio->m_event->m_info->m_reverbWetLevel > BfmeZeroRange)
+            if (m_areasNeedRetest && audio->m_event->m_info->m_reverbWetLevel > BfmeZeroRange)
                 rva00055C5D(playing, &retest);
             if (m_at6A8 || retest)
                 rva00052FA0(playing);
@@ -6769,7 +6769,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             it = list.erase(it);
             continue;
         }
-        if (m_at6A5 || (audio->m_at4C && !m_at6AC)) {
+        if (m_viewTypeChanged || (audio->m_at4C && !m_at6AC)) {
             ((Rva000535CC *)this)->rva000535CC(&playing);
             rva000535A6(playing);
             pauseResumeSound(playing);
@@ -6789,7 +6789,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
                 audio->m_status = 1;
         }
         bool fading = processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_fadeUpFromShroud;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_pushedTrackResumed && !audio->m_fadeUpFromShroud;
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
                 rva0005AA72(playing);
@@ -6802,7 +6802,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             if (m_at6A8)
                 rva00052FA0(playing);
             if (reinterpret_cast<GlobalVolumeData *>(&m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
-                || fading || m_at6A5 || audio->m_at4F)
+                || fading || m_viewTypeChanged || audio->m_at4F)
                 adjustPlayingVolume(&playing);
             ++it;
         }
@@ -6852,7 +6852,7 @@ extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(voi
 class Rva00A897D { public: void rva000A89C1(void); };
 MilesAudioManager::~MilesAudioManager()
 {
-    m_atBE0 = true;
+    m_stopLoopBufferThread = true;
     if (m_audioFileCache)
         m_audioFileCache->rva000A77B3();
     if (m_atB90)
