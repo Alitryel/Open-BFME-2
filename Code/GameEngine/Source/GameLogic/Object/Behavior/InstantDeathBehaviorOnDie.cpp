@@ -28,8 +28,8 @@ class BehaviorModule{public:virtual~BehaviorModule();protected:const InstantDeat
 class DieModuleInterface{public:virtual void onDie(const DamageInfo*)=0;};
 class DieModule:public BehaviorModule,public DieModuleInterface{protected:bool isDieApplicable(const DamageInfo*)const;};
 class InstantDeathBehavior:public DieModule{public:virtual void onDie(const DamageInfo*);};
-void InstantDeathBehavior::onDie(const DamageInfo*d){
- if(!isDieApplicable(d))return;
+void InstantDeathBehavior::onDie(const DamageInfo*damageInfo){
+ if(!isDieApplicable(damageInfo))return;
  if(object->ai){if(object->ai->dead)return;object->ai->markAsDead();}
  const InstantDeathBehaviorModuleData*self=data;
  char*file="C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Behavior\\InstantDeathBehavior.cpp";
