@@ -1,15 +1,13 @@
-// ?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z
-// partial score=0.96418 date=2026-10-20
-// ?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z
-// partial score=0.96418 date=2026-10-20
-// R8: by-value Convert_Color_Clamp, Texture operator bool, no WB-absent tail locals. History: attempt_support/00743700-symcount-20261020.md
-// cl: /I. /Ireference/shims/bfmeshader /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme_d3d8_sdk_settransform /I. /Ireference/shims/bfmeshader /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Adapted from Command & Conquer Generals Zero Hour, copyright 2025 Electronic Arts Inc.
-// Reference Open-BFME-1 575ba2b04; target and donor facts distinguished in RE record.
-// Complete StreakRenderer743700..746DD4 attempt; no verified retail byte credit.
-// Embedded private header views are bank evidence, not shared-header changes.
+// StreakRendererClass::RenderStreak (retail 0x00743700, 14036 B). Reference Open-BFME-1 575ba2b04;
+// target and donor facts are separated in reverse/attempt_support/00743700-phase-20261020.md.
+// The device declaration comes from reference/shims/bfme_d3d8_sdk_settransform (SDK-typed
+// SetTransform). FVFInfoClass keeps WorldBuilder's indexed Get_Location_Offset(n). The
+// remaining StreakRendererClass members are rowed in streakRender.cpp; subdivision_util and
+// getVertexBuffer stay visible here (inline) because retail's /O2 RenderStreak inlines them.
 #define Matrix4x4 Matrix4
 void operator delete[](void*) throw();
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/texture.h"
@@ -199,17 +197,14 @@ class FVFInfoClass : public W3DMPO
  bool AdditionalBasis;
  unsigned ExtensionCount;
 	mutable unsigned						fvf_size;
-	unsigned							location_offset;
-	unsigned							normal_offset;
-	unsigned							blend_offset;
- unsigned target_unknown_1c_20[2];
+	unsigned							location_offset[5];
 	unsigned							texcoord_offset[D3DDP_MAXTEXCOORD];
 	unsigned							diffuse_offset;
 	unsigned							specular_offset;
 public:
 	FVFInfoClass(unsigned FVF, unsigned vertex_size=0);
-	inline unsigned Get_Location_Offset() const { return location_offset; }
-	inline unsigned Get_Normal_Offset() const { return normal_offset; }
+	inline unsigned Get_Location_Offset(unsigned int n) const { return location_offset[n]; }
+	inline unsigned Get_Normal_Offset() const { return location_offset[1]; }
 #ifdef WWDEBUG
 	inline unsigned Get_Tex_Offset(unsigned int n) const { WWASSERT(n<D3DDP_MAXTEXCOORD); return texcoord_offset[n]; }
 #else
@@ -320,6 +315,7 @@ public:
 	};
 	friend WriteLock;
 };
+// ?Get_Formatted_Vertex_Array@WriteLock@DynamicVBAccessClass present-unmatched
 inline VertexFormatXYZNDUV2 * DynamicVBAccessClass::WriteLock::Get_Formatted_Vertex_Array()
 {
 	WWASSERT(DynamicVBAccess->VertexBuffer->FVF_Info().Get_FVF() == (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX2|D3DFVF_DIFFUSE));
@@ -574,6 +570,7 @@ public:
 	int  m_debugLinesToShow;
 	int	 m_sleepTime;
 public:
+	// ?DX8_Stats@DX8_Stats present-unmatched
 	DX8_Stats::DX8_Stats(void) {
 		m_disableConsole = m_showingStats = m_disableTerrain = m_disableWater = m_disableOverhead = m_disableObjects = false;
 		m_sleepTime = 0;
@@ -975,108 +972,7 @@ void BFME2Set_Texture(unsigned stage,const BFME2TextureRef &texture);
 #endif
 #define MAX_STREAK_POINT_BUFFER_SIZE (1 + STREAK_CHUNK_SIZE)
 #define MAX_STREAK_POLY_BUFFER_SIZE (STREAK_CHUNK_SIZE * 2)
-StreakRendererClass::StreakRendererClass(void) :
-		Texture(NULL),
-		Shader(ShaderClass::_PresetAdditiveSpriteShader),
-		Width(0.0f),
-		Color(Vector3(1,1,1)),
-		Opacity(1.0f),
-		SubdivisionLevel(0),
-		NoiseAmplitude(0.0f),
-		MergeAbortFactor(1.5f),
-		TextureTileFactor(1.0f),
-		LastUsedSyncTime(WW3D::Get_Sync_Time()),
-		CurrentUVOffset(0.0f,0.0f),
-		UVOffsetDeltaPerMS(0.0f, 0.0f),
-		Bits(DEFAULT_BITS),
-		m_vertexBufferSize(0),
-		m_vertexBuffer(NULL)
-{
-}
-StreakRendererClass::StreakRendererClass(const StreakRendererClass & that) :
-		Texture(NULL),
-		Shader(ShaderClass::_PresetAdditiveSpriteShader),
-		Width(0.0f),
-		Color(Vector3(1,1,1)),
-		Opacity(1.0f),
-		SubdivisionLevel(0),
-		NoiseAmplitude(0.0f),
-		MergeAbortFactor(1.5f),
-		TextureTileFactor(1.0f),
-		LastUsedSyncTime(that.LastUsedSyncTime),
-		CurrentUVOffset(0.0f,0.0f),
-		UVOffsetDeltaPerMS(0.0f, 0.0f),
-		Bits(DEFAULT_BITS),
-		m_vertexBufferSize(0),
-		m_vertexBuffer(NULL)
-{
-	*this = that;
-}
-StreakRendererClass & StreakRendererClass::operator = (const StreakRendererClass & that)
-{
-	if (this != &that) {
-		Texture = that.Texture;
-		Shader = that.Shader;
-		Width = that.Width;
-		Color = that.Color;
-		Opacity = that.Opacity;
-		SubdivisionLevel = that.SubdivisionLevel;
-		NoiseAmplitude = that.NoiseAmplitude;
-		MergeAbortFactor = that.MergeAbortFactor;
-		TextureTileFactor = that.TextureTileFactor;
-		LastUsedSyncTime = that.LastUsedSyncTime;
-		CurrentUVOffset = that.CurrentUVOffset;
-		UVOffsetDeltaPerMS = that.UVOffsetDeltaPerMS;
-		Bits = that.Bits;
-	}
-	return *this;
-}
-StreakRendererClass::~StreakRendererClass(void)
-{
-	delete [] m_vertexBuffer;
-}
-void StreakRendererClass::Init(const W3dEmitterLinePropertiesStruct & props)
-{
-	Set_Merge_Intersections(props.Flags & W3D_ELINE_MERGE_INTERSECTIONS);
-	Set_Freeze_Random(props.Flags & W3D_ELINE_FREEZE_RANDOM);
-	Set_Disable_Sorting(props.Flags & W3D_ELINE_DISABLE_SORTING);
-	Set_End_Caps(props.Flags & W3D_ELINE_END_CAPS);
-	int texture_mode = ((props.Flags & W3D_ELINE_TEXTURE_MAP_MODE_MASK) >> W3D_ELINE_TEXTURE_MAP_MODE_OFFSET);
-	switch (texture_mode)
-	{
-	case W3D_ELINE_UNIFORM_WIDTH_TEXTURE_MAP:
-		Set_Texture_Mapping_Mode(UNIFORM_WIDTH_TEXTURE_MAP);
-		break;
-	case W3D_ELINE_UNIFORM_LENGTH_TEXTURE_MAP:
-		Set_Texture_Mapping_Mode(UNIFORM_LENGTH_TEXTURE_MAP);
-		break;
-	case W3D_ELINE_TILED_TEXTURE_MAP:
-		Set_Texture_Mapping_Mode(TILED_TEXTURE_MAP);
-		break;
-	};
-	Set_Current_Subdivision_Level(props.SubdivisionLevel);
-	Set_Noise_Amplitude(props.NoiseAmplitude);
-	Set_Merge_Abort_Factor(props.MergeAbortFactor);
-}
-TextureClass * StreakRendererClass::Get_Texture(void) const
-{
-	if (Texture != NULL) {
-		Texture->Add_Ref();
-	}
-	return Texture.Peek();
-}
-void StreakRendererClass::Render
-(
-	RenderInfoClass & rinfo,
-	const Matrix3D & transform,
-	unsigned int num_points,
-	Vector3 * points,
-	const SphereClass & obj_sphere
-)
-{
-	return;
-}
-void StreakRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
+inline void StreakRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
 	const float *base_tex_v, unsigned int *p_sub_point_cnt, Vector3 *xformed_subdiv_pts,
 	float *subdiv_tex_v)
 {
@@ -1759,7 +1655,7 @@ void StreakRendererClass::RenderStreak
 			unsigned int i;
 			unsigned char *vb=(unsigned char*)Lock.Get_Formatted_Vertex_Array();
 			const FVFInfoClass& fvfinfo=Verts.FVF_Info();
-			const unsigned verticesOffset = fvfinfo.Get_Location_Offset();
+			const unsigned verticesOffset = fvfinfo.Get_Location_Offset(0);
 			const unsigned diffuseOffset = fvfinfo.Get_Diffuse_Offset();
 			const unsigned textureOffset = fvfinfo.Get_Tex_Offset(0);
 			const unsigned vbSize = fvfinfo.Get_FVF_Size();
@@ -1805,7 +1701,7 @@ void StreakRendererClass::RenderStreak
 	}
 	DX8Wrapper::Set_Transform(D3DTS_VIEW,view);
 }
-VertexFormatXYZUV1 *StreakRendererClass::getVertexBuffer(unsigned int number)
+inline VertexFormatXYZUV1 *StreakRendererClass::getVertexBuffer(unsigned int number)
 {
 	if (number > m_vertexBufferSize)
 	{
