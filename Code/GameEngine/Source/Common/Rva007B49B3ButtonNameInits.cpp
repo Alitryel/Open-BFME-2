@@ -26,7 +26,7 @@ extern int g_00E06748;
 class Rva005E16DA
 {
 public:
-	Rva005E16DA( const AsciiString &name );
+	Rva005E16DA( int name );	// the address of the name (row ??0Rva005E16DA@@QAE@H@Z)
 };
 
 struct Rva007B49B3ButtonNameInits
@@ -38,18 +38,18 @@ struct Rva007B49B3ButtonNameInits
 
 void __cdecl Rva007B49B3ButtonNameInits::rva007B49B3()
 {
-	( (Rva005E16DA *)&g_Va00E06620 )->Rva005E16DA::Rva005E16DA( AsciiString( "ToggleSelectionDetailsButton" ) );
+	( (Rva005E16DA *)&g_Va00E06620 )->Rva005E16DA::Rva005E16DA( (int)&AsciiString( "ToggleSelectionDetailsButton" ) );
 	atexit( rva007B9734 );
 }
 
 void __cdecl Rva007B49B3ButtonNameInits::rva007B509A()
 {
-	( (Rva005E16DA *)&g_00E06734 )->Rva005E16DA::Rva005E16DA( AsciiString( "DestroyBuildingButton" ) );
+	( (Rva005E16DA *)&g_00E06734 )->Rva005E16DA::Rva005E16DA( (int)&AsciiString( "DestroyBuildingButton" ) );
 	atexit( rva007B9979 );
 }
 
 void __cdecl Rva007B49B3ButtonNameInits::rva007B50E7()
 {
-	( (Rva005E16DA *)&g_00E06748 )->Rva005E16DA::Rva005E16DA( AsciiString( "CancelBuildingConstructionButton" ) );
+	( (Rva005E16DA *)&g_00E06748 )->Rva005E16DA::Rva005E16DA( (int)&AsciiString( "CancelBuildingConstructionButton" ) );
 	atexit( rva007B9983 );
 }

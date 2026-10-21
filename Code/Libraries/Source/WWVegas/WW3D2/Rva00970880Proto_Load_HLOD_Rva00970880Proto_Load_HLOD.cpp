@@ -82,17 +82,16 @@ private:
 	int m_second;
 };
 
-extern void *Open_W3D_File(void *a, void *b, const char *filename);
+class File;
+File *__cdecl GetGameFilePart(const char *filename, int a, int b);
 
 void Rva00970880Proto::Load_HLOD()
 {
 	StringClass filename(m_name, false);
 	filename += ".w3d";	// the compiler literal at VA 0xBC6860
 
-	BFMEChunkInput *file = (BFMEChunkInput *)Open_W3D_File(
-		(void *)(const char *)filename,
-		(void *)(unsigned int)m_first,
-		(const char *)(unsigned int)m_second);
+	BFMEChunkInput *file = (BFMEChunkInput *)GetGameFilePart(
+		filename, m_first, m_second);
 	if (file != 0) {
 		ChunkLoadClass cload(file);
 		if (cload.Open_Chunk() && cload.Cur_Chunk_ID() == 0x700) {

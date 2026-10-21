@@ -112,11 +112,17 @@ enum CommandSourceType
 	CMD_FROM_PLAYER = 0
 };
 
-class Rva006C1F60
+namespace EA
+{
+namespace Allocator
+{
+class GeneralAllocator
 {
 public:
-	bool rva00033D50();
+	bool rva00033D50();	// rowed teardown 0x00033D50
 };
+}
+}
 
 class Rva001EDDBBForwarder
 {
@@ -300,6 +306,8 @@ class TransportContain
 {
 public:
 	virtual void onCapture(int a, int b);
+protected:
+	virtual void killRidersWhoAreNotFreeToExit();	// rowed 0x00467F3B
 };
 
 class Rva00497805
@@ -317,7 +325,7 @@ public:
 class SpecialAbilityUpdate
 {
 public:
-	virtual bool rva0044FC52();
+	virtual bool continuePreparation();	// rowed 0x0044FC52
 	virtual void startUnpacking();
 	virtual UpdateSleepTime update();
 protected:
@@ -443,14 +451,14 @@ int Rva000A8F58Get();
 int Rva000A8F5EGet();
 
 // 0x00034D00: tail jump to Rva006C1F60::rva00033D50.
-class Rva00034D00 : public Rva006C1F60
+class Rva00034D00 : public EA::Allocator::GeneralAllocator
 {
 public:
 	bool rva00034D00();
 };
 bool Rva00034D00::rva00034D00()
 {
-	return Rva006C1F60::rva00033D50();
+	return EA::Allocator::GeneralAllocator::rva00033D50();
 }
 
 // 0x00041A06: tail jump to Rva001EDDBBForwarder::rva001EDDBB.
@@ -775,7 +783,7 @@ public:
 };
 
 
-// 0x00494E21: tail jump to SpecialAbilityUpdate::rva0044FC52.
+// 0x00494E21: tail jump to SpecialAbilityUpdate::continuePreparation.
 class Rva00494E21 : public SpecialAbilityUpdate
 {
 public:
@@ -783,7 +791,7 @@ public:
 };
 bool Rva00494E21::rva00494E21()
 {
-	return SpecialAbilityUpdate::rva0044FC52();
+	return SpecialAbilityUpdate::continuePreparation();
 }
 
 // 0x00494E48: tail jump to SpecialAbilityUpdate::startUnpacking.
@@ -1062,19 +1070,20 @@ private:
 // Tail-jump slots over unrowed callees, pinned in reverse/symbols.csv under
 // address-derived names (argument counts from each callee's ret).
 
-class Rva002D7DD5
+// 0x002D7DD5 is the rowed Radar::update.
+class Radar
 {
 public:
-	void rva002D7DD5();
+	virtual void update();
 };
-class Rva0004E3A1 : public Rva002D7DD5
+class Rva0004E3A1 : public Radar
 {
 public:
 	void rva0004E3A1();
 };
 void Rva0004E3A1::rva0004E3A1()
 {
-	rva002D7DD5();
+	Radar::update();
 }
 
 class LargeGroupAudioKeyMap;
@@ -1111,12 +1120,12 @@ public:
 };
 
 
-class Rva00286CC4
+class FireLogicSystem
 {
 public:
-	void rva00286CC4();
+	void rva00286CC4();	// rowed grid teardown 0x00286CC4
 };
-class Rva00287010 : public Rva00286CC4
+class Rva00287010 : public FireLogicSystem
 {
 public:
 	void rva00287010();
@@ -1129,7 +1138,7 @@ void Rva00287010::rva00287010()
 class Rva003412DB
 {
 public:
-	void rva003412DB();
+	StateReturnType rva003412DB();
 };
 class Rva00341339 : public Rva003412DB
 {
@@ -1141,19 +1150,20 @@ void Rva00341339::rva00341339()
 	rva003412DB();
 }
 
-class Rva00349013
+// 0x00349013 is the rowed AIAttackMeleeHordeApproachTargetState::update.
+class AIAttackMeleeHordeApproachTargetState
 {
 public:
-	void rva00349013();
+	virtual StateReturnType update();
 };
-class Rva00349217 : public Rva00349013
+class Rva00349217 : public AIAttackMeleeHordeApproachTargetState
 {
 public:
 	void rva00349217();
 };
 void Rva00349217::rva00349217()
 {
-	rva00349013();
+	AIAttackMeleeHordeApproachTargetState::update();
 }
 
 // Native slot3497C2 forwards the StateReturnType result of the recovered
@@ -1171,12 +1181,12 @@ public:
 };
 
 
-class Rva0034D98B
+class AIAttackMeleeSquishState
 {
-public:
-	void rva0034D98B();
+	StateReturnType rva0034D98B();	// rowed 0x0034D98B
+	friend class Rva0034DC00;
 };
-class Rva0034DC00 : public Rva0034D98B
+class Rva0034DC00 : public AIAttackMeleeSquishState
 {
 public:
 	void rva0034DC00();
@@ -1186,19 +1196,19 @@ void Rva0034DC00::rva0034DC00()
 	rva0034D98B();
 }
 
-class Rva0035066B
+class AIAttackFireDuringApproachState
 {
-public:
-	void rva0035066B();
+	StateReturnType updateInternal();	// rowed 0x0035066B
+	friend class Rva003508C0;
 };
-class Rva003508C0 : public Rva0035066B
+class Rva003508C0 : public AIAttackFireDuringApproachState
 {
 public:
 	void rva003508C0();
 };
 void Rva003508C0::rva003508C0()
 {
-	rva0035066B();
+	updateInternal();
 }
 
 // Native 00404B03..00404B6C: two owned pointers at +12C/+130,
@@ -1243,34 +1253,30 @@ private:
 };
 
 
-class Rva0047BBA7
+// 0x0047BBA7 is the rowed SiegeEngineContain::createPayload.
+class SiegeEngineContain
 {
 public:
-	void rva0047BBA7();
+	virtual void createPayload();
 };
-class Rva0047E32B : public Rva0047BBA7
+class Rva0047E32B : public SiegeEngineContain
 {
 public:
 	void rva0047E32B();
 };
 void Rva0047E32B::rva0047E32B()
 {
-	rva0047BBA7();
+	SiegeEngineContain::createPayload();
 }
 
-class Rva00467F3B
-{
-public:
-	void rva00467F3B();
-};
-class Rva0047E330 : public Rva00467F3B
+class Rva0047E330 : public TransportContain
 {
 public:
 	void rva0047E330();
 };
 void Rva0047E330::rva0047E330()
 {
-	rva00467F3B();
+	TransportContain::killRidersWhoAreNotFreeToExit();
 }
 
 class Rva004BF40F
@@ -1316,7 +1322,7 @@ private:
 class Rva005D2F7E
 {
 public:
-	void rva005D2F7E();
+	char *rva005D2F7E();
 };
 class Rva0057862E
 {
@@ -1334,7 +1340,7 @@ void Rva0057862E::rva0057862E()
 class Rva005D2F84
 {
 public:
-	void rva005D2F84();
+	char *rva005D2F84();
 };
 class Rva00578636
 {
@@ -1352,7 +1358,7 @@ void Rva00578636::rva00578636()
 class Rva005D2F8A
 {
 public:
-	void rva005D2F8A();
+	char *rva005D2F8A();
 };
 class Rva0057863E
 {
@@ -1371,6 +1377,7 @@ class AptStats
 {
 public:
 	void rva005DD22B();
+	virtual void rva005DD06D();	// rowed 0x005DD06D
 };
 class Rva005B7FFA
 {
@@ -1382,22 +1389,17 @@ private:
 };
 
 
-class Rva005DD06D
-{
-public:
-	void rva005DD06D();
-};
 class Rva005B8002
 {
 public:
 	void rva005B8002();
 private:
 	char m_pad00[0x60];
-	Rva005DD06D m_60;
+	AptStats m_60;
 };
 void Rva005B8002::rva005B8002()
 {
-	m_60.rva005DD06D();
+	m_60.AptStats::rva005DD06D();
 }
 
 class Rva00517EA2
@@ -1427,36 +1429,38 @@ public:
 };
 
 
-class Rva005F963A
+namespace StrategicHUD {
+class BattlePromptMovieClip
 {
 public:
-	void rva005F963A(Int a);
+	class Impl
+	{
+	public:
+		void rva005F963A(Int a);	// rowed 0x005F963A
+		void rva005F9687(Int a);	// rowed 0x005F9687
+	};
 };
+}
 class Rva005F97AC
 {
 public:
 	void rva005F97AC(Int a);
 private:
 	char m_pad00[0x3C];
-	Rva005F963A *m_3C;
+	StrategicHUD::BattlePromptMovieClip::Impl *m_3C;
 };
 void Rva005F97AC::rva005F97AC(Int a)
 {
 	m_3C->rva005F963A(a);
 }
 
-class Rva005F9687
-{
-public:
-	void rva005F9687(Int a);
-};
 class Rva005F97B4
 {
 public:
 	void rva005F97B4(Int a);
 private:
 	char m_pad00[0x38];
-	Rva005F9687 *m_38;
+	StrategicHUD::BattlePromptMovieClip::Impl *m_38;
 };
 void Rva005F97B4::rva005F97B4(Int a)
 {
