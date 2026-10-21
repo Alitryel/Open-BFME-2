@@ -47,23 +47,23 @@ public:
 	void rva000B2FBB(float f, const Matrix3D *m);
 };
 
-void Rva000B2FBB::rva000B2FBB(float f, const Matrix3D *m)
+void Rva000B2FBB::rva000B2FBB(float f, const Matrix3D *matrix3D)
 {
 	m_f2c0 = f;
-	m_mat.m00 = m->m00;
-	m_mat.m01 = m->m01;
-	m_mat.m02 = m->m02;
-	m_mat.m03 = m->m03;
+	m_mat.m00 = matrix3D->m00;
+	m_mat.m01 = matrix3D->m01;
+	m_mat.m02 = matrix3D->m02;
+	m_mat.m03 = matrix3D->m03;
 	int *d1 = &m_mat.m10;
-	d1[0] = m->m10;
-	d1[1] = m->m11;
-	d1[2] = m->m12;
-	d1[3] = m->m13;
+	d1[0] = matrix3D->m10;
+	d1[1] = matrix3D->m11;
+	d1[2] = matrix3D->m12;
+	d1[3] = matrix3D->m13;
 	int *d2 = &m_mat.m20;
-	d2[0] = m->m20;
-	d2[1] = m->m21;
-	d2[2] = m->m22;
-	d2[3] = m->m23;
-	m_thing->setTransformMatrix(m);
+	d2[0] = matrix3D->m20;
+	d2[1] = matrix3D->m21;
+	d2[2] = matrix3D->m22;
+	d2[3] = matrix3D->m23;
+	m_thing->setTransformMatrix(matrix3D);
 	m_i2c4 = ((ClientFrameSubsystem *)TheGameClient)->s31();
 }

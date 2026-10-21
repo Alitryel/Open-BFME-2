@@ -49,10 +49,10 @@ private:
 
 void Rva0030BE41::rva0030BE41()
 {
-	QuadStrip2D &q = m_68;
-	if (q.m_start != q.m_finish)
+	QuadStrip2D &quadStrip2D = m_68;
+	if (quadStrip2D.m_start != quadStrip2D.m_finish)
 	{
-		q.rva00538931();
+		quadStrip2D.rva00538931();
 		v10();
 	}
 }

@@ -8,7 +8,7 @@
 struct Block128 { unsigned int words[32]; };
 struct Block12 { unsigned int words[3]; };
 class Rva0028A5D5 { public: void write(const Block128 &b); private: char pad[0x10]; Block128 block; };
-void Rva0028A5D5::write(const Block128 &b) { block=b; }
+void Rva0028A5D5::write(const Block128 &block128) { block=block128; }
 class Rva0052AF5F { public: void write(const Block12 &b); private: char pad[0x18]; Block12 block; };
 void Rva0052AF5F::write(const Block12 &b) { block=b; }
 class Rva005975E1 { public: void write(const Block12 &b); private: char pad[0x30]; Block12 block; };

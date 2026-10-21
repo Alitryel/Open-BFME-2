@@ -16,7 +16,7 @@ private:
 	RvaS16 m_a;
 	RvaS08 m_b;
 };
-Rva005D2F1D::Rva005D2F1D(const RvaS16 &a, const RvaS08 &b) : m_a(a), m_b(b)
+Rva005D2F1D::Rva005D2F1D(const RvaS16 &rvaS16, const RvaS08 &b) : m_a(rvaS16), m_b(b)
 {
 }
 class Rva005D2F3F

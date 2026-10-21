@@ -52,8 +52,8 @@ void Rva00540845::rva00540888(const float &time, Rva00540888Transform *out)
 {
 	Rva0053FDE6 frame = m_track.getFrameData(time);
 	const Quaternion &quaternion = frame.m_orientation;
-	Matrix3D &m = out->m_transform;
-	Build_Matrix3D(quaternion, m);
-	m.Set_Translation(frame.m_position);
+	Matrix3D &matrix3D = out->m_transform;
+	Build_Matrix3D(quaternion, matrix3D);
+	matrix3D.Set_Translation(frame.m_position);
 	out->m_fov = frame.m_fov;
 }

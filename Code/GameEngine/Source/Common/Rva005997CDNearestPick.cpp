@@ -16,7 +16,7 @@ struct Vec2
     float x;
     float y;
     Vec2() {}
-    Vec2(const Vec2 &o) : x(o.x), y(o.y) {}
+    Vec2(const Vec2 &vec2) : x(vec2.x), y(vec2.y) {}
 };
 
 class Object;

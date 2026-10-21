@@ -22,10 +22,10 @@ class Rva000AD6F4 { public:void clear(); };
 class Rva005E5A8B { public:int rva005E5A8B(const IRegion2D&,int);int rva005E5B20(const ICoord2D&,int);int rva005E5B82(GameMessage*); private:
  char pad[8];int viewer;Context*context;char pad10[0x20];void*enabled;char pad34[4];Callback*callback;bool dirty;char pad3d[3];int blocked;
 };
-int Rva005E5A8B::rva005E5A8B(const IRegion2D&r,int modifiers){
- if(r.hi.x-r.lo.x<=0 && r.hi.y-r.lo.y<=0 && enabled){
+int Rva005E5A8B::rva005E5A8B(const IRegion2D&region2D,int modifiers){
+ if(region2D.hi.x-region2D.lo.x<=0 && region2D.hi.y-region2D.lo.y<=0 && enabled){
  Rva005E5A38 selector((int)this);
- ICoord2D point;point.x=r.lo.x;point.y=r.lo.y;
+ ICoord2D point;point.x=region2D.lo.x;point.y=region2D.lo.y;
  ((Rva005CBB4A*)&selector)->rva005CBB4A((void*)viewer,(int)&point,context->value);
  Callback* picked=callback;
  if(picked){picked->s04();return 1;}

@@ -47,15 +47,15 @@ void AptCreateAHero::Class::ExternFunc(int sel, char *buf, bool flag)
     case 1: {
         Rva005B045D *inner = (Rva005B045D *)(m_outer04 + 0x27C);
         void *p = inner->rva005B045D();
-        int v = ((CreateAHeroManager *)TheCreateAHeroManager)->rva00219D52(*(unsigned int *)((char *)p + 0xC));
-        _snprintf(buf, 0xFF, "%d", v);
+        int vec32 = ((CreateAHeroManager *)TheCreateAHeroManager)->rva00219D52(*(unsigned int *)((char *)p + 0xC));
+        _snprintf(buf, 0xFF, "%d", vec32);
         break;
     }
     case 0: {
         CreateAHeroManager *createAHeroManager = TheCreateAHeroManager;
-        Vec32 *v = &createAHeroManager->m_outer;
-        char *finish = (char *)v->m_finish;
-        unsigned int count = (unsigned int)((finish - (char *)v->m_start) >> 5);
+        Vec32 *vec32 = &createAHeroManager->m_outer;
+        char *finish = (char *)vec32->m_finish;
+        unsigned int count = (unsigned int)((finish - (char *)vec32->m_start) >> 5);
         _snprintf(buf, 0xFF, "%d", count);
         break;
     }

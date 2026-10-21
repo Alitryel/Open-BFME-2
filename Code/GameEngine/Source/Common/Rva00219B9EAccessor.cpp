@@ -583,12 +583,12 @@ Int CreateAHeroManager::GetStatNameKey(UnsignedInt classIndex, UnsignedInt subCl
 // list at +0x15C (WB asserts blingId < m_blingList.size()), null on a miss.
 void *CreateAHeroManager::GetBling(UnsignedInt blingId)
 {
-    Vec16 *v = &m_blingList;
-    char *finish = (char *)v->m_finish;
-    unsigned int count = (unsigned int)((finish - (char *)v->m_start) >> 4);
+    Vec16 *vec16 = &m_blingList;
+    char *finish = (char *)vec16->m_finish;
+    unsigned int count = (unsigned int)((finish - (char *)vec16->m_start) >> 4);
     if (blingId < count) {
         _ReadWriteBarrier();
-        return &v->m_start[blingId];
+        return &vec16->m_start[blingId];
     }
     return 0;
 }

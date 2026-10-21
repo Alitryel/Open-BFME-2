@@ -118,8 +118,8 @@ Bool rva0007B68E(const PlaneClass *plane, const Rva0007B68EObj *o)
 	return CollisionMath::Overlap_Test(*plane, t) == CollisionMath::POS;
 }
 
-void rva0007BF5A(Region2D *a, Region2D *b, Region2D *c)
+void rva0007BF5A(Region2D *region2D, Region2D *b, Region2D *c)
 {
 	_STL::__false_type flag;
-	Rva0007BF77Copy(a, b, c, flag, 0);
+	Rva0007BF77Copy(region2D, b, c, flag, 0);
 }

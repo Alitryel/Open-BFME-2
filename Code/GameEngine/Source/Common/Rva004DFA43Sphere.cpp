@@ -33,10 +33,10 @@ private:
 bool Rva004DFA43::rva004DFA43(void *ctx, void *fn)
 {
 	float r = m_04 - m_14;
-	Vec3 *p = ((Vec3 *(__cdecl *)(void *))fn)(ctx);
-	float dx = p->x - m_08;
-	float dy = p->y - m_0C;
-	float dz = p->z - m_10;
+	Vec3 *vec3 = ((Vec3 *(__cdecl *)(void *))fn)(ctx);
+	float dx = vec3->x - m_08;
+	float dy = vec3->y - m_0C;
+	float dz = vec3->z - m_10;
 	if (dz * dz + dy * dy + dx * dx <= r * r)
 		return true;
 	return false;

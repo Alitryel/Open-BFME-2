@@ -20,12 +20,12 @@ public:
 
 void Rva000A880F::clear()
 {
-  VirtBase3* p = m_ptr;
+  VirtBase3* virtBase3 = m_ptr;
   m_ptr = 0;
   void* q;
-  if (p)
+  if (virtBase3)
   {
-    q = p->func(0);
+    q = virtBase3->func(0);
   }
   else
   {

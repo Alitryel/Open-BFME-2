@@ -60,7 +60,7 @@ public:
 	Region3D m_04;
 };
 
-Rva00540FDB::Rva00540FDB(int v, const Region3D &r) : m_00(v), m_04(r)
+Rva00540FDB::Rva00540FDB(int v, const Region3D &region3D) : m_00(v), m_04(region3D)
 {
 }
 
@@ -132,7 +132,7 @@ public:
 	Region2D m_04;
 };
 
-Rva00541006::Rva00541006(int v, const Region2D &r) : m_00(v), m_04(r)
+Rva00541006::Rva00541006(int v, const Region2D &region2D) : m_00(v), m_04(region2D)
 {
 }
 

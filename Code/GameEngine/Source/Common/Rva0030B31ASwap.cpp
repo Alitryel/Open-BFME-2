@@ -5,9 +5,9 @@
 
 #include "../../../Libraries/Include/Lib/Region2D.h"
 
-void __cdecl Rva0030B31ASwap(Region2D *a, Region2D *b)
+void __cdecl Rva0030B31ASwap(Region2D *region2D, Region2D *b)
 {
-	Region2D tmp(*a);
-	*a = *b;
+	Region2D tmp(*region2D);
+	*region2D = *b;
 	*b = tmp;
 }

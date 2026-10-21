@@ -45,7 +45,7 @@ public:
 	Vector4 Row[3];
 	WWINLINE Vector4 &operator[](int i) { return Row[i]; }
 	WWINLINE const Vector4 &operator[](int i) const { return Row[i]; }
-	static WWINLINE void Transform_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+	static WWINLINE void Transform_Vector(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 	{
 		Vector3 tmp;
 		Vector3 *v;
@@ -55,16 +55,16 @@ public:
 		} else {
 			v = (Vector3 *)&in;
 		}
-		out->X = (A[0][0] * v->X + A[0][1] * v->Y + A[0][2] * v->Z + A[0][3]);
-		out->Y = (A[1][0] * v->X + A[1][1] * v->Y + A[1][2] * v->Z + A[1][3]);
-		out->Z = (A[2][0] * v->X + A[2][1] * v->Y + A[2][2] * v->Z + A[2][3]);
+		out->X = (matrix3D[0][0] * v->X + matrix3D[0][1] * v->Y + matrix3D[0][2] * v->Z + matrix3D[0][3]);
+		out->Y = (matrix3D[1][0] * v->X + matrix3D[1][1] * v->Y + matrix3D[1][2] * v->Z + matrix3D[1][3]);
+		out->Z = (matrix3D[2][0] * v->X + matrix3D[2][1] * v->Y + matrix3D[2][2] * v->Z + matrix3D[2][3]);
 	}
 	// LINK: same-body file-static helper (identical inlined bytes; kept inside
 	// the same optimize region so codegen matches). This TU's Transform_Vector
 	// copy is not retail's (home: frustum.cpp @0x7B501); the call below inlines
 	// it but still emits the loser COMDAT. Rebinding there emits nothing
 	// (internal linkage, fully inlined). No flags touched.
-	static WWINLINE void bfme_xform(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+	static WWINLINE void bfme_xform(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 	{
 		Vector3 tmp;
 		Vector3 *v;
@@ -74,9 +74,9 @@ public:
 		} else {
 			v = (Vector3 *)&in;
 		}
-		out->X = (A[0][0] * v->X + A[0][1] * v->Y + A[0][2] * v->Z + A[0][3]);
-		out->Y = (A[1][0] * v->X + A[1][1] * v->Y + A[1][2] * v->Z + A[1][3]);
-		out->Z = (A[2][0] * v->X + A[2][1] * v->Y + A[2][2] * v->Z + A[2][3]);
+		out->X = (matrix3D[0][0] * v->X + matrix3D[0][1] * v->Y + matrix3D[0][2] * v->Z + matrix3D[0][3]);
+		out->Y = (matrix3D[1][0] * v->X + matrix3D[1][1] * v->Y + matrix3D[1][2] * v->Z + matrix3D[1][3]);
+		out->Z = (matrix3D[2][0] * v->X + matrix3D[2][1] * v->Y + matrix3D[2][2] * v->Z + matrix3D[2][3]);
 	}
 };
 #pragma optimize("", on)
@@ -150,13 +150,13 @@ struct BitFlagsView
 // alias test written as a conditional expression (retail's jne/jmp layout and
 // its Z,Y,X row order). File scope so it is compiled outside the pragma
 // optimize region that the 0x000E48BC row above was verified under.
-static WWINLINE void bfme_xform_cond(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+static WWINLINE void bfme_xform_cond(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 {
 	Vector3 tmp;
 	Vector3 *v = (out == &in) ? (tmp = in, &tmp) : (Vector3 *)&in;
-	out->X = (A[0][0] * v->X + A[0][1] * v->Y + A[0][2] * v->Z + A[0][3]);
-	out->Y = (A[1][0] * v->X + A[1][1] * v->Y + A[1][2] * v->Z + A[1][3]);
-	out->Z = (A[2][0] * v->X + A[2][1] * v->Y + A[2][2] * v->Z + A[2][3]);
+	out->X = (matrix3D[0][0] * v->X + matrix3D[0][1] * v->Y + matrix3D[0][2] * v->Z + matrix3D[0][3]);
+	out->Y = (matrix3D[1][0] * v->X + matrix3D[1][1] * v->Y + matrix3D[1][2] * v->Z + matrix3D[1][3]);
+	out->Z = (matrix3D[2][0] * v->X + matrix3D[2][1] * v->Y + matrix3D[2][2] * v->Z + matrix3D[2][3]);
 }
 
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}

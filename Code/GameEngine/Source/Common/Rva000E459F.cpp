@@ -60,10 +60,10 @@ bool Rva000E459F::rva000E459F()
 			v = 1.0f;
 	} else {
 		v = m_2C->rva00272C9E(0);
-		const Matrix3D *m1 = m_2C->getTransformMatrix();
+		const Matrix3D *matrix3D = m_2C->getTransformMatrix();
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 4; ++j) {
-				if (m_50.m[i][j] != m1->m[i][j])
+				if (m_50.m[i][j] != matrix3D->m[i][j])
 					goto copy_mat;
 			}
 		}

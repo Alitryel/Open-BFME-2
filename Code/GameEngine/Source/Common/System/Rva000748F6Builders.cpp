@@ -26,11 +26,11 @@ public:
 
 Rva000748F6 *__stdcall Rva00074AFFGet(int dummy);
 
-static __forceinline void scaleAxes(Matrix3D &m, float x, float y, float z)
+static __forceinline void scaleAxes(Matrix3D &matrix3D, float x, float y, float z)
 {
-	m[0][0] *= x; m[1][0] *= x; m[2][0] *= x;
-	m[0][1] *= y; m[1][1] *= y; m[2][1] *= y;
-	m[0][2] *= z; m[1][2] *= z; m[2][2] *= z;
+	matrix3D[0][0] *= x; matrix3D[1][0] *= x; matrix3D[2][0] *= x;
+	matrix3D[0][1] *= y; matrix3D[1][1] *= y; matrix3D[2][1] *= y;
+	matrix3D[0][2] *= z; matrix3D[1][2] *= z; matrix3D[2][2] *= z;
 }
 
 Rva000748F6 *__stdcall Rva00074B3BGet(const Vector3 *from, const Vector3 *to, int arg34, unsigned char arg38, int dummy)
@@ -62,10 +62,10 @@ Rva000748F6 *__stdcall Rva00074DB4Get(const Matrix3D *transform, float scale, in
 	record->m_34 = arg34;
 	record->m_38 = arg38;
 	record->m_transform = *transform;
-	Matrix3D &m = record->m_transform;
-	m[0][0] *= scale; m[1][0] *= scale; m[2][0] *= scale;
-	m[0][1] *= scale; m[1][1] *= scale; m[2][1] *= scale;
-	m[0][2] *= scale; m[1][2] *= scale; m[2][2] *= scale;
+	Matrix3D &matrix3D = record->m_transform;
+	matrix3D[0][0] *= scale; matrix3D[1][0] *= scale; matrix3D[2][0] *= scale;
+	matrix3D[0][1] *= scale; matrix3D[1][1] *= scale; matrix3D[2][1] *= scale;
+	matrix3D[0][2] *= scale; matrix3D[1][2] *= scale; matrix3D[2][2] *= scale;
 	return record;
 }
 
@@ -89,9 +89,9 @@ Rva000748F6 *__stdcall Rva00075091Get(const Matrix3D *transform, float scale, in
 	record->m_34 = arg34;
 	record->m_38 = arg38;
 	record->m_transform = *transform;
-	Matrix3D &m = record->m_transform;
-	m[0][0] *= scale; m[1][0] *= scale; m[2][0] *= scale;
-	m[0][1] *= scale; m[1][1] *= scale; m[2][1] *= scale;
-	m[0][2] *= scale; m[1][2] *= scale; m[2][2] *= scale;
+	Matrix3D &matrix3D = record->m_transform;
+	matrix3D[0][0] *= scale; matrix3D[1][0] *= scale; matrix3D[2][0] *= scale;
+	matrix3D[0][1] *= scale; matrix3D[1][1] *= scale; matrix3D[2][1] *= scale;
+	matrix3D[0][2] *= scale; matrix3D[1][2] *= scale; matrix3D[2][2] *= scale;
 	return record;
 }

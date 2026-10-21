@@ -36,7 +36,7 @@ public:
 
 BfmePod60::BfmePod60() : m_b0C(1), m_i10(0)
 {
-	Region3D *p = m_arr14;
+	Region3D *region3D = m_arr14;
 	int n = 4;
 	m_b39 = 0;
 	m_f08 = 0.0f;
@@ -44,8 +44,8 @@ BfmePod60::BfmePod60() : m_b0C(1), m_i10(0)
 	m_f00 = 0.0f;
 	do
 	{
-		p->m_v1 = 0;
-		p->m_v0 = 0;
-		++p;
+		region3D->m_v1 = 0;
+		region3D->m_v0 = 0;
+		++region3D;
 	} while (--n != 0);
 }

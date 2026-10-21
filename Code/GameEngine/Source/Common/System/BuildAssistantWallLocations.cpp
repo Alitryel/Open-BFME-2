@@ -1138,23 +1138,23 @@ extern PartitionManager*TheShroudManager;
 Bool Rva003919F6Connected(Object*a,Object*b);
 // ?rva00391A70@BuildAssistant@@UAE_NPBVThingTemplate@@PBVObject@@@Z @0x00391A70 (49B)
 typedef void(*IterateFootprintFunc)(const Coord3D*,void*);
-__forceinline void rotateFootprint(Matrix3D&m,float theta)
+__forceinline void rotateFootprint(Matrix3D&matrix3D,float theta)
 {
 float tmp1,tmp2;
 float c=cosf(theta);
 float s=sinf(theta);
-tmp1=m[0][0];
-tmp2=m[0][1];
-m[0][0]=(float)((c ? c : c)*tmp1 + s*tmp2);
-m[0][1]=(float)(-s*tmp1 +(c ? c : c)*tmp2);
-tmp1=m[1][0];
-tmp2=m[1][1];
-m[1][0]=(float)((c ? c : c)*tmp1 + s*tmp2);
-m[1][1]=(float)(-s*tmp1 +(c ? c : c)*tmp2);
-tmp1=m[2][0];
-tmp2=m[2][1];
-m[2][0]=(float)((c ? c : c)*tmp1 + s*tmp2);
-m[2][1]=(float)(-s*tmp1 +(c ? c : c)*tmp2);
+tmp1=matrix3D[0][0];
+tmp2=matrix3D[0][1];
+matrix3D[0][0]=(float)((c ? c : c)*tmp1 + s*tmp2);
+matrix3D[0][1]=(float)(-s*tmp1 +(c ? c : c)*tmp2);
+tmp1=matrix3D[1][0];
+tmp2=matrix3D[1][1];
+matrix3D[1][0]=(float)((c ? c : c)*tmp1 + s*tmp2);
+matrix3D[1][1]=(float)(-s*tmp1 +(c ? c : c)*tmp2);
+tmp1=matrix3D[2][0];
+tmp2=matrix3D[2][1];
+matrix3D[2][0]=(float)((c ? c : c)*tmp1 + s*tmp2);
+matrix3D[2][1]=(float)(-s*tmp1 +(c ? c : c)*tmp2);
 }
 class Rva00293330{public: void*rva00293330(UnsignedInt key);};
 class Rva0039380FModule{

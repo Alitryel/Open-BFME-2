@@ -15,7 +15,7 @@
 class RayCollisionTestClass {public:CastResultStruct*Result;int CollisionType;RenderObjClass*CollidedRenderObj;LineSegClass Ray;};
 struct PointStorage {void*vt;Vector3*Vector;int Capacity,Count;};
 class Rva001684D6:public RenderObjClass {public:virtual bool Cast_Ray(RayCollisionTestClass&);private:PointStorage points;char widths[16];char textureShader[8];float Width;char rendererRest[24];};
-static __forceinline void transformArray(const Matrix3D&A,const Vector3*in,Vector3*out,int count){while(count--){out->X=+(+(A[0][0]*in->X))+A[0][2]*in->Z;out->X+=A[0][1]*in->Y;out->X+=A[0][3];out->Y=A[1][0]*in->X+A[1][1]*in->Y;out->Y+=A[1][2]*in->Z;out->Y+=A[1][3];out->Z=A[2][0]*in->X+A[2][2]*in->Z;out->Z+=A[2][1]*in->Y;out->Z+=A[2][3];++in;++out;}}
+static __forceinline void transformArray(const Matrix3D&matrix3D,const Vector3*in,Vector3*out,int count){while(count--){out->X=+(+(matrix3D[0][0]*in->X))+matrix3D[0][2]*in->Z;out->X+=matrix3D[0][1]*in->Y;out->X+=matrix3D[0][3];out->Y=matrix3D[1][0]*in->X+matrix3D[1][1]*in->Y;out->Y+=matrix3D[1][2]*in->Z;out->Y+=matrix3D[1][3];out->Z=matrix3D[2][0]*in->X+matrix3D[2][2]*in->Z;out->Z+=matrix3D[2][1]*in->Y;out->Z+=matrix3D[2][3];++in;++out;}}
 bool Rva001684D6::Cast_Ray(RayCollisionTestClass&raytest){
 if((Get_Collision_Type()&raytest.CollisionType)==0)return false;
 bool retval=false;float fraction=1.0F;

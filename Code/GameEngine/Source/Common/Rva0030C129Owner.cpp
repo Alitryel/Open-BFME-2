@@ -38,12 +38,12 @@ private:
 	char m_pad04[0x64];
 };
 
-void Rva0030C129Owner::rva0030C129(const QuadStrip2D &a)
+void Rva0030C129Owner::rva0030C129(const QuadStrip2D &quadStrip2D)
 {
 	char *holder = (char *)this + 0x68;
-	if (Rva0030C114((const Rva0030BFE8Range *)&a, (const Rva0030BFE8Range *)holder))
+	if (Rva0030C114((const Rva0030BFE8Range *)&quadStrip2D, (const Rva0030BFE8Range *)holder))
 	{
-		((QuadStrip2D *)holder)->rva005388F7(a);
+		((QuadStrip2D *)holder)->rva005388F7(quadStrip2D);
 		s10();
 	}
 }

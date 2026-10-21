@@ -26,7 +26,7 @@ public:
 	__declspec(dllimport) __forceinline MathCoord2D(const MathCoord2D &that) : x(that.x), y(that.y) {}
 	MathCoord2D(float ix, float iy) : x(ix), y(iy) {}
 	~MathCoord2D() {}
-	float Dot(const MathCoord2D &c) const { return y * c.y + x * c.x; }
+	float Dot(const MathCoord2D &mathCoord2D) const { return y * mathCoord2D.y + x * mathCoord2D.x; }
 	MathCoord2D &operator*=(float s) { x *= s; y *= s; return *this; }
 	MathCoord2D &operator+=(const MathCoord2D &c) { x += c.x; y += c.y; return *this; }
 	__forceinline float GetLengthSqrd() const { return y * y + x * x; }

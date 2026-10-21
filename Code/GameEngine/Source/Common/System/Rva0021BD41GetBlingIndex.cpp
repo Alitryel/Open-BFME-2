@@ -71,9 +71,9 @@ int CreateAHeroManager::CreateAHeroSubClass::GetBlingIndex(int key, const AsciiS
 	void *node = 0;
 	if (rva0021BC0D(key, &node))
 	{
-		MapNodeVec2 *n = (MapNodeVec2 *)node;
-		for (unsigned int i = 0; i < (unsigned int)(n->m_vec.end() - n->m_vec.begin()); ++i) {
-			void *elem = TheCreateAHeroManager->GetBling(n->m_vec[i]);
+		MapNodeVec2 *mapNodeVec2 = (MapNodeVec2 *)node;
+		for (unsigned int i = 0; i < (unsigned int)(mapNodeVec2->m_vec.end() - mapNodeVec2->m_vec.begin()); ++i) {
+			void *elem = TheCreateAHeroManager->GetBling(mapNodeVec2->m_vec[i]);
 			if (elem && ((const StringBase<char> *)((const char *)elem + 8))->compare(*(const StringBase<char> *)&name) == 0)
 				return (int)i;
 		}

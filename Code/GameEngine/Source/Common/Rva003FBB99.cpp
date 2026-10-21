@@ -14,9 +14,9 @@ struct Vec3
 {
 	float x, y, z;
 	Vec3() {}
-	Vec3(const Vec3 &v) : x(v.x), y(v.y), z(v.z) {}
-	void sub(const Vec3 &o) { x -= o.x; y -= o.y; z -= o.z; }
-	void add(const Vec3 &o) { x += o.x; y += o.y; z += o.z; }
+	Vec3(const Vec3 &vec3) : x(vec3.x), y(vec3.y), z(vec3.z) {}
+	void sub(const Vec3 &vec3) { x -= vec3.x; y -= vec3.y; z -= vec3.z; }
+	void add(const Vec3 &vec3) { x += vec3.x; y += vec3.y; z += vec3.z; }
 	void scale(float s) { x *= s; y *= s; z *= s; }
 };
 

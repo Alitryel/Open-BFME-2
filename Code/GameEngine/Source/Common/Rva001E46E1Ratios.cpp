@@ -540,7 +540,7 @@ bool Rva001E46E1::rva001E5F1D(Object *obj,const Coord3D *pos,float *ground)
 // returned speed. Reading that speed through a volatile float view keeps the
 // native FSTP float rounding before SSE halving. The flag starts after the call
 // and before halving; the special pivot's constant offset is a const reference.
-static __forceinline void preRotateZ(Matrix3D&m,float s,float c){m.In_Place_Pre_Rotate_Z(s,c);}
+static __forceinline void preRotateZ(Matrix3D&matrix3D,float s,float c){matrix3D.In_Place_Pre_Rotate_Z(s,c);}
 // rva001E56DC (0x001E56DC) now lives in LocomotorMoveTowardsPositionHorde.cpp, beside
 // moveTowardsPositionHorde 0x1E756D and the movement step 0x1E6007: their frames match
 // retail only when its body is compiled in the same unit.
