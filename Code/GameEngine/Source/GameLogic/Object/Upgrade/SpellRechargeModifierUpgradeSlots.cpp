@@ -45,13 +45,13 @@ struct SpellRechargeModifierUpgradeModuleData
 // order retail tests (STLport's min and max test b < a and a < b), and the
 // index lives in one variable throughout: that is what puts it in the first
 // of the two stack temporaries both clamps share, as retail does.
-template <class T> inline const T &lowerOf(const T &a, const T &b)
+template <class T> inline const T &lowerOf(const T &lhs, const T &rhs)
 {
-	return (a < b) ? a : b;
+	return (lhs < rhs) ? lhs : rhs;
 }
-template <class T> inline const T &higherOf(const T &a, const T &b)
+template <class T> inline const T &higherOf(const T &lhs, const T &rhs)
 {
-	return (a > b) ? a : b;
+	return (lhs > rhs) ? lhs : rhs;
 }
 
 static __forceinline void applyModifier(Player *player, const SpellRechargeModifierUpgradeModuleData *data)

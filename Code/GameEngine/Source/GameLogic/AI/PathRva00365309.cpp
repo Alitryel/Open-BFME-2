@@ -40,19 +40,19 @@ class Vector3 {public:
  __forceinline void Scale(float s){X*=s;Y*=s;Z*=s;}
  __forceinline void Rotate_Z(float s_angle,float c_angle){float tmp_x=X;float tmp_y=Y;X=c_angle*tmp_x-s_angle*tmp_y;Y=s_angle*tmp_x+c_angle*tmp_y;}
  __forceinline void Rotate_Z(float angle){Rotate_Z(sinf(angle),cosf(angle));}
- static __forceinline float Cross_Product_Z(const Vector3 &a,const Vector3 &b){return a.X*b.Y-a.Y*b.X;}
+ static __forceinline float Cross_Product_Z(const Vector3 &lhs,const Vector3 &rhs){return lhs.X*rhs.Y-lhs.Y*rhs.X;}
 };
 struct Rva00363B4BVector {float x,y,z;};
 float ACos(float);
-inline __declspec(noinline) float rva00363B4BAngle(const Rva00363B4BVector *a, const Rva00363B4BVector *b)
+inline __declspec(noinline) float rva00363B4BAngle(const Rva00363B4BVector *lhs, const Rva00363B4BVector *rhs)
 {
-    float dot = a->z * b->z + a->y * b->y + a->x * b->x;
+    float dot = lhs->z * rhs->z + lhs->y * rhs->y + lhs->x * rhs->x;
     if (dot > 1.0f) dot = 1.0f;
     if (dot < -1.0f) dot = -1.0f;
     if (dot >= 0.99f) return 0.0f;
     return ACos(dot);
 }
-static __forceinline float angleBetween(const Vector3 &a,const Vector3 &b){return rva00363B4BAngle((const Rva00363B4BVector *)&a,(const Rva00363B4BVector *)&b);}
+static __forceinline float angleBetween(const Vector3 &lhs,const Vector3 &rhs){return rva00363B4BAngle((const Rva00363B4BVector *)&lhs,(const Rva00363B4BVector *)&rhs);}
 struct DirectionOptions {bool flag0,flag1;float value4;bool flag8;};
 class Pathfinder {public:
  bool IsValidMovementPositionForObject(const Coord3D *,int,int,const Object *);

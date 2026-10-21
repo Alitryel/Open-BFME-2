@@ -28,9 +28,9 @@ struct GrowPair
 };
 
 template <class T>
-inline const T &stlp_max(const T &a, const T &b)
+inline const T &stlp_max(const T &lhs, const T &rhs)
 {
-	return a < b ? b : a;
+	return lhs < rhs ? rhs : lhs;
 }
 
 template <class T>

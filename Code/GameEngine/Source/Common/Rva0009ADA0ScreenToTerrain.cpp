@@ -125,15 +125,15 @@ public:
 };
 
 template <class T>
-inline const T &rvaMinRef(const T &a, const T &b)
+inline const T &rvaMinRef(const T &lhs, const T &rhs)
 {
-	return a < b ? a : b;
+	return lhs < rhs ? lhs : rhs;
 }
 
 template <class T>
-inline const T &rvaMaxRef(const T &a, const T &b)
+inline const T &rvaMaxRef(const T &lhs, const T &rhs)
 {
-	return a > b ? a : b;
+	return lhs > rhs ? lhs : rhs;
 }
 
 class Rva0009D55BProduct

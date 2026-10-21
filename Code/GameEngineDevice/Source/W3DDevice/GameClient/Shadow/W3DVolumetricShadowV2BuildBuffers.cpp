@@ -28,8 +28,8 @@ class Vector3 {public:float X,Y,Z;__forceinline Vector3(){} __forceinline Vector
 // LINK: file-static helpers replace operator*= and operator+ (identical inlined
 // bytes); the TU no longer emits their loser COMDAT copies. No flags touched.
 static __forceinline void bfmeScaleV3(Vector3&v,float k){v.X*=k;v.Y*=k;v.Z*=k;}
-static __forceinline Vector3 bfmeSumV3(const Vector3&a,const Vector3&b){return Vector3(a.X+b.X,a.Y+b.Y,a.Z+b.Z);}
-static __forceinline Vector3 bfmeAddV3(const Vector3&a,const Vector3&b){Vector3 r;r.X=a.X+b.X;r.Y=a.Y+b.Y;r.Z=a.Z+b.Z;return r;}
+static __forceinline Vector3 bfmeSumV3(const Vector3&lhs,const Vector3&rhs){return Vector3(lhs.X+rhs.X,lhs.Y+rhs.Y,lhs.Z+rhs.Z);}
+static __forceinline Vector3 bfmeAddV3(const Vector3&lhs,const Vector3&rhs){Vector3 r;r.X=lhs.X+rhs.X;r.Y=lhs.Y+rhs.Y;r.Z=lhs.Z+rhs.Z;return r;}
 
 
 // Scoped vector operations reproduce the donor header behavior and full557

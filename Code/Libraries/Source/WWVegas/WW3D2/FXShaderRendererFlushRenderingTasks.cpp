@@ -11,9 +11,9 @@ struct Rva0017368AMesh {
 };
 struct Rva0017368ATask { Rva0017368AMesh *mesh; char unknown[28]; };
 
-unsigned Rva0017368ACompare(const Rva0017368ATask &a, const Rva0017368ATask &b)
+unsigned Rva0017368ACompare(const Rva0017368ATask &lhs, const Rva0017368ATask &rhs)
 {
-    return a.mesh->key < b.mesh->key;
+    return lhs.mesh->key < rhs.mesh->key;
 }
 
 // Native001736A7..001736D6 follows the comparator above and returns the
@@ -23,11 +23,11 @@ unsigned Rva0017368ACompare(const Rva0017368ATask &a, const Rva0017368ATask &b)
 // rather than recovered names for either mesh field. Owned cleanup174350
 // also dereferences the word at310, establishing that it is a state pointer.
 // This comparator orders its32-bit address rather than the pointed-to value.
-unsigned Rva001736A7Compare(const Rva0017368ATask &a, const Rva0017368ATask &b)
+unsigned Rva001736A7Compare(const Rva0017368ATask &lhs, const Rva0017368ATask &rhs)
 {
-    if(a.mesh->key==b.mesh->key)
-        return (unsigned)a.mesh->state310 < (unsigned)b.mesh->state310;
-    return a.mesh->key < b.mesh->key;
+    if(lhs.mesh->key==rhs.mesh->key)
+        return (unsigned)lhs.mesh->state310 < (unsigned)rhs.mesh->state310;
+    return lhs.mesh->key < rhs.mesh->key;
 }
 
 // Native001748B3..001748E8 is a RET0 range flusher, rather than the

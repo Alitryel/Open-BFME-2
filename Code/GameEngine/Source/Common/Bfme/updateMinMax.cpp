@@ -48,15 +48,15 @@ void updateMinMax(float *min, float val, float *max)
 //   0x000057C0: max<int>   cmp / cmovle (16B)
 
 template <class T>
-const T &min(const T &a, const T &b)
+const T &min(const T &lhs, const T &rhs)
 {
-	return (a < b) ? a : b;
+	return (lhs < rhs) ? lhs : rhs;
 }
 
 template <class T>
-const T &max(const T &a, const T &b)
+const T &max(const T &lhs, const T &rhs)
 {
-	return (a > b) ? a : b;
+	return (lhs > rhs) ? lhs : rhs;
 }
 
 template const float &min<float>(const float &, const float &);

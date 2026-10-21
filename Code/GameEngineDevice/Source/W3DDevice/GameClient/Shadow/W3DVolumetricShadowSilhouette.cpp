@@ -44,11 +44,11 @@ public:
 	Vector3(Real x, Real y, Real z);
 	__forceinline Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
 	__forceinline Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
-	static __forceinline Real Dot_Product(const Vector3 &a, const Vector3 &b) { return a.X*b.X + a.Y*b.Y + a.Z*b.Z; }
+	static __forceinline Real Dot_Product(const Vector3 &lhs, const Vector3 &rhs) { return lhs.X*rhs.X + lhs.Y*rhs.Y + lhs.Z*rhs.Z; }
 	Real X, Y, Z;
 };
 // Inline component arithmetic avoids emitting unused, conflicting Vector3 COMDAT copies.
-static __forceinline Vector3 ShadowSubtract(const Vector3 &a, const Vector3 &b) { Vector3 result; result.X=a.X-b.X; result.Y=a.Y-b.Y; result.Z=a.Z-b.Z; return result; }
+static __forceinline Vector3 ShadowSubtract(const Vector3 &lhs, const Vector3 &rhs) { Vector3 result; result.X=lhs.X-rhs.X; result.Y=lhs.Y-rhs.Y; result.Z=lhs.Z-rhs.Z; return result; }
 
 struct NeighborEdge
 {

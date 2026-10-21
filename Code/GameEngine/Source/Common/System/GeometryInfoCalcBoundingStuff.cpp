@@ -49,9 +49,9 @@ inline Real sqr(Real x)
 }
 
 template <class T>
-inline const T &bfmeMax(const T &a, const T &b)
+inline const T &bfmeMax(const T &lhs, const T &rhs)
 {
-	return (a > b) ? a : b;
+	return (lhs > rhs) ? lhs : rhs;
 }
 
 struct GeometryShape
@@ -79,9 +79,9 @@ struct Rva0087E650Bounds
 typedef char GeometryBounds_size_check[sizeof(Rva0087E650Bounds) == 24 ? 1 : -1];
 
 template <class T>
-inline const T &bfmeMin(const T &a, const T &b)
+inline const T &bfmeMin(const T &lhs, const T &rhs)
 {
-    return (a < b) ? a : b;
+    return (lhs < rhs) ? lhs : rhs;
 }
 
 class INI;

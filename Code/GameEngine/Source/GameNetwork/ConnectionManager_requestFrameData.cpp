@@ -133,14 +133,14 @@ public:
 Bool DoesCommandRequireACommandID(NetCommandType type);
 UnsignedShort GenerateNextCommandID();
 
-template <class T> const T &frameMaximum(const T &a, const T &b)
+template <class T> const T &frameMaximum(const T &lhs, const T &rhs)
 {
-	return b > a ? b : a;
+	return rhs > lhs ? rhs : lhs;
 }
 
-template <class T> const T &frameMinimum(const T &a, const T &b)
+template <class T> const T &frameMinimum(const T &lhs, const T &rhs)
 {
-	return b < a ? b : a;
+	return rhs < lhs ? rhs : lhs;
 }
 
 class ConnectionManager

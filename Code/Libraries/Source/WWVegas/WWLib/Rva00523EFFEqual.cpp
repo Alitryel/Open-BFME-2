@@ -9,10 +9,10 @@ struct Rva00523DB7
 	int m_00;
 	StringBase<char> m_04;
 };
-int __cdecl Rva00523EFFEqual(const Rva00523DB7 *a, const Rva00523DB7 *b)
+int __cdecl Rva00523EFFEqual(const Rva00523DB7 *lhs, const Rva00523DB7 *rhs)
 {
-	if (a->m_00 == b->m_00) {
-		if (a->m_04.compare(b->m_04) == 0)
+	if (lhs->m_00 == rhs->m_00) {
+		if (lhs->m_04.compare(rhs->m_04) == 0)
 			return 1;
 	}
 	return 0;

@@ -47,9 +47,9 @@ public:
 // Keep the subtraction local to each recovered algorithm. Their inline forms
 // differ in evaluation order; both compute the same three component differences.
 // No competing out-of-line Vector3 constructor or subtraction is emitted.
-static __forceinline Vector3 VolumeSubtractDirect(const Vector3 &a, const Vector3 &b) { Vector3 result; result.X=a.X-b.X; result.Y=a.Y-b.Y; result.Z=a.Z-b.Z; return result; }
+static __forceinline Vector3 VolumeSubtractDirect(const Vector3 &lhs, const Vector3 &rhs) { Vector3 result; result.X=lhs.X-rhs.X; result.Y=lhs.Y-rhs.Y; result.Z=lhs.Z-rhs.Z; return result; }
 static __forceinline Vector3 VolumeMakePoint(Real x, Real y, Real z) { Vector3 result; result.X=x; result.Y=y; result.Z=z; return result; }
-static __forceinline Vector3 VolumeSubtractArgs(const Vector3 &a, const Vector3 &b) { return VolumeMakePoint(a.X-b.X, a.Y-b.Y, a.Z-b.Z); }
+static __forceinline Vector3 VolumeSubtractArgs(const Vector3 &lhs, const Vector3 &rhs) { return VolumeMakePoint(lhs.X-rhs.X, lhs.Y-rhs.Y, lhs.Z-rhs.Z); }
 
 struct VertexFormatXYZ
 {

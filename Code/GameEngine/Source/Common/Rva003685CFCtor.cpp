@@ -15,13 +15,13 @@ class Rva003685CF
 {
 public:
 	virtual ~Rva003685CF() {};
-	Rva003685CF(const BfmeObject872Header &a, const BfmeObject872Header &b);
+	Rva003685CF(const BfmeObject872Header &lhs, const BfmeObject872Header &rhs);
 	int m_4;
 	BfmeObject872Header m_8;
 	BfmeObject872Header m_18;
 };
-Rva003685CF::Rva003685CF(const BfmeObject872Header &a, const BfmeObject872Header &b)
-	: m_4(0), m_8(a), m_18(b)
+Rva003685CF::Rva003685CF(const BfmeObject872Header &lhs, const BfmeObject872Header &rhs)
+	: m_4(0), m_8(lhs), m_18(rhs)
 {
 }
 
@@ -34,13 +34,13 @@ class Rva002FDF1C
 {
 public:
 	virtual ~Rva002FDF1C() {}
-	Rva002FDF1C(const BfmeObject872Header &a, const BfmeObject872Header &b);
+	Rva002FDF1C(const BfmeObject872Header &lhs, const BfmeObject872Header &rhs);
 	int m_4;
 	BfmeObject872Header m_8;
 	BfmeObject872Header m_18;
 };
 
-Rva002FDF1C::Rva002FDF1C(const BfmeObject872Header &a, const BfmeObject872Header &b)
-	: m_4(0), m_8(a), m_18(b)
+Rva002FDF1C::Rva002FDF1C(const BfmeObject872Header &lhs, const BfmeObject872Header &rhs)
+	: m_4(0), m_8(lhs), m_18(rhs)
 {
 }

@@ -21,11 +21,11 @@ struct TreeKey00242F5E
 	AsciiString m_name;
 };
 
-Bool __stdcall Rva000A78A3Less(const TreeKey00242F5E &a, const TreeKey00242F5E &b)
+Bool __stdcall Rva000A78A3Less(const TreeKey00242F5E &lhs, const TreeKey00242F5E &rhs)
 {
-	if (a.m_id < b.m_id)
+	if (lhs.m_id < rhs.m_id)
 		return true;
-	if (a.m_id > b.m_id)
+	if (lhs.m_id > rhs.m_id)
 		return false;
-	return a.m_name < b.m_name;
+	return lhs.m_name < rhs.m_name;
 }

@@ -63,8 +63,8 @@ __forceinline long fast_float2long_round(Real f)
 #define REAL_TO_INT_FLOOR(x) (fast_float2long_round(fast_float_floor(x)))
 #define REAL_TO_INT_CEIL(x) (fast_float2long_round(fast_float_ceil(x)))
 
-template <class T> inline const T &pathfindMin(const T &a, const T &b) { return b < a ? b : a; }
-template <class T> inline const T &pathfindMax(const T &a, const T &b) { return a < b ? b : a; }
+template <class T> inline const T &pathfindMin(const T &lhs, const T &rhs) { return rhs < lhs ? rhs : lhs; }
+template <class T> inline const T &pathfindMax(const T &lhs, const T &rhs) { return lhs < rhs ? rhs : lhs; }
 
 class PathfindCell
 {

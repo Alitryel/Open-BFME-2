@@ -402,14 +402,14 @@ extern unsigned int g_dword010EAD50;
 extern unsigned int g_lastPacketRouterStallFrame;
 extern int FRAMES_TO_KEEP;
 
-template <class T> const T &frameMaximum(const T &a, const T &b)
+template <class T> const T &frameMaximum(const T &lhs, const T &rhs)
 {
-	return b > a ? b : a;
+	return rhs > lhs ? rhs : lhs;
 }
 
-template <class T> const T &frameMinimum(const T &a, const T &b)
+template <class T> const T &frameMinimum(const T &lhs, const T &rhs)
 {
-	return b < a ? b : a;
+	return rhs < lhs ? rhs : lhs;
 }
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/FrameDataManager.h

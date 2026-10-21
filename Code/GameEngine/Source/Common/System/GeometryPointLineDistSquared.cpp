@@ -19,14 +19,14 @@ inline NUM sqr(NUM x)
 	return x * x;
 }
 
-static Real calcDotProduct(const Coord3D &a, const Coord3D &b)
+static Real calcDotProduct(const Coord3D &lhs, const Coord3D &rhs)
 {
-	return a.x * b.x + a.y * b.y + a.z * b.z;
+	return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 }
 
-static Real calcDistSquared(const Coord3D &a, const Coord3D &b)
+static Real calcDistSquared(const Coord3D &lhs, const Coord3D &rhs)
 {
-	return sqr(a.x - b.x) + sqr(a.y - b.y) + sqr(a.z - b.z);
+	return sqr(lhs.x - rhs.x) + sqr(lhs.y - rhs.y) + sqr(lhs.z - rhs.z);
 }
 
 static Real calcPointToLineDistSquared(const Coord3D &pt, const Coord3D &lineStart, const Coord3D &lineEnd)

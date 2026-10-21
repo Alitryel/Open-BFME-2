@@ -33,7 +33,7 @@ public:
 class Rva0004584D : public Rva000421C8
 {
 public:
-	Rva0004584D(const BfmeFixedStorage0004543D &a, const BfmeFixedStorage0004543D &b);
+	Rva0004584D(const BfmeFixedStorage0004543D &lhs, const BfmeFixedStorage0004543D &rhs);
 	__declspec(noinline) virtual ~Rva0004584D();
 	virtual bool allow(Object *);
 
@@ -43,9 +43,9 @@ private:
 };
 
 // ??0Rva0004584D@@QAE@ABVBfmeFixedStorage0004543D@@0@Z
-Rva0004584D::Rva0004584D(const BfmeFixedStorage0004543D &a, const BfmeFixedStorage0004543D &b)
-	: m_08(a)
-	, m_24(b)
+Rva0004584D::Rva0004584D(const BfmeFixedStorage0004543D &lhs, const BfmeFixedStorage0004543D &rhs)
+	: m_08(lhs)
+	, m_24(rhs)
 {
 }
 
@@ -56,7 +56,7 @@ Rva0004584D::Rva0004584D(const BfmeFixedStorage0004543D &a, const BfmeFixedStora
 class Rva002FDF47 : public Rva000421C8
 {
 public:
-	Rva002FDF47(const BfmeFixedStorage0004543D &a, const BfmeFixedStorage0004543D &b);
+	Rva002FDF47(const BfmeFixedStorage0004543D &lhs, const BfmeFixedStorage0004543D &rhs);
 	__declspec(noinline) virtual ~Rva002FDF47();
 	virtual bool allow(Object *obj);
 private:
@@ -64,9 +64,9 @@ private:
 	BfmeFixedStorage0004543D m_24;
 };
 
-Rva002FDF47::Rva002FDF47(const BfmeFixedStorage0004543D &a, const BfmeFixedStorage0004543D &b)
-	: m_08(a)
-	, m_24(b)
+Rva002FDF47::Rva002FDF47(const BfmeFixedStorage0004543D &lhs, const BfmeFixedStorage0004543D &rhs)
+	: m_08(lhs)
+	, m_24(rhs)
 {
 }
 

@@ -72,14 +72,14 @@ struct EntryData
 	UnsignedInt drawStart;
 };
 
-template <class T> inline const T &entryMin(const T &a, const T &b)
+template <class T> inline const T &entryMin(const T &lhs, const T &rhs)
 {
-	return b < a ? b : a;
+	return rhs < lhs ? rhs : lhs;
 }
 
-template <class T> inline const T &entryMax(const T &a, const T &b)
+template <class T> inline const T &entryMax(const T &lhs, const T &rhs)
 {
-	return b > a ? b : a;
+	return rhs > lhs ? rhs : lhs;
 }
 
 void GadgetTextEntrySetCursorPosition(GameWindow *window, UnsignedInt position);

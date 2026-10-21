@@ -64,18 +64,18 @@ static __forceinline void critterDesyncLog(const char *text)
 	}
 }
 
-static __forceinline void coordSet(Coord3D *a, const Coord3D *b)
+static __forceinline void coordSet(Coord3D *lhs, const Coord3D *rhs)
 {
-	a->x = b->x;
-	a->y = b->y;
-	a->z = b->z;
+	lhs->x = rhs->x;
+	lhs->y = rhs->y;
+	lhs->z = rhs->z;
 }
 
-static __forceinline void coordSub(Coord3D *a, const Coord3D *b)
+static __forceinline void coordSub(Coord3D *lhs, const Coord3D *rhs)
 {
-	a->x -= b->x;
-	a->y -= b->y;
-	a->z -= b->z;
+	lhs->x -= rhs->x;
+	lhs->y -= rhs->y;
+	lhs->z -= rhs->z;
 }
 
 template <int N> class AIUpdateSlots : public AIUpdateSlots<N - 1>

@@ -60,15 +60,15 @@ vector<GeometryShape, allocator<GeometryShape> >::operator[](size_type n) const
 }
 
 template <class T>
-static inline const T &bfmeMin(const T &a, const T &b)
+static inline const T &bfmeMin(const T &lhs, const T &rhs)
 {
-	return (a < b) ? a : b;
+	return (lhs < rhs) ? lhs : rhs;
 }
 
 template <class T>
-static inline const T &bfmeMax(const T &a, const T &b)
+static inline const T &bfmeMax(const T &lhs, const T &rhs)
 {
-	return (a > b) ? a : b;
+	return (lhs > rhs) ? lhs : rhs;
 }
 
 class GeometryInfo

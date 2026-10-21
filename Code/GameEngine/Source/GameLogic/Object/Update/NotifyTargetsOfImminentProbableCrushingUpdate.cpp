@@ -61,8 +61,8 @@ int GetGameLogicRandomValue(int,int,char*,int);
 extern "C" float __cdecl atan2f(float y, float x);	// math.h's atan2f body, retail 0x000422A0
 enum UpdateSleepTime{UPDATE_SLEEP_NONE=1};
 class Rva004CE700Notifier{public:bool rva004CE700(Object*,const int*,UpdateSleepTime*);};
-template<class T>inline const T& nmin(const T&a,const T&b){return a<b?a:b;}
-template<class T>inline const T& nmax(const T&a,const T&b){return a>b?a:b;}
+template<class T>inline const T& nmin(const T&lhs,const T&rhs){return lhs<rhs?lhs:rhs;}
+template<class T>inline const T& nmax(const T&lhs,const T&rhs){return lhs>rhs?lhs:rhs;}
 bool Rva004CE700Notifier::rva004CE700(Object*object,const int*data,UpdateSleepTime*sleep){
  *sleep=(UpdateSleepTime)GetGameLogicRandomValue(data[0],(unsigned)(data[0]*3)/2,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\NotifyTargetsOfImminentProbableCrushingMux.cpp",63);
  const Rva0028AC4EEntry*entry=object->rva0028AC4E();

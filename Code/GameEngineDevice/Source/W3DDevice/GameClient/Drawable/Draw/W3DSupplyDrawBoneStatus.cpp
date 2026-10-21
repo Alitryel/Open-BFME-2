@@ -62,8 +62,8 @@ public:
 	void rva000CAFA6(int maxSupply, int currentSupply);
 };
 
-template <class T> inline const T &BfmeMin(const T &a, const T &b) { return b < a ? b : a; }
-template <class T> inline const T &BfmeMax(const T &a, const T &b) { return a > b ? a : b; }
+template <class T> inline const T &BfmeMin(const T &lhs, const T &rhs) { return rhs < lhs ? rhs : lhs; }
+template <class T> inline const T &BfmeMax(const T &lhs, const T &rhs) { return lhs > rhs ? lhs : rhs; }
 void Rva000CAFA6::rva000CAFA6(int maxSupply, int currentSupply)
 {
 	char *owner = *(char **)((char *)this - 8);
