@@ -20,7 +20,7 @@ public:
     void rva0028FB6F(void *);
 };
 class StealthUpdate { public: void markAsDetected(unsigned,int,Object *,bool); };
-class Rva00439E0C { public: bool rva00439E0C(Object *,Object *,int,int); };
+class Rva00439E0C { public: bool detected(Object *,Object *,int,int); };
 template<int N> class Rva00462FB3Slots:public Rva00462FB3Slots<N-1> { public: virtual void gap(char (*)[N]); };
 template<> class Rva00462FB3Slots<0> {};
 struct Rva00462FB3Flags {
@@ -50,7 +50,7 @@ void OpenContain::privateRemoveFromContain(Object *rider,bool expose)
         if (expose) {
             Rva00373EC6 *stealth=rider->rva0028F4BC();
             if (stealth) reinterpret_cast<StealthUpdate *>(stealth)->markAsDetected(0,1,0,true);
-            TheGameLogic->getManager178()->rva00439E0C(rider,0,0,1);
+            TheGameLogic->getManager178()->detected(rider,0,0,1);
         }
     }
     rider->setStatus(OBJECT_STATUS_63,false);

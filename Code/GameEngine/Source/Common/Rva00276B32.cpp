@@ -14,7 +14,7 @@ public:
 class Rva00270276Host
 {
 public:
-	bool rva00270276(void *a, void *b, void *c, void *d, int e, int f);
+	bool calcPitchRoll(void *a, void *b, void *c, void *d, int e, int f);
 };
 struct Rva00276B32Inner
 {
@@ -56,7 +56,7 @@ bool Rva00276B32Host::rva00276B32(int a, int b)
 			{
 				void *r1 = (void *)((const Drawable *)this)->getPosition();
 				const Coord3D *r2 = ((const Thing *)this)->getUnitDirectionVector2D();
-				return ((Rva00270276Host *)this)->rva00270276(mid, s, r1, (void *)r2, a, b);
+				return ((Rva00270276Host *)this)->calcPitchRoll(mid, s, r1, (void *)r2, a, b);
 			}
 		}
 	}

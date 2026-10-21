@@ -153,7 +153,7 @@ public:
 class Rva00439E0C
 {
 public:
-	bool rva00439E0C(Object *obj, Object *, int, int);	// 0x00439E0C
+	bool detected(Object *obj, Object *, int, int);	// 0x00439E0C
 };
 
 // Experience tracker views at Object+0x264 (rowed and pinned spellings).
@@ -308,7 +308,7 @@ void RiderChangeContain::onContaining(Object *rider, bool wasSelected)
 				if (stealth)
 					((StealthUpdate *)stealth)->markAsDetected(0, 1, 0, 1);
 			}
-			TheGameLogic->getManager178()->rva00439E0C(obj, 0, 0, 1);
+			TheGameLogic->getManager178()->detected(obj, 0, 0, 1);
 
 			Rva0039ACA4 *bikeTracker = (Rva0039ACA4 *)obj->getExperienceTracker();
 			Rva003BD306Target *riderTracker = (Rva003BD306Target *)rider->getExperienceTracker();

@@ -277,7 +277,7 @@ void rva001173f0(unsigned rinfo);
 class Rva007406E1
 {
 public:
-	void rva007406E1(RenderInfoClass &rinfo);
+	void CustomizedRender(RenderInfoClass &rinfo);
 
 private:
 	char m_00[8];
@@ -288,7 +288,7 @@ private:
 	GenericMultiListClass m_lightList;							// +0x8C (multi-list head +0x90)
 };
 
-void Rva007406E1::rva007406E1(RenderInfoClass &rinfo)
+void Rva007406E1::CustomizedRender(RenderInfoClass &rinfo)
 {
 	DX8Wrapper::Clear(false, true, true, Vector3(0, 0, 0), 0.0f, 1.0f, 0);
 

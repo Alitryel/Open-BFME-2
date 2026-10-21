@@ -10447,7 +10447,7 @@ name,address,notes
 ?rva00435224@AptSaveLoad@@QAEXXZ,0x00435224,unrowed thiscall (Ghidra FUN_00835224; plain ret) on the save/load screen; REL32 read in the AptSaveLoad::Load/ConfirmationOk callbacks (0x004348CA/0x004357CF) with ECX=this; address name
 ?rva00437050@@YIXPAVRva005F90F6Sub@@H@Z,0x00437050,fastcall sub method called from 0x005F90F6; identity unproven
 ?rva00439CF7@Rva00439CF7@@QAEXPAVObject@@HPBX@Z,0x00439CF7,"member of TheGameLogic's +0x178 object (ret 0xC: an object, an int and a pointer into module data); REL32 at 0x004C25F8 in InvisibilitySpecialPower 0x004C2517 (module data +0x13C, &+0x7C) and at 0x004C2444 in its slot-11 twin; identity not recovered"
-?rva00439E0C@Rva00439E0C@@QAEXPAVObject@@HHH@Z,0x00439E0C,callee of ?rva00464EE7@OpenContain@@UAE_NPAVObject@@@Z
+?detected@Rva00439E0C@@QAEXPAVObject@@HHH@Z,0x00439E0C,callee of ?rva00464EE7@OpenContain@@UAE_NPAVObject@@@Z
 ?rva0043B30F@Rva0043B2E2@@QAEPAXPBX@Z,0x0043B30F,ICF twin of free NewNode for tree insert call with this same 0x9C node and pair copy
 ?rva0043B3A1Hidden@Rva0043B2E2@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHPAX@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@PAURva0043B2E2Node@@0PBH0@Z,0x0043B3A1,ICF twin of rowed insert worker returning iterator for hidden-ret callers
 ?rva0043BD36@SkirmishPreferences@@QAEXXZ,0x0043BD36,unrowed 256B thiscall (Ghidra FUN_0083bd36; EH; plain ret) on SkirmishPreferences: reads TheSkirmishGameInfo 0x00E02EF0 into the preferences after the map; REL32 at 0x0043BEB7 in SkirmishPreferences::rva0043BE7C; address name

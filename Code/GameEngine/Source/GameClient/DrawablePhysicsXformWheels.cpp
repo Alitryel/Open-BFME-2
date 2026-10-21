@@ -136,7 +136,7 @@ public:
 class Rva00270276Host
 {
 public:
-	Bool rva00270276(void *obj, void *locomotor, void *pos, void *dir, Int pitch, Int roll);	// terrain tilt
+	Bool calcPitchRoll(void *obj, void *locomotor, void *pos, void *dir, Int pitch, Int roll);	// terrain tilt
 };
 
 Real Sin(Real x);
@@ -195,7 +195,7 @@ void Drawable::calcPhysicsXformWheels(const Locomotor *locomotor, PhysicsXformIn
 	const Coord3D *dir = ((const Thing *)this)->getUnitDirectionVector2D();
 	Real groundPitch = 0.0f;
 	Real groundRoll = 0.0f;
-	((Rva00270276Host *)this)->rva00270276(obj, (void *)locomotor, (void *)pos, (void *)dir, (Int)&groundPitch, (Int)&groundRoll);
+	((Rva00270276Host *)this)->calcPitchRoll(obj, (void *)locomotor, (void *)pos, (void *)dir, (Int)&groundPitch, (Int)&groundRoll);
 	Real hheight = TheTerrainLogic->getLayerHeight(pos->x, pos->y, obj->rva0028B511(), 0, true);
 
 	Bool airborne = obj->isSignificantlyAboveTerrain();

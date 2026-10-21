@@ -441,7 +441,7 @@ class Eva {
 extern Eva *TheEva;
 class Rva00439E0C {
   public:
-    bool rva00439E0C(Object *, Object *, int, int);
+    bool detected(Object *, Object *, int, int);
 };
 class AutoHealBehavior {
   public:
@@ -887,7 +887,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
         StealthUpdate *stealth = (StealthUpdate *)owner->rva0028F4BC();
         if (stealth)
             stealth->markAsDetected(0, 1, 0, true);
-        TheGameLogic->getManager178()->rva00439E0C(owner, 0, 0, 1);
+        TheGameLogic->getManager178()->detected(owner, 0, 0, 1);
     }
     if (moduleData->disableFrames > 0)
         owner->setDisabledFor(DISABLED_SPECIAL_ABILITY,moduleData->disableFrames);

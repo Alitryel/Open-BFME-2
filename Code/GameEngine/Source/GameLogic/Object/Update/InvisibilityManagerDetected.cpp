@@ -1,4 +1,4 @@
-// ?rva00439E0C@Rva00439E0C@@QAE_NPAVObject@@0HH@Z, retail 0x00439E0C (307 bytes),
+// ?detected@Rva00439E0C@@QAE_NPAVObject@@0HH@Z, retail 0x00439E0C (307 bytes),
 // WorldBuilder's InvisibilityManager::detected (explicit WB boundary 0x00839E0C).
 // Finds or creates the object's detection record in the manager's int-keyed map
 // (subscript 0x00439C73), extends its duration (0x0043822E), runs the detection
@@ -44,13 +44,13 @@ class Xfer;
 class Rva00439E0C {public:void *vtable;InvisibilityRecordMap records;unsigned word10,nextFrame;
  bool rva0043979D(Object*,Rva004393D6*);
  void rva00439F3F(Xfer*);
- bool rva00439E0C(Object*,Object*,int,int);
+ bool detected(Object*,Object*,int,int);
  void rva0043822E(Rva004393D6*,unsigned int);
  int rva0043966A(Object*,const Coord3D*,Rva004393D6*,Rva004389DBInfo*);
  bool rva00438E5B(Object*,int,Rva004393D6*,Rva004389DBInfo*,unsigned int);
  void rva004389DB(Object*,Rva004389DBInfo*,int);
 };
-bool Rva00439E0C::rva00439E0C(Object *object,Object *volatile detectorInput,int duration,int feedback)
+bool Rva00439E0C::detected(Object *object,Object *volatile detectorInput,int duration,int feedback)
 {
  if(!object)return false;
  if(!(object->objectTemplate->kind&0x20) && object->rva002931F5(false))return false;

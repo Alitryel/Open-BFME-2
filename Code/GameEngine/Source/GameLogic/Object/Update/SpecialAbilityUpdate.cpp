@@ -1223,7 +1223,7 @@ void SpecialAbilityUpdate::startPreparation()
 class Rva00265254 {public:Rva00265254(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);unsigned bits[19];};
 class Rva001E431E {public:void rva001E431E(const int*);};
 class StealthUpdate {public:void markAsDetected(unsigned,int,Object*,bool);};
-class Rva00439E0C {public:bool rva00439E0C(Object*,Object*,int,int);};
+class Rva00439E0C {public:bool detected(Object*,Object*,int,int);};
 struct SpecialGameLogicView {char opaque[0x178];Rva00439E0C *invisibility;};
 template<int N> class SpecialPackingSlots:public SpecialPackingSlots<N-1> {public:virtual void gap(char(*)[N]);};
 template<> class SpecialPackingSlots<0>{};
@@ -1262,7 +1262,7 @@ bool SpecialAbilityUpdate::handlePackingProcessing()
   if(data->m_loseStealth && m_animFrames<data->m_preTriggerUnstealthFrames) {
    StealthUpdate *stealth=(StealthUpdate*)getObject()->rva0028F4BC();
    if(stealth)stealth->markAsDetected(0,1,0,true);
-   ((SpecialGameLogicView*)TheGameLogic)->invisibility->rva00439E0C(getObject(),0,0,1);
+   ((SpecialGameLogicView*)TheGameLogic)->invisibility->detected(getObject(),0,0,1);
   }
   return true;
  }

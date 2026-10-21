@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// ?rva00270276@Rva00270276Host@@QAE_NPAX000HH@Z
+// ?calcPitchRoll@Rva00270276Host@@QAE_NPAX000HH@Z
 // retail 0x00270276..0x00270619 (931 bytes) thiscall RET 0x18; this unused.
 //
 // Identity (WorldBuilder): the WB twin at 0x00CA2560 is
@@ -77,10 +77,10 @@ extern TerrainLogic *TheTerrainLogic;
 class Rva00270276Host
 {
 public:
-	Bool rva00270276(void *objArg, void *locomotorArg, void *posArg, void *dirArg, Int pitchArg, Int rollArg);
+	Bool calcPitchRoll(void *objArg, void *locomotorArg, void *posArg, void *dirArg, Int pitchArg, Int rollArg);
 };
 
-Bool Rva00270276Host::rva00270276(void *objArg, void *locomotorArg, void *posArg, void *dirArg, Int pitchArg, Int rollArg)
+Bool Rva00270276Host::calcPitchRoll(void *objArg, void *locomotorArg, void *posArg, void *dirArg, Int pitchArg, Int rollArg)
 {
 	Object *obj = (Object *)objArg;
 	const Locomotor *locomotor = (const Locomotor *)locomotorArg;

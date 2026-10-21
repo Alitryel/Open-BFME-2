@@ -821,7 +821,7 @@ private:
 class Rva00439E0C
 {
 public:
-	bool rva00439E0C(Object *obj, Object *detector, Int duration, Int feedback);
+	bool detected(Object *obj, Object *detector, Int duration, Int feedback);
 };
 
 extern GameLogic *TheGameLogic;
@@ -1047,7 +1047,7 @@ void StealthUpdate::disguiseAsObject(const Object *target)
 		//Wake up so I can process!
 		setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 
-		TheGameLogic->getManager178()->rva00439E0C(getObject(), 0, 0, 1);
+		TheGameLogic->getManager178()->detected(getObject(), 0, 0, 1);
 	}
 	else if (m_disguised)
 	{
