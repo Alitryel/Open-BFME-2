@@ -81049,3 +81049,11 @@ Unwind@00b5bf67	0x0075BF67	31	blocked	Parent 0x00012190 is now matched and EH gr
 ?update@Rva003ECD1B@@QAEHXZ	0x003ECD1B	69	landed	UpdateModuleInterface vtable slot 0 (126 of 128 named siblings: update); ThreatFinderUpdate's table; position-driven update returning sleep frames t=3 model=claude-opus-5-5
 ?update@Rva0049C93F@@QAEHXZ	0x0049C93F	240	landed	UpdateModuleInterface vtable slot 0 (126 of 128 named siblings: update); calls SpecialAbilityUpdate::update (the base update) inside t=3 model=claude-opus-5-5
 ?update@Rva004640BE@@QAEHXZ	0x004640BE	98	blocked	slot 0 update by sibling vote (OpenContain table), but TransportContain.cpp derives the class from UpdateModuleInterface with a StateReturnType-typed update: rename breaks the override; 0x00466C94 (calls it) held back too t=2 model=claude-opus-5-5
+?upgradeImplementation@Rva004B7A9D@@QAEXXZ	0x004B7A9D	62	landed	UpgradeMux-family table slot 10 (32 of 32 named siblings: upgradeImplementation); applies the module data's model/drawable change t=3 model=claude-opus-5-5
+?update@Rva007581E0@@QAEXXZ	0x007581E0	39	landed	SubsystemInterface-family slot 10 (24 of 28 named siblings: update); CollisionManager table, profiles 'collision' around its member Update() t=3 model=claude-opus-5-5
+?update@Rva0053ED1A@@UAEXXZ	0x0053EFAE	25	landed	SubsystemInterface-family slot 10 (24 of 28 named siblings: update); per-frame update body t=3 model=claude-opus-5-5
+?update@Rva004958AE@@QAEHXZ	0x004958AE	104	landed	UpdateModuleInterface slot 0 (126 of 128 named siblings: update); returns a sleep frame count t=3 model=claude-opus-5-5
+?update@Rva003A4322_B2@@QAEHXZ	0x003A4473	103	landed	UpdateModuleInterface slot 0 (126 of 128 named siblings: update); returns a sleep frame count t=3 model=claude-opus-5-5
+?update@Rva00524B7A@@UAEXXZ	0x00524AE7	147	landed	SubsystemInterface-family slot 10 (24 of 28 named siblings: update); per-frame update body t=3 model=claude-opus-5-5
+?update@Rva00483B3D@@QAEHXZ	0x00483B3D	102	landed	UpdateModuleInterface slot 0 (126 of 128 named siblings: update); returns a sleep frame count t=3 model=claude-opus-5-5
+?update@Rva0046FC1B@@QAEHXZ	0x0046FC1B	638	landed	UpdateModuleInterface slot 0 (126 of 128 named siblings: update); HordeContain's update reached through its update interface t=3 model=claude-opus-5-5

@@ -1,7 +1,7 @@
-// ?rva00483B3D@Rva00483B3D@@QAEHXZ
+// ?update@Rva00483B3D@@QAEHXZ
 // cl: /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD
 //
-// ?rva00483B3D@Rva00483B3D@@QAEHXZ, retail 0x00483B3D, 102 bytes (secondary-base update).
+// ?update@Rva00483B3D@@QAEHXZ, retail 0x00483B3D, 102 bytes (secondary-base update).
 // Schedules the next heal frame (current frame + the module data delay at +0x0C), asks the
 // owning object (this-8) to attempt healing by the data amount at +0x10 through the rowed
 // 0x0028FE55, then sleeps forever (0x3FFFFFFF) when its body (object +0x254) reports equal
@@ -53,13 +53,13 @@ struct Rva00483B3DOuter
 class Rva00483B3D
 {
 public:
-	int rva00483B3D();
+	int update();
 private:
 	char m_pad[0x18];
 	unsigned int m_nextFrame18;
 };
 
-int Rva00483B3D::rva00483B3D()
+int Rva00483B3D::update()
 {
 	Rva00483B3DData *data = ((Rva00483B3DOuter *)((char *)this - 0x0C))->m_data;
 	unsigned int now = ((Rva00483B3DFrames *)TheGameLogic)->m_frame40;

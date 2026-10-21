@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD
 //
-// ?rva004958AE@Rva004958AE@@QAEHXZ, retail 0x004958AE, 104 bytes (secondary-base update).
+// ?update@Rva004958AE@@QAEHXZ, retail 0x004958AE, 104 bytes (secondary-base update).
 // Pending-command pump: when the owning object (this-8) has its AI (+0x258) and a command is
 // held at +0x14, an AI state of 2 (virtual slot 143) dispatches on the command's type (+0x14):
 // types 0x17 and 0x1B go to the rowed hunt predicate 0x00495801, types 0x18 and 0x26 to the
@@ -185,14 +185,14 @@ struct Rva004958AECommand
 class Rva004958AE
 {
 public:
-	int rva004958AE();
+	int update();
 private:
 	char m_pad[0x10];
 	StringBase<char> m_name10;
 	Rva004958AECommand *m_command14;
 };
 
-int Rva004958AE::rva004958AE()
+int Rva004958AE::update()
 {
 	Rva004958AEObject *object = *(Rva004958AEObject **)((char *)this - 8);
 	Rva004958AEAI *ai = object->m_ai258;

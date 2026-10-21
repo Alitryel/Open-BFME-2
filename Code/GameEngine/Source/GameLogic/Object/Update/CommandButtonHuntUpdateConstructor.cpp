@@ -73,4 +73,4 @@ CommandButtonHuntUpdate::CommandButtonHuntUpdate(Thing *thing, const ModuleData 
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?slot@PB_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?slot@PB_Iface2@@UAEXXZ=?rva004958AE@Rva004958AE@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?slot@PB_Iface2@@UAEXXZ=?update@Rva004958AE@@QAEHXZ")

@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD /ICode/Libraries/Include /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
-// ?rva0046FC1B@Rva0046FC1B@@QAEHXZ, retail 0x0046FC1B..0x0046FE99 (638 B,
+// ?update@Rva0046FC1B@@QAEHXZ, retail 0x0046FC1B..0x0046FE99 (638 B,
 // plain RET): HordeContain's update reached through its UpdateModuleInterface
 // secondary base (receiver = HordeContain + 0x10; WorldBuilder twin
 // 0x010BE680). It records the owner's orientation history, refreshes the
@@ -106,9 +106,9 @@ class Rva0046FC1B {
     char pad00[0x2bc];
     _STL::vector<float> m_history;
     int m_cursor;
-public: int rva0046FC1B();
+public: int update();
 };
-int Rva0046FC1B::rva0046FC1B()
+int Rva0046FC1B::update()
 {
     char *self = (char *)this;
     int count = *(int *)(*(char **)(self-0xc)+0x260);

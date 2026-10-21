@@ -227,12 +227,12 @@ public:
 class Rva007581E0
 {
 public:
-	void rva007581E0();
+	void update();
 private:
 	char m_pad00[0x10];
 	CollisionManagerImpl *m_10;
 };
-void Rva007581E0::rva007581E0()
+void Rva007581E0::update()
 {
 	Profile::StartRange("collision");
 	m_10->Update();

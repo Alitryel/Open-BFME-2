@@ -1,6 +1,6 @@
 // cl: /O1 /MD /arch:SSE
 //
-// ?rva00524AE7@Rva00524B7A@@UAEXXZ @ 0x00524AE7 (147B).
+// ?update@Rva00524B7A@@UAEXXZ @ 0x00524AE7 (147B).
 // Virtual slot 10 (offset 0x28) of the MovieWindowPlayback vtable at
 // 0x00867DFC. The class is spelled with an address-derived name because the
 // owner TU (Rva00524B7ACtor.cpp) keeps a non-polymorphic explicit-vptr view
@@ -51,7 +51,7 @@ public:
 	virtual void s07() = 0;
 	virtual void s08() = 0;
 	virtual void tail() = 0;
-	virtual void rva00524AE7();
+	virtual void update();
 private:
 	char m_basePad[8];
 	Rva00524B7A_0C *m_0C;
@@ -69,7 +69,7 @@ private:
 	int m_38;
 };
 
-void Rva00524B7A::rva00524AE7()
+void Rva00524B7A::update()
 {
 	if (m_0C == 0)
 		return;

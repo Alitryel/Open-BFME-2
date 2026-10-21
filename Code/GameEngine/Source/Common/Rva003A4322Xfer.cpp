@@ -208,14 +208,14 @@ class Rva003A4322_B2
 {
 public:
 	virtual void f2();
-	int rva003A4473();
+	int update();
 private:
 	unsigned char m_head[0x10];
 	float m_value;
 	Rva001048C0 m_envelope;
 };
 
-int Rva003A4322_B2::rva003A4473()
+int Rva003A4322_B2::update()
 {
 	Object *owner = *(Object **)((char *)this - 8);
 	if ((*(Rva003A4473DataView **)((char *)this - 0xC))->m_relocate)

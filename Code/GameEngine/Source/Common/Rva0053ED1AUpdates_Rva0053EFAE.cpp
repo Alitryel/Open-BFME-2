@@ -121,7 +121,7 @@ class Rva0053ED1A : public GameEngineDeletingBase, public Rva005C6D4D
 public:
   void rva0053EF7B();
   virtual void rva0053EF92();
-  virtual void rva0053EFAE();
+  virtual void update();
 	void rva0053EFC7(WindowList &list);
 	void rva0053EF2E();
 private:
@@ -133,7 +133,7 @@ private:
 
 
 
-void Rva0053ED1A::rva0053EFAE()
+void Rva0053ED1A::update()
 {
 	if (m_at58 != m_at54)
 		rva0053EF7B();
