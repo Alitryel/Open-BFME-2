@@ -80,7 +80,7 @@ __declspec(noinline) inline void GridTextureMapperClass::initialize(float fps, u
 }
 
 // ?bfmeAnchorGridTextureMapperInitialize absent-from-retail
-void bfmeAnchorGridTextureMapperInitialize(GridTextureMapperClass *p, float fps, unsigned int gridwidth_log2)
+void bfmeAnchorGridTextureMapperInitialize(GridTextureMapperClass *gridTextureMapper, float fps, unsigned int gridwidth_log2)
 {
-	p->initialize(fps, gridwidth_log2);
+	gridTextureMapper->initialize(fps, gridwidth_log2);
 }

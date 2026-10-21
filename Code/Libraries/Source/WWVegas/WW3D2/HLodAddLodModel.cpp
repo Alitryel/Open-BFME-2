@@ -85,17 +85,17 @@ struct HlodTreeView
     int NumPivots; // +0x10
     HlodPivotView *Pivot; // +0x14
 };
-static __forceinline Matrix3D &pivotMatrix(const HlodTransformView &q, Matrix3D &m)
+static __forceinline Matrix3D &pivotMatrix(const HlodTransformView &hlodTransformView, Matrix3D &m)
 {
-    const float xx = q.X * q.X * 2.0f;
-    const float xy = q.X * q.Y * 2.0f;
-    const float xz = q.Z * q.X * 2.0f;
-    const float wx = q.W * q.X * 2.0f;
-    const float yy = q.Y * q.Y * 2.0f;
-    const float yz = q.Z * q.Y * 2.0f;
-    const float wy = q.W * q.Y * 2.0f;
-    const float zz = q.Z * q.Z * 2.0f;
-    const float wz = q.W * q.Z * 2.0f;
+    const float xx = hlodTransformView.X * hlodTransformView.X * 2.0f;
+    const float xy = hlodTransformView.X * hlodTransformView.Y * 2.0f;
+    const float xz = hlodTransformView.Z * hlodTransformView.X * 2.0f;
+    const float wx = hlodTransformView.W * hlodTransformView.X * 2.0f;
+    const float yy = hlodTransformView.Y * hlodTransformView.Y * 2.0f;
+    const float yz = hlodTransformView.Z * hlodTransformView.Y * 2.0f;
+    const float wy = hlodTransformView.W * hlodTransformView.Y * 2.0f;
+    const float zz = hlodTransformView.Z * hlodTransformView.Z * 2.0f;
+    const float wz = hlodTransformView.W * hlodTransformView.Z * 2.0f;
 
     m[0][0] = 1.0f - yy - zz;
     m[0][1] = xy - wz;
@@ -106,9 +106,9 @@ static __forceinline Matrix3D &pivotMatrix(const HlodTransformView &q, Matrix3D 
     m[2][0] = xz - wy;
     m[2][1] = yz + wx;
     m[2][2] = 1.0f - yy - xx;
-    m[0][3] = q.Position.X;
-    m[1][3] = q.Position.Y;
-    m[2][3] = q.Position.Z;
+    m[0][3] = hlodTransformView.Position.X;
+    m[1][3] = hlodTransformView.Position.Y;
+    m[2][3] = hlodTransformView.Position.Z;
     return m;
 }
 

@@ -58,8 +58,8 @@ inline long *FrameGrabClass::GetBuffer()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeFrameGrabClassInlineAnchor@@YAXPAVFrameGrabClass@@@Z absent-from-retail
-void _bfmeFrameGrabClassInlineAnchor(FrameGrabClass *p)
+void _bfmeFrameGrabClassInlineAnchor(FrameGrabClass *frameGrab)
 {
-    p->GetBuffer();
+    frameGrab->GetBuffer();
 }
 #pragma inline_depth()

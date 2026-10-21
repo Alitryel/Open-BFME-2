@@ -93,12 +93,12 @@ Team *AITactic::rva004ECECD(int id)
     Rva004ECECDNode *end = m_end;
     for (Rva004ECECDNode *it = begin; it != end; ++it)
     {
-        Team *t = TheTeamFactory->findTeamByID((unsigned int)it->m_model);
-        if (t != 0)
+        Team *team = TheTeamFactory->findTeamByID((unsigned int)it->m_model);
+        if (team != 0)
         {
-            void *mid = *(void **)((char *)t + 0x30);
+            void *mid = *(void **)((char *)team + 0x30);
             if (*(int *)((char *)mid + 0x2dc) == id)
-                return t;
+                return team;
         }
     }
     return 0;
@@ -110,10 +110,10 @@ Rva004ECECDNode *AITactic::rva004ECF05(int id)
     Rva004ECECDNode *end = m_end;
     for (Rva004ECECDNode *it = begin; it != end; ++it)
     {
-        Team *t = TheTeamFactory->findTeamByID((unsigned int)it->m_model);
-        if (t != 0)
+        Team *team = TheTeamFactory->findTeamByID((unsigned int)it->m_model);
+        if (team != 0)
         {
-            void *mid = *(void **)((char *)t + 0x30);
+            void *mid = *(void **)((char *)team + 0x30);
             if (*(int *)((char *)mid + 0x2dc) == id)
                 return it;
         }
@@ -147,8 +147,8 @@ void AITactic::cohereTeams()
     Rva004ECECDNode *end = m_end;
     for (Rva004ECECDNode *it = begin; it != end; ++it) {
         AIGroup *grp = TheAI->createGroup();
-        Team *t = TheTeamFactory->findTeamByID((unsigned int)it->m_model);
-        t->getTeamAsAIGroup(grp);
+        Team *team = TheTeamFactory->findTeamByID((unsigned int)it->m_model);
+        team->getTeamAsAIGroup(grp);
         grp->rva00372C05();
         TheAI->destroyGroup(grp);
     }

@@ -77,7 +77,7 @@ template<class T> class RefCountPtr {
 public:
  T *Referent;
  RefCountPtr();
- RefCountPtr(const RefCountPtr &v) : Referent(v.Referent) { if(Referent) ++Referent->refs; }
+ RefCountPtr(const RefCountPtr &refCountPtr) : Referent(refCountPtr.Referent) { if(Referent) ++Referent->refs; }
  ~RefCountPtr(){if(Referent) Referent->Release_Ref();}
  T *Peek_Referent() const {return Referent;}
  RefCountPtr &operator=(const RefCountPtr &v) { if(v.Referent) ++v.Referent->refs; if(Referent) Referent->Release_Ref(); Referent=v.Referent; return *this; }
@@ -88,7 +88,7 @@ public:
  unsigned ShaderBits;
  ShaderClass() : ShaderBits(0x10441b) {}
  ShaderClass(const unsigned int bits) : ShaderBits(bits) {}
- ShaderClass(const ShaderClass &s) : ShaderBits(s.ShaderBits) {}
+ ShaderClass(const ShaderClass &shader) : ShaderBits(shader.ShaderBits) {}
  bool operator==(const ShaderClass &s) const { return ShaderBits == s.ShaderBits; }
  void Set_NPatch_Enable() { ShaderBits |= 0x20000; }
 };
@@ -98,8 +98,8 @@ public:
  unsigned long Get_CRC() const { if(dirty) { crc=Compute_CRC(); dirty=false; } return crc; }
 private: unsigned long Compute_CRC() const;
 };
-inline static bool Equal_Material(const VertexMaterialClass *a,const VertexMaterialClass *b) {
- int ca=a?a->Get_CRC():0, cb=b?b->Get_CRC():0;
+inline static bool Equal_Material(const VertexMaterialClass *vertexMaterial,const VertexMaterialClass *b) {
+ int ca=vertexMaterial?vertexMaterial->Get_CRC():0, cb=b?b->Get_CRC():0;
  return ca==cb;
 }
 typedef unsigned short TriIndex[3];

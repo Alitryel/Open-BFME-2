@@ -118,13 +118,13 @@ public:
 	void Make_Identity() { Set(0, 0, 0, 1); }
 	void Set(float a, float b, float c, float d) { X = a; Y = b; Z = c; W = d; }
 	void Rotate_Vector(const Vector3 & v, Vector3 * result) const;
-	__forceinline void PostMultiply(const Quaternion & q)
+	__forceinline void PostMultiply(const Quaternion & quaternion)
 	{
 		Quaternion a = *this;
-		X = a.W*q.X + a.X*q.W + (a.Y*q.Z - a.Z*q.Y);
-		Y = a.W*q.Y + a.Y*q.W - (a.X*q.Z - a.Z*q.X);
-		Z = a.W*q.Z + a.Z*q.W + (a.X*q.Y - a.Y*q.X);
-		W = a.W*q.W - (a.X*q.X + a.Y*q.Y + a.Z*q.Z);
+		X = a.W*quaternion.X + a.X*quaternion.W + (a.Y*quaternion.Z - a.Z*quaternion.Y);
+		Y = a.W*quaternion.Y + a.Y*quaternion.W - (a.X*quaternion.Z - a.Z*quaternion.X);
+		Z = a.W*quaternion.Z + a.Z*quaternion.W + (a.X*quaternion.Y - a.Y*quaternion.X);
+		W = a.W*quaternion.W - (a.X*quaternion.X + a.Y*quaternion.Y + a.Z*quaternion.Z);
 	}
 	float X, Y, Z, W;
 };
@@ -164,26 +164,26 @@ class CompactTransform
 {
 public:
 	CompactTransform() {}
-	CompactTransform(const Quaternion & q, const Vector3 & p) : Q(q), Position(p) {}
+	CompactTransform(const Quaternion & quaternion, const Vector3 & p) : Q(quaternion), Position(p) {}
 	__forceinline CompactTransform & operator = (const Matrix3D & m)
 	{
 		Q = Build_Quaternion(m);
 		m.Get_Translation(&Position);
 		return *this;
 	}
-	static void Multiply(const CompactTransform & a, const CompactTransform & b, CompactTransform * res)
+	static void Multiply(const CompactTransform & compactTransform, const CompactTransform & b, CompactTransform * res)
 	{
 		Vector3 tmp;
-		a.Q.Rotate_Vector(b.Position, &tmp);
-		res->Position = tmp + a.Position;
-		res->Q = a.Q * b.Q;
+		compactTransform.Q.Rotate_Vector(b.Position, &tmp);
+		res->Position = tmp + compactTransform.Position;
+		res->Q = compactTransform.Q * b.Q;
 	}
-	__forceinline void PostMul(const CompactTransform & b)
+	__forceinline void PostMul(const CompactTransform & compactTransform)
 	{
 		Vector3 tmp;
-		Q.Rotate_Vector(b.Position, &tmp);
+		Q.Rotate_Vector(compactTransform.Position, &tmp);
 		Position += tmp;
-		Q.PostMultiply(b.Q);
+		Q.PostMultiply(compactTransform.Q);
 	}
 	void Translate(const Vector3 & v)
 	{
@@ -255,10 +255,10 @@ struct NodeCompressedMotionStruct
 		if (Y) Y->Get_Value(frame, &trans.Y, cache); else trans.Y = 0;
 		if (Z) Z->Get_Value(frame, &trans.Z, cache); else trans.Z = 0;
 	}
-	bool Get_Orientation(Quaternion & q, float frame, unsigned char ** cache)
+	bool Get_Orientation(Quaternion & quaternion, float frame, unsigned char ** cache)
 	{
 		if (Q == 0) return false;
-		Q->Get_Quaternion(frame, &q, cache);
+		Q->Get_Quaternion(frame, &quaternion, cache);
 		return true;
 	}
 	void Get_Fade(float * fade, float frame, unsigned char ** cache)

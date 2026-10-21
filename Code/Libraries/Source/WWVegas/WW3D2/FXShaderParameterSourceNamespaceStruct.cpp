@@ -51,18 +51,18 @@ public:
 	virtual void ResolveBindings(const char *arg1, const char *arg2, FXShaderParameterBinder *arg3);
 };
 
-void FXShaderParameterSourceNamespace_Struct::ResolveBindings(const char *arg1, const char *arg2, FXShaderParameterBinder *arg3)
+void FXShaderParameterSourceNamespace_Struct::ResolveBindings(const char *arg1, const char *arg2, FXShaderParameterBinder *fXShaderParameterBinder)
 {
 	if (arg1 != 0)
 		return;
-	EsiObj *esi = *(EsiObj **)arg3;
+	EsiObj *esi = *(EsiObj **)fXShaderParameterBinder;
 	QueryResult qr;
 	int r = esi->s10(arg2, &qr);
 	if (r < 0)
 		return;
 	if (qr.m08 != 5)
 		return;
-	arg3->PushDynamicSetStack(arg2);
+	fXShaderParameterBinder->PushDynamicSetStack(arg2);
 	int count = qr.m20;
 	if (count <= 0)
 		goto done;
@@ -73,8 +73,8 @@ void FXShaderParameterSourceNamespace_Struct::ResolveBindings(const char *arg1, 
 		int r2 = esi->s10(found, &qr);
 		if (r2 < 0)
 			continue;
-		ResolveBindings((const char *)qr.m00, (const char *)found, arg3);
+		ResolveBindings((const char *)qr.m00, (const char *)found, fXShaderParameterBinder);
 	}
 done:
-	arg3->PopDynamicSetStack();
+	fXShaderParameterBinder->PopDynamicSetStack();
 }

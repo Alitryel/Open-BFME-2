@@ -208,7 +208,7 @@ void LightClass::Get_Obj_Space_Bounding_Box(AABoxClass &box) const
 }
 
 // Anchor: emits the ??_G scalar-deleting-destructor COMDAT.
-void deleteLight(LightClass *p)
+void deleteLight(LightClass *light)
 {
-	delete p;
+	delete light;
 }

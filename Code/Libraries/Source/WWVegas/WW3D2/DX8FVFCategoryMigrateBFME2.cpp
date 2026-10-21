@@ -87,7 +87,7 @@ class ShaderClass
 public:
 	unsigned ShaderBits;
 	ShaderClass() {}
-	ShaderClass(const ShaderClass& s) { ShaderBits = s.ShaderBits; }
+	ShaderClass(const ShaderClass& shader) { ShaderBits = shader.ShaderBits; }
 };
 class VertexMaterialClass
 {
@@ -111,7 +111,7 @@ class DX8PolygonRendererClass : public MultiListObjectClass
 	DX8TextureCategoryClass* Category;
 public:
 	DX8TextureCategoryClass* Get_Texture_Category() { return Category; }
-	void Set_Texture_Category(DX8TextureCategoryClass* c) { Category = c; }
+	void Set_Texture_Category(DX8TextureCategoryClass* dX8TextureCategory) { Category = dX8TextureCategory; }
 };
 
 struct TextureCategoryDeleteListView
@@ -166,10 +166,10 @@ inline void DX8TextureCategoryClass::Remove_Polygon_Renderer(DX8PolygonRendererC
 			dl->list.Add_Tail(this, true);
 	}
 }
-inline void DX8TextureCategoryClass::Add_Polygon_Renderer(DX8PolygonRendererClass* p_renderer, DX8PolygonRendererClass* a)
+inline void DX8TextureCategoryClass::Add_Polygon_Renderer(DX8PolygonRendererClass* p_renderer, DX8PolygonRendererClass* dX8PolygonRenderer)
 {
-	if (a != 0) {
-		PolygonRendererList.Add_After(p_renderer, a, false);
+	if (dX8PolygonRenderer != 0) {
+		PolygonRendererList.Add_After(p_renderer, dX8PolygonRenderer, false);
 	} else {
 		PolygonRendererList.Add(p_renderer);
 	}

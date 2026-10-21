@@ -90,8 +90,8 @@ void FXShaderParameterBinder::PushDynamicSetStack(const char *name)
 reload:
 	{
 		Rva0015354EStore *s2 = m_store10;
-		ScienceType *f2 = *(ScienceType **)((char *)s2 + 8);
-		cur = *(f2 - 1);
+		ScienceType *scienceType = *(ScienceType **)((char *)s2 + 8);
+		cur = *(scienceType - 1);
 	}
 add:
 	PushDynamicSetStack(cur);

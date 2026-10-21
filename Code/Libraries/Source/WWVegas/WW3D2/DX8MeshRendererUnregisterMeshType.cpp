@@ -73,7 +73,7 @@ public:
 // ?Unregister_Mesh_Type@DX8MeshRendererClass@@QAEXPAVMeshModelClass@@@Z
 void DX8MeshRendererClass::Unregister_Mesh_Type(MeshModelClass *mmc)
 {
-	while (DX8PolygonRendererClass *n = mmc->PolygonRendererList.Remove_Head()) {
-		::delete n;
+	while (DX8PolygonRendererClass *dX8PolygonRenderer = mmc->PolygonRendererList.Remove_Head()) {
+		::delete dX8PolygonRenderer;
 	}
 }

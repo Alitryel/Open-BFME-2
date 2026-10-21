@@ -39,11 +39,11 @@ extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *,const char *,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 bool Rva0070B5D0Check();
 void Rva0070B670Initialize(int bucketCount) {
- EAStringC *p=bfmeObjDAE;
+ EAStringC *eAStringC=bfmeObjDAE;
  do {
-  if (!p->rva006CD4A0()) p->rva006D3C60();
-  ++p;
- } while ((int)p < (int)(bfmeObjDAE+178));
+  if (!eAStringC->rva006CD4A0()) eAStringC->rva006D3C60();
+  ++eAStringC;
+ } while ((int)eAStringC < (int)(bfmeObjDAE+178));
  { EAStringC text("__proto__"); bfmeObjDAE[0] = text; }
  { EAStringC text("_alpha"); bfmeObjDAE[1] = text; }
  { EAStringC text("_currentframe"); bfmeObjDAE[2] = text; }

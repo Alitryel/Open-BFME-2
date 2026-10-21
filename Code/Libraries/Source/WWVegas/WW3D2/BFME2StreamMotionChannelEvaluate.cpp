@@ -112,15 +112,15 @@ void BFME2Encoding1MotionChannel::UnknownSlot5(float frame, Quaternion *value, u
     frame -= (float)whole;
     if (cursor) {
         unsigned int *cache = (unsigned int *)*cursor;
-        Quaternion *value0 = (Quaternion *)(cache + 1);
-        rva001B2450((unsigned int *)value0, cache[0], whole, value0, value0 + 1);
+        Quaternion *quaternion = (Quaternion *)(cache + 1);
+        rva001B2450((unsigned int *)quaternion, cache[0], whole, quaternion, quaternion + 1);
         cache[0] = whole;
-        BFME2_Nlerp(*value, value0[0], value0[1], frame);
+        BFME2_Nlerp(*value, quaternion[0], quaternion[1], frame);
         *cursor += Components * 8 + 4;
     } else {
-        Quaternion value0, value1;
-        rva001B2450((unsigned int *)(EncodedHeader + 4), 0, whole, &value0, &value1);
-        BFME2_Nlerp(*value, value0, value1, frame);
+        Quaternion quaternion, value1;
+        rva001B2450((unsigned int *)(EncodedHeader + 4), 0, whole, &quaternion, &value1);
+        BFME2_Nlerp(*value, quaternion, value1, frame);
     }
 }
 

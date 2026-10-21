@@ -153,8 +153,8 @@ inline DX8TextureCategoryClass::~DX8TextureCategoryClass()
 	if (TheDX8MeshRenderer != 0) {
 		while (DX8PolygonRendererClass *p_renderer = PolygonRendererList.Get_Head()) {
 			MeshModelClass *mmc = p_renderer->Get_Mesh_Model_Class();
-			while (DX8PolygonRendererClass *n = mmc->PolygonRendererList.Remove_Head()) {
-				::delete n;
+			while (DX8PolygonRendererClass *dX8PolygonRenderer = mmc->PolygonRendererList.Remove_Head()) {
+				::delete dX8PolygonRenderer;
 			}
 		}
 	}
@@ -168,8 +168,8 @@ inline DX8TextureCategoryClass::~DX8TextureCategoryClass()
 // it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitDX8TextureCategoryDtor@@YAXPAVDX8TextureCategoryClass@@@Z present-unmatched
-void bfmeEmitDX8TextureCategoryDtor(DX8TextureCategoryClass *p)
+void bfmeEmitDX8TextureCategoryDtor(DX8TextureCategoryClass *dX8TextureCategory)
 {
-	p->DX8TextureCategoryClass::~DX8TextureCategoryClass();
+	dX8TextureCategory->DX8TextureCategoryClass::~DX8TextureCategoryClass();
 }
 #pragma inline_depth()

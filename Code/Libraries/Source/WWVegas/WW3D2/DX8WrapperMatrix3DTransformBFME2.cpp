@@ -83,7 +83,7 @@ __declspec(noinline) inline void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE
 }
 
 // ?bfmeAnchorDX8WrapperSet_Transform absent-from-retail
-void bfmeAnchorDX8WrapperSet_Transform(DX8Wrapper *p, D3DTRANSFORMSTATETYPE transform, const Matrix3D& m)
+void bfmeAnchorDX8WrapperSet_Transform(DX8Wrapper *dX8Wrapper, D3DTRANSFORMSTATETYPE transform, const Matrix3D& m)
 {
-	p->Set_Transform(transform, m);
+	dX8Wrapper->Set_Transform(transform, m);
 }

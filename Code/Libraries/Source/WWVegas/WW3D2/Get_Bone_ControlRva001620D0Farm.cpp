@@ -29,16 +29,16 @@ void HTreeClass::Get_Bone_Control(int index,Matrix3D &out) const
   return;
  }
  {
-  const Quaternion &q=bone->Rotation;
-  float xx=q.X*q.X*2.0f;
-  float xy=__vref(q.X)*q.Y*2.0f;
-  float xz=q.X*q.Z*2.0f;
-  float xw=q.X*q.W*2.0f;
-  float yy=q.Y*q.Y*2.0f;
-  float yz=q.Y*q.Z*2.0f;
-  float yw=q.Y*q.W*2.0f;
-  float zz=q.Z*q.Z*2.0f;
-  float zw=q.Z*q.W*2.0f;
+  const Quaternion &quaternion=bone->Rotation;
+  float xx=quaternion.X*quaternion.X*2.0f;
+  float xy=__vref(quaternion.X)*quaternion.Y*2.0f;
+  float xz=quaternion.X*quaternion.Z*2.0f;
+  float xw=quaternion.X*quaternion.W*2.0f;
+  float yy=quaternion.Y*quaternion.Y*2.0f;
+  float yz=quaternion.Y*quaternion.Z*2.0f;
+  float yw=quaternion.Y*quaternion.W*2.0f;
+  float zz=quaternion.Z*quaternion.Z*2.0f;
+  float zw=quaternion.Z*quaternion.W*2.0f;
   out.M[0][0]=1.0f-yy-zz; out.M[0][1]=xy-zw; out.M[0][2]=yw+xz;
   out.M[1][0]=zw+xy; out.M[1][1]=1.0f-zz-xx; out.M[1][2]=yz-xw;
   out.M[2][0]=xz-yw; out.M[2][1]=yz+xw; out.M[2][2]=1.0f-yy-xx;

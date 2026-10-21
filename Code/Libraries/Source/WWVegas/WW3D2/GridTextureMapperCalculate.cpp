@@ -78,11 +78,11 @@ void GridTextureMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 	tex_matrix[0].Z = u_offset;
 	tex_matrix[1].Z = v_offset;
 }
-static __forceinline void initMatrix(Matrix4 &m, float m0, float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8, float m9, float m10, float m11, float m12, float m13, float m14, float m15) {
-    m[0].Set(m0, m1, m2, m3);
-    m[1].Set(m4, m5, m6, m7);
-    m[2].Set(m8, m9, m10, m11);
-    m[3].Set(m12, m13, m14, m15);
+static __forceinline void initMatrix(Matrix4 &matrix4, float m0, float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8, float m9, float m10, float m11, float m12, float m13, float m14, float m15) {
+    matrix4[0].Set(m0, m1, m2, m3);
+    matrix4[1].Set(m4, m5, m6, m7);
+    matrix4[2].Set(m8, m9, m10, m11);
+    matrix4[3].Set(m12, m13, m14, m15);
 }
 
 void GridClassicEnvironmentMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)

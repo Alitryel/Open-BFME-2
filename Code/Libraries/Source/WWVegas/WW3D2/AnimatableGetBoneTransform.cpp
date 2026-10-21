@@ -40,17 +40,17 @@ struct HTreeBone
 	unsigned char m_pad51[88 - 0x50 - 1];
 };
 
-static __forceinline Matrix3D &boneMatrix(const HTreeBoneTransform &q, Matrix3D &m)
+static __forceinline Matrix3D &boneMatrix(const HTreeBoneTransform &hTreeBoneTransform, Matrix3D &m)
 {
-	const float xx = q.X * q.X * 2.0f;
-	const float xy = q.X * q.Y * 2.0f;
-	const float xz = q.Z * q.X * 2.0f;
-	const float wx = q.W * q.X * 2.0f;
-	const float yy = q.Y * q.Y * 2.0f;
-	const float yz = q.Z * q.Y * 2.0f;
-	const float wy = q.W * q.Y * 2.0f;
-	const float zz = q.Z * q.Z * 2.0f;
-	const float wz = q.W * q.Z * 2.0f;
+	const float xx = hTreeBoneTransform.X * hTreeBoneTransform.X * 2.0f;
+	const float xy = hTreeBoneTransform.X * hTreeBoneTransform.Y * 2.0f;
+	const float xz = hTreeBoneTransform.Z * hTreeBoneTransform.X * 2.0f;
+	const float wx = hTreeBoneTransform.W * hTreeBoneTransform.X * 2.0f;
+	const float yy = hTreeBoneTransform.Y * hTreeBoneTransform.Y * 2.0f;
+	const float yz = hTreeBoneTransform.Z * hTreeBoneTransform.Y * 2.0f;
+	const float wy = hTreeBoneTransform.W * hTreeBoneTransform.Y * 2.0f;
+	const float zz = hTreeBoneTransform.Z * hTreeBoneTransform.Z * 2.0f;
+	const float wz = hTreeBoneTransform.W * hTreeBoneTransform.Z * 2.0f;
 
 	m[0][0] = 1.0f - yy - zz;
 	m[0][1] = xy - wz;
@@ -61,9 +61,9 @@ static __forceinline Matrix3D &boneMatrix(const HTreeBoneTransform &q, Matrix3D 
 	m[2][0] = xz - wy;
 	m[2][1] = yz + wx;
 	m[2][2] = 1.0f - yy - xx;
-	m[0][3] = q.Position.X;
-	m[1][3] = q.Position.Y;
-	m[2][3] = q.Position.Z;
+	m[0][3] = hTreeBoneTransform.Position.X;
+	m[1][3] = hTreeBoneTransform.Position.Y;
+	m[2][3] = hTreeBoneTransform.Position.Z;
 	return m;
 }
 

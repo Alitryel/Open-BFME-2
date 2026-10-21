@@ -23,9 +23,9 @@ int BfmeThingVNQ::bfmeTotalVNQ()
 	int i = 0;
 	if (n > 0) {
 		do {
-			VertexMaterialClass *p = m_bfme0c[i];
-			if (p != 0)
-				total += p->rva0013D250();
+			VertexMaterialClass *vertexMaterial = m_bfme0c[i];
+			if (vertexMaterial != 0)
+				total += vertexMaterial->rva0013D250();
 			++i;
 		} while (i < m_bfme18);
 	}

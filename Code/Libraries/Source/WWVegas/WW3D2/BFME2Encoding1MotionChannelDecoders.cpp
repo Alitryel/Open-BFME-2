@@ -84,7 +84,7 @@ void BFME2Encoding1MotionChannel::rva001B230A(unsigned int *state, unsigned int 
     }
 }
 
-void BFME2Encoding1MotionChannel::rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1)
+void BFME2Encoding1MotionChannel::rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *quaternion, Quaternion *value1)
 {
     Quaternion last;
     if (from > frame) {
@@ -95,8 +95,8 @@ void BFME2Encoding1MotionChannel::rva001B2450(unsigned int *state, unsigned int 
     unsigned char *packet = Data + (from >> 4) * 36;
     while (from <= frame + 1) {
         if (from >= (unsigned int)Count) {
-            if (value0)
-                *value0 = last;
+            if (quaternion)
+                *quaternion = last;
             *value1 = last;
             return;
         }
@@ -108,7 +108,7 @@ void BFME2Encoding1MotionChannel::rva001B2450(unsigned int *state, unsigned int 
             for (unsigned int fi = fi0; fi < 16; ++fi) {
                 unsigned int f = from + fi;
                 if (f == frame)
-                    ((float *)value0)[vi] = ((float *)&last)[vi];
+                    ((float *)quaternion)[vi] = ((float *)&last)[vi];
                 else if (f == frame + 1) {
                     ((float *)value1)[vi] = ((float *)&last)[vi];
                     break;
@@ -121,6 +121,6 @@ void BFME2Encoding1MotionChannel::rva001B2450(unsigned int *state, unsigned int 
         }
         from += 16;
         if (from > frame)
-            value0 = 0;
+            quaternion = 0;
     }
 }

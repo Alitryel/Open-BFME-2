@@ -112,8 +112,8 @@ StringNode0070D9F0 *Rva0070DBB0Intern(const char *text) {
     sStringPoolMaxUsers = sStringPoolCurrentUsers;
   for (StringNode0070D9F0 *node = g_00E18368[bucket]; node;
        node = node->m_next) {
-    EAStringC *s = &node->m_str;
-    if (s->rva006D2F40() == hash && s->rva006D3490(text)) {
+    EAStringC *eAStringC = &node->m_str;
+    if (eAStringC->rva006D2F40() == hash && eAStringC->rva006D3490(text)) {
       BfmeAptValue006DCD20 *v = (BfmeAptValue006DCD20 *)node;
       if (v->getGCRootCount() != 0x7f)
         v->incrementGCRootCount();

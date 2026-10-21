@@ -38,13 +38,13 @@ FontCharsClassCharDataStruct const *FontCharsClass::Get_Char_Data(unsigned short
 	for (;;)
 	{
 		FontCharNode *node = cur->m_chars.find(ch);
-		FontCharsClassCharDataStruct const *p = 0;
+		FontCharsClassCharDataStruct const *fontCharsClassCharData = 0;
 		if (node != cur->m_chars.header)
-			p = node->m_data;
-		if (p == 0)
-			p = cur->Store_GDI_Char(key);
-		if (p != (FontCharsClassCharDataStruct const *)-1)
-			return p;
+			fontCharsClassCharData = node->m_data;
+		if (fontCharsClassCharData == 0)
+			fontCharsClassCharData = cur->Store_GDI_Char(key);
+		if (fontCharsClassCharData != (FontCharsClassCharDataStruct const *)-1)
+			return fontCharsClassCharData;
 		FontCharsClass *alt = cur->AlternateUnicodeFont;
 		if (alt == 0 || cur == alt)
 			return 0;

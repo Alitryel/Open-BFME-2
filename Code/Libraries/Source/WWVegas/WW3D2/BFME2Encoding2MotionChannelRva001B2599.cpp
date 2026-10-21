@@ -117,7 +117,7 @@ void BFME2Encoding2MotionChannel::rva001B267B(unsigned int *state, unsigned int 
 
 // Encoding 2 quaternion decoder: four 17-byte component packets per 16-frame block, each a filter
 // byte then 16 deltas biased by 128; p walks the delta bytes in step with fi.
-void BFME2Encoding2MotionChannel::rva001B27AB(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1)
+void BFME2Encoding2MotionChannel::rva001B27AB(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *quaternion, Quaternion *value1)
 {
     Quaternion last;
     if (from > frame) {
@@ -129,8 +129,8 @@ void BFME2Encoding2MotionChannel::rva001B27AB(unsigned int *state, unsigned int 
     while (from <= frame + 1) {
         // Frame Loop
         if (from >= (unsigned int)Count) {
-            if (value0)
-                *value0 = last;
+            if (quaternion)
+                *quaternion = last;
             *value1 = last;
             return;
         }
@@ -143,7 +143,7 @@ void BFME2Encoding2MotionChannel::rva001B27AB(unsigned int *state, unsigned int 
             for (unsigned int fi = fi0; fi < 16; ++fi, ++p) {
                 unsigned int f = from + fi;
                 if (f == frame)
-                    ((float *)value0)[vi] = ((float *)&last)[vi];
+                    ((float *)quaternion)[vi] = ((float *)&last)[vi];
                 else if (f == frame + 1) {
                     ((float *)value1)[vi] = ((float *)&last)[vi];
                     break;
@@ -154,6 +154,6 @@ void BFME2Encoding2MotionChannel::rva001B27AB(unsigned int *state, unsigned int 
         }
         from += 16;
         if (from > frame)
-            value0 = 0;
+            quaternion = 0;
     }
 }

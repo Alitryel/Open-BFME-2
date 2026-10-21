@@ -19,8 +19,8 @@ public:
 	{
 	public:
 		TextureClass *Ptr;
-		TextureHandleClass( TextureClass *p ) : Ptr( p ) { if ( Ptr ) ++Ptr->Refs; }
-		TextureHandleClass( const TextureHandleClass &p ) : Ptr( p.Ptr ) { if ( Ptr ) ++Ptr->Refs; }
+		TextureHandleClass( TextureClass *texture ) : Ptr( texture ) { if ( Ptr ) ++Ptr->Refs; }
+		TextureHandleClass( const TextureHandleClass &textureHandle ) : Ptr( textureHandle.Ptr ) { if ( Ptr ) ++Ptr->Refs; }
 		~TextureHandleClass();
 	};
 };

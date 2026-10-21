@@ -94,7 +94,7 @@ __declspec(noinline) inline void DX8Wrapper::Set_Ambient(const Vector3 &color)
 }
 
 // ?bfmeAnchorDX8WrapperSet_Ambient absent-from-retail
-void bfmeAnchorDX8WrapperSet_Ambient(DX8Wrapper *p, const Vector3 &color)
+void bfmeAnchorDX8WrapperSet_Ambient(DX8Wrapper *dX8Wrapper, const Vector3 &color)
 {
-	p->Set_Ambient(color);
+	dX8Wrapper->Set_Ambient(color);
 }
