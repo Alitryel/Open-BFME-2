@@ -15,6 +15,7 @@
 class CamBase0
 {
 public:
+	virtual void f0();	// retail primary table 0x007C6C58: [f0, deleting dtor]
 	virtual ~CamBase0();
 
 private:

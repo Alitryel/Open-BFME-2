@@ -19,8 +19,8 @@ class CamBase0
 {
 public:
 	CamBase0();
-	~CamBase0();
 	virtual void f0();
+	virtual ~CamBase0();	// retail primary table 0x007C6C58: [f0, deleting dtor]
 
 private:
 	int m_04;
@@ -37,7 +37,7 @@ class CameraClass : public CamBase0, public CamBase1
 {
 public:
 	CameraClass();
-	~CameraClass();
+	virtual ~CameraClass();
 
 private:
 	char m_pad[0x3FC - 12];
@@ -47,6 +47,7 @@ class Rva007C454 : public CameraClass
 {
 public:
 	Rva007C454();
+	virtual ~Rva007C454();	// Rva007C454Dtor.cpp (0x0007C454)
 
 private:
 	_STL::vector<BfmeE16> m_3FC;
