@@ -387,7 +387,7 @@ public:
     virtual int rva0056DDC1(void *,unsigned int,unsigned int,unsigned int);
     virtual int rva0057166C(void *,unsigned int,void *,void *);
     void rva0057179D(bool);
-    void rva005700A0();
+    void CheckLogin();
     void rva005709D1(AsciiString &,AsciiString &);
     bool rva005706D4();
     bool rva0056EC54(const UnicodeString &,bool);
@@ -777,7 +777,7 @@ void AptOnlineLogin::rva0057179D(bool argument) {
 // BFME1 34f59164 OnlineLoginCheckLogin.cpp semantic donor. Native700A0
 // adds the firewall completion phase and uses PSPlayerAllStats (0x548).
 // Complete native evidence supplies offsets and virtual slots independently.
-void AptOnlineLogin::rva005700A0()
+void AptOnlineLogin::CheckLogin()
 {
     if(g_a063b0) {
         if(!((FirewallHelperClass *)g_a063b0)->behaviorDetectionUpdate()) return;
@@ -1114,7 +1114,7 @@ void AptOnlineLogin::rva00571C9D()
 {
  if(TheGameSpyPeerMessageQueue) {
   LoginPingResponse ping;
-  if(ThePinger && ThePinger->getResponse(ping)) rva005700A0();
+  if(ThePinger && ThePinger->getResponse(ping)) CheckLogin();
   responseFailed=false; accountDeleted=false;
   HandleBuddyResponses();HandlePersistentStorageResponses();
   if(accountDeleted) OnAccountDeleted(true);
@@ -1207,6 +1207,6 @@ void AptOnlineLogin::rva00571C9D()
    }
    }
   }
-  rva005700A0();
+  CheckLogin();
  }
 }
