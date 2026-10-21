@@ -163,12 +163,16 @@ struct AptTextPlusStringPlusString : Rva002226E5TextPlusString
 	AsciiStringRef m_third;
 };
 
-struct AptTextPlusStringPlusStringText : AptTextPlusStringPlusString
+// Native four-part node: 8B text pair, two string references, 8B text pair;
+// its materializer 0x005F1D47 is rowed as Rva005F1D06's conversion (as in
+// StrategicHUDDynamicAutoResolveMovieClip.cpp).
+struct Rva005F1D06 : AptTextPlusStringPlusString
 {
 	operator AsciiString(); // 0x005F1D47
 
 	Rva000B3F84Pair m_text;
 };
+struct AptTextPlusStringPlusStringText : Rva005F1D06 {};
 
 // ?operator+(Rva002226E5TextPlusString, AsciiString) present-unmatched (inline, emitted out of line; ICF-folded at 0x005F17C6; pinned)
 inline AptTextPlusStringPlusString operator+(const Rva002226E5TextPlusString &left, const AsciiString &right)

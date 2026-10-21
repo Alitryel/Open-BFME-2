@@ -504,8 +504,8 @@ Rva003AA6BD::Rva003AA6BD(EmitVtableTag *) {}
 
 // --- 0x0051CC82 (11B): AptScoreScreen, table 0x00C66FA8 (the +0x218 screen
 // callback base) -> ??_G 0x0051CE56.
-// ?<Rva0051CBC6::Rva0051CBC6> absent-from-retail
-DEFINE_DTOR_THUNK(Rva0051CBC6, 0x218, public)
+// ?<AptScoreScreen::AptScoreScreen> absent-from-retail
+DEFINE_DTOR_THUNK(AptScoreScreen, 0x218, public)
 // --- 0x004E845F (11B): AptInGameChat, one-slot table 0x00C6262C (the
 // +0x218 screen callback base) -> ??_G 0x004E84E3.
 // ?<AptInGameChat::AptInGameChat> absent-from-retail

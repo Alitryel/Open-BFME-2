@@ -83,7 +83,9 @@ public:
 	char m_pad04[0x18 - 4];
 	float f18; int m1C; int m20; int m24; int m28; int m2C; int m30; int m34; int m38; int m3C; int m40; int m44;
 };
-class Rva000B34D8 { public: bool rva000B34D8(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2); private: char m_pad00[0x44]; RenderObjClass *m_44; };
+// A one-slot draw interface: W3DScriptedModelDraw's +0x0C base, whose vtable
+// slot 0 is this function (also inherited unchanged by W3DTankDraw/W3DTruckDraw).
+class Rva000B34D8 { public: virtual bool rva000B34D8(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2); private: char m_pad04[0x44 - 4]; RenderObjClass *m_44; };
 bool Rva000B34D8::rva000B34D8(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2) {
 	if (!m_44) return false;
 	*o0 = m_44->Get_Position();

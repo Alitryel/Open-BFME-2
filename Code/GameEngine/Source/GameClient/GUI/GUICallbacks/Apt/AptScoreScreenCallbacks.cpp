@@ -156,13 +156,17 @@ public:
 	_STL::vector<Rva0040CC0EEntry> m_entries; // +0x40
 };
 
-class GameLogic
+class GameLogic;
+extern GameLogic *TheGameLogic;
+
+// 0x002401C0 is rowed (Common/Rva002401C0Forward.cpp) as an address-named
+// forward on GameLogic returning its army list as four-byte words; each
+// word is an army record pointer here.
+class Rva002401C0
 {
 public:
-	_STL::vector<Rva0040CB2CIndexedField *> rva002401C0();
+	_STL::vector<unsigned int> rva002401C0();
 };
-
-extern GameLogic *TheGameLogic;
 
 class ThingTemplate
 {
@@ -584,10 +588,10 @@ bool AptScoreScreen::PopulatePersistentUnitsListbox()
 	if (!TheGameLogic || !TheThingFactory || !m_units)
 		return false;
 	_STL::vector<Rva0051DA24Row> rows;
-	_STL::vector<Rva0040CB2CIndexedField *> armies = TheGameLogic->rva002401C0();
+	_STL::vector<unsigned int> armies = ((Rva002401C0 *)TheGameLogic)->rva002401C0();
 	for (unsigned int i = 0; i < armies.size(); ++i)
 	{
-		Rva0040CB2CIndexedField *army = armies[i];
+		Rva0040CB2CIndexedField *army = (Rva0040CB2CIndexedField *)armies[i];
 		if (!army)
 			return false;
 		int count = army->m_entries.size();

@@ -41,11 +41,11 @@ struct AptScoreScreenBuffer
 	~AptScoreScreenBuffer() { if (p) free(p); }
 };
 
-class __multiple_inheritance Rva0051CBC6
+class __multiple_inheritance AptScoreScreen
 	: public _bfme_AptGameWindow, public BfmeAptFunctorMarker
 {
 public:
-	virtual ~Rva0051CBC6();
+	virtual ~AptScoreScreen();
 
 private:
 	char m_pad21C[100];
@@ -58,7 +58,7 @@ private:
 	AsciiString m_2c0;
 };
 
-// ??1Rva0051CBC6@@UAE@XZ, RVA 0x0051CBC6, 188 bytes.
+// ??1AptScoreScreen@@UAE@XZ (was rowed as Rva0051CBC6), RVA 0x0051CBC6, 188 bytes.
 // AptScoreScreen dtor: resets both vtables, closes AptScoreScreen via
 // InitGadgets literal, hides Shell when slot 0x280 is empty, clears
 // g_00E04914, releases string slots 0x2c0 and 0x2b0, frees pointer 0x28c,
@@ -66,7 +66,7 @@ private:
 // 0x00866FAC and 0x00866FA8, string AptScoreScreen::InitGadgets, callees
 // 0x00037BA0 0x0041149A 0x00036410 0x0035BF4C 0x00030830 0x005126F5 all rowed
 // or pinned, caller 0x0051CE56 is the ??_G deleting dtor.
-Rva0051CBC6::~Rva0051CBC6()
+AptScoreScreen::~AptScoreScreen()
 {
 	_bfme_closeAptScreen(AsciiString("AptScoreScreen::InitGadgets"));
 	if (m_280 == 0 && TheShell != 0)

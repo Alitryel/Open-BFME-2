@@ -297,28 +297,32 @@ private:
 	Drawable *m_drawable;
 };
 
-class W3DScriptedModelDrawInterfaceC
+// The +0x0C and +0x10 one-slot interface bases. Their slot-0 functions are
+// rowed under these names (0x000B34D8 Rva000B34D8Fetch.cpp, 0x000BFB76
+// Rva000B8F5A.cpp) and this class does not override them.
+class Vector3;
+struct Rva000B34D8Out30;
+class Rva000B34D8
 {
 public:
-	virtual void interfaceC();
+	virtual bool rva000B34D8(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2);
 };
 
-class W3DScriptedModelDrawInterface10
+class ModelConditionFlags;
+class Rva000BFB76Interface
 {
 public:
-	virtual void interface10();
+	virtual void rva000BFB76(const ModelConditionFlags &flags, bool force, int unused);
 };
 
 extern int g_bfmeDisplayAnimationSyncClock;
 int Rva000B2BA3Get(const Rva000B2BE5Src *src, bool *out);
 
-class W3DScriptedModelDraw : public DrawModule, public W3DScriptedModelDrawInterfaceC, public W3DScriptedModelDrawInterface10
+class W3DScriptedModelDraw : public DrawModule, public Rva000B34D8, public Rva000BFB76Interface
 {
 public:
 	W3DScriptedModelDraw(Thing *thing, const ModuleData *moduleData);
 	virtual ~W3DScriptedModelDraw();
-	virtual void interfaceC();
-	virtual void interface10();
 
 private:
 	int m_14;
@@ -476,4 +480,12 @@ W3DScriptedModelDraw::W3DScriptedModelDraw(Thing *thing, const ModuleData *modul
 	m_2da = true;
 	m_2dc = 0;
 	m_2e0 = 0;
+}
+
+// ??0W3DScriptedModelDrawEntry1C@@QAE@XZ: nulls the first word; retail folds it
+// onto the shared six-byte null initializer 0x00326BE6, which the eh vector
+// constructor iterator for m_110[3] receives.
+W3DScriptedModelDrawEntry1C::W3DScriptedModelDrawEntry1C()
+	: m_first(0)
+{
 }
