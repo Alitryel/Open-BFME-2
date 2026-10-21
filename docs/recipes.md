@@ -522,7 +522,16 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   bytes and an extra jump from the cleanup); loop, goal-list, success-path,
   label and scope respellings left that layout unchanged. Morphing the matched
   sibling GetHordeUnitPath (0x002F6075) toward the bank one region at a time
-  isolated it in four compiles.
+  isolated it in four compiles. The same split closed 0x00053BA1's
+  `owningPlayer || localPlayer || team` guard.
+- **A callee-saved push moved below the early returns.** If retail pushes a
+  register (EDI) in the prologue but ours pushes it only on the path that
+  uses it, with an extra `pop` there that breaks the shared early exit, write
+  the dispatch as `if (a) {...} else if (b) {...} else return x;` instead of
+  two `if`s followed by a final `return x;`. That moved 0x00053BA1's EDI save
+  back to the prologue after ten seats' flag, hoisting, single-exit and
+  WB-literal attempts. The returns inside each branch then set the tail
+  order (which shared `and bl,1` block is kept).
 - **Fan-in first for repairs.** Fix the callee or spelling many rows share
   before single rows: calling SubsystemInterface's ctor through its one
   pinned `void` spelling restored 38 rows across 40 units; `link_rank.py`
