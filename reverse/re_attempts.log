@@ -80992,3 +80992,10 @@ Unwind@00b5bf67	0x0075BF67	31	blocked	Parent 0x00012190 is now matched and EH gr
 ?xfer@Rva003427A9@@QAEXPAVXfer@@@Z	0x003427A9	42	landed	state-family vtable slot 3 (92 of 92 named siblings: xfer); Version1 then two member xfers t=3 model=claude-opus-5-5
 ?onEnter@AICowerState@@QAEHXZ	0x00344598	157	blocked	slot 4 onEnter by sibling vote, but AIHordeCowerStateSlots.cpp declares a virtual StateReturnType onEnter in the same class; needs the two declarations reconciled first t=2 model=claude-opus-5-5
 ?onEnter@Rva0036804F@@QAEHXZ	0x00368067	46	blocked	slot 4 onEnter by sibling vote, but the TU's State base has a virtual onEnter so the rename becomes UAE and loses the QAE row; needs a layout rework t=2 model=claude-opus-5-5
+?onEnter@Rva00488545@@QAEHXZ	0x00488573	69	landed	state-family vtable slot 4 (95-of-96 named siblings: onEnter); signature and body shape match (onEnter of an AI state) t=3 model=claude-opus-5-5
+?onExit@Rva004885B8@@QAEXH@Z	0x004885B8	38	landed	state-family vtable slot 5 (85-of-85 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5
+?onEnter@Rva0048872D@@QAEHXZ	0x0048872D	18	landed	state-family vtable slot 4 (95-of-96 named siblings: onEnter); signature and body shape match (onEnter of an AI state) t=3 model=claude-opus-5-5
+?xfer@Rva004886C7@@QAEXPAVXfer@@@Z	0x004886F5	56	landed	state-family vtable slot 3 (93-of-93 named siblings: xfer); signature and body shape match (xfer of an AI state) t=3 model=claude-opus-5-5
+?onExit@Rva004886C7@@QAEXH@Z	0x0048873F	44	landed	state-family vtable slot 5 (85-of-85 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5
+?update@Rva004886C7@@QAEHXZ	0x0048876B	280	landed	state-family vtable slot 6 (92-of-93 named siblings: update); signature and body shape match (update of an AI state) t=3 model=claude-opus-5-5
+?onExit@Rva0048893C@@QAEXH@Z	0x0048893C	47	landed	state-family vtable slot 5 (85-of-85 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5

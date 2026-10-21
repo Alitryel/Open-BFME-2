@@ -154,13 +154,13 @@ struct Rva004885B8Machine
 class Rva004885B8
 {
 public:
-	void rva004885B8(Int status);
+	void onExit(Int status);
 	Int rva004A6C30();
 private:
 	char m_pad00[0x18];
 	Rva004885B8Machine *m_machine;
 };
-void Rva004885B8::rva004885B8(Int status)
+void Rva004885B8::onExit(Int status)
 {
 	Rva004885B8AI *ai = m_machine->m_owner->m_ai;
 	if (ai)
@@ -195,14 +195,14 @@ Int Rva004885B8::rva004A6C30()
 class Rva0048872D
 {
 public:
-	Int rva0048872D();
+	Int onEnter();
 private:
 	char m_pad00[0x20];
 	UnsignedInt m_20;
 	char m_pad24[0x28 - 0x24];
 	Bool m_28;
 };
-Int Rva0048872D::rva0048872D()
+Int Rva0048872D::onEnter()
 {
 	m_20 = TheGameLogic->getFrame();
 	m_28 = false;
@@ -223,7 +223,7 @@ public:
 class Rva00488545
 {
 public:
-	Int rva00488573();
+	Int onEnter();
 private:
 	char m_pad00[0x18];
 	Rva004885B8Machine *m_machine;
@@ -232,7 +232,7 @@ private:
 	UnsignedInt m_24;
 };
 
-Int Rva00488545::rva00488573()
+Int Rva00488545::onEnter()
 {
 	Rva004885B8AI *ai = m_machine->m_owner->m_ai;
 	Rva00488573Target *target = (Rva00488573Target *)ai->vslot93();
@@ -324,9 +324,9 @@ protected:
 class Rva004886C7
 {
 public:
-	void rva0048873F(Int arg);
-	void rva004886F5(Xfer *xfer);
-	Int rva0048876B();
+	void onExit(Int arg);
+	void xfer(Xfer *xfer);
+	Int update();
 private:
 	char m_pad00[0x18];
 	Rva004885B8Machine *m_machine;
@@ -336,7 +336,7 @@ private:
 	Bool m_28;
 };
 
-void Rva004886C7::rva0048873F(Int arg)
+void Rva004886C7::onExit(Int arg)
 {
 	if (!m_28)
 		return;
@@ -353,7 +353,7 @@ void Rva004886C7::rva0048873F(Int arg)
 // three virtual xfers in offset order; m_20/m_24/m_28 match the rowed ctor
 // layout (+0x20/+0x24/+0x28), slot order per the reversed-overload Xfer
 // vtable (Version 0x28, AsciiString 0x6C, uint 0x78, bool 0x90 precedents).
-void Rva004886C7::rva004886F5(Xfer *xfer)
+void Rva004886C7::xfer(Xfer *xfer)
 {
 	xfer->Version1();
 	*xfer == m_20;
@@ -388,7 +388,7 @@ public:
 // TheGameLogic frame +0x40, unsigned fild/fadd float conversion, owner
 // +0x258 AI plus +0x438 EFFECTIVELY_DEAD bit like Object. The owner is
 // treated as Object only for the rowed call.
-Int Rva004886C7::rva0048876B()
+Int Rva004886C7::update()
 {
 	Rva004885B8Owner *owner = m_machine->m_owner;
 	Rva004885B8AI *ai = owner->m_ai;

@@ -263,13 +263,13 @@ struct Rva0048893COwner
 class Rva0048893C
 {
 public:
-	void rva0048893C(int unused);
+	void onExit(int unused);
 private:
 	char m_pad[0x18];
 	Rva0048893COwner *m_18;
 };
 
-void Rva0048893C::rva0048893C(int)
+void Rva0048893C::onExit(int)
 {
 	Rva0048893CSource *source = m_18->m_14->m_258;
 	if (source)
