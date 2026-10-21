@@ -127,6 +127,6 @@ void ImmortalBody::internalChangeHealth( Real delta, DamageInfo *damageInfo )
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?slot0@ActiveBody@@UAEXXZ=?Rva004C0898Get@@YAHXZ")
-#pragma comment(linker, "/alternatename:?getHealth@ActiveBody@@UBEMXZ=?rva004C08B7@ImmortalBody@@SA?AW4NameKeyType@@XZ")
+#pragma comment(linker, "/alternatename:?getHealth@ActiveBody@@UBEMXZ=?getModuleNameKey@ImmortalBody@@UBE?AW4NameKeyType@@XZ")
 #pragma comment(linker, "/alternatename:?slot3@ActiveBody@@UAEXXZ=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?slot4@ActiveBody@@UAEXXZ=??1Coord2D@@QAE@XZ")
