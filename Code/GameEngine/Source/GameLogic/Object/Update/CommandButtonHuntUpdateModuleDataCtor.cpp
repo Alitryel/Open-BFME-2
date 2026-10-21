@@ -58,7 +58,7 @@ private:
 	// +0x04 opaque pad (untouched by this ctor).
 	unsigned int m_pad04;
 	// +0x08 word from the global.
-	int m_08;
+	int m_scanFrames;
 	// +0x0C cap value.
 	float m_cap;
 };
@@ -68,7 +68,7 @@ CommandButtonHuntUpdateModuleData::CommandButtonHuntUpdateModuleData()
 {
 	float cap = 9999.0f;
 	*(unsigned int *)this = ((unsigned int)vtbl_00C4ED70);
-	m_08 = BfmeLogicFramesPerSecond;
+	m_scanFrames = BfmeLogicFramesPerSecond;
 	m_cap = cap;
 }
 
