@@ -45,7 +45,7 @@ struct SpareEntry
 class FirewallHelperClass
 {
 public:
-	void *rva00594D77(unsigned short port);
+	void *findSpareSocketByPort(unsigned short port);
 	void rva00594EEF();
 	unsigned char rva00594F0C();
 
@@ -75,11 +75,11 @@ ManglerMessage *FirewallHelperClass::findEmptyMessage()
 	return 0;
 }
 
-// ?rva00594D77@FirewallHelperClass@@QAEPAXG@Z @0x00594D77 (37B): search
+// ?findSpareSocketByPort@FirewallHelperClass@@QAEPAXG@Z @0x00594D77 (37B): search
 // spareSockets[8] at +0x14 by port at +0x18 stride 8; return entry or 0;
 // layout from Rva00594CDDPermuted ctor; neighbours FirewallHelperClass ctor
 // and findEmptyMessage.
-void *FirewallHelperClass::rva00594D77(unsigned short port)
+void *FirewallHelperClass::findSpareSocketByPort(unsigned short port)
 {
 	for (int i = 0; i < 8; ++i)
 	{
