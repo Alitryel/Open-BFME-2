@@ -128,9 +128,11 @@ class WW3D {
 };
 extern unsigned number_of_DX8_calls;
 extern bool bfmeCameraProjectionOverride;
-extern "C" Matrix4 *__stdcall D3DXMatrixInverse(Matrix4 *,float *,const Matrix4 *);
-extern "C" Matrix4 *__stdcall D3DXMatrixTranspose(Matrix4 *,const Matrix4 *);
-extern "C" Vector4 *__stdcall rva0062AF4AD3DXVec4Transform(Vector4 *,const Vector4 *,const Matrix4 *);
+// The reflection's clip-space locals are D3DX matrices (indexed .m[i][j], passed only to D3DX), not WW3D Matrix4s.
+struct D3DXMATRIX { float m[4][4]; D3DXMATRIX() {} };
+extern "C" D3DXMATRIX *__stdcall D3DXMatrixInverse(D3DXMATRIX *,float *,const D3DXMATRIX *);
+extern "C" D3DXMATRIX *__stdcall D3DXMatrixTranspose(D3DXMATRIX *,const D3DXMATRIX *);
+extern "C" Vector4 *__stdcall rva0062AF4AD3DXVec4Transform(Vector4 *,const Vector4 *,const D3DXMATRIX *);
 void BFME_DX8_Thread_Lock();
 void BFME_DX8_Thread_Assert();
 struct DeviceLock {
@@ -147,7 +149,7 @@ public:
 void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
 {
  DeviceLock guard;
-  Matrix4 inverse,projection;
+  D3DXMATRIX inverse,projection;
  Vector4 clip;
  if (!_finite(source->Get_Transform().m[0][0]))return;
  *camera=*source;
@@ -206,7 +208,7 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
  projection.m[1][2]=c.Y;
  projection.m[2][2]=c.Z;
  projection.m[3][2]=c.W;
- camera->Set_Reflected_Projection_Matrix(projection);
+ camera->Set_Reflected_Projection_Matrix(*((Matrix4*)&projection));
  if(DX8Wrapper::RenderStates[152]!=0) {
   if(WW3D::SnapshotActivated) {
    StringClass value(0,true);

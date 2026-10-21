@@ -71,7 +71,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // Every DX8CALL here inlines DX8_ErrorCode; retail's out-of-line copy is the /O1 body
 // at 0x00042F73 (texture.cpp), so this unit inlines the header body without emitting one.
 __declspec(dllimport) void DX8_ErrorCode(unsigned res);
-
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"	// Matrix4() as retail's size-optimized copy (line count kept)
 // Retail owns the snapshot-aware outlined texture-stage setter separately.
 #include "../../../../../reference/shims/bfme_dx8wrapper_home_link/dx8wrapper.h"
 

@@ -35,8 +35,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "matrix3.h"
 #define Matrix3x3 Matrix3
 #define Matrix4x4 Matrix4
+#define BFME_MATRIX4_INCLASS_DEFAULT_CTOR	// Calculate_Texture_Matrix was matched inlining the in-class body
 #include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"
-
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
 #include "ini.h"

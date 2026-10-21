@@ -86,7 +86,11 @@ public:
 	/*
 	** Constructors
 	*/
+#ifdef BFME_MATRIX4_INCLASS_DEFAULT_CTOR
 	Matrix4x4(void) {};
+#else
+	Matrix4x4(void);
+#endif
 	Matrix4x4(const Matrix4x4 & m);
 
 	WWINLINE explicit Matrix4x4(bool identity);
@@ -201,6 +205,16 @@ protected:
 	Vector4 Row[4];
 
 };
+
+// Retail's default constructor (0x0007671F) is a size-optimized owner's copy: the four Vector4 rows go
+// through the vector constructor iterator. Defined outside the class so only it takes the size setting;
+// an in-class body compiled at /O2 elides the iterator and emits a different 3-byte copy. A unit whose
+// inlining callers were matched against the in-class body defines BFME_MATRIX4_INCLASS_DEFAULT_CTOR.
+#ifndef BFME_MATRIX4_INCLASS_DEFAULT_CTOR
+#pragma optimize("s", on)
+inline Matrix4x4::Matrix4x4(void) {}
+#pragma optimize("", on)
+#endif
 
 
 /*********************************************************************************************** 
