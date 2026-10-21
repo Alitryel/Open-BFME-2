@@ -171,7 +171,6 @@ class Rva00575674;
 extern Rva00575674 g_00DFE4C4;	// retail RVA 0x009FE4C4 (.bss), defined in Rva002220DCInit.cpp
 unsigned g_Va00DFE6DC;	// retail RVA 0x009FE6DC (.bss), defined here
 unsigned g_Va00DFE72C;	// retail RVA 0x009FE72C (.bss), defined here
-extern unsigned g_Va00DFE7A8;
 unsigned g_Va00DFE940;	// retail RVA 0x009FE940 (.bss), defined here
 unsigned g_Va00DFED90;	// retail RVA 0x009FED90 (.bss), defined here
 unsigned g_Va00DFED9C;	// retail RVA 0x009FED9C (.bss), defined here

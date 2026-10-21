@@ -192,7 +192,6 @@ unsigned g_Va00E09E60;	// retail RVA 0x00A09E60 (.bss), defined here
 extern unsigned int g_Va00E01E7C;
 extern unsigned g_Va00DEC018;
 extern unsigned g_Va00DEC080;
-extern unsigned g_Va00DFE7A8;
 extern unsigned g_Va00E032EC;
 extern unsigned int g_Va00E04544;
 

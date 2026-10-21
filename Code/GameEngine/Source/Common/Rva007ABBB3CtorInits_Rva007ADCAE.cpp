@@ -192,7 +192,7 @@ extern unsigned g_Va00E09E60;	// retail RVA 0x00A09E60 (.bss), defined in Rva007
 extern unsigned int g_Va00E01E7C;
 extern unsigned g_Va00DEC018;
 extern unsigned g_Va00DEC080;
-extern unsigned g_Va00DFE7A8;
+extern unsigned char g_00DFE7A8;	// canonical byte owner, Rva003B9EC4.cpp
 extern unsigned g_Va00E032EC;
 extern unsigned int g_Va00E04544;
 
@@ -264,6 +264,6 @@ struct Rva007ABBB3CtorInits
 // 0x007ADCAE (22B): unrowed zeroing ctor 0x0023DBF9 (pinned) on VA 0x00DFE7A8, atexit(0x007B7786 -> 0x0023DBC3)
 void Rva007ABBB3CtorInits::rva007ADCAE()
 {
-	( (Rva0023DBF9 *)&g_Va00DFE7A8 )->Rva0023DBF9::Rva0023DBF9();
+	( (Rva0023DBF9 *)&g_00DFE7A8 )->Rva0023DBF9::Rva0023DBF9();
 	atexit( rva007B7786 );
 }

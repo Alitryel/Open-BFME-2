@@ -173,7 +173,7 @@ class Rva00575674;
 extern Rva00575674 g_00DFE4C4;	// retail RVA 0x009FE4C4 (.bss), defined in Rva002220DCInit.cpp
 extern unsigned g_Va00DFE6DC;	// retail RVA 0x009FE6DC (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00DFE72C;	// retail RVA 0x009FE72C (.bss), defined in Rva007B6A00AtexitThunks.cpp
-extern unsigned g_Va00DFE7A8;
+extern unsigned char g_00DFE7A8;	// canonical byte owner, Rva003B9EC4.cpp
 extern unsigned g_Va00DFE940;	// retail RVA 0x009FE940 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00DFED90;	// retail RVA 0x009FED90 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00DFED9C;	// retail RVA 0x009FED9C (.bss), defined in Rva007B6A00AtexitThunks.cpp
@@ -221,7 +221,6 @@ extern unsigned g_Va00E03330;	// retail RVA 0x00A03330 (.bss), defined in Rva007
 extern unsigned g_Va00E04444;	// retail RVA 0x00A04444 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E04448;	// retail RVA 0x00A04448 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E0445C;	// retail RVA 0x00A0445C (.bss), defined in Rva007B6A00AtexitThunks.cpp
-extern unsigned g_Va00E0447C;
 extern unsigned g_Va00E04490;
 extern unsigned g_Va00E048F4;	// retail RVA 0x00A048F4 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E048FC;	// retail RVA 0x00A048FC (.bss), defined in Rva007B6A00AtexitThunks.cpp
@@ -282,7 +281,7 @@ void __cdecl rva007B7768();
 // ?rva007B7786@@YAXXZ @ 0x007B7786 (10B): ecx=&g_Va00DFE7A8, tail-jump to rowed ??1Rva0023DBC3@@QAE@XZ (0x0023DBC3)
 void __cdecl rva007B7786()
 {
-	Rva0023DBC3 *p = (Rva0023DBC3 *)&g_Va00DFE7A8;
+	Rva0023DBC3 *p = (Rva0023DBC3 *)&g_00DFE7A8;
 	p->~Rva0023DBC3();
 }
 void __cdecl rva007B7842();

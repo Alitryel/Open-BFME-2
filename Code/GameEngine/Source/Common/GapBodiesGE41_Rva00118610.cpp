@@ -49,18 +49,21 @@ public:
 
 
 // --- 0x001189C0 (45B): reset six render-state words.
-extern int G00DEC4A8;
-extern int G00DEC4A4;
-extern int G00DEC4A0;
-extern int G00DB5FBC;
-extern int G00DB5FC0;
-extern int G00DB5FC4;
+// The 0x00DEC4Ax words are the ledger's g_Va00DEC4Ax (Rva00118990Init and
+// Rva001188A0Reset own them); the 0x00DB5Fxx three had no owner, so they are
+// defined here at their retail .data initials.
+extern unsigned int g_Va00DEC4A8;
+extern unsigned int g_Va00DEC4A4;
+extern unsigned int g_Va00DEC4A0;
+int G00DB5FBC = 7;	// VA 0x00DB5FBC
+int G00DB5FC0 = 2;	// VA 0x00DB5FC0
+int G00DB5FC4 = 5;	// VA 0x00DB5FC4
 
 void rva001189C0()
 {
-	G00DEC4A8 = 0;
-	G00DEC4A4 = 0;
-	G00DEC4A0 = 1;
+	g_Va00DEC4A8 = 0;
+	g_Va00DEC4A4 = 0;
+	g_Va00DEC4A0 = 1;
 	G00DB5FBC = 7;
 	G00DB5FC0 = 0;
 	G00DB5FC4 = 1;
@@ -112,8 +115,9 @@ unsigned int rva0011F620();
 // rowed Rva00118530Start.
 class WW3D
 {
-public:
+	friend bool rva00118610(const char *name, float rate, int a, bool b);
 	static bool IsCapturing;
+public:
 	static void Stop_Movie_Capture();
 };
 
