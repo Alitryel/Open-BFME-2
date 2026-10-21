@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004B3C30@DelayedUpgrade@@SA?AW4NameKeyType@@XZ @0x4B3C30
+// ?getModuleNameKey@DelayedUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B3C30
 // (69B): cached pool-name key for DelayedUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("DelayedUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DelayedUpgrade
 {
 public:
-	static NameKeyType rva0004B3C30();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B3C30@DelayedUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType DelayedUpgrade::rva0004B3C30()
+// ?getModuleNameKey@DelayedUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType DelayedUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheDelayedUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("DelayedUpgrade");

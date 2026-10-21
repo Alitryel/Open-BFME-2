@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000467EE1@TransportContain@@SA?AW4NameKeyType@@XZ @0x467EE1
+// ?getModuleNameKey@TransportContain@@UBE?AW4NameKeyType@@XZ @0x467EE1
 // (69B): cached pool-name key for TransportContain. The class
 // identity comes from the pool-name string the body pushes
 // ("TransportContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class TransportContain
 {
 public:
-	static NameKeyType rva000467EE1();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000467EE1@TransportContain@@SA?AW4NameKeyType@@XZ
-NameKeyType TransportContain::rva000467EE1()
+// ?getModuleNameKey@TransportContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType TransportContain::getModuleNameKey() const
 {
 	static NameKeyType TheTransportContainPoolKey =
 		TheNameKeyGenerator->nameToKey("TransportContain");

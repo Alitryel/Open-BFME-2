@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004B5333@StealthUpgrade@@SA?AW4NameKeyType@@XZ @0x4B5333
+// ?getModuleNameKey@StealthUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B5333
 // (69B): cached pool-name key for StealthUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("StealthUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StealthUpgrade
 {
 public:
-	static NameKeyType rva0004B5333();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B5333@StealthUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType StealthUpgrade::rva0004B5333()
+// ?getModuleNameKey@StealthUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType StealthUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheStealthUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("StealthUpgrade");
