@@ -168,14 +168,7 @@ void QueueProductionExitUpdate::exitObjectByBudding( Object *newObj, Object *bud
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@QueueProductionExitUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void QueueProductionExitUpdate::crc( Xfer *xfer )
-{
-
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}  // end crc
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/QueueProductionExitUpdate-unmatched.cpp.txt
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method

@@ -37,6 +37,13 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Keep the native allocator branch visible for inlining and bind any
+// out-of-line call to the shared STLport provider.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

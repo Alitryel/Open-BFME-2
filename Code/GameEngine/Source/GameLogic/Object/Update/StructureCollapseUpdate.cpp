@@ -66,10 +66,7 @@ static const char *TheStructureCollapsePhaseNames[] =
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?StructureCollapseUpdate::~StructureCollapseUpdate present-unmatched
-StructureCollapseUpdate::~StructureCollapseUpdate( void )
-{
-}
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/StructureCollapseUpdate-unmatched.cpp.txt
 
 //-------------------------------------------------------------------------------------------------
 static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
@@ -208,14 +205,7 @@ void StructureCollapseUpdate::doCollapseDoneStuff()
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?StructureCollapseUpdate::crc present-unmatched
-void StructureCollapseUpdate::crc( Xfer *xfer )
-{
-
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}  // end crc
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/StructureCollapseUpdate-unmatched.cpp.txt
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method

@@ -58,10 +58,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 //#include "GameLogic/PartitionManager.h"
 
 //-------------------------------------------------------------------------------------------------
-// ??1DefaultProductionExitUpdate@@ present-unmatched
-DefaultProductionExitUpdate::~DefaultProductionExitUpdate()
-{
-}
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/DefaultProductionExitUpdate-unmatched.cpp.txt
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/DefaultProductionExitUpdateXfer.cpp
@@ -125,14 +122,7 @@ Bool DefaultProductionExitUpdate::getNaturalRallyPoint( Coord3D& rallyPoint, Boo
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@DefaultProductionExitUpdate@@ present-unmatched
-void DefaultProductionExitUpdate::crc( Xfer *xfer )
-{
-
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}  // end crc
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/DefaultProductionExitUpdate-unmatched.cpp.txt
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
@@ -152,3 +142,14 @@ void DefaultProductionExitUpdate::loadPostProcess( void )
 	UpdateModule::loadPostProcess();
 
 }  // end loadPostProcess
+
+// Keep the two rowed inline methods emitted without the unverified vtable.
+#pragma inline_depth(0)
+// ?bfmeAnchorDefaultProductionExitRally absent-from-retail
+const Coord3D *bfmeAnchorDefaultProductionExitRally(DefaultProductionExitUpdate *module, const Coord3D *position)
+{
+	module->DefaultProductionExitUpdate::setRallyPoint(position);
+	return module->DefaultProductionExitUpdate::getRallyPoint();
+}
+
+#pragma inline_depth()

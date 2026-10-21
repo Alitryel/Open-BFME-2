@@ -59,10 +59,7 @@
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1HijackerUpdate@@ present-unmatched
-HijackerUpdate::~HijackerUpdate( void )
-{
-}
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/HijackerUpdate-unmatched.cpp.txt
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -126,14 +123,7 @@ Object* HijackerUpdate::getTargetObject() const
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@HijackerUpdate@@ present-unmatched
-void HijackerUpdate::crc( Xfer *xfer )
-{
-
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}  // end crc
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/HijackerUpdate-unmatched.cpp.txt
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
