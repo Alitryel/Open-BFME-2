@@ -3,10 +3,17 @@
 // Donor: EA GeneralsMD WW3D2/mapper.cpp verbatim, in its own TU so mapper.cpp keeps its flags.
 // BFME 2's inline DX8Wrapper::Get_Transform (WB 0x009C1560) comes from the bfme2_get_transform shim.
 
+// Use the established /O1 iterator copy without changing the array calls here.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
 // math.h's inline floorf gets internal linkage, and the link view keeps Vector4(x,y,z,w) inline, so neither
 // emits a copy that loses to retail's owners (0x0004D649, 0x006D8A30).
 extern "C" { static float __cdecl floorf(float); }
 #include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_bfme1_rows_link.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
 #include "ini.h"
@@ -16,6 +23,9 @@ extern "C" { static float __cdecl floorf(float); }
 #include "wwmath.h"
 #include "random.h"
 #include <stdlib.h>
+
+// Preserve the inline floorf operation without emitting another public Floor copy.
+static inline float screenMapperFloor(float value) { return floorf(value); }
 
 void ScreenMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 {
@@ -31,8 +41,8 @@ void ScreenMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 	// If ClampFix is TRUE we clamp the offsets between -Scale and +Scale with no wraparound.
 	// This works well for clamped textures.
 	if (!ClampFix) {
-		offset_u = offset_u - WWMath::Floor(offset_u);
-		offset_v = offset_v - WWMath::Floor(offset_v);
+		offset_u = offset_u - screenMapperFloor(offset_u);
+		offset_v = offset_v - screenMapperFloor(offset_v);
 	} else {
 		offset_u = WWMath::Clamp(offset_u, -Scale.X, Scale.X);
 		offset_v = WWMath::Clamp(offset_v, -Scale.Y, Scale.Y);
