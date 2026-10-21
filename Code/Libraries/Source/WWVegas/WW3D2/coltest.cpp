@@ -404,7 +404,3 @@ bool OBBoxCollisionTestClass::Cull(const AABoxClass & box)
 	return false;
 }
 	
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??4BfmeFixedObject60@@QAEAAU0@ABU0@@Z=??0OBBoxClass@@QAE@ABV0@@Z")

@@ -141,6 +141,14 @@ void _bfmeMatrix4InitAnchor(Matrix4x4 &matrix4x4, const Matrix3D &matrix3D) { ma
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
+// FrustumClass's implicit default constructor is retail's size-optimised body
+// (0x000F0F5B, vector constructor iterators over out-of-line element ctors).
+// Both camera constructors inline it, but this unit still emits the COMDAT;
+// instantiate it here for size so the copy is retail's.
+#pragma optimize("s", on)
+static void bfmeFrustumCtorAnchor() { FrustumClass frustum; (void)frustum; }
+#pragma optimize("", on)
+
 CameraClass::CameraClass(void) :
 	Projection(PERSPECTIVE),
 	Viewport(Vector2(0,0),Vector2(1,1)),		// pixel viewport to render into
@@ -207,7 +215,10 @@ CameraClass::CameraClass(const CameraClass & src) :
 // frame-pointer body (0x000F194F, rowed in frustum_copy.cpp). This unit's /O2
 // would otherwise instantiate an unrolled copy for the assignments below that
 // the link keeps first; instantiate it here for size instead.
+// The PlaneClass assignment it calls is size-optimised too but keeps no frame
+// pointer (0x0004254E); instantiate it first so it does not take the "y" off.
 #pragma optimize("s", on)
+static void bfmePlaneCopyAnchor(PlaneClass &to, const PlaneClass &from) { to = from; }
 #pragma optimize("y", off)
 static void bfmeFrustumCopyAnchor(FrustumClass &to, const FrustumClass &from) { to = from; }
 #pragma optimize("", on)
