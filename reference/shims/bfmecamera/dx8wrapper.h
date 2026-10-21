@@ -311,7 +311,8 @@ public:
 	static void Set_Projection_Transform_With_Z_Bias(const Matrix4x4& matrix,float znear, float zfar);	// pointer to 16 matrices
 
 	static void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m);
-	static void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m);
+	// Inlined at every caller; dllimport stops a local copy competing with the out-of-line row (0x6A553).
+	static __declspec(dllimport) __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m);
 	static void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m);
 	static void	Set_World_Identity();
 	static void Set_View_Identity();
@@ -1146,7 +1147,7 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 	}
 }
 
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m)
 {
 	Matrix4x4 m2(m);
 	switch ((int)transform) {

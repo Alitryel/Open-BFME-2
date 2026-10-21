@@ -92,7 +92,7 @@ template <> DynamicVectorClass<Vector3>::DynamicVectorClass(unsigned, Vector3 co
 //#define ENABLE_CATEGORY_LOG
 //#define ENABLE_STRIPING
 
-#include "dx8renderer.h"
+#include "../../../../../reference/shims/bfme_dx8renderer_link/dx8renderer.h"	// BFME 2 declares Render_Procedural_Material_Passes bool
 #include "dx8wrapper.h"
 // Zero Hour's dx8polygonrenderer.h class, with Render and Render_Sorted
 // declared instead of carrying Zero Hour's inline bodies. BFME 2's bodies are
