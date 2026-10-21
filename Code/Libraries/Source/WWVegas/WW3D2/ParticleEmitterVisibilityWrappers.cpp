@@ -117,8 +117,8 @@ inline void ParticleEmitterClass::Set_Force_Visible(int onoff)
 // retail code. Qualified call so the virtual dispatch does not hide the copy.
 #pragma inline_depth(0)
 // ?bfmeEmitParticleEmitterVisibilityWrappers@@YAXPAVParticleEmitterClass@@@Z present-unmatched
-void bfmeEmitParticleEmitterVisibilityWrappers(ParticleEmitterClass *p)
+void bfmeEmitParticleEmitterVisibilityWrappers(ParticleEmitterClass *particleEmitter)
 {
-	p->ParticleEmitterClass::Set_Force_Visible(0);
+	particleEmitter->ParticleEmitterClass::Set_Force_Visible(0);
 }
 #pragma inline_depth()

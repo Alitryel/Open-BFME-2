@@ -111,29 +111,29 @@ protected:
     static IDirect3DDevice8 *D3DDevice;
     friend class Rva00118F50;
 public:
-    static __forceinline void SetMaterial(VertexMaterialClass*m) {
-        if(m)m->Add_Ref();
+    static __forceinline void SetMaterial(VertexMaterialClass*vertexMaterial) {
+        if(vertexMaterial)vertexMaterial->Add_Ref();
         if(render_state.material)render_state.material->Release_Ref();
-        render_state.material=m;render_state_changed|=0x4000;
+        render_state.material=vertexMaterial;render_state_changed|=0x4000;
     }
     static __forceinline void SetWorldIdentity() {if(!(render_state_changed&0x40000)){render_state.world.Make_Identity();render_state_changed|=0x40001;}}
     static __forceinline void SetViewIdentity() {if(!(render_state_changed&0x80000)){render_state.view.Make_Identity();render_state_changed|=0x80002;}}
-    static __forceinline void Get_Transform(int transform,Matrix4&m) {
+    static __forceinline void Get_Transform(int transform,Matrix4&matrix4) {
         switch(transform) {
-        case 0x100: if(render_state_changed&0x40000)m.Make_Identity(); else m=render_state.world.Transpose(); break;
-        case 2: if(render_state_changed&0x80000)m.Make_Identity(); else m=render_state.view.Transpose(); break;
-        case 3: m=DeviceProjectionMatrix.Transpose(); break;
-        default: m.Make_Identity(); break;
+        case 0x100: if(render_state_changed&0x40000)matrix4.Make_Identity(); else matrix4=render_state.world.Transpose(); break;
+        case 2: if(render_state_changed&0x80000)matrix4.Make_Identity(); else matrix4=render_state.view.Transpose(); break;
+        case 3: matrix4=DeviceProjectionMatrix.Transpose(); break;
+        default: matrix4.Make_Identity(); break;
         }
     }
-    static __forceinline void Set_Transform(int transform,const Matrix4&m) {
+    static __forceinline void Set_Transform(int transform,const Matrix4&matrix4) {
         typedef long(__stdcall *SetTransformFn)(IDirect3DDevice8*,unsigned,const Matrix4*);
         switch(transform) {
-        case 0x100: render_state.world=m.Transpose();render_state_changed&=~0x40000;render_state_changed|=1;break;
-        case 2: render_state.view=m.Transpose();render_state_changed&=~0x80000;render_state_changed|=2;break;
-        case 3: ProjectionMatrix=m.Transpose();DeviceProjectionMatrix=ProjectionMatrix;ZFar=0.0f;ZNear=0.0f;
+        case 0x100: render_state.world=matrix4.Transpose();render_state_changed&=~0x40000;render_state_changed|=1;break;
+        case 2: render_state.view=matrix4.Transpose();render_state_changed&=~0x80000;render_state_changed|=2;break;
+        case 3: ProjectionMatrix=matrix4.Transpose();DeviceProjectionMatrix=ProjectionMatrix;ZFar=0.0f;ZNear=0.0f;
             ((SetTransformFn)D3DDevice->vtable[0xB0/4])(D3DDevice,3,&DeviceProjectionMatrix);++number_of_DX8_calls;break;
-        default: {Matrix4 m2=m.Transpose();((SetTransformFn)D3DDevice->vtable[0xB0/4])(D3DDevice,transform,&m2);++number_of_DX8_calls;} break;
+        default: {Matrix4 m2=matrix4.Transpose();((SetTransformFn)D3DDevice->vtable[0xB0/4])(D3DDevice,transform,&m2);++number_of_DX8_calls;} break;
         }
     }
     static __forceinline void SetShader(unsigned shader) {

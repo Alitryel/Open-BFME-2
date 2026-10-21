@@ -14,7 +14,7 @@ class RefPtr
 {
 public:
 	RefCountClass *m_ptr;
-	RefPtr(RefCountClass *p = 0) : m_ptr(p) {}
+	RefPtr(RefCountClass *refCount = 0) : m_ptr(refCount) {}
 	RefPtr(const RefPtr &other) : m_ptr(other.m_ptr) { if (m_ptr) m_ptr->Add_Ref(); }
 	~RefPtr() { if (m_ptr) m_ptr->Release_Ref(); }
 };

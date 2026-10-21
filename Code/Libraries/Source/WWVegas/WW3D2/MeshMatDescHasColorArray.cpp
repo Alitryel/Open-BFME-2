@@ -26,9 +26,9 @@ inline bool MeshMatDescClass::Has_Color_Array(int array)
 
 // Retain the inline body's ledger emission without changing its callers.
 // ?bfmeEmitMeshMatDescHasColorArray@@YAXPAVMeshMatDescClass@@H@Z absent-from-retail
-void bfmeEmitMeshMatDescHasColorArray(MeshMatDescClass *p, int array)
+void bfmeEmitMeshMatDescHasColorArray(MeshMatDescClass *meshMatDesc, int array)
 {
-	p->MeshMatDescClass::Has_Color_Array(array);
+	meshMatDesc->MeshMatDescClass::Has_Color_Array(array);
 }
 
 // ?rva00188010@MeshMatDescClass@@QAEXHH@Z, retail 0x00188010 (15 bytes, RET 8), the inline

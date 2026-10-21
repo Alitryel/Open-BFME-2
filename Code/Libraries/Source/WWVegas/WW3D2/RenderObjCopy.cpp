@@ -79,8 +79,8 @@ RenderObjClass::RenderObjClass(const RenderObjClass &src) :
 // call with inlining disabled); it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeRenderObjScaleAnchor@@YAXPAVRenderObjClass@@M@Z absent-from-retail
-void _bfmeRenderObjScaleAnchor(RenderObjClass *r, float scale)
+void _bfmeRenderObjScaleAnchor(RenderObjClass *renderObj, float scale)
 {
-    r->RenderObjClass::Set_ObjectScale(scale);
+    renderObj->RenderObjClass::Set_ObjectScale(scale);
 }
 #pragma inline_depth()

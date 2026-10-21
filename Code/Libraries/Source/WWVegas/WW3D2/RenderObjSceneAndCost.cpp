@@ -150,8 +150,8 @@ float RenderObjClass::_bfme_get_factor_product(void) const
 
 #pragma inline_depth(0)
 // ?bfmeEmitRenderObjSceneAndCost@@YAXPAVRenderObjClass@@@Z present-unmatched
-void bfmeEmitRenderObjSceneAndCost(RenderObjClass *p)
+void bfmeEmitRenderObjSceneAndCost(RenderObjClass *renderObj)
 {
-	p->RenderObjClass::Set_Visible(0, 0);
+	renderObj->RenderObjClass::Set_Visible(0, 0);
 }
 #pragma inline_depth()

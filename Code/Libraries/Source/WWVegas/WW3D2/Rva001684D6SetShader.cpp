@@ -11,7 +11,7 @@
 class ShaderClass
 {
 public:
-	ShaderClass(const ShaderClass &s) { ShaderBits = s.ShaderBits; }
+	ShaderClass(const ShaderClass &shader) { ShaderBits = shader.ShaderBits; }
 
 private:
 	unsigned int ShaderBits;

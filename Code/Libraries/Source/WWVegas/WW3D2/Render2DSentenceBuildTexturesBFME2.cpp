@@ -20,7 +20,7 @@ public:
 };
 class W3DRadarResetSurface {
 public:
- W3DRadarResetSurface(const W3DRadarResetSurface &o){surface=o.surface;if(surface)surface->AddRef();}
+ W3DRadarResetSurface(const W3DRadarResetSurface &w3DRadarResetSurface){surface=w3DRadarResetSurface.surface;if(surface)surface->AddRef();}
  ~W3DRadarResetSurface();
  BfmeFontSurfaceResource *surface;
 };
@@ -69,9 +69,9 @@ public:
 };
 class Render2DClass {
 public:
- void Set_Texture(const FontTextureOwner &p) {
-  if(p.texture==Texture.texture)return;
-  Texture=p;CurrentBatch=Texture.texture?-1:0;
+ void Set_Texture(const FontTextureOwner &fontTextureOwner) {
+  if(fontTextureOwner.texture==Texture.texture)return;
+  Texture=fontTextureOwner;CurrentBatch=Texture.texture?-1:0;
  }
  char fields00[0x40];RefCountPtr<TextureClass> Texture;int CurrentBatch;
 };

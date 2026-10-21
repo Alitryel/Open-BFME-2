@@ -41,8 +41,8 @@ inline void RenderObjClass::Set_Additive(int onoff)
 // row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitRenderObjAccessors@@YAXPAVRenderObjClass@@@Z present-unmatched
-void bfmeEmitRenderObjAccessors(RenderObjClass *p)
+void bfmeEmitRenderObjAccessors(RenderObjClass *renderObj)
 {
-    p->RenderObjClass::Set_Additive(0);
+    renderObj->RenderObjClass::Set_Additive(0);
 }
 #pragma inline_depth()

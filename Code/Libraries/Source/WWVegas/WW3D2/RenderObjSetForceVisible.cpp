@@ -56,8 +56,8 @@ inline void RenderObjClass::Set_Force_Visible(int onoff)
 // it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitRenderObjSetForceVisible@@YAXPAVRenderObjClass@@@Z present-unmatched
-void bfmeEmitRenderObjSetForceVisible(RenderObjClass *p)
+void bfmeEmitRenderObjSetForceVisible(RenderObjClass *renderObj)
 {
-	p->RenderObjClass::Set_Force_Visible(0);
+	renderObj->RenderObjClass::Set_Force_Visible(0);
 }
 #pragma inline_depth()

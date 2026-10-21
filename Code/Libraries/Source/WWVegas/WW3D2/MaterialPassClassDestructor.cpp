@@ -70,9 +70,9 @@ inline MaterialPassClass::~MaterialPassClass()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeMaterialPassClassInlineAnchor@@YAXPAVMaterialPassClass@@@Z absent-from-retail
-void _bfmeMaterialPassClassInlineAnchor(MaterialPassClass *p)
+void _bfmeMaterialPassClassInlineAnchor(MaterialPassClass *materialPass)
 {
-    p->MaterialPassClass::~MaterialPassClass();
+    materialPass->MaterialPassClass::~MaterialPassClass();
 }
 #pragma inline_depth()
 // BFME1 matpass.cpp rev9cbfb551fe20 Get_Material is the semantic lead.

@@ -32,7 +32,7 @@ public:
 	enum DstBlendFuncType { DSTBLEND_ZERO = 0, DSTBLEND_ONE };
 	enum SrcBlendFuncType { SRCBLEND_ZERO = 0, SRCBLEND_ONE };
 
-	ShaderClass(const ShaderClass &s) : ShaderBits(s.ShaderBits) {}
+	ShaderClass(const ShaderClass &shader) : ShaderBits(shader.ShaderBits) {}
 
 	AlphaTestType Get_Alpha_Test() const { return (AlphaTestType)((ShaderBits >> 18) & 3); }
 	DstBlendFuncType Get_Dst_Blend_Func() const { return (DstBlendFuncType)((ShaderBits >> 5) & 7); }

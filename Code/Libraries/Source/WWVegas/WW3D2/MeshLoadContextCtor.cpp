@@ -84,7 +84,7 @@ typedef RefCountPtr<TextureClass> TextureVectorCell;
 // first function that needs it. Retail links one copy, the /O1 body at
 // 0x0004559C; this unemitted anchor makes this unit's copy that same body.
 #pragma optimize("gsy", on)
-static void bfmeVecDelAnchor(TextureVectorCell *p) { delete [] p; }
+static void bfmeVecDelAnchor(TextureVectorCell *textureVectorCell) { delete [] textureVectorCell; }
 #pragma optimize("", on)
 
 class TextureVectorBaseCtorShim

@@ -60,8 +60,8 @@ void Rva000456C9::rva000456C9(RefCountPtr<TextureClass> const *arg)
 	if (*arg != *t)
 	{
 		*t = *arg;
-		TextureClass *p = t->peek();
-		m_44 = (p != 0) ? -1 : 0;
+		TextureClass *texture = t->peek();
+		m_44 = (texture != 0) ? -1 : 0;
 	}
 }
 

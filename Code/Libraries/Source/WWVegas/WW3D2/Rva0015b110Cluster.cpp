@@ -32,7 +32,7 @@ class RefPtr
 public:
     RefCountClass *m_ptr;
 
-    RefPtr(RefCountClass *p) : m_ptr(p) {}
+    RefPtr(RefCountClass *refCount) : m_ptr(refCount) {}
     RefPtr(const RefPtr &other) : m_ptr(other.m_ptr)
     {
         if (m_ptr)
@@ -43,9 +43,9 @@ public:
     // re-reading m_ptr after the decrement emitted a 19-byte copy.
     ~RefPtr()
     {
-        RefCountClass *p = m_ptr;
-        if (p && p->Release() == 0)
-            p->Delete();
+        RefCountClass *refCount = m_ptr;
+        if (refCount && refCount->Release() == 0)
+            refCount->Delete();
     }
 };
 

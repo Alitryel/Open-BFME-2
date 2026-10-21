@@ -35,16 +35,16 @@
 
 #pragma inline_depth(0)
 // ?_bfmeRenderObjInlineAnchor@@YAHPAVRenderObjClass@@H@Z absent-from-retail
-int _bfmeRenderObjInlineAnchor(RenderObjClass *r, int onoff)
+int _bfmeRenderObjInlineAnchor(RenderObjClass *renderObj, int onoff)
 {
-	r->RenderObjClass::Set_Hidden(onoff);
-	r->RenderObjClass::Set_Animation_Hidden(onoff);
-	r->RenderObjClass::Set_Translucent(onoff);
-	r->RenderObjClass::Set_Animation((HAnimClass *)0, 0.0f, (HAnimClass *)0, 0.0f, 0.0f);
-	r->RenderObjClass::Set_Animation((HAnimClass *)0, 0.0f, onoff);
-	onoff += r->RenderObjClass::_bfme_ro_v50(onoff);
-	onoff += r->RenderObjClass::Is_Not_Hidden_At_All();
-	onoff += r->RenderObjClass::_bfme_ro_v28();
-	return r->RenderObjClass::Is_Really_Visible() + onoff;
+	renderObj->RenderObjClass::Set_Hidden(onoff);
+	renderObj->RenderObjClass::Set_Animation_Hidden(onoff);
+	renderObj->RenderObjClass::Set_Translucent(onoff);
+	renderObj->RenderObjClass::Set_Animation((HAnimClass *)0, 0.0f, (HAnimClass *)0, 0.0f, 0.0f);
+	renderObj->RenderObjClass::Set_Animation((HAnimClass *)0, 0.0f, onoff);
+	onoff += renderObj->RenderObjClass::_bfme_ro_v50(onoff);
+	onoff += renderObj->RenderObjClass::Is_Not_Hidden_At_All();
+	onoff += renderObj->RenderObjClass::_bfme_ro_v28();
+	return renderObj->RenderObjClass::Is_Really_Visible() + onoff;
 }
 #pragma inline_depth()

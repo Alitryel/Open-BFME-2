@@ -109,9 +109,9 @@ void Render2DSentenceClass::rva00156540(Rva00156540Param const *param)
 		return;
 	float charHeight = (float)param->field2c;
 	RenderSentenceGeometryView chunk;
-	SurfaceClass *tmpCur = m_curSurface;
-	if (tmpCur != 0)
-		tmpCur->ops->add_ref(tmpCur);
+	SurfaceClass *surface = m_curSurface;
+	if (surface != 0)
+		surface->ops->add_ref(surface);
 	if (chunk.tex.m_surface != 0)
 		((SurfaceClass *)chunk.tex.m_surface)->ops->release_ref((SurfaceClass *)chunk.tex.m_surface);
 	chunk.f04 = m_cursor.X;

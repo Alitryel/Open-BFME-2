@@ -12,11 +12,11 @@
 #include <hash_map>
 struct VertexPosition { float x,y,z; };
 struct Gen_p12pod {
- Gen_p12pod(const VertexPosition &p) { a[0]=int(p.x); a[1]=int(p.y); a[2]=int(p.z); }
+ Gen_p12pod(const VertexPosition &vertexPosition) { a[0]=int(vertexPosition.x); a[1]=int(vertexPosition.y); a[2]=int(vertexPosition.z); }
  int a[3];
 };
-inline bool compare_tail(const Gen_p12pod &a,const Gen_p12pod &b) {
- const int a1=a.a[1]; return b.a[1]>a1 || (!(b.a[1]<a1)&&a.a[2]<b.a[2]);
+inline bool compare_tail(const Gen_p12pod &gen_p12pod,const Gen_p12pod &b) {
+ const int a1=gen_p12pod.a[1]; return b.a[1]>a1 || (!(b.a[1]<a1)&&gen_p12pod.a[2]<b.a[2]);
 }
 inline bool operator<(const Gen_p12pod &a,const Gen_p12pod &b) {
  const int a0=a.a[0]; return b.a[0]>a0 || (!(b.a[0]<a0)&&compare_tail(a,b));

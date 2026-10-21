@@ -48,7 +48,7 @@ public:
     enum DetailColorFuncType { DETAILCOLOR_DISABLE = 0, DETAILCOLOR_DETAIL, DETAILCOLOR_SCALE, DETAILCOLOR_INVSCALE, DETAILCOLOR_ADD, DETAILCOLOR_SUB, DETAILCOLOR_SUBR, DETAILCOLOR_BLEND, DETAILCOLOR_DETAILBLEND, DETAILCOLOR_ADDSIGNED, DETAILCOLOR_ADDSIGNED2X, DETAILCOLOR_SCALE2X, DETAILCOLOR_MODALPHAADDCOLOR, DETAILCOLOR_MAX };
     enum CullModeType { CULL_MODE_DISABLE = 0, CULL_MODE_ENABLE, CULL_MODE_MAX };
     ShaderClass();
-    ShaderClass(const ShaderClass &s) { ShaderBits = s.ShaderBits; }
+    ShaderClass(const ShaderClass &shader) { ShaderBits = shader.ShaderBits; }
     ShaderClass(const unsigned int d) { ShaderBits = d; }
     bool operator==(const ShaderClass &s) { return ShaderBits == s.ShaderBits; }
     bool operator!=(const ShaderClass &s) { return ShaderBits != s.ShaderBits; }

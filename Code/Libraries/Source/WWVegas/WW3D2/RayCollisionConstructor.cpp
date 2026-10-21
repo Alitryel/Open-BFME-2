@@ -51,8 +51,8 @@ typedef char RayCollisionTestSizeMatchesRetail[(sizeof(RayCollisionTestClass) ==
 // unit's copy for the row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitRayCollisionConstructor@@YAXPAVRayCollisionTestClass@@ABVLineSegClass@@PAUCastResultStruct@@H_N3@Z present-unmatched
-void bfmeEmitRayCollisionConstructor(RayCollisionTestClass *p, const LineSegClass &ray, CastResultStruct *res, int collision_type, bool check_translucent, bool check_hidden)
+void bfmeEmitRayCollisionConstructor(RayCollisionTestClass *rayCollisionTest, const LineSegClass &ray, CastResultStruct *res, int collision_type, bool check_translucent, bool check_hidden)
 {
-    p->RayCollisionTestClass::RayCollisionTestClass(ray, res, collision_type, check_translucent, check_hidden);
+    rayCollisionTest->RayCollisionTestClass::RayCollisionTestClass(ray, res, collision_type, check_translucent, check_hidden);
 }
 #pragma inline_depth()

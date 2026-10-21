@@ -75,7 +75,7 @@ MatBufferClass::~MatBufferClass()
 }
 
 // ?ForceDelete_MatBuffer@@YAXPAVMatBufferClass@@@Z absent-from-retail
-void ForceDelete_MatBuffer(MatBufferClass *p) { delete p; }
+void ForceDelete_MatBuffer(MatBufferClass *matBuffer) { delete matBuffer; }
 
 #pragma inline_depth(0)
 // ?bfmeEmitMatBufferCleanup@@YAXPAV?$ShareBufferClass@PAVVertexMaterialClass@@@@@Z present-unmatched

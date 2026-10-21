@@ -45,8 +45,8 @@ inline RayCollisionTestClass::RayCollisionTestClass(const RayCollisionTestClass 
 // unit's copy for the row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitRayCollisionCopyCtor@@YAXPAVRayCollisionTestClass@@ABV1@ABVMatrix3D@@@Z present-unmatched
-void bfmeEmitRayCollisionCopyCtor(RayCollisionTestClass *p, const RayCollisionTestClass &src, const Matrix3D &tm)
+void bfmeEmitRayCollisionCopyCtor(RayCollisionTestClass *rayCollisionTest, const RayCollisionTestClass &src, const Matrix3D &tm)
 {
-    p->RayCollisionTestClass::RayCollisionTestClass(src, tm);
+    rayCollisionTest->RayCollisionTestClass::RayCollisionTestClass(src, tm);
 }
 #pragma inline_depth()

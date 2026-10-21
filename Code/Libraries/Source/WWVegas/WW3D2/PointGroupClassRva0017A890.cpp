@@ -25,21 +25,21 @@
 #include "matrix3d.h"
 struct RenderStateStruct { unsigned char opaque[0x1EC]; Matrix4 world; Matrix4 view; };
 class DX8Wrapper { public:
- static __forceinline void Get_Transform(int transform,Matrix4& m) {
+ static __forceinline void Get_Transform(int transform,Matrix4& matrix4) {
   switch (transform) {
 	case 0x100:
-		if (render_state_changed&(1<<18)) m.Make_Identity();
-		else m=render_state.world.Transpose();
+		if (render_state_changed&(1<<18)) matrix4.Make_Identity();
+		else matrix4=render_state.world.Transpose();
 		break;
 	case 2:
-		if (render_state_changed&(1<<19)) m.Make_Identity();
-		else m=render_state.view.Transpose();
+		if (render_state_changed&(1<<19)) matrix4.Make_Identity();
+		else matrix4=render_state.view.Transpose();
 		break;
 	case 3:
-		m=ProjectionMatrix.Transpose();
+		matrix4=ProjectionMatrix.Transpose();
 		break;
 	default:
-		m.Make_Identity();
+		matrix4.Make_Identity();
 		break;
   }
  }

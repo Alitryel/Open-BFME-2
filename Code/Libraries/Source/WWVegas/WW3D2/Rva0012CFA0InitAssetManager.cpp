@@ -41,41 +41,41 @@ bool InitializeAssetManager(AsciiString directory,AsciiString archive,bool skipT
  if(AssetInitRunTextureBuilder) Rva0012CB15Run();
  if(!archive.isEmpty()) {
   UnicodeString name(archive);
-  FILE *f=_wfopen(reinterpret_cast<const wchar_t *>(name.str()),L"rb");
-  if(f) {
+  FILE *fILE=_wfopen(reinterpret_cast<const wchar_t *>(name.str()),L"rb");
+  if(fILE) {
    char filename[260];
-   fread(filename,4,1,f);filename[4]=0;
+   fread(filename,4,1,fILE);filename[4]=0;
    if(strcmp(filename,AssetInitArchiveMagicF)==0 || strcmp(filename,AssetInitArchiveMagic4)==0) {
     unsigned fileSize=0; int entryCount=0;
-    fread(&fileSize,4,1,f);fread(&entryCount,4,1,f);
+    fread(&fileSize,4,1,fILE);fread(&entryCount,4,1,fILE);
     entryCount=htonl(entryCount);
-    fseek(f,16,SEEK_SET);
+    fseek(fILE,16,SEEK_SET);
     int entry=0;
     for(;entry<entryCount;++entry) {
      unsigned entrySize=0,entryOffset=0;
-     fread(&entryOffset,4,1,f);fread(&entrySize,4,1,f);
+     fread(&entryOffset,4,1,fILE);fread(&entrySize,4,1,fILE);
      entrySize=htonl(entrySize);entryOffset=htonl(entryOffset);
      int last=-1;
-     do {++last;fread(&filename[last],1,1,f);} while(filename[last]);
+     do {++last;fread(&filename[last],1,1,fILE);} while(filename[last]);
      int begin=last;
      while(begin>=0 && filename[begin]!='\\' && filename[begin]!='/') --begin;
      if(_strcmpi(filename+begin+1,"asset.dat")==0) {
-      fseek(f,entryOffset,SEEK_SET);break;
+      fseek(fILE,entryOffset,SEEK_SET);break;
      }
     }
-    if(entry<entryCount) Rva0012CB67(f,skipTextures);
+    if(entry<entryCount) Rva0012CB67(fILE,skipTextures);
    }
-   fclose(f);
+   fclose(fILE);
   }
  }
  if(!directory.isEmpty()) {
   UnicodeString name(directory);name+=reinterpret_cast<const unsigned short *>(L"\\asset.dat");
-  FILE *f=_wfopen(reinterpret_cast<const wchar_t *>(name.str()),L"rb");
-  if(f) {Rva0012CB67(f,skipTextures);fclose(f);}
+  FILE *fILE=_wfopen(reinterpret_cast<const wchar_t *>(name.str()),L"rb");
+  if(fILE) {Rva0012CB67(fILE,skipTextures);fclose(fILE);}
  }
- FILE *f=fopen("asset.dat","rb");
- if(!f) return false;
- bool ok=Rva0012CB67(f,skipTextures);fclose(f);
+ FILE *fILE=fopen("asset.dat","rb");
+ if(!fILE) return false;
+ bool ok=Rva0012CB67(fILE,skipTextures);fclose(fILE);
  if(!ok) return false;
  forwardRegistrySettingRva0061F1A0(0,0);
  Rva0012CA49Run();

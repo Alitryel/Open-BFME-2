@@ -41,7 +41,7 @@ public:
 		Row[3].Set(0.0, 0.0, 0.0, 1.0);
 	}
 	__forceinline void Init(const Matrix3D &m) { Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0, 0.0, 0.0, 1.0); }
-	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3; }
+	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3; }
 	__forceinline Vector4 &operator[](int i) { return Row[i]; }
 	__forceinline const Vector4 &operator[](int i) const { return Row[i]; }
 	__forceinline Matrix4 Transpose(void) const
@@ -58,9 +58,9 @@ protected:
 	Vector4 Row[4];
 };
 
-__forceinline Matrix4::Matrix4(const Matrix4 &m)
+__forceinline Matrix4::Matrix4(const Matrix4 &matrix4)
 {
-	Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3];
+	Row[0] = matrix4.Row[0]; Row[1] = matrix4.Row[1]; Row[2] = matrix4.Row[2]; Row[3] = matrix4.Row[3];
 }
 
 __forceinline Matrix4::Matrix4(const Matrix3D &m)
@@ -68,9 +68,9 @@ __forceinline Matrix4::Matrix4(const Matrix3D &m)
 	Init(m);
 }
 
-__forceinline Matrix4::Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+__forceinline Matrix4::Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 {
-	Init(r0, r1, r2, r3);
+	Init(vector4, r1, r2, r3);
 }
 
 enum D3DTRANSFORMSTATETYPE
@@ -140,23 +140,23 @@ public:
 		}
 	}
 
-	static __forceinline void Get_MeshFX_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4 &m)
+	static __forceinline void Get_MeshFX_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4 &matrix4)
 	{
 		D3DMATRIX mat;
 		switch ((int)transform) {
 		case D3DTS_WORLD:
-			if (render_state_changed & WORLD_IDENTITY) m.Make_Identity();
-			else m = BFME2World.Transpose();
+			if (render_state_changed & WORLD_IDENTITY) matrix4.Make_Identity();
+			else matrix4 = BFME2World.Transpose();
 			break;
 		case D3DTS_VIEW:
-			if (render_state_changed & VIEW_IDENTITY) m.Make_Identity();
-			else m = (&BFME2World)[1].Transpose();
+			if (render_state_changed & VIEW_IDENTITY) matrix4.Make_Identity();
+			else matrix4 = (&BFME2World)[1].Transpose();
 			break;
 		default:
 			_Get_D3D_Device8()->GetTransform(transform, &mat);
 			number_of_DX8_calls++;
-			m = *(Matrix4 *)&mat;
-			m = m.Transpose();
+			matrix4 = *(Matrix4 *)&mat;
+			matrix4 = matrix4.Transpose();
 			break;
 		}
 	}
@@ -193,7 +193,7 @@ namespace FXShader { class RenderingMethod; }
 class Rva00087A93
 {
 public:
-	Rva00087A93(RefCountClass *p) : Referent(p) {}
+	Rva00087A93(RefCountClass *refCount) : Referent(refCount) {}
 	Rva00087A93(const Rva00087A93 &p) : Referent(p.Referent) { if (Referent) Referent->Add_Ref(); }
 	~Rva00087A93(void)
 	{

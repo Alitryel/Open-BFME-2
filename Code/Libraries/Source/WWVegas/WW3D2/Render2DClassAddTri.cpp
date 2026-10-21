@@ -207,7 +207,7 @@ public:
 
 	// Constructors
 	RectClass( void )		{};
-	RectClass( const RectClass & r )	{ Left = r.Left; Top = r.Top; Right = r.Right; Bottom = r.Bottom; }
+	RectClass( const RectClass & rect )	{ Left = rect.Left; Top = rect.Top; Right = rect.Right; Bottom = rect.Bottom; }
 	RectClass( float left, float top, float right, float bottom )	{ Left = left; Top = top; Right = right; Bottom = bottom; }
 
 	// Assignment

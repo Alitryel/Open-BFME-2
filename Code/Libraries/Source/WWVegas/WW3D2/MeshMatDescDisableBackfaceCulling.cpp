@@ -63,8 +63,8 @@ inline void MeshMatDescClass::Disable_Backface_Culling()
 // the ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitMeshMatDescDisableBackfaceCulling@MeshMatDescClass@@SAXPAV1@@Z present-unmatched
-void MeshMatDescClass::bfmeEmitMeshMatDescDisableBackfaceCulling(MeshMatDescClass *p)
+void MeshMatDescClass::bfmeEmitMeshMatDescDisableBackfaceCulling(MeshMatDescClass *meshMatDesc)
 {
-	p->Disable_Backface_Culling();
+	meshMatDesc->Disable_Backface_Culling();
 }
 #pragma inline_depth()

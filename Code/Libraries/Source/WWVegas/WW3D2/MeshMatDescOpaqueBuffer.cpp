@@ -90,4 +90,4 @@ void MeshMatDescClass::Set_Rva0015D300(int index, void *entry, int pass)
 
 // Emission aid for the scalar deleting destructor selected by vtable 0xBD3CA4.
 // ?ForceDelete_OpaqueRefBuffer@@YAXPAVOpaqueRefBuffer@@@Z absent-from-retail
-void ForceDelete_OpaqueRefBuffer(OpaqueRefBuffer *p) { delete p; }
+void ForceDelete_OpaqueRefBuffer(OpaqueRefBuffer *opaqueRefBuffer) { delete opaqueRefBuffer; }
