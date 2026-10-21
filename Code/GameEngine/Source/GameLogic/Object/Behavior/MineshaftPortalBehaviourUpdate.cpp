@@ -56,7 +56,6 @@ public:
     char pad08[4];
     float x, y, z;
 };
-class Rva0037381C { public: void rva00373158(Rva00373373Portal *portal, int key); };
 class Rva002E6ECA { public: int get() const; };
 class Rva00372CA8 { public: bool rva00372CEC(int value); };
 class Waypoint { public: void addLink(Waypoint *other); };
@@ -90,6 +89,7 @@ class MineshaftPortalNetworkManager : public Rva003732BFSubsystem, public Rva003
 public:
     virtual void xfer(void *xfer);
     virtual void update();
+    void rva00373158(Rva00373373Portal *portal, int key);
     Rva0037381CMap map;
 };
 
@@ -124,14 +124,14 @@ void MineshaftPortalNetworkManager::update()
                 if (sum > ((TreeNode *)((_STL::_Rb_tree_node_base *)tree.header)->_M_left)->key) {
                     Rva00373373Portal *old = TheTerrainLogic->portalAt(((TreeNode *)((_STL::_Rb_tree_node_base *)tree.header)->_M_left)->id);
                     if ((unsigned char)((Rva002E6ECA *)old)->get())
-                        ((Rva0037381C *)this)->rva00373158(old, node->key);
+                        rva00373158(old, node->key);
                     eraseFirst(&tree);
                     TreeOpaqueMapped00372FF4 m = { (unsigned)*it };
                     TreeValue00372FF4 v(sum, m);
                     ((Tree00372FF4 *)&tree)->insert_equal(v);
                 } else {
                     if ((unsigned char)((Rva002E6ECA *)portal)->get())
-                        ((Rva0037381C *)this)->rva00373158(portal, node->key);
+                        rva00373158(portal, node->key);
                 }
             }
         }

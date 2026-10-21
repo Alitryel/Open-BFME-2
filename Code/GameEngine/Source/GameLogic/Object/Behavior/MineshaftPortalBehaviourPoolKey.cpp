@@ -38,7 +38,7 @@ NameKeyType MineshaftPortalBehaviour::getModuleNameKey() const
 }
 
 struct TreeOpaqueMapped00372FF4;
-class Rva0037381C;
+class MineshaftPortalNetworkManager;
 namespace _STL {
 template <class T1, class T2> struct pair;
 template <class T> struct _Select1st;
@@ -47,7 +47,7 @@ template <class T> class allocator;
 template <class _Value> struct _Rb_tree_node;
 template <class _Key, class _Value, class _KeyOfValue, class _Compare, class _Alloc>
 class _Rb_tree {
-	friend class ::Rva0037381C;
+	friend class ::MineshaftPortalNetworkManager;
 public:
 	~_Rb_tree();
 private:
@@ -150,44 +150,6 @@ public:
     unsigned int count;
 };
 class Player { public: char pad[0x54]; int key; };
-class Rva0037381C {
-public:
-    void rva00373158(Rva00373373Portal *portal, int key);
-    void rva003731CB(Rva00373373Portal *portal, Player *player);
-private:
-    char pad[0x10]; Rva0037381CMap map;
-};
-// Manager map10/count14 and group vector0/changedC are target facts.
-// Terrain slot8C and reciprocal372CA8 removal establish portal-network maintenance.
-void Rva0037381C::rva003731CB(Rva00373373Portal *portal, Player *player)
-{
-    if (map.count) {
-        int key=player->key;
-        Rva00373158Node *node=(Rva00373158Node *)((MapIntIntTree *)&map)->_M_find(key);
-        if (node != map.header) {
-            Rva00373158Group *group=node->group;
-            for (ObjectID *it=group->begin(); it!=group->end();) {
-                unsigned id=(unsigned)*it;
-                if (id==portal->id) {
-                    it=group->erase(it);
-                    node->group->changed=true;
-                } else {
-                    if ((unsigned char)((Rva002E6ECA *)portal)->get()) {
-                        Rva00373373Portal *other=TheTerrainLogic->portalAt(id);
-                        ((Rva00372CA8 *)other)->rva00372CA8((int)portal);
-                    }
-                    ++it;
-                }
-                group=node->group;
-            }
-        }
-    }
-    if ((unsigned char)((Rva002E6ECA *)portal)->get()) {
-        TheAI->pathfinder->rva002E9042(portal);
-        ((Rva004618D4Caller *)TheAI->pathfinder)->rva002E7023();
-    }
-}
-
 // MineshaftPortalNetworkManager's snapshot transfer, native 003732BF..00373357
 // RET4: the vtable slot (00817E10) after the "MineshaftPortalNetworkManager"
 // name getter 00373411, reached through the Snapshot sub-object at +0C.
@@ -227,7 +189,9 @@ class MineshaftPortalNetworkManager : public Rva003732BFSubsystem, public Rva003
 {
 public:
     virtual void xfer(Xfer *xfer);
-    Rva0037381CMap map;
+    void rva00373158(Rva00373373Portal *portal, int key);
+    void rva003731CB(Rva00373373Portal *portal, Player *player);
+    Rva0037381CMap map;	// +0x10, after the 0xC subsystem base and the Snapshot pointer
 };
 void MineshaftPortalNetworkManager::xfer(Xfer *xfer)
 {
@@ -242,8 +206,39 @@ void MineshaftPortalNetworkManager::xfer(Xfer *xfer)
             for (ObjectID *it = node->group->begin(); it != end; ++it) {
                 Rva00373373Portal *portal = TheTerrainLogic->portalAt(*it);
                 if ((unsigned char)((Rva002E6ECA *)portal)->get())
-                    ((Rva0037381C *)this)->rva00373158(portal, node->key);
+                    rva00373158(portal, node->key);
             }
         }
+    }
+}
+
+// Manager map10/count14 and group vector0/changedC are target facts.
+// Terrain slot8C and reciprocal372CA8 removal establish portal-network maintenance.
+void MineshaftPortalNetworkManager::rva003731CB(Rva00373373Portal *portal, Player *player)
+{
+    if (map.count) {
+        int key=player->key;
+        Rva00373158Node *node=(Rva00373158Node *)((MapIntIntTree *)&map)->_M_find(key);
+        if (node != map.header) {
+            Rva00373158Group *group=node->group;
+            for (ObjectID *it=group->begin(); it!=group->end();) {
+                unsigned id=(unsigned)*it;
+                if (id==portal->id) {
+                    it=group->erase(it);
+                    node->group->changed=true;
+                } else {
+                    if ((unsigned char)((Rva002E6ECA *)portal)->get()) {
+                        Rva00373373Portal *other=TheTerrainLogic->portalAt(id);
+                        ((Rva00372CA8 *)other)->rva00372CA8((int)portal);
+                    }
+                    ++it;
+                }
+                group=node->group;
+            }
+        }
+    }
+    if ((unsigned char)((Rva002E6ECA *)portal)->get()) {
+        TheAI->pathfinder->rva002E9042(portal);
+        ((Rva004618D4Caller *)TheAI->pathfinder)->rva002E7023();
     }
 }

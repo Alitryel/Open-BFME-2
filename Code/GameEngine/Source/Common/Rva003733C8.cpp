@@ -1,8 +1,8 @@
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
-// ??0Rva0037381C@@QAE@XZ @0x003733C8 (73B).
-// Ctor for MI class Rva0037381C (primary 0xC via baseConstruct, secondary
+// ??0MineshaftPortalNetworkManager@@QAE@XZ @0x003733C8 (73B).
+// Ctor for MI class MineshaftPortalNetworkManager (primary 0xC via baseConstruct, secondary
 // Snapshot at +0xC vtable 0x00BBB554, map<int,void*> at +0x10). Calls rowed
 // baseConstruct 0x001B4E63 then rowed map 0x0033C432. Vtables 0x00C17E14/
 // 0x00C17E04 via gate. Evidence: vtable stores, callees rowed, dtor rowed
@@ -47,15 +47,15 @@ private:
 	int m_value;
 };
 
-class Rva0037381C : public Rva003733C8Primary, public Snapshot
+class MineshaftPortalNetworkManager : public Rva003733C8Primary, public Snapshot
 {
 public:
-	Rva0037381C();
-	virtual ~Rva0037381C();
+	MineshaftPortalNetworkManager();
+	virtual ~MineshaftPortalNetworkManager();
 private:
 	_STL::map<int, void *> m_map;
 };
 
-Rva0037381C::Rva0037381C()
+MineshaftPortalNetworkManager::MineshaftPortalNetworkManager()
 {
 }

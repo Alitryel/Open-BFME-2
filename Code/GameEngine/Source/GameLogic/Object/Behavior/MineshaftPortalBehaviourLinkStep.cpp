@@ -1,6 +1,6 @@
 // cl: /Oy- /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
-// ?rva00373158@Rva0037381C@@QAEXPAVRva00373373Portal@@H@Z @0x00373158 115B.
+// ?rva00373158@MineshaftPortalNetworkManager@@QAEXPAVRva00373373Portal@@H@Z @0x00373158 115B.
 // Portal-network link step of the mineshaft portal manager (the 0x3731CB removal
 // sibling and 0x373294 caller live in MineshaftPortalBehaviourPoolKey.cpp): links
 // the portal with every other portal of its network group, then lets the
@@ -63,7 +63,7 @@ public:
 extern TerrainLogic *TheTerrainLogic;
 struct Rva00373158Group : public _STL::vector<ObjectID> { bool changed; };
 struct Rva00373158Node { char pad[0x14]; Rva00373158Group *group; };
-class Rva0037381C;
+class MineshaftPortalNetworkManager;
 namespace _STL {
 template <class T1, class T2> struct pair;
 template <class T> struct _Select1st;
@@ -72,7 +72,7 @@ template <class T> class allocator;
 template <class _Value> struct _Rb_tree_node;
 template <class _Key, class _Value, class _KeyOfValue, class _Compare, class _Alloc>
 class _Rb_tree {
-    friend class ::Rva0037381C;
+    friend class ::MineshaftPortalNetworkManager;
 public:
     ~_Rb_tree();
 private:
@@ -88,7 +88,7 @@ public:
     unsigned int count;
 };
 class Player { public: char pad[0x54]; int key; };
-class Rva0037381C {
+class MineshaftPortalNetworkManager {
 public:
     void rva00373158(Rva00373373Portal *portal, int key);
     void rva003731CB(Rva00373373Portal *portal, Player *player);
@@ -97,7 +97,7 @@ private:
 };
 // Manager map10/count14 and group vector0/changedC are target facts.
 // Terrain slot8C and reciprocal372CA8 removal establish portal-network maintenance.
-void Rva0037381C::rva00373158(Rva00373373Portal *portal, int key)
+void MineshaftPortalNetworkManager::rva00373158(Rva00373373Portal *portal, int key)
 {
     Rva00373158Group *group = ((Rva00373158Node *)((MapIntIntTree *)&map)->_M_find(key))->group;
     Rva00373373Portal &current=*portal;

@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
-// ??1Rva0037381C@@UAE@XZ @0x0037381C (85B).
+// ??1MineshaftPortalNetworkManager@@UAE@XZ @0x0037381C (85B).
 // Dtor for MI class with SubsystemInterface primary (size 0xC) and empty
 // secondary at +0xC, Tree00372FF4 map at +0x10. Calls rowed values-delete
 // 0x003734C0 then member and base dtors with EH states 2/1. Caller of 3734C0.
@@ -16,12 +16,6 @@ typedef _STL::_Rb_tree<float, TreeValue00372FF4, _STL::_Select1st<TreeValue00372
 typedef bool Bool;
 #include "subsystem_interface.h"
 
-class Rva003734C0
-{
-public:
-	void reset();
-};
-
 // The secondary native table C17E04 has Snapshot's four slots; its name
 // getter373411 returns MineshaftPortalNetworkManager and xfer3732BF is
 // independently recovered. The base restore is canonical Snapshot BBB554.
@@ -30,16 +24,17 @@ public:
 #define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-class Rva0037381C : public SubsystemInterface, public Snapshot
+class MineshaftPortalNetworkManager : public SubsystemInterface, public Snapshot
 {
 public:
-	virtual ~Rva0037381C();
+	virtual ~MineshaftPortalNetworkManager();
+	virtual void reset();
 private:
 	Tree00372FF4 m_map;
 };
 
-// ??1Rva0037381C@@UAE@XZ
-Rva0037381C::~Rva0037381C()
+// ??1MineshaftPortalNetworkManager@@UAE@XZ
+MineshaftPortalNetworkManager::~MineshaftPortalNetworkManager()
 {
-	((Rva003734C0 *)(void *)this)->reset();
+	MineshaftPortalNetworkManager::reset();
 }

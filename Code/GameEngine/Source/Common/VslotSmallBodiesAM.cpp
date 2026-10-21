@@ -101,16 +101,19 @@ public:
 	void *_M_node;
 };
 }
-class Rva00420B55
+// DelayedExperienceLevelGrantSystem::reset: slot 9 of its subsystem table
+// 0x00C3BDC4 (update 0x00420EB3 in slot 10); +0x10 list and +0x14 flag are the
+// ctor 0x00420E0D's members.
+class DelayedExperienceLevelGrantSystem
 {
 public:
-	void reset();
+	virtual void reset();
 private:
-	char m_pad00[0x10];
+	char m_pad04[0xC];
 	_STL::_List_base<int, _STL::allocator<int> > m_10;
 	bool m_14;
 };
-void Rva00420B55::reset()
+void DelayedExperienceLevelGrantSystem::reset()
 {
 	m_14 = false;
 	m_10.clear();

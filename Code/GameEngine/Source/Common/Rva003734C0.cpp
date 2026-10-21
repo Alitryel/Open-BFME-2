@@ -1,7 +1,9 @@
 // cl: /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
-// ?reset@Rva003734C0@@QAEXXZ @0x003734C0 (61B).
+// ?reset@MineshaftPortalNetworkManager@@UAEXXZ @0x003734C0 (61B).
+// Slot 9 (reset) of the MineshaftPortalNetworkManager table (update
+// 0x003734FD in slot 10); ~MineshaftPortalNetworkManager 0x0037381C calls it.
 // Map-values delete-then-clear over Tree00372FF4 at +0x10: walk nodes via
 // header at [map] and begin at [header+8] with rowed _M_increment 0x00024250,
 // for each value pointer at [node+0x14] call rowed rva00373357 0x00373357
@@ -27,17 +29,17 @@ struct RvaNodeBase
 	int m_color;
 };
 
-class Rva003734C0
+class MineshaftPortalNetworkManager
 {
 public:
-	void reset();
+	virtual void reset();
 private:
-	char m_pad[0x10];
+	char m_pad04[0xC];
 	Tree00372FF4 m_map;
 };
 
-// ?reset@Rva003734C0@@QAEXXZ
-void Rva003734C0::reset()
+// ?reset@MineshaftPortalNetworkManager@@UAEXXZ
+void MineshaftPortalNetworkManager::reset()
 {
 	char *base = (char *)this + 0x10;
 	RvaNodeBase *header = *(RvaNodeBase **)base;

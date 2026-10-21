@@ -4405,7 +4405,7 @@ name,address,notes
 ??1Rva00367E26@@UAE@XZ,0x00367E26,"destructor the scalar deleting destructor 0x00367E0A calls (REL32 at 0x00367E0D; vtable 0x00C17600#0); opaque address name"
 ??1Rva0036B8E6@@UAE@XZ,0x0036B8E6,"destructor the scalar deleting destructor 0x0036C693 calls (REL32 at 0x0036C696; vtable 0x00C17A80#0); opaque address name"
 ??1Rva0037343B@@UAE@XZ,0x0037343B,"destructor the scalar deleting destructor 0x00373800 calls (REL32 at 0x00373803; vtable 0x00C17DD0#0); opaque address name"
-??1Rva0037381C@@UAE@XZ,0x0037381C,"destructor the scalar deleting destructor 0x00373B54 calls (REL32 at 0x00373B57; vtable 0x00C17E14#0); opaque address name"
+??1MineshaftPortalNetworkManager@@UAE@XZ,0x0037381C,"destructor the scalar deleting destructor 0x00373B54 calls (REL32 at 0x00373B57; vtable 0x00C17E14#0); opaque address name"
 ??1Rva0037BB53@@UAE@XZ,0x0037BB53,"destructor the scalar deleting destructor 0x0037BD0F calls (REL32 at 0x0037BD12; vtable 0x00C187C0#0); opaque address name"
 ??1Rva0037BBED@@UAE@XZ,0x0037BBED,"destructor the scalar deleting destructor 0x0037BD48 calls (REL32 at 0x0037BD4B; vtable 0x00C18828#0); opaque address name"
 ??1Rva0037DEE4@@UAE@XZ,0x0037DEE4,"destructor the scalar deleting destructor 0x001EB815 calls (REL32 at 0x001EB818; vtable 0x00BDF158#0); opaque address name"
@@ -5477,7 +5477,6 @@ name,address,notes
 ??_ERva00328CF8@@UAEPAXI@Z,0x00328CDC,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva0032EC63@@UAEPAXI@Z,0x0032EF22,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva00355BDA@@UAEPAXI@Z,0x00355BBE,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
-??_ERva0037381C@@UAEPAXI@Z,0x00373B54,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva003AB9FF@@UAEPAXI@Z,0x003AE720,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva003ABA36@@UAEPAXI@Z,0x003AE8D5,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva003ABA4C@@UAEPAXI@Z,0x003AE9BF,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
@@ -13488,7 +13487,7 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?Rva000AC6F9SetupAlphaTiles@@YAXXZ,0x000AC6F9,callee of ?blendTile@Rva000ADDCEWorldHeightMapView@@QAEXPAUTBlendTileInfo@@HH@Z
 ?Rva000AC63FBlendPixels@@YAXPAE00H@Z,0x000AC63F,callee of ?blendTile@Rva000ADDCEWorldHeightMapView@@QAEXPAUTBlendTileInfo@@HH@Z
 ?ReAcquireResources@WaterTracksRenderSystem@@QAEXXZ,0x000FE065,callee of ?init@WaterTracksRenderSystem@@QAEXXZ
-?rva003731CB@Rva0037381C@@QAEXPAVRva00373373Portal@@PAVPlayer@@@Z,0x003731CB,callee of ?Init@Rva003733B5Base@@QAEXXZ
+?rva003731CB@MineshaftPortalNetworkManager@@QAEXPAVRva00373373Portal@@PAVPlayer@@@Z,0x003731CB,callee of ?Init@Rva003733B5Base@@QAEXXZ
 ?rva002AE4C5@Rva002AE4C5@@QAEAAHPBVAsciiString@@@Z,0x002AE4C5,callee of ?rva002AE8CF@Player@@QAEXPBVAsciiString@@MH@Z
 ?rva005049A4@Rva005049A4KeyRange@@QBEPAURva00504AB4Key@@ABM@Z,0x005049A4,callee of ?eval@FCurve@@QBEMM@Z
 ?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z,0x00042C80,callee of ?rva00044928@W3DDisplay@@QAEXMMMMMKK@Z
@@ -15103,7 +15102,6 @@ _VP6_ReadTokens,0x001BC3D0,callee of _VP6_DecodeBlock
 ?Rva00237D3DCheck@@YAHXZ,0x00237D3D,no-argument int callee of initVersionGlobals 0x00238646 (REL32 at 0x00238666; test eax): reads the command line via GetCommandLineW / CommandLineToArgvW / LocalFree; nonzero takes the VERSION-string path; address-derived name
 ?rva00520F7D@@YA_NXZ,0x00520F7D,callee of ?rva00376E92@GameLogic@@QAEX_N0@Z
 ??_ERva004053C2@@UAEPAXI@Z,0x0040559F,callee of ??_ERva004053C2@@WM@AEPAXI@Z
-??_ERva00420E67@@UAEPAXI@Z,0x00421084,callee of ??_ERva00420E67@@WM@AEPAXI@Z
 ??_ERva00427611@@UAEPAXI@Z,0x00427663,callee of ??_ERva00427611@@WM@AEPAXI@Z
 ??_ERva0056AC26@@UAEPAXI@Z,0x0056ADD5,callee of ??_ERva0056AC26@@W7AEPAXI@Z
 ??_ERva0056B126@@UAEPAXI@Z,0x0056B3D9,callee of ??_ERva0056B126@@W7AEPAXI@Z
@@ -15153,7 +15151,7 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva002B6D18@Rva002B6D18@@QAE_NPAX000@Z,0x002B6D18,Native complete109B RET16 2B6D18..2B6D85 returns bool0/1; actual211B message handler and WB D90640 predicate establish four pointer arguments: armyA integer-rangeA armyB integer-rangeB; same receiver checks2B2C40 movement validation2B6BCF and difference capacity3193EC; no existing owner or alias; neutral view preserves original declaration uncertainty
 ?rva002EAC9F@PathfindRequestRing@@QAEXPAVXfer@@@Z,0x002EAC9F,0x808-byte request ring xfer; called twice by Pathfinder::xfer 0x002F21F9 on +1C1DC/+1C9E4
 ?validateBIL@AptAnimationPoolData@@QAE_NXZ,0x006FA020,callee of ?rva006E6540@AptAnimationPoolData@@QAEXXZ
-?rva00373158@Rva0037381C@@QAEXPAVRva00373373Portal@@H@Z,0x00373158,portal re-link member banked at 0.94; called by MineshaftPortalNetworkManager xfer 0x003732BF
+?rva00373158@MineshaftPortalNetworkManager@@QAEXPAVRva00373373Portal@@H@Z,0x00373158,portal re-link member banked at 0.94; called by MineshaftPortalNetworkManager xfer 0x003732BF
 ?rva002DCF6C@GameState@@QAEXPAVSnapshot@@I@Z,0x002DCF6C,Neutral address-derived member; complete native2DCF6C..2DCFEE RET8 takes Snapshot pointer arg1 and unsigned sequence arg2; virtual Snapshot name slot8 checks Object and Weapon then lists at GameState E0C and E10 retain snapshot and sequence; complete cdecl callback2DD908 forwards those arguments with captured GameState in ECX; dispatcher2DD91A supplies callback and state at2DDA12..2DDA25. Body remains unmatched with full130B bank; no original method name asserted.
 ?getConstructButtonHelp@LivingWorldBuildingTemplate@@QBE?AVUnicodeString@@PAVRva003F1C22@@@Z,0x002DFE9E,callee of ?CreateHelp@BuildBuildingButton@StrategicInGameUI@@UAE?AUTreeHintRef00217D4C@@XZ
 ?rva002E1155@LivingWorldPlayer@@QAE_NPAVSpawnArmy@@@Z,0x002E1155,callee of ?canQueueUnit@LivingWorldBuildingNuggetSpawnArmy@@UAE_NW4ObjectID@@@Z

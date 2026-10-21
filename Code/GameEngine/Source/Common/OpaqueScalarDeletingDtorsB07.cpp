@@ -102,16 +102,16 @@ class Rva0037381CBaseC
 public:
 	virtual ~Rva0037381CBaseC();
 };
-class Rva0037381C : public Rva0037381CBase0, public Rva0037381CBaseC
+class MineshaftPortalNetworkManager : public Rva0037381CBase0, public Rva0037381CBaseC
 {
 public:
-	Rva0037381C(EmitVtableTag *);
+	MineshaftPortalNetworkManager(EmitVtableTag *);
 public:
-	virtual ~Rva0037381C();
+	virtual ~MineshaftPortalNetworkManager();
 };
 
-// ?<Rva0037381C::Rva0037381C> absent-from-retail
-Rva0037381C::Rva0037381C(EmitVtableTag *)
+// ?<MineshaftPortalNetworkManager::MineshaftPortalNetworkManager> absent-from-retail
+MineshaftPortalNetworkManager::MineshaftPortalNetworkManager(EmitVtableTag *)
 {
 }
 

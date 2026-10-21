@@ -1,6 +1,6 @@
 // cl: /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // stlport
-// ??0Rva00420E67@@QAE@XZ, retail 0x00420E0D, 82 bytes. MI ctor over
+// ??0DelayedExperienceLevelGrantSystem@@QAE@XZ, retail 0x00420E0D, 82 bytes. MI ctor over
 // GameEngineDeletingBase-size base plus Snapshot plus Coord3D list at +0x10
 // plus bool at +0x14: baseConstruct then Snapshot base vtable then derived
 // vtables then List_base then bool false with EH prolog. Evidence: dtor
@@ -23,17 +23,17 @@ typedef bool Bool;
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 
-class Rva00420E67 : public SubsystemInterface, public Snapshot
+class DelayedExperienceLevelGrantSystem : public SubsystemInterface, public Snapshot
 {
 public:
-	Rva00420E67();
-	virtual ~Rva00420E67();	// 0x00420E67, Rva00420E67Dtor.cpp
+	DelayedExperienceLevelGrantSystem();
+	virtual ~DelayedExperienceLevelGrantSystem();	// 0x00420E67, Rva00420E67Dtor.cpp
 private:
 	_STL::list<Coord3D> m_list10;
 	bool m_14;
 };
 
-Rva00420E67::Rva00420E67()
+DelayedExperienceLevelGrantSystem::DelayedExperienceLevelGrantSystem()
 : m_list10(), m_14(false)
 {
 }

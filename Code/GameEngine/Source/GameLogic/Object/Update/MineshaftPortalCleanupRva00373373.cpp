@@ -18,7 +18,7 @@ class Rva00373373Portal
 public:
     virtual void *rva00373373Slot0(unsigned int flags);
 };
-class Rva0037381C
+class MineshaftPortalNetworkManager
 {
 public:
     void rva003731CB(Rva00373373Portal *portal, Player *player);
@@ -42,7 +42,7 @@ void Rva003733B5Base::Init()
 {
     if (registered)
     {
-        reinterpret_cast<Rva0037381C *>(TheMineshaftPortalNetworkManager)
+        reinterpret_cast<MineshaftPortalNetworkManager *>(TheMineshaftPortalNetworkManager)
             ->rva003731CB(portal, owner->getControllingPlayer());
         void *released = portal ? portal->rva00373373Slot0(0) : 0;
         ::operator delete(released);
