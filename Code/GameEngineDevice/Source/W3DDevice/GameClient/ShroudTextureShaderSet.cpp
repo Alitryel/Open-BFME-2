@@ -78,17 +78,17 @@ class Matrix4
 {
 public:
 	__forceinline Matrix4() {}
-	__forceinline Matrix4(const Matrix4 &m)
+	__forceinline Matrix4(const Matrix4 &matrix4)
 	{
-		Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3];
+		Row[0] = matrix4.Row[0]; Row[1] = matrix4.Row[1]; Row[2] = matrix4.Row[2]; Row[3] = matrix4.Row[3];
 	}
-	__forceinline Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Init(r0, r1, r2, r3);
+		Init(vector4, r1, r2, r3);
 	}
-	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3;
+		Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3;
 	}
 	__forceinline void Make_Identity()
 	{
@@ -272,10 +272,10 @@ public:
 
 	static __forceinline void Set_Material(const VertexMaterialClass *material)
 	{
-		VertexMaterialClass *m = const_cast<VertexMaterialClass *>(material);
-		if (m) m->Add_Ref();
+		VertexMaterialClass *vertexMaterial = const_cast<VertexMaterialClass *>(material);
+		if (vertexMaterial) vertexMaterial->Add_Ref();
 		if (render_state.material) render_state.material->Release_Ref();
-		render_state.material = m;
+		render_state.material = vertexMaterial;
 		render_state_changed |= MATERIAL_CHANGED;
 	}
 	static __forceinline void Set_Shader(const ShaderClass &shader)
@@ -331,17 +331,17 @@ public:
 		number_of_DX8_calls++;
 		texture_changes++;
 	}
-	static __forceinline void GetView(Matrix4 &m)
+	static __forceinline void GetView(Matrix4 &matrix4)
 	{
 		if (render_state_changed & (1 << 19))
-			m.Make_Identity();
+			matrix4.Make_Identity();
 		else
-			m = render_state.view.Transpose();
+			matrix4 = render_state.view.Transpose();
 	}
-	static __forceinline void SetMatrix(unsigned state, const D3DXMATRIX &m)
+	static __forceinline void SetMatrix(unsigned state, const D3DXMATRIX &d3DXMATRIX)
 	{
 		++matrix_changes;
-		D3DDevice->SetTransform(state, &m);
+		D3DDevice->SetTransform(state, &d3DXMATRIX);
 		++number_of_DX8_calls;
 	}
 

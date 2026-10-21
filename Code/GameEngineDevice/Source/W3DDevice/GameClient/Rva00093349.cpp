@@ -42,8 +42,8 @@ void W3DSnowManager::rva00093349()
 	m_ac = 1;
 	m_41 = true;
 	const WeatherSetting *gv = TheWeather00DFE118;
-	const WeatherSetting *o = (gv == 0) ? 0 : ((gv->m_nextOverride != 0) ? (const WeatherSetting *)gv->m_nextOverride->getFinalOverride() : gv);
-	m_58 = o->m_70;
+	const WeatherSetting *weatherSetting = (gv == 0) ? 0 : ((gv->m_nextOverride != 0) ? (const WeatherSetting *)gv->m_nextOverride->getFinalOverride() : gv);
+	m_58 = weatherSetting->m_70;
 	const WeatherSetting *gv2 = TheWeather00DFE118;
 	const WeatherSetting *o2 = (gv2 == 0) ? 0 : ((gv2->m_nextOverride != 0) ? (const WeatherSetting *)gv2->m_nextOverride->getFinalOverride() : gv2);
 	m_5c = o2->m_74;

@@ -262,9 +262,9 @@ W3DShadowTexture *Rva0010BC90ShadowManager::getTexture(const char *name)
  _ReadWriteBarrier();
  _ReadWriteBarrier();
  {
-  HAnimClass *tmp = manager->Get_Anim(filename.str());
+  HAnimClass *hAnim = manager->Get_Anim(filename.str());
   _ReadWriteBarrier();
-  *(volatile W3DShadowTexture **)&result = reinterpret_cast<W3DShadowTexture*>(tmp);
+  *(volatile W3DShadowTexture **)&result = reinterpret_cast<W3DShadowTexture*>(hAnim);
  }
  if (!result)
  {

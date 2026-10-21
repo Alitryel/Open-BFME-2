@@ -318,10 +318,10 @@ public:
 
 	static __forceinline void Set_Material(const VertexMaterialClass *material)
 	{
-		VertexMaterialClass *m = const_cast<VertexMaterialClass *>(material);
-		if (m) m->Add_Ref();
+		VertexMaterialClass *vertexMaterial = const_cast<VertexMaterialClass *>(material);
+		if (vertexMaterial) vertexMaterial->Add_Ref();
 		if (render_state.material) render_state.material->Release_Ref();
-		render_state.material = m;
+		render_state.material = vertexMaterial;
 		render_state_changed |= MATERIAL_CHANGED;
 	}
 

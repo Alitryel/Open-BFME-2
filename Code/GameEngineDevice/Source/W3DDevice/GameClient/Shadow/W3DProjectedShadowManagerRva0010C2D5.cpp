@@ -161,12 +161,12 @@ static void releaseTexture(W3DShadowTexture *texture)
 W3DProjectedShadow *W3DProjectedShadowManager::rva0010C2D5(int id, RenderObjClass *object,
 	Shadow::ShadowTypeInfo *first, Shadow::ShadowTypeInfo *second)
 {
-	ShadowDecalInfoView *a = (ShadowDecalInfoView *)first;
+	ShadowDecalInfoView *shadowDecalInfoView = (ShadowDecalInfoView *)first;
 	ShadowDecalInfoView *b = (ShadowDecalInfoView *)second;
-	if (a == 0 || b == 0)
+	if (shadowDecalInfoView == 0 || b == 0)
 		return 0;
-	float aX = a->m_sizeX;
-	float aY = a->m_sizeY;
+	float aX = shadowDecalInfoView->m_sizeX;
+	float aY = shadowDecalInfoView->m_sizeY;
 	float bX = b->m_sizeX;
 	float bY = b->m_sizeY;
 	if (object)
@@ -186,7 +186,7 @@ W3DProjectedShadow *W3DProjectedShadowManager::rva0010C2D5(int id, RenderObjClas
 		}
 	}
 	Rva0010BC90ShadowManager *textures = (Rva0010BC90ShadowManager *)this;
-	W3DShadowTexture *textureA = textures->getTexture(a->name());
+	W3DShadowTexture *textureA = textures->getTexture(shadowDecalInfoView->name());
 	if (textureA == 0)
 		return 0;
 	W3DShadowTexture *textureB = textures->getTexture(b->name());
@@ -224,7 +224,7 @@ W3DProjectedShadow *W3DProjectedShadowManager::rva0010C2D5(int id, RenderObjClas
 	slot = shadow->m_5c;
 	slot->m_sizeX = bX;
 	slot->m_sizeY = bY;
-	((Rva007AED00Table *)shadow)->updateOffsets(0, a->m_offsetX, a->m_offsetY);
+	((Rva007AED00Table *)shadow)->updateOffsets(0, shadowDecalInfoView->m_offsetX, shadowDecalInfoView->m_offsetY);
 	((Rva007AED00Table *)shadow)->updateOffsets(1, b->m_offsetX, b->m_offsetY);
 	W3DProjectedShadow *head = m_decalList;
 	W3DProjectedShadow *previous = 0;

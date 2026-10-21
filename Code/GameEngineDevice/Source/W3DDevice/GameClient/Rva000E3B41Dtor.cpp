@@ -70,11 +70,11 @@ struct RvaE3RefOwner
     RvaE3Ref *m_pointer;
     __forceinline ~RvaE3RefOwner()
     {
-        RvaE3Ref *p = m_pointer;
-        if (p)
+        RvaE3Ref *rvaE3Ref = m_pointer;
+        if (rvaE3Ref)
         {
-            if (--p->m_refs == 0)
-                p->release();
+            if (--rvaE3Ref->m_refs == 0)
+                rvaE3Ref->release();
         }
     }
 };

@@ -42,7 +42,7 @@ __declspec(dllimport) __forceinline Vector4 operator+(const Vector4 &a,const Vec
 struct Rva000806F3Vector4 : public Vector4
 {
 	__forceinline Rva000806F3Vector4() {}
-	__forceinline Rva000806F3Vector4(const Vector4 &v) : Vector4(v) {}
+	__forceinline Rva000806F3Vector4(const Vector4 &vector4) : Vector4(vector4) {}
 	__forceinline Rva000806F3Vector4(const Rva000806F3Vector4 &v) : Vector4(v) {}
 };
 
@@ -72,9 +72,9 @@ Rva000806F3Vector4 Rva003093F6Bases::rva0030822F(float time)
 		unsigned int r = (unsigned int)whole % m_keyCount;
 		unsigned int r2 = (r + 1) % m_keyCount;
 		Vector4 *track = m_meanTrack;
-		const Vector4 &b = track[r2];
+		const Vector4 &vector4 = track[r2];
 		const Vector4 &a = track[r];
-		return a * (1.0f - f) + b * f;
+		return a * (1.0f - f) + vector4 * f;
 	}
 	return Vector4(0.0f, 0.0f, 1.0f, 0.0f);
 }
@@ -88,9 +88,9 @@ Rva000806F3Vector4 Rva003093F6Bases::rva00308325(float time, int group)
 		unsigned int r = (unsigned int)whole % m_keyCount;
 		unsigned int r2 = (r + 1) % m_keyCount;
 		Vector4 *track = m_trackX[group];
-		const Vector4 &b = track[r2];
+		const Vector4 &vector4 = track[r2];
 		const Vector4 &a = track[r];
-		return a * (1.0f - f) + b * f;
+		return a * (1.0f - f) + vector4 * f;
 	}
 	return Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 }
@@ -104,9 +104,9 @@ Rva000806F3Vector4 Rva003093F6Bases::rva00308417(float time, int group)
 		unsigned int r = (unsigned int)whole % m_keyCount;
 		unsigned int r2 = (r + 1) % m_keyCount;
 		Vector4 *track = m_trackY[group];
-		const Vector4 &b = track[r2];
+		const Vector4 &vector4 = track[r2];
 		const Vector4 &a = track[r];
-		return a * (1.0f - f) + b * f;
+		return a * (1.0f - f) + vector4 * f;
 	}
 	return Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 }
@@ -120,9 +120,9 @@ Rva000806F3Vector4 Rva003093F6Bases::rva00308509(float time, int group)
 		unsigned int r = (unsigned int)whole % m_keyCount;
 		unsigned int r2 = (r + 1) % m_keyCount;
 		Vector4 *track = m_trackZ[group];
-		const Vector4 &b = track[r2];
+		const Vector4 &vector4 = track[r2];
 		const Vector4 &a = track[r];
-		return a * (1.0f - f) + b * f;
+		return a * (1.0f - f) + vector4 * f;
 	}
 	return Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 }

@@ -46,7 +46,7 @@ int Rva006F8700Owner::rva006F8700(void *a, int b, void *c, void *p)
 		return (0);
 	return rva006F83F0((FloorVertex *)a, b, (const Matrix3D *)c, (FloorMeshAccess *)p);
 }
-int Rva006F8700Owner::rva006F83F0(FloorVertex *a,int b,const Matrix3D *c,FloorMeshAccess *mesh) {
+int Rva006F8700Owner::rva006F83F0(FloorVertex *floorVertex,int b,const Matrix3D *c,FloorMeshAccess *mesh) {
  if(!mesh)return 0;
  float opacity;
  if(m_drawable2c && ((Drawable*)m_drawable2c)->rva00272C9E(0)!=1.0f) opacity=((Drawable*)m_drawable2c)->rva00272C9E(0);
@@ -60,7 +60,7 @@ int Rva006F8700Owner::rva006F83F0(FloorVertex *a,int b,const Matrix3D *c,FloorMe
  FloorMaterialInfoAccess *info=mesh->materials();
  if(info) { VertexMaterialClass *material=info->count>0?info->materials[0]:0;if(material)material->Get_Emissive(&emissive);if(--info->refs==0)info->destroy(); }
  Vector2 *uv=mesh->geometry->uvArray(0);
- FloorVertex *destination=a+b;
+ FloorVertex *destination=floorVertex+b;
  FloorGeometryAccess *model=mesh->geometry; unsigned int *colors=model->colorArray(0);
  for(int i=0;i<count;++i) {
   destination->u=uv[i].X;destination->v=uv[i].Y;

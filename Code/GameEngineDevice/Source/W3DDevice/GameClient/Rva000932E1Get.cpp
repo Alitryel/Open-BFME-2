@@ -42,8 +42,8 @@ float W3DSnowManager::rva000932E1()
 {
 	float def = g_Va00BBB8D8;
 	const WeatherSetting *gv = TheWeather00DFE118;
-	const WeatherSetting *o = (gv == 0) ? 0 : ((gv->m_nextOverride != 0) ? (const WeatherSetting *)gv->m_nextOverride->getFinalOverride() : gv);
-	if (o->m_54 != 0) {
+	const WeatherSetting *weatherSetting = (gv == 0) ? 0 : ((gv->m_nextOverride != 0) ? (const WeatherSetting *)gv->m_nextOverride->getFinalOverride() : gv);
+	if (weatherSetting->m_54 != 0) {
 		if (m_50 != 0) {
 			const WeatherSetting *o2 = (gv == 0) ? 0 : ((gv->m_nextOverride != 0) ? (const WeatherSetting *)gv->m_nextOverride->getFinalOverride() : gv);
 			return o2->m_58.getValue();

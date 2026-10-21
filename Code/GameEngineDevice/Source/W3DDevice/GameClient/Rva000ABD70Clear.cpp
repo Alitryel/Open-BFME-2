@@ -28,9 +28,9 @@ extern Dict g_Va00E00944;
 
 void Rva000ABD70Clear()
 {
-	Inner *p = (*(Outer * *)&BfmeTheMapObjectListHolder)->m_ptr;
-	if (p) {
-		void *r = p->get(0);
+	Inner *inner = (*(Outer * *)&BfmeTheMapObjectListHolder)->m_ptr;
+	if (inner) {
+		void *r = inner->get(0);
 		::operator delete(r);
 		(*(Outer * *)&BfmeTheMapObjectListHolder)->m_ptr = 0;
 	}

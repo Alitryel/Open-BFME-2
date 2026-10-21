@@ -157,7 +157,7 @@ public:
 struct BFME2TextureRef
 {
 	TextureBaseClass *Ptr;
-	BFME2TextureRef(TextureBaseClass *p) : Ptr(p) {}
+	BFME2TextureRef(TextureBaseClass *textureBase) : Ptr(textureBase) {}
 	~BFME2TextureRef() { if (Ptr) Ptr->Release_Ref(); }
 };
 void BFME2Set_Texture(unsigned int stage, const BFME2TextureRef &texture);
@@ -224,10 +224,10 @@ public:
 
 	static __forceinline void Set_Material(const VertexMaterialClass *material)
 	{
-		VertexMaterialClass *m = const_cast<VertexMaterialClass *>(material);
-		if (m) m->Add_Ref();
+		VertexMaterialClass *vertexMaterial = const_cast<VertexMaterialClass *>(material);
+		if (vertexMaterial) vertexMaterial->Add_Ref();
 		if (render_state.material) render_state.material->Release_Ref();
-		render_state.material = m;
+		render_state.material = vertexMaterial;
 		render_state_changed |= MATERIAL_CHANGED;
 	}
 
@@ -315,7 +315,7 @@ private:
 	Int m_nShadowDecalVertsInBatch;	// +0x270
 };
 
-void W3DProjectedShadowManager::flushDecals(ShadowType type, W3DShadowTexture *texture, W3DShadowTexture *texture2, Int stencilMode)
+void W3DProjectedShadowManager::flushDecals(ShadowType type, W3DShadowTexture *texture, W3DShadowTexture *w3DShadowTexture, Int stencilMode)
 {
 	static Matrix4 mWorld(true);	//initialize to identity matrix
 
@@ -330,23 +330,23 @@ void W3DProjectedShadowManager::flushDecals(ShadowType type, W3DShadowTexture *t
 	DX8Wrapper::Set_Texture(0, reinterpret_cast<Rva001085B4 *>(texture)->rva001085B4());
 
 	Bool shaderSet = false;
-	if (texture2)
+	if (w3DShadowTexture)
 	{
 		switch (type)
 		{
 			case SHADOW_DECAL:
-				DX8Wrapper::Set_Texture(1, reinterpret_cast<Rva001085B4 *>(texture2)->rva001085B4());
+				DX8Wrapper::Set_Texture(1, reinterpret_cast<Rva001085B4 *>(w3DShadowTexture)->rva001085B4());
 				DX8Wrapper::Set_Shader(ShaderClass(BFME_SHADE_CNST(3, 0, 1, 0, 2, 0, 6, 0, 1, 0, 0, 5, 0)));
 				break;
 			case SHADOW_ALPHA_DECAL:
 			case SHADOW_BFME_0400:
 			case SHADOW_BFME_2000:
-				DX8Wrapper::Set_Texture(1, reinterpret_cast<Rva001085B4 *>(texture2)->rva001085B4());
+				DX8Wrapper::Set_Texture(1, reinterpret_cast<Rva001085B4 *>(w3DShadowTexture)->rva001085B4());
 				DX8Wrapper::Set_Shader(ShaderClass(BFME_SHADE_CNST(3, 0, 1, 2, 5, 0, 6, 0, 1, 0, 0, 5, 0)));
 				break;
 			case SHADOW_ADDITIVE_DECAL:
 			case SHADOW_BFME_0800:
-				DX8Wrapper::Set_Texture(1, reinterpret_cast<Rva001085B4 *>(texture2)->rva001085B4());
+				DX8Wrapper::Set_Texture(1, reinterpret_cast<Rva001085B4 *>(w3DShadowTexture)->rva001085B4());
 				DX8Wrapper::Set_Shader(ShaderClass(BFME_SHADE_CNST(3, 0, 1, 1, 1, 0, 6, 0, 1, 0, 0, 5, 0)));
 				break;
 		}
@@ -393,7 +393,7 @@ void W3DProjectedShadowManager::flushDecals(ShadowType type, W3DShadowTexture *t
 			{
 				DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
 				DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
-				DX8Wrapper::Set_Texture(0, reinterpret_cast<Rva001085B4 *>(texture2)->rva001085B4());
+				DX8Wrapper::Set_Texture(0, reinterpret_cast<Rva001085B4 *>(w3DShadowTexture)->rva001085B4());
 				DX8Wrapper::Set_Texture(1, 0);
 				DX8Wrapper::Set_Shader(BfmeShadowStencilWriteShader);
 				shaderSet = true;

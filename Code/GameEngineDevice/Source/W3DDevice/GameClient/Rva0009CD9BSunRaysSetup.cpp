@@ -38,7 +38,7 @@ template<class T> class RefCountPtr {
 public:
     T *Ptr;
     RefCountPtr() : Ptr(0) {}
-    RefCountPtr(const RefCountPtr &o) : Ptr(o.Ptr) { if (Ptr) ++Ptr->m_refCount; }
+    RefCountPtr(const RefCountPtr &refCountPtr) : Ptr(refCountPtr.Ptr) { if (Ptr) ++Ptr->m_refCount; }
     ~RefCountPtr() { if (Ptr) Ptr->Release_Ref(); }
     const RefCountPtr &operator=(const RefCountPtr &);
 };
@@ -68,7 +68,7 @@ public:
 class ShaderClass {
 public:
     unsigned m_value;
-    ShaderClass(const ShaderClass &o) : m_value(o.m_value) {}
+    ShaderClass(const ShaderClass &shader) : m_value(shader.m_value) {}
 };
 extern ShaderClass g_rva00DB622C;
 class SegLineRendererClass {

@@ -77,11 +77,11 @@ void W3DProjectedShadow::rva00108931(void)
 
 void W3DProjectedShadow::rva00108951(void)
 {
-	RefCountedShadowResource *p = m_references68[0];
-	if (p != 0)
+	RefCountedShadowResource *refCountedShadowResource = m_references68[0];
+	if (refCountedShadowResource != 0)
 	{
-		if (--p->referenceCount == 0)
-			p->deleteThis();
+		if (--refCountedShadowResource->referenceCount == 0)
+			refCountedShadowResource->deleteThis();
 		m_references68[0] = 0;
 	}
 }

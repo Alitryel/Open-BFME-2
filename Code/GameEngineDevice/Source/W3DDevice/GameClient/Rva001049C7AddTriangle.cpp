@@ -239,13 +239,13 @@ void Rva001040D5::rva00104956(unsigned int arg)
 	DX8Wrapper::Apply_Render_State_Changes();
 	Vector3 black = { 0.0f, 0.0f, 0.0f };
 	DX8Wrapper::Clear(false, true, true, black, 0.0f, 1.0f, 0);
-	ListNode *n = m_list.m_next;
-	while (n != &m_list)
+	ListNode *listNode = m_list.m_next;
+	while (listNode != &m_list)
 	{
-		void *p = n->m_ptrPlus8;
-		Slot12Target *o = p ? (Slot12Target *)((char *)p - 8) : 0;
-		o->slot12(arg);
-		n = n->m_next;
+		void *p = listNode->m_ptrPlus8;
+		Slot12Target *slot12Target = p ? (Slot12Target *)((char *)p - 8) : 0;
+		slot12Target->slot12(arg);
+		listNode = listNode->m_next;
 	}
 	rva001173f0(arg);
 }

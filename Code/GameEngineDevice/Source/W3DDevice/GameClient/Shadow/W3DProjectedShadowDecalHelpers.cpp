@@ -361,11 +361,11 @@ class W3DDualProjectedShadow
 {
 public:
 	W3DShadowTexture *getTexture(Int i) const { return m_child[i] ? m_child[i]->m_shadowTexture : 0; }
-	void getSize(Int i, Real *x, Real *y) const { DualDecalChild *c = m_child[i]; *x = c->m_decalSizeX; *y = c->m_decalSizeY; }
+	void getSize(Int i, Real *x, Real *y) const { DualDecalChild *dualDecalChild = m_child[i]; *x = dualDecalChild->m_decalSizeX; *y = dualDecalChild->m_decalSizeY; }
 	Real getAngle(Int i) const { return m_child[i]->m_angle; }
 	Real getAngle() const { return m_angle; }
-	void getPosition(Int i, Coord3D *pos) const { DualDecalChild *c = m_child[i]; *pos = c->m_position; }
-	void getDecalOffset(Int i, Real *u, Real *v) const { DualDecalChild *c = m_child[i]; if (c) { *u = c->m_decalOffsetU; *v = c->m_decalOffsetV; } }
+	void getPosition(Int i, Coord3D *pos) const { DualDecalChild *dualDecalChild = m_child[i]; *pos = dualDecalChild->m_position; }
+	void getDecalOffset(Int i, Real *u, Real *v) const { DualDecalChild *dualDecalChild = m_child[i]; if (dualDecalChild) { *u = dualDecalChild->m_decalOffsetU; *v = dualDecalChild->m_decalOffsetV; } }
 
 	char m_pad00[8];
 	Coord3D m_position;					// +0x08
@@ -423,9 +423,9 @@ public:
 
 void W3DProjectedShadowManager::queueDualDecal(W3DDualProjectedShadow *shadow)
 {
-	W3DShadowTexture *texture0 = shadow->getTexture(0);
+	W3DShadowTexture *w3DShadowTexture = shadow->getTexture(0);
 	W3DShadowTexture *texture1 = shadow->getTexture(1);
-	if (!texture0 || !texture1)
+	if (!w3DShadowTexture || !texture1)
 		return;
 
 	Real decalSizeX[2], decalSizeY[2];
@@ -569,7 +569,7 @@ void W3DProjectedShadowManager::queueDualDecal(W3DDualProjectedShadow *shadow)
 	Bool flushed = false;
 	if (m_numDecalVertsInBuffer + numVerts > 0x8000 || m_numDecalIndicesInBuffer + numIndex > 0x10000)
 	{
-		flushDecals(shadow->m_type, texture0, texture1, 0);
+		flushDecals(shadow->m_type, w3DShadowTexture, texture1, 0);
 		m_decalStartVertex = 0;
 		m_decalStartIndex = 0;
 		m_numDecalPolysInBatch = 0;

@@ -104,27 +104,27 @@ protected:
 	// transposed upload there). The dead arms still spend c2's inline budget,
 	// which is what leaves the last Transpose temp's row array to the vector
 	// constructor iterator 0x00001423 in bfmeEnd982C below.
-	static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4 &m)
+	static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4 &matrix4)
 	{
 		switch ((int)transform)
 		{
 		case D3DTS_WORLD:
 			if (render_state_changed & (unsigned)WORLD_IDENTITY)
-				m.Make_Identity();
+				matrix4.Make_Identity();
 			else
-				m = render_state.world.Transpose();
+				matrix4 = render_state.world.Transpose();
 			break;
 		case D3DTS_VIEW:
 			if (render_state_changed & (unsigned)VIEW_IDENTITY)
-				m.Make_Identity();
+				matrix4.Make_Identity();
 			else
-				m = render_state.view.Transpose();
+				matrix4 = render_state.view.Transpose();
 			break;
 		case D3DTS_PROJECTION:
-			m = DeviceProjectionMatrix.Transpose();
+			matrix4 = DeviceProjectionMatrix.Transpose();
 			break;
 		default:
-			m.Make_Identity();
+			matrix4.Make_Identity();
 			break;
 		}
 	}
@@ -148,22 +148,22 @@ protected:
 	}
 
 
-	static __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE transform, const Matrix4 &m)
+	static __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE transform, const Matrix4 &matrix4)
 	{
 		switch ((int)transform)
 		{
 		case D3DTS_WORLD:
-			render_state.world = m.Transpose();
+			render_state.world = matrix4.Transpose();
 			render_state_changed |= (unsigned)WORLD_CHANGED;
 			render_state_changed &= ~(unsigned)WORLD_IDENTITY;
 			break;
 		case D3DTS_VIEW:
-			render_state.view = m.Transpose();
+			render_state.view = matrix4.Transpose();
 			render_state_changed |= (unsigned)VIEW_CHANGED;
 			render_state_changed &= ~(unsigned)VIEW_IDENTITY;
 			break;
 		case D3DTS_PROJECTION:
-			ProjectionMatrix = m.Transpose();
+			ProjectionMatrix = matrix4.Transpose();
 			DeviceProjectionMatrix = ProjectionMatrix;
 			ZFar = 0.0f;
 			ZNear = 0.0f;
@@ -172,7 +172,7 @@ protected:
 			break;
 		default:
 			{
-				Matrix4 m2 = m.Transpose();
+				Matrix4 m2 = matrix4.Transpose();
 				D3DDevice->SetTransform(transform, &m2);
 				number_of_DX8_calls++;
 			}

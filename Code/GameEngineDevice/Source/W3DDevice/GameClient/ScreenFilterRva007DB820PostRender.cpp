@@ -500,19 +500,19 @@ void Rva007DB820::rva000F83FA(DynamicIBAccessClass *ib, int a, DynamicVBAccessCl
 	float amplitude = scale * filterSettings()->m_54;
 	{
 		DynamicIBAccessClass::WriteLockClass lock(ib);
-		unsigned short *p = lock.Get_Index_Array();
+		unsigned short *vertexFormatXYZRHWDUV4 = lock.Get_Index_Array();
 		for (int y = 0; y < rows - 1; ++y) {
 			for (int x = 0; x < columns - 1; ++x) {
-				p[0] = y * columns + x; p[1] = (y + 1) * columns + x + 1; p[2] = (y + 1) * columns + x;
-				p[3] = y * columns + x; p[4] = y * columns + x + 1; p[5] = (y + 1) * columns + x + 1;
-				p += 6;
+				vertexFormatXYZRHWDUV4[0] = y * columns + x; vertexFormatXYZRHWDUV4[1] = (y + 1) * columns + x + 1; vertexFormatXYZRHWDUV4[2] = (y + 1) * columns + x;
+				vertexFormatXYZRHWDUV4[3] = y * columns + x; vertexFormatXYZRHWDUV4[4] = y * columns + x + 1; vertexFormatXYZRHWDUV4[5] = (y + 1) * columns + x + 1;
+				vertexFormatXYZRHWDUV4 += 6;
 			}
 		}
 	}
 	GridPhase0 += 0.05f; GridPhase1 += 0.05f;
 	{
 		DynamicVBAccessClass::WriteLock lock(vb);
-		VertexFormatXYZRHWDUV4 *p = lock.Get_Formatted_Vertex_Array();
+		VertexFormatXYZRHWDUV4 *vertexFormatXYZRHWDUV4 = lock.Get_Formatted_Vertex_Array();
 		float invRows = 1.0f / (rows - 1);
 		float invColumns = 1.0f / (columns - 1);
 		for (int y = 0; y < rows; ++y) {
@@ -520,16 +520,16 @@ void Rva007DB820::rva000F83FA(DynamicIBAccessClass *ib, int a, DynamicVBAccessCl
 			float screenY = (fy * height + top) - 0.5f;
 			for (int x = 0; x < columns; ++x) {
 				float fx = x * invColumns;
-				p->x = fx * width + left - 0.5f; p->y = screenY; p->z = 0; p->rhw = 1; p->diffuse = 0x64ffffff;
-				p->u0 = (fx * width + left) / dims->x; p->v0 = (fy * height + top) / dims->y;
-				p->u1 = fx * amplitude * 2 + m_scrollX; p->v1 = fy * amplitude + m_scrollY;
-				float u1 = p->u1; float v1 = p->v1;
-				p->v2 = v1 + m_spread; p->u2 = u1 - m_spread; p->u1 += m_spread;
-				p->u3 = (0.5f - (float)(0.5f * waveSin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase))) * GridWave0Amplitude;
+				vertexFormatXYZRHWDUV4->x = fx * width + left - 0.5f; vertexFormatXYZRHWDUV4->y = screenY; vertexFormatXYZRHWDUV4->z = 0; vertexFormatXYZRHWDUV4->rhw = 1; vertexFormatXYZRHWDUV4->diffuse = 0x64ffffff;
+				vertexFormatXYZRHWDUV4->u0 = (fx * width + left) / dims->x; vertexFormatXYZRHWDUV4->v0 = (fy * height + top) / dims->y;
+				vertexFormatXYZRHWDUV4->u1 = fx * amplitude * 2 + m_scrollX; vertexFormatXYZRHWDUV4->v1 = fy * amplitude + m_scrollY;
+				float u1 = vertexFormatXYZRHWDUV4->u1; float v1 = vertexFormatXYZRHWDUV4->v1;
+				vertexFormatXYZRHWDUV4->v2 = v1 + m_spread; vertexFormatXYZRHWDUV4->u2 = u1 - m_spread; vertexFormatXYZRHWDUV4->u1 += m_spread;
+				vertexFormatXYZRHWDUV4->u3 = (0.5f - (float)(0.5f * waveSin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase))) * GridWave0Amplitude;
 				float wave = (0.5f - (float)(0.5f * waveSin((fx + fy) * GridWave1Frequency + GridPhase1 * GridWave1Phase))) * GridWave1Amplitude;
-				p->v3 = 0;
-				p->u1 += wave; p->u2 += wave;
-				++p;
+				vertexFormatXYZRHWDUV4->v3 = 0;
+				vertexFormatXYZRHWDUV4->u1 += wave; vertexFormatXYZRHWDUV4->u2 += wave;
+				++vertexFormatXYZRHWDUV4;
 			}
 		}
 	}

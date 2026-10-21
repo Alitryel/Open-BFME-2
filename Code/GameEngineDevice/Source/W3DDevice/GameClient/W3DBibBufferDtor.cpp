@@ -24,4 +24,4 @@ private:
 W3DBibBuffer::~W3DBibBuffer() { freeBibBuffers(); }
 // ?W3DBibBufferDeleteAnchor absent-from-retail
 // Ordinary delete forces MSVC to emit the native nonvirtual deleting wrapper.
-void W3DBibBufferDeleteAnchor(W3DBibBuffer *p) { delete p; }
+void W3DBibBufferDeleteAnchor(W3DBibBuffer *w3DBibBuffer) { delete w3DBibBuffer; }

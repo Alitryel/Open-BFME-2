@@ -161,10 +161,10 @@ inline __declspec(noinline) void W3DShadowTexture::setBoundingSphere(SphereClass
 }
 
 // ?bfmeAnchorW3DShadowTextureSetters absent-from-retail
-void bfmeAnchorW3DShadowTextureSetters(W3DShadowTexture *t, Vector3 &pos, SphereClass &sphere)
+void bfmeAnchorW3DShadowTextureSetters(W3DShadowTexture *w3DShadowTexture, Vector3 &pos, SphereClass &sphere)
 {
-	t->W3DShadowTexture::setLightPosHistory(pos);
-	t->W3DShadowTexture::setBoundingSphere(sphere);
+	w3DShadowTexture->W3DShadowTexture::setLightPosHistory(pos);
+	w3DShadowTexture->W3DShadowTexture::setBoundingSphere(sphere);
 }
 
 void W3DShadowTexture::setDecalUVAxis(Vector3 &u, Vector3 &v)

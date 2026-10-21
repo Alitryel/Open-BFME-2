@@ -49,8 +49,8 @@ int ScreenHilightFilter::shutdown()
 	if( m_2C ) m_2C->Release();
 	m_2C = 0;
 	if( m_24 ) m_24->Release();
-	ScreenHilightFilterComRef **slot24 = &m_24;
-	*slot24 = 0;
+	ScreenHilightFilterComRef **screenHilightFilterComRef = &m_24;
+	*screenHilightFilterComRef = 0;
 	if( m_28 ) m_28->Release();
 	m_28 = 0;
 	if( m_30 ) m_30->Release();

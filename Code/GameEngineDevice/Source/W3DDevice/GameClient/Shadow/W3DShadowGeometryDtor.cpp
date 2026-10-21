@@ -67,8 +67,8 @@ inline W3DShadowGeometry::~W3DShadowGeometry(void)
 // ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitW3DShadowGeometryDtor@@YAXPAVW3DShadowGeometry@@@Z present-unmatched
-void bfmeEmitW3DShadowGeometryDtor(W3DShadowGeometry *p)
+void bfmeEmitW3DShadowGeometryDtor(W3DShadowGeometry *w3DShadowGeometry)
 {
-	p->W3DShadowGeometry::~W3DShadowGeometry();
+	w3DShadowGeometry->W3DShadowGeometry::~W3DShadowGeometry();
 }
 #pragma inline_depth()

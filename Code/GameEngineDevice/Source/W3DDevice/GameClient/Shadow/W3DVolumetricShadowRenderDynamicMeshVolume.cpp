@@ -217,7 +217,7 @@ class Vector4
 public:
 	Vector4(void) {}
 	__declspec(dllimport) __forceinline Vector4(Real x, Real y, Real z, Real w) { X = x; Y = y; Z = z; W = w; }
-	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline Vector4(const Vector4 &vector4) { X = vector4.X; Y = vector4.Y; Z = vector4.Z; W = vector4.W; }
 	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
 	Real &operator[](int i) { return (&X)[i]; }
 	const Real &operator[](int i) const { return (&X)[i]; }
@@ -240,14 +240,14 @@ public:
 	// Keep the widening inline without publishing another constructor COMDAT;
 	// Matrix4FromMatrix3DO1.cpp owns retail's out-of-line copy.
 	__declspec(dllimport) __forceinline explicit Matrix4(const Matrix3D &m) { Init(m); }
-	__forceinline Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Init(r0, r1, r2, r3); }
+	__forceinline Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Init(vector4, r1, r2, r3); }
 	__forceinline void Init(const Matrix3D &m)
 	{
 		Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0,0.0,0.0,1.0);
 	}
-	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3;
+		Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3;
 	}
 	__forceinline Matrix4 Transpose(void) const
 	{

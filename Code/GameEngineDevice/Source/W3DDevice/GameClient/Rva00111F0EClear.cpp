@@ -77,9 +77,9 @@ void Rva00111F0E::rva00111F0E()
 	m_7C = 0;
 }
 
-void Rva00111F0E::rva00111F6F(RvaRef *a, int b, int c, int d)
+void Rva00111F0E::rva00111F6F(RvaRef *rvaRef, int b, int c, int d)
 {
-	if (a) {
+	if (rvaRef) {
 		rva00111F0E();
 		m_48 = 0;
 		m_4C = 0;
@@ -87,11 +87,11 @@ void Rva00111F0E::rva00111F6F(RvaRef *a, int b, int c, int d)
 		m_54 = c;
 		m_58 = d;
 		m_60 = 1;
-		a->Add_Ref();
+		rvaRef->Add_Ref();
 		if (m_5C) {
 			m_5C->Release_Ref();
 		}
-		m_5C = a;
+		m_5C = rvaRef;
 	}
 }
 

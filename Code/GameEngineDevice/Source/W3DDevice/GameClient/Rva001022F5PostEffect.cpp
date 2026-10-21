@@ -41,11 +41,11 @@ union NativePostEffectFactoryCall {
 };
 typedef char PostEffectFactoryPointerWidth[sizeof(NativePostEffectFactoryCall)==4 ? 1 : -1];
 
-unsigned char Rva001022F5::rva001022F5(const AsciiString &arg)
+unsigned char Rva001022F5::rva001022F5(const AsciiString &asciiString)
 {
 	((Rva0010223B *)this)->rva0010223B();
 	NativePostEffectFactoryCall factory={&Rva00101FD8Create};
-	m_00 = (Rva00116482 *)(this->*factory.member)((const StringBase<char> &)arg);
+	m_00 = (Rva00116482 *)(this->*factory.member)((const StringBase<char> &)asciiString);
 	if (m_00)
 		m_00->rva00116482();
 	return m_00 != 0;

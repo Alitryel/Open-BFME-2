@@ -126,10 +126,10 @@ Rva000E0AE2::Rva000E0AE2():unknown1c(0) {
 }
 
 Rva000E0AE2::~Rva000E0AE2() {
- { RenderObjClass *p=hint; if(p) { if(--p->refs==0) p->Delete_This(); hint=0; } }
- { RenderObjClass *p=lines[0]; if(p) { if(--p->refs==0) p->Delete_This(); lines[0]=0; } }
- { RenderObjClass *p=lines[1]; if(p) { if(--p->refs==0) p->Delete_This(); lines[1]=0; } }
- { RenderObjClass *p=lines[2]; if(p) { if(--p->refs==0) p->Delete_This(); lines[2]=0; } }
- { RenderObjClass *p=lines[3]; if(p) { if(--p->refs==0) p->Delete_This(); lines[3]=0; } }
+ { RenderObjClass *renderObj=hint; if(renderObj) { if(--renderObj->refs==0) renderObj->Delete_This(); hint=0; } }
+ { RenderObjClass *renderObj=lines[0]; if(renderObj) { if(--renderObj->refs==0) renderObj->Delete_This(); lines[0]=0; } }
+ { RenderObjClass *renderObj=lines[1]; if(renderObj) { if(--renderObj->refs==0) renderObj->Delete_This(); lines[1]=0; } }
+ { RenderObjClass *renderObj=lines[2]; if(renderObj) { if(--renderObj->refs==0) renderObj->Delete_This(); lines[2]=0; } }
+ { RenderObjClass *renderObj=lines[3]; if(renderObj) { if(--renderObj->refs==0) renderObj->Delete_This(); lines[3]=0; } }
  delete unknown1c;
 }

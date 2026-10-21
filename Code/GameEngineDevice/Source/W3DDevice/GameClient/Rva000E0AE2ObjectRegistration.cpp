@@ -59,8 +59,8 @@ void Rva000E07F4Host::rva000E0584(Rva000E07F4Obj *obj) {
  for(;it!=orders->head;it=it->next) {
   if(it->value==orders->split0) {
    if(prior) {
-    NativeOrder*n=(NativeOrder*)((Rva00355B61*)TheAiOrdersManager)->rva00355155((NameKeyType)prior);
-    if(n) {Coord3D*pos=n->position(&previous);Coord3D p={pos->x,pos->y,pos->z};points.push_back(p);}
+    NativeOrder*nativeOrder=(NativeOrder*)((Rva00355B61*)TheAiOrdersManager)->rva00355155((NameKeyType)prior);
+    if(nativeOrder) {Coord3D*pos=nativeOrder->position(&previous);Coord3D p={pos->x,pos->y,pos->z};points.push_back(p);}
    }
    prior=0;
    ((Rva000E04CE*)this)->rva000E04CE(line);
@@ -68,9 +68,9 @@ void Rva000E07F4Host::rva000E0584(Rva000E07F4Obj *obj) {
   }
   if(it->value==split1) {prior=split1;((Rva000E04CE*)this)->rva000E04CE(line);line=lines[2];}
   if(it->value==split2) {prior=split1;((Rva000E04CE*)this)->rva000E04CE(line);line=lines[3];}
-  NativeOrder*n=(NativeOrder*)((Rva00355B61*)TheAiOrdersManager)->rva00355155((NameKeyType)it->value);
-  if(n) {
-   Coord3D *position=n->position(&previous);
+  NativeOrder*nativeOrder=(NativeOrder*)((Rva00355B61*)TheAiOrdersManager)->rva00355155((NameKeyType)it->value);
+  if(nativeOrder) {
+   Coord3D *position=nativeOrder->position(&previous);
    if(previousID) {
     Rva000E007DPair key={previousID,it->value};
     if(!((Rva000E01B0*)hashHeader)->rva000E01B0(&key)) {
