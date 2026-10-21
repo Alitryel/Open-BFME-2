@@ -54,6 +54,12 @@ Frame slot reference counts (retail / ours):
   - `sourcePos=v->pos` (Coord3D operator=) is required.
   - `Set(pos.x,..)` gives 0.81564; fieldwise assignment gives 0.86455.
 
+- **Symbol numbering (`r63/cap/`, `r63/cap2/`, `cap2.res`).** Dead locals after `Vector3 sourcePos,targetPos;` change codegen non-monotonically:
+  - `float padN=v->zoom*k` (uN) or `{Vector3 qN(...);}` blocks (qN), N=1..64 each;
+  - all 128 stay RELOAD; best = base 0.91326 (u32, q16 identical to base);
+  - next: u33 0.9047, u25 0.90046, u43 0.90008 (ZXY);
+  - q27-q48 give retail's XZY sum order (q27/q28 0.89902), so numbering steers the distance temp but not t.X/t.Y candidacy.
+
 ## Disproven this round (by family)
 - **Control flow:**
   - single-if WB plan: at most 0.88893;
