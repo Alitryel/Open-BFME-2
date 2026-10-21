@@ -49,7 +49,7 @@ enum ObjectStatusTypes;
 class Object
 {
 public:
-	void rva00298979(Object *source, bool wasSelected);
+	void defect(Object *source, bool wasSelected);
 	bool testStatus(ObjectStatusTypes) const;
 	unsigned char unknown00[0x274];
 	Object *m_containedBy274;
@@ -110,7 +110,7 @@ void SiegeEngineContain::onDelete()
 // at full-object +0x20; entry 66 at 0x00C47088 is 0x0047BEF8. The same body is
 // present at entry 83 of vtable 0x00C47834 installed at +0xFC. In the +0x20
 // view, the list head at +0xFC is the constructor's list<int> at full-object
-// +0x11C. Retail walks it backwards, calls Object::rva00298979 on each stored
+// +0x11C. Retail walks it backwards, calls Object::defect on each stored
 // receiver with the incoming Object and selection flag, then calls the base
 // routine at 0x00463191 with both arguments.
 //
@@ -147,9 +147,9 @@ void Rva0047BEF8::rva0047BEF8(Object *rider, bool wasSelected)
 		Rva0047BEF8Node *previous = current->m_previous;
 			Object *receiver = (Object *)previous->m_value;
 			if (wasSelected) {
-				receiver->rva00298979(rider, true);
+				receiver->defect(rider, true);
 			} else {
-				receiver->rva00298979(rider, false);
+				receiver->defect(rider, false);
 			}
 			current = current->m_previous;
 		} while (current != m_headFC->m_next);

@@ -216,7 +216,7 @@ public:
 	void rva00293105();
 	void updateUpgradeModules();
 	void rva0029A12B();
- void rva00298979(Object *,bool);
+ void defect(Object *,bool);
  SpawnBehaviorInterface *getSpawnBehaviorInterface() const;
  void setTemporaryTeam(Team *);
 
@@ -274,12 +274,12 @@ void Object::rva0029A12B()
 	updateUpgradeModules();
 }
 
-// ?rva00298979@Object@@QAEXPAV1@_N@Z
+// ?defect@Object@@QAEXPAV1@_N@Z
 // Existing raw binding retained; WB CBFD20 names Object::defect. Native308B
 // has Object-source/bool ABI unlike BFME1's Team/time overload. The clean
 // BFME1 defection subsystem and paired completion provide semantic leads;
 // the native AI, spawn, containment, team accesses and slots supply target facts.
-void Object::rva00298979(Object *source,bool permanent) {
+void Object::defect(Object *source,bool permanent) {
  if(!testStatus((ObjectStatusTypes)0x26)) {
   AIUpdateInterface *ai=m_ai;
   if(ai) {

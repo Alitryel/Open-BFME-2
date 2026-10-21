@@ -657,7 +657,7 @@ public:
 	void setLayer(PathfindLayerEnum layer);
 	void rva0028AE6D();
 	void rva0029A12B();
-	void rva00298979(Object *source, bool flag);
+	void defect(Object *source, bool flag);
 	void bfmeTransferReplacementState(Object *replacement);
 	void setWeaponSetFlag(WeaponSetType flag);
 	void rva0028CFB2(const int *a, const int *b);
@@ -3000,13 +3000,13 @@ void HordeContain::rva0046BA56(Object *source, int unused)
 	const _STL::list<Object *> *items = slotPair.m04;
 	const _STL::list<Object *> *pin = (items ? items : items);
 	for (_STL::list<Object *>::const_iterator it = pin->begin(); it != pin->end(); ++it)
-		(*it)->rva00298979(source, false);
+		(*it)->defect(source, false);
 	HordeContainIface20View *self = (HordeContainIface20View *)this;
 	for (_STL::set<int>::iterator k = self->m_ids.begin(); k != self->m_ids.end(); ++k)
 	{
 		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
 		if (obj)
-			obj->rva00298979(source, false);
+			obj->defect(source, false);
 	}
 }
 

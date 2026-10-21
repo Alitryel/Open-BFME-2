@@ -171,7 +171,7 @@ class Object
 {
 public:
 	void rva0028CDEB(const Rva00346BC0 &mask, bool flag);	// 0x0028CDEB
-	void rva00298979(Object *other, bool flag);				// 0x00298979
+	void defect(Object *other, bool flag);				// 0x00298979
 	void rva0044E5AA(const Rva00346BC0 &mask);
 	void rva00462457(Object *other);
 	void rva0047B985(Object *other);
@@ -187,12 +187,12 @@ void Object::rva0044E5AA(const Rva00346BC0 &mask)
 
 void Object::rva00462457(Object *other)
 {
-	rva00298979(other, false);
+	defect(other, false);
 }
 
 void Object::rva0047B985(Object *other)
 {
-	rva00298979(other, true);
+	defect(other, true);
 }
 
 // --- 0x0044E5D6 (17B): store the flag at +0x7C, clearing +0x74 with it when

@@ -15,7 +15,7 @@
 //               filter refuses for the owner's player and status 2; prefer
 //               the 0x00049DC5 object of +0x78 with template bit 13 (only
 //               when the flag allows); skip status bit 6; then
-//               Object::rva00298979(owner, data +0xD4) and the data's +0xD0
+//               Object::defect(owner, data +0xD4) and the data's +0xD0
 //               FX through the 0x0029439D result's slot 123, else
 //               FXList::doFXObj
 #include <string.h>
@@ -172,7 +172,7 @@ public:
 	Player *getControllingPlayer() const;	// 0x0028AFA9
 	bool testStatus(ObjectStatusTypes bit) const;	// 0x0004E536
 	void *rva0029439D();	// 0x0029439D
-	void rva00298979(Object *source, bool flag);	// 0x00298979
+	void defect(Object *source, bool flag);	// 0x00298979
 	bool rva004CCB0EBit6() const { return (m_94 & 0x40) != 0; }
 	char m_pad000[0x04];
 	const ThingTemplate *m_template;	// +0x04
@@ -247,9 +247,9 @@ void DominateEnemySpecialPower::rva004CCB0E(Object *target, Object *owner,
 	if (target->rva004CCB0EBit6())
 		return;
 	if (data->m_permanentlyConvert)
-		target->rva00298979(owner, true);
+		target->defect(owner, true);
 	else
-		target->rva00298979(owner, false);
+		target->defect(owner, false);
 	Rva004CCB0EResult *result = (Rva004CCB0EResult *)target->rva0029439D();
 	if (result)
 		result->rva004CCB0ESlot123(data->m_D0);

@@ -4,7 +4,7 @@
 // 0x004C7BB0 (83 bytes): nothing for an Object with status 0x39; otherwise
 // the SpecialPowerModule slot-13 base 0x00493EA7 (pinned by address), then
 // the Object is taken over for our Object: the pinned
-// Object::rva00298979(ours, false), Object 0x002930A9 with 0 (pinned by
+// Object::defect(ours, false), Object 0x002930A9 with 0 (pinned by
 // address; it starts from the Object's producer, +0x78), the rowed
 // setProducer(ours) and status 0x3E cleared. Named by the base's address.
 template <int N> class BitFlags
@@ -23,7 +23,7 @@ class Object
 {
 public:
 	bool testStatus(ObjectStatusTypes status) const;
-	void rva00298979(Object *source, bool flag);
+	void defect(Object *source, bool flag);
 	void rva002930A9(void *value);	// rowed pointer parameter (ObjectRva002931F5.cpp)
 	void setProducer(Object *producer);
 	void setStatus(ObjectStatusTypes status, bool set);
@@ -61,7 +61,7 @@ void UntamedAllegianceSpecialPower::ApplyPowerToObject(Object *obj, int value, c
 		return;
 	SpecialPowerModule::ApplyPowerToObject(obj, value, disabled);
 	Object *self = m_object;
-	obj->rva00298979(self, false);
+	obj->defect(self, false);
 	obj->rva002930A9(0);
 	obj->setProducer(self);
 	obj->setStatus(OBJECT_STATUS_3E, false);

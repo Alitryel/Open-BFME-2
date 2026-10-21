@@ -5,7 +5,7 @@
 // Same pair/list pattern as sibling rva004631FA; slot identities from packet
 // vtable line; callee pin rowed.
 struct Rva0046247DPair { void *m00; void *m04; };
-class Object { public: void rva0029A12B();void rva00298979(Object*,bool); };
+class Object { public: void rva0029A12B();void defect(Object*,bool); };
 struct Rva004631C9Node { void *mNext; int mPad04; Object *mObj; };
 class SlaughterHordeContain {
 public:
@@ -83,4 +83,4 @@ public:
     virtual void d99(); virtual void d100(); virtual void d101(); virtual void d102();
     virtual void d103(); virtual void onContaining(Object*,bool);
 };
-void TransportContain::onContaining(Object*source,bool wasSelected){Rva0046247DPair p;d70(p);Rva004631C9Node*cur=*(Rva004631C9Node**) *(void**)p.m04;for(;cur!=*(Rva004631C9Node**)p.m04;cur=*(Rva004631C9Node**)cur)cur->mObj->rva00298979(source,false);}
+void TransportContain::onContaining(Object*source,bool wasSelected){Rva0046247DPair p;d70(p);Rva004631C9Node*cur=*(Rva004631C9Node**) *(void**)p.m04;for(;cur!=*(Rva004631C9Node**)p.m04;cur=*(Rva004631C9Node**)cur)cur->mObj->defect(source,false);}
