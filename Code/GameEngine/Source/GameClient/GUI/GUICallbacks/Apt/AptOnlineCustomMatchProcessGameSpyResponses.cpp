@@ -36,6 +36,14 @@ namespace _STL { void __cdecl free(void *block) throw(...); }
 #include <vector>
 #undef free
 
+// Retail calls the STLport library's string operator= (0x0001B790);
+// declaring the specialization keeps this /O1 unit from emitting its own
+// divergent copy and the helpers it pulls in.
+namespace _STL {
+template <> basic_string<char, char_traits<char>, allocator<char> > &
+basic_string<char, char_traits<char>, allocator<char> >::operator=(const char *s);
+}
+
 typedef int Int;
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
