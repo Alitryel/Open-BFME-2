@@ -5473,6 +5473,9 @@ class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/SlavedUpdateRepa
 class_gate_allow	Code/GameEngine/Source/GameLogic/Rva00194810Split_Rva0032abda.cpp	AsciiString	1
 class_gate_allow	Code/GameEngine/Source/GameLogic/ScriptEngine/LuaScriptBindingsLuaAO1.cpp	AsciiString	1
 class_gate_allow	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine_appendMessage_Rva00341350AdjustVariableForwarder.cpp	AsciiString	1
+class_gate_allow	Code/GameEngine/Source/GameLogic/System/GameLogicDoXfer.cpp	GameLogic	1	allow=36988de3da870f03849e3f618e7fdfcbf35283b4
+class_gate_allow	Code/GameEngine/Source/GameLogic/System/GameLogicDoXfer.cpp	ObjectIdMap	1	allow=36988de3da870f03849e3f618e7fdfcbf35283b4
+class_gate_allow	Code/GameEngine/Source/GameLogic/System/GameLogicDoXfer.cpp	ObjectIdNode	1	allow=36988de3da870f03849e3f618e7fdfcbf35283b4
 class_gate_allow	Code/GameEngine/Source/GameLogic/Thing/Rva0033BA46Finish.cpp	AsciiString	1
 class_gate_allow	Code/GameEngine/Source/GameNetwork/GameSpyOverlay.cpp	BfmeAudioEventPrefix136	1	allow=1ab8f25aa1b51460bdb86330b896e6afc12338c8
 class_gate_allow	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp	Coord2D	1	allow=76860afc702ba83d37adaa2e73c1a9f603769879
@@ -23217,7 +23220,7 @@ pin	reverse/symbols.csv	0x00242EE7	1
 pin	reverse/symbols.csv	0x00242F01	4
 pin	reverse/symbols.csv	0x002431CB	1
 pin	reverse/symbols.csv	0x00243BA0	1
-pin	reverse/symbols.csv	0x002460C3	1
+pin	reverse/symbols.csv	0x002460C3	2	allow=7c353d179f3c8ded739701c523b0f716725c984d
 pin	reverse/symbols.csv	0x0024613C	2
 pin	reverse/symbols.csv	0x0024619A	1
 pin	reverse/symbols.csv	0x00246213	1
@@ -26148,7 +26151,7 @@ pin	reverse/symbols.csv	0x00410B17	1
 pin	reverse/symbols.csv	0x00410BAB	1
 pin	reverse/symbols.csv	0x00410D05	1
 pin	reverse/symbols.csv	0x00411066	1
-pin	reverse/symbols.csv	0x00411084	5
+pin	reverse/symbols.csv	0x00411084	6	allow=7c353d179f3c8ded739701c523b0f716725c984d
 pin	reverse/symbols.csv	0x004110B4	1
 pin	reverse/symbols.csv	0x004110B9	1
 pin	reverse/symbols.csv	0x004110BE	1
@@ -26353,7 +26356,7 @@ pin	reverse/symbols.csv	0x00426B29	1
 pin	reverse/symbols.csv	0x00426B46	1
 pin	reverse/symbols.csv	0x00426BB2	1
 pin	reverse/symbols.csv	0x00426DE2	1
-pin	reverse/symbols.csv	0x00427195	11
+pin	reverse/symbols.csv	0x00427195	12	allow=7c353d179f3c8ded739701c523b0f716725c984d
 pin	reverse/symbols.csv	0x00427217	1
 pin	reverse/symbols.csv	0x004274C7	1
 pin	reverse/symbols.csv	0x00427507	1
@@ -29763,7 +29766,7 @@ pin	reverse/symbols.csv	0x00659A20	1
 pin	reverse/symbols.csv	0x0065A920	1
 pin	reverse/symbols.csv	0x0065B650	1
 pin	reverse/symbols.csv	0x0065BB60	2
-pin	reverse/symbols.csv	0x0065CE90	12	allow=137b84ced530fd484de56511d4342cbfb74c44f9
+pin	reverse/symbols.csv	0x0065CE90	12
 pin	reverse/symbols.csv	0x0065CEA0	11
 pin	reverse/symbols.csv	0x0065CEE0	2
 pin	reverse/symbols.csv	0x0065CF10	2
