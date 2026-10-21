@@ -150,7 +150,7 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 
 extern const FieldParse Rva00210A14FieldParseTable[];		// VA 0x00BE4120
 
-void Rva00210A14Parse(INI *ini)
+void parseLivingWorldRegionCampaignDefinition(INI *ini)
 {
 	LivingWorldRegionManagerCampaigns *manager = TheLivingWorldLogic->m_regionManager;
 	const char *name = ini->getNextToken();

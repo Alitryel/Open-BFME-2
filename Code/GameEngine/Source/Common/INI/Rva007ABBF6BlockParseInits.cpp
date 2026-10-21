@@ -38,7 +38,7 @@ void parseAerialPathfindNoFlyZoneDefinition(INI *);
 void Rva00202BB2Parse(INI *);
 void Rva00206DFFSearch(INI *);
 void Rva00206E63Search(INI *);
-void Rva00210A14Parse(INI *);
+void parseLivingWorldRegionCampaignDefinition(INI *);
 void parseLivingWorldMapInfoDefinition(INI *);
 void Rva0021376BParse(INI *);
 void parseCloudEffectDefinition(INI *);
@@ -382,7 +382,7 @@ BlockParse theRingEffectBlockParse = { 0, "RingEffect", parseRingEffect };	// VA
 BlockParse theFireEffectBlockParse = { 0, "FireEffect", parseFireEffect };	// VA 0x00DB9870 "FireEffect", parse 0x0030A040
 BlockParse theLargeGroupAudioMapBlockParse = { 0, "LargeGroupAudioMap", LargeGroupAudio::parseLargeGroupAudioMapDefinition };	// VA 0x00DB98A0 "LargeGroupAudioMap", parse 0x0020E027
 BlockParse theLargeGroupAudioUnusedKnownKeysBlockParse = { 0, "LargeGroupAudioUnusedKnownKeys", LargeGroupAudio::parseLargeGroupAudioUnusedKnownKeysDefinition };	// VA 0x00DB98AC "LargeGroupAudioUnusedKnownKeys", parse 0x0020DE03
-BlockParse theLivingWorldRegionCampaignBlockParse = { 0, "LivingWorldRegionCampaign", Rva00210A14Parse };	// VA 0x00DB993C "LivingWorldRegionCampaign", parse 0x00210A14
+BlockParse theLivingWorldRegionCampaignBlockParse = { 0, "LivingWorldRegionCampaign", parseLivingWorldRegionCampaignDefinition };	// VA 0x00DB993C "LivingWorldRegionCampaign", parse 0x00210A14
 BlockParse theLivingWorldObjectBlockParse = { 0, "LivingWorldObject", Rva0021376BParse };	// VA 0x00DB9A20 "LivingWorldObject", parse 0x0021376B
 BlockParse theLivingWorldMapInfoBlockParse = { 0, "LivingWorldMapInfo", parseLivingWorldMapInfoDefinition };	// VA 0x00DB9A2C "LivingWorldMapInfo", parse 0x00210F64
 BlockParse theModifierListBlockParse = { 0, "ModifierList", AttributeModifierStore::parseModifierListDefinition };	// VA 0x00DB9AD0 "ModifierList", parse 0x00214C4E
