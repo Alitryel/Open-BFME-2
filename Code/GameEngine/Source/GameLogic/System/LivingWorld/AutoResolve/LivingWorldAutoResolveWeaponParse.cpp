@@ -1,5 +1,5 @@
-// ?Rva0041999FParse@@YAXPAVINI@@@Z
-// ?Rva0041999FParse@@YAXPAVINI@@@Z
+// ?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z
+// ?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z
 // Native41999F..419A99 AutoResolveWeapon parser; table names and
 // independently owned60B record/64B pair constructors establish behavior.
 // Result transport needs natural4-byte alignment (12B stack home); inline
@@ -28,7 +28,7 @@ class Rva000427195 {public: InsertRet00419331 rva00419967(const void*); __forcei
 class Rva0041811D {public: void* rva004196F8(); char prefix[0xC]; Rva000427195 table;};
 extern Rva0041811D *TheLivingWorldAutoResolveWeaponStore;
 class INIException {public:char*message;int code;INIException(int,const char*,...);INIException(const INIException&);~INIException();};
-void Rva0041999FParse(INI* ini) {
+void parseAutoResolveWeaponDefinition(INI* ini) {
  static const FieldParse fields[] = {
  {"DamagePerRound", LivingWorldAutoResolveWeaponTemplate::parseDamagePerRoundIntoTable,0,0x14},
  {"LevelBonus",Rva004195ECParse,0,4},

@@ -1431,3 +1431,5 @@ __ehhandler$?Rva004193E5Parse@@YAXPAVINI@@@Z,0x00786765,"Renamed to __ehhandler$
 ?Rva0041355DParse@@YAXPAVINI@@@Z,0x0041355D,"Renamed to ?parseAutoResolveHandicapLevelDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva004183ACParse@@YAXPAVINI@@@Z,0x004183AC,"Renamed to ?parseAutoResolveLeadershipDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva004183ACParse@@YAXPAVINI@@@Z,0x00786613,"Renamed to __ehhandler$?parseAutoResolveLeadershipDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva0041999FParse@@YAXPAVINI@@@Z,0x0041999F,"Renamed to ?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva0041999FParse@@YAXPAVINI@@@Z,0x007867EB,"Renamed to __ehhandler$?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
