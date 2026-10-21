@@ -12,19 +12,19 @@
 // Complete retail record copy at0x00054F57.
 struct BfmeStringRecord00054F57 {
     AsciiString ansi; UnicodeString wide;
-    BfmeStringRecord00054F57(const BfmeStringRecord00054F57 &o);
+    BfmeStringRecord00054F57(const BfmeStringRecord00054F57 &source);
 };
-BfmeStringRecord00054F57::BfmeStringRecord00054F57(const BfmeStringRecord00054F57 &o) : ansi(o.ansi), wide(o.wide) {}
+BfmeStringRecord00054F57::BfmeStringRecord00054F57(const BfmeStringRecord00054F57 &source) : ansi(source.ansi), wide(source.wide) {}
 template void _STL::_Construct<BfmeStringRecord00054F57,BfmeStringRecord00054F57>(BfmeStringRecord00054F57*,const BfmeStringRecord00054F57&);
 
 // Complete retail record copy at0x00204A30.
 struct BfmeStringRecord00204A30 {
     unsigned int word0; AsciiString text0; unsigned int word1; AsciiString text1; unsigned int word2;
-    BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &o);
-    BfmeStringRecord00204A30 &operator=(const BfmeStringRecord00204A30 &o);
+    BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &source);
+    BfmeStringRecord00204A30 &operator=(const BfmeStringRecord00204A30 &source);
 };
 // Emit the rowed owner as a COMDAT, like the implicit copy in ScriptEngineDoXfer.
-inline BfmeStringRecord00204A30::BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &o) : word0(o.word0), text0(o.text0), word1(o.word1), text1(o.text1), word2(o.word2) {}
+inline BfmeStringRecord00204A30::BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &source) : word0(source.word0), text0(source.text0), word1(source.word1), text1(source.text1), word2(source.word2) {}
 template void _STL::_Construct<BfmeStringRecord00204A30,BfmeStringRecord00204A30>(BfmeStringRecord00204A30*,const BfmeStringRecord00204A30&);
 
 // ??4BfmeStringRecord00204A30@@QAEAAU0@ABU0@@Z retail 0x00203DDA 55B.
@@ -32,23 +32,23 @@ template void _STL::_Construct<BfmeStringRecord00204A30,BfmeStringRecord00204A30
 // Callees are the AsciiString copy-assign fold at 0x000366F0 (existing pins).
 // Sole placed caller 0x00204170 is the 0x14-stride array copy loop.
 // ?Rva00203DDA assignment via memberwise copy in declaration order.
-BfmeStringRecord00204A30 &BfmeStringRecord00204A30::operator=(const BfmeStringRecord00204A30 &o)
+BfmeStringRecord00204A30 &BfmeStringRecord00204A30::operator=(const BfmeStringRecord00204A30 &source)
 {
-    word0 = o.word0;
-    text0 = o.text0;
-    word1 = o.word1;
-    text1 = o.text1;
-    word2 = o.word2;
+    word0 = source.word0;
+    text0 = source.text0;
+    word1 = source.word1;
+    text1 = source.text1;
+    word2 = source.word2;
     return *this;
 }
 
 // Complete retail record copy at0x002199C8.
 struct BfmeStringRecord002199C8 {
     AsciiString text0, text1, text2; unsigned int word;
-    BfmeStringRecord002199C8(const BfmeStringRecord002199C8 &o);
+    BfmeStringRecord002199C8(const BfmeStringRecord002199C8 &source);
     BfmeStringRecord002199C8(unsigned int w, const AsciiString &a, const AsciiString &b, const AsciiString &c);
 };
-BfmeStringRecord002199C8::BfmeStringRecord002199C8(const BfmeStringRecord002199C8 &o) : text0(o.text0), text1(o.text1), text2(o.text2), word(o.word) {}
+BfmeStringRecord002199C8::BfmeStringRecord002199C8(const BfmeStringRecord002199C8 &source) : text0(source.text0), text1(source.text1), text2(source.text2), word(source.word) {}
 // ??0BfmeStringRecord002199C8@@QAE@IABVAsciiString@@00@Z @0x0021997A 78B
 // 4-arg ctor of the same 0x10 record: word + three AsciiString copies via 0x365F0.
 // Same EH scope as the copy; callers 0x0021E9D8 0x0021EAD3 forward (w,a,b,c) and
@@ -60,10 +60,10 @@ template void _STL::_Construct<BfmeStringRecord002199C8,BfmeStringRecord002199C8
 // Complete retail record copy at0x00219A68.
 struct BfmeStringRecord00219A68 {
     unsigned int word0; AsciiString text0, text1; unsigned int word1, word2;
-    BfmeStringRecord00219A68(const BfmeStringRecord00219A68 &o);
+    BfmeStringRecord00219A68(const BfmeStringRecord00219A68 &source);
     BfmeStringRecord00219A68(unsigned int w0, const AsciiString &t0, const AsciiString &t1, unsigned int w1, unsigned int w2);
 };
-BfmeStringRecord00219A68::BfmeStringRecord00219A68(const BfmeStringRecord00219A68 &o) : word0(o.word0), text0(o.text0), text1(o.text1), word1(o.word1), word2(o.word2) {}
+BfmeStringRecord00219A68::BfmeStringRecord00219A68(const BfmeStringRecord00219A68 &source) : word0(source.word0), text0(source.text0), text1(source.text1), word1(source.word1), word2(source.word2) {}
 // Retail 0x00219A1B is the 5-arg ctor of the same record: word0 + two AsciiString copies via 0x365F0 + word1/word2.
 // Same EH scope as the copy (mov eax 0xb6e568); sole placed caller 0x0021ECB2 pushes (0, "None", "None", -1, 2).
 BfmeStringRecord00219A68::BfmeStringRecord00219A68(unsigned int w0, const AsciiString &t0, const AsciiString &t1, unsigned int w1, unsigned int w2) : word0(w0), text0(t0), text1(t1), word1(w1), word2(w2) {}
@@ -72,9 +72,9 @@ template void _STL::_Construct<BfmeStringRecord00219A68,BfmeStringRecord00219A68
 // Complete retail record copy at0x0022074B.
 struct BfmeStringRecord0022074B {
     AsciiString text0, text1; unsigned int word;
-    BfmeStringRecord0022074B(const BfmeStringRecord0022074B &o);
+    BfmeStringRecord0022074B(const BfmeStringRecord0022074B &source);
 };
-BfmeStringRecord0022074B::BfmeStringRecord0022074B(const BfmeStringRecord0022074B &o) : text0(o.text0), text1(o.text1), word(o.word) {}
+BfmeStringRecord0022074B::BfmeStringRecord0022074B(const BfmeStringRecord0022074B &source) : text0(source.text0), text1(source.text1), word(source.word) {}
 template void _STL::_Construct<BfmeStringRecord0022074B,BfmeStringRecord0022074B>(BfmeStringRecord0022074B*,const BfmeStringRecord0022074B&);
 
 // Native5BC576 copies six AsciiString fields and the resume byte at24.
@@ -83,17 +83,17 @@ template void _STL::_Construct<BfmeStringRecord0022074B,BfmeStringRecord0022074B
 class QueuedDownload { public: AsciiString server,userName,password,file,localFile,regKey; bool tryResume; QueuedDownload(const QueuedDownload &); ~QueuedDownload(); };
 // Select-any like the DownloadManager.cpp copy (this retail body comes first in
 // link order, so it is the copy the link keeps).
-inline QueuedDownload::QueuedDownload(const QueuedDownload &o) : server(o.server), userName(o.userName), password(o.password), file(o.file), localFile(o.localFile), regKey(o.regKey), tryResume(o.tryResume) {}
+inline QueuedDownload::QueuedDownload(const QueuedDownload &source) : server(source.server), userName(source.userName), password(source.password), file(source.file), localFile(source.localFile), regKey(source.regKey), tryResume(source.tryResume) {}
 template void _STL::_Construct<QueuedDownload,QueuedDownload>(QueuedDownload*,const QueuedDownload&);
 
 // Complete retail record copy at0x005D511F.
 struct BfmeStringRecord005D511F {
     UnicodeString text0; unsigned int word0, word1; UnicodeString text1; unsigned int word2;
-    BfmeStringRecord005D511F(const BfmeStringRecord005D511F &o);
+    BfmeStringRecord005D511F(const BfmeStringRecord005D511F &source);
     BfmeStringRecord005D511F(const UnicodeString &t0, unsigned int w0, unsigned int w1, const UnicodeString &t1, unsigned int w2);
     ~BfmeStringRecord005D511F();
 };
-BfmeStringRecord005D511F::BfmeStringRecord005D511F(const BfmeStringRecord005D511F &o) : text0(o.text0), word0(o.word0), word1(o.word1), text1(o.text1), word2(o.word2) {}
+BfmeStringRecord005D511F::BfmeStringRecord005D511F(const BfmeStringRecord005D511F &source) : text0(source.text0), word0(source.word0), word1(source.word1), text1(source.text1), word2(source.word2) {}
 // ??0BfmeStringRecord005D511F@@QAE@ABVUnicodeString@@II0I@Z retail 0x005D516E 75B.
 // 5-arg ctor of the same 0x14 record: text0 via 0x37050 + word0/word1 + text1 via 0x37050 + word2.
 // Same EH scope as the copy (first StringBase before state 0, second after); callers 0x005D5604 0x005D5692.
@@ -130,40 +130,40 @@ BfmeRecordRange005D5473::~BfmeRecordRange005D5473()
 // then the four-float subobject at +8 through its observed x87 loop.
 struct BfmeStringRecord00111ACF {
     AsciiString first; unsigned int word4; struct FloatStorage { float values[4]; } middle; AsciiString second;
-    BfmeStringRecord00111ACF(const BfmeStringRecord00111ACF &o) : first(o.first), word4(o.word4), second(o.second) { for (int i=0;i<4;++i) middle.values[i]=o.middle.values[i]; }
+    BfmeStringRecord00111ACF(const BfmeStringRecord00111ACF &source) : first(source.first), word4(source.word4), second(source.second) { for (int i=0;i<4;++i) middle.values[i]=source.middle.values[i]; }
 };
 template void _STL::_Construct<BfmeStringRecord00111ACF, BfmeStringRecord00111ACF>(BfmeStringRecord00111ACF *, const BfmeStringRecord00111ACF &);
 
 // Complete retail record copy at0x005EC43C.
 struct BfmeStringRecord005EC43C {
     UnicodeString text; unsigned int word0, word1, word2, word3, word4;
-    BfmeStringRecord005EC43C(const BfmeStringRecord005EC43C &o);
+    BfmeStringRecord005EC43C(const BfmeStringRecord005EC43C &source);
 };
-BfmeStringRecord005EC43C::BfmeStringRecord005EC43C(const BfmeStringRecord005EC43C &o) : text(o.text), word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3), word4(o.word4) {}
+BfmeStringRecord005EC43C::BfmeStringRecord005EC43C(const BfmeStringRecord005EC43C &source) : text(source.text), word0(source.word0), word1(source.word1), word2(source.word2), word3(source.word3), word4(source.word4) {}
 template void _STL::_Construct<BfmeStringRecord005EC43C,BfmeStringRecord005EC43C>(BfmeStringRecord005EC43C*,const BfmeStringRecord005EC43C&);
 
 // Complete retail record copy at0x005F93E3.
 struct BfmeStringRecord005F93E3 {
     unsigned int word0, word1; UnicodeString text;
-    BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &o);
+    BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &source);
 };
-BfmeStringRecord005F93E3::BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &o) : word0(o.word0), word1(o.word1), text(o.text) {}
+BfmeStringRecord005F93E3::BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &source) : word0(source.word0), word1(source.word1), text(source.text) {}
 template void _STL::_Construct<BfmeStringRecord005F93E3,BfmeStringRecord005F93E3>(BfmeStringRecord005F93E3*,const BfmeStringRecord005F93E3&);
 
 // Complete retail record copy at0x005ED5F3.
 struct BfmeStringRecord005ED5F3 {
     UnicodeString text; unsigned int word0, word1, word2, word3;
-    BfmeStringRecord005ED5F3(const BfmeStringRecord005ED5F3 &o);
-    BfmeStringRecord005ED5F3 &operator=(const BfmeStringRecord005ED5F3 &o);
+    BfmeStringRecord005ED5F3(const BfmeStringRecord005ED5F3 &source);
+    BfmeStringRecord005ED5F3 &operator=(const BfmeStringRecord005ED5F3 &source);
 };
-BfmeStringRecord005ED5F3::BfmeStringRecord005ED5F3(const BfmeStringRecord005ED5F3 &o) : text(o.text), word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3) {}
-inline BfmeStringRecord005ED5F3 &BfmeStringRecord005ED5F3::operator=(const BfmeStringRecord005ED5F3 &o)
+BfmeStringRecord005ED5F3::BfmeStringRecord005ED5F3(const BfmeStringRecord005ED5F3 &source) : text(source.text), word0(source.word0), word1(source.word1), word2(source.word2), word3(source.word3) {}
+inline BfmeStringRecord005ED5F3 &BfmeStringRecord005ED5F3::operator=(const BfmeStringRecord005ED5F3 &source)
 {
-    text.set(o.text);
-    word0 = o.word0;
-    word1 = o.word1;
-    word2 = o.word2;
-    word3 = o.word3;
+    text.set(source.text);
+    word0 = source.word0;
+    word1 = source.word1;
+    word2 = source.word2;
+    word3 = source.word3;
     return *this;
 }
 template void _STL::_Construct<BfmeStringRecord005ED5F3,BfmeStringRecord005ED5F3>(BfmeStringRecord005ED5F3*,const BfmeStringRecord005ED5F3&);
@@ -177,27 +177,27 @@ template void _STL::_Construct<UnicodeFlagPair,UnicodeFlagPair>(UnicodeFlagPair*
 // Complete retail record copy at0x002B4DC1.
 struct BfmeStringRecord002B4DC1 {
     UnicodeString text; unsigned int word0, word1;
-    BfmeStringRecord002B4DC1(const BfmeStringRecord002B4DC1 &o);
+    BfmeStringRecord002B4DC1(const BfmeStringRecord002B4DC1 &source);
 };
-BfmeStringRecord002B4DC1::BfmeStringRecord002B4DC1(const BfmeStringRecord002B4DC1 &o) : text(o.text), word0(o.word0), word1(o.word1) {}
+BfmeStringRecord002B4DC1::BfmeStringRecord002B4DC1(const BfmeStringRecord002B4DC1 &source) : text(source.text), word0(source.word0), word1(source.word1) {}
 template void _STL::_Construct<BfmeStringRecord002B4DC1,BfmeStringRecord002B4DC1>(BfmeStringRecord002B4DC1*,const BfmeStringRecord002B4DC1&);
 
 // Complete retail record copy at0x005DDD40.
 struct BfmeStringRecord005DDD40 {
     UnicodeString text; unsigned int word;
-    BfmeStringRecord005DDD40(const BfmeStringRecord005DDD40 &o);
-    BfmeStringRecord005DDD40 &operator=(const BfmeStringRecord005DDD40 &o);
+    BfmeStringRecord005DDD40(const BfmeStringRecord005DDD40 &source);
+    BfmeStringRecord005DDD40 &operator=(const BfmeStringRecord005DDD40 &source);
 };
-inline BfmeStringRecord005DDD40::BfmeStringRecord005DDD40(const BfmeStringRecord005DDD40 &o) : text(o.text), word(o.word) {}
+inline BfmeStringRecord005DDD40::BfmeStringRecord005DDD40(const BfmeStringRecord005DDD40 &source) : text(source.text), word(source.word) {}
 // ??4BfmeStringRecord005DDD40@@QAEAAU0@ABU0@@Z retail 0x005DD6B6 31B.
 // Same layout as the 0x005DDD40 copy above (UnicodeString text + word).
 // Callee is StringBase<ushort>::set at 0x00037150 (pin-only); self-check plus word copy.
 // Callers 0x005DD704/0x005DD72D/0x005DD764/0x005DDB86 unblock 0x005DD743/0x005DDD5B chain.
-BfmeStringRecord005DDD40 &BfmeStringRecord005DDD40::operator=(const BfmeStringRecord005DDD40 &o)
+BfmeStringRecord005DDD40 &BfmeStringRecord005DDD40::operator=(const BfmeStringRecord005DDD40 &source)
 {
-    if (this != &o) {
-        text.set(o.text);
-        word = o.word;
+    if (this != &source) {
+        text.set(source.text);
+        word = source.word;
     }
     return *this;
 }
@@ -207,17 +207,17 @@ template void _STL::_Construct<BfmeStringRecord005DDD40,BfmeStringRecord005DDD40
 struct BfmeStringRecord00415F34 {
     unsigned int word0, word1; AsciiString text0; unsigned int word2; AsciiString text1; UnicodeString text2;
     BfmeStringRecord00415F34();
-    BfmeStringRecord00415F34(const BfmeStringRecord00415F34 &o);
+    BfmeStringRecord00415F34(const BfmeStringRecord00415F34 &source);
 };
-BfmeStringRecord00415F34::BfmeStringRecord00415F34(const BfmeStringRecord00415F34 &o) : word0(o.word0), word1(o.word1), text0(o.text0), word2(o.word2), text1(o.text1), text2(o.text2) {}
+BfmeStringRecord00415F34::BfmeStringRecord00415F34(const BfmeStringRecord00415F34 &source) : word0(source.word0), word1(source.word1), text0(source.text0), word2(source.word2), text1(source.text1), text2(source.text2) {}
 template void _STL::_Construct<BfmeStringRecord00415F34,BfmeStringRecord00415F34>(BfmeStringRecord00415F34*,const BfmeStringRecord00415F34&);
 
 // Complete retail record copy at0x00448113.
 struct BfmeStringRecord00448113 {
     UnicodeString text0, text1;
-    BfmeStringRecord00448113(const BfmeStringRecord00448113 &o);
+    BfmeStringRecord00448113(const BfmeStringRecord00448113 &source);
 };
-BfmeStringRecord00448113::BfmeStringRecord00448113(const BfmeStringRecord00448113 &o) : text0(o.text0), text1(o.text1) {}
+BfmeStringRecord00448113::BfmeStringRecord00448113(const BfmeStringRecord00448113 &source) : text0(source.text0), text1(source.text1) {}
 template void _STL::_Construct<BfmeStringRecord00448113,BfmeStringRecord00448113>(BfmeStringRecord00448113*,const BfmeStringRecord00448113&);
 
 
@@ -234,9 +234,9 @@ public:
 struct BfmeStringRecord00222E08 {
     AsciiString text;
     Rva00468520 ref;
-    BfmeStringRecord00222E08(const BfmeStringRecord00222E08 &o);
+    BfmeStringRecord00222E08(const BfmeStringRecord00222E08 &source);
 };
-BfmeStringRecord00222E08::BfmeStringRecord00222E08(const BfmeStringRecord00222E08 &o) : text(o.text), ref(o.ref) {}
+BfmeStringRecord00222E08::BfmeStringRecord00222E08(const BfmeStringRecord00222E08 &source) : text(source.text), ref(source.ref) {}
 template void _STL::_Construct<BfmeStringRecord00222E08,BfmeStringRecord00222E08>(BfmeStringRecord00222E08*,const BfmeStringRecord00222E08&);
 
 
@@ -250,9 +250,9 @@ public:
 struct BfmeStringRecord002CF550 {
     AsciiString text;
     Rva002390CB ref;
-    BfmeStringRecord002CF550(const BfmeStringRecord002CF550 &o);
+    BfmeStringRecord002CF550(const BfmeStringRecord002CF550 &source);
 };
-inline BfmeStringRecord002CF550::BfmeStringRecord002CF550(const BfmeStringRecord002CF550 &o) : text(o.text), ref(o.ref) {}
+inline BfmeStringRecord002CF550::BfmeStringRecord002CF550(const BfmeStringRecord002CF550 &source) : text(source.text), ref(source.ref) {}
 template void _STL::_Construct<BfmeStringRecord002CF550,BfmeStringRecord002CF550>(BfmeStringRecord002CF550*,const BfmeStringRecord002CF550&);
 
 // ??4BfmeStringRecord002602A6@@QAEAAU0@ABU0@@Z retail 0x002602A6 27B.
@@ -261,12 +261,12 @@ template void _STL::_Construct<BfmeStringRecord002CF550,BfmeStringRecord002CF550
 // at 0x002605EB uses sar 3 stride 8.
 struct BfmeStringRecord002602A6 {
     UnicodeString text; unsigned int word;
-    BfmeStringRecord002602A6 &operator=(const BfmeStringRecord002602A6 &o);
+    BfmeStringRecord002602A6 &operator=(const BfmeStringRecord002602A6 &source);
 };
-BfmeStringRecord002602A6 &BfmeStringRecord002602A6::operator=(const BfmeStringRecord002602A6 &o)
+BfmeStringRecord002602A6 &BfmeStringRecord002602A6::operator=(const BfmeStringRecord002602A6 &source)
 {
-    text.set(o.text);
-    word = o.word;
+    text.set(source.text);
+    word = source.word;
     return *this;
 }
 #include <vector>
@@ -288,11 +288,11 @@ template BfmeStringRecord005ED5F3* _STL::__copy<BfmeStringRecord005ED5F3*, BfmeS
 // Complete retail record copy at0x00219B0B.
 struct BfmeStringRecord00219B0B {
     unsigned int word0; AsciiString text0, text1, text2;
-    BfmeStringRecord00219B0B(const BfmeStringRecord00219B0B &o);
+    BfmeStringRecord00219B0B(const BfmeStringRecord00219B0B &source);
     BfmeStringRecord00219B0B(unsigned int w0, const AsciiString &t0, const AsciiString &t1, const AsciiString &t2);
     ~BfmeStringRecord00219B0B();
 };
-BfmeStringRecord00219B0B::BfmeStringRecord00219B0B(const BfmeStringRecord00219B0B &o) : word0(o.word0), text0(o.text0), text1(o.text1), text2(o.text2) {}
+BfmeStringRecord00219B0B::BfmeStringRecord00219B0B(const BfmeStringRecord00219B0B &source) : word0(source.word0), text0(source.text0), text1(source.text1), text2(source.text2) {}
 // ??0BfmeStringRecord00219B0B@@QAE@IABVAsciiString@@00@Z @0x00219ABB 80B
 // 4-arg ctor of the same 0x10 record: word0 + three AsciiString copies via 0x365F0.
 // Same EH scope as the copy; caller 0x0021DEF9 forwards (w,t0,t1,t2) in order.
@@ -303,12 +303,12 @@ template void _STL::_Construct<BfmeStringRecord00219B0B,BfmeStringRecord00219B0B
 // Complete retail 2-arg ctor at0x0021A940.
 struct BfmeStringRecord0021A940 {
     unsigned int word0; BfmeStringRecord00219B0B rec;
-    BfmeStringRecord0021A940(const unsigned int *p, const BfmeStringRecord00219B0B &o);
-    BfmeStringRecord0021A940(const BfmeStringRecord0021A940 &o);
+    BfmeStringRecord0021A940(const unsigned int *p, const BfmeStringRecord00219B0B &source);
+    BfmeStringRecord0021A940(const BfmeStringRecord0021A940 &source);
     ~BfmeStringRecord0021A940();
 };
-BfmeStringRecord0021A940::BfmeStringRecord0021A940(const unsigned int *p, const BfmeStringRecord00219B0B &o) : word0(*p), rec(o) {}
-BfmeStringRecord0021A940::BfmeStringRecord0021A940(const BfmeStringRecord0021A940 &o) : word0(o.word0), rec(o.rec) {}
+BfmeStringRecord0021A940::BfmeStringRecord0021A940(const unsigned int *p, const BfmeStringRecord00219B0B &source) : word0(*p), rec(source) {}
+BfmeStringRecord0021A940::BfmeStringRecord0021A940(const BfmeStringRecord0021A940 &source) : word0(source.word0), rec(source.rec) {}
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline BfmeStringRecord0021A940::~BfmeStringRecord0021A940() {}
