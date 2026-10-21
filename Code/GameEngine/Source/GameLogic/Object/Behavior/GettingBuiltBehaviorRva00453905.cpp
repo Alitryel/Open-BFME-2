@@ -42,7 +42,7 @@ public:
     void setStatus(ObjectStatusTypes, bool);
     void rva0028AE6D();
     void rva0028FC18();
-    void setBuilder(Object *);
+    void setBuilder(const Object *);
     __forceinline void clearCondition(int i) {
         if (conditions.test(i)) { conditions.clear(i); rva0028AE6D(); }
     }

@@ -32,7 +32,7 @@ class AICommandInterface{public:void aiIdle(CommandSourceType);};
 class AIUpdateInterface{public:AICommandInterface *commands(){return (AICommandInterface*)((char*)this+0x20);}};
 class Rva002AA292{public:bool rva002AA292(const int*)const;};
 class Object{public:Player *getControllingPlayer()const;bool rva0028C15E(int,float*,int,int);
- bool testStatus(ObjectStatusTypes)const;void updateUpgradeModules();void rva0028DA28();void kill(DamageType,DeathType);void setBuilder(Object*);const ThingTemplate *getTemplate()const{return tmplate;}Team *getTeam()const{return team;}
+ bool testStatus(ObjectStatusTypes)const;void updateUpgradeModules();void rva0028DA28();void kill(DamageType,DeathType);void setBuilder(const Object*);const ThingTemplate *getTemplate()const{return tmplate;}Team *getTeam()const{return team;}
  char pad[4];ThingTemplate *tmplate;char pad8[0x38-8];Coord3D position;
  char pad44[0x74-0x44];ObjectID id;char pad78[4];ObjectID builder;char pad80[0x258-0x80];AIUpdateInterface *ai;
  char pad25C[0x264-0x25c];ExperienceTracker *tracker;char pad268[0x274-0x268];Object *containedBy;

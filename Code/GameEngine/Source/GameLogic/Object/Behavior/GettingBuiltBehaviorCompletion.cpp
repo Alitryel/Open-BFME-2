@@ -62,7 +62,7 @@ struct CompletionModelFlags {
 };
 class Object:public Thing {
 public:
- void setBuilder(Object *);
+ void setBuilder(const Object *);
  void rva0028AE6D();
  void setStatus(ObjectStatusTypes,bool);
  float rva00263763(const void *)const;

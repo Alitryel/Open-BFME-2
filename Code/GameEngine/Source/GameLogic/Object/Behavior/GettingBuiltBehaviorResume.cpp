@@ -33,7 +33,7 @@ class Object : public Thing {
 public:
  Player *getControllingPlayer() const;
  void setProducer(Object *);
- void setBuilder(Object *);
+ void setBuilder(const Object *);
  void setEffectivelyDead(bool);
  void setStatus(ObjectStatusTypes, bool);
  bool testStatus(ObjectStatusTypes) const;

@@ -148,7 +148,7 @@ public:
 
 	Player *getControllingPlayer() const;
 	void setProducer(Object *producer);
-	void setBuilder(Object *builder);
+	void setBuilder(const Object *builder);
 	
 };
 

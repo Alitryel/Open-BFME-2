@@ -112,7 +112,7 @@ public:
 	void setStatus(ObjectStatusTypes bit, bool set);
 	Relationship getRelationship(const Object *) const;
 	void kill(DamageType, DeathType);
-	void setBuilder(Object *);
+	void setBuilder(const Object *);
 	Player *getControllingPlayer() const;
 
 	unsigned char m_pad000[0x04];

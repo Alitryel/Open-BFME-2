@@ -665,7 +665,7 @@ public:
 	void kill(DamageType damageType, DeathType deathType); // 0x002984D4
 	void rva0028BAC0(); // 0x0028BAC0
 	ObjectID getID() const { return m_id; }
-	void setBuilder(Object *builder);
+	void setBuilder(const Object *builder);
 	const GeometryInfo &getGeometryInfo() const { return m_geometryInfo; }
 	Bool isUsingAirborneLocomotor() const;
 	__forceinline UnsignedInt isKindOf(KindOfType t) const { return getTemplate()->isKindOf(t); }

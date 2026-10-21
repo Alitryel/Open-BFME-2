@@ -523,7 +523,7 @@ public:
 	const GeometryInfo &getGeometryInfo() const { return m_geometryInfo; }
 	Bool isUsingAirborneLocomotor() const;
 	void setProducer(Object *obj);
-	void setBuilder(Object *builder);
+	void setBuilder(const Object *builder);
 	void setStatus(ObjectStatusTypes bit, Bool set);
 	void rva0028CFB2(const int *clear, const int *set);
 	void rva00290758(Int a1, Int a2);

@@ -113,7 +113,7 @@ public:
 	void setStatus(ObjectStatusTypes status, bool set);	// 0x0023DB0E
 	void setEffectivelyDead(bool dead);	// 0x0028D2FB
 	void rva0028CFB2(const Int *clearFlags, const Int *setFlags);	// 0x0028CFB2
-	void setBuilder(Object *obj);	// 0x0028AFE7
+	void setBuilder(const Object *obj);	// 0x0028AFE7
 	void updateUpgradeModules();	// 0x00292EEA
 	void rva0028AE6D();	// model-condition change notifier
 
