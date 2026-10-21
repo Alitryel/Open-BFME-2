@@ -43,7 +43,7 @@ void Rva00210F64Parse(INI *);
 void Rva0021376BParse(INI *);
 void Rva0021526CParse(INI *);
 void Rva00215C38Parse(INI *);
-void Rva00221012Parse(INI *);
+void parseArmySummaryDescriptionDefinition(INI *);
 void Rva0022232EParse(INI *);
 void Rva002859A8Parse(INI *);
 void Rva00289265Parse(INI *);
@@ -394,7 +394,7 @@ BlockParse theBannerTypeBlockParse = { 0, "BannerType", BannerUI::ParseBannerTyp
 BlockParse theFontDefaultSettingsBlockParse = { 0, "FontDefaultSettings", FontLibrary::ParseFontDefaultSettings };	// VA 0x00DB9C04 "FontDefaultSettings", parse 0x00218C82
 BlockParse theFontSubstitutionBlockParse = { 0, "FontSubstitution", rva00219005 };	// VA 0x00DB9C10 "FontSubstitution", parse 0x00219005
 BlockParse theCreateAHeroSystemBlockParse = { 0, "CreateAHeroSystem", CreateAHeroManager::iniParseCreateAHeroSystem };	// VA 0x00DB9D38 "CreateAHeroSystem", parse 0x0022044C
-BlockParse theArmySummaryDescriptionBlockParse = { 0, "ArmySummaryDescription", Rva00221012Parse };	// VA 0x00DBA184 "ArmySummaryDescription", parse 0x00221012
+BlockParse theArmySummaryDescriptionBlockParse = { 0, "ArmySummaryDescription", parseArmySummaryDescriptionDefinition };	// VA 0x00DBA184 "ArmySummaryDescription", parse 0x00221012
 BlockParse theStrategicHUDBlockParse = { 0, "StrategicHUD", StrategicHUD::ParseSettings };	// VA 0x00DBA190 "StrategicHUD", parse 0x0022157B
 BlockParse theInGameNotificationBoxBlockParse = { 0, "InGameNotificationBox", Rva0022232EParse };	// VA 0x00DBA19C "InGameNotificationBox", parse 0x0022232E
 extern BlockParse theAptButtonTooltipMapBlockParse;	// VA 0x00DBA1CC "AptButtonTooltipMap", parse 0x00224DFF

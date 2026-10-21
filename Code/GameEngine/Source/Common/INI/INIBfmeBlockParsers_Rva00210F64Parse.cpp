@@ -73,7 +73,7 @@ void Rva00215C38Parse(INI *ini)
 extern void *g_00DFE490;
 extern const FieldParse ArmySummaryDescriptionFields[];
 
-void Rva00221012Parse(INI *ini)
+void parseArmySummaryDescriptionDefinition(INI *ini)
 {
 	ini->initFromINI(g_00DFE490, ArmySummaryDescriptionFields);
 }
