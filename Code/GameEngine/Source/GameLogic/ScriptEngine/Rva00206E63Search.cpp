@@ -62,7 +62,7 @@ struct Arg205A8D
     AsciiString m_8;
     AsciiString m_C;
     char _pad10[0x7c - 0x10];
-    AsciiString m_7c;
+    AsciiString m_helpText;
 };
 
 class Rva00205A8D
