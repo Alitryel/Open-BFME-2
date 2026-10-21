@@ -34,9 +34,9 @@ class Vector3 {
 public:
     float X, Y, Z;
     __forceinline Vector3(void) {}
-    __forceinline Vector3(const Vector3& v) { X=v.X; Y=v.Y; Z=v.Z; }
+    __forceinline Vector3(const Vector3& vec) { X=vec.X; Y=vec.Y; Z=vec.Z; }
     __forceinline Vector3(float x, float y, float z) { X=x; Y=y; Z=z; }
-    __forceinline Vector3& operator=(const Vector3& v) { X=v.X; Y=v.Y; Z=v.Z; return *this; }
+    __forceinline Vector3& operator=(const Vector3& vec) { X=vec.X; Y=vec.Y; Z=vec.Z; return *this; }
     __declspec(dllimport) __forceinline float Length() const { return WWMath::Sqrt(Length2()); }
     __forceinline float Length2() const { return X*X + Y*Y + Z*Z; }
     __forceinline friend Vector3 operator-(const Vector3& a, const Vector3& b) {
