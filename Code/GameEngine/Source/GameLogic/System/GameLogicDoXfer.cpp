@@ -418,20 +418,8 @@ public:
 	int tagValue;
 };
 
-// Visible definitions from the verified wide string comparison provider chain.
-struct WideCharCompare {char m_unused;int compare(const wchar_t*,const wchar_t*,int)const;};
-int WideCharCompare::compare(const wchar_t*a,const wchar_t*b,int len)const {
- while(len>0){if(*a!=*b)return *a-*b;++a;++b;--len;}return 0;
-}
-int compareRange(const wchar_t*a,int alen,const wchar_t*b,int blen,WideCharCompare tag){
- const int len=alen<blen?alen:blen;const int result=tag.compare(a,b,len);if(result!=0)return result;return alen-blen;
-}
-template<> int StringBase<wchar_t>::compare(const wchar_t*str,int len)const {
- return compareRange(m_data?&m_data->data[0]:L"",m_data?m_data->length:0,str,len,WideCharCompare());
-}
-template<> int StringBase<wchar_t>::compare(const StringBase<wchar_t>&str)const {
- const int len=str.m_data?str.m_data->length:0;const wchar_t*data=str.m_data?&str.m_data->data[0]:L"";return compare(data,len);
-}
+// StringBase<wchar_t>::compare is called out of line, bound to the string_base.cpp row.
+template<> __declspec(nothrow) int StringBase<wchar_t>::compare(const StringBase<wchar_t>&str)const;
 
 static __forceinline bool differs(const UnicodeString &a, const UnicodeString &b) { return a.compare(b) != 0; }
 
