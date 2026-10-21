@@ -9,6 +9,9 @@
 // follow the source order 00, 01, 10, 11 over the declared 00, 10, 11, 01
 // member layout. The vptr is 0x00C082E8.
 
+extern "C" const void *const vtbl_00C082E8[];  // ??_7WaterSetting@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C082E8=??_7WaterSetting@@6B@")
+
 #include <stddef.h>
 #include "ascii_string.h"
 
@@ -132,7 +135,7 @@ WaterSetting::WaterSetting( void )
 
 // ------------------------------------------------------------------------------------------------
 /** Destructor. ??1WaterSetting@@UAE@XZ @0x00309D9E 60B, right behind the
- * constructor: it restores the same vptr 0x00C082E8 and releases the two
+ * constructor: it restores the same vptr ((unsigned int)vtbl_00C082E8) and releases the two
  * strings, and the static initializer 0x007AE6C2 passes it with the
  * constructor to the eh vector constructor iterator. */
 // ------------------------------------------------------------------------------------------------

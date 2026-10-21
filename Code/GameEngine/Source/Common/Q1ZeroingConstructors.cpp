@@ -30,6 +30,12 @@
 //
 // IDENTITY IS NOT RECOVERED.  Every name is derived from an address.
 
+extern "C" const void *const vtbl_00CE7CB0[];  // folded, 2 classes; via ??_7ProfileCmdInterface@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00CE7CB0=??_7ProfileCmdInterface@@6B@")
+
+extern "C" const void *const vtbl_00BD23B4[];  // folded, 2 classes; via ??_7Rva0012D750@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BD23B4=??_7Rva0012D750@@6B@")
+
 #define Q1_VFTABLE_ZERO_CTOR( NAME )                                      \
 	class NAME                                                            \
 	{                                                                     \
@@ -90,8 +96,8 @@ Q1_VFTABLE_ZERO_CTOR_PAD( Rva00103160, 0xC )           /* vftable 0x01086348 */
 Q1_VFTABLE_ZERO_CTOR( Rva00202E50 )                     /* vftable 0x010A5580 */
 Q1_PLAIN_ZERO_CTOR( Rva005886B0, 0x2u )
 Q1_VFTABLE_ZERO_CTOR( Rva005FC5C0 )                     /* vftable 0x01112A4C */
-Q1_VFTABLE_ZERO_CTOR( Rva0012D750 )                     /* vftable 0x00BD23B4 */
-Q1_VFTABLE_ZERO_CTOR( Rva006C5430 )                     /* vftable 0x00CE7CB0 */
+Q1_VFTABLE_ZERO_CTOR( Rva0012D750 )                     /* vftable ((unsigned int)vtbl_00BD23B4) */
+Q1_VFTABLE_ZERO_CTOR( Rva006C5430 )                     /* vftable ((unsigned int)vtbl_00CE7CB0) */
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
