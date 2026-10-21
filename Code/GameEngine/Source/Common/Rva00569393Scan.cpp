@@ -25,6 +25,6 @@ private:
 
 void Rva00569393::rva00569393(void *tag)
 {
-	for (LargeGroupAudioSoundKeyPair **p = m_begin; p != m_end; ++p)
-		(*p)->removePointersToGridCellsInDuckingTarget((BitRange *)this, tag);
+	for (LargeGroupAudioSoundKeyPair **largeGroupAudioSoundKeyPair = m_begin; largeGroupAudioSoundKeyPair != m_end; ++largeGroupAudioSoundKeyPair)
+		(*largeGroupAudioSoundKeyPair)->removePointersToGridCellsInDuckingTarget((BitRange *)this, tag);
 }

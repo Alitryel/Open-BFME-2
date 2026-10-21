@@ -16,9 +16,9 @@ template <> int StringBase<char>::compare(const StringBase<char> &str) const thr
 template <> void StringBase<char>::releaseBuffer() throw();
 
 // The element strings compare through StringBase<char>::compare, as retail calls it.
-static inline const StringBase<char> &asBase(const AsciiString &s)
+static inline const StringBase<char> &asBase(const AsciiString &asciiString)
 {
-	return *(const StringBase<char> *)&s;
+	return *(const StringBase<char> *)&asciiString;
 }
 
 // The ledger row at 0x005C834A is HostClass005C815B::method_005C834A.

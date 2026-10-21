@@ -30,7 +30,7 @@ void Rva005258B2::rva005258B2(void *p)
 	m_ptr->OnHeroAttacked(p);
 }
 
-void Rva005258B2::rva005258B9(const AsciiString *a)
+void Rva005258B2::rva005258B9(const AsciiString *asciiString)
 {
-	m_ptr->rva005255E2(a);
+	m_ptr->rva005255E2(asciiString);
 }

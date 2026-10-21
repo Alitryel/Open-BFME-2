@@ -68,10 +68,10 @@ void MissileUpdate::rva004A78E1()
 	FXList::doFXObj(holder->m_fx, m_obj, 0);
 	AsciiString &name = holder->m_name;
 	if (name.isEmpty() == 0) {
-		ParticleSystemTemplate *tmpl = TheParticleSystemManager->findTemplate(name);
-		if (tmpl != 0) {
+		ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(name);
+		if (particleSystemTemplate != 0) {
 			const Object *obj = m_obj;
-			m_slot = TheParticleSystemManager->rva001F5AA4(tmpl, obj, 1);
+			m_slot = TheParticleSystemManager->rva001F5AA4(particleSystemTemplate, obj, 1);
 		}
 	}
 	m_flag = 1;

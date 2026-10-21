@@ -68,40 +68,40 @@ private:
 
 
 
-void AptOnlineCustomMatch::InitGadgets(const char *a1, int a2, GameWindow *a3)
+void AptOnlineCustomMatch::InitGadgets(const char *a1, int a2, GameWindow *gameWindow)
 {
-	if (a3 == 0)
+	if (gameWindow == 0)
 		return;
 	if (strcmp(a1, "GameList") == 0) {
-		GadgetListBoxReset(a3);
-		m_48C = a3;
-		Rva005A0C6EUserData *ud = (Rva005A0C6EUserData *)a3->winGetUserData();
+		GadgetListBoxReset(gameWindow);
+		m_48C = gameWindow;
+		Rva005A0C6EUserData *ud = (Rva005A0C6EUserData *)gameWindow->winGetUserData();
 		ud->m_12 = 1;
-		a3->winSetUserData(ud);
-		a3->winSetTooltipFunc(GamesListTooltipFunc);
+		gameWindow->winSetUserData(ud);
+		gameWindow->winSetTooltipFunc(GamesListTooltipFunc);
 		return;
 	}
 	if (strcmp(a1, "Lobbies") == 0) {
-		m_490 = a3;
+		m_490 = gameWindow;
 		return;
 	}
 	if (strcmp(a1, "GameInfo") == 0) {
-		GadgetListBoxReset(a3);
-		m_494 = a3;
+		GadgetListBoxReset(gameWindow);
+		m_494 = gameWindow;
 		return;
 	}
 	if (strcmp(a1, "GameName") == 0) {
-		m_498 = (int)a3;
-		GadgetTextEntrySetMaxChars((BfmeKeyLC *)a3, 0x14);
-		a3->winSetStatus(2);
+		m_498 = (int)gameWindow;
+		GadgetTextEntrySetMaxChars((BfmeKeyLC *)gameWindow, 0x14);
+		gameWindow->winSetStatus(2);
 		rva005A083C();
 	} else {
 		if (strcmp(a1, "GamePassword") != 0)
 			return;
-		m_49C = (int)a3;
-		GadgetTextEntrySetValidationFlags(a3, 5);
-		GadgetTextEntrySetMaxChars((BfmeKeyLC *)a3, 0x14);
-		a3->winSetStatus(2);
+		m_49C = (int)gameWindow;
+		GadgetTextEntrySetValidationFlags(gameWindow, 5);
+		GadgetTextEntrySetMaxChars((BfmeKeyLC *)gameWindow, 0x14);
+		gameWindow->winSetStatus(2);
 		rva005A083C();
 	}
 }

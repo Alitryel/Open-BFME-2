@@ -96,12 +96,12 @@ void BfmeQuickMatchScreenBase::rva00538ADC()
 	if (this == 0)
 		return;
 
-	GameWindow *w = m_head;
+	GameWindow *gameWindow = m_head;
 	do {
-		if (w == 0)
+		if (gameWindow == 0)
 			break;
-		slot7(w);
-		TheWindowManager->managerSlot35(w);
-		w = m_head;
-	} while (w != 0);
+		slot7(gameWindow);
+		TheWindowManager->managerSlot35(gameWindow);
+		gameWindow = m_head;
+	} while (gameWindow != 0);
 }

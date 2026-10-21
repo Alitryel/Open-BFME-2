@@ -75,8 +75,8 @@ Rva00500500::Rva00500500(const Rva00500500 &o)
 {
 }
 
-Rva00500500::Rva00500500(void *&p, const SpawnArmy &r)
-    : m_ptr(p), m_rva(r)
+Rva00500500::Rva00500500(void *&p, const SpawnArmy &spawnArmy)
+    : m_ptr(p), m_rva(spawnArmy)
 {
 }
 

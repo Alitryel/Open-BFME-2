@@ -33,10 +33,10 @@ public:
 	void rva004DFB55(CreateAHeroData *p);
 };
 
-void Rva004DFB55::rva004DFB55(CreateAHeroData *p)
+void Rva004DFB55::rva004DFB55(CreateAHeroData *createAHeroData)
 {
 	_STL::vector<CreateAHeroData *>::iterator it =
-		_STL::find(m_vec2c.begin(), m_vec2c.end(), p);
+		_STL::find(m_vec2c.begin(), m_vec2c.end(), createAHeroData);
 	if (it != m_vec2c.end()) {
 		((_STL::vector<void *> *)&m_vec2c)->erase((void **)it);
 	}

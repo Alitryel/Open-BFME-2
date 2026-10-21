@@ -85,16 +85,16 @@ private:
     _STL::vector<const ModuleData *> m_vec;
 };
 
-void LivingWorldScenario::Scenario::addTeamDefeatCondition(const ModuleData *p)
+void LivingWorldScenario::Scenario::addTeamDefeatCondition(const ModuleData *moduleData)
 {
-    if (!p)
+    if (!moduleData)
         return;
-    const _STL::vector<int> &vec = ((const Rva004FCD49Vec *)p)->m_vec;
+    const _STL::vector<int> &vec = ((const Rva004FCD49Vec *)moduleData)->m_vec;
     for (unsigned int i = 0; i < vec.size(); ++i) {
         int v = vec[i];
-        m_map.insert(_STL::multimap<int, int>::value_type(v, (int)p));
+        m_map.insert(_STL::multimap<int, int>::value_type(v, (int)moduleData));
     }
-    m_vec.push_back(p);
+    m_vec.push_back(moduleData);
 }
 
 void LivingWorldScenario::Scenario::rva004FD533(int key, int unused, int *out) const

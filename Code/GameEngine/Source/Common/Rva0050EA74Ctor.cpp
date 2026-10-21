@@ -24,7 +24,7 @@ public:
 	unsigned char m_10;
 };
 
-Rva0050EA74::Rva0050EA74(int a, const AsciiString &b) : m_08(a), m_0c(b)
+Rva0050EA74::Rva0050EA74(int a, const AsciiString &asciiString) : m_08(a), m_0c(asciiString)
 {
 	m_10 = 0;
 }

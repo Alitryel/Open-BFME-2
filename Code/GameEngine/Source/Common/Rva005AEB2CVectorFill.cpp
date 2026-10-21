@@ -75,8 +75,8 @@ Rva005AEB2C::Rva005AEB2C()
 {
 	if (TheGameSpyInfo)
 	{
-		const IntMap *a = TheGameSpyInfo->GetFirst();
-		for (IntMap::const_iterator it = a->begin(); it != a->end(); ++it)
+		const IntMap *intMap = TheGameSpyInfo->GetFirst();
+		for (IntMap::const_iterator it = intMap->begin(); it != intMap->end(); ++it)
 		{
 			BfmeE8 e;
 			e.p = (void *)&it->second;
@@ -102,8 +102,8 @@ Rva005D639A::Rva005D639A()
 {
 	if (TheGameSpyInfo)
 	{
-		const IntMap *a = TheGameSpyInfo->GetFirst();
-		for (IntMap::const_iterator it = a->begin(); it != a->end(); ++it)
+		const IntMap *intMap = TheGameSpyInfo->GetFirst();
+		for (IntMap::const_iterator it = intMap->begin(); it != intMap->end(); ++it)
 		{
 			BfmeE8 e;
 			e.p = (void *)&it->second;

@@ -36,14 +36,14 @@ public:
 
 void Rva004E9B70::rva004E9B70()
 {
-	RvaVector *v = &m_vec;
-	v->erase(v->m_begin, v->m_end);
+	RvaVector *rvaVector = &m_vec;
+	rvaVector->erase(rvaVector->m_begin, rvaVector->m_end);
 	void **pp = g_00E04484.m_begin;
 	void **end = g_00E04484.m_end;
 	if (pp != end) {
 		do {
-			Elem *e = (Elem *)*pp;
-			void *p = e ? e->deleteInstance(0) : 0;
+			Elem *elem = (Elem *)*pp;
+			void *p = elem ? elem->deleteInstance(0) : 0;
 			::operator delete(p);
 			++pp;
 		} while (pp != end);

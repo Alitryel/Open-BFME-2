@@ -42,9 +42,9 @@ bool __cdecl ParseClipName(const char *section, AsciiString &out);
 namespace AptUtils { const char *__cdecl SkipLevelN(const char *s); }
 namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *s); }
 
-__forceinline const char *GetStr00529698(const AsciiString &s)
+__forceinline const char *GetStr00529698(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

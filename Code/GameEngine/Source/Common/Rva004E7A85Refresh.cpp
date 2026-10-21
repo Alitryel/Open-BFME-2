@@ -75,16 +75,16 @@ private:
 void Rva004E7A85::show()
 {
 	if (m_4 == 0) {
-		ResourceEntryCollector *c = &m_1C;
-		c->rva004E551E();
+		ResourceEntryCollector *resourceEntryCollector = &m_1C;
+		resourceEntryCollector->rva004E551E();
 		Rva004E7A85World *world = (*(Rva004E7A85World **)&ThePlayerList);
 		int rel = 0;
 		if (world != 0 && world->m_10 != 0) {
 			int idx = world->m_10->m_54;
 			rel = ((PlayerList *)world)->getPlayersWithRelationship(idx, 3, false);
 		}
-		((Rva00359D42Target *)TheGameLogic)->m_170->enumerateRegisteredClaimants(rel, (Cb00359D42 *)c);
-		((Rva004E54B8 *)c)->rva004E54B8();
+		((Rva00359D42Target *)TheGameLogic)->m_170->enumerateRegisteredClaimants(rel, (Cb00359D42 *)resourceEntryCollector);
+		((Rva004E54B8 *)resourceEntryCollector)->rva004E54B8();
 	}
 	++m_4;
 }

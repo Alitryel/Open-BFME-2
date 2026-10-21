@@ -26,8 +26,8 @@ void Rva004DF9E4::rva004DF9E4(void *a, int mask)
 	FilterElem **end = m_end;
 	for (; beg != end; ++beg)
 	{
-		FilterElem *e = *beg;
-		if (e->m_flags & mask)
-			e->v1(a);
+		FilterElem *filterElem = *beg;
+		if (filterElem->m_flags & mask)
+			filterElem->v1(a);
 	}
 }

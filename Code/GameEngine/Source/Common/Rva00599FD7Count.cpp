@@ -49,8 +49,8 @@ int AITeamBuilder::getCurNumUnits(Team *team)
 	int count = 0;
 	for (DLINK_ITERATOR<Object> iter = team->iterate_TeamMemberList(); !iter.done(); ((DLINK_ITERATOR<Object> &)iter).advance()) {
 		Object *cur = iter.cur();
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kind0 & 8) != 0 || (tmpl->m_kind1 & 4) != 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kind0 & 8) != 0 || (thingTemplate->m_kind1 & 4) != 0)
 			++count;
 	}
 	return count;

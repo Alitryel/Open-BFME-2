@@ -45,7 +45,7 @@ __declspec(noinline) inline AIFlankAttackTactic::~AIFlankAttackTactic()
 }
 
 // ?bfmeAnchorAIFlankAttackTacticDtor absent-from-retail
-void bfmeAnchorAIFlankAttackTacticDtor(AIFlankAttackTactic *p)
+void bfmeAnchorAIFlankAttackTacticDtor(AIFlankAttackTactic *aIFlankAttackTactic)
 {
-	p->AIFlankAttackTactic::~AIFlankAttackTactic();
+	aIFlankAttackTactic->AIFlankAttackTactic::~AIFlankAttackTactic();
 }

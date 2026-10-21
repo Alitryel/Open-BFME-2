@@ -22,18 +22,18 @@ public:
 
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
-void __cdecl Rva0059F20BSet(int id, const UnicodeString &u)
+void __cdecl Rva0059F20BSet(int id, const UnicodeString &unicodeString)
 {
 	AsciiString tmp;
 	tmp.format("APT:ConnectingPlayer%dName", id + 1);
-	g_bfmeAptWindowManager->bfmeSetText(tmp, u, false);
+	g_bfmeAptWindowManager->bfmeSetText(tmp, unicodeString, false);
 }
 
-void __cdecl Rva0059F296Set(int id, const UnicodeString &u)
+void __cdecl Rva0059F296Set(int id, const UnicodeString &unicodeString)
 {
 	AsciiString tmp;
 	tmp.format("APT:ConnectingPlayer%dStatus", id + 1);
-	g_bfmeAptWindowManager->bfmeSetText(tmp, u, false);
+	g_bfmeAptWindowManager->bfmeSetText(tmp, unicodeString, false);
 }
 
 

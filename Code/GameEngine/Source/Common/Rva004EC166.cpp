@@ -14,7 +14,7 @@ private:
 	AsciiString m_str;
 };
 
-void Rva004EC166::rva004EC166(const AsciiString &s)
+void Rva004EC166::rva004EC166(const AsciiString &asciiString)
 {
-	return ((StringBase<char> &)m_str).set((const StringBase<char> &)s);
+	return ((StringBase<char> &)m_str).set((const StringBase<char> &)asciiString);
 }

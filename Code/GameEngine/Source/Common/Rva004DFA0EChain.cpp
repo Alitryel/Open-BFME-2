@@ -44,10 +44,10 @@ void Rva004DFA0E::rva004DFA0E(void *holder, void *ptr)
 {
 	if (((unsigned char *)ptr)[1] >= 2)
 	{
-		TwoBytes *t = (TwoBytes *)&ptr;
-		t->a = 1;
-		t->b = 1;
-		((Holder *)holder)->v10(t);
+		TwoBytes *twoBytes = (TwoBytes *)&ptr;
+		twoBytes->a = 1;
+		twoBytes->b = 1;
+		((Holder *)holder)->v10(twoBytes);
 		m_0C->rva0059640C(holder);
 	}
 }

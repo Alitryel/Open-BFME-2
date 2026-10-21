@@ -15,7 +15,7 @@ class GameFont;class FontLibrary {public:GameFont*getFont(const AsciiString*,flo
 class Anim2DTemplate;class Anim2DCollection;extern Anim2DCollection*TheAnim2DCollection;
 // The collection's template lookup is rowed under its address class.
 struct Rva002D752DNode;class Rva002D752D {public:Rva002D752DNode*rva002D752D(const StringBase<char>&);};
-static inline const StringBase<char>&fadeTextBase(const AsciiString&s){return *(const StringBase<char>*)&s;}
+static inline const StringBase<char>&fadeTextBase(const AsciiString&asciiString){return *(const StringBase<char>*)&asciiString;}
 class Anim2D {public:Anim2D(Anim2DTemplate*,Anim2DCollection*);unsigned getCurrentFrameHeight() const;char pad[0x34];};
 extern int BfmeClientFramesPerSecond;
 // Slot 1 of FadeInTextRender's vftable 0x00C70A70 (slot 0 is its deleting

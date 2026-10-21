@@ -28,9 +28,9 @@ __declspec(noinline) inline AITacticOffensive::~AITacticOffensive()
 }
 
 // ?bfmeAnchorAITacticOffensiveDtor absent-from-retail
-void bfmeAnchorAITacticOffensiveDtor(AITacticOffensive *p)
+void bfmeAnchorAITacticOffensiveDtor(AITacticOffensive *aITacticOffensive)
 {
-	p->AITacticOffensive::~AITacticOffensive();
+	aITacticOffensive->AITacticOffensive::~AITacticOffensive();
 }
 
 class AITacticDefensive : public Rva004EDCE9
@@ -46,9 +46,9 @@ __declspec(noinline) inline AITacticDefensive::~AITacticDefensive()
 }
 
 // ?bfmeAnchorAITacticDefensiveDtor absent-from-retail
-void bfmeAnchorAITacticDefensiveDtor(AITacticDefensive *p)
+void bfmeAnchorAITacticDefensiveDtor(AITacticDefensive *aITacticDefensive)
 {
-	p->AITacticDefensive::~AITacticDefensive();
+	aITacticDefensive->AITacticDefensive::~AITacticDefensive();
 }
 
 class Rva005DCBE3 : public Rva004EDCE9

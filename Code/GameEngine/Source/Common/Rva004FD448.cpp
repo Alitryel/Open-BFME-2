@@ -129,7 +129,7 @@ private:
     ModuleData **m_begin;
     ModuleData **m_end;
 };
-void Rva004FD699::rva004FD699(const ModuleData *p, _STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > *out)
+void Rva004FD699::rva004FD699(const ModuleData *moduleData, _STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > *out)
 {
     void **fields = (void **)out;
     ((_STL::vector<void *, _STL::allocator<void *> > *)out)->erase((void **)fields[0], (void **)fields[1]);
@@ -137,11 +137,11 @@ void Rva004FD699::rva004FD699(const ModuleData *p, _STL::vector<const ModuleData
     ModuleData **end = m_end;
     for (; pp != end; ++pp) {
         ModuleData *cur = *pp;
-        if (((Rva0059E2FD *)cur)->rva0059E31F(*(const Rva0059E2FD *)p)) {
+        if (((Rva0059E2FD *)cur)->rva0059E31F(*(const Rva0059E2FD *)moduleData)) {
             ((LivingWorldScenario::OwnershipSet *)cur)->getRegions(out);
             return;
         }
     }
-    *(const ModuleData *volatile *)&p = p;
-    out->push_back(p);
+    *(const ModuleData *volatile *)&moduleData = moduleData;
+    out->push_back(moduleData);
 }

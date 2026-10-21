@@ -42,9 +42,9 @@ bool Rva005AFC92::rva005AFC92()
 
 void Rva005AFC92::rva005AFCFF()
 {
-	GameWindow *win08 = m_win08;
-	if (win08 != 0) {
-		win08->winEnable(true);
+	GameWindow *gameWindow = m_win08;
+	if (gameWindow != 0) {
+		gameWindow->winEnable(true);
 	}
 	GameWindow *win0C = m_win0C;
 	if (win0C != 0) {

@@ -57,24 +57,24 @@ public:
 	Obj258Inner *m_field258;
 };
 
-unsigned char __cdecl Rva004BDFCBTest(const Object *a, const Object *b)
+unsigned char __cdecl Rva004BDFCBTest(const Object *object, const Object *b)
 {
-	if (!b || !a)
+	if (!b || !object)
 		return false;
-	if (a->testStatus(OBJ_STATUS_70))
+	if (object->testStatus(OBJ_STATUS_70))
 		return false;
-	Obj258Inner *t = a->m_field258;
-	if (t && t->m_flag != 0)
+	Obj258Inner *obj258Inner = object->m_field258;
+	if (obj258Inner && obj258Inner->m_flag != 0)
 		return false;
 	if ((((unsigned char)(b->m_field94 >> 6)) & 1) != 0)
 		return false;
-	if (b->getRelationship(a) != REL_SAME)
+	if (b->getRelationship(object) != REL_SAME)
 		return false;
-	float dist = a->rva00263763(b);
+	float dist = object->rva00263763(b);
 	float range = TheAI->m_inner->m_range;
 	float rangeSq = range * range;
 	if (dist > rangeSq)
 		return false;
-	Player *pl = a->getControllingPlayer();
+	Player *pl = object->getControllingPlayer();
 	return pl->m_field5C == 0;
 }

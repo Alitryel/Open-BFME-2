@@ -41,8 +41,8 @@ float __cdecl Rva00545239Get(void *objPtr)
 {
 	Object *obj = (Object *)objPtr;
 	float val = ((AIMid *)TheAI)->m_ptr->m_rate;
-	const Weapon *w = obj->getCurrentWeapon((WeaponSlotType *)0);
-	if (w) {
+	const Weapon *weapon = obj->getCurrentWeapon((WeaponSlotType *)0);
+	if (weapon) {
 		const Weapon *w2 = obj->getCurrentWeapon((WeaponSlotType *)0);
 		Rva002C9400ByteField *field = *(Rva002C9400ByteField **)((char *)w2 + 4);
 		if (field->get())

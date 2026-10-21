@@ -127,7 +127,7 @@ void Rva00506A52::rva00506A52()
 		if (*(int *)((char *)inner + 0x520) != 12)
 			continue;
 		AINavyUnitBattleShip *nw = new AINavyUnitBattleShip((const Rva005DCC4BSource *)obj);
-		const ModuleData *tmp = (const ModuleData *)nw;
-		m_04.push_back(tmp);
+		const ModuleData *moduleData = (const ModuleData *)nw;
+		m_04.push_back(moduleData);
 	}
 }

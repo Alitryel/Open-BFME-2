@@ -21,7 +21,7 @@ private:
 
 void Rva0057E97A::rva0057E59B(int index, bool enable)
 {
-	class GameWindow *w = m_begin[index];
-	if (w != 0)
-		w->winEnable(enable);
+	class GameWindow *gameWindow = m_begin[index];
+	if (gameWindow != 0)
+		gameWindow->winEnable(enable);
 }

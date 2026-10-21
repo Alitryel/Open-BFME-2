@@ -25,8 +25,8 @@ private:
 	_STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > m_vec04;
 };
 
-void Rva0059E390::rva0059E390(const ModuleData *p)
+void Rva0059E390::rva0059E390(const ModuleData *moduleData)
 {
-	if (p)
-		m_vec04.push_back(p);
+	if (moduleData)
+		m_vec04.push_back(moduleData);
 }

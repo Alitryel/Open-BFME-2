@@ -62,16 +62,16 @@ void Rva0050E8D6::rva0050E8D6()
 		return;
 	for (; i < n; ++i)
 	{
-		Player *p = ThePlayerList->getNthPlayer(i);
-		if (p == local)
+		Player *player = ThePlayerList->getNthPlayer(i);
+		if (player == local)
 			continue;
-		if (!p->bfmeAskRV())
+		if (!player->bfmeAskRV())
 			continue;
-		if (local->getRelationship(p) != REL_ALLY)
+		if (local->getRelationship(player) != REL_ALLY)
 			continue;
 		Rva0050E8D6Entry &slot = m_list24[m_count20];
 		m_count20++;
-		slot.m_player = p;
+		slot.m_player = player;
 		if (m_count20 >= 7)
 			break;
 	}

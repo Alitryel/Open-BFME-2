@@ -55,11 +55,11 @@ private:
 
 float AIUpgrade::getCostPerTick(void *p)
 {
-	UpgradeTemplate *tmpl = m_30->m_24;
-	Object *o1 = TheGameLogic->findObjectByID(m_08);
-	unsigned int cost = tmpl->calcCostToBuild((Player *)p, (unsigned int)o1);
+	UpgradeTemplate *upgradeTemplate = m_30->m_24;
+	Object *object = TheGameLogic->findObjectByID(m_08);
+	unsigned int cost = upgradeTemplate->calcCostToBuild((Player *)p, (unsigned int)object);
 	Object *o2 = TheGameLogic->findObjectByID(m_08);
-	int denom = tmpl->rva0026EE30(p, o2);
+	int denom = upgradeTemplate->rva0026EE30(p, o2);
 	int quot = (int)cost / denom;
 	float f = (float)quot;
 	return f;

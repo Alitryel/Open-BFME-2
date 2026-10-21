@@ -55,21 +55,21 @@ struct Rva0054FC14
 void Rva0054FC14::rva0054FC14()
 {
 	m_lock.clear();
-	ThreadClass **p = m_threads;
+	ThreadClass **thread = m_threads;
 	int n = 10;
 	do {
-		ThreadClass *t = *p;
+		ThreadClass *t = *thread;
 		if (t != 0) {
 			t->Stop();
 			void *q;
-			if (*p != 0)
-				q = (*p)->virt0(0);
+			if (*thread != 0)
+				q = (*thread)->virt0(0);
 			else
 				q = 0;
 			::operator delete(q);
-			*p = 0;
+			*thread = 0;
 		}
-		++p;
+		++thread;
 	} while (--n != 0);
 }
 

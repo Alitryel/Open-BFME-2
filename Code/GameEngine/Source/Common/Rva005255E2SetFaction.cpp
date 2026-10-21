@@ -24,9 +24,9 @@ public:
 	void rva005255E2(const AsciiString *a);
 };
 
-void InGameHeroSelectInterface::Impl::rva005255E2(const AsciiString *a)
+void InGameHeroSelectInterface::Impl::rva005255E2(const AsciiString *asciiString)
 {
 	void *raw = *(void **)&m_name;
 	const char *s = raw ? (const char *)raw + 8 : "";
-	Rva00525203Fire((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_08, s, "SetFaction", a);
+	Rva00525203Fire((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_08, s, "SetFaction", asciiString);
 }

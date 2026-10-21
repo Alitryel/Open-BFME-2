@@ -16,7 +16,7 @@ private:
 	int m_10;
 };
 
-Rva0057796E::Rva0057796E(int a1, int a2, const AsciiString &a3)
-	: m_00(a1), m_04(a2), m_08(a3), m_0C(0), m_10(0)
+Rva0057796E::Rva0057796E(int a1, int a2, const AsciiString &asciiString)
+	: m_00(a1), m_04(a2), m_08(asciiString), m_0C(0), m_10(0)
 {
 }

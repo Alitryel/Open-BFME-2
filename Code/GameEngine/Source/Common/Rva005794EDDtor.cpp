@@ -229,9 +229,9 @@ extern const char g_Rva0107301CEmptyString[];
 int __cdecl Rva00524EF4AptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function);
 int __cdecl Rva0050E9FEAptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, const char **a0ptr);
 
-static __forceinline const char *Rva005794EDGetStr(const AsciiString &s)
+static __forceinline const char *Rva005794EDGetStr(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : g_Rva0107301CEmptyString;
 }
 

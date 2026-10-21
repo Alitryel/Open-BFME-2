@@ -16,12 +16,12 @@ struct Rva005AFC21Class
 // ?rva005AFC21@Rva005AFC21Class@@QAEXPAVGameWindow@@@Z @0x005AFC21 43B:
 // stores the window, returns early on null, else forwards (window, 1000) to
 // the rowed list-length helper and (m_4, m_C) to the pinned cdecl callee.
-void Rva005AFC21Class::rva005AFC21(GameWindow* a1)
+void Rva005AFC21Class::rva005AFC21(GameWindow* gameWindow)
 {
-	m_C = a1;
-	if (!a1)
+	m_C = gameWindow;
+	if (!gameWindow)
 		return;
-	GadgetListBoxSetListLength(a1, 0x3E8);
+	GadgetListBoxSetListLength(gameWindow, 0x3E8);
 	Rva00381618(m_C, m_4);
 }
 

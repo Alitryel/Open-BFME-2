@@ -47,7 +47,7 @@ private:
 
 void Rva004F56FC::rva004F56FC(Object *obj)
 {
-	Object *o = obj;
+	Object *object = obj;
 	++m_count;
-	m_list.push_back(o->getID());
+	m_list.push_back(object->getID());
 }

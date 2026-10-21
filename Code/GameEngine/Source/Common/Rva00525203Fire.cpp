@@ -11,13 +11,13 @@ public:
 	int rva00222B19(void *level, const char *prefix, const char *function, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4);
 };
 
-static __forceinline const char *GetStr(const AsciiString &s)
+static __forceinline const char *GetStr(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 
-int __cdecl Rva00525203Fire(void *a1, void *a2, const char *a3, const char *a4, const AsciiString *a5)
+int __cdecl Rva00525203Fire(void *a1, void *a2, const char *a3, const char *a4, const AsciiString *asciiString)
 {
-	return ((Rva00222A8BTarget *)a1)->rva00222B19(a2, a3, a4, 1, GetStr(*a5), 0, 0, 0, 0);
+	return ((Rva00222A8BTarget *)a1)->rva00222B19(a2, a3, a4, 1, GetStr(*asciiString), 0, 0, 0, 0);
 }

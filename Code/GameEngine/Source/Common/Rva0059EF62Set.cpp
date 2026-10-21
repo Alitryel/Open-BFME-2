@@ -15,11 +15,11 @@ public:
 	void rva0059EF62(unsigned int a, unsigned int b, const AsciiString &c, const AsciiString &d, unsigned int e);
 };
 
-void Rva0059EF62::rva0059EF62(unsigned int a, unsigned int b, const AsciiString &c, const AsciiString &d, unsigned int e)
+void Rva0059EF62::rva0059EF62(unsigned int a, unsigned int b, const AsciiString &asciiString, const AsciiString &d, unsigned int e)
 {
 	m_08 = b;
 	m_04 = a;
-	m_10 = c;
+	m_10 = asciiString;
 	m_0C = d;
 	m_14 = e;
 }

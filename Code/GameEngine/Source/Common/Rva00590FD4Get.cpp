@@ -15,9 +15,9 @@ public:
 	unsigned int getDataOffset();
 };
 
-int __cdecl Rva00590FD4Get(CDDrive *p)
+int __cdecl Rva00590FD4Get(CDDrive *cDDrive)
 {
-	CDDrive *o = p;
+	CDDrive *o = cDDrive;
 	int len = o->CDDrive::getPath().getLength();
 	unsigned int off = ((NetWrapperCommandMsg *)o)->getDataOffset();
 	return off + len + 0x14;

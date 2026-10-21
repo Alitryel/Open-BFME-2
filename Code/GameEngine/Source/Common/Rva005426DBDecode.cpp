@@ -37,9 +37,9 @@ bool Rva005426DB::rva005426DB(unsigned char *out)
 	if (*m_ptr == 0)
 		return false;
 	for (unsigned int i = 0; i < 5; ++i) {
-		const EntityEntry *e = &g_00DD1E74[i];
-		unsigned int len = strlen(e->name);
-		if (strncmp(m_ptr, e->name, len) == 0) {
+		const EntityEntry *entityEntry = &g_00DD1E74[i];
+		unsigned int len = strlen(entityEntry->name);
+		if (strncmp(m_ptr, entityEntry->name, len) == 0) {
 			m_ptr += len;
 			if (*m_ptr != ';')
 				return false;

@@ -48,17 +48,17 @@ int Rva0056D9C1::rva0056D9C1(int a, unsigned int b, unsigned int c)
 {
 	if (a != 0x1b)
 		return ((_bfme_AptGameWindow *)this)->rva0051274F(a, b, c);
-	HostView *h = (HostView *)((Rva002D3627Host *)TheLivingWorld);
+	HostView *hostView = (HostView *)((Rva002D3627Host *)TheLivingWorld);
 	if (b != 0) {
-		if (h->m_19 != 0 && h->m_18 != 0)
+		if (hostView->m_19 != 0 && hostView->m_18 != 0)
 			return 1;
-		h->slot20(1);
+		hostView->slot20(1);
 		((HostView *)((Rva002D3627Host *)TheLivingWorld))->slot10(1);
 		return 1;
 	} else {
-		if (h->m_19 == 0)
+		if (hostView->m_19 == 0)
 			return 1;
-		h->slot10(b);
+		hostView->slot10(b);
 		return 1;
 	}
 }

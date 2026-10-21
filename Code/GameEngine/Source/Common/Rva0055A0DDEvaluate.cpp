@@ -30,7 +30,7 @@ public:
 };
 extern "C" D3DXVECTOR4* __stdcall rva0062AF4AD3DXVec4Transform(D3DXVECTOR4*,const D3DXVECTOR4*,const D3DXMATRIX*);
 // ?rvaDot present-unmatched
-static __forceinline float rvaDot(const D3DXVECTOR4 *a,const D3DXVECTOR4 *b) { return a->x*b->x+a->y*b->y+a->z*b->z+a->w*b->w; }
+static __forceinline float rvaDot(const D3DXVECTOR4 *d3DXVECTOR4,const D3DXVECTOR4 *b) { return d3DXVECTOR4->x*b->x+d3DXVECTOR4->y*b->y+d3DXVECTOR4->z*b->z+d3DXVECTOR4->w*b->w; }
 void Rva0055A246::rva0055A0DD(Real tValue, Coord3D *outResult) const
 
 {

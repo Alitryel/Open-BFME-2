@@ -12,9 +12,9 @@ public:
 	int rva00222B19(void *level, const char *prefix, const char *function, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4);
 };
 
-__forceinline const char *GetStr(const AsciiString &s)
+__forceinline const char *GetStr(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

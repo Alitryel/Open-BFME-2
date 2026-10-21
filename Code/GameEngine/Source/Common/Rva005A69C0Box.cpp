@@ -107,16 +107,16 @@ void NAT::rva005A6CA5()
 	int stamp = timeGetTime();
 	int i = 0;
 	do {
-		GameSlot *o = m_8[i];
-		if (o != 0 && o->isHuman()) {
+		GameSlot *gameSlot = m_8[i];
+		if (gameSlot != 0 && gameSlot->isHuman()) {
 			int j = 0;
 			do {
 				if (i != j) {
 					GameSlot *o2 = m_8[j];
 					if (o2 != 0 && o2->isHuman()) {
-						PortNegotiationSchema *q = (PortNegotiationSchema *)((char *)self + 0x28);
-						if (q->isConnectionDone(i, j)) {
-							void *r = q->peekPing(i, j);
+						PortNegotiationSchema *portNegotiationSchema = (PortNegotiationSchema *)((char *)self + 0x28);
+						if (portNegotiationSchema->isConnectionDone(i, j)) {
+							void *r = portNegotiationSchema->peekPing(i, j);
 							if (r != 0) {
 								int t = *(int *)((char *)r + 0x10);
 								if (t != 0 && (unsigned)(stamp - t) > (unsigned)g_rva005A6CA5Limit)
@@ -144,8 +144,8 @@ void NAT::rva005A6D47()
 		return;
 	int i = 0;
 	do {
-		GameSlot *o = m_8[i];
-		if (o != 0 && o->isHuman()) {
+		GameSlot *gameSlot = m_8[i];
+		if (gameSlot != 0 && gameSlot->isHuman()) {
 			int j = 0;
 			do {
 				if (i != j) {
@@ -186,8 +186,8 @@ void Rva005A6D47::rva005A6D47()
 		return;
 	int i = 0;
 	do {
-		GameSlot *o = m_8[i];
-		if (o != 0 && o->isHuman()) {
+		GameSlot *gameSlot = m_8[i];
+		if (gameSlot != 0 && gameSlot->isHuman()) {
 			int j = 0;
 			do {
 				if (i != j) {

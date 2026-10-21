@@ -56,16 +56,16 @@ bool AIReturnTheRingTactic::findRingBearer()
 	void *range = fld->get();
 	ObjectID *begin = *(ObjectID **)range;
 	ObjectID *end = *(ObjectID **)((char *)range + 4);
-	for (ObjectID *p = begin; p != end; ++p)
+	for (ObjectID *objectID = begin; objectID != end; ++objectID)
 	{
-		Object *obj = TheGameLogic->findObjectByID(*p);
+		Object *obj = TheGameLogic->findObjectByID(*objectID);
 		if (!obj)
 			continue;
 		if (*(unsigned char *)((char *)obj + 0x438) & 1)
 			continue;
 		if (!obj->testStatus((ObjectStatusTypes)0x5e))
 			continue;
-		m_found = *p;
+		m_found = *objectID;
 		return true;
 	}
 	return false;

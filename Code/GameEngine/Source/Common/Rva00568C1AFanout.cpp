@@ -22,6 +22,6 @@ private:
 
 void Rva00568C1A::rva00568C1A()
 {
-	for (LargeGroupAudioSoundKeyPair **p = m_begin58; p != m_end5C; ++p)
-		(*p)->rva00568939((int)this);
+	for (LargeGroupAudioSoundKeyPair **largeGroupAudioSoundKeyPair = m_begin58; largeGroupAudioSoundKeyPair != m_end5C; ++largeGroupAudioSoundKeyPair)
+		(*largeGroupAudioSoundKeyPair)->rva00568939((int)this);
 }

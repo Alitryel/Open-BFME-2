@@ -27,14 +27,14 @@ void Rva0056B296::rva0056B296(void *arg)
 {
 	if (m_04 == arg) {
 		CreateAHeroData *adj = (CreateAHeroData *)((char *)this - 0x14);
-		CreateAHeroData *p = adj != 0 ? (CreateAHeroData *)this : 0;
-		((Rva002B7250 *)((char *)m_04 + 8))->rva002B7250(p);
+		CreateAHeroData *createAHeroData = adj != 0 ? (CreateAHeroData *)this : 0;
+		((Rva002B7250 *)((char *)m_04 + 8))->rva002B7250(createAHeroData);
 		m_04 = 0;
 	}
 	else if (m_08 == arg) {
 		CreateAHeroData *adj = (CreateAHeroData *)((char *)this - 0x14);
-		CreateAHeroData *p = adj != 0 ? (CreateAHeroData *)this : 0;
-		((Rva002B7250 *)((char *)m_08 + 8))->rva002B7250(p);
+		CreateAHeroData *createAHeroData = adj != 0 ? (CreateAHeroData *)this : 0;
+		((Rva002B7250 *)((char *)m_08 + 8))->rva002B7250(createAHeroData);
 		m_08 = 0;
 	}
 }

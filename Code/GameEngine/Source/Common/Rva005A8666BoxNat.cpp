@@ -33,9 +33,9 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 }
 
 
-__forceinline const char *GetStr005A7974(const AsciiString &s)
+__forceinline const char *GetStr005A7974(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(const void *)&s;
+	char *t = *(char * *)(const void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

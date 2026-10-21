@@ -26,7 +26,7 @@ void Rva0056B1F2::rva0056B1F2(void *arg)
 	if (m_04 != arg)
 		return;
 	CreateAHeroData *adj = (CreateAHeroData *)((char *)this - 0x14);
-	CreateAHeroData *p = adj != 0 ? (CreateAHeroData *)this : 0;
-	((Rva002B7250 *)((char *)m_04 + 4))->rva002B7250(p);
+	CreateAHeroData *createAHeroData = adj != 0 ? (CreateAHeroData *)this : 0;
+	((Rva002B7250 *)((char *)m_04 + 4))->rva002B7250(createAHeroData);
 	m_04 = 0;
 }

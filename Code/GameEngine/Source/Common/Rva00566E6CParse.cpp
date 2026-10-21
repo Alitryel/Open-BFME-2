@@ -16,7 +16,7 @@ public:
 };
 class AsciiString : public StringBase<char> {
 public:
-	AsciiString(const AsciiString &o) : StringBase<char>(o) {}
+	AsciiString(const AsciiString &asciiString) : StringBase<char>(asciiString) {}
 	~AsciiString() { releaseBuffer(); }
 };
 StringBase<char> *Rva000BD22FFind(StringBase<char> *first, StringBase<char> *last, const StringBase<char> &val);

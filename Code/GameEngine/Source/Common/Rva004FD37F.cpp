@@ -101,14 +101,14 @@ bool Rva004FD37F::rva004FD5C7(Rva002E1001 *p) const
 // 0x50/0x74 spacing (sibling 0x004FD3E2 is 0x5c/0x80 102B). Evidence: caller
 // 0x004FD752 in Rva003F9258Siblings.cpp; rowed insert_equal 0x004FF876 and
 // rowed push_back 0x004DFCB0; neighbours carry /O1 /GX /MD.
-void Rva004FD37F::rva004FD37F(const ModuleData *p)
+void Rva004FD37F::rva004FD37F(const ModuleData *moduleData)
 {
-	if (!p)
+	if (!moduleData)
 		return;
-	const _STL::vector<int> &vec = ((const Rva004FCD49Vec *)p)->m_vec;
+	const _STL::vector<int> &vec = ((const Rva004FCD49Vec *)moduleData)->m_vec;
 	for (unsigned int i = 0; i < vec.size(); ++i) {
 		int v = vec[i];
-		m_map.insert(_STL::multimap<int, int>::value_type(v, (int)p));
+		m_map.insert(_STL::multimap<int, int>::value_type(v, (int)moduleData));
 	}
-	m_vec.push_back(p);
+	m_vec.push_back(moduleData);
 }

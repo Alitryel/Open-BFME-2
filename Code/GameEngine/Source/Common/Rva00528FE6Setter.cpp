@@ -15,12 +15,12 @@ private:
 	CameraMarker *m_ptr;
 };
 
-void Rva00528FE6::rva00528FE6(CameraMarker *p)
+void Rva00528FE6::rva00528FE6(CameraMarker *cameraMarker)
 {
-	if (p == m_ptr)
+	if (cameraMarker == m_ptr)
 		return;
 	CameraMarker *old = m_ptr;
-	m_ptr = p;
+	m_ptr = cameraMarker;
 	if (!old)
 		return;
 	delete old;
@@ -28,9 +28,9 @@ void Rva00528FE6::rva00528FE6(CameraMarker *p)
 
 void Rva00528FE6::rva00529009()
 {
-	CameraMarker *p = m_ptr;
+	CameraMarker *cameraMarker = m_ptr;
 	m_ptr = 0;
-	if (!p)
+	if (!cameraMarker)
 		return;
-	delete p;
+	delete cameraMarker;
 }

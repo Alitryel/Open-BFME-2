@@ -63,5 +63,5 @@ Rva004FBCBE::~Rva004FBCBE()
 	}
 }
 
-Rva004FBCBE::Rva004FBCBE(const UnicodeString&a,const UnicodeString&b,int mode)
-:m_08(a),m_0C(b),m_10(mode),m_14(-1){m_24=false;m_25=false;m_26=false;}
+Rva004FBCBE::Rva004FBCBE(const UnicodeString&unicodeString,const UnicodeString&b,int mode)
+:m_08(unicodeString),m_0C(b),m_10(mode),m_14(-1){m_24=false;m_25=false;m_26=false;}

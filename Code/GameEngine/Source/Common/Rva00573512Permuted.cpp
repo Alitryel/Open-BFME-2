@@ -118,18 +118,18 @@ void AITargetHeuristicEnemyDozer::findBestTarget(AITarget *target, Player *attac
     EnemyHeuristicRecord *stats = (EnemyHeuristicRecord *)TheSkirmishAIManager->rva002A8F24(targetPlayer);
     Rva005C4AD1LeaField *structures = stats->structures;
     int count = 0;
-    for (ObjectID *p = ((EnemyHeuristicIds *)structures->get())->first;
-         count == 0 && p != ((EnemyHeuristicIds *)structures->get())->last; ++p)
+    for (ObjectID *objectID = ((EnemyHeuristicIds *)structures->get())->first;
+         count == 0 && objectID != ((EnemyHeuristicIds *)structures->get())->last; ++objectID)
     {
-        Object *object = TheGameLogic->findObjectByID(*p);
+        Object *object = TheGameLogic->findObjectByID(*objectID);
         if ((unsigned char)isValidTarget((Thing *)object, attackingPlayer)) ++count;
     }
     if (count == 0)
     {
         EnemyHeuristicIds *units = (EnemyHeuristicIds *)((char *)stats->units + 0x98);
-        for (ObjectID *p = units->first; p != units->last; ++p)
+        for (ObjectID *objectID = units->first; objectID != units->last; ++objectID)
         {
-            Object *object = TheGameLogic->findObjectByID(*p);
+            Object *object = TheGameLogic->findObjectByID(*objectID);
             if (object) target->setTarget(object, TheSkirmishAIManager->fallbackWeight);
         }
     }

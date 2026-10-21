@@ -58,9 +58,9 @@ float Rva00573B23::rva00573DCD(int arg)
 	void *thing = (void *)TheThingFactory->findTemplate(m_0C);
 	class Object *obj = TheGameLogic->findObjectByID(m_08);
 	int value = 0;
-	ThingTemplate *tmpl = (ThingTemplate *)thing;
-	unsigned char flag = *((unsigned char *)tmpl + 0x11B);
+	ThingTemplate *thingTemplate = (ThingTemplate *)thing;
+	unsigned char flag = *((unsigned char *)thingTemplate + 0x11B);
 	if ((flag & 0x20) == 0)
-		value = tmpl->rva0033A69A((const class Player *)arg, (int)obj, -1);
+		value = thingTemplate->rva0033A69A((const class Player *)arg, (int)obj, -1);
 	return (float)value;
 }

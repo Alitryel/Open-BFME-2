@@ -36,8 +36,8 @@ Rva00506909Item *AITacticsGenerator::rva00505D91(const AsciiString &name)
 {
 	Rva00505D91Elem **end = m_08;
 	for (Rva00505D91Elem **it = m_04; it != end; ++it) {
-		AsciiString *s = (AsciiString *)((char *)*it + 0x2c);
-		if (s->compare(name) == 0)
+		AsciiString *asciiString = (AsciiString *)((char *)*it + 0x2c);
+		if (asciiString->compare(name) == 0)
 			return (Rva00506909Item *)(*it)->slot9();
 	}
 	return 0;

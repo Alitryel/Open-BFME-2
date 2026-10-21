@@ -78,9 +78,9 @@ void AIGameTeam::addPlayer(const ModuleData *parent)
 {
 	const AsciiString *name = (const AsciiString *)((const char *)parent + 0x58);
 	const ArmorTemplate *armor = g_00E0312C->rva0041F474(*name);
-	SkirmishAI *p = new SkirmishAI((Player *)parent, (void *)armor, m_map.size() == 0);
+	SkirmishAI *skirmishAI = new SkirmishAI((Player *)parent, (void *)armor, m_map.size() == 0);
 	int key = *(const int *)((const char *)parent + 0x54);
-	m_map[key] = (int)p;
+	m_map[key] = (int)skirmishAI;
 	m_vec.push_back(parent);
 	m_24 = true;
 }

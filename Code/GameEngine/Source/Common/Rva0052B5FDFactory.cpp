@@ -18,7 +18,7 @@ class Rva0052B5FD
 public:
 	Rva005C4A91 *rva0052B5FD(const AsciiString &s);
 };
-Rva005C4A91 *Rva0052B5FD::rva0052B5FD(const AsciiString &s)
+Rva005C4A91 *Rva0052B5FD::rva0052B5FD(const AsciiString &asciiString)
 {
-	return new Rva005C4A91(s);
+	return new Rva005C4A91(asciiString);
 }

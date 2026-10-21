@@ -45,8 +45,8 @@ private:
 bool Rva004D6BCD::rva004D6BCD(const Object *obj) const
 {
 	ScienceType target = obj->m_science;
-	for (ScienceType *p = m_vec04.m_start; p != m_vec04.m_finish; ++p) {
-		if (target == *p)
+	for (ScienceType *scienceType = m_vec04.m_start; scienceType != m_vec04.m_finish; ++scienceType) {
+		if (target == *scienceType)
 			return true;
 	}
 	return false;

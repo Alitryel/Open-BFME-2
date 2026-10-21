@@ -27,7 +27,7 @@ private:
 	void *m_value;
 };
 
-Rva00577DE1OwningCell::Rva00577DE1OwningCell(int a1, const AsciiString &a2)
+Rva00577DE1OwningCell::Rva00577DE1OwningCell(int a1, const AsciiString &asciiString)
 {
-	m_value = new Rva0057796E((int)this, a1, a2);
+	m_value = new Rva0057796E((int)this, a1, asciiString);
 }

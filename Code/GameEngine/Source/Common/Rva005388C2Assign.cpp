@@ -108,9 +108,9 @@ void QuadStrip2D::rva0053892C(unsigned int count)
 // rva00538768 above. Evidence: caller 0x0030BC39 lea ecx QuadStrip2D at +0x68
 // same pattern as 0x005389D9 and 0x00538768 callers; prev 0x005389D9 and
 // next 0x00538A0B same layout region+flag; callee 0x00538944 rowed insert.
-void QuadStrip2D::rva005389ED(int index, const W3DAnimationInfo &x)
+void QuadStrip2D::rva005389ED(int index, const W3DAnimationInfo &w3DAnimationInfo)
 {
-	((_STL::vector<W3DAnimationInfo, _STL::allocator<W3DAnimationInfo> > *)&m_vec)->insert(((_STL::vector<W3DAnimationInfo, _STL::allocator<W3DAnimationInfo> > *)&m_vec)->begin() + index, x);
+	((_STL::vector<W3DAnimationInfo, _STL::allocator<W3DAnimationInfo> > *)&m_vec)->insert(((_STL::vector<W3DAnimationInfo, _STL::allocator<W3DAnimationInfo> > *)&m_vec)->begin() + index, w3DAnimationInfo);
 	m_20 = 1;
 }
 

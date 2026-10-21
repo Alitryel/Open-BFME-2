@@ -51,15 +51,15 @@ unsigned char __cdecl countsAsMoveIntoCamp(unsigned int a, const BfmePointFD *pt
 	AudioManager *audio = TheAudio;
 	if (audio == 0)
 		return 0;
-	AudioBounds *b = audio->slot134();
-	if (b == 0)
+	AudioBounds *audioBounds = audio->slot134();
+	if (audioBounds == 0)
 		return 0;
 	if (TheShroudManager == 0)
 		return 0;
 	int x = TheShroudManager->rva00739830(pt1, 2, a);
-	if (x > b->m_44)
+	if (x > audioBounds->m_44)
 		return 0;
 	int y = TheShroudManager->rva00739830(pt2, 2, a);
-	return (unsigned char)(y >= b->m_48);
+	return (unsigned char)(y >= audioBounds->m_48);
 }
 

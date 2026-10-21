@@ -92,28 +92,28 @@ private:
 	_STL::vector<Coord3D> m_04;
 };
 
-void AIFlankAttackTacticImp::DoXfer(Xfer *p)
+void AIFlankAttackTacticImp::DoXfer(Xfer *xfer)
 {
-	p->v30(this);
+	xfer->v30(this);
 	AIFlankAttackTacticImp *self = this;
 	_STL::vector<Coord3D> *vec = &m_04;
 	unsigned int count = (unsigned int)(vec->end() - vec->begin());
-	p->v30(&count);
-	if (p->v02()) {
+	xfer->v30(&count);
+	if (xfer->v02()) {
 		_STL::vector<Coord3D>::iterator end = self->m_04.end();
 		_STL::vector<Coord3D>::iterator it = vec->begin();
 		for (; it != end; ++it)
-			p->v24(&(*it));
+			xfer->v24(&(*it));
 		return;
 	}
-	if (!p->v01())
+	if (!xfer->v01())
 		return;
 	for (unsigned int i = 0; i < count; ++i) {
 		Coord3D zero;
 		zero.x = 0.0f;
 		zero.y = 0.0f;
 		zero.z = 0.0f;
-		p->v24(&zero);
+		xfer->v24(&zero);
 		vec->push_back(zero);
 	}
 }

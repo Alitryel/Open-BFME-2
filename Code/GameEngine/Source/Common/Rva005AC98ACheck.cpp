@@ -55,9 +55,9 @@ bool AIRingHeroTactic::enemyHasRingHeroUpgrade()
 	unsigned int count = ThePlayerList->m_count;
 	for (unsigned int i = 0; i < count; ++i)
 	{
-		Player *p = ThePlayerList->getNthPlayer(i);
-		m_cur = p;
-		if (p == m_player)
+		Player *player = ThePlayerList->getNthPlayer(i);
+		m_cur = player;
+		if (player == m_player)
 			continue;
 		const UpgradeTemplate *upgrade;
 		{

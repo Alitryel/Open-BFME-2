@@ -32,7 +32,7 @@ struct Impl : ImplBase {
     virtual void rva005b4c73(const char *argument);
     void *m_object;
     void *m_method;
-    Impl(const DelegateDesc &d) : m_object(d.m_object), m_method(d.m_method) {}
+    Impl(const DelegateDesc &delegateDesc) : m_object(delegateDesc.m_object), m_method(delegateDesc.m_method) {}
 };
 
 class Rva00579E47 {
@@ -54,9 +54,9 @@ __declspec(noinline) inline Rva00579E47::Rva00579E47(const DelegateDesc &d)
 }
 
 // ?bfmeAnchorRva00579E47 absent-from-retail
-void *bfmeAnchorRva00579E47(void *where, const DelegateDesc &d)
+void *bfmeAnchorRva00579E47(void *where, const DelegateDesc &delegateDesc)
 {
-	return new (where) Rva00579E47(d);
+	return new (where) Rva00579E47(delegateDesc);
 }
 
 
@@ -68,7 +68,7 @@ void *bfmeAnchorRva00579E47(void *where, const DelegateDesc &d)
 struct Impl002165B0 : ImplBase {
     void *m_object;
     void *m_method;
-    Impl002165B0(const DelegateDesc &d) : m_object(d.m_object), m_method(d.m_method) {}
+    Impl002165B0(const DelegateDesc &delegateDesc) : m_object(delegateDesc.m_object), m_method(delegateDesc.m_method) {}
 };
 class Rva002165B0 {
 public:
@@ -76,9 +76,9 @@ public:
 private:
     Impl002165B0 *m_ptr;
 };
-Rva002165B0 &Rva002165B0::rva002165B0(const DelegateDesc *d)
+Rva002165B0 &Rva002165B0::rva002165B0(const DelegateDesc *delegateDesc)
 {
-    Impl002165B0 *p = new Impl002165B0(*d);
+    Impl002165B0 *p = new Impl002165B0(*delegateDesc);
     m_ptr = p;
     if (p)
         p->m_ref++;
@@ -88,7 +88,7 @@ Rva002165B0 &Rva002165B0::rva002165B0(const DelegateDesc *d)
 struct Impl00525916 : ImplBase {
     void *m_object;
     void *m_method;
-    Impl00525916(const DelegateDesc &d) : m_object(d.m_object), m_method(d.m_method) {}
+    Impl00525916(const DelegateDesc &delegateDesc) : m_object(delegateDesc.m_object), m_method(delegateDesc.m_method) {}
 };
 class Rva00525916 {
 public:
@@ -96,9 +96,9 @@ public:
 private:
     Impl00525916 *m_ptr;
 };
-Rva00525916 &Rva00525916::rva00525916(const DelegateDesc *d)
+Rva00525916 &Rva00525916::rva00525916(const DelegateDesc *delegateDesc)
 {
-    Impl00525916 *p = new Impl00525916(*d);
+    Impl00525916 *p = new Impl00525916(*delegateDesc);
     m_ptr = p;
     if (p)
         p->m_ref++;
@@ -108,7 +108,7 @@ Rva00525916 &Rva00525916::rva00525916(const DelegateDesc *d)
 struct Impl0052A786 : ImplBase {
     void *m_object;
     void *m_method;
-    Impl0052A786(const DelegateDesc &d) : m_object(d.m_object), m_method(d.m_method) {}
+    Impl0052A786(const DelegateDesc &delegateDesc) : m_object(delegateDesc.m_object), m_method(delegateDesc.m_method) {}
 };
 class Rva0052A786 {
 public:
@@ -116,9 +116,9 @@ public:
 private:
     Impl0052A786 *m_ptr;
 };
-Rva0052A786 &Rva0052A786::rva0052A786(const DelegateDesc *d)
+Rva0052A786 &Rva0052A786::rva0052A786(const DelegateDesc *delegateDesc)
 {
-    Impl0052A786 *p = new Impl0052A786(*d);
+    Impl0052A786 *p = new Impl0052A786(*delegateDesc);
     m_ptr = p;
     if (p)
         p->m_ref++;
@@ -128,7 +128,7 @@ Rva0052A786 &Rva0052A786::rva0052A786(const DelegateDesc *d)
 struct Impl0052A7C1 : ImplBase {
     void *m_object;
     void *m_method;
-    Impl0052A7C1(const DelegateDesc &d) : m_object(d.m_object), m_method(d.m_method) {}
+    Impl0052A7C1(const DelegateDesc &delegateDesc) : m_object(delegateDesc.m_object), m_method(delegateDesc.m_method) {}
 };
 class Rva0052A7C1 {
 public:
@@ -136,9 +136,9 @@ public:
 private:
     Impl0052A7C1 *m_ptr;
 };
-Rva0052A7C1 &Rva0052A7C1::rva0052A7C1(const DelegateDesc *d)
+Rva0052A7C1 &Rva0052A7C1::rva0052A7C1(const DelegateDesc *delegateDesc)
 {
-    Impl0052A7C1 *p = new Impl0052A7C1(*d);
+    Impl0052A7C1 *p = new Impl0052A7C1(*delegateDesc);
     m_ptr = p;
     if (p)
         p->m_ref++;

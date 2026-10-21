@@ -29,9 +29,9 @@ private:
     _STL::vector<FXList, _STL::allocator<FXList> > m_vec;
 };
 
-void Rva00566527::rva00566527(const FXList &x)
+void Rva00566527::rva00566527(const FXList &fXList)
 {
-    m_vec.push_back(x);
+    m_vec.push_back(fXList);
 }
 
 struct BfmePod40

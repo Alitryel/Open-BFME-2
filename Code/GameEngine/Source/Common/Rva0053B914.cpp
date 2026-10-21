@@ -18,14 +18,14 @@ private:
 void Rva0053B914::rva0053B914()
 {
 	int *p = &ControlBarInventoryEntries[0].objectID;
-	GameWindow **w = m_windows;
+	GameWindow **gameWindow = m_windows;
 	do
 	{
 		p[-1] = 0;
 		p[0] = 0;
-		if (*w)
-			(*w)->winHide(true);
+		if (*gameWindow)
+			(*gameWindow)->winHide(true);
 		p += 2;
-		++w;
+		++gameWindow;
 	} while ((int)p < (int)ControlBarInventoryEntries + (int)sizeof(ControlBarInventoryEntries) + 4);
 }

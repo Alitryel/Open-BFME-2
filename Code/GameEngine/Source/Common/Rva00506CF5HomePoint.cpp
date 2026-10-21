@@ -46,10 +46,10 @@ struct HomeVector3
 	float X, Y, Z;
 	HomeVector3() {}
 	HomeVector3(float x, float y, float z) { X = x; Y = y; Z = z; }
-	HomeVector3(const Coord3DBase &c) { X = c.x; Y = c.y; Z = c.z; }
+	HomeVector3(const Coord3DBase &coord3DBase) { X = coord3DBase.x; Y = coord3DBase.y; Z = coord3DBase.z; }
 	float Length2() const { return X * X + Y * Y + Z * Z; }
 	friend __forceinline HomeVector3 operator-(const HomeVector3 &a, const HomeVector3 &b) { return HomeVector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
-	static __forceinline float Distance2(const HomeVector3 &p1, const HomeVector3 &p2) { HomeVector3 temp = p1 - p2; return temp.Length2(); }
+	static __forceinline float Distance2(const HomeVector3 &homeVector3, const HomeVector3 &p2) { HomeVector3 temp = homeVector3 - p2; return temp.Length2(); }
 };
 
 class Waypoint
@@ -114,8 +114,8 @@ Coord3D Rva00506CF5(void *owner,Coord3D *point) {
    if(((ArmySummary*)*it)->getSpawnPositions(armyID,&position,&other,false))found=true;
   }
   if(found){
-   TacticBattleParticipantView*p=(TacticBattleParticipantView*)((LivingWorldBattle*)((TacticWorldView*)TheLivingWorldLogic)->manager->rva0020E6B7())->rva003F4D09();
-   bool skipFirst=p&&((TacticPlayerView*)owner)->getArmyID()!=p->army;
+   TacticBattleParticipantView*tacticBattleParticipantView=(TacticBattleParticipantView*)((LivingWorldBattle*)((TacticWorldView*)TheLivingWorldLogic)->manager->rva0020E6B7())->rva003F4D09();
+   bool skipFirst=tacticBattleParticipantView&&((TacticPlayerView*)owner)->getArmyID()!=tacticBattleParticipantView->army;
    for(int i=skipFirst?1:0;i<8;++i){
     AsciiString name;name.format("Player_%d_Start",i+1);
     Waypoint*way=Rva00506CC3FindWaypoint(name);

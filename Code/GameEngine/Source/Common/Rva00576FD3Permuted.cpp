@@ -33,8 +33,8 @@ public:
  virtual ~Rva005770F2();
 private:StrategicInGameUI::PlanRetreatsPhaseBehavior::Impl *owner;
 };
-Rva005770F2::Rva005770F2(StrategicInGameUI::PlanRetreatsPhaseBehavior::Impl *p,const ModuleData *a)
-: Rva005D2111(*(void **)((char *)p+0x10),(void *)a),owner(p) {}
+Rva005770F2::Rva005770F2(StrategicInGameUI::PlanRetreatsPhaseBehavior::Impl *p,const ModuleData *moduleData)
+: Rva005D2111(*(void **)((char *)p+0x10),(void *)moduleData),owner(p) {}
 
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in

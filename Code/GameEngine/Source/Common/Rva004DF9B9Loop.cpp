@@ -26,8 +26,8 @@ void AIStatCollector::rva004DF9B9(void *a, int mask)
 	FilterElem **end = m_end;
 	for (; beg != end; ++beg)
 	{
-		FilterElem *e = *beg;
-		if (e->m_flags & mask)
-			e->v0(a, 1);
+		FilterElem *filterElem = *beg;
+		if (filterElem->m_flags & mask)
+			filterElem->v0(a, 1);
 	}
 }

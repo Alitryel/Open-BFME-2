@@ -22,12 +22,12 @@ public:
     bool rva004E94CA(Player *p);
 };
 
-bool Rva004E94CA::rva004E94CA(Player *p)
+bool Rva004E94CA::rva004E94CA(Player *player)
 {
     if (m_04) {
         int idx = m_00->m_08->m_10;
         Player *nth = ThePlayerList->getNthPlayer(idx);
-        Relationship r = p->getRelationship(nth);
+        Relationship r = player->getRelationship(nth);
         return r == ALLIES;
     }
     return false;

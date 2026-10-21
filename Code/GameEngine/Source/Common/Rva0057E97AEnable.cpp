@@ -67,9 +67,9 @@ void Rva0057E97A::rva0057E97A()
 		unsigned int off = 0;
 		do
 		{
-			GameWindow *w = *begin;
-			if (w != 0)
-				w->winEnable(use && m_enableFlags[off] == 1);
+			GameWindow *gameWindow = *begin;
+			if (gameWindow != 0)
+				gameWindow->winEnable(use && m_enableFlags[off] == 1);
 			++begin;
 			++off;
 		} while (begin != m_end);

@@ -95,25 +95,25 @@ void Rva004EA1A5::rva004EA1A5(void *x)
 	if (beg == end)
 		return;
 	for (void **p = beg; p != end; ++p) {
-		CreateAHeroData *t = (CreateAHeroData *)*p;
-		*(CreateAHeroData **)&x = t;
-		if (t->m_64 == 0) continue;
+		CreateAHeroData *createAHeroData = (CreateAHeroData *)*p;
+		*(CreateAHeroData **)&x = createAHeroData;
+		if (createAHeroData->m_64 == 0) continue;
         {
-			if (t->m_68 != *(int *)((char *)self + 0x14))
+			if (createAHeroData->m_68 != *(int *)((char *)self + 0x14))
 				continue;
-			if (t->m_24 != obj->m_74)
+			if (createAHeroData->m_24 != obj->m_74)
 				continue;
 		}
-		if (!((Rva004E9378 *)t)->rva004E9378()) {
+		if (!((Rva004E9378 *)createAHeroData)->rva004E9378()) {
 			CreateAHeroData **vbeg = (CreateAHeroData **)self->m_vec24.begin();
 			CreateAHeroData **vend = (CreateAHeroData **)self->m_vec24.end();
-			CreateAHeroData **found = _STL::find(vbeg, vend, t);
+			CreateAHeroData **found = _STL::find(vbeg, vend, createAHeroData);
 			if (found != vend)
 				self->m_vec24.erase((void **)found);
-			((Rva00506FE9Hit *)t)->unRegisterWithBuilder((self->m_14?self->m_14:self->m_14));
+			((Rva00506FE9Hit *)createAHeroData)->unRegisterWithBuilder((self->m_14?self->m_14:self->m_14));
 		}
-		++t->m_6C;
-		t->m_64 = 0;
+		++createAHeroData->m_6C;
+		createAHeroData->m_64 = 0;
 		return;
 	}
 }

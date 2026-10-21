@@ -31,7 +31,7 @@ private:
     _STL::vector<const ModuleData *> m_vec;
 };
 
-void Rva004FD4C1::rva004FD4C1(const ModuleData *p)
+void Rva004FD4C1::rva004FD4C1(const ModuleData *moduleData)
 {
-    m_vec.push_back(p);
+    m_vec.push_back(moduleData);
 }

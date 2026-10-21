@@ -14,7 +14,7 @@ private:
 	void *m_04;
 };
 
-bool Rva0059E861::rva0059E861(const AsciiString &s)
+bool Rva0059E861::rva0059E861(const AsciiString &asciiString)
 {
-	return Rva00441E4DFaction(m_04, s);
+	return Rva00441E4DFaction(m_04, asciiString);
 }

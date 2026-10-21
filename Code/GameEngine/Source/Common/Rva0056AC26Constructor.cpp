@@ -76,14 +76,14 @@ class Rva003F409F { public:void rva003F409F(bool); };
 class Rva0056ACAEVisitor:public PendingBattleVisitor {
 public:
  // ?Rva0056ACAEVisitor::Rva0056ACAEVisitor present-unmatched
- Rva0056ACAEVisitor(LivingWorldPendingBattle *p):selected(p){}
+ Rva0056ACAEVisitor(LivingWorldPendingBattle *livingWorldPendingBattle):selected(livingWorldPendingBattle){}
  // ?Rva0056ACAEVisitor::~Rva0056ACAEVisitor present-unmatched
  ~Rva0056ACAEVisitor(){}
  virtual bool Visit(LivingWorldPendingBattle *p);
  LivingWorldPendingBattle *selected;
 };
-bool Rva0056ACAEVisitor::Visit(LivingWorldPendingBattle *p){
- reinterpret_cast<Rva003F409F *>(p)->rva003F409F(p==selected);return true;
+bool Rva0056ACAEVisitor::Visit(LivingWorldPendingBattle *livingWorldPendingBattle){
+ reinterpret_cast<Rva003F409F *>(livingWorldPendingBattle)->rva003F409F(livingWorldPendingBattle==selected);return true;
 }
 class LivingWorldRegionManager {public:void EnumeratePendingBattles(PendingBattleVisitor &) const;};
 struct RegistryWorldView {char prefix[0xB0];LivingWorldRegionManager *regions;};

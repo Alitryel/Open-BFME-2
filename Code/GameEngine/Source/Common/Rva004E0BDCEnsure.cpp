@@ -57,8 +57,8 @@ private:
 void LivingWorldBuilding::updateArmySummaryEntryRepresentation(const Rva004E0790Inner &arg)
 {
 	if (!m_3c.m_ptr) {
-		ArmySummaryEntry *p = new ArmySummaryEntry(*reinterpret_cast<const ArmySummaryEntry *>(&arg));
-		m_3c.rva004E08F6(reinterpret_cast<Rva004E0790Inner *>(p));
+		ArmySummaryEntry *armySummaryEntry = new ArmySummaryEntry(*reinterpret_cast<const ArmySummaryEntry *>(&arg));
+		m_3c.rva004E08F6(reinterpret_cast<Rva004E0790Inner *>(armySummaryEntry));
 	}
 	else {
 		m_3c.m_ptr->rva004E09FB(arg);

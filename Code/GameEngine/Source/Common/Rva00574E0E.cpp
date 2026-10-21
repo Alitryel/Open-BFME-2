@@ -24,7 +24,7 @@ private:
 void Rva00574E0E::rva00574E0E(int /*dummy*/)
 {
     Holder002B7250 *h = m_holder64;
-    CreateAHeroData *arg = ((char *)this - 8) ? (CreateAHeroData *)this : 0;
-    h->m_list04.rva002B7250(arg);
+    CreateAHeroData *createAHeroData = ((char *)this - 8) ? (CreateAHeroData *)this : 0;
+    h->m_list04.rva002B7250(createAHeroData);
     m_holder64 = 0;
 }

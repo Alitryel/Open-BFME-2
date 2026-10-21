@@ -46,9 +46,9 @@ private:
 	bool m_4d;
 	bool m_4e;
 };
-LivingWorldCampaign::LivingWorldCampaign(const AsciiString &s)
+LivingWorldCampaign::LivingWorldCampaign(const AsciiString &asciiString)
 	: Snapshot()
-	, m_04(s)
+	, m_04(asciiString)
 	, m_08(0)
 	, m_0c()
 	, m_18(0)

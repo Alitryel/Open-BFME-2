@@ -118,22 +118,22 @@ struct TwoBytes
 	bool b;
 };
 
-void AIUpgrade::DoXfer(Xfer *x, void *p)
+void AIUpgrade::DoXfer(Xfer *xfer, void *p)
 {
 	TwoBytes t;
 	t.a = true;
 	t.b = true;
-	x->v10(&t);
-	Rva0055B0CC::Rva0055AED6(x, p);
-	x->v30(m_2C);
+	xfer->v10(&t);
+	Rva0055B0CC::Rva0055AED6(xfer, p);
+	xfer->v30(m_2C);
 	const AsciiString *src;
 	if (m_30 != 0)
 		src = &m_30->m_10;
 	else
 		src = &AsciiString::TheEmptyString;
 	AsciiString tmp(*src);
-	x->v27(tmp);
-	if (!x->IsLoading())
+	xfer->v27(tmp);
+	if (!xfer->IsLoading())
 		return;
 	_ReadWriteBarrier();
 	if (((const StringBase<char> *)&tmp)->compare(*(const StringBase<char> *)&AsciiString::TheEmptyString) == 0)
@@ -147,12 +147,12 @@ void AIUpgrade::DoXfer(Xfer *x, void *p)
 	{
 		if (m_30 != 0)
 			break;
-		const CommandButton *b = ((CommandSet *)world)->getCommandButton(i);
-		if (b != 0)
+		const CommandButton *commandButton = ((CommandSet *)world)->getCommandButton(i);
+		if (commandButton != 0)
 		{
-			if (((const StringBase<char> *)&b->m_10)->compare(*(const StringBase<char> *)&tmp) == 0)
+			if (((const StringBase<char> *)&commandButton->m_10)->compare(*(const StringBase<char> *)&tmp) == 0)
 			{
-				m_30 = (CommandButton *)b;
+				m_30 = (CommandButton *)commandButton;
 			}
 		}
 	}

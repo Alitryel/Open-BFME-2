@@ -21,12 +21,12 @@ private:
 	Object *m_ptr;
 };
 
-void Rva00575674::rva00575674(Object *p)
+void Rva00575674::rva00575674(Object *object)
 {
-	if (p == m_ptr)
+	if (object == m_ptr)
 		return;
 	Object *old = m_ptr;
-	m_ptr = p;
+	m_ptr = object;
 	Object *toFree = old ? (Object *)old->deleteInstance(0) : (Object *)0;
 	::operator delete(toFree);
 }

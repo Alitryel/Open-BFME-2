@@ -62,19 +62,19 @@ private:
 void Rva004A7D55::rva004A7FC5()
 {
 	((DockUpdate *)this)->DockUpdate::loadPostProcess();
-	Thing *t = m_08;
+	Thing *thing = m_08;
 	Rva004A7FC5Aux *aux = m_04;
-	Drawable *d = t->getDrawable();
-	if (d == 0)
+	Drawable *drawable = thing->getDrawable();
+	if (drawable == 0)
 		return;
-	((Rva002716Holder *)d)->Rva0027164EBroadcast(aux->m_10, m_88);
+	((Rva002716Holder *)drawable)->Rva0027164EBroadcast(aux->m_10, m_88);
 }
 
 void Rva004A7D55::rva004A7F78(int val)
 {
 	m_88 = (int)ceil((double)val / TheWritableGlobalData->m_A5C);
-	Drawable *d = m_08->getDrawable();
-	if (d == 0)
+	Drawable *drawable = m_08->getDrawable();
+	if (drawable == 0)
 		return;
-	((Rva002716Holder *)d)->Rva0027164EBroadcast(m_04->m_10, m_88);
+	((Rva002716Holder *)drawable)->Rva0027164EBroadcast(m_04->m_10, m_88);
 }

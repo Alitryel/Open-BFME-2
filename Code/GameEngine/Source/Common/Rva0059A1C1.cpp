@@ -80,9 +80,9 @@ int AITeamBuilder::doesTeamMeetThreat(Team *team)
 	for (DLINK_ITERATOR<Object> iter = team->iterate_TeamMemberList(); !iter.done(); ((DLINK_ITERATOR<Object> &)iter).advance())
 	{
 		Object *cur = iter.cur();
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kind0 & 8) != 0 || (tmpl->m_kind1 & 4) != 0)
-			sum += tmpl->m_51C;
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kind0 & 8) != 0 || (thingTemplate->m_kind1 & 4) != 0)
+			sum += thingTemplate->m_51C;
 	}
 	return sum >= vmax;
 }

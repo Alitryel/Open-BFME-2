@@ -28,8 +28,8 @@ private:
 };
 void Rva005A0B4CList::append(Rva002BA8F1Listener *p)
 {
-	const ModuleData *q = (const ModuleData *)(void *)p;
-	m_vec.push_back(q);
+	const ModuleData *moduleData = (const ModuleData *)(void *)p;
+	m_vec.push_back(moduleData);
 }
 
 // Native 1FA574..1FA584 (16B): a file-static forwarder in cl 7.1's register

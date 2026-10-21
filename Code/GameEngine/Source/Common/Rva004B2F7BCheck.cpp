@@ -46,14 +46,14 @@ private:
 	volatile unsigned char m_flag;
 };
 
-bool Rva004B2F7B::rva004B2F7B(const SpecialPowerTemplate *tmpl)
+bool Rva004B2F7B::rva004B2F7B(const SpecialPowerTemplate *specialPowerTemplate)
 {
 	Object *obj = m_obj;
 	if (obj->testStatus(OBJECT_STATUS_5A))
 		goto fail;
-	if (!TheSpecialPowerStore->canUseSpecialPower(obj, tmpl))
+	if (!TheSpecialPowerStore->canUseSpecialPower(obj, specialPowerTemplate))
 		goto fail;
-	SpecialPowerModuleInterface *mod = m_obj->getSpecialPowerModule(tmpl);
+	SpecialPowerModuleInterface *mod = m_obj->getSpecialPowerModule(specialPowerTemplate);
 	if (mod != 0)
 	{
 		if (mod->s1())

@@ -87,8 +87,8 @@ void Rva00572DE8::rva00572E0F(AITarget *dst, Player *player, int unused)
 {
 	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(player);
 	if (record->m_16C > 1) {
-		const UpgradeTemplate *tmpl = TheUpgradeCenter->findUpgrade(AsciiString("Upgrade_RingHero"));
-		if (!player->rva002AB87D(tmpl)) {
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(AsciiString("Upgrade_RingHero"));
+		if (!player->rva002AB87D(upgradeTemplate)) {
 			Object *obj = TheGameLogic->getFirstObject();
 			while (obj) {
 				Rva00572E0FTemplate *t = (Rva00572E0FTemplate *)obj->m_04;
