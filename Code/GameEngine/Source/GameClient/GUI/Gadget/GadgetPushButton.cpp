@@ -106,23 +106,23 @@ Bool GadgetCheckLikeButtonIsChecked(GameWindow *button)
 // Clean BFME1 donor6d9434269164392c5ba62aaa7c15a86b5b020d76.
 // Native327CB9/69 calls rowed instance/status methods and changes state+8 bit4;
 // donor supplies the check-like semantic names. Status mask80000 is native.
-void GadgetButtonEnableCheckLike( GameWindow *g, Bool makeCheckLike, Bool initiallyChecked )
+void GadgetButtonEnableCheckLike( GameWindow *gameWindow, Bool makeCheckLike, Bool initiallyChecked )
 {
 
 	// sanity
-	if( g == NULL )
+	if( gameWindow == NULL )
 		return;
 
 	// get inst data
-	WinInstanceData *instData = g->winGetInstanceData();
+	WinInstanceData *instData = gameWindow->winGetInstanceData();
 	if( instData == NULL )
 		return;
 
 	// make it check like
 	if( makeCheckLike )
-		g->winSetStatus( 0x00080000 );
+		gameWindow->winSetStatus( 0x00080000 );
 	else
-		g->winClearStatus( 0x00080000 );
+		gameWindow->winClearStatus( 0x00080000 );
 
 	// set the initially checked "state"
 	if( initiallyChecked )

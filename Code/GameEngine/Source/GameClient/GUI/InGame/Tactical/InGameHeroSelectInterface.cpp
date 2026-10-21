@@ -220,9 +220,9 @@ public:
 	int rva00222B19(void *level, const char *prefix, const char *function, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4);
 };
 
-__forceinline const char *GetStr(const AsciiString &s)
+__forceinline const char *GetStr(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 
@@ -363,7 +363,7 @@ public:
 // InGameHeroSelectInterface::Impl::FlashHeroButton, retail 0x00525E07:
 // raise the flash countdown of every hero button whose hero has the given
 // template name.
-void InGameHeroSelectInterface::Impl::FlashHeroButton(const AsciiString &templateName, Int frames)
+void InGameHeroSelectInterface::Impl::FlashHeroButton(const AsciiString &asciiString, Int frames)
 {
 	HeroButtonList &list = m_data->m_heroButtons;
 	for (HeroButtonNode *it = list.begin(); it != list.end(); it = it->m_next)
@@ -371,7 +371,7 @@ void InGameHeroSelectInterface::Impl::FlashHeroButton(const AsciiString &templat
 		Object *hero = TheGameLogic->findObjectByID(it->m_data.m_heroID);
 		if (hero == 0)
 			continue;
-		if (hero->getTemplate()->m_name.compare(templateName) != 0)
+		if (hero->getTemplate()->m_name.compare(asciiString) != 0)
 			continue;
 		if (frames > it->m_data.m_flashFrames)
 			it->m_data.m_flashFrames = frames;

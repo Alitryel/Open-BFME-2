@@ -104,11 +104,11 @@ void Rva0052936C::rva005294FC(int index)
  e->m_10 = data;
  if (!data)
  return;
- DataBody *d = (DataBody *)data;
- if (d->m_102 == 0)
+ DataBody *dataBody = (DataBody *)data;
+ if (dataBody->m_102 == 0)
  return;
  TargetRef00217D4C *tmp;
- if (d->m_14 == 0x39 && e->m_04 != 0 && e->m_08 != 0)
+ if (dataBody->m_14 == 0x39 && e->m_04 != 0 && e->m_08 != 0)
  tmp = new Rva005685EE(((&(e->m_00)) ? (e->m_00) : (e->m_00)), win, m_30);
  else
  tmp = new Rva005C3549(((&(e->m_00)) ? (e->m_00) : (e->m_00)), win, m_30);

@@ -22,7 +22,7 @@ class ThingTemplate;
 struct TemplateCountKey {
  const ThingTemplate *pointer;
  __forceinline TemplateCountKey() {}
- __forceinline TemplateCountKey(const ThingTemplate *p):pointer(p){}
+ __forceinline TemplateCountKey(const ThingTemplate *thingTemplate):pointer(thingTemplate){}
  __forceinline bool operator<(const TemplateCountKey &other) const{return pointer<other.pointer;}
 };
 typedef _STL::pair<const TemplateCountKey,int> CountValue;

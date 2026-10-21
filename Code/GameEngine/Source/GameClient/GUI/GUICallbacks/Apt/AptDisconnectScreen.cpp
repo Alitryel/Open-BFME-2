@@ -293,9 +293,9 @@ extern int g_00DD1488;
 
 int GadgetListBoxAddEntryText(GameWindow *listbox, UnicodeString text, int color, int row, int column, bool overwrite);
 
-static inline bool Rva00512EDDIsEmpty(const UnicodeString &s)
+static inline bool Rva00512EDDIsEmpty(const UnicodeString &unicodeString)
 {
-	const char *data = *(const char *const *)&s;
+	const char *data = *(const char *const *)&unicodeString;
 	return data == 0 || *(const unsigned short *)(data + 4) == 0;
 }
 

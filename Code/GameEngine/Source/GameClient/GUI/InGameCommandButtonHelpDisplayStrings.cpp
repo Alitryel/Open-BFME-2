@@ -136,7 +136,7 @@ class InGameSimpleHelp::Impl {public:
  Impl(InGameSimpleHelp*,const UnicodeString&,const UnicodeString&);
  int rva0053973F(int);
 };
-InGameSimpleHelp::Impl::Impl(InGameSimpleHelp *o,const UnicodeString&t,const UnicodeString&txt):owner(o),title(Rva00539619(t)),text(txt){
+InGameSimpleHelp::Impl::Impl(InGameSimpleHelp *inGameSimpleHelp,const UnicodeString&unicodeString,const UnicodeString&txt):owner(inGameSimpleHelp),title(Rva00539619(unicodeString)),text(txt){
  titleString=TheDisplayStringManager->newDisplayString();textString=TheDisplayStringManager->newDisplayString();
  Rva0056C790(titleString,&((Rva0029F8B8*)TheInGameUI)->rva0029F8B8());
  Rva0056C790(textString,&((Rva0029F8B8*)TheInGameUI)->rva0029D948());
@@ -186,14 +186,14 @@ __declspec(noinline) static unsigned short Rva0056C89B(UnicodeString &str){
  str.swap(out);
  return key;
 }
-InGameCommandButtonHelp::Impl::Impl(Rva0056D3FD *o,const UnicodeString&n,const UnicodeString&t,const UnicodeString&d,const UnicodeString&c,const AsciiString&r):owner(o),name(n),title(t),description(d),cost(c),key(0),width(0){
+InGameCommandButtonHelp::Impl::Impl(Rva0056D3FD *o,const UnicodeString&unicodeString,const UnicodeString&t,const UnicodeString&d,const UnicodeString&c,const AsciiString&asciiString):owner(o),name(unicodeString),title(t),description(d),cost(c),key(0),width(0){
  s1=TheDisplayStringManager->newDisplayString();s2=TheDisplayStringManager->newDisplayString();s3=TheDisplayStringManager->newDisplayString();s4=TheDisplayStringManager->newDisplayString();s5=TheDisplayStringManager->newDisplayString();
  icon30=TheMappedImageCollection->findImageByName(AsciiString("Resource_Icon"));
  icon34=0;
  key=Rva0056C89B(name);
  if(icon30&&(icon30->width<=0||icon30->height<=0))icon30=0;
- if(!r.isEmpty()){
-  icon34=TheMappedImageCollection->findImageByName(AsciiString("ResourceBar_")+r);
+ if(!asciiString.isEmpty()){
+  icon34=TheMappedImageCollection->findImageByName(AsciiString("ResourceBar_")+asciiString);
   if(icon34&&(icon34->width<=0||icon34->height<=0))icon34=0;
  }
  SetupDisplayStrings();

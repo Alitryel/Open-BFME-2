@@ -213,12 +213,12 @@ Rva00528CEBResult rva00528CEB(Object *obj)
 	else
 	{
 		Bool isOverride = false;
-		ThingTemplate *tmpl = obj->rva002911B7();
-		if (tmpl != 0)
+		ThingTemplate *thingTemplate = obj->rva002911B7();
+		if (thingTemplate != 0)
 			isOverride = true;
 		else
-			tmpl = obj->getTemplate();
-		if (!tmpl->m_rankDisplay || !ComputeObjectRankValues(*obj, result.rank, result.progress))
+			thingTemplate = obj->getTemplate();
+		if (!thingTemplate->m_rankDisplay || !ComputeObjectRankValues(*obj, result.rank, result.progress))
 			result.mode = MODE_NONE;
 		else if (isOverride)
 			result.rank = 1;

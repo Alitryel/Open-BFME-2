@@ -35,17 +35,17 @@
 #include "GameClient/LookAtXlat.h"
 
 // Clean BFME1 6d943426 font helper; target99B and virtual slot18 independently examined.
-void GadgetTextEntrySetFont( GameWindow *g, GameFont *font )
+void GadgetTextEntrySetFont( GameWindow *gameWindow, GameFont *font )
 {
-	EntryData *entryData = (EntryData *)g->winGetUserData();
+	EntryData *entryData = (EntryData *)gameWindow->winGetUserData();
 	DisplayString *dString;
 	typedef void (DisplayString::*BFMESetFontFn)( GameFont * );
 
 	// set the font for the display strings all windows have
-	dString = g->winGetInstanceData()->getTextDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTextDisplayString();
 	if( dString )
 		(dString->*(*(BFMESetFontFn *)&(*(void ***)dString)[6]))( font );
-	dString = g->winGetInstanceData()->getTooltipDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTooltipDisplayString();
 	if( dString )
 		(dString->*(*(BFMESetFontFn *)&(*(void ***)dString)[6]))( font );
 

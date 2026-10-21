@@ -54,15 +54,15 @@ class HeroSelectData:public Holder00525D9A {
 public:__declspec(noinline) void rva005259B9(Object *);HeroInfoList heroes;BuilderInfoList builders;
 };
 void HeroSelectData::rva005259B9(Object *obj) {
- const unsigned int heroBit=0x4000000;ThingTemplate *templ=obj->templ;
- if(!(templ->kind110&heroBit) && !(templ->kind119&0x80))return;
- if(!getButtonImage(templ,obj))return;
- int id=obj->id;templ=obj->templ;
- if(templ->kind110&heroBit) {
+ const unsigned int heroBit=0x4000000;ThingTemplate *thingTemplate=obj->templ;
+ if(!(thingTemplate->kind110&heroBit) && !(thingTemplate->kind119&0x80))return;
+ if(!getButtonImage(thingTemplate,obj))return;
+ int id=obj->id;thingTemplate=obj->templ;
+ if(thingTemplate->kind110&heroBit) {
   for(HeroInfoList::iterator it=heroes.begin();it!=heroes.end();++it) {
    if(id==it->id){union{HeroNotify method;int fn;} binding={&Rva005259B9Listener::removeHero};Rva005258F8(binding.fn,(Pod12Node00525D9A*)it._M_node);heroes.erase(it);break;}
   }
- }else if(templ->kind119&0x80) {
+ }else if(thingTemplate->kind119&0x80) {
   for(BuilderInfoList::iterator it=builders.begin();it!=builders.end();++it) {
    if(id==it->id){union{HeroNotify method;int fn;} binding={&Rva005259B9Listener::removeBuilder};Rva005258F8(binding.fn,(Pod12Node00525D9A*)it._M_node);builders.erase(it);break;}
   }

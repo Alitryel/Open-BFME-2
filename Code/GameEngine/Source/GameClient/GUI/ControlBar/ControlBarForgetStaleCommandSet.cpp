@@ -31,7 +31,7 @@ struct VideoPair {
     struct { void *first; void *second; } s;
     VideoPair(void *a, void *b) { s.first=a; s.second=b; }
     VideoPair(const Rva0041534BIter &p) { s.first=p.m_node; s.second=p.m_table; }
-    VideoPair(const VideoPair &p) { s.first=p.s.first; s.second=p.s.second; }
+    VideoPair(const VideoPair &videoPair) { s.first=videoPair.s.first; s.second=videoPair.s.second; }
 };
 class Rva000427195 { public: void rva003A37DC(VideoPair); };
 struct StaleCommandSetView { char opaque00[0x0C]; int stale; };

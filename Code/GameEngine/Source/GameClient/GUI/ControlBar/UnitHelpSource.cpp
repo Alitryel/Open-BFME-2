@@ -208,7 +208,7 @@ struct TreeHintRef00217D4C {
 class InGameSimpleHelp { public: InGameSimpleHelp(const UnicodeString &,const UnicodeString &); char bytes[12]; };
 class Rva004E7506 { public: TreeHintRef00217D4C rva004E7506(); char beforeId[4]; ObjectID id; };
 struct HelpWideHeader445 { int refs; unsigned short length,capacity; unsigned short data[1]; };
-static __forceinline const HelpWideHeader445 *helpHeader445(const UnicodeString &s) { return *(const HelpWideHeader445 *const *)&s; }
+static __forceinline const HelpWideHeader445 *helpHeader445(const UnicodeString &unicodeString) { return *(const HelpWideHeader445 *const *)&unicodeString; }
 TreeHintRef00217D4C Rva004E7506::rva004E7506()
 {
  UnicodeString title;

@@ -243,8 +243,8 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 	unsigned int mode = Rva0030F099(b);
 	b = TheInGameUI->m_8B8;
 	Drawable *draw = TheTacticalView->s09(&tmp, b, mode);
-	Slot48Ret *v = TheInGameUI->slot48();
-	if (v != 0 && v->m_14 != 0 && v->m_14 != 0xA)
+	Slot48Ret *slot48Ret = TheInGameUI->slot48();
+	if (slot48Ret != 0 && slot48Ret->m_14 != 0 && slot48Ret->m_14 != 0xA)
 	{
 		phase3 = false;
 	}

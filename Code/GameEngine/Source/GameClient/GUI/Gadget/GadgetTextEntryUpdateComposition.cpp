@@ -86,30 +86,30 @@ void GadgetTextEntrySetCursorPosition(GameWindow *window, UnsignedInt position);
 
 bool GadgetTextEntryUpdateComposition(GameWindow *window)
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 	bool changed = false;
-	UnsignedInt lower = entryMin(e->charPos, e->conCharPos);
-	UnsignedInt upper = entryMax(e->charPos, e->conCharPos);
+	UnsignedInt lower = entryMin(entryData->charPos, entryData->conCharPos);
+	UnsignedInt upper = entryMax(entryData->charPos, entryData->conCharPos);
 
-	if (upper > e->text->getTextLength())
-		upper = e->text->getTextLength();
+	if (upper > entryData->text->getTextLength())
+		upper = entryData->text->getTextLength();
 
 	if (upper > 0 && upper != lower)
 	{
-		UnicodeString current = e->text->getText();
+		UnicodeString current = entryData->text->getText();
 		UnicodeString prefix(current, 0, lower);
 		{
 			UnicodeString suffix(current, upper, current.getLength() - upper);
 			prefix.concat(suffix);
 		}
-		e->text->setText(prefix);
+		entryData->text->setText(prefix);
 		changed = true;
 		GadgetTextEntrySetCursorPosition(window, lower);
-		e->conCharPos = lower;
+		entryData->conCharPos = lower;
 		for (UnsignedInt i = 0; i < upper - lower; ++i)
-			e->sText->removeLastChar();
+			entryData->sText->removeLastChar();
 	}
 
-	e->drawTextFromStart |= changed;
+	entryData->drawTextFromStart |= changed;
 	return changed;
 }

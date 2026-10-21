@@ -44,17 +44,17 @@
 struct BfmeFontListEntryCell { int cellType; int color; int opaque08; void *data; void *userData; int width; int height; };
 struct BfmeFontListEntryRow { int listHeight; char height; char pad05[3]; BfmeFontListEntryCell *cell; int opaque0C; };
 
-void GadgetListBoxSetFont( GameWindow *g, GameFont *font )
+void GadgetListBoxSetFont( GameWindow *gameWindow, GameFont *font )
 {
-	ListboxData *listData = (ListboxData *)g->winGetUserData();
+	ListboxData *listData = (ListboxData *)gameWindow->winGetUserData();
 	DisplayString *dString;
 	typedef void (DisplayString::*BFMESetFontFn)( GameFont * );
 
 	// set the font for the display strings all windows have
-	dString = g->winGetInstanceData()->getTextDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTextDisplayString();
 	if( dString )
 		(dString->*(*(BFMESetFontFn *)&(*(void ***)dString)[6]))( font );
-	dString = g->winGetInstanceData()->getTooltipDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTooltipDisplayString();
 	if( dString )
 		(dString->*(*(BFMESetFontFn *)&(*(void ***)dString)[6]))( font );
 

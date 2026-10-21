@@ -248,9 +248,9 @@ public:
 			}
 
 			TracerDrawInterface* tdi = NULL;
-			for (DrawModule** d = tracer->getDrawModules(); *d; ++d)
+			for (DrawModule** drawModule = tracer->getDrawModules(); *drawModule; ++drawModule)
 			{
-				if ((tdi = (*d)->getTracerDrawInterface()) != NULL)
+				if ((tdi = (*drawModule)->getTracerDrawInterface()) != NULL)
 				{
 					tdi->setTracerParms(speed, m_length, m_width, m_color, 1.0f);
 				}
@@ -310,9 +310,9 @@ public:
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * secondary, const Real /*overrideRadius*/ ) const
 	{
-		const ThingTemplate* tmpl = TheThingFactory->findTemplate(m_templateName);
-		DEBUG_ASSERTCRASH(tmpl, ("RayEffect %s not found\n",m_templateName.str()));
-		if (primary && secondary && tmpl)
+		const ThingTemplate* thingTemplate = TheThingFactory->findTemplate(m_templateName);
+		DEBUG_ASSERTCRASH(thingTemplate, ("RayEffect %s not found\n",m_templateName.str()));
+		if (primary && secondary && thingTemplate)
 		{
 			Coord3D sourcePos = *primary;
 			sourcePos.x += m_primaryOffset.x;
@@ -324,7 +324,7 @@ public:
 			targetPos.y += m_secondaryOffset.y;
 			targetPos.z += m_secondaryOffset.z;
 
-			TheGameClient->createRayEffectByTemplate(&sourcePos, &targetPos, tmpl);
+			TheGameClient->createRayEffectByTemplate(&sourcePos, &targetPos, thingTemplate);
 		}
 		else
 		{
@@ -627,13 +627,13 @@ protected:
 			adjustVector(&offset, mtx);
 		}
 
-		const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate(m_name);
-		DEBUG_ASSERTCRASH(tmp, ("ParticleSystem %s not found\n",m_name.str()));
-		if (tmp)
+		const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(m_name);
+		DEBUG_ASSERTCRASH(particleSystemTemplate, ("ParticleSystem %s not found\n",m_name.str()));
+		if (particleSystemTemplate)
 		{
 			for (Int i = 0; i < m_count; i++ )
 			{
-				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 				if (sys)
 				{
 					Coord3D newPos;

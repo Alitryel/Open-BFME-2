@@ -220,8 +220,8 @@ GameWindowTransitionsHandler::~GameWindowTransitionsHandler()
 	TransitionGroupList::iterator it = m_transitionGroupList.begin();
 	while( it != m_transitionGroupList.end() )
 	{
-		TransitionGroup *g = *it;
-		delete g;
+		TransitionGroup *transitionGroup = *it;
+		delete transitionGroup;
 		it = m_transitionGroupList.erase( it );
 	}
 }

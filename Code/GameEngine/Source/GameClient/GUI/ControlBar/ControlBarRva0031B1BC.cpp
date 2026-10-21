@@ -23,9 +23,9 @@ private:
 	const Image *m_p0274;
 };
 
-void ControlBar::rva0031B1BC(const Image *a250, const Image *a254, const Image *a258, const Image *a25c, const Image *a260, const Image *a264, const Image *a270, const Image *a274)
+void ControlBar::rva0031B1BC(const Image *image, const Image *a254, const Image *a258, const Image *a25c, const Image *a260, const Image *a264, const Image *a270, const Image *a274)
 {
-	m_p0250 = a250;
+	m_p0250 = image;
 	m_p0254 = a254;
 	m_p0258 = a258;
 	m_p025C = a25c;

@@ -292,10 +292,10 @@ void AptSkirmish::OnProfilePopupCancel(const char *unused)
 		if (prefs->Rva0043B9E8())
 			return;
 		prefs->v3slotC();
-		GameInfo *g = (*(GameInfo * *)&TheSkirmishGameInfo);
+		GameInfo *gameInfo = (*(GameInfo * *)&TheSkirmishGameInfo);
 		void *toFree;
-		if (g != 0)
-			toFree = g->v0slot0(0);
+		if (gameInfo != 0)
+			toFree = gameInfo->v0slot0(0);
 		else
 			toFree = 0;
 		operator delete(toFree);
@@ -781,7 +781,7 @@ void AptSkirmish::StartGameAfterCDCheck() {
 }
 
 // ?GameMessage::wb00EC9680 present-unmatched
-void GameMessage::wb00EC9680(int value) { GameMessageArgument *a=allocArg();a->type=0;a->value=value; }
+void GameMessage::wb00EC9680(int value) { GameMessageArgument *gameMessageArgument=allocArg();gameMessageArgument->type=0;gameMessageArgument->value=value; }
 
 class Rva0004582DSarAvgField {public:int get() const;};
 class Rva003B8BAA {public:void *GetCampaign(int);void rva003B930D(_STL::vector<long> *scenarios);};extern class Rva00E02D6C *TheCampaignManager;

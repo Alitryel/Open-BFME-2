@@ -187,10 +187,10 @@ TransitionGroup *GameWindowTransitionsHandler::getNewGroup( AsciiString name )
 	{
 		return NULL;
 	}
-	TransitionGroup *g = (TransitionGroup *)new Rva001DC0EC;
-	((BuildListInfo *)g)->setTemplateName(name);
-	((_STL::list<int> *)&m_transitionGroupList)->push_back(*(int *)&g);
-	return g;
+	TransitionGroup *transitionGroup = (TransitionGroup *)new Rva001DC0EC;
+	((BuildListInfo *)transitionGroup)->setTemplateName(name);
+	((_STL::list<int> *)&m_transitionGroupList)->push_back(*(int *)&transitionGroup);
+	return transitionGroup;
 }
 
 TransitionGroup *GameWindowTransitionsHandler::findGroup( AsciiString groupName )
@@ -201,9 +201,9 @@ TransitionGroup *GameWindowTransitionsHandler::findGroup( AsciiString groupName 
 	TransitionGroupList::iterator it = m_transitionGroupList.begin();
 	while (it != m_transitionGroupList.end())
 	{
-		TransitionGroup *g = *it;
-		if(groupName.compareNoCase(g->m_name) == 0)
-			return g;
+		TransitionGroup *transitionGroup = *it;
+		if(groupName.compareNoCase(transitionGroup->m_name) == 0)
+			return transitionGroup;
 		it++;
 	}
 	return NULL;
@@ -212,9 +212,9 @@ TransitionGroup *GameWindowTransitionsHandler::findGroup( AsciiString groupName 
 int GameWindowTransitionsHandler::rva001DC1FD( AsciiString groupName )
 {
 	int frames = 0;
-	TransitionGroup *g = findGroup(groupName);
-	if(g)
-		frames = g->getTotalFrames();
+	TransitionGroup *transitionGroup = findGroup(groupName);
+	if(transitionGroup)
+		frames = transitionGroup->getTotalFrames();
 	return frames;
 }
 
@@ -263,10 +263,10 @@ void GameWindowTransitionsHandler::setGroup(AsciiString groupName, Bool immidiat
 void GameWindowTransitionsHandler::remove( AsciiString groupName,  Bool skipPending )
 {
 	BfmeTransitionsLock lock(m_lock);
-	TransitionGroup *g = (skipPending ? (findGroup(groupName)) : ((m_lock ? (findGroup(groupName)) : (findGroup(groupName)))));
-	if(!g)
+	TransitionGroup *transitionGroup = (skipPending ? (findGroup(groupName)) : ((m_lock ? (findGroup(groupName)) : (findGroup(groupName)))));
+	if(!transitionGroup)
 		return; // BFME 2 (target evidence): an unknown group changes nothing
-	if(m_pendingGroup == g)
+	if(m_pendingGroup == transitionGroup)
 	{
 		if(skipPending)
 			m_pendingGroup->skip();
@@ -274,7 +274,7 @@ void GameWindowTransitionsHandler::remove( AsciiString groupName,  Bool skipPend
 
 		m_pendingGroup = NULL;
 	}
-	if(m_currentGroup == g)
+	if(m_currentGroup == transitionGroup)
 	{
 		m_currentGroup->skip();
 		m_currentGroup->bfmeAfterSkip();
@@ -291,15 +291,15 @@ void GameWindowTransitionsHandler::reverse( AsciiString groupName )
 	m_58 = 0;
 	m_5C = TheDisplay->v10();
 	m_60 = TheDisplay->v11();
-	TransitionGroup *g = findGroup(groupName);
-	if(!g)
+	TransitionGroup *transitionGroup = findGroup(groupName);
+	if(!transitionGroup)
 		return;
-	if( m_currentGroup == g )
+	if( m_currentGroup == transitionGroup )
 	{
 		m_currentGroup->reverse();
 		return;
 	}
-	if( m_pendingGroup == g)
+	if( m_pendingGroup == transitionGroup)
 	{
 		m_pendingGroup->bfmeAfterSkip();
 		m_pendingGroup = NULL;
@@ -317,7 +317,7 @@ void GameWindowTransitionsHandler::reverse( AsciiString groupName )
 		m_pendingGroup = NULL;
 	}
 
-	m_currentGroup = g;
+	m_currentGroup = transitionGroup;
 	m_currentGroup->init();
 	m_currentGroup->skip();
 	m_currentGroup->reverse();
@@ -329,7 +329,7 @@ extern GameWindowTransitionsHandler *TheTransitionHandler;
 void INI::parseWindowTransitions( INI* ini )
 {
 	AsciiString name;
-	TransitionGroup *g;
+	TransitionGroup *transitionGroup;
 
 	// read the name
 	const char* c = ini->getNextToken();
@@ -337,7 +337,7 @@ void INI::parseWindowTransitions( INI* ini )
 
 	if( !TheTransitionHandler )
 		return;
-	g = TheTransitionHandler->getNewGroup( name );
+	transitionGroup = TheTransitionHandler->getNewGroup( name );
 
-	ini->initFromINI(g, TheTransitionHandler->getFieldParse() );
+	ini->initFromINI(transitionGroup, TheTransitionHandler->getFieldParse() );
 }

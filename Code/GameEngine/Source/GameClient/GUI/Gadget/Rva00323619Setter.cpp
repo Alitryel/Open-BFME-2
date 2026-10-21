@@ -30,10 +30,10 @@ void GadgetListBoxReset(GameWindow *listbox);
 
 void Rva00323619::rva00323619(int v)
 {
-	GameWindow *w = m_window;
-	if (w == 0)
+	GameWindow *gameWindow = m_window;
+	if (gameWindow == 0)
 		return;
-	int *p = (int *)w->winGetUserData();
+	int *p = (int *)gameWindow->winGetUserData();
 	*p = (TheWritableGlobalData->m_34 * v) / 0x300;
 }
 

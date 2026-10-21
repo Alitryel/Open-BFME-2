@@ -321,9 +321,9 @@ WindowMsgHandledType BuddyControlSystem( GameWindow *window, UnsignedInt msg,
 				if (selected >= 0)
 				{
 					GPProfile selectedProfile = (GPProfile)GadgetListBoxGetItemData(buddyControls.listboxBuddies, selected);
-					BuddyInfoMap *m = TheGameSpyInfo->getBuddyMap();
-					BuddyInfoMap::iterator recipIt = m->find(selectedProfile);
-					if (recipIt == m->end())
+					BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyMap();
+					BuddyInfoMap::iterator recipIt = buddyInfoMap->find(selectedProfile);
+					if (recipIt == buddyInfoMap->end())
 						break;
 
 					DEBUG_LOG(("Trying to send a buddy message to %d.\n", selectedProfile));
@@ -399,9 +399,9 @@ static void insertChat( BuddyMessage msg )
 {
 	if (buddyControls.listboxChat)
 	{
-		BuddyInfoMap *m = TheGameSpyInfo->getBuddyMap();
-		BuddyInfoMap::iterator senderIt = m->find(msg.m_senderID);
-		BuddyInfoMap::iterator recipientIt = m->find(msg.m_recipientID);
+		BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyMap();
+		BuddyInfoMap::iterator senderIt = buddyInfoMap->find(msg.m_senderID);
+		BuddyInfoMap::iterator recipientIt = buddyInfoMap->find(msg.m_recipientID);
 		Bool localSender = (msg.m_senderID == TheGameSpyInfo->getLocalProfileID());
 		UnicodeString s;
 		//UnicodeString timeStr = UnicodeString(_wctime( (const time_t *)&msg.m_timestamp ));
@@ -1192,8 +1192,8 @@ WindowMsgHandledType WOLBuddyOverlayRCMenuSystem( GameWindow *window, UnsignedIn
 						req.arg.profile.id = profileID;
 						TheGameSpyBuddyMessageQueue->addRequest(req);
 
-						BuddyInfoMap *m = TheGameSpyInfo->getBuddyRequestMap();
-						m->erase( profileID );
+						BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyRequestMap();
+						buddyInfoMap->erase( profileID );
 						// if the profile ID is not from a buddy and we're okaying his request, then
 						// request to add him to our list automatically CLH 2-18-03
 						if(!TheGameSpyInfo->isBuddy(profileID))
@@ -1226,8 +1226,8 @@ WindowMsgHandledType WOLBuddyOverlayRCMenuSystem( GameWindow *window, UnsignedIn
 						req.buddyRequestType = BuddyRequest::BUDDYREQUEST_DENYADD;
 						req.arg.profile.id = profileID;
 						TheGameSpyBuddyMessageQueue->addRequest(req);
-						BuddyInfoMap *m = TheGameSpyInfo->getBuddyRequestMap();
-						m->erase( profileID );
+						BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyRequestMap();
+						buddyInfoMap->erase( profileID );
 					}
 					BuddyInfoMap *buddies = (isBuddy)?TheGameSpyInfo->getBuddyMap():TheGameSpyInfo->getBuddyRequestMap();
 					buddies->erase(profileID);

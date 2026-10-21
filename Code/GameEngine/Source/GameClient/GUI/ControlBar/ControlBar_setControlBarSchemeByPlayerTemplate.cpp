@@ -177,10 +177,10 @@ void ControlBar::setControlBarSchemeByPlayerTemplate(const PlayerTemplate *pt)
 // come from the matched template overload above; native calls independently
 // reach manager 31FE49 and the Player active predicate 2AA231. No BFME 1
 // lifted body is used. The game's original method name is donor evidence.
-void ControlBar::setControlBarSchemeByPlayer(Player *p)
+void ControlBar::setControlBarSchemeByPlayer(Player *player)
 {
 	if (m_controlBarSchemeManager)
-		m_controlBarSchemeManager->setControlBarSchemeByPlayer(p);
+		m_controlBarSchemeManager->setControlBarSchemeByPlayer(player);
 
 	static NameKeyType buttonPlaceBeaconID = TheNameKeyGenerator->nameToKey("ControlBar.wnd:ButtonPlaceBeacon");
 	static NameKeyType buttonIdleWorkerID = TheNameKeyGenerator->nameToKey("ControlBar.wnd:ButtonIdleWorker");
@@ -189,7 +189,7 @@ void ControlBar::setControlBarSchemeByPlayer(Player *p)
 	GameWindow *buttonIdleWorker = TheWindowManager->winGetWindowFromId(0, buttonIdleWorkerID);
 	GameWindow *buttonGeneral = TheWindowManager->winGetWindowFromId(0, buttonGeneralID);
 
-	if (!p->isPlayerActive())
+	if (!player->isPlayerActive())
 	{
 		m_isObserverCommandBar = true;
 		switchToContext(CB_CONTEXT_OBSERVER_LIST, 0);

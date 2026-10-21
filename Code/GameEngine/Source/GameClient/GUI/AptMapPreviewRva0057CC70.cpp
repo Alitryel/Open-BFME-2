@@ -128,7 +128,7 @@ private:
 void *Rva0057C50C::v04(void *color, void *arg)
 {
 	Rva0057CC70Color *o = (Rva0057CC70Color *)color;
-	CC70Arg *a = (CC70Arg *)arg;
+	CC70Arg *cC70Arg = (CC70Arg *)arg;
 	Rva0057CC70Color def;
 	def.r = 0.5f;
 	def.g = 0.5f;
@@ -141,39 +141,39 @@ void *Rva0057C50C::v04(void *color, void *arg)
 	}
 	Rva0057CC70Color tmp;
 	Rva0057CC70Color *src;
-	int slot = a->m_field140;
+	int slot = cC70Arg->m_field140;
 	if (slot == -1)
 		slot = ((Rva0057CA78 *)m_outer)->rva0057CA78(0);
 	GameSlot *gs = 0;
-	CC70Mid1 *m1 = 0;
-	CC70Mid2 *m2 = 0;
+	CC70Mid1 *cC70Mid1 = 0;
+	CC70Mid2 *cC70Mid2 = 0;
 	Sub0052BAC1 *t = 0;
 	if ((unsigned int)slot < 8
 		&& (gs = info->getSlot(slot)) != 0
-		&& (m1 = m_outer->m_ptr68) != 0
-		&& (m2 = m1->m_ptr29c) != 0
-		&& (t = m2->m_ptr1c) != 0)
+		&& (cC70Mid1 = m_outer->m_ptr68) != 0
+		&& (cC70Mid2 = cC70Mid1->m_ptr29c) != 0
+		&& (t = cC70Mid2->m_ptr1c) != 0)
 	{
-		Res004FCA0C *r = t->Rva004FCA0C((Rva0020E89C *)a);
-		if (r != (Res004FCA0C *)a)
+		Res004FCA0C *r = t->Rva004FCA0C((Rva0020E89C *)cC70Arg);
+		if (r != (Res004FCA0C *)cC70Arg)
 		{
 			v04(o, r);
 			return o;
 		}
-		if (!((AptMapPreview *)m_outer)->AllowsStartInRegion((int)a))
+		if (!((AptMapPreview *)m_outer)->AllowsStartInRegion((int)cC70Arg))
 		{
-			CC70LWMInner *q = ((CC70LWMView *)TheLivingWorldManager)->m_ptr268;
-			src = &q->m_color;
-			if (!q)
+			CC70LWMInner *cC70LWMInner = ((CC70LWMView *)TheLivingWorldManager)->m_ptr268;
+			src = &cC70LWMInner->m_color;
+			if (!cC70LWMInner)
 				src = &def;
 		}
 		else
 		{
 			int color = ((CC70SlotView *)gs)->m_color;
-			MultiplayerColorDefinition *c = TheMultiplayerSettings->getColor(color);
-			if (c)
+			MultiplayerColorDefinition *multiplayerColorDefinition = TheMultiplayerSettings->getColor(color);
+			if (multiplayerColorDefinition)
 			{
-				tmp = ((CC70ColorDefView *)c)->m_color;
+				tmp = ((CC70ColorDefView *)multiplayerColorDefinition)->m_color;
 				src = &tmp;
 			}
 			else

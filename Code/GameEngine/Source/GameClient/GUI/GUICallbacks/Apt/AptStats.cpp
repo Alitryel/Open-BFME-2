@@ -129,7 +129,7 @@ __forceinline DelegateDesc MakeStatsDelegate(AptStats *owner,StatsHandler method
 class Rva00579E47 {public:Rva00579E47(const DelegateDesc&);TargetRef00217D4C*ptr;};
 template<class T>class AptRef:public Rva00579E47 {
 public:AptRef(const DelegateDesc&d):Rva00579E47(d){}
- AptRef(const AptRef&o):Rva00579E47(o){if(ptr)++ptr->references;}
+ AptRef(const AptRef&aptRef):Rva00579E47(aptRef){if(ptr)++ptr->references;}
  ~AptRef(){if(ptr)ReleaseTreeHintRef00217D4C(ptr);}
 };
 class AptExternHandler;

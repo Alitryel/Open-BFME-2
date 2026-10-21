@@ -22,9 +22,9 @@ enum NameKeyType { NAMEKEY_INVALID = 0 };
 // with the compiler empty literal when null. The emptiness test below instead
 // calls the existing StringBase<char>::isEmpty worker as witnessed in retail.
 
-static inline const char *inlineStr(const AsciiString &s)
+static inline const char *inlineStr(const AsciiString &asciiString)
 {
-	const char *text = *reinterpret_cast<const char *const *>(&s);
+	const char *text = *reinterpret_cast<const char *const *>(&asciiString);
 	return text ? text + 8 : "";
 }
 

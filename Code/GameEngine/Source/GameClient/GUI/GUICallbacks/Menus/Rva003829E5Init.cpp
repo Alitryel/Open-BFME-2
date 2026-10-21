@@ -18,9 +18,9 @@ public:
 	Rva003829E5(const Rva003829E5& other);
 };
 
-Rva003829E5::Rva003829E5(void* a, const AsciiUnicodePair& b)
+Rva003829E5::Rva003829E5(void* a, const AsciiUnicodePair& asciiUnicodePair)
 	: m0(*(int*)a)
-	, m4(b)
+	, m4(asciiUnicodePair)
 {
 }
 

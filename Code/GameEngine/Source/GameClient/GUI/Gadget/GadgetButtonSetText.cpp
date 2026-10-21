@@ -47,11 +47,11 @@ public:
 
 extern GameWindowManager *TheWindowManager;
 
-void GadgetButtonSetText(GameWindow *g, UnicodeString text)
+void GadgetButtonSetText(GameWindow *gameWindow, UnicodeString text)
 {
-	if (g == 0)
+	if (gameWindow == 0)
 		return;
-	TheWindowManager->winSendSystemMsg(g, 0x4001, (WindowMsgData)&text, 0);
+	TheWindowManager->winSendSystemMsg(gameWindow, 0x4001, (WindowMsgData)&text, 0);
 }
 
 // Target WB1122270 and native328354..3283F7: update a push-button's cached

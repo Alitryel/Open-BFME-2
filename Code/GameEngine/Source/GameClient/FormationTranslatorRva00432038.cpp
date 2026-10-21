@@ -49,9 +49,9 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00432038(
     {
     case 3:
         {
-            const GameMessageArgumentType *argument = message->getArgument(0);
-            int x = argument->pixel.x;
-            int y = argument->pixel.y;
+            const GameMessageArgumentType *gameMessageArgumentType = message->getArgument(0);
+            int x = gameMessageArgumentType->pixel.x;
+            int y = gameMessageArgumentType->pixel.y;
             ICoord2D pixel;
             pixel.y = y;
             pixel.x = x;

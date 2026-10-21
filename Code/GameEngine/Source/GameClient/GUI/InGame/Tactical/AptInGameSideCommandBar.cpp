@@ -253,8 +253,8 @@ class Rva00222A8BTarget {
 public:
  int rva00222B19(void *, const char *, const char *, int, const char *, void *, void *, void *, void *);
 };
-static __forceinline const char *sideBarGetStr(const AsciiString &s) {
- char *text = *(char **)(void *)&s;
+static __forceinline const char *sideBarGetStr(const AsciiString &asciiString) {
+ char *text = *(char **)(void *)&asciiString;
  return text ? text + 8 : "";
 }
 __declspec(noinline) inline int __cdecl Rva00525338Fire(void *a1, void *a2, const char *a3, const char *a4, int *a5, void *a6) {

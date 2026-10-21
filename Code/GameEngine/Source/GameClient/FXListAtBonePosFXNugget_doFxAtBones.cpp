@@ -110,8 +110,8 @@ __declspec(noinline) inline void FXListAtBonePosFXNugget::doFxAtBones(const Obje
 }
 
 // ?bfmeAnchorFXListAtBonePosDoFxAtBones absent-from-retail
-void bfmeAnchorFXListAtBonePosDoFxAtBones(const FXListAtBonePosFXNugget *p, const Object *obj, int startIndex)
+void bfmeAnchorFXListAtBonePosDoFxAtBones(const FXListAtBonePosFXNugget *fXListAtBonePosFXNugget, const Object *obj, int startIndex)
 {
-	p->doFxAtBones(obj, startIndex);
+	fXListAtBonePosFXNugget->doFxAtBones(obj, startIndex);
 }
 

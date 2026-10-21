@@ -68,9 +68,9 @@ void AptMapPreview::bfmeSetMapDescription(MapMetaData *map)
 void AptMapPreview::rva0057C597(bool show)
 {
     for (int i = 0; i < 8; ++i) {
-        GameWindow *w = m_windows[i];
-        if (w) {
-            w->winEnable(show);
+        GameWindow *gameWindow = m_windows[i];
+        if (gameWindow) {
+            gameWindow->winEnable(show);
         }
     }
 }

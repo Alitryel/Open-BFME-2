@@ -322,28 +322,28 @@ void __cdecl ControlBar::populateInvDataCallback(Object *obj, void *infoParam)
 	CommandInventoryData *info = (CommandInventoryData *)infoParam;
 	if (info->current > info->last)
 		return;
-	ThingTemplate *tmpl = *(ThingTemplate **)((char *)obj + 4);
-	const Image *img = getButtonImage(tmpl, obj);
+	ThingTemplate *thingTemplate = *(ThingTemplate **)((char *)obj + 4);
+	const Image *img = getButtonImage(thingTemplate, obj);
 	int count = obj->getTransportSlotCount();
 	int i = 0;
 	if (count <= 0)
 		return;
 	do {
-		GameWindow *w = info->windows[info->current];
-		ControlBarInventoryEntries[info->current].window = w;
+		GameWindow *gameWindow = info->windows[info->current];
+		ControlBarInventoryEntries[info->current].window = gameWindow;
 		ControlBarInventoryEntries[info->current].objectID = *(int *)((char *)obj + 0x74);
 		info->current++;
-		GadgetButtonSetEnabledImage_Rva002C0433(w, img);
-		Rva003284ED(w, 0);
+		GadgetButtonSetEnabledImage_Rva002C0433(gameWindow, img);
+		Rva003284ED(gameWindow, 0);
 		if (i == 0) {
-			w->winEnable(true);
-			w->winSetStatus(8);
-			w->winClearStatus(0x200);
+			gameWindow->winEnable(true);
+			gameWindow->winSetStatus(8);
+			gameWindow->winClearStatus(0x200);
 		}
 		else {
-			w->winEnable(false);
-			w->winClearStatus(8);
-			w->winSetStatus(0x200);
+			gameWindow->winEnable(false);
+			gameWindow->winClearStatus(8);
+			gameWindow->winSetStatus(0x200);
 		}
 		i++;
 	} while (i < count);

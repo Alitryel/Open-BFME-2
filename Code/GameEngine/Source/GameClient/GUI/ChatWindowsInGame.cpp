@@ -213,9 +213,9 @@ extern LanguageFilter *TheLanguageFilter;
 // boolean header test preserves the native word compare without integer
 // length materialization (same view used by InGameCommandButtonHelpSetWidth).
 struct UnicodeStringHeaderView { int refs; unsigned short length; };
-static __forceinline bool hasText(const UnicodeString &s)
+static __forceinline bool hasText(const UnicodeString &unicodeString)
 {
-    const UnicodeStringHeaderView *header=*(const UnicodeStringHeaderView *const *)&s;
+    const UnicodeStringHeaderView *header=*(const UnicodeStringHeaderView *const *)&unicodeString;
     return header && header->length!=0;
 }
 // Native5B000C..5B00C8 RET0; WB1518AA0 unnamed and the bound Send/

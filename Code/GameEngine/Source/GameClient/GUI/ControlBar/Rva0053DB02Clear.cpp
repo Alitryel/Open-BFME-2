@@ -20,9 +20,9 @@ void Rva0053DB02::rva0053DB02()
 {
 	GameWindow **slot = m_windows;
 	for (int i = 0; i < 32; ++i, ++slot) {
-		GameWindow *w = *slot;
+		GameWindow *gameWindow = *slot;
 		*(int *)((char *)slot + 0x80) = 0;
-		if (w)
-			Rva003284ED(w, 0);
+		if (gameWindow)
+			Rva003284ED(gameWindow, 0);
 	}
 }

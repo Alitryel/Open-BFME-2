@@ -37,8 +37,8 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 template<class T> class AptRef {
 public:
  AptRef(const SpellOverButtonDesc *desc) {((Rva0052A7C1 *)this)->rva0052A7C1((const DelegateDesc *)desc);}
- AptRef(const DelegateDesc*d){((Rva00579E47*)this)->Rva00579E47::Rva00579E47(*d);}
- AptRef(const SpellTimerDesc*d){((Rva0052A786*)this)->rva0052A786((const DelegateDesc*)d);}
+ AptRef(const DelegateDesc*delegateDesc){((Rva00579E47*)this)->Rva00579E47::Rva00579E47(*delegateDesc);}
+ AptRef(const SpellTimerDesc*spellTimerDesc){((Rva0052A786*)this)->rva0052A786((const DelegateDesc*)spellTimerDesc);}
  AptRef(const AptRef &other):ptr(other.ptr){if(ptr)++ptr->refCount;}
  ~AptRef(){if(ptr)ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)ptr);}
 private:T *ptr;

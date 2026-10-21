@@ -231,7 +231,7 @@ void StrategicHUD::RegionDetailsTerritoryMovieClip::Impl::rva005F1A2D() {
  if(selectedBonus>=0 && selectedBonus<6)TheMouse->rva001EEA6D(RegionBonusTooltip(selectedBonus),-1,0,1.0f);
 }
 
-StrategicHUD::RegionDetailsTerritoryMovieClip::Impl::Impl(unsigned int l,const AsciiString &n):level(l),name(n) {
+StrategicHUD::RegionDetailsTerritoryMovieClip::Impl::Impl(unsigned int l,const AsciiString &asciiString):level(l),name(asciiString) {
  selectedBonus=-1;
  preview=0;
  for(int *p=bonuses;p!=bonuses+6;++p)*p=0;

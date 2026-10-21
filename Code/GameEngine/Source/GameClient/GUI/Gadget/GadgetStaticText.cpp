@@ -254,16 +254,16 @@ UnicodeString GadgetStaticTextGetText( GameWindow *window )
 	* text font, the tooltip font, and the static text display strings for
 	* the text data itself */
 //=============================================================================
-void GadgetStaticTextSetFont( GameWindow *g, GameFont *font )
+void GadgetStaticTextSetFont( GameWindow *gameWindow, GameFont *font )
 {
-	TextData *textData = (TextData *)g->winGetUserData();
+	TextData *textData = (TextData *)gameWindow->winGetUserData();
 	DisplayString *dString;
 
 	// set the font for the display strings all windows have
-	dString = g->winGetInstanceData()->getTextDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTextDisplayString();
 	if( dString )
 		((BFMEStaticTextDisplayString *)dString)->setFont( font );
-	dString = g->winGetInstanceData()->getTooltipDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTooltipDisplayString();
 	if( dString )
 		((BFMEStaticTextDisplayString *)dString)->setFont( font );
 

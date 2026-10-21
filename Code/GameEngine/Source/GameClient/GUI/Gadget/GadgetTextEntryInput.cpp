@@ -229,7 +229,7 @@ bool GadgetTextEntryInsertCharacter(GameWindow *window, UnsignedInt character);
 WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 	WindowMsgData mData1, WindowMsgData mData2)
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 	WinInstanceData *instData = window->winGetInstanceData();
 
 	if (msg != GWM_LEFT_UP && TheIMEManager && TheIMEManager->isAttachedTo(window) &&
@@ -249,8 +249,8 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 					GBM_MOUSE_ENTERING, (WindowMsgData)window, 0);
 			}
 			((Rva00432AEB *)g_Va00E032C8)->rva00432AEB(0x2C);
-			if (e)
-				e->systemFlag = true;
+			if (entryData)
+				entryData->systemFlag = true;
 			break;
 
 		case GWM_LEFT_DRAG:
@@ -267,7 +267,7 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 		case GWM_LEFT_DOWN:
 		{
 			TheWindowManager->winSetFocus(window);
-			if (e->unknown20 && TheIMEManager)
+			if (entryData->unknown20 && TheIMEManager)
 			{
 				TheIMEManager->disable();
 				TheIMEManager->enable();
@@ -277,14 +277,14 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 			window->winGetScreenPosition(&x, &y);
 			window->winGetSize(&width, &height);
 			Int clickX = (mData1 & 0xFFFF) - x;
-			DisplayString *ds = e->text;
-			if (e->secretText)
-				ds = e->sText;
-			clickX += e->text->getWidth(e->drawStart);
+			DisplayString *ds = entryData->text;
+			if (entryData->secretText)
+				ds = entryData->sText;
+			clickX += entryData->text->getWidth(entryData->drawStart);
 			Int pos = ds->getTextLength();
 			while (pos > 0 && clickX < ds->getWidth(pos))
 				pos--;
-			e->conCharPos = pos;
+			entryData->conCharPos = pos;
 			GadgetTextEntrySetCursorPosition(window, pos);
 			TheWindowManager->slot61SetCapture(window);
 			break;
@@ -298,8 +298,8 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 					GBM_MOUSE_LEAVING, (WindowMsgData)window, 0);
 			}
 			((Rva00432AEB *)g_Va00E032C8)->rva00432AEB(2);
-			if (e)
-				e->systemFlag = false;
+			if (entryData)
+				entryData->systemFlag = false;
 			break;
 
 		case GWM_IME_CHAR:
@@ -308,7 +308,7 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 			if (ch == '\r')
 			{
 				// Done with this edit
-				e->drawTextFromStart = false;
+				entryData->drawTextFromStart = false;
 				TheWindowManager->winSendSystemMsg(window->winGetOwner(),
 					GEM_EDIT_DONE, (WindowMsgData)window, 0);
 			}
@@ -330,10 +330,10 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 			window->winGetScreenPosition(&x, &y);
 			window->winGetSize(&width, &height);
 			Int clickX = (mData1 & 0xFFFF) - x;
-			DisplayString *ds = e->text;
-			if (e->secretText)
-				ds = e->sText;
-			clickX += e->text->getWidth(e->drawStart);
+			DisplayString *ds = entryData->text;
+			if (entryData->secretText)
+				ds = entryData->sText;
+			clickX += entryData->text->getWidth(entryData->drawStart);
 			Int pos = ds->getTextLength();
 			while (pos > 0 && clickX < ds->getWidth(pos))
 				pos--;
@@ -352,14 +352,14 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 					switch (mData1)
 					{
 						case KEY_RIGHT:
-							if (e->unknown20 == 0)
+							if (entryData->unknown20 == 0)
 							{
 								// jump to the start of the next word
-								if (e->charPos < e->text->getTextLength())
+								if (entryData->charPos < entryData->text->getTextLength())
 								{
-									Int len = e->text->getTextLength();
-									const WideChar *str = e->text->getText().str();
-									Int pos = e->charPos;
+									Int len = entryData->text->getTextLength();
+									const WideChar *str = entryData->text->getText().str();
+									Int pos = entryData->charPos;
 									while (pos < len && str[pos] == ' ')
 										pos++;
 									while (pos < len && str[pos] != ' ')
@@ -369,18 +369,18 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 									GadgetTextEntrySetCursorPosition(window, pos);
 								}
 								if (!BitTest(mData2, KEY_STATE_SHIFT))
-									e->conCharPos = e->charPos;
+									entryData->conCharPos = entryData->charPos;
 							}
 							break;
 
 						case KEY_LEFT:
-							if (e->unknown20 == 0)
+							if (entryData->unknown20 == 0)
 							{
 								// jump to the start of this or the previous word
-								if (e->charPos > 0)
+								if (entryData->charPos > 0)
 								{
-									const WideChar *str = e->text->getText().str();
-									Int pos = e->charPos;
+									const WideChar *str = entryData->text->getText().str();
+									Int pos = entryData->charPos;
 									while (pos > 0 && str[pos - 1] == ' ')
 										pos--;
 									while (pos > 0 && str[pos - 1] != ' ')
@@ -388,7 +388,7 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 									GadgetTextEntrySetCursorPosition(window, pos);
 								}
 								if (!BitTest(mData2, KEY_STATE_SHIFT))
-									e->conCharPos = e->charPos;
+									entryData->conCharPos = entryData->charPos;
 							}
 							break;
 
@@ -453,11 +453,11 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 					break;
 
 				case KEY_DEL:
-					if (BitTest(mData2, KEY_STATE_DOWN) && e->unknown20 == 0)
+					if (BitTest(mData2, KEY_STATE_DOWN) && entryData->unknown20 == 0)
 					{
 						// an empty selection deletes the character after the cursor
-						if (e->conCharPos == e->charPos)
-							e->conCharPos = e->charPos + 1;
+						if (entryData->conCharPos == entryData->charPos)
+							entryData->conCharPos = entryData->charPos + 1;
 						if (GadgetTextEntryUpdateComposition(window))
 							TheWindowManager->winSendSystemMsg(window->winGetOwner(),
 								GEM_UPDATE_TEXT, (WindowMsgData)window, 0);
@@ -465,11 +465,11 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 					break;
 
 				case KEY_BACKSPACE:
-					if (BitTest(mData2, KEY_STATE_DOWN) && e->unknown20 == 0)
+					if (BitTest(mData2, KEY_STATE_DOWN) && entryData->unknown20 == 0)
 					{
 						// an empty selection deletes the character before the cursor
-						if (e->conCharPos > 0 && e->conCharPos == e->charPos)
-							e->conCharPos = e->charPos - 1;
+						if (entryData->conCharPos > 0 && entryData->conCharPos == entryData->charPos)
+							entryData->conCharPos = entryData->charPos - 1;
 						if (GadgetTextEntryUpdateComposition(window))
 							TheWindowManager->winSendSystemMsg(window->winGetOwner(),
 								GEM_UPDATE_TEXT, (WindowMsgData)window, 0);
@@ -477,42 +477,42 @@ WindowMsgHandledType GadgetTextEntryInput(GameWindow *window, UnsignedInt msg,
 					break;
 
 				case KEY_HOME:
-					if (e->unknown20 == 0)
+					if (entryData->unknown20 == 0)
 					{
 						if (BitTest(mData2, KEY_STATE_DOWN))
 							GadgetTextEntrySetCursorPosition(window, 0);
 						if (!BitTest(mData2, KEY_STATE_SHIFT))
-							e->conCharPos = e->charPos;
+							entryData->conCharPos = entryData->charPos;
 					}
 					break;
 
 				case KEY_END:
-					if (e->unknown20 == 0)
+					if (entryData->unknown20 == 0)
 					{
 						if (BitTest(mData2, KEY_STATE_DOWN))
-							GadgetTextEntrySetCursorPosition(window, e->text->getTextLength());
+							GadgetTextEntrySetCursorPosition(window, entryData->text->getTextLength());
 						if (!BitTest(mData2, KEY_STATE_SHIFT))
-							e->conCharPos = e->charPos;
+							entryData->conCharPos = entryData->charPos;
 					}
 					break;
 
 				case KEY_RIGHT:
-					if (BitTest(mData2, KEY_STATE_DOWN) && e->unknown20 == 0)
+					if (BitTest(mData2, KEY_STATE_DOWN) && entryData->unknown20 == 0)
 					{
-						if (e->charPos < e->text->getTextLength())
-							GadgetTextEntrySetCursorPosition(window, e->charPos + 1);
+						if (entryData->charPos < entryData->text->getTextLength())
+							GadgetTextEntrySetCursorPosition(window, entryData->charPos + 1);
 						if (!BitTest(mData2, KEY_STATE_SHIFT))
-							e->conCharPos = e->charPos;
+							entryData->conCharPos = entryData->charPos;
 					}
 					break;
 
 				case KEY_LEFT:
-					if (BitTest(mData2, KEY_STATE_DOWN) && e->unknown20 == 0)
+					if (BitTest(mData2, KEY_STATE_DOWN) && entryData->unknown20 == 0)
 					{
-						if (e->charPos > 0)
-							GadgetTextEntrySetCursorPosition(window, e->charPos - 1);
+						if (entryData->charPos > 0)
+							GadgetTextEntrySetCursorPosition(window, entryData->charPos - 1);
 						if (!BitTest(mData2, KEY_STATE_SHIFT))
-							e->conCharPos = e->charPos;
+							entryData->conCharPos = entryData->charPos;
 					}
 					break;
 			}

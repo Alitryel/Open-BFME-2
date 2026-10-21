@@ -234,10 +234,10 @@ const Image *PalantirCommandInterface::Impl::GetCurrentPortraitImage(Object *obj
 	const Image *image = 0;
 	if (obj != 0)
 	{
-		const ThingTemplate *tmpl = obj->rva002911B7();
-		if (tmpl == 0)
-			tmpl = obj->getTemplate();
-		if (tmpl == 0)
+		const ThingTemplate *thingTemplate = obj->rva002911B7();
+		if (thingTemplate == 0)
+			thingTemplate = obj->getTemplate();
+		if (thingTemplate == 0)
 			return 0;
 		image = obj->getObjectSelectedPortraitImage();
 	}

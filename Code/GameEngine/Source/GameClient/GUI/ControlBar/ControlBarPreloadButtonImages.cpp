@@ -50,11 +50,11 @@ void ControlBar::rva0031D64F() {
  Player *player=ThePlayerList->local;
  if(!player)return;
  AsciiString side=player->side;
- for(ThingTemplate *t=TheThingFactory->first;t;t=t->next) {
-  if((t->kindOf&2)&&t->side.compare(side)==0) {
-   rva0031D61E(&t->commandSet);
-   if(t->getButtonImage()) const_cast<Image*>(t->getButtonImage())->rva002D937E();
-   if(t->rva0033BA46()) const_cast<Image*>(t->rva0033BA46())->rva002D937E();
+ for(ThingTemplate *thingTemplate=TheThingFactory->first;thingTemplate;thingTemplate=thingTemplate->next) {
+  if((thingTemplate->kindOf&2)&&thingTemplate->side.compare(side)==0) {
+   rva0031D61E(&thingTemplate->commandSet);
+   if(thingTemplate->getButtonImage()) const_cast<Image*>(thingTemplate->getButtonImage())->rva002D937E();
+   if(thingTemplate->rva0033BA46()) const_cast<Image*>(thingTemplate->rva0033BA46())->rva002D937E();
   }
  }
  PlayerTemplate *base=player->base;

@@ -90,7 +90,7 @@ typedef void(FunctorTarget::*FunctorMethod)(void);
 struct FunctorBinding {FunctorBinding(FunctorMethod m,FunctorTarget*o):object(o),method(m){} FunctorTarget*object;unsigned word;FunctorMethod method;};
 class FunctorWrapperHead {public:void*vt;int refCount;};
 class Rva0057BC63FunctorHolder {public:Rva0057BC63FunctorHolder(const FunctorBinding&);Rva0057BC63FunctorHolder(const Rva0057BC63FunctorHolder&o):ptr(o.ptr){if(ptr)++ptr->refCount;}FunctorWrapperHead*ptr;};
-__forceinline FunctorBinding MakeBinding(FunctorMethod m,FunctorTarget*o){return FunctorBinding(m,o);}
+__forceinline FunctorBinding MakeBinding(FunctorMethod m,FunctorTarget*functorTarget){return FunctorBinding(m,functorTarget);}
 template<class T> class AptRef:public Rva0057BC63FunctorHolder {public:AptRef(const FunctorBinding&b):Rva0057BC63FunctorHolder(b){}~AptRef(){if(ptr)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)ptr);}};
 class AptCommandMap;
 class AptCommandMapAdder {public:AptCommandMapAdder();~AptCommandMapAdder();void AddCommandMap(const AsciiString&,AptRef<AptCommandMap>);__forceinline void AddCommandMapDelegate(const AsciiString&n,FunctorBinding b){AddCommandMap(n,b);}private:_STL::vector<AsciiString> names;};
@@ -167,7 +167,7 @@ class ChecklistItemRef
 public:
 	__forceinline ChecklistItemRef() : m_ptr(0) {}
 	ChecklistItemRef(StrategicHUD::ChecklistUIItemView *p);
-	__forceinline ChecklistItemRef(const ChecklistItemRef &o) : m_ptr(o.m_ptr) {if(m_ptr)reinterpret_cast<Rva005D1A79DwordCounter *>(m_ptr)->inc();}
+	__forceinline ChecklistItemRef(const ChecklistItemRef &checklistItemRef) : m_ptr(checklistItemRef.m_ptr) {if(m_ptr)reinterpret_cast<Rva005D1A79DwordCounter *>(m_ptr)->inc();}
 	__forceinline ~ChecklistItemRef() {if(m_ptr)reinterpret_cast<RefCountClass *>(m_ptr)->Release_Ref();}
 	StrategicHUD::ChecklistUIItemView *operator->() const {return m_ptr;}
 	StrategicHUD::ChecklistUIItemView *m_ptr;
@@ -186,7 +186,7 @@ public:ChecklistUIImpl(int,const AsciiString&);virtual~ChecklistUIImpl();
  int level;AsciiString path;int state;AptCommandMapAdder maps;bool open,flag25,flag26;Rva000AD6F4 scrollbar;int word2C;_STL::list<int>items;_STL::list<int>::iterator position;bool flag38;float viewHeight;int turn,phase,word48;bool flag4C;
 };
 #define BIND(TEXT,METHOD) {FunctorMethod method=reinterpret_cast<FunctorMethod>(&ChecklistUIImpl::METHOD);const AsciiString&name=prefix+path+TEXT;maps.AddCommandMapDelegate(name,MakeBinding(method,reinterpret_cast<FunctorTarget*>(this)));}
-StrategicHUD::ChecklistUIImpl::ChecklistUIImpl(int l,const AsciiString&n):level(l),path(n),state(0),open(true),flag25(false),flag26(false),word2C(0),position(items.end()),flag38(false),viewHeight(ChecklistViewHeight(n,l)),turn(1),phase(-1),word48(0),flag4C(false){
+StrategicHUD::ChecklistUIImpl::ChecklistUIImpl(int l,const AsciiString&asciiString):level(l),path(asciiString),state(0),open(true),flag25(false),flag26(false),word2C(0),position(items.end()),flag38(false),viewHeight(ChecklistViewHeight(asciiString,l)),turn(1),phase(-1),word48(0),flag4C(false){
  AsciiString prefix;prefix.format("_level%u.",level);
  BIND("_OnScrollBarLoaded",OnScrollBarLoaded);
  BIND("_OnScrollBarUnloaded",OnScrollBarUnloaded);
@@ -202,13 +202,13 @@ StrategicHUD::ChecklistUIImpl::~ChecklistUIImpl()
 	void *cur = *(void **)head;
 	if (cur != head) {
 		void *nxt;
-		XNode *x;
-		YBase *y;
+		XNode *xNode;
+		YBase *yBase;
 		do {
 			nxt = *(void **)cur;
-			x = *(XNode **)((char *)cur + 8);
-			y = x->m_y;
-			y->y5(x);
+			xNode = *(XNode **)((char *)cur + 8);
+			yBase = xNode->m_y;
+			yBase->y5(xNode);
 			cur = nxt;
 		} while (nxt != head);
 	}

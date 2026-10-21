@@ -64,7 +64,7 @@ struct TreeHintRef00217D4C {
 };
 struct ExperienceLevelHandle {
  ExperienceLevelHandle() {}
- ExperienceLevelHandle(const ExperienceLevelHandle &r):list(r.list),node(r.node){}
+ ExperienceLevelHandle(const ExperienceLevelHandle &experienceLevelHandle):list(experienceLevelHandle.list),node(experienceLevelHandle.node){}
  void *list,*node;
 };
 class ExperienceLevelStore {public:

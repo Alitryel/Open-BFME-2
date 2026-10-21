@@ -79,8 +79,8 @@ const CommandButton *CommandTranslator::rva0042970A(int id)
 	int i;
 	const CommandButton *btn;
 	CommandSet *set;
-	InGameRet *r = (InGameRet *)((InGameUI *)TheInGameUI)->v75();
-	Object *obj = r->m_obj;
+	InGameRet *inGameRet = (InGameRet *)((InGameUI *)TheInGameUI)->v75();
+	Object *obj = inGameRet->m_obj;
 	const AsciiString *name = obj->rva00290E67();
 	set = (CommandSet *)((Rva0031D5F8 *)(*(BfmeWorldRV **)&TheControlBar))->rva0031D5F8(name);
 	if (set != 0) {

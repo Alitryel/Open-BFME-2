@@ -19,12 +19,12 @@ private:
 	UnicodeString m_str;
 };
 
-void Rva005CCD61::rva005CCD61(const UnicodeString &arg)
+void Rva005CCD61::rva005CCD61(const UnicodeString &unicodeString)
 {
-	if (arg.compare(m_str) != 0) {
+	if (unicodeString.compare(m_str) != 0) {
 		if (m_process)
-			m_process->ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow((AnimateWindow *)&arg);
-		m_str.set(arg);
+			m_process->ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow((AnimateWindow *)&unicodeString);
+		m_str.set(unicodeString);
 	}
 }
 
@@ -38,7 +38,7 @@ private:
 	Rva005CCD61 *m_08;
 };
 
-void Rva005CCE13::rva005CCE13(const UnicodeString &arg)
+void Rva005CCE13::rva005CCE13(const UnicodeString &unicodeString)
 {
-	return m_08->rva005CCD61(arg);
+	return m_08->rva005CCD61(unicodeString);
 }

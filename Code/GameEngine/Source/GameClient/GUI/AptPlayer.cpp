@@ -341,17 +341,17 @@ struct Rva00222547Out
 	int m_result;
 };
 
-int AptPlayer::GetLevelIndex(GameWindow *w)
+int AptPlayer::GetLevelIndex(GameWindow *gameWindow)
 {
-	if (w == 0)
+	if (gameWindow == 0)
 		return -1;
 	Rva00222547Out *out = 0;
 	for (;;)
 	{
-		if (w == 0)
+		if (gameWindow == 0)
 			return 14;
-		TheWindowManager->winSendSystemMsg(w, 29, 2000, (WindowMsgData)&out);
-		w = w->winGetParent();
+		TheWindowManager->winSendSystemMsg(gameWindow, 29, 2000, (WindowMsgData)&out);
+		gameWindow = gameWindow->winGetParent();
 		if (out == 0)
 			continue;
 		return out->m_result;
@@ -733,9 +733,9 @@ AsciiString &__cdecl Rva00222C93Append(AsciiString &str, const char *s);
 Rva00224CDC *rva00224D80();
 // Retail expands the character read in place here (buffer text at +8, zero
 // for an empty string) instead of calling StringBase::getCharAt 0x00035720.
-static __forceinline char Rva00224F6CCharAt(const AsciiString &s, int i)
+static __forceinline char Rva00224F6CCharAt(const AsciiString &asciiString, int i)
 {
- const char *data = *reinterpret_cast<const char *const *>(&s);
+ const char *data = *reinterpret_cast<const char *const *>(&asciiString);
  return data ? data[8 + i] : 0;
 }
 

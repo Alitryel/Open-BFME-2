@@ -39,9 +39,9 @@ void adjustVector(Coord3D *vec, const Matrix3D *mtx);
 
 // Retail inlines RGBColor::getAsInt here (the canonical header only declares
 // the out-of-line owner in color.cpp).
-static __forceinline Int rgbColorAsInt(const RGBColor &c)
+static __forceinline Int rgbColorAsInt(const RGBColor &rGBColor)
 {
-	return ((Int)(c.red * 255.0) << 16) | ((Int)(c.green * 255.0) << 8) | ((Int)(c.blue * 255.0));
+	return ((Int)(rGBColor.red * 255.0) << 16) | ((Int)(rGBColor.green * 255.0) << 8) | ((Int)(rGBColor.blue * 255.0));
 }
 
 class Shadow

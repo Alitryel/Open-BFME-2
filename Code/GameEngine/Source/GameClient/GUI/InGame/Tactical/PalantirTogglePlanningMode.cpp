@@ -76,9 +76,9 @@ void Palantir::Impl::TogglePlanningMode()
 		return;
 	Rva002D2F32Mid *mid = ThePlayerList->m_mid;
 	if (mid != 0 && mid->m_750 == 2) {
-		GameMessage *m = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);
-		m->appendIntegerArgument(0);
-		m->appendIntegerArgument(2);
+		GameMessage *gameMessage = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);
+		gameMessage->appendIntegerArgument(0);
+		gameMessage->appendIntegerArgument(2);
 		return;
 	}
 	GameMessage *m2 = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);

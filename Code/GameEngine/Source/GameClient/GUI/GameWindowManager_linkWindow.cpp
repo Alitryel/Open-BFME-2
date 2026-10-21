@@ -45,8 +45,8 @@ void GameWindowManager::linkWindow(GameWindow *win)
 		do {
 			ModalWindow *node = m_modalHead;
 			while (node) {
-				GameWindow *v = node->window;
-				if (v == cur && v != win)
+				GameWindow *gameWindow = node->window;
+				if (gameWindow == cur && gameWindow != win)
 					found = cur;
 				node = node->next;
 			}

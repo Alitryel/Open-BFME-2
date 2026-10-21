@@ -68,9 +68,9 @@ void CommandSet::rva00409F1B(int a, int b)
 		default:
 			continue;
 		}
-		const ThingTemplate *tmpl = cur->rva0035B570();
-		if (tmpl == 0)
+		const ThingTemplate *thingTemplate = cur->rva0035B570();
+		if (thingTemplate == 0)
 			continue;
-		const_cast<ThingTemplate *>(tmpl)->GetAssetList(a, b);
+		const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(a, b);
 	}
 }

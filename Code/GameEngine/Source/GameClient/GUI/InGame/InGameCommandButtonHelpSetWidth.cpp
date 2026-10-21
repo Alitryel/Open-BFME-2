@@ -61,9 +61,9 @@ struct UnicodeStringHeaderView
 	int ref_count;
 	unsigned short length;
 };
-static __forceinline bool hasText(const UnicodeString &s)
+static __forceinline bool hasText(const UnicodeString &unicodeString)
 {
-	const UnicodeStringHeaderView *header = *(const UnicodeStringHeaderView *const *)&s;
+	const UnicodeStringHeaderView *header = *(const UnicodeStringHeaderView *const *)&unicodeString;
 	return header != 0 && header->length != 0;
 }
 

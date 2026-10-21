@@ -105,7 +105,7 @@ struct FunctorBinding
 	FunctorTarget *target;
 	unsigned pad;
 	FunctorMethod method;
-	FunctorBinding(FunctorMethod m, FunctorTarget *t) : target(t), method(m) {}
+	FunctorBinding(FunctorMethod m, FunctorTarget *functorTarget) : target(functorTarget), method(m) {}
 };
 struct Rva0057BC63FunctorHolder
 {
@@ -117,13 +117,13 @@ struct Rva0057BC63FunctorHolder
 class Rva0023E8D8 : public Rva0057BC63FunctorHolder
 {
 public:
-	__forceinline Rva0023E8D8(const FunctorBinding &b) : Rva0057BC63FunctorHolder(b) {}
+	__forceinline Rva0023E8D8(const FunctorBinding &functorBinding) : Rva0057BC63FunctorHolder(functorBinding) {}
 	Rva0023E8D8(const Rva0023E8D8 &o) : Rva0057BC63FunctorHolder(o) {}
 };
 extern "C" void __cdecl Rva00437F61(int, const UnicodeString &, const UnicodeString &, Rva0023E8D8);
-static __forceinline FunctorBinding bind(FunctorMethod m, FunctorTarget *t)
+static __forceinline FunctorBinding bind(FunctorMethod m, FunctorTarget *functorTarget)
 {
-	FunctorBinding r(m, t);
+	FunctorBinding r(m, functorTarget);
 	return r;
 }
 

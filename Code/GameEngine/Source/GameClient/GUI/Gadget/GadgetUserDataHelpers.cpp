@@ -285,16 +285,16 @@ void Rva003284B9(GameWindow *window, int a, int b)
 // (donor drawBorder at +0x0C and colorBorder at +0x10 match _PushButtonData
 // m_byte0C/m_int10 here); null-guarded create via getNewPushButtonData and
 // winSetUserData like Rva003284B9 siblings in this TU.
-void GadgetButtonSetBorder(GameWindow *g, unsigned int color, bool drawBorder)
+void GadgetButtonSetBorder(GameWindow *gameWindow, unsigned int color, bool drawBorder)
 {
-	if (g == 0)
+	if (gameWindow == 0)
 		return;
-	_PushButtonData *pData = (_PushButtonData *)g->winGetUserData();
+	_PushButtonData *pData = (_PushButtonData *)gameWindow->winGetUserData();
 	if (pData == 0)
 		pData = getNewPushButtonData();
 	pData->m_byte0C = (char)drawBorder;
 	pData->m_int10 = (int)color;
-	g->winSetUserData(pData);
+	gameWindow->winSetUserData(pData);
 }
 
 // ?GadgetButtonDrawClock@@YAXPAVGameWindow@@HI@Z @0x00328485 52B
@@ -302,15 +302,15 @@ void GadgetButtonSetBorder(GameWindow *g, unsigned int color, bool drawBorder)
 // (donor drawClock NORMAL_CLOCK=1 at +0x00 plus percentClock at +0x04 and
 // colorClock at +0x08 match _PushButtonData m_byte00/m_int04/m_int08);
 // same create and winSetUserData shape as SetBorder above.
-void GadgetButtonDrawClock(GameWindow *g, int percent, unsigned int color)
+void GadgetButtonDrawClock(GameWindow *gameWindow, int percent, unsigned int color)
 {
-	if (g == 0)
+	if (gameWindow == 0)
 		return;
-	_PushButtonData *pData = (_PushButtonData *)g->winGetUserData();
+	_PushButtonData *pData = (_PushButtonData *)gameWindow->winGetUserData();
 	if (pData == 0)
 		pData = getNewPushButtonData();
 	pData->m_byte00 = 1;
 	pData->m_int04 = percent;
 	pData->m_int08 = (int)color;
-	g->winSetUserData(pData);
+	gameWindow->winSetUserData(pData);
 }

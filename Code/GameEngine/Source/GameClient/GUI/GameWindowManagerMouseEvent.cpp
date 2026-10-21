@@ -375,7 +375,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 
 			if( window )
 			{
-				GameWindow *tempWin;
+				GameWindow *gameWindow;
 
 				//
 				// only send messages for button states, wheel states, we do not
@@ -384,15 +384,15 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 				if( sendMousePosMessages == TRUE || msg != GWM_MOUSE_POS )
 				{
 
-					tempWin = window;
+					gameWindow = window;
 	
 					// Give everyone a chance to do something with the clicks
 					GameWindow *oldLoneWindow = m_loneWindow;
-					while( winSendInputMsg( tempWin, msg, packedMouseCoords, 0 ) == MSG_IGNORED )
+					while( winSendInputMsg( gameWindow, msg, packedMouseCoords, 0 ) == MSG_IGNORED )
 					{
 
-						tempWin = tempWin->m_parent;
-						if( tempWin == NULL )
+						gameWindow = gameWindow->m_parent;
+						if( gameWindow == NULL )
 							break;
 
 					}  // end while
@@ -400,9 +400,9 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 						
 					// First check to see if m_loneWindow is set if so, close the window
 					if( m_loneWindow && m_loneWindow == oldLoneWindow 
-					&&( msg == GWM_LEFT_UP || msg == GWM_MIDDLE_UP || msg == GWM_RIGHT_UP || tempWin))
+					&&( msg == GWM_LEFT_UP || msg == GWM_MIDDLE_UP || msg == GWM_RIGHT_UP || gameWindow))
 					{
-						if(!reinterpret_cast<Rva003140AB*>(m_loneWindow)->rva003140AB(reinterpret_cast<Rva003140AB*>(tempWin)))
+						if(!reinterpret_cast<Rva003140AB*>(m_loneWindow)->rva003140AB(reinterpret_cast<Rva003140AB*>(gameWindow)))
 							winSetLoneWindow( NULL );
 						/*
 								ComboBoxData *cData = (ComboBoxData *)m_comboBoxOpen->winGetUserData();
@@ -417,7 +417,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 																	winSetOpenComboBoxWindow( NULL );*/
 								
 					}
-					if( tempWin )
+					if( gameWindow )
 					{
 					
 						//
@@ -430,7 +430,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 
 //						if( tempWin != windowList ) 
 //							WinActivate( tempWin );
-							m_grabWindow = tempWin;
+							m_grabWindow = gameWindow;
 
 						}  // end if
 

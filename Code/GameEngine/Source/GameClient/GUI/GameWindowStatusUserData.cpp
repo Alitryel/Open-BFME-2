@@ -105,9 +105,9 @@ __declspec(noinline) inline GameWindow *GameWindow::winGetChild(void)
 }
 
 // ?bfmeAnchorGameWindowWinGetChild absent-from-retail
-GameWindow *bfmeAnchorGameWindowWinGetChild(GameWindow *p)
+GameWindow *bfmeAnchorGameWindowWinGetChild(GameWindow *gameWindow)
 {
-	return p->winGetChild();
+	return gameWindow->winGetChild();
 }
 
 
@@ -126,9 +126,9 @@ Color GameWindow::winGetHiliteTextBorderColor(void) { return m_textColor[5]; }
 __declspec(noinline) inline GameFont *GameWindow::winGetFont(void) { return m_font; }
 
 // ?bfmeAnchorGameWindowWinGetFont absent-from-retail
-GameFont *bfmeAnchorGameWindowWinGetFont(GameWindow *p)
+GameFont *bfmeAnchorGameWindowWinGetFont(GameWindow *gameWindow)
 {
-	return p->winGetFont();
+	return gameWindow->winGetFont();
 }
 
 // The IME composite text colour and border (+0x1A4, +0x1A8), right after the

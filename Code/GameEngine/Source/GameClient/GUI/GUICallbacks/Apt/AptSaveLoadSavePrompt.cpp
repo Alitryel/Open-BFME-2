@@ -110,13 +110,13 @@ public:
 struct CallbackStorage {
  Rva0023E8D8 holder;
  CallbackStorage(void*p):holder(p){}
- CallbackStorage(const CallbackStorage&r):holder(r.holder){}
+ CallbackStorage(const CallbackStorage&callbackStorage):holder(callbackStorage.holder){}
 };
 struct ScopedFunctor {
  Rva0057BC63FunctorHolder holder;
  ScopedFunctor(){}
  ScopedFunctor(const FunctorBinding& binding):holder(binding){}
- ScopedFunctor(const ScopedFunctor&r):holder(r.holder){if(holder.m_ptr)++((int*)holder.m_ptr)[1];}
+ ScopedFunctor(const ScopedFunctor&scopedFunctor):holder(scopedFunctor.holder){if(holder.m_ptr)++((int*)holder.m_ptr)[1];}
  ~ScopedFunctor(){if(holder.m_ptr)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)holder.m_ptr);}
 };
 
@@ -241,68 +241,68 @@ struct AptSaveLoadWindowsView
 };
 int AptSaveLoad::rva00437053()
 {
-	AptSaveLoadWindowsView *v = (AptSaveLoadWindowsView *)this;
-	if (v->m_state == 1)
+	AptSaveLoadWindowsView *aptSaveLoadWindowsView = (AptSaveLoadWindowsView *)this;
+	if (aptSaveLoadWindowsView->m_state == 1)
 	{
 		rva00434432();
-		v->m_state = 0;
+		aptSaveLoadWindowsView->m_state = 0;
 	}
-	else if (v->m_state == 2)
+	else if (aptSaveLoadWindowsView->m_state == 2)
 	{
 		rva00436FF6();
-		v->m_state = 0;
+		aptSaveLoadWindowsView->m_state = 0;
 	}
-	else if (v->m_state == 14 || v->m_state == 15 || v->m_state == 16 || v->m_state == 17)
+	else if (aptSaveLoadWindowsView->m_state == 14 || aptSaveLoadWindowsView->m_state == 15 || aptSaveLoadWindowsView->m_state == 16 || aptSaveLoadWindowsView->m_state == 17)
 	{
-		if (v->m_fileName)
-			v->m_fileName->winEnable(0);
-		if (v->m_gameList)
-			v->m_gameList->winEnable(0);
-		if (v->m_autoSaveList)
-			v->m_autoSaveList->winEnable(0);
-		if (v->m_state == 14)
+		if (aptSaveLoadWindowsView->m_fileName)
+			aptSaveLoadWindowsView->m_fileName->winEnable(0);
+		if (aptSaveLoadWindowsView->m_gameList)
+			aptSaveLoadWindowsView->m_gameList->winEnable(0);
+		if (aptSaveLoadWindowsView->m_autoSaveList)
+			aptSaveLoadWindowsView->m_autoSaveList->winEnable(0);
+		if (aptSaveLoadWindowsView->m_state == 14)
 		{
 			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Load", 0, 0, 0, 0);
-			v->m_state = 18;
+			aptSaveLoadWindowsView->m_state = 18;
 		}
-		else if (v->m_state == 15)
+		else if (aptSaveLoadWindowsView->m_state == 15)
 		{
 			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Save", 0, 0, 0, 0);
-			v->m_state = 19;
+			aptSaveLoadWindowsView->m_state = 19;
 		}
-		else if (v->m_state == 16)
+		else if (aptSaveLoadWindowsView->m_state == 16)
 		{
 			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Delete", 0, 0, 0, 0);
-			v->m_state = 20;
+			aptSaveLoadWindowsView->m_state = 20;
 		}
-		else if (v->m_state == 17)
+		else if (aptSaveLoadWindowsView->m_state == 17)
 		{
 			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "ReplayVersionMismatch", 0, 0, 0, 0);
-			v->m_state = 21;
+			aptSaveLoadWindowsView->m_state = 21;
 		}
 	}
-	else if (v->m_state == 3)
+	else if (aptSaveLoadWindowsView->m_state == 3)
 	{
 		reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "closeDelayed", 1, "OnClosed", 0, 0, 0, 0);
-		v->m_state = 6;
+		aptSaveLoadWindowsView->m_state = 6;
 	}
-	else if (v->m_state == 4)
+	else if (aptSaveLoadWindowsView->m_state == 4)
 	{
 		(reinterpret_cast<PromptShowCall>(&AptMessageBox::Show))(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWait", 0),
 			ScopedFunctor(),
 			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
-		v->m_state = 8;
+		aptSaveLoadWindowsView->m_state = 8;
 	}
-	else if (v->m_state == 7)
+	else if (aptSaveLoadWindowsView->m_state == 7)
 		rva00435819();
-	else if (v->m_state == 5)
+	else if (aptSaveLoadWindowsView->m_state == 5)
 	{
 		(reinterpret_cast<PromptShowCall>(&AptMessageBox::Show))(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWaitOnMultiplayer", 0),
 			ScopedFunctor(),
 			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
-		v->m_state = 11;
+		aptSaveLoadWindowsView->m_state = 11;
 	}
-	else if (v->m_state == 13)
+	else if (aptSaveLoadWindowsView->m_state == 13)
 		Rva00434EFA();
 	return 1;
 }

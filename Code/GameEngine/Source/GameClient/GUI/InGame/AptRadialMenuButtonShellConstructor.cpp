@@ -40,7 +40,7 @@ struct Impl : ImplBase {
 	virtual void rva005b4c73(const char *argument);
 	void *m_object;
 	void *m_method;
-	Impl(const DelegateDesc &d) : m_object(d.m_object), m_method(d.m_method) {}
+	Impl(const DelegateDesc &delegateDesc) : m_object(delegateDesc.m_object), m_method(delegateDesc.m_method) {}
 };
 
 class Rva00579E47 {

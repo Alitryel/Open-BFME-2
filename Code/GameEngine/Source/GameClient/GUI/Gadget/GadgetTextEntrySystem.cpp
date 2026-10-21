@@ -177,32 +177,32 @@ static GameWindow *curWindow = NULL;
 WindowMsgHandledType GadgetTextEntrySystem(GameWindow *window, UnsignedInt msg,
 	WindowMsgData mData1, WindowMsgData mData2)
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 	WinInstanceData *instData = window->winGetInstanceData();
 
 	switch (msg)
 	{
 		case GEM_GET_TEXT:
-			*(UnicodeString *)mData2 = e->text->getText();
+			*(UnicodeString *)mData2 = entryData->text->getText();
 			break;
 
 		case GEM_SET_TEXT:
 		{
 			const UnicodeString *ustr = (const UnicodeString *)mData1;
-			e->text->setText(*ustr);
+			entryData->text->setText(*ustr);
 			if (TheWindowManager->winGetFocus() == window)
 				GadgetTextEntrySetCursorPosition(window, ustr->getLength());
 			else
 				GadgetTextEntrySetCursorPosition(window, 0);
-			e->constructText->setText(UnicodeString::TheEmptyString);
-			e->conCharPos = e->charPos;
-			e->unknown20 = 0;
+			entryData->constructText->setText(UnicodeString::TheEmptyString);
+			entryData->conCharPos = entryData->charPos;
+			entryData->unknown20 = 0;
 
 			// set our secret text string to be filled with '*' the same length
-			e->sText->setText(UnicodeString::TheEmptyString);
+			entryData->sText->setText(UnicodeString::TheEmptyString);
 			Int len = ustr->getLength();
 			for (Int i = 0; i < len; i++)
-				e->sText->appendChar(L'*');
+				entryData->sText->appendChar(L'*');
 			break;
 		}
 
@@ -210,17 +210,17 @@ WindowMsgHandledType GadgetTextEntrySystem(GameWindow *window, UnsignedInt msg,
 			break;
 
 		case GWM_DESTROY:
-			if (e && e->systemFlag)
+			if (entryData && entryData->systemFlag)
 				((Rva00432AEB *)g_Va00E032C8)->rva00432AEB(2);
 
 			// delete the edit display strings
-			TheDisplayStringManager->freeDisplayString(e->text);
-			TheDisplayStringManager->freeDisplayString(e->sText);
-			TheDisplayStringManager->freeDisplayString(e->constructText);
+			TheDisplayStringManager->freeDisplayString(entryData->text);
+			TheDisplayStringManager->freeDisplayString(entryData->sText);
+			TheDisplayStringManager->freeDisplayString(entryData->constructText);
 
 			// delete construct list
-			if (e->constructList && TheWindowManager)
-				TheWindowManager->winDestroy(e->constructList);
+			if (entryData->constructList && TheWindowManager)
+				TheWindowManager->winDestroy(entryData->constructList);
 
 			// free all edit data
 			delete (EntryData *)window->winGetUserData();
@@ -230,35 +230,35 @@ WindowMsgHandledType GadgetTextEntrySystem(GameWindow *window, UnsignedInt msg,
 			if (mData1 == false)
 			{
 				// we're losing focus
-				if (e->drawTextFromStart)
+				if (entryData->drawTextFromStart)
 				{
-					e->drawTextFromStart = false;
+					entryData->drawTextFromStart = false;
 					TheWindowManager->winSendSystemMsg(window->winGetOwner(),
 						GEM_EDIT_DONE, (WindowMsgData)window, 1);
 				}
-				GadgetTextEntrySetCursorPosition(window, e->text->getTextLength());
-				e->conCharPos = e->charPos;
+				GadgetTextEntrySetCursorPosition(window, entryData->text->getTextLength());
+				entryData->conCharPos = entryData->charPos;
 				BitClear(instData->m_state, WIN_STATE_SELECTED);
 				BitClear(instData->m_state, WIN_STATE_HILITED);
 				curWindow = NULL;
 
-				if (e->constructList)
-					e->constructList->winHide(true);
-				e->constructText->setText(UnicodeString::TheEmptyString);
-				e->unknown20 = 0;
+				if (entryData->constructList)
+					entryData->constructList->winHide(true);
+				entryData->constructText->setText(UnicodeString::TheEmptyString);
+				entryData->unknown20 = 0;
 				if (TheIMEManager && TheIMEManager->isAttachedTo(window))
 					TheIMEManager->attach(NULL);
 			}
 			else
 			{
-				GadgetTextEntrySetCursorPosition(window, e->text->getTextLength());
-				e->conCharPos = 0;
+				GadgetTextEntrySetCursorPosition(window, entryData->text->getTextLength());
+				entryData->conCharPos = 0;
 				curWindow = window;
 				if (TheIMEManager)
 					TheIMEManager->attach(window);
 				BitSet(instData->m_state, WIN_STATE_SELECTED);
 				BitSet(instData->m_state, WIN_STATE_HILITED);
-				e->drawTextFromStart = false;
+				entryData->drawTextFromStart = false;
 			}
 
 			TheWindowManager->winSendSystemMsg(window->winGetOwner(),

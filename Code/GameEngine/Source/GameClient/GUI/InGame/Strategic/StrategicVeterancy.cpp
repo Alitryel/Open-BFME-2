@@ -25,7 +25,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
 class AptCommandMap {}; class AptExternHandler {};
 template<class T> class AptRef {
 public:
- AptRef(const DelegateDesc*d){((Rva00579E47*)this)->Rva00579E47::Rva00579E47(*d);}
+ AptRef(const DelegateDesc*delegateDesc){((Rva00579E47*)this)->Rva00579E47::Rva00579E47(*delegateDesc);}
  ~AptRef(){if(ptr)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)ptr);}
 private:T*ptr;
 };

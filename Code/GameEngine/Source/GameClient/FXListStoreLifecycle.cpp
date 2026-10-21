@@ -83,13 +83,13 @@ class SubsystemInterface {public:virtual ~SubsystemInterface();char opaque04[8];
 class Rva001E2AD9:public SubsystemInterface {public:virtual ~Rva001E2AD9();Rva001E287F map0C;_STL::vector<FxHeapObject *> nuggets20;};
 Rva001E2AD9::~Rva001E2AD9(){
  for(NativeBeginTable::iterator it=map0C.begin();it.node;++it){
-  FxHeapObject *p=((FxMapNode *)it.node)->value;
-  ::operator delete(p?p->destroyDelete(0):0);
+  FxHeapObject *fxHeapObject=((FxMapNode *)it.node)->value;
+  ::operator delete(fxHeapObject?fxHeapObject->destroyDelete(0):0);
  }
  map0C.clear();
  for(unsigned i=0;i<nuggets20.size();++i){
-  FxHeapObject *p=nuggets20[i];
-  ::operator delete(p?p->destroyDelete(0):0);
+  FxHeapObject *fxHeapObject=nuggets20[i];
+  ::operator delete(fxHeapObject?fxHeapObject->destroyDelete(0):0);
  }
  _STL::vector<void *> &nuggets = reinterpret_cast<_STL::vector<void *> &>(nuggets20);
  nuggets.erase(nuggets.begin(),nuggets.end());

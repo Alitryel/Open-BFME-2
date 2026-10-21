@@ -327,14 +327,14 @@ WindowMsgHandledType GadgetCheckBoxSystem( GameWindow *window, UnsignedInt msg,
 // GadgetCheckBoxSetText ======================================================
 /** Set the text for the control */
 //=============================================================================
-void GadgetCheckBoxSetText( GameWindow *g, UnicodeString text )
+void GadgetCheckBoxSetText( GameWindow *gameWindow, UnicodeString text )
 {
 
 	// sanity
-	if( g == NULL )
+	if( gameWindow == NULL )
 		return;
 
-	TheWindowManager->winSendSystemMsg( g, GGM_SET_LABEL, (WindowMsgData)&text, 0 );
+	TheWindowManager->winSendSystemMsg( gameWindow, GGM_SET_LABEL, (WindowMsgData)&text, 0 );
 
 }  // end GadgetCheckBoxSetText
 
@@ -342,9 +342,9 @@ void GadgetCheckBoxSetText( GameWindow *g, UnicodeString text )
 //=============================================================================
 /** Set the check state for the check box */
 //=============================================================================
-void GadgetCheckBoxSetChecked( GameWindow *g, Bool isChecked)
+void GadgetCheckBoxSetChecked( GameWindow *gameWindow, Bool isChecked)
 {
-	WinInstanceData *instData = g->winGetInstanceData();
+	WinInstanceData *instData = gameWindow->winGetInstanceData();
 	if (isChecked)
 	{
 		BitSet(instData->m_state,  WIN_STATE_SELECTED);
@@ -354,8 +354,8 @@ void GadgetCheckBoxSetChecked( GameWindow *g, Bool isChecked)
 		BitClear(instData->m_state,  WIN_STATE_SELECTED);
 	}
 
-	TheWindowManager->winSendSystemMsg( g->winGetOwner(), GBM_SELECTED,
-																					(WindowMsgData)g, 0 );
+	TheWindowManager->winSendSystemMsg( gameWindow->winGetOwner(), GBM_SELECTED,
+																					(WindowMsgData)gameWindow, 0 );
 
 }
 
@@ -363,9 +363,9 @@ void GadgetCheckBoxSetChecked( GameWindow *g, Bool isChecked)
 //=============================================================================
 /** Toggle the check state for the check box */
 //=============================================================================
-void GadgetCheckBoxToggle( GameWindow *g)
+void GadgetCheckBoxToggle( GameWindow *gameWindow)
 {
-	WinInstanceData *instData = g->winGetInstanceData();
+	WinInstanceData *instData = gameWindow->winGetInstanceData();
 	Bool isChecked = BitTest(instData->m_state, WIN_STATE_SELECTED);
 	if (isChecked)
 	{
@@ -376,8 +376,8 @@ void GadgetCheckBoxToggle( GameWindow *g)
 		BitSet(instData->m_state,  WIN_STATE_SELECTED);
 	}
 
-	TheWindowManager->winSendSystemMsg( g->winGetOwner(), GBM_SELECTED,
-																					(WindowMsgData)g, 0 );
+	TheWindowManager->winSendSystemMsg( gameWindow->winGetOwner(), GBM_SELECTED,
+																					(WindowMsgData)gameWindow, 0 );
 
 }
 

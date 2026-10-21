@@ -65,10 +65,10 @@ bool Drawable::rva00278689(const AsciiString &name, bool a2, bool a3)
 	NameKeyType key = TheNameKeyGenerator->nameToKey(name);
 	DrawModule **modules = *reinterpret_cast<DrawModule ***>((unsigned char *)this + 0x14C);
 	for (DrawModule **dm = modules; *dm; ++dm) {
-		DrawModule *m = *dm;
-		if (key == m->m_moduleData->m_tagKey) {
-			m->slot48(a3);
-			m->slot40(a2 == 0);
+		DrawModule *drawModule = *dm;
+		if (key == drawModule->m_moduleData->m_tagKey) {
+			drawModule->slot48(a3);
+			drawModule->slot40(a2 == 0);
 			return true;
 		}
 	}

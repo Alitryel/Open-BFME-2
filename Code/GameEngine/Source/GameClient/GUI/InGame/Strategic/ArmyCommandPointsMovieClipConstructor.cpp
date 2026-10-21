@@ -39,7 +39,7 @@ class AptExternHandlerAdder {public:__declspec(noinline) AptExternHandlerAdder()
 
 struct Rva005EF02FOuter;struct Rva005EF096Outer;
 namespace StrategicHUD {void SetArmyNameString(int,Rva005EF02FOuter*,const UnicodeString&);void SetCommandPointsString(int,Rva005EF096Outer*,int,int);}
-StrategicHUD::RegionDetailsArmiesMovieClip::Impl::Impl(int l,const AsciiString&n,unsigned c):m_level(l),m_name(n),m_color(c),m_a(0),m_b(0),m_armyNameShown(false),m_shown(false),m_3E(false){
+StrategicHUD::RegionDetailsArmiesMovieClip::Impl::Impl(int l,const AsciiString&asciiString,unsigned c):m_level(l),m_name(asciiString),m_color(c),m_a(0),m_b(0),m_armyNameShown(false),m_shown(false),m_3E(false){
  AsciiString prefix;prefix.format("_level%u.",m_level);
  reinterpret_cast<AptCommandMapAdder*>(&m_commandMaps)->AddCommandMapDelegate(prefix+m_name+"_OnRollOverCommandPoints",DelegateDesc(this,&Impl::OnRollOverCommandPoints));
  reinterpret_cast<AptCommandMapAdder*>(&m_commandMaps)->AddCommandMapDelegate(prefix+m_name+"_OnRollOutCommandPoints",DelegateDesc(this,&Impl::OnRollOutCommandPoints));

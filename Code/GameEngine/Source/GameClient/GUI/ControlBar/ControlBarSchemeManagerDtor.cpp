@@ -45,9 +45,9 @@ private:
 
 ControlBarSchemeManager::~ControlBarSchemeManager()
 {
-	CBMList *p = (CBMList *)&m_schemeList;
-	CBMNode *cur = p->m_header->m_next;
-	while (cur != p->m_header)
+	CBMList *cBMList = (CBMList *)&m_schemeList;
+	CBMNode *cur = cBMList->m_header->m_next;
+	while (cur != cBMList->m_header)
 	{
 		ControlBarScheme *obj = cur->m_obj;
 		if (obj)

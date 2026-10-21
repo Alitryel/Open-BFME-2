@@ -964,7 +964,7 @@ static inline bool Rva005A52FEIsEmptyC(const UnicodeString &text)
 // enables joining while the room's slots 8 and 9 differ and asks for its
 // extended info at most once a second per room (Zero Hour's
 // WOLLobbyMenuSystem GLM_SELECTED throttle, by timeGetTime).
-static inline void *Rva5A52FEAddr(const AsciiString &s) { return (void *)&s; }
+static inline void *Rva5A52FEAddr(const AsciiString &asciiString) { return (void *)&asciiString; }
 int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2)
 {
 	int result = ((AptMpGameSetup *)&m_70)->rva00442CB3(msg, mData1, mData2);

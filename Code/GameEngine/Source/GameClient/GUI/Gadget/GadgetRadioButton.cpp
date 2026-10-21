@@ -524,14 +524,14 @@ WindowMsgHandledType GadgetRadioButtonSystem( GameWindow *window, UnsignedInt ms
 // GadgetRadioSetText =========================================================
 /** Set the text for the control */
 //=============================================================================
-void GadgetRadioSetText( GameWindow *g, UnicodeString text )
+void GadgetRadioSetText( GameWindow *gameWindow, UnicodeString text )
 {
 
 	// sanity
-	if( g == NULL )
+	if( gameWindow == NULL )
 		return;
 
-	((Bfme2RadioWindowManager *)TheWindowManager)->winSendSystemMsg( g, GGM_SET_LABEL, (WindowMsgData)&text, 0 );
+	((Bfme2RadioWindowManager *)TheWindowManager)->winSendSystemMsg( gameWindow, GGM_SET_LABEL, (WindowMsgData)&text, 0 );
 
 }  // end GadgetRadioSetText
 
@@ -539,9 +539,9 @@ void GadgetRadioSetText( GameWindow *g, UnicodeString text )
 /** Set the group number for a radio button, only one radio button of
 	* a group can be selected at any given time */
 //=============================================================================
-void GadgetRadioSetGroup( GameWindow *g, Int group, Int screen )
+void GadgetRadioSetGroup( GameWindow *gameWindow, Int group, Int screen )
 {
-	RadioButtonData *radioData = (RadioButtonData *)g->winGetUserData();
+	RadioButtonData *radioData = (RadioButtonData *)gameWindow->winGetUserData();
 
 	radioData->group = group;
 	radioData->screen = screen;
@@ -552,14 +552,14 @@ void GadgetRadioSetGroup( GameWindow *g, Int group, Int screen )
 // GadgetRadioSetText =========================================================
 /** Set the text for the control */
 //=============================================================================
-void GadgetRadioSetSelection( GameWindow *g, Bool sendMsg )
+void GadgetRadioSetSelection( GameWindow *gameWindow, Bool sendMsg )
 {
 
 	// sanity
-	if( g == NULL )
+	if( gameWindow == NULL )
 		return;
 
-	((Bfme2RadioWindowManager *)TheWindowManager)->winSendSystemMsg( g, GBM_SET_SELECTION, (WindowMsgData)&sendMsg, 0 );
+	((Bfme2RadioWindowManager *)TheWindowManager)->winSendSystemMsg( gameWindow, GBM_SET_SELECTION, (WindowMsgData)&sendMsg, 0 );
 
 }  // end GadgetRadioSetText
 

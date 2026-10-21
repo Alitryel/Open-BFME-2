@@ -61,11 +61,11 @@ private:
 class Rva00222A8BTarget { public: int invoke(void *owner, const char *name, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4); };
 AsciiString __cdecl Rva0022288EGet(unsigned int value);
 AsciiString __cdecl Rva00222834Get(int value);
-static inline const char *Rva002162CFStr(const AsciiString &s) { return ((const StringBase<char> *)&s)->str(); }
+static inline const char *Rva002162CFStr(const AsciiString &asciiString) { return ((const StringBase<char> *)&asciiString)->str(); }
 int Rva002162CFInvoke(Rva00222A8BTarget *target, void *movie, const char *name, const unsigned int &slot);
-__forceinline const char *GetStr00216332(const AsciiString &s, void *const *extra, void **a1)
+__forceinline const char *GetStr00216332(const AsciiString &asciiString, void *const *extra, void **a1)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	*a1 = *(void **)extra;
 	return t ? t + 8 : "";
 }

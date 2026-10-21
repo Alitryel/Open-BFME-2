@@ -87,13 +87,13 @@ template <class T> inline const T &entryMin(const T &a, const T &b)
 
 void GadgetTextEntrySetCursorPosition(GameWindow *window, UnsignedInt position)
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 
-	e->charPos = position;
-	if (e->charPos < e->drawStart)
+	entryData->charPos = position;
+	if (entryData->charPos < entryData->drawStart)
 	{
 		// back up so a few characters before the cursor stay visible
-		e->drawStart = e->charPos < 5 ? 0 : e->charPos - 5;
+		entryData->drawStart = entryData->charPos < 5 ? 0 : entryData->charPos - 5;
 	}
 	else
 	{
@@ -103,13 +103,13 @@ void GadgetTextEntrySetCursorPosition(GameWindow *window, UnsignedInt position)
 			width -= 8;
 
 		// advance until a few characters past the cursor fit
-		if (e->text->getWidth(e->charPos) - e->text->getWidth(e->drawStart) > width)
+		if (entryData->text->getWidth(entryData->charPos) - entryData->text->getWidth(entryData->drawStart) > width)
 		{
-			Int length = e->text->getTextLength();
-			Int end = e->charPos + 5;
-			Int endX = e->text->getWidth(entryMin(length, end));
-			while (endX - e->text->getWidth(e->drawStart) > width)
-				e->drawStart++;
+			Int length = entryData->text->getTextLength();
+			Int end = entryData->charPos + 5;
+			Int endX = entryData->text->getWidth(entryMin(length, end));
+			while (endX - entryData->text->getWidth(entryData->drawStart) > width)
+				entryData->drawStart++;
 		}
 	}
 }
@@ -121,31 +121,31 @@ bool GadgetTextEntryUpdateComposition(GameWindow *window);
 
 bool GadgetTextEntryInsertCharacter(GameWindow *window, UnsignedInt character)
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 
 	// the validator reads only the low bytes of both arguments
-	if (!((CharacterPolicy)GadgetTextEntryValidateCharacter)(character, e->validation))
+	if (!((CharacterPolicy)GadgetTextEntryValidateCharacter)(character, entryData->validation))
 		return false;
 
-	if (e->conCharPos != e->charPos)
+	if (entryData->conCharPos != entryData->charPos)
 		GadgetTextEntryUpdateComposition(window);
 
-	UnicodeString current = e->text->getText();
-	if (current.getLength() >= e->maxTextLen)
+	UnicodeString current = entryData->text->getText();
+	if (current.getLength() >= entryData->maxTextLen)
 		return false;
 
-	UnicodeString text(current, 0, e->charPos);
+	UnicodeString text(current, 0, entryData->charPos);
 	{
 		UnsignedShort ch = (UnsignedShort)character;
 		text.concat(&ch, 1);
 	}
-	text.concat(UnicodeString(current, e->charPos, current.getLength() - e->charPos));
-	e->text->setText(text);
+	text.concat(UnicodeString(current, entryData->charPos, current.getLength() - entryData->charPos));
+	entryData->text->setText(text);
 
-	GadgetTextEntrySetCursorPosition(window, e->charPos + 1);
-	e->conCharPos = e->charPos;
-	e->sText->appendChar('*');
-	e->drawTextFromStart = true;
+	GadgetTextEntrySetCursorPosition(window, entryData->charPos + 1);
+	entryData->conCharPos = entryData->charPos;
+	entryData->sText->appendChar('*');
+	entryData->drawTextFromStart = true;
 
 	return true;
 }

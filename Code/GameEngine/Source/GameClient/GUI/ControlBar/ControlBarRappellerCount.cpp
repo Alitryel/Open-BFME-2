@@ -928,14 +928,14 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 			if (obj->getAI() == 0)
 				return COMMAND_RESTRICTED;
 			UnsignedInt now;
-			Weapon *w = obj->m_weaponSet.getWeaponInWeaponSlot(command->m_weaponSlot);
+			Weapon *weapon = obj->m_weaponSet.getWeaponInWeaponSlot(command->m_weaponSlot);
 			now = TheGameLogic->getFrame();
-			if (w && w->m_template->m_clipSize == 0 && !w->rva002C96D8())
+			if (weapon && weapon->m_template->m_clipSize == 0 && !weapon->rva002C96D8())
 				return COMMAND_AVAILABLE;
-			if ((w == 0 || w->computeStatus(0) != READY_TO_FIRE || w->m_lastFireFrame == now || w->m_lastFireFrame == now - 1) && w != 0)
+			if ((weapon == 0 || weapon->computeStatus(0) != READY_TO_FIRE || weapon->m_lastFireFrame == now || weapon->m_lastFireFrame == now - 1) && weapon != 0)
 			{
-				if (w->computeStatus(0) == 3 || w->rva002C96D8())
-					*percent = w->getPercentReadyToFire();
+				if (weapon->computeStatus(0) == 3 || weapon->rva002C96D8())
+					*percent = weapon->getPercentReadyToFire();
 				else
 					*percent = 0.0f;
 				return COMMAND_NOT_READY;
@@ -1124,8 +1124,8 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 
 		case 0x1b:
 		{
-			Weapon *w = obj->m_weaponSet.getWeaponInWeaponSlot(command->m_weaponSlot);
-			if (w)
+			Weapon *weapon = obj->m_weaponSet.getWeaponInWeaponSlot(command->m_weaponSlot);
+			if (weapon)
 			{
 				const DrawableList *list = TheInGameUI->getAllSelectedDrawables();
 				for (DrawableNode *it = list->m_node->m_next; it != list->m_node; it = it->m_next)
@@ -1133,8 +1133,8 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 					DrawableView *draw = (DrawableView *)it->m_data;
 					if (draw && draw->m_object && draw->m_object->isLocallyControlled() && draw->m_object->getCurrentWeapon(0))
 					{
-						Object *o = draw->m_object;
-						Int slot = o->getCurrentWeapon(0)->m_slot;
+						Object *object = draw->m_object;
+						Int slot = object->getCurrentWeapon(0)->m_slot;
 						if (slot != command->m_weaponSlot)
 							return COMMAND_AVAILABLE;
 					}
@@ -1186,6 +1186,6 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 }
 
 ScienceVec Rva0029FCB4::rva0029FCB4() {
- const Overridable *f = ((const Overridable *)this)->friend_getFinalOverride();
- return *(const ScienceVec *)((const char *)f + 0x24);
+ const Overridable *overridable = ((const Overridable *)this)->friend_getFinalOverride();
+ return *(const ScienceVec *)((const char *)overridable + 0x24);
 }

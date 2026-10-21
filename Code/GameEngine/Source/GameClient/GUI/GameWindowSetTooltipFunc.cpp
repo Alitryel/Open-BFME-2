@@ -30,4 +30,4 @@ __declspec(noinline) inline int GameWindow::winSetTooltipFunc(GameWinTooltipFunc
 
 // The anchor keeps the rowed body emitted.
 // ?bfmeAnchorWinSetTooltipFunc@@YAXPAVGameWindow@@@Z absent-from-retail
-void bfmeAnchorWinSetTooltipFunc(GameWindow *p) { p->winSetTooltipFunc(0); }
+void bfmeAnchorWinSetTooltipFunc(GameWindow *gameWindow) { gameWindow->winSetTooltipFunc(0); }

@@ -32,7 +32,7 @@ struct FloatPair
 {
  FloatPair(){}
  FloatPair(float a,float b):x(a),y(b){}
- FloatPair(const FloatPair &p):x(p.x),y(p.y){}
+ FloatPair(const FloatPair &floatPair):x(floatPair.x),y(floatPair.y){}
 	float x;
 	float y;
 };
@@ -91,9 +91,9 @@ struct UnicodeStringHeaderView
 	int ref_count;
 	unsigned short length;
 };
-static __forceinline bool hasText(const UnicodeString &s)
+static __forceinline bool hasText(const UnicodeString &unicodeString)
 {
-	const UnicodeStringHeaderView *header = *(const UnicodeStringHeaderView *const *)&s;
+	const UnicodeStringHeaderView *header = *(const UnicodeStringHeaderView *const *)&unicodeString;
 	return header != 0 && header->length != 0;
 }
 
@@ -138,15 +138,15 @@ static void DrawIcon(Image *image,FloatPair position,const FloatPair &maximum,co
  position.y+=(maximum.y-icon.y)*0.5f;
  ((W3DDisplay*)TheDisplay)->rva0004D6B3(image,position.x,position.y,position.x+icon.x,position.y+icon.y,-1,2);
 }
-void InGameCommandButtonHelp::Impl::ComputeIconSizes(FloatPair *a, FloatPair *b, FloatPair *out)
+void InGameCommandButtonHelp::Impl::ComputeIconSizes(FloatPair *floatPair, FloatPair *b, FloatPair *out)
 {
 	ScalePair *scale = reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->v15();
 	if (m_icon30 != 0) {
-		a->x = (float)m_icon30->v24 * scale->x;
-		a->y = (float)m_icon30->v28 * scale->y;
+		floatPair->x = (float)m_icon30->v24 * scale->x;
+		floatPair->y = (float)m_icon30->v28 * scale->y;
 	} else {
-		a->x = 0.0f;
-		a->y = 0.0f;
+		floatPair->x = 0.0f;
+		floatPair->y = 0.0f;
 	}
 	if (m_icon34 != 0) {
 		b->x = (float)m_icon34->v24 * scale->x;
@@ -156,16 +156,16 @@ void InGameCommandButtonHelp::Impl::ComputeIconSizes(FloatPair *a, FloatPair *b,
 		b->y = 0.0f;
 	}
 	float *px;
-	if (b->x > a->x)
+	if (b->x > floatPair->x)
 		px = &b->x;
 	else
-		px = &a->x;
+		px = &floatPair->x;
 	out->x = *px;
 	float *py;
-	if (b->y > a->y)
+	if (b->y > floatPair->y)
 		py = &b->y;
 	else
-		py = &a->y;
+		py = &floatPair->y;
 	out->y = *py;
 }
 

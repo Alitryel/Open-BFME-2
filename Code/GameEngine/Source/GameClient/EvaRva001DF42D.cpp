@@ -197,7 +197,7 @@ struct EvaCoord
  {
   
  }
- EvaCoord(const EvaCoord &p) : x(p.x), y(p.y), z(p.z) 
+ EvaCoord(const EvaCoord &evaCoord) : x(evaCoord.x), y(evaCoord.y), z(evaCoord.z) 
  {
   
  }

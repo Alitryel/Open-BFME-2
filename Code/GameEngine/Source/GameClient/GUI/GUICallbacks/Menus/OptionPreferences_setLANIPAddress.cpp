@@ -69,11 +69,11 @@ inline __declspec(noinline) void OptionPreferences::setLANIPAddress(AsciiString 
 
 // Retain the inline bodies' ledger emission without changing their callers.
 // ?bfmeEmitOptionPreferencesSetIP@@YAXPAVOptionPreferences@@@Z absent-from-retail
-void bfmeEmitOptionPreferencesSetIP(OptionPreferences *p)
+void bfmeEmitOptionPreferencesSetIP(OptionPreferences *optionPreferences)
 {
 	AsciiString empty;
-	p->OptionPreferences::setLANIPAddress(empty);
-	p->OptionPreferences::setOnlineIPAddress(empty);
+	optionPreferences->OptionPreferences::setLANIPAddress(empty);
+	optionPreferences->OptionPreferences::setOnlineIPAddress(empty);
 }
 
 // ?setLANIPAddress@OptionPreferences@@QAEXI@Z

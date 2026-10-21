@@ -137,10 +137,10 @@ WindowMsgHandledType GadgetProgressBarSystem( GameWindow *window, UnsignedInt ms
 // GadgetProgressBarSetProgress ===============================================
 /** send progress system message to Progress Bar */
 //=============================================================================
-void GadgetProgressBarSetProgress( GameWindow *g, Int progress )
+void GadgetProgressBarSetProgress( GameWindow *gameWindow, Int progress )
 {
-	if(!g)
+	if(!gameWindow)
 		return;
 
-	((BfmeProgressWindowManager*)TheWindowManager)->winSendSystemMsg( g, (GadgetGameMessage)0x4033, progress, 0);
+	((BfmeProgressWindowManager*)TheWindowManager)->winSendSystemMsg( gameWindow, (GadgetGameMessage)0x4033, progress, 0);
 } // end GadgetProgressBarSetProgress

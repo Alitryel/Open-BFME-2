@@ -47,9 +47,9 @@ public:
 
 extern GameWindowManager *TheWindowManager;
 
-inline void GadgetTextEntrySetText(GameWindow *g, UnicodeString text)
+inline void GadgetTextEntrySetText(GameWindow *gameWindow, UnicodeString text)
 {
-	TheWindowManager->winSendSystemMsg(g, 0x4030, (WindowMsgData)&text, 0);
+	TheWindowManager->winSendSystemMsg(gameWindow, 0x4030, (WindowMsgData)&text, 0);
 }
 
 // Header inlines that the units including the header emit as select-any

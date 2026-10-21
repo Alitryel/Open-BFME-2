@@ -22,8 +22,8 @@ public:
 	WinInstanceData *winGetInstanceData();
 };
 
-Bool GadgetCheckBoxIsChecked(GameWindow *g)
+Bool GadgetCheckBoxIsChecked(GameWindow *gameWindow)
 {
-	WinInstanceData *instData = g->winGetInstanceData();
+	WinInstanceData *instData = gameWindow->winGetInstanceData();
 	return (instData->m_state >> 2) & 1;
 }

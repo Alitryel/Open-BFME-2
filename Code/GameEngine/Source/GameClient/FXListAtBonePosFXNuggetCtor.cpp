@@ -42,8 +42,8 @@ inline FXListAtBonePosFXNugget::FXListAtBonePosFXNugget()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeFXListAtBonePosFXNuggetInlineAnchor@@YAXPAVFXListAtBonePosFXNugget@@@Z absent-from-retail
-void _bfmeFXListAtBonePosFXNuggetInlineAnchor(FXListAtBonePosFXNugget *p)
+void _bfmeFXListAtBonePosFXNuggetInlineAnchor(FXListAtBonePosFXNugget *fXListAtBonePosFXNugget)
 {
-    p->FXListAtBonePosFXNugget::FXListAtBonePosFXNugget();
+    fXListAtBonePosFXNugget->FXListAtBonePosFXNugget::FXListAtBonePosFXNugget();
 }
 #pragma inline_depth()

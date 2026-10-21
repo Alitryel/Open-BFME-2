@@ -49,11 +49,11 @@ void Rva004102C8Update(Rva004102C8Arg *a1, float *a2, float *a3)
 {
 	int ix;
 	int iy;
-	GameWindow* f;
+	GameWindow* gameWindow;
 	ComponentPosition pos(a2[0],a2[1]);
-	f = a1->m_10->winGetParent();
-	if (f != 0) {
-		((GameWindow *)f)->winGetPosition(&ix, &iy);
+	gameWindow = a1->m_10->winGetParent();
+	if (gameWindow != 0) {
+		((GameWindow *)gameWindow)->winGetPosition(&ix, &iy);
 		pos.x -= (float)ix;
 		pos.y -= (float)iy;
 	}

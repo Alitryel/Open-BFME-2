@@ -129,7 +129,7 @@ struct FunctorBinding {FunctorTarget *target;unsigned pad;FunctorMethod method;F
 struct Rva0057BC63FunctorHolder {Rva0057BC63FunctorHolder(const FunctorBinding &);Rva0057BC63FunctorHolder(const Rva0057BC63FunctorHolder &o):ptr(o.ptr){if(ptr)++ptr->references;}TargetRef00217D4C *ptr;~Rva0057BC63FunctorHolder(){if(ptr)ReleaseTreeHintRef00217D4C(ptr);}};
 class Rva0023E8D8 : public Rva0057BC63FunctorHolder {public:__forceinline Rva0023E8D8(const FunctorBinding &b):Rva0057BC63FunctorHolder(b){} Rva0023E8D8(const Rva0023E8D8&o):Rva0057BC63FunctorHolder(o){} };
 extern "C" void __cdecl Rva00437F61(int,const UnicodeString &,const UnicodeString &,Rva0023E8D8);
-static __forceinline FunctorBinding bind(FunctorMethod m,FunctorTarget*t){FunctorBinding r(m,t);return r;}
+static __forceinline FunctorBinding bind(FunctorMethod m,FunctorTarget*functorTarget){FunctorBinding r(m,functorTarget);return r;}
 struct BfmeOpaqueOwnedRecord492;class Rva0054D8D8;
 struct AptOnlineQuickMatch {char prefix[0x60];int state;char at64[0x16];bool matched;char at7b[0x21];int mode;void rva005BB5F6();void rva005BBDAC(BfmeOpaqueOwnedRecord492 &);void rva005BBF15();void rva005BA39F(int);void OnMatched(PeerResponse &);Rva0054D8D8 *rva005BA36D();};
 #undef V
@@ -141,8 +141,8 @@ void AptOnlineQuickMatch::rva005BB5F6(){
   while(allowed--&&!important&&TheGameSpyPeerMessageQueue->getResponse(r)){
    AptMessengerOnline::ProcessGameSpyResponse(&r);
    switch(r.unknown_00){case 1:{important=true;AsciiString reason;reason.format("GUI:GSDisconReason%d",r.payload_word0.value);
-    NameKeyType key=TheNameKeyGenerator->nameToKey("ScoreScreen.wnd:ListboxChatWindowScoreScreen");GameWindow *w=TheWindowManager->winGetWindowFromId(0,key);
-    if(w)GadgetListBoxAddEntryText(w,TheGameText->fetch(reason),g_00DB9198,-1);
+    NameKeyType key=TheNameKeyGenerator->nameToKey("ScoreScreen.wnd:ListboxChatWindowScoreScreen");GameWindow *gameWindow=TheWindowManager->winGetWindowFromId(0,key);
+    if(gameWindow)GadgetListBoxAddEntryText(gameWindow,TheGameText->fetch(reason),g_00DB9198,-1);
     TheGameSpyInfo->markAsDisconnectedAfterGameStart(r.payload_word0.value);
    }break;}
   }return;
@@ -436,8 +436,8 @@ void AptOnlineQuickMatch::rva005BBF15() {
       int count = ThePlayerTemplateStore->count();
       AsciiString side = *i;
       for (int c = 0; c < count; ++c) {
-        const PlayerTemplate *p = ThePlayerTemplateStore->getNthPlayerTemplate(c);
-        if (p && p->side == side) {
+        const PlayerTemplate *playerTemplate = ThePlayerTemplateStore->getNthPlayerTemplate(c);
+        if (playerTemplate && playerTemplate->side == side) {
           qm.side = c;
           break;
         }
@@ -511,12 +511,12 @@ void AptOnlineQuickMatch::rva005BBF15() {
   if (ladderIndex > 0) {
     LadderPreferences prefs;
     prefs.loadProfile(TheGameSpyInfo->getLocalProfileID());
-    LadderPref p;
-    p.lastPlayDate = time(0);
-    p.address = ladder->address;
-    p.port = ladder->port;
-    p.name = ladder->name;
-    prefs.addRecentLadder(p);
+    LadderPref playerTemplate;
+    playerTemplate.lastPlayDate = time(0);
+    playerTemplate.address = ladder->address;
+    playerTemplate.port = ladder->port;
+    playerTemplate.name = ladder->name;
+    prefs.addRecentLadder(playerTemplate);
     prefs.write();
   }
 }
@@ -605,10 +605,10 @@ void AptOnlineQuickMatch::rva005BBDAC(BfmeOpaqueOwnedRecord492 &request){
  if(ladder){players=ladder->players*2;maps=ladder->maps;}
  else{int selected=0;GadgetComboBoxGetSelectedPos(*(GameWindow**)((char*)this+0x84),&selected);if(selected<0)selected=0;players=(selected+1)*2;maps=TheGameSpyConfig->getQMMaps();}
  _STL::vector<MapMetaData*> metadata;
- for(_STL::list<AsciiString>::const_iterator i=maps.begin();i!=maps.end();++i){MapMetaData *m=(MapMetaData*)TheMapCache->findMap(*i);if(m)metadata.push_back(m);}
+ for(_STL::list<AsciiString>::const_iterator i=maps.begin();i!=maps.end();++i){MapMetaData *mapMetaData=(MapMetaData*)TheMapCache->findMap(*i);if(mapMetaData)metadata.push_back(mapMetaData);}
  Rva00450B90Predicate predicate;predicate.m_mask=25;
  MapMetaData **end=(MapMetaData**)_STL::partition((Rva00450B90Item**)metadata.begin(),(Rva00450B90Item**)metadata.end(),predicate);
  metadata.erase(end,metadata.end());
  _STL::sort(metadata.begin(),metadata.end(),Rva0030145CCmp());
- for(_STL::vector<MapMetaData*>::iterator m=metadata.begin();m!=metadata.end();++m){MapMetaData *md=*m;if(md->players==players)result.push_back(true);}
+ for(_STL::vector<MapMetaData*>::iterator mapMetaData=metadata.begin();mapMetaData!=metadata.end();++mapMetaData){MapMetaData *md=*mapMetaData;if(md->players==players)result.push_back(true);}
 }

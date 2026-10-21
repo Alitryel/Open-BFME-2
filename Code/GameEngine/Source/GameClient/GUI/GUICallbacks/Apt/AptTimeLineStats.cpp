@@ -50,7 +50,7 @@ struct TimelineFocusArgs
 {
     GameWindow *window;
     int **focus;
-    TimelineFocusArgs(GameWindow *w, int **f) : window(w), focus(f) {}
+    TimelineFocusArgs(GameWindow *gameWindow, int **f) : window(gameWindow), focus(f) {}
 };
 typedef char TimelineFocusArgsIsEightBytes[sizeof(TimelineFocusArgs)==8 ? 1 : -1];
 extern "C" void __cdecl rva005DE059(Rva005DE059Out *,Rva005DDBAB *,Rva005DDBAB *,TimelineFocusArgs);
@@ -127,7 +127,7 @@ typedef char TimelineHandlerIsOneWord[sizeof(TimelineHandler)==4 ? 1 : -1];
 struct DelegateDesc {
  AptTimeLineStats *object;
  TimelineHandler method;
- DelegateDesc(AptTimeLineStats *o,TimelineHandler m):object(o),method(m){}
+ DelegateDesc(AptTimeLineStats *aptTimeLineStats,TimelineHandler m):object(aptTimeLineStats),method(m){}
 };
 struct TargetRef00217D4C {void *vtable;int references;};
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);

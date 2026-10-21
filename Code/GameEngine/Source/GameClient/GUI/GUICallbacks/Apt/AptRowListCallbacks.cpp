@@ -407,7 +407,7 @@ void Rva005105D7::OnRowShown(const char *params)
 // ?bfmeAnchorRva005105D7Dtor absent-from-retail
 void bfmeAnchorRva005105D7Dtor(Rva005105D7 *p) { p->Rva005105D7::~Rva005105D7(); }
 // ?bfmeAnchorAptRowListRow absent-from-retail
-void bfmeAnchorAptRowListRow(AptRowListRow *p) { p->AptRowListRow::AptRowListRow(); }
+void bfmeAnchorAptRowListRow(AptRowListRow *aptRowListRow) { aptRowListRow->AptRowListRow::AptRowListRow(); }
 #pragma inline_depth()
 
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.

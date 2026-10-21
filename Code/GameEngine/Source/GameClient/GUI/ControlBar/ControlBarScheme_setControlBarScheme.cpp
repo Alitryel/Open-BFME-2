@@ -47,14 +47,14 @@ extern Display *TheDisplay;
 
 void ControlBarSchemeManager::setControlBarScheme(AsciiString schemeName)
 {
-	ControlBarScheme *tempScheme = findControlBarScheme(schemeName);
-	if (tempScheme)
+	ControlBarScheme *controlBarScheme = findControlBarScheme(schemeName);
+	if (controlBarScheme)
 	{
-		unsigned int w = TheDisplay->getWidth() / (unsigned int)tempScheme->m_ScreenCreationRes.x;
+		unsigned int w = TheDisplay->getWidth() / (unsigned int)controlBarScheme->m_ScreenCreationRes.x;
 		m_multiplyer.x = (float)w;
-		unsigned int h = TheDisplay->getHeight() / (unsigned int)tempScheme->m_ScreenCreationRes.y;
+		unsigned int h = TheDisplay->getHeight() / (unsigned int)controlBarScheme->m_ScreenCreationRes.y;
 		m_multiplyer.y = (float)h;
-		m_currentScheme = tempScheme;
+		m_currentScheme = controlBarScheme;
 	}
 	else
 	{

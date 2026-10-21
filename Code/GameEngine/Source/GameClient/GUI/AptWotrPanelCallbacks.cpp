@@ -162,9 +162,9 @@ extern const char g_Rva0107301CEmptyString[];
 
 int __cdecl Rva00527925Fire(void *target, void *level, const char *prefix, const char *function, const float *val);
 
-static __forceinline const char *Rva0057AC8FGetStr(const AsciiString &s)
+static __forceinline const char *Rva0057AC8FGetStr(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : g_Rva0107301CEmptyString;
 }
 

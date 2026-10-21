@@ -141,7 +141,7 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayerTemplate(const PlayerTe
 	}
 	if (side.isEmpty())
 		side.set("Observer");
-	ControlBarScheme *tempScheme = 0;
+	ControlBarScheme *controlBarScheme = 0;
 	for (ControlBarSchemeList::iterator it = m_schemeList.begin(); it != m_schemeList.end(); ++it)
 	{
 		ControlBarScheme *scheme = *it;
@@ -149,15 +149,15 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayerTemplate(const PlayerTe
 			continue;
 		if (((const StringBase<char> &)scheme->m_side).compareNoCase((const StringBase<char> &)side) == 0)
 		{
-			if (!tempScheme || tempScheme->m_ScreenCreationRes.x < scheme->m_ScreenCreationRes.x)
-				tempScheme = scheme;
+			if (!controlBarScheme || controlBarScheme->m_ScreenCreationRes.x < scheme->m_ScreenCreationRes.x)
+				controlBarScheme = scheme;
 		}
 	}
-	if (tempScheme)
+	if (controlBarScheme)
 	{
-		m_multiplyer.x = TheDisplay->getWidth() / (float)tempScheme->m_ScreenCreationRes.x;
-		m_multiplyer.y = TheDisplay->getHeight() / (float)tempScheme->m_ScreenCreationRes.y;
-		m_currentScheme = tempScheme;
+		m_multiplyer.x = TheDisplay->getWidth() / (float)controlBarScheme->m_ScreenCreationRes.x;
+		m_multiplyer.y = TheDisplay->getHeight() / (float)controlBarScheme->m_ScreenCreationRes.y;
+		m_currentScheme = controlBarScheme;
 	}
 	else
 	{
@@ -167,7 +167,7 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayerTemplate(const PlayerTe
 		m_currentScheme->init();
 }
 
-void ControlBarSchemeManager::setControlBarSchemeByPlayer(Player *p)
+void ControlBarSchemeManager::setControlBarSchemeByPlayer(Player *player)
 {
 	GameWindow *communicatorButton = TheWindowManager->winGetWindowFromId(0, TheNameKeyGenerator->nameToKey("ControlBar.wnd:PopupCommunicator"));
 	if (communicatorButton && TheControlBar)
@@ -177,9 +177,9 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayer(Player *p)
 		else
 			TheControlBar->setControlCommand(communicatorButton, TheControlBar->findCommandButton("NonCommand_BriefingHistory"));
 	}
-	if (!p)
+	if (!player)
 		return;
-	AsciiString side = p->m_side;
+	AsciiString side = player->m_side;
 	if (m_currentScheme && m_currentScheme->m_side.compare(side) == 0)
 	{
 		m_currentScheme->init();
@@ -187,7 +187,7 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayer(Player *p)
 	}
 	if (side.isEmpty())
 		side.set("Observer");
-	ControlBarScheme *tempScheme = 0;
+	ControlBarScheme *controlBarScheme = 0;
 	for (ControlBarSchemeList::iterator it = m_schemeList.begin(); it != m_schemeList.end(); ++it)
 	{
 		ControlBarScheme *scheme = *it;
@@ -195,15 +195,15 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayer(Player *p)
 			continue;
 		if (((const StringBase<char> &)scheme->m_side).compareNoCase((const StringBase<char> &)side) == 0)
 		{
-			if (!tempScheme || tempScheme->m_ScreenCreationRes.x < scheme->m_ScreenCreationRes.x)
-				tempScheme = scheme;
+			if (!controlBarScheme || controlBarScheme->m_ScreenCreationRes.x < scheme->m_ScreenCreationRes.x)
+				controlBarScheme = scheme;
 		}
 	}
-	if (tempScheme)
+	if (controlBarScheme)
 	{
-		m_multiplyer.x = TheDisplay->getWidth() / (float)tempScheme->m_ScreenCreationRes.x;
-		m_multiplyer.y = TheDisplay->getHeight() / (float)tempScheme->m_ScreenCreationRes.y;
-		m_currentScheme = tempScheme;
+		m_multiplyer.x = TheDisplay->getWidth() / (float)controlBarScheme->m_ScreenCreationRes.x;
+		m_multiplyer.y = TheDisplay->getHeight() / (float)controlBarScheme->m_ScreenCreationRes.y;
+		m_currentScheme = controlBarScheme;
 	}
 	else
 	{
