@@ -90,3 +90,13 @@ Bank replaced by `reverse/attempts/0x00012190.cpp` r25 (fit 0.898, nd 109; v2 wa
 - **Retail map:** narrow do_get 0x11230 inlines all its string dtors (13 direct
   `free` calls). The wide one calls B3C0 13 times and `free` 7 times, so the split
   is wide-only.
+- **Toy trials (shared with df20 money_put; `build/claude3/toy/` scratch, not tracked):**
+  - first instantiating the wide dtor inside the function, versus before it,
+    changes nothing;
+  - 14 sequential objects with early returns, with a trivial or an EH-bearing
+    (allocator-member) base dtor: every dtor site is inlined, while the third
+    out-of-line-sized ctor is outlined in forward order;
+  - 10 STLport wide strings with early returns: every dtor site is inlined.
+
+  So no budget or instantiation-order effect reproduces retail's "early sites
+  outlined, final teardown inline" split outside the real body.
