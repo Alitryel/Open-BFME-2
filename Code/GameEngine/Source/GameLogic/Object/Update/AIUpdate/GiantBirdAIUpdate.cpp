@@ -568,7 +568,7 @@ UpdateSleepTime GiantBirdAIUpdate::update()
 	if (!isCommandPending() && m_storedCommand.m_00 != -1)
 	{
 		AICommandParms parms(AICMD_NO_COMMAND, CMD_FROM_AI);
-		m_storedCommand.rva0035164E(*(Rva00351570Src *)&parms);
+		m_storedCommand.reconstitute(*(Rva00351570Src *)&parms);
 		aiDoCommand(&parms);
 		m_storedCommand.m_00 = -1;
 	}

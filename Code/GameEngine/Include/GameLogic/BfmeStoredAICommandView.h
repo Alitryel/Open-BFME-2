@@ -24,5 +24,5 @@ public:
 	int m_BC;
 	int m_C0;
 	void rva00351570(const Rva00351570Src &src);
-	void rva0035164E(Rva00351570Src &dest) const;
+	void reconstitute(Rva00351570Src &dest) const;
 };

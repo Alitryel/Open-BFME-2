@@ -369,7 +369,7 @@ void DeployStyleAIUpdate::rva0048E8F7(const AICommandParms *parms)
 void DeployStyleAIUpdate::doLastOutsideCommand()
 {
 	AICommandParms parms(AICMD_NO_COMMAND,CMD_FROM_AI);
-	reinterpret_cast<const Rva00351570 *>(&m_member3E4)->rva0035164E(parms);
+	reinterpret_cast<const Rva00351570 *>(&m_member3E4)->reconstitute(parms);
 	m_flag4A9=false;
 	reinterpret_cast<DeployStyleCommandDispatchView *>(this)->doCommand(&parms,true);
 }

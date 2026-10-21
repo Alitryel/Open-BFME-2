@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva004A0670@Rva004A0670@@QAEXPAVObject@@0@Z @0x004A0670 153B ret 8.
+// ?exitObjectByBudding@Rva004A0670@@QAEXPAVObject@@0@Z @0x004A0670 153B ret 8.
 // Copy src pose onto dst, or the owner at this-0x18 when src is null.
 // Then face dst at its position and consume one count.
 
@@ -54,14 +54,14 @@ struct Rva004A0670Holder
 class Rva004A0670
 {
 public:
-	void rva004A0670(Object *dst, Object *src);
+	void exitObjectByBudding(Object *dst, Object *src);
 	char m_pad[4];
 	int m_4;
 	char m_pad2[0x14];
 	int m_count;
 };
 
-void Rva004A0670::rva004A0670(Object *dst, Object *src)
+void Rva004A0670::exitObjectByBudding(Object *dst, Object *src)
 {
 	if (src != 0)
 	{

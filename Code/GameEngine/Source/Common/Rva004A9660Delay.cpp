@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva004A9660@Rva004A9660@@QAEIPAVObject@@@Z @0x004A9660 181B.
+// ?getActionDelayForDock@Rva004A9660@@QAEIPAVObject@@@Z @0x004A9660 181B.
 // Worker supply-dock delay. Two function-local name keys,
 // SupplyWarehouseDockUpdate then SupplyCenterDockUpdate. findModule's
 // result is only a null test. Delays are module-data +0x78 and +0x74
@@ -31,10 +31,10 @@ protected:
 class Rva004A9660 : public Object
 {
 public:
-	unsigned int rva004A9660(Object *dock);
+	unsigned int getActionDelayForDock(Object *dock);
 };
 
-unsigned int Rva004A9660::rva004A9660(Object *dock)
+unsigned int Rva004A9660::getActionDelayForDock(Object *dock)
 {
 	static NameKeyType key_warehouse =
 		TheNameKeyGenerator->nameToKey("SupplyWarehouseDockUpdate");

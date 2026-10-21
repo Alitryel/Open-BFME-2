@@ -299,7 +299,7 @@ public:
 class Rva004A44B1
 {
 public:
-	void rva004A44B1();
+	void doCollapseDoneStuff();
 };
 
 class StructureCollapseUpdate : public UpdateModule, public DieModuleInterface
@@ -311,7 +311,7 @@ protected:
 	void beginStructureCollapse(const DamageInfo *damageInfo);
 	Real getCollapseHeight() const;
 	void doPhaseStuff(StructureCollapsePhaseType scphase, const Coord3D *target);
-	__declspec(dllimport) __forceinline void doCollapseDoneStuff() { ((Rva004A44B1 *)this)->rva004A44B1(); }
+	__declspec(dllimport) __forceinline void doCollapseDoneStuff() { ((Rva004A44B1 *)this)->doCollapseDoneStuff(); }
 
 	const StructureCollapseUpdateModuleData *getStructureCollapseUpdateModuleData() const
 	{

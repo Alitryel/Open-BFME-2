@@ -49,7 +49,7 @@ extern TeamFactory *TheTeamFactory;
 
 // Reference semantic guide: BFME1 6c1e0b51 AICommandParmsStorage.cpp.
 // Native 35164E..3516F3 RET4: inverse of the existing 351570 store.
-void Rva00351570::rva0035164E(Rva00351570Src &dest) const
+void Rva00351570::reconstitute(Rva00351570Src &dest) const
 {
  dest.m_00=m_00;
  dest.m_04=m_04;

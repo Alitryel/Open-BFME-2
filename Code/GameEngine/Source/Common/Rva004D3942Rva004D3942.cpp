@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva004D3942@Rva004D3942@@QAEXPAVConnectionManager@@@Z, retail 0x004d3942, 156 bytes. Banked partial (score 0.98) closed by tools/permute.py;
+// ?sendKeepAlive@Rva004D3942@@QAEXPAVConnectionManager@@@Z, retail 0x004d3942, 156 bytes. Banked partial (score 0.98) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
 // Keepalive sender: if time-last >500 or last==-1 news NetDisconnectKeepAlive
 // stamps playerID via rowed getLocalPlayerID gates commandID via rowed Does
@@ -53,14 +53,14 @@ bool DoesCommandRequireACommandID(NetCommandType type);
 class Rva004D3942
 {
 public:
-    void rva004D3942(ConnectionManager *mgr);
+    void sendKeepAlive(ConnectionManager *mgr);
 
 private:
     char m_pad[0x10];
     unsigned long m_10;
 };
 
-void Rva004D3942::rva004D3942(ConnectionManager *mgr)
+void Rva004D3942::sendKeepAlive(ConnectionManager *mgr)
 {
     unsigned long now = timeGetTime();
     unsigned long last = m_10;

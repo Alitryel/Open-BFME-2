@@ -973,7 +973,7 @@ void Rva00512CCDShutdown();
 class Rva004D3942
 {
 public:
-	void rva004D3942(ConnectionManager *conMgr);
+	void sendKeepAlive(ConnectionManager *conMgr);
 };
 
 class Rva004D3906
@@ -1080,7 +1080,7 @@ void DisconnectManager::update(ConnectionManager *conMgr)
 			else if (TheNetwork != 0)
 				((BFMENetworkVoteFacade *)TheNetwork)->rva0025E233();
 		}
-		((Rva004D3942 *)this)->rva004D3942(conMgr);
+		((Rva004D3942 *)this)->sendKeepAlive(conMgr);
 	}
 	else
 	{

@@ -300,7 +300,7 @@ UpdateSleepTime AIUpdateInterface::update()
 			!obj->testStatus((ObjectStatusTypes)0x4A))
 		{
 			AICommandParms parms(AICMD_NO_COMMAND, CMD_FROM_AI);
-			m_pendingCommand.rva0035164E(parms);
+			m_pendingCommand.reconstitute(parms);
 			m_pendingCommand.m_00 = -1;
 			aiDoCommand(&parms);
 		}

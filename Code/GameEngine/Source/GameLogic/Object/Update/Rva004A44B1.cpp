@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004A44B1@Rva004A44B1@@QAEXXZ, retail 0x004A44B1, 122 bytes.
+// ?doCollapseDoneStuff@Rva004A44B1@@QAEXXZ, retail 0x004A44B1, 122 bytes.
 // Evidence: static BoneFXUpdate key via TheNameKeyGenerator->nameToKey (same as StructureCollapseUpdate::doCollapseDoneStuff at 0x004A4DBE and poolkey at 0x004A429F); Object::findModule row 0x0028B6D6; BoneFXUpdate::stopAllBoneFX row 0x00487A95; GameLogic::destroyObject row 0x00242C09; caller 0x004A46BF.
 // Same UpdateModule layout as StructureCollapseUpdate (m_object at +8).
 
@@ -58,7 +58,7 @@ struct Holder04
 class Rva004A44B1
 {
 public:
-	void rva004A44B1();
+	void doCollapseDoneStuff();
 
 private:
 	const void *m_vtable;
@@ -66,7 +66,7 @@ private:
 	Object *m_object;
 };
 
-void Rva004A44B1::rva004A44B1()
+void Rva004A44B1::doCollapseDoneStuff()
 {
 	static NameKeyType key_BoneFXUpdate = TheNameKeyGenerator->nameToKey("BoneFXUpdate");
 	Module *mod = m_object->findModule(key_BoneFXUpdate);

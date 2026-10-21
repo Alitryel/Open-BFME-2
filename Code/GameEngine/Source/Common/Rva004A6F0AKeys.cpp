@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD /EHsc
 //
-// ?rva004A6F0A@Rva004A6F0A@@QAEHPAVObject@@@Z @0x004A6F0A 181B.
+// ?getActionDelayForDock@Rva004A6F0A@@QAEHPAVObject@@@Z @0x004A6F0A 181B.
 // Two function-static module keys. A SupplyWarehouseDockUpdate module
 // returns the dword at [[this-0x3E0]+0x6C]; a SupplyCenterDockUpdate
 // module returns the dword at [[this-0x3E0]+0x68].
@@ -30,10 +30,10 @@ protected:
 class Rva004A6F0A
 {
 public:
-	int rva004A6F0A(Object *obj);
+	int getActionDelayForDock(Object *obj);
 };
 
-int Rva004A6F0A::rva004A6F0A(Object *obj)
+int Rva004A6F0A::getActionDelayForDock(Object *obj)
 {
 	static NameKeyType keyWarehouse =
 		TheNameKeyGenerator->nameToKey("SupplyWarehouseDockUpdate");
