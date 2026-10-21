@@ -123,7 +123,7 @@ public:
 class Rva004CED4BUpdateInterface
 {
 public:
-	virtual UpdateSleepTime rva004CED4B();
+	virtual UpdateSleepTime update();
 };
 
 // Ghidra boundary 0x004CED4B/190. The Horde module factory registration and
@@ -134,7 +134,7 @@ public:
 // for each list entry until it returns true. The C++ interface owner and list
 // element spelling are ABI views; only the observed field offsets and calls
 // are treated as target facts.
-UpdateSleepTime Rva004CED4BUpdateInterface::rva004CED4B()
+UpdateSleepTime Rva004CED4BUpdateInterface::update()
 {
 	char *self = reinterpret_cast<char *>(this);
 	const ModuleData *data = *reinterpret_cast<const ModuleData *const *>(self - 0x0C);

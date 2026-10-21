@@ -255,7 +255,7 @@ public:
 	virtual ~Rva00482E96()
 	{
 	}
-	virtual void rva00482C39();
+	virtual void loadPostProcess();
 	virtual void s02();
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -278,12 +278,12 @@ void Rva00482E96_Anchor(Rva00482E96 *p)
 	p->Rva00482E96::~Rva00482E96();
 }
 
-// ?rva00482C39@Rva00482E96@@UAEXXZ retail 0x00482C39 17 bytes.
+// ?loadPostProcess@Rva00482E96@@UAEXXZ retail 0x00482C39 17 bytes.
 // Slot 1 (offset 0x4) of vtable 0x008497B4 (class of ??1Rva00482E96@@UAE@XZ).
 // Validates wide strings at +0 and +0x20, second as tail-jmp to rowed
 // ?validate@?$StringBase@G@@ABEXXZ at 0x000B3FD0. No other callees.
 // Honest address name: identity is class+slot only (opaque Rva).
-void Rva00482E96::rva00482C39()
+void Rva00482E96::loadPostProcess()
 {
 	((StringBase<unsigned short>*)this)->validate();
 	((StringBase<unsigned short>*)((char*)this + 0x20))->validate();

@@ -379,14 +379,14 @@ protected:
 class Rva0028F976Iface
 {
 public:
-	virtual Int rva0028F976() = 0;
+	virtual Int update() = 0;
 };
 class Rva0028F976 : public Rva0028F976Primary, public Rva0028F976Iface
 {
 public:
-	Int rva0028F976();
+	Int update();
 };
-Int Rva0028F976::rva0028F976()
+Int Rva0028F976::update()
 {
 	m_object->rva0028DB3C();
 	return 1;

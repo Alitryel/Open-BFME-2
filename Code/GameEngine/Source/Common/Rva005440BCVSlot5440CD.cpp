@@ -1,5 +1,8 @@
 // cl: /MD
-// ?rva005440CD@Rva005440BC@@UAEXXZ, retail 0x005440CD, 41 bytes.
+// ?halt@Rva005440BC@@UAEXXZ, retail 0x005440CD, 41 bytes.
+// Zero Hour AIDockMachine::halt exactly (cancel the dock on the goal object
+// for the owner at +0x14, then StateMachine::halt); the dtor at 0x005440BC is
+// rowed as AIDockMachine, the class keeps its address name here.
 // Virtual slot 15 (offset 0x3C) of vtable 0x008699A0 (VA 0x00C699A0), class of
 // ??1Rva005440BC@@UAE@XZ in Rva004D759CDerived.cpp (base StateMachine). Gets TurretStateMachine
 // goal object, finds the DockUpdateInterface via Object::getDockUpdateInterface, notifies slot 0x34 with
@@ -53,14 +56,14 @@ private:
 class Rva005440BC : public StateMachine
 {
 public:
-	virtual void rva005440CD();
+	virtual void halt();
 
 private:
 	char m_pad0C[ 8 ];
 	int m_14;
 };
 
-void Rva005440BC::rva005440CD()
+void Rva005440BC::halt()
 {
 	TurretStateMachine *turret = (TurretStateMachine *)this;
 	Object *goal = turret->getGoalObject();
@@ -74,5 +77,5 @@ void Rva005440BC::rva005440CD()
 	bec->onSlot34( m_14 );
 
 halt:
-	halt();
+	StateMachine::halt();
 }

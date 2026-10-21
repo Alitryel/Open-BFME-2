@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /MD
 //
-// ?rva0045969F@Rva0045969F@@UAEHXZ, retail 0x0045969F 90 bytes.
+// ?update@Rva0045969F@@UAEHXZ, retail 0x0045969F 90 bytes.
 // Ref-lane body reached via table slot 0x00841194; neighbours are UpdateModule
 // rows. Evidence: Thing at this-8 via rowed getDrawable 0x005508E2 plus AI at
 // Object+0x258 plus AI pred slot 0x1b8 plus iface at +0x10 slot 8 plus ints at
@@ -65,13 +65,13 @@ public:
 class Rva0045969F : public PadBase, public SubIface
 {
 public:
-	virtual int rva0045969F();
+	virtual int update();
 private:
 	int m_14;
 	int m_18;
 };
 
-int Rva0045969F::rva0045969F()
+int Rva0045969F::update()
 {
 	Drawable *drawable = (*(Thing **)((char *)this - 8))->getDrawable();
 	AI *ai = (*(Object **)((char *)this - 8))->m_ai;

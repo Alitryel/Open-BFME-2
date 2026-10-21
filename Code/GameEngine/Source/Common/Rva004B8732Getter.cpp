@@ -138,18 +138,18 @@ extern ThingFactory *TheThingFactory;
 
 struct XB00 { virtual void f00(); const XModuleData *m_data; Object *m_object; };
 struct XB0C { virtual void f0C(); };
-struct XB10 { virtual int rva004B886F() = 0; unsigned char m_pad[12]; };
+struct XB10 { virtual int update() = 0; unsigned char m_pad[12]; };
 class XIface20 { public: virtual AsciiString rva004B8851() const = 0; };
 class Rva004B886F : public XB00, public XB0C, public XB10, public XIface20
 {
 public:
-	virtual int rva004B886F();
+	virtual int update();
 
 private:
 	bool m_flag;
 };
 
-int Rva004B886F::rva004B886F()
+int Rva004B886F::update()
 {
 	Object *object = m_object;
 	const XModuleData *data = m_data;

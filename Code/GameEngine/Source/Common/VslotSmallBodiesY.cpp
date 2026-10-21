@@ -370,14 +370,14 @@ protected:
 class Rva004B65A5Iface
 {
 public:
-	virtual void rva004B65A5() = 0;
+	virtual void upgradeRemovalImplementation() = 0;
 };
 class Rva004B65A5 : public Rva004B65A5Primary, public Rva004B65A5Iface
 {
 public:
-	void rva004B65A5();
+	void upgradeRemovalImplementation();
 };
-void Rva004B65A5::rva004B65A5()
+void Rva004B65A5::upgradeRemovalImplementation()
 {
 	Rva001E431E *obj = m_object;
 	Rva004B65A5Data *data = m_moduleData;

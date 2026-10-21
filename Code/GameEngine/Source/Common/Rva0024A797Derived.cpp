@@ -517,7 +517,7 @@ Rva004DF7C2::~Rva004DF7C2()
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?f2@Rva00253E19_B2@@UAEXXZ=?rva004CED4B@Rva004CED4BUpdateInterface@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva00253E19_B2@@UAEXXZ=?update@Rva004CED4BUpdateInterface@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva00253EF5_B2@@UAEXXZ=?update@NotifyTargetsOfImminentProbableCrushingUpdate@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva00373CB1_B2@@UAEXXZ=?update@StealthUpdate@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva003A4322_B2@@UAEXXZ=?rva003A4473@Rva003A4322_B2@@QAEHXZ")

@@ -82,4 +82,4 @@ ClickReactionBehavior::ClickReactionBehavior(Thing *thing, const ModuleData *mod
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?slot@ClickReactionBehaviorIface@@UAEXXZ=?get@Rva004543A9LeaNegSbbField@@WBE@BEHXZ")
 #pragma comment(linker, "/alternatename:?slot@PB_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?slot@PB_Iface2@@UAEXXZ=?rva0045969F@Rva0045969F@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?slot@PB_Iface2@@UAEXXZ=?update@Rva0045969F@@UAEHXZ")
