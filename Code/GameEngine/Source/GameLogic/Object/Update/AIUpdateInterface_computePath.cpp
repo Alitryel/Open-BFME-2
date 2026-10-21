@@ -218,9 +218,10 @@ private:
 	State *m_currentState; // +0x04
 };
 
-class Rva00263910 { public: void rva00265667(const Coord3D *, int); };
 class AIUpdateInterface
 {
+public:
+	void rva00265667(const Coord3D *, int);
 public:
 #define X1_V(n) virtual void slot##n();
 #define X1_V10(n) X1_V(n##0) X1_V(n##1) X1_V(n##2) X1_V(n##3) X1_V(n##4) X1_V(n##5) X1_V(n##6) X1_V(n##7) X1_V(n##8) X1_V(n##9)
@@ -339,7 +340,7 @@ Bool AIUpdateInterface::computePath(PathfindServicesInterface *pathServices, Coo
 		Bool ok = computeQuickPath(destination);
 		if (ok) {
 			m_canPathThrough = false;
-			((Rva00263910 *)this)->rva00265667(destination, CMD_FROM_AI);
+			rva00265667(destination, CMD_FROM_AI);
 			CRITTER_TRACEDETAIL("CritterDesync:  computeQuickPath3 returned TRUE.");
 			return ok;
 		}

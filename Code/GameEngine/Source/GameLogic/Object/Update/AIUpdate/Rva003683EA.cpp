@@ -23,7 +23,7 @@ public:
 	virtual void s8(int v);
 };
 
-class Rva00263910
+class AIUpdateInterface
 {
 public:
 	void rva00265667(const Coord3D *pos, int flag);
@@ -37,12 +37,12 @@ public:
 	void setGoalWaypoint(const Waypoint *p);
 };
 
-class Rva003683EA : public Rva00263910
+class Rva003683EA : public AIUpdateInterface
 {
 public:
 	void rva003683EA(const Coord3D *pos, int flag);
 private:
-	char m_pad10[0x30 - sizeof(Rva00263910)];
+	char m_pad10[0x30 - sizeof(AIUpdateInterface)];
 	StateMachine *m_machine; // +0x30
 	char m_pad34[0x3BD - 0x34];
 	unsigned char m_guard; // +0x3BD

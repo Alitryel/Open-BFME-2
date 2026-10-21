@@ -6,7 +6,7 @@
 // StateMachine virtuals (slots 5, 14, 8 with 62), field +0x48 takes flag,
 // then rowed Object::getCurrentWeapon(0) and write third arg to weapon+0x34.
 // Evidence: vtable slot 66 of AIUpdate derivatives; layout (+8 object,
-// +0x30 machine) plus this-call into Rva00263910::rva00265667 shared with
+// +0x30 machine) plus this-call into AIUpdateInterface::rva00265667 shared with
 // sibling TU Rva00263910Goal.cpp.
 // Identity: WorldBuilder's AIUpdate.cpp:7496 asserts in
 // AIUpdateInterface::privateGuardRetaliate, whose body makes the same
@@ -16,11 +16,6 @@
 // the aiDoCommand handler PrivateCommands declares at this slot.
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 
-class Rva00263910
-{
-public:
-	void rva00265667(const Coord3D *pos, int flag);
-};
 
 class StateMachine
 {
@@ -67,6 +62,8 @@ enum CommandSourceType
 
 class AIUpdateInterface
 {
+public:
+	void rva00265667(const Coord3D *pos, int flag);
 protected:
 	virtual void privateGuardRetaliate(Object *victim, const Coord3D *pos, int maxShotsToFire, CommandSourceType cmdSource);
 
@@ -85,7 +82,7 @@ void AIUpdateInterface::privateGuardRetaliate(Object *victim, const Coord3D *pos
 		return;
 	m_machine->m5();
 	m_machine->m14(victim);
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(pos, cmdSource);
+	rva00265667(pos, cmdSource);
 	m_lastCommandSource = cmdSource;
 	m_machine->m8(62);
 	const Weapon *weapon = m_object->getCurrentWeapon((WeaponSlotType *)0);

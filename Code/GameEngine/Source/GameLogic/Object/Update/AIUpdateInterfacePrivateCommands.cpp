@@ -782,12 +782,6 @@ public:
 // 0x00263910 (matched, Rva00263910Goal.cpp): the clipped goal position with an
 // explicit range; setGoalPositionClipped (0x00265667) forwards to it with the
 // global default.
-class Rva00263910
-{
-public:
-	void rva00263910(const Coord3D *pos, float range, int commandSource);
-	void rva00265667(const Coord3D *pos, int commandSource);
-};
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
 // TheAI (0x00DFF0F8) hands out its pathfinder from +0x10. The pathfinder query
@@ -1124,6 +1118,9 @@ enum MoodMatrixParameters
 class AIUpdateInterface : public BfmeVirtualSlots<96>
 {
 public:
+	void rva00263910(const Coord3D *pos, float range, int commandSource);
+	void rva00265667(const Coord3D *pos, int commandSource);
+public:
 	virtual Bool bfmeCurrentWeaponTemplateFlag4() const;
 	virtual void clearGuardTargetType();
 
@@ -1352,7 +1349,7 @@ void AIUpdateInterface::bfmePrivateCommand02(const Coord3D *position, CommandSou
 
 	m_stateMachine->clear();
 	m_stateMachine->setGoalObject(0);
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_lastCommandSource = commandSource;
 	m_stateMachine->setState(BFME_AI_STATE_1B);
 }
@@ -1586,7 +1583,7 @@ void AIUpdateInterface::privateFacePosition(const Coord3D *position, CommandSour
 	if (!getObject()->isMobile())
 		return;
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1692,7 +1689,7 @@ void AIUpdateInterface::bfmePrivateCommand03(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1711,7 +1708,7 @@ void AIUpdateInterface::bfmePrivateCommand04(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1730,7 +1727,7 @@ void AIUpdateInterface::bfmePrivateCommand38(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1749,7 +1746,7 @@ void AIUpdateInterface::bfmePrivateCommand41(const Coord3D *position, CommandSou
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1793,7 +1790,7 @@ void AIUpdateInterface::privateMoveToPositionSA(const Coord3D *position, Command
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -1919,7 +1916,7 @@ void AIUpdateInterface::privateAttackMoveToPositionAndOrientation(const Coord3D 
 		return;
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00263910(position, range, commandSource);
+	rva00263910(position, range, commandSource);
 	m_lastCommandSource = commandSource;
 	m_stateMachine->setState(BFME_AI_ATTACK_MOVE_TO);
 
@@ -2170,7 +2167,7 @@ void AIUpdateInterface::privateMoveToPosition(const Coord3D *position, float ran
 	if (!reinterpret_cast<AIUpdateSlot110 *>(this)->isIdle() && commandSource == CMD_FROM_AI)
 	{
 		reinterpret_cast<Rva0033FCC8 *>(m_stateMachine)->rva0033FCC8();
-		reinterpret_cast<Rva00263910 *>(this)->rva00263910(position, range, commandSource);
+		rva00263910(position, range, commandSource);
 		m_blockedFrames = 0;
 		m_isBlocked = false;
 		reinterpret_cast<AIStateMachine *>(m_stateMachine)->setTemporaryState(BFME_AI_MOVE_TO, BfmeLogicFramesPerSecond * 20);
@@ -2178,7 +2175,7 @@ void AIUpdateInterface::privateMoveToPosition(const Coord3D *position, float ran
 	}
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00263910(position, range, commandSource);
+	rva00263910(position, range, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -2211,7 +2208,7 @@ void AIUpdateInterface::privateMoveToPositionAmphibious(const Coord3D *position,
 		m_curLocomotor->rva001E4147(reinterpret_cast<Rva001E4147Twelve *>(m_object));
 
 	m_stateMachine->clear();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(position, commandSource);
+	rva00265667(position, commandSource);
 	m_blockedFrames = 0;
 	m_isBlocked = false;
 	m_lastCommandSource = commandSource;
@@ -2352,7 +2349,7 @@ void AIUpdateInterface::privateAttackPosition(const Coord3D *pos, Int maxShotsTo
 
 	sm->clear();
 	destroyPath();
-	reinterpret_cast<Rva00263910 *>(this)->rva00265667(&localPos, commandSource);
+	rva00265667(&localPos, commandSource);
 	m_lastCommandSource = commandSource;
 	m_stateMachine->setState(BFME_AI_ATTACK_POSITION);
 	m_stateMachine->setGoalObject(0);

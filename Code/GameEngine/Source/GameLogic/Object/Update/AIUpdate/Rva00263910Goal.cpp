@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva00263910@Rva00263910@@QAEXPBUCoord3D@@MH@Z
+// ?rva00263910@AIUpdateInterface@@QAEXPBUCoord3D@@MH@Z
 //
 // retail 0x00263910 (297 bytes). AIUpdate goal-position helper: copy pos to
 // local, when flag==0 adjust height from TheWritableGlobalData+0xD4 scaled by
@@ -73,7 +73,7 @@ static const float &float_max(const float &a, const float &b)
 	return (a > b) ? a : b;
 }
 
-class Rva00263910
+class AIUpdateInterface
 {
 public:
 	void rva00263910(const Coord3D *pos, float range, int flag);
@@ -86,7 +86,7 @@ public:
 	HeightHolder *m_height; // +0x1F0
 };
 
-void Rva00263910::rva00263910(const Coord3D *pos, float range, int flag)
+void AIUpdateInterface::rva00263910(const Coord3D *pos, float range, int flag)
 {
 	Coord3D local;
 	float h;
@@ -127,11 +127,11 @@ void Rva00263910::rva00263910(const Coord3D *pos, float range, int flag)
 	}
 }
 
-// ?rva00265667@Rva00263910@@QAEXPBUCoord3D@@H@Z @0x00265667 (26B).
+// ?rva00265667@AIUpdateInterface@@QAEXPBUCoord3D@@H@Z @0x00265667 (26B).
 // Forwards this plus own args to rva00263910 with range from 3.4028235e+38f.
 // Evidence: retail pushes flag then fld 3.4028235e+38f then pos and calls rowed
 // 0x00263910 with unchanged ecx; ret 8 matches (pos flag); 15 callers pass pos plus flag.
-void Rva00263910::rva00265667(const Coord3D *pos, int flag)
+void AIUpdateInterface::rva00265667(const Coord3D *pos, int flag)
 {
 	rva00263910(pos, 3.4028235e+38f, flag);
 }

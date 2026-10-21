@@ -13,7 +13,7 @@ public:
 	virtual void s9(); virtual void s10(); virtual void s11(); virtual void s12(); virtual void s13();
 	virtual void s14(const Coord3D *pos);
 };
-class Rva00263910 { public: void rva00265667(const Coord3D *pos, int flag); };
+class AIUpdateInterface { public: void rva00265667(const Coord3D *pos, int flag); };
 class Rva00368344 {
 public:
 	void rva003682F1(const Waypoint *goal, bool extra, const Waypoint *next);
@@ -55,7 +55,7 @@ void Rva00368344::rva00368344(const Coord3D *pos, int flag)
 	if (!m_gate08->isMobile())
 		return;
 	m_machine->s5();
-	((Rva00263910 *)this)->rva00265667(pos, flag);
+	((AIUpdateInterface *)this)->rva00265667(pos, flag);
 	((AIStateMachine *)this)->setGoalWaypoint((const Waypoint *)flag);
 	m_machine->s8(0x3E9);
 	m_done = 1;
@@ -67,7 +67,7 @@ void Rva00368344::rva00368397(const Coord3D *pos, int flag)
 	if (!m_gate08->isMobile())
 		return;
 	m_machine->s5();
-	((Rva00263910 *)this)->rva00265667(pos, flag);
+	((AIUpdateInterface *)this)->rva00265667(pos, flag);
 	((AIStateMachine *)this)->setGoalWaypoint((const Waypoint *)flag);
 	m_machine->s8(0x400);
 	m_done = 1;
@@ -79,7 +79,7 @@ void Rva00368344::rva00368433(const Coord3D *pos, int flag)
 	if (!m_gate08->isMobile())
 		return;
 	m_machine->s5();
-	((Rva00263910 *)this)->rva00265667(pos, flag);
+	((AIUpdateInterface *)this)->rva00265667(pos, flag);
 	((AIStateMachine *)this)->setGoalWaypoint((const Waypoint *)flag);
 	m_machine->s8(0x3FD);
 	m_done = 1;
