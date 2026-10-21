@@ -20,12 +20,20 @@ class Rva006F8460
 {
 public:
 	virtual ~Rva006F8460();
+	// Pooled like FamilyDeletingDtors_Rva006F8460.cpp's view: retail's deleting
+	// dtor 0x006F8490 frees the 0x18-byte object to the chain-block pool.
+	static void operator delete(void *p, unsigned int size)
+	{
+		g_pChainBlockAllocator->freeBlock(p, size);
+	}
 private:
 	char m_pad[0x0C];
 	Rva0070A840 *m_10;
+	char m_pad14[0x18 - 0x14];
 };
 
-Rva006F8460::~Rva006F8460()
+// Not expanded into the deleting dtor: retail 0x006F8490 calls it.
+__declspec(noinline) Rva006F8460::~Rva006F8460()
 {
 	Rva0070A840 *p = m_10;
 	if (p != 0) {
