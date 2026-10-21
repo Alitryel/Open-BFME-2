@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG
-// ?Rva00418AC6Parse@@YAXPAVINI@@@Z @0x00418AC6 241B.
+// ?parseAutoResolveBodyDefinition@@YAXPAVINI@@@Z @0x00418AC6 241B.
 // LivingWorld AutoResolveBody INI block parse: the parse function of the
 // block-parse entry at 0x009C8248 (name VA 0x00C10D64 parser VA 0x00818AC6)
 // and its only reference. Reads the block name then the store's default body
@@ -131,7 +131,7 @@ struct _s__ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
-void __cdecl Rva00418AC6Parse(INI *ini)
+void __cdecl parseAutoResolveBodyDefinition(INI *ini)
 {
 	const char *token = ini->getNextToken(0);
 	const Rva00418797 *defaults = (const Rva00418797 *)TheLivingWorldAutoResolveBodyStore->rva00418825();
