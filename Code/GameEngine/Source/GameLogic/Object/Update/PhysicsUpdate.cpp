@@ -1049,9 +1049,9 @@ Real PhysicsBehavior::getMass() const
 }
 
 //-----------------------------------------------------------------------------
-inline Real calcDistSqr(const Coord3D& a, const Coord3D& b)
+inline Real calcDistSqr(const Coord3D& lhs, const Coord3D& rhs)
 {
-	return sqr(a.x - b.x) + sqr(a.y - b.y) + sqr(a.z - b.z);
+	return sqr(lhs.x - rhs.x) + sqr(lhs.y - rhs.y) + sqr(lhs.z - rhs.z);
 }
 
 //-------------------------------------------------------------------------------------------------

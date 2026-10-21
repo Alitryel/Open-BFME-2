@@ -139,7 +139,7 @@ private:
 	unsigned m_tintStatus; // +0x118
 };
 
-template <typename T> inline const T &pbMin(const T &a, const T &b) { return (a < b) ? a : b; }
+template <typename T> inline const T &pbMin(const T &lhs, const T &rhs) { return (lhs < rhs) ? lhs : rhs; }
 
 class PoisonedBehaviorModuleData
 {

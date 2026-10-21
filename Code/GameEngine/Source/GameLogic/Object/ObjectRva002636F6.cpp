@@ -27,7 +27,7 @@
 class Object
 {
 public:
-	float rva002636F6(const Coord3D *a, const void *other, const Coord3D *b) const;
+	float rva002636F6(const Coord3D *lhs, const void *other, const Coord3D *rhs) const;
 	float rva00263763(const void *other) const;
 
 private:
@@ -45,10 +45,10 @@ float Object::rva00263763(const void *other) const
 	return rva002636F6(&m_position, other, (const Coord3D *)((const char *)other + 0x38));
 }
 
-float Object::rva002636F6(const Coord3D *a, const void *other, const Coord3D *b) const
+float Object::rva002636F6(const Coord3D *lhs, const void *other, const Coord3D *rhs) const
 {
-	float dx = a->x - b->x;
-	float dy = a->y - b->y;
+	float dx = lhs->x - rhs->x;
+	float dy = lhs->y - rhs->y;
 	float rad = m_majorRadius;
 	float rad2 = *(float const *)((char const *)other + 0xB8);
 	double dist = sqrt((double)(dx * dx + dy * dy));

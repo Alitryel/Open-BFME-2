@@ -49,11 +49,11 @@ inline MixFileCreator::FileInfoStruct &MixFileCreator::FileInfoStruct::operator=
 	return *this;
 }
 
-void __cdecl Rva002176A6Swap(MixFileCreator::FileInfoStruct *a, MixFileCreator::FileInfoStruct *b)
+void __cdecl Rva002176A6Swap(MixFileCreator::FileInfoStruct *lhs, MixFileCreator::FileInfoStruct *rhs)
 {
-	MixFileCreator::FileInfoStruct tmp(*a);
-	*a = *b;
-	*b = tmp;
+	MixFileCreator::FileInfoStruct tmp(*lhs);
+	*lhs = *rhs;
+	*rhs = tmp;
 }
 
 MixFileCreator::FileInfoStruct *__cdecl Rva00217AB0Partition(

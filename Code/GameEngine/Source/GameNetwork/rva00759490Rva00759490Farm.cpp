@@ -55,24 +55,24 @@ struct Rva009A3540OpaqueOwner
 class Rva009A3540PairOwner
 {
 public:
-    void rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
+    void rva00759490(Rva009A3540OpaqueOwner *lhs, Rva009A3540OpaqueOwner *rhs);
 };
 
-void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b)
+void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *lhs, Rva009A3540OpaqueOwner *rhs)
 {
-    unsigned int aGroup = (1 ? (*(unsigned int *)((char *)a + 0xa0)) : (*(unsigned int *)((char *)a + 0xa0)));
-    if (aGroup != 0 && aGroup == *(unsigned int *)((char *)b + 0xa0))
+    unsigned int aGroup = (1 ? (*(unsigned int *)((char *)lhs + 0xa0)) : (*(unsigned int *)((char *)lhs + 0xa0)));
+    if (aGroup != 0 && aGroup == *(unsigned int *)((char *)rhs + 0xa0))
         return;
 
-    if (*(unsigned int *)((char *)a + 0x9c) > *(unsigned int *)((char *)b + 0x9c))
+    if (*(unsigned int *)((char *)lhs + 0x9c) > *(unsigned int *)((char *)rhs + 0x9c))
     {
-        Rva009A3540OpaqueOwner *swap = a;
-        a = b;
-        b = swap;
+        Rva009A3540OpaqueOwner *swap = lhs;
+        lhs = rhs;
+        rhs = swap;
     }
 
-    unsigned int aId = *(unsigned int *)((char *)a + 0x9c);
-    unsigned int bId = *(unsigned int *)((char *)b + 0x9c);
+    unsigned int aId = *(unsigned int *)((char *)lhs + 0x9c);
+    unsigned int bId = *(unsigned int *)((char *)rhs + 0x9c);
     unsigned int bucket = ((aId << 16) + bId) % 0x2b7b;
 
     unsigned char buf[44];
@@ -84,8 +84,8 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
     if (node == 0)
     {
         *(unsigned int *)(buf + 0x10) = 1;
-        *(Rva009A3540OpaqueOwner **)buf = a;
-        *(Rva009A3540OpaqueOwner **)(buf + 4) = b;
+        *(Rva009A3540OpaqueOwner **)buf = lhs;
+        *(Rva009A3540OpaqueOwner **)(buf + 4) = rhs;
 
         Rva009A3540PairNode *fresh = *(Rva009A3540PairNode **)((char *)this + 0xae04);
         if (fresh != 0)
@@ -104,7 +104,7 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
             *(Rva009A3540PairNode ***)((char *)old + 0x2c) = &fresh->next;
         *slot = fresh;
 
-        Rva009A3540PairNode::Link **headA = (Rva009A3540PairNode::Link **)((char *)a + 0x20);
+        Rva009A3540PairNode::Link **headA = (Rva009A3540PairNode::Link **)((char *)lhs + 0x20);
         fresh->link14.backlink = headA;
         Rva009A3540PairNode::Link *oldA = *headA;
         fresh->link14.next = oldA;
@@ -112,7 +112,7 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
             oldA->backlink = &fresh->link14.next;
         *headA = &fresh->link14;
 
-        Rva009A3540PairNode::Link **headB = (Rva009A3540PairNode::Link **)((char *)b + 0x20);
+        Rva009A3540PairNode::Link **headB = (Rva009A3540PairNode::Link **)((char *)rhs + 0x20);
         fresh->link20.backlink = headB;
         Rva009A3540PairNode::Link *oldB = *headB;
         fresh->link20.next = oldB;
@@ -131,8 +131,8 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
 
     *(unsigned int *)(buf + 0x10) = 0;
     *(unsigned int *)(buf + 0xc) = bId;
-    *(Rva009A3540OpaqueOwner **)buf = a;
-    *(Rva009A3540OpaqueOwner **)(buf + 4) = b;
+    *(Rva009A3540OpaqueOwner **)buf = lhs;
+    *(Rva009A3540OpaqueOwner **)(buf + 4) = rhs;
     *(unsigned int *)(buf + 8) = aId;
     ((Rva009A3770HashTable *)((char *)this + 0xae10))->insert((Rva009A3770Node *)buf);
 }

@@ -57,9 +57,9 @@ public:
 	__declspec(dllimport) __forceinline Vector3( float x, float y, float z ) { X = x; Y = y; Z = z; }
 	Vector3( const Vector3 &v ) { X = v.X; Y = v.Y; Z = v.Z; }
 	Vector3 &operator = ( const Vector3 &v ) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
-	friend __forceinline bool operator != ( const Vector3 &a, const Vector3 &b )
+	friend __forceinline bool operator != ( const Vector3 &lhs, const Vector3 &rhs )
 	{
-		return ( a.X != b.X || a.Y != b.Y || a.Z != b.Z );
+		return ( lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z );
 	}
 	float X;
 	float Y;
@@ -187,7 +187,7 @@ public:
 
 enum { MAX_PROJECTILE_STREAM = 20 };
 
-template <class T> inline const T &max( const T &a, const T &b ) { return a > b ? a : b; }
+template <class T> inline const T &max( const T &lhs, const T &rhs ) { return lhs > rhs ? lhs : rhs; }
 
 class Matrix3D;
 

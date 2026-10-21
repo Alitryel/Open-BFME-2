@@ -32,8 +32,8 @@ public:
 	Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
 	void Set(float x, float y, float z) { X = x; Y = y; Z = z; }
 	float Length2() const { return X * X + Y * Y + Z * Z; }
-	static float Dot_Product(const Vector3 &a, const Vector3 &b) { return a.X * b.X + a.Y * b.Y + a.Z * b.Z; }
-	friend Vector3 operator-(const Vector3 &a, const Vector3 &b) { return Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
+	static float Dot_Product(const Vector3 &lhs, const Vector3 &rhs) { return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z; }
+	friend Vector3 operator-(const Vector3 &lhs, const Vector3 &rhs) { return Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z); }
 	float X;
 	float Y;
 	float Z;

@@ -8,11 +8,11 @@ struct Rva002AAC9ERange
 
 bool __cdecl Rva002AA32FEqual(float const* first, float const* last, float const* other);
 
-int __cdecl Rva002AAC9EEqual(Rva002AAC9ERange const* a, Rva002AAC9ERange const* b)
+int __cdecl Rva002AAC9EEqual(Rva002AAC9ERange const* lhs, Rva002AAC9ERange const* rhs)
 {
-	int aSize = (char const*)a->m_end - (char const*)a->m_begin;
-	int bSize = (char const*)b->m_end - (char const*)b->m_begin;
-	if ((((aSize ^ bSize) & -4) == 0) && Rva002AA32FEqual(a->m_begin, a->m_end, b->m_begin))
+	int aSize = (char const*)lhs->m_end - (char const*)lhs->m_begin;
+	int bSize = (char const*)rhs->m_end - (char const*)rhs->m_begin;
+	if ((((aSize ^ bSize) & -4) == 0) && Rva002AA32FEqual(lhs->m_begin, lhs->m_end, rhs->m_begin))
 		return 1;
 	return 0;
 }

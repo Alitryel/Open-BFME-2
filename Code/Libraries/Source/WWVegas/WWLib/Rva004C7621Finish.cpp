@@ -59,7 +59,7 @@ template <> void sort<BfmeE8 *, BfmeE8Less>(BfmeE8 *, BfmeE8 *, BfmeE8Less);
 
 bool Rva0007B701Cmp(const BfmeE8 &, const BfmeE8 &);
 
-bool Rva0007B701Cmp(const BfmeE8 &a, const BfmeE8 &b)
+bool Rva0007B701Cmp(const BfmeE8 &lhs, const BfmeE8 &rhs)
 {
-	return a.m_distSq < b.m_distSq;
+	return lhs.m_distSq < rhs.m_distSq;
 }

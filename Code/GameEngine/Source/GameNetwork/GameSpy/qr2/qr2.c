@@ -593,13 +593,13 @@ static int qr2_get_sockaddrin(const char *host, int port, struct sockaddr_in *sa
 /*****************************************************************************/
 /* Various encryption / encoding routines */
 
-static void swap_byte ( uchar *a, uchar *b )
+static void swap_byte ( uchar *lhs, uchar *rhs )
 {
 	uchar swapByte; 
 	
-	swapByte = *a; 
-	*a = *b;      
-	*b = swapByte;
+	swapByte = *lhs; 
+	*lhs = *rhs;      
+	*rhs = swapByte;
 }
 
 static uchar encode_ct ( uchar c )

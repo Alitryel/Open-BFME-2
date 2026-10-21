@@ -28,6 +28,6 @@ public:
 private:
  BfmeFixedStorage0004543D m_08,m_24;
 };
-PartitionFilterRejectByKindOf::PartitionFilterRejectByKindOf(const BfmeFixedStorage0004543D &a,const BfmeFixedStorage0004543D &b)
- : m_08(a),m_24(b) {}
+PartitionFilterRejectByKindOf::PartitionFilterRejectByKindOf(const BfmeFixedStorage0004543D &lhs,const BfmeFixedStorage0004543D &rhs)
+ : m_08(lhs),m_24(rhs) {}
 inline PartitionFilterRejectByKindOf::~PartitionFilterRejectByKindOf() {}

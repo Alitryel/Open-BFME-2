@@ -174,7 +174,7 @@ class LivingWorldLogic {public:
 };
 extern LivingWorldLogic *TheLivingWorldLogic;
 struct SpawnZero:Coord2D{SpawnZero(){x=0.0f;y=0.0f;}~SpawnZero(){}};
-__forceinline bool spawnEqual(const Coord2D &a,const Coord2D &b){return a.x==b.x && a.y==b.y;}
+__forceinline bool spawnEqual(const Coord2D &lhs,const Coord2D &rhs){return lhs.x==rhs.x && lhs.y==rhs.y;}
 
 template<class T>struct SpawnVectorView {
  T *first,*last,*capacity;

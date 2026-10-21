@@ -23,9 +23,9 @@ typedef float Real;
 class Thing;
 class ModuleData;
 
-template <class T> inline const T &max(const T &a, const T &b)
+template <class T> inline const T &max(const T &lhs, const T &rhs)
 {
-	return a > b ? a : b;
+	return lhs > rhs ? lhs : rhs;
 }
 
 enum UpdateSleepTime

@@ -57,7 +57,7 @@ public:
 	virtual void attemptDamage(DamageInfo *damageInfo);
 };
 
-template <class T> inline const T &bfmeMin(const T &a, const T &b) { return a < b ? a : b; }
+template <class T> inline const T &bfmeMin(const T &lhs, const T &rhs) { return lhs < rhs ? lhs : rhs; }
 
 void HighlanderBody::attemptDamage(DamageInfo *damageInfo)
 {

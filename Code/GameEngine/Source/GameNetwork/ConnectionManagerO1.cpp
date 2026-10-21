@@ -33,7 +33,7 @@
 // Spelled locally because pulling in <algorithm> collides with GameMemory.h's
 // placement new. Argument order is fixed by the equal case: retail takes the
 // second operand when the two are equal.
-template <class T> inline const T &maxRef(const T &a, const T &b) { return a > b ? a : b; }
+template <class T> inline const T &maxRef(const T &lhs, const T &rhs) { return lhs > rhs ? lhs : rhs; }
 
 void ConnectionManager::sendFrameDataToPlayer(UnsignedInt playerID, UnsignedInt startingFrame) {
 	if (playerID >= MAX_SLOTS) {

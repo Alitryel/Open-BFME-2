@@ -41,7 +41,7 @@ public:
 };
 // Preserve retail SSE scheduling through the component setter without emitting conflicting Vector3 copies.
 static __forceinline void ShadowSetPoint(Vector3 *v,Real x,Real y,Real z) { v->X=x; v->Y=y; v->Z=z; }
-static __forceinline Vector3 ShadowSubtract(const Vector3 &a, const Vector3 &b) { Vector3 result; ShadowSetPoint(&result,a.X-b.X,a.Y-b.Y,a.Z-b.Z); return result; }
+static __forceinline Vector3 ShadowSubtract(const Vector3 &lhs, const Vector3 &rhs) { Vector3 result; ShadowSetPoint(&result,lhs.X-rhs.X,lhs.Y-rhs.Y,lhs.Z-rhs.Z); return result; }
 
 class RenderObjClass;
 class W3DShadowGeometry;

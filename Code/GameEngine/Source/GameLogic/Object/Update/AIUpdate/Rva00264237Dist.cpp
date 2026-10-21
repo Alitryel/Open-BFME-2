@@ -8,10 +8,10 @@
 // Owned here (its only reader); retail .rdata holds 1600.0f (VA 0x00BF9680).
 const float g_00BF9680 = 1600.0f;
 
-int Rva00264237Check(const Coord3D *a, const Coord3D *b)
+int Rva00264237Check(const Coord3D *lhs, const Coord3D *rhs)
 {
-	float dx = a->x - b->x;
-	float dy = a->y - b->y;
+	float dx = lhs->x - rhs->x;
+	float dy = lhs->y - rhs->y;
 	float d2 = dy * dy + dx * dx;
 	return d2 < g_00BF9680 ? 1 : 0;
 }

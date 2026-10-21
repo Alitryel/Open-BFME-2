@@ -104,9 +104,9 @@ public:
 	void sendLocalCommandDirect(NetCommandMsg *msg, UnsignedByte relay);
 };
 
-template <class T> inline const T &frameMaximum(const T &a, const T &b)
+template <class T> inline const T &frameMaximum(const T &lhs, const T &rhs)
 {
-	return b > a ? b : a;
+	return rhs > lhs ? rhs : lhs;
 }
 
 class BFMEConnectionManager

@@ -45,9 +45,9 @@ class CameraClass;
 
 // Keep vector3.h's component comparison local: its unused external copy
 // differs from the retail provider. The transform body still inlines it.
-static __forceinline bool hlodOffsetsDiffer(const Vector3 &a, const Vector3 &b)
+static __forceinline bool hlodOffsetsDiffer(const Vector3 &lhs, const Vector3 &rhs)
 {
-    return (a.X != b.X) || (a.Y != b.Y) || (a.Z != b.Z);
+    return (lhs.X != rhs.X) || (lhs.Y != rhs.Y) || (lhs.Z != rhs.Z);
 }
 
 struct HlodTransformView

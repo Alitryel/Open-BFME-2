@@ -94,7 +94,7 @@ template<int N> class BitFlags {public: __declspec(nothrow) BitFlags(const BitFl
 extern BitFlags<116> KINDOFMASK_NONE;
 int Rva00360C1FEqual(const void*,const void*);
 class Thing {public:bool isKindOfMulti(const BitFlags<116>&,const BitFlags<116>&) const;};
-template<class T> static __forceinline const T& minDamageRatio(const T&a,const T&b) {return b<a?b:a;}
+template<class T> static __forceinline const T& minDamageRatio(const T&lhs,const T&rhs) {return rhs<lhs?rhs:lhs;}
 
 // Construct the verified owner of the native 0x7C damage record. The
 // older DamageInfo constructor pin also names divergent definitions.

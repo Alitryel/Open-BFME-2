@@ -217,11 +217,11 @@ private:
 };
 
 template <class T>
-inline void swapValues(T &a, T &b)
+inline void swapValues(T &lhs, T &rhs)
 {
-	T tmp = a;
-	a = b;
-	b = tmp;
+	T tmp = lhs;
+	lhs = rhs;
+	rhs = tmp;
 }
 
 class DllHandle

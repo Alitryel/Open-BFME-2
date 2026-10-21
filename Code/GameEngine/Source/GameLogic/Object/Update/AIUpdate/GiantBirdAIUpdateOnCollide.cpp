@@ -22,11 +22,11 @@ typedef float Real;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
-inline void addCoord(Coord3D *a, const Coord3D *b)
+inline void addCoord(Coord3D *lhs, const Coord3D *rhs)
 {
-	a->x += b->x;
-	a->y += b->y;
-	a->z += b->z;
+	lhs->x += rhs->x;
+	lhs->y += rhs->y;
+	lhs->z += rhs->z;
 }
 
 enum KindOfType { KINDOF_BFME_9B = 0x9B };

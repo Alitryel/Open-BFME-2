@@ -49,9 +49,9 @@ struct LevelUpUpgradeModuleData
 	int m_levels;			// +0x118
 	int m_levelCap;			// +0x11C
 };
-template <class T> inline const T &lowerOf(const T &a, const T &b)
+template <class T> inline const T &lowerOf(const T &lhs, const T &rhs)
 {
-	return (a < b) ? a : b;
+	return (lhs < rhs) ? lhs : rhs;
 }
 class ObjectModuleBase
 {

@@ -28,10 +28,10 @@ struct Rva0002C4FD
 {
 	StringBase<char> m_a; // +0
 	StringBase<char> m_b; // +4
-	Rva0002C4FD(const StringBase<char> &a, const StringBase<char> &b);
+	Rva0002C4FD(const StringBase<char> &lhs, const StringBase<char> &rhs);
 };
 
-Rva0002C4FD::Rva0002C4FD(const StringBase<char> &a, const StringBase<char> &b)
-	: m_a(a), m_b(b)
+Rva0002C4FD::Rva0002C4FD(const StringBase<char> &lhs, const StringBase<char> &rhs)
+	: m_a(lhs), m_b(rhs)
 {
 }

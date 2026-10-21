@@ -39,7 +39,7 @@ public:
 		}
 		return retval;
 	}
-	static Real __fastcall Inv_Sqrt(Real a);
+	static Real __fastcall Inv_Sqrt(Real lhs);
 	static __declspec(dllimport) __forceinline Real Clamp(Real val, Real lo, Real hi)
 	{
 		if (val < lo) return lo;
@@ -74,9 +74,9 @@ public:
 			Z *= oolen;
 		}
 	}
-	static __forceinline Real Dot_Product(const Vector3 &a, const Vector3 &b)
+	static __forceinline Real Dot_Product(const Vector3 &lhs, const Vector3 &rhs)
 	{
-		return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+		return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
 	}
 };
 
