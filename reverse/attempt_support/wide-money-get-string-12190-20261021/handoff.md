@@ -79,3 +79,12 @@ states. Untested contracts:
 
 Landing scope (unchanged): 2802 B, retiring gen_asm rows 0x12190 (122 B) and
 0x1220A (2680 B) in `Code/gen_asm/d_000112aa.asm`.
+
+## Landed (claude3, 2026-10-21)
+
+`Code/Libraries/Source/WWVegas/WWLib/stlport_wide_money_get_string.cpp`, 2824 B
+(body plus switch table), both gen rows retired. Levers: vendor allocator (no
+proxy EH state), a phantom-cost `~_String_base<wchar_t>` specialization (nine
+empty member-dtor calls, 82 B out of line), and `_M_assign_dispatch<wchar_t*>`
+spelled visibly with an empty dtor call on its tag. Recipe: `docs/recipes.md`,
+"Retail outlines an inline dtor at cold sites".

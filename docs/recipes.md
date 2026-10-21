@@ -359,6 +359,19 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   bottom of each fallback frame were the functor `operator()`'s `T x = a; T
   y = b;`. In a macro, brace the block (`__asm { __asm push eax __asm ... }`);
   bare `__asm` statements run on to the end of the line (C2400).
+- **Retail outlines an inline dtor at cold sites but inlines it at the hot
+  exit: tune its out-of-line size with empty member-dtor calls.** MSVC 7.1
+  sizes an inline candidate by its compiled out-of-line body. In the wide
+  money parser 0x00012190, cold sites (ternary temporaries, scope ends, early
+  returns) were outlined above about 80 B and the final exit inlined up to
+  about 96 B. A TU-local `template <> inline ~_String_base<wchar_t>()` that
+  calls `((Phantom *)this)->~Phantom()` nine times, where `Phantom` holds a
+  member with an empty user dtor, compiles out of line to 82 B (7 B per
+  call) and to nothing once inlined. That reproduced retail's 13 outlined
+  calls and the three inline frees without proxy EH states, which an
+  allocator leak-check shim added. The same call on a parameter
+  (`((Phantom *)&__t)->~Phantom()` in a visible callee) marks an unused tag
+  argument used, so the caller keeps its zero store and stack slot.
 
 ## c2 3077 levers traced on 2026-10-20
 
