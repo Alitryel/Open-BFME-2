@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva004B5765@WeaponSetUpgradeSecondary@@QAEXXZ @0x004B5765 30B
+// ?upgradeImplementation@WeaponSetUpgradeSecondary@@QAEXXZ @0x004B5765 30B
 // Chain after 0x0028D86F: UpgradeModule apply plus Object WeaponSet bitset OR.
 // Retail: lea ecx [esi-0x10] call UpgradeModule::rva004CE4A0, then
 // mov eax [esi-0xC] mov ecx [esi-0x8] add eax 0x118 push eax
@@ -80,10 +80,10 @@ public:
 class WeaponSetUpgradeSecondary
 {
 public:
-	void rva004B5765();
+	void upgradeImplementation();
 };
 
-void WeaponSetUpgradeSecondary::rva004B5765()
+void WeaponSetUpgradeSecondary::upgradeImplementation()
 {
 	((UpgradeModule *)((char *)this - 0x10))->rva004CE4A0();
 	const ModuleData *data = *(const ModuleData * const *)((const char *)this - 0xC);

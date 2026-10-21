@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /G7 /Oy-
 //
-// ?rva0047CF67@HordeSiegeEngineContain@@UAEXPAVObject@@_N@Z @ 0x0047CF67 (75B).
+// ?onContaining@HordeSiegeEngineContain@@UAEXPAVObject@@_N@Z @ 0x0047CF67 (75B).
 // Slot 66 of vtable 0x008474A0 for HordeSiegeEngineContain: walk list at +0x108
 // calling Object::defect then tail to TransportContain onContaining
 // 0x00463191 with the same rider and flag. Evidence: VTABLE slot 66 plus REF
@@ -29,12 +29,12 @@ public:
 class HordeSiegeEngineContain : public TransportContain
 {
 public:
-	virtual void rva0047CF67(Object *rider, bool flag);
+	virtual void onContaining(Object *rider, bool flag);
 private:
 	char mPad04[0x108 - 4];
 	Rva0047CF67Node *mList108;
 };
-void HordeSiegeEngineContain::rva0047CF67(Object *rider, bool flag)
+void HordeSiegeEngineContain::onContaining(Object *rider, bool flag)
 {
 	Rva0047CF67Node *cur = mList108;
 	if (cur == *(Rva0047CF67Node * *)cur)

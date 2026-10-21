@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// Retail 0x004C51A0 (641 bytes): GrabPassengerSpecialPower::rva004C51A0, slot
+// Retail 0x004C51A0 (641 bytes): GrabPassengerSpecialPower::doSpecialPower, slot
 // 10 of its special-power interface vftable 0x0085D8D8 (+0x10 subobject;
 // [ecx-8] is the Object, [ecx-0xC] the module data; the address sits at
 // 0x0085D900). Name by address, as CombineHordeSpecialPower's slot 10
@@ -181,7 +181,7 @@ public:
 class Rva004C51A0Iface10 : public Rva004C51A0Slots<10>
 {
 public:
-	virtual void rva004C51A0(unsigned int options) = 0;
+	virtual void doSpecialPower(unsigned int options) = 0;
 };
 class SpecialPowerModule : public BehaviorModule, public BehaviorModuleInterface, public Rva004C51A0Iface10
 {
@@ -197,7 +197,7 @@ struct GrabPassengerSpecialPowerModuleData
 class GrabPassengerSpecialPower : public SpecialPowerModule
 {
 public:
-	virtual void rva004C51A0(unsigned int options);
+	virtual void doSpecialPower(unsigned int options);
 private:
 	const GrabPassengerSpecialPowerModuleData *getGrabPassengerSpecialPowerModuleData() const
 	{
@@ -205,7 +205,7 @@ private:
 	}
 };
 
-void GrabPassengerSpecialPower::rva004C51A0(unsigned int options)
+void GrabPassengerSpecialPower::doSpecialPower(unsigned int options)
 {
 	const GrabPassengerSpecialPowerModuleData *data = getGrabPassengerSpecialPowerModuleData();
 	Coord3D pos = *m_object->getPosition();
