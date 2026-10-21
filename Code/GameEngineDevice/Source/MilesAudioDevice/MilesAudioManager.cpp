@@ -821,6 +821,8 @@ extern float g_00DBA4FC;
 #include <limits>
 
 struct Rva0005A084Element { int m_value; };
+// Use the complete retail push_back at 0x0005A084 from StlportVectorPushBackFamily.
+namespace _STL { template<> void vector<Rva0005A084Element>::push_back(const Rva0005A084Element &); }
 typedef _STL::vector<Rva0005A084Element> Rva0005A084Vector;
 
 extern "C" __declspec(dllimport) void __stdcall AIL_lock_mutex();

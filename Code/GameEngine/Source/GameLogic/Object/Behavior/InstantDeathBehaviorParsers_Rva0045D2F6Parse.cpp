@@ -56,6 +56,8 @@ extern WeaponStore *TheWeaponStore;
 
 // Same 4-byte element the rowed push_back 0x0005A084 is instantiated on.
 struct Rva0005A084Element { int a[1]; };
+// Use the complete retail push_back at 0x0005A084 from StlportVectorPushBackFamily.
+namespace _STL { template<> void vector<Rva0005A084Element>::push_back(const Rva0005A084Element &); }
 
 class OpaqueRefCounted
 {
