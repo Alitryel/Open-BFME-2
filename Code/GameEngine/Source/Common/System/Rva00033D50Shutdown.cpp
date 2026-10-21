@@ -91,6 +91,12 @@ private:
 	Rva00030DD0Lock *m_lock;	// +0x4E4
 };
 
+// The descriptor unlink this teardown calls is retail 0x00031660, rowed in
+// memory_pool.cpp as ?Rva00031660Unlink@@YGXPAX@Z (25 B matched); symbols.csv
+// pins this member spelling at the same RVA. Bind the member name to the
+// rowed owner instead of leaving it undefined.
+#pragma comment(linker, "/alternatename:?rva00031660@GeneralAllocator@Allocator@EA@@QAEXPAX@Z=?Rva00031660Unlink@@YGXPAX@Z")
+
 bool GeneralAllocator::rva00033D50()
 {
 	if (m_lock)
