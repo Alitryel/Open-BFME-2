@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00036B89B@GiantBirdAIUpdate@@SA?AW4NameKeyType@@XZ @0x36b89b
+// ?getModuleNameKey@GiantBirdAIUpdate@@UBE?AW4NameKeyType@@XZ @0x36b89b
 // (69B): cached pool-name key for GiantBirdAIUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("GiantBirdAIUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class GiantBirdAIUpdate
 {
 public:
-	static NameKeyType rva00036B89B();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00036B89B@GiantBirdAIUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType GiantBirdAIUpdate::rva00036B89B()
+// ?getModuleNameKey@GiantBirdAIUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType GiantBirdAIUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheGiantBirdAIUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("GiantBirdAIUpdate");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00047E2E0@RiderChangeContain@@SA?AW4NameKeyType@@XZ @0x47e2e0
+// ?getModuleNameKey@RiderChangeContain@@UBE?AW4NameKeyType@@XZ @0x47e2e0
 // (69B): cached pool-name key for RiderChangeContain. The class
 // identity comes from the pool-name string the body pushes
 // ("RiderChangeContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RiderChangeContain
 {
 public:
-	static NameKeyType rva00047E2E0();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00047E2E0@RiderChangeContain@@SA?AW4NameKeyType@@XZ
-NameKeyType RiderChangeContain::rva00047E2E0()
+// ?getModuleNameKey@RiderChangeContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType RiderChangeContain::getModuleNameKey() const
 {
 	static NameKeyType TheRiderChangeContainPoolKey =
 		TheNameKeyGenerator->nameToKey("RiderChangeContain");

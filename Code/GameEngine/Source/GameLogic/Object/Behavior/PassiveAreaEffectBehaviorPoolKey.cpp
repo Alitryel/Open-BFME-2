@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000484ADD@PassiveAreaEffectBehavior@@SA?AW4NameKeyType@@XZ @0x484add
+// ?getModuleNameKey@PassiveAreaEffectBehavior@@UBE?AW4NameKeyType@@XZ @0x484add
 // (69B): cached pool-name key for PassiveAreaEffectBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("PassiveAreaEffectBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PassiveAreaEffectBehavior
 {
 public:
-	static NameKeyType rva000484ADD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000484ADD@PassiveAreaEffectBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType PassiveAreaEffectBehavior::rva000484ADD()
+// ?getModuleNameKey@PassiveAreaEffectBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType PassiveAreaEffectBehavior::getModuleNameKey() const
 {
 	static NameKeyType ThePassiveAreaEffectBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("PassiveAreaEffectBehavior");

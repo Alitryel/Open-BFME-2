@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C9BF3@RadarMarkerClientUpdate@@SA?AW4NameKeyType@@XZ @0x4C9BF3
+// ?getModuleNameKey@RadarMarkerClientUpdate@@UBE?AW4NameKeyType@@XZ @0x4C9BF3
 // (69B): cached pool-name key for RadarMarkerClientUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("RadarMarkerClientUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RadarMarkerClientUpdate
 {
 public:
-	static NameKeyType rva0004C9BF3();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C9BF3@RadarMarkerClientUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType RadarMarkerClientUpdate::rva0004C9BF3()
+// ?getModuleNameKey@RadarMarkerClientUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType RadarMarkerClientUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheRadarMarkerClientUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("RadarMarkerClientUpdate");

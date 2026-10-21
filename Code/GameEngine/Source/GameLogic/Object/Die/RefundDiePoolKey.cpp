@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00048521D@RefundDie@@SA?AW4NameKeyType@@XZ @0x48521d
+// ?getModuleNameKey@RefundDie@@UBE?AW4NameKeyType@@XZ @0x48521d
 // (69B): cached pool-name key for RefundDie. The class
 // identity comes from the pool-name string the body pushes
 // ("RefundDie"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RefundDie
 {
 public:
-	static NameKeyType rva00048521D();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048521D@RefundDie@@SA?AW4NameKeyType@@XZ
-NameKeyType RefundDie::rva00048521D()
+// ?getModuleNameKey@RefundDie@@UBE?AW4NameKeyType@@XZ
+NameKeyType RefundDie::getModuleNameKey() const
 {
 	static NameKeyType TheRefundDiePoolKey =
 		TheNameKeyGenerator->nameToKey("RefundDie");

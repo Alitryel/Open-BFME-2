@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000466B88@HealContain@@SA?AW4NameKeyType@@XZ @0x466b88
+// ?getModuleNameKey@HealContain@@UBE?AW4NameKeyType@@XZ @0x466b88
 // (69B): cached pool-name key for HealContain. The class
 // identity comes from the pool-name string the body pushes
 // ("HealContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HealContain
 {
 public:
-	static NameKeyType rva000466B88();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000466B88@HealContain@@SA?AW4NameKeyType@@XZ
-NameKeyType HealContain::rva000466B88()
+// ?getModuleNameKey@HealContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType HealContain::getModuleNameKey() const
 {
 	static NameKeyType TheHealContainPoolKey =
 		TheNameKeyGenerator->nameToKey("HealContain");
