@@ -39,7 +39,7 @@ public:
 	Rva00355B61();
 	virtual ~Rva00355B61();
 	void init() { }
-	void reset() { }
+	void reset();	// slot 9, defined at 0x00355141 (Rva00355141Clear.cpp)
 	void update() { }
 
 private:

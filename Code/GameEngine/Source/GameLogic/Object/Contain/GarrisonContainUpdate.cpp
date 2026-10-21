@@ -80,7 +80,7 @@ struct GarrisonContainModuleData
 class Rva004640BE
 {
 public:
-	int rva004640BE();
+	virtual UpdateSleepTime update();
 };
 
 // The pinned pair writer 0x0046247D: returns its argument.
@@ -109,7 +109,7 @@ class UpdateModuleInterface
 public:
 	virtual UpdateSleepTime update() = 0;
 	// OpenContain's update (rowed 0x004640BE) takes this same +0x10 this.
-	int openContainUpdate() { return ((Rva004640BE *)this)->rva004640BE(); }
+	int openContainUpdate() { return ((Rva004640BE *)this)->Rva004640BE::update(); }
 };
 
 class GarrisonContainUpdateModule : public GarrisonContainModule, public UpdateModuleInterface

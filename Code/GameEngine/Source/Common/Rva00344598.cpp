@@ -1,5 +1,8 @@
 // cl: /DNDEBUG /MD
-// ?rva00344598@AICowerState@@QAEHXZ @0x00344598 157B
+// ?onEnter@AICowerState@@UAE?AW4StateReturnType@@XZ @0x00344598 157B
+// AICowerState::onEnter: slot 4 of AICowerState's table 0x00C11958 (state
+// family slot 4 is onEnter in about 100 sibling tables; its onExit/update
+// rows are AICowerState's own). Declared virtual so the row is the override.
 // Evidence: unlock lane, caller 0x00347EA8 tail-jmp same this, callees rowed getGoalObject 0x004D7726 plus setOrientation 0x0030AB9D plus winPrevTab 0x000D43D0 plus pin GetRelativeAngle, virtuals 0x244 0x7c 0x19c 0x1a0 0x1d0
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -107,12 +110,17 @@ public:
 	virtual void t1d0();
 };
 
+enum StateReturnType
+{
+	STATE_CONTINUE = 0
+};
+
 class AICowerState
 {
 public:
-	int rva00344598();
+	virtual StateReturnType onEnter();
 private:
-	char m_pad00[0x18];
+	char m_pad04[0x18 - 4];
 	TurretStateMachine *m_turret; // +0x18
 };
 
@@ -132,19 +140,19 @@ struct TurretLayout
 	Object *m_obj; // +0x14
 };
 
-int AICowerState::rva00344598()
+StateReturnType AICowerState::onEnter()
 {
 	TurretStateMachine *turret = m_turret;
 	Object *esi = ((TurretLayout *)turret)->m_obj;
 	if (esi == 0)
-		return -2;
+		return (StateReturnType)-2;
 	Object *ebx = turret->getGoalObject();
 	if (ebx == 0)
-		return -2;
+		return (StateReturnType)-2;
 	ObjectLayout *ol = (ObjectLayout *)esi;
 	C258Holder *c258Holder = ol->m258;
 	if (c258Holder == 0)
-		return -2;
+		return (StateReturnType)-2;
 	c258Holder->t258();
 	C250Holder *c250Holder = ol->m250;
 	CEdi *edi = c250Holder ? (CEdi *)c250Holder->t250() : 0;
@@ -158,5 +166,5 @@ int AICowerState::rva00344598()
 		((Thing *)esi)->setOrientation(ang);
 	}
 	((GameWindow *)this)->winPrevTab();
-	return 0;
+	return STATE_CONTINUE;
 }

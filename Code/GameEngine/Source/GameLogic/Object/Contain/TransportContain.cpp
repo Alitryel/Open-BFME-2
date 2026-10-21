@@ -133,7 +133,7 @@ public:
 class Rva004640BE : public UpdateModuleInterface
 {
 public:
-	int rva004640BE();
+	virtual UpdateSleepTime update();	// OpenContain's update, 0x004640BE
 };
 
 // The update interface's tail keeps the condition interface at full object
@@ -244,7 +244,7 @@ UpdateSleepTime TransportContain::update()
 			}
 		}
 	}
-	UpdateSleepTime result = (UpdateSleepTime)Rva004640BE::rva004640BE();
+	UpdateSleepTime result = Rva004640BE::update();
 	slot30();
 	return result;
 }

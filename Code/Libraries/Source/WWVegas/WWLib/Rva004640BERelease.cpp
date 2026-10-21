@@ -43,13 +43,21 @@ public:
 	void rva0046391B();
 };
 
+// Slot 0 of OpenContain's +0x10 UpdateModuleInterface table: its update
+// (sibling update-interface tables name slot 0 update), spelled as the
+// virtual override.
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1
+};
+
 class Rva004640BE
 {
 public:
-	int rva004640BE();
+	virtual UpdateSleepTime update();
 };
 
-int Rva004640BE::rva004640BE()
+UpdateSleepTime Rva004640BE::update()
 {
 	char *self = (char *)this;
 	*(unsigned int *)(self + 0x68) = 0;
@@ -80,5 +88,5 @@ int Rva004640BE::rva004640BE()
 	if (*(void **)(self + 0x50) != 0)
 		base->rva00463A81();
 	base->rva0046391B();
-	return 1;
+	return UPDATE_SLEEP_NONE;
 }

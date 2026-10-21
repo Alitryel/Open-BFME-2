@@ -416,13 +416,12 @@ void AIHordeEnterState::onExit(StateExitType status)
 }
 
 // AICowerState::onEnter (slot 4 of 0x00C11958) is rowed as
-// ?rva00344598@AICowerState@@QAEHXZ; the tail call uses that row name.
+// ?onEnter@AICowerState@@UAE?AW4StateReturnType@@XZ; the tail call is qualified.
 class AICowerState : public State
 {
 public:
 	virtual StateReturnType onEnter();
 	virtual void onExit(StateExitType status);
-	int rva00344598();
 };
 
 class AIUncontrollableCower : public AICowerState
@@ -443,7 +442,7 @@ StateReturnType AIUncontrollableCower::onEnter()
 	owner->setStatus(OBJECT_STATUS_BFME_45, true);
 	owner->setModelConditionBit(314);
 	getMachine()->lock();
-	return (StateReturnType)rva00344598();
+	return AICowerState::onEnter();
 }
 
 // AIHarvestMachine (vftable 0x00C69D58, by its slot-2 name literal; dtor
