@@ -109,6 +109,7 @@ namespace _STL
 		unsigned int erase(const K &key);
 	};
 	template <class T> struct _Identity;
+	template <class T, class A> class list;
 }
 
 // ?rva00584A75@Rva00584A75@@UAEXI@Z @0x00584A75 8B (vftable slot at VA
@@ -1102,8 +1103,11 @@ float *Rva005EA5CE(float *dest, int count, const int &value, const Rva005EA5CETa
 
 // ?rva005C6D48@Rva005C6D48@@QAEIABURva0027EA49@@@Z @0x005C6D48 5B and
 // ?rva005CABBB@Rva005CABBB@@QAEIABVAsciiString@@@Z @0x005CABBB 5B: erase a key
-// from the set tree at +0 through its rowed _Rb_tree::erase(const key &).
-typedef _STL::_Rb_tree<AsciiString, AsciiString, _STL::_Identity<AsciiString>, _STL::less<AsciiString>, _STL::allocator<AsciiString> > Rva005CABBBTree;
+// from the map<AsciiString, list<AsciiString> > tree at +0 through its rowed
+// _Rb_tree::erase(const key &) 0x005CA950.
+typedef _STL::list<AsciiString, _STL::allocator<AsciiString> > Rva005CABBBList;
+typedef _STL::pair<const AsciiString, Rva005CABBBList> Rva005CABBBPair;
+typedef _STL::_Rb_tree<AsciiString, Rva005CABBBPair, _STL::_Select1st<Rva005CABBBPair>, _STL::less<AsciiString>, _STL::allocator<Rva005CABBBPair> > Rva005CABBBTree;
 class Rva005C6D48
 {
 public:
