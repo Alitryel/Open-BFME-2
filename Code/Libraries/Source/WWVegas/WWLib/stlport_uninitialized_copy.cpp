@@ -17,11 +17,6 @@
 
 #include "ascii_string.h"
 
-struct NoCaseTreeValue4
-{
-	char m_body[4];
-};
-
 // Target push_back 0x0039A48E establishes an 8-byte element stride; retain an
 // address-derived view because retail evidence does not identify its fields.
 struct Rva0039A48EElement
@@ -66,7 +61,6 @@ private:
 	char m_pad[8];
 };
 
-typedef _STL::pair<const AsciiString, NoCaseTreeValue4> CopyNoCasePair;
 typedef _STL::pair<const AsciiString, char> CopyPairC;
 
 // Twelve-byte string records below: same 38-byte helper shape as above,
@@ -148,7 +142,6 @@ public:
 };
 
 namespace _STL {
-template<> void _Construct<CopyNoCasePair, CopyNoCasePair>(CopyNoCasePair *, const CopyNoCasePair &);
 template<> __declspec(nothrow) void _Construct<Rva0039A48EElement, Rva0039A48EElement>(Rva0039A48EElement *, const Rva0039A48EElement &);
 template<> void _Construct<CopyPairC, CopyPairC>(CopyPairC *, const CopyPairC &);
 template<> void _Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
@@ -172,7 +165,6 @@ template<> BfmeStringRecord005F93E3 *allocator<BfmeStringRecord005F93E3>::alloca
 template<> BfmeStringRecord00219A68 *allocator<BfmeStringRecord00219A68>::allocate(unsigned int, const void *) const;
 }
 
-template _STL::vector<CopyNoCasePair, _STL::allocator<CopyNoCasePair> >::vector(const _STL::vector<CopyNoCasePair, _STL::allocator<CopyNoCasePair> > &);
 template _STL::vector<CopyPairC, _STL::allocator<CopyPairC> >::vector(const _STL::vector<CopyPairC, _STL::allocator<CopyPairC> > &);
 template _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::vector(const _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > &);
 template _STL::vector<Rva0048130E, _STL::allocator<Rva0048130E> >::vector(const _STL::vector<Rva0048130E, _STL::allocator<Rva0048130E> > &);

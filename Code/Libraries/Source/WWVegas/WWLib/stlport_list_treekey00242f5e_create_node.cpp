@@ -29,15 +29,9 @@ namespace _STL { template <> _List_iterator<TreeKey00242F5E,_Nonconst_traits<Tre
 bool operator==(const TreeKey00242F5E &a, const TreeKey00242F5E &b);
 bool operator<(const TreeKey00242F5E &a, const TreeKey00242F5E &b);
 
-namespace _STL
-{
-
-// Declared only; the gate resolves this to the rowed body at 0x0029FB9C.
-template <>
-void _Construct<TreeKey00242F5E, TreeKey00242F5E>(
-	TreeKey00242F5E *, const TreeKey00242F5E &);
-
-}
+// Retail's placement copy here is the distinct body rowed at 0x0029FB9C, not
+// the _Construct<TreeKey00242F5E> row at 0x000A7876: call it by its row name.
+void Rva0029FB9CConstruct(TreeKey00242F5E *, const TreeKey00242F5E &);
 
 // Retail calls the null-guarded copy at 0x0029FB9C, rowed under its own name.
 void Rva0029FB9CConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source);

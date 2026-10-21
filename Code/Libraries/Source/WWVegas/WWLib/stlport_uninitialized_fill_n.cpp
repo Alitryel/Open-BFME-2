@@ -13,11 +13,6 @@
 
 #include "ascii_string.h"
 
-struct NoCaseTreeValue4
-{
-	char m_body[4];
-};
-
 // Target push_back 0x0039A48E proves an 8-byte element stride; its application
 // layout is otherwise kept address-derived.
 struct Rva0039A48EElement
@@ -91,12 +86,10 @@ public:
 	char m_body[20];
 };
 
-typedef _STL::pair<const AsciiString, NoCaseTreeValue4> FillNoCasePair;
 typedef _STL::pair<const AsciiString, char> FillPairC;
 
 namespace _STL {
 template<> void _Construct<TreeKey00242F5E, TreeKey00242F5E>(TreeKey00242F5E *, const TreeKey00242F5E &);
-template<> void _Construct<FillNoCasePair, FillNoCasePair>(FillNoCasePair *, const FillNoCasePair &);
 template<> __declspec(nothrow) void _Construct<Rva0039A48EElement, Rva0039A48EElement>(Rva0039A48EElement *, const Rva0039A48EElement &);
 template<> void _Construct<FillPairC, FillPairC>(FillPairC *, const FillPairC &);
 template<> void _Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
@@ -112,7 +105,6 @@ template<> BfmeStringRecord00219A68 *allocator<BfmeStringRecord00219A68>::alloca
 }
 
 template _STL::vector<TreeKey00242F5E, _STL::allocator<TreeKey00242F5E> >::vector(unsigned int, const TreeKey00242F5E &, const _STL::allocator<TreeKey00242F5E> &);
-template _STL::vector<FillNoCasePair, _STL::allocator<FillNoCasePair> >::vector(unsigned int, const FillNoCasePair &, const _STL::allocator<FillNoCasePair> &);
 template _STL::vector<FillPairC, _STL::allocator<FillPairC> >::vector(unsigned int, const FillPairC &, const _STL::allocator<FillPairC> &);
 template _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::vector(unsigned int, const BfmeStringRecord005DDD40 &, const _STL::allocator<BfmeStringRecord005DDD40> &);
 template _STL::vector<Rva0048130E, _STL::allocator<Rva0048130E> >::vector(unsigned int, const Rva0048130E &, const _STL::allocator<Rva0048130E> &);

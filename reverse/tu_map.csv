@@ -49827,7 +49827,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00620A00,122,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x006205C0..0x00620A80,Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00620A00.cpp
 0x00620A80,78,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x006205C0..0x00620AD0,Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int.cpp
 0x00620AD0,81,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x006205C0..0x00620B30,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp
-0x00620B30,59,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x006205C0..0x00620B70,Code/GameEngine/Source/Common/RTS/Player.cpp
+0x00620B30,59,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x006205C0..0x00620B70,Code/Libraries/Source/assetmanager/Rva00622290CollectKeys.cpp
 0x00620B70,244,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x006205C0..0x00620C70,Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int_resize.cpp
 0x00620C70,39,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,U,N=Code/GameEngine/Source/Common/BfmeUnsignedKeyTree620C70.cpp,Code/GameEngine/Source/Common/Rva00620C70Finish.cpp
 0x00620CA0,207,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620D70,Code/Libraries/Source/WWVegas/WWLib/stlport_set_int_tree_copy_ctor.cpp
@@ -49838,7 +49838,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00620DB0,17,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620DD0,Code/Libraries/Source/assetmanager/assetmanager_impl.cpp
 0x00620DD0,60,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620E10,Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int.cpp
 0x00620E10,82,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620E70,Code/GameEngine/Source/GameLogic/Object/Update/Rva0016DEE0Cluster.cpp
-0x00620E70,22,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620E90,
+0x00620E70,22,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620E90,Code/Libraries/Source/assetmanager/Rva00622290CollectKeys.cpp
 0x00620E90,56,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620ED0,Code/GameEngine/Source/GameClient/MapUtil.cpp
 0x00620ED0,58,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620F10,Code/GameEngine/Source/Common/RTS/ScoreKeeper_insert_unique.cpp
 0x00620F10,76,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/BfmeResourceEnumerator.cpp,proposed,C,C=0x00620C70..0x00620F60,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp

@@ -29,6 +29,10 @@ public:
 };
 }
 typedef _STL::pair<const AsciiString, NoCaseTreeValue4> CopyNoCasePair;
+// Retail's worker at 0x00317CF2 is rowed under its 8-byte element view
+// (StlSweepW5Rva00317CF2.cpp); its placement copy is 0x00317CA0, not the
+// _Construct<pair<..., NoCaseTreeValue4>> row 0x000A7849, so call that row.
+struct Rva00317CF2Element;
 namespace _STL
 {
 struct CopyPairAllocProxy
@@ -59,7 +63,7 @@ template <class ForwardIter>
 Type *_STL::vector<Type, Allocator>::_M_allocate_and_copy(size_type n, ForwardIter first, ForwardIter last)
 {
 	Type *result = m_endOfStorage.m_alloc.allocate(n, 0);
-	__uninitialized_copy(first, last, result, __false_type());
+	__uninitialized_copy(reinterpret_cast<const Rva00317CF2Element *>(first), reinterpret_cast<const Rva00317CF2Element *>(last), reinterpret_cast<Rva00317CF2Element *>(result), __false_type());
 	return result;
 }
 template CopyNoCasePair *_STL::vector<CopyNoCasePair, _STL::allocator<CopyNoCasePair> >::_M_allocate_and_copy<const CopyNoCasePair *>(unsigned int, const CopyNoCasePair *, const CopyNoCasePair *);

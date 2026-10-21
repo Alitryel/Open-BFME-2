@@ -21,6 +21,10 @@ struct RvaPair0032C0CA
 	int m_value;
 };
 void Rva0032C0CADestroyPairs(RvaPair0032C0CA *first, RvaPair0032C0CA *last);
+// Retail's worker at 0x00317CF2 is rowed under its 8-byte element view
+// (StlSweepW5Rva00317CF2.cpp); its placement copy is 0x00317CA0, not the
+// _Construct<pair<..., NoCaseTreeValue4>> row 0x000A7849, so call that row.
+struct Rva00317CF2Element;
 namespace _STL
 {
 template <class T1, class T2>
@@ -96,7 +100,7 @@ _STL::vector<_STL::CopyNoCasePair, _STL::allocator<_STL::CopyNoCasePair> > &_STL
 		else
 		{
 			_STL::__copy_ptrs(const_cast<FXBoneInfo *>(reinterpret_cast<const FXBoneInfo *>(x.begin())), const_cast<FXBoneInfo *>(reinterpret_cast<const FXBoneInfo *>(x.begin() + size())), reinterpret_cast<FXBoneInfo *>(m_start), _STL::__false_type());
-			_STL::__uninitialized_copy(x.begin() + size(), x.end(), m_finish, _STL::__false_type());
+			_STL::__uninitialized_copy(reinterpret_cast<const Rva00317CF2Element *>(x.begin() + size()), reinterpret_cast<const Rva00317CF2Element *>(x.end()), reinterpret_cast<Rva00317CF2Element *>(m_finish), _STL::__false_type());
 		}
 		m_finish = m_start + xsize;
 	}
