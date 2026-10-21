@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /ICode/Libraries/Include
 // stlport
 //
-// ?rva0036BA77@GiantBirdAIUpdate@@QAEXPBVWaypoint@@0@Z, retail 0x0036BA77,
+// ?privateFollowWaypointPath@GiantBirdAIUpdate@@QAEXPBVWaypoint@@0@Z, retail 0x0036BA77,
 // 184 bytes (EH, RET 8). Address-derived name: GiantBirdAIUpdate's own
 // follow-path-by-waypoints entry (it sits between the class's destructor
 // 0x0036B8E6 and the next GiantBird bodies; owner by placement, not by name).
@@ -74,8 +74,8 @@ class GiantBirdAIUpdate
 {
 public:
 	// 0x003697F9 (Rva003697F9.cpp): follow the built point path.
-	void rva003697F9(const Rva0035149F &path, const Object *object, const Waypoint *goal, int flag);
-	void rva0036BA77(const Waypoint *way, const Waypoint *goal);
+	void privateFollowPath(const Rva0035149F &path, const Object *object, const Waypoint *goal, int flag);
+	void privateFollowWaypointPath(const Waypoint *way, const Waypoint *goal);
 private:
 	char m_unrecovered000[0x1F0];
 	Rva0036BA77Speed *m_speedSource;	///< 0x1F0
@@ -85,7 +85,7 @@ private:
 	bool m_pathLoops;					///< 0x550
 };
 
-void GiantBirdAIUpdate::rva0036BA77(const Waypoint *way, const Waypoint *goal)
+void GiantBirdAIUpdate::privateFollowWaypointPath(const Waypoint *way, const Waypoint *goal)
 {
 	if (m_speedSource)
 		m_speed = m_speedSource->getSpeed();
@@ -107,5 +107,5 @@ void GiantBirdAIUpdate::rva0036BA77(const Waypoint *way, const Waypoint *goal)
 			break;
 		}
 	}
-	rva003697F9(*(const Rva0035149F *)&path, NULL, goal, 0);
+	privateFollowPath(*(const Rva0035149F *)&path, NULL, goal, 0);
 }

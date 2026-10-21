@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
-// ?rva003697F9@GiantBirdAIUpdate@@QAEXABVRva0035149F@@PBVObject@@PBVWaypoint@@H@Z, RVA 0x003697F9, 172 bytes.
-// Evidence: unlock lane, caller GiantBirdAIUpdate::rva0036BA77 (0x0036BA77) passes its own this,
+// ?privateFollowPath@GiantBirdAIUpdate@@QAEXABVRva0035149F@@PBVObject@@PBVWaypoint@@H@Z, RVA 0x003697F9, 172 bytes.
+// Evidence: unlock lane, caller GiantBirdAIUpdate::privateFollowWaypointPath (0x0036BA77) passes its own this,
 // vector<Coord3D> + null + Waypoint; the body sits inside GiantBirdAIUpdate's code; callees rowed
 // Object::isMobile 0x002907A1, StateMachine::setGoalPosition 0x004D745C,
 // Rva00351759::rva00351759 0x00351759, AIStateMachine::setGoalWaypoint 0x003E3BFB,
@@ -74,10 +74,10 @@ public:
 	StateMachine *m_machine; // +0x30
 	char m_pad34[0x528 - 0x34];
 	int m_flag528; // +0x528
-	void rva003697F9(const Rva0035149F &path, const Object *obstacle, const Waypoint *goal, int unk);
+	void privateFollowPath(const Rva0035149F &path, const Object *obstacle, const Waypoint *goal, int unk);
 };
 
-void GiantBirdAIUpdate::rva003697F9(const Rva0035149F &path, const Object *obstacle, const Waypoint *goal, int unk)
+void GiantBirdAIUpdate::privateFollowPath(const Rva0035149F &path, const Object *obstacle, const Waypoint *goal, int unk)
 {
 	if (!m_object->isMobile())
 		return;
