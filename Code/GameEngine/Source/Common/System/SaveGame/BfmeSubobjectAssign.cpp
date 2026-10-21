@@ -46,7 +46,7 @@ public:
 	Rva005B5C02Entry hero64;
 	unsigned char flag1A4;
 	AsciiString text1A8;
-	GameSlot &rva002DBAB9(const GameSlot &o);
+	GameSlot &rva002DBAB9(const GameSlot &other);
 };
 
 struct BfmeSubobject00229875
@@ -57,19 +57,19 @@ struct BfmeSubobject00229875
 	unsigned int blockD74[10];
 	unsigned char flagD9C;
 	unsigned int wordDA0;
-	BfmeSubobject00229875 &rva002DBC1F(const BfmeSubobject00229875 &o);
+	BfmeSubobject00229875 &rva002DBC1F(const BfmeSubobject00229875 &other);
 };
 typedef char BfmeSubobjectSizeCheck[sizeof(BfmeSubobject00229875) == 0xDA4 ? 1 : -1];
 
-BfmeSubobject00229875 &BfmeSubobject00229875::rva002DBC1F(const BfmeSubobject00229875 &o)
+BfmeSubobject00229875 &BfmeSubobject00229875::rva002DBC1F(const BfmeSubobject00229875 &other)
 {
 	for (int i = 0; i < 8; ++i)
-		elements[i].rva002DBAB9(o.elements[i]);
+		elements[i].rva002DBAB9(other.elements[i]);
 	for (int i = 0; i < 0x10; ++i)
-		blockD64[i] = o.blockD64[i];
+		blockD64[i] = other.blockD64[i];
 	for (int i = 0; i < 10; ++i)
-		blockD74[i] = o.blockD74[i];
-	flagD9C = o.flagD9C;
-	wordDA0 = o.wordDA0;
+		blockD74[i] = other.blockD74[i];
+	flagD9C = other.flagD9C;
+	wordDA0 = other.wordDA0;
 	return *this;
 }

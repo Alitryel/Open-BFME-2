@@ -19,6 +19,6 @@ struct Rva005F91F3 {
     unsigned int word0;
     unsigned int word1;
     UnicodeString text;
-    Rva005F91F3(const Rva005F91F3Src &o);
+    Rva005F91F3(const Rva005F91F3Src &other);
 };
-Rva005F91F3::Rva005F91F3(const Rva005F91F3Src &o) : word0(o.word0), word1(o.word1), text(o.text) {}
+Rva005F91F3::Rva005F91F3(const Rva005F91F3Src &other) : word0(other.word0), word1(other.word1), text(other.text) {}

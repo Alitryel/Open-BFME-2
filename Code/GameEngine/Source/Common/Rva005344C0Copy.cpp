@@ -14,7 +14,7 @@ template <class P> struct _Select1st;
 template <class K, class V, class S, class C, class A> class _Rb_tree
 {
 public:
-	_Rb_tree(const _Rb_tree &o);
+	_Rb_tree(const _Rb_tree &other);
 };
 }
 
@@ -24,11 +24,11 @@ struct Rva005344C0
 {
 	int m_first;
 	IntTree00534581 m_second;
-	Rva005344C0(const Rva005344C0 &o);
+	Rva005344C0(const Rva005344C0 &other);
 	Rva005344C0(const int *pFirst, const IntTree00534581 &second);
 };
 
-Rva005344C0::Rva005344C0(const Rva005344C0 &o) : m_first(o.m_first), m_second(o.m_second)
+Rva005344C0::Rva005344C0(const Rva005344C0 &other) : m_first(other.m_first), m_second(other.m_second)
 {
 }
 

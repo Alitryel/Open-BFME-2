@@ -9,8 +9,8 @@
 struct BfmeFloat4Record00469C61 {
 	float x, y, z, w;
 	BfmeFloat4Record00469C61() {}
-	BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &o) : x(o.x), y(o.y), z(o.z), w(o.w) {}
-	BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &o) { x = o.x; y = o.y; z = o.z; w = o.w; return *this; }
+	BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &other) : x(other.x), y(other.y), z(other.z), w(other.w) {}
+	BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &other) { x = other.x; y = other.y; z = other.z; w = other.w; return *this; }
 };
 void *__stdcall Rva005472D3Alloc(const BfmeFloat4Record00469C61 &src)
 {

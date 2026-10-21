@@ -15,7 +15,7 @@ class Rva0059E2FD {
 	StringBase<char> *m_end;
 public:
 	bool rva0059E2FD(const StringBase<char> &val);
-	bool rva0059E31F(const Rva0059E2FD &o);
+	bool rva0059E31F(const Rva0059E2FD &other);
 };
 
 bool Rva0059E2FD::rva0059E2FD(const StringBase<char> &val)
@@ -25,7 +25,7 @@ bool Rva0059E2FD::rva0059E2FD(const StringBase<char> &val)
 	return Rva000BD22FFind(first, last, val) != last;
 }
 
-bool Rva0059E2FD::rva0059E31F(const Rva0059E2FD &o)
+bool Rva0059E2FD::rva0059E31F(const Rva0059E2FD &other)
 {
-	return rva0059E2FD(o.m_14);
+	return rva0059E2FD(other.m_14);
 }

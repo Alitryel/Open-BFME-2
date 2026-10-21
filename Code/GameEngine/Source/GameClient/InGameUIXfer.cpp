@@ -317,7 +317,7 @@ struct TreeHintPayload002A1D9D
 {
 	int m_val;
 	TreeHintPayload002A1D9D() : m_val( 0 ) {}
-	TreeHintPayload002A1D9D( const TreeHintPayload002A1D9D &o ) : m_val( o.m_val ) {}
+	TreeHintPayload002A1D9D( const TreeHintPayload002A1D9D &other ) : m_val( other.m_val ) {}
 };
 typedef _STL::pair<const AsciiString, TreeHintPayload002A1D9D> TreeHintPair002A1D9D;
 typedef _STL::map<AsciiString, TreeHintPayload002A1D9D, _STL::less<AsciiString>, _STL::allocator<TreeHintPair002A1D9D> > NamedTimerSubscriptMap;

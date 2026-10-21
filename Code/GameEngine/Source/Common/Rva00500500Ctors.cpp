@@ -37,7 +37,7 @@ inline Snapshot::~Snapshot()
 class SpawnArmy : public Snapshot {
 public:
     virtual ~SpawnArmy();
-    SpawnArmy(const SpawnArmy &o);
+    SpawnArmy(const SpawnArmy &other);
 private:
     AsciiString m_04;
     AsciiString m_08;
@@ -63,15 +63,15 @@ private:
 
 class Rva00500500 {
 public:
-    Rva00500500(const Rva00500500 &o);
+    Rva00500500(const Rva00500500 &other);
     Rva00500500(void *&p, const SpawnArmy &r);
 private:
     void *m_ptr;
     SpawnArmy m_rva;
 };
 
-Rva00500500::Rva00500500(const Rva00500500 &o)
-    : m_ptr(o.m_ptr), m_rva(o.m_rva)
+Rva00500500::Rva00500500(const Rva00500500 &other)
+    : m_ptr(other.m_ptr), m_rva(other.m_rva)
 {
 }
 

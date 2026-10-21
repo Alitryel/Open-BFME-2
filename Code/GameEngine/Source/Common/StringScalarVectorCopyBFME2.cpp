@@ -39,8 +39,8 @@ struct BfmeAsciiScalarValue8 {
     AsciiString text;
     unsigned int value;
     BfmeAsciiScalarValue8();
-    BfmeAsciiScalarValue8(const BfmeAsciiScalarValue8 &o)
-        : text(o.text), value(o.value) {}
+    BfmeAsciiScalarValue8(const BfmeAsciiScalarValue8 &other)
+        : text(other.text), value(other.value) {}
 };
 namespace _STL {template<> vector<BfmeAsciiScalarValue8>& vector<BfmeAsciiScalarValue8>::operator=(const vector<BfmeAsciiScalarValue8>&);}
 

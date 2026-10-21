@@ -27,7 +27,7 @@ struct C2 : Coord2D {
  __forceinline float GetLength() const {return sqrt(sqr(y)+x*x);}
  __forceinline void Normalize() {float len=GetLength();float inv=1.0f/len;x*=inv;y*=inv;}
  __forceinline void Scale(float s) {x*=s;y*=s;}
- __forceinline void Add(const Coord2D &o) {x+=o.x;y+=o.y;}
+ __forceinline void Add(const Coord2D &other) {x+=other.x;y+=other.y;}
  __forceinline void Set(float ax,float ay) {x=ax;y=ay;}
 };
 #define C2R(v) static_cast<C2&>(v)

@@ -21,12 +21,12 @@ namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned
 class Rva0022300F
 {
 public:
-	Rva0022300F(const Rva0022300F &o);
+	Rva0022300F(const Rva0022300F &other);
 private:
 	_STL::vector<unsigned int> m_vec;
 	UnicodeString m_str;
 };
 
-Rva0022300F::Rva0022300F(const Rva0022300F &o) : m_vec(o.m_vec), m_str(o.m_str)
+Rva0022300F::Rva0022300F(const Rva0022300F &other) : m_vec(other.m_vec), m_str(other.m_str)
 {
 }

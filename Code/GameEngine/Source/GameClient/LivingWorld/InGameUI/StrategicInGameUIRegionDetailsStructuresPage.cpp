@@ -105,7 +105,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 // The page's counted icon reference (vector element, push_back 0x005E2B0E).
 struct Rva005E2B0EElement {
  Rva005E2B0EElement(void *icon) : pointer((int *)icon) { if (pointer) ++pointer[1]; }
- Rva005E2B0EElement(const Rva005E2B0EElement &o) : pointer(o.pointer) { if (pointer) ++pointer[1]; }
+ Rva005E2B0EElement(const Rva005E2B0EElement &other) : pointer(other.pointer) { if (pointer) ++pointer[1]; }
  ~Rva005E2B0EElement() { ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)pointer); }
  int *pointer;
 };

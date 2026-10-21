@@ -10,7 +10,7 @@ class MeshModelClass : public RefCountClass {char opaque[0x20];};
 struct Rva00136090MeshHolder {
  MeshModelClass *pointer;
  Rva00136090MeshHolder():pointer(0){}
- __forceinline Rva00136090MeshHolder(const Rva00136090MeshHolder&o):pointer(o.pointer){if(pointer)pointer->Add_Ref();}
+ __forceinline Rva00136090MeshHolder(const Rva00136090MeshHolder&other):pointer(other.pointer){if(pointer)pointer->Add_Ref();}
  __forceinline ~Rva00136090MeshHolder(){MeshModelClass*meshModel=pointer;if(meshModel)meshModel->Release_Ref();}
 };
 Rva00136090MeshHolder Rva00136090MeshHold(MeshModelClass*meshModel){
@@ -22,7 +22,7 @@ class Rva001007D5Model : public RefCountClass {char opaque[0x20];};
 struct Rva001007D5Holder {
  Rva001007D5Model *pointer;
  Rva001007D5Holder():pointer(0){}
- __forceinline Rva001007D5Holder(const Rva001007D5Holder&o):pointer(o.pointer){if(pointer)pointer->Add_Ref();}
+ __forceinline Rva001007D5Holder(const Rva001007D5Holder&other):pointer(other.pointer){if(pointer)pointer->Add_Ref();}
  __forceinline ~Rva001007D5Holder(){Rva001007D5Model*p=pointer;if(p)p->Release_Ref();}
 };
 Rva001007D5Holder Rva001007D5Hold(Rva001007D5Model*p){

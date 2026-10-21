@@ -38,35 +38,35 @@ template <> vector<AsciiString, allocator<AsciiString> > &vector<AsciiString, al
 // Complete retail record copy at 0x000BDF17.
 struct BfmeVectorRecord000BDF17 {
     _STL::vector<AsciiString> names; AsciiString text0, text1; unsigned int word14, word18, word1C, word20, word24, word28; unsigned char flag2C, flag2D; unsigned int word30, word34, word38; unsigned char flag3C;
-    BfmeVectorRecord000BDF17(const BfmeVectorRecord000BDF17 &o);
+    BfmeVectorRecord000BDF17(const BfmeVectorRecord000BDF17 &other);
 };
-BfmeVectorRecord000BDF17::BfmeVectorRecord000BDF17(const BfmeVectorRecord000BDF17 &o) : names(o.names), text0(o.text0), text1(o.text1), word14(o.word14), word18(o.word18), word1C(o.word1C), word20(o.word20), word24(o.word24), word28(o.word28), flag2C(o.flag2C), flag2D(o.flag2D), word30(o.word30), word34(o.word34), word38(o.word38), flag3C(o.flag3C) {}
+BfmeVectorRecord000BDF17::BfmeVectorRecord000BDF17(const BfmeVectorRecord000BDF17 &other) : names(other.names), text0(other.text0), text1(other.text1), word14(other.word14), word18(other.word18), word1C(other.word1C), word20(other.word20), word24(other.word24), word28(other.word28), flag2C(other.flag2C), flag2D(other.flag2D), word30(other.word30), word34(other.word34), word38(other.word38), flag3C(other.flag3C) {}
 template void _STL::_Construct<BfmeVectorRecord000BDF17,BfmeVectorRecord000BDF17>(BfmeVectorRecord000BDF17*,const BfmeVectorRecord000BDF17&);
 
 // Complete retail record copy at 0x001B4A39.
 struct BfmeVectorRecord001B4A39 {
     AsciiString text0; _STL::vector<AsciiString> names0, names1, names2, names3, names4; unsigned int word40; AsciiString text1;
-    BfmeVectorRecord001B4A39(const BfmeVectorRecord001B4A39 &o);
+    BfmeVectorRecord001B4A39(const BfmeVectorRecord001B4A39 &other);
     ~BfmeVectorRecord001B4A39();
 };
-BfmeVectorRecord001B4A39::BfmeVectorRecord001B4A39(const BfmeVectorRecord001B4A39 &o) : text0(o.text0), names0(o.names0), names1(o.names1), names2(o.names2), names3(o.names3), names4(o.names4), word40(o.word40), text1(o.text1) {}
+BfmeVectorRecord001B4A39::BfmeVectorRecord001B4A39(const BfmeVectorRecord001B4A39 &other) : text0(other.text0), names0(other.names0), names1(other.names1), names2(other.names2), names3(other.names3), names4(other.names4), word40(other.word40), text1(other.text1) {}
 BfmeVectorRecord001B4A39::~BfmeVectorRecord001B4A39() {}
 template void _STL::_Construct<BfmeVectorRecord001B4A39,BfmeVectorRecord001B4A39>(BfmeVectorRecord001B4A39*,const BfmeVectorRecord001B4A39&);
 
 // Complete retail record copy at 0x000C0BEC.
 struct BfmeVectorRecord000C0BEC {
     AsciiString text; _STL::vector<AsciiString> names; unsigned int word10;
-    BfmeVectorRecord000C0BEC(const BfmeVectorRecord000C0BEC &o);
+    BfmeVectorRecord000C0BEC(const BfmeVectorRecord000C0BEC &other);
 };
-BfmeVectorRecord000C0BEC::BfmeVectorRecord000C0BEC(const BfmeVectorRecord000C0BEC &o) : text(o.text), names(o.names), word10(o.word10) {}
+BfmeVectorRecord000C0BEC::BfmeVectorRecord000C0BEC(const BfmeVectorRecord000C0BEC &other) : text(other.text), names(other.names), word10(other.word10) {}
 template void _STL::_Construct<BfmeVectorRecord000C0BEC,BfmeVectorRecord000C0BEC>(BfmeVectorRecord000C0BEC*,const BfmeVectorRecord000C0BEC&);
 
 // Complete retail record copy at 0x002154F3.
 struct BfmeVectorRecord002154F3 {
     AsciiString text; _STL::vector<AsciiString> names;
-    BfmeVectorRecord002154F3(const BfmeVectorRecord002154F3 &o);
+    BfmeVectorRecord002154F3(const BfmeVectorRecord002154F3 &other);
 };
-BfmeVectorRecord002154F3::BfmeVectorRecord002154F3(const BfmeVectorRecord002154F3 &o) : text(o.text), names(o.names) {}
+BfmeVectorRecord002154F3::BfmeVectorRecord002154F3(const BfmeVectorRecord002154F3 &other) : text(other.text), names(other.names) {}
 template void _STL::_Construct<BfmeVectorRecord002154F3,BfmeVectorRecord002154F3>(BfmeVectorRecord002154F3*,const BfmeVectorRecord002154F3&);
 
 // Retail 0x00215530: assignment for the 0x002154F3 record shape (pin spells
@@ -74,12 +74,12 @@ template void _STL::_Construct<BfmeVectorRecord002154F3,BfmeVectorRecord002154F3
 // vector assign 0xBDB46. Callers in 0x00215572 0x0021566B 0x00215696 dup.
 struct BfmeVectorRecord0002154F3 {
     AsciiString text; _STL::vector<AsciiString> names;
-    BfmeVectorRecord0002154F3 &operator=(const BfmeVectorRecord0002154F3 &o);
+    BfmeVectorRecord0002154F3 &operator=(const BfmeVectorRecord0002154F3 &other);
 };
-inline BfmeVectorRecord0002154F3 &BfmeVectorRecord0002154F3::operator=(const BfmeVectorRecord0002154F3 &o)
+inline BfmeVectorRecord0002154F3 &BfmeVectorRecord0002154F3::operator=(const BfmeVectorRecord0002154F3 &other)
 {
-    text = o.text;
-    names = o.names;
+    text = other.text;
+    names = other.names;
     return *this;
 }
 
@@ -89,11 +89,11 @@ struct BfmeVectorRecord002AF478 {
     _STL::vector<unsigned int> values08;
     _STL::vector<AsciiString> names14;
     unsigned int word20;
-    BfmeVectorRecord002AF478(const BfmeVectorRecord002AF478 &o);
+    BfmeVectorRecord002AF478(const BfmeVectorRecord002AF478 &other);
 };
-BfmeVectorRecord002AF478::BfmeVectorRecord002AF478(const BfmeVectorRecord002AF478 &o)
-    : text(o.text), word04(o.word04), values08(o.values08),
-      names14(o.names14), word20(o.word20) {}
+BfmeVectorRecord002AF478::BfmeVectorRecord002AF478(const BfmeVectorRecord002AF478 &other)
+    : text(other.text), word04(other.word04), values08(other.values08),
+      names14(other.names14), word20(other.word20) {}
 template void _STL::_Construct<BfmeVectorRecord002AF478,BfmeVectorRecord002AF478>(BfmeVectorRecord002AF478*,const BfmeVectorRecord002AF478&);
 
 // BfmeVectorRecord0002154F3::operator= is defined inline by the other units that copy this record: they emit

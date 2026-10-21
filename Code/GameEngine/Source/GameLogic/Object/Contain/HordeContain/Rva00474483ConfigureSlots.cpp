@@ -67,7 +67,7 @@ struct Rva00474483Input { AsciiString name; Rva00474431Pair position; };
 struct Rva00474519Jitter {
  float x,y;
  // ?Rva00474519Jitter::Rva00474519Jitter present-unmatched
- __forceinline Rva00474519Jitter(const Rva00474519Jitter &o) :x(o.x),y(o.y) {}
+ __forceinline Rva00474519Jitter(const Rva00474519Jitter &other) :x(other.x),y(other.y) {}
 };
 struct Rva00474519Position { Coord2D position; int partner,localIndex; };
 struct Rva00474519Rank { int key; AsciiString name; _STL::vector<Rva00474519Position> positions; };

@@ -8,7 +8,7 @@ struct Coord3D0055CDEC
 	float y;
 	float z;
 	Coord3D0055CDEC() {}
-	Coord3D0055CDEC(const Coord3D0055CDEC &o) : x(o.x), y(o.y), z(o.z) {}
+	Coord3D0055CDEC(const Coord3D0055CDEC &other) : x(other.x), y(other.y), z(other.z) {}
 };
 
 float GetGameClientRandomValueReal(float lo, float hi, char *file, int line);

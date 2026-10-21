@@ -11,19 +11,19 @@
 class Rva0022300F
 {
 public:
-	Rva0022300F(const Rva0022300F &o);
+	Rva0022300F(const Rva0022300F &other);
 	~Rva0022300F();
 };
 
 class Rva0022304A
 {
 public:
-	Rva0022304A(const Rva0022304A &o);
+	Rva0022304A(const Rva0022304A &other);
 private:
 	AsciiString m_head;
 	Rva0022300F m_item;
 };
 
-Rva0022304A::Rva0022304A(const Rva0022304A &o) : m_head(o.m_head), m_item(o.m_item)
+Rva0022304A::Rva0022304A(const Rva0022304A &other) : m_head(other.m_head), m_item(other.m_item)
 {
 }

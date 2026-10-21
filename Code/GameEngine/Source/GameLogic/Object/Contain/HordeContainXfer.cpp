@@ -251,11 +251,11 @@ public:
 		m_pos.y = 0.0f;
 		m_pos.z = 0.0f;
 	}
-	Rva00469155(const Rva00469155 &o) : m_pos(o.m_pos), m_value(o.m_value) {}
-	__declspec(dllimport) __forceinline Rva00469155 &operator=(const Rva00469155 &o)
+	Rva00469155(const Rva00469155 &other) : m_pos(other.m_pos), m_value(other.m_value) {}
+	__declspec(dllimport) __forceinline Rva00469155 &operator=(const Rva00469155 &other)
 	{
-		m_pos = o.m_pos;
-		m_value = o.m_value;
+		m_pos = other.m_pos;
+		m_value = other.m_value;
 		return *this;
 	}
 

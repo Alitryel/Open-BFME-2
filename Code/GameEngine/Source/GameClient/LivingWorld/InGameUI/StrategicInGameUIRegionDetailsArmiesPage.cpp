@@ -31,7 +31,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
 struct Rva005E1E9BElement {
  Rva005E1BD5 *ptr;
  Rva005E1E9BElement(Rva005E1BD5*p):ptr(p){if(ptr)++((TargetRef00217D4C*)ptr)->refs;}
- Rva005E1E9BElement(const Rva005E1E9BElement&o):ptr(o.ptr){if(ptr)++((TargetRef00217D4C*)ptr)->refs;}
+ Rva005E1E9BElement(const Rva005E1E9BElement&other):ptr(other.ptr){if(ptr)++((TargetRef00217D4C*)ptr)->refs;}
  // Retail has no out-of-line body: the release is inlined into the
  // element's scalar deleting dtor 0x005F8FCC.
  ~Rva005E1E9BElement(){if(ptr)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)ptr);}

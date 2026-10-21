@@ -31,7 +31,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct TreeHintRef00217D4C {
  TargetRef00217D4C *ptr;
  TreeHintRef00217D4C() : ptr(0) {}
- TreeHintRef00217D4C(const TreeHintRef00217D4C &o):ptr(o.ptr) { if(ptr) ++ptr->refs; }
+ TreeHintRef00217D4C(const TreeHintRef00217D4C &other):ptr(other.ptr) { if(ptr) ++ptr->refs; }
  ~TreeHintRef00217D4C() { if(ptr) ReleaseTreeHintRef00217D4C(ptr); }
 };
 // The units-by-side vectors: retail destroys them through the vector dtor 0x005EC919

@@ -12,7 +12,7 @@ struct Coord3D0055D0D5
 	float y;
 	float z;
 	Coord3D0055D0D5() {}
-	Coord3D0055D0D5(const Coord3D0055D0D5 &o) : x(o.x), y(o.y), z(o.z) {}
+	Coord3D0055D0D5(const Coord3D0055D0D5 &other) : x(other.x), y(other.y), z(other.z) {}
 };
 
 class Rva0055D0D5

@@ -23,35 +23,35 @@ struct NineInts
 class Rva005E35B5
 {
 public:
-	Rva005E35B5(const Rva005E35B5 &o);
+	Rva005E35B5(const Rva005E35B5 &other);
 private:
 	EightInts m_data;
 };
-Rva005E35B5::Rva005E35B5(const Rva005E35B5 &o)
+Rva005E35B5::Rva005E35B5(const Rva005E35B5 &other)
 {
-	m_data = o.m_data;
+	m_data = other.m_data;
 }
 
 class Rva005EEEFF
 {
 public:
-	Rva005EEEFF(const Rva005EEEFF &o);
+	Rva005EEEFF(const Rva005EEEFF &other);
 private:
 	FiveInts m_data;
 };
-Rva005EEEFF::Rva005EEEFF(const Rva005EEEFF &o)
+Rva005EEEFF::Rva005EEEFF(const Rva005EEEFF &other)
 {
-	m_data = o.m_data;
+	m_data = other.m_data;
 }
 
 class Rva005F8F00
 {
 public:
-	Rva005F8F00(const Rva005F8F00 &o);
+	Rva005F8F00(const Rva005F8F00 &other);
 private:
 	NineInts m_data;
 };
-Rva005F8F00::Rva005F8F00(const Rva005F8F00 &o)
+Rva005F8F00::Rva005F8F00(const Rva005F8F00 &other)
 {
-	m_data = o.m_data;
+	m_data = other.m_data;
 }

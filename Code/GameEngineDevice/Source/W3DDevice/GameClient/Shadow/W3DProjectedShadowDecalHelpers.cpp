@@ -728,7 +728,7 @@ float Rva000930C0(float x, float y);
 struct ScanDelta10C841
 {
 	Real x, y, z;
-	ScanDelta10C841(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
+	ScanDelta10C841(const Coord3D &other) : x(other.x), y(other.y), z(other.z) {}
 	void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
 	Real lengthSqr() const { return x * x + y * y + z * z; }
 };

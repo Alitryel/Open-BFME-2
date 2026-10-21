@@ -13,7 +13,7 @@ class Rva0032E81D
 {
 public:
 	Rva0032E81D(void *a, void *b);
-	Rva0032E81D(const Rva0032E81D &o);
+	Rva0032E81D(const Rva0032E81D &other);
 private:
 	int m_val00;
 	VecVec m_vec04;
@@ -23,6 +23,6 @@ Rva0032E81D::Rva0032E81D(void *a, void *b) : m_val00(*(int *)a), m_vec04(*(VecVe
 {
 }
 
-Rva0032E81D::Rva0032E81D(const Rva0032E81D &o) : m_val00(o.m_val00), m_vec04(o.m_vec04)
+Rva0032E81D::Rva0032E81D(const Rva0032E81D &other) : m_val00(other.m_val00), m_vec04(other.m_vec04)
 {
 }

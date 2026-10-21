@@ -29,7 +29,7 @@ public:
 struct Rva004ABA81Pair
 {
 	Rva004ABA81Pair() {}
-	Rva004ABA81Pair(const Rva004ABA81Pair &o) : x(o.x), y(o.y) {}
+	Rva004ABA81Pair(const Rva004ABA81Pair &other) : x(other.x), y(other.y) {}
 	float x;
 	float y;
 };

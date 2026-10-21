@@ -173,11 +173,11 @@ struct Rva001E34B2Point
   z = az;
   
  }
- Rva001E34B2Point(const Rva001E34B2Point &o) 
+ Rva001E34B2Point(const Rva001E34B2Point &other) 
  {
-  x = o.x;
-  y = o.y;
-  z = o.z;
+  x = other.x;
+  y = other.y;
+  z = other.z;
   
  }
  

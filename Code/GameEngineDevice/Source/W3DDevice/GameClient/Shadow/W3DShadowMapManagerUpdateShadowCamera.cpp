@@ -106,8 +106,8 @@ inline BfmeE8::BfmeE8(const Vector3 &v) : X(v.X), Y(v.Y) {}
 struct BfmeFloat4Record00469C61 {
 	float x, y, z, w;
 	BfmeFloat4Record00469C61() {}
-	BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &o) : x(o.x), y(o.y), z(o.z), w(o.w) {}
-	BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &o) { x=o.x; y=o.y; z=o.z; w=o.w; return *this; }
+	BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &other) : x(other.x), y(other.y), z(other.z), w(other.w) {}
+	BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &other) { x=other.x; y=other.y; z=other.z; w=other.w; return *this; }
 };
 namespace _STL {
 template<> inline void allocator<Coord3D>::deallocate(Coord3D *p, size_t) const { if (p) Rva00030830FreeAllocation(p); }
