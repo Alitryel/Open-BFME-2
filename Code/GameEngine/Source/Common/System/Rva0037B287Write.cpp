@@ -24,7 +24,7 @@ private:
 	FILE *m_file10; // +0x10
 };
 
-void RecorderClass::logPlayerDisconnect(UnicodeString arg, int slot)
+void RecorderClass::logPlayerDisconnect(UnicodeString player, int slot)
 {
 	if (m_file10 == 0)
 		return;
