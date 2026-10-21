@@ -148,7 +148,7 @@ public:
 	char m_pad000[0x108];
 	UnsignedInt m_kindOf[8];	// +0x108
 	char m_pad128[0x4BC - 0x128];
-	Real m_4BC;	// +0x4BC
+	Real m_visionBonusPercentPerFoot;	// +0x4BC
 	char m_pad4C0[0x4C8 - 0x4C0];
 	Real m_heightSampleRadius;	// +0x4C8
 	char m_pad4CC[0x544 - 0x4CC];
@@ -231,7 +231,7 @@ void Object::setTriggerAreaFlagsForChangeInPosition()
 	{
 		if (TheGameLogic->getFrame() > 3)
 			TheGameLogic->QueueForNotifyPathfindCellChanged(this);
-		if (getTemplate()->m_4BC > 0.0f)
+		if (getTemplate()->m_visionBonusPercentPerFoot > 0.0f)
 		{
 			m_averageGroundHeight = 0.0f;
 			Real step = 6.282f / getTemplate()->m_heightSampleCount;

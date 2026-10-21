@@ -8,7 +8,7 @@
 struct ThingTemplate
 {
 	char m_pad[0x5F1];
-	signed char m_5F1;
+	signed char m_transportSlotCount;
 };
 
 struct Tmp;
@@ -67,7 +67,7 @@ int Object::getTransportSlotCount()
 {
 	ThingTemplate *thingTemplate = m_template;
 	ContainModule *contain = m_contain;
-	int v = thingTemplate->m_5F1;
+	int v = thingTemplate->m_transportSlotCount;
 	if (contain == 0)
 		return v;
 	if (!contain->v05())

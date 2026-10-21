@@ -809,7 +809,7 @@ class GlobalData
 {
 public:
 	char m_pad[0xB3C];
-	int m_b3c;
+	int m_movementPenaltyDamageState;
 };
 extern GlobalData *TheWritableGlobalData;
 struct Rva001E46E1FrameView
@@ -840,37 +840,37 @@ float atan2(float y, float x);
 struct LocomotorTemplate
 {
 	char m_pad00[0x18];
-	float m_18;
+	float m_lookAheadMult;
 	char m_pad1C[0x24-0x1C];
 	float m_24;
 	float m_28; char m_pad2C[0x3C-0x2C]; float m_3C;
 	char m_pad40[4];
-	unsigned int m_44;
+	unsigned int m_acceleration;
 	float m_48;
-	float m_4C;
-	unsigned int m_50;
+	float m_liftDamaged;
+	unsigned int m_braking;
 	char m_pad54[0x64-0x54];
-	float m_64; // +0x64
+	float m_circlingRadius; // +0x64
 	char m_pad68[0x74-0x68];
 	union { int m_74; int m_appearance; }; // +0x74
 	char m_pad78[4]; float m_7C, m_80;
-	Real m_84; // +0x84
+	Real m_maxTurnWithoutReform; // +0x84
 	char m_pad88[0xBC-0x88]; float m_BC;
 	char m_padC0[0xD3-0xC0];
-	bool m_D3; // +0xD3
+	bool m_downhillOnly; // +0xD3
 	char m_padD4[0xD8-0xD4];
-	int m_D8; // +0xD8
+	int m_canMoveBackwards; // +0xD8
 	char m_padDC[0xEC-0xDC];
 	unsigned char m_ec;
 	char m_padED[0x104 - 0xED];
-	float m_104;
-	unsigned char m_108;
-	unsigned char m_109;
-	unsigned char m_10A;
+	float m_chargeSpeed;
+	unsigned char m_chargeAvailable;
+	unsigned char m_chargeIgnoresCondition;
+	unsigned char m_enableHighSpeedTurnModelconditions;
 	char m_pad10B[0x14C-0x10B];
-	float m_14C;
-	bool m_150; // +0x150
-	bool m_151; // +0x151
+	float m_riverModifier;
+	bool m_scalesWalls; // +0x150
+	bool m_turnWhileMoving; // +0x151
 };
 typedef LocomotorTemplate Rva001E46E1Data;
 class Rva001E46E1
@@ -1064,7 +1064,7 @@ void Rva001E46E1::rva001E56DC(Object *obj,const Coord3D *goal,float maxTurnRate,
     }
     float speed=m_40;
     value.speed=((const Locomotor *)this)->getMaxSpeed(obj);bool animate=true;float half=reinterpret_cast<const volatile float&>(value.speed)*0.5f;
-    if(speed>half && !m_data->m_10A)animate=false;
+    if(speed>half && !m_data->m_enableHighSpeedTurnModelconditions)animate=false;
     if(slow)animate=false;
     if(!m_99) {
         if(obj->m_flags10C.test(133)){obj->m_flags10C.reset(133);obj->rva0028AE6D();}
@@ -1334,7 +1334,7 @@ void Locomotor::rva001E9083(Object *obj, const Coord3D *goalPos, Real onPathDist
 			skip = container && container->getTemplate()->hasKindOf((KindOfType)0x6d);
 		}
 	}
-	if (!skip && m_template->m_150 && !obj->getTemplate()->hasKindOf((KindOfType)0x6d) && obj->getTemplate()->hasKindOf((KindOfType)0xb8))
+	if (!skip && m_template->m_scalesWalls && !obj->getTemplate()->hasKindOf((KindOfType)0x6d) && obj->getTemplate()->hasKindOf((KindOfType)0xb8))
 	{
 		Coord3D pos;
 		CoordCopy(&pos, obj->getPosition());
@@ -1677,7 +1677,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   Real maxTurnRate = getMaxTurnRate(obj);
   if (desiredSpeed > maxSpeed)
   desiredSpeed = maxSpeed;
-  if (m_template->m_150 && hordeContain)
+  if (m_template->m_scalesWalls && hordeContain)
   desiredSpeed = hordeContain->slot144(desiredSpeed);
   Real angle = obj->getOrientation();
   Real desiredAngle = atan2(goalPos.y - obj->getPosition()->y, goalPos.x - obj->getPosition()->x);
@@ -1687,7 +1687,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   goal.y = goalPos.y;
   goal.z = goalPos.z;
   bool reverse = false;
-  if (m_template->m_D8 && obj->isKindOf((KindOfType)0x41))
+  if (m_template->m_canMoveBackwards && obj->isKindOf((KindOfType)0x41))
   reverse = true;
   if (m_40 == 0.0f)
   
@@ -1713,7 +1713,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
    }
    
   }
-  Real limit = m_template->m_84;
+  Real limit = m_template->m_maxTurnWithoutReform;
   if (Cos(relAngle) < Cos(limit) && !onPortal && dist > 20.0f && hordeContain)
   
   {
@@ -1725,7 +1725,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   }
   if (onPortal)
   goal.z = obj->getPosition()->z;
-  if (m_template->m_151)
+  if (m_template->m_turnWhileMoving)
   ((Rva001E46E1 *)this)->rva001E56DC(obj, &goal, maxTurnRate, &relAngle);
   if (!((Rva001E46E1 *)this)->rva001E543F(obj) && obj->getTemplate()->isKindOf9() && hordeContain && !hordeContain->slot112(desiredAngle))
   desiredSpeed *= 0.1f;
@@ -1735,7 +1735,7 @@ struct Rva0028AC4EEntry {char pad00[4];const LocomotorTemplate *data;};
 class Rva000467B2 {public:void rva000467B2(AsciiString *out,int maxPerLine);};
 void Locomotor::rva001E6B8B(Object *obj,const Coord3D *goal,Real distance,Real desiredSpeed)
 {
- if(m_template->m_D3&&goal->z>obj->getPosition()->z)return;
+ if(m_template->m_downhillOnly&&goal->z>obj->getPosition()->z)return;
  float maxSpeed=getMaxSpeed(obj);
  if(desiredSpeed>maxSpeed)desiredSpeed=maxSpeed;
  float actualSpeed=m_40;
@@ -1749,8 +1749,8 @@ void Locomotor::rva001E6B8B(Object *obj,const Coord3D *goal,Real distance,Real d
  float relative=normalizeAngle(desiredAngle-angle);
  Coord3D goalPos;goalPos.x=goal->x;goalPos.y=goal->y;goalPos.z=goal->z;
  bool moveBackwards=false;
- if(m_template->m_D8&&obj->isKindOf((KindOfType)0x41))moveBackwards=true;
- if(obj->testStatus((ObjectStatusTypes)0x26)&&obj->m_274&&obj->m_274->rva0028AC4E()&&obj->m_274->rva0028AC4E()->data->m_D8)moveBackwards=true;
+ if(m_template->m_canMoveBackwards&&obj->isKindOf((KindOfType)0x41))moveBackwards=true;
+ if(obj->testStatus((ObjectStatusTypes)0x26)&&obj->m_274&&obj->m_274->rva0028AC4E()&&obj->m_274->rva0028AC4E()->data->m_canMoveBackwards)moveBackwards=true;
  if(actualSpeed==0.f){
   if(moveBackwards){maxSpeed*=0.5f;m_flags&=~0x100U;m_flags|=0x80U;}
   else {obj->clearModelConditionState(4*32+28);m_flags&=~0x80U;}
@@ -1769,7 +1769,7 @@ void Locomotor::rva001E6B8B(Object *obj,const Coord3D *goal,Real distance,Real d
   }
  }
  ((Rva001E685F*)this)->rva001E685F(obj,&goalPos,0);
- if(m_template->m_64>0.f){
+ if(m_template->m_circlingRadius>0.f){
   if(((Rva001E46E1*)this)->rva001E4845(obj)>=actualSpeed)relative*=2.f;
   else if(actualSpeed>maxSpeed*0.5f)relative=0.f;
  }

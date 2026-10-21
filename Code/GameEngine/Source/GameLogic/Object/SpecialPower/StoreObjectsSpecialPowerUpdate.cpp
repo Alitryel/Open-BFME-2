@@ -150,10 +150,10 @@ class SpecialPowerTemplate : public Overridable
 public:
 	const void *getObjectFilter() const
 	{
-		return &((const SpecialPowerTemplate *)friend_getFinalOverride())->m_60;
+		return &((const SpecialPowerTemplate *)friend_getFinalOverride())->m_objectFilter;
 	}
 	char m_pad00[0x60];
-	int m_60;	// +0x60 the object filter
+	int m_objectFilter;	// +0x60 the object filter
 };
 
 // What 0x0044E633 returns: slot 6 is the special power template.

@@ -15,7 +15,7 @@ public:
 	unsigned char m_pad[0x113];
 	unsigned char m_byte113; // +0x113
 	unsigned char m_pad114[0x570 - 0x114];
-	Int m_570; // +0x570
+	Int m_bountyValue; // +0x570
 };
 
 class ExperienceTracker
@@ -62,7 +62,7 @@ private:
 Int Rva0028D796::rva0028D796()
 {
 	ThingTemplate *thingTemplate = m_template;
-	Int base = thingTemplate->m_570;
+	Int base = thingTemplate->m_bountyValue;
 	if ((thingTemplate->m_byte113 & 4) != 0) {
 		ExperienceLevelList *list = reinterpret_cast<Rva00288CFA *>(TheExperienceLevelSystem)->FindExperienceLevelList(m_tracker);
 		if (list != 0) {

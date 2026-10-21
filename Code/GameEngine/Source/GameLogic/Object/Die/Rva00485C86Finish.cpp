@@ -26,7 +26,7 @@ class UpgradeTemplate
 {
 public:
 	int m_00;
-	int m_04;
+	int m_type;
 };
 
 class UpgradeCenter
@@ -81,7 +81,7 @@ class DieModule
 protected:
 	bool isDieApplicable(const DamageInfo *damageInfo) const;
 public:
-	void *m_04;
+	void *m_type;
 	Object *m_08;
 };
 
@@ -116,7 +116,7 @@ void CreateObjectDie::onDie(const DamageInfo *damageInfo)
 		if (upgradeTemplate)
 		{
 			bool ok;
-			if (upgradeTemplate->m_04 == 0)
+			if (upgradeTemplate->m_type == 0)
 				ok = obj->getControllingPlayer()->rva002AB87D(upgradeTemplate);
 			else
 				ok = obj->hasUpgrade(upgradeTemplate);

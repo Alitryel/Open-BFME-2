@@ -3,8 +3,8 @@
 // stlport
 //
 // ?onDie@UpgradeDie@@UAEXPBVDamageInfo@@@Z, retail 0x00486C00 118B (ret 4 at
-// 0x486C73-75 pops 0x486C71-72 extent [0x486C00,0x486C76) next body at 0x486C76): findUpgrade-first plus UpgradeTemplate m_04
-// ternary. A m_04==0 (player-scoped) upgrade is removed from the
+// 0x486C73-75 pops 0x486C71-72 extent [0x486C00,0x486C76) next body at 0x486C76): findUpgrade-first plus UpgradeTemplate m_type
+// ternary. A m_type==0 (player-scoped) upgrade is removed from the
 // controlling player via Player::rva002ADAC3 (pinned 0x002ADAC3, ret 8,
 // hoisted pushes); otherwise the producer is looked up via
 // TheGameLogic->findObjectByID(getObject()->getProducerID()) and gated
@@ -14,7 +14,7 @@
 // target proof): producer lookup, UpgradeCenter findUpgrade, has/remove
 // pair; the donor DEBUG_ASSERTCRASH else-path compiles to ((void)0) under
 // /DNDEBUG so retail carries no assert calls. Target facts: Rva00485C86Finish
-// ternary spelling precedent for the same m_04 split (t->m_04 int at +0x04);
+// ternary spelling precedent for the same m_type split (t->m_type int at +0x04);
 // SalvageCrateCollide precedent that m_type==0 at +0x04 means a player
 // upgrade; DieModule base keeps m_moduleData at +0x04 and m_object at +0x08;
 // Object producer ID word at +0x78; UpgradeDieModuleData carries the
@@ -38,7 +38,7 @@ class UpgradeTemplate
 {
 public:
 	int m_00;
-	int m_04;	// +0x04 (0 a player upgrade; Rva00485C86Finish precedent)
+	int m_type;	// +0x04 (0 a player upgrade; Rva00485C86Finish precedent)
 };
 
 class Object
@@ -138,7 +138,7 @@ void UpgradeDie::onDie(const DamageInfo *damageInfo)
 		TheUpgradeCenter->findUpgrade(getUpgradeDieModuleData()->m_upgradeName);
 	if (!upgrade)
 		return;
-	if (upgrade->m_04 == 0)
+	if (upgrade->m_type == 0)
 	{
 		getObject()->getControllingPlayer()->rva002ADAC3(upgrade, 0);
 		return;

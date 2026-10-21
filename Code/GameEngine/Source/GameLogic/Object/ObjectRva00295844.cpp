@@ -65,7 +65,7 @@ public:
 struct ThingTemplate
 {
 	char m_pad000[0x51C];
-	float m_51C;		// +0x51C
+	float m_threatLevel;		// +0x51C
 };
 
 struct BfmeWideResult
@@ -103,7 +103,7 @@ void Object::rva00295844(float range)
 	float total = 0.0f;
 	Object *obj;
 	while ((obj = hits.next()) != 0)
-		total += obj->m_template->m_51C;
+		total += obj->m_template->m_threatLevel;
 	m_444 = total;
 	rva0028C0F2(5000);
 }

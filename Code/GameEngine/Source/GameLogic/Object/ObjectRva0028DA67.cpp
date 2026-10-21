@@ -39,10 +39,10 @@ public:
 	unsigned char m_pad00[0x11F];
 	unsigned char m_11F; // +0x11F
 	unsigned char m_pad120[0x610 - 0x120];
-	float m_610; // +0x610
+	float m_shockwaveResistance; // +0x610
 	unsigned char m_pad614[4]; // +0x614
-	int m_618; // +0x618
-	int m_61C; // +0x61C
+	int m_commandPoints; // +0x618
+	int m_commandPointBonus; // +0x61C
 };
 class Object
 {
@@ -63,7 +63,7 @@ void Object::rva0028DA67()
 {
 	if (m_480 != 0)
 		return;
-	if (m_tmpl->m_618 <= 0 && m_tmpl->m_61C <= 0)
+	if (m_tmpl->m_commandPoints <= 0 && m_tmpl->m_commandPointBonus <= 0)
 		return;
 	if (testStatus(RVA_57))
 		return;
@@ -93,7 +93,7 @@ void Object::rva0028DAB9()
 
 bool Object::rva0028DB0F(bool arg) const
 {
-	if (m_tmpl->m_610 >= 100.0f)
+	if (m_tmpl->m_shockwaveResistance >= 100.0f)
 	{
 		if (!arg || !(m_tmpl->m_11F & 0x80))
 			return true;

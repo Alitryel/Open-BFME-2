@@ -20,21 +20,21 @@ public:
 
 private:
 	char m_pad00[0x30];
-	int m_30;	// +0x30
+	int m_lightPointCost;	// +0x30
 	char m_pad34[0x44 - 0x34];
-	int m_44;	// +0x44
+	int m_evaEventToPlayOnSuccess;	// +0x44
 };
 
 // 0x004210EF (9B)
 int SpecialPowerTemplate::rva004210EF() const
 {
-	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_30;
+	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_lightPointCost;
 }
 
 // 0x0044EB4B (9B)
 int SpecialPowerTemplate::rva0044EB4B() const
 {
-	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_44;
+	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_evaEventToPlayOnSuccess;
 }
 
 // 0x004D973E / 0x004D9747 (9B each): the same final-override read returning

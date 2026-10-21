@@ -98,7 +98,7 @@ class ThingTemplate : public Overridable
 {
 public:
 	unsigned char m_pad008[0x10 - 0x8];
-	float m_10;						// +0x10
+	float m_camouflageDetectionMultiplier;						// +0x10
 	unsigned char m_pad014[0xA0 - 0x14];
 	unsigned char m_geometryInfo[0x5C];			// +0xA0
 	unsigned char m_0fc[0xC];				// +0xFC
@@ -684,7 +684,7 @@ Object::Object(const ThingTemplate *tt, const CreateMask *mask, Team *team, Obje
 	m_428 = tt->m_occlusionDelay + TheGameLogic->getFrame();
 
 	if (TheWritableGlobalData->m_filter.testTemplate(tt, 0, 0))
-		((Rva004381B0 *)TheGameLogic->getManager178())->rva004381B0(tt->m_10);
+		((Rva004381B0 *)TheGameLogic->getManager178())->rva004381B0(tt->m_camouflageDetectionMultiplier);
 
 	rva0028DCC4();
 }

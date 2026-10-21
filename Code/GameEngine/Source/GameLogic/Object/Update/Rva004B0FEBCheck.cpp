@@ -26,7 +26,7 @@ class ThingTemplate
 {
 public:
 	char m_pad00[0x108];
-	unsigned m_108;
+	unsigned m_kindOf;
 	unsigned m_10c;
 	char m_pad110[0x115 - 0x110];
 	unsigned char m_115;
@@ -148,7 +148,7 @@ body:
 			return true;
 	}
 
-	unsigned flags108 = other->m_template->m_108;
+	unsigned flags108 = other->m_template->m_kindOf;
 	if ((flags108 & 0x80) != 0)
 		return false;
 	if (other->m_template->m_115 & 0x20)

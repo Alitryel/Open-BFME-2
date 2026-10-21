@@ -29,11 +29,11 @@ public:
 private:
 	char m_pad00[0x28];
 	Real m_minSpeed; // +0x28
-	int m_2c; // +0x2C
-	int m_30; // +0x30 falls back to +0x2C when zero
+	int m_turnTime; // +0x2C
+	int m_turnTimeDamaged; // +0x30 falls back to +0x2C when zero
 	char m_pad34[0x48 - 0x34];
-	Real m_48; // +0x48
-	Real m_4c; // +0x4C falls back to +0x48 when negative
+	Real m_lift; // +0x48
+	Real m_liftDamaged; // +0x4C falls back to +0x48 when negative
 	char m_pad50[0x54 - 0x50];
 	Real m_minTurnSpeed; // +0x54
 	char m_pad58[0x74 - 0x58];
@@ -42,11 +42,11 @@ private:
 
 void LocomotorTemplate::validate()
 {
-	if (m_30 == 0)
-		m_30 = m_2c;
+	if (m_turnTimeDamaged == 0)
+		m_turnTimeDamaged = m_turnTime;
 
-	if (m_4c < 0.0f)
-		m_4c = m_48;
+	if (m_liftDamaged < 0.0f)
+		m_liftDamaged = m_lift;
 
 	if (m_appearance == LOCO_WINGS)
 	{

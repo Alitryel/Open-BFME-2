@@ -227,8 +227,8 @@ private:
 struct LocomotorTemplate
 {
 	char m_pad00[0x18];
-	Real m_18;							// +0x18
-	Bool m_1C;							// +0x1C
+	Real m_lookAheadMult;							// +0x18
+	Bool m_nonDirtyTransform;							// +0x1C
 };
 
 class Rva001E46E1
@@ -277,8 +277,8 @@ Bool Locomotor::rva001E9A00(Object *obj, Real goalSpeed, Real *pathDistance, Rva
 	if (!obj)
 		return false;
 	Real lookAhead = obj->getGeometryInfo().get14() * 0.5f;
-	if (m_template->m_18 > 1.0f)
-		lookAhead *= m_template->m_18;
+	if (m_template->m_lookAheadMult > 1.0f)
+		lookAhead *= m_template->m_lookAheadMult;
 	AIUpdateInterface *ai = obj->getAI();
 	if (!ai)
 		return false;
@@ -306,7 +306,7 @@ Bool Locomotor::rva001E9A00(Object *obj, Real goalSpeed, Real *pathDistance, Rva
 		Real angle = 0.0f;
 		Real count = 0.0f;
 		Real pitch = 0.0f;
-		if (m_template->m_1C)
+		if (m_template->m_nonDirtyTransform)
 			((Rva0030A3E4 *)obj)->_setTransformMatrix(&m_transform);
 		Coord3D behind;
 		if (TheAerialPathfinder->rva00375A73(path, *pathDistance - lookAhead, (Rva00375A73Coord *)&behind))

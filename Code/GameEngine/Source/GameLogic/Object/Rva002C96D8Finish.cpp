@@ -28,11 +28,11 @@ class WeaponTemplate
 public:
 	float getMinimumAttackRange() const;
 	char m_pad00[0x82];
-	bool m_82; // +0x82
+	bool m_canFireWhileCharging; // +0x82
 	char m_pad83[0x13c - 0x83];
-	int m_13c; // +0x13c
+	int m_preAttackRandomAmount; // +0x13c
 	char m_pad140[0x155 - 0x140];
-	bool m_155; // +0x155
+	bool m_forceDisplayPercentReady; // +0x155
 	char m_pad156[0x157 - 0x156];
 	bool m_157; // +0x157
 };
@@ -122,8 +122,8 @@ int __cdecl GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 void Weapon::rva002C959E()
 {
 	int v;
-	if (m_template->m_13c)
-		v = GetGameLogicRandomValue(0, m_template->m_13c, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Weapon.cpp", 3644);
+	if (m_template->m_preAttackRandomAmount)
+		v = GetGameLogicRandomValue(0, m_template->m_preAttackRandomAmount, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Weapon.cpp", 3644);
 	else
 		v = 0;
 	m_58 = v;
@@ -177,11 +177,11 @@ bool Weapon::rva002C9586()
 // Evidence: same Weapon TU and flags; [ecx+4] template like siblings; offsets +0x82/+0x155 on template.
 bool Weapon::rva002C96D8()
 {
-	if (m_template->m_82)
+	if (m_template->m_canFireWhileCharging)
 		return true;
 	if (m_template)
 	{
-		if (m_template->m_155)
+		if (m_template->m_forceDisplayPercentReady)
 			return true;
 	}
 	return false;

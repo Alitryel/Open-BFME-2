@@ -118,10 +118,10 @@ public:
 
 	char m_pad000[0x108];
 	unsigned char m_kindOf[0x50C - 0x108];
-	Real m_50C;
-	Real m_510;
-	Real m_514;
-	Real m_518;
+	Real m_minCrushVelocityPercent;
+	Real m_crushDecelerationPercent;
+	Real m_crushKnockback;
+	Real m_crushZFactor;
 };
 
 class Object
@@ -181,8 +181,8 @@ void Object::rva002929F9(Object *other)
 		return;
 	}
 
-	Real a = getTemplate()->m_514;
-	Real b = getTemplate()->m_518;
+	Real a = getTemplate()->m_crushKnockback;
+	Real b = getTemplate()->m_crushZFactor;
 	if (a > 0.0f) {
 		Real angle = GetRelativeAngle(other->getPosition());
 		if (angle > 1.5707964f)
@@ -196,7 +196,7 @@ void Object::rva002929F9(Object *other)
 	if (!ai)
 		return;
 
-	Real speed = getTemplate()->m_510;
+	Real speed = getTemplate()->m_crushDecelerationPercent;
 	Real modifier = 1.0f;
 	if (rva0028C15E(9, &modifier, 0, 1))
 		speed = modifier * speed;
@@ -223,7 +223,7 @@ void Object::rva002929F9(Object *other)
 
 	Real scale = 1.0f;
 	if (rva0028C15E(0x12, &scale, 0, 1)) {
-		Real t = getTemplate()->m_50C;
+		Real t = getTemplate()->m_minCrushVelocityPercent;
 		if (t < 0.05f)
 			t = 0.05f;
 		else if (t > 0.95f)

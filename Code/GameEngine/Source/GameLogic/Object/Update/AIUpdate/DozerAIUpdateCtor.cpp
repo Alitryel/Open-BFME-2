@@ -1699,9 +1699,9 @@ class GlobalData
 {
 public:
 	unsigned char m_pad0000[0x11DC];
-	UnsignedInt m_11DC; // +0x11DC, the frames a dozer takes to fade out into a site
-	UnsignedInt m_11E0; // +0x11E0, the frames a dozer takes to fade back in
-	Real m_11E4; // +0x11E4, how far it steps away from the structure it leaves
+	UnsignedInt m_builderFadeOutTime; // +0x11DC, the frames a dozer takes to fade out into a site
+	UnsignedInt m_builderFadeInTime; // +0x11E0, the frames a dozer takes to fade back in
+	Real m_builderMoveFromNewStructureDistance; // +0x11E4, how far it steps away from the structure it leaves
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -1715,19 +1715,19 @@ static __declspec(noinline) void Rva0048A3B9Do(Object *obj, Object *target, Bool
 	if (rva004884B7(obj))
 		return;
 
-	if (moveAway && target && TheWritableGlobalData->m_11E4 > 0.0f)
+	if (moveAway && target && TheWritableGlobalData->m_builderMoveFromNewStructureDistance > 0.0f)
 	{
 		Coord3D dir = *obj->getPosition();
 		dir.sub(target->getPosition());
 		dir.normalize();
-		dir.scale(TheWritableGlobalData->m_11E4);
+		dir.scale(TheWritableGlobalData->m_builderMoveFromNewStructureDistance);
 		dir.add(*obj->getPosition());
 		obj->getAIUpdateInterface()->aiMoveToPosition(&dir, CMD_FROM_PLAYER);
 	}
 
 	if (!obj->get454())
 		obj->rva0028DCC4();
-	obj->getDrawable()->fadeIn(TheWritableGlobalData->m_11E0);
+	obj->getDrawable()->fadeIn(TheWritableGlobalData->m_builderFadeInTime);
 
 	Rva00346BC0 mask(0, 0x3c, 3, 0x4f, 0x63);
 	obj->rva0028CDEB(mask, false);
@@ -2269,7 +2269,7 @@ StateReturnType DozerActionDoActionState::update()
 					dozerAI->startBuildingSound(draw->rva00274CD8("UnderConstruction"), goalObject->getID());
 
 				if (!rva004884B7(dozer))
-					dozer->getDrawable()->fadeOut(TheWritableGlobalData->m_11DC);
+					dozer->getDrawable()->fadeOut(TheWritableGlobalData->m_builderFadeOutTime);
 			}
 
 			// only do the build if we've moved into the dock position

@@ -110,7 +110,7 @@ class ThingTemplate
 {
 public:
 	char m_pad000[0x108];
-	unsigned m_108;		// +0x108 (bit 7 tested)
+	unsigned m_kindOf;		// +0x108 (bit 7 tested)
 	char m_pad10C[0x118 - 0x10C];
 	unsigned m_118;		// +0x118 (bit 22 tested)
 };
@@ -206,7 +206,7 @@ void GiveUpgradeUpdate::GetDeliveryTarget()
 		Object *rider = other->rva002931F5(false);
 		if (!rider && other->m_78) {
 			Object *object = TheGameLogic->findObjectByID(other->m_78);
-			if (object && !(object->m_template->m_108 & 0x80))
+			if (object && !(object->m_template->m_kindOf & 0x80))
 				rider = object;
 		}
 		if (rider) {

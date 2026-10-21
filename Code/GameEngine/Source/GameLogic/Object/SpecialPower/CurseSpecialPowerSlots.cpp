@@ -157,13 +157,13 @@ class SpecialPowerTemplate : public Overridable
 public:
 	float getRadius() const
 	{
-		return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_54;
+		return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_radiusCursorRadius;
 	}
 	bool rva0029B6D9() const;
 	char m_pad00[0x54];
-	float m_54;	// +0x54
+	float m_radiusCursorRadius;	// +0x54
 	char m_pad58[1];
-	bool m_59;	// +0x59
+	bool m_sharedSyncedTimer;	// +0x59
 };
 
 // Native 29B6D9..29B6E2 (9B), just before the getRadius copy at 0x0029B6E2:
@@ -172,7 +172,7 @@ public:
 // proven for BFME2's layout; address-derived name.
 bool SpecialPowerTemplate::rva0029B6D9() const
 {
-	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_59;
+	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_sharedSyncedTimer;
 }
 
 class CurseSpecialPowerModuleData

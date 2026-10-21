@@ -119,7 +119,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0xA70];
-	Real m_a70;					// +0xA70
+	Real m_allowedHeightVariationForBuilding;					// +0xA70
 };
 extern GlobalData *TheWritableGlobalData;
 
