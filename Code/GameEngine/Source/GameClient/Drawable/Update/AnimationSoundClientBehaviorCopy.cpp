@@ -22,10 +22,13 @@ private:
 	unsigned int m_field08;
 };
 
+// Declared as AnimationSoundClientBehaviorDtor.cpp declares it (both slots
+// rowed on AnimationSoundClientBehavior, 0x004C9E33 / 0x004C9E48).
 class Rva004C9E33Iface
 {
 public:
-	virtual void rva004C9E33();
+	virtual void rva004C9E33() = 0;
+	virtual void rva004C9E48() = 0;
 };
 
 class Rva00432F23Node
@@ -49,6 +52,7 @@ public:
 	AnimationSoundClientBehavior(const AnimationSoundClientBehavior &other);
 	virtual ~AnimationSoundClientBehavior();
 	virtual void rva004C9E33();
+	virtual void rva004C9E48();
 
 private:
 	float m_float10;
