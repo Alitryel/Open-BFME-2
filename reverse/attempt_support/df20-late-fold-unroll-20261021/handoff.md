@@ -74,3 +74,40 @@ Other carriers fail differently:
    before folding?) and find a source shape that unrolls regardless.
 3. Landing under true naming needs the 8-10-unit ledger reconciliation described in
    `df20-funclet-naming-20261021/handoff.md` in any case.
+
+## Session 2 (2026-10-21, claudeb3): carriers and loop forms after the late fold
+
+Base: true-naming best `a9` = bank with the `inline_depth(0)` pragma moved from
+the `__curr_sym` init to the `__sign` statement (0.9986 true naming); bank
+unchanged at 0.9993 (ledger naming).
+
+Disproven:
+- Early-fold W carriers (`static const bool`/template-constant guards of a
+  non-inlinable call, `if (sizeof(x)!=N)`, enum compares): zero inliner cost,
+  inert at 0.9958 on a9s0 at every count. Only late-folded branches
+  (`this==0`, `&local==0`, `x!=x`, volatile-guarded) move the dtor map.
+- Late-fold position: placing the late-fold carrier at p1..p5 (before the
+  `__curr_sym` init, after `__sign`, before/after the digit copy, at the tail)
+  rolls the space-count loop every time (0.8638, 2613 B). The roll is a
+  function-level effect, not a position or size threshold.
+- What retail's "unroll" is: scalar replacement of the 4-byte pattern into eax
+  (spilled once to a frame slot, retail `[esp+0x44]`), then `cmp al/ah`,
+  `shr eax,16`, `cmp al/ah`. The rolled form keeps the pattern in memory.
+- Loop rewrites on a9 / p5 / ex (handoff ex_n6_k9_s0): manual 4x `if`, `+=`
+  of compares, `std::count`, pointer walk, dword load and shift.
+  Best: ex_ptr 0.9400 (right dtor map, still rolled); a9_ptr 0.9386,
+  ex_man 0.9249. All below a9.
+- Closest region shape: manual 4x `if (__format.field[i] == space) ++__length;`
+  on a9 reproduces retail's scalar form at 0x578..0x5a1 except the 4th byte:
+  ours reloads the spill and does `shr eax,0x18; cmp al,1`, retail reuses the
+  `shr eax,0x10` value with `cmp ah,1`, and our spill slot is 0x1c not 0x44.
+  The rest of the function shifts by 6 B there, so the score drops.
+
+Next angles (untried):
+1. Manual-unroll variants that make the 4th compare read the same shifted
+   value: `unsigned __p = *(unsigned*)&__format; ... __p >>= 16;` with
+   `(char)__p` and `(char)(__p>>8)`, or a union of `pattern` and `unsigned`.
+   Combine with the late-fold carrier that gives the right dtor map (ex).
+2. Why the late fold blocks scalar replacement: compare a late-fold variant
+   with and without an address-taken `__format` (`&__format` passed to a
+   declared-only function under a dead branch).
