@@ -62,7 +62,8 @@ void Rva0042D71A::rva005742CD()
 // --- 0x0057431D (27B): derived constructor over the rowed 0x005CB8AC base
 // (vtable 0x00874DA8); stores its argument at +8 under vtable 0x00C6E39C.
 // The CommonBehavior::Impl constructor (0x005752F0) calls it for its +0x48
-// member.
+// member. That table's slot 0 is the deleting destructor 0x00574693, which
+// calls the rowed destructor 0x00574338; both carry this class name.
 class Rva005CB4E6Elem;
 class Rva005CB8D4
 {
@@ -73,16 +74,16 @@ private:
 	Rva005CB4E6Elem *m_elem;
 };
 
-class Rva0057431D : public Rva005CB8D4
+class Rva00574338 : public Rva005CB8D4
 {
 public:
-	Rva0057431D(void *owner);
-	virtual ~Rva0057431D();
+	Rva00574338(void *owner);
+	virtual ~Rva00574338();
 private:
 	void *m_owner;
 };
 
-Rva0057431D::Rva0057431D(void *owner)
+Rva00574338::Rva00574338(void *owner)
 {
 	m_owner = owner;
 }

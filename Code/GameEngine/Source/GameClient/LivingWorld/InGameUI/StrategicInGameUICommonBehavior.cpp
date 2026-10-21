@@ -68,10 +68,13 @@ public:
 
 // Member destructors named by the retail calls.
 class Rva005C9B76 { public: Rva005C9B76(void *arg); virtual ~Rva005C9B76(); char m_data[0x1C]; };
-class Rva005CB8D4 { public: Rva005CB8D4(void *parts); virtual ~Rva005CB8D4(); char m_data[0x8]; };
+// The +0x48 member: base 0x005CB8AC/0x005CB8D4 (vtable 0x00C74DA8) under the
+// derived constructor 0x0057431D and destructor 0x00574338 (vtable 0x00C6E39C).
+class Rva005CB8D4 { public: virtual ~Rva005CB8D4(); char m_data[0x4]; };
+class Rva00574338 : public Rva005CB8D4 { public: Rva00574338(void *parts); virtual ~Rva00574338(); void *m_08; };
 class Rva000AD6F4 { public: Rva000AD6F4() : m_ptr(0) {} ~Rva000AD6F4(); Rva00574910SubTranslator *m_ptr; };
-// The +0x5C member: constructor 0x005CC254, destructor 0x005CC287 (rowed
-// under its own address name; only the unwind funclets reach it here).
+// The +0x5C member: constructor 0x005CC254 and destructor 0x005CC287 both
+// install vtable 0x00C74E04; only the unwind funclets reach the destructor here.
 class Rva005CC254 { public: Rva005CC254(void *parts); virtual ~Rva005CC254(); char m_data[0xC]; };
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
@@ -127,7 +130,7 @@ private:
 	Rva0042D6FDPtrChaseField *m_parts; // +0x20
 	Rva00574CC1Owner *m_owner24; // +0x24
 	Rva005C9B76 m_translator28; // +0x28
-	Rva005CB8D4 m_48; // +0x48
+	Rva00574338 m_48; // +0x48
 	Rva000AD6F4 m_sub; // +0x54
 	char m_pad58[0x5C - 0x58];
 	Rva005CC254 m_translator5C; // +0x5C
@@ -154,10 +157,10 @@ GameMessageDisposition StrategicInGameUI::CommonBehavior::Impl::translateGameMes
 // 0x0057525F (215 bytes, ret 12; pinned for its caller 0x00575336 as
 // ??0Rva0057525FCall): six base tables, the owner/arg/parts words at
 // +0x18/+0x1C/+0x20, the +0x28 translator (0x005C9B76) from the arg, the
-// +0x48 (0x0057431D, rowed as ??0Rva0057431D) and +0x5C (0x005CC254) members
+// +0x48 (0x0057431D) and +0x5C (0x005CC254) members
 // from the parts, cleared holders, then the +4 base joins the +0x28 member's
 // observer list (rowed append 0x005A0B4C). Its destructor 0x00574CC1 is
-// rowed as ??1Rva00574CC1@@UAE@XZ (Rva00574CC1Dtor.cpp).
+// rowed in Rva00574CC1Dtor.cpp.
 StrategicInGameUI::CommonBehavior::Impl::Impl(Rva00574A8A *owner, unsigned int arg, unsigned int parts)
 	: m_owner18(owner), m_1C(arg), m_parts((Rva0042D6FDPtrChaseField *)parts), m_owner24(0),
 	  m_translator28((void *)arg), m_48((void *)m_parts), m_translator5C((void *)m_parts),

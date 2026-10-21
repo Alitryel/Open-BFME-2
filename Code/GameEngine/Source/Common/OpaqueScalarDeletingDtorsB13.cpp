@@ -49,16 +49,25 @@ Rva00574C1B::Rva00574C1B(EmitVtableTag *)
 {
 }
 
-class Rva00574CC1
+namespace StrategicInGameUI
+{
+class CommonBehavior
 {
 public:
-	Rva00574CC1(EmitVtableTag *);
+	class Impl;
+};
+}
+
+class StrategicInGameUI::CommonBehavior::Impl
+{
 public:
-	virtual ~Rva00574CC1();
+	Impl(EmitVtableTag *);
+public:
+	virtual ~Impl();
 };
 
-// ?<Rva00574CC1::Rva00574CC1> absent-from-retail
-Rva00574CC1::Rva00574CC1(EmitVtableTag *)
+// ?<StrategicInGameUI::CommonBehavior::Impl::Impl> absent-from-retail
+StrategicInGameUI::CommonBehavior::Impl::Impl(EmitVtableTag *)
 {
 }
 
