@@ -28,12 +28,6 @@ public:
 	void *rva00033ED0(unsigned int size, int flags);
 };
 
-class Rva00033E90
-{
-public:
-	void freeBlock(void *block);
-};
-
 static inline unsigned int Rva000347A0RequestSize(unsigned int request)
 {
 	unsigned int size = request + 11;
@@ -56,6 +50,7 @@ class GeneralAllocator
 {
 public:
 	void *rva000347A0(void *oldMem, unsigned int bytes, int flags);
+	void rva00033150(const void *block);	// free engine, 0x00033150
 
 private:
 	unsigned char m_pad000[0x440];
@@ -121,7 +116,7 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 							case 0: *d = *s;
 							}
 						}
-						((Rva00033E90 *)this)->freeBlock(oldMem);
+						rva00033150(oldMem);
 						return (char *)newp + 8;
 					}
 				} else
@@ -141,7 +136,7 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 			after->head |= 1;
 			int saved = m_478;
 			m_478 = 0;
-			((Rva00033E90 *)this)->freeBlock((char *)remainder + 8);
+			rva00033150((char *)remainder + 8);
 			m_478 = saved;
 		}
 		newMem = (char *)newp + 8;
@@ -151,7 +146,7 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 		newMem = ((Rva006C1F60 *)this)->rva00033ED0(nb - 7, flags);
 		if (newMem != 0) {
 			memcpy(newMem, oldMem, oldSize - 8);
-			((Rva00033E90 *)this)->freeBlock(oldMem);
+			rva00033150(oldMem);
 		}
 	}
 	return newMem;
