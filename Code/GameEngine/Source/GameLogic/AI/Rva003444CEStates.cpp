@@ -52,10 +52,10 @@ public:
 	virtual ~BackAwayAndCowerStateMachine();
 };
 
-BackAwayAndCowerStateMachine::BackAwayAndCowerStateMachine(Object *owner, Object *arg, unsigned int nameKey)
+BackAwayAndCowerStateMachine::BackAwayAndCowerStateMachine(Object *owner, Object *goal, unsigned int nameKey)
 	: StateMachine(owner, nameKey, false)
 {
-	((StateMachine *)this)->rva004D750F(arg);
+	((StateMachine *)this)->rva004D750F(goal);
 	AIBackAwayState *s0 = new AIBackAwayState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0, (State *)s0, 1, 0x270F, (const StateConditionInfo *)0);
 	Rva0033F7C8 *s1 = new Rva0033F7C8((StateMachine *)this);
