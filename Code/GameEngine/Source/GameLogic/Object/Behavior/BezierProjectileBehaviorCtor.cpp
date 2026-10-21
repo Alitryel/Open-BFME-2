@@ -70,10 +70,18 @@ class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
 {
 };
 
+template <int NUMBITS> class BitFlags;
+typedef BitFlags<11> DisabledMaskType;
+
+// Retail's UpdateModule-interface vftable (0x00841DF8 for this class) holds
+// update, then UpdateModule's getDisabledTypesToProcess (0x00253376) and
+// 0x0044DF8D.
 class UpdateModuleInterface
 {
 public:
-	virtual void update();
+	virtual UpdateSleepTime update() = 0;
+	virtual DisabledMaskType getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime sleep) = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -81,6 +89,8 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime sleep);
 protected:
 	Object *getObject() const { return m_object; }
 	void setWakeFrame(Object *obj, UpdateSleepTime wakeDelay);
@@ -90,17 +100,25 @@ private:
 	Int m_reserved1C; // +0x1C
 };
 
-// The two abstract interfaces at +0x20 and +0x24.
-class BezierProjectileInterface0
+// The two abstract interfaces at +0x20 and +0x24, declared as
+// BezierProjectileBehaviorDtor.cpp declares them so both units emit one
+// copy of each of this class's vftables.
+class BezierProjectileBehaviorSecondaryBase0
 {
 public:
-	virtual void slot00() = 0;
+	virtual void gap0() = 0;
+	virtual void gap1() = 0;
+	virtual int getLauncherID() const = 0;
+	virtual bool rva0045CD6E(Object *victim) = 0;
+	virtual bool rva0045BF06(Object *victim) = 0;
+	virtual void rva0045B4E2(int unused) = 0;
 };
 
-class BezierProjectileInterface1
+class BezierProjectileBehaviorSecondaryBase1
 {
 public:
-	virtual void slot00() = 0;
+	virtual void rva0045B4C0(Object *victim, int a2, int a3) = 0;
+	virtual bool rva0045BF06(Object *victim) = 0;
 };
 
 class PoolMember
@@ -131,12 +149,15 @@ public:
 	explicit ObjectIDList(const Rva0029FB3BAlloc &alloc = Rva0029FB3BAlloc()) : Rva0029FB3BMember(alloc) {}
 };
 
-class BezierProjectileBehavior : public UpdateModule, public BezierProjectileInterface0, public BezierProjectileInterface1
+class BezierProjectileBehavior : public UpdateModule, public BezierProjectileBehaviorSecondaryBase0, public BezierProjectileBehaviorSecondaryBase1
 {
 public:
 	BezierProjectileBehavior(Thing *thing, const ModuleData *moduleData);
 	virtual ~BezierProjectileBehavior();
-	virtual void slot00();
+	virtual UpdateSleepTime update();	// 0x0045C226
+	virtual bool rva0045BF06(Object *victim);
+	virtual void rva0045B4C0(Object *victim, int a2, int a3);
+	virtual void rva0045B4E2(int unused);
 private:
 	ObjectID m_launcherID; // +0x28
 	Coord3D m_at2C; // +0x2C

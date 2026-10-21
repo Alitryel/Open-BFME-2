@@ -128,7 +128,7 @@ private:
 class EmotionTrackerUpdateSecondaryBase
 {
 public:
-	virtual void slot() = 0;
+	virtual void rva004B15E6() = 0;
 };
 
 // The ObjectID set at +0xA4; its ctor is the 25-byte STLport set ctor
@@ -149,7 +149,7 @@ class EmotionTrackerUpdate : public UpdateModule, public EmotionTrackerUpdateSec
 public:
 	EmotionTrackerUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual ~EmotionTrackerUpdate();
-	virtual void slot();
+	virtual void rva004B15E6();	// 0x004B15E6, the +0x20 interface's slot 0
 private:
 	enum { SLOT_COUNT = 12 };
 	Bool m_active[SLOT_COUNT]; // +0x24

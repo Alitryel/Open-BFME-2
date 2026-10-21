@@ -110,11 +110,13 @@ class ExperienceScalarTable;
 class Rva00380200
 {
 public:
-	virtual void slot0();
+	// Declared as the Player units (PlayerDestructor.cpp, PlayerCtorBFME2.cpp)
+	// declare it, so all three emit one ??_7Rva00380200@@6B@.
+	virtual ~Rva00380200() {}
 	virtual bool rva0038037C(int level);
 	virtual void slot2();
 	virtual void resetRank();
-	virtual void onRank(Rva002000D7Config *rank);
+	virtual void onRank(void *rank);
 	virtual bool isReady();
 private:
 	AsciiString *m_ptr;

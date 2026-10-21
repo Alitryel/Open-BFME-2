@@ -57,7 +57,7 @@ private:
 class EmotionTrackerUpdateSecondaryBase
 {
 public:
-	virtual void slot();
+	virtual void rva004B15E6() = 0;
 };
 
 class Rva002EE9B7
@@ -87,6 +87,7 @@ class EmotionTrackerUpdate : public UpdateModule, public EmotionTrackerUpdateSec
 {
 public:
 	virtual ~EmotionTrackerUpdate();
+	virtual void rva004B15E6();	// 0x004B15E6, the +0x20 interface's slot 0
 
 private:
 	bool m_active[12]; // +0x24
@@ -115,4 +116,3 @@ EmotionTrackerUpdate::~EmotionTrackerUpdate()
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?getBody@BehaviorModuleInterface@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?slot@EmotionTrackerUpdateSecondaryBase@@UAEXXZ=?rva004B15E6@Rva004B15E6@@QAEXXZ")

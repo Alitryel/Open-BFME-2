@@ -38,10 +38,24 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
+template <int NUMBITS> class BitFlags;
+typedef BitFlags<11> DisabledMaskType;
+
+// Retail's UpdateModule-interface vftable (0x00841DF8 for this class) holds
+// update, then UpdateModule's getDisabledTypesToProcess (0x00253376) and
+// 0x0044DF8D.
 class UpdateModuleInterface
 {
 public:
-	virtual void update() = 0;
+	virtual UpdateSleepTime update() = 0;
+	virtual DisabledMaskType getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime sleep) = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -52,6 +66,8 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 
 public:
 	virtual ~UpdateModule();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime sleep);
 };
 
 class Object;
@@ -113,6 +129,7 @@ class BezierProjectileBehavior : public UpdateModule, public BezierProjectileBeh
 {
 public:
 	virtual ~BezierProjectileBehavior();
+	virtual UpdateSleepTime update();	// 0x0045C226
 	virtual bool rva0045BF06(Object *victim);
 	virtual void rva0045B4C0(Object *victim, int a2, int a3);
 	virtual void rva0045B4E2(int unused);

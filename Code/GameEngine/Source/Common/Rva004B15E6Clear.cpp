@@ -1,10 +1,13 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva004B15E6@Rva004B15E6@@QAEXXZ @0x004B15E6 77B.
-// When the pointer at +0x7C is live, call 0x004DD2C0 on it and clear the
-// slot. Then destroy each non-null element of the vector at +0x70 through
-// the rowed destructor 0x004DCE8E and operator delete 0x0002FD60, and erase
-// the whole range through the rowed vector erase 0x0031BD55.
+// ?rva004B15E6@EmotionTrackerUpdate@@UAEXXZ @0x004B15E6 77B.
+// EmotionTrackerUpdate's override of slot 0 of its +0x20 interface (the
+// derived table's slot, ctor 0x004B21B9 / dtor 0x004B1322), so its this is
+// that subobject: +0x70/+0x7C here are the object's +0x90 emotion vector
+// and +0x9C current emotion. When the current one is live, call 0x004DD2C0
+// on it and clear it. Then destroy each non-null element of the vector
+// through the rowed destructor 0x004DCE8E and operator delete 0x0002FD60,
+// and erase the whole range through the rowed vector erase 0x0031BD55.
 
 namespace _STL
 {
@@ -36,18 +39,34 @@ public:
 	~Rva004DCE8E();
 };
 
-class Rva004B15E6
+// The UpdateModule part (primary vftable, 0x20 bytes) and the one-slot
+// interface at +0x20.
+class EmotionTrackerUpdatePrimaryView
 {
 public:
-	void rva004B15E6();
-
+	virtual ~EmotionTrackerUpdatePrimaryView();
 private:
-	char m_pad[0x70];
-	_STL::vector<void *, _STL::allocator<void *> > m_vec;
-	EmotionNugget *m_slot;
+	char m_pad04[0x20 - 0x04];
 };
 
-void Rva004B15E6::rva004B15E6()
+class EmotionTrackerUpdateSecondaryBase
+{
+public:
+	virtual void rva004B15E6() = 0;
+};
+
+class EmotionTrackerUpdate : public EmotionTrackerUpdatePrimaryView, public EmotionTrackerUpdateSecondaryBase
+{
+public:
+	virtual void rva004B15E6();
+
+private:
+	char m_pad24[0x90 - 0x24];
+	_STL::vector<void *, _STL::allocator<void *> > m_vec;	// +0x90
+	EmotionNugget *m_slot;	// +0x9C
+};
+
+void EmotionTrackerUpdate::rva004B15E6()
 {
 	EmotionNugget *slot = m_slot;
 	if (slot != 0)

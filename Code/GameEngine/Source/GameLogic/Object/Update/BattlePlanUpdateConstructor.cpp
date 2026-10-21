@@ -64,10 +64,13 @@ class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
 {
 };
 
+// update is pure here as in the rest of the module hierarchy; this unit
+// names no override, like BattlePlanUpdateRva004978A3Dtor.cpp, so the two
+// units emit one ??_7BattlePlanUpdate@@6BUpdateModule@@@.
 class UpdateModuleInterface
 {
 public:
-	virtual void update();
+	virtual void update() = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -136,7 +139,6 @@ class BattlePlanUpdate : public UpdateModule, public SpecialPowerUpdateInterface
 public:
 	BattlePlanUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual ~BattlePlanUpdate();
-	virtual void slot00();
 private:
 	const BattlePlanUpdateModuleData *getBattlePlanUpdateModuleData() const { return (const BattlePlanUpdateModuleData *)m_moduleData; }
 
