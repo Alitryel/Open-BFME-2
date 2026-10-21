@@ -53,17 +53,17 @@ public:
 	virtual GameMessageDisposition Translate(const GameMessage *msg);
 };
 
-// The +0x5C and +0x28 members' translate methods (0x005CC26E rowed and
-// 0x005C9BE3 pinned, both address-named).
+// The +0x5C and +0x28 members' translate methods (0x005CC26E and 0x005C9BE3,
+// both rowed under address names).
 class Rva005CC26E
 {
 public:
 	int rva005CC26E(void *msg);
 };
-class Rva005C9BE3
+class Rva005C9BE3Call
 {
 public:
-	GameMessageDisposition Translate(const GameMessage *msg);
+	int rva005C9BE3(void *msg);
 };
 
 // Member destructors named by the retail calls.
@@ -145,7 +145,7 @@ GameMessageDisposition StrategicInGameUI::CommonBehavior::Impl::translateGameMes
 		return DESTROY_MESSAGE;
 	if ((sub = m_sub.m_ptr) != 0 && sub->Translate(msg) == DESTROY_MESSAGE)
 		return DESTROY_MESSAGE;
-	if (reinterpret_cast<Rva005C9BE3 *>(&m_translator28)->Translate(msg) == DESTROY_MESSAGE)
+	if (reinterpret_cast<Rva005C9BE3Call *>(&m_translator28)->rva005C9BE3((void *)msg) == DESTROY_MESSAGE)
 		return DESTROY_MESSAGE;
 	return UserInputTranslator::translateGameMessage(msg);
 }
@@ -154,10 +154,10 @@ GameMessageDisposition StrategicInGameUI::CommonBehavior::Impl::translateGameMes
 // 0x0057525F (215 bytes, ret 12; pinned for its caller 0x00575336 as
 // ??0Rva0057525FCall): six base tables, the owner/arg/parts words at
 // +0x18/+0x1C/+0x20, the +0x28 translator (0x005C9B76) from the arg, the
-// +0x48 (0x0057431D, unrowed, pinned) and +0x5C (0x005CC254) members from
-// the parts, cleared holders, then the +4 base joins the +0x28 member's
+// +0x48 (0x0057431D, rowed as ??0Rva0057431D) and +0x5C (0x005CC254) members
+// from the parts, cleared holders, then the +4 base joins the +0x28 member's
 // observer list (rowed append 0x005A0B4C). Its destructor 0x00574CC1 is
-// banked (reverse/attempts) one register tie short.
+// rowed as ??1Rva00574CC1@@UAE@XZ (Rva00574CC1Dtor.cpp).
 StrategicInGameUI::CommonBehavior::Impl::Impl(Rva00574A8A *owner, unsigned int arg, unsigned int parts)
 	: m_owner18(owner), m_1C(arg), m_parts((Rva0042D6FDPtrChaseField *)parts), m_owner24(0),
 	  m_translator28((void *)arg), m_48((void *)m_parts), m_translator5C((void *)m_parts),

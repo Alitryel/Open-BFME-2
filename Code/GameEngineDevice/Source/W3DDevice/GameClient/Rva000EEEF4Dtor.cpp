@@ -24,7 +24,8 @@ private:
 
 struct Rva000EEEF4Record
 {
-	~Rva000EEEF4Record();
+	// Empty: retail destroys the records through the bare return 0x000B3FD0.
+	~Rva000EEEF4Record() {}
 	Rva000EEEF4Ref *m_ref;
 	unsigned char m_pad04[0x30 - 4];
 };
