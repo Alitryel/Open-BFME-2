@@ -117,7 +117,7 @@ public:
 extern Rva002A8F24 *TheSkirmishAIManager;
 extern const FieldParse SkirmishAIDataFields[];
 
-void Rva002A8A31Parse(INI *ini)
+void parseSkirmishAIDataDefinition(INI *ini)
 {
 	ini->initFromINI(TheSkirmishAIManager->m_skirmishAIData, SkirmishAIDataFields);
 }
