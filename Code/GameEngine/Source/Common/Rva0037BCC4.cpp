@@ -38,7 +38,7 @@ class Rva0037BBED : public SubsystemInterface
 public:
     Rva0037BBED();
     virtual ~Rva0037BBED();
-    virtual void rva0037B326();
+    virtual void init();
     AsciiString rva0037B70A();
     bool rva0037CBB6(Rva0037B5DF &header);
     bool rva0037D0EF(UnicodeString filename);
@@ -89,7 +89,7 @@ struct RecorderGlobalView {
     char opaque10[0xAC0-0x10];
     AsciiString pendingAC0;
 };
-void Rva0037BBED::rva0037B326()
+void Rva0037BBED::init()
 {
 	m_10 = 0;
 	m_e74 = 9;

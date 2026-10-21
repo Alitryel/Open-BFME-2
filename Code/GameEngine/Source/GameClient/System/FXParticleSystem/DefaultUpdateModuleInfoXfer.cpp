@@ -129,7 +129,7 @@ public:
 class Rva0055F76C
 {
 public:
-	virtual void rva0055F76C(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
 private:
 	float m_04;
 	float m_08;
@@ -143,7 +143,7 @@ private:
 	float m_28;
 };
 
-void Rva0055F76C::rva0055F76C(Xfer *xfer)
+void Rva0055F76C::xfer(Xfer *xfer)
 {
 	union Ver { int i; unsigned char b[4]; } ver;
 	ver.b[0] = 1;
@@ -175,5 +175,5 @@ private:
 void Rva0055F805::rva0055F805(Xfer *xfer)
 {
 	xfer->Version1();
-	m_info.Rva0055F76C::rva0055F76C(xfer);
+	m_info.Rva0055F76C::xfer(xfer);
 }

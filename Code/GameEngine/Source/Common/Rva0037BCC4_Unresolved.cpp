@@ -40,7 +40,7 @@ class Rva0037BBED : public SubsystemInterface
 public:
     Rva0037BBED();
     virtual ~Rva0037BBED();
-    virtual void rva0037B326();
+    virtual void init();
     AsciiString rva0037B70A();
     bool rva0037CBB6(Rva0037B5DF &header);
     bool rva0037D0EF(UnicodeString filename);
@@ -72,7 +72,7 @@ Rva0037BBED *Rva0037BCC4Create();
 Rva0037BBED::Rva0037BBED()
 {
     m_frameE78 = 0;
-    rva0037B326();
+    init();
 }
 
 // Native Ghidra extent 0x0037B326..0x0037B3D1, 171 bytes, thiscall RET 0.

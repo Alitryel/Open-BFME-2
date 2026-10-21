@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva0055B96D@Rva0055BC8B@@UAEXPAVXfer@@@Z, retail 0x0055B96D, 80 bytes.
+// ?xfer@Rva0055BC8B@@UAEXPAVXfer@@@Z, retail 0x0055B96D, 80 bytes.
 // Evidence: slot 3 of 0x0081D1A4 (class of Rva0055BC8B ctor); IsLightCRC
 // early-out via Xfer slot 0x10 plus Version1 rowed 0x000053EE plus Xfer
 // slots 0x3C RGBColor and 0x78 uint over 8x0x10 elems at +0x04/+0x10 plus
@@ -91,10 +91,10 @@ class Rva0055BC8B
 	Rva0055BC8BElem m_elems[8];
 	float m_trailing;
 public:
-	virtual void rva0055B96D(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
 };
 
-void Rva0055BC8B::rva0055B96D(Xfer *xfer)
+void Rva0055BC8B::xfer(Xfer *xfer)
 {
 	if (xfer->IsLightCRC())
 		return;

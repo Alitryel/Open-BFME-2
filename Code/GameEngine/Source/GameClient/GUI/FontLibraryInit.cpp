@@ -114,7 +114,7 @@ void Mouse::parseIni()
 	ini.loadFile("Data\\INI\\Mouse.ini", INI_LOAD_OVERWRITE, 0);
 }
 
-// ?rva00425F10@Rva00425F10@@UAEXXZ, retail 0x00425F10, 89 bytes.
+// ?init@Rva00425F10@@UAEXXZ, retail 0x00425F10, 89 bytes.
 // The same body loading "Data\\INI\\Stances.ini", in slot 1 of vtable 0xC3C2AC
 // (the slot FontLibrary::init fills in its vtable).
 #include <map>
@@ -214,7 +214,7 @@ class Rva00425F10 : public SubsystemInterface
 public:
 	Rva00425F10();
 	virtual ~Rva00425F10();
-	virtual void rva00425F10();
+	virtual void init();
 	static void parseStanceTemplateDefinition(INI *ini);
 private:
 	_STL::map<int, BfmePod52> m_map;
@@ -230,7 +230,7 @@ Rva00425F10::~Rva00425F10()
 {
 }
 
-void Rva00425F10::rva00425F10()
+void Rva00425F10::init()
 {
 	INI ini;
 	ini.loadFile("Data\\INI\\Stances.ini", INI_LOAD_OVERWRITE, 0);
