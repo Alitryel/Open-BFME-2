@@ -137,8 +137,27 @@ bool less<int>::operator()(const int &a, const int &b) const
 { return a < b; }
 }
 class ModuleData;
-struct FieldParse;
-class INI { public: const char *getNextToken(const char *); void initFromINI(void *,const FieldParse *); char prefix[8]; int type; };
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini,void *instance,void *store,const void *userData);
+struct FieldParse { const char *token; INIFieldParseProc parse; const void *userData; int offset; };
+class INI {
+public:
+ const char *getNextToken(const char *);
+ void initFromINI(void *,const FieldParse *);
+ static void parseBool(INI *,void *,void *,const void *);
+ static void parseBitString32(INI *,void *,void *,const void *);
+ static void parseIndexList(INI *,void *,void *,const void *);
+ static void parseInt(INI *,void *,void *,const void *);
+ static void parseReal(INI *,void *,void *,const void *);
+ static void parseAngleReal(INI *,void *,void *,const void *);
+ static void parsePercentToReal(INI *,void *,void *,const void *);
+ static void parseAngularVelocityReal(INI *,void *,void *,const void *);
+ static void parseDurationReal(INI *,void *,void *,const void *);
+ static void parseDurationUnsignedInt(INI *,void *,void *,const void *);
+ static void parseVelocityReal(INI *,void *,void *,const void *);
+ char prefix[8]; int type;
+};
+void parseCanMoveBackwards(INI *,void *,void *,const void *);
 class INIException { public: INIException(int,const char*,...); INIException(const INIException &); ~INIException(); char *message; int code; };
 enum NameKeyType { NAMEKEY_INVALID=0 };
 class NameKeyGenerator { public: NameKeyType nameToKey(const char *); };
@@ -156,7 +175,106 @@ public:
 };
 extern LocomotorStore *TheLocomotorStore;
 
-extern const FieldParse LocomotorTemplateFields;
+// User data of the 0x007DE2F8 table: retail's .data name arrays at
+// 0x009B8F58, 0x009B8E6C, 0x009B8E3C and 0x009B8F1C.
+static const char *TheLocomotorSurfaceTypeNames[] = { "GROUND", "WATER", "CLIFF", "AIR", "RUBBLE", "OBSTACLE", "IMPASSABLE", "DEEP_WATER", "WALL_RAILING", 0 };
+static const char *TheLocomotorBehaviorZNames[] = { "NO_Z_MOTIVE_FORCE", "SEA_LEVEL", "SURFACE_RELATIVE_HEIGHT", "ABSOLUTE_HEIGHT", "FIXED_SURFACE_RELATIVE_HEIGHT", "FIXED_ABSOLUTE_HEIGHT", "FIXED_RELATIVE_TO_GROUND_AND_BUILDINGS", "RELATIVE_TO_HIGHEST_LAYER", "FLOATING_Z", "SCALING_WALLS", 0 };
+static const char *TheLocomotorAppearanceNames[] = { "TWO_LEGS", "FOUR_WHEELS", "HOVER", "WINGS", "FOUR_LEGS_HUGE", "GIANT_BIRD", "HORDE", "HUGE_TWO_LEGS", "TREADS", "SHIP", "OTHER", 0 };
+static const char *TheLocomotorFormationPriorityNames[] = { "NO_FORMATION", "CAVALRY1", "CAVALRY2", "CAVALRY3", "MELEE1", "MELEE2", "MELEE3", "RANGED1", "RANGED2", "RANGED3", "ARTILLERY1", "ARTILLERY2", "ARTILLERY3", "UNUSED", 0 };
+// LocomotorTemplate field table, retail .rdata 0x007DE2F8 (88 fields and the
+// zero sentinel); tokens, callbacks, user data and offsets are read from it.
+extern const FieldParse LocomotorTemplateFields[] =
+{
+	{ "Surfaces", &INI::parseBitString32, TheLocomotorSurfaceTypeNames, 0x14 },
+	{ "Speed", &INI::parseVelocityReal, 0, 0x20 },
+	{ "LookAheadMult", &INI::parseReal, 0, 0x18 },
+	{ "NonDirtyTransform", &INI::parseBool, 0, 0x1c },
+	{ "SpeedDamaged", &INI::parsePercentToReal, 0, 0x24 },
+	{ "TurnTime", &INI::parseDurationUnsignedInt, 0, 0x2c },
+	{ "TurnTimeDamaged", &INI::parseDurationUnsignedInt, 0, 0x30 },
+	{ "SlowTurnRadius", &INI::parseReal, 0, 0x34 },
+	{ "FastTurnRadius", &INI::parseReal, 0, 0x38 },
+	{ "TurnThreshold", &INI::parseAngleReal, 0, 0x3c },
+	{ "TurnThresholdHS", &INI::parseAngleReal, 0, 0x40 },
+	{ "Acceleration", &INI::parseDurationUnsignedInt, 0, 0x44 },
+	{ "Lift", &INI::parsePercentToReal, 0, 0x48 },
+	{ "LiftDamaged", &INI::parsePercentToReal, 0, 0x4c },
+	{ "Braking", &INI::parseDurationUnsignedInt, 0, 0x50 },
+	{ "MinSpeed", &INI::parsePercentToReal, 0, 0x28 },
+	{ "MinTurnSpeed", &INI::parsePercentToReal, 0, 0x54 },
+	{ "PreferredHeight", &INI::parseReal, 0, 0x58 },
+	{ "PreferredHeightDamping", &INI::parseReal, 0, 0x60 },
+	{ "PreferredAttackHeight", &INI::parseReal, 0, 0x5c },
+	{ "CirclingRadius", &INI::parseReal, 0, 0x64 },
+	{ "SpeedLimitZ", &INI::parseVelocityReal, 0, 0x68 },
+	{ "MaxThrustAngle", &INI::parseAngleReal, 0, 0x6c },
+	{ "ZAxisBehavior", &INI::parseIndexList, TheLocomotorBehaviorZNames, 0x70 },
+	{ "Appearance", &INI::parseIndexList, TheLocomotorAppearanceNames, 0x74 },
+	{ "FormationPriority", &INI::parseIndexList, TheLocomotorFormationPriorityNames, 0x78 },
+	{ "AccDecTrigger", &INI::parseReal, 0, 0x7c },
+	{ "WalkDistance", &INI::parseReal, 0, 0x80 },
+	{ "MaxOverlappedHeight", &INI::parseReal, 0, 0xa4 },
+	{ "MaxTurnWithoutReform", &INI::parseAngleReal, 0, 0x84 },
+	{ "AccelerationPitchLimit", &INI::parseAngleReal, 0, 0x88 },
+	{ "BounceAmount", &INI::parseAngularVelocityReal, 0, 0x8c },
+	{ "PitchStiffness", &INI::parseReal, 0, 0x90 },
+	{ "RollStiffness", &INI::parseReal, 0, 0x94 },
+	{ "PitchDamping", &INI::parseReal, 0, 0x98 },
+	{ "RollDamping", &INI::parseReal, 0, 0x9c },
+	{ "PitchInDirectionOfZVelFactor", &INI::parseReal, 0, 0xa0 },
+	{ "ForwardVelocityPitchFactor", &INI::parseReal, 0, 0xa8 },
+	{ "LateralVelocityRollFactor", &INI::parseReal, 0, 0xac },
+	{ "ForwardAccelerationPitchFactor", &INI::parseReal, 0, 0xb0 },
+	{ "LateralAccelerationRollFactor", &INI::parseReal, 0, 0xb4 },
+	{ "UniformAxialDamping", &INI::parseReal, 0, 0xb8 },
+	{ "TurnPivotOffset", &INI::parseReal, 0, 0xbc },
+	{ "Apply2DFrictionWhenAirborne", &INI::parseBool, 0, 0xd2 },
+	{ "DownhillOnly", &INI::parseBool, 0, 0xd3 },
+	{ "AllowAirborneMotiveForce", &INI::parseBool, 0, 0xd1 },
+	{ "LocomotorWorksWhenDead", &INI::parseBool, 0, 0xd0 },
+	{ "AirborneTargetingHeight", &INI::parseInt, 0, 0xc0 },
+	{ "StickToGround", &INI::parseBool, 0, 0xd4 },
+	{ "CanMoveBackwards", &parseCanMoveBackwards, 0, 0xd8 },
+	{ "HasSuspension", &INI::parseBool, 0, 0xdc },
+	{ "FrontWheelTurnAngle", &INI::parseAngleReal, 0, 0xe8 },
+	{ "MaximumWheelExtension", &INI::parseReal, 0, 0xe0 },
+	{ "MaximumWheelCompression", &INI::parseReal, 0, 0xe4 },
+	{ "CloseEnoughDist", &INI::parseReal, 0, 0xc4 },
+	{ "CloseEnoughDist3D", &INI::parseBool, 0, 0xc8 },
+	{ "SlideIntoPlaceTime", &INI::parseDurationReal, 0, 0xcc },
+	{ "CrewPowered", &INI::parseBool, 0, 0xec },
+	{ "UseTerrainSmoothing", &INI::parseBool, 0, 0xed },
+	{ "WanderWidthFactor", &INI::parseReal, 0, 0xf0 },
+	{ "WanderLengthFactor", &INI::parseReal, 0, 0xf4 },
+	{ "WanderAboutPointRadius", &INI::parseReal, 0, 0xf8 },
+	{ "BurningDeathRadius", &INI::parseReal, 0, 0xfc },
+	{ "BurningDeathIsCavalry", &INI::parseBool, 0, 0x100 },
+	{ "ChargeSpeed", &INI::parsePercentToReal, 0, 0x104 },
+	{ "ChargeAvailable", &INI::parseBool, 0, 0x108 },
+	{ "ChargeIgnoresCondition", &INI::parseBool, 0, 0x109 },
+	{ "EnableHighSpeedTurnModelconditions", &INI::parseBool, 0, 0x10a },
+	{ "WaitForFormation", &INI::parseBool, 0, 0x10b },
+	{ "RudderCorrectionDegree", &INI::parseReal, 0, 0x10c },
+	{ "RudderCorrectionRate", &INI::parseReal, 0, 0x110 },
+	{ "ElevatorCorrectionDegree", &INI::parseReal, 0, 0x114 },
+	{ "ElevatorCorrectionRate", &INI::parseReal, 0, 0x118 },
+	{ "AeleronCorrectionDegree", &INI::parseReal, 0, 0x11c },
+	{ "AeleronCorrectionRate", &INI::parseReal, 0, 0x120 },
+	{ "SwoopStandoffRadius", &INI::parseReal, 0, 0x124 },
+	{ "SwoopStandoffHeight", &INI::parseReal, 0, 0x128 },
+	{ "SwoopTerminalVelocity", &INI::parseReal, 0, 0x12c },
+	{ "SwoopAccelerationRate", &INI::parseReal, 0, 0x130 },
+	{ "SwoopSpeedTuningFactor", &INI::parseReal, 0, 0x134 },
+	{ "BackingUpSpeed", &INI::parsePercentToReal, 0, 0x138 },
+	{ "BackingUpStopWhenTurning", &INI::parseBool, 0, 0x13c },
+	{ "BackingUpDistanceMin", &INI::parseReal, 0, 0x140 },
+	{ "BackingUpDistanceMax", &INI::parseReal, 0, 0x144 },
+	{ "BackingUpAngle", &INI::parseReal, 0, 0x148 },
+	{ "RiverModifier", &INI::parsePercentToReal, 0, 0x14c },
+	{ "ScalesWalls", &INI::parseBool, 0, 0x150 },
+	{ "TurnWhileMoving", &INI::parseBool, 0, 0x151 },
+	{ 0, 0, 0, 0 }
+};
 void LocomotorStore::parseLocomotorTemplateDefinition(INI *ini) {
  if(!TheLocomotorStore) throw INIException(3,"TheLocomotorStore==NULL");
  const char *token=ini->getNextToken(0);
@@ -191,7 +309,7 @@ void LocomotorStore::parseLocomotorTemplateDefinition(INI *ini) {
   { AsciiString name(token); AsciiString *dest=&((LocomotorParserView *)loco)->name; dest->setCopyInline(name); }
  // Diagnostic lifetime inferred from native EH; original local spelling unknown.
  if(0){AsciiString diagnostic;}
-  ini->initFromINI(loco,&LocomotorTemplateFields);
+  ini->initFromINI(loco,LocomotorTemplateFields);
   loco->validate();
  }
 }

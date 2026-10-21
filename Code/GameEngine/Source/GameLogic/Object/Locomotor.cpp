@@ -457,38 +457,9 @@ void LocomotorStore::update()
 // LocomotorStore::newOverride is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E520COverride.cpp (0x001E520C).
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void LocomotorStore::parseLocomotorTemplateDefinition(INI* ini)
-{
-	if (!TheLocomotorStore)
-		throw INI_INVALID_DATA;
-
-	Bool isOverride = false;
-	// read the Locomotor name
-	const char* token = ini->getNextToken();
-	NameKeyType namekey = NAMEKEY(token);
-	
-	LocomotorTemplate *loco = TheLocomotorStore->findLocomotorTemplate(namekey);
-	if (loco) {
-		if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES) {
-			loco = TheLocomotorStore->newOverride((LocomotorTemplate*) loco->friend_getFinalOverride());
-		} 
-		isOverride = true;
-	} else {
-		loco = newInstance(LocomotorTemplate);
-		if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES) {
-			loco->markAsOverride();
-		}
-	}
-
-	loco->friend_setName(token);
-	ini->initFromINI(loco, loco->getFieldParse());
-	loco->validate();
-	
-	// if this is an override, then we want the pointer on the existing named locomotor to point us 
-	// to the override, so don't add it to the map.
-	if (!isOverride)
-		TheLocomotorStore->m_locomotorTemplates[namekey] = loco;
-}
+// LocomotorStore::parseLocomotorTemplateDefinition is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E72B4Reload.cpp (0x001E8A94).
+// Its template-map insertion instantiated this pair constructor here (0x00363B35).
+template _STL::pair<const NameKeyType, LocomotorTemplate*>::pair(const NameKeyType&, LocomotorTemplate* const&);
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ void INI::parseLocomotorTemplateDefinition( INI* ini )
