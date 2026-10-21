@@ -30,6 +30,10 @@ enum ScienceType
 	SCIENCE_INVALID = -1
 };
 
+// Always inlined here (the /O1 out-of-line copies are not retail's); imported so
+// no copy is emitted.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<ScienceType*,ScienceType,allocator<ScienceType> >::deallocate(ScienceType *p, size_t) { if (p != 0) _STL::free((void *)p); } }
+
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0
@@ -265,6 +269,7 @@ public:
 
 	char m_data[0x24];
 };
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::size() const { return (unsigned int)(this->_M_finish - this->_M_start); } }
 
 class Rva0033AC7F
 {
