@@ -46,8 +46,8 @@ body itself; the build.py thunk scan is not consulted.
   python3 tools/allowed_symbols.py --source F ...  only rows in these sources
   python3 tools/allowed_symbols.py --alternatenames   write build/allowed_symbols/alternatename.txt
   python3 tools/allowed_symbols.py --tiers         write reverse/name_tiers.csv (tool-only file:
-                                                   evidence / address rows; any row not listed
-                                                   is an unverified label)
+                                                   evidence / inferred / address rows; any row
+                                                   not listed is an unverified label)
 """
 import argparse
 import bisect
@@ -728,25 +728,113 @@ def judge_alternatename(ident, alias, target, targets):
 PLACEHOLDER = (build.GEN_PLACEHOLDER_RE, build.DUP_ALIAS_RE, re.compile(r"\bsub_[0-9A-Fa-f]{8}|\?d_[0-9a-f]{8}@"))
 
 
-def name_tier(row, exports):
-    """evidence / unverified / address for one row's name, from facts the tool can
-    check: vendored library code, prebuilt library members and retail's export
-    table name a function independently of any agent; an address-derived or
-    generator name claims no identity; everything else is an unverified label."""
+NAME_BASIS = ROOT / "reverse" / "name_basis.csv"
+# name_basis.csv kinds whose `new` is never a functions.csv spelling (a path;
+# a qualified member, param or local). A class record names a token: read apart.
+NOT_ROW_KINDS = ("file", "member", "param", "local")
+
+
+class Bases:
+    """What reverse/name_basis.csv -- tools/rename.py's append-only record of
+    every rename -- says about ledger spellings, as of its last line.
+
+    spellings  {spelling: (tier, evidence, rva or None)} for each name a
+               function, global or carry record last landed: canonical:<k>
+               -> ("evidence", k); inferred -> ("inferred", the kind its
+               evidence cites: agree, mechanical). A carry row (the spelling
+               moved because its class was renamed) keeps the tier of the
+               record it carries. A record drops the spelling it renamed away,
+               so after a `restored` record (a reverted inferred name) neither
+               the reverted name nor the placeholder put back carries a tier
+               from here: the placeholder is judged like any other name.
+    classes    {class word: evidence} for each class token an inferred class
+               record last landed: a row whose mangled name spells that token
+               as a whole name fragment carries an inferred word even though
+               no record names the row itself ("class-agree").
+    """
+
+    def __init__(self, path=None):
+        self.spellings, self.classes = {}, {}
+        path = NAME_BASIS if path is None else Path(path)
+        if not path.exists():
+            return
+        with path.open(encoding="utf-8", newline="") as fh:
+            for rec in csv.DictReader(fh):
+                kind, old, new, basis = (rec.get(k) or "" for k in ("kind", "old", "new", "basis"))
+                if not new or kind in NOT_ROW_KINDS:
+                    continue
+                tier = self.tier(basis, rec.get("evidence") or "")
+                if kind == "class":
+                    self.classes.pop(old, None)
+                    if tier and tier[0] == "inferred":
+                        self.classes[new] = "class-" + tier[1]
+                    else:
+                        self.classes.pop(new, None)
+                    continue
+                if kind == "carry" and old in self.spellings:
+                    tier = self.spellings[old][:2]
+                self.spellings.pop(old, None)       # renamed away: no record speaks for it now
+                rva = (rec.get("rva") or "").strip().lower()
+                if tier:
+                    self.spellings[new] = (*tier, int(rva, 16) if rva.startswith("0x") else None)
+                else:
+                    self.spellings.pop(new, None)
+
+    @staticmethod
+    def tier(basis, evidence):
+        """(tier, evidence kind) for one record's basis; None for `restored`."""
+        if basis.startswith("canonical:"):
+            return "evidence", basis.partition(":")[2]
+        if basis == "inferred":
+            cited = re.match(r"([a-z][a-z0-9-]*):", evidence.strip())
+            return "inferred", cited.group(1) if cited else "inferred"
+        return None
+
+    def lookup(self, name, rva):
+        """(tier, evidence) name_basis.csv gives this row's name, or None."""
+        got = self.spellings.get(name)
+        if got and (got[2] is None or got[2] == rva):
+            return got[:2]
+        words = [w for w in self.classes if w in name]
+        if words:
+            import rename                       # the engine's MSVC name-fragment reader
+            parts = rename.fragments_text(name) or ()
+            for word in words:
+                if word in parts:
+                    return "inferred", self.classes[word]
+        return None
+
+
+def name_tier(row, exports, bases=None):
+    """evidence / inferred / unverified / address for one row's name, from facts
+    the tool can check: vendored library code, prebuilt library members and
+    retail's export table name a function independently of any agent; an
+    address-derived or generator name claims no identity. Of the rest,
+    reverse/name_basis.csv (`bases`, a Bases) decides a name tools/rename.py
+    recorded: canonical:<kind> is evidence of that kind (rename.py verified it
+    against the record it cites), inferred is the `inferred` tier (two agents
+    agreed blind, or a file stem read from its own rows). Everything else is
+    an unverified label. The checks above it keep their order, so a record
+    never overrides a placeholder, vendored, lib-member or export verdict."""
     name, notes = row["name"], row.get("notes") or ""
+    rva = int(row["target_rva"], 16)
     if any(p.search(name) for p in PLACEHOLDER) or build.is_scaffold_row(row) \
-            or build.is_ghidra_autoname(name, int(row["target_rva"], 16)):
+            or build.is_ghidra_autoname(name, rva):
         return "address", "placeholder"
     if "vendored=" in notes:
         return "evidence", "vendored"
     if row["source"].lower().endswith(build.LIB_SUFFIX):
         return "evidence", "lib-member"
-    if {name, name[1:] if name.startswith("_") else name} & exports.get(int(row["target_rva"], 16), set()):
+    if {name, name[1:] if name.startswith("_") else name} & exports.get(rva, set()):
         return "evidence", "export"
-    return "unverified", ""
+    recorded = bases.lookup(name, rva) if bases is not None else None
+    return recorded or ("unverified", "")
 
 
-def tiers_text(rows):
+def tiers_text(rows, bases=None):
+    """reverse/name_tiers.csv's text for `rows`; `bases` defaults to the
+    tree's reverse/name_basis.csv."""
+    bases = Bases() if bases is None else bases
     exports = collections.defaultdict(set)
     path = ROOT / "reverse" / "exports.csv"
     if path.exists():
@@ -758,7 +846,7 @@ def tiers_text(rows):
     w = csv.writer(out, lineterminator="\n")
     w.writerow(["name", "target_rva", "name_tier", "evidence"])
     for row in sorted(rows, key=lambda r: (int(r["target_rva"], 16), r["name"])):
-        tier = name_tier(row, exports)
+        tier = name_tier(row, exports, bases)
         if tier[0] != "unverified":          # a row not listed is `unverified`
             w.writerow([row["name"], row["target_rva"], *tier])
     return out.getvalue()
