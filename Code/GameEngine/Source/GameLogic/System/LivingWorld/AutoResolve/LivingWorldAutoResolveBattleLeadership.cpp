@@ -1,7 +1,21 @@
-// ?rva004F9F39@Rva004F9F39@@QAEXXZ
-// partial score=0.98 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
+// ?rva004F9F39@LivingWorldAutoResolveBattle@@QAEXXZ retail 0x004F9F39..0x004FA10F
+// (470 bytes; the method keeps its address name). Receiver: the battle's two
+// unit vectors at +0x0C/+0x18 (12-byte stride), as in the matched sibling
+// 0x004F971E (LivingWorldAutoResolveBattleChooseTargets.cpp).
+// WorldBuilder twin 0x12EC720 (2209 bytes, unoptimised) shows the shape: per
+// side, units whose leadership template (thing +0x2C, +0x494) yields a bonus
+// for their level (getBonusForLevel 0x00417FBA) are filed as records into a
+// local vector, which is sorted (0x004F9EF3); then each record hands its bonus
+// to up to <count> units of the masked types (thing +0x5C4), front to back or
+// back to front, skipping the leader itself, dead units and units that already
+// carry a bonus (+0x1C). The twin reads units through the reference pointer's
+// get() (templates_referenceptr.h:253) and the elements through STLport's
+// vector::operator[] (*(begin() + n)); retail's lea operand order needs the
+// back element through operator[] and the front one through the raw start.
+// Type and member names below are views; only the method address name is
+// claimed. No BFME1/ZH donor exists (LivingWorld is BFME 2 only).
 #include <vector>
 namespace _STL { template <class It, class Cmp> void sort(It, It, Cmp); }
 
@@ -11,9 +25,12 @@ struct TargetRef00217D4C
 	int references;
 };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
+struct Rva004F9F39Unit;
 struct TreeHintRef00217D4C
 {
 	TargetRef00217D4C *m_ptr;
+	// The unit view derives from TargetRef00217D4C at offset 0.
+	Rva004F9F39Unit *get() const { return (Rva004F9F39Unit *)m_ptr; }
 	TreeHintRef00217D4C(const TreeHintRef00217D4C &other) : m_ptr(other.m_ptr)
 	{
 		if (m_ptr)
@@ -96,11 +113,16 @@ struct Rva004F9F39Unit : public TargetRef00217D4C
 	MedianKey004F60EC *m_1c; // +0x1C
 	unsigned char m_pad20[0x2C - 0x20];
 	Rva004F9F39Template *m_2c; // +0x2C
+	MedianKey004F60EC *getBonus() const { return m_1c; }
+};
+struct Rva004F9F39Mask
+{
+	unsigned int m_bits[4];
 };
 struct Rva004F9F39Info
 {
 	unsigned char m_pad00[0x04];
-	unsigned int m_bits[4]; // +0x04
+	Rva004F9F39Mask m_mask; // +0x04
 	bool m_frontToBack; // +0x14
 };
 struct Rva004F9F39Vec
@@ -109,14 +131,15 @@ struct Rva004F9F39Vec
 	TreeHintRef00217D4C *m_finish;
 	TreeHintRef00217D4C *m_end;
 	unsigned int size() const { return m_finish - m_start; }
-	TreeHintRef00217D4C &operator[](unsigned int i) { return m_start[i]; }
+	TreeHintRef00217D4C *begin() const { return m_start; }
+	TreeHintRef00217D4C &operator[](unsigned int i) { return *(begin() + i); }
 };
 static __forceinline const unsigned int &maxRef(const unsigned int &a, const unsigned int &b)
 {
 	return a < b ? b : a;
 }
 
-class Rva004F9F39
+class LivingWorldAutoResolveBattle
 {
 public:
 	void rva004F9F39();
@@ -125,7 +148,7 @@ private:
 	Rva004F9F39Vec m_vecs[2]; // +0x0C, +0x18
 };
 
-void Rva004F9F39::rva004F9F39()
+void LivingWorldAutoResolveBattle::rva004F9F39()
 {
 	Rva004F887C records;
 	records.records()->reserve(maxRef(m_vecs[1].size(), m_vecs[0].size()));
@@ -136,7 +159,7 @@ void Rva004F9F39::rva004F9F39()
 		TreeHintRef00217D4C *end = vec.m_finish;
 		for (TreeHintRef00217D4C *it = vec.m_start; it != end; ++it)
 		{
-			Rva004F9F39Unit *unit = (Rva004F9F39Unit *)it->m_ptr;
+			Rva004F9F39Unit *unit = it->get();
 			Rva00417FBA *table = unit->m_2c->m_494;
 			if (!table)
 				continue;
@@ -155,14 +178,16 @@ void Rva004F9F39::rva004F9F39()
 			int n = vec.size();
 			for (int k = 0; count > 0 && k < n; ++k)
 			{
-				Rva004F9F39Unit *unit = (Rva004F9F39Unit *)(frontToBack ? vec[k].m_ptr : vec[n - 1 - k].m_ptr);
-				if (unit->m_1c)
-					continue;
-				unsigned int bit = unit->m_2c->m_5c4;
-				if ((info->m_bits[bit >> 5] & (1u << (bit & 31))) && unit != (Rva004F9F39Unit *)r->m_08.m_ptr && !(unit->m_0c <= 0.0f))
+				const TreeHintRef00217D4C &ref = frontToBack ? vec.m_start[k] : vec[n - k - 1];
+				Rva004F9F39Unit *unit = ref.get();
+				if (unit->getBonus() == 0)
 				{
-					--count;
-					unit->m_1c = r->m_ptr;
+					unsigned int bit = unit->m_2c->m_5c4;
+					if ((info->m_mask.m_bits[bit >> 5] & (1u << (bit & 31))) && unit != (Rva004F9F39Unit *)r->m_08.m_ptr && !(unit->m_0c <= 0.0f))
+					{
+						unit->m_1c = r->m_ptr;
+						--count;
+					}
 				}
 			}
 		}

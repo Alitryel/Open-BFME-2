@@ -124,6 +124,16 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   `damageInfo` there) need a different lever: route them through static
   inline helpers that take the object as a parameter. Helpers without that
   parameter changed nothing.
+- **Swapped base and index in a `lea` (`[edx+ecx-4]` against your
+  `[ecx+edx-4]`): route that element through an inline getter temp.** In
+  0x004F9F39 a strength-reduced back-to-front index (`vec[n - k - 1]`) kept
+  retail's operands only when the element went through STLport's
+  `operator[]` shape, `*(begin() + n)`; two dozen index and pointer spellings
+  on the raw start were inert. Spelling the other ternary arm the same way
+  rotated all three callee-saved registers, so take it through the raw start
+  (`vec.m_start[k]`). Getter temps also flip near-tied register homes without
+  emitting code: an inline `getBonus()` for a null test moved a whole loop to
+  retail's registers there.
 - **Re-fetch to defeat a second-level CSE.** If retail does
   `cmp [eax+0x250],0; je; mov eax,[eax+0x250]`, spell the second use through
   the base expression (`obj->getContainedBy()->getContain()`), not the cached
