@@ -635,8 +635,8 @@ public:
 	virtual void OnGameStart( void );
 	virtual void OnWOTRGameStart( void );
 	BFME_VSLOT(44)
-	virtual void rva0024A348( const BfmeNetAddress &sender, Int playerSlot, AsciiString options );
-	virtual Bool rva0024924D( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length );
+	virtual void OnGameOptions( const BfmeNetAddress &sender, Int playerSlot, AsciiString options );
+	virtual Bool OnGameOptionsPacked( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length );
 	BFME_VSLOT(47) BFME_VSLOT(48) BFME_VSLOT(49)
 	BFME_VSLOT(50) BFME_VSLOT(51) BFME_VSLOT(52) BFME_VSLOT(53)
 	virtual Int AmIHost( void ) = 0;
@@ -1061,7 +1061,7 @@ void LANAPI::OnWOTRGameStart( void )
 	}
 }
 
-Bool LANAPI::rva0024924D( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length )
+Bool LANAPI::OnGameOptionsPacked( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length )
 {
 	LANGameInfo *game = m_currentGame;
 	if( !game )
@@ -1112,7 +1112,7 @@ Bool LANAPI::rva0024924D( const BfmeNetAddress &sender, Int playerSlot, const vo
 	return false;
 }
 
-void LANAPI::rva0024A348( const BfmeNetAddress &sender, Int playerSlot, AsciiString options )
+void LANAPI::OnGameOptions( const BfmeNetAddress &sender, Int playerSlot, AsciiString options )
 {
 	LANGameInfo *game = m_currentGame;
 	if( !game )

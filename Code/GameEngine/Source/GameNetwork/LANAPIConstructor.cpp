@@ -104,8 +104,8 @@ public:
 	virtual void OnGameStart(void);
 	virtual void OnWOTRGameStart(void);
 	virtual void OnGameStartTimer(Int seconds);
-	virtual void rva0024A348(const BfmeNetAddress &sender, Int playerSlot, AsciiString options);	// 45
-	virtual Bool rva0024924D(const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length);
+	virtual void OnGameOptions(const BfmeNetAddress &sender, Int playerSlot, AsciiString options);	// 45
+	virtual Bool OnGameOptionsPacked(const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length);
 	virtual void OnGameCreate(ReturnType ret);
 	virtual void OnNameChange(UnsignedInt ip, UnicodeString newName);
 	virtual LANGameInfo *LookupGame(UnicodeString gameName);

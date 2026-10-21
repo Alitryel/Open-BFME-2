@@ -487,7 +487,7 @@ public:
 	virtual void OnGameStart( void );		// slot 42
 	virtual void OnWOTRGameStart( void );		// slot 43
 	BFME_VSLOT(44) BFME_VSLOT(45)
-	virtual Bool rva0024924D( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length );	// slot 46
+	virtual Bool OnGameOptionsPacked( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length );	// slot 46
 	BFME_VSLOT(47)
 	virtual void OnNameChange( BfmeNetAddress *from, UnicodeString newName );
 	virtual LANGameInfo *LookupGame( UnicodeString gameName );
@@ -698,7 +698,7 @@ void LANAPI::handleGameOptions( LANMessage *msg, const BfmeNetAddress *sender, B
 		if( game && game->getAddress( 0 )->Rva00248CBF( sender ) && !game->isGameInProgress() )
 		{
 			AsciiString oldOptions = GenerateGameOptionsString();
-			Bool ok = rva0024924D( *sender, 0, msg->GameOptions.options, g_lanMaxOptionsLength );
+			Bool ok = OnGameOptionsPacked( *sender, 0, msg->GameOptions.options, g_lanMaxOptionsLength );
 			if( ok )
 			{
 				{

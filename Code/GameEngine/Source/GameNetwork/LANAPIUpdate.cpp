@@ -506,7 +506,7 @@ public:
 	virtual void OnGameStart( void );		// slot 42
 	virtual void OnWOTRGameStart( void );		// slot 43
 	BFME_VSLOT(44) BFME_VSLOT(45)
-	virtual Bool rva0024924D( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length );	// slot 46
+	virtual Bool OnGameOptionsPacked( const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length );	// slot 46
 	BFME_VSLOT(47)
 	virtual void OnNameChange( BfmeNetAddress *from, UnicodeString newName );
 	virtual LANGameInfo *LookupGame( UnicodeString gameName );
