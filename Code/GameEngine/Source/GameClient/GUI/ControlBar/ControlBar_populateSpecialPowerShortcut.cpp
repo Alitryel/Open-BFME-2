@@ -154,7 +154,7 @@ class ControlBar
 
 public:
 
-	void rva0031DAF8(void);
+	void showSpecialPowerShortcut(void);
 
 public:
 	void rva0031B210(void);
@@ -255,7 +255,7 @@ void ControlBar::populateSpecialPowerShortcut(Player *player)
 	if (m_contextParent && !m_contextParent->winIsHidden()
 			&& m_specialPowerShortcutParent->winIsHidden())
 	{
-		rva0031DAF8();
+		showSpecialPowerShortcut();
 		((Rva0031AF54 *)this)->rva0031AF54(true);
 	}
 	rva0031B210();

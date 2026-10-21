@@ -11,7 +11,7 @@
 //
 // ?rva0028BFF9@Object@@QAEXI@Z @0x0028BFF9 38B: sets that bit from
 // (arg > 0) through friend_setUndetectedDefector, then forwards (arg, false) to the rowed
-// ObjectDefectionHelper::rva004DF725 0x004DF725 on the helper at +0x238 when
+// ObjectDefectionHelper::startDefectionTimer 0x004DF725 on the helper at +0x238 when
 // present; caller 0x001F2620. Retail keeps this in ecx across the
 // friend_setUndetectedDefector call, which cl only does when the callee was compiled earlier
 // in the same TU, so it follows the setter here.
@@ -19,7 +19,7 @@
 class ObjectDefectionHelper
 {
 public:
-	void rva004DF725(unsigned int arg1, bool arg2);
+	void startDefectionTimer(unsigned int arg1, bool arg2);
 };
 
 class Object
@@ -48,5 +48,5 @@ void Object::rva0028BFF9(unsigned int arg)
 	friend_setUndetectedDefector(arg > 0);
 	ObjectDefectionHelper *helper = m_helper238;
 	if (helper)
-		helper->rva004DF725(arg, false);
+		helper->startDefectionTimer(arg, false);
 }

@@ -94,7 +94,7 @@ extern Radar *TheRadar;
 class ObjectDefectionHelper
 {
 public:
-	void rva004DF725(UnsignedInt time, bool flag);
+	void startDefectionTimer(UnsignedInt time, bool flag);
 };
 
 enum CommandSourceType { CMD_FROM_AI = 2 };
@@ -254,7 +254,7 @@ void Object::defect(Team *newTeam, UnsignedInt detectionTime)
 	friend_setUndetectedDefector(detectionTime > 0);
 
 	if (m_defectionHelper)
-		m_defectionHelper->rva004DF725(detectionTime, true);
+		m_defectionHelper->startDefectionTimer(detectionTime, true);
 
 	setTeam(newTeam);
 

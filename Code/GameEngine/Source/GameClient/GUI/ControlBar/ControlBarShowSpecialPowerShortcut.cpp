@@ -34,7 +34,7 @@ public:
 class ControlBar
 {
 public:
-    void rva0031DAF8();
+    void showSpecialPowerShortcut();
 protected:
     void populateSpecialPowerShortcut(Player *);
 private:
@@ -45,7 +45,7 @@ private:
     char unknownD4[4];
     GameWindow *shortcutParent;
 };
-void ControlBar::rva0031DAF8()
+void ControlBar::showSpecialPowerShortcut()
 {
     if (((const ShortcutTimerView *)TheScriptEngine)->isGameEnding()
         || !shortcutParent || !shortcutButtons || !ThePlayerList

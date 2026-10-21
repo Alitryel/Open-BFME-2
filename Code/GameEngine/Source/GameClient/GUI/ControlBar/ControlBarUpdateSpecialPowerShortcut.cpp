@@ -54,7 +54,7 @@ enum CommandAvailability
 class ControlBar
 {
 public:
-    void rva0031DAF8();
+    void showSpecialPowerShortcut();
     void hideSpecialPowerShortcut();
     void rva0031B210();
     // The target call and callee's ret 0x14 prove this five-argument ABI.
@@ -84,7 +84,7 @@ void ControlBar::rva0031B210()
         && shortcutParent->winIsHidden()
         && contextParent[0] && !contextParent[0]->winIsHidden())
     {
-        rva0031DAF8();
+        showSpecialPowerShortcut();
         ((Rva0031AF54 *)this)->rva0031AF54(true);
     }
     else if (!((ShortcutPlayerListView *)ThePlayerList)->getLocalPlayer()->findNaturalCommandCenter()
@@ -97,7 +97,7 @@ void ControlBar::rva0031B210()
         return;
     }
     if (contextParent[0] && !contextParent[0]->winIsHidden() && shortcutParent->winIsHidden())
-        rva0031DAF8();
+        showSpecialPowerShortcut();
     for (int i=0; i<shortcutButtonCount; ++i)
     {
         GameWindow *win=shortcutButtons[i];

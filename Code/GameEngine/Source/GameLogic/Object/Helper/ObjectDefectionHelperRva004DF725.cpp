@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva004DF725@ObjectDefectionHelper@@QAEXI_N@Z, RVA 0x004DF725, 73 bytes.
+// ?startDefectionTimer@ObjectDefectionHelper@@QAEXI_N@Z, RVA 0x004DF725, 73 bytes.
 // ObjectDefectionHelper method over the rowed ObjectHelper base (0x20 bytes,
 // Object at +8 via UpdateModule): Object+0x438 bit1 clear sleeps FOREVER via
 // rowed UpdateModule::setWakeFrame 0x0044DF71, else current frame from
@@ -62,7 +62,7 @@ protected:
 class ObjectDefectionHelper : public ObjectHelper
 {
 public:
-	void rva004DF725(unsigned int arg1, bool arg2);
+	void startDefectionTimer(unsigned int arg1, bool arg2);
 
 private:
 	unsigned int m_20;
@@ -71,7 +71,7 @@ private:
 	bool m_2C;
 };
 
-void ObjectDefectionHelper::rva004DF725(unsigned int arg1, bool arg2)
+void ObjectDefectionHelper::startDefectionTimer(unsigned int arg1, bool arg2)
 {
 	Object *obj = m_object;
 	if ((obj->m_privateStatus & 2) == 0) {

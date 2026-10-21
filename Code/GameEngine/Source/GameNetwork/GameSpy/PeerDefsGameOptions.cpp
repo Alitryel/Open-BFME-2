@@ -370,7 +370,7 @@ public:
 	virtual void slot71(void);
 	virtual void slot72(void);
 	virtual void slot73(void);
-	virtual void rva003871F6(Int id);
+	virtual void removeBuddy(Int id);
 	virtual void addToSavedIgnoreList(Int profileID, AsciiString nick);
 	virtual void removeFromSavedIgnoreList(Int profileID);
 	virtual Bool isSavedIgnored(Int profileID);
