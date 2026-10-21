@@ -29,7 +29,7 @@ public:
 class FCurve
 {
 public:
-	float rva00504BA9(float progress);
+	float operator()(float progress);
 };
 
 struct BfmeStateDFVector3
@@ -111,7 +111,7 @@ void Rva002C021A::rva002BEBE3()
 		m_progress = 1.0f;
 		m_active = 0;
 	}
-	float factor = m_curve28.rva00504BA9(m_progress);
+	float factor = m_curve28.operator()(m_progress);
 	float start = m_6c;
 	setScalar((m_70 - start) * factor + start);
 	BfmeStateDFVector3 current;

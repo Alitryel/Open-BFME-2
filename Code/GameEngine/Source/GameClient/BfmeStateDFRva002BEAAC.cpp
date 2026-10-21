@@ -1,14 +1,14 @@
 // cl: /O1 /arch:SSE /G7
 // ?rva002BEAAC@BfmeStateDF@@QAEMMMM@Z, retail 0x002BEAAC, 33 bytes.
 // Evidence: unlock caller 0x002BECBA, pin callee Curve 0x00504BA9
-// ?rva00504BA9@FCurve@@QAEMM@Z, same BfmeStateDF curve +0x28
+// ??RFCurve@@QAEMM@Z, same BfmeStateDF curve +0x28
 // and single-lerp x87 shape as BfmeStateDF::interpolate in
 // LivingWorldPairInterpolate.cpp (which needs /Oy- for its EBP frame;
 // this frameless 33B leaf needs no /Oy-).
 class FCurve
 {
 public:
-    float rva00504BA9(float progress);
+    float operator()(float progress);
 };
 
 struct BfmeStateDFVector3
@@ -30,7 +30,7 @@ private:
 // ?rva002BEAAC@BfmeStateDF@@QAEMMMM@Z
 float BfmeStateDF::rva002BEAAC(float from, float to, float progress)
 {
-    float factor = curve.rva00504BA9(progress);
+    float factor = curve.operator()(progress);
     return (to - from) * factor + from;
 }
 
@@ -45,13 +45,13 @@ void BfmeStateDF::rva002BEACD(BfmeStateDFVector3 *from, BfmeStateDFVector3 *to,
 {
     float factor;
     FCurve *fCurve = &curve;
-    factor = fCurve->rva00504BA9(progress);
+    factor = fCurve->operator()(progress);
     float start = from->x;
     result->x = (to->x - start) * factor + start;
-    float secondFactor = fCurve->rva00504BA9(progress);
+    float secondFactor = fCurve->operator()(progress);
     start = from->y;
     result->y = (to->y - start) * secondFactor + start;
-    progress = fCurve->rva00504BA9(progress);
+    progress = fCurve->operator()(progress);
     start = from->z;
     result->z = (to->z - start) * progress + start;
 }

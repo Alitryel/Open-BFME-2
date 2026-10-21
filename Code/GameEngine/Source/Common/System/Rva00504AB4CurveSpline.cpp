@@ -32,7 +32,7 @@ class FCurve
 {
 public:
     float eval(float time) const;
-    float rva00504BA9(float time);
+    float operator()(float time);
 private:
     int unknown00, unknown04;
     Rva005049A4KeyRange keys;
@@ -77,7 +77,7 @@ static __forceinline int curveRound(float value) {
     return rounded;
 }
 
-float FCurve::rva00504BA9(float time)
+float FCurve::operator()(float time)
 {
     Rva00504AB4Key *first=keys.begin;
     Rva00504AB4Key *end=keys.end;

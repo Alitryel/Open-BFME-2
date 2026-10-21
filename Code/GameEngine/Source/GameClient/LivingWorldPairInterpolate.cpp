@@ -10,7 +10,7 @@ struct Gen0060CBB0Pair { float first; float second; };
 class FCurve
 {
 public:
-    float rva00504BA9(float progress);
+    float operator()(float progress);
 };
 
 class BfmeStateDF
@@ -28,10 +28,10 @@ void BfmeStateDF::interpolate(Gen0060CBB0Pair *from, Gen0060CBB0Pair *to,
     Gen0060CBB0Pair *current, float progress)
 {
     FCurve *fCurve = &curve;
-    float factor = fCurve->rva00504BA9(progress);
+    float factor = fCurve->operator()(progress);
     float start = from->first;
     current->first = (to->first - start) * factor + start;
-    progress = fCurve->rva00504BA9(progress);
+    progress = fCurve->operator()(progress);
     start = from->second;
     current->second = (to->second - start) * progress + start;
 }

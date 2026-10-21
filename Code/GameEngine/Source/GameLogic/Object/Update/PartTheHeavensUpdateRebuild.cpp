@@ -15,7 +15,7 @@
 class FCurve
 {
 public:
-	float rva00504BA9(float v);
+	float operator()(float v);
 };
 
 #include "Code/Libraries/Include/Lib/Coord3D.h"
@@ -110,7 +110,7 @@ void PartTheHeavensUpdate::rva004ACADA()
 	if (((const StringBase<char> &)data->m_str08).isEmpty())
 		return;
 	Shadow::ShadowTypeInfo ev;
-	float v = data->m_curve10.rva00504BA9(0.0f);
+	float v = data->m_curve10.operator()(0.0f);
 	((StringBase<char> &)ev.m_first).set((const StringBase<char> &)data->m_str08);
 	float v2 = v * 2.0f;
 	int type = 0x40;
