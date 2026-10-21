@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004543EB@GettingBuiltBehavior@@SA?AW4NameKeyType@@XZ @0x4543eb
+// ?getModuleNameKey@GettingBuiltBehavior@@UBE?AW4NameKeyType@@XZ @0x4543eb
 // (69B): cached pool-name key for GettingBuiltBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("GettingBuiltBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class GettingBuiltBehavior
 {
 public:
-	static NameKeyType rva0004543EB();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004543EB@GettingBuiltBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType GettingBuiltBehavior::rva0004543EB()
+// ?getModuleNameKey@GettingBuiltBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType GettingBuiltBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheGettingBuiltBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("GettingBuiltBehavior");

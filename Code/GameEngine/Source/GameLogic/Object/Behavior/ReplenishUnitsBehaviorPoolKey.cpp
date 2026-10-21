@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000484187@ReplenishUnitsBehavior@@SA?AW4NameKeyType@@XZ @0x484187
+// ?getModuleNameKey@ReplenishUnitsBehavior@@UBE?AW4NameKeyType@@XZ @0x484187
 // (69B): cached pool-name key for ReplenishUnitsBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("ReplenishUnitsBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ReplenishUnitsBehavior
 {
 public:
-	static NameKeyType rva000484187();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000484187@ReplenishUnitsBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType ReplenishUnitsBehavior::rva000484187()
+// ?getModuleNameKey@ReplenishUnitsBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType ReplenishUnitsBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheReplenishUnitsBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("ReplenishUnitsBehavior");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004CBF13@ModelConditionAudioLoopClientBehavior@@SA?AW4NameKeyType@@XZ @0x4CBF13
+// ?getModuleNameKey@ModelConditionAudioLoopClientBehavior@@UBE?AW4NameKeyType@@XZ @0x4CBF13
 // (69B): cached pool-name key for ModelConditionAudioLoopClientBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("ModelConditionAudioLoopClientBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ModelConditionAudioLoopClientBehavior
 {
 public:
-	static NameKeyType rva0004CBF13();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004CBF13@ModelConditionAudioLoopClientBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType ModelConditionAudioLoopClientBehavior::rva0004CBF13()
+// ?getModuleNameKey@ModelConditionAudioLoopClientBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType ModelConditionAudioLoopClientBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheModelConditionAudioLoopClientBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("ModelConditionAudioLoopClientBehavior");
