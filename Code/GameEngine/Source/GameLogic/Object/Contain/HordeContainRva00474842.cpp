@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /MD /ICode/Libraries/Include /I.
-// ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
+// ?rva00474842@HordeContain@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
 // rva00474842 (WorldBuilder 0x010B8C80 names it HordeContain::updatePosition), retail
 // 0x00474842 (783 bytes). WB statement shapes used here: the member delta is a Coord3D copy of
 // the object position minus the target with z cleared and its GetLengthSqrd(); the distance
@@ -445,12 +445,11 @@ struct Rva00474842Definition
  
 }
 ;
-class HordeContain {public:void _updatePosition(Object*,const Coord3D*,float);};
-class Rva00474842 
+class HordeContain 
 {
  public:
  void rva00474842(Object*,const Coord3D*,float,bool);
- void rva00471464(Object*,const Coord3D*,float);
+ void _updatePosition(Object*,const Coord3D*,float);
  void *vptr;
  Rva00474842Definition *definition;
  Object *owner;
@@ -474,7 +473,7 @@ static __forceinline void hcCopy(Coord3D &c,const Coord3D *a){c.x=a->x;c.y=a->y;
 static __forceinline void hcSub(Coord3D &c,const Coord3D *a){c.x-=a->x;c.y-=a->y;c.z-=a->z;}
 static __forceinline float hcLengthSqrd(const Coord3D &c){return c.x*c.x+c.y*c.y+c.z*c.z;}
 static __forceinline float sqr(float v){return v*v;}
-void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientation,bool flag)
+void HordeContain::rva00474842(Object *obj,const Coord3D *position,float orientation,bool flag)
 
 {
  AIUpdateInterface *ai=obj->ai;
@@ -523,7 +522,7 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
    return;
    
   }
-  ((HordeContain*)this)->_updatePosition(obj,position,orientation);
+  _updatePosition(obj,position,orientation);
   return;
   
  }
@@ -554,6 +553,6 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
  dest.y=position->y;
  dest.z=position->z;
  ((Rva0046E6EA*)this)->rva0046E6EA((Rva0046E6EAObject*)obj,(const Rva0046E6EACoord*)&dest,(Rva0046E6EACoord*)self,!flag);
- ((HordeContain*)this)->_updatePosition(obj,&dest,orientation);
+ _updatePosition(obj,&dest,orientation);
  
 }

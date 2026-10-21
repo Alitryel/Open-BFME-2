@@ -288,11 +288,6 @@ struct Rva0047A895Data
 	unsigned int m_124;			// +0x124 flags (bit 23)
 };
 
-class Rva00474842
-{
-public:
-	void rva00474842(Object *obj, const Coord3D *pos, float angle, bool flag);	// 0x00474842
-};
 
 class Rva0046ACF6
 {
@@ -305,6 +300,7 @@ class HordeContain
 public:
 	void rva0047A413();
 	void rva0047A895(Object *obj, const Coord3D *pos, float angle, bool flag);
+	void rva00474842(Object *obj, const Coord3D *pos, float angle, bool flag);	// 0x00474842
 	void _updatePosition(Object *obj, const Coord3D *pos, float angle);	// 0x00471464
 	Coord2D *rva0046A5B1(Coord2D *out, int slot);	// 0x0046A5B1
 private:
@@ -344,7 +340,7 @@ static __forceinline void setModelConditionBit(Object *object, int bit)
 void HordeContain::rva0047A895(Object *obj, const Coord3D *pos, float angle, bool flag)
 {
 	if (obj->isKindOf(KINDOF_RVA0047A895_DA)) {
-		((Rva00474842 *)this)->rva00474842(obj, pos, angle, flag);
+		rva00474842(obj, pos, angle, flag);
 		clearModelConditionBit(obj, 6 * 32 + 26);
 		return;
 	}
