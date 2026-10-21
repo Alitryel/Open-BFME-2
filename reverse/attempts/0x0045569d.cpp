@@ -1,4 +1,6 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
+// partial score=0.95 date=2026-10-21
+// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.95 date=2026-10-19
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.95 date=2026-10-19
