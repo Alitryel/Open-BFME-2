@@ -156,6 +156,25 @@ Rva002C74EARecord *Rva002C71CA::rva002C74EA(int index)
 	return &m_194[index];
 }
 
+// --- 0x002C74C0 (11B, thiscall): indexed dword getter, array at +0x14.
+// Retail placed ?Get_Tex_Offset@FVFInfoClass@@QBEII@Z here by masked search,
+// but BFME 2's FVFInfoClass keeps texcoord_offset at +0x24 (the inline reads in
+// the matched 0x00126433 and 0x00743700 RenderStreak bodies), and this body
+// sits among game-logic getters with no FVF caller.
+class Rva002C74C0
+{
+public:
+	int rva002C74C0(int index) const;
+private:
+	char m_pad00[0x14];
+	int m_14[1];
+};
+
+int Rva002C74C0::rva002C74C0(int index) const
+{
+	return m_14[index];
+}
+
 // --- 0x002C751E (17B, cdecl): zeroes a 0x1C-byte record through the CRT
 // memset thunk 0x006291AE.
 void *__cdecl ji_006291ae(void *dest, int val, unsigned int count);
