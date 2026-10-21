@@ -32,6 +32,10 @@ public:
 private:
 	UnicodeString m_00;
 	_STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > m_04;
+	// Constructor 0x005DE5EA and copy 0x005DE56C establish these
+	// trailing fields; range cleanup 0x005DE952 advances by 0x18.
+	float m_10;
+	unsigned char m_14;
 };
 
 // Retail 0x005DE985 (63B): _STL::vector<Rva005DE5B5> dtor, Destroy range
