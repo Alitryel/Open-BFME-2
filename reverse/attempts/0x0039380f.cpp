@@ -1,5 +1,5 @@
 // ?rva0039380F@BuildAssistant@@UAE_NPAVRva0039205C@@PAVObject@@PBUCoord3D@@2I@Z
-// partial score=0.8451784183609756 date=2026-10-16
+// partial score=0.88 date=2026-10-21
 // Owner BuildAssistant.cpp at1cb1f3a7e4; retail39380F/WB F9C000. Comments trimmed; provenance in owner history.
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
@@ -38,10 +38,10 @@ const _List_iterator<T,Traits>&b)
 #include <math.h>
 #include "ascii_string.h"
 #include "unicode_string.h"
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
-#include "../../../../Libraries/Include/Lib/Coord2D.h"
-#include "../GameLogicObjectLookupView.h"
-#include "../PartitionRangeQueryCallView.h"
+#include "../../Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../Code/Libraries/Include/Lib/Coord2D.h"
+#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 typedef bool Bool;
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -165,7 +165,7 @@ UPGRADE_TYPE_OBJECT
 enum{MAX_COMMANDS_PER_SET=32};
 class Player;
 class Object;
-#include "../../../../Libraries/Include/Lib/Region3D.h"
+#include "../../Code/Libraries/Include/Lib/Region3D.h"
 class Team;
 struct Rva002A7557In;
 class Drawable
@@ -1975,22 +1975,21 @@ current.x+=firstStep*unit.x;current.y+=firstStep*unit.y;
 Int funds=builder->getControllingPlayer()->getMoney()->countMoney();
 Int index=0;
 Real remaining=delta.length();
-Real prevZ=current.z;
+Coord3D previous=current;
 Bool connected=endAtObject&&Rva003919F6Connected(builder,nearObject);
 Bool lastWouldBeLegal=false;
 remaining-=hubHalf;
 while(progress < remaining&&index < TheWritableGlobalData->m_wallCount-1){
 const ThingTemplate*segment=module->getSegment(index);
 if(!segment)segment=builder->getTemplate();
-Real half=segment->getTemplateGeometryInfo().getBoxMinorRadius()-1.f;
+Real half=segment->getTemplateGeometryInfo().getBoxMinorRadius();half-=1.f;
 if(progress+half*2.f > remaining){
 segment=module->getEnd();
 if(!segment)segment=builder->getTemplate();
-half=segment->getTemplateGeometryInfo().getBoxMinorRadius()-1.f;
+half=segment->getTemplateGeometryInfo().getBoxMinorRadius();half-=1.f;
 }
-Real stepy=half*unit.y;Real stepx=half*unit.x;
-Coord3D step={stepx,stepy,0.f};
-prevZ=current.z;
+Coord3D step;step.y=half*unit.y;step.x=half*unit.x;step.z=0.f;
+previous=current;
 current.x+=step.x;current.y+=step.y;
 current.z=TheTerrainLogic->getGroundHeight(current.x,current.y,0);
 Int code=isLocationLegalToBuild(&current,segment,angle,0x55,builder,0);
@@ -2006,10 +2005,10 @@ out->rva00392129(index,angle);
 out->rva0039215F(index,segment->getName());
 out->rva00392196(index,code);
 if(code==6 || code==5){
-const ThingTemplate*terrainPiece=(index ?(module->getTerrainPiece()):(module->getTerrainPiece()));
+const ThingTemplate*terrainPiece=module->getTerrainPiece();
 if(terrainPiece)out->rva0039215F(index,terrainPiece->getName());
 out->rva00392196(index,0);
-current.z=prevZ;
+current.z=previous.z;
 out->setPos(index,&current);
 out->rva003921C8(index,1);
 const ThingTemplate*hub=module->getHub();
