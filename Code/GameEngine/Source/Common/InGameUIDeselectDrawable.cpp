@@ -10,6 +10,22 @@
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Drawable;
 namespace _STL { template <> void allocator<_List_node<Drawable *> >::deallocate(_List_node<Drawable *> *,unsigned int) const; }
+// Retail erase(iterator) relinks the node onto the freelist pool head inline
+// (pool at VA 0x00DBA5E0, head at +0x08; retail 0x0029DFE9).
+class FreelistPool { public: void *pop(); int m_00; void *m_04; void *m_head; };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template <> list<Drawable *>::iterator list<Drawable *>::erase(iterator __position)
+{
+	_List_node_base *__prev_node = __position._M_node->_M_prev;
+	_List_node_base *__next_node = __position._M_node->_M_next;
+	__prev_node->_M_next = __next_node;
+	__next_node->_M_prev = __prev_node;
+	*(void **)__position._M_node = g_freelistPool00DBA5E0.m_head;
+	g_freelistPool00DBA5E0.m_head = __position._M_node;
+	return iterator((_List_node<Drawable *> *)__next_node);
+}
+}
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

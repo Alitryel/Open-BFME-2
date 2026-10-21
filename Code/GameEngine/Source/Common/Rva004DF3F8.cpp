@@ -19,6 +19,22 @@ struct BfmePod12
 };
 
 inline bool operator==(const BfmePod12 &x, const BfmePod12 &y) { return x.a[0] == y.a[0]; }
+// Retail erase(iterator) relinks the node onto the freelist pool head inline
+// (pool at VA 0x00DA60E8, head at +0x08; retail 0x002ABB20).
+class FreelistPool { public: void *pop(); int m_00; void *m_04; void *m_head; };
+extern FreelistPool g_freelistPool;
+namespace _STL {
+template <> list<BfmePod12>::iterator list<BfmePod12>::erase(iterator __position)
+{
+	_List_node_base *__prev_node = __position._M_node->_M_prev;
+	_List_node_base *__next_node = __position._M_node->_M_next;
+	__prev_node->_M_next = __next_node;
+	__next_node->_M_prev = __prev_node;
+	*(void **)__position._M_node = g_freelistPool.m_head;
+	g_freelistPool.m_head = __position._M_node;
+	return iterator((_List_node<BfmePod12> *)__next_node);
+}
+}
 
 struct Rva004DF3F8Arg
 {
