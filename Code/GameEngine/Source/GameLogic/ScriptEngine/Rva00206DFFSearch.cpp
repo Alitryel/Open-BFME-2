@@ -53,7 +53,7 @@ public:
 class ScriptEngine;
 extern class ScriptEngine *TheScriptEngine;
 
-void __cdecl Rva00206DFFSearch(INI *ini)
+void __cdecl parseScriptAction(INI *ini)
 {
     Rva003B39C7 tmp;
     ini->initFromINI(&tmp, g_00BE3908);

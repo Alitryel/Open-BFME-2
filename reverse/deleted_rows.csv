@@ -1471,3 +1471,5 @@ __ehhandler$?Rva00210A14Parse@@YAXPAVINI@@@Z,0x0076D860,"Renamed to __ehhandler$
 __ehhandler$?Rva003EF467@@YAXPAVINI@@@Z,0x00783951,"Renamed to __ehhandler$?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva0041FD3DParse@@YAXPAVINI@@@Z,0x0041FD3D,"Renamed to ?parseMeshNameMatchesDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva0041FD3DParse@@YAXPAVINI@@@Z,0x00786E66,"Renamed to __ehhandler$?parseMeshNameMatchesDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva00206DFFSearch@@YAXPAVINI@@@Z,0x00206DFF,"Renamed to ?parseScriptAction@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?Rva00206DFFSearch@@YAXPAVINI@@@Z,0x0076C936,"Renamed to __ehhandler$?parseScriptAction@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
