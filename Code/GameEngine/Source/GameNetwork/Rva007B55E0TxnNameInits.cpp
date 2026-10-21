@@ -7,13 +7,15 @@
 // "AddAccount", "GetTopN", "Hello", ...), through the 25-byte constructor at
 // 0x0065D070. That body is ICF-folded with CollisionTestClass(CastResultStruct
 // *, int), which stores the same three fields; the record type is not
-// recovered, so it keeps an honest address name and the constructor is bound
-// by an alias pin. Native rank/UpdateStats65F2B0 reads the +4 name pointer; each service's seven
-// to twenty records are one owning unit's file-scope objects, unrecovered.
+// recovered, so it keeps an honest address name. The constructor is now
+// compiled here and verified as an ICF twin of the rowed collision constructor.
+// Native rank/UpdateStats65F2B0 reads the +4 name pointer. Retail initializers
+// and contiguous 12-byte storage identify the records defined below; the
+// original owning classes and record names remain unrecovered.
 
 struct Rva007B55E0TxnName
 {
-	Rva007B55E0TxnName( const char *type, const char *name );
+	__declspec(noinline) Rva007B55E0TxnName( const char *type, const char *name );
     // ?Rva007B55E0TxnName::Rva007B55E0TxnName present-unmatched
     // A no-op default construction keeps native zero-filled storage intact;
     // the existing explicit initialization below supplies the two pointers.
@@ -24,6 +26,13 @@ struct Rva007B55E0TxnName
 	int m_reserved;
 };
 
+// The target constructor stores the two supplied pointers and clears +8.
+// Its 25-byte body is shared with CollisionTestClass by retail ICF.
+Rva007B55E0TxnName::Rva007B55E0TxnName(const char *type, const char *name)
+    : m_type(type), m_name(name), m_reserved(0)
+{
+}
+
 const char * g_Va00DD7F48 = "acct";	// retail RVA 0x009D7F48 (.data), defined here	// "acct"
 const char * g_Va00DD80AC = "blob";	// retail RVA 0x009D80AC (.data), defined here	// "blob"
 const char * g_Va00DD80DC = "fdbk";	// retail RVA 0x009D80DC (.data), defined here	// "fdbk"
@@ -32,70 +41,70 @@ const char * g_Va00DD8120 = "recp";	// retail RVA 0x009D8120 (.data), defined he
 const char * g_Va00DD8138 = "club";	// retail RVA 0x009D8138 (.data), defined here	// "club"
 const char * g_Va00DD816C = "fsys";	// retail RVA 0x009D816C (.data), defined here	// "fsys"
 
-extern Rva007B55E0TxnName g_Va00E09F24;
-extern Rva007B55E0TxnName g_Va00E09F0C;
-extern Rva007B55E0TxnName g_Va00E09EF4;
-extern Rva007B55E0TxnName g_Va00E09F30;
-extern Rva007B55E0TxnName g_Va00E09F3C;
-extern Rva007B55E0TxnName g_Va00E09F18;
-extern Rva007B55E0TxnName g_Va00E09F90;
-extern Rva007B55E0TxnName g_Va00E09EAC;
-extern Rva007B55E0TxnName g_Va00E09ED0;
-extern Rva007B55E0TxnName g_Va00E09F60;
-extern Rva007B55E0TxnName g_Va00E09F48;
-extern Rva007B55E0TxnName g_Va00E09EB8;
-extern Rva007B55E0TxnName g_Va00E09F78;
-extern Rva007B55E0TxnName g_Va00E09EDC;
-extern Rva007B55E0TxnName g_Va00E09F54;
-extern Rva007B55E0TxnName g_Va00E09EC4;
-extern Rva007B55E0TxnName g_Va00E09EE8;
-extern Rva007B55E0TxnName g_Va00E09F84;
-extern Rva007B55E0TxnName g_Va00E09F00;
+Rva007B55E0TxnName g_Va00E09F24;
+Rva007B55E0TxnName g_Va00E09F0C;
+Rva007B55E0TxnName g_Va00E09EF4;
+Rva007B55E0TxnName g_Va00E09F30;
+Rva007B55E0TxnName g_Va00E09F3C;
+Rva007B55E0TxnName g_Va00E09F18;
+Rva007B55E0TxnName g_Va00E09F90;
+Rva007B55E0TxnName g_Va00E09EAC;
+Rva007B55E0TxnName g_Va00E09ED0;
+Rva007B55E0TxnName g_Va00E09F60;
+Rva007B55E0TxnName g_Va00E09F48;
+Rva007B55E0TxnName g_Va00E09EB8;
+Rva007B55E0TxnName g_Va00E09F78;
+Rva007B55E0TxnName g_Va00E09EDC;
+Rva007B55E0TxnName g_Va00E09F54;
+Rva007B55E0TxnName g_Va00E09EC4;
+Rva007B55E0TxnName g_Va00E09EE8;
+Rva007B55E0TxnName g_Va00E09F84;
+Rva007B55E0TxnName g_Va00E09F00;
 Rva007B55E0TxnName g_Va00E09F6C;	// retail RVA 0x00A09F6C (.bss), defined here
-extern Rva007B55E0TxnName g_Va00E09FE8;
-extern Rva007B55E0TxnName g_Va00E0A000;
-extern Rva007B55E0TxnName g_Va00E0A00C;
-extern Rva007B55E0TxnName g_Va00E0A024;
-extern Rva007B55E0TxnName g_Va00E09FDC;
-extern Rva007B55E0TxnName g_Va00E0A018;
-extern Rva007B55E0TxnName g_Va00E0A03C;
-extern Rva007B55E0TxnName g_Va00E09FF4;
-extern Rva007B55E0TxnName g_Va00E0A030;
-extern Rva007B55E0TxnName g_Va00E09FD0;
-extern Rva007B55E0TxnName g_Va00E0A054;
-extern Rva007B55E0TxnName g_Va00E0A048;
-extern Rva007B55E0TxnName g_Va00E0A0CC;
-extern Rva007B55E0TxnName g_Va00E0A060;
-extern Rva007B55E0TxnName g_Va00E0A06C;
-extern Rva007B55E0TxnName g_Va00E0A078;
+Rva007B55E0TxnName g_Va00E09FE8;
+Rva007B55E0TxnName g_Va00E0A000;
+Rva007B55E0TxnName g_Va00E0A00C;
+Rva007B55E0TxnName g_Va00E0A024;
+Rva007B55E0TxnName g_Va00E09FDC;
+Rva007B55E0TxnName g_Va00E0A018;
+Rva007B55E0TxnName g_Va00E0A03C;
+Rva007B55E0TxnName g_Va00E09FF4;
+Rva007B55E0TxnName g_Va00E0A030;
+Rva007B55E0TxnName g_Va00E09FD0;
+Rva007B55E0TxnName g_Va00E0A054;
+Rva007B55E0TxnName g_Va00E0A048;
+Rva007B55E0TxnName g_Va00E0A0CC;
+Rva007B55E0TxnName g_Va00E0A060;
+Rva007B55E0TxnName g_Va00E0A06C;
+Rva007B55E0TxnName g_Va00E0A078;
 // Native zero-filled12B rank/UpdateStats record; rva007B5AA0 owns its
 // explicit type/name setup. The rank request shares this same provider.
 Rva007B55E0TxnName TheRankUpdateStatsTransaction;
-extern Rva007B55E0TxnName g_Va00E0A084;
-extern Rva007B55E0TxnName g_Va00E0A0D8;
-extern Rva007B55E0TxnName g_Va00E0A09C;
-extern Rva007B55E0TxnName g_Va00E0A0C0;
-extern Rva007B55E0TxnName g_Va00E0A090;
+Rva007B55E0TxnName g_Va00E0A084;
+Rva007B55E0TxnName g_Va00E0A0D8;
+Rva007B55E0TxnName g_Va00E0A09C;
+Rva007B55E0TxnName g_Va00E0A0C0;
+Rva007B55E0TxnName g_Va00E0A090;
 Rva007B55E0TxnName g_Va00E0A0B4;	// retail RVA 0x00A0A0B4 (.bss), defined here
-extern Rva007B55E0TxnName g_Va00E0A0E4;
-extern Rva007B55E0TxnName g_Va00E0A0F0;
-extern Rva007B55E0TxnName g_Va00E0A0FC;
+Rva007B55E0TxnName g_Va00E0A0E4;
+Rva007B55E0TxnName g_Va00E0A0F0;
+Rva007B55E0TxnName g_Va00E0A0FC;
 Rva007B55E0TxnName g_Va00E0A108;	// retail RVA 0x00A0A108 (.bss), defined here
-extern Rva007B55E0TxnName g_Va00E0A120;
-extern Rva007B55E0TxnName g_Va00E0A12C;
-extern Rva007B55E0TxnName g_Va00E0A144;
-extern Rva007B55E0TxnName g_Va00E0A138;
-extern Rva007B55E0TxnName g_Va00E0A174;
-extern Rva007B55E0TxnName g_Va00E0A180;
-extern Rva007B55E0TxnName g_Va00E0A18C;
-extern Rva007B55E0TxnName g_Va00E0A168;
-extern Rva007B55E0TxnName g_Va00E0A15C;
-extern Rva007B55E0TxnName g_Va00E0A150;
+Rva007B55E0TxnName g_Va00E0A120;
+Rva007B55E0TxnName g_Va00E0A12C;
+Rva007B55E0TxnName g_Va00E0A144;
+Rva007B55E0TxnName g_Va00E0A138;
+Rva007B55E0TxnName g_Va00E0A174;
+Rva007B55E0TxnName g_Va00E0A180;
+Rva007B55E0TxnName g_Va00E0A18C;
+Rva007B55E0TxnName g_Va00E0A168;
+Rva007B55E0TxnName g_Va00E0A15C;
+Rva007B55E0TxnName g_Va00E0A150;
 Rva007B55E0TxnName g_Va00E0A114;	// retail RVA 0x00A0A114 (.bss), defined here
-extern Rva007B55E0TxnName g_Va00E0A1A4;
-extern Rva007B55E0TxnName g_Va00E0A1BC;
+Rva007B55E0TxnName g_Va00E0A1A4;
+Rva007B55E0TxnName g_Va00E0A1BC;
 Rva007B55E0TxnName g_Va00E0A198;	// retail RVA 0x00A0A198 (.bss), defined here
-extern Rva007B55E0TxnName g_Va00E0A1B0;
+Rva007B55E0TxnName g_Va00E0A1B0;
 
 struct Rva007B55E0TxnInits
 {

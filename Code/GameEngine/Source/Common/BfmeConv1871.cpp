@@ -1,7 +1,9 @@
-// g_bfmeNameAZC: matched references place it at VA 0xe0a1bc (zero-filled .bss).
-extern "C" int g_bfmeNameAZC = 0;
-// g_bfmeNameBZC: matched references place it at VA 0xe0a198 (zero-filled .bss).
-extern "C" int g_bfmeNameBZC = 0;
+// These registrations reference the same 12-byte transaction records that
+// Rva007B55E0TxnNameInits.cpp initializes as fsys/Ping and fsys/Goodbye.
+// Reuse their data-row providers rather than allocating integer lookalikes.
+struct Rva007B55E0TxnName;
+extern Rva007B55E0TxnName g_Va00E0A1BC;
+extern Rva007B55E0TxnName g_Va00E0A198;
 // The two callbacks are rowed statics: Rva00661220Callback::forward and
 // Rva007F4740::bfmeCbBZC.
 class BfmeThingVJL;
@@ -57,6 +59,6 @@ void BfmeOwnerZC::bfmeRegisterZC()
 
 	host->m_bfmeThingZC->bfmeSetZC(m_bfmeSubZC, 0);
 
-	host->bfmeAddZC(&g_bfmeNameAZC, (void *)Rva00661220Callback::forward, this);
-	host->bfmeAddZC(&g_bfmeNameBZC, (void *)Rva007F4740::bfmeCbBZC, this);
+	host->bfmeAddZC(&g_Va00E0A1BC, (void *)Rva00661220Callback::forward, this);
+	host->bfmeAddZC(&g_Va00E0A198, (void *)Rva007F4740::bfmeCbBZC, this);
 }
