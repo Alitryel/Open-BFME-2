@@ -3,6 +3,8 @@
 #define inline static inline
 #include <math.h>
 #undef inline
+// WWMath link view first: Fabs stays inline without an /O2 copy competing with retail's owner (0x0004CAD1).
+#include "../../../../../reference/shims/bfme_colmathaabox/wwmath.h"
 // Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
 // /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
 #include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
@@ -19,6 +21,9 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
+// Matrix3D link view: Rotate_Vector stays inline without an /O2 copy competing with retail's owner
+// (0x000DD765). It follows the anchor above so the anchor stays the first user of ??_H.
+#include "../../../../../reference/shims/bfme_lineseg_math_link/matrix3d.h"
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -254,18 +259,12 @@ LightEnvironmentClass::~LightEnvironmentClass(void)
 
 // ?Reset@LightEnvironmentClass@@QAEXABVVector3@@0@Z present-unmatched
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
-// the anchor keeps the noinline body emitted.
+// nothing in this unit calls it, so the unit emits no copy.
 __declspec(noinline) inline void LightEnvironmentClass::Reset(const Vector3 & object_center,const Vector3 & ambient)
 {
 	LightCount = 0;
 	ObjectCenter = object_center;
 	OutputAmbient = ambient;
-}
-
-// ?bfmeAnchorLightEnvironmentClassReset absent-from-retail
-void bfmeAnchorLightEnvironmentClassReset(LightEnvironmentClass *p, const Vector3 & object_center, const Vector3 & ambient)
-{
-	p->Reset(object_center, ambient);
 }
 
 
