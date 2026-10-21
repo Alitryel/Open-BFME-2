@@ -421,27 +421,6 @@ void AptScoreScreen::Continue(const char *unused)
 	m_state = 3;
 }
 
-// Retail 0x0051C7CC, 124 bytes: "AptScoreScreen::InitGadgets" keeps the
-// "PersistentUnitsListBox" (flagging its data's +0x12) and the emptied
-// "RenameUnitsTextEntry" (at most 20 characters).
-void AptScoreScreen::InitGadgets(const char *name, void *argument, GameWindow *window)
-{
-	if (!window)
-		return;
-	if (strcmp(name, "PersistentUnitsListBox") == 0)
-	{
-		m_units = window;
-		AptScoreListData *data = (AptScoreListData *)window->winGetUserData();
-		data->m_12 = true;
-		window->winSetUserData(data);
-	}
-	else if (strcmp(name, "RenameUnitsTextEntry") == 0)
-	{
-		m_rename = window;
-		GadgetTextEntrySetText(window, UnicodeString::TheEmptyString);
-		GadgetTextEntrySetMaxChars((BfmeKeyLC *)window, 20);
-	}
-}
 
 // Retail 0x0051BFD2, 34 bytes: "AptScoreScreen::RenameCancel" drops the
 // rename and enables the units list again.
@@ -485,96 +464,7 @@ static const char *s_externNames[] = { "ShowSaveReplay", "ShowCampaign", "heroVe
 // the seven extern queries, "objectiveChecked1".."8" and
 // "heroVetUpgrade1".."12", and InitGadgets as its screen reference.
 #pragma pointers_to_members(full_generality, multiple_inheritance)
-AptScoreScreen::AptScoreScreen(void *context)
-	: _bfme_AptGameWindow(context),
-	  m_state(0),
-	  m_280(2),
-	  m_284(false),
-	  m_objectives(0),
-	  m_units(0),
-	  m_rename(0),
-	  m_renaming(0),
-	  m_renameIndex(-1),
-	  m_lastX(0),
-	  m_lastY(0),
-	  m_hoverFrames(0),
-	  m_tooltip("APT:NULL")
-{
-	if (g_00E04914 != 0)
-		return;
-	g_00E04914 = (int)this;
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::OnInitialized);
-		AsciiString name("AptScoreScreen::OnInitialized");
-		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptTimeLine::rva0051E3C3);
-		AsciiString name("AptScoreScreen::Save");
-		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::Timeline);
-		AsciiString name("AptScoreScreen::Timeline");
-		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::Continue);
-		AsciiString name("AptScoreScreen::Continue");
-		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::RestartGame);
-		AsciiString name("AptScoreScreen::RestartGame");
-		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::OnButtonRenameAccept);
-		AsciiString name("AptScoreScreen::RenameAccept");
-		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::RenameCancel);
-		AsciiString name("AptScoreScreen::RenameCancel");
-		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::Externs);
-		int query = 0;
-		FunctorBinding binding = MakeBinding(method, reinterpret_cast<FunctorTarget *>(this));
-		for (; query < 7; ++query)
-		{
-			AsciiString name(s_externNames[query]);
-			m_externHandlers.AddExternHandler(name, query, AptRef<AptExternHandler>(binding));
-		}
-	}
-	AsciiString name;
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::objectiveChecked);
-		int index = 0;
-		FunctorBinding binding = MakeBinding(method, reinterpret_cast<FunctorTarget *>(this));
-		for (; index < 8; ++index)
-		{
-			name.format("objectiveChecked%d", index + 1);
-			m_externHandlers.AddExternHandler(name, index, AptRef<AptExternHandler>(binding));
-		}
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::heroVetUpgrade);
-		int index = 0;
-		FunctorBinding binding = MakeBinding(method, reinterpret_cast<FunctorTarget *>(this));
-		for (; index < 12; ++index)
-		{
-			name.format("heroVetUpgrade%d", index + 1);
-			m_externHandlers.AddExternHandler(name, index, AptRef<AptExternHandler>(binding));
-		}
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptScoreScreen::InitGadgets);
-		AsciiString screen("AptScoreScreen::InitGadgets");
-		_bfme_setAptScreenRef(screen, AptRef<AptScreenInitGadgets>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-}
+
 
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.
 #pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
