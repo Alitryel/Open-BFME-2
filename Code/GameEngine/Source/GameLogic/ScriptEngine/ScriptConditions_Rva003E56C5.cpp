@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
-// ScriptConditions::rva003E56C5, retail 0x003E56C5, 422 bytes (caller
+// ScriptConditions::evaluateEnemySighted, retail 0x003E56C5, 422 bytes (caller
 // 0x003EAE77 in the condition dispatcher 0x003EA9AF). Zero Hour's
 // evaluateEnemySighted made BFME2: for each player of the parameter's player
 // mask (0x00357B82), whether anything that player owns, in the alliance
@@ -167,10 +167,10 @@ class ScriptConditions
 {
 public:
 	int rva003E40AF(int alliance);	// 0x003E40AF
-	bool rva003E56C5(const AsciiString &unitName, Parameter *allianceParm, Parameter *playerParm);
+	bool evaluateEnemySighted(const AsciiString &unitName, Parameter *allianceParm, Parameter *playerParm);
 };
 
-bool ScriptConditions::rva003E56C5(const AsciiString &unitName, Parameter *allianceParm, Parameter *playerParm)
+bool ScriptConditions::evaluateEnemySighted(const AsciiString &unitName, Parameter *allianceParm, Parameter *playerParm)
 {
 	Object *theObj = TheScriptEngine->getUnitNamed(unitName);
 	if (!theObj)

@@ -164,17 +164,17 @@ public:
 	virtual void slot14();
 	virtual bool slot15(Parameter *, Parameter *, Parameter *, bool);
 	bool evaluateIsNumOfUnitsBelongingToPlayerNearEvaEventLastPlayedLocationComparisonInt(Parameter *, float, const AsciiString *, int, int);
-	bool rva003E56C5(const AsciiString &, Parameter *, Parameter *);
+	bool evaluateEnemySighted(const AsciiString &, Parameter *, Parameter *);
 	bool rva003E5CB1(Parameter *, Parameter *);
 	bool rva003E6835(Parameter *, Parameter *, Parameter *);
 	bool rva003E6ED0(Parameter *, const AsciiString *, Parameter *, bool, bool);
 	bool rva003E83AF(Parameter *, Parameter *);
-	bool rva003EA3AB(const AsciiString &, Parameter *, Parameter *);
+	bool evaluateTypeSighted(const AsciiString &, Parameter *, Parameter *);
 	bool rva003EA566(Parameter *, Parameter *, Parameter *, Parameter *);
 
 protected:
 	bool evaluateConditionHelper(Condition *c);
-	bool rva003E64A6(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *);
+	bool evaluatePlayerHasUnitKindInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *);
 	bool rva003E46B4(Parameter *, Parameter *, Parameter *);
 	bool rva003E477F(Parameter *, Parameter *, Parameter *);
 	bool rva003E4F79(Parameter *, Parameter *, Parameter *);
@@ -284,16 +284,16 @@ protected:
 	bool rva003E5267(Parameter *, Parameter *);
 	bool rva003E586B(Parameter *, Parameter *);
 	bool rva003E58F0(Parameter *, Parameter *);
-	bool rva003E61A4(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, bool);
+	bool evaluatePlayerHasUnitTypeInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, bool);
 	bool rva003E63CD(Condition *, Parameter *, Parameter *, Parameter *);
-	bool rva003E6A2B(Parameter *, Parameter *);
-	bool rva003E6AA9(Parameter *, Parameter *);
+	bool evaluateNamedDiscovered(Parameter *, Parameter *);
+	bool evaluateTeamDiscovered(Parameter *, Parameter *);
 	bool rva003E6BC5(Condition *, Parameter *);
 	bool rva003E859E(Parameter *, Parameter *);
 	bool rva003E85E0(Parameter *, Parameter *, Parameter *);
 	bool rva003E8AA9(Parameter *);
 	bool rva003E8D01(Parameter *, Parameter *, Parameter *);
-	bool rva003E3F59(Parameter *, Parameter *, Parameter *);
+	bool evaluatePlayerHasCredits(Parameter *, Parameter *, Parameter *);
 	bool evaluateSkirmishSpecialPowerIsReady(Parameter *, Parameter *);
 	bool evaluateSkirmishValueInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *);
 	bool evaluateSkirmishPlayerHasUnitsInArea(Condition *, Parameter *, Parameter *);
@@ -373,25 +373,25 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 25:
 		return (this->*(bool (ScriptConditions::*)(Parameter *))&ScriptConditions::evaluateTeamCreated)(condition->getParameter(0));
 	case 26:
-		return this->rva003E3F59(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
+		return this->evaluatePlayerHasCredits(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 54:
 		return this->evaluateBridgeRepaired(condition->getParameter(0));
 	case 55:
 		return this->evaluateBridgeBroken(condition->getParameter(0));
 	case 27:
-		return this->rva003E6A2B(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateNamedDiscovered(condition->getParameter(0), condition->getParameter(1));
 	case 28:
-		return this->rva003E6AA9(condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateTeamDiscovered(condition->getParameter(0), condition->getParameter(1));
 	case 51:
 		return this->evaluateBuildingEntered(condition->getParameter(0), condition->getParameter(1));
 	case 52:
 		if (condition->getNumParameters() < 3)
 			return false;
-		return this->rva003E56C5(*(const AsciiString *)condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
+		return this->evaluateEnemySighted(*(const AsciiString *)condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 133:
 		return this->rva003E6835(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 77:
-		return this->rva003EA3AB(*(const AsciiString *)condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
+		return this->evaluateTypeSighted(*(const AsciiString *)condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 78:
 		return this->evaluateIsBuildingEmpty(condition->getParameter(0));
 	case 30:
@@ -510,7 +510,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 		if (condition->getNumParameters() < 5)
 			return false;
 		parameter = condition->getParameter(4);
-		return this->rva003E61A4(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, 0, false);
+		return this->evaluatePlayerHasUnitTypeInArea(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, 0, false);
 		}
 	case 188:
 		{
@@ -518,7 +518,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 		if (condition->getNumParameters() < 5)
 			return false;
 		parameter = condition->getParameter(4);
-		return this->rva003E61A4(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, 0, true);
+		return this->evaluatePlayerHasUnitTypeInArea(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, 0, true);
 		}
 	case 110:
 		{
@@ -528,7 +528,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 			return false;
 		p5 = condition->getParameter(5);
 		parameter = condition->getParameter(4);
-		return this->rva003E61A4(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, p5, false);
+		return this->evaluatePlayerHasUnitTypeInArea(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter, p5, false);
 		}
 	case 194:
 		return TheFormationAssistant->m_flag34();
@@ -538,7 +538,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 		if (condition->getNumParameters() < 5)
 			return false;
 		parameter = condition->getParameter(4);
-		return this->rva003E64A6(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter);
+		return this->evaluatePlayerHasUnitKindInArea(condition, condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3), parameter);
 		}
 	case 160:
 		return this->evaluatePlayerHasNumberObjectsWithModelCondition(condition->getParameter(0), (CondA003E5F73 *)condition->getParameter(1), (CondB003E5F73 *)condition->getParameter(2), (CondC003E5F73 *)condition->getParameter(3));

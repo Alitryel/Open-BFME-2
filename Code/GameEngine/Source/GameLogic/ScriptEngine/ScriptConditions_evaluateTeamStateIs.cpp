@@ -261,7 +261,7 @@
 // is reduced in place by the second's, read through the pointer the call
 // returns, before the same Coord3D::length comparison.
 //
-// ?rva003E61A4@ScriptConditions@@IAE_NPAVCondition@@PAVParameter@@11111_N@Z @ 0x003E61A4 553B
+// ?evaluatePlayerHasUnitTypeInArea@ScriptConditions@@IAE_NPAVCondition@@PAVParameter@@11111_N@Z @ 0x003E61A4 553B
 // Donor: BFME 1 ScriptConditionsRva0032A710.cpp (BFME's extension of Zero
 // Hour's evaluatePlayerHasUnitTypeInArea: player-mask loop and upgrade
 // filter), without its custom-data change cache. Target evidence: jump-table
@@ -991,7 +991,7 @@ protected:
 	bool rva003EA12A(Parameter *);
 	bool rva003EA228(Parameter *, bool);
 	bool evaluateSkirmishValueInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *);
-	bool rva003E64A6(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *);
+	bool evaluatePlayerHasUnitKindInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *);
 	bool evaluateSkirmishPlayerHasUnitsInArea(Condition *, Parameter *, Parameter *);
 	bool evaluateHasCommandPointsToBuildUnit(Parameter *, Parameter *);
 	bool evaluatePlayerHasKilledTypeUnits(Parameter *, Parameter *, Parameter *);
@@ -1010,7 +1010,7 @@ protected:
 	bool evaluateCanBuildAtBase(Parameter *, Parameter *);
 	bool evaluateDistanceBetweenObjects(Condition *);
 	bool evaluateDistanceBetweenTeams(Condition *);
-	bool rva003E61A4(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, bool);
+	bool evaluatePlayerHasUnitTypeInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, bool);
 	bool rva003E8D01(Parameter *, Parameter *, Parameter *);
 	bool rva003E4D93(Parameter *, Parameter *, Parameter *, Parameter *);
 };
@@ -1831,7 +1831,7 @@ bool ScriptConditions::evaluateDistanceBetweenTeams(Condition *pCondition)
 	return false;
 }
 
-bool ScriptConditions::rva003E61A4(Condition *pCondition, Parameter *pPlayerParm, Parameter *pComparisonParm,
+bool ScriptConditions::evaluatePlayerHasUnitTypeInArea(Condition *pCondition, Parameter *pPlayerParm, Parameter *pComparisonParm,
 	Parameter *pCountParm, Parameter *pTypeParm, Parameter *pTriggerParm, Parameter *pUpgradeParm, bool flag)
 {
 	PolygonTrigger *pTrig = TheScriptEngine->getQualifiedTriggerAreaByName(pTriggerParm->getString());
@@ -2258,9 +2258,9 @@ bool ScriptConditions::evaluateSkirmishValueInArea(Condition *pCondition, Parame
 	pCondition->setCustomData(-1);
 	return false;
 }
-// ?rva003E64A6@ScriptConditions@@IAE_NPAVCondition@@PAVParameter@@1111@Z, retail 0x003E64A6 (559 bytes): case 75
+// ?evaluatePlayerHasUnitKindInArea@ScriptConditions@@IAE_NPAVCondition@@PAVParameter@@1111@Z, retail 0x003E64A6 (559 bytes): case 75
 // PLAYER_HAS_COMPARISON_UNIT_KIND_IN_TRIGGER_AREA. Donor: BFME 1 ScriptConditionsRva0032ABC0.cpp.
-bool ScriptConditions::rva003E64A6(Condition *pCondition, Parameter *pPlayerParm, Parameter *pComparisonParm,
+bool ScriptConditions::evaluatePlayerHasUnitKindInArea(Condition *pCondition, Parameter *pPlayerParm, Parameter *pComparisonParm,
 	Parameter *pCountParm, Parameter *pKindParm, Parameter *pTriggerParm)
 {
 	PolygonTrigger *pTrig = TheScriptEngine->getQualifiedTriggerAreaByName(pTriggerParm->getString());

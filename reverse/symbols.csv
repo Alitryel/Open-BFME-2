@@ -14906,7 +14906,7 @@ _isdigit,0x00629982,Native6F97F0 suffix parser calls PE isdigit import thunk6299
 ?resize@?$vector@UAptTimeLinePlayer@@V?$allocator@UAptTimeLinePlayer@@@_STL@@@_STL@@QAEXI@Z,0x0052076F,vector<AptTimeLinePlayer>::resize(n) (35B: default row + resize(n x)) called by AptTimeLine::CollectPlayerData 0x00520923 and four more AptTimeLine sites
 ?recalculateMicrophone@MilesAudioManager@@QAEXXZ,0x00052B53,WB 0x78A8C0 names it by callgraph; unrowed 971B member called by the +0x678 view setter 0x5DAFC
 ?Rva0056815A@@YA_NXZ,0x0056815A,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
-?rva003E64A6@ScriptConditions@@IAE_NPAVCondition@@PAVParameter@@1111@Z,0x003E64A6,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
+?evaluatePlayerHasUnitKindInArea@ScriptConditions@@IAE_NPAVCondition@@PAVParameter@@1111@Z,0x003E64A6,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E86A3@ScriptConditions@@IAE_NPAVParameter@@00@Z,0x003E86A3,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E8785@ScriptConditions@@IAE_NPAVParameter@@00@Z,0x003E8785,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z
 ?rva003E8863@ScriptConditions@@IAE_NPAVParameter@@000@Z,0x003E8863,callee of ?evaluateConditionHelper@ScriptConditions@@IAE_NPAVCondition@@@Z

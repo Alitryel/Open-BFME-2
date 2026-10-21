@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
-// ScriptConditions::rva003EA3AB, retail 0x003EA3AB, 443 bytes (caller
+// ScriptConditions::evaluateTypeSighted, retail 0x003EA3AB, 443 bytes (caller
 // 0x003EAEDD in the condition dispatcher 0x003EA9AF). Zero Hour's
 // evaluateTypeSighted made BFME2: for each player of the parameter's player
 // mask (TheScriptEngine 0x00357B82, ThePlayerList::getEachPlayerFromMask),
@@ -160,10 +160,10 @@ extern ScriptEngine *TheScriptEngine;
 class ScriptConditions
 {
 public:
-	bool rva003EA3AB(const AsciiString &unitName, Parameter *typeParm, Parameter *playerParm);
+	bool evaluateTypeSighted(const AsciiString &unitName, Parameter *typeParm, Parameter *playerParm);
 };
 
-bool ScriptConditions::rva003EA3AB(const AsciiString &unitName, Parameter *typeParm, Parameter *playerParm)
+bool ScriptConditions::evaluateTypeSighted(const AsciiString &unitName, Parameter *typeParm, Parameter *playerParm)
 {
 	Object *theObj = TheScriptEngine->getUnitNamed(unitName);
 	if (!theObj)

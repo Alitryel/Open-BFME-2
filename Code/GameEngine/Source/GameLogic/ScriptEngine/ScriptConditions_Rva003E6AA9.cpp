@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
-// ?rva003E6AA9@ScriptConditions@@IAE_NPAVParameter@@0@Z @0x003E6AA9 174B
+// ?evaluateTeamDiscovered@ScriptConditions@@IAE_NPAVParameter@@0@Z @0x003E6AA9 174B
 // Team twin of 0x003E6A2B; neighbours Rva003E6A2B and evaluateTeamOwnedByPlayer.
 // Evidence: ScriptConditions 2-Parameter bool via dispatcher 0x003EAE15; getTeamNamed 0x003584E9; flag +0x1C8 bit 8; player mask 0x00357B82 walked by getEachPlayerFromMask 0x002A7BC9; Object gate 0x002943B2 skipping shroud 0x0028D2A2 for Player +0x54 with FOGGED SHROUDED true.
 #include "ascii_string.h"
@@ -53,9 +53,9 @@ extern class ScriptEngine *TheScriptEngine;
 class ScriptConditions
 {
 protected:
-	bool rva003E6AA9(Parameter *pTeamParm, Parameter *pPlayerParm);
+	bool evaluateTeamDiscovered(Parameter *pTeamParm, Parameter *pPlayerParm);
 };
-bool ScriptConditions::rva003E6AA9(Parameter *pTeamParm, Parameter *pPlayerParm)
+bool ScriptConditions::evaluateTeamDiscovered(Parameter *pTeamParm, Parameter *pPlayerParm)
 {
 	Team *team = TheScriptEngine->getTeamNamed(pTeamParm->getString(), false);
 	if (!team)
