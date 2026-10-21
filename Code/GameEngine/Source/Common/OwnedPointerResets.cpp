@@ -67,7 +67,7 @@
 //   0x005FD95E  0x005FD628    1
 //   0x005FF8F8  0x005FF5F6    1
 
-void __cdecl operator delete(void *p);
+void __cdecl operator delete(void *owned);
 
 // Rowed twins of the pointee destructors below: same address, retail spelling. The reset signatures keep the
 // address-derived pointee names, so the calls cast to these declaration-only views.
@@ -102,12 +102,12 @@ public:
 
 void Rva000AF146::clear()
 {
-	Rva000AD71D *p = m_ptr;
+	Rva000AD71D *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva000AD71D::~Rva000AD71D();
-		::operator delete(p);
+		owned->Rva000AD71D::~Rva000AD71D();
+		::operator delete(owned);
 	}
 }
 
@@ -126,12 +126,12 @@ public:
 
 void Rva0023A039::clear()
 {
-	Rva00239D7A *p = m_ptr;
+	Rva00239D7A *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((Rva0023A128 *)p)->Rva0023A128::~Rva0023A128();
-		::operator delete(p);
+		((Rva0023A128 *)owned)->Rva0023A128::~Rva0023A128();
+		::operator delete(owned);
 	}
 }
 
@@ -164,12 +164,12 @@ public:
 
 void Rva0029B5E3::clear()
 {
-	Rva004E668E *p = m_ptr;
+	Rva004E668E *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva004E668E::~Rva004E668E();
-		::operator delete(p);
+		owned->Rva004E668E::~Rva004E668E();
+		::operator delete(owned);
 	}
 }
 
@@ -188,12 +188,12 @@ public:
 
 void Rva0029B620::clear()
 {
-	InGameNotificationBoxMovieClip *p = m_ptr;
+	InGameNotificationBoxMovieClip *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->InGameNotificationBoxMovieClip::~InGameNotificationBoxMovieClip();
-		::operator delete(p);
+		owned->InGameNotificationBoxMovieClip::~InGameNotificationBoxMovieClip();
+		::operator delete(owned);
 	}
 }
 
@@ -212,12 +212,12 @@ public:
 
 void Rva002B430C::clear()
 {
-	Rva004FA2E2 *p = m_ptr;
+	Rva004FA2E2 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva004FA2E2::~Rva004FA2E2();
-		::operator delete(p);
+		owned->Rva004FA2E2::~Rva004FA2E2();
+		::operator delete(owned);
 	}
 }
 
@@ -236,12 +236,12 @@ public:
 
 void Rva002B9099::clear()
 {
-	Rva002B74DE *p = m_ptr;
+	Rva002B74DE *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva002B74DE::~Rva002B74DE();
-		::operator delete(p);
+		owned->Rva002B74DE::~Rva002B74DE();
+		::operator delete(owned);
 	}
 }
 
@@ -260,12 +260,12 @@ public:
 
 void Rva002D3894::clear()
 {
-	Rva0052710C *p = m_ptr;
+	Rva0052710C *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva0052710C::~Rva0052710C();
-		::operator delete(p);
+		owned->Rva0052710C::~Rva0052710C();
+		::operator delete(owned);
 	}
 }
 
@@ -284,12 +284,12 @@ public:
 
 void Rva002D38D1::clear()
 {
-	Rva00527CCE *p = m_ptr;
+	Rva00527CCE *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((Rva00527827 *)p)->Rva00527827::~Rva00527827();
-		::operator delete(p);
+		((Rva00527827 *)owned)->Rva00527827::~Rva00527827();
+		::operator delete(owned);
 	}
 }
 
@@ -308,12 +308,12 @@ public:
 
 void Rva002D3931::clear()
 {
-	Rva00527FA2 *p = m_ptr;
+	Rva00527FA2 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva00527FA2::~Rva00527FA2();
-		::operator delete(p);
+		owned->Rva00527FA2::~Rva00527FA2();
+		::operator delete(owned);
 	}
 }
 
@@ -332,12 +332,12 @@ public:
 
 void Rva0042C1DF::clear()
 {
-	Rva0057417E *p = m_ptr;
+	Rva0057417E *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva0057417E::~Rva0057417E();
-		::operator delete(p);
+		owned->Rva0057417E::~Rva0057417E();
+		::operator delete(owned);
 	}
 }
 
@@ -356,12 +356,12 @@ public:
 
 void Rva0042D789::clear()
 {
-	Rva00578C43 *p = m_ptr;
+	Rva00578C43 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((StrategicHUD::Palantir *)p)->StrategicHUD::Palantir::~Palantir();
-		::operator delete(p);
+		((StrategicHUD::Palantir *)owned)->StrategicHUD::Palantir::~Palantir();
+		::operator delete(owned);
 	}
 }
 
@@ -380,12 +380,12 @@ public:
 
 void Rva0042D87D::clear()
 {
-	Rva0057BD01 *p = m_ptr;
+	Rva0057BD01 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((StrategicHUD::SelectionDetailsUIImpl *)p)->StrategicHUD::SelectionDetailsUIImpl::~SelectionDetailsUIImpl();
-		::operator delete(p);
+		((StrategicHUD::SelectionDetailsUIImpl *)owned)->StrategicHUD::SelectionDetailsUIImpl::~SelectionDetailsUIImpl();
+		::operator delete(owned);
 	}
 }
 
@@ -404,12 +404,12 @@ public:
 
 void Rva004E6A1D::clear()
 {
-	Rva004E6935 *p = m_ptr;
+	Rva004E6935 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva004E6935::~Rva004E6935();
-		::operator delete(p);
+		owned->Rva004E6935::~Rva004E6935();
+		::operator delete(owned);
 	}
 }
 
@@ -429,12 +429,12 @@ public:
 
 void Rva004E7F29::clear()
 {
-	Rva004E7DC8 *p = m_ptr;
+	Rva004E7DC8 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva004E7DC8::~Rva004E7DC8();
-		::operator delete(p);
+		owned->Rva004E7DC8::~Rva004E7DC8();
+		::operator delete(owned);
 	}
 }
 
@@ -462,12 +462,12 @@ public:
 
 void Rva00526F12::clear()
 {
-	Rva0052634F *p = m_ptr;
+	Rva0052634F *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva0052634F::~Rva0052634F();
-		::operator delete(p);
+		owned->Rva0052634F::~Rva0052634F();
+		::operator delete(owned);
 	}
 }
 
@@ -486,12 +486,12 @@ public:
 
 void Rva00526F2C::clear()
 {
-	Rva005262BF *p = m_ptr;
+	Rva005262BF *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005262BF::~Rva005262BF();
-		::operator delete(p);
+		owned->Rva005262BF::~Rva005262BF();
+		::operator delete(owned);
 	}
 }
 
@@ -510,12 +510,12 @@ public:
 
 void Rva00527F88::clear()
 {
-	Rva00527E53 *p = m_ptr;
+	Rva00527E53 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva00527E53::~Rva00527E53();
-		::operator delete(p);
+		owned->Rva00527E53::~Rva00527E53();
+		::operator delete(owned);
 	}
 }
 
@@ -534,12 +534,12 @@ public:
 
 void Rva005287D0::clear()
 {
-	Rva005282BA *p = m_ptr;
+	Rva005282BA *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((AptInGameSideCommandBar::Impl *)p)->AptInGameSideCommandBar::Impl::~Impl();
-		::operator delete(p);
+		((AptInGameSideCommandBar::Impl *)owned)->AptInGameSideCommandBar::Impl::~Impl();
+		::operator delete(owned);
 	}
 }
 
@@ -558,12 +558,12 @@ public:
 
 void Rva0052A76C::clear()
 {
-	Rva0052A470 *p = m_ptr;
+	Rva0052A470 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva0052A470::~Rva0052A470();
-		::operator delete(p);
+		owned->Rva0052A470::~Rva0052A470();
+		::operator delete(owned);
 	}
 }
 
@@ -583,12 +583,12 @@ public:
 
 void Rva005786CD::clear()
 {
-	Rva005D32D4 *p = m_ptr;
+	Rva005D32D4 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005D32D4::~Rva005D32D4();
-		::operator delete(p);
+		owned->Rva005D32D4::~Rva005D32D4();
+		::operator delete(owned);
 	}
 }
 
@@ -607,12 +607,12 @@ public:
 
 void Rva00578724::clear()
 {
-	Rva005D3C2B *p = m_ptr;
+	Rva005D3C2B *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005D3C2B::~Rva005D3C2B();
-		::operator delete(p);
+		owned->Rva005D3C2B::~Rva005D3C2B();
+		::operator delete(owned);
 	}
 }
 
@@ -631,12 +631,12 @@ public:
 
 void Rva0057B9B6::clear()
 {
-	Rva005D4FFC *p = m_ptr;
+	Rva005D4FFC *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005D4FFC::~Rva005D4FFC();
-		::operator delete(p);
+		owned->Rva005D4FFC::~Rva005D4FFC();
+		::operator delete(owned);
 	}
 }
 
@@ -655,12 +655,12 @@ public:
 
 void Rva005CE21C::clear()
 {
-	Rva005E893E *p = m_ptr;
+	Rva005E893E *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005E893E::~Rva005E893E();
-		::operator delete(p);
+		owned->Rva005E893E::~Rva005E893E();
+		::operator delete(owned);
 	}
 }
 
@@ -679,12 +679,12 @@ public:
 
 void Rva005CF363::clear()
 {
-	Rva005CEFD3 *p = m_ptr;
+	Rva005CEFD3 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005CEFD3::~Rva005CEFD3();
-		::operator delete(p);
+		owned->Rva005CEFD3::~Rva005CEFD3();
+		::operator delete(owned);
 	}
 }
 
@@ -703,12 +703,12 @@ public:
 
 void Rva005D0ABB::clear()
 {
-	Rva005D07E1 *p = m_ptr;
+	Rva005D07E1 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((Rva005D0C87 *)p)->Rva005D0C87::~Rva005D0C87();
-		::operator delete(p);
+		((Rva005D0C87 *)owned)->Rva005D0C87::~Rva005D0C87();
+		::operator delete(owned);
 	}
 }
 
@@ -733,12 +733,12 @@ public:
 
 void Rva005D127C::clear()
 {
-	StrategicInGameUI::TacticalBattleResolver::Impl *p = m_ptr;
+	StrategicInGameUI::TacticalBattleResolver::Impl *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->StrategicInGameUI::TacticalBattleResolver::Impl::~Impl();
-		::operator delete(p);
+		owned->StrategicInGameUI::TacticalBattleResolver::Impl::~Impl();
+		::operator delete(owned);
 	}
 }
 
@@ -757,12 +757,12 @@ public:
 
 void Rva005D32AA::clear()
 {
-	Rva005D309D *p = m_ptr;
+	Rva005D309D *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005D309D::~Rva005D309D();
-		::operator delete(p);
+		owned->Rva005D309D::~Rva005D309D();
+		::operator delete(owned);
 	}
 }
 
@@ -781,12 +781,12 @@ public:
 
 void Rva005D4FA0::clear()
 {
-	Rva005D4EC6 *p = m_ptr;
+	Rva005D4EC6 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005D4EC6::~Rva005D4EC6();
-		::operator delete(p);
+		owned->Rva005D4EC6::~Rva005D4EC6();
+		::operator delete(owned);
 	}
 }
 
@@ -805,12 +805,12 @@ public:
 
 void Rva005E1E81::clear()
 {
-	Rva005E1D07 *p = m_ptr;
+	Rva005E1D07 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005E1D07::~Rva005E1D07();
-		::operator delete(p);
+		owned->Rva005E1D07::~Rva005E1D07();
+		::operator delete(owned);
 	}
 }
 
@@ -829,12 +829,12 @@ public:
 
 void Rva005E4B9D::clear()
 {
-	Rva005E4925 *p = m_ptr;
+	Rva005E4925 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((Rva005E4AE2 *)p)->Rva005E4AE2::~Rva005E4AE2();
-		::operator delete(p);
+		((Rva005E4AE2 *)owned)->Rva005E4AE2::~Rva005E4AE2();
+		::operator delete(owned);
 	}
 }
 
@@ -853,12 +853,12 @@ public:
 
 void Rva005E6253::clear()
 {
-	Rva005E5FFB *p = m_ptr;
+	Rva005E5FFB *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005E5FFB::~Rva005E5FFB();
-		::operator delete(p);
+		owned->Rva005E5FFB::~Rva005E5FFB();
+		::operator delete(owned);
 	}
 }
 
@@ -877,12 +877,12 @@ public:
 
 void Rva005E6D90::clear()
 {
-	Rva005E6D0D *p = m_ptr;
+	Rva005E6D0D *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005E6D0D::~Rva005E6D0D();
-		::operator delete(p);
+		owned->Rva005E6D0D::~Rva005E6D0D();
+		::operator delete(owned);
 	}
 }
 
@@ -901,12 +901,12 @@ public:
 
 void Rva005E7FC8::clear()
 {
-	Rva005E7D72 *p = m_ptr;
+	Rva005E7D72 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005E7D72::~Rva005E7D72();
-		::operator delete(p);
+		owned->Rva005E7D72::~Rva005E7D72();
+		::operator delete(owned);
 	}
 }
 
@@ -925,12 +925,12 @@ public:
 
 void Rva005E88EE::clear()
 {
-	Rva005E888A *p = m_ptr;
+	Rva005E888A *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005E888A::~Rva005E888A();
-		::operator delete(p);
+		owned->Rva005E888A::~Rva005E888A();
+		::operator delete(owned);
 	}
 }
 
@@ -949,12 +949,12 @@ public:
 
 void Rva005E9E27::clear()
 {
-	Rva005E98A0 *p = m_ptr;
+	Rva005E98A0 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005E98A0::~Rva005E98A0();
-		::operator delete(p);
+		owned->Rva005E98A0::~Rva005E98A0();
+		::operator delete(owned);
 	}
 }
 
@@ -973,12 +973,12 @@ public:
 
 void Rva005EB430::clear()
 {
-	Rva005EB2E7 *p = m_ptr;
+	Rva005EB2E7 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005EB2E7::~Rva005EB2E7();
-		::operator delete(p);
+		owned->Rva005EB2E7::~Rva005EB2E7();
+		::operator delete(owned);
 	}
 }
 
@@ -997,12 +997,12 @@ public:
 
 void Rva005EBC74::clear()
 {
-	Rva005EB8D6 *p = m_ptr;
+	Rva005EB8D6 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005EB8D6::~Rva005EB8D6();
-		::operator delete(p);
+		owned->Rva005EB8D6::~Rva005EB8D6();
+		::operator delete(owned);
 	}
 }
 
@@ -1021,12 +1021,12 @@ public:
 
 void Rva005EC422::clear()
 {
-	Rva005EC09B *p = m_ptr;
+	Rva005EC09B *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005EC09B::~Rva005EC09B();
-		::operator delete(p);
+		owned->Rva005EC09B::~Rva005EC09B();
+		::operator delete(owned);
 	}
 }
 
@@ -1045,12 +1045,12 @@ public:
 
 void Rva005EDFF5::clear()
 {
-	Rva005EDE64 *p = m_ptr;
+	Rva005EDE64 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005EDE64::~Rva005EDE64();
-		::operator delete(p);
+		owned->Rva005EDE64::~Rva005EDE64();
+		::operator delete(owned);
 	}
 }
 
@@ -1069,12 +1069,12 @@ public:
 
 void Rva005F4096::clear()
 {
-	Rva005F3FFC *p = m_ptr;
+	Rva005F3FFC *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005F3FFC::~Rva005F3FFC();
-		::operator delete(p);
+		owned->Rva005F3FFC::~Rva005F3FFC();
+		::operator delete(owned);
 	}
 }
 
@@ -1093,12 +1093,12 @@ public:
 
 void Rva005F50B9::clear()
 {
-	Rva005F501E *p = m_ptr;
+	Rva005F501E *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005F501E::~Rva005F501E();
-		::operator delete(p);
+		owned->Rva005F501E::~Rva005F501E();
+		::operator delete(owned);
 	}
 }
 
@@ -1117,12 +1117,12 @@ public:
 
 void Rva005F55FA::clear()
 {
-	Rva005F54DA *p = m_ptr;
+	Rva005F54DA *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005F54DA::~Rva005F54DA();
-		::operator delete(p);
+		owned->Rva005F54DA::~Rva005F54DA();
+		::operator delete(owned);
 	}
 }
 
@@ -1141,12 +1141,12 @@ public:
 
 void Rva005F64DB::clear()
 {
-	Rva005F6051 *p = m_ptr;
+	Rva005F6051 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005F6051::~Rva005F6051();
-		::operator delete(p);
+		owned->Rva005F6051::~Rva005F6051();
+		::operator delete(owned);
 	}
 }
 
@@ -1165,12 +1165,12 @@ public:
 
 void Rva005F74A0::clear()
 {
-	Rva005F6A58 *p = m_ptr;
+	Rva005F6A58 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005F6A58::~Rva005F6A58();
-		::operator delete(p);
+		owned->Rva005F6A58::~Rva005F6A58();
+		::operator delete(owned);
 	}
 }
 
@@ -1189,12 +1189,12 @@ public:
 
 void Rva005FAFB2::clear()
 {
-	Rva005FAD8D *p = m_ptr;
+	Rva005FAD8D *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005FAD8D::~Rva005FAD8D();
-		::operator delete(p);
+		owned->Rva005FAD8D::~Rva005FAD8D();
+		::operator delete(owned);
 	}
 }
 
@@ -1213,12 +1213,12 @@ public:
 
 void Rva005FBBA6::clear()
 {
-	Rva005FB615 *p = m_ptr;
+	Rva005FB615 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005FB615::~Rva005FB615();
-		::operator delete(p);
+		owned->Rva005FB615::~Rva005FB615();
+		::operator delete(owned);
 	}
 }
 
@@ -1237,12 +1237,12 @@ public:
 
 void Rva005FCB2D::clear()
 {
-	Rva005FCA8B *p = m_ptr;
+	Rva005FCA8B *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005FCA8B::~Rva005FCA8B();
-		::operator delete(p);
+		owned->Rva005FCA8B::~Rva005FCA8B();
+		::operator delete(owned);
 	}
 }
 
@@ -1258,12 +1258,12 @@ public:
 
 void Rva005FD95E::clear()
 {
-	StrategicHUD::ArmyUnitSwapperMovieClip::Impl *p = m_ptr;
+	StrategicHUD::ArmyUnitSwapperMovieClip::Impl *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->~Impl();
-		::operator delete(p);
+		owned->~Impl();
+		::operator delete(owned);
 	}
 }
 
@@ -1278,12 +1278,12 @@ public:
 
 void Rva005FF8F8::clear()
 {
-	StrategicHUD::BattlePromptArmyPanelMovieClip::Impl *p = m_ptr;
+	StrategicHUD::BattlePromptArmyPanelMovieClip::Impl *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->StrategicHUD::BattlePromptArmyPanelMovieClip::Impl::~Impl();
-		::operator delete(p);
+		owned->StrategicHUD::BattlePromptArmyPanelMovieClip::Impl::~Impl();
+		::operator delete(owned);
 	}
 }
 
@@ -1296,11 +1296,11 @@ public:
 
 Rva004E6A37::~Rva004E6A37()
 {
-	Rva004E6935 *p = m_ptr;
-	if (p)
+	Rva004E6935 *owned = m_ptr;
+	if (owned)
 	{
-		p->Rva004E6935::~Rva004E6935();
-		::operator delete(p);
+		owned->Rva004E6935::~Rva004E6935();
+		::operator delete(owned);
 	}
 }
 
@@ -1308,15 +1308,15 @@ class Rva0023A053
 {
 public:
 	Rva00239D7A *m_ptr;
-	void reset(Rva00239D7A *p);
+	void reset(Rva00239D7A *owned);
 };
 
-void Rva0023A053::reset(Rva00239D7A *p)
+void Rva0023A053::reset(Rva00239D7A *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva00239D7A *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			((Rva0023A128 *)old)->Rva0023A128::~Rva0023A128();
@@ -1329,15 +1329,15 @@ class Rva0057B993
 {
 public:
 	Rva005D4FFC *m_ptr;
-	void reset(Rva005D4FFC *p);
+	void reset(Rva005D4FFC *owned);
 };
 
-void Rva0057B993::reset(Rva005D4FFC *p)
+void Rva0057B993::reset(Rva005D4FFC *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva005D4FFC *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva005D4FFC::~Rva005D4FFC();
@@ -1350,15 +1350,15 @@ class Rva005CE236
 {
 public:
 	Rva005E893E *m_ptr;
-	void reset(Rva005E893E *p);
+	void reset(Rva005E893E *owned);
 };
 
-void Rva005CE236::reset(Rva005E893E *p)
+void Rva005CE236::reset(Rva005E893E *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva005E893E *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva005E893E::~Rva005E893E();
@@ -1377,15 +1377,15 @@ class Rva00578701
 {
 public:
 	Rva005D3731 *m_ptr;
-	void reset(Rva005D3731 *p);
+	void reset(Rva005D3731 *owned);
 };
 
-void Rva00578701::reset(Rva005D3731 *p)
+void Rva00578701::reset(Rva005D3731 *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva005D3731 *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva005D3731::~Rva005D3731();
@@ -1398,15 +1398,15 @@ class Rva002B4326
 {
 public:
 	Rva004FA2E2 *m_ptr;
-	void reset(Rva004FA2E2 *p);
+	void reset(Rva004FA2E2 *owned);
 };
 
-void Rva002B4326::reset(Rva004FA2E2 *p)
+void Rva002B4326::reset(Rva004FA2E2 *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva004FA2E2 *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva004FA2E2::~Rva004FA2E2();
@@ -1424,11 +1424,11 @@ public:
 
 Rva002B4349::~Rva002B4349()
 {
-	Rva004FA2E2 *p = m_ptr;
-	if (p)
+	Rva004FA2E2 *owned = m_ptr;
+	if (owned)
 	{
-		p->Rva004FA2E2::~Rva004FA2E2();
-		::operator delete(p);
+		owned->Rva004FA2E2::~Rva004FA2E2();
+		::operator delete(owned);
 	}
 }
 
@@ -1436,15 +1436,15 @@ class Rva002D38AE
 {
 public:
 	Rva0052710C *m_ptr;
-	void reset(Rva0052710C *p);
+	void reset(Rva0052710C *owned);
 };
 
-void Rva002D38AE::reset(Rva0052710C *p)
+void Rva002D38AE::reset(Rva0052710C *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva0052710C *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 		old->Rva0052710C::~Rva0052710C();
@@ -1457,15 +1457,15 @@ class Rva005E7FE2
 {
 public:
 	Rva005E7D72 *m_ptr;
-	void reset(Rva005E7D72 *p);
+	void reset(Rva005E7D72 *owned);
 };
 
-void Rva005E7FE2::reset(Rva005E7D72 *p)
+void Rva005E7FE2::reset(Rva005E7D72 *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva005E7D72 *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva005E7D72::~Rva005E7D72();
@@ -1478,15 +1478,15 @@ class Rva0042D85A
 {
 public:
 	Rva0057BD01 *m_ptr;
-	void reset(Rva0057BD01 *p);
+	void reset(Rva0057BD01 *owned);
 };
 
-void Rva0042D85A::reset(Rva0057BD01 *p)
+void Rva0042D85A::reset(Rva0057BD01 *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva0057BD01 *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			((StrategicHUD::SelectionDetailsUIImpl *)old)->StrategicHUD::SelectionDetailsUIImpl::~SelectionDetailsUIImpl();
@@ -1499,15 +1499,15 @@ class Rva000AF160
 {
 public:
 	Rva000AD71D *m_ptr;
-	void reset(Rva000AD71D *p);
+	void reset(Rva000AD71D *owned);
 };
 
-void Rva000AF160::reset(Rva000AD71D *p)
+void Rva000AF160::reset(Rva000AD71D *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva000AD71D *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva000AD71D::~Rva000AD71D();
@@ -1531,12 +1531,12 @@ public:
 
 void Rva005F13CC::clear()
 {
-	Rva005F1295 *p = m_ptr;
+	Rva005F1295 *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		p->Rva005F1295::~Rva005F1295();
-		::operator delete(p);
+		owned->Rva005F1295::~Rva005F1295();
+		::operator delete(owned);
 	}
 }
 
@@ -1544,15 +1544,15 @@ class Rva0042D766
 {
 public:
 	Rva00578C43 *m_ptr;
-	void reset(Rva00578C43 *p);
+	void reset(Rva00578C43 *owned);
 };
 
-void Rva0042D766::reset(Rva00578C43 *p)
+void Rva0042D766::reset(Rva00578C43 *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva00578C43 *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			((StrategicHUD::Palantir *)old)->StrategicHUD::Palantir::~Palantir();
@@ -1566,7 +1566,7 @@ class Rva002D38EB
 public:
 	~Rva002D38EB();
 	Rva00527CCE *m_ptr;
-	void reset(Rva00527CCE *p);
+	void reset(Rva00527CCE *owned);
 };
 
 // ??1Rva002D38EB@@QAE@XZ: the holder's destructor releases the pointee exactly as
@@ -1574,21 +1574,21 @@ public:
 // 0x002D38D1 (the HUD::Impl dtor 0x0042D92E destroys its +0x18 member through it).
 Rva002D38EB::~Rva002D38EB()
 {
-	Rva00527CCE *p = m_ptr;
+	Rva00527CCE *owned = m_ptr;
 	m_ptr = 0;
-	if (p)
+	if (owned)
 	{
-		((Rva00527827 *)p)->Rva00527827::~Rva00527827();
-		::operator delete(p);
+		((Rva00527827 *)owned)->Rva00527827::~Rva00527827();
+		::operator delete(owned);
 	}
 }
 
-void Rva002D38EB::reset(Rva00527CCE *p)
+void Rva002D38EB::reset(Rva00527CCE *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva00527CCE *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			((Rva00527827 *)old)->Rva00527827::~Rva00527827();
@@ -1601,15 +1601,15 @@ class Rva002D390E
 {
 public:
 	Rva00527FA2 *m_ptr;
-	void reset(Rva00527FA2 *p);
+	void reset(Rva00527FA2 *owned);
 };
 
-void Rva002D390E::reset(Rva00527FA2 *p)
+void Rva002D390E::reset(Rva00527FA2 *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva00527FA2 *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva00527FA2::~Rva00527FA2();
@@ -1622,15 +1622,15 @@ class Rva002B90B3
 {
 public:
 	Rva002B74DE *m_ptr;
-	void reset(Rva002B74DE *p);
+	void reset(Rva002B74DE *owned);
 };
 
-void Rva002B90B3::reset(Rva002B74DE *p)
+void Rva002B90B3::reset(Rva002B74DE *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva002B74DE *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva002B74DE::~Rva002B74DE();
@@ -1643,15 +1643,15 @@ class Rva0029B5FD
 {
 public:
 	Rva004E668E *m_ptr;
-	void reset(Rva004E668E *p);
+	void reset(Rva004E668E *owned);
 };
 
-void Rva0029B5FD::reset(Rva004E668E *p)
+void Rva0029B5FD::reset(Rva004E668E *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva004E668E *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva004E668E::~Rva004E668E();
@@ -1665,15 +1665,15 @@ class Rva0042C1BC
 {
 public:
 	Rva0057417E *m_ptr;
-	void reset(Rva0057417E *p);
+	void reset(Rva0057417E *owned);
 };
 
-void Rva0042C1BC::reset(Rva0057417E *p)
+void Rva0042C1BC::reset(Rva0057417E *owned)
 {
-	if (p != m_ptr)
+	if (owned != m_ptr)
 	{
 		Rva0057417E *old = m_ptr;
-		m_ptr = p;
+		m_ptr = owned;
 		if (old)
 		{
 			old->Rva0057417E::~Rva0057417E();
