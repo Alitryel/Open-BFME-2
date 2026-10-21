@@ -1,4 +1,6 @@
 // ?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z
+// partial score=0.9156293222683264 date=2026-10-21
+// ?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z
 // partial score=0.95 date=2026-10-20
 // cl: /O1 /DNDEBUG /MD /arch:SSE /I.
 #include "Code/Libraries/Include/Lib/Coord2D.h"
@@ -17,8 +19,19 @@ inline __declspec(noinline) float Coord2D::length()const{return (float)sqrt(x*x+
 inline __declspec(noinline) void Coord2D::normalize(){float len=length();if(len!=0){x/=len;y/=len;}}
 inline __declspec(noinline) float Coord3D::length()const{return (float)sqrt(x*x+y*y+z*z);}
 inline __declspec(noinline) void Coord3D::normalize(){float len=length();if(len!=0.0f){float scale=1.0f/len;x*=scale;y*=scale;z*=scale;}}
+class CameraPlanar : public Coord2D {
+public:
+ CameraPlanar() {}
+ CameraPlanar(float px,float py) {x=px;y=py;}
+ CameraPlanar(const Coord3D &p) {x=p.x;y=p.y;}
+ CameraPlanar(const Coord2D &p) {x=p.x;y=p.y;}
+ CameraPlanar(const CameraPlanar &p) {x=p.x;y=p.y;}
+ CameraPlanar &operator-=(const Coord2D &p) {x-=p.x;y-=p.y;return *this;}
+ float operator*(const Coord2D &p) const {return x*p.x+y*p.y;}
+ 
+};
 bool PolygonTrigger::adjustCameraMovement(const Coord3D*from,const Coord3D*to,Coord3D*out,bool slide){
- const Coord3D*start=from;Coord2D from2,to2,delta;from2.x=start->x;from2.y=start->y;to2.x=to->x;to2.y=to->y;delta.x=to2.x-from2.x;delta.y=to2.y-from2.y;
+ const Coord3D*start=from;CameraPlanar from2(*start),to2(*to);CameraPlanar delta(to2);delta-=from2;
  if(rva002E3A39(*to)){*out=*to;return true;}
  if(!rva002E3A39(*start)){*out=*start;return false;}
  Coord2D current,previous,intersection;int i=0;const int n=end-begin;
