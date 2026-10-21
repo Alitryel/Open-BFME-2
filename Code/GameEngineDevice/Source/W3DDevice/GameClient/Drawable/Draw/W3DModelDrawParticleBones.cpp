@@ -53,6 +53,7 @@ inline bool operator<(const BfmePod32 &x, const BfmePod32 &y) { return x.a[0] < 
 // StlportPod248ElementDtor.cpp (0x239D49 / 0x2FECBC; payload 32B per 0xB92D2). Retail
 // tears a local Pod32 list down as an explicit clear, the unwind-state reset, then the
 // out-of-line base dtor; the two specializations spell that without a second name for 0x2FECBC.
+// dllimport throw(): callers expand it, and no out-of-line copy competes with the link's 0x2FECBC body.
 struct Rva000C6D44ListProxy74
 {
 	void *m_header;
@@ -60,7 +61,7 @@ struct Rva000C6D44ListProxy74
 	~Rva000C6D44ListProxy74();
 };
 namespace _STL {
-template <> __forceinline _List_base<BfmePod32, allocator<BfmePod32> >::~_List_base()
+template <> __declspec(dllimport) __forceinline _List_base<BfmePod32, allocator<BfmePod32> >::~_List_base() throw()
 {
 	reinterpret_cast<Rva000C6D44ListProxy74 *>(this)->~Rva000C6D44ListProxy74();
 }

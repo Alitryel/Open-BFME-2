@@ -15,6 +15,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 // bfmeHeadersForSize: the headers' out-of-line inline copies that retail keeps are
 // the size-optimised bodies (decalsys.cpp pattern); the rows below keep the unit's flags.
+// PlaneClass::Compute_Intersection is inlined at its one use here, yet this /O2 unit still emits
+// a 166-byte out-of-line copy that retail's /O1 owner at 0x00069168 (165 B, PlaneO1Inlines.cpp)
+// disproves, and no pragma state reproduces /Os for it. A TU-local name keeps that copy from
+// displacing retail's.
+#define Compute_Intersection Compute_Intersection_O2
 #pragma optimize("s", on)
 #include "rendobj.h"
 #include "aabox.h"

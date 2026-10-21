@@ -1,5 +1,4 @@
-// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
-// copy that competes with retail's integer-move owner (0x006D8A30).
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE copy that competes with retail's integer-move owner (0x006D8A30).
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it; retail links the
 // /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
@@ -7,8 +6,9 @@
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
+#pragma optimize("y", on)	// Vector4::operator= as retail's frameless copy (0x00133880)
 #include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
