@@ -98,7 +98,7 @@ class Object
 	char m_pad410[0x48C - 0x410];	// +0x410..+0x48C unknown
 	unsigned char m_flag48C;		// +0x48C
 	char m_pad48D[0x490 - 0x48D];	// +0x48D..+0x490 pad
-	int m_frame490;					// +0x490 cached frame
+	int m_cachedFrame;					// +0x490 cached frame
 
 public:
 	void rva0028ACCA(int arg);
@@ -344,7 +344,7 @@ void Object::rva0028CDB6()
 void Object::rva0028B95F()
 {
 	m_flag48C = 1;
-	m_frame490 = TheGameLogic->m_frame;
+	m_cachedFrame = TheGameLogic->m_frame;
 }
 
 bool Object::isOutOfAmmo() const

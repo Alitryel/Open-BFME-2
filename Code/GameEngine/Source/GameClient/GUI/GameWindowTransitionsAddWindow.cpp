@@ -43,7 +43,7 @@ public:
 private:
 	_STL::list<int, _STL::allocator<int> > m_list; // +0, genuine Rva001DC0EC home
 	int m_04; // +0x04 direction
-	int m_08; // +0x08 current frame
+	int m_currentFrame; // +0x08 current frame
 	int m_0C; // +0x0C name data
 	bool m_10; // +0x10 fireOnce
 };

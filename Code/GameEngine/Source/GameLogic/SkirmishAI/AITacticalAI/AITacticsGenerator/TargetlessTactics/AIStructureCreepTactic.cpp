@@ -568,8 +568,8 @@ private:
 	unsigned int m_64;	// +0x64
 	unsigned int m_68;	// +0x68
 	int m_next;		// +0x6C
-	unsigned int m_70;	// +0x70 frame of the next site scan
-	unsigned int m_74;	// +0x74 frame of the next move order
+	unsigned int m_nextSiteScanFrame;	// +0x70 frame of the next site scan
+	unsigned int m_nextMoveOrderFrame;	// +0x74 frame of the next move order
 	bool m_78;		// +0x78 done
 	bool m_running;		// +0x79
 	unsigned int m_nextRun;	// +0x7C
@@ -900,9 +900,9 @@ void AIStructureCreepTactic::update()
 			float dy = pos->y - dozer->m_pos[1];
 			float dz = pos->z - dozer->m_pos[2];
 			if (dz * dz + dy * dy + dx * dx > 62500.0f) {
-				if (TheGameLogic->getFrame() >= m_74 || m_74 == (unsigned int)-1) {
+				if (TheGameLogic->getFrame() >= m_nextMoveOrderFrame || m_nextMoveOrderFrame == (unsigned int)-1) {
 					dozer->m_ai->m_commands.aiMoveToPosition(pos, CMD_FROM_PLAYER);
-					m_74 = TheGameLogic->getFrame() + g_00E06424;
+					m_nextMoveOrderFrame = TheGameLogic->getFrame() + g_00E06424;
 				}
 			} else {
 				dozer->m_ai->m_commands.aiIdle(CMD_FROM_PLAYER);
@@ -916,8 +916,8 @@ void AIStructureCreepTactic::update()
 				++zone->m_10;
 			m_78 = true;
 		} else {
-			if (TheGameLogic->getFrame() >= m_70 || m_70 == (unsigned int)-1) {
-				m_70 = g_00E06420 + TheGameLogic->getFrame();
+			if (TheGameLogic->getFrame() >= m_nextSiteScanFrame || m_nextSiteScanFrame == (unsigned int)-1) {
+				m_nextSiteScanFrame = g_00E06420 + TheGameLogic->getFrame();
 				Rva005ABEA2Mask mask;
 				mask.set(3);
 				mask.set(90);

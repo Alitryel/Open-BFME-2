@@ -47,9 +47,9 @@ public:
 	unsigned char m_pad044[0x6D - 0x44];
 	bool m_6d; // +0x6D
 	unsigned char m_pad06e[0x94 - 0x6E];
-	int m_94; // +0x94, the rank points a restart passes on
+	int m_restartRankPoints; // +0x94, the rank points a restart passes on
 	unsigned char m_pad098[0xA4 - 0x98];
-	int m_a4; // +0xA4, the difficulty a restart passes on
+	int m_restartDifficulty; // +0xA4, the difficulty a restart passes on
 	unsigned char m_pad0a8[0x110 - 0xA8];
 	int m_110; // +0x110
 	int m_114; // +0x114
@@ -864,8 +864,8 @@ void restartMissionMenu()
 	if (TheRecorder->getMode() == RECORDERMODETYPE_RECORD)
 		TheRecorder->stopRecording();
 
-	int rankPointsStartedWith = TheGameLogic->m_94;
-	int diff = TheGameLogic->m_a4;
+	int rankPointsStartedWith = TheGameLogic->m_restartRankPoints;
+	int diff = TheGameLogic->m_restartDifficulty;
 	int fps = TheGameEngine->getFramesPerSecondLimit();
 
 	TheGameLogic->clearGameData(false, false);

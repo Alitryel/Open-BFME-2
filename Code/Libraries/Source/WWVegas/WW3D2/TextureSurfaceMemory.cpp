@@ -33,7 +33,7 @@ struct Rva00131B1FSurface
 	int m_pad34[4]; // +0x34..0x43
 	int m_mip44; // +0x44: 1 skips the *4/3 upscale
 	int m_pad48; // +0x48..0x4B
-	int m_format4C; // +0x4C: WW3DFormat for Get_Bits_Per_Pixel
+	int m_format; // +0x4C: WW3DFormat for Get_Bits_Per_Pixel
 
 	unsigned Get_Memory_Size() const;
 };
@@ -42,7 +42,7 @@ struct Rva00131B1FSurface
 // thiscall method on the surface struct (retail mov esi,ecx, no guard).
 unsigned Rva00131B1FSurface::Get_Memory_Size() const
 {
-	unsigned mem = Get_Bits_Per_Pixel((WW3DFormat)m_format4C)
+	unsigned mem = Get_Bits_Per_Pixel((WW3DFormat)m_format)
 		* m_dim30 * m_dim2C * m_dim28 >> 3;
 	if (m_type0C == 2)
 		mem *= 6;

@@ -252,7 +252,7 @@ public:
 		int specificBarrel, const Rva0045B936Arg *arg6, Rva002CBA7C *helper, const Matrix3D *mtx);
 private:
 	ObjectID m_28; // +0x28 launcher
-	Coord3D m_2C; // +0x2C launch position
+	Coord3D m_launchPosition; // +0x2C launch position
 	ObjectID m_38; // +0x38 victim
 	int m_3C;
 	Rva002CBA7C *m_helper; // +0x40
@@ -313,7 +313,7 @@ void BezierProjectileBehavior::projectileLaunchAtObjectOrPosition(Object *victim
 		obj->setTransformMatrix(mtx);
 	else
 		Weapon::positionProjectileForLaunch(obj, launcher, (WeaponSlotType)wslot, specificBarrel);
-	m_2C = launcher ? *launcher->getPosition() : *obj->getPosition();
+	m_launchPosition = launcher ? *launcher->getPosition() : *obj->getPosition();
 	rva0045BB8A(victim, victimPos);
 	obj->setModelConditionBit(4 * 32 + 26);
 	obj->setStatus(OBJECT_STATUS_5, true);

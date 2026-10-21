@@ -224,7 +224,7 @@ protected:
 	const ModuleData *m_moduleData; // +0x04
 	Object *m_object; // +0x08
 	unsigned char m_pad0C[0x44 - 0x0C];
-	Coord3D m_44;	// +0x44 the target point
+	Coord3D m_targetPoint;	// +0x44 the target point
 	unsigned char m_pad50[0x88 - 0x50];
 };
 
@@ -240,7 +240,7 @@ void ArrowStormUpdate::rva00490AC5()
 {
 	Object *obj = m_object;
 	const ArrowStormUpdateModuleData *data = (const ArrowStormUpdateModuleData *)m_moduleData;
-	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_44, data->m_CC, 0,
+	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_targetPoint, data->m_CC, 0,
 		Rva00260EB1Filter(obj, 1, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(obj))), 1);
 	Rva0029FB3BMember extra;
 	Object *other;

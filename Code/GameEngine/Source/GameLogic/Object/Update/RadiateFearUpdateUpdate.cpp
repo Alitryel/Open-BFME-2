@@ -134,7 +134,7 @@ struct RadiateFearUpdateModuleData
 	bool m_12;		// +0x12
 	float m_14;		// +0x14 the radius
 	int m_18;		// +0x18 the delay
-	Rva2225E0Filter m_1C;	// +0x1C the object filter
+	Rva2225E0Filter m_objectFilter;	// +0x1C the object filter
 };
 
 class RadiateFearUpdate : public UpdateModule, public UpgradeMux
@@ -161,7 +161,7 @@ UpdateSleepTime RadiateFearUpdate::update()
 			Rva00261409Filter(m_object->getControllingPlayer(), true, 4).link(&Rva002611BFFilter(m_object)), 0);
 		Object *other;
 		while ((other = hits.next()) != 0) {
-			if (((Rva2225E0Filter &)data->m_1C).accepts(other, obj->getControllingPlayer())) {
+			if (((Rva2225E0Filter &)data->m_objectFilter).accepts(other, obj->getControllingPlayer())) {
 				if (data->m_10)
 					other->applyFrom(6, m_object, data->m_18);
 				if (data->m_11)

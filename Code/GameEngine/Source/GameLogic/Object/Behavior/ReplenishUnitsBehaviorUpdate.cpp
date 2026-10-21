@@ -235,10 +235,10 @@ protected:
 struct ReplenishUnitsBehaviorModuleData
 {
 	char m_pad00[0x118];
-	float m_118;			// +0x118 the replenish radius
-	float m_11C;			// +0x11C the enemy check radius
+	float m_replenishRadius;			// +0x118 the replenish radius
+	float m_enemyCheckRadius;			// +0x11C the enemy check radius
 	const FXList *m_120;		// +0x120 the replenish FX
-	ObjectStatusMask m_124;		// +0x124 the status a target needs
+	ObjectStatusMask m_requiredTargetStatus;		// +0x124 the status a target needs
 	UpdateSleepTime m_134;		// +0x134 the sleep
 	char m_pad138;
 	bool m_139;			// +0x139
@@ -296,7 +296,7 @@ void ReplenishUnitsBehavior::rva004842DD(Object *target)
 	const ReplenishUnitsBehaviorModuleData *data = getReplenishUnitsBehaviorModuleData();
 	if (data->m_120)
 		FXList::doFXObj(data->m_120, target, 0);
-	if (data->m_124.test(39)) {
+	if (data->m_requiredTargetStatus.test(39)) {
 		static NameKeyType key = TheNameKeyGenerator->nameToKey("DetachableRiderUpdate");
 		Module *rider = target->findModule(key);
 		if (rider)
@@ -317,12 +317,12 @@ UpdateSleepTime ReplenishUnitsBehavior::update()
 			if (!subject)
 				return UPDATE_SLEEP_FOREVER;
 		}
-		if (data->m_11C == 0.0f || ThePartitionManager->getClosestObject(obj->getPosition(), data->m_11C, 0,
+		if (data->m_enemyCheckRadius == 0.0f || ThePartitionManager->getClosestObject(obj->getPosition(), data->m_enemyCheckRadius, 0,
 				Rva00260EB1Filter(obj, 1, false).link(Rva0026119DFilter().link(Rva002611BFFilter(obj).link(
 					&Rva00261058(obj, false))))) == 0) {
-			Object *target = ThePartitionManager->getClosestObject(obj->getPosition(), data->m_118, 0,
+			Object *target = ThePartitionManager->getClosestObject(obj->getPosition(), data->m_replenishRadius, 0,
 				Rva00260E2AFilter(obj->getControllingPlayer()).link(
-					Rva003685CF(*(const BfmeObject872Header *)&data->m_124, *Rva0023DA79().rva0023DA79(0, OBJECT_STATUS_RVA0048438A_50)).link(
+					Rva003685CF(*(const BfmeObject872Header *)&data->m_requiredTargetStatus, *Rva0023DA79().rva0023DA79(0, OBJECT_STATUS_RVA0048438A_50)).link(
 						Rva0026119DFilter().link(Rva002611BFFilter(obj).link(&Rva00260F77Filter(subject, true))))));
 			if (target)
 				self->rva004842DD(target);

@@ -35,15 +35,15 @@ public:
 
 private:
 	int m_unused04; // +0x04
-	volatile HSTREAM m_stream08; // +0x08 closed via AIL_close_stream
+	volatile HSTREAM m_stream; // +0x08 closed via AIL_close_stream
 	char m_pad0C[8]; // +0x0C..+0x13
 	Rva0040EDB m_member14; // +0x14
 };
 
 Rva0010F0C4::~Rva0010F0C4()
 {
-	if (m_stream08 != 0) {
-		AIL_close_stream(m_stream08);
-		m_stream08 = 0;
+	if (m_stream != 0) {
+		AIL_close_stream(m_stream);
+		m_stream = 0;
 	}
 }

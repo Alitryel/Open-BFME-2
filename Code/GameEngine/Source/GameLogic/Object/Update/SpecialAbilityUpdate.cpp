@@ -470,7 +470,7 @@ public:
 	unsigned char m_pad048[0x74 - 0x48];
 	int m_id; // +0x74
 	unsigned char m_pad078[8];
-	int m_captor80; // +0x80: native captor ID
+	int m_captorID; // +0x80: native captor ID
 	unsigned char m_pad084[0x10C - 0x84];
 	ModelConditionFlags m_modelConditionFlags; // +0x10C
 	unsigned char m_pad158[0x250 - 0x158];
@@ -879,9 +879,9 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 	else if (type == 0x1d || type == 0x1a)
 	{
 		Object *target = TheGameLogic->findObjectByID(m_targetID);
-		if (target && target->isKindOf(KINDOF_6E) && target->m_captor80 == getObject()->getID())
+		if (target && target->isKindOf(KINDOF_6E) && target->m_captorID == getObject()->getID())
 		{
-			target->m_captor80 = 0;
+			target->m_captorID = 0;
 			target->clearModelConditionState((ModelConditionFlagType)0x6e);
 			target->setSpecialModelConditionState((ModelConditionFlagType)0x6f, g_00E033D0);
 		}
@@ -1248,11 +1248,11 @@ bool SpecialAbilityUpdate::handlePackingProcessing()
     ObjectID saved=m_targetID;
     Object *target=TheGameLogic->findObjectByID(saved);
     if(!target){((SpecialPackingFinishView*)this)->finish();return true;}
-    if(target->m_captor80 && target->m_captor80!=getObject()->m_id){((SpecialPackingFinishView*)this)->finish();return true;}
+    if(target->m_captorID && target->m_captorID!=getObject()->m_id){((SpecialPackingFinishView*)this)->finish();return true;}
     Object *source=getObject();
     Object *same=TheGameLogic->findObjectByID(saved);
     ((Rva001E42F2*)target)->rva001E42F2((const int*)&Rva0028F59A(0,0x6f));
-    target->m_captor80=getObject()->m_id;
+    target->m_captorID=getObject()->m_id;
     if(source->getTeam()!=same->getTeam())((Rva001E42F2*)target)->rva001E42F2((const int*)&Rva0028F59A(0,0x6e));
     ((Rva001E431E*)target)->rva001E431E((const int*)&Rva0028F59A(0,0x6e));
     ((Rva001E431E*)source)->rva001E431E((const int*)&Rva0028F59A(0,0x70));

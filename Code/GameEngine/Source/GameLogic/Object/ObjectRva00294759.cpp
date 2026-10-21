@@ -104,7 +104,7 @@ public:
 	char m_pad00[4];
 	ThingTemplate *m_template; // +0x04
 	char m_pad08[0x74 - 0x08];
-	int m_74; // +0x74, the create-a-hero key
+	int m_createAHeroKey; // +0x74, the create-a-hero key
 	char m_pad78[0x304 - 0x78];
 	Team *m_team; // +0x304
 };
@@ -134,7 +134,7 @@ const Image *Object::getObjectSelectedPortraitImage()
 			if (thingTemplate)
 				return Rva0033BC53Get(thingTemplate, this);
 		}
-		CreateAHeroData *hero = TheCreateAHeroManager->rva002197A6(m_74);
+		CreateAHeroData *hero = TheCreateAHeroManager->rva002197A6(m_createAHeroKey);
 		if (hero && hero->m_portrait)
 			return hero->m_portrait;
 	}

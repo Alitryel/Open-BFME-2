@@ -175,7 +175,7 @@ public:
 	void rva00396E4A(Object *obj);
 private:
 	char m_pad00[0x38];
-	ObjectID m_id38;	// +0x38, the object the trigger flees from
+	ObjectID m_fleeFromObjectID;	// +0x38, the object the trigger flees from
 	char m_pad3C[0x8c - 0x3C];
 	_STL::map<int, void *> m_map8c;
 };
@@ -209,7 +209,7 @@ void Rva00396E4A::rva00396C43(Object *obj)
 		return;
 	if (obj->getTemplate()->testKindOf2F())
 	{
-		Object *source = TheGameLogic->findObjectByID(m_id38);
+		Object *source = TheGameLogic->findObjectByID(m_fleeFromObjectID);
 		if (source == 0)
 			return;
 		AIUpdateInterface *ai = obj->getAI();

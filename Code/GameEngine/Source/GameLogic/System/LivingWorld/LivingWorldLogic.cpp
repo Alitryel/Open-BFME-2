@@ -768,9 +768,9 @@ private:
 	Int m_field9C, m_fieldA0, m_fieldA4, m_fieldA8, m_fieldAC; // native reset words
 	LivingWorldRegionManager *m_field0B0;		// +0xB0, region manager
 	unsigned char m_padB4[0xb6 - 0xb4];
-	Bool m_fieldB6;					// +0xB6, set when a tactical battle completes
+	Bool m_tacticalBattleCompleted;					// +0xB6, set when a tactical battle completes
 	unsigned char m_padB7[0xb8 - 0xb7];
-	Int m_fieldB8;					// +0xB8, the battle region index, reset to -1
+	Int m_battleRegionIndex;					// +0xB8, the battle region index, reset to -1
 	unsigned char m_padBC[0xcc - 0xbc];
 	_STL::vector<void *> m_fieldCC;			// +0xCC
 	unsigned char m_padD8[0xf4 - 0xd8];
@@ -2150,7 +2150,7 @@ void ConsumeGarrisonUnitsFromRTS(Rva002BC1DAUnit *unit, Rva002BC1DAArmy *army, L
 void LivingWorldLogic::GameLogic_tacticalBattleComplete()
 {
 	void *region = ((Rva002BA8F1Logic *)this)->rva002B2B2D();
-	m_fieldB6 = true;
+	m_tacticalBattleCompleted = true;
 	LivingWorldBattle *battle = ((Rva0020E6B7RegionManager *)m_field0B0)->rva0020E6B7();
 	if (battle != 0 && battle->m_side != -1 && region != 0)
 	{
@@ -2189,7 +2189,7 @@ void LivingWorldLogic::GameLogic_tacticalBattleComplete()
 		OnBattleComplete(battle);
 		m_battleListeners.forEach(&Rva002B616FListener::onTurnChanged, this, (int)battle);
 	}
-	m_fieldB8 = -1;
+	m_battleRegionIndex = -1;
 }
 
 // LivingWorldLogic::rva002BCCFB, retail 0x002BCCFB (297 bytes; WorldBuilder
@@ -3919,7 +3919,7 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
   for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*playerView=(DispatcherPlayer*)m_players[i];if(playerView&&!playerView->kind&&!playerView->gone&&playerView->startVote!=1)return;}
   for(unsigned i=0;i<m_players.size();++i)if(m_players[i])((DispatcherPlayer*)m_players[i])->startVote=0;
   ((DispatcherClient*)((Rva002D3627Host *)TheLivingWorld))->s98();*((bool*)this+0x177)=false;
-  TheLivingWorldManager->rva0021100E();*((bool*)this+0xb5)=true; m_fieldB6=false;
+  TheLivingWorldManager->rva0021100E();*((bool*)this+0xb5)=true; m_tacticalBattleCompleted=false;
   ((Rva0023D26F*)TheGameLogic)->rva0023D26F(false);
   {GameLogic*logic=TheGameLogic;if(((Rva00210C66CmpBoolField*)logic)->get())logic->CreateWOTRMPPlayers();}
   ((Rva0023D2DD*)TheGameLogic)->rva0023D2DD();((DispatcherGameLogic*)TheGameLogic)->field44=true;break;

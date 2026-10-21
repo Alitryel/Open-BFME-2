@@ -108,7 +108,7 @@ public:
 	unsigned char m_pad00[0x5D];
 	bool m_5d; // +0x5D
 	unsigned char m_pad5E[0x6C - 0x5E];
-	bool m_6c; // +0x6C, set when a campaign starts
+	bool m_campaignStarted; // +0x6C, set when a campaign starts
 };
 
 // The shell's rowed 0x0035BD3F (its own address class).
@@ -680,7 +680,7 @@ int AptMainMenu::LinearCampaignStart(const AsciiString &campaign, float time, bo
 		reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager)->PopFocus((AptFocusTarget *)-1);
 		reinterpret_cast<Rva00222A8BTarget *>(reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager))->rva00222F55(false);
 		TheShell->rva0035BF4C(true);
-		TheShell->m_6c = true;
+		TheShell->m_campaignStarted = true;
 		TheDisplay->m_114 = true;
 		TheVideoPlayer->stopAllVideo();
 		TheGameLogic->clearGameData(false, false);

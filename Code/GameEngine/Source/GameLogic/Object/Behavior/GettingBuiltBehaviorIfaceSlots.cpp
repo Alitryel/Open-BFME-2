@@ -120,7 +120,7 @@ public:
 	unsigned char m_pad008[0x74 - 0x08];
 	int m_74; // +0x74 (ID)
 	int m_78; // +0x78 (an Object ID)
-	int m_7c; // native builder ID
+	int m_builderID; // native builder ID
 	unsigned char m_pad080[0x94 - 0x80];
 	unsigned int m_94; // +0x94
 	unsigned char m_pad098[0x10C - 0x98];
@@ -648,7 +648,7 @@ bool GettingBuiltBehavior::rva004541AB()
  Object *object = m_object;
  if (!m_30 && !((BfmeThingE63 *)this)->isValid())
  {
-  Object *builder = TheGameLogic->findObjectByID((ObjectID)object->m_7c);
+  Object *builder = TheGameLogic->findObjectByID((ObjectID)object->m_builderID);
   if (!builder || builder->getRelationship(object) == 2) return false;
   if (!builder->m_conditionBits.test(252))
   {
@@ -659,7 +659,7 @@ bool GettingBuiltBehavior::rva004541AB()
  }
  else
  {
-  int id = object->m_7c;
+  int id = object->m_builderID;
   Object *builder = TheGameLogic->findObjectByID((ObjectID)id);
   if (!builder || id == object->m_74) m_30 = false;
   else
