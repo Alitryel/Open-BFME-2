@@ -23,6 +23,12 @@ struct PodPayload20
 };
 namespace _STL
 {
+// Keep the native loop's inline comparison while leaving the out-of-line
+// provider to stlport_deque_destroy_pod.cpp (retail 0x00169C80).
+template <> __declspec(dllimport) __forceinline bool _STLP_CALL operator!=<PodPayload20>(
+	const _Deque_iterator_base<PodPayload20> &left,
+	const _Deque_iterator_base<PodPayload20> &right)
+{ return left._M_cur != right._M_cur; }
 template void __destroy_aux<_Deque_iterator<PodPayload20, _Nonconst_traits<PodPayload20> > >(_Deque_iterator<PodPayload20, _Nonconst_traits<PodPayload20> >, _Deque_iterator<PodPayload20, _Nonconst_traits<PodPayload20> >, const __false_type &);
 template void __destroy<_Deque_iterator<PodPayload20, _Nonconst_traits<PodPayload20> >, PodPayload20>(_Deque_iterator<PodPayload20, _Nonconst_traits<PodPayload20> >, _Deque_iterator<PodPayload20, _Nonconst_traits<PodPayload20> >, PodPayload20 *);
 }
