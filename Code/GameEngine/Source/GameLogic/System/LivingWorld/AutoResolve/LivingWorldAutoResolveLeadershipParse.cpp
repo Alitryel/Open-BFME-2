@@ -1,4 +1,4 @@
-// ?Rva004183ACParse@@YAXPAVINI@@@Z
+// ?parseAutoResolveLeadershipDefinition@@YAXPAVINI@@@Z
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii
 // Native4183AC..41848D leadership parser; registration7B00C7 and
 // Affects/AffectsHigherLevelFirst/BonusForLevel table establish subsystem.
@@ -33,7 +33,7 @@ struct OutIter004182F8 {void *node;void *table;unsigned char inserted;};
 class Rva00418374 {public:OutIter004182F8 *rva00418374(OutIter004182F8*,const Rva004181F5*); __forceinline OutIter004182F8 *insertOne(OutIter004182F8 *out,const Rva004181F5 *value) {return rva00418374(out,value);}};
 class Rva0041811D {public:unsigned char pad[12];Rva00418374 table;};
 extern Rva0041811D *TheLivingWorldAutoResolveLeadershipStore;
-void Rva004183ACParse(INI *ini)
+void parseAutoResolveLeadershipDefinition(INI *ini)
 {
  const char *token=ini->getNextToken();
  const AsciiString *recordName,*pairName;

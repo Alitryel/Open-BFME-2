@@ -63,7 +63,7 @@ void parseAutoResolveHandicapLevelDefinition(INI *);
 void Rva00413D58Parse(INI *);
 void Rva00415D33Parse(INI *);
 void Rva00417A94Parse(INI *);
-void Rva004183ACParse(INI *);
+void parseAutoResolveLeadershipDefinition(INI *);
 void parseAutoResolveBodyDefinition(INI *);
 void parseAutoResolveCombatChainDefinition(INI *);
 void Rva0041999FParse(INI *);
@@ -423,7 +423,7 @@ BlockParse theLivingWorldAutoResolveResourceBonusBlockParse = { 0, "LivingWorldA
 BlockParse theScoredKillEvaAnnouncerBlockParse = { 0, "ScoredKillEvaAnnouncer", ScoredKillEvaAnnouncerController::iniParseScoredKillEvaAnnouncerBlock };	// VA 0x00DC20B0 "ScoredKillEvaAnnouncer", parse 0x00414F85
 BlockParse theCrowdResponseBlockParse = { 0, "CrowdResponse", Rva00415D33Parse };	// VA 0x00DC20E0 "CrowdResponse", parse 0x00415D33
 BlockParse theHouseColorBlockParse = { 0, "HouseColor", Rva00417A94Parse };	// VA 0x00DC822C "HouseColor", parse 0x00417A94
-BlockParse theAutoResolveLeadershipBlockParse = { 0, "AutoResolveLeadership", Rva004183ACParse };	// VA 0x00DC8238 "AutoResolveLeadership", parse 0x004183AC
+BlockParse theAutoResolveLeadershipBlockParse = { 0, "AutoResolveLeadership", parseAutoResolveLeadershipDefinition };	// VA 0x00DC8238 "AutoResolveLeadership", parse 0x004183AC
 BlockParse theAutoResolveBodyBlockParse = { 0, "AutoResolveBody", parseAutoResolveBodyDefinition };	// VA 0x00DC8244 "AutoResolveBody", parse 0x00418AC6
 BlockParse theAutoResolveCombatChainBlockParse = { 0, "AutoResolveCombatChain", parseAutoResolveCombatChainDefinition };	// VA 0x00DC8250 "AutoResolveCombatChain", parse 0x004193E5
 BlockParse theAutoResolveWeaponBlockParse = { 0, "AutoResolveWeapon", Rva0041999FParse };	// VA 0x00DC825C "AutoResolveWeapon", parse 0x0041999F
