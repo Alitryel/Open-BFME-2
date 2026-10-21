@@ -13,6 +13,20 @@ public:
 
 }
 
+// The one-word node table the holder installs at +0: retail RVA 0x007EDAA0
+// holds two code pointers, the shared scalar deleting destructor 0x005FAA31
+// and 0x0023DAF7 (the member call after the +0x08 object). No other unit owns
+// the word, so it is defined here beside its only writer.
+extern "C" {
+void __identifier("??_GRva004E84A4@@QAEPAXI@Z")();
+void __identifier("?rva0023DAF7@Rva0023DAF7@@QAEXMH@Z")();
+}
+extern "C" void *__identifier("?g_bfme5RefVtable@@3PAXA")[2] =
+{
+	(void *)&__identifier("??_GRva004E84A4@@QAEPAXI@Z"),
+	(void *)&__identifier("?rva0023DAF7@Rva0023DAF7@@QAEXMH@Z"),
+};
+
 extern void *g_bfme5RefVtable;
 
 struct Bfme5RefNode
