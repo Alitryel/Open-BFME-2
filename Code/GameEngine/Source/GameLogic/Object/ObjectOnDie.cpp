@@ -397,12 +397,12 @@ void Object::onDie(DamageInfo *damageInfo)
 	if (m_radarData)
 		TheRadar->removeObject((Rva002D76C6Owner *)this);
 
-	for (BehaviorModule **d = m_behaviors; *d; ++d)
+	for (BehaviorModule **behaviorModule = m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		DieModuleInterface *die = (*d)->m_interface.getDie();
+		DieModuleInterface *die = (*behaviorModule)->m_interface.getDie();
 		if (die)
 			die->onDie(damageInfo);
-		Rva002985C6Interface *other = (*d)->m_interface.getRva002985C6();
+		Rva002985C6Interface *other = (*behaviorModule)->m_interface.getRva002985C6();
 		if (other)
 			other->onOwnerDied();
 	}
@@ -445,18 +445,18 @@ void Object::onDie(DamageInfo *damageInfo)
 
 	if (!selfInflicted && damageInfo->m_deathType != 0x16)
 	{
-		const ThingTemplate *tmpl = getTemplate();
-		if (tmpl)
+		const ThingTemplate *thingTemplate = getTemplate();
+		if (thingTemplate)
 		{
 			int evaEvent;
 			Player *controlling = getControllingPlayer();
 			Player *local = ThePlayerList->m_local;
 			if (controlling == local)
-				evaEvent = tmpl->m_evaOwnUnitLost;
+				evaEvent = thingTemplate->m_evaOwnUnitLost;
 			else if (local && local->getRelationship(m_team) == REL_ALLIES)
-				evaEvent = tmpl->m_evaAllyUnitLost;
+				evaEvent = thingTemplate->m_evaAllyUnitLost;
 			else
-				evaEvent = tmpl->m_evaEnemyUnitLost;
+				evaEvent = thingTemplate->m_evaEnemyUnitLost;
 			if (evaEvent != -1)
 				TheEva->reportEvaEvent((EvaEventID)evaEvent, getPosition(), 0);
 		}

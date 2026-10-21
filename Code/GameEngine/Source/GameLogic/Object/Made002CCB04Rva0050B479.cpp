@@ -37,15 +37,15 @@ private:
 	unsigned int m_130;
 };
 
-void Made002CCB04::rva0050B479(void *a, Object *b)
+void Made002CCB04::rva0050B479(void *a, Object *object)
 {
-	MadeArg *arg = (MadeArg *)a;
-	if (!check(a, b))
+	MadeArg *madeArg = (MadeArg *)a;
+	if (!check(a, object))
 		return;
 	GameLogic *logic = TheGameLogic;
 	Object *found = logic->findObjectByID((ObjectID)g_Va00DFEFD8);
 	if (!found)
-		found = logic->findObjectByID(arg->m_id08);
+		found = logic->findObjectByID(madeArg->m_id08);
 	float f = (float)m_130;
-	b->forceEmotion(m_128, f, (int)found);
+	object->forceEmotion(m_128, f, (int)found);
 }

@@ -144,8 +144,8 @@ bool Object::ShroudHideIfFogged(int playerIndex) const
 	Player *player = ThePlayerList->getNthPlayer(playerIndex);
 	if (player->getRelationship(m_team) == NEUTRAL)
 	{
-		const ThingTemplate *tmpl = getTemplate();
-		if (!tmpl->isKindOf(KINDOF_2) || tmpl->isKindOf(KINDOF_180))
+		const ThingTemplate *thingTemplate = getTemplate();
+		if (!thingTemplate->isKindOf(KINDOF_2) || thingTemplate->isKindOf(KINDOF_180))
 			return true;
 	}
 	else

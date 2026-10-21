@@ -26,10 +26,10 @@ class Object
 public:
 	void *rva0028BE7F(Arg1_004DEA70 *a1, const Coord3DBase *a2);
 };
-void *Object::rva0028BE7F(Arg1_004DEA70 *a1, const Coord3DBase *a2)
+void *Object::rva0028BE7F(Arg1_004DEA70 *a1, const Coord3DBase *coord3DBase)
 {
 	Rva004DEA70 *sub = m_sub240;
 	if (sub != 0)
-		return sub->rva004DEA70(a1, a2);
+		return sub->rva004DEA70(a1, coord3DBase);
 	return 0;
 }

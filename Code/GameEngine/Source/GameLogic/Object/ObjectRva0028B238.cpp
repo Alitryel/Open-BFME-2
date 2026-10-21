@@ -40,8 +40,8 @@ void Object::rva0028B238(bool flag)
 	if (flag == m_43C)
 		return;
 	m_43C = flag;
-	Player *p = getControllingPlayer();
-	if (p == 0)
+	Player *player = getControllingPlayer();
+	if (player == 0)
 		return;
-	p->rva002AB8FB(this, m_43C);
+	player->rva002AB8FB(this, m_43C);
 }

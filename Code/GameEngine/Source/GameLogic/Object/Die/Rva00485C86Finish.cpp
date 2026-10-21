@@ -112,14 +112,14 @@ void CreateObjectDie::onDie(const DamageInfo *damageInfo)
 	AsciiString *cur = data->m_begin40;
 	while (cur != data->m_end44)
 	{
-		const UpgradeTemplate *t = TheUpgradeCenter->findUpgrade(*cur);
-		if (t)
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*cur);
+		if (upgradeTemplate)
 		{
 			bool ok;
-			if (t->m_04 == 0)
-				ok = obj->getControllingPlayer()->rva002AB87D(t);
+			if (upgradeTemplate->m_04 == 0)
+				ok = obj->getControllingPlayer()->rva002AB87D(upgradeTemplate);
 			else
-				ok = obj->hasUpgrade(t);
+				ok = obj->hasUpgrade(upgradeTemplate);
 			if (!ok)
 				return;
 		}

@@ -36,21 +36,21 @@ public:
 
 void Rva004B9301::rva004B9301()
 {
-	Object *o = *(Object **)((char *)this - 8);
-	Player *p = o->getControllingPlayer();
-	if (p->m_33B != 0)
+	Object *object = *(Object **)((char *)this - 8);
+	Player *player = object->getControllingPlayer();
+	if (player->m_33B != 0)
 	{
-		o = *(Object **)((char *)this - 8);
-		if (o->m_mask.test(126))
+		object = *(Object **)((char *)this - 8);
+		if (object->m_mask.test(126))
 			return;
-		o->m_mask.set(126);
+		object->m_mask.set(126);
 	}
 	else
 	{
-		o = *(Object **)((char *)this - 8);
-		if (o->m_mask.test(126) == 0)
+		object = *(Object **)((char *)this - 8);
+		if (object->m_mask.test(126) == 0)
 			return;
-		o->m_mask.reset(126);
+		object->m_mask.reset(126);
 	}
-	o->rva0028AE6D();
+	object->rva0028AE6D();
 }

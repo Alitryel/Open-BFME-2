@@ -398,9 +398,9 @@ class UnresolvedTriggerList
 {
 public:
 	void clear() { ((_STL::_List_base<CameraMarker, _STL::allocator<CameraMarker> > *)this)->clear(); }
-	void push_back(const UnresolvedTrigger &t)
+	void push_back(const UnresolvedTrigger &unresolvedTrigger)
 	{
-		((_STL::list<Rva00295969Obj *> *)this)->push_back(*(Rva00295969Obj *const *)&t);
+		((_STL::list<Rva00295969Obj *> *)this)->push_back(*(Rva00295969Obj *const *)&unresolvedTrigger);
 	}
 
 	void *m_node;
@@ -801,8 +801,8 @@ void Object::xfer(Xfer *xfer)
 	}
 
 	unsigned short moduleCount = 0;
-	BehaviorModule **b;
-	for (b = m_behaviors; *b; ++b)
+	BehaviorModule **behaviorModule;
+	for (behaviorModule = m_behaviors; *behaviorModule; ++behaviorModule)
 		++moduleCount;
 	*xfer == moduleCount;
 
@@ -810,9 +810,9 @@ void Object::xfer(Xfer *xfer)
 	BehaviorModule *module;
 	if (xfer->IsStoring())
 	{
-		for (b = m_behaviors; *b; ++b)
+		for (behaviorModule = m_behaviors; *behaviorModule; ++behaviorModule)
 		{
-			module = *b;
+			module = *behaviorModule;
 			moduleIdentifier = TheNameKeyGenerator->keyToName(module->getModuleTagNameKey());
 			*xfer == moduleIdentifier;
 			xfer->BeginBlock("BehaviorModule");
@@ -828,11 +828,11 @@ void Object::xfer(Xfer *xfer)
 			*xfer == moduleIdentifier;
 			NameKeyType moduleIdentifierKey = TheNameKeyGenerator->nameToKey(moduleIdentifier);
 			module = 0;
-			for (b = m_behaviors; b && *b; ++b)
+			for (behaviorModule = m_behaviors; behaviorModule && *behaviorModule; ++behaviorModule)
 			{
-				if (moduleIdentifierKey == (*b)->getModuleTagNameKey())
+				if (moduleIdentifierKey == (*behaviorModule)->getModuleTagNameKey())
 				{
-					module = *b;
+					module = *behaviorModule;
 					break;
 				}
 			}

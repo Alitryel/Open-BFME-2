@@ -87,19 +87,19 @@ class Rva0046DA6B {public:void rva0046DA6B(int,float,float,Rva2225E0Filter*);pri
 void Rva0046DA6B::rva0046DA6B(int flags,float a,float b,Rva2225E0Filter*filter){
  Rva0046247DPair items;
  reinterpret_cast<ContainView*>(reinterpret_cast<char*>(this)-0xFC)->items(items);
- Node*n=(*static_cast<Node**>(items.b))->next;
+ Node*node=(*static_cast<Node**>(items.b))->next;
  Object*owner=*reinterpret_cast<Object**>(reinterpret_cast<char*>(this)-0x114);
- for(;n!=*static_cast<Node**>(items.b);n=n->next){
-  Object*object=n->object;
+ for(;node!=*static_cast<Node**>(items.b);node=node->next){
+  Object*object=node->object;
   if(filter&&!filter->accepts(object,owner->getControllingPlayer()))continue;
-  Drawable*d=object->getDrawable();
-  if(d){d->rva00272870(flags);reinterpret_cast<Rva00270644*>(d)->rva00270644(a,b);}
+  Drawable*drawable=object->getDrawable();
+  if(drawable){drawable->rva00272870(flags);reinterpret_cast<Rva00270644*>(drawable)->rva00270644(a,b);}
  }
- for(TreeNode*t=static_cast<TreeNode*>(head->_M_left);t!=head;t=static_cast<TreeNode*>(_STL::_Rb_global<bool>::_M_increment(t))){
-  Object*object=TheGameLogic->findObjectByID(static_cast<ObjectID>(t->id));
+ for(TreeNode*treeNode=static_cast<TreeNode*>(head->_M_left);treeNode!=head;treeNode=static_cast<TreeNode*>(_STL::_Rb_global<bool>::_M_increment(treeNode))){
+  Object*object=TheGameLogic->findObjectByID(static_cast<ObjectID>(treeNode->id));
   if(!object)continue;
   if(filter&&!filter->accepts(object,owner->getControllingPlayer()))continue;
-  Drawable*d=object->getDrawable();
-  if(d){d->rva00272870(flags);reinterpret_cast<Rva00270644*>(d)->rva00270644(a,b);}
+  Drawable*drawable=object->getDrawable();
+  if(drawable){drawable->rva00272870(flags);reinterpret_cast<Rva00270644*>(drawable)->rva00270644(a,b);}
  }
 }

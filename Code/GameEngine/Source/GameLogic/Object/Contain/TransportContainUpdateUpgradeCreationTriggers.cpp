@@ -127,17 +127,17 @@ void TransportContain::UpdateUpgradeCreationTriggers()
   const UpgradeTemplate*upgrade=TheUpgradeCenter->findUpgrade(list->getBegin()[i]);
   if(!upgrade||!obj->hasUpgrade(upgrade))continue;
   ((StringBase<char>*)&list->getBegin()[i])->clear();
-  const ThingTemplate*tmpl=TheThingFactory->findTemplate(record->object);
-  if(!tmpl)continue;
+  const ThingTemplate*thingTemplate=TheThingFactory->findTemplate(record->object);
+  if(!thingTemplate)continue;
   CreateMask mask;memset(&mask,0,16);
   if(contain->s7C()) {
-   if(!((TransportGlobalView*)TheWritableGlobalData)->flag && !(*(unsigned char*)((char*)tmpl+0x113)&4) && !(*(unsigned char*)((char*)tmpl+0x109)&4) && ((TransportLodView*)TheAI)->record->flag)
+   if(!((TransportGlobalView*)TheWritableGlobalData)->flag && !(*(unsigned char*)((char*)thingTemplate+0x113)&4) && !(*(unsigned char*)((char*)thingTemplate+0x109)&4) && ((TransportLodView*)TheAI)->record->flag)
     ((unsigned char*)&mask)[6]|=0x80;
   }
   unsigned total=record->count;
   for(unsigned j=0;j<total;++j) {
-   if(!((Rva00466D50*)this)->rva00466D50((unsigned)tmpl->transportSlots))break;
-   Object*created=TheThingFactory->newObject(tmpl,(i ? obj->team : obj->team),&mask,false);
+   if(!((Rva00466D50*)this)->rva00466D50((unsigned)thingTemplate->transportSlots))break;
+   Object*created=TheThingFactory->newObject(thingTemplate,(i ? obj->team : obj->team),&mask,false);
    if(!created)break;
    if(iface.s98(created,false,false)) {
     TransportBodyView*body=obj->body;

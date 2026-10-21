@@ -78,8 +78,8 @@ inline TunnelContainModuleData::TunnelContainModuleData()
 // is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitTunnelContainModuleDataCtor@@YAXPAVTunnelContainModuleData@@@Z present-unmatched
-void bfmeEmitTunnelContainModuleDataCtor(TunnelContainModuleData *p)
+void bfmeEmitTunnelContainModuleDataCtor(TunnelContainModuleData *tunnelContainModuleData)
 {
-	p->TunnelContainModuleData::TunnelContainModuleData();
+	tunnelContainModuleData->TunnelContainModuleData::TunnelContainModuleData();
 }
 #pragma inline_depth()

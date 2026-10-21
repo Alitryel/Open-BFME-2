@@ -49,21 +49,21 @@ public:
 	void rva00588E20(Object *obj);
 };
 
-bool Rva0047A040Base9E0::rva00588D24(void *a, Object *b)
+bool Rva0047A040Base9E0::rva00588D24(void *a, Object *object)
 {
-	ContainEntry *e = (ContainEntry *)rva00588BF3(a, b);
-	if (e == 0)
+	ContainEntry *containEntry = (ContainEntry *)rva00588BF3(a, object);
+	if (containEntry == 0)
 		return false;
-	if (!e->slotF4()) {
-		e->slot20(b);
-		e->slot100(TheGameLogic->m_40);
-		if (e->slotF4()) {
+	if (!containEntry->slotF4()) {
+		containEntry->slot20(object);
+		containEntry->slot100(TheGameLogic->m_40);
+		if (containEntry->slotF4()) {
 			(*(BfmeWorldRV **)&TheControlBar)->m_28 = 1;
-			e->slot100(0);
+			containEntry->slot100(0);
 		}
 		return true;
 	}
-	e->slot100(0);
+	containEntry->slot100(0);
 	return false;
 }
 
@@ -153,15 +153,15 @@ struct ObjectLayout
 };
 void Rva0047A040Base9E0::rva00588D99(Object *obj)
 {
-	Drawable *d = ((Thing *)obj)->getDrawable();
-	if (d != 0 && d->m_43c) {
+	Drawable *drawable = ((Thing *)obj)->getDrawable();
+	if (drawable != 0 && drawable->m_43c) {
 		Player *local = ThePlayerList->m_localPlayer;
 		Player *ctrl = obj->getControllingPlayer();
 		if (ctrl == local) {
 			GameMessage *msg = TheMessageStream->appendType(0x3ED);
-			ObjectLayout *o = (ObjectLayout *)obj;
-			msg->appendObjectIDArgument(o->m_id);
-			TheInGameUI->slot10C(d);
+			ObjectLayout *objectLayout = (ObjectLayout *)obj;
+			msg->appendObjectIDArgument(objectLayout->m_id);
+			TheInGameUI->slot10C(drawable);
 		}
 		obj->setStatus((ObjectStatusTypes)3, true);
 	}
@@ -177,8 +177,8 @@ void Rva0047A040Base9E0::rva00588D99(Object *obj)
 // rva0028DCC4 then setStatus(3,false). Callers 0x00477101 and 0x00479BBC.
 void Rva0047A040Base9E0::rva00588E20(Object *obj)
 {
-	ObjectLayout *o = (ObjectLayout *)obj;
-	if (o->m_454 == 0)
+	ObjectLayout *objectLayout = (ObjectLayout *)obj;
+	if (objectLayout->m_454 == 0)
 		obj->rva0028DCC4();
 	obj->setStatus((ObjectStatusTypes)3, false);
 }

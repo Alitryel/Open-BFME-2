@@ -321,7 +321,7 @@ public:
  virtual void exitObjectViaDoor(Object*,ExitDoorType);
  Object *object()const{return *reinterpret_cast<Object *const*>(reinterpret_cast<const char*>(this)-0x28);}
  const SiegeExitData *data()const{return *reinterpret_cast<const SiegeExitData *const*>(reinterpret_cast<const char*>(this)-0x2c);}
- void remove(Object *o){reinterpret_cast<SiegeExitRemove*>(reinterpret_cast<char*>(this)-0x10)->remove(o,false);}
+ void remove(Object *object){reinterpret_cast<SiegeExitRemove*>(reinterpret_cast<char*>(this)-0x10)->remove(object,false);}
  const bool &exitClosed()const{return *(reinterpret_cast<const bool*>(this)+0xf4);}
 protected:
 	virtual void xfer(Xfer *xfer);

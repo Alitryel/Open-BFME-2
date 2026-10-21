@@ -42,11 +42,11 @@ bool Rva0047BA69::rva0047BA69(Object *obj, int a2, int a3)
 {
 	if (obj->testStatus(STATUS_62))
 		return false;
-	Object *o1 = *(Object **)((char *)this - 0x18);
+	Object *object = *(Object **)((char *)this - 0x18);
 	void *tabBase = *(void **)((char *)this - 0x1c);
-	Player *p1 = o1->getControllingPlayer();
+	Player *player = object->getControllingPlayer();
 	BfmeTab1026 *tab = (BfmeTab1026 *)((char *)tabBase + 0x18c);
-	if (!tab->accepts(obj, p1))
+	if (!tab->accepts(obj, player))
 		goto fail;
 	int limit = *(int *)((char *)tabBase + 0x190);
 	if (limit <= 0)

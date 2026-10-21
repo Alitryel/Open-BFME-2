@@ -65,9 +65,9 @@ private:
 
 int Object::getTransportSlotCount()
 {
-	ThingTemplate *tmpl = m_template;
+	ThingTemplate *thingTemplate = m_template;
 	ContainModule *contain = m_contain;
-	int v = tmpl->m_5F1;
+	int v = thingTemplate->m_5F1;
 	if (contain == 0)
 		return v;
 	if (!contain->v05())

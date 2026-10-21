@@ -27,7 +27,7 @@ public:
 	Locomotor *newLocomotor(const LocomotorTemplate *tmpl, Bool flag);
 };
 
-Locomotor *LocomotorStore::newLocomotor(const LocomotorTemplate *tmpl, Bool flag)
+Locomotor *LocomotorStore::newLocomotor(const LocomotorTemplate *locomotorTemplate, Bool flag)
 {
-	return new Locomotor(tmpl, flag);
+	return new Locomotor(locomotorTemplate, flag);
 }

@@ -58,7 +58,7 @@ __declspec(noinline) inline Real Object::GetRelativeAngle(const Coord3D *pos) co
 }
 
 // ?bfmeAnchorObjectGetRelativeAngle absent-from-retail
-Real bfmeAnchorObjectGetRelativeAngle(const Object *o, const Coord3D *pos)
+Real bfmeAnchorObjectGetRelativeAngle(const Object *object, const Coord3D *pos)
 {
-  return o->GetRelativeAngle(pos);
+  return object->GetRelativeAngle(pos);
 }

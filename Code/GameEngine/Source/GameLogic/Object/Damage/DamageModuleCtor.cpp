@@ -51,8 +51,8 @@ inline DamageModule::DamageModule(Thing *thing, const ModuleData *moduleData) :
 // not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitDamageModuleCtor@@YAXPAVDamageModule@@PAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitDamageModuleCtor(DamageModule *p, Thing *thing, const ModuleData *moduleData)
+void bfmeEmitDamageModuleCtor(DamageModule *damageModule, Thing *thing, const ModuleData *moduleData)
 {
-	p->DamageModule::DamageModule(thing, moduleData);
+	damageModule->DamageModule::DamageModule(thing, moduleData);
 }
 #pragma inline_depth()

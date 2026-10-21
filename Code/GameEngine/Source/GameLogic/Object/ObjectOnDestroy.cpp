@@ -83,6 +83,6 @@ void Object::onDestroy()
 			rva84->rva00271BCC(i, 1);
 	}
 
-	for (BehaviorModule **b = m_behaviors; *b; ++b)
-		(*b)->onDelete();
+	for (BehaviorModule **behaviorModule = m_behaviors; *behaviorModule; ++behaviorModule)
+		(*behaviorModule)->onDelete();
 }

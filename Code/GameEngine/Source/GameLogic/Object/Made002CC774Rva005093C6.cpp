@@ -134,8 +134,8 @@ class Made002CC774 : public Rva00507823
 void Made002CC774::rva005093C6(Input005093C6 *input, const Coord3D *position)
 
 {
- const ThingTemplate *tmpl = TheThingFactory->findTemplate(((GlobalDataView *)TheWritableGlobalData)->m_name014);
- if (tmpl && m_weapon)
+ const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(((GlobalDataView *)TheWritableGlobalData)->m_name014);
+ if (thingTemplate && m_weapon)
  
  {
   Object *producer = ((TheGameLogic) ? (TheGameLogic) : (TheGameLogic))->findObjectByID(input->m_objectID);
@@ -145,7 +145,7 @@ void Made002CC774::rva005093C6(Input005093C6 *input, const Coord3D *position)
    CreateMask mask;
    memset(&mask, 0, sizeof(mask));
    Team *team = ((producer ? ((PlayerView *)producer->getControllingPlayer()) : ((PlayerView *)producer->getControllingPlayer())))->m_team;
-   Object *obj = TheThingFactory->newObject(tmpl, team, &mask, false);
+   Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
    obj->setProducer(producer);
    obj->setPosition(position);
    static NameKeyType fireKey = TheNameKeyGenerator->nameToKey("FireWeaponUpdate");

@@ -103,17 +103,17 @@ void FXListDie::onDie( const DamageInfo *damageInfo )
 {
 	if (!isDieApplicable(damageInfo))
 		return;
-	const FXListDieModuleData* d = getFXListDieModuleData();
+	const FXListDieModuleData* fXListDieModuleData = getFXListDieModuleData();
 	if (getFXListDieModuleData()->m_defaultDeathFX)
 	{
-		if (d->m_orientToObject)
+		if (fXListDieModuleData->m_orientToObject)
 		{
 			Object *damageDealer = TheGameLogic->findObjectByID( damageInfo->m_sourceID );
-			FXList::doFXObj(d->m_defaultDeathFX, getObject(), damageDealer);
+			FXList::doFXObj(fXListDieModuleData->m_defaultDeathFX, getObject(), damageDealer);
 		}
 		else
 		{
-			FXList::doFXPos(d->m_defaultDeathFX, getObject()->getPosition());
+			FXList::doFXPos(fXListDieModuleData->m_defaultDeathFX, getObject()->getPosition());
 		}
 	}
 }

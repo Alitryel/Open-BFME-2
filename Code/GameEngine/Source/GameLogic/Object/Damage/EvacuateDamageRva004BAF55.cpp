@@ -279,16 +279,16 @@ private:
 // delegates to EvacuateDamage::onDamage. Evidence: rowed findObjectByID
 // 0x00049DC5, getCurrentWeapon 0x0028AEBD, StringBase compare 0x000069D6,
 // AI calls rowed, vtable slots from retail, prev/next Damage neighbours.
-void Rva004BAFE5::rva004BAFE5(DamageInfo *d)
+void Rva004BAFE5::rva004BAFE5(DamageInfo *damageInfo)
 {
 	Rva004BAFE5Data *data = *(Rva004BAFE5Data **)((char *)this - 12);
-	Object *src = TheGameLogic->findObjectByID(d->m_sourceObject);
+	Object *src = TheGameLogic->findObjectByID(damageInfo->m_sourceObject);
 	if (src == 0)
 		return;
-	const Weapon *w = src->getCurrentWeapon((WeaponSlotType *)0);
-	if (w == 0)
+	const Weapon *weapon = src->getCurrentWeapon((WeaponSlotType *)0);
+	if (weapon == 0)
 		return;
-	AsciiString *wname = (AsciiString *)((char *)w->m_template + 8);
+	AsciiString *wname = (AsciiString *)((char *)weapon->m_template + 8);
 	if (((const StringBase<char> &)data->m_name).compare((const StringBase<char> &)*wname) == 0)
 	{
 		Rva004BAFE5Iface *ifc = (*(Object **)((char *)this - 8))->m_iface;
@@ -324,7 +324,7 @@ void Rva004BAFE5::rva004BAFE5(DamageInfo *d)
 		} while (n != *out.m_ppHead);
 		return;
 	}
-	if (data->m_damageType != d->m_damageType)
+	if (data->m_damageType != damageInfo->m_damageType)
 		return;
-	((EvacuateDamage *)((char *)this - 0x10))->EvacuateDamage::onDamage(d);
+	((EvacuateDamage *)((char *)this - 0x10))->EvacuateDamage::onDamage(damageInfo);
 }

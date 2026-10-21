@@ -54,8 +54,8 @@ inline AttackNugget::AttackNugget()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeAttackNuggetInlineAnchor@@YAXPAVAttackNugget@@@Z absent-from-retail
-void _bfmeAttackNuggetInlineAnchor(AttackNugget *p)
+void _bfmeAttackNuggetInlineAnchor(AttackNugget *attackNugget)
 {
-    p->AttackNugget::AttackNugget();
+    attackNugget->AttackNugget::AttackNugget();
 }
 #pragma inline_depth()

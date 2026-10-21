@@ -60,9 +60,9 @@ public:
 
 void *Object::rva0028BC58(int a)
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		void *res = (*m)->slot28();
+		void *res = (*behaviorModule)->slot28();
 		if (!res)
 			continue;
 		if ((char)a == 0)

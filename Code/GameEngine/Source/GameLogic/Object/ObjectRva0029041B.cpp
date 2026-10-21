@@ -168,7 +168,7 @@ static __forceinline void rva0029041BSetCondition(Object *object, int bit)
 	}
 }
 
-void Object::rva0029041B(Player *p)
+void Object::rva0029041B(Player *player)
 {
 	if ((m_04->m_flag108 & 0x80) != 0)
 		return;
@@ -181,12 +181,12 @@ void Object::rva0029041B(Player *p)
 	if (prov != 0)
 		t = prov->w31();
 	Player *ctrl = getControllingPlayer();
-	if (p == ctrl)
+	if (player == ctrl)
 	{
 		rva0029041BSetCondition(this, 138);
 	}
 	if (t != 0)
-		t->v53(p);
+		t->v53(player);
 }
 
 static __forceinline void rva00290496ClearCondition(Object *object, int bit)
@@ -202,9 +202,9 @@ static __forceinline void rva00290496ClearCondition(Object *object, int bit)
 // twin of 0x0029041B. When the player is the controlling one, condition bit
 // 138 (+0x120 bit 10) is cleared through rva0028AE6D; then the +0x250
 // provider's slot 31 target, if any, is told through its slot 54 (tail jump).
-void Object::rva00290496(Player *p)
+void Object::rva00290496(Player *player)
 {
-	if (p == getControllingPlayer())
+	if (player == getControllingPlayer())
 		rva00290496ClearCondition(this, 138);
 	Rva0029041BProvider *prov = m_250;
 	if (prov == 0)
@@ -212,5 +212,5 @@ void Object::rva00290496(Player *p)
 	Rva0029041BTarget *t = prov->w31();
 	if (t == 0)
 		return;
-	t->v54(p);
+	t->v54(player);
 }

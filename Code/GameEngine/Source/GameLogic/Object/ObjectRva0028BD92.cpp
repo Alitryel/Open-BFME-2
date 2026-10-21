@@ -57,9 +57,9 @@ public:
 
 void *Object::rva0028BD92(int key)
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028BD92Result *r = (*m)->slot25();
+		Rva0028BD92Result *r = (*behaviorModule)->slot25();
 		if (r != 0 && r->slot01())
 		{
 			SpecialAbilityUpdate *adj = reinterpret_cast<SpecialAbilityUpdate *>(reinterpret_cast<char *>(r) - 0x20);

@@ -35,9 +35,9 @@ public:
 };
 void Object::rva0028AB4E() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028AB4EResult *r = (*m)->slot03();
+		Rva0028AB4EResult *r = (*behaviorModule)->slot03();
 		if (r != 0)
 			r->slot02();
 	}

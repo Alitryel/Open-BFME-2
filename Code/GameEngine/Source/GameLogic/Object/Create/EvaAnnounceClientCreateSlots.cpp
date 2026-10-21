@@ -143,29 +143,29 @@ void EvaAnnounceClientCreate::clientUpdate()
 	if (m_10 == 0 || m_10 > TheGameLogic->getFrame())
 		return;
 	Drawable *draw = m_drawable;
-	const EvaAnnounceClientCreateModuleData *d = m_moduleData;
+	const EvaAnnounceClientCreateModuleData *evaAnnounceClientCreateModuleData = m_moduleData;
 	m_10 = 0;
-	if (d->m_18 && (draw->m_440 || ((Rva00270260 *)draw)->rva00270260()))
+	if (evaAnnounceClientCreateModuleData->m_18 && (draw->m_440 || ((Rva00270260 *)draw)->rva00270260()))
 		return;
 	Object *obj = draw->m_FC;
 	if (obj == 0)
 		return;
-	if (d->m_19)
+	if (evaAnnounceClientCreateModuleData->m_19)
 		draw->m_114 |= 0x80;
 	int event;
 	Player *ctl = obj->getControllingPlayer();
 	if (ctl == ThePlayerList->announceLocalPlayer())
-		event = d->m_10;
+		event = evaAnnounceClientCreateModuleData->m_10;
 	else
 	{
 		switch (ThePlayerList->announceLocalPlayer()->getRelationship(obj))
 		{
 		case ENEMIES:
 		case NEUTRAL:
-			event = d->m_08;
+			event = evaAnnounceClientCreateModuleData->m_08;
 			break;
 		case ALLIES:
-			event = d->m_0C;
+			event = evaAnnounceClientCreateModuleData->m_0C;
 			break;
 		default:
 			event = -1;
@@ -175,7 +175,7 @@ void EvaAnnounceClientCreate::clientUpdate()
 	if (event == -1)
 		return;
 	const Coord3D *pos = 0;
-	if (d->m_1A)
+	if (evaAnnounceClientCreateModuleData->m_1A)
 		pos = draw->getPosition();
 	TheEva->reportEvaEvent((EvaEventID)event, pos, draw->getPosition());
 }

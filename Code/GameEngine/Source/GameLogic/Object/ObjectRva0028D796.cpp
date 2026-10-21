@@ -61,9 +61,9 @@ private:
 
 Int Rva0028D796::rva0028D796()
 {
-	ThingTemplate *tmpl = m_template;
-	Int base = tmpl->m_570;
-	if ((tmpl->m_byte113 & 4) != 0) {
+	ThingTemplate *thingTemplate = m_template;
+	Int base = thingTemplate->m_570;
+	if ((thingTemplate->m_byte113 & 4) != 0) {
 		ExperienceLevelList *list = reinterpret_cast<Rva00288CFA *>(TheExperienceLevelSystem)->FindExperienceLevelList(m_tracker);
 		if (list != 0) {
 			Rva00288940Call find;

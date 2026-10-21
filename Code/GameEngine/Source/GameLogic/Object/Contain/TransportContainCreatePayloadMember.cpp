@@ -47,8 +47,8 @@ Object *TransportContain::createPayloadMember(const ThingTemplate *what,PayloadC
  CreateMask status;
  if(contain->slot31()&&!((const PayloadGlobalView*)TheWritableGlobalData)->flagD45&&!(((const PayloadTemplateView*)what)->flag113&4)&&!(((const PayloadTemplateView*)what)->flag109&4)&&((const PayloadAiView*)TheAI)->data->flagBB) ((unsigned char*)status.words)[6]|=0x80;
  Object *made=TheThingFactory->newObject(what,((PayloadObjectView*)parent)->getTeam(),&status,false);
- for(PayloadBehaviorView **m=((PayloadObjectView*)made)->modules;*m;++m) {
-  PayloadInitView *hook=(*m)->interface.slot3();if(hook)hook->slot1();
+ for(PayloadBehaviorView **payloadBehaviorView=((PayloadObjectView*)made)->modules;*payloadBehaviorView;++payloadBehaviorView) {
+  PayloadInitView *hook=(*payloadBehaviorView)->interface.slot3();if(hook)hook->slot1();
  }
  if(contain->slot38(made,initial,false)) {
   PayloadBodyView *body=((PayloadObjectView*)parent)->getBody();

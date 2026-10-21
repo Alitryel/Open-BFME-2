@@ -153,10 +153,10 @@ private:
 
 BehaviorModule *Object::rva0028F2C4(int key) const
 {
-	BehaviorModule **b = m_behaviors;
-	for (; *b != 0; b++)
+	BehaviorModule **behaviorModule = m_behaviors;
+	for (; *behaviorModule != 0; behaviorModule++)
 	{
-		BehaviorModule *m = *b;
+		BehaviorModule *m = *behaviorModule;
 		if (key == m->getModuleData()->getTagKey())
 			return m;
 	}
@@ -224,8 +224,8 @@ ThingTemplate *Object::rva002911B7()
 		if (((Rva002A7DD0 *)ThePlayerList)->rva002A7DD0())
 			goto failed;
 		Team *team2 = m_team304;
-		Player *pl2 = ThePlayerList->m_player;
-		if (pl2->getRelationship(team2) == REL_0) { _ReadWriteBarrier(); return (ThingTemplate *)p->m_ptr3c; }
+		Player *player = ThePlayerList->m_player;
+		if (player->getRelationship(team2) == REL_0) { _ReadWriteBarrier(); return (ThingTemplate *)p->m_ptr3c; }
 		goto failed;
 	}
 failed: return 0;

@@ -504,9 +504,9 @@ void LocomotorStore::update()
 
 //-------------------------------------------------------------------------------------------------
 // ?Locomotor::Locomotor present-unmatched
-Locomotor::Locomotor(const LocomotorTemplate* tmpl)
+Locomotor::Locomotor(const LocomotorTemplate* locomotorTemplate)
 {
-	m_template = tmpl;
+	m_template = locomotorTemplate;
 	m_brakingFactor = 1.0f;
 	m_maxLift = BIGNUM;
 	m_maxSpeed = BIGNUM;

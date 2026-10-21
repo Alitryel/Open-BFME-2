@@ -69,13 +69,13 @@ private:
 void SpecialPowerCompletionDie::notifyScriptEngine()
 {
 	if (m_creatorID != 0) {
-		const Overridable *tmpl = m_moduleData->m_specialPowerTemplate;
-		const Overridable *tmplFinal = tmpl->friend_getFinalOverride();
+		const Overridable *overridable = m_moduleData->m_specialPowerTemplate;
+		const Overridable *tmplFinal = overridable->friend_getFinalOverride();
 		const char *namePtr = (const char *)tmplFinal;
 		namePtr += 0x10;
-		const AsciiString *tmplName = (const AsciiString *)namePtr;
+		const AsciiString *asciiString = (const AsciiString *)namePtr;
 		Player *player = m_object->getControllingPlayer();
 		int playerIndex = player->m_playerIndex;
-		TheScriptEngine->rva00357EDF(playerIndex, *tmplName, m_creatorID);
+		TheScriptEngine->rva00357EDF(playerIndex, *asciiString, m_creatorID);
 	}
 }

@@ -41,7 +41,7 @@ extern ParticleSystemManager *TheParticleSystemManager;
 struct AsciiStringRef
 {
 	AsciiStringRef() {}
-	AsciiStringRef(const AsciiString &s) : m_string(&s) {}
+	AsciiStringRef(const AsciiString &asciiString) : m_string(&asciiString) {}
 	const AsciiString *m_string;
 };
 struct AsciiStringPlusString : AsciiStringRef
@@ -94,14 +94,14 @@ void GenericObjectCreationNugget::GetAssetList(AssetList &assets, void *context)
 	if (m_fxFinal)
 		m_fxFinal->rva001E11F8((int)&assets, (int)context);
 	if (!((const StringBase<char> &)m_putInContainer).isEmpty()) {
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_putInContainer);
-		if (tmpl)
-			const_cast<ThingTemplate *>(tmpl)->GetAssetList((int)&assets, (int)context);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(m_putInContainer);
+		if (thingTemplate)
+			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList((int)&assets, (int)context);
 	}
 	for (const AsciiString *name = m_namesBegin; name != m_namesEnd; ++name) {
-		const ThingTemplate *tmpl = TheThingFactory->findTemplate(*name);
-		if (tmpl)
-			const_cast<ThingTemplate *>(tmpl)->GetAssetList((int)&assets, (int)context);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*name);
+		if (thingTemplate)
+			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList((int)&assets, (int)context);
 	}
 	if (!((const StringBase<char> &)m_particleSysName).isEmpty())
 		TheParticleSystemManager->findTemplate(m_particleSysName);

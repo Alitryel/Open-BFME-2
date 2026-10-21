@@ -380,14 +380,14 @@ void TransportContain::rva0046740C()
 	UnsignedInt count = getContainCount(0);
 	if (count > 0)
 	{
-		const TransportContainModuleData *d = getTransportContainModuleData();
+		const TransportContainModuleData *transportContainModuleData = getTransportContainModuleData();
 		Object *me = getObject();
 		const Matrix3D *mtx = me->getTransformMatrix();
 		Coord3D velocity;
 		velocity.x = 0.0f;
 		velocity.y = 0.0f;
 		velocity.z = 0.0f;
-		Vector3 in(d->m_throwOutPassengersVelocity.x, d->m_throwOutPassengersVelocity.y, d->m_throwOutPassengersVelocity.z);
+		Vector3 in(transportContainModuleData->m_throwOutPassengersVelocity.x, transportContainModuleData->m_throwOutPassengersVelocity.y, transportContainModuleData->m_throwOutPassengersVelocity.z);
 		Vector3 v = *mtx * in;
 		v -= getTranslation(*mtx);
 		setCoord(&velocity, v.X, v.Y, v.Z);
@@ -397,7 +397,7 @@ void TransportContain::rva0046740C()
 			PhysicsBehavior *physics = rider->getPhysics();
 			if (physics)
 			{
-				((Rva003909FAObj *)physics)->consume(&velocity, (int)me, (int)d->m_throwOutPassengersLandingWarhead);
+				((Rva003909FAObj *)physics)->consume(&velocity, (int)me, (int)transportContainModuleData->m_throwOutPassengersLandingWarhead);
 				physics->rva00390629(TRUE);
 				rider->setModelConditionState(BFME_MODELCONDITION_7F);
 			}

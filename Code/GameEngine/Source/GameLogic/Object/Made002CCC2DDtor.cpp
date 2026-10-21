@@ -147,13 +147,13 @@ Made002CCC2D::~Made002CCC2D()
 void Made002CCC2D::rva0050B98F(const FadeInputPrefix *input, int unused)
 {
 	Object *source = TheGameLogic->findObjectByID(input->id);
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_str12C);
-	if (!tmpl)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(m_str12C);
+	if (!thingTemplate)
 		return;
 	CreateMask mask;
 	memset(&mask, 0, sizeof(mask));
 	Team *team = ((FadeObjectPrefix *)source)->team;
-	Object *made = TheThingFactory->newObject(tmpl, team, &mask, false);
+	Object *made = TheThingFactory->newObject(thingTemplate, team, &mask, false);
 	Coord3D pos;
 	copyCoord(&pos, &((FadeObjectPrefix *)source)->position);
 	float angle = ((FadeObjectPrefix *)source)->angle;

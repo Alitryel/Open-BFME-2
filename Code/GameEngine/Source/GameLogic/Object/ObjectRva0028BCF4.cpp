@@ -47,9 +47,9 @@ public:
 
 void *Object::rva0028BCF4() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		void *result = (*m)->slot38();
+		void *result = (*behaviorModule)->slot38();
 		if (result)
 			return result;
 	}

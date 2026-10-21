@@ -195,7 +195,7 @@ public:
 };
 struct AsciiNotEmpty
 {
-	static bool test(const AsciiString &s) { return !((const StringBase<char> *)&s)->isEmpty(); }
+	static bool test(const AsciiString &asciiString) { return !((const StringBase<char> *)&asciiString)->isEmpty(); }
 };
 class AttackPriorityInfo { public: unsigned char m_pad[4]; AsciiString m_name; };
 class ScriptEngine { public: const AttackPriorityInfo *getAttackInfo(const AsciiString &name); };
@@ -672,8 +672,8 @@ Object::Object(const ThingTemplate *tt, const CreateMask *mask, Team *team, Obje
 
 	m_experienceTracker = new Rva0039ADF3(this);
 
-	for (BehaviorModule **b = m_behaviors; *b; ++b)
-		(*b)->onObjectCreated();
+	for (BehaviorModule **behaviorModule = m_behaviors; *behaviorModule; ++behaviorModule)
+		(*behaviorModule)->onObjectCreated();
 
 	m_434 = (tt->m_kindOf[0] >> 1) & 1;
 	m_435 = true;

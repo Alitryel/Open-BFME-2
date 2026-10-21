@@ -669,19 +669,19 @@ public:
 		if (primary)
 		{
 			/// @todo srj -- ack. const_cast is evil.
-			PhysicsBehavior* p = const_cast<Object*>(primary)->getPhysics();
-      if (p)
+			PhysicsBehavior* physicsBehavior = const_cast<Object*>(primary)->getPhysics();
+      if (physicsBehavior)
       {
 				Coord3D force;
 				calcRandomForce(m_minMag, m_maxMag, m_minPitch, m_maxPitch, &force);
-				p->applyForce(&force);
+				physicsBehavior->applyForce(&force);
 
 			  Real yaw = GameLogicRandomValueReal( -m_spinRate, m_spinRate );
 			  Real roll = GameLogicRandomValueReal( -m_spinRate, m_spinRate );
 			  Real pitch = GameLogicRandomValueReal( -m_spinRate, m_spinRate );
-			  p->setYawRate(yaw);
-			  p->setRollRate(roll);
-			  p->setPitchRate(pitch);
+			  physicsBehavior->setYawRate(yaw);
+			  physicsBehavior->setRollRate(roll);
+			  physicsBehavior->setPitchRate(pitch);
       }
       else
       {
@@ -882,19 +882,19 @@ protected:
 		
 		if (!m_particleSysName.isEmpty())
 		{
-			const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate(m_particleSysName);
-			if (tmp)
+			const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(m_particleSysName);
+			if (particleSystemTemplate)
 			{
-				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 				sys->attachToObject(obj);
 			}
 		}
 		
 		if (m_ignorePrimaryObstacle)
 		{
-			PhysicsBehavior* p = obj->getPhysics();
-			if (p)
-				p->setIgnoreCollisionsWith(sourceObj);
+			PhysicsBehavior* physicsBehavior = obj->getPhysics();
+			if (physicsBehavior)
+				physicsBehavior->setIgnoreCollisionsWith(sourceObj);
 		}
 
 		// set its beginning health
@@ -1248,25 +1248,25 @@ protected:
 		{
 			Int pick = GameLogicRandomValue(0, m_names.size() - 1);
 
-			const ThingTemplate* tmpl;
+			const ThingTemplate* thingTemplate;
 			if (m_nameAreObjects)
-				tmpl = TheThingFactory->findTemplate(m_names[pick]);
+				thingTemplate = TheThingFactory->findTemplate(m_names[pick]);
 			else
 			{	//this is using the generic debris type so it's probably safe to
 				//remove if requested by the GameLOD manager.
 				if (TheGameLODManager->isDebrisSkipped())
 					continue;
 
-				tmpl = debrisTemplate;
+				thingTemplate = debrisTemplate;
 			}
-			DEBUG_ASSERTCRASH(tmpl, ("Object %s not found\n",m_names[pick].str()));
-			if (!tmpl)
+			DEBUG_ASSERTCRASH(thingTemplate, ("Object %s not found\n",m_names[pick].str()));
+			if (!thingTemplate)
 				continue;
 
-			Object *debris = TheThingFactory->newObject( tmpl, debrisOwner );
+			Object *debris = TheThingFactory->newObject( thingTemplate, debrisOwner );
 			if( !debris )
 			{
-				DEBUG_CRASH( ("OCL::reallyCreate() failed to create debris %s.", tmpl->getName().str() ) );
+				DEBUG_CRASH( ("OCL::reallyCreate() failed to create debris %s.", thingTemplate->getName().str() ) );
 				return firstObject;
 			}
 			if( !firstObject )

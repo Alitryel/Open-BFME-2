@@ -665,13 +665,13 @@ void CreateAHeroManager::rva0021A428(const CreateAHeroData &hero)
 struct BlingUpgradeOrderView { char unknown00[0x88]; unsigned int word88; };
 bool Rva0021AD88Less(unsigned int first, unsigned int second)
 {
-    const BlingUpgradeOrderView *a = reinterpret_cast<const BlingUpgradeOrderView *>(
+    const BlingUpgradeOrderView *blingUpgradeOrderView = reinterpret_cast<const BlingUpgradeOrderView *>(
         TheUpgradeCenter->findUpgrade(static_cast<CreateAHeroBling *>(
             TheCreateAHeroManager->GetBling(first))->m_upgradeName));
     const BlingUpgradeOrderView *b = reinterpret_cast<const BlingUpgradeOrderView *>(
         TheUpgradeCenter->findUpgrade(static_cast<CreateAHeroBling *>(
             TheCreateAHeroManager->GetBling(second))->m_upgradeName));
-    return a->word88 < b->word88;
+    return blingUpgradeOrderView->word88 < b->word88;
 }
 
 typedef bool (*BlingIndexLess)(unsigned int, unsigned int);

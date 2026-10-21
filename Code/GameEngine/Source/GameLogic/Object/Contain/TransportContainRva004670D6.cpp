@@ -156,9 +156,9 @@ private:
 
 void TransportContain::createPayload()
 {
-	PtrA *a = m_4;
-	RiderNode *cur = a->m_sentinel->m_first;
-	if (cur == (RiderNode *)a->m_sentinel)
+	PtrA *ptrA = m_4;
+	RiderNode *cur = ptrA->m_sentinel->m_first;
+	if (cur == (RiderNode *)ptrA->m_sentinel)
 		return;
 	do
 	{
@@ -190,5 +190,5 @@ void TransportContain::createPayload()
 			p->slot14C(1);
 		}
 		cur = cur->m_next;
-	} while (cur != (RiderNode *)a->m_sentinel);
+	} while (cur != (RiderNode *)ptrA->m_sentinel);
 }

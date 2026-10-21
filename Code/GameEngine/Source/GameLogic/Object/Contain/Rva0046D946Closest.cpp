@@ -140,9 +140,9 @@ public:
 	char m_padAfter20[0x170 - 0x20 - 4];
 	TreeHeader *m_170;
 };
-Object *Rva0046D946::rva0046D946(Object *arg)
+Object *Rva0046D946::rva0046D946(Object *object)
 {
-	if (arg == 0)
+	if (object == 0)
 		return 0;
 	float best = 1000000.0f;
 	Object *bestObj = 0;
@@ -152,10 +152,10 @@ Object *Rva0046D946::rva0046D946(Object *arg)
 		if (cur != *(ListNode **)tmp[1]) {
 		do {
 			Object *cand = cur->m_val;
-			if (cand != arg) {
+			if (cand != object) {
 				Coord3D pos = *(Coord3D *)&cand->m_x38;
-				pos.x -= arg->m_x38;
-				float dy = pos.y - arg->m_y3C;
+				pos.x -= object->m_x38;
+				float dy = pos.y - object->m_y3C;
 				float d2 = pos.x * pos.x + dy * dy;
 				if (d2 < best) {
 					best = d2;
@@ -170,10 +170,10 @@ Object *Rva0046D946::rva0046D946(Object *arg)
 		do {
 			ObjectID oid = bn->m_id;
 			Object *obj = TheGameLogic->findObjectByID(oid);
-			if (obj != 0 && obj != arg) {
+			if (obj != 0 && obj != object) {
 				Coord3D pos = *(Coord3D *)&obj->m_x38;
-				pos.x -= arg->m_x38;
-				float dy = pos.y - arg->m_y3C;
+				pos.x -= object->m_x38;
+				float dy = pos.y - object->m_y3C;
 				float d2 = pos.x * pos.x + dy * dy;
 				if (d2 < best) {
 					best = d2;

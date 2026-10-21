@@ -94,15 +94,15 @@ public:
 
 SpecialPowerModuleInterface *Object::findSpecialPowerModuleInterface(SpecialPowerType type) const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		SpecialPowerModuleInterface *sp = (*m)->getSpecialPower();
+		SpecialPowerModuleInterface *sp = (*behaviorModule)->getSpecialPower();
 		if (!sp)
 			continue;
-		const SpecialPowerTemplate *tmpl = sp->getSpecialPowerTemplate();
-		if (!tmpl)
+		const SpecialPowerTemplate *specialPowerTemplate = sp->getSpecialPowerTemplate();
+		if (!specialPowerTemplate)
 			continue;
-		const Overridable *finalOverride = tmpl->friend_getFinalOverride();
+		const Overridable *finalOverride = specialPowerTemplate->friend_getFinalOverride();
 		if (((const SpecialPowerTemplate *)finalOverride)->m_type1C == type)
 			return sp;
 	}

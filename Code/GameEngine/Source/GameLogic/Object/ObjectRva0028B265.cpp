@@ -102,9 +102,9 @@ public:
 
 void Object::rva0028B265() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028B265Result *r = (*m)->slot08();
+		Rva0028B265Result *r = (*behaviorModule)->slot08();
 		if (r != 0)
 			r->slot15(1.0f);
 	}
@@ -112,9 +112,9 @@ void Object::rva0028B265() const
 
 void Object::rva0028B292(int v) const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028B265Result *r = (*m)->slot08();
+		Rva0028B265Result *r = (*behaviorModule)->slot08();
 		if (r != 0)
 			r->slot09(v);
 	}
@@ -122,9 +122,9 @@ void Object::rva0028B292(int v) const
 
 void Object::rva0028B1D4(int a, int b) const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028B1D4Result *r = (*m)->slot05();
+		Rva0028B1D4Result *r = (*behaviorModule)->slot05();
 		if (r != 0)
 			r->slot00(a, b);
 	}
@@ -154,6 +154,6 @@ void Object::rva0028B193()
 // unconditionally. Caller 0x004CCED3.
 void Object::rva0028B701(float v)
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
-		(*m)->slot43(v);
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
+		(*behaviorModule)->slot43(v);
 }

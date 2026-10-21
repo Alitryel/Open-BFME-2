@@ -50,8 +50,8 @@ inline UpgradeDieModuleData::UpgradeDieModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeUpgradeDieModuleDataInlineAnchor@@YAXPAVUpgradeDieModuleData@@@Z absent-from-retail
-void _bfmeUpgradeDieModuleDataInlineAnchor(UpgradeDieModuleData *p)
+void _bfmeUpgradeDieModuleDataInlineAnchor(UpgradeDieModuleData *upgradeDieModuleData)
 {
-    p->UpgradeDieModuleData::UpgradeDieModuleData();
+    upgradeDieModuleData->UpgradeDieModuleData::UpgradeDieModuleData();
 }
 #pragma inline_depth()

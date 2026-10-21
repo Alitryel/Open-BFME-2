@@ -37,7 +37,7 @@ private:
 };
 // The qualified call emits the implicit dtor without this TU defining the
 // ctor (rowed in Rva004bb3a7Finish.cpp) or the vtable.
-void destroyCallHelpOnDamageModuleData(CallHelpOnDamageModuleData *p)
+void destroyCallHelpOnDamageModuleData(CallHelpOnDamageModuleData *callHelpOnDamageModuleData)
 {
-	p->CallHelpOnDamageModuleData::~CallHelpOnDamageModuleData();
+	callHelpOnDamageModuleData->CallHelpOnDamageModuleData::~CallHelpOnDamageModuleData();
 }

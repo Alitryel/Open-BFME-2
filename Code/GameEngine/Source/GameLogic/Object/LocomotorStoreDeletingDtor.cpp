@@ -15,4 +15,4 @@ private:
 };
 
 // ?forceLocomotorStoreDelete@@YAXPAVLocomotorStore@@@Z absent-from-retail
-void forceLocomotorStoreDelete(LocomotorStore *p) { delete p; }
+void forceLocomotorStoreDelete(LocomotorStore *locomotorStore) { delete locomotorStore; }

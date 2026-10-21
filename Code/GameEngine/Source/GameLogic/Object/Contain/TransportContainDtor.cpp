@@ -71,9 +71,9 @@ inline TransportContain::~TransportContain()
 // it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitTransportContainDtor@@YAXPAVTransportContain@@@Z present-unmatched
-void bfmeEmitTransportContainDtor(TransportContain *p)
+void bfmeEmitTransportContainDtor(TransportContain *transportContain)
 {
-	p->TransportContain::~TransportContain();
+	transportContain->TransportContain::~TransportContain();
 }
 #pragma inline_depth()
 

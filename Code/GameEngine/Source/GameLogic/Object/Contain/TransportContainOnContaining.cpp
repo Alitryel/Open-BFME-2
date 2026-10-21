@@ -351,7 +351,7 @@ void Rva0046781F::rva0046781F(Object *rider, bool wasSelected)
 {
 	((OpenContain *)this)->OpenContain::onContaining(rider, wasSelected);
 
-	TransportContainModuleData *d = getTransportContainModuleData();
+	TransportContainModuleData *transportContainModuleData = getTransportContainModuleData();
 
 	rider->setDisabled(DISABLED_HELD);
 
@@ -378,19 +378,19 @@ void Rva0046781F::rva0046781F(Object *rider, bool wasSelected)
 	slot59(rider);
 	slot27(rider, slot44(0).test(61));
 
-	if (d->m_tempWeapon && getObject()->getRelationship(rider) != ALLIES)
+	if (transportContainModuleData->m_tempWeapon && getObject()->getRelationship(rider) != ALLIES)
 	{
-		if (!d->m_tempWeaponKeepsStatus)
+		if (!transportContainModuleData->m_tempWeaponKeepsStatus)
 			rider->setStatus(OBJECT_STATUS_RVA0046781F, true);
-		TheWeaponStore->createAndFireTempWeapon(d->m_tempWeapon, getObject(), getObject()->getPosition());
-		if (!d->m_tempWeaponKeepsStatus)
+		TheWeaponStore->createAndFireTempWeapon(transportContainModuleData->m_tempWeapon, getObject(), getObject()->getPosition());
+		if (!transportContainModuleData->m_tempWeaponKeepsStatus)
 			rider->setStatus(OBJECT_STATUS_RVA0046781F, false);
 	}
 
-	if (d->m_useFrameStamp)
-		m_frameStamp = TheGameLogic->getFrame() + d->m_frameStampDelay;
+	if (transportContainModuleData->m_useFrameStamp)
+		m_frameStamp = TheGameLogic->getFrame() + transportContainModuleData->m_frameStampDelay;
 
-	if (d->m_fadeRiders && draw && d->m_fadeTime != 0.0f && d->m_fadeFilter.accepts(rider, NULL))
+	if (transportContainModuleData->m_fadeRiders && draw && transportContainModuleData->m_fadeTime != 0.0f && transportContainModuleData->m_fadeFilter.accepts(rider, NULL))
 	{
 		if (rider->isKindOf(109) && rider->rva0028C197())
 		{
@@ -404,20 +404,20 @@ void Rva0046781F::rva0046781F(Object *rider, bool wasSelected)
 					Drawable *riderDraw = obj->getDrawable();
 					if (riderDraw)
 					{
-						if (d->m_fadeOut)
-							riderDraw->fadeOut((UnsignedInt)(BfmeClientFramesPerMillisecond * d->m_fadeTime));
+						if (transportContainModuleData->m_fadeOut)
+							riderDraw->fadeOut((UnsignedInt)(BfmeClientFramesPerMillisecond * transportContainModuleData->m_fadeTime));
 						else
-							riderDraw->fadeIn((UnsignedInt)(BfmeClientFramesPerMillisecond * d->m_fadeTime));
+							riderDraw->fadeIn((UnsignedInt)(BfmeClientFramesPerMillisecond * transportContainModuleData->m_fadeTime));
 					}
 				}
 			}
 		}
 		else
 		{
-			if (d->m_fadeOut)
-				draw->fadeOut((UnsignedInt)(BfmeClientFramesPerMillisecond * d->m_fadeTime));
+			if (transportContainModuleData->m_fadeOut)
+				draw->fadeOut((UnsignedInt)(BfmeClientFramesPerMillisecond * transportContainModuleData->m_fadeTime));
 			else
-				draw->fadeIn((UnsignedInt)(BfmeClientFramesPerMillisecond * d->m_fadeTime));
+				draw->fadeIn((UnsignedInt)(BfmeClientFramesPerMillisecond * transportContainModuleData->m_fadeTime));
 		}
 	}
 }

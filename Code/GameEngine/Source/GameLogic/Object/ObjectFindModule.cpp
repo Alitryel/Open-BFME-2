@@ -91,9 +91,9 @@ void Object::setSelectable(bool selectable)
 // 6/9 with Object this at 0x0049930F 0x004AE07B 0x004B0527 0x00499514.
 void Object::rva0028B78A(int v)
 {
-	BodyFwd *b = m_body;
-	if (b != 0)
-		b->slot12(v);
+	BodyFwd *bodyFwd = m_body;
+	if (bodyFwd != 0)
+		bodyFwd->slot12(v);
 }
 
 // ?rva0028B79C@Object@@QAEXH@Z, retail 0x0028B79C, 18 bytes.
@@ -101,7 +101,7 @@ void Object::rva0028B78A(int v)
 // shape, tail-jumps to slot 0x34. Callers pass 6/9 at 0x0049927D 0x004ADFD5.
 void Object::rva0028B79C(int v)
 {
-	BodyFwd *b = m_body;
-	if (b != 0)
-		b->slot13(v);
+	BodyFwd *bodyFwd = m_body;
+	if (bodyFwd != 0)
+		bodyFwd->slot13(v);
 }

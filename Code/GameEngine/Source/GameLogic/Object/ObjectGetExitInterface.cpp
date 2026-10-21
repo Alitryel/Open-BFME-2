@@ -89,9 +89,9 @@ public:
 ExitInterface *Object::getObjectExitInterface() const
 {
 	ExitInterface *exitInterface = 0;
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		char *adjusted = reinterpret_cast<char *>(*m) + 0xc;
+		char *adjusted = reinterpret_cast<char *>(*behaviorModule) + 0xc;
 		if ((exitInterface = reinterpret_cast<BehaviorExitInterface *>(adjusted)->getUpdateExitInterface()) != 0)
 			break;
 	}

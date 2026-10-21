@@ -172,8 +172,8 @@ void Rva00475EA2::rva00475EA2()
 			bn = (TreeNode *)_STL::_Rb_global<bool>::_M_increment(bn);
 		} while ((void *)bn != (void *)m_54);
 	}
-	Object *o = *(Object **)((char *)this - 0x114);
-	AttributeModifierPoolUpdate *pool = o->findAttributeModifierPoolUpdate();
+	Object *object = *(Object **)((char *)this - 0x114);
+	AttributeModifierPoolUpdate *pool = object->findAttributeModifierPoolUpdate();
 	if (pool) {
 		Rva002983DAVector *vec = &pool->m_vec;
 		vec->EraseRange(vec->m_first, vec->m_last);

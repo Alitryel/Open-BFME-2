@@ -50,9 +50,9 @@ public:
 
 void Object::rva0028B3D7() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028B3D7Result *r = (*m)->slot10();
+		Rva0028B3D7Result *r = (*behaviorModule)->slot10();
 		if (r != 0 && r->slot04())
 			r->slot05();
 	}

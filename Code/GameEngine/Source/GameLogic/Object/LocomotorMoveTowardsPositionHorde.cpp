@@ -1645,9 +1645,9 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
          mpb->addArrivingObject(obj);
          hordeContain->slot154();
          int id = !result.m_node ? 0x7fffffff : ((int *)result.m_node)[8];
-         Waypoint *w = TheTerrainLogic->getWaypointByID(id);
-         if (w && w->getType() == 8)
-         way = w;
+         Waypoint *waypoint = TheTerrainLogic->getWaypointByID(id);
+         if (waypoint && waypoint->getType() == 8)
+         way = waypoint;
          Object *garrison = TheGameLogic->findObjectByID(way->getClimbObjectID());
          AIGroup *group = TheAI->createGroup();
          group->add(obj);

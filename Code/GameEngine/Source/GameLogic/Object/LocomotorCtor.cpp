@@ -134,8 +134,8 @@ private:
 	Int m_AC;												// +0xAC
 };
 
-Locomotor::Locomotor(const LocomotorTemplate *tmpl, Bool unused)
-	: m_template((const LocomotorTemplate *)tmpl->getFinalOverride()),
+Locomotor::Locomotor(const LocomotorTemplate *locomotorTemplate, Bool unused)
+	: m_template((const LocomotorTemplate *)locomotorTemplate->getFinalOverride()),
 	  m_brakingFactor(1.0f),
 	  m_maxLift(BIGNUM), m_maxSpeed(BIGNUM), m_2C(-1.0f),
 	  m_maxAccel(BIGNUM), m_maxBraking(BIGNUM), m_maxTurnRate(BIGNUM),

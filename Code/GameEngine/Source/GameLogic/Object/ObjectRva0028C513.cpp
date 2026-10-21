@@ -59,9 +59,9 @@ public:
 
 ObjectID Object::rva0028C513() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028C513Result *r = (*m)->slot26();
+		Rva0028C513Result *r = (*behaviorModule)->slot26();
 		if (r != 0)
 			return r->slot0();
 	}

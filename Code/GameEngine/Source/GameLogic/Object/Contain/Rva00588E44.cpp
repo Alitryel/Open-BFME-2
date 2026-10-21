@@ -214,14 +214,14 @@ Object *Rva0047A040Base9E0::rva00588C4E(void *contain, const Coord3D *pos)
 			continue;
 		Rva0036AE51ListView memberView = member->slot108();
 		for (IntList::iterator jt = memberView.b->begin(); jt != memberView.b->end(); ++jt) {
-			Object *o = (Object *)containmentFirstWord(*jt);
-			if (((Rva00270260 *)o->getDrawable())->rva00270260() == true)
+			Object *object = (Object *)containmentFirstWord(*jt);
+			if (((Rva00270260 *)object->getDrawable())->rva00270260() == true)
 				continue;
-			float dx = pos->x - o->m_38;
-			float dy = pos->y - o->m_3c;
+			float dx = pos->x - object->m_38;
+			float dy = pos->y - object->m_3c;
 			float dist = dx * dx + dy * dy;
 			if (dist < bestDist) {
-				best = o;
+				best = object;
 				bestDist = dist;
 			}
 		}
@@ -261,14 +261,14 @@ void Rva0047A040Base9E0::rva00588F61(void *contain, Object *obj, CommandSourceTy
 {
 	IntList items = ((Rva00588E44Contain *)((char *)contain + 0x20))->slot118().rva0036AE51();
 	for (IntList::iterator it = items.begin(); it != items.end(); ++it) {
-		Object *o = (Object *)containmentFirstWord(*it);
-		Rva00588E44Body *body = o->m_250;
+		Object *object = (Object *)containmentFirstWord(*it);
+		Rva00588E44Body *body = object->m_250;
 		if (body != 0) {
 			Rva00588E44Contain *member = body->slot7C();
 			if (member != 0)
 				member->slot84(obj, cmdSource);
 		} else {
-			AIUpdateInterface *ai = o->m_258;
+			AIUpdateInterface *ai = object->m_258;
 			if (ai != 0)
 				ai->aiExit(obj, cmdSource);
 		}

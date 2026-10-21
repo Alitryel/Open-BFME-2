@@ -370,7 +370,7 @@ protected:
 // ?killRidersWhoAreNotFreeToExit@TransportContain@@MAEXXZ @0x00467F3B
 void TransportContain::killRidersWhoAreNotFreeToExit()
 {
-	const TransportContainModuleData *d = getTransportContainModuleData();
+	const TransportContainModuleData *transportContainModuleData = getTransportContainModuleData();
 	Rva0046247DPair pair;
 	IntList riders = ((Rva0036AE51ListView *)((Rva0046247D *)this)->rva0046247D(pair))->rva0036AE51();
 	IntList::iterator it = riders.begin();
@@ -379,7 +379,7 @@ void TransportContain::killRidersWhoAreNotFreeToExit()
 		Object *obj = (Object *)containmentFirstWord(*it++);
 		if (!isSpecificRiderFreeToExit(obj))
 		{
-			if (d->m_destroyRidersWhoAreNotFreeToExit)
+			if (transportContainModuleData->m_destroyRidersWhoAreNotFreeToExit)
 				TheGameLogic->destroyObject(obj);
 			else
 				obj->kill();
@@ -437,7 +437,7 @@ Bool TransportContain::isSpecificRiderFreeToExit(Object *specificObject)
 void TransportContain::letRidersUpgradeWeaponSet()
 {
 	Object *self = getObject();
-	const TransportContainModuleData *d = getTransportContainModuleData();
+	const TransportContainModuleData *transportContainModuleData = getTransportContainModuleData();
 
 	Rva0046247DPair riders;
 	((Rva0046247D *)this)->rva0046247D(riders);
@@ -446,9 +446,9 @@ void TransportContain::letRidersUpgradeWeaponSet()
 	for (IntList::iterator it = ((IntList *)riders.source)->begin(); it != ((IntList *)riders.source)->end(); ++it)
 	{
 		Object *rider = (Object *)containmentFirstWord(*it);
-		if (rider->isKindOfMulti(d->m_typeOneForWeaponSet, KINDOFMASK_NONE))
+		if (rider->isKindOfMulti(transportContainModuleData->m_typeOneForWeaponSet, KINDOFMASK_NONE))
 			anyRiderA = TRUE;
-		else if (rider->isKindOfMulti(d->m_typeTwoForWeaponSet, KINDOFMASK_NONE))
+		else if (rider->isKindOfMulti(transportContainModuleData->m_typeTwoForWeaponSet, KINDOFMASK_NONE))
 			anyRiderB = TRUE;
 	}
 
@@ -485,17 +485,17 @@ public:
 void Rva0046731A::rva0046731A(Object *rider)
 {
 	slot60();
-	const TransportContainModuleData *d = *(const TransportContainModuleData **)((char *)this - 0x1C);
+	const TransportContainModuleData *transportContainModuleData = *(const TransportContainModuleData **)((char *)this - 0x1C);
 	Object *owner = *(Object **)((char *)this - 0x18);
 	UnsignedInt mask;
-	if (((const BitFlags<218> *)&d->m_riderKindAtE8)->any() &&
-		rider->isKindOfMulti(d->m_riderKindAtE8, KINDOFMASK_NONE))
+	if (((const BitFlags<218> *)&transportContainModuleData->m_riderKindAtE8)->any() &&
+		rider->isKindOfMulti(transportContainModuleData->m_riderKindAtE8, KINDOFMASK_NONE))
 		mask = 0x40000;
-	else if (((const BitFlags<218> *)&d->m_riderKindAt104)->any() &&
-		rider->isKindOfMulti(d->m_riderKindAt104, KINDOFMASK_NONE))
+	else if (((const BitFlags<218> *)&transportContainModuleData->m_riderKindAt104)->any() &&
+		rider->isKindOfMulti(transportContainModuleData->m_riderKindAt104, KINDOFMASK_NONE))
 		mask = 0x80000;
-	else if (((const BitFlags<218> *)&d->m_riderKindAt120)->any() &&
-		rider->isKindOfMulti(d->m_riderKindAt120, KINDOFMASK_NONE))
+	else if (((const BitFlags<218> *)&transportContainModuleData->m_riderKindAt120)->any() &&
+		rider->isKindOfMulti(transportContainModuleData->m_riderKindAt120, KINDOFMASK_NONE))
 		mask = 0x100000;
 	else
 		return;

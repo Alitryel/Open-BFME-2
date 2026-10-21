@@ -90,15 +90,15 @@ void SupplyWarehouseCreate::rva004B9093()
 		return;
 	AsciiString *name = (AsciiString *)((char *)m_data04 + 8);
 	m_granted14 = false;
-	const UpgradeTemplate *tmpl = TheUpgradeCenter->findUpgrade(*name);
-	if (tmpl == 0)
+	const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*name);
+	if (upgradeTemplate == 0)
 		return;
 	Object *obj = m_object08;
-	if (tmpl->m_04 == 0)
+	if (upgradeTemplate->m_04 == 0)
 	{
 		Player *player = obj->getControllingPlayer();
-		player->rva002AE329(tmpl, UPGRADE_STATUS_COMPLETE, 0);
+		player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
 	}
 	else
-		obj->rva00293077(tmpl);
+		obj->rva00293077(upgradeTemplate);
 }

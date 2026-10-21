@@ -48,13 +48,13 @@ public:
 
 void Object::SwapForExchange(Object *other)
 {
-	BehaviorModule **a = m_modules244;
-	while (*a != 0)
+	BehaviorModule **behaviorModule = m_modules244;
+	while (*behaviorModule != 0)
 	{
-		Rva0028B9F6Face *f = (*a)->slot02();
+		Rva0028B9F6Face *f = (*behaviorModule)->slot02();
 		if (f == m_face250)
 			break;
-		++a;
+		++behaviorModule;
 	}
 	BehaviorModule **b = other->m_modules244;
 	if (other->m_modules244[0] == 0)
@@ -69,13 +69,13 @@ void Object::SwapForExchange(Object *other)
 	BehaviorModule *oldB = *b;
 	if (oldB == 0)
 		return;
-	BehaviorModule *oldA = *a;
-	*a = oldB;
+	BehaviorModule *oldA = *behaviorModule;
+	*behaviorModule = oldB;
 	*b = oldA;
 	Rva0028B9F6Face *bFace = other->m_face250;
 	Rva0028B9F6Face *aFace = m_face250;
 	m_face250 = bFace;
 	other->m_face250 = aFace;
-	(*a)->m_owner08 = this;
+	(*behaviorModule)->m_owner08 = this;
 	(*b)->m_owner08 = other;
 }

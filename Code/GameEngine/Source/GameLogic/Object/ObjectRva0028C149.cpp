@@ -53,8 +53,8 @@ __declspec(noinline) inline Bool Object::rva0028C15E(Int attribute, Real *value,
 }
 
 // ?bfmeAnchorObjectRva0028C15E absent-from-retail
-Bool bfmeAnchorObjectRva0028C15E(Object *p, Int attribute, Real *value, Int arg, Int arg2)
+Bool bfmeAnchorObjectRva0028C15E(Object *object, Int attribute, Real *value, Int arg, Int arg2)
 {
-	return p->rva0028C15E(attribute, value, arg, arg2);
+	return object->rva0028C15E(attribute, value, arg, arg2);
 }
 

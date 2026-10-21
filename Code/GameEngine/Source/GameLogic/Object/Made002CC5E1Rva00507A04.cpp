@@ -152,8 +152,8 @@ void DamageNugget::v4(void *a, void *b)
 	const AsciiString &helperName = TheWritableGlobalData->m_luaEventHelperName;
 	if (((const StringBase<char> *)&helperName)->isEmpty())
 		return;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(helperName);
-	if (!tmpl)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(helperName);
+	if (!thingTemplate)
 		return;
 	Made002CC5E1Request *request = (Made002CC5E1Request *)a;
 	Object *source = TheGameLogic->findObjectByID(request->m_objectID);
@@ -162,7 +162,7 @@ void DamageNugget::v4(void *a, void *b)
 	CreateMask mask;
 	memset(&mask, 0, sizeof(mask));
 	Team *team = source->getControllingPlayer()->m_defaultTeam;
-	Object *helper = TheThingFactory->newObject(tmpl, team, &mask, false);
+	Object *helper = TheThingFactory->newObject(thingTemplate, team, &mask, false);
 	helper->setProducer(source);
 	helper->setPosition((const struct Coord3D *)b);
 	static NameKeyType key = TheNameKeyGenerator->nameToKey("DelayedLuaEventUpdate");

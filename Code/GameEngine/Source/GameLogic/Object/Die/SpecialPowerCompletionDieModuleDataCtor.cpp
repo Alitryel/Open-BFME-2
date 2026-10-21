@@ -45,8 +45,8 @@ inline SpecialPowerCompletionDieModuleData::SpecialPowerCompletionDieModuleData(
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeSpecialPowerCompletionDieModuleDataInlineAnchor@@YAXPAVSpecialPowerCompletionDieModuleData@@@Z absent-from-retail
-void _bfmeSpecialPowerCompletionDieModuleDataInlineAnchor(SpecialPowerCompletionDieModuleData *p)
+void _bfmeSpecialPowerCompletionDieModuleDataInlineAnchor(SpecialPowerCompletionDieModuleData *specialPowerCompletionDieModuleData)
 {
-    p->SpecialPowerCompletionDieModuleData::SpecialPowerCompletionDieModuleData();
+    specialPowerCompletionDieModuleData->SpecialPowerCompletionDieModuleData::SpecialPowerCompletionDieModuleData();
 }
 #pragma inline_depth()

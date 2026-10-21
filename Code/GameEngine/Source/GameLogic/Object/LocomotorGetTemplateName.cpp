@@ -25,8 +25,8 @@ __declspec(noinline) inline AsciiString Locomotor::getTemplateName() const
 }
 
 // ?bfmeAnchorLocomotorGetTemplateName absent-from-retail
-AsciiString bfmeAnchorLocomotorGetTemplateName(const Locomotor *p)
+AsciiString bfmeAnchorLocomotorGetTemplateName(const Locomotor *locomotor)
 {
-	return p->getTemplateName();
+	return locomotor->getTemplateName();
 }
 

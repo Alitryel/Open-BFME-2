@@ -160,9 +160,9 @@ haveMask:
 		((_STL::_Base_bitset<32> *)&mask)->_M_do_or(((&(otherMask)) ? (otherMask) : (otherMask)));
 		unsigned int bit = (unsigned int)upgrade->m_bit38;
 		((unsigned int *)&mask)[bit >> 5] |= 1u << (bit & 31);
-		for (BehaviorModule **m = self->m_modules244; *m; ++m)
+		for (BehaviorModule **behaviorModule = self->m_modules244; *behaviorModule; ++behaviorModule)
 		{
-			BehaviorUpgrade *up = (*m)->getUpgrade();
+			BehaviorUpgrade *up = (*behaviorModule)->getUpgrade();
 			if (up == 0)
 				continue;
 			if (up->wouldUpgrade(mask))
@@ -179,8 +179,8 @@ haveMask:
 			return 0;
 		do
 		{
-			Object *o = cur->m_obj;
-			if (o->affectedByUpgrade(upgrade))
+			Object *object = cur->m_obj;
+			if (object->affectedByUpgrade(upgrade))
 				return 1;
 			cur = cur->m_next;
 		} while (cur != *(Node **)out.b);

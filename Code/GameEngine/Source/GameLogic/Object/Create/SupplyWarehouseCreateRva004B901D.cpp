@@ -114,14 +114,14 @@ void SupplyWarehouseCreate::rva004B901D()
 	_ReadWriteBarrier();
 	if ((t & 1) != 0)
 		return;
-	const UpgradeTemplate *tmpl = TheUpgradeCenter->findUpgrade(*(AsciiString *)((char *)m_data04 + 8));
-	if (tmpl == 0)
+	const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*(AsciiString *)((char *)m_data04 + 8));
+	if (upgradeTemplate == 0)
 		return;
-	if (tmpl->m_04 == 0)
+	if (upgradeTemplate->m_04 == 0)
 	{
 		Player *player = m_object08->getControllingPlayer();
-		player->rva002AE329(tmpl, UPGRADE_STATUS_COMPLETE, 0);
+		player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
 	}
 	else
-		m_object08->rva00293077(tmpl);
+		m_object08->rva00293077(upgradeTemplate);
 }

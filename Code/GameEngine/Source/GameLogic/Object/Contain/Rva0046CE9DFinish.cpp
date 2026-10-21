@@ -59,9 +59,9 @@ bool Rva0046CE9D::rva0046CE9D(Object *obj)
 			return false;
 		const void *other = *(const void *const *)((const char *)this - 0x114);
 		unsigned char flag = (unsigned char)(obj->rva00263763(other) < 10000.0f);
-		Object *a = found->rva002931F5(false);
+		Object *object = found->rva002931F5(false);
 		Object *b = obj->rva002931F5(false);
-		if (b == a)
+		if (b == object)
 			return true;
 		return flag;
 	}

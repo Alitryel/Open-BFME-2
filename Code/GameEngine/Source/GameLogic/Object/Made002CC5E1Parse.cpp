@@ -22,9 +22,9 @@ class INI
 public:
 	void initFromINIMulti(void *p, const MultiIniFieldParse &m);
 };
-void __cdecl q4Notify002CC5E1(void *ini, DamageNugget *m, int c, int d)
+void __cdecl q4Notify002CC5E1(void *ini, DamageNugget *damageNugget, int c, int d)
 {
 	MultiIniFieldParse tmp;
 	Rva005088CE::buildFieldParse(tmp);
-	((INI *)ini)->initFromINIMulti(m, tmp);
+	((INI *)ini)->initFromINIMulti(damageNugget, tmp);
 }

@@ -560,12 +560,12 @@ void GenericObjectCreationNugget::doStuffToObj(Object *obj, const AsciiString &m
 
 	if (!m_particleSysName.isEmpty())
 	{
-		const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate(m_particleSysName);
-		if (tmp && ((const ParticleSystemTemplateView *)tmp)->m_localPlayerOnly
+		const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(m_particleSysName);
+		if (particleSystemTemplate && ((const ParticleSystemTemplateView *)particleSystemTemplate)->m_localPlayerOnly
 			&& obj->getControllingPlayer() != ThePlayerList->getLocalPlayer())
-			tmp = 0;
-		if (tmp)
-			TheParticleSystemManager->createParticleSystem(tmp, true)->attachToObject(obj);
+			particleSystemTemplate = 0;
+		if (particleSystemTemplate)
+			TheParticleSystemManager->createParticleSystem(particleSystemTemplate, true)->attachToObject(obj);
 	}
 
 	BodyModuleInterface *body = obj->getBodyModule();

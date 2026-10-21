@@ -478,22 +478,22 @@ _STL::vector<Object *> GenericObjectCreationNugget::reallyCreate(const Coord3D *
 		Int hi = m_names.size() - 1;
 		Int pick = GameLogicRandomValue(0, hi, 1661);
 
-		const ThingTemplate *tmpl;
+		const ThingTemplate *thingTemplate;
 		if (m_nameAreObjects)
 		{
-			tmpl = TheThingFactory->findTemplate(m_names[pick]);
-			if (!tmpl)
+			thingTemplate = TheThingFactory->findTemplate(m_names[pick]);
+			if (!thingTemplate)
 				continue;
 
 			Player *player = sourceObj ? sourceObj->getControllingPlayer() : 0;
-			if (!m_ignoreBuildLimits && player && !player->m_60.rva002A7557((Rva002A7557In *)tmpl, 1))
+			if (!m_ignoreBuildLimits && player && !player->m_60.rva002A7557((Rva002A7557In *)thingTemplate, 1))
 				return objects;
 
-			if (player && tmpl->getMaxSimultaneousOfType())
+			if (player && thingTemplate->getMaxSimultaneousOfType())
 			{
 				Int count;
-				player->countObjectsByThingTemplate(1, &tmpl, true, &count, false);
-				if (count >= tmpl->getMaxSimultaneousOfType())
+				player->countObjectsByThingTemplate(1, &thingTemplate, true, &count, false);
+				if (count >= thingTemplate->getMaxSimultaneousOfType())
 					return objects;
 			}
 		}
@@ -501,38 +501,38 @@ _STL::vector<Object *> GenericObjectCreationNugget::reallyCreate(const Coord3D *
 		{
 			if (TheGameLODManager->isDebrisSkipped())
 				continue;
-			tmpl = debrisTemplate;
+			thingTemplate = debrisTemplate;
 		}
 
-		if (!tmpl)
+		if (!thingTemplate)
 			continue;
 
-		if (tmpl->isKindOf(0x64) || tmpl->isKindOf(0x5E) || tmpl->isKindOf(0x5F))
+		if (thingTemplate->isKindOf(0x64) || thingTemplate->isKindOf(0x5E) || thingTemplate->isKindOf(0x5F))
 		{
 			Matrix3D tmpMtx(*mtx);
 			tmpMtx[2][3] = 0.0f;
 			tmpMtx[1][3] = 0.0f;
 			tmpMtx[0][3] = 0.0f;
-			Real scale = tmpl->getPlacementScale();
-			if (tmpl->isKindOf(0x5E))
-				TheTerrainLogic->addTree(tmpl, pos, &tmpMtx, scale);
-			else if (tmpl->isKindOf(0x5F))
-				TheTerrainLogic->rva00280176(tmpl, pos, &tmpMtx, scale);
+			Real scale = thingTemplate->getPlacementScale();
+			if (thingTemplate->isKindOf(0x5E))
+				TheTerrainLogic->addTree(thingTemplate, pos, &tmpMtx, scale);
+			else if (thingTemplate->isKindOf(0x5F))
+				TheTerrainLogic->rva00280176(thingTemplate, pos, &tmpMtx, scale);
 			else
-				TheTerrainLogic->rva0027D3D9(tmpl, pos, &tmpMtx, scale);
+				TheTerrainLogic->rva0027D3D9(thingTemplate, pos, &tmpMtx, scale);
 			continue;
 		}
 
 		if (m_clearForConstruction)
 		{
-			TheBuildAssistant->clearRemovableForConstruction(tmpl, pos, orientation);
+			TheBuildAssistant->clearRemovableForConstruction(thingTemplate, pos, orientation);
 			if (debrisOwner)
 			{
 				Player *owner = debrisOwner->getControllingPlayer();
 				if (owner)
-					TheBuildAssistant->moveObjectsForConstruction(tmpl, pos, orientation, owner);
+					TheBuildAssistant->moveObjectsForConstruction(thingTemplate, pos, orientation, owner);
 			}
-			TheTerrainLogic->rva0028449F(pos, tmpl->getTemplateGeometryInfo(), orientation);
+			TheTerrainLogic->rva0028449F(pos, thingTemplate->getTemplateGeometryInfo(), orientation);
 		}
 
 		W3DBridge *ownerFlag = 0;
@@ -546,7 +546,7 @@ _STL::vector<Object *> GenericObjectCreationNugget::reallyCreate(const Coord3D *
 
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		debris = TheThingFactory->newObject(tmpl, debrisOwner, &mask, false);
+		debris = TheThingFactory->newObject(thingTemplate, debrisOwner, &mask, false);
 		objects.push_back(debris);
 
 		if (ownerFlag)

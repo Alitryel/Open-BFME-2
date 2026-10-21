@@ -39,8 +39,8 @@ void Object::rva0028DA28()
 	while (*arr != 0)
 	{
 		void *e = *arr;
-		ElemProvider *p = (ElemProvider *)((char *)e + 0xc);
-		void *r = p->slot10();
+		ElemProvider *elemProvider = (ElemProvider *)((char *)e + 0xc);
+		void *r = elemProvider->slot10();
 		if (r != 0)
 			Rva004CE245(r);
 		++arr;

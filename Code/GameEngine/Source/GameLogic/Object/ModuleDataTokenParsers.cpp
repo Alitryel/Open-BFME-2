@@ -87,9 +87,9 @@ __declspec(noinline) inline void GarrisonContainModuleData::parseInitialRoster(I
 }
 
 // ?bfmeAnchorGarrisonContainModuleDataparseInitialRoster absent-from-retail
-void bfmeAnchorGarrisonContainModuleDataparseInitialRoster(GarrisonContainModuleData *p, INI *ini, void *instance, void * /*store*/ a2, const void * a3)
+void bfmeAnchorGarrisonContainModuleDataparseInitialRoster(GarrisonContainModuleData *garrisonContainModuleData, INI *ini, void *instance, void * /*store*/ a2, const void * a3)
 {
-	p->parseInitialRoster(ini, instance, a2, a3);
+	garrisonContainModuleData->parseInitialRoster(ini, instance, a2, a3);
 }
 
 // ?rva0047B9AD@SiegeEngineContainModuleData@@SAXPAVINI@@PAX1PBX@Z

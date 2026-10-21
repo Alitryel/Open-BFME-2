@@ -146,10 +146,10 @@ Relationship Object::getRelationship(const Object *other) const
 			}
 			if (cand == 0)
 				goto team;
-			const Weapon *w = cand->getCurrentWeapon(0);
-			if (w == 0)
+			const Weapon *weapon = cand->getCurrentWeapon(0);
+			if (weapon == 0)
 				goto team;
-			if (!w->m_parent->rva002CA9CA(6, w))
+			if (!weapon->m_parent->rva002CA9CA(6, weapon))
 				goto team;
 ret0:
 			return ENEMIES;

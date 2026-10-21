@@ -318,10 +318,10 @@ public:
 	Bool getReceivingDifficultyBonus() const { return m_receivingDifficultyBonus; }
 	__forceinline void createExtraWeapon(Int index)
 	{
-		const WeaponTemplate *tmpl = m_template->m_extraWeaponTemplates[index];
-		if (tmpl)
+		const WeaponTemplate *weaponTemplate = m_template->m_extraWeaponTemplates[index];
+		if (weaponTemplate)
 		{
-			Weapon *weapon = TheWeaponStore->allocateNewWeapon(tmpl, PRIMARY_WEAPON);
+			Weapon *weapon = TheWeaponStore->allocateNewWeapon(weaponTemplate, PRIMARY_WEAPON);
 			Int id = m_id;
 			m_extraWeapons[index] = weapon;
 			m_extraWeapons[index]->m_ownerID = id;
@@ -386,9 +386,9 @@ void Object::initObject()
 			controller->applyBattlePlanBonusesForObject(this);
 	}
 
-	for (BehaviorModule **m = m_behaviors; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		SpecialPowerModuleInterface *sp = (*m)->getSpecialPower();
+		SpecialPowerModuleInterface *sp = (*behaviorModule)->getSpecialPower();
 		if (!sp)
 			continue;
 

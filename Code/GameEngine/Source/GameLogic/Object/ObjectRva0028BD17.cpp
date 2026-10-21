@@ -44,9 +44,9 @@ public:
 
 void *Object::rva0028BD17() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		void *result = (*m)->slot32();
+		void *result = (*behaviorModule)->slot32();
 		if (result)
 			return result;
 	}

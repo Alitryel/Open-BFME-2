@@ -152,7 +152,7 @@ public:
 	Int size( void ) const
 	{
 		Int n = 0;
-		for( ObjectSMCHelperTimerNode *p = m_node->m_next; p != m_node; p = p->m_next )
+		for( ObjectSMCHelperTimerNode *objectSMCHelperTimerNode = m_node->m_next; objectSMCHelperTimerNode != m_node; objectSMCHelperTimerNode = objectSMCHelperTimerNode->m_next )
 			++n;
 		return n;
 	}

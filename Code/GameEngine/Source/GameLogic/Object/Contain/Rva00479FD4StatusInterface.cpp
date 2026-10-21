@@ -100,12 +100,12 @@ public:
 	Rva00479FD4Iface m_iface;	// +0x20
 };
 
-bool Rva00479FD4Owner::rva00479FD4(Object *arg)
+bool Rva00479FD4Owner::rva00479FD4(Object *object)
 {
-	if (arg->testStatus(OBJECT_STATUS_RETAIL_5D))
+	if (object->testStatus(OBJECT_STATUS_RETAIL_5D))
 	{
 		Player *mine = m_object->getControllingPlayer();
-		if (arg->getControllingPlayer() != mine)
+		if (object->getControllingPlayer() != mine)
 			return true;
 	}
 	unsigned int a = m_iface.slot69(0);

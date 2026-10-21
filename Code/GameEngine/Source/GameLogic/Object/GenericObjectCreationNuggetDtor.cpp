@@ -115,9 +115,9 @@ inline GenericObjectCreationNugget::~GenericObjectCreationNugget()
 // copy for the ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitDtor@GenericObjectCreationNugget@@SAXPAV1@@Z present-unmatched
-void GenericObjectCreationNugget::bfmeEmitDtor(GenericObjectCreationNugget *p)
+void GenericObjectCreationNugget::bfmeEmitDtor(GenericObjectCreationNugget *genericObjectCreationNugget)
 {
-	p->GenericObjectCreationNugget::~GenericObjectCreationNugget();
+	genericObjectCreationNugget->GenericObjectCreationNugget::~GenericObjectCreationNugget();
 }
 #pragma inline_depth()
 

@@ -66,8 +66,8 @@ inline CreateCrateDieModuleData::CreateCrateDieModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeCreateCrateDieModuleDataInlineAnchor@@YAXPAVCreateCrateDieModuleData@@@Z absent-from-retail
-void _bfmeCreateCrateDieModuleDataInlineAnchor(CreateCrateDieModuleData *p)
+void _bfmeCreateCrateDieModuleDataInlineAnchor(CreateCrateDieModuleData *createCrateDieModuleData)
 {
-    p->CreateCrateDieModuleData::CreateCrateDieModuleData();
+    createCrateDieModuleData->CreateCrateDieModuleData::CreateCrateDieModuleData();
 }
 #pragma inline_depth()

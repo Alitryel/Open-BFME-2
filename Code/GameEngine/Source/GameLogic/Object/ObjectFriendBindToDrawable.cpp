@@ -114,8 +114,8 @@ void Object::friend_bindToDrawable(Drawable *draw)
 		reinterpret_cast<Rva0043846D *>(TheGameLogic->getManager178())->rva0043846D(this);
 	}
 
-	for (BehaviorModule **b = m_behaviors; *b; ++b)
+	for (BehaviorModule **behaviorModule = m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		(*b)->onDrawableBoundToObject();
+		(*behaviorModule)->onDrawableBoundToObject();
 	}
 }

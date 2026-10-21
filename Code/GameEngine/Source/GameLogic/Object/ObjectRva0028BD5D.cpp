@@ -55,9 +55,9 @@ public:
 void *Object::rva0028BD5D(int unused) const
 {
 	(void)unused;
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028BD5DResult *r = (*m)->slot25();
+		Rva0028BD5DResult *r = (*behaviorModule)->slot25();
 		if (r != 0 && r->slot04())
 			return r;
 	}

@@ -47,9 +47,9 @@ public:
 
 bool Object::rva0028B3A6() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		Rva0028B3A6Inner *r = (*m)->slot01();
+		Rva0028B3A6Inner *r = (*behaviorModule)->slot01();
 		if (r != 0 && r->slot05())
 			return true;
 	}

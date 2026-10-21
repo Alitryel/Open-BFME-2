@@ -74,8 +74,8 @@ DestroyDieModuleData::~DestroyDieModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeCrushDieModuleDataInlineAnchor@@YAXPAVCrushDieModuleData@@@Z absent-from-retail
-void _bfmeCrushDieModuleDataInlineAnchor(CrushDieModuleData *p)
+void _bfmeCrushDieModuleDataInlineAnchor(CrushDieModuleData *crushDieModuleData)
 {
-    p->CrushDieModuleData::CrushDieModuleData();
+    crushDieModuleData->CrushDieModuleData::CrushDieModuleData();
 }
 #pragma inline_depth()

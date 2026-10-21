@@ -533,7 +533,7 @@ private:
 
 // Retail 0x0028B595 (89 bytes): unlink this Object from a doubly-linked list
 // and update both the head and tail when this Object is at either end.
-void Object::removeFromList(Object **a, Object **b)
+void Object::removeFromList(Object **object, Object **b)
 {
 	if (m_prev8C != 0)
 		m_prev8C->m_next90 = m_next90;
@@ -542,7 +542,7 @@ void Object::removeFromList(Object **a, Object **b)
 	if (m_next90 != 0)
 		m_next90->m_prev8C = m_prev8C;
 	else
-		*a = m_prev8C;
+		*object = m_prev8C;
 	m_next90 = 0;
 	m_prev8C = 0;
 }
@@ -554,10 +554,10 @@ void Object::setReceivingDifficultyBonus(bool flag)
 	if (flag == m_receivingDifficultyBonus)
 		return;
 	m_receivingDifficultyBonus = flag;
-	Player *p = getControllingPlayer();
-	if (p == 0)
+	Player *player = getControllingPlayer();
+	if (player == 0)
 		return;
-	p->rva002AB8FB(this, m_receivingDifficultyBonus);
+	player->rva002AB8FB(this, m_receivingDifficultyBonus);
 }
 
 // Retail 0x0028D99A (75 bytes): update the Player's influence power state for
@@ -725,10 +725,10 @@ void Object::replaceModelConditionFlagsForHorde(const int *a, bool b)
 // keeps this unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeObjectAccessorInlineAnchor absent-from-retail
-void _bfmeObjectAccessorInlineAnchor(Object *o)
+void _bfmeObjectAccessorInlineAnchor(Object *object)
 {
-    o->testStatus((ObjectStatusTypes)0);
-    o->isKindOf((KindOfType)0);
+    object->testStatus((ObjectStatusTypes)0);
+    object->isKindOf((KindOfType)0);
 }
 #pragma inline_depth()
 
