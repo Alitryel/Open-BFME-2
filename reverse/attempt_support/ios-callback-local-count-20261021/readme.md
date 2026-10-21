@@ -55,3 +55,26 @@ initialization explicit; this retains every raw byte and relocation in the
 147B helper and leaves all four native bodies exact. The old explicit-output
 bank is retained separately so the negative controls remain reproducible
 after add_match eventually removes its attempts/ stash.
+
+## Normal admission
+
+The real grow instantiation was admitted with add_match --icf-owner and its
+complete fold proof, then committed separately. The public callback was
+admitted with add_match --replace-rva0x0001C090. It replaces the generated ASM
+row with real C++ in the existing iword/pword home; the orphaned ASM PROC was
+left unchanged. The obsolete0.977 attempts/ bank was cleared by add_match;
+its historical source remains in old-explicit-output.cpp.txt.
+
+The final whole unit passes ordinary build.sh4/4, every definition is rowed,
+all three literals and seven imports verify, and its EH check reports no EH
+data or missing objects. The source links in the published-census preview
+(232->510 non-padding bytes); no full-game census or runtime was run. A
+placement rescan at min5 finds zero extra bodies and pins. admission.json
+records actual source/log hashes and the132 unique C++-byte conversion.
+
+For diagnostic replay from the repository root, copy ios-home-full.cpp.txt to
+build/resume-eh-local/turn60-stlport-ios-home.cpp and ios-home-helper.cpp.txt to
+build/resume-eh-local/turn60-ios-helper-only.cpp. Compile each through ordinary
+tools/explain_mismatch.py using the iword name, RVA0x1BF90 and size117, then run
+audit-home.py.txt with Python. It only checks scoped objects with an in-memory
+diagnostic binding; ordinary admission and the normal hooks remain authoritative.

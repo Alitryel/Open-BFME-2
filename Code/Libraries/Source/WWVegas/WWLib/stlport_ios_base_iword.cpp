@@ -87,8 +87,19 @@ template<class T> __declspec(noinline) pair<T *,unsigned> grow_array(T *old_ptr,
  }
  return pair<T *,unsigned>(old_ptr,old_count);
 }
-template pair<pair<ios_base::event_callback,int> *,unsigned>
-grow_array(pair<ios_base::event_callback,int> *,unsigned,unsigned);
-
+void ios_base::register_callback(event_callback fn,int index) {
+ typedef pair<event_callback,int> Callback;
+ pair<Callback *,unsigned> grown=grow_array(_M_callbacks,_M_num_callbacks,_M_callback_index);
+ if(grown.first) {
+  pair<Callback *,unsigned> tmp=grown;
+  _M_num_callbacks=tmp.second;
+  _M_callbacks=tmp.first;
+  Callback cb; cb.first=fn; cb.second=index;
+  _M_callbacks[_M_callback_index++]=cb;
+  return;
+ }
+ _M_iostate|=1;
+ if(_M_iostate&_M_exception_mask) ::fputs("ios failure",stderr);
+}
 
 }
