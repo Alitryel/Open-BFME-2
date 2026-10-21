@@ -95,12 +95,12 @@ private:
 
 // ?getTriangleIntersection@W3DTerrainBackground@@QAEXPAVVector3@@HHHHABV2@11@Z
 void W3DTerrainBackground::getTriangleIntersection(Vector3 *heights, int x, int y, int width, int height,
-	const Vector3 &v0, const Vector3 &v1, const Vector3 &v2)
+	const Vector3 &first, const Vector3 &second, const Vector3 &third)
 {
 	int maxX = m_map->m_width - 1;
 	int maxY = m_map->m_height - 1;
-	float minZ = Min(v2.Z, Min(v0.Z, v1.Z));
-	float maxZ = Max(v2.Z, Max(v0.Z, v1.Z));
+	float minZ = Min(third.Z, Min(first.Z, second.Z));
+	float maxZ = Max(third.Z, Max(first.Z, second.Z));
 
 	Vector3 start;
 	Vector3 end;
@@ -130,7 +130,7 @@ void W3DTerrainBackground::getTriangleIntersection(Vector3 *heights, int x, int 
 			LineSegClass ray(start, end);
 			result.ComputeContactPoint = true;
 			RayCollisionTestClass raytest(ray, &result, 2, false, false);
-			if (castTriangle(raytest, v0, v1, v2)) {
+			if (castTriangle(raytest, first, second, third)) {
 				float z = raytest.Result->ContactPoint.Z;
 				if (m_mode == 2)
 					heights[idx].Y = z;
