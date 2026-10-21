@@ -1405,3 +1405,5 @@ __ehhandler$?rva00439E0C@Rva00439E0C@@QAE_NPAVObject@@0HH@Z,0x0078822F,"Renamed 
 __ehhandler$?rva007406E1@Rva007406E1@@QAEXAAVRenderInfoClass@@@Z,0x007AB4C5,"Renamed to __ehhandler$?CustomizedRender@Rva007406E1@@QAEXAAVRenderInfoClass@@@Z by tools/rename.py (canonical:wb)"
 ?rva00270276@Rva00270276Host@@QAE_NPAX000HH@Z,0x00270276,"Renamed to ?calcPitchRoll@Rva00270276Host@@QAE_NPAX000HH@Z by tools/rename.py (canonical:wb)"
 __ehhandler$?rva00270276@Rva00270276Host@@QAE_NPAX000HH@Z,0x007732E8,"Renamed to __ehhandler$?calcPitchRoll@Rva00270276Host@@QAE_NPAX000HH@Z by tools/rename.py (canonical:wb)"
+?bfmeBaseTL@BfmeThingTL@@QAEPAV1@PAXH@Z,0x0001C6F0,"Renamed to ?bfmeBaseTL@StdioStreambufBase@@QAEPAV1@PAXH@Z by tools/rename.py (inferred)"
+?bfmeInitTL@BfmeThingTL@@QAEPAV1@PAX@Z,0x0001CDB0,"Renamed to ?bfmeInitTL@StdioStreambufBase@@QAEPAV1@PAX@Z by tools/rename.py (inferred)"

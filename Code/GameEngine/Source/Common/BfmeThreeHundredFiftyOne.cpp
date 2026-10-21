@@ -22,11 +22,11 @@ struct BfmeListTL
 	unsigned char m_padding[0x14];
 };
 
-class BfmeThingTL
+class StdioStreambufBase
 {
 public:
-	BfmeThingTL *bfmeBaseTL(void *what, int flag);
-	BfmeThingTL *bfmeInitTL(void *what);
+	StdioStreambufBase *bfmeBaseTL(void *what, int flag);
+	StdioStreambufBase *bfmeInitTL(void *what);
 	void *m_bfmeVft;
 	void * volatile m_get;
 	void * volatile m_put;
@@ -37,10 +37,10 @@ public:
 	void *m_file;
 };
 
-// ?bfmeBaseTL@BfmeThingTL@@QAEPAV1@PAXH@Z		97 bytes
+// ?bfmeBaseTL@StdioStreambufBase@@QAEPAV1@PAXH@Z		97 bytes
 // The retail compiler schedules this LEA before the volatile field store;
 // MSVC 7.1 does not reproduce that order from clean C++ alone.
-__declspec(noinline) BfmeThingTL *BfmeThingTL::bfmeBaseTL(void *what, int flag)
+__declspec(noinline) StdioStreambufBase *StdioStreambufBase::bfmeBaseTL(void *what, int flag)
 {
 	void *baseWhat = what;
 	void *baseFlag = reinterpret_cast<void *>(static_cast<unsigned int>(flag));
@@ -70,7 +70,7 @@ __declspec(noinline) BfmeThingTL *BfmeThingTL::bfmeBaseTL(void *what, int flag)
 	return this;
 }
 
-BfmeThingTL *BfmeThingTL::bfmeInitTL(void *what)
+StdioStreambufBase *StdioStreambufBase::bfmeInitTL(void *what)
 {
 	bfmeBaseTL(what, 0);
 	m_file = what;
@@ -86,4 +86,4 @@ BfmeThingTL *BfmeThingTL::bfmeInitTL(void *what)
 // Retail callers in ios_base::_S_initialize and sync_with_stdio invoke this
 // 32-byte body at RVA 0x0001CDB0: one FILE* argument, thiscall, ret 4, and
 // this returned in EAX. The existing opaque view has that same ABI and layout.
-#pragma comment(linker, "/alternatename:??0stdio_streambuf_base@_SgI@@QAE@PAU_iobuf@@@Z=?bfmeInitTL@BfmeThingTL@@QAEPAV1@PAX@Z")
+#pragma comment(linker, "/alternatename:??0stdio_streambuf_base@_SgI@@QAE@PAU_iobuf@@@Z=?bfmeInitTL@StdioStreambufBase@@QAEPAV1@PAX@Z")

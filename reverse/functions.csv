@@ -9499,8 +9499,8 @@ _VP6_AllocateTmpBuffers,,0x001B55E0,179,Code/Libraries/Source/VP6/TmpBuffers.cpp
 ?bfmeGoUVB@@YAHPAUBfmeRecUVB@@PAD@Z,,0x0066C480,98,Code/GameEngine/Source/Common/BfmeConv1344.cpp,matched,BFME1 byte-identical donor; b1 0x007FFFD0; 2 DIR32 string literal(s) agree
 ?Sort@BfmeThingVJX@@QAEXH@Z,,0x006269E0,70,Code/GameEngine/Source/Common/BfmeConv1395.cpp,matched,BFME1 byte-identical donor; b1 0x009F4020
 ?bfmeAssignRangeV37@@YGXPAVBfmeStrV37@@HH@Z,,0x0002B2F0,136,Code/GameEngine/Source/Common/BfmeConv1478.cpp,matched,BFME1 byte-identical donor; b1 0x00831780
-?bfmeBaseTL@BfmeThingTL@@QAEPAV1@PAXH@Z,,0x0001C6F0,97,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp,matched,BFME1 donor; vtable imm 0xBBBC30; locale via shim-static pin at stlport locale ctor
-?bfmeInitTL@BfmeThingTL@@QAEPAV1@PAX@Z,,0x0001CDB0,32,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp,matched,BFME1 donor; calls bfmeBaseTL via self-pin; vft _bfmeVftTL pin
+?bfmeBaseTL@StdioStreambufBase@@QAEPAV1@PAXH@Z,,0x0001C6F0,97,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp,matched,BFME1 donor; vtable imm 0xBBBC30; locale via shim-static pin at stlport locale ctor
+?bfmeInitTL@StdioStreambufBase@@QAEPAV1@PAX@Z,,0x0001CDB0,32,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp,matched,BFME1 donor; calls bfmeBaseTL via self-pin; vft _bfmeVftTL pin
 ?bfmeFwdVMW@BfmeStrVMW@@QAEXPAUBfmeObjVMW@@@Z,,0x0002B2B0,57,Code/GameEngine/Source/Common/BfmeConv1444.cpp,matched,BFME1 byte-identical donor; b1 0x00831740
 ?bfmeApplyVNB@BfmeXformVNB@@QAEXPAUBfmeVecVNB@@M@Z,,0x006BD390,134,Code/GameEngine/Source/Common/BfmeConv1501.cpp,matched,BFME1 byte-identical donor; b1 0x0087DB10
 ?bfmeFwdV26@@YAPAXHHHHHHD@Z,,0x00026FF0,144,Code/GameEngine/Source/Common/BfmeConv1466.cpp,matched,BFME1 byte-identical donor; b1 0x0082DFE0

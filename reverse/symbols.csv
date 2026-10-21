@@ -7559,7 +7559,7 @@ name,address,notes
 ?bfmeBaseF1050@BfmeF1050@@QAEXHHH@Z,0x00184350,callee of bfmeGo1050F (0x0013C740) at the site its BFME1 donor calls it; may be an ICF alias
 ?bfmeBaseInitZQ@BfmeOwnerZQ@@QAEXPAX000HH@Z,0x00131B57,callee read from the retail REL32 in placed BFME1-donor body ?bfmeInitZQ@BfmeOwnerZQ@@QAEPAV1@PAX000@Z (0x000EF272)
 ?bfmeBaseSJ@BfmeThingSJ@@QAEXH@Z,0x001320D0,callee read from the retail REL32 in placed BFME1-donor body ??0BfmeThingTKB@@QAE@XZ (0x000EF7A1)
-?bfmeBaseTL@BfmeThingTL@@QAEPAV1@PAXH@Z,0x0001C6F0
+?bfmeBaseTL@StdioStreambufBase@@QAEPAV1@PAXH@Z,0x0001C6F0
 ?bfmeBaseUNC@BfmeThingUNC@@QAEXXZ,0x00674AD0
 ?bfmeBaseUpdate@Gen009D6330@@QAEXPAXPBXI@Z,0x0060C935,callee of bfmeUpdate (0x0060D4FA) at the site its BFME1 donor calls it; may be an ICF alias
 ?bfmeBaseVHC@BfmeThingVHC@@QAEXPAVBfmeMsgVHC@@@Z,0x00668130
