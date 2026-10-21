@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C8D41@CritterEmitterUpdate@@SA?AW4NameKeyType@@XZ @0x4C8D41
+// ?getModuleNameKey@CritterEmitterUpdate@@UBE?AW4NameKeyType@@XZ @0x4C8D41
 // (69B): cached pool-name key for CritterEmitterUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("CritterEmitterUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CritterEmitterUpdate
 {
 public:
-	static NameKeyType rva0004C8D41();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C8D41@CritterEmitterUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType CritterEmitterUpdate::rva0004C8D41()
+// ?getModuleNameKey@CritterEmitterUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType CritterEmitterUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheCritterEmitterUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("CritterEmitterUpdate");

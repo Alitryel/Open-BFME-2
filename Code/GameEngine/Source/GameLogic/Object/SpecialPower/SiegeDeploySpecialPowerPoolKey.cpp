@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C577C@SiegeDeploySpecialPower@@SA?AW4NameKeyType@@XZ @0x4C577C
+// ?getModuleNameKey@SiegeDeploySpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C577C
 // (69B): cached pool-name key for SiegeDeploySpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("SiegeDeploySpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SiegeDeploySpecialPower
 {
 public:
-	static NameKeyType rva0004C577C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C577C@SiegeDeploySpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType SiegeDeploySpecialPower::rva0004C577C()
+// ?getModuleNameKey@SiegeDeploySpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType SiegeDeploySpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheSiegeDeploySpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("SiegeDeploySpecialPower");

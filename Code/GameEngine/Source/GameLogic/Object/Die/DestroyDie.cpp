@@ -57,7 +57,7 @@ protected:
 	Bool isDieApplicable( const DamageInfo *damageInfo ) const;
 };
 
-// ?rva0004864C9@DestroyDie@@SA?AW4NameKeyType@@XZ @0x4864C9
+// ?getModuleNameKey@DestroyDie@@UBE?AW4NameKeyType@@XZ @0x4864C9
 // (69B): cached pool-name key for DestroyDie. The class
 // identity comes from the pool-name string the body pushes
 // ("DestroyDie"); the body guards a function-local static
@@ -87,13 +87,13 @@ public:
 public:
 	virtual void onDie( const DamageInfo *damageInfo );
 public:
-	static NameKeyType rva0004864C9();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Die/DestroyDiePoolKey.cpp
 
-// ?rva0004864C9@DestroyDie@@SA?AW4NameKeyType@@XZ
-NameKeyType DestroyDie::rva0004864C9()
+// ?getModuleNameKey@DestroyDie@@UBE?AW4NameKeyType@@XZ
+NameKeyType DestroyDie::getModuleNameKey() const
 {
 	static NameKeyType TheDestroyDiePoolKey =
 		TheNameKeyGenerator->nameToKey("DestroyDie");

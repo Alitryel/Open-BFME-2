@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C0AAC@SymbioticStructuresBody@@SA?AW4NameKeyType@@XZ @0x4C0AAC
+// ?getModuleNameKey@SymbioticStructuresBody@@UBE?AW4NameKeyType@@XZ @0x4C0AAC
 // (69B): cached pool-name key for SymbioticStructuresBody. The class
 // identity comes from the pool-name string the body pushes
 // ("SymbioticStructuresBody"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SymbioticStructuresBody
 {
 public:
-	static NameKeyType rva0004C0AAC();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C0AAC@SymbioticStructuresBody@@SA?AW4NameKeyType@@XZ
-NameKeyType SymbioticStructuresBody::rva0004C0AAC()
+// ?getModuleNameKey@SymbioticStructuresBody@@UBE?AW4NameKeyType@@XZ
+NameKeyType SymbioticStructuresBody::getModuleNameKey() const
 {
 	static NameKeyType TheSymbioticStructuresBodyPoolKey =
 		TheNameKeyGenerator->nameToKey("SymbioticStructuresBody");

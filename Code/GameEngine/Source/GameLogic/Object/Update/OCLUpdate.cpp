@@ -2,7 +2,7 @@
 // OCLUpdate.cpp: the pool key and the module-data ctor retail links from this TU
 // (tu_map approved), folded from two split units with these exact flags.
 
-// ?rva00049B310@OCLUpdate@@SA?AW4NameKeyType@@XZ @0x49B310
+// ?getModuleNameKey@OCLUpdate@@UBE?AW4NameKeyType@@XZ @0x49B310
 // (69B): cached pool-name key for OCLUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("OCLUpdate"); the body guards a function-local static
@@ -28,11 +28,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class OCLUpdate
 {
 public:
-	static NameKeyType rva00049B310();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049B310@OCLUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType OCLUpdate::rva00049B310()
+// ?getModuleNameKey@OCLUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType OCLUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheOCLUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("OCLUpdate");

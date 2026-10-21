@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00046082D@WargBehavior@@SA?AW4NameKeyType@@XZ @0x46082D
+// ?getModuleNameKey@WargBehavior@@UBE?AW4NameKeyType@@XZ @0x46082D
 // (69B): cached pool-name key for WargBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("WargBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class WargBehavior
 {
 public:
-	static NameKeyType rva00046082D();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00046082D@WargBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType WargBehavior::rva00046082D()
+// ?getModuleNameKey@WargBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType WargBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheWargBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("WargBehavior");
