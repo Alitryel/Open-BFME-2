@@ -5,7 +5,7 @@
 // ?onDie@UpgradeDie@@UAEXPBVDamageInfo@@@Z, retail 0x00486C00 118B (ret 4 at
 // 0x486C73-75 pops 0x486C71-72 extent [0x486C00,0x486C76) next body at 0x486C76): findUpgrade-first plus UpgradeTemplate m_type
 // ternary. A m_type==0 (player-scoped) upgrade is removed from the
-// controlling player via Player::rva002ADAC3 (pinned 0x002ADAC3, ret 8,
+// controlling player via Player::removeUpgrade (pinned 0x002ADAC3, ret 8,
 // hoisted pushes); otherwise the producer is looked up via
 // TheGameLogic->findObjectByID(getObject()->getProducerID()) and gated
 // through has/remove (rowed 0x290D2B/0x290D42).
@@ -20,7 +20,7 @@
 // Object producer ID word at +0x78; UpgradeDieModuleData carries the
 // AsciiString m_upgradeName at +0x38. All seven emitted callees are rowed or
 // pinned: isDieApplicable 0x45CEA7, findUpgrade 0x26F26D,
-// getControllingPlayer 0x28AFA9, rva002ADAC3 0x2ADAC3 (pin), findObjectByID
+// getControllingPlayer 0x28AFA9, removeUpgrade 0x2ADAC3 (pin), findObjectByID
 // 0x49DC5, hasUpgrade, removeUpgrade. TheUpgradeCenter via the
 // Rva00485C86Finish alternatename precedent; TheGameLogic via the
 // HeroDieOnDie plain-extern precedent.
@@ -59,7 +59,7 @@ private:
 class Player
 {
 public:
-	void rva002ADAC3(const UpgradeTemplate *upgrade, int flag);	// 0x002ADAC3
+	void removeUpgrade(const UpgradeTemplate *upgrade, int flag);	// 0x002ADAC3
 };
 
 class UpgradeCenter
@@ -140,7 +140,7 @@ void UpgradeDie::onDie(const DamageInfo *damageInfo)
 		return;
 	if (upgrade->m_type == 0)
 	{
-		getObject()->getControllingPlayer()->rva002ADAC3(upgrade, 0);
+		getObject()->getControllingPlayer()->removeUpgrade(upgrade, 0);
 		return;
 	}
 	// Look for the object that created me.

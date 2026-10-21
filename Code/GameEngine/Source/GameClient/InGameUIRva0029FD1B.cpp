@@ -34,7 +34,7 @@ public:
 class Shadow
 {
 public:
-	void rva00330995(int color);
+	void setColor(int color);
 };
 
 #include "Lib/Coord3D.h"
@@ -204,5 +204,5 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 
 	int color = (unsigned char)arg3 ? -1 : (int)0xFFFF1414;
 	if (m_890)
-		(m_890) ? (m_890->rva00330995(color)) : (m_890->rva00330995(color));
+		(m_890) ? (m_890->setColor(color)) : (m_890->setColor(color));
 }

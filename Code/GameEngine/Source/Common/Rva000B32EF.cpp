@@ -45,7 +45,7 @@ typedef float Real;
 class Shadow
 {
 public:
-	void rva00330995(Int color);
+	void setColor(Int color);
 	char m_pad00[0x20];
 	Real m_angle; // +0x20 (BFME1 Shadow m_localAngle per createRadiusDecal donor)
 };
@@ -101,7 +101,7 @@ void Rva000B32EF::rva000B32EF(Int *color)
 	Shadow *shadow = m_decal218.m_shadow;
 	if (!shadow)
 		return;
-	shadow->rva00330995(v);
+	shadow->setColor(v);
 }
 
 void Rva000B32EF::rva000B32C2(const Coord3D *pos)

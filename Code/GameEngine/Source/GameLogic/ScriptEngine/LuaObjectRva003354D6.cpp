@@ -7,7 +7,7 @@
 // rowed lua_tostring 0x007473B0, rowed StringBase ctor 0x00037BA0,
 // rowed findUpgrade 0x0026F26D, rowed releaseBuffer 0x00036410,
 // rowed getControllingPlayer 0x0028AFA9, rowed Player rva002AE329 0x002AE329,
-// rowed Player rva002ADAC3 0x002ADAC3, rowed Object rva00293077 0x00293077,
+// rowed Player removeUpgrade 0x002ADAC3, rowed Object rva00293077 0x00293077,
 // rowed Object removeUpgrade 0x00290D42.
 #include "ascii_string.h"
 
@@ -46,7 +46,7 @@ class Player
 {
 public:
 	Upgrade *rva002AE329(const UpgradeTemplate *t, UpgradeStatusType s, Int x);
-	void rva002ADAC3(const UpgradeTemplate *t, Int x);
+	void removeUpgrade(const UpgradeTemplate *t, Int x);
 };
 
 class UpgradeTemplate
@@ -95,7 +95,7 @@ int LuaScriptEngine::ObjectModifyUpgrade(lua_State *L, bool b)
 		if (b != 0) {
 			player->rva002AE329(tpl, (UpgradeStatusType)2, 0);
 		} else {
-			player->rva002ADAC3(tpl, 0);
+			player->removeUpgrade(tpl, 0);
 		}
 	} else {
 		if (b != 0) {

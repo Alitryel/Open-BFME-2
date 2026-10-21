@@ -42,7 +42,7 @@ public:
 	unsigned char m_byte26;
 };
 
-	void rva00330995(int v);
+	void setColor(int v);
 	unsigned char m_pad00[8];
 	Coord3D m_pos08;
 };
@@ -128,6 +128,6 @@ void PartTheHeavensUpdate::rva004ACADA()
 		Object *obj=m_object;const Coord3D *pos = &obj->m_pos38;
 		Coord3D *dest = &m_shadow->m_pos08;
 		*dest = *pos;
-		m_shadow->rva00330995(data->m_color0C);
+		m_shadow->setColor(data->m_color0C);
 	}
 }

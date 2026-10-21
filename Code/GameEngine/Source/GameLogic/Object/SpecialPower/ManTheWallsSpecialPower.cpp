@@ -406,9 +406,9 @@ bool ManTheWallsSpecialPower::rva004C78AF(Rva004C78AFList *out)
 // pin_admission proof. The argument is unused in both native and this body.
 class ManTheWallsSpecialPowerSlotView {
 public:
- void rva004C799B(int unused);
+ void doSpecialPower(int unused);
 };
-void ManTheWallsSpecialPowerSlotView::rva004C799B(int unused)
+void ManTheWallsSpecialPowerSlotView::doSpecialPower(int unused)
 {
  Rva004C78AFList entries;
  ManTheWallsSpecialPower *primary=(ManTheWallsSpecialPower *)((char *)this-0x10);

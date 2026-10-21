@@ -311,12 +311,12 @@ void Rva0007E17BNullForwarder::rva0007E17B(Int a0)
 		m_member->flush(*(RenderInfoClass *)a0);
 }
 
-// Two more with a ret 4 tail: 0x000B22E4 +0x4 -> rowed Shadow::rva00330995
+// Two more with a ret 4 tail: 0x000B22E4 +0x4 -> rowed Shadow::setColor
 // (1 arg); 0x004FC176 +0x20 -> 0x004E0D19 (1 arg, address-derived pin).
 class Shadow
 {
 public:
-	void rva00330995(Int a0);
+	void setColor(Int a0);
 };
 
 class Rva000B22E4NullForwarder
@@ -331,7 +331,7 @@ private:
 void Rva000B22E4NullForwarder::rva000B22E4(Int a0)
 {
 	if (m_member)
-		m_member->rva00330995(a0);
+		m_member->setColor(a0);
 }
 
 class Rva004E0D19NullTarget

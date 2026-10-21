@@ -19,7 +19,7 @@
 #include <list>
 class Shadow{public:
  struct ShadowTypeInfo{ShadowTypeInfo();~ShadowTypeInfo();AsciiString m_first,m_second;int m_type;float m_floatC,m_float10,m_float14,m_float18,m_float1C,m_float20;unsigned char m_byte24,m_byte25,m_byte26;};
- void rva00330995(int);void setOpacity(int);
+ void setColor(int);void setOpacity(int);
  char pad0[8];Coord3D position;char pad14[12];float rotation;char pad24[64];bool flag64;
 };
 class CloudShadowFactoryView{public:virtual void slot0();virtual void slot1();virtual Shadow*create(Shadow::ShadowTypeInfo*);};
@@ -114,7 +114,7 @@ void Rva004E50C8::rva004E50C8(){
     Shadow*shadow=((CloudShadowFactoryView*)g_00DEC2D4)->create(&info);
     if(shadow){
      shadow->rotation=normalizeAngle(-mid);
-     shadow->rva00330995(color);
+     shadow->setColor(color);
      shadow->position=point;shadow->flag64=true;
      shadow->setOpacity((int)(opacity*255.0f));
      shadows.push_front(shadow);

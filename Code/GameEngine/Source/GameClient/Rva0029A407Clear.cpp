@@ -38,7 +38,7 @@ void *Rva0029A407::rva0029B53C(unsigned int flag)
 class Shadow
 {
 public:
-	void rva00330995(int color);
+	void setColor(int color);
 };
 
 class Rva0029A41A
@@ -54,6 +54,6 @@ void Rva0029A41A::rva0029A41A(RGBColor *color)
 	Shadow *shadow = m_shadow;
 	if (shadow != 0) {
 		int asInt = color->getAsInt();
-		shadow->rva00330995(asInt);
+		shadow->setColor(asInt);
 	}
 }

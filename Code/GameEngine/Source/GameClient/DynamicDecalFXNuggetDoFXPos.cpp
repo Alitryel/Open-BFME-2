@@ -69,7 +69,7 @@ public:
 	};
 
 	void setOpacity(Int value);			// 0x003308F6
-	void rva00330995(Int color);			// 0x00330995
+	void setColor(Int color);			// 0x00330995
 
 	unsigned char m_pad00[0x08];
 	Coord3D m_position;				// +0x08
@@ -177,7 +177,7 @@ void DynamicDecalFXNugget::doFXPos(const Coord3D *primary, const Matrix3D *prima
 		else
 			shadow->m_angle = 0.0f;
 
-		shadow->rva00330995(rgbColorAsInt(m_color));
+		shadow->setColor(rgbColorAsInt(m_color));
 		shadow->m_position = pos;
 
 		Real initialOpacity = (m_startingDelay > 0.0f) ? 0.0f : (Real)m_opacityStart;

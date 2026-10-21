@@ -12,7 +12,7 @@
 // 0x00858E00); WorldBuilder names the twin 0x01241680
 // RemoveUpgradeUpgrade::upgradeImplementation. Unless already upgraded
 // (mux slot 0) it removes every UpgradeToRemove (module data +0x118):
-// player upgrades from the controlling player (rowed Player::rva002ADAC3,
+// player upgrades from the controlling player (rowed Player::removeUpgrade,
 // passing SuppressEvaEventForRemoval +0x130), object upgrades from the
 // owner (rowed Object::removeUpgrade) and, with RemoveFromAllPlayerObjects
 // (+0x131), from the player too. It then collects the IDs of the module's
@@ -114,7 +114,7 @@ public:
 class Player
 {
 public:
-	void rva002ADAC3(const UpgradeTemplate *upgrade, int suppressEva);
+	void removeUpgrade(const UpgradeTemplate *upgrade, int suppressEva);
 };
 
 class Object
@@ -201,13 +201,13 @@ void RemoveUpgradeUpgrade::upgradeImplementation()
 		{
 			if ((upgrade->m_type ? upgrade->m_type : upgrade->m_type) == 0)
 			{
-				obj->getControllingPlayer()->rva002ADAC3(upgrade, removeUpgradeUpgradeModuleData->m_suppressEvaEventForRemoval != 0);
+				obj->getControllingPlayer()->removeUpgrade(upgrade, removeUpgradeUpgradeModuleData->m_suppressEvaEventForRemoval != 0);
 			}
 			else
 			{
 				obj->removeUpgrade(upgrade);
 				if (removeUpgradeUpgradeModuleData->m_removeFromAllPlayerObjects)
-					obj->getControllingPlayer()->rva002ADAC3(upgrade, 0);
+					obj->getControllingPlayer()->removeUpgrade(upgrade, 0);
 			}
 		}
 	}

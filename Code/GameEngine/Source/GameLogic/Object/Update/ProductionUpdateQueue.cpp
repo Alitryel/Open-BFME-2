@@ -429,7 +429,7 @@ public:
 	Bool rva002AB87D(const UpgradeTemplate *upgrade) const; // hasUpgradeComplete
 	Bool rva002AA8EF(const UpgradeTemplate *upgrade) const; // hasUpgradeInProduction
 	Upgrade *rva002AE329(const UpgradeTemplate *upgrade, UpgradeStatusType status, Int flag); // addUpgrade
-	void rva002ADAC3(const UpgradeTemplate *upgrade, Int flag); // removeUpgrade
+	void removeUpgrade(const UpgradeTemplate *upgrade, Int flag); // removeUpgrade
 
 	char m_unknown00[0x54];
 	Int m_playerIndex;
@@ -1431,7 +1431,7 @@ void ProductionUpdate::cancelUpgrade( const UpgradeTemplate *upgrade )
 	// have any other IN_PRODUCTION status other than their existence in the build queue
 	//
 	if( upgrade->getUpgradeType() == UPGRADE_TYPE_PLAYER )
-		player->rva002ADAC3( upgrade, 0 );
+		player->removeUpgrade( upgrade, 0 );
 
 }  // end cancelUpgrade
 

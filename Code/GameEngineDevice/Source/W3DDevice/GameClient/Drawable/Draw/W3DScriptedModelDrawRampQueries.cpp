@@ -36,7 +36,7 @@ public:
   float sizeX,sizeY,offsetX,offsetY,projectionX,projectionY;
   unsigned char flags[4];
  };
- void rva00330995(int);
+ void setColor(int);
  __forceinline void enableShadowRender(bool value) { enabled=value; }
  __forceinline void enableShadowInvisible(bool value) { invisible=value; }
  unsigned int vptr00;
@@ -382,7 +382,7 @@ void W3DScriptedModelDraw::allocateShadows()
   shadow58=TheW3DShadowManager->addShadow(render50,&info,0);
   if(shadow58) {
    shadow58->shadowFlag30=t->flag5EF;
-   if(t->color5EE) shadow58->rva00330995(reinterpret_cast<int>(colors28.rva000B4653(0)));
+   if(t->color5EE) shadow58->setColor(reinterpret_cast<int>(colors28.rva000B4653(0)));
    shadow58->enableShadowInvisible(fullyObscured49);
    if(reinterpret_cast<Rva000B9B4ARenderView *>(render50)->Is_Hidden() || !shadowEnabled4A)
     shadow58->enableShadowRender(false);

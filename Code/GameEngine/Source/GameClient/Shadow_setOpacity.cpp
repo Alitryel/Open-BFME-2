@@ -15,7 +15,7 @@ class Shadow
 {
 public:
 	void setOpacity(Int value);
-	void rva00330995(Int color);
+	void setColor(Int color);
 
 private:
 	char m_pad00[0x24];
@@ -43,7 +43,7 @@ inline void Shadow::setOpacity(Int value)
 	}
 }
 
-void Shadow::rva00330995(Int color)
+void Shadow::setColor(Int color)
 {
 	m_color = (UnsignedInt)color & 0xffffff;
 
@@ -68,4 +68,4 @@ void (Shadow::*_bfmeInlineAnchor_Shadow_setOpacity_0)(Int value) = &Shadow::setO
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?SetTexture@Rva00330995@@QAEXPAX@Z=?rva00330995@Shadow@@QAEXH@Z")
+#pragma comment(linker, "/alternatename:?SetTexture@Rva00330995@@QAEXPAX@Z=?setColor@Shadow@@QAEXH@Z")

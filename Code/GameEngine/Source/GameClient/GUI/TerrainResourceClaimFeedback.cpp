@@ -59,7 +59,7 @@ public:
 	Coord3D getPositionValue() const { return m_position; }
 	void setPosition(const Coord3D *pos) { m_position = *pos; }
 	void setOpacity(Int value);			// 0x003308F6
-	void rva00330995(Int color);			// 0x00330995
+	void setColor(Int color);			// 0x00330995
 	unsigned char m_pad00[0x08];
 	Coord3D m_position;				// +0x08
 	unsigned char m_pad14[0x20 - 0x14];
@@ -182,7 +182,7 @@ void TerrainResourceClaimFeedback::Impl::updateClaimedDecalForClaimant(ClaimedDe
 		if (decal)
 		{
 			decal->m_angle = 0.0f;
-			decal->rva00330995(0xff6464c8);
+			decal->setColor(0xff6464c8);
 			decal->m_position = *obj->getPosition();
 			decal->m_byte64 = true;
 			decal->setOpacity(0x80);

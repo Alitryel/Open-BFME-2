@@ -225,7 +225,7 @@ class Player
 {
 public:
 	Bool isLocalPlayer() const;
-	void rva002ADAC3(const class UpgradeTemplate *, Int);
+	void removeUpgrade(const class UpgradeTemplate *, Int);
 	NameKeyType getPlayerNameKey() const { return m_playerNameKey; }
 
 private:
@@ -830,7 +830,7 @@ void CreateAHeroManager::BindHeroToObjectAndUpdate(Object *object)
         reinterpret_cast<HeroUpdateInterfaceView *>(hero)->slot10(0x2ff);
         if (controlling) {
             const UpgradeTemplate *upgrade=TheUpgradeCenter->findUpgrade(m_canBuildUpgradeName);
-            controlling->rva002ADAC3(upgrade,1);
+            controlling->removeUpgrade(upgrade,1);
         }
         if (local) m_boundHero=hero;
         for (void **module=object->modules;*module;++module) {

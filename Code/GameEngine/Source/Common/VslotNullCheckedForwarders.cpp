@@ -43,11 +43,11 @@ public:
 };
 
 
-// rowed as ?rva00330995@Shadow@@QAEXH@Z (Shadow_setOpacity.cpp)
+// rowed as ?setColor@Shadow@@QAEXH@Z (Shadow_setOpacity.cpp)
 class Shadow
 {
 public:
-	void rva00330995(Int firstValue);
+	void setColor(Int firstValue);
 };
 
 class Rva000B31B9NullForwarder
@@ -63,7 +63,7 @@ private:
 void Rva000B31B9NullForwarder::rva000B31B9(Int firstValue)
 {
 	if (m_member)
-		m_member->rva00330995(firstValue);
+		m_member->setColor(firstValue);
 }
 
 class Rva0006820FNullForwarder

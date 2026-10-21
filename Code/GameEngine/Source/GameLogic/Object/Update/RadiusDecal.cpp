@@ -62,7 +62,7 @@ extern GlobalData *TheWritableGlobalData;
 class BfmeOwnVVD { public:virtual void slot0()=0;virtual void slot1()=0;virtual int slot2()=0; };
 class LookAtTranslator; extern LookAtTranslator *TheLookAtTranslator;
 class Shadow { public:
- void setOpacity(int);void rva00330995(int);
+ void setOpacity(int);void setColor(int);
  __forceinline void setRadius(float r) { radius58=r;radius5C=r; }
  __forceinline float getAngle() const {return angle;}
  __forceinline void setAngle(float a) {angle=a;}
@@ -116,7 +116,7 @@ void RadiusDecal::update() {
   decal->setAngle(normalizeAngle(decal->getAngle()+fade*speed));
   opacity=(int)(fade*255.0f);
   decal->setOpacity(opacity);
-  decal->rva00330995(opacity*0x10101-0x1000000);
+  decal->setColor(opacity*0x10101-0x1000000);
  } else if(data->rotationSpeed!=0.0f) {
   float scale=opacityLogicStepSeconds;
   scale*=0.0174532924f;

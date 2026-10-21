@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva002ADAC3@Player@@QAEXPBVUpgradeTemplate@@H@Z @0x002ADAC3 (140B): Zero
+// ?removeUpgrade@Player@@QAEXPBVUpgradeTemplate@@H@Z @0x002ADAC3 (140B): Zero
 // Hour Player::removeUpgrade with BFME 2's pass-through int and a type gate.
 // Target evidence: an upgrade template whose +0x04 type is 1 goes straight to
 // 0x002AD9FD (the onUpgradeRemoved counterpart: it walks the player's team
@@ -66,7 +66,7 @@ enum
 class Player
 {
 public:
-	void rva002ADAC3(const UpgradeTemplate *upgradeTemplate, Int x);
+	void removeUpgrade(const UpgradeTemplate *upgradeTemplate, Int x);
 	void onUpgradeRemoved(const UpgradeTemplate *upgradeTemplate, Int x);
 	Upgrade *findUpgrade(const UpgradeTemplate *upgradeTemplate);	// rowed 0x002AA031 (Rva002AA031Find.cpp)
 
@@ -78,7 +78,7 @@ private:
 	UpgradeMaskType m_upgradesCompleted;		// +0x13C
 };
 
-void Player::rva002ADAC3(const UpgradeTemplate *upgradeTemplate, Int x)
+void Player::removeUpgrade(const UpgradeTemplate *upgradeTemplate, Int x)
 {
 	if (upgradeTemplate->getUpgradeType() == 1)
 	{

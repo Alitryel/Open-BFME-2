@@ -13,7 +13,7 @@ class Shadow { public:
   AsciiString first,second;int style;float sizeX,sizeY,offsetX,offsetY,at1C,scale;
   unsigned char at24,allowUpdates,worldAlign;
  };
- void rva00330995(int);
+ void setColor(int);
  __forceinline void setAngle(float a) {angle=a;}
  __forceinline void setPosition(const Coord3D &p) {position=p;}
  char pad00[8];Coord3D position;char pad14[0xC];float angle;
@@ -50,7 +50,7 @@ void RadiusDecalTemplate::createDeathDecal(const Coord3D *pos,float angle,const 
  out->decal=g_00DEC2D4->create(&descriptor);
  if(!out->decal) return;
  out->decal->setAngle(angle);
- out->decal->rva00330995((int)*color);
+ out->decal->setColor((int)*color);
  Coord3D adjusted;
  setCoordinates(&adjusted,pos->x+descriptor.offsetX,pos->y+descriptor.offsetY,pos->z);
  out->decal->setPosition(adjusted);
@@ -71,7 +71,7 @@ void RadiusDecalTemplate::createRadiusDecal(const Coord3D &pos,float radius,cons
  if(out.decal) {
   out.decal->setAngle(0.0f);
   unsigned c=color?color:player->color;
-  out.decal->rva00330995((int)c);
+  out.decal->setColor((int)c);
   out.decal->setPosition(pos);
   if(radius>110.0f) out.decal->at64=true;
   out.data=this;
@@ -96,7 +96,7 @@ void RadiusDecalTemplate::createSelectionRadiusDecal(Coord3D pos,unsigned select
  out->decal=g_00DEC2D4->create(&descriptor);
  if(out->decal) {
   out->decal->setAngle(0.0f);
-  out->decal->rva00330995(color);
+  out->decal->setColor(color);
   out->decal->setPosition(pos);
   out->data=this;
  }

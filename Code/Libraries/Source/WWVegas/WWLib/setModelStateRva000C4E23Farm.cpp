@@ -304,7 +304,7 @@ public:
 		unsigned char m_26;
 	};
 	void setOpacity(Int value);
-	void rva00330995(Int value);
+	void setColor(Int value);
 	char m_pad00[4];
 	unsigned char m_04;
 	unsigned char m_05;
@@ -730,7 +730,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 				m_shadow->enableShadowRender(m_4A && !m_4B);
 				m_shadow->setFlag30(thingTemplateView->m_5EF);
 				if (thingTemplateView->m_5EE)
-					m_shadow->rva00330995((Int)((Rva000B4653 *)m_28)->rva000B4653(0));
+					m_shadow->setColor((Int)((Rva000B4653 *)m_28)->rva000B4653(0));
 				Int opacity;
 				Real fadeIn;
 				Int opacity2;
