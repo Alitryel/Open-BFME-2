@@ -117,3 +117,39 @@ in the matched FlatHeightMapUpdate `?rva000E3CE1@Rva000E3B41@@...`, where two
 fixups (`mov edi,[ebp-0x10]`, `mov ebx,[ebp-0x14]`) are cross-jumped. A closer
 should look for a source shape where `i` and `offset` are one coalesced web
 with a split at the Z exit.
+
+## 2026-10-21 claude4 follow-up (scored against the bank, fit 0.97819 on build/np scorer)
+
+The pre-schedule order is fixed: `i = offset` is the block's own load and the
+`this` reload (ebx) is compensation code appended at the block end. In x5
+(`i = offset; frame = frame + 1;`) the ebx reload stays last
+(`mov esi; inc [ebp-0x20]; mov ebx`). Retail therefore needs `i = offset` in a
+successor block of Z. Every real join of the two tails changes register
+allocation (this -> edi, 1472 B), so the tail must get merged after register
+allocation.
+
+All of these were built and scored, and none beat the bank:
+- f1 factorial (216 variants):
+  - Z `i = offset` position (5 positions; every one except the end is about 0.93);
+  - offset assignment form (3);
+  - `msg = 0` kept or dropped;
+  - guarded or unguarded delete;
+  - msg declaration position;
+  - D `i = offset` before or after `msg = 0`.
+  48 variants tie with the bank; `offset = i` after the lastCommand check gives 0.976.
+- Statement edits:
+  - Z else -> `break`: 0.969, with slots -0x18 and -0x1c swapped;
+  - do-while(0), for/break, prefix-wrapper and `if (lastCommand) {...} else return;` forms: identical to the bank;
+  - commandIDSet store moved to the end: 0.9737 (the store is scheduled after both loads);
+  - `i = offset + 1`, and two further tail statements: same order or worse.
+- Gotos and continues:
+  - goto from D into a Z-side label, or from Z into a D-side label: 0.908, 1472 B;
+  - `continue` after `i = offset` in Z or in both arms: identical to the bank.
+- Loop and declaration forms:
+  - loop head `m_packetLen > i`: cmp operands swap and the Z tail is unchanged;
+  - `for (;;)` form, `(Int)` cast, `i` declared without an initializer: identical to the bank;
+  - `i` / `offset` / `lastCommand` declared first in the function: 0.918 / identical / 0.916;
+  - `i` declared before commandType or before offset: identical to the bank.
+- Dummy-local meter, N = 0..96 `int dK = K;` after commandIDSet: all inert, so the local-count phase does not drive this residue.
+Untested: a forceinline helper holding the setters and tail that D and Z share;
+typed `msg` pointers in the Z arms.
