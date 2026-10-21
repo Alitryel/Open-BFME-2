@@ -1,7 +1,8 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc
-// ??1Rva000EEEF4@@UAE@XZ, retail 0x000EEEF4..0x000EEFE6 (242 bytes, EH):
-// a Snapshot-derived W3D buffer's destructor (opaque pin of its scalar
-// deleting destructor; table 0x00BCEECC). It releases and clears the
+// ??1W3DPropBuffer@@UAE@XZ, retail 0x000EEEF4..0x000EEFE6 (242 bytes, EH):
+// W3DPropBuffer's destructor. It installs table 0x00BCEECC, the table the
+// rowed W3DPropBuffer constructor 0x000EF008 installs (slot 2 returns the
+// "W3DPropBuffer" literal, slot 3 is the rowed xfer). It releases and clears the
 // reference at the head of each of its first m_count2EE04 records (+4,
 // 0x30 bytes each), of each of its 96 entries (+0x2EE18, 0x18 bytes each)
 // and its two loose references (+0x2F724, +0x2F71C). Then its parts die
@@ -9,7 +10,9 @@
 // AsciiString at +4, folded at 0x0029D7C2), the +0x2EE0C vector wrapper
 // (inline destructor running rowed 0x0008B470, unwind copy 0x0008B4CD), the
 // 4000 records (element destructor is the bare return 0x000B3FD0) and
-// Snapshot (table 0x00BBB554). Identities are not established.
+// Snapshot (table 0x00BBB554). The member types' identities are not established.
+// Retail slot 2 is the snapshot-name getter, so this unit uses that slot spelling.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "ascii_string.h"
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
@@ -51,14 +54,14 @@ struct Rva000EEEF4Entry
 	unsigned char m_pad08[0x18 - 8];
 };
 
-class Rva000EEEF4 : public Snapshot
+class W3DPropBuffer : public Snapshot
 {
 public:
-	virtual ~Rva000EEEF4();
+	virtual ~W3DPropBuffer();
 protected:
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
 	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
 private:
 	Rva000EEEF4Record m_records[0xFA0];		// +0x4
 	int m_count2EE04;				// +0x2EE04
@@ -71,7 +74,7 @@ private:
 	Rva000EEEF4Ref *m_ref2F724;			// +0x2F724
 };
 
-Rva000EEEF4::~Rva000EEEF4()
+W3DPropBuffer::~W3DPropBuffer()
 {
 	int i;
 	for (i = 0; i < m_count2EE04; ++i)

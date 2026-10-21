@@ -4178,7 +4178,6 @@ name,address,notes
 ??1Rva000E6C6F@@UAE@XZ,0x000E6C6F,opaque dtor; call target of retail scalar-deleting-dtor at 0xE6D78 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000E9BAC@@UAE@XZ,0x000E9BAC,opaque dtor; call target of retail scalar-deleting-dtor at 0xE9CDF (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000EDA94@@UAE@XZ,0x000EDA94,opaque dtor; call target of retail scalar-deleting-dtor at 0xEDF07 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
-??1Rva000EEEF4@@UAE@XZ,0x000EEEF4,opaque dtor; call target of retail scalar-deleting-dtor at 0xEEFEC (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000EFC45@@UAE@XZ,0x000EFC45,opaque dtor; call target of retail scalar-deleting-dtor at 0xF1698 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000F1B8F@@UAE@XZ,0x000F1B8F,opaque dtor; call target of retail scalar-deleting-dtor at 0xF1B73 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000F26DC@@UAE@XZ,0x000F26DC,opaque dtor; call target of retail scalar-deleting-dtor at 0xF2B81 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name

@@ -16,6 +16,7 @@
 // The array element constructors and destructors are the ICF bodies at
 // 0x0047A6A9 / 0x000B3FD0 (TProp) and 0x004B9910 / 0x0029D7C2 (TPropType).
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
@@ -115,9 +116,9 @@ public:
 	virtual ~W3DPropBuffer(void);
 
 protected:
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
 	virtual void loadPostProcess(void);
+	virtual const char *GetSnapshotName(void) const;
+	virtual void xfer(Xfer *xfer);
 
 	enum { MAX_PROPS = 4000 };
 	enum { MAX_TYPES = 96 };

@@ -33,7 +33,18 @@ BFME_LITERAL_NAME_GETTER(Rva000E5A25Named, "W3DFloorBuffer")
 BFME_LITERAL_NAME_GETTER(Rva000E6B93Named, "W3DVegetationBufferBase")
 BFME_LITERAL_NAME_GETTER(Rva000E9C0FNamed, "W3DShrubBuffer")
 BFME_LITERAL_NAME_GETTER(Rva000EDB39Named, "W3DTreeBuffer")
-BFME_LITERAL_NAME_GETTER(Rva000EEFE6Named, "W3DPropBuffer")
+// Native W3DPropBuffer ctor EF008 and dtor EEEF4 install 7CEECC, whose slot 2
+// is EEFE6: the canonical Snapshot GetSnapshotName slot.
+class W3DPropBuffer
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *W3DPropBuffer::GetSnapshotName() const
+{
+	return "W3DPropBuffer";
+}
 BFME_LITERAL_NAME_GETTER(Rva000CEB69Named, "W3DTreeDraw")
 BFME_LITERAL_NAME_GETTER(Rva000CEE01Named, "W3DBuffDraw")
 BFME_LITERAL_NAME_GETTER(Rva000CEEE0Named, "W3DPropDraw")

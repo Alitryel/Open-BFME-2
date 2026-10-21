@@ -125,16 +125,6 @@ void W3DPropBuffer::cull(CameraClass * camera)
 //=============================================================================
 /** Destructor. Releases w3d assets. */
 //=============================================================================
-// ??1W3DPropBuffer@@ present-unmatched
-W3DPropBuffer::~W3DPropBuffer(void)
-{
-	Int i;
-	for (i=0; i<MAX_TYPES; i++) {
-		REF_PTR_RELEASE(m_propTypes[i].m_robj);
-	}
-	REF_PTR_RELEASE(m_light);
-	REF_PTR_RELEASE(m_propShroudMaterialPass);
-}
 
 //=============================================================================
 // W3DPropBuffer::W3DPropBuffer
