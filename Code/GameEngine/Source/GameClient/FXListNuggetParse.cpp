@@ -146,7 +146,7 @@ class SoundFXNugget : public FXNugget
 {
 public:
 	SoundFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x14C];
@@ -155,19 +155,19 @@ private:
 extern const FieldParse SoundFXNuggetFieldParse[];	// 0x00BDCB18
 
 // ?buildFieldParse@SoundFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void SoundFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void SoundFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(SoundFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(SoundFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@SoundFXNugget@@SAXPAVINI@@PAX1PBX@Z
 inline void SoundFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	SoundFXNugget *nugget = new SoundFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -176,7 +176,7 @@ class EvaEventFXNugget : public FXNugget
 {
 public:
 	EvaEventFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x154];
@@ -185,19 +185,19 @@ private:
 extern const FieldParse EvaEventFXNuggetFieldParse[];	// 0x00BDCAD8
 
 // ?buildFieldParse@EvaEventFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void EvaEventFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void EvaEventFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(EvaEventFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(EvaEventFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@EvaEventFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void EvaEventFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	EvaEventFXNugget *nugget = new EvaEventFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -206,7 +206,7 @@ class RayEffectFXNugget : public FXNugget
 {
 public:
 	RayEffectFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x164];
@@ -215,19 +215,19 @@ private:
 extern const FieldParse RayEffectFXNuggetFieldParse[];	// 0x00BDCB58
 
 // ?buildFieldParse@RayEffectFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void RayEffectFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void RayEffectFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(RayEffectFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(RayEffectFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@RayEffectFXNugget@@SAXPAVINI@@PAX1PBX@Z
 inline void RayEffectFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	RayEffectFXNugget *nugget = new RayEffectFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -236,7 +236,7 @@ class LightPulseFXNugget : public FXNugget
 {
 public:
 	LightPulseFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x164];
@@ -245,19 +245,19 @@ private:
 extern const FieldParse LightPulseFXNuggetFieldParse[];	// 0x00BDCBD8
 
 // ?buildFieldParse@LightPulseFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void LightPulseFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void LightPulseFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(LightPulseFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(LightPulseFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@LightPulseFXNugget@@SAXPAVINI@@PAX1PBX@Z
 inline void LightPulseFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	LightPulseFXNugget *nugget = new LightPulseFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -266,7 +266,7 @@ class CameraShakerVolumeFXNugget : public FXNugget
 {
 public:
 	CameraShakerVolumeFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x160];
@@ -275,19 +275,19 @@ private:
 extern const FieldParse CameraShakerVolumeFXNuggetFieldParse[];	// 0x00BDD040
 
 // ?buildFieldParse@CameraShakerVolumeFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void CameraShakerVolumeFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void CameraShakerVolumeFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(CameraShakerVolumeFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(CameraShakerVolumeFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@CameraShakerVolumeFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void CameraShakerVolumeFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	CameraShakerVolumeFXNugget *nugget = new CameraShakerVolumeFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -296,7 +296,7 @@ class ViewShakeFXNugget : public FXNugget
 {
 public:
 	ViewShakeFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x14C];
@@ -305,19 +305,19 @@ private:
 extern const FieldParse ViewShakeFXNuggetFieldParse[];	// 0x00BDD7F4
 
 // ?buildFieldParse@ViewShakeFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void ViewShakeFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void ViewShakeFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(ViewShakeFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(ViewShakeFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@ViewShakeFXNugget@@SAXPAVINI@@PAX1PBX@Z
 inline void ViewShakeFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	ViewShakeFXNugget *nugget = new ViewShakeFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -326,7 +326,7 @@ class AttachedModelFXNugget : public FXNugget
 {
 public:
 	AttachedModelFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x154];
@@ -335,19 +335,19 @@ private:
 extern const FieldParse AttachedModelFXNuggetFieldParse[];	// 0x00BDD118
 
 // ?buildFieldParse@AttachedModelFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void AttachedModelFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void AttachedModelFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(AttachedModelFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(AttachedModelFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@AttachedModelFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void AttachedModelFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	AttachedModelFXNugget *nugget = new AttachedModelFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -356,7 +356,7 @@ class TerrainScorchFXNugget : public FXNugget
 {
 public:
 	TerrainScorchFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x158];
@@ -365,19 +365,19 @@ private:
 extern const FieldParse TerrainScorchFXNuggetFieldParse[];	// 0x00BDD8A0
 
 // ?buildFieldParse@TerrainScorchFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void TerrainScorchFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void TerrainScorchFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(TerrainScorchFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(TerrainScorchFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@TerrainScorchFXNugget@@SAXPAVINI@@PAX1PBX@Z
 inline void TerrainScorchFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	TerrainScorchFXNugget *nugget = new TerrainScorchFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -386,7 +386,7 @@ class ParticleSystemFXNugget : public FXNugget
 {
 public:
 	ParticleSystemFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x1BC];
@@ -395,19 +395,19 @@ private:
 extern const FieldParse ParticleSystemFXNuggetFieldParse[];	// 0x00BDD428
 
 // ?buildFieldParse@ParticleSystemFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void ParticleSystemFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void ParticleSystemFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(ParticleSystemFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(ParticleSystemFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@ParticleSystemFXNugget@@SAXPAVINI@@PAX1PBX@Z
 inline void ParticleSystemFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	ParticleSystemFXNugget *nugget = new ParticleSystemFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -416,7 +416,7 @@ class FXListAtBonePosFXNugget : public FXNugget
 {
 public:
 	FXListAtBonePosFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x150];
@@ -425,19 +425,19 @@ private:
 extern const FieldParse FXListAtBonePosFXNuggetFieldParse[];	// 0x00BDD2F8
 
 // ?buildFieldParse@FXListAtBonePosFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void FXListAtBonePosFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void FXListAtBonePosFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(FXListAtBonePosFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(FXListAtBonePosFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@FXListAtBonePosFXNugget@@SAXPAVINI@@PAX1PBX@Z
 inline void FXListAtBonePosFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	FXListAtBonePosFXNugget *nugget = new FXListAtBonePosFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -446,7 +446,7 @@ class CursorParticleSystemFXNugget : public FXNugget
 {
 public:
 	CursorParticleSystemFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x180];
@@ -455,19 +455,19 @@ private:
 extern const FieldParse CursorParticleSystemFXNuggetFieldParse[];	// 0x00BDD600
 
 // ?buildFieldParse@CursorParticleSystemFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void CursorParticleSystemFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void CursorParticleSystemFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(CursorParticleSystemFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(CursorParticleSystemFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@CursorParticleSystemFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void CursorParticleSystemFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	CursorParticleSystemFXNugget *nugget = new CursorParticleSystemFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -476,7 +476,7 @@ class DynamicDecalFXNugget : public FXNugget
 {
 public:
 	DynamicDecalFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x18C];
@@ -485,19 +485,19 @@ private:
 extern const FieldParse DynamicDecalFXNuggetFieldParse[];	// 0x00BDCCF0
 
 // ?buildFieldParse@DynamicDecalFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void DynamicDecalFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void DynamicDecalFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(DynamicDecalFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(DynamicDecalFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@DynamicDecalFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void DynamicDecalFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	DynamicDecalFXNugget *nugget = new DynamicDecalFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -506,7 +506,7 @@ class LaserFXNugget : public FXNugget
 {
 public:
 	LaserFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x15C];
@@ -515,19 +515,19 @@ private:
 extern const FieldParse LaserFXNuggetFieldParse[];	// 0x00BDCFD8
 
 // ?buildFieldParse@LaserFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void LaserFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void LaserFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(LaserFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(LaserFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@LaserFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void LaserFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	LaserFXNugget *nugget = new LaserFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -536,7 +536,7 @@ class TintDrawableFXNugget : public FXNugget
 {
 public:
 	TintDrawableFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x168];
@@ -545,19 +545,19 @@ private:
 extern const FieldParse TintDrawableFXNuggetFieldParse[];	// 0x00BDD278
 
 // ?buildFieldParse@TintDrawableFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void TintDrawableFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void TintDrawableFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(TintDrawableFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(TintDrawableFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@TintDrawableFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void TintDrawableFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	TintDrawableFXNugget *nugget = new TintDrawableFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
@@ -566,7 +566,7 @@ class BuffNuggetFXNugget : public FXNugget
 {
 public:
 	BuffNuggetFXNugget();
-	static void buildFieldParse(MultiIniFieldParse &p);
+	static void buildFieldParse(MultiIniFieldParse &fieldParse);
 	static void parse(INI *ini, void *instance, void *, const void *);
 private:
 	char m_pad[0x190];
@@ -575,19 +575,19 @@ private:
 extern const FieldParse BuffNuggetFXNuggetFieldParse[];	// 0x00BDCEB8
 
 // ?buildFieldParse@BuffNuggetFXNugget@@SAXAAVMultiIniFieldParse@@@Z
-void BuffNuggetFXNugget::buildFieldParse(MultiIniFieldParse &p)
+void BuffNuggetFXNugget::buildFieldParse(MultiIniFieldParse &fieldParse)
 {
-	p.add(BuffNuggetFXNuggetFieldParse);
-	p.add(FXNuggetFieldParse);
+	fieldParse.add(BuffNuggetFXNuggetFieldParse);
+	fieldParse.add(FXNuggetFieldParse);
 }
 
 // ?parse@BuffNuggetFXNugget@@SAXPAVINI@@PAX1PBX@Z
 void BuffNuggetFXNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	BuffNuggetFXNugget *nugget = new BuffNuggetFXNugget;
-	MultiIniFieldParse p;
-	buildFieldParse(p);
-	ini->initFromINIMulti(nugget, p);
+	MultiIniFieldParse fieldParse;
+	buildFieldParse(fieldParse);
+	ini->initFromINIMulti(nugget, fieldParse);
 	((FXList *)instance)->addFXNugget(nugget);
 }
 
