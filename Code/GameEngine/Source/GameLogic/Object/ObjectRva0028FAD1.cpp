@@ -83,15 +83,15 @@ private:
 	unsigned char m_bit439;
 };
 
-void Object::onContainedBy(Object *arg)
+void Object::onContainedBy(Object *containedBy)
 {
 	if (m_p04->m_flag & 0x80) {
 		m_bit439 &= (unsigned char)~1;
 		setStatus(OBJECT_STATUS_UNDER_CONSTRUCTION, false);
 	} else {
 		Module2 *mod;
-		if (arg)
-			mod = (Module2 *)((Object *)arg)->m_mod250;
+		if (containedBy)
+			mod = (Module2 *)((Object *)containedBy)->m_mod250;
 		else
 			mod = 0;
 		if (mod) {
@@ -112,6 +112,6 @@ void Object::onContainedBy(Object *arg)
 			rva0028CDEB(*mod->slot44(&mask, this), true);
 		}
 	}
-	m_containedBy = arg;
+	m_containedBy = containedBy;
 	m_unk27C = TheGameLogic->m_unk40;
 }
