@@ -1,5 +1,5 @@
-// cl: -DNDEBUG -DWIN32 -D_WINDOWS -MD -EHs-c- /Os -Ireference/open-bfme-1/game/GameEngine/Source/Common/INI
-// Open-BFME: function-curve INI loader at retail RVA 0x0006AF00.
+// cl: -DNDEBUG -DWIN32 -D_WINDOWS -MD -EHs-c- /Os
+// Open-BFME: function-curve INI loader at retail RVA 0x005051DA.
 // Its neighbouring addKey/final-key bodies establish the accumulator layout;
 // the three field names and the BFME padding-name table are the shipped
 // literals used by this loader.
@@ -29,8 +29,6 @@ class Rva0006AB10Curve
 {
 };
 
-extern void j_0003a562();
-
 // Null-terminated padding names used by INI::parseIndexList.
 const char *g_012A718C[] =
 {
@@ -54,14 +52,11 @@ private:
 	bool m_haveOutTangent;
 };
 
-// The shipped j-thunk is the independently recovered final-key body at
-// 0x00024000 -> 0x0006ACF0; map only this typed member call to that thunk.
-#pragma comment(linker, "/alternatename:?finish@Rva0006AB90FunctionCurve@@QAEXXZ=?j_00024000@@YAXXZ")
-
 class Rva0006AF00FunctionCurve
 {
 public:
 	void parse( INI *ini );
+	static void parseKey( INI *, void *, void *, const void * );
 };
 
 // ?parse@Rva0006AF00FunctionCurve@@QAEXPAVINI@@@Z
@@ -72,7 +67,7 @@ void Rva0006AF00FunctionCurve::parse( INI *ini )
 	{
 		{ "InPadding", INI::parseIndexList, g_012A718C, 0 },
 		{ "OutPadding", INI::parseIndexList, g_012A718C, 4 },
-		{ "Key", (INIFieldParseProc)j_0003a562, &accumulator, 8 },
+		{ "Key", parseKey, &accumulator, 8 },
 		{ 0, 0, 0, 0 }
 	};
 
