@@ -86,7 +86,7 @@ class Rva00575674;
 extern Rva00575674 g_00DFE4C4;
 extern const FieldParse InGameNotificationBoxFields[];
 
-void Rva0022232EParse(INI *ini)
+void parseInGameNotificationBoxDefinition(INI *ini)
 {
 	ini->initFromINI(*(void **)&g_00DFE4C4, InGameNotificationBoxFields);
 }
