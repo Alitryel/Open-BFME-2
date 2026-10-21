@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /I.
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /I.
 // stlport
 //
 // ?exitObjectInAHurry@OpenContain@@UAEXPAVObject@@@Z, retail 0x004656DF..0x00465972
@@ -76,10 +76,20 @@ struct BfmeE12 {float x,y,z;};
 class Rva000E016A {public:BfmeE12 *rva000E016A(unsigned,Coord3D*,Coord3D*);};
 namespace _STL {
 template <class I,class O> O __copy_ptrs(I,I,O,const __false_type&);
-template <> Coord3D *__uninitialized_copy(Coord3D*,Coord3D*,Coord3D*,const __false_type&);
 // Visible and called out of line as retail's 0x002CA82C, so the caller's vector does not escape.
+// Member-wise, as retail's copy: a struct copy would compile to movsd here.
 template <> inline __declspec(noinline)
-void _Construct<Coord3D, Coord3D>(Coord3D *__p, const Coord3D &__val) { _STLP_PLACEMENT_NEW (__p) Coord3D(__val); }
+void _Construct<Coord3D, Coord3D>(Coord3D *__p, const Coord3D &__val)
+{
+    if (__p)
+    {
+        __p->x = __val.x;
+        __p->y = __val.y;
+        __p->z = __val.z;
+    }
+}
+// No __uninitialized_copy declaration: with the generic body visible, _M_insert_overflow
+// (0x002CDF8A) leaves its __false_type tags uninitialized as retail does.
 }
 class Rva0035149F {public:BfmeE12 *start,*finish,*end;Rva0035149F &rva0035149F(const Rva0035149F&);};
 enum AICommandType {AICMD_PATH=9,AICMD_PATH_ANGLE=0x25};

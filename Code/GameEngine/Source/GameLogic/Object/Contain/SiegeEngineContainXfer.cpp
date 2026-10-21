@@ -1,4 +1,4 @@
-// cl: /Ob2 /ICode/Libraries/Include /ICode/GameEngine/Source/Common /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /Ob2 /ICode/Libraries/Include /ICode/GameEngine/Source/Common /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 //
 // ?xfer@SiegeEngineContain@@MAEXPAVXfer@@@Z, retail 0x0047C322, 464 bytes.
@@ -16,8 +16,20 @@
 
 #define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 #include <vector>
 #include <list>
+// Destroying an element through the inline empty ~Coord3D otherwise emits a
+// ??_GCoord3D copy that skips retail's out-of-line destructor call (0x00225B7F).
+namespace _STL { template <> inline void _Destroy<Coord3D>(Coord3D *) {} }
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
 // rather than emitting its own.
@@ -170,7 +182,8 @@ template <> __declspec(noinline) inline void _Construct(Coord3D *p, const Coord3
 namespace _STL
 {
 template <class I, class O> O __copy_ptrs(I, I, O, const __false_type &);
-template <> Coord3D *__uninitialized_copy(Coord3D *, Coord3D *, Coord3D *, const __false_type &);
+// No __uninitialized_copy declaration: with the generic body visible, _M_insert_overflow
+// (0x002CDF8A) leaves its __false_type tags uninitialized as retail does.
 } // namespace _STL
 class Rva0035149F
 {
@@ -182,7 +195,8 @@ class Rva0035149F
 enum AICommandType { AICMD_PATH = 9 };
 struct AICommandParms {
  AICommandParms(AICommandType,CommandSourceType);
- ~AICommandParms(){if(coords.start)Rva00030830GameFree(coords.start);}
+ // C free under /EHs (throwing), as the rowed AICommandInterface copy of rva0036EE16 calls it.
+ ~AICommandParms(){if(coords.start)free(coords.start);}
  int cmd,source;Coord3D pos;Object *target;char pad18[8];Rva0035149F coords;char pad2c[0xc0-0x2c];
 };
 class AICommandInterface {public:virtual void aiDoCommand(const AICommandParms*);void rva0036EE16(const Rva0035149F *,Object *,CommandSourceType);void aiHunt(CommandSourceType);void aiIdle(CommandSourceType);};
