@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004B9471@InheritUpgradeCreate@@SA?AW4NameKeyType@@XZ @0x004B9471
+// ?getModuleNameKey@InheritUpgradeCreate@@UBE?AW4NameKeyType@@XZ @0x004B9471
 // (69B): cached pool-name key for InheritUpgradeCreate. The class
 // identity comes from the pool-name string the body pushes
 // ("InheritUpgradeCreate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class InheritUpgradeCreate
 {
 public:
-	static NameKeyType rva004B9471();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B9471@InheritUpgradeCreate@@SA?AW4NameKeyType@@XZ
-NameKeyType InheritUpgradeCreate::rva004B9471()
+// ?getModuleNameKey@InheritUpgradeCreate@@UBE?AW4NameKeyType@@XZ
+NameKeyType InheritUpgradeCreate::getModuleNameKey() const
 {
 	static NameKeyType TheInheritUpgradeCreatePoolKey =
 		TheNameKeyGenerator->nameToKey("InheritUpgradeCreate");

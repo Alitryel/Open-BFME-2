@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0000C1201@W3DScriptedModelDraw@@SA?AW4NameKeyType@@XZ @0xC1201
+// ?getModuleNameKey@W3DScriptedModelDraw@@UBE?AW4NameKeyType@@XZ @0xC1201
 // (69B): cached pool-name key for W3DScriptedModelDraw. The class
 // identity comes from the pool-name string the body pushes
 // ("W3DScriptedModelDraw"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class W3DScriptedModelDraw
 {
 public:
-	static NameKeyType rva0000C1201();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0000C1201@W3DScriptedModelDraw@@SA?AW4NameKeyType@@XZ
-NameKeyType W3DScriptedModelDraw::rva0000C1201()
+// ?getModuleNameKey@W3DScriptedModelDraw@@UBE?AW4NameKeyType@@XZ
+NameKeyType W3DScriptedModelDraw::getModuleNameKey() const
 {
 	static NameKeyType TheW3DScriptedModelDrawPoolKey =
 		TheNameKeyGenerator->nameToKey("W3DScriptedModelDraw");

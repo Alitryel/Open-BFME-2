@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004AC148@RainOfFireUpdate@@SA?AW4NameKeyType@@XZ @0x004AC148
+// ?getModuleNameKey@RainOfFireUpdate@@UBE?AW4NameKeyType@@XZ @0x004AC148
 // (69B): cached pool-name key for RainOfFireUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("RainOfFireUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RainOfFireUpdate
 {
 public:
-	static NameKeyType rva004AC148();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004AC148@RainOfFireUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType RainOfFireUpdate::rva004AC148()
+// ?getModuleNameKey@RainOfFireUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType RainOfFireUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheRainOfFireUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("RainOfFireUpdate");

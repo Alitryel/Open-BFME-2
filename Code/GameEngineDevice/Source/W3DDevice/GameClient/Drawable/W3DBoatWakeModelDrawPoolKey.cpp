@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0000D0C93@W3DBoatWakeModelDraw@@SA?AW4NameKeyType@@XZ @0xD0C93
+// ?getModuleNameKey@W3DBoatWakeModelDraw@@UBE?AW4NameKeyType@@XZ @0xD0C93
 // (69B): cached pool-name key for W3DBoatWakeModelDraw. The class
 // identity comes from the pool-name string the body pushes
 // ("W3DBoatWakeModelDraw"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class W3DBoatWakeModelDraw
 {
 public:
-	static NameKeyType rva0000D0C93();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0000D0C93@W3DBoatWakeModelDraw@@SA?AW4NameKeyType@@XZ
-NameKeyType W3DBoatWakeModelDraw::rva0000D0C93()
+// ?getModuleNameKey@W3DBoatWakeModelDraw@@UBE?AW4NameKeyType@@XZ
+NameKeyType W3DBoatWakeModelDraw::getModuleNameKey() const
 {
 	static NameKeyType TheW3DBoatWakeModelDrawPoolKey =
 		TheNameKeyGenerator->nameToKey("W3DBoatWakeModelDraw");

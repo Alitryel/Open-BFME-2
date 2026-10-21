@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00004BB755@FireWeaponCollide@@SA?AW4NameKeyType@@XZ @0x4BB755
+// ?getModuleNameKey@FireWeaponCollide@@UBE?AW4NameKeyType@@XZ @0x4BB755
 // (69B): cached pool-name key for FireWeaponCollide. The class
 // identity comes from the pool-name string the body pushes
 // ("FireWeaponCollide"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FireWeaponCollide
 {
 public:
-	static NameKeyType rva00004BB755();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00004BB755@FireWeaponCollide@@SA?AW4NameKeyType@@XZ
-NameKeyType FireWeaponCollide::rva00004BB755()
+// ?getModuleNameKey@FireWeaponCollide@@UBE?AW4NameKeyType@@XZ
+NameKeyType FireWeaponCollide::getModuleNameKey() const
 {
 	static NameKeyType TheFireWeaponCollidePoolKey =
 		TheNameKeyGenerator->nameToKey("FireWeaponCollide");
