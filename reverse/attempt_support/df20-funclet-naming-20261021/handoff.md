@@ -82,3 +82,32 @@ Tried this round:
 
 Each of those misses for the reason above. Control flow, lifetime and the flags
 are as recorded in the earlier df20-* handoffs.
+
+## Link impact of the rename (measured 2026-10-21, not landed)
+Steps 1 and 2 were carried out in the working tree. The owner TU was respelled to the W<G> form
+(`owner_wg_form.cpp.txt`). It emits W<G> 63 B at 0xB3C0, S<G> 63 B, and a 1 B
+`_STLP_alloc_proxy<G*,G,allocator<G>>` dtor, which needs an ICF row at 0x69E440.
+The funclet label moved to `$L390`. `./build.sh` passed with 4/4. Then the edits were reverted, because:
+- W<G> claimed at 0xB3C0 alone makes every unit that emits a **14 B** W<G> COMDAT
+  copy "wrong" under `link_census` retail-truth. The digests are 07644a8ba00d,
+  e757478fc539 and 97fb569846ac. Today these copies are "unknown", because the
+  W<G>@0x142D70 twin shares a home.
+- Ten currently linked units would unlink, 19.3 KB LINKED in total:
+  - stlport_wide_money_get_long_double 331
+  - LadderDefs 3582
+  - W3DAptDisplayStringCtor 846
+  - OwnedRecord492Copy 845
+  - GameSlotApparent 6992
+  - OwnedRecord840Copy 984
+  - PeerThreadPlayerMessage 801
+  - BuddyDefs 3287
+  - BuddyThreadCallbacks 628
+  - AptOnlineHomeTimeZone 1021
+- The owner TU (73) and 0xBE50 (215) would likely unlink as well.
+- Those units inline `~basic_string<G>` through a header-level view. Doing the rename
+  without unlinking them needs them to emit retail's 63 B W<G> body, or to stop
+  emitting a W<G> COMDAT. Each is its own repair.
+
+So the rename is a class-level reconciliation of the wide-string header views
+(`tools/class_views.py --class basic_string`). It is more than an 8-unit respell. Do it only as that
+pass. DF20 alone, still at 0.9067 after the rename, does not pay for it.
