@@ -850,8 +850,8 @@ static __forceinline const ContextButton* contextButton(const CommandButton*butt
 class Overridable { public: const Overridable* friend_getFinalOverride() const; };
 struct ContextPower { char pad[0x14];int id;int word18;int type; };
 struct ContextObject { char pad0[0x250];void* container;int word254;void* ai;char pad25c[0xa8];Team* team;Team*getTeam() const {return team;} char pad308[0x131];bool masked; };
-static __forceinline ContextObject* contextObject(Object*o) { return (ContextObject*)o; }
-static __forceinline bool contextKind(const Object*o,int bit) { return (((const unsigned char*)o->m_template)[0x108+(bit>>3)]&(1<<(bit&7)))!=0; }
+static __forceinline ContextObject* contextObject(Object*unitObject) { return (ContextObject*)unitObject; }
+static __forceinline bool contextKind(const Object*unitObject,int bit) { return (((const unsigned char*)unitObject->m_template)[0x108+(bit>>3)]&(1<<(bit&7)))!=0; }
 class Rva0055A88BDwordField { public: int get() const; };
 class Rva0006EE7A : public BitFlags<69> { public: Rva0006EE7A(int,int,int); };
 struct Rva0029AEF9Item;
@@ -899,10 +899,10 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
  bool allSpecial=false,allOther=false,hasSpecial=false,hasOther=false,hasGround=false,hasNonGround=false;
  const SelectedDrawableList*selection=contextUI()->selected();
  for(SelectedDrawableList::const_iterator it=selection->begin();it!=selection->end();++it) {
-  Drawable*drawable=*it;Object*o=drawable?drawable->getObject():0;
-  if(o) {
-   if(contextKind(o,134))hasSpecial=true;else hasOther=true;
-   if(((Thing*)o)->isAnyKindOf(Rva0006EE7A(0,55,147)))hasGround=true;else hasNonGround=true;
+  Drawable*drawable=*it;Object*unitObject=drawable?drawable->getObject():0;
+  if(unitObject) {
+   if(contextKind(unitObject,134))hasSpecial=true;else hasOther=true;
+   if(((Thing*)unitObject)->isAnyKindOf(Rva0006EE7A(0,55,147)))hasGround=true;else hasNonGround=true;
   }
  }
  if(hasSpecial&&!hasOther)allSpecial=true;
@@ -1186,7 +1186,7 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
   Drawable*heroDraw=((Thing*)hero)->getDrawable();if(!heroDraw)break;
   contextUI()->deselect();GameMessage*team=TheMessageStream->appendMessage(GameMessage::MSG_CREATE_SELECTED_GROUP);team->appendBooleanArgument(true);team->appendObjectIDArgument(hero->getID());contextUI()->selectDrawable(heroDraw);TheTacticalView->lookAt(heroDraw->getPosition());disp=DESTROY_MESSAGE;break;
  }
- case 0x61:{Player*local=((ContextPlayers*)ThePlayerList)->getLocalPlayer();if(local){Object*o=(Object*)local->rva002ABCF0(1,0);if(o)TheTacticalView->lookAt(o->getPosition());}disp=DESTROY_MESSAGE;break;}
+ case 0x61:{Player*local=((ContextPlayers*)ThePlayerList)->getLocalPlayer();if(local){Object*unitObject=(Object*)local->rva002ABCF0(1,0);if(unitObject)TheTacticalView->lookAt(unitObject->getPosition());}disp=DESTROY_MESSAGE;break;}
  case 0x62:if(TheEva)TheEva->rva001DD3DD();disp=DESTROY_MESSAGE;break;
  case 0x64:((ContextUI*)initialUI)->selectAll(0,((ContextPlayers*)ThePlayerList)->getLocalPlayer());disp=DESTROY_MESSAGE;break;
  case 0x65:TheMessageStream->appendMessage((GameMessage::Type)0x436);disp=DESTROY_MESSAGE;break;
