@@ -576,12 +576,9 @@ public:
 extern GameSpyPSMessageQueueInterface *TheGameSpyPSMessageQueue;
 
 
-// Retail's str() falls back to its function-local TheNullChr, which the
-// linker folded with the "" literal at 0x00BBAC1C. This TU's shim str()
-// returns "" itself, so the empty quick-match strings below name the pinned
-// g_bfmeEmptyF9 there to keep the two constants distinct, as in retail.
-extern char g_bfmeEmptyF9[];
-
+// The native lookup uses StringBase<char>::str()'s local null character.
+// Keep it distinct from the quick-match empty literal until the linker folds
+// their read-only data, preserving the native compiler's constant lifetimes.
 void GameSpyStagingRoom::startGame(Int gameID)
 {
 	Int numHumans = 0;
@@ -594,14 +591,14 @@ void GameSpyStagingRoom::startGame(Int gameID)
 			AsciiString gsName;
 			gsName.translate(slot->m_name);
 			((Rva004FDCE1AsciiField *)slot)->rva004FDCFF(gsName);
-			PlayerInfo *info = TheGameSpyInfo->rva00382CCE(gsName.str());
+			PlayerInfo *info = TheGameSpyInfo->rva00382CCE(((const StringBase<char> *)&gsName)->str());
 
 			if (m_isQM)
 			{
 				if (getLocalSlotNum() == i)
 					slot->setProfileID(TheGameSpyInfo->getLocalProfileID());
-				((Rva004CFB6DAsciiField *)slot)->rva004CFB8B(g_bfmeEmptyF9);
-				((Rva004CFBC2AsciiField *)slot)->rva004CFBC2(g_bfmeEmptyF9);
+				((Rva004CFB6DAsciiField *)slot)->rva004CFB8B("");
+				((Rva004CFBC2AsciiField *)slot)->rva004CFBC2("");
 			}
 			else
 			{
