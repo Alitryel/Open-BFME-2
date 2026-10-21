@@ -1421,3 +1421,4 @@ __ehhandler$?Rva0041EC73Load@@YAXPAVINI@@@Z,0x00786C79,"Renamed to __ehhandler$?
 ?Rva00200FE3Parse@@YAXPAVINI@@@Z,0x00200FE3,"Renamed to ?parseAerialPathfindNoFlyZoneDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00200FE3Parse@@YAXPAVINI@@@Z,0x0076C4A0,"Renamed to __ehhandler$?parseAerialPathfindNoFlyZoneDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva001DAA5EParse@@YAXPAVINI@@@Z,0x001DAA5E,"Renamed to ?parseAmbientStreamDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?rva00224DFF@@YAXPAVINI@@@Z,0x00224DFF,"Renamed to ?parseAptButtonTooltipMapDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

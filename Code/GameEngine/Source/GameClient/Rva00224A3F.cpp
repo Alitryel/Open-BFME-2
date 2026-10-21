@@ -37,12 +37,12 @@ struct BlockParse
 	FieldParse m_fields[2];
 };
 
-void rva00224DFF(INI *ini);
+void parseAptButtonTooltipMapDefinition(INI *ini);
 // Whole native DBA1CC..DBA1F8 record: registration header and the two
 // FieldParse entries. The lazy initializer below installs ButtonMap's
 // callback; retail's initial callback/userData/offset words are all zero.
 BlockParse theAptButtonTooltipMapBlockParse = {
-	0, "AptButtonTooltipMap", rva00224DFF,
+	0, "AptButtonTooltipMap", parseAptButtonTooltipMapDefinition,
 	{ { "ButtonMap", 0, 0, 0 }, { 0, 0, 0, 0 } }
 };
 int g_00DFE6D8;	// retail RVA 0x009FE6D8 (.bss), defined here
@@ -78,8 +78,8 @@ void Rva00224A3F::rva00224A3F(INI *ini)
 class Rva00224CDC;
 Rva00224CDC *rva00224D80();
 
-// ?rva00224DFF@@YAXPAVINI@@@Z @0x00224DFF (17B)
-void rva00224DFF(INI *ini)
+// ?parseAptButtonTooltipMapDefinition@@YAXPAVINI@@@Z @0x00224DFF (17B)
+void parseAptButtonTooltipMapDefinition(INI *ini)
 {
 	Rva00224A3F *p = reinterpret_cast<Rva00224A3F *>(rva00224D80());
 	p->rva00224A3F(ini);

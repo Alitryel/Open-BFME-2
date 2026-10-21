@@ -67957,7 +67957,7 @@ uw_007a5b3d,,0x007A5B3D,11,Code/GameEngine/Source/Common/System/RegistryAsciiPat
 ?rva00072A51@Rva00072A51@@UAEXVRva00072A94@@@Z,,0x00072A51,67,Code/GameEngine/Source/Common/Rva00072A51HolderSet.cpp,matched,by-value ref-counted holder stored at +8 via rowed operator= 0x00072A94; EH-protected argument release
 __ehhandler$?rva00072A51@Rva00072A51@@UAEXVRva00072A94@@@Z,,0x0075EDA5,10,Code/GameEngine/Source/Common/Rva00072A51HolderSet.cpp,matched,EH handler thunk for 0x00072A51
 ?rva00224A31@@YAXPAVINI@@PAVRva002241D6@@@Z,,0x00224A31,14,Code/GameEngine/Source/GameClient/Rva00224A3F.cpp,matched,INI::initFromINI wrapper on offset +4 FieldParse table 0x00D87C28
-?rva00224DFF@@YAXPAVINI@@@Z,,0x00224DFF,17,Code/GameEngine/Source/GameClient/Rva00224A3F.cpp,matched,Static INI block parser initializing singleton at 0x00DFBC80 via FieldParse table 0x00D87CF8
+?parseAptButtonTooltipMapDefinition@@YAXPAVINI@@@Z,,0x00224DFF,17,Code/GameEngine/Source/GameClient/Rva00224A3F.cpp,matched,Static INI block parser initializing singleton at 0x00DFBC80 via FieldParse table 0x00D87CF8
 ?rva00253475@@YAXAAVMultiIniFieldParse@@@Z,,0x00253475,18,Code/GameEngine/Source/GameLogic/Object/Update/Rva00254845Ctor.cpp,matched,ModuleData::buildFieldParse base + FieldParse table 0x00D8A700 registration
 ?ModuleFactoryDataAt00254DB3@@YAPAVModuleData@@PAVINI@@@Z,,0x00254DB3,52,Code/GameEngine/Source/GameLogic/Object/Update/Rva00254845Ctor.cpp,matched,ModuleFactory::newModuleData allocator + INI block parser for Rva00254845ModuleData
 ?rva0026F93C@UpgradeCenter@@QAEXXZ,,0x0026F93C,22,Code/GameEngine/Source/Common/System/UpgradeTemplateResolveSubUpgradeNames.cpp,matched,UpgradeCenter post-load iteration resolving sub-upgrade names across all templates
