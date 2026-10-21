@@ -107,6 +107,7 @@
 // fcos/fsin, not this /Oi- shape).
 #include <vector>
 #define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_INLINE_ONLY
 #define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
 #include "ascii_string.h"
@@ -188,6 +189,7 @@ struct Rva003642DFNode;
 struct Rva003642DFResult
 
 {
+ Rva003642DFResult() : m_node(0) {}
  Rva003642DFNode *m_node;
 // +0x00
  Coord3D m_pos;

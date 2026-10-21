@@ -245,11 +245,42 @@ class TeamPrototype;
 // Retail calls the team list's base destructor (0x002ABB44) with no EH state
 // transition before it, here and in Player at 0x002AE8BC, so cl saw it as
 // nothrow; list<int>'s 0x004EC395 keeps the stores everywhere.
+// Retail's team-list nodes (12 bytes) come from the node pool at 0x009BBD2C (rowed
+// FreelistPool::pop 0x002393E2) and go back onto its free list g_00DBBD34 inline:
+// the list-base ctor 0x002AC026, clear 0x002AAC74 and dtor 0x002ABB44.
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool009BBD2C;
+struct PoolNode002ABAC0;
+extern PoolNode002ABAC0 *g_00DBBD34;
 namespace _STL {
+template <> inline _List_node<TeamPrototype *> *allocator<_List_node<TeamPrototype *> >::allocate(size_t, const void *) const
+{
+	return (_List_node<TeamPrototype *> *)g_freelistPool009BBD2C.pop();
+}
+// Node release pushes onto the pool free list inline (the generic deallocate stays
+// the allocator<char> body 0x0046264A).
+static inline void freeTeamNode(_List_node<TeamPrototype *> *node)
+{
+	*(PoolNode002ABAC0 **)node = g_00DBBD34;
+	g_00DBBD34 = (PoolNode002ABAC0 *)node;
+}
+template <> inline void _List_base<TeamPrototype *, allocator<TeamPrototype *> >::clear()
+{
+	_List_node<TeamPrototype *> *cur = (_List_node<TeamPrototype *> *)_M_node._M_data->_M_next;
+	while (cur != _M_node._M_data)
+	{
+		_List_node<TeamPrototype *> *tmp = cur;
+		cur = (_List_node<TeamPrototype *> *)cur->_M_next;
+		freeTeamNode(tmp);
+	}
+	_M_node._M_data->_M_next = _M_node._M_data;
+	_M_node._M_data->_M_prev = _M_node._M_data;
+}
 template <> inline _List_base<TeamPrototype *, allocator<TeamPrototype *> >::~_List_base() throw()
 {
 	clear();
-	_M_node.deallocate(_M_node._M_data, 1);
+	if (_M_node._M_data)
+		freeTeamNode(_M_node._M_data);
 }
 }
 typedef _STL::list<TeamPrototype *> PlayerTeamList;

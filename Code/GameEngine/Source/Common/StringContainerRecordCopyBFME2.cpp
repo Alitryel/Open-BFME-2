@@ -88,6 +88,10 @@ template <> AsciiString *__uninitialized_copy(const AsciiString*, const AsciiStr
 struct BfmeAsciiScalarValue8 {
     AsciiString text; unsigned int value;
     BfmeAsciiScalarValue8(const BfmeAsciiScalarValue8 &other) : text(other.text), value(other.value) {}
+    // Out of line: retail's copy is the 5-byte releaseBuffer tail jump (CastleBehavior's
+    // unwind funclets reach it at 0x0048BA39). This unit declares ~AsciiString only, so its
+    // own copy would tail-jump to ~AsciiString instead; use the units that inline it.
+    ~BfmeAsciiScalarValue8();
 };
 namespace _STL {
 template<> vector<BfmeAsciiScalarValue8>::vector(const vector<BfmeAsciiScalarValue8> &);

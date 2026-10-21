@@ -63,6 +63,8 @@ namespace _STL { template <> _Vector_base<PlayerAITypeEntry,_STL::allocator<Play
 namespace _STL { template <> vector<PlayerAITypeEntry,_STL::allocator<PlayerAITypeEntry> >::~vector(); }
 namespace _STL { template <> void _STLP_alloc_proxy<PlayerAITypeEntry *,PlayerAITypeEntry,_STL::allocator<PlayerAITypeEntry> >::deallocate(PlayerAITypeEntry *,unsigned int); }
 namespace _STL { template <> void allocator<PlayerAITypeEntry>::deallocate(PlayerAITypeEntry *,unsigned int) const; }
+// Retail ~list<BfmePod32> is the 5-byte tail jump at 0x207F08 (W3DModelDrawParticleBones.cpp's proven copy).
+namespace _STL { template <> list<BfmePod32,_STL::allocator<BfmePod32> >::~list(); }
 // bfme link decl-only end
 Rva000C38F8::Rva000C38F8()
 {
