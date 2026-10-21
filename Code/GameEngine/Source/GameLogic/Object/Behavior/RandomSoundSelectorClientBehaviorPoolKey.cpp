@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004CBCAD@RandomSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ @0x4CBCAD
+// ?getModuleNameKey@RandomSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ @0x4CBCAD
 // (69B): cached pool-name key for RandomSoundSelectorClientBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("RandomSoundSelectorClientBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RandomSoundSelectorClientBehavior
 {
 public:
-	static NameKeyType rva0004CBCAD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004CBCAD@RandomSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType RandomSoundSelectorClientBehavior::rva0004CBCAD()
+// ?getModuleNameKey@RandomSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType RandomSoundSelectorClientBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheRandomSoundSelectorClientBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("RandomSoundSelectorClientBehavior");

@@ -34,7 +34,7 @@ void __identifier("??_GRva003A4CAE@@UAEPAXI@Z")();
 void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
 void __identifier("?name@Rva003A4CC7Named@@QBEPBDXZ")();
 void __identifier("?xfer@Rva003A4CAE@@MAEXPAVXfer@@@Z")();
-void __identifier("?rva0003A4CCD@StrafeAreaUpdate@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@StrafeAreaUpdate@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
 void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
@@ -45,7 +45,7 @@ extern "C" const void *const vtbl_00C1B164[13] = {
 	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
 	(const void *)&__identifier("?name@Rva003A4CC7Named@@QBEPBDXZ"), // slot 2 0x003A4CC7
 	(const void *)&__identifier("?xfer@Rva003A4CAE@@MAEXPAVXfer@@@Z"), // slot 3 0x003A4DC0
-	(const void *)&__identifier("?rva0003A4CCD@StrafeAreaUpdate@@SA?AW4NameKeyType@@XZ"), // slot 4 0x003A4CCD
+	(const void *)&__identifier("?getModuleNameKey@StrafeAreaUpdate@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x003A4CCD
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0

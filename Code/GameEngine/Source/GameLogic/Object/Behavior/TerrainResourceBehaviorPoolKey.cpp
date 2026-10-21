@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000481FBD@TerrainResourceBehavior@@SA?AW4NameKeyType@@XZ @0x481fbd
+// ?getModuleNameKey@TerrainResourceBehavior@@UBE?AW4NameKeyType@@XZ @0x481fbd
 // (69B): cached pool-name key for TerrainResourceBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("TerrainResourceBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class TerrainResourceBehavior
 {
 public:
-	static NameKeyType rva000481FBD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000481FBD@TerrainResourceBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType TerrainResourceBehavior::rva000481FBD()
+// ?getModuleNameKey@TerrainResourceBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType TerrainResourceBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheTerrainResourceBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("TerrainResourceBehavior");

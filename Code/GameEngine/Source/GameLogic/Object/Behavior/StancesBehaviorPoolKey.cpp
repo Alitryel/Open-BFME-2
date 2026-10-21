@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00045EFBC@StancesBehavior@@SA?AW4NameKeyType@@XZ @0x45efbc
+// ?getModuleNameKey@StancesBehavior@@UBE?AW4NameKeyType@@XZ @0x45efbc
 // (69B): cached pool-name key for StancesBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("StancesBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StancesBehavior
 {
 public:
-	static NameKeyType rva00045EFBC();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00045EFBC@StancesBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType StancesBehavior::rva00045EFBC()
+// ?getModuleNameKey@StancesBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType StancesBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheStancesBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("StancesBehavior");

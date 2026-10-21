@@ -18,7 +18,7 @@ void __identifier("??_GStancesBehavior@@UAEPAXI@Z")();
 void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
 void __identifier("?Rva0045EFB6Get@@YAHXZ")();
 void __identifier("?xfer@StancesBehavior@@MAEXPAVXfer@@@Z")();
-void __identifier("?rva00045EFBC@StancesBehavior@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@StancesBehavior@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
 void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
@@ -29,7 +29,7 @@ extern "C" const void *const vtbl_00C424DC[13] = {
 	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
 	(const void *)&__identifier("?Rva0045EFB6Get@@YAHXZ"), // slot 2 0x0045EFB6
 	(const void *)&__identifier("?xfer@StancesBehavior@@MAEXPAVXfer@@@Z"), // slot 3 0x0045ED9D
-	(const void *)&__identifier("?rva00045EFBC@StancesBehavior@@SA?AW4NameKeyType@@XZ"), // slot 4 0x0045EFBC
+	(const void *)&__identifier("?getModuleNameKey@StancesBehavior@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x0045EFBC
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0

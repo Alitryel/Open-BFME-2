@@ -33,7 +33,7 @@ void __identifier("??_GRva00481F82@@UAEPAXI@Z")();
 void __identifier("?loadPostProcess@TerrainResourceBehavior@@MAEXXZ")();
 void __identifier("?name@Rva00481FA9Named@@QBEPBDXZ")();
 void __identifier("?xfer@TerrainResourceBehavior@@MAEXPAVXfer@@@Z")();
-void __identifier("?rva000481FBD@TerrainResourceBehavior@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@TerrainResourceBehavior@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?rva00482134@Rva00482134@@QAEXXZ")();
 void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
@@ -45,7 +45,7 @@ extern "C" const void *const vtbl_00C49408[13] = {
 	(const void *)&__identifier("?loadPostProcess@TerrainResourceBehavior@@MAEXXZ"), // slot 1 0x0048223D
 	(const void *)&__identifier("?name@Rva00481FA9Named@@QBEPBDXZ"), // slot 2 0x00481FA9
 	(const void *)&__identifier("?xfer@TerrainResourceBehavior@@MAEXPAVXfer@@@Z"), // slot 3 0x004821CB
-	(const void *)&__identifier("?rva000481FBD@TerrainResourceBehavior@@SA?AW4NameKeyType@@XZ"), // slot 4 0x00481FBD
+	(const void *)&__identifier("?getModuleNameKey@TerrainResourceBehavior@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x00481FBD
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0

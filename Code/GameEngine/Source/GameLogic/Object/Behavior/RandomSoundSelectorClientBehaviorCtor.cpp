@@ -20,7 +20,7 @@ void __identifier("??_GRva00252B68@@UAEPAXI@Z")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?Rva004CBCA7Get@@YAHXZ")();
 void __identifier("?xfer@RandomSoundSelectorClientBehavior@@MAEXPAVXfer@@@Z")();
-void __identifier("?rva0004CBCAD@RandomSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@RandomSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
 void __identifier("?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@MH@Z")();
 void __identifier("?get@Rva000CA841MovLeaNegSbbField@@QBEHXZ")();
@@ -30,7 +30,7 @@ extern const void *const g_00C5F378[19] = {
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
 	(const void *)&__identifier("?Rva004CBCA7Get@@YAHXZ"), // slot 2 0x004CBCA7
 	(const void *)&__identifier("?xfer@RandomSoundSelectorClientBehavior@@MAEXPAVXfer@@@Z"), // slot 3 0x004CBD7C
-	(const void *)&__identifier("?rva0004CBCAD@RandomSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ"), // slot 4 0x004CBCAD
+	(const void *)&__identifier("?getModuleNameKey@RandomSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x004CBCAD
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
