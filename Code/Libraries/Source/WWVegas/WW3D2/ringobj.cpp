@@ -848,9 +848,9 @@ void RingRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
 // ?Set_Transform@RingRenderObjClass@@UAEXABVMatrix3D@@@Z present-unmatched
-void RingRenderObjClass::Set_Transform(const Matrix3D &m)
+void RingRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 

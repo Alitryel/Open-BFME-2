@@ -535,9 +535,9 @@ void CollectionClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
 // ?CollectionClass::Set_Transform present-unmatched
-void CollectionClass::Set_Transform(const Matrix3D &m)
+void CollectionClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	Set_Sub_Object_Transforms_Dirty(true);
 }
 

@@ -1059,9 +1059,9 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 		break;
 	}
 }
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m)
+WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& matrix3D)
 {
-	Matrix4x4 m2(m);
+	Matrix4x4 m2(matrix3D);
 	switch ((int)transform) {
 	case D3DTS_WORLD:
 		render_state.world=m2.Transpose();

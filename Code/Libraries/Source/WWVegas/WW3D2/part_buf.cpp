@@ -3675,9 +3675,9 @@ ShaderClass ParticleBufferClass::Get_Shader (void) const
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeParticleBufferClassInlineAnchor@@YAXPAVParticleBufferClass@@@Z absent-from-retail
-void _bfmeParticleBufferClassInlineAnchor(ParticleBufferClass *p)
+void _bfmeParticleBufferClassInlineAnchor(ParticleBufferClass *particleBuffer)
 {
-    p->Is_Freeze_Random();
+    particleBuffer->Is_Freeze_Random();
 }
 #pragma inline_depth()
 

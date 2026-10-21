@@ -1027,7 +1027,7 @@ FontCharsClass::Store_GDI_Char (WCHAR ch)
 // Emit-anchor: the deleted Update_Current_Buffer was the only referrer of the
 // rowed DynamicVectorClass<FontCharsBuffer*>::Add (0x001A3A60); this anchor
 // keeps emitting it. It is not retail code.
-void bfmeEmitFontCharsBufferAdd(DynamicVectorClass<FontCharsBuffer *> *v, FontCharsBuffer *b) { v->Add(b); }
+void bfmeEmitFontCharsBufferAdd(DynamicVectorClass<FontCharsBuffer *> *v, FontCharsBuffer *fontCharsBuffer) { v->Add(fontCharsBuffer); }
 
 // ?bfmeEmitFontCharsBufferTeardown@@YAXPAV?$DynamicVectorClass@PAVFontCharsBuffer@@@@@Z present-unmatched
 // Emit-anchor: the deleted ~FontCharsClass duplicate was the only referrer of the rowed

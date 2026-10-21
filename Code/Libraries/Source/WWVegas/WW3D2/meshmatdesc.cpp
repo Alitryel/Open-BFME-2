@@ -772,8 +772,8 @@ bool MeshMatDescClass::Do_Mappers_Need_Normals(void)
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeUVBufferClassInlineAnchor@@YAXPAVUVBufferClass@@@Z absent-from-retail
-void _bfmeUVBufferClassInlineAnchor(UVBufferClass *p)
+void _bfmeUVBufferClassInlineAnchor(UVBufferClass *uVBuffer)
 {
-    p->Update_CRC();
+    uVBuffer->Update_CRC();
 }
 #pragma inline_depth()

@@ -31,7 +31,7 @@
 #define DX8CALL(x) DX8Wrapper::_Get_D3D_Device8()->x; number_of_DX8_calls++
 
 // ?_bfmeMatrix4FromMatrix3DAnchor@@YA?AVMatrix4@@ABVMatrix3D@@@Z absent-from-retail
-Matrix4 _bfmeMatrix4FromMatrix3DAnchor(const Matrix3D &m)
+Matrix4 _bfmeMatrix4FromMatrix3DAnchor(const Matrix3D &matrix3D)
 {
-	return Matrix4(m);
+	return Matrix4(matrix3D);
 }

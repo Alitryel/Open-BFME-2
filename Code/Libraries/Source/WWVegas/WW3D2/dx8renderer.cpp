@@ -1188,7 +1188,7 @@ void DX8TextureCategoryClass::Render(void)
 		const Matrix3D* world_transform = &mesh->Get_Transform();
 		bool identity=mesh->Is_Transform_Identity();
 		TCRMatrixStorage tmp_storage;
-		Matrix3D &tmp_world = *(Matrix3D *)&tmp_storage;
+		Matrix3D &matrix3D = *(Matrix3D *)&tmp_storage;
 
 		if (((TCRModelView *)mesh->Model)->Get_Flag(MeshModelClass::ALIGNED)) {
 			Vector3 mesh_position;
@@ -1198,8 +1198,8 @@ void DX8TextureCategoryClass::Render(void)
 			const Matrix3D & mesh_tm = mesh->Get_Transform();
 			((const TCRTranslationView &)mesh_tm).Get_Translation(&mesh_position);
 
-			tmp_world.Obj_Look_At(mesh_position,mesh_position + camera_z_vector,0.0f);
-			world_transform = &tmp_world;
+			matrix3D.Obj_Look_At(mesh_position,mesh_position + camera_z_vector,0.0f);
+			world_transform = &matrix3D;
 
 		} else if (((TCRModelView *)mesh->Model)->Get_Flag(MeshModelClass::ORIENTED)) {
 			Vector3 mesh_position;
@@ -1214,8 +1214,8 @@ void DX8TextureCategoryClass::Render(void)
 			mesh_position.Y = mesh_tm[1][3];
 			mesh_position.Z = mesh_tm[2][3];
 
-			tmp_world.Obj_Look_At(mesh_position,camera_position,0.0f);
-			world_transform = &tmp_world;
+			matrix3D.Obj_Look_At(mesh_position,camera_position,0.0f);
+			world_transform = &matrix3D;
 
 		} else if (((TCRModelView *)mesh->Model)->Get_Flag(MeshModelClass::SKIN)) {
 			if (mesh->SkinContainer && *mesh->SkinContainer) {
@@ -1223,8 +1223,8 @@ void DX8TextureCategoryClass::Render(void)
 				TCRMatrixStorage inverse_storage;
 				Matrix3D &inverse = *(Matrix3D *)&inverse_storage;
 				container->Get_Transform().Get_Inverse(inverse);
-				Matrix3D::Multiply(mesh->Get_Transform(),inverse,&tmp_world);
-				world_transform = &tmp_world;
+				Matrix3D::Multiply(mesh->Get_Transform(),inverse,&matrix3D);
+				world_transform = &matrix3D;
 				identity=false;
 			} else {
 				identity=true;

@@ -31,31 +31,31 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "scene.h"
 
 // Compare IEEE754 encodings exactly; negative zero is not an identity entry.
-static inline bool Check_Is_Transform_Identity(const Matrix3D& m)
+static inline bool Check_Is_Transform_Identity(const Matrix3D& matrix3D)
 {
 	const float zero=0.0f;
 	const float one=1.0f;
 
 	unsigned d=
-		((unsigned&)m[0][0]^(unsigned&)one) |
-		((unsigned&)m[0][1]^(unsigned&)zero) |
-		((unsigned&)m[0][2]^(unsigned&)zero) |
-		((unsigned&)m[0][3]^(unsigned&)zero) |
-		((unsigned&)m[1][0]^(unsigned&)zero) |
-		((unsigned&)m[1][1]^(unsigned&)one) |
-		((unsigned&)m[1][2]^(unsigned&)zero) |
-		((unsigned&)m[1][3]^(unsigned&)zero) |
-		((unsigned&)m[2][0]^(unsigned&)zero) |
-		((unsigned&)m[2][1]^(unsigned&)zero) |
-		((unsigned&)m[2][2]^(unsigned&)one) |
-		((unsigned&)m[2][3]^(unsigned&)zero);
+		((unsigned&)matrix3D[0][0]^(unsigned&)one) |
+		((unsigned&)matrix3D[0][1]^(unsigned&)zero) |
+		((unsigned&)matrix3D[0][2]^(unsigned&)zero) |
+		((unsigned&)matrix3D[0][3]^(unsigned&)zero) |
+		((unsigned&)matrix3D[1][0]^(unsigned&)zero) |
+		((unsigned&)matrix3D[1][1]^(unsigned&)one) |
+		((unsigned&)matrix3D[1][2]^(unsigned&)zero) |
+		((unsigned&)matrix3D[1][3]^(unsigned&)zero) |
+		((unsigned&)matrix3D[2][0]^(unsigned&)zero) |
+		((unsigned&)matrix3D[2][1]^(unsigned&)zero) |
+		((unsigned&)matrix3D[2][2]^(unsigned&)one) |
+		((unsigned&)matrix3D[2][3]^(unsigned&)zero);
 	return !d;
 }
 
-void RenderObjClass::Set_Transform(const Matrix3D &m)
+void RenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	Transform = m;
-	IsTransformIdentity=Check_Is_Transform_Identity(m);
+	Transform = matrix3D;
+	IsTransformIdentity=Check_Is_Transform_Identity(matrix3D);
 	Bits &= ~BOUNDING_VOLUMES_VALID;
 	if (Scene && !Container) {
 		Scene->Register(this, (SceneClass::RegType)3);

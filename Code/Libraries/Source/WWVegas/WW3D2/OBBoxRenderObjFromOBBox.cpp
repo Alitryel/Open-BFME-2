@@ -32,9 +32,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // Defined here (verbatim BFME1) so the ctor inlines it: retail's ctor body
 // carries its two calls inline (direct RenderObj::Set_Transform + virtual
 // update_cached_box) ahead of the explicit update_cached_box.
-inline void OBBoxRenderObjClass::Set_Transform(const Matrix3D & m)
+inline void OBBoxRenderObjClass::Set_Transform(const Matrix3D & matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 

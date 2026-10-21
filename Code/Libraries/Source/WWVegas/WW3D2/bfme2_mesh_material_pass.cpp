@@ -123,8 +123,8 @@ public:
  static void Set_Index_Buffer(const IndexBufferClass*,unsigned short);
  // Zero Hour dx8wrapper.h Set_Transform(D3DTRANSFORMSTATETYPE,const Matrix3D&)
  // and Set_World_Identity, inline here.
- static __forceinline void Set_Transform(int transform,const Matrix3D&m) {
-  Matrix4 m2(m);
+ static __forceinline void Set_Transform(int transform,const Matrix3D&matrix3D) {
+  Matrix4 m2(matrix3D);
   switch(transform) {
   case 256: render_state.world=m2.Transpose();render_state_changed|=1;render_state_changed&=~0x40000;break;
   case 2: render_state.view=m2.Transpose();render_state_changed|=2;render_state_changed&=~0x80000;break;

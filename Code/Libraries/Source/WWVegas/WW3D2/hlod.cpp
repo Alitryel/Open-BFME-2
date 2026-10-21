@@ -1994,9 +1994,9 @@ void HLodClass::Include_NULL_Lod(bool include)
 		// Resize the lod array
 		LodCount -= 1;
 		Lod[index].Delete_All ();		
-		ModelArrayClass *temp_lods = W3DNEWARRAY ModelArrayClass[LodCount];
+		ModelArrayClass *modelArray = W3DNEWARRAY ModelArrayClass[LodCount];
 		for (index = 0; index < LodCount; index ++) {
-			temp_lods[index] = Lod[index + 1];
+			modelArray[index] = Lod[index + 1];
 		}
 
 		// Now resize the value and cost arrays
@@ -2008,7 +2008,7 @@ void HLodClass::Include_NULL_Lod(bool include)
 		::delete [] Lod;
 		delete [] Value;
 		delete [] Cost;
-		Lod = temp_lods;
+		Lod = modelArray;
 		Value = temp_value;
 		Cost = temp_cost;
 		CurLod = (CurLod >= LodCount) ? (LodCount - 1) : CurLod;
@@ -2021,9 +2021,9 @@ void HLodClass::Include_NULL_Lod(bool include)
 		if (null_object != NULL) {
 
 			// Resize the lod array
-			ModelArrayClass *temp_lods = W3DNEWARRAY ModelArrayClass[LodCount + 1];
+			ModelArrayClass *modelArray = W3DNEWARRAY ModelArrayClass[LodCount + 1];
 			for (int index = 0; index < LodCount; index ++) {
-				temp_lods[index + 1] = Lod[index];
+				modelArray[index + 1] = Lod[index];
 			}
 
 			// Now resize the value and cost arrays
@@ -2035,7 +2035,7 @@ void HLodClass::Include_NULL_Lod(bool include)
 			::delete [] Lod;
 			delete [] Value;
 			delete [] Cost;
-			Lod = temp_lods;
+			Lod = modelArray;
 			Value = temp_value;
 			Cost = temp_cost;
 			LodCount ++;
@@ -2221,10 +2221,10 @@ void HLodClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *=============================================================================================*/
 // BFME2 table RVA 0x007D6780 slot 0x54 -> 0x0019B6F0. Retail first
 // compares all 12 matrix components and returns if none changed.
-void HLodClass::Set_Transform(const Matrix3D &m)
+void HLodClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	if (Transform == m) return;
-	Animatable3DObjClass::Set_Transform(m); 
+	if (Transform == matrix3D) return;
+	Animatable3DObjClass::Set_Transform(matrix3D); 
 	Set_Sub_Object_Transforms_Dirty(true);
 }
 

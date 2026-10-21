@@ -43,9 +43,9 @@ class DX8Wrapper { public:
 		break;
   }
  }
- static __forceinline void Get_Transform(int,Matrix3D& v) {
-  if(render_state_changed&(1<<19)) v.Make_Identity();
-  else {v[0][0]=render_state.view[0][0];v[0][1]=render_state.view[1][0];v[0][2]=render_state.view[2][0];v[0][3]=render_state.view[3][0];v[1][0]=render_state.view[0][1];v[1][1]=render_state.view[1][1];v[1][2]=render_state.view[2][1];v[1][3]=render_state.view[3][1];v[2][0]=render_state.view[0][2];v[2][1]=render_state.view[1][2];v[2][2]=render_state.view[2][2];v[2][3]=render_state.view[3][2];}
+ static __forceinline void Get_Transform(int,Matrix3D& matrix3D) {
+  if(render_state_changed&(1<<19)) matrix3D.Make_Identity();
+  else {matrix3D[0][0]=render_state.view[0][0];matrix3D[0][1]=render_state.view[1][0];matrix3D[0][2]=render_state.view[2][0];matrix3D[0][3]=render_state.view[3][0];matrix3D[1][0]=render_state.view[0][1];matrix3D[1][1]=render_state.view[1][1];matrix3D[1][2]=render_state.view[2][1];matrix3D[1][3]=render_state.view[3][1];matrix3D[2][0]=render_state.view[0][2];matrix3D[2][1]=render_state.view[1][2];matrix3D[2][2]=render_state.view[2][2];matrix3D[2][3]=render_state.view[3][2];}
  }
 protected: static Matrix4 ProjectionMatrix; static RenderStateStruct render_state; static unsigned render_state_changed;
 };

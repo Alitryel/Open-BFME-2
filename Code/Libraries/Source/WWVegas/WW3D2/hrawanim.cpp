@@ -399,7 +399,7 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
- bool HRawAnimClass::Get_Orientation(Quaternion& q, int pividx,float frame) const
+ bool HRawAnimClass::Get_Orientation(Quaternion& quaternion, int pividx,float frame) const
 {
 	// BFME reports success like BFME1's bool revision (retail 0x0018DD60 sets
 	// al=1 on every return path); the quaternion logic below is Zero Hour's.
@@ -434,15 +434,15 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
 
 	if ( ratio == 0.0f ) 
 	{
-		q = q0;
+		quaternion = q0;
 	}
 	else if ( ratio == 1.0f ) 
 	{
-		q = q1;
+		quaternion = q1;
 	}
 	else
 	{
-		BFME2_Nlerp(q, q0, q1, ratio);
+		BFME2_Nlerp(quaternion, q0, q1, ratio);
 	}
 
 #else
@@ -455,7 +455,7 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
 	}
 
 	if ( ratio == 0.0f ) {
-		q=q0;
+		quaternion=q0;
 		return;
 	}
 
@@ -465,7 +465,7 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
 		q1.Set(vals[0],vals[1],vals[2],vals[3]);
 	}
 
-	Fast_Slerp(q, q0, q1, ratio );
+	Fast_Slerp(quaternion, q0, q1, ratio );
 #endif
 	// BFME1 keeps Zero Hour behaviour behind a bool report: always true here.
 	return true;

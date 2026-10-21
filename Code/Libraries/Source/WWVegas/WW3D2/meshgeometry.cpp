@@ -26,17 +26,17 @@
 // change nothing else in this unit, but if a function added later that builds
 // an array will not match, try it without this block.
 
-static inline void MeshGeom_Rotate_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out) {
+static inline void MeshGeom_Rotate_Vector(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out) {
 	Vector3 tmp = in;
-	out->X = (A[0][0] * tmp.X + A[0][1] * tmp.Y + A[0][2] * tmp.Z);
-	out->Y = (A[1][0] * tmp.X + A[1][1] * tmp.Y + A[1][2] * tmp.Z);
-	out->Z = (A[2][0] * tmp.X + A[2][1] * tmp.Y + A[2][2] * tmp.Z);
+	out->X = (matrix3D[0][0] * tmp.X + matrix3D[0][1] * tmp.Y + matrix3D[0][2] * tmp.Z);
+	out->Y = (matrix3D[1][0] * tmp.X + matrix3D[1][1] * tmp.Y + matrix3D[1][2] * tmp.Z);
+	out->Z = (matrix3D[2][0] * tmp.X + matrix3D[2][1] * tmp.Y + matrix3D[2][2] * tmp.Z);
 }
-static inline void MeshGeom_Transform_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out) {
+static inline void MeshGeom_Transform_Vector(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out) {
 	Vector3 tmp = in;
-	out->X = (A[0][0] * tmp.X + A[0][1] * tmp.Y + A[0][2] * tmp.Z + A[0][3]);
-	out->Y = (A[1][0] * tmp.X + A[1][1] * tmp.Y + A[1][2] * tmp.Z + A[1][3]);
-	out->Z = (A[2][0] * tmp.X + A[2][1] * tmp.Y + A[2][2] * tmp.Z + A[2][3]);
+	out->X = (matrix3D[0][0] * tmp.X + matrix3D[0][1] * tmp.Y + matrix3D[0][2] * tmp.Z + matrix3D[0][3]);
+	out->Y = (matrix3D[1][0] * tmp.X + matrix3D[1][1] * tmp.Y + matrix3D[1][2] * tmp.Z + matrix3D[1][3]);
+	out->Z = (matrix3D[2][0] * tmp.X + matrix3D[2][1] * tmp.Y + matrix3D[2][2] * tmp.Z + matrix3D[2][3]);
 }
 
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
@@ -2072,11 +2072,11 @@ void MeshGeometryClass::Scale(const Vector3 &sc)
 		// If the scale is uniform, we can scale the cull tree, which is a lot faster than creating a new one
 		if (fabs(sc[0]-sc[1])<WWMATH_EPSILON && fabs(sc[0]-sc[2])<WWMATH_EPSILON) {
 			// create a copy of the old culltree
-			AABTreeClass *temp = NEW_REF(AABTreeClass, ());
-			*temp = *CullTree;
-			temp->Set_Mesh(this);
-			REF_PTR_SET(CullTree, temp);
-			REF_PTR_RELEASE(temp);
+			AABTreeClass *aABTree = NEW_REF(AABTreeClass, ());
+			*aABTree = *CullTree;
+			aABTree->Set_Mesh(this);
+			REF_PTR_SET(CullTree, aABTree);
+			REF_PTR_RELEASE(aABTree);
 			CullTree->Scale(sc[0]);
 		}
 		else {

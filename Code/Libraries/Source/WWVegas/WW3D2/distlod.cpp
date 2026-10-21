@@ -682,12 +682,12 @@ int DistLODClass::Add_Sub_Object_To_Bone(RenderObjClass * subobj,int bone_index,
  *   3/3/99     GTH : Created.                                                                 *
  *=============================================================================================*/
 // ?DistLODClass::Set_Transform present-unmatched
-void DistLODClass::Set_Transform(const Matrix3D &m)
+void DistLODClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	for (int i=0; i<LodCount; i++) {
 		assert(Lods[i].Model != NULL);
-		Lods[i].Model->Set_Transform(m);
+		Lods[i].Model->Set_Transform(matrix3D);
 	}
 }
 

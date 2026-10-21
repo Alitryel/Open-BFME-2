@@ -818,11 +818,11 @@ int AABoxRenderObjClass::Class_ID(void) const
 // reassociated): rows group as (y*0+z*0)+x, (y+x*0)+z*0, (z+x*0)+y*0, which
 // Matrix3D::Translate does not give. Evidence:
 // reverse/attempt_support/fp-paren-nodes-20261020.md.
-static inline void aaboxTranslate(Matrix3D &m, const Vector3 &t)
+static inline void aaboxTranslate(Matrix3D &matrix3D, const Vector3 &t)
 {
-	m[0][3] += m[0][0]*t[0] + (m[0][1]*t[1]) + (m[0][2]*t[2]);
-	m[1][3] += m[1][0]*t[0] + (m[1][1]*t[1]) + (m[1][2]*t[2]);
-	m[2][3] += m[2][0]*t[0] + (m[2][1]*t[1]) + (m[2][2]*t[2]);
+	matrix3D[0][3] += matrix3D[0][0]*t[0] + (matrix3D[0][1]*t[1]) + (matrix3D[0][2]*t[2]);
+	matrix3D[1][3] += matrix3D[1][0]*t[0] + (matrix3D[1][1]*t[1]) + (matrix3D[1][2]*t[2]);
+	matrix3D[2][3] += matrix3D[2][0]*t[0] + (matrix3D[2][1]*t[1]) + (matrix3D[2][2]*t[2]);
 }
 
 /***********************************************************************************************
@@ -890,9 +890,9 @@ void AABoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void AABoxRenderObjClass::Set_Transform(const Matrix3D &m)
+void AABoxRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 
@@ -1264,9 +1264,9 @@ void OBBoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
 // ?OBBoxRenderObjClass::Set_Transform present-unmatched
-inline void OBBoxRenderObjClass::Set_Transform(const Matrix3D &m)
+inline void OBBoxRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 

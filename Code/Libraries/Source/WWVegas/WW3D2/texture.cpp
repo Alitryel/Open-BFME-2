@@ -2168,9 +2168,9 @@ class Member0C00739C70
 struct TextureRecolorSurfaceLock
 {
  W3DRadarResetSurface &surface;
- TextureRecolorSurfaceLock(W3DRadarResetSurface &s,void *&bits,int &pitch,bool discard):surface(s)
+ TextureRecolorSurfaceLock(W3DRadarResetSurface &w3DRadarResetSurface,void *&bits,int &pitch,bool discard):surface(w3DRadarResetSurface)
  {
-  bits=reinterpret_cast<Rva00116680 *>(&s)->rva00116680(&pitch,discard);
+  bits=reinterpret_cast<Rva00116680 *>(&w3DRadarResetSurface)->rva00116680(&pitch,discard);
 
  }
  ~TextureRecolorSurfaceLock()

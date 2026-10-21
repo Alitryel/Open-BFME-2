@@ -42,7 +42,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #define BFME_MATRIX4_M3D_INLINE WWINLINE
 #include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"
 // ?_bfmeMatrix4InitAnchor@@YAXAAVMatrix4@@ABVMatrix3D@@@Z absent-from-retail
-void _bfmeMatrix4InitAnchor(Matrix4x4 &matrix4x4, const Matrix3D &t) { matrix4x4.Init(t); }
+void _bfmeMatrix4InitAnchor(Matrix4x4 &matrix4x4, const Matrix3D &matrix3D) { matrix4x4.Init(matrix3D); }
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -328,9 +328,9 @@ void CameraClass::Get_Obj_Space_Bounding_Box(AABoxClass & box) const
  * HISTORY:                                                                                    *
  *   5/29/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-void CameraClass::Set_Transform(const Matrix3D &m)	
+void CameraClass::Set_Transform(const Matrix3D &matrix3D)	
 { 
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	FrustumValid = false; 
 }
 

@@ -165,32 +165,32 @@ StreakRendererClass::~StreakRendererClass(void)
 // Anchor only: the retail Init body lives in StreakRendererInit.cpp; this keeps
 // the rowed out-of-line setters below emitted from this unit. Not retail code.
 // ?_bfmeStreakRenderSetterAnchor absent-from-retail
-void _bfmeStreakRenderSetterAnchor(StreakRendererClass &r, const W3dEmitterLinePropertiesStruct & props)
+void _bfmeStreakRenderSetterAnchor(StreakRendererClass &streakRenderer, const W3dEmitterLinePropertiesStruct & props)
 {
 	// translate the flags
-	r.Set_Merge_Intersections(props.Flags & W3D_ELINE_MERGE_INTERSECTIONS);
-	r.Set_Freeze_Random(props.Flags & W3D_ELINE_FREEZE_RANDOM);
-	r.Set_Disable_Sorting(props.Flags & W3D_ELINE_DISABLE_SORTING);
-	r.Set_End_Caps(props.Flags & W3D_ELINE_END_CAPS);
+	streakRenderer.Set_Merge_Intersections(props.Flags & W3D_ELINE_MERGE_INTERSECTIONS);
+	streakRenderer.Set_Freeze_Random(props.Flags & W3D_ELINE_FREEZE_RANDOM);
+	streakRenderer.Set_Disable_Sorting(props.Flags & W3D_ELINE_DISABLE_SORTING);
+	streakRenderer.Set_End_Caps(props.Flags & W3D_ELINE_END_CAPS);
 
 	int texture_mode = ((props.Flags & W3D_ELINE_TEXTURE_MAP_MODE_MASK) >> W3D_ELINE_TEXTURE_MAP_MODE_OFFSET);
 	switch (texture_mode) 
 	{
 	case W3D_ELINE_UNIFORM_WIDTH_TEXTURE_MAP:
-		r.Set_Texture_Mapping_Mode(StreakRendererClass::UNIFORM_WIDTH_TEXTURE_MAP);
+		streakRenderer.Set_Texture_Mapping_Mode(StreakRendererClass::UNIFORM_WIDTH_TEXTURE_MAP);
 		break;
 	case W3D_ELINE_UNIFORM_LENGTH_TEXTURE_MAP:
-		r.Set_Texture_Mapping_Mode(StreakRendererClass::UNIFORM_LENGTH_TEXTURE_MAP);		
+		streakRenderer.Set_Texture_Mapping_Mode(StreakRendererClass::UNIFORM_LENGTH_TEXTURE_MAP);		
 		break;
 	case W3D_ELINE_TILED_TEXTURE_MAP:
-		r.Set_Texture_Mapping_Mode(StreakRendererClass::TILED_TEXTURE_MAP);		
+		streakRenderer.Set_Texture_Mapping_Mode(StreakRendererClass::TILED_TEXTURE_MAP);		
 		break;
 	};
 
 	// install all other settings
-	r.Set_Current_Subdivision_Level(props.SubdivisionLevel);
-	r.Set_Noise_Amplitude(props.NoiseAmplitude);
-	r.Set_Merge_Abort_Factor(props.MergeAbortFactor);
+	streakRenderer.Set_Current_Subdivision_Level(props.SubdivisionLevel);
+	streakRenderer.Set_Noise_Amplitude(props.NoiseAmplitude);
+	streakRenderer.Set_Merge_Abort_Factor(props.MergeAbortFactor);
 	// Set_Texture_Tile_Factor(props.TextureTileFactor);
 	// Set_UV_Offset_Rate(Vector2(props.UPerSec,props.VPerSec));
 }

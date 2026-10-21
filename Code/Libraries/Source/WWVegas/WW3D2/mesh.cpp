@@ -1082,14 +1082,14 @@ int MeshClass::Get_Draw_Call_Count(void) const
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeMeshClassInlineAnchor@@YAXPAVMeshClass@@@Z absent-from-retail
-void _bfmeMeshClassInlineAnchor(MeshClass *p)
+void _bfmeMeshClassInlineAnchor(MeshClass *mesh)
 {
-    p->Get_Model();
+    mesh->Get_Model();
 }
 #pragma inline_depth()
 
 // ?bfmeEmitLineSegClassCtor@@YAXPAVLineSegClass@@ABV0@ABVMatrix3D@@@Z present-unmatched
-void bfmeEmitLineSegClassCtor(LineSegClass *p, const LineSegClass &src, const Matrix3D &tm)
+void bfmeEmitLineSegClassCtor(LineSegClass *lineSeg, const LineSegClass &src, const Matrix3D &tm)
 {
-    new (p) LineSegClass(src, tm);
+    new (lineSeg) LineSegClass(src, tm);
 }

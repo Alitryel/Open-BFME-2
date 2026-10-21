@@ -387,7 +387,7 @@ Quaternion Build_Quaternion(const Matrix3D &m);
 // WorldBuilder's out-of-line copy (0x009FAF30) does.
 struct HTreePivotTransform
 {
-	__forceinline void Get_Matrix3D(Matrix3D &m) const
+	__forceinline void Get_Matrix3D(Matrix3D &matrix3D) const
 	{
 		float xx = Rotation.X * Rotation.X * 2.0f;
 		float xy = Rotation.X * Rotation.Y * 2.0f;
@@ -398,18 +398,18 @@ struct HTreePivotTransform
 		float yw = Rotation.Y * Rotation.W * 2.0f;
 		float zz = Rotation.Z * Rotation.Z * 2.0f;
 		float zw = Rotation.Z * Rotation.W * 2.0f;
-		m[0][0] = 1.0f - yy - zz;
-		m[0][1] = xy - zw;
-		m[0][2] = xz + yw;
-		m[1][0] = xy + zw;
-		m[1][1] = 1.0f - zz - xx;
-		m[1][2] = yz - xw;
-		m[2][0] = xz - yw;
-		m[2][1] = yz + xw;
-		m[2][2] = 1.0f - yy - xx;
-		m[0][3] = Translation.X;
-		m[1][3] = Translation.Y;
-		m[2][3] = Translation.Z;
+		matrix3D[0][0] = 1.0f - yy - zz;
+		matrix3D[0][1] = xy - zw;
+		matrix3D[0][2] = xz + yw;
+		matrix3D[1][0] = xy + zw;
+		matrix3D[1][1] = 1.0f - zz - xx;
+		matrix3D[1][2] = yz - xw;
+		matrix3D[2][0] = xz - yw;
+		matrix3D[2][1] = yz + xw;
+		matrix3D[2][2] = 1.0f - yy - xx;
+		matrix3D[0][3] = Translation.X;
+		matrix3D[1][3] = Translation.Y;
+		matrix3D[2][3] = Translation.Z;
 	}
 
 	Quaternion Rotation;
@@ -421,10 +421,10 @@ struct HTreePivotTransform
 struct BoneTransform : public HTreePivotTransform
 {
 	__forceinline BoneTransform() : m_unused(0.0f) {}
-	__forceinline void Set(const Matrix3D &m)
+	__forceinline void Set(const Matrix3D &matrix3D)
 	{
-		Rotation = Build_Quaternion(m);
-		m.Get_Translation(&Translation);
+		Rotation = Build_Quaternion(matrix3D);
+		matrix3D.Get_Translation(&Translation);
 	}
 
 	float m_unused;

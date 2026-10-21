@@ -40,7 +40,7 @@ public:
 		Row[2].Set(0.0, 0.0, 1.0, 0.0);
 		Row[3].Set(0.0, 0.0, 0.0, 1.0);
 	}
-	__forceinline void Init(const Matrix3D &m) { Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0, 0.0, 0.0, 1.0); }
+	__forceinline void Init(const Matrix3D &matrix3D) { Row[0] = matrix3D[0]; Row[1] = matrix3D[1]; Row[2] = matrix3D[2]; Row[3] = Vector4(0.0, 0.0, 0.0, 1.0); }
 	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3; }
 	__forceinline Vector4 &operator[](int i) { return Row[i]; }
 	__forceinline const Vector4 &operator[](int i) const { return Row[i]; }
@@ -63,9 +63,9 @@ __forceinline Matrix4::Matrix4(const Matrix4 &matrix4)
 	Row[0] = matrix4.Row[0]; Row[1] = matrix4.Row[1]; Row[2] = matrix4.Row[2]; Row[3] = matrix4.Row[3];
 }
 
-__forceinline Matrix4::Matrix4(const Matrix3D &m)
+__forceinline Matrix4::Matrix4(const Matrix3D &matrix3D)
 {
-	Init(m);
+	Init(matrix3D);
 }
 
 __forceinline Matrix4::Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
@@ -117,9 +117,9 @@ public:
 		VIEW_IDENTITY = 1 << 19
 	};
 
-	static __forceinline void Set_MeshFX_Transform(D3DTRANSFORMSTATETYPE transform, const Matrix3D &m)
+	static __forceinline void Set_MeshFX_Transform(D3DTRANSFORMSTATETYPE transform, const Matrix3D &matrix3D)
 	{
-		Matrix4 m2(m);
+		Matrix4 m2(matrix3D);
 		switch ((int)transform) {
 		case D3DTS_WORLD:
 			BFME2World = m2.Transpose();

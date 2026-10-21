@@ -776,9 +776,9 @@ void SphereRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
 // ?Set_Transform@SphereRenderObjClass@@UAEXABVMatrix3D@@@Z present-unmatched
-void SphereRenderObjClass::Set_Transform(const Matrix3D &m)
+void SphereRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 
@@ -1522,12 +1522,12 @@ inverse_alpha(false)
  *   3/07/00    jga : Created.                                                                 *
  *=============================================================================================*/
 // ?Set_Alpha_Vector@SphereMeshClass@@QAEXABUAlphaVectorStruct@@_N11@Z present-unmatched
-void	SphereMeshClass::Set_Alpha_Vector (const AlphaVectorStruct &v, bool inverse, bool is_additive, bool force)
+void	SphereMeshClass::Set_Alpha_Vector (const AlphaVectorStruct &alphaVector, bool inverse, bool is_additive, bool force)
 {
 	//
 	//	Exit if there is nothing to do...
 	//
-	if (	alpha_vector == v &&
+	if (	alpha_vector == alphaVector &&
 			inverse == inverse_alpha &&
 			is_additive == IsAdditive &&
 			!force)
@@ -1536,9 +1536,9 @@ void	SphereMeshClass::Set_Alpha_Vector (const AlphaVectorStruct &v, bool inverse
 	}
 
 	inverse_alpha = inverse;
-	alpha_vector = v;
+	alpha_vector = alphaVector;
 
-	float Intensity = v.intensity;
+	float Intensity = alphaVector.intensity;
 	assert(Intensity >= 0.0f);
 
 	Vector3 vec = alpha_vector.angle.Rotate_Vector (Vector3 (1, 0, 0));
