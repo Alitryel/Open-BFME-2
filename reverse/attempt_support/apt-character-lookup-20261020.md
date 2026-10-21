@@ -380,3 +380,23 @@ so no join spelling reproduces EXIT4. Retail's case 10 loads multiline into
 esi (`mov esi,[eax+0x2c]; test esi,0xffffff`), a callee-saved register for a
 single use, which hints the value was a variable live across a merged edge.
 Untried items 1 and 2 above remain open.
+
+## Round g10-g12 (2026-10-21, claude-opus-5-5, ~30 min, bank unchanged)
+
+Scratch build/apt/gen10.py, gen11.py, gen12.py (64 variants, score.py):
+- Case 21 as a direct `return AptBoolean::Create(...)` raises score.py fit to
+  0.857 but align_diff and the jump shape are the bank's (difflib noise).
+- Switch-2 cases each `result=MakeFloat(number=X); goto done;` (or
+  `number=X; result=MakeFloat(X)`): with switch-1 cases 19/20 returning
+  directly, the per-case calls are tail-merged back to 3 shared calls (bank
+  shape). With 19/20 as `result=MakeFloat(n); goto done;` the compiler keeps
+  21 separate MakeFloat calls, as retail does, but then copies the epilogue
+  into every site (74 rets, fit 0.77).
+- Probes p1/p2 (13-line models, build/apt/pr/, build/apt/probe.py): neither a
+  goto-join nor `break` to one `return result;` sinks the common `add esp,4`
+  into the shared epilogue; every 1-arg cdecl call keeps its own pop and
+  epilogue copy.
+So the remaining wall is the common-tail sinking of `add esp,4` into done
+(retail's 0x238). Retail is the only function in the binary with
+`call; jmp T` where T is `add esp,4`, and no source shape tried so far
+produces it.
