@@ -308,7 +308,7 @@ public:
 	virtual void init();
 
 	static void iniParseCreateAHeroSystem(INI *ini);
-	static void rva002202BF(INI *ini);
+	static void parseCreateAHeroClassDefinition(INI *ini);
 	void rva0022020C(const Rva0021F804 &heroClass);	// 0x0022020C, adds a parsed class
 
 	Int GetBlingCount(Int blingKey, const CreateAHeroHero *hero) const;
@@ -574,7 +574,7 @@ extern "C" const FieldParse CreateAHeroClassFieldParse[];
 // knowing the body, does not reload TheCreateAHeroManager across it.
 template <> inline bool StringBase<char>::isEmpty() const { return m_data == 0 || m_data->length == 0; }
 
-void CreateAHeroManager::rva002202BF(INI *ini)
+void CreateAHeroManager::parseCreateAHeroClassDefinition(INI *ini)
 {
 	Rva0021F804 heroClass(AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"));
 	ini->initFromINI(&heroClass, CreateAHeroClassFieldParse);

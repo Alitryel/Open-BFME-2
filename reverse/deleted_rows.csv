@@ -1436,3 +1436,5 @@ __ehhandler$?Rva0041999FParse@@YAXPAVINI@@@Z,0x007867EB,"Renamed to __ehhandler$
 ?Rva0040C32BParse@@YAXPAVINI@@@Z,0x0040C32B,"Renamed to ?parseAwardSystemDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?rva00318ABB@@YAXPAVINI@@@Z,0x00318ABB,"Renamed to ?parseCloudBreakEffectDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva0021526CParse@@YAXPAVINI@@@Z,0x0021526C,"Renamed to ?parseCloudEffectDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z,0x002202BF,"Renamed to ?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+__ehhandler$?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z,0x0076ED7F,"Renamed to __ehhandler$?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
