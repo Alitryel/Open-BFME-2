@@ -247,7 +247,7 @@ public:
 class AerialPathfinder;
 extern TerrainLogic *TheTerrainLogic;
 extern AerialPathfinder *TheAerialPathfinder;
-void Rva00200FE3Parse(INI *ini);
+void parseAerialPathfindNoFlyZoneDefinition(INI *ini);
 
 
 // 0x0040C32B (25B): "AwardSystem" (registration VA 0x00DC1D9C). Skips when

@@ -174,7 +174,7 @@ class AerialPathfinder;
 extern TerrainLogic *TheTerrainLogic;
 extern AerialPathfinder *TheAerialPathfinder;
 
-void Rva00200FE3Parse(INI *ini)
+void parseAerialPathfindNoFlyZoneDefinition(INI *ini)
 {
 	AsciiString name(ini->getNextSubToken("TriggerArea"));
 	PolygonTrigger *trigger = TheTerrainLogic->slot39(name);

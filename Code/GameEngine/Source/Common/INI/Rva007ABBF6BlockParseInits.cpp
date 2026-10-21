@@ -34,7 +34,7 @@ void Rva001DA9CAParse(INI *);
 void Rva001DAA14Parse(INI *);
 void Rva001DAA5EParse(INI *);
 void Rva001DAAA8Parse(INI *);
-void Rva00200FE3Parse(INI *);
+void parseAerialPathfindNoFlyZoneDefinition(INI *);
 void Rva00202BB2Parse(INI *);
 void Rva00206DFFSearch(INI *);
 void Rva00206E63Search(INI *);
@@ -363,7 +363,7 @@ BlockParse theWaterTextureListBlockParse = { 0, "WaterTextureList", iniParseWate
 BlockParse theUpgradeBlockParse = { 0, "Upgrade", UpgradeCenter::parseUpgradeDefinition };	// VA 0x00DB94F8 "Upgrade", parse 0x0026FA05
 BlockParse theWaterSetBlockParse = { 0, "WaterSet", INI::parseWaterSettingDefinition };	// VA 0x00DB9504 "WaterSet", parse 0x00200BEB
 BlockParse theWaterTransparencyBlockParse = { 0, "WaterTransparency", INI::parseWaterTransparencyDefinition };	// VA 0x00DB9510 "WaterTransparency", parse 0x00200EE4
-BlockParse theAerialPathfindNoFlyZoneBlockParse = { 0, "AerialPathfindNoFlyZone", Rva00200FE3Parse };	// VA 0x00DB9558 "AerialPathfindNoFlyZone", parse 0x00200FE3
+BlockParse theAerialPathfindNoFlyZoneBlockParse = { 0, "AerialPathfindNoFlyZone", parseAerialPathfindNoFlyZoneDefinition };	// VA 0x00DB9558 "AerialPathfindNoFlyZone", parse 0x00200FE3
 BlockParse theWeatherBlockParse = { 0, "Weather", INI::parseWeatherDefinition };	// VA 0x00DB9588 "Weather", parse 0x0020187A
 BlockParse theWeaponBlockParse = { 0, "Weapon", WeaponStore::parseWeaponTemplateDefinition };	// VA 0x00DB95B8 "Weapon", parse 0x002CE102
 BlockParse theHeaderTemplateBlockParse = { 0, "HeaderTemplate", INI::parseHeaderTemplateDefinition };	// VA 0x00DB95C4 "HeaderTemplate", parse 0x00201CAF
