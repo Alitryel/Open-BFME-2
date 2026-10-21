@@ -59,7 +59,7 @@ void Rva00402B19Parse(INI *);
 void Rva00402E30Parse(INI *);
 void Rva0040C32BParse(INI *);
 void Rva0040F0F0Parse(INI *);
-void Rva0041355DParse(INI *);
+void parseAutoResolveHandicapLevelDefinition(INI *);
 void Rva00413D58Parse(INI *);
 void Rva00415D33Parse(INI *);
 void Rva00417A94Parse(INI *);
@@ -416,7 +416,7 @@ BlockParse theLivingWorldBuildingIconBlockParse = { 0, "LivingWorldBuildingIcon"
 BlockParse theLivingWorldBuildPlotIconBlockParse = { 0, "LivingWorldBuildPlotIcon", Rva00402E30Parse };	// VA 0x00DC1B04 "LivingWorldBuildPlotIcon", parse 0x00402E30
 BlockParse theAwardSystemBlockParse = { 0, "AwardSystem", Rva0040C32BParse };	// VA 0x00DC1D9C "AwardSystem", parse 0x0040C32B
 BlockParse theLivingWorldPlayerArmyBlockParse = { 0, "LivingWorldPlayerArmy", Rva0040F0F0Parse };	// VA 0x00DC1F68 "LivingWorldPlayerArmy", parse 0x0040F0F0
-BlockParse theAutoResolveHandicapLevelBlockParse = { 0, "AutoResolveHandicapLevel", Rva0041355DParse };	// VA 0x00DC2044 "AutoResolveHandicapLevel", parse 0x0041355D
+BlockParse theAutoResolveHandicapLevelBlockParse = { 0, "AutoResolveHandicapLevel", parseAutoResolveHandicapLevelDefinition };	// VA 0x00DC2044 "AutoResolveHandicapLevel", parse 0x0041355D
 BlockParse theLivingWorldAutoResolveSciencePurchasePointBonusBlockParse = { 0, "LivingWorldAutoResolveSciencePurchasePointBonus", LivingWorldAutoResolveSciencePurchasePointBonusScheduleStore::parseLivingWorldAutoResolveSciencePurchasePointBonusBlock };	// VA 0x00DC2050 "LivingWorldAutoResolveSciencePurchasePointBonus", parse 0x00413B4D
 BlockParse theAutoResolveReinforcementScheduleBlockParse = { 0, "AutoResolveReinforcementSchedule", Rva00413D58Parse };	// VA 0x00DC205C "AutoResolveReinforcementSchedule", parse 0x00413D58
 BlockParse theLivingWorldAutoResolveResourceBonusBlockParse = { 0, "LivingWorldAutoResolveResourceBonus", LivingWorldAutoResolveResourceBonusScheduleStore::parseLivingWorldAutoResolveResourceBonusBlock };	// VA 0x00DC2068 "LivingWorldAutoResolveResourceBonus", parse 0x0041428F
