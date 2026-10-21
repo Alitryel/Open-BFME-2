@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
+// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii
 //
 // ??1PlayerList@@UAE@XZ, retail 0x002A79A9, 122 bytes.
 // Virtual dtor over vtable 0x00BFD618 (slot 0 deleting dtor at 0x002A7ED5
@@ -17,20 +17,10 @@
 
 class Xfer;
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init();
-	virtual void postProcessLoad();
-	virtual void reset();
-	virtual void update();
-	virtual void draw();
-
-private:
-	char m_pad[8]; // +0x04..+0x0B keeps Snapshot at +0x0C (retail array +0x18)
-};
+// The shared BFME2 subsystem base (12 bytes, fourteen-slot vftable), as
+// PlayerListCtorBFME2.cpp declares it, keeps Snapshot at +0x0C.
+typedef bool Bool;
+#include "../../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
 
 // BFME 2's Snapshot has a virtual destructor (the deleting-destructor
 // adjustor thunk at 0x002A7ECD sits in PlayerList's Snapshot table) whose
@@ -51,7 +41,8 @@ public:
 	virtual void reset();
 	virtual void update();
 	virtual void newGame();
-	virtual void newMap();
+	virtual void rva002A7AE6();	// retail slot 15, 0x002A7AE6
+	virtual void rva002A7ACE();	// retail slot 16, 0x002A7ACE
 
 protected:
 	virtual void crc(Xfer *xfer);
