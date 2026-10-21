@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?rva0046E8EE@HordeContain@@UAEXXZ @ 0x0046E8EE (422B).
+// ?createPayload@HordeContain@@UAEXXZ @ 0x0046E8EE (422B).
 // HordeContain slot 28 override of TransportContain slot 28: payload trim plus
 // producer fixup. Evidence: vtable slot 28 of 0x00845050/0x00845C38/0x00846D28;
 // early Object+0x78 producer guard; TransportContain 0x004670D6; +0x11C slot04
@@ -156,7 +156,7 @@ public:
 	virtual void h16(); virtual void h17(); virtual void h18(); virtual void h19();
 	virtual void h20(); virtual void h21(); virtual void h22(); virtual void h23();
 	virtual void h24(); virtual void h25(); virtual void h26(); virtual void h27();
-	virtual void rva0046E8EE();
+	virtual void createPayload();
 private:
 	char m_pad04[0x08 - 0x04];
 	Object *m_object;
@@ -164,7 +164,7 @@ private:
 	int m_2A8;
 };
 
-void HordeContain::rva0046E8EE()
+void HordeContain::createPayload()
 {
 	if (m_object->getProducerID())
 		return;
