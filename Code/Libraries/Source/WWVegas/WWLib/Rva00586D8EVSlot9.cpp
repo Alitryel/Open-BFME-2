@@ -38,6 +38,6 @@ bool HordeMeleeFormation::canUnitRotate(int idx)
 {
 	if (idx < 0 || (unsigned)idx >= m_vec.size())
 		return false;
-	HeldBlock* h = (HeldBlock*)m_held;
-	return m_vec[idx].m_20 > (*(GameLogicFrame **)&TheGameLogic)->m_frame || h->m_entries[idx].m_18 >= 0;
+	HeldBlock* heldBlock = (HeldBlock*)m_held;
+	return m_vec[idx].m_20 > (*(GameLogicFrame **)&TheGameLogic)->m_frame || heldBlock->m_entries[idx].m_18 >= 0;
 }

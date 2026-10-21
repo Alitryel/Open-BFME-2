@@ -56,7 +56,7 @@ public:Rva004FA168Storage &subscript(const int &);
 private:Rva004FA168Node *header;
 };
 typedef _STL::pair<const int,Rva004FA168Storage> StoragePair;
-__forceinline const InsertProvider::value_type &insertView(const StoragePair &v){return *(const InsertProvider::value_type*)&v;}
+__forceinline const InsertProvider::value_type &insertView(const StoragePair &storagePair){return *(const InsertProvider::value_type*)&storagePair;}
 Rva004FA168Storage &Rva004FA168Map::subscript(const int &key)
 {
  BoundProvider::iterator position=((BoundProvider*)this)->lower_bound(key);

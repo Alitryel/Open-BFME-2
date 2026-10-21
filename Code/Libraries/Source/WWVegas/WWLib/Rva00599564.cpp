@@ -90,23 +90,23 @@ void AIDozerManager::buildDozer(Object *obj)
 	int zero = 0;
 	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(m_0c);
 	if (m_10 != zero || rec->m_16c > zero) {
-		SuffixObj *s = (SuffixObj *)obj->rva0028BC58(zero);
-		if (s != (SuffixObj *)zero) {
-			if (s->v11() == 1) {
-				ProductionEntry *c = s->v15();
-				if (!c->getProductionObject())
+		SuffixObj *suffixObj = (SuffixObj *)obj->rva0028BC58(zero);
+		if (suffixObj != (SuffixObj *)zero) {
+			if (suffixObj->v11() == 1) {
+				ProductionEntry *productionEntry = suffixObj->v15();
+				if (!productionEntry->getProductionObject())
 					goto docall;
-				ProductionEntry *d = s->v15();
+				ProductionEntry *d = suffixObj->v15();
 				void *e = *(void **)((char *)d + 8);
 				if ((((unsigned char *)e)[0x113] & 4) != 0)
 					goto docall;
 			}
-			if (s->v11() != zero)
+			if (suffixObj->v11() != zero)
 				goto done;
 docall:
-			void *r = s->v02();
+			void *r = suffixObj->v02();
 			void *q = (void *)reinterpret_cast<ThingFactory *>(TheThingFactory)->findTemplate(m_str);
-			s->v08(q, -1, r, -1, zero, &AsciiString::TheEmptyString, zero);
+			suffixObj->v08(q, -1, r, -1, zero, &AsciiString::TheEmptyString, zero);
 		}
 	}
 done:;

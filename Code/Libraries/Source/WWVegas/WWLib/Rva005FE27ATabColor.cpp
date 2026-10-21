@@ -56,9 +56,9 @@ extern Rva00222A8BTarget *TheRva00222A8BTarget;
 int __cdecl Rva00525235Fire(void *a1, void *a2, const char *a3, const char *a4, int *a5, int *a6);
 struct Rva005FDF1COuter;
 
-__forceinline const char *GetStr005FE27A(const AsciiString &s)
+__forceinline const char *GetStr005FE27A(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

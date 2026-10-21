@@ -59,9 +59,9 @@ private:
 void Rva004C77A6::rva004C77A6()
 {
 	Rva004C7542Destroy(m_start, m_finish);
-	LocoPair *tmp = m_start;
-	if (tmp)
-		free(tmp);
+	LocoPair *locoPair = m_start;
+	if (locoPair)
+		free(locoPair);
 }
 
 // Native4C74D4..4C74DD is a separate nine-byte cdecl body between the

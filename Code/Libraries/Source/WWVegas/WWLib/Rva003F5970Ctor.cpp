@@ -47,7 +47,7 @@ struct Rva003F5970
 	Rva003F5970(int a, const ModuleData *b);
 };
 
-Rva003F5970::Rva003F5970(int a, const ModuleData *b)
+Rva003F5970::Rva003F5970(int a, const ModuleData *moduleData)
 	: m_00(a)
 	, m_04(_STL::allocator<BfmeE16>())
 	, m_10(_STL::allocator<BfmeE16>())
@@ -58,8 +58,8 @@ Rva003F5970::Rva003F5970(int a, const ModuleData *b)
 	m_1C[3] = 0;
 	m_1C[4] = 0;
 	((_STL::vector<const ModuleData *> *)&m_04)->reserve(4);
-	const ModuleData *tmp = b;
+	const ModuleData *tmp = moduleData;
 	((_STL::vector<const ModuleData *> *)&m_04)->push_back(tmp);
 	((_STL::vector<BfmeAssignRecord104> *)&m_10)->reserve(4);
-	((_STL::vector<BfmePod104> *)&m_10)->push_back(*b->m_p78);
+	((_STL::vector<BfmePod104> *)&m_10)->push_back(*moduleData->m_p78);
 }

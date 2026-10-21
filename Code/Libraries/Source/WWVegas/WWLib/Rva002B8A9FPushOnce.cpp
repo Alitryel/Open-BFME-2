@@ -34,10 +34,10 @@ private:
 	_STL::vector<const ModuleData *> m_118;
 };
 
-void Rva002B8A9F::rva002B8A9F(ModuleData *p)
+void Rva002B8A9F::rva002B8A9F(ModuleData *moduleData)
 {
-	if (p->m_flag75)
+	if (moduleData->m_flag75)
 		return;
-	p->m_flag75 = 1;
-	m_118.push_back(p);
+	moduleData->m_flag75 = 1;
+	m_118.push_back(moduleData);
 }

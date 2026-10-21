@@ -40,16 +40,16 @@ private:
 	_STL::vector<const ModuleData *> m_d8;
 };
 
-void Rva002B8AC0::rva002B8AC0(const ModuleData *p)
+void Rva002B8AC0::rva002B8AC0(const ModuleData *moduleData)
 {
-	if (p->m_flag8)
+	if (moduleData->m_flag8)
 	{
-		const ModuleData *slot = p;
+		const ModuleData *slot = moduleData;
 		m_d8.push_back(slot);
 	}
 	else
 	{
-		const ModuleData *slot = p;
+		const ModuleData *slot = moduleData;
 		m_cc.push_back(slot);
 	}
 }

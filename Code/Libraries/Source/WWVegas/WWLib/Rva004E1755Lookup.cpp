@@ -62,10 +62,10 @@ struct Rva004E23E2Pair
 // ?rva004E1755@Rva00319CED@@QAEHXZ @0x004E1755 43B.
 int Rva00319CED::rva004E1755()
 {
-	AsciiString *s = &m_2C;
-	if (s->isEmpty())
+	AsciiString *asciiString = &m_2C;
+	if (asciiString->isEmpty())
 		return 0;
-	void *found = ((Rva003B8E89 *)((Rva003B8BAA *)TheCampaignManager))->rva003B8E89(s);
+	void *found = ((Rva003B8E89 *)((Rva003B8BAA *)TheCampaignManager))->rva003B8E89(asciiString);
 	if (found != 0)
 		return ((BfmeY1038 *)found)->bfmeVal1038();
 	return 0;

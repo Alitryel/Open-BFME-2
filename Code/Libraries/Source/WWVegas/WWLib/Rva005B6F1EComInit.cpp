@@ -77,7 +77,7 @@ public:
 
 void Rva005B6F1E::rva005B6F1E(const unsigned short *a1, const unsigned short *a2)
 {
-	IFirst *p1 = 0;
+	IFirst *first = 0;
 	IFirst *p2 = 0;
 	unsigned short v;
 	m_a = new unsigned short[wcslen(a1) + 1];
@@ -86,24 +86,24 @@ void Rva005B6F1E::rva005B6F1E(const unsigned short *a1, const unsigned short *a2
 	wcscpy(m_b, a2);
 	m_ok1 = false;
 	m_ok2 = false;
-	HRESULT hr = CoCreateInstance(g_00C73770, 0, 1, g_00C73780, (void **)&p1);
+	HRESULT hr = CoCreateInstance(g_00C73770, 0, 1, g_00C73780, (void **)&first);
 	if (hr < 0) {
-		if (p1 != 0)
-			p1->Release();
+		if (first != 0)
+			first->Release();
 		return;
 	}
-	hr = p1->GetSecond((void **)&p2);
+	hr = first->GetSecond((void **)&p2);
 	if (hr < 0) {
-		if (p1 != 0)
-			p1->Release();
+		if (first != 0)
+			first->Release();
 		if (p2 != 0)
 			p2->Release();
 		return;
 	}
 	hr = p2->GetSecond((void **)&m_com);
 	if (hr < 0) {
-		if (p1 != 0)
-			p1->Release();
+		if (first != 0)
+			first->Release();
 		if (p2 != 0)
 			p2->Release();
 		return;
@@ -111,8 +111,8 @@ void Rva005B6F1E::rva005B6F1E(const unsigned short *a1, const unsigned short *a2
 	m_ok1 = true;
 	if (p2 != 0)
 		p2->Release();
-	if (p1 != 0)
-		p1->Release();
+	if (first != 0)
+		first->Release();
 	hr = m_com->GetFlag(&v);
 	if (hr < 0)
 		return;

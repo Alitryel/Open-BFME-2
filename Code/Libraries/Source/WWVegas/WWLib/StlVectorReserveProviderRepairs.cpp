@@ -37,16 +37,16 @@ void Rva00081BAFVector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<ReserveAccess<Element> *>(this)->clear();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 
@@ -61,16 +61,16 @@ void Rva00081C17Vector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<ReserveAccess<Element> *>(this)->clear();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 
@@ -85,16 +85,16 @@ void Rva004F7DF9Vector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<ReserveAccess<Element> *>(this)->clear();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 
@@ -109,16 +109,16 @@ void Rva004F830BVector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<ReserveAccess<Element> *>(this)->clear();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 
@@ -133,16 +133,16 @@ void Rva00577F0FVector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<ReserveAccess<Element> *>(this)->clear();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 
@@ -157,16 +157,16 @@ void Rva005E2896Vector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<ReserveAccess<Element> *>(this)->clear();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 
@@ -181,16 +181,16 @@ void Rva005F122DVector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<ReserveAccess<Element> *>(this)->clear();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 
@@ -206,16 +206,16 @@ void Rva004EE55EVector::reserve(unsigned int n)
 {
     if ((unsigned int)(end - start) < n) {
         unsigned int oldSize = finish - start;
-        Element *tmp;
+        Element *element;
         if (start) {
-            tmp = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
+            element = reinterpret_cast<ReserveAccess<Element> *>(this)->copy(n, start, finish);
             reinterpret_cast<Rva004EE540 *>(this)->rva004EE540();
         } else {
-            tmp = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
+            element = reinterpret_cast<_STL::allocator<Element> *>(&end)->allocate(n, 0);
         }
-        finish = tmp + oldSize;
-        start = tmp;
-        end = tmp + n;
+        finish = element + oldSize;
+        start = element;
+        end = element + n;
     }
 }
 

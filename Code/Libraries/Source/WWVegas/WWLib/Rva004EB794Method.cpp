@@ -29,15 +29,15 @@ private:
 	_STL::vector<const ModuleData *> m_vec08;
 };
 
-bool Rva004EB794::rva004EB794(const ModuleData *d)
+bool Rva004EB794::rva004EB794(const ModuleData *moduleData)
 {
 	const ModuleData **end = m_vec08.end();
 	const ModuleData **p = m_vec08.begin();
 	for (; p != end; ++p)
 	{
-		if ((*p)->m_50 == d->m_50)
+		if ((*p)->m_50 == moduleData->m_50)
 			return false;
 	}
-	m_vec08.push_back(d);
+	m_vec08.push_back(moduleData);
 	return true;
 }

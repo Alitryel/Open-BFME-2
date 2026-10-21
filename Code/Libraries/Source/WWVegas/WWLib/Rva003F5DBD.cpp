@@ -91,22 +91,22 @@ public:
 
 void Rva003F5DBD::rva003F5DBD(void *a, int idx)
 {
-	Gen_p48cd &e = m_04[idx];
-	if (e.m_00 != 0)
+	Gen_p48cd &gen_p48cd = m_04[idx];
+	if (gen_p48cd.m_00 != 0)
 	{
-		ScienceType tmp = ((SciSrc *)e.m_00)->m_14;
+		ScienceType tmp = ((SciSrc *)gen_p48cd.m_00)->m_14;
 		m_10.push_back(tmp);
 	}
-	int cnt = (int)e.m_04.size();
-	CreateAHeroData *v;
+	int cnt = (int)gen_p48cd.m_04.size();
+	CreateAHeroData *createAHeroData;
 	int i = 0;
 	if (i < cnt)
 	{
-		v = a ? (CreateAHeroData *)((char *)a + 4) : 0;
+		createAHeroData = a ? (CreateAHeroData *)((char *)a + 4) : 0;
 		for (; i < cnt; ++i)
 		{
-			void *p = e.m_04[i];
-			((Rva002B7250 *)((char *)p + 8))->rva002B7250(v);
+			void *p = gen_p48cd.m_04[i];
+			((Rva002B7250 *)((char *)p + 8))->rva002B7250(createAHeroData);
 		}
 	}
 	m_04.erase(m_04.begin() + idx);

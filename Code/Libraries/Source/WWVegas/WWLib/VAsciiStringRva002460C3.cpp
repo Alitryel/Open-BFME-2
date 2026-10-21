@@ -55,7 +55,7 @@ class Rva00242F1A { public: void *rva00242F1A(const void *); };
 struct BuildableSlotPair {
     AsciiString name;
     BuildableStatus status;
-    BuildableSlotPair(const AsciiString &n, BuildableStatus s) : name(n), status(s) {}
+    BuildableSlotPair(const AsciiString &asciiString, BuildableStatus s) : name(asciiString), status(s) {}
 };
 // Native 0x002460C3..0x0024613C: GameLogic's +0x10 override map returns
 // node+8 or inserts the copied key and enum zero, then returns pair+4.

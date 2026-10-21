@@ -9,11 +9,11 @@ public:
 
 void __cdecl operator delete(void *p);
 
-void __stdcall Rva00425B75Delete(LightPoint *p)
+void __stdcall Rva00425B75Delete(LightPoint *lightPoint)
 {
-	if (p != 0)
+	if (lightPoint != 0)
 	{
-		p->~LightPoint();
-		operator delete(p);
+		lightPoint->~LightPoint();
+		operator delete(lightPoint);
 	}
 }

@@ -247,8 +247,8 @@ void Buffer::Reset(void)
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeBufferInlineAnchor@@YAXPAVBuffer@@@Z absent-from-retail
-void _bfmeBufferInlineAnchor(Buffer *p)
+void _bfmeBufferInlineAnchor(Buffer *buffer)
 {
-    p->Buffer::~Buffer();
+    buffer->Buffer::~Buffer();
 }
 #pragma inline_depth()

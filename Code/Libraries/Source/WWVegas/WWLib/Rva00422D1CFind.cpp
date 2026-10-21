@@ -48,9 +48,9 @@ extern unsigned int g_Va00E0319C[3];
 
 int FormationAssistant::rva00422D1C(int key)
 {
-	MapIntIntTree *t = (MapIntIntTree *)g_Va00E0319C;
-	_STL::_Rb_tree_node<IntIntPair> *node = t->_M_find(key);
-	if ((void *)node != *(void * *)t)
+	MapIntIntTree *mapIntIntTree = (MapIntIntTree *)g_Va00E0319C;
+	_STL::_Rb_tree_node<IntIntPair> *node = mapIntIntTree->_M_find(key);
+	if ((void *)node != *(void * *)mapIntIntTree)
 		return *(int *)((char *)node + 0x14);
 	return -1;
 }

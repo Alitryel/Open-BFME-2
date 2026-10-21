@@ -70,18 +70,18 @@ public:
 
 const Overridable *Rva0028951F::rva002897A8(void *outer, int key)
 {
-	const Overridable *f = rva0028951F(key);
+	const Overridable *overridable = rva0028951F(key);
 	int threshold = 0;
-	if (f)
-		threshold = f->m_val18;
+	if (overridable)
+		threshold = overridable->m_val18;
 	const Overridable *best = 0;
 	int bestVal = 0x7fffffff;
 	Outer *o = (Outer *)outer;
-	Inner *s = o->m_inner;
-	ListNode *n = s->m_head;
-	for (; n != (ListNode *)o->m_inner; n = n->m_next)
+	Inner *inner = o->m_inner;
+	ListNode *listNode = inner->m_head;
+	for (; listNode != (ListNode *)o->m_inner; listNode = listNode->m_next)
 	{
-		const Overridable *g = ((Overridable *)((char *)n + 8))->friend_getFinalOverride();
+		const Overridable *g = ((Overridable *)((char *)listNode + 8))->friend_getFinalOverride();
 		if (!Rva0028867DCheck(g))
 			continue;
 		int v = g->m_val18;

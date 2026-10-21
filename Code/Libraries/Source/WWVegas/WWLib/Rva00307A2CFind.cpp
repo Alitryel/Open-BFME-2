@@ -19,13 +19,13 @@ public:
 	void *rva00307A2C(const AsciiString &s);
 };
 
-void *Rva00307A2C::rva00307A2C(const AsciiString &s)
+void *Rva00307A2C::rva00307A2C(const AsciiString &asciiString)
 {
-	Node *n = m_head;
-	while (n != 0) {
-		if (s.compare(n->m_name) == 0)
-			return n;
-		n = n->m_next;
+	Node *node = m_head;
+	while (node != 0) {
+		if (asciiString.compare(node->m_name) == 0)
+			return node;
+		node = node->m_next;
 	}
 	return 0;
 }

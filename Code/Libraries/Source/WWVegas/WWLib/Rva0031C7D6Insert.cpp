@@ -41,12 +41,12 @@ public:
 	unsigned int m_numElements;
 };
 
-void *Rva000427195::rva0031C7D6(const Bef1Pair &x)
+void *Rva000427195::rva0031C7D6(const Bef1Pair &bef1Pair)
 {
 	rva00212858(m_numElements + 1);
-	int bucket = bucketIndex((const AsciiString *)&x);
+	int bucket = bucketIndex((const AsciiString *)&bef1Pair);
 	void *head = m_beginBuckets[bucket];
-	Bef1Node *node = (Bef1Node *)((Rva0031BEF1 *)this)->rva0031BEF1(x);
+	Bef1Node *node = (Bef1Node *)((Rva0031BEF1 *)this)->rva0031BEF1(bef1Pair);
 	node->m_next = (Bef1Node *)head;
 	m_beginBuckets[bucket] = node;
 	++m_numElements;

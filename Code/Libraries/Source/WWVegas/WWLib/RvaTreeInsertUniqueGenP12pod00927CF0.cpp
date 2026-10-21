@@ -22,11 +22,11 @@ struct Gen_p12pod
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> _Rb_tree_iterator<pair<Gen_p12pod const ,int>,_Nonconst_traits<pair<Gen_p12pod const ,int> > > _Rb_tree<Gen_p12pod,pair<Gen_p12pod const ,int>,_Select1st<pair<Gen_p12pod const ,int> >,less<Gen_p12pod>,allocator<pair<Gen_p12pod const ,int> > >::_M_insert(_Rb_tree_node_base *,_Rb_tree_node_base *,pair<Gen_p12pod const ,int> const &,_Rb_tree_node_base *); }
 
-inline bool compare_tail(const Gen_p12pod &a, const Gen_p12pod &b)
+inline bool compare_tail(const Gen_p12pod &gen_p12pod, const Gen_p12pod &b)
 {
-	const int a1 = a.a[1];
+	const int a1 = gen_p12pod.a[1];
 	return b.a[1] > a1
-		|| (!(b.a[1] < a1) && a.a[2] < b.a[2]);
+		|| (!(b.a[1] < a1) && gen_p12pod.a[2] < b.a[2]);
 }
 
 inline bool operator<(const Gen_p12pod &a, const Gen_p12pod &b)

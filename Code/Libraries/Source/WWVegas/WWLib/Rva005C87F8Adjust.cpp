@@ -26,16 +26,16 @@ private:
 
 void LargeGroupAudioGridCell::setOverlappedLocking(bool flag)
 {
-	LargeGroupAudioGridCell **p = m_kids;
+	LargeGroupAudioGridCell **largeGroupAudioGridCell = m_kids;
 	signed char d = flag ? 1 : -1;
 	int n = 8;
 	do {
-		if (*p != 0) {
+		if (*largeGroupAudioGridCell != 0) {
 			_ReadWriteBarrier();
-			LargeGroupAudioGridCell *k = *p;
+			LargeGroupAudioGridCell *k = *largeGroupAudioGridCell;
 			k->m_47 = ((k->m_47 & 0xf0) | ((k->m_47 + d) & 0x0f));
 		}
-		++p;
+		++largeGroupAudioGridCell;
 	} while (--n != 0);
 	m_47 = ((m_47 & 0xf0) | ((m_47 + d) & 0x0f));
 }

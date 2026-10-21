@@ -28,11 +28,11 @@ struct Gen_p12pod
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<Gen_p12pod const ,int>::pair(Gen_p12pod const &a,int const &b) : first(a), second(b) {} }
 
-inline bool compare_tail(const Gen_p12pod &a, const Gen_p12pod &b)
+inline bool compare_tail(const Gen_p12pod &gen_p12pod, const Gen_p12pod &b)
 {
-	const int a1 = a.a[1];
+	const int a1 = gen_p12pod.a[1];
 	return b.a[1] > a1
-		|| (!(b.a[1] < a1) && a.a[2] < b.a[2]);
+		|| (!(b.a[1] < a1) && gen_p12pod.a[2] < b.a[2]);
 }
 
 inline bool operator<(const Gen_p12pod &a, const Gen_p12pod &b)
