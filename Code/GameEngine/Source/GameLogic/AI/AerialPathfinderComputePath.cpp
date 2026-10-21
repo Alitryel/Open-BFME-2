@@ -1,9 +1,9 @@
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
 //
-// ?rva0037609C@AerialPathfinder@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z retail
+// ?computeAerialPath@AerialPathfinder@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z retail
 // 0x0037609C, 2148 B, RET 0x18: the AerialPathfinder path build. WorldBuilder 0xF2A4B0 names
-// it AerialPathfinder::computeAerialPath (consts + strings, match 7.567); the address-named
-// method spelling is kept. Structure from the retail body: destination adjust, the
+// it AerialPathfinder::computeAerialPath (consts + strings, match 7.567), and the method
+// is spelled by that name. Structure from the retail body: destination adjust, the
 // "setup" point/angle block (ProfileHighLevel "setup"), the 5x200 collision-test search with
 // sin/cos probes around the target, the repair loop and the report tail. Shape levers from
 // the WB twin: Coord3D mutations through member functions (AerialCoord3D view: center set,
@@ -144,11 +144,11 @@ private:
     unsigned char m_pad0[0x258];
     void *m_258;			// +0x258
 public:
-    bool rva0037609C(void *, const Coord3D *, Rva00312C95 *, const unsigned char *, const unsigned char *, bool);
+    bool computeAerialPath(void *, const Coord3D *, Rva00312C95 *, const unsigned char *, const unsigned char *, bool);
     int rva00375ED7(Object *, const Coord3D *, Coord3D *);
 };
 
-bool AerialPathfinder::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *route,
+bool AerialPathfinder::computeAerialPath(void *thing, const Coord3D *dest, Rva00312C95 *route,
     const unsigned char *label, const unsigned char *firstPointRaw, bool adjust)
 {
     {
