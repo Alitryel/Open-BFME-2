@@ -856,15 +856,15 @@ static void QRPlayerKeyCallback
 )
 {
 	//DEBUG_LOG(("QR_PLAYER_KEY | %d | %d (%s)\n", key, index, qr2_registered_key_list[key]));
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (!peerThread)
 	{
 		DEBUG_LOG(("QRPlayerKeyCallback: bailing because of no thread info\n"));
 		return;
 	}
 
-	if (!t->isHosting())
-		t->stopHostingAlready(peer);
+	if (!peerThread->isHosting())
+		peerThread->stopHostingAlready(peer);
 
 	// BFME 2 keeps Zero Hour's logging shape in release: every value is also
 	// stored into val, and each macro argument is evaluated twice. The keys
@@ -878,25 +878,25 @@ static void QRPlayerKeyCallback
 	switch(key)
 	{
 	case PID__KEY:
-		ADDINT(t->getPlayerProfileID(index));
+		ADDINT(peerThread->getPlayerProfileID(index));
 		break;
 	case 0x3e: // name_
-		ADD(t->getPlayerName(index).c_str());
+		ADD(peerThread->getPlayerName(index).c_str());
 		break;
 	case 0x3f: // faction_
-		ADDINT(t->getPlayerFaction(index));
+		ADDINT(peerThread->getPlayerFaction(index));
 		break;
 	case 0x40: // color_
-		ADDINT(t->getPlayerColor(index));
+		ADDINT(peerThread->getPlayerColor(index));
 		break;
 	case 0x41: // handicap_
-		ADDINT(t->getPlayerHandicap(index));
+		ADDINT(peerThread->getPlayerHandicap(index));
 		break;
 	case 0x42: // wins_
-		ADDINT(t->getPlayerWins(index));
+		ADDINT(peerThread->getPlayerWins(index));
 		break;
 	case 0x43: // losses_
-		ADDINT(t->getPlayerLosses(index));
+		ADDINT(peerThread->getPlayerLosses(index));
 		break;
 	default:
 		ADD("");
@@ -918,14 +918,14 @@ static void QRTeamKeyCallback
 {
 	//DEBUG_LOG(("QR_TEAM_KEY | %d | %d\n", key, index));
 
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (!peerThread)
 	{
 		DEBUG_LOG(("QRTeamKeyCallback: bailing because of no thread info\n"));
 		return;
 	}
-	if (!t->isHosting())
-		t->stopHostingAlready(peer);
+	if (!peerThread->isHosting())
+		peerThread->stopHostingAlready(peer);
 
 	// we don't report teams, so this shouldn't get called
 	qr2_buffer_add(buffer, "");
@@ -1001,11 +1001,11 @@ static int QRCountCallback
 	void * param
 )
 {
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (peerThread)
 	{
-		if (!t->isHosting())
-			t->stopHostingAlready(peer);
+		if (!peerThread->isHosting())
+			peerThread->stopHostingAlready(peer);
 
 		// BFME2 always reports a full player table.
 		if(type == key_player)
@@ -1178,10 +1178,10 @@ static void qmProfileIDCallback( PEER peer, PEERBool success, const char *nick, 
 static Int matchbotProfileID = 0;
 void quickmatchEnumPlayersCallback( PEER peer, PEERBool success, RoomType roomType, int index, const char * nick, int flags, void * param )
 {
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (!t || !success || nick == NULL || nick[0] == '\0')
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (!peerThread || !success || nick == NULL || nick[0] == '\0')
 	{
-		t->sawEndOfEnumPlayers();
+		peerThread->sawEndOfEnumPlayers();
 		return;
 	}
 
@@ -1190,7 +1190,7 @@ void quickmatchEnumPlayersCallback( PEER peer, PEERBool success, RoomType roomTy
 	DEBUG_LOG(("Saw player %s with id %d (looking for %d)\n", nick, id, matchbotProfileID));
 	if (id == matchbotProfileID)
 	{
-		t->sawMatchbot(nick);
+		peerThread->sawMatchbot(nick);
 	}
 
 	PeerResponse resp;
@@ -1850,14 +1850,14 @@ static void QRServerKeyCallback
 	void * param
 )
 {
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (!peerThread)
 		return;
 
-	if (!t->isHosting())
-		t->stopHostingAlready(peer);
+	if (!peerThread->isHosting())
+		peerThread->stopHostingAlready(peer);
 
-	BfmePeerThreadView *v = reinterpret_cast<BfmePeerThreadView *>(t);
+	BfmePeerThreadView *v = reinterpret_cast<BfmePeerThreadView *>(peerThread);
 #undef ADD
 #undef ADDINT
 	AsciiString val = "";
@@ -1867,13 +1867,13 @@ static void QRServerKeyCallback
 	switch(key)
 	{
 	case HOSTNAME_KEY:
-		ADD(t->getPlayerName(0).c_str());
+		ADD(peerThread->getPlayerName(0).c_str());
 		break;
 	case GAMEVER_KEY:
 		ADDINT(v->value158);
 		break;
 	case 0x33: // exeCRC
-		ADD(((const StringBase<char> &)reinterpret_cast<Rva00389081 *>(t)->rva00389081()).str());
+		ADD(((const StringBase<char> &)reinterpret_cast<Rva00389081 *>(peerThread)->rva00389081()).str());
 		break;
 	case 0x34: // iniCRC
 		ADDINT(v->value140);
@@ -1883,14 +1883,14 @@ static void QRServerKeyCallback
 		break;
 	case GAMENAME_KEY:
 		{
-			std::string tmp = t->getPlayerName(0);
+			std::string tmp = peerThread->getPlayerName(0);
 			tmp.append(" ");
-			tmp.append(WideCharStringToMultiByte(t->getLocalStagingServerName().c_str()));
+			tmp.append(WideCharStringToMultiByte(peerThread->getLocalStagingServerName().c_str()));
 			ADD(tmp.c_str());
 		}
 		break;
 	case MAPNAME_KEY:
-		ADD(t->getMapName().c_str());
+		ADD(peerThread->getMapName().c_str());
 		break;
 	case GAMETYPE_KEY:
 		ADDINT(v->valueC0);
@@ -1912,7 +1912,7 @@ static void QRServerKeyCallback
 		}
 		break;
 	case 0x3a: // pings
-		ADD(t->pingStr().c_str());
+		ADD(peerThread->pingStr().c_str());
 		break;
 	case 0x3b: // numRealPlayers
 		ADDINT(v->numPlayers);
@@ -1935,7 +1935,7 @@ static void QRServerKeyCallback
 		ADDINT(v->value270);
 		break;
 	case GAMEMODE_KEY:
-		ADD(reinterpret_cast<Rva00389E4BNarrowField *>(t)->get().c_str());
+		ADD(reinterpret_cast<Rva00389E4BNarrowField *>(peerThread)->get().c_str());
 		break;
 	default:
 		ADD("");
@@ -2659,18 +2659,18 @@ void Rva0038B91FList(PEER peer, PEERBool success, int groupID, SBServer server, 
 static void joinRoomCallback(PEER peer, PEERBool success, PEERJoinResult result, RoomType roomType, void *param)
 {
 	DEBUG_LOG(("JoinRoomCallback: success==%d, result==%d\n", success, result));
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (!peerThread)
 		return;
-	DEBUG_LOG(("Room id was %d from thread %X\n", t->getLocalRoomID(), t));
-	DEBUG_LOG(("Current staging server name is [%ls]\n", t->getLocalStagingServerName().c_str()));
+	DEBUG_LOG(("Room id was %d from thread %X\n", peerThread->getLocalRoomID(), peerThread));
+	DEBUG_LOG(("Current staging server name is [%ls]\n", peerThread->getLocalStagingServerName().c_str()));
 	DEBUG_LOG(("Room type is %d (GroupRoom=%d, StagingRoom=%d, TitleRoom=%d)\n", roomType, GroupRoom, StagingRoom, TitleRoom));
 
 #ifdef USE_BROADCAST_KEYS
 	if (success)
 	{
-		t->pushStatsToRoom(peer);
-		t->getStatsFromRoom(peer, roomType);
+		peerThread->pushStatsToRoom(peer);
+		peerThread->getStatsFromRoom(peer, roomType);
 	}
 #endif // USE_BROADCAST_KEYS
 
@@ -2679,36 +2679,36 @@ static void joinRoomCallback(PEER peer, PEERBool success, PEERJoinResult result,
 		case GroupRoom:
 			{
 #ifdef USE_BROADCAST_KEYS
-				t->clearPlayerStats(GroupRoom);
+				peerThread->clearPlayerStats(GroupRoom);
 #endif // USE_BROADCAST_KEYS
 				PeerResponse resp;
 				resp.peerResponseType = PeerResponse::PEERRESPONSE_JOINGROUPROOM;
-				resp.joinGroupRoom.id = t->getLocalRoomID();
+				resp.joinGroupRoom.id = peerThread->getLocalRoomID();
 				resp.joinGroupRoom.ok = success;
 				TheGameSpyPeerMessageQueue->addResponse(resp);
-				t->roomJoined(success == PEERTrue);
-				DEBUG_LOG(("Entered group room %d, qm is %d\n", t->getLocalRoomID(), t->getQMGroupRoom()));
-				if ((!t->getQMGroupRoom()) || (t->getQMGroupRoom() != t->getLocalRoomID()))
+				peerThread->roomJoined(success == PEERTrue);
+				DEBUG_LOG(("Entered group room %d, qm is %d\n", peerThread->getLocalRoomID(), peerThread->getQMGroupRoom()));
+				if ((!peerThread->getQMGroupRoom()) || (peerThread->getQMGroupRoom() != peerThread->getLocalRoomID()))
 				{
 					DEBUG_LOG(("Updating buddy status\n"));
-					updateBuddyStatus( BUDDY_LOBBY, t->getLocalRoomID() );
+					updateBuddyStatus( BUDDY_LOBBY, peerThread->getLocalRoomID() );
 				}
 			}
 			break;
 		case StagingRoom:
 			{
 #ifdef USE_BROADCAST_KEYS
-				t->clearPlayerStats(StagingRoom);
+				peerThread->clearPlayerStats(StagingRoom);
 #endif // USE_BROADCAST_KEYS
 				PeerResponse resp;
 				resp.peerResponseType = PeerResponse::PEERRESPONSE_JOINSTAGINGROOM;
-				resp.joinStagingRoom.id = t->getLocalRoomID();
+				resp.joinStagingRoom.id = peerThread->getLocalRoomID();
 				resp.joinStagingRoom.ok = success;
 				resp.joinStagingRoom.result = result;
 				if (success)
 				{
-					DEBUG_LOG(("joinRoomCallback() - game name is now '%ls'\n", t->getLocalStagingServerName().c_str()));
-					updateBuddyStatus( BUDDY_STAGING, 0, WideCharStringToMultiByte(t->getLocalStagingServerName().c_str()) );
+					DEBUG_LOG(("joinRoomCallback() - game name is now '%ls'\n", peerThread->getLocalStagingServerName().c_str()));
+					updateBuddyStatus( BUDDY_STAGING, 0, WideCharStringToMultiByte(peerThread->getLocalStagingServerName().c_str()) );
 				}
 
 				resp.joinStagingRoom.isHostPresent = FALSE;
@@ -2736,8 +2736,8 @@ static void listGroupRoomsCallback(PEER peer, PEERBool success,
 #ifdef SERVER_DEBUGGING
 	CheckServers(peer);
 #endif // SERVER_DEBUGGING
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (!peerThread)
 	{
 		DEBUG_LOG(("No thread!  Bailing!\n"));
 		return;
@@ -2837,10 +2837,10 @@ void PeerThreadClass::connectCallback( PEER peer, PEERBool success )
 void disconnectedCallback(PEER peer, const char * reason, void * param)
 {
 	DEBUG_LOG(("disconnectedCallback(): reason was '%s'\n", reason));
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (t)
-		((BfmePeerThreadStatusView *)t)->markAsDisconnected();
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (peerThread)
+		((BfmePeerThreadStatusView *)peerThread)->markAsDisconnected();
 	//updateBuddyStatus( BUDDY_OFFLINE );
 	PeerResponse resp;
 	resp.peerResponseType = PeerResponse::PEERRESPONSE_DISCONNECT;
@@ -2890,9 +2890,9 @@ void roomMessageCallback(PEER peer, RoomType roomType, const char * nick, const 
 	UnsignedInt IP;
 	peerGetPlayerInfoNoWait(peer, nick, &IP, &resp.message.profileID);
 	
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (t && (t->getQMStatus() != QM_IDLE && t->getQMStatus() != QM_STOPPED))
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (peerThread && (peerThread->getQMStatus() != QM_IDLE && peerThread->getQMStatus() != QM_STOPPED))
 	{
 		if (resp.message.profileID == matchbotProfileID)
 		{
@@ -2910,7 +2910,7 @@ void roomMessageCallback(PEER peer, RoomType roomType, const char * nick, const 
 					{
 						Int pool = atoi(poolStr);
 						Int size = atoi(sizeStr);
-						if (pool == reinterpret_cast<BfmeQuickMatchThread *>(t)->QM.ladderID)
+						if (pool == reinterpret_cast<BfmeQuickMatchThread *>(peerThread)->QM.ladderID)
 						{
 							poolSize = size;
 							break;
@@ -2948,29 +2948,29 @@ void gameStartedCallback( PEER peer, UnsignedInt IP, const char *message, void *
 
 
 
-static void getPlayerInfo(PeerThreadClass *t, PEER peer, const char *nick, Int& id, UnsignedInt& IP,
+static void getPlayerInfo(PeerThreadClass *peerThread, PEER peer, const char *nick, Int& id, UnsignedInt& IP,
 													std::string& locale, Int& wins, Int& losses, Int& rankPoints, Int& side, Int& preorder,
 													RoomType roomType, Int& flags, Int& rank1v1, Int& rank2v2, Int& bSide)
 {
-	if (!t || !nick)
+	if (!peerThread || !nick)
 		return;
 	peerGetPlayerInfoNoWait(peer, nick, &IP, &id);
 #ifdef USE_BROADCAST_KEYS
 	//locale.printf
-	Int localeIndex = t->lookupStatForPlayer(roomType, nick, "b_locale");
+	Int localeIndex = peerThread->lookupStatForPlayer(roomType, nick, "b_locale");
 	AsciiString tmp;
 	tmp.format("%d", localeIndex);
 	locale = tmp.str();
 
-	wins = t->lookupStatForPlayer(roomType, nick, "b_wins");
-	losses = t->lookupStatForPlayer(roomType, nick, "b_losses");
-	rankPoints = t->lookupStatForPlayer(roomType, nick, "b_points");
-	side = t->lookupStatForPlayer(roomType, nick, "b_side");
-	preorder = t->lookupStatForPlayer(roomType, nick, "b_pre");
+	wins = peerThread->lookupStatForPlayer(roomType, nick, "b_wins");
+	losses = peerThread->lookupStatForPlayer(roomType, nick, "b_losses");
+	rankPoints = peerThread->lookupStatForPlayer(roomType, nick, "b_points");
+	side = peerThread->lookupStatForPlayer(roomType, nick, "b_side");
+	preorder = peerThread->lookupStatForPlayer(roomType, nick, "b_pre");
 	flags = 0;
-	rank1v1 = t->lookupStatForPlayer(roomType, nick, "b_rank1v1");
-	rank2v2 = t->lookupStatForPlayer(roomType, nick, "b_rank2v2");
-	bSide = t->lookupStatForPlayer(roomType, nick, "b_BSide");
+	rank1v1 = peerThread->lookupStatForPlayer(roomType, nick, "b_rank1v1");
+	rank2v2 = peerThread->lookupStatForPlayer(roomType, nick, "b_rank2v2");
+	bSide = peerThread->lookupStatForPlayer(roomType, nick, "b_BSide");
 	peerGetPlayerFlags(peer, nick, roomType, &flags);
 #else // USE_BROADCAST_KEYS
 	const char *s;
@@ -2993,12 +2993,12 @@ static void getPlayerInfo(PeerThreadClass *t, PEER peer, const char *nick, Int& 
 		id, nick, locale.c_str(), wins, losses, rankPoints, side, preorder));
 }
 
-static __forceinline void getPlayerInfo(PeerThreadClass *t, PEER peer, const char *nick, Int& id, UnsignedInt& IP,
+static __forceinline void getPlayerInfo(PeerThreadClass *peerThread, PEER peer, const char *nick, Int& id, UnsignedInt& IP,
 													std::string& locale, Int& wins, Int& losses, Int& rankPoints, Int& side, Int& preorder,
 													RoomType roomType, Int& flags)
 {
 	Int rank1v1 = 0, rank2v2 = 0, bSide = 0;
-	getPlayerInfo(t, peer, nick, id, IP, locale, wins, losses, rankPoints, side, preorder, roomType, flags, rank1v1, rank2v2, bSide);
+	getPlayerInfo(peerThread, peer, nick, id, IP, locale, wins, losses, rankPoints, side, preorder, roomType, flags, rank1v1, rank2v2, bSide);
 }
 
 // ?setPeerResponseCode absent-from-retail
@@ -3007,30 +3007,30 @@ template <class Code> static __forceinline void setPeerResponseCode(Code &code, 
 // ?Rva0038A288List@@YAXPAXHHPAU_SBServer@@PBDHHHH0@Z @0x0038A288 156B evidence: REF callback stored at 0x0038FFAE in Thread_Function for peerListGroupRooms; 10-param group-room enum; thread totals at +0x4A0 +0x4A4 zeroed for LISTGROUPROOMS; queue slot 0x20; type 0x15 with payload 6 7
 void Rva0038A288List(PEER peer, PEERBool success, int groupID, SBServer server, const char *name, int numWaiting, int maxWaiting, int numGames, int numPlaying, void *param)
 {
-	BfmePeerThreadView *t = (BfmePeerThreadView *)param;
-	if (!t || !success)
+	BfmePeerThreadView *peerThread = (BfmePeerThreadView *)param;
+	if (!peerThread || !success)
 		return;
 	if (groupID == 0)
 	{
 		PeerResponse resp;
 		setPeerResponseCode(resp.peerResponseType, 0x15);
-		resp.unknown_payload[6] = t->value4A0;
-		resp.unknown_payload[7] = t->value4A4;
+		resp.unknown_payload[6] = peerThread->value4A0;
+		resp.unknown_payload[7] = peerThread->value4A4;
 		TheGameSpyPeerMessageQueue->addResponse(resp);
 	}
 	else
 	{
-		t->value4A0 += numGames;
-		t->value4A4 += numWaiting + numPlaying;
+		peerThread->value4A0 += numGames;
+		peerThread->value4A4 += numWaiting + numPlaying;
 	}
 }
 
 static void roomKeyChangedCallback(PEER peer, RoomType roomType, const char *nick, const char *key, const char *val, void *param)
 {
 #ifdef USE_BROADCAST_KEYS
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t || !nick || !key || !val)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread || !nick || !key || !val)
 	{
 		// Retail retains this comparison when the callback arguments are invalid.
 		(void)strcmp(nick, "(END)");
@@ -3042,7 +3042,7 @@ static void roomKeyChangedCallback(PEER peer, RoomType roomType, const char *nic
 		DEBUG_LOG(("roomKeyChangedCallback() - %s set %s=%s\n", nick, key, val));
 	}
 
-	t->trackStatsForPlayer(roomType, nick, key, val);
+	peerThread->trackStatsForPlayer(roomType, nick, key, val);
 
 	PeerResponse resp;
 	// Retail queues code22 here; its original enumerator spelling is unknown.
@@ -3050,7 +3050,7 @@ static void roomKeyChangedCallback(PEER peer, RoomType roomType, const char *nic
 	resp.nick = nick;
 	resp.player.roomType = roomType;
 
-	getPlayerInfo(t, peer, nick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, nick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		resp.player.roomType, resp.player.flags,
@@ -3064,9 +3064,9 @@ static void roomKeyChangedCallback(PEER peer, RoomType roomType, const char *nic
 #ifdef USE_BROADCAST_KEYS
 void getRoomKeysCallback(PEER peer, PEERBool success, RoomType roomType, const char *nick, int num, char **keys, char **values, void *param)
 {
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t || !nick || !num || !success || !keys || !values)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread || !nick || !num || !success || !keys || !values)
 	{
 		DEBUG_ASSERTCRASH(!nick || strcmp(nick,"(END)")==0, ("getRoomKeysCallback bad key/value %X/%X, nick=%s", keys, values, nick));
 		return;
@@ -3074,7 +3074,7 @@ void getRoomKeysCallback(PEER peer, PEERBool success, RoomType roomType, const c
 
 	for (Int i=0; i<num; ++i)
 	{
-		t->trackStatsForPlayer(roomType, nick, keys[i], values[i]);
+		peerThread->trackStatsForPlayer(roomType, nick, keys[i], values[i]);
 	}
 
 	PeerResponse resp;
@@ -3082,7 +3082,7 @@ void getRoomKeysCallback(PEER peer, PEERBool success, RoomType roomType, const c
 	resp.nick = nick;
 	resp.player.roomType = roomType;
 
-	getPlayerInfo(t, peer, nick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, nick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		resp.player.roomType, resp.player.flags,
@@ -3098,17 +3098,17 @@ static void globalKeyChangedCallback(PEER peer, const char *nick, const char *ke
 	if (!nick)
 		return;
 
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread)
 		return;
 
 	PeerResponse resp;
 	resp.peerResponseType = PeerResponse::PEERRESPONSE_PLAYERINFO;
 	resp.nick = nick;
-	resp.player.roomType = ((BfmePeerThreadStatusView *)t)->getCurrentGroupRoom()?GroupRoom:StagingRoom;
+	resp.player.roomType = ((BfmePeerThreadStatusView *)peerThread)->getCurrentGroupRoom()?GroupRoom:StagingRoom;
 
-	getPlayerInfo(t, peer, nick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, nick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		resp.player.roomType, resp.player.flags,
@@ -3123,9 +3123,9 @@ void playerJoinedCallback(PEER peer, RoomType roomType, const char * nick, void 
 	if (!nick)
 		return;
 
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread)
 		return;
 
 	PeerResponse resp;
@@ -3134,7 +3134,7 @@ void playerJoinedCallback(PEER peer, RoomType roomType, const char * nick, void 
 	resp.player.roomType = roomType;
 
 	// Native passes these three outputs at response offsets 33C/340/344.
-	getPlayerInfo(t, peer, nick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, nick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		roomType, resp.player.flags,
@@ -3152,13 +3152,13 @@ void playerLeftCallback(PEER peer, RoomType roomType, const char * nick, const c
 	resp.player.roomType = roomType;
 	resp.player.profileID = 0;
 
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread)
 		return;
 
 	// Native passes these three outputs at response offsets 33C/340/344.
-	getPlayerInfo(t, peer, nick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, nick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		roomType, resp.player.flags,
@@ -3169,9 +3169,9 @@ void playerLeftCallback(PEER peer, RoomType roomType, const char * nick, const c
 
 //	PeerThreadClass *t = (PeerThreadClass *)param;
 //	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (t->getQMStatus() != QM_IDLE && t->getQMStatus() != QM_STOPPED)
+	if (peerThread->getQMStatus() != QM_IDLE && peerThread->getQMStatus() != QM_STOPPED)
 	{
-		if (!_strcmpi(t->getQMBotName().c_str(), nick))
+		if (!_strcmpi(peerThread->getQMBotName().c_str(), nick))
 		{
 			// matchbot left - bail
 			PeerResponse resp;
@@ -3194,13 +3194,13 @@ void playerChangedNickCallback(PEER peer, RoomType roomType, const char * oldNic
 	resp.oldNick = oldNick;
 	resp.player.roomType = roomType;
 
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread)
 		return;
 
 	// Native passes these three outputs at response offsets 33C/340/344.
-	getPlayerInfo(t, peer, newNick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, newNick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		roomType, resp.player.flags,
@@ -3219,13 +3219,13 @@ static void playerInfoCallback(PEER peer, RoomType roomType, const char * nick, 
 	resp.nick = nick;
 	resp.player.roomType = roomType;
 
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread)
 		return;
 
 	// Native outputs at response33C/340/344 occupy the top frame slots.
-	getPlayerInfo(t, peer, nick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, nick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		roomType, resp.player.flags,
@@ -3245,13 +3245,13 @@ static void playerFlagsChangedCallback(PEER peer, RoomType roomType, const char 
 	resp.nick = nick;
 	resp.player.roomType = roomType;
 
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	DEBUG_ASSERTCRASH(t, ("No Peer thread!"));
-	if (!t)
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	DEBUG_ASSERTCRASH(peerThread, ("No Peer thread!"));
+	if (!peerThread)
 		return;
 
 	// Native passes these three outputs at response offsets 33C/340/344.
-	getPlayerInfo(t, peer, nick, resp.player.profileID, resp.player.IP,
+	getPlayerInfo(peerThread, peer, nick, resp.player.profileID, resp.player.IP,
 		resp.locale, resp.player.wins, resp.player.losses,
 		resp.player.rankPoints, resp.player.side, resp.player.preorder,
 		roomType, resp.player.flags,
@@ -3329,8 +3329,8 @@ extern char g_bfmeEmptyF9[];
 
 static void listingGamesCallback(PEER peer, PEERBool success, const char * name, SBServer server, PEERBool staging, int msg, Int percentListed, void * param)
 {
-	PeerThreadClass *t = (PeerThreadClass *)param;
-	if (!t || !success || (!name && (msg == PEER_ADD || msg == PEER_UPDATE)))
+	PeerThreadClass *peerThread = (PeerThreadClass *)param;
+	if (!peerThread || !success || (!name && (msg == PEER_ADD || msg == PEER_UPDATE)))
 		return;
 
 	// ZH's DEBUG_LOGGING command trace. Retail keeps only its lifetime, as
@@ -3383,7 +3383,7 @@ static void listingGamesCallback(PEER peer, PEERBool success, const char * name,
 
 	if (percentListed == 100)
 	{
-		BfmePeerThreadView *self = reinterpret_cast<BfmePeerThreadView *>(t);
+		BfmePeerThreadView *self = reinterpret_cast<BfmePeerThreadView *>(peerThread);
 		if (!self->sawCompleteGameList)
 		{
 			self->sawCompleteGameList = TRUE;
@@ -3484,7 +3484,7 @@ static void listingGamesCallback(PEER peer, PEERBool success, const char * name,
 				PeerRequest req;
 				UnsignedInt now = reinterpret_cast<BfmeClientFrameView *>(TheGameClient)->getFrame();
 				req.peerRequestType = PeerRequest::PEERREQUEST_GETEXTENDEDSTAGINGROOMINFO;
-				req.stagingRoom.id = t->findServer( server );
+				req.stagingRoom.id = peerThread->findServer( server );
 				if (s_lastExtendedInfoID != req.stagingRoom.id || now > s_lastExtendedInfoFrame + 15)
 					TheGameSpyPeerMessageQueue->addRequest(req);
 				s_lastExtendedInfoID = req.stagingRoom.id;
@@ -3497,15 +3497,15 @@ static void listingGamesCallback(PEER peer, PEERBool success, const char * name,
 	switch (msg)
 	{
 		case PEER_CLEAR:
-			reinterpret_cast<BfmePeerThreadView *>(t)->stagingServers.rva00389129();
+			reinterpret_cast<BfmePeerThreadView *>(peerThread)->stagingServers.rva00389129();
 			break;
 		case PEER_ADD:
 		case PEER_UPDATE:
-			resp.stagingRoom.id = t->findServer( server );
+			resp.stagingRoom.id = peerThread->findServer( server );
 			resp.stagingServerName = MultiByteToWideCharSingleLine( gameName.str() );
 			break;
 		case PEER_REMOVE:
-			resp.stagingRoom.id = t->removeServerFromMap( server );
+			resp.stagingRoom.id = peerThread->removeServerFromMap( server );
 			break;
 	}
 
