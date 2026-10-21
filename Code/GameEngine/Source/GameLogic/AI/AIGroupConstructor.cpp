@@ -109,6 +109,6 @@ AIGroup::~AIGroup()
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?GetSnapshotName@AIGroup@@UBEPBDXZ=?name@Rva0036E55ENamed@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?GetSnapshotName@AIGroup@@UBEPBDXZ=?name@AIGroup@@QBEPBDXZ")
 #pragma comment(linker, "/alternatename:?loadPostProcess@AIGroup@@UAEXXZ=??1Region2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?xfer@AIGroup@@UAEXPAVXfer@@@Z=?xfer@AIGroup@@MAEXPAVXfer@@@Z")

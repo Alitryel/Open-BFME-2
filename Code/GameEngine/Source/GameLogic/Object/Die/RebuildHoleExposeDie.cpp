@@ -160,7 +160,7 @@ NameKeyType RebuildHoleExposeDie::getModuleNameKey() const
 	return TheRebuildHoleExposeDiePoolKey;
 }
 
-// tu-skeleton: 0x004867D7 6B ?name@Rva004867D7Named@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters.cpp (not merged yet)
+// tu-skeleton: 0x004867D7 6B ?name@RebuildHoleExposeDie@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters.cpp (not merged yet)
 
 // tu-skeleton: 0x004867DD 28B ??_GRebuildHoleExposeDie@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Die/DieModuleDeletingDtors.cpp (not merged yet)
 

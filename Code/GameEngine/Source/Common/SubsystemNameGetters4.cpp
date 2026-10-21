@@ -35,7 +35,7 @@ const char *GlowMaterial::GetSnapshotName() const { return "GlowMaterial"; }
 const char *BuffInstance::GetSnapshotName() const { return "BuffInstance"; }
 BFME_LITERAL_NAME_GETTER(Rva00367929Named, "GiantBirdDieState")
 BFME_LITERAL_NAME_GETTER(GiantBirdAIUpdate, "GiantBirdAIUpdate")
-BFME_LITERAL_NAME_GETTER(Rva0036E55ENamed, "AIGroup")
+BFME_LITERAL_NAME_GETTER(AIGroup, "AIGroup")
 BFME_LITERAL_NAME_GETTER(Rva00373411Named, "MineshaftPortalNetworkManager")
 BFME_LITERAL_NAME_GETTER(Rva00373D0FNamed, "StealthUpdate")
 BFME_LITERAL_NAME_GETTER(ObjectTypes, "ObjectTypes")

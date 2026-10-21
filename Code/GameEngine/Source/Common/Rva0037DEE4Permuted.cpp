@@ -5,7 +5,7 @@
 // BANK ONLY: destructor bytes exact; complete vtable providers/owner names
 // require reconciliation before this can be moved to Code. Target slots:
 // scalar dtor1EB815; shared noopB3FD0; name37DC84; xfer37DE79.
-// Getter currently owned by Rva0037DC84Named::name. Existing ctor37DF2C /
+// Getter currently owned by CarryoverUnit::name. Existing ctor37DF2C /
 // copy1EB79E and destructor pins Rva0037DEE4/CarryoverUnit/Element remain
 // address-named views of this same CarryoverUnit record; retain consumers
 // until a verified class reconciliation gives them one shared owner.
@@ -24,6 +24,6 @@ CarryoverUnit::~CarryoverUnit(){}
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?GetSnapshotName@CarryoverUnit@@UBEPBDXZ=?name@Rva0037DC84Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?GetSnapshotName@CarryoverUnit@@UBEPBDXZ=?name@CarryoverUnit@@QBEPBDXZ")
 #pragma comment(linker, "/alternatename:?loadPostProcess@CarryoverUnit@@UAEXXZ=??1Region2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?xfer@CarryoverUnit@@UAEXPAVXfer@@@Z=?xfer@CarryoverUnit@@MAEXPAVXfer@@@Z")

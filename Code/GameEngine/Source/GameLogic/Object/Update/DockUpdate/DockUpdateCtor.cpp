@@ -318,7 +318,7 @@ void bfmeEmitDockUpdateCtor(ObjectIDVector *objectIDVector)
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?objectModuleAnchor@DockUpdate@@UAEXXZ=?name@Rva0058A171Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?objectModuleAnchor@DockUpdate@@UAEXXZ=?name@DockUpdate@@QBEPBDXZ")
 #pragma comment(linker, "/alternatename:?behaviorAnchor@DockUpdate@@UAEXXZ=?xfer@DockUpdate@@MAEXPAVXfer@@@Z")
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds

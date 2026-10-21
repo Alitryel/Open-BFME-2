@@ -22,7 +22,7 @@ extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AI
 extern "C" {
 void __identifier("??_GRva004AF17D@@QAEPAXI@Z")();
 void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
-void __identifier("?name@Rva004AF15BNamed@@QBEPBDXZ")();
+void __identifier("?name@RespawnUpdate@@QBEPBDXZ")();
 void __identifier("?xfer@RespawnUpdate@@MAEXPAVXfer@@@Z")();
 void __identifier("?getModuleNameKey@RespawnUpdate@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
@@ -36,7 +36,7 @@ void __identifier("?get@Rva005C4FEBByteField@@QBEEXZ")();
 extern const void *const g_00C556B0[16] = {
 	(const void *)&__identifier("??_GRva004AF17D@@QAEPAXI@Z"), // slot 0 0x004AF161
 	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
-	(const void *)&__identifier("?name@Rva004AF15BNamed@@QBEPBDXZ"), // slot 2 0x004AF15B
+	(const void *)&__identifier("?name@RespawnUpdate@@QBEPBDXZ"), // slot 2 0x004AF15B
 	(const void *)&__identifier("?xfer@RespawnUpdate@@MAEXPAVXfer@@@Z"), // slot 3 0x004AF00B
 	(const void *)&__identifier("?getModuleNameKey@RespawnUpdate@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x004AF116
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
