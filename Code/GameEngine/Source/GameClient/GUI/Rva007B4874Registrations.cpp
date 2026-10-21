@@ -30,10 +30,34 @@ extern unsigned int g_Va00E04500;
 extern unsigned int g_Va00E065B4;
 extern unsigned int g_Va00E065B8;
 extern unsigned int g_Va00E065BC;
-extern const void *const g_Va00C63398[];
-extern const void *const g_Va00C745A0[];
-extern const void *const g_Va00C74698[];
-extern const void *const g_Va00C7475C[];
+// Each registration has two slots: its shared deleting destructor and its
+// factory. The following independently installed object vtables begin at
+// C633A0, C745A8, C746A0 and C74764, bounding these tables at eight bytes.
+// The declarations retain the existing code owners rather than inventing
+// another class identity for the registration or its factory.
+extern "C" {
+void __identifier("??_GRva005C47A3@@UAEPAXI@Z")();
+void __identifier("?Rva004FAC99Create@@YGPAVRva004FAC21@@ABV?$StringBase@D@@@Z")();
+void __identifier("?rva0052B58F@@YGPAXPBX@Z")();
+void __identifier("?rva0052B5C6@@YGPAXPBX@Z")();
+void __identifier("?rva0052B5FD@Rva0052B5FD@@QAEPAVRva005C4A91@@ABVAsciiString@@@Z")();
+}
+extern const void *const g_Va00C63398[2] = {
+	(const void *)&__identifier("??_GRva005C47A3@@UAEPAXI@Z"),
+	(const void *)&__identifier("?Rva004FAC99Create@@YGPAVRva004FAC21@@ABV?$StringBase@D@@@Z")
+};
+extern const void *const g_Va00C745A0[2] = {
+	(const void *)&__identifier("??_GRva005C47A3@@UAEPAXI@Z"),
+	(const void *)&__identifier("?rva0052B58F@@YGPAXPBX@Z")
+};
+extern const void *const g_Va00C74698[2] = {
+	(const void *)&__identifier("??_GRva005C47A3@@UAEPAXI@Z"),
+	(const void *)&__identifier("?rva0052B5C6@@YGPAXPBX@Z")
+};
+extern const void *const g_Va00C7475C[2] = {
+	(const void *)&__identifier("??_GRva005C47A3@@UAEPAXI@Z"),
+	(const void *)&__identifier("?rva0052B5FD@Rva0052B5FD@@QAEPAVRva005C4A91@@ABVAsciiString@@@Z")
+};
 void rva007B9035();
 void rva007B96EE();
 void rva007B96F8();
