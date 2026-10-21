@@ -39,6 +39,9 @@ void _Construct<TreeKey00242F5E, TreeKey00242F5E>(
 
 }
 
+// Retail calls the null-guarded copy at 0x0029FB9C, rowed under its own name.
+void Rva0029FB9CConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source);
+
 // ?_M_create_node@?$list@UTreeKey00242F5E@@V?$allocator@UTreeKey00242F5E@@@_STL@@@_STL@@IAEPAU?$_List_node@UTreeKey00242F5E@@@2@ABUTreeKey00242F5E@@@Z @0x002A1361
 template <>
 _STL::_List_node<TreeKey00242F5E> *
@@ -47,7 +50,7 @@ _STL::list<TreeKey00242F5E, _STL::allocator<TreeKey00242F5E> >::_M_create_node(
 {
 	_STL::_List_node<TreeKey00242F5E> *__p =
 		(_STL::_List_node<TreeKey00242F5E> *)_STL::allocator<char>::allocate(16, 0);
-	_STL::_Construct(&__p->_M_data, __x);
+	Rva0029FB9CConstruct(&__p->_M_data, __x);
 	return __p;
 }
 
