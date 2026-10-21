@@ -73,3 +73,50 @@ per-site depths.
    and makes the early returns outline the wide destructor alone.
 2. Settle the W naming (0x00142D70 vs 0x0000B3C0) as its own ledger task
    first. It decides whether the currency or the sign sites are the ones to fix.
+
+## Round 2 (claude3, 2026-10-21): cost levers without inline-scope symbols
+
+Generators `build/claude3/mdf20/gen4.py` and `gen5.py` (scratch) start from the
+current bank. Per-site depth keys: `cur` and `sign`.
+
+Base results:
+- Bank: `FFWWWWWWFFFF`, 2562 B, nd 166.
+- No pragmas: everything inline, 2610 B, nd 200.
+- Currency pragma only: `FFWWFFFFFFFF`, nd 188.
+- Sign pragma only: `FFFFWWWWFFFF`, nd 176.
+
+Fillers in `~_String_base<wchar_t>` or `_M_deallocate_block<wchar_t>`, counts
+1 to 64, each with both pragma settings:
+
+| filler | result |
+|---|---|
+| `inline void f() {}` called N times | inert (inliner cost 0) |
+| `__assume(this != 0)` / `__assume(_M_start != (wchar_t *)1)` | inert |
+| `if (this == 0) __money_trap();` | folds, but the frame drops to 0x110 (2549 B, nd 200 vs 166); call map unchanged at any count |
+
+Specialization keyword: S, D or W defined plain (non-inline explicit
+specialization), `__inline` or `inline`. All identical to the bank in every
+pragma combination. Auto-inline and explicit-inline heuristics agree for
+these tiny bodies.
+
+## WorldBuilder COMDAT reading (target fact)
+
+- WB do_put 0x6E71A0 calls a local 14 B frameless body `0x6E7BE0` at the
+  currency temporaries and return 1:
+  `mov eax,[ecx]; test eax,eax; je; push eax; call free; pop ecx; ret`.
+  It is the first COMDAT emitted after do_put.
+- The sign temporaries and return 2 call 0x6E4540. That body is framed with
+  state 0 live across the free; it is the num_get TU's copy.
+- So the do_put TU outlines `_M_deallocate_block<wchar_t>` (D) at the early
+  cold sites and the framed destructor at the later ones. The final exit inlines
+  everything. The split follows source position, not site kind.
+- Our compiler makes one decision for all cold sites at any filler cost.
+  Position-dependent behaviour is not reproduced by any lever tried in either
+  round.
+
+## Still untried
+
+- A source-order change that moves the currency declaration after work the
+  inliner counts. For example, read `__digits.size()` before the currency
+  `?:`, so the early sites see a different running budget.
+- Splitting `do_put` into a helper. WB shows no helper, so this is unlikely.
