@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // LivingWorldAutoResolveResourceBonus.cpp -- the resource-bonus INI block
@@ -52,6 +52,10 @@ struct Rva00414258Element
 {
 	char m_data[0x18];
 };
+
+// Element construction is retail's out-of-line body (StlportConstructFamily.cpp
+// copies through the record's copy constructor); only declare it here.
+namespace _STL { template <> void _Construct<Rva00414258Element, Rva00414258Element>(Rva00414258Element *, const Rva00414258Element &); }
 
 struct Rva0022CD2A : public Rva00414258Element
 {

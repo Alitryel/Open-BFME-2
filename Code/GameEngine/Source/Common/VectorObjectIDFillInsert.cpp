@@ -22,6 +22,31 @@ namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, si
 namespace _STL { template <> _Vector_base<ObjectID, allocator<ObjectID> >::~_Vector_base(); }
 namespace _STL { template <> ObjectID *allocator<ObjectID>::allocate(size_t, const void *) const; }
 namespace _STL { template <> void vector<ObjectID>::_M_clear(); }
+// The growth path: retail's copy (InGameUIXfer.cpp emits it) expands the old
+// storage's release inline as a direct free instead of calling _M_clear, which
+// this unit binds out of line; spell the STLport 4.5.3 algorithm out so this
+// TU's copy is retail's body rather than a second variant.
+extern "C" void __cdecl free(void *);
+namespace _STL {
+template <> void vector<ObjectID>::_M_insert_overflow(ObjectID *position, const ObjectID &value,
+    const __false_type &, size_t fillLength, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillLength);
+    pointer start = this->_M_end_of_storage.allocate(length);
+    pointer finish = __uninitialized_copy(this->_M_start, position, start, __false_type());
+    if (fillLength == 1) {
+        _Construct(finish, value);
+        ++finish;
+    } else
+        finish = __uninitialized_fill_n(finish, fillLength, value, __false_type());
+    if (!atEnd)
+        finish = __uninitialized_copy(position, this->_M_finish, finish, __false_type());
+    if (this->_M_start != 0)
+        free(this->_M_start);
+    _M_set(start, finish, start + length);
+}
+}
 
 // The rowed members, plus the copy constructor Player.cpp and Rva00500659ClosestArmies.cpp bind to.
 template void _STL::vector<ObjectID>::_M_fill_insert(ObjectID *, size_t, const ObjectID &);

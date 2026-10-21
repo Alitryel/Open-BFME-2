@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // ?push_back@?$vector@URva00414BDBElement@@V?$allocator@URva00414BDBElement@@@_STL@@@_STL@@QAEXABURva00414BDBElement@@@Z, retail 0x00414F27, 55 bytes.
 // STLport 4.5.3 vector<Rva00414BDBElement>::push_back sibling of Rva0052BDE6 push_back at 0x005662CC (55B same flags).
@@ -22,10 +22,6 @@ struct Rva00414BDBElement {
 	Rva00414BDBElement &operator=(const Rva00414BDBElement &);
 	~Rva00414BDBElement();
 };
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> Rva00414BDBElement * __uninitialized_fill_n<Rva00414BDBElement *,unsigned int,Rva00414BDBElement>(Rva00414BDBElement *,unsigned int,Rva00414BDBElement const &,__false_type const &); }
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> Rva00414BDBElement * __uninitialized_copy<Rva00414BDBElement *,Rva00414BDBElement *>(Rva00414BDBElement *,Rva00414BDBElement *,Rva00414BDBElement *,__false_type const &); }
 
 namespace _STL {
 template <> void _Construct<Rva00414BDBElement, Rva00414BDBElement>(Rva00414BDBElement *, const Rva00414BDBElement &);

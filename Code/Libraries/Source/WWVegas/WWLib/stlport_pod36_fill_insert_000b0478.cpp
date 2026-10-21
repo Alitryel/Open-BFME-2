@@ -28,6 +28,34 @@ struct BfmePod36 { int a[9]; };
 
 // Bind element construction to its rowed retail body (stlport_pod_vector_bodies.cpp).
 namespace _STL { template <> void _Construct<BfmePod36,BfmePod36>(BfmePod36 *,const BfmePod36 &); }
+// The growth path: retail's copy (0x000AFF6B, StlportVectorInsertOverflowRva000AFF6B.cpp)
+// is an /O1 body with size, max, the allocator proxy, the old storage's release and
+// _M_set expanded inline. This /Ob0 unit expands nothing, so spell the STLport 4.5.3
+// algorithm out with those steps written in place; the TU's copy is then retail's.
+extern "C" void __cdecl free(void *);
+namespace _STL {
+template <> void vector<BfmePod36>::_M_insert_overflow(BfmePod36 *position, const BfmePod36 &value,
+    const __false_type &, unsigned int fillLength, bool atEnd)
+{
+    unsigned int oldSize = this->_M_finish - this->_M_start;
+    const unsigned int length = oldSize + *(oldSize < fillLength ? &fillLength : &oldSize);
+    allocator<BfmePod36> &storage = this->_M_end_of_storage;
+    BfmePod36 *start = storage.allocate(length, 0);
+    BfmePod36 *finish = __uninitialized_copy(this->_M_start, position, start, __false_type());
+    if (fillLength == 1) {
+        _Construct(finish, value);
+        ++finish;
+    } else
+        finish = __uninitialized_fill_n(finish, fillLength, value, __false_type());
+    if (!atEnd)
+        finish = __uninitialized_copy(position, this->_M_finish, finish, __false_type());
+    if (this->_M_start != 0)
+        free(this->_M_start);
+    this->_M_start = start;
+    this->_M_finish = finish;
+    this->_M_end_of_storage._M_data = start + length;
+}
+}
 
 template void _STL::vector<BfmePod36>::_M_fill_insert(
 	BfmePod36 *, unsigned int, const BfmePod36 &);
