@@ -40,10 +40,15 @@ template <> __declspec(dllimport) __forceinline
 void *&vector<void*>::operator[](size_t __n)
 { return *(begin() + __n); }
 }
-// Suppress the TU's non-retail const-begin copy (row 54 family-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
+// The bucket copy in _M_copy_from inlines const begin() and operator[] as
+// retail's does; dllimport+forceinline emits no external copy of either.
 namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::begin() const
+{ return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void *>::operator[](size_t __n) const
+{ return *(begin() + __n); }
 }
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -136,9 +141,13 @@ namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, v
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+// Inlined at every call site; dllimport+forceinline keeps this TU's /O1 copy,
+// which differs from retail's kept one, out of the object.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void vector<void *, allocator<void *> >::insert(void **__pos, size_t __n, void *const &__x)
+{ _M_fill_insert(__pos, __n, __x); }
+}
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
@@ -166,6 +175,11 @@ struct Rva004216D3Coord : Coord3D {
 };
 struct Rva001FDCE1Record {Rva001FDCE1Record();Rva001FDCE1Record(const Rva001FDCE1Record&);~Rva001FDCE1Record();Rva001FDCE1Record&operator=(const Rva001FDCE1Record&);char bytes[1];bool operator<(const Rva001FDCE1Record&)const;bool operator==(const Rva001FDCE1Record&)const;};
 struct Rva001FDAB0Less {bool operator()(int,int)const;};
+// The bucket copy calls _M_new_node out of line and nothing here needs the node
+// teardown; StlSweepR3Rva001FDCE1.cpp's explicit instantiation defines all three.
+namespace _STL { template <> hashtable<pair<const int, Rva001FDCE1Record>, int, hash<int>, _Select1st<pair<const int, Rva001FDCE1Record> >, equal_to<int>, allocator<pair<const int, Rva001FDCE1Record> > >::_Node *hashtable<pair<const int, Rva001FDCE1Record>, int, hash<int>, _Select1st<pair<const int, Rva001FDCE1Record> >, equal_to<int>, allocator<pair<const int, Rva001FDCE1Record> > >::_M_new_node(const pair<const int, Rva001FDCE1Record> &); }
+namespace _STL { template <> hashtable<pair<const int, Rva001FDCE1Record>, int, hash<int>, _Select1st<pair<const int, Rva001FDCE1Record> >, equal_to<int>, allocator<pair<const int, Rva001FDCE1Record> > >::~hashtable(); }
+namespace _STL { template <> void _Destroy<pair<const int, Rva001FDCE1Record> >(pair<const int, Rva001FDCE1Record> *); }
 // bfme link decl-only begin
 // With the Rva wrapper copy ctors imported (no local COMDAT) the /O1 chain no
 // longer forces _M_clone_node out of line, so the tree _M_copy would inline it
@@ -222,6 +236,14 @@ extern template const unsigned int &_STL::max<unsigned int>(const unsigned int &
 namespace _STL {
 template<> inline _Vector_base<ScienceType,allocator<ScienceType> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}
 template<> inline _Vector_base<unsigned int,allocator<unsigned int> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}
+// The constructors inline vector<unsigned>(alloc) and call its nothrow base out of
+// line, as retail does; dllimport+forceinline emits no external vector copy.
+template <> __declspec(noinline) inline
+_Vector_base<unsigned, allocator<unsigned> >::_Vector_base(const allocator<unsigned> &__a) throw()
+: _M_start(0), _M_finish(0), _M_end_of_storage(__a, 0) {}
+template <> __declspec(dllimport) __forceinline
+vector<unsigned, allocator<unsigned> >::vector(const allocator<unsigned> &__a)
+: _Vector_base<unsigned, allocator<unsigned> >(__a) {}
 }
 struct Rva003B0E5DRecord {Rva003B0E5DRecord();AsciiString text;int a,b,c;};
 struct BfmeObject476 : Rva001E3624 {
