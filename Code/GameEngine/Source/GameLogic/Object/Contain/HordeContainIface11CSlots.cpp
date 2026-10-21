@@ -4668,6 +4668,10 @@ namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonco
 // Call retail's hinted insert_unique (0x00422EC0) instead of emitting this unit's own copy.
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, pair<int const, int> const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@W4ObjectID@@U?$pair@$$CBW4ObjectID@@H@_STL@@U?$_Select1st@U?$pai:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<ObjectID const ,int>,_Nonconst_traits<pair<ObjectID const ,int> > >,bool> _Rb_tree<ObjectID,pair<ObjectID const ,int>,_Select1st<pair<ObjectID const ,int> >,less<ObjectID>,allocator<pair<ObjectID const ,int> > >::insert_unique(pair<ObjectID const ,int> const &); }
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
