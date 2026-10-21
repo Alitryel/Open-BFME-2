@@ -42,7 +42,7 @@ struct NAT
 	char pad4[0x970 - 0x954];
 	unsigned char m_970;
 
-	void rva005A831E();
+	void sendAProbeToTarget();
 	void rva005A6C90(int code);
 	void targetNotifyMeIWasProbed(int unused);
 	void gotTargetMangledPort(int a, unsigned short b, int c);
@@ -70,7 +70,7 @@ void NAT::targetNotifyMeIWasProbed(int unused)
 		return;
 	if (m_24 == 0)
 		return;
-	rva005A831E();
+	sendAProbeToTarget();
 	rva005A6C90(3);
 }
 
@@ -116,6 +116,6 @@ check24:
 		if (m_942 != 1 && (o1->m_40 & 8) == 0)
 			return;
 	}
-	rva005A831E();
+	sendAProbeToTarget();
 	rva005A6C90(3);
 }

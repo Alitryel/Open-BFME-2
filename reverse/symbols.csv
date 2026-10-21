@@ -11854,7 +11854,7 @@ rva009C7380WeightPairs,0x009B84E0
 ?SetupMovieClipRegionBonuses@Impl@RegionAwardDialog@StrategicInGameUI@@QAEXXZ,0x005D1527,address-derived thiscall helper on the same object as 0x005D17B2; Ghidra FUN_009d1527 is 651B and ends at 0x005D17B2; call at 0x005D182A passes ECX=this with no stack arguments; original identity unknown
 ?unlinkChain@CollisionManagerImpl@@QAEXPAVRva009A36F0Thing@@@Z,0x00759220,BFME1 Rva009A36F0Owner donor unlinker; sole E8 caller is apply at 0x007592E0
 ?rva005A6709@NAT@@QAE_NXZ,0x005A6709,wrapper-call spelling for the 0x5A6903 gate (thiscall 0 args al result; true callee matched as const predicate rva005A6709); target REL32 from retail call at 0x005A6931
-?rva005A831E@NAT@@QAEXXZ,0x005A831E,wrapper-call spelling for the 0x5A8666 gate (thiscall 0 args result ignored); target REL32 from retail call at 0x005A86AE
+?sendAProbeToTarget@NAT@@QAEXXZ,0x005A831E,wrapper-call spelling for the 0x5A8666 gate (thiscall 0 args result ignored); target REL32 from retail call at 0x005A86AE
 ?PopulateHeroList@Manager@AptCreateAHero@@QAEXXZ,0x005B6755,wrapper-call spelling for the 0x5B6967 path helper (thiscall 0 args); target REL32 from retail call at 0x005B69B8
 ?rva005B5F2E@Manager@AptCreateAHero@@QAEXXZ,0x005B5F2E,wrapper-call spelling for the 0x5B6967 path tail (thiscall 0 args); target REL32 from retail call at 0x005B69FA
 ?rva0005A3FA@GlobalVolumeData@MilesAudioManager@@QAEXPAXM@Z,0x0005A3FA,thiscall on the +0x12C 0x1C4-stride owner taking (slot, float): push [ebp+8] plus fstp plus elem-this in 0x0005CA03; REL32 read at that call site; identity unproven
@@ -14827,8 +14827,8 @@ _isalnum,0x00629AF6,msvcr71 isalnum import stub called directly by the URL escap
 ?rva005DC586@PortNegotiationSchema@@QAE_NPAV?$vector@URva005A7A96Pair@@V?$allocator@URva005A7A96Pair@@@_STL@@@_STL@@@Z,0x005DC586,callee of ?rva005A8F57@Rva005A6D47@@QAEHXZ
 ?rva00102F83@Rva00102F83Owner@@QAEXPAVRva0010274F@@@Z,0x00102F83,callee of ?buildCameraTransform@W3DView@@AAEXPAVMatrix3D@@@Z
 ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z,0x0007F0FB,callee of ?rva0007FD57@Rva0007FD57Owner@@QAE?AURva0008B689Element@@PAVCameraClass@@@Z
-?processManglerResponse@NAT@@QAEXG@Z,0x005A854C,callee of ?rva005A879B@NAT@@QAEHXZ
-?notifyConnectionToTargetFailed@NAT@@QAEXXZ,0x005A7683,callee of ?rva005A879B@NAT@@QAEHXZ
+?processManglerResponse@NAT@@QAEXG@Z,0x005A854C,callee of ?connectionUpdate@NAT@@QAEHXZ
+?notifyConnectionToTargetFailed@NAT@@QAEXXZ,0x005A7683,callee of ?connectionUpdate@NAT@@QAEHXZ
 ?SetUDPSocketForSlot@NAT@@QAE_NGGPAX@Z,0x005A6DAC,callee of ?processManglerResponse@NAT@@QAEXG@Z
 ??_9@$BA@AE,0x001FF3A9,VC7.1 slot-0 vcall thunk (mov eax [ecx]; jmp [eax]) pushed as a member pointer by the LivingWorldLogic battle start 0x002B89E1; same style as the existing ??_9@$B3AE pin at 0x005CB260
 _D3DXMatrixMultiply@12,0x0062AF26,First named PE import thunk: FF25 IAT00BBA9B4 independently declares d3dx9_27.dll!D3DXMatrixMultiply; native setShroudTex arguments agree with stdcall SDK ABI
@@ -14861,7 +14861,7 @@ _D3DXMatrixTranslation@16,0x0062AF32,First named PE import thunk: FF25 IAT00BBA9
 ?rva0045479A@GettingBuiltBehavior@@QAEXXZ,0x0045479A,callee of ?update@GettingBuiltBehaviorUpdateReceiver@@QAE?AW4UpdateSleepTime@@XZ
 ?rva000A8C2B@Rva000A8C2B@@QAEXPAVXfer@@PAURva0010FFA2Packet@@@Z,0x000A8C2B,thiscall spelling of the placeholder-rowed A8C2B (retail calls it with ecx = playing+0x0C; the body ignores ecx); caller the MilesAudioManager stream xfer 0x0005B256
 ?notifyHostMyNATCreated@NAT@@QAEXH@Z,0x005A7829,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
-?rva005A89C2@NAT@@QAEXHH@Z,0x005A89C2,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
+?StartNegotiationAction@NAT@@QAEXHH@Z,0x005A89C2,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
 ?rva005A6732@NAT@@QBE_NXZ,0x005A6732,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
 _isdigit,0x00629982,Native6F97F0 suffix parser calls PE isdigit import thunk629982 repeatedly; named import ji_00629982 independently identifies msvcr71 isdigit
 ??1DrawableRefSlot@@QAE@XZ,0x0010F149,ICF-folded dtor of Drawable's 3x8-byte ref slot (Release_Ref tail jump) passed to ??_L by the Drawable ctor 0x002797BD fold-proof=Code/GameEngine/Source/GameClient/DrawableConstructor.cpp

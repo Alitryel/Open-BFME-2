@@ -88,7 +88,7 @@ struct NAT
 	void gotTargetMangledPort(Int slot, UnsignedShort port, Int addr);
 	Bool rva005A6732() const;
 	void notifyHostMyNATCreated(Int cookie);
-	void rva005A89C2(Int slot, Int value);
+	void StartNegotiationAction(Int slot, Int value);
 };
 // TheNAT: defined here (zero-initialised, exactly as retail's image holds the
 // four bytes at VA 0x00E063F8) because the rowed body below proves the
@@ -158,7 +158,7 @@ void NAT::processGlobalMessage(Int slotNum, const char *options)
 		Int other = second;
 		if (first != local)
 			other = first;
-		rva005A89C2(other, value);
+		StartNegotiationAction(other, value);
 	}
 	else if (!strncmp(ptr, "PROBED", strlen("PROBED")))
 	{

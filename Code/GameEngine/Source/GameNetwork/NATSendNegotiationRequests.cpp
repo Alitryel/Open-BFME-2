@@ -151,8 +151,8 @@ struct NAT
     void notifyConnectionFromTargetDone();
     void notifyNATHostSlot();
     void processUDPPacket();
-    void rva005A73DE(Rva005A7A96Slot*);
-    void rva005A831E();
+    void notifyTargetOfProbe(Rva005A7A96Slot*);
+    void sendAProbeToTarget();
     void setConnectionState(int,int,int,int);
 };
 
@@ -320,7 +320,7 @@ void NAT::processUDPPacket() {
 // request and queue used by the verified connection/host notifications.
 // String translation accesses the selected slot name30; type13 and flag118
 // are target facts. The original member name remains unresolved.
-void NAT::rva005A73DE(Rva005A7A96Slot *slot) {
+void NAT::notifyTargetOfProbe(Rva005A7A96Slot *slot) {
  PeerRequest request;
  AsciiString options;
  options.format("PROBED%d %X",m_localSlot,m_cookie);
@@ -335,7 +335,7 @@ void NAT::rva005A73DE(Rva005A7A96Slot *slot) {
 // a PROBE, announces it once, and schedules the next probe using the1500ms
 // data value referenced at VA DD35B8. Reference NAT supplies probe semantics.
 unsigned NAT::s_probeRetryInterval=1500;
-void NAT::rva005A831E() {
+void NAT::sendAProbeToTarget() {
  if(m_targetSlot<0 || m_targetSlot>=8) {m_state94c=4;return;}
  Rva005A7A96Slot *slot=m_8[m_targetSlot];
  unsigned ip=m_addresses[m_targetSlot]->ip;
@@ -344,6 +344,6 @@ void NAT::rva005A831E() {
  options.format("PROBE%d %X",m_localSlot,m_cookie);
  m_04->queueSend(&NetPacketAddress(ip,port),(const unsigned char *)options.str(),options.getLength()+1);
  m_04->doSend();
- if(!m_probeAnnounced) {rva005A73DE(slot);m_probeAnnounced=true;}
+ if(!m_probeAnnounced) {notifyTargetOfProbe(slot);m_probeAnnounced=true;}
  m_nextProbe=timeGetTime()+s_probeRetryInterval;
 }

@@ -62,7 +62,7 @@ struct Rva005A7A96Pair{void *opaque00;unsigned short first,second;};
 struct Rva005A7172:public _STL::vector<int>{~Rva005A7172();};
 class PortNegotiationSchema{public:void negotiationStarted(unsigned short,unsigned short,int,bool);char pad00[0x18];int state[81];char pad15c[0x738-0x15c];unsigned timeout[8][8];unsigned short tries[8][8];bool rva005DBA9C(bool);bool IsConflictingWithProceedingNegotiation(unsigned short);bool rva005DC586(_STL::vector<Rva005A7A96Pair>*);};
 struct Rva005A684FWord{unsigned m_00;unsigned short m_04;};
-class NAT{public:void findMyMangledPort();void rva005A89C2(int,int);void notifyNATHostSlot();void rva005A6CA5();void sendPings();void processUDPPacket();int rva005A879B();void processManglerResponse(unsigned short);bool SetUDPSocketForSlot(unsigned short,unsigned short,void*);void notifyConnectionToTargetFailed();void notifyConnectionFromTargetDone();void notifyHostMyNATCreated(int);void rva005A6C90(int);void rva005A831E();void rva005A7974(unsigned short,void*);static unsigned s_probeRetryInterval;static int s_manglerMaxRetryCount;bool rva005A6732()const;void rva005A7A96(const _STL::vector<Rva005A7A96Pair>*);unsigned get(unsigned)const;void rva005A6A83();char pad[0x90c];Rva005A684FWord *m_slots[8];};
+class NAT{public:void findMyMangledPort();void StartNegotiationAction(int,int);void notifyNATHostSlot();void rva005A6CA5();void sendPings();void processUDPPacket();int connectionUpdate();void processManglerResponse(unsigned short);bool SetUDPSocketForSlot(unsigned short,unsigned short,void*);void notifyConnectionToTargetFailed();void notifyConnectionFromTargetDone();void notifyHostMyNATCreated(int);void rva005A6C90(int);void sendAProbeToTarget();void rva005A7974(unsigned short,void*);static unsigned s_probeRetryInterval;static int s_manglerMaxRetryCount;bool rva005A6732()const;void rva005A7A96(const _STL::vector<Rva005A7A96Pair>*);unsigned get(unsigned)const;void probeMangler();char pad[0x90c];Rva005A684FWord *m_slots[8];};
 class Rva005A6709{public:int rva005A6709()const;};typedef bool (Rva005A6709::*Rva005A6709BoolShape)()const;
 #define NAT_READY(p) ((((Rva005A6709*)(p))->*reinterpret_cast<Rva005A6709BoolShape>(&Rva005A6709::rva005A6709))())
 class Rva005A6D47 {public:void *vptr;Transport *transport;GameSpyGameSlot **slots;int host,state,local;char pad18[0x10];PortNegotiationSchema schema;int rva005A8F57();};
@@ -74,7 +74,7 @@ int Rva005A6D47::rva005A8F57(){
  case 2:{bool all=true;bool timeout=false;for(int i=0;i<8;++i){GameSpyGameSlot *slot=TheGameSpyGame->getGameSpySlot(i);if(slot&&slot->isHuman()){PSPlayerAllStats stats=TheGameSpyPSMessageQueue->findPlayerStatsByID(slot->profile);if(!stats.id)all=false;}}
  unsigned now=timeGetTime();if(now>g_natStatsWaitStartTick+5000)timeout=true;if(all||timeout)state=0;
  }break;
- case 1:{if(!nat->rva005A6732())nat->rva005A879B();if(schema.rva005DBA9C(NAT_READY(nat))){state=2;g_natStatsWaitStartTick=timeGetTime();}else if(NAT_READY(nat)){Rva005A7172 pairs;if(schema.rva005DC586((_STL::vector<Rva005A7A96Pair>*)&pairs))nat->rva005A7A96((_STL::vector<Rva005A7A96Pair>*)&pairs);}}
+ case 1:{if(!nat->rva005A6732())nat->connectionUpdate();if(schema.rva005DBA9C(NAT_READY(nat))){state=2;g_natStatsWaitStartTick=timeGetTime();}else if(NAT_READY(nat)){Rva005A7172 pairs;if(schema.rva005DC586((_STL::vector<Rva005A7A96Pair>*)&pairs))nat->rva005A7A96((_STL::vector<Rva005A7A96Pair>*)&pairs);}}
  }
  return state;
 }
@@ -113,7 +113,7 @@ struct NatConnectionView{char pad00[8];GameSpyGameSlot **slots;int host,parentSt
 // semantics. Target WB14DAEB0 connectionUpdate and full551B retail control
 // flow supply compact BF2 callbacks and offsets. State IDs4/5 differ from
 // BF1. Retry maximum25 at9D35C0 is proven native initialized data.
-int NAT::rva005A879B(){
+int NAT::connectionUpdate(){
  NatConnectionView *natConnectionView=(NatConnectionView*)this;
  if(natConnectionView->target<0||natConnectionView->target>=8){natConnectionView->connectionState=4;return 4;}
  GameSpyGameSlot *target=natConnectionView->slots[natConnectionView->target];
@@ -124,7 +124,7 @@ int NAT::rva005A879B(){
   }
   if(!natConnectionView->receivedPort){if(timeGetTime()>natConnectionView->timeoutTime){rva005A6C90(5);notifyConnectionToTargetFailed();}}
   if(natConnectionView->receivedPort&&natConnectionView->sendPort)rva005A6C90(3);
- }else if(natConnectionView->connectionState==3){if(natConnectionView->nextSendTime!=-1&&natConnectionView->nextSendTime<=timeGetTime()){if(natConnectionView->retries>natConnectionView->maxRetries){rva005A6C90(5);notifyConnectionToTargetFailed();}else{rva005A831E();++natConnectionView->retries;}}}
+ }else if(natConnectionView->connectionState==3){if(natConnectionView->nextSendTime!=-1&&natConnectionView->nextSendTime<=timeGetTime()){if(natConnectionView->retries>natConnectionView->maxRetries){rva005A6C90(5);notifyConnectionToTargetFailed();}else{sendAProbeToTarget();++natConnectionView->retries;}}}
  if(timeGetTime()>natConnectionView->roundTimeout&&natConnectionView->connectionState!=4&&natConnectionView->connectionState!=5){rva005A6C90(5);notifyConnectionToTargetFailed();}
  if(natConnectionView->previousState!=4)((FirewallHelperClass*)g_a063b0)->flagNeedToRefresh(true);
  return natConnectionView->connectionState;
@@ -143,7 +143,7 @@ void NAT::processManglerResponse(unsigned short mangledPort){
  if(fw&0x10) returnPort=mangledPort+delta;else if(fw&0x40)returnPort=mangledPort+delta;else if(delta==100){returnPort=sourcePort-natConnectionView->spareSocket+mangledPort+100;}else if(!delta){returnPort=sourcePort;}else{returnPort=(mangledPort/delta+1)*delta+sourcePort%delta;}
  if(returnPort>65535)returnPort-=65535;if(returnPort<1024)returnPort+=1024;
  struct Address{unsigned ip;unsigned short port;Address():ip(0),port(0){}} address;natConnectionView->previousSource=returnPort;
- if(!SetUDPSocketForSlot(sourcePort,natConnectionView->target,&address)){rva005A6A83();return;}
+ if(!SetUDPSocketForSlot(sourcePort,natConnectionView->target,&address)){probeMangler();return;}
  m_slots[natConnectionView->local]->m_04=natConnectionView->spareSocket+1;rva005A7974(returnPort,target);
  if(natConnectionView->receivedPort){rva005A6C90(3);((Rva005A6D47*)this)->transport->setDestAddrToSocket(natConnectionView->target,m_slots[natConnectionView->target]);}
 }
@@ -251,7 +251,7 @@ void NAT::findMyMangledPort() {
   natConnectionView->manglerAddress=htonl(natConnectionView->manglerAddress);
   natConnectionView->manglerRetryTime=timeGetTime()+g_00DD35BC;
   natConnectionView->manglerRetries=0;
-  if(g_a063b0) rva005A6A83();
+  if(g_a063b0) probeMangler();
  } else {
   for (;;) {
    UDPBindValues values;
@@ -272,7 +272,7 @@ extern unsigned g_Va00DD35D0;unsigned g_natPortWaitInterval=15000;
 // schema and timer layout are independently read from target bytes.
 // Keep the target-slot pointer read before the peer IP read: VC7.1
 // otherwise swaps these independent loads. The barrier emits no code.
-void NAT::rva005A89C2(int target,int cookie){
+void NAT::StartNegotiationAction(int target,int cookie){
  NatConnectionView*natConnectionView=(NatConnectionView*)this;natConnectionView->retries=0;natConnectionView->target=target;natConnectionView->connectionState=1;natConnectionView->previousState=1;natConnectionView->active=true;natConnectionView->beenProbed=false;natConnectionView->unknown943=false;natConnectionView->sendPort=false;natConnectionView->receivedPort=false;natConnectionView->cookie=cookie;natConnectionView->roundTimeout=timeGetTime()+g_Va00DD35D0;
  GameSpyGameSlot*other=natConnectionView->slots[natConnectionView->target];GameSpyGameSlot*local=natConnectionView->slots[natConnectionView->local];
  if(other&&local){
