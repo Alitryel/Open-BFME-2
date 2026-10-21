@@ -6492,10 +6492,22 @@ typedef _STL::_Rb_tree<int, _STL::pair<const int, int >, _STL::_Select1st<_STL::
 typedef _STL::set<Rva002F307AElement> FoldWayTreeCtor;                // 0x002F307A
 typedef _STL::map<int, Rva002F0BB5Element> FoldWayTreeDtorMap;        // 0x002F0BB5
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F0BB5Element >, _STL::_Select1st<_STL::pair<const int, Rva002F0BB5Element > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F0BB5Element > > > FoldWayTreeDtor;
+// Both folded tree teardowns are rowed (StlSweepW4Rva002F0B8A.cpp / StlSweepW4Rva002F0BB5.cpp);
+// the map wrappers below only call them.
+namespace _STL {
+template <> FoldZoneTreeDtor::~_Rb_tree();
+template <> FoldWayTreeDtor::~_Rb_tree();
+}
 typedef _STL::map<unsigned int, unsigned int, Rva002F3759Compare> FoldWayIndex; // 0x002F3759
 typedef _STL::map<unsigned int, void *> FoldWayFindMap;               // 0x00357180
 typedef _STL::_Rb_tree<unsigned int, _STL::pair<const unsigned int, void * >, _STL::_Select1st<_STL::pair<const unsigned int, void * > >, _STL::less<unsigned int >, _STL::allocator<_STL::pair<const unsigned int, void * > > > FoldWayFind;
 typedef _STL::map<unsigned char, short> FoldVisitedCtor;              // 0x000D3A71
+// Its teardown is rowed elsewhere (retail ~_Rb_tree 0x38323E frees through the
+// game allocator); this unit only references it from the ctor's unwind path.
+namespace _STL {
+template <> _Rb_tree<unsigned char, pair<const unsigned char, short>, _Select1st<pair<const unsigned char, short> >, less<unsigned char>, allocator<pair<const unsigned char, short> > >::~_Rb_tree();
+template <> _Rb_tree_base<pair<const unsigned char, short>, allocator<pair<const unsigned char, short> > >::~_Rb_tree_base();
+}
 typedef _STL::set<int> FoldVisited;                                   // 0x000BC15D 0x00388F63
 typedef _STL::_Rb_tree<int, int, _STL::_Identity<int>, _STL::less<int>, _STL::allocator<int> > FoldVisitedTree;
 typedef _STL::_Deque_base<BfmeWordValue4, _STL::allocator<BfmeWordValue4> > FoldQueueCtor; // 0x00605464
@@ -6593,8 +6605,12 @@ Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, Locomotor
 			return true;
 		_STL::pair<FoldZoneRangeMap::iterator, FoldZoneRangeMap::iterator> range =
 			reinterpret_cast<FoldZoneRangeMap *>(&zoneWaypoints)->equal_range(zone);
-		for (FoldZoneRangeMap::iterator it = range.first; it != range.second; ) {
-			Waypoint *wp = (Waypoint *)(*it).second;
+		// Walk the range as the map's own iterator (pair<const int, Rva002F1DA1Mapped>):
+		// stepping it as the <int,int> spelling would emit this /O1 unit's copy of
+		// that iterator's operator++, rowed as an /O2 body in stlport_map_int_int.cpp.
+		FoldZoneInsertMap::iterator last = reinterpret_cast<FoldZoneInsertMap::iterator &>(range.second);
+		for (FoldZoneInsertMap::iterator it = reinterpret_cast<FoldZoneInsertMap::iterator &>(range.first); it != last; ) {
+			Waypoint *wp = (Waypoint *)(*it).second.a;
 			++it;
 			for (Int i = 0; i < wp->linkCount; ++i) {
 				Waypoint *link = wp->getLink(i);
