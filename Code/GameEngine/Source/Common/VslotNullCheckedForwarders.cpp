@@ -16,28 +16,28 @@ class Transport;
 struct Coord3D;
 struct BuffInfoView;
 class TBuff;
-class W3DTreeBuffer { public: Bool rva000EA644(void *a0); };		// 0x000EA644
+class W3DTreeBuffer { public: Bool rva000EA644(void *firstValue); };		// 0x000EA644
 class Rva000680B3Host { public: void rva000680B3(); };			// 0x000680B3
 class Rva000664F4
 {
 public:
-	TBuff *rva0006819B(Drawable *a0, const BuffInfoView *a1);	// 0x0006819B
-	Bool rva000681AF(void *a0, const Coord3D *a1);		// 0x000681AF
-	Bool rva000681D3(unsigned int a0, Int a1);			// 0x000681D3
-	Bool rva000681E7(Int a0, Bool a1);				// 0x000681E7
-	Bool rva000681FB(void *a0);					// 0x000681FB
-	void rva000682E1(Int a0);					// 0x000682E1
+	TBuff *rva0006819B(Drawable *firstValue, const BuffInfoView *secondValue);	// 0x0006819B
+	Bool rva000681AF(void *firstValue, const Coord3D *secondValue);		// 0x000681AF
+	Bool rva000681D3(unsigned int firstValue, Int secondValue);			// 0x000681D3
+	Bool rva000681E7(Int firstValue, Bool secondValue);				// 0x000681E7
+	Bool rva000681FB(void *firstValue);					// 0x000681FB
+	void rva000682E1(Int firstValue);					// 0x000682E1
 };
 class Gen009794F0 { public: Int handle(); };				// 0x0019C0A0
 class Rva00149F20Holder { public: Int get() const; };			// 0x00149F20
-class Rva001E11F8 { public: void rva001E11F8(Int a0, Int a1); };	// 0x001E11F8
+class Rva001E11F8 { public: void rva001E11F8(Int firstValue, Int secondValue); };	// 0x001E11F8
 class Rva001EB3D1 { public: void rva001EB3D1(); };			// 0x001EB3D1
-class Rva002CA9CA { public: void rva002CAC6E(Int a0, Int a1); };	// 0x002CAC6E
+class Rva002CA9CA { public: void rva002CAC6E(Int firstValue, Int secondValue); };	// 0x002CAC6E
 class Rva004CFC81 { public: unsigned int rva004CFC81() const; };	// 0x004CFC81
 class BFMEConnectionManager
 {
 public:
-	unsigned char rva004CEF58(Int a0);				// 0x004CEF58
+	unsigned char rva004CEF58(Int firstValue);				// 0x004CEF58
 	int isPlayerSlotActive(int slot);				// 0x004CF0CD
 	void attachTransport(Transport *transport);			// 0x004CF113
 };
@@ -47,39 +47,39 @@ public:
 class Shadow
 {
 public:
-	void rva00330995(Int a0);
+	void rva00330995(Int firstValue);
 };
 
 class Rva000B31B9NullForwarder
 {
 public:
-	void rva000B31B9(Int a0);
+	void rva000B31B9(Int firstValue);
 private:
 	char m_lead[0x1D4];
 	Shadow *m_member;
 };
 
 // vtable 0x00BCBC40#26
-void Rva000B31B9NullForwarder::rva000B31B9(Int a0)
+void Rva000B31B9NullForwarder::rva000B31B9(Int firstValue)
 {
 	if (m_member)
-		m_member->rva00330995(a0);
+		m_member->rva00330995(firstValue);
 }
 
 class Rva0006820FNullForwarder
 {
 public:
-	Bool rva0006820F(Int a0);
+	Bool rva0006820F(Int firstValue);
 private:
 	char m_lead[0x3850];
 	W3DTreeBuffer *m_member;
 };
 
 // vtable 0x00BC5DB0#142
-Bool Rva0006820FNullForwarder::rva0006820F(Int a0)
+Bool Rva0006820FNullForwarder::rva0006820F(Int firstValue)
 {
 	if (m_member)
-		return m_member->rva000EA644((void *)a0);
+		return m_member->rva000EA644((void *)firstValue);
 	return false;
 }
 
@@ -102,130 +102,130 @@ void Rva00091E38NullForwarder::rva00091E38()
 class Rva00068283NullTarget
 {
 public:
-	void rva00068283(Int a0);
+	void rva00068283(Int firstValue);
 };
 
 class Rva00091EDDNullForwarder
 {
 public:
-	void rva00091EDD(Int a0);
+	void rva00091EDD(Int firstValue);
 private:
 	char m_lead[0x14];
 	Rva00068283NullTarget *m_member;
 };
 
 // vtable 0x00BC80A0#22
-void Rva00091EDDNullForwarder::rva00091EDD(Int a0)
+void Rva00091EDDNullForwarder::rva00091EDD(Int firstValue)
 {
 	if (m_member)
-		m_member->rva00068283(a0);
+		m_member->rva00068283(firstValue);
 }
 
 class Rva00091F2ANullForwarder
 {
 public:
-	Int rva00091F2A(Int a0, Int a1);
+	Int rva00091F2A(Int firstValue, Int secondValue);
 private:
 	char m_lead[0x14];
 	Rva000664F4 *m_member;
 };
 
 // vtable 0x00BC80A0#24
-Int Rva00091F2ANullForwarder::rva00091F2A(Int a0, Int a1)
+Int Rva00091F2ANullForwarder::rva00091F2A(Int firstValue, Int secondValue)
 {
 	if (m_member)
-		return (Int)m_member->rva0006819B((Drawable *)a0, (const BuffInfoView *)a1);
+		return (Int)m_member->rva0006819B((Drawable *)firstValue, (const BuffInfoView *)secondValue);
 	return 0;
 }
 
 class Rva00091F51NullForwarder
 {
 public:
-	Bool rva00091F51(Int a0, Int a1);
+	Bool rva00091F51(Int firstValue, Int secondValue);
 private:
 	char m_lead[0x14];
 	Rva000664F4 *m_member;
 };
 
 // vtable 0x00BC80A0#28
-Bool Rva00091F51NullForwarder::rva00091F51(Int a0, Int a1)
+Bool Rva00091F51NullForwarder::rva00091F51(Int firstValue, Int secondValue)
 {
 	if (m_member)
-		return m_member->rva000681AF((void *)a0, (const Coord3D *)a1);
+		return m_member->rva000681AF((void *)firstValue, (const Coord3D *)secondValue);
 	return false;
 }
 
 class Rva00091F62NullForwarder
 {
 public:
-	Bool rva00091F62(Int a0, Int a1);
+	Bool rva00091F62(Int firstValue, Int secondValue);
 private:
 	char m_lead[0x14];
 	Rva000664F4 *m_member;
 };
 
 // vtable 0x00BC80A0#29
-Bool Rva00091F62NullForwarder::rva00091F62(Int a0, Int a1)
+Bool Rva00091F62NullForwarder::rva00091F62(Int firstValue, Int secondValue)
 {
 	if (m_member)
-		return m_member->rva000681D3((unsigned int)a0, a1);
+		return m_member->rva000681D3((unsigned int)firstValue, secondValue);
 	return false;
 }
 
 class Rva00091F73NullForwarder
 {
 public:
-	Bool rva00091F73(Int a0, Bool a1);
+	Bool rva00091F73(Int firstValue, Bool secondValue);
 private:
 	char m_lead[0x14];
 	Rva000664F4 *m_member;
 };
 
 // vtable 0x00BC80A0#30
-Bool Rva00091F73NullForwarder::rva00091F73(Int a0, Bool a1)
+Bool Rva00091F73NullForwarder::rva00091F73(Int firstValue, Bool secondValue)
 {
 	if (m_member)
-		return m_member->rva000681E7(a0, a1);
+		return m_member->rva000681E7(firstValue, secondValue);
 	return false;
 }
 
 class Rva00091F84NullForwarder
 {
 public:
-	Bool rva00091F84(Int a0);
+	Bool rva00091F84(Int firstValue);
 private:
 	char m_lead[0x14];
 	Rva000664F4 *m_member;
 };
 
 // vtable 0x00BC80A0#31
-Bool Rva00091F84NullForwarder::rva00091F84(Int a0)
+Bool Rva00091F84NullForwarder::rva00091F84(Int firstValue)
 {
 	if (m_member)
-		return m_member->rva000681FB((void *)a0);
+		return m_member->rva000681FB((void *)firstValue);
 	return false;
 }
 
 class Rva00068061NullTarget
 {
 public:
-	void rva00068061(Int a0);
+	void rva00068061(Int firstValue);
 };
 
 class Rva00091FABNullForwarder
 {
 public:
-	void rva00091FAB(Int a0);
+	void rva00091FAB(Int firstValue);
 private:
 	char m_lead[0x14];
 	Rva00068061NullTarget *m_member;
 };
 
 // vtable 0x00BC80A0#27
-void Rva00091FABNullForwarder::rva00091FAB(Int a0)
+void Rva00091FABNullForwarder::rva00091FAB(Int firstValue)
 {
 	if (m_member)
-		m_member->rva00068061(a0);
+		m_member->rva00068061(firstValue);
 }
 
 class Rva0017FEC1NullForwarder
@@ -289,17 +289,17 @@ Int Rva00180AA6NullForwarder::rva00180AA6()
 class Rva001E129BNullForwarder
 {
 public:
-	void rva001E129B(Int a0, Int a1);
+	void rva001E129B(Int firstValue, Int secondValue);
 private:
 	char m_lead[0x148];
 	Rva001E11F8 *m_member;
 };
 
 // vtable 0x00BDD8F4#3
-void Rva001E129BNullForwarder::rva001E129B(Int a0, Int a1)
+void Rva001E129BNullForwarder::rva001E129B(Int firstValue, Int secondValue)
 {
 	if (m_member)
-		m_member->rva001E11F8(a0, a1);
+		m_member->rva001E11F8(firstValue, secondValue);
 }
 
 class Rva001EB722NullForwarder
@@ -321,17 +321,17 @@ void Rva001EB722NullForwarder::rva001EB722()
 class Rva001F01B9NullForwarder
 {
 public:
-	void rva001F01B9(Int a0, Int a1);
+	void rva001F01B9(Int firstValue, Int secondValue);
 private:
 	char m_lead[0x4];
 	Rva002CA9CA *m_member;
 };
 
 // vtable 0x00BE09E8#4
-void Rva001F01B9NullForwarder::rva001F01B9(Int a0, Int a1)
+void Rva001F01B9NullForwarder::rva001F01B9(Int firstValue, Int secondValue)
 {
 	if (m_member)
-		m_member->rva002CAC6E(a0, a1);
+		m_member->rva002CAC6E(firstValue, secondValue);
 }
 
 // ConnectionManager methods rowed under their real names (ConnectionManager*.cpp,
@@ -347,7 +347,7 @@ public:
 	Int getNumPlayers();	// 0x004CF926
 	void updateLoadProgress(Int progress);	// 0x004CF940
 	void loadProgressComplete();	// 0x004D02F6
-	void requestLeave(Int a0);	// 0x004D00BB
+	void requestLeave(Int firstValue);	// 0x004D00BB
 };
 
 // Network (vtable 0x00BF6040): WorldBuilder's Network.cpp:68-71 names these
@@ -359,19 +359,19 @@ public:
 class Network
 {
 public:
-	virtual void ParseUserList(Int a0);
+	virtual void ParseUserList(Int firstValue);
 	virtual void InitTransport();
-	virtual void InitTransport(Int a0);
+	virtual void InitTransport(Int firstValue);
 private:
 	char m_lead04[0x8];
 	void *m_pConMgr;
 };
 
 // vtable 0x00BF6040#17
-void Network::ParseUserList(Int a0)
+void Network::ParseUserList(Int firstValue)
 {
 	if (m_pConMgr)
-		((ConnectionManager *)m_pConMgr)->parseUserList((const GameInfo *)a0);
+		((ConnectionManager *)m_pConMgr)->parseUserList((const GameInfo *)firstValue);
 }
 
 // vtable 0x00BF6040#20
@@ -382,10 +382,10 @@ void Network::InitTransport()
 }
 
 // vtable 0x00BF6040#19
-void Network::InitTransport(Int a0)
+void Network::InitTransport(Int firstValue)
 {
 	if (m_pConMgr)
-		((BFMEConnectionManager *)m_pConMgr)->attachTransport((Transport *)a0);
+		((BFMEConnectionManager *)m_pConMgr)->attachTransport((Transport *)firstValue);
 }
 
 class Rva0025DC17NullForwarder
@@ -408,17 +408,17 @@ Int Rva0025DC17NullForwarder::rva0025DC17()
 class Rva0025DC5ENullForwarder
 {
 public:
-	void rva0025DC5E(Int a0);
+	void rva0025DC5E(Int firstValue);
 private:
 	char m_lead[0xC];
 	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#35
-void Rva0025DC5ENullForwarder::rva0025DC5E(Int a0)
+void Rva0025DC5ENullForwarder::rva0025DC5E(Int firstValue)
 {
 	if (m_member)
-		m_member->updateLoadProgress(a0);
+		m_member->updateLoadProgress(firstValue);
 }
 
 class Rva0025DC6DNullForwarder
@@ -491,52 +491,52 @@ Int Rva0025DD01NullForwarder::rva0025DD01()
 class Rva0025DEBBNullForwarder
 {
 public:
-	Bool rva0025DEBB(Int a0);
+	Bool rva0025DEBB(Int firstValue);
 private:
 	char m_lead[0xC];
 	BFMEConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#64: retail tail-jumps, passing the callee's al through.
-Bool Rva0025DEBBNullForwarder::rva0025DEBB(Int a0)
+Bool Rva0025DEBBNullForwarder::rva0025DEBB(Int firstValue)
 {
 	if (m_member)
 		return (m_member->*reinterpret_cast<Bool (BFMEConnectionManager::*)(Int)>(
-			&BFMEConnectionManager::isPlayerSlotActive))(a0);
+			&BFMEConnectionManager::isPlayerSlotActive))(firstValue);
 	return false;
 }
 
 class Rva0025DECCNullForwarder
 {
 public:
-	unsigned char rva0025DECC(Int a0);
+	unsigned char rva0025DECC(Int firstValue);
 private:
 	char m_lead[0xC];
 	BFMEConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#65
-unsigned char Rva0025DECCNullForwarder::rva0025DECC(Int a0)
+unsigned char Rva0025DECCNullForwarder::rva0025DECC(Int firstValue)
 {
 	if (m_member)
-		return m_member->rva004CEF58(a0);
+		return m_member->rva004CEF58(firstValue);
 	return 0;
 }
 
 class Rva0025E27FNullForwarder
 {
 public:
-	void rva0025E27F(Int a0);
+	void rva0025E27F(Int firstValue);
 private:
 	char m_lead[0xC];
 	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#39
-void Rva0025E27FNullForwarder::rva0025E27F(Int a0)
+void Rva0025E27FNullForwarder::rva0025E27F(Int firstValue)
 {
 	if (m_member)
-		m_member->requestLeave(a0);
+		m_member->requestLeave(firstValue);
 }
 
 // The ICF-folded empty body at 0x000B3FD0 (EmptyFoldTwins.cpp).
