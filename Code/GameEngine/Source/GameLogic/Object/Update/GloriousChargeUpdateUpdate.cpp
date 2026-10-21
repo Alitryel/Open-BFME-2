@@ -269,7 +269,7 @@ class GloriousChargeUpdate : public SpecialAbilityUpdate
 public:
 	void rva004AD613();
 	void rva004AD7B6();
-	virtual void rva004AD8E3();
+	virtual void triggerAbilityEffect();
 	virtual UpdateSleepTime update();
 private:
 	const GloriousChargeUpdateModuleData *getGloriousChargeData() const
@@ -336,7 +336,7 @@ void GloriousChargeUpdate::rva004AD7B6()
 			reinterpret_cast<void *const &>(id));
 	}
 }
-void GloriousChargeUpdate::rva004AD8E3()
+void GloriousChargeUpdate::triggerAbilityEffect()
 {
 	SpecialAbilityUpdate::triggerAbilityEffect();
 	rva004AD7B6();

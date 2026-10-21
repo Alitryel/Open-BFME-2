@@ -26,7 +26,7 @@ struct ThingTemplate{char pad[0x64];AsciiString name;};
 class Object{public:BehaviorModule*rva0028F2C4(int)const;char p0[4];const ThingTemplate*tmpl;char p8[0x38-8];Coord3D position;};
 struct WakeEntry{int key,mode;};struct WakeVector{WakeEntry*begin,*end,*capacity;};struct WakeData{char p[0xc8];WakeVector entries;};
 class SpecialAbilityUpdate{public:virtual void triggerAbilityEffect();};
-class ActivateModuleSpecialPower:public SpecialAbilityUpdate{public:void SetWakeState(int);virtual void rva004CDEED();const WakeData*data;Object*object;char pc[0x44-12];Coord3D target;};
+class ActivateModuleSpecialPower:public SpecialAbilityUpdate{public:void SetWakeState(int);virtual void triggerAbilityEffect();const WakeData*data;Object*object;char pc[0x44-12];Coord3D target;};
 void ActivateModuleSpecialPower::SetWakeState(int state)
 {
  Object*obj=object;
@@ -52,7 +52,7 @@ void ActivateModuleSpecialPower::SetWakeState(int state)
 }
 
 // Existing19B slot17 calls the base and then SetWakeState with state0.
-void ActivateModuleSpecialPower::rva004CDEED()
+void ActivateModuleSpecialPower::triggerAbilityEffect()
 {
  SpecialAbilityUpdate::triggerAbilityEffect();
  SetWakeState(0);

@@ -12,7 +12,7 @@
 // +0x98; otherwise retries the pinned bool member 0x0049083C up to module
 // data +0xD4 times, keeping its result in +0x98, until it succeeds.
 //
-// ?rva00450D9A@ArrowStormUpdate@@UAEXXZ, retail 0x00490D0A, 53 bytes.
+// ?startPreparation@ArrowStormUpdate@@UAEXXZ, retail 0x00490D0A, 53 bytes.
 // Slot 15: resets the list (rowed 0x0026549E), zeroes +0x8C/+0x90/+0x94 and
 // the flag at +0x98, then tail-calls the rowed member 0x00490AC5.
 
@@ -59,7 +59,7 @@ protected:
 class ArrowStormUpdate : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva00450D9A();
+	virtual void startPreparation();
 	virtual void triggerAbilityEffect();
 
 	void rva00490AC5();	// row 0x00490AC5
@@ -94,8 +94,8 @@ void ArrowStormUpdate::triggerAbilityEffect()
 	}
 }
 
-// ?rva00450D9A@ArrowStormUpdate@@UAEXXZ @0x00490D0A
-void ArrowStormUpdate::rva00450D9A()
+// ?startPreparation@ArrowStormUpdate@@UAEXXZ @0x00490D0A
+void ArrowStormUpdate::startPreparation()
 {
 	SpecialAbilityUpdate::startPreparation();
 	m_88.reset();

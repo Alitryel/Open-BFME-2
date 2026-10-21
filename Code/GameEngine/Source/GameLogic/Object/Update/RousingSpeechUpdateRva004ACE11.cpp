@@ -1,10 +1,10 @@
 // cl: /DNDEBUG /MD
 //
-// Retail 0x004ACE11 (133 bytes): RousingSpeechUpdate::rva004ACE11.
+// Retail 0x004ACE11 (133 bytes): RousingSpeechUpdate::startPreparation.
 // Identity: slot 15 of the primary vtable 0x00C54FE8 that the matched
 // RousingSpeechUpdate dtor installs; the class derives from
 // SpecialAbilityUpdate, whose own slot 15 (0x00450D9A, pinned as
-// SpecialAbilityUpdate::rva00450D9A) this override calls first, exactly like
+// SpecialAbilityUpdate::startPreparation) this override calls first, exactly like
 // the matched GloriousChargeUpdate slot-15 override 0x004AD554. Name by
 // address: the slot name is not established.
 // Body: base call, set condition bit 6*32+15 on the Object, play the module
@@ -97,13 +97,13 @@ public:
 class RousingSpeechUpdate : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva004ACE11();
+	virtual void startPreparation();
 private:
 	unsigned char m_pad20[0x94 - 0x20];
 	float m_94; // +0x94
 	float m_98; // +0x98
 };
-void RousingSpeechUpdate::rva004ACE11()
+void RousingSpeechUpdate::startPreparation()
 {
 	SpecialAbilityUpdate::startPreparation();
 	setModelConditionBit(m_object, 6 * 32 + 15);

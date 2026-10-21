@@ -1,12 +1,12 @@
 // cl: /DNDEBUG /MD
-// Retail 0x004AD554 (56 bytes): ?rva004AD554@GloriousChargeUpdate@@UAEXXZ.
+// Retail 0x004AD554 (56 bytes): ?startPreparation@GloriousChargeUpdate@@UAEXXZ.
 // Identity: slot 15 of the primary vtable 0x00C55118 that the matched
 // GloriousChargeUpdate dtor 0x004AD58C installs (slot 0 is the matched
 // ??_GGloriousChargeUpdate, slot 4 its pool key). Its base is
 // SpecialAbilityUpdate: the base vtable 0x00C3FBA8 has the matched
 // ??_GSpecialAbilityUpdate, xfer and pool key in slots 0/3/4 and holds
 // 0x00450D9A in slot 15, which this override calls first as the base
-// implementation (pinned here as ?rva00450D9A@SpecialAbilityUpdate@@UAEXXZ).
+// implementation (pinned here as ?startPreparation@SpecialAbilityUpdate@@UAEXXZ).
 // Names by address: the slot name is not established.
 // Body: base call, set condition bit 6*32+15 on the Object, then OR 0x10 into
 // the +0x118 word of its Drawable (pinned getDrawable 0x005508E2).
@@ -102,9 +102,9 @@ public:
 class GloriousChargeUpdate : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva004AD554();
+	virtual void startPreparation();
 };
-void GloriousChargeUpdate::rva004AD554()
+void GloriousChargeUpdate::startPreparation()
 {
 	SpecialAbilityUpdate::startPreparation();
 	setModelConditionBit(m_object, 6 * 32 + 15);
