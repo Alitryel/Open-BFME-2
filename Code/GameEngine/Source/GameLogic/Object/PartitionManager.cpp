@@ -268,7 +268,7 @@ static int cellValueProc(PartitionCell* cell, void* userData);
 			(thus the normal for b is exactly opposite in direction)
 	-- collideNormal is guaranteed to be a unit vector
 */
-typedef Bool (*CollideTestProc)(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
+typedef Bool (*CollideTestProc)(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
 
 // if the dist is greater than maxDist, return false, and the output stuff is undefined.
 typedef Bool (*DistCalcProc)
@@ -412,27 +412,27 @@ inline Int absInt(Int a)
 }
 
 //-----------------------------------------------------------------------------
-inline Int minInt(Int a, Int b)
+inline Int minInt(Int a, Int second)
 {
-	if (a < b) return a; else return b;
+	if (a < second) return a; else return second;
 }
 
 //-----------------------------------------------------------------------------
-inline Int maxInt(Int a, Int b)
+inline Int maxInt(Int a, Int second)
 {
-	if (a > b) return a; else return b;
+	if (a > second) return a; else return second;
 }
 
 //-----------------------------------------------------------------------------
-inline Real minReal(Real a, Real b)
+inline Real minReal(Real a, Real second)
 {
-	if (a < b) return a; else return b;
+	if (a < second) return a; else return second;
 }
 
 //-----------------------------------------------------------------------------
-inline Real maxReal(Real a, Real b)
+inline Real maxReal(Real a, Real second)
 {
-	if (a > b) return a; else return b;
+	if (a > second) return a; else return second;
 }
 
 //-----------------------------------------------------------------------------
@@ -455,20 +455,20 @@ static void testRotatedPointsAgainstRect(
 	Int *avgTot
 );
 
-static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
+static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
 static Bool xy_collideTest_Circle_Circle(const Coord3D *a_pos, const Coord3D *b_pos, const Real a_radius, const Real b_radius, CollideLocAndNormal *cinfo);
 
-static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Sphere_Cylinder(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Sphere_Box(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Cylinder_Sphere(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Cylinder_Cylinder(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Cylinder_Box(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Box_Sphere(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Box_Cylinder(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
-static Bool collideTest_Box_Box(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo);
+static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Sphere_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Sphere_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Cylinder_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Cylinder_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Cylinder_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Box_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Box_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
+static Bool collideTest_Box_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo);
 
 static Bool distCalcProc_CenterAndCenter_2D(const Coord3D *posA, const Object *objA, const Coord3D *posB, const Object *objB, Real& abDistSqr, Coord3D& abVec, Real maxDistSqr); 
 static Bool distCalcProc_BoundaryAndBoundary_2D(const Coord3D *posA, const Object *objA, const Coord3D *posB, const Object *objB, Real& abDistSqr, Coord3D& abVec, Real maxDistSqr); 
@@ -503,8 +503,8 @@ static void testRotatedPointsAgainstRect(
 	Real major = a->geom.getMajorRadius();
 	Real minor = (a->geom.getGeomType() == GEOMETRY_SPHERE) ? a->geom.getMajorRadius() : a->geom.getMinorRadius();
 
-	Real c = (Real)Cos(-a->angle);
-	Real s = (Real)Sin(-a->angle);
+	Real cosine = (Real)Cos(-a->angle);
+	Real sine = (Real)Sin(-a->angle);
 
 	for (Int i = 0; i < 4; ++i, ++pts)
 	{
@@ -513,8 +513,8 @@ static void testRotatedPointsAgainstRect(
 		Real pty = pts->y - a->position.y;
 
 		// inverse-rotate it to the right coord system
-		Real ptx_new = (Real)fabs(ptx*c - pty*s);
-		Real pty_new = (Real)fabs(ptx*s + pty*c);
+		Real ptx_new = (Real)fabs(ptx*cosine - pty*sine);
+		Real pty_new = (Real)fabs(ptx*sine + pty*cosine);
 
 		#ifdef INTENSE_DEBUG
 		Real mag_a = sqr(ptx)+sqr(pty);
@@ -537,13 +537,13 @@ static void rectToFourPoints(
 	Coord2D pts[]
 )
 {
-	Real c = (Real)Cos(a->angle);
-	Real s = (Real)Sin(a->angle);
+	Real cosine = (Real)Cos(a->angle);
+	Real sine = (Real)Sin(a->angle);
 
-	Real exc = a->geom.getMajorRadius()*c;
-	Real eyc = a->geom.getMinorRadius()*c;
-	Real exs = a->geom.getMajorRadius()*s;
-	Real eys = a->geom.getMinorRadius()*s;
+	Real exc = a->geom.getMajorRadius()*cosine;
+	Real eyc = a->geom.getMinorRadius()*cosine;
+	Real exs = a->geom.getMajorRadius()*sine;
+	Real eys = a->geom.getMinorRadius()*sine;
 
 	// tl
 	pts[0].x = a->position.x - exc - eys;
@@ -566,9 +566,9 @@ static void rectToFourPoints(
 /**
 	2d utility routine for rect/cyl & rect/sphere collisions testing.
 */
-static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	Bool result = xy_collideTest_Rect_Circle(b, a, cinfo);
+	Bool result = xy_collideTest_Rect_Circle(second, a, cinfo);
 	if (cinfo)
 		flipCoord3D(&cinfo->normal);
 	return result;
@@ -578,12 +578,12 @@ static Bool xy_collideTest_Circle_Rect(const CollideInfo *a, const CollideInfo *
 /**
 	2d utility routine for rect/cyl & rect/sphere collisions testing.
 */
-static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
 #if 1
 	/// @todo srj -- this is better than the other one, since it actually handles rotated rects,
 	// but still not as accurate as is could be. (srj)
-	CollideInfo btmp = *b;
+	CollideInfo btmp = *second;
 	btmp.geom.setMinorRadius(btmp.geom.getMajorRadius());
 	return xy_collideTest_Rect_Rect(a, &btmp, cinfo);
 #else
@@ -593,10 +593,10 @@ static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *
 	// library takes a similar shortcut when colliding spheres with boxes in 3d.
 	// so I figured it was probably good enough for us too.)
 
-	Real circ_l = b->position.x - b->geom.getMajorRadius();
-	Real circ_r = b->position.x + b->geom.getMajorRadius();
-	Real circ_t = b->position.y - b->geom.getMajorRadius();
-	Real circ_b = b->position.y + b->geom.getMajorRadius();
+	Real circ_l = second->position.x - second->geom.getMajorRadius();
+	Real circ_r = second->position.x + second->geom.getMajorRadius();
+	Real circ_t = second->position.y - second->geom.getMajorRadius();
+	Real circ_b = second->position.y + second->geom.getMajorRadius();
 	Real rect_l = a->position.x - a->geom.getMajorRadius();
 	Real rect_r = a->position.x + a->geom.getMajorRadius();
 	Real rect_t = a->position.y - a->geom.getMinorRadius();
@@ -607,11 +607,11 @@ static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *
 	{
 		if (cinfo)
 		{
-			vecDiff_2D(&b->position, &a->position, &cinfo->normal);
+			vecDiff_2D(&second->position, &a->position, &cinfo->normal);
 			cinfo->normal.normalize();
 			cinfo->loc.x = (maxReal(circ_l, rect_l) + minReal(circ_r, rect_r)) * 0.5f;
 			cinfo->loc.y = (maxReal(circ_t, rect_t) + minReal(circ_b, rect_b)) * 0.5f;
-			cinfo->loc.z = (a->position.z + b->position.z) * 0.5f;
+			cinfo->loc.z = (a->position.z + second->position.z) * 0.5f;
 		}
 		return true;
 	}
@@ -623,12 +623,12 @@ static Bool xy_collideTest_Rect_Circle(const CollideInfo *a, const CollideInfo *
 /**
 	2d utility routine for cyl & sphere collisions testing.
 */
-static Bool xy_collideTest_Circle_Circle(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Circle_Circle(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
 	Coord3D diff;
-	vecDiff_2D(&b->position, &a->position, &diff);
+	vecDiff_2D(&second->position, &a->position, &diff);
 	Real distSqr = calcSqrDist_2D(&diff);
-	Real touchingDistSqr = sqr(a->geom.getMajorRadius() + b->geom.getMajorRadius());
+	Real touchingDistSqr = sqr(a->geom.getMajorRadius() + second->geom.getMajorRadius());
 	if (distSqr <= touchingDistSqr)
 	{
 		// calc the approximate location and normal.
@@ -649,16 +649,16 @@ static Bool xy_collideTest_Circle_Circle(const CollideInfo *a, const CollideInfo
 /**
 	2d utility routine for rect collisions testing.
 */
-static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
 	Coord2D pts[4];
 	Coord2D avg; avg.x = avg.y = 0.0f;
 	Int avgTot = 0;
 
 	rectToFourPoints(a, pts);
-	testRotatedPointsAgainstRect(pts, b, &avg, &avgTot);
+	testRotatedPointsAgainstRect(pts, second, &avg, &avgTot);
 
-	rectToFourPoints(b, pts);
+	rectToFourPoints(second, pts);
 	testRotatedPointsAgainstRect(pts, a, &avg, &avgTot);
 	
 	if (avgTot > 0)
@@ -668,7 +668,7 @@ static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *b,
 			// this is a little hokey, but generally adequate...
 			cinfo->loc.x = avg.x / avgTot;
 			cinfo->loc.y = avg.y / avgTot;
-			cinfo->loc.z = (a->position.z + b->position.z) * 0.5f;
+			cinfo->loc.z = (a->position.z + second->position.z) * 0.5f;
 
 			// yow, what exactly does it mean to find the normal to two *intersecting*
 			// rects? with "true" physics we could project ahead and determine 
@@ -683,7 +683,7 @@ static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *b,
 			// but until I either (a) rewrite everything to have predictive collisions, 
 			// or (b) come up with a better definition of a useful normal in this case,
 			// I'm not sure we can do a whole lot better... (srj)
-			vecDiff_2D(&b->position, &a->position, &cinfo->normal);
+			vecDiff_2D(&second->position, &a->position, &cinfo->normal);
 			cinfo->normal.normalize();
 		}
 		return true;
@@ -692,12 +692,12 @@ static Bool xy_collideTest_Rect_Rect(const CollideInfo *a, const CollideInfo *b,
 }
 
 //-----------------------------------------------------------------------------
-inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
 	// case 1: center of sphere is within the nonsphere z-space.
-	if (a->position.z >= b->position.z && a->position.z <= b->position.z + b->geom.getMaxHeightAbovePosition())
+	if (a->position.z >= second->position.z && a->position.z <= second->position.z + second->geom.getMaxHeightAbovePosition())
 	{
-		if (xyproc(a, b, cinfo))
+		if (xyproc(a, second, cinfo))
 		{
 			// a side-to-side collision; just need to adjust the z-coord of collideLoc
 			if (cinfo)
@@ -713,14 +713,14 @@ inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const Collide
 	// major-radius of top or bottom.
 
 	// 2a: sphere is below the nonsphere
-	Real b_bot = b->position.z;
+	Real b_bot = second->position.z;
 	if (a->position.z < b_bot && a->position.z + a->geom.getMajorRadius() >= b_bot)
 	{
 		// find the radius of the slice of the sphere that is at b_bot
 		CollideInfo amod = *a;
 		amod.position.z = b_bot;
 		amod.geom.setMajorRadius((Real)sqrtf(sqr(a->geom.getMajorRadius()) - sqr(b_bot - a->position.z)));
-		if (xyproc(&amod, b, cinfo))
+		if (xyproc(&amod, second, cinfo))
 		{
 			// if you want to have 'end' collisions, you should add something like:
 			//		if (circle a is contained by circle b) normal points straight up;
@@ -732,13 +732,13 @@ inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const Collide
 	}
 
 	// 2b: sphere is above the nonsphere
-	Real b_top = b->position.z + b->geom.getMaxHeightAbovePosition();
+	Real b_top = second->position.z + second->geom.getMaxHeightAbovePosition();
 	if (a->position.z > b_top && a->position.z - a->geom.getMajorRadius() <= b_top)
 	{
 		CollideInfo amod = *a;
 		amod.position.z = b_top;
 		amod.geom.setMajorRadius((Real)sqrtf(sqr(a->geom.getMajorRadius()) - sqr(a->position.z - b_top)));
-		if (xyproc(&amod, b, cinfo))
+		if (xyproc(&amod, second, cinfo))
 		{
 			// if you want to have 'end' collisions, you should add something like:
 			//		if (circle a is contained by circle b) normal points straight down;
@@ -753,24 +753,24 @@ inline Bool z_collideTest_Sphere_Nonsphere(CollideTestProc xyproc, const Collide
 }
 
 //-----------------------------------------------------------------------------
-inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
 	// note: we already know that there is a z-intersection (our caller filters that out)
 	// so we need not recheck that here.
 
 	// Preflight for close objects.
-	Real dSqr = sqr(a->position.x-b->position.x) + sqr(a->position.y-b->position.y);
+	Real dSqr = sqr(a->position.x-second->position.x) + sqr(a->position.y-second->position.y);
 	Real minRadius = a->geom.getMajorRadius();
 	Real r = a->geom.getMinorRadius();
 	if (minRadius>r) minRadius = r;
-	r = b->geom.getMajorRadius();
+	r = second->geom.getMajorRadius();
 	if (minRadius>r) minRadius = r;
-	r = b->geom.getMinorRadius();
+	r = second->geom.getMinorRadius();
 	if (minRadius>r) minRadius = r;
 	
 	Bool closeEnough = sqr(minRadius) > dSqr;
 
-	if (closeEnough || xyproc(a, b, cinfo))
+	if (closeEnough || xyproc(a, second, cinfo))
 	{
 		// since we allow objects to overlap at times, how do we distinguish
 		// between a "top-to-bottom" vs "side-to-side" collision?
@@ -782,10 +782,10 @@ inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const Coll
 		// just need to adjust the z-coord of collideLoc
 		if (cinfo)
 		{
-			if (b->position.z > a->position.z)
-				cinfo->loc.z = (b->position.z + a->position.z + a->geom.getMaxHeightAbovePosition()) * 0.5f;
+			if (second->position.z > a->position.z)
+				cinfo->loc.z = (second->position.z + a->position.z + a->geom.getMaxHeightAbovePosition()) * 0.5f;
 			else
-				cinfo->loc.z = (a->position.z + b->position.z + b->geom.getMaxHeightAbovePosition()) * 0.5f;
+				cinfo->loc.z = (a->position.z + second->position.z + second->geom.getMaxHeightAbovePosition()) * 0.5f;
 		}
 		return true;
 	}
@@ -794,12 +794,12 @@ inline Bool z_collideTest_Nonsphere_Nonsphere(CollideTestProc xyproc, const Coll
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
 	Coord3D diff;
-	vecDiff_3D(&b->position, &a->position, &diff);
+	vecDiff_3D(&second->position, &a->position, &diff);
 	Real distSqr = calcSqrDist_3D(&diff);
-	Real touchingDistSqr = sqr(a->geom.getMajorRadius() + b->geom.getMajorRadius());
+	Real touchingDistSqr = sqr(a->geom.getMajorRadius() + second->geom.getMajorRadius());
 	if (distSqr <= touchingDistSqr)
 	{
 		if (cinfo)
@@ -816,57 +816,57 @@ static Bool collideTest_Sphere_Sphere(const CollideInfo *a, const CollideInfo *b
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Sphere_Cylinder(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Sphere_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, a, b, cinfo);
+	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, a, second, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Sphere_Box(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Sphere_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, a, b, cinfo);
+	return z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, a, second, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Cylinder_Sphere(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Cylinder_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, b, a, cinfo);
+	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Circle, second, a, cinfo);
 	if (cinfo)
 		flipCoord3D(&cinfo->normal);
 	return result;
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Cylinder_Cylinder(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Cylinder_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Circle, a, b, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Circle, a, second, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Cylinder_Box(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Cylinder_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Rect, a, b, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Circle_Rect, a, second, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Box_Sphere(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Box_Sphere(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, b, a, cinfo);
+	Bool result = z_collideTest_Sphere_Nonsphere(xy_collideTest_Circle_Rect, second, a, cinfo);
 	if (cinfo)
 		flipCoord3D(&cinfo->normal);
 	return result;
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Box_Cylinder(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Box_Cylinder(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Circle, a, b, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Circle, a, second, cinfo);
 }
 
 //-----------------------------------------------------------------------------
-static Bool collideTest_Box_Box(const CollideInfo *a, const CollideInfo *b, CollideLocAndNormal *cinfo)
+static Bool collideTest_Box_Box(const CollideInfo *a, const CollideInfo *second, CollideLocAndNormal *cinfo)
 {
-	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Rect, a, b, cinfo);
+	return z_collideTest_Nonsphere_Nonsphere(xy_collideTest_Rect_Rect, a, second, cinfo);
 }
 
 //-----------------------------------------------------------------------------
@@ -1265,7 +1265,7 @@ void CellAndObjectIntersection::friend_addToCellList(CellAndObjectIntersection *
 void CellAndObjectIntersection::friend_removeFromCellList(CellAndObjectIntersection **pListHead)
 {
 #define DEBUG_ASSERTINLIST(c) \
-	DEBUG_ASSERTCRASH((c)->m_prevCoi != NULL || (c)->m_nextCoi != NULL || *pListHead == (c), ("cell is not in list"));
+	DEBUG_ASSERTCRASH((cosine)->m_prevCoi != NULL || (cosine)->m_nextCoi != NULL || *pListHead == (cosine), ("cell is not in list"));
 
 	DEBUG_ASSERTINLIST(this);
 
@@ -1811,15 +1811,15 @@ void PartitionData::doRectFill(
 	Real angle
 )
 {
-	Real c = (Real)Cos(angle);
-	Real s = (Real)Sin(angle);
+	Real cosine = (Real)Cos(angle);
+	Real sine = (Real)Sin(angle);
 
 	Real actualCellSize = ThePartitionManager->getCellSize();
 	Real stepSize = actualCellSize * 0.5f; // in theory, should be getCellSize() exactly, but needs to be smaller to avoid aliasing problems
-	Real ydx = s * stepSize;
-	Real ydy = -c * stepSize;
-	Real xdx = c * stepSize;
-	Real xdy = s * stepSize;
+	Real ydx = sine * stepSize;
+	Real ydy = -cosine * stepSize;
+	Real xdx = cosine * stepSize;
+	Real xdy = sine * stepSize;
 
 	// GS 12-26-02  Oh my.  The step size has been fudged down to ensure that a cell is not jumped over,
 	// but then the original step size was used to determine the number of steps.  This error gets
@@ -1839,8 +1839,8 @@ void PartitionData::doRectFill(
 	// we don't need this fudge.  The fudge is not in the calcMaxCOIForShape, so it just results in 
 	// good COIs getting dropped since we didn't allocate enough to handle this fudge.
 
-	Real tl_x = centerX - halfsizeX*c - halfsizeY*s;
-	Real tl_y = centerY + halfsizeY*c - halfsizeX*s;
+	Real tl_x = centerX - halfsizeX*cosine - halfsizeY*sine;
+	Real tl_y = centerY + halfsizeY*cosine - halfsizeX*sine;
 
 	for (Int iy = 0; iy < numStepsY; ++iy, tl_x += ydx, tl_y += ydy)
 	{
@@ -1862,9 +1862,9 @@ void PartitionData::doRectFill(
 
 // -----------------------------------------------------------------------------
 // ?hLineCircle@PartitionData@@ present-unmatched
-void PartitionData::hLineCircle(Int x1, Int x2, Int y)
+void PartitionData::hLineCircle(Int startX, Int endX, Int y)
 {
-	for (Int x = x1; x <= x2; ++x)
+	for (Int x = startX; x <= endX; ++x)
 	{
 		PartitionCell* cell = ThePartitionManager->getCellAt(x, y);
 		if (cell)
@@ -2393,18 +2393,18 @@ void PartitionData::detachFromGhostObject(void)
 }
 
 //-----------------------------------------------------------------------------
-inline UnsignedInt hash2ints(Int a, Int b)
+inline UnsignedInt hash2ints(Int a, Int second)
 {
 	// do it this way so that [a,b] always hashes to the same value as [b,a].
 	// this is unsophisticated but reasonable, since all ObjectIDs will
 	// quite likely be well below 65536...
-	if (a < b)
+	if (a < second)
 	{
-		return (a<<16)+b;
+		return (a<<16)+second;
 	}
 	else
 	{
-		return (b<<16)+a;
+		return (second<<16)+a;
 	}
 }
 
@@ -3701,17 +3701,17 @@ SimpleObjectIterator* PartitionManager::iteratePotentialCollisions(
 
 //-----------------------------------------------------------------------------
 // ?isColliding@PartitionManager@@ present-unmatched
-Bool PartitionManager::isColliding( const Object *a, const Object *b ) const
+Bool PartitionManager::isColliding( const Object *a, const Object *second ) const
 {
 	//Make sure we have objects
-  if( !a || !b )
+  if( !a || !second )
 	{
     return false;
 	}
 
 	//Get both object's partition data
   const PartitionData* ad = a->friend_getConstPartitionData();
-  const PartitionData* bd = b->friend_getConstPartitionData();
+  const PartitionData* bd = second->friend_getConstPartitionData();
 
 	//Make sure we got it
   if( !ad || !bd )
@@ -4473,9 +4473,9 @@ Int PartitionManager::iterateCellsBreadthFirst(const Coord3D *pos, CellBreadthFi
 }
 
 //-----------------------------------------------------------------------------
-static Real calcDist2D(Real x1, Real y1, Real x2, Real y2)
+static Real calcDist2D(Real startX, Real y1, Real endX, Real y2)
 {
-	return sqrtf(sqr(x1-x2) + sqr(y1-y2));
+	return sqrtf(sqr(startX-endX) + sqr(y1-y2));
 }
 
 //-----------------------------------------------------------------------------
@@ -5559,15 +5559,15 @@ static int cellValueProc(PartitionCell* cell, void* userData)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineAddLooker(Int x1, Int x2, Int y, void *playerIndexVoid)
+static void hLineAddLooker(Int startX, Int endX, Int y, void *playerIndexVoid)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	Int playerIndex = (Int)(playerIndexVoid);
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
@@ -5576,15 +5576,15 @@ static void hLineAddLooker(Int x1, Int x2, Int y, void *playerIndexVoid)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineRemoveLooker(Int x1, Int x2, Int y, void *playerIndexVoid)
+static void hLineRemoveLooker(Int startX, Int endX, Int y, void *playerIndexVoid)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	Int playerIndex = (Int)(playerIndexVoid);
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
@@ -5593,15 +5593,15 @@ static void hLineRemoveLooker(Int x1, Int x2, Int y, void *playerIndexVoid)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineAddShrouder(Int x1, Int x2, Int y, void *playerIndexVoid)
+static void hLineAddShrouder(Int startX, Int endX, Int y, void *playerIndexVoid)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	Int playerIndex = (Int)(playerIndexVoid);
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
@@ -5610,15 +5610,15 @@ static void hLineAddShrouder(Int x1, Int x2, Int y, void *playerIndexVoid)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineRemoveShrouder(Int x1, Int x2, Int y, void *playerIndexVoid)
+static void hLineRemoveShrouder(Int startX, Int endX, Int y, void *playerIndexVoid)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	Int playerIndex = (Int)(playerIndexVoid);
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
@@ -5627,9 +5627,9 @@ static void hLineRemoveShrouder(Int x1, Int x2, Int y, void *playerIndexVoid)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineAddThreat(Int x1, Int x2, Int y, void *threatValueParms)
+static void hLineAddThreat(Int startX, Int endX, Int y, void *threatValueParms)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	ThreatValueParms *parms = (ThreatValueParms*)threatValueParms;
@@ -5637,8 +5637,8 @@ static void hLineAddThreat(Int x1, Int x2, Int y, void *threatValueParms)
 	Real distance;
 	Real mulVal = 1.0f;
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
@@ -5655,9 +5655,9 @@ static void hLineAddThreat(Int x1, Int x2, Int y, void *threatValueParms)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineRemoveThreat(Int x1, Int x2, Int y, void *threatValueParms)
+static void hLineRemoveThreat(Int startX, Int endX, Int y, void *threatValueParms)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	ThreatValueParms *parms = (ThreatValueParms*)threatValueParms;
@@ -5665,8 +5665,8 @@ static void hLineRemoveThreat(Int x1, Int x2, Int y, void *threatValueParms)
 	Real distance;
 	Real mulVal = 1.0f;
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
@@ -5683,9 +5683,9 @@ static void hLineRemoveThreat(Int x1, Int x2, Int y, void *threatValueParms)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineAddValue(Int x1, Int x2, Int y, void *threatValueParms)
+static void hLineAddValue(Int startX, Int endX, Int y, void *threatValueParms)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	ThreatValueParms *parms = (ThreatValueParms*)threatValueParms;
@@ -5693,8 +5693,8 @@ static void hLineAddValue(Int x1, Int x2, Int y, void *threatValueParms)
 	Real distance;
 	Real mulVal = 1.0f;
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
@@ -5711,9 +5711,9 @@ static void hLineAddValue(Int x1, Int x2, Int y, void *threatValueParms)
 }
 
 // -----------------------------------------------------------------------------
-static void hLineRemoveValue(Int x1, Int x2, Int y, void *threatValueParms)
+static void hLineRemoveValue(Int startX, Int endX, Int y, void *threatValueParms)
 {
-	if (y < 0 || y >= ThePartitionManager->m_cellCountY || x1 >= ThePartitionManager->m_cellCountX || x2 < 0)
+	if (y < 0 || y >= ThePartitionManager->m_cellCountY || startX >= ThePartitionManager->m_cellCountX || endX < 0)
 		return;
 
 	ThreatValueParms *parms = (ThreatValueParms*)threatValueParms;
@@ -5721,8 +5721,8 @@ static void hLineRemoveValue(Int x1, Int x2, Int y, void *threatValueParms)
 	Real distance;
 	Real mulVal = 1.0f;
 
-	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + x1];	// yes, this could be invalid. we'll skip the bad ones.
-	for (Int x = x1; x <= x2; ++x, ++cell)
+	PartitionCell* cell = &ThePartitionManager->m_cells[y * ThePartitionManager->m_cellCountX + startX];	// yes, this could be invalid. we'll skip the bad ones.
+	for (Int x = startX; x <= endX; ++x, ++cell)
 	{
 		if (x < 0 || x >= ThePartitionManager->m_cellCountX)
 			continue;
