@@ -153,9 +153,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GRva00785FD0Renderer (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva0011018B_Anchor(Rva00785FD0Renderer *p)
+void Rva0011018B_Anchor(Rva00785FD0Renderer *object)
 {
-	delete p;
+	delete object;
 }
 
 class Rva00119D00
@@ -180,9 +180,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GSubTitleWindow (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva00260A3C_Anchor(SubTitleWindow *p)
+void Rva00260A3C_Anchor(SubTitleWindow *object)
 {
-	delete p;
+	delete object;
 }
 
 class AudioFileCache
@@ -193,9 +193,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GAudioFileCache (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva00A7CF3_Anchor(AudioFileCache *p)
+void Rva00A7CF3_Anchor(AudioFileCache *object)
 {
-	delete p;
+	delete object;
 }
 
 class Rva001ED70C
@@ -206,9 +206,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GRva001ED70C (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva001ED840_Anchor(Rva001ED70C *p)
+void Rva001ED840_Anchor(Rva001ED70C *object)
 {
-	delete p;
+	delete object;
 }
 
 class W3DRoadBuffer
@@ -219,9 +219,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GW3DRoadBuffer (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva000DC51D_Anchor(W3DRoadBuffer *p)
+void Rva000DC51D_Anchor(W3DRoadBuffer *object)
 {
-	delete p;
+	delete object;
 }
 
 class W3DBridgeBuffer
@@ -232,9 +232,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GW3DBridgeBuffer (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva000DE4EB_Anchor(W3DBridgeBuffer *p)
+void Rva000DE4EB_Anchor(W3DBridgeBuffer *object)
 {
-	delete p;
+	delete object;
 }
 
 class W3DWaypointBuffer
@@ -245,9 +245,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GW3DWaypointBuffer (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva000DFDD9_Anchor(W3DWaypointBuffer *p)
+void Rva000DFDD9_Anchor(W3DWaypointBuffer *object)
 {
-	delete p;
+	delete object;
 }
 
 class Rva000E0AE2
@@ -258,9 +258,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GRva000E0AE2 (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva000E03E2_Anchor(Rva000E0AE2 *p)
+void Rva000E03E2_Anchor(Rva000E0AE2 *object)
 {
-	delete p;
+	delete object;
 }
 
 class W3DTaint
@@ -271,9 +271,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GW3DTaint (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva00073BFE_Anchor(W3DTaint *p)
+void Rva00073BFE_Anchor(W3DTaint *object)
 {
-	delete p;
+	delete object;
 }
 
 class Rva0072AED
@@ -315,9 +315,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GWaterTracksRenderSystem (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva00FF4D6_Anchor(WaterTracksRenderSystem *p)
+void Rva00FF4D6_Anchor(WaterTracksRenderSystem *object)
 {
-	delete p;
+	delete object;
 }
 
 // ??_GRva0081FDD@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00082EF5Ctor.cpp.
@@ -346,9 +346,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GW3DVolumetricShadowManager (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva00F2ECB_Anchor(W3DVolumetricShadowManager *p)
+void Rva00F2ECB_Anchor(W3DVolumetricShadowManager *object)
 {
-	delete p;
+	delete object;
 }
 
 class Rva0007BAD6
@@ -359,9 +359,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GRva0007BAD6 (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva007C0F5_Anchor(Rva0007BAD6 *p)
+void Rva007C0F5_Anchor(Rva0007BAD6 *object)
 {
-	delete p;
+	delete object;
 }
 
 // Native A7797..A77B3 calls the complete resource cleanup at 10EDC2,
@@ -404,9 +404,9 @@ Rva005C802B::~Rva005C802B()
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva005C802B_Anchor(Rva005C802B *p)
+void Rva005C802B_Anchor(Rva005C802B *object)
 {
-	p->Rva005C802B::~Rva005C802B();
+	object->Rva005C802B::~Rva005C802B();
 }
 
 class Rva005CD14D
@@ -435,9 +435,9 @@ Rva005CD1A9::~Rva005CD1A9()
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva005CD1A9_Anchor(Rva005CD1A9 *p)
+void Rva005CD1A9_Anchor(Rva005CD1A9 *object)
 {
-	p->Rva005CD1A9::~Rva005CD1A9();
+	object->Rva005CD1A9::~Rva005CD1A9();
 }
 
 class Rva005F35D3
@@ -495,9 +495,9 @@ BattlePromptPlayerPageMovieClip::~BattlePromptPlayerPageMovieClip()
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva00600084_Anchor(BattlePromptPlayerPageMovieClip *p)
+void Rva00600084_Anchor(BattlePromptPlayerPageMovieClip *object)
 {
-	p->BattlePromptPlayerPageMovieClip::~BattlePromptPlayerPageMovieClip();
+	object->BattlePromptPlayerPageMovieClip::~BattlePromptPlayerPageMovieClip();
 }
 
 class Rva0057C39C
@@ -530,9 +530,9 @@ AptLoadMovieFrame::~AptLoadMovieFrame()
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void AptLoadMovieFrame_Anchor(AptLoadMovieFrame *p)
+void AptLoadMovieFrame_Anchor(AptLoadMovieFrame *object)
 {
-	p->AptLoadMovieFrame::~AptLoadMovieFrame();
+	object->AptLoadMovieFrame::~AptLoadMovieFrame();
 }
 
 class Rva00589079
@@ -581,9 +581,9 @@ public:
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva00494A97_Anchor(Rva00494A97 *p)
+void Rva00494A97_Anchor(Rva00494A97 *object)
 {
-	p->Rva00494A97::~Rva00494A97();
+	object->Rva00494A97::~Rva00494A97();
 }
 
 class Rva005C3EE8
@@ -612,9 +612,9 @@ Rva005C3F02::~Rva005C3F02()
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva005C3F02_Anchor(Rva005C3F02 *p)
+void Rva005C3F02_Anchor(Rva005C3F02 *object)
 {
-	p->Rva005C3F02::~Rva005C3F02();
+	object->Rva005C3F02::~Rva005C3F02();
 }
 
 class Rva005CB892
@@ -643,9 +643,9 @@ Rva005CB8D4::~Rva005CB8D4()
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva005CB8D4_Anchor(Rva005CB8D4 *p)
+void Rva005CB8D4_Anchor(Rva005CB8D4 *object)
 {
-	p->Rva005CB8D4::~Rva005CB8D4();
+	object->Rva005CB8D4::~Rva005CB8D4();
 }
 
 class Rva003B3204
@@ -706,9 +706,9 @@ Rva003B4100::~Rva003B4100()
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva003B4100_Anchor(Rva003B4100 *p)
+void Rva003B4100_Anchor(Rva003B4100 *object)
 {
-	p->Rva003B4100::~Rva003B4100();
+	object->Rva003B4100::~Rva003B4100();
 }
 
 class Rva00787C20
@@ -719,9 +719,9 @@ public:
 
 // Anchor: deleting one emits the scalar deleting destructor ??_GRva00787C20 (it
 // calls out to the destructor row); the destructor is only declared here.
-void Rva00AAE59_Anchor(Rva00787C20 *p)
+void Rva00AAE59_Anchor(Rva00787C20 *object)
 {
-	delete p;
+	delete object;
 }
 
 class Rva00AB15D
@@ -873,9 +873,9 @@ public:
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void ObjectModule_Anchor(ObjectModule *p)
+void ObjectModule_Anchor(ObjectModule *object)
 {
-	p->ObjectModule::~ObjectModule();
+	object->ObjectModule::~ObjectModule();
 }
 
 // Guarded-delete clear() batch: each owner below holds a heap element at
