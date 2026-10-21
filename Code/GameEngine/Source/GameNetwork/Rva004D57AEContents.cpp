@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva004D6040@Rva004D57AE@@QAE?AVAsciiString@@XZ, retail 0x004D6040, 138 bytes.
+// ?getContentsAsAsciiString@Rva004D57AE@@UAE?AVAsciiString@@XZ, retail 0x004D6040, 138 bytes.
 // Rva004D57AE (type 11, dword +0x1c) contents: base
 // NetCommandMsg::rva004D5B4C plus ", destroyPlayer=%d" with the +0x1c dword.
 // Identity from vtable slot 3 of 0x00860234, format "%s, destroyPlayer=%d" at
@@ -48,12 +48,12 @@ protected:
 class Rva004D57AE : public NetCommandMsg
 {
 public:
-	AsciiString rva004D6040();
+	AsciiString getContentsAsAsciiString();
 private:
 	unsigned int m_1c;
 };
 
-AsciiString Rva004D57AE::rva004D6040()
+AsciiString Rva004D57AE::getContentsAsAsciiString()
 {
 	AsciiString result;
 	result.format("%s, destroyPlayer=%d", GetStr004D6040(((NetCommandMsg *)this)->rva004D5B4C()), m_1c);

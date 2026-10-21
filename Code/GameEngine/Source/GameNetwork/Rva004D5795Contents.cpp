@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva004D5FB4@Rva004D5795@@QAE?AVAsciiString@@XZ, retail 0x004D5FB4, 140 bytes.
+// ?getContentsAsAsciiString@Rva004D5795@@UAE?AVAsciiString@@XZ, retail 0x004D5FB4, 140 bytes.
 // Rva004D5795 (player-leave, type 10, bool +0x1c) contents: base
 // NetCommandMsg::rva004D5B4C plus ", leavingPlayer=%d" with the +0x1c byte.
 // Identity from vtable slot 3 of 0x00860224, movzx byte +0x1c, format
@@ -48,12 +48,12 @@ protected:
 class Rva004D5795 : public NetCommandMsg
 {
 public:
-	AsciiString rva004D5FB4();
+	AsciiString getContentsAsAsciiString();
 private:
 	bool m_1c;
 };
 
-AsciiString Rva004D5795::rva004D5FB4()
+AsciiString Rva004D5795::getContentsAsAsciiString()
 {
 	AsciiString result;
 	result.format("%s, leavingPlayer=%d", GetStr004D5FB4(((NetCommandMsg *)this)->rva004D5B4C()), m_1c);

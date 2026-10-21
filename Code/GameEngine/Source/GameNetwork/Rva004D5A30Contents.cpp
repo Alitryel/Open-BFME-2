@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva004D6468@Rva004D5A30@@QAE?AVAsciiString@@XZ, retail 0x004D6468, 141 bytes.
+// ?getContentsAsAsciiString@Rva004D5A30@@UAE?AVAsciiString@@XZ, retail 0x004D6468, 141 bytes.
 // Rva004D5A30 (type 9, dwords +0x1c/+0x20) contents slot 3 of 0x00860294: base
 // NetCommandMsg::rva004D5B4C plus ", startFrame=%d endFrame=%d".
 // Identity from vtable slot 3, ctor 0x004D5A30 layout, format
@@ -48,13 +48,13 @@ protected:
 class Rva004D5A30 : public NetCommandMsg
 {
 public:
-	AsciiString rva004D6468();
+	AsciiString getContentsAsAsciiString();
 private:
 	unsigned int m_1c;
 	unsigned int m_20;
 };
 
-AsciiString Rva004D5A30::rva004D6468()
+AsciiString Rva004D5A30::getContentsAsAsciiString()
 {
 	AsciiString result;
 	result.format("%s, startFrame=%d endFrame=%d", GetStr004D6468(((NetCommandMsg *)this)->rva004D5B4C()), m_1c, m_20);

@@ -64,7 +64,7 @@ extern Rva006D6D20 *g_AptStringFreeList;
 class Rva006D6D20
 {
 public:
-	virtual void rva006D6C90();
+	virtual void ForceDelete();
 private:
 	int m_04;
 	EAStringC m_string;										// +0x08
@@ -72,7 +72,7 @@ private:
 	Rva006D6D20 *m_nextFree;								// +0x0C
 };
 
-void Rva006D6D20::rva006D6C90()
+void Rva006D6D20::ForceDelete()
 {
 	m_nextFree = g_AptStringFreeList;
 	g_AptStringFreeList = this;
