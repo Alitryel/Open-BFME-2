@@ -1,8 +1,9 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
 //
 // GettingBuiltBehavior primary-vtable (0x00C404FC) slot 5, retail 0x004534F5
-// (194 bytes), installed by the matched ctor 0x004542FA. Method identity is
-// not established; named by address like GettingBuiltBehaviorIfaceSlots.cpp.
+// (194 bytes), installed by the matched ctor 0x004542FA: onObjectCreated, the
+// slot-5 name of 17 of 19 named sibling module tables (AIUpdateInterface,
+// BoneFXUpdate, BattlePlanUpdate, ActivateModuleSpecialPower, ...).
 //
 // With an Object: the module data names a template by its +0x14 string, or,
 // when its +0x1C flag is set and the controlling Player's +0x34 object has
@@ -124,10 +125,10 @@ class GettingBuiltBehavior : public BehaviorModule, public GettingBuiltBehaviorI
 {
 public:
 	virtual void rva00453652(int a1);
-	virtual void rva004534F5();
+	virtual void onObjectCreated();
 };
 
-void GettingBuiltBehavior::rva004534F5()
+void GettingBuiltBehavior::onObjectCreated()
 {
 	Object *obj = m_object;
 	if (!obj)

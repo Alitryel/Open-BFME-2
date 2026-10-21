@@ -526,38 +526,7 @@ void SpecialPowerModule::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/SpecialPowerModule_loadPostProcessMethodThunk.cpp
-// ?loadPostProcess@SpecialPowerModule@@MAEXXZ present-unmatched
-void SpecialPowerModule::loadPostProcess( void )
-{
-
-	// extend base class
-	BehaviorModule::loadPostProcess();
-
-
-
-	// Now, if we find that we have just come into being, 
-	// but there is already a science granted for our shared superweapon,
-	// lets make sure TheIngameUI knows about our public timer
-	// add this weapon to the UI if it has a public timer for all to see
-	if( m_pausedCount == 0 &&
-			getSpecialPowerTemplate()->isSharedNSync() == TRUE &&
-			getSpecialPowerTemplate()->hasPublicTimer() == TRUE &&
-			getObject()->getControllingPlayer() &&
-			getObject()->isKindOf( KINDOF_STRUCTURE ) )
-	{
-		TheInGameUI->addSuperweapon( getObject()->getControllingPlayer()->getPlayerIndex(), 
-																 getPowerName(), 
-																 getObject()->getID(), 
-																 getSpecialPowerModuleData()->m_specialPowerTemplate );
-	}
-
-
-
-
-
-
-}  // end loadPostProcess
+// SpecialPowerModule::loadPostProcess is rowed at 0x00493B1E (SpecialPowerModuleRva00493B1E.cpp).
 
 //-------------------------------------------------------------------------------------------------
 // Two more out-of-line final-override accessors in the shape of the

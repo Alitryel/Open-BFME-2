@@ -10,7 +10,7 @@
 // CastleBehavior), slot 1 of the four-slot create interface at +0x20 is
 // onBuildComplete (SupplyCenterCreate, ExperienceLevelCreate, SpecialPowerCreate).
 //
-// ?mapLoadPostProcess@DynamicPortalBehaviour@@UAEXH@Z, retail 0x00461284, 22 bytes:
+// ?mapLoadPostProcess@DynamicPortalBehaviour@@UAEXPBVDict@@@Z, retail 0x00461284, 22 bytes:
 // +0x0C slot 45 (the argument unread); runs the member unless TheGameLogic's
 // +0x6E flag is set.
 // ?onBuildComplete@DynamicPortalBehaviour@@UAEXXZ, retail 0x0046132F, 12 bytes:
@@ -19,6 +19,7 @@
 
 class Object;
 class ModuleData;
+class Dict;
 
 class GameLogic
 {
@@ -52,7 +53,7 @@ protected:
 class BehaviorModuleInterface : public Rva00461284Slots<45>
 {
 public:
-	virtual void mapLoadPostProcess(int a1) = 0;
+	virtual void mapLoadPostProcess(const Dict *properties) = 0;
 };
 
 struct Iface10 : public Rva00461284Slots<10> { virtual void upgradeImplementation() = 0; unsigned char m_pad[4]; };
@@ -76,7 +77,7 @@ class DynamicPortalBehaviour : public UpgradeModule
 {
 public:
 	void createWaypoints();	// 0x00460F90, rowed in DynamicPortalBehaviourCreateWaypoints.cpp
-	virtual void mapLoadPostProcess(int a1);
+	virtual void mapLoadPostProcess(const Dict *properties);
 	virtual void upgradeImplementation();
 	virtual void onBuildComplete();
 private:
@@ -86,8 +87,8 @@ private:
 	bool m_3D; // +0x3D
 };
 
-// ?mapLoadPostProcess@DynamicPortalBehaviour@@UAEXH@Z @0x00461284
-void DynamicPortalBehaviour::mapLoadPostProcess(int)
+// ?mapLoadPostProcess@DynamicPortalBehaviour@@UAEXPBVDict@@@Z @0x00461284
+void DynamicPortalBehaviour::mapLoadPostProcess(const Dict *)
 {
 	if (!TheGameLogic->m_6E)
 		rva00461257();

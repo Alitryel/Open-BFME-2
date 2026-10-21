@@ -2,12 +2,16 @@
 //
 // Two WallUpgradeUpdate overrides on the interface vtables its matched ctor
 // 0x004AB317 installs over UpdateModule: 0x00C54768 at +0x20 and 0x00C54764 at
-// +0x24, each compiled with its subobject this. Names are by address.
+// +0x24, each compiled with its subobject this. The +0x24 slot keeps its
+// address name; the +0x20 slot is onBodyDamageStateChange, slot 2 of the
+// three-slot damage interface as in GarrisonContain, BoneFXDamage and
+// TransitionDamageFX (3 of 4 named siblings).
 //
 // ?rva004AB3AE@WallUpgradeUpdate@@UAE_NXZ, retail 0x004AB3AE, 61 bytes: +0x24
 // slot 0; whether our Object is of KindOf 0x109, 0x108 or 0x107.
-// ?rva004AB3EB@WallUpgradeUpdate@@UAEXHHH@Z, retail 0x004AB3EB, 42 bytes:
-// +0x20 slot 2; when the third argument rises above the second to 3, arms
+// ?onBodyDamageStateChange@WallUpgradeUpdate@@UAEXPBVDamageInfo@@W4BodyDamageType@@1@Z,
+// retail 0x004AB3EB, 42 bytes: +0x20 slot 2; when the new state rises above
+// the old one to BODY_RUBBLE (3), arms
 // +0x2C with eight times the constant BfmeLogicFramesPerSecond and wakes the module
 // (UpdateModule::setWakeFrame, UPDATE_SLEEP_NONE).
 // ?update@WallUpgradeUpdate@@UAE?AW4UpdateSleepTime@@XZ, retail 0x004AB4D8,
@@ -97,12 +101,21 @@ protected:
 	int m_1C;
 };
 
+class DamageInfo;
+enum BodyDamageType
+{
+	BODY_PRISTINE,
+	BODY_DAMAGED,
+	BODY_REALLYDAMAGED,
+	BODY_RUBBLE
+};
+
 class Rva004AB3EBIface
 {
 public:
 	virtual void gap0() = 0;
 	virtual void gap1() = 0;
-	virtual void rva004AB3EB(int a1, int previous, int current) = 0;
+	virtual void onBodyDamageStateChange(const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) = 0;
 };
 
 class Rva004AB3AEIface
@@ -123,7 +136,7 @@ public:
 class WallUpgradeUpdate : public UpdateModule, public Rva004AB3EBIface, public Rva004AB3AEIface
 {
 public:
-	virtual void rva004AB3EB(int a1, int previous, int current);
+	virtual void onBodyDamageStateChange(const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState);
 	virtual bool rva004AB3AE();
 	virtual UpdateSleepTime update();
 	void scanForBuildingAndPossess();
@@ -141,10 +154,10 @@ bool WallUpgradeUpdate::rva004AB3AE()
 	return obj->isKindOf(KINDOF_109) || obj->isKindOf(KINDOF_108) || obj->isKindOf(KINDOF_107);
 }
 
-// ?rva004AB3EB@WallUpgradeUpdate@@UAEXHHH@Z @0x004AB3EB
-void WallUpgradeUpdate::rva004AB3EB(int, int previous, int current)
+// ?onBodyDamageStateChange@WallUpgradeUpdate@@UAEXPBVDamageInfo@@W4BodyDamageType@@1@Z @0x004AB3EB
+void WallUpgradeUpdate::onBodyDamageStateChange(const DamageInfo *, BodyDamageType oldState, BodyDamageType newState)
 {
-	if (current > previous && current == 3)
+	if (newState > oldState && newState == BODY_RUBBLE)
 	{
 		m_2C = BfmeLogicFramesPerSecond * 8;
 		setWakeFrame(m_object, UPDATE_SLEEP_NONE);

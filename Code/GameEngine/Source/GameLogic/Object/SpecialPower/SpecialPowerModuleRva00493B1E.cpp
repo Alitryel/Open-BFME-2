@@ -1,8 +1,9 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
-// ?rva00493B1E@SpecialPowerModule@@UAEXXZ, retail 0x00493B1E..0x00493BD4
-// (182B, EH): slot 1 of SpecialPowerModule's table 0x00C4E868, a
-// Ghidra-unlisted gap body. After the (folded, empty) base call it runs Zero
-// Hour's SpecialPowerModule public-timer registration: unpaused (+0x1C), a
+// ?loadPostProcess@SpecialPowerModule@@MAEXXZ, retail 0x00493B1E..0x00493BD4
+// (182B, EH): slot 1 of SpecialPowerModule's table 0x00C4E868 (loadPostProcess
+// in 123 of 144 named sibling module tables), a Ghidra-unlisted gap body. It is
+// Zero Hour's SpecialPowerModule::loadPostProcess: after the (folded, empty)
+// BehaviorModule::loadPostProcess base call, the public-timer registration: unpaused (+0x1C), a
 // shared-n-sync template with a public timer (final override bytes +0x59 and
 // +0x58), a controlling player and a structure object (kind-of bit 0x80 of
 // the template word +0x108) register the superweapon with TheInGameUI
@@ -100,14 +101,15 @@ public:
 class SpecialPowerModule : public SpecialPowerModuleBase, public SpecialPowerModuleInterface
 {
 public:
-	virtual void rva00493B1E();
 	Object *getObject() const { return m_object; }
 	const SpecialPowerModuleData *getSpecialPowerModuleData() const { return m_moduleData; }
+protected:
+	virtual void loadPostProcess();
 private:
 	int m_pausedCount;										// +0x1C
 };
 
-void SpecialPowerModule::rva00493B1E()
+void SpecialPowerModule::loadPostProcess()
 {
 	((Rva000B3FD0 *)this)->rva000B3FD0();
 	if (m_pausedCount == 0 &&

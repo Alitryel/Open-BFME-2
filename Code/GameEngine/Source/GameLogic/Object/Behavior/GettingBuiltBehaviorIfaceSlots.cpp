@@ -6,11 +6,14 @@
 // the BehaviorModuleInterface). Each is compiled with its subobject this.
 // Layout from the ctor: +0x24 int (1), +0x28 float, +0x2C int, bytes
 // +0x30..+0x36, +0x38 int, bytes +0x3C..+0x3E, the BfmePod20 list at +0x40.
-// Method identities are not established; names are by address.
+// Most method identities are not established; those names are by address.
+// Named from the sibling vtables: onDelete (primary slot 8, 25 of 27 named
+// siblings) and mapLoadPostProcess (+0x0C slot 45, 3 of 3 named siblings).
 
 #include <math.h>
 
 class Object;
+class Dict;
 enum Relationship { RELATION_UNKNOWN = 0 };
 enum DamageType { DAMAGE_UNKNOWN = 0 };
 enum DeathType { DEATH_UNKNOWN = 0 };
@@ -206,7 +209,7 @@ public:
 	virtual ~BehaviorModule();
 	virtual void gap1(); virtual void gap2(); virtual void gap3(); virtual void gap4();
 	virtual void gap5(); virtual void gap6(); virtual void gap7();
-	virtual void rva00454501();
+	virtual void onDelete();
 protected:
 	const ModuleData *m_moduleData; // +0x04
 	Object *m_object; // +0x08
@@ -215,7 +218,7 @@ protected:
 class BehaviorModuleInterface : public Rva00454430Slots<45>
 {
 public:
-	virtual void rva004543CA(int a1) = 0;
+	virtual void mapLoadPostProcess(const Dict *properties) = 0;
 };
 
 class UpdateModuleInterface
@@ -258,7 +261,7 @@ public:
 class GettingBuiltBehavior : public UpdateModule, public GettingBuiltBehaviorInterface
 {
 public:
-	virtual void rva004543CA(int a1);
+	virtual void mapLoadPostProcess(const Dict *properties);
 	virtual void rva00454430();
 	virtual void rva004535B7();
 	virtual bool rva0045314E(Object *obj);
@@ -268,7 +271,7 @@ public:
 	virtual bool rva0045362B(int id);
 	virtual void rva00453F31(int a1);
 	virtual float rva0045342F(Object *obj);
-	virtual void rva00454501();
+	virtual void onDelete();
 	virtual bool rva004533B2();
 	virtual bool rva004540F5();
 	virtual float rva00453FE7(Object *obj);
@@ -306,10 +309,10 @@ static inline bool rva00453F31Flag(const Object *obj)
 static const int GETTING_BUILT_CONDITION_A = 2 * 32 + 4;
 static const int GETTING_BUILT_CONDITION_B = 2 * 32 + 5;
 
-// ?rva004543CA@GettingBuiltBehavior@@UAEXH@Z, retail 0x004543CA, 11 bytes:
+// ?mapLoadPostProcess@GettingBuiltBehavior@@UAEXPBVDict@@@Z, retail 0x004543CA, 11 bytes:
 // slot 45 of the +0x0C vtable 0x00C40440; runs slot 2 of the +0x20 interface,
 // the argument unread.
-void GettingBuiltBehavior::rva004543CA(int)
+void GettingBuiltBehavior::mapLoadPostProcess(const Dict *)
 {
 	rva00454430();
 }
@@ -565,12 +568,12 @@ void __cdecl rva0045346D(const void *arg1, int arg2, int arg3)
 	}
 }
 
-// ?rva00454501@GettingBuiltBehavior@@UAEXXZ, retail 0x00454501, 86 bytes: slot
+// ?onDelete@GettingBuiltBehavior@@UAEXXZ, retail 0x00454501, 86 bytes: slot
 // 8 of the primary vtable 0x00C404FC. When the Object named by the owner's
 // +0x78 exists and Object::rva0028BCF4 finds its peer, the peer's slot 5 runs,
 // +0x30 is raised and the pinned member 0x004541AB follows; then a +0x24 audio
 // handle of 5 or more goes to TheAudio slot 27 and resets to 1.
-void GettingBuiltBehavior::rva00454501()
+void GettingBuiltBehavior::onDelete()
 {
 	Object *other = TheGameLogic->findObjectByID((ObjectID)m_object->m_78);
 	if (other)

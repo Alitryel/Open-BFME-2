@@ -1,14 +1,15 @@
 // 0x004BA9E4 (321B): TransitionDamageFX update step over the neighbour list. /Oa (assume no aliasing)
 // is what gives retail's EBX/EDI roles for the module data and the iterator receiver; the region
 // default supplies /O1 /arch:SSE /G7.
-// ?rva004BA9E4@TransitionDamageFX@@UAEXH@Z
+// ?mapLoadPostProcess@TransitionDamageFX@@UAEXPBVDict@@@Z
 // partial score=0.9582139148494289 date=2026-10-13
-// ?rva004BA9E4@TransitionDamageFX@@UAEXH@Z
+// ?mapLoadPostProcess@TransitionDamageFX@@UAEXPBVDict@@@Z
 // partial score=0.9582139148494289 date=2026-10-10
 // cl: /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /ICode/GameEngine/Source /Oa
 // NEW native4BA9E4..4BAB25 RET4. Owned ctor4BA3EA installs Behavior interface+0C
-// table whose slot39 corresponds to this rubble-neighbor initialization callback.
-// Original method name unproven; neutral address retained. BF1 clean donor
+// table whose slot 45 is this rubble-neighbor initialization callback.
+// Named mapLoadPostProcess: slot 45 of the +0x0C table 0x00C59A30, as in the
+// sibling tables (CastleMemberBehavior, ThreatFinderUpdate, CastleBehavior). BF1 clean donor
 // TransitionDamageFXRubbleNeighbors.cpp575ba2b04 supplies semantic guide.
 // Target expands mask24->28 and kind59->60; native fields moduledata1034,
 // record44B/neighborOffset14/OCL10 and resolvedvector secondary+C8 are proven.
@@ -16,7 +17,7 @@
 #include "ascii_string.h"
 #include "Common/PartitionRangeQueryCallView.h"
 extern "C" void*memset(void*,int,unsigned);
-class Matrix3D;class ObjectCreationList;
+class Matrix3D;class ObjectCreationList;class Dict;
 namespace _STL {template<class T>class allocator{};template<class T,class A>class vector{public:T*begin;T*end;T*cap;const T*getBegin()const{return begin;}const T*getEnd()const{return end;}bool empty()const{return begin==end;}~vector();void push_back(const T&);};}
 class Thing {public:void convertBonePosToWorldPos(const Coord3D*,const Matrix3D*,Coord3D*,Matrix3D*)const;};
 class Object:public Thing {public:unsigned getID()const{return *(const unsigned*)((const char*)this+0x74);}};
@@ -56,7 +57,7 @@ public:
 	virtual void slot30(); virtual void slot31(); virtual void slot32();
 	virtual void slot33(); virtual void slot34(); virtual void slot35();
 	virtual void slot36(); virtual void slot37(); virtual void slot38();
-	virtual void rva004BA9E4(int) = 0;
+	virtual void mapLoadPostProcess(const Dict *) = 0;
 };
 
 // The three-slot table the constructor installs at +0x10 (0x010B2588).
@@ -73,7 +74,7 @@ class TransitionDamageFX : public ObjectModule,
 	public DamageModuleinterface
 {
 public:
-	virtual void rva004BA9E4(int);
+	virtual void mapLoadPostProcess(const Dict *);
 
 	const TransitionDamageFXModuleDataView *getTransitionDamageFXModuleData() const
 	{
@@ -86,7 +87,7 @@ private:
 		resolvedNeighbors;
 };
 
-void TransitionDamageFX::rva004BA9E4(int)
+void TransitionDamageFX::mapLoadPostProcess(const Dict *)
 {
  
  const TransitionDamageFXModuleDataView*data=getTransitionDamageFXModuleData();
