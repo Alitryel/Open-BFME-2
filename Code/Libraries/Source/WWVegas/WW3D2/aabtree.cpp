@@ -16,6 +16,8 @@
 #include "always.h"
 #undef W3DMPO_GLUE
 #define W3DMPO_GLUE(ARGCLASS)
+// BFME 2's MeshGeometryClass layout, so the emitted accessors read retail's members.
+#include "../../../../../reference/shims/meshgeom/meshgeometry.h"
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -789,14 +791,8 @@ bool AABTreeClass::Cast_Ray_To_Polys(CullNodeStruct * node,RayCollisionTestClass
 		*/
 		TriClass tri;
 
-		// BFME2 MeshGeometryClass layout: retail RVA 0x19820E reads Vertex
-		// at +0x30 and Poly at +0x2C; RVA 0x1983A5 reads PolySurfaceType
-		// at +0x58. ShareBufferClass array storage remains at +0xC.
-		// Keep these TU-local layout reads until the shared header is recovered.
-		const Vector3 * loc =
-				(*(ShareBufferClass<Vector3> * const *)((const char *)Mesh + 0x30))->Get_Array();
-		const TriIndex * polyverts =
-				(*(ShareBufferClass<TriIndex> * const *)((const char *)Mesh + 0x2C))->Get_Array();
+		const Vector3 * loc = Mesh->Get_Vertex_Array();
+		const TriIndex * polyverts = Mesh->Get_Polygon_Array();
 #if (!OPTIMIZE_PLANEEQ_RAM)
 		const Vector4 * norms = Mesh->Get_Plane_Array();
 #endif
@@ -828,8 +824,7 @@ bool AABTreeClass::Cast_Ray_To_Polys(CullNodeStruct * node,RayCollisionTestClass
 			}
 		}
 		if (polyhit != -1) {
-			raytest.Result->SurfaceType =
-					(*(ShareBufferClass<uint8> * const *)((const char *)Mesh + 0x58))->Get_Array()[polyhit];
+			raytest.Result->SurfaceType = Mesh->Get_Poly_Surface_Type (polyhit);
 			return true;
 		}
 	}
@@ -1050,11 +1045,8 @@ bool AABTreeClass::Intersect_OBBox_With_Polys
 		*/	  
 		TriClass tri;
 
-		// BFME2 retail uses the same mesh layout as Cast_Ray_To_Polys.
-		const Vector3 * loc =
-				(*(ShareBufferClass<Vector3> * const *)((const char *)Mesh + 0x30))->Get_Array();
-		const TriIndex * polyverts =
-				(*(ShareBufferClass<TriIndex> * const *)((const char *)Mesh + 0x2C))->Get_Array();
+		const Vector3 * loc = Mesh->Get_Vertex_Array();
+		const TriIndex * polyverts = Mesh->Get_Polygon_Array();
 #if (!OPTIMIZE_PLANEEQ_RAM)
 		const Vector4 * norms = Mesh->Get_Plane_Array();
 #endif
