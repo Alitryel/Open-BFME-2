@@ -11,6 +11,9 @@
 // The three consecutive words read at 0x00BCEFA0 are the table this
 // constructor installs.
 extern "C" const void *const Rva000F0F2BDispatchTable[];
+// The decoder's ledger names that address as W3DProjectedShadow's vtable
+// (0x00BCEFA0, 3 slots); bind the address-derived spelling to it.
+#pragma comment(linker, "/alternatename:_Rva000F0F2BDispatchTable=??_7W3DProjectedShadow@@6B@")
 
 class Rva000F0F2B : public Rva000EFA4E
 {
