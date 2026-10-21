@@ -1,6 +1,8 @@
 // cl: /DNDEBUG /MD
-// ?rva004B3FCB@UpdateModule@@QAEXXZ @0x004B3FCB 17B evidence vtable 0x0085762C slot 1 plus callers none plus base loadPostProcess plus StringBase validate
-// Virtual slot 1 of ObjectCreationUpgrade's UpdateModule vtable at +8: calls
+// ?loadPostProcess@ObjectCreationUpgrade@@MAEXXZ @0x004B3FCB 17B evidence vtable 0x0085762C slot 1 plus callers none plus base loadPostProcess plus StringBase validate
+// ObjectCreationUpgrade::loadPostProcess: slot 1 of its UpdateModule vtable at
+// +8, the loadPostProcess slot (198 of 223 named sibling tables). It is
+// compiled with that subobject this: it calls
 // UpdateModule::loadPostProcess on this, then tail-jmps to StringBase validate
 // on this-8 (the UpgradeMux head). Layout from ObjectCreationUpgradeDtor.cpp:
 // UpgradeMux at +0, UpdateModule at +8. Shape follows Rva005FED59Validate.cpp
@@ -47,12 +49,11 @@ protected:
 	virtual void loadPostProcess();
 public:
 	virtual ~UpdateModule();
-	void rva004B3FCB();
 };
 
 template <typename T> class StringBase
 {
-	friend class UpdateModule;
+	friend class ObjectCreationUpgrade;
 	void validate() const;
 };
 
@@ -63,10 +64,11 @@ public:
 
 protected:
 	virtual ~ObjectCreationUpgrade();
+	virtual void loadPostProcess();
 };
 
-void UpdateModule::rva004B3FCB()
+void ObjectCreationUpgrade::loadPostProcess()
 {
 	UpdateModule::loadPostProcess();
-	return ((StringBase<unsigned short> *)((char *)this - 8))->validate();
+	return ((StringBase<unsigned short> *)(UpgradeMux *)this)->validate();
 }
