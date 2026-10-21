@@ -14,6 +14,9 @@ template <> void **vector<void*>::end();
 }
 
 extern _STL::vector<void *> g_00DFE1AC;
+// The data ledger names 0x009FE1AC under both this vector spelling and the
+// four-byte ?g_00DFE1AC@@3IA owner (Rva007B6880Thunks.cpp); bind to that owner.
+#pragma comment(linker, "/alternatename:?g_00DFE1AC@@3V?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@A=?g_00DFE1AC@@3IA")
 
 void __cdecl Rva0020DAE0(void *p)
 {
