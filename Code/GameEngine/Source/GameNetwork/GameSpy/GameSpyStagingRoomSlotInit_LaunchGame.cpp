@@ -736,47 +736,6 @@ void GameSpyStagingRoom::launchGame(void)
 // g_bfmeEmptyF9 there to keep the two constants distinct, as in retail.
 extern char g_bfmeEmptyF9[];
 
-void GameSpyStagingRoom::startGame(Int gameID)
-{
-	Int numHumans = 0;
-	for (Int i = 0; i < MAX_SLOTS; ++i)
-	{
-		GameSpyGameSlot *slot = (GameSpyGameSlot *)&m_GameSpySlot[i];
-		if (slot->isHuman())
-		{
-			++numHumans;
-			AsciiString gsName;
-			gsName.translate(slot->m_name);
-			((Rva004FDCE1AsciiField *)slot)->rva004FDCFF(gsName);
-			PlayerInfo *info = TheGameSpyInfo->rva00382CCE(gsName.str());
-
-			if (m_isQM)
-			{
-				if (getLocalSlotNum() == i)
-					slot->setProfileID(TheGameSpyInfo->getLocalProfileID());
-				((Rva004CFB6DAsciiField *)slot)->rva004CFB8B(g_bfmeEmptyF9);
-				((Rva004CFBC2AsciiField *)slot)->rva004CFBC2(g_bfmeEmptyF9);
-			}
-			else
-			{
-				PlayerInfoMap *pInfoMap = TheGameSpyInfo->getPlayerInfoMap();
-				PlayerInfoMap::iterator it = pInfoMap->end();
-				if (info)
-					it = pInfoMap->find(info->m_name);
-				if (it != pInfoMap->end())
-				{
-					slot->setProfileID(it->second.m_profileID);
-					((Rva004FDD36AsciiField *)slot)->rva004FDD36(it->second.m_clan);
-					slot->setSlotRankPoints(it->second.m_rankPoints);
-					slot->setFavoriteSide(it->second.m_desync);
-				}
-			}
-		}
-	}
-
-	if (numHumans < 2)
-		launchGame();
-}
 
 class PlayerTemplate
 {
