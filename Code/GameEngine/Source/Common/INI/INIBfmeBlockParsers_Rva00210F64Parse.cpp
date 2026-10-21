@@ -168,7 +168,7 @@ private:
 extern HouseColorSystem *TheHouseColorSystem;
 extern const FieldParse HouseColorFields[];
 
-void Rva00417A94Parse(INI *ini)
+void parseHouseColorDefinition(INI *ini)
 {
 	if (TheHouseColorSystem)
 	{
