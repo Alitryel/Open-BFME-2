@@ -15,6 +15,15 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 
+// Native placement-copy calls 0x460F18, whose complete provider delegates to
+// the rowed scalar-vector copy at 0x2CFAB9. The old opaque copy constructor has
+// no independent definition. Forward inline to that verified provider.
+class DynamicPortalLink;
+void Rva00460F18Construct(void *, const void *);
+namespace _STL {
+static __forceinline void _Construct(DynamicPortalLink *p,
+    const DynamicPortalLink &value) { Rva00460F18Construct(p, &value); }
+}
 #include <vector>
 
 class DynamicPortalLink
