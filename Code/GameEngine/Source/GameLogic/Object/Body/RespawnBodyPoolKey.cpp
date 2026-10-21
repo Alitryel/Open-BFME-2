@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C1334@RespawnBody@@SA?AW4NameKeyType@@XZ @0x004C1334
+// ?getModuleNameKey@RespawnBody@@UBE?AW4NameKeyType@@XZ @0x004C1334
 // (69B): cached pool-name key for RespawnBody. The class
 // identity comes from the pool-name string the body pushes
 // ("RespawnBody"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RespawnBody
 {
 public:
-	static NameKeyType rva004C1334();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C1334@RespawnBody@@SA?AW4NameKeyType@@XZ
-NameKeyType RespawnBody::rva004C1334()
+// ?getModuleNameKey@RespawnBody@@UBE?AW4NameKeyType@@XZ
+NameKeyType RespawnBody::getModuleNameKey() const
 {
 	static NameKeyType TheRespawnBodyPoolKey =
 		TheNameKeyGenerator->nameToKey("RespawnBody");

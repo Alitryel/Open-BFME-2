@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004C6472@SiegeDeployHordeSpecialPower@@SA?AW4NameKeyType@@XZ @0x4C6472
+// ?getModuleNameKey@SiegeDeployHordeSpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C6472
 // (69B): cached pool-name key for SiegeDeployHordeSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("SiegeDeployHordeSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SiegeDeployHordeSpecialPower
 {
 public:
-	static NameKeyType rva0004C6472();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C6472@SiegeDeployHordeSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType SiegeDeployHordeSpecialPower::rva0004C6472()
+// ?getModuleNameKey@SiegeDeployHordeSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType SiegeDeployHordeSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheSiegeDeployHordeSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("SiegeDeployHordeSpecialPower");

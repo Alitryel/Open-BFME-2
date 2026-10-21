@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004BCE7B@VeterancyCrateCollide@@SA?AW4NameKeyType@@XZ @0x4BCE7B
+// ?getModuleNameKey@VeterancyCrateCollide@@UBE?AW4NameKeyType@@XZ @0x4BCE7B
 // (69B): cached pool-name key for VeterancyCrateCollide. The class
 // identity comes from the pool-name string the body pushes
 // ("VeterancyCrateCollide"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class VeterancyCrateCollide
 {
 public:
-	static NameKeyType rva0004BCE7B();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004BCE7B@VeterancyCrateCollide@@SA?AW4NameKeyType@@XZ
-NameKeyType VeterancyCrateCollide::rva0004BCE7B()
+// ?getModuleNameKey@VeterancyCrateCollide@@UBE?AW4NameKeyType@@XZ
+NameKeyType VeterancyCrateCollide::getModuleNameKey() const
 {
 	static NameKeyType TheVeterancyCrateCollidePoolKey =
 		TheNameKeyGenerator->nameToKey("VeterancyCrateCollide");

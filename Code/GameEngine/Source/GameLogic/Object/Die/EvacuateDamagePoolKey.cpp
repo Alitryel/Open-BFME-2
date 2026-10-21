@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ivendor/stlport
 // stlport
-// ?rva0004BAE83@EvacuateDamage@@SA?AW4NameKeyType@@XZ @0x4BAE83
+// ?getModuleNameKey@EvacuateDamage@@UBE?AW4NameKeyType@@XZ @0x4BAE83
 // (69B): cached pool-name key for EvacuateDamage. The class
 // identity comes from the pool-name string the body pushes
 // ("EvacuateDamage"); the body guards a function-local static
@@ -87,7 +87,7 @@ struct EvacuationRecord
 class EvacuateDamage : public DamageModule
 {
 public:
-	static NameKeyType rva0004BAE83();
+	virtual NameKeyType getModuleNameKey() const;
 
 protected:
 	virtual ~EvacuateDamage();
@@ -99,8 +99,8 @@ private:
 	std::list<int> m_pendingEvacuations;
 };
 
-// ?rva0004BAE83@EvacuateDamage@@SA?AW4NameKeyType@@XZ
-NameKeyType EvacuateDamage::rva0004BAE83()
+// ?getModuleNameKey@EvacuateDamage@@UBE?AW4NameKeyType@@XZ
+NameKeyType EvacuateDamage::getModuleNameKey() const
 {
 	static NameKeyType TheEvacuateDamagePoolKey =
 		TheNameKeyGenerator->nameToKey("EvacuateDamage");

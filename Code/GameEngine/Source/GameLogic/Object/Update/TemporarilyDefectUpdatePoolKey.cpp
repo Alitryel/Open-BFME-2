@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004CC659@TemporarilyDefectUpdate@@SA?AW4NameKeyType@@XZ @0x4CC659
+// ?getModuleNameKey@TemporarilyDefectUpdate@@UBE?AW4NameKeyType@@XZ @0x4CC659
 // (69B): cached pool-name key for TemporarilyDefectUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("TemporarilyDefectUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class TemporarilyDefectUpdate
 {
 public:
-	static NameKeyType rva0004CC659();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004CC659@TemporarilyDefectUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType TemporarilyDefectUpdate::rva0004CC659()
+// ?getModuleNameKey@TemporarilyDefectUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType TemporarilyDefectUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheTemporarilyDefectUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("TemporarilyDefectUpdate");

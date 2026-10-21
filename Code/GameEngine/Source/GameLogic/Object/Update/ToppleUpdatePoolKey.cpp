@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004A812E@ToppleUpdate@@SA?AW4NameKeyType@@XZ @0x4A812E
+// ?getModuleNameKey@ToppleUpdate@@UBE?AW4NameKeyType@@XZ @0x4A812E
 // (69B): cached pool-name key for ToppleUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ToppleUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ToppleUpdate
 {
 public:
-	static NameKeyType rva0004A812E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A812E@ToppleUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ToppleUpdate::rva0004A812E()
+// ?getModuleNameKey@ToppleUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ToppleUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheToppleUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ToppleUpdate");
