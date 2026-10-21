@@ -178,7 +178,7 @@ char pad48[0xB8-0x48];float radiusB8;char padBC[0x258-0xBC];AIHolder*ai258;
 };
 class AIUpdateInterface {public:void chooseGoodLocomotorFromCurrentSet();};
 class GiantBirdAIUpdate {public:
-int rva0036B567();void rva00368D12();
+int doLocomotor();void rva00368D12();
 char pad00[8];Object*object08;char pad0c[0x1F0-0xC];Locomotor*locomotor1F0;
 char pad1f4[0x3BD-0x1F4];bool dead3BD;char pad3be[0x4C8-0x3BE];Rva00375A73Context context4C8;
 int goal528;float angle52C;float distance530;bool reached534;
@@ -196,7 +196,7 @@ void GiantBirdAIUpdate::rva00368D12(){
   position.z=((volatile float& )position.z)+away.z;position.x=((volatile float& )position.x)+away.x;position.y+=dy;((Thing*)object)->setPosition(&position);
  }
 }
-int GiantBirdAIUpdate::rva0036B567(){
+int GiantBirdAIUpdate::doLocomotor(){
  if(object08->template04->flags&4)return 0x3FFFFFFF;
  ((AIUpdateInterface*)this)->chooseGoodLocomotorFromCurrentSet();
  Locomotor*locomotor=locomotor1F0;

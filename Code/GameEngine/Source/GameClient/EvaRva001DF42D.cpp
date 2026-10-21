@@ -567,7 +567,7 @@ class Eva
 
 {
  public:
- void rva001DF1A4();
+ void reset();
  Bool reportEvaEvent(EvaEventID eventID, const Coord3D *position, const Coord3D *secondPosition);
  Bool internalReportEvaEvent(const EvaEventReport *report);
 // 0x001DD468

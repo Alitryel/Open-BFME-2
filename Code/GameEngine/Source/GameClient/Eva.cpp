@@ -288,7 +288,7 @@ class Eva
 {
 public:
  void rva001DD3DD();
-	void rva001DF1A4();
+	void reset();
 	Bool reportEvaEvent(EvaEventID eventID, const Coord3D *position, const Coord3D *secondPosition);
 	Bool internalReportEvaEvent(const EvaEventReport *report);	// 0x001DD468
 	void countEvaEventAsPlayed(EvaEventID eventID);
@@ -530,7 +530,7 @@ Bool Eva::internalReportEvaEvent(const EvaEventReport *report)
 // and its event table, sizes and clears the 52-byte status records, clears the
 // delayed-report tree and queue, then resets the observed flags/queue position.
 // The visible status clearer preserves ECX/EDX across the element loop.
-void Eva::rva001DF1A4()
+void Eva::reset()
 {
  EvaInfoRecords &records = *reinterpret_cast<EvaInfoRecords *>(&m_allEventInfos);
  records = *reinterpret_cast<const EvaInfoRecords *>(reinterpret_cast<char *>(this)+0x28);

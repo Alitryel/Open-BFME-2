@@ -390,14 +390,14 @@ public:
 	virtual void init();
 	virtual void postProcessLoad();
 	virtual void reset();
-	virtual void rva0037DC36();
+	virtual void update();
 protected:
 	void updateRecord();
 private:
 	char m_pad04[0x1C - 4];
 	Int m_mode;
 };
-void RecorderClass::rva0037DC36()
+void RecorderClass::update()
 {
 	if (m_mode == 0 || m_mode == 2)
 		updateRecord();

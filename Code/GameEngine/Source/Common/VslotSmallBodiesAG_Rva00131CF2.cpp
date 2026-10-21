@@ -418,7 +418,7 @@ public:
 	virtual void init();
 	virtual void postProcessLoad();
 	virtual void reset();
-	virtual void rva0037DC36();
+	virtual void update();
 protected:
 	void updateRecord();
 private:
