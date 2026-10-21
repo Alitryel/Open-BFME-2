@@ -259,6 +259,7 @@ public:
 	void PlayerFaction(int index, char *value, bool set);
 	void CaHAwardNumber(const char *value);
  void CollectAllPlayerData();
+	void rva00520CD1();
 
 	// Retail 0x0051ED7E (345 bytes), the continue action shared by two callbacks.
 	void rva0051ED7E();
@@ -386,8 +387,6 @@ struct AptTimeLineGameLogicView { unsigned char m_pad[0x110]; int m_mode; int m_
 
 class Shell { public: void push(AsciiString name, bool flag); };
 
-class AptTimeLineScreen { public: void rva00520CD1(); };
-
 bool rva00520F7D()
 {
 	if (!Rva005202C8::s_instance)
@@ -422,7 +421,7 @@ bool rva00520F7D()
 		if (!Rva005202C8::s_instance)
 			return false;
 		((AptTimeLineScoreScreen *)Rva005202C8::s_instance)->m_mode = mode;
-		((AptTimeLineScreen *)Rva005202C8::s_instance)->rva00520CD1();
+		((AptTimeLine *)Rva005202C8::s_instance)->rva00520CD1();
 	}
 	return true;
 }
