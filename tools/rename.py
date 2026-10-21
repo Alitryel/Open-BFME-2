@@ -210,14 +210,18 @@ RTTI_CLASSES = frozenset({"INIException", "XferException", "FunctorNotSet", "Dll
                           "LoadFailure", "CAtlException", "_com_error", "exception", "type_info"})
 # Machine-checked canonical evidence kinds (check_canonical). A harvested
 # pin, a caller's guess, a table or a vtable shape is an inference, not
-# proof: those go through the inferred (agreement) path.
+# proof: those go through the inferred (agreement) path. One table is the
+# exception: iniblock, the retail INI block registration (token -> the exact
+# parse callback INI::load dispatches to), recovered from game.dat by
+# tools/ini_blocks.py into reverse/ini_blocks.tsv; it names that callback only.
 CANONICAL_KINDS = frozenset({"export", "vendored", "lib", "rtti", "module", "string", "assert", "file",
-                             "zh", "bfme1", "wb"})
+                             "zh", "bfme1", "wb", "iniblock"})
 AGREED = name_agreement.AGREED
 AGREED_HEADER = ",".join(name_agreement.AGREED_COLUMNS)
 BODY_OWNERS = "reverse/body_owners.csv"
 WB_LEADS = "reverse/wb_name_leads.csv"
 STRING_XREFS = "reverse/string_xrefs.tsv"
+INI_BLOCKS = "reverse/ini_blocks.tsv"
 BFME1 = "reference/open-bfme-1"
 ZH_TREE = "inputs/reference/CnC_Generals_Zero_Hour"
 # Third-party sources stay pristine: their names are upstream's (vendored=).
@@ -1235,6 +1239,27 @@ def check_canonical(ctx, kind, evidence_kind, evidence, new_name, new_word, rva,
         if not found:
             raise Refusal(f"canonical:{evidence_kind}: no retail string in {STRING_XREFS} referenced by "
                           f"0x{at:08X} spells {new_word} as a word")
+    elif evidence_kind == "iniblock":
+        if kind != "function":
+            raise Refusal(f"canonical:iniblock names a block's parse callback, not a {kind}")
+        regs = [line.split("\t") for line in (ctx.read(INI_BLOCKS) or b"").decode("utf-8", errors="replace")
+                .splitlines()[1:] if line.count("\t") >= 6]
+        hits = [r for r in regs if rva is not None and _rva(r[3]) == rva]
+        if len(hits) != 1:
+            raise Refusal(f"canonical:iniblock: {INI_BLOCKS} registers no block parser at "
+                          + (f"0x{rva:08X}" if rva is not None else "this row"))
+        token, recorded, name = hits[0][0], hits[0][4], hits[0][5]
+        if not old_word or not is_placeholder(old_word):
+            raise Refusal(f"canonical:iniblock replaces only a placeholder, not {old_word}")
+        sharing = [r for r in ctx.rows() if _rva(r.get("target_rva")) == rva]
+        if len(sharing) != 1 or sharing[0].get("name") != recorded:
+            raise Refusal(f"canonical:iniblock: 0x{rva:08X} is not exactly the row {INI_BLOCKS} recorded "
+                          f"({recorded}); regenerate with tools/ini_blocks.py")
+        if new_word != name:
+            raise Refusal(f"canonical:iniblock: 0x{rva:08X} parses block {token}; its name is {name}, "
+                          f"not {new_word}")
+        if not word_re(token).search(evidence):
+            raise Refusal(f"canonical:iniblock needs --evidence naming the block token {token}")
     elif evidence_kind == "file":
         base = posixpath.basename(new_name).lower()
         approved = any(r.get("tu") == new_name and r.get("confidence") == "approved" for r in ctx.dicts(TU_MAP))
