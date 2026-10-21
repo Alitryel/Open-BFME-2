@@ -621,10 +621,10 @@ inline void AIGroup::rotateOffset(const Coord3D *from, const Coord3D *to, Coord2
     offset->y = perp.y + dir.y;
 }
 
-inline void AICommandInterface::aiMoveToPosition(const Coord3D *p, CommandSourceType source)
+inline void AICommandInterface::aiMoveToPosition(const Coord3D *position, CommandSourceType source)
 {
     AICommandParms parms((AICommandType)0, source);
-    parms.pos = *p;
+    parms.pos = *position;
     aiDoCommand(&parms);
 }
 // Rva00295A0FCommands::Rva00295A0FCommand is defined in AICommandRva00295A0F.cpp.
