@@ -1409,3 +1409,4 @@ __ehhandler$?rva00270276@Rva00270276Host@@QAE_NPAX000HH@Z,0x007732E8,"Renamed to
 ?bfmeInitTL@BfmeThingTL@@QAEPAV1@PAX@Z,0x0001CDB0,"Renamed to ?bfmeInitTL@StdioStreambufBase@@QAEPAV1@PAX@Z by tools/rename.py (inferred)"
 ?Rva00663700Handler@@YAXPAVBfmeDictESI@@PAVBfmeHostESI@@@Z,0x00663700,"Renamed to ?kickHandler@@YAXPAVBfmeDictESI@@PAVBfmeHostESI@@@Z by tools/rename.py (inferred)"
 ?Rva00663710Handler@@YAXHPAVBfmeThingVJK@@@Z,0x00663710,"Renamed to ?pingHandler@@YAXHPAVBfmeThingVJK@@@Z by tools/rename.py (inferred)"
+?rva006F7600@Rva006F7600@@QAEXH@Z,0x006F7600,"Renamed to ?remove@Rva006F7600@@QAEXH@Z by tools/rename.py (inferred)"

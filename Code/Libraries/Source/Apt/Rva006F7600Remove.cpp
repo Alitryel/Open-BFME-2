@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva006F7600@Rva006F7600@@QAEXH@Z @0x006F7600 95B evidence AptDisplayList assert i-range plus array shift with count at +0x80; caller 0x006F7885
+// ?remove@Rva006F7600@@QAEXH@Z @0x006F7600 95B evidence AptDisplayList assert i-range plus array shift with count at +0x80; caller 0x006F7885
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
@@ -7,7 +7,7 @@ void __debugbreak();
 class Rva006F7600
 {
 public:
-    void rva006F7600(int i);
+    void remove(int i);
     void *rva006F7660(int i);
     void rva006F7570(struct Rva006F7570Item *pItem);
 private:
@@ -15,7 +15,7 @@ private:
     void *m_items[32];
     int m_nElements;
 };
-void Rva006F7600::rva006F7600(int i)
+void Rva006F7600::remove(int i)
 {
     if (i < 0 || i >= m_nElements) {
         g_bfmeAptAssertAtE17734("i >= 0 && i < nElements", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp", 0x54A);
@@ -169,7 +169,7 @@ void AptAnimationPoolData::rva006F7720Sub(void *context, int mode)
                         if (masks.get(masks.m_nElements - 1)->info->clipDepth >= item->depth)
                             break;
                         visit(context, masks.get(masks.m_nElements - 1), -1);
-                        masks.stack()->rva006F7600(masks.m_nElements - 1);
+                        masks.stack()->remove(masks.m_nElements - 1);
                     }
                     visit(context, item, mode);
                 }
@@ -179,6 +179,6 @@ void AptAnimationPoolData::rva006F7720Sub(void *context, int mode)
     }
     while (masks.m_nElements > 0) {
         visit(context, masks.get(0), -1);
-        masks.stack()->rva006F7600(0);
+        masks.stack()->remove(0);
     }
 }

@@ -58,3 +58,4 @@ param,Rva003EE9D7::rva003EE9D7::arg,Rva003EE9D7::rva003EE9D7::region,inferred,ag
 param,Rva00271BCC::rva00271BCC::a1,Rva00271BCC::rva00271BCC::immediate,inferred,agree:nl-2fb181b2bb24,Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp,0x00271BCC
 function,?Rva00663700Handler@@YAXPAVBfmeDictESI@@PAVBfmeHostESI@@@Z,?kickHandler@@YAXPAVBfmeDictESI@@PAVBfmeHostESI@@@Z,inferred,agree:nl-97f4df335a20,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00663700
 function,?Rva00663710Handler@@YAXHPAVBfmeThingVJK@@@Z,?pingHandler@@YAXHPAVBfmeThingVJK@@@Z,inferred,agree:nl-78a272430ea3,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00663710
+function,?rva006F7600@Rva006F7600@@QAEXH@Z,?remove@Rva006F7600@@QAEXH@Z,inferred,agree:nl-e58f37cd1d25,Code/Libraries/Source/Apt/Rva006F7600Remove.cpp,0x006F7600
