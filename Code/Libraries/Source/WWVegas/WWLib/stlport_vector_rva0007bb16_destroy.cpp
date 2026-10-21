@@ -28,7 +28,7 @@ struct Rva0007BB16Record
 	// Declared only: the copy is rowed in StlportVectorGrowthFootprints.cpp
 	// (0x001513AD); an implicit one here would be emitted with this unit's flags.
 	Rva0007BB16Record(const Rva0007BB16Record &);
-	Rva0007BB16Record() {}	// as the implicit one
+	Rva0007BB16Record();	// as the implicit one
 	AsciiString m_00;
 	int m_04;
 	AsciiString m_08;
