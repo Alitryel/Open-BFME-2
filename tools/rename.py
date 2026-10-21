@@ -3016,7 +3016,7 @@ def write_journal(ctx, plan, claimed=None):
     path = folder / f"{record['id']}.json"
     tmp = path.with_suffix(".tmp")
     tmp.write_text(json.dumps(record), encoding="utf-8")
-    with tmp.open("rb") as handle:
+    with tmp.open("r+b") as handle:  # Windows: fsync needs a writable handle
         os.fsync(handle.fileno())
     os.replace(tmp, path)
     return path
