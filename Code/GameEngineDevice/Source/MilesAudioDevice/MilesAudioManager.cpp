@@ -252,7 +252,7 @@ struct AudioEventInfo {
     float m_maxDistance;                     // +0x94
     float m_minDistance;                     // +0x98
     char at9C[0xA4 - 0x9C];
-    float m_atA4;                            // +0xA4, distance occlusion weight
+    float m_distanceOcclusionWeight;                            // +0xA4, distance occlusion weight
     float m_reverbWetLevel;                  // +0xA8, wet level scaled by the global reverb multiplier (0x52FA0)
     float m_reverbDryLevel;                  // +0xAC, dry level passed with it (0x52FA0)
     int m_atB0;                              // +0xB0, processRequest preloads a file when 2
@@ -419,14 +419,14 @@ struct PlayingAudio {
     bool m_at44;                         // +0x44, tested with +0x46 by checkForNaturalSoundCompletion
     bool m_at45;                         // +0x45, set when a pushed track resumes
     bool m_at46;                         // +0x46
-    bool m_at47;                         // +0x47, fade-up-from-shroud flag (processFade)
+    bool m_fadeUpFromShroud;                         // +0x47, fade-up-from-shroud flag (processFade)
     bool m_at48;                         // +0x48, overrides +0x44/+0x46 in that test
     bool m_at49;                         // +0x49
     bool m_at4A;                         // +0x4A
     bool m_at4B;                         // +0x4B, set by 0x000535A6
     bool m_at4C;
     bool m_at4D;                         // +0x4D, raise the event's script flag on release (0x5FDCA)
-    bool m_at4E;                         // +0x4E, m_at24 holds a position
+    bool m_hasLastTestedPosition;                         // +0x4E, m_at24 holds a position
     bool m_at4F;                         // +0x4F, set when 0x5634C hands on a new extra volume
 };
 
@@ -3370,14 +3370,14 @@ void MilesAudioManager::setOcclusionLevels(PlayingAudioRef &playing, const Coord
     float occlusion = 1.0f;
     if (playing->m_event->m_info->m_at90 > 0.0f)
         occlusion *= playing->m_event->m_info->m_at90;
-    if (m_at8C > 0.0f && playing->m_event->m_info->m_atA4 > 0.0f) {
+    if (m_at8C > 0.0f && playing->m_event->m_info->m_distanceOcclusionWeight > 0.0f) {
         float distSqr = rva00053854(pos);
         float scale;
         if (distSqr > m_audioSettings->m_microphoneSettings[m_at678].m_at34)
             scale = 1.0f;
         else
             scale = sqrt(distSqr) / m_audioSettings->m_microphoneSettings[m_at678].m_at30;
-        occlusion *= 1.0 - scale * m_at8C * playing->m_event->m_info->m_atA4;
+        occlusion *= 1.0 - scale * m_at8C * playing->m_event->m_info->m_distanceOcclusionWeight;
     }
     float finalOcclusion = 1.0f - occlusion;
     if (finalOcclusion > 1.0f)
@@ -3597,7 +3597,7 @@ void MilesAudioManager::rva00055C5D(PlayingAudioRef &playing, bool *result)
     bool valid;
     BfmeEventPositionView pos = Rva0005160FGet(playing->m_event.operator->(), valid);
     if (!valid) {
-        if (!playing->m_at4E) {
+        if (!playing->m_hasLastTestedPosition) {
             *result = playing->m_at34 != 1.0f;
             playing->m_at34 = 1.0f;
             return;
@@ -3617,7 +3617,7 @@ void MilesAudioManager::rva00055C5D(PlayingAudioRef &playing, bool *result)
         }
     }
     playing->m_at24 = pos;
-    playing->m_at4E = true;
+    playing->m_hasLastTestedPosition = true;
     int start = playing->m_at38;
     if (start < 0)
         start = 0;
@@ -6069,16 +6069,16 @@ bool MilesAudioManager::processFade(PlayingAudioRef &playing)
             playing->m_at44 = false;
             playing->m_at46 = false;
             playing->m_at45 = false;
-            playing->m_at47 = false;
+            playing->m_fadeUpFromShroud = false;
         }
         return true;
     }
-    if (playing->m_at45 || playing->m_at47) {
+    if (playing->m_at45 || playing->m_fadeUpFromShroud) {
         playing->m_at30 -= elapsed;
         if (playing->m_at30 <= 0.0f) {
             playing->m_at30 = 0.0f;
             playing->m_at45 = false;
-            playing->m_at47 = false;
+            playing->m_fadeUpFromShroud = false;
         }
         return true;
     }
@@ -6670,7 +6670,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
         if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
             audio->m_at44 = true;
         bool fading = processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_at47;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_fadeUpFromShroud;
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
                 rva0005AA72(playing);
@@ -6706,7 +6706,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
         if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
             audio->m_at44 = true;
         processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_at47;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_fadeUpFromShroud;
         void *sample3D = get3DSampleHandleForPlayingAudio(playing);
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
@@ -6724,10 +6724,10 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             if (valid) {
             if (slot108(audio->m_event.operator->())) {
                 audio->m_at46 = true;
-                audio->m_at47 = false;
+                audio->m_fadeUpFromShroud = false;
             } else if (audio->m_at46) {
                 audio->m_at46 = false;
-                audio->m_at47 = true;
+                audio->m_fadeUpFromShroud = true;
             }
             float volume = rva0005A9F8(&playing, 0, 0);
             AudioEventRTS *event = audio->m_event.operator->();
@@ -6789,7 +6789,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
                 audio->m_status = 1;
         }
         bool fading = processFade(playing);
-        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_at47;
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_fadeUpFromShroud;
         if (done && audio->m_at48) {
             if (audio->m_event->hasMoreLoops())
                 rva0005AA72(playing);
