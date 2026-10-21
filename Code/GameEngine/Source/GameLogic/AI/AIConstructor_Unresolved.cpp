@@ -246,6 +246,14 @@ class Gen0014AE40{public:Gen0014AE40(AsciiString);virtual~Gen0014AE40();AsciiStr
 class Rva002FE620{public:Rva002FE620();virtual~Rva002FE620();unsigned char body[0x1B8];Rva002FE620*next;};
 class Rva0014A470{public:Rva0014A470&operator=(const Rva0014A470&);};
 struct Rva002FFC74Record{unsigned char bytes[8];};
+// The named-list copy calls the separately rowed assignment at 0x002FFC74.
+// Its opaque record declaration cannot supply the element's nontrivial
+// assignment or cleanup. Reuse the exact provider instead of emitting a POD copy.
+namespace _STL {
+template <> list<Rva002FFC74Record, allocator<Rva002FFC74Record> >&
+list<Rva002FFC74Record, allocator<Rva002FFC74Record> >::operator=(const list&);
+}
+
 class Rva002FED8D{public:Rva002FED8D(AsciiString);virtual~Rva002FED8D();AsciiString name;unsigned int value;_STL::list<Rva002FFC74Record>tail;Rva002FED8D*next;};
 void AI::newOverride(){
  TAiData*cur=m_aiData;

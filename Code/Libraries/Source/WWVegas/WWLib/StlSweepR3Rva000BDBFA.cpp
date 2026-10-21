@@ -29,7 +29,9 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 
 
 
-struct Rva000BDBFARecord { Rva000BDBFARecord(); Rva000BDBFARecord(const Rva000BDBFARecord&); ~Rva000BDBFARecord(); Rva000BDBFARecord&operator=(const Rva000BDBFARecord&); char bytes[1]; bool operator==(const Rva000BDBFARecord&) const; bool operator<(const Rva000BDBFARecord&) const; };
+// Native create_node 0x000BB6CC allocates 0x28: eight link bytes plus
+// 32 data bytes, copied through the established 0x000B9478 worker.
+struct Rva000BDBFARecord { Rva000BDBFARecord(); Rva000BDBFARecord(const Rva000BDBFARecord&); ~Rva000BDBFARecord(); Rva000BDBFARecord&operator=(const Rva000BDBFARecord&); char bytes[32]; bool operator==(const Rva000BDBFARecord&) const; bool operator<(const Rva000BDBFARecord&) const; };
 // Retail's node construction 0x000BB6CC reaches the rowed _Construct<BfmeStringRecord000B75AE>
 // 0x000B9478: forward to it.
 struct BfmeStringRecord000B75AE;
@@ -64,6 +66,24 @@ list<Rva000BDBFARecord, allocator<Rva000BDBFARecord> >::erase(iterator first, it
 // This caller's native REL32 already names the kept provider at 0x000B419E.
 // Both declarations use thiscall with one object-pointer/reference argument; binding is address-proven.
 #pragma comment(linker, "/alternatename:??4Rva000BDBFARecord@@QAEAAU0@ABU0@@Z=??4Rva000B419E@@QAEAAU0@ABU0@@Z")
+
+// The native range-erase call at 0x000BDC4B names the rowed string-list
+// worker at 0x002FECD3. Preserve that established shared cleanup operation
+// rather than emitting a private erase dependency with an unresolved dtor.
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+namespace _STL {
+template <> list<AsciiString, allocator<AsciiString> >::iterator
+list<AsciiString, allocator<AsciiString> >::erase(iterator, iterator);
+template <> __declspec(dllimport) __forceinline
+list<Rva000BDBFARecord, allocator<Rva000BDBFARecord> >::iterator
+list<Rva000BDBFARecord, allocator<Rva000BDBFARecord> >::erase(iterator first, iterator last)
+{
+    typedef list<AsciiString, allocator<AsciiString> > StringList;
+    return iterator((_Node *)((StringList *)this)->erase(
+        StringList::iterator((_List_node<AsciiString> *)first._M_node),
+        StringList::iterator((_List_node<AsciiString> *)last._M_node))._M_node);
+}
+}
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template _STL::list<Rva000BDBFARecord, _STL::allocator<Rva000BDBFARecord> > & _STL::list<Rva000BDBFARecord, _STL::allocator<Rva000BDBFARecord> >::operator=(_STL::list<Rva000BDBFARecord, _STL::allocator<Rva000BDBFARecord> > const &);
