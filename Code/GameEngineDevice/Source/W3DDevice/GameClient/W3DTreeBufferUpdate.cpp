@@ -136,9 +136,9 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0x40];
-	bool m_40;					// +0x40
+	bool m_allowTreeFading;					// +0x40
 	unsigned char m_pad041[0xEB0 - 0x41];
-	unsigned char m_EB0;				// +0xEB0
+	unsigned char m_treeFadeObjectFilter;				// +0xEB0
 };
 
 class W3DShrubBuffer
@@ -271,7 +271,7 @@ void Rva000EDB47::rva000EDB47()
 
 	reinterpret_cast<Rva000E6406SwayView *>(this)->rva000E6406(TheScriptEngine->getBreezeInfo());
 
-	static Rva002614ECFilter filter(&TheWritableGlobalData->m_EB0, 0, true);
+	static Rva002614ECFilter filter(&TheWritableGlobalData->m_treeFadeObjectFilter, 0, true);
 
 	for (int curTree = 0; curTree < m_numTrees; curTree += m_indexStep)
 	{
@@ -300,7 +300,7 @@ void Rva000EDB47::rva000EDB47()
 			reinterpret_cast<W3DTreeBuffer *>(this)->updateTopplingTree(tree);
 		if (!tree->visible)
 			continue;
-		if (TheWritableGlobalData->m_40 && ThePartitionManager && TheGameEngine->rva00225D38())
+		if (TheWritableGlobalData->m_allowTreeFading && ThePartitionManager && TheGameEngine->rva00225D38())
 		{
 			Coord3D pos;
 			setCoord3D(pos, tree->location.X, tree->location.Y, tree->location.Z);
@@ -328,7 +328,7 @@ void Rva000EDB47::rva000EDB47()
 			else
 				tree->m_E4 = 255;
 		}
-		if (TheWritableGlobalData->m_40 && tree->m_E0 != tree->m_E4)
+		if (TheWritableGlobalData->m_allowTreeFading && tree->m_E0 != tree->m_E4)
 			m_alphaChanged = true;
 	}
 }

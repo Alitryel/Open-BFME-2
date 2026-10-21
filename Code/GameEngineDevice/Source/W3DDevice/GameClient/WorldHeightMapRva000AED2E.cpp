@@ -56,7 +56,7 @@ class GlobalData
 	char m_pad[0x44];
 
 public:
-	Int m_44; // +0x44
+	Int m_use3WayTerrainBlends; // +0x44
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -131,7 +131,7 @@ UnsignedByte *Rva000AED2EWorldHeightMapView::rva000AED2E(Int xIndex, Int yIndex,
 		return 0;
 	if (blendNdx > 0 && (unsigned)blendNdx < m_blendedTiles.size())
 		view->blendTile(&m_blendedTiles[blendNdx], width, mode);
-	if (TheWritableGlobalData->m_44 && extraNdx > 0 && (unsigned)extraNdx < m_blendedTiles.size())
+	if (TheWritableGlobalData->m_use3WayTerrainBlends && extraNdx > 0 && (unsigned)extraNdx < m_blendedTiles.size())
 		view->blendTile(&m_blendedTiles[extraNdx], width, mode);
 	return s_buffer;
 }
