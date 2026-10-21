@@ -65,10 +65,10 @@ public:
 	Rva004CE6BA();
 	static const FieldParse *getFieldParse();
 
-	int m_00;
-	int m_04;
-	float m_08;
-	float m_0C;
+	int m_timeBetweenUpdatesMS;
+	int m_scanAheadTimeMS;
+	float m_scanHeight;
+	float m_scanWidth;
 };
 
 class Rva00253E32Base
