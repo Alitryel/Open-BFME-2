@@ -85,7 +85,7 @@ void parseShadowMapBlock(INI *);
 void parseSubsystemLegendDefinition(INI *);
 void parseFontSubstitutionDefinition(INI *);
 void parseCloudBreakEffectDefinition(INI *);
-void rva00425B90(INI *);
+void parseFormationAssistantDefinition(INI *);
 namespace StrategicHUD { void ParseSettings(INI *); }
 class ArmorStore
 {
@@ -432,7 +432,7 @@ BlockParse theArmyDefinitionBlockParse = { 0, "ArmyDefinition", ArmyDefinitionMa
 BlockParse theMeshNameMatchesBlockParse = { 0, "MeshNameMatches", Rva0041FD3DParse };	// VA 0x00DC8430 "MeshNameMatches", parse 0x0041FD3D
 BlockParse theLivingWorldAITemplateBlockParse = { 0, "LivingWorldAITemplate", Rva00420A29Parse };	// VA 0x00DC8478 "LivingWorldAITemplate", parse 0x00420A29
 BlockParse theLightPointLevelBlockParse = { 0, "LightPointLevel", LightPointSystem::friend_parseLightPointLevelDefinition };	// VA 0x00DC84C4 "LightPointLevel", parse 0x00421572
-BlockParse theFormationAssistantBlockParse = { 0, "FormationAssistant", rva00425B90 };	// VA 0x00DC84F8 "FormationAssistant", parse 0x00425B90
+BlockParse theFormationAssistantBlockParse = { 0, "FormationAssistant", parseFormationAssistantDefinition };	// VA 0x00DC84F8 "FormationAssistant", parse 0x00425B90
 BlockParse theStanceTemplateBlockParse = { 0, "StanceTemplate", Rva00425F10::parseStanceTemplateDefinition };	// VA 0x00DC8540 "StanceTemplate", parse 0x00426203
 BlockParse theEmotionNuggetBlockParse = { 0, "EmotionNugget", EmotionNuggetTemplate::friend_parseEmotionNugget };	// VA 0x00DC8570 "EmotionNugget", parse 0x004DCAE4
 BlockParse theMissionObjectiveListBlockParse = { 0, "MissionObjectiveList", MissionObjectiveTracker::ParseMapMissionObjective };	// VA 0x00DC85B8 "MissionObjectiveList", parse 0x00426D14

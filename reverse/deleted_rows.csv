@@ -1448,3 +1448,4 @@ __ehhandler$?Rva00289265Parse@@YAXPAVINI@@@Z,0x00774057,"Renamed to __ehhandler$
 ?Rva002859A8Parse@@YAXPAVINI@@@Z,0x002859A8,"Renamed to ?parseFireLogicSystemDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?rva00219005@@YAXPAVINI@@@Z,0x00219005,"Renamed to ?parseFontSubstitutionDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?rva00219005@@YAXPAVINI@@@Z,0x0076E53F,"Renamed to __ehhandler$?parseFontSubstitutionDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?rva00425B90@@YAXPAVINI@@@Z,0x00425B90,"Renamed to ?parseFormationAssistantDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

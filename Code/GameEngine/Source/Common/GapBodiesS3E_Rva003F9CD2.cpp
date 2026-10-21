@@ -39,7 +39,7 @@ extern Rva0022AD10Subsystem *TheFormationAssistant;
 
 // --- 0x00425B90 (302B): the formation assistant's INI block, parsed through
 // a table built on the stack into TheFormationAssistant.
-void rva00425B90(INI *ini)
+void parseFormationAssistantDefinition(INI *ini)
 {
 	FieldParse dataFieldParse[] =
 	{
