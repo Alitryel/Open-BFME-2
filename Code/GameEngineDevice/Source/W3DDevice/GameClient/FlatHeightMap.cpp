@@ -216,7 +216,7 @@ public:
 	Vector4 Row[4];
 	__forceinline Matrix4x4(const Matrix4x4 &matrix4x4) { Row[0] = matrix4x4.Row[0]; Row[1] = matrix4x4.Row[1]; Row[2] = matrix4x4.Row[2]; Row[3] = matrix4x4.Row[3]; }
 	__forceinline Matrix4x4 &operator=(const Matrix4x4 &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3]; return *this; }
-	__forceinline explicit Matrix4x4(const Matrix3D &m) { Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0f, 0.0f, 0.0f, 1.0f); }
+	__forceinline explicit Matrix4x4(const Matrix3D &matrix3D) { Row[0] = matrix3D[0]; Row[1] = matrix3D[1]; Row[2] = matrix3D[2]; Row[3] = Vector4(0.0f, 0.0f, 0.0f, 1.0f); }
 	__forceinline Matrix4x4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3; }
 	__declspec(dllimport) __forceinline Matrix4x4 Transpose() const
 	{
@@ -253,9 +253,9 @@ public:
 		render_state.material = mat;
 		render_state_changed |= 0x4000;
 	}
-	static __forceinline void Set_World_Transform(const Matrix3D &m)
+	static __forceinline void Set_World_Transform(const Matrix3D &matrix3D)
 	{
-		Matrix4x4 m2(m);
+		Matrix4x4 m2(matrix3D);
 		render_state.world = m2.Transpose();
 		render_state_changed |= 1u;
 		render_state_changed &= ~0x40000u;

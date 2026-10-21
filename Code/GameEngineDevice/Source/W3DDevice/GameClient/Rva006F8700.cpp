@@ -46,7 +46,7 @@ int Rva006F8700Owner::rva006F8700(void *a, int b, void *c, void *p)
 		return (0);
 	return rva006F83F0((FloorVertex *)a, b, (const Matrix3D *)c, (FloorMeshAccess *)p);
 }
-int Rva006F8700Owner::rva006F83F0(FloorVertex *floorVertex,int b,const Matrix3D *c,FloorMeshAccess *mesh) {
+int Rva006F8700Owner::rva006F83F0(FloorVertex *floorVertex,int b,const Matrix3D *matrix3D,FloorMeshAccess *mesh) {
  if(!mesh)return 0;
  float opacity;
  if(m_drawable2c && ((Drawable*)m_drawable2c)->rva00272C9E(0)!=1.0f) opacity=((Drawable*)m_drawable2c)->rva00272C9E(0);
@@ -64,7 +64,7 @@ int Rva006F8700Owner::rva006F83F0(FloorVertex *floorVertex,int b,const Matrix3D 
  FloorGeometryAccess *model=mesh->geometry; unsigned int *colors=model->colorArray(0);
  for(int i=0;i<count;++i) {
   destination->u=uv[i].X;destination->v=uv[i].Y;
-  Vector3 position;Matrix3D::Transform_Vector(*c,vertices[i],&position);
+  Vector3 position;Matrix3D::Transform_Vector(*matrix3D,vertices[i],&position);
   position+=m_position30;
   destination->x=position.X;destination->y=position.Y;destination->z=position.Z;
   unsigned int color;if(colors)color=colors[i];else color=0xFFFFFFFF;

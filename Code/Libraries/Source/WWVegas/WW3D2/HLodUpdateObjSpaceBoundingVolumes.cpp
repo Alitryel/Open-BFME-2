@@ -25,7 +25,7 @@ class CameraClass;
 // (HTreePivotClass.cpp); the expansion's arithmetic is the verified Add_Lod_Model one.
 struct HlodTransformView
 {
-    __forceinline void Get_Matrix3D(Matrix3D &m) const
+    __forceinline void Get_Matrix3D(Matrix3D &matrix3D) const
     {
         const float xx = X * X * 2.0f;
         const float xy = X * Y * 2.0f;
@@ -36,18 +36,18 @@ struct HlodTransformView
         const float wy = W * Y * 2.0f;
         const float zz = Z * Z * 2.0f;
         const float wz = W * Z * 2.0f;
-        m[0][0] = 1.0f - yy - zz;
-        m[0][1] = xy - wz;
-        m[0][2] = xz + wy;
-        m[1][0] = xy + wz;
-        m[1][1] = 1.0f - zz - xx;
-        m[1][2] = yz - wx;
-        m[2][0] = xz - wy;
-        m[2][1] = yz + wx;
-        m[2][2] = 1.0f - yy - xx;
-        m[0][3] = Position.X;
-        m[1][3] = Position.Y;
-        m[2][3] = Position.Z;
+        matrix3D[0][0] = 1.0f - yy - zz;
+        matrix3D[0][1] = xy - wz;
+        matrix3D[0][2] = xz + wy;
+        matrix3D[1][0] = xy + wz;
+        matrix3D[1][1] = 1.0f - zz - xx;
+        matrix3D[1][2] = yz - wx;
+        matrix3D[2][0] = xz - wy;
+        matrix3D[2][1] = yz + wx;
+        matrix3D[2][2] = 1.0f - yy - xx;
+        matrix3D[0][3] = Position.X;
+        matrix3D[1][3] = Position.Y;
+        matrix3D[2][3] = Position.Z;
     }
     float X, Y, Z, W;
     Vector3 Position;

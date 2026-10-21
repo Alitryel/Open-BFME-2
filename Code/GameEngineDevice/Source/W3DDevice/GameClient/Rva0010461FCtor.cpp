@@ -164,7 +164,7 @@ float __cdecl Rva0010410FWrap(float a);
 float __cdecl Rva0010414CGet(float *p);
 float __cdecl Rva0010416EFloat(float a, float b);
 
-inline float angleOf(const MathCoord2D &v) { return Rva0010414CGet((float *)&v); }
+inline float angleOf(const MathCoord2D &mathCoord2D) { return Rva0010414CGet((float *)&mathCoord2D); }
 
 void Rva0010461F::rva00104359()
 {

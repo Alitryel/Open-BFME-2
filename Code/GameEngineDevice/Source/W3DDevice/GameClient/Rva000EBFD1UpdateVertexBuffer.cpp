@@ -244,15 +244,15 @@ private:
 };
 
 // Matrix3D::Translate(x,y,z) applied to the offset, row 2 grouped as retail.
-static inline void TranslateOffset(Matrix3D &m, const float *t)
+static inline void TranslateOffset(Matrix3D &matrix3D, const float *t)
 {
-	m[0][3] += (float)(m[0][0] * t[0] + m[0][1] * t[1] + m[0][2] * t[2]);
-	m[1][3] += (float)(m[1][0] * t[0] + m[1][1] * t[1] + m[1][2] * t[2]);
-	m[2][3] += ((m[2][0] * t[0] + m[2][1] * t[1]) + m[2][2] * t[2]);
+	matrix3D[0][3] += (float)(matrix3D[0][0] * t[0] + matrix3D[0][1] * t[1] + matrix3D[0][2] * t[2]);
+	matrix3D[1][3] += (float)(matrix3D[1][0] * t[0] + matrix3D[1][1] * t[1] + matrix3D[1][2] * t[2]);
+	matrix3D[2][3] += ((matrix3D[2][0] * t[0] + matrix3D[2][1] * t[1]) + matrix3D[2][2] * t[2]);
 }
 
 // Matrix3D::Transform_Vector, row 2 grouped as retail.
-static inline void TreeTransform(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+static inline void TreeTransform(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 {
 	Vector3 tmp;
 	Vector3 *v;
@@ -262,9 +262,9 @@ static inline void TreeTransform(const Matrix3D &A, const Vector3 &in, Vector3 *
 	} else {
 		v = (Vector3 *)&in;
 	}
-	out->X = (A[0][0] * v->X + A[0][1] * v->Y + A[0][2] * v->Z + A[0][3]);
-	out->Y = (A[1][0] * v->X + A[1][1] * v->Y + A[1][2] * v->Z + A[1][3]);
-	out->Z = ((A[2][0] * v->X + A[2][1] * v->Y) + A[2][2] * v->Z + A[2][3]);
+	out->X = (matrix3D[0][0] * v->X + matrix3D[0][1] * v->Y + matrix3D[0][2] * v->Z + matrix3D[0][3]);
+	out->Y = (matrix3D[1][0] * v->X + matrix3D[1][1] * v->Y + matrix3D[1][2] * v->Z + matrix3D[1][3]);
+	out->Z = ((matrix3D[2][0] * v->X + matrix3D[2][1] * v->Y) + matrix3D[2][2] * v->Z + matrix3D[2][3]);
 }
 
 // Rebuilds every buffer from the visible trees; the sway type rides in u2 unless the type never sways.

@@ -42,31 +42,31 @@ static bool VecSharedEdgesEqual(const Vector3 &a, const Vector3 &b)
 {
     return ((a.X == b.X) && (a.Y == b.Y) && (a.Z == b.Z));
 }
-static void InitSharedEdgesMatrix3D(Matrix3D &m, bool init)
+static void InitSharedEdgesMatrix3D(Matrix3D &matrix3D, bool init)
 {
     if (init)
-        m.Make_Identity();
+        matrix3D.Make_Identity();
 }
 
 // Keep the native per-row sum order. Explicit unary plus in the first
 // product retains MSVC7.1's X-before-Z SSE scheduling without changing it.
-static __forceinline void transformVertex(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+static __forceinline void transformVertex(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 {
     Vector3 tmp;
     Vector3 *v;
     if (out == &in) { tmp = in; v = &tmp; }
     else { v = (Vector3 *)&in; }
-    out->X = +(+(A[0][0] * v->X)) + (A[0][2] * v->Z);
-    out->X += A[0][1] * v->Y;
-    out->X += A[0][3];
-    out->Y = A[1][1] * v->Y;
-    out->Y += A[1][2] * v->Z;
-    out->Y += A[1][0] * v->X;
-    out->Y += A[1][3];
-    out->Z = A[2][1] * v->Y;
-    out->Z += A[2][2] * v->Z;
-    out->Z += A[2][0] * v->X;
-    out->Z += A[2][3];
+    out->X = +(+(matrix3D[0][0] * v->X)) + (matrix3D[0][2] * v->Z);
+    out->X += matrix3D[0][1] * v->Y;
+    out->X += matrix3D[0][3];
+    out->Y = matrix3D[1][1] * v->Y;
+    out->Y += matrix3D[1][2] * v->Z;
+    out->Y += matrix3D[1][0] * v->X;
+    out->Y += matrix3D[1][3];
+    out->Z = matrix3D[2][1] * v->Y;
+    out->Z += matrix3D[2][2] * v->Z;
+    out->Z += matrix3D[2][0] * v->X;
+    out->Z += matrix3D[2][3];
 }
 
 

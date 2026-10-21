@@ -289,11 +289,11 @@ void LogClass::log(const char *fmt, ...)
 }
 
 // ?dumpMatrix3D@LogClass@@ present-unmatched
-void LogClass::dumpMatrix3D(const Matrix3D *m, AsciiString name, AsciiString fname, Int line)
+void LogClass::dumpMatrix3D(const Matrix3D *matrix3D, AsciiString name, AsciiString fname, Int line)
 {
 	((StringBase<char> &)(fname)).toLower();
 	fname = fname.reverseFind('\\') + 1;
-	const Real *matrix = (const Real *)m;
+	const Real *matrix = (const Real *)matrix3D;
 	log("dumpMatrix3D() %s:%d %s\n",
 		fname.str(), line, name.str());
 	for (Int i=0; i<3; ++i)

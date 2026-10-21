@@ -54,17 +54,17 @@ public:
   m[2][0]=x.Z; m[2][1]=y.Z; m[2][2]=z.Z; m[2][3]=pos.Z;
  }
  __forceinline const Vector4 &operator[](int i) const { return *(const Vector4*)m[i]; }
- __forceinline Matrix3D(const Matrix3D &s) {
-  m[0][0]=s.m[0][0]; m[0][1]=s.m[0][1]; m[0][2]=s.m[0][2]; m[0][3]=s.m[0][3];
-  m[1][0]=s.m[1][0]; m[1][1]=s.m[1][1]; m[1][2]=s.m[1][2]; m[1][3]=s.m[1][3];
-  m[2][0]=s.m[2][0]; m[2][1]=s.m[2][1]; m[2][2]=s.m[2][2]; m[2][3]=s.m[2][3];
+ __forceinline Matrix3D(const Matrix3D &matrix3D) {
+  m[0][0]=matrix3D.m[0][0]; m[0][1]=matrix3D.m[0][1]; m[0][2]=matrix3D.m[0][2]; m[0][3]=matrix3D.m[0][3];
+  m[1][0]=matrix3D.m[1][0]; m[1][1]=matrix3D.m[1][1]; m[1][2]=matrix3D.m[1][2]; m[1][3]=matrix3D.m[1][3];
+  m[2][0]=matrix3D.m[2][0]; m[2][1]=matrix3D.m[2][1]; m[2][2]=matrix3D.m[2][2]; m[2][3]=matrix3D.m[2][3];
  }
 };
 __declspec(dllimport) __forceinline Matrix4::Matrix4(const Matrix3D &s) {
  Init(s);
 }
-__forceinline void Matrix4::Init(const Matrix3D &s) {
- (*this)[0]=s[0]; (*this)[1]=s[1]; (*this)[2]=s[2]; (*this)[3]=Vector4(0.0f,0.0f,0.0f,1.0f);
+__forceinline void Matrix4::Init(const Matrix3D &matrix3D) {
+ (*this)[0]=matrix3D[0]; (*this)[1]=matrix3D[1]; (*this)[2]=matrix3D[2]; (*this)[3]=Vector4(0.0f,0.0f,0.0f,1.0f);
 }
 class CameraClass {
 public:

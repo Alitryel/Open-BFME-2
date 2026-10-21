@@ -150,10 +150,10 @@ public:
 // cannot just go away. The helper keeps a call in the source (regalloc
 // preserved) while the ctor goes unused. The copy-ctor half uses plain
 // default-construct plus assignment (same Row stores as the ctor).
-static void InitRampMatrix3D(Matrix3D &m, bool init)
+static void InitRampMatrix3D(Matrix3D &matrix3D, bool init)
 {
     if (init)
-        m.Make_Identity();
+        matrix3D.Make_Identity();
 }
 
 bool W3DScriptedModelDraw::getRamp(BridgeInfo *info, AsciiString boneName, PolygonTrigger **polygon, RenderObjClass **mesh, bool useObjectTransform)

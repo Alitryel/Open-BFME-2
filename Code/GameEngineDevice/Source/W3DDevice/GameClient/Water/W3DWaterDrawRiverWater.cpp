@@ -222,9 +222,9 @@ public:
 	static void Draw_Triangles(unsigned start_index, unsigned polygon_count, unsigned min_vertex_index, unsigned vertex_count);
 	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
 
-	static __forceinline void Set_World(const Matrix3D &m)
+	static __forceinline void Set_World(const Matrix3D &matrix3D)
 	{
-		render_state.world = m;
+		render_state.world = matrix3D;
 		render_state_changed |= 0x1;
 		render_state_changed &= ~0x40000;
 	}

@@ -182,9 +182,9 @@ public:
 		render_state_changed |= 0x8000;
 		StringClass str;
 	}
-	static __forceinline void Set_World(const Matrix3D &m)
+	static __forceinline void Set_World(const Matrix3D &matrix3D)
 	{
-		render_state.world = m;
+		render_state.world = matrix3D;
 		render_state_changed |= 0x1;
 		render_state_changed &= ~0x40000;
 	}

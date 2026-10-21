@@ -117,8 +117,8 @@ private:
 void LivingWorldCampaignAct::rva00565148()
 {
 	for (unsigned i = 0; i < strCount(); ++i) {
-		StrRecord16 &r = m_str[i];
-		Rva003FD3EF *event = new Rva003FD3EF(r.value04(), r.str(), r.flag());
+		StrRecord16 &strRecord16 = m_str[i];
+		Rva003FD3EF *event = new Rva003FD3EF(strRecord16.value04(), strRecord16.str(), strRecord16.flag());
 		((Rva002B8AC0 *)TheLivingWorldLogic)->rva002B8AC0((const ModuleData *)event);
 	}
 }
@@ -135,8 +135,8 @@ void LivingWorldCampaignAct::rva005651D2()
 void LivingWorldCampaignAct::rva00565261()
 {
 	for (unsigned i = 0; i < scaleCount(); ++i) {
-		ValueRecord16 &r = m_scale[i];
-		Rva003FD348 *event = new Rva003FD348(r.value04(), r.value0C(), r.flag());
+		ValueRecord16 &valueRecord16 = m_scale[i];
+		Rva003FD348 *event = new Rva003FD348(valueRecord16.value04(), valueRecord16.value0C(), valueRecord16.flag());
 		((Rva002B8AC0 *)TheLivingWorldLogic)->rva002B8AC0((const ModuleData *)event);
 	}
 }

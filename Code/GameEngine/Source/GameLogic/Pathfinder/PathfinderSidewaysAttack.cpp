@@ -709,7 +709,7 @@ public:
 	MathCoord2D &operator*=(float v) {x*=v;y*=v;return *this;}
  MathCoord2D &operator+=(const MathCoord2D &v) {x+=v.x;y+=v.y;return *this;}
 	__forceinline float GetLengthEstimate() const {return fabs(x)>fabs(y)?fabs(x)+fabs(y)*0.25f:fabs(y)+fabs(x)*0.25f;}
- float dot(const MathCoord2D &c) const { return y * c.y + x * c.x; }
+ float dot(const MathCoord2D &mathCoord2D) const { return y * mathCoord2D.y + x * mathCoord2D.x; }
 	MathCoord2D &operator-=(const MathCoord2D &c) { x -= c.x; y -= c.y; return *this; }
 	__forceinline float GetLength() const { return (float)sqrt(x * x + sqr(y)); }
 	__forceinline void Normalize() { float length=GetLength(); float inv=1.0f/length; x *= inv; y *= inv; }

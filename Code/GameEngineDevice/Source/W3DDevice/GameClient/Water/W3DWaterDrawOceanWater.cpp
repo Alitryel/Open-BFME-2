@@ -203,7 +203,7 @@ class Matrix4
 {
 public:
 	Matrix4() {}
-	__forceinline explicit Matrix4(const Matrix3D &m) { Init(m); }
+	__forceinline explicit Matrix4(const Matrix3D &matrix3D) { Init(matrix3D); }
 	__forceinline Matrix4(const Matrix4 &matrix4)
 	{
 		Row[0] = matrix4.Row[0];
@@ -226,11 +226,11 @@ public:
 		Row[2] = r2;
 		Row[3] = r3;
 	}
-	__forceinline void Init(const Matrix3D &m)
+	__forceinline void Init(const Matrix3D &matrix3D)
 	{
-		Row[0] = m.Row[0];
-		Row[1] = m.Row[1];
-		Row[2] = m.Row[2];
+		Row[0] = matrix3D.Row[0];
+		Row[1] = matrix3D.Row[1];
+		Row[2] = matrix3D.Row[2];
 		Row[3] = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 	__forceinline Matrix4 Transpose() const
@@ -259,9 +259,9 @@ public:
 	static void Set_Light_Environment(LightEnvironmentClass *light_env);
 	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
 
-	static __forceinline void Set_Transform(_D3DTRANSFORMSTATETYPE transform, const Matrix3D &m)
+	static __forceinline void Set_Transform(_D3DTRANSFORMSTATETYPE transform, const Matrix3D &matrix3D)
 	{
-		Matrix4 m2(m);
+		Matrix4 m2(matrix3D);
 		switch ((int)transform)
 		{
 		case D3DTS_WORLD:

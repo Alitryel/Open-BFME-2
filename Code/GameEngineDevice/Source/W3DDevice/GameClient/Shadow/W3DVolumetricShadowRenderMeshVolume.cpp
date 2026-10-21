@@ -202,9 +202,9 @@ public:
 	// Matrix4FromMatrix3DO1.cpp owns retail's out-of-line copy.
 	__declspec(dllimport) __forceinline explicit Matrix4(const Matrix3D &m) { Init(m); }
 	__forceinline Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Init(vector4, r1, r2, r3); }
-	__forceinline void Init(const Matrix3D &m)
+	__forceinline void Init(const Matrix3D &matrix3D)
 	{
-		Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0,0.0,0.0,1.0);
+		Row[0] = matrix3D[0]; Row[1] = matrix3D[1]; Row[2] = matrix3D[2]; Row[3] = Vector4(0.0,0.0,0.0,1.0);
 	}
 	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{

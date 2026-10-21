@@ -80,7 +80,7 @@ struct ProjectileNuggetMath
 		copyRow(dst.Row[1], src.Row[1]);
 		copyRow(dst.Row[2], src.Row[2]);
 	}
-	static __forceinline void transformVector(const Matrix3D &A, const ProjectileNuggetVector3 &in, ProjectileNuggetVector3 *out)
+	static __forceinline void transformVector(const Matrix3D &matrix3D, const ProjectileNuggetVector3 &in, ProjectileNuggetVector3 *out)
 	{
 		ProjectileNuggetVector3 tmp;
 		const ProjectileNuggetVector3 *projectileNuggetVector3;
@@ -93,9 +93,9 @@ struct ProjectileNuggetMath
 		{
 			projectileNuggetVector3 = &in;
 		}
-		out->X = (A.Row[0].X * projectileNuggetVector3->X + A.Row[0].Y * projectileNuggetVector3->Y + A.Row[0].Z * projectileNuggetVector3->Z + A.Row[0].W);
-		out->Y = (A.Row[1].X * projectileNuggetVector3->X + A.Row[1].Y * projectileNuggetVector3->Y + A.Row[1].Z * projectileNuggetVector3->Z + A.Row[1].W);
-		out->Z = (A.Row[2].X * projectileNuggetVector3->X + A.Row[2].Y * projectileNuggetVector3->Y + A.Row[2].Z * projectileNuggetVector3->Z + A.Row[2].W);
+		out->X = (matrix3D.Row[0].X * projectileNuggetVector3->X + matrix3D.Row[0].Y * projectileNuggetVector3->Y + matrix3D.Row[0].Z * projectileNuggetVector3->Z + matrix3D.Row[0].W);
+		out->Y = (matrix3D.Row[1].X * projectileNuggetVector3->X + matrix3D.Row[1].Y * projectileNuggetVector3->Y + matrix3D.Row[1].Z * projectileNuggetVector3->Z + matrix3D.Row[1].W);
+		out->Z = (matrix3D.Row[2].X * projectileNuggetVector3->X + matrix3D.Row[2].Y * projectileNuggetVector3->Y + matrix3D.Row[2].Z * projectileNuggetVector3->Z + matrix3D.Row[2].W);
 	}
 };
 

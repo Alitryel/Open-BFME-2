@@ -89,11 +89,11 @@ enum CommandSourceType
 };
 
 #include "matrix3d.h"
-static __forceinline void supplyTransform(const Matrix3D&A,const Vector3&in,Vector3*out) {
+static __forceinline void supplyTransform(const Matrix3D&matrix3D,const Vector3&in,Vector3*out) {
  Vector3 tmp;Vector3*v; if(out==&in){tmp=in;v=&tmp;}else v=(Vector3*)&in;
- out->X=A[0][0]*v->X+A[0][1]*v->Y+A[0][2]*v->Z+A[0][3];
- out->Y=((A[1][0]*v->X+A[1][1]*v->Y)+A[1][2]*v->Z)+A[1][3];
- out->Z=A[2][0]*v->X+A[2][1]*v->Y+A[2][2]*v->Z+A[2][3];
+ out->X=matrix3D[0][0]*v->X+matrix3D[0][1]*v->Y+matrix3D[0][2]*v->Z+matrix3D[0][3];
+ out->Y=((matrix3D[1][0]*v->X+matrix3D[1][1]*v->Y)+matrix3D[1][2]*v->Z)+matrix3D[1][3];
+ out->Z=matrix3D[2][0]*v->X+matrix3D[2][1]*v->Y+matrix3D[2][2]*v->Z+matrix3D[2][3];
 }
 class Thing
 {

@@ -109,7 +109,7 @@ class Matrix3D
 {
 public:
 	__forceinline Matrix3D() {}
-	__forceinline Matrix3D(const Matrix3D &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; }
+	__forceinline Matrix3D(const Matrix3D &matrix3D) { Row[0] = matrix3D.Row[0]; Row[1] = matrix3D.Row[1]; Row[2] = matrix3D.Row[2]; }
 	__forceinline explicit Matrix3D(bool init)
 	{
 		if (init)
@@ -252,25 +252,25 @@ class ParticleStateView { public: char m_pad[0x74]; _STL::list<BfmePod32> m_bone
 class ParticleDataView { public: char m_pad[0xB4]; _STL::list<BfmePod32> m_bones; };
 class ParticleModuleData { public: char m_pad[0x12A]; bool m_useClientBones; };
 
-static __forceinline void Transform_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+static __forceinline void Transform_Vector(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 {
-	float x = A.Row[0][0] * in.X + A.Row[0][1] * in.Y + A.Row[0][2] * in.Z + A.Row[0][3];
-	float y = A.Row[1][0] * in.X + A.Row[1][1] * in.Y + A.Row[1][2] * in.Z + A.Row[1][3];
-	float z = A.Row[2][0] * in.X + A.Row[2][1] * in.Y + A.Row[2][2] * in.Z + A.Row[2][3];
+	float x = matrix3D.Row[0][0] * in.X + matrix3D.Row[0][1] * in.Y + matrix3D.Row[0][2] * in.Z + matrix3D.Row[0][3];
+	float y = matrix3D.Row[1][0] * in.X + matrix3D.Row[1][1] * in.Y + matrix3D.Row[1][2] * in.Z + matrix3D.Row[1][3];
+	float z = matrix3D.Row[2][0] * in.X + matrix3D.Row[2][1] * in.Y + matrix3D.Row[2][2] * in.Z + matrix3D.Row[2][3];
 	out->X = x;
 	out->Y = y;
 	out->Z = z;
 }
 
-static __forceinline void Transform_VectorLand(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+static __forceinline void Transform_VectorLand(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out)
 {
 	// Retail takes this product's register operand from the initialized input X.
 	// The volatile-qualified reference preserves that read with MSVC 7.1;
 	// the complete emitted arithmetic and its exception graph are byte-checked.
 	const volatile float &inputX = in.X;
-	float x = inputX * A.Row[0][0] + (in.Y * A.Row[0][1] + in.Z * A.Row[0][2]) + A.Row[0][3];
-	float y = in.X * A.Row[1][0] + in.Y * A.Row[1][1] + in.Z * A.Row[1][2] + A.Row[1][3];
-	float z = in.X * A.Row[2][0] + in.Y * A.Row[2][1] + in.Z * A.Row[2][2] + A.Row[2][3];
+	float x = inputX * matrix3D.Row[0][0] + (in.Y * matrix3D.Row[0][1] + in.Z * matrix3D.Row[0][2]) + matrix3D.Row[0][3];
+	float y = in.X * matrix3D.Row[1][0] + in.Y * matrix3D.Row[1][1] + in.Z * matrix3D.Row[1][2] + matrix3D.Row[1][3];
+	float z = in.X * matrix3D.Row[2][0] + in.Y * matrix3D.Row[2][1] + in.Z * matrix3D.Row[2][2] + matrix3D.Row[2][3];
 	out->X = x;
 	out->Y = y;
 	out->Z = z;

@@ -40,7 +40,7 @@ struct HTreeBone
 	unsigned char m_pad51[88 - 0x50 - 1];
 };
 
-static __forceinline Matrix3D &boneMatrix(const HTreeBoneTransform &hTreeBoneTransform, Matrix3D &m)
+static __forceinline Matrix3D &boneMatrix(const HTreeBoneTransform &hTreeBoneTransform, Matrix3D &matrix3D)
 {
 	const float xx = hTreeBoneTransform.X * hTreeBoneTransform.X * 2.0f;
 	const float xy = hTreeBoneTransform.X * hTreeBoneTransform.Y * 2.0f;
@@ -52,19 +52,19 @@ static __forceinline Matrix3D &boneMatrix(const HTreeBoneTransform &hTreeBoneTra
 	const float zz = hTreeBoneTransform.Z * hTreeBoneTransform.Z * 2.0f;
 	const float wz = hTreeBoneTransform.W * hTreeBoneTransform.Z * 2.0f;
 
-	m[0][0] = 1.0f - yy - zz;
-	m[0][1] = xy - wz;
-	m[0][2] = xz + wy;
-	m[1][0] = xy + wz;
-	m[1][1] = 1.0f - zz - xx;
-	m[1][2] = yz - wx;
-	m[2][0] = xz - wy;
-	m[2][1] = yz + wx;
-	m[2][2] = 1.0f - yy - xx;
-	m[0][3] = hTreeBoneTransform.Position.X;
-	m[1][3] = hTreeBoneTransform.Position.Y;
-	m[2][3] = hTreeBoneTransform.Position.Z;
-	return m;
+	matrix3D[0][0] = 1.0f - yy - zz;
+	matrix3D[0][1] = xy - wz;
+	matrix3D[0][2] = xz + wy;
+	matrix3D[1][0] = xy + wz;
+	matrix3D[1][1] = 1.0f - zz - xx;
+	matrix3D[1][2] = yz - wx;
+	matrix3D[2][0] = xz - wy;
+	matrix3D[2][1] = yz + wx;
+	matrix3D[2][2] = 1.0f - yy - xx;
+	matrix3D[0][3] = hTreeBoneTransform.Position.X;
+	matrix3D[1][3] = hTreeBoneTransform.Position.Y;
+	matrix3D[2][3] = hTreeBoneTransform.Position.Z;
+	return matrix3D;
 }
 
 class HTreeClass

@@ -1234,11 +1234,11 @@ public:
 	Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
 };
 
-static __forceinline Vector3 transformSlavedPoint(const Matrix3D &A, const Vector3 &a)
+static __forceinline Vector3 transformSlavedPoint(const Matrix3D &matrix3D, const Vector3 &a)
 {
-	Real ry = A.Row[1][0] * a.X + A.Row[1][1] * a.Y + A.Row[1][2] * a.Z + A.Row[1][3];
-	Real rz = A.Row[2][0] * a.X + A.Row[2][1] * a.Y + A.Row[2][2] * a.Z + A.Row[2][3];
-	Real rx = A.Row[0][0] * a.X + A.Row[0][1] * a.Y + A.Row[0][2] * a.Z + A.Row[0][3];
+	Real ry = matrix3D.Row[1][0] * a.X + matrix3D.Row[1][1] * a.Y + matrix3D.Row[1][2] * a.Z + matrix3D.Row[1][3];
+	Real rz = matrix3D.Row[2][0] * a.X + matrix3D.Row[2][1] * a.Y + matrix3D.Row[2][2] * a.Z + matrix3D.Row[2][3];
+	Real rx = matrix3D.Row[0][0] * a.X + matrix3D.Row[0][1] * a.Y + matrix3D.Row[0][2] * a.Z + matrix3D.Row[0][3];
 	return Vector3(rx, ry, rz);
 }
 

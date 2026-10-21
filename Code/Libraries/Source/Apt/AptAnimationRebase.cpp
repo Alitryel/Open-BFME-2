@@ -186,13 +186,13 @@ void Rva006E5940::rva006E5940(int delta)
    }
    case 4:
    {
-    Sub4 *p=O->t4.sub;
-    if(p)
+    Sub4 *sub4=O->t4.sub;
+    if(sub4)
     {
-     if(p->p[1])p->p[1]=(char*)INDEX((int)p->p[1]);
-     if(p->p[3])p->p[3]=(char*)INDEX((int)p->p[3]);
-     if(p->p[0])p->p[0]=(char*)INDEX((int)p->p[0]);
-     if(p->p[2])p->p[2]=(char*)INDEX((int)p->p[2]);
+     if(sub4->p[1])sub4->p[1]=(char*)INDEX((int)sub4->p[1]);
+     if(sub4->p[3])sub4->p[3]=(char*)INDEX((int)sub4->p[3]);
+     if(sub4->p[0])sub4->p[0]=(char*)INDEX((int)sub4->p[0]);
+     if(sub4->p[2])sub4->p[2]=(char*)INDEX((int)sub4->p[2]);
      
     }
     SLIDE(O->t4.sub);
