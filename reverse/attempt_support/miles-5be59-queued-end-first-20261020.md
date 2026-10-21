@@ -37,3 +37,32 @@ Ruled out this session (all measured, all left the slot exchange in place or reg
 ## Next experiment
 
 Find why a function-scope address-taken float changes cl's choice for `this` (EBX for the whole function instead of ESI split around the movsd copies) and drops the PlayingAudioRef pointer web. A start would be compiling the function-scope-pan variant with one earlier bank lever changed at a time (the by-value rva0005A9F8 read, the 3D event local) to see which of them interacts with pan's scope.
+
+## Session 2026-10-21: why wide pan flips the allocation (bank unchanged, 0.99)
+
+Retail's loop 1 keeps the PlayingAudioRef pointer in EBX and reloads the event (`push [ebx+1Ch]` at +0x86). With function-scope pan (variant "pantop", 766 B), cl instead holds `this` in EBX and CSEs the event into EDI (`push edi`). The new findings below separate the two allocations.
+
+- **An exact body exists if get2D clobbers memory.** pantop plus a global store in `get2DSampleHandleForPlayingAudio` (0x52696), `int g_probeW; ... g_probeW = 1;`, compiles 0x5BE59 to retail's 789 B. But that store breaks 0x52FA0's bytes, so the real get2D is pure. Dead or volatile forms of the same store (`if (0)`, `while (0)`, `0 &&`, `__noop`, volatile reads, static locals, uncalled killer helpers) do not reproduce the effect.
+- **The function sits on a register-pressure threshold.** Cutting pantop's queued loop ("cut5") restores retail's loop-1 shape, and loops 1 to 3 then match except for the this/pan slot swap. Adding two or three trivial top-level `if` statements to cut5 flips it back to the CSE shape.
+- **Only pan's own scope moves it.** On the bank (pan inside `if (sample)`), nothing flips the allocation:
+  - extra uses of `this` or `playing`, at the start or the end;
+  - extra `if` statements at the end;
+  - unrelated wide address-taken int or float dummies, including one that mimics pan's `AIL_sample_volume_pan` write and read.
+
+  Every scope for pan wider than the inner block flips it: function, `playing`, the loop, after the loop, or a wrapping block. Where pan's scope starts inside the `if` (before or after `sample`, first or last) makes no difference.
+- **Typed parameters have no effect.** `const AsciiString &`, `float` or `int` for the slot, value and index parameters change nothing, because the copy locals coalesce.
+- **WorldBuilder twin details** (0x79F2C0, 2289 B, unoptimised):
+  - the queued loop takes `end` first (`local_c`), then `begin` (`local_50`), which matches the bank;
+  - the 592B8 argument is spelled `*playing->m_event` (operator* 0x7AD4D0, assert line 253);
+  - `isEmpty` is inlined in WB but is a call in retail;
+  - the event name goes through a ReferencePtr `operator->` (0x401032 → 0x239099), then virtual `[+4]` getEventName, then StringBase::compare.
+
+  The `value` float parameter is unused in retail; the caller passes -1.0f.
+
+Next angles, untried:
+
+1. With pan in-block, which keeps retail's allocation, look for a slot-packing lever in variable processing order, for example the declaration order of sample3D against volume, or the shape of the 3D block.
+2. With pan wide, look for the natural source change that supplies the memory-kill effect `g_probeW` had. Examples: a real call in loop 1 that the bank currently inlines, or a non-inline `PlayingAudioRef::operator=` / `get()` (WB inlines operator=).
+3. Check the music-loop entry shape (cut5 showed jmp against a top test).
+
+Scratch generators for this session (untracked): `build/s5be59/gen.py` (`_g2dmod` probes), `mk.py`, `l1.sh` (loop-1 signature: retail shows `mov ebx,[ebp-10h]` and `push [ebx+1Ch]`).

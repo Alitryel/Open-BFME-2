@@ -1,4 +1,6 @@
 // ?rva0005BE59@MilesAudioManager@@QAEXPAXM0@Z
+// partial score=0.99 date=2026-10-21
+// ?rva0005BE59@MilesAudioManager@@QAEXPAXM0@Z
 // partial score=0.99 date=2026-10-20
 // ?rva0005BE59@MilesAudioManager@@QAEXPAXM0@Z
 // Bank for 0x0005BE59 (789 B, RET 0xC; WB twin 0x0079F2C0), BFME 2's
