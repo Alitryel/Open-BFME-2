@@ -19,7 +19,6 @@ Code/GameEngine/Source/Common/BfmeConv1485.cpp	?bfmeInsertRangeV43@@YGXHPAVBfmeS
 Code/GameEngine/Source/Common/BfmeConv1486.cpp	?bfmeReplaceRangeV44@@YGXPAD000H@Z	?bfmeImplV44@BfmeStrV44@@QAEXPAD000@Z	0x00028820	unowned
 Code/GameEngine/Source/Common/BfmeConv1727.cpp	?bfmeEachQR@@YAXPAUBfmeElemQR@@0HPAX@Z	??0BfmeElemQR@@QAE@ABU0@@Z	0x00217624	wrong
 Code/GameEngine/Source/Common/BfmeConv1950.cpp	?bfmeResizeERE@BfmeVecERE@@QAEXIUBfmeItemERE@@@Z	??1BfmeItemERE@@QAE@XZ	0x002154BE	wrong
-Code/GameEngine/Source/Common/BfmeConv897.cpp	?bfmeGoFHG@@YGXPAX000@Z	?bfmeTailFHG@@YGXPAX0HH@Z	0x001E19E8	unowned
 Code/GameEngine/Source/Common/BfmeConv982.cpp	?bfmeGo982C@@YAXPAVBfmeT982@@@Z	?bfmeEnd982C@BfmeHub982@@QAEXXZ	0x00110611	unowned
 Code/GameEngine/Source/Common/BfmeConv982.cpp	?bfmeGo982C@@YAXPAVBfmeT982@@@Z	?bfmeTouch982C@BfmeT982@@QAEXXZ	0x000A9570	unowned
 Code/GameEngine/Source/Common/BfmeThing928FOne.cpp	?bfmeOne928F@BfmeThing928F@@QAEXXZ	?insert@?$list@PAURva007B4CD0Entry@@V?$allocator@PAURva007B4CD0Entry@@@_STL@@@_STL@@QAE?AU?$_List_iterator@PAURva007B4CD0Entry@@U?$_Nonconst_traits@PAURva007B4CD0Entry@@@_STL@@@2@U32@ABQAURva007B4CD0Entry@@@Z	0x005925E2	wrong

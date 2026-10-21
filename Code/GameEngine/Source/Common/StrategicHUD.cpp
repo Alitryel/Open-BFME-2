@@ -115,16 +115,9 @@ private:
 	void *m_value;
 };
 
-// The Palantir: constructor 0x00578D22, methods in Rva00578AC1.cpp as
-// StrategicHUD::Palantir.
-class Rva00578C43
-{
-public:
-	Rva00578C43(int level, const AsciiString &name); // 0x00578D22
-
-private:
-	unsigned char m_pad[0x58];
-};
+// The Palantir (StrategicHUD::Palantir, constructor 0x00578D22 and methods in
+// Rva00578AC1.cpp) as the +0x2C slot holder's pointer type.
+class Rva00578C43;
 
 namespace StrategicHUD
 {
@@ -152,21 +145,15 @@ private:
 }
 
 
-class Rva0057BD01
-{
-public:
-	Rva0057BD01(int level, const AsciiString &name); // 0x0057BD79
-
-private:
-	unsigned char m_pad[0x38];
-};
+// StrategicHUD::SelectionDetailsUIImpl as the +0x34 slot holder's pointer type.
+class Rva0057BD01;
 
 // The load dialog frame: constructor 0x0057C499 (vtable 0x00C6F304, its +4
 // a 0x1C object from 0x0057C3C4).
-class Rva0057C499
+class AptLoadMovieFrame
 {
 public:
-	Rva0057C499(int level, const AsciiString &name); // 0x0057C499
+	AptLoadMovieFrame(int level, const AsciiString &name); // 0x0057C499 (AptLoadMovieFrame.cpp)
 
 private:
 	unsigned char m_pad[0x8];
@@ -188,10 +175,14 @@ namespace StrategicHUD
 class Palantir
 {
 public:
+	Palantir(int level, const AsciiString &name); // 0x00578D22 (Rva00578AC1.cpp)
 	~Palantir();
 	void rva005785A2(void *selection);
 	Palantir *rva005785BE(); // 0x005785BE
 	void rva005785CD();
+
+private:
+	unsigned char m_pad[0x58];
 };
 
 // The checklist (+0x30) and selection details (+0x34) by the class names
@@ -210,8 +201,12 @@ private:
 class SelectionDetailsUIImpl
 {
 public:
+	SelectionDetailsUIImpl(int level, const AsciiString &name); // 0x0057BD79 (AptWotrPanelCallbacks.cpp)
 	~SelectionDetailsUIImpl();
 	void rva0057BBBB();
+
+private:
+	unsigned char m_pad[0x38];
 };
 }
 
@@ -385,15 +380,12 @@ private:
 // ObjectCreationList's); 0x0052458E binds a delegate under a name through
 // the Apt window manager and remembers the name; the rowed destructor
 // 0x0052413E unbinds them.
-// The by-value parameter type of 0x0052458E (definition below).
-class Rva00579E47Delegate;
 
 class Rva0052413E
 {
 public:
 	Rva0052413E();
 	~Rva0052413E();
-	void rva0052458E(const AsciiString &name, Rva00579E47Delegate delegate);
 
 private:
 	unsigned char m_pad[0xC];
@@ -505,10 +497,21 @@ private:
 // banked for MpGameSetup 0x0044303D. Retail's order (the argument slot's
 // address saved before ecx is loaded, the method through eax) needs both
 // the inline wrapper and the by-value pair.
-class Rva00579E47Delegate : public Rva00579E47
+class AptCommandMap;
+template <class T> class AptRef;
+template <> class AptRef<AptCommandMap> : public Rva00579E47
 {
 public:
-	Rva00579E47Delegate(DelegateDesc desc) : Rva00579E47(desc) {}
+	AptRef(DelegateDesc desc) : Rva00579E47(desc) {}
+	~AptRef();	// AptCallbackAdders.cpp's AptRef<T>::~AptRef
+};
+
+// 0x0052458E is the rowed AptCommandMapAdder::AddCommandMap (AptCallbackAdders.cpp)
+// on the +0x0C member.
+class AptCommandMapAdder
+{
+public:
+	void AddCommandMap(const AsciiString &name, AptRef<AptCommandMap> map);
 };
 
 // Retail 0x0042D493, 16 bytes: bound as the "StrategicHUD::OnInitialized"
@@ -629,7 +632,7 @@ void StrategicHUD::HUD::Impl::OnHelpBoxUnloaded(const char *name)
 void StrategicHUD::HUD::Impl::OnLoadDialogFrameLoaded(const char *name)
 {
 	if (m_loadDialogFrame.m_ptr == 0)
-		((Rva00575674 *)&m_loadDialogFrame)->rva00575674((Object *)new Rva0057C499(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
+		((Rva00575674 *)&m_loadDialogFrame)->rva00575674((Object *)new AptLoadMovieFrame(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
 }
 
 // Retail 0x0042DC98, 148 bytes: bound as "_level%u_OnNewTurnIndicatorLoaded".
@@ -664,7 +667,7 @@ void StrategicHUD::HUD::Impl::OnPalantirLoaded(const char *name)
 {
 	if (m_palantir.m_ptr == 0)
 	{
-		m_palantir.reset(new Rva00578C43(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
+		m_palantir.reset((Rva00578C43 *)new StrategicHUD::Palantir(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
 		if (m_helpBox.m_ptr != 0)
 			((StrategicHUD::Palantir *)m_palantir.m_ptr)->rva005785A2(m_helpBox.m_ptr);
 	}
@@ -680,7 +683,7 @@ void StrategicHUD::HUD::Impl::OnPalantirUnloaded(const char *name)
 void StrategicHUD::HUD::Impl::OnSelectionDetailsLoaded(const char *name)
 {
 	if (m_selectionDetails.m_ptr == 0)
-		m_selectionDetails.reset(new Rva0057BD01(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
+		m_selectionDetails.reset((Rva0057BD01 *)new StrategicHUD::SelectionDetailsUIImpl(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
 }
 
 // Retail 0x0042DF1C, 11 bytes: bound as "_level%u_OnSelectionDetailsUnloaded".
@@ -730,32 +733,32 @@ StrategicHUD::HUD::Impl::Impl(int owner, unsigned int level)
 {
 	{
 		AsciiString name("StrategicHUD::OnInitialized");
-		m_0C.rva0052458E(name, Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnInitialized)));
+		((AptCommandMapAdder *)&m_0C)->AddCommandMap(name, AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnInitialized)));
 	}
 	{
 		AsciiString name("StrategicHUD::OnClosed");
-		m_0C.rva0052458E(name, Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnClosed)));
+		((AptCommandMapAdder *)&m_0C)->AddCommandMap(name, AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnClosed)));
 	}
 	AsciiString prefix;
 	prefix.format("_level%u", m_level);
-	m_0C.rva0052458E(prefix + "_OnChecklistLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnChecklistLoaded)));
-	m_0C.rva0052458E(prefix + "_OnChecklistUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnChecklistUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnEndTurnButtonLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnEndTurnButtonLoaded)));
-	m_0C.rva0052458E(prefix + "_OnEndTurnButtonUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnEndTurnButtonUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnHelpBoxLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnHelpBoxLoaded)));
-	m_0C.rva0052458E(prefix + "_OnHelpBoxUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnHelpBoxUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnLoadDialogFrameLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnLoadDialogFrameLoaded)));
-	m_0C.rva0052458E(prefix + "_OnLoadDialogFrameUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnLoadDialogFrameUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnNewTurnIndicatorLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnNewTurnIndicatorLoaded)));
-	m_0C.rva0052458E(prefix + "_OnNewTurnIndicatorUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnNewTurnIndicatorUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnPalantirLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnPalantirLoaded)));
-	m_0C.rva0052458E(prefix + "_OnPalantirUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnPalantirUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnRadialMenuStageLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnRadialMenuStageLoaded)));
-	m_0C.rva0052458E(prefix + "_OnRadialMenuStageUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnRadialMenuStageUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnSelectionDetailsLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnSelectionDetailsLoaded)));
-	m_0C.rva0052458E(prefix + "_OnSelectionDetailsUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnSelectionDetailsUnloaded)));
-	m_0C.rva0052458E(prefix + "_OnStatsDisplayLoaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnStatsDisplayLoaded)));
-	m_0C.rva0052458E(prefix + "_OnStatsDisplayUnloaded", Rva00579E47Delegate(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnStatsDisplayUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnChecklistLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnChecklistLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnChecklistUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnChecklistUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnEndTurnButtonLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnEndTurnButtonLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnEndTurnButtonUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnEndTurnButtonUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnHelpBoxLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnHelpBoxLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnHelpBoxUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnHelpBoxUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnLoadDialogFrameLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnLoadDialogFrameLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnLoadDialogFrameUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnLoadDialogFrameUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnNewTurnIndicatorLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnNewTurnIndicatorLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnNewTurnIndicatorUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnNewTurnIndicatorUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnPalantirLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnPalantirLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnPalantirUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnPalantirUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnRadialMenuStageLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnRadialMenuStageLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnRadialMenuStageUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnRadialMenuStageUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnSelectionDetailsLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnSelectionDetailsLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnSelectionDetailsUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnSelectionDetailsUnloaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnStatsDisplayLoaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnStatsDisplayLoaded)));
+	((AptCommandMapAdder *)&m_0C)->AddCommandMap(prefix + "_OnStatsDisplayUnloaded", AptRef<AptCommandMap>(DelegateDesc(this, &StrategicHUD::HUD::Impl::OnStatsDisplayUnloaded)));
 }
 
 // Retail 0x0042E71D, 66 bytes.

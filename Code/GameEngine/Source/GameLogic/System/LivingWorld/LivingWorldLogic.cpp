@@ -226,11 +226,8 @@ class LivingWorldRegionManager
 public:
 class LivingWorldPendingBattle*rva0020E501(int);class LivingWorldPendingBattle*rva0020E5BB(int);
 	Bool GetRegionCenterPoint(Int regionID, Coord2D *out);	// 0x0020F27E
-	// The region overload (0x0020EA58, pinned under this WorldBuilder name)
-	// and the region under a world position (0x0020FAEA, rowed as
-	// Rva0020EE29::rva0020FAEA; this spelling returns the region).
+	// The region overload (0x0020EA58, pinned under this WorldBuilder name).
 	Bool GetRegionCenterPoint(class Rva0020E89C *region, Coord2D *out);
-	class Rva00318C32Ret *rva0020FAEA(const Coord2D *pos, class Rva00318C32Ret *hint);
 	void SetActiveBattleID(Int a, Int b);			// 0x0020E63F
 	void rva0020FB8B(class LivingWorldBattle *battle);	// 0x0020FB8B, ends the battle (pinned)
 	Bool rva0020E4C8();
@@ -394,15 +391,30 @@ public:
 };
 
 // TheLivingWorldCampaignManager (0x00E02D6C, rowed lookup 0x003B8BAA); the
-// end-of-turn notification at 0x003B8CAC is unrowed, unnamed in WB and pinned.
+// end-of-turn check at 0x003B8CAC is the rowed LivingWorldCampaignManager
+// member (its result unused here).
 class Rva003B8BAA
 {
 public:
 	void *rva003B8BAA();					// 0x003B8BAA, see CanDisbandArmyMember
-	void rva003B8CAC();					// 0x003B8CAC
 };
 
 class Rva00E02D6C; extern Rva00E02D6C *TheCampaignManager;
+
+// 0x002B5B55 destroys one army (rowed Rva002B5B55::rva002B5B55, called on this).
+class Rva002B5B55Arg;
+class Rva002B5B55
+{
+public:
+	void rva002B5B55(Rva002B5B55Arg *army);
+};
+// 0x002B8019, the army-member move check (rowed Rva002B6C9F::rva002B8019, called on this).
+class Rva002B6C9F
+{
+public:
+	Bool rva002B8019(Int army, Int entry, Int target);
+};
+
 
 // The same global as LivingWorldCampaignManager.cpp's view: its generic
 // spawn army lookup (rowed 0x003B8CE0) takes the player as its second word.
@@ -412,6 +424,7 @@ public:
 	void *UseGenericSpawnArmyForPlayer(Int a, Int b);	// 0x003B8CE0
 	void StartNewCampaign(const AsciiString &name);
 	void StartNewCampaign(Int campaign);
+	bool rva003B8CAC();					// 0x003B8CAC
 };
 
 // The generic spawn army's id at +0x4C and the player's id at +0x14, the
@@ -562,6 +575,12 @@ struct Rva003F0F13Elem
 	float b;
 };
 struct Rva0059E647Entry;
+// The owner change 0x003F2A8C, rowed under its address class (LivingWorldRegion.cpp).
+class Rva003F2A8C
+{
+public:
+	void rva003F2A8C(Int playerID);
+};
 class LivingWorldRegion
 {
 public:
@@ -569,9 +588,7 @@ struct LivingWorldBuildPlot*rva003F088C(int)const;void BuildBuilding(class Rva00
 	void rva003F0FA3(void *army);
 	void GetGarrisonArmyPlacementSpot(Rva003F0F13Elem *out);	// 0x003F0F13
 	void *rva003F0588();					// 0x003F0588, the free building slot
-	void rva003F2A8C(Int playerID);				// 0x003F2A8C, owner change
 	void rva003EFE72(void *slot, Rva0059E647Entry *buildingTemplate);	// 0x003EFE72, captured placement
-	void BuildBuilding(void *slot, Rva0059E647Entry *buildingTemplate);	// 0x003F1C56
 
 	unsigned char m_pad000[0x13c];
 	Int m_ownerPlayer;					// +0x13C
@@ -713,13 +730,11 @@ void logicMessageDispatcher(GameMessage*,void*);
 	void rva002B47C3(); // native thiscall; WB preserves the receiver
 	void rva002B83E5();
 	void rva002B49A8();
-	void rva002BCE24();
 	void AutoResolveBattle(Int battle);
 	void AutoMarkUnitsForUpgrades();
 	void CalcAttackingDirection(const _STL::vector<Int> &path, Coord2D *direction);
 	Bool CanMoveArmyMember(LivingWorldArmy *army, Int entryID, Int target);
  void HandleSwapArmyMembersMessage(const GameMessage *msg);
-	Bool rva002B8019(LivingWorldArmy *army, ArmySummaryEntry *entry, Int target);	// 0x002B8019
 	void LetAIResolveRegionAwardDispute(Int regionID, const _STL::vector<Int> &players, UnsignedInt flags);
 	Rva002B8660Army *UseGenericSpawnArmyForPlayer(Int a, Rva002B8660Player *player);
 	Bool CanMoveArmyMember_internal(LivingWorldArmy *army, ArmySummaryEntry *entry, LivingWorldArmy *target, Bool checkRoom);
@@ -738,7 +753,7 @@ void logicMessageDispatcher(GameMessage*,void*);
 	void spawnCity(SpawnArmy *city);
 	LivingWorldArmy *spawnArmy(SpawnArmy *spawn, Rva002B6A04Player *player, Bool flag);	// 0x002B65B7, pinned
 	LivingWorldArmy *CreateEmptyGarrisonArmy(Rva002B6A04Player *player, LivingWorldRegion *region);
-	void *rva002B4948(void *player, LivingWorldRegion *region, Int arg);	// 0x002B4948 (rowed as the stdcall Rva002B4948Find)
+	void *rva002B4948(void *player, void *region, void *arg);	// 0x002B4948
 	void spawnBuilding(const struct Rva002B99F8Request *request);
 	Bool rva002B5CBB(const struct Rva002B4C35Player *player);
 	void GameLogic_tacticalBattleComplete();
@@ -746,7 +761,7 @@ void logicMessageDispatcher(GameMessage*,void*);
 	void rva002B9A90(Int regionID, const _STL::vector<Int> &players, UnsignedInt flags);	// 0x002B9A90
 	void rva002B37FF(class LivingWorldBattle *battle);	// 0x002B37FF
 	void PrepareBattleForLoading(class LivingWorldBattle *battle);
-	void SetUpAutoResolveBattle(const _STL::vector<const ModuleData *> &armies, void *battleValue, const _STL::vector<const ModuleData *> &units, Rva003F287F *region, Int a, Int b);	// 0x002BC971 (WorldBuilder name, pinned)
+	void SetUpAutoResolveBattle(const _STL::vector<struct SetupPlayer *> *armies, struct SetupPlayer *battleValue, const _STL::vector<struct SetupArmy *> *units, void *region, _STL::vector<struct SetupRecord52> *a, _STL::vector<struct SetupSimulation44> *b);	// 0x002BC971 (LivingWorldLogicSetUpAutoResolveBattle.cpp)
 	void rva002BCCFB(class LivingWorldBattle *battle, Int a, Int b);	// 0x002BCCFB
  void rva002B3833(LivingWorldBattle*,struct Rva002B89BBInfo*);
 
@@ -754,7 +769,6 @@ private:
 	friend class Rva002B74DE;	// the auto battle resolver's ctor reads +0x2C and +0xB0
 	void AddDelayedRegionVictory(Rva003F287F *region, Int player, UnsignedInt flags);	// 0x002B9B42
 	void CheckTurnPhaseTransitions();		// 0x002BD23E
-	void rva002B5B55(void *army);			// 0x002B5B55, destroys one army
 
 	unsigned char m_pad18[0x1c - 0x18];
 	Rva002B616FList m_turnListeners;		// +0x1C
@@ -813,7 +827,7 @@ Bool LivingWorldLogic::EndTurn()
 		m_field108 = false;
 		m_field109 = false;
 		m_turn++;
-		((Rva003B8BAA *)TheCampaignManager)->rva003B8CAC();
+		((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8CAC();
 		CheckTurnPhaseTransitions();
 		return true;
 	}
@@ -859,7 +873,7 @@ void LivingWorldLogic::LetAIResolveRegionAwardDispute(Int regionID, const _STL::
 void LivingWorldLogic::processArmyDestroyList()
 {
 	for (UnsignedInt i = 0; i < m_armyDestroyList.size(); ++i)
-		rva002B5B55(m_armyDestroyList[i]);
+		((Rva002B5B55 *)this)->rva002B5B55((Rva002B5B55Arg *)m_armyDestroyList[i]);
 	m_armyDestroyList.clear();
 }
 
@@ -926,7 +940,7 @@ Bool LivingWorldLogic::CanMoveArmyMember(LivingWorldArmy *army, Int entryID, Int
 	ArmySummaryEntryRef entry = summary->GetEntry(entryID);
 	if (entry.m_entry == 0)
 		return false;
-	return rva002B8019(army, entry.m_entry, target);
+	return ((Rva002B6C9F *)this)->rva002B8019((Int)army, (Int)entry.m_entry, target);
 }
 
 // LivingWorldLogic::IsCurrentTurnPhaseFinished, retail 0x002B5390. WB logs
@@ -1074,12 +1088,7 @@ public:
 extern ThingFactory *TheThingFactory;
 
 // The army member's template name (entry +0x04) against the army's own
-// (+0x18), through the rowed StringBase compare 0x000069D6 (pinned view).
-class Rva004525B0String
-{
-public:
-	Int compare(const Rva004525B0String &that) const;	// 0x000069D6
-};
+// (+0x18), through the rowed StringBase compare 0x000069D6.
 
 // The target army's room for an entry: rowed 0x00319413.
 class Rva0037DCA5
@@ -1260,7 +1269,7 @@ static __declspec(noinline) void CancelArmyMemberMove(LivingWorldArmy *currentAr
 		LivingWorldArmy *sourceArmy = (LivingWorldArmy *)((Rva002BA8F1Logic *)((Rva002B254F *)TheLivingWorldLogic))->rva002B488E(sourceArmyID);
 		if (sourceArmy != 0)
 		{
-			if (((LivingWorldLogic *)TheLivingWorldLogic)->rva002B8019(currentArmy, entry.m_entry, (Int)sourceArmy))
+			if (((Rva002B6C9F *)TheLivingWorldLogic)->rva002B8019((Int)currentArmy, (Int)entry.m_entry, (Int)sourceArmy))
 			{
 				entry.m_entry->m_moveTarget = 0;
 				sourceArmy->rva00319EF9(currentArmy, entryID);
@@ -1349,7 +1358,7 @@ Int LivingWorldLogic::rva002B2C12(LivingWorldArmy *army, LivingWorldArmy *target
 // with checkRoom the target must also take it.
 Bool LivingWorldLogic::CanMoveArmyMember_internal(LivingWorldArmy *army, ArmySummaryEntry *entry, LivingWorldArmy *target, Bool checkRoom)
 {
-	if (((const Rva004525B0String *)((char *)entry + 4))->compare(*(const Rva004525B0String *)((char *)army + 0x18)) == 0)
+	if (((const StringBase<char> *)((char *)entry + 4))->compare(*(const StringBase<char> *)((char *)army + 0x18)) == 0)
 		return false;
 	if (entry->getMoveTarget() != 0)
 	{
@@ -1623,11 +1632,8 @@ class Rva002B280C
 public:
 	bool rva002B280C(Arg54 *army);				// 0x002B280C
 };
-class Rva00319831
-{
-public:
-	void rva00319831(Int flags);				// 0x00319831
-};
+// The army's 0x00319831, rowed under Rva003195C9Owner (Rva00319831Copy.cpp).
+class Rva003195C9Owner {public:void rva00319E7C();void rva00319831(void*);};
 
 // Retail 0x002B2834 (36 bytes; WorldBuilder leaves it unnamed, its only
 // callee is the army's 0x00319831; armyMoveRequest calls it): forwards the
@@ -1638,7 +1644,7 @@ void LivingWorldLogic::rva002B2834(LivingWorldArmy *army, Int flags)
 		return;
 	if (!((Rva002B280C *)this)->rva002B280C((Arg54 *)army))
 		return;
-	((Rva00319831 *)army)->rva00319831(flags);
+	((Rva003195C9Owner *)army)->rva00319831((void *)flags);
 }
 
 // LivingWorldLogic::armyMoveRequest, retail 0x002B28B1 (142 bytes; WB name,
@@ -1724,10 +1730,10 @@ public:
 	void append(Rva002BA8F1Listener *listener);		// 0x005A0B4C
 	unsigned char m_pad[0x14];
 };
-class Rva002E277A
+class Rva002E2AAE
 {
 public:
-	Rva002E277A();						// 0x002E277A
+	Rva002E2AAE();						// 0x002E277A
 	unsigned char m_pad000[0x4];
 	Rva005A0B4CList m_observers;				// +0x04
 	unsigned char m_pad018[0x3c8 - 0x18];
@@ -1760,7 +1766,7 @@ void LivingWorldLogic::XferPlayers(Xfer *xfer)
 		((_STL::vector<const ModuleData *> *)&m_players)->reserve(count);
 		for (Int i = 0; i < count; ++i)
 		{
-			Rva002E277A *player = new Rva002E277A;
+			Rva002E2AAE *player = new Rva002E2AAE;
 			xfer->xferSnapshot(player);
 			((_STL::vector<const ModuleData *> *)&m_players)->push_back(*(const ModuleData **)&player);
 			player->m_observers.append((Rva002BA8F1Listener *)(Rva002BAA3DLogic *)this);
@@ -1790,10 +1796,15 @@ void LivingWorldLogic::XferPlayers(Xfer *xfer)
 // award itself (0x004FCA11), both pinned under address names; and the
 // region manager's region lookup by the player's base region name (+0x2C;
 // rowed 0x002104B6).
+// 0x004FD699, the regions of an ownership set, rowed as Rva004FD699::rva004FD699.
+class Rva004FD699
+{
+public:
+	void rva004FD699(const ModuleData *baseRegion, _STL::vector<const ModuleData *> *regions);
+};
 class Rva002B7582Sets
 {
 public:
-	void rva004FD699(void *baseRegion, _STL::vector<const ModuleData *> *regions);	// 0x004FD699
 	void rva004FCA11(void *baseRegion, Rva002E2903Player *player);	// 0x004FCA11
 };
 struct Rva002B7582Campaign
@@ -1836,7 +1847,7 @@ void LivingWorldLogic::AwardOwnershipSetsToPlayers()
 		if (baseRegion == 0)
 			continue;
 		((_STL::vector<void *> *)&regions)->clear();
-		sets->rva004FD699(baseRegion, &regions);
+		((Rva004FD699 *)sets)->rva004FD699((const ModuleData *)baseRegion, &regions);
 		for (UnsignedInt j = 0; j < regions.size(); ++j)
 		{
 			const ModuleData *region = regions[j];
@@ -1982,14 +1993,22 @@ void LivingWorldLogic::spawnBuilding(const Rva002B99F8Request *request)
 	if (request->m_captured)
 	{
 		if (region->m_ownerPlayer != player->m_id)
-			region->rva003F2A8C(player->m_id);
+			((Rva003F2A8C *)region)->rva003F2A8C(player->m_id);
 		region->rva003EFE72(slot, buildingTemplate);
 	}
 	else
 	{
-		region->BuildBuilding(slot, buildingTemplate);
+		region->BuildBuilding((Rva003F1C56Plot *)slot, (const Rva003F1BD3TemplateView *)buildingTemplate);
 	}
 }
+
+// The region under a world position, 0x0020FAEA, rowed as Rva0020EE29::rva0020FAEA.
+class Rva0020EE29
+{
+public:
+	void *rva0020FAEA(float *pos, void *hint);
+	void rva0020F483();
+};
 
 // LivingWorldLogic::AdjustArmyMoveTargetPos, retail 0x002B2858 (89 bytes;
 // WB name, logs when the point lies outside the target region): a position
@@ -1997,7 +2016,7 @@ void LivingWorldLogic::spawnBuilding(const Rva002B99F8Request *request)
 Rva002B2858Coord LivingWorldLogic::AdjustArmyMoveTargetPos(Rva00318C32Ret *target, const Coord2D *pos)
 {
 	Rva002B2858Coord adjusted;
-	if (m_field0B0->rva0020FAEA(pos, target) != target)
+	if (((Rva0020EE29 *)m_field0B0)->rva0020FAEA((float *)pos, target) != target)
 		m_field0B0->GetRegionCenterPoint((Rva0020E89C *)target, (Coord2D *)&adjusted);
 	else
 	{
@@ -2095,7 +2114,6 @@ void RetreatArmiesForPlayer(void*);bool rva003F4538();int rva003F45DF();void rva
 	Int rva003F47E6(Int side);				// 0x003F47E6
 	Int rva003F459A();					// 0x003F459A, total army count (pinned)
 	/* the rowed Rva003F4ABBOwner::indexedCall */ __declspec(dllimport) __forceinline void * rva003F4ABB(Int p0, Int p1) { return ((Rva003F4ABBOwner *)this)->indexedCall(p0, p1); }			// 0x003F4ABB, the army object or null (pinned)
-	void AddArmy(Int player, void *army);			// 0x003F6DF9 (WorldBuilder name, pinned)
 	void *rva003F4D09();					// 0x003F4D09
 
 	unsigned char m_pad00[0x18];
@@ -2108,6 +2126,14 @@ void RetreatArmiesForPlayer(void*);bool rva003F4538();int rva003F45DF();void rva
 	Int m_side;						// +0x38, the winning side
 	Int sides() const { return m_sidesEnd - m_sides; }
 	void ComputeBattleResultsForPlayersAfterAutoBattle(struct Rva003F4E07Results *);
+};
+// WorldBuilder's LivingWorldBattle::AddArmy, 0x003F6DF9, rowed as
+// Rva003F6D35Owner::appendPayloadRva003F6DF9 (Rva003F6DF9AppendPayload.cpp).
+struct Rva003F6DF9Payload;
+class Rva003F6D35Owner
+{
+public:
+	void appendPayloadRva003F6DF9(void *player, Rva003F6DF9Payload *army);
 };
 class Rva003F468D
 {
@@ -2130,11 +2156,21 @@ struct Rva002BC1DAArmy
 	unsigned char m_pad00[0x34];
 	Int m_team;						// +0x34
 };
+// The unit's rowed checks: 0x003190A5 (Rva003190A5::query) and 0x00319A12
+// (Rva00319A12Owner::rva00319A12), both on the unit itself.
+class Rva003190A5
+{
+public:
+	bool query() const;
+};
+class Rva00319A12Owner
+{
+public:
+	void rva00319A12();
+};
 class Rva002BC1DAUnit
 {
 public:
-	Bool rva003190A5();					// 0x003190A5
-	void rva00319A12();					// 0x00319A12
 
 	unsigned char m_pad00[0x18];
 	StringBase<char> m_templateName;			// +0x18
@@ -2170,8 +2206,8 @@ void LivingWorldLogic::GameLogic_tacticalBattleComplete()
 					{
 						if (!unit->m_templateName.isEmpty())
 						{
-							if (unit->rva003190A5())
-								unit->rva00319A12();
+							if (((const Rva003190A5 *)unit)->query())
+								((Rva00319A12Owner *)unit)->rva00319A12();
 							((_STL::vector<const ModuleData *> *)&m_field10C)->push_back((const ModuleData *)unit);
 						}
 						else
@@ -2212,7 +2248,7 @@ void LivingWorldLogic::rva002BCCFB(LivingWorldBattle *battle, Int a, Int b)
 		}
 	}
 	Rva003F287F *region = battle->m_region;
-	SetUpAutoResolveBattle(armies, battle->rva003F4D09(), units, region, a, b);
+	SetUpAutoResolveBattle((const _STL::vector<SetupPlayer *> *)&armies, (SetupPlayer *)battle->rva003F4D09(), (const _STL::vector<SetupArmy *> *)&units, region, (_STL::vector<SetupRecord52> *)a, (_STL::vector<SetupSimulation44> *)b);
 }
 
 // The resolver's per-army slots: 0x2C-byte objects built by the rowed
@@ -2430,7 +2466,7 @@ void LivingWorldLogic::PrepareBattleForLoading(LivingWorldBattle *battle)
 				Int player = ((Rva003F468D *)battle)->rva003F468D(side, a);
 				army = CreateEmptyGarrisonArmy((Rva002B6A04Player *)player, (LivingWorldRegion *)battle->m_region);
 				if (army != 0)
-					battle->AddArmy(player, army);
+					((Rva003F6D35Owner *)battle)->appendPayloadRva003F6DF9((void *)player, (Rva003F6DF9Payload *)army);
 			}
 			armies.begin()[k] = (const ModuleData *)army;
 		}
@@ -2509,7 +2545,6 @@ public:
     virtual void slot48(); virtual void slot4C(Bool, Bool);
 };
 void HideControlBar(Bool);
-class Rva0020EE29 { public: void rva0020F483(); };
 class Rva002B6151Listener { public: virtual void notify(void *); };
 class Rva002B6151List
 {
@@ -3044,10 +3079,10 @@ LivingWorldArmy *LivingWorldLogic::spawnArmy(SpawnArmy *spawn,Rva002B6A04Player 
    ((LivingWorldRegionConnection*)region)->rva003F26AA((const ModuleData*)army,&pos);
    ((Rva00319AA0*)army)->rva00319AA0((const Coord2D*)&pos);
   }else{
-   LivingWorldArmy *old=(LivingWorldArmy*)rva002B4948(player,(LivingWorldRegion*)region,(Int)army);
+   LivingWorldArmy *old=(LivingWorldArmy*)rva002B4948(player,region,army);
    if(old){
     ((Rva003193EC*)old)->rva00319904((Rva003193EC*)army);
-    rva002B5B55(army);army=old;
+    ((Rva002B5B55 *)this)->rva002B5B55((Rva002B5B55Arg *)army);army=old;
    }else{
     Rva003F26AAPair pos;
     ((LivingWorldRegionConnection*)region)->rva003F26AA((const ModuleData*)army,&pos);
@@ -3176,7 +3211,6 @@ class Rva0020E89C {public:
 };
 class Rva0020EAF6View {public:Rva0020E89C *rva0020EAF6(int);};
 class Rva00318C8DOwner {public:Rva0020E89C *rva00318C8D();};
-class Rva003195C9Owner {public:void rva00319E7C();void rva00319831(void*);};
 class Rva00319159 {public:UnicodeString GetHeroDisplayName();};
 class Rva002E0687 {public:bool rva002E0687()const;};
 class Rva002B2702 {public:void rva002B2702(void*,void*,int);};
@@ -3440,7 +3474,7 @@ static __declspec(noinline) Bool ExtractArmyDataFromSwapArmyMembersMessage(const
  return true;
 }
 
-class Rva002B6D18 {public:bool rva002B6D18(void*,void*,void*,void*);};
+class Rva002B6D18 {public:bool rva002B6D18(Int,Int,Int,Int);};
 struct Rva002B3E50Range;
 class Rva002B6D85 {public:void rva002B6D85(void *,Rva002B3E50Range *,void *,Rva002B3E50Range *);};
 void LivingWorldLogic::HandleSwapArmyMembersMessage(const GameMessage *msg){
@@ -3451,7 +3485,7 @@ void LivingWorldLogic::HandleSwapArmyMembersMessage(const GameMessage *msg){
  LivingWorldArmy *armyB;
  _STL::vector<Int> idsB;
  if(!ExtractArmyDataFromSwapArmyMembersMessage(msg,&argIndex,&armyB,(ArmyMemberIDVector*)&idsB))return;
- if(((Rva002B6D18*)this)->rva002B6D18(armyA,&idsA,armyB,&idsB))
+ if(((Rva002B6D18*)this)->rva002B6D18((Int)armyA,(Int)&idsA,(Int)armyB,(Int)&idsB))
   ((Rva002B6D85*)this)->rva002B6D85(armyA,(Rva002B3E50Range*)&idsA,armyB,(Rva002B3E50Range*)&idsB);
 }
 
@@ -3481,7 +3515,7 @@ void LivingWorldLogic::CheckTurnPhaseTransitions(){
   switch(m_turnPhase){
   case 0:rva002B49A8();AutoMarkUnitsForUpgrades();break;
   case 5:AdjustArmyTargetLocations();break;
-  case 1:rva002BCE24();AdjustArmyTargetLocations();break;
+  case 1:CheckHeadToHeadBattles();AdjustArmyTargetLocations();break;
   case 2:{
    LivingWorldRegionManager*&manager=m_field0B0;
    manager->rva0020E4C8();manager->UpdateBattleMarkers();

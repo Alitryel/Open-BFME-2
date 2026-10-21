@@ -14,18 +14,19 @@ public:
 	void *m_14;
 };
 
-class Rva002B2590P2
+struct Rva0059E647Entry;
+// The region: both callees are rowed LivingWorldRegion members.
+class LivingWorldRegion
 {
 public:
 	void *rva003F0588();
-	void rva003EFE72(void *result, void *extra);
+	void rva003EFE72(void *slot, Rva0059E647Entry *buildingTemplate);
 
 public:
 	unsigned char m_pad00[0x13C];
 	void *m_13C;
 };
 
-struct Rva0059E647Entry;
 struct Rva0059E647Arg;
 struct Rva0059E647World
 {
@@ -34,14 +35,14 @@ struct Rva0059E647World
 void Rva0059E647World::Apply(Rva0059E647Entry *templateView, void *regionView, Rva0059E647Arg *playerView)
 {
     void *p1 = templateView;
-    Rva002B2590P2 *p2 = (Rva002B2590P2 *)regionView;
+    LivingWorldRegion *p2 = (LivingWorldRegion *)regionView;
     Rva002B2590P3 *p3 = (Rva002B2590P3 *)playerView;
     if (p2->m_13C != p3->m_14)
         return;
     void *result = p2->rva003F0588();
     if (result == 0)
         return;
-    p2->rva003EFE72(result, p1);
+    p2->rva003EFE72(result, (Rva0059E647Entry *)p1);
 }
 
 class Rva0060EF3E
@@ -67,11 +68,3 @@ bool Rva002B25BFOwner::rva002B25BF(int v)
 		return false;
 	return m_B0->rva0060EF3E(v);
 }
-
-// Each retail call in this body reads an address the ledger already carries
-// under the rowed name below. Bind the donor spelling to that owner so one
-// address keeps one definition and the unit links.
-//   0x003EFE72 reads ?Rva003EFE72@@YGXHH@Z
-#pragma comment(linker, "/alternatename:?rva003EFE72@Rva002B2590P2@@QAEXPAX0@Z=?Rva003EFE72@@YGXHH@Z")
-//   0x003F0588 reads ?rva003F0588@LivingWorldRegion@@QAEPAXXZ
-#pragma comment(linker, "/alternatename:?rva003F0588@Rva002B2590P2@@QAEPAXXZ=?rva003F0588@LivingWorldRegion@@QAEPAXXZ")

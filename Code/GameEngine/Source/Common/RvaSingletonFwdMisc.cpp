@@ -9,7 +9,10 @@
 //   Wrapper class/signature follow the peer pin (ExperienceTracker const
 //   bool member); the callee body ends ret 4, hence the stdcall spelling
 //   alongside the peer's QAE pin at the same address.
-// 0x003EFE72 (free __stdcall, 16B, ret 8): ((target *)a)->method(b).
+// 0x003EFE72 (LivingWorldRegion member, 16B, ret 8; `this` unused):
+//   ((LivingWorldBuildPlot *)slot)->ConstructBuildingImmediately(template).
+//   Both retail callers (LivingWorldLogic::spawnBuilding 0x002B99F8 and
+//   0x002B2590) load the region into ECX first.
 // 0x00437E9C (free void(int), 16B): g (0x00E032FC)->method(a).
 //   Signature/role follow the peer pin (cdecl forwarder, caller passes 1).
 // Callee/global identities otherwise unproven; new names address-derived.
@@ -79,10 +82,17 @@ bool ExperienceTracker::rva0039ABFF() const
 	return reinterpret_cast<Rva00288CFA *>(TheExperienceLevelSystem)->rva00288CFA((int)this);
 }
 
-void __stdcall Rva003EFE72(int target, int value)
+struct Rva0059E647Entry;
+class LivingWorldRegion
 {
-	((LivingWorldBuildPlot *)target)->ConstructBuildingImmediately(
-		(const Rva003F1BD3TemplateView *)value);
+public:
+	void rva003EFE72(void *slot, Rva0059E647Entry *buildingTemplate);
+};
+
+void LivingWorldRegion::rva003EFE72(void *slot, Rva0059E647Entry *buildingTemplate)
+{
+	((LivingWorldBuildPlot *)slot)->ConstructBuildingImmediately(
+		(const Rva003F1BD3TemplateView *)buildingTemplate);
 }
 
 void Rva00437E9C(int value)

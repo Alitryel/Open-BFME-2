@@ -179,9 +179,14 @@ class Rva2225E0Filter
 public:
 	bool accepts(Object *obj, Player *player);
 };
-struct Rva002A8AB1Record
+// The record is the player's SkirmishAI; 0x002C6AA8 is its rowed onHordeCreated.
+class SkirmishAI
 {
-	void rva002C6AA8(int value, Object *obj);
+public:
+	void onHordeCreated(Object *horde, Object *member);
+};
+struct Rva002A8AB1Record : SkirmishAI
+{
 };
 class Rva002A8F24
 {
@@ -309,11 +314,6 @@ private:
 	Player *m_local; // +0x10
 };
 extern PlayerList *ThePlayerList;
-class BfmeThingTFB
-{
-public:
-	void bfmeTwoTFB(int a1, int a2);
-};
 struct Rva003642DFNode;
 struct Rva003642DFResult;
 struct Rva00468C37Holder;
@@ -323,9 +323,14 @@ class Rva003638BA
 public:
 	bool rva003638BA();
 	bool rva00363AD7();
-	// 0x00364521: the path point for the +0x1F0 member's distance
-	// (unnamed; returns the 16-byte node+position value of 0x003642DF).
-	Rva003642DFResult rva00364521(Rva00468C37Holder *holder);
+};
+// 0x00364521, the rowed Path member: the path point for the +0x1F0 member's
+// distance (returns the 16-byte node+position value of 0x003642DF).
+class Rva0008BB38FloatField;
+class Path
+{
+public:
+	Rva003642DFResult rva00364521(const Rva0008BB38FloatField *field);
 };
 // What 0x003642DF/0x00364521 return by value (16 bytes): a node and a
 // position; 0x001E3511 reads its node's level value (0x7FFFFFFF without one).
@@ -407,7 +412,6 @@ public:
 	Rva00468C37Holder *m_1F0; // +0x1F0
 	// Keep the inline address calculation without emitting a competing private-view copy.
 	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_1CC; }
-	void rva0026594F(const Coord3D *a1, const Coord3D *a2, int a3, int layer, const Coord3D *a5, const Coord3D *a6);
 	// The rowed 0x0026594F under its row spelling, for the slot-111 caller.
 	void moveThroughPortalWithMicropath(const Coord3D *a1, const Coord3D *a2, int a3, PathfindLayerEnum layer, const Coord3D *a5, const Coord3D *a6);
 	unsigned char m_pad1F4[0x1FC - 0x1F4];
@@ -657,7 +661,8 @@ public:
 	void bfmeTransferReplacementState(Object *replacement);
 	void setWeaponSetFlag(WeaponSetType flag);
 	void rva0028CFB2(const int *a, const int *b);
-	void setTransformMatrix(const Matrix3D *mtx);
+	void rva0028D412(const Matrix3D *mtx);	// rowed transform setter 0x0028D412
+	void teleportTo(const Coord3D *pos, bool flag);	// rowed 0x0029660C
 	float GetRelativeAngle(const Coord3D *pos) const;
 	bool rva0028C264(int *out, int a2);
 	Player *getControllingPlayer() const;
@@ -1807,7 +1812,7 @@ void HordeContain::rva004690D0(int value)
 {
 	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1((TheSkirmishAIManager ? m_object : m_object)->getControllingPlayer());
 	if (rec)
-		rec->rva002C6AA8(value, m_object);
+		rec->onHordeCreated((Object *)value, m_object);
 }
 
 // ?rva00468B5B@HordeContain@@UAEMM@Z @0x00468B5B: slot 144 (iface +0x1D0),
@@ -2394,7 +2399,7 @@ Object *HordeContain::rva0046D2C3(int kind)
 }
 
 // ?rva0046D7AF@HordeContain@@UAEXH@Z @0x0046D7AF: slot 108; for each contained
-// Object not keyed in the +0x170 tree, the pinned bfmeTwoTFB(argument, 0).
+// Object not keyed in the +0x170 tree, the rowed teleportTo(argument, false).
 void HordeContain::rva0046D7AF(int a1)
 {
 	const _STL::list<Object *> *items = containedItems();
@@ -2402,7 +2407,7 @@ void HordeContain::rva0046D7AF(int a1)
 	{
 		Object *obj = *it;
 		if (m_170.find(obj->getID()) == m_170.end())
-			((BfmeThingTFB *)obj)->bfmeTwoTFB(a1, 0);
+			obj->teleportTo((const Coord3D *)a1, false);
 	}
 }
 
@@ -2529,7 +2534,7 @@ void HordeContain::rva0046A712(int)
 		float angle;
 		Coord3D pos;
 		pos = slot7(obj, &angle);
-		((BfmeThingTFB *)obj)->bfmeTwoTFB((int)&pos, 0);
+		obj->teleportTo(&pos, false);
 		((Thing *)obj)->setOrientation(angle);
 	}
 }
@@ -2933,7 +2938,7 @@ Object *HordeContain::rva004708BC(const Matrix3D *mtx)
 		if (self->testStatus((ObjectStatusTypes)0x3E))
 			self->bfmeTransferReplacementState(result);
 		TheGameLogic->rva0023D0C2(result, self->m_45C);
-		result->setTransformMatrix(mtx);
+		result->rva0028D412(mtx);
 		((Rva00469B73 *)(UpdateModule *)this)->rva00469B73(result);
 		if (((const Rva0028D891Owner *)self)->testBit(0x18))
 			result->setWeaponSetFlag((WeaponSetType)0x18);
@@ -3780,7 +3785,7 @@ void HordeContain::returnToFormation(bool reposition)
 				diff.y -= theirs.y;
 				diff.z -= theirs.z;
 				if (diff.length() > 10.0f)
-					ai->rva0026594F(&theirs, &theirs, 0x7fffffff, obj->rva0028B511(), &mine, &mine);
+					ai->moveThroughPortalWithMicropath(&theirs, &theirs, 0x7fffffff, (PathfindLayerEnum)obj->rva0028B511(), &mine, &mine);
 			}
 		}
 		{
@@ -4084,7 +4089,7 @@ void HordeContain::rva0046A78F(const Matrix3D *mtx)
 		transform.Row[0].W = pos.x;
 		transform.Row[1].W = pos.y;
 		transform.Row[2].W = pos.z;
-		obj->setTransformMatrix(&transform);
+		obj->rva0028D412(&transform);
 	}
 }
 
@@ -4519,7 +4524,7 @@ void HordeContain::ClassifyBeforeOnAfterInvalidPortal(_STL::vector<ObjectID> &be
 		Rva003638BA *path = ai->m_140;
 		if (path)
 		{
-			Rva003642DFResult point = path->rva00364521(ai->m_1F0);
+			Rva003642DFResult point = ((Path *)path)->rva00364521((const Rva0008BB38FloatField *)ai->m_1F0);
 			if (point.m_node && point.m_node->m_08)
 			{
 				int level = ((Rva001E3511 *)&point)->rva001E3511();

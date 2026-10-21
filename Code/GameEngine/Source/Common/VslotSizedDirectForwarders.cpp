@@ -36,10 +36,13 @@ void Rva000448C4Forwarder::rva000448C4()
 	m_target->Render();
 }
 
-class Rva00141F90Target
+// Both +0x34 callees are rowed members of BfmeSceneVector (SceneSpatialRescale*.cpp).
+struct Rva00141F90Bounds;
+class BfmeSceneVector
 {
 public:
-	void rva00141F90(Int a0);
+	void rva00141F90(const Rva00141F90Bounds &bounds);	// 0x00141F90
+	void Set_Level(UnsignedInt level);			// 0x00142060
 };
 
 class Rva001428E0Forwarder
@@ -48,20 +51,14 @@ public:
 	void rva001428E0(Int a0);
 private:
 	char m_lead[0x34];
-	Rva00141F90Target m_target;
+	BfmeSceneVector m_target;
 };
 
 // vtable 0x00BC6310#18 (??_7Rva0006EE6F@@6B@): +0x34.rva00141F90
 void Rva001428E0Forwarder::rva001428E0(Int a0)
 {
-	m_target.rva00141F90(a0);
+	m_target.rva00141F90(*reinterpret_cast<const Rva00141F90Bounds *>(a0));
 }
-
-class Rva00142060Target
-{
-public:
-	void rva00142060(Int a0);
-};
 
 class Rva001428F0Forwarder
 {
@@ -69,19 +66,20 @@ public:
 	void rva001428F0(Int a0);
 private:
 	char m_lead[0x34];
-	Rva00142060Target m_target;
+	BfmeSceneVector m_target;
 };
 
 // vtable 0x00BC6310#19 (??_7Rva0006EE6F@@6B@): +0x34.rva00142060
 void Rva001428F0Forwarder::rva001428F0(Int a0)
 {
-	m_target.rva00142060(a0);
+	m_target.Set_Level(a0);
 }
 
-class Rva002BEECDTarget
+struct Rva002BEECDSubject;
+class Rva002BEECD
 {
 public:
-	void rva002BEECD(Int a0);
+	Bool rva002BEECD(Rva002BEECDSubject *subject);	// rowed 0x002BEECD
 };
 
 class Rva002BEF43Forwarder
@@ -90,13 +88,13 @@ public:
 	void rva002BEF43(Int a0);
 private:
 	char m_lead[0x4];
-	Rva002BEECDTarget m_target;
+	Rva002BEECD m_target;
 };
 
 // vtable 0x00BFE4F4#1: +0x4.rva002BEECD
 void Rva002BEF43Forwarder::rva002BEF43(Int a0)
 {
-	m_target.rva002BEECD(a0);
+	m_target.rva002BEECD(reinterpret_cast<Rva002BEECDSubject *>(a0));
 }
 
 class Gen0058BCD0
@@ -120,10 +118,10 @@ void Rva002D4670Forwarder::rva002D4670(Int a0)
 	m_target.handle(a0);
 }
 
-class Rva002D39E5Target
+class Rva002D39E5
 {
 public:
-	void rva002D39E5(Int a0);
+	void handle(Int a0);	// rowed 0x002D39E5
 };
 
 class Rva002D4678Forwarder
@@ -132,11 +130,11 @@ public:
 	void rva002D4678(Int a0);
 private:
 	char m_lead[0x8];
-	Rva002D39E5Target m_target;
+	Rva002D39E5 m_target;
 };
 
 // vtable 0x00C02AF4#1 (??_7Impl002D45C9@@6B@): +0x8.rva002D39E5
 void Rva002D4678Forwarder::rva002D4678(Int a0)
 {
-	m_target.rva002D39E5(a0);
+	m_target.handle(a0);
 }
