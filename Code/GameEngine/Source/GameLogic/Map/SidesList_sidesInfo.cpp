@@ -232,8 +232,33 @@ void SidesListNotifier::post(void (*callback)(), void *owner, int index)
 // callback addresses, but their semantic names are not established.
 void Rva005CB260();
 void Rva005CB26A();
-void Rva005CC208();
-void Rva005CB265();
+
+// The removal and copy notifications push MSVC's generic vcall thunks for
+// listener slots +0x08 and +0x0C (??_9@$B7AE, ??_9@$BM@AE), which retail
+// folds with the forwarders at 0x005CC208 and 0x005CB265.
+class SidesListListener
+{
+public:
+	virtual void notify00();
+	virtual void notify04();
+	virtual void notify08();
+	virtual void notify0C();
+};
+
+typedef void (*SidesListCallback)();
+typedef void (SidesListListener::*SidesListListenerSlot)();
+
+inline SidesListCallback sidesListCallback(SidesListListenerSlot slot)
+{
+	union { SidesListListenerSlot slot; SidesListCallback callback; } u;
+	u.slot = slot;
+	return u.callback;
+}
+
+// SidesList::FactionBuildLists 0x0032DD66 is rowed as Rva0032DD66RangeForward.
+struct Rva0032DD66Input;
+struct Rva0032DD66Output;
+Rva0032DD66Output *__cdecl Rva0032DD66RangeForward(Rva0032DD66Input *first, Rva0032DD66Input *last, Rva0032DD66Output *result);
 
 class TeamsInfoRec
 {
@@ -368,7 +393,7 @@ void SidesList::removeSide(int index)
 		m_sides[i].clear();
 	}
 	m_numSides--;
-	m_notifier.post(Rva005CC208, this, index);
+	m_notifier.post(sidesListCallback(&SidesListListener::notify08), this, index);
 }
 
 // SidesList::duplicateScripts, retail 0x00329A80 (106 bytes): WB names it
@@ -484,8 +509,8 @@ SidesList &SidesList::operator=(const SidesList &that)
 		m_teamrec = src.m_teamrec;
 		m_skirmishTeamrec = src.m_skirmishTeamrec;
 		m_cleared = src.m_cleared;
-		_STL::copy(src.m_factionBuildLists, src.m_factionBuildLists + 20, m_factionBuildLists);
-		m_notifier.post(Rva005CB265, this);
+		Rva0032DD66RangeForward((Rva0032DD66Input *)src.m_factionBuildLists, (Rva0032DD66Input *)(src.m_factionBuildLists + 20), (Rva0032DD66Output *)m_factionBuildLists);
+		m_notifier.post(sidesListCallback(&SidesListListener::notify0C), this);
 	}
 	return *this;
 }
