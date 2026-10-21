@@ -160,7 +160,7 @@ void ThingFactory::reset()
 class ThreatBreakdown
 {
 public:
-    void rva0033A920(const void *arg);
+    void postInit(const void *arg);
 };
 void Rva00361439Resolve();
 
@@ -182,7 +182,7 @@ void ThingFactory::postProcessLoad()
                     "ENTRY MISSING: ObjectStatusOfContained entry required within ContainModule for %s.",
                     thingTemplate->m_name.str());
         }
-        ((ThreatBreakdown *)((char *)thingTemplate + 0x520))->rva0033A920(thingTemplate);
+        ((ThreatBreakdown *)((char *)thingTemplate + 0x520))->postInit(thingTemplate);
     }
     Rva00361439Resolve();
 }
