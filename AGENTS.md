@@ -479,6 +479,10 @@ identity and layout claims separately when their evidence differs. Exact bytes
 alone do not establish a donor name or layout as a target fact: preserve the
 uncertainty until independent target evidence resolves it.
 
+**Renaming.** Read `docs/naming.md` before you rename anything. It covers
+canonical and inferred names, `reverse/name_basis.csv`, the protected names, the
+two-agent rule, and the `tools/rename.py` engine with its three lanes.
+
 ## Generated claims
 
 `gen-*` rows (`Code/gen_small/`, `Code/gen_asm/`) are byte-true placeholders, not

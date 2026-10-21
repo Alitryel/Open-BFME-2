@@ -1,0 +1,316 @@
+# Names: where they come from and how they change
+
+A byte match proves nothing about names. `m_pitchShift` and `m_priority`
+compile to the same bytes, and the byte gate never compares a symbol name: it
+finds each body by the row's mangled name and resolves calls through
+`functions.csv` and `symbols.csv`. A plausible wrong name misleads every reader,
+and no gate catches it. This page says which names count as proven, how a rename
+records its basis, and which tools make a rename safe. Open-BFME-1's
+`docs/naming_evidence.md` is the model; the tools here are BFME 2's own.
+
+## Three kinds of name
+
+| The name is | What backs it | Where it is recorded |
+|---|---|---|
+| a **placeholder** (`Rva0026C320Owner`, `?rva0052F63F@...`, `bfmeHit1173`, `m_0C`, `param_1`, `iVar3`, `a1`) | nothing: it admits ignorance | `address` tier, or nothing at all |
+| **inferred** (`AwardRecordView`, `m_markerHandle`) | two agents proposed it blind and agreed, or a file stem was read from the real-named rows the file owns | `reverse/name_basis.csv`, basis `inferred` |
+| **canonical** (`?ClassifyWall@Pathfinder@@...`) | evidence a tool can check: export, vendored, retail string, Zero Hour or BFME 1 same body, WorldBuilder self-assert, ... | `reverse/name_basis.csv`, basis `canonical:<kind>`, or a fact the tier tool reads directly (exports, `vendored=`, `.lib`) |
+
+A placeholder is acceptable as a starting point but never as a final name. An inferred name is
+readable and revocable: the identifier is clean, and the ledger, not the
+spelling, says that nobody proved it. A canonical name is permanent. Nothing renames it.
+
+`tools/name_metric.py` decides what counts as a placeholder or weak name: address tokens, any
+`bfme` token, 6-8 hex runs, offset names (`m_value84`, `field_1C`), decompiler
+locals, and for params and locals single letters and `tmp`/`arg`. `rename.py`,
+the lanes and the README's *Readable names* metric all import that one
+definition. The metric checks spelling only; it does not prove identity.
+
+### The name tier
+
+`reverse/name_tiers.csv` (`name,target_rva,name_tier,evidence`) is written
+only by `python3 tools/allowed_symbols.py --tiers`. Never edit it by hand.
+`tools/code_identity_gate.py` compares a staged copy with the tool's output.
+
+| `name_tier` | `evidence` | Meaning |
+|---|---|---|
+| `address` | `placeholder` | address-derived, generator, scaffold or Ghidra name |
+| `evidence` | `vendored`, `lib-member`, `export` | named independently of any agent |
+| `evidence` | `wb`, `zh`, `string`, ... | recorded `canonical:<kind>` in `name_basis.csv` |
+| `inferred` | `agree`, `mechanical` | recorded `inferred` in `name_basis.csv` |
+| `inferred` | `class-agree` | the row's mangled name spells a class token recorded `inferred` |
+| *(not listed)* | | unverified: a label an agent chose, with no record |
+
+The facts the tool checks itself come first: placeholder, then vendored, then `.lib`, then
+export. A `name_basis.csv` record only decides a row those checks leave
+unverified. A carried record keeps its tier, and a `restored` record drops it. The committed file is
+far behind the ledger (about 22.8k rows), and regenerating it is a separate
+decision, so do not stage a regenerated copy with a rename.
+
+## Canonical evidence
+
+`tools/rename.py` checks every `canonical:<kind>` against the record the
+evidence cites. A basis it cannot check is refused.
+
+| `--basis` | What `rename.py` checks |
+|---|---|
+| `canonical:export` | `reverse/exports.csv` spells the new name |
+| `canonical:vendored`, `canonical:lib` | a `vendored=` or `.lib` row spells it, or a cited `<path>:<line>` does |
+| `canonical:module` | a retail module class in `reverse/module_factory_registrations.csv` |
+| `canonical:rtti` | one of the retail RTTI exception classes (retail is `/GR-`; no other game class has RTTI) |
+| `canonical:string`, `canonical:assert` | a retail string in `reverse/string_xrefs.tsv`, referenced by the renamed function's own address (`0x<rva>` in the evidence), spells the word as a whole word |
+| `canonical:file` | an approved `reverse/tu_map.csv` TU, or a retail `__FILE__` path ending in the new file name |
+| `canonical:wb` | a `reverse/wb_name_leads.csv` row at the address naming it, **and** `tools/name_evidence.py`'s `proof()` grades it canonical: the paired WorldBuilder body asserts the name itself, the pairing scores, and the pairing is unique |
+| `canonical:zh` | a cited Zero Hour `<path>:<line>` spelling it, and `proof()` grades a specific (non-trivial), unique same-body Zero Hour placement at this address |
+| `canonical:bfme1` | a cited line under `reference/open-bfme-1/` (never its `targets/*/reverse/` ledgers, whose names agents chose; its `ea_evidence.csv` is EA's), and `proof()` grades a specific BFME 1 same-body placement backed by EA or Zero Hour |
+
+The following are **hints, never a basis**. They go into the inferred lane's brief as context:
+a WorldBuilder lead that does not self-assert (`wb-lead`, `wb-name-unverified`
+notes), a trivial Zero Hour or BFME 1 body that places anywhere, a BFME 1 ledger
+name, a Zero Hour line that only shows the name exists, vtable slot or
+declaration order (`vtable-slot`, `vtable-order`), a pool-name getter
+(`poolkey`), an identifier-like retail string referenced by one placeholder
+(`string-hint`), a harvested pin, a caller's spelling, and decompiled C.
+
+## Protected names
+
+These names are never renamed, by any lane or by hand:
+
+- retail exports (`reverse/exports.csv`), `vendored=` rows and `.lib` members
+  (upstream's own names), and evidence-tier names in `reverse/name_tiers.csv`;
+- retail module class names (`reverse/module_factory_registrations.csv`) and
+  the retail RTTI exception classes (`INIException`, `XferException`,
+  `FunctorNotSet`, `DllHandle`, ...);
+- converged globals (`reverse/data_converged.csv`): `tools/data_check.py
+  --converged` refuses a second or a changed name at those addresses;
+- anything spelled inside a string literal (`verify_string_refs` checks every
+  literal against `game.dat`): assert text, pool names, `__FILE__` paths;
+- any name `reverse/name_basis.csv` already records as canonical.
+
+An **inferred** name may replace only a placeholder or weak name, never a real
+one. It may not override a real-named pin, a WorldBuilder lead or an
+evidence-tier name at the address. A **canonical** name may replace a
+placeholder or an inferred name. Vendored and SDK sources (library
+directories, gamespy and Platform SDK shims) and generated sources
+(`Code/gen_asm/`, `Code/gen_small/`) are never touched.
+
+## The engine: `tools/rename.py`
+
+Every rename goes through one tool, one rename per invocation. Always plan with `--dry-run` first:
+
+    python3 tools/rename.py function --rva 0x0052F63F --new ClassifyWall \
+        --basis canonical:wb --evidence '<what the WB body asserts>' --dry-run
+    python3 tools/rename.py global --name '?g_00DFE9E0@@3UDisplayCriticalSection@@A' \
+        --new g_displayCriticalSection --basis inferred --evidence agree:<id> --dry-run
+    python3 tools/rename.py file --source Code/.../DrawableRva00278644.cpp \
+        --new Drawable_setAudible --basis inferred --evidence 'mechanical:<row>' --dry-run
+    python3 tools/rename.py class --name Rva0040ADDD --new AwardRecordView \
+        --basis inferred --evidence agree:<id> --dry-run
+    python3 tools/rename.py member --class Rva00362EC7 --member m_0C --new m_markerHandle \
+        --basis inferred --evidence agree:<id> --dry-run
+    python3 tools/rename.py param --source Code/.../X.cpp --function Class::method \
+        --name a1 --new key --basis inferred --evidence agree:<id> --dry-run
+    python3 tools/rename.py local ...        # as param; refused where the unit compiles /Od
+
+Each renamed name and every reference to it change together:
+
+- the `functions.csv` row, the `__ehhandler$`/`__unwindfunclet$` funclet rows,
+  the `parent=`, `object-symbol=`, `dup-of=` and `fold-proof=` notes tokens;
+- `symbols.csv` pins (renamed in place at the address, alias pins with them);
+- `data_rows.csv` rows (globals, `??_7X@@6B@` for a class);
+- `/alternatename` pragmas, `__identifier("?...")` strings and
+  `present-unmatched` markers;
+- every caller's or includer's private declaration and use, found by text and
+  by cached object symbol tables (`tools/name_dependents.py`);
+- for a file, a same-directory `git mv` plus the `source` columns of
+  `functions.csv`, `data_rows.csv`, `tu_map.csv` and `body_owners.csv` and the
+  `docs/doxygen/sources.cfg` line.
+
+The rename then runs one `./build.sh` over every touched ledger source, followed by `check_csv` and
+`find_declared_unmatched`. It stands only if all of them pass. On any failure,
+exception or SIGTERM every file is restored byte for byte. A run that is killed outright leaves
+a journal in `build/rename-journal/`. Run `python3 tools/rename.py recover` to restore it; no other run
+starts while a journal is pending. On success the tool appends a
+`deleted_rows.csv` tombstone `Renamed to <new> by tools/rename.py (<basis>)`
+for every renamed `(name, rva)`, so a union merge cannot resurrect the old row.
+It also appends one `name_basis.csv` row. It claims every affected RVA plus
+`file:`/`class:` scopes, keeps those claims for the lander, and prints the
+paths to stage and a subject (`Rename <old> to <new> (<basis>)`). It never
+commits.
+
+It refuses, among other things, the following:
+
+- a protected name, as listed above;
+- a new name that collides with an existing one or is itself a placeholder;
+- a mangled-name change beyond the identifier (signature changes such as `int` to `bool` cost
+  bytes);
+- a name keyed in a shrink-only baseline or whitelist;
+- a file keyed in `flag_overrides.csv`, `hatch_baseline.tsv` or another protected path-keyed register,
+  a file that expands `__FILE__`, a file another file `#include`s, and an approved retail
+  TU;
+- a move across directories;
+- a class registered in `reverse/canonical_classes.csv`. Rename that class in a
+  class-reconciliation commit instead;
+- a blast radius over `--max-files` (25).
+
+A global's consumers are invisible to the byte gate, because DIR32 is masked. For that reason
+`rename.py` refuses a global rename when it cannot find and rewrite every consumer. It reports
+`data_ledger.csv` as stale instead of editing it.
+
+### `reverse/name_basis.csv`
+
+Append-only and union-merged, one row per rename:
+`kind,old,new,basis,evidence,source,rva`.
+
+- `kind` is one of `function`, `global`, `file`, `class`, `member`, `param`,
+  `local`, `carry`. A `carry` row moves an existing record when its spelling
+  changes (for example, a method of a renamed class), so that the record's protection
+  does not lapse.
+- `basis` is `inferred`, `canonical:<kind>` or `restored`. `restored` marks the
+  exact inverse of a reverted inferred landing.
+- `evidence` is `agree:<id>` (a row of `reverse/name_agreed.csv`),
+  `mechanical:<row>`, or the canonical citation.
+
+`tools/rename.py` is the only writer. Members, params and locals are recorded qualified
+(`Class::m_x`, `Scope::fn::a`), so a record for one does not protect an
+unrelated name with the same spelling.
+
+## The lanes
+
+The daily renaming pass drives three lanes. Agents can run them by hand.
+Run all of them after `git pull --rebase origin master` and the usual
+`tools/check_csv.py`.
+
+**1. Mechanical files: `tools/rename_files.py`.** This lane renames address-named units
+(`Rva002A9DACGet.cpp`) whose rows already have real names, to `Class_method.cpp`
+(one row) or `Class.cpp` (one class). It involves no naming judgement, and the stem lands as
+`inferred` with `mechanical:<row>`. It is a port of BFME 1's
+`rename_addressed_sources.py`, with the same refusals.
+
+    python3 tools/rename_files.py [--under DIR] [--show N] [--show-refusals] [--check]
+    python3 tools/rename_files.py --apply --limit 20 [--batch 10] [--json build/rename_files.json]
+
+A batch shares one journal and one `./build.sh`. If a batch fails, it is restored and its
+members are retried one at a time. The renames stay staged for the lander.
+
+**2. Evidence: `tools/name_evidence.py`.** This lane finds names that the target or a reference
+already gives, and grades each one `canonical` or `hint`.
+
+    python3 tools/name_evidence.py [--sweep-dir build] [--kinds wb,zh,bfme1,string,poolkey,vtable]
+
+It writes `build/name_evidence.tsv`
+(`kind key rva current candidate evidence_kind strength detail`). A
+`canonical` line carries `basis=canonical:<k>` and an `evidence=` string that
+`rename.py` accepts. Review a WorldBuilder pairing with `python3 tools/wb_show.py <rva>`, then
+land it with `rename.py function|class ... --basis canonical:<k>`. Hints go
+no further than the inferred lane's brief. The tool runs no sweep itself: it reads
+the `zh_sweep`/`bfme1_sweep` caches that already exist.
+
+**3. Inferred: `tools/name_lane.py`.** This lane covers everything nobody can prove.
+
+    python3 tools/name_lane.py next --session S --model M [--count N] [--file F] [--list-only]
+    python3 tools/name_lane.py submit ANSWER.json --session S --model M
+    python3 tools/name_lane.py apply [--retry-blocked] [--lead 2] [--min-models 1]
+    python3 tools/name_lane.py dispute KEY... --reason TEXT
+    python3 tools/name_lane.py status [--metric]
+
+`next` serves one matched, non-generated source with the placeholders that
+this file alone decides. That covers the functions it owns rows for, the classes only it defines and their
+members, its params, its locals (only where the unit compiles optimised) and the file
+globals it owns. `next` writes a brief to `build/name_lane/briefs/<session>.txt` with the
+style rules: types `CamelCase`, members `m_camelCase`, params and locals
+`camelCase`. Answer each key with a name or `"skip"` in a JSON file written with a
+file-writing tool, never inline in a shell command. A skip costs nothing; a
+wrong name misleads. If a stand-in type *is* a class that a game or Zero Hour
+header declares, answer that class's name. `apply` lands each agreed key
+through `rename.py` with `--basis inferred --evidence agree:<id>`, and appends
+`landed`, `blocked` or `stale` to `reverse/name_agreed.csv`.
+
+## The two-agent rule
+
+An inferred name lands only when two independent agents proposed it blind and
+agreed. BFME 1 measured the reason on 2026-09-29: one model alone named about 60% of
+placeholders right and 2-9% of them misleadingly; two agreeing blind proposals were about
+80% right and never misleading.
+
+- Each vote is stored in `reverse/name_votes.csv` only as
+  `sha256(key|canon(name))[:24]`. No name text enters the repository until a
+  second worker matches it, so one worker cannot copy another's answer.
+- `canon()` folds word order, plurals and common abbreviations, so
+  `m_ladderComboBox` and `m_comboBoxLadder` count as one vote.
+- Agreement counts distinct **workers**, not session labels. The worker id
+  comes from the environment (`BFME_CLAIM_OWNER` or `BFME_RUN_ID`, otherwise the harness
+  session, otherwise `tools/claims.py`'s owner), stored hashed. Print yours with
+  `python3 tools/name_agreement.py whoami`. An orchestrator running blind seats
+  gives each seat its own `BFME_CLAIM_OWNER`, as it already does for claims.
+- A name wins with two or more workers and a lead of `--lead` (2) over every
+  rival spelling. `--min-models` can also require distinct models.
+- `rename.py` treats `name_agreed.csv` only as an index. It recomputes the
+  agreement from the votes, so a hand-written agreement row authorises
+  nothing.
+
+Do not show your proposal to another seat or read theirs, and do not cast votes for a
+second seat yourself.
+
+## Disputes
+
+A landed inferred name that the code contradicts goes back through the lane:
+
+    python3 tools/name_lane.py dispute 'Code/X.cpp|class|...|Rva0040ADDD' --reason 'what the code shows'
+
+The lane calls `rename.py revert`, which is the exact inverse of the recorded landing: same
+kind and address, from the current spelling (carry rows followed) back to the
+placeholder. The revert is byte-gated and recorded as basis `restored`, and the lane refuses that spelling for
+the key from then on. `python3 tools/rename.py revert --record <id> --reason TEXT`
+does the same directly. A canonical name is not disputed this way. If retail
+evidence refutes one, that is an identity correction with its own evidence
+(`tools/add_match.py --replace-rva`), not a naming vote.
+
+## Landing a rename
+
+Renames recover zero bytes. Batch them like other trivial work (roughly 5-20
+per commit, one coherent kind) and keep a class rename in its own commit. The
+lander does the following:
+
+1. Stages exactly the paths `rename.py` or the lane printed, including
+   `reverse/name_basis.csv` and `reverse/deleted_rows.csv`, and commits with the
+   suggested subject.
+2. Runs `git pull --rebase origin master`, then
+   `python3 tools/rename.py check --range origin/master..HEAD`. A seat that
+   added a pin, a caller or an extern with the old spelling while the rename was in
+   flight passes every gate and breaks only the link; `check` catches it.
+3. Pushes, then runs the `python3 tools/claims.py release ...` command that the tool printed.
+
+## Renaming by hand
+
+Hundreds of `Name ...`/`Rename ...` commits came before these tools, each
+citing ZH, vtable-slot, WorldBuilder or caller evidence. Prefer `rename.py`
+now, because it writes the tombstone and the record that most hand renames forgot. Only 9 of 240 such commits
+tombstoned the old row. When `rename.py` cannot express a rename (an operator, a
+signature change, a cross-directory move), a hand rename must still:
+
+- replace only a placeholder, and only with a name whose evidence would pass the
+  canonical table above. Never hand-land an inferred name, because those need the
+  two-agent rule;
+- cite the evidence in the commit message and record it with `tools/re_log.py`;
+- rename pins in place, update every caller's view, and append a
+  `deleted_rows.csv` tombstone `Renamed to <new>: <evidence>` for each old
+  `(name, rva)`;
+- leave `name_basis.csv` alone. A hand rename has no record, so its name stays
+  *unverified* in the tier, which is accurate.
+
+## Traps
+
+- A rename counts only if it makes the name clearer: `Q2Vt0110F978` to
+  `PolymorphicVptrBase0110F978` is longer, not clearer.
+- A type can appear only inside decorated names (`??1Sub005C6A40@@QAE@XZ`).
+  Search decorated forms before calling a word free.
+- A stale old-name pin keeps the old name resolving: every gate stays green and
+  the link breaks. `rename.py` renames pins with the row, and `check` looks for
+  pins that reappear.
+- A file using bare `__FILE__` embeds its repo path in retail-compared bytes.
+  A file using `__LINE__` or `#line N` changes bytes if the rename adds or removes
+  lines.
+- Private class views: most units declare their own view of a class, so a class
+  or member rename touches many files. `tools/class_views.py --class X` lists
+  them before you plan.
