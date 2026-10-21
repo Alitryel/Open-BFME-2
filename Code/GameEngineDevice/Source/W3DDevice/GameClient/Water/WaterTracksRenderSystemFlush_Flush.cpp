@@ -7,9 +7,43 @@
 // BFME1 9cbfb551fe20 WaterTracksRenderSystem_flush.cpp semantic donor.
 // Native10004D..1001D5 RET4: system slots0/8/C/10/20 and node4/30/B0
 // agree with the independently matched bindTrack/init/update/save units.
-// Target editor flag85 and stats water-disable guard are native deltas.
+// Target editor flag85 and shadow-map-pass guard are native deltas.
 #include "ascii_string.h"
 #define Matrix4x4 Matrix4
+// The flush's early-out byte at 0x009EC404 is WW3D's shadow-map pass flag (data row
+// ?IsCurrentlyRenderingShadowMap@WW3D@@0_NA), not a DX8_Stats water switch: no shadow-map
+// pass draws the water tracks. BFME 1's ww3d.h has no such member, so this view stands in
+// for it with the same includes and snapshot macros.
+#define WW3D_H
+#include "always.h"
+#include "vector3.h"
+#include "layer.h"
+#include "w3derr.h"
+#include "robjlist.h"
+class SceneClass;
+class CameraClass;
+class ShaderClass;
+class DX8Wrapper;
+struct RenderStatistics;
+class FrameGrabClass;
+class VertexMaterialClass;
+class ExtraMaterialPassClass;
+class RenderInfoClass;
+class RenderDeviceDescClass;
+class StringClass;
+class LightEnvironmentClass;
+class MaterialPassClass;
+class StaticSortListClass;
+#define MESH_RENDER_SNAPSHOT_ENABLED
+#define SNAPSHOT_SAY(x) if (WW3D::Is_Snapshot_Activated()) { WWDEBUG_SAY(x); }
+class WW3D {
+public:
+ static bool Is_Snapshot_Activated() { return SnapshotActivated; }
+ static bool Is_Currently_Rendering_Shadow_Map() { return IsCurrentlyRenderingShadowMap; }
+private:
+ static bool SnapshotActivated;
+ static bool IsCurrentlyRenderingShadowMap;
+};
 #include "dx8wrapper.h"
 #include "matrix3d.h"
 class CameraClass { public: void Apply(); };
@@ -72,7 +106,7 @@ void WaterTracksRenderSystem::flush(RenderInfoClass &rinfo)
   TestWaterUpdate();
  rva000FE1AC();
  rinfo.Camera.Apply();
- if(!used || ShaderClass::Is_Backface_Culling_Inverted() || DX8Wrapper::stats.m_disableWater)
+ if(!used || ShaderClass::Is_Backface_Culling_Inverted() || WW3D::Is_Currently_Rendering_Shadow_Map())
   return;
  batch=0xffff;
  Matrix3D tm(1);

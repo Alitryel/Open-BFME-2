@@ -1837,7 +1837,7 @@ _XMP_Test_Bit,,0x0061B780,33,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matc
 ??1ProxyArrayClass@@UAE@XZ,,0x0019F570,62,Code/Libraries/Source/WWVegas/WW3D2/hlod.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ?Unlink@GenericNode@@QAEXXZ,,0x00615DF0,45,Code/Libraries/Source/WWVegas/WW3D2/layer.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ??1GenericNode@@UAE@XZ,,0x006162B0,47,Code/Libraries/Source/WWVegas/WW3D2/layer.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
-?Set_Spot_Direction@LightClass@@QAEXABVVector3@@@Z,,0x00174DF0,33,Code/Libraries/Source/WWVegas/WW3D2/light.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
+?Set_Color@BoxRenderObjClass@@QAEXABVVector3@@@Z,,0x00174DF0,33,Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp,matched,boxrobj.cpp Set_Color byte-exact; sits between BoxRenderObjClass Set_Name 0x174DD0 and Init 0x174E20; was LightClass::Set_Spot_Direction from a stale ZH layout (BFME2 SpotDirection is +0x114)
 ?Contribution@InputLightStruct@LightEnvironmentClass@@QAEMXZ,,0x0013F2E0,32,Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ??0TextureMapperClass@@QAE@ABV0@@Z,,0x00182080,28,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ??0TextureMapperClass@@QAE@I@Z,,0x00182120,34,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
@@ -3150,8 +3150,8 @@ _XMP_Init,,0x0061BD70,23,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matched,
 ?decompress@LZHLDecompressor@@QAEHPAEPAIPBE1@Z,,0x00692440,824,Code/Libraries/Source/Compression/LZHCompress/CompLibSource/Huff.cpp,matched,vendored=lzhl-1.0 with EA's divergence; reloc-named
 ??0CLockVolume@D3DXTex@@QAE@XZ,,0x00326BE6,6,Code/GameEngine/Source/Common/D3DXTexCLockVolume.cpp,matched,ported from the exact BFME1 reconstruction; placed by masked whole-.text search of the compiled body - single hit
 ?Put_String@INIClass@@QAE_NPBD00@Z,,0x00616FB0,554,Code/Libraries/Source/WWVegas/WWLib/ini.cpp,matched,INIClass::Put_String restored from the Zero Hour reference; scalar delete plus a direct strdup
-?Set_Spot_Exponent@LightClass@@QAEXM@Z,,0x00270678,17,Code/Libraries/Source/WWVegas/WW3D2/light.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
-?Get_Intensity@LightClass@@QBEMXZ,,0x00050F6F,7,Code/Libraries/Source/WWVegas/WW3D2/light.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
+?set@Rva00270678FloatField@@QAEXM@Z,,0x00270678,17,Code/GameEngine/Source/Common/Disp32FloatFieldSetters.cpp,matched,disp32 float setter +0xE0 in the GameClient run near 0x2706A8; was LightClass::Set_Spot_Exponent from a stale ZH layout (BFME2 SpotExponent is +0x110)
+?get@Rva00050F6FFloatField@@QBEMXZ,,0x00050F6F,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,Disp32 float getter in the 0x50F61..0x50F7C run; was LightClass::Get_Intensity from light.cpp stale ZH layout (BFME2 Intensity is +0xD0 at 0x0011C6F0)
 ?Save@INIClass@@QBEHAAVFileClass@@@Z,,0x006165B0,145,Code/Libraries/Source/WWVegas/WWLib/ini.cpp,matched,INIClass::Save(FileClass&) -- already exact once the unit was rebuilt
 ?Clear@INIClass@@QAE_NPBD0@Z,,0x00616C60,225,Code/Libraries/Source/WWVegas/WWLib/ini.cpp,matched,INIClass::Clear -- global-deallocator node deletes and a scalar free of the index table
 ?Load@INIClass@@QAEHAAVStraw@@@Z,,0x00617B10,1827,Code/Libraries/Source/WWVegas/WWLib/ini.cpp,matched,INIClass::Load(Straw&) -- three global-deallocator node deletes; real extent 1827 not 1810
@@ -9071,7 +9071,7 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?get@Rva00391614WordIntField@@QBEHXZ,,0x00391614,8,Code/GameEngine/Source/Common/DispWordIntGetters.cpp,matched,Disp32 word-int getter movzx shape
 ?get@Rva003FDA90SmartField@@QBE?AVRvaSmartPtr12@@XZ,,0x003FDA90,30,Code/GameEngine/Source/Common/System/SmartPtrRvoGetter.cpp,matched,RVO smart-ptr getter member +0x15C via 0x4CC19 pin
 ?get@Rva004FDCE1AsciiField@@QBE?AVAsciiString@@XZ,,0x004FDCE1,30,Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp,matched,RVO AsciiString getter member +0x1B0 via 0x365F0 row
-?get@Rva0011C6F0FloatField@@QBEMXZ,,0x0011C6F0,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,Disp32 float getter
+?Get_Intensity@LightClass@@QBEMXZ,,0x0011C6F0,7,Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp,matched,LightClass Intensity +0xD0; emitted with Get_Specular 0x11C700 / Get_Spot_Direction 0x11C730 / Get_Spot_Exponent 0x11C760 in dx8wrapper Set_Light order; dx8wrapper.cpp and lightenvironment.cpp emit identical bytes
 ?get@Rva0015E1A0FloatField@@QBEMXZ,,0x0015E1A0,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,Disp32 float getter
 ?get@Rva0015E1B0FloatField@@QBEMXZ,,0x0015E1B0,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,Disp32 float getter
 ?get@Rva00167EB2FloatField@@QBEMXZ,,0x00167EB2,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,Disp32 float getter
@@ -10105,7 +10105,7 @@ _luaK_jump,,0x00752690,166,Code/Libraries/Source/Lua/lcode.c,matched,BFME1 byte-
 ?get@Rva0049CB82LeaField@@QBEPAXXZ,,0x0049CB82,4,Code/GameEngine/Source/Common/Disp8LeaFieldGetters.cpp,matched,Disp8 LEA getter; address-derived opaque holder
 ?get@Rva005C4AD1LeaField@@QBEPAXXZ,,0x005C4AD1,4,Code/GameEngine/Source/Common/Disp8LeaFieldGetters.cpp,matched,Disp8 LEA getter; address-derived opaque holder
 ?get@Rva000CB12FByteField@@QBEEXZ,,0x000CB12F,4,Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp,matched,Disp8 byte getter; address-derived opaque holder
-??0Textures_Material_And_Shader_Booking_Struct@@QAE@XZ,,0x00144460,75,Code/Libraries/Source/WWVegas/WW3D2/Textures_Material_And_Shader_Booking_Struct.cpp,matched,BFME1 byte-identical donor; b1 0x00945B80
+??0Textures_Material_And_Shader_Booking_Struct@@QAE@XZ,,0x00144460,75,Code/Libraries/Source/WWVegas/WW3D2/DX8RendererAddMesh.cpp,matched,DX8RendererAddMesh.cpp compiles the ctor byte-exact with its real RefCountPtr<TextureClass> member ctor/dtor and ??_L relocations; rehomed from the split unit whose local cell-callback names needed /alternatename
 ?bfmeGoUPB@BfmeThingUPB@@QAEDPAXPAD0@Z,,0x00655B10,57,Code/GameEngine/Source/Common/BfmeConv1339_GoUPB.cpp,matched,BFME1 byte-identical donor; b1 0x007E8A80
 ?get@Rva004543C6ByteField@@QBEEXZ,,0x004543C6,4,Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp,matched,Disp8 byte getter; address-derived opaque holder
 ??0Rva008D2B10@@QAE@XZ,,0x0070E2F0,63,Code/GameEngine/Source/Common/S3FieldInitialisers.cpp,matched,BFME1 byte-identical donor; b1 0x008D2B10

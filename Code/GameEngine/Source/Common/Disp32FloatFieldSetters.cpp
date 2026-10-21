@@ -26,6 +26,11 @@ BFME_DISP32_FLOAT_SETTER(Rva001D972BFloatField, 0x94)
 // Audio callers433498 and4331C6 select this SSE body, not RenderObjClass's
 // distinct integer-MOV body at E43E7. Original owner/field name unresolved.
 BFME_DISP32_FLOAT_SETTER(Rva00210C91FloatField, 0x98)
+// Native270678..270689 stores a float at ECX+E0 and returns with RET4, inside the
+// GameClient run around Rva002706A8. It was rowed as LightClass::Set_Spot_Exponent
+// by a stale Zero Hour layout; BFME 2 keeps LightClass::SpotExponent at +0x110
+// (Get_Spot_Exponent 0x0011C760). Original owner/field name unresolved.
+BFME_DISP32_FLOAT_SETTER(Rva00270678FloatField, 0xE0)
 BFME_DISP32_FLOAT_SETTER(Rva0029A767FloatField, 0x764)
 BFME_DISP32_FLOAT_SETTER(Rva002AA0CDFloatField, 0x6F8)
 

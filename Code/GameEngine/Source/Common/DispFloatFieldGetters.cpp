@@ -21,6 +21,11 @@
 
 BFME_DISP_FLOAT_GETTER(Rva00050F61FloatField, 0x90)
 BFME_DISP_FLOAT_GETTER(Rva00050F68FloatField, 0x94)
+// 0x00050F6F sits in this 0x50F61..0x50F7C getter run; a stale Zero Hour layout had
+// rowed it as LightClass::Get_Intensity. BFME 2 keeps LightClass::Intensity at +0xD0:
+// its getter is 0x0011C6F0, emitted with Get_Specular/Get_Spot_Direction/
+// Get_Spot_Exponent (0x0011C700..0x0011C766) in dx8wrapper.cpp's Set_Light order.
+BFME_DISP_FLOAT_GETTER(Rva00050F6FFloatField, 0xA0)
 BFME_DISP_FLOAT_GETTER(Rva00050F76FloatField, 0xA8)
 BFME_DISP_FLOAT_GETTER(Rva0006E032FloatField, 0x358)
 BFME_DISP_FLOAT_GETTER(Rva000788D3FloatField, 0x200)
@@ -43,7 +48,6 @@ BFME_DISP_FLOAT_GETTER(Rva000B228DFloatField, 0x1C0)
 BFME_DISP_FLOAT_GETTER(Rva000B28CFFloatField, 0x4A8)
 BFME_DISP_FLOAT_GETTER(Rva000D43D3FloatField, 0x104)
 BFME_DISP_FLOAT_GETTER(Rva000EFB0DFloatField, 0x37D8)
-BFME_DISP_FLOAT_GETTER(Rva0011C6F0FloatField, 0xD0)
 BFME_DISP_FLOAT_GETTER(Rva0015E1A0FloatField, 0x100)
 BFME_DISP_FLOAT_GETTER(Rva0015E1B0FloatField, 0x104)
 BFME_DISP_FLOAT_GETTER(Rva00167EB2FloatField, 0x100)

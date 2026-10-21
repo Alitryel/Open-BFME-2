@@ -404,7 +404,6 @@ const char * BoxRenderObjClass::Get_Name(void) const
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?BoxRenderObjClass::Set_Color present-unmatched
 void BoxRenderObjClass::Set_Color(const Vector3 & color)
 {
 	Color = color;
