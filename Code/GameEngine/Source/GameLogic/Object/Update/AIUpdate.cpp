@@ -1296,64 +1296,14 @@ void AIUpdateInterface::privateRappelInto( Object *target, const Coord3D& pos, C
  * Move to given position(s)
  * If transportExits, transport returns and deletes itself.
  */
-// ?privateMoveToAndEvacuate@AIUpdateInterface@@ present-unmatched
-void AIUpdateInterface::privateMoveToAndEvacuate( const Coord3D *pos, CommandSourceType cmdSource )
-{
-	if (getObject()->isMobile() == FALSE)
-		return;
-
-	//Resetting the locomotor here was initially added for scripting purposes. It has been moved
-	//to the responsibility of the script to reset the locomotor before moving. This is needed because
-	//other systems (like the battle drone) change the locomotor based on what it's trying to do, and
-	//doesn't want to get reset when ordered to move.
-	//chooseLocomotorSet(LOCOMOTORSET_NORMAL);
-
-	getStateMachine()->clear();
-	setGoalPositionClipped(pos, cmdSource);
-	m_blockedFrames = 0;
-	m_isBlocked = FALSE;
-	m_isBlockedAndStuck = FALSE;
-	setLastCommandSource( cmdSource );
-
-	m_stateMachine->setState( AI_MOVE_AND_EVACUATE );
-}
+// AIUpdateInterface::privateMoveToAndEvacuate is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfacePrivateCommands.cpp (0x0026B6B2).
 
 //----------------------------------------------------------------------------------------
 /**
  * Move to given position(s)
  * If transportExits, transport returns and deletes itself.
  */
-// ?privateMoveToAndEvacuateAndExit@AIUpdateInterface@@ present-unmatched
-void AIUpdateInterface::privateMoveToAndEvacuateAndExit( const Coord3D *pos, CommandSourceType cmdSource )
-{
-	if (getObject()->isMobile() == FALSE)
-		return;
-
-	//Resetting the locomotor here was initially added for scripting purposes. It has been moved
-	//to the responsibility of the script to reset the locomotor before moving. This is needed because
-	//other systems (like the battle drone) change the locomotor based on what it's trying to do, and
-	//doesn't want to get reset when ordered to move.
-	//chooseLocomotorSet(LOCOMOTORSET_NORMAL);
-
-	getStateMachine()->clear();
-	setGoalPositionClipped(pos, cmdSource);
-	m_blockedFrames = 0;
-	m_isBlocked = FALSE;
-	m_isBlockedAndStuck = FALSE;
-	setLastCommandSource( cmdSource );
-
-	static NameKeyType key_DeliverPayloadAIUpdate = NAMEKEY("DeliverPayloadAIUpdate");
-	DeliverPayloadAIUpdate *dp = (DeliverPayloadAIUpdate*)getObject()->findUpdateModule( key_DeliverPayloadAIUpdate );
-	if( dp )
-	{
-		dp->deliverPayloadViaModuleData( pos );
-	}
-	else
-	{
-		getStateMachine()->setState( AI_MOVE_AND_EVACUATE_AND_EXIT);
-	}
-
-}
+// AIUpdateInterface::privateMoveToAndEvacuateAndExit is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfacePrivateCommands.cpp (0x0026B720).
 
 //----------------------------------------------------------------------------------------
 /**
@@ -1392,17 +1342,7 @@ Bool AIUpdateInterface::isAttacking() const
 /**
  * Take the shortest path towards pos in order to tighten up a formation
  */
-// ?privateTightenToPosition@AIUpdateInterface@@ present-unmatched
-void AIUpdateInterface::privateTightenToPosition( const Coord3D *pos, CommandSourceType cmdSource )
-{
-	if (getObject()->isMobile() == FALSE)
-		return;
-	getStateMachine()->clear();
-	getStateMachine()->setGoalObject( NULL );
-	setGoalPositionClipped(pos, cmdSource);
-	setLastCommandSource( cmdSource );
-	getStateMachine()->setState( AI_MOVE_AND_TIGHTEN );
-}
+// AIUpdateInterface::privateTightenToPosition is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfacePrivateCommands.cpp (0x00267DAD).
 //----------------------------------------------------------------------------------------
 /**
  * Is this moving out of the way of another unit.

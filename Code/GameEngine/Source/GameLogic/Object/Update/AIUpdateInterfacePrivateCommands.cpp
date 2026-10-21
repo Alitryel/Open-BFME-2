@@ -19,7 +19,7 @@
 // vtable+0x38 every handler uses.
 //
 // The state machine slot at vtable+0x38 is the goal object: the object-order
-// handlers set it from their argument and bfmePrivateCommand02 clears it by
+// handlers set it from their argument and privateTightenToPosition clears it by
 // passing null.
 //
 // The handlers' own declaration order is not evidence of their slots; the
@@ -1141,9 +1141,9 @@ protected:
 	virtual void privateEnter(Object *object, CommandSourceType commandSource);
 	virtual void privateMoveToPosition(const Coord3D *position, float range, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand01(Object *obj, CommandSourceType commandSource);
-	virtual void bfmePrivateCommand02(const Coord3D *position, CommandSourceType commandSource);
-	virtual void bfmePrivateCommand03(const Coord3D *position, CommandSourceType commandSource);
-	virtual void bfmePrivateCommand04(const Coord3D *position, CommandSourceType commandSource);
+	virtual void privateTightenToPosition(const Coord3D *position, CommandSourceType commandSource);
+	virtual void privateMoveToAndEvacuate(const Coord3D *position, CommandSourceType commandSource);
+	virtual void privateMoveToAndEvacuateAndExit(const Coord3D *position, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand38(const Coord3D *position, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand41(const Coord3D *position, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand3C(Object *obj, CommandSourceType commandSource);
@@ -1342,7 +1342,7 @@ void AIUpdateInterface::privateMoveToObject(Object *obj, CommandSourceType comma
 // clipped goal position, and skips the locomotor, the blocked counters and the
 // voice response. BFME1 carried this body as bfmePrivateCommand1B, after its
 // state id.
-void AIUpdateInterface::bfmePrivateCommand02(const Coord3D *position, CommandSourceType commandSource)
+void AIUpdateInterface::privateTightenToPosition(const Coord3D *position, CommandSourceType commandSource)
 {
 	if (!m_object->isMobile())
 		return;
@@ -1681,7 +1681,7 @@ void AIUpdateInterface::bfmePrivateCommand01(Object *obj, CommandSourceType comm
 }
 
 // Command 0x03, slot 19, retail 0x0026B6B2: state 0x1C.
-void AIUpdateInterface::bfmePrivateCommand03(const Coord3D *position, CommandSourceType commandSource)
+void AIUpdateInterface::privateMoveToAndEvacuate(const Coord3D *position, CommandSourceType commandSource)
 {
 	if (!m_object->isMobile())
 		return;
@@ -1700,7 +1700,7 @@ void AIUpdateInterface::bfmePrivateCommand03(const Coord3D *position, CommandSou
 }
 
 // Command 0x04, slot 20, retail 0x0026B720: state 0x1D.
-void AIUpdateInterface::bfmePrivateCommand04(const Coord3D *position, CommandSourceType commandSource)
+void AIUpdateInterface::privateMoveToAndEvacuateAndExit(const Coord3D *position, CommandSourceType commandSource)
 {
 	if (!m_object->isMobile())
 		return;
