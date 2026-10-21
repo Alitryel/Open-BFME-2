@@ -44,11 +44,18 @@ public:
 
 extern PlayerList *ThePlayerList;
 
+// The shared update path at 0x0050F306 is rowed under this address-derived
+// view; both callers pass the unadjusted tribute-row pointer.
+class Rva0050F0AB
+{
+public:
+	void rva0050F306();
+};
+
 class Rva0050F041
 {
 public:
 	void rva0050EFFC(int state);
-	void rva0050F306();
 	void rva0050FF1C();
 private:
 	char m_pad00[0x5c];
@@ -88,5 +95,5 @@ void Rva0050F041::rva0050FF1C()
 		if (localPlayer == 0 || !((BfmeMemberRV *)localPlayer)->bfmeAskRV())
 			rva0050EFFC(2);
 	}
-	rva0050F306();
+	((Rva0050F0AB *)this)->rva0050F306();
 }
