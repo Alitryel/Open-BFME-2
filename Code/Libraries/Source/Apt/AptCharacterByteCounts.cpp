@@ -270,9 +270,9 @@ Rva006EB4B0::Rva006EB4B0(const Rva006EB4B0 &other){
 // remains address-derived.
 AptValue *Rva006ECC20LoadVariables(AptValue *self,int count){
  if(count>0){
-  AptValue *arg=g_aptDateInterpreter.stack.At(0);
+  AptValue *aptValue=g_aptDateInterpreter.stack.At(0);
   EAStringC url;
-  arg->toString(url);
+  aptValue->toString(url);
   g_aptDateInterpreter.loadVariables(self,0,&url);
  }
  return gpUndefinedValue;
@@ -402,9 +402,9 @@ AptValue *__cdecl Rva006ECCB0LocalToGlobal(AptValue *self,int count)
 AptValue *Rva006EDF20SwapDepths(AptValue *self,int count){
  if(count!=1 && self->isCIH(false))return gpUndefinedValue;
  AptCIH *mine=self->c_cih(false);
- AptValue *arg=g_aptDateInterpreter.stack.At(0);
- if(arg->isCIH(false)){
-  AptCIH *other=arg->c_cih(false);
+ AptValue *aptValue=g_aptDateInterpreter.stack.At(0);
+ if(aptValue->isCIH(false)){
+  AptCIH *other=aptValue->c_cih(false);
   if(other && ((AptValue *)other)->getIsDefined()){
    int depth=((AptValue *)other)->c_cih(false)->depth;
    ((AptValue *)other)->c_cih(false)->depth=mine->depth;
@@ -412,7 +412,7 @@ AptValue *Rva006EDF20SwapDepths(AptValue *self,int count){
   }
   return gpUndefinedValue;
  }
- if(arg!=gpUndefinedValue)return gpUndefinedValue;
+ if(aptValue!=gpUndefinedValue)return gpUndefinedValue;
  ((int *)mine->rva006E1170())[1]=-1;
  return gpUndefinedValue;
 }

@@ -109,8 +109,8 @@ struct WaterTextureHandle { TextureBaseClass *ptr; WaterTextureHandle():ptr(0){}
 struct WaterCountedRef {
  RefCountClass *ptr;
  WaterCountedRef():ptr(0){}
- WaterCountedRef(RefCountClass *p):ptr(p){}
- __forceinline ~WaterCountedRef(){ RefCountClass *p=ptr; if(p && --p->refs==0)p->Delete_This(); }
+ WaterCountedRef(RefCountClass *refCount):ptr(refCount){}
+ __forceinline ~WaterCountedRef(){ RefCountClass *refCount=ptr; if(refCount && --refCount->refs==0)refCount->Delete_This(); }
 };
 struct TreeHintRef00217D4C { ~TreeHintRef00217D4C(); };
 // The unit's vectors use STLport's own empty construction; their destructor

@@ -342,7 +342,7 @@ protected:
 	{
 		BfmeNodeVMU *node;
 		__forceinline Iter(BfmeNodeVMU *n) : node(n) {}
-		__forceinline Iter(const Iter &o) : node(o.node) {}
+		__forceinline Iter(const Iter &iter) : node(iter.node) {}
 		__forceinline Iter &operator++() { node = node->next; return *this; }
 		__forceinline Rva006D0790Ref &operator*() const { return node->entry; }
 		__forceinline bool operator!=(const Iter &o) const { return node != o.node; }

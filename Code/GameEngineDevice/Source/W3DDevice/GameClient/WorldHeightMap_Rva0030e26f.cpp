@@ -143,13 +143,13 @@ public:
 extern BfmeMapObjectListHolder *BfmeTheMapObjectListHolder;	///< retail [0x012ED5DC]
 extern BfmeMapObjectExtra BfmeTheMapObjectExtra;		///< retail 0x012ED5E0
 
-/*static */ Int MapObject::countMapObjectsWithOwner(const AsciiString& n)
+/*static */ Int MapObject::countMapObjectsWithOwner(const AsciiString& asciiString)
 {
 	Int count = 0;
 	BfmeMapObjectListEntry *pMapObj = BfmeTheMapObjectListHolder->m_bfmeHead;
 	for (; pMapObj; pMapObj = pMapObj->m_next)
 	{
-		if (pMapObj->getProperties()->getAsciiString(TheKey_originalOwner.key(), 0) == (const BfmeStringPresenceValue &)n)
+		if (pMapObj->getProperties()->getAsciiString(TheKey_originalOwner.key(), 0) == (const BfmeStringPresenceValue &)asciiString)
 			++count;
 	}
 	return count;

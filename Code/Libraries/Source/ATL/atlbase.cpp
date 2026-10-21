@@ -213,9 +213,9 @@ void _ATL_WIN_MODULE70::rva0000682F()
 // unit emit it.
 #pragma inline_depth(0)
 // ?bfmeEmitAtlCritSecTerm@ATL@@YAXPAVCComCriticalSection@1@@Z present-unmatched
-void bfmeEmitAtlCritSecTerm(CComCriticalSection *p)
+void bfmeEmitAtlCritSecTerm(CComCriticalSection *comCriticalSection)
 {
-    p->Term();
+    comCriticalSection->Term();
 }
 #pragma inline_depth()
 

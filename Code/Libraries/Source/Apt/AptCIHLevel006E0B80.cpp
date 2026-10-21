@@ -39,7 +39,7 @@ int AptCIH::rva006E0B80(int nLvl) const
         if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
     }
     int depth = 0;
-    for (const AptCIH *p = m_parent; p; p = p->m_parent)
+    for (const AptCIH *aptCIH = m_parent; aptCIH; aptCIH = aptCIH->m_parent)
         ++depth;
     if (nLvl > depth)
         return -1;
@@ -61,7 +61,7 @@ int AptCIH::rva006E0B80(int nLvl) const
 bool AptCIH::rva006E2460(const AptCIH *other) const
 {
     int depth = 0;
-    for (const AptCIH *p = m_parent; p; p = p->m_parent)
+    for (const AptCIH *aptCIH = m_parent; aptCIH; aptCIH = aptCIH->m_parent)
         ++depth;
     if (this == other || depth == 0)
         return false;
@@ -149,8 +149,8 @@ bool AptCIH::rva006E0C50(const AptCIH *other) const
         if (g_bfmeAptBreakOnAssertAtDDC01C)
             __debugbreak();
     }
-    for (const AptCIH *p = m_parent; p; p = p->m_parent) {
-        if (other == p)
+    for (const AptCIH *aptCIH = m_parent; aptCIH; aptCIH = aptCIH->m_parent) {
+        if (other == aptCIH)
             return true;
     }
     return false;
@@ -322,7 +322,7 @@ void AptCIH::rva006E1F00(int mask)
 int AptCIH::rva006E0B60() const
 {
     int depth = 0;
-    for (AptCIH *p = m_parent; p != 0; p = p->m_parent)
+    for (AptCIH *aptCIH = m_parent; aptCIH != 0; aptCIH = aptCIH->m_parent)
         ++depth;
     return depth;
 }

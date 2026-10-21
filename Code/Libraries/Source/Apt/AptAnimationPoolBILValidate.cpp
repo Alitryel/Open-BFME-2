@@ -46,8 +46,8 @@ bool AptAnimationPoolData::validateBIL()
     if (count < 0)
         return true;
     for (int i = count; i >= 0; --i) {
-        AptAnimationPoolData *p2 = (AptAnimationPoolData *)g_bfmeAptPtrAtE176D0;
-        if (p2->aButtonInstanceList[i].pCIH == 0) {
+        AptAnimationPoolData *aptAnimationPoolData = (AptAnimationPoolData *)g_bfmeAptPtrAtE176D0;
+        if (aptAnimationPoolData->aButtonInstanceList[i].pCIH == 0) {
             g_bfmeAptAssertAtE17734("gpPool->aButtonInstanceList[i].pCIH != NULL", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptInput.cpp", 0x5D9);
             if (g_bfmeAptBreakOnAssertAtDDC01C)
                 __debugbreak();

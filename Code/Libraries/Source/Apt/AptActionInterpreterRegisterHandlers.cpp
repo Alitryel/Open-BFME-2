@@ -74,36 +74,36 @@ void AptActionInterpreter::_FunctionAptActionStoreRegister(AptActionInterpreter 
 // Target 706070..706234; donor supplies semantics; native proves +30 function,
 // +8 frame hash and this 20-byte action header. runStream 7002C0 has a verified provider below.
 struct RuntimeTryBlock { unsigned int trySize,catchSize,finallySize; unsigned char flags; unsigned char unused[2]; unsigned char caughtReg; const char *caughtName; };
-void AptActionInterpreter::_FunctionAptActionTry(AptActionInterpreter *const p,LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionTry(AptActionInterpreter *const aptActionInterpreter,LocalContextT *const localContextT)
 {
-    unsigned int nPreStackSize=p->stack.GetSize();
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const RuntimeTryBlock *data=(const RuntimeTryBlock *)c->pInstruction;
-    c->pInstruction+=sizeof(RuntimeTryBlock);
-    c->pInstruction+=data->trySize;c->pInstruction+=data->catchSize;c->pInstruction+=data->finallySize;
-    p->runStream((const unsigned char *)(data+1),c->pCurrentContext,data->trySize,c->pParentCharacter);
-    if (p->mpThrownValue && (data->flags&1)) {
-        AptValue *thrown=p->mpThrownValue;
+    unsigned int nPreStackSize=aptActionInterpreter->stack.GetSize();
+    localContextT->pInstruction=(const unsigned char *)(((unsigned int)localContextT->pInstruction+3)&~3U);
+    const RuntimeTryBlock *data=(const RuntimeTryBlock *)localContextT->pInstruction;
+    localContextT->pInstruction+=sizeof(RuntimeTryBlock);
+    localContextT->pInstruction+=data->trySize;localContextT->pInstruction+=data->catchSize;localContextT->pInstruction+=data->finallySize;
+    aptActionInterpreter->runStream((const unsigned char *)(data+1),localContextT->pCurrentContext,data->trySize,localContextT->pParentCharacter);
+    if (aptActionInterpreter->mpThrownValue && (data->flags&1)) {
+        AptValue *thrown=aptActionInterpreter->mpThrownValue;
         if (data->flags&4) AptScriptFunctionBase::SetRegisterValue(data->caughtReg,thrown);
         else {
             EAStringC param(data->caughtName);
-            if(p->mpCurrentFunction) {
-                if(!AptScriptFunctionBase::spFrameStack) ((Rva8D0D80Result *)p->mpCurrentFunction)->rva006FBED0();
+            if(aptActionInterpreter->mpCurrentFunction) {
+                if(!AptScriptFunctionBase::spFrameStack) ((Rva8D0D80Result *)aptActionInterpreter->mpCurrentFunction)->rva006FBED0();
                 ((AptNativeHash *)((unsigned char *)AptScriptFunctionBase::spFrameStack+8))->Set(&param,thrown);
-            } else p->setVariable((AptValue *)c->pCurrentContext,0,&param,thrown);
+            } else aptActionInterpreter->setVariable((AptValue *)localContextT->pCurrentContext,0,&param,thrown);
         }
-        p->mpThrownValue->Release();p->mpThrownValue=0;
-        p->runStream((const unsigned char *)(data+1)+data->trySize,c->pCurrentContext,data->catchSize,c->pParentCharacter);
+        aptActionInterpreter->mpThrownValue->Release();aptActionInterpreter->mpThrownValue=0;
+        aptActionInterpreter->runStream((const unsigned char *)(data+1)+data->trySize,localContextT->pCurrentContext,data->catchSize,localContextT->pParentCharacter);
     }
     if(data->flags&2) {
-        AptValue *thrown=p->mpThrownValue;
-        if(thrown) { thrown->AddRef();p->mpThrownValue->Release();p->mpThrownValue=0; }
-        p->runStream((const unsigned char *)(data+1)+data->trySize+data->catchSize,c->pCurrentContext,data->finallySize,c->pParentCharacter);
-        if(thrown && !p->mpThrownValue) { thrown->AddRef();p->mpThrownValue=thrown;thrown->Release(); }
+        AptValue *thrown=aptActionInterpreter->mpThrownValue;
+        if(thrown) { thrown->AddRef();aptActionInterpreter->mpThrownValue->Release();aptActionInterpreter->mpThrownValue=0; }
+        aptActionInterpreter->runStream((const unsigned char *)(data+1)+data->trySize+data->catchSize,localContextT->pCurrentContext,data->finallySize,localContextT->pParentCharacter);
+        if(thrown && !aptActionInterpreter->mpThrownValue) { thrown->AddRef();aptActionInterpreter->mpThrownValue=thrown;thrown->Release(); }
     }
-    unsigned int nPostStackSize=p->stack.GetSize();
-    if (nPostStackSize>nPreStackSize) p->stack.rva006E3AA0(nPostStackSize-nPreStackSize);
-    if((unsigned int)p->stack.GetSize()!=nPreStackSize) {
+    unsigned int nPostStackSize=aptActionInterpreter->stack.GetSize();
+    if (nPostStackSize>nPreStackSize) aptActionInterpreter->stack.rva006E3AA0(nPostStackSize-nPreStackSize);
+    if((unsigned int)aptActionInterpreter->stack.GetSize()!=nPreStackSize) {
         g_bfmeAptAssertAtE17734("(uint32_t)pInterpreter->stack.GetSize() == nPreStackSize","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x2599);
         if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
     }

@@ -417,7 +417,7 @@ extern int g_rva00891FA0Value;
 // handler source agree. Native assertions retain original spelling and lines.
 class BfmeAptValue006DCD20;
 void rva007065e0(int,int,BfmeAptValue006DCD20 *,BfmeAptValue006DCD20 **);
-__forceinline AptValue *convertWith(AptCIH *c,AptValue *v) { AptValue *out; rva007065e0((int)c,0,(BfmeAptValue006DCD20 *)v,(BfmeAptValue006DCD20 **)&out); return out; }
+__forceinline AptValue *convertWith(AptCIH *aptCIH,AptValue *aptValue) { AptValue *out; rva007065e0((int)aptCIH,0,(BfmeAptValue006DCD20 *)aptValue,(BfmeAptValue006DCD20 **)&out); return out; }
 
 
 
@@ -493,67 +493,67 @@ AptValue *Rva00709EC0Get(int);
 class Rva8D0D80String;
 class Rva8D0D80Value;
 class Rva8D0D80Table { public: void add(Rva8D0D80String *,Rva8D0D80Value *); };
-void AptActionInterpreter::_FunctionAptActionInitObject(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionInitObject(AptActionInterpreter *const aptActionInterpreter, LocalContextT *const localContextT)
 {
-    int n=p->stack.At(0)->toInteger();
-    p->stack.Pop();
-    AptValue *object=(AptValue *)p->_createObject((AptValue *)c->pCurrentContext,c->pCurWith,Rva0070B4F0GetString(0x64),0,true);
+    int n=aptActionInterpreter->stack.At(0)->toInteger();
+    aptActionInterpreter->stack.Pop();
+    AptValue *object=(AptValue *)aptActionInterpreter->_createObject((AptValue *)localContextT->pCurrentContext,localContextT->pCurWith,Rva0070B4F0GetString(0x64),0,true);
     if(object) {
         for(int i=0,reg=0;i<n;++i,reg+=2) {
-            AptValue *value=p->stack.At(reg);
-            AptValue *name=p->stack.At(reg+1);
+            AptValue *value=aptActionInterpreter->stack.At(reg);
+            AptValue *name=aptActionInterpreter->stack.At(reg+1);
             EAStringC text;name->toString(text);
             ((Rva8D0D80Table *)((char *)object+8))->add((Rva8D0D80String *)&text,(Rva8D0D80Value *)value);
         }
-        p->stack.rva006E3AA0(2*n);
-        p->stack.Push(object);object->Release();
-    } else {p->stack.rva006FE050(2*n);p->stack.Push(gpUndefinedValue);}
+        aptActionInterpreter->stack.rva006E3AA0(2*n);
+        aptActionInterpreter->stack.Push(object);object->Release();
+    } else {aptActionInterpreter->stack.rva006FE050(2*n);aptActionInterpreter->stack.Push(gpUndefinedValue);}
 }
 
 // Native static helper uses pB in EBX and pA on the stack. MSVC chooses
 // that internal ABI from real C++; branch-local destination binding retains
 // the native predicate/member-address ordering (objects seat scheduling fix).
-static AptString *_concatAsStrings(AptValue *a,AptValue *b)
+static AptString *_concatAsStrings(AptValue *aptValue,AptValue *b)
 {
     AptString *result=AptString::Create();
     EAStringC *str;
     if(b->isString()) {str=result->GetInternalString(); *str=*b->c_string()->GetInternalString();}
     else {str=result->GetInternalString(); b->toString(*str); }
-    if(a->isString()) str->Rva006D4F00Append(*a->c_string()->GetInternalString());
-    else {EAStringC text;a->toString(text);str->Rva006D4F00Append(text);}
+    if(aptValue->isString()) str->Rva006D4F00Append(*aptValue->c_string()->GetInternalString());
+    else {EAStringC text;aptValue->toString(text);str->Rva006D4F00Append(text);}
     return result;
 }
 
 
 
-void AptActionInterpreter::_FunctionAptActionNewObject(AptActionInterpreter *const p,LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionNewObject(AptActionInterpreter *const aptActionInterpreter,LocalContextT *const localContextT)
 {
-    AptValue *name=p->stack.At(0);
-    AptValue *params=p->stack.At(1);
+    AptValue *name=aptActionInterpreter->stack.At(0);
+    AptValue *params=aptActionInterpreter->stack.At(1);
     EAStringC objectName;
     name->toString(objectName);
     int nParams=params->toInteger();
-    p->stack.Pop(2);
-    AptValue *object=(AptValue *)p->_createObject((AptValue *)c->pCurrentContext,c->pCurWith,&objectName,nParams,true);
-    if(object) { p->stack.Push(object); object->Release(); }
-    else p->stack.Push(gpUndefinedValue);
+    aptActionInterpreter->stack.Pop(2);
+    AptValue *object=(AptValue *)aptActionInterpreter->_createObject((AptValue *)localContextT->pCurrentContext,localContextT->pCurWith,&objectName,nParams,true);
+    if(object) { aptActionInterpreter->stack.Push(object); object->Release(); }
+    else aptActionInterpreter->stack.Push(gpUndefinedValue);
 }
 
-void AptActionInterpreter::_FunctionAptActionNewMethod(AptActionInterpreter *const p,LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionNewMethod(AptActionInterpreter *const aptActionInterpreter,LocalContextT *const localContextT)
 {
-    AptValue *name=p->stack.At(0);
-    AptValue *context=p->stack.At(1);
-    AptValue *params=p->stack.At(2);
+    AptValue *name=aptActionInterpreter->stack.At(0);
+    AptValue *context=aptActionInterpreter->stack.At(1);
+    AptValue *params=aptActionInterpreter->stack.At(2);
     EAStringC objectName;
     name->toString(objectName);
     int nParams=params->toInteger();
-    p->stack.Pop();
-    p->stack.PopNoDec();
-    p->stack.Pop();
-    AptValue *object=(AptValue *)p->_createObject(context,c->pCurWith,&objectName,nParams,true);
+    aptActionInterpreter->stack.Pop();
+    aptActionInterpreter->stack.PopNoDec();
+    aptActionInterpreter->stack.Pop();
+    AptValue *object=(AptValue *)aptActionInterpreter->_createObject(context,localContextT->pCurWith,&objectName,nParams,true);
     context->Release();
-    if(object) { p->stack.Push(object); object->Release(); }
-    else p->stack.Push(gpUndefinedValue);
+    if(object) { aptActionInterpreter->stack.Push(object); object->Release(); }
+    else aptActionInterpreter->stack.Push(gpUndefinedValue);
 }
 
 class AptNativeHash { public: void Set(const EAStringC *const,AptValue *const); int mnTotalSize; void *mpData; AptValue *mp__proto__; AptValue *mpPrototype; unsigned int nEventHandlers; __forceinline AptValue *Get__Proto__() const { return mp__proto__; } __forceinline AptValue *GetPrototype() const { return mpPrototype; } __forceinline void SetPrototype(AptValue *p) { if(p) p->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=p; } __forceinline void Set__Proto__(AptValue *p) { if(p) p->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=p; } };
@@ -567,7 +567,7 @@ public:
     static void *operator new(unsigned int n) { return g_pChainBlockAllocatorF4->allocBlock(n); }
     static void operator delete(void *,unsigned int);
     __forceinline AptValue *GetSuperConstructor() const { return mp__constructor__; }
-    __forceinline void SetSuperConstructor(AptValue *p) { AptValue *old=mp__constructor__; mp__constructor__=p; p->AddRef(); if(old) old->Release(); }
+    __forceinline void SetSuperConstructor(AptValue *aptValue) { AptValue *old=mp__constructor__; mp__constructor__=aptValue; aptValue->AddRef(); if(old) old->Release(); }
 };
 
 

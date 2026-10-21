@@ -27,7 +27,7 @@ inline void View::getPosition( Coord3D *pos )
 
 // Retain the inline body's ledger emission without changing its callers.
 // ?bfmeEmitViewGetPosition@@YAXPAVView@@PAUCoord3D@@@Z absent-from-retail
-void bfmeEmitViewGetPosition(View *p, Coord3D *pos)
+void bfmeEmitViewGetPosition(View *view, Coord3D *pos)
 {
-	p->View::getPosition(pos);
+	view->View::getPosition(pos);
 }

@@ -547,10 +547,10 @@ extern TextureHandle g_bfmeTableDU[];
 class WaterSeaTransform : public DX8Wrapper
 {
 public:
-	static __forceinline void Set(D3DTRANSFORMSTATETYPE transform, const Matrix4x4 &m)
+	static __forceinline void Set(D3DTRANSFORMSTATETYPE transform, const Matrix4x4 &matrix4x4)
 	{
 		DX8_RECORD_MATRIX_CHANGE();
-		DX8CALL(SetTransform(transform,(D3DMATRIX*)&m));
+		DX8CALL(SetTransform(transform,(D3DMATRIX*)&matrix4x4));
 	}
 	static __forceinline void Set_Vertex_Declaration(DWORD declaration)
 	{

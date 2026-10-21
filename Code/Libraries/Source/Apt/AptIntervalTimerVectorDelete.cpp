@@ -13,4 +13,4 @@ public:
  static void operator delete[](void *p){Rva006CD460Free(p);}
 };
 // ?EmitIntervalTimerArrayDelete absent-from-retail
-void EmitIntervalTimerArrayDelete(AptIntervalTimer *p){delete[] p;}
+void EmitIntervalTimerArrayDelete(AptIntervalTimer *aptIntervalTimer){delete[] aptIntervalTimer;}

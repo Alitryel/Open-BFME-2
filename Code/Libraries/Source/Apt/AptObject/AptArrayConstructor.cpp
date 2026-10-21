@@ -43,7 +43,7 @@ public:
     static AptValue *sMethod_sortOn(AptValue *,int);
 
     AptValue *At(int);
-    AptValue *get(int i) { if(i>=0 && i<mnLength) { AptValue *v=At(i); if(!v) v=gpUndefinedValue; return v; } return gpUndefinedValue; }
+    AptValue *get(int i) { if(i>=0 && i<mnLength) { AptValue *aptValue=At(i); if(!aptValue) aptValue=gpUndefinedValue; return aptValue; } return gpUndefinedValue; }
     static void operator delete(void *p,unsigned int n) { g_pChainBlockAllocatorF4->freeBlock(p,n); }
     virtual AptValue *objectMemberLookup(AptValue *const,const EAStringC *const) const;
     virtual bool objectMemberSet(AptValue *const,const EAStringC *const,AptValue *const);
@@ -289,7 +289,7 @@ AptValue *AptArray::sMethod_splice(AptValue *pThis,int nParams) {
    if(count>array->mnLength-start)count=array->mnLength-start;
    if(start>=array->mnLength)count=0;
    int i;
-   for(i=0;i<count;i++) {AptValue *v=array->At(start+i);if(v)v->Release();}
+   for(i=0;i<count;i++) {AptValue *aptValue=array->At(start+i);if(aptValue)aptValue->Release();}
    memmove(&array->mpValues[start],&array->mpValues[start+count],sizeof(AptValue*)*(array->mnLength-count-start));
    for(i=0;i<count;i++)array->mpValues[array->mnLength-count+i]=0;
    array->mnLength-=count;

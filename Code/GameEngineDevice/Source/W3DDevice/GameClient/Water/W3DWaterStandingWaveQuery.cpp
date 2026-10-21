@@ -77,7 +77,7 @@ public:
 	Real Y;
 
 	__forceinline StandingWaveVector2View() {}
-	__forceinline StandingWaveVector2View(const StandingWaveVector2View &v) { X = v.X; Y = v.Y; }
+	__forceinline StandingWaveVector2View(const StandingWaveVector2View &standingWaveVector2View) { X = standingWaveVector2View.X; Y = standingWaveVector2View.Y; }
 	__forceinline StandingWaveVector2View(Real x, Real y) { X = x; Y = y; }
 	__forceinline StandingWaveVector2View &operator=(const StandingWaveVector2View &v) { X = v[0]; Y = v[1]; return *this; }
 	__forceinline Real &operator[](int i) { return (&X)[i]; }
@@ -123,7 +123,7 @@ public:
 	Real Z;
 
 	__forceinline StandingWaveVector3View() {}
-	__forceinline StandingWaveVector3View(const StandingWaveVector3View &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	__forceinline StandingWaveVector3View(const StandingWaveVector3View &standingWaveVector3View) { X = standingWaveVector3View.X; Y = standingWaveVector3View.Y; Z = standingWaveVector3View.Z; }
 	__forceinline StandingWaveVector3View(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
 	__forceinline StandingWaveVector3View &operator=(const StandingWaveVector3View &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
 

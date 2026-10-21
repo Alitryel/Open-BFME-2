@@ -238,15 +238,15 @@ struct AptNativeHash
 static __forceinline bool isText(AptCIH *cih)
 {
  if(!cih)aptAssert("this",CIH_FILE,0xC4);
- const AptValue *v=(const AptValue*)cih;
- return ((const Rva006DBB30SarDwordField *)v)->get()==15 && !v->isUndefined();
+ const AptValue *aptValue=(const AptValue*)cih;
+ return ((const Rva006DBB30SarDwordField *)aptValue)->get()==15 && !aptValue->isUndefined();
  
 }
 static __forceinline bool isButton(AptCIH *cih)
 {
  if(!cih)aptAssert("this",CIH_FILE,0xB5);
- const AptValue *v=(const AptValue*)cih;
- return ((const Rva006DBB30SarDwordField *)v)->get()==14 && !v->isUndefined();
+ const AptValue *aptValue=(const AptValue*)cih;
+ return ((const Rva006DBB30SarDwordField *)aptValue)->get()==14 && !aptValue->isUndefined();
  
 }
 class Rva006EBFF0 
@@ -290,9 +290,9 @@ class Rva006E34D0
 }
 ;
 extern Rva006E34D0 *g_bfmeAptPtrAtE176D0;
-static __forceinline void addSet(AptValueSet<AptValue*> *set,AptValue *v)
+static __forceinline void addSet(AptValueSet<AptValue*> *set,AptValue *aptValue)
 {
- ((Rva006E9A40List*)set)->add((AptCIH*)v);
+ ((Rva006E9A40List*)set)->add((AptCIH*)aptValue);
  
 }
 extern AptActionInterpreter g_aptDateInterpreter;

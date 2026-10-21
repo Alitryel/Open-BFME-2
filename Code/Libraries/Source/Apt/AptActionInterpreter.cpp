@@ -486,7 +486,7 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
         }
         else if (name->rva006D3510("Array"))
         {
-            AptArray *a = new AptArray();
+            AptArray *aptArray = new AptArray();
             if (nParams == 1)
             {
                 if (((unsigned char)((BfmeAptValue006DCD20 *)stack.rva006FE580(0))->isInteger() && ((BfmeAptValue006DCD20 *)stack.rva006FE580(0))->toInteger() >= 0) ||
@@ -494,14 +494,14 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
                 {
                     int n = ((BfmeAptValue006DCD20 *)stack.rva006FE580(0))->toInteger();
                     TICK_ASSERT(n >= 0, "nElements >= 0", 0x925);
-                    a->set(n - 1, gpUndefinedValue);
-                    created = (AptValue *)a;
+                    aptArray->set(n - 1, gpUndefinedValue);
+                    created = (AptValue *)aptArray;
                     goto done;
                 }
             }
             for (int i = 0; i < nParams; ++i)
-                a->set(i, stack.rva006FE580(i));
-            created = (AptValue *)a;
+                aptArray->set(i, stack.rva006FE580(i));
+            created = (AptValue *)aptArray;
         }
         else if (name->rva006D3510("String"))
         {
@@ -551,8 +551,8 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
             BfmeAptValue006DCD20 *arg = (BfmeAptValue006DCD20 *)stack.rva006FE580(0);
             if ((unsigned char)arg->isString())
             {
-                EAStringC *s = (EAStringC *)((char *)arg->checkedString() + 8);
-                AptValue *colour = getObject(context, 0, s);
+                EAStringC *eAStringC = (EAStringC *)((char *)arg->checkedString() + 8);
+                AptValue *colour = getObject(context, 0, eAStringC);
                 created = (AptValue *)new AptScriptColour(colour);
             }
             else

@@ -64,13 +64,13 @@ void Rva008951B0Owner::rva006D25C0(Rva006D07E0Key key,void*data,void*constant,vo
  }
  CHECK(key.m_object->getState()==2,"f->GetState() == AptFile::WaitingForData",293);
  key.m_object->typeC=3;
- ConstFile*p=(ConstFile*)constant;
- CHECK((unsigned)p->mainCharacter<0xfffff,"(unsigned)pConstFile->pMainCharacter < 0xfffff",299);
- if(p->mainCharacter)p->mainCharacter=(Rva006E58D0*)((char*)p->mainCharacter+(unsigned)data);
- ((Rva006E58D0*)((char*)p->mainCharacter+8))->rva006E58D0Body(data,p,buffer);
- key.m_object->setData(data,p->mainCharacter,buffer);
- if(p->mainCharacter)p->mainCharacter=(Rva006E58D0*)((char*)p->mainCharacter-(unsigned)data);
- ((void(__cdecl*)(void*))g_aptFreeConstantTableSlot)(p);
+ ConstFile*constFile=(ConstFile*)constant;
+ CHECK((unsigned)constFile->mainCharacter<0xfffff,"(unsigned)pConstFile->pMainCharacter < 0xfffff",299);
+ if(constFile->mainCharacter)constFile->mainCharacter=(Rva006E58D0*)((char*)constFile->mainCharacter+(unsigned)data);
+ ((Rva006E58D0*)((char*)constFile->mainCharacter+8))->rva006E58D0Body(data,constFile,buffer);
+ key.m_object->setData(data,constFile->mainCharacter,buffer);
+ if(constFile->mainCharacter)constFile->mainCharacter=(Rva006E58D0*)((char*)constFile->mainCharacter-(unsigned)data);
+ ((void(__cdecl*)(void*))g_aptFreeConstantTableSlot)(constFile);
 }
 
 // Native6CFFB0..6CFFD3 RET4: erase the node after the handle's node, the same

@@ -97,7 +97,7 @@ public:
 struct AptContextStack {
     int count, capacity;
     AptValue **elements;
-    void push(AptValue *p) { PCHECK(count < capacity, 0x76, "m_nElements < m_nSize"); elements[count++] = p; p->AddRef(); }
+    void push(AptValue *aptValue) { PCHECK(count < capacity, 0x76, "m_nElements < m_nSize"); elements[count++] = aptValue; aptValue->AddRef(); }
     void pop() { PCHECK(count > 0, 0x7d, "size() > 0"); elements[count - 1]->Release(); --count; }
 };
 struct AptActionInterpreter {
@@ -384,11 +384,11 @@ public:
 
 void AptAnimationPoolData::rva006E6540()
 {
-    AptActionQueueC *q = queue;
-    Rva006E3230Action *p = q->begin();
-    while (!q->isEnd(p)) {
-        Rva006E3230Action *oldEnd = q->getEnd();
-        q->setExecuting(p);
+    AptActionQueueC *aptActionQueueC = queue;
+    Rva006E3230Action *p = aptActionQueueC->begin();
+    while (!aptActionQueueC->isEnd(p)) {
+        Rva006E3230Action *oldEnd = aptActionQueueC->getEnd();
+        aptActionQueueC->setExecuting(p);
         if (p->type == 1) {
             g_aptDateInterpreter.dispatchWord = p->event;
             if (!p->target->isUndefined()) {
@@ -433,13 +433,13 @@ void AptAnimationPoolData::rva006E6540()
             ACHECK(g_aptDateInterpreter.stack.count == 0, 0x3f0, "gAptActionInterpreter.stack.GetSize() == 0");
         }
         ACHECK(g_aptDateInterpreter.debugCallCount == 0, 0x3f3, "gAptActionInterpreter.debugCallStack.GetSize() == 0");
-        if (oldEnd > q->getEnd())
-            p -= oldEnd - q->getEnd();
-        p = q->next(p);
+        if (oldEnd > aptActionQueueC->getEnd())
+            p -= oldEnd - aptActionQueueC->getEnd();
+        p = aptActionQueueC->next(p);
     }
     ACHECK(validateBIL(), 0x3ff, "validateBIL()");
     _tickNewInsts();
-    q->ClearActions();
+    aptActionQueueC->ClearActions();
 }
 
 // ?tickIntervalTimers@AptAnimationPoolData@@QAEXH@Z @0x006E4150 562B (RET4).

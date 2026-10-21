@@ -45,7 +45,7 @@ public:
     static AptValue *sMethod_sortOn(AptValue *,int);
 
     AptValue *At(int);
-    AptValue *get(int i) { if(i>=0 && i<mnLength) { AptValue *v=At(i); if(!v) v=gpUndefinedValue; return v; } return gpUndefinedValue; }
+    AptValue *get(int i) { if(i>=0 && i<mnLength) { AptValue *aptValue=At(i); if(!aptValue) aptValue=gpUndefinedValue; return aptValue; } return gpUndefinedValue; }
     static void operator delete(void *p,unsigned int n) { g_pChainBlockAllocatorF4->freeBlock(p,n); }
     virtual AptValue *objectMemberLookup(AptValue *const,const EAStringC *const) const;
     virtual bool objectMemberSet(AptValue *const,const EAStringC *const,AptValue *const);

@@ -21,9 +21,9 @@ class HAnimComboDataClass {HAnimClass*HAnim;public: __declspec(noinline) void Se
 struct Rva0008B689Element {
  CameraClass *pointer;
  Rva0008B689Element():pointer(0){}
- __forceinline Rva0008B689Element(CameraClass*p):pointer(p){if(pointer)pointer->Add_Ref();}
+ __forceinline Rva0008B689Element(CameraClass*camera):pointer(camera){if(pointer)pointer->Add_Ref();}
  __forceinline Rva0008B689Element(const Rva0008B689Element&o):pointer(o.pointer){if(pointer)pointer->Add_Ref();}
- __forceinline ~Rva0008B689Element(){CameraClass*p=pointer;if(p)p->Release_Ref();}
+ __forceinline ~Rva0008B689Element(){CameraClass*camera=pointer;if(camera)camera->Release_Ref();}
 };
 Rva0008B689Element Rva000897C8(CameraClass*p);
 

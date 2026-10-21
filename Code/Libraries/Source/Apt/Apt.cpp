@@ -292,7 +292,7 @@ inline void iteratorCheck(bool,const char *){}
 class PlaybackIterator {
  PlaybackItem *cur,*first,*last;
 public:
- PlaybackIterator(PlaybackItem *c,PlaybackItem *f,PlaybackItem *l):cur(c),first(f),last(l){}
+ PlaybackIterator(PlaybackItem *playbackItem,PlaybackItem *f,PlaybackItem *l):cur(playbackItem),first(f),last(l){}
  PlaybackIterator &operator++(){++cur;return *this;}
  PlaybackItem &operator*(){iteratorCheck(cur>=first && cur<last,"Trying to dereference an invalid iterator");return *cur;}
  bool operator!=(const PlaybackIterator &other){iteratorCheck(first==other.first && last==other.last,"Iterators are not in same range");return cur!=other.cur;}
@@ -300,7 +300,7 @@ public:
 class PlaybackRange {
  PlaybackItem *first,*last;
 public:
- PlaybackRange(PlaybackItem *f,PlaybackItem *l):first(f),last(l){}
+ PlaybackRange(PlaybackItem *playbackItem,PlaybackItem *l):first(playbackItem),last(l){}
  PlaybackIterator begin(){return PlaybackIterator(first,first,last);}
  PlaybackIterator end(){return PlaybackIterator(last,first,last);}
 };

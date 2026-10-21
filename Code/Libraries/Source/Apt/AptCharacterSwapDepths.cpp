@@ -38,12 +38,12 @@ public:
 class Rva006CFCD0 {public:bool isSpriteInstBase()const;};
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *,const char *,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
-static __forceinline SwapSprite *sprite(AptCIH *p) {
- if(!((Rva006CFCD0 *)p)->isSpriteInstBase()) {
+static __forceinline SwapSprite *sprite(AptCIH *aptCIH) {
+ if(!((Rva006CFCD0 *)aptCIH)->isSpriteInstBase()) {
   g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);
   if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
  }
- return p->instance;
+ return aptCIH->instance;
 }
 class BfmeNestedBE;
 BfmeNestedBE *bfmeUnlinkNestedBE(BfmeNestedBE *);

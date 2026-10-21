@@ -117,11 +117,11 @@ void AptMath::ClipStackMakeUnit()
         g_bfmeAptAssertAtE17734("m_nStackCount < m_nStackCapacity", "..\\..\\include\\apt\\AptStd/AptMath.h",96);
         if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
     }
-    ClipTransform_t *p=&m_pStackBase[m_nStackCount];
-    p->m[0]=1.0f; p->m[5]=1.0f; p->m[10]=1.0f; p->m[15]=1.0f;
-    p->m[1]=0.0f; p->m[2]=0.0f; p->m[3]=0.0f; p->m[4]=0.0f; p->m[6]=0.0f; p->m[7]=0.0f; p->m[8]=0.0f; p->m[9]=0.0f; p->m[11]=0.0f; p->m[12]=0.0f; p->m[13]=0.0f; p->m[14]=0.0f;
-    p->mul=mul;
-    p->add=add;
+    ClipTransform_t *clipTransform_t=&m_pStackBase[m_nStackCount];
+    clipTransform_t->m[0]=1.0f; clipTransform_t->m[5]=1.0f; clipTransform_t->m[10]=1.0f; clipTransform_t->m[15]=1.0f;
+    clipTransform_t->m[1]=0.0f; clipTransform_t->m[2]=0.0f; clipTransform_t->m[3]=0.0f; clipTransform_t->m[4]=0.0f; clipTransform_t->m[6]=0.0f; clipTransform_t->m[7]=0.0f; clipTransform_t->m[8]=0.0f; clipTransform_t->m[9]=0.0f; clipTransform_t->m[11]=0.0f; clipTransform_t->m[12]=0.0f; clipTransform_t->m[13]=0.0f; clipTransform_t->m[14]=0.0f;
+    clipTransform_t->mul=mul;
+    clipTransform_t->add=add;
 }
 
 

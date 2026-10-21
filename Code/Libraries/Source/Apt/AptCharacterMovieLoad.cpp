@@ -110,13 +110,13 @@ AptValue *Rva006EC590UnloadMovie(AptValue *self,int nParams){
 // rva006ffce0 is the target, and both go to the rowed AptLinker::Load: the
 // loadMovie shape. Callback name remains address-derived.
 AptValue *Rva006EC3E0LoadMovie(AptValue *self,int nParams){
- AptValue *arg=g_aptDateInterpreter.stack.At(0);
+ AptValue *aptValue=g_aptDateInterpreter.stack.At(0);
  if(!(nParams==1)){
   g_bfmeAptAssertAtE17734("nParams == 1","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCharacter.cpp",0x2ED);
   if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
  }
  EAStringC url;
- arg->toString(url);
+ aptValue->toString(url);
  int length=url.rva006D3750();
  if(length==0 ||
   ((url.GetAt(length-1)=='f' || url.GetAt(length-1)=='F') &&
