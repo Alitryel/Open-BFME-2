@@ -80,8 +80,8 @@ void Rva00079A0C::rva00079C8D()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00079A0C(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00079A0C(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -118,8 +118,8 @@ void Rva001363CC::rva001364CE()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva001363CC(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva001363CC(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -154,8 +154,8 @@ void Rva00170AE4::rva00170BAD()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00170AE4(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00170AE4(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -300,8 +300,8 @@ void Rva002177CD::rva002179D9()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva002177CD(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva002177CD(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -336,8 +336,8 @@ void Rva00217A02::rva00217C66()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00217A02(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00217A02(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -372,8 +372,8 @@ void Rva00217A37::rva00217C8F()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00217A37(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00217A37(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -408,8 +408,8 @@ void Rva0022115A::rva00221234()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva0022115A(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva0022115A(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -446,8 +446,8 @@ void Rva0022E121::rva0022E177()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva0022E121(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva0022E121(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -482,8 +482,8 @@ void Rva00240CAB::rva0024191A()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00240CAB(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00240CAB(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -518,8 +518,8 @@ void Rva002A4281::rva002A47E1()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva002A4281(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva002A4281(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -554,8 +554,8 @@ void Rva003ED68D::rva003ED6E4()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva003ED68D(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva003ED68D(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -590,8 +590,8 @@ void Rva0041090E::rva00410A14()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva0041090E(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva0041090E(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -626,8 +626,8 @@ void Rva00463782::rva00463D72()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00463782(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00463782(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -662,8 +662,8 @@ void Rva005B3751::rva005B3947()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva005B3751(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva005B3751(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -716,8 +716,8 @@ void Rva0032D3D3::rva0032DCB7()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva0032D3D3(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva0032D3D3(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -765,8 +765,8 @@ void Rva005007CF::rva00500AA6()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva005007CF(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva005007CF(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -825,8 +825,8 @@ void Rva00534641::rva00534693()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00534641(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00534641(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -915,8 +915,8 @@ void Rva0060126D::rva006012C4()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva0060126D(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva0060126D(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
@@ -954,8 +954,8 @@ void Rva00500804::rva00500ACF()
 {
 	if (m_04Flag == 0)
 		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00500804(h->m_first);
+	RvaTreeValueHead *head = (RvaTreeValueHead *)m_00Head;
+	rva00500804(head->m_first);
 	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
 	((RvaTreeValueHead *)m_00Head)->m_first = 0;
 	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
