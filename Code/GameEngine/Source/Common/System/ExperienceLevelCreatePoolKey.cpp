@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004B91AB@ExperienceLevelCreate@@SA?AW4NameKeyType@@XZ @0x4B91AB
+// ?getModuleNameKey@ExperienceLevelCreate@@UBE?AW4NameKeyType@@XZ @0x4B91AB
 // (69B): cached pool-name key for ExperienceLevelCreate. The class
 // identity comes from the pool-name string the body pushes
 // ("ExperienceLevelCreate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ExperienceLevelCreate
 {
 public:
-	static NameKeyType rva0004B91AB();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B91AB@ExperienceLevelCreate@@SA?AW4NameKeyType@@XZ
-NameKeyType ExperienceLevelCreate::rva0004B91AB()
+// ?getModuleNameKey@ExperienceLevelCreate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ExperienceLevelCreate::getModuleNameKey() const
 {
 	static NameKeyType TheExperienceLevelCreatePoolKey =
 		TheNameKeyGenerator->nameToKey("ExperienceLevelCreate");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004B708A@ReplaceSelfUpgrade@@SA?AW4NameKeyType@@XZ @0x4B708A
+// ?getModuleNameKey@ReplaceSelfUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B708A
 // (69B): cached pool-name key for ReplaceSelfUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("ReplaceSelfUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ReplaceSelfUpgrade
 {
 public:
-	static NameKeyType rva0004B708A();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B708A@ReplaceSelfUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType ReplaceSelfUpgrade::rva0004B708A()
+// ?getModuleNameKey@ReplaceSelfUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType ReplaceSelfUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheReplaceSelfUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("ReplaceSelfUpgrade");

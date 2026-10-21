@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004B6ABF@GeometryUpgrade@@SA?AW4NameKeyType@@XZ @0x4B6ABF
+// ?getModuleNameKey@GeometryUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B6ABF
 // (69B): cached pool-name key for GeometryUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("GeometryUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class GeometryUpgrade
 {
 public:
-	static NameKeyType rva0004B6ABF();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B6ABF@GeometryUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType GeometryUpgrade::rva0004B6ABF()
+// ?getModuleNameKey@GeometryUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType GeometryUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheGeometryUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("GeometryUpgrade");
