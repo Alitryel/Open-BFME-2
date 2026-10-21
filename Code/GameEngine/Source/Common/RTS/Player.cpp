@@ -529,20 +529,9 @@ static TeamPrototypeID getRetailTeamPrototypeID( const TeamPrototype *proto ) { 
 // Player::getRelationship: defined in PlayerGetRelationship.cpp (its row's unit).
 
 //=============================================================================
-// ?Player::setPlayerRelationship present-unmatched
-void Player::setPlayerRelationship(const Player *that, Relationship r)
-{
-	if (that != NULL)
-	{
-		// note that this creates the entry if it doesn't exist.
-		// Two offsets are BFME's: m_playerRelations at Player+0x28c (this tree
-		// +0x1a4), and m_map at +0x04 of it rather than +0x08 -- BFME's
-		// PlayerRelationMap carries one base vtable pointer where
-		// MemoryPoolObject plus Snapshot give it two here.
-		(*(PlayerRelationMapType *)(*(char **)((char *)this + 0x28c) + 0x04))
-			[that->m_playerIndex] = r;
-	}
-}
+// Player::setPlayerRelationship is retail 0x002ADF9C (rowed as rva002ADF9C in
+// ObjectLookupMapFindSlot.cpp): m_playerRelations sits at Player+0x330 there,
+// not +0x28c, so this unit takes the declaration and calls that body.
 
 // ------------------------------------------------------------------------
 // ?removePlayerRelationship@Player@@QAE_NPBV1@@Z present-unmatched
