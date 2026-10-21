@@ -106,7 +106,7 @@ private:
 	UnsignedInt m_words[19];
 };
 
-// Status bit 0x26 is tested by privateHunt and bfmePrivateCommand37; its
+// Status bit 0x26 is tested by privateHunt and privateGuardTunnelNetwork; its
 // name is not evidenced.
 enum ObjectStatusTypes
 {
@@ -1178,7 +1178,7 @@ protected:
 	virtual void privateFacePosition(const Coord3D *position, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand20(const Rva00264D81Arg *target, GuardMode guardMode, CommandSourceType commandSource);
 	virtual void privateGetHealed(Object *healDepot, CommandSourceType commandSource);
-	virtual void bfmePrivateCommand37(Int value, CommandSourceType commandSource);
+	virtual void privateGuardTunnelNetwork(Int value, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand3D(Object *obj, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand3E(Object *obj, CommandSourceType commandSource);
 	virtual void bfmePrivateCommand4A(Object *obj, const Coord3D *pos, CommandSourceType commandSource);
@@ -1251,7 +1251,7 @@ protected:
 	CommandSourceType m_lastCommandSource;
 
 	// Upstream's guard fields, in upstream's order. The +0x4C word also
-	// carries bfmePrivateCommand37's value, and command 0x20 (banked) keeps a
+	// carries privateGuardTunnelNetwork's value, and command 0x20 (banked) keeps a
 	// team word at +0x68.
 	GuardMode m_guardMode;						// +0x4C
 	GuardTargetType m_guardTargetType[2];		// +0x50, a two-deep stack
@@ -1510,7 +1510,7 @@ void AIUpdateInterface::privateFaceObject(Object *target, CommandSourceType comm
 
 // Command 0x37, slot 62, retail 0x00264CBB: AICommandParms::m_intValue (+0x34)
 // is stored at +0x4C before the state machine enters state 0x18.
-void AIUpdateInterface::bfmePrivateCommand37(Int value, CommandSourceType commandSource)
+void AIUpdateInterface::privateGuardTunnelNetwork(Int value, CommandSourceType commandSource)
 {
 	Object *obj = getObject();
 	if (obj->testStatus(BFME_OBJECT_STATUS_26))
