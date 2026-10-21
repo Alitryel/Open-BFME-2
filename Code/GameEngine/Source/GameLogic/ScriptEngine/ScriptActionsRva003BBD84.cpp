@@ -5,9 +5,9 @@
 // Twin mask sweeps over players, range-17 batch (same family as rowed
 // Rva003BB233Set 0x003BB233, which sweeps a caller val; these sweep constant
 // 1 through two unrowed Player entries).
-// ?rva003BBD84@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBD84 64B: mask from ScriptEngine
+// ?doPlayerGarrisonAllBuildings@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBD84 64B: mask from ScriptEngine
 // rva00357475 0x00357475, then the rowed Player::garrisonAllUnits(CMD_FROM_SCRIPT) (0x002AEEA7) per player.
-// ?rva003BBDC4@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBDC4 64B: same through pinned
+// ?doPlayerExitAllBuildings@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBDC4 64B: same through pinned
 // Player::ungarrisonAllUnits(CMD_FROM_SCRIPT). Evidence: ret 4 single name arg, TheScriptEngine +
 // ThePlayerList globals, getEachPlayerFromMask loop; player entries pinned
 // address-derived.
@@ -37,7 +37,7 @@ public:
 };
 extern PlayerList *ThePlayerList;
 
-void ScriptActions::rva003BBD84(const AsciiString &name)
+void ScriptActions::doPlayerGarrisonAllBuildings(const AsciiString &name)
 {
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
@@ -49,7 +49,7 @@ void ScriptActions::rva003BBD84(const AsciiString &name)
 	} while (mask != 0);
 }
 
-void ScriptActions::rva003BBDC4(const AsciiString &name)
+void ScriptActions::doPlayerExitAllBuildings(const AsciiString &name)
 {
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)

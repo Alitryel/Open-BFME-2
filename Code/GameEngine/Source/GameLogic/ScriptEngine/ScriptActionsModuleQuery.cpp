@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// ?rva003C0E32@ScriptActions@@IAEXABVAsciiString@@H@Z, retail 0x003C0E32 85 bytes.
+// ?doSetCaveIndex@ScriptActions@@IAEXABVAsciiString@@H@Z, retail 0x003C0E32 85 bytes.
 // Target evidence: ScriptActions dispatch caller at 0x003CD166, AsciiString temp via
 // pinned StringBase copy 0x000365F0, ScriptEngine global 0x009FE16C, pinned
 // lookupUnitByValue 0x00358752, Object module list at +0x244 with +0x0C iface slot
@@ -78,13 +78,13 @@ public:
 class ScriptActions
 {
 protected:
-    void rva003C0E32(const AsciiString &, int);
+    void doSetCaveIndex(const AsciiString &, int);
 };
 
 // Native3C0E32..3C0E87 proves complete caller and module query;
 // target slot16 returns an interface whose slot0 consumes the second arg.
 // As in BF1/Object module-interface getters the inline scan returns null.
-void ScriptActions::rva003C0E32(const AsciiString &name, int value)
+void ScriptActions::doSetCaveIndex(const AsciiString &name, int value)
 {
     Object *obj = ((Rva00358752Opaque *)TheScriptEngine)->lookupUnitByValue(name);
     if (obj)

@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
-// ?rva003C062D@ScriptActions@@IAEXABVAsciiString@@M@Z, retail 0x003C062D, 110 bytes.
+// ?doSetStoppingDistance@ScriptActions@@IAEXABVAsciiString@@M@Z, retail 0x003C062D, 110 bytes.
 // Target evidence: dispatched from FUN_007ca4be (caller at 0x003CC3F4) like sibling
 // ScriptActions team methods; takes team name plus float, uses pinned
 // ScriptEngine::getTeamNamed with by-value AsciiString temp, iterates team members
@@ -63,10 +63,10 @@ extern float g_Va007C26F0;
 class ScriptActions
 {
 protected:
-    void rva003C062D(const AsciiString &, float);
+    void doSetStoppingDistance(const AsciiString &, float);
 };
 
-void ScriptActions::rva003C062D(const AsciiString &teamName, float value)
+void ScriptActions::doSetStoppingDistance(const AsciiString &teamName, float value)
 {
     Team *team = TheScriptEngine->getTeamNamed(teamName, false);
     if (!team)

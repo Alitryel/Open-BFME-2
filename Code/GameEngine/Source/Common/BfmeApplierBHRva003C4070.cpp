@@ -54,12 +54,12 @@ public:
 class ScriptActions
 {
 public:
-	void rva003C4070(const AsciiString &a, const AsciiString &b);
+	void doSkirmishFireSpecialPowerAtMostCost(const AsciiString &a, const AsciiString &b);
 	bool FireSpecialPowerAtPosition(const AsciiString &playerName,
 		const SpecialPowerTemplate *power, const Coord3D *position) throw();
 };
 
-void ScriptActions::rva003C4070(const AsciiString &asciiString, const AsciiString &b)
+void ScriptActions::doSkirmishFireSpecialPowerAtMostCost(const AsciiString &asciiString, const AsciiString &b)
 {
 	Player *enemy = TheScriptEngine->getSkirmishEnemyPlayer();
 	if (enemy == 0)

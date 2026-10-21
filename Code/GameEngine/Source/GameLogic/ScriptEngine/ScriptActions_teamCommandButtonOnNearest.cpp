@@ -295,7 +295,7 @@ protected:
 	void doTeamUseCommandButtonOnNearestBuilding(const AsciiString &teamName, const AsciiString &commandAbility);
 	void doTeamUseCommandButtonOnNearestBuildingClass(const AsciiString &teamName, const AsciiString &commandAbility, int kindofBit);
 public:
-	void rva003C7018(const AsciiString &teamName, const AsciiString &commandAbility, float range, bool flag);
+	void doSkirmishCommandButtonOnMostValuable(const AsciiString &teamName, const AsciiString &commandAbility, float range, bool flag);
 };
 
 void ScriptActions::doTeamUseCommandButtonOnNearestEnemy(const AsciiString &teamName, const AsciiString &commandAbility)
@@ -554,7 +554,7 @@ void ScriptActions::doTeamUseCommandButtonOnNearestBuildingClass(const AsciiStri
 	}
 }
 
-void ScriptActions::rva003C7018(const AsciiString &teamName, const AsciiString &commandAbility, float range, bool)
+void ScriptActions::doSkirmishCommandButtonOnMostValuable(const AsciiString &teamName, const AsciiString &commandAbility, float range, bool)
 {
 	Team *team = TheScriptEngine->getTeamNamed(teamName, false);
 	if (!team)

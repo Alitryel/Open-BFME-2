@@ -92,7 +92,7 @@ class ScriptActions
 {
 protected:
     void doTeamFaceWaypoint(const AsciiString &, const AsciiString &);
-    void rva003C9BAD(const AsciiString &);
+    void doTeamGuardInTunnelNetwork(const AsciiString &);
 };
 extern ScriptEngine *TheScriptEngine;
 class TerrainLogic;
@@ -119,10 +119,10 @@ void ScriptActions::doTeamFaceWaypoint(const AsciiString &teamName,
     }
 }
 
-// ?rva003C9BAD@ScriptActions@@IAEXABVAsciiString@@@Z @0x003C9BAD 93B
+// ?doTeamGuardInTunnelNetwork@ScriptActions@@IAEXABVAsciiString@@@Z @0x003C9BAD 93B
 // Evidence: gap 0x003C9B19+148=0x003C9BAD in this TU; team lookup plus per-member rva003C76B8 with 0 plus 1.
 // Chain via landed 0x003C76B8; caller at 0x003CDA49.
-void ScriptActions::rva003C9BAD(const AsciiString &teamName)
+void ScriptActions::doTeamGuardInTunnelNetwork(const AsciiString &teamName)
 {
     Team *team = TheScriptEngine->getTeamNamed((AsciiString &)teamName, false);
     if (!team) return;

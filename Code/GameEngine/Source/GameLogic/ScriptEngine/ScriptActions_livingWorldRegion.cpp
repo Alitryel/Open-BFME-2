@@ -1851,12 +1851,12 @@ return;
 }
 case 113:
 {
-rva003BBD84(TEXT(0));
+doPlayerGarrisonAllBuildings(TEXT(0));
 return;
 }
 case 114:
 {
-rva003BBDC4(TEXT(0));
+doPlayerExitAllBuildings(TEXT(0));
 return;
 }
 case 118:
@@ -1948,7 +1948,7 @@ return;
 }
 case 144:
 {
-rva003C062D(TEXT(0), REAL(1));
+doSetStoppingDistance(TEXT(0), REAL(1));
 return;
 }
 case 146:
@@ -2087,7 +2087,7 @@ return;
 }
 case 255:
 {
-rva003C4070(TEXT(0), TEXT(1));
+doSkirmishFireSpecialPowerAtMostCost(TEXT(0), TEXT(1));
 return;
 }
 case 445:
@@ -2147,17 +2147,17 @@ return;
 }
 case 182:
 {
-rva003C0983(TEXT(0), TEXT(1), (Object *)(INTEGER(2)));
+doTeamSetOverrideRelationToTeam(TEXT(0), TEXT(1), (Object *)(INTEGER(2)));
 return;
 }
 case 183:
 {
-rva003C09DA(TEXT(0), TEXT(1));
+doTeamRemoveOverrideRelationToTeam(TEXT(0), TEXT(1));
 return;
 }
 case 184:
 {
-rva003C0A2E(TEXT(0));
+doTeamRemoveAllOverrideRelations(TEXT(0));
 return;
 }
 case 187:
@@ -2423,7 +2423,7 @@ return;
 }
 case 228:
 {
-rva003C0E32(TEXT(0), INTEGER(1));
+doSetCaveIndex(TEXT(0), INTEGER(1));
 return;
 }
 case 216:
@@ -2514,7 +2514,7 @@ return;
 }
 case 262:
 {
-rva003C7018(TEXT(0), TEXT(1), REAL(2), (INTEGER(3) != 0));
+doSkirmishCommandButtonOnMostValuable(TEXT(0), TEXT(1), REAL(2), (INTEGER(3) != 0));
 return;
 }
 case 265:
@@ -2731,7 +2731,7 @@ return;
 }
 case 326:
 {
-rva003C9BAD(TEXT(0));
+doTeamGuardInTunnelNetwork(TEXT(0));
 return;
 }
 case 331:
