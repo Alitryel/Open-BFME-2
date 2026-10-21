@@ -40,6 +40,27 @@ template<> __declspec(dllimport) __forceinline void _Construct<Rva000BDBFARecord
 }
 
 
+// The native range-erase call at 0x000BDBFA reaches the canonical list erase
+// provider at 0x002FECD3. Reuse that provider without emitting cleanup bodies
+// for the opaque record. This binds an observed call; it adds no element layout.
+class AsciiString;
+namespace _STL {
+typedef list<AsciiString, allocator<AsciiString> > RetailAsciiList;
+template<> RetailAsciiList::iterator RetailAsciiList::erase(RetailAsciiList::iterator, RetailAsciiList::iterator);
+template<> __declspec(dllimport) __forceinline
+list<Rva000BDBFARecord, allocator<Rva000BDBFARecord> >::iterator
+list<Rva000BDBFARecord, allocator<Rva000BDBFARecord> >::erase(iterator first, iterator last)
+{
+    RetailAsciiList::iterator begin, end;
+    begin._M_node = first._M_node;
+    end._M_node = last._M_node;
+    RetailAsciiList::iterator next = reinterpret_cast<RetailAsciiList *>(this)->erase(begin, end);
+    iterator result;
+    result._M_node = next._M_node;
+    return result;
+}
+}
+
 // This caller's native REL32 already names the kept provider at 0x000B419E.
 // Both declarations use thiscall with one object-pointer/reference argument; binding is address-proven.
 #pragma comment(linker, "/alternatename:??4Rva000BDBFARecord@@QAEAAU0@ABU0@@Z=??4Rva000B419E@@QAEAAU0@ABU0@@Z")
