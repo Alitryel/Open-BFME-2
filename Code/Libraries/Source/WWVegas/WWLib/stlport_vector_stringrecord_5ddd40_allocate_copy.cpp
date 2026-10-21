@@ -30,4 +30,18 @@ template <> void _Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(
 // Keep this explicit vector instantiation from emitting a competing body.
 template <> BfmeStringRecord005DDD40 *vector<BfmeStringRecord005DDD40, allocator<BfmeStringRecord005DDD40> >::erase(BfmeStringRecord005DDD40 *, BfmeStringRecord005DDD40 *);
 }
+// The chat-history copy uses the distinct native placement-copy entry at
+// 0x003814A6; the generic record helpers use the other copy at 0x005DDD78.
+void Rva003814A6Construct(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
+namespace _STL {
+template <> void vector<BfmeStringRecord005DDD40>::push_back(const BfmeStringRecord005DDD40 &value)
+{
+    if (this->_M_finish != this->_M_end_of_storage._M_data) {
+        Rva003814A6Construct(this->_M_finish, value);
+        ++this->_M_finish;
+    } else {
+        _M_insert_overflow(this->_M_finish, value, _IsPODType(), 1UL, true);
+    }
+}
+}
 template class _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >;
