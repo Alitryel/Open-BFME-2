@@ -374,7 +374,7 @@ case ((GameMessage::Type)1099):
         case ((GameMessage::Type)1110):
 { unsigned int power=msg->getArgument(0)->integer; unsigned int options=msg->getArgument(1)->integer;
 if(!thisPlayer) break; Object *spellbook=thisPlayer->rva002AC629(); if(!spellbook) break;
-AIGroup *group=TheAI->createGroup(); group->add(spellbook); group->rva0036D869(power,options,2); TheAI->destroyGroup(group); break; }
+AIGroup *group=TheAI->createGroup(); group->add(spellbook); group->groupDoSpecialPower(power,options,2); TheAI->destroyGroup(group); break; }
 case ((GameMessage::Type)1040):
         {
             unsigned id=msg->getArgument(0)->integer;
@@ -391,8 +391,8 @@ case ((GameMessage::Type)1040):
                     }
                 }
             }
-            if(source) { AIGroup *group=TheAI->createGroup();group->add(source);group->rva0036D869(id,options,2);TheAI->destroyGroup(group); }
-            else if(currentlySelectedGroup) { TheAiOrdersManager->rva00355358(3,currentlySelectedGroup);currentlySelectedGroup->rva0036D869(id,options,2); }
+            if(source) { AIGroup *group=TheAI->createGroup();group->add(source);group->groupDoSpecialPower(id,options,2);TheAI->destroyGroup(group); }
+            else if(currentlySelectedGroup) { TheAiOrdersManager->rva00355358(3,currentlySelectedGroup);currentlySelectedGroup->groupDoSpecialPower(id,options,2); }
             break;
         }
         case ((GameMessage::Type)1113):
@@ -667,7 +667,7 @@ case ((GameMessage::Type)1064):
 				break;
 
 			if( currentlySelectedGroup )
-				currentlySelectedGroup->rva00370162( repairDepot, CMD_FROM_PLAYER );
+				currentlySelectedGroup->groupGetRepaired( repairDepot, CMD_FROM_PLAYER );
 
 			break;
 
@@ -681,7 +681,7 @@ case ((GameMessage::Type)1064):
 				break;
 
 			if( currentlySelectedGroup )
-				currentlySelectedGroup->rva00370217( dockBuilding, CMD_FROM_PLAYER );
+				currentlySelectedGroup->groupDock( dockBuilding, CMD_FROM_PLAYER );
 
 			break;
 
@@ -697,7 +697,7 @@ case ((GameMessage::Type)1065):
 				break;
 
 			if( currentlySelectedGroup )
-				currentlySelectedGroup->rva0037012C( healDest, CMD_FROM_PLAYER );
+				currentlySelectedGroup->groupGetHealed( healDest, CMD_FROM_PLAYER );
 
 			break;
 
@@ -711,7 +711,7 @@ case ((GameMessage::Type)1065):
 				break;
 
 			if( currentlySelectedGroup )
-				currentlySelectedGroup->rva003700C0( repairTarget, CMD_FROM_PLAYER );
+				currentlySelectedGroup->groupRepair( repairTarget, CMD_FROM_PLAYER );
 
 			break;
 
@@ -729,7 +729,7 @@ case ((GameMessage::Type)1067):
 				break;
 
 			if( currentlySelectedGroup )
-				currentlySelectedGroup->rva003700F6( constructTarget, CMD_FROM_PLAYER );
+				currentlySelectedGroup->groupResumeConstruction( constructTarget, CMD_FROM_PLAYER );
 
 			break;
 
@@ -835,7 +835,7 @@ case ((GameMessage::Type)1067):
 				break;
 
 			if (currentlySelectedGroup)
-				currentlySelectedGroup->rva0036DE89( upgradeT );
+				currentlySelectedGroup->queueUpgrade( upgradeT );
 
 			break;
 

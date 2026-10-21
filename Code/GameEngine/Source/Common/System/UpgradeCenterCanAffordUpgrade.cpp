@@ -54,7 +54,7 @@ bool __stdcall bfmeCanAffordUpgrade(Player *player,
     return true;
 }
 // ?rva0026F11A@UpgradeCenter@@QAE_NPAVPlayer@@PBVUpgradeTemplate@@PAVObject@@_N@Z
-// @0x0026F11A (83B): same body. Retail AIGroup::rva0036DE89 0x0036DEB8
+// @0x0026F11A (83B): same body. Retail AIGroup::queueUpgrade 0x0036DEB8
 // calls 0x0026F11A where its source calls
 // TheUpgradeCenter->rva0026F11A(player, upgrade, obj, false), so the
 // UpgradeCenter thiscall name belongs at this address too. The body never

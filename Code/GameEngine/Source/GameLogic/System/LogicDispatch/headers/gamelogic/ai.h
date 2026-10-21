@@ -768,7 +768,7 @@ void rva00372BB9(const void *,int);
 bool rva0036CFE5(const Player *);
 void groupOneRing();
 void rva00370554(Object *,CommandSourceType); void rva00372571(struct Rva00372571Params *,int);
-bool rva0036D869(unsigned int,unsigned int,int);
+bool groupDoSpecialPower(unsigned int,unsigned int,int);
 bool groupDoSpecialPowerAtLocation(unsigned int,const Coord3D *,const Object *,unsigned int,int);
 void rva0036DBBA(int,int,unsigned int);
 void rva0036D805(int); void rva0036D837(int); void groupHarvest(const Coord3D *,CommandSourceType);
@@ -808,12 +808,12 @@ void groupChangeStance(int);
 	void groupAttackPosition( const Coord3D *pos, Int maxShotsToFire, CommandSourceType cmdSource );						///< attack given spot
 	void groupAttackMoveToPosition( const Coord3D *pos, Int maxShotsToFire, CommandSourceType cmdSource );	///< Attack move to the location
 	void groupHunt( CommandSourceType cmdSource );														///< begin "seek and destroy"
-	void rva003700C0( Object *obj, CommandSourceType cmdSource );						///< repair the given object
-	void rva003700F6( Object *obj, CommandSourceType cmdSource );	///< resume construction on the object
-	void rva0037012C( Object *healDepot, CommandSourceType cmdSource );		///< go get healed at the heal depot
-	void rva00370162( Object *repairDepot, CommandSourceType cmdSource );///< go get repaired at the repair depot
+	void groupRepair( Object *obj, CommandSourceType cmdSource );						///< repair the given object
+	void groupResumeConstruction( Object *obj, CommandSourceType cmdSource );	///< resume construction on the object
+	void groupGetHealed( Object *healDepot, CommandSourceType cmdSource );		///< go get healed at the heal depot
+	void groupGetRepaired( Object *repairDepot, CommandSourceType cmdSource );///< go get repaired at the repair depot
 	void groupEnter( Object *obj, CommandSourceType cmdSource );							///< enter the given object
-	void rva00370217( Object *obj, CommandSourceType cmdSource );							///< get near given object and wait for enter clearance
+	void groupDock( Object *obj, CommandSourceType cmdSource );							///< get near given object and wait for enter clearance
 	void groupExit( Object *objectToExit, CommandSourceType cmdSource );			///< get out of this Object
 	void groupEvacuate( CommandSourceType cmdSource );												///< empty its contents
 	void groupExecuteRailedTransport( CommandSourceType cmdSource );					///< execute railed transport events
@@ -868,7 +868,7 @@ void groupChangeStance(int);
 		Object *obj, const Coord3D *center, Bool isFormation ); ///< compute destination of individual object, based on group destination
 	Int getCount( void );										///< return the number of objects in the group
 	Bool isEmpty( void );										///< returns true if the group has no members
-	void rva0036DE89( const UpgradeTemplate *upgrade );	///< queue an upgrade
+	void queueUpgrade( const UpgradeTemplate *upgrade );	///< queue an upgrade
 
 	void add( Object *obj );								///< add object to group
 	

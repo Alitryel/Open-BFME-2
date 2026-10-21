@@ -125,7 +125,7 @@ extern ActionManager *TheActionManager;
 class AIGroup
 {
 public:
-	bool rva0036D869(UnsignedInt id, UnsignedInt commandOptions, Int unk);
+	bool groupDoSpecialPower(UnsignedInt id, UnsignedInt commandOptions, Int unk);
 	bool groupDoSpecialPowerAtLocation(UnsignedInt id, const Coord3D *loc, const Object *objectInWay, UnsignedInt commandOptions, Int unk);
 
 private:
@@ -137,7 +137,7 @@ private:
 // Native 0036D869..0036DA02: sibling veteran selection; options bit20
 // bypasses selection and dispatches to all. ZH groupDoSpecialPower is the
 // semantic lead; target receiver layout and three args follow retail.
-bool AIGroup::rva0036D869(UnsignedInt id, UnsignedInt commandOptions, Int unk)
+bool AIGroup::groupDoSpecialPower(UnsignedInt id, UnsignedInt commandOptions, Int unk)
 {
 	const SpecialPowerTemplate *spTemplate = TheSpecialPowerStore->findSpecialPowerTemplateByID(id);
 	Object *best = 0;

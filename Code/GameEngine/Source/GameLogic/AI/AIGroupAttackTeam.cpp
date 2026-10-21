@@ -284,7 +284,7 @@ class AIGroup
 public:
 	void groupAttackTeam(const Team *team, Int maxShotsToFire, CommandSourceType cmdSource);
 	void groupHunt(CommandSourceType cmdSource);
-	void rva0036DE89(const UpgradeTemplate*);
+	void queueUpgrade(const UpgradeTemplate*);
 	void rva00370554(Object*,CommandSourceType);
 	const _STL::vector<ObjectID>& getAllIDs() const;
 	void groupAttackPosition(const Coord3D *, Int, CommandSourceType);
@@ -468,7 +468,7 @@ void AIGroup::groupAttackPosition(const Coord3D *pos, Int maxShotsToFire, Comman
 // ZH queueUpgrade semantic lead; native 0036DE89..0036DF14 RET4.
 // BFME2 adds Object argument to affordability; removes canProduceUpgrade;
 // production interface slots1/3 accept UpgradeTemplate, queue-full enum4.
-void AIGroup::rva0036DE89(const UpgradeTemplate *upgrade)
+void AIGroup::queueUpgrade(const UpgradeTemplate *upgrade)
 {
  if (!upgrade) return;
  for (std::list<Object*>::iterator i=m_memberList.begin(); i!=m_memberList.end(); ++i) {

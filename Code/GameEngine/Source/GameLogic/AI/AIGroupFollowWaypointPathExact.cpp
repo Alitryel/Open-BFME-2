@@ -133,11 +133,11 @@ public:
 	void rva0036FA56(const Waypoint *waypoint, CommandSourceType cmdSource);
 	void groupMoveToAndEvacuate(const Coord3D *pos, CommandSourceType cmdSource);
 	void groupMoveToAndEvacuateAndExit(const Coord3D *pos, CommandSourceType cmdSource);
-	void rva003700C0(Object *obj, CommandSourceType cmdSource);
-	void rva003700F6(Object *obj, CommandSourceType cmdSource);
-	void rva0037012C(Object *obj, CommandSourceType cmdSource);
-	void rva00370162(Object *obj, CommandSourceType cmdSource);
-	void rva00370217(Object *obj, CommandSourceType cmdSource);
+	void groupRepair(Object *obj, CommandSourceType cmdSource);
+	void groupResumeConstruction(Object *obj, CommandSourceType cmdSource);
+	void groupGetHealed(Object *obj, CommandSourceType cmdSource);
+	void groupGetRepaired(Object *obj, CommandSourceType cmdSource);
+	void groupDock(Object *obj, CommandSourceType cmdSource);
 	void groupHarvest(const Coord3D *pos, CommandSourceType cmdSource);
 	void groupExit(Object *objectToExit, CommandSourceType cmdSource);
 	void groupEvacuate(CommandSourceType cmdSource);
@@ -186,7 +186,7 @@ void AIGroup::groupMoveToAndEvacuateAndExit(const Coord3D *pos, CommandSourceTyp
 }
 
 // retail 0x003700C0, 54 bytes -> AICommandInterface::rva0036F19B
-void AIGroup::rva003700C0(Object *obj, CommandSourceType cmdSource)
+void AIGroup::groupRepair(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
@@ -197,7 +197,7 @@ void AIGroup::rva003700C0(Object *obj, CommandSourceType cmdSource)
 }
 
 // retail 0x003700F6, 54 bytes -> AICommandInterface::aiResumeConstruction
-void AIGroup::rva003700F6(Object *obj, CommandSourceType cmdSource)
+void AIGroup::groupResumeConstruction(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
@@ -208,7 +208,7 @@ void AIGroup::rva003700F6(Object *obj, CommandSourceType cmdSource)
 }
 
 // retail 0x0037012C, 54 bytes -> AICommandInterface::aiGetHealed
-void AIGroup::rva0037012C(Object *obj, CommandSourceType cmdSource)
+void AIGroup::groupGetHealed(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
@@ -219,7 +219,7 @@ void AIGroup::rva0037012C(Object *obj, CommandSourceType cmdSource)
 }
 
 // retail 0x00370162, 54 bytes -> AICommandInterface::aiGetRepaired
-void AIGroup::rva00370162(Object *obj, CommandSourceType cmdSource)
+void AIGroup::groupGetRepaired(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
@@ -230,7 +230,7 @@ void AIGroup::rva00370162(Object *obj, CommandSourceType cmdSource)
 }
 
 // retail 0x00370217, 54 bytes -> AICommandInterface::aiDock
-void AIGroup::rva00370217(Object *obj, CommandSourceType cmdSource)
+void AIGroup::groupDock(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{

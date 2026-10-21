@@ -127,7 +127,7 @@ extern ActionManager *TheActionManager;
 class AIGroup
 {
 public:
-	bool rva0036D869(UnsignedInt id, UnsignedInt commandOptions, Int unk);
+	bool groupDoSpecialPower(UnsignedInt id, UnsignedInt commandOptions, Int unk);
 	bool groupDoSpecialPowerAtLocation(UnsignedInt id, const Coord3D *loc, const Object *objectInWay, UnsignedInt commandOptions, Int unk);
 
 private:
