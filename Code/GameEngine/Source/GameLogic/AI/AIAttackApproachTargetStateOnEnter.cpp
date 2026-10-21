@@ -467,7 +467,7 @@ public:
 	// The matched Object predicate owns the native 0x0028CECF callee.
 	Bool rva0028CECF();
 	Real rva0028AC7D() const;
-	Bool rva0028ADE0() const;
+	Bool hasAnyWeapon() const;
 	const Rva0028AC4EEntry *rva0028AC4E() const;
 	void rva0028CDB6();
 	Real GetRelativeAngle(const Coord3D *pos) const;

@@ -143,7 +143,7 @@ public:
 class Object
 {
 public:
-	Bool rva0028ADE0() const; // 0x0028ADE0
+	Bool hasAnyWeapon() const; // 0x0028ADE0
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot = 0) const; // 0x0028AEBD
 	Bool testStatus(ObjectStatusTypes bit) const; // 0x0004E536
 	Player *getControllingPlayer() const; // 0x0028AFA9
@@ -257,7 +257,7 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
 	AIUpdateInterface *sourceAI = source->getAI();
 	if (!sourceAI)
 		return STATE_FAILURE;
-	if (!source->rva0028ADE0())
+	if (!source->hasAnyWeapon())
 		return STATE_FAILURE;
 	Object *victim = getMachineGoalObject();
 	const Weapon *weapon = source->getCurrentWeapon();

@@ -13,7 +13,7 @@
 //    the player's (rowed getControllingPlayer), not contained (+0x274),
 //    not kind 91, and kind 3 or neither kind 14 nor 16, not effectively dead
 //    (+0x438 bit 0), not status 3 (rowed testStatus) and the rowed
-//    rva00292FAC holds;
+//    isMassSelectable holds;
 //  - over the select cap (slots 71 and 70) the unflagged call shows the cap
 //    message once (slots 102/103; GameText slot 15; rowed
 //    UnicodeString::format; slot 16 message); else unflagged it selects the
@@ -72,7 +72,7 @@ public:
 	Bool isMobile() const;
 	Player *getControllingPlayer() const;
 	Bool testStatus(ObjectStatusTypes bit) const;
-	Bool rva00292FAC() const;
+	Bool isMassSelectable() const;
 	const ThingTemplate *getTemplate() const { return m_template; }
 	Object *getContainedBy() const { return m_containedBy; }
 	Bool isEffectivelyDead() const { return (m_438 & 1) != 0; }
@@ -205,7 +205,7 @@ void InGameUI::rva0029BE05(Bool viaLogic, Player *player)
 			continue;
 		if (obj->testStatus(OBJECT_STATUS_BFME_3))
 			continue;
-		if (!obj->rva00292FAC())
+		if (!obj->isMassSelectable())
 			continue;
 
 		if (TheInGameUI->getMaxSelectCount() > 0 && TheInGameUI->getSelectCount() >= TheInGameUI->getMaxSelectCount())

@@ -118,7 +118,7 @@ class Object {
 public:
  bool testStatus(ObjectStatusTypes) const;
  bool isLocallyControlled() const;
- bool rva00292FAC() const;
+ bool isMassSelectable() const;
  Drawable *getDrawable() const;
  bool rva002922D9(const CommandButton*);
  void *vptr;

@@ -464,7 +464,7 @@ public:
 	Bool isSignificantlyAboveTerrain() const;
 	Bool rva0029493F(Object *other, Int test);
 	Real rva0028AC7D() const;
-	Bool rva0028ADE0() const;
+	Bool hasAnyWeapon() const;
 	const Rva0028AC4EEntry *rva0028AC4E() const;
 	void rva0028CDB6();
 	Bool rva0028C264(Int *out, Int kind);
@@ -1149,7 +1149,7 @@ StateReturnType AIAttackPositionAimAtTargetState::updateInternal(Bool firstFrame
 	AIUpdateInterface *sourceAI = source->getObservedAI();
 	if (!sourceAI)
 		return STATE_FAILURE;
-	if (!source->rva0028ADE0())
+	if (!source->hasAnyWeapon())
 		return STATE_FAILURE;
 
 	Weapon *weapon = source->getCurrentWeapon();

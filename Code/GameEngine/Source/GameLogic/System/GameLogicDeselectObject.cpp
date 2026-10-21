@@ -30,7 +30,7 @@ class AIGroup;
 class Object
 {
 public:
-	Bool rva00292FAC() const;
+	Bool isMassSelectable() const;
 	Drawable *getDrawable() const;
 	Player *getControllingPlayer() const;
 	void *rva0028BD3A() const;
@@ -119,7 +119,7 @@ void GameLogic::selectObject(Object *obj, Bool createNewSelection, PlayerMaskTyp
 		return;
 	}
 
-	if (!obj->rva00292FAC() && !createNewSelection) {
+	if (!obj->isMassSelectable() && !createNewSelection) {
 		return;
 	}
 

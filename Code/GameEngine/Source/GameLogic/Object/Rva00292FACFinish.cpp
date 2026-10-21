@@ -1,8 +1,8 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva00292FAC@Object@@QBE_NXZ
+// ?isMassSelectable@Object@@QBE_NXZ
 // finish from 0.93 bank: retail tail branches (87B); bank emitted branchless (84B).
 // Object isSelectable/producer-under-construction helper at retail 0x00292FAC 87B.
-// TU-scoped private Object view: this file defines only rva00292FAC and does
+// TU-scoped private Object view: this file defines only isMassSelectable and does
 // not touch the ObjectScriptStatus.cpp view.
 typedef unsigned int UnsignedInt;
 typedef unsigned char UnsignedByte;
@@ -87,7 +87,7 @@ class Object
 public:
 	Bool testStatus( ObjectStatusTypes bit ) const;
 	Bool isSelectable( void ) const;
-	Bool rva00292FAC( void ) const;
+	Bool isMassSelectable( void ) const;
 
 private:
 	unsigned char m_pad00[ 4 ]; // +0x00 vtable
@@ -97,7 +97,7 @@ private:
 	unsigned char m_pad7C[ 0x437 - 0x7C ]; // +0x7C..+0x436
 };
 
-Bool Object::rva00292FAC( void ) const
+Bool Object::isMassSelectable( void ) const
 {
 	ObjectID producerID = m_producerID;
 	if( producerID != INVALID_OBJECT_ID )

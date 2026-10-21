@@ -147,7 +147,7 @@ class Object {
 public:
  bool testStatus(ObjectStatusTypes) const;
  bool isLocallyControlled() const;
- bool rva00292FAC() const;
+ bool isMassSelectable() const;
  Drawable *getDrawable() const;
  const ThingTemplate *getTemplate() const { return m_template; }
  void *vptr;
@@ -316,7 +316,7 @@ int Rva002A1EF5(Drawable *test,void *userData) {
     if(child && child->m_template && child->m_template->isEquivalentTo(selectedType)){ equivalent=true;break; }
    }
   }
-  if(object && equivalent && object->isLocallyControlled() && !object->containedBy && !object->getDrawable()->selected && object->rva00292FAC()) {
+  if(object && equivalent && object->isLocallyControlled() && !object->containedBy && !object->getDrawable()->selected && object->isMassSelectable()) {
    if(TheInGameUI->getMaxSelectCount()>0 && TheInGameUI->getSelectCount()>=TheInGameUI->getMaxSelectCount()) {
     if(!TheInGameUI->getDisplayedMaxWarning()) {
      TheInGameUI->setDisplayedMaxWarning(true);

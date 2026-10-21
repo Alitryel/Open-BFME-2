@@ -109,8 +109,8 @@ public:
 class Object
 {
 public:
-	int rva0028D481() const;
-	int rva0028D4C4() const;
+	bool isStructure() const;
+	int isNonFactionStructure() const;
 	char m_pad000[0x250];
 	Rva00261246SubobjectView *m_250;
 	char m_pad254[4];
@@ -200,8 +200,8 @@ public:
 // The Zero Hour PartitionFilterInsignificantBuildings name is donor evidence.
 bool Rva00261246Filter::allow(Object *obj)
 {
-	if ((unsigned char)obj->rva0028D481() != 0) {
-		if ((unsigned char)obj->rva0028D4C4() == 0)
+	if ((unsigned char)obj->isStructure() != 0) {
+		if ((unsigned char)obj->isNonFactionStructure() == 0)
 			goto ret_true;
 		if (m_b)
 			goto ret_true;

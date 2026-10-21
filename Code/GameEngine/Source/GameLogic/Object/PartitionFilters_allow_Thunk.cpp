@@ -46,8 +46,8 @@ bool PointInsideArea2D(const Coord3D *pt, const Coord3D *area, int numPoints);
 class Object
 {
 public:
- int rva0028D481() const;
- int rva0028D4C4() const;
+ bool isStructure() const;
+ int isNonFactionStructure() const;
 	// Thing::getPosition() is inlined at both call sites as &m_cachedPos;
 	// retail reaches it with `add edx,0x38`.
 	const Coord3D *getPosition(void) const
@@ -180,8 +180,8 @@ private:
 // ActionManager provider takes a bool fifth argument. No donor ILT alias is used.
 bool Rva002612C6Filter::allow(Object *candidate)
 {
-    if (static_cast<unsigned char>(candidate->rva0028D481())) {
-        if (static_cast<unsigned char>(candidate->rva0028D4C4())) {
+    if (static_cast<unsigned char>(candidate->isStructure())) {
+        if (static_cast<unsigned char>(candidate->isNonFactionStructure())) {
             Rva002612C6ContainView *contain =
                 reinterpret_cast<Rva002612C6ObjectView *>(candidate)->contain;
             if (contain) {

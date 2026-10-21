@@ -597,7 +597,7 @@ class Object
 public:
 	bool isUsingAirborneLocomotor() const;					// 0x0028B81E
 	int rva0028B511() const;								// 0x0028B511
-	bool rva00292FAC() const;								// 0x00292FAC
+	bool isMassSelectable() const;								// 0x00292FAC
 	bool testStatus(ObjectStatusTypes status) const;		// 0x0004E536
 	void rva0028D611(Object *other, int a, int b);
 	float GetRelativeAngle(const Coord3D *pos) const;		// 0x000B4542
@@ -920,7 +920,7 @@ private:
 
 int Rva0027175F::rva0027175F() const
 {
-	if (m_obj && m_obj->rva00292FAC())
+	if (m_obj && m_obj->isMassSelectable())
 		return 1;
 	return 0;
 }

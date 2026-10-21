@@ -540,7 +540,7 @@ public:
 	ContainModuleInterface *getContain() const { return m_contain; }
 	Object *rva002931F5(Bool flag);
 	void *rva0028C1A9() const;
-	Bool rva0028D491() const;
+	Bool isFactionStructure() const;
 	void rva0028B1D4(Int damageInfo, Int victim) const;
 	Player *getControllingPlayer() const;
 	void setDisabledUntil(DisabledType type, UnsignedInt frame);
@@ -2049,7 +2049,7 @@ void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 				if (srcObj1)
 				{
 					if (srcObj2->getTemplate()->testKindOf(9) || srcObj2->getTemplate()->testKindOf(8)
-						|| srcObj2->rva0028D491())
+						|| srcObj2->isFactionStructure())
 					{
 						*(Rva003427DD *)&m_lastDamageInfo = *(const Rva003427DD *)damageInfo;
 						m_lastDamageCleared = false;

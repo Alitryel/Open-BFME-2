@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva0028D481@Object@@QBEHXZ @0x0028D481 (16B).
+// ?isStructure@Object@@QBE_NXZ @0x0028D481 (16B).
 // Leaf Object reader: returns bit 7 of the dword at template+0x108
 // ((template->field108 >> 7) & 1). Layout from retail: this+0x4 is the
 // template pointer (same slot Object_isAbleToAttack.cpp documents),
@@ -59,7 +59,7 @@ public:
 class Object
 {
 public:
-	int rva0028D481() const;
+	bool isStructure() const;
 	void rva0028D282(void *a0);
 	void rva0028AE6D();
 	void rva0028CFB2(const int *a, const int *b);
@@ -76,7 +76,7 @@ private:
 	Gen_008F7B50 *m_helper;
 };
 
-int Object::rva0028D481() const
+bool Object::isStructure() const
 {
 	return (m_template->m_field108 >> 7) & 1;
 }

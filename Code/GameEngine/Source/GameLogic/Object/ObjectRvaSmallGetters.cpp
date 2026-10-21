@@ -115,7 +115,7 @@ public:
 	bool GetPathfinderPos(Coord3D *out) const;
 	bool IsAtGoalPosition() const;
 	void reloadAllAmmo(bool now);
-	bool rva0028ADE0() const;
+	bool hasAnyWeapon() const;
 	int rva0028ADF7(int slot) const;
 	int rva0028AF76() const;
 	int rva0028AF86() const;
@@ -265,9 +265,9 @@ void Object::reloadAllAmmo(bool now)
 	ws->reloadAllAmmo(this, now);
 }
 
-// ?rva0028ADE0@Object@@QBE_NXZ
-// ?rva0028ADE0@Object@@QBE_NXZ
-bool Object::rva0028ADE0() const
+// ?hasAnyWeapon@Object@@QBE_NXZ
+// ?hasAnyWeapon@Object@@QBE_NXZ
+bool Object::hasAnyWeapon() const
 {
 	return m_flag358 != 0;
 }

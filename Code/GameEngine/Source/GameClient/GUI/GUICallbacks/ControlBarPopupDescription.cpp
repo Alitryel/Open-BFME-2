@@ -248,7 +248,7 @@ class Object
 public:
 	Player *getControllingPlayer() const;
 	void *rva0028BD17() const;
-	bool rva0028D491() const;
+	bool isFactionStructure() const;
 	void *rva0028BC58(int which);
 	bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
@@ -467,7 +467,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 				else
 					costValue = production->getCost1(player);
 				bool fullHealth = obj->getBodyModule()->getHealthPercent() == 1.0f;
-				bool notBusy = !obj->rva0028D491();
+				bool notBusy = !obj->isFactionStructure();
 				if (notBusy)
 				{
 					if (!fullHealth)

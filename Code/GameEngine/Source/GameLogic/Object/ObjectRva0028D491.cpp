@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva0028D491@Object@@QBE_NXZ @0x0028D491 (51B).
+// ?isFactionStructure@Object@@QBE_NXZ @0x0028D491 (51B).
 // Object KindOf gate: builds a 28-byte (7-word) BitFlags<69> mask on the
 // stack via CRT memset then ORs bits 62+63 (byte 7 0xC0), 64+65 (dword 2
 // value 3) and 135 (byte 16 0x80), then returns Thing::isAnyKindOf(mask).
@@ -40,11 +40,11 @@ protected:
 class Object : public Thing
 {
 public:
-	bool rva0028D491() const;
-	int rva0028D4C4() const;
+	bool isFactionStructure() const;
+	int isNonFactionStructure() const;
 };
 
-bool Object::rva0028D491() const
+bool Object::isFactionStructure() const
 {
 	BitFlags<69> mask;
 	memset(&mask, 0, 0x1C);
@@ -54,13 +54,13 @@ bool Object::rva0028D491() const
 	return isAnyKindOf(mask);
 }
 
-// ?rva0028D4C4@Object@@QBEHXZ, retail 0x0028D4C4 (28B): template flag 0x80 at
+// ?isNonFactionStructure@Object@@QBEHXZ, retail 0x0028D4C4 (28B): template flag 0x80 at
 // +0x108 gates the KindOf helper above; a false helper result reports true.
-int Object::rva0028D4C4() const
+int Object::isNonFactionStructure() const
 {
 	if ((m_template->m_108 & 0x80) != 0)
 	{
-		if (!rva0028D491())
+		if (!isFactionStructure())
 		{
 			return 1;
 		}

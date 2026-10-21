@@ -309,7 +309,7 @@ public:
 	void updateUpgradeModules();
 	Player *getControllingPlayer() const;
 	void rva0028DA67();
-	Bool rva0028D491() const;
+	Bool isFactionStructure() const;
 	void setReceivingDifficultyBonus(Bool receive);
 	Bool addAttributeModifierToPool(const AsciiString &name, Int duration);
 
@@ -465,7 +465,7 @@ void Object::initObject()
 
 	if (((BfmeGlob939D *)TheGameLogic)->bfmeCall939D())
 	{
-		if (isKindOf(KINDOF_BIT_7) || rva0028D491() || isKindOf(KINDOF_BIT_8) ||
+		if (isKindOf(KINDOF_BIT_7) || isFactionStructure() || isKindOf(KINDOF_BIT_8) ||
 			isKindOf(KINDOF_BIT_9) || isKindOf(KINDOF_BIT_10) || isKindOf(KINDOF_BIT_11) ||
 			isKindOf(KINDOF_BIT_90))
 		{

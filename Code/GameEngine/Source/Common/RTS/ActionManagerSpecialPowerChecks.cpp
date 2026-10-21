@@ -110,7 +110,7 @@ public:
 	SpecialPowerModuleInterface *getSpecialPowerModule(const SpecialPowerTemplate *) const;	// 0x0028BB9E
 	const Rva0028AC4EEntry *rva0028AC4E() const;	// 0x0028AC4E
 	float GetRelativeAngle(const Coord3D *pos) const;	// 0x000B4542
-	bool rva0028D491() const;	// 0x0028D491
+	bool isFactionStructure() const;	// 0x0028D491
 	int getTransportSlotCount();	// 0x0028FBBE
 	const AsciiString *rva00290E67() const;	// 0x00290E67
 	SpecialPowerModuleInterface *findSpecialPowerModuleInterface(SpecialPowerType) const;	// 0x00290E22
@@ -1383,7 +1383,7 @@ bool BFMEActionManager::canEnterObject(const Object *obj, const Object *objectTo
 	}
 
 	if (mode == COMBATDROP_INTO) {
-		if (objectToEnter->rva0028D491())
+		if (objectToEnter->isFactionStructure())
 			return false;
 	} else {
 		bool checkCapacity = (mode == CHECK_CAPACITY);
@@ -1405,7 +1405,7 @@ bool BFMEActionManager::canEnterObject(const Object *obj, const Object *objectTo
 			int stealthContainCount = contain->slot124();
 			int nonStealthContainCount = containCount - stealthContainCount;
 			if (!contain->slot38()) {
-				if (nonStealthContainCount > 0 || objectToEnter->rva0028D491()) {
+				if (nonStealthContainCount > 0 || objectToEnter->isFactionStructure()) {
 					if (!owned)
 						return false;
 					*outFlag = true;

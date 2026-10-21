@@ -141,7 +141,7 @@ class Object {
 public:
  bool testStatus(ObjectStatusTypes) const;
  bool isLocallyControlled() const;
- bool rva00292FAC() const;
+ bool isMassSelectable() const;
  Drawable *getDrawable() const;
  void *vptr;
  ThingTemplate *m_template;

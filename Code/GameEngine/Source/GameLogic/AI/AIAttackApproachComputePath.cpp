@@ -468,7 +468,7 @@ public:
 	Bool isSignificantlyAboveTerrain() const;
 	Bool rva0029493F(Object *other, Int test);
 	Real rva0028AC7D() const;
-	Bool rva0028ADE0() const;
+	Bool hasAnyWeapon() const;
 	const Rva0028AC4EEntry *rva0028AC4E() const;
 	void rva0028CDB6();
 	Real GetRelativeAngle(const Coord3D *pos) const;
