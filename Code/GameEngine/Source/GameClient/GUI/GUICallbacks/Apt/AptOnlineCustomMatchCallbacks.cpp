@@ -572,7 +572,7 @@ public:
 	// "AptOnlineCustomMatch::InitGadgets").
 	virtual void InitGadgets();
 	// Slot 3 of vftable 0x00871414: the per-frame update (WB unnamed).
-	virtual void rva005A61C6();
+	virtual void Update();
 	// Slot 4 of vftable 0x00871414: the screen's key handler (WB unnamed).
 	virtual int rva005A6582(int window, int msg, unsigned char key, int flags);
 	virtual void v05(); virtual void v06(); virtual void v07();
@@ -697,7 +697,7 @@ public:
 	// Unrowed 0x005A0D61 (97 bytes; ret 4, a byte flag), pinned by address.
 	void rva005A0D61(bool force);
 
-	virtual void rva005A61C6();
+	virtual void Update();
 	void UpdatePings();					 // banked 0x0059ED8B, pinned
 	void rva005A2899();					 // unrowed 0x005A2899 (990 bytes), pinned
 	bool rva005A1EEE();					 // rowed 0x005A1EEE
@@ -1503,7 +1503,7 @@ class Rva0059FC9F { public: int rva0059FC9F(); };
 // "GUI:GSBuddyInviteFailed", "GUI:GSDisconReason%d"). Every state ends in
 // the +0x70 panel's OnUpdate and, when that reports a change, UpdatePings,
 // except the state-14 launch which returns at once.
-void AptOnlineCustomMatch::rva005A61C6()
+void AptOnlineCustomMatch::Update()
 {
 	switch (m_state)
 	{

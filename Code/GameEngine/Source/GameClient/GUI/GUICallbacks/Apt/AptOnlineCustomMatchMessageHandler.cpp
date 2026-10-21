@@ -583,11 +583,11 @@ public:
 	// "AptOnlineCustomMatch::InitGadgets").
 	virtual void InitGadgets();
 	// Slot 3 of vftable 0x00871414: the per-frame update (WB unnamed).
-	virtual void rva005A61C6();
+	virtual void Update();
 	virtual void v04();
 	// Slot 5: the screen's window-message handler (msg, mData1, mData2 as in
 	// Zero Hour's WOLLobbyMenuSystem; the window argument is unused).
-	virtual int rva005A52FE(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2);
+	virtual int GameWindowSystem(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2);
 	virtual void v06(); virtual void v07();
 	// Slots 8 and 9 of vftable 0x00871414 (unnamed in WorldBuilder).
 	virtual bool rva0059EF49();
@@ -685,8 +685,8 @@ public:
 	// Unrowed 0x005A0D61 (97 bytes; ret 4, a byte flag), pinned by address.
 	void rva005A0D61(bool force);
 
-	virtual void rva005A61C6();
-	virtual int rva005A52FE(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2);
+	virtual void Update();
+	virtual int GameWindowSystem(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2);
 	void UpdatePings();					 // 0x0059ED8B
 	void PopulateGamesListBox();		 // rowed 0x005A061B
 	void rva005A2899();					 // unrowed 0x005A2899 (990 bytes), pinned
@@ -890,7 +890,7 @@ class Rva0059FC9F { public: int rva0059FC9F(); };
 // "GUI:GSBuddyInviteFailed", "GUI:GSDisconReason%d"). Every state ends in
 // the +0x70 panel's OnUpdate and, when that reports a change, UpdatePings,
 // except the state-14 launch which returns at once.
-// AptOnlineCustomMatch::rva005A61C6 is rowed in its home unit; this copy was a duplicate definition.
+// AptOnlineCustomMatch::Update is rowed in its home unit; this copy was a duplicate definition.
 
 class LanguageFilter { public: void filterLine(UnicodeString &line); }; // rowed 0x00388102
 extern LanguageFilter *TheLanguageFilter;
@@ -965,7 +965,7 @@ static inline bool Rva005A52FEIsEmptyC(const UnicodeString &text)
 // extended info at most once a second per room (Zero Hour's
 // WOLLobbyMenuSystem GLM_SELECTED throttle, by timeGetTime).
 static inline void *Rva5A52FEAddr(const AsciiString &asciiString) { return (void *)&asciiString; }
-int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2)
+int AptOnlineCustomMatch::GameWindowSystem(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2)
 {
 	int result = ((AptMpGameSetup *)&m_70)->rva00442CB3(msg, mData1, mData2);
 	switch (msg)
