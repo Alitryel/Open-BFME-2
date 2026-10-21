@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ??1Rva00090360@@UAE@XZ 108B @0x0009045E: dtor storing vtable 0x007C7E20 then releasing 10 nodes at +0x14 plus node at +0x3C via rowed 0x00090381 then rowed base 0x0026201C. Evidence: vtable plus rowed callees plus caller 0x000905D4.
+// ??1W3DDisplayStringManager@@UAE@XZ 108B @0x0009045E: dtor storing vtable 0x007C7E20 then releasing 10 nodes at +0x14 plus node at +0x3C via rowed 0x00090381 then rowed base 0x0026201C. Evidence: vtable plus rowed callees plus caller 0x000905D4.
 class Rva0026201C
 {
 public:
@@ -10,11 +10,11 @@ protected:
 	struct Rva90381Node *m_head10;
 };
 
-class Rva00090360 : public Rva0026201C
+class W3DDisplayStringManager : public Rva0026201C
 {
 public:
-	Rva00090360();
-	virtual ~Rva00090360();
+	W3DDisplayStringManager();
+	virtual ~W3DDisplayStringManager();
 	void rva00090381(struct Rva90381Node *n);
 private:
 	struct Rva90381Node *m_14[10];
@@ -29,7 +29,7 @@ struct Rva90381Node
 	Rva90381Node *m_prev;
 };
 
-Rva00090360::~Rva00090360()
+W3DDisplayStringManager::~W3DDisplayStringManager()
 {
 	for (int i = 0; i < 10; ++i) {
 		if (m_14[i] != 0)

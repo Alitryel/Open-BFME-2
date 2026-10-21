@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfmelist /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??0Rva0039225E@@QAE@XZ 100B @0x003921FA: ctor storing vtable 0x00C1A088. Calls rowed BFME2NativeNetwork::baseConstruct via inlined base ctor then rowed list base then inlined Rva0039205C body in retail order then rowed clear. Layout base 0xC plus list<int> at +0xC (size 4) plus Rva0039205C at +0x10 (size 0x18: dword +0 pad +4 ptr +8 bytes +0xC +0xD ints +0x10 +0x14). Evidence: vptr store plus rowed callees plus dtor row at 0x0039225E plus caller at 0x0022ED22 plus Rva0039205C dtor row at 0x0039205C.
+// ??0BuildAssistant@@QAE@XZ 100B @0x003921FA: ctor storing vtable 0x00C1A088. Calls rowed BFME2NativeNetwork::baseConstruct via inlined base ctor then rowed list base then inlined Rva0039205C body in retail order then rowed clear. Layout base 0xC plus list<int> at +0xC (size 4) plus Rva0039205C at +0x10 (size 0x18: dword +0 pad +4 ptr +8 bytes +0xC +0xD ints +0x10 +0x14). Evidence: vptr store plus rowed callees plus dtor row at 0x0039225E plus caller at 0x0022ED22 plus Rva0039205C dtor row at 0x0039205C.
 #include <list>
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
@@ -82,17 +82,17 @@ private:
 	int m_value08;
 };
 
-class Rva0039225E : public BFME2NativeNetworkBase
+class BuildAssistant : public BFME2NativeNetworkBase
 {
 public:
-	Rva0039225E();
-	virtual ~Rva0039225E();
+	BuildAssistant();
+	virtual ~BuildAssistant();
 private:
 	_STL::list<int, _STL::allocator<int> > m_list0C;
 	Rva0039205C m_obj10;
 };
 
-Rva0039225E::Rva0039225E()
+BuildAssistant::BuildAssistant()
 {
 	m_list0C.clear();
 }

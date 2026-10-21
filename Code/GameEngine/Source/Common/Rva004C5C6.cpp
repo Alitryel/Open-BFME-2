@@ -9,10 +9,10 @@ private:
 	unsigned char m_pad[0x24];
 };
 
-class Rva00090360
+class W3DDisplayStringManager
 {
 public:
-	Rva00090360();
+	W3DDisplayStringManager();
 private:
 	unsigned char m_pad[0x40];
 };
@@ -37,7 +37,7 @@ class Rva004C743
 {
 public:
 	virtual Rva00091A80 *rva0004C5C6();
-	virtual Rva00090360 *rva0004C553();
+	virtual W3DDisplayStringManager *rva0004C553();
 	virtual Rva009111B *rva0004C585();
 };
 
@@ -46,10 +46,10 @@ Rva00091A80 *Rva004C743::rva0004C5C6()
 	return new Rva00091A80;
 }
 
-// ?rva0004C553@Rva004C743@@UAEPAVRva00090360@@XZ @ 0x0004C553 (50B). Virtual factory slot 41 of Rva004C743 vtable 0x007C4738: new 0x40 + ctor 0x00090360 with EH prolog.
-Rva00090360 *Rva004C743::rva0004C553()
+// ?rva0004C553@Rva004C743@@UAEPAVW3DDisplayStringManager@@XZ @ 0x0004C553 (50B). Virtual factory slot 41 of Rva004C743 vtable 0x007C4738: new 0x40 + ctor 0x00090360 with EH prolog.
+W3DDisplayStringManager *Rva004C743::rva0004C553()
 {
-	return new Rva00090360;
+	return new W3DDisplayStringManager;
 }
 
 // ?rva0004C585@Rva004C743@@UAEPAVRva009111B@@XZ @ 0x0004C585 (65B). Virtual factory slot 42 of Rva004C743 vtable 0x007C4738: new 0x1c + ctor 0x00090781 with EH prolog. Evidence: vtable slot 42 offset 0xA8 between slots 41 and 43, callee ??0Rva009111B@@QAE@HHH@Z rowed, operator new ??2@YAPAXI@Z rowed, __EH_prolog.

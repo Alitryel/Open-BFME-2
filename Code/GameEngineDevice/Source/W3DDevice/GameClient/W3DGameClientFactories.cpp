@@ -16,7 +16,7 @@
 //   0x0004C45D  0x2B0  0x00049DEA  0x00BC3C80  W3DDisplay
 //   0x0004C492  0xAC0  0x0008EF3F  0x00BC7A88  Rva0008EF3FProduct
 //   0x0004C4C7  0x40  0x0008FC51  0x00BC7C90  Rva008FCA3
-//   0x0004C553  0x40  0x00090360  0x00BC7E20  Rva00090360
+//   0x0004C553  0x40  0x00090360  0x00BC7E20  W3DDisplayStringManager
 //   0x0004C5C6  0x24  0x00091A80  0x00BC80A0  Rva00091A80
 //   0x0004C62D  0x108  0x0009525E  0x00BC8208  Gen006E2310
 //   0x0004C694  0x68  0x00098667  0x00BC8358  Rva00098667Product
@@ -64,10 +64,10 @@ private:
 	char m_unmodelled[0x40];
 };
 
-class Rva00090360
+class W3DDisplayStringManager
 {
 public:
-	Rva00090360();
+	W3DDisplayStringManager();
 private:
 	char m_unmodelled[0x40];
 };
@@ -166,7 +166,7 @@ void *Rva004C743::rva0004C4C7()
 
 void *Rva004C743::rva0004C553()
 {
-	return new Rva00090360;
+	return new W3DDisplayStringManager;
 }
 
 void *Rva004C743::rva0004C5C6()
