@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004A5511@StructureToppleUpdate@@SA?AW4NameKeyType@@XZ @0x4A5511
+// ?getModuleNameKey@StructureToppleUpdate@@UBE?AW4NameKeyType@@XZ @0x4A5511
 // (68B): cached pool-name key for StructureToppleUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("StructureToppleUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StructureToppleUpdate
 {
 public:
-	static NameKeyType rva004A5511();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004A5511@StructureToppleUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType StructureToppleUpdate::rva004A5511()
+// ?getModuleNameKey@StructureToppleUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType StructureToppleUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheStructureToppleUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("StructureToppleUpdate");

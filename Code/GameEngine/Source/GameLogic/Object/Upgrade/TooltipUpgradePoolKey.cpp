@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004B79E9@TooltipUpgrade@@SA?AW4NameKeyType@@XZ @0x004B79E9
+// ?getModuleNameKey@TooltipUpgrade@@UBE?AW4NameKeyType@@XZ @0x004B79E9
 // (69B): cached pool-name key for TooltipUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("TooltipUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class TooltipUpgrade
 {
 public:
-	static NameKeyType rva004B79E9();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B79E9@TooltipUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType TooltipUpgrade::rva004B79E9()
+// ?getModuleNameKey@TooltipUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType TooltipUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheTooltipUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("TooltipUpgrade");

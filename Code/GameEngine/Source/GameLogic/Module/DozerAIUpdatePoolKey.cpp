@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004895E4@DozerAIUpdate@@SA?AW4NameKeyType@@XZ @0x4895E4
+// ?getModuleNameKey@DozerAIUpdate@@UBE?AW4NameKeyType@@XZ @0x4895E4
 // (68B): cached pool-name key for DozerAIUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("DozerAIUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DozerAIUpdate
 {
 public:
-	static NameKeyType rva004895E4();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004895E4@DozerAIUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType DozerAIUpdate::rva004895E4()
+// ?getModuleNameKey@DozerAIUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType DozerAIUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheDozerAIUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("DozerAIUpdate");

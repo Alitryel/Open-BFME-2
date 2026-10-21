@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C161D@DelayedDeathBody@@SA?AW4NameKeyType@@XZ @0x004C161D
+// ?getModuleNameKey@DelayedDeathBody@@UBE?AW4NameKeyType@@XZ @0x004C161D
 // (69B): cached pool-name key for DelayedDeathBody. The class
 // identity comes from the pool-name string the body pushes
 // ("DelayedDeathBody"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DelayedDeathBody
 {
 public:
-	static NameKeyType rva004C161D();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C161D@DelayedDeathBody@@SA?AW4NameKeyType@@XZ
-NameKeyType DelayedDeathBody::rva004C161D()
+// ?getModuleNameKey@DelayedDeathBody@@UBE?AW4NameKeyType@@XZ
+NameKeyType DelayedDeathBody::getModuleNameKey() const
 {
 	static NameKeyType TheDelayedDeathBodyPoolKey =
 		TheNameKeyGenerator->nameToKey("DelayedDeathBody");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C9607@BeaconClientUpdate@@SA?AW4NameKeyType@@XZ @0x004C9607
+// ?getModuleNameKey@BeaconClientUpdate@@UBE?AW4NameKeyType@@XZ @0x004C9607
 // (69B): cached pool-name key for BeaconClientUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("BeaconClientUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BeaconClientUpdate
 {
 public:
-	static NameKeyType rva004C9607();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C9607@BeaconClientUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType BeaconClientUpdate::rva004C9607()
+// ?getModuleNameKey@BeaconClientUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType BeaconClientUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheBeaconClientUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("BeaconClientUpdate");
