@@ -12,7 +12,7 @@
 // - Status bits 3 or 5 of +0x114 skip the work.
 // - The first pass (+0x21) clears all four lists' model states; with
 //   TheWritableGlobalData +0x134 == 4 it sets list 0, then refreshes the
-//   drawable (rowed Drawable::rva002723ED).
+//   drawable (rowed Drawable::updateSubObjects).
 // - Gaining status 10 (+0x20 latch) sets lists 1 and 2 (list 3 too in mode 4)
 //   and list 1 again.
 // - Losing status 10 clears all lists and sets list 0 in mode 4.
@@ -27,7 +27,7 @@ enum ObjectStatusTypes { OBJECT_STATUS_NONE = 0 };
 class Drawable
 {
 public:
-	void rva002723ED();
+	void updateSubObjects();
 };
 
 struct BuildingBehaviorObjectStatusBits
@@ -129,7 +129,7 @@ UpdateSleepTime BuildingBehavior::update()
 		if (TheWritableGlobalData->m_timeOfDay == 4)
 			rva0045628C(&buildingBehaviorModuleData->m_windows[0], draw, 1);
 		m_field21 = false;
-		draw->rva002723ED();
+		draw->updateSubObjects();
 	}
 
 	if (!m_field20 && obj->testStatus((ObjectStatusTypes)10))
@@ -145,7 +145,7 @@ UpdateSleepTime BuildingBehavior::update()
 				rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 0);
 		}
 		rva0045628C(&buildingBehaviorModuleData->m_windows[1], draw, 1);
-		draw->rva002723ED();
+		draw->updateSubObjects();
 	}
 	else if (m_field20 && !obj->testStatus((ObjectStatusTypes)10))
 	{
@@ -154,7 +154,7 @@ UpdateSleepTime BuildingBehavior::update()
 			rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 0);
 		if (TheWritableGlobalData->m_timeOfDay == 4)
 			rva0045628C(&buildingBehaviorModuleData->m_windows[0], draw, 1);
-		draw->rva002723ED();
+		draw->updateSubObjects();
 	}
 	return UPDATE_SLEEP_NONE;
 }

@@ -69,7 +69,7 @@ class Drawable
 public:
 	void rva002724FD(const AsciiString &a, int b, int c, float d, float e);
 	void rva00272414(const SubObjectExclusionList *arg);
-	void rva002723ED();
+	void updateSubObjects();
 };
 
 void Drawable::rva002724FD(const AsciiString &asciiString, int b, int c, float d, float e)
@@ -184,7 +184,7 @@ void Drawable::rva00272414(const SubObjectExclusionList *subObjectExclusionList)
 	}
 }
 
-// ?rva002723ED@Drawable@@QAEXXZ — RVA 0x002723ED, 39B.
+// ?updateSubObjects@Drawable@@QAEXXZ — RVA 0x002723ED, 39B.
 // Draw-module walk at this+0x14C via slot 0xA8, forwarding to slot 0x74
 // targets with no args. Evidence: same +0x14C/slot-0xA8 walk as landed
 // rva002724FD/rva00272414 above; unblocks 0x0049015C 0x004562F8
@@ -237,7 +237,7 @@ public:
 	virtual BfmeObjectDrawForRva2723ED *getObjectDrawInterface() = 0;
 };
 
-void Drawable::rva002723ED()
+void Drawable::updateSubObjects()
 {
 	BfmeDrawModuleForRva2723ED **modules =
 		*reinterpret_cast<BfmeDrawModuleForRva2723ED ***>((unsigned char *)this + 0x14C);

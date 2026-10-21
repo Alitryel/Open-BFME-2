@@ -105,7 +105,7 @@ struct ObjectKindBytes
 class Drawable {
 public:
  void rva002724FD(const AsciiString &, int, int, float, float);
- void rva002723ED();
+ void updateSubObjects();
 };
 class Object
 {
@@ -351,7 +351,7 @@ void LargeGroupBonusUpdate::notify(int value)
  if (!drawable || !m_object) return;
  for (_STL::vector<AsciiString>::const_iterator it = data->m_flagSubObjectNames.begin(); it != data->m_flagSubObjectNames.end(); ++it)
   drawable->rva002724FD(*it, value, 0, 0.0f, 0.0f);
- drawable->rva002723ED();
+ drawable->updateSubObjects();
 }
 
 // ?rva004901B5@LargeGroupBonusUpdate@@QAEXXZ @0x004901B5 8B, right after

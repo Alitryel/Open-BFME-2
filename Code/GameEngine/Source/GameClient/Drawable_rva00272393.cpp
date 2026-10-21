@@ -3,7 +3,7 @@
 // ?setAnimationLoopDuration@Drawable@@QAEXI@Z, retail 0x00272393, 45 bytes.
 // Draw-module walk at this+0x14C via slot 0xA8, forwarding the frame count
 // to slot 0x64 targets. Evidence: same +0x14C/slot-0xA8 walk as landed
-// rva002723ED/rva002724FD/rva00272414 in neighbour
+// updateSubObjects/rva002724FD/rva00272414 in neighbour
 // Drawable_rva002724FD.cpp (// cl: /O1 /DNDEBUG /MD /EHsc /Oy- /G7);
 // this body is frameless (push [esp+8], ret 4) so /Oy- dropped.
 // Name and UnsignedInt parameter: Zero Hour's (and BFME 1's)

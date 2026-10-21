@@ -147,7 +147,7 @@ class Drawable
 {
 public:
 	DrawModule **getDrawModules();
-	void rva002723ED();
+	void updateSubObjects();
 	void rva00272414(const _STL::vector<AsciiString> *arg);
 };
 
@@ -216,7 +216,7 @@ void SubObjectsUpgrade::upgradeImplementation()
    bool showChanged=base->rva004B4EC3(drawable,(void*)&data->m_showSubObjects,first,second);
    changed=showChanged || changed;
    bool texturesChanged=base->swapTextures(drawable,0);
-   if (changed) drawable->rva002723ED();
+   if (changed) drawable->updateSubObjects();
    if (texturesChanged && data->m_flag150) drawable->rva00272414(&data->m_excludeSubobjects);
   }
   base->rva004CE4A0();
@@ -243,7 +243,7 @@ void SubObjectsUpgrade::upgradeRemovalImplementation()
    bool showChanged=base->rva004B4EC3(drawable,(void*)&data->m_hideSubObjects,first,second);
    changed=showChanged || changed;
   }
-  if(changed) drawable->rva002723ED();
+  if(changed) drawable->updateSubObjects();
   if(texturesChanged && data->m_flag150) drawable->rva00272414(&data->m_excludeSubobjects);
  }
  rva004CE4A8();
