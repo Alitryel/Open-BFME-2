@@ -19,6 +19,10 @@ public:
 };
 
 template <> SimpleDynVecClass<Vector3>::SimpleDynVecClass(int size);
+// SimpleVecClass<Vector3>'s Resize and Uninitialised_Grow are the explicit instantiations
+// SimpleVecVector3ResizeO1.cpp and SimpleVecVector3O1.cpp own; the vftable only references them.
+extern template bool SimpleVecClass<Vector3>::Resize(int);
+extern template bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
 
 class Rva0007EEB0
 {

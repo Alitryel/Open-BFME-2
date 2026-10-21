@@ -10,6 +10,10 @@ namespace _STL { template <> void _String_base<unsigned short, allocator<unsigne
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
+// The wide string teardown is bound to its kept owners (the 0x0000B3C0
+// string-base unit and the rowed wide string destructor) instead of local copies.
+namespace _STL { template <> _String_base<unsigned short, allocator<unsigned short> >::~_String_base(); }
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string(); }
 
 struct Rva00055880Element { _STL::basic_string<wchar_t> strings[1]; bool operator<(const Rva00055880Element&)const; bool operator==(const Rva00055880Element&)const; };
 

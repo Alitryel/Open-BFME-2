@@ -18,6 +18,9 @@ struct NoCaseTreeValue4 { char m_body[4]; };
 // bfme link decl-only begin
 // The set erase is the row at 0x00056BC3; instantiating it here would emit erase, _Destroy and ??_G copies.
 namespace _STL { template <> void _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::erase(_Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> >); }
+// The node constructor is the row at 0x00221201 (stlport_rb_tree_create_nodes2.cpp); this
+// unit's copy calls the _Construct name instead of retail's 0x0022112D construct helper.
+namespace _STL { template <> _Rb_tree_node<pair<const AsciiString, NoCaseTreeValue4> > *_Rb_tree<AsciiString, pair<const AsciiString, NoCaseTreeValue4>, _Select1st<pair<const AsciiString, NoCaseTreeValue4> >, less<AsciiString>, allocator<pair<const AsciiString, NoCaseTreeValue4> > >::_M_create_node(const pair<const AsciiString, NoCaseTreeValue4> &); }
 // bfme link decl-only end
 
 class Rva002214A6 {
