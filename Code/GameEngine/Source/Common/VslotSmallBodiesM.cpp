@@ -19,12 +19,12 @@ public:
 class Rva00419D2A
 {
 public:
-	Bool rva00419D2A();
+	Bool areThreadsRunning();
 private:
 	char m_pad00[0x74];
 	ThreadClass *m_threads[1];
 };
-Bool Rva00419D2A::rva00419D2A()
+Bool Rva00419D2A::areThreadsRunning()
 {
 	for (Int i = 0; i < 1; ++i)
 	{

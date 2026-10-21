@@ -27,7 +27,7 @@ extern ScriptEngine *TheScriptEngine;
 class Rva002A9CDE
 {
 public:
-	void rva002A9CDE(int a, int b);
+	void guardSupplyCenter(int a, int b);
 };
 
 void ScriptActions::Rva003C1F6CDo(const AsciiString *teamName, int x)
@@ -38,5 +38,5 @@ void ScriptActions::Rva003C1F6CDo(const AsciiString *teamName, int x)
 	Player *player = team->getControllingPlayer();
 	if (player == 0)
 		return;
-	((Rva002A9CDE *)player)->rva002A9CDE((int)team, x);
+	((Rva002A9CDE *)player)->guardSupplyCenter((int)team, x);
 }

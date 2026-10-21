@@ -305,7 +305,7 @@ struct Rva000B34D8Out30;
 class Rva000B34D8
 {
 public:
-	virtual bool rva000B34D8(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2);
+	virtual bool clientOnly_getRenderObjInfo(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2);
 };
 
 class ModelConditionFlags;

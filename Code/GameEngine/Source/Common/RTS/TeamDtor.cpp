@@ -160,7 +160,7 @@ class Player;
 class Rva002A9CF0
 {
 public:
-	void rva002A9CF0(int team);
+	void preTeamDestroy(int team);
 };
 
 class PlayerList
@@ -242,7 +242,7 @@ Team::~Team()
 		{
 			Player *player = ThePlayerList->getNthPlayer(i);
 			if (player)
-				((Rva002A9CF0 *)player)->rva002A9CF0((int)this);
+				((Rva002A9CF0 *)player)->preTeamDestroy((int)this);
 		}
 	}
 

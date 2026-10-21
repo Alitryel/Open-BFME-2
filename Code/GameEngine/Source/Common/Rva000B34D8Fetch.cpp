@@ -1,6 +1,6 @@
 // cl: /O1 /MD
 //
-// ?rva000B34D8@Rva000B34D8@@QAE_NPAVVector3@@PAMPAURva000B34D8Out30@@@Z @0x000B34D8 151B:
+// ?clientOnly_getRenderObjInfo@Rva000B34D8@@QAE_NPAVVector3@@PAMPAURva000B34D8Out30@@@Z @0x000B34D8 151B:
 // // guarded fetch via +0x44 RenderObjClass provider. Null yields false;
 // // else Get_Position Vector3 to out0, out2 0x30B via slot20, float via
 // // slot65 Ret+0xC to out1, true. Proven Get_Position; provider layout
@@ -85,8 +85,8 @@ public:
 };
 // A one-slot draw interface: W3DScriptedModelDraw's +0x0C base, whose vtable
 // slot 0 is this function (also inherited unchanged by W3DTankDraw/W3DTruckDraw).
-class Rva000B34D8 { public: virtual bool rva000B34D8(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2); private: char m_pad04[0x44 - 4]; RenderObjClass *m_44; };
-bool Rva000B34D8::rva000B34D8(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2) {
+class Rva000B34D8 { public: virtual bool clientOnly_getRenderObjInfo(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2); private: char m_pad04[0x44 - 4]; RenderObjClass *m_44; };
+bool Rva000B34D8::clientOnly_getRenderObjInfo(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2) {
 	if (!m_44) return false;
 	*o0 = m_44->Get_Position();
 	RenderObjClass *renderObj = m_44;

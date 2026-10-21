@@ -100,12 +100,12 @@ struct Rva003412A5Machine
 class Rva003412A5
 {
 public:
-	bool rva003412A5();
+	bool isOwnersCurWeaponOnTurret();
 private:
 	char m_pad00[0x18];
 	Rva003412A5Machine *m_18;
 };
-bool Rva003412A5::rva003412A5()
+bool Rva003412A5::isOwnersCurWeaponOnTurret()
 {
 	Object *owner = m_18->m_owner14;
 	WeaponSlotType slot;

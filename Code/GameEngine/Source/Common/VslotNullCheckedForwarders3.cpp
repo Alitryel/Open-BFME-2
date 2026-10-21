@@ -35,13 +35,13 @@ public:
 class Rva0020065ANullForwarder
 {
 public:
-	void rva0020065A();
+	void draw();
 private:
 	char m_lead[0x4];
 	ShellMenuScheme *m_member;
 };
 
-void Rva0020065ANullForwarder::rva0020065A()
+void Rva0020065ANullForwarder::draw()
 {
 	if (m_member)
 		m_member->draw();

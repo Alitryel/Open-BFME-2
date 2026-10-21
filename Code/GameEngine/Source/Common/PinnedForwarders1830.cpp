@@ -444,13 +444,13 @@ public:
 class Rva002A9CDE
 {
 public:
-	void rva002A9CDE(int a, int b);
+	void guardSupplyCenter(int a, int b);
 private:
 	unsigned char m_pad00[0x2DC];
 	AIPlayer *m_2DC;
 };
 
-void Rva002A9CDE::rva002A9CDE(int a, int b)
+void Rva002A9CDE::guardSupplyCenter(int a, int b)
 {
 	if (m_2DC)
 		m_2DC->guardSupplyCenter((Team *)a, b);
@@ -459,13 +459,13 @@ void Rva002A9CDE::rva002A9CDE(int a, int b)
 class Rva002A9CF0
 {
 public:
-	void rva002A9CF0(int a);
+	void preTeamDestroy(int a);
 private:
 	unsigned char m_pad00[0x2DC];
 	AIPlayer *m_2DC;
 };
 
-void Rva002A9CF0::rva002A9CF0(int a)
+void Rva002A9CF0::preTeamDestroy(int a)
 {
 	if (m_2DC)
 		m_2DC->aiPreTeamDestroy((const Team *)a);
