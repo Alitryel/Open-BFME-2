@@ -28,9 +28,9 @@ inline Overridable *Overridable::deleteOverrides() {
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeOverridableInlineAnchor@@YAXPAVOverridable@@@Z absent-from-retail
-void _bfmeOverridableInlineAnchor(Overridable *p)
+void _bfmeOverridableInlineAnchor(Overridable *overridable)
 {
-    p->deleteOverrides();
+    overridable->deleteOverrides();
 }
 #pragma inline_depth()
 

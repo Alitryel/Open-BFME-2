@@ -60,7 +60,7 @@ class InputStream { public: virtual int read(void *,int)=0; };
 class GDIFileStream : public InputStream {
     File *m_file;
 public:
-    GDIFileStream(File *f):m_file(f){}
+    GDIFileStream(File *file):m_file(file){}
     // ?GDIFileStream::read present-unmatched
     virtual int read(void *p,int n) { return m_file->read(p,n); }
 };

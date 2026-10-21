@@ -49,7 +49,7 @@ private:
 	Real m_handicaps[2][2];
 };
 
-void Handicap::readFromDict(const Dict *d)
+void Handicap::readFromDict(const Dict *dict)
 {
 	const char *htNames[2] =
 	{
@@ -75,7 +75,7 @@ void Handicap::readFromDict(const Dict *d)
 			((StringBase<char> *)&c)->concat(ttNames[j]);
 			NameKeyType k = TheNameKeyGenerator->nameToKey(c);
 			bool exists;
-			Real r = d->getReal(k, &exists);
+			Real r = dict->getReal(k, &exists);
 			if (exists)
 				m_handicaps[i][j] = r;
 		}

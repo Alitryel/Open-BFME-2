@@ -94,7 +94,7 @@ class SidesList
 public:
 	SidesInfo *findSideInfo(AsciiString name, Int *index = 0);
 	int addSide(const Dict *d);
-	void addTeam(const Dict *d) { m_teamrec.addTeam(d); }
+	void addTeam(const Dict *dict) { m_teamrec.addTeam(dict); }
 private:
 	char m_pad[0xF44];
 	TeamsInfoRec m_teamrec;

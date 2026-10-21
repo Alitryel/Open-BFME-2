@@ -27,9 +27,9 @@ public:
 	Team *createInstance(const AsciiString &a, const AsciiString &b);
 };
 
-Team *Rva003A3CBBOwner::createInstance(const AsciiString &a, const AsciiString &b)
+Team *Rva003A3CBBOwner::createInstance(const AsciiString &asciiString, const AsciiString &b)
 {
-	Team *team = ((TeamFactory *)this)->createInactiveTeam(a, b);
+	Team *team = ((TeamFactory *)this)->createInactiveTeam(asciiString, b);
 	if (!team->m_active5D) {
 		team->m_created5E = 1;
 		team->m_active5D = 1;

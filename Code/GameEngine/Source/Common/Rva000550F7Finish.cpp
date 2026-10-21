@@ -63,9 +63,9 @@ struct Entry
 	int key;
 };
 
-void MilesAudioManager::GlobalVolumeData::volumeAdjustingSoundStopping(Holder *o, int key)
+void MilesAudioManager::GlobalVolumeData::volumeAdjustingSoundStopping(Holder *holder, int key)
 {
-	_STL::vector<BfmePod8> &outer = o->m_inner->m_vec;
+	_STL::vector<BfmePod8> &outer = holder->m_inner->m_vec;
 	BfmePod8 *p = outer.begin();
 	BfmePod8 *oend = outer.end();
 	for (; p != oend; ++p)

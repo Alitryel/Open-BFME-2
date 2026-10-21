@@ -80,8 +80,8 @@ public:
 			KeyToBucketMap *second;
 			bool inserted;
 
-			insert_result(Bucket *f, KeyToBucketMap *s, bool i)
-				: first(f), second(s), inserted(i)
+			insert_result(Bucket *bucket, KeyToBucketMap *keyToBucketMap, bool i)
+				: first(bucket), second(keyToBucketMap), inserted(i)
 			{
 			}
 		};
@@ -91,8 +91,8 @@ public:
 			Bucket *first;
 			KeyToBucketMap *second;
 
-			equal_result(Bucket *f, KeyToBucketMap *s)
-				: first(f), second(s)
+			equal_result(Bucket *bucket, KeyToBucketMap *keyToBucketMap)
+				: first(bucket), second(keyToBucketMap)
 			{
 			}
 		};
@@ -142,12 +142,12 @@ NameKeyGenerator::KeyToBucketMap::do_insert(const value_type &value)
 		}
 	}
 
-	Bucket *tmp = (Bucket *)allocateNode(value);
-	tmp->next = first;
-	tableAt(n) = tmp;
+	Bucket *bucket = (Bucket *)allocateNode(value);
+	bucket->next = first;
+	tableAt(n) = bucket;
 	++m_count;
 
-	return insert_result(tmp, this, true);
+	return insert_result(bucket, this, true);
 }
 
 __declspec(noinline) inline void *NameKeyGenerator::KeyToBucketMap::allocateNode(const value_type &value)
@@ -186,20 +186,20 @@ NameKeyGenerator::KeyToBucketMap::rva0005559F(const value_type &value)
 	{
 		if (keysEqual(cur->key, lookupKey(value)))
 		{
-			Bucket *tmp = (Bucket *)allocateNode(value);
-			tmp->next = cur->next;
-			cur->next = tmp;
+			Bucket *bucket = (Bucket *)allocateNode(value);
+			bucket->next = cur->next;
+			cur->next = bucket;
 			++m_count;
-			return equal_result(tmp, this);
+			return equal_result(bucket, this);
 		}
 	}
 
-	Bucket *tmp = (Bucket *)allocateNode(value);
-	tmp->next = first;
-	tableAt(n) = tmp;
+	Bucket *bucket = (Bucket *)allocateNode(value);
+	bucket->next = first;
+	tableAt(n) = bucket;
 	++m_count;
 
-	return equal_result(tmp, this);
+	return equal_result(bucket, this);
 }
 
 // ?rva00057C5C@KeyToBucketMap@NameKeyGenerator@@QAE?AUequal_result@12@ABUvalue_type@12@@Z @0x00057C5C 36B.

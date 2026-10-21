@@ -95,11 +95,11 @@ private:
 	_STL::set<AsciiString> m_sets[4];
 };
 
-void Rva00059DF5::rva00059DF5(const AsciiString &a, int idx)
+void Rva00059DF5::rva00059DF5(const AsciiString &asciiString, int idx)
 {
 	MilesMutexGuard guard(&m_mutex, 0);
-	vf26(a, idx);
-	m_sets[idx].insert(a);
+	vf26(asciiString, idx);
+	m_sets[idx].insert(asciiString);
 }
 
 // ?rva00059E5C@Rva00059DF5@@QAEXH@Z at 0x00059E5C (82B).

@@ -275,9 +275,9 @@ public:
 };
 extern LuaScriptEngine *TheLuaScriptEngine;
 
-static inline bool isEmpty(const AsciiString &s)
+static inline bool isEmpty(const AsciiString &asciiString)
 {
-	return ((const StringBase<char> *)&s)->isEmpty();
+	return ((const StringBase<char> *)&asciiString)->isEmpty();
 }
 
 class TeamTemplateInfo

@@ -75,10 +75,10 @@ private:
 	RadiusDecalTemplate m_decal;
 };
 
-void Rva000B3271::rva000B3271(const RadiusDecalTemplate *tmpl)
+void Rva000B3271::rva000B3271(const RadiusDecalTemplate *radiusDecalTemplate)
 {
-	if (tmpl) {
-		m_decal.rva00330CDD(*tmpl);
+	if (radiusDecalTemplate) {
+		m_decal.rva00330CDD(*radiusDecalTemplate);
 		BfmeSubBIC *bic = m_holder->m_bic;
 		if (bic) {
 			int n = bic->bfmeAskBIC();

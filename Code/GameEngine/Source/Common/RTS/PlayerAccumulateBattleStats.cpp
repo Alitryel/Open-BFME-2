@@ -132,7 +132,7 @@ struct ScoreMergeTemplateView {char pad00[8];bool overridden;char pad09[0x64-9];
 struct TemplateCountKey {
  const ThingTemplate *pointer;
  __forceinline TemplateCountKey() {}
- __forceinline TemplateCountKey(const ThingTemplate *p):pointer(p) {}
+ __forceinline TemplateCountKey(const ThingTemplate *thingTemplate):pointer(thingTemplate) {}
  __forceinline bool operator<(const TemplateCountKey &v)const{return pointer<v.pointer;}
 };
 namespace _STL {template<class T,class L,class R> static inline bool operator!=(const _Rb_tree_iterator<T,L>&a,const _Rb_tree_iterator<T,R>&b){return a._M_node!=b._M_node;}}

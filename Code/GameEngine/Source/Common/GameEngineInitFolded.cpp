@@ -28,9 +28,9 @@ void GameInfo::init() { reset(); }
 __declspec(noinline) inline void GameInfo::setSeed(int seed) { m_seed = seed; }
 
 // ?bfmeAnchorGameInfoSetSeed absent-from-retail
-void bfmeAnchorGameInfoSetSeed(GameInfo *p, int seed)
+void bfmeAnchorGameInfoSetSeed(GameInfo *gameInfo, int seed)
 {
-	p->setSeed(seed);
+	gameInfo->setSeed(seed);
 }
 
 

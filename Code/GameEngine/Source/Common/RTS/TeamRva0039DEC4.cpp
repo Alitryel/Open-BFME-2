@@ -57,12 +57,12 @@ bool Team::hasAnyUnits()
 			continue;
 		if ((cur->m_status94 & 1) != 0)
 			continue;
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kind0 & 0x80) != 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kind0 & 0x80) != 0)
 			continue;
-		if ((tmpl->m_kind0 & 0x2000000) != 0)
+		if ((thingTemplate->m_kind0 & 0x2000000) != 0)
 			continue;
-		if ((tmpl->m_kindByte11a & 0x10) == 0)
+		if ((thingTemplate->m_kindByte11a & 0x10) == 0)
 			return true;
 	}
 	return false;

@@ -35,13 +35,13 @@ private:
  PlaneClass *end;
 };
 bool Rva007C454::rva0007BEDA(const AABoxClass &box) {
- PlaneClass *p=begin;
+ PlaneClass *plane=begin;
  PlaneClass *const stop=end;
- for (; p!=stop; ++p) {
+ for (; plane!=stop; ++plane) {
   Vector3 farpt;
-  get_far_extent(p->N,box.Extent,&farpt);
+  get_far_extent(plane->N,box.Extent,&farpt);
   Vector3::Subtract(box.Center,farpt,&farpt);
-  if (CollisionMath::Overlap_Test(*p,farpt)==1) return true;
+  if (CollisionMath::Overlap_Test(*plane,farpt)==1) return true;
  }
  return false;
 }

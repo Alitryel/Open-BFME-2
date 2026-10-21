@@ -46,10 +46,10 @@ void Rva00068073Host::rva00068073(int a, float b, int c)
 		m_3858->rva000EE04A((const Coord3D *)a, b);
 }
 
-void Rva00068073Host::rva000680D6(const Coord3D *a, const GeometryInfo &b, float c)
+void Rva00068073Host::rva000680D6(const Coord3D *a, const GeometryInfo &geometryInfo, float c)
 {
 	if (m_3854)
-		m_3854->rva000E9D18(a, b, c);
+		m_3854->rva000E9D18(a, geometryInfo, c);
 	if (m_3858)
-		m_3858->removePropsForConstruction(a, b, c);
+		m_3858->removePropsForConstruction(a, geometryInfo, c);
 }

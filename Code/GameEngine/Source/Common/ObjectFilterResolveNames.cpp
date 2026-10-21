@@ -99,25 +99,25 @@ void ObjectFilter::rva003611EFResolveNames(ObjectFilter *filter)
 		{
 			const char *templateName = name.str();
 			templateName += 2;
-			const ModuleData *tmpl;
+			const ModuleData *moduleData;
 			{
 				AsciiString tmp(templateName);
-				tmpl = (const ModuleData *)TheThingFactory->findTemplate(tmp);
+				moduleData = (const ModuleData *)TheThingFactory->findTemplate(tmp);
 			}
-			if (!tmpl)
+			if (!moduleData)
 			{
 				throw INIException(3, "ObjectFilter::resolveNames() specified +S:%s but template %s doesn't exist! Typo?", templateName, templateName);
 			}
-			filter->m_inclusionSTemplates.push_back(tmpl);
+			filter->m_inclusionSTemplates.push_back(moduleData);
 		}
 		else
 		{
-			const ModuleData *tmpl = (const ModuleData *)TheThingFactory->findTemplate(name);
-			if (!tmpl)
+			const ModuleData *moduleData = (const ModuleData *)TheThingFactory->findTemplate(name);
+			if (!moduleData)
 			{
 				throw INIException(3, "ObjectFilter::resolveNames() specified +%s but this template doesn't exist! Typo?", name.str());
 			}
-			filter->m_inclusionTemplates.push_back(tmpl);
+			filter->m_inclusionTemplates.push_back(moduleData);
 		}
 	}
 	filter->m_inclusionNames.clear();
@@ -130,25 +130,25 @@ void ObjectFilter::rva003611EFResolveNames(ObjectFilter *filter)
 		{
 			const char *templateName = name.str();
 			templateName += 2;
-			const ModuleData *tmpl;
+			const ModuleData *moduleData;
 			{
 				AsciiString tmp(templateName);
-				tmpl = (const ModuleData *)TheThingFactory->findTemplate(tmp);
+				moduleData = (const ModuleData *)TheThingFactory->findTemplate(tmp);
 			}
-			if (!tmpl)
+			if (!moduleData)
 			{
 				throw INIException(3, "ObjectFilter::resolveNames() specified -S:%s but template %s doesn't exist! Typo?", templateName, templateName);
 			}
-			filter->m_exclusionSTemplates.push_back(tmpl);
+			filter->m_exclusionSTemplates.push_back(moduleData);
 		}
 		else
 		{
-			const ModuleData *tmpl = (const ModuleData *)TheThingFactory->findTemplate(name);
-			if (!tmpl)
+			const ModuleData *moduleData = (const ModuleData *)TheThingFactory->findTemplate(name);
+			if (!moduleData)
 			{
 				throw INIException(3, "ObjectFilter::resolveNames() specified -%s but this template doesn't exist! Typo?", name.str());
 			}
-			filter->m_exclusionTemplates.push_back(tmpl);
+			filter->m_exclusionTemplates.push_back(moduleData);
 		}
 	}
 	filter->m_exclusionNames.clear();

@@ -649,12 +649,12 @@ bool Team::rva0039DF87(BfmeTab1026 *tab)
 			continue;
 		if ((cur->m_status & 1) != 0)
 			continue;
-		const ThingTemplate *tmpl = cur->getTemplate();
-		if ((int)(tmpl->m_kind0 & 0x80) != 0)
+		const ThingTemplate *thingTemplate = cur->getTemplate();
+		if ((int)(thingTemplate->m_kind0 & 0x80) != 0)
 			continue;
-		if ((tmpl->m_kind0 & 0x2000000) != 0)
+		if ((thingTemplate->m_kind0 & 0x2000000) != 0)
 			continue;
-		if ((tmpl->m_kindByte11a & 0x10) != 0)
+		if ((thingTemplate->m_kindByte11a & 0x10) != 0)
 			continue;
 		if (tab->accepts(cur, player) != 0)
 			return true;
@@ -793,7 +793,7 @@ Bool TeamPrototype::evaluateProductionCondition()
 	return false;
 }
 
-static Bool isInBuildVariations(const ThingTemplate* ttWithVariations, const ThingTemplate* b)
+static Bool isInBuildVariations(const ThingTemplate* ttWithVariations, const ThingTemplate* thingTemplate)
 {
 	const _STL::vector<AsciiString>& bv = ttWithVariations->getBuildVariations();
 	if (bv.empty())
@@ -801,7 +801,7 @@ static Bool isInBuildVariations(const ThingTemplate* ttWithVariations, const Thi
 
 	for (_STL::vector<AsciiString>::const_iterator it = bv.begin(); it != bv.end(); ++it)
 	{
-		if (b->getName() == *it)
+		if (thingTemplate->getName() == *it)
 			return true;
 	}
 	return false;
@@ -868,7 +868,7 @@ Object *Team::tryToRecruit(const ThingTemplate *tTemplate, const Coord3D *teamHo
 	Real distSqr0 = distSqr;
 	Real distSqr1 = distSqr;
 	Object *recruit = NULL;
-	const ThingTemplate *t0 = NULL;
+	const ThingTemplate *thingTemplate = NULL;
 	const ThingTemplate *t1 = NULL;
 	Bool isHorde = false;
 	Object *recruit0 = NULL;
@@ -881,9 +881,9 @@ Object *Team::tryToRecruit(const ThingTemplate *tTemplate, const Coord3D *teamHo
 		if (hd == NULL)
 			continue;
 		if (hd->getNameCount() > 1) {
-			t0 = TheThingFactory->findTemplate(*(hd->getName(0)));
+			thingTemplate = TheThingFactory->findTemplate(*(hd->getName(0)));
 			t1 = TheThingFactory->findTemplate(*(hd->getName(1)));
-			if (t0 && t1)
+			if (thingTemplate && t1)
 				isHorde = true;
 			else
 				isHorde = false;
@@ -898,7 +898,7 @@ Object *Team::tryToRecruit(const ThingTemplate *tTemplate, const Coord3D *teamHo
 			continue;
 		if (!isHorde)
 			continue;
-		if (recruitUnit(&recruit0, &distSqr0, obj, t0, teamHome))
+		if (recruitUnit(&recruit0, &distSqr0, obj, thingTemplate, teamHome))
 			continue;
 		recruitUnit(&recruit1, &distSqr1, obj, t1, teamHome);
 	}
@@ -909,9 +909,9 @@ Object *Team::tryToRecruit(const ThingTemplate *tTemplate, const Coord3D *teamHo
 			return recruit;
 		}
 		if (distSqr1 > distSqr0) {
-			Object *tmp = recruit0;
+			Object *object = recruit0;
 			recruit0 = recruit1;
-			recruit1 = tmp;
+			recruit1 = object;
 		}
 		Object *leader = recruit0;
 		Rva003A135BHordeContain *contain = leader->getContain() ? (Rva003A135BHordeContain *)leader->rva0028C197() : NULL;

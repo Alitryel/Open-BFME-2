@@ -45,8 +45,8 @@ bool Team::rva0039E815()
 {
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 		Object *cur = iter.cur();
-		ThingTemplate *tmpl = cur->m_template;
-		if (tmpl->m_byte5e6 != 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if (thingTemplate->m_byte5e6 != 0)
 			return true;
 	}
 	return false;

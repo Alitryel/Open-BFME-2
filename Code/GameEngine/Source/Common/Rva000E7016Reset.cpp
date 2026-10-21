@@ -68,11 +68,11 @@ void W3DShrubBuffer::rva000E7016()
 	((Rva000E6AC0 *)this)->rva000E65B1();
 	for (int i = 0; i < m_count; ++i)
 	{
-		RefItem *p0 = m_elems[i].p0;
-		if (p0 != 0)
+		RefItem *refItem = m_elems[i].p0;
+		if (refItem != 0)
 		{
-			if (--p0->m_ref == 0)
-				p0->Release();
+			if (--refItem->m_ref == 0)
+				refItem->Release();
 			m_elems[i].p0 = 0;
 		}
 		RefItem *p1 = m_elems[i].p1;

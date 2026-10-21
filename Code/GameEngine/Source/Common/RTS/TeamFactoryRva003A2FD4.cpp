@@ -53,7 +53,7 @@ private:
 	TeamPrototype *m_slots[0x28]; // +0x10
 };
 
-Rva003A2FD4Proto *TeamFactory::initTeamForTacticalAI(const AsciiString &a1, void *a2, int a3, unsigned int a4)
+Rva003A2FD4Proto *TeamFactory::initTeamForTacticalAI(const AsciiString &asciiString, void *a2, int a3, unsigned int a4)
 {
 	NameKeyType key = TheNameKeyGenerator->nameToKey(*(const AsciiString *)a2);
 	Player *player = ThePlayerList->findPlayerWithNameKey(key);
@@ -62,7 +62,7 @@ Rva003A2FD4Proto *TeamFactory::initTeamForTacticalAI(const AsciiString &a1, void
 		TeamPrototype *cur = m_slots[i];
 		if (cur->m_31e == 0)
 		{
-			cur->rva003A2C0D(player, a1, false, 0);
+			cur->rva003A2C0D(player, asciiString, false, 0);
 			cur->m_2c4 = a3;
 			cur->m_2d8 = (int)a4;
 			cur->m_31e = 1;

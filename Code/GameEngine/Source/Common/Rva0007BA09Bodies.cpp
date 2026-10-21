@@ -107,15 +107,15 @@ public:
 	Vector3 m_vec;
 };
 
-Bool rva0007B68E(const PlaneClass *p, const Rva0007B68EObj *o)
+Bool rva0007B68E(const PlaneClass *plane, const Rva0007B68EObj *o)
 {
-	const Vector3 *pv = &p->N;
+	const Vector3 *pv = &plane->N;
 	Vector3 t;
 	get_far_extent(*pv, o->m_vec, &t);
 	t.X = o->x - t.X;
 	t.Y = o->y - t.Y;
 	t.Z = o->z - t.Z;
-	return CollisionMath::Overlap_Test(*p, t) == CollisionMath::POS;
+	return CollisionMath::Overlap_Test(*plane, t) == CollisionMath::POS;
 }
 
 void rva0007BF5A(Region2D *a, Region2D *b, Region2D *c)

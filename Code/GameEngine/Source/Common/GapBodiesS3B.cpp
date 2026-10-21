@@ -42,9 +42,9 @@ private:
 
 void Rva001E0301::rva001E0301(int a, int b)
 {
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(*(const AsciiString *)&m_templateName);
-	if (tmpl)
-		((ThingTemplate *)tmpl)->GetAssetList(a, b);
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_templateName);
+	if (thingTemplate)
+		((ThingTemplate *)thingTemplate)->GetAssetList(a, b);
 }
 
 // --- 0x00210F27 (22B): run the +0x25C effects manager's rowed 0x003EF008 and

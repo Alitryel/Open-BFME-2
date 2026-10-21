@@ -97,4 +97,4 @@ __declspec(noinline) inline bool Player::rva002AC43F(int *index)
 
 // Select-any: PlayerSkirmishTeamCopy.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorPlayerSkirmishNameFind absent-from-retail
-bool bfmeAnchorPlayerSkirmishNameFind(Player *p, int *index) { return p->rva002AC43F(index); }
+bool bfmeAnchorPlayerSkirmishNameFind(Player *player, int *index) { return player->rva002AC43F(index); }

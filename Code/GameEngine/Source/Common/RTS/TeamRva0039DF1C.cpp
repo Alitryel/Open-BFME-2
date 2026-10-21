@@ -75,12 +75,12 @@ bool Team::rva0039DF1C(Rva0039DF1CFilter f1, Rva0039DF1CFilter f2)
 			continue;
 		if ((cur->m_status94 & 1) != 0)
 			continue;
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kind0 & 0x80) != 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kind0 & 0x80) != 0)
 			continue;
-		if ((tmpl->m_kind0 & 0x2000000) != 0)
+		if ((thingTemplate->m_kind0 & 0x2000000) != 0)
 			continue;
-		if ((tmpl->m_kindByte11a & 0x10) != 0)
+		if ((thingTemplate->m_kindByte11a & 0x10) != 0)
 			continue;
 		const BitFlags<116> &mustBeSet = *(const BitFlags<116> *)(const void *)&f1;
 		const BitFlags<116> &mustBeClear = *(const BitFlags<116> *)(const void *)&f2;

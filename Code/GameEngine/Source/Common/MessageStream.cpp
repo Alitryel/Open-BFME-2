@@ -106,12 +106,12 @@ GameMessage::GameMessage( GameMessage::Type type )
 GameMessage::~GameMessage( ) 
 { 
 	// free all arguments
-	GameMessageArgument *arg, *nextArg;
+	GameMessageArgument *gameMessageArgument, *nextArg;
 
-	for( arg = m_argList; arg; arg=nextArg )
+	for( gameMessageArgument = m_argList; gameMessageArgument; gameMessageArgument=nextArg )
 	{
-		nextArg = arg->m_next;
-		arg->deleteInstance();
+		nextArg = gameMessageArgument->m_next;
+		gameMessageArgument->deleteInstance();
 	}
 
 	// detach message from list
@@ -129,11 +129,11 @@ GameMessageArgumentDataType GameMessage::getArgumentDataType( Int argIndex )
 		return ARGUMENTDATATYPE_UNKNOWN;
 	}
 	int i=0;
-	for (GameMessageArgument *a = m_argList; a && (i < argIndex); a=a->m_next, ++i );
+	for (GameMessageArgument *gameMessageArgument = m_argList; gameMessageArgument && (i < argIndex); gameMessageArgument=gameMessageArgument->m_next, ++i );
 
-	if (a != NULL)
+	if (gameMessageArgument != NULL)
 	{
-		return a->m_type;
+		return gameMessageArgument->m_type;
 	}
 	return ARGUMENTDATATYPE_UNKNOWN;
 }
@@ -144,51 +144,51 @@ GameMessageArgumentDataType GameMessage::getArgumentDataType( Int argIndex )
  */
 void GameMessage::appendRealArgument( Real arg )
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.real = arg;
-	a->m_type = ARGUMENTDATATYPE_REAL;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.real = arg;
+	gameMessageArgument->m_type = ARGUMENTDATATYPE_REAL;
 }
 
 void GameMessage::appendBooleanArgument( Bool arg )
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.boolean = arg;
-	a->m_type = ARGUMENTDATATYPE_BOOLEAN;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.boolean = arg;
+	gameMessageArgument->m_type = ARGUMENTDATATYPE_BOOLEAN;
 }
 
 void GameMessage::appendObjectIDArgument( ObjectID arg )
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.objectID = arg;
-	a->m_type = ARGUMENTDATATYPE_OBJECTID;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.objectID = arg;
+	gameMessageArgument->m_type = ARGUMENTDATATYPE_OBJECTID;
 }
 
 void GameMessage::appendDrawableIDArgument( DrawableID arg )
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.drawableID = arg;
-	a->m_type = ARGUMENTDATATYPE_DRAWABLEID;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.drawableID = arg;
+	gameMessageArgument->m_type = ARGUMENTDATATYPE_DRAWABLEID;
 }
 
 void GameMessage::appendTeamIDArgument( UnsignedInt arg )
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.teamID = arg;
-	a->m_type = ARGUMENTDATATYPE_TEAMID;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.teamID = arg;
+	gameMessageArgument->m_type = ARGUMENTDATATYPE_TEAMID;
 }
 
 void GameMessage::appendPixelArgument( const ICoord2D& arg )
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.pixel = arg;
-	a->m_type = ARGUMENTDATATYPE_PIXEL;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.pixel = arg;
+	gameMessageArgument->m_type = ARGUMENTDATATYPE_PIXEL;
 }
 
 void GameMessage::appendTimestampArgument( UnsignedInt arg )
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.timestamp = arg;
-	a->m_type = ARGUMENTDATATYPE_TIMESTAMP;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.timestamp = arg;
+	gameMessageArgument->m_type = ARGUMENTDATATYPE_TIMESTAMP;
 }
 
 AsciiString GameMessage::getCommandAsAsciiString( void )

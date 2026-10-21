@@ -40,29 +40,29 @@ __declspec(noinline) UnsignedInt calcHashForString(const char* p);
 // and its independently pinned insertion helper.
 NameKeyType NameKeyGenerator::nameToKey(const char* nameString)
 {
-	Bucket *b;
+	Bucket *bucket;
 	ScopedCriticalSection scopedCriticalSection(&m_mutex);
 
 	UnsignedInt hash = calcHashForString(nameString) % SOCKET_COUNT;
 
 	// hmm, do we have it already?
-	for (b = m_sockets[hash]; b; b = b->m_nextInSocket)
+	for (bucket = m_sockets[hash]; bucket; bucket = bucket->m_nextInSocket)
 	{
-		if (strcmp(nameString, b->m_nameString.str()) == 0)
-			return b->m_key;
+		if (strcmp(nameString, bucket->m_nameString.str()) == 0)
+			return bucket->m_key;
 	}
 
 	// nope, guess not. let's allocate it.
-	b = newInstance(Bucket);
-	b->m_key = (NameKeyType)m_nextID++;
-	((StringBase<char>*)&b->m_nameString)->set(nameString);
-	b->m_nextInSocket = m_sockets[hash];
-	m_sockets[hash] = b;
+	bucket = newInstance(Bucket);
+	bucket->m_key = (NameKeyType)m_nextID++;
+	((StringBase<char>*)&bucket->m_nameString)->set(nameString);
+	bucket->m_nextInSocket = m_sockets[hash];
+	m_sockets[hash] = bucket;
 
 	// BFME2 also indexes it in the reverse key->Bucket map (see the shim).
-	keyToBucketMap().insert(KeyToBucketMap::value_type(b->m_key, b));
+	keyToBucketMap().insert(KeyToBucketMap::value_type(bucket->m_key, bucket));
 
-	NameKeyType result = b->m_key;
+	NameKeyType result = bucket->m_key;
 
 #if defined(_DEBUG) || defined(_INTERNAL)
 	// reality-check to be sure our hasher isn't going bad.
@@ -71,7 +71,7 @@ NameKeyType NameKeyGenerator::nameToKey(const char* nameString)
 	for (Int i = 0; i < SOCKET_COUNT; ++i)
 	{
 		Int numInThisSocket = 0;
-		for (b = m_sockets[i]; b; b = b->m_nextInSocket)
+		for (bucket = m_sockets[i]; bucket; bucket = bucket->m_nextInSocket)
 			++numInThisSocket;
 
 		if (numInThisSocket > maxThresh)
@@ -108,11 +108,11 @@ void NameKeyGenerator::freeSockets()
 	for (Int i = 0; i < SOCKET_COUNT; ++i)
 	{
 		Bucket *next;
-		for (Bucket *b = m_sockets[i]; b; b = next)
+		for (Bucket *bucket = m_sockets[i]; bucket; bucket = next)
 		{
-			next = b->m_nextInSocket;
+			next = bucket->m_nextInSocket;
 			struct FakeBucket { virtual void *del(int flag); };
-			void *mem = ((FakeBucket *)b)->del(0);
+			void *mem = ((FakeBucket *)bucket)->del(0);
 			::operator delete(mem);
 		}
 		m_sockets[i] = NULL;

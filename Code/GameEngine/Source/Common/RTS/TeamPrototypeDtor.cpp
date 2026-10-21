@@ -92,12 +92,12 @@ private:
 	AsciiString m_attackPriorityName; // +0x318
 };
 
-static void deleteTeamCallback(Team *o)
+static void deleteTeamCallback(Team *team)
 {
-	if (o)
+	if (team)
 	{
-		TheTeamFactory->teamAboutToBeDeleted(o);
-		::operator delete(o->deleteInstance(0));
+		TheTeamFactory->teamAboutToBeDeleted(team);
+		::operator delete(team->deleteInstance(0));
 	}
 }
 

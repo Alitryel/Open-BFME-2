@@ -139,7 +139,7 @@ class Rva000411084
 public:
 	Rva000411084() {}
 	Rva000411084 &operator=(const WVIter &o) { m_current = o._M_cur; m_owner = o._M_ht; return *this; }
-	Rva000411084(const WVIter &o) : m_current(o._M_cur), m_owner(o._M_ht) {}
+	Rva000411084(const WVIter &wVIter) : m_current(wVIter._M_cur), m_owner(wVIter._M_ht) {}
 	__declspec(noinline) void *next()					// 0x00411084
 	{
 		void *node = *(void **)m_current;

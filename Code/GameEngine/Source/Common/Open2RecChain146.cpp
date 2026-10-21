@@ -88,8 +88,8 @@ public:
 
 void Rva001EF90E::rva001EF90E(AsciiString key, int dummy, UnicodeString msg, int a, int b)
 {
-	PlayerInfoMap *m1 = GetMap();
-	PlayerInfoMap::iterator it = m1->find(key);
+	PlayerInfoMap *playerInfoMap = GetMap();
+	PlayerInfoMap::iterator it = playerInfoMap->find(key);
 	PlayerInfoMap *m2 = GetMap();
 	if (it != m2->end()) {
 		Bar(it->second, msg, a, b);

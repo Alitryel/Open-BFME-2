@@ -41,9 +41,9 @@ void Player::initPlayerUpgrades()
 	for (int i = 0; i < count; ++i)
 	{
 		AsciiString &name = holder->m_begin[i];
-		const UpgradeTemplate *t = TheUpgradeCenter->findUpgrade(name);
-		if (!t)
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(name);
+		if (!upgradeTemplate)
 			continue;
-		rva002AE329(t, UPGRADE_STATUS_COMPLETE, 0);
+		rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
 	}
 }

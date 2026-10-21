@@ -184,9 +184,9 @@ public:
 	void *rva000B4B23(const ModelConditionFlags &query);
 };
 
-static __forceinline bool tmpHasBits(const WeaponTemplateSetHead &t)
+static __forceinline bool tmpHasBits(const WeaponTemplateSetHead &weaponTemplateSetHead)
 {
-	const unsigned *w = (const unsigned *)&t;
+	const unsigned *w = (const unsigned *)&weaponTemplateSetHead;
 	for (unsigned i = 0; i < 19; ++i)
 		if (w[i] != 0)
 			return true;

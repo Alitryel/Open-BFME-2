@@ -27,7 +27,7 @@ private:
 	struct DLINKHEAD_TeamMemberList { Object *m_head; } m_dlinkhead_TeamMemberList; // +0x38
 };
 
-Bool Team::isInList_TeamMemberList(Object *o) const
+Bool Team::isInList_TeamMemberList(Object *object) const
 {
-	return o->dlink_isInList_TeamMemberList(&m_dlinkhead_TeamMemberList.m_head);
+	return object->dlink_isInList_TeamMemberList(&m_dlinkhead_TeamMemberList.m_head);
 }

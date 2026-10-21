@@ -95,9 +95,9 @@ private:
 	int m_buildVariation;
 };
 
-void Rva0025349C::rva002534B1(MultiIniFieldParse &p)
+void Rva0025349C::rva002534B1(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add(s_Rva002534B1FieldParse, 0);
+	multiIniFieldParse.add(s_Rva002534B1FieldParse, 0);
 }
 
 // ModuleFactory::init registers this as FoundationAIUpdate's data factory; it

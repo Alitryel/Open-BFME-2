@@ -59,15 +59,15 @@ Team *TeamFactory::createTeamOnPrototype(TeamPrototype *prototype, bool activate
 {
 	if (prototype == 0)
 		return 0;
-	Team *t = 0;
+	Team *team = 0;
 	if (prototype->getIsSingleton())
 	{
-		t = prototype->getFirstItemIn_TeamInstanceList();
-		if (t)
-			return t;
+		team = prototype->getFirstItemIn_TeamInstanceList();
+		if (team)
+			return team;
 	}
-	t = new Team(prototype, ++m_uniqueTeamID);
+	team = new Team(prototype, ++m_uniqueTeamID);
 	if (activate)
-		t->setActive();
-	return t;
+		team->setActive();
+	return team;
 }

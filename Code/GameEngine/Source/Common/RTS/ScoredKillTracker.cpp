@@ -125,12 +125,12 @@ class Player {public:char opaque[0x54];int index;};
 class PlayerList {public:Player*getNthPlayer(int);};extern PlayerList*ThePlayerList;
 class Object {public:Player*getControllingPlayer()const;};
 class Rva2225E0Filter {public:bool accepts(Object*,Player*);};
-bool ScoredKillTracker::rva0055A892(const Object*o){
- Player*p=o->getControllingPlayer();
- if(p){if(!(m_value0c&(1u<<p->index)))return false;}
+bool ScoredKillTracker::rva0055A892(const Object*object){
+ Player*player=object->getControllingPlayer();
+ if(player){if(!(m_value0c&(1u<<player->index)))return false;}
  else if(m_value0c!=0xFFFFF)return false;
  Player*owner=0;if(m_playerIndex>=0)owner=ThePlayerList->getNthPlayer(m_playerIndex);
- return ((Rva2225E0Filter*)&m_filter)->accepts((Object*)o,owner);
+ return ((Rva2225E0Filter*)&m_filter)->accepts((Object*)object,owner);
 }
 
 // Native55A8E2/55A8F2/55A904 reject configuration changes while hooked.

@@ -67,8 +67,8 @@ void Rva002A8F24::UnRegister(Object *obj)
 {
 	if (obj->m_4b0 != 0)
 		return;
-	Player *p = obj->getControllingPlayer();
-	struct Rva002A8AB1Record *r = rva002A8AB1(p);
+	Player *player = obj->getControllingPlayer();
+	struct Rva002A8AB1Record *r = rva002A8AB1(player);
 	if (r != 0)
 		r->rva002C6A4E(obj);
 	Player *p2 = obj->getControllingPlayer();

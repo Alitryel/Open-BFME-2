@@ -100,11 +100,11 @@ Team *TeamFactory::createInactiveTeam(const AsciiString &owner, const AsciiStrin
 	if (!tp)
 		throw ERROR_BAD_ARG;
 
-	Team *t = 0;
+	Team *team = 0;
 	if (tp->getIsSingleton())
 	{
-		t = tp->getFirstItemIn_TeamInstanceList();
-		if (t)
+		team = tp->getFirstItemIn_TeamInstanceList();
+		if (team)
 		{
 			if (tp->getExecuteActions())
 			{
@@ -113,11 +113,11 @@ Team *TeamFactory::createInactiveTeam(const AsciiString &owner, const AsciiStrin
 				if (script)
 					((Rva0020D451Engine *)TheScriptEngine)->rva0020D451(scope, script->getAction(), script, (void *)&tp->getProductionCondition(), (Team *)0);
 			}
-			return t;
+			return team;
 		}
 	}
 
-	t = new Team(tp, ++m_uniqueTeamID);
+	team = new Team(tp, ++m_uniqueTeamID);
 	if (tp->getExecuteActions())
 	{
 		AsciiString scope;
@@ -125,5 +125,5 @@ Team *TeamFactory::createInactiveTeam(const AsciiString &owner, const AsciiStrin
 		if (script)
 			((Rva0020D451Engine *)TheScriptEngine)->rva0020D451(scope, script->getAction(), script, (void *)&tp->getProductionCondition(), (Team *)0);
 	}
-	return t;
+	return team;
 }

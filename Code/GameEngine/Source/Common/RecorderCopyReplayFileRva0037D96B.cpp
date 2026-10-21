@@ -56,9 +56,9 @@ static __forceinline BFME2WideConcatPair operator+(const UnicodeString &x, const
 	BFME2WideConcatPair p = { &x, &y };
 	return p;
 }
-static __forceinline void assignConcat(UnicodeString &dst, const UnicodeString &x, const UnicodeString &y, const UnicodeString &z)
+static __forceinline void assignConcat(UnicodeString &dst, const UnicodeString &unicodeString, const UnicodeString &y, const UnicodeString &z)
 {
-	Pair8 xy = { (int)&x, (int)&y };
+	Pair8 xy = { (int)&unicodeString, (int)&y };
 	dst = (BFME2WideConcatTriple &)Rva0037BA97Init(&xy, (int)&z);
 }
 

@@ -120,11 +120,11 @@ struct GapTriple
 	int a;
 	int b;
 	int c;
-	void set(const GapTriple &o)
+	void set(const GapTriple &gapTriple)
 	{
-		a = o.a;
-		b = o.b;
-		c = o.c;
+		a = gapTriple.a;
+		b = gapTriple.b;
+		c = gapTriple.c;
 	}
 };
 
@@ -213,14 +213,14 @@ private:
 
 void Rva00050D2A::rva00050D2A()
 {
-	GapSlot0View *p = &m_44;
-	p->slot0(0);
+	GapSlot0View *gapSlot0View = &m_44;
+	gapSlot0View->slot0(0);
 }
 
 void Rva00050D2A::rva00050D34()
 {
-	GapSlot0View *p = &m_4C;
-	p->slot0(0);
+	GapSlot0View *gapSlot0View = &m_4C;
+	gapSlot0View->slot0(0);
 }
 
 // --- 0x00050F41 / 0x00050F51 (16B each): any of the given bits set in the

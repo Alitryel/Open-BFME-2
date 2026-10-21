@@ -83,8 +83,8 @@ inline DLINK_ITERATOR<Object> Team::iterate_TeamMemberList() const
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeTeamInlineAnchor@@YAXPAVTeam@@@Z absent-from-retail
-void _bfmeTeamInlineAnchor(Team *p)
+void _bfmeTeamInlineAnchor(Team *team)
 {
-    p->iterate_TeamMemberList();
+    team->iterate_TeamMemberList();
 }
 #pragma inline_depth()

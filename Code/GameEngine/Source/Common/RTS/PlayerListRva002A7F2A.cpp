@@ -33,9 +33,9 @@ Player *PlayerList::createClonedAllyFor(void *data)
 {
 	if (m_playerCount < 19)
 	{
-		Player *p = m_players[m_playerCount++];
-		if (p->cloneFrom((Player *)data))
-			return p;
+		Player *player = m_players[m_playerCount++];
+		if (player->cloneFrom((Player *)data))
+			return player;
 		m_playerCount--;
 	}
 	return 0;

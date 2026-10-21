@@ -46,5 +46,5 @@ public:
  Rva004DD206TreeView tree14,tree20;
  unsigned int word2C,word30;
 };
-Emotion::Emotion(Object *a,EmotionTrackerUpdateEntry *b)
- :word00(a),word04(b),word08(0),word0C(0),word10(0) {word2C=0;word30=0;}
+Emotion::Emotion(Object *object,EmotionTrackerUpdateEntry *emotionTrackerUpdateEntry)
+ :word00(object),word04(emotionTrackerUpdateEntry),word08(0),word0C(0),word10(0) {word2C=0;word30=0;}

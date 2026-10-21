@@ -76,18 +76,18 @@ private:
 
 Upgrade *Player::rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x)
 {
-	Upgrade *u = findUpgrade(upgradeTemplate);
-	if (u == 0)
+	Upgrade *upgrade = findUpgrade(upgradeTemplate);
+	if (upgrade == 0)
 	{
-		u = new Upgrade(upgradeTemplate);
-		u->friend_setPrev(0);
-		u->friend_setNext(m_upgradeList);
+		upgrade = new Upgrade(upgradeTemplate);
+		upgrade->friend_setPrev(0);
+		upgrade->friend_setNext(m_upgradeList);
 		if (m_upgradeList)
-			m_upgradeList->friend_setPrev(u);
-		m_upgradeList = u;
+			m_upgradeList->friend_setPrev(upgrade);
+		m_upgradeList = upgrade;
 	}
 
-	u->setStatus(status);
+	upgrade->setStatus(status);
 
 	unsigned int newBit = upgradeTemplate->getUpgradeBit();
 	if (status == UPGRADE_STATUS_IN_PRODUCTION)
@@ -101,5 +101,5 @@ Upgrade *Player::rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStat
 		onUpgradeCompleted(upgradeTemplate, x);
 	}
 
-	return u;
+	return upgrade;
 }

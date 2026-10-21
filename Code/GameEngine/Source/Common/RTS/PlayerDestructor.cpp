@@ -287,15 +287,15 @@ Player::~Player()
 	m_334 = (DelBase *)zero;
 	::operator delete(m_330 ? m_330->Delete(zero) : 0);
 	m_330 = (DelBase *)zero;
-	DelBase **p = m_708;
+	DelBase **delBase = m_708;
 	int count = 10;
 	do {
-		if (*p) {
-			void *q = (*p)->Delete(zero);
+		if (*delBase) {
+			void *q = (*delBase)->Delete(zero);
 			::operator delete(q);
-			*p = (DelBase *)zero;
+			*delBase = (DelBase *)zero;
 		}
-		++p;
+		++delBase;
 	} while (--count);
 	if (m_730) {
 		void *q = m_730->Delete(zero);

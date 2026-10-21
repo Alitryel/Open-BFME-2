@@ -39,15 +39,15 @@ public:
 // ?appendLocationArgument@GameMessage@@QAEXABUCoord3D@@@Z @0x0030F9BB
 void GameMessage::appendLocationArgument(const Coord3D &arg)
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.m_location = arg;
-	a->m_type = 6;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.m_location = arg;
+	gameMessageArgument->m_type = 6;
 }
 
 // ?appendPixelRegionArgument@GameMessage@@QAEXABUIRegion2D@@@Z @0x0030F9F6
 void GameMessage::appendPixelRegionArgument(const IRegion2D &arg)
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.m_pixelRegion = arg;
-	a->m_type = 8;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.m_pixelRegion = arg;
+	gameMessageArgument->m_type = 8;
 }

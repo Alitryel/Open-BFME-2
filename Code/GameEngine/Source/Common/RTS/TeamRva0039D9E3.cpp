@@ -69,8 +69,8 @@ int Team::rva0039D9E3() const
 			++count;
 			continue;
 		}
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kind0 & 0x80) == 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kind0 & 0x80) == 0)
 			continue;
 		++count;
 	}
@@ -88,10 +88,10 @@ int Team::countBuildings() const
 	int count = 0;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 		Object *cur = iter.cur();
-		ThingTemplate *tmpl = cur->m_template;
-		if( tmpl == 0 )
+		ThingTemplate *thingTemplate = cur->m_template;
+		if( thingTemplate == 0 )
 			continue;
-		if( (tmpl->m_kind0 & 0x80) == 0 )
+		if( (thingTemplate->m_kind0 & 0x80) == 0 )
 			continue;
 		++count;
 	}

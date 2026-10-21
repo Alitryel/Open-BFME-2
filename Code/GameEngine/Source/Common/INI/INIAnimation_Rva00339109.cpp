@@ -46,9 +46,9 @@ public:
 	Rva002D752DNode *rva002D752D(const StringBase<char> &name);
 };
 class Anim2DCollection;
-static inline const StringBase<char> &rva00339109Base(const AsciiString &s)
+static inline const StringBase<char> &rva00339109Base(const AsciiString &asciiString)
 {
-	return *(const StringBase<char> *)&s;
+	return *(const StringBase<char> *)&asciiString;
 }
 
 extern Anim2DCollection *TheAnim2DCollection;

@@ -58,21 +58,21 @@ struct Rva002ABCF0Context
 
 static inline int costOf(const Object *obj)
 {
-	const ThingTemplate *tmpl = obj->m_template;
-	return tmpl ? tmpl->rva0033A69A((const class Player *)obj->getControllingPlayer(), 0, -1) : 0;
+	const ThingTemplate *thingTemplate = obj->m_template;
+	return thingTemplate ? thingTemplate->rva0033A69A((const class Player *)obj->getControllingPlayer(), 0, -1) : 0;
 }
 
-int Rva002AA497Compare(const Object *a, const Object *b)
+int Rva002AA497Compare(const Object *object, const Object *b)
 {
-	if (a->m_template->m_kindOf108 & 0x20000)
+	if (object->m_template->m_kindOf108 & 0x20000)
 	{
 		if (b->m_template->m_kindOf108 & 0x20000)
-			return b->m_id - a->m_id;
+			return b->m_id - object->m_id;
 		return 1;
 	}
 	if (b->m_template->m_kindOf108 & 0x20000)
 		return -1;
-	return costOf(a) - costOf(b);
+	return costOf(object) - costOf(b);
 }
 
 int __cdecl Rva002AB01C(Object *obj, void *userData)

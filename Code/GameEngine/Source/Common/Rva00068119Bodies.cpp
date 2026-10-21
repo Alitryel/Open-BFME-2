@@ -58,11 +58,11 @@ public:
 };
 
 // ?Rva00068119::rva00068119 present-unmatched
-void Rva00068119::rva00068119(const Coord3D *a, const GeometryInfo *b, float f)
+void Rva00068119::rva00068119(const Coord3D *a, const GeometryInfo *geometryInfo, float f)
 {
 	W3DPropBuffer *buf = m_buf;
 	if (buf)
-		buf->removePropsForConstruction(a, *b, f);
+		buf->removePropsForConstruction(a, *geometryInfo, f);
 }
 
 // ?Rva00068441::rva00068441 present-unmatched

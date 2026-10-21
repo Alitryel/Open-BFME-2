@@ -324,10 +324,10 @@ public:
 	static void rva00254628(MultiIniFieldParse &p);
 };
 
-void Rva00254628ModuleData::rva00254628(MultiIniFieldParse &p)
+void Rva00254628ModuleData::rva00254628(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add((const FieldParse *)Rva004CE29DGet(), 8);
-	p.add(s_Rva00254628FieldParse, 0);
+	multiIniFieldParse.add((const FieldParse *)Rva004CE29DGet(), 8);
+	multiIniFieldParse.add(s_Rva00254628FieldParse, 0);
 }
 
 // ModuleFactory::init registers 0x0025464A (DelayedUpgrade) and 0x0025470D
@@ -347,10 +347,10 @@ public:
 	static void rva002546EB(MultiIniFieldParse &p);
 };
 
-void Rva002546EBModuleData::rva002546EB(MultiIniFieldParse &p)
+void Rva002546EBModuleData::rva002546EB(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add((const FieldParse *)Rva004CE29DGet(), 8);
-	p.add(s_Rva002546EBFieldParse, 0);
+	multiIniFieldParse.add((const FieldParse *)Rva004CE29DGet(), 8);
+	multiIniFieldParse.add(s_Rva002546EBFieldParse, 0);
 }
 
 ModuleData *ModuleFactoryDataAt0025470D(INI *ini)
@@ -734,7 +734,7 @@ struct GapVoidVector
 	void **m_end;
 };
 
-static __forceinline int GapVoidVectorCount(const GapVoidVector *v) { return v->m_finish - v->m_start; }
+static __forceinline int GapVoidVectorCount(const GapVoidVector *gapVoidVector) { return gapVoidVector->m_finish - gapVoidVector->m_start; }
 
 // Dummy virtual slots for call views; only the slot index matters.
 #define GAP_V1(n) virtual void v##n();
@@ -1631,7 +1631,7 @@ public:
 // --- 0x002B30D9 (19B): the +0x154 pointer vector is not empty;
 // 0x002B30EC (15B): count of the 8-byte records of the +0x40 vector of the
 // +0x78 object; 0x002B3150 (11B): pre-increments +0x9C.
-static __forceinline bool GapVoidVectorAny(const GapVoidVector *v) { return v->m_start != v->m_finish; }
+static __forceinline bool GapVoidVectorAny(const GapVoidVector *gapVoidVector) { return gapVoidVector->m_start != gapVoidVector->m_finish; }
 
 struct Rva002B30ECVector
 {

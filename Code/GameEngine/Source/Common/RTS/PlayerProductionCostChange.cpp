@@ -40,16 +40,16 @@ private:
  unsigned char unknown[0x6F4];
  ProductionCostNode* modifiers;
 };
-float Player::getProductionCostChangeBasedOnTemplate(const ThingTemplate* tmplate, bool all)
+float Player::getProductionCostChangeBasedOnTemplate(const ThingTemplate* thingTemplate, bool all)
 {
- if(!tmplate)return 1.0f;
+ if(!thingTemplate)return 1.0f;
  unsigned count=0;
  float change=0.0f;
  for(ProductionCostNode* node=modifiers->next;node!=modifiers;node=node->next) {
   ProductionCostModifier* entry=node->modifier;
   Object* owner=TheGameLogic->findObjectByID(entry->object);
   if(owner && !owner->isKindOf(KINDOF_COST_SKIP) && !owner->testStatus(OBJECT_STATUS_COST_SKIP)) {
-   if((all && entry->appliesToAll) || entry->filter->testTemplate(tmplate,0,0)) {
+   if((all && entry->appliesToAll) || entry->filter->testTemplate(thingTemplate,0,0)) {
     if(count < entry->changes.size())change=entry->changes[count];
     ++count;
    }

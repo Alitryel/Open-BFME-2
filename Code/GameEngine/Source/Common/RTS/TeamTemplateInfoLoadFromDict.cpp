@@ -156,21 +156,21 @@ extern const StaticNameKey TheKey_teamVeterancy; // Existing WellKnownKeys defin
 extern const StaticNameKey TheKey_teamExecutesActionsOnCreate; // Existing WellKnownKeys definition: teamExecutesActionsOnCreate
 extern const StaticNameKey TheKey_teamGenericScriptHook; // Existing WellKnownKeys definition: teamGenericScriptHook
 extern const StaticNameKey TheKey_teamType = {0,"teamType"};
-void TeamTemplateInfo::loadFromDict(Dict *d)
+void TeamTemplateInfo::loadFromDict(Dict *dict)
 {
  unknown198 = -1; unknown1A4 = -1; unknown1AC = -1; unknown1A0 = -1;
  m_productionPriority=0; unknown1A8=1; unknown1B0=0; m_teamType=0; m_numUnitsInfo=0;
  memset(counters1B4,0,sizeof(counters1B4)); memset(counters1D0,0,sizeof(counters1D0));
- if (!d) return;
+ if (!dict) return;
 	Bool exists;
 	Int min, max, experience;
 	AsciiString upgradeList;
 	AsciiString templateName;
-	min = d->getInt(teamKey(TheKey_teamUnitMinCount1), &exists);
-	max = d->getInt(teamKey(TheKey_teamUnitMaxCount1), &exists);
-	experience = d->getInt(teamKey(TheKey_teamUnitExperienceLevel1), &exists);
-	upgradeList = d->getAsciiString(teamKey(TheKey_teamUnitUpgradeList1), &exists);
-	templateName = d->getAsciiString(teamKey(TheKey_teamUnitType1), &exists);
+	min = dict->getInt(teamKey(TheKey_teamUnitMinCount1), &exists);
+	max = dict->getInt(teamKey(TheKey_teamUnitMaxCount1), &exists);
+	experience = dict->getInt(teamKey(TheKey_teamUnitExperienceLevel1), &exists);
+	upgradeList = dict->getAsciiString(teamKey(TheKey_teamUnitUpgradeList1), &exists);
+	templateName = dict->getAsciiString(teamKey(TheKey_teamUnitType1), &exists);
 	if (max>0 && exists) {
 		m_unitsInfo[m_numUnitsInfo].minUnits = min;
 		m_unitsInfo[m_numUnitsInfo].maxUnits = max;
@@ -180,11 +180,11 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		m_numUnitsInfo++;
 	}
 
-	min = d->getInt(teamKey(TheKey_teamUnitMinCount2), &exists);
-	max = d->getInt(teamKey(TheKey_teamUnitMaxCount2), &exists);
-	experience = d->getInt(teamKey(TheKey_teamUnitExperienceLevel2), &exists);
-	upgradeList = d->getAsciiString(teamKey(TheKey_teamUnitUpgradeList2), &exists);
-	templateName = d->getAsciiString(teamKey(TheKey_teamUnitType2), &exists);
+	min = dict->getInt(teamKey(TheKey_teamUnitMinCount2), &exists);
+	max = dict->getInt(teamKey(TheKey_teamUnitMaxCount2), &exists);
+	experience = dict->getInt(teamKey(TheKey_teamUnitExperienceLevel2), &exists);
+	upgradeList = dict->getAsciiString(teamKey(TheKey_teamUnitUpgradeList2), &exists);
+	templateName = dict->getAsciiString(teamKey(TheKey_teamUnitType2), &exists);
 	if (max>0 && exists) {
 		m_unitsInfo[m_numUnitsInfo].minUnits = min;
 		m_unitsInfo[m_numUnitsInfo].maxUnits = max;
@@ -194,11 +194,11 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		m_numUnitsInfo++;
 	}
 
-	min = d->getInt(teamKey(TheKey_teamUnitMinCount3), &exists);
-	max = d->getInt(teamKey(TheKey_teamUnitMaxCount3), &exists);
-	experience = d->getInt(teamKey(TheKey_teamUnitExperienceLevel3), &exists);
-	upgradeList = d->getAsciiString(teamKey(TheKey_teamUnitUpgradeList3), &exists);
-	templateName = d->getAsciiString(teamKey(TheKey_teamUnitType3), &exists);
+	min = dict->getInt(teamKey(TheKey_teamUnitMinCount3), &exists);
+	max = dict->getInt(teamKey(TheKey_teamUnitMaxCount3), &exists);
+	experience = dict->getInt(teamKey(TheKey_teamUnitExperienceLevel3), &exists);
+	upgradeList = dict->getAsciiString(teamKey(TheKey_teamUnitUpgradeList3), &exists);
+	templateName = dict->getAsciiString(teamKey(TheKey_teamUnitType3), &exists);
 	if (max>0 && exists) {
 		m_unitsInfo[m_numUnitsInfo].minUnits = min;
 		m_unitsInfo[m_numUnitsInfo].maxUnits = max;
@@ -208,11 +208,11 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		m_numUnitsInfo++;
 	}
 
-	min = d->getInt(teamKey(TheKey_teamUnitMinCount4), &exists);
-	max = d->getInt(teamKey(TheKey_teamUnitMaxCount4), &exists);
-	experience = d->getInt(teamKey(TheKey_teamUnitExperienceLevel4), &exists);
-	upgradeList = d->getAsciiString(teamKey(TheKey_teamUnitUpgradeList4), &exists);
-	templateName = d->getAsciiString(teamKey(TheKey_teamUnitType4), &exists);
+	min = dict->getInt(teamKey(TheKey_teamUnitMinCount4), &exists);
+	max = dict->getInt(teamKey(TheKey_teamUnitMaxCount4), &exists);
+	experience = dict->getInt(teamKey(TheKey_teamUnitExperienceLevel4), &exists);
+	upgradeList = dict->getAsciiString(teamKey(TheKey_teamUnitUpgradeList4), &exists);
+	templateName = dict->getAsciiString(teamKey(TheKey_teamUnitType4), &exists);
 	if (max>0 && exists) {
 		m_unitsInfo[m_numUnitsInfo].minUnits = min;
 		m_unitsInfo[m_numUnitsInfo].maxUnits = max;
@@ -222,11 +222,11 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		m_numUnitsInfo++;
 	}
 
-	min = d->getInt(teamKey(TheKey_teamUnitMinCount5), &exists);
-	max = d->getInt(teamKey(TheKey_teamUnitMaxCount5), &exists);
-	experience = d->getInt(teamKey(TheKey_teamUnitExperienceLevel5), &exists);
-	upgradeList = d->getAsciiString(teamKey(TheKey_teamUnitUpgradeList5), &exists);
-	templateName = d->getAsciiString(teamKey(TheKey_teamUnitType5), &exists);
+	min = dict->getInt(teamKey(TheKey_teamUnitMinCount5), &exists);
+	max = dict->getInt(teamKey(TheKey_teamUnitMaxCount5), &exists);
+	experience = dict->getInt(teamKey(TheKey_teamUnitExperienceLevel5), &exists);
+	upgradeList = dict->getAsciiString(teamKey(TheKey_teamUnitUpgradeList5), &exists);
+	templateName = dict->getAsciiString(teamKey(TheKey_teamUnitType5), &exists);
 	if (max>0 && exists) {
 		m_unitsInfo[m_numUnitsInfo].minUnits = min;
 		m_unitsInfo[m_numUnitsInfo].maxUnits = max;
@@ -236,11 +236,11 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		m_numUnitsInfo++;
 	}
 
-	min = d->getInt(teamKey(TheKey_teamUnitMinCount6), &exists);
-	max = d->getInt(teamKey(TheKey_teamUnitMaxCount6), &exists);
-	experience = d->getInt(teamKey(TheKey_teamUnitExperienceLevel6), &exists);
-	upgradeList = d->getAsciiString(teamKey(TheKey_teamUnitUpgradeList6), &exists);
-	templateName = d->getAsciiString(teamKey(TheKey_teamUnitType6), &exists);
+	min = dict->getInt(teamKey(TheKey_teamUnitMinCount6), &exists);
+	max = dict->getInt(teamKey(TheKey_teamUnitMaxCount6), &exists);
+	experience = dict->getInt(teamKey(TheKey_teamUnitExperienceLevel6), &exists);
+	upgradeList = dict->getAsciiString(teamKey(TheKey_teamUnitUpgradeList6), &exists);
+	templateName = dict->getAsciiString(teamKey(TheKey_teamUnitType6), &exists);
 	if (max>0 && exists) {
 		m_unitsInfo[m_numUnitsInfo].minUnits = min;
 		m_unitsInfo[m_numUnitsInfo].maxUnits = max;
@@ -250,11 +250,11 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		m_numUnitsInfo++;
 	}
 
-	min = d->getInt(teamKey(TheKey_teamUnitMinCount7), &exists);
-	max = d->getInt(teamKey(TheKey_teamUnitMaxCount7), &exists);
-	experience = d->getInt(teamKey(TheKey_teamUnitExperienceLevel7), &exists);
-	upgradeList = d->getAsciiString(teamKey(TheKey_teamUnitUpgradeList7), &exists);
-	templateName = d->getAsciiString(teamKey(TheKey_teamUnitType7), &exists);
+	min = dict->getInt(teamKey(TheKey_teamUnitMinCount7), &exists);
+	max = dict->getInt(teamKey(TheKey_teamUnitMaxCount7), &exists);
+	experience = dict->getInt(teamKey(TheKey_teamUnitExperienceLevel7), &exists);
+	upgradeList = dict->getAsciiString(teamKey(TheKey_teamUnitUpgradeList7), &exists);
+	templateName = dict->getAsciiString(teamKey(TheKey_teamUnitType7), &exists);
 	if (max>0 && exists) {
 		m_unitsInfo[m_numUnitsInfo].minUnits = min;
 		m_unitsInfo[m_numUnitsInfo].maxUnits = max;
@@ -264,7 +264,7 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		m_numUnitsInfo++;
 	}
 
-	AsciiString waypoint = d->getAsciiString(teamKey(TheKey_teamHome), &exists);
+	AsciiString waypoint = dict->getAsciiString(teamKey(TheKey_teamHome), &exists);
 	m_homeLocation.x = m_homeLocation.y = 0;
 	m_homeLocation.z = 0;
 	m_hasHomeLocation = false;
@@ -277,62 +277,62 @@ void TeamTemplateInfo::loadFromDict(Dict *d)
 		}
 	}
 
-	m_scriptOnCreate = d->getAsciiString(teamKey(TheKey_teamOnCreateScript), &exists);
-	m_teamEventsList = d->getAsciiString(teamKey(TheKey_teamEventsList), &exists);
-	m_isAIRecruitable	= d->getBool(teamKey(TheKey_teamIsAIRecruitable), &exists);
+	m_scriptOnCreate = dict->getAsciiString(teamKey(TheKey_teamOnCreateScript), &exists);
+	m_teamEventsList = dict->getAsciiString(teamKey(TheKey_teamEventsList), &exists);
+	m_isAIRecruitable	= dict->getBool(teamKey(TheKey_teamIsAIRecruitable), &exists);
 	if (!exists) {
 		m_isAIRecruitable = false;
 	}
-	m_isBaseDefense	= d->getBool(teamKey(TheKey_teamIsBaseDefense), &exists);
-	m_isPerimeterDefense	= d->getBool(teamKey(TheKey_teamIsPerimeterDefense), &exists);
-	m_automaticallyReinforce = d->getBool(teamKey(TheKey_teamAutoReinforce), &exists);
+	m_isBaseDefense	= dict->getBool(teamKey(TheKey_teamIsBaseDefense), &exists);
+	m_isPerimeterDefense	= dict->getBool(teamKey(TheKey_teamIsPerimeterDefense), &exists);
+	m_automaticallyReinforce = dict->getBool(teamKey(TheKey_teamAutoReinforce), &exists);
 
-	Int interact	= d->getInt(teamKey(TheKey_teamAggressiveness), &exists);
+	Int interact	= dict->getInt(teamKey(TheKey_teamAggressiveness), &exists);
 	m_initialTeamAttitude = AI_NORMAL;
 	if (exists) {
 		m_initialTeamAttitude = (AttitudeType) interact;
 	}
 
-	m_transportsReturn	= d->getBool(teamKey(TheKey_teamTransportsReturn), &exists);
-	m_avoidThreats = d->getBool(teamKey(TheKey_teamAvoidThreats), &exists);
+	m_transportsReturn	= dict->getBool(teamKey(TheKey_teamTransportsReturn), &exists);
+	m_avoidThreats = dict->getBool(teamKey(TheKey_teamAvoidThreats), &exists);
 
-	m_attackCommonTarget = d->getBool(teamKey(TheKey_teamAttackCommonTarget), &exists);
+	m_attackCommonTarget = dict->getBool(teamKey(TheKey_teamAttackCommonTarget), &exists);
 
-	m_maxInstances = d->getInt(teamKey(TheKey_teamMaxInstances), &exists);
+	m_maxInstances = dict->getInt(teamKey(TheKey_teamMaxInstances), &exists);
 
-	m_scriptOnIdle = d->getAsciiString(teamKey(TheKey_teamOnIdleScript), &exists);
-	m_initialIdleFrames = BfmeLogicFramesPerSecond * d->getInt(teamKey(TheKey_teamInitialIdleSeconds), &exists);
-	m_scriptOnEnemySighted = d->getAsciiString(teamKey(TheKey_teamEnemySightedScript), &exists);
-	m_scriptOnAllClear = d->getAsciiString(teamKey(TheKey_teamAllClearScript), &exists);
-	m_scriptOnDestroyed = d->getAsciiString(teamKey(TheKey_teamOnDestroyedScript), &exists);
-	m_destroyedThreshold = d->getReal(teamKey(TheKey_teamDestroyedThreshold), &exists);
-	m_scriptOnUnitDestroyed = d->getAsciiString(teamKey(TheKey_teamOnUnitDestroyedScript), &exists);
+	m_scriptOnIdle = dict->getAsciiString(teamKey(TheKey_teamOnIdleScript), &exists);
+	m_initialIdleFrames = BfmeLogicFramesPerSecond * dict->getInt(teamKey(TheKey_teamInitialIdleSeconds), &exists);
+	m_scriptOnEnemySighted = dict->getAsciiString(teamKey(TheKey_teamEnemySightedScript), &exists);
+	m_scriptOnAllClear = dict->getAsciiString(teamKey(TheKey_teamAllClearScript), &exists);
+	m_scriptOnDestroyed = dict->getAsciiString(teamKey(TheKey_teamOnDestroyedScript), &exists);
+	m_destroyedThreshold = dict->getReal(teamKey(TheKey_teamDestroyedThreshold), &exists);
+	m_scriptOnUnitDestroyed = dict->getAsciiString(teamKey(TheKey_teamOnUnitDestroyedScript), &exists);
 
-	m_productionPriority = d->getInt(teamKey(TheKey_teamProductionPriority), &exists);
-	m_productionPrioritySuccessIncrease = d->getInt(teamKey(TheKey_teamProductionPrioritySuccessIncrease), &exists);
-	m_productionPriorityFailureDecrease = d->getInt(teamKey(TheKey_teamProductionPriorityFailureDecrease), &exists);
+	m_productionPriority = dict->getInt(teamKey(TheKey_teamProductionPriority), &exists);
+	m_productionPrioritySuccessIncrease = dict->getInt(teamKey(TheKey_teamProductionPrioritySuccessIncrease), &exists);
+	m_productionPriorityFailureDecrease = dict->getInt(teamKey(TheKey_teamProductionPriorityFailureDecrease), &exists);
 
 	// Production scripts stuff
-	m_productionCondition = d->getAsciiString(teamKey(TheKey_teamProductionCondition), &exists);
-	m_executeActions = d->getBool(teamKey(TheKey_teamExecutesActionsOnCreate), &exists);
+	m_productionCondition = dict->getAsciiString(teamKey(TheKey_teamProductionCondition), &exists);
+	m_executeActions = dict->getBool(teamKey(TheKey_teamExecutesActionsOnCreate), &exists);
 
 
 	// Which scripts to attempt during run?
 	for (int i = 0; i < MAX_GENERIC_SCRIPTS; ++i) {
 		AsciiString keyName;
 		keyName.format("%s%d", TheNameKeyGenerator->keyToName(teamKey(TheKey_teamGenericScriptHook)).str(), i);
-		m_teamGenericScripts[i] = d->getAsciiString(TheNameKeyGenerator->nameToKey(keyName), &exists);
+		m_teamGenericScripts[i] = dict->getAsciiString(TheNameKeyGenerator->nameToKey(keyName), &exists);
 		if (!exists) {
 			((StringBase<char> *)&m_teamGenericScripts[i])->clear();
 		}
 	}
 
 	// reinforcement team info.
-	m_transportUnitType = d->getAsciiString(teamKey(TheKey_teamTransport), &exists);
-	m_transportsExit = d->getBool(teamKey(TheKey_teamTransportsExit), &exists);
-	m_teamStartsFull = d->getBool(teamKey(TheKey_teamStartsFull), &exists);
-	m_startReinforceWaypoint = d->getAsciiString(teamKey(TheKey_teamReinforcementOrigin), &exists);
-	m_veterancy = (VeterancyLevel)d->getInt(teamKey(TheKey_teamVeterancy), &exists);
- int teamType=d->getInt(teamKey(TheKey_teamType),&exists);
+	m_transportUnitType = dict->getAsciiString(teamKey(TheKey_teamTransport), &exists);
+	m_transportsExit = dict->getBool(teamKey(TheKey_teamTransportsExit), &exists);
+	m_teamStartsFull = dict->getBool(teamKey(TheKey_teamStartsFull), &exists);
+	m_startReinforceWaypoint = dict->getAsciiString(teamKey(TheKey_teamReinforcementOrigin), &exists);
+	m_veterancy = (VeterancyLevel)dict->getInt(teamKey(TheKey_teamVeterancy), &exists);
+ int teamType=dict->getInt(teamKey(TheKey_teamType),&exists);
  if(exists) { if(teamType<0) m_teamType=0; else m_teamType=teamType; }
 }

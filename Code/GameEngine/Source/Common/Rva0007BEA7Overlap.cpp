@@ -35,8 +35,8 @@ private:
 };
 bool Rva007C454::rva0007BEA7(const SphereClass &sphere)
 {
-	for (PlaneClass *p = m_begin3FC; p != m_end400; ++p) {
-		if (CollisionMath::Overlap_Test(*p, sphere) == 1)
+	for (PlaneClass *plane = m_begin3FC; plane != m_end400; ++plane) {
+		if (CollisionMath::Overlap_Test(*plane, sphere) == 1)
 			return true;
 	}
 	return false;

@@ -27,10 +27,10 @@ private:
 	unsigned int m_inProgressBits[1];
 };
 
-bool Player::rva002AA8EF(const UpgradeTemplate *tmpl) const
+bool Player::rva002AA8EF(const UpgradeTemplate *upgradeTemplate) const
 {
-	if (!tmpl)
+	if (!upgradeTemplate)
 		return false;
-	int bit = tmpl->m_bitIndex;
+	int bit = upgradeTemplate->m_bitIndex;
 	return (m_inProgressBits[(unsigned int)bit >> 5] & (1 << (bit & 31))) != 0;
 }

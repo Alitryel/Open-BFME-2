@@ -948,7 +948,7 @@ struct GapVoidVector
 	void **m_end;
 };
 
-static __forceinline int GapVoidVectorCount(const GapVoidVector *v) { return v->m_finish - v->m_start; }
+static __forceinline int GapVoidVectorCount(const GapVoidVector *gapVoidVector) { return gapVoidVector->m_finish - gapVoidVector->m_start; }
 
 // Dummy virtual slots for call views; only the slot index matters.
 #define GAP_V1(n) virtual void v##n();
@@ -1162,9 +1162,9 @@ bool Rva00285A16::rva00285A16(const Rva00285672 *a, const Rva00285672 &b)
 	return a->rva00285672(b);
 }
 
-bool Rva00285A16::rva0028878C(const ExperienceLevel *a, const ExperienceLevel &b)
+bool Rva00285A16::rva0028878C(const ExperienceLevel *experienceLevel, const ExperienceLevel &b)
 {
-	return a->rva00288621(b);
+	return experienceLevel->rva00288621(b);
 }
 
 // --- 0x0028667F (20B): the rowed 0x00286214 find returned by value.
@@ -2199,7 +2199,7 @@ void Rva002B2B9F()
 // --- 0x002B30D9 (19B): the +0x154 pointer vector is not empty;
 // 0x002B30EC (15B): count of the 8-byte records of the +0x40 vector of the
 // +0x78 object; 0x002B3150 (11B): pre-increments +0x9C.
-static __forceinline bool GapVoidVectorAny(const GapVoidVector *v) { return v->m_start != v->m_finish; }
+static __forceinline bool GapVoidVectorAny(const GapVoidVector *gapVoidVector) { return gapVoidVector->m_start != gapVoidVector->m_finish; }
 
 struct Rva002B30ECVector
 {

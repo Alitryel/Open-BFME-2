@@ -94,18 +94,18 @@ bool Rva000E459F::rva000E459F()
 	return changed;
 }
 
-void Rva000E459F::rva000E46DA(Drawable *d, const AsciiString &a1, const AsciiString &a2, bool b82, bool b81)
+void Rva000E459F::rva000E46DA(Drawable *drawable, const AsciiString &asciiString, const AsciiString &a2, bool b82, bool b81)
 {
-	m_2C = d;
+	m_2C = drawable;
 	int v;
-	if (d)
-		v = ((Rva0055A88BDwordField *)d)->get();
+	if (drawable)
+		v = ((Rva0055A88BDwordField *)drawable)->get();
 	else
 		v = 0;
 	m_4C = v;
-	m_8C = a1;
+	m_8C = asciiString;
 	m_90 = a2;
-	m_80 = (d != 0);
+	m_80 = (drawable != 0);
 	m_81 = b81;
 	m_82 = b82;
 	m_9C = 0;

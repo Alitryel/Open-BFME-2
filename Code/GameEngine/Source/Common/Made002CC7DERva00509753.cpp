@@ -39,8 +39,8 @@ void Made002CC7DE::rva00509753(int a, int b)
 	Rva002CA9CA *p1 = m_128;
 	if (p1 != 0)
 		p1->rva002CAC6E(a, b);
-	ThingTemplate *p2 = m_12C;
-	if (p2 == 0)
+	ThingTemplate *thingTemplate = m_12C;
+	if (thingTemplate == 0)
 		return;
-	p2->GetAssetList(a, b);
+	thingTemplate->GetAssetList(a, b);
 }

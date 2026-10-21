@@ -15,8 +15,8 @@ private:T *pointer;
 class TextureArg : public RefCountPtr<TextureClass> {
 public:
  TextureArg(const RefCountPtr<TextureClass> &r):RefCountPtr<TextureClass>(r){}
- TextureArg(TextureClass *p):RefCountPtr<TextureClass>(p){}
- TextureArg(const TextureArg &r):RefCountPtr<TextureClass>(r){}
+ TextureArg(TextureClass *texture):RefCountPtr<TextureClass>(texture){}
+ TextureArg(const TextureArg &textureArg):RefCountPtr<TextureClass>(textureArg){}
  ~TextureArg(){}
 };
 namespace FXShader {class RenderingMethod {public:virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4(int);};}

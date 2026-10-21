@@ -17,7 +17,7 @@ private:
 
 // MultiplayerSettings::~MultiplayerSettings: defined in MultiplayerSettingsDtor.cpp (its row's unit).
 
-void deleteMultiplayerSettings(MultiplayerSettings *p)
+void deleteMultiplayerSettings(MultiplayerSettings *multiplayerSettings)
 {
-	delete p;
+	delete multiplayerSettings;
 }

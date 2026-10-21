@@ -102,13 +102,13 @@ static __forceinline BFME2WideConcatPair operator+(const UnicodeString &x, const
  return p;
  
 }
-static __forceinline void assignConcat(UnicodeString &dst, const UnicodeString &x, const UnicodeString &y, const UnicodeString &z)
+static __forceinline void assignConcat(UnicodeString &dst, const UnicodeString &unicodeString, const UnicodeString &y, const UnicodeString &z)
 
 {
  Pair8 xy = 
  
  {
-  (int)&x, (int)&y 
+  (int)&unicodeString, (int)&y 
   
  }
  ;

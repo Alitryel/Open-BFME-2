@@ -53,10 +53,10 @@ const char *TeamPrototype::GetSnapshotName() const
 {
  return "TeamPrototype";
 }
-TeamPrototype::TeamPrototype(TeamFactory*tf,const AsciiString&owner,const AsciiString&name,Player*player,bool singleton,Dict*d,int id):
+TeamPrototype::TeamPrototype(TeamFactory*tf,const AsciiString&owner,const AsciiString&name,Player*player,bool singleton,Dict*dict,int id):
  m_factory(tf),m_owningPlayer(player),m_id(id),m_ownerName(owner),m_name(name),m_flags(singleton?1:0),
  m_productionConditionAlwaysFalse(false),m_productionConditionScript(0),m_retrievedGenericScripts(false),
- m_teamTemplate(d),m_byte31C(false),m_byte31D(false),m_byte31E(false),m_frame320(TheGameLogic->getFrame()),
+ m_teamTemplate(dict),m_byte31C(false),m_byte31D(false),m_byte31E(false),m_frame320(TheGameLogic->getFrame()),
  m_byte324(false),m_coordinate328(),m_teamInstanceList(0)
 {
  memset(m_genericScriptsToRun,0,sizeof(m_genericScriptsToRun));

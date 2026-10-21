@@ -204,7 +204,7 @@ extern Rva00148F5ECache TheKey_playerAIType;
 
 inline __declspec(noinline) NameKeyType Rva00148F5ECache::get(){if(value==NAMEKEY_INVALID){if(TheNameKeyGenerator)value=TheNameKeyGenerator->nameToKey(name);}return value;}
 class Dict {public:
- Dict(const Dict&d):data(d.data){if(data)++*(unsigned short*)data;}
+ Dict(const Dict&dict):data(dict.data){if(data)++*(unsigned short*)data;}
  ~Dict(){releaseData();}enum DataType{DICT_NONE=-1,DICT_BOOL,DICT_INT,DICT_REAL,DICT_ASCIISTRING,DICT_UNICODESTRING};DataType getType(int)const;
  AsciiString getAsciiString(int,bool * =0)const;UnicodeString getUnicodeString(int,bool * =0)const;
  bool getBool(int,bool * =0)const;int getInt(int,bool * =0)const;
@@ -246,13 +246,13 @@ template<> inline __declspec(noinline) int StringBase<char>::compare(const char 
 extern "C" int memcmp(const void*,const void*,unsigned);
 inline __declspec(noinline) int compareRange(const char *a,int alen,const char *b,int blen,CharCompare tag){int length=alen<blen?alen:blen;int result=memcmp(a,b,length);if(result!=0)return result;return alen-blen;}
 
-void Player::initFromDict(const Dict*d){
- AsciiString tmplname=d->getAsciiString(TheKey_playerFaction.get());
+void Player::initFromDict(const Dict*dict){
+ AsciiString tmplname=dict->getAsciiString(TheKey_playerFaction.get());
  const PlayerTemplate*pt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(tmplname));
  if(!pt)pt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey("FactionCivilian"));
- init(pt);displayName=d->getUnicodeString(TheKey_playerDisplayName.get());AsciiString pname=d->getAsciiString(const_cast<StaticNameKey&>(TheKey_playerName).get());name=pname;nameKey=TheNameKeyGenerator->nameToKey(pname);
+ init(pt);displayName=dict->getUnicodeString(TheKey_playerDisplayName.get());AsciiString pname=dict->getAsciiString(const_cast<StaticNameKey&>(TheKey_playerName).get());name=pname;nameKey=TheNameKeyGenerator->nameToKey(pname);
  bool exists;bool skirmish=false;bool forceHuman=false;
- bool wasObserver=pt->observer;if(!wasObserver && d->getBool(const_cast<StaticNameKey&>(TheKey_playerIsSkirmish).get(),&exists)){
+ bool wasObserver=pt->observer;if(!wasObserver && dict->getBool(const_cast<StaticNameKey&>(TheKey_playerIsSkirmish).get(),&exists)){
   for(int sp=0;sp<TheSidesList->skirmishCount;++sp){
    AsciiString faction=TheSidesList->getSkirmishSideInfo(sp)->getDict()->getAsciiString(TheKey_playerFaction.get());
    const PlayerTemplate*spt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(faction));
@@ -260,13 +260,13 @@ void Player::initFromDict(const Dict*d){
   }
   if(!skirmish)forceHuman=true;
  }
- defaultTeam=(void*)d->getInt(const_cast<StaticNameKey&>(TheKey_multiplayerStartIndex).get(),&exists);
- ((Rva002A9ACC*)this)->rva002A9ACC(d);unknown27C=d->getInt(const_cast<StaticNameKey&>(TheKey_playerHandicap).get(),&exists);
- if(d->getBool(TheKey_playerIsHuman.get()) || forceHuman){
+ defaultTeam=(void*)dict->getInt(const_cast<StaticNameKey&>(TheKey_multiplayerStartIndex).get(),&exists);
+ ((Rva002A9ACC*)this)->rva002A9ACC(dict);unknown27C=dict->getInt(const_cast<StaticNameKey&>(TheKey_playerHandicap).get(),&exists);
+ if(dict->getBool(TheKey_playerIsHuman.get()) || forceHuman){
   setPlayerType(PLAYER_HUMAN,skirmish);
-  if(d->getBool(const_cast<StaticNameKey&>(TheKey_playerIsPreorder).get(),&exists))flag33B=true;
-  if(TheSidesList->skirmishCount>0 && ((const StringBase<char>&)d->getAsciiString(const_cast<StaticNameKey&>(TheKey_playerName).get())).compare("ReplayObserver")!=0 && ((const StringBase<char>&)tmplname).compare("FactionObserver")!=0){
-   if(d->getType(TheKey_playerAIType.get())!=3){
+  if(dict->getBool(const_cast<StaticNameKey&>(TheKey_playerIsPreorder).get(),&exists))flag33B=true;
+  if(TheSidesList->skirmishCount>0 && ((const StringBase<char>&)dict->getAsciiString(const_cast<StaticNameKey&>(TheKey_playerName).get())).compare("ReplayObserver")!=0 && ((const StringBase<char>&)tmplname).compare("FactionObserver")!=0){
+   if(dict->getType(TheKey_playerAIType.get())!=3){
     AsciiString humanSide("SkirmishHuman");
     bool found=false;int i;
     for(i=0;i<TheSidesList->skirmishCount;++i){
@@ -285,9 +285,9 @@ void Player::initFromDict(const Dict*d){
  }else setPlayerType(PLAYER_COMPUTER,skirmish);
  if(skirmish){
   int skirmishNdx;{int t;if(!rva002AC4D4(&t))return;skirmishNdx=t;}
-  int diff=d->getInt(const_cast<StaticNameKey&>(TheKey_skirmishDifficulty).get(),&exists);int difficulty=((DifficultyView*)TheScriptEngine)->value;if(exists)difficulty=diff;
+  int diff=dict->getInt(const_cast<StaticNameKey&>(TheKey_skirmishDifficulty).get(),&exists);int difficulty=((DifficultyView*)TheScriptEngine)->value;if(exists)difficulty=diff;
   if(ai)*(int*)((char*)ai+0x2c)=difficulty;
-  if(d->getType(TheKey_playerAIType.get())!=3){
+  if(dict->getType(TheKey_playerAIType.get())!=3){
    ScriptList scripts(*TheSidesList->getSkirmishSideInfo(skirmishNdx)->getScriptList());TheSidesList->getSideInfo(getPlayerIndex())->setScriptList(&scripts);
    for(int id=TheSidesList->teams.first();id;){int next=TheSidesList->teams.next(id);if(TheSidesList->teams.get(id)->getAsciiString(const_cast<StaticNameKey&>(TheKey_teamOwner).get())==pname)TheSidesList->teams.removeTeam(id);id=next;}
    // Keep copyTeams' team semantics inline without recopying the script list.
@@ -300,14 +300,14 @@ void Player::initFromDict(const Dict*d){
  }
  if(resources){::delete resources;resources=0;}resources=new ResourceGatheringManager;
  if(tunnel){::delete tunnel;tunnel=0;}tunnel=new TunnelTracker;
- ((Handicap*)&handicap)->readFromDict(d);((Rva004DFC20*)((char*)playerRelations+4))->clear();((Rva004DFC20*)((char*)teamRelations+4))->clear();
+ ((Handicap*)&handicap)->readFromDict(dict);((Rva004DFC20*)((char*)playerRelations+4))->clear();((Rva004DFC20*)((char*)teamRelations+4))->clear();
  Player*self=this;for(int i=0;i<20;++i){self->attackedBy[i]=false;self->attackFrames[i]=0;}unknown3A8=0;
- int m=d->getInt(const_cast<StaticNameKey&>(TheKey_playerStartMoney).get(),&exists);if(exists)money.rva003B0D7C(m,(Rva0039B7AD*)&score,false);
+ int m=dict->getInt(const_cast<StaticNameKey&>(TheKey_playerStartMoney).get(),&exists);if(exists)money.rva003B0D7C(m,(Rva0039B7AD*)&score,false);
  for(int i=0;i<10;++i){if(squads[i]){::delete squads[i];squads[i]=0;}squads[i]=new Squad;}
  if(selection){::delete selection;selection=0;}selection=new Squad;
- text74C=d->getAsciiString(const_cast<StaticNameKey&>(TheKey_playerFactionIcon).get(),&exists);int ri=d->getInt(const_cast<StaticNameKey&>(TheKey_livingWorldPlayerID).get(),&exists);if(exists)unknown3AC=ri;
+ text74C=dict->getAsciiString(const_cast<StaticNameKey&>(TheKey_playerFactionIcon).get(),&exists);int ri=dict->getInt(const_cast<StaticNameKey&>(TheKey_livingWorldPlayerID).get(),&exists);if(exists)unknown3AC=ri;
  if(((LogicModeView*)TheGameLogic)->mode!=3 && ((CampaignView*)TheLivingWorldLogic)->active){
   LivingWorldBattle*cur=((CampaignView*)TheLivingWorldLogic)->regions->rva0020E6B7();
-  if(cur){RegionOwner*owner=(RegionOwner*)cur->rva003F4DA9();LivingWorldRegion*r;if(owner && unknown3AC==*(volatile int*)&owner->index && ((r=cur->region)->rva003F0614((CreateAHeroData*)1)>=1 || r->flag))money.rva003B0D7C(TheLivingWorldLogic->rva002B47B1(),(Rva0039B7AD*)&score,false);else money.rva003B0D7C(TheLivingWorldLogic->rva002B479F(),(Rva0039B7AD*)&score,false);}
+  if(cur){RegionOwner*owner=(RegionOwner*)cur->rva003F4DA9();LivingWorldRegion*livingWorldRegion;if(owner && unknown3AC==*(volatile int*)&owner->index && ((livingWorldRegion=cur->region)->rva003F0614((CreateAHeroData*)1)>=1 || livingWorldRegion->flag))money.rva003B0D7C(TheLivingWorldLogic->rva002B47B1(),(Rva0039B7AD*)&score,false);else money.rva003B0D7C(TheLivingWorldLogic->rva002B479F(),(Rva0039B7AD*)&score,false);}
  }
 }

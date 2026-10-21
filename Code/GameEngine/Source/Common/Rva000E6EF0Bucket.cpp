@@ -55,10 +55,10 @@ public:
 	int m_count;
 };
 
-int W3DShrubBuffer::getPartitionBucket(FloatPair const *p)
+int W3DShrubBuffer::getPartitionBucket(FloatPair const *floatPair)
 {
-	float x = p->x;
-	float y = p->y;
+	float x = floatPair->x;
+	float y = floatPair->y;
 	if (m_minX > x)
 		x = m_minX;
 	if (m_minY > y)

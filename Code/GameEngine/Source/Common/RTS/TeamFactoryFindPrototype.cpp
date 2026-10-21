@@ -57,10 +57,10 @@ private:
 	Rva0039EA4E m_mapB0;
 };
 
-TeamPrototype *TeamFactory::findTeamPrototype(const AsciiString &a, const AsciiString &b)
+TeamPrototype *TeamFactory::findTeamPrototype(const AsciiString &asciiString, const AsciiString &b)
 {
 	int keyB = TheNameKeyGenerator->nameToKey(b);
-	int keyA = TheNameKeyGenerator->nameToKey(a);
+	int keyA = TheNameKeyGenerator->nameToKey(asciiString);
 	Rva0039D8FBKey key;
 	key.m_first = keyA;
 	key.m_second = keyB;

@@ -120,8 +120,8 @@ inline void ShroudManagerImpl::drainPending()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeShroudManagerImpl008FBA40InlineAnchor@@YAXPAVShroudManagerImpl@@@Z absent-from-retail
-void _bfmeShroudManagerImpl008FBA40InlineAnchor(ShroudManagerImpl *p)
+void _bfmeShroudManagerImpl008FBA40InlineAnchor(ShroudManagerImpl *shroudManagerImpl)
 {
-    p->drainPending();
+    shroudManagerImpl->drainPending();
 }
 #pragma inline_depth()

@@ -114,10 +114,10 @@ Rva005CD3A5::Rva005CD3A5(EmitVtableTag *)
 // 0x005CCB73. The base relationship is a structural inference from those
 // vtable stores and call order; the class identity and pointer meaning remain
 // unknown.
-Rva005CD3A5::Rva005CD3A5(const UnicodeString &arg0, void *arg1)
+Rva005CD3A5::Rva005CD3A5(const UnicodeString &unicodeString, void *arg1)
 	: Rva005CCDDD()
 {
-	((Rva005CCE13 *)this)->rva005CCE13(arg0);
+	((Rva005CCE13 *)this)->rva005CCE13(unicodeString);
 	((Rva005CCB73 *)this)->rva005CCB73(arg1);
 }
 

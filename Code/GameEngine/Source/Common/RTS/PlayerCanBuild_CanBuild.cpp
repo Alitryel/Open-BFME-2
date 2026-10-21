@@ -107,28 +107,28 @@ private:
 };
 
 
-Bool Player::canBuild(const ThingTemplate *tmplate) const
+Bool Player::canBuild(const ThingTemplate *thingTemplate) const
 {
-	if (!tmplate)
+	if (!thingTemplate)
 		return false;
 
-	if (!allowedToBuild(tmplate))
+	if (!allowedToBuild(thingTemplate))
 		return false;
 
-	if (tmplate->getBuildable() == BSTATUS_NO)
+	if (thingTemplate->getBuildable() == BSTATUS_NO)
 		return false;
 
-	if (tmplate->getBuildable() == BSTATUS_IGNORE_PREREQUISITES)
+	if (thingTemplate->getBuildable() == BSTATUS_IGNORE_PREREQUISITES)
 		return true;
 
-	if (tmplate->getBuildable() == BSTATUS_ONLY_BY_AI && getPlayerType() != PLAYER_COMPUTER)
+	if (thingTemplate->getBuildable() == BSTATUS_ONLY_BY_AI && getPlayerType() != PLAYER_COMPUTER)
 		return false;
 
 	// we must satisfy all of the prereqs
 	Bool prereqsOK = true;
-	for (Int i = 0; i < tmplate->getPrereqCount(); i++)
+	for (Int i = 0; i < thingTemplate->getPrereqCount(); i++)
 	{
-		const ProductionPrerequisite *pre = tmplate->getNthPrereq(i);
+		const ProductionPrerequisite *pre = thingTemplate->getNthPrereq(i);
 		if (pre->isSatisfied(this) == false)
 			prereqsOK = false;
 	}

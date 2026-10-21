@@ -207,7 +207,7 @@ Xfer *Rva002AC1A9XferList(Xfer*,_STL::list<short>*);
 struct PlayerListNode { PlayerListNode *next,*prev; void *value; };
 struct PlayerListView {
  PlayerListNode *head;
- unsigned size()const { unsigned n=0; for(PlayerListNode*p=head->next;p!=head;p=p->next)++n; return n; }
+ unsigned size()const { unsigned n=0; for(PlayerListNode*playerListNode=head->next;playerListNode!=head;playerListNode=playerListNode->next)++n; return n; }
 };
 template<class T> static __forceinline PlayerListView &listView(T &list) {return reinterpret_cast<PlayerListView&>(list);}
 void Player::DoXfer(Xfer *raw)
@@ -238,9 +238,9 @@ void Player::DoXfer(Xfer *raw)
    m_field6F0=0;
    for(unsigned short i=0;i<upgradeCount;++i) {
     xfer->ascii(&upgradeName);
-    const UpgradeTemplate *tmplate=TheUpgradeCenter->findUpgrade(upgradeName);
-    if(!tmplate)badPlayerTransfer();
-    upgrade=reinterpret_cast<PlayerUpgradeNode*>(rva002AE329(tmplate,UPGRADE_NATIVE_INVALID,0));
+    const UpgradeTemplate *upgradeTemplate=TheUpgradeCenter->findUpgrade(upgradeName);
+    if(!upgradeTemplate)badPlayerTransfer();
+    upgrade=reinterpret_cast<PlayerUpgradeNode*>(rva002AE329(upgradeTemplate,UPGRADE_NATIVE_INVALID,0));
     xfer->snapshot(upgrade);
    }
    _ReadWriteBarrier();
@@ -255,8 +255,8 @@ void Player::DoXfer(Xfer *raw)
   unsigned short modifierCount,timerCount,squadCount;
   unsigned prototypeID;
   if(xfer->saving()) {
-   for(PlayerListNode*p=prototypes.head->next;p!=prototypes.head;p=p->next) {
-    prototypeID=*reinterpret_cast<unsigned*>(reinterpret_cast<char*>(p->value)+0xC); xfer->word(&prototypeID);
+   for(PlayerListNode*playerListNode=prototypes.head->next;playerListNode!=prototypes.head;playerListNode=playerListNode->next) {
+    prototypeID=*reinterpret_cast<unsigned*>(reinterpret_cast<char*>(playerListNode->value)+0xC); xfer->word(&prototypeID);
    }
   } else {
    reinterpret_cast<Rva002AAC74PoolList&>(m_playerTeamPrototypes).clear();
@@ -317,8 +317,8 @@ void Player::DoXfer(Xfer *raw)
   PlayerListView&modifiers=listView(m_objectFiterPercentProductionChangeList);
   modifierCount=(unsigned short)m_objectFiterPercentProductionChangeList.size();xfer->ushort(&modifierCount);
   if(xfer->saving()) {
-   for(PlayerListNode*p=modifiers.head->next;p!=modifiers.head;p=p->next)
-    reinterpret_cast<Rva002AE71D*>(p->value)->rva002AE71D(raw);
+   for(PlayerListNode*playerListNode=modifiers.head->next;playerListNode!=modifiers.head;playerListNode=playerListNode->next)
+    reinterpret_cast<Rva002AE71D*>(playerListNode->value)->rva002AE71D(raw);
   } else {
    if(m_objectFiterPercentProductionChangeList.size()!=0)badPlayerTransfer();
    for(unsigned i=0;i<modifierCount;++i) {

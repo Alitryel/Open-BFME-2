@@ -126,7 +126,7 @@ private:
 	PlayerTeamList m_playerTeamPrototypes;	// +0x32C
 };
 
-void Player::setObjectsEnabled(const AsciiString &templateTypeToAffect, Bool enable)
+void Player::setObjectsEnabled(const AsciiString &asciiString, Bool enable)
 {
 	for (PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); it._M_node != m_playerTeamPrototypes.end()._M_node; ++it)
 	{
@@ -139,7 +139,7 @@ void Player::setObjectsEnabled(const AsciiString &templateTypeToAffect, Bool ena
 			for (DLINK_ITERATOR<Object> iter2 = team->iterate_TeamMemberList(); (obj = iter2.cur()) != 0; iter2.advance())
 			{
 				_ReadWriteBarrier();
-				if (obj->getTemplate()->getName() == templateTypeToAffect)
+				if (obj->getTemplate()->getName() == asciiString)
 					obj->setScriptStatus(OBJECT_STATUS_SCRIPT_DISABLED, !enable);
 			}
 		}

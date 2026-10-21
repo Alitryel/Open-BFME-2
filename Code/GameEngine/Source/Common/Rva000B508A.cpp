@@ -205,11 +205,11 @@ private:
 	RadiusDecalTemplate m_decal;
 };
 
-void Rva000B508A::rva000B508A(const RadiusDecalTemplate *tmpl)
+void Rva000B508A::rva000B508A(const RadiusDecalTemplate *radiusDecalTemplate)
 {
-	if (!tmpl)
+	if (!radiusDecalTemplate)
 		return;
-	m_decal.rva00330CDD(*tmpl);
+	m_decal.rva00330CDD(*radiusDecalTemplate);
 	Object *object = m_drawable->m_object;
 	if (!object)
 		return;

@@ -121,7 +121,7 @@ static KindOfMaskType scoringBuildingCreateMask;
 // Target reset is recovered in ScoreKeeperReset.cpp with the BFME2 layout.
 
 // ?ScoreKeeper::addObjectBuilt present-unmatched
-void ScoreKeeper::addObjectBuilt( const Object *o)
+void ScoreKeeper::addObjectBuilt( const Object *object)
 {
 	Bool addToCount = FALSE;
 
@@ -129,19 +129,19 @@ void ScoreKeeper::addObjectBuilt( const Object *o)
 		return;
 	}
 
-	if(o->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
+	if(object->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
 	{
 		++m_totalBuildingsBuilt;
 		addToCount = TRUE;
 	}
-	else if (o->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
+	else if (object->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
 	{
 		++m_totalBuildingsBuilt;
 		addToCount = TRUE;
 	}
-	else if(o->getTemplate()->isKindOf(KINDOF_INFANTRY) || o->getTemplate()->isKindOf(KINDOF_VEHICLE))
+	else if(object->getTemplate()->isKindOf(KINDOF_INFANTRY) || object->getTemplate()->isKindOf(KINDOF_VEHICLE))
 	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE) || o->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
+		if (object->getTemplate()->isKindOf(KINDOF_SCORE) || object->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
 		{
 			++m_totalUnitsBuilt;
 			addToCount = TRUE;
@@ -151,10 +151,10 @@ void ScoreKeeper::addObjectBuilt( const Object *o)
 	if(addToCount)
 	{
 		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsBuilt.find(o->getTemplate());
+		ObjectCountMapIt it = m_objectsBuilt.find(object->getTemplate());
 		if (it != m_objectsBuilt.end())
 			existingCount = it->second;
-		m_objectsBuilt[o->getTemplate()] = existingCount + 1;
+		m_objectsBuilt[object->getTemplate()] = existingCount + 1;
 	}
 }
 
@@ -187,26 +187,26 @@ Int ScoreKeeper::getTotalObjectsBuilt( const ThingTemplate *pTemplate )
 
 
 // ?ScoreKeeper::removeObjectBuilt present-unmatched
-void ScoreKeeper::removeObjectBuilt( const Object *o)
+void ScoreKeeper::removeObjectBuilt( const Object *object)
 {
 	if (TheGameLogic->isScoringEnabled() == FALSE) {
 		return;
 	}
 
 	Bool removeFromCount = FALSE;
-	if (o->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
+	if (object->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
 	{
 		--m_totalBuildingsBuilt;
 		removeFromCount = TRUE;
 	}
-	else if (o->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
+	else if (object->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
 	{
 		--m_totalBuildingsBuilt;
 		removeFromCount = TRUE;
 	}
-	else if (o->getTemplate()->isKindOf(KINDOF_INFANTRY) || o->getTemplate()->isKindOf(KINDOF_VEHICLE))
+	else if (object->getTemplate()->isKindOf(KINDOF_INFANTRY) || object->getTemplate()->isKindOf(KINDOF_VEHICLE))
 	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE) || o->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
+		if (object->getTemplate()->isKindOf(KINDOF_SCORE) || object->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
 		{
 			--m_totalUnitsBuilt;
 			removeFromCount = TRUE;
@@ -216,24 +216,24 @@ void ScoreKeeper::removeObjectBuilt( const Object *o)
 	if (removeFromCount)
 	{
 		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsBuilt.find(o->getTemplate());
+		ObjectCountMapIt it = m_objectsBuilt.find(object->getTemplate());
 		if (it != m_objectsBuilt.end())
 			existingCount = it->second;
-		m_objectsBuilt[o->getTemplate()] = existingCount - 1;
+		m_objectsBuilt[object->getTemplate()] = existingCount - 1;
 	}
 }
 
 // ?ScoreKeeper::addObjectCaptured present-unmatched
-void ScoreKeeper::addObjectCaptured( const Object *o )
+void ScoreKeeper::addObjectCaptured( const Object *object )
 {
 	if (TheGameLogic->isScoringEnabled() == FALSE) {
 		return;
 	}
 
 	Bool addToCount = FALSE;
-	if(o->getTemplate()->isKindOf(KINDOF_STRUCTURE))
+	if(object->getTemplate()->isKindOf(KINDOF_STRUCTURE))
 	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE))
+		if (object->getTemplate()->isKindOf(KINDOF_SCORE))
 		{
 			++m_totalFactionBuildingsCaptured;
 		}
@@ -247,10 +247,10 @@ void ScoreKeeper::addObjectCaptured( const Object *o )
 	if(addToCount)
 	{
 		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsCaptured.find(o->getTemplate());
+		ObjectCountMapIt it = m_objectsCaptured.find(object->getTemplate());
 		if (it != m_objectsCaptured.end())
 			existingCount = it->second;
-		m_objectsCaptured[o->getTemplate()] = existingCount + 1;
+		m_objectsCaptured[object->getTemplate()] = existingCount + 1;
 	}
 }
 

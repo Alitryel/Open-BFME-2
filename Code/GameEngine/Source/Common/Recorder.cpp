@@ -485,9 +485,9 @@ __forceinline void write0037BE15(CommandDumpFile0037BE15*file,const AsciiString&
 // The returned name uses the established counted-string handle and +8 payload.
 // Updating the handle before the null arm retains EAX through the two other
 // heading arguments as retail does; the ternary str() shape allocates EDX.
-__forceinline const char* templateStr0037BE15(const AsciiString &s)
+__forceinline const char* templateStr0037BE15(const AsciiString &asciiString)
 {
- const char *p=*(const char* const*)&s;
+ const char *p=*(const char* const*)&asciiString;
  if(p) p+=8;
  else p="";
  return p;
@@ -556,12 +556,12 @@ void RecorderClass::dumpCommandHistory(CommandDumpFile0037BE15* file,unsigned ma
     }
     case ARG_TEAM: text.format("    %02d: TeamID:%d",i,message->getArgument(i)->integer); break;
     case ARG_COORD: {
-     const GameMessageArgumentType* a=message->getArgument(i);
-     float x=a->coord.x; float y=a->coord.y; float z=a->coord.z;
+     const GameMessageArgumentType* gameMessageArgumentType=message->getArgument(i);
+     float x=gameMessageArgumentType->coord.x; float y=gameMessageArgumentType->coord.y; float z=gameMessageArgumentType->coord.z;
      text.format("    %02d: Coord3D: (x:%f,y:%f,z:%f), %%g(%g,%g,%g), %%x(%08x,%08x,%08x)",i,x,y,z,x,y,z,x,y,z); break;
     }
     case ARG_PIXEL: text.format("    %02d: Pixel: (x:%d,y:%d)",i,message->getArgument(i)->pixel.x,message->getArgument(i)->pixel.y); break;
-    case ARG_REGION: { Region0037BE15 a=message->getArgument(i)->region; text.format("    %02d: Pixel Region: (x:%d,y:%d) to (x:%d,y:%d)",i,a.x1,a.y1,a.x2,a.y2); break; }
+    case ARG_REGION: { Region0037BE15 gameMessageArgumentType=message->getArgument(i)->region; text.format("    %02d: Pixel Region: (x:%d,y:%d) to (x:%d,y:%d)",i,gameMessageArgumentType.x1,gameMessageArgumentType.y1,gameMessageArgumentType.x2,gameMessageArgumentType.y2); break; }
     case ARG_TIME: text.format("    %02d: TimeStamp:%d",i,message->getArgument(i)->timestamp); break;
     case ARG_CHAR: {
      if (!string) text.format("    %02d: String:%C",i,message->getArgument(i)->character);

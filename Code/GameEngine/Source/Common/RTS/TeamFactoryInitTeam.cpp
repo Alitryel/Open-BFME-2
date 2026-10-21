@@ -77,14 +77,14 @@ private:
 	int m_uniqueTeamPrototypeID; // +0xBC
 };
 
-void TeamFactory::initTeam(const AsciiString &name, const AsciiString &owner, bool isSingleton, Dict *d)
+void TeamFactory::initTeam(const AsciiString &name, const AsciiString &owner, bool isSingleton, Dict *dict)
 {
 	if (findTeamPrototype(owner, name) != 0)
 		return;
 	Player *pOwner = ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(owner));
 	if (!pOwner)
 		pOwner = ThePlayerList->bfme_getNeutralPlayer_3c6a8();
-	TeamPrototype *tp = new TeamPrototype(this, owner, name, pOwner, isSingleton, d, ++m_uniqueTeamPrototypeID);
+	TeamPrototype *tp = new TeamPrototype(this, owner, name, pOwner, isSingleton, dict, ++m_uniqueTeamPrototypeID);
 	if (isSingleton)
 		createInactiveTeam(tp->getOwnerName(), tp->getName());
 }

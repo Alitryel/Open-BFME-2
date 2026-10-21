@@ -39,14 +39,14 @@ private:
 	struct DLINKHEAD_TeamMemberList { Object *m_head; } m_dlinkhead_TeamMemberList; // +0x38
 };
 
-void Team::prependTo_TeamMemberList(Object *o)
+void Team::prependTo_TeamMemberList(Object *object)
 {
-	if (!isInList_TeamMemberList(o))
-		o->dlink_prependTo_TeamMemberList(&m_dlinkhead_TeamMemberList.m_head);
+	if (!isInList_TeamMemberList(object))
+		object->dlink_prependTo_TeamMemberList(&m_dlinkhead_TeamMemberList.m_head);
 }
 
-void Team::removeFrom_TeamMemberList(Object *o)
+void Team::removeFrom_TeamMemberList(Object *object)
 {
-	if (isInList_TeamMemberList(o))
-		o->dlink_removeFrom_TeamMemberList(&m_dlinkhead_TeamMemberList.m_head);
+	if (isInList_TeamMemberList(object))
+		object->dlink_removeFrom_TeamMemberList(&m_dlinkhead_TeamMemberList.m_head);
 }

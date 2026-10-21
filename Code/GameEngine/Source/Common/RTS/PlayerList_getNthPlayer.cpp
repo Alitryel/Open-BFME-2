@@ -158,13 +158,13 @@ class Rva002ADF9C
 public:
 	void rva002ADF9C(const Player *that, Object *relationship);
 };
-static inline void setBuildList(Player *p, BuildListInfo *buildList)
+static inline void setBuildList(Player *player, BuildListInfo *buildList)
 {
-	((Rva002A99D2 *)p)->rva002A99D2(buildList);
+	((Rva002A99D2 *)player)->rva002A99D2(buildList);
 }
-static inline void setPlayerRelationship(Player *p, const Player *that, Relationship r)
+static inline void setPlayerRelationship(Player *player, const Player *that, Relationship r)
 {
-	((Rva002ADF9C *)p)->rva002ADF9C(that, (Object *)r);
+	((Rva002ADF9C *)player)->rva002ADF9C(that, (Object *)r);
 }
 
 class Rva002AA22AByteField
@@ -363,30 +363,30 @@ void PlayerList::newGame()
 	Bool setLocal = false;
 	for( i = 0; i < TheSidesList->getNumSides(); i++)
 	{
-		Dict *d = TheSidesList->getSideInfo(i)->getDict();
-		AsciiString pname = d->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get());
+		Dict *dict = TheSidesList->getSideInfo(i)->getDict();
+		AsciiString pname = dict->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get());
 		if (pname.isEmpty())
 			continue;	// it's neutral, which we've already done, so skip it.
 
-		Player* p = m_players[m_playerCount++];
-		p->initFromDict(d);
+		Player* player = m_players[m_playerCount++];
+		player->initFromDict(dict);
 
 		// Multiplayer override
 		Bool exists;	// throwaway, since we don't care if it exists
-		if (d->getBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(), &exists))
+		if (dict->getBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(), &exists))
 		{
-			setLocalPlayer(p);
+			setLocalPlayer(player);
 			setLocal = true;
 		}
 
-		if (!setLocal && !TheNetwork && d->getBool(TheKey_playerIsHuman.get()))
+		if (!setLocal && !TheNetwork && dict->getBool(TheKey_playerIsHuman.get()))
 		{
-			setLocalPlayer(p);
+			setLocalPlayer(player);
 			setLocal = true;
 		}
 
 		// Set the build list.
-		setBuildList(p, TheSidesList->getSideInfo(i)->getBuildList());
+		setBuildList(player, TheSidesList->getSideInfo(i)->getBuildList());
 		// Build list is attached to player now, so release it from the side info.
 		TheSidesList->getSideInfo(i)->releaseBuildList();
 	}
@@ -395,11 +395,11 @@ void PlayerList::newGame()
 	{
 		for( i = 0; i < TheSidesList->getNumSides(); i++)
 		{
-			Player* p = getNthPlayer(i);
-			if (p != getNeutralPlayer())
+			Player* player = getNthPlayer(i);
+			if (player != getNeutralPlayer())
 			{
-				p->setPlayerType(PLAYER_HUMAN, false);
-				setLocalPlayer(p);
+				player->setPlayerType(PLAYER_HUMAN, false);
+				setLocalPlayer(player);
 				setLocal = true;
 				break;
 			}
@@ -411,37 +411,37 @@ void PlayerList::newGame()
 
 	for( i = 0; i < TheSidesList->getNumSides(); i++)
 	{
-		Dict *d = TheSidesList->getSideInfo(i)->getDict();
-		Player* p = findPlayerWithNameKey(NAMEKEY(d->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get())));
+		Dict *dict = TheSidesList->getSideInfo(i)->getDict();
+		Player* player = findPlayerWithNameKey(NAMEKEY(dict->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get())));
 
 		AsciiString tok;
 
-		AsciiString enemies = d->getAsciiString(TheKey_playerEnemies.get());
+		AsciiString enemies = dict->getAsciiString(TheKey_playerEnemies.get());
 		while (enemies.nextToken(&tok))
 		{
 			Player *p2 = findPlayerWithNameKey(NAMEKEY(tok));
 			if (p2)
 			{
-				setPlayerRelationship(p, p2, ENEMIES);
+				setPlayerRelationship(player, p2, ENEMIES);
 			}
 		}
 
-		AsciiString allies = d->getAsciiString(TheKey_playerAllies.get());
+		AsciiString allies = dict->getAsciiString(TheKey_playerAllies.get());
 		while (allies.nextToken(&tok))
 		{
 			Player *p2 = findPlayerWithNameKey(NAMEKEY(tok));
 			if (p2)
 			{
-				setPlayerRelationship(p, p2, ALLIES);
+				setPlayerRelationship(player, p2, ALLIES);
 			}
 		}
 
 		// finally, make sure self & neutral are correct.
-		setPlayerRelationship(p, p, ALLIES);
-		if (p != getNeutralPlayer())
-			setPlayerRelationship(p, getNeutralPlayer(), NEUTRAL);
+		setPlayerRelationship(player, player, ALLIES);
+		if (player != getNeutralPlayer())
+			setPlayerRelationship(player, getNeutralPlayer(), NEUTRAL);
 
-		p->setDefaultTeam();
+		player->setDefaultTeam();
 	}
 
 }
@@ -470,7 +470,7 @@ extern GameLogic *TheGameLogic;
 class ControlBar
 {
 public:
-	void setObservedPlayer(Player *p) { m_observedPlayer = p; }
+	void setObservedPlayer(Player *player) { m_observedPlayer = player; }
 	char pad000[0x210];
 	Player *m_observedPlayer;
 };
@@ -591,4 +591,4 @@ void PlayerList::rva002A8306(bool forward)
 }
 
 // ?bfmeAnchorGetSideInfoCopy@@YAXPAVSidesList@@@Z absent-from-retail
-void bfmeAnchorGetSideInfoCopy(SidesList *p) { p->getSideInfo(0); }
+void bfmeAnchorGetSideInfoCopy(SidesList *sidesList) { sidesList->getSideInfo(0); }

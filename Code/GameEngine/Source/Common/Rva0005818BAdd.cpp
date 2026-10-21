@@ -59,9 +59,9 @@ public:
 	float m_slot[12][4];
 };
 
-void MilesAudioManager::GlobalVolumeData::volumeAdjustingSoundStarting(Holder *o, int key)
+void MilesAudioManager::GlobalVolumeData::volumeAdjustingSoundStarting(Holder *holder, int key)
 {
-	_STL::vector<BfmeE8> &outer = o->m_inner->m_vec;
+	_STL::vector<BfmeE8> &outer = holder->m_inner->m_vec;
 	BfmeE8 *p = outer.begin();
 	BfmeE8 *oend = outer.end();
 	for (; p != oend; ++p)

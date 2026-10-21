@@ -9,13 +9,13 @@
 extern const char g_Rva0107301CEmptyString[] = { 0 };
 extern "C" __declspec(dllimport) int __cdecl sprintf(char *buf, const char *fmt, ...);
 
-AsciiString Rva000B992CBuild(const AsciiString &a1, const AsciiString &a2, int dummy, bool flag, int num)
+AsciiString Rva000B992CBuild(const AsciiString &asciiString, const AsciiString &a2, int dummy, bool flag, int num)
 {
 	AsciiString local(g_Rva0107301CEmptyString);
 	char tmp[64];
-	if (!((const StringBase<char> &)a1).isEmpty())
+	if (!((const StringBase<char> &)asciiString).isEmpty())
 	{
-		((StringBase<char> &)local).set((const StringBase<char> &)a1);
+		((StringBase<char> &)local).set((const StringBase<char> &)asciiString);
 		sprintf(tmp, "%d", num);
 		if (flag)
 			((StringBase<char> &)local).concat(tmp);

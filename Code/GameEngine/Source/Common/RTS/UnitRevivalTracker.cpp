@@ -390,9 +390,9 @@ Int UnitRevivalEntry::revivalEntryCalcTimeToBuild(const Player *player, Object *
 		if (f)
 			factor = f->getFactor(m_a0);
 	}
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_templateName);
-	if (tmpl)
-		return (Int)(tmpl->calcTimeToBuild(player, 0, m_9c) * factor);
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(m_templateName);
+	if (thingTemplate)
+		return (Int)(thingTemplate->calcTimeToBuild(player, 0, m_9c) * factor);
 	return 0;
 }
 
@@ -410,9 +410,9 @@ Int UnitRevivalEntry::revivalEntryCalcCostToBuild(const Player *player, Object *
 		if (f)
 			factor = f->getCostFactor(m_a0);
 	}
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_templateName);
-	if (tmpl)
-		return (Int)(tmpl->rva0033A69A(player, 0, m_94) * factor);
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(m_templateName);
+	if (thingTemplate)
+		return (Int)(thingTemplate->rva0033A69A(player, 0, m_94) * factor);
 	return 0;
 }
 
@@ -475,16 +475,16 @@ UnitRevivalEntry::UnitRevivalEntry(Object *object)
 	, m_displayName(*reinterpret_cast<const AsciiString*>(reinterpret_cast<const char*>(object)+0x88))
 	, m_templateName()
 {
- RevivalTemplateView *t = object->thingTemplate;
+ RevivalTemplateView *revivalTemplateView = object->thingTemplate;
  static NameKeyType respawnUpdateKey = TheNameKeyGenerator->nameToKey("RespawnUpdate");
  Module *module = object->findModule(respawnUpdateKey);
  if (module) {
   m_reviveImage = module->v14();
   m_94 = reinterpret_cast<Rva004AFB01*>(module)->rva004AFB01();
   m_9c = reinterpret_cast<Rva004AFB01*>(module)->rva004AFB16();
-  t = static_cast<RevivalTemplateView*>(reinterpret_cast<RespawnUpdate*>(module)->rva004AF25D());
+  revivalTemplateView = static_cast<RevivalTemplateView*>(reinterpret_cast<RespawnUpdate*>(module)->rva004AF25D());
  }
- m_templateName.setCopyInline(t ? t->name : AsciiString::TheEmptyString);
+ m_templateName.setCopyInline(revivalTemplateView ? revivalTemplateView->name : AsciiString::TheEmptyString);
 }
 
 // Native2E134C..2E1451 complete261B copy of the same D8 revival record.

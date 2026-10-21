@@ -14,4 +14,4 @@ int __stdcall Rva000E007DEqual(const Rva000E007DPair*,const Rva000E007DPair*);
 struct NativeNode {NativeNode*next;Rva000E007DPair key;};
 class NativeHashEqual {public:bool equal(const Rva000E007DPair*a,const Rva000E007DPair*b){union Call{int(__stdcall*fn)(const Rva000E007DPair*,const Rva000E007DPair*);bool(NativeHashEqual::*mem)(const Rva000E007DPair*,const Rva000E007DPair*);}c;c.fn=&Rva000E007DEqual;return (this->*c.mem)(a,b);}};
 class Rva000E01B0 {public:NativeNode*rva000E01B0(const Rva000E007DPair*key);private:char hash;NativeHashEqual eq;char pad[2];NativeNode**begin,**end;};
-NativeNode*Rva000E01B0::rva000E01B0(const Rva000E007DPair*key){unsigned n=end-begin;unsigned index=(unsigned)(key->m00^key->m04)%n;_ReadWriteBarrier();NativeNode*p=begin[index];while(p&&!eq.equal(&p->key,key))p=p->next;return p;}
+NativeNode*Rva000E01B0::rva000E01B0(const Rva000E007DPair*key){unsigned n=end-begin;unsigned index=(unsigned)(key->m00^key->m04)%n;_ReadWriteBarrier();NativeNode*nativeNode=begin[index];while(nativeNode&&!eq.equal(&nativeNode->key,key))nativeNode=nativeNode->next;return nativeNode;}

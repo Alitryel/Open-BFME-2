@@ -11,10 +11,10 @@ public:
 };
 void *Rva00049D20::rva00049D20(void *dest, int index)
 {
-    Payload *d = (Payload *)dest;
+    Payload *payload = (Payload *)dest;
     Payload *s = &m_table[index]->p;
-    d->f = s->f;
-    d->a = s->a;
-    d->b = s->b;
+    payload->f = s->f;
+    payload->a = s->a;
+    payload->b = s->b;
     return dest;
 }

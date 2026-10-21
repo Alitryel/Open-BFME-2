@@ -149,7 +149,7 @@ void INI::initFromINIMulti(void *what, const MultiIniFieldParse &parseTableList)
 						{
 							(*parse)(this, what, (char *)what + offset + parseTableList.getNthExtraOffset(ptIdx), userData);
 						}
-						catch (INIException &e)
+						catch (INIException &iNIException)
 						{
 							Rva0002C237Get(this);
 							// Retail builds the file name, then reads the caught exception, then
@@ -159,7 +159,7 @@ void INI::initFromINIMulti(void *what, const MultiIniFieldParse &parseTableList)
 							char *msg;
 							int code;
 							throw INIException(code, "%s\n\nError parsing field '%s' in block '%s' in file '%s', line %i.\n",
-								msg, field, m_curBlockStart, file, (file = rva0002BFE5().str(), msg = e.mFailureMessage, code = e.mErrorCode, rva0002BBDE()));
+								msg, field, m_curBlockStart, file, (file = rva0002BFE5().str(), msg = iNIException.mFailureMessage, code = iNIException.mErrorCode, rva0002BBDE()));
 						}
 						catch (...)
 						{

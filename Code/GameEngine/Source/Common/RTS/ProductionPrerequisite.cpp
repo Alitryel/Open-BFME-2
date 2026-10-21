@@ -92,22 +92,22 @@ void ProductionPrerequisite::init()
 //-----------------------------------------------------------------------------
 Int ProductionPrerequisite::calcNumPrereqUnitsOwned(const Player *player, Int counts[MAX_PREREQ]) const
 {
-	const ThingTemplate *tmpls[MAX_PREREQ];
+	const ThingTemplate *thingTemplate[MAX_PREREQ];
 	UnsignedInt cnt = m_prereqUnits.size();
 	if (cnt > MAX_PREREQ)
 		cnt = MAX_PREREQ;
 	UnsignedInt i;
 	for (i = 0; i < cnt; i++)
-		tmpls[i] = m_prereqUnits[i].unit;
+		thingTemplate[i] = m_prereqUnits[i].unit;
 	int j;
 	for (j = cnt; j < MAX_PREREQ; j++)
-		tmpls[j] = NULL;
-	player->countObjectsByThingTemplate(cnt, tmpls, false, counts);
+		thingTemplate[j] = NULL;
+	player->countObjectsByThingTemplate(cnt, thingTemplate, false, counts);
 	return cnt;
 }
 
 //-----------------------------------------------------------------------------
-Int ProductionPrerequisite::getAllPossibleBuildFacilityTemplates(const ThingTemplate* tmpls[], Int maxtmpls) const
+Int ProductionPrerequisite::getAllPossibleBuildFacilityTemplates(const ThingTemplate* thingTemplate[], Int maxtmpls) const
 {
 	Int count = 0;
 	for (int i = 0; i < m_prereqUnits.size(); i++)
@@ -116,7 +116,7 @@ Int ProductionPrerequisite::getAllPossibleBuildFacilityTemplates(const ThingTemp
 			break;
 		if (count >= maxtmpls)
 			break;
-		tmpls[count++] = m_prereqUnits[i].unit;
+		thingTemplate[count++] = m_prereqUnits[i].unit;
 	}
 	return count;
 }

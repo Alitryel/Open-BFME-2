@@ -317,8 +317,8 @@ Open2Rec81C6B0::Open2Rec81C6B0( const Open2Rec81C6B0 &other )
 // anchor only makes this unit emit its copy for the ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitOpen2Records@@YAXPAVPlayerInfo@@ABV1@@Z present-unmatched
-void bfmeEmitOpen2Records(PlayerInfo *p, const PlayerInfo &q)
+void bfmeEmitOpen2Records(PlayerInfo *playerInfo, const PlayerInfo &q)
 {
-	p->PlayerInfo::PlayerInfo(q);
+	playerInfo->PlayerInfo::PlayerInfo(q);
 }
 #pragma inline_depth()

@@ -587,12 +587,12 @@ struct RetailConditionVector00765B20
 	const RetailModelConditionInfo00765B20 *m_end;
 };
 
-static Bool doesStateExist(const ModelConditionVector& v, const ModelConditionFlags& f)
+static Bool doesStateExist(const ModelConditionVector& modelConditionVector, const ModelConditionFlags& modelConditionFlags)
 {
 	const RetailConditionVector00765B20& retailVector =
-		*reinterpret_cast<const RetailConditionVector00765B20 *>(&v);
+		*reinterpret_cast<const RetailConditionVector00765B20 *>(&modelConditionVector);
 	const RetailConditionFlags00765B20& retailFlags =
-		*reinterpret_cast<const RetailConditionFlags00765B20 *>(&f);
+		*reinterpret_cast<const RetailConditionFlags00765B20 *>(&modelConditionFlags);
 	for (const RetailModelConditionInfo00765B20 *it = retailVector.m_begin;
 		 it != retailVector.m_end; ++it)
 	{
@@ -658,11 +658,11 @@ public:
 };
 
 //-------------------------------------------------------------------------------------------------
-static Bool isAnimationComplete(RenderObjClass* r)
+static Bool isAnimationComplete(RenderObjClass* renderObj)
 {
-	if (r && r->Class_ID() == RenderObjClass::CLASSID_HLOD)
+	if (renderObj && renderObj->Class_ID() == RenderObjClass::CLASSID_HLOD)
 	{
-		HLodClass *hlod = (HLodClass*)r;
+		HLodClass *hlod = (HLodClass*)renderObj;
 		return hlod->Is_Animation_Complete();
 	}
 
@@ -723,7 +723,7 @@ static void doHideShowBoneSubObjs(Bool state, Int numSubObjects, Int boneIdx, Re
 #endif
 
 //-------------------------------------------------------------------------------------------------
-static Bool turretNamesDiffer(const ModelConditionInfo* a, const ModelConditionInfo* b)
+static Bool turretNamesDiffer(const ModelConditionInfo* modelConditionInfo, const ModelConditionInfo* b)
 {
 	struct RetailModelConditionInfo
 	{
@@ -740,15 +740,15 @@ static Bool turretNamesDiffer(const ModelConditionInfo* a, const ModelConditionI
 		unsigned char m_validStuff;
 	};
 
-	if (!reinterpret_cast<const RetailModelConditionInfo *>(a)->m_validStuff ||
+	if (!reinterpret_cast<const RetailModelConditionInfo *>(modelConditionInfo)->m_validStuff ||
 			!reinterpret_cast<const RetailModelConditionInfo *>(b)->m_validStuff)
 	{
 		return true;
 	}
 	for (int i = 0; i < MAX_TURRETS; ++i)
-		if (reinterpret_cast<const RetailModelConditionInfo *>(a)->m_turrets[i].m_turretAngleNameKey !=
+		if (reinterpret_cast<const RetailModelConditionInfo *>(modelConditionInfo)->m_turrets[i].m_turretAngleNameKey !=
 				reinterpret_cast<const RetailModelConditionInfo *>(b)->m_turrets[i].m_turretAngleNameKey ||
-				reinterpret_cast<const RetailModelConditionInfo *>(a)->m_turrets[i].m_turretPitchNameKey !=
+				reinterpret_cast<const RetailModelConditionInfo *>(modelConditionInfo)->m_turrets[i].m_turretPitchNameKey !=
 				reinterpret_cast<const RetailModelConditionInfo *>(b)->m_turrets[i].m_turretPitchNameKey)
 			return true;
 
@@ -800,9 +800,9 @@ private:
 // kept alive by direct calls rather than by taking its address. Build
 // scaffolding; it claims no retail bytes.
 // ?doSingleBoneNameAnchor absent-from-retail
-Bool doSingleBoneNameAnchor(RenderObjClass *robj, const AsciiString &a, const AsciiString &b, PristineBoneInfoMap &map)
+Bool doSingleBoneNameAnchor(RenderObjClass *robj, const AsciiString &asciiString, const AsciiString &b, PristineBoneInfoMap &map)
 {
-	return doSingleBoneName(robj, a, map) && doSingleBoneName(robj, b, map);
+	return doSingleBoneName(robj, asciiString, map) && doSingleBoneName(robj, b, map);
 }
 
 // ------------------------------------------------------------------------------------------------

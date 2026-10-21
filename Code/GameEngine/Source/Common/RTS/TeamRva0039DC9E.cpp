@@ -50,10 +50,10 @@ int Team::countObjects(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear) const
 	int count = 0;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 		Object *cur = iter.cur();
-		ThingTemplate *tmpl = cur->m_template;
-		if (tmpl == 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if (thingTemplate == 0)
 			continue;
-		if (!tmpl->m_flags.testSetAndClear(mustBeSet, mustBeClear))
+		if (!thingTemplate->m_flags.testSetAndClear(mustBeSet, mustBeClear))
 			continue;
 		++count;
 	}

@@ -50,7 +50,7 @@ public:
 typedef _STL::map<AsciiString, PlayerInfo, AsciiComparator> PlayerInfoMap;
 
 // ?RecMapFind@@YA?AU?$_Rb_tree_iterator@U?$pair@$$CBVAsciiString@@VPlayerInfo@@@_STL@@U?$_Const_traits@U?$pair@$$CBVAsciiString@@VPlayerInfo@@@_STL@@@2@@_STL@@ABV?$map@VAsciiString@@VPlayerInfo@@UAsciiComparator@@V?$allocator@U?$pair@$$CBVAsciiString@@VPlayerInfo@@@_STL@@@_STL@@@2@ABVAsciiString@@@Z present-unmatched
-PlayerInfoMap::const_iterator RecMapFind(const PlayerInfoMap &m, const AsciiString &key)
+PlayerInfoMap::const_iterator RecMapFind(const PlayerInfoMap &playerInfoMap, const AsciiString &key)
 {
-	return m.find(key);
+	return playerInfoMap.find(key);
 }

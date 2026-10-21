@@ -29,9 +29,9 @@ int ModuleFactory::findModuleInterfaceMask(const AsciiString &name, ModuleType t
 {
 	if (!name.isEmpty())
 	{
-		const ModuleTemplate *tmpl = findModuleTemplate(name, type);
-		if (tmpl != 0)
-			return tmpl->m_tag0C;
+		const ModuleTemplate *moduleTemplate = findModuleTemplate(name, type);
+		if (moduleTemplate != 0)
+			return moduleTemplate->m_tag0C;
 	}
 	return 0;
 }

@@ -229,15 +229,15 @@ struct OnlineMiscProfileStats
 // ?accumulateOnlineMiscPrefs@@YAXPAUOnlineMiscProfileStats@@@Z @0x384A62
 void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 {
-	OnlineMiscProfileStats *s = stats;
-	if (!s)
+	OnlineMiscProfileStats *onlineMiscProfileStats = stats;
+	if (!onlineMiscProfileStats)
 		return;
-	if (s->m_profileSlot == 0)
+	if (onlineMiscProfileStats->m_profileSlot == 0)
 		return;
 
 	if (TheGameSpyInfo->slot178() > 0)
 	{
-		if (sumOnlineMiscPrefs(s->m_profileSlot) == 0)
+		if (sumOnlineMiscPrefs(onlineMiscProfileStats->m_profileSlot) == 0)
 			TheGameSpyInfo->slot17c();
 	}
 	if (TheGameSpyInfo->slot178() < 1)
@@ -245,7 +245,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 
 	UserPreferences prefs;
 	AsciiString path;
-	path.format("%s\\MiscPref%d.ini", "Online Files", s->m_profileSlot);
+	path.format("%s\\MiscPref%d.ini", "Online Files", onlineMiscProfileStats->m_profileSlot);
 	prefs.load(path);
 
 	{
@@ -259,7 +259,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("0");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_lowDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_lowDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -273,7 +273,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("1");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_lowDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_lowDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -287,7 +287,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("2");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_lowDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_lowDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -301,7 +301,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("3");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_highDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_highDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -315,7 +315,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("4");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_highDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_highDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -329,7 +329,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("5");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_highDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_highDigitStats += abs(atoi(text));
 		}
 	}
 }

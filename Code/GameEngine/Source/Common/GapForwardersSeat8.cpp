@@ -52,9 +52,9 @@ private:
 	char m_pad000[0xF44];
 	TeamsInfoRec m_teams;
 };
-int Rva0023C60E::rva0023C60E(const Dict *d)
+int Rva0023C60E::rva0023C60E(const Dict *dict)
 {
-	return m_teams.addTeam(d);
+	return m_teams.addTeam(dict);
 }
 
 // --- 0x0023C4A1 (12B): calls the rowed 0x00225476 on the pointer at +0

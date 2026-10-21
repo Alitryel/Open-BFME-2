@@ -126,8 +126,8 @@ bool Team::didAllEnter(PolygonTrigger *pTrigger, UnsignedInt whichToConsider)
 		}
 		if ((cur->m_dead & 1) != 0)
 			continue;
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kindByte113 & 2) != 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kindByte113 & 2) != 0)
 			continue;
 		if (cur->didEnter(pTrigger))
 			entered = true;
@@ -159,10 +159,10 @@ bool Team::didAllExit(PolygonTrigger *pTrigger, UnsignedInt whichToConsider)
 		}
 		if ((cur->m_dead & 1) != 0)
 			continue;
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kindByte113 & 2) != 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kindByte113 & 2) != 0)
 			continue;
-		if ((tmpl->m_kindByte118 & 0x40) != 0)
+		if ((thingTemplate->m_kindByte118 & 0x40) != 0)
 			continue;
 		if (cur->didExit(pTrigger))
 			exited = true;

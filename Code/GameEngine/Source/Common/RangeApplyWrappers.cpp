@@ -63,6 +63,6 @@ private:
 
 void Rva00569393Owner::rva00569393(int a)
 {
-	for (LargeGroupAudioSoundKeyPair **p = m_begin; p != m_end; ++p)
-		(*p)->removePointersToGridCellsInDuckingTarget((BitRange *)this, (void *)a);
+	for (LargeGroupAudioSoundKeyPair **largeGroupAudioSoundKeyPair = m_begin; largeGroupAudioSoundKeyPair != m_end; ++largeGroupAudioSoundKeyPair)
+		(*largeGroupAudioSoundKeyPair)->removePointersToGridCellsInDuckingTarget((BitRange *)this, (void *)a);
 }

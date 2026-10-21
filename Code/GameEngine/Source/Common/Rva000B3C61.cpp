@@ -39,9 +39,9 @@ void Rva000B3C61::rva000B3C61(int index)
 {
 	if (m_items[index].m_ptr)
 	{
-		RefCounted *p = m_items[index].m_ptr;
-		if (--p->m_ref == 0)
-			p->rva000B3C61_virt0();
+		RefCounted *refCounted = m_items[index].m_ptr;
+		if (--refCounted->m_ref == 0)
+			refCounted->rva000B3C61_virt0();
 		m_items[index].m_ptr = 0;
 	}
 	m_items[index].m_10 = 0;
@@ -60,9 +60,9 @@ void Rva000B3C61::rva000B3C61(int index)
 void Rva000B3C61::rva000B3BCF(int index, RefCounted *newPtr, unsigned char b19, int i10, float f0C, float f04, float fMid, unsigned char b18, int i14)
 {
 	if (m_items[index].m_ptr) {
-		RefCounted *p = m_items[index].m_ptr;
-		if (--p->m_ref == 0)
-			p->rva000B3C61_virt0();
+		RefCounted *refCounted = m_items[index].m_ptr;
+		if (--refCounted->m_ref == 0)
+			refCounted->rva000B3C61_virt0();
 		m_items[index].m_ptr = 0;
 	}
 	if (!newPtr)

@@ -69,8 +69,8 @@ PlayerList::~PlayerList()
 {
 	for (int i = 0; i < 20; ++i)
 	{
-		Player *p = m_players[i];
-		::operator delete(p ? p->deleteInstance(0) : 0);
+		Player *player = m_players[i];
+		::operator delete(player ? player->deleteInstance(0) : 0);
 		m_players[i] = 0;
 	}
 

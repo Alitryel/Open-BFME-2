@@ -68,9 +68,9 @@ private:
 void Rva005A9693Owner::rva005A9693()
 {
 	for (Int i = 0; i < ThePlayerList->m_playerCount; ++i) {
-		Player *p = ThePlayerList->getNthPlayer(i);
-		if (p && p != m_player && p->rva002AA245()
-			&& m_player->getRelationship(p) == ENEMIES) {
+		Player *player = ThePlayerList->getNthPlayer(i);
+		if (player && player != m_player && player->rva002AA245()
+			&& m_player->getRelationship(player) == ENEMIES) {
 			BfmeE8 rec;
 			rec.a = i;
 			rec.b = 0.0f;

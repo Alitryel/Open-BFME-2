@@ -52,8 +52,8 @@ class INI
 public:
 	void parseLine(AsciiString &filename);
  __forceinline INIBlockParse findBlockParse(const char *token) {
-  for(BlockParse *p=theBlockParseList;p;p=p->next) {
-   const char *name=p->token; if(strcmp(name,token)==0)return p->parse;
+  for(BlockParse *blockParse=theBlockParseList;blockParse;blockParse=blockParse->next) {
+   const char *name=blockParse->token; if(strcmp(name,token)==0)return blockParse->parse;
   }return 0;
  }
 private:
@@ -87,11 +87,11 @@ void INI::parseLine(AsciiString &filename)
 			{
 				(*parse)(this);
 			}
-			catch (INIException &e)
+			catch (INIException &iNIException)
 			{
-				throw INIException(e.m_argCount,
+				throw INIException(iNIException.m_argCount,
 					"%s\n\nError parsing INI block '%s' in file '%s'.",
-					e.mFailureMessage, token, m_filename.str());
+					iNIException.mFailureMessage, token, m_filename.str());
 			}
 			catch (...)
 			{

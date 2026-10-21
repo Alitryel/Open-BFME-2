@@ -32,18 +32,18 @@ public:
 };
 void Team::disband()
 {
-    Team *t = m30->m_team08;
-    if (t) {
-        Team *u = ((Rva0039Owner *)t)->m_unit;
+    Team *team = m30->m_team08;
+    if (team) {
+        Team *u = ((Rva0039Owner *)team)->m_unit;
         if ((Team *)this != u)
             ((Team *)this)->transferUnitsTo(u);
     } else {
-        Object *o;
+        Object *object;
         do {
-            o = m38;
-            if (o == 0)
+            object = m38;
+            if (object == 0)
                 break;
-            o->setTeam(0);
-        } while (o != 0);
+            object->setTeam(0);
+        } while (object != 0);
     }
 }

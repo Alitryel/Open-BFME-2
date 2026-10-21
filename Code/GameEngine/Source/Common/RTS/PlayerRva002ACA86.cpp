@@ -70,8 +70,8 @@ void Player::processCreateTeamGameMessage(int index, const GameMessage *msg)
 	int i = 0;
 	unsigned int left = count;
 	while (true) {
-		const GameMessageArgumentType *arg = msg->getArgument(i);
-		Object *obj = TheGameLogic->findObjectByID(arg->m_objectID);
+		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(i);
+		Object *obj = TheGameLogic->findObjectByID(gameMessageArgumentType->m_objectID);
 		if (obj) {
 			((Rva002AA191 *)this)->rva002AA1BF(obj);
 			((Rva004D6C7C *)*slot)->rva004D6C7C(obj);

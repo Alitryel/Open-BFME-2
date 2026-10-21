@@ -46,8 +46,8 @@ static __declspec(noinline) __declspec(nothrow) File *openFile(const AsciiString
 // retail does (no direct caller remains in the image). Name address-derived.
 static char *Rva000A9F85ReadEntire(const AsciiString *fname)
 {
-	File *f = openFile(fname);
-	return f ? f->readEntireAndClose() : 0;
+	File *file = openFile(fname);
+	return file ? file->readEntireAndClose() : 0;
 }
 
 // NativeAA557..AA5B2 RET0: construct name+".apt", open with the private

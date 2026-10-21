@@ -84,11 +84,11 @@ bool Team::rva0039DE46(BfmeTab1026 *tab, bool flag)
 			continue;
 		if ((cur->m_status94 & 1) != 0)
 			continue;
-		ThingTemplate *tmpl = cur->m_template;
-		if ((tmpl->m_kindByte10e & 0x80) != 0)
+		ThingTemplate *thingTemplate = cur->m_template;
+		if ((thingTemplate->m_kindByte10e & 0x80) != 0)
 			continue;
 		if (flag) {
-			if ((tmpl->m_kind0 & 0x80) != 0) {
+			if ((thingTemplate->m_kind0 & 0x80) != 0) {
 				UnsignedInt s = cur->m_status114;
 				bool b3 = ((s >> 3) & 1) != 0;
 				bool b4 = ((s >> 4) & 1) != 0;

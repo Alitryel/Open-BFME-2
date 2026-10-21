@@ -117,8 +117,8 @@ bool Team::rva0039E0D0()
 			Object *cur = iter.cur();
 			if (cur->testStatus(ObjectStatus_Two))
 				return false;
-			ThingTemplate *tmpl = cur->m_template;
-			if ((tmpl->m_byte115 & 0x20) == 0)
+			ThingTemplate *thingTemplate = cur->m_template;
+			if ((thingTemplate->m_byte115 & 0x20) == 0)
 				continue;
 			Rva0039E0D0AI *ai = cur->m_ai250;
 			if (ai == 0)

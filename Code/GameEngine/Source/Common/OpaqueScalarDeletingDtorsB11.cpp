@@ -351,9 +351,9 @@ Rva005105D7::Rva005105D7(EmitVtableTag *)
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 
-__forceinline const char *GetStr0050FDDC(const AsciiString &s)
+__forceinline const char *GetStr0050FDDC(const AsciiString &asciiString)
 {
-	char *t = *(char **)(const void *)&s;
+	char *t = *(char **)(const void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

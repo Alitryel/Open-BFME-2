@@ -8,7 +8,7 @@ struct Rva000B642A {
 	int m_0;
 	PristineBoneInfo m_4;
 };
-Rva000B642A::Rva000B642A(const int *p, const PristineBoneInfo &q)
-	: m_0(*p), m_4(q)
+Rva000B642A::Rva000B642A(const int *p, const PristineBoneInfo &pristineBoneInfo)
+	: m_0(*p), m_4(pristineBoneInfo)
 {
 }

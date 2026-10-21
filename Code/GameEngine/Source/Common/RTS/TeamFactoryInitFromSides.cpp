@@ -115,11 +115,11 @@ void TeamFactory::initFromSides(SidesList *sides)
  while(id) {
   id *= sizeof(TeamInfoRecord);
   if(*(unsigned short*)(((id ? id : id)+(char*)(sides ? sides->teams.records : sides->teams.records))+6)==0) {
-   Dict *d=(Dict*)(((id ? id : id)+(char*)(sides ? sides->teams.records : sides->teams.records))+12);
-   AsciiString tname=d->getAsciiString(teamKey(TheKey_teamName));
-   AsciiString oname=d->getAsciiString(teamKey(TheKey_teamOwner));
-   bool singleton=d->getBool(teamKey(TheKey_teamIsSingleton));
-   initTeam(tname,oname,singleton,d);
+   Dict *dict=(Dict*)(((id ? id : id)+(char*)(sides ? sides->teams.records : sides->teams.records))+12);
+   AsciiString tname=dict->getAsciiString(teamKey(TheKey_teamName));
+   AsciiString oname=dict->getAsciiString(teamKey(TheKey_teamOwner));
+   bool singleton=dict->getBool(teamKey(TheKey_teamIsSingleton));
+   initTeam(tname,oname,singleton,dict);
   }
   id=*(short*)(((id ? id : id)+(char*)(sides ? sides->teams.records : sides->teams.records)));
  }

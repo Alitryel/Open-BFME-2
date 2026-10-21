@@ -240,9 +240,9 @@ Team::~Team()
 	{
 		for (int i = 0; i < ThePlayerList->getPlayerCount(); ++i)
 		{
-			Player *p = ThePlayerList->getNthPlayer(i);
-			if (p)
-				((Rva002A9CF0 *)p)->rva002A9CF0((int)this);
+			Player *player = ThePlayerList->getNthPlayer(i);
+			if (player)
+				((Rva002A9CF0 *)player)->rva002A9CF0((int)this);
 		}
 	}
 

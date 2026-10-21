@@ -30,22 +30,22 @@ class GameMessage
 
 GameMessageArgument *GameMessage::allocArg(void)
 {
-	GameMessageArgument *arg = new GameMessageArgument;
+	GameMessageArgument *gameMessageArgument = new GameMessageArgument;
 
 	if (m_argTail)
-		m_argTail->m_next = arg;
+		m_argTail->m_next = gameMessageArgument;
 	else
 	{
-		m_argList = arg;
-		m_argTail = arg;
+		m_argList = gameMessageArgument;
+		m_argTail = gameMessageArgument;
 	}
 
-	arg->m_next = 0;
-	m_argTail = arg;
+	gameMessageArgument->m_next = 0;
+	m_argTail = gameMessageArgument;
 
 	m_argCount++;
 
-	return arg;
+	return gameMessageArgument;
 }
 
 // Retail's data references in this unit's matched rows land on globals defined

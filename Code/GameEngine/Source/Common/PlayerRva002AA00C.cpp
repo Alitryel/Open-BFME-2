@@ -15,9 +15,9 @@ private:
 	char m_pad[0x94];
 	int m_0094;
 };
-unsigned char Player::rva002AA00C(ThingTemplate *tmpl, int extra)
+unsigned char Player::rva002AA00C(ThingTemplate *thingTemplate, int extra)
 {
 	int base = m_0094;
-	int v = tmpl->rva0033A69A((const class Player *)this, 0, -1);
+	int v = thingTemplate->rva0033A69A((const class Player *)this, 0, -1);
 	return (unsigned char)((unsigned)(base + extra) >= (unsigned)v);
 }

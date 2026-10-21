@@ -54,9 +54,9 @@ const GameMessageArgumentType *GameMessage::getArgument(int argIndex) const
 	static const GameMessageArgumentType junk = { 0 };
 
 	int i = 0;
-	for (GameMessageArgument *a = m_argList; a; a = a->m_next, i++)
+	for (GameMessageArgument *gameMessageArgument = m_argList; gameMessageArgument; gameMessageArgument = gameMessageArgument->m_next, i++)
 		if (i == argIndex)
-			return &a->m_data;
+			return &gameMessageArgument->m_data;
 
 	return &junk;
 }

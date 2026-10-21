@@ -105,8 +105,8 @@ void UnitRevivalTracker::retrieveHeroesForArmySummary(ArmySummarySystem *summary
 	for (unsigned int i = 0; i < m_entries.size(); ++i)
 	{
 		UnitRevivalEntry *entry = &m_entries[i];
-		const ThingTemplate *tmpl = (const ThingTemplate *)entry->getThingTemplate();
-		if (tmpl && tmpl->isKindOf(KINDOF_90) && tmpl->isKindOf(KINDOF_128))
+		const ThingTemplate *thingTemplate = (const ThingTemplate *)entry->getThingTemplate();
+		if (thingTemplate && thingTemplate->isKindOf(KINDOF_90) && thingTemplate->isKindOf(KINDOF_128))
 		{
 			if (lwPlayer->rva002E1CA7(entry))
 				summary->AddDeadHeroEntry(entry);

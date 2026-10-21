@@ -50,9 +50,9 @@ public:
 	bool rva0002C7E8(const AsciiString &a, const AsciiString &b) const;
 };
 
-bool Rva0002C7E8::rva0002C7E8(const AsciiString &a, const AsciiString &b) const
+bool Rva0002C7E8::rva0002C7E8(const AsciiString &asciiString, const AsciiString &b) const
 {
-	return ((const StringBase<char> &)a).compareNoCase((const StringBase<char> &)b) == 0;
+	return ((const StringBase<char> &)asciiString).compareNoCase((const StringBase<char> &)b) == 0;
 }
 
 // --- 0x0002BA86 (18B), unreferenced in retail: forwards filename and access

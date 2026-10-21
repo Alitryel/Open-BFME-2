@@ -164,14 +164,14 @@ template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 int Rva000E48BC::rva000E49B8(int player)
 {
 	const int visible = 1;
-	Drawable *d = m_drawable;
-	if (d && ((const BitFlagsView *)((char *)d + 0x260))->test(44))
+	Drawable *drawable = m_drawable;
+	if (drawable && ((const BitFlagsView *)((char *)drawable + 0x260))->test(44))
 		return visible;
 	if (TheShroudManager) {
-	if (d) {
+	if (drawable) {
 		Vector3 *out = &m_pos;
 		const Vector3 *in = &m_offset;
-		const Matrix3D *mtx = d->getTransformMatrix();
+		const Matrix3D *mtx = drawable->getTransformMatrix();
 		bfme_xform_cond(*mtx, *in, out);
 	}
 	Coord3D c;

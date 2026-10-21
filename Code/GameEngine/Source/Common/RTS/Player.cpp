@@ -355,7 +355,7 @@ static BodyModuleInterface *getRetailBodyModule( const Object *obj ) { return *(
 // function instead of the header's inline getName, whose Zero Hour copy would
 // otherwise be the first one in link order and displace every BFME 2 unit's
 // retail copy.
-static const AsciiString &getRetailTemplateName( const ThingTemplate *t ) { return *(const AsciiString *)((const char *)t + 0x64); }
+static const AsciiString &getRetailTemplateName( const ThingTemplate *thingTemplate ) { return *(const AsciiString *)((const char *)thingTemplate + 0x64); }
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -437,26 +437,26 @@ AsciiString kindofMaskAsAsciiString(KindOfMaskType m)
 		s = "KINDOF_INVALID";
 	return s;
 }
-void dumpBattlePlanBonuses(const BattlePlanBonuses *b, AsciiString name, const Player *p, const Object *o, AsciiString fname, Int line, Bool doDebugLog)
+void dumpBattlePlanBonuses(const BattlePlanBonuses *battlePlanBonuses, AsciiString name, const Player *player, const Object *object, AsciiString fname, Int line, Bool doDebugLog)
 {
 	CRCDEBUG_LOG(("dumpBattlePlanBonuses() %s:%d %s\n  Player %d(%ls) object %d(%s) armor:%g/%8.8X bombardment:%d, holdTheLine:%d, searchAndDestroy:%d sight:%g/%8.8X, valid:%s invalid:%s\n",
 		fname.str(), line, name.str(),
-		(p)?p->getPlayerIndex():-1, (p)?((Player *)p)->getPlayerDisplayName().str():L"<No Name>", (o)?o->getID():-1, (o)?getRetailTemplateName(o->getTemplate()).str():"<No Name>",
-		b->m_armorScalar, AS_INT(b->m_armorScalar),
-		b->m_bombardment, b->m_holdTheLine, b->m_searchAndDestroy,
-		b->m_sightRangeScalar, AS_INT(b->m_sightRangeScalar),
-		kindofMaskAsAsciiString(b->m_validKindOf).str(),
-		kindofMaskAsAsciiString(b->m_invalidKindOf).str()));
+		(player)?player->getPlayerIndex():-1, (player)?((Player *)player)->getPlayerDisplayName().str():L"<No Name>", (object)?object->getID():-1, (object)?getRetailTemplateName(object->getTemplate()).str():"<No Name>",
+		battlePlanBonuses->m_armorScalar, AS_INT(battlePlanBonuses->m_armorScalar),
+		battlePlanBonuses->m_bombardment, battlePlanBonuses->m_holdTheLine, battlePlanBonuses->m_searchAndDestroy,
+		battlePlanBonuses->m_sightRangeScalar, AS_INT(battlePlanBonuses->m_sightRangeScalar),
+		kindofMaskAsAsciiString(battlePlanBonuses->m_validKindOf).str(),
+		kindofMaskAsAsciiString(battlePlanBonuses->m_invalidKindOf).str()));
 	if (!doDebugLog)
 		return;
 	DEBUG_LOG(("dumpBattlePlanBonuses() %s:%d %s\n  Player %d(%ls) object %d(%s) armor:%g/%8.8X bombardment:%d, holdTheLine:%d, searchAndDestroy:%d sight:%g/%8.8X, valid:%s invalid:%s\n",
 		fname.str(), line, name.str(),
-		(p)?p->getPlayerIndex():-1, (p)?((Player *)p)->getPlayerDisplayName().str():L"<No Name>", (o)?o->getID():-1, (o)?getRetailTemplateName(o->getTemplate()).str():"<No Name>",
-		b->m_armorScalar, AS_INT(b->m_armorScalar),
-		b->m_bombardment, b->m_holdTheLine, b->m_searchAndDestroy,
-		b->m_sightRangeScalar, AS_INT(b->m_sightRangeScalar),
-		kindofMaskAsAsciiString(b->m_validKindOf).str(),
-		kindofMaskAsAsciiString(b->m_invalidKindOf).str()));
+		(player)?player->getPlayerIndex():-1, (player)?((Player *)player)->getPlayerDisplayName().str():L"<No Name>", (object)?object->getID():-1, (object)?getRetailTemplateName(object->getTemplate()).str():"<No Name>",
+		battlePlanBonuses->m_armorScalar, AS_INT(battlePlanBonuses->m_armorScalar),
+		battlePlanBonuses->m_bombardment, battlePlanBonuses->m_holdTheLine, battlePlanBonuses->m_searchAndDestroy,
+		battlePlanBonuses->m_sightRangeScalar, AS_INT(battlePlanBonuses->m_sightRangeScalar),
+		kindofMaskAsAsciiString(battlePlanBonuses->m_validKindOf).str(),
+		kindofMaskAsAsciiString(battlePlanBonuses->m_invalidKindOf).str()));
 }
 #else
 #define DUMPBATTLEPLANBONUSES(x,y,z) {}
@@ -497,8 +497,8 @@ struct RetailPlayerRelationMap { void *m_baseVtbl; PlayerRelationMapType m_map; 
 // this tree has +0x1a8 and +0x1a4. Re-read at every use rather than hoisted
 // into a local: retail reloads m_playerRelations after getControllingPlayer,
 // which a local would have kept in a register.
-static RetailTeamRelationMap *teamRelationsOf( const Player *p ) { return *(RetailTeamRelationMap **)((char *)p + 0x290); }
-static RetailPlayerRelationMap *playerRelationsOf( const Player *p ) { return *(RetailPlayerRelationMap **)((char *)p + 0x28c); }
+static RetailTeamRelationMap *teamRelationsOf( const Player *player ) { return *(RetailTeamRelationMap **)((char *)player + 0x290); }
+static RetailPlayerRelationMap *playerRelationsOf( const Player *player ) { return *(RetailPlayerRelationMap **)((char *)player + 0x28c); }
 
 // BFME's Team keeps m_id at +0x34 (the matched getRelationship(const Team *)
 // 0x002AD0C6 and TeamFactory::loadPostProcess 0x0039F7A5 read it there), where
@@ -915,9 +915,9 @@ static void doFindMostReadySpecialPowerForThing( Object *obj, void *userData )
 				&& !obj->isEffectivelyDead() )
 		{
 			// search the modules for the one with the matching template
-			for( BehaviorModule** m = getRetailBehaviorModules(obj); *m; ++m )
+			for( BehaviorModule** behaviorModule = getRetailBehaviorModules(obj); *behaviorModule; ++behaviorModule )
 			{
-				SpecialPowerModuleInterface* sp = (*m)->getSpecialPower();
+				SpecialPowerModuleInterface* sp = (*behaviorModule)->getSpecialPower();
 				if (!sp)
 					continue;
 
@@ -1740,9 +1740,9 @@ Bool Player::isScienceHidden( ScienceType t ) const
 
 // Force-emit ScienceVec::erase(iterator) COMDAT claimed on this TU @ 0xCEA00.
 // Was previously only referenced by the C++ setScienceAvailability body.
-static ScienceType *bfme_force_ScienceVec_erase(ScienceVec *v, ScienceType *it)
+static ScienceType *bfme_force_ScienceVec_erase(ScienceVec *scienceVec, ScienceType *it)
 {
-	return v->erase(it);
+	return scienceVec->erase(it);
 }
 ScienceType *(*bfme_force_ScienceVec_erase_anchor)(ScienceVec *, ScienceType *) =
 	&bfme_force_ScienceVec_erase;
@@ -1900,26 +1900,26 @@ Bool Player::hasUpgradeInProduction( const UpgradeTemplate *upgradeTemplate )
 // retail's own Player.cpp holds, which nothing in this tree has recovered yet.
 Upgrade *Player::addUpgrade( const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status )
 {
-	Upgrade *u = findUpgrade( upgradeTemplate );
+	Upgrade *upgrade = findUpgrade( upgradeTemplate );
 
 	// if no upgrade instance found, make a new one
-	if( u == NULL )
+	if( upgrade == NULL )
 	{
 
 		// make new one
-		u = newInstance(Upgrade)( upgradeTemplate );
+		upgrade = newInstance(Upgrade)( upgradeTemplate );
 	
 		// tie to list	
-		u->friend_setPrev( NULL );
-		u->friend_setNext( m_upgradeList );
+		upgrade->friend_setPrev( NULL );
+		upgrade->friend_setNext( m_upgradeList );
 		if( m_upgradeList )
-			m_upgradeList->friend_setPrev( u );
-		m_upgradeList = u;
+			m_upgradeList->friend_setPrev( upgrade );
+		m_upgradeList = upgrade;
 
 	}  // end if
 
 	// set the new status for the upgrade
-	u->setStatus( status );
+	upgrade->setStatus( status );
 
 	// Update our Bitmasks
 	UpgradeMaskType newMask = upgradeTemplate->getUpgradeMask();
@@ -1939,7 +1939,7 @@ Upgrade *Player::addUpgrade( const UpgradeTemplate *upgradeTemplate, UpgradeStat
 		TheControlBar->markUIDirty();
 	}
 
-	return u;
+	return upgrade;
 
 }  // end addUpgrade
 
@@ -2099,21 +2099,21 @@ static void doPowerDisable( Object *obj, void *userData )
 // THIS KEEPS THEM IN SYNC SO IT LOOKS LIKE EACH SPECIAL POWER IS SHARED BETWEEN ALL
 
 // ?addNewSharedSpecialPowerTimer@Player@@QAEXPBVSpecialPowerTemplate@@I@Z present-unmatched
-void Player::addNewSharedSpecialPowerTimer( const SpecialPowerTemplate *temp, UnsignedInt frame )
+void Player::addNewSharedSpecialPowerTimer( const SpecialPowerTemplate *specialPowerTemplate, UnsignedInt frame )
 {
 
 	SpecialPowerReadyTimerType newTimer;
-	newTimer.m_templateID = getRetailSpecialPowerID( temp );
+	newTimer.m_templateID = getRetailSpecialPowerID( specialPowerTemplate );
 	newTimer.m_readyFrame = frame;
 	m_specialPowerReadyTimerList.push_back( newTimer );
 
 }
 
 // ?resetOrStartSpecialPowerReadyFrame@Player@@QAEXPBVSpecialPowerTemplate@@@Z present-unmatched
-void Player::resetOrStartSpecialPowerReadyFrame( const SpecialPowerTemplate *temp )
+void Player::resetOrStartSpecialPowerReadyFrame( const SpecialPowerTemplate *specialPowerTemplate )
 {
 
-	UnsignedInt lookupID = getRetailSpecialPowerID( temp );
+	UnsignedInt lookupID = getRetailSpecialPowerID( specialPowerTemplate );
 	UnsignedInt now = TheGameLogic->getFrame();
 
 	SpecialPowerReadyTimerType *timer;
@@ -2123,31 +2123,31 @@ void Player::resetOrStartSpecialPowerReadyFrame( const SpecialPowerTemplate *tem
 		timer = &(*it);
 		if ( timer->m_templateID == lookupID )
 		{
-			timer->m_readyFrame = now + temp->getReloadTime();
+			timer->m_readyFrame = now + specialPowerTemplate->getReloadTime();
 			return;
 		}
 	}
 
-	addNewSharedSpecialPowerTimer( temp, now );
+	addNewSharedSpecialPowerTimer( specialPowerTemplate, now );
 }
 
 
 // ?expressSpecialPowerReadyFrame@Player@@QAEXPBVSpecialPowerTemplate@@I@Z present-unmatched
-void Player::expressSpecialPowerReadyFrame( const SpecialPowerTemplate *temp, UnsignedInt frame )
+void Player::expressSpecialPowerReadyFrame( const SpecialPowerTemplate *specialPowerTemplate, UnsignedInt frame )
 {
 	SpecialPowerReadyTimerType *timer;
 	SpecialPowerReadyTimerListIterator it;
 	for( it = m_specialPowerReadyTimerList.begin(); it != m_specialPowerReadyTimerList.end(); ++it )
 	{
 		timer = &(*it);
-		if ( timer->m_templateID == getRetailSpecialPowerID( temp ) )
+		if ( timer->m_templateID == getRetailSpecialPowerID( specialPowerTemplate ) )
 		{
 			timer->m_readyFrame = frame;
 			return;
 		}
 	}
 
-	addNewSharedSpecialPowerTimer( temp, frame );
+	addNewSharedSpecialPowerTimer( specialPowerTemplate, frame );
 }
 
 
@@ -2156,10 +2156,10 @@ void Player::expressSpecialPowerReadyFrame( const SpecialPowerTemplate *temp, Un
 
 //-------------------------------------------------------------------------------------------------
 // ?getOrStartSpecialPowerReadyFrame@Player@@QAEIPBVSpecialPowerTemplate@@@Z present-unmatched
-UnsignedInt Player::getOrStartSpecialPowerReadyFrame( const SpecialPowerTemplate *temp)
+UnsignedInt Player::getOrStartSpecialPowerReadyFrame( const SpecialPowerTemplate *specialPowerTemplate)
 {
 
-	UnsignedInt lookupID = getRetailSpecialPowerID( temp );
+	UnsignedInt lookupID = getRetailSpecialPowerID( specialPowerTemplate );
 	UnsignedInt now = TheGameLogic->getFrame();
 
 	SpecialPowerReadyTimerType *timer;
@@ -2182,7 +2182,7 @@ UnsignedInt Player::getOrStartSpecialPowerReadyFrame( const SpecialPowerTemplate
 		}
 	}
 
-	addNewSharedSpecialPowerTimer( temp, now );
+	addNewSharedSpecialPowerTimer( specialPowerTemplate, now );
 	return now;
 
 }

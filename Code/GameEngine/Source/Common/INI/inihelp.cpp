@@ -71,8 +71,8 @@ bool IniLoad(const char *block,void(*parse)(INI*))
  IniLoadFileList *files=TheSubsystemLegend->rva001B49C4(AsciiString(block));
  if(!files) return false;
  INI ini;
- for(AsciiString *p=files->begin;p!=files->end;++p) {
-  try {ini.load(*p,INI_LOAD_OVERWRITE,0,parse);} catch(...) {return false;}
+ for(AsciiString *asciiString=files->begin;asciiString!=files->end;++asciiString) {
+  try {ini.load(*asciiString,INI_LOAD_OVERWRITE,0,parse);} catch(...) {return false;}
  }
  return true;
 }

@@ -988,7 +988,7 @@ void Rva002B4536Swap(Rva002B2F97 &a, Rva002B2F97 &b) { Rva002B2FF4Swap(a, b); }
 
 // 0x00334A38 (5B) -> S4Cmp002EB8E0::operator() 0x003340A8.
 class Rva00334A38 { public: bool rva00334A38(const S4SortElem20 &a, const S4SortElem20 &b) const; };
-bool Rva00334A38::rva00334A38(const S4SortElem20 &a, const S4SortElem20 &b) const { return (*(const S4Cmp002EB8E0 *)this)(a, b); }
+bool Rva00334A38::rva00334A38(const S4SortElem20 &s4SortElem20, const S4SortElem20 &b) const { return (*(const S4Cmp002EB8E0 *)this)(s4SortElem20, b); }
 
 // 0x00278DF9 (5B) -> Drawable::calcPhysicsXformWheels 0x00276CFB.
 class Rva00278DF9 { public: void rva00278DF9(const Locomotor *locomotor, Drawable::PhysicsXformInfo &info); };

@@ -46,7 +46,7 @@ struct NativeInsertResult
 	NativeNode *node;
 	Rva000E01B0 *owner;
 	bool inserted;
-	NativeInsertResult(NativeNode *n, Rva000E01B0 *o, bool i) : node(n), owner(o), inserted(i) {}
+	NativeInsertResult(NativeNode *nativeNode, Rva000E01B0 *o, bool i) : node(nativeNode), owner(o), inserted(i) {}
 };
 class Rva000E01B0
 {
@@ -66,12 +66,12 @@ NativeInsertResult Rva000E01B0::rva000E0298(const Rva000E007DPair &key)
 	unsigned i = (key.a ^ key.b) % n;
 	NativeNode **buckets = *(NativeNode ** volatile *)&begin;
 	NativeNode *first = buckets[i];
-	for (NativeNode *p = first; p; p = p->next)
-		if (eq.equal(&p->key, &key))
-			return NativeInsertResult(p, this, false);
-	NativeNode *p = (NativeNode *)((NameKeyGenerator::KeyToBucketMap *)this)->storageNode(key);
-	p->next = first;
-	begin[i] = p;
+	for (NativeNode *nativeNode = first; nativeNode; nativeNode = nativeNode->next)
+		if (eq.equal(&nativeNode->key, &key))
+			return NativeInsertResult(nativeNode, this, false);
+	NativeNode *nativeNode = (NativeNode *)((NameKeyGenerator::KeyToBucketMap *)this)->storageNode(key);
+	nativeNode->next = first;
+	begin[i] = nativeNode;
 	++count;
-	return NativeInsertResult(p, this, true);
+	return NativeInsertResult(nativeNode, this, true);
 }

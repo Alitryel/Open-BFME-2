@@ -48,7 +48,7 @@ class Rva000DF920
 	Rva0036CA00Str *m_00;
 	Rva0036CA00Str *m_04;
 public:
-	Rva000DF920(AsciiString &a, AsciiString &b) : m_00((Rva0036CA00Str *)&a), m_04((Rva0036CA00Str *)&b) {}
+	Rva000DF920(AsciiString &asciiString, AsciiString &b) : m_00((Rva0036CA00Str *)&asciiString), m_04((Rva0036CA00Str *)&b) {}
 	Rva000DF920 &operator=(const Rva0036CA00Str *pair);
 	Rva000DF920 &operator=(const BfmePairEL &pair) { return operator=((const Rva0036CA00Str *)&pair); }
 };

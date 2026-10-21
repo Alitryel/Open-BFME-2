@@ -126,14 +126,14 @@ CommandList::CommandList() :
 {
 }
 
-void deleteGameMessageList(GameMessageList *p)
+void deleteGameMessageList(GameMessageList *gameMessageList)
 {
-	delete p;
+	delete gameMessageList;
 }
 
-void deleteCommandList(CommandList *p)
+void deleteCommandList(CommandList *commandList)
 {
-	delete p;
+	delete commandList;
 }
 
 // ?destroyAllMessages@CommandList@@QAEXXZ @0x0030F854

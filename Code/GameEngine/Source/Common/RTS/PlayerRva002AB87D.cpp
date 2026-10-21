@@ -21,9 +21,9 @@ public:
 };
 
 // ?rva002AB87D@Player@@QBE_NPBVUpgradeTemplate@@@Z
-bool Player::rva002AB87D(const UpgradeTemplate *tmpl) const
+bool Player::rva002AB87D(const UpgradeTemplate *upgradeTemplate) const
 {
-	if (!tmpl)
+	if (!upgradeTemplate)
 		return false;
-	return testBit(tmpl->m_bitIndex);
+	return testBit(upgradeTemplate->m_bitIndex);
 }

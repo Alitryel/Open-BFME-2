@@ -85,9 +85,9 @@ private:
 	int m_nextTranslatorID; // +0x1C
 };
 
-void deleteMessageStream(MessageStream *p)
+void deleteMessageStream(MessageStream *messageStream)
 {
-	delete p;
+	delete messageStream;
 }
 
 // ??1MessageStream@@UAE@XZ @0x00310FA1

@@ -98,11 +98,11 @@ void Player::newMap() {
   else
    name = playerTemplate->name1B4;
   if (!name.isEmpty()) {
-   const ThingTemplate *tmplate = TheThingFactory->findTemplate(name);
-   if (!tmplate) return;
+   const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(name);
+   if (!thingTemplate) return;
    CreateMask mask;
    memset(&mask,0,sizeof(mask));
-   Object *obj = TheThingFactory->newObject(tmplate,team,&mask,false);
+   Object *obj = TheThingFactory->newObject(thingTemplate,team,&mask,false);
    startingObject = obj->getID();
    ((Rva0028CBFD *)obj)->rva0028CBFD();
   }
@@ -131,8 +131,8 @@ void Player::initBuildableHeroes() {
   if (!pt) return;
   int count = pt->heroEnd-pt->heroBegin;
   for (int i=0;i<count;++i) {
-   const ThingTemplate *tmplate=TheThingFactory->findTemplate(pt->heroBegin[i]);
-   if (tmplate) revival.addInitialBuildUnit(tmplate,this);
+   const ThingTemplate *thingTemplate=TheThingFactory->findTemplate(pt->heroBegin[i]);
+   if (thingTemplate) revival.addInitialBuildUnit(thingTemplate,this);
   }
  }
 }

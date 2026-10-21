@@ -75,19 +75,19 @@ NameKeyType NameKeyGenerator::nameToLowercaseKey(const char* nameString)
 	UnsignedInt hash = calcHashForLowercaseString(nameString) % SOCKET_COUNT;
 
 	// hmm, do we have it already?
-	for (LegacyBucket *b = sockets[hash]; b; b = b->m_nextInSocket)
+	for (LegacyBucket *legacyBucket = sockets[hash]; legacyBucket; legacyBucket = legacyBucket->m_nextInSocket)
 	{
-		if (_strcmpi(nameString, b->m_nameString.str()) == 0)
-			return b->m_key; 
+		if (_strcmpi(nameString, legacyBucket->m_nameString.str()) == 0)
+			return legacyBucket->m_key; 
 	}
 
 	// nope, guess not. let's allocate it.
-	LegacyBucket *b = new LegacyBucket;
-	b->m_key = (NameKeyType)(*nextID)++;
-	b->m_nameString = nameString;
-	b->m_nextInSocket = sockets[hash];
-	sockets[hash] = b;
+	LegacyBucket *legacyBucket = new LegacyBucket;
+	legacyBucket->m_key = (NameKeyType)(*nextID)++;
+	legacyBucket->m_nameString = nameString;
+	legacyBucket->m_nextInSocket = sockets[hash];
+	sockets[hash] = legacyBucket;
 
-	return b->m_key;
+	return legacyBucket->m_key;
 
 }  // end nameToLowercaseKey

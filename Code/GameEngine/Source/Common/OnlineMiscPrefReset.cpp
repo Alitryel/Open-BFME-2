@@ -78,8 +78,8 @@ struct MiscPrefOwner
 // resetOnlineMiscPref @0x55478A
 void resetOnlineMiscPref(Int reserved1, Int profileIndex, Int reserved2, Int reserved3, Int saveFlag, Int reserved4, MiscPrefOwner *owner)
 {
-	MiscPrefOwner *o = owner;
-	if (!o)
+	MiscPrefOwner *miscPrefOwner = owner;
+	if (!miscPrefOwner)
 		return;
 
 	if (saveFlag)
@@ -92,5 +92,5 @@ void resetOnlineMiscPref(Int reserved1, Int profileIndex, Int reserved2, Int res
 		prefs.write();
 	}
 
-	--o->m_refCount;
+	--miscPrefOwner->m_refCount;
 }

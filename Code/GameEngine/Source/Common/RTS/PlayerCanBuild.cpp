@@ -99,16 +99,16 @@ private:
 	PlayerTemplateIDList m_templateIdList_700;		// +0x700
 };
 
-Bool Player::allowedToBuild(const ThingTemplate *tmplate) const
+Bool Player::allowedToBuild(const ThingTemplate *thingTemplate) const
 {
-	if (!m_canBuildBase && tmplate->isKindOfStructure()) {
+	if (!m_canBuildBase && thingTemplate->isKindOfStructure()) {
 		return false;
 	}
 
-	if (!m_canBuildUnits && !tmplate->isKindOfStructure()) {
+	if (!m_canBuildUnits && !thingTemplate->isKindOfStructure()) {
 		return false;
 	}
 
-	return _STL::find(m_templateIdList_700.begin(), m_templateIdList_700.end(), tmplate->getTemplateID()) == m_templateIdList_700.end();
+	return _STL::find(m_templateIdList_700.begin(), m_templateIdList_700.end(), thingTemplate->getTemplateID()) == m_templateIdList_700.end();
 }
 

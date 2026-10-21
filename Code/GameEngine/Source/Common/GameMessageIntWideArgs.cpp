@@ -34,15 +34,15 @@ public:
 // ?appendIntegerArgument@GameMessage@@QAEXH@Z @0x0030F936
 void GameMessage::appendIntegerArgument(int arg)
 {
-	GameMessageArgument *a = allocArg();
-	a->m_type = 0;
-	a->m_data.m_integer = arg;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_type = 0;
+	gameMessageArgument->m_data.m_integer = arg;
 }
 
 // ?appendWideCharArgument@GameMessage@@QAEXABG@Z @0x0030FA2A
 void GameMessage::appendWideCharArgument(const unsigned short &arg)
 {
-	GameMessageArgument *a = allocArg();
-	a->m_data.m_wideChar = arg;
-	a->m_type = 10;
+	GameMessageArgument *gameMessageArgument = allocArg();
+	gameMessageArgument->m_data.m_wideChar = arg;
+	gameMessageArgument->m_type = 10;
 }

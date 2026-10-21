@@ -84,9 +84,9 @@ public:
 	static BFME2ParticleTextureHandle Get(const char *name, int a, int b);
 };
 
-__forceinline const char *GetStr0006ACBD(const AsciiString &s)
+__forceinline const char *GetStr0006ACBD(const AsciiString &asciiString)
 {
-	char *t = *(char * *)(void *)&s;
+	char *t = *(char * *)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

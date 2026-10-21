@@ -17,9 +17,9 @@
 class Script;
 
 // Retail expands the one-character concat in place as StringBase::concat(text, 1).
-inline void concatChar(AsciiString &s, char c)
+inline void concatChar(AsciiString &asciiString, char c)
 {
-	((StringBase<char> *)&s)->concat(&c, 1);
+	((StringBase<char> *)&asciiString)->concat(&c, 1);
 }
 
 enum { MAX_GENERIC_SCRIPTS = 32 };

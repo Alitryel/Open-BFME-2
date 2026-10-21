@@ -98,10 +98,10 @@ void Rva000B32EF::rva000B32EF(Int *color)
 	Int v = *color;
 	if (!v)
 		return;
-	Shadow *s = m_decal218.m_shadow;
-	if (!s)
+	Shadow *shadow = m_decal218.m_shadow;
+	if (!shadow)
 		return;
-	s->rva00330995(v);
+	shadow->rva00330995(v);
 }
 
 void Rva000B32EF::rva000B32C2(const Coord3D *pos)
@@ -113,10 +113,10 @@ void Rva000B32EF::rva000B32C2(const Coord3D *pos)
 
 void Rva000B32EF::rva000B32D7(Real v)
 {
-	Shadow *s = m_decal218.m_shadow;
-	if (!s)
+	Shadow *shadow = m_decal218.m_shadow;
+	if (!shadow)
 		return;
-	s->m_angle = v;
+	shadow->m_angle = v;
 }
 
 void Rva000B32EF::rva000B3198(const Coord3D &a, const Coord3D &b)

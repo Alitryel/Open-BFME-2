@@ -220,10 +220,10 @@ const FieldParse Rva004FA5B8::s_dataFieldParse[] =
 	{ 0, 0, 0, 0 }
 };
 
-void Rva004FA5B8::buildFieldParse(MultiIniFieldParse &p)
+void Rva004FA5B8::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	FXParticleSystem::EmissionVelocityInfo::DoXfer((Xfer &)p);
-	p.add(s_dataFieldParse, 0);
+	FXParticleSystem::EmissionVelocityInfo::DoXfer((Xfer &)multiIniFieldParse);
+	multiIniFieldParse.add(s_dataFieldParse, 0);
 }
 
 // --- 0x00584C69 / 0x00587217 (19B each): module-data field-parse builders
@@ -247,9 +247,9 @@ const FieldParse Rva00584C69::s_dataFieldParse[] =
 	{ 0, 0, 0, 0 }
 };
 
-void Rva00584C69::buildFieldParse(MultiIniFieldParse &p)
+void Rva00584C69::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add(s_dataFieldParse, 0);
+	multiIniFieldParse.add(s_dataFieldParse, 0);
 }
 
 class Rva00587217
@@ -274,9 +274,9 @@ const FieldParse Rva00587217::s_dataFieldParse[] =
 	{ 0, 0, 0, 0 }
 };
 
-void Rva00587217::buildFieldParse(MultiIniFieldParse &p)
+void Rva00587217::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add(s_dataFieldParse, 0);
+	multiIniFieldParse.add(s_dataFieldParse, 0);
 }
 
 // --- 0x00343EE5 (21B): 1 when the pinned 0x00343DD8 test fails, else 0.

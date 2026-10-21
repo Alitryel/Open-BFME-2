@@ -64,9 +64,9 @@ private:
 
 void RenderableRiverArea::createTexture(int index)
 {
-	AsciiString *s = (AsciiString *)m_holder->getTextureName(index);
-	if (!s->isEmpty()) {
-		const char *name = s->m_data ? s->m_data + 8 : "";
+	AsciiString *asciiString = (AsciiString *)m_holder->getTextureName(index);
+	if (!asciiString->isEmpty()) {
+		const char *name = asciiString->m_data ? asciiString->m_data + 8 : "";
 		m_textures[index] = TextureAsset::Get(name, 0, 0);
 	}
 }

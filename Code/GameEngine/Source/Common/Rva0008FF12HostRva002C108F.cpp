@@ -52,53 +52,53 @@ private:
 void Rva0008FF12Host::rva002C108F()
 {
 	const unsigned int hidden = 0x8000000;
-	GameWindow *w = m_head;
-	if (w != 0)
+	GameWindow *gameWindow = m_head;
+	if (gameWindow != 0)
 	{
 		do
 		{
-			int v = w->m_1F4;
-			GameWindow *next = w->m_next;
+			int v = gameWindow->m_1F4;
+			GameWindow *next = gameWindow->m_next;
 			if (v == m_3C)
 			{
-				unsigned int f = w->m_flags8;
+				unsigned int f = gameWindow->m_flags8;
 				if ((f & hidden) == 0 && (f & 0x40) != 0)
-					((GameWindowManager *)this)->drawWindow(w);
+					((GameWindowManager *)this)->drawWindow(gameWindow);
 			}
-			w = next;
-		} while (w != 0);
+			gameWindow = next;
+		} while (gameWindow != 0);
 	}
-	w = m_head;
-	if (w != 0)
+	gameWindow = m_head;
+	if (gameWindow != 0)
 	{
 		do
 		{
-			int v = w->m_1F4;
-			GameWindow *next = w->m_next;
+			int v = gameWindow->m_1F4;
+			GameWindow *next = gameWindow->m_next;
 			if (v == m_3C)
 			{
-				unsigned int f = w->m_flags8;
+				unsigned int f = gameWindow->m_flags8;
 				if ((f & hidden) == 0 && (f & 0x60) == 0)
-					((GameWindowManager *)this)->drawWindow(w);
+					((GameWindowManager *)this)->drawWindow(gameWindow);
 			}
-			w = next;
-		} while (w != 0);
+			gameWindow = next;
+		} while (gameWindow != 0);
 	}
-	w = m_head;
-	if (w != 0)
+	gameWindow = m_head;
+	if (gameWindow != 0)
 	{
 		do
 		{
-			int v = w->m_1F4;
-			GameWindow *next = w->m_next;
+			int v = gameWindow->m_1F4;
+			GameWindow *next = gameWindow->m_next;
 			if (v == m_3C)
 			{
-				unsigned int f = w->m_flags8;
+				unsigned int f = gameWindow->m_flags8;
 				if ((f & hidden) == 0 && (f & 0x20) != 0)
-					((GameWindowManager *)this)->drawWindow(w);
+					((GameWindowManager *)this)->drawWindow(gameWindow);
 			}
-			w = next;
-		} while (w != 0);
+			gameWindow = next;
+		} while (gameWindow != 0);
 	}
 	if (m_3C != 1)
 		return;

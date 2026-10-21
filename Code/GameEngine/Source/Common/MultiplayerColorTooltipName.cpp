@@ -25,8 +25,8 @@ inline AsciiString MultiplayerColorDefinition::getTooltipName() const
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeMultiplayerColorDefinitionInlineAnchor@@YAXPAVMultiplayerColorDefinition@@@Z absent-from-retail
-void _bfmeMultiplayerColorDefinitionInlineAnchor(MultiplayerColorDefinition *p)
+void _bfmeMultiplayerColorDefinitionInlineAnchor(MultiplayerColorDefinition *multiplayerColorDefinition)
 {
-    p->getTooltipName();
+    multiplayerColorDefinition->getTooltipName();
 }
 #pragma inline_depth()

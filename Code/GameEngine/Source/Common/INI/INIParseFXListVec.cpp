@@ -54,7 +54,7 @@ public:
 
 extern Debug *theDebug;
 template<class T> Debug& operator<<(Debug&,const StringBase<T>&);
-inline const StringBase<char>& FilenameBase(const AsciiString& s){return *reinterpret_cast<const StringBase<char>*>(&s);}
+inline const StringBase<char>& FilenameBase(const AsciiString& asciiString){return *reinterpret_cast<const StringBase<char>*>(&asciiString);}
 bool bfmeRva000387C0();void _bfme_debugRecordCallsite(int);
 void iniParseFXListVec(INI *ini,void*,void*store,const void*) {
  _STL::vector<const FXList*>*v=static_cast<_STL::vector<const FXList*>*>(store);

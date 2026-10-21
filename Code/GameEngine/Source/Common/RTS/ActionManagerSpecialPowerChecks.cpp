@@ -652,8 +652,8 @@ static __declspec(noinline) bool Rva0041B80FCheck(Object *visObj, Object *teamOb
 	return false;
 }
 
-static unsigned captureWord(const Object *p, int offset) {
- return *reinterpret_cast<const unsigned *>(reinterpret_cast<const char *>(p) + offset);
+static unsigned captureWord(const Object *object, int offset) {
+ return *reinterpret_cast<const unsigned *>(reinterpret_cast<const char *>(object) + offset);
 }
 bool ActionManager::rva0041C79C(const Object *obj, const Object *target,
  CommandSourceType commandSource, CapturePowerView *module)
@@ -814,14 +814,14 @@ public:
 };
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-static inline const unsigned char *actionTemplate(const Object *o)
+static inline const unsigned char *actionTemplate(const Object *object)
 {
-	return *reinterpret_cast<const unsigned char *const *>(reinterpret_cast<const char *>(o) + 4);
+	return *reinterpret_cast<const unsigned char *const *>(reinterpret_cast<const char *>(object) + 4);
 }
 
-static inline ActionContainView *actionContain(const Object *o)
+static inline ActionContainView *actionContain(const Object *object)
 {
-	return *reinterpret_cast<ActionContainView *const *>(reinterpret_cast<const char *>(o) + 0x250);
+	return *reinterpret_cast<ActionContainView *const *>(reinterpret_cast<const char *>(object) + 0x250);
 }
 
 // WorldBuilder's debug ActionManager.cpp (lines 2380..2718) names this
@@ -1302,9 +1302,9 @@ public:
 	bool rva0041D435(const Object *obj, const Object *target, CommandSourceType commandSource);
 };
 
-static inline unsigned int enterKindOfWord(const Object *o, int word)
+static inline unsigned int enterKindOfWord(const Object *object, int word)
 {
-	return reinterpret_cast<const unsigned int *>(actionTemplate(o) + 0x108)[word];
+	return reinterpret_cast<const unsigned int *>(actionTemplate(object) + 0x108)[word];
 }
 
 // WorldBuilder's debug body at 0x0110B4E0 (privateEnter's callee, pinned by
@@ -1634,8 +1634,8 @@ GameMessage::Type ActionManager::getEnterMessage(const Object *obj, const Drawab
 		if (actionTemplate(obj)[0x10a] & 2) {
 			DrawableListNode *end = allDraws->m_node;
 			for (DrawableListNode *it = end->m_next; it != end; it = it->m_next) {
-				Object *o = it->m_data->getObject();
-				if (o && o->testStatus((ObjectStatusTypes)0x5e))
+				Object *object = it->m_data->getObject();
+				if (object && object->testStatus((ObjectStatusTypes)0x5e))
 					return GameMessage::MSG_TYPE_194;
 			}
 		}

@@ -113,7 +113,7 @@ class Rva0036CA00Str;
 class Rva000DF920
 {
 public:
-	Rva000DF920(AsciiString &a, AsciiString &b) : m_00(&a), m_04(&b) {}
+	Rva000DF920(AsciiString &asciiString, AsciiString &b) : m_00(&asciiString), m_04(&b) {}
 	Rva000DF920 &operator=(const Rva0036CA00Str *pair);
 private:
 	AsciiString *m_00;
@@ -144,9 +144,9 @@ private:
 
 Team *PlayerList::validateTeam(AsciiString owner, MapObject *mapObject)
 {
-	Team *t = TheTeamFactory->findTeam(owner);
-	if (t)
-		return t;
+	Team *team = TheTeamFactory->findTeam(owner);
+	if (team)
+		return team;
 
 	AsciiString playerPart;
 	Rva000DF920(playerPart, owner) = reinterpret_cast<const Rva0036CA00Str *>(&Rva00194810((const BfmeWordEL&)owner));
@@ -165,9 +165,9 @@ Team *PlayerList::validateTeam(AsciiString owner, MapObject *mapObject)
 						AsciiString teamOwner = teamDict->getAsciiString(TheKey_teamOwner.key(), &exists);
 						if (teamOwner.compare(playerName) == 0) {
 							AsciiString teamName = teamDict->getAsciiString(TheKey_teamName.key(), &exists);
-							t = TheTeamFactory->findTeam(teamOwner, teamName);
-							if (t)
-								return t;
+							team = TheTeamFactory->findTeam(teamOwner, teamName);
+							if (team)
+								return team;
 						}
 					}
 				}

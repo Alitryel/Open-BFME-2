@@ -1016,11 +1016,11 @@ private:
     TreeHintRef00217D4C m_hint;
     unsigned char m_flag;
 };
-void AptLoadMovieFrame::Impl::LoadContent(const AsciiString &a1, const TreeHintRef00217D4C &a2)
+void AptLoadMovieFrame::Impl::LoadContent(const AsciiString &asciiString, const TreeHintRef00217D4C &a2)
 {
     m_hint = a2;
     const char *team1;
-    const char *a1data = *(char *const *)&a1;
+    const char *a1data = *(char *const *)&asciiString;
     if (a1data)
         team1 = a1data + 8;
     else
@@ -1044,9 +1044,9 @@ private:
     char m_pad00[4];
     AptLoadMovieFrame::Impl *m_p;
 };
-void Rva0057C394::rva0057C394(const AsciiString &a1, const TreeHintRef00217D4C &a2)
+void Rva0057C394::rva0057C394(const AsciiString &asciiString, const TreeHintRef00217D4C &a2)
 {
-    return m_p->LoadContent(a1, a2);
+    return m_p->LoadContent(asciiString, a2);
 }
 // ??1Rva005F329E@@QAE@XZ, retail 0x005F329E, 23 bytes.
 // Opaque scalar dtor deleting owned Rva005F2B22 member via pinned dtor and

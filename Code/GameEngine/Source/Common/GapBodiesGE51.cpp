@@ -131,9 +131,9 @@ struct GapRecordCursor
 	GapRecordAC *m_at;
 };
 
-int rva001EAF9B(const GapRecordCursor &a, const GapRecordCursor &b)
+int rva001EAF9B(const GapRecordCursor &gapRecordCursor, const GapRecordCursor &b)
 {
-	return b.m_at - a.m_at;
+	return b.m_at - gapRecordCursor.m_at;
 }
 
 void rva001EAFB0(GapRecordCursor &cursor, int n)
@@ -302,9 +302,9 @@ private:
 
 GapRecord1DC *Rva001FD348::rva001FD348(int id)
 {
-	for (GapRecord1DC *r = m_begin; r != m_end; ++r)
-		if (r->m_id == id)
-			return r;
+	for (GapRecord1DC *gapRecord1DC = m_begin; gapRecord1DC != m_end; ++gapRecord1DC)
+		if (gapRecord1DC->m_id == id)
+			return gapRecord1DC;
 	return 0;
 }
 

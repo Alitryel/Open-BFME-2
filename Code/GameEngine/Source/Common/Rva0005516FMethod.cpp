@@ -26,15 +26,15 @@ private:
     char m_pad[0x12C];
     Elem1C4 m_arr[3];
 };
-void Rva0005516F::rva0005516F(Holder *o, int key)
+void Rva0005516F::rva0005516F(Holder *holder, int key)
 {
-    ((MilesAudioManager::GlobalVolumeData *)&m_arr[key])->volumeAdjustingSoundStopping(o, key);
+    ((MilesAudioManager::GlobalVolumeData *)&m_arr[key])->volumeAdjustingSoundStopping(holder, key);
     if (key == 2)
     {
         for (int i = 0; i < 3; ++i)
         {
             if (i != 2)
-                ((MilesAudioManager::GlobalVolumeData *)&m_arr[i])->volumeAdjustingSoundStopping(o, 2);
+                ((MilesAudioManager::GlobalVolumeData *)&m_arr[i])->volumeAdjustingSoundStopping(holder, 2);
         }
     }
 }

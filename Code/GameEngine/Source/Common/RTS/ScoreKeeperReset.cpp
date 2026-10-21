@@ -135,19 +135,19 @@ extern GameLogic*TheGameLogic;
 // template local supplies the keys. Rejoin that value after each count block
 // before storing its result, so the register value and key share one home.
 // These tree operations do not change the key or return its local address.
-void ScoreKeeper::addObjectBuilt(Object*o,int amount){
+void ScoreKeeper::addObjectBuilt(Object*object,int amount){
  if(!TheGameLogic->isScoringEnabled())return;
- if(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))return;
- const ThingTemplate*tmpl=o->getTemplate();
- unsigned key=(unsigned)tmpl;
+ if(object->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))return;
+ const ThingTemplate*thingTemplate=object->getTemplate();
+ unsigned key=(unsigned)thingTemplate;
  bool addToCount=false;
- if(tmpl->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingMask,KINDOFMASK_NONE)){
+ if(thingTemplate->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingMask,KINDOFMASK_NONE)){
   field10C+=amount;
   if(field110){buildingsBuilt+=amount;field168+=amount;addToCount=true;}
- }else if(tmpl->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingCreateMask,KINDOFMASK_NONE)){
+ }else if(thingTemplate->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingCreateMask,KINDOFMASK_NONE)){
   field10C+=amount;
   if(field110){buildingsBuilt+=amount;field168+=amount;addToCount=true;}
- }else if(TheWritableGlobalData->filter.accepts(o,0)){
+ }else if(TheWritableGlobalData->filter.accepts(object,0)){
   field108+=amount;
   if(field110){unitsBuilt+=amount;field1C0+=amount;addToCount=true;}
  }
@@ -162,48 +162,48 @@ void ScoreKeeper::addObjectBuilt(Object*o,int amount){
   if(it._M_node!=map1C8.end()._M_node)existingCount=(int)it->second;
   newCount=0>existingCount+amount?0:existingCount+amount;
   Image *&destination=((ImageSubscriptMap*)&map1C8)->operator[](key);
-  tmpl=(const ThingTemplate*)key;
+  thingTemplate=(const ThingTemplate*)key;
   destination=(Image*)newCount;
  }
- if(o->getTemplate()->kind.test(109)){
+ if(object->getTemplate()->kind.test(109)){
   int existingCount=0;
   ScoreCountMap::iterator it=map1E4.find(key);
   if(it._M_node!=map1E4.end()._M_node)existingCount=(int)it->second;
   int newCount=0>existingCount+amount?0:existingCount+amount;
   Image *&destination=((ImageSubscriptMap*)&map1E4)->operator[](key);
-  tmpl=(const ThingTemplate*)key;
+  thingTemplate=(const ThingTemplate*)key;
   destination=(Image*)newCount;
  }
- if(field110&&tmpl->kind.testSetAndClear(*(const KindOfMaskType*)&scoringMask17,KindOfMaskType(0,179)))
+ if(field110&&thingTemplate->kind.testSetAndClear(*(const KindOfMaskType*)&scoringMask17,KindOfMaskType(0,179)))
   field328.push_back(frameStats.size());
- if(field110&&fieldF4==0&&tmpl->kind.test(90)&&!tmpl->kind.test(179))
+ if(field110&&fieldF4==0&&thingTemplate->kind.test(90)&&!thingTemplate->kind.test(179))
   fieldF4=frameStats.size();
 }
 
 // ZH addObjectDestroyed supplies category and per-player count semantics.
 // Native39CDF0..39CF1D301B independently adds completion gating, the
 // second totals and tracked-kill predicate/position notifications.
-void ScoreKeeper::addObjectDestroyed(const Object*o){
+void ScoreKeeper::addObjectDestroyed(const Object*object){
  if(!TheGameLogic->isScoringEnabled())return;
- if(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))return;
- int playerIdx=o->getControllingPlayer()->getPlayerIndex();
+ if(object->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))return;
+ int playerIdx=object->getControllingPlayer()->getPlayerIndex();
  
  bool addToCount=false;
- if(o->getTemplate()->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingMask,KINDOFMASK_NONE)){
+ if(object->getTemplate()->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingMask,KINDOFMASK_NONE)){
   if(field110){++buildingsDestroyed[playerIdx];++counts118[playerIdx];addToCount=true;}
- }else if(o->getTemplate()->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingDestroyMask,KINDOFMASK_NONE)){
+ }else if(object->getTemplate()->kind.testSetAndClear(*(const KindOfMaskType*)&scoringBuildingDestroyMask,KINDOFMASK_NONE)){
   if(field110){++buildingsDestroyed[playerIdx];++counts118[playerIdx];addToCount=true;}
- }else if(TheWritableGlobalData->filter.accepts((Object*)o,0)){
+ }else if(TheWritableGlobalData->filter.accepts((Object*)object,0)){
   if(field110){++unitsDestroyed[playerIdx];++counts170[playerIdx];addToCount=true;}
  }
  if(addToCount){
   
   int existingCount=0;
-  ScoreCountMap::iterator it=objectsDestroyed[playerIdx].find((unsigned)o->getTemplate());
+  ScoreCountMap::iterator it=objectsDestroyed[playerIdx].find((unsigned)object->getTemplate());
   if(it._M_node!=objectsDestroyed[playerIdx].end()._M_node)existingCount=(int)it->second;
-  ((ImageSubscriptMap*)&objectsDestroyed[playerIdx])->operator[]((unsigned)o->getTemplate())=(Image*)(existingCount+1);
+  ((ImageSubscriptMap*)&objectsDestroyed[playerIdx])->operator[]((unsigned)object->getTemplate())=(Image*)(existingCount+1);
   for(unsigned*tracker=trackedKills.begin(),*end=trackedKills.end();tracker!=end;++tracker){
-   if(((ScoredKillTracker*)*tracker)->rva0055A892(o))((ScoredKillTracker*)*tracker)->friend_addTrackedKill(o->getPosition());
+   if(((ScoredKillTracker*)*tracker)->rva0055A892(object))((ScoredKillTracker*)*tracker)->friend_addTrackedKill(object->getPosition());
   }
  }
 }
