@@ -133,11 +133,6 @@ class Thing
 public:
 	const Coord3D *getUnitDirectionVector2D() const;
 };
-class Rva00270276Host
-{
-public:
-	Bool calcPitchRoll(void *obj, void *locomotor, void *pos, void *dir, Int pitch, Int roll);	// terrain tilt
-};
 
 Real Sin(Real x);
 Int GetGameClientRandomValue(Int lo, Int hi, char *file, Int line);
@@ -145,6 +140,7 @@ Int GetGameClientRandomValue(Int lo, Int hi, char *file, Int line);
 class Drawable
 {
 public:
+	Bool calcPitchRoll(void *obj, void *locomotor, void *pos, void *dir, Int pitch, Int roll);	// 0x00270276, terrain tilt
 	struct PhysicsXformInfo
 	{
 		Real m_totalPitch;
@@ -195,7 +191,7 @@ void Drawable::calcPhysicsXformWheels(const Locomotor *locomotor, PhysicsXformIn
 	const Coord3D *dir = ((const Thing *)this)->getUnitDirectionVector2D();
 	Real groundPitch = 0.0f;
 	Real groundRoll = 0.0f;
-	((Rva00270276Host *)this)->calcPitchRoll(obj, (void *)locomotor, (void *)pos, (void *)dir, (Int)&groundPitch, (Int)&groundRoll);
+	calcPitchRoll(obj, (void *)locomotor, (void *)pos, (void *)dir, (Int)&groundPitch, (Int)&groundRoll);
 	Real hheight = TheTerrainLogic->getLayerHeight(pos->x, pos->y, obj->rva0028B511(), 0, true);
 
 	Bool airborne = obj->isSignificantlyAboveTerrain();

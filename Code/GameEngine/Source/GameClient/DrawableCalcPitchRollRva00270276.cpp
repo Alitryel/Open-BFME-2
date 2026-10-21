@@ -1,13 +1,13 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// ?calcPitchRoll@Rva00270276Host@@QAE_NPAX000HH@Z
+// ?calcPitchRoll@Drawable@@QAE_NPAX000HH@Z
 // retail 0x00270276..0x00270619 (931 bytes) thiscall RET 0x18; this unused.
 //
 // Identity (WorldBuilder): the WB twin at 0x00CA2560 is
 // Drawable::calcPitchRoll (Drawable.cpp; uninitialised-math asserts on pos
 // and dir at lines 1373/1374) with the same callee graph. Retail callers are
-// the matched calcPhysicsXformWheels unit and 0x00276B32; the pinned
-// placeholder spelling keeps the callers' void*/int argument views.
+// the matched calcPhysicsXformWheels unit and 0x00276B32; the row keeps
+// the callers' void*/int argument views.
 // When the locomotor template flag +0xED is set it samples the terrain under
 // three corners of the object's footprint (box radii at object +0xCC/+0xD0
 // along the unit direction and its left perpendicular) through
@@ -74,13 +74,13 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 
-class Rva00270276Host
+class Drawable
 {
 public:
 	Bool calcPitchRoll(void *objArg, void *locomotorArg, void *posArg, void *dirArg, Int pitchArg, Int rollArg);
 };
 
-Bool Rva00270276Host::calcPitchRoll(void *objArg, void *locomotorArg, void *posArg, void *dirArg, Int pitchArg, Int rollArg)
+Bool Drawable::calcPitchRoll(void *objArg, void *locomotorArg, void *posArg, void *dirArg, Int pitchArg, Int rollArg)
 {
 	Object *obj = (Object *)objArg;
 	const Locomotor *locomotor = (const Locomotor *)locomotorArg;
