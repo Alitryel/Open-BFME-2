@@ -196,8 +196,9 @@ int Rva006CD9C0LevelMovieValue(int level);
 
 int Rva006CD9F0LevelFlag(int level);
 
-class BfmeRefVGO {unsigned *value;public:BfmeRefVGO():value(0){} ~BfmeRefVGO();};
-class Rva004A9DF3Element : public BfmeRefVGO {public:Rva004A9DF3Element(){} ~Rva004A9DF3Element();};
+// ModuleTagStringSwap.cpp's view: a default-argument ctor and no destructible subobject, so
+// the EH vector constructor iterator takes the zeroing default ctor closure (retail 0x00013260).
+class Rva004A9DF3Element {public:Rva004A9DF3Element(unsigned int *count=0):m_count(count){} ~Rva004A9DF3Element();unsigned int *m_count;};
 class Rva00893030Manager {int head;public:Rva00893030Manager():head(0){} POOL_ALLOC void rva006CDE50(Rva004A9DF3Element *,int);};
 extern Rva00893030Manager *g_rva00893030Manager;
 class AptValueVector {int capacity,count;AptValue **values;int high;public:AptValueVector(int);void ReleaseValues();POOL_ALLOC
@@ -524,8 +525,8 @@ void Rva006CCD90CallFunction(const char *function,char *result,const char *targe
 // Retail 0x006CDB70 (46 B): constructor of an owner with a two-handle inline
 // buffer. It zeroes the count and used fields, points the items pointer at
 // the inline storage at +0xC, and builds the two Rva004A9DF3Element handles
-// there through the EH vector constructor iterator (constructor 0x00013260,
-// destructor 0x000A9DF3), as the 96-handle table above does. Owner and field
+// there through the EH vector constructor iterator (default constructor closure
+// 0x00013260, destructor 0x000A9DF3), as the 96-handle table above does. Owner and field
 // names are address-derived.
 class Rva006CDB70Owner
 {
@@ -568,8 +569,8 @@ extern AptXmlImpl *gpAptXmlImpl;void Rva006CD0A0SetXmlImpl(AptXmlImpl *impl);
 // Native6CD3C0..6CD3E1: format the value's rowed sar-dword field 0x006DBB30
 // as "0x%X" into the static text buffer at E177D8 and return the buffer.
 // Address name; the buffer (E177D8, eight bytes below the E177E0 flags) is
-// only declared here.
-extern char g_aptFormattedFieldText[];
+// defined here, beside its only writer.
+char g_aptFormattedFieldText[8];	// retail RVA 0x00A177D8, zero at load
 const char *Rva006CD3C0FormatField(const Rva006DBB30SarDwordField *value) {
  sprintf(g_aptFormattedFieldText,"0x%X",value->get());
  return g_aptFormattedFieldText;
