@@ -21,5 +21,15 @@ struct Rva001504A1Record {
  Rva001504A1Record(); Rva001504A1Record(const Rva001504A1Record&); ~Rva001504A1Record(); Rva001504A1Record&operator=(const Rva001504A1Record&);
 private: char bytes[76];
 };
-namespace _STL { template<> void _Construct<Rva001504A1Record,Rva001504A1Record>(Rva001504A1Record*,const Rva001504A1Record&); }
+// Native calls at 0x001504F7 and 0x0015053A already name these rowed
+// placement-copy and vector cleanup providers. Retain their opaque views.
+struct Rva0014F647Element;
+class Rva0014F8C6 { public: void rva0014F8C6(); };
+namespace _STL {
+template<> void _Construct<Rva0014F647Element,Rva0014F647Element>(Rva0014F647Element*,const Rva0014F647Element&);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva001504A1Record,Rva001504A1Record>(Rva001504A1Record*p,const Rva001504A1Record&v)
+{ _Construct(reinterpret_cast<Rva0014F647Element*>(p),reinterpret_cast<const Rva0014F647Element&>(v)); }
+template<> __declspec(dllimport) __forceinline void vector<Rva001504A1Record>::_M_clear()
+{ ((Rva0014F8C6*)this)->rva0014F8C6(); }
+}
 template void _STL::vector<Rva001504A1Record>::_M_insert_overflow(Rva001504A1Record*,const Rva001504A1Record&,const _STL::__false_type&,unsigned int,bool);
