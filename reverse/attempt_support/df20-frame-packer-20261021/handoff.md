@@ -330,3 +330,44 @@ Next angle: do the naming reconciliation first. Then search with S non-inlinable
   - `if(!=);else` scores 0.9147.
   
   Return 2's W/S choice did not respond to any frequency shape tried. The return-2 residue needs the reconciled S (never inlined) rather than a statement shape.
+
+## Session 2026-10-21 (late): W/S cost carriers and the proxy (t15-t25, true naming; best stays a9d0sig 0.9986)
+
+Facts:
+- `_STLP_NOTHROW` is empty under MSVC (`stl_msvc.h` sets `_STLP_NO_EXCEPTION_SPEC`). `~allocator()` has no exception spec, and `_STLP_alloc_proxy` has no user destructor.
+- Inferred c2 inline cost is roughly the callee's optimised standalone size. Thresholds measured with real-code carriers (t23):
+
+  | Context | Threshold |
+  |---|---|
+  | Cold sites | 49–62 B |
+  | Warm sites | 62–75 B |
+  | Inlining S into W's standalone body | 75–88 B |
+  | Hot site | 101–114 B |
+
+  Under a pure size model, no single W cost both outlines W at the cold sites and inlines W at the warm sites while S stays outlined there, unless W itself carries real cost.
+- `build/b3df20/wsd.py` printed W/S/D<G> COMDAT sizes and calls. To force W to be emitted, add `#pragma inline_depth(0) void __dummyW(basic_string<unsigned short>*p){p->~basic_string();}`.
+
+Disproven:
+- t15/t16/t17: carriers inside a W specialisation, with and without sig depth(0).
+  - These are inert: `_Destroy` repeats, self-assign, `__destroy_aux(__false_type)`, `if(x+1<x){}`, an unused local, `__assume`.
+  - Empty loops inline everything (0.9417).
+  - `if(p!=p)` carriers merge.
+  - `if(_M_finish+i<_M_finish)_M_start=0;` with n≥4 outlines W at all 6 cold sites but grows the body to about 3049 B.
+  - `if(..)__assume(0)` merges returns 1 and 2 (2530 B).
+- h3 grid under true naming: best 0.9944. With S or D non-inlinable, W is never outlined.
+- t18/t20: every W phantom kind is always inlined in W's standalone body. t21: S's phantoms are never inlined in S's body, whatever their position.
+- t19: kS 9–12 keeps the hot site inlined. kS≥14 outlines S at the hot site and merges the returns (2530 B).
+- t22: zero-code carriers added to S at kS 7/8 are inert.
+- t23: m real-code carriers in S.
+  - m3: W is called at the sign temps and at return 2.
+  - m4: W is called everywhere.
+  - m5/m6: S is called at the warm sites.
+  - m≥7: S is outlined at the hot site.
+- t24/t25: the w63 proxy specialisation, with a `none`, `{}` or `if(0) free` destructor, crossed with kS{0,4,8,9}, kD 0–10 phantoms in a `_M_deallocate_block` specialisation, and sig depth 0/1.
+  - `none` and `{}` are inert (0.9986).
+  - `if(0)` outlines W at exactly the 6 cold sites. However, it adds proxy EH states 0xc/0xd at the warm sites, shrinks the frame to 0xd8 and moves the sign temps from 0x108/0xf0 to 0x3c/0x78. Fit is 0.8499 and every phantom count is inert.
+  - Retail's warm sites have no proxy state, so in DF20's unit the proxy destructor is trivial. B (0xB3C0) is the linker-selected W copy from another unit.
+
+Open angles:
+- Something besides callee size that makes return 2 (41e/42f) prefer outlining W: per-function inline budget order, or a different string object at return 2, such as a parameter copy or a temp from a different scope.
+- Compare the WorldBuilder twin's return-2 locals against a9d0sig's scope for those two strings.
