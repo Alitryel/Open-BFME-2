@@ -1,13 +1,13 @@
 // cl: -GR- -EHsc-
 // ??0AptOnlineOpenPlay@@QAE@H@Z @0x005BA1FD 55B: composing constructor. Builds
-// the base with (0, arg) through the pinned base ctor, installs the three
-// polymorphic tables (all DIR32, copied from retail by the gate), publishes
+// the base with (0, arg) through the AptOnlineCustomMatch ctor, installs the
+// three polymorphic tables (all DIR32, copied from retail by the gate), publishes
 // this to the 0xE06544 global when clear, and returns this. Targets from
 // retail REL32/DIR32; table symbols declared never defined.
-class Rva005BA1FDBase
+class AptOnlineCustomMatch
 {
 public:
-	Rva005BA1FDBase(int x, int y);
+	AptOnlineCustomMatch(int x, int y);
 	virtual void BaseVirt();
 };
 
@@ -27,7 +27,7 @@ class AptOnlineOpenPlay;
 extern int g_Va00E06544;
 #define g_rva005BA1FDInst (*(AptOnlineOpenPlay * *)&g_Va00E06544)
 
-class AptOnlineOpenPlay : public Rva005BA1FDBase
+class AptOnlineOpenPlay : public AptOnlineCustomMatch
 {
 	char pad[0x60 - 4];
 	Rva005BA1FDM60 m_60;
@@ -39,7 +39,7 @@ public:
 };
 
 AptOnlineOpenPlay::AptOnlineOpenPlay(int arg)
-	: Rva005BA1FDBase(arg, 0)
+	: AptOnlineCustomMatch(arg, 0)
 {
 	if (g_rva005BA1FDInst == 0)
 		g_rva005BA1FDInst = this;
@@ -64,7 +64,7 @@ struct Rva005BA28EM6C
 	virtual void M6CVirt();
 };
 
-class Rva005BA28E : public Rva005BA1FDBase
+class Rva005BA28E : public AptOnlineCustomMatch
 {
 	char pad[0x60 - 4];
 	Rva005BA28EM60 m_60;
@@ -76,7 +76,7 @@ public:
 };
 
 Rva005BA28E::Rva005BA28E(int arg)
-	: Rva005BA1FDBase(arg, 1)
+	: AptOnlineCustomMatch(arg, 1)
 {
 	if (g_rva005BA28EInst == 0)
 		g_rva005BA28EInst = this;

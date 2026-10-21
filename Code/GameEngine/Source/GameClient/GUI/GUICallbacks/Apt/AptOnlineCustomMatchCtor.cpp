@@ -1,9 +1,8 @@
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
-// ??0Rva005BA1FDBase@@QAE@HH@Z, retail 0x005A5BC7..0x005A61C6 (1535 bytes,
-// EH, ret 8). The pinned spelling names it the base constructor the
-// OnlineOpenPlay screen ctor 0x005BA1FD calls with (shell, 0) right after a
-// 0x4E0-byte operator new.
+// ??0AptOnlineCustomMatch@@QAE@HH@Z, retail 0x005A5BC7..0x005A61C6 (1535
+// bytes, EH, ret 8). The OnlineOpenPlay screen ctor 0x005BA1FD calls it as
+// its base constructor with (shell, 0) right after a 0x4E0-byte operator new.
 //
 // Identity: it installs vftable 0x00871414 -- the vftable of
 // AptOnlineCustomMatch whose dtor 0x005A0009 is matched -- and binds the
@@ -178,7 +177,7 @@ class AptScreenInitGadgets;
 void _bfme_setAptScreenRef(const AsciiString &name, AptRef<AptScreenInitGadgets> ref);
 
 // The callbacks keep the multiple-inheritance member pointer form
-// ({function, 0}); their classes are viewed with two bases for that.
+// ({function, 0}); Rva0059ECAD is viewed with two bases for that.
 class CustomMatchBindingA
 {
 public:
@@ -189,9 +188,17 @@ class CustomMatchBindingB
 public:
 	virtual void b00();
 };
-class AptOnlineCustomMatch : public CustomMatchBindingA, public CustomMatchBindingB
+class Rva0059ECAD : public CustomMatchBindingA, public CustomMatchBindingB
 {
 public:
+	void rva0059ECAD(int);
+};
+
+class AptOnlineCustomMatch : public Rva0056DC6B, public Rva004444D2, public Rva0059EB41
+{
+public:
+	AptOnlineCustomMatch(int shell, int profile);
+	virtual ~AptOnlineCustomMatch();
 	void LoadGame(const char *);
 	void AcceptJoinGame(const char *);
 	void PlayGame(const char *);
@@ -205,24 +212,6 @@ public:
 	void InitGadgets(const char *, int, GameWindow *);
 	void rva0059ECD2(int);	// bound as CancelPopUpJoin
 	void rva0059EC72(int);	// bound as CreateGame
-};
-class Rva0059ECAD : public CustomMatchBindingA, public CustomMatchBindingB
-{
-public:
-	void rva0059ECAD(int);
-};
-
-typedef void (AptOnlineCustomMatch::*CustomMatchText)(const char *);
-typedef void (AptOnlineCustomMatch::*CustomMatchInt)(int);
-typedef void (AptOnlineCustomMatch::*CustomMatchInitGadgets)(const char *, int, GameWindow *);
-typedef void (AptOnlineCustomMatch::*CustomMatchPopUp)(int);
-typedef void (Rva0059ECAD::*CustomMatchJoin)(int);
-
-class Rva005BA1FDBase : public Rva0056DC6B, public Rva004444D2, public Rva0059EB41
-{
-public:
-	Rva005BA1FDBase(int shell, int profile);
-	virtual ~Rva005BA1FDBase();
 
 private:
 	AptCommandMapAdder *commandMaps() { return (AptCommandMapAdder *)((char *)this + 4); }
@@ -255,6 +244,12 @@ private:
 	int m_4DC;
 };
 
+typedef void (AptOnlineCustomMatch::*CustomMatchText)(const char *);
+typedef void (AptOnlineCustomMatch::*CustomMatchInt)(int);
+typedef void (AptOnlineCustomMatch::*CustomMatchInitGadgets)(const char *, int, GameWindow *);
+typedef void (AptOnlineCustomMatch::*CustomMatchPopUp)(int);
+typedef void (Rva0059ECAD::*CustomMatchJoin)(int);
+
 #define CM_BIND(text, pmf, type)                                                                \
 	{                                                                                           \
 		FunctorMethod method = reinterpret_cast<FunctorMethod>(static_cast<type>(pmf));         \
@@ -263,7 +258,7 @@ private:
 			AptRef<AptCommandMap>(FunctorBinding(method, reinterpret_cast<FunctorTarget *>(this)))); \
 	}
 
-Rva005BA1FDBase::Rva005BA1FDBase(int shell, int profile)
+AptOnlineCustomMatch::AptOnlineCustomMatch(int shell, int profile)
 	: Rva0056DC6B((void *)shell), m_setup((MpGameSetupOwner *)static_cast<Rva004444D2 *>(this), 0x200001F0), m_sorter(this), m_prefs(profile),
 	  m_state(0), m_48C(0), m_490(0), m_498(0), m_49C(0), m_4A0(false), m_4A4(0), m_4A8(-1),
 	  m_4AC(0), m_4B0(0), m_4B4(false), m_4B8(0), m_4BC(0), m_4C0(false), m_4C1(true), m_4C2(true),
