@@ -1381,21 +1381,6 @@ VideoBuffer* InGameUI::cameoVideoBuffer( void )
 //translator to determine whether to do something to an object or select it instead based on the context of what is currently
 //selected.
 //------------------------------------------------------------------------------
-// ?InGameUI::canSelectedObjectsNonAttackInteractWithObject present-unmatched
-Bool InGameUI::canSelectedObjectsNonAttackInteractWithObject( const Object *objectToInteractWith, SelectionRules rule ) const
-{
-	for( int i = 1; i < NUM_ACTIONTYPES; i++ )
-	{
-		if( i != ACTIONTYPE_ATTACK_OBJECT )
-		{
-			if( canSelectedObjectsDoAction( (ActionType)i, objectToInteractWith, rule ) )
-			{
-				return TRUE;
-			}
-		}
-	}
-	return FALSE;
-}
 
 // getCanSelectedObjectsAttack is recovered in InGameUICanSelectedObjectsDoAction.cpp.
 

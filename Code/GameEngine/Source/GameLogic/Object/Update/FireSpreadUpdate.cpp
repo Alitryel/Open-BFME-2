@@ -103,26 +103,9 @@ FireSpreadUpdate::~FireSpreadUpdate( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?FireSpreadUpdate::startFireSpreading present-unmatched
-void FireSpreadUpdate::startFireSpreading()
-{
-	if( !getObject()->getStatusBits().test( OBJECT_STATUS_AFLAME ) )
-		return;	// sorry, must be on fire
-
-	setWakeFrame(getObject(), UPDATE_SLEEP(calcNextSpreadDelay()));
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?FireSpreadUpdate::calcNextSpreadDelay present-unmatched
-UnsignedInt FireSpreadUpdate::calcNextSpreadDelay()
-{
-	const FireSpreadUpdateModuleData* fireSpreadUpdateModuleData = getFireSpreadUpdateModuleData();
-	UnsignedInt delay = GameLogicRandomValue( fireSpreadUpdateModuleData->m_minSpreadTryDelayData, fireSpreadUpdateModuleData->m_maxSpreadTryDelayData );
-	if (delay < 1)
-		delay = 1;
-	return delay;
-}
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */

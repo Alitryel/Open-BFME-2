@@ -204,7 +204,7 @@ class FireSpreadUpdate : public UpdateModule
 {
 public:
 	virtual UpdateSleepTime update();
-	UnsignedInt rva0048B7D9();	// 0x0048B7D9 (calcNextSpreadDelay)
+	UnsignedInt calcNextSpreadDelay();	// 0x0048B7D9 (calcNextSpreadDelay)
 
 protected:
 	const FireSpreadUpdateModuleData *getFireSpreadUpdateModuleData() const
@@ -247,6 +247,6 @@ UpdateSleepTime FireSpreadUpdate::update( void )
 			}
 		}
 
-		return UPDATE_SLEEP(rva0048B7D9());
+		return UPDATE_SLEEP(calcNextSpreadDelay());
 	}
 }

@@ -88,10 +88,10 @@ public:
 	enum ActionType { ACTIONTYPE_NONE = 0 };
 	enum SelectionRules { SELECTION_ANY = 0 };
 	bool canSelectedObjectsDoAction(ActionType action, const Object *obj, SelectionRules rule, bool additional) const;	// 0x0029C823
-	bool rva0029F72F(const Object *obj, SelectionRules rule) const;
+	bool canSelectedObjectsNonAttackInteractWithObject(const Object *obj, SelectionRules rule) const;
 };
 
-bool InGameUI::rva0029F72F(const Object *obj, SelectionRules rule) const
+bool InGameUI::canSelectedObjectsNonAttackInteractWithObject(const Object *obj, SelectionRules rule) const
 {
 	for (int action = 1; action < 21; ++action)
 	{

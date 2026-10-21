@@ -4,7 +4,7 @@
 // BFME2 offset +0x730 with 0x1c Squad alloc via pin Squad ctor plus rowed
 // rva004D6C29Clear plus rowed Rva0018B8B0 apply(true); prev/next PlayerRva
 // same flags; callers include GameLogicDeselectObject; pin reuses Squad name.
-// ?rva002ACCA3@Player@@QAEXPAVAIGroup@@@Z @0x002ACCA3 102B: chain via +0x730
+// ?addAIGroupToCurrentSelection@Player@@QAEXPAVAIGroup@@@Z @0x002ACCA3 102B: chain via +0x730
 // selection plus pin Squad alloc plus rowed AIGroup::getAllIDs plus rowed rva004D6C9C loop;
 // prev is setCurrentlySelectedAIGroup same flags; caller 0x0023C991.
 enum ScienceType
@@ -67,7 +67,7 @@ class Player
 {
 public:
 	void setCurrentlySelectedAIGroup(AIGroup *group);
-	void rva002ACCA3(AIGroup *group);
+	void addAIGroupToCurrentSelection(AIGroup *group);
 private:
 	char m_pad[0x730];
 	Squad *m_currentSelection;
@@ -82,7 +82,7 @@ void Player::setCurrentlySelectedAIGroup(AIGroup *group)
 		((Rva0018B8B0Holder *)m_currentSelection)->apply((Rva0018B8B0Arg *)group, true);
 }
 
-void Player::rva002ACCA3(AIGroup *group)
+void Player::addAIGroupToCurrentSelection(AIGroup *group)
 {
 	if (group == 0)
 		return;

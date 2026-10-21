@@ -544,7 +544,7 @@ public:
 class FireSpreadUpdate
 {
 public:
-	void rva0048B938();
+	void startFireSpreading();
 };
 
 // One FireFX entry: the effect and the bone it plays at (BFME 1's parser
@@ -766,7 +766,7 @@ void FlammableUpdate::tryToIgnite()
 		static const NameKeyType key_FireSpreadUpdate = TheNameKeyGenerator->nameToKey("FireSpreadUpdate");
 		FireSpreadUpdate *fu = (FireSpreadUpdate *)getObject()->findModule(key_FireSpreadUpdate);
 		if (fu != 0)
-			fu->rva0048B938();
+			fu->startFireSpreading();
 
 		m_status = FS_AFLAME;
 

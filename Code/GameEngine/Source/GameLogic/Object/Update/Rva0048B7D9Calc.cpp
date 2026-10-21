@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva0048B7D9@FireSpreadUpdate@@QAEIXZ @0x0048B7D9 36B
+// ?calcNextSpreadDelay@FireSpreadUpdate@@QAEIXZ @0x0048B7D9 36B
 // Returns GetGameLogicRandomValue(min max file line) clamped to at least 1.
 // Min/max come from the data at +4 (+0xC/+0x10). File literal plus 0x98 are
 // the rowed GetGameLogicRandomValue 0x00233FF4 args. Callers 0x0048B924 and
@@ -43,15 +43,15 @@ protected:
 class FireSpreadUpdate : public UpdateModule
 {
 public:
-	unsigned int rva0048B7D9();
-	void rva0048B938();
+	unsigned int calcNextSpreadDelay();
+	void startFireSpreading();
 
 private:
 	Rva0048B7D9Data *m_data; // +4 (base vptr at +0)
 	Object *m_owner; // +8
 };
 
-unsigned int FireSpreadUpdate::rva0048B7D9()
+unsigned int FireSpreadUpdate::calcNextSpreadDelay()
 {
 	unsigned int r = (unsigned int)GetGameLogicRandomValue(m_data->m_min, m_data->m_max, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\FireSpreadUpdate.cpp", 0x98);
 	if (r < 1)
@@ -59,11 +59,11 @@ unsigned int FireSpreadUpdate::rva0048B7D9()
 	return r;
 }
 
-void FireSpreadUpdate::rva0048B938()
+void FireSpreadUpdate::startFireSpreading()
 {
 	Object *owner = m_owner;
 	if (!owner->testStatus(OBJECT_STATUS_10))
 		return;
-	unsigned int delay = rva0048B7D9();
+	unsigned int delay = calcNextSpreadDelay();
 	setWakeFrame(owner, (UpdateSleepTime)delay);
 }

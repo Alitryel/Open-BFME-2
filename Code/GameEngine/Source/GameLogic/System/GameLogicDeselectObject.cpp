@@ -50,7 +50,7 @@ class Player
 public:
 	void getCurrentSelectionAsAIGroup(AIGroup *group);
 	void setCurrentlySelectedAIGroup(AIGroup *group);
-	void rva002ACCA3(AIGroup *group);
+	void addAIGroupToCurrentSelection(AIGroup *group);
 };
 
 class PlayerList
@@ -135,7 +135,7 @@ void GameLogic::selectObject(Object *obj, Bool createNewSelection, PlayerMaskTyp
 		if (createNewSelection) {
 			player->setCurrentlySelectedAIGroup(group);
 		} else {
-			player->rva002ACCA3(group);
+			player->addAIGroupToCurrentSelection(group);
 		}
 
 		TheAI->destroyGroup(group);

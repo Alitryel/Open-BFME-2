@@ -2458,22 +2458,6 @@ void Player::removeObjectFromHotkeySquad(Object *objToRemove)
 //-------------------------------------------------------------------------------------------------
 /** Select a hotkey team based on this GameMessage */
 //-------------------------------------------------------------------------------------------------
-// ?addAIGroupToCurrentSelection@Player@@QAEXPAVAIGroup@@@Z present-unmatched
-void Player::addAIGroupToCurrentSelection(AIGroup *group) {
-	if (group == NULL) {
-		return;
-	}
-
-	if (m_currentSelection == NULL) {
-		m_currentSelection = newInstance( Squad );
-	}
-	
-	VecObjectID objectIDVec = group->getAllIDs();
-	Int numObjs = objectIDVec.size();
-	for (Int i = 0; i < numObjs; ++i) {
-		m_currentSelection->addObjectID(objectIDVec[i]);
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 /** addTypeOfProductionCostChange adds a production change to the typeof list */
