@@ -256,7 +256,7 @@ class Rva0040AAD5;
 extern Rva0040AAD5 *TheAwardSystemManager;
 extern const FieldParse AwardSystemFields[];
 
-void Rva0040C32BParse(INI *ini)
+void parseAwardSystemDefinition(INI *ini)
 {
 	if (TheAwardSystemManager)
 		ini->initFromINI(TheAwardSystemManager, AwardSystemFields);
