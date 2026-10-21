@@ -47,6 +47,16 @@ class Drawable;
 class GeometryInfo;
 struct CreateMask { UnsignedInt m_bits[4]; };
 
+// Compare concrete iterators directly; the native loops compare their nodes.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                             const _List_iterator<T, RightTraits>& b)
+{
+    return a._M_node != b._M_node;
+}
+}
+
 namespace _STL {
 enum { _STLP_LEAKS_CHECK = 0 };
 template <> allocator<Object *>::~allocator() _STLP_NOTHROW { if (_STLP_LEAKS_CHECK) free(this); }
@@ -93,7 +103,8 @@ public:
 	__forceinline Bool isKindOf(Int k) const { return m_kindOf.test(k); }
 	const GeometryInfo &getTemplateGeometryInfo() const { return *(const GeometryInfo *)m_geometry; }
 	Real getPlacementScale() const { return m_4e0; }
-	UnsignedInt getMaxSimultaneousOfType() const { return m_maxSimultaneousOfType; }
+	// Inline field view only: the full ThingTemplate implementation has extra logic.
+	__declspec(dllimport) __forceinline UnsignedInt getMaxSimultaneousOfType() const { return m_maxSimultaneousOfType; }
 private:
 	char m_pad000[0xA0];
 	char m_geometry[0x108 - 0xA0];		// +0xA0
@@ -126,7 +137,8 @@ class Player
 public:
 	Bool isPlayerActive() const;
 	void countObjectsByThingTemplate(Int numTmplates, const ThingTemplate *const *things, Bool justBuilt, Int *counts, Bool ignoreUnderConstruction) const;
-	Team *getDefaultTeam() { return m_defaultTeam; }
+	// The rowed out-of-line getter has a different compiler shape.
+	__declspec(dllimport) __forceinline Team *getDefaultTeam() { return m_defaultTeam; }
 	W3DBridge *getCreationFlag() { return &m_3bc; }
 	char m_pad000[0x60];
 	Rva002A7461 m_60;			// +0x60
