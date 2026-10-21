@@ -41,7 +41,7 @@ public:
 	virtual void reset();
 	virtual void update();
 	virtual void newGame();
-	virtual void rva002A7AE6();	// retail slot 15, 0x002A7AE6
+	virtual void newMap();	// retail slot 15, 0x002A7AE6
 	virtual void rva002A7ACE();	// retail slot 16, 0x002A7ACE
 
 protected:

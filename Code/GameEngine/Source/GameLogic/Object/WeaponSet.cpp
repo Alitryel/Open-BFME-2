@@ -668,33 +668,12 @@ CanAttackResult WeaponSet::getAbleToUseWeaponAgainstTarget( AbleToAttackType att
 // WeaponSet::isOutOfAmmo: defined in WeaponSetIsOutOfAmmo.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-// ?WeaponSet::findAmmoPipShowingWeapon present-unmatched
-const Weapon* WeaponSet::findAmmoPipShowingWeapon() const
-{
-	for( Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
-	{
-		const Weapon *weapon = m_weapons[ i ];
-		if (weapon && weapon->isShowsAmmoPips())
-		{
-			return weapon;
-		}
-	}
-	return NULL;
-}
+// WeaponSet::findAmmoPipShowingWeapon: retail's body is the row at 0x002C73F7
+// (WeaponSetRvaSlotSearch.cpp); this unit only declares it.
 
 //-------------------------------------------------------------------------------------------------
-// ?WeaponSet::findWaypointFollowingCapableWeapon present-unmatched
-Weapon* WeaponSet::findWaypointFollowingCapableWeapon()
-{
-	for( Int i = WEAPONSLOT_COUNT - 1; i >= PRIMARY_WEAPON; i-- )
-	{
-		if( m_weapons[i] && m_weapons[i]->isCapableOfFollowingWaypoint() )
-		{
-			return m_weapons[i];
-		}
-	}
-	return NULL;
-}
+// WeaponSet::findWaypointFollowingCapableWeapon: retail's body is the row at 0x002C741C
+// (WeaponSetRvaSlotSearch.cpp); this unit only declares it.
 
 //-------------------------------------------------------------------------------------------------
 // ?WeaponSet::getMostPercentReadyToFireAnyWeapon present-unmatched

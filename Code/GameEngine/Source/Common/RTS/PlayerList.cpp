@@ -116,16 +116,8 @@ void PlayerList::reset()
 // PlayerList::update is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/PlayerList_playerLoops.cpp (0x002A7AB6).
 
 //-----------------------------------------------------------------------------
-// ?PlayerList::newMap present-unmatched
-void PlayerList::newMap()
-{
-	// update all players
-	for( Int i = 0; i < MAX_PLAYER_COUNT; i++ )
-	{
-		m_players[i]->newMap();
-	}  // end for i
-
-}
+// PlayerList::newMap: retail's body is the row at 0x002A7AE6
+// (PlayerList_playerLoops.cpp); this unit only declares it.
 
 // ------------------------------------------------------------------------
 // ?PlayerList::teamAboutToBeDeleted present-unmatched

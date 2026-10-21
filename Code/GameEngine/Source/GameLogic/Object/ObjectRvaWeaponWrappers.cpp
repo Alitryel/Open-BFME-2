@@ -27,8 +27,8 @@ class WeaponSet
 	RvaWeaponSlot *m_slots[6];		// +0x008
 
 public:
-	RvaWeaponSlot *rva002C73F7() const;
-	RvaWeaponSlot *rva002C741C() const;
+	const class Weapon *findAmmoPipShowingWeapon() const;
+	class Weapon *findWaypointFollowingCapableWeapon();
 };
 
 class Weapon
@@ -50,13 +50,13 @@ public:
 // ?rva0028AEEA@Object@@QBEPAURvaWeaponSlot@@XZ
 RvaWeaponSlot *Object::rva0028AEEA() const
 {
-	return m_weaponSet.rva002C741C();
+	return (RvaWeaponSlot *)const_cast<WeaponSet &>(m_weaponSet).findWaypointFollowingCapableWeapon();
 }
 
 // ?getAmmoPipShowingInfo@Object@@QBE_NPAPAXPAI@Z
 bool Object::getAmmoPipShowingInfo(void **outPtr, unsigned *outAmmo) const
 {
-	RvaWeaponSlot *slot = m_weaponSet.rva002C73F7();
+	RvaWeaponSlot *slot = (RvaWeaponSlot *)m_weaponSet.findAmmoPipShowingWeapon();
 	if (slot != 0)
 	{
 		*outPtr = slot->m_state->m_fieldE4;

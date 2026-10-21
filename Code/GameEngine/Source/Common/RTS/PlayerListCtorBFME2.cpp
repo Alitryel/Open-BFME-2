@@ -13,7 +13,7 @@ class Player {public:Player(int);private:char bytes[0x758];};
 class PlayerList : public SubsystemInterface, public Snapshot {
 public:
  PlayerList();virtual ~PlayerList();virtual void init();virtual void reset();virtual void update();
- virtual void newGame();virtual void rva002A7AE6();virtual void rva002A7ACE();
+ virtual void newGame();virtual void newMap();virtual void rva002A7ACE();
 protected:virtual void crc(Xfer*);virtual void xfer(Xfer*);virtual void loadPostProcess();
 private:Player*local;int count;Player*players[20];
 };

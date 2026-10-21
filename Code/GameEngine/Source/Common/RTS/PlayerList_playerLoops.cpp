@@ -6,7 +6,7 @@
 //
 //   slot 10  0x002A7AB6  PlayerList::update   -> Player::update 0x002AE770
 //   slot 16  0x002A7ACE  rva002A7ACE          -> Player 0x002A99FA
-//   slot 15  0x002A7AE6  rva002A7AE6          -> Player 0x002B0D00
+//   slot 15  0x002A7AE6  newMap          -> Player 0x002B0D00
 //   direct   0x002A7B1C  updateTeamStates     -> Player::updateTeamStates
 //
 // Slot 10 is SubsystemInterface::update's slot (GameEngine's update sits in
@@ -49,7 +49,7 @@ public:
 	virtual void init();
 	virtual void update();
 	virtual void rva002A7ACE();
-	virtual void rva002A7AE6();
+	virtual void newMap();
 
 	void setLocalPlayer(Player *player);	///< pinned 0x002A7B34 (ZH name)
 	void updateTeamStates();
@@ -86,7 +86,7 @@ void PlayerList::rva002A7ACE()
 		m_players[i]->rva002A99FA();
 }
 
-void PlayerList::rva002A7AE6()
+void PlayerList::newMap()
 {
 	for (Int i = 0; i < MAX_PLAYER_COUNT; i++)
 		m_players[i]->newMap();

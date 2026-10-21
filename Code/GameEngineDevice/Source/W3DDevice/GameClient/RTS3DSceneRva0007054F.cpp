@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Oy-
 //
-// ?rva0007054F@RTS3DScene@@UAEXAAVRenderInfoClass@@@Z, retail 0x0007054f, 754 bytes. Banked partial (score 1.0) closed by tools/permute.py;
+// ?Customized_Render@RTS3DScene@@UAEXAAVRenderInfoClass@@@Z, retail 0x0007054f, 754 bytes. Banked partial (score 1.0) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
 // Source guide: pinned BFME1 f98983a7d GeneralsMD W3DScene.cpp Customized_Render.
 // Target facts: whole7054F..70841 RET4, scene vslot5C calls this from71E40,
@@ -172,13 +172,13 @@ virtual void slot019();
 virtual void slot020();
 virtual void slot021();
 virtual void slot022();
-virtual void rva0007054F(RenderInfoClass&);
+virtual void Customized_Render(RenderInfoClass&);
 virtual void slot024();
 virtual void slot025();
 virtual void slot026();
 virtual void Visibility_Check(RenderObjClass*);
 protected:void renderOneObject(RenderInfoClass&,RenderObjClass*,int,int);public:char gap4[0x14];int polygonMode;char gap1C[4];Vector3 FogColor;char gap2C[0x48];GenericMultiListClass UpdateList;char gap8C[0x60];GenericMultiListClass RenderList;char gap104[0x28];bool drawTerrainOnly;char gap12D[0x7EC-0x12D];int customPassMode;int translucentCount;char gap7F4[4];int occludedCount;};
-void RTS3DScene::rva0007054F(RenderInfoClass&rinfo)
+void RTS3DScene::Customized_Render(RenderInfoClass&rinfo)
 {
  RenderObjClass*terrainObject=0,*robj;
  translucentCount=0;occludedCount=0;
