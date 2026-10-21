@@ -8,7 +8,7 @@
 // slot 10 (the argument unread); the untargeted use only reports "Error!
 // Devastate Power requires either a target object or location" through the
 // Debug singleton (the GameLODManagerGetAudioLODIndex.cpp reporting shape).
-// ?rva004C82D1@DevastateSpecialPower@@UAEXPAVObject@@H@Z, retail 0x004C82D1,
+// ?doSpecialPowerAtObject@DevastateSpecialPower@@UAEXPAVObject@@H@Z, retail 0x004C82D1,
 // 20 bytes: slot 11; slot 12 at the target Object's position (+0x38) with the
 // same second argument.
 
@@ -82,7 +82,7 @@ public:
 	virtual void gap4() = 0; virtual void gap5() = 0; virtual void gap6() = 0; virtual void gap7() = 0;
 	virtual void gap8() = 0; virtual void gap9() = 0;
 	virtual void rva004C822C(int options) = 0;
-	virtual void rva004C82D1(Object *target, int options) = 0;
+	virtual void doSpecialPowerAtObject(Object *target, int options) = 0;
 	virtual void slot12(const Coord3D *pos, int options) = 0;
 };
 
@@ -94,7 +94,7 @@ class DevastateSpecialPower : public SpecialPowerModule
 {
 public:
 	virtual void rva004C822C(int options);
-	virtual void rva004C82D1(Object *target, int options);
+	virtual void doSpecialPowerAtObject(Object *target, int options);
 };
 
 // ?rva004C822C@DevastateSpecialPower@@UAEXH@Z @0x004C822C
@@ -108,8 +108,8 @@ void DevastateSpecialPower::rva004C822C(int)
 	}
 }
 
-// ?rva004C82D1@DevastateSpecialPower@@UAEXPAVObject@@H@Z @0x004C82D1
-void DevastateSpecialPower::rva004C82D1(Object *target, int options)
+// ?doSpecialPowerAtObject@DevastateSpecialPower@@UAEXPAVObject@@H@Z @0x004C82D1
+void DevastateSpecialPower::doSpecialPowerAtObject(Object *target, int options)
 {
 	slot12(target->getPosition(), options);
 }

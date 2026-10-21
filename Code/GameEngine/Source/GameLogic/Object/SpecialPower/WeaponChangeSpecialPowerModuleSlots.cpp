@@ -6,7 +6,7 @@
 //   ?rva004C405D@WeaponChangeSpecialPowerModule@@UAEXPAXH@Z  retail 0x004C405D, 12 bytes:
 //     slots 11 and 12 (two two-argument slots folded onto one body; also
 //     PlayerUpgradeSpecialPower's slots 11/12, vtable 0x00C5E120);
-//   ?rva004C4069@WeaponChangeSpecialPowerModule@@UAEXPAXMH@Z retail 0x004C4069, 12 bytes:
+//   ?doSpecialPowerUsingWaypoints@WeaponChangeSpecialPowerModule@@UAEXPAXMH@Z retail 0x004C4069, 12 bytes:
 //     slot 13 (three arguments).
 // Zero Hour's SpecialPowerModuleInterface has the same at-object / at-location
 // forwarders shape over doSpecialPower(commandOptions); the slot order here
@@ -28,7 +28,7 @@ public:
 	virtual void slot8() = 0; virtual void slot9() = 0;
 	virtual void rva004C40BA(int commandOptions) = 0;
 	virtual void rva004C405D(void *target, int commandOptions) = 0;
-	virtual void rva004C4069(void *target, float angle, int commandOptions) = 0;
+	virtual void doSpecialPowerUsingWaypoints(void *target, float angle, int commandOptions) = 0;
 };
 
 class WeaponChangeSpecialPowerModule : public BehaviorModule, public SpecialPowerModuleInterface
@@ -36,7 +36,7 @@ class WeaponChangeSpecialPowerModule : public BehaviorModule, public SpecialPowe
 public:
 	virtual void rva004C40BA(int commandOptions);
 	virtual void rva004C405D(void *target, int commandOptions);
-	virtual void rva004C4069(void *target, float angle, int commandOptions);
+	virtual void doSpecialPowerUsingWaypoints(void *target, float angle, int commandOptions);
 };
 
 void WeaponChangeSpecialPowerModule::rva004C405D(void *target, int commandOptions)
@@ -44,7 +44,7 @@ void WeaponChangeSpecialPowerModule::rva004C405D(void *target, int commandOption
 	rva004C40BA(commandOptions);
 }
 
-void WeaponChangeSpecialPowerModule::rva004C4069(void *target, float angle, int commandOptions)
+void WeaponChangeSpecialPowerModule::doSpecialPowerUsingWaypoints(void *target, float angle, int commandOptions)
 {
 	rva004C40BA(commandOptions);
 }
