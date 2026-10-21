@@ -20,6 +20,15 @@
 //   helpers 0x0028AD7C / 0x0028ACDC, writes the ignore-collision frame at AI
 //   +0x178 directly, and ends with 0x0028ACDC on the exiting object instead of
 //   Pathfinder::updateGoal.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 #include <vector>
 #include "ascii_string.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
@@ -68,12 +77,15 @@ class Rva000E016A {public:BfmeE12 *rva000E016A(unsigned,Coord3D*,Coord3D*);};
 namespace _STL {
 template <class I,class O> O __copy_ptrs(I,I,O,const __false_type&);
 template <> Coord3D *__uninitialized_copy(Coord3D*,Coord3D*,Coord3D*,const __false_type&);
+// Visible and called out of line as retail's 0x002CA82C, so the caller's vector does not escape.
+template <> inline __declspec(noinline)
+void _Construct<Coord3D, Coord3D>(Coord3D *__p, const Coord3D &__val) { _STLP_PLACEMENT_NEW (__p) Coord3D(__val); }
 }
 class Rva0035149F {public:BfmeE12 *start,*finish,*end;Rva0035149F &rva0035149F(const Rva0035149F&);};
 enum AICommandType {AICMD_PATH=9,AICMD_PATH_ANGLE=0x25};
 struct AICommandParms {
  AICommandParms(AICommandType,CommandSourceType);
- ~AICommandParms(){if(coords.start)Rva00030830GameFree(coords.start);}
+ ~AICommandParms(){if(coords.start)free(coords.start);}
  int cmd,source;Coord3D pos;Object *target;char pad18[8];Rva0035149F coords;char pad2c[0xc0-0x2c];
 };
 class AICommandInterface {public:virtual void aiDoCommand(const AICommandParms*);void rva0036EE16(const Rva0035149F*,Object*,CommandSourceType);void rva0036EF09(const Rva0035149F*,Object*,float,CommandSourceType);};

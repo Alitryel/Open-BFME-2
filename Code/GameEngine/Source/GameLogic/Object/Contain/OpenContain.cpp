@@ -109,13 +109,6 @@ template unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const;
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool _Base_bitset<4>::_M_is_equal(_Base_bitset<4> const &) const; }
 
-// Declaration-only _Construct: retail's vector<Coord3D> push_back calls the
-// pinned out-of-line helper (0x002CA82C) instead of inlining the element
-// copy (row 35 family-LK3).
-namespace _STL {
-template <> void _Construct<Coord3D, Coord3D>(Coord3D *, const Coord3D &);
-}
-
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
@@ -725,133 +718,8 @@ Bool OpenContain::isValidContainerFor(const Object* obj, Bool checkCapacity) con
 }  // end isValidContainerFor
 
 // ------------------------------------------------------------------------------------------------
-/**
-	This new call is going to replace all game callings of removeFromContain.
-	Consider rFC a 'system' call, while this is a 'game' call.  rFC will pull
-	from the contained list and just plop the guy in the world, this function
-	will then override that location with cool game stuff.
-
-	Exit and Evacuate can fail, removeAllContain and removeFromContain cannot.
-*/
-// ?OpenContain::exitObjectViaDoor present-unmatched
-void OpenContain::exitObjectViaDoor( Object *exitObj, ExitDoorType exitDoor )
-{
-	DEBUG_ASSERTCRASH(exitDoor == DOOR_1, ("multiple exit doors not supported here"));
-
-	removeFromContain( exitObj );
-
-	Object *me = getObject();
-
-	m_doorCloseCountdown = getOpenContainModuleData()->m_doorOpenTime;
-	if (m_doorCloseCountdown)
-	{
-		// srj sez: only diddle the doors if this countdown is nonzero. 
-		// this allows us to prevent this module from messing with the doors
-		// at all, which is required for DeliverPayloadAIUpdate.
-		/// @todo srj -- for now, OpenContain assumes at most one door
-		me->clearAndSetModelConditionState( MODELCONDITION_DOOR_1_CLOSING, MODELCONDITION_DOOR_1_OPENING );
-	}
-
-	Int numberExits = getOpenContainModuleData()->m_numberOfExitPaths;
-	if( numberExits > 0 )
-	{
-		// We have ExitStart/End specified in art to use when we kick people out.  If >1, then
-		// we have many and we need to decide which one to use.
-		AsciiString startBone("ExitStart");
-		AsciiString endBone("ExitEnd");
-		Coord3D startPosition;
-		Coord3D endPosition;
-		if( numberExits > 1 )
-		{
-			char suffix[8];
-			itoa(m_whichExitPath, suffix, 10);
-			if( m_whichExitPath < 10 )
-			{
-				startBone.concat('0');
-				endBone.concat('0');
-			}
-			
-			m_whichExitPath = (m_whichExitPath % numberExits) + 1;// To cycle from 1 to n
-
-			startBone.concat(suffix);
-			endBone.concat(suffix);
-		}
-		me->getSingleLogicalBonePosition( startBone.str(), &startPosition, NULL );
-		me->getSingleLogicalBonePosition( endBone.str(), &endPosition, NULL );
-
-		//startPosition.x = startPosition.y = 0;
-		Real exitAngle = me->getOrientation();
-		PhysicsBehavior *physics = exitObj->getPhysics();
-		// Can fall problem - When units exit from planes, they are airborne for a while as they drop.
-		// Airborne units dont' do pathfinding, and this is fine.
-		// However, amphibious transports unload 3 feet off the ground.  This is enough to trigger the 
-		// airborne flag, and they don't pathfind.  So they all unload at the same exact point, and life
-		// is ugly.  So temporarily, we turn off the allowToFall flag, so they aren't considered airborne, 
-		// and their final destination (adjustToPossibleDestination) considers them as pathfinding, so they
-		// don't stack up.  Then we turn the flag back, so if they are parachuting, they can fly down
-		//  on their parachute.  jba.
-		Bool canFall = false;
-		if (physics) 
-		{
-			canFall = physics->getAllowToFall();
-		}
-		exitObj->setPosition( &startPosition );
-		exitObj->setOrientation( exitAngle );
-		
-		// Per JohnA: We need to set our layer to match our transports layer, or we'll try to pick a spot
-		// on the ground.
-		exitObj->setLayer( me->getLayer() );
-		///< @todo This really should be automatically wrapped up in an activation sequence	for objects in general
-		// tell the AI about it
-		AIUpdateInterface *ai = exitObj->getAI();
-		AIUpdateInterface *myAi = me->getAI();
-		TheAI->pathfinder()->addObjectToPathfindMap( exitObj );
-		if (ai) 
-		{
-			if (myAi && myAi->isIdle() && me->isKindOf(KINDOF_VEHICLE)) {
-				TheAI->pathfinder()->removeUnitFromPathfindMap(me);
-				TheAI->pathfinder()->updatePos(me, me->getPosition());
-				TheAI->pathfinder()->updateGoal(me, me->getPosition(), TheTerrainLogic->getLayerForDestination(me->getPosition()));
-			}
-			ai->ignoreObstacle(NULL);
-			// The units often come out at the same position, and need to ignore collisions briefly
-			// as they move out.  jba.
-			ai->setIgnoreCollisionTime(LOGICFRAMES_PER_SECOND);
-			TheAI->pathfinder()->adjustToPossibleDestination(exitObj, ai->getLocomotorSet(), &endPosition);
-		}
-		std::vector<Coord3D> exitPath;
-		exitPath.push_back(endPosition);
-		exitPath.push_back(endPosition); // Do it twice, in case units stack up due to brief flying.  jba.
-		if (m_rallyPointExists) {
-			exitPath.push_back(m_rallyPoint);
-		}
-
-		if( ai )
-		{
-			if (physics) 
-			{
-				physics->setAllowToFall(false);
-			}
-
-			ai->aiFollowPath( &exitPath, me, CMD_FROM_AI );
-
-			TheAI->pathfinder()->updateGoal(exitObj, &endPosition, TheTerrainLogic->getLayerForDestination(&endPosition));
-		}
-		if (physics) 
-		{
-			physics->setAllowToFall(canFall);
-		}
-	}
-	else
-	{
-		///< @todo This really should be automatically wrapped up in an activation sequence	for objects in general
-		// tell the AI about it
-		TheAI->pathfinder()->addObjectToPathfindMap( exitObj );
-	}
-}
-// ------------------------------------------------------------------------------------------------
-// OpenContain::exitObjectInAHurry (0x004656DF) is BFME2 code with a different module layout;
-// it lives in OpenContainExitObjectInAHurry.cpp.
+// OpenContain::exitObjectViaDoor (0x0046525F) and exitObjectInAHurry (0x004656DF) are BFME2 code
+// with a different module layout; they live in OpenContainExitObjectInAHurry.cpp.
 
 
 //-------------------------------------------------------------------------------------------------
