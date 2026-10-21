@@ -78,12 +78,12 @@ public:
 	bool rva000C4080(const Object *a, const Object *b, CommandSourceType commandSource);
 };
 
-bool BFMEActionManager::rva000C4080(const Object *a, const Object *b, CommandSourceType)
+bool BFMEActionManager::rva000C4080(const Object *obj, const Object *target, CommandSourceType)
 {
-	if (a == 0 || b == 0)
+	if (obj == 0 || target == 0)
 		return false;
-	const Object *aObj = const_cast<Object *>(a)->rva002931F5(false);
-	Object *bObj = const_cast<Object *>(b)->rva002931F5(false);
+	const Object *aObj = const_cast<Object *>(obj)->rva002931F5(false);
+	Object *bObj = const_cast<Object *>(target)->rva002931F5(false);
 	if (aObj == bObj)
 		return false;
 	if (!(aObj != 0 && bObj == 0))
@@ -91,7 +91,7 @@ bool BFMEActionManager::rva000C4080(const Object *a, const Object *b, CommandSou
 		const void *p = bObj->rva0028C197();
 		if (p == 0)
 			return false;
-		if (((Provider28 *)p)->slot28(const_cast<Object *>(a)))
+		if (((Provider28 *)p)->slot28(const_cast<Object *>(obj)))
 		{
 			return true;
 			_WriteBarrier();
@@ -104,7 +104,7 @@ bool BFMEActionManager::rva000C4080(const Object *a, const Object *b, CommandSou
 		void *p = const_cast<Object *>(aObj)->rva0028C197();
 		if (p == 0)
 			return false;
-		if (((Provider28 *)p)->slot28(const_cast<Object *>(b)))
+		if (((Provider28 *)p)->slot28(const_cast<Object *>(target)))
 		{
 			return true;
 			_WriteBarrier();
