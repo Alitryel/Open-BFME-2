@@ -77,7 +77,7 @@ public:
 	virtual void setIsActive(Bool isActive);						// 14 0x00449A29
 	virtual void RequestLocations(void);							// 15
 	virtual void RequestGameJoin(LANGameInfo *game, const BfmeNetAddress &address);
-	virtual void rva00449FE8(void *data);							// 17
+	virtual void RequestGameJoinDirectConnect(void *data);							// 17
 	virtual void RequestGameLeave(void);
 	virtual void RequestAccept(Bool accept);
 	virtual void RequestHasMap(void);								// 20
