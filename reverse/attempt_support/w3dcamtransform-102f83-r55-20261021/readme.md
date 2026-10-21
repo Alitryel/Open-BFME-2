@@ -31,3 +31,22 @@ builds), while only the Z pieces are register candidates. Ours makes all six
 candidates. Untested next: a semantic reason for the X/Y weights to drop, e.g.
 the realZoom adjust reading X/Y through an out-of-line or address-taking call,
 or the realZoom arm written after the join.
+
+Later in r55 (all on the r55 bank, none adopted):
+- g12: 2-iteration `sourcePos[i]` loops (Vector3::operator[]) in the pitch arms stay real
+  loops (best 0.877).
+- g13, full 2^10 factorial (translate order, targetPos field zeroing, inline distance,
+  held `delta=v->source;delta-=sourcePos`, `targetPos+=delta`, nearAdjust through
+  adjustPitch(90+fxPitch), realZoom arm through a multiply helper, field-wise copy-back,
+  mode-2 Set, m_cameraSource copy before the flag test): best = bank 0.88522; the memop
+  metric (retail 32) never exceeds 18.
+- permute.py 30 min: 0.8852 -> 0.8861 (49 regions). Bisected (g14): only two edits act,
+  E1 = target XY += pos before the findObjectByID lookup and source XY += pos after it
+  (0.88562, 45 regions, mem 19), and E4 = `sourcePos=v->source` before `targetPos+=delta`
+  in the hold (with E1 0.88613/49). E1 is not retail's order (retail adds the source XY
+  before the call), so it is noted, not banked. `targetZAdjustment+groundLevel` order and
+  `Z=Z*(...)` are inert.
+- WB 0x7E3040 re-read: realZoom adjust is `(s-t)/fxPitch + t` per axis in WB (fld s; fsub t;
+  fdiv; fadd t); the live arm calls Vector3::Distance on Z-zeroed copies (asserts
+  vector3.h:1005/1006, operator- 356/357, Length 581) and copies sourcePos to this+0xC
+  before them. Both already covered by the r53/r55 trials.
