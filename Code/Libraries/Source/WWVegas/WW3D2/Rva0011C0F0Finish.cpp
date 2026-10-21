@@ -1,5 +1,5 @@
 // Rva0011C0F0Finish.cpp -- ??0Render2DClass@@QAE@XZ
-// cl: /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 //
 // The BFME2 Render2DClass constructor, retail 0x0011C0F0 (202 bytes). The class
 // and its flags come from the already-landed
@@ -20,15 +20,14 @@
 //   +0x44  CurrentBatch = -1
 //   +0x48  IsDirty = true
 //
-// The batch vector's stride is 0x74 -- the ProxyClass size -- which 0x00119F00
-// (Reset, called below) walks; the same vector and the same offsets are already
-// recovered in Render2DClassReset.cpp, so this is the layout that file proves.
-// The reference header's DynamicVectorClass would seat a vtable pointer, which
-// retail does not store, so the batch head is modelled as a plain three-pointer
-// class here.
+// Reset (0x00119F00, called below) walks 0x74-byte batch records. Its
+// vector<BfmeRender2DBatch> at +0x34 is also recovered in the complete
+// destructor, so this constructor uses that same STLport member and cleanup
+// provider. The reference header's DynamicVectorClass has a vtable pointer
+// that retail does not store.
 //
 // Reset is called non-virtically with this in ecx, which is why retail passes
-// esi straight through. The three members whose destructors may throw -- the two
+// esi straight through. The members whose destructors may throw -- the two
 // raw arrays, the batch vector and the texture ref -- are what make retail's
 // frame an SEH one, so MSVC 7.1 installs the scope-table handler and keeps the
 // two unwind temporaries at [esp+8] (the in-progress `this`) and [esp+0x14] (the
@@ -42,6 +41,12 @@
 // because nothing else names them.
 //
 // stlport
+#include <vector>
+
+class BfmeRender2DBatch;
+// Reset and the complete Render2D destructor prove the batch element and
+// vector cleanup at retail 0x00119C00. Keep that provider out of line.
+namespace _STL { template <> vector<BfmeRender2DBatch>::~vector(); }
 
 class ShaderState
 {
@@ -64,26 +69,13 @@ public:
 	int GrowthStep;
 };
 
-class ProxyClass
+// Reset and the complete destructor agree on the native 0x74-byte batch
+// extent. Only the vector header is constructed here; its element cleanup
+// remains in the verified provider rather than a separate BatchVector type.
+class BfmeRender2DBatch
 {
 public:
 	char data[0x74];
-};
-
-// 0x00119F00 (Reset) reads [this+0x34] as the batch base pointer, [this+0x38] as
-// the active end and [this+0x3C] as the capacity end, stepping 0x74 --
-// ProxyClass's size -- per element; Render2DClassReset.cpp already recovers
-// this vector head at this offset. Its constructor and destructor may throw,
-// which is what makes retail's frame an SEH one.
-class BatchVector
-{
-public:
-	BatchVector() : Begin(0), End(0), Capacity(0) {}
-	~BatchVector();
-
-	void *Begin;
-	void *End;
-	void *Capacity;
 };
 
 // Render2DClassReset.cpp proves the four bytes at +0x40 are a pointer it reads
@@ -119,7 +111,7 @@ private:
 	Vector2 CoordinateOffset;
 	Render2DRawArray ArrayA;
 	Render2DRawArray ArrayB;
-	BatchVector Batches;
+	_STL::vector<BfmeRender2DBatch> Batches;
 	TextureRef Texture;
 	int CurrentBatch;
 	bool IsDirty;
