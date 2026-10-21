@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004B7ED9@AudioLoopUpgrade@@QAEPAVBfmeFixedStorage002CF0F0@@PAV2@@Z 0x004B7ED9 40: slot 19 mask init.
+// ?getDisabledTypesToProcess@AudioLoopUpgrade@@QAEPAVBfmeFixedStorage002CF0F0@@PAV2@@Z 0x004B7ED9 40: slot 19 mask init.
 // Evidence: vtable 0x00858C70 slot 19; callees rowed BitFlags 0x5E5963 and FixedStorage copy 0x2CF0F0; donor AudioLoopUpgradeCtorModuleFactory.
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -23,9 +23,9 @@ public:
 class AudioLoopUpgrade
 {
 public:
-	BfmeFixedStorage002CF0F0 *rva004B7ED9(BfmeFixedStorage002CF0F0 *out);
+	BfmeFixedStorage002CF0F0 *getDisabledTypesToProcess(BfmeFixedStorage002CF0F0 *out);
 };
-BfmeFixedStorage002CF0F0 *AudioLoopUpgrade::rva004B7ED9(BfmeFixedStorage002CF0F0 *out)
+BfmeFixedStorage002CF0F0 *AudioLoopUpgrade::getDisabledTypesToProcess(BfmeFixedStorage002CF0F0 *out)
 {
 	BitFlags<11> tmp(BitFlags<11>::kInit, 2, 5);
 	*(UnsignedInt *)&tmp = ~*(UnsignedInt *)&tmp;

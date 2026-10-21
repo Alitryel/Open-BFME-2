@@ -1479,26 +1479,6 @@ Int Weapon::getClipReloadTime(const Object *source) const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?setClipPercentFull@Weapon@@ present-unmatched
-void Weapon::setClipPercentFull(Real percent, Bool allowReduction)
-{
-	if (m_template->getClipSize() == 0)
-		return;
-
-	Int ammo = REAL_TO_INT_FLOOR(m_template->getClipSize() * percent);
-	if (ammo > m_ammoInClip || (allowReduction && ammo < m_ammoInClip))
-	{
-		m_ammoInClip = ammo;
-		m_status = m_ammoInClip ? OUT_OF_AMMO : READY_TO_FIRE;
-		//CRCDEBUG_LOG(("Weapon::setClipPercentFull() just set m_status to %d (ammo in clip is %d)\n", m_status, m_ammoInClip));
-		m_whenLastReloadStarted = TheGameLogic->getFrame();
-		m_whenWeCanFireAgain = m_whenLastReloadStarted;		
-		//CRCDEBUG_LOG(("Just set m_whenWeCanFireAgain to %d in Weapon::setClipPercentFull\n", m_whenWeCanFireAgain));
-		rebuildScatterTargets();
-	}
-}
-
-//-------------------------------------------------------------------------------------------------
 // Weapon::rebuildScatterTargets: defined in WeaponRebuildScatterTargets.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------

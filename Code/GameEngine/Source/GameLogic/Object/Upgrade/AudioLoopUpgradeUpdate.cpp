@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva004B7B87@AudioLoopUpgrade@@QAEHXZ, retail 0x004B7B87, 35 bytes.
+// ?update@AudioLoopUpgrade@@QAEHXZ, retail 0x004B7B87, 35 bytes.
 // ?upgradeRemovalImplementation@AudioLoopUpgrade@@QAEXXZ, retail 0x004B7DE0, 46 bytes.
 // Virtual slot 18 (offset 0x48) of vtable 0x00858C70 (class of the rowed
 // AudioLoopUpgrade ctor; prev ModuleNameGetters 0x004B7B81 plus next pool key
@@ -63,7 +63,7 @@ protected:
 class AudioLoopUpgrade
 {
 public:
-	int rva004B7B87();
+	int update();
 	void upgradeRemovalImplementation();
 
 private:
@@ -73,7 +73,7 @@ private:
 	unsigned int m_handle1C; // +0x1c
 };
 
-int AudioLoopUpgrade::rva004B7B87()
+int AudioLoopUpgrade::update()
 {
 	if (TheAudio != 0)
 	{

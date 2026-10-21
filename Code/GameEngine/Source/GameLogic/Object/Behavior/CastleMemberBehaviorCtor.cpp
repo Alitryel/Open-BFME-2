@@ -43,7 +43,7 @@ class CastleMemberBehavior : public BehaviorModule
 {
 public:
 	CastleMemberBehavior(Thing *thing, const ModuleData *moduleData);
-	void rva003957C6(Xfer*);
+	void xfer(Xfer*);
 
 private:
 	int m_14;
@@ -212,7 +212,7 @@ virtual void xferAudioHandle(Xfer*,unsigned*);
 extern AudioManager* TheAudio;
 enum ObjectID { INVALID_ID=0 };
 void XferObjectID(Xfer*, ObjectID*);
-void CastleMemberBehavior::rva003957C6(Xfer* xfer) {
+void CastleMemberBehavior::xfer(Xfer* xfer) {
  Xfer::Version v; v.loaded = 1; v.current = 1; xfer->version(&v);
  XferObjectID(xfer,reinterpret_cast<ObjectID*>(&m_14));
  xfer->xferBool(reinterpret_cast<bool*>(&m_24));

@@ -75,7 +75,7 @@ public:
     void loadAmmoNow(const Object *sourceObj);
     void reloadAmmo(const Object *sourceObj);
     void rva002CE226(const Object *sourceObj, const SavedWeaponState *saved);
-    void rva002CE280(float rate, bool flag);
+    void setClipPercentFull(float rate, bool flag);
 protected:
     void rebuildScatterTargets();
 private:
@@ -111,8 +111,8 @@ __forceinline long rva002CE280_float2long(float f)
 	return i;
 }
 
-// ?rva002CE280@Weapon@@QAEXM_N@Z
-void Weapon::rva002CE280(float rate, bool flag)
+// ?setClipPercentFull@Weapon@@QAEXM_N@Z
+void Weapon::setClipPercentFull(float rate, bool flag)
 {
 	if (m_template->m_valueE4 == 0)
 		return;

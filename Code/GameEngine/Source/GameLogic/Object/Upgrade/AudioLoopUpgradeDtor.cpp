@@ -112,5 +112,5 @@ AudioLoopUpgrade::~AudioLoopUpgrade()
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?base28Anchor@AudioLoopBase28@@UAEXXZ=?rva004B7E3C@AudioLoopUpgrade@@UAEXH@Z")
 #pragma comment(linker, "/alternatename:?base20Anchor@AudioLoopBase20@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")
-#pragma comment(linker, "/alternatename:?base10Anchor@AudioLoopBase10@@UAEXXZ=?rva004B7B87@AudioLoopUpgrade@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?base10Anchor@AudioLoopBase10@@UAEXXZ=?update@AudioLoopUpgrade@@QAEHXZ")
 #pragma comment(linker, "/alternatename:?base0CAnchor@AudioLoopBase0C@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
