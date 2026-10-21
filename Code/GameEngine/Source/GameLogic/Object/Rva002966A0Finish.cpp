@@ -108,15 +108,15 @@ public:
 	void onCapture(Player *a, Player *b);
 };
 
-void Object::onCapture(Player *a, Player *b)
+void Object::onCapture(Player *oldOwner, Player *newOwner)
 {
 	Rva002966A0Holder *holder = *(Rva002966A0Holder **)((char *)this + 0x258);
-	if (holder != 0 && a != b)
+	if (holder != 0 && oldOwner != newOwner)
 		holder->m_ai.aiIdle(CMD_FROM_AI);
-	((FXParticleSystem::EmissionVelocityInfo *)((char *)b + 0x3bc))->EmissionVelocityInfo::DoXfer(*(Xfer *)this);
+	((FXParticleSystem::EmissionVelocityInfo *)((char *)newOwner + 0x3bc))->EmissionVelocityInfo::DoXfer(*(Xfer *)this);
 	Rva002966A0Item **arr = *(Rva002966A0Item ***)((char *)this + 0x244);
 	for (; *arr != 0; ++arr)
-		(*arr)->rva002966A0Call(a, b);
+		(*arr)->rva002966A0Call(oldOwner, newOwner);
 	PartitionData *part = *(PartitionData **)((char *)this + 0x4c4);
 	if (part != 0)
 		part->makeDirty();
@@ -127,6 +127,6 @@ void Object::onCapture(Player *a, Player *b)
 	if (pc8 != 0)
 		pc8->rva00625840();
 	setScriptStatus(OBJECT_STATUS_BIT_4, false);
-	if (a->isLocalPlayer() || b->isLocalPlayer())
+	if (oldOwner->isLocalPlayer() || newOwner->isLocalPlayer())
 		(*(BfmeWorldRV **)&TheControlBar)->m_28 = 1;
 }
