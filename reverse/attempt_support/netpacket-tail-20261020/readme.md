@@ -92,3 +92,28 @@ cl cross-jumps into the D tail.
   - if/else and do/while/for-break wrappers around the D/Z tails (identical);
   - lastCommand declaration position (no change);
   - `permute.py --flags` (0 of 1 closed).
+
+## 2026-10-21 claude2 round 3 (scratch builds of the .995 bank; d = diff count, bank d=5)
+
+The Z-arm reload order is now located: c2 emits the redundant `this` reload
+(`mov ebx,[ebp-0x2c]`) immediately after the `i = offset` copy wherever that
+copy sits, so retail's order (ebx, then the D tail's `mov esi,[ebp-0x14]`)
+would need the esi load to be a split/fixup copy rather than a source copy.
+Ruled out:
+
+| Trial | Change | Result |
+|---|---|---|
+| z3 | `offset` scoped to D, Z without it | 1515 B, same flip as z1 |
+| s1, s2 | Z `msg` handling in its own block, `i = offset` outside | inert (d=5) |
+| p1 | uniform `Int &` reader parameters | inert |
+| d1-d6 | Z content deletions (ACK arms, setters, delete, new, detach) | reload always right after the copy |
+| e1, f1 | `commandIDSet` store after / before the copy | 1475 B d=7, reload still glued after the copy |
+| e2 | `i = offset` before `msg = 0` | same as bank |
+| e3 | copy before `detach` | 122 diffs |
+| g2 | `goto` join from the `lastCommand == 0` exit to the copy | 1499 B, 157 diffs |
+
+The only other reload-then-cross-jump site found by a retail scan is 0xE4070
+in the matched FlatHeightMapUpdate `?rva000E3CE1@Rva000E3B41@@...`, where two
+fixups (`mov edi,[ebp-0x10]`, `mov ebx,[ebp-0x14]`) are cross-jumped. A closer
+should look for a source shape where `i` and `offset` are one coalesced web
+with a split at the Z exit.
