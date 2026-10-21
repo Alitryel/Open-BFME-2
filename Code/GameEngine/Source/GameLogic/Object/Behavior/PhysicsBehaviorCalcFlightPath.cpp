@@ -30,7 +30,7 @@ class PhysicsBehavior {
 public:bool calcFlightPath(bool,float);
  unsigned vptr;const PhysicsFlightData *data;unsigned char pad8[0x20-8];unsigned start,finish,end;Coord3D source,target;float speed,curveHeight;int segments;unsigned char pad50[4];int alternate;
 };
-template<class T> inline const T &physicsRefMax(const T&a,const T&b){return a>b?a:b;}
+template<class T> inline const T &physicsRefMax(const T&lhs,const T&rhs){return lhs>rhs?lhs:rhs;}
 bool PhysicsBehavior::calcFlightPath(bool recalc,float maxHeight)
 {
  const PhysicsFlightData *physicsFlightData=data;

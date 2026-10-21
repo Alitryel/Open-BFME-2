@@ -146,9 +146,9 @@ const char *TheDamageNames[] = {
     0,
 };
 
-template <class T> inline const T &armorMin(const T &a, const T &b)
+template <class T> inline const T &armorMin(const T &lhs, const T &rhs)
 {
-	return b < a ? b : a;
+	return rhs < lhs ? rhs : lhs;
 }
 
 class Armor

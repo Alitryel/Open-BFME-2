@@ -30,7 +30,7 @@ public:
     virtual void slot1C();
     virtual void slot20(SidesList *, SidesList *);
 };
-template <class T> inline void exchangeValue(T &a,T &b) {T t=a; a=b; b=t;}
+template <class T> inline void exchangeValue(T &lhs,T &rhs) {T t=lhs; lhs=rhs; rhs=t;}
 void SidesList::exchangeFlag(SidesList *other)
 {
     exchangeValue(m_cleared,other->m_cleared);

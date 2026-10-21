@@ -24,17 +24,17 @@ struct Rva002E7ED6Info
 class Pathfinder
 {
 public:
-	int rva002EE96B(Coord3D *a, const Coord3D *b);
-	int rva002EB675(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, Rva002E7ED6Info *info);
+	int rva002EE96B(Coord3D *lhs, const Coord3D *rhs);
+	int rva002EB675(const Coord3D *lhs, const Coord3D *rhs, PathfindLayerEnum layer, Rva002E7ED6Info *info);
 };
-int Pathfinder::rva002EE96B(Coord3D *a, const Coord3D *b)
+int Pathfinder::rva002EE96B(Coord3D *lhs, const Coord3D *rhs)
 {
 	Rva002E7ED6Info info;
-	int ret = rva002EB675(a, b, LAYER_ONE, &info);
+	int ret = rva002EB675(lhs, rhs, LAYER_ONE, &info);
 	if (ret != 0)
 	{
-		a->x = info.m_x;
-		a->y = info.m_y;
+		lhs->x = info.m_x;
+		lhs->y = info.m_y;
 	}
 	return ret;
 }

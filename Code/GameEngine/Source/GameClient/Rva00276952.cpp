@@ -26,8 +26,8 @@ private:
  Matrix3D m_mats[16];
 };
 __forceinline float tornadoAbs(float f){ int bits=*(int *)&f; bits&=0x7fffffff; return *(float *)&bits; }
-__forceinline float tornadoQuickDistance(const Coord3D &a,const Coord3D &b){
- Coord3D tmp; tmp.x=a.x-b.x;tmp.y=a.y-b.y;tmp.z=a.z-b.z;
+__forceinline float tornadoQuickDistance(const Coord3D &lhs,const Coord3D &rhs){
+ Coord3D tmp; tmp.x=lhs.x-rhs.x;tmp.y=lhs.y-rhs.y;tmp.z=lhs.z-rhs.z;
  float max=tornadoAbs(tmp.x),mid=tornadoAbs(tmp.y),min=tornadoAbs(tmp.z),temp;
  if(max<mid){temp=max;max=mid;mid=temp;}
  if(max<min){temp=max;max=min;min=temp;}

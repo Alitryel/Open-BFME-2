@@ -269,7 +269,7 @@ public:
 // One river section: the boundary point pair (Rva0030BE41.cpp's record).
 struct BfmeFloat4Record00469C61
 {
-	BfmeFloat4Record00469C61(const Coord2D &a, const Coord2D &b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
+	BfmeFloat4Record00469C61(const Coord2D &lhs, const Coord2D &rhs) : x(lhs.x), y(lhs.y), z(rhs.x), w(rhs.y) {}
 	float x, y, z, w;
 };
 class Rva0030BDEE { public: void rva0030BD5B(const RGBColor *color); };

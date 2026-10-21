@@ -33,9 +33,9 @@ enum UpdateSleepTime
 };
 
 template <class T>
-inline const T &maxOf(const T &a, const T &b)
+inline const T &maxOf(const T &lhs, const T &rhs)
 {
-	return a < b ? b : a;
+	return lhs < rhs ? rhs : lhs;
 }
 
 class ObjectModule

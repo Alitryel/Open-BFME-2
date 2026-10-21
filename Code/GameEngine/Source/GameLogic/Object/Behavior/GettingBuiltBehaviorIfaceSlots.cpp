@@ -178,9 +178,9 @@ struct BfmePod20Node
 	int m_a[5];
 };
 
-template <class T> inline const T &rva00454430Max(const T &a, const T &b)
+template <class T> inline const T &rva00454430Max(const T &lhs, const T &rhs)
 {
-	return a < b ? b : a;
+	return lhs < rhs ? rhs : lhs;
 }
 
 static __forceinline float fast_float_ceil(float f)

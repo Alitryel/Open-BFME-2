@@ -9,11 +9,11 @@ struct Rva00506BADCoord
 	float x, y, z;
 };
 
-float Rva00506BADDistSqr(const Rva00506BADCoord *a, const Rva00506BADCoord *b)
+float Rva00506BADDistSqr(const Rva00506BADCoord *lhs, const Rva00506BADCoord *rhs)
 {
 	Rva00506BADCoord d;
-	d.x = a->x - b->x;
-	d.y = a->y - b->y;
-	d.z = a->z - b->z;
+	d.x = lhs->x - rhs->x;
+	d.y = lhs->y - rhs->y;
+	d.z = lhs->z - rhs->z;
 	return (d.x * d.x + d.z * d.z) + d.y * d.y;
 }

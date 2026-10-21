@@ -66,7 +66,7 @@ public:
  Int rva00537190(AsciiString,int);
  void rva0053711B(AsciiString,int,int);
 };
-template<class T> inline const T &counterMax(const T &a,const T &b) { return a>b?a:b; }
+template<class T> inline const T &counterMax(const T &lhs,const T &rhs) { return lhs>rhs?lhs:rhs; }
 void Rva005BF2C7Update(UserPreferences *prefs) {
  unsigned int easy=0,normal=0,hard=0;
  Int brutal=0;

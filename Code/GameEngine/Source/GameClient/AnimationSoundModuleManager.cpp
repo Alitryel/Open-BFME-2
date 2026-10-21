@@ -22,7 +22,7 @@ class AudioManager;extern AudioManager *TheAudio;
 template<int N>class AnimationListenerSlots:public AnimationListenerSlots<N-1>{public:virtual void gap(char(*)[N]);};
 template<>class AnimationListenerSlots<1>{public:virtual void gap(char(*)[1]);};
 class AnimationListenerCalls:public AnimationListenerSlots<72>{public:virtual const Coord3D*listener();};
-static __forceinline void animationSubtract(Coord3D &a,const Coord3D &b){a.x-=b.x;a.y-=b.y;a.z-=b.z;}
+static __forceinline void animationSubtract(Coord3D &lhs,const Coord3D &rhs){lhs.x-=rhs.x;lhs.y-=rhs.y;lhs.z-=rhs.z;}
 class AnimationSoundModuleManager {public:
  void update();
  char prefix[0x0c];AnimationSoundClientBehavior *cleanHead,*cleanTail,*dirtyHead,*dirtyTail;

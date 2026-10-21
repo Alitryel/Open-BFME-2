@@ -47,11 +47,11 @@ namespace _STL
 {
 
 template <class T>
-void swap(T &a, T &b)
+void swap(T &lhs, T &rhs)
 {
-	T tmp = a;
-	a = b;
-	b = tmp;
+	T tmp = lhs;
+	lhs = rhs;
+	rhs = tmp;
 }
 
 }

@@ -24,8 +24,8 @@ struct Rva0028170EEntry {unsigned key;Rva0028170EArea *area;};
 struct Rva0028170ESet {char pad00[0x14];_STL::vector<Rva0028170EEntry> entries; Rva0028170EIterator begin(){return Rva0028170EIterator(this,0);} Rva0028170EIterator end(){return Rva0028170EIterator(this,entries.size());} };
 class Rva0028170EHost {char pad00[0x50];Rva0028170ESet *areas;public:Rva0028170EArea *rva0028170E(float x,float y,float minHeight);};
 typedef _STL::pair<const unsigned,Rva0007E394Element*> BfmeEqualityWords;
-static __forceinline bool EqualIterators(const Rva0028170EIterator &a,const Rva0028170EIterator &b) {
- return *reinterpret_cast<const BfmeEqualityWords*>(&a)==*reinterpret_cast<const BfmeEqualityWords*>(&b);
+static __forceinline bool EqualIterators(const Rva0028170EIterator &lhs,const Rva0028170EIterator &rhs) {
+ return *reinterpret_cast<const BfmeEqualityWords*>(&lhs)==*reinterpret_cast<const BfmeEqualityWords*>(&rhs);
 }
 Rva0028170EArea *Rva0028170EHost::rva0028170E(float x,float y,float minHeight) {
  Rva0028170EArea *chosen=0;

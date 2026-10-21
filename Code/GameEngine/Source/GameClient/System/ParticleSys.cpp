@@ -16,7 +16,7 @@
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-template <class T> inline const T &refMin(const T &a, const T &b) { return a < b ? a : b; }
+template <class T> inline const T &refMin(const T &lhs, const T &rhs) { return lhs < rhs ? lhs : rhs; }
 
 struct Rva003AFA0BVector
 {

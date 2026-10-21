@@ -17,7 +17,7 @@ struct _Rva002E7B02Cell
 class Rva002E7B02
 {
 public:
-	Rva002E7B02(int a, int b, const _Rva002E7B02Cell &cell);
+	Rva002E7B02(int lhs, int rhs, const _Rva002E7B02Cell &cell);
 public:
 	int m_00;
 	int m_04;
@@ -36,16 +36,16 @@ struct Rva002E7B29Info
 class Pathfinder
 {
 public:
-	int AdjustGroundPathPosition(const Coord3D *a, Coord3D *b);
-	int rva002EB3D7(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, Rva002E7B29Info *info);
+	int AdjustGroundPathPosition(const Coord3D *lhs, Coord3D *rhs);
+	int rva002EB3D7(const Coord3D *lhs, const Coord3D *rhs, PathfindLayerEnum layer, Rva002E7B29Info *info);
 };
-int Pathfinder::AdjustGroundPathPosition(const Coord3D *a, Coord3D *b)
+int Pathfinder::AdjustGroundPathPosition(const Coord3D *lhs, Coord3D *rhs)
 {
-	Rva002E7B02 info((int)this, 4, *(const _Rva002E7B02Cell *)a);
-	int ret = rva002EB3D7(a, b, LAYER_ONE, (Rva002E7B29Info *)&info);
+	Rva002E7B02 info((int)this, 4, *(const _Rva002E7B02Cell *)lhs);
+	int ret = rva002EB3D7(lhs, rhs, LAYER_ONE, (Rva002E7B29Info *)&info);
 	if (ret != 0)
 	{
-		*b = *(const Coord3D *)&info.m_08;
+		*rhs = *(const Coord3D *)&info.m_08;
 	}
 	return ret;
 }

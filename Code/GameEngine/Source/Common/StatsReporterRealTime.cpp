@@ -23,7 +23,7 @@ public:
 	virtual void v9();
 	virtual void v10(const AsciiString &s, float x);
 	virtual void v11(const AsciiString &s, int x);
-	virtual void v12(const AsciiString &a, const AsciiString &b);
+	virtual void v12(const AsciiString &lhs, const AsciiString &rhs);
 	int rva00535CE4(AsciiString arg);
 	AsciiString rva00535820();
 	void rva00536B3F(AsciiString arg, int x);
@@ -214,7 +214,7 @@ extern int BfmeLogicFramesPerSecond;
 
 Bool Rva005BF28EIsAlly(const GameInfo*,const GameSlot*);
 void Rva005BF2C7Update(UserPreferences*);
-template<class T>inline const T&counterMax(const T&a,const T&b){return a>b?a:b;}
+template<class T>inline const T&counterMax(const T&lhs,const T&rhs){return lhs>rhs?lhs:rhs;}
 inline const BitFlags<116>&mask(const Rva00045411BitSet&x){return reinterpret_cast<const BitFlags<116>&>(x);}
 void Rva005BF4BCProcess(Player*player) {
  if(TheGameInfo->isSandbox())return;

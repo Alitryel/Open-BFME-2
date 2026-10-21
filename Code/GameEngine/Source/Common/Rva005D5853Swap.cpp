@@ -6,13 +6,13 @@ struct Rva005D5853 {
     void *m_ptr;
     bool m_flag;
 };
-void Rva005D5853Swap(Rva005D5853 *a, Rva005D5853 *b)
+void Rva005D5853Swap(Rva005D5853 *lhs, Rva005D5853 *rhs)
 {
-    Rva005D5853 tmp = *a;
-    a->m_ptr = b->m_ptr;
-    a->m_flag = b->m_flag;
-    b->m_ptr = tmp.m_ptr;
-    b->m_flag = tmp.m_flag;
+    Rva005D5853 tmp = *lhs;
+    lhs->m_ptr = rhs->m_ptr;
+    lhs->m_flag = rhs->m_flag;
+    rhs->m_ptr = tmp.m_ptr;
+    rhs->m_flag = tmp.m_flag;
 }
 
 // ?Rva005D5876CopyBackward@@YAPAURva005D5853@@PAU1@00@Z @0x005D5876 50B.

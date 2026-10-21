@@ -97,9 +97,9 @@ struct Rva002814EFSet
 
 typedef _STL::pair<const unsigned, Rva0007E394Element *> Rva002814EFEqualityWords;
 
-static __forceinline bool Rva002814EFEqual(const Rva002814EFIterator &a, const Rva002814EFIterator &b)
+static __forceinline bool Rva002814EFEqual(const Rva002814EFIterator &lhs, const Rva002814EFIterator &rhs)
 {
-	return *reinterpret_cast<const Rva002814EFEqualityWords *>(&a) == *reinterpret_cast<const Rva002814EFEqualityWords *>(&b);
+	return *reinterpret_cast<const Rva002814EFEqualityWords *>(&lhs) == *reinterpret_cast<const Rva002814EFEqualityWords *>(&rhs);
 }
 
 class TerrainLogic

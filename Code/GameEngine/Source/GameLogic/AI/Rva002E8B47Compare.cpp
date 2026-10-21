@@ -16,10 +16,10 @@ struct Rva002E8B47Record
 class Rva002E8B47
 {
 public:
-	int rva002E8B47(Rva002E8B47Record **const *a, Rva002E8B47Record **const *b) const;
+	int rva002E8B47(Rva002E8B47Record **const *lhs, Rva002E8B47Record **const *rhs) const;
 };
 
-int Rva002E8B47::rva002E8B47(Rva002E8B47Record **const *a, Rva002E8B47Record **const *b) const
+int Rva002E8B47::rva002E8B47(Rva002E8B47Record **const *lhs, Rva002E8B47Record **const *rhs) const
 {
-	return (**a)->m_10 > (**b)->m_10;
+	return (**lhs)->m_10 > (**rhs)->m_10;
 }

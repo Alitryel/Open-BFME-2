@@ -18,18 +18,18 @@ class Mouse {
     _MouseSixteen m_4FAC;
     _MouseSixteen m_4FBC;
 public:
-    void rva001EEBD5(UnicodeString text, const _MouseSixteen *a, const _MouseSixteen *b);
+    void rva001EEBD5(UnicodeString text, const _MouseSixteen *lhs, const _MouseSixteen *rhs);
 };
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-void Mouse::rva001EEBD5(UnicodeString text, const _MouseSixteen *a, const _MouseSixteen *b)
+void Mouse::rva001EEBD5(UnicodeString text, const _MouseSixteen *lhs, const _MouseSixteen *rhs)
 {
     if (m_4FA8) {
         _ReadWriteBarrier();
         m_4FA8->setText(text);
-        if (a)
-            m_4FAC = *a;
-        if (b)
-            m_4FBC = *b;
+        if (lhs)
+            m_4FAC = *lhs;
+        if (rhs)
+            m_4FBC = *rhs;
     }
 }

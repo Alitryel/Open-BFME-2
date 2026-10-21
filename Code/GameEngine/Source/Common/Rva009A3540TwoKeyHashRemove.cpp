@@ -46,26 +46,26 @@ struct Rva009A3540OpaqueOwner
 class CollisionManagerImpl
 {
 public:
-    void _RemoveOverlap(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
+    void _RemoveOverlap(Rva009A3540OpaqueOwner *lhs, Rva009A3540OpaqueOwner *rhs);
 };
 
-void CollisionManagerImpl::_RemoveOverlap(Rva009A3540OpaqueOwner *a,
-                                      Rva009A3540OpaqueOwner *b)
+void CollisionManagerImpl::_RemoveOverlap(Rva009A3540OpaqueOwner *lhs,
+                                      Rva009A3540OpaqueOwner *rhs)
 {
-    unsigned int aGroup = *(unsigned int *)((char *)a + 0xa0);
+    unsigned int aGroup = *(unsigned int *)((char *)lhs + 0xa0);
     if (aGroup != 0 &&
-        aGroup == *(unsigned int *)((char *)b + 0xa0))
+        aGroup == *(unsigned int *)((char *)rhs + 0xa0))
         return;
 
-    if (*(unsigned int *)((char *)a + 0x9c) >
-        *(unsigned int *)((char *)b + 0x9c))
+    if (*(unsigned int *)((char *)lhs + 0x9c) >
+        *(unsigned int *)((char *)rhs + 0x9c))
     {
-        Rva009A3540OpaqueOwner *swap = a;
-        a = b;
-        b = swap;
+        Rva009A3540OpaqueOwner *swap = lhs;
+        lhs = rhs;
+        rhs = swap;
     }
-    unsigned int aId = *(unsigned int *)((char *)a + 0x9c);
-    unsigned int bId = *(unsigned int *)((char *)b + 0x9c);
+    unsigned int aId = *(unsigned int *)((char *)lhs + 0x9c);
+    unsigned int bId = *(unsigned int *)((char *)rhs + 0x9c);
 
     unsigned int hash = (aId << 16) + bId;
     unsigned int bucket = hash % 0x2b7b;

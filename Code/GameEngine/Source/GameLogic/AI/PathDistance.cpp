@@ -9,9 +9,9 @@
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-double __cdecl Rva00363CF3Distance(const Coord3D *a, const Coord3D *b)
+double __cdecl Rva00363CF3Distance(const Coord3D *lhs, const Coord3D *rhs)
 {
-	float dx = a->x - b->x;
-	float dy = a->y - b->y;
+	float dx = lhs->x - rhs->x;
+	float dy = lhs->y - rhs->y;
 	return sqrt(dx * dx + dy * dy);
 }

@@ -21,21 +21,21 @@ public:
 namespace _STL
 {
 template <class _Tp, class _Compare>
-const _Tp &__median(const _Tp &a, const _Tp &b, const _Tp &c, _Compare comp)
+const _Tp &__median(const _Tp &lhs, const _Tp &rhs, const _Tp &c, _Compare comp)
 {
-	if (comp.lessEntries(&a, &b))
-		if (comp.lessEntries(&b, &c))
-			return b;
-		else if (comp.lessEntries(&a, &c))
+	if (comp.lessEntries(&lhs, &rhs))
+		if (comp.lessEntries(&rhs, &c))
+			return rhs;
+		else if (comp.lessEntries(&lhs, &c))
 			return c;
 		else
-			return a;
-	else if (comp.lessEntries(&a, &c))
-		return a;
-	else if (comp.lessEntries(&b, &c))
+			return lhs;
+	else if (comp.lessEntries(&lhs, &c))
+		return lhs;
+	else if (comp.lessEntries(&rhs, &c))
 		return c;
 	else
-		return b;
+		return rhs;
 }
 template const VersionBlockEntry &__median<VersionBlockEntry, VersionBlockKeyCompare>(const VersionBlockEntry &, const VersionBlockEntry &, const VersionBlockEntry &, VersionBlockKeyCompare);
 }

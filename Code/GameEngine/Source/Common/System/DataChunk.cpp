@@ -84,7 +84,7 @@ public:
 // A by-reference max: retail selects between the member and a spilled
 // maxID+1 by address (ZH's BaseType.h macro and WWLib's by-value template
 // both compare in registers).
-template <class T> inline T const & max(T const & a, T const & b) { return (a > b) ? a : b; }
+template <class T> inline T const & max(T const & lhs, T const & rhs) { return (lhs > rhs) ? lhs : rhs; }
 
 void operator delete(void *ptr);
 

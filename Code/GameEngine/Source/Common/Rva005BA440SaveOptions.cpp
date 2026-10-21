@@ -63,11 +63,11 @@ class GameWindow;
 void GadgetComboBoxGetSelectedPos(GameWindow *combo, int *selected);
 void *GadgetComboBoxGetItemData(GameWindow *combo, int selected);
 
-template <typename T> inline const T &rva005BA440Max(const T &a, const T &b)
+template <typename T> inline const T &rva005BA440Max(const T &lhs, const T &rhs)
 {
-	if (a > b)
-		return a;
-	return b;
+	if (lhs > rhs)
+		return lhs;
+	return rhs;
 }
 
 class Rva005BA440
