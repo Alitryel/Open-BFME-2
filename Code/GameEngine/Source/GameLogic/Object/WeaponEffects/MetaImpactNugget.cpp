@@ -281,7 +281,8 @@ unsigned char Made002CC8A4::rva00509F3A(void *weapon, Object *victim, DamageInfo
  if (fabs(dir.x) < 0.0001f && fabs(dir.y) < 0.0001f && fabs(dir.z) < 0.0001f) {
   if (m_155) {
    float angle = GetGameLogicRandomValueReal(0.0f, 6.2831855f, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponEffects\\MetaImpactNugget.cpp", 0x15B);
-   dir.x = (float)cos(angle); dir.y = (float)sin(angle);
+   // Keep the native float CRT calls without emitting the C++ overload copies.
+   dir.x = cosf(angle); dir.y = sinf(angle);
   } else dir.z = 1.0f;
  }
  info->m_direction = dir;
