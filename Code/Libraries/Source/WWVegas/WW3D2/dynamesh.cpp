@@ -906,9 +906,9 @@ void DynamicScreenMeshClass::Move_Vertex(int index, float x, float y, float z)
 
 // Set position
 // ?Set_Position@DynamicScreenMeshClass@@UAEXABVVector3@@@Z present-unmatched
-void DynamicScreenMeshClass::Set_Position(const Vector3 &v)	
+void DynamicScreenMeshClass::Set_Position(const Vector3 &vec)	
 { 
-	DynamicMeshClass::Set_Position(Vector3(v.X * 2, -(v.Y * 2 * Aspect), 0)); 
+	DynamicMeshClass::Set_Position(Vector3(vec.X * 2, -(vec.Y * 2 * Aspect), 0)); 
 }
 
 // ?Reset@DynamicScreenMeshClass@@UAEXXZ present-unmatched

@@ -42,8 +42,8 @@ class Vector3
 public:
 	Vector3(void) {}
 	Vector3(Real x, Real y, Real z);
-	__forceinline Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
-	__forceinline Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	__forceinline Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
+	__forceinline Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	static __forceinline Real Dot_Product(const Vector3 &lhs, const Vector3 &rhs) { return lhs.X*rhs.X + lhs.Y*rhs.Y + lhs.Z*rhs.Z; }
 	Real X, Y, Z;
 };

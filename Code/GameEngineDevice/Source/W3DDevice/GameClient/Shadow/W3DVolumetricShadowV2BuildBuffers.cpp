@@ -24,10 +24,10 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "wwmath.h"
-class Vector3 {public:float X,Y,Z;__forceinline Vector3(){} __forceinline Vector3(float x,float y,float z){X=x;Y=y;Z=z;} __forceinline Vector3(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;} __forceinline Vector3&operator=(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;return *this;} __forceinline void Normalize(){float len2=X*X+Y*Y+Z*Z;if(len2!=0.0f){float oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;}}};
+class Vector3 {public:float X,Y,Z;__forceinline Vector3(){} __forceinline Vector3(float x,float y,float z){X=x;Y=y;Z=z;} __forceinline Vector3(const Vector3&vec){X=vec.X;Y=vec.Y;Z=vec.Z;} __forceinline Vector3&operator=(const Vector3&vec){X=vec.X;Y=vec.Y;Z=vec.Z;return *this;} __forceinline void Normalize(){float len2=X*X+Y*Y+Z*Z;if(len2!=0.0f){float oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;}}};
 // LINK: file-static helpers replace operator*= and operator+ (identical inlined
 // bytes); the TU no longer emits their loser COMDAT copies. No flags touched.
-static __forceinline void bfmeScaleV3(Vector3&v,float k){v.X*=k;v.Y*=k;v.Z*=k;}
+static __forceinline void bfmeScaleV3(Vector3&vec,float k){vec.X*=k;vec.Y*=k;vec.Z*=k;}
 static __forceinline Vector3 bfmeSumV3(const Vector3&lhs,const Vector3&rhs){return Vector3(lhs.X+rhs.X,lhs.Y+rhs.Y,lhs.Z+rhs.Z);}
 static __forceinline Vector3 bfmeAddV3(const Vector3&lhs,const Vector3&rhs){Vector3 r;r.X=lhs.X+rhs.X;r.Y=lhs.Y+rhs.Y;r.Z=lhs.Z+rhs.Z;return r;}
 

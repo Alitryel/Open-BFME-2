@@ -280,13 +280,13 @@ void	  Render2DClass::Update_Bias( void )
 
 #if 0
 // ?Convert_Vert@Render2DClass@@ present-unmatched
-Vector2 Render2DClass::Convert_Vert( const Vector2 & v ) 
+Vector2 Render2DClass::Convert_Vert( const Vector2 & vec ) 
 {
 	Vector2 out;
 
 	// Convert to (-1,1)-(1,-1)
-	out.X = v.X * CoordinateScale.X + CoordinateOffset.X;
-	out.Y = v.Y * CoordinateScale.Y + CoordinateOffset.Y;
+	out.X = vec.X * CoordinateScale.X + CoordinateOffset.X;
+	out.Y = vec.Y * CoordinateScale.Y + CoordinateOffset.Y;
 
 	// Convert to pixels 
 	out.X = (out.X + 1.0f) * (Get_Screen_Resolution().Width() * 0.5f);

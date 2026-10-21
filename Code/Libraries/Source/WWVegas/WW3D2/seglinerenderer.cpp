@@ -262,7 +262,7 @@ public:
 };
 // Scales v in place, Z first. Retail builds the first bottom vertex's product in the order
 // of an operator* temporary (Z, Y, X); Vector3::operator*= would build it X first.
-static inline void Scale_Z_First(Vector3 &v, float k) { v.Z *= k; v.Y *= k; v.X *= k; }
+static inline void Scale_Z_First(Vector3 &vec, float k) { vec.Z *= k; vec.Y *= k; vec.X *= k; }
 
 void SegLineRendererClass::Render
 (

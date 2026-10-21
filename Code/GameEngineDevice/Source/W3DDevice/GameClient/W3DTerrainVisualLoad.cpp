@@ -49,14 +49,14 @@ class Vector3
         Y = y;
         Z = z;
     }
-    Vector3(const Vector3 &v) : X(v.X), Y(v.Y), Z(v.Z)
+    Vector3(const Vector3 &vec) : X(vec.X), Y(vec.Y), Z(vec.Z)
     {
     }
-    Vector3 &operator=(const Vector3 &v)
+    Vector3 &operator=(const Vector3 &vec)
     {
-        X = v.X;
-        Y = v.Y;
-        Z = v.Z;
+        X = vec.X;
+        Y = vec.Y;
+        Z = vec.Z;
         return *this;
     }
 };
@@ -137,13 +137,13 @@ class LightClass : public RenderObjClass
     Vector3 ambient, diffuse, specular;
     float nearStart, nearEnd, farStart, farEnd, angle, cosangle, exponent;
     Vector3 direction;
-    void Set_Ambient(const Vector3 &v)
+    void Set_Ambient(const Vector3 &vec)
     {
-        ambient = v;
+        ambient = vec;
     }
-    void Set_Diffuse(const Vector3 &v)
+    void Set_Diffuse(const Vector3 &vec)
     {
-        diffuse = v;
+        diffuse = vec;
     }
     void Set_Far_Attenuation_Range(double a, double b)
     {

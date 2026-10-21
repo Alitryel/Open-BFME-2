@@ -50,7 +50,7 @@ waveInfo waveTypeInfo[6]= //TODO: Move this into INI
 // The bounding sphere is a real SphereClass (its out-of-line copy is what the
 // bounds getter calls); init() keeps the inline field-wise Init it was
 // matched with.
-struct InitSphere : SphereClass { void Init(const Vector3 &v,float r) {Center=v;Radius=r;} };
+struct InitSphere : SphereClass { void Init(const Vector3 &vec,float r) {Center=vec;Radius=r;} };
 struct InitBox { Vector3 Center,Extent; };
 class WaterTracksObj {
 public:
@@ -67,11 +67,11 @@ public:
 };
 // Target FE440..FE488 evaluates cos before sin, then Y*cos + X*sin.
 // Keep that arithmetic visible locally without changing the shared donor header.
-static __forceinline void rotateInit(Vector2 &v,float angle)
+static __forceinline void rotateInit(Vector2 &vec,float angle)
 {
  float c=WWMath::Cos(angle);float s=WWMath::Sin(angle);
- float x=v.X*c-v.Y*s;float y=v.Y*c+v.X*s;
- v.X=x;v.Y=y;
+ float x=vec.X*c-vec.Y*s;float y=vec.Y*c+vec.X*s;
+ vec.X=x;vec.Y=y;
 }
 // Retail 0x000FE359 (16 bytes), the vftable slot after the destructor: the
 // Zero Hour body, a SphereClass copy of the +0x08 bounds.

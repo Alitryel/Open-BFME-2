@@ -43,11 +43,11 @@ class Vector3
 {
 public:
 	__forceinline Vector3( float x, float y, float z ) { X = x; Y = y; Z = z; }
-	__forceinline Vector3( const Vector3 &v ) { X = v[0]; Y = v[1]; Z = v[2]; }
-	__forceinline Vector3 &operator = ( const Vector3 &v ) { X = v[0]; Y = v[1]; Z = v[2]; return *this; }
+	__forceinline Vector3( const Vector3 &vec ) { X = vec[0]; Y = vec[1]; Z = vec[2]; }
+	__forceinline Vector3 &operator = ( const Vector3 &vec ) { X = vec[0]; Y = vec[1]; Z = vec[2]; return *this; }
 	float &operator [] ( int i ) { return (&X)[i]; }
 	const float &operator [] ( int i ) const { return (&X)[i]; }
-	__forceinline Vector3 &operator += ( const Vector3 &v ) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
+	__forceinline Vector3 &operator += ( const Vector3 &vec ) { X += vec.X; Y += vec.Y; Z += vec.Z; return *this; }
 	float X;
 	float Y;
 	float Z;

@@ -36,24 +36,24 @@ public:
 	void rotate_vectors(const Vector3 *in, Vector3 *out, int count) const;
 
 private:
-	void Transform_Vector(const Vector3 &v, Vector3 *result) const
+	void Transform_Vector(const Vector3 &vec, Vector3 *result) const
 	{
-		float x = Rotation.W*v.X + (Rotation.Y*v.Z - v.Y*Rotation.Z);
-		float y = Rotation.W*v.Y - (Rotation.X*v.Z - v.X*Rotation.Z);
-		float z = Rotation.W*v.Z + (Rotation.X*v.Y - v.X*Rotation.Y);
-		float w = -(Rotation.X*v.X + Rotation.Y*v.Y + Rotation.Z*v.Z);
+		float x = Rotation.W*vec.X + (Rotation.Y*vec.Z - vec.Y*Rotation.Z);
+		float y = Rotation.W*vec.Y - (Rotation.X*vec.Z - vec.X*Rotation.Z);
+		float z = Rotation.W*vec.Z + (Rotation.X*vec.Y - vec.X*Rotation.Y);
+		float w = -(Rotation.X*vec.X + Rotation.Y*vec.Y + Rotation.Z*vec.Z);
 
 		result->X = Rotation.W*x - w*Rotation.X + (Rotation.Y*z - y*Rotation.Z) + Translation.X;
 		result->Y = Rotation.W*y - w*Rotation.Y - (Rotation.X*z - x*Rotation.Z) + Translation.Y;
 		result->Z = Rotation.W*z - w*Rotation.Z + (Rotation.X*y - Rotation.Y*x) + Translation.Z;
 	}
 
-	void Rotate_Vector(const Vector3 &v, Vector3 *result) const
+	void Rotate_Vector(const Vector3 &vec, Vector3 *result) const
 	{
-		float x = Rotation.W*v.X + (Rotation.Y*v.Z - v.Y*Rotation.Z);
-		float y = Rotation.W*v.Y - (Rotation.X*v.Z - v.X*Rotation.Z);
-		float z = Rotation.W*v.Z + (Rotation.X*v.Y - v.X*Rotation.Y);
-		float w = -(Rotation.X*v.X + Rotation.Y*v.Y + Rotation.Z*v.Z);
+		float x = Rotation.W*vec.X + (Rotation.Y*vec.Z - vec.Y*Rotation.Z);
+		float y = Rotation.W*vec.Y - (Rotation.X*vec.Z - vec.X*Rotation.Z);
+		float z = Rotation.W*vec.Z + (Rotation.X*vec.Y - vec.X*Rotation.Y);
+		float w = -(Rotation.X*vec.X + Rotation.Y*vec.Y + Rotation.Z*vec.Z);
 
 		result->X = Rotation.W*x - w*Rotation.X + (Rotation.Y*z - y*Rotation.Z);
 		result->Y = Rotation.W*y - w*Rotation.Y - (Rotation.X*z - x*Rotation.Z);

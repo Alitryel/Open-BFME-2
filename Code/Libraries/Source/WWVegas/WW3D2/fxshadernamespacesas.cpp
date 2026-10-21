@@ -113,7 +113,7 @@ public:
 	__declspec(dllimport) __forceinline Vector4(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
 	float &operator[](int i) { return (&X)[i]; }
 	const float &operator[](int i) const { return (&X)[i]; }
-	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__forceinline Vector4 &operator=(const Vector4 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; W = vec.W; return *this; }
 	__forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
 
 	float X;
@@ -192,7 +192,7 @@ public:
 
 	struct Vector3
 	{
-		Vector3(const Vector3 &v) : X(v.X), Y(v.Y), Z(v.Z) {}
+		Vector3(const Vector3 &vec) : X(vec.X), Y(vec.Y), Z(vec.Z) {}
 		float X, Y, Z;
 	};
 	const Vector3 &Get_Equivalent_Ambient() const { return OutputAmbient; }
@@ -338,7 +338,7 @@ class Vector3
 {
 public:
 	__forceinline Vector3() {}
-	__forceinline Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	__forceinline Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 
 	float X;
 	float Y;

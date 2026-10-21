@@ -220,7 +220,7 @@ extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include/W3DDevice/GameClient/W3DVolumetricShadowV2.h
-inline void ScaleShadowOffset(Vector3 &v,float k){v.X=v.X*k;v.Y=v.Y*k;v.Z=v.Z*k;}
+inline void ScaleShadowOffset(Vector3 &vec,float k){vec.X=vec.X*k;vec.Y=vec.Y*k;vec.Z=vec.Z*k;}
 class W3DVolumetricShadowV2
 {
 	unsigned char m_unreconstructed_000[0x74];

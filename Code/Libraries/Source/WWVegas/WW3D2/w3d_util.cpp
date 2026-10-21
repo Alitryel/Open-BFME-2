@@ -64,11 +64,11 @@ void	W3dUtilityClass::Convert_Vector(const W3dVectorStruct & w3dVector,Vector3 *
 	set->Z = w3dVector.Z;
 }
 
-void	W3dUtilityClass::Convert_Vector(const Vector3 & v,W3dVectorStruct * set)
+void	W3dUtilityClass::Convert_Vector(const Vector3 & vec,W3dVectorStruct * set)
 {
-	set->X = v.X;
-	set->Y = v.Y;
-	set->Z = v.Z;
+	set->X = vec.X;
+	set->Y = vec.Y;
+	set->Z = vec.Z;
 }
 
 // ?W3dUtilityClass::Convert_Quaternion present-unmatched
@@ -96,11 +96,11 @@ void	W3dUtilityClass::Convert_Color(const W3dRGBStruct & rgb,Vector3 * set)
 	set->Z = (float)rgb.B / 255.0f;
 }
 
-void	W3dUtilityClass::Convert_Color(const Vector3 & v,W3dRGBStruct * color)
+void	W3dUtilityClass::Convert_Color(const Vector3 & vec,W3dRGBStruct * color)
 {
-	color->R = (uint8)(255.0f * v.X);
-	color->G = (uint8)(255.0f * v.Y);
-	color->B = (uint8)(255.0f * v.Z);
+	color->R = (uint8)(255.0f * vec.X);
+	color->G = (uint8)(255.0f * vec.Y);
+	color->B = (uint8)(255.0f * vec.Z);
 	color->pad = 0;
 }
 

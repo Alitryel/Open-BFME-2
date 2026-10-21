@@ -53,8 +53,8 @@ public:
 
 	Vector3(void) {}
 	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
-	Vector3(const Vector3 &v) : X(v.X), Y(v.Y), Z(v.Z) {}
-	Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Vector3(const Vector3 &vec) : X(vec.X), Y(vec.Y), Z(vec.Z) {}
+	Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	float &operator[](int i) { return (&X)[i]; }
 	const float &operator[](int i) const { return (&X)[i]; }
 	void Set(float x, float y, float z) { X = x; Y = y; Z = z; }
@@ -80,7 +80,7 @@ public:
 	Vector4(void) {}
 	__declspec(dllimport) __forceinline Vector4(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
 	Vector4(const Vector4 &vector4) : X(vector4.X), Y(vector4.Y), Z(vector4.Z), W(vector4.W) {}
-	Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	Vector4 &operator=(const Vector4 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; W = vec.W; return *this; }
 	float &operator[](int i) { return (&X)[i]; }
 	const float &operator[](int i) const { return (&X)[i]; }
 	Vector4 &operator*=(float k) { X *= k; Y *= k; Z *= k; W *= k; return *this; }
@@ -97,16 +97,16 @@ public:
 	static __declspec(dllimport) __forceinline void Transform_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out)
 	{
 		Vector3 tmp;
-		Vector3 *v;
+		Vector3 *vec;
 		if (out == &in) {
 			tmp = in;
-			v = &tmp;
+			vec = &tmp;
 		} else {
-			v = (Vector3 *)&in;
+			vec = (Vector3 *)&in;
 		}
-		out->X = A[0][0] * v->X + (A[0][1] * v->Y + A[0][2] * v->Z) + A[0][3];
-		out->Y = A[1][0] * v->X + (A[1][1] * v->Y + A[1][2] * v->Z) + A[1][3];
-		out->Z = A[2][0] * v->X + (A[2][1] * v->Y + A[2][2] * v->Z) + A[2][3];
+		out->X = A[0][0] * vec->X + (A[0][1] * vec->Y + A[0][2] * vec->Z) + A[0][3];
+		out->Y = A[1][0] * vec->X + (A[1][1] * vec->Y + A[1][2] * vec->Z) + A[1][3];
+		out->Z = A[2][0] * vec->X + (A[2][1] * vec->Y + A[2][2] * vec->Z) + A[2][3];
 	}
 };
 
@@ -140,13 +140,13 @@ public:
 		return *this;
 	}
 
-	friend __forceinline Vector4 operator*(const Matrix4 &a, const Vector3 &v)
+	friend __forceinline Vector4 operator*(const Matrix4 &a, const Vector3 &vec)
 	{
 		return Vector4(
-			a[0][0] * v[0] + a.Row[0].Y * v[1] + a.Row[0].Z * v[2] + a.Row[0].W * 1.0f,
-			a.Row[1].X * v[0] + a.Row[1].Y * v[1] + a.Row[1].Z * v[2] + a.Row[1].W * 1.0f,
-			a.Row[2].X * v[0] + a.Row[2].Y * v[1] + a.Row[2].Z * v[2] + a.Row[2].W * 1.0f,
-			a.Row[3].X * v[0] + a.Row[3].Y * v[1] + a.Row[3].Z * v[2] + a.Row[3].W * 1.0f
+			a[0][0] * vec[0] + a.Row[0].Y * vec[1] + a.Row[0].Z * vec[2] + a.Row[0].W * 1.0f,
+			a.Row[1].X * vec[0] + a.Row[1].Y * vec[1] + a.Row[1].Z * vec[2] + a.Row[1].W * 1.0f,
+			a.Row[2].X * vec[0] + a.Row[2].Y * vec[1] + a.Row[2].Z * vec[2] + a.Row[2].W * 1.0f,
+			a.Row[3].X * vec[0] + a.Row[3].Y * vec[1] + a.Row[3].Z * vec[2] + a.Row[3].W * 1.0f
 		);
 	}
 };

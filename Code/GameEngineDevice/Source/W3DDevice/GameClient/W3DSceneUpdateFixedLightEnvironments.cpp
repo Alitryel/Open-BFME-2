@@ -23,16 +23,16 @@ class Vector3
 public:
 	Vector3() {}
 	Vector3(Real x, Real y, Real z) : X(x), Y(y), Z(z) {}
-	Vector3(const Vector3 &v) : X(v.X), Y(v.Y), Z(v.Z) {}
-	Vector3 &operator=(const Vector3 &v)
+	Vector3(const Vector3 &vec) : X(vec.X), Y(vec.Y), Z(vec.Z) {}
+	Vector3 &operator=(const Vector3 &vec)
 	{
-		X = v.X;
-		Y = v.Y;
-		Z = v.Z;
+		X = vec.X;
+		Y = vec.Y;
+		Z = vec.Z;
 		return *this;
 	}
-	Vector3 &operator+=(const Vector3 &v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
-	Vector3 &operator-=(const Vector3 &v) { X -= v.X; Y -= v.Y; Z -= v.Z; return *this; }
+	Vector3 &operator+=(const Vector3 &vec) { X += vec.X; Y += vec.Y; Z += vec.Z; return *this; }
+	Vector3 &operator-=(const Vector3 &vec) { X -= vec.X; Y -= vec.Y; Z -= vec.Z; return *this; }
 	friend Vector3 operator+(const Vector3 &a, const Vector3 &b) { return Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z); }
 	friend Vector3 operator-(const Vector3 &a, const Vector3 &b) { return Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
 	void Scale(const Vector3 &scale)

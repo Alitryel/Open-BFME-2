@@ -9,7 +9,7 @@
 class Vector3
 {
 public:
-	Vector3(const Vector3 &v) { x = v.x; y = v.y; z = v.z; }
+	Vector3(const Vector3 &vec) { x = vec.x; y = vec.y; z = vec.z; }
 	float x;
 	float y;
 	float z;

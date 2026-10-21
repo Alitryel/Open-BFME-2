@@ -153,7 +153,7 @@ public:
 	// Preserve the inline construction without a competing standalone helper.
 	__declspec(dllimport) __forceinline Vector4(Real x, Real y, Real z, Real w) { X = x; Y = y; Z = z; W = w; }
 	__forceinline void Set(Real x, Real y, Real z, Real w) { X = x; Y = y; Z = z; W = w; }
-	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__forceinline Vector4 &operator=(const Vector4 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; W = vec.W; return *this; }
 	__forceinline const Real &operator[](int i) const { return (&X)[i]; }
 
 	Real X;
@@ -167,8 +167,8 @@ class Vector3
 public:
 	__forceinline Vector3() {}
 	__forceinline Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
-	__forceinline Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
-	__forceinline Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	__forceinline Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
+	__forceinline Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	__forceinline const Real &operator[](int i) const { return (&X)[i]; }
 
 	Real X;

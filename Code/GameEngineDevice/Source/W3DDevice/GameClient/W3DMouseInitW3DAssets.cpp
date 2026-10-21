@@ -68,12 +68,12 @@ class Vector3
 {
 public:
 	__forceinline Vector3( void ) {}
-	__forceinline Vector3( const Vector3 & v ) { X = v.X; Y = v.Y; Z = v.Z; }
+	__forceinline Vector3( const Vector3 & vec ) { X = vec.X; Y = vec.Y; Z = vec.Z; }
 	__forceinline Vector3( float x, float y, float z ) { X = x; Y = y; Z = z; }
 
-	__forceinline Vector3 & operator = ( const Vector3 & v ) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
-	__forceinline Vector3 & operator += ( const Vector3 & v ) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
-	__forceinline Vector3 & operator -= ( const Vector3 & v ) { X -= v.X; Y -= v.Y; Z -= v.Z; return *this; }
+	__forceinline Vector3 & operator = ( const Vector3 & vec ) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
+	__forceinline Vector3 & operator += ( const Vector3 & vec ) { X += vec.X; Y += vec.Y; Z += vec.Z; return *this; }
+	__forceinline Vector3 & operator -= ( const Vector3 & vec ) { X -= vec.X; Y -= vec.Y; Z -= vec.Z; return *this; }
 	__forceinline Vector3 & operator *= ( float k ) { X = X*k; Y=Y*k; Z=Z*k; return *this; }
 
 	__forceinline float Length2( void ) const { return X*X + Y*Y + Z*Z; }
@@ -181,7 +181,7 @@ public:
 	virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
 	virtual void slot20();
 	virtual void Set_Transform( const Matrix3D &m );	// slot 21 (+0x54)
-	virtual void Set_Position( const Vector3 &v );		// slot 22 (+0x58)
+	virtual void Set_Position( const Vector3 &vec );		// slot 22 (+0x58)
 	virtual void slot23(); virtual void slot24(); virtual void slot25(); virtual void slot26();
 	virtual void slot27(); virtual void slot28(); virtual void slot29(); virtual void slot30();
 	virtual void slot31(); virtual void slot32(); virtual void slot33(); virtual void slot34();
