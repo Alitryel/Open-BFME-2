@@ -49,7 +49,7 @@ class Player;
 class Object
 {
 public:
-	bool rva0028D9E5(int bit) const;
+	bool hasUpgradeMask(int bit) const;
 	Player *getControllingPlayer() const;
 	bool isSignificantlyAboveTerrain() const;
 	char m_pad00[0x38];

@@ -116,7 +116,7 @@ public:
 class Object : public Thing
 {
 public:
-	bool rva0028D9E5(int bit) const;
+	bool hasUpgradeMask(int bit) const;
 };
 
 class UpgradeMuxData
@@ -201,7 +201,7 @@ void bfmeAnchorUpgradeMuxDataMasks(const UpgradeMuxData *p, UpgradeMaskType &a, 
 // retail 0x004CB333, 197 bytes: optional drawable 19-dword mask check, then the
 // 1024-bit activation/conflicting test against the Object's upgrade bits.
 // Evidence: rowed getUpgradeActivationMasks 0x004CB189, Thing::getDrawable
-// 0x005508E2, tester 0x001DFE56, clear80 0x001EAE6F x2, Object::rva0028D9E5 x2;
+// 0x005508E2, tester 0x001DFE56, clear80 0x001EAE6F x2, Object::hasUpgradeMask x2;
 // flags +0x381/+0x382, masks +0x118/+0x164. The word index is spelled inline in
 // both tests: a shared word local makes cl compute it before the bit mask.
 bool UpgradeMuxData::rva004CB333(Object *obj)
@@ -225,12 +225,12 @@ bool UpgradeMuxData::rva004CB333(Object *obj)
 	{
 		if ((activation.m_words[(unsigned)bit >> 5] & (1u << (bit & 31))) != 0)
 		{
-			if (!obj->rva0028D9E5(bit))
+			if (!obj->hasUpgradeMask(bit))
 				return false;
 		}
 		if ((conflicting.m_words[(unsigned)bit >> 5] & (1u << (bit & 31))) != 0)
 		{
-			if (obj->rva0028D9E5(bit))
+			if (obj->hasUpgradeMask(bit))
 				return false;
 		}
 	}

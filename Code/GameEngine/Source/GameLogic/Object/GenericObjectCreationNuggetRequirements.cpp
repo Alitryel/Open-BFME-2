@@ -26,7 +26,7 @@ public:
 class Object
 {
 public:
-	bool rva0028D9E5(int bit) const;
+	bool hasUpgradeMask(int bit) const;
 	Player *getControllingPlayer() const;
 	bool isSignificantlyAboveTerrain() const;
 	char m_pad00[0x38];
@@ -91,7 +91,7 @@ bool GenericObjectCreationNugget::rva001F1513(const Object *obj) const
 		const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(m_120.m_begin[i]);
 		if (upgrade) {
 			int bit = upgrade->m_38;
-			if (obj->rva0028D9E5(bit))
+			if (obj->hasUpgradeMask(bit))
 				return false;
 			if (((Rva002AA8BF *)obj->getControllingPlayer())->testBit(bit))
 				return false;
@@ -103,7 +103,7 @@ bool GenericObjectCreationNugget::rva001F1513(const Object *obj) const
 		const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(m_114.m_begin[i]);
 		if (upgrade) {
 			int bit = upgrade->m_38;
-			if (obj->rva0028D9E5(bit))
+			if (obj->hasUpgradeMask(bit))
 				return true;
 			if (((Rva002AA8BF *)obj->getControllingPlayer())->testBit(bit))
 				return true;

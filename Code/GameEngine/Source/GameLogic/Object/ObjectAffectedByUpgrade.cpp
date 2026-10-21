@@ -116,7 +116,7 @@ public:
 	Player *getControllingPlayer() const;
 	bool rva002931BA();
 	Object *rva002931F5(bool checkProducer);
-	bool rva0028D9E5(int bit) const;
+	bool hasUpgradeMask(int bit) const;
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 public:
 	char m_pad00[0x244];
@@ -140,7 +140,7 @@ bool Object::affectedByUpgrade(const UpgradeTemplate *upgrade) const
 		Object *related = self->rva002931F5(false);
 		if (related != 0)
 		{
-			if (related->rva0028D9E5(upgrade->m_bit38))
+			if (related->hasUpgradeMask(upgrade->m_bit38))
 				goto haveMask;
 		}
 	}

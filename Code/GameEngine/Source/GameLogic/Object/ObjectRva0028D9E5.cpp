@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva0028D9E5@Object@@QBE_NH@Z retail 0x0028D9E5 67B.
+// ?hasUpgradeMask@Object@@QBE_NH@Z retail 0x0028D9E5 67B.
 // Object bit query with provider override: calls rowed
 // ?rva0028C197@Object (0x0028C197) for the +0x250 interface object then its
 // virtual slot 44 (0xb0) with the bit index; on null or false falls back to
@@ -28,13 +28,13 @@ class Object
 {
 public:
     void *rva0028C197() const;
-    bool rva0028D9E5(int bit) const;
+    bool hasUpgradeMask(int bit) const;
 private:
     char m_pad00[0x284];
     unsigned int m_bits[4];
 };
 
-bool Object::rva0028D9E5(int bit) const
+bool Object::hasUpgradeMask(int bit) const
 {
     void *prov = rva0028C197();
     if (prov != 0)

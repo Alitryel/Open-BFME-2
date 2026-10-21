@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 // ?hasUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z retail 0x00290D2B 23B.
-// Object null-guarded UpgradeTemplate bit test via rowed ?rva0028D9E5@Object@@QBE_NH@Z.
+// Object null-guarded UpgradeTemplate bit test via rowed ?hasUpgradeMask@Object@@QBE_NH@Z.
 // Evidence: same-this preserved-ecx call to rowed Object bit query at 0x00290D3A with int at +0x38;
 // UpgradeTemplate mask index at +0x38 per UpgradeCenterFindUpgradeByKey.cpp and UpgradeMuxData TU;
 // twin precedent ?rva002AB87D@Player@@QBE_NPBVUpgradeTemplate@@@Z 23B same shape;
@@ -65,7 +65,7 @@ void Rva004CE245(void *p);
 class Object
 {
 public:
-	bool rva0028D9E5(int bit) const;
+	bool hasUpgradeMask(int bit) const;
 	bool hasUpgrade(const UpgradeTemplate *tmpl) const;
 	void removeUpgrade(const UpgradeTemplate *upgrade);
 
@@ -80,7 +80,7 @@ bool Object::hasUpgrade(const UpgradeTemplate *upgradeT) const
 {
 	if (!upgradeT)
 		return false;
-	return rva0028D9E5(upgradeT->m_bitIndex);
+	return hasUpgradeMask(upgradeT->m_bitIndex);
 }
 
 void Object::removeUpgrade(const UpgradeTemplate *upgrade)

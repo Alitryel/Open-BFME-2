@@ -645,7 +645,7 @@ public:
 	bool isEffectivelyDead() const { return (m_438 & 1) != 0; }
 	void rva0028AD32();
 	Object *rva002931F5(bool flag);
-	bool rva0028D9E5(int a1) const;
+	bool hasUpgradeMask(int a1) const;
 	void setTeam(Team *team);
 	bool testStatus(ObjectStatusTypes bit) const;
 	void clearModelConditionStateForHorde(ModelConditionFlagType flag);
@@ -2467,20 +2467,20 @@ bool HordeContain::rva0046B9DC(int a1)
 }
 
 // ?rva0046B95E@HordeContain@@UAE_NH@Z @0x0046B95E: slot 44; whether the rowed
-// Object::rva0028D9E5(argument) holds for a contained Object or for the live
+// Object::hasUpgradeMask(argument) holds for a contained Object or for the live
 // Object of a +0x170 key.
 bool HordeContain::rva0046B95E(int a1)
 {
 	const _STL::list<Object *> *items = containedItems();
 	for (_STL::list<Object *>::const_iterator it = items->begin(); it != items->end(); ++it)
 	{
-		if ((*it)->rva0028D9E5(a1))
+		if ((*it)->hasUpgradeMask(a1))
 			return true;
 	}
 	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
 	{
 		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
-		if (obj && obj->rva0028D9E5(a1))
+		if (obj && obj->hasUpgradeMask(a1))
 			return true;
 	}
 	return false;
