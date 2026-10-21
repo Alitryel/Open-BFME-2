@@ -260,7 +260,7 @@ const FieldParse CloudEffectSettingsFields[] =
 };
 extern Rva0027070CGlobal *TheCloudEffectManager;
 
-void Rva0021526CParse(INI *ini)
+void parseCloudEffectDefinition(INI *ini)
 {
 	TheCloudEffectSettings = TheCloudEffectSettingsSaved;
 	ini->initFromINI(&TheCloudEffectSettings, CloudEffectSettingsFields);

@@ -41,7 +41,7 @@ void Rva00206E63Search(INI *);
 void Rva00210A14Parse(INI *);
 void Rva00210F64Parse(INI *);
 void Rva0021376BParse(INI *);
-void Rva0021526CParse(INI *);
+void parseCloudEffectDefinition(INI *);
 void Rva00215C38Parse(INI *);
 void parseArmySummaryDescriptionDefinition(INI *);
 void Rva0022232EParse(INI *);
@@ -386,7 +386,7 @@ BlockParse theLivingWorldRegionCampaignBlockParse = { 0, "LivingWorldRegionCampa
 BlockParse theLivingWorldObjectBlockParse = { 0, "LivingWorldObject", Rva0021376BParse };	// VA 0x00DB9A20 "LivingWorldObject", parse 0x0021376B
 BlockParse theLivingWorldMapInfoBlockParse = { 0, "LivingWorldMapInfo", Rva00210F64Parse };	// VA 0x00DB9A2C "LivingWorldMapInfo", parse 0x00210F64
 BlockParse theModifierListBlockParse = { 0, "ModifierList", AttributeModifierStore::parseModifierListDefinition };	// VA 0x00DB9AD0 "ModifierList", parse 0x00214C4E
-BlockParse theCloudEffectBlockParse = { 0, "CloudEffect", Rva0021526CParse };	// VA 0x00DB9B68 "CloudEffect", parse 0x0021526C
+BlockParse theCloudEffectBlockParse = { 0, "CloudEffect", parseCloudEffectDefinition };	// VA 0x00DB9B68 "CloudEffect", parse 0x0021526C
 BlockParse thePlayerAITypeBlockParse = { 0, "PlayerAIType", Rva00215C38Parse };	// VA 0x00DB9B74 "PlayerAIType", parse 0x00215C38
 BlockParse theVictorySystemDataBlockParse = { 0, "VictorySystemData", iniParseVictorySystemDefinition };	// VA 0x00DB9BA4 "VictorySystemData", parse 0x00215C54
 BlockParse theFactionVictoryDataBlockParse = { 0, "FactionVictoryData", iniParseFactionVictoryDefinition };	// VA 0x00DB9BB0 "FactionVictoryData", parse 0x00215D0B
