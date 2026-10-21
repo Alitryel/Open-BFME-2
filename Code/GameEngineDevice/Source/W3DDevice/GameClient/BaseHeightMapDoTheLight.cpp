@@ -56,10 +56,10 @@ public:
 	Real Z;
 
 	__forceinline Vector3() {}
-	__forceinline Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	__forceinline Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
 	__forceinline Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
-	__forceinline Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
-	__forceinline Vector3 &operator-=(const Vector3 &v) { X -= v.X; Y -= v.Y; Z -= v.Z; return *this; }
+	__forceinline Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
+	__forceinline Vector3 &operator-=(const Vector3 &vec) { X -= vec.X; Y -= vec.Y; Z -= vec.Z; return *this; }
 
 	__forceinline Real Length2() const { return X * X + Y * Y + Z * Z; }
 	__forceinline Real Length() const { return WWMath::Sqrt(Length2()); }

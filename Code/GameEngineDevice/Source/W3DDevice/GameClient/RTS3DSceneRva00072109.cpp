@@ -27,9 +27,9 @@ class Vector3
 {
 public:
 	Vector3() {}
-	Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
 	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
-	Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	void Set(float x, float y, float z) { X = x; Y = y; Z = z; }
 	float Length2() const { return X * X + Y * Y + Z * Z; }
 	static float Dot_Product(const Vector3 &lhs, const Vector3 &rhs) { return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z; }

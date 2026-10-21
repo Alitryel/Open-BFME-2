@@ -55,11 +55,11 @@ public:
 
 // File-static init helper (LK3-style): keeps a call in the source so the
 // 3-arg ctor goes unused (no loser COMDAT); inlines to plain stores.
-static void InitLightVector3(Vector3 &v, Real x, Real y, Real z)
+static void InitLightVector3(Vector3 &vec, Real x, Real y, Real z)
 {
-    v.X = x;
-    v.Y = y;
-    v.Z = z;
+    vec.X = x;
+    vec.Y = y;
+    vec.Z = z;
 };
 
 struct BfmeLighting36 {

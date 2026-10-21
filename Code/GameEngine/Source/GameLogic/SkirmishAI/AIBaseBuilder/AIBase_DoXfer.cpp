@@ -533,11 +533,11 @@ void AIBase::loadBestFitTemplate(Coord3D *point, float angle, int notFirst)
 }
 
 // Coord3D from a WWMath vector (retail copies the returned temporary).
-static inline void copyVector(Coord3D *dst, const Vector3 &v)
+static inline void copyVector(Coord3D *dst, const Vector3 &vec)
 {
-	dst->x = v.X;
-	dst->y = v.Y;
-	dst->z = v.Z;
+	dst->x = vec.X;
+	dst->y = vec.Y;
+	dst->z = vec.Z;
 }
 
 

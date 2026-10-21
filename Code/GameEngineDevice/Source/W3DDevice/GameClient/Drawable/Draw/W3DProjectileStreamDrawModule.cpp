@@ -55,8 +55,8 @@ class Vector3
 public:
 	Vector3() {}
 	__declspec(dllimport) __forceinline Vector3( float x, float y, float z ) { X = x; Y = y; Z = z; }
-	Vector3( const Vector3 &v ) { X = v.X; Y = v.Y; Z = v.Z; }
-	Vector3 &operator = ( const Vector3 &v ) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Vector3( const Vector3 &vec ) { X = vec.X; Y = vec.Y; Z = vec.Z; }
+	Vector3 &operator = ( const Vector3 &vec ) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	friend __forceinline bool operator != ( const Vector3 &lhs, const Vector3 &rhs )
 	{
 		return ( lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z );

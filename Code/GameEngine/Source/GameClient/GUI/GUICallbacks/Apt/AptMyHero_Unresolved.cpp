@@ -121,8 +121,8 @@ public:
  float X,Y,Z;
  __forceinline Vector3(){}
  __forceinline Vector3(float x,float y,float z){X=x;Y=y;Z=z;}
- __forceinline Vector3(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;}
- __forceinline Vector3 &operator=(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;return *this;}
+ __forceinline Vector3(const Vector3 &vec){X=vec.X;Y=vec.Y;Z=vec.Z;}
+ __forceinline Vector3 &operator=(const Vector3 &vec){X=vec.X;Y=vec.Y;Z=vec.Z;return *this;}
  __forceinline float &operator[](int i){return (&X)[i];}
  __forceinline const float &operator[](int i) const{return (&X)[i];}
  __forceinline Vector3 &operator*=(float k){X*=k;Y*=k;Z*=k;return *this;}

@@ -156,7 +156,7 @@ class Vector3
 public:
 	float X, Y, Z;
 	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
-	Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
 };
 struct W3DFireCoord { float x, y, z; void set(float ax, float ay, float az) { x = ax; y = ay; z = az; } };
 enum Scorches { SCORCH_7 = 7, SCORCH_8 = 8 };

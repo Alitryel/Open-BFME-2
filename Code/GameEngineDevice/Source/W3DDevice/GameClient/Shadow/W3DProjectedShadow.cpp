@@ -123,8 +123,8 @@ class W3DShadowTexture : public RefCountClass, public	HashableClass
 		void		setBoundingSphere(SphereClass &sphere);
 		void		setBoundingBox(AABoxClass &box)		{m_areaEffectBox=box;}
 		void		updateBounds(Vector3 &lightPos, RenderObjClass *robj);	///<update extent of shadow
-		void		setDecalUVAxis(Vector3 &u, Vector3 &v);
-		void		getDecalUVAxis(Vector3 *u, Vector3 *v)	{ *u=m_shadowUV[0]; *v=m_shadowUV[1];}
+		void		setDecalUVAxis(Vector3 &u, Vector3 &vec);
+		void		getDecalUVAxis(Vector3 *u, Vector3 *vec)	{ *u=m_shadowUV[0]; *vec=m_shadowUV[1];}
 
 	private:
 
@@ -167,10 +167,10 @@ void bfmeAnchorW3DShadowTextureSetters(W3DShadowTexture *w3DShadowTexture, Vecto
 	w3DShadowTexture->W3DShadowTexture::setBoundingSphere(sphere);
 }
 
-void W3DShadowTexture::setDecalUVAxis(Vector3 &u, Vector3 &v)
+void W3DShadowTexture::setDecalUVAxis(Vector3 &u, Vector3 &vec)
 {
 	m_shadowUV[0]=u;
-	m_shadowUV[1]=v;
+	m_shadowUV[1]=vec;
 }
 
 // Ghidra boundary at 0x00109236 is 131 bytes. Retail clears three linked

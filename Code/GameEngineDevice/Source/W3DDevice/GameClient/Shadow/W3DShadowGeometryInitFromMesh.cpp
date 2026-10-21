@@ -34,13 +34,13 @@ class Vector3
 public:
 	Vector3(void) {}
 	Vector3(Real x, Real y, Real z);
-	__forceinline Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
-	__forceinline Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	__forceinline Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
+	__forceinline Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	Real Length2(void) const { return X*X + Y*Y + Z*Z; }
 	Real X, Y, Z;
 };
 // Preserve retail SSE scheduling through the component setter without emitting conflicting Vector3 copies.
-static __forceinline void ShadowSetPoint(Vector3 *v,Real x,Real y,Real z) { v->X=x; v->Y=y; v->Z=z; }
+static __forceinline void ShadowSetPoint(Vector3 *vec,Real x,Real y,Real z) { vec->X=x; vec->Y=y; vec->Z=z; }
 static __forceinline Vector3 ShadowSubtract(const Vector3 &lhs, const Vector3 &rhs) { Vector3 result; ShadowSetPoint(&result,lhs.X-rhs.X,lhs.Y-rhs.Y,lhs.Z-rhs.Z); return result; }
 
 class RenderObjClass;

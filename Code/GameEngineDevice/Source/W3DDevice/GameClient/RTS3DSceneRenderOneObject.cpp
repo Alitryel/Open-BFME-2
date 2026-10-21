@@ -48,10 +48,10 @@ class Vector3
 public:
 	Vector3(void) {}
 	Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
-	Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
-	Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
+	Vector3 &operator=(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	void Set(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
-	Vector3 &operator+=(const Vector3 &v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
+	Vector3 &operator+=(const Vector3 &vec) { X += vec.X; Y += vec.Y; Z += vec.Z; return *this; }
 	void Scale(const Vector3 &s) { X *= s.X; Y *= s.Y; Z *= s.Z; }
 	static float Dot_Product(const Vector3 &a, const Vector3 &b) { return a.X*b.X + a.Y*b.Y + a.Z*b.Z; }
 	static void Add(const Vector3 &a, const Vector3 &b, Vector3 *c) { c->X = a.X + b.X; c->Y = a.Y + b.Y; c->Z = a.Z + b.Z; }

@@ -61,7 +61,7 @@ class Vector3
 public:
 	float X, Y, Z;
 	__forceinline Vector3(void) {}
-	__forceinline Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	__forceinline Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
 	__forceinline Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
 	static __forceinline float Dot_Product(const Vector3 &a, const Vector3 &b)
 	{

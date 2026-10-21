@@ -14,11 +14,11 @@ public:
 	float Z;
 
 	Vector3() {}
-	Vector3(const Vector3 &v)
+	Vector3(const Vector3 &vec)
 	{
-		X = v.X;
-		Y = v.Y;
-		Z = v.Z;
+		X = vec.X;
+		Y = vec.Y;
+		Z = vec.Z;
 	}
 	Vector3(float x, float y, float z)
 	{
@@ -26,11 +26,11 @@ public:
 		Y = y;
 		Z = z;
 	}
-	Vector3 &operator=(const Vector3 &v)
+	Vector3 &operator=(const Vector3 &vec)
 	{
-		X = v.X;
-		Y = v.Y;
-		Z = v.Z;
+		X = vec.X;
+		Y = vec.Y;
+		Z = vec.Z;
 		return *this;
 	}
 };

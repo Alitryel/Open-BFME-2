@@ -129,7 +129,7 @@ class Vector3
  {
   
  }
- __forceinline Vector3(const Vector3 &v) : X(v.X), Y(v.Y), Z(v.Z) 
+ __forceinline Vector3(const Vector3 &vec) : X(vec.X), Y(vec.Y), Z(vec.Z) 
  {
   
  }

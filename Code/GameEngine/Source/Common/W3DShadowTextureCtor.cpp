@@ -104,8 +104,8 @@ class W3DShadowTexture : public RefCountClass, public	HashableClass
 		void		setBoundingSphere(SphereClass &sphere)	{m_areaEffectSphere=sphere;}
 		void		setBoundingBox(AABoxClass &box)		{m_areaEffectBox=box;}
 		void		updateBounds(Vector3 &lightPos, RenderObjClass *robj);	///<update extent of shadow
-		void		setDecalUVAxis(Vector3 &u, Vector3 &v);
-		void		getDecalUVAxis(Vector3 *u, Vector3 *v)	{ *u=m_shadowUV[0]; *v=m_shadowUV[1];}
+		void		setDecalUVAxis(Vector3 &u, Vector3 &vec);
+		void		getDecalUVAxis(Vector3 *u, Vector3 *vec)	{ *u=m_shadowUV[0]; *vec=m_shadowUV[1];}
 
 	private:
 

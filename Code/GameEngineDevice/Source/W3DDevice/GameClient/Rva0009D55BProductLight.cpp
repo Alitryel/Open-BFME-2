@@ -21,11 +21,11 @@ struct Vector3
     float X, Y, Z;
     Vector3() {}
     Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
-    Vector3(const Vector3 &v) : X(v.X), Y(v.Y), Z(v.Z) {}
+    Vector3(const Vector3 &vec) : X(vec.X), Y(vec.Y), Z(vec.Z) {}
     __forceinline Vector3 operator-() const { return Vector3(-X, -Y, -Z); }
-    __forceinline Vector3 &operator=(const Vector3 &v)
+    __forceinline Vector3 &operator=(const Vector3 &vec)
     {
-        X = v.X; Y = v.Y; Z = v.Z;
+        X = vec.X; Y = vec.Y; Z = vec.Z;
         return *this;
     }
     void set(float x, float y, float z) { X = x; Y = y; Z = z; }

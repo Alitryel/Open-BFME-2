@@ -21,9 +21,9 @@ class Vector3
 {
 public:
 	Vector3(void) {}
-	Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
 	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
-	Vector3 &operator = (const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Vector3 &operator = (const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 	void Set(float x, float y, float z) { X = x; Y = y; Z = z; }
 	void Rotate_Z(float s_angle, float c_angle)
 	{
@@ -126,7 +126,7 @@ public:
 	void setBoundingSphere(SphereClass &sphere) { m_areaEffectSphere = sphere; }
 	void setBoundingBox(Region3D &box) { m_areaEffectBox.Region3D::Region3D(box); }
 	// Reuse the rowed 0x00108603 provider; its field-copy body cannot throw.
-	void setDecalUVAxis(Vector3 &u, Vector3 &v) throw();
+	void setDecalUVAxis(Vector3 &u, Vector3 &vec) throw();
 
 private:
 	char m_unmodelled00[0x34];

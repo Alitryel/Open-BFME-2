@@ -19,7 +19,7 @@ class WWMath {public:static float __fastcall Inv_Sqrt(float);};
 float Cos(float);
 struct Vector3 {float X,Y,Z;
 Vector3(){} Vector3(float x,float y,float z):X(x),Y(y),Z(z){}
-Vector3(const Vector3&v):X(v.X),Y(v.Y),Z(v.Z){}
+Vector3(const Vector3&vec):X(vec.X),Y(vec.Y),Z(vec.Z){}
 float Length2()const{return X*X+Y*Y+Z*Z;}
 __forceinline void Normalize(){float len2=Length2();if(len2!=0.0f){float oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;}}
 // LINK: same-body helper under a TU-unique name (identical inlined bytes); the Normalize copy loses to the first-in-order copy. No flags touched.

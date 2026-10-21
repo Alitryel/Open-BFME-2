@@ -38,7 +38,7 @@ class Vector3
 {
 public:
 	Vector3() {}
-	Vector3(const Vector3 &v) : X(v.X), Y(v.Y), Z(v.Z) {}
+	Vector3(const Vector3 &vec) : X(vec.X), Y(vec.Y), Z(vec.Z) {}
 	float X, Y, Z;
 };
 
