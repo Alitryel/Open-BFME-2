@@ -42,7 +42,7 @@ public:
 class CastleBehavior : public FoundationAIUpdate
 {
 public:
-	virtual void rva00396A17(Player *oldPlayer, Player *newPlayer);
+	virtual void onCapture(Player *oldPlayer, Player *newPlayer);
 };
 
 static __declspec(noinline) void rva00396999(_STL::vector<ObjectID> *vec, Player *oldPlayer, Player *newPlayer)
@@ -64,7 +64,12 @@ static __declspec(noinline) void rva00396999(_STL::vector<ObjectID> *vec, Player
 	}
 }
 
-void CastleBehavior::rva00396A17(Player *oldPlayer, Player *newPlayer)
+// ?onCapture@CastleBehavior@@UAEXPAVPlayer@@0@Z, retail 0x00396A17: slot 9 of
+// CastleBehavior's table 0x0081A780, onCapture in the sibling module tables
+// (TransportContain, RadarUpgrade). It runs the FoundationAIUpdate base slot
+// (0x00455B67, still address-named) and then hands every owned object to the
+// new owner's default team.
+void CastleBehavior::onCapture(Player *oldPlayer, Player *newPlayer)
 {
 	FoundationAIUpdate::rva00455B67(oldPlayer, newPlayer);
 	rva00396999((_STL::vector<ObjectID> *)((char *)this + 0x50), oldPlayer, newPlayer);

@@ -105,7 +105,7 @@ public:
 	virtual void upgradeImplementation();
 	virtual void upgradeRemovalImplementation();
 	virtual void rva004B5DDC();
-	void rva004B5EC4(Player *oldPlayer, Player *newPlayer);
+	virtual void onCapture(Player *oldOwner, Player *newOwner);
 private:
 	bool m_20; // +0x20
 };
@@ -147,8 +147,10 @@ void SpellRechargeModifierUpgrade::rva004B5DDC()
 // This handler transfers one recharge-modifier contribution between players,
 // then marks the upgrade executed through the +10 mux slot9. The counter,
 // clamped float vector and setters are established by the three matched
-// siblings above; original handler spelling is not independently proven.
-void SpellRechargeModifierUpgrade::rva004B5EC4(Player *oldPlayer, Player *newPlayer)
+// siblings above. Named onCapture: slot 9 of the sibling module tables is
+// onCapture (TransportContain and RadarUpgrade, whose (Player *, Player *)
+// body moves its contribution from the old owner to the new one the same way).
+void SpellRechargeModifierUpgrade::onCapture(Player *oldPlayer, Player *newPlayer)
 {
     const SpellRechargeModifierUpgradeModuleData *data = m_moduleData;
     if (oldPlayer)
