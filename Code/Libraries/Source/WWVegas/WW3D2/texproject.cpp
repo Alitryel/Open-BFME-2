@@ -95,7 +95,8 @@
 
 
 #include "texproject.h"
-#include "vertmaterial.h"
+// Set_Mapper calls bind to vertmaterial.cpp's row instead of emitting a local copy.
+#include "../../../../../reference/shims/bfme_vertmaterial_mapper_link/vertmaterial.h"
 #include "shader.h"
 #include "texture.h"
 #include "rendobj.h"
