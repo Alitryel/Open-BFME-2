@@ -87,3 +87,26 @@ Scratch, untracked: `build/c18c84e/`. `mini.py` scores files and writes
 `.dis`; `t5`–`t12` hold the sweeps.
 
 Model: claude-opus-5.5.
+
+## 2026-10-21 claude4 follow-up (~25 min)
+
+WB twin (`tools/wb_show.py 0x0018C84E --max-lines 2000`, WB 0xA3A2A7..0xA3A366)
+fixes the arm's source shape as a plain if chain: `>0 && links[0]`, then
+`==1` (jne), then `==2` (jne). There is no switch and no bone loop. The arm
+calls `remap.operator[](links[0][i])` and then `operator[](links[1][i])`,
+computes `R0 + (R1<<8)` and only then calls `Get_Basis_End()` for the
+destination, which is the bank's statement. The Vector2 goes through a
+constructor temp and `operator=` (0x9BB120/0x9BB6A0), and P/N through
+`Get_Location_Offset(1)`/`Vector3::operator=`, as in the bank.
+
+Measured with `build/fx/score.py`; the bank scores fit 0.99637, mem 7:
+
+| Variant | Fit | Notes |
+| --- | --- | --- |
+| `else { if(...) }` nesting of the bones arm | 0.99637 | byte-identical to the bank |
+| switch on `m_BonesPerVertex` | 0.888 | WB-refuted anyway |
+| staged `int b0=remap[links[0][i]]` in its own block | 0.946 | |
+| split `=R0; +=R1<<8` stores | 0.975 | |
+
+None of these fixes the residue. Landing also still needs the +0x473
+`_Vector_base<short>` fold pin (F/G family, see `../fxinit-r46-20261020`).
