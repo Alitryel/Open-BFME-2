@@ -23,10 +23,10 @@ public:
 	bool isPriorityVisible(RadarPriorityType priority) const;
 };
 
-bool Radar::isPriorityVisible(RadarPriorityType x) const
+bool Radar::isPriorityVisible(RadarPriorityType priority) const
 {
 	bool r = true;
-	if (x >= 0 && x <= 1)
+	if (priority >= 0 && priority <= 1)
 		r = false;
 	return r;
 }
