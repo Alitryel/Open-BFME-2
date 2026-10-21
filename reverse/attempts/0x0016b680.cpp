@@ -1,5 +1,5 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
-// partial score=0.98513 date=2026-10-21
+// partial score=0.98674 date=2026-10-21
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // Compose with meshgeometry.cpp; target proof and provenance in re_attempts.log.
 // Matrices use the HTreePivotTransform::Get_Matrix3D spelling (0x0014D28E); both are scaled row by row as in BFME1 0x00925860.
@@ -88,7 +88,7 @@ void MeshModelClass::get_deformed_vertices(Vector3 *dst_vert,const HTreeClass *h
  unsigned short *runs=VertexRuns->Get_Array();
  unsigned short *bonelinks=VertexBoneLink->Get_Array();
  Rva00129510Inc();
- int vi=Get_Vertex_Count();
+ unsigned int vi=Get_Vertex_Count();
  int remaining=vi;
  while(remaining>0) {
   unsigned short *run=runs;
