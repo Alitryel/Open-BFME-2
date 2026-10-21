@@ -53,13 +53,13 @@ void DX8RendererDebugger::Enable(bool enable)
 }
 
 // ?Get_String@DX8RendererDebugger@@ present-unmatched
-void DX8RendererDebugger::Get_String(StringClass& s)
+void DX8RendererDebugger::Get_String(StringClass& string)
 {
 	if (!Enabled) {
-		s="";
+		string="";
 		return;
 	}
-	s="\n\n\n\n";
+	string="\n\n\n\n";
 
 	int cnt=0;
 
@@ -79,12 +79,12 @@ void DX8RendererDebugger::Get_String(StringClass& s)
 			mesh->Get_Name(),
 			polys,
 			verts);
-		s+=tmp;
+		string+=tmp;
 		if (mesh->Is_Disabled_By_Debugger()) {
-			s+=" (disabled)\n";
+			string+=" (disabled)\n";
 		}
 		else {
-			s+="\n";
+			string+="\n";
 		}
 		cnt++;
 		if (cnt>20) break;

@@ -34,9 +34,9 @@ class Rva00087A93 {
 public:
  Rva00087A93(const Rva00087A93 &p) : Referent(p.Referent) { if(Referent) Referent->Add_Ref(); }
  ~Rva00087A93() {
-  RefCountClass *d = Referent;
-  if (d && --d->NumRefs == 0)
-   d->Delete_This();
+  RefCountClass *refCount = Referent;
+  if (refCount && --refCount->NumRefs == 0)
+   refCount->Delete_This();
  }
  bool IsBound() const { return Referent!=0; }
  RefCountClass *GetPtr() const { return Referent; }

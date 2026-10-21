@@ -589,20 +589,20 @@ void Rva0012D4D0Apply(RenderStateStruct &render_state)
 // The constant read at the top of the texture loop is BfmeCurrentCaps+0x2b0;
 // the 0x278 in the first version of this body was the one byte the drift report
 // still scored as different.
-static __forceinline bool RenderStatesDifferRva0012D660(RenderStateStruct& a, RenderStateStruct& b)
+static __forceinline bool RenderStatesDifferRva0012D660(RenderStateStruct& renderState, RenderStateStruct& b)
 {
-	if (a.shader != b.shader) return true;
-	if (a.material != b.material) return true;
+	if (renderState.shader != b.shader) return true;
+	if (renderState.material != b.material) return true;
 	for (int i=0;i<*(const int *)(BfmeCurrentCaps+0x2b0);++i) {
-		if (a.Textures[i] != b.Textures[i]) return true;
+		if (renderState.Textures[i] != b.Textures[i]) return true;
 	}
-	if (a.material->Get_Lighting()) {
+	if (renderState.material->Get_Lighting()) {
 		for (int i=0;i<4;++i) {
-			if (a.LightEnable[i] != b.LightEnable[i]) return true;
+			if (renderState.LightEnable[i] != b.LightEnable[i]) return true;
 		}
 	}
-	if (a.world != b.world) return true;
-	if (a.view != b.view) return true;
+	if (renderState.world != b.world) return true;
+	if (renderState.view != b.view) return true;
 	return false;
 }
 
@@ -670,7 +670,7 @@ void SortingRendererClass::Flush_Sorting_Pool()
 					WWASSERT(idx1<state->vertex_count);
 					WWASSERT(idx2<state->vertex_count);
 					WWASSERT(idx3<state->vertex_count);
-					const VertexFormatXYZNDUV2 *v1 = src_verts + idx1;
+					const VertexFormatXYZNDUV2 *vertexFormatXYZNDUV2 = src_verts + idx1;
 					const VertexFormatXYZNDUV2 *v2 = src_verts + idx2;
 					const VertexFormatXYZNDUV2 *v3 = src_verts + idx3;
 					unsigned array_index=i+polygon_array_offset;
@@ -680,7 +680,7 @@ void SortingRendererClass::Flush_Sorting_Pool()
 					tis_ptr->tri.j = idx2 + vertex_array_offset;
 					tis_ptr->tri.k = idx3 + vertex_array_offset;
 					tis_ptr->idx = node_id;
-					tis_ptr->z = (v1->z + v2->z + v3->z)/3.0f;
+					tis_ptr->z = (vertexFormatXYZNDUV2->z + v2->z + v3->z)/3.0f;
 					DEBUG_ASSERTCRASH((! _isnan(tis_ptr->z) && _finite(tis_ptr->z)), ("Triangle has invalid center"));
 				}
 			} else {
@@ -691,7 +691,7 @@ void SortingRendererClass::Flush_Sorting_Pool()
 					WWASSERT(idx1<state->vertex_count);
 					WWASSERT(idx2<state->vertex_count);
 					WWASSERT(idx3<state->vertex_count);
-					const VertexFormatXYZNDUV2 *v1 = src_verts + idx1;
+					const VertexFormatXYZNDUV2 *vertexFormatXYZNDUV2 = src_verts + idx1;
 					const VertexFormatXYZNDUV2 *v2 = src_verts + idx2;
 					const VertexFormatXYZNDUV2 *v3 = src_verts + idx3;
 					unsigned array_index=i+polygon_array_offset;
@@ -701,9 +701,9 @@ void SortingRendererClass::Flush_Sorting_Pool()
 					tis_ptr->tri.j = idx2 + vertex_array_offset;
 					tis_ptr->tri.k = idx3 + vertex_array_offset;
 					tis_ptr->idx = node_id;
-					tis_ptr->z = (mtx02*(v1->x + v2->x + v3->x) +
-												mtx12*(v1->y + v2->y + v3->y) +
-												mtx22*(v1->z + v2->z + v3->z))/3.0f + mtx32;
+					tis_ptr->z = (mtx02*(vertexFormatXYZNDUV2->x + v2->x + v3->x) +
+												mtx12*(vertexFormatXYZNDUV2->y + v2->y + v3->y) +
+												mtx22*(vertexFormatXYZNDUV2->z + v2->z + v3->z))/3.0f + mtx32;
 					DEBUG_ASSERTCRASH((! _isnan(tis_ptr->z) && _finite(tis_ptr->z)), ("Triangle has invalid center"));
 				}
 			}
@@ -758,9 +758,9 @@ void SortingRendererClass::Flush_Sorting_Pool()
 	unsigned node_id=tis[0].idx;
 	for (unsigned i=1;i<overlapping_polygon_count;++i) {
 		if (node_id!=tis[i].idx) {
-			RenderStateStruct& b = reinterpret_cast<RenderStateStruct &>(overlapping_nodes[tis[i].idx]->sorting_state);
+			RenderStateStruct& renderState = reinterpret_cast<RenderStateStruct &>(overlapping_nodes[tis[i].idx]->sorting_state);
 			RenderStateStruct& a = reinterpret_cast<RenderStateStruct &>(overlapping_nodes[node_id]->sorting_state);
-			if (RenderStatesDifferRva0012D660(a,b)) {
+			if (RenderStatesDifferRva0012D660(a,renderState)) {
 				SortingNodeStruct* state=overlapping_nodes[node_id];
 				Rva0012D4D0Apply(reinterpret_cast<RenderStateStruct &>(state->sorting_state));
 
@@ -899,14 +899,14 @@ void SortingRendererClass::Insert_VolumeParticle(
 	state->polygon_count=polygon_count * layerCount;//THIS IS VOLUME_PARTICLE SPECIFIC
 	state->vertex_count=vertex_count * layerCount;//THIS IS VOLUME_PARTICLE SPECIFIC
 
-	const Matrix4& a = state->sorting_state.world;
+	const Matrix4& matrix4 = state->sorting_state.world;
 	const Matrix4& b = state->sorting_state.view;
 	const Vector3& v = bounding_sphere.Center;
 	state->transformed_center =
-		(((float)(a[2][2]*b[2][2]) + (float)(a[2][1]*b[1][2]) + a[2][0]*b[0][2]) + a[2][3]*b[3][2])*v.Z +
-		(((float)(a[1][2]*b[2][2]) + (float)(a[1][1]*b[1][2]) + a[1][0]*b[0][2]) + a[1][3]*b[3][2])*v.Y +
-		(((float)(a[0][2]*b[2][2]) + (float)(a[0][1]*b[1][2]) + ((const volatile float&)a[0][0])*b[0][2]) + a[0][3]*b[3][2])*v.X +
-		(((float)(a[3][2]*b[2][2]) + (float)(a[3][1]*b[1][2]) + a[3][0]*b[0][2]) + a[3][3]*b[3][2]);
+		(((float)(matrix4[2][2]*b[2][2]) + (float)(matrix4[2][1]*b[1][2]) + matrix4[2][0]*b[0][2]) + matrix4[2][3]*b[3][2])*v.Z +
+		(((float)(matrix4[1][2]*b[2][2]) + (float)(matrix4[1][1]*b[1][2]) + matrix4[1][0]*b[0][2]) + matrix4[1][3]*b[3][2])*v.Y +
+		(((float)(matrix4[0][2]*b[2][2]) + (float)(matrix4[0][1]*b[1][2]) + ((const volatile float&)matrix4[0][0])*b[0][2]) + matrix4[0][3]*b[3][2])*v.X +
+		(((float)(matrix4[3][2]*b[2][2]) + (float)(matrix4[3][1]*b[1][2]) + matrix4[3][0]*b[0][2]) + matrix4[3][3]*b[3][2]);
 
 	SortingNodeStruct* node=sorted_list.Head();
 	while (node) {
@@ -967,19 +967,19 @@ void BfmeSortingDispatchAt0012FE00::Insert(const TargetCenter3& center,
 	state->min_vertex_index = min_vertex_index;
 	state->vertex_count = vertex_count;
 
-	const Matrix4& a = state->sorting_state.world;
+	const Matrix4& matrix4 = state->sorting_state.world;
 	const Matrix4& b = state->sorting_state.view;
-	const TargetCenter3& v = center;
+	const TargetCenter3& targetCenter3 = center;
 	// Only depth is consumed: project the center through world * view.
 	// Float intermediates preserve retail's 2,1,0,3 dot-product addition
 	// order. Plain expressions reassociate to 2,1,3,0 (16 operand bytes differ).
 	// At 0x0013031E the world[0][0] read precedes view[0][2]; the ordered
 	// read below preserves that last otherwise-commuted pair without spills.
 	state->transformed_center =
-		(((float)(a[2][2]*b[2][2]) + (float)(a[2][1]*b[1][2]) + a[2][0]*b[0][2]) + a[2][3]*b[3][2])*v.z +
-		(((float)(a[1][2]*b[2][2]) + (float)(a[1][1]*b[1][2]) + a[1][0]*b[0][2]) + a[1][3]*b[3][2])*v.y +
-		(((float)(a[0][2]*b[2][2]) + (float)(a[0][1]*b[1][2]) + ((const volatile float&)a[0][0])*b[0][2]) + a[0][3]*b[3][2])*v.x +
-		(((float)(a[3][2]*b[2][2]) + (float)(a[3][1]*b[1][2]) + a[3][0]*b[0][2]) + a[3][3]*b[3][2]);
+		(((float)(matrix4[2][2]*b[2][2]) + (float)(matrix4[2][1]*b[1][2]) + matrix4[2][0]*b[0][2]) + matrix4[2][3]*b[3][2])*targetCenter3.z +
+		(((float)(matrix4[1][2]*b[2][2]) + (float)(matrix4[1][1]*b[1][2]) + matrix4[1][0]*b[0][2]) + matrix4[1][3]*b[3][2])*targetCenter3.y +
+		(((float)(matrix4[0][2]*b[2][2]) + (float)(matrix4[0][1]*b[1][2]) + ((const volatile float&)matrix4[0][0])*b[0][2]) + matrix4[0][3]*b[3][2])*targetCenter3.x +
+		(((float)(matrix4[3][2]*b[2][2]) + (float)(matrix4[3][1]*b[1][2]) + matrix4[3][0]*b[0][2]) + matrix4[3][3]*b[3][2]);
 
 	SortingNodeStruct* node = sorted_list.Head();
 	while (node) {

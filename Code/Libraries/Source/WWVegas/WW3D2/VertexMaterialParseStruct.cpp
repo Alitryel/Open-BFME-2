@@ -156,7 +156,7 @@ __declspec(noinline) inline void VertexMaterialClass::Parse_W3dVertexMaterialStr
 }
 
 // ?bfmeAnchorVertexMaterialClassParse_W3dVertexMaterialStruct absent-from-retail
-void bfmeAnchorVertexMaterialClassParse_W3dVertexMaterialStruct(VertexMaterialClass *p, const W3dVertexMaterialStruct &vmat)
+void bfmeAnchorVertexMaterialClassParse_W3dVertexMaterialStruct(VertexMaterialClass *vertexMaterial, const W3dVertexMaterialStruct &vmat)
 {
-	p->Parse_W3dVertexMaterialStruct(vmat);
+	vertexMaterial->Parse_W3dVertexMaterialStruct(vmat);
 }

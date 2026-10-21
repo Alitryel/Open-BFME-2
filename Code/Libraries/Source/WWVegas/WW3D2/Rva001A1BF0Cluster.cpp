@@ -22,13 +22,13 @@ private:
 	VBase *m_ptr;
 };
 
-void Rva001A1BF0::set(VBase *p)
+void Rva001A1BF0::set(VBase *vBase)
 {
 	if (m_ptr) {
 		operator delete(m_ptr->slot0(0));
 		m_ptr = 0;
 	}
-	m_ptr = p;
+	m_ptr = vBase;
 }
 
 class Rva001A1C40
@@ -41,14 +41,14 @@ private:
 	VBase *m_ptr;
 };
 
-void Rva001A1C40::set(VBase *p)
+void Rva001A1C40::set(VBase *vBase)
 {
 	if (m_ptr) {
 		operator delete(m_ptr->slot0(0));
 		m_ptr = 0;
 	}
-	m_ptr = p;
-	if (p) {
-		p->slot4(0.001f);
+	m_ptr = vBase;
+	if (vBase) {
+		vBase->slot4(0.001f);
 	}
 }

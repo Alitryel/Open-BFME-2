@@ -231,8 +231,8 @@ void destroySortingNode(SortingNodeStruct *node)
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeSortingNodeStructInlineAnchor@@YAXPAVSortingNodeStruct@@@Z absent-from-retail
-void _bfmeSortingNodeStructInlineAnchor(SortingNodeStruct *p)
+void _bfmeSortingNodeStructInlineAnchor(SortingNodeStruct *sortingNode)
 {
-    p->SortingNodeStruct::SortingNodeStruct();
+    sortingNode->SortingNodeStruct::SortingNodeStruct();
 }
 #pragma inline_depth()

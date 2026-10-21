@@ -34,9 +34,9 @@ void Rva002C7474::rva002C7474()
 	int n = 6;
 	do
 	{
-		Weapon *m = *pp;
-		if (m)
-			m->rva002C95DE(0);
+		Weapon *weapon = *pp;
+		if (weapon)
+			weapon->rva002C95DE(0);
 		++pp;
 	} while (--n);
 }

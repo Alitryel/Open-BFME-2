@@ -1075,21 +1075,21 @@ StringClass str;
 #endif
 SNAPSHOT_SAY(("DX8Wrapper::Set_Shader(%s)\n",shader.Get_Description(str)));
 }
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m)
+WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& matrix4x4)
 {
 switch ((int)transform) {
 case D3DTS_WORLD:
-render_state.world=m.Transpose();
+render_state.world=matrix4x4.Transpose();
 render_state_changed|=(unsigned)WORLD_CHANGED;
 render_state_changed&=~(unsigned)WORLD_IDENTITY;
 break;
 case D3DTS_VIEW:
-render_state.view=m.Transpose();
+render_state.view=matrix4x4.Transpose();
 render_state_changed|=(unsigned)VIEW_CHANGED;
 render_state_changed&=~(unsigned)VIEW_IDENTITY;
 break;
 case D3DTS_PROJECTION:
-ProjectionMatrix=m.Transpose();
+ProjectionMatrix=matrix4x4.Transpose();
 DeviceProjectionMatrix=ProjectionMatrix;
 ZFar=0.0f;
 ZNear=0.0f;
@@ -1097,7 +1097,7 @@ DX8CALL(SetTransform(D3DTS_PROJECTION,(D3DMATRIX*)&DeviceProjectionMatrix));
 break;
 default:
 DX8_RECORD_MATRIX_CHANGE();
-Matrix4x4 m2=m.Transpose();
+Matrix4x4 m2=matrix4x4.Transpose();
 DX8CALL(SetTransform(transform,(D3DMATRIX*)&m2));
 break;
 }
@@ -1123,23 +1123,23 @@ DX8CALL(SetTransform(transform,(D3DMATRIX*)&m2));
 break;
 }
 }
-WWINLINE void DX8Wrapper::Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m)
+WWINLINE void DX8Wrapper::Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& matrix4x4)
 {
 switch ((int)transform)
 {
 case D3DTS_WORLD:
-if (render_state_changed & WORLD_IDENTITY) m.Make_Identity();
-else m = render_state.world.Transpose();
+if (render_state_changed & WORLD_IDENTITY) matrix4x4.Make_Identity();
+else matrix4x4 = render_state.world.Transpose();
 break;
 case D3DTS_VIEW:
-if (render_state_changed & VIEW_IDENTITY) m.Make_Identity();
-else m = render_state.view.Transpose();
+if (render_state_changed & VIEW_IDENTITY) matrix4x4.Make_Identity();
+else matrix4x4 = render_state.view.Transpose();
 break;
 case D3DTS_PROJECTION:
-m = DeviceProjectionMatrix.Transpose();
+matrix4x4 = DeviceProjectionMatrix.Transpose();
 break;
 default:
-m.Make_Identity();
+matrix4x4.Make_Identity();
 break;
 }
 }
@@ -1184,7 +1184,7 @@ static bool _Is_Triangle_Draw_Enabled() { return _EnableTriangleDraw; }
 #include "sortingrenderer.h"
 struct TargetCenter3 { float x,y,z; };
 class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCenter3 &, unsigned, unsigned, unsigned, unsigned); };
-__forceinline void Rva0012630BForward(const TargetCenter3 &c,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count){BfmeSortingDispatchAt0012FE00::Insert(c,start_index,polygon_count,min_vertex_index,vertex_count);}
+__forceinline void Rva0012630BForward(const TargetCenter3 &targetCenter3,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count){BfmeSortingDispatchAt0012FE00::Insert(targetCenter3,start_index,polygon_count,min_vertex_index,vertex_count);}
 struct BFME2TextureRef { TextureBaseClass *Ptr; };
 void BFME2Set_Texture(unsigned stage,const BFME2TextureRef &texture);
 #include "vp.h"

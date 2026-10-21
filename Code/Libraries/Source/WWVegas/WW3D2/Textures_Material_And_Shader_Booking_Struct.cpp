@@ -111,9 +111,9 @@ inline Textures_Material_And_Shader_Booking_Struct::Textures_Material_And_Shader
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeTextures_Material_And_Shader_Booking_StructInlineAnchor@@YAXPAVTextures_Material_And_Shader_Booking_Struct@@@Z absent-from-retail
-void _bfmeTextures_Material_And_Shader_Booking_StructInlineAnchor(Textures_Material_And_Shader_Booking_Struct *p)
+void _bfmeTextures_Material_And_Shader_Booking_StructInlineAnchor(Textures_Material_And_Shader_Booking_Struct *textures_Material_And_Shader_Booking_)
 {
-    p->Textures_Material_And_Shader_Booking_Struct::Textures_Material_And_Shader_Booking_Struct();
+    textures_Material_And_Shader_Booking_->Textures_Material_And_Shader_Booking_Struct::Textures_Material_And_Shader_Booking_Struct();
 }
 #pragma inline_depth()
 

@@ -599,8 +599,8 @@ public:
 	ShaderClass(void)
 	{	Reset(); }
 
-	ShaderClass(const ShaderClass & s)
-	{	ShaderBits=s.ShaderBits; }
+	ShaderClass(const ShaderClass & shader)
+	{	ShaderBits=shader.ShaderBits; }
 
 	ShaderClass(const unsigned int d)
 	{	ShaderBits=d;	}

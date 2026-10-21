@@ -13,7 +13,7 @@ typedef const char *D3DXHANDLE;
 // retail keeps scalar color lanes and one local under /arch:SSE.
 struct FogVector {
     FogVector() {}
-    FogVector(const FogVector &v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
+    FogVector(const FogVector &fogVector) : x(fogVector.x), y(fogVector.y), z(fogVector.z), w(fogVector.w) {}
     float x, y, z, w;
 };
 struct ID3DXEffect {
@@ -66,7 +66,7 @@ public:
 };
 struct TreeHintRef00217D4C : public Rva00579E47 {
     TreeHintRef00217D4C(FogCallback callback) : Rva00579E47((const int *)&callback) {}
-    TreeHintRef00217D4C(const DelegateDesc &d):Rva00579E47(d){}
+    TreeHintRef00217D4C(const DelegateDesc &delegateDesc):Rva00579E47(delegateDesc){}
     ~TreeHintRef00217D4C() {
         if (m_ptr)
             ReleaseTreeHintRef00217D4C(m_ptr);

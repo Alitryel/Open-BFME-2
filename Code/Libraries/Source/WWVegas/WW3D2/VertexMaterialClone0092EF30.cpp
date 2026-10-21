@@ -26,8 +26,8 @@ inline VertexMaterialClass *VertexMaterialClass::Clone()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeVertexMaterialClassInlineAnchor@@YAXPAVVertexMaterialClass@@@Z absent-from-retail
-void _bfmeVertexMaterialClassInlineAnchor(VertexMaterialClass *p)
+void _bfmeVertexMaterialClassInlineAnchor(VertexMaterialClass *vertexMaterial)
 {
-    p->Clone();
+    vertexMaterial->Clone();
 }
 #pragma inline_depth()

@@ -135,13 +135,13 @@ public:
 		if (identity)
 			Make_Identity();
 	}
-	__forceinline Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline Matrix4(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Init(r0, r1, r2, r3);
+		Init(vector4, r1, r2, r3);
 	}
-	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	__forceinline void Init(const Vector4 &vector4, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
 	{
-		Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3;
+		Row[0] = vector4; Row[1] = r1; Row[2] = r2; Row[3] = r3;
 	}
 	__forceinline void Make_Identity()
 	{
@@ -259,23 +259,23 @@ class DX8Wrapper
 	};
 public:
 	static LightEnvironmentClass *Get_Light_Environment() { return Light_Environment; }
-	static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4 &m)
+	static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4 &matrix4)
 	{
 		switch ((int)transform)
 		{
 		case D3DTS_WORLD:
-			if (render_state_changed & WORLD_IDENTITY) m.Make_Identity();
-			else m = render_state.world.Transpose();
+			if (render_state_changed & WORLD_IDENTITY) matrix4.Make_Identity();
+			else matrix4 = render_state.world.Transpose();
 			break;
 		case D3DTS_VIEW:
-			if (render_state_changed & VIEW_IDENTITY) m.Make_Identity();
-			else m = render_state.view.Transpose();
+			if (render_state_changed & VIEW_IDENTITY) matrix4.Make_Identity();
+			else matrix4 = render_state.view.Transpose();
 			break;
 		case D3DTS_PROJECTION:
-			m = DeviceProjectionMatrix.Transpose();
+			matrix4 = DeviceProjectionMatrix.Transpose();
 			break;
 		default:
-			m.Make_Identity();
+			matrix4.Make_Identity();
 			break;
 		}
 	}

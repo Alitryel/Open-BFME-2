@@ -127,25 +127,25 @@ Matrix4x4 g_mapperProjectionUpload_009EDBF0;
 // Access shim only: no runtime instances or claim of a retail derived class.
 struct MapperTransformAccess : DX8Wrapper {
     enum { WORLD_CHANGED=1, VIEW_CHANGED=2, WORLD_IDENTITY=1<<18, VIEW_IDENTITY=1<<19 };
-    static __forceinline void SetTransform(D3DTRANSFORMSTATETYPE transform, const Matrix4x4 &m) {
+    static __forceinline void SetTransform(D3DTRANSFORMSTATETYPE transform, const Matrix4x4 &matrix4x4) {
         switch ((int)transform) {
         case D3DTS_WORLD:
-            render_state.world=m.Transpose();
+            render_state.world=matrix4x4.Transpose();
             render_state_changed=(render_state_changed & ~(unsigned)WORLD_IDENTITY) | (unsigned)WORLD_CHANGED;
             break;
         case D3DTS_VIEW:
-            render_state.view=m.Transpose();
+            render_state.view=matrix4x4.Transpose();
             render_state_changed=(render_state_changed & ~(unsigned)VIEW_IDENTITY) | (unsigned)VIEW_CHANGED;
             break;
         case D3DTS_PROJECTION:
-            g_mapperProjectionUpload_009EDBF0=ProjectionMatrix=m.Transpose();
+            g_mapperProjectionUpload_009EDBF0=ProjectionMatrix=matrix4x4.Transpose();
             ZFar=0.0f;
             ZNear=0.0f;
             DX8CALL(SetTransform(D3DTS_PROJECTION,(D3DMATRIX*)&g_mapperProjectionUpload_009EDBF0));
             break;
         default:
             DX8_RECORD_MATRIX_CHANGE();
-            Matrix4x4 m2=m.Transpose();
+            Matrix4x4 m2=matrix4x4.Transpose();
             DX8CALL(SetTransform(transform,(D3DMATRIX*)&m2));
             break;
         }

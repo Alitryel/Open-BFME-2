@@ -527,9 +527,9 @@ void DynamicIBAccessClass::_Deinit()
 // duplicate's call, so an anchor keeps emitting it here.
 #pragma inline_depth(0)
 // ?bfmeEmitGetIndexCount@@YAXPAVDynamicIBAccessClass@@@Z present-unmatched
-void bfmeEmitGetIndexCount(DynamicIBAccessClass *p)
+void bfmeEmitGetIndexCount(DynamicIBAccessClass *dynamicIBAccess)
 {
-	p->Get_Index_Count();
+	dynamicIBAccess->Get_Index_Count();
 }
 #pragma inline_depth()
 

@@ -77,9 +77,9 @@ private:
 __declspec(noinline) inline StreakLineClass::~StreakLineClass() {}
 
 // ?bfmeAnchorStreakLineClassDtor absent-from-retail
-void bfmeAnchorStreakLineClassDtor(StreakLineClass *p)
+void bfmeAnchorStreakLineClassDtor(StreakLineClass *streakLine)
 {
-	p->StreakLineClass::~StreakLineClass();
+	streakLine->StreakLineClass::~StreakLineClass();
 }
 
 template class SimpleDynVecClass<Vector4>;

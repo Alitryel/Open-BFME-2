@@ -135,10 +135,10 @@ void *Rva00116680::rva00116680(int *pitchOut, bool discard)
         return 0;
     D3DLockedRect locked;
     memset(&locked, 0, sizeof(locked));
-    D3DSurface *s = (D3DSurface *)surf;
+    D3DSurface *d3DSurface = (D3DSurface *)surf;
     unsigned flags = discard ? 0x2000 : 0;
     flags |= 0x0800;
-    HRESULT hr = s->LockRect(&locked, 0, flags);
+    HRESULT hr = d3DSurface->LockRect(&locked, 0, flags);
     if (hr != 0)
         Log_DX8_ErrorCode((unsigned int)hr);
     *pitchOut = locked.Pitch;
@@ -173,8 +173,8 @@ void *Rva001166E0::rva001166E0(int *pitchOut, int left, int top, int right, int 
     rect.right = right;
     rect.bottom = bottom;
     memset(&locked, 0, sizeof(locked));
-    D3DSurface *s = (D3DSurface *)m_surface;
-    HRESULT hr = s->LockRect(&locked, &rect, 0x800);
+    D3DSurface *d3DSurface = (D3DSurface *)m_surface;
+    HRESULT hr = d3DSurface->LockRect(&locked, &rect, 0x800);
     if (hr != 0)
         Log_DX8_ErrorCode((unsigned int)hr);
     *pitchOut = locked.Pitch;

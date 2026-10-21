@@ -28,7 +28,7 @@ __declspec(noinline) inline UVBufferClass::~UVBufferClass()
 }
 
 // ?bfmeAnchorUVBufferClassDtor absent-from-retail
-void bfmeAnchorUVBufferClassDtor(UVBufferClass *p)
+void bfmeAnchorUVBufferClassDtor(UVBufferClass *uVBuffer)
 {
-	p->UVBufferClass::~UVBufferClass();
+	uVBuffer->UVBufferClass::~UVBufferClass();
 }

@@ -22,9 +22,9 @@ struct W3dShaderStruct
 	unsigned char Pad0F;
 };
 
-inline void W3d_Shader_Reset(W3dShaderStruct *s)
+inline void W3d_Shader_Reset(W3dShaderStruct *w3dShader)
 {
-	unsigned char *p = (unsigned char *)s;
+	unsigned char *p = (unsigned char *)w3dShader;
 	p[0] = 3;
 	p[1] = 1;
 	p[2] = 0;

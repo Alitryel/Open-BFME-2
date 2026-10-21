@@ -91,8 +91,8 @@ void DX8PolygonRendererClass::Log()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeDX8PolygonRendererClassInlineAnchor@@YAXPAVDX8PolygonRendererClass@@@Z absent-from-retail
-void _bfmeDX8PolygonRendererClassInlineAnchor(DX8PolygonRendererClass *p)
+void _bfmeDX8PolygonRendererClassInlineAnchor(DX8PolygonRendererClass *dX8PolygonRenderer)
 {
-    p->DX8PolygonRendererClass::~DX8PolygonRendererClass();
+    dX8PolygonRenderer->DX8PolygonRendererClass::~DX8PolygonRendererClass();
 }
 #pragma inline_depth()

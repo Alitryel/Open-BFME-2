@@ -160,7 +160,7 @@ static __forceinline void CopyPointVectors(Vector3 *dst,int stride,const Vector3
 }
 static __forceinline void ConvertPointColors(unsigned *out,int stride,const Vector4 *colors,int count)
 {
- for(;count;--count){const Vector4 *t;*out=ConvertPointColor(*(t=colors));++colors;out=(unsigned*)((char*)out+stride);}
+ for(;count;--count){const Vector4 *vector4;*out=ConvertPointColor(*(vector4=colors));++colors;out=(unsigned*)((char*)out+stride);}
 }
 static __forceinline void FillPointDiffuse(char *dest,int stride,int value,int count)
 {

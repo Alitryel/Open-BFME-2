@@ -634,37 +634,37 @@ public:
  static void Draw_Triangles(unsigned,unsigned,unsigned,unsigned);
  static void Set_Material(const VertexMaterialClass*);
  static void Set_Shader(const ShaderClass&);
-static __forceinline void SetUntransposedTransform(D3DTRANSFORMSTATETYPE type,const Matrix4x4&m) { switch(type){case D3DTS_WORLD:render_state.world[0][0]=m[0][0];
-render_state.world[0][1]=m[0][1];
-render_state.world[0][2]=m[0][2];
-render_state.world[0][3]=m[0][3];
-render_state.world[1][0]=m[1][0];
-render_state.world[1][1]=m[1][1];
-render_state.world[1][2]=m[1][2];
-render_state.world[1][3]=m[1][3];
-render_state.world[2][0]=m[2][0];
-render_state.world[2][1]=m[2][1];
-render_state.world[2][2]=m[2][2];
-render_state.world[2][3]=m[2][3];
-render_state.world[3][0]=m[3][0];
-render_state.world[3][1]=m[3][1];
-render_state.world[3][2]=m[3][2];
-render_state.world[3][3]=m[3][3];render_state_changed&=~(unsigned)WORLD_IDENTITY;render_state_changed|=(unsigned)WORLD_CHANGED;break;case D3DTS_VIEW:render_state.view[0][0]=m[0][0];
-render_state.view[0][1]=m[0][1];
-render_state.view[0][2]=m[0][2];
-render_state.view[0][3]=m[0][3];
-render_state.view[1][0]=m[1][0];
-render_state.view[1][1]=m[1][1];
-render_state.view[1][2]=m[1][2];
-render_state.view[1][3]=m[1][3];
-render_state.view[2][0]=m[2][0];
-render_state.view[2][1]=m[2][1];
-render_state.view[2][2]=m[2][2];
-render_state.view[2][3]=m[2][3];
-render_state.view[3][0]=m[3][0];
-render_state.view[3][1]=m[3][1];
-render_state.view[3][2]=m[3][2];
-render_state.view[3][3]=m[3][3];render_state_changed&=~(unsigned)VIEW_IDENTITY;render_state_changed|=(unsigned)VIEW_CHANGED;break;} }
+static __forceinline void SetUntransposedTransform(D3DTRANSFORMSTATETYPE type,const Matrix4x4&matrix4x4) { switch(type){case D3DTS_WORLD:render_state.world[0][0]=matrix4x4[0][0];
+render_state.world[0][1]=matrix4x4[0][1];
+render_state.world[0][2]=matrix4x4[0][2];
+render_state.world[0][3]=matrix4x4[0][3];
+render_state.world[1][0]=matrix4x4[1][0];
+render_state.world[1][1]=matrix4x4[1][1];
+render_state.world[1][2]=matrix4x4[1][2];
+render_state.world[1][3]=matrix4x4[1][3];
+render_state.world[2][0]=matrix4x4[2][0];
+render_state.world[2][1]=matrix4x4[2][1];
+render_state.world[2][2]=matrix4x4[2][2];
+render_state.world[2][3]=matrix4x4[2][3];
+render_state.world[3][0]=matrix4x4[3][0];
+render_state.world[3][1]=matrix4x4[3][1];
+render_state.world[3][2]=matrix4x4[3][2];
+render_state.world[3][3]=matrix4x4[3][3];render_state_changed&=~(unsigned)WORLD_IDENTITY;render_state_changed|=(unsigned)WORLD_CHANGED;break;case D3DTS_VIEW:render_state.view[0][0]=matrix4x4[0][0];
+render_state.view[0][1]=matrix4x4[0][1];
+render_state.view[0][2]=matrix4x4[0][2];
+render_state.view[0][3]=matrix4x4[0][3];
+render_state.view[1][0]=matrix4x4[1][0];
+render_state.view[1][1]=matrix4x4[1][1];
+render_state.view[1][2]=matrix4x4[1][2];
+render_state.view[1][3]=matrix4x4[1][3];
+render_state.view[2][0]=matrix4x4[2][0];
+render_state.view[2][1]=matrix4x4[2][1];
+render_state.view[2][2]=matrix4x4[2][2];
+render_state.view[2][3]=matrix4x4[2][3];
+render_state.view[3][0]=matrix4x4[3][0];
+render_state.view[3][1]=matrix4x4[3][1];
+render_state.view[3][2]=matrix4x4[3][2];
+render_state.view[3][3]=matrix4x4[3][3];render_state_changed&=~(unsigned)VIEW_IDENTITY;render_state_changed|=(unsigned)VIEW_CHANGED;break;} }
  static void Set_Transform(D3DTRANSFORMSTATETYPE,const Matrix4x4&);
  static void Set_Transform(D3DTRANSFORMSTATETYPE,const Matrix3D&);
  static void Get_Transform(D3DTRANSFORMSTATETYPE,Matrix4x4&);
@@ -847,21 +847,21 @@ WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 #endif
 	SNAPSHOT_SAY(("DX8Wrapper::Set_Shader(%s)\n",shader.Get_Description(str)));
 }
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m)
+WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& matrix4x4)
 {
 	switch ((int)transform) {
 	case D3DTS_WORLD:
-		render_state.world=m.Transpose();
+		render_state.world=matrix4x4.Transpose();
 		render_state_changed&=~(unsigned)WORLD_IDENTITY;
 		render_state_changed|=(unsigned)WORLD_CHANGED;
 		break;
 	case D3DTS_VIEW:
-		render_state.view=m.Transpose();
+		render_state.view=matrix4x4.Transpose();
 		render_state_changed&=~(unsigned)VIEW_IDENTITY;
 		render_state_changed|=(unsigned)VIEW_CHANGED;
 		break;
 	case D3DTS_PROJECTION:
-		ProjectionMatrix=m.Transpose();
+		ProjectionMatrix=matrix4x4.Transpose();
 		DeviceProjectionMatrix=ProjectionMatrix;
 		ZFar=0.0f;
 		ZNear=0.0f;
@@ -870,7 +870,7 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 	default:
 		{
 		DX8_RECORD_MATRIX_CHANGE();
-		Matrix4x4 m2=m.Transpose();
+		Matrix4x4 m2=matrix4x4.Transpose();
 		DX8CALL(SetTransform(transform,(D3DMATRIX*)&m2));
 		}
 		break;
@@ -897,22 +897,22 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 		break;
 	}
 }
-WWINLINE void DX8Wrapper::Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m)
+WWINLINE void DX8Wrapper::Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& matrix4x4)
 {
 	switch ((int)transform) {
 	case D3DTS_WORLD:
-		if (render_state_changed&WORLD_IDENTITY) m.Make_Identity();
-		else m=render_state.world.Transpose();
+		if (render_state_changed&WORLD_IDENTITY) matrix4x4.Make_Identity();
+		else matrix4x4=render_state.world.Transpose();
 		break;
 	case D3DTS_VIEW:
-		if (render_state_changed&VIEW_IDENTITY) m.Make_Identity();
-		else m=render_state.view.Transpose();
+		if (render_state_changed&VIEW_IDENTITY) matrix4x4.Make_Identity();
+		else matrix4x4=render_state.view.Transpose();
 		break;
 	case D3DTS_PROJECTION:
-		m=DeviceProjectionMatrix.Transpose();
+		matrix4x4=DeviceProjectionMatrix.Transpose();
 		break;
 	default:
-		m.Make_Identity();
+		matrix4x4.Make_Identity();
 		break;
 	}
 }

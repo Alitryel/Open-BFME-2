@@ -26,7 +26,7 @@ template<class T>
 class RefCountPtr
 {
 public:
-	RefCountPtr(TextureBaseClass *p) : Ptr(p) {}
+	RefCountPtr(TextureBaseClass *textureBase) : Ptr(textureBase) {}
 	~RefCountPtr();
 	TextureBaseClass *Ptr;
 };

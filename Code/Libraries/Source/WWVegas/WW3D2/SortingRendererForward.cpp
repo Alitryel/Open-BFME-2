@@ -4,4 +4,4 @@
 // cl: /O1 /Oy- /G7 /arch:SSE /MD
 struct TargetCenter3{float x,y,z;TargetCenter3(float,float,float);};
 class BfmeSortingDispatchAt0012FE00{public:static void Insert(const TargetCenter3&,unsigned,unsigned,unsigned,unsigned);};
-void Rva0012630BForward(const TargetCenter3&c,unsigned a,unsigned b,unsigned d,unsigned e){BfmeSortingDispatchAt0012FE00::Insert(c,a,b,d,e);}
+void Rva0012630BForward(const TargetCenter3&targetCenter3,unsigned a,unsigned b,unsigned d,unsigned e){BfmeSortingDispatchAt0012FE00::Insert(targetCenter3,a,b,d,e);}
