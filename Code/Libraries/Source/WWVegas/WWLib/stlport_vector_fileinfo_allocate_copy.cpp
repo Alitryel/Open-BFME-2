@@ -49,5 +49,8 @@ template <> void _STL::vector<MixFileCreator::FileInfoStruct>::_M_insert_overflo
     MixFileCreator::FileInfoStruct *, const MixFileCreator::FileInfoStruct &,
     const _STL::__false_type &, unsigned int, bool);
 
-template class _STL::vector<MixFileCreator::FileInfoStruct,
-                            _STL::allocator<MixFileCreator::FileInfoStruct> >;
+// Emit the rowed helpers without unrelated vector methods from this flags set.
+template MixFileCreator::FileInfoStruct *_STL::vector<MixFileCreator::FileInfoStruct>::_M_allocate_and_copy<MixFileCreator::FileInfoStruct *>(unsigned int, MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *);
+template MixFileCreator::FileInfoStruct *_STL::__copy_backward<MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, int>(MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, const _STL::random_access_iterator_tag &, int *);
+// Keep the existing dependency of the separately rowed copy_backward wrapper.
+template MixFileCreator::FileInfoStruct *_STL::__copy_backward_ptrs<MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *>(MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, const _STL::__false_type &);

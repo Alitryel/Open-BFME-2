@@ -34,4 +34,8 @@ namespace _STL {
 template <> void _Construct<BfmeAssignRecord32, BfmeAssignRecord32>(BfmeAssignRecord32 *, const BfmeAssignRecord32 &);
 }
 namespace _STL { template <> BfmeAssignRecord32 *vector<BfmeAssignRecord32, allocator<BfmeAssignRecord32> >::erase(BfmeAssignRecord32 *, BfmeAssignRecord32 *); }
-template class _STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >;
+// Emit the rowed helpers without unrelated vector methods from this flags set.
+template BfmeAssignRecord32 *_STL::__uninitialized_fill_n<BfmeAssignRecord32 *, unsigned int, BfmeAssignRecord32>(BfmeAssignRecord32 *, unsigned int, const BfmeAssignRecord32 &, const _STL::__false_type &);
+template BfmeAssignRecord32 *_STL::__uninitialized_copy<const BfmeAssignRecord32 *, BfmeAssignRecord32 *>(const BfmeAssignRecord32 *, const BfmeAssignRecord32 *, BfmeAssignRecord32 *, const _STL::__false_type &);
+template BfmeAssignRecord32 *_STL::uninitialized_fill_n<BfmeAssignRecord32 *, unsigned int, BfmeAssignRecord32>(BfmeAssignRecord32 *, unsigned int, const BfmeAssignRecord32 &);
+template void _STL::vector<BfmeAssignRecord32>::clear();

@@ -26,4 +26,5 @@ struct Rva005C8624Element
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> void _Construct<Rva005C8624Element,Rva005C8624Element>(Rva005C8624Element *,Rva005C8624Element const &); }
-template class _STL::vector<Rva005C8624Element, _STL::allocator<Rva005C8624Element> >;
+// Emit only the rowed helper; unrelated vector methods have other retail owners.
+template Rva005C8624Element *_STL::vector<Rva005C8624Element>::_M_allocate_and_copy<Rva005C8624Element *>(unsigned int, Rva005C8624Element *, Rva005C8624Element *);
