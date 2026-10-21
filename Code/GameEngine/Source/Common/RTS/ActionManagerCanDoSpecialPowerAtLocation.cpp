@@ -151,8 +151,7 @@ public:
  bool validateLocationForForbiddenObjects(const Object *,const Coord3D *,const SpecialPowerTemplate *);
 };
 #include "XYDistanceCallView.h"
-class BfmeX1035;
-class Rva004C82E5Terrain { public: BfmeX1035 *rva0027F108(const Coord3D *, float, int, int); };
+class BfmeThingCME { public: int rva0027F108(void *, float, int, int); };
 #define STORAGE(X) (*(const BfmeFixedStorage0004543D *)&(X))
 #define FILTER(K) Rva0004584D(BfmeFixedStorage0004543D(0,K),STORAGE(KINDOFMASK_NONE))
 
@@ -334,7 +333,7 @@ bool ActionManager::canDoSpecialPowerAtLocation(const Object *obj,const Coord3D 
   }
   case 0x38:case 0x4d:case 0x60:case 0x86:case 0x91:case 0x94:case 0x95:case 0x99:
    return TheShroudManager->getShroudStatusForPlayer(obj->getControllingPlayer()->getPlayerIndex(),loc)!=CELLSHROUD_SHROUDED;
-  case 0x27: return ((Rva004C82E5Terrain *)TheTerrainLogic)->rva0027F108(loc,5.0f,1,1)!=0;
+  case 0x27: return ((BfmeThingCME *)TheTerrainLogic)->rva0027F108((void *)loc,5.0f,1,1)!=0;
   }
  }
  return false;
