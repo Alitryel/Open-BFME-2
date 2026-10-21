@@ -838,7 +838,7 @@ public:
 
 
 // 0x004A976F: tail jump to AIUpdateInterface::privateIdle.
-class Rva004A976F : public AIUpdateInterface
+class WorkerAIUpdate : public AIUpdateInterface
 {
 public:
 	void rva004A976F(CommandSourceType a);

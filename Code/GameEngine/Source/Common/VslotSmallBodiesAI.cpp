@@ -1296,6 +1296,8 @@ void Rva005EA254::rva005EA254()
 // 0x003698A5 and 0x003698BB (RET 8): the receiver's rowed 0x00368E95 toward
 // an object's +0x38 position (flag set) or toward a given position (flag
 // clear), with the waypoint passed through.
+// Both are GiantBirdAIUpdate virtuals: slots 69/70 of the vtable 0x00C17A80
+// that its rowed ctor 0x0036B717 and dtor 0x0036B8E6 install.
 struct Coord3D;
 class Waypoint;
 class Rva00368344
@@ -1308,17 +1310,17 @@ struct Rva003698A5Object
 	char m_pad00[0x38];
 	char m_pos38[12];
 };
-class Rva003698A5 : public Rva00368344
+class GiantBirdAIUpdate : public Rva00368344
 {
 public:
 	void rva003698A5(Rva003698A5Object *obj, const Waypoint *waypoint);
 	void rva003698BB(const Coord3D *pos, const Waypoint *waypoint);
 };
-void Rva003698A5::rva003698A5(Rva003698A5Object *obj, const Waypoint *waypoint)
+void GiantBirdAIUpdate::rva003698A5(Rva003698A5Object *obj, const Waypoint *waypoint)
 {
 	rva00368E95((const Coord3D *)obj->m_pos38, waypoint, true);
 }
-void Rva003698A5::rva003698BB(const Coord3D *pos, const Waypoint *waypoint)
+void GiantBirdAIUpdate::rva003698BB(const Coord3D *pos, const Waypoint *waypoint)
 {
 	rva00368E95(pos, waypoint, false);
 }

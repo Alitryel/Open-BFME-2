@@ -1141,7 +1141,7 @@ struct Rva003698A5Object
 	char m_pad00[0x38];
 	char m_pos38[12];
 };
-class Rva003698A5 : public Rva00368344
+class GiantBirdAIUpdate : public Rva00368344
 {
 public:
 	void rva003698A5(Rva003698A5Object *obj, const Waypoint *waypoint);

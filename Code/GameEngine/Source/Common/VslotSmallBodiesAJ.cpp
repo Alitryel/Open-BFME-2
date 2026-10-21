@@ -1001,13 +1001,14 @@ void Rva0049A7EE::rva0049A7EE()
 	AIUpdateInterface::loadPostProcess();
 }
 
-// 0x004A976F: tail jump to AIUpdateInterface::privateIdle.
-class Rva004A976F : public AIUpdateInterface
+// 0x004A976F: tail jump to AIUpdateInterface::privateIdle; slot 81 of the
+// WorkerAIUpdate vtable 0x00C540AC its rowed ctor 0x004AA3AB installs.
+class WorkerAIUpdate : public AIUpdateInterface
 {
 public:
 	void rva004A976F(CommandSourceType a);
 };
-void Rva004A976F::rva004A976F(CommandSourceType a)
+void WorkerAIUpdate::rva004A976F(CommandSourceType a)
 {
 	AIUpdateInterface::privateIdle(a);
 }
