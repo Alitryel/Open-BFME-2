@@ -69,11 +69,6 @@ class Rva00031790;
 MemoryPoolFactory *TheMemoryPoolFactory = 0;
 
 class Rva006C1F60 { public: void *rva00033ED0(unsigned int size, int flags); };
-class Rva00033E90
-{
-public:
-	void freeBlock(void *p);
-};
 
 namespace EA
 {
@@ -145,6 +140,8 @@ public:
 	bool rva000316B0(void *block, bool release);	// conditional core-release callback / VirtualFree
 	int rva00031BF0(const void *block);
 	bool rva00031BB0(const void *block);	// small-block fencepost check via 0x31680 caller 0x3324E
+	void rva00033150(const void *block);		// Free engine (address-derived name)
+	unsigned int rva00032C60(unsigned int pad);	// core trim (Rva00032C60Purge.cpp)
 	void *rva000344A0(unsigned int, unsigned int, unsigned int, int);
 	void rva000338F0(void *block);				// Free-like
 	void rva000338D0(Snapshot *snapshot);			// snapshot release
@@ -220,7 +217,8 @@ public:
 	unsigned char m_pad474[0x488 - 0x474];
 	// +0x488: count 0x321F0 requires to be non-negative and at most +0x490.
 	unsigned int m_count488;
-	unsigned char m_pad48C[4];
+	// +0x48C: bytes of those mapped chunks; 0x33150 drops both on release.
+	unsigned int m_bytes48C;
 	unsigned int m_option490;
 	unsigned int m_option494;
 	bool m_option498;
@@ -815,19 +813,116 @@ unsigned int GeneralAllocator::rva006C1D10(const void *block)
 	return rva00032A20(block);
 }
 
+// ?rva00033150@GeneralAllocator@Allocator@EA@@QAEXPBX@Z @0x00033150 374B, RET4.
+// The free engine (dlmalloc fREe shape with EA extensions); other units reach
+// it through the Rva00033E90::freeBlock pin. Small chunks are pushed on a fast
+// bin. Others coalesce with a free predecessor and successor (boundary tags),
+// then go on the unsorted list (+0x30) or become the top chunk (+0x440); a
+// chunk of 64 KB or more that ends a core (0x31BB0) and reaches the trim
+// threshold (option 7, +0x4C8) trims through 0x32C60 with the top pad
+// (option 8, +0x4CC). Mapped chunks (size bit 1) unlink their trailing fence
+// node from the mapped list, drop the mapped count and bytes (+0x488/+0x48C)
+// and release the whole mapping. Name and labels are descriptive.
+// The __assume states the accounting invariant the mapped arm relies on; it
+// generates no code, and without it cl folds the mapping size into the byte
+// subtraction (m_bytes48C + (-16 - prevSize - size)) instead of computing it
+// with lea ahead of the unlink as retail does. About 60 spellings without it
+// (helpers, references, temporaries, statement orders) all stay at 375 B.
+void GeneralAllocator::rva00033150(const void *block)
+{
+	typedef Rva00031BF0Chunk Chunk;
+	if (block == 0)
+		return;
+	Chunk *chunk = (Chunk *)((char *)block - 8);
+	unsigned int header = chunk->size;
+	unsigned int size = header & 0x7FFFFFF8;
+	if (size <= m_maxFastSize)
+	{
+		m_maxFastSize |= 1;
+		Chunk **bin = &m_fastBins[(size >> 3) - 2];
+		chunk->next = *bin;
+		chunk->size |= 0x80000004;
+		*bin = chunk;
+		return;
+	}
+	if ((header & 2) == 0)
+	{
+		Chunk *next = (Chunk *)((char *)chunk + size);
+		unsigned int nextSize = next->size & 0x7FFFFFF8;
+		if ((header & 1) == 0)
+		{
+			unsigned int prevSize = chunk->previousSize;
+			chunk = (Chunk *)((char *)chunk - prevSize);
+			size += prevSize;
+			chunk->size = size | 1;
+			next->previousSize = size;
+			chunk->previous->next = chunk->next;
+			chunk->next->previous = chunk->previous;
+		}
+		if ((*(unsigned int *)((char *)next + nextSize + 4) & 1) != 0)
+		{
+			next->size &= ~1u;
+			next->previousSize = size;
+		}
+		else
+		{
+			next->previous->next = next->next;
+			next->next->previous = next->previous;
+			size += nextSize;
+			chunk->size = size | 1;
+			*(unsigned int *)((char *)chunk + size) = size;
+		}
+		if (chunk != m_topChunk && next != m_topChunk)
+		{
+			Chunk *unsorted = (Chunk *)((char *)this + 0x30);
+			Chunk *first = unsorted->next;
+			chunk->previous = unsorted;
+			chunk->next = first;
+			unsorted->next = chunk;
+			first->previous = chunk;
+		}
+		else
+		{
+			m_topChunk = chunk;
+			chunk->next = chunk;
+			chunk->previous = chunk;
+			chunk->size = size | 1;
+			*(unsigned int *)((char *)chunk + size) = size;
+		}
+		if (size >= 0x10000)
+		{
+			if (rva00031BB0((char *)chunk + size) && size >= m_option4C8)
+				rva00032C60(m_option4CC);
+		}
+	}
+	else
+	{
+		Chunk *fence = (Chunk *)((char *)chunk + size);
+		unsigned int prevSize = chunk->previousSize;
+		void *mapping = (char *)chunk - prevSize;
+		unsigned int mappingSize = prevSize + size + 0x10;
+		fence->previous->next = fence->next;
+		fence->next->previous = fence->previous;
+		__assume(m_bytes48C >= mappingSize);
+		m_bytes48C -= mappingSize;
+		--m_count488;
+		VirtualFree(mapping, 0, 0x8000);
+	}
+}
+
 // ?rva000338D0@GeneralAllocator@Allocator@EA@@QAEXPAUSnapshot@123@@Z @0x000338D0 31B
 // Releases a snapshot block: only when its magic is 'SNAP' (the value the
 // Snapshot constructor stores at +0) and the first state byte at +0xC is
-// clear does it tail-call Rva00033E90::freeBlock (pin 0x00033150) with the
+// clear does it tail-call the free engine 0x00033150 with the
 // same this. Reached through the thunk at 0x006C1D50. Name address-derived.
 void GeneralAllocator::rva000338D0(Snapshot *snapshot)
 {
 	if (snapshot->m_magic == 0x534E4150 && snapshot->m_state[0] == 0)
-		((::Rva00033E90 *)this)->freeBlock(snapshot);
+		rva00033150(snapshot);
 }
 
 // ?rva000338F0@GeneralAllocator@Allocator@EA@@QAEXPAX@Z @0x000338F0 63B
-// Free-like: lock at +0x4E4 with count at +0x18 around Rva00033E90::freeBlock pin 0x00033150.
+// Free-like: lock at +0x4E4 with count at +0x18 around the free engine 0x00033150.
 // Evidence: caller _Free 0x000305D6 plus 3 unclaimed; Enter/LeaveCriticalSection IAT; inc/dec at +0x18.
 __declspec(noinline) void GeneralAllocator::rva000338F0(void *block)
 {
@@ -837,7 +932,7 @@ __declspec(noinline) void GeneralAllocator::rva000338F0(void *block)
 		EnterCriticalSection(lock);
 		++lock->m_count;
 	}
-	((::Rva00033E90 *)this)->freeBlock(block);
+	rva00033150(block);
 	if (lock != 0)
 	{
 		--lock->m_count;
@@ -962,7 +1057,7 @@ void *GeneralAllocator::rva000344A0(unsigned int size, unsigned int alignment, u
 			newp->previousSize = leadSize;
 			int saved = *(int *)((char *)this + 0x478);
 			*(int *)((char *)this + 0x478) = 0;
-			((::Rva00033E90 *)this)->freeBlock((char *)p + 8);
+			rva00033150((char *)p + 8);
 			*(int *)((char *)this + 0x478) = saved;
 			p = newp;
 		}
@@ -983,7 +1078,7 @@ void *GeneralAllocator::rva000344A0(unsigned int size, unsigned int alignment, u
 				{
 					int saved = *(int *)((char *)this + 0x478);
 					*(int *)((char *)this + 0x478) = 0;
-					((::Rva00033E90 *)this)->freeBlock((char *)rem + 8);
+					rva00033150((char *)rem + 8);
 					*(int *)((char *)this + 0x478) = saved;
 					return (char *)p + 8;
 				}
