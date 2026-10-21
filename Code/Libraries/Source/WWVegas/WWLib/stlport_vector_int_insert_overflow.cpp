@@ -20,3 +20,7 @@ namespace _STL { template <> _Vector_base<SubtitleEntry *, allocator<SubtitleEnt
 extern "C" void __cdecl free(void *);
 
 template class _STL::vector<SubtitleEntry *, _STL::allocator<SubtitleEntry *> >;
+
+// The complete native allocator-profile owner also emits the rowed subtitle
+// push_back/fill_n and trivial backward-copy helper. Their rows are kept here
+// so the stock int-vector consumer need not instantiate incompatible growth.

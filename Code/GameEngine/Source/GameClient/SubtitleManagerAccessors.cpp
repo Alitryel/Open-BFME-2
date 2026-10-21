@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/iniexception /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfmealloc_alloconly /Ireference/shims/iniexception /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 // ?addSubtitle@SubtitleManager@@QAEXABVAsciiString@@IHHHHH@Z, retail 0x00688AA0 (105B).
 // Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/SubtitleManagerAccessors.cpp
@@ -8,11 +8,15 @@
 // declared-only.
 
 #include <vector>
+extern "C" void __cdecl free(void *);
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
 #include "ascii_string.h"
+// Preserve the visible null initialization without a competing wide-base copy.
+template <> __declspec(dllimport) __forceinline
+StringBase<unsigned short>::StringBase() : m_data(0) {}
 #include "unicode_string.h"
 template<> inline bool StringBase<unsigned short>::isEmpty() const throw() { return m_data == 0 || m_data->length == 0; }
 // Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,

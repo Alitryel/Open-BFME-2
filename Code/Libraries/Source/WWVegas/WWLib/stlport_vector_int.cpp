@@ -33,13 +33,7 @@ int* _STLP_alloc_proxy<int*, int, allocator<int> >::allocate(size_t __n) {
 // captured every other unit's calls to them.
 template _STL::vector<int, _STL::allocator<int> >::iterator _STL::vector<int, _STL::allocator<int> >::erase(iterator, iterator);
 template void _STL::vector<int, _STL::allocator<int> >::clear();
-// 0x00688940 is SubtitleManager's vector<SubtitleEntry*>::push_back (no retail caller; it calls
-// the 0x006887F0 overflow); vector<int>::push_back folds into 0x004DFCB0.
-class SubtitleEntry;
-template void _STL::vector<SubtitleEntry *, _STL::allocator<SubtitleEntry *> >::push_back(SubtitleEntry *const &);
-// 0x00688330 is the same object's fill_n for that vector (no retail caller; ZH's
-// SubtitleManager unit emits this 29B body); vector<int>'s growth at 0x002DFCF6 calls
-// fill_n<int> at 0x0007E48F, so that name folds there.
-template SubtitleEntry **_STL::fill_n<SubtitleEntry **, unsigned int, SubtitleEntry *>(SubtitleEntry **, unsigned int, SubtitleEntry *const &);
+// SubtitleEntry pointer-vector bodies live with their native allocator profile
+// in stlport_vector_int_insert_overflow.cpp.
 template void _STL::vector<int, _STL::allocator<int> >::pop_back();
-template void _STL::vector<int, _STL::allocator<int> >::_M_fill_insert(iterator, size_type, const int &);
+template void _STL::fill<int *, int>(int *, int *, const int &);
