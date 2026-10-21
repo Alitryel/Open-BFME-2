@@ -304,7 +304,7 @@ void Rva00220FC4Parse(INI *ini, void *instance,
 	_STL::vector<BfmeStringRecord0022074B, _STL::allocator<BfmeStringRecord0022074B> > *store);
 void Rva0040C125Parse(INI *ini);
 void Rva00222278Parse(INI *ini, void *instance);
-void rva003F9CD2(INI *ini);
+void parseEyeTowerDefinition(INI *ini);
 class AwardSystemManager
 {
 public:
@@ -459,7 +459,7 @@ extern const FieldParse LivingWorldMapInfoFields[] =
 	{ "ArmySelectedFadeOutEnd", INI::parseInt, 0, 0x1E0 },
 	{ "ArmyHilightedFadeInTime", INI::parseInt, 0, 0x1E4 },
 	{ "ArmyHilightedFadeOutTime", INI::parseInt, 0, 0x1E8 },
-	{ "EyeTower", (FieldParseProc)rva003F9CD2, 0, 0x0 },
+	{ "EyeTower", (FieldParseProc)parseEyeTowerDefinition, 0, 0x0 },
 	{ 0, 0, 0, 0 }
 };
 

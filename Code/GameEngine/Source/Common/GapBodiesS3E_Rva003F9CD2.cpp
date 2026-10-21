@@ -178,7 +178,7 @@ struct Rva003F9CD2ManagerView
 	Rva003F9D08 *m_2C4;										// +0x2C4
 };
 
-void rva003F9CD2(INI *ini)
+void parseEyeTowerDefinition(INI *ini)
 {
 	Rva003F9D08 *record = new Rva003F9D08;
 	ini->initFromINI(record, Rva003F9C11::s_fieldParseTable);
