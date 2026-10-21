@@ -18,6 +18,11 @@
 #include "vector2.h"
 #include "vector3.h"
 #include "vector4.h"
+// VectorClass<Vector2>'s operator== is the specialization Vector2Equality.cpp owns
+// (retail 0x0017ECE0) and Resize is Vector2Resize.cpp's explicit instantiation
+// (0x0017ED60); this unit's vftable references both and compiles neither.
+template<> bool VectorClass<Vector2>::operator == (VectorClass<Vector2> const & vec) const;
+extern template bool VectorClass<Vector2>::Resize(int, Vector2 const *);
 static VectorClass<Vector2> VertexUV;
 
 class PointGroupClass {
