@@ -68,6 +68,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 //#define CREATE_DX8_FPU_PRESERVE
 #define WW3D_DEVTYPE D3DDEVTYPE_HAL
 
+// Every DX8CALL here inlines DX8_ErrorCode; retail's out-of-line copy is the /O1 body
+// at 0x00042F73 (texture.cpp), so this unit inlines the header body without emitting one.
+__declspec(dllimport) void DX8_ErrorCode(unsigned res);
+
 // Retail owns the snapshot-aware outlined texture-stage setter separately.
 #include "../../../../../reference/shims/bfme_dx8wrapper_home_link/dx8wrapper.h"
 
@@ -4569,6 +4573,20 @@ void DX8Wrapper::Shutdown(void)
 // Native states1/2 prove the caps strings at2D4/2DC/2E0. Callee order is
 // read from1215F0..12176D; ZH names/semantics guide supported phases only.
 #include "../../../../../reference/shims/bfmestreak/ref_ptr.h"
+// The texture-slot reset below inlines this assignment; inline the stock body without
+// emitting a copy (it would name the view's Add_Ref, which no object defines).
+template<> __declspec(dllimport) __forceinline const RefCountPtr<BfmeResetResource> &
+RefCountPtr<BfmeResetResource>::operator =(const RefCountPtr<BfmeResetResource> & rhs)
+{
+	if (rhs.Referent) {
+		rhs.Referent->Add_Ref();
+	}
+	if (Referent) {
+		Referent->Release_Ref();
+	}
+	Referent = rhs.Referent;
+	return *this;
+}
 void Rva00912CF0();
 // The caller proves a no-argument call to the shared RET at B3FD0.
 // Its original phase name is unresolved. W3DNoDraw supplies that exact RET,
