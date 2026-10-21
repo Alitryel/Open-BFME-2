@@ -54,6 +54,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#include "../../../../../reference/shims/bfme_matrix3d_invrot_link/matrix3d_generals.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "vehiclecurve.h"
 #include "vector3.h"

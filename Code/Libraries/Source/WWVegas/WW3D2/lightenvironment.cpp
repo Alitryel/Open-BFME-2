@@ -66,8 +66,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "lightenvironment.h"
 #include "matrix3d.h"
 #include "camera.h"
-#include "light.h"
-#include "colorspace.h"
+#include "../../../../../reference/shims/bfme_light_link/light.h"
+#pragma optimize("t", off)
+#pragma optimize("s", on)
+#include "../../../../../reference/shims/bfme_colorspace_link/colorspace.h"
+#pragma optimize("", on)
 
 /*
 ** Constants

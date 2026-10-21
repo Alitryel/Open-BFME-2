@@ -47,6 +47,7 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+#include "../../../../../reference/shims/bfme_matrix3d_invrot_link/matrix3d.h"
 #include "colmath.h"
 #include "aaplane.h"
 #include "plane.h"
