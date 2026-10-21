@@ -34,7 +34,7 @@ class Rva002D752D;
 class AIGroup
 {
 public:
-	void rva0036E1C3(const StringBase<char> &name, int val);
+	void groupSetEmoticon(const StringBase<char> &name, int val);
 };
 
 extern int BfmeLogicFramesPerSecond;
@@ -42,7 +42,7 @@ extern int BfmeLogicFramesPerSecond;
 // ?getTeamNamed@ScriptEngine@@QAEPAVTeam@@VAsciiString@@_N@Z present-unmatched
 // ?createGroup@AI@@QAEPAVAIGroup@@XZ present-unmatched
 // ?getTeamAsAIGroup@Team@@QAEXPAVAIGroup@@@Z present-unmatched
-// ?rva0036E1C3@AIGroup@@QAEXABV?$StringBase@D@@H@Z present-unmatched
+// AIGroup::groupSetEmoticon is rowed at 0x0036E1C3 (AIGroupRva0036E1C3.cpp).
 void ScriptActions::Rva003C1F0A(const AsciiString &teamName, const StringBase<char> &animName, float f)
 {
 	Team *team = TheScriptEngine->getTeamNamed(teamName, false);
@@ -53,5 +53,5 @@ void ScriptActions::Rva003C1F0A(const AsciiString &teamName, const StringBase<ch
 		return;
 	team->getTeamAsAIGroup(grp);
 	int v = (int)((float)BfmeLogicFramesPerSecond * f);
-	grp->rva0036E1C3(animName, v);
+	grp->groupSetEmoticon(animName, v);
 }

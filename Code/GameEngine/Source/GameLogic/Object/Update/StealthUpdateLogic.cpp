@@ -922,10 +922,11 @@ public:
 	void changeVisualDisguise();
 	virtual UpdateSleepTime update();
 	UpdateSleepTime rva00374FD5();
-	// The detection-expiry update 0x00373EEC and Zero Hour's
-	// hintDetectableWhileUnstealthed 0x0037441E, rowed under address-derived names.
+	// The detection-expiry update 0x00373EEC, rowed under an address-derived name.
 	void rva00373EEC(UnsignedInt numFrames);
-	void rva0037441E();
+protected:
+	void hintDetectableWhileUnstealthed(); // 0x0037441E
+public:
 	Bool canDisguise() const { return getStealthUpdateModuleData()->m_teamDisguised; }
 	__declspec(dllimport) Bool isDisguised() const { return m_disguiseAsTemplate != NULL; }
 	__declspec(dllimport) __forceinline Int getDisguisedPlayerIndex() const { return m_disguiseAsPlayerIndex; }
@@ -1633,7 +1634,7 @@ UpdateSleepTime StealthUpdate::rva00374FD5()
 
 			setStatusBit(OBJECT_STATUS_STEALTHED, false);
 			rva00373D5E();
-			rva0037441E();
+			hintDetectableWhileUnstealthed();
 			markAsDetected(0, 1, NULL, true);
 		}
 	}

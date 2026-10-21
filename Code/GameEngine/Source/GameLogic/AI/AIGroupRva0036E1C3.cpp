@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD
-// ?rva0036E1C3@AIGroup@@QAEXABV?$StringBase@D@@H@Z @0x0036E1C3 52B: AIGroup walk members at +0x04 calling Drawable setEmoticon via Thing getDrawable; neighbours AIGroupGetCommandButtonSourceObject Rva0036E346Count; caller 0x003C1F0A.
+// ?groupSetEmoticon@AIGroup@@QAEXABV?$StringBase@D@@H@Z @0x0036E1C3 52B: AIGroup walk members at +0x04 calling Drawable setEmoticon via Thing getDrawable; neighbours AIGroupGetCommandButtonSourceObject Rva0036E346Count; caller 0x003C1F0A.
 #include "ascii_string.h"
 
 class Drawable
@@ -28,7 +28,7 @@ struct ObjectListNode
 class AIGroup
 {
 public:
-	void rva0036E1C3(const StringBase<char> &name, int val);
+	void groupSetEmoticon(const StringBase<char> &name, int val);
 private:
 	int m_00;
 	ObjectListNode *m_memberList;
@@ -36,7 +36,7 @@ private:
 
 // ?getDrawable@Thing@@QBEPAVDrawable@@XZ present-unmatched
 // ?setEmoticon@Drawable@@QAEXABV?$StringBase@D@@H@Z present-unmatched
-void AIGroup::rva0036E1C3(const StringBase<char> &name, int val)
+void AIGroup::groupSetEmoticon(const StringBase<char> &name, int val)
 {
 	for (ObjectListNode *it = m_memberList->m_next; it != m_memberList; it = it->m_next) {
 		Drawable *drawable = it->m_data->getDrawable();

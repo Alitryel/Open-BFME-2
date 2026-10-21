@@ -88,7 +88,7 @@ class ConnectionManager
 {
 public:
 	void requestLeave(Int arg);
-	void rva004D016E();
+	void resendPendingCommands();
 	void sendLocalCommand(NetCommandMsg *msg, UnsignedByte relay);
 	void sendLocalCommandDirect(NetCommandMsg *msg, UnsignedByte relay);
 private:
@@ -118,8 +118,8 @@ void ConnectionManager::requestLeave(Int arg)
 		m_lastTime = timeGetTime();
 }
 
-// ?rva004D016E@ConnectionManager@@QAEXXZ @0x004D016E (42B)
-void ConnectionManager::rva004D016E()
+// ?resendPendingCommands@ConnectionManager@@QAEXXZ @0x004D016E (42B)
+void ConnectionManager::resendPendingCommands()
 {
 	if (m_list12124 != 0)
 	{

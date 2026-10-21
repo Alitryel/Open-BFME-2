@@ -1257,20 +1257,7 @@ void ConnectionManager::flushConnections() {
 	}
 }
 
-// ?resendPendingCommands@ConnectionManager@@ present-unmatched
-void ConnectionManager::resendPendingCommands() {
-	//DEBUG_LOG(("ConnectionManager::resendPendingCommands()\n"));
-	if (m_pendingCommands == NULL) {
-		return;
-	}
-
-	NetCommandRef *ref = m_pendingCommands->getFirstMessage();
-	while (ref != NULL) {
-		//DEBUG_LOG(("ConnectionManager::resendPendingCommands - resending command %d\n", ref->getCommand()->getID()));
-		sendLocalCommand(ref->getCommand(), ref->getRelay());
-		ref = ref->getNext();
-	}
-}
+// ConnectionManager::resendPendingCommands (0x004D016E) is defined with its retail body in ConnectionManager_rva004D00BB.cpp.
 
 // ConnectionManager::getLocalPlayerID: defined in ConnectionManagerLocalSlot.cpp (its row's unit).
 

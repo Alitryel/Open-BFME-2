@@ -1,6 +1,8 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva0037441E@StealthUpdate@@QAEXXZ @0x0037441E 80B.
+// ?hintDetectableWhileUnstealthed@StealthUpdate@@IAEXXZ @0x0037441E 80B: Zero
+// Hour's and BFME1's StealthUpdate::hintDetectableWhileUnstealthed (BFME1
+// 0x002AC5C0: same callee, same local-player test and drawable opacity store).
 // BehaviorModule method: m_object at +8 null-checked, module data +0x10
 // tested via rowed ?test@Rva00331682Holder 0x00331682 at Object+0x94,
 // controlling player via rowed ?getControllingPlayer@Object 0x0028AFA9
@@ -56,15 +58,15 @@ public:
 
 class StealthUpdate
 {
-public:
-	void rva0037441E();
+protected:
+	void hintDetectableWhileUnstealthed();
 private:
 	const void *m_00;
 	const Rva0037441EModuleData *m_moduleData;
 	Object *m_object;
 };
 
-void StealthUpdate::rva0037441E()
+void StealthUpdate::hintDetectableWhileUnstealthed()
 {
 	Object *object = m_object;
 	if (object == 0)

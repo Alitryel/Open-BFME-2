@@ -28,13 +28,13 @@ public:
 class CommandButton
 {
 public:
-	Real rva0035B0F0(const Object *obj) const;
+	Real getSpecialPowerPercentReady(const Object *obj) const;
 private:
 	char m_pad00[0x44];
 	const SpecialPowerTemplate *m_specialPower; // +0x44
 };
 
-Real CommandButton::rva0035B0F0(const Object *obj) const
+Real CommandButton::getSpecialPowerPercentReady(const Object *obj) const
 {
 	SpecialPowerModuleInterface *module = obj->getSpecialPowerModule(m_specialPower);
 	if (module == 0)

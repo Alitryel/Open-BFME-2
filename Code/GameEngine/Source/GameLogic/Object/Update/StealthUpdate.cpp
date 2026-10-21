@@ -367,22 +367,7 @@ Bool StealthUpdate::allowedToStealth( Object *stealthOwner ) const
 //---------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-// ?hintDetectableWhileUnstealthed@StealthUpdate@@ present-unmatched
-void StealthUpdate::hintDetectableWhileUnstealthed() 
-{
-	Object *self = getObject();
-	const StealthUpdateModuleData *md = getStealthUpdateModuleData();
-
-	if( self && md->m_hintDetectableStates.testForAny( self->getStatusBits() ) )
-	{
-		if ( self->getControllingPlayer() == ThePlayerList->getLocalPlayer() )
-		{
-			Drawable *selfDraw = self->getDrawable();
-			if ( selfDraw )
-				selfDraw->setSecondMaterialPassOpacity( 1.0f );
-		}
-	}
-}
+// StealthUpdate::hintDetectableWhileUnstealthed (0x0037441E) is defined with its retail body in Rva0037441ELeaf.cpp.
 
 
 
