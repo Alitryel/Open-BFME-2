@@ -75,6 +75,34 @@ public:
 #include "Code/Libraries/Include/Lib/IRegion2D.h"
 
 struct BfmeE8{int a,b;};
+// These are only expanded inline here; bind to the kept retail copies instead of
+// emitting this unit's own (bodies verbatim primary).
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<int,int>(int *p,int const &v) { new (p) int(v); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const { return x < y; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &a,const unsigned int &b) { return a < b ? b : a; } }
+// Retail's push_back calls the no-EH provider 0x00057C80; spell its algorithm
+// out (as GameLogicInit.cpp does) so this TU's copy is that provider, not an EH copy.
+namespace _STL {
+template<> inline void vector<BfmeE8>::_M_insert_overflow(
+    pointer position, const BfmeE8 &value, const __false_type &,
+    size_type fillLength, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillLength);
+    pointer start = this->_M_end_of_storage.allocate(length);
+    pointer finish = start;
+    finish = __uninitialized_copy(this->_M_start, position, start, __false_type());
+    if (fillLength == 1) {
+        _Construct(finish, value);
+        ++finish;
+    } else
+        finish = __uninitialized_fill_n(finish, fillLength, value, __false_type());
+    if (!atEnd)
+        finish = __uninitialized_copy(position, this->_M_finish, finish, __false_type());
+    _M_clear();
+    _M_set(start, finish, start + length);
+}
+}
 class Dict;
 class Rva0027C36A{public:Rva0027C36A();char bytes[0xa8];};
 class PolygonTrigger{public:virtual void *destroy(unsigned);void getBounds(IRegion2D*);};
