@@ -13,6 +13,15 @@
 // expressions decides which bounds products fold their UV element); both bounds loops are
 // the donor's subscripted form.
 
+// The shared array-constructor iterator is emitted with the settings of its
+// first use. Retail keeps the size-optimized body at 0x00001423; establish
+// that body before the VectorClass helpers, as SceneSpatialCollectBFME2 does.
+// This unused function is not emitted and adds no runtime initialization.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
 #include "sharebuf.h"
 #include "vector.h"
 #include "vector2.h"
