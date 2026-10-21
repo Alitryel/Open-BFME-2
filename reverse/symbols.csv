@@ -12126,7 +12126,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??1Rva00502D48@@QAE@XZ,0x005029CA,callee of ??0Rva00502EC6@@QAE@XZ
 ??0Rva004FFE96@@QAE@XZ,0x004FFE96,callee of ??0Rva00502EC6@@QAE@XZ
 ??1Rva004FFE96@@QAE@XZ,0x0050298D,callee of ??0Rva00502EC6@@QAE@XZ
-?rva00515B0A@@YAXPAVRva00515Handle@@H@Z,0x00515B0A,callee of ?Rva00515BCA@@YAXH@Z
 ?rva0053856F@Rva0053863ESub@@QAEXXZ,0x0053856F,helper reached by the 0x0053863E body with ECX=this; Ghidra boundary size 132 and matching accesses to +0x0C and +0x20; address-derived symbol only
 ?rva00538D3B@Rva00538E22@@QAEXH@Z,0x00538D3B,called by 0x00538ED1 with the same this and one 32-bit stack argument; Ghidra boundary size 134; address-derived helper with identity and semantics unproven
 ?rva005318DB@Rva002E99F9Sub460@@QAE_NPAX00@Z,0x005318DB,157-byte Ghidra body; bool result and three pointer arguments follow caller-side ABI; receiver relation to Rva002E99F9Sub460 is structural and payload types remain unknown
@@ -14867,8 +14866,6 @@ _D3DXMatrixTranslation@16,0x0062AF32,First named PE import thunk: FF25 IAT00BBA9
 ?notifyHostMyNATCreated@NAT@@QAEXH@Z,0x005A7829,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
 ?rva005A89C2@NAT@@QAEXHH@Z,0x005A89C2,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
 ?rva005A6732@NAT@@QBE_NXZ,0x005A6732,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
-??1NuggetCreated@@QAE@XZ,0x001F22A3,callee of ?create@GenericObjectCreationNugget@@UBEXPBVObject@@0I@Z
-?reallyCreate@GenericObjectCreationNugget@@QBE?AUNuggetCreated@@PBUCoord3D@@PBVMatrix3D@@MPBVObject@@I@Z,0x001F1634,callee of ?create@GenericObjectCreationNugget@@UBEXPBVObject@@0I@Z
 _isdigit,0x00629982,Native6F97F0 suffix parser calls PE isdigit import thunk629982 repeatedly; named import ji_00629982 independently identifies msvcr71 isdigit
 ??1DrawableRefSlot@@QAE@XZ,0x0010F149,ICF-folded dtor of Drawable's 3x8-byte ref slot (Release_Ref tail jump) passed to ??_L by the Drawable ctor 0x002797BD fold-proof=Code/GameEngine/Source/GameClient/DrawableConstructor.cpp
 ?rva00053A1F@MilesAudioManager@@QAEMPAX@Z,0x00053A1F,callee of ?rva00059AD0@MilesAudioManager@@QAEMPAXH@Z

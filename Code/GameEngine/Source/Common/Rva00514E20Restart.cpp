@@ -1,5 +1,8 @@
 // cl: /O1 /MD
-// ?Rva00514E20Restart@@YAXXZ @0x00514E20 75B.
+// ?rva00514E20@AptMainMenu@@QAEXXZ @0x00514E20 75B.
+// AptMainMenu's per-frame state machine 0x00515C64 enters it with the menu
+// in ECX (mov ecx,esi; call) before the LAN / online restarts: a menu member
+// that does not read its receiver.
 // Restarts global thread object via wrapper. Evidence: chain lane packet.
 #include <new>
 void *__cdecl operator new(unsigned int size);
@@ -11,6 +14,10 @@ public:
     bool rva0073F778(unsigned (__stdcall *start)(void *), void *arglist, int resume, unsigned stackSize, int priority, void *security);
     bool rva0073F83F(int resume, unsigned stackSize, int priority, void *security);
 };
+class AptMainMenu {
+public:
+    void rva00514E20();
+};
 class ThreadRestartObj {
 public:
     virtual ~ThreadRestartObj();
@@ -18,7 +25,7 @@ public:
     virtual void *stop(int code);
 private:
     void *m_handle;
-    friend void Rva00514E20Restart();
+    friend class AptMainMenu;
 };
 // ??1ThreadRestartObj@@UAE@XZ present-unmatched
 inline ThreadRestartObj::~ThreadRestartObj() {}
@@ -30,7 +37,7 @@ extern ThreadRestartObj *g_bfmeThreadAtE048E0;
 // g_bfmeThreadAtE048E0: matched references place it at VA 0xe048e0 (zero-filled .bss).
 ThreadRestartObj * g_bfmeThreadAtE048E0;
 void *Rva00514E20RestartHelper();
-void Rva00514E20Restart()
+void AptMainMenu::rva00514E20()
 {
     ThreadRestartObj *old = g_bfmeThreadAtE048E0;
     if (old) {

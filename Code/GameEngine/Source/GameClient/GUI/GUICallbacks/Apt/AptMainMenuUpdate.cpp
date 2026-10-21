@@ -14,7 +14,7 @@
 // through the rowed 0x003FE7E6 registry, skirmish after rowed
 // GameLogic::clearGameData), then idles.
 // Inner case bodies are written in retail's layout order.
-// Address-named pins: ?Rva00515BCA@@YAXD@Z / ?Rva00515C17@@YAXD@Z (retail passes
+// Rowed callees: ?Rva00515BCA@@YAXD@Z / ?Rva00515C17@@YAXD@Z (retail passes
 // the side byte as is: mov al,[esi+0x2A8]; push eax) and
 // ?rva00514E20@AptMainMenu@@QAEXXZ (0x00514E20 is entered with the menu in ECX).
 // Frame: the callback wrapper constructor 0x00211E75 is defined in this unit
@@ -70,8 +70,8 @@ public:
 };
 bool Rva003FE7E6(Rva00211E75Callback callback, int *id);
 extern int g_00E02EC4;
-void Rva005148AA();	// restart callbacks bound below
-void Rva005148FD();
+int Rva005148AA();	// restart callbacks bound below (rowed in GapBodiesGE28.cpp)
+int Rva005148FD();
 
 class Rva00690CB0Owner { public: bool init(); };
 
@@ -95,7 +95,10 @@ public:
 	unsigned char m_pad04[0x34 - 4];
 	bool m_finished;	// +0x34
 };
-extern AptMainMenuCredits *g_bfmeSinkBOE;
+// The credits global is Credits.cpp's owned g_bfmeSinkBOE (VA 0x00E06474);
+// this unit reads it through its own view type.
+extern class BfmeSinkBOE *g_bfmeSinkBOE;
+#define TheMainMenuCredits (*(AptMainMenuCredits **)&g_bfmeSinkBOE)
 
 class Rva00222A8BTarget
 {
@@ -103,7 +106,10 @@ public:
 	int invoke(void *level, const char *name, int a, const char *b, void *c, void *d, void *e, void *f);
 	void rva00222F55(bool hide);	// hide the background
 };
-extern Rva00222A8BTarget *g_bfmeAptWindowManager;
+// The Apt player global is the owned g_bfmeAptWindowManager (VA 0x009FE4CC);
+// this unit reads it through its own view type.
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
+#define TheMainMenuAptTarget (*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)
 
 class Shell
 {
@@ -160,7 +166,7 @@ int AptMainMenu::rva00515C64()
 			TheShell->showShell(true);
 			m_pendingRestart = false;
 			m_state = 0;
-			g_bfmeAptWindowManager->rva00222F55(false);
+			TheMainMenuAptTarget->rva00222F55(false);
 		}
 		else
 		{
@@ -169,11 +175,11 @@ int AptMainMenu::rva00515C64()
 		break;
 	}
 	case 4:
-		if (g_bfmeSinkBOE)
+		if (TheMainMenuCredits)
 		{
-			g_bfmeSinkBOE->update();
-			if (g_bfmeSinkBOE->m_finished)
-				g_bfmeAptWindowManager->invoke(m_274, "HideCredits", 0, 0, 0, 0, 0, 0);
+			TheMainMenuCredits->update();
+			if (TheMainMenuCredits->m_finished)
+				TheMainMenuAptTarget->invoke(m_274, "HideCredits", 0, 0, 0, 0, 0, 0);
 		}
 		break;
 	case 5:

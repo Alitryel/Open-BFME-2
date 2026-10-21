@@ -21,6 +21,11 @@ namespace _STL {
 template <> Gen_p12pod *vector<Gen_p12pod, allocator<Gen_p12pod> >::erase(Gen_p12pod *, Gen_p12pod *);
 }
 struct TreeHintRef00217D4C { void *m_ptr; };
+// Use the byte-verified out-of-line erase owner at 0x000819EC
+// (StlportVectorEraseRangeFamily.cpp) instead of emitting this unit's copy.
+namespace _STL {
+template <> TreeHintRef00217D4C *vector<TreeHintRef00217D4C, allocator<TreeHintRef00217D4C> >::erase(TreeHintRef00217D4C *, TreeHintRef00217D4C *);
+}
 
 class Rva002B254F { public: int rva002B254F(); };
 class Rva003B8BAA { public: void *rva003B8BAA(); };

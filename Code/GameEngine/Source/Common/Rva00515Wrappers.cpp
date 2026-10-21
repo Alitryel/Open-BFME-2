@@ -43,28 +43,28 @@ public:
 	}
 };
 
-void __cdecl rva00515B0A(Rva00515Handle *handle, int value);
+void __cdecl rva00515B0A(Rva00515Handle *handle, char side);
 
 int goodCampaignRva00515921(float time, bool start);
 int evilCampaignRva005158C2(float time, bool start);
 
-// ?Rva00515BCA@@YAXH@Z @0x00515BCA 77B
-void __cdecl Rva00515BCA(int value)
+// ?Rva00515BCA@@YAXD@Z @0x00515BCA 77B
+void __cdecl Rva00515BCA(char side)
 {
 	const int callback = reinterpret_cast<int>(&goodCampaignRva00515921);
 	Rva00515Handle handle(&callback);
-	rva00515B0A(&handle, value);
+	rva00515B0A(&handle, side);
 }
 
-// ?Rva00515C17@@YAXH@Z @0x00515C17 77B
-void __cdecl Rva00515C17(int value)
+// ?Rva00515C17@@YAXD@Z @0x00515C17 77B
+void __cdecl Rva00515C17(char side)
 {
 	const int callback = reinterpret_cast<int>(&evilCampaignRva005158C2);
 	Rva00515Handle handle(&callback);
-	rva00515B0A(&handle, value);
+	rva00515B0A(&handle, side);
 }
 
-// ?rva00515B0A@@YAXPAVRva00515Handle@@H@Z @0x00515B0A 192B: the campaign
+// ?rva00515B0A@@YAXPAVRva00515Handle@@D@Z @0x00515B0A 192B: the campaign
 // start both wrappers above share. The side character picks the campaign
 // global 0x00DD1538 ('E' 0, 'H' 2, else 1; AptMainMenu::LinearCampaignStart
 // sends it with the campaign index), TheLivingWorldManager is cleaned
@@ -134,9 +134,8 @@ struct Rva00515B0AMenu
 	bool m_280;						// +0x280
 };
 
-void __cdecl rva00515B0A(Rva00515Handle *handle, int value)
+void __cdecl rva00515B0A(Rva00515Handle *handle, char side)
 {
-	char side = (char)value;
 	switch (side)
 	{
 	case 'E':

@@ -13,7 +13,9 @@ struct Rva00666BA0
 	virtual ~Rva00666BA0();
 };
 
-Rva00666BA0::~Rva00666BA0()
+// Retail's scalar deleting destructor (0x00661330) calls this body out of
+// line; noinline keeps this unit's emitted ??_G the same call shape.
+__declspec(noinline) Rva00666BA0::~Rva00666BA0()
 {
 }
 

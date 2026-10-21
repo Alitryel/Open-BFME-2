@@ -5,7 +5,8 @@
 // Target facts: creator returns a three-word Object-pointer vector; movement
 // uses AI command subobject +20 of Object's +258 AI receiver, then optional
 // facing. WB supplies method identity and branch/temporary scopes. Flag names
-// describe measured behavior; NuggetCreated preserves the existing ABI view.
+// describe measured behavior; NuggetCreated is the rowed vector<Object*> that
+// reallyCreate (0x001F1634) returns by value.
 // The storage-base cleanup at1F1609 is pinned, not recovered in this unit.
 // Keep the real AI move helper visible and the receiver as a typed subobject:
 // spelling it as a raw +20 pointer changes the parent register allocation.
@@ -29,12 +30,15 @@ struct AICommandParms {
 };
 class AICommandInterface { public:
  virtual void aiDoCommand(const AICommandParms *);
- __forceinline void aiMoveToPosition(const Coord3D *pos, CommandSourceType source) {
-  AICommandParms command(AICMD_MOVE_TO_POSITION, source);
-  command.position = *pos;
-  aiDoCommand(&command);
- }
 };
+// AICommandInterface::aiMoveToPosition (rowed 0x0026C26D), inlined at this
+// call site in retail. A file-local spelling keeps this unit from emitting a
+// second out-of-line copy of the rowed member.
+static __forceinline void aiMoveToPosition(AICommandInterface &ai, const Coord3D *pos, CommandSourceType source) {
+ AICommandParms command(AICMD_MOVE_TO_POSITION, source);
+ command.position = *pos;
+ ai.aiDoCommand(&command);
+}
 class StrafeAreaUpdate { public: bool rva003A4F21(const Coord3D *, const Coord3D *); };
 class AIUpdateView { public: char pad[0x20]; AICommandInterface command; };
 class Thing { public: void setOrientation(float); };
@@ -74,7 +78,7 @@ class Matrix3D;
 // The ordinary vector wrapper folds to the existing 5B cleanup at1F22A3.
 // Its storage destructor remains an out-of-line native provider at1F1609.
 namespace _STL { template<> _Vector_base<Object*,allocator<Object*> >::~_Vector_base(); }
-struct NuggetCreated : public _STL::vector<Object*> {};
+typedef _STL::vector<Object*> NuggetCreated;
 
 class GenericObjectCreationNugget
 {
@@ -124,7 +128,7 @@ void GenericObjectCreationNugget::create(const Object *primaryObj,
      StrafeAreaUpdate *strafe = (StrafeAreaUpdate *)object->findModule(key);
      if (strafe && strafe->rva003A4F21(primary, secondary)) continue;
     }
-    object->getAI()->command.aiMoveToPosition(secondary, CMD_FROM_PLAYER);
+    aiMoveToPosition(object->getAI()->command, secondary, CMD_FROM_PLAYER);
    }
   }
   if (secondary && m_faceSecondary) {

@@ -4,7 +4,6 @@ class AptSaveLoad { public: static AptSaveLoad *s_instance; };
 // Evidence: caller 0x002B9DC7, callees rowed/pinned, vtable slot 0x28, push 0x9CB260.
 void Rva00433D27Enable();
 void Rva00437E9C(int);
-void Rva002B29BDFire();
 
 class Rva00222A8BTarget
 {
@@ -88,6 +87,7 @@ class LivingWorldLogic
 public:
 	void ShowEndGameSplashScreen();
 	void rva002B88EC();
+	void rva002B29BD();	// 0x002B29BD (HideEndGame firer, Rva002B29BDFire.cpp)
 };
 
 class Rva002B8860
@@ -148,7 +148,7 @@ void LivingWorldLogic::rva002B88EC()
 	self->m_175 = 1;
 	Rva00437E9C(1);
 	self->m_164 = (void *)-1;
-	reinterpret_cast<void(__fastcall *)(LivingWorldLogic *)>(Rva002B29BDFire)(this);
+	rva002B29BD();
 	if (!self->m_168)
 		self->m_4c.forEach(reinterpret_cast<void (Rva002B6151Listener::*)(void *)>(&Rva005CB260::rva005CB260), this);
 	TheGameLogic->DoExitMap(false);

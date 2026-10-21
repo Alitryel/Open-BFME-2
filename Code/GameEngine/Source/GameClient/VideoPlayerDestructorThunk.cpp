@@ -32,7 +32,9 @@ VideoPlayerBase::~VideoPlayerBase()
 }
 
 // ??1VideoPlayer@@UAE@XZ
-inline VideoPlayer::~VideoPlayer()
+// noinline: retail's ??_GVideoPlayer (0x006894E0) calls this body out of line,
+// so the deleting destructor this unit emits must not fold it in.
+__declspec(noinline) inline VideoPlayer::~VideoPlayer()
 {
 	if (this == ((VideoPlayer *)TheVideoPlayer))
 		(*(VideoPlayer **)&TheVideoPlayer) = 0;

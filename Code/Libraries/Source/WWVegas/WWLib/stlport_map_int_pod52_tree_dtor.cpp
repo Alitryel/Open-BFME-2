@@ -33,4 +33,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 struct BfmePod52 { int a[13]; };
+// _M_create_node and insert_unique have retail copies in stlport_rb_tree_create_nodes.cpp;
+// map::insert reaches insert_unique out of line, so this unit only declares them.
+typedef _STL::_Rb_tree<int, _STL::pair<const int, BfmePod52>, _STL::_Select1st<_STL::pair<const int, BfmePod52> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, BfmePod52> > > BfmePod52Tree;
+template <> BfmePod52Tree::_Link_type BfmePod52Tree::_M_create_node(const BfmePod52Tree::value_type &);
+template <> _STL::pair<BfmePod52Tree::iterator, bool> BfmePod52Tree::insert_unique(const BfmePod52Tree::value_type &);
 template class _STL::map<int, BfmePod52, _STL::less<int>, _STL::allocator<_STL::pair<const int, BfmePod52> > >;
