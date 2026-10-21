@@ -1,8 +1,4 @@
-// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.998 date=2026-10-21
-// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.998 date=2026-10-21
-// Bank draft of the LM_SunRays customized-render setup at 0x0009CD9B (1984B).
+// LM_SunRays customized-render setup at 0x0009CD9B (1984B).
 // Decoded from the retail body: two Create_Render_Obj calls (the host's +0xD4
 // and "LM_SunRays" +0x188), the +0x18C/+0x190/+0x194 sub-object bindings via
 // rva0009C0EB, the mesh texture assignment, two sun-ray matrix builds with
@@ -183,9 +179,10 @@ void Rva0009C134Host::rva0009CD9B()
     if (m_c8) m_c4->ReleaseChild(m_c8);
     if (m_cc) {
         Vector3 color=*(const Vector3 *)(src+0x60);
-        float theta=*(float *)(src+0x58)*0.017453292f+1.5707964f;
+        float theta2=*(float *)(src+0x58)*0.017453292f+1.5707964f;
         float phi=*(float *)(src+0x5c)*0.017453292f;
-        float theta2=theta, phi2=phi;
+        float theta=*(float *)(src+0x58)*0.017453292f+1.5707964f;
+        float phi2=phi;
         Vector3 direction;
         direction.X=sin(theta)*cos(phi);
         direction.Y=sin(SNAP(theta2))*sin(SNAP(phi2));
@@ -202,9 +199,10 @@ void Rva0009C134Host::rva0009CD9B()
     }
     if (m_d0) {
         Vector3 color=*(const Vector3 *)(src+0x74);
-        float theta=*(float *)(src+0x6c)*0.017453292f+1.5707964f;
+        float theta2=*(float *)(src+0x6c)*0.017453292f+1.5707964f;
         float phi=*(float *)(src+0x70)*0.017453292f;
-        float theta2=theta, phi2=phi;
+        float theta=*(float *)(src+0x6c)*0.017453292f+1.5707964f;
+        float phi2=phi;
         Vector3 direction;
         direction.X=sin(theta)*cos(phi);
         direction.Y=sin(SNAP(theta2))*sin(SNAP(phi2));
