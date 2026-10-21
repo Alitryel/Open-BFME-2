@@ -1,27 +1,23 @@
 // _DeringBlockStrong_C
-// partial score=0.84 date=2026-10-21
-// _DeringBlockStrong_C
-// partial score=0.84 date=2026-10-20
-// _DeringBlockStrong_C
-// partial score=0.840 date=2026-10-20
+// partial score=0.98 date=2026-10-21
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean-room specs 001c1ad0 and 001c22c0, plus complete retail disassembly.
 // No external decoder source was consulted.
-// Weight locals declared left, up, down, right give retail's 128 - right - down
-// - up - left subtraction order; the row pointer p reads the source row.
-// Strength-reduction anchors follow how base and constant are spelled: the
-// destination - 1 store base and the vertical + 9 / vertical + 1 weight bases give
-// retail's dest+3 and vertical+8 cursors.
-// Not exact: 2046 versus 2030 bytes. Source family still +1 (retail +0), below +3
-// (+2), above +5 (+4); frame 0x174 (0x178); one extra dec edx for dst.
-// Evidence: reverse/attempt_support/dering-strong-bias-20261020.md.
-extern "C" int Vp6FilterEdgeTagTable[];
+// Output loop: a basic row-offset induction variable (off += pitch) with uniform
+// source/below/above/destination[off + k] spellings reproduces retail's cursor
+// families, invariants and the exact 2030-byte size; centre and right pixels
+// loaded before the weights give retail's pixel-0 schedule.
+// Not exact (19 instructions): in pixels 2 and 3 ours adds left * leftPixel
+// before right * rightPixel (retail: right first, left last, as in the other
+// pixels), and store 2 is [edi + ebx] where retail has [ebx + edi].
+// Evidence: reverse/attempt_support/dering-strong-offset-20261021.md.
+extern "C" int g_vp6SharpenModifier[64];
 
 extern "C" void __cdecl DeringBlockStrong_C(void *instance, const unsigned char *source,
 	unsigned char *destination, int pitch, int qIndex, const int *scaleTable)
 {
 	int quality = scaleTable[qIndex];
-	int sharpen = Vp6FilterEdgeTagTable[qIndex];
+	int sharpen = g_vp6SharpenModifier[qIndex];
 	const unsigned char *above = source - pitch;
 	const unsigned char *below = source + pitch;
 	int cap = 3 * quality;
@@ -63,132 +59,126 @@ extern "C" void __cdecl DeringBlockStrong_C(void *instance, const unsigned char 
 		hrow += pitch;
 	}
 
-	unsigned char *dst = destination - 1;
 	short *downWeights = vertical + 8 + 1;
 	short *upWeights = vertical + 1;
+	int off = 0;
 	for (r = 0; r < 8; r++) {
 		int temp[8];
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 0];
+			int rightPixel = source[off + 1];
 			int left = horizontal[r * 9 + 0];
-			int up = upWeights[r * 8 - 1];
-			int down = downWeights[r * 8 - 1];
+			int up = upWeights[r * 8 + -1];
+			int down = downWeights[r * 8 + -1];
 			int right = horizontal[r * 9 + 0 + 1];
-			int centerPixel = p[0];
-			int rightPixel = p[1];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch] + left * p[-1]
-				+ up * above[r * pitch] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 0] + left * source[off + -1]
+				+ up * above[off + 0] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[0] = 0;
 			else if (value > 255) temp[0] = 255;
 			else temp[0] = value;
 		}
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 1];
+			int rightPixel = source[off + 2];
 			int left = horizontal[r * 9 + 1];
-			int up = upWeights[r * 8];
-			int down = downWeights[r * 8];
+			int up = upWeights[r * 8 + 0];
+			int down = downWeights[r * 8 + 0];
 			int right = horizontal[r * 9 + 1 + 1];
-			int centerPixel = p[1];
-			int rightPixel = p[2];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch + 1] + left * p[0]
-				+ up * above[r * pitch + 1] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 1] + left * source[off + 0]
+				+ up * above[off + 1] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[1] = 0;
 			else if (value > 255) temp[1] = 255;
 			else temp[1] = value;
 		}
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 2];
+			int rightPixel = source[off + 3];
 			int left = horizontal[r * 9 + 2];
 			int up = upWeights[r * 8 + 1];
 			int down = downWeights[r * 8 + 1];
 			int right = horizontal[r * 9 + 2 + 1];
-			int centerPixel = p[2];
-			int rightPixel = p[3];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch + 2] + left * p[1]
-				+ up * above[r * pitch + 2] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 2] + left * source[off + 1]
+				+ up * above[off + 2] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[2] = 0;
 			else if (value > 255) temp[2] = 255;
 			else temp[2] = value;
 		}
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 3];
+			int rightPixel = source[off + 4];
 			int left = horizontal[r * 9 + 3];
 			int up = upWeights[r * 8 + 2];
 			int down = downWeights[r * 8 + 2];
 			int right = horizontal[r * 9 + 3 + 1];
-			int centerPixel = p[3];
-			int rightPixel = p[4];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch + 3] + left * p[2]
-				+ up * above[r * pitch + 3] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 3] + left * source[off + 2]
+				+ up * above[off + 3] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[3] = 0;
 			else if (value > 255) temp[3] = 255;
 			else temp[3] = value;
 		}
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 4];
+			int rightPixel = source[off + 5];
 			int left = horizontal[r * 9 + 4];
 			int up = upWeights[r * 8 + 3];
 			int down = downWeights[r * 8 + 3];
 			int right = horizontal[r * 9 + 4 + 1];
-			int centerPixel = p[4];
-			int rightPixel = p[5];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch + 4] + left * p[3]
-				+ up * above[r * pitch + 4] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 4] + left * source[off + 3]
+				+ up * above[off + 4] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[4] = 0;
 			else if (value > 255) temp[4] = 255;
 			else temp[4] = value;
 		}
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 5];
+			int rightPixel = source[off + 6];
 			int left = horizontal[r * 9 + 5];
 			int up = upWeights[r * 8 + 4];
 			int down = downWeights[r * 8 + 4];
 			int right = horizontal[r * 9 + 5 + 1];
-			int centerPixel = p[5];
-			int rightPixel = p[6];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch + 5] + left * p[4]
-				+ up * above[r * pitch + 5] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 5] + left * source[off + 4]
+				+ up * above[off + 5] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[5] = 0;
 			else if (value > 255) temp[5] = 255;
 			else temp[5] = value;
 		}
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 6];
+			int rightPixel = source[off + 7];
 			int left = horizontal[r * 9 + 6];
 			int up = upWeights[r * 8 + 5];
 			int down = downWeights[r * 8 + 5];
 			int right = horizontal[r * 9 + 6 + 1];
-			int centerPixel = p[6];
-			int rightPixel = p[7];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch + 6] + left * p[5]
-				+ up * above[r * pitch + 6] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 6] + left * source[off + 5]
+				+ up * above[off + 6] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[6] = 0;
 			else if (value > 255) temp[6] = 255;
 			else temp[6] = value;
 		}
 		{
-			const unsigned char *p = source + r * pitch;
+			int centerPixel = source[off + 7];
+			int rightPixel = source[off + 8];
 			int left = horizontal[r * 9 + 7];
 			int up = upWeights[r * 8 + 6];
 			int down = downWeights[r * 8 + 6];
 			int right = horizontal[r * 9 + 7 + 1];
-			int centerPixel = p[7];
-			int rightPixel = p[8];
 			int value = ((128 - right - down - up - left) * centerPixel
-				+ down * below[r * pitch + 7] + left * p[6]
-				+ up * above[r * pitch + 7] + right * rightPixel + 64) >> 7;
+				+ down * below[off + 7] + left * source[off + 6]
+				+ up * above[off + 7] + right * rightPixel + 64) >> 7;
 			if (value < 0) temp[7] = 0;
 			else if (value > 255) temp[7] = 255;
 			else temp[7] = value;
 		}
+
 		for (c = 0; c < 8; c++)
-			dst[r * pitch + c + 1] = (unsigned char)temp[c];
+			destination[off + c] = (unsigned char)temp[c];
+		off += pitch;
 	}
 }
