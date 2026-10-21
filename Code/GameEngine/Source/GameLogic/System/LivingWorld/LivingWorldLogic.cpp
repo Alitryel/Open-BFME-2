@@ -2754,9 +2754,9 @@ void LivingWorldLogic::UpdateTurnPhase(){
  do {
   int count=m_players.size();
   for(int i=0;i<count;++i){
-   TurnPhasePlayerView *p=(TurnPhasePlayerView *)((Rva002BA8F1Logic *)this)->rva002B52A8(i);
-   if(p->kind44==1 && !((Rva002B2405 *)p)->rva002B2405() && !p->flag3C4){
-    ((Rva004FBB25Sub *)((char *)p+0x4c))->rva004FBB25(m_turnPhase);break;
+   TurnPhasePlayerView *playerView=(TurnPhasePlayerView *)((Rva002BA8F1Logic *)this)->rva002B52A8(i);
+   if(playerView->kind44==1 && !((Rva002B2405 *)playerView)->rva002B2405() && !playerView->flag3C4){
+    ((Rva004FBB25Sub *)((char *)playerView+0x4c))->rva004FBB25(m_turnPhase);break;
    }
   }
   repeat=false;
@@ -2778,8 +2778,8 @@ void LivingWorldLogic::UpdateTurnPhase(){
     for(unsigned int i=0;i<m_field10C.size();++i){
      TurnPhaseRecordView *rec=(TurnPhaseRecordView *)m_field10C[i];
      int id=rec->id54;
-     TurnPhasePlayerView *p=(TurnPhasePlayerView *)((Rva002BA8F1Logic *)this)->find(id,0);
-     if(p->kind44==0 || !((Rva002B2405 *)p)->rva002B2405()){unfinished=true;break;}
+     TurnPhasePlayerView *playerView=(TurnPhasePlayerView *)((Rva002BA8F1Logic *)this)->find(id,0);
+     if(playerView->kind44==0 || !((Rva002B2405 *)playerView)->rva002B2405()){unfinished=true;break;}
     }
     if(!unfinished)advance=true;
     break;
@@ -2794,16 +2794,16 @@ void LivingWorldLogic::UpdateTurnPhase(){
  if(i<m_players.size()){
   LivingWorldPlayer **cursor=&m_players[0];
   do {
-   TurnPhasePlayerView *p=(TurnPhasePlayerView *)*cursor;
-   if(!p->flag3C4 && !((Rva002B2405 *)p)->rva002B2405())return;
+   TurnPhasePlayerView *playerView=(TurnPhasePlayerView *)*cursor;
+   if(!playerView->flag3C4 && !((Rva002B2405 *)playerView)->rva002B2405())return;
    ++i;++cursor;
   }while(i<m_players.size());
  }
  for(unsigned int i=0;i<m_players.size();++i){
-  TurnPhasePlayerView *p=(TurnPhasePlayerView *)m_players[i];
-  if(p && !p->flag3C4){
-   if(p->kind44==1)((LivingWorldAI *)((char *)p+0x4c))->rva004FB7B2();
-   p->word2C4=0;
+  TurnPhasePlayerView *playerView=(TurnPhasePlayerView *)m_players[i];
+  if(playerView && !playerView->flag3C4){
+   if(playerView->kind44==1)((LivingWorldAI *)((char *)playerView+0x4c))->rva004FB7B2();
+   playerView->word2C4=0;
   }
  }
  m_native10A=false;
@@ -3300,9 +3300,9 @@ private:
 };
 int Rva002B2B66::rva002B2B66()
 {
-	Rva002B2B66Inner *p = m_ptr;
-	if (p)
-		return p->m_val;
+	Rva002B2B66Inner *playerView = m_ptr;
+	if (playerView)
+		return playerView->m_val;
 	return -1;
 }
 struct Coord3D;
@@ -3550,8 +3550,8 @@ void LivingWorldLogic::CheckHeadToHeadBattles(){
  HeadToHeadRecords groups(keys.size());
  unsigned group=0;
  for(_STL::set<int>::iterator it=keys.begin();it!=keys.end();++it,++group){
-  for(unsigned p=0;p<m_players.size();++p){
-   HeadPlayerView *player=(HeadPlayerView*)m_players[p];
+  for(unsigned playerView=0;playerView<m_players.size();++playerView){
+   HeadPlayerView *player=(HeadPlayerView*)m_players[playerView];
    if(player->key!=*it || player->flag)continue;
    _STL::vector<LivingWorldArmy*> &armies=player->armies;
    for(unsigned a=0;a<armies.size();++a){
@@ -3716,8 +3716,8 @@ class DispatcherSpawn {
 };
 class Rva004E0625 {public:int rva004E0625()const;};
 static __declspec(noinline) bool rva002B2D5E(GameMessage*msg,void**out,int i){
- void *p=((Rva002BA8F1Logic*)TheLivingWorldLogic)->rva002B2579(msg->getArgument(i)->integer);
- if(!p)return false;*out=(void*)((Rva004E0625*)p)->rva004E0625();return *out!=0;
+ void *playerView=((Rva002BA8F1Logic*)TheLivingWorldLogic)->rva002B2579(msg->getArgument(i)->integer);
+ if(!playerView)return false;*out=(void*)((Rva004E0625*)playerView)->rva004E0625();return *out!=0;
 }
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -3805,7 +3805,7 @@ static __declspec(noinline) void HandleSwapArmiesInBattleMessage(GameMessage *ms
 
 __forceinline void CancelArmyMemberDisband(LivingWorldArmy*army,int id){ArmySummaryEntryRef entry=army->m_summary->GetEntry(id);if(entry.m_entry)entry.m_entry->m_disbanded=false;}
 // Native2B5256: count eligible human players in the actual +8C member vector.
-int Rva002BA8F1Logic::rva002B5256(bool flag){int count=0;for(unsigned i=0;i<players.size();++i){DispatcherPlayer*p=players[i];if(p->kind==0&&(!p->gone||flag))++count;}return count;}
+int Rva002BA8F1Logic::rva002B5256(bool flag){int count=0;for(unsigned i=0;i<players.size();++i){DispatcherPlayer*playerView=players[i];if(playerView->kind==0&&(!playerView->gone||flag))++count;}return count;}
 void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
  if(!ThePlayerList)return;
  Player *sender=ThePlayerList->getNthPlayer(((const int*)msg)[5]);
@@ -3834,27 +3834,27 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
   if(plot){ArmorTemplate*t=((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)msg->getArgument(2)->integer);if(t)((LivingWorldRegion*)region)->BuildBuilding((Rva003F1C56Plot*)plot,(const Rva003F1BD3TemplateView*)t);}
  }break;}
  case 1707:{Rva0020E89C*region;if(rva002B2CE7(msg,&region,0)){LivingWorldBuildPlot*plot=((LivingWorldRegion*)region)->rva003F088C(msg->getArgument(1)->integer);if(plot)((Rva003F1093*)region)->rva003F1CA2((CreateAHeroData*)plot,true);}break;}
- case 1708:{void*p;if(rva002B2D5E(msg,&p,0)){int key=msg->getArgument(1)->integer;if(key)((DispatcherSpawn*)p)->s14(key);}break;}
- case 1709:{void*p;if(rva002B2D5E(msg,&p,0)){int key=msg->getArgument(1)->integer;if(key)((DispatcherSpawn*)p)->s28(key);}break;}
- case 1710:{void*p;if(rva002B2D5E(msg,&p,0)){int key=msg->getArgument(1)->integer;((DispatcherSpawn*)p)->s24(key);}break;}
+ case 1708:{void*playerView;if(rva002B2D5E(msg,&playerView,0)){int key=msg->getArgument(1)->integer;if(key)((DispatcherSpawn*)playerView)->s14(key);}break;}
+ case 1709:{void*playerView;if(rva002B2D5E(msg,&playerView,0)){int key=msg->getArgument(1)->integer;if(key)((DispatcherSpawn*)playerView)->s28(key);}break;}
+ case 1710:{void*playerView;if(rva002B2D5E(msg,&playerView,0)){int key=msg->getArgument(1)->integer;((DispatcherSpawn*)playerView)->s24(key);}break;}
  case 1703:{
   LivingWorldBattle*battle=(LivingWorldBattle*)m_field0B0->rva0020E501(msg->getArgument(1)->integer);if(!battle)break;
   int choice=msg->getArgument(0)->integer;if(choice!=1&&choice!=2&&choice!=3)break;
   player->resolve=choice;int flags=0,active=0;
   for(int side=0;side<(int)(battle->m_sidesEnd-battle->m_sides);++side){
-   for(int p=0;p<((Rva003F468D*)battle)->rva003F4DAE(side);++p){
-    int choice=((LivingWorldPlayer*)((Rva003F468D*)battle)->rva003F468D(side,p))->GetConflictResolveType();
+   for(int playerView=0;playerView<((Rva003F468D*)battle)->rva003F4DAE(side);++playerView){
+    int choice=((LivingWorldPlayer*)((Rva003F468D*)battle)->rva003F468D(side,playerView))->GetConflictResolveType();
     if(choice==0)flags|=1;else if(choice==2)flags|=4;else if(choice==1){flags|=2;++active;}else if(choice==3){flags|=8;++active;}
    }
   }
   if(flags&1)break;
   if(flags&4){
-   for(unsigned p=0;p<m_players.size();++p)if(m_players[p]){
-    LivingWorldPlayer**base=(LivingWorldPlayer**)m_players.begin();_ReadWriteBarrier();if(((LivingWorldPlayer*)base[p])->GetConflictResolveType()==2){
-     battle->RetreatArmiesForPlayer(m_players[p]);
-     ((Rva002B6126List*)((char*)this+0x6c))->forEach(&Rva002B6126Listener::notify,this,(int)m_players[p],(int)battle);
+   for(unsigned playerView=0;playerView<m_players.size();++playerView)if(m_players[playerView]){
+    LivingWorldPlayer**base=(LivingWorldPlayer**)m_players.begin();_ReadWriteBarrier();if(((LivingWorldPlayer*)base[playerView])->GetConflictResolveType()==2){
+     battle->RetreatArmiesForPlayer(m_players[playerView]);
+     ((Rva002B6126List*)((char*)this+0x6c))->forEach(&Rva002B6126Listener::notify,this,(int)m_players[playerView],(int)battle);
     }
-    DispatcherPlayer*entry=(DispatcherPlayer*)m_players[p];if(!entry->kind)entry->resolve=0;
+    DispatcherPlayer*entry=(DispatcherPlayer*)m_players[playerView];if(!entry->kind)entry->resolve=0;
    }
    if(!battle->rva003F4538()){
     if(battle->rva003F459A()>0){battle->m_side=battle->rva003F45DF();OnBattleComplete(battle);}
@@ -3877,10 +3877,10 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
  }
  case 1717:{LivingWorldBattle*b=(LivingWorldBattle*)m_field0B0->rva0020E501(msg->getArgument(0)->integer);if(b)rva002BD90D(8,(int)b);break;}
  case 1702:{int turn=msg->getArgument(0)->integer;int phase=msg->getArgument(1)->integer;
-  if(turn==m_turn&&phase==m_turnPhase){int id=msg->getArgument(2)->integer;DispatcherPlayer*p=(DispatcherPlayer*)((Rva002BA8F1Logic*)this)->find(id,0);if(p)p->ready=1;}break;}
+  if(turn==m_turn&&phase==m_turnPhase){int id=msg->getArgument(2)->integer;DispatcherPlayer*playerView=(DispatcherPlayer*)((Rva002BA8F1Logic*)this)->find(id,0);if(playerView)playerView->ready=1;}break;}
  case 1720:{int id=msg->getArgument(0)->integer;*((bool*)this+0x175)=true;
   if(!((DispatcherGameLogic*)TheGameLogic)->field114&&((BfmeSelectionState*)this)->isSelectionLocked()&&((DispatcherPlayer*)m_localPlayer)->localFlag){rva002B88EC();break;}
-  for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*p=(DispatcherPlayer*)((Rva002BA8F1Logic*)this)->rva002B52A8(i);if(!p->gone&&(unsigned char)((Rva002E071E*)p)->rva002E0BC0(id))RemovePlayer((LivingWorldPlayer*)p);}
+  for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*playerView=(DispatcherPlayer*)((Rva002BA8F1Logic*)this)->rva002B52A8(i);if(!playerView->gone&&(unsigned char)((Rva002E071E*)playerView)->rva002E0BC0(id))RemovePlayer((LivingWorldPlayer*)playerView);}
   rva002B9DC7();if(!((BfmeSelectionState*)this)->isSelectionLocked())rva002B88EC();break;}
  case 1711:HandleSwapArmyMembersMessage(msg);break;
  case 1712:{LivingWorldArmy*army;if(getArmyFromMessage(&army,msg,0))CancelArmyMemberMove(army,msg->getArgument(1)->integer);break;}
@@ -3888,7 +3888,7 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
  case 1714:{LivingWorldArmy*army;if(getArmyFromMessage(&army,msg,0))DisbandArmy(army);break;}
  case 1715:{LivingWorldArmy*army;if(getArmyFromMessage(&army,msg,0))CancelArmyMemberDisband(army,msg->getArgument(1)->integer);break;}
  case 1716:HandleSwapArmiesInBattleMessage(msg);break;
- case 1719:{Rva0020E89C*r;if(rva002B2CE7(msg,&r,0)){int key=msg->getArgument(1)->integer;DispatcherPlayer*p=(DispatcherPlayer*)((Rva002BA8F1Logic*)TheLivingWorldLogic)->find(key,0);if(p)((Rva002BAF01*)this)->rva002BAF01((Rva002BAF01Region*)r,(CreateAHeroData*)p);}break;}
+ case 1719:{Rva0020E89C*r;if(rva002B2CE7(msg,&r,0)){int key=msg->getArgument(1)->integer;DispatcherPlayer*playerView=(DispatcherPlayer*)((Rva002BA8F1Logic*)TheLivingWorldLogic)->find(key,0);if(playerView)((Rva002BAF01*)this)->rva002BAF01((Rva002BAF01Region*)r,(CreateAHeroData*)playerView);}break;}
  case 1721:{
   player->exitVote=msg->getArgument(0)->integer;
   if(player==(DispatcherPlayer*)m_localPlayer&&((DispatcherPlayer*)m_localPlayer)->exitVote==1)dispatchShow(4,UnicodeString(),TheGameText->fetch("APT:MultiplayerExitWaiting"));
@@ -3909,14 +3909,14 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
  }
  case 1722:
   player->loadVote=msg->getArgument(0)->integer;
-  for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*p=(DispatcherPlayer*)m_players[i];if(p&&!p->kind&&!p->gone&&p->loadVote!=1)return;}
+  for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*playerView=(DispatcherPlayer*)m_players[i];if(playerView&&!playerView->kind&&!playerView->gone&&playerView->loadVote!=1)return;}
   for(unsigned i=0;i<m_players.size();++i)if(m_players[i])((DispatcherPlayer*)m_players[i])->loadVote=0;
   ((DispatcherClient*)((Rva002D3627Host *)TheLivingWorld))->s94();*((bool*)this+0x176)=false;
-  {Rva002B3740Item*p=((Rva002BA8F1Logic*)this)->rva002B2B2D();if(p)((Rva0021237E*)TheLivingWorldManager)->rva0021246D((Rva0021246DInput*)p);}
+  {Rva002B3740Item*playerView=((Rva002BA8F1Logic*)this)->rva002B2B2D();if(playerView)((Rva0021237E*)TheLivingWorldManager)->rva0021246D((Rva0021246DInput*)playerView);}
   *((bool*)this+0xb5)=false;((Rva0023D26F*)TheGameLogic)->rva0023D26F(true);break;
  case 1723:
   player->startVote=msg->getArgument(0)->integer;
-  for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*p=(DispatcherPlayer*)m_players[i];if(p&&!p->kind&&!p->gone&&p->startVote!=1)return;}
+  for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*playerView=(DispatcherPlayer*)m_players[i];if(playerView&&!playerView->kind&&!playerView->gone&&playerView->startVote!=1)return;}
   for(unsigned i=0;i<m_players.size();++i)if(m_players[i])((DispatcherPlayer*)m_players[i])->startVote=0;
   ((DispatcherClient*)((Rva002D3627Host *)TheLivingWorld))->s98();*((bool*)this+0x177)=false;
   TheLivingWorldManager->rva0021100E();*((bool*)this+0xb5)=true; m_fieldB6=false;
