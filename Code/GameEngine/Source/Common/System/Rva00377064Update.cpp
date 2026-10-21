@@ -48,7 +48,7 @@ class GlobalData
 {
 public:
 	char m_pad00[0x0c];
-	AsciiString m_0c; // +0x0c
+	AsciiString m_mapName; // +0x0c
 	char m_padAfter0c[0x0ac0 - 0x0c - sizeof(AsciiString)];
 	AsciiString m_ac0; // +0xac0
 };
@@ -70,7 +70,7 @@ void Rva00377064::rva00377064(int a, int b, int c)
 	TheGameLogic->m_a4 = b;
 	TheGameLogic->m_110 = a;
 	if (!TheWritableGlobalData->m_ac0.isEmpty()) {
-		((StringBase<char> *)&TheWritableGlobalData->m_0c)->set(*(const StringBase<char> *)&TheWritableGlobalData->m_ac0);
+		((StringBase<char> *)&TheWritableGlobalData->m_mapName)->set(*(const StringBase<char> *)&TheWritableGlobalData->m_ac0);
 		TheWritableGlobalData->m_ac0.clear();
 	}
 	m_94 = c;

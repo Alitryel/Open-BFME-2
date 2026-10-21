@@ -172,13 +172,13 @@ public:
 	unsigned int m_flags;	// +0x18
 	SpecialPowerType m_type;	// +0x1C
 	char m_pad20[0x54 - 0x20];
-	float m_54;		// +0x54
+	float m_radiusCursorRadius;		// +0x54
 	char m_pad58[0x60 - 0x58];
 	char m_60[4];		// +0x60
 	char m_pad64[0x74 - 0x64];
-	float m_74;		// +0x74
+	float m_maxCastRange;		// +0x74
 	char m_78[4];		// +0x78
-	float m_7C;		// +0x7C
+	float m_forbiddenObjectRange;		// +0x7C
 };
 
 class DrawableList;
@@ -224,7 +224,7 @@ bool ActionManager::validateLocationForForbiddenObjects(const Object *obj, const
 		return true;
 	Player *player = obj->getControllingPlayer();
 	float range;
-	Object *found = ThePartitionManager->getClosestObject(pos, (range = sp->getFinalOverride()->m_7C), 1,
+	Object *found = ThePartitionManager->getClosestObject(pos, (range = sp->getFinalOverride()->m_forbiddenObjectRange), 1,
 		Rva0026119DFilter().link(&Rva002614ECFilter(sp->getFinalOverride()->m_78, player, true)));
 	return found == 0;
 }
@@ -238,7 +238,7 @@ bool ActionManager::validateLocationForForbiddenObjects(const Object *obj, const
 bool ActionManager::validLocationForCastingOnObjectFilter(const Object *obj, const Coord3D *pos, const SpecialPowerTemplate *sp)
 {
 	if (sp->getFinalOverride()->flag2()) {
-		float range = sp->getFinalOverride()->m_54;
+		float range = sp->getFinalOverride()->m_radiusCursorRadius;
 		{
 			Player *player = obj->getControllingPlayer();
 			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(pos, range, 0,
@@ -1512,7 +1512,7 @@ bool ActionManager::rva0041CA9E(const Coord3D *pos, const Coord3D *center, const
 	d.x -= center->x;
 	d.y -= center->y;
 	d.z -= center->z;
-	if (d.x * d.x + d.y * d.y + d.z * d.z < sp->m_74 * sp->m_74)
+	if (d.x * d.x + d.y * d.y + d.z * d.z < sp->m_maxCastRange * sp->m_maxCastRange)
 		return true;
 	return false;
 }
@@ -1524,7 +1524,7 @@ bool ActionManager::rva0041CA9E(const Coord3D *pos, const Coord3D *center, const
 bool ActionManager::rva0041CB10(const Coord3D *pos, const SpecialPowerTemplate *sp)
 {
 	if (!sp->getFinalOverride()->flag1()) {
-		int radius = (int)sp->getFinalOverride()->m_54;
+		int radius = (int)sp->getFinalOverride()->m_radiusCursorRadius;
 		if (radius > 0) {
 			Coord3D center;
 			center.x = pos->x;
@@ -1581,7 +1581,7 @@ bool ActionManager::rva0041CC65(const SpecialPowerTemplate *sp, const Coord3D *p
 {
 	Region3D extent;
 	TheTerrainLogic->getExtent(&extent);
-	float margin = sp->getFinalOverride()->m_54;
+	float margin = sp->getFinalOverride()->m_radiusCursorRadius;
 	extent.hi.x -= margin;
 	extent.hi.y -= margin;
 	extent.lo.x += margin;

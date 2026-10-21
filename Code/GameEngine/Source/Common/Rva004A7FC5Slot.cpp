@@ -35,7 +35,7 @@ class GlobalData
 {
 public:
 	unsigned char m_pad00[0xA5C];
-	int m_A5C;
+	int m_valuePerSupplyBox;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -72,7 +72,7 @@ void Rva004A7D55::rva004A7FC5()
 
 void Rva004A7D55::rva004A7F78(int val)
 {
-	m_88 = (int)ceil((double)val / TheWritableGlobalData->m_A5C);
+	m_88 = (int)ceil((double)val / TheWritableGlobalData->m_valuePerSupplyBox);
 	Drawable *drawable = m_08->getDrawable();
 	if (drawable == 0)
 		return;

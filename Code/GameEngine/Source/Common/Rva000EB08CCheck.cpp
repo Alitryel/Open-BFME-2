@@ -15,7 +15,7 @@ class GlobalData
 {
 public:
 	char m_pad00[0x40];
-	unsigned char m_40;
+	unsigned char m_allowTreeFading;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -76,7 +76,7 @@ private:
 
 void Rva000EB08C::rva000EB08C(int index, bool flag)
 {
-	if (TheWritableGlobalData->m_40 == 0)
+	if (TheWritableGlobalData->m_allowTreeFading == 0)
 		return;
 	if (index >= m_count)
 		return;

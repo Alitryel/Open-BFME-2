@@ -187,7 +187,7 @@ public:
 struct ThingTemplate
 {
     char m_pad000[0x51C];
-    float m_51C;
+    float m_threatLevel;
 };
 
 class Thing
@@ -222,7 +222,7 @@ Rva002C5EF0::Rva002C5EF0(const Coord3DBase &position, float radius, Player *play
     while ((obj = hits.next()) != 0) {
         if (reinterpret_cast<Thing *>(obj)->isAnyKindOf(mask)) {
             const ThingTemplate *thingTemplate = reinterpret_cast<Thing *>(obj)->m_template;
-            m_18 += thingTemplate->m_51C;
+            m_18 += thingTemplate->m_threatLevel;
         }
     }
 }

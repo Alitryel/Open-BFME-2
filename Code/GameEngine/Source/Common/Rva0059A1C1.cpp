@@ -12,7 +12,7 @@ public:
 	unsigned char m_pad109[0x0A];
 	unsigned char m_kind1;
 	unsigned char m_pad113[0x51C - 0x114];
-	float m_51C;
+	float m_threatLevel;
 };
 
 class Object
@@ -82,7 +82,7 @@ int AITeamBuilder::doesTeamMeetThreat(Team *team)
 		Object *cur = iter.cur();
 		ThingTemplate *thingTemplate = cur->m_template;
 		if ((thingTemplate->m_kind0 & 8) != 0 || (thingTemplate->m_kind1 & 4) != 0)
-			sum += thingTemplate->m_51C;
+			sum += thingTemplate->m_threatLevel;
 	}
 	return sum >= vmax;
 }

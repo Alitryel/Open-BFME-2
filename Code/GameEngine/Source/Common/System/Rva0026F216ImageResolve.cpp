@@ -20,23 +20,23 @@ public:
 	void cacheButtonImage();
 private:
 	char m_pad00[0x6c];
-	AsciiString m_6c;
+	AsciiString m_buttonImage;
 	const Image *m_70;
 	char m_pad74[0x18];
-	AsciiString m_8c;
+	AsciiString m_strategicIcon;
 	const Image *m_90;
 };
 
 void UpgradeTemplate::cacheButtonImage()
 {
-	if (!m_6c.isEmpty())
+	if (!m_buttonImage.isEmpty())
 	{
-		m_70 = TheMappedImageCollection->findImageByName(m_6c);
-		m_6c.clear();
+		m_70 = TheMappedImageCollection->findImageByName(m_buttonImage);
+		m_buttonImage.clear();
 	}
-	if (!m_8c.isEmpty())
+	if (!m_strategicIcon.isEmpty())
 	{
-		m_90 = TheMappedImageCollection->findImageByName(m_8c);
-		m_8c.clear();
+		m_90 = TheMappedImageCollection->findImageByName(m_strategicIcon);
+		m_strategicIcon.clear();
 	}
 }

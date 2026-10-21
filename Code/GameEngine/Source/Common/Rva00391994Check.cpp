@@ -21,7 +21,7 @@ class CommandButton
 {
 public:
 	int m_pad[5];
-	int m_14;
+	int m_command;
 };
 
 class CommandSet
@@ -44,7 +44,7 @@ bool Rva00391994::rva00391994(void)
 		if (cmdSet) {
 			for (int i = 0; i < 0x20; ++i) {
 				const CommandButton *btn = cmdSet->getCommandButton(i);
-				if (btn && btn->m_14 == 0x16)
+				if (btn && btn->m_command == 0x16)
 					return true;
 			}
 		}

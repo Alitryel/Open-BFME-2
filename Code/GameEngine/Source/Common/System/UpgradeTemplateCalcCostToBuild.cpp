@@ -99,7 +99,7 @@ private:
 	char m_pad28[0x34 - 0x28];
 	int m_cost; // +0x34
 	char m_pad38[0x79 - 0x38];
-	bool m_79; // +0x79
+	bool m_noUpgradeDiscount; // +0x79
 	char m_pad7A[0x7C - 0x7A];
 	AsciiString m_buildTemplateName; // +0x7C
 };
@@ -131,7 +131,7 @@ unsigned int UpgradeTemplate::calcCostToBuild(Player *player, unsigned int reque
 	}
 
 	float multiplier = 1.0f;
-	if (m_type == 1 && !m_79)
+	if (m_type == 1 && !m_noUpgradeDiscount)
 		multiplier = player->getProductionCostChangeBasedOnUpgradeDiscount(m_name) + 1.0f;
 	int scaled = (int)((float)cost * multiplier);
 

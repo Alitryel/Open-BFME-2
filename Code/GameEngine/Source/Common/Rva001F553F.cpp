@@ -8,7 +8,7 @@ class GlobalData
 {
 public:
 	char m_pad[0x9EC];
-	volatile float m_09EC;
+	volatile float m_particleScale;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -117,7 +117,7 @@ Coord3D *Rva001F553F::rva001F553F(Coord3D *out, unsigned int a, unsigned int b)
 	Rva003AFB2A *p = m_1C0;
 	if (p != 0)
 	{
-		p->rva003AFB2A(out, m_17C, (TheWritableGlobalData->m_09EC + 1.0f) * 0.5f, a, b);
+		p->rva003AFB2A(out, m_17C, (TheWritableGlobalData->m_particleScale + 1.0f) * 0.5f, a, b);
 		return out;
 	}
 	else

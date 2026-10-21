@@ -26,13 +26,13 @@ public:
 private:
 	AsciiString m_10;
 	char m_pad14[0x13C];
-	bool m_150;
+	bool m_scalesWalls;
 	char m_pad151[0x03];
 };
 
 LocomotorTemplate LocomotorTemplate::rva001E67BF()
 {
 	LocomotorTemplate tmp(*this);
-	tmp.m_150 = false;
+	tmp.m_scalesWalls = false;
 	return tmp;
 }

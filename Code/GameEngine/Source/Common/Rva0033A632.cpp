@@ -23,7 +23,7 @@ public:
 
 private:
 	char m_pad[0x5F2];
-	signed char m_5F2;
+	signed char m_buildable;
 };
 
 BuildableStatus ThingTemplate::getBuildable() const
@@ -31,5 +31,5 @@ BuildableStatus ThingTemplate::getBuildable() const
 	int out;
 	if (TheGameLogic && TheGameLogic->rva00245EDF(const_cast<ThingTemplate *>(this), &out))
 		return (BuildableStatus)out;
-	return (BuildableStatus)m_5F2;
+	return (BuildableStatus)m_buildable;
 }

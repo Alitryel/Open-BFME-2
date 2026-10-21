@@ -27,7 +27,7 @@ class GlobalData
 {
 public:
 	char m_pad[0xe84];
-	int m_e84;
+	int m_initialMaxRingLevel;
 };
 extern GlobalData *TheWritableGlobalData;
 class Rva002B2AFD
@@ -38,7 +38,7 @@ public:
 int Rva002B2AFD::rva002B2AFD()
 {
 	if (((BfmeSelectionState *)this)->isSelectionLocked() || ((Rva002034E9Host *)TheGameLogic)->rva002034E9())
-		return TheWritableGlobalData->m_e84;
+		return TheWritableGlobalData->m_initialMaxRingLevel;
 	return TheGameLogic->m_118;
 }
 

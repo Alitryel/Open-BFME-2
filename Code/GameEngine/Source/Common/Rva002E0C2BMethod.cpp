@@ -5,7 +5,7 @@ class GlobalData
 {
 public:
 	char m_pad[0xE98];
-	float m_E98;
+	float m_resourceMultiplierLimit;
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -24,7 +24,7 @@ private:
 
 int Rva002E0C2B::rva002E0C2B()
 {
-	float f = TheWritableGlobalData->m_E98 * g_00BCF9B0;
+	float f = TheWritableGlobalData->m_resourceMultiplierLimit * g_00BCF9B0;
 	int a = m_25C;
 	int b = -100 - (int)f;
 	return *(a < b ? &a : &b);

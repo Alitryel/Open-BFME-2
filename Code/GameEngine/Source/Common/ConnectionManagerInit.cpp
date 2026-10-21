@@ -25,7 +25,7 @@ class GlobalData
 {
 public:
 	char m_padC20[0xC20];
-	unsigned int m_C20;
+	unsigned int m_networkDisconnectTime;
 };
 
 extern class GlobalData *TheWritableGlobalData;
@@ -91,7 +91,7 @@ void BFMEConnectionManager::init(void)
 
 // ?rva004CEF58@BFMEConnectionManager@@QAEEH@Z, retail 0x004CEF58 106B.
 // Unlock: timeout check via m_localSlot 0x12028 plus +4 conn array
-// plus +0x34C timeGetTime plus m_40 vs g_007ED97C plus m_C20 shift.
+// plus +0x34C timeGetTime plus m_40 vs g_007ED97C plus m_networkDisconnectTime shift.
 // Callers 0x4D3BA2 0x4D42E3 0x4D4758, prev 0x4CEF44 next 0x4CF032.
 
 unsigned char BFMEConnectionManager::rva004CEF58(int slot)
@@ -110,16 +110,16 @@ unsigned char BFMEConnectionManager::rva004CEF58(int slot)
 	unsigned int m40 = TheGameLogic->m_40;
 	unsigned int timeout;
 	if (m40 < g_007ED97C)
-		timeout = TheWritableGlobalData->m_C20 << 2;
+		timeout = TheWritableGlobalData->m_networkDisconnectTime << 2;
 	else
-		timeout = TheWritableGlobalData->m_C20;
+		timeout = TheWritableGlobalData->m_networkDisconnectTime;
 	unsigned long elapsed = now - conn->m_34C;
 	return (unsigned char)(timeout >= elapsed);
 }
 
 // ?rva004CEFC2@BFMEConnectionManager@@QAEEHI@Z, retail 0x004CEFC2 112B.
 // Sibling of 0x4CEF58: same m_localSlot plus conn plus +0x34C time,
-// m40 vs g_007ED97C selects param timeout vs m_C20 shift.
+// m40 vs g_007ED97C selects param timeout vs m_networkDisconnectTime shift.
 // Caller 0x4D4748, prev 0x4CEF58 next 0x4CF032.
 
 unsigned char BFMEConnectionManager::rva004CEFC2(int slot, unsigned int timeoutParam)
@@ -140,7 +140,7 @@ unsigned char BFMEConnectionManager::rva004CEFC2(int slot, unsigned int timeoutP
 	if (m40 >= g_007ED97C)
 		timeout = timeoutParam;
 	else
-		timeout = TheWritableGlobalData->m_C20 << 2;
+		timeout = TheWritableGlobalData->m_networkDisconnectTime << 2;
 	unsigned long elapsed = now - conn->m_34C;
 	return (unsigned char)(timeout >= elapsed);
 }

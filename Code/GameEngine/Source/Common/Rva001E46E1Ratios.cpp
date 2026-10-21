@@ -304,7 +304,7 @@ class GlobalData
 {
 public:
 	char m_pad[0xB3C];
-	int m_b3c;
+	int m_movementPenaltyDamageState;
 };
 class TerrainLogic
 {
@@ -386,7 +386,7 @@ float Locomotor::getMaxSpeed(Object *obj) const
 {
 	int cmpVal = obj->m_254->s08();
 	float scale = obj->m_258->m_1F8;
-	int gv = TheWritableGlobalData->m_b3c;
+	int gv = TheWritableGlobalData->m_movementPenaltyDamageState;
 	float f;
 	if (cmpVal >= gv && m_data->m_109 == 0)
 		f = m_data->m_24 * g_secondsPerLogicFrame * scale;
@@ -425,7 +425,7 @@ float Rva001E46E1::rva001E3F4D(Object *obj,int condition)
 {
     float scale=obj->m_258->m_1F8;
     float result;
-    if (condition < TheWritableGlobalData->m_b3c)
+    if (condition < TheWritableGlobalData->m_movementPenaltyDamageState)
         result=(g_secondsPerLogicFrame*g_secondsPerLogicFrame)*m_data->m_48;
     else
         result=(g_secondsPerLogicFrame*g_secondsPerLogicFrame)*m_data->m_4C;
