@@ -139,7 +139,7 @@ protected:
 	Transport *m_transport;
 };
 
-void LANAPI::RequestGameStartTimer(UnsignedInt arg)
+void LANAPI::RequestGameStartTimer(UnsignedInt seconds)
 {
 	if (m_flag41 != 0)
 		return;
@@ -149,12 +149,12 @@ void LANAPI::RequestGameStartTimer(UnsignedInt arg)
 	if (key->rva00248CDD(*slot64()))
 		return;
 	m_time20 = timeGetTime() + 1000;
-	m_val24 = arg ? arg - 1 : 0;
+	m_val24 = seconds ? seconds - 1 : 0;
 	LANMessage msg;
 	msg.m_type = 15;
-	msg.m_arg = arg;
+	msg.m_arg = seconds;
 	slot57(&msg);
 	Rva004495A2(&msg, 0);
 	m_transport->update(0);
-	slot44(arg);
+	slot44(seconds);
 }
