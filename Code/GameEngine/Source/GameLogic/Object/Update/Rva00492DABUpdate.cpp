@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
-// ?rva00492DAB@Rva00492C59@@UAEXXZ at retail 0x00492DAB (101B). Slot 22 (offset
+// ?startUnpacking@Rva00492C59@@UAEXXZ at retail 0x00492DAB (101B). Slot 22 (offset
 // 0x58) override of SpecialAbilityUpdate slot 22 (0x004508B7, pinned) for the
 // class of Rva00492C59 ctor (vtable 0x0084E1A8). Evidence: calls rowed
 // WeaponStore::findWeaponTemplate 0x002CB8BF plus rowed
@@ -63,10 +63,10 @@ public:
 class Rva00492C59 : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva00492DAB();
+	virtual void startUnpacking();
 };
 
-void Rva00492C59::rva00492DAB()
+void Rva00492C59::startUnpacking()
 {
 	Object *object = m_object;
 	const Rva00492C59ModuleData *data = (const Rva00492C59ModuleData *)m_moduleData;

@@ -7,7 +7,8 @@
 // "WeaponSetSpecialAbilityUpdate"). The SpecialAbilityUpdate vtable
 // 0x00C3FBA8 holds the ICF-shared +0x2C clearer 0x004C12CB in slot 18; each
 // override clears +0x2C itself and then drops the weapon set flag its slot 22
-// raised. Address names.
+// raised. Slot 18 keeps address names (its base slot is a folded clearer);
+// the slot-17 override below is triggerAbilityEffect (calls the base first).
 // Retail 0x0049226C (15 bytes): Rva00492179 clears flag 0x1B.
 // Retail 0x0049251D (38 bytes): Rva00492402 clears flag 0x12 or 0x13 for
 // module data +0xCC == 1 or 2.
@@ -94,11 +95,11 @@ public:
 class Rva00492402 : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva004924BA();
+	virtual void triggerAbilityEffect();
 	virtual void rva0049251D();
 };
-// ?rva004924BA@Rva00492402@@UAEXXZ @0x004924BA
-void Rva00492402::rva004924BA()
+// ?triggerAbilityEffect@Rva00492402@@UAEXXZ @0x004924BA
+void Rva00492402::triggerAbilityEffect()
 {
 	SpecialAbilityUpdate::triggerAbilityEffect();
 	const Rva00492402ModuleData *data = (const Rva00492402ModuleData *)m_moduleData;

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /GX /arch:SSE /DNDEBUG /Oy-
-// ?rva00492329@Rva00492179@@UAEXXZ, retail 0x00492329 (185 B): the slot-17
+// ?triggerAbilityEffect@Rva00492179@@UAEXXZ, retail 0x00492329 (185 B): the slot-17
 // (offset 0x44) override of SpecialAbilityUpdate (triggerAbilityEffect,
 // pinned 0x0045108D) for the Rva00492179 class (ctor 0x00492179, vtable
 // 0x0084DEF8). Target evidence: base slot call first, then the module
@@ -76,10 +76,10 @@ protected:
 class Rva00492179 : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva00492329();
+	virtual void triggerAbilityEffect();
 };
 
-void Rva00492179::rva00492329()
+void Rva00492179::triggerAbilityEffect()
 {
 	SpecialAbilityUpdate::triggerAbilityEffect();
 	const Rva00492179ModuleData *data = m_moduleData;

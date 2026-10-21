@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
-// ?rva00492D11@Rva00492C59@@UAEXXZ at retail 0x00492D11 (154B). Slot 17 (offset
+// ?triggerAbilityEffect@Rva00492C59@@UAEXXZ at retail 0x00492D11 (154B). Slot 17 (offset
 // 0x44) override of SpecialAbilityUpdate for the class of Rva00492C59 ctor
 // (vtable 0x0084E1A8). Evidence: calls pinned Object::GetRelativeAngle 0x000B4542
 // plus pinned Object::rva0029660C 0x0029660C plus rowed Thing::setOrientation
@@ -62,10 +62,10 @@ protected:
 class Rva00492C59 : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva00492D11();
+	virtual void triggerAbilityEffect();
 };
 
-void Rva00492C59::rva00492D11()
+void Rva00492C59::triggerAbilityEffect()
 {
 	Object *object = m_object;
 	const Rva00492C59ModuleData *data = m_moduleData;

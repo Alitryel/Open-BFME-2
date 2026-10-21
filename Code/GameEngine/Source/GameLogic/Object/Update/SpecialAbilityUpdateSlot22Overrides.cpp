@@ -6,7 +6,9 @@
 // hold these bodies in slot 22, where the SpecialAbilityUpdate vtable 0x00C3FBA8
 // holds 0x004508B7 (also inherited by ArrowStormUpdate), the base slot each
 // override calls first (rowed as SpecialAbilityUpdate::startUnpacking).
-// Slot names are not established, hence address names.
+// Each override calls the base startUnpacking first and fills slot 22, the
+// startUnpacking slot across the sibling SpecialAbilityUpdate tables; the
+// classes keep address names.
 // Retail 0x00492231 (59 bytes): Rva00492179 sets weapon set flag 0x1B when the
 // matched Object::rva0029091E gate passes, then stores frame + data +0xCC at
 // +0x2C. Retail 0x004924D9 (68 bytes): Rva00492402 sets weapon set flag 0x12 or
@@ -81,9 +83,9 @@ public:
 class Rva00492179 : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva00492231();
+	virtual void startUnpacking();
 };
-void Rva00492179::rva00492231()
+void Rva00492179::startUnpacking()
 {
 	SpecialAbilityUpdate::startUnpacking();
 	Object *object = m_object;
@@ -104,9 +106,9 @@ public:
 class Rva00492402 : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva004924D9();
+	virtual void startUnpacking();
 };
-void Rva00492402::rva004924D9()
+void Rva00492402::startUnpacking()
 {
 	SpecialAbilityUpdate::startUnpacking();
 	const Rva00492402ModuleData *data = (const Rva00492402ModuleData *)m_moduleData;
