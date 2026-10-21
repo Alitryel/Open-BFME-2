@@ -14,7 +14,7 @@ public:
 class Rva0055EF6E
 {
 public:
-	void rva0055EF6E(Xfer *xfer);
+	void xfer(Xfer *xfer);
 };
 
 class Rva0055EFC5
@@ -29,5 +29,5 @@ private:
 void Rva0055EFC5::rva0055EFC5(Xfer *xfer)
 {
 	xfer->Version1();
-	m_0c.rva0055EF6E(xfer);
+	m_0c.xfer(xfer);
 }

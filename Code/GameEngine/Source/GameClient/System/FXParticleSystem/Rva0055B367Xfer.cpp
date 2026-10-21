@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva0055B367@Rva0055B367@@QAEXPAVXfer@@@Z @0x0055B367 53B
+// ?xfer@Rva0055B367@@QAEXPAVXfer@@@Z @0x0055B367 53B
 // Unlock FX xfer loop 8x via Version1 plus Xfer slots 0x70/0x78.
 // Evidence: thiscall 1 Xfer arg ret 4; push 8 pop ebx countdown plus add edi 8;
 // lea [edi-4] push plus push edi for Region2D/RealRange; Version1 row 0x53EE;
@@ -80,13 +80,13 @@ struct Rva0055B367Pair
 class Rva0055B367
 {
 public:
-	void rva0055B367(Xfer *xfer);
+	void xfer(Xfer *xfer);
 private:
 	char m_pad[4];
 	Rva0055B367Pair m_pairs[8];
 };
 
-void Rva0055B367::rva0055B367(Xfer *xfer)
+void Rva0055B367::xfer(Xfer *xfer)
 {
 	xfer->Version1();
 	unsigned int *pu = (unsigned int *)((char *)this + 8);

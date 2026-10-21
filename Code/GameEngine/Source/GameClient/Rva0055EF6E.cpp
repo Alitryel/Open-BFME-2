@@ -1,6 +1,6 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva0055EF6E@Rva0055EF6E@@QAEXPAVXfer@@@Z 87B @0x0055EF6E: version-gated
+// ?xfer@Rva0055EF6E@@QAEXPAVXfer@@@Z 87B @0x0055EF6E: version-gated
 // Xfer helper for the sub-object at +0x0C (float at +4 via slot 0x70,
 // bool at +8 via slot 0x90 if version >= 2, bool at +9 via slot 0x90
 // if version >= 3). Called by the parent xfer at 0x0055EFC5 after
@@ -91,7 +91,7 @@ public:
 class Rva0055EF6E
 {
 public:
-	void rva0055EF6E(Xfer *xfer);
+	void xfer(Xfer *xfer);
 private:
 	unsigned char m_pad00[4];
 	float m_04;
@@ -99,7 +99,7 @@ private:
 	bool m_09;
 };
 
-void Rva0055EF6E::rva0055EF6E(Xfer *xfer)
+void Rva0055EF6E::xfer(Xfer *xfer)
 {
 	Xfer::Version version(1, 2);
 	*xfer == version;

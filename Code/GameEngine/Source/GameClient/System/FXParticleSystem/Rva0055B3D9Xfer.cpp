@@ -80,7 +80,7 @@ struct Rva0055B367Pair
 class Rva0055B367
 {
 public:
-	void rva0055B367(Xfer *xfer);
+	void xfer(Xfer *xfer);
 private:
 	char m_pad[4];
 	Rva0055B367Pair m_pairs[8];
@@ -101,7 +101,7 @@ private:
 void Rva0055B3D9::xfer(Xfer *xfer)
 {
 	xfer->Version1();
-	m_0C.rva0055B367(xfer);
+	m_0C.xfer(xfer);
 	*xfer == m_50;
 	*xfer == m_54;
 	*xfer == m_58;

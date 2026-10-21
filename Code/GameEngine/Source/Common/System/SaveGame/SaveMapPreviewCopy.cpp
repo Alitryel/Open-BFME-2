@@ -48,4 +48,4 @@ template SaveMapPreview *_STL::vector<SaveMapPreview>::_M_allocate_and_copy<Save
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?loadPostProcess@SaveMapPreview@@UAEXXZ=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?typeName@SaveMapPreview@@UBEPBDXZ=?name@Rva00226309Named@@QBEPBDXZ")
-#pragma comment(linker, "/alternatename:?xfer@SaveMapPreview@@UAEXPAVXfer@@@Z=?rva002DBA3F@Rva002DBA3F@@QAEXPAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?xfer@SaveMapPreview@@UAEXPAVXfer@@@Z=?xfer@Rva002DBA3F@@QAEXPAVXfer@@@Z")

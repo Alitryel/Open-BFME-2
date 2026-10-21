@@ -191,7 +191,7 @@ public:
 };
 struct Rva002DBA3F
 {
-	void rva002DBA3F(Xfer *xfer);	// SaveMapPreview's xfer
+	void xfer(Xfer *xfer);	// SaveMapPreview's xfer
 };
 // The range's erase and push_back keep the spellings their rows were landed
 // under (StlportVectorEraseRangeFamily.cpp, Rva002DDD48Insert.cpp).
@@ -391,7 +391,7 @@ void BfmeSubobject0022CE19::xfer(Xfer *xfer)
 		for (int i = 0; i < count; ++i)
 		{
 			SaveMapPreview preview;
-			((Rva002DBA3F *)&preview)->rva002DBA3F(xfer);
+			((Rva002DBA3F *)&preview)->xfer(xfer);
 			((Rva002DDD48 *)range)->push_back(preview);
 		}
 		object44.rva002DBA6A();

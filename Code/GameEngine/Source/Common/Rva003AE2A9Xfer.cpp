@@ -95,7 +95,7 @@ public:
 class Rva00564522
 {
 public:
-	void rva00564522(Xfer *xfer);
+	void xfer(Xfer *xfer);
 };
 
 class Rva003AE2A9
@@ -113,7 +113,7 @@ void Rva003AE2A9::xfer(Xfer *xfer)
 {
 	Xfer::Version version(1, 2);
 	*xfer == version;
-	((Rva00564522 *)((char *)this + 0x10))->rva00564522(xfer);
+	((Rva00564522 *)((char *)this + 0x10))->xfer(xfer);
 	*xfer == m_boolC;
 	if (version.m_minimum >= 2)
 		*xfer == m_bool20;

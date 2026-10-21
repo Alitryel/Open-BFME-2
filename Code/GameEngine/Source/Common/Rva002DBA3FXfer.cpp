@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva002DBA3F@Rva002DBA3F@@QAEXPAVXfer@@@Z, retail 0x002DBA3F, 43 bytes.
+// ?xfer@Rva002DBA3F@@QAEXPAVXfer@@@Z, retail 0x002DBA3F, 43 bytes.
 // __thiscall xfer-style method taking Xfer*: Version1 via rowed 0x000053EE
 // then LivingWorldRegionID into +4 via rowed Rva003EFE82Get 0x003EFE82 then
 // int at +8 via Xfer slot 0x3C (operator==(int)). Minimal Xfer pads place
@@ -38,10 +38,10 @@ struct Rva002DBA3F
 	char m_pad[4];
 	int m_regionID;
 	int m_val;
-	void rva002DBA3F(class Xfer *xfer);
+	void xfer(class Xfer *xfer);
 };
 
-void Rva002DBA3F::rva002DBA3F(class Xfer *xfer)
+void Rva002DBA3F::xfer(class Xfer *xfer)
 {
 	xfer->Version1();
 	Rva003EFE82Get((struct Rva003EFE82Obj *)xfer, &m_regionID);
