@@ -137,6 +137,7 @@ public:
 	unsigned int rva006C1D10(const void *block);		// fast usable-size with tail call to 0x32A20 caller 0x6C36FD
 	void *rva00031B60(const void *block);
 	void *rva00031680(const void *block);	// intrusive-list search unblocking 0x31BB0 0x31D00 0x32920
+	void rva00031660(void *node);			// intrusive unlink; called with ecx=this by teardown 0x33D50
 	bool rva000316B0(void *block, bool release);	// conditional core-release callback / VirtualFree
 	int rva00031BF0(const void *block);
 	bool rva00031BB0(const void *block);	// small-block fencepost check via 0x31680 caller 0x3324E
@@ -1116,11 +1117,13 @@ void *GeneralAllocator::rva000344A0(unsigned int size, unsigned int alignment, u
 }
 }
 
-// ?Rva00031660Unlink@@YGXPAX@Z @ 0x00031660 (25B):
+// ?rva00031660@GeneralAllocator@Allocator@EA@@QAEXPAX@Z @ 0x00031660 (25B):
 // intrusive doubly-linked unlink with next at +0x18 and prev at +0x1C.
-// Caller 0x00033E05 in 0x00033D50; direct double-load shape proves the two
-// one-line stores rather than hoisted temps.
-void __stdcall Rva00031660Unlink(void *node)
+// Caller 0x00033E05 in 0x00033D50 loads ecx with the allocator before the
+// call (byte-matched /Od teardown), so this is a GeneralAllocator member that
+// ignores `this`; RET4 with one stack argument. Direct double-load shape
+// proves the two one-line stores rather than hoisted temps.
+void EA::Allocator::GeneralAllocator::rva00031660(void *node)
 {
 	*(void **)((char *)*(void **)((char *)node + 0x18) + 0x1C) = *(void **)((char *)node + 0x1C);
 	*(void **)((char *)*(void **)((char *)node + 0x1C) + 0x18) = *(void **)((char *)node + 0x18);

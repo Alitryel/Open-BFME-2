@@ -170,7 +170,8 @@ extern UpgradeCenter *TheUpgradeCenter;
 class UpgradeTemplate
 {
 public:
-	unsigned int rva0026EF50(Player *player, Object *obj) const;
+	// 0x0026EF50, rowed with the requesting Object spelled as unsigned.
+	unsigned int calcCostToBuild(Player *player, unsigned int requester) const;
 	void *m_0;
 	int m_4;
 };
@@ -636,7 +637,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 
 			if (!hasUpgrade)
 			{
-				int upgradeCost = upgrade->rva0026EF50(player, obj);
+				int upgradeCost = upgrade->calcCostToBuild(player, (unsigned int)obj);
 				if (upgradeCost > 0)
 					cost.format(TheGameText->fetchPtrC("TOOLTIP:Cost", 0), upgradeCost);
 			}

@@ -48,12 +48,6 @@ public:
 	void rva00033930();
 };
 
-class Rva00033150
-{
-public:
-	void rva00033150(int snapshot);
-};
-
 namespace EA
 {
 namespace Allocator
@@ -85,6 +79,7 @@ public:
 
 	typedef bool (*ReportFunction)(const BlockInfo *info, void *context);
 
+	void rva00033150(const void *block);	// free engine 0x00033150 (memory_pool.cpp)
 	void *rva00034D10(int blockTypes, bool copy, void *storage, unsigned int storageSize);
 	void rva000353F0(TraceFunction function, void *functionContext, void *context, int blockTypes);
 	bool rva00035540(ReportFunction function, void *context, int blockTypes, bool copy, char *storage, unsigned int storageSize);
@@ -99,7 +94,7 @@ private:
 			if (snapshot->m_state[1])
 			{
 				if (!snapshot->m_state[0])
-					((::Rva00033150 *)this)->rva00033150((int)snapshot);
+					rva00033150(snapshot);
 			}
 			else
 				snapshot->m_values[4] = 0;

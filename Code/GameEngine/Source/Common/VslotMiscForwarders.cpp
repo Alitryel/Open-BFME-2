@@ -59,11 +59,22 @@ Bool Rva002CEF14FlagTest::rva002CEF14()
 		CALLEE(VALUE); \
 	}
 
-BFME_CONST_ARG_CALL(Rva0005BD20Host, rva0005BD20, rva0005BBE2, 0)	// vtable 0x00BC55B0 slot 43
-BFME_CONST_ARG_CALL(Rva0005BD28Host, rva0005BD28, rva0005BBE2, 1)	// vtable 0x00BC55B0 slot 44
-BFME_CONST_ARG_CALL(Rva000F42F7Host, rva000F42F7, rva000F4017, 1)	// vtable 0x00BCEFC8 slot 1
+// The callees below are rowed; they are called by their row names.
+class MilesAudioManager { public: void rva0005BBE2(Int value); };	// 0x0005BBE2
+class W3DVolumetricShadow { public: void Update(Bool force); };	// 0x000F4017
+enum StateReturnType { STATE_CONTINUE = 0 };
+class AIAttackAimAtTargetState { public: StateReturnType updateInternal(Bool flag); };	// 0x003508C5
+
+class Rva0005BD20Host { public: void rva0005BD20(); };	// vtable 0x00BC55B0 slot 43
+class Rva0005BD28Host { public: void rva0005BD28(); };	// vtable 0x00BC55B0 slot 44
+class Rva000F42F7Host { public: void rva000F42F7(); };	// vtable 0x00BCEFC8 slot 1
 // AIAttackPositionAimAtTargetState::update is owned with updateInternal in AIStates.cpp.
-BFME_CONST_ARG_CALL(Rva00351949Host, rva00351949, rva003508C5, 0)	// vtable 0x00C11008 slot 6
+class Rva00351949Host { public: void rva00351949(); };	// vtable 0x00C11008 slot 6
+
+void Rva0005BD20Host::rva0005BD20() { ((MilesAudioManager *)this)->rva0005BBE2(0); }
+void Rva0005BD28Host::rva0005BD28() { ((MilesAudioManager *)this)->rva0005BBE2(1); }
+void Rva000F42F7Host::rva000F42F7() { ((W3DVolumetricShadow *)this)->Update(true); }
+void Rva00351949Host::rva00351949() { ((AIAttackAimAtTargetState *)this)->updateInternal(false); }
 
 // --- Hand `this` to a manager singleton's member.
 // Callee evidence (retail bytes): 0x000F0A75 walks the manager head at
@@ -106,8 +117,9 @@ class Rva00108660ResourceManager
 {
 public:
 	void rva001091A8(void *owner);
-	void rva0010B9E5(void *owner);
 };
+struct Node;
+class Rva0010B9E5 { public: void rva0010B9E5(Node *node); };	// rowed 0x0010B9E5
 extern W3DVolumetricShadowManager *TheW3DVolumetricShadowManager;
 extern W3DProjectedShadowManager *TheW3DProjectedShadowManager;
 extern Rva00108660ResourceManager *Rva00DEC2D8Manager;
@@ -120,7 +132,7 @@ class Rva0010BB04Host { public: void rva0010BB04(); };		// vtable 0x00BCF9F4 slo
 void Rva000F168BHost::rva000F168B() { TheW3DVolumetricShadowManager->rva000F0A75(this); }
 void Rva001074C8Host::rva001074C8() { TheW3DProjectedShadowManager->rva0010713A(this); }
 void Rva00109DA6Host::rva00109DA6() { Rva00DEC2D8Manager->rva001091A8(this); }
-void Rva0010BB04Host::rva0010BB04() { Rva00DEC2D8Manager->rva0010B9E5(this); }
+void Rva0010BB04Host::rva0010BB04() { ((Rva0010B9E5 *)Rva00DEC2D8Manager)->rva0010B9E5((Node *)this); }
 
 void W3DProjectedShadowManager::rva0010713A(void *owner)
 {
@@ -196,10 +208,29 @@ float Rva0025ED90Math::rva0025EDC3(float v) { return Rva004D6B6E(v); }
 		SECOND(); \
 	}
 
-BFME_TWO_CALLS(Rva003FDD05Host, rva003FDD05, rva003FDAEB, rva000B3FD0)	// vtable 0x00C37DA0 slot 9
-BFME_TWO_CALLS(Rva00062908Host, rva00062908, rva000A98BA, rva0022274A)	// vtable 0x00BC57E0 slot 14
-BFME_TWO_CALLS(Rva00062918Host, rva00062918, rva000ABA2F, rva00224296)	// vtable 0x00BC57E0 slot 1
-BFME_TWO_CALLS(Rva0008FF12Host, rva0008FF12, rva00118A90, rva002C108F)	// vtable 0x00BC7C90 slot 41
+// 0x000B3FD0 is the shared one-byte empty `ret` body; its neutral row name.
+class Rva000B3FD0 { public: void rva000B3FD0(); };
+class Rva003FDD05Host
+{
+public:
+	void rva003FDD05();	// vtable 0x00C37DA0 slot 9
+	void rva003FDAEB();
+};
+void Rva003FDD05Host::rva003FDD05()
+{
+	rva003FDAEB();
+	((Rva000B3FD0 *)this)->rva000B3FD0();
+}
+// A rowed cdecl first callee that takes nothing (it reads only globals):
+// `this` stays in esi across it exactly as for a member call.
+#define BFME_FREE_THEN_MEMBER(HOST, SLOT, FIRST, SECOND) 	class HOST 	{ 	public: 		void SLOT(); 		void SECOND(); 	}; 	void HOST::SLOT() 	{ 		FIRST(); 		SECOND(); 	}
+
+void Rva000A98BACleanup();	// rowed 0x000A98BA
+void rva000ABA2F();		// rowed 0x000ABA2F
+void Rva00118A90();		// rowed 0x00118A90
+BFME_FREE_THEN_MEMBER(Rva00062908Host, rva00062908, Rva000A98BACleanup, rva0022274A)	// vtable 0x00BC57E0 slot 14
+BFME_FREE_THEN_MEMBER(Rva00062918Host, rva00062918, rva000ABA2F, rva00224296)	// vtable 0x00BC57E0 slot 1
+BFME_FREE_THEN_MEMBER(Rva0008FF12Host, rva0008FF12, Rva00118A90, rva002C108F)	// vtable 0x00BC7C90 slot 41
 // vtable 0x00BC89C8 slot 1: the tail jump goes to the rowed
 // Rva0009D55BProduct::rva0009BAA4 (0x0009BAA4), called by its row name.
 class Rva0009D55BProduct
@@ -211,14 +242,20 @@ class Rva0009C134Host
 {
 public:
 	void rva0009C134();
-	void rva000B3FD0();
 };
 void Rva0009C134Host::rva0009C134()
 {
-	rva000B3FD0();
+	((Rva000B3FD0 *)this)->rva000B3FD0();
 	((Rva0009D55BProduct *)this)->rva0009BAA4();
 }
-BFME_TWO_CALLS(Rva003FE402Host, rva003FE402, rva003FE342, rva005392EC)	// vtable 0x00C37E48 slot 7
+class LivingWorldArmyIcon { public: void rva003FE342(); };	// rowed 0x003FE342
+class Rva0053947D { public: virtual void rva005392EC(); };	// rowed 0x005392EC (vtable slot)
+class Rva003FE402Host { public: void rva003FE402(); };	// vtable 0x00C37E48 slot 7
+void Rva003FE402Host::rva003FE402()
+{
+	((LivingWorldArmyIcon *)this)->rva003FE342();
+	((Rva0053947D *)this)->Rva0053947D::rva005392EC();
+}
 
 // ?rva003FDD15@Rva003FDD15Host@@QAEXXZ @0x003FDD15 16B: chain after 0x003FDC46;
 // calls rowed 0x003FDC46 then tail-jmps to rowed 0x003FBA58. Callees carry

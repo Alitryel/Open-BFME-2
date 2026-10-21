@@ -27,7 +27,10 @@ struct ScaleOrCenterConfig
 };
 
 void __cdecl d_009a8c50();                                  // 0x001B96A0 UpdateUMVBorder
-void __cdecl d_009aa4f0();                                  // 0x001BAF30 AnyRatioFrameScale
+// 0x001BAF30, the rowed _AnyRatioFrameScale (C linkage; viewed here with this
+// unit's instance and config types).
+extern "C" int __cdecl AnyRatioFrameScale(ScaleOrCenterInstance *instance, int frame,
+	ScaleOrCenterConfig *config, int yOffset, int uvOffset);
 struct Rva009AA750Context;
 struct Rva009AA750Block;
 extern "C" void __cdecl CenterImage(
@@ -53,6 +56,5 @@ extern "C" void __cdecl ScaleOrCenter(ScaleOrCenterInstance *instance, int frame
 	int halfHorizontal = (int)horizontalMargin >> 1;
 	int chromaOffset = halfVertical * config->uvWidth + halfHorizontal;
 	int lumaOffset = (int)verticalMargin * config->yWidth + horizontalMargin;
-	((void (__cdecl *)(ScaleOrCenterInstance *, int, ScaleOrCenterConfig *, int, int))d_009aa4f0)(
-		instance, frame, config, lumaOffset, chromaOffset);
+	AnyRatioFrameScale(instance, frame, config, lumaOffset, chromaOffset);
 }

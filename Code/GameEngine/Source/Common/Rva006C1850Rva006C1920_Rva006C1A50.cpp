@@ -49,18 +49,16 @@ private:
 
 
 // Address-derived shim for 0x006C1A50: a self-or-other dispatch with one
-// argument passed through by tail jumps. Both callees are pinned by address.
-class Rva00033150
+// argument passed through by tail jumps to the rowed GeneralAllocator free
+// engine 0x00033150 (self) or Free-like 0x000338F0 (the other allocator).
+namespace EA { namespace Allocator {
+class GeneralAllocator
 {
 public:
-	void rva00033150(int v);
+	void rva00033150(const void *block);
+	void rva000338F0(void *block);
 };
-
-class Rva000338F0
-{
-public:
-	void rva000338F0(int v);
-};
+} }
 
 class Rva006C1A50Owner
 {
@@ -79,9 +77,9 @@ void Rva006C1A50Owner::rva006C1A50(int v)
 {
 	if (m_678 == (void *)this) {
 		if (m_510)
-			((Rva00033150 *)this)->rva00033150(v);
+			((EA::Allocator::GeneralAllocator *)this)->rva00033150((const void *)v);
 	} else {
-		((Rva000338F0 *)m_678)->rva000338F0(v);
+		((EA::Allocator::GeneralAllocator *)m_678)->rva000338F0((void *)v);
 	}
 }
 

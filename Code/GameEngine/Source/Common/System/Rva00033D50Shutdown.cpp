@@ -57,12 +57,6 @@ public:
 	void rva00033930();
 };
 
-class Rva00033E90
-{
-public:
-	void freeBlock(void *p);
-};
-
 class Rva0066D7D0LeaField
 {
 public:
@@ -78,6 +72,7 @@ class GeneralAllocator
 public:
 	bool rva00033D50();
 	void rva00031660(void *node);
+	void rva00033150(const void *block);
 	bool rva000316B0(void *node, bool release);
 
 private:
@@ -108,7 +103,7 @@ bool GeneralAllocator::rva00033D50()
 		while (m_4A8 != m_49C)
 		{
 			int chunk = Rva00030AE0Sub((int *)m_4A8);
-			((Rva00033E90 *)this)->freeBlock(&Rva00033D50TreeAccess::_S_left((Rva00033D50Node *)chunk));
+			rva00033150(&Rva00033D50TreeAccess::_S_left((Rva00033D50Node *)chunk));
 		}
 		while (m_464 != m_448)
 		{

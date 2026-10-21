@@ -30,6 +30,7 @@ namespace EA { namespace Allocator {
 class GeneralAllocator
 {
 public:
+	void rva00033150(const void *block);
 	unsigned rva00032A20(const void *);
 	typedef void (*TraceFunction)(const char *text, void *context);
 	void *rva00034D10(int blockTypes, bool copy, void *storage, unsigned int storageSize);
@@ -158,11 +159,6 @@ class Rva006C2D20Sink
 public:
 	void rva006C2FB0(const char *, const char *);
 };
-class Rva00033E90
-{
-public:
-	void freeBlock(void *);
-};
 unsigned char rva00030E20Fill(void *, unsigned int, unsigned char);
 
 // Native 006C3180..006C3216, 150 bytes, RET4. Before releasing a chunk,
@@ -191,5 +187,5 @@ void GeneralAllocatorDebug::rva006C3180(GeneralAllocatorDebugBlock *info)
 	}
 	VerifyDelayedFreeFill(info);
 	rva006C26F0(info, false);
-	((Rva00033E90 *)this)->freeBlock(info->data);
+	rva00033150(info->data);
 }
