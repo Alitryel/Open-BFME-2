@@ -258,3 +258,41 @@ remaining paths are:
    so that natural W grading outlines W there alone. This is unlikely, since
    retail's source has a single `if`, but it is cheap to test with the
    toy8/sm.sh harness.
+
+## Session 2026-10-21 (evening): h1-h3 grids, frequency explanation (bank still 0.9993)
+
+Scratch: `build/b3df20/h1/gen.py` (return-1 forms), `h2/` (kS x kD x curr_sym
+depth), `h3gen.py` (kS in {0,3,6,8,9}, kD in {0,4,8,9,12}, kW in {0,1,2,4,8}). The
+phantoms sit in the wide S, D (`_M_deallocate_block`) and W specialisations.
+
+Disproven (do not repeat):
+- h1, return-1 spelling. These are inert, with the same map as the bank:
+  - nested constant ifs (`if(true)`, `if(1)`), the duplicate condition, and the duplicate `&&`;
+  - `!size()`, the inner `size()<1`, and folded tautologies (`__intl||!__intl`, `__frac_digits>=0||<0`);
+  - the `for(;;)` and `do while(0)` wrappers.
+  
+  These are worse:
+  - `empty()` and `begin()==end()` score 0.978;
+  - `switch` and `if(!=0);else` score 0.921;
+  - `while` and `for(;cond;)` score 0.931.
+  
+  Frequency is computed after folding, so a folded second condition does not make the site colder.
+- h2/h3, phantom budgets:
+  - The D and S decisions are uniform across 28c and the late sites.
+  - kD>=9 outlines D at all 7 sites (0.9958). kS+kD>=9 outlines S everywhere (the bank).
+  - kW>=1 outlines W at the late sites only (0.9495, or 0.9415 when D is also outlined).
+  - No grid point calls 0x142D70 (W or D) at 28c while the late sites keep S.
+
+Why (structural inference, consistent with the toy8 facts):
+- The late sites are the four sign temps, built in a *nested* ternary, so they sit two conditions deep and are cold. Return 2 follows the early return, so it is cold as well.
+- Return 1 and the two currency temps (a single ternary) are warm.
+- The binary W grading therefore outlines W exactly at the cold sites. That is retail's map under the true naming in `df20-funclet-naming-20261021` (warm: W inlined, S called = 0x142D70; cold: W called = 0xB3C0).
+- Under the ledger naming, 28c would have to be *more* outlined than the colder late sites. No return-statement, budget or depth mechanism gives that without moving code.
+
+Verdict: DF20 is walled by the inverted wide-string destructor naming. The prerequisite is
+the class-level reconciliation in `df20-funclet-naming-20261021/handoff.md`:
+- W<G> moves to 0xB3C0, and S/D<G> to 0x142D70;
+- the ten linked units that emit a 14 B W<G> COMDAT have to emit retail's 63 B framed W<G>, which calls S;
+- then re-run the natural V3 a9 w1 shape on the real body (phantom cost on S so that S is never inlined; W at the default budget).
+
+Shared-delta lead for that pass: in retail, S appears never to be inlined (warm sites call it, and the 63 B W<G> calls it), while D always folds into S's 14 B body.
