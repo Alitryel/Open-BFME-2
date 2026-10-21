@@ -15,6 +15,8 @@ Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|BfmeThingTL|m_
 Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|BfmeThingTL|m_bfmeWhat,8af478e28cf9dedec62c0900,seat-b-sonnet,rn-1021-1-b,w-6767a505072e,2026-10-21
 Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|param|Rva003EE9D7::rva003EE9D7|arg,e0b3ef826c746631e851e77f,seat-a,rn-1021-2-a,w-ca49f30d0171,2026-10-21
 Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|param|Rva003EE9D7::rva003EE9D7|arg,e0b3ef826c746631e851e77f,seat-b-sonnet,rn-1021-2-b,w-c914d41172b2,2026-10-21
+Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp|param|Rva00271BCC::rva00271BCC|a1,2fb181b2bb24ecff5c4e8514,seat-a,rn-1021-4-a,w-c51e0df230a5,2026-10-21
+Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp|param|Rva00271BCC::rva00271BCC|a1,2fb181b2bb24ecff5c4e8514,seat-b-sonnet,rn-1021-4-b,w-16625999467a,2026-10-21
 Code/GameEngine/Source/Common/Rva002C589BMax.cpp|class||ArrayBounds002C5AE6,8262fd6cf302900b265e6393,seat-a,rn-1021-5-a,w-4de57261c2e6,2026-10-21
 Code/GameEngine/Source/Common/Rva002C589BMax.cpp|class||Elem002C5AE6,a570dbdde19f2af29d8d139f,seat-a,rn-1021-5-a,w-4de57261c2e6,2026-10-21
 Code/GameEngine/Source/Common/Rva002C589BMax.cpp|local|Rva002C589B::getEnemyThreat|b,44b6bc8cb3cd0d574876356b,seat-a,rn-1021-5-a,w-4de57261c2e6,2026-10-21

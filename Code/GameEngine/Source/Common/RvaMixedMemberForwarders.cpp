@@ -33,16 +33,16 @@ class Rva003626ADNullTarget
 class Rva00271BCC
 {
 public:
-	void rva00271BCC(Int a0, Int a1);
+	void rva00271BCC(Int a0, Int immediate);
 private:
 	char m_lead[0x450];
 	Rva003626ADNullTarget *m_member;
 };
 
-void Rva00271BCC::rva00271BCC(Int a0, Int a1)
+void Rva00271BCC::rva00271BCC(Int a0, Int immediate)
 {
 	if (m_member)
-		((BuffManager *)m_member)->TurnOffBuff(a0, *(bool *)&a1);
+		((BuffManager *)m_member)->TurnOffBuff(a0, *(bool *)&immediate);
 }
 
 class Rva004F2C14NullTarget

@@ -55,3 +55,4 @@ local,Rva002C589B::getEnemyThreat::e,Rva002C589B::getEnemyThreat::zone,inferred,
 class,ArrayBounds002C5AE6,InterestZoneVector,inferred,agree:nl-d3f554a71672,Code/GameEngine/Source/Common/Rva002C589BMax.cpp,
 class,Elem002C5AE6,InterestZone,inferred,agree:nl-7ea2ee1d83ca,Code/GameEngine/Source/Common/Rva002C589BMax.cpp,
 param,Rva003EE9D7::rva003EE9D7::arg,Rva003EE9D7::rva003EE9D7::region,inferred,agree:nl-e0b3ef826c74,Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE9D7
+param,Rva00271BCC::rva00271BCC::a1,Rva00271BCC::rva00271BCC::immediate,inferred,agree:nl-2fb181b2bb24,Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp,0x00271BCC
