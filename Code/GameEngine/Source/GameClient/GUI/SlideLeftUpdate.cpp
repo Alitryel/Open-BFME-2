@@ -28,33 +28,33 @@ public:
  virtual void setMaxDuration(unsigned);
  RvaLeftVelocity maxVel; int slowThreshold; float slowRatio,speedRatio;
 };
-bool ProcessAnimateWindowSlideFromLeft::updateAnimateWindow(AnimateWindow *a)
+bool ProcessAnimateWindowSlideFromLeft::updateAnimateWindow(AnimateWindow *animWin)
 {
- if(!a) return true;
- if(a->finished) return true;
- unsigned startTime=a->startTime;
+ if(!animWin) return true;
+ if(animWin->finished) return true;
+ unsigned startTime=animWin->startTime;
  if(timeGetTime()<startTime) return false;
- GameWindow *win=a->window;
+ GameWindow *win=animWin->window;
  if(!win) return true;
- ICoord2D cur=a->current;
+ ICoord2D cur=animWin->current;
  union { ICoord2D position; RvaLeftVelocity velocity; } scratch;
- scratch.position.y=a->end.y;
- int endX=a->end.x;
+ scratch.position.y=animWin->end.y;
+ int endX=animWin->end.x;
  typedef void (AnimateWindow::*VelocityOutput)(RvaLeftVelocity*);
- (a->*reinterpret_cast<VelocityOutput>(&AnimateWindow::getVel))(&scratch.velocity);
+ (animWin->*reinterpret_cast<VelocityOutput>(&AnimateWindow::getVel))(&scratch.velocity);
  cur.x+=(int)scratch.velocity.x;
  if(cur.x>endX) {
   cur.x=endX;
-  a->finished=true; return true;
+  animWin->finished=true; return true;
  }
  win->winSetPosition(cur.x,cur.y);
- a->current=cur;
+ animWin->current=cur;
  float &x=scratch.velocity.x;
  if(endX-cur.x<=slowThreshold) *(volatile float *)&x=slowRatio*x;
  if(1.0f>x) *(volatile float *)&x=1.0f;
  RvaLeftVelocity outgoing;
  outgoing.x=x; outgoing.y=scratch.velocity.y;
- a->setVel(outgoing);
+ animWin->setVel(outgoing);
  return false;
 }
 
@@ -62,29 +62,29 @@ bool ProcessAnimateWindowSlideFromLeft::updateAnimateWindow(AnimateWindow *a)
 // the TopFast reverse (SlideTopUpdate.cpp) with GeneralsMD's clamp (vel.x < -maxVel.x); closed by
 // the same two equal-arm schedule levers: the finish-branch winSetPosition duplicated on curX and
 // the slowed value selected as (curX ? v*speedRatio : v*speedRatio).
-bool ProcessAnimateWindowSlideFromLeft::reverseAnimateWindow(AnimateWindow *a)
+bool ProcessAnimateWindowSlideFromLeft::reverseAnimateWindow(AnimateWindow *animWin)
 {
- if(!a) return true;
- if(a->finished) return true;
- unsigned startTime=a->startTime;
+ if(!animWin) return true;
+ if(animWin->finished) return true;
+ unsigned startTime=animWin->startTime;
  if(timeGetTime()<startTime) return false;
- GameWindow *win=a->window;
+ GameWindow *win=animWin->window;
  if(!win) return true;
  union { ICoord2D position; RvaLeftVelocity velocity; } scratch;
- ICoord2D startPos=a->start;
- int curX=a->current.x;
- int curY=a->current.y;
+ ICoord2D startPos=animWin->start;
+ int curX=animWin->current.x;
+ int curY=animWin->current.y;
  typedef void (AnimateWindow::*VelocityOutput)(RvaLeftVelocity*);
- (a->*reinterpret_cast<VelocityOutput>(&AnimateWindow::getVel))(&scratch.velocity);
+ (animWin->*reinterpret_cast<VelocityOutput>(&AnimateWindow::getVel))(&scratch.velocity);
  curX+=(int)scratch.velocity.x;
  if(curX<startPos.x) {
-  a->finished=true;
+  animWin->finished=true;
   if (curX) { win->winSetPosition(startPos.x,curY); } else { win->winSetPosition(startPos.x,curY); }
   return true;
  }
  win->winSetPosition(curX,curY);
- a->current.x=curX; a->current.y=curY;
- ICoord2D endPos=a->end;
+ animWin->current.x=curX; animWin->current.y=curY;
+ ICoord2D endPos=animWin->end;
  float slowed;
  if(endPos.x-curX<=slowThreshold)
   slowed=(curX ? (scratch.velocity.x*speedRatio) : (scratch.velocity.x*speedRatio));
@@ -95,6 +95,6 @@ bool ProcessAnimateWindowSlideFromLeft::reverseAnimateWindow(AnimateWindow *a)
  RvaLeftVelocity out;
  out.x=slowed;
  out.y=scratch.velocity.y;
- a->setVel(out);
+ animWin->setVel(out);
  return false;
 }
