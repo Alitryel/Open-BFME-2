@@ -50,7 +50,7 @@ extern UpgradeCenter *TheUpgradeCenter;
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *upgrade, UpgradeStatusType status, int flag);
+	Upgrade *addUpgrade(const UpgradeTemplate *upgrade, UpgradeStatusType status, int flag);
 };
 
 class Object
@@ -132,7 +132,7 @@ void PlayerUpgradeSpecialPower::doSpecialPower(unsigned int)
 		if (upgrade->m_type == 0)
 		{
 			Player *player = m_object->getControllingPlayer();
-			player->rva002AE329(upgrade, UPGRADE_STATUS_COMPLETE, 0);
+			player->addUpgrade(upgrade, UPGRADE_STATUS_COMPLETE, 0);
 		}
 	}
 	triggerSpecialPower(0);

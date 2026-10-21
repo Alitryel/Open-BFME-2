@@ -69,7 +69,7 @@ class Player
 public:
 	void rva002AE252();
 	void rva002AC425(const _STL::vector<int, _STL::allocator<int> > &list);
-	Upgrade *rva002AE329(const UpgradeTemplate *tmpl, UpgradeStatusType status, int flag);
+	Upgrade *addUpgrade(const UpgradeTemplate *tmpl, UpgradeStatusType status, int flag);
 	char pad00[8];
 	Rva003805BB m_08;
 	char pad0C[0x1c - 0xc];
@@ -188,7 +188,7 @@ void ArmySummarySystem::rva0040F87E()
 				reinterpret_cast<Rva0026F0F0 *>(TheUpgradeCenter)->rva0026F0F0(&upgrades));
 			if (!upgradeTemplate)
 				break;
-			player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_2, 0);
+			player->addUpgrade(upgradeTemplate, UPGRADE_STATUS_2, 0);
 			unsigned int bit = upgradeTemplate->m_bit;
 			upgrades.m_bits[bit >> 5] &= ~(1 << (bit & 0x1f));
 		}

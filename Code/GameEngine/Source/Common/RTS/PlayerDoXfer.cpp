@@ -141,7 +141,7 @@ struct PlayerSnapshotBlock334 { char bytes[0x334]; };
 class Player {
 public:
  void DoXfer(Xfer*);
- Upgrade *rva002AE329(const UpgradeTemplate*,UpgradeStatusType,int);
+ Upgrade *addUpgrade(const UpgradeTemplate*,UpgradeStatusType,int);
  void rva002AF236(Xfer*,Rva001FDE3F*);
  void rva002AF33B(Xfer*,Rva002AE4C5*);
  char m_header[8];
@@ -240,7 +240,7 @@ void Player::DoXfer(Xfer *raw)
     xfer->ascii(&upgradeName);
     const UpgradeTemplate *upgradeTemplate=TheUpgradeCenter->findUpgrade(upgradeName);
     if(!upgradeTemplate)badPlayerTransfer();
-    upgrade=reinterpret_cast<PlayerUpgradeNode*>(rva002AE329(upgradeTemplate,UPGRADE_NATIVE_INVALID,0));
+    upgrade=reinterpret_cast<PlayerUpgradeNode*>(addUpgrade(upgradeTemplate,UPGRADE_NATIVE_INVALID,0));
     xfer->snapshot(upgrade);
    }
    _ReadWriteBarrier();

@@ -294,7 +294,7 @@ class Player
 {
 public:
 	void transferAssetsFromThat(Player *that, Bool flag);
-	Upgrade *rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
+	Upgrade *addUpgrade(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
 	PlayerTemplateView *getTemplate() const { return m_playerTemplate; }
 	Team *getDefaultTeam() const { return m_defaultTeam; }
 	PlayerTransferCountsView *getTransferCounts() { return &m_transferCounts; }
@@ -408,7 +408,7 @@ void Player::transferAssetsFromThat(Player *that, Bool flag)
 			name.compare("Upgrade_Anduril") != 0 &&
 			name.compare("Upgrade_ElvenGift") != 0)
 		{
-			rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
+			addUpgrade(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
 		}
 		upgrades.clear(upgradeTemplate->getUpgradeBit());
 	}

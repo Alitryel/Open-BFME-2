@@ -428,7 +428,7 @@ public:
 	Rva003B0D7C *getMoney() { return &m_money; }
 	Bool rva002AB87D(const UpgradeTemplate *upgrade) const; // hasUpgradeComplete
 	Bool rva002AA8EF(const UpgradeTemplate *upgrade) const; // hasUpgradeInProduction
-	Upgrade *rva002AE329(const UpgradeTemplate *upgrade, UpgradeStatusType status, Int flag); // addUpgrade
+	Upgrade *addUpgrade(const UpgradeTemplate *upgrade, UpgradeStatusType status, Int flag); // addUpgrade
 	void removeUpgrade(const UpgradeTemplate *upgrade, Int flag); // removeUpgrade
 
 	char m_unknown00[0x54];
@@ -1378,7 +1378,7 @@ Bool ProductionUpdate::queueUpgrade( const UpgradeTemplate *upgrade )
 	addToProductionQueue( production );
 
 	// add this upgrade as in progress in the player
-	player->rva002AE329( upgrade, UPGRADE_STATUS_IN_PRODUCTION, 0 );
+	player->addUpgrade( upgrade, UPGRADE_STATUS_IN_PRODUCTION, 0 );
 
 	return TRUE;  // queued
 
@@ -2132,7 +2132,7 @@ UpdateSleepTime ProductionUpdate::update()
   if(!((Rva004DC8E7AsciiField *)upgrade)->get().isEmpty()) {
    const FXList *fx=TheFXListStore->findFXList(((Rva004DC8E7AsciiField *)upgrade)->get().str()); if(fx) FXList::doFXObj(fx,us,0);
   }
-  if(upgrade->getUpgradeType()==UPGRADE_TYPE_PLAYER) player->rva002AE329(upgrade,(UpgradeStatusType)2,0); else us->rva00293077(upgrade);
+  if(upgrade->getUpgradeType()==UPGRADE_TYPE_PLAYER) player->addUpgrade(upgrade,(UpgradeStatusType)2,0); else us->rva00293077(upgrade);
   Drawable *draw=((ProductionInGameUIView *)TheInGameUI)->getSelectedDrawable(); Object *selected=draw ? ((ProductionDrawableView *)draw)->object : 0;
   if(selected) { const ThingTemplate *selectedTemplate=selected->getTemplate(); for(int i=0;i<5;++i) if(TheUpgradeCenter->findUpgrade(selectedTemplate->upgradeCameos()[i])==upgrade) { ((ProductionControlBarView *)TheControlBar)->dirty=true; break; } }
   removeFromProductionQueue(production); ::delete production; m_bfme120=(ObjectID)0;

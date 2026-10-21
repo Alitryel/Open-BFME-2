@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva002AE329@Player@@QAEPAVUpgrade@@PBVUpgradeTemplate@@W4UpgradeStatusType@@H@Z
+// ?addUpgrade@Player@@QAEPAVUpgrade@@PBVUpgradeTemplate@@W4UpgradeStatusType@@H@Z
 // @0x002AE329
 // (203B): Zero Hour Player::addUpgrade with BFME 2's pass-through int. Target
 // evidence: the rowed upgrade-list find 0x002AA031 (head Player +0x9C, keyed
@@ -62,7 +62,7 @@ private:
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
+	Upgrade *addUpgrade(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
 	void onUpgradeCompleted(const UpgradeTemplate *upgradeTemplate, Int x);
 	Upgrade *findUpgrade(const UpgradeTemplate *upgradeTemplate);	// rowed 0x002AA031 (Rva002AA031Find.cpp)
 
@@ -74,7 +74,7 @@ private:
 	UpgradeMaskType m_upgradesCompleted;		// +0x13C
 };
 
-Upgrade *Player::rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x)
+Upgrade *Player::addUpgrade(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x)
 {
 	Upgrade *upgrade = findUpgrade(upgradeTemplate);
 	if (upgrade == 0)

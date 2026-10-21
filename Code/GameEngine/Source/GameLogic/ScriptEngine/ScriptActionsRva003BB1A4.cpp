@@ -3,7 +3,7 @@
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 // ?Rva003BB1A4Grant@ScriptActions@@QAEXABVAsciiString@@0@Z, retail 0x003BB1A4, 91 bytes.
 // Grant upgrade to players matching name mask.
-// Evidence: leaf lane; callees ScriptEngine rva00357475 getEachPlayerFromMask findUpgrade Player rva002AE329; caller 0x003CA957.
+// Evidence: leaf lane; callees ScriptEngine rva00357475 getEachPlayerFromMask findUpgrade Player addUpgrade; caller 0x003CA957.
 #include "ascii_string.h"
 #include "../../Common/RTS/PlayerUpgradeStatus.h"
 
@@ -35,7 +35,7 @@ extern "C" UpgradeCenter *TheUpgradeCenter;
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *tpl, UpgradeStatusType a2, int a3);
+	Upgrade *addUpgrade(const UpgradeTemplate *tpl, UpgradeStatusType a2, int a3);
 };
 void ScriptActions::Rva003BB1A4Grant(const AsciiString &playerName, const AsciiString &upgradeName)
 {
@@ -47,7 +47,7 @@ void ScriptActions::Rva003BB1A4Grant(const AsciiString &playerName, const AsciiS
 		if (player != 0) {
 			const UpgradeTemplate *tpl = TheUpgradeCenter->findUpgrade(upgradeName);
 			if (tpl->m_val04 == 0)
-				player->rva002AE329(tpl, UPGRADE_STATUS_COMPLETE, 0);
+				player->addUpgrade(tpl, UPGRADE_STATUS_COMPLETE, 0);
 		}
 	}
 }

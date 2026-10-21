@@ -5,7 +5,7 @@
 // Calls slot 3 bool gate, reads upgrade AsciiString at module-data +8 via
 // primary +4, Object at primary +8, clears bool at +0x14, via rowed
 // findUpgrade 0x0026F26D, rowed getControllingPlayer 0x0028AFA9, pin-only
-// Player::rva002AE329 0x002AE329, rowed Object::rva00293077 0x00293077,
+// Player::addUpgrade 0x002AE329, rowed Object::rva00293077 0x00293077,
 // global TheUpgradeCenter. Evidence: vtable slot, callers none, donor
 // SupplyWarehouseCreate header, MI vptrs +0/+0xC/+0x10 family precedent
 // Rva004B8CDEDerived.cpp, next GrantUpgradeCreateModuleData.
@@ -40,7 +40,7 @@ extern "C" UpgradeCenter *TheUpgradeCenter;
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *tmpl, UpgradeStatusType a, int b);
+	Upgrade *addUpgrade(const UpgradeTemplate *tmpl, UpgradeStatusType a, int b);
 };
 
 class Rva004B8CDEBase
@@ -97,7 +97,7 @@ void SupplyWarehouseCreate::rva004B9093()
 	if (upgradeTemplate->m_type == 0)
 	{
 		Player *player = obj->getControllingPlayer();
-		player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
+		player->addUpgrade(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
 	}
 	else
 		obj->rva00293077(upgradeTemplate);

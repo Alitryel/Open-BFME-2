@@ -213,7 +213,7 @@ void rva002AE475(void *);
 unsigned char rva002AA00C(ThingTemplate *,int);
 Object *rva002AC629();
 void rva002ABAA6(); void rva002AABBC(); void rva002ABAB3();
-Upgrade *rva002AE329(const UpgradeTemplate *,UpgradeStatusType,int);
+Upgrade *addUpgrade(const UpgradeTemplate *,UpgradeStatusType,int);
 
 
 	Player( Int playerIndex );

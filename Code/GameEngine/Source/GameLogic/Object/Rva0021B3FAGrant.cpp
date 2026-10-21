@@ -1,7 +1,7 @@
 // cl: /O1 /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /arch:SSE /G7
 // ?rva0021B3FA@Rva0021B3FA@@QAEXXZ @0x0021B3FA 122B.
 // Grant upgrade named at +0x190 to each player whose slot is found and set.
-// Evidence: chain from 0x0021B37A Find plus caller 0x00248558; getNthPlayer row plus Find row plus isEmpty row plus findUpgrade row plus Player rva002AE329 row; prev Find and next GetHeroForPlayer same ascii flags.
+// Evidence: chain from 0x0021B37A Find plus caller 0x00248558; getNthPlayer row plus Find row plus isEmpty row plus findUpgrade row plus Player addUpgrade row; prev Find and next GetHeroForPlayer same ascii flags.
 #include "ascii_string.h"
 
 typedef int Int;
@@ -44,7 +44,7 @@ public:
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
+	Upgrade *addUpgrade(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
 };
 
 class GameInfo;
@@ -83,6 +83,6 @@ void Rva0021B3FA::rva0021B3FA()
 		if (((const StringBase<char> *)&m_str190)->isEmpty())
 			continue;
 		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(m_str190);
-		player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 1);
+		player->addUpgrade(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 1);
 	}
 }

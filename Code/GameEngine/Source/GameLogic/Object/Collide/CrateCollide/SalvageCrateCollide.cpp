@@ -175,7 +175,7 @@ class Player
 {
 public:
 	int ScaleMoney(int amount);	// 0x002A9E36
-	Upgrade *rva002AE329(const UpgradeTemplate *upgrade, UpgradeStatusType status, int flag);	// 0x002AE329
+	Upgrade *addUpgrade(const UpgradeTemplate *upgrade, UpgradeStatusType status, int flag);	// 0x002AE329
 	char m_pad000[0x5C];
 	int m_5C;			// +0x5C (1 a computer player)
 	char m_pad060[0x90 - 0x60];
@@ -339,7 +339,7 @@ bool SalvageCrateCollide::executeCrateBehavior(Object *other)
 	case 4: {
 		const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(data->m_upgrade);
 		if (upgrade && upgrade->m_type == 0)
-			other->getControllingPlayer()->rva002AE329(upgrade, UPGRADE_STATUS_COMPLETE, 0);
+			other->getControllingPlayer()->addUpgrade(upgrade, UPGRADE_STATUS_COMPLETE, 0);
 		break;
 	}
 	default:

@@ -86,7 +86,7 @@ class Upgrade;
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, int x);
+	Upgrade *addUpgrade(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, int x);
 };
 
 class FXList
@@ -249,7 +249,7 @@ void CitadelSlaughterHordeContain::rva00480E9A(Object *obj)
 		{
 			const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(*it);
 			if (upgrade->getUpgradeType() == UPGRADE_TYPE_PLAYER)
-				me->getControllingPlayer()->rva002AE329(upgrade, UPGRADE_STATUS_COMPLETE, 0);
+				me->getControllingPlayer()->addUpgrade(upgrade, UPGRADE_STATUS_COMPLETE, 0);
 			else
 				me->rva00293077(upgrade);
 		}

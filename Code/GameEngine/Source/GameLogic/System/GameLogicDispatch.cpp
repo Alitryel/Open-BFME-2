@@ -149,7 +149,7 @@ case ((GameMessage::Type)30):
 		}
 
         case ((GameMessage::Type)1137):
-{ int playerIndex=msg->getArgument(0)->integer; Player *player=ThePlayerList->getNthPlayer(playerIndex); if(player) { const UpgradeTemplate *upgradeTemplate=TheUpgradeCenter->findUpgrade("Upgrade_AllFactionUpgrade"); if(upgradeTemplate) player->rva002AE329(upgradeTemplate,(UpgradeStatusType)2,0); } break; }
+{ int playerIndex=msg->getArgument(0)->integer; Player *player=ThePlayerList->getNthPlayer(playerIndex); if(player) { const UpgradeTemplate *upgradeTemplate=TheUpgradeCenter->findUpgrade("Upgrade_AllFactionUpgrade"); if(upgradeTemplate) player->addUpgrade(upgradeTemplate,(UpgradeStatusType)2,0); } break; }
 case ((GameMessage::Type)29):
         {
             if(currentlySelectedGroup) TheAI->destroyGroup(currentlySelectedGroup);

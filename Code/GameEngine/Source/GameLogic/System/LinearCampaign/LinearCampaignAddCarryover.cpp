@@ -126,7 +126,7 @@ class Player
 public:
 	void rva002AE252();
 	bool forcePurchaseScience(ScienceType science);
-	Upgrade *rva002AE329(const UpgradeTemplate *tmpl, UpgradeStatusType status, int flag);
+	Upgrade *addUpgrade(const UpgradeTemplate *tmpl, UpgradeStatusType status, int flag);
 	void rva002A9E25(float value);
 	char pad00[8];
 	Rva003805BB m_08;
@@ -236,7 +236,7 @@ void LinearCampaign::addCarryoverStuffToMap()
 					if (m_upgrades[(unsigned int)i >> 5] & (1 << (i & 0x1f))) {
 						const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->rva0026EEA0(i);
 						if (upgradeTemplate)
-							player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_2, 1);
+							player->addUpgrade(upgradeTemplate, UPGRADE_STATUS_2, 1);
 					}
 				}
 				player->rva002A9E25(m_A0);

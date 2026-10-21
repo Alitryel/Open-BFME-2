@@ -35,7 +35,7 @@ class Player;
 class Upgrade;
 enum UpgradeStatusType { UPGRADE_COMPLETE=2 };
 class UpgradeTemplate { public: char pad[4]; int type; };
-class Player { public: Upgrade *rva002AE329(const UpgradeTemplate *,UpgradeStatusType,int); };
+class Player { public: Upgrade *addUpgrade(const UpgradeTemplate *,UpgradeStatusType,int); };
 class UpgradeCenter { public: const UpgradeTemplate *findUpgrade(const AsciiString &) const; };
 extern UpgradeCenter *TheUpgradeCenter;
 class Object { public: char pad[0x38]; Coord3D pos; Player *getControllingPlayer() const; };
@@ -144,6 +144,6 @@ void OCLSpecialPower::doSpecialPowerAtLocation(const Coord3D *location,unsigned 
  for(unsigned i=0;i<upgrades.size();++i) {
   const UpgradeTemplate *up=TheUpgradeCenter->findUpgrade(upgrades[i]);
   if(!up)return;
-  if(up->type==0){Player *player=object->getControllingPlayer();player->rva002AE329(up,UPGRADE_COMPLETE,0);}
+  if(up->type==0){Player *player=object->getControllingPlayer();player->addUpgrade(up,UPGRADE_COMPLETE,0);}
  }
 }

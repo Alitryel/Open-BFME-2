@@ -4,7 +4,7 @@
 // vslot 12 of SupplyWarehouseCreate vtable 0x008593F8: upgrade grant with
 // header pre-checks. Same tail as slot 13 0x004B9093 (rowed findUpgrade
 // 0x0026F26D, rowed getControllingPlayer 0x0028AFA9, pin-only
-// Player::rva002AE329 0x002AE329, rowed Object::rva00293077 0x00293077,
+// Player::addUpgrade 0x002AE329, rowed Object::rva00293077 0x00293077,
 // global TheUpgradeCenter) plus BfmeObject872Header copy 0x002CF108,
 // data byte +0x1C zero check, data dword +0xC bit2 set check, header first
 // dword bit2 clear check. Evidence: vtable slot, MI vptrs +0/+0xC/+0x10
@@ -47,7 +47,7 @@ extern "C" void _ReadWriteBarrier(void);
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *tmpl, UpgradeStatusType s, int x);
+	Upgrade *addUpgrade(const UpgradeTemplate *tmpl, UpgradeStatusType s, int x);
 };
 
 class BfmeObject872Header
@@ -120,7 +120,7 @@ void SupplyWarehouseCreate::rva004B901D()
 	if (upgradeTemplate->m_type == 0)
 	{
 		Player *player = m_object08->getControllingPlayer();
-		player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
+		player->addUpgrade(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 0);
 	}
 	else
 		m_object08->rva00293077(upgradeTemplate);

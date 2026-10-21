@@ -6,7 +6,7 @@
 // Leaf: grants upgrade from this+0x190 AsciiString via UpgradeCenter to
 // controlling player when Object+4 flag 0x11F has 0x40 and globals allow.
 // Evidence: rowed getControllingPlayer 0x0028AFA9 and findUpgrade 0x0026F26D
-// plus pin Player::rva002AE329 and callers at 0x0029856F.
+// plus pin Player::addUpgrade and callers at 0x0029856F.
 
 #include "RTS/PlayerUpgradeStatus.h"
 
@@ -41,7 +41,7 @@ public:
 class Player
 {
 public:
-	Upgrade *rva002AE329(const UpgradeTemplate *upgrade, UpgradeStatusType a, int b);
+	Upgrade *addUpgrade(const UpgradeTemplate *upgrade, UpgradeStatusType a, int b);
 };
 
 class CreateAHeroManager
@@ -65,5 +65,5 @@ void CreateAHeroManager::UnbindHeroFromObjectAndUpdate(Object *obj)
 	if (!player)
 		return;
 	const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(m_upgrade);
-	player->rva002AE329(upgrade, UPGRADE_STATUS_COMPLETE, 1);
+	player->addUpgrade(upgrade, UPGRADE_STATUS_COMPLETE, 1);
 }
