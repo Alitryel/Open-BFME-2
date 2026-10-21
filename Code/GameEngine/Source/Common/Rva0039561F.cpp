@@ -43,15 +43,15 @@ private:
 };
 
 // ?rva0039561F@Rva0039561F@@QAEHPAVThingTemplate@@@Z
-int Rva0039561F::rva0039561F(ThingTemplate *t)
+int Rva0039561F::rva0039561F(ThingTemplate *thingTemplate)
 {
-	Object *o = m_obj8;
-	if (o == 0)
+	Object *object = m_obj8;
+	if (object == 0)
 		return 0;
-	Player *pl = o->getControllingPlayer();
+	Player *pl = object->getControllingPlayer();
 	if (pl == 0)
 		return 0;
-	int v = t->rva0033A69A((const class Player *)pl, 0, -1);
+	int v = thingTemplate->rva0033A69A((const class Player *)pl, 0, -1);
 	((Rva003B0D7C *)((char *)pl + 0x90))->withdraw(v, (Rva0039B795 *)((char *)pl + 0x3bc), true);
 	m_4c = (float)(unsigned int)v;
 	return v;

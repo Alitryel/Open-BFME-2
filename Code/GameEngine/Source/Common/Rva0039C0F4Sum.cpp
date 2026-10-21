@@ -65,9 +65,9 @@ int Rva0039C0F4::rva0039C0F4(const AsciiString &name)
 		_STL::_Rb_tree_node_base *node = map->m_header->_M_left;
 		while (node != map->m_header)
 		{
-			const ThingTemplate *tmpl = ((ObjectCountNode *)node)->m_key;
+			const ThingTemplate *thingTemplate = ((ObjectCountNode *)node)->m_key;
 			int value = ((ObjectCountNode *)node)->m_value;
-			if (tmpl && tmpl->getName().compare(name) == 0)
+			if (thingTemplate && thingTemplate->getName().compare(name) == 0)
 				total += value;
 			node = _STL::_Rb_global<bool>::_M_increment(node);
 		}

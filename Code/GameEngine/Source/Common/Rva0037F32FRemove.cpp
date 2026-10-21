@@ -41,10 +41,10 @@ class UnitRevivalTracker
 public:
 	void removeBuildUnit(const ThingTemplate *tmpl);
 };
-void UnitRevivalTracker::removeBuildUnit(const ThingTemplate *tmpl)
+void UnitRevivalTracker::removeBuildUnit(const ThingTemplate *thingTemplate)
 {
 	for (Rva002E0D93 *p = m_vec04.m_start00; p != m_vec04.m_finish04; ++p) {
-		if (p->m_strD4.compare(tmpl->m_str64) == 0) {
+		if (p->m_strD4.compare(thingTemplate->m_str64) == 0) {
 			m_vec04.rva002E204D(p);
 			break;
 		}

@@ -18,9 +18,9 @@ class Player
 public:
 	Relationship getRelationship(const Player *that) const;
 };
-int Rva003ECB3DIsAlly(const Player *a, const Player *b)
+int Rva003ECB3DIsAlly(const Player *player, const Player *b)
 {
-	int r = a->getRelationship(b);
+	int r = player->getRelationship(b);
 	--r;
 	--r;
 	return r == 0;
@@ -30,7 +30,7 @@ int Rva003ECB3DIsAlly(const Player *a, const Player *b)
 // Native callback constant in ThreatFinder::getThreatForPlayer case 0;
 // shares the rowed Player::getRelationship callee with the 21B ally twin.
 // The native neg/sbb/inc maps ENEMIES (0) to 1 and every other value to 0.
-int Rva003ECB2AIsEnemy(const Player *a, const Player *b)
+int Rva003ECB2AIsEnemy(const Player *player, const Player *b)
 {
- return a->getRelationship(b) == ENEMIES;
+ return player->getRelationship(b) == ENEMIES;
 }

@@ -29,13 +29,13 @@ private:
 	Team *m_dlinkhead_TeamInstanceList; // +0x334
 };
 
-void TeamPrototype::prependTo_TeamInstanceList(Team *o)
+void TeamPrototype::prependTo_TeamInstanceList(Team *team)
 {
 	Team **head = &m_dlinkhead_TeamInstanceList;
-	if (o->dlink_isInList_TeamInstanceList(head)) {
+	if (team->dlink_isInList_TeamInstanceList(head)) {
 		return;
 	}
-	o->dlink_prependTo_TeamInstanceList(head);
+	team->dlink_prependTo_TeamInstanceList(head);
 }
 
 // ?isInList_TeamInstanceList@TeamPrototype@@QBE_NPAVTeam@@@Z @0x0039D4A2 (19B),
@@ -43,7 +43,7 @@ void TeamPrototype::prependTo_TeamInstanceList(Team *o)
 // 0x0039D40F called on the team with this +0x334 head. Retail shape: add ecx
 // 0x334, push, load the team into ecx, call, ret 4 - the skeleton of the
 // rowed forwarder 0x001E1709.
-Bool TeamPrototype::isInList_TeamInstanceList(Team *o) const
+Bool TeamPrototype::isInList_TeamInstanceList(Team *team) const
 {
-	return o->dlink_isInList_TeamInstanceList(&m_dlinkhead_TeamInstanceList);
+	return team->dlink_isInList_TeamInstanceList(&m_dlinkhead_TeamInstanceList);
 }

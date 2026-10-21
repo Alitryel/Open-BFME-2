@@ -86,8 +86,8 @@ struct Rva0040C430Ret
 };
 ArmySummaryEntry::ArmySummaryEntry() : CarryoverUnit()
 {
-	MemberAC *p = &m_ac;
-	p->m_vtable = (void *)g_00C3945C;
+	MemberAC *memberAC = &m_ac;
+	memberAC->m_vtable = (void *)g_00C3945C;
 	*(unsigned int *)this = (unsigned int)g_00C3944C;
 	m_b4 = 0;
 	m_b8 = 0;
@@ -104,17 +104,17 @@ ArmySummaryEntry::ArmySummaryEntry() : CarryoverUnit()
 // 0x0040E96D 0x0040EAED 0x0040F34E 0x004E0BDC 0x004F7B6B 0x0059B1EC.
 extern const void *const g_00C3944C[];
 extern const void *const g_00C3945C[];
-ArmySummaryEntry::ArmySummaryEntry(const ArmySummaryEntry &o) : CarryoverUnit(o), m_ac()
+ArmySummaryEntry::ArmySummaryEntry(const ArmySummaryEntry &armySummaryEntry) : CarryoverUnit(armySummaryEntry), m_ac()
 {
 	*(const void **)this = g_00C3944C;
-	MemberAC *p = &m_ac;
-	p->m_vtable = (void *)g_00C3945C;
-	m_b4 = o.m_b4;
-	m_b8 = o.m_b8;
-	m_bc = o.m_bc;
-	m_c0 = o.m_c0;
-	m_c4 = o.m_c4;
-	m_c5 = o.m_c5;
+	MemberAC *memberAC = &m_ac;
+	memberAC->m_vtable = (void *)g_00C3945C;
+	m_b4 = armySummaryEntry.m_b4;
+	m_b8 = armySummaryEntry.m_b8;
+	m_bc = armySummaryEntry.m_bc;
+	m_c0 = armySummaryEntry.m_c0;
+	m_c4 = armySummaryEntry.m_c4;
+	m_c5 = armySummaryEntry.m_c5;
 }
 
 
@@ -207,7 +207,7 @@ struct ArmyUpgradeCarryoverView {
 };
 struct ExperienceLevelHandle {
  ExperienceLevelHandle() {}
- ExperienceLevelHandle(const ExperienceLevelHandle &o): list(o.list), iterator(o.iterator) {}
+ ExperienceLevelHandle(const ExperienceLevelHandle &experienceLevelHandle): list(experienceLevelHandle.list), iterator(experienceLevelHandle.iterator) {}
  void *list;
  void *iterator;
 };

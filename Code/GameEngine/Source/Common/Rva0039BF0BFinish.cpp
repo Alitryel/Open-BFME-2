@@ -132,11 +132,11 @@ private:
 	ObjectCountMap m_map;
 };
 
-int Rva0039BFFD::rva0039BFFD(const ThingTemplate *tmpl)
+int Rva0039BFFD::rva0039BFFD(const ThingTemplate *thingTemplate)
 {
 	const ObjectCountMap *map = &m_map;
 	const ObjectCountMap *self_map = &this->m_map;
-	return Rva0039BFC5Count(tmpl, map ? map : self_map);
+	return Rva0039BFC5Count(thingTemplate, map ? map : self_map);
 }
 
 class Rva0039C010
@@ -148,9 +148,9 @@ private:
 	ObjectCountMap m_map;
 };
 
-int Rva0039C010::rva0039C010(const ThingTemplate *tmpl)
+int Rva0039C010::rva0039C010(const ThingTemplate *thingTemplate)
 {
 	const ObjectCountMap *map = &m_map;
 	const ObjectCountMap *self_map = &this->m_map;
-	return Rva0039BFC5Count(tmpl, map ? map : self_map);
+	return Rva0039BFC5Count(thingTemplate, map ? map : self_map);
 }

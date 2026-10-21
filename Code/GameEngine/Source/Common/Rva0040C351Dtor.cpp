@@ -39,6 +39,6 @@ private:
 ArmySummaryEntry::~ArmySummaryEntry()
 {
 	*(const void **)this = g_00C3944C;
-	MemberAC *p = &m_ac;
-	p->m_vtable = (void *)g_00C3945C;
+	MemberAC *memberAC = &m_ac;
+	memberAC->m_vtable = (void *)g_00C3945C;
 }

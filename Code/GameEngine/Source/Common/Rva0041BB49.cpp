@@ -37,8 +37,8 @@ bool ActionManager::canOverrideSpecialPowerDestination(Object *obj, const Coord3
 {
 	if (obj->rva0028BD5D(idx) != 0)
 	{
-		Player *p = obj->getControllingPlayer();
-		int playerIndex = p->m_playerIndex;
+		Player *player = obj->getControllingPlayer();
+		int playerIndex = player->m_playerIndex;
 		CellShroudStatus st = TheShroudManager->getShroudStatusForPlayer(playerIndex, pos);
 		return st != SHROUDED;
 	}

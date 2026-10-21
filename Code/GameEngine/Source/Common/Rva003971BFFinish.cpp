@@ -70,10 +70,10 @@ bool Rva003971BF::rva003971BF(Arg3971BF *arg)
 		return false;
 	ObjectID **range = reinterpret_cast<ObjectID **>(&m_begin50);
 	if (arg != 0 && (arg->m_flag110 & 1) != 0) {
-		ObjectID **r = reinterpret_cast<ObjectID **>(&m_begin74);
-		unsigned n = (unsigned)(r[1] - r[0]);
+		ObjectID **objectID = reinterpret_cast<ObjectID **>(&m_begin74);
+		unsigned n = (unsigned)(objectID[1] - objectID[0]);
 		if (n > 0)
-			range = r;
+			range = objectID;
 	}
 	for (ObjectID *p = range[0]; p != range[1]; ++p)
 	{

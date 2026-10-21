@@ -47,10 +47,10 @@ private:
 
 void Rva00410619::rva00410619(Rva00410619Arg *arg)
 {
-	AsciiHeader *p1 = m_name.m_data;
+	AsciiHeader *asciiHeader = m_name.m_data;
 	unsigned int len;
-	if (p1 != 0)
-		len = p1->length;
+	if (asciiHeader != 0)
+		len = asciiHeader->length;
 	else
 		len = 0;
 	AsciiHeader *p2 = *(AsciiHeader * volatile *)&m_name.m_data;

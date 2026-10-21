@@ -26,10 +26,10 @@ private:
 	char m_pad50[0x71 - 0x50];
 	unsigned char m_flag71;
 };
-bool Rva00407A6A::rva00407A6A(const UnicodeString &arg)
+bool Rva00407A6A::rva00407A6A(const UnicodeString &unicodeString)
 {
-	if (m_wide08.compare(arg) != 0) {
-		m_wide08.set(arg);
+	if (m_wide08.compare(unicodeString) != 0) {
+		m_wide08.set(unicodeString);
 		m_flags38 |= 0x10;
 	}
 	if (m_ascii4C.isEmpty()) {

@@ -249,7 +249,7 @@ struct ArmyUpgradeCarryoverView {
 };
 struct ExperienceLevelHandle {
  ExperienceLevelHandle() {}
- ExperienceLevelHandle(const ExperienceLevelHandle &o): list(o.list), iterator(o.iterator) {}
+ ExperienceLevelHandle(const ExperienceLevelHandle &experienceLevelHandle): list(experienceLevelHandle.list), iterator(experienceLevelHandle.iterator) {}
  void *list;
  void *iterator;
 };

@@ -27,13 +27,13 @@ private:
 	_STL::vector<BfmeStringRecord00404BF3> m_vec;
 };
 
-int Rva00404D70::rva00404D70(const AsciiString &s)
+int Rva00404D70::rva00404D70(const AsciiString &asciiString)
 {
 	bool found = false;
 	int result = 0x7fffffff;
 	for (unsigned int i = 0; i < m_vec.size() && !found; ++i)
 	{
-		if (((const StringBase<char> *)&m_vec[i].text)->compareNoCase(*(const StringBase<char> *)&s) == 0)
+		if (((const StringBase<char> *)&m_vec[i].text)->compareNoCase(*(const StringBase<char> *)&asciiString) == 0)
 		{
 			result = (int)i;
 			found = true;

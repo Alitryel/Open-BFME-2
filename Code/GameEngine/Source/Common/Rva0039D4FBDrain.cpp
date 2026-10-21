@@ -24,13 +24,13 @@ private:
 
 void TeamPrototype::removeAll_TeamInstanceList(void (*p)(Team *))
 {
-	Team *tmp;
-	while( (tmp = m_dlinkhead_TeamInstanceList) != 0 )
+	Team *team;
+	while( (team = m_dlinkhead_TeamInstanceList) != 0 )
 	{
-		removeFrom_TeamInstanceList(tmp);
+		removeFrom_TeamInstanceList(team);
 		if( p != 0 )
 		{
-			p(tmp);
+			p(team);
 		}
 	}
 }

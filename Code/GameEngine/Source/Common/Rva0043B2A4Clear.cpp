@@ -49,8 +49,8 @@ void DOTManager::rva0043B2A4Clear(ObjectID id, int value)
 	Object *obj = TheGameLogic->findObjectByID(id);
 	if (obj == 0)
 		return;
-	Drawable *d = obj->getDrawable();
-	if (d == 0)
+	Drawable *drawable = obj->getDrawable();
+	if (drawable == 0)
 		return;
-	d->rva00271C79(value);
+	drawable->rva00271C79(value);
 }

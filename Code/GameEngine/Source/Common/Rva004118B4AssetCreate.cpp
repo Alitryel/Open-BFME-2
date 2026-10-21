@@ -46,7 +46,7 @@ unsigned int g_00E02FF8;
 // The leaf-name key is a full-expression temporary (retail destroys it after the table
 // store and shares its stack slot with the other temporaries); the pointer view keeps it
 // a temporary for the pinned pointer-taking lookup.
-inline const AsciiString *addressOf(const AsciiString &s) { return &s; }
+inline const AsciiString *addressOf(const AsciiString &asciiString) { return &asciiString; }
 
 void *Rva004118B4(const char *path, const char *params)
 {

@@ -19,11 +19,11 @@ private:
 	Rva003F7BE9Old *m_20;
 };
 
-void Rva003F7BE9::rva003F7BE9(const ModuleData *v)
+void Rva003F7BE9::rva003F7BE9(const ModuleData *moduleData)
 {
 	void *p = 0;
 	if ((void *)m_20 != p)
 		p = m_20->rva003F7BE9Func((int)p);
 	::operator delete(p);
-	m_20 = (Rva003F7BE9Old *)v;
+	m_20 = (Rva003F7BE9Old *)moduleData;
 }

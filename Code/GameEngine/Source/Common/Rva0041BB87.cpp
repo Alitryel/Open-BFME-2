@@ -23,14 +23,14 @@ struct Rva0041BB87Iface
 
 class ActionManager { public: unsigned char Rva0041BB87IsRelated(Object*, Object*, int); };
 
-unsigned char ActionManager::Rva0041BB87IsRelated(Object *a, Object *b, int unused)
+unsigned char ActionManager::Rva0041BB87IsRelated(Object *object, Object *b, int unused)
 {
-	if (a == 0 || b == 0)
+	if (object == 0 || b == 0)
 		return false;
 	Object *related = b->rva002931F5(false);
-	if (a == related)
+	if (object == related)
 		return false;
-	void *p = a->rva0028C1A9();
+	void *p = object->rva0028C1A9();
 	if (p == 0)
 		return false;
 	Rva0041BB87Iface *iface = (Rva0041BB87Iface *)p;

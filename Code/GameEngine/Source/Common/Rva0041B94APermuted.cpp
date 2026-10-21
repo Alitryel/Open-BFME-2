@@ -29,11 +29,11 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_WriteBarrier, _ReadWriteBarrier)
 class ActionManager { public: bool Rva0041B94AGet(Object*, Object*, int); };
 
-bool ActionManager::Rva0041B94AGet(Object *a, Object *b, int)
+bool ActionManager::Rva0041B94AGet(Object *object, Object *b, int)
 {
-	if (a == 0 || b == 0)
+	if (object == 0 || b == 0)
 		return false;
-	const Object *aObj = a->rva002931F5(false);
+	const Object *aObj = object->rva002931F5(false);
 	Object *bObj = b->rva002931F5(false);
 	if (aObj == bObj)
 		return false;
@@ -42,7 +42,7 @@ bool ActionManager::Rva0041B94AGet(Object *a, Object *b, int)
 		const void *p = bObj->rva0028C197();
 		if (p == 0)
 			return false;
-		if (((Provider28 *)p)->slot28(a))
+		if (((Provider28 *)p)->slot28(object))
 		{
 			return true;
 			_WriteBarrier();

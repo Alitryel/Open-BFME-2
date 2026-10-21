@@ -119,9 +119,9 @@ void MissionObjectiveTracker::ParseMapMissionObjective(INI *ini)
 		return;
 	_bfme_debugRecordCallsite(1);
 	theDebug->f24();
-	LogA *a = (LogA *)theDebug->f27(0, 0, 0);
-	LogB *b = (LogB *)a->g14("A MissionObjectiveList may only appear in a map.ini file.");
-	b->h19(1);
+	LogA *logA = (LogA *)theDebug->f27(0, 0, 0);
+	LogB *logB = (LogB *)logA->g14("A MissionObjectiveList may only appear in a map.ini file.");
+	logB->h19(1);
 	INIExceptionBuf e;
 	rva002f681_fill(&e, 9, (const char *)0);
 	_CxxThrowException(&e, (const _s__ThrowInfo *)&throwAnchor00426D14); __assume(0);

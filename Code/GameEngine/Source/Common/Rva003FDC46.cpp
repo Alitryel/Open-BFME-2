@@ -73,8 +73,8 @@ void Rva003FDC46::rva003FDC46()
 		Rva003FDA90SmartField *f2 = m_field;
 		if (!f2)
 			f2 = (Rva003FDA90SmartField *)Make001FCBD7();
-		ParticleSystem *p;
-		((Rva001F3852ByteOneSetter *)((p = (ParticleSystem *)f2->get().m_ptr) ? p : Make001FCBD7()))->enable();
+		ParticleSystem *particleSystem;
+		((Rva001F3852ByteOneSetter *)((particleSystem = (ParticleSystem *)f2->get().m_ptr) ? particleSystem : Make001FCBD7()))->enable();
 	}
 	{
 		Rva003FDA90SmartField *f3 = m_field;

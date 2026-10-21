@@ -100,9 +100,9 @@ int Rva0042C833::rva0042C879(GameMessage *message)
         if (result==1) return result;
     }
     if (message->type!=3) return 0;
-    const volatile GameMessageArgumentType *argument=message->getArgument(0);
-    const int x=argument->pixel.x;
-    const int y=argument->pixel.y;
+    const volatile GameMessageArgumentType *gameMessageArgumentType=message->getArgument(0);
+    const int x=gameMessageArgumentType->pixel.x;
+    const int y=gameMessageArgumentType->pixel.y;
     Rva0042C083Param point={x,y};
     return reinterpret_cast<Rva0042C7B1 *>(this)->rva0042C7B1(&point,message->getArgument(1)->integer);
 }

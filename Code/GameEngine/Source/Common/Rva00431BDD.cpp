@@ -51,9 +51,9 @@ bool FormationTranslator::WaitForSecondButtonDownStateHandler::IsStartOfDrag(Gam
 	int t = *(int *)((char *)msg + 0x10);
 	if (t == m_08)
 		return false;
-	const GameMessageArgumentType *a0 = msg->getArgument(0);
-	int x = a0->pixel.x;
-	int y = a0->pixel.y;
+	const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
+	int x = gameMessageArgumentType->pixel.x;
+	int y = gameMessageArgumentType->pixel.y;
 	ICoord2D tmp;
 	tmp.y = y;
 	tmp.x = x;

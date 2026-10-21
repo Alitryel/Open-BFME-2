@@ -31,10 +31,10 @@ private:
 	bool m_flag;
 };
 
-void Rva00407137::rva00407137(const UnicodeString &u)
+void Rva00407137::rva00407137(const UnicodeString &unicodeString)
 {
 	m_flag = true;
-	AsciiString s(u);
+	AsciiString s(unicodeString);
 	const char *str = s.str();
 	m_crc = CRC::String(str, m_crc);
 }
@@ -42,10 +42,10 @@ void Rva00407137::rva00407137(const UnicodeString &u)
 // ?rva0040710C@Rva00407137@@QAEXABVAsciiString@@@Z @0x0040710C, 43 bytes.
 // Target evidence: body sets the same flag and CRC field as the Unicode overload;
 // packet identifies the AsciiString parameter and CRC::String callee.
-void Rva00407137::rva0040710C(const AsciiString &s)
+void Rva00407137::rva0040710C(const AsciiString &asciiString)
 {
 	m_flag = true;
-	m_crc = CRC::String(s.str(), m_crc);
+	m_crc = CRC::String(asciiString.str(), m_crc);
 }
 
 // ?Rva004071AAForward@@YAXPAVRva004071AAVirt@@ABVUnicodeString@@HPAVRva00407137@@@Z retail 0x004071AA 45B
@@ -63,17 +63,17 @@ public:
 	virtual void v26(const UnicodeString &u);
 	virtual void v27(const AsciiString &s);
 };
-void Rva004071AAForward(Rva004071AAVirt *p, const UnicodeString &u, int dummy, Rva00407137 *r)
+void Rva004071AAForward(Rva004071AAVirt *p, const UnicodeString &unicodeString, int dummy, Rva00407137 *r)
 {
-	p->v26(u);
-	r->rva00407137(u);
-	AsciiString tmp(u);
+	p->v26(unicodeString);
+	r->rva00407137(unicodeString);
+	AsciiString tmp(unicodeString);
 }
 
 // ?Rva0040718FForward@@YAXPAXABVAsciiString@@HPAVRva00407137@@@Z @0x0040718F, 27 bytes.
 // Target evidence: this dispatches virtual slot 0x6C then calls the landed ASCII CRC overload.
-void Rva0040718FForward(void *v, const AsciiString &s, int dummy, Rva00407137 *r)
+void Rva0040718FForward(void *v, const AsciiString &asciiString, int dummy, Rva00407137 *r)
 {
-	((Rva004071AAVirt *)v)->v27(s);
-	r->rva0040710C(s);
+	((Rva004071AAVirt *)v)->v27(asciiString);
+	r->rva0040710C(asciiString);
 }

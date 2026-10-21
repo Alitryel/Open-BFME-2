@@ -37,13 +37,13 @@ void __cdecl Rva003ED498Count(void const *arg)
 	_STL::_Rb_tree_node_base *n = g_00A02E50->_M_left;
 	if (n == g_00A02E50)
 		return;
-	BitRange const *r = (BitRange const *)arg;
+	BitRange const *bitRange = (BitRange const *)arg;
 	do
 	{
 		TreeNode *tn = (TreeNode *)n;
 		unsigned bits = tn->m_14;
-		unsigned const *begin = r->m_begin;
-		unsigned const *finish = r->m_end;
+		unsigned const *begin = bitRange->m_begin;
+		unsigned const *finish = bitRange->m_end;
 		unsigned count = (unsigned)(finish - begin);
 		unsigned words = bits >> 5;
 		if (count > words)

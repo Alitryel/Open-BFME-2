@@ -52,9 +52,9 @@ private:
 int Rva0039727A::rva0039727A()
 {
 	int count = 0;
-	for (ObjectID *p = m_begin74; p != m_end78; ++p)
+	for (ObjectID *objectID = m_begin74; objectID != m_end78; ++objectID)
 	{
-		Object *obj = TheGameLogic->findObjectByID(*p);
+		Object *obj = TheGameLogic->findObjectByID(*objectID);
 		if (obj == 0)
 			continue;
 		void *iface = obj->rva0028BCF4();

@@ -24,14 +24,14 @@ public:
 	void *rva003EE083(const AsciiString &arg);
 };
 
-void *Rva003EE083::rva003EE083(const AsciiString &arg)
+void *Rva003EE083::rva003EE083(const AsciiString &asciiString)
 {
 	BitRange **item = m_begin;
 	while (item != m_end)
 	{
 		unsigned char equal;
 		{
-			equal = (unsigned char)((*item)->rva00568BE2().compareNoCase(arg) == 0);
+			equal = (unsigned char)((*item)->rva00568BE2().compareNoCase(asciiString) == 0);
 		}
 		if (equal != 0)
 			return *item;

@@ -40,11 +40,11 @@ private:
 	_STL::vector<BfmeStringRecord00404BF3> m_vec;
 };
 
-BfmeStringRecord00404BF3 *Rva00404D70::rva00405684(const AsciiString &s)
+BfmeStringRecord00404BF3 *Rva00404D70::rva00405684(const AsciiString &asciiString)
 {
-	int idx = rva00404D70(s);
+	int idx = rva00404D70(asciiString);
 	if (idx != 0x7fffffff)
 		return &m_vec[idx];
-	m_vec.push_back(BfmeStringRecord00404BF3(s));
+	m_vec.push_back(BfmeStringRecord00404BF3(asciiString));
 	return &m_vec.back();
 }

@@ -139,9 +139,9 @@ void Rva0036ListOwner::rva0036DC46(int unused)
 void Rva0036ListOwner::rva0036D6B4()
 {
 	for (RvaListNode *node = m_head->m_next; node != m_head; node = node->m_next) {
-		Object *o = (Object *)node->m_payload;
-		o->rva0028AD32();
-		Rva0036D6B4Iface *ifc = o->m_250;
+		Object *object = (Object *)node->m_payload;
+		object->rva0028AD32();
+		Rva0036D6B4Iface *ifc = object->m_250;
 		if (ifc != NULL) {
 			Rva0036D6B4Ret *r = ifc->slot7C();
 			if (r != NULL)

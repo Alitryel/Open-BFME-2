@@ -59,9 +59,9 @@ private:
 	int m_50; // +0x50
 };
 
-void Rva003427A9::rva003427A9(Xfer *x)
+void Rva003427A9::rva003427A9(Xfer *xfer)
 {
-	x->Version1();
-	x->v30(&m_4c);
-	x->v24(&m_50);
+	xfer->Version1();
+	xfer->v30(&m_4c);
+	xfer->v24(&m_50);
 }

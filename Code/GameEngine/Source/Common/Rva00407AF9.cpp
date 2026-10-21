@@ -26,13 +26,13 @@ extern "C"
 }
 extern const char g_00BBD40C[];
 // WorldBuilder ExecuteCommand, WB VA 0x0107FED0 (callgraph lead, score 1.0).
-bool ExecuteCommand(const AsciiString &a, const AsciiString &b)
+bool ExecuteCommand(const AsciiString &asciiString, const AsciiString &b)
 {
 	STARTUPINFOA si;
 	memset(&si, 0, sizeof(si));
 	si.cb = sizeof(si);
 	AsciiString cmd;
-	((StringBase<char> *)&cmd)->concat(*(const StringBase<char> *)&a);
+	((StringBase<char> *)&cmd)->concat(*(const StringBase<char> *)&asciiString);
 	((StringBase<char> *)&cmd)->concat(g_00BBD40C);
 	((StringBase<char> *)&cmd)->concat(*(const StringBase<char> *)&b);
 	char buf[256];

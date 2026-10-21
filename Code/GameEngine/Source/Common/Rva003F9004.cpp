@@ -28,8 +28,8 @@ private:
 	_STL::vector<const ModuleData *> m_vec;
 };
 
-void Rva003F9004::rva003F9004(const ModuleData *p)
+void Rva003F9004::rva003F9004(const ModuleData *moduleData)
 {
-	if (p != 0)
-		m_vec.push_back(p);
+	if (moduleData != 0)
+		m_vec.push_back(moduleData);
 }

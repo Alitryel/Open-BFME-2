@@ -42,9 +42,9 @@ bool Rva004096E6(const AsciiString &fileName);
 // (VA 0x00BBB5C4) rather than the shared header's TheNullChr; the shared
 // header keeps that pointer private, so the accessor reads the one-pointer
 // object layout.
-static inline const WideChar *wideText(const UnicodeString &s)
+static inline const WideChar *wideText(const UnicodeString &unicodeString)
 {
-	const char *buffer = *(const char *const *)&s;
+	const char *buffer = *(const char *const *)&unicodeString;
 	return buffer ? (const WideChar *)(buffer + 8) : (const WideChar *)L"";
 }
 

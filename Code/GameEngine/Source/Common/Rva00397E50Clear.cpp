@@ -59,12 +59,12 @@ void Rva00397E50::rva00397E50()
 	_STL::vector<void *, _STL::allocator<void *> > *v = &m_vec;
 	for (Elem **it = (Elem **)m_vec.m_begin; it != (Elem **)m_vec.m_end; ++it)
 	{
-		Elem *e = *it;
-		if (e != 0)
+		Elem *elem = *it;
+		if (elem != 0)
 		{
-			Rva002E3714Unlink((Rva002E36D5Node *)(void *)e);
-			((Rva0023D661 *)(void *)TheGameLogic)->rva0023D661((int)(void *)e);
-			::operator delete(e->V0(0));
+			Rva002E3714Unlink((Rva002E36D5Node *)(void *)elem);
+			((Rva0023D661 *)(void *)TheGameLogic)->rva0023D661((int)(void *)elem);
+			::operator delete(elem->V0(0));
 		}
 	}
 	v->erase(v->m_begin, v->m_end);

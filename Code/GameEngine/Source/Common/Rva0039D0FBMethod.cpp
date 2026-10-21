@@ -183,17 +183,17 @@ struct ScoreKeeper
 static KindOfMaskType scoringBuildingMask;
 static KindOfMaskType scoringBuildingDestroyMask;
 
-void ScoreKeeper::addObjectLost( const Object *o )
+void ScoreKeeper::addObjectLost( const Object *object )
 {
 	if (TheGameLogic->isScoringEnabled() == FALSE)
 		return;
 
-	if (o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
+	if (object->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
 		return;
 
 	Bool addToCount = FALSE;
-	const ThingTemplate *tmpl = o->getTemplate();
-	if (tmpl->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
+	const ThingTemplate *thingTemplate = object->getTemplate();
+	if (thingTemplate->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
 	{
 		if (--m_totalStructures < 0)
 			m_totalStructures = 0;
@@ -201,7 +201,7 @@ void ScoreKeeper::addObjectLost( const Object *o )
 		++m_16c;
 		addToCount = TRUE;
 	}
-	else if (tmpl->isKindOfMulti(scoringBuildingDestroyMask, KINDOFMASK_NONE))
+	else if (thingTemplate->isKindOfMulti(scoringBuildingDestroyMask, KINDOFMASK_NONE))
 	{
 		if (--m_totalStructures < 0)
 			m_totalStructures = 0;
@@ -209,7 +209,7 @@ void ScoreKeeper::addObjectLost( const Object *o )
 		++m_16c;
 		addToCount = TRUE;
 	}
-	else if (TheWritableGlobalData->m_scoreUnitFilter.accepts((Object *)o, NULL))
+	else if (TheWritableGlobalData->m_scoreUnitFilter.accepts((Object *)object, NULL))
 	{
 		if (--m_totalUnits < 0)
 			m_totalUnits = 0;
@@ -221,18 +221,18 @@ void ScoreKeeper::addObjectLost( const Object *o )
 	if (addToCount)
 	{
 		Int existingCount = 0;
-		ObjectCountMapIt it = m_map2ec.find((unsigned int)o->getTemplate());
+		ObjectCountMapIt it = m_map2ec.find((unsigned int)object->getTemplate());
 		if (it != m_map2ec.end())
 			existingCount = (Int)it->second;
-		((ImageSubscriptMap *)&m_map2ec)->operator[]((unsigned int)o->getTemplate()) = (Image *)(existingCount + 1);
+		((ImageSubscriptMap *)&m_map2ec)->operator[]((unsigned int)object->getTemplate()) = (Image *)(existingCount + 1);
 
 		existingCount = 0;
-		it = m_map1d4.find((unsigned int)o->getTemplate());
+		it = m_map1d4.find((unsigned int)object->getTemplate());
 		if (it != m_map1d4.end())
 			existingCount = (Int)it->second;
-		((ImageSubscriptMap *)&m_map1d4)->operator[]((unsigned int)o->getTemplate()) = (Image *)(existingCount + 1);
+		((ImageSubscriptMap *)&m_map1d4)->operator[]((unsigned int)object->getTemplate()) = (Image *)(existingCount + 1);
 
-		BodyModuleInterface *body = o->m_body;
+		BodyModuleInterface *body = object->m_body;
 		if (body)
 		{
 			const DamageInfo *info = body->getLastDamageInfo();

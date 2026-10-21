@@ -61,7 +61,7 @@ class vector<SciVec, allocator<SciVec> >
 public:
 	void resize(unsigned int n, SciVec value);
 	void resize(unsigned int n);
-	void push_back(const SciVec &x) { ((Rva0033A23AVector *)this)->push_back((const Rva0033A23AElement &)x); }
+	void push_back(const SciVec &sciVec) { ((Rva0033A23AVector *)this)->push_back((const Rva0033A23AElement &)sciVec); }
 	SciVec *erase(SciVec *first, SciVec *last)
 	{
 		return (SciVec *)((Rva00339E80 *)this)->rva00339E80((DynamicPortalLink *)first, (DynamicPortalLink *)last);

@@ -39,13 +39,13 @@ struct BFME2WideConcatTriple
 	const UnicodeString *a, *b, *c;
 	operator UnicodeString();
 };
-__forceinline Pair8 makePair(const UnicodeString &x, const UnicodeString &y)
+__forceinline Pair8 makePair(const UnicodeString &unicodeString, const UnicodeString &y)
 {
-	Pair8 pair((int)&x, (int)&y);
+	Pair8 pair((int)&unicodeString, (int)&y);
 	return pair;
 }
-__forceinline const Pair8 *pairPtr(const Pair8 &p) { return &p; }
-__forceinline int widePtr(const UnicodeString &s) { return (int)&s; }
+__forceinline const Pair8 *pairPtr(const Pair8 &pair8) { return &pair8; }
+__forceinline int widePtr(const UnicodeString &unicodeString) { return (int)&unicodeString; }
 
 UnicodeString Rva0037B9D4Get();
 UnicodeString Rva0037BA48Get();

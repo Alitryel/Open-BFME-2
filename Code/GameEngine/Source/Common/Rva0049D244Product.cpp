@@ -56,7 +56,7 @@ public:
 	float rva0049D244(const ThingTemplate *tmpl);
 };
 
-float Rva0049D244::rva0049D244(const ThingTemplate *tmpl)
+float Rva0049D244::rva0049D244(const ThingTemplate *thingTemplate)
 {
 	float acc = 1.0f;
 	Rva0049D244Holder *holder = *(Rva0049D244Holder **)((char *)this - 0x1C);
@@ -67,7 +67,7 @@ float Rva0049D244::rva0049D244(const ThingTemplate *tmpl)
 		do
 		{
 			Rva0049D244Value *value = node->m_value;
-			if (value->m_filter.testTemplate(tmpl, 0, 0))
+			if (value->m_filter.testTemplate(thingTemplate, 0, 0))
 			{
 				const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(*(const AsciiString *)value);
 				if (upgrade != 0)

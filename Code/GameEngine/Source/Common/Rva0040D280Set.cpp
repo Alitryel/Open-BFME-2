@@ -40,8 +40,8 @@ void ArmySummarySystem::rva0040D280(Object *obj, int val)
 	if (y == 0)
 		return;
 	int v = ((Rva0040C985 *)y)->rva0040CA24();
-	Drawable *d = obj->getDrawable();
-	if (d == 0)
+	Drawable *drawable = obj->getDrawable();
+	if (drawable == 0)
 		return;
 	obj->setCustomIndicatorColor(v);
 	obj->rva0028BAAE(val);

@@ -33,17 +33,17 @@ private:
 };
 void Rva003FAC3F::rva003FAC3F()
 {
-    GlobalSlotTarget *g = (*(GlobalSlotTarget **)&TheAudio);
-    if (g == 0)
+    GlobalSlotTarget *globalSlotTarget = (*(GlobalSlotTarget **)&TheAudio);
+    if (globalSlotTarget == 0)
         return;
     unsigned int v = m_2c;
     if (v < 5)
         return;
     Inner14 *p = m_14;
     if (p != 0 && p->flag == 0) {
-        g->slot35(1, 1, 0);
+        globalSlotTarget->slot35(1, 1, 0);
     } else {
-        g->slot27(v);
+        globalSlotTarget->slot27(v);
     }
     m_2c = 1;
 }

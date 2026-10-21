@@ -11,9 +11,9 @@ class Rva00406FBF
 public:
 	void rva00406FBF(unsigned char *data);
 };
-void __cdecl Rva00407099Update(Xfer *a1, ObjectID *a2, void *a3_unused, Rva00406FBF *a4)
+void __cdecl Rva00407099Update(Xfer *xfer, ObjectID *objectID, void *a3_unused, Rva00406FBF *a4)
 {
-	XferObjectID(a1, a2);
+	XferObjectID(xfer, objectID);
 	(void)a3_unused;
-	a4->rva00406FBF((unsigned char *)a2);
+	a4->rva00406FBF((unsigned char *)objectID);
 }

@@ -28,12 +28,12 @@ private:
 	Team *m_dlinkhead_TeamInstanceList; // +0x334
 };
 
-void TeamPrototype::removeFrom_TeamInstanceList(Team *o)
+void TeamPrototype::removeFrom_TeamInstanceList(Team *team)
 {
 	Team **head = &m_dlinkhead_TeamInstanceList;
-	if( !o->dlink_isInList_TeamInstanceList(head) )
+	if( !team->dlink_isInList_TeamInstanceList(head) )
 	{
 		return;
 	}
-	o->dlink_removeFrom_TeamInstanceList(head);
+	team->dlink_removeFrom_TeamInstanceList(head);
 }

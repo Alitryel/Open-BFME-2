@@ -80,9 +80,9 @@ void Rva003972D3::rva00397357(const UpgradeTemplate *upgrade)
 	}
 	rva003972D3(&m_range50, upgrade);
 	rva003972D3(&m_range74, upgrade);
-	for (ObjectID *p = m_begin5C; p != m_end60; ++p)
+	for (ObjectID *objectID = m_begin5C; objectID != m_end60; ++objectID)
 	{
-		Object *obj2 = findByID(*p);
+		Object *obj2 = findByID(*objectID);
 		if (obj2 == 0)
 			continue;
 		if (obj2->hasUpgrade(upgrade))

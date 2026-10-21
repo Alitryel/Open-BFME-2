@@ -49,21 +49,21 @@ public:
  bool canResumeConstructionOf(const Object *a, const Object *b, CommandSourceType);
 };
 
-bool ActionManager::canResumeConstructionOf(const Object *a, const Object *b, CommandSourceType)
+bool ActionManager::canResumeConstructionOf(const Object *object, const Object *b, CommandSourceType)
 {
-	if (a == 0 || b == 0)
+	if (object == 0 || b == 0)
 		return false;
-	if ((a->m_template->m_flags109 & 0x40) == 0)
+	if ((object->m_template->m_flags109 & 0x40) == 0)
 		return false;
-	Relationship r = a->getRelationship(b);
+	Relationship r = object->getRelationship(b);
 	if (r != ALLIES)
 		return false;
 	if (!b->testStatus((ObjectStatusTypes)r))
 		return false;
-	if ((a->m_flags438 & 1) != 0)
+	if ((object->m_flags438 & 1) != 0)
 		return false;
 	ObjectID ben = b->getSoleHealingBenefactor();
-	if (ben != 0 && ben != a->m_id)
+	if (ben != 0 && ben != object->m_id)
 		return false;
 	return true;
 }

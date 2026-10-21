@@ -113,9 +113,9 @@ typedef _STL::map<int, BfmePod8> UnitFilterMap;
 // Retail shares one out-of-line int-keyed _M_find (0x00388F63) across the integer-keyed maps.
 typedef _STL::map<int, _STL::vector<int> *> UnitFilterFindMap;
 
-static __forceinline const char *GetStr00423FD8(const AsciiString &s)
+static __forceinline const char *GetStr00423FD8(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	return t ? t + 8 : "";
 }
 

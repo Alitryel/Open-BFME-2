@@ -28,4 +28,4 @@ __declspec(noinline) inline unsigned char AttributeModifierPoolUpdate::isCategor
 }
 // Select-any like AttributeModifierPoolUpdateAdd.cpp's in-class copy; the anchor keeps it emitted.
 // ?bfmeAnchorIsCategoryDisabled absent-from-retail
-unsigned char bfmeAnchorIsCategoryDisabled(AttributeModifierPoolUpdate *p, int index) { return p->isCategoryDisabled(index); }
+unsigned char bfmeAnchorIsCategoryDisabled(AttributeModifierPoolUpdate *attributeModifierPoolUpdate, int index) { return attributeModifierPoolUpdate->isCategoryDisabled(index); }

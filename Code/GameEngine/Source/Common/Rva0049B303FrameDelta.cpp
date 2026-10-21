@@ -27,6 +27,6 @@ private:
 unsigned int OCLUpdate::getRemainingFrames() const
 {
 	int t = m_20;
-	GameLogic *g = TheGameLogic;
-	return t - g->m_frame;
+	GameLogic *gameLogic = TheGameLogic;
+	return t - gameLogic->m_frame;
 }

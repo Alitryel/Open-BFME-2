@@ -108,8 +108,8 @@ Xfer *Rva0046EFDBXfer(Xfer *xfer, ModuleDataVector *vec)
 		vec->reserve(count);
 		while (count != 0) {
 			--count;
-			const ModuleData *tmp;
-			vec->push_back(tmp);
+			const ModuleData *moduleData;
+			vec->push_back(moduleData);
 			xfer->xferModuleData(vec->back());
 		}
 	}

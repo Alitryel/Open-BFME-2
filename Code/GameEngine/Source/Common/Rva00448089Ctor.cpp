@@ -12,6 +12,6 @@ public:
 	Rva00448089(const UnicodeString &a, const UnicodeString &b);
 };
 
-Rva00448089::Rva00448089(const UnicodeString &a, const UnicodeString &b) : m_00(a), m_04(b)
+Rva00448089::Rva00448089(const UnicodeString &unicodeString, const UnicodeString &b) : m_00(unicodeString), m_04(b)
 {
 }

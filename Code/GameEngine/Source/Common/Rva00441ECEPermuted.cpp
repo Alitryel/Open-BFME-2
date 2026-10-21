@@ -47,7 +47,7 @@ class __multiple_inheritance FunctorTarget;
 typedef void (FunctorTarget::*FunctorMethod)();
 struct FunctorBinding {
  FunctorTarget* target;unsigned int pad;FunctorMethod method;
- FunctorBinding(FunctorMethod m,FunctorTarget*t):target(t),method(m){}
+ FunctorBinding(FunctorMethod m,FunctorTarget*functorTarget):target(functorTarget),method(m){}
 };
 class Rva0057BC63FunctorHolder {public:Rva0057BC63FunctorHolder(const FunctorBinding&);TargetRef00217D4C* pointer;};
 struct TreeHintRef00217D4C:public Rva0057BC63FunctorHolder {

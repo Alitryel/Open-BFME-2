@@ -12,9 +12,9 @@ public:
 	bool m_70;
 	void rva00406EBF(class Xfer *x);
 };
-void Rva00406EBF::rva00406EBF(Xfer *x)
+void Rva00406EBF::rva00406EBF(Xfer *xfer)
 {
 	m_70 = true;
-	dummy03(x);
+	dummy03(xfer);
 	m_70 = false;
 }

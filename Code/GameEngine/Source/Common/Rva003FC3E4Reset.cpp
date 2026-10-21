@@ -70,9 +70,9 @@ void Rva003FC3E4::rva003FC3E4()
 		Rva003FC3E4ObjB *o = m_08->v30(i);
 		if (o == 0)
 			continue;
-		MaterialInfoClass *m = o->v85();
-		if (m == 0)
+		MaterialInfoClass *materialInfo = o->v85();
+		if (materialInfo == 0)
 			continue;
-		m->Reset_Texture_Mappers();
+		materialInfo->Reset_Texture_Mappers();
 	}
 }

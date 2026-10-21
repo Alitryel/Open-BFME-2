@@ -48,9 +48,9 @@ public:
 	virtual void w08(int arg);
 };
 
-void ScriptActions::Rva003C3F9EApply(Parameter *p, const AsciiString &name, int arg3)
+void ScriptActions::Rva003C3F9EApply(Parameter *parameter, const AsciiString &name, int arg3)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(p);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	const SpecialPowerTemplate *found = TheSpecialPowerStore->findSpecialPowerTemplate(name);
 	if (obj != 0 && found != 0)
 	{

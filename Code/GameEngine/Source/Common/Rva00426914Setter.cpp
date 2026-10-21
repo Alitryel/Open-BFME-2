@@ -107,12 +107,12 @@ void Rva004266A1::rva00426914(int index, unsigned char value)
 	m_04[index].flag2 = value;
 	if (TheAudio == 0 || old != 0 || value == 0)
 		return;
-	Afield *a = (*(Afield * volatile *)&(ThePlayerList->m_10));
-	if (a == 0)
+	Afield *afield = (*(Afield * volatile *)&(ThePlayerList->m_10));
+	if (afield == 0)
 		return;
-	if ((*(Bfield * volatile *)&(a->m_34)) == 0)
+	if ((*(Bfield * volatile *)&(afield->m_34)) == 0)
 		return;
-	if (a->m_34->m_ref.referent == 0)
+	if (afield->m_34->m_ref.referent == 0)
 		return;
 	if (TheGameLogic == 0 || (unsigned int)((GameLogicFrameView *)TheGameLogic)->m_40 <= 3)
 		return;

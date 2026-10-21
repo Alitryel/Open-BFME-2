@@ -281,10 +281,10 @@ int Rva004320B1::rva004320B1(GameMessage *msg)
 	{
 	case 3:
 	{
-		const GameMessageArgumentType *a0 = msg->getArgument(0);
+		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
 		ICoord2D pixel;
-		pixel.x = a0->pixel.x;
-		pixel.y = a0->pixel.y;
+		pixel.x = gameMessageArgumentType->pixel.x;
+		pixel.y = gameMessageArgumentType->pixel.y;
 		Coord3D world;
 		TheTacticalView->screenToTerrain(&pixel, &world, false);
 		if (TheInGameUI->slot51())

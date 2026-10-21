@@ -24,9 +24,9 @@ struct BuddyInviteGameInfo
 	void LocationFromString(const AsciiString &a);
 };
 
-void BuddyInviteGameInfo::LocationFromString(const AsciiString &a)
+void BuddyInviteGameInfo::LocationFromString(const AsciiString &asciiString)
 {
-	void *h = *(void *const *)&a;
+	void *h = *(void *const *)&asciiString;
 	const char *t = h != 0 ? (const char *)h + 8 : "";
 	const char *s = h != 0 ? (const char *)h + 8 : "";
 	sscanf(s, "%d %d %d", &m_04, &m_08, &m_14);

@@ -217,17 +217,17 @@ int Rva0042C5C3::rva0042C0DB(const Rva0042C083Param*p,int value){
  return 0;
 }
 int Rva0042C5C3::translateGameMessage(const void *raw){
- GameMessage *m=(GameMessage*)raw;
+ GameMessage *gameMessage=(GameMessage*)raw;
  if(m_24!=3){
   int result;
-  if(m_34.m_ptr)result=((Rva0042C0DBDelegate *)m_34.m_ptr)->invokeMessage(m);
-  else result=((Rva005E6817Mid*)((char*)this+0xC))->fwd(m);
+  if(m_34.m_ptr)result=((Rva0042C0DBDelegate *)m_34.m_ptr)->invokeMessage(gameMessage);
+  else result=((Rva005E6817Mid*)((char*)this+0xC))->fwd(gameMessage);
   if(result==1)return result;
  }
- int type=m->type;
+ int type=gameMessage->type;
  if(type!=3)return type==0x6F;
- Rva0042C083Param point=m->getArgument(0)->position;
- return rva0042C0DB(&point,m->getArgument(1)->integer);
+ Rva0042C083Param point=gameMessage->getArgument(0)->position;
+ return rva0042C0DB(&point,gameMessage->getArgument(1)->integer);
 }
 
 void Rva0042C5C3::event6_0(int){m_2C=0;}

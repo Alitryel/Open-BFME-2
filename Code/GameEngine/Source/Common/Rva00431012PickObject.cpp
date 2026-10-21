@@ -51,11 +51,11 @@ extern PlayerList *ThePlayerList;
 Object *__cdecl Rva00431012PickObject(ICoord2D *pixel, Rva0035AFE4 *mask, int pickType)
 {
 	Object *obj = 0;
-	Drawable *d = ((TacticalView *)TheTacticalView)->pickDrawable(pixel, false, pickType);
-	if (d != 0 && d->m_object != 0)
+	Drawable *drawable = ((TacticalView *)TheTacticalView)->pickDrawable(pixel, false, pickType);
+	if (drawable != 0 && drawable->m_object != 0)
 	{
 		Player *local = ThePlayerList->m_localPlayer;
-		obj = d->m_object;
+		obj = drawable->m_object;
 		if (!mask->rva0035B010(local, obj))
 			obj = 0;
 	}

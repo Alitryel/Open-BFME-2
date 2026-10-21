@@ -69,12 +69,12 @@ void Rva003FC7FC::rva003FC7C7(const RvaSmartPtr12 &src)
 	if (*(void * const *)&src != 0)
 	{
 		((RvaSmartPtr12 *)&m_handle)->operator=(src);
-		ParticleSystem *p = *(ParticleSystem * const *)&m_handle;
+		ParticleSystem *particleSystem = *(ParticleSystem * const *)&m_handle;
 		ParticleSystem *q;
-		if (p == 0)
+		if (particleSystem == 0)
 			q = Make001FCBD7();
 		else
-			q = p;
+			q = particleSystem;
 		m_id = (ParticleSystemID)q->m_idA8;
 	}
 }

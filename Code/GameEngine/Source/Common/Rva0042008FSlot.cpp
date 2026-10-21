@@ -133,8 +133,8 @@ void VictoryConditions::cachePlayerPtrs()
 		return;
 	unsigned int n = 0;
 	for (int i = 0; i < 0x14; ++i) {
-		Player *p = ThePlayerList->getNthPlayer(i);
-		if (v26(p))
+		Player *player = ThePlayerList->getNthPlayer(i);
+		if (v26(player))
 			++n;
 	}
 	if (n < 0x14) {

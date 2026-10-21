@@ -31,8 +31,8 @@ public:
 };
 
 // ?rva0037DCCC@@YAXPAVObject@@H@Z, retail 0x0037DCCC, 28 bytes.
-void __cdecl rva0037DCCC(Object *o, int b)
+void __cdecl rva0037DCCC(Object *object, int b)
 {
-	((_STL::_Base_bitset<32> *)&o->m_284)->_M_do_or(*(const _STL::_Base_bitset<32> *)b);
-	o->updateUpgradeModules();
+	((_STL::_Base_bitset<32> *)&object->m_284)->_M_do_or(*(const _STL::_Base_bitset<32> *)b);
+	object->updateUpgradeModules();
 }

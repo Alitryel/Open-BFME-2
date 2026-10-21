@@ -63,22 +63,22 @@ public:
 	GameMessage::Type rva0041CE06(const Object *obj);
 };
 
-bool ActionManager::Rva0041CE27Check(Object *a, Object *b, int)
+bool ActionManager::Rva0041CE27Check(Object *object, Object *b, int)
 {
-    if (a == 0)
+    if (object == 0)
         return false;
     if (b == 0)
         return false;
-    if (a->getRelationship(b) != RvaRelEnemies)
+    if (object->getRelationship(b) != RvaRelEnemies)
         return false;
     if (b->m_258 == 0)
         return false;
     if ((b->m_p04->m_flag108 & 4) != 0)
         return false;
-    const SpecialPowerTemplate *tmpl = TheSpecialPowerStore->findSpecialPowerTemplate("SpecialAbilityGiveUpgrade");
-    if (tmpl == 0)
+    const SpecialPowerTemplate *specialPowerTemplate = TheSpecialPowerStore->findSpecialPowerTemplate("SpecialAbilityGiveUpgrade");
+    if (specialPowerTemplate == 0)
         return false;
-    void *slot = a->rva0028BD92(0x33);
+    void *slot = object->rva0028BD92(0x33);
     if (slot != 0)
         return ((Rva0049C6E1 *)slot)->rva0049C6E1(b);
     return false;

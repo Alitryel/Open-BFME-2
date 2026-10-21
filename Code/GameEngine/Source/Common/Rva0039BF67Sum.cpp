@@ -76,8 +76,8 @@ int Rva0039BF67::rva0039BF67(BitFlags<116> mustBeSet, BitFlags<116> mustBeClear)
 		_STL::_Rb_tree_node_base *node = map->m_header->_M_left;
 		while (node != map->m_header)
 		{
-			const ThingTemplate *tmpl = ((ObjectCountNode *)node)->m_key;
-			if (tmpl && tmpl->isKindOfMulti(mustBeSet, mustBeClear))
+			const ThingTemplate *thingTemplate = ((ObjectCountNode *)node)->m_key;
+			if (thingTemplate && thingTemplate->isKindOfMulti(mustBeSet, mustBeClear))
 				total += ((ObjectCountNode *)node)->m_value;
 			node = _STL::_Rb_global<bool>::_M_increment(node);
 		}

@@ -81,8 +81,8 @@ AttackContesterStateMachine::AttackContesterStateMachine(Object *owner, int val,
 		{ 0, 0, 0 } // keep last
 	};
 
-	State *s1 = new Rva0033F483((StateMachine *)(void *)this, val ? val + 0x20 : 0);
-	((StateMachine *)(void *)this)->defineState(0x1F4, s1, 0x1F5, 0x270F, conditions);
+	State *state = new Rva0033F483((StateMachine *)(void *)this, val ? val + 0x20 : 0);
+	((StateMachine *)(void *)this)->defineState(0x1F4, state, 0x1F5, 0x270F, conditions);
 	State *s2 = new Rva0033F43D((StateMachine *)(void *)this);
 	((StateMachine *)(void *)this)->defineState(0x1F5, s2, 0x1F4, 0x270F, conditions);
 }

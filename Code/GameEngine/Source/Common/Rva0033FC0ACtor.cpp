@@ -75,8 +75,8 @@ inline void *__cdecl operator new(unsigned int, void *p) { return p; }
 Rva0033FC0A::Rva0033FC0A(Object *owner, unsigned int key)
 	: StateMachine(owner, key, false)
 {
-	State *s0 = new Rva00342EAC((StateMachine *)(void *)this);
-	((StateMachine *)(void *)this)->defineState(0, s0, 1, 0x270F, 0);
+	State *state = new Rva00342EAC((StateMachine *)(void *)this);
+	((StateMachine *)(void *)this)->defineState(0, state, 1, 0x270F, 0);
 	State *s1 = new Rva0033F6C0((StateMachine *)(void *)this);
 	((StateMachine *)(void *)this)->defineState(1, s1, 2, 0x270F, 0);
 	State *s2 = new Rva0034005D((StateMachine *)(void *)this);

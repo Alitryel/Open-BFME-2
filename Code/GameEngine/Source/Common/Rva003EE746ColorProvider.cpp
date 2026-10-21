@@ -44,8 +44,8 @@ class LivingWorldRegionEffectsManager:public S3RegionObserverBase {public:
  int selector44;Rva003EE711*active48;Rva003EE746ColorProvider provider4c;bool flag54;
 };
 // ??0LivingWorldRegionEffectsManager@@QAE@ABVAsciiString@@@Z
-LivingWorldRegionEffectsManager::LivingWorldRegionEffectsManager(const AsciiString&n)
- :u4(0),u14(0),name18(n),regionObject1c(),group20(1,1,1),group2c(1,1,1),group38(0.95f,0.95f,0.95f),selector44(0),provider4c(&selector44),flag54(true){active48=&provider4c;}
+LivingWorldRegionEffectsManager::LivingWorldRegionEffectsManager(const AsciiString&asciiString)
+ :u4(0),u14(0),name18(asciiString),regionObject1c(),group20(1,1,1),group2c(1,1,1),group38(0.95f,0.95f,0.95f),selector44(0),provider4c(&selector44),flag54(true){active48=&provider4c;}
 typedef char S3RegionRecordSize[sizeof(LivingWorldRegionEffectsManager)==88?1:-1];
 
 // ?rva003EF13E@LivingWorldRegionEffectsManager@@UAEXHHH@Z

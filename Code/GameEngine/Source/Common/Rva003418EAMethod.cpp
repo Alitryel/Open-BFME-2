@@ -69,7 +69,7 @@ void Rva00341796::rva003418EA(int arg)
 		::operator delete(p);
 		m_20 = 0;
 	}
-	ChaseC *c = m_machine->m_14->m_258;
-	if (c)
-		c->m_3BA = 0;
+	ChaseC *chaseC = m_machine->m_14->m_258;
+	if (chaseC)
+		chaseC->m_3BA = 0;
 }

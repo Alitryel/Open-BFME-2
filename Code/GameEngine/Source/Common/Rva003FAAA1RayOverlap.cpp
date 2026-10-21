@@ -105,17 +105,17 @@ private:
 
 bool Rva003FAAA1::rva003FAAA1(void *arg)
 {
-	Inner1 *a = m_10;
-	if (a == 0)
+	Inner1 *inner1 = m_10;
+	if (inner1 == 0)
 		return false;
-	Inner2 *b = a->m_14;
-	if (!b)
+	Inner2 *inner2 = inner1->m_14;
+	if (!inner2)
 	{
-		b = a->m_08;
-		if (b == 0)
+		inner2 = inner1->m_08;
+		if (inner2 == 0)
 			return false;
 	}
-	Region3D box(*b->GetRegion());
+	Region3D box(*inner2->GetRegion());
 	Coord3D start;
 	Coord3D dir;
 	((Global *)TheLivingWorld)->GetVectors(arg, &start, &dir);

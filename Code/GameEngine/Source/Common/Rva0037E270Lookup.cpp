@@ -36,9 +36,9 @@ void *UnitRevivalEntry::getThingTemplate()
         return 0;
     return (void *)mgr->findTemplate(*((const AsciiString *)((char *)this + 0xd4)));
 }
-void UnitRevivalEntry::setThingTemplateName(const AsciiString &arg)
+void UnitRevivalEntry::setThingTemplateName(const AsciiString &asciiString)
 {
-    m_str = arg;
+    m_str = asciiString;
     if (m_A0)
         return;
     void *def = getThingTemplate();

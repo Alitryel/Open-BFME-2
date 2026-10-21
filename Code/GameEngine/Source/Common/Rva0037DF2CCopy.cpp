@@ -36,13 +36,13 @@ private:
 	int m_90;
 	Rva001EB15A m_94;
 };
-CarryoverUnit::CarryoverUnit(const CarryoverUnit &o)
+CarryoverUnit::CarryoverUnit(const CarryoverUnit &carryoverUnit)
 	: m_vtable((unsigned int)__identifier("??_7CarryoverUnit@@6B@"))
-	, m_s04(o.m_s04)
-	, m_f08(o.m_f08)
-	, m_c0C(o.m_c0C)
-	, m_h10(o.m_h10)
-	, m_90(o.m_90)
-	, m_94(o.m_94)
+	, m_s04(carryoverUnit.m_s04)
+	, m_f08(carryoverUnit.m_f08)
+	, m_c0C(carryoverUnit.m_c0C)
+	, m_h10(carryoverUnit.m_h10)
+	, m_90(carryoverUnit.m_90)
+	, m_94(carryoverUnit.m_94)
 {
 }

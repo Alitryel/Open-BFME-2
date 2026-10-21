@@ -42,12 +42,12 @@ namespace _STL { template <> void _STLP_alloc_proxy<ModuleData const * *,ModuleD
 namespace _STL { template <> void allocator<ModuleData const *>::deallocate(ModuleData const * *,unsigned int) const; }
 namespace _STL { template <> void vector<ModuleData const *,_STL::allocator<ModuleData const *> >::push_back(ModuleData const * const &); }
 // bfme link decl-only end
-void Rva0035B750::rva0035B750(const ModuleData *arg)
+void Rva0035B750::rva0035B750(const ModuleData *moduleData)
 {
 	if (m_vec.empty()) {
 		m_selected = 0;
-		m_vec.push_back(arg);
+		m_vec.push_back(moduleData);
 	} else {
-		m_vec[0] = arg;
+		m_vec[0] = moduleData;
 	}
 }

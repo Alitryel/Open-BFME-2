@@ -27,9 +27,9 @@ private:
 void Rva00373357::rva00373357()
 {
 	m_vec.erase(m_vec.begin(), m_vec.end());
-	ScienceType *p = &*m_vec.begin();
-	if (p != 0)
-		free(p);
+	ScienceType *scienceType = &*m_vec.begin();
+	if (scienceType != 0)
+		free(scienceType);
 }
 
 void *Rva00373357::rva0037341F(bool b)

@@ -28,7 +28,7 @@ struct AudioCacheCursor
 {
 	struct { void *first, *second; } s;
 	AudioCacheCursor(void *a, void *b) { s.first = a; s.second = b; }
-	AudioCacheCursor(const AudioCacheCursor &v) { s.first = v.s.first; s.second = v.s.second; }
+	AudioCacheCursor(const AudioCacheCursor &audioCacheCursor) { s.first = audioCacheCursor.s.first; s.second = audioCacheCursor.s.second; }
 };
 
 class Rva000427195

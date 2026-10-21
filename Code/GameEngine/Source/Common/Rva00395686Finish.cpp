@@ -43,16 +43,16 @@ private:
 	Object *m_obj8;
 };
 
-bool Rva00395686::rva00395686(Player *p, ThingTemplate *t)
+bool Rva00395686::rva00395686(Player *player, ThingTemplate *thingTemplate)
 {
 	Player *ctrl = m_obj8->getControllingPlayer();
-	if (p == 0)
+	if (player == 0)
 		return false;
-	if (t == 0)
+	if (thingTemplate == 0)
 		return false;
-	if (ctrl != p)
+	if (ctrl != player)
 		return false;
-	unsigned int field = p->m_94;
-	int v = t->rva0033A69A((const class Player *)p, 0, -1);
+	unsigned int field = player->m_94;
+	int v = thingTemplate->rva0033A69A((const class Player *)player, 0, -1);
 	return field >= (unsigned int)v;
 }

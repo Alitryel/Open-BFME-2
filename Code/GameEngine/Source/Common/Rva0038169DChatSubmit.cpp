@@ -12,8 +12,8 @@ struct ChatMenuPreferenceView {char pad[0x684];GameModePreferences preferences;}
 template<int N>class ChatLANSlots:public ChatLANSlots<N-1>{public:virtual void pad(char(*)[N]);};
 template<>class ChatLANSlots<1>{public:virtual void pad(char(*)[1]);};
 class ChatLANCalls:public ChatLANSlots<21>{public:virtual void request(UnicodeString,int,int);};
-static __forceinline bool chatEmpty(const UnicodeString&s){const char*p=*(const char*const*)&s;return !p||*(const unsigned short*)(p+4)==0;}
-static __forceinline unsigned short chatFirst(const UnicodeString&s){const char*p=*(const char*const*)&s;return p?*(const unsigned short*)(p+8):0;}
+static __forceinline bool chatEmpty(const UnicodeString&unicodeString){const char*p=*(const char*const*)&unicodeString;return !p||*(const unsigned short*)(p+4)==0;}
+static __forceinline unsigned short chatFirst(const UnicodeString&unicodeString){const char*p=*(const char*const*)&unicodeString;return p?*(const unsigned short*)(p+8):0;}
 bool Rva0038169D(int channel,const UnicodeString&input) {
  ChatMenuPreferenceView*menu=(ChatMenuPreferenceView*)g_Va00A03354;
  GameModePreferences*prefs=menu?&menu->preferences:0;

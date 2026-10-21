@@ -49,10 +49,10 @@ int Rva00431AEC::rva00431AEC(GameMessage *msg)
 	int t = *(int *)((char *)msg + 0x10);
 	if (t != 4 && t != 0x0e)
 		return 0;
-	const GameMessageArgumentType *a0 = msg->getArgument(0);
+	const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
 	ICoord2D tmp;
-	tmp.x = a0->pixel.x;
-	tmp.y = a0->pixel.y;
+	tmp.x = gameMessageArgumentType->pixel.x;
+	tmp.y = gameMessageArgumentType->pixel.y;
 	ICoord2D pos = tmp;
 	const GameMessageArgumentType *a1 = msg->getArgument(1);
 	int v1 = a1->integer;

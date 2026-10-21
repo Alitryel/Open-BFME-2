@@ -72,7 +72,7 @@ public:
 	void rva0036E2E2(bool flag);
 	bool rva0036E0E3();
  bool rva0036E357();
- inline int count() const {ListNode*h=m_head,*p=h->m_next;int n=0;while(p!=h){p=p->m_next;++n;}return n;}
+ inline int count() const {ListNode*listNode=m_head,*p=listNode->m_next;int n=0;while(p!=listNode){p=p->m_next;++n;}return n;}
 
 private:
 	char m_pad0[4]; // +0x00
@@ -173,7 +173,7 @@ private:
 	ListNode *m_head; // +0x04
 };
 
-void Rva0036E2A7::rva0036E2A7(SequentialScript *p, int dummy)
+void Rva0036E2A7::rva0036E2A7(SequentialScript *sequentialScript, int dummy)
 {
 	ListNode *cur = m_head->m_next;
 	if (cur == m_head)
@@ -183,7 +183,7 @@ void Rva0036E2A7::rva0036E2A7(SequentialScript *p, int dummy)
 		Object *obj = cur->m_obj;
 		AIHolder *ai = obj->m_ai;
 		if (ai != 0)
-			((ScriptTracker *)((char *)ai + 0x3D0))->setCurScript(p, true, dummy);
+			((ScriptTracker *)((char *)ai + 0x3D0))->setCurScript(sequentialScript, true, dummy);
 		cur = cur->m_next;
 	} while (cur != m_head);
 }

@@ -42,13 +42,13 @@ struct ObjectCountNode : public _STL::_Rb_tree_node_base
 	int m_value;
 };
 
-int __stdcall Rva0039BFC5Count(const ThingTemplate *tmpl, const ObjectCountMap *map)
+int __stdcall Rva0039BFC5Count(const ThingTemplate *thingTemplate, const ObjectCountMap *map)
 {
 	int total = 0;
 	_STL::_Rb_tree_node_base *node = map->m_header->_M_left;
 	while (node != map->m_header)
 	{
-		if (((ObjectCountNode *)node)->m_key->isEquivalentTo(tmpl))
+		if (((ObjectCountNode *)node)->m_key->isEquivalentTo(thingTemplate))
 			++total;
 		node = _STL::_Rb_global<bool>::_M_increment(node);
 	}

@@ -66,9 +66,9 @@ void AptTranslator::rva00432A3B(const GameMessage *msg)
 	Rva00432A3BEntry *e = &m_entries[type];
 	m_1E8 = type;
 	e->m_type = type;
-	const GameMessageArgumentType *a0 = msg->getArgument(0);
-	e->m_pixX = a0->pixel.x;
-	e->m_pixY = a0->pixel.y;
+	const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
+	e->m_pixX = gameMessageArgumentType->pixel.x;
+	e->m_pixY = gameMessageArgumentType->pixel.y;
 	const GameMessageArgumentType *a1 = msg->getArgument(1);
 	e->m_int1 = a1->integer;
 	const GameMessageArgumentType *a2 = msg->getArgument(2);

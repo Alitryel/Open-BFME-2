@@ -33,8 +33,8 @@ private:
 	bool m_24;
 };
 
-Rva0035615D::Rva0035615D(const AsciiString &a, const Rva0036CA00Str &b, const Rva0036CA00Str &c, bool d)
-	: m_s10(a), m_s14(b), m_s18(c), m_1c(1), m_20(1), m_24(d)
+Rva0035615D::Rva0035615D(const AsciiString &asciiString, const Rva0036CA00Str &b, const Rva0036CA00Str &c, bool d)
+	: m_s10(asciiString), m_s14(b), m_s18(c), m_1c(1), m_20(1), m_24(d)
 {
 }
 

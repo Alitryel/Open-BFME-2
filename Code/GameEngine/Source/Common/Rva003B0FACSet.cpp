@@ -13,8 +13,8 @@ private:
 	int m_val;
 };
 
-void Rva003B0FAC::rva003B0FAC(const AsciiString &s, int v)
+void Rva003B0FAC::rva003B0FAC(const AsciiString &asciiString, int v)
 {
-	((StringBase<char> *)&m_str)->set(*(const StringBase<char> *)&s);
+	((StringBase<char> *)&m_str)->set(*(const StringBase<char> *)&asciiString);
 	m_val = v;
 }

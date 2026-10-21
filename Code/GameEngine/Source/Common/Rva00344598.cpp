@@ -142,12 +142,12 @@ int AICowerState::rva00344598()
 	if (ebx == 0)
 		return -2;
 	ObjectLayout *ol = (ObjectLayout *)esi;
-	C258Holder *c258 = ol->m258;
-	if (c258 == 0)
+	C258Holder *c258Holder = ol->m258;
+	if (c258Holder == 0)
 		return -2;
-	c258->t258();
-	C250Holder *c250 = ol->m250;
-	CEdi *edi = c250 ? (CEdi *)c250->t250() : 0;
+	c258Holder->t258();
+	C250Holder *c250Holder = ol->m250;
+	CEdi *edi = c250Holder ? (CEdi *)c250Holder->t250() : 0;
 	if (edi != 0) {
 		edi->t19c(ebx);
 		edi->t1a0(1);

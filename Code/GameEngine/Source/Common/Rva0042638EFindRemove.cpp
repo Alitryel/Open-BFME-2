@@ -31,9 +31,9 @@ private:
 
 bool Rva0042638E::rva0042638E(const SearchArg0042638E *arg)
 {
-	CreateAHeroData *v = arg->m_entry;
+	CreateAHeroData *createAHeroData = arg->m_entry;
 	CreateAHeroData **finish = m_finish;
-	CreateAHeroData **found = _STL::find(m_start, finish, v);
+	CreateAHeroData **found = _STL::find(m_start, finish, createAHeroData);
 	if (found != finish)
 	{
 		*found = *(finish - 1);

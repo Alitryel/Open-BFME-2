@@ -316,10 +316,10 @@ int Rva0042CBB6::rva0042CC7B(GameMessage *message)
  switch(type) {
  case 14:
   if(TheLivingWorld && !BYTE_AT42(TheLivingWorldManager,0x2C0)) {
-   const GameMessageArgumentType *arg=message->getArgument(0);
-   m_10=arg->pixel.x; m_14=arg->pixel.y;
-   arg=message->getArgument(0);
-   m_18=arg->pixel.x; m_1C=arg->pixel.y;
+   const GameMessageArgumentType *gameMessageArgumentType=message->getArgument(0);
+   m_10=gameMessageArgumentType->pixel.x; m_14=gameMessageArgumentType->pixel.y;
+   gameMessageArgumentType=message->getArgument(0);
+   m_18=gameMessageArgumentType->pixel.x; m_1C=gameMessageArgumentType->pixel.y;
    if(TheMouse->m_4FA4) { rva0042CB57(1); m_30=0; m_34=0; }
   }
   disposition=1;
@@ -356,10 +356,10 @@ int Rva0042CBB6::rva0042CC7B(GameMessage *message)
   break;
  case 10:
   if(!BYTE_AT42(TheLivingWorldManager,0x2C0)) {
-   const GameMessageArgumentType *arg=message->getArgument(0);
-   m_20=arg->pixel.x; m_24=arg->pixel.y;
-   arg=message->getArgument(0);
-   m_28=arg->pixel.x; m_2C=arg->pixel.y;
+   const GameMessageArgumentType *gameMessageArgumentType=message->getArgument(0);
+   m_20=gameMessageArgumentType->pixel.x; m_24=gameMessageArgumentType->pixel.y;
+   gameMessageArgumentType=message->getArgument(0);
+   m_28=gameMessageArgumentType->pixel.x; m_2C=gameMessageArgumentType->pixel.y;
    if(TheMouse->m_4FA4) rva0042CB57(2);
   }
   disposition=1;
@@ -401,10 +401,10 @@ int Rva0042CBB6::rva0042CC7B(GameMessage *message)
   }
   m_42=1;
   {
-   const GameMessageArgumentType *arg=message->getArgument(0);
-   m_18=arg->pixel.x; m_1C=arg->pixel.y;
-   arg=message->getArgument(0);
-   m_28=arg->pixel.x; m_2C=arg->pixel.y;
+   const GameMessageArgumentType *gameMessageArgumentType=message->getArgument(0);
+   m_18=gameMessageArgumentType->pixel.x; m_1C=gameMessageArgumentType->pixel.y;
+   gameMessageArgumentType=message->getArgument(0);
+   m_28=gameMessageArgumentType->pixel.x; m_2C=gameMessageArgumentType->pixel.y;
    unsigned height=reinterpret_cast<CameraDisplay42 *>(TheDisplay)->height();
    unsigned width=reinterpret_cast<CameraDisplay42 *>(TheDisplay)->width();
    if(!BYTE_AT42(TheWritableGlobalData,0x2C)) {

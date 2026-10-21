@@ -60,9 +60,9 @@ public:
 
 void Rva003972D3::rva003972D3(Rva003972D3Range *range, const UpgradeTemplate *upgrade)
 {
-	for (ObjectID *p = range->m_begin; p != range->m_end; ++p)
+	for (ObjectID *objectID = range->m_begin; objectID != range->m_end; ++objectID)
 	{
-		Object *obj = TheGameLogic->findObjectByID(*p);
+		Object *obj = TheGameLogic->findObjectByID(*objectID);
 		if (obj == 0)
 			continue;
 		obj->rva00293003(upgrade);

@@ -35,15 +35,15 @@ bool OldSchoolHelpBoxContentSource::allRequiredUpgradesComplete(Object *obj, Upg
 {
 	for (unsigned int i = 0; i < (unsigned int)(range->m_end - range->m_begin); ++i)
 	{
-		UpgradeTemplate *tmpl = range->m_begin[i];
-		if (!tmpl)
+		UpgradeTemplate *upgradeTemplate = range->m_begin[i];
+		if (!upgradeTemplate)
 			continue;
-		int v = tmpl->m_4;
+		int v = upgradeTemplate->m_4;
 		bool r;
 		if (v == 1)
-			r = obj->hasUpgrade(tmpl);
+			r = obj->hasUpgrade(upgradeTemplate);
 		else if (v == 0)
-			r = obj->getControllingPlayer()->rva002AB87D(tmpl);
+			r = obj->getControllingPlayer()->rva002AB87D(upgradeTemplate);
 		else
 			return false;
 		if (flag)

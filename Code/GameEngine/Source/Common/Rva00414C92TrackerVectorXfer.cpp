@@ -38,7 +38,7 @@ struct Rva00414EA1Vector
 	ScoredKillTracker *capacity;
 	// back() as an in-place step of -1: retail adds -0x2C rather than
 	// subtracting 0x2C.
-	ScoredKillTracker &back() { ScoredKillTracker *tmp = end; return *(tmp += -1); }
+	ScoredKillTracker &back() { ScoredKillTracker *scoredKillTracker = end; return *(scoredKillTracker += -1); }
 };
 
 struct XferVersion

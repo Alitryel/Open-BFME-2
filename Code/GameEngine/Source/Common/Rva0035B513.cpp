@@ -57,10 +57,10 @@ BfmeFixedStorage128 *Rva0035B513::rva0035B513(BfmeFixedStorage128 *out)
 {
 	unsigned int tmp[32];
 	((Rva001EAE6FHelper *)tmp)->clear80();
-	for (AsciiString *p = m_first; p != m_last; ++p) {
-		const UpgradeTemplate *t = TheUpgradeCenter->findUpgrade(*p);
-		if (t)
-			tmp[(t->m_index >> 5)] |= 1u << (t->m_index & 31);
+	for (AsciiString *asciiString = m_first; asciiString != m_last; ++asciiString) {
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*asciiString);
+		if (upgradeTemplate)
+			tmp[(upgradeTemplate->m_index >> 5)] |= 1u << (upgradeTemplate->m_index & 31);
 	}
 	__assume(out != 0);
 	new (out) BfmeFixedStorage128((const BfmeFixedStorage128 &)tmp);

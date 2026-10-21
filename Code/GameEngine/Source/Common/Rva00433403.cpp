@@ -16,12 +16,12 @@ private:
 	AsciiString m_cachedString;
 };
 
-void Rva004EC166::rva00433403(const AsciiString &s)
+void Rva004EC166::rva00433403(const AsciiString &asciiString)
 {
 	if ((m_flags & 1) == 0)
 	{
 		((StringBase<char> &)m_cachedString).set((const StringBase<char> &)m_str);
 		m_flags |= 1;
 	}
-	rva004EC166(s);
+	rva004EC166(asciiString);
 }

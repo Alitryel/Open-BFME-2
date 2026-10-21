@@ -87,16 +87,16 @@ static void __cdecl embedPristineMap(AsciiString path, Xfer *xfer)
 {
 	char *t = *(char **)(void *)&path;
 	const char *name = t ? t + 8 : "";
-	File *f = TheFileSystem->openFile(name, 0x41, 0);
-	if (!f)
+	File *file = TheFileSystem->openFile(name, 0x41, 0);
+	if (!file)
 	{
 		BfmeFormattedText exceptionText;
 		bfmeFormatText(&exceptionText, 5, (const char *)0);
 		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
-	unsigned int size = f->seek(0, 2);
-	f->seek(0, 0);
+	unsigned int size = file->seek(0, 2);
+	file->seek(0, 0);
 	char *buf = new char[size];
 	if (!buf)
 	{
@@ -105,7 +105,7 @@ static void __cdecl embedPristineMap(AsciiString path, Xfer *xfer)
 		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
-	int got = f->read(buf, size);
+	int got = file->read(buf, size);
 	if (got != size)
 	{
 		delete[] buf;
@@ -114,7 +114,7 @@ static void __cdecl embedPristineMap(AsciiString path, Xfer *xfer)
 		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
-	f->close();
+	file->close();
 	xfer->beginBlock("PristineMap");
 	xfer->xferUnsignedInt(&size);
 	xfer->xferUser(buf, size);
@@ -132,12 +132,12 @@ static void Rva0041AC98(const AsciiString &path,AsciiString &out) {
 }
 
 // ?Rva0041AD08Caller@@YAXVAsciiString@@PAVFile@@@Z present-unmatched (register key kept; the anchor takes the Xfer view)
-void __cdecl Rva0041AD08Caller(AsciiString p, Xfer *c)
+void __cdecl Rva0041AD08Caller(AsciiString p, Xfer *xfer)
 {
 	// Existing source-only private-ABI driver; this is not a retail claim.
 	AsciiString auxiliary;
 	Rva0041AC98(p, auxiliary);
-	embedPristineMap(p, c);
+	embedPristineMap(p, xfer);
 }
 
 // ?embedInUseMap@@YAXVAsciiString@@PAVXfer@@@Z (WorldBuilder name), retail 0x0041AE00, 248 bytes:
@@ -146,16 +146,16 @@ static void __cdecl embedInUseMap(AsciiString path, Xfer *xfer)
 {
 	char *t = *(char **)(void *)&path;
 	const char *name = t ? t + 8 : "";
-	File *f = TheFileSystem->openFile(name, 0x41, 0);
-	if (!f)
+	File *file = TheFileSystem->openFile(name, 0x41, 0);
+	if (!file)
 	{
 		BfmeFormattedText exceptionText;
 		bfmeFormatText(&exceptionText, 5, (const char *)0);
 		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
-	unsigned int size = f->seek(0, 2);
-	f->seek(0, 0);
+	unsigned int size = file->seek(0, 2);
+	file->seek(0, 0);
 	char *buf = new char[size];
 	if (!buf)
 	{
@@ -164,7 +164,7 @@ static void __cdecl embedInUseMap(AsciiString path, Xfer *xfer)
 		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
-	int got = f->read(buf, size);
+	int got = file->read(buf, size);
 	if (got != size)
 	{
 		delete[] buf;
@@ -173,7 +173,7 @@ static void __cdecl embedInUseMap(AsciiString path, Xfer *xfer)
 		_CxxThrowException(&exceptionText, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 		__assume(0);
 	}
-	f->close();
+	file->close();
 	xfer->beginBlock("InUseMap");
 	xfer->xferUnsignedInt(&size);
 	xfer->xferUser(buf, size);
@@ -182,9 +182,9 @@ static void __cdecl embedInUseMap(AsciiString path, Xfer *xfer)
 }
 
 // ?Rva0041AE00Caller@@YAXVAsciiString@@PAVFile@@@Z present-unmatched (register key kept; the anchor takes the Xfer view)
-void __cdecl Rva0041AE00Caller(AsciiString p, Xfer *c)
+void __cdecl Rva0041AE00Caller(AsciiString p, Xfer *xfer)
 {
-	embedInUseMap(p, c);
+	embedInUseMap(p, xfer);
 }
 
 // Native41AEF8..41AFDA / WB132E990 (GameStateMap.cpp:179..204)
@@ -195,8 +195,8 @@ static void __cdecl extractAndSaveMap(AsciiString path, Xfer *xfer)
 {
  char *t=*(char **)(void *)&path;
  const char *name=t?t+8:"";
- File *f=TheFileSystem->openFile(name,0x4a,0);
- if(!f){BfmeFormattedText exceptionText;bfmeFormatText(&exceptionText,5,(const char*)0);
+ File *file=TheFileSystem->openFile(name,0x4a,0);
+ if(!file){BfmeFormattedText exceptionText;bfmeFormatText(&exceptionText,5,(const char*)0);
  _CxxThrowException(&exceptionText,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
  xfer->beginBlock("EmbeddedMap");
  unsigned int size;
@@ -205,10 +205,10 @@ static void __cdecl extractAndSaveMap(AsciiString path, Xfer *xfer)
  if(!buf){BfmeFormattedText exceptionText;bfmeFormatText(&exceptionText,5,(const char*)0);
  _CxxThrowException(&exceptionText,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
  xfer->xferUser(buf,size);
- int got=f->write(buf,size);
+ int got=file->write(buf,size);
  if(got!=size){delete[]buf;BfmeFormattedText exceptionText;bfmeFormatText(&exceptionText,5,(const char*)0);
  _CxxThrowException(&exceptionText,(const _s__ThrowInfo*)&g_guardTargetTypeThrowInfo);__assume(0);}
- f->close();xfer->endBlock();delete[]buf;
+ file->close();xfer->endBlock();delete[]buf;
 }
 // ?Rva0041AEF8Caller@@YAXVAsciiString@@PAVXfer@@@Z present-unmatched
 void Rva0041AEF8Caller(AsciiString path,Xfer*xfer){extractAndSaveMap(path,xfer);}
@@ -391,7 +391,7 @@ AsciiString *Rva00300678Get();
 class BFME2WideConcatPair {
 public:
  struct ReferencePairTag {};
- __forceinline BFME2WideConcatPair(ReferencePairTag,const UnicodeString&a,const UnicodeString&b):left(&a),right(&b){}
+ __forceinline BFME2WideConcatPair(ReferencePairTag,const UnicodeString&unicodeString,const UnicodeString&b):left(&unicodeString),right(&b){}
  operator UnicodeString();
  const UnicodeString *left,*right;
 };
