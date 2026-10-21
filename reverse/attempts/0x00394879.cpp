@@ -1,8 +1,10 @@
 // ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
+// partial score=0.887 date=2026-10-21
+// ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
 // partial score=0.8823982179152894 date=2026-10-19
 // ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
 // partial score=0.8823982179152894 date=2026-10-16
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// cl: /ICode/GameEngine/Source/Common/System /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 #include <list>
 class Drawable;class FreelistPool{public: void*pop();};extern FreelistPool g_freelistPool00DBA5E0;namespace _STL{template <> __declspec(noinline)
@@ -585,10 +587,10 @@ return FALSE;}if(b400&& builderObject)
 {Rva00394173Member list=((const Rva00394173Field*)owner)->get();for(Rva00394173Node*node=list.m_head->m_next;node !=list.m_head;node=node->m_next)
 {Object*obj=TheGameLogic->findObjectByID(node->m_id);if(obj&& build->getTemplateGeometryInfo().CollidesWith(*worldPos,angle,obj->getGeometryInfo(),*obj->getPosition(),obj->getOrientation()))
 return FALSE;}}}if(b20 || b40 || b100)
-return TRUE;Coord3D pt;pt.x=0.0f;pt.y=0.0f;pt.z=0.0f;const ModuleInfo&info=build->getBehaviorModuleInfo();Int count=info.getCount();for(Int i=0;i < count;++i)
+return TRUE;Coord3D pt;pt.x=pt.y=pt.z=0.0f;const ModuleInfo&info=build->getBehaviorModuleInfo();Int count=info.getCount();for(Int i=0;i < count;++i)
 {const ModuleData*md=info.getNthData(i);if(md)
 {const Rva00394879Exit*exitData=md->rva00394879Exit();if(exitData)
-{pt=exitData->m_offset;Vector3 dir(pt.x,pt.y,pt.z);dir.Normalize();pt.x +=dir.X* 20.0f;pt.y +=dir.Y* 20.0f;pt.z +=dir.Z* 20.0f;break;}const Rva00394879Door*doorData=md->rva00394879Door();if(doorData)
+{pt=exitData->m_offset;Vector3 dir(pt.x,pt.y,pt.z);dir.Normalize();dir*=20.0f;pt.x +=dir.X;pt.y +=dir.Y;pt.z +=dir.Z;break;}const Rva00394879Door*doorData=md->rva00394879Door();if(doorData)
 {pt=doorData->m_offset;break;}}}if(pt.GetLength()!=0.0f)
 {Matrix3D tm;tm.Make_Identity();tm.Rotate_Z(angle);Vector3 out(0.0f,0.0f,0.0f);Matrix3D::Transform_Vector(tm,Vector3(pt.x,pt.y,pt.z),&out);out.X +=worldPos->x;out.Y +=worldPos->y;if(builderObject&& builderObject->isKindOf(KINDOF_DOZER)
 && !TheAI->pathfinder()->QuickDoesPathExist(builderObject,worldPos,(const Coord3D*)&out,0))
