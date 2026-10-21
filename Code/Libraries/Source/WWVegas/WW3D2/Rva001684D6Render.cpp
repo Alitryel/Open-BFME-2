@@ -10,7 +10,9 @@
 #include "ww3d.h"
 struct PointStorage {void*vt;Vector3*Vector;int Capacity,Count;};
 struct WidthStorage {void*vt;float*Vector;int Capacity,Count;};
-class Rva00126314 {public:void RenderStreak(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);ShaderClass Get_Shader()const{return shader;}private:void*texture;ShaderClass shader;char rest[28];};
+// Return the same shader bits through the value constructor, keeping the
+// native temporary without a competing ShaderClass copy-constructor body.
+class Rva00126314 {public:void RenderStreak(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);ShaderClass Get_Shader()const{return ShaderClass(shader.Get_Bits());}private:void*texture;ShaderClass shader;char rest[28];};
 class Rva001684D6:public RenderObjClass {public:virtual void Render(RenderInfoClass&);private:PointStorage points;WidthStorage widths;Rva00126314 renderer;};
 void Rva001684D6::Render(RenderInfoClass&rinfo){
 if(!Is_Not_Hidden_At_All())return;
