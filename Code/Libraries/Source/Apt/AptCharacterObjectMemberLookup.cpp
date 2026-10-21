@@ -24,7 +24,7 @@ static __forceinline void aptAssert(const char *test,const char *file,int line){
 class EAStringC {
  void *data;
 public:
- EAStringC(){clear();} ~EAStringC(); EAStringC &clear();
+ EAStringC(); ~EAStringC(); EAStringC &clear();
  EAStringC &operator=(const EAStringC&);
  bool IsEmpty()const; const char *rva00620090()const;
  unsigned int rva006D3750()const;
