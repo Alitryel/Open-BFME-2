@@ -96,11 +96,13 @@ struct ThingTemplateView
 	AsciiString m_name;
 };
 
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object
 {
 public:
 	const AsciiString *rva00290E67() const;	// rowed 0x00290E67 (command-set string selector)
-	void *rva0028BD92(int key);
+	SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
 	const ThingTemplateView *getTemplate() const { return m_template; }
 private:
 	void *m_vtable;
@@ -173,7 +175,7 @@ void AISpecialPowerUpdate::postInitAISpecialPower()
 		if (specialPower)
 		{
 			int key = ((const SpecialPowerTemplateView *)specialPower->friend_getFinalOverride())->m_1C;
-			void *module = getObject()->rva0028BD92(key);
+			void *module = getObject()->findSpecialAbilityUpdate((SpecialPowerType)(key));
 			if (module)
 				range = ((const Rva0044E6A7FloatChaseField *)module)->get();
 		}

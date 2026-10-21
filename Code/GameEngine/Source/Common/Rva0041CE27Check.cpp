@@ -16,11 +16,13 @@ struct Rva0041CE27Inner {
     unsigned char m_flag108;
 };
 
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object {
 public:
     virtual ~Object();
     Relationship getRelationship(const Object *other) const;
-    void *rva0028BD92(int v);
+    SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
     Rva0041CE27Inner *m_p04;
     char m_pad08[0x258 - 0x08];
     int m_258;
@@ -78,7 +80,7 @@ bool ActionManager::Rva0041CE27Check(Object *object, Object *b, int)
     const SpecialPowerTemplate *specialPowerTemplate = TheSpecialPowerStore->findSpecialPowerTemplate("SpecialAbilityGiveUpgrade");
     if (specialPowerTemplate == 0)
         return false;
-    void *slot = object->rva0028BD92(0x33);
+    void *slot = object->findSpecialAbilityUpdate((SpecialPowerType)(0x33));
     if (slot != 0)
         return ((Rva0049C6E1 *)slot)->rva0049C6E1(b);
     return false;

@@ -1,11 +1,16 @@
 // cl: /Ireference/shims/bfme2_ascii /Oy- /MD /EHsc
 // Native callers306273 and37C0B7 load TheScienceStore intoECX; the donor
 // ScienceStore::getInternalNameForScience supports the unused receiver.
-// The neutral method preserves the established key enum and51B body.
+// It is Zero Hour's and BFME1's ScienceStore::getInternalNameForScience (BFME1
+// 0x000E71F0: the same invalid test, then NameKeyGenerator::keyToName).
 // RET8 accounts for the hidden return pointer and key, not a free ABI.
 enum NameKeyType
 {
 	NAMEKEY_INVALID = -1
+};
+enum ScienceType
+{
+	SCIENCE_INVALID = -1
 };
 
 #include "ascii_string.h"
@@ -18,11 +23,11 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class ScienceStore {public:AsciiString rva001FF5F2(NameKeyType);};
+class ScienceStore {public:AsciiString getInternalNameForScience(ScienceType science) const;};
 
-AsciiString ScienceStore::rva001FF5F2(NameKeyType key)
+AsciiString ScienceStore::getInternalNameForScience(ScienceType science) const
 {
-	if (key == NAMEKEY_INVALID)
+	if (science == SCIENCE_INVALID)
 		return AsciiString::TheEmptyString;
-	return TheNameKeyGenerator->keyToName(key);
+	return TheNameKeyGenerator->keyToName((NameKeyType)science);
 }

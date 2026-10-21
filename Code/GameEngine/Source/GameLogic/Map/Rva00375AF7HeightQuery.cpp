@@ -23,11 +23,11 @@ class PolygonTrigger { public: bool pointInTrigger(const ICoord3D &); };
 // retail loads are proven, but the original source qualifiers are unknown.
 struct Rva00375AF7Entry { PolygonTrigger *volatile shape; volatile float height; };
 class AerialPathfinder {
-public: float rva00375AF7(float x,volatile float y);
+public: float getNoFlyZoneHeight(float x,volatile float y);
 private: char unknown00[0x10]; _STL::list<Rva00375AF7Entry> entries;
 };
 struct Rva00375AF7State { ICoord3D point; int padding; float height; float highest; };
-float AerialPathfinder::rva00375AF7(float x,volatile float y)
+float AerialPathfinder::getNoFlyZoneHeight(float x,volatile float y)
 {
  if(entries.empty()) return 0.0f;
  _STL::list<Rva00375AF7Entry>::iterator node=entries.begin();

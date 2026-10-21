@@ -20,10 +20,12 @@ public:
 	Overridable *m_ov;
 };
 
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object
 {
 public:
-	void *rva0028BD92(int code);
+	SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
 	void rva00297000(const CommandButton *btn, Object *target, int kind, int zero);
 };
 
@@ -186,7 +188,7 @@ int Rva00495840::rva00495840(Arg *arg)
 		return holder->m_val;
 	Overridable *ov = m_btn->m_ov;
 	if (ov != 0) {
-		void *found = obj->rva0028BD92(ov->friend_getFinalOverride()->m_code);
+		void *found = obj->findSpecialAbilityUpdate((SpecialPowerType)(ov->friend_getFinalOverride()->m_code));
 		if (found == 0)
 			return 0x3FFFFFFF;
 		if (((Gate *)((char *)found + 0x20))->s2())

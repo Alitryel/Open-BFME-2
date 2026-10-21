@@ -773,12 +773,11 @@ public:
 };
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-// The rowed body at 0x001FF5F2 under its row's spelling, which takes the
-// science as its name key (Zero Hour's getInternalNameForScience).
+// Zero Hour's ScienceStore::getInternalNameForScience, rowed at 0x001FF5F2.
 class ScienceStore
 {
 public:
-	AsciiString rva001FF5F2(NameKeyType key);
+	AsciiString getInternalNameForScience(ScienceType science) const;
 };
 extern ScienceStore *TheScienceStore;
 
@@ -1895,7 +1894,7 @@ void AIPlayer::doUpgradesAndSkills()
 					reinterpret_cast<StringBase<char> *>(&msg)->concat(" purchases from SkillSet");
 					concatChar(msg, (char)('1' + m_skillsetSelector));
 					concatChar(msg, ' ');
-					msg.concat(TheScienceStore->rva001FF5F2((NameKeyType)science));
+					msg.concat(TheScienceStore->getInternalNameForScience(science));
 					reinterpret_cast<StringBase<char> *>(&msg)->concat(".");
 					TheScriptEngine->AppendDebugMessage(msg, false);
 				}

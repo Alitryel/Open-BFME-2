@@ -317,6 +317,8 @@ struct BfmePod124 { int a[31]; };
 struct CreateMask { BitFlags<117> m_status; };
 class Rva004E04FD { public: Rva004E04FD(); ~Rva004E04FD(); unsigned char m_data[0x18]; };
 
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object : public Thing, public Snapshot, public BfmeCtor001B3A20, public Rva00BFC2B8Base, public Rva00BFC290Base
 {
 public:
@@ -337,7 +339,7 @@ protected:
 	Module *findModule(NameKeyType key) const;
 public:
 	void setTeam(Team *team);
-	void *rva0028BD92(int kind);
+	SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
 	void rva0028DCC4();
 
 	ObjectID m_id;						// +0x74
@@ -655,7 +657,7 @@ Object::Object(const ThingTemplate *tt, const CreateMask *mask, Team *team, Obje
 	static NameKeyType key_EmotionTrackerUpdate = TheNameKeyGenerator->nameToKey("EmotionTrackerUpdate");
 	m_24c = findModule(key_EmotionTrackerUpdate);
 
-	void *kind2AModule = rva0028BD92(0x2a);
+	void *kind2AModule = findSpecialAbilityUpdate((SpecialPowerType)(0x2a));
 	if (kind2AModule)
 		m_249 = true;
 

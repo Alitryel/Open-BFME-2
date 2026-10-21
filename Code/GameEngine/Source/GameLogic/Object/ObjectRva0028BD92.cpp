@@ -1,5 +1,7 @@
 // cl: /DNDEBUG /MD
-// ?rva0028BD92@Object@@QAEPAXH@Z @0x0028BD92 69B: Object scan of +0x244
+// ?findSpecialAbilityUpdate@Object@@QBEPAVSpecialAbilityUpdate@@W4SpecialPowerType@@@Z
+// @0x0028BD92 69B: Zero Hour's and BFME1's Object::findSpecialAbilityUpdate
+// (BFME1 0x001BF750: same getSpecialPowerType test over the behavior modules). Object scan of +0x244
 // module array; each +0x0C sub-object slot25 (+0x64) yields B; when B non-null
 // and its slot1 (+0x04) bool true, B-0x20 is SpecialAbilityUpdate whose rowed int
 // getter is compared to the int arg, returning adjusted B on match else null.
@@ -52,10 +54,10 @@ class Object
 	BehaviorModule **m_modules244;
 
 public:
-	void *rva0028BD92(int key);
+	SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
 };
 
-void *Object::rva0028BD92(int key)
+SpecialAbilityUpdate *Object::findSpecialAbilityUpdate(SpecialPowerType type) const
 {
 	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
@@ -63,7 +65,7 @@ void *Object::rva0028BD92(int key)
 		if (r != 0 && r->slot01())
 		{
 			SpecialAbilityUpdate *adj = reinterpret_cast<SpecialAbilityUpdate *>(reinterpret_cast<char *>(r) - 0x20);
-			if (adj->getSpecialPowerType() == key)
+			if (adj->getSpecialPowerType() == type)
 				return adj;
 		}
 	}

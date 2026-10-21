@@ -38,7 +38,7 @@ public:
 };
 class ScienceStore {
 public:
- AsciiString rva001FF5F2(NameKeyType key);
+ AsciiString getInternalNameForScience(ScienceType science) const;
  ScienceType getScienceFromInternalName(const AsciiString &name) const;
 };
 extern ScienceStore *TheScienceStore;
@@ -58,7 +58,7 @@ Xfer *Rva00306232XferScience(Xfer *xfer, ScienceType *science)
  if (xfer->IsLightCRC()) {
   xfer->XferEnum("ScienceType", science, 4);
  } else if (xfer->IsStoring()) {
-  AsciiString scienceName = TheScienceStore->rva001FF5F2((NameKeyType)*science);
+  AsciiString scienceName = TheScienceStore->getInternalNameForScience(*science);
   xfer->xferAsciiString(scienceName);
  } else {
   AsciiString scienceName;

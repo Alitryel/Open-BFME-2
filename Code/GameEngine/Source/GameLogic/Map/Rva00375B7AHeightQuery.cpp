@@ -16,13 +16,13 @@ struct Rva00375B7ACap { char unknown00[0xB0]; float height; };
 struct Rva00375B7AAI { char unknown00[0x18]; Rva00375B7ACap *cap; };
 class AerialPathfinder {
 public:
- float rva00375AF7(float x,volatile float y);
+ float getNoFlyZoneHeight(float x,volatile float y);
  float rva00375B7A(float x,float y);
 };
 float AerialPathfinder::rva00375B7A(float x,float y)
 {
  float height=TheTerrainLogic->heightAt(x,y,0);
- float local=rva00375AF7(x,y);
+ float local=getNoFlyZoneHeight(x,y);
  if(local>height) height=local;
  float limit=reinterpret_cast<Rva00375B7AAI *>(TheAI)->cap->height;
  if(limit!=FLT_MAX && limit>height) height=limit;

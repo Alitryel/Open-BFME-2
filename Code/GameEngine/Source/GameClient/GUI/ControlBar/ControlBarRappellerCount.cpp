@@ -314,6 +314,8 @@ class WeaponSet { public: Weapon *getWeaponInWeaponSlot(WeaponSlotType slot) con
 
 class ExperienceTracker { public: Int getVeterancyLevel() const { return m_level; } char m_pad000[0x24]; Int m_level; };
 
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object {
 	friend class ControlBar;
 public:
@@ -328,7 +330,7 @@ public:
 	void *rva0028BC58(Int mode);
 	void *rva0028BCF4() const;
 	void *rva0028BD17() const;
-	void *rva0028BD92(Int type);
+	SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
 	void *rva0028C197() const;
 	Rva00373EC6 *rva0028F4BC();
 	Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
@@ -1029,7 +1031,7 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 			if (((const Rva00331682Holder *)obj->m_disabledPowers)->test((const char *)spt + 0x64))
 				return COMMAND_RESTRICTED;
 			SpecialPowerModuleInterface *spm = obj->getSpecialPowerModule(spt);
-			void *module = obj->rva0028BD92(spt->getSpecialPowerType());
+			void *module = obj->findSpecialAbilityUpdate((SpecialPowerType)(spt->getSpecialPowerType()));
 			if (module)
 			{
 				const AsciiString *chainName = (const AsciiString *)((Rva0044E642AddImm32Field *)module)->get();
@@ -1040,7 +1042,7 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 					{
 						spt = chainedCommand->m_specialPower;
 						spm = obj->getSpecialPowerModule(spt);
-						module = obj->rva0028BD92(spt->getSpecialPowerType());
+						module = obj->findSpecialAbilityUpdate((SpecialPowerType)(spt->getSpecialPowerType()));
 					}
 				}
 			}

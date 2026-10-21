@@ -312,6 +312,8 @@ class Thing
  
 }
 ;
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object: public Thing 
 {
  public:
@@ -324,7 +326,7 @@ class Object: public Thing
  protected: Module*findModule(NameKeyType)const;
  friend class SquishCollide;
  public:
- void *rva0028BD92(int);
+ SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
  void rva00295FA9(Object*);
  void rva002929F9(Object*);
  bool rva0028F44C(const Object*)const;
@@ -468,7 +470,7 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
   static NameKeyType key_HijackerUpdate=TheNameKeyGenerator->nameToKey("HijackerUpdate");
   if(self->findModule(key_HijackerUpdate))return;
   //TNT hunter placing a charge!
-  SpecialAbilityUpdate *ability=(SpecialAbilityUpdate*)self->rva0028BD92(0x19);
+  SpecialAbilityUpdate *ability=(SpecialAbilityUpdate*)self->findSpecialAbilityUpdate((SpecialPowerType)(0x19));
   if(ability && ability->active.isActive())return;
  }
  GeometryInfo myGeom=self->getGeometryInfo();

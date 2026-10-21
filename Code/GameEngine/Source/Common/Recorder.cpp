@@ -468,7 +468,8 @@ class Overridable {public:const Overridable*friend_getFinalOverride()const;};
 class SpecialPowerTemplate:public Overridable {public:char pad0[0x10];AsciiString name;const AsciiString&getName()const{return ((const SpecialPowerTemplate*)friend_getFinalOverride())->name;} };
 class SpecialPowerStore {public:const SpecialPowerTemplate*findSpecialPowerTemplateByID(unsigned);};extern SpecialPowerStore*TheSpecialPowerStore;
 enum NameKeyType {NAMEKEY_INVALID=-1};
-class ScienceStore {public:AsciiString rva001FF5F2(NameKeyType);};extern ScienceStore*TheScienceStore;
+enum ScienceType {};
+class ScienceStore {public:AsciiString getInternalNameForScience(ScienceType science) const;};extern ScienceStore*TheScienceStore;
 class CommandDumpFile0037BE15 {public:virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual int write(const void*,int);};
 class Drawable0037BE15:public Thing {};
 class Client0037BE15 {public:virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();virtual void s6();virtual void s7();virtual void s8();virtual void s9();virtual void s10();virtual void s11();virtual void s12();virtual void s13();virtual void s14();virtual void s15();virtual Drawable0037BE15*find(int);};
@@ -522,7 +523,7 @@ void RecorderClass::dumpCommandHistory(CommandDumpFile0037BE15* file,unsigned ma
     case ARG_INT:
      if (read0037BE15<int>(message,0x10)==0x414) {
       if (i==0) text.format("    %02d: Integer:%d (PlayerIndex)",i,message->getArgument(i)->integer);
-      else if (i==1) text.format("    %02d: Integer:%d (Science:%s)",i,message->getArgument(i)->integer,TheScienceStore->rva001FF5F2((NameKeyType)message->getArgument(i)->integer).str());
+      else if (i==1) text.format("    %02d: Integer:%d (Science:%s)",i,message->getArgument(i)->integer,TheScienceStore->getInternalNameForScience((ScienceType)message->getArgument(i)->integer).str());
      } else if (i==0 && read0037BE15<int>(message,0x10)==0x419) {
       const Rva002CF1FBNode* thing=((Rva002CF1FB*)TheThingFactory)->findByTemplateID((unsigned short)message->getArgument(i)->integer);
       text.format("    %02d: Integer:%d (ThingTemplate:%s)",i,message->getArgument(i)->integer,thing?thing->name.str():"UNKNOWN");

@@ -238,7 +238,7 @@ public:
 	Bool testBit(Int bit) const;
 };
 
-// Object::rva0028BD92(0x27) returns a record whose +0x20 sub-object answers
+// Object::findSpecialAbilityUpdate(0x27) returns a record whose +0x20 sub-object answers
 // a flag in vtable slot 2.
 class Rva0028BD92Flag
 {
@@ -312,6 +312,8 @@ enum ObjectShroudStatus
 	OBJECTSHROUD_PARTIAL_CLEAR
 };
 
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object
 {
 public:
@@ -321,7 +323,7 @@ public:
 	Bool testBit(Int bit) const { return ((const Rva0028D891Owner *)this)->testBit(bit); }
 	Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	void *rva0028C197() const;
-	void *rva0028BD92(Int slot);
+	SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
 	const ThingTemplate *getTemplate() const { return m_template; }
 	ExperienceTracker *getExperienceTracker() const { return m_experienceTracker; }
 	Bool isCaptured() const { return (m_privateStatus & CAPTURED) != 0; }
@@ -776,7 +778,7 @@ Bool ScriptConditions::rva003E8B47(Parameter *playerParm, Parameter *parameter)
 
 // ?rva003E8C24@ScriptConditions@@IAE_NPAVParameter@@0@Z @ 0x003E8C24 221B
 // Target evidence: jump-table index 177 (condition 182) sends here; same walk
-// as rva003E8B47, but the equivalent member's Object::rva0028BD92(0x27)
+// as rva003E8B47, but the equivalent member's Object::findSpecialAbilityUpdate(0x27)
 // record must hold a +0x20 sub-object answering vtable slot 2.
 Bool ScriptConditions::rva003E8C24(Parameter *playerParm, Parameter *parameter)
 {
@@ -800,7 +802,7 @@ Bool ScriptConditions::rva003E8C24(Parameter *playerParm, Parameter *parameter)
 				_ReadWriteBarrier();
 				if (!obj->getTemplate()->isEquivalentTo(thingTemplate))
 					continue;
-				void *record = obj->rva0028BD92(0x27);
+				void *record = obj->findSpecialAbilityUpdate((SpecialPowerType)(0x27));
 				if (!record)
 					continue;
 				if (((Rva0028BD92Flag *)((char *)record + 0x20))->answers())

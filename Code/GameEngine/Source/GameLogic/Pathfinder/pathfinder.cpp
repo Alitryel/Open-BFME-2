@@ -790,7 +790,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
 	Bool rva002EA658(Object *,TCheckMovementInfo &,const ICoord2D *);
  Bool checkForMovement(Object *,TCheckMovementInfo &);
 	Bool rva002EDFF9(Object *,Coord3D *);
-	void rva002E75A3(Coord3D *,Coord3D *);
+	void clip(Coord3D *,Coord3D *);
 	Int rva002F0A72(PathfindCell *,PathfindCell *);
 	float GetWallHeight(PathfindLayerEnum layer, const Coord3D *pos, Coord3D *normal);
 	void *rva001E3647Pos(int layer, const Coord3D *pos);
@@ -3227,7 +3227,7 @@ static __forceinline long clipCellRound(float f)
 	}
 	return i;
 }
-void Pathfinder::rva002E75A3(Coord3D *lhs, Coord3D *rhs)
+void Pathfinder::clip(Coord3D *lhs, Coord3D *rhs)
 {
 	ICoord2D p2;
 	ICoord2D p1;
@@ -4153,7 +4153,7 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
  }
  Coord3D clippedFrom;
  copyCoord3D(&clippedFrom,from);
- rva002E75A3(&clippedFrom,&destination);
+ clip(&clippedFrom,&destination);
  ICoord2D startIndex;
  Rva002E7875WorldToCell(&startIndex,true,from);
  PathfindCell *parent=rva002E8BF8((PathfindLayerEnum)obj->rva0028B511(),&clippedFrom);
@@ -4355,7 +4355,7 @@ Path *Pathfinder::InternalFindPath(Object *obj, const LocomotorSet &locomotorSet
 	copyCoord3D(&adjustTo, rawTo);
 	Coord3D clipFrom;
 	copyCoord3D(&clipFrom, from);
-	rva002E75A3(&clipFrom, &adjustTo);
+	clip(&clipFrom, &adjustTo);
 
 	if (!centerInCell) {
 		if (pathfinderLogOn())
@@ -4453,7 +4453,7 @@ Path *Pathfinder::InternalFindPath(Object *obj, const LocomotorSet &locomotorSet
 			if (hop->m_zone == m_srcMineshaft->m_portal) {
 				viaMineshaft = true;
 				adjustTo = m_srcMineshaft->m_position;
-				rva002E75A3(&clipFrom, &adjustTo);
+				clip(&clipFrom, &adjustTo);
 				unshiftedTo = adjustTo;
 				destinationLayer = TheTerrainLogic->getLayerForDestination(NULL, &adjustTo);
 				goalCell = (PathfindCell *)rva001E3647Pos(destinationLayer, &adjustTo);
@@ -6038,7 +6038,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  HierarchyPoint adjustTo(*rawTo);
  Coord3D *to=&adjustTo;
  HierarchyPoint clipFrom(*from);
- rva002E75A3(&clipFrom,&adjustTo);
+ clip(&clipFrom,&adjustTo);
  m_isTunneling=false;
  Bool useMineshaft=false;
  HierarchyPoint originalTo(adjustTo);
@@ -6061,7 +6061,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
   if(m_srcMineshaft && m_destMineshaft && m_srcMineshaft!=m_destMineshaft &&
      QuickDoesPathExist(obj,from,&m_srcMineshaft->m_position,0) &&
      QuickDoesPathExist(obj,&m_destMineshaft->m_position,rawTo,0)) {
-   useMineshaft=true;adjustTo=m_srcMineshaft->m_position;rva002E75A3(&clipFrom,&adjustTo);
+   useMineshaft=true;adjustTo=m_srcMineshaft->m_position;clip(&clipFrom,&adjustTo);
   } else {m_srcMineshaft=0;m_destMineshaft=0;}
  }
  PathfindLayerEnum destinationLayer=TheTerrainLogic->getLayerForDestination(0,to);
@@ -6383,7 +6383,7 @@ Path *Pathfinder::FindGroundPath(Object *obj,const Coord3D *from,const Coord3D *
     if((rawTo->x==0 && rawTo->y==0) || !m_isMapReady)return 0;
     Coord3D adjusted;copyCoord3D(&adjusted,rawTo);
     Coord3D clipped;copyCoord3D(&clipped,from);
-    rva002E75A3(&clipped,&adjusted);m_isTunneling=false;
+    clip(&clipped,&adjusted);m_isTunneling=false;
     PathfindLayerEnum layer=TheTerrainLogic->getLayerForDestination(obj,&adjusted);
     ICoord2D cell;Rva002E7875WorldToCell(&cell,true,&adjusted);
     if(diameter!=rva002E7749(0,cell.x,cell.y,layer,diameter,true)){

@@ -45,7 +45,7 @@
 // options to the first behavior module's update interface that claims the
 // power; the rest is BFME 2 only and read from retail: the target's ID
 // (Object+0x74) goes to +0x2C; template types 0x33 and 0x88 poke each other's
-// rowed Object::rva0028BD92 module (rowed Rva0044E6AE::rva0049C8FC), type
+// rowed Object::findSpecialAbilityUpdate module (rowed Rva0044E6AE::rva0049C8FC), type
 // 0x8D sends the AI (Object+0x258) to harvest at the controlling player's
 // resource manager (Player+0x2E4, pinned 0x004F5A67) pick and clears AI byte
 // +0x3CC; data byte +0x5D idles the AI. Once an interface took the power, the
@@ -246,12 +246,14 @@ public:
 
 class BehaviorModule;
 
+enum SpecialPowerType {};
+class SpecialAbilityUpdate;
 class Object
 {
 public:
 	Player *getControllingPlayer() const;
 	bool rva0028C1CC() const;
-	void *rva0028BD92(int key);
+	SpecialAbilityUpdate *findSpecialAbilityUpdate(SpecialPowerType type) const;
 	Drawable *getDrawable() const;
 	int getID() const { return m_id; }
 	BehaviorModule **getBehaviorModules() const { return m_behaviors; }
@@ -505,14 +507,14 @@ void SpecialPowerModule::initiateIntentToDoSpecialPower(const Object *targetObj,
 	{
 	case 0x33:
 	{
-		void *other = m_object->rva0028BD92(0x88);
+		void *other = m_object->findSpecialAbilityUpdate((SpecialPowerType)(0x88));
 		if (other)
 			((Rva0044E6AE *)other)->rva0049C8FC();
 		break;
 	}
 	case 0x88:
 	{
-		void *other = m_object->rva0028BD92(0x33);
+		void *other = m_object->findSpecialAbilityUpdate((SpecialPowerType)(0x33));
 		if (other)
 			((Rva0044E6AE *)other)->rva0049C8FC();
 		break;
