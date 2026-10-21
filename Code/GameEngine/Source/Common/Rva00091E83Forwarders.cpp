@@ -223,9 +223,9 @@ class W3DTerrainVisual
 public:
 	virtual void addProp( const ThingTemplate *tTemplate, const Coord3D *pos, Real angle, Real scale );
 	virtual void rva00091E19( int a, Real b, int c );
-	virtual void rva00091E45( const Coord3D *pos, const GeometryInfo &geom, Real value );
+	virtual void removeTreesAndPropsForConstruction( const Coord3D *pos, const GeometryInfo &geom, Real value );
 	virtual void rva00091E64( const Coord3D *pos, const GeometryInfo *geom, Real value );
-	virtual void rva00091D3D( Real x, Real y, int value );
+	virtual void getTerrainColorAt( Real x, Real y, RGBColor *pColor );
 	virtual void rva00091EEC( Vector3 pos, Real radius );
 	virtual void rva000926AC( const AsciiString &name, bool flag, const AsciiString &secondName );
 private:
@@ -286,7 +286,7 @@ void W3DTerrainVisual::rva00091E19( int a, Real b, int c )
 		reinterpret_cast<Rva00068073Host *>(m_terrainRenderObject)->rva00068073(a, b, c);
 }
 
-void W3DTerrainVisual::rva00091E45( const Coord3D *pos, const GeometryInfo &geom, Real value )
+void W3DTerrainVisual::removeTreesAndPropsForConstruction( const Coord3D *pos, const GeometryInfo &geom, Real value )
 {
 	if (m_terrainRenderObject)
 		reinterpret_cast<Rva00068073Host *>(m_terrainRenderObject)->rva000680D6(pos, geom, value);
@@ -300,10 +300,10 @@ void W3DTerrainVisual::rva00091E64( const Coord3D *pos, const GeometryInfo *geom
 
 // Retail 0x00091D3D (36B, RET 0xC; vtable entry 0x00BC80B8): the same guarded
 // pass-through against the object at +0x1C.
-void W3DTerrainVisual::rva00091D3D( Real x, Real y, int value )
+void W3DTerrainVisual::getTerrainColorAt( Real x, Real y, RGBColor *pColor )
 {
 	if (m_object1C)
-		((WorldHeightMap *)m_object1C)->getTerrainColorAt(x, y, (RGBColor *)value);
+		((WorldHeightMap *)m_object1C)->getTerrainColorAt(x, y, pColor);
 }
 
 // Retail 0x00091EEC (62B, RET 0x10; vtable entry 0x00BC80FC): passes a

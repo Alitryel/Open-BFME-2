@@ -614,19 +614,8 @@ void W3DTerrainVisual::enableWaterGrid( Bool enable )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?W3DTerrainVisual::getTerrainColorAt present-unmatched
-void W3DTerrainVisual::getTerrainColorAt( Real x, Real y, RGBColor *pColor )
-{
-
-#ifdef DO_SEISMIC_SIMULATIONS
-  if( m_clientHeightMap )
-		m_clientHeightMap->getTerrainColorAt( x, y, pColor );
-#else
-  if( m_logicHeightMap )
-		m_logicHeightMap->getTerrainColorAt( x, y, pColor );
-#endif
-
-}  // end getTerrainColorAt
+// W3DTerrainVisual::getTerrainColorAt: retail's body is the row at 0x00091D3D
+// (Rva00091E83Forwarders.cpp); this unit only declares it, so its vtable binds there.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -861,15 +850,8 @@ void W3DTerrainVisual::removeBibHighlighting(void)
  
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?W3DTerrainVisual::removeTreesAndPropsForConstruction present-unmatched
-void W3DTerrainVisual::removeTreesAndPropsForConstruction(const Coord3D* pos, 
-																				const GeometryInfo& geom,
-																				Real angle)
-{
-	if (m_terrainRenderObject) {
-		m_terrainRenderObject->removeTreesAndPropsForConstruction(pos, geom, angle);
-	}
-}
+// W3DTerrainVisual::removeTreesAndPropsForConstruction: retail's body is the row at
+// 0x00091E45 (Rva00091E83Forwarders.cpp); this unit only declares it.
  
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
