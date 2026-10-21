@@ -762,7 +762,7 @@
 /// \brief The check box state query, GadgetCheckBoxIsChecked().
 
 
-/// \fn Bool GadgetCheckBoxIsChecked(GameWindow *g)
+/// \fn Bool GadgetCheckBoxIsChecked(GameWindow *gameWindow)
 /// \brief Reports whether a check box is ticked.
 ///
 /// A check box keeps its ticked state in the selected bit of the window's
@@ -771,7 +771,7 @@
 /// boxes when settings are saved. The body is Zero Hour's, with the bit
 /// test written as a shift.
 ///
-/// \param g The check box. It is dereferenced without a null check.
+/// \param gameWindow The check box. It is dereferenced without a null check.
 /// \return true if the selected bit is set.
 ///
 /// \see GadgetCheckLikeButtonIsChecked()

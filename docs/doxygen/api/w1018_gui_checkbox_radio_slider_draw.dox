@@ -599,7 +599,7 @@
 /// \see GadgetCheckBoxSetText(), GadgetCheckBoxInput()
 
 
-/// \fn void GadgetCheckBoxSetText(GameWindow *g, UnicodeString text)
+/// \fn void GadgetCheckBoxSetText(GameWindow *gameWindow, UnicodeString text)
 /// \brief Sets a check box's label.
 ///
 /// Sends the set-label system message with a pointer to its own copy of
@@ -612,7 +612,7 @@
 /// looks the layout's label up in the string table, so a check box's
 /// wording is a string-table entry rather than layout text.
 ///
-/// \param g    The check box. Null is ignored.
+/// \param gameWindow    The check box. Null is ignored.
 /// \param text The new label, passed by value.
 ///
 /// \see GadgetCheckBoxSystem(), drawCheckBoxText()

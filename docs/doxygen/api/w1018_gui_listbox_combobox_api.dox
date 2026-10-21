@@ -730,7 +730,7 @@
 /// The file also holds other code that this group does not document.
 
 
-/// \fn void GadgetButtonSetText(GameWindow *g, UnicodeString text)
+/// \fn void GadgetButtonSetText(GameWindow *gameWindow, UnicodeString text)
 /// \brief Sets the label text of a push button.
 ///
 /// Retail callers include ControlBar::setControlCommand (command button
@@ -747,7 +747,7 @@
 /// BFME 2's combo box handler, for example, writes the text straight into
 /// the window's instance data instead of calling GameWindow::winSetText.
 ///
-/// \param g    The button; null does nothing.
+/// \param gameWindow    The button; null does nothing.
 /// \param text The new label, copied.
 ///
 /// \par Modding

@@ -664,7 +664,7 @@
 /// in other files.
 
 
-/// \fn void GadgetTextEntrySetFont(GameWindow *g, GameFont *font)
+/// \fn void GadgetTextEntrySetFont(GameWindow *gameWindow, GameFont *font)
 /// \brief Applies a font to every display string of a text entry field.
 ///
 /// GameWindow::winSetFont stores the font on the window and then, for a
@@ -678,7 +678,7 @@
 /// window has no user data yet. The display strings' font setter is called
 /// through its virtual table slot.
 ///
-/// \param g    The text entry field; must not be null.
+/// \param gameWindow    The text entry field; must not be null.
 /// \param font Font to apply.
 ///
 /// \see GadgetTextEntrySetTextColor()
