@@ -1,5 +1,5 @@
 // ??0LANAPI@@QAE@XZ
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
 
 typedef unsigned int UnsignedInt;
@@ -7,25 +7,44 @@ typedef unsigned short UnsignedShort;
 typedef unsigned short WideChar;
 typedef unsigned char UnsignedByte;
 typedef bool Bool;
+typedef int Int;
 
 #include "ascii_string.h"
 
 
 #include "unicode_string.h"
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface(void);
-	virtual ~SubsystemInterface(void);
+// SubsystemInterface's 14-slot interface from the shared native header: slots 0..13 of
+// retail's LANAPI vftable 0x0083E680 (init at 1, reset at 9, update at 10).
+#include "subsystem_interface.h"
 
-private:
-	UnsignedByte m_baseFields[8];
-};
+class LANGameInfo;
+class LANPlayer;
+class LivingWorldBattle;
 
 class LANAPIInterface : public SubsystemInterface
 {
 public:
+	enum ChatType
+	{
+		LANCHAT_NORMAL = 0,
+		LANCHAT_TYPE1,
+		LANCHAT_EMOTE,
+		LANCHAT_SYSTEM
+	};
+	enum ReturnType
+	{
+		RET_OK = 0,
+		RET_TIMEOUT,
+		RET_GAME_FULL,
+		RET_DUPLICATE_NAME,
+		RET_CRC_MISMATCH,
+		RET_SERIAL_DUPE,
+		RET_GAME_STARTED,
+		RET_GAME_EXISTS,
+		RET_GAME_GONE,
+		RET_BUSY
+	};
 	LANAPIInterface(void) {}
 	virtual ~LANAPIInterface(void) {}
 };
@@ -44,72 +63,60 @@ struct LANMessage
 	UnsignedByte payload[0x1D8 - sizeof(UnsignedInt)];
 };
 
-class LANGameInfo;
-class LANPlayer;
-
+// Retail vftable 0x0083E680 (58 slots); every LANAPI slot names its row.
 class LANAPI : public LANAPIInterface
 {
 public:
 	LANAPI(void);
 	virtual ~LANAPI(void);
-	virtual void reset(void);
-
-	virtual void slot02(void) = 0;
-	virtual void slot03(void) = 0;
-	virtual void slot04(void) = 0;
-	virtual void slot05(void) = 0;
-	virtual void slot06(void) = 0;
-	virtual void slot07(void) = 0;
-	virtual void slot08(void) = 0;
-	virtual void slot09(void) = 0;
-	virtual void slot10(void) = 0;
-	virtual void slot11(void) = 0;
-	virtual void slot12(void) = 0;
-	virtual void slot13(void) = 0;
-	virtual void slot14(void) = 0;
-	virtual void slot15(void) = 0;
-	virtual void slot16(void) = 0;
-	virtual void slot17(void) = 0;
-	virtual void slot18(void) = 0;
-	virtual void slot19(void) = 0;
-	virtual void slot20(void) = 0;
-	virtual void slot21(void) = 0;
-	virtual void slot22(void) = 0;
-	virtual void slot23(void) = 0;
-	virtual void slot24(void) = 0;
-	virtual void slot25(void) = 0;
-	virtual void slot26(void) = 0;
-	virtual void slot27(void) = 0;
-	virtual void slot28(void) = 0;
-	virtual void slot29(void) = 0;
-	virtual void slot30(void) = 0;
-	virtual void slot31(void) = 0;
-	virtual void slot32(void) = 0;
-	virtual void slot33(void) = 0;
-	virtual void slot34(void) = 0;
-	virtual void slot35(void) = 0;
-	virtual void slot36(void) = 0;
-	virtual void slot37(void) = 0;
-	virtual void slot38(void) = 0;
-	virtual void slot39(void) = 0;
-	virtual void slot40(void) = 0;
-	virtual void slot41(void) = 0;
-	virtual void slot42(void) = 0;
-	virtual void slot43(void) = 0;
-	virtual void slot44(void) = 0;
-	virtual void slot45(void) = 0;
-	virtual void slot46(void) = 0;
-	virtual void slot47(void) = 0;
-	virtual void slot48(void) = 0;
-	virtual void slot49(void) = 0;
-	virtual void slot50(void) = 0;
-	virtual void slot51(void) = 0;
-	virtual void slot52(void) = 0;
-	virtual void slot53(void) = 0;
-	virtual void slot54(void) = 0;
-	virtual void slot55(void) = 0;
-	virtual void slot56(void) = 0;
-	virtual void fillInLANMessage(LANMessage *message);	// slot 57
+	virtual void init(void);										// 1  0x00449BAA
+	virtual void reset(void);										// 9  0x0044B49B
+	virtual void update(void);										// 10 0x0044AAED
+	virtual void setIsActive(Bool isActive);						// 14 0x00449A29
+	virtual void RequestLocations(void);							// 15
+	virtual void RequestGameJoin(LANGameInfo *game, const BfmeNetAddress &address);
+	virtual void rva00449FE8(void *data);							// 17
+	virtual void RequestGameLeave(void);
+	virtual void RequestAccept(Bool accept);
+	virtual void RequestHasMap(void);								// 20
+	virtual void RequestChat(UnicodeString message, ChatType format, Int target);
+	virtual void RequestEnableMPSetupUI(Bool enable);
+	virtual void RequestGameStart(Bool force);
+	virtual void RequestGameStartTimer(UnsignedInt seconds);
+	virtual void RequestGameOptions(AsciiString gameOptions, Int isPublic, UnsignedInt ip);	// 25
+	virtual void RequestGameOptionsPacked(Bool isPublic, BfmeNetAddress *address);
+	virtual void RequestGameCreate(UnicodeString gameName, Bool isDirectConnect);
+	virtual void RequestGameAnnounce(void);
+	virtual void RequestSetName(UnicodeString newName);
+	virtual void RequestLobbyLeave(Bool forced);					// 30
+	virtual void ResetGameStartTimer(void);
+	virtual void OnGameList(LANGameInfo *gameList);
+	virtual void rva00248E87(void);
+	virtual void OnGameJoin(ReturnType ret, LANGameInfo *theGame, LANMessage *message);
+	virtual void OnPlayerJoin(Int slot, UnicodeString playerName);	// 35
+	virtual void OnHostLeave(void);
+	virtual void OnPlayerLeave(UnicodeString player);
+	virtual void OnAccept(const BfmeNetAddress *address, Bool status);
+	virtual void OnHasMap(const BfmeNetAddress *address, Bool status);
+	virtual void OnChat(const UnicodeString &player, const BfmeNetAddress *address,
+		const UnicodeString &message, ChatType format);			// 40
+	virtual void rva00249B08(LivingWorldBattle *battle);
+	virtual void OnGameStart(void);
+	virtual void OnWOTRGameStart(void);
+	virtual void OnGameStartTimer(Int seconds);
+	virtual void rva0024A348(const BfmeNetAddress &sender, Int playerSlot, AsciiString options);	// 45
+	virtual Bool rva0024924D(const BfmeNetAddress &sender, Int playerSlot, const void *data, Int length);
+	virtual void OnGameCreate(ReturnType ret);
+	virtual void OnNameChange(UnsignedInt ip, UnicodeString newName);
+	virtual LANGameInfo *LookupGame(UnicodeString gameName);
+	virtual LANGameInfo *LookupGameByListOffset(Int offset);		// 50
+	virtual LANGameInfo *GetGameList(void) { return m_games; }		// 51 (folded +0x10 getter 0x001DB09D)
+	virtual Bool SetLocalIP(UnsignedInt localIP);					// 53 (overloads land in reverse order)
+	virtual void SetLocalIP(AsciiString localIP);					// 52
+	virtual Int AmIHost(void);
+	virtual UnicodeString GetMyName(void);							// 55
+	virtual LANGameInfo *GetMyGame(void) { return m_currentGame; }	// 56 (folded +0x44 getter 0x005C4AF9)
+	virtual void fillInLANMessage(LANMessage *message);			// 57
 
 protected:
 	LANPlayer *m_lobbyPlayers;		// +0x0C
