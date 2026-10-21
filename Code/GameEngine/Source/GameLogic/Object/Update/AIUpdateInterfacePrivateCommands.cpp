@@ -1129,7 +1129,7 @@ public:
 	Object *getCurrentVictim() const;				///< matched 0x00268D71
 	void destroyPath();								///< matched 0x00262A8A
 	Path *getPath() { return m_path; }
-	void setIgnoreCollisionTime(Int frames) { m_ignoreCollisionsUntil = TheGameLogic->getFrame() + frames; }
+	void setIgnoreCollisionTime(Int frames);
 	Bool isPathAvailable(const Coord3D *destination) const;
 	Bool isMoving() const;							///< pinned 0x00264688
 	Int getCurrentStateID() const;					///< matched 0x00262FC3
@@ -1652,6 +1652,13 @@ void AIUpdateInterface::clearGuardTargetType()
 {
 	m_guardTargetType[1] = m_guardTargetType[0];
 	m_guardTargetType[0] = GUARDTARGET_NONE;
+}
+
+// The shim declares this member so the ZH layout's inline copy cannot compete
+// for the link; this is retail's body (+0x178) for the AIUpdate.cpp callers.
+void AIUpdateInterface::setIgnoreCollisionTime(Int frames)
+{
+	m_ignoreCollisionsUntil = TheGameLogic->getFrame() + frames;
 }
 
 // The move-order family. Each prepares the locomotor with the owner's position
