@@ -2,14 +2,12 @@
 //
 // BFME1 byte-identical donor (reference/open-bfme-1
 // Code/GameEngine/Source/Common/S1IndirectSlotCalls.cpp); trimmed to the two
-// T1 bodies the sweep places. Slots are spelled as function-pointer globals
-// named after their RVA.
+// T1 bodies the sweep places. BFME2's PE import directory identifies their
+// native slots as winmm!timeGetTime (BBA918) and mss32!_AIL_lock_mutex@0
+// (BBAAC4), so use those imports rather than the donor's slot globals.
 
-typedef void ( *BfmeVoidSlot )();
-typedef int ( *BfmeIntSlot )();
-
-extern BfmeVoidSlot Data00F595C4;
-extern BfmeIntSlot Data00F59544;
+extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
+extern "C" __declspec(dllimport) void __stdcall AIL_lock_mutex();
 
 // Constructor: call a different slot, then set one byte at offset 0.
 class Rva00694BC0
@@ -21,7 +19,7 @@ public:
 
 Rva00694BC0::Rva00694BC0()
 {
-	Data00F595C4();
+	AIL_lock_mutex();
 	m_flag = true;
 }
 
@@ -36,5 +34,5 @@ public:
 
 void Rva006629A0::refresh()
 {
-	m_value = Data00F59544();
+	m_value = timeGetTime();
 }

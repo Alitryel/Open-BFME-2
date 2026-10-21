@@ -1,7 +1,8 @@
+// cl: /MD
 // Ported from Open-BFME-1's game/GameEngine/Source/Common/SmallGaps/Rva0083ED40StreamStateReport.cpp
 // (donor revision: reference/open-bfme-1 @ a38d345e) by tools/bfme1_sweep.py,
 // tier T1: 0x0083ED70 (53B) -> 0x0001BDD0 (53B), "1 DIR32 string literal(s)
-// agree". The donor uses build.py's base flags, so no // cl: line.
+// agree". /MD selects the CRT imports proved by the BFME2 PE directory.
 //
 // The donor is held at copy-tier S because the sweep placed only addState out
 // of the file's five methods. This TU carries that one body, and keeps the
@@ -10,12 +11,9 @@
 // shape. clearState is __forceinline and used only here, so it emits no symbol
 // of its own.
 //
-// No pin is needed: the failure path reports through g_call, which the donor
-// reaches through a POINTER (a DIR32 reference, not a REL32 call), so the
-// address slot is copied from retail rather than proved by a pin.
-
-extern void* g_global;
-extern void (__cdecl* g_call)(const char* what, void* where);
+// BFME2's PE import directory names BBA660 as msvcr71!fputs and BBA67C
+// as msvcr71!_iob. The native +0x40 selects stderr (two 32-byte FILEs).
+#include <stdio.h>
 
 // ?addState@Rva0083ED40Stream@@QAEXH@Z -- 0x0001BDD0
 struct Rva0083ED40Stream {
@@ -33,7 +31,7 @@ struct Rva0083ED40Stream {
 			state |= 1;
 		m_state = state;
 		if (m_exceptions & state)
-			g_call("ios failure", (char*)g_global + 0x40);
+			fputs("ios failure", stderr);
 	}
 };
 
