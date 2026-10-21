@@ -55,6 +55,34 @@
 #include "GameLogic/ObjectCreationList.h"
 #include "GameLogic/Weapon.h"
 #include "GameClient/Drawable.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void vector<ObjectCreationList const *,allocator<ObjectCreationList const *> >::_M_insert_overflow(ObjectCreationList const * *,ObjectCreationList const * const &,__true_type const &,unsigned int,bool); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVWeaponTemplate@@V?$allocator@PBVWeaponTemplate@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class WeaponTemplate;
+namespace _STL { template <> void vector<WeaponTemplate const *,allocator<WeaponTemplate const *> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void vector<ObjectCreationList const *,allocator<ObjectCreationList const *> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVWeaponTemplate@@@_STL@@QBEXPAPBVWeaponTemplate@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class WeaponTemplate;
+namespace _STL { template <> void allocator<WeaponTemplate const *>::deallocate(WeaponTemplate const * *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVWeaponTemplate@@@_STL@@QBEPAPBVWeaponTemplate@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class WeaponTemplate;
+namespace _STL { template <> WeaponTemplate const * * allocator<WeaponTemplate const *>::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEPAPBVObjectCreationList@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> ObjectCreationList const * * allocator<ObjectCreationList const *>::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVFXList@@@_STL@@QBEPAPBVFXList@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class FXList;
+namespace _STL { template <> FXList const * * allocator<FXList const *>::allocate(unsigned int,void const *) const; }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEXPAPBVObjectCreationList@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ObjectCreationList;

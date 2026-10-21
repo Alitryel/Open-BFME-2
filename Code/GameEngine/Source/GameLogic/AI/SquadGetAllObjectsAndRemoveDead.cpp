@@ -24,6 +24,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #define _STLP_NO_EXCEPTIONS 1
 #include <hash_map>
 #include <vector>
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PAVObject@@@_STL@@QBEPAPAVObject@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Object;
+namespace _STL { template <> Object * * allocator<Object *>::allocate(unsigned int,void const *) const; }
 
 // An enum, as in the game: STLport then copies ids element by element on
 // erase instead of memmove, which is what retail does.

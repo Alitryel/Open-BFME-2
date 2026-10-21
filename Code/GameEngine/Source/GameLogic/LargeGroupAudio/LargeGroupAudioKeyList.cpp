@@ -20,6 +20,10 @@
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include "Common/AsciiString.h"
 #include <stl/_tree.h>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@URva003D3F90Value@@@_ST:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; struct Rva003D3F90Value;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const ,Rva003D3F90Value> > >::deallocate(_Rb_tree_node<pair<AsciiString const ,Rva003D3F90Value> > *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

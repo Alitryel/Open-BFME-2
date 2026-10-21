@@ -73,6 +73,14 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameLogic/Module/PhysicsUpdate.h"
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/TerrainLogic.h"
+// Suppress this TU's non-retail copy of ??1?$_List_base@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> _List_base<ObjectID,allocator<ObjectID> >::~_List_base(); }
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> void _List_base<ObjectID,allocator<ObjectID> >::clear(); }
 
 // Retail's shared 8.0f at VA 0x00BC2A10 (RVA 0x007C2A10); name the
 // unowned .rdata value so linked code follows it when the image moves.
