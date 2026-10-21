@@ -472,7 +472,8 @@ inline unsigned Get_Normal_Offset() const { return location_offset[1]; }
 #ifdef WWDEBUG
 inline unsigned Get_Tex_Offset(unsigned int n) const { WWASSERT(n<D3DDP_MAXTEXCOORD); return texcoord_offset[n]; }
 #else
-inline unsigned Get_Tex_Offset(unsigned int n) const { return texcoord_offset[n]; }
+// LINK: inline-only, so no copy competes with the +0x14 views linked earlier.
+__declspec(dllimport) __forceinline unsigned Get_Tex_Offset(unsigned int n) const { return texcoord_offset[n]; }
 #endif
 inline unsigned Get_Diffuse_Offset() const { return diffuse_offset; }
 inline unsigned Get_Specular_Offset() const { return specular_offset; }
