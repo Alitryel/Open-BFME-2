@@ -3,7 +3,7 @@
 Session 3 (2026-10-21, claude-opus-5-5). Continues
 `dering-strong-anchors-20261021.md` and `dering-strong-bias-20261020.md`.
 Banked body: `reverse/attempts/0x001c1ad0.cpp` (2030 B, exact size,
-1993 equal bytes, 19 differing instructions, insn ratio 0.982).
+one differing instruction, the SIB of store 2; see "Session 3b" below).
 
 ## Finding: a basic offset induction variable
 
@@ -65,6 +65,38 @@ address); 1985 -> 1993 equal bytes.
   (2022 B).
 - Earlier, in this form: `for` vs comma loop identical; weight row pointers
   advanced per row 2033 B; per-pixel source pointers for below and above 2046 B.
+
+## Session 3b: pixel locals vs inline reads (1 instruction left)
+
+c2 numbers values in creation order, and both the product order in the sum and
+the base/index order of an address follow that numbering. Whether a pixel is a
+local or read inline therefore moves orders that no spelling can (spelling is
+canonicalized). Factorial over all 8 pixels x {none, centre, right, centre+right}
+x {loads before / after weights} (`build/s1c/g19.py`..`g22.py`, 896+ variants):
+
+- pixels 1..6 fully inline (`source[off + k]` etc. in the sum, no pixel locals)
+  fix the pixel 2/3 product order (residue 1 above);
+- pixels 0 and 7 keep `int centerPixel = source[off + k]; int rightPixel =
+  source[off + k + 1];` before the weight locals: pixel 0 for its schedule,
+  pixel 7 for the operand order in the hrow loop.
+
+Remaining: store 2 `mov byte ptr [edi + ebx], dl`, retail `[ebx + edi]`
+(retail2.s index 581; ebx = [esp+0x60] dest-below delta, edi = below cursor B2).
+Stores 0 (`[ebx + ecx]`) and 4 (`[ebx + ebp]`) match.
+
+Disproven for store 2 (all leave index 581 alone or add residue):
+- all per-pixel inline/local combinations above, plus 1500 random extra
+  leftPixel/belowPixel/abovePixel locals per pixel (`g26.py`): 581 never moves;
+- `temp` declared in/out of the row loop, before/after `off`; `off` type and
+  position; the `(unsigned char)` cast; `int c` (turns `jb` into `jl`);
+- store loop forms: `destination[c + off]`, separate loop counter (int,
+  unsigned, function scope), `while`, `c <= 7`, `++c`: identical; unrolled
+  stores, destination row pointer, advancing destination, do-while, `!=`: much
+  worse;
+- 12 declaration-order toggles of the function-scope locals: only above/below
+  and quality/sharpen swaps change anything, and only in the prologue;
+- `below`/`above` spelled `source[off + pitch + k]` / `source[off - pitch + k]`:
+  much worse.
 
 ## Next angles
 
