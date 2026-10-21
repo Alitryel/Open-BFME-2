@@ -51,6 +51,10 @@ namespace _STL {
 template <> AsciiString *__uninitialized_fill_n<AsciiString *, unsigned int, AsciiString>(AsciiString *, unsigned int, const AsciiString &, const __false_type &);
 template <> AsciiString *__uninitialized_copy<AsciiString *, AsciiString *>(AsciiString *, AsciiString *, AsciiString *, const __false_type &);
 template <> void vector<AsciiString, allocator<AsciiString> >::_M_insert_overflow(AsciiString *, const AsciiString &, const __false_type &, unsigned int, bool);
+// Rows in Upgrade.cpp (push_back) and MapMetaDataCopy.cpp (~_Rb_tree): rva000C2CBF and the
+// static sets' set::~set reach them out of line.
+template <> void vector<AsciiString, allocator<AsciiString> >::push_back(const AsciiString &);
+template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::~_Rb_tree();
 }
 
 class Team;enum Relationship{ENEMIES,NEUTRAL,ALLIES};
@@ -600,6 +604,8 @@ static __declspec(noinline) void parseBoneNameKey(INI *ini, void *instance, void
  else *key = TheNameKeyGenerator->nameToKey(((const StringBase<char> *)&tmp)->str());
 }
 struct BfmePod24 { int a[6]; };
+// Row in stlport_pod_vector_bodies.cpp; Rva000C2C5FParseBoneRecord calls it out of line.
+namespace _STL { template <> void vector<BfmePod24, allocator<BfmePod24> >::push_back(const BfmePod24 &); }
 struct Rva000C2C5FRecord {
  int key, at04; float at08, at0C; int at10, at14;
  Rva000C2C5FRecord() : key(0), at04(0), at08(0.0f), at0C(0.0f), at10(0), at14(0) {}
