@@ -112,76 +112,76 @@ Bool Rva0060DFB5(File *input, File *output)
 		{
 			case 'c2d':
 			{
-				Real v[2];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
+				Real values[2];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
 				taggedPrint(output, "x:%1.6f,y:%1.6f (0xX:%08x,0xY:%08x) [coord2d]\n",
-					v[0], v[1], *(UnsignedInt *)&v[0], *(UnsignedInt *)&v[1]);
+					values[0], values[1], *(UnsignedInt *)&values[0], *(UnsignedInt *)&values[1]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'c3d':
 			{
-				Real v[3];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
+				Real values[3];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
 				taggedPrint(output, "x:%1.6f,y:%1.6f,z:%1.6f (HexX:%08x,HexY:%08x,HexZ:%08x) [coord3d]\n",
-					v[0], v[1], v[2], *(UnsignedInt *)&v[0], *(UnsignedInt *)&v[1], *(UnsignedInt *)&v[2]);
+					values[0], values[1], values[2], *(UnsignedInt *)&values[0], *(UnsignedInt *)&values[1], *(UnsignedInt *)&values[2]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'i64':
 			{
-				Int64 v;
-				input->read(&v, 8);
+				Int64 values;
+				input->read(&values, 8);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%I64i=0x%I64x [int64]\n", v, v);
+				taggedPrint(output, "%I64i=0x%I64x [int64]\n", values, values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'int':
 			{
-				Int v;
-				input->read(&v, 4);
+				Int values;
+				input->read(&values, 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i=0x%x [int]\n", v, v);
+				taggedPrint(output, "%i=0x%x [int]\n", values, values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'r2d':
 			{
-				Real v[4];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
-				input->read(&v[3], 4);
+				Real values[4];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
+				input->read(&values[3], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
 				taggedPrint(output, "x:%1.6f,y:%1.6f to x:%1.6f,y:%1.6f (0xX:%08x,0xY:%08x to 0xX:%08x,0xY:%08x) [region2d]\n",
-					v[0], v[1], v[2], v[3], *(UnsignedInt *)&v[0], *(UnsignedInt *)&v[1], *(UnsignedInt *)&v[2], *(UnsignedInt *)&v[3]);
+					values[0], values[1], values[2], values[3], *(UnsignedInt *)&values[0], *(UnsignedInt *)&values[1], *(UnsignedInt *)&values[2], *(UnsignedInt *)&values[3]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'r3d':
 			{
-				Real v[6];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
-				input->read(&v[3], 4);
-				input->read(&v[4], 4);
-				input->read(&v[5], 4);
+				Real values[6];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
+				input->read(&values[3], 4);
+				input->read(&values[4], 4);
+				input->read(&values[5], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
 				taggedPrint(output, "x:%1.6f,y:%1.6f,z:%1.6f to x:%1.6f,y:%1.6f,z:%1.6f (0xX:%08x,0xY:%08x,0xZ:%08x to 0xX:%08x,0xY:%08x,0xZ:%08x) [region3d]\n",
-					v[0], v[1], v[2], v[3], v[4], v[5], *(UnsignedInt *)&v[0], *(UnsignedInt *)&v[1], *(UnsignedInt *)&v[2], *(UnsignedInt *)&v[3], *(UnsignedInt *)&v[4], *(UnsignedInt *)&v[5]);
+					values[0], values[1], values[2], values[3], values[4], values[5], *(UnsignedInt *)&values[0], *(UnsignedInt *)&values[1], *(UnsignedInt *)&values[2], *(UnsignedInt *)&values[3], *(UnsignedInt *)&values[4], *(UnsignedInt *)&values[5]);
 				afterBlock = FALSE;
 				break;
 			}
@@ -230,23 +230,23 @@ Bool Rva0060DFB5(File *input, File *output)
 			}
 			case 'rgb':
 			{
-				Real v[3];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
+				Real values[3];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
 				taggedPrint(output, "r:%1.3f,g:%1.3f,b:%1.3f (0xR:%08x,0xG:%08x,0xB:%08x) [rgb]\n",
-					v[0], v[1], v[2], *(UnsignedInt *)&v[0], *(UnsignedInt *)&v[1], *(UnsignedInt *)&v[2]);
+					values[0], values[1], values[2], *(UnsignedInt *)&values[0], *(UnsignedInt *)&values[1], *(UnsignedInt *)&values[2]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'ver':
 			{
-				UnsignedByte v;
-				input->read(&v, 1);
+				UnsignedByte values;
+				input->read(&values, 1);
 				taggedIndent(output, blocks.size());
-				taggedPrint(output, "version: %i\n", (UnsignedInt)v);
+				taggedPrint(output, "version: %i\n", (UnsignedInt)values);
 				afterBlock = FALSE;
 				break;
 			}
@@ -324,51 +324,51 @@ Bool Rva0060DFB5(File *input, File *output)
 			}
 			case 'bool':
 			{
-				Bool v;
-				input->read(&v, 1);
+				Bool values;
+				input->read(&values, 1);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i [bool]\n", (Int)(UnsignedByte)v);
+				taggedPrint(output, "%i [bool]\n", (Int)(UnsignedByte)values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'byte':
 			{
-				Byte v;
-				input->read(&v, 1);
+				Byte values;
+				input->read(&values, 1);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i=0x%x [byte]\n", (Int)v, (Int)v);
+				taggedPrint(output, "%i=0x%x [byte]\n", (Int)values, (Int)values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'enu1':
 			{
-				UnsignedInt v = 0;
-				input->read(&v, 1);
+				UnsignedInt values = 0;
+				input->read(&values, 1);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i [enum]\n", v);
+				taggedPrint(output, "%i [enum]\n", values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'enu2':
 			{
-				UnsignedInt v = 0;
-				input->read(&v, 2);
+				UnsignedInt values = 0;
+				input->read(&values, 2);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i [enum]\n", v);
+				taggedPrint(output, "%i [enum]\n", values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'enu3':
 			{
-				UnsignedInt v = 0;
-				input->read(&v, 3);
+				UnsignedInt values = 0;
+				input->read(&values, 3);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i [enum]\n", v);
+				taggedPrint(output, "%i [enum]\n", values);
 				afterBlock = FALSE;
 				break;
 			}
@@ -384,141 +384,141 @@ Bool Rva0060DFB5(File *input, File *output)
 			}
 			case 'ic2d':
 			{
-				Int v[2];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
+				Int values[2];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "x:%i,y:%i [icoord2d]\n", v[0], v[1]);
+				taggedPrint(output, "x:%i,y:%i [icoord2d]\n", values[0], values[1]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'ic3d':
 			{
-				Int v[3];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
+				Int values[3];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "x:%i,y:%i,z:%i [icoord3d]\n", v[0], v[1], v[2]);
+				taggedPrint(output, "x:%i,y:%i,z:%i [icoord3d]\n", values[0], values[1], values[2]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'ir2d':
 			{
-				Int v[4];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
-				input->read(&v[3], 4);
+				Int values[4];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
+				input->read(&values[3], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "x:%i,y:%i to x:%i,y:%i [iregion2d]\n", v[0], v[1], v[2], v[3]);
+				taggedPrint(output, "x:%i,y:%i to x:%i,y:%i [iregion2d]\n", values[0], values[1], values[2], values[3]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'ir3d':
 			{
-				Int v[6];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
-				input->read(&v[3], 4);
-				input->read(&v[4], 4);
-				input->read(&v[5], 4);
+				Int values[6];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
+				input->read(&values[3], 4);
+				input->read(&values[4], 4);
+				input->read(&values[5], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "x:%i,y:%i,z:%i to x:%i,y:%i,z:%i [iregion3d]\n", v[0], v[1], v[2], v[3], v[4], v[5]);
+				taggedPrint(output, "x:%i,y:%i,z:%i to x:%i,y:%i,z:%i [iregion3d]\n", values[0], values[1], values[2], values[3], values[4], values[5]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'real':
 			{
-				Real v;
-				input->read(&v, 4);
+				Real values;
+				input->read(&values, 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%1.6f (0x%08x) [float]\n", v, *(UnsignedInt *)&v);
+				taggedPrint(output, "%1.6f (0x%08x) [float]\n", values, *(UnsignedInt *)&values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'rgbi':
 			{
-				Int v[4];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
-				input->read(&v[3], 4);
+				Int values[4];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
+				input->read(&values[3], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "r:%i,g:%i,b:%i,a:%i [irgba]\n", v[0], v[1], v[2], v[3]);
+				taggedPrint(output, "r:%i,g:%i,b:%i,a:%i [irgba]\n", values[0], values[1], values[2], values[3]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'rgbr':
 			{
-				Real v[4];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
-				input->read(&v[2], 4);
-				input->read(&v[3], 4);
+				Real values[4];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
+				input->read(&values[2], 4);
+				input->read(&values[3], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
 				taggedPrint(output, "r:%1.3f,g:%1.3f,b:%1.3f,a:%1.3f (0xR:%08x,0xG:%08x,0xB:%08x,0xA:%08x) [rgba]\n",
-					v[0], v[1], v[2], v[3], *(UnsignedInt *)&v[0], *(UnsignedInt *)&v[1], *(UnsignedInt *)&v[2], *(UnsignedInt *)&v[3]);
+					values[0], values[1], values[2], values[3], *(UnsignedInt *)&values[0], *(UnsignedInt *)&values[1], *(UnsignedInt *)&values[2], *(UnsignedInt *)&values[3]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'rnge':
 			{
-				Real v[2];
-				input->read(&v[0], 4);
-				input->read(&v[1], 4);
+				Real values[2];
+				input->read(&values[0], 4);
+				input->read(&values[1], 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
 				taggedPrint(output, "%1.6f to %1.6f (0x:%08x to 0x:%08x) [range]\n",
-					v[0], v[1], *(UnsignedInt *)&v[0], *(UnsignedInt *)&v[1]);
+					values[0], values[1], *(UnsignedInt *)&values[0], *(UnsignedInt *)&values[1]);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'shrt':
 			{
-				Short v;
-				input->read(&v, 2);
+				Short values;
+				input->read(&values, 2);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i=0x%x [short]\n", (Int)v, (Int)v);
+				taggedPrint(output, "%i=0x%x [short]\n", (Int)values, (Int)values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'ubyt':
 			{
-				UnsignedByte v;
-				input->read(&v, 1);
+				UnsignedByte values;
+				input->read(&values, 1);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i=0x%x [ubyte]\n", (UnsignedInt)v, (UnsignedInt)v);
+				taggedPrint(output, "%i=0x%x [ubyte]\n", (UnsignedInt)values, (UnsignedInt)values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'uint':
 			{
-				UnsignedInt v;
-				input->read(&v, 4);
+				UnsignedInt values;
+				input->read(&values, 4);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%u=0x%x [uint]\n", v, v);
+				taggedPrint(output, "%u=0x%x [uint]\n", values, values);
 				afterBlock = FALSE;
 				break;
 			}
 			case 'usht':
 			{
-				UnsignedShort v;
-				input->read(&v, 2);
+				UnsignedShort values;
+				input->read(&values, 2);
 				if (!afterBlock)
 					taggedIndent(output, blocks.size());
-				taggedPrint(output, "%i=0x%x [ushort]\n", (UnsignedInt)v, (UnsignedInt)v);
+				taggedPrint(output, "%i=0x%x [ushort]\n", (UnsignedInt)values, (UnsignedInt)values);
 				afterBlock = FALSE;
 				break;
 			}
