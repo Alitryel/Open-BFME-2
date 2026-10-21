@@ -1,5 +1,5 @@
 // cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?Rva00402B19Parse@@YAXPAVINI@@@Z @0x00402B19 202B: the
+// ?parseLivingWorldBuildingIconDefinition@@YAXPAVINI@@@Z @0x00402B19 202B: the
 // LivingWorldBuildingIconTemplate block parser. Same shape as the
 // LivingWorld sub-object parsers in Rva0056BF1FParse.cpp: map.ini override
 // (INI type 2) and reload (type 5) throw INIException(8, ...), then the
@@ -92,7 +92,7 @@ extern const FieldParse g_00C38380[] =
 	{ 0, 0, 0, 0 }
 };
 
-void Rva00402B19Parse(INI *ini)
+void parseLivingWorldBuildingIconDefinition(INI *ini)
 {
 	if (ini->m_type == 2)
 		throw INIException(8, "Cannot override Living World objects in map.ini");
