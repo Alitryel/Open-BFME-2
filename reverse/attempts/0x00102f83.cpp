@@ -1,9 +1,5 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.91227 date=2026-10-21
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.91227 date=2026-10-21
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.91179 date=2026-10-21
+// partial score=0.91326 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.91179 date=2026-10-21
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
@@ -478,10 +474,7 @@ void W3DCamTransform::transitionLiveMode(Vector3 *pos, Vector3 *target, View *vi
 // Identity: enclosing W3DCamTransform and reference camera algorithm;
 // original entry-point/descriptor names are not independently established.
 // r55: the else arm through a division helper keeps the two pitch arms apart (no tail merge)
-static __forceinline void lerpXY(Vector3 &s,const Vector3 &t,float k){s.X=t.X+(s.X-t.X)*k;s.Y=t.Y+(s.Y-t.Y)*k;}
-static __forceinline float distXY(const Vector3 &t,const Vector3 &s){float dx=t.X-s.X,dy=t.Y-s.Y;return WWMath::Sqrt(dx*dx+dy*dy);}
 static __forceinline void addXY(Vector3 &p,const Coord3D &c){p.X+=c.x;p.Y+=c.y;}
-static __forceinline void lerpDivXY(Vector3 &s,const Vector3 &t,float d){s.X=t.X+(s.X-t.X)/d;s.Y=t.Y+(s.Y-t.Y)/d;}
 static __forceinline void adjustPitch(Vector3 &s,const Vector3 &t,float p){s.X=t.X+(s.X-t.X)/p;s.Y=t.Y+(s.Y-t.Y)/p;}
 __forceinline float cameraMin(float a,float b) {return a<b?a:b;}
 __forceinline float cameraMax(float a,float b) {return a>b?a:b;}
@@ -564,11 +557,9 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         }
         v->fxPitch=1.0f*(0.25f+pitchAdjust*0.75f);
     }
-    // do fxPitch adjustment
     if(v->realZoom) {
-        float inversePitch=1.0f/v->fxPitch;
-        sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)*inversePitch;
-        sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch;
+        sourcePos.X=(sourcePos.X-targetPos.X)/v->fxPitch+targetPos.X;
+        sourcePos.Y=(sourcePos.Y-targetPos.Y)/v->fxPitch+targetPos.Y;
     } else if(v->fxPitch <= 1.0f || v->liveCamera) {
         if(v->liveCamera) {
         if(m_cameraFlag)m_cameraFlag=false;
@@ -581,12 +572,13 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
             float height=sourcePos.Z-targetPos.Z; height*=v->fxPitch;targetPos.Z=sourcePos.Z-height;
         }
     } else {
-        adjustPitch(sourcePos,targetPos,v->fxPitch);
+        sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)/v->fxPitch;
+        sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)/v->fxPitch;
     }
     if(v->positionHold) {
-        Vector3 delta(v->source.X-sourcePos.X,v->source.Y-sourcePos.Y,v->source.Z-sourcePos.Z);
+        Vector3 delta=v->source-sourcePos;
         sourcePos=v->source;
-        targetPos+=delta;
+        targetPos.X+=delta.X;targetPos.Y+=delta.Y;targetPos.Z+=delta.Z;
         v->pos=v->previousPos;v->pos.x+=delta.X;v->pos.y+=delta.Y;v->previousPos=v->pos;
         if(!v->retainHold)v->positionHold=false;
     }
