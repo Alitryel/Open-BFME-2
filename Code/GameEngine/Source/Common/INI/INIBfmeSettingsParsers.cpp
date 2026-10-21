@@ -144,7 +144,7 @@ const FieldParse FireSettingsFields[] =
 };
 extern FireManager *TheFireManager;
 
-void Rva0030AFFBParse(INI *ini)
+void parseFireDefinition(INI *ini)
 {
 	TheFireSettings = TheFireSettingsSaved;
 	ini->initFromINI(&TheFireSettings, FireSettingsFields);

@@ -51,7 +51,7 @@ void Rva002A8A31Parse(INI *);
 void Rva002A92F2Parse(INI *);
 void Rva002E048CParse(INI *);
 void Rva002E2386Parse(INI *);
-void Rva0030AFFBParse(INI *);
+void parseFireDefinition(INI *);
 void Rva003EF467(INI *);
 void Rva003F9EDFParse(INI *);
 void Rva003FD7CEParse(INI *);
@@ -405,7 +405,7 @@ BlockParse theAIDozerAssignmentBlockParse = { 0, "AIDozerAssignment", Rva002A92F
 BlockParse theSkirmishAIDataBlockParse = { 0, "SkirmishAIData", Rva002A8A31Parse };	// VA 0x00DBBC28 "SkirmishAIData", parse 0x002A8A31
 BlockParse theLivingWorldBuildingBlockParse = { 0, "LivingWorldBuilding", Rva002E048CParse };	// VA 0x00DBD078 "LivingWorldBuilding", parse 0x002E048C
 BlockParse theLivingWorldPlayerTemplateBlockParse = { 0, "LivingWorldPlayerTemplate", Rva002E2386Parse };	// VA 0x00DBD0A8 "LivingWorldPlayerTemplate", parse 0x002E2386
-BlockParse theFireBlockParse = { 0, "Fire", Rva0030AFFBParse };	// VA 0x00DBD9AC "Fire", parse 0x0030AFFB
+BlockParse theFireBlockParse = { 0, "Fire", parseFireDefinition };	// VA 0x00DBD9AC "Fire", parse 0x0030AFFB
 BlockParse theWeatherDataBlockParse = { 0, "WeatherData", GlobalWeatherSystem::parseWeatherData };	// VA 0x00DBE4C4 "WeatherData", parse 0x0031842A
 BlockParse theCloudBreakEffectBlockParse = { 0, "CloudBreakEffect", parseCloudBreakEffectDefinition };	// VA 0x00DBE4D0 "CloudBreakEffect", parse 0x00318ABB
 BlockParse theLivingWorldRegionEffectsBlockParse = { 0, "LivingWorldRegionEffects", Rva003EF467 };	// VA 0x00DC14B8 "LivingWorldRegionEffects", parse 0x003EF467
