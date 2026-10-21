@@ -21,21 +21,21 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "matrix4.h"
 #include "wwmath.h"
 
-Matrix3 Build_Matrix3(const Quaternion & q)
+Matrix3 Build_Matrix3(const Quaternion & quaternion)
 {
 	Matrix3 m;
 
-	m[0][0] = (float)(1.0 - 2.0 * (q[1] * q[1] + q[2] * q[2]));
-	m[0][1] = (float)(2.0 * (q[0] * q[1] - q[2] * q[3]));
-	m[0][2] = (float)(2.0 * (q[2] * q[0] + q[1] * q[3]));
+	m[0][0] = (float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[2] * quaternion[2]));
+	m[0][1] = (float)(2.0 * (quaternion[0] * quaternion[1] - quaternion[2] * quaternion[3]));
+	m[0][2] = (float)(2.0 * (quaternion[2] * quaternion[0] + quaternion[1] * quaternion[3]));
 
-	m[1][0] = (float)(2.0 * (q[0] * q[1] + q[2] * q[3]));
-	m[1][1] = (float)(1.0 - 2.0f * (q[2] * q[2] + q[0] * q[0]));
-	m[1][2] = (float)(2.0 * (q[1] * q[2] - q[0] * q[3]));
+	m[1][0] = (float)(2.0 * (quaternion[0] * quaternion[1] + quaternion[2] * quaternion[3]));
+	m[1][1] = (float)(1.0 - 2.0f * (quaternion[2] * quaternion[2] + quaternion[0] * quaternion[0]));
+	m[1][2] = (float)(2.0 * (quaternion[1] * quaternion[2] - quaternion[0] * quaternion[3]));
 
-	m[2][0] = (float)(2.0 * (q[2] * q[0] - q[1] * q[3]));
-	m[2][1] = (float)(2.0 * (q[1] * q[2] + q[0] * q[3]));
-	m[2][2] =(float)(1.0 - 2.0 * (q[1] * q[1] + q[0] * q[0]));
+	m[2][0] = (float)(2.0 * (quaternion[2] * quaternion[0] - quaternion[1] * quaternion[3]));
+	m[2][1] = (float)(2.0 * (quaternion[1] * quaternion[2] + quaternion[0] * quaternion[3]));
+	m[2][2] =(float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[0] * quaternion[0]));
 
 	return m;
 }

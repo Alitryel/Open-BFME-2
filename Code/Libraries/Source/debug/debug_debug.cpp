@@ -184,17 +184,17 @@ bool Debug::SkipNext(void)
   curStackFrame=help;
 
   // do we know if to skip the following code?
-  FrameHashEntry *e=Instance.LookupFrame(curStackFrame);
-  if (!e||                // unknown frame, will be added later
-       e->status==NoSkip) // frame known but active
+  FrameHashEntry *frameHashEntry=Instance.LookupFrame(curStackFrame);
+  if (!frameHashEntry||                // unknown frame, will be added later
+       frameHashEntry->status==NoSkip) // frame known but active
     return false;
 
   // status is unknown, must update
-  if (e->status==Unknown)
-    Instance.UpdateFrameStatus(*e);
+  if (frameHashEntry->status==Unknown)
+    Instance.UpdateFrameStatus(*frameHashEntry);
 
   // now we now wether to skip or not
-  return e->status==Skip;
+  return frameHashEntry->status==Skip;
 }
 
 // ?AssertBegin@Debug@@SAAAV1@PBDH0@Z present-unmatched
@@ -858,12 +858,12 @@ bool Debug::IsLogEnabled(const char *fileOrGroup)
   // to be used from the D_ISLOG macros only and those guarantee
   // that we are having real static strings let's use
   // that strings address as frame address...
-  FrameHashEntry *e=Instance.LookupFrame((unsigned)fileOrGroup);
-  if (!e)
-    e=Instance.AddFrameEntry((unsigned)fileOrGroup,FrameTypeLog,fileOrGroup,0);
-  if (e->status==Unknown)
-    Instance.UpdateFrameStatus(*e);
-  return e->status==NoSkip;
+  FrameHashEntry *frameHashEntry=Instance.LookupFrame((unsigned)fileOrGroup);
+  if (!frameHashEntry)
+    frameHashEntry=Instance.AddFrameEntry((unsigned)fileOrGroup,FrameTypeLog,fileOrGroup,0);
+  if (frameHashEntry->status==Unknown)
+    Instance.UpdateFrameStatus(*frameHashEntry);
+  return frameHashEntry->status==NoSkip;
 }
 
 // ?AddHResultTranslator@Debug@@SAXIP6A_NAAV1@JPAX@Z1@Z present-unmatched

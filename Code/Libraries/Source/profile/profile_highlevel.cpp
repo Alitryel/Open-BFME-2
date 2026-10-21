@@ -108,8 +108,8 @@ int ProfileId::FrameStart(void)
 	if (i == MAX_FRAME_RECORDS)
 		return -1;
 
-	for (ProfileId *p = first; p; p = p->m_next)
-		p->m_frameVal[i] = 0.;
+	for (ProfileId *profileId = first; profileId; profileId = profileId->m_next)
+		profileId->m_frameVal[i] = 0.;
 
 	frameRecordMask |= 1 << i;
 	return i;
@@ -132,30 +132,30 @@ void ProfileId::FrameEnd(int which, int mixIndex)
 	{
 		// new frame
 		curFrame++;
-		for (ProfileId *p = first; p; p = p->m_next)
+		for (ProfileId *profileId = first; profileId; profileId = profileId->m_next)
 		{
-			p->m_recFrameVal = (double *)ProfileReAllocMemory(p->m_recFrameVal,
-				sizeof(double) * (curFrame - p->m_firstFrame));
-			p->m_recFrameVal[curFrame - p->m_firstFrame - 1] = p->m_frameVal[which];
+			profileId->m_recFrameVal = (double *)ProfileReAllocMemory(profileId->m_recFrameVal,
+				sizeof(double) * (curFrame - profileId->m_firstFrame));
+			profileId->m_recFrameVal[curFrame - profileId->m_firstFrame - 1] = profileId->m_frameVal[which];
 		}
 	}
 	else
 	{
 		// append data
-		for (ProfileId *p = first; p; p = p->m_next)
+		for (ProfileId *profileId = first; profileId; profileId = profileId->m_next)
 		{
-			if (p->m_firstFrame > mixIndex)
+			if (profileId->m_firstFrame > mixIndex)
 				continue;
 
-			double &val = p->m_recFrameVal[mixIndex - p->m_firstFrame];
-			switch (p->m_valueMode)
+			double &val = profileId->m_recFrameVal[mixIndex - profileId->m_firstFrame];
+			switch (profileId->m_valueMode)
 			{
 			case ModeIncrement:
-				val += p->m_frameVal[which];
+				val += profileId->m_frameVal[which];
 				break;
 			case ModeMaximum:
-				if (p->m_frameVal[which] > val)
-					val = p->m_frameVal[which];
+				if (profileId->m_frameVal[which] > val)
+					val = profileId->m_frameVal[which];
 				break;
 			}
 		}

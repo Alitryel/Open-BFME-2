@@ -14,8 +14,8 @@ struct ProfileHighLevelIdView {
  ProfileId *m_idPtr;
 };
 static inline const char *ProfileHighLevelIdName(const ProfileHighLevel::Id &id) {
- ProfileId *p = ((const ProfileHighLevelIdView &)id).m_idPtr;
- return p ? p->GetName() : NULL;
+ ProfileId *profileId = ((const ProfileHighLevelIdView &)id).m_idPtr;
+ return profileId ? profileId->GetName() : NULL;
 }
 // ?ProfileHighLevel::Id::Increment present-unmatched
 inline void ProfileHighLevel::Id::Increment(double add) {

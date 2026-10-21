@@ -45,4 +45,4 @@ private:
     Rva0060CC99Member m_at2c;
 };
 XferSave::~XferSave() {}
-void XferSave_Delete(XferSave *p) { delete p; }
+void XferSave_Delete(XferSave *xferSave) { delete xferSave; }

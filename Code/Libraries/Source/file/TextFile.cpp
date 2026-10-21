@@ -114,9 +114,9 @@ void _bfme_debugRecordCallsite(int);
 class Rva00601B30 {public:void add(unsigned,unsigned,const char*);};
 char *Rva006017DAParse(const char*,char*,int);
 typedef _STL::vector<const char*> CStringVector;
-__forceinline void appendCString(CStringVector &v, const char *const &s)
+__forceinline void appendCString(CStringVector &stringVector, const char *const &s)
 {
-    reinterpret_cast<_STL::vector<const ModuleData *> &>(v).push_back(reinterpret_cast<const ModuleData *const &>(s));
+    reinterpret_cast<_STL::vector<const ModuleData *> &>(stringVector).push_back(reinterpret_cast<const ModuleData *const &>(s));
 }
 
 // Native6016C9..60173A is the113B once-only character-class initialization.
@@ -161,9 +161,9 @@ void __cdecl rva00601C53(void *outer, int lineFlag, void *vec1, void *vec2, void
             theDebug->skip();
             const char **entries = stack.begin();
             const char *errorName = file->filename.str();
-            Debug *d = theDebug->start(0, 0, 0);
-            d->output(Debug::Format("ERROR: Circular include in %s line %d, Circular file %s, parent file %s", entries[stack.size() - 1], lineFlag, errorName, entries[0]));
-            d->finish(1);
+            Debug *debug = theDebug->start(0, 0, 0);
+            debug->output(Debug::Format("ERROR: Circular include in %s line %d, Circular file %s, parent file %s", entries[stack.size() - 1], lineFlag, errorName, entries[0]));
+            debug->finish(1);
             return;
         }
     }
@@ -228,9 +228,9 @@ void __cdecl rva00601C53(void *outer, int lineFlag, void *vec1, void *vec2, void
                         _bfme_debugRecordCallsite(1);
                         theDebug->skip();
                         const char **entries = stack.begin();
-                        Debug *d = theDebug->start(0, 0, 0);
-                        d->output(Debug::Format("ERROR: Could not open include in %s line %d, file %s, parent file %s", entries[stack.size() - 1], lineFlag, name, entries[0]));
-                        d->finish(1);
+                        Debug *debug = theDebug->start(0, 0, 0);
+                        debug->output(Debug::Format("ERROR: Could not open include in %s line %d, file %s, parent file %s", entries[stack.size() - 1], lineFlag, name, entries[0]));
+                        debug->finish(1);
                         return;
                     }
                     rva00601C53(child, line, vec1, vec2, member);

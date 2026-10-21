@@ -217,9 +217,9 @@ void Q1Receiver0134FAAC::refresh()
 				Q1ReceiverPendingPair value(entry->m_field10, Rva00620A00Record());
 				value.second.m_entry = entry;
 				pending.insert(value);
-				Q1ReceiverQueue &q3 = m_deques78[3];
-				q3[i] = q3[q3.size() - 1];
-				q3.pop_back();
+				Q1ReceiverQueue &q1ReceiverQueue = m_deques78[3];
+				q1ReceiverQueue[i] = q1ReceiverQueue[q1ReceiverQueue.size() - 1];
+				q1ReceiverQueue.pop_back();
 				--i;
 			}
 			else if (q == 4)

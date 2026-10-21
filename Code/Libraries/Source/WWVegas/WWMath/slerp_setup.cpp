@@ -22,11 +22,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 #define SLERP_EPSILON 0.001
 
-void Slerp_Setup(const Quaternion & p,const Quaternion & q,SlerpInfoStruct * slerpinfo)
+void Slerp_Setup(const Quaternion & quaternion,const Quaternion & q,SlerpInfoStruct * slerpinfo)
 {
     float cos_t;
 
-    cos_t = p.X * q.X + p.Y * q.Y + p.Z * q.Z + p.W * q.W;
+    cos_t = quaternion.X * q.X + quaternion.Y * q.Y + quaternion.Z * q.Z + quaternion.W * q.W;
 
     if (cos_t < 0.0f) {
         cos_t = -cos_t;

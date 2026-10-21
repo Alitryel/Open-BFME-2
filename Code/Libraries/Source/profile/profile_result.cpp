@@ -93,14 +93,14 @@ void ProfileResultFileDOT::WriteResults(void)
     if (id.GetCalls(frame))
       active++;
 
-  FILE *f=fopen(m_fileName,"wt");
-  if (!f)
+  FILE *fILE=fopen(m_fileName,"wt");
+  if (!fILE)
     return;
 
   // DOT header
-  fprintf(f,"digraph G { rankdir=\"LR\";\n");
-  fprintf(f,"node [shape=box, fontname=Arial]\n");
-  fprintf(f,"edge [arrowhead=%s, labelfontname=Arial, labelfontsize=10, labelangle=0, labelfontcolor=blue]\n",
+  fprintf(fILE,"digraph G { rankdir=\"LR\";\n");
+  fprintf(fILE,"node [shape=box, fontname=Arial]\n");
+  fprintf(fILE,"edge [arrowhead=%s, labelfontname=Arial, labelfontsize=10, labelangle=0, labelfontcolor=blue]\n",
     active>m_foldThreshold?"closed":"open");
 
   // fold or not?
@@ -138,7 +138,7 @@ void ProfileResultFileDOT::WriteResults(void)
       for (cur2=fold;cur2;cur2=cur2->next)
         cur2->mark=false;
       
-      fprintf(f,"\"%s\";\n",cur->source);
+      fprintf(fILE,"\"%s\";\n",cur->source);
       for (k=0;k<cur->numId;k++)
       {
         ProfileFuncLevel::IdList idlist=cur->id[k].GetCaller(frame);
@@ -169,19 +169,19 @@ void ProfileResultFileDOT::WriteResults(void)
     // non-folding version
     for (k=0;tMax.EnumProfile(k,id);k++)
       if (id.GetCalls(frame))
-        fprintf(f,"f%08x [label=\"%s\"]\n",id.GetAddress(),id.GetFunction());
+        fprintf(fILE,"f%08x [label=\"%s\"]\n",id.GetAddress(),id.GetFunction());
     for (k=0;tMax.EnumProfile(k,id);k++)
     {
       ProfileFuncLevel::IdList idlist=id.GetCaller(frame);
       ProfileFuncLevel::Id caller;
       unsigned count;
       for (unsigned i=0;idlist.Enum(i,caller,&count);i++)
-        fprintf(f,"f%08x -> f%08x [headlabel=\"%i    \"];\n",caller.GetAddress(),id.GetAddress(),count);
+        fprintf(fILE,"f%08x -> f%08x [headlabel=\"%i    \"];\n",caller.GetAddress(),id.GetAddress(),count);
     }
   }
 
-  fprintf(f,"}\n");
-  fclose(f);
+  fprintf(fILE,"}\n");
+  fclose(fILE);
 }
 
 // ?MarkVisited@ProfileResultFileGTT@@QAE_NII@Z: visited-edge set, grown 1000 at a time.
@@ -261,33 +261,33 @@ void ProfileResultFileCSV::WriteThread(ProfileFuncLevel::Thread &thread)
 {
     char help[40];
     sprintf(help,"prof%08x-all.csv",thread.GetId());
-    FILE *f=fopen(m_fileName ? m_fileName : help,"wt");
-    fprintf(f,"Function,File,Call count,PTT (all),GTT (all),PT/C (all),GT/C (all),Caller (all)");
+    FILE *fILE=fopen(m_fileName ? m_fileName : help,"wt");
+    fprintf(fILE,"Function,File,Call count,PTT (all),GTT (all),PT/C (all),GT/C (all),Caller (all)");
     for (unsigned k=0;k<Profile::GetFrameCount();k++)
     {
         const char *s=Profile::GetFrameName(k);
-        fprintf(f,",Call (%s),PTT (%s),GTT (%s),PT/C (%s),GT/C (%s),Caller (%s)",s,s,s,s,s,s);
+        fprintf(fILE,",Call (%s),PTT (%s),GTT (%s),PT/C (%s),GT/C (%s),Caller (%s)",s,s,s,s,s,s);
     }
-    fprintf(f,"\n");
+    fprintf(fILE,"\n");
     ProfileFuncLevel::Id id;
     for (k=0;thread.EnumProfile(k,id);k++)
     {
         const char *function = rva006C6E80CsvName(id.GetFunction());
-        fprintf(f,"%s[%08x],%s#%i",function,id.GetAddress(),id.GetSource(),id.GetLine());
+        fprintf(fILE,"%s[%08x],%s#%i",function,id.GetAddress(),id.GetSource(),id.GetLine());
         for (unsigned i=ProfileFuncLevel::Id::Total;i!=Profile::GetFrameCount();i++)
         {
             if (!id.GetCalls(i))
             {
-                fprintf(f,",,,,,,");
+                fprintf(fILE,",,,,,,");
                 continue;
             }
-            fprintf(f,",%I64i",id.GetCalls(i));
-            fprintf(f,",%I64i",id.GetFunctionTime(i));
-            fprintf(f,",%I64i",id.GetTime(i));
-            fprintf(f,",%I64i",id.GetFunctionTime(i)/id.GetCalls(i));
-            fprintf(f,",%I64i",id.GetTime(i)/id.GetCalls(i));
+            fprintf(fILE,",%I64i",id.GetCalls(i));
+            fprintf(fILE,",%I64i",id.GetFunctionTime(i));
+            fprintf(fILE,",%I64i",id.GetTime(i));
+            fprintf(fILE,",%I64i",id.GetFunctionTime(i)/id.GetCalls(i));
+            fprintf(fILE,",%I64i",id.GetTime(i)/id.GetCalls(i));
             ProfileFuncLevel::IdList idlist=id.GetCaller(i);
-            fprintf(f,",");
+            fprintf(fILE,",");
             ProfileFuncLevel::Id callid;
             unsigned j;
             if (idlist.Enum(50,callid))
@@ -313,10 +313,10 @@ void ProfileResultFileCSV::WriteThread(ProfileFuncLevel::Thread &thread)
                     if (count > threshold)
                     {
                         const char *function=rva006C6E80CsvName(callid.GetFunction());
-                        fprintf(f," %s[%08x](%i)",function,callid.GetAddress(),count);
+                        fprintf(fILE," %s[%08x](%i)",function,callid.GetAddress(),count);
                     }
                     else misc+=count;
-                if (misc > 0) fprintf(f," misc(%i)",misc);
+                if (misc > 0) fprintf(fILE," misc(%i)",misc);
             }
             else
             {
@@ -324,13 +324,13 @@ void ProfileResultFileCSV::WriteThread(ProfileFuncLevel::Thread &thread)
                 for (j=0;idlist.Enum(j,callid,&count);j++)
                 {
                     const char *function=rva006C6E80CsvName(callid.GetFunction());
-                    fprintf(f," %s[%08x](%i)",function,callid.GetAddress(),count);
+                    fprintf(fILE," %s[%08x](%i)",function,callid.GetAddress(),count);
                 }
             }
         }
-        fprintf(f,"\n");
+        fprintf(fILE,"\n");
     }
-    fclose(f);
+    fclose(fILE);
 }
 
 // CSV vtable 0x00CE85E4 slot 0 calls native 6C7A60. The body ends in a
@@ -362,26 +362,26 @@ void ProfileResultFileCSV::WriteResults()
     ProfileFuncLevel::Thread t;
     for (unsigned k=0;ProfileFuncLevel::EnumThreads(k,t);k++)
         WriteThread(t);
-    FILE *f=fopen("profile-high.csv","wt");
-    if (!f) return;
-    fprintf(f,"Profile,Unit,total");
+    FILE *fILE=fopen("profile-high.csv","wt");
+    if (!fILE) return;
+    fprintf(fILE,"Profile,Unit,total");
     for (k=0;k<Profile::GetFrameCount();k++)
-        fprintf(f,",%s",Profile::GetFrameName(k));
-    fprintf(f,"\n");
+        fprintf(fILE,",%s",Profile::GetFrameName(k));
+    fprintf(fILE,"\n");
     {
         ProfileHighLevel::Id id;
         for (k=0;ProfileHighLevel::EnumProfile(k,id);k++)
         {
-            fprintf(f,"%s,%s,%s",id.GetName(),id.GetUnit(),id.GetTotalValue());
+            fprintf(fILE,"%s,%s,%s",id.GetName(),id.GetUnit(),id.GetTotalValue());
             for (unsigned i=0;i<Profile::GetFrameCount();i++)
             {
                 const char *p=id.GetValue(i);
-                fprintf(f,",%s",p?p:"");
+                fprintf(fILE,",%s",p?p:"");
             }
-            fprintf(f,"\n");
+            fprintf(fILE,"\n");
         }
     }
-    fclose(f);
+    fclose(fILE);
 }
 
 
@@ -412,7 +412,7 @@ ProfileResultInterface *ProfileResultFileGTT::Create(int argn, const char *const
 
 // ?rva006C7DD0WriteGraph@ProfileResultFileGTT@@AAEXAAVThread@ProfileFuncLevel@@PAU_iobuf@@I_KI@Z
 // Recursive graph walk; original private name unknown.
-void ProfileResultFileGTT::rva006C7DD0WriteGraph(ProfileFuncLevel::Thread &thread, FILE *f,
+void ProfileResultFileGTT::rva006C7DD0WriteGraph(ProfileFuncLevel::Thread &thread, FILE *fILE,
     unsigned rootIndex, unsigned __int64 maxTime, unsigned frame)
 {
     if (maxTime<10000) return;
@@ -433,15 +433,15 @@ void ProfileResultFileGTT::rva006C7DD0WriteGraph(ProfileFuncLevel::Thread &threa
                 unsigned __int64 edgeTime=count*time/calls;
                 unsigned percent=(unsigned)(edgeTime/(maxTime/10000));
                 if (percent<m_percentThreshold || MarkVisited(rootIndex,k)) continue;
-                fprintf(f,"f%08x [label=\"%s\\n%I64iM, %I64i calls\"];\n",root.GetAddress(),root.GetFunction(),
+                fprintf(fILE,"f%08x [label=\"%s\\n%I64iM, %I64i calls\"];\n",root.GetAddress(),root.GetFunction(),
                     (root.GetTime(frame)+500000)/1000000,root.GetCalls(frame));
-                fprintf(f,"f%08x [label=\"%s\\n%I64iM, %I64i calls\"];\n",id.GetAddress(),id.GetFunction(),
+                fprintf(fILE,"f%08x [label=\"%s\\n%I64iM, %I64i calls\"];\n",id.GetAddress(),id.GetFunction(),
                     (id.GetTime(frame)+500000)/1000000,id.GetCalls(frame));
-                fprintf(f,"f%08x ",root.GetAddress());
-                fprintf(f,"-> f%08x",id.GetAddress());
-                fprintf(f,"[headlabel=\"\\n%I64iM\\n%i.%02i%%\"];\n",(edgeTime+500000)/1000000,
+                fprintf(fILE,"f%08x ",root.GetAddress());
+                fprintf(fILE,"-> f%08x",id.GetAddress());
+                fprintf(fILE,"[headlabel=\"\\n%I64iM\\n%i.%02i%%\"];\n",(edgeTime+500000)/1000000,
                     percent<100?0:percent/100,percent%100);
-                rva006C7DD0WriteGraph(thread,f,k,maxTime,frame);
+                rva006C7DD0WriteGraph(thread,fILE,k,maxTime,frame);
             }
     }
 }
@@ -496,11 +496,11 @@ void ProfileResultFileGTT::WriteResults()
     }
   }
   if (!hasCallers) return;
-  FILE *f=fopen(m_fileName,"wt");
-  if (!f) return;
-  fprintf(f,"digraph G {\n");
-  fprintf(f,"node [shape=box, fontname=Arial]\n");
-  fprintf(f,"edge [arrowhead=open, labelfontname=Arial, labelfontsize=10, labelangle=0, labelfontcolor=red]\n");
+  FILE *fILE=fopen(m_fileName,"wt");
+  if (!fILE) return;
+  fprintf(fILE,"digraph G {\n");
+  fprintf(fILE,"node [shape=box, fontname=Arial]\n");
+  fprintf(fILE,"edge [arrowhead=open, labelfontname=Arial, labelfontsize=10, labelangle=0, labelfontcolor=red]\n");
   unsigned __int64 largest=0;
   unsigned root=0;
   for (k=0;tMax.EnumProfile(k,id);k++)
@@ -509,7 +509,7 @@ void ProfileResultFileGTT::WriteResults()
       largest=id.GetTime(frame);
       root=k;
     }
-  rva006C7DD0WriteGraph(tMax,f,root,largest,frame);
-  fprintf(f,"}\n");
-  fclose(f);
+  rva006C7DD0WriteGraph(tMax,fILE,root,largest,frame);
+  fprintf(fILE,"}\n");
+  fclose(fILE);
 }

@@ -586,38 +586,38 @@ void AssetManagerImpl::LoadAsset(Rva009EF0D0Element *asset)
 			code <<= 8;
 		}
 		type[n] = 0;
-		FILE *f;
+		FILE *fILE;
 		if (strcmp(g_00E09B08, g_bfmeProfilePrevFile) != 0)
 		{
 			strcpy(g_bfmeProfilePrevFile, g_00E09B08);
-			f = fopen(g_00E09B08, "wt");
-			fprintf(f, "frame,type,asset,tInit,tPreload,tLoad,tPostload,tTotal,recursion\n");
+			fILE = fopen(g_00E09B08, "wt");
+			fprintf(fILE, "frame,type,asset,tInit,tPreload,tLoad,tPostload,tTotal,recursion\n");
 		}
 		else
 		{
-			f = fopen(g_00E09B08, "at");
+			fILE = fopen(g_00E09B08, "at");
 		}
-		fprintf(f, "%d,%s,\"", g_00E09A00, type);
+		fprintf(fILE, "%d,%s,\"", g_00E09A00, type);
 		for (int k = 0; k < g_bfmeProfileCount; ++k)
 		{
-			fprintf(f, "%s%s", k ? "/" : "", g_bfmeProfileAssets[k]->slot00());
+			fprintf(fILE, "%s%s", k ? "/" : "", g_bfmeProfileAssets[k]->slot00());
 		}
-		fprintf(f, "\"");
-		fprintf(f, ",%.3lf", (double)(t[8] - tStart) / ((double)s_profileFreq * 0.001));
+		fprintf(fILE, "\"");
+		fprintf(fILE, ",%.3lf", (double)(t[8] - tStart) / ((double)s_profileFreq * 0.001));
 		if (t[0] < t[1])
-			fprintf(f, ",%.3lf", (double)(t[1] - t[0]) / ((double)s_profileFreq * 0.001));
+			fprintf(fILE, ",%.3lf", (double)(t[1] - t[0]) / ((double)s_profileFreq * 0.001));
 		else
-			fprintf(f, ",");
+			fprintf(fILE, ",");
 		if (t[1] < t[2])
-			fprintf(f, ",%.3lf", (double)(t[2] - t[1]) / ((double)s_profileFreq * 0.001));
+			fprintf(fILE, ",%.3lf", (double)(t[2] - t[1]) / ((double)s_profileFreq * 0.001));
 		else
-			fprintf(f, ",");
+			fprintf(fILE, ",");
 		if (t[2] < t[3])
-			fprintf(f, ",%.3lf", (double)(t[3] - t[2]) / ((double)s_profileFreq * 0.001));
+			fprintf(fILE, ",%.3lf", (double)(t[3] - t[2]) / ((double)s_profileFreq * 0.001));
 		else
-			fprintf(f, ",");
-		fprintf(f, ",%.3lf,%i\n", (double)(tEnd - tStart) / ((double)s_profileFreq * 0.001), g_bfmeProfileCount);
-		fclose(f);
+			fprintf(fILE, ",");
+		fprintf(fILE, ",%.3lf,%i\n", (double)(tEnd - tStart) / ((double)s_profileFreq * 0.001), g_bfmeProfileCount);
+		fclose(fILE);
 		--g_bfmeProfileCount;
 	}
 }

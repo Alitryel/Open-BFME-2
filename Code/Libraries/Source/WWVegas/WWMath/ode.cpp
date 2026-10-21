@@ -324,7 +324,7 @@ void IntegrationSystem::Runge_Kutta5_Integrate(ODESystemClass * odesys,float dt)
 	** make aliases to the work-vectors we need
 	*/
 	StateVectorClass & dydt	= _WorkVector0;
-	StateVectorClass & ak2	= _WorkVector1;
+	StateVectorClass & stateVector	= _WorkVector1;
 	StateVectorClass & ak3	= _WorkVector2;
 	StateVectorClass & ak4	= _WorkVector3;
 	StateVectorClass & ak5	= _WorkVector4;
@@ -333,7 +333,7 @@ void IntegrationSystem::Runge_Kutta5_Integrate(ODESystemClass * odesys,float dt)
 	StateVectorClass & yerr	= _WorkVector7;
 
 	dydt.Resize(veclen);
-	ak2.Resize(veclen);
+	stateVector.Resize(veclen);
 	ak3.Resize(veclen);
 	ak4.Resize(veclen);
 	ak5.Resize(veclen);
@@ -348,27 +348,27 @@ void IntegrationSystem::Runge_Kutta5_Integrate(ODESystemClass * odesys,float dt)
 	}
 
 	// Second step
-	odesys->Compute_Derivatives(a2*dt, &ytmp, &ak2);
+	odesys->Compute_Derivatives(a2*dt, &ytmp, &stateVector);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b31*dydt[i] + b32*ak2[i]);
+		ytmp[i] = Y0[i] + dt*(b31*dydt[i] + b32*stateVector[i]);
 	}
 	
 	// Third step
 	odesys->Compute_Derivatives(a3*dt, &ytmp, &ak3);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b41*dydt[i] + b42*ak2[i] + b43*ak3[i]);
+		ytmp[i] = Y0[i] + dt*(b41*dydt[i] + b42*stateVector[i] + b43*ak3[i]);
 	}
 	
 	// Fourth step
 	odesys->Compute_Derivatives(a4*dt, &ytmp, &ak4);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b51*dydt[i] + b52*ak2[i] + b53*ak3[i] + b54*ak4[i]);
+		ytmp[i] = Y0[i] + dt*(b51*dydt[i] + b52*stateVector[i] + b53*ak3[i] + b54*ak4[i]);
 	}
 
 	// Fifth step
 	odesys->Compute_Derivatives(a5*dt, &ytmp, &ak5);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b61*dydt[i] + b62*ak2[i] + b63*ak3[i] + b64*ak4[i] + b65*ak5[i]);
+		ytmp[i] = Y0[i] + dt*(b61*dydt[i] + b62*stateVector[i] + b63*ak3[i] + b64*ak4[i] + b65*ak5[i]);
 	}
 
 	// Sixth step

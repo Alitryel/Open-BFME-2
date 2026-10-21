@@ -274,7 +274,7 @@ Quaternion Axis_To_Quat(const Vector3 &a, float phi)
 // Fast_Slerp: recovered in FastSlerp.cpp with the retail runtime dispatch.
 
 
-void Slerp(Quaternion& res, const Quaternion & p,const Quaternion & q,float alpha)
+void Slerp(Quaternion& res, const Quaternion & quaternion,const Quaternion & q,float alpha)
 {		
 	float beta;				// complementary interploation parameter
 	float theta;				// angle between p and q
@@ -284,7 +284,7 @@ void Slerp(Quaternion& res, const Quaternion & p,const Quaternion & q,float alph
 	int qflip;					// use flip of q?
 	
 	// cos theta = dot product of p and q
-	cos_t = p.X * q.X + p.Y * q.Y + p.Z * q.Z + p.W * q.W;
+	cos_t = quaternion.X * q.X + quaternion.Y * q.Y + quaternion.Z * q.Z + quaternion.W * q.W;
 
 	// if q is on opposite hemisphere from A, use -B instead
 	if (cos_t < 0.0f) {
@@ -314,10 +314,10 @@ void Slerp(Quaternion& res, const Quaternion & p,const Quaternion & q,float alph
 		alpha = -alpha;
 	}
 
-	res.X = beta*p.X + alpha*q.X;
-	res.Y = beta*p.Y + alpha*q.Y;
-	res.Z = beta*p.Z + alpha*q.Z;
-	res.W = beta*p.W + alpha*q.W;
+	res.X = beta*quaternion.X + alpha*q.X;
+	res.Y = beta*quaternion.Y + alpha*q.Y;
+	res.Z = beta*quaternion.Z + alpha*q.Z;
+	res.W = beta*quaternion.W + alpha*q.W;
 }
 
 /***********************************************************************************************
@@ -347,7 +347,7 @@ void Slerp_Setup(const Quaternion & p,const Quaternion & q,SlerpInfoStruct * sle
  * HISTORY:                                                                                    *
  *   2/27/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-Quaternion Cached_Slerp(const Quaternion & p,const Quaternion & q,float alpha,SlerpInfoStruct * slerpinfo)
+Quaternion Cached_Slerp(const Quaternion & quaternion,const Quaternion & q,float alpha,SlerpInfoStruct * slerpinfo)
 {
 	float beta;				// complementary interploation parameter
 	float oo_sin_t;
@@ -371,15 +371,15 @@ Quaternion Cached_Slerp(const Quaternion & p,const Quaternion & q,float alpha,Sl
 	}
 
 	Quaternion res;
-	res.X = beta*p.X + alpha*q.X;
-	res.Y = beta*p.Y + alpha*q.Y;
-	res.Z = beta*p.Z + alpha*q.Z;
-	res.W = beta*p.W + alpha*q.W;
+	res.X = beta*quaternion.X + alpha*q.X;
+	res.Y = beta*quaternion.Y + alpha*q.Y;
+	res.Z = beta*quaternion.Z + alpha*q.Z;
+	res.W = beta*quaternion.W + alpha*q.W;
 
 	return res;
 }
 
-void Cached_Slerp(const Quaternion & p,const Quaternion & q,float alpha,SlerpInfoStruct * slerpinfo,Quaternion * set_q)
+void Cached_Slerp(const Quaternion & quaternion,const Quaternion & q,float alpha,SlerpInfoStruct * slerpinfo,Quaternion * set_q)
 {
 	float beta;				// complementary interploation parameter
 	float oo_sin_t;
@@ -402,10 +402,10 @@ void Cached_Slerp(const Quaternion & p,const Quaternion & q,float alpha,SlerpInf
 		alpha = -alpha;
 	}
 
-	set_q->X = beta*p.X + alpha*q.X;
-	set_q->Y = beta*p.Y + alpha*q.Y;
-	set_q->Z = beta*p.Z + alpha*q.Z;
-	set_q->W = beta*p.W + alpha*q.W;
+	set_q->X = beta*quaternion.X + alpha*q.X;
+	set_q->Y = beta*quaternion.Y + alpha*q.Y;
+	set_q->Z = beta*quaternion.Z + alpha*q.Z;
+	set_q->W = beta*quaternion.W + alpha*q.W;
 }
 
 /*********************************************************************************************** 
