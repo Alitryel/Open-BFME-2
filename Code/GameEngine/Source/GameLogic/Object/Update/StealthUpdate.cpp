@@ -633,21 +633,8 @@ void StealthUpdate::crc( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@StealthUpdate@@ present-unmatched
-void StealthUpdate::loadPostProcess( void )
-{
-
-	// extend base class
-	UpdateModule::loadPostProcess();
-
-	//
-	// we will need to restore our disguise when the game is ready to run ... NOTE that we
-	// cannot restore it here because if we called changeVisualDisguise() it would
-	// destroy our drawable and create new stuff.  The destruction of a drawable during
-	// a load is *very* bad ... it has a snapshot instance in the game state, other things
-	// may be pointing at it etc.
-	//
-	if( isDisguised() )
-		m_xferRestoreDisguise = TRUE;
-
-}  // end loadPostProcess
+// StealthUpdate::loadPostProcess is retail's row at 0x00374AE8 (StealthUpdateLoadPost.cpp);
+// this unit only declares it, so its vtable binds there.
+// Its Zero Hour body was the only caller of the rowed isDisguised, so keep that body emitted.
+// ?bfmeAnchorStealthUpdateIsDisguised@@YA_NPBVStealthUpdate@@@Z absent-from-retail
+Bool bfmeAnchorStealthUpdateIsDisguised(const StealthUpdate *s) { return s->isDisguised(); }

@@ -31463,7 +31463,7 @@ _VP6_quantize_c,,0x001B7610,500,Code/Libraries/Source/VP6/QuantizeBlock.cpp,matc
 ??_GRva005DAC85@@UAEPAXI@Z,,0x005DADD1,28,Code/GameEngine/Source/Common/Rva005DAC85Dtor.cpp,matched,deleting dtor via rowed dtor chain slot 0
 ?Rva0059F20BSet@@YAXHABVUnicodeString@@@Z,,0x0059F20B,85,Code/GameEngine/Source/Common/Rva0059F20BSet.cpp,matched,Apt connecting name format plus settext via global
 ?Rva0059F296Set@@YAXHABVUnicodeString@@@Z,,0x0059F296,85,Code/GameEngine/Source/Common/Rva0059F20BSet.cpp,matched,sibling status setter same rows global
-?rva00374AE8@StealthUpdate@@QAEXXZ,,0x00374AE8,26,Code/GameEngine/Source/GameLogic/Object/Update/StealthUpdateLoadPost.cpp,matched,vslot1 base loadPostProcess flag plus tail to rowed sibling
+?loadPostProcess@StealthUpdate@@MAEXXZ,,0x00374AE8,26,Code/GameEngine/Source/GameLogic/Object/Update/StealthUpdateLoadPost.cpp,matched,vslot1 base loadPostProcess flag plus tail to rowed sibling
 ?Rva0059FF9DDo@@YAXXZ,,0x0059FF9D,108,Code/GameEngine/Source/Common/Rva0059FF9DDo.cpp,matched,record dispatch via globals plus vslot6
 ?rva0059F2EB@Rva0059F2EB@@QAEXVAsciiString@@@Z,,0x0059F2EB,55,Code/GameEngine/Source/Common/Rva0059F2EBAssign.cpp,matched,byvalue assign to plusFFC via slot then release
 _AverageBlock_C,,0x001B7AA0,582,Code/Libraries/Source/VP6/BlockArith.cpp,matched,Clean-room spec 001b7aa0; AverageBlock_C: cdecl averaging two byte blocks into a packed 16-bit block; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001b7aa0.md and retail only
