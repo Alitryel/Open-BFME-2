@@ -772,32 +772,12 @@ void OpenContain::monitorConditionChanges( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?OpenContain::redeployOccupants present-unmatched
-void OpenContain::redeployOccupants( void )
-{
-
-	//
-	// because the state has changed, we will must give the deploy logic the opportunity
-	// to look for a new set of bones in the art ... so if we had them flagged as not
-	// having any before (for optimization reasons) we want to check at least one more
-	// time again
-	//
-	m_noFirePointsInArt = false;
-	m_firePointStart = -1;
-	m_firePointNext = 0;
-	m_firePointSize = 0;				// 0 here will cause a re-lookup in the new art
-
-	//
-	// redeploy the occupants, note that we're starting at the last occupant and going
-	// backwards to the start ... that reflects the order in which they actually went
-	// into the building since all list building constructs at the head
-	//
-	for (ContainedItemsList::const_reverse_iterator it = getContainList().rbegin(); it != getContainList().rend(); ++it)
-	{
-		putObjAtNextFirePoint( *it );
-	}
-
-}  // end redeployOccupants
+// OpenContain::redeployOccupants: retail's body is the row at 0x00464286
+// (OpenContainRva00464286.cpp); this unit only declares it, so its vtable binds there.
+// Its Zero Hour loop was the only user of these reverse-iterator compares, which are
+// rowed in this unit, so instantiate them explicitly.
+template bool std::operator==(const ContainedItemsList::const_reverse_iterator &, const ContainedItemsList::const_reverse_iterator &);
+template bool std::operator!=(const ContainedItemsList::const_reverse_iterator &, const ContainedItemsList::const_reverse_iterator &);
 
 //-------------------------------------------------------------------------------------------------
 /** Place the object at the 3D position of the next fire point to use */

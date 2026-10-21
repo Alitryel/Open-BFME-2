@@ -141,8 +141,9 @@ public:
 };
 class OpenContain
 {
-public:
-	virtual void rva00464286();				// 0x00464286
+	friend class SiegeEngineContain;
+protected:
+	virtual void redeployOccupants();		// 0x00464286
 };
 
 // Retail 0x0047C2F2..0x0047C322 (48B): the SiegeEngineContain twin of
@@ -153,5 +154,5 @@ public:
 void SiegeEngineContain::rva0047C2F2()
 {
 	reinterpret_cast<HordeTransportContain *>(this)->rva00463A4D(*reinterpret_cast<ContainmentList *>(&m_list11C), (int)&m_map128);
-	reinterpret_cast<OpenContain *>(this)->OpenContain::rva00464286();
+	reinterpret_cast<OpenContain *>(this)->OpenContain::redeployOccupants();
 }

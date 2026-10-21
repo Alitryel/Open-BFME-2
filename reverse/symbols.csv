@@ -10468,7 +10468,7 @@ name,address,notes
 ?rva0045F235@StancesBehavior@@QAEXXZ,0x0045F235,"StancesBehavior member (no args, reads the stance at +0x30): REL32 from AIGoingIdleState::onEnter 0x00341E66 on the module Object::findModule returns for the StancesBehavior name key (Rva0045EE2CGet); address-named"
 ?rva00461257@DynamicPortalBehaviour@@AAEXXZ,0x00461257,no-argument member (plain ret) tail-called by the slot-1 loadPostProcess at 0x00461274 after the base UpdateModule::loadPostProcess; identity not recovered
 ?rva0046183B@FakePathfindPortalBehaviour@@QAEXXZ,0x0046183B,called on this from the FakePathfindPortalBehaviour dtor 0x004619F2 in EH state 0; second caller 0x0046190A adjusts this by -0x20 from the +0x20 interface
-?rva0046247D@Rva0046247D@@QAEPAXAAURva0046247DPair@@@Z,0x0046247D,callee of ?rva00464286@OpenContain@@UAEXXZ
+?rva0046247D@Rva0046247D@@QAEPAXAAURva0046247DPair@@@Z,0x0046247D,callee of ?redeployOccupants@OpenContain@@MAEXXZ
 ?addToContainList@OpenContain@@UAEXPAVObject@@@Z,0x004638F1,slot 40 of the OpenContain +0x20 vtable 0x00C433B0 (installed by the OpenContain dtor 0x00464692; HealContain inherits it); called directly as the base slot with the +0x20 subobject this by the HordeSiegeEngineContain override 0x0047D0E7; slot name not established
 ?rva00463AD3@Rva00463AD3@@QAEXH@Z,0x00463AD3,callee of ?rva004642D3@SlaughterHordeContain@@UAEXXZ
 ?rva00464984@Rva004650A0@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHVAsciiString@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHVAsciiString@@@_STL@@@2@@_STL@@U23@ABU?$pair@$$CBHVAsciiString@@@3@@Z,0x00464984,callee of ?rva004650A0@Rva004650A0@@QAEAAVAsciiString@@ABH@Z

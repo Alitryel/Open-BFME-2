@@ -285,7 +285,9 @@ public:
 	virtual void slot15() = 0;
 	virtual void slot16() = 0;
 	virtual void slot17() = 0;
-	virtual void rva00464286() = 0;
+protected:
+	virtual void redeployOccupants() = 0;
+public:
 	virtual bool rva00464EE7(Object *object);
 private:
 	friend class OpenContainActionIface;

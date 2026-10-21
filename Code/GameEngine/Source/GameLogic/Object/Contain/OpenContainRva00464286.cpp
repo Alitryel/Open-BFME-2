@@ -59,7 +59,9 @@ public:
 	virtual void slot15() = 0;
 	virtual void slot16() = 0;
 	virtual void slot17() = 0;
-	virtual void rva00464286();
+protected:
+	virtual void redeployOccupants();	// slot 18, ZH OpenContain::redeployOccupants
+public:
 	virtual void slot19() = 0;
 	virtual void slot20() = 0;
 	virtual void slot21() = 0;
@@ -70,7 +72,7 @@ public:
 	virtual void slot26(const IntList &copy, void *map);
 };
 
-void OpenContain::rva00464286()
+void OpenContain::redeployOccupants()
 {
 	Rva0046247DPair pair;
 	slot26(((Rva0036AE51ListView *)(((Rva0046247D *)this)->*reinterpret_cast<void *(Rva0046247D::*)(Rva0046247DPair &)>(&Rva0046247D::rva0046247D))(pair))->rva0036AE51(),
