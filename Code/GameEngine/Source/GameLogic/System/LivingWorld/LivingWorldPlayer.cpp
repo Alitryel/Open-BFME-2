@@ -383,13 +383,13 @@ public:
 	virtual ~Rva002E0F1E();
 	UnicodeString m_04;
 	AsciiString m_08;
-	AsciiString m_0c;
+	AsciiString m_strPlayerTemplateName;
 	AsciiString m_10;
-	AsciiString m_14;
-	int m_18;
-	int m_1c;
-	int m_20;
-	bool m_24;
+	AsciiString m_baseRegion;
+	int m_mP_SlotColorIndex;
+	int m_teamNumber;
+	int m_lWHandicap;
+	bool m_isDumb;
 };
 
 class Rva002E0EF7 : public Rva002E0F1E
@@ -425,10 +425,10 @@ void LivingWorldPlayer::ParseLivingWorldPlayer(INI *ini, void *instance)
 		throw INIException(3, "ParseLivingWorldPlayer::No name specified.");
 	}
 	ini->initFromINI(&record, g_00C049D8);
-	AsciiString *found = TheLivingWorldPlayerTemplateStore->find(record.m_0c);
+	AsciiString *found = TheLivingWorldPlayerTemplateStore->find(record.m_strPlayerTemplateName);
 	if (found == 0)
 		goto done;
-	if (record.m_24)
+	if (record.m_isDumb)
 		goto append;
 	{
 		AsciiString *found2 = TheLivingWorldAITemplateStore->find(record.m_10);
