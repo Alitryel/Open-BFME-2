@@ -44,3 +44,28 @@ void bfmeAnchorBfmeRefVGODtor(BfmeRefVGO *p)
 {
     p->BfmeRefVGO::~BfmeRefVGO();
 }
+
+// The counted Apt key's native cleanup funclets (for example 0x007A9168
+// in AptAnimation) jump to 0x000A9DF3, the five-byte tail call to this
+// BfmeRefVGO destructor. Its single-pointer member is a structural view;
+// the original class name remains unknown. Keep the out-of-line provider
+// here, where the release helper is not inlined, while consumer TUs retain
+// the visible release required by their matched main paths.
+class Rva006D07E0Key
+{
+public:
+    ~Rva006D07E0Key();
+private:
+    BfmeRefVGO m_object;
+};
+
+// ??1Rva006D07E0Key@@QAE@XZ present-unmatched
+inline __declspec(noinline) Rva006D07E0Key::~Rva006D07E0Key()
+{
+}
+
+// ?bfmeAnchorAptKeyDtor absent-from-retail
+void bfmeAnchorAptKeyDtor(Rva006D07E0Key *p)
+{
+    p->Rva006D07E0Key::~Rva006D07E0Key();
+}
