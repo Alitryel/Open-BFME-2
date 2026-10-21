@@ -130,7 +130,7 @@ public:
 	Rva0020D98D(const Rva0020D98D &other);	// 0x0020D98D
 	static const FieldParse *getFieldParse();
 private:
-	ObjectCreationList m_10;
+	ObjectCreationList m_key;
 };
 
 class LargeGroupAudio : public SubsystemInterface, public Snapshot
