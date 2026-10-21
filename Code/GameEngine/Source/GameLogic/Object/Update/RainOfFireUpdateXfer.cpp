@@ -18,7 +18,7 @@
 // the rowed ModuleData table and callers at 0x004AC246/0x004AC28B/0x004AC321
 // prove the RainOfFireUpdate file-unit.
 //
-// ?rva004AC227@RainOfFireUpdate@@MAEXXZ, retail 0x004AC227, 38 bytes.
+// ?loadPostProcess@RainOfFireUpdate@@MAEXXZ, retail 0x004AC227, 38 bytes.
 // Slot 1 (offset 0x04) of vtable 0x00854C74: base loadPostProcess via pinned
 // 0x0058B03E then secondary +0x20 slot 0 with +0x2C float then setter
 // 0x004AC18D with +0x28 float. Secondary is a +0x20 member (no null-check
@@ -171,7 +171,7 @@ public:
 
 protected:
 	virtual void xfer(Xfer *xfer);
-	virtual void rva004AC227();
+	virtual void loadPostProcess();
 
 private:
 	Secondary20 m_sec20;
@@ -192,7 +192,7 @@ void RainOfFireUpdate::rva004AC18D(float value)
 	TheDisplay->setLevel(1.0 - (m_moduleData->m_field14 * m_state2C * value));
 }
 
-void RainOfFireUpdate::rva004AC227()
+void RainOfFireUpdate::loadPostProcess()
 {
 	UpdateModule::loadPostProcess();
 	m_sec20.setFloat(m_state2C);

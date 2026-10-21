@@ -5,9 +5,9 @@
 // this. Each looks a command button up by a name from the module data in
 // TheControlBar and has our Object do it. Names are by address.
 //
-// ?rva004B4C7B@DoCommandUpgrade@@UAEXXZ, retail 0x004B4C7B, 50 bytes: slot 8,
+// ?upgradeRemovalImplementation@DoCommandUpgrade@@UAEXXZ, retail 0x004B4C7B, 50 bytes: slot 8,
 // the button named at module data +0x11C.
-// ?rva004B4CAD@DoCommandUpgrade@@UAEXXZ, retail 0x004B4CAD, 50 bytes: slot 10,
+// ?upgradeImplementation@DoCommandUpgrade@@UAEXXZ, retail 0x004B4CAD, 50 bytes: slot 10,
 // the button named at module data +0x118.
 
 class AsciiString;
@@ -48,9 +48,9 @@ class UpgradeMux
 public:
 	virtual void gap0() = 0; virtual void gap1() = 0; virtual void gap2() = 0; virtual void gap3() = 0;
 	virtual void gap4() = 0; virtual void gap5() = 0; virtual void gap6() = 0; virtual void gap7() = 0;
-	virtual void rva004B4C7B() = 0;
+	virtual void upgradeRemovalImplementation() = 0;
 	virtual void gap9() = 0;
-	virtual void rva004B4CAD() = 0;
+	virtual void upgradeImplementation() = 0;
 };
 
 class UpgradeModule : public BehaviorModule, public BehaviorModuleInterface, public UpgradeMux
@@ -60,12 +60,12 @@ class UpgradeModule : public BehaviorModule, public BehaviorModuleInterface, pub
 class DoCommandUpgrade : public UpgradeModule
 {
 public:
-	virtual void rva004B4C7B();
-	virtual void rva004B4CAD();
+	virtual void upgradeRemovalImplementation();
+	virtual void upgradeImplementation();
 };
 
-// ?rva004B4C7B@DoCommandUpgrade@@UAEXXZ @0x004B4C7B
-void DoCommandUpgrade::rva004B4C7B()
+// ?upgradeRemovalImplementation@DoCommandUpgrade@@UAEXXZ @0x004B4C7B
+void DoCommandUpgrade::upgradeRemovalImplementation()
 {
 	Object *obj = m_object;
 	if (obj && m_moduleData)
@@ -76,8 +76,8 @@ void DoCommandUpgrade::rva004B4C7B()
 	}
 }
 
-// ?rva004B4CAD@DoCommandUpgrade@@UAEXXZ @0x004B4CAD
-void DoCommandUpgrade::rva004B4CAD()
+// ?upgradeImplementation@DoCommandUpgrade@@UAEXXZ @0x004B4CAD
+void DoCommandUpgrade::upgradeImplementation()
 {
 	Object *obj = m_object;
 	if (obj && m_moduleData)
