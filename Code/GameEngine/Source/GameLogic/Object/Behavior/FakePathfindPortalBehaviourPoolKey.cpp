@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004619AD@FakePathfindPortalBehaviour@@SA?AW4NameKeyType@@XZ @0x4619AD
+// ?getModuleNameKey@FakePathfindPortalBehaviour@@UBE?AW4NameKeyType@@XZ @0x4619AD
 // (69B): cached pool-name key for FakePathfindPortalBehaviour. The class
 // identity comes from the pool-name string the body pushes
 // ("FakePathfindPortalBehaviour"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FakePathfindPortalBehaviour
 {
 public:
-	static NameKeyType rva0004619AD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004619AD@FakePathfindPortalBehaviour@@SA?AW4NameKeyType@@XZ
-NameKeyType FakePathfindPortalBehaviour::rva0004619AD()
+// ?getModuleNameKey@FakePathfindPortalBehaviour@@UBE?AW4NameKeyType@@XZ
+NameKeyType FakePathfindPortalBehaviour::getModuleNameKey() const
 {
 	static NameKeyType TheFakePathfindPortalBehaviourPoolKey =
 		TheNameKeyGenerator->nameToKey("FakePathfindPortalBehaviour");

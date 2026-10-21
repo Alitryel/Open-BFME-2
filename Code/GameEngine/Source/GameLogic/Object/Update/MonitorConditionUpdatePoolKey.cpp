@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000491667@MonitorConditionUpdate@@SA?AW4NameKeyType@@XZ @0x491667
+// ?getModuleNameKey@MonitorConditionUpdate@@UBE?AW4NameKeyType@@XZ @0x491667
 // (69B): cached pool-name key for MonitorConditionUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("MonitorConditionUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class MonitorConditionUpdate
 {
 public:
-	static NameKeyType rva000491667();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000491667@MonitorConditionUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType MonitorConditionUpdate::rva000491667()
+// ?getModuleNameKey@MonitorConditionUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType MonitorConditionUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheMonitorConditionUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("MonitorConditionUpdate");

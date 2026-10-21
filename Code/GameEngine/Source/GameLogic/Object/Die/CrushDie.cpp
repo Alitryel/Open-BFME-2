@@ -138,7 +138,7 @@ public:
 	DieModule( Thing *thing, const ModuleData *moduleData );
 };
 
-// ?rva000486155@CrushDie@@SA?AW4NameKeyType@@XZ @0x486155
+// ?getModuleNameKey@CrushDie@@UBE?AW4NameKeyType@@XZ @0x486155
 // (69B): cached pool-name key for CrushDie. The class
 // identity comes from the pool-name string the body pushes
 // ("CrushDie"); the body guards a function-local static
@@ -166,13 +166,13 @@ class CrushDie : public DieModule
 public:
 	CrushDie( Thing *thing, const ModuleData *moduleData );
 public:
-	static NameKeyType rva000486155();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Die/CrushDiePoolKey.cpp
 
-// ?rva000486155@CrushDie@@SA?AW4NameKeyType@@XZ
-NameKeyType CrushDie::rva000486155()
+// ?getModuleNameKey@CrushDie@@UBE?AW4NameKeyType@@XZ
+NameKeyType CrushDie::getModuleNameKey() const
 {
 	static NameKeyType TheCrushDiePoolKey =
 		TheNameKeyGenerator->nameToKey("CrushDie");

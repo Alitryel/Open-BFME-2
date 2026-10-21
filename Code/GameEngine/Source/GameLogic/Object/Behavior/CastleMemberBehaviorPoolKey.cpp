@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0003959B5@CastleMemberBehavior@@SA?AW4NameKeyType@@XZ @0x3959B5
+// ?getModuleNameKey@CastleMemberBehavior@@UBE?AW4NameKeyType@@XZ @0x3959B5
 // (69B): cached pool-name key for CastleMemberBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("CastleMemberBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CastleMemberBehavior
 {
 public:
-	static NameKeyType rva0003959B5();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0003959B5@CastleMemberBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType CastleMemberBehavior::rva0003959B5()
+// ?getModuleNameKey@CastleMemberBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType CastleMemberBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheCastleMemberBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("CastleMemberBehavior");

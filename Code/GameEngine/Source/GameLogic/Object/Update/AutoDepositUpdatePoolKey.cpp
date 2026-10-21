@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00049A1CA@AutoDepositUpdate@@SA?AW4NameKeyType@@XZ @0x49A1CA
+// ?getModuleNameKey@AutoDepositUpdate@@UBE?AW4NameKeyType@@XZ @0x49A1CA
 // (69B): cached pool-name key for AutoDepositUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("AutoDepositUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AutoDepositUpdate
 {
 public:
-	static NameKeyType rva00049A1CA();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049A1CA@AutoDepositUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType AutoDepositUpdate::rva00049A1CA()
+// ?getModuleNameKey@AutoDepositUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType AutoDepositUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheAutoDepositUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("AutoDepositUpdate");
