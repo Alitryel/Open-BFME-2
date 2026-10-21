@@ -190,7 +190,7 @@ struct BloodthirstyUpdateModuleData
 	unsigned char m_pad00[0x08];
 	Rva2225E0Filter m_filter; // +0x08
 	unsigned char m_pad09[0x0C - 0x09];
-	float m_0C; // +0x0C
+	float m_experienceModifier; // +0x0C
 };
 
 struct B00 { virtual void f00(); BloodthirstyUpdateModuleData *m_moduleData; Object *m_object; };

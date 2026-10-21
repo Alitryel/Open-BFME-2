@@ -73,7 +73,7 @@ private:
 	float m_value28;							// +0x28
 	unsigned char m_flag2C;						// +0x2C
 	unsigned char m_pad2D[3];
-	unsigned int m_unk30;						// +0x30 retail sets 5; no donor counterpart
+	unsigned int m_immuneToFearLevel;						// +0x30 retail sets 5; no donor counterpart
 	_STL::vector<BfmeE16> m_entries;			// +0x34
 };
 
@@ -86,7 +86,7 @@ EmotionTrackerUpdateModuleData::EmotionTrackerUpdateModuleData()
 	, m_value24( 0.0f )
 	, m_value28( 0.0f )
 	, m_flag2C( 0 )
-	, m_unk30( 5 )
+	, m_immuneToFearLevel( 5 )
 {
 	m_name0.initFromStorages(
 		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),

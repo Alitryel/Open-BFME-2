@@ -35,7 +35,7 @@ class Object;
 struct AttributeModifierAuraUpdateModuleData
 {
 	unsigned char m_pad00[0x138];
-	bool m_138;
+	bool m_startsActive;
 };
 
 class UpgradeMux
@@ -93,6 +93,6 @@ AttributeModifierAuraUpdate::AttributeModifierAuraUpdate(Thing *thing, const Mod
 	*(void **)&m_20 = (void *)((unsigned int)vtbl_00C50CD8);
 	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 	const AttributeModifierAuraUpdateModuleData *data = (const AttributeModifierAuraUpdateModuleData *)m_moduleData;
-	if (data->m_138)
+	if (data->m_startsActive)
 		m_20.giveSelfUpgrade();
 }

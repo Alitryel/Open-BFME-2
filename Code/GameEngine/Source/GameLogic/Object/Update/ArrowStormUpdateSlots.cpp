@@ -36,7 +36,7 @@ public:
 struct ArrowStormUpdateModuleData
 {
 	unsigned char m_pad00[0xD4];
-	int m_D4;
+	int m_shotsPerBurst;
 	unsigned char m_padD8[0xDC - 0xD8];
 	bool m_DC;
 };
@@ -84,7 +84,7 @@ void ArrowStormUpdate::triggerAbilityEffect()
 		m_98 = true;
 		return;
 	}
-	for (int i = 0; i < data->m_D4; )
+	for (int i = 0; i < data->m_shotsPerBurst; )
 	{
 		bool done = rva0049083C();
 		++i;

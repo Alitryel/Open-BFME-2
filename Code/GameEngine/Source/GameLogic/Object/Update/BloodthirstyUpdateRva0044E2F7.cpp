@@ -22,7 +22,7 @@ private:
 struct BloodthirstyUpdateModuleData
 {
 	unsigned char m_pad00[0x10];
-	Rva002390CB m_10;
+	Rva002390CB m_initiateVoice;
 };
 struct B00 { virtual void f00(); const BloodthirstyUpdateModuleData *m_moduleData; Object *m_object; };
 struct B0C { virtual void f0C(); };
@@ -48,5 +48,5 @@ public:
 };
 Rva002390CB BloodthirstyUpdate::rva0044E2F7() const
 {
-	return m_moduleData->m_10;
+	return m_moduleData->m_initiateVoice;
 }

@@ -41,10 +41,10 @@ Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line);
 struct AutoHealBehaviorModuleData
 {
 	unsigned char m_pad00[0x118];
-	bool m_118;
-	unsigned char m_119;
-	Int m_11C;
-	Int m_120;
+	bool m_startsActive;
+	unsigned char m_buttonTriggered;
+	Int m_healingAmount;
+	Int m_healingDelay;
 };
 
 class UpgradeMux
@@ -109,12 +109,12 @@ AutoHealBehavior::AutoHealBehavior(Thing *thing, const ModuleData *moduleData)
 	m_secondary10 = (const void *)((unsigned int)vtbl_00C3FCD0);
 	*(void **)&m_20 = (void *)((unsigned int)vtbl_00C3FC88);
 	m_28 = (unsigned int)((unsigned int)vtbl_00C3FC78);
-	m_30 = data->m_119;
+	m_30 = data->m_buttonTriggered;
 	m_34 &= 0;
-	if (data->m_118)
+	if (data->m_startsActive)
 	{
 		m_20.giveSelfUpgrade();
-		int hi = ((const AutoHealBehaviorModuleData *)m_moduleData)->m_120;
+		int hi = ((const AutoHealBehaviorModuleData *)m_moduleData)->m_healingDelay;
 		Object *obj = m_object;
 		setWakeFrame(obj, (UpdateSleepTime)(GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Behavior\\AutoHealBehavior.cpp", 0x9D)));
 	}

@@ -186,7 +186,7 @@ struct BloodthirstyUpdateModuleData
 	unsigned char m_pad00[0x08];
 	Rva2225E0Filter m_filter; // +0x08
 	unsigned char m_pad09[0x0C - 0x09];
-	float m_0C; // +0x0C
+	float m_experienceModifier; // +0x0C
 };
 
 struct B00 { virtual void f00(); BloodthirstyUpdateModuleData *m_moduleData; Object *m_object; };
@@ -235,7 +235,7 @@ void BloodthirstyUpdate::addSacrifice(Object *victim)
 	++m_kills;
 	if (m_kills == 1)
 		resolved->setModelConditionStateForHorde(MODELCONDITION_40);
-	self->rva002931F5(false)->rva00294C1A(victim, true, m_moduleData->m_0C);
+	self->rva002931F5(false)->rva00294C1A(victim, true, m_moduleData->m_experienceModifier);
 	Rva250Module *module = resolved->getRva250();
 	if (module && module->rvaSlot69(0) == 1)
 		cancelSacrifice();

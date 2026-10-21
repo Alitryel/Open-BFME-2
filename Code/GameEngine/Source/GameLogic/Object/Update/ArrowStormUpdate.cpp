@@ -212,7 +212,7 @@ struct ArrowStormUpdateModuleData
 	unsigned char m_pad00[0xCC];
 	float m_CC;		// +0xCC the radius
 	unsigned char m_padD0[0xD8 - 0xD0];
-	unsigned m_D8;		// +0xD8 the count
+	unsigned m_maxShots;		// +0xD8 the count
 };
 
 class ModuleData;
@@ -255,12 +255,12 @@ void ArrowStormUpdate::rva00490AC5()
 	}
 	if (m_88.size() == 0)
 		return;
-	if (m_88.size() < data->m_D8) {
+	if (m_88.size() < data->m_maxShots) {
 		Rva0029FB3BMember *source = &m_88;
 		if (!extra.empty())
 			source = &extra;
 		Rva0029FB3BNode *it = source->m_node->m_next;
-		while (m_88.size() < data->m_D8) {
+		while (m_88.size() < data->m_maxShots) {
 			m_88.push_back(it->m_value);
 			it = it->m_next;
 			if (it == source->m_node)

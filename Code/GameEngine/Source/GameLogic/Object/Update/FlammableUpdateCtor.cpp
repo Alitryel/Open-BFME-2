@@ -32,7 +32,7 @@ class Object;
 struct FlammableUpdateModuleData
 {
 	unsigned char m_pad00[0x1C];
-	int m_1C;
+	int m_flameDamageLimit;
 };
 
 enum UpdateSleepTime
@@ -102,6 +102,6 @@ FlammableUpdate::FlammableUpdate(Thing *thing, const ModuleData *moduleData)
 	m_secondary0C = (const void *)((unsigned int)vtbl_00C49800);
 	m_secondary10 = (const void *)((unsigned int)vtbl_00C4C3C8);
 	m_20 = (const void *)((unsigned int)vtbl_00C4C3BC);
-	m_38 = data->m_1C;
+	m_38 = data->m_flameDamageLimit;
 	setWakeFrame(m_object, UPDATE_SLEEP_FOREVER);
 }

@@ -260,9 +260,9 @@ class GloriousChargeUpdateModuleData
 {
 public:
 	unsigned char m_pad[0xC8];
-	float m_C8; // +0xC8
+	float m_bonusRadius; // +0xC8
 	unsigned int m_CC; // +0xCC
-	int m_D0; // +0xD0
+	int m_updateInterval; // +0xD0
 };
 class GloriousChargeUpdate : public SpecialAbilityUpdate
 {
@@ -305,7 +305,7 @@ UpdateSleepTime GloriousChargeUpdate::update()
 	if (!m_90)
 	{
 		if (!m_object->isKindOf((KindOfType)0xD6))
-			return (UpdateSleepTime)getGloriousChargeData()->m_D0;
+			return (UpdateSleepTime)getGloriousChargeData()->m_updateInterval;
 		slot15();
 		m_8C = getGloriousChargeData()->m_CC + TheGameLogic->getFrame();
 		m_90 = true;
@@ -320,13 +320,13 @@ UpdateSleepTime GloriousChargeUpdate::update()
 		return UPDATE_SLEEP_FOREVER;
 	}
 	triggerAbilityEffect();
-	return (UpdateSleepTime)getGloriousChargeData()->m_D0;
+	return (UpdateSleepTime)getGloriousChargeData()->m_updateInterval;
 }
 void GloriousChargeUpdate::rva004AD7B6()
 {
 	Object *self = m_object;
 	const GloriousChargeUpdateModuleData *data = getGloriousChargeData();
-	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(self->getPosition(), data->m_C8, 0,
+	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(self->getPosition(), data->m_bonusRadius, 0,
 		Rva00260EB1Filter(self, 4, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(self))), 1);
 	for (Object *obj = hits.next(); obj; obj = hits.next()) {
 		if (obj == self)

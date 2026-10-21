@@ -800,7 +800,7 @@ public:
 struct WorkerAIUpdateModuleData
 {
 	unsigned char m_pad00[0x64];
-	Int m_64; // +0x64
+	Int m_maxBoxes; // +0x64
 	unsigned char m_pad68[0x90 - 0x68];
 	OpaqueRefElement4 m_suppliesDepletedVoice; // +0x90
 };
@@ -1097,7 +1097,7 @@ Bool WorkerAIUpdate::rva004A98AC()
 	if (m_4A0 == 0)
 		return FALSE;
 	--m_4A0;
-	getObject()->rva00290758(getWorkerAIUpdateModuleData()->m_64, m_4A0);
+	getObject()->rva00290758(getWorkerAIUpdateModuleData()->m_maxBoxes, m_4A0);
 	return TRUE;
 }
 
@@ -1142,13 +1142,13 @@ void WorkerAIUpdate::aiDoCommand(const AICommandParms *parms)
 		m_4A0 = 0;
 		Drawable *draw = getObject()->getDrawable();
 		if (draw)
-			reinterpret_cast<Rva002716Holder *>(draw)->Rva0027164EBroadcast(getWorkerAIUpdateModuleData()->m_64, m_4A0);
+			reinterpret_cast<Rva002716Holder *>(draw)->Rva0027164EBroadcast(getWorkerAIUpdateModuleData()->m_maxBoxes, m_4A0);
 	}
 }
 
 Bool WorkerAIUpdate::gainOneBox(Int remainingStock)
 {
-	if (getWorkerAIUpdateModuleData() && m_4A0 >= getWorkerAIUpdateModuleData()->m_64)
+	if (getWorkerAIUpdateModuleData() && m_4A0 >= getWorkerAIUpdateModuleData()->m_maxBoxes)
 		return FALSE;
 
 	++m_4A0;
@@ -1184,7 +1184,7 @@ Bool WorkerAIUpdate::gainOneBox(Int remainingStock)
 		}
 	}
 
-	getObject()->rva00290758(getWorkerAIUpdateModuleData()->m_64, m_4A0);
+	getObject()->rva00290758(getWorkerAIUpdateModuleData()->m_maxBoxes, m_4A0);
 	return TRUE;
 }
 

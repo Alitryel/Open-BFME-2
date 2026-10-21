@@ -47,7 +47,7 @@ private:
 struct LargeGroupAudioUpdateModuleData
 {
 	unsigned char m_pad00[0x1C];
-	unsigned short m_1C; // +0x1C
+	unsigned short m_unitWeight; // +0x1C
 };
 
 class BehaviorModule : public Rva004ABB37Slots<5>
@@ -149,7 +149,7 @@ void LargeGroupAudioUpdate::rva004ABA79()
 // slot 6, the module data's +0x1C word.
 unsigned short LargeGroupAudioUpdate::rva004ABABC()
 {
-	return ((const LargeGroupAudioUpdateModuleData *)m_moduleData)->m_1C;
+	return ((const LargeGroupAudioUpdateModuleData *)m_moduleData)->m_unitWeight;
 }
 
 // ?rva004ABACB@LargeGroupAudioUpdate@@UAE_NXZ, retail 0x004ABACB, 11 bytes: +0x24

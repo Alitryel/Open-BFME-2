@@ -37,7 +37,7 @@ struct InvisibilityUpdateModuleData
  unsigned char m_pad1C5[3];
  const void *m_filter;
  float m_radius;
-	bool m_1D0; // +0x1D0
+	bool m_startsActive; // +0x1D0
 };
 
 template <int N> class Rva004A3877Slots : public Rva004A3877Slots<N - 1>
@@ -94,13 +94,13 @@ Rva004A3A09Iface *InvisibilityUpdate::rva004A3877()
 bool InvisibilityUpdate::rva004A3A09()
 {
 	const InvisibilityUpdateModuleData *data = m_moduleData;
-	return data && data->m_1D0;
+	return data && data->m_startsActive;
 }
 
 // ?rva004A39D0@InvisibilityUpdate@@QAEX_N@Z @0x004A39D0
 void InvisibilityUpdate::rva004A39D0(bool on)
 {
-	if (m_moduleData->m_1D0)
+	if (m_moduleData->m_startsActive)
 		return;
 	if (on)
 	{

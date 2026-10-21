@@ -42,10 +42,10 @@ public:
 	virtual ~BannerCarrierUpdateModuleData();
 private:
 	int m_unused04; // +0x04
-	int m_field08; // +0x08
-	int m_field0C; // +0x0C
-	int m_field10; // +0x10
-	int m_field14; // +0x14
+	int m_idleSpawnRate; // +0x08
+	int m_meleeFreeUnitSpawnTime; // +0x0C
+	int m_diedRespawnTime; // +0x10
+	int m_meleeFreeBannerReSpawnTime; // +0x14
 	_STL::vector<BfmeMorphCondition *> m_objectNames; // +0x18
 	_STL::vector<BfmeExpLevelDraw *> m_upgrades; // +0x24
 	int m_bannerMorphFX; // +0x30

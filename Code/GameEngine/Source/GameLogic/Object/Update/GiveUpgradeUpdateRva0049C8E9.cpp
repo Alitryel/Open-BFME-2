@@ -145,7 +145,7 @@ struct GiveUpgradeUpdateModuleData
 	char m_pad00[0x38];
 	int m_38;		// +0x38
 	char m_pad3C[0xE0 - 0x3C];
-	bool m_E0;		// +0xE0
+	bool m_deliverUpgrade;		// +0xE0
 };
 
 // What sits at +0x20: slot 0 takes the data's +0x38 and the object.
@@ -188,7 +188,7 @@ void GiveUpgradeUpdate::GetDeliveryTarget()
 {
 	ObjectID target = m_40;
 	const GiveUpgradeUpdateModuleData *data = getGiveUpgradeUpdateModuleData();
-	if (target != INVALID_ID || !data->m_E0)
+	if (target != INVALID_ID || !data->m_deliverUpgrade)
 		return;
 	Object *obj = m_object;
 	m_89 = true;

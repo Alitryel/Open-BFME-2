@@ -88,16 +88,16 @@ private:
 	bool m_canAttackWhileContained; // +0x25
 	float m_holdGroundRange; // +0x28
 	AsciiString m_name; // +0x2C, inline zero
-	int m_unk30; // +0x30
-	int m_unk34; // +0x34
-	int m_unk38; // +0x38
-	bool m_unk3C; // +0x3C (byte)
-	int m_unk40; // +0x40
+	int m_maxCowerTime; // +0x30
+	int m_minCowerTime; // +0x34
+	int m_rampageTime; // +0x38
+	bool m_rampageRequiresAflame; // +0x3C (byte)
+	int m_burningDeathTime; // +0x40
 	AsciiString m_attackPriority; // +0x44, PBD DefaultAttackPriority
-	int m_unk48; // +0x48
+	int m_timeToEjectPassengersOnRampage; // +0x48
 	float m_angle; // +0x4C, 80.0f
-	int m_unk50; // +0x50
-	bool m_unk54; // +0x54
+	int m_comboLocomotorSet; // +0x50
+	bool m_fadeOnPortals; // +0x54
 	_STL::vector<BfmeE16> m_vec; // +0x58
 };
 
@@ -113,16 +113,16 @@ TransportAIUpdateModuleData::TransportAIUpdateModuleData()
 	, m_canAttackWhileContained(false)
 	, m_holdGroundRange(0.0f)
 	, m_name()
-	, m_unk30(0)
-	, m_unk34(0)
-	, m_unk38(0)
-	, m_unk3C(false)
-	, m_unk40(0)
+	, m_maxCowerTime(0)
+	, m_minCowerTime(0)
+	, m_rampageTime(0)
+	, m_rampageRequiresAflame(false)
+	, m_burningDeathTime(0)
 	, m_attackPriority("DefaultAttackPriority")
-	, m_unk48(0)
+	, m_timeToEjectPassengersOnRampage(0)
 	, m_angle(80.0f)
-	, m_unk50(0)
-	, m_unk54(false)
+	, m_comboLocomotorSet(0)
+	, m_fadeOnPortals(false)
 {
 	m_turret = 0;
 }

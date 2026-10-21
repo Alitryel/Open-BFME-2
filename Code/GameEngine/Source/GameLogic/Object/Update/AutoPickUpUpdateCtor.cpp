@@ -36,7 +36,7 @@ Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line);
 struct AutoPickUpUpdateModuleData
 {
 	unsigned char m_pad00[8];
-	Int m_08;
+	Int m_scanDelayTime;
 };
 
 class UpdateModule
@@ -85,5 +85,5 @@ AutoPickUpUpdate::AutoPickUpUpdate(Thing *thing, const ModuleData *moduleData)
 	m_24 = zero;
 	m_28 = zero;
 	m_29 = zero;
-	m_24 += GetGameLogicRandomValue(0, data->m_08, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\AutoPickUpUpdate.cpp", 0x83);
+	m_24 += GetGameLogicRandomValue(0, data->m_scanDelayTime, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\AutoPickUpUpdate.cpp", 0x83);
 }

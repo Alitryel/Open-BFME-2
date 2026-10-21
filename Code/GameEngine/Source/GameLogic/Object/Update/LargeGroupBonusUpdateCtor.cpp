@@ -47,7 +47,7 @@ extern GameLogic *TheGameLogic;
 struct LargeGroupBonusUpdateModuleData
 {
 	unsigned char m_pad00[8];
-	Int m_08;
+	Int m_updateRate;
 };
 
 enum UpdateSleepTime
@@ -105,6 +105,6 @@ LargeGroupBonusUpdate::LargeGroupBonusUpdate(Thing *thing, const ModuleData *mod
 	m_24 = TheGameLogic->m_40;
 	m_29 = zero;
 	const LargeGroupBonusUpdateModuleData *data = (const LargeGroupBonusUpdateModuleData *)m_moduleData;
-	int hi = data->m_08;
+	int hi = data->m_updateRate;
 	setWakeFrame(obj, (UpdateSleepTime)(GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\LargeGroupBonusUpdate.cpp", 0x6B)));
 }

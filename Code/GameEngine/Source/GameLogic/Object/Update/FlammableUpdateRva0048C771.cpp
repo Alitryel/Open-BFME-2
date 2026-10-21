@@ -34,7 +34,7 @@ class FlammableUpdateModuleData
 {
 public:
 	unsigned char pad_00[0x14];
-	int m_14;
+	int m_aflameDamageAmount;
 };
 
 class FlammableUpdate
@@ -54,7 +54,7 @@ void FlammableUpdate::doAflameDamage()
 	Object *obj = m_object;
 	const FlammableUpdateModuleData *md = m_moduleData;
 	Rva00263895Member damageInfo;
-	float f = (float)md->m_14;
+	float f = (float)md->m_aflameDamageAmount;
 	*(int *)((char *)&damageInfo + 0x08) = m_48;
 	*(float *)((char *)&damageInfo + 0x20) = f;
 	*(int *)((char *)&damageInfo + 0x10) = 6;

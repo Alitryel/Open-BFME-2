@@ -124,7 +124,7 @@ struct WanderAIUpdateModuleData
 	bool m_attackInsteadOfWandering;		// +0x64 attack instead of wandering
 	char m_pad65[0x68 - 0x65];
 	KindOfType m_requiredKindOf;	// +0x68 the KindOf it needs (-1 for any)
-	bool m_6C;		// +0x6C
+	bool m_selectable;		// +0x6C
 	char m_pad6D[0x70 - 0x6D];
 	int m_wanderDistance;		// +0x70 the wander distance
 };
@@ -313,7 +313,7 @@ UpdateSleepTime WanderAIUpdate::update()
 		return UPDATE_SLEEP_NONE;
 	if (!reinterpret_cast<WanderIdleCallView *>(this)->rva002645FF())
 		return UPDATE_SLEEP_NONE;
-	if (!data->m_6C && !obj->testStatus(OBJECT_STATUS_RVA004A9424_3))
+	if (!data->m_selectable && !obj->testStatus(OBJECT_STATUS_RVA004A9424_3))
 		obj->setStatus(OBJECT_STATUS_RVA004A9424_3, true);
 	if (data->m_attackInsteadOfWandering) {
 		const Coord3D *pos = obj->getPosition();
