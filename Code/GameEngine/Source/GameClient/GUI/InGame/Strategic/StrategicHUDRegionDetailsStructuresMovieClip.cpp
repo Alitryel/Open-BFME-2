@@ -180,6 +180,14 @@ class Rva005EEF2FBase0 { public: virtual ~Rva005EEF2FBase0(); };
 class Rva005EEF2FBase4 { public: Rva005EEF2FBase4(): refs(0) {} virtual ~Rva005EEF2FBase4(); int refs; };
 
 #include "Coord2D.h"
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAURva005F13E6Element@@U1@V?$allocator@URva005F13E6Element@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005F13E6Element;
+namespace _STL { template <> Rva005F13E6Element * _STLP_alloc_proxy<Rva005F13E6Element *,Rva005F13E6Element,allocator<Rva005F13E6Element> >::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@URva005F13E6Element@@@_STL@@QBEXPAURva005F13E6Element@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005F13E6Element;
+namespace _STL { template <> void allocator<Rva005F13E6Element>::deallocate(Rva005F13E6Element *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva005F13E6Element@@@_STL@@YAXPAURva005F13E6Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005F13E6Element;

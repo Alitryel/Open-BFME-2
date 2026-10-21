@@ -6671,6 +6671,9 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
 #include <map>
 #include <set>
 #include <deque>
+// Suppress this TU's non-retail copy of ??$copy_backward@PAPAPAXPAPAPAX@_STL@@YAPAPAPAXPAPAPAX00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * * * copy_backward<void * * *,void * * *>(void * * *,void * * *,void * * *); }
 // Folded element spellings of the rowed STLport members.
 struct Rva002F307AElement {
 	Rva002F307AElement(); Rva002F307AElement(const Rva002F307AElement &);

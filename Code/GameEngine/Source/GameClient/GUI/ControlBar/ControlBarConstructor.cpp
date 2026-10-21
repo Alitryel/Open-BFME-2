@@ -46,6 +46,18 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$vector@UPlayerAITypeEntry@@V?$allocator@UPlayerAITypeEntry@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct PlayerAITypeEntry;
+namespace _STL { template <> vector<PlayerAITypeEntry,allocator<PlayerAITypeEntry> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UPlayerAITypeEntry@@V?$allocator@UPlayerAITypeEntry@@@_STL@@@_STL@@QAE@X:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct PlayerAITypeEntry;
+namespace _STL { template <> _Vector_base<PlayerAITypeEntry,allocator<PlayerAITypeEntry> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UPlayerAITypeEntry@@@_STL@@QBEXPAUPlayerAITypeEntry@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct PlayerAITypeEntry;
+namespace _STL { template <> void allocator<PlayerAITypeEntry>::deallocate(PlayerAITypeEntry *,unsigned int) const; }
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
 // COMDAT (one byte shape per TU flags); a declaration-only specialization

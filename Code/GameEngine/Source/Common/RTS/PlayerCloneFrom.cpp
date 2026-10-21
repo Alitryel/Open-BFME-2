@@ -21,6 +21,10 @@ namespace _STL { template <> void *& vector<void *, allocator<void *> >::operato
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_bkt_num_key@?$hashtable@U?$pair@$$CBHW4Relationship@@@_STL@@HU?$hash@H@2@U?$_Select1st:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum Relationship;
+namespace _STL { template <> unsigned int hashtable<pair<int const ,Relationship>,int,hash<int>,_Select1st<pair<int const ,Relationship> >,equal_to<int>,allocator<pair<int const ,Relationship> > >::_M_bkt_num_key(int const &) const; }
 
 typedef bool Bool;
 typedef int Int;

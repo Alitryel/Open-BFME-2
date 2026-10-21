@@ -22,6 +22,9 @@ namespace _STL { void fill(char *, char *, const char &); }
 namespace _STL { static inline const unsigned int &max(const unsigned int &a, const unsigned int &b) { return a < b ? b : a; } }
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$uninitialized_fill_n@PADID@_STL@@YAPADPADIABD@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * uninitialized_fill_n<char *,unsigned int,char>(char *,unsigned int,char const &); }
 namespace _STL { extern template char *__uninitialized_copy(char *, char *, char *, const __true_type &); }
 namespace _STL { extern template char *fill_n<unsigned int>(char *, unsigned int, const char &); }
 namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *p, size_t n) { allocator<char>::deallocate(p,n); } }

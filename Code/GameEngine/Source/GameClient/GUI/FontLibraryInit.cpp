@@ -118,6 +118,14 @@ void Mouse::parseIni()
 // The same body loading "Data\\INI\\Stances.ini", in slot 1 of vtable 0xC3C2AC
 // (the slot FontLibrary::init fills in its vtable).
 #include <map>
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBHUBfmePod52@@@_STL@@V?$allocator@U?$pair@$$CBHUBfmePod52@@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod52;
+namespace _STL { template <> _Rb_tree_base<pair<int const ,BfmePod52>,allocator<pair<int const ,BfmePod52> > >::~_Rb_tree_base(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod52@@@_STL@@@_STL@@@_STL@@QBE:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod52;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<int const ,BfmePod52> > >::deallocate(_Rb_tree_node<pair<int const ,BfmePod52> > *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod52@@@_STL@@@_STL@@@_STL@@QBEPA:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod52;
