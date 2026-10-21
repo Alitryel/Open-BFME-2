@@ -784,8 +784,8 @@ void AptSkirmish::StartGameAfterCDCheck() {
 void GameMessage::wb00EC9680(int value) { GameMessageArgument *gameMessageArgument=allocArg();gameMessageArgument->type=0;gameMessageArgument->value=value; }
 
 class Rva0004582DSarAvgField {public:int get() const;};
-class Rva003B8BAA {public:void *GetCampaign(int);void rva003B930D(_STL::vector<long> *scenarios);};extern class Rva00E02D6C *TheCampaignManager;
-#define g_00E02D6C (*(Rva003B8BAA * *)&TheCampaignManager)
+class LivingWorldCampaignManager {public:void *GetCampaign(int);void rva003B930D(_STL::vector<long> *scenarios);};extern class Rva00E02D6C *TheCampaignManager;
+#define g_00E02D6C (*(LivingWorldCampaignManager * *)&TheCampaignManager)
 // ^ g_00E02D6C is only an alias of the owned global TheCampaignManager (ledger names column).
 class Rva003B8B2A {public:int rva003B8B2A();};
 class Rva0052BAB2 {public:int rva0052BAB2() const;};

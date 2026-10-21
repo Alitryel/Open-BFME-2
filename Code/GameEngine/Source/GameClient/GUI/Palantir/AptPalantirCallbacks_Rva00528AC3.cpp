@@ -177,7 +177,7 @@ extern ControlBar *TheControlBar;
 
 // TheLivingWorldCampaignManager (Rva002B256EThunk.cpp's g_00E02D6C); +0x2C
 // is set for the evil side.
-class Rva003B8BAA;
+class LivingWorldCampaignManager;
 class Rva00E02D6C; extern Rva00E02D6C *TheCampaignManager;
 
 struct AptPalantirCampaign

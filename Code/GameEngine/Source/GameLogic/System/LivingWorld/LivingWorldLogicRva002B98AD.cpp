@@ -28,7 +28,7 @@ template <> TreeHintRef00217D4C *vector<TreeHintRef00217D4C, allocator<TreeHintR
 }
 
 class Rva002B254F { public: int rva002B254F(); };
-class Rva003B8BAA { public: void *rva003B8BAA(); };
+class LivingWorldCampaignManager { public: void *rva003B8BAA(); };
 class Rva003F812C { public: void rva003F812C(); };
 class Rva002B5522 { public: void rva002B5522(); };
 class Rva002B7B25 { public: void rva002B7B25(); };
@@ -99,7 +99,7 @@ void LivingWorldLogic::init()
 	m_100 = 0;
 	m_104 = 0;
 	if (m_B4 && (char)((Rva002B254F *)this)->rva002B254F())
-		((Rva003F812C *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA())->rva003F812C();
+		((Rva003F812C *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA())->rva003F812C();
 	processArmyDestroyList();
 	m_13C.rva002B5522();
 	((Rva002B7B25 *)this)->rva002B7B25();

@@ -14,7 +14,7 @@ public:
 	int rva002B254F();
 };
 
-class Rva003B8BAA
+class LivingWorldCampaignManager
 {
 public:
 	void *rva003B8BAA();
@@ -53,7 +53,7 @@ bool Rva002B2C40::rva002B2C40(Arg54 *a, Arg54 *b)
 		return false;
 	if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 	{
-		void *p = ((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA();
+		void *p = ((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA();
 		if (!((LookupVirt *)p)->check(a, b))
 			return false;
 	}

@@ -395,14 +395,9 @@ public:
 	void rva002B7BFB();					// 0x002B7BFB
 };
 
-// TheLivingWorldCampaignManager (0x00E02D6C, rowed lookup 0x003B8BAA); the
-// end-of-turn check at 0x003B8CAC is the rowed LivingWorldCampaignManager
-// member (its result unused here).
-class Rva003B8BAA
-{
-public:
-	void *rva003B8BAA();					// 0x003B8BAA, see CanDisbandArmyMember
-};
+// TheCampaignManager (0x00E02D6C) is the LivingWorldCampaignManager declared
+// below: its lookup 0x003B8BAA and end-of-turn check 0x003B8CAC are members.
+class LivingWorldCampaignManager;
 
 class Rva00E02D6C; extern Rva00E02D6C *TheCampaignManager;
 
@@ -430,6 +425,7 @@ public:
 	void StartNewCampaign(const AsciiString &name);
 	void StartNewCampaign(Int campaign);
 	bool rva003B8CAC();					// 0x003B8CAC
+	void *rva003B8BAA();					// 0x003B8BAA, see CanDisbandArmyMember
 };
 
 // The generic spawn army's id at +0x4C and the player's id at +0x14, the
@@ -1123,7 +1119,7 @@ static Bool CanDisbandArmyMember(ArmySummaryEntry *entry)
 {
 	if ((unsigned char)((Rva002B254F *)TheLivingWorldLogic)->rva002B254F() != 0)
 	{
-		if (!((Rva003B8BAAEntryVet *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA())->vetEntry(entry))
+		if (!((Rva003B8BAAEntryVet *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA())->vetEntry(entry))
 			return 0;
 	}
 	if (entry->m_disbanded)
@@ -1479,7 +1475,7 @@ Bool LivingWorldLogic::canBuildUnit(LivingWorldBuildingNuggetSpawnArmy *nugget, 
 {
 	if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 	{
-		Rva002B3325Campaign *campaign = (Rva002B3325Campaign *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA();
+		Rva002B3325Campaign *campaign = (Rva002B3325Campaign *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA();
 		if (!campaign->canBuild(nugget, token))
 			return false;
 	}
@@ -1619,7 +1615,7 @@ Bool LivingWorldLogic::rva002B27B5(LivingWorldArmy *army, Rva00318C32Ret *target
 	{
 		if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 		{
-			Rva002B27B5Campaign *campaign = (Rva002B27B5Campaign *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA();
+			Rva002B27B5Campaign *campaign = (Rva002B27B5Campaign *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA();
 			return campaign->canArmyMoveTo(army, target);
 		}
 		return true;
@@ -2925,7 +2921,7 @@ Bool LivingWorldLogic::rva002B5A5F(Parent00575E4E *entry)
 	{
 		if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 		{
-			if (!((LWEntryAcceptDispatch *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA())->accepts(entry))
+			if (!((LWEntryAcceptDispatch *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA())->accepts(entry))
 				return false;
 		}
 		if (!*((Bool *)entry + 0x58))
@@ -3014,7 +3010,7 @@ void LivingWorldLogic::update(){
  Bool run=rva002B77B2()>=2 || rva002B77F7()==1;
  if(TheGameLogic->m_114==0 && *((Bool*)this+0x168))run=false;
  if(run){
-  if((unsigned char)((Rva002B254F*)this)->rva002B254F())((Rva003F81FDProxy*)((Rva003B8BAA*)TheCampaignManager)->rva003B8BAA())->rva003F9037();
+  if((unsigned char)((Rva002B254F*)this)->rva002B254F())((Rva003F81FDProxy*)((LivingWorldCampaignManager*)TheCampaignManager)->rva003B8BAA())->rva003F9037();
   ((Rva002B4C09*)this)->rva002B6875();
   ((Rva002B4D41*)this)->rva002B4D41();
   processArmyDestroyList();
@@ -3025,7 +3021,7 @@ void LivingWorldLogic::update(){
    if(m_autoBattleResolver.get() && m_autoBattleResolver.get()->Update()==1)((Rva002B9099*)&m_autoBattleResolver)->clear();
   }
   UpdateTurnPhase();
-  if((unsigned char)((Rva002B254F*)this)->rva002B254F() && ((LWUpdateCampaignDispatch*)((Rva003B8BAA*)TheCampaignManager)->rva003B8BAA())->f34())rva002B88EC();
+  if((unsigned char)((Rva002B254F*)this)->rva002B254F() && ((LWUpdateCampaignDispatch*)((LivingWorldCampaignManager*)TheCampaignManager)->rva003B8BAA())->f34())rva002B88EC();
  }
  ++m_field100;
  if(*((Bool*)this+0x168) && m_field100>=*((UnsignedInt*)((char*)this+0x164)))rva002B88EC();
@@ -3172,7 +3168,7 @@ void LivingWorldLogic::rva002B9DC7(){
   for(Int i=removePlayers.size()-1;i>=0;--i)RemovePlayer(removePlayers[i]);
  }
  if(m_localPlayer && ((LivingWorldCollectorPlayerView*)m_localPlayer)->flag3C4)finish=true;
- if((unsigned char)((Rva002B254F*)this)->rva002B254F() && ((LWUpdateCampaignDispatch*)((Rva003B8BAA*)TheCampaignManager)->rva003B8BAA())->f34())finish=true;
+ if((unsigned char)((Rva002B254F*)this)->rva002B254F() && ((LWUpdateCampaignDispatch*)((LivingWorldCampaignManager*)TheCampaignManager)->rva003B8BAA())->f34())finish=true;
  if(finish || (rva002B77B2()<=1 && rva002B77F7()>1))((Rva002B8860*)this)->rva002B8860();
 }
 
@@ -3401,7 +3397,7 @@ Bool LivingWorldLogic::rva002B3416(Parent00575EEA *plot)
 			return false;
 		if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 		{
-			if (!((Rva002B3416Veto *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA())->allows(plot))
+			if (!((Rva002B3416Veto *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA())->allows(plot))
 				return false;
 		}
 		if (plot->occupant != 0)
@@ -3428,7 +3424,7 @@ Bool LivingWorldLogic::rva002B3484(Parent0057605D *module)
 		return false;
 	if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 	{
-		if (!((Rva002B3484Veto *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA())->allows(module))
+		if (!((Rva002B3484Veto *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA())->allows(module))
 			return false;
 	}
 	LocalRegionOwner13C *region = module->region;
@@ -4049,7 +4045,7 @@ bool Rva002B5EB5::rva002B5EB5()
     LivingWorldLogic *logic = reinterpret_cast<LivingWorldLogic *>(this);
     Int allowed;
     if ((unsigned char)((Rva002B254F *)logic)->rva002B254F() != 0 &&
-        !((Rva003F81FDProxy *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BAA())->rva003F85C6())
+        !((Rva003F81FDProxy *)((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA())->rva003F85C6())
         return false;
     if (!logic->m_pending154.empty() || ((Rva002B4C09 *)logic)->rva002B3621())
         return false;

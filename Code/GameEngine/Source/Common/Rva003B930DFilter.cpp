@@ -1,11 +1,11 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva003B930D@Rva003B8BAA@@QAEXPAV?$vector@JV?$allocator@J@_STL@@@_STL@@@Z @0x003B930D 92B.
+// ?rva003B930D@LivingWorldCampaignManager@@QAEXPAV?$vector@JV?$allocator@J@_STL@@@_STL@@@Z @0x003B930D 92B.
 // Filter member vector at +0x14 by unsigned char Rva003B8B2A check, collecting
 // matching indices as long into output vector via rowed reserve 0x002B712E
 // plus ICF push_back 0x004DFCB0 (long J twin pinned there). Evidence: this is
-// Rva003B8BAA via global g_00E02D6C same as Rva003B8BAA lookups; caller
+// LivingWorldCampaignManager via global g_00E02D6C same as LivingWorldCampaignManager lookups; caller
 // 0x00522116 in 0x00521EDA passes stack vector and uses first element for
 // GameInfo+0x58; callees rowed Rva003B8B2A 0x003B8B2A plus reserve/push_back;
 // flags from stlport_pod_vector_bodies.cpp; unsigned loop gives sar-je plus jb,
@@ -35,7 +35,7 @@ public:
 	int rva003B8B2A();
 };
 
-class Rva003B8BAA
+class LivingWorldCampaignManager
 {
 	char m_pad[0x14];
 	_STL::vector<Rva003B8B2A *> m_vec14;
@@ -43,7 +43,7 @@ public:
 	void rva003B930D(_STL::vector<long> *out);
 };
 
-void Rva003B8BAA::rva003B930D(_STL::vector<long> *out)
+void LivingWorldCampaignManager::rva003B930D(_STL::vector<long> *out)
 {
 	out->reserve(m_vec14.size());
 	for (long i = 0; i < m_vec14.size(); ++i)

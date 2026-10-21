@@ -340,7 +340,7 @@ struct Rva0057D4F3Campaign
 // 0x003B92B9 (rowed under an address name) collects the manager's
 // campaigns into the given vector.
 class ModuleData;
-class Rva003B8BAA
+class LivingWorldCampaignManager
 {
 public:
 	void rva003B92B9(_STL::vector<const ModuleData *> *out);
@@ -804,7 +804,7 @@ void AptMapPreview::PopulateStrategicScenario()
 		return;
 	GadgetComboBoxReset(m_strategicScenarioComboBox);
 	_STL::vector<Rva0057D4F3Campaign *> campaigns;
-	((Rva003B8BAA *)TheCampaignManager)->rva003B92B9((_STL::vector<const ModuleData *> *)&campaigns);
+	((LivingWorldCampaignManager *)TheCampaignManager)->rva003B92B9((_STL::vector<const ModuleData *> *)&campaigns);
 	for (_STL::vector<Rva0057D4F3Campaign *>::iterator it = campaigns.begin(); it != campaigns.end(); ++it)
 	{
 		Rva0057D4F3Campaign *campaign = *it;
@@ -1354,7 +1354,7 @@ void AptMapPreview::rva0057D19A(MapMetaData *map)
 			Int campaignIndex = info->m_campaign;
 			if (campaignIndex >= 0)
 			{
-				Rva0057D4F3CampaignInfo *campaign = ((Rva0057D4F3Campaign *)((Rva003B8BAA *)TheCampaignManager)->GetCampaign(campaignIndex))->m_info;
+				Rva0057D4F3CampaignInfo *campaign = ((Rva0057D4F3Campaign *)((LivingWorldCampaignManager *)TheCampaignManager)->GetCampaign(campaignIndex))->m_info;
 				UnicodeString name;
 				UnicodeString description;
 				if (campaign != 0)
