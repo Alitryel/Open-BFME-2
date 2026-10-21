@@ -18537,7 +18537,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009F708C,16,.data,global,?VertexLoc@@3V?$VectorClass@VVector3@@@@A,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp,provisional,?VertexLoc@@3V?$VectorClass@VVector3@@@@A;?g_Va00DF708C@@3IA;?g_rva00DF708C@@3URvaVectorClass@@A,2,18
 0x009F709C,9236,.data,global,?transformed_loc@PointGroupClass@@0V?$VectorClass@VVector3@@@@A,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp,owned,,1,5
 0x009F94B0,16,.data,global,?compressed_diffuse@PointGroupClass@@0V?$VectorClass@VVector4@@@@A,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp,provisional,?compressed_diffuse@PointGroupClass@@0V?$VectorClass@VVector4@@@@A;?g_Va00DF94B0@@3IA;?g_rva00DF94B0@@3URvaVectorClass@@A,2,12
-0x009F94C0,16,.data,global,?VertexUV@@3V?$VectorClass@VVector2@@@@A,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp,owned,,1,16
+0x009F94C0,16,.data,global,_VertexUV,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp,owned,,1,18
 0x009F94D0,12304,.data,global,?compressed_loc@PointGroupClass@@0V?$VectorClass@VVector3@@@@A,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp,provisional,?compressed_loc@PointGroupClass@@0V?$VectorClass@VVector3@@@@A;?g_Va00DF94D0@@3IA;?g_rva00DF94D0@@3URvaVectorClass@@A,2,18
 0x009FC4E0,16,.data,global,?VertexDiffuse@@3V?$VectorClass@VVector4@@@@A,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp,owned,,1,16
 0x009FC4F0,2504,.data,global,?rand4@@3VRandom4Class@@A,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,owned,,1,16
