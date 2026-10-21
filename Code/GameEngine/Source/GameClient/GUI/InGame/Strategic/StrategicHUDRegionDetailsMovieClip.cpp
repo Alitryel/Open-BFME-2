@@ -219,7 +219,8 @@ public:
 	class Impl;
 
 	RegionDetailsMovieClip(int level, const AsciiString &name, int arg);
-	virtual void v0();
+	// Slot 0: the scalar deleting dtor 0x005E326E over the rowed dtor 0x005E3258.
+	virtual ~RegionDetailsMovieClip();
 	// Slot 1 (__purecall in vtable 0x00877BB4): builds the page movie for a slot.
 	virtual TreeHintRef00217D4C CreatePage(int slot, int level, const AsciiString &name) = 0;
 	// Slot 2: told the new current page (or -1); the base body is the empty 0x0047A69C (ret 4).
@@ -344,7 +345,12 @@ StrategicHUD::RegionDetailsMovieClip::RegionDetailsMovieClip(int level, const As
 
 int __cdecl Rva0054C83FAptCall(Rva00222A8BTarget *,void *,const char *,const char *,const char **,bool *);
 struct Rva005E2CFAEntry { void *m_result; const char *m_name; };
-extern const Rva005E2CFAEntry g_00C77B40[3];
+// The retail page table at RVA 0x00877B40: slot value and page id string.
+extern const Rva005E2CFAEntry g_00C77B40[3] = {
+	{ (void *)0, "territory" },
+	{ (void *)1, "armies" },
+	{ (void *)2, "structures" },
+};
 // PageSlotToID role from WB; retain the existing address-derived return ABI.
 // Keeping this complete32B helper visible lets the compiler witness that it
 // preserves EDX across the visibility methods, as the native bodies require.

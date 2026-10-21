@@ -8,28 +8,18 @@
 // its owner word (+8), the region pointer (+0x0C) and a copy of the
 // context's 16-byte record (+0x10..+0x1C, the region record first); a
 // region the local living-world player (rowed 0x002B2B66) does not own
-// (record +0x13C) switches the panel to mode 2 (rowed 0x005E3049). The
-// vtable store is an explicit member with a TU-local stand-in; this unit
-// emits no vtable.
+// (record +0x13C) switches the panel to mode 2 (rowed 0x005E3049).
 #include "ascii_string.h"
 
-// Retail's ctor unwind destroys this base through the rowed ~Rva005E3258
-// 0x005E3258.
-class Rva005E3258
-{
-public:
-	virtual ~Rva005E3258();
-};
-
+// Retail's ctor unwind destroys this base through the rowed dtor 0x005E3258.
 namespace StrategicHUD
 {
 class RegionDetailsMovieClip
 {
 public:
 	RegionDetailsMovieClip(int level, const AsciiString &name, int region);
-	~RegionDetailsMovieClip() { ((Rva005E3258 *)this)->Rva005E3258::~Rva005E3258(); }
+	virtual ~RegionDetailsMovieClip();
 protected:
-	const void *m_vtable;		// +0x00
 	unsigned char m_pad04[4];
 	int m_owner;			// +0x08
 };
@@ -60,12 +50,11 @@ class Rva005E3049 { public: void rva005E3049(int mode, bool flag); };
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 
-static int s_vtable;
-
 class Rva005CC5C8 : public StrategicHUD::RegionDetailsMovieClip
 {
 public:
 	Rva005CC5C8(int owner, int level, const AsciiString &name, int *region, const Rva005CC5C8Context *context);
+	virtual ~Rva005CC5C8();
 private:
 	int *m_region;			// +0x0C
 	Rva005CC5C8Record m_record;	// +0x10
@@ -75,7 +64,6 @@ Rva005CC5C8::Rva005CC5C8(int owner, int level, const AsciiString &name, int *reg
 	: StrategicHUD::RegionDetailsMovieClip(level, name, *region)
 {
 	m_owner = owner;
-	m_vtable = &s_vtable;
 	m_region = region;
 	m_record.m_region = context->m_record.m_region;
 	m_record.m_04 = context->m_record.m_04;
@@ -85,9 +73,3 @@ Rva005CC5C8::Rva005CC5C8(int owner, int level, const AsciiString &name, int *reg
 	if (regionOwner != ((Rva002B2B66 *)TheLivingWorldLogic)->rva002B2B66())
 		((Rva005E3049 *)this)->rva005E3049(2, 0);
 }
-
-// Placeholder names this unit's own object settles.  In retail each one holds
-// what the unit's matched code references or installs: the rowed function of
-// the vftable slot it occupies, or the function or datum the instruction
-// reaches, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:??1RegionDetailsMovieClip@StrategicHUD@@QAE@XZ=??3@YAXPAX@Z")
