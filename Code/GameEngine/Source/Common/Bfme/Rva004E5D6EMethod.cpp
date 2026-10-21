@@ -1,4 +1,7 @@
-// ?reset@Rva004E5D6E@@QAEXXZ
+// ?reset@IngameNoticeDisplay@@UAEXXZ
+// Slot 9 (reset) of the IngameNoticeDisplay subsystem table; the fields
+// (+0xC descriptor, +0x10 group vector, +0x1C..+0x24 frames) are those
+// IngameNoticeDisplay.cpp reads, and ~IngameNoticeDisplay 0x004E61C8 calls it.
 // @0x004E5D6E 68B via STL clear: for_each delete + erase + zero + 0xff000000 store
 // cl: /MD /Oy- /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -28,19 +31,19 @@ struct Rva004E5D6EChild
 	unsigned int m_field18;
 };
 
-class Rva004E5D6E
+class IngameNoticeDisplay
 {
 public:
-	void reset();
+	virtual void reset();
 private:
-	unsigned char m_pad0[0xc];
+	unsigned char m_pad4[0x8];
 	Rva004E5D6EChild *m_p; // +0xc
 	_STL::vector<void *, _STL::allocator<void *> > m_vec; // +0x10
 	int m_a; // +0x1c
 	int m_b; // +0x20
 	int m_c; // +0x24
 };
-void Rva004E5D6E::reset()
+void IngameNoticeDisplay::reset()
 {
 	m_a = 0;
 	m_b = 0;

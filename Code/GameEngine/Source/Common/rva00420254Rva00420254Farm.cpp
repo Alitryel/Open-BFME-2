@@ -55,7 +55,6 @@ private:
 
 // VictoryConditions::~VictoryConditions is rowed in its home unit; this copy was a duplicate definition.
 
-class Rva0041FE86 { public: void rva0041FE86(); };
 // VictoryConditions::VictoryConditions is rowed in its home unit; this copy was a duplicate definition.
 typedef char NativeVictorySize[sizeof(VictoryConditions)==0x94 ? 1 : -1];
 

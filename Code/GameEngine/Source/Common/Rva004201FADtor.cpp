@@ -33,6 +33,7 @@ class VictoryConditions : public Rva0041FE0E
 public:
 	VictoryConditions();
     virtual ~VictoryConditions();
+    virtual void reset();
     void rva00420110();
 private:
     bool m_endGameShowing; // +10
@@ -48,7 +49,6 @@ VictoryConditions::~VictoryConditions()
 	rva00420110();
 }
 
-class Rva0041FE86 { public: void rva0041FE86(); };
 VictoryConditions::VictoryConditions()
 {
     m_endGameShowing = false;
@@ -56,7 +56,7 @@ VictoryConditions::VictoryConditions()
     m_field8C = 0;
     m_field90 = false;
     m_field91 = false;
-    ((Rva0041FE86 *)this)->rva0041FE86();
+    VictoryConditions::reset();
 }
 typedef char NativeVictorySize[sizeof(VictoryConditions)==0x94 ? 1 : -1];
 

@@ -1,6 +1,6 @@
 // cl: /O1 /MD /EHsc /DNDEBUG
 //
-// ?rva00091D0D@Rva00091D0D@@QAEXXZ @0x00091D0D 37B: empty-base op, optional
+// ?update@W3DTerrainVisual@@UAEXXZ @0x00091D0D 37B: empty-base op, optional
 // worker call, guarded tail dispatch. Invokes the pinned 1B ret stub
 // 0x000B3FD0 on this (shared empty-base operation; implicit empty-base
 // calls are elided by the compiler, so it is spelled explicitly), calls
@@ -11,6 +11,14 @@
 // retail loads ecx from g_shadowManager for the test and keeps it for the
 // jump, which only a thiscall spelling reproduces. Honest address-derived
 // names; boundary verified (push esi at 0x91D0D, jmp-or-ret at end).
+//
+// Identity: slot 10 (update) of the W3DTerrainVisual subsystem table (slot 1
+// is the rowed W3DTerrainVisual::init 0x00091AEA, slot 9 W3DTerrainVisual::reset
+// 0x00091CA7, slot 0 its deleting dtor over ~W3DTerrainVisual 0x0009203A), and
+// the body is Zero Hour's W3DTerrainVisual::update: the base
+// TerrainVisual::update (folded onto the shared empty ret 0x000B3FD0), then
+// the water render object's per-frame update (0x0010082F) when present; BFME 2
+// adds the shadow-manager dispatch.
 
 class Rva000B3FD0
 {
@@ -24,13 +32,13 @@ public:
 	void rva0010082F();
 };
 
-class Rva00091D0D
+class W3DTerrainVisual
 {
 public:
-	void rva00091D0D();
+	virtual void update();
 
 private:
-	char m_pad00[0x14];
+	char m_pad04[0x10];
 	Rva0010082F *m_14;
 };
 
@@ -41,8 +49,8 @@ public:
 };
 class W3DShadowManager; extern W3DShadowManager *TheW3DShadowManager;
 
-// ?rva00091D0D@Rva00091D0D@@QAEXXZ
-void Rva00091D0D::rva00091D0D()
+// ?update@W3DTerrainVisual@@UAEXXZ
+void W3DTerrainVisual::update()
 {
 	((Rva000B3FD0 *)this)->rva000B3FD0();
 	if (m_14)

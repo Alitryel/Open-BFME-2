@@ -77,18 +77,9 @@ W3DTerrainLogic::~W3DTerrainLogic()
 //-------------------------------------------------------------------------------------------------
 /** Device DEPENDENT implementation init details for logical terrain */
 //-------------------------------------------------------------------------------------------------
-// ?init@W3DTerrainLogic@@ present-unmatched
-void W3DTerrainLogic::init( void )
-{
-
-	// enhancing functionality
-	TerrainLogic::init();
-	m_mapDX = 0;
-	m_mapDY = 0;
-	m_mapMinZ = 0;
-	m_mapMaxZ = 1;
-
-}  // end init
+// W3DTerrainLogic::init (retail 0x00062B17) is defined in Rva00062B17Init.cpp,
+// which uses BFME 2's field offsets rather than the Zero Hour header layout
+// this unit compiles against.
 
 //-------------------------------------------------------------------------------------------------
 /** Reset */

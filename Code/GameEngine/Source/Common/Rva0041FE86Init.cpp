@@ -1,12 +1,16 @@
 // cl: /MD
 
-// ?rva0041FE86@Rva0041FE86@@QAEXXZ, retail 0x0041FE86, 101 bytes. Init method:
+// ?reset@VictoryConditions@@UAEXXZ, retail 0x0041FE86, 101 bytes. Reset method:
 // zeroes the 20-dword array at +0x18 plus the 20-byte array at +0x70 then sets
 // defaults plus -1 at +0x68 then derives +0xC as 3-or-2 from TheGameLogic
 // 0x00DFE78C+0x114 == 3 then tail-calls virtual slot 0x60.
 // Target evidence: or -1 plus xor-first plus sete-inc-inc plus tail jmp;
 // TheGameLogic precedent GameLogicRva003BC6C7Wrapper plus at114 precedent
 // Rva002BA8F1AddPlayer; sole caller at 0x004201BA.
+// Identity: slot 9 (reset) of the VictoryConditions vtable 0x00C3BA28, and the
+// VictoryConditions ctor 0x0042017F calls it directly as ZH's ctor calls reset();
+// body is ZH VictoryConditions::reset (players/defeated arrays, local slot -1,
+// flags, end frame, victory-condition mask).
 
 struct Rva00DFE78CHolder
 {
@@ -16,7 +20,7 @@ struct Rva00DFE78CHolder
 
 extern class GameLogic *TheGameLogic;
 
-class Rva0041FE86
+class VictoryConditions
 {
 public:
 	virtual void virt00() = 0;
@@ -28,7 +32,7 @@ public:
 	virtual void virt06() = 0;
 	virtual void virt07() = 0;
 	virtual void virt08() = 0;
-	virtual void virt09() = 0;
+	virtual void reset();
 	virtual void virt10() = 0;
 	virtual void virt11() = 0;
 	virtual void virt12() = 0;
@@ -44,7 +48,6 @@ public:
 	virtual void virt22() = 0;
 	virtual void virt23() = 0;
 	virtual void virt24() = 0;
-	void rva0041FE86();
 private:
 	char m_pad04[0x8];
 	int m_0C;
@@ -63,7 +66,7 @@ private:
 	unsigned char m_91;
 };
 
-void Rva0041FE86::rva0041FE86()
+void VictoryConditions::reset()
 {
 	for (int i = 0; i < 0x14; ++i)
 	{

@@ -1,6 +1,7 @@
 // cl: /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /EHsc
-// ?rva002E6431@Rva002E6431@@QAEXXZ 0x002E6431 32B
+// ?reset@GameTextManager@@UAEXXZ 0x002E6431 32B
 // Evidence: chain from 0x002E6158; clears +0x30 GameTextTable ptr via dtor plus scalar delete; callers none yet.
+// Slot 9 (reset) of the GameTextManager vtable 0x00C04FA8; +0x30 is m_mapTable (GameText.cpp), freed as in ZH reset.
 class Rva002E5791
 {
 public:
@@ -13,17 +14,17 @@ public:
 	~GameTextTable();
 };
 
-class Rva002E6431
+class GameTextManager
 {
 public:
-	void rva002E6431();
+	virtual void reset();
 
 private:
-	char m_pad[0x30];
+	char m_pad[0x2C];
 	GameTextTable *m_ptr30;
 };
 
-void Rva002E6431::rva002E6431()
+void GameTextManager::reset()
 {
 	GameTextTable *ptr = m_ptr30;
 	if (ptr)

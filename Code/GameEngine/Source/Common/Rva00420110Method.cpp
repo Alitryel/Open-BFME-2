@@ -10,7 +10,7 @@
 // Target evidence: sole caller at 0x004201FA passes same this; callees are
 // the rowed invoke 0x00222A8B, bfmeCall939D 0x0023C6FD, StringBase ctor
 // 0x00037BA0 and setGroup 0x001DC252; layout +0x10/+0x85 matches the
-// neighbouring Rva0041FE86 class bytes.
+// neighbouring VictoryConditions::reset class bytes.
 
 class Rva00222A8BTarget
 {

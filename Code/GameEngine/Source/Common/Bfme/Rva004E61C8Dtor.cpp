@@ -1,6 +1,6 @@
 // cl: /MD /Oy- /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??1Rva004E61C8@@UAE@XZ @0x004E61C8 105B: dtor stores vtable calls 0x4E5D6E deletes +0xc virtual result vector auto frees +0x10 base SubsystemInterface
+// ??1IngameNoticeDisplay@@UAE@XZ @0x004E61C8 105B: dtor stores vtable calls 0x4E5D6E deletes +0xc virtual result vector auto frees +0x10 base SubsystemInterface
 #include <vector>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
@@ -22,12 +22,6 @@ private:
 	} m_member08;
 };
 
-class Rva004E5D6E
-{
-public:
-	void reset();
-};
-
 struct Rva004E61C8Inner
 {
 	virtual void *v0(int x);
@@ -44,11 +38,12 @@ private:
 	char m_body[0x54];
 };
 
-class Rva004E61C8 : public SubsystemInterface
+class IngameNoticeDisplay : public SubsystemInterface
 {
 public:
-	virtual ~Rva004E61C8();
+	virtual ~IngameNoticeDisplay();
 	virtual void init();
+	virtual void reset();
 private:
 	Rva004E61C8Inner *m_c; // +0xc
 	_STL::vector<void *, _STL::allocator<void *> > m_vec; // +0x10
@@ -57,9 +52,9 @@ private:
 	int m_24;
 };
 
-Rva004E61C8::~Rva004E61C8()
+IngameNoticeDisplay::~IngameNoticeDisplay()
 {
-	((Rva004E5D6E *)this)->reset();
+	IngameNoticeDisplay::reset();
 	void *p;
 	if (m_c != 0)
 		p = m_c->v0(0);
@@ -69,11 +64,11 @@ Rva004E61C8::~Rva004E61C8()
 	m_c = 0;
 }
 
-// ?init@Rva004E61C8@@UAEXXZ @0x004E56EB 57B: SubsystemInterface slot 1 (the
+// ?init@IngameNoticeDisplay@@UAEXXZ @0x004E56EB 57B: SubsystemInterface slot 1 (the
 // table's deleting destructor precedes it, loadIniFilesFromLegend follows):
 // creates the subsystem's FadeInTextRender at +0xc, the object the
 // destructor above deletes.
-void Rva004E61C8::init()
+void IngameNoticeDisplay::init()
 {
 	m_c = reinterpret_cast<Rva004E61C8Inner *>(new FadeInTextRender);
 }

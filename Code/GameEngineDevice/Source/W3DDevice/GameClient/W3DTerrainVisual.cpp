@@ -223,22 +223,9 @@ W3DTerrainVisual::W3DTerrainVisual()
 //-------------------------------------------------------------------------------------------------
 /** update */
 //-------------------------------------------------------------------------------------------------
-// ?W3DTerrainVisual::update present-unmatched
-void W3DTerrainVisual::update( void )
-{
-
-	// extend
-	TerrainVisual::update();
-
-#ifdef DO_SEISMIC_SIMULATIONS
-  handleSeismicSimulations();
-#endif
-	// if we have a water render object, it has an update method
-	if( m_waterRenderObject )
-		m_waterRenderObject->update();
-
-
-}  // end update
+// W3DTerrainVisual::update (retail 0x00091D0D) is rowed with BFME2's body in
+// Rva00091D0DShutdownStep.cpp; the Zero Hour copy here was a second,
+// non-retail definition.
 
 
 #ifdef DO_SEISMIC_SIMULATIONS
