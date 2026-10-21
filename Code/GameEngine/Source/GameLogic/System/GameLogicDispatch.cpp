@@ -472,7 +472,7 @@ case ((GameMessage::Type)1041):
 			{
 				currentlySelectedGroup->releaseWeaponLockForGroup(LOCKED_TEMPORARILY);
 
-				currentlySelectedGroup->rva00372571(&Rva00372571Params(&dest,false),CMD_FROM_PLAYER);
+				currentlySelectedGroup->groupMoveToPosition(&Rva00372571Params(&dest,false),CMD_FROM_PLAYER);
 			}
 
 			break;
@@ -491,7 +491,7 @@ case ((GameMessage::Type)1041):
 				if (((LogicDispatchGlobalDataView *)TheWritableGlobalData)->orderQueueEnabled) {
                     TheAiOrdersManager->rva00355949(((LogicDispatchPlayerView *)thisPlayer)->orderMode,(Rva0036E346 *)currentlySelectedGroup,dest,false,(int)msgType==0x442);
                 } else {
-                    currentlySelectedGroup->rva00372571(&Rva00372571Params(&dest,false),CMD_FROM_PLAYER);
+                    currentlySelectedGroup->groupMoveToPosition(&Rva00372571Params(&dest,false),CMD_FROM_PLAYER);
                 }
 			}
 
@@ -502,7 +502,7 @@ case ((GameMessage::Type)1041):
 { const Coord3D *coordSource12=&msg->getArgument(0)->location; Coord3D pos; pos.x=coordSource12->x; pos.y=coordSource12->y; pos.z=coordSource12->z; float angle=msg->getArgument(1)->real; int formation=msg->getArgument(2)->integer; bool append=msg->getArgument(3)->boolean;
 if(!currentlySelectedGroup) break; currentlySelectedGroup->releaseWeaponLockForGroup(LOCKED_TEMPORARILY);
 if(((LogicDispatchGlobalDataView *)TheWritableGlobalData)->orderQueueEnabled) TheAiOrdersManager->rva003558D6(((LogicDispatchPlayerView *)thisPlayer)->orderMode,(Rva0036E346 *)currentlySelectedGroup,formation,pos,angle,append);
-else { currentlySelectedGroup->rva00372571((Rva00372571Params *)&Rva0036CB94((int)&pos,(int)&angle,formation,(int)thisPlayer,append),0); } break; }
+else { currentlySelectedGroup->groupMoveToPosition((Rva00372571Params *)&Rva0036CB94((int)&pos,(int)&angle,formation,(int)thisPlayer,append),0); } break; }
 case ((GameMessage::Type)1127):
 { const Coord3D *coordSource13=&msg->getArgument(0)->location; Coord3D pos; pos.x=coordSource13->x; pos.y=coordSource13->y; pos.z=coordSource13->z; if(currentlySelectedGroup) currentlySelectedGroup->groupRotateFiringarc(&pos,CMD_FROM_PLAYER); break; }
 case ((GameMessage::Type)1128):
@@ -530,7 +530,7 @@ case ((GameMessage::Type)1074):
 
 				currentlySelectedGroup->releaseWeaponLockForGroup(LOCKED_TEMPORARILY);
 
-				Rva00372571Params params(&dest,false); params.flag=true; currentlySelectedGroup->rva00372571(&params,CMD_FROM_PLAYER);
+				Rva00372571Params params(&dest,false); params.flag=true; currentlySelectedGroup->groupMoveToPosition(&params,CMD_FROM_PLAYER);
 			}
 
 			break;

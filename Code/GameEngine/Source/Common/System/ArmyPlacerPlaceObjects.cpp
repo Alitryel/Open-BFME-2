@@ -117,7 +117,7 @@ extern GameLogic*TheGameLogic;
 struct Rva0037FE3DNode {Rva0037FE3DNode*next,*prev;Object*object;};
 struct Rva0037FE3DList {Rva0037FE3DNode*head;};
 struct Rva00372571Params;
-class AIGroup {public:void add(Object*);void rva00372571(Rva00372571Params*,int);void groupSetPositionInFormation(const Coord3D*,const Coord3D*,int);};
+class AIGroup {public:void add(Object*);void groupMoveToPosition(Rva00372571Params*,int);void groupSetPositionInFormation(const Coord3D*,const Coord3D*,int);};
 class AI {public:AIGroup*createGroup();void destroyGroup(AIGroup*);};extern AI*TheAI;
 class BfmeC986 {public:void bfmeGo986C(int,int,int,int);};
 enum NameKeyType{NAMEKEY_INVALID=0};
@@ -164,7 +164,7 @@ void Rva0037FE3D::rva0037FAC6(const Rva0037FE3DList&objects,const Coord3D*start,
   }
   if(walkOn){
    Rva0036CB94 parameters((int)goal,(int)&angle,formationType,(int)player,false);
-   group->rva00372571((Rva00372571Params*)&parameters,2);
+   group->groupMoveToPosition((Rva00372571Params*)&parameters,2);
   }
  }else{
   group->groupSetPositionInFormation(start,goal,2);

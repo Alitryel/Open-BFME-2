@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs
-// ?rva00372571@AIGroup@@QAEXPAURva00372571Params@@H@Z @0x00372571 1432B
+// ?groupMoveToPosition@AIGroup@@QAEXPAURva00372571Params@@H@Z @0x00372571 1432B
 //
 // AIGroup formation move. WorldBuilder twin 0xEE4170 in AIGroup.cpp (line 2156
 // random call) gives the order: click-to-gather tighten test, the
@@ -428,7 +428,7 @@ public:
 	void groupTightenToPosition(const Coord3D *pos, bool addWaypoint, CommandSourceType cmdSource);
 	static void computeIndividualDestination(Coord3D *dest, const Coord3D *groupDest, Object *obj,
 		const Coord3D *center, const Real *facing, Int mode);
-	void rva00372571(Rva00372571Params *params, int cmdSource);
+	void groupMoveToPosition(Rva00372571Params *params, int cmdSource);
 	void groupScatter(CommandSourceType cmdSource);
 
 private:
@@ -511,7 +511,7 @@ Bool AIGroup::getMinMaxAndCenter(Coord2D *min, Coord2D *max, Coord3D *center)
 	return isFormation;
 }
 
-void AIGroup::rva00372571(Rva00372571Params *params, int cmdSource)
+void AIGroup::groupMoveToPosition(Rva00372571Params *params, int cmdSource)
 {
 	Coord3D center;
 	Coord2D min;

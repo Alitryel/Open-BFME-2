@@ -172,7 +172,7 @@ struct Rva00372571Params
 class AIGroup
 {
 public:
-	void rva00372571(Rva00372571Params *params, int source);	// 0x00372571
+	void groupMoveToPosition(Rva00372571Params *params, int source);	// 0x00372571
 };
 
 class AI
@@ -246,7 +246,7 @@ void ScriptActions::rva003C2662(const AsciiString &teamName, const AsciiString &
 		params.m_10 = 0;
 		params.m_18 = 0;
 		params.m_1C = false;
-		group->rva00372571(&params, 1);
+		group->groupMoveToPosition(&params, 1);
 	}
 }
 
@@ -421,6 +421,6 @@ void ScriptActions::rva003C276A(const AsciiString &teamName, const AsciiString &
 		params.m_10 = 0;
 		params.m_18 = 0;
 		params.m_1C = false;
-		group->rva00372571(&params, 1);
+		group->groupMoveToPosition(&params, 1);
 	}
 }

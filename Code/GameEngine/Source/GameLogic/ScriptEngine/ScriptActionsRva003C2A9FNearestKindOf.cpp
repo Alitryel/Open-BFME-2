@@ -107,7 +107,7 @@ class AIGroup
 {
 public:
 	void groupGuardObject(Object *target, int value, CommandSourceType cmdSource);
-	void rva00372571(Rva00372571Params *params, int source);	// 0x00372571
+	void groupMoveToPosition(Rva00372571Params *params, int source);	// 0x00372571
 };
 
 class AI
@@ -202,7 +202,7 @@ void ScriptActions::Rva003C2260Do(const AsciiString &teamName, int kindBit)
 	params.m_10 = 0;
 	params.m_18 = 0;
 	params.m_1C = false;
-	group->rva00372571(&params, 1);
+	group->groupMoveToPosition(&params, 1);
 }
 
 // 0x003C239F (337B): the player-parameter form of 0x003C2260 -- only the
@@ -253,7 +253,7 @@ void ScriptActions::Rva003C239FDo(const AsciiString &teamName, int kindBit, Para
 	params.m_10 = 0;
 	params.m_18 = 0;
 	params.m_1C = false;
-	group->rva00372571(&params, 1);
+	group->groupMoveToPosition(&params, 1);
 }
 
 // 0x003C9C0A (259B): the named unit attacks the nearest object of a KindOf

@@ -25,7 +25,7 @@ class AIGroup
 {
 public:
 	void rva00372BB9(const void *a, int b);
-	void rva00372571(Rva00372571Params *p, int v);
+	void groupMoveToPosition(Rva00372571Params *p, int v);
 };
 
 void AIGroup::rva00372BB9(const void *a, int b)
@@ -45,5 +45,5 @@ void AIGroup::rva00372BB9(const void *a, int b)
 	params.m_18 = 0;
 	params.m_1C = false;
 	params.m_00 = vt->m_f158(p);
-	rva00372571(&params, 0);
+	groupMoveToPosition(&params, 0);
 }

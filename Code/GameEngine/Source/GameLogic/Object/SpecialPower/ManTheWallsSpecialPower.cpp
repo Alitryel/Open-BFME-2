@@ -66,7 +66,7 @@ class AIGroup
 {
 public:
 	void add(Object *member);
-	void rva00372571(Rva00372571Params *params, int commandSource);
+	void groupMoveToPosition(Rva00372571Params *params, int commandSource);
 };
 class AI
 {
@@ -310,7 +310,7 @@ void ManTheWallsSpecialPower::rva004C7167(Rva004C734DElement *entry)
 		params.m_facing = 0;
 		params.m_player = 0;
 		params.m_attackMove = false;
-		group->rva00372571(&params, 0);
+		group->groupMoveToPosition(&params, 0);
 		TheAI->destroyGroup(group);
 	}
 }

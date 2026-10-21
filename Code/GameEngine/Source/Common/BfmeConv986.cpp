@@ -27,7 +27,7 @@ struct Rva00372571Params
 class AIGroup
 {
 public:
-	void rva00372571(Rva00372571Params *params, int source);
+	void groupMoveToPosition(Rva00372571Params *params, int source);
 	void createFormation(int a, int b);
 };
 
@@ -122,7 +122,7 @@ void BfmeC986::groupGatherAndMoveInFormationToPosition(int a, int b, int c, int 
 	params.m_10 = 0;
 	params.m_18 = 0;
 	params.m_1C = false;
-	((AIGroup *)this)->rva00372571(&params, b);
+	((AIGroup *)this)->groupMoveToPosition(&params, b);
 }
 
 void BfmeC986::groupGatherAndAttackInFormationToPosition(int a, int b, int c, int d)

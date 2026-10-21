@@ -10342,7 +10342,7 @@ name,address,notes
 ?rva0036D3A3@BfmeC986@@QAEDHH@Z,0x0036D3A3,two-arg check on same this in rva003724B8 at 0x372509 (REL32); returns byte tested; identity not recovered
 ?rva0036FB57@AIGroup@@QAEXPBVWaypoint@@W4CommandSourceType@@H@Z,0x0036FB57,AIGroup waypoint member mirroring rowed 0x0036F9FE; REL32 callee of dump-range-18 0x003BF39F selected by flag; identity unproven
 ?cohereAttackState@AIGroup@@QAEXXZ,0x003705C2,tail-callee of AIGroup 0x00372C05 on the same this (REL32 jmp at 0x372C1B); void-void thiscall; identity not recovered
-?rva00372571@AIGroup@@QAEXPAURva00372571Params@@H@Z,0x00372571,"AIGroup member taking a 0x20-byte argument block (+0x00 a position pointer, +0x14 -1, the rest zero) and a command source, ret 8; REL32 in script action 0x003C2662 with ECX the team's new group, the block built inline and 1; identity not recovered (a group move order in shape)"
+?groupMoveToPosition@AIGroup@@QAEXPAURva00372571Params@@H@Z,0x00372571,"AIGroup member taking a 0x20-byte argument block (+0x00 a position pointer, +0x14 -1, the rest zero) and a command source, ret 8; REL32 in script action 0x003C2662 with ECX the team's new group, the block built inline and 1; identity not recovered (a group move order in shape)"
 ?rva00372B09@BfmeC986@@QAEXHHH@Z,0x00372B09,three-arg fallback on same this in rva00372C74 at 0x372C9E (REL32); range-16 target, name will be reused by its row; identity not recovered
 ?rva0037446E@Rva00373EC6@@QAEXHHHH@Z,0x0037446E,callee of ?rva00464EE7@OpenContain@@UAE_NPAVObject@@@Z
 ?rva00376D49@GameLogic@@QAEXXZ,0x00376D49,thiscall void() on TheGameLogic; 329B Ghidra body; head callee of dump-range-18 0x003BD598

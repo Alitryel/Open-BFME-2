@@ -221,7 +221,7 @@ class AIGroup
 {
 public:
 	void add(Object *obj);
-	void rva00372571(Rva00372571Params *params, int source);
+	void groupMoveToPosition(Rva00372571Params *params, int source);
 };
 class AttackPriorityInfo;
 class PartitionFilter;
@@ -4092,7 +4092,7 @@ void HordeContain::rva0046A78F(const Matrix3D *mtx)
 // slot 31; hands every contained Object (from a copy of the contained list) to
 // slot 42, builds a new AIGroup of the live Objects of the +0x170 keys
 // (idling, from the command source, those whose AI slot 113 holds), sends the
-// group to the position through the rowed AIGroup rva00372571 and hands it to
+// group to the position through the rowed AIGroup groupMoveToPosition and hands it to
 // the rowed AI destroyGroup.
 void HordeContain::rva00472A24(const Coord3D *pos, CommandSourceType cmdSource, int a3)
 {
@@ -4124,7 +4124,7 @@ void HordeContain::rva00472A24(const Coord3D *pos, CommandSourceType cmdSource, 
 	params.m_pos = pos;
 	params.m_08 = a3;
 	params.m_04 = false;
-	group->rva00372571(&params, cmdSource);
+	group->groupMoveToPosition(&params, cmdSource);
 	TheAI->destroyGroup(group);
 }
 

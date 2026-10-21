@@ -767,7 +767,7 @@ void rva00372BB9(const void *,int);
 // BFME2 dispatcher bank: declarations from current native provider owners.
 bool rva0036CFE5(const Player *);
 void groupOneRing();
-void rva00370554(Object *,CommandSourceType); void rva00372571(struct Rva00372571Params *,int);
+void rva00370554(Object *,CommandSourceType); void groupMoveToPosition(struct Rva00372571Params *,int);
 bool groupDoSpecialPower(unsigned int,unsigned int,int);
 bool groupDoSpecialPowerAtLocation(unsigned int,const Coord3D *,const Object *,unsigned int,int);
 void rva0036DBBA(int,int,unsigned int);

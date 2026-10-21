@@ -49,7 +49,7 @@ struct Rva00372571Params
 class AIGroup
 {
 public:
-	void rva00372571(Rva00372571Params *params, int source);
+	void groupMoveToPosition(Rva00372571Params *params, int source);
 };
 class BfmeC986
 {
@@ -114,6 +114,6 @@ void ScriptActions::Rva003BEBD6Do(const AsciiString *teamName)
 		params.m_10 = 0;
 		params.m_18 = 0;
 		params.m_1C = false;
-		group->rva00372571(&params, 1);
+		group->groupMoveToPosition(&params, 1);
 	}
 }

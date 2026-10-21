@@ -579,7 +579,7 @@ struct Rva00372571Params
 class AIGroup
 {
 public:
-	void rva00372571(Rva00372571Params *params, int source);
+	void groupMoveToPosition(Rva00372571Params *params, int source);
 	void groupIdle(CommandSourceType cmdSource);
 	bool getCenter(Coord3D *pos);
 	void groupAttackMoveToPosition(const Coord3D *pos, int maxShots, CommandSourceType cmdSource);
@@ -960,7 +960,7 @@ void ScriptActions::doTeamMoveToSkirmishApproachPath(const AsciiString &teamName
 	params.m_10 = 0;
 	params.m_18 = 0;
 	params.m_1C = false;
-	theGroup->rva00372571(&params, CMD_FROM_SCRIPT);
+	theGroup->groupMoveToPosition(&params, CMD_FROM_SCRIPT);
 }
 
 // WB 0x01014560 unnamed ScriptActions member @0x003C20CA (85B), the team

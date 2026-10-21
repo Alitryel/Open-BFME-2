@@ -45,7 +45,7 @@ public:
 class AIGroup
 {
 public:
-	void rva00372571(Rva00372571Params *params, int source);
+	void groupMoveToPosition(Rva00372571Params *params, int source);
 	void groupAttackMoveToPosition(const Coord3D *pos, int maxShotsToFire, CommandSourceType cmdSource);
 private:
 	void groupAttackObjectPrivate(bool a, Object *victim, int b, CommandSourceType c);
@@ -112,7 +112,7 @@ void AITactic::teamAttackMove(int id, const struct Coord3D *p)
 
 // ?teamForceMove@AITactic@@QAEXHPBUCoord3D@@@Z @0x004ED257 150B
 // Guarded move-order helper: if +0x24 difficulty source is null delegate to rowed teamAttackMove, else node via 0x004ECF05 then create AI group, fill via Team, issue group move via 0x00372571 with position block, destroy group, clear +0x10.
-// Evidence: same TU/class as teamAttackObject siblings; callees rowed rva002A9BF2 0x002A9BF2 rva004ECF05 0x004ECF05 createGroup 0x002FEC4B getTeamAsAIGroup 0x003A0F62 destroyGroup 0x002FE712 plus pins teamAttackMove 0x004ED1FD findTeamByID 0x0039F761 rva00372571 0x00372571; globals TheAI TheTeamFactory; ret 8 two args.
+// Evidence: same TU/class as teamAttackObject siblings; callees rowed rva002A9BF2 0x002A9BF2 rva004ECF05 0x004ECF05 createGroup 0x002FEC4B getTeamAsAIGroup 0x003A0F62 destroyGroup 0x002FE712 plus pins teamAttackMove 0x004ED1FD findTeamByID 0x0039F761 groupMoveToPosition 0x00372571; globals TheAI TheTeamFactory; ret 8 two args.
 void AITactic::teamForceMove(int id, const struct Coord3D *p)
 {
 	if (m_24->rva002A9BF2() == 0)
@@ -135,7 +135,7 @@ void AITactic::teamForceMove(int id, const struct Coord3D *p)
 		params.m_10 = 0;
 		params.m_18 = 0;
 		params.m_1C = false;
-		group->rva00372571(&params, 0);
+		group->groupMoveToPosition(&params, 0);
 		TheAI->destroyGroup(group);
 		node->m_10 = 0;
 	}
