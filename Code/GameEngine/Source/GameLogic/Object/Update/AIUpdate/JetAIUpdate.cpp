@@ -1492,13 +1492,13 @@ public:
 		m_reloadTime = 0;
 		for (Int i = 0; i < WEAPONSLOT_COUNT;	++i)
 		{
-			const Weapon* w = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
-			if (w == NULL)
+			const Weapon* weapon = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
+			if (weapon == NULL)
 				continue;
 			
-			Int remaining = w->getRemainingAmmo();
-			Int clipSize = w->getClipSize();
-			Int rt = w->getClipReloadTime(jet);
+			Int remaining = weapon->getRemainingAmmo();
+			Int clipSize = weapon->getClipSize();
+			Int rt = weapon->getClipReloadTime(jet);
 			if (clipSize > 0)
 			{
 				// bias by amount empty.
@@ -1522,16 +1522,16 @@ public:
 		Bool allDone = true;
 		for (Int i = 0; i < WEAPONSLOT_COUNT;	++i)
 		{
-			Weapon* w = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
-			if (w == NULL)
+			Weapon* weapon = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
+			if (weapon == NULL)
 				continue;
 			
 			if (now >= m_reloadDoneFrame)
-				w->setClipPercentFull(1.0f, false);
+				weapon->setClipPercentFull(1.0f, false);
 			else
-				w->setClipPercentFull((Real)(m_reloadTime - (m_reloadDoneFrame - now)) / m_reloadTime, false);
+				weapon->setClipPercentFull((Real)(m_reloadTime - (m_reloadDoneFrame - now)) / m_reloadTime, false);
 
-			if (w->getRemainingAmmo() != w->getClipSize())
+			if (weapon->getRemainingAmmo() != weapon->getClipSize())
 				allDone = false;
 		}
 
@@ -1710,9 +1710,9 @@ JetAIUpdateModuleData::JetAIUpdateModuleData()
 }
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void JetAIUpdateModuleData::buildFieldParse(MultiIniFieldParse& p) 
+/*static*/ void JetAIUpdateModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse) 
 {
-  AIUpdateModuleData::buildFieldParse(p);
+  AIUpdateModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -1737,7 +1737,7 @@ JetAIUpdateModuleData::JetAIUpdateModuleData()
 		{ "ReturnToBaseIdleTime",					INI::parseDurationUnsignedInt, NULL, offsetof( JetAIUpdateModuleData, m_returnToBaseIdleTime ) },
 		{ 0, 0, 0, 0 }
 	};
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1899,7 +1899,7 @@ static Bool bfmeJetWaitingForPath(const AIUpdateInterface *ai)
 }
 UpdateSleepTime JetAIUpdate::update()
 {
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 
 	getProducerLocation();
 
@@ -1969,9 +1969,9 @@ UpdateSleepTime JetAIUpdate::update()
 			setLastCommandSource( CMD_FROM_AI );
 			getStateMachine()->setState(RETURNING_FOR_LANDING);
 		}
-		else if (m_returnToBaseFrame  == 0 && d->m_returnToBaseIdleTime > 0 && getFlag(ALLOW_AIR_LOCO))
+		else if (m_returnToBaseFrame  == 0 && jetAIUpdateModuleData->m_returnToBaseIdleTime > 0 && getFlag(ALLOW_AIR_LOCO))
 		{
-			m_returnToBaseFrame = now + d->m_returnToBaseIdleTime;
+			m_returnToBaseFrame = now + jetAIUpdateModuleData->m_returnToBaseIdleTime;
 		}
 	}
 	else
@@ -2033,8 +2033,8 @@ UpdateSleepTime JetAIUpdate::update()
 
 	if (jet->testStatus(OBJECT_STATUS_IS_ATTACKING))
 	{
-		m_attackLocoExpireFrame = now + d->m_attackLocoPersistTime;
-		m_attackersMissExpireFrame = now + d->m_attackersMissPersistTime;
+		m_attackLocoExpireFrame = now + jetAIUpdateModuleData->m_attackLocoPersistTime;
+		m_attackersMissExpireFrame = now + jetAIUpdateModuleData->m_attackersMissPersistTime;
 	}
 	else
 	{
@@ -2057,11 +2057,11 @@ UpdateSleepTime JetAIUpdate::update()
 	
 	if (m_attackLocoExpireFrame != 0)
 	{
-		chooseLocomotorSet(d->m_attackingLoco);
+		chooseLocomotorSet(jetAIUpdateModuleData->m_attackingLoco);
 	}
 	else if (getFlag(USE_SPECIAL_RETURN_LOCO))
 	{
-		chooseLocomotorSet(d->m_returningLoco);
+		chooseLocomotorSet(jetAIUpdateModuleData->m_returningLoco);
 	}
 
 	
@@ -2103,18 +2103,18 @@ UpdateSleepTime JetAIUpdate::update()
 // ?chooseLocomotorSet@JetAIUpdate@@ present-unmatched
 Bool JetAIUpdate::chooseLocomotorSet(LocomotorSetType wst)
 {
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 	if (!getFlag(ALLOW_AIR_LOCO))
 	{
 		wst = LOCOMOTORSET_TAXIING;
 	}
 	else if (m_attackLocoExpireFrame != 0)
 	{
-		wst = d->m_attackingLoco;
+		wst = jetAIUpdateModuleData->m_attackingLoco;
 	}
 	else if (getFlag(USE_SPECIAL_RETURN_LOCO))
 	{
-		wst = d->m_returningLoco;
+		wst = jetAIUpdateModuleData->m_returningLoco;
 	}
 	return AIUpdateInterface::chooseLocomotorSet(wst);
 }
@@ -2147,11 +2147,11 @@ Bool JetAIUpdate::getSneakyTargetingOffset(Coord3D* offset) const
 	{
 		if (offset)
 		{
-			const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+			const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 			const Object* jet = getObject();
 			const Coord3D* dir = jet->getUnitDirectionVector2D();
-			offset->x = dir->x * d->m_sneakyOffsetWhenAttacking;
-			offset->y = dir->y * d->m_sneakyOffsetWhenAttacking;
+			offset->x = dir->x * jetAIUpdateModuleData->m_sneakyOffsetWhenAttacking;
+			offset->y = dir->y * jetAIUpdateModuleData->m_sneakyOffsetWhenAttacking;
 			offset->z = 0.0f;
 		}
 		return true;
@@ -2196,16 +2196,16 @@ void JetAIUpdate::positionLockon()
 		return;
 	}
 
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 	UnsignedInt now = TheGameLogic->getFrame();
 	UnsignedInt remaining = m_untargetableExpireFrame - now;
-	UnsignedInt elapsed = d->m_lockonTime - remaining;
+	UnsignedInt elapsed = jetAIUpdateModuleData->m_lockonTime - remaining;
 
 	Coord3D pos = *getObject()->getPosition();
-	Real frac = (Real)remaining / (Real)d->m_lockonTime;
+	Real frac = (Real)remaining / (Real)jetAIUpdateModuleData->m_lockonTime;
 	Real finalDist = getObject()->getGeometryInfo().getBoundingCircleRadius();
-	Real dist = finalDist + (d->m_lockonInitialDist - finalDist) * frac;
-	Real angle = d->m_lockonAngleSpin * frac;
+	Real dist = finalDist + (jetAIUpdateModuleData->m_lockonInitialDist - finalDist) * frac;
+	Real angle = jetAIUpdateModuleData->m_lockonAngleSpin * frac;
 
 	pos.x += Cos(angle) * dist;
 	pos.y += Sin(angle) * dist;
@@ -2223,7 +2223,7 @@ void JetAIUpdate::positionLockon()
 	//
 	Real elapsedTimeSumPrev = 0.5f * (elapsed-1) * (elapsed);
 	Real elapsedTimeSumCurr = elapsedTimeSumPrev + elapsed;
-	Real factor = d->m_lockonFreq / d->m_lockonTime;
+	Real factor = jetAIUpdateModuleData->m_lockonFreq / jetAIUpdateModuleData->m_lockonTime;
 	Bool lastPhase = ((Int)(factor * elapsedTimeSumPrev) & 1) != 0;
 	Bool thisPhase = ((Int)(factor * elapsedTimeSumCurr) & 1) != 0;
 
@@ -2232,12 +2232,12 @@ void JetAIUpdate::positionLockon()
 		AudioEventRTS lockonSound = TheAudio->getMiscAudio()->m_lockonTickSound;
 		lockonSound.setObjectID(getObject()->getID());
 		TheAudio->addAudioEvent(&lockonSound);
-		if (d->m_lockonBlinky)
+		if (jetAIUpdateModuleData->m_lockonBlinky)
 			m_lockonDrawable->setDrawableHidden(false);
 	}
 	else
 	{
-		if (d->m_lockonBlinky)
+		if (jetAIUpdateModuleData->m_lockonBlinky)
 			m_lockonDrawable->setDrawableHidden(true);
 	}
 }
@@ -2249,10 +2249,10 @@ void JetAIUpdate::buildLockonDrawableIfNecessary()
 	if (m_untargetableExpireFrame == 0)
 		return;
 
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
-	if (d->m_lockonCursor.isNotEmpty() && m_lockonDrawable == NULL)
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
+	if (jetAIUpdateModuleData->m_lockonCursor.isNotEmpty() && m_lockonDrawable == NULL)
 	{
-		const ThingTemplate* tt = TheThingFactory->findTemplate(d->m_lockonCursor);
+		const ThingTemplate* tt = TheThingFactory->findTemplate(jetAIUpdateModuleData->m_lockonCursor);
 		if (tt)
 		{
 			m_lockonDrawable = TheThingFactory->newDrawable(tt);
@@ -2265,8 +2265,8 @@ void JetAIUpdate::buildLockonDrawableIfNecessary()
 // ?addTargeter@JetAIUpdate@@ present-unmatched
 void JetAIUpdate::addTargeter(ObjectID id, Bool add)
 {
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
-	UnsignedInt lockonTime = d->m_lockonTime;
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
+	UnsignedInt lockonTime = jetAIUpdateModuleData->m_lockonTime;
 	if (lockonTime != 0)
 	{
 		std::list<ObjectID>::iterator it = std::find(m_targetedBy.begin(), m_targetedBy.end(), id);

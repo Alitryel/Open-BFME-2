@@ -32,21 +32,21 @@ bool BannerCarrierUpdate::rva00496BD2(Object *obj) {
  if(container) {
   BannerSpawnContain *contain=container->contain;
   if(!contain) return false;
-  BannerSpawnHorde *h=contain->horde();
-  if(h) {
-   unsigned cap=h->cap();
-   unsigned count=h->count();
+  BannerSpawnHorde *bannerSpawnHorde=contain->horde();
+  if(bannerSpawnHorde) {
+   unsigned cap=bannerSpawnHorde->cap();
+   unsigned count=bannerSpawnHorde->count();
    if(count<cap) {
     if(!reinterpret_cast<Rva00496B48 *>(this)->rva00496B48()) return false;
-    Player *p=container->getControllingPlayer();
-    W3DBridge *credits=&p->credits;
+    Player *player=container->getControllingPlayer();
+    W3DBridge *credits=&player->credits;
     bool enabled=credits->enabled;
     credits->setEnabled(false);
-    Object *created=h->spawn(obj->matrix);
+    Object *created=bannerSpawnHorde->spawn(obj->matrix);
     if(created) {
-     const BannerSpawnConfig *d=data;
+     const BannerSpawnConfig *bannerSpawnConfig=data;
      created->updateShroudNow();
-     const FXList *fx=d->unitSpawnFX;
+     const FXList *fx=bannerSpawnConfig->unitSpawnFX;
      if(fx) FXList::doFXObj(fx,created,0);
      credits->setEnabled(enabled);
      return true;

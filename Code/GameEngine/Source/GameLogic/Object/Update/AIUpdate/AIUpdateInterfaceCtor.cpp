@@ -357,22 +357,22 @@ AIUpdateInterface::AIUpdateInterface(Thing *thing, const ModuleData *moduleData)
 	m_3CB = false;
 	m_3CC = false;
 
-	const AIUpdateModuleDataView *d = getAIUpdateModuleData();
+	const AIUpdateModuleDataView *aIUpdateModuleDataView = getAIUpdateModuleData();
 	for (i = 0; i < 1; i++)
 	{
-		if (d->m_turretData[i])
-			m_turretAI[i] = new TurretAI(getObject(), d->m_turretData[i], (WhichTurretType)i);
+		if (aIUpdateModuleDataView->m_turretData[i])
+			m_turretAI[i] = new TurretAI(getObject(), aIUpdateModuleDataView->m_turretData[i], (WhichTurretType)i);
 	}
 
 	chooseLocomotorSet(0);
 
-	if (!d->m_attackPriorityName.isEmpty())
+	if (!aIUpdateModuleDataView->m_attackPriorityName.isEmpty())
 	{
-		m_attackInfo = TheScriptEngine->getAttackInfo(d->m_attackPriorityName);
-		d->m_attackPriorityName.compare("DefaultAttackPriority");
+		m_attackInfo = TheScriptEngine->getAttackInfo(aIUpdateModuleDataView->m_attackPriorityName);
+		aIUpdateModuleDataView->m_attackPriorityName.compare("DefaultAttackPriority");
 	}
 
 	setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 
-	m_objectEventsList = TheLuaScriptEngine->rva00337DEF(d->m_objectEventsListName);
+	m_objectEventsList = TheLuaScriptEngine->rva00337DEF(aIUpdateModuleDataView->m_objectEventsListName);
 }

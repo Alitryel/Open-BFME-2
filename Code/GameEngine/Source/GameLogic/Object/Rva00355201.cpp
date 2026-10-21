@@ -43,12 +43,12 @@ struct Arg200355201
 	ObjectID m_id;
 };
 
-void AiOrdersManager::rva00355201(int kind, void *a2, GroupOrder *a3)
+void AiOrdersManager::rva00355201(int kind, void *a2, GroupOrder *groupOrder)
 {
 	if (kind == 0)
 		return;
 	Arg200355201 *arg2 = (Arg200355201 *)a2;
-	KeyRange00355201 *range = (KeyRange00355201 *)a3;
+	KeyRange00355201 *range = (KeyRange00355201 *)groupOrder;
 	NameKeyType *cur = range->m_begin;
 	NameKeyType *end = range->m_end;
 	for (; cur != end; ++cur) {

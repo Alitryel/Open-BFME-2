@@ -69,8 +69,8 @@ inline DeployStyleAIUpdateModuleData::DeployStyleAIUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeDeployStyleAIUpdateModuleDataInlineAnchor@@YAXPAVDeployStyleAIUpdateModuleData@@@Z absent-from-retail
-void _bfmeDeployStyleAIUpdateModuleDataInlineAnchor(DeployStyleAIUpdateModuleData *p)
+void _bfmeDeployStyleAIUpdateModuleDataInlineAnchor(DeployStyleAIUpdateModuleData *deployStyleAIUpdateModuleData)
 {
-    p->DeployStyleAIUpdateModuleData::DeployStyleAIUpdateModuleData();
+    deployStyleAIUpdateModuleData->DeployStyleAIUpdateModuleData::DeployStyleAIUpdateModuleData();
 }
 #pragma inline_depth()

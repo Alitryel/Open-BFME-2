@@ -84,13 +84,13 @@ public:
 
 void *BuffLogic::addBuff(void *a, void *b)
 {
-	BuffArg *arg = (BuffArg *)a;
-	ModuleInfo &mi = arg->m_moduleInfo;
+	BuffArg *buffArg = (BuffArg *)a;
+	ModuleInfo &mi = buffArg->m_moduleInfo;
 	const ModuleData *data = mi.getNthData(0);
 	if (data == 0)
 	{
 		AsciiString msg;
-		BuffInner *inner = arg->m_inner;
+		BuffInner *inner = buffArg->m_inner;
 		const char *name = inner != 0 ? inner->m_name : "";
 		msg.format("No draw module specified for Buff! In Buff (%s)", name);
 		return 0;
@@ -103,8 +103,8 @@ void *BuffLogic::addBuff(void *a, void *b)
 			_bfme_debugRecordCallsite(1);
 			theDebug->SkipNext();
 		Debug &dbg = theDebug->CrashBegin(0, 0, 0);
-		Debug &tmp = dbg << "Buff ";
-		(tmp << (arg->m_inner != 0 ? arg->m_inner->m_name : "") << g_00C07D80).CrashDone(2);
+		Debug &debug = dbg << "Buff ";
+		(debug << (buffArg->m_inner != 0 ? buffArg->m_inner->m_name : "") << g_00C07D80).CrashDone(2);
 		}
 		return 0;
 	}

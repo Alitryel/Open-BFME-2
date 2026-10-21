@@ -86,7 +86,7 @@ protected:
 	virtual void SetEmotionState(int which, Object *arg);
 };
 
-void AIUpdateInterface::SetEmotionState(int which, Object *arg)
+void AIUpdateInterface::SetEmotionState(int which, Object *object)
 {
 	int extra = -1;
 	int desired;
@@ -123,6 +123,6 @@ void AIUpdateInterface::SetEmotionState(int which, Object *arg)
 	if (ret)
 		((RetObj *)ret)->v79();
 	((Rva0033FCC8 *)m_machine)->rva0033FCC8();
-	m_machine->slot14(arg);
+	m_machine->slot14(object);
 	((AIStateMachine *)m_machine)->setTemporaryState(desired, extra);
 }

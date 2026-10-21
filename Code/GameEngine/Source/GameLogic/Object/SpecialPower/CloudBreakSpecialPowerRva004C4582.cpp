@@ -54,14 +54,14 @@ private:
 
 void CloudBreakSpecialPower::rva004C4582()
 {
-	Object *cached08 = m_08;
+	Object *object = m_08;
 	Object *cur = TheGameLogic->getFirstObject();
 	if (cur == 0)
 		return;
 	for (; cur != 0; cur = *(Object **)((char *)cur + 0x8C))
 	{
 		Rva004C4582TabHolder *holder = m_04;
-		if (holder->m_tab.accepts(cur, cached08->getControllingPlayer()))
-			cur->rva0028EC68(5, cached08, 1);
+		if (holder->m_tab.accepts(cur, object->getControllingPlayer()))
+			cur->rva0028EC68(5, object, 1);
 	}
 }

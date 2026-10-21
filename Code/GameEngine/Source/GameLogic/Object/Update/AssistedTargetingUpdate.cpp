@@ -147,12 +147,12 @@ void AssistedTargetingUpdate::assistAttack( const Object *requestingObject, Obje
 UpdateSleepTime AssistedTargetingUpdate::update( void )
 {
 
-  const AssistedTargetingUpdateModuleData *d = getAssistedTargetingUpdateModuleData();
+  const AssistedTargetingUpdateModuleData *assistedTargetingUpdateModuleData = getAssistedTargetingUpdateModuleData();
 
-	m_laserFromAssisted = TheThingFactory->findTemplate( d->m_laserFromAssistedName );
+	m_laserFromAssisted = TheThingFactory->findTemplate( assistedTargetingUpdateModuleData->m_laserFromAssistedName );
 
 
-	m_laserToTarget =TheThingFactory->findTemplate( d->m_laserFromAssistedName );
+	m_laserToTarget =TheThingFactory->findTemplate( assistedTargetingUpdateModuleData->m_laserFromAssistedName );
 
 
 	return UPDATE_SLEEP_FOREVER;
@@ -195,10 +195,10 @@ void AssistedTargetingUpdate::xfer( Xfer *xfer )
 // ?AssistedTargetingUpdate::loadPostProcess present-unmatched
 void AssistedTargetingUpdate::loadPostProcess( void )
 {
-  const AssistedTargetingUpdateModuleData *d = getAssistedTargetingUpdateModuleData();
+  const AssistedTargetingUpdateModuleData *assistedTargetingUpdateModuleData = getAssistedTargetingUpdateModuleData();
 
-	m_laserFromAssisted = TheThingFactory->findTemplate( d->m_laserFromAssistedName );
-	m_laserToTarget =TheThingFactory->findTemplate( d->m_laserFromAssistedName );
+	m_laserFromAssisted = TheThingFactory->findTemplate( assistedTargetingUpdateModuleData->m_laserFromAssistedName );
+	m_laserToTarget =TheThingFactory->findTemplate( assistedTargetingUpdateModuleData->m_laserFromAssistedName );
 
 	// extend base class
 	UpdateModule::loadPostProcess();

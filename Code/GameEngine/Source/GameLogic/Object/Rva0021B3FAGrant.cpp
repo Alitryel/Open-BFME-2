@@ -82,7 +82,7 @@ void Rva0021B3FA::rva0021B3FA()
 			continue;
 		if (((const StringBase<char> *)&m_str190)->isEmpty())
 			continue;
-		const UpgradeTemplate *tmpl = TheUpgradeCenter->findUpgrade(m_str190);
-		player->rva002AE329(tmpl, UPGRADE_STATUS_COMPLETE, 1);
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(m_str190);
+		player->rva002AE329(upgradeTemplate, UPGRADE_STATUS_COMPLETE, 1);
 	}
 }

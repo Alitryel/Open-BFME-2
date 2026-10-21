@@ -27,8 +27,8 @@ inline Module *AutoDepositUpdate::friend_newModuleInstance(Thing *thing, const M
 }
 #pragma inline_depth(0)
 // ?bfmeEmitAutoDepositUpdateFriendNew@@YAXPAVAutoDepositUpdate@@@Z present-unmatched
-void bfmeEmitAutoDepositUpdateFriendNew(AutoDepositUpdate *p)
+void bfmeEmitAutoDepositUpdateFriendNew(AutoDepositUpdate *autoDepositUpdate)
 {
-	p->friend_newModuleInstance(0, 0);
+	autoDepositUpdate->friend_newModuleInstance(0, 0);
 }
 #pragma inline_depth()

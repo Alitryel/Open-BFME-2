@@ -139,25 +139,25 @@ extern ThingFactory *TheThingFactory;
 // this reproduces all 288 bytes without volatile reads/stores or barriers.
 Object *ElvenWoodSpecialPower::addObject(const Coord3D *position, const AsciiString *name)
 {
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(*name);
-	if (tmpl)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*name);
+	if (thingTemplate)
 	{
-		if (tmpl->testKindInView(100) || tmpl->testKindInView(94) || tmpl->testKindInView(95))
+		if (thingTemplate->testKindInView(100) || thingTemplate->testKindInView(94) || thingTemplate->testKindInView(95))
 		{
             Matrix3D matrix(true);
-            float scale = tmpl->getScale();
-            if (tmpl->testKindInView(94))
-                TheTerrainLogic->addTree(tmpl, position, &matrix, scale);
-            else if (tmpl->testKindInView(95))
-                TheTerrainLogic->rva00280176(tmpl, position, &matrix, scale);
+            float scale = thingTemplate->getScale();
+            if (thingTemplate->testKindInView(94))
+                TheTerrainLogic->addTree(thingTemplate, position, &matrix, scale);
+            else if (thingTemplate->testKindInView(95))
+                TheTerrainLogic->rva00280176(thingTemplate, position, &matrix, scale);
             else
-                TheTerrainLogic->rva0027D3D9(tmpl, position, &matrix, scale);
+                TheTerrainLogic->rva0027D3D9(thingTemplate, position, &matrix, scale);
 		}
 		else
 		{
 			CreateMask mask;
 			memset(&mask, 0, sizeof(mask));
-			Object *object = TheThingFactory->newObject(tmpl, 0, &mask, false);
+			Object *object = TheThingFactory->newObject(thingTemplate, 0, &mask, false);
 			if (object)
 			{
 				object->setTeam(m_object->getTeam());

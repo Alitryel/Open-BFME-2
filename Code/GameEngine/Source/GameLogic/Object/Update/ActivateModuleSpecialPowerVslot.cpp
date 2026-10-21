@@ -30,8 +30,8 @@ class ActivateModuleSpecialPower:public SpecialAbilityUpdate{public:void SetWake
 void ActivateModuleSpecialPower::SetWakeState(int state)
 {
  Object*obj=object;
- const WakeVector&v=data->entries;
- for(WakeEntry*it=v.begin;it!=v.end;++it){
+ const WakeVector&wakeVector=data->entries;
+ for(WakeEntry*it=wakeVector.begin;it!=wakeVector.end;++it){
   BehaviorModule*module=obj->rva0028F2C4(it->key);
   if(!module)continue;
   if((void*)this==(void*)module){

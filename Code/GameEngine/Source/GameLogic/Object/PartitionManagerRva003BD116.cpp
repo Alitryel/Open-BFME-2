@@ -33,9 +33,9 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 
-void ScriptActions::Rva003BD116Set(Parameter *p1, void *p2)
+void ScriptActions::Rva003BD116Set(Parameter *parameter, void *p2)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(p1);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	if (obj == 0)
 		return;
 	void *base = TheTerrainLogic->s34(p2);

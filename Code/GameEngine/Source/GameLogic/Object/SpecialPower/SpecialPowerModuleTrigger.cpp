@@ -373,17 +373,17 @@ void SpecialPowerModule::aboutToDoSpecialPower(const Coord3D *location)
 	{
 		Object *obj = getObject();
 		int id = obj->getID();
-		const SpecialPowerModuleData *d = getSpecialPowerModuleData();
+		const SpecialPowerModuleData *specialPowerModuleData = getSpecialPowerModuleData();
 		int idx = obj->getControllingPlayer()->getPlayerIndex();
-		TheScriptEngine->rva00357E7B(idx, d->m_specialPowerTemplate->getName(), id);
+		TheScriptEngine->rva00357E7B(idx, specialPowerModuleData->m_specialPowerTemplate->getName(), id);
 	}
-	const SpecialPowerModuleData *d = getSpecialPowerModuleData();
-	BfmeAudioEventPrefix136 soundToPlay(*d->m_specialPowerTemplate->getInitiateSound(), 0);
+	const SpecialPowerModuleData *specialPowerModuleData = getSpecialPowerModuleData();
+	BfmeAudioEventPrefix136 soundToPlay(*specialPowerModuleData->m_specialPowerTemplate->getInitiateSound(), 0);
 	((Rva002D9531 *)&soundToPlay)->rva002D9531(getObject()->getID());
 	TheAudio->addAudioEvent(&soundToPlay);
 	if (location)
 	{
-		BfmeAudioEventPrefix136 soundAtLocation(*d->m_specialPowerTemplate->getInitiateAtTargetSound(), 0);
+		BfmeAudioEventPrefix136 soundAtLocation(*specialPowerModuleData->m_specialPowerTemplate->getInitiateAtTargetSound(), 0);
 		((Rva002D9508 *)&soundAtLocation)->rva002D9508(location);
 		((Rva0033F15DDwordSlot *)&soundAtLocation)->set(getObject()->getControllingPlayer()->getPlayerIndex());
 		TheAudio->addAudioEvent(&soundAtLocation);
@@ -395,69 +395,69 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 	aboutToDoSpecialPower(location);
 	createViewObject(location);
 
-	const SpecialPowerModuleData *d = getSpecialPowerModuleData();
-	if (!d->m_0C)
+	const SpecialPowerModuleData *specialPowerModuleData = getSpecialPowerModuleData();
+	if (!specialPowerModuleData->m_0C)
 		startPowerRecharge(1.0f);
 
-	if (!((const StringBase<char> *)&d->m_6C)->isEmpty()
-		&& ((const StringBase<char> *)&d->m_6C)->compare(*(const StringBase<char> *)&d->m_specialPowerTemplate->getName()) != 0)
+	if (!((const StringBase<char> *)&specialPowerModuleData->m_6C)->isEmpty()
+		&& ((const StringBase<char> *)&specialPowerModuleData->m_6C)->compare(*(const StringBase<char> *)&specialPowerModuleData->m_specialPowerTemplate->getName()) != 0)
 	{
-		for (BehaviorModule **m = getObject()->getBehaviorModules(); *m; ++m)
+		for (BehaviorModule **behaviorModule = getObject()->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 		{
-			SpecialPowerModuleInterface *sp = (*m)->getSpecialPower();
+			SpecialPowerModuleInterface *sp = (*behaviorModule)->getSpecialPower();
 			if (!sp)
 				continue;
-			const SpecialPowerTemplate *t = sp->getSpecialPowerTemplate();
-			if (!t)
+			const SpecialPowerTemplate *specialPowerTemplate = sp->getSpecialPowerTemplate();
+			if (!specialPowerTemplate)
 				continue;
-			const StringBase<char> *name = (const StringBase<char> *)&t->getName();
-			if (name->compare(*(const StringBase<char> *)&d->m_6C) == 0)
+			const StringBase<char> *name = (const StringBase<char> *)&specialPowerTemplate->getName();
+			if (name->compare(*(const StringBase<char> *)&specialPowerModuleData->m_6C) == 0)
 				sp->startPowerRecharge(1.0f);
 		}
 	}
 
 	Player *player = getObject()->getControllingPlayer();
 	if (player)
-		((Rva002A9EFB *)player)->rva002A9EFB(d->m_specialPowerTemplate->get30());
+		((Rva002A9EFB *)player)->rva002A9EFB(specialPowerModuleData->m_specialPowerTemplate->get30());
 
-	if (d->m_50 != MODELCONDITION_INVALID && d->m_54 > 0.0f)
+	if (specialPowerModuleData->m_50 != MODELCONDITION_INVALID && specialPowerModuleData->m_54 > 0.0f)
 	{
-		unsigned int frames = (unsigned int)(BfmeLogicFramesPerSecond * d->m_54);
-		getObject()->setSpecialModelConditionState(d->m_50, frames);
-		if (d->m_5C)
+		unsigned int frames = (unsigned int)(BfmeLogicFramesPerSecond * specialPowerModuleData->m_54);
+		getObject()->setSpecialModelConditionState(specialPowerModuleData->m_50, frames);
+		if (specialPowerModuleData->m_5C)
 			getObject()->setDisabledUntil(DISABLED_3, TheGameLogic->getFrame() + frames);
 	}
 
-	if (d->m_fx48)
+	if (specialPowerModuleData->m_fx48)
 	{
 		if (location)
-			FXList::doFXPos(d->m_fx48, location, 0, 0.0f, 0);
+			FXList::doFXPos(specialPowerModuleData->m_fx48, location, 0, 0.0f, 0);
 		else
-			FXList::doFXObj(d->m_fx48, getObject(), 0);
+			FXList::doFXObj(specialPowerModuleData->m_fx48, getObject(), 0);
 	}
 
-	if (d->m_2C)
+	if (specialPowerModuleData->m_2C)
 	{
-		if (d->m_42)
+		if (specialPowerModuleData->m_42)
 			((Rva00318333 *)TheGlobalWeatherSystem)->rva00318719();
 		else
 		{
 			int kind = 1;
-			if (d->m_5F)
+			if (specialPowerModuleData->m_5F)
 				kind = 2;
-			else if (d->m_5E)
+			else if (specialPowerModuleData->m_5E)
 				kind = 3;
-			((Rva00318333 *)TheGlobalWeatherSystem)->rva00318807(kind, (int *)&d->m_24, player,
-				(const StringBase<char> *)&d->m_18, (int *)&d->m_mask, d->m_30);
+			((Rva00318333 *)TheGlobalWeatherSystem)->rva00318807(kind, (int *)&specialPowerModuleData->m_24, player,
+				(const StringBase<char> *)&specialPowerModuleData->m_18, (int *)&specialPowerModuleData->m_mask, specialPowerModuleData->m_30);
 		}
-		int type = d->m_64;
+		int type = specialPowerModuleData->m_64;
 		if (type != 5)
-			((Rva003186EE *)TheGlobalWeatherSystem)->rva003186EE(type, d->m_70, d->m_30);
+			((Rva003186EE *)TheGlobalWeatherSystem)->rva003186EE(type, specialPowerModuleData->m_70, specialPowerModuleData->m_30);
 		return;
 	}
 
 	bool hasMask = false;
-	if (d->m_mask.any())
+	if (specialPowerModuleData->m_mask.any())
 		hasMask = true;
 	Object *obj = getObject();
 	{
@@ -467,11 +467,11 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 	else
 		pos = *obj->getPosition();
 	int relationship = 4;
-	if (d->m_40)
+	if (specialPowerModuleData->m_40)
 		relationship = 1;
-	if (d->m_41)
+	if (specialPowerModuleData->m_41)
 		relationship = 7;
-	else if (d->m_42)
+	else if (specialPowerModuleData->m_42)
 		relationship = 5;
 	else if (hasMask)
 	{
@@ -481,7 +481,7 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 			relationship = 1;
 	}
 
-	Rva002614ECFilter filterWhat(&d->m_24, obj->getControllingPlayer(), true);
+	Rva002614ECFilter filterWhat(&specialPowerModuleData->m_24, obj->getControllingPlayer(), true);
 	Rva00260EB1Filter filterRelationship(obj, relationship, false);
 	Rva0026119DFilter filterAlive;
 	Rva002611BFFilter filterMapStatus(obj);
@@ -489,8 +489,8 @@ void SpecialPowerModule::triggerSpecialPower(const Coord3D *location)
 	if (!obj->getTemplate()->isKindOf(123))
 		filterWhat.link(&filterMapStatus);
 
-		BfmeWideResult result = ThePartitionManager->iterateObjectsInRange(&pos, d->m_radius, 0, &filterWhat, 1);
-		if (d->m_includeSelf)
+		BfmeWideResult result = ThePartitionManager->iterateObjectsInRange(&pos, specialPowerModuleData->m_radius, 0, &filterWhat, 1);
+		if (specialPowerModuleData->m_includeSelf)
 		{
 			if (obj->getTemplate()->isKindOf(109))
 			{

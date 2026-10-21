@@ -87,9 +87,9 @@ void (*g_keepCashHackParseForUpgrades)(INI*, void*, void*, const void*) = parseC
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ inline void CashHackSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse& p)
+/*static*/ inline void CashHackSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-	SpecialPowerModuleData::buildFieldParse( p );
+	SpecialPowerModuleData::buildFieldParse( multiIniFieldParse );
 	
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -97,7 +97,7 @@ void (*g_keepCashHackParseForUpgrades)(INI*, void*, void*, const void*) = parseC
 		{ "MoneyAmount", INI::parseInt, NULL, offsetof( CashHackSpecialPowerModuleData, m_defaultAmountToSteal ) },
 		{ 0, 0, 0, 0 }
 	};
-	p.add(dataFieldParse);
+	multiIniFieldParse.add(dataFieldParse);
 	
 }  // end buildFieldParse
 

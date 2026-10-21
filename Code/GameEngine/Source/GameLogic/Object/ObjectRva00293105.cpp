@@ -157,14 +157,14 @@ void Object::rva00293105()
 	void *p = *arr;
 	while (p != 0)
 	{
-		ElemA *a = (ElemA *)p;
-		void *q = ((ElemA *)((char *)a + 0x0C))->v25();
+		ElemA *elemA = (ElemA *)p;
+		void *q = ((ElemA *)((char *)elemA + 0x0C))->v25();
 		if (q != 0)
 		{
-			ElemB *b = (ElemB *)q;
-			if (b->v1())
+			ElemB *elemB = (ElemB *)q;
+			if (elemB->v1())
 			{
-				ElemB *c = (ElemB *)((char *)b - 0x20);
+				ElemB *c = (ElemB *)((char *)elemB - 0x20);
 				if (((ElemB *)((char *)c + 0x20))->v6(0))
 					((Rva0044E6AE *)c)->rva0044E6AE();
 			}

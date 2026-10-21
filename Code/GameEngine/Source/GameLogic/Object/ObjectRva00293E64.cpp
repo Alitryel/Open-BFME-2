@@ -79,17 +79,17 @@ private:
 	Elem244 **m_244;
 };
 
-void Object::rva00293E64(Dict *d)
+void Object::rva00293E64(Dict *dict)
 {
 	for (Elem244 **p = m_244; *p != 0; p++) {
-		(*p)->m_obj.v45((int)d);
+		(*p)->m_obj.v45((int)dict);
 	}
 	if (m_84 != 0)
 		m_84->rva00271AEA();
-	if (d == 0)
+	if (dict == 0)
 		return;
 	Bool exists;
-	AsciiString s = d->getAsciiString((int)g_00DBDE14.get(), &exists);
+	AsciiString s = dict->getAsciiString((int)g_00DBDE14.get(), &exists);
 	if (!exists)
 		return;
 	rva00293275(s);

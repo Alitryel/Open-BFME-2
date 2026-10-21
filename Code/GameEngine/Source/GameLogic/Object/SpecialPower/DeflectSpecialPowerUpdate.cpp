@@ -193,9 +193,9 @@ void DeflectSpecialPower::onCollide(Object *other, const Coord3D *, const Coord3
 {
 	if (!m_active || !other || !(other->m_template->m_114 & 0x40))
 		return;
-	for (BehaviorModuleView **m = other->m_behaviors; *m; ++m)
+	for (BehaviorModuleView **behaviorModuleView = other->m_behaviors; *behaviorModuleView; ++behaviorModuleView)
 	{
-		Rva004C55B2Target *target = (*m)->rva004C55B2Slot18();
+		Rva004C55B2Target *target = (*behaviorModuleView)->rva004C55B2Slot18();
 		if (target)
 			target->rva004C55B2Slot5(m_object);
 	}

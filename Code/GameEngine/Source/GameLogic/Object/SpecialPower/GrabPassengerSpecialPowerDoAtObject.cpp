@@ -99,7 +99,7 @@ class GrabPassengerSpecialPower:public SpecialPowerModule {public:virtual void d
 void GrabPassengerSpecialPower::doSpecialPowerAtObject(Object *obj,unsigned options) {
  if(!(options&0x40000)) {
   if(paused>0)return;
-  Object *o=getOwner();const BitFlags<11> *disabled=&o->disabled;_ReadWriteBarrier();if(disabled->any())return;
+  Object *object=getOwner();const BitFlags<11> *disabled=&object->disabled;_ReadWriteBarrier();if(disabled->any())return;
  }
  if(((GrabObjectView*)obj)->what->flag115&0x20) {
   GrabHordeView *horde=((GrabObjectView*)obj)->contain->s30();

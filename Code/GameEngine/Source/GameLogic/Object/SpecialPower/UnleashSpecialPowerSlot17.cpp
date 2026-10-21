@@ -149,9 +149,9 @@ void UnleashSpecialPower::triggerAbilityEffect()
 	Object *slaver = TheGameLogic->findObjectByID((ObjectID)((NetWrapperCommandMsg *)watcher)->getDataLength());
 	if (slaver == 0)
 		return;
-	for (BehaviorModule **m = slaver->m_behaviors; *m; ++m)
+	for (BehaviorModule **behaviorModule = slaver->m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		Rva004CE18AAnswer *answer = (*m)->getInterface()->rva004CE18ASlot26();
+		Rva004CE18AAnswer *answer = (*behaviorModule)->getInterface()->rva004CE18ASlot26();
 		if (answer)
 		{
 			answer->rva004CE18ASlot6();

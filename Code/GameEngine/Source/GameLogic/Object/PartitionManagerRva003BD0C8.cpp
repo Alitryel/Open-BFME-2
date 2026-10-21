@@ -29,11 +29,11 @@ void ScriptActions::Rva003BD0C8Set(const AsciiString &name, unsigned char val)
 	int mask = TheScriptEngine->rva00357475(name, 0);
 	if (mask == 0)
 		return;
-	Player *p;
+	Player *player;
 	do {
-		p = ThePlayerList->getEachPlayerFromMask(mask);
-		if (p)
-			p->m_flag735 = val;
+		player = ThePlayerList->getEachPlayerFromMask(mask);
+		if (player)
+			player->m_flag735 = val;
 	} while (mask != 0);
 }
 

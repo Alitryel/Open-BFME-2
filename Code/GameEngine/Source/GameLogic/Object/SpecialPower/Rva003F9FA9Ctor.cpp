@@ -51,8 +51,8 @@ private:
 	int m_2C;
 };
 
-Rva003F9FA9::Rva003F9FA9(const AsciiString &s)
-	: m_00(s)
+Rva003F9FA9::Rva003F9FA9(const AsciiString &asciiString)
+	: m_00(asciiString)
 	, m_04(_STL::allocator<BfmeE16>())
 	, m_10(0)
 	, m_14(0)

@@ -204,11 +204,11 @@ Object *DozerAIUpdate::construct(const ThingTemplate *what, const Coord3D *pos, 
 	}
 create:
 	{
-		DozerAIInterface *d = this;
-		if (d->isTaskPending(DOZER_TASK_BUILD) == TRUE)
-			d->cancelTask(DOZER_TASK_BUILD);
-		d->slot25(what, owningPlayer, pos, angle);
-		d->newTask(DOZER_TASK_BUILD, d->slot29());
-		return d->slot29();
+		DozerAIInterface *dozerAI = this;
+		if (dozerAI->isTaskPending(DOZER_TASK_BUILD) == TRUE)
+			dozerAI->cancelTask(DOZER_TASK_BUILD);
+		dozerAI->slot25(what, owningPlayer, pos, angle);
+		dozerAI->newTask(DOZER_TASK_BUILD, dozerAI->slot29());
+		return dozerAI->slot29();
 	}
 }

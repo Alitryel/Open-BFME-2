@@ -113,6 +113,6 @@ bool AIUpdateInterface::isQuickPathAvailable(const Coord3D *destination) const
 		}
 	}
 	AI *ai2 = TheAI;
-	Pathfinder *pf2 = ai2->m_pathfinder;
-	return pf2->QuickDoesPathExist((Object *)obj, from, destination, 0);
+	Pathfinder *pathfinder = ai2->m_pathfinder;
+	return pathfinder->QuickDoesPathExist((Object *)obj, from, destination, 0);
 }

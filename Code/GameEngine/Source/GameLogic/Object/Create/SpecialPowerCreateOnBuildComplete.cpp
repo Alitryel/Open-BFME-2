@@ -39,8 +39,8 @@ void SpecialPowerCreate::onBuildComplete()
  if(shouldDoCreate()) {
   flag=false;
   for(SpecialPowerModuleScan **specialPowerModuleScan=object->modules;*specialPowerModuleScan;++specialPowerModuleScan) {
-   SpecialPowerBuildResult *r=(*specialPowerModuleScan)->face.s8();
-   if(r)r->s7();
+   SpecialPowerBuildResult *specialPowerBuildResult=(*specialPowerModuleScan)->face.s8();
+   if(specialPowerBuildResult)specialPowerBuildResult->s7();
   }
  }
 }

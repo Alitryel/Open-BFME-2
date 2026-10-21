@@ -18,8 +18,8 @@ public:
 };
 float Rva002627E8::rva002627E8() const
 {
-    Locomotor *p = m_ptr1F0;
-    if (p != 0)
-        return p->getMaxSpeed(m_obj08);
+    Locomotor *locomotor = m_ptr1F0;
+    if (locomotor != 0)
+        return locomotor->getMaxSpeed(m_obj08);
     return BfmeZeroRange;
 }

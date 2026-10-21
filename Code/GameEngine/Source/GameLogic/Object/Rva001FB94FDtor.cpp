@@ -97,10 +97,10 @@ Rva001FC0F1::~Rva001FC0F1()
 {
     if (m_8c) {
         m_8c->v16();
-        RefObj *p = m_8c;
-        if (p) {
-            if (--p->m_ref == 0)
-                p->v0();
+        RefObj *refObj = m_8c;
+        if (refObj) {
+            if (--refObj->m_ref == 0)
+                refObj->v0();
             m_8c = 0;
         }
     }

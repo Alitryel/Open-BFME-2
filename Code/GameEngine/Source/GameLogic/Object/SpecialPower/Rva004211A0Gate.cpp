@@ -25,12 +25,12 @@ public:
 	bool rva004211A0(const Rva004211A0Key *key, const Overridable *o);
 	int rva004210F8(const Overridable *o);
 };
-bool Rva004211A0Host::rva004211A0(const Rva004211A0Key *key, const Overridable *o)
+bool Rva004211A0Host::rva004211A0(const Rva004211A0Key *key, const Overridable *overridable)
 {
 	bool r;
-	if (rva004210F8(o) < 0)
+	if (rva004210F8(overridable) < 0)
 		r = true;
 	else
-		r = key->m_04 >= o->friend_getFinalOverride()->m_30;
+		r = key->m_04 >= overridable->friend_getFinalOverride()->m_30;
 	return r;
 }

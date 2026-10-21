@@ -36,8 +36,8 @@ private:
 
 void Rva00459864::rva00459864(bool flag)
 {
-	Drawable *d = (*(Thing **)((char *)this - 0x18))->getDrawable();
-	if (d == 0)
+	Drawable *drawable = (*(Thing **)((char *)this - 0x18))->getDrawable();
+	if (drawable == 0)
 		return;
 	unsigned char tmp[0x4c];
 	m_08 = 0;
@@ -47,5 +47,5 @@ void Rva00459864::rva00459864(bool flag)
 	((Rva001E42F2 *)*(Thing **)((char *)this - 0x18))->rva001E42F2((const int *)tmp);
 	if (!flag)
 		return;
-	d->rva00274176(false);
+	drawable->rva00274176(false);
 }

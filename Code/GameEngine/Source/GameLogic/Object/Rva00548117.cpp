@@ -65,7 +65,7 @@ public:
 	void setPatrolStartOrder(ObjectID v, int flags);
 };
 
-const ArmorTemplate *ObjectOrderQueue::checkForPatrol(void *a1, const ListHeroPtr *a2)
+const ArmorTemplate *ObjectOrderQueue::checkForPatrol(void *a1, const ListHeroPtr *listHeroPtr)
 {
 	typedef _STL::list<NameKeyType>::_Node Node;
 	Node *cur = (Node *)((Node *)m_list._M_node._M_data)->_M_next;
@@ -76,7 +76,7 @@ const ArmorTemplate *ObjectOrderQueue::checkForPatrol(void *a1, const ListHeroPt
 			Node *nxt = (Node *)cur->_M_next;
 			if (nxt != (Node *)m_list._M_node._M_data) {
 				armor2 = reinterpret_cast<Rva00355B61 *>(TheAiOrdersManager)->rva00355155((NameKeyType)nxt->_M_data);
-				if (armor2 && ((Rva00548800 *)armor2)->rva00548800(a2))
+				if (armor2 && ((Rva00548800 *)armor2)->rva00548800(listHeroPtr))
 					return armor2;
 			}
 		}

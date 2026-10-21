@@ -55,15 +55,15 @@ public:
 
 void Rva00493BD4::rva00493BD4(Rva00493BD4 *src)
 {
-	const Overridable *a = src->m_sub10.getOverride();
+	const Overridable *overridable = src->m_sub10.getOverride();
 	const Overridable *b = m_sub10.getOverride();
-	if (a == 0)
+	if (overridable == 0)
 		return;
 	if (b == 0)
 		return;
-	if (a->friend_getFinalOverride()->m_id14 != b->friend_getFinalOverride()->m_id14)
+	if (overridable->friend_getFinalOverride()->m_id14 != b->friend_getFinalOverride()->m_id14)
 		return;
-	if (a->friend_getFinalOverride()->m_flag59 != 0)
+	if (overridable->friend_getFinalOverride()->m_flag59 != 0)
 		return;
 	if (src->m_28 != 0)
 		return;

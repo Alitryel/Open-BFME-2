@@ -58,18 +58,18 @@ void Rva0045906E::rva0045906E(bool b)
 	{
 		obj->setStatus(Status_36, true);
 		obj->setWeaponSetFlag(Weapon_16);
-		AIUpdateInterface *p = obj->m_258;
-		if (p == 0)
+		AIUpdateInterface *aIUpdate = obj->m_258;
+		if (aIUpdate == 0)
 			return;
-		p->slot142(8);
+		aIUpdate->slot142(8);
 	}
 	else
 	{
 		obj->setStatus(Status_36, false);
 		obj->clearWeaponSetFlag(Weapon_16);
-		AIUpdateInterface *p = obj->m_258;
-		if (p == 0)
+		AIUpdateInterface *aIUpdate = obj->m_258;
+		if (aIUpdate == 0)
 			return;
-		p->slot142(0);
+		aIUpdate->slot142(0);
 	}
 }

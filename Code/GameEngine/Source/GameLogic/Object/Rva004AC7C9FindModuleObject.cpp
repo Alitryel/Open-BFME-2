@@ -107,10 +107,10 @@ Object *Rva004AC7C9()
 	BfmeResultA iter = ((BfmeResultForwardB *)ThePartitionManager)->bfmeForwardResultB(
 		(int)&Rva0004584D(*(BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 0x65),
 			*(BfmeFixedStorage0004543D *)&KINDOFMASK_NONE));
-	for (Object *o = ((BfmeWideResult *)&iter)->next(); o; o = ((BfmeWideResult *)&iter)->next())
+	for (Object *object = ((BfmeWideResult *)&iter)->next(); object; object = ((BfmeWideResult *)&iter)->next())
 	{
-		if (Rva004AC5F5(o))
-			return o->m_74;
+		if (Rva004AC5F5(object))
+			return object->m_74;
 	}
 	return 0;
 }

@@ -20,11 +20,11 @@ public:
 	Object *m_containedBy;
 };
 
-Bool Rva0034311ECheck(Object *o)
+Bool Rva0034311ECheck(Object *object)
 {
-	Object *target = o;
-	if (o->rva002931BA())
-		target = o->rva002931F5(false);
+	Object *target = object;
+	if (object->rva002931BA())
+		target = object->rva002931F5(false);
 	if (target != 0 && target->m_containedBy == 0)
 		return false;
 	return true;

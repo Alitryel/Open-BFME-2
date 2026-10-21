@@ -497,8 +497,8 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 		Bool forcedOff = false;
 		Bool enabled = false;
 		Rva0010F149Handle info;
-		ThingTemplate *tmpl = drawable->m_template;
-		TranslateAudioProperties(properties, drawable, tmpl, &forcedOff,
+		ThingTemplate *thingTemplate = drawable->m_template;
+		TranslateAudioProperties(properties, drawable, thingTemplate, &forcedOff,
 			reinterpret_cast<Rva000A8C9B *>(&info), &enabled);
 		if (forcedOff)
 		{

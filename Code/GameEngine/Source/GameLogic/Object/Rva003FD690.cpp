@@ -35,11 +35,11 @@ private:
 	Coord m_20;
 };
 
-void Rva003FD690::rva003FD690(const Coord *p)
+void Rva003FD690::rva003FD690(const Coord *coord)
 {
-	m_20 = *p;
+	m_20 = *coord;
 	if (m_04) {
-		m_04->v7(p);
+		m_04->v7(coord);
 		m_04->v3();
 	}
 }

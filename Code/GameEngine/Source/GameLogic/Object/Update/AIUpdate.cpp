@@ -177,9 +177,9 @@ const LocomotorTemplateVector* AIUpdateModuleData::findLocomotorTemplateVector(L
 }
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void AIUpdateModuleData::buildFieldParse(MultiIniFieldParse& p) 
+/*static*/ void AIUpdateModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse) 
 {
-  ModuleData::buildFieldParse(p);
+  ModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -194,7 +194,7 @@ const LocomotorTemplateVector* AIUpdateModuleData::findLocomotorTemplateVector(L
     { "TurretsLinked",							INI::parseBool,										NULL, offsetof( AIUpdateModuleData, m_turretsLinked ) },
 		{ 0, 0, 0, 0 }
 	};
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -261,10 +261,10 @@ void AIUpdateInterface::setSurrendered( const Object *objWeSurrenderedTo, Bool s
 	{
 		Bool wasSurrendered = isSurrendered();
 
-		const AIUpdateModuleData* d = getAIUpdateModuleData();
+		const AIUpdateModuleData* aIUpdateModuleData = getAIUpdateModuleData();
 
-		if (m_surrenderedFramesLeft < d->m_surrenderDuration)
-			m_surrenderedFramesLeft = d->m_surrenderDuration;
+		if (m_surrenderedFramesLeft < aIUpdateModuleData->m_surrenderDuration)
+			m_surrenderedFramesLeft = aIUpdateModuleData->m_surrenderDuration;
 		
 		const Player* playerWeSurrenderedTo = objWeSurrenderedTo ? objWeSurrenderedTo->getControllingPlayer() : NULL;
 		m_surrenderedPlayerIndex = playerWeSurrenderedTo ? playerWeSurrenderedTo->getPlayerIndex() : -1;
@@ -2145,10 +2145,10 @@ void AIUpdateInterface::evaluateMoraleBonus( void )
 
 	// are we in a horde
 	HordeUpdateInterface *hui;
-	for( BehaviorModule** u = getRetailBehaviorModules(us); *u; ++u )
+	for( BehaviorModule** behaviorModule = getRetailBehaviorModules(us); *behaviorModule; ++behaviorModule )
 	{
 
-		hui = (*u)->getHordeUpdateInterface();
+		hui = (*behaviorModule)->getHordeUpdateInterface();
 		if( hui && hui->isInHorde() )
 		{
 			horde = TRUE;

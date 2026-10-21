@@ -52,10 +52,10 @@ protected:
 
 void AIUpdateInterface::rva0026316B(void *a, int b)
 {
-	MiniArg1 *arg = (MiniArg1 *)a;
+	MiniArg1 *miniArg1 = (MiniArg1 *)a;
 	m_machine->clear();
 	m_machine->slot14(a);
-	((StateMachine *)m_machine)->setGoalPosition(&arg->m_pos);
+	((StateMachine *)m_machine)->setGoalPosition(&miniArg1->m_pos);
 	m_field48 = b;
 	m_machine->setState(0x46);
 }

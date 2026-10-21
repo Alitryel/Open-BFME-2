@@ -927,9 +927,9 @@ StateReturnType DeliveringState::update() // Kick a dude out every so often
 
 						//Are we firing a missile?
 						Bool projectileFired = false;
-						for( BehaviorModule** u = getRetailBehaviorModules(payload); *u; ++u )
+						for( BehaviorModule** behaviorModule = getRetailBehaviorModules(payload); *behaviorModule; ++behaviorModule )
 						{
-							ProjectileUpdateInterface* pui = (*u)->getProjectileUpdateInterface();
+							ProjectileUpdateInterface* pui = (*behaviorModule)->getProjectileUpdateInterface();
 							if( pui  )
 							{
 								//Missile! 

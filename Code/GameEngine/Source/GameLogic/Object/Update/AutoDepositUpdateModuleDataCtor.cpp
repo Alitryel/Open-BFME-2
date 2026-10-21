@@ -75,8 +75,8 @@ inline AutoDepositUpdateModuleData::AutoDepositUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeAutoDepositUpdateModuleDataInlineAnchor@@YAXPAVAutoDepositUpdateModuleData@@@Z absent-from-retail
-void _bfmeAutoDepositUpdateModuleDataInlineAnchor(AutoDepositUpdateModuleData *p)
+void _bfmeAutoDepositUpdateModuleDataInlineAnchor(AutoDepositUpdateModuleData *autoDepositUpdateModuleData)
 {
-    p->AutoDepositUpdateModuleData::AutoDepositUpdateModuleData();
+    autoDepositUpdateModuleData->AutoDepositUpdateModuleData::AutoDepositUpdateModuleData();
 }
 #pragma inline_depth()

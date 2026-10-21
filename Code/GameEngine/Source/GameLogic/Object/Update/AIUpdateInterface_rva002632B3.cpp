@@ -22,8 +22,8 @@ public:
 
 int AIUpdateInterface::rva002632B3() const
 {
-	MiniMachine *m = m_machine;
-	if (m && m->m_field50)
+	MiniMachine *miniMachine = m_machine;
+	if (miniMachine && miniMachine->m_field50)
 		return 1;
 	return 0;
 }

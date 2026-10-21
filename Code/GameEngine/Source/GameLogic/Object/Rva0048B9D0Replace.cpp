@@ -53,14 +53,14 @@ private:
 	Weapon *m_weapon; // +0x20
 };
 
-void Rva0048B9D0::rva0048B9D0(const WeaponTemplate *tmpl)
+void Rva0048B9D0::rva0048B9D0(const WeaponTemplate *weaponTemplate)
 {
-	if (tmpl == 0)
+	if (weaponTemplate == 0)
 		return;
 	if (m_weapon != 0)
 		::delete m_weapon;
-	Weapon *w = TheWeaponStore->allocateNewWeapon(tmpl, WEAPON_SLOT_PRIMARY);
-	m_weapon = w;
-	w->m_ownerID = m_owner->m_id;
+	Weapon *weapon = TheWeaponStore->allocateNewWeapon(weaponTemplate, WEAPON_SLOT_PRIMARY);
+	m_weapon = weapon;
+	weapon->m_ownerID = m_owner->m_id;
 	m_weapon->loadAmmoNow(m_owner);
 }

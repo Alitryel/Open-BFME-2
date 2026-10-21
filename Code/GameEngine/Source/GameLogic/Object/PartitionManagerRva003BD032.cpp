@@ -24,9 +24,9 @@ public:
 };
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BD032Set(Parameter *p1, void *p2)
+void ScriptActions::Rva003BD032Set(Parameter *parameter, void *p2)
 {
-	Object *obj = TheScriptEngine->getUnitNamed(p1);
+	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	if (obj == 0)
 		return;
 	if (*(int *)((char *)p2 + 8) > 0)

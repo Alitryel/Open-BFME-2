@@ -27,8 +27,8 @@ private:
 
 bool Pathfinder::IsPointOnRamp(const Coord3D *p)
 {
-	for (Bridge *b = m_head; b; b = b->getNext()) {
-		if (b->isPointOnBridge(p))
+	for (Bridge *bridge = m_head; bridge; bridge = bridge->getNext()) {
+		if (bridge->isPointOnBridge(p))
 			return true;
 	}
 	return false;

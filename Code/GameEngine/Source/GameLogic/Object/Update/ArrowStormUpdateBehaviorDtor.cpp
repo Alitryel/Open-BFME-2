@@ -70,9 +70,9 @@ private:
 	unsigned char m_98;
 };
 
-void deleteArrowStormUpdate(ArrowStormUpdate *p)
+void deleteArrowStormUpdate(ArrowStormUpdate *arrowStormUpdate)
 {
-	delete p;
+	delete arrowStormUpdate;
 }
 
 // ??1ArrowStormUpdate@@UAE@XZ @0x004907C0

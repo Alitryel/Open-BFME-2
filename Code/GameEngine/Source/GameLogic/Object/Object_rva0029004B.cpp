@@ -100,9 +100,9 @@ void Object::rva0029004B()
 		return;
 	for (Elem0029004B **p = m_arr244; *p != 0; ++p) {
 		Elem0029004B *e = *p;
-		RetObj *r = e->m_midC.slot36();
-		if (r != 0)
-			r->slot0();
+		RetObj *retObj = e->m_midC.slot36();
+		if (retObj != 0)
+			retObj->slot0();
 	}
 }
 
@@ -120,9 +120,9 @@ void Object::rva00290095()
 		return;
 	for (Elem0029004B **p = m_arr244; *p != 0; ++p) {
 		Elem0029004B *e = *p;
-		RetObj *r = e->m_midC.slot36();
-		if (r != 0)
-			r->slot1();
+		RetObj *retObj = e->m_midC.slot36();
+		if (retObj != 0)
+			retObj->slot1();
 	}
 }
 

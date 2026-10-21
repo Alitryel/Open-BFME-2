@@ -485,9 +485,9 @@ bool SpecialPowerModule::rva0049466D(const Coord3D *loc)
 		return false;
 	if (!rva00493620())
 		return false;
-	for (BehaviorModule **m = getObject()->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule **behaviorModule = getObject()->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		Rva0049466DUpdateInterface *update = (*m)->getRva0049466DUpdateInterface();
+		Rva0049466DUpdateInterface *update = (*behaviorModule)->getRva0049466DUpdateInterface();
 		if (update && update->s7(getSpecialPowerModuleData()->m_specialPowerTemplate))
 			return update->s8(loc);
 	}
@@ -539,9 +539,9 @@ void SpecialPowerModule::initiateIntentToDoSpecialPower(const Object *targetObj,
 	}
 
 	Rva0049466DUpdateInterface *found = 0;
-	for (BehaviorModule **m = getObject()->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule **behaviorModule = getObject()->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		Rva0049466DUpdateInterface *update = (*m)->getRva0049466DUpdateInterface();
+		Rva0049466DUpdateInterface *update = (*behaviorModule)->getRva0049466DUpdateInterface();
 		if (update && update->s7(getSpecialPowerModuleData()->getTemplate()))
 		{
 			update->initiateIntentToDoSpecialPower(getSpecialPowerModuleData()->m_specialPowerTemplate,

@@ -32,10 +32,10 @@ public:
 };
 
 // ?setTurretTargetObject@AIUpdateInterface@@QAEXW4WhichTurretType@@PAVObject@@_N@Z
-void AIUpdateInterface::setTurretTargetObject(WhichTurretType tur, Object *o, Bool forceAttacking)
+void AIUpdateInterface::setTurretTargetObject(WhichTurretType tur, Object *object, Bool forceAttacking)
 {
 	if (m_turretAI[tur])
 	{
-		m_turretAI[tur]->setTurretTargetObject(o, forceAttacking);
+		m_turretAI[tur]->setTurretTargetObject(object, forceAttacking);
 	}
 }

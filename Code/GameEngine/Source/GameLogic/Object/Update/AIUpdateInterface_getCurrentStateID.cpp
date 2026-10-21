@@ -33,9 +33,9 @@ public:
 
 int AIUpdateInterface::getCurrentStateID() const
 {
-	AIStateMachine *m = m_machine;
-	int id = m->m_state50 ? m->m_state50->m_id : 0xF423F;
+	AIStateMachine *aIStateMachine = m_machine;
+	int id = aIStateMachine->m_state50 ? aIStateMachine->m_state50->m_id : 0xF423F;
 	if (id != 0xF423F)
 		return id;
-	return m->m_state04 ? m->m_state04->m_id : 0xF423F;
+	return aIStateMachine->m_state04 ? aIStateMachine->m_state04->m_id : 0xF423F;
 }

@@ -50,12 +50,12 @@ private:
 };
 
 // ?rva002CB967@Weapon@@QAEXPBVObject@@0@Z
-void Weapon::rva002CB967(const Object *a, const Object *b)
+void Weapon::rva002CB967(const Object *object, const Object *b)
 {
 	Coord3D origin;
-	origin = *(const Coord3D *)((const char *)a + 0x38);
-	getFiringLineOfSightOrigin(a, origin);
+	origin = *(const Coord3D *)((const char *)object + 0x38);
+	getFiringLineOfSightOrigin(object, origin);
 	Coord3D victim;
-	victim = bfmeGetLOSVictimPos(a, b, 0);
+	victim = bfmeGetLOSVictimPos(object, b, 0);
 	TheTerrainLogic->slot15(&origin, &victim);
 }

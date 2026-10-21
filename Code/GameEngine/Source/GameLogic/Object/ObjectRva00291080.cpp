@@ -59,8 +59,8 @@ void Object::rva00291080( bool flag )
 		Object *next = obj->m_containedBy;
 		if( !next )
 			return;
-		FlagObj *f = (FlagObj *)next->m_04;
-		if( ( f->m_flag115 & 0x20 ) == 0 )
+		FlagObj *flagObj = (FlagObj *)next->m_04;
+		if( ( flagObj->m_flag115 & 0x20 ) == 0 )
 			return;
 		obj = next;
 	}

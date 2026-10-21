@@ -291,9 +291,9 @@ void RailroadBehavior::onCollide( Object *other, const Coord3D *loc, const Coord
 	if (m_endOfLine)
 		return ;
 
-	for (BehaviorModule** m = other->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule** behaviorModule = other->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		CollideModuleInterface* collide = (*m)->getCollide();
+		CollideModuleInterface* collide = (*behaviorModule)->getCollide();
 		if (!collide)
 			continue;
 
@@ -1053,18 +1053,18 @@ void RailroadBehavior::createCarriages( void )
 		TemplateNameIterator iter = list.begin();
 		if ( iter != list.end() )
 		{
-			const ThingTemplate* temp = TheThingFactory->findTemplate( *iter );
+			const ThingTemplate* thingTemplate = TheThingFactory->findTemplate( *iter );
 
 
 
 
-			if (temp)
+			if (thingTemplate)
 			{
 				if ( closeCarriage )
 					firstCarriage = closeCarriage;
 				else // or else let's use the defualt template list prvided in the INI
 				{
-					firstCarriage = TheThingFactory->newObject( temp, self->getTeam() ); 
+					firstCarriage = TheThingFactory->newObject( thingTemplate, self->getTeam() ); 
 					DEBUG_LOG(("%s Added a carriage, %s \n", self->getTemplate()->getName().str(),firstCarriage->getTemplate()->getName().str()));
 				}
 				
@@ -1128,11 +1128,11 @@ void RailroadBehavior::hitchNewCarriagebyTemplate( ObjectID locoID, const Templa
 
 	if ( iter != list.end() )// this test is bogus
 	{
-		const ThingTemplate* temp = TheThingFactory->findTemplate( *iter );
+		const ThingTemplate* thingTemplate = TheThingFactory->findTemplate( *iter );
 
-		if (temp)
+		if (thingTemplate)
 		{
-			newCarriage = TheThingFactory->newObject( temp, locomotive->getTeam() ); // just a little worried about this...
+			newCarriage = TheThingFactory->newObject( thingTemplate, locomotive->getTeam() ); // just a little worried about this...
 			newCarriage->setProducer(locomotive);
 			m_trailerID = newCarriage->getID();
 

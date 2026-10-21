@@ -33,8 +33,8 @@ bool ObjectCreationList::rva001F0434(void *a1, void *a2)
 	bool ok = true;
 	for (ObjectCreationNugget **i = m_nuggets.begin(); i != m_nuggets.end(); ++i)
 	{
-		ObjectCreationNugget *n = *i;
-		ok = ok && (n->v5(a1, a2) != 0);
+		ObjectCreationNugget *objectCreationNugget = *i;
+		ok = ok && (objectCreationNugget->v5(a1, a2) != 0);
 	}
 	return ok;
 }

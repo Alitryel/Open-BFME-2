@@ -15,9 +15,9 @@
 
 #pragma inline_depth(0)
 // ?bfmeEmitSupplyTruckForceState absent-from-retail
-void bfmeEmitSupplyTruckForceState(SupplyTruckAIUpdate *p, Bool value)
+void bfmeEmitSupplyTruckForceState(SupplyTruckAIUpdate *supplyTruckAIUpdate, Bool value)
 {
-    p->SupplyTruckAIUpdate::setForceBusyState(value);
-    p->SupplyTruckAIUpdate::setForceWantingState(value);
+    supplyTruckAIUpdate->SupplyTruckAIUpdate::setForceBusyState(value);
+    supplyTruckAIUpdate->SupplyTruckAIUpdate::setForceWantingState(value);
 }
 #pragma inline_depth()

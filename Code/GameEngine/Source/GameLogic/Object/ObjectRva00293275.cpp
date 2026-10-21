@@ -58,17 +58,17 @@ void Object::rva00293275(AsciiString upgrades)
 {
 	AsciiString token;
 	while (upgrades.nextToken(&token, 0)) {
-		const UpgradeTemplate *t = TheUpgradeCenter->findUpgrade(token);
-		if (t == 0)
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(token);
+		if (upgradeTemplate == 0)
 			continue;
 		if ((m_holder->m_flags & 0x20) != 0) {
-			Provider *p = (Provider *)rva0028C197();
-			if (p == 0)
+			Provider *provider = (Provider *)rva0028C197();
+			if (provider == 0)
 				continue;
-			if (!p->s44(t))
-				p->s46(t, 1);
+			if (!provider->s44(upgradeTemplate))
+				provider->s46(upgradeTemplate, 1);
 		} else {
-			rva00293077(t);
+			rva00293077(upgradeTemplate);
 		}
 	}
 }

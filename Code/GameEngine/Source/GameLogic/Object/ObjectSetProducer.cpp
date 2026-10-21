@@ -120,10 +120,10 @@ Color Object::getIndicatorColor() const
 		const Team *myTeam = getTeam();
 		if (myTeam)
 		{
-			const Player *p = myTeam->getControllingPlayer();
-			if (p)
+			const Player *player = myTeam->getControllingPlayer();
+			if (player)
 			{
-				return p->getPlayerColor();
+				return player->getPlayerColor();
 			}
 		}
 		return GameMakeColor(0, 0, 0, 255);
@@ -141,10 +141,10 @@ Color Object::getNightIndicatorColor() const
 		const Team *myTeam = getTeam();
 		if (myTeam)
 		{
-			const Player *p = myTeam->getControllingPlayer();
-			if (p)
+			const Player *player = myTeam->getControllingPlayer();
+			if (player)
 			{
-				return p->getPlayerNightColor();
+				return player->getPlayerNightColor();
 			}
 		}
 		return GameMakeColor(0, 0, 0, 255);

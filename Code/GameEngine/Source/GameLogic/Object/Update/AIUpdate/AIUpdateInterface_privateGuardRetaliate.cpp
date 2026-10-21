@@ -88,8 +88,8 @@ void AIUpdateInterface::privateGuardRetaliate(Object *victim, const Coord3D *pos
 	reinterpret_cast<Rva00263910 *>(this)->rva00265667(pos, cmdSource);
 	m_lastCommandSource = cmdSource;
 	m_machine->m8(62);
-	const Weapon *w = m_object->getCurrentWeapon((WeaponSlotType *)0);
-	if (w == 0)
+	const Weapon *weapon = m_object->getCurrentWeapon((WeaponSlotType *)0);
+	if (weapon == 0)
 		return;
-	const_cast<Weapon *>(w)->m_val34 = maxShotsToFire;
+	const_cast<Weapon *>(weapon)->m_val34 = maxShotsToFire;
 }

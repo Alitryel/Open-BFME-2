@@ -41,9 +41,9 @@ void Rva0045D7E0Notify(void *obj, int a, int b)
 {
 	Rva0045D7E0Host *&host = *(Rva0045D7E0Host **)&obj;
 	for (int i = 0; i < 4; ++i) {
-		for (ObjectCreationList **p1 = host->m_b[i].m_begin; p1 != host->m_b[i].m_end; ++p1) {
-			if (*p1)
-				(*p1)->rva001F0410((void *)a, (void *)b);
+		for (ObjectCreationList **objectCreationList = host->m_b[i].m_begin; objectCreationList != host->m_b[i].m_end; ++objectCreationList) {
+			if (*objectCreationList)
+				(*objectCreationList)->rva001F0410((void *)a, (void *)b);
 		}
 		for (Rva001E11F8 **p2 = host->m_a[i].m_begin; p2 != host->m_a[i].m_end; ++p2) {
 			if (*p2)

@@ -43,33 +43,33 @@ public:
  void rva004973CF(); bool rva00496BD2(Object *);
 };
 UpdateSleepTime BannerCarrierUpdate::update() {
- const BannerCarrierUpdateModuleData *d=data;
+ const BannerCarrierUpdateModuleData *bannerCarrierUpdateModuleData=data;
  Object *obj=object;
- if(!obj) return (UpdateSleepTime)d->delay;
- if(!d->upgrade.isEmpty()) {
-  const UpgradeTemplate *up=TheUpgradeCenter->findUpgrade(d->upgrade);
-  if(!up || !obj->hasUpgrade(up)) return (UpdateSleepTime)d->delay;
+ if(!obj) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
+ if(!bannerCarrierUpdateModuleData->upgrade.isEmpty()) {
+  const UpgradeTemplate *up=TheUpgradeCenter->findUpgrade(bannerCarrierUpdateModuleData->upgrade);
+  if(!up || !obj->hasUpgrade(up)) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
  }
  if(obj->isKindOf((KindOfType)0x45) || obj->testStatus((ObjectStatusTypes)0x57)
-  || obj->isKindOf((KindOfType)0x220) || obj->testStatus((ObjectStatusTypes)0x3E)) return (UpdateSleepTime)d->delay;
+  || obj->isKindOf((KindOfType)0x220) || obj->testStatus((ObjectStatusTypes)0x3E)) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
  AIUpdateInterface *ai=obj->m_ai;
- if(ai && (ai->isMoving() || ai->pending)) return (UpdateSleepTime)d->delay;
+ if(ai && (ai->isMoving() || ai->pending)) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
  Object *resolved=obj->rva002931F5(false);
  Gen_0028EF10 *stats=resolved?resolved->m_stats:obj->m_stats;
- if(stats && stats->rva004B0FA0()) return (UpdateSleepTime)d->delay;
- if(d->replenish) { rva004973CF(); return (UpdateSleepTime)d->delay; }
- if(obj->isKindOf((KindOfType)0x25) || obj->isKindOf((KindOfType)0x3D)) return (UpdateSleepTime)d->delay;
+ if(stats && stats->rva004B0FA0()) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
+ if(bannerCarrierUpdateModuleData->replenish) { rva004973CF(); return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay; }
+ if(obj->isKindOf((KindOfType)0x25) || obj->isKindOf((KindOfType)0x3D)) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
  if(obj->m_containedBy) {
   unsigned frame=TheGameLogic->getFrame();
-  if((unsigned)obj->m_containedBy->rva0028AF76()>frame-d->freeUnitTime) return (UpdateSleepTime)d->delay;
+  if((unsigned)obj->m_containedBy->rva0028AF76()>frame-bannerCarrierUpdateModuleData->freeUnitTime) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
  }
  {
   int out=0;
   if(obj->m_containedBy && obj->m_containedBy->rva002931F5(false)) {
    Object *contained=obj->m_containedBy->rva002931F5(false);
-   if(contained->m_contain->getHorde()->testRefresh(&out,d->freeUnitTime)) return (UpdateSleepTime)d->delay;
+   if(contained->m_contain->getHorde()->testRefresh(&out,bannerCarrierUpdateModuleData->freeUnitTime)) return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
   }
  }
  rva00496BD2(obj);
- return (UpdateSleepTime)d->delay;
+ return (UpdateSleepTime)bannerCarrierUpdateModuleData->delay;
 }

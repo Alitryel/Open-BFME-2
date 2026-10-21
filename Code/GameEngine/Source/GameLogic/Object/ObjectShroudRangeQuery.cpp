@@ -289,9 +289,9 @@ bool Object::rva00294471(void *arg, int mode)
 					sub->listA(&view);
 					bool any = false;
 					ObjectNode *endNode = view.list->head;
-					for (ObjectNode *n = endNode->next; n != endNode; n = n->next)
+					for (ObjectNode *objectNode = endNode->next; objectNode != endNode; objectNode = objectNode->next)
 					{
-						Object *obj = n->value;
+						Object *obj = objectNode->value;
 						if (obj)
 						{
 							if (!obj->rva0028F518() || !obj->testStatus(STATUS15))

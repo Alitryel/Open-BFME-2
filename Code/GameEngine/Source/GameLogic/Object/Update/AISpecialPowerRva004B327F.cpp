@@ -135,10 +135,10 @@ int Rva004B327F::update()
 
 	m_power->rva0058AD94((int)object());
 
-	SpecialPowerTemplate *tmpl = m_power->m_inner->m_tmpl;
+	SpecialPowerTemplate *specialPowerTemplate = m_power->m_inner->m_tmpl;
 	FlagSrc *src = *(FlagSrc **)((char *)this - 0x0C);
-	bool ok = tmpl != 0
-		? ((Rva004B2F7B *)((char *)this - 0x10))->rva004B2F7B(tmpl)
+	bool ok = specialPowerTemplate != 0
+		? ((Rva004B2F7B *)((char *)this - 0x10))->rva004B2F7B(specialPowerTemplate)
 		: true;
 	if (ok)
 	{

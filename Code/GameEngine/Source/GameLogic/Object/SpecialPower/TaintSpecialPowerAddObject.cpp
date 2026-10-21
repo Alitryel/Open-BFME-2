@@ -58,14 +58,14 @@ private:
 	Object *m_object;
 };
 
-Object *TaintSpecialPower::addObject(const Coord3D *pos, const AsciiString &templateName)
+Object *TaintSpecialPower::addObject(const Coord3D *pos, const AsciiString &asciiString)
 {
-	const ThingTemplate *tmplate = TheThingFactory->findTemplate(templateName);
-	if (tmplate)
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(asciiString);
+	if (thingTemplate)
 	{
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		Object *obj = TheThingFactory->newObject(tmplate, 0, &mask, false);
+		Object *obj = TheThingFactory->newObject(thingTemplate, 0, &mask, false);
 		if (obj)
 		{
 			obj->setPosition(pos);

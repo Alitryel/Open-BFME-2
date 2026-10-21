@@ -407,11 +407,11 @@ Bool AIUpdateInterface::computeAttackPath(PathfindServicesInterface *services,co
   if(m_path){
    Bool move=m_path->m_blockedByAlly&&!getObject()->getTemplate()->isKindOfByte(3,0x40);
    Object *obj=getObject();
-   const ThingTemplate *t=obj->getTemplate();
-   UnsignedInt kinds=*(const UnsignedInt*)(t->m_kindOf+12);
+   const ThingTemplate *thingTemplate=obj->getTemplate();
+   UnsignedInt kinds=*(const UnsignedInt*)(thingTemplate->m_kindOf+12);
    AI *ai=TheAI;
    if((kinds&0x2000)&&!ai->getAiData()->m_fieldB9)move=false;
-   if(t->m_moveAllies||(kinds&0x20000000))move=true;
+   if(thingTemplate->m_moveAllies||(kinds&0x20000000))move=true;
    if(obj->testStatus(OBJECT_STATUS_39)||obj->testStatus(OBJECT_STATUS_32)||obj->isKindOf(KINDOF_84))move=false;
    if(move)ai->pathfinder()->MoveAllies(obj,m_path,obj->rva0028CE7B()>=4);
   }

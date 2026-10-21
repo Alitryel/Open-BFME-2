@@ -42,12 +42,12 @@ public:
 };
 bool Rva00355B61::rva003552C2(NameKeyType key)
 {
-	const ArmorTemplate *t1 = reinterpret_cast<Rva0035516C *>(TheAiOrdersManager)->rva0035516C(key);
-	if (!t1)
+	const ArmorTemplate *armorTemplate = reinterpret_cast<Rva0035516C *>(TheAiOrdersManager)->rva0035516C(key);
+	if (!armorTemplate)
 		return false;
-	if (((unsigned char)((ArmorTemplate *)t1)->rva00355290()) == 0)
+	if (((unsigned char)((ArmorTemplate *)armorTemplate)->rva00355290()) == 0)
 		return false;
-	ArmorListNode *head = ((ArmorTemplate *)t1)->m_head;
+	ArmorListNode *head = ((ArmorTemplate *)armorTemplate)->m_head;
 	ArmorListNode *first = head->m_next;
 	const ArmorTemplate *t2 = rva00355155((NameKeyType)first->m_8);
 	if (t2) {

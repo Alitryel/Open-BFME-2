@@ -45,9 +45,9 @@ WeaponTemplateSetHead *__cdecl Rva002C76B2Build(WeaponTemplateSetHead *out, int 
 {
 	__assume(out != 0);
 	char tmpBuf[0x4C];
-	WeaponTemplateSetHead &tmp = *(WeaponTemplateSetHead *)tmpBuf;
-	memset(&tmp, 0, 0x4C);
-	unsigned *bits = (unsigned *)&tmp;
+	WeaponTemplateSetHead &weaponTemplateSetHead = *(WeaponTemplateSetHead *)tmpBuf;
+	memset(&weaponTemplateSetHead, 0, 0x4C);
+	unsigned *bits = (unsigned *)&weaponTemplateSetHead;
 	unsigned bit = 1;
 	int v = ((int **)g_00DBC46C)[b][a];
 	if (v != -1)
@@ -61,6 +61,6 @@ WeaponTemplateSetHead *__cdecl Rva002C76B2Build(WeaponTemplateSetHead *out, int 
 	int y = ((int *)g_00C00930)[a];
 	if (y != -1 && (b == 1 || b == 3))
 		bits[(unsigned)y >> 5] |= bit << ((unsigned)y & 31);
-	new (out) WeaponTemplateSetHead(tmp);
+	new (out) WeaponTemplateSetHead(weaponTemplateSetHead);
 	return out;
 }

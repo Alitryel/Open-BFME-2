@@ -11,8 +11,8 @@ void Rva003FA62B::clear()
   BfmePod8 *last=m_records04.end();
   _STL::vector<BfmePod8> &v=m_records04;
   for(BfmePod8 *it=v.begin();it!=last;++it) {
-    VirtBase *p=(VirtBase*)it->m_ptr;
-    void *q=p?p->func(0):0;
+    VirtBase *virtBase=(VirtBase*)it->m_ptr;
+    void *q=virtBase?virtBase->func(0):0;
     ::operator delete(q);
   }
   v.erase(v.begin(),v.end());

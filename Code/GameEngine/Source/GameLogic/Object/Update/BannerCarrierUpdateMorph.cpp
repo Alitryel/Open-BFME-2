@@ -117,11 +117,11 @@ static const unsigned int s_morphConditions[81] =
 void BannerCarrierUpdate::rva00496E05(void *entry, bool playFX)
 {
 	Object *obj = m_object;
-	BannerCarrierUpdateModuleData *d = m_moduleData;
+	BannerCarrierUpdateModuleData *bannerCarrierUpdateModuleData = m_moduleData;
 	const AsciiString &name = *(const AsciiString *)((char *)entry + 0x64);
 
 	BannerMorphConditionBits setFlags;
-	((Rva00496D43 *)d)->rva00496D43(&setFlags, name);
+	((Rva00496D43 *)bannerCarrierUpdateModuleData)->rva00496D43(&setFlags, name);
 
 	static BannerMorphConditionMask s_clearFlags;
 	static bool s_clearFlagsBuilt = false;
@@ -136,10 +136,10 @@ void BannerCarrierUpdate::rva00496E05(void *entry, bool playFX)
 	if (obj->getPosition()->GetLength() > 0.0f)
 		obj->updateShroudNow();
 
-	if (d->getFX() && playFX)
-		FXList::doFXObj(d->getFX(), obj, 0);
+	if (bannerCarrierUpdateModuleData->getFX() && playFX)
+		FXList::doFXObj(bannerCarrierUpdateModuleData->getFX(), obj, 0);
 
-	AsciiString locomotor = d->rva00496DA3(name);
+	AsciiString locomotor = bannerCarrierUpdateModuleData->rva00496DA3(name);
 	if (!locomotor.isEmpty())
 	{
 		bool found = false;

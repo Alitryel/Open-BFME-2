@@ -42,8 +42,8 @@ private:
 bool ArrowStormUpdate::rva0049083C()
 {
  Object *owner=object;
- const ArrowStormUpdateModuleData *d=data;
- if(shotsAtCurrent>=d->shotsPerTarget){current=INVALID_OBJECT_ID;shotsAtCurrent=0;}
+ const ArrowStormUpdateModuleData *arrowStormUpdateModuleData=data;
+ if(shotsAtCurrent>=arrowStormUpdateModuleData->shotsPerTarget){current=INVALID_OBJECT_ID;shotsAtCurrent=0;}
  Object *victim=0;
  if(current)victim=TheGameLogic->findObjectByID(current);
  while(!victim && !targets.empty()){
@@ -53,12 +53,12 @@ bool ArrowStormUpdate::rva0049083C()
   victim=TheGameLogic->findObjectByID(current);
   if(victim && (victim->status&1))victim=0;
  }
- const WeaponTemplate *weapon=TheWeaponStore->findWeaponTemplate(d->weapon);
+ const WeaponTemplate *weapon=TheWeaponStore->findWeaponTemplate(arrowStormUpdateModuleData->weapon);
  if(!victim){
-  if(d->emptyGround){
+  if(arrowStormUpdateModuleData->emptyGround){
   Coord3D position;
-  position.x=GetGameLogicRandomValueReal(target.x-d->radius,target.x+d->radius,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\ArrowStormUpdate.cpp",217);
-  position.y=GetGameLogicRandomValueReal(target.y-d->radius,target.y+d->radius,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\ArrowStormUpdate.cpp",218);
+  position.x=GetGameLogicRandomValueReal(target.x-arrowStormUpdateModuleData->radius,target.x+arrowStormUpdateModuleData->radius,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\ArrowStormUpdate.cpp",217);
+  position.y=GetGameLogicRandomValueReal(target.y-arrowStormUpdateModuleData->radius,target.y+arrowStormUpdateModuleData->radius,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\ArrowStormUpdate.cpp",218);
   position.z=TheTerrainLogic->getGroundHeight(position.x,position.y);
   TheWeaponStore->createAndFireTempWeapon(weapon,owner,&position);
  }else return true;
@@ -66,5 +66,5 @@ bool ArrowStormUpdate::rva0049083C()
   TheWeaponStore->rva002CE964(weapon,owner,victim);
   ++shotsAtCurrent;
  }
- ++shotsTotal; if(shotsTotal>=d->maxShots)return true;return false;
+ ++shotsTotal; if(shotsTotal>=arrowStormUpdateModuleData->maxShots)return true;return false;
 }

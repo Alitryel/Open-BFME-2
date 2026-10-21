@@ -73,15 +73,15 @@ public:
 // return as the out-of-line branch target (test al,al / je FALSE / mov al,1),
 // which only the positive-nested form produces: every failing guard falls out
 // to a single shared `return false` and the success path returns true early.
-bool Rva0049C6E1::rva0049C6E1(Object *arg)
+bool Rva0049C6E1::rva0049C6E1(Object *object)
 {
 	void *upgrade = ((Rva0026F0F0 *)TheUpgradeCenter)->rva0026F0F0((const void *)((char *)m_ptr08 + 0x284));
 	if (upgrade != 0)
 	{
 		unsigned char ok;
-		if (arg->m_int274 != 0)
+		if (object->m_int274 != 0)
 		{
-			void *prov = ((Rva0049C5F4 *)this)->rva0049C5F4(arg);
+			void *prov = ((Rva0049C5F4 *)this)->rva0049C5F4(object);
 			if (prov != 0)
 			{
 				ok = ((Rva0049C6E1Prov *)prov)->slot43(upgrade);
@@ -91,7 +91,7 @@ bool Rva0049C6E1::rva0049C6E1(Object *arg)
 		}
 		else
 		{
-			ok = arg->affectedByUpgrade((const UpgradeTemplate *)upgrade);
+			ok = object->affectedByUpgrade((const UpgradeTemplate *)upgrade);
 			if (ok != 0)
 				return true;
 		}

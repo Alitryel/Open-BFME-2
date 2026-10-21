@@ -249,9 +249,9 @@ void Object::updateUpgradeModules()
 	Module *member = CastleBehavior::rva000395708(this);
 	if (member != 0)
 		castle = TheGameLogic->findObjectByID(member->m_castleID);
-	for (BehaviorModule **m = m_modules; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules; *behaviorModule; ++behaviorModule)
 	{
-		BehaviorModuleInterface *beh = (BehaviorModuleInterface *)((char *)*m + 0x0c);
+		BehaviorModuleInterface *beh = (BehaviorModuleInterface *)((char *)*behaviorModule + 0x0c);
 		UpgradeModuleInterface *up = beh->getUpgrade();
 		if (!up)
 			continue;
@@ -274,10 +274,10 @@ void Object::rva00293003(const void *arg)
 	{
 		for (unsigned i = 0; i < (unsigned)(batch->m_end - batch->m_begin); ++i)
 		{
-			UpgradeTemplate *templ = batch->m_begin[i];
-			if (!templ)
+			UpgradeTemplate *upgradeTemplate = batch->m_begin[i];
+			if (!upgradeTemplate)
 				continue;
-			unsigned int idx = templ->getMaskIndex();
+			unsigned int idx = upgradeTemplate->getMaskIndex();
 			m_mask284._M_w[idx >> 5] |= (unsigned long)1 << (idx & 31);
 		}
 	}

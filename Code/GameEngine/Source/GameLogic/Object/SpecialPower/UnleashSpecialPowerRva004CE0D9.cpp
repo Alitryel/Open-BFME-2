@@ -111,9 +111,9 @@ public:
 
 static inline Bool rva004CE0D9Free(Object *slaver)
 {
-	for (BehaviorModule **m = slaver->m_behaviors; *m; ++m)
+	for (BehaviorModule **behaviorModule = slaver->m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		Rva004CE0D9Answer *answer = (*m)->getInterface()->rva004CE0D9Slot26();
+		Rva004CE0D9Answer *answer = (*behaviorModule)->getInterface()->rva004CE0D9Slot26();
 		if (answer && answer->rva004CE0D9Slot7())
 			return false;
 	}

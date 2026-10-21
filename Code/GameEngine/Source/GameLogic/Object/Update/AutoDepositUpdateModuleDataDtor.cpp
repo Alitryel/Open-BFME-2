@@ -43,7 +43,7 @@ __declspec(noinline) inline AutoDepositUpdateModuleData::~AutoDepositUpdateModul
 }
 
 // ?bfmeAnchorAutoDepositUpdateModuleDataDtor absent-from-retail
-void bfmeAnchorAutoDepositUpdateModuleDataDtor(AutoDepositUpdateModuleData *p)
+void bfmeAnchorAutoDepositUpdateModuleDataDtor(AutoDepositUpdateModuleData *autoDepositUpdateModuleData)
 {
-	p->AutoDepositUpdateModuleData::~AutoDepositUpdateModuleData();
+	autoDepositUpdateModuleData->AutoDepositUpdateModuleData::~AutoDepositUpdateModuleData();
 }

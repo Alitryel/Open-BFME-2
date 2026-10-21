@@ -62,8 +62,8 @@ inline SupplyTruckAIUpdateModuleData::SupplyTruckAIUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeSupplyTruckAIUpdateModuleDataInlineAnchor@@YAXPAVSupplyTruckAIUpdateModuleData@@@Z absent-from-retail
-void _bfmeSupplyTruckAIUpdateModuleDataInlineAnchor(SupplyTruckAIUpdateModuleData *p)
+void _bfmeSupplyTruckAIUpdateModuleDataInlineAnchor(SupplyTruckAIUpdateModuleData *supplyTruckAIUpdateModuleData)
 {
-    p->SupplyTruckAIUpdateModuleData::SupplyTruckAIUpdateModuleData();
+    supplyTruckAIUpdateModuleData->SupplyTruckAIUpdateModuleData::SupplyTruckAIUpdateModuleData();
 }
 #pragma inline_depth()

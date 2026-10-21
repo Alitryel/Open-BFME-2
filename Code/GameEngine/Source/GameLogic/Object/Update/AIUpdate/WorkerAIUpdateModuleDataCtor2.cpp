@@ -113,8 +113,8 @@ inline WorkerAIUpdateModuleData::WorkerAIUpdateModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeWorkerAIUpdateModuleDataInlineAnchor@@YAXPAVWorkerAIUpdateModuleData@@@Z absent-from-retail
-void _bfmeWorkerAIUpdateModuleDataInlineAnchor(WorkerAIUpdateModuleData *p)
+void _bfmeWorkerAIUpdateModuleDataInlineAnchor(WorkerAIUpdateModuleData *workerAIUpdateModuleData)
 {
-    p->WorkerAIUpdateModuleData::WorkerAIUpdateModuleData();
+    workerAIUpdateModuleData->WorkerAIUpdateModuleData::WorkerAIUpdateModuleData();
 }
 #pragma inline_depth()

@@ -46,9 +46,9 @@ class AIGateUpdate {public:
 // Keeping the verified rotation helper visible in this unit restores all
 // native return-temporary homes; all three bodies match retail together.
 void AIGateUpdate::loadTrigger() {
- const AIGateUpdateModuleData *d=data;
- if(d->width>0.0f && d->height>0.0f) {
-  float halfX=d->width*0.5f,halfY=d->height*0.5f;
+ const AIGateUpdateModuleData *aIGateUpdateModuleData=data;
+ if(aIGateUpdateModuleData->width>0.0f && aIGateUpdateModuleData->height>0.0f) {
+  float halfX=aIGateUpdateModuleData->width*0.5f,halfY=aIGateUpdateModuleData->height*0.5f;
   PolygonTrigger *polygon=new PolygonTrigger(1);
   void (PolygonPointCalls::*add)(const Vector2 &)=&PolygonPointCalls::addBoundaryPoint;
   (((PolygonPointCalls*)polygon)->*add)(rva004B0A24(halfX,halfY));

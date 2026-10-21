@@ -41,13 +41,13 @@ public:
 	unsigned char m_pad00[0x250];
 	Iface *m_250;
 };
-void Object::rva00290DBB(Player *a, Player *b)
+void Object::rva00290DBB(Player *player, Player *b)
 {
-	if (!a)
+	if (!player)
 		return;
 	if (!b)
 		return;
-	a->removeCommandPoints((Rva002A7588In *)this);
+	player->removeCommandPoints((Rva002A7588In *)this);
 	b->addCommandPoints((Rva002A7588In *)this);
 	Iface *iface = m_250;
 	if (!iface)
@@ -59,9 +59,9 @@ void Object::rva00290DBB(Player *a, Player *b)
 	if (cur == head)
 		return;
 	do {
-		Object *o = cur->obj;
-		if (o)
-			o->rva00290DBB(a, b);
+		Object *object = cur->obj;
+		if (object)
+			object->rva00290DBB(player, b);
 		cur = cur->next;
 	} while (cur != *(Node **)out.b);
 }

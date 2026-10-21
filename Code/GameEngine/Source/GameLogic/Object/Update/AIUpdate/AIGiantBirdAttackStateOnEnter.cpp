@@ -529,13 +529,13 @@ StateReturnType AIGiantBirdAttackState::onEnter()
 			Module *module = victim->findModule(key);
 			if (module != 0)
 				name = module->getModuleData()->getObjectName3C();
-			const ThingTemplate *tmplate =
+			const ThingTemplate *thingTemplate =
 				TheThingFactory->findTemplate(name);
-			if (tmplate != 0)
+			if (thingTemplate != 0)
 			{
 				CreateMask mask;
 				memset(&mask, 0, sizeof(mask));
-				Object *created = TheThingFactory->newObject(tmplate, victim->getTeam(), &mask, false);
+				Object *created = TheThingFactory->newObject(thingTemplate, victim->getTeam(), &mask, false);
 				if (created != 0)
 				{
 					created->setTransformMatrix(owner->getTransformMatrix());

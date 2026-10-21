@@ -51,21 +51,21 @@ public:
 
 void Rva003559B5Host::rva00355A09(int a, Rva0036E346 *b, int c)
 {
-	GarrisonObjectGroupOrder *p = new GarrisonObjectGroupOrder(b, c);
-	if (p)
-		((AiOrdersManager *)this)->registerOrder(a, (GroupOrder *)p);
+	GarrisonObjectGroupOrder *garrisonObjectGroupOrder = new GarrisonObjectGroupOrder(b, c);
+	if (garrisonObjectGroupOrder)
+		((AiOrdersManager *)this)->registerOrder(a, (GroupOrder *)garrisonObjectGroupOrder);
 }
 
 void Rva003559B5Host::rva00355A5D(int a, Rva0036E346 *b, int c)
 {
-	ChangeStanceGroupOrder *p = new ChangeStanceGroupOrder(b, c);
-	if (p)
-		((AiOrdersManager *)this)->registerOrder(a, (GroupOrder *)p);
+	ChangeStanceGroupOrder *changeStanceGroupOrder = new ChangeStanceGroupOrder(b, c);
+	if (changeStanceGroupOrder)
+		((AiOrdersManager *)this)->registerOrder(a, (GroupOrder *)changeStanceGroupOrder);
 }
 
 void Rva003559B5Host::rva00355AB1(int a, Rva0036E346 *b)
 {
-	SynchronizeGroupOrder *p = new SynchronizeGroupOrder(b);
-	if (p)
-		((AiOrdersManager *)this)->registerOrder(a, (GroupOrder *)p);
+	SynchronizeGroupOrder *synchronizeGroupOrder = new SynchronizeGroupOrder(b);
+	if (synchronizeGroupOrder)
+		((AiOrdersManager *)this)->registerOrder(a, (GroupOrder *)synchronizeGroupOrder);
 }

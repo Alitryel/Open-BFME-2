@@ -361,10 +361,10 @@ void AIUpdateInterface::doPathfind(PathfindServicesInterface *services)
    PathNode *last=m_path->tail;m_object->rva0028ACEE((int)&last->pos,(Int)last->layer);
    PATH_TRACE("CritterDesync: doPathfind10 -- m_requestedDestination=%g,%g,%g");
    Bool move=m_path->m_blockedByAlly&&!m_object->getTemplate()->isKindOfByte(3,0x40);
-   Object *obj=m_object;const ThingTemplate *t=obj->getTemplate();
-   UnsignedInt kinds=*(const UnsignedInt*)(t->m_kindOf+12);AI *ai=TheAI;
+   Object *obj=m_object;const ThingTemplate *thingTemplate=obj->getTemplate();
+   UnsignedInt kinds=*(const UnsignedInt*)(thingTemplate->m_kindOf+12);AI *ai=TheAI;
    if((kinds&0x2000)&&!ai->getAiData()->m_fieldB9)move=false;
-   if(t->m_moveAllies||(kinds&0x20000000))move=true;
+   if(thingTemplate->m_moveAllies||(kinds&0x20000000))move=true;
    if(obj->testStatus(OBJECT_STATUS_39)||obj->testStatus(OBJECT_STATUS_32)||obj->isKindOf(KINDOF_84))move=false;
    if(move){
     ai->pathfinder()->MoveAllies(obj,m_path,obj->rva0028CE7B()>=4);

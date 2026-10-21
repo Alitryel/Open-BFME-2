@@ -388,15 +388,15 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 		m_1a4 = (ObjectID)0;
 	}
 
-	const AIUpdateModuleData *d = getAIUpdateModuleData();
-	if (calledDuringIdle && !(d->m_autoAcquireEnemiesWhenIdle & 1))
+	const AIUpdateModuleData *aIUpdateModuleData = getAIUpdateModuleData();
+	if (calledDuringIdle && !(aIUpdateModuleData->m_autoAcquireEnemiesWhenIdle & 1))
 		return 0;
-	if (isAttacking() && (d->m_autoAcquireEnemiesWhenIdle & 8))
+	if (isAttacking() && (aIUpdateModuleData->m_autoAcquireEnemiesWhenIdle & 8))
 		return 0;
 
 	if (obj->m_containedBy)
 	{
-		if (!d->m_25 && !obj->testStatus(OBJECT_STATUS_25))
+		if (!aIUpdateModuleData->m_25 && !obj->testStatus(OBJECT_STATUS_25))
 		{
 			ContainView *contain = obj->m_contain;
 			if (!contain || !contain->slot46())
@@ -439,7 +439,7 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 		}
 		if (now < m_nextMoodCheckTime)
 			return 0;
-		Int checkRate = d->m_moodAttackCheckRate;
+		Int checkRate = aIUpdateModuleData->m_moodAttackCheckRate;
 		m_nextMoodCheckTime = now + checkRate;
 		if (m_randomlyOffsetMoodCheck)
 		{
@@ -482,7 +482,7 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 		flags = 3;
 	if (TheAI->getAiData()->m_attackIgnoreInsignificantBuildings)
 		flags |= 4;
-	if (d->m_autoAcquireEnemiesWhenIdle & 0x10)
+	if (aIUpdateModuleData->m_autoAcquireEnemiesWhenIdle & 0x10)
 		flags |= 8;
 	if (calledByAI && obj->getControllingPlayer() && obj->getControllingPlayer()->getPlayerType() == 0)
 		flags |= 0x20;
@@ -557,7 +557,7 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 	{
 		if (!AI::rva002FE193(obj, target))
 		{
-			Real maxRange = d->m_28;
+			Real maxRange = aIUpdateModuleData->m_28;
 			if (maxRange > 0.0f)
 			{
 				Coord3D delta;

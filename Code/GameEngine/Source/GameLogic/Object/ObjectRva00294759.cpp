@@ -130,18 +130,18 @@ const Image *Object::getObjectSelectedPortraitImage()
 		if (module && module->m_3C != 0 && !((Rva002A7DD0 *)ThePlayerList)->rva002A7DD0()
 			&& ThePlayerList->portraitLocalPlayer()->getRelationship(getTeam()) == ENEMIES)
 		{
-			ThingTemplate *tmpl = module->m_3C;
-			if (tmpl)
-				return Rva0033BC53Get(tmpl, this);
+			ThingTemplate *thingTemplate = module->m_3C;
+			if (thingTemplate)
+				return Rva0033BC53Get(thingTemplate, this);
 		}
 		CreateAHeroData *hero = TheCreateAHeroManager->rva002197A6(m_74);
 		if (hero && hero->m_portrait)
 			return hero->m_portrait;
 	}
-	ThingTemplate *tmpl = rva002911B7();
-	if (!tmpl)
-		tmpl = m_template;
-	return Rva0033BC53Get(tmpl, this);
+	ThingTemplate *thingTemplate = rva002911B7();
+	if (!thingTemplate)
+		thingTemplate = m_template;
+	return Rva0033BC53Get(thingTemplate, this);
 }
 
 class ExperienceTracker
@@ -228,8 +228,8 @@ void Rva00294759::rva00294759(int param)
 		return;
 	int diff = param - exp->m_24;
 	exp->rva0039B4EC(diff, false, false);
-	Object *o = (Object *)((Object *)this)->rva0029439D();
-	if (o == 0)
+	Object *object = (Object *)((Object *)this)->rva0029439D();
+	if (object == 0)
 		return;
 	if (diff <= 0)
 		return;

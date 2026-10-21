@@ -171,7 +171,7 @@ struct TTriggerInfo
 struct Coord3DView
 {
 	Coord3DView() {}
-	Coord3DView(const Coord3DView &p) : x(p.x), y(p.y), z(p.z) {}
+	Coord3DView(const Coord3DView &coord3DView) : x(coord3DView.x), y(coord3DView.y), z(coord3DView.z) {}
 	Real x, y, z;
 };
 

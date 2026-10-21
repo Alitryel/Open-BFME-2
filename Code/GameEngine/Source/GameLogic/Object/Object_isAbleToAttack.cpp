@@ -303,7 +303,7 @@ Bool Object::isAbleToAttack() const
 	const unsigned *flags;
 	AIUpdateInterface *aiTmp;
 	Object *victim;
-	ThingTemplate *tmpl;
+	ThingTemplate *thingTemplate;
 	AIUpdateInterface *ai;
 	Bfme250Interface *myIface;
 	SpawnBehaviorInterface *spawnInterface;
@@ -341,8 +341,8 @@ soldCheck:
 	if (testStatus(OBJECT_STATUS_SOLD))
 		return false;
 
-	tmpl = m_template;
-	if (((tmpl->m_kindByte10F & 2) != 0) || ((tmpl->m_kindByte112 & 0x10) != 0))
+	thingTemplate = m_template;
+	if (((thingTemplate->m_kindByte10F & 2) != 0) || ((thingTemplate->m_kindByte112 & 0x10) != 0))
 	{
 		if ((m_statusByte1C8 & 4) != 0)
 			return false;
@@ -351,7 +351,7 @@ soldCheck:
 	ai = m_aiUpdate;
 	anyEnabled = false;
 	anyWeapon = false;
-	if (ai != NULL && (tmpl->m_kindByte108 & 8) == 0)
+	if (ai != NULL && (thingTemplate->m_kindByte108 & 8) == 0)
 	{
 		for (int i = 0; i < WEAPONSLOT_COUNT; i++)
 		{

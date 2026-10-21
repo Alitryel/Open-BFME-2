@@ -1300,8 +1300,8 @@ void DozerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
 	if( TheActionManager->canRepairObject( dozer, obj, cmdSource ) == FALSE )
 		return;
 
-	const ThingTemplate *tmpl = *(const ThingTemplate **)((char *)dozer + 4);
-	if( ( ( *(const unsigned char *)((const char *)tmpl + 0x109) ) & 0x80 ) == 0 )
+	const ThingTemplate *thingTemplate = *(const ThingTemplate **)((char *)dozer + 4);
+	if( ( ( *(const unsigned char *)((const char *)thingTemplate + 0x109) ) & 0x80 ) == 0 )
 	{
 		DozerAIInterface *self = (DozerAIInterface *)((char *)this + 0x3e4);
 		// if we are already repairing this target do nothing

@@ -76,10 +76,10 @@ public:
 void ProductionSpeedBonus::rva004C2F6A(int options)
 {
 	Object *obj = m_object;
-	const ProductionSpeedBonusModuleData *d = m_moduleData;
+	const ProductionSpeedBonusModuleData *productionSpeedBonusModuleData = m_moduleData;
 	Player *player = obj->getControllingPlayer();
-	for (const AsciiString *it = d->m_begin; it != d->m_end; ++it)
-		player->rva002AE8CF(it, (float)((d->m_80 - 1.0) / (d->m_80 * -1.0)), d->m_7C);
+	for (const AsciiString *it = productionSpeedBonusModuleData->m_begin; it != productionSpeedBonusModuleData->m_end; ++it)
+		player->rva002AE8CF(it, (float)((productionSpeedBonusModuleData->m_80 - 1.0) / (productionSpeedBonusModuleData->m_80 * -1.0)), productionSpeedBonusModuleData->m_7C);
 	if (!obj->m_disabled.any())
 		rva004C2F6ASlot12(&obj->m_pos, options);
 }

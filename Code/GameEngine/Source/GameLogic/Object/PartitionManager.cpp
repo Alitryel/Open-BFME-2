@@ -212,11 +212,11 @@ struct ThreatValueParms
 class CollideGeom
 {
 public:
-	CollideGeom(const GeometryInfo& g) :
-		m_type(g.getGeomType()),
-		m_height(g.getMaxHeightAbovePosition()),
-		m_majorRadius(g.getMajorRadius()),
-		m_minorRadius(g.getMinorRadius())
+	CollideGeom(const GeometryInfo& geometryInfo) :
+		m_type(geometryInfo.getGeomType()),
+		m_height(geometryInfo.getMaxHeightAbovePosition()),
+		m_majorRadius(geometryInfo.getMajorRadius()),
+		m_minorRadius(geometryInfo.getMinorRadius())
 	{
 	}
 
@@ -241,7 +241,7 @@ struct CollideInfo
 	CollideGeom geom;
 	Real angle;
 
-	CollideInfo(const Coord3D* p, const GeometryInfo& g, Real a) : position(*p), geom(g), angle(a) { }
+	CollideInfo(const Coord3D* p, const GeometryInfo& geometryInfo, Real a) : position(*p), geom(geometryInfo), angle(a) { }
 };
 
 struct CellValueProcParms
@@ -1718,10 +1718,10 @@ PartitionData::~PartitionData()
 // ?getControllingPlayerIndex@PartitionData@@ present-unmatched
 Int PartitionData::getControllingPlayerIndex() const
 {
-	const Player* p = getObject()->getControllingPlayer();
-	if (p)
+	const Player* player = getObject()->getControllingPlayer();
+	if (player)
 	{
-		Int playerIndex = getRetailPlayerIndex(p);
+		Int playerIndex = getRetailPlayerIndex(player);
 		DEBUG_ASSERTCRASH(playerIndex >= 0 && playerIndex < MAX_PLAYER_COUNT, ("bad playerIndex"));
 		return playerIndex;
 	}
@@ -2290,8 +2290,8 @@ void PartitionData::attachToObject(Object* object)
 
 	// we only snapshot things that are immobile and have something to draw.  Don't need ghostobjects for others.
 	if (object->isKindOf(KINDOF_IMMOBILE))
-	{	const ThingTemplate *tmplate=object->getTemplate();
-		const ModuleInfo &drawMod=tmplate->getDrawModuleInfo();
+	{	const ThingTemplate *thingTemplate=object->getTemplate();
+		const ModuleInfo &drawMod=thingTemplate->getDrawModuleInfo();
 		//Objects with default draw modules usually don't need ghostobjects so skip them to save memory.
 		Bool makeGhostObject=TRUE;
 		for (Int i=0; i<drawMod.getCount(); i++)
@@ -2458,7 +2458,7 @@ void PartitionContactList::addToContactList( PartitionData *obj, PartitionData *
 #if 0
 
 Int depth = 0;
-for (PartitionContactListNode *cd2 = m_contactHash[ hashValue ]; cd2; cd2 = cd2->m_nextHash )
+for (PartitionContactListNode *partitionContactListNode = m_contactHash[ hashValue ]; partitionContactListNode; partitionContactListNode = partitionContactListNode->m_nextHash )
 {
 	depth++;
 }
@@ -2469,15 +2469,15 @@ if (depth > 3)
 		other_obj->getTemplate()->getName().str(),other_obj,other_obj->getID()
 		));
 
-	for (cd2 = m_contactHash[ hashValue ]; cd2; cd2 = cd2->m_nextHash )
+	for (partitionContactListNode = m_contactHash[ hashValue ]; partitionContactListNode; partitionContactListNode = partitionContactListNode->m_nextHash )
 	{
-		UnsignedInt rawhash = djb2hash2ints(cd2->m_obj->getObject()->getID(), cd2->m_other->getObject()->getID());
+		UnsignedInt rawhash = djb2hash2ints(partitionContactListNode->m_obj->getObject()->getID(), partitionContactListNode->m_other->getObject()->getID());
 		//hashValue %= PartitionContactList_SOCKET_COUNT;
 
 
 		DEBUG_LOG(("ENTRY: %s %08lx (%d) - %s %08lx (%d) [rawhash %d]\n",
-			cd2->m_obj->getObject()->getTemplate()->getName().str(),cd2->m_obj->getObject(),cd2->m_obj->getObject()->getID(),
-			cd2->m_other->getObject()->getTemplate()->getName().str(),cd2->m_other->getObject(),cd2->m_other->getObject()->getID(),
+			partitionContactListNode->m_obj->getObject()->getTemplate()->getName().str(),partitionContactListNode->m_obj->getObject(),partitionContactListNode->m_obj->getObject()->getID(),
+			partitionContactListNode->m_other->getObject()->getTemplate()->getName().str(),partitionContactListNode->m_other->getObject(),partitionContactListNode->m_other->getObject()->getID(),
 			rawhash));
 	}
 }
@@ -2490,7 +2490,7 @@ for (int ii = 0; ii < PartitionContactList_SOCKET_COUNT; ++ii)
 	if (m_contactHash[ii])
 		aggfull += 1.0f;
 
-	for (cd2 = m_contactHash[ ii ]; cd2; cd2 = cd2->m_nextHash )
+	for (partitionContactListNode = m_contactHash[ ii ]; partitionContactListNode; partitionContactListNode = partitionContactListNode->m_nextHash )
 	{
 		aggtotal += 1.0f;
 	}
@@ -4915,8 +4915,8 @@ void PartitionManager::restoreFoggedCells(const ShroudStatusStoreRestore &inPart
 
 //-----------------------------------------------------------------------------
 // ??0PartitionFilterRejectBuildings@@ present-unmatched
-PartitionFilterRejectBuildings::PartitionFilterRejectBuildings(const Object *o) : 
-	m_self(o),
+PartitionFilterRejectBuildings::PartitionFilterRejectBuildings(const Object *object) : 
+	m_self(object),
 	m_acquireEnemies(false)
 { 
 	// if I am a computer-controlled opponent, auto-aquire enemy buildings

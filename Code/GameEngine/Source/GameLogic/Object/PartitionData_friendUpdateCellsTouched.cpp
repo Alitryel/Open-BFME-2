@@ -42,8 +42,8 @@ inline void PartitionData::friend_updateCellsTouched()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmePartitionDataInlineAnchor@@YAXPAVPartitionData@@@Z absent-from-retail
-void _bfmePartitionDataInlineAnchor(PartitionData *p)
+void _bfmePartitionDataInlineAnchor(PartitionData *partitionData)
 {
-    p->friend_updateCellsTouched();
+    partitionData->friend_updateCellsTouched();
 }
 #pragma inline_depth()

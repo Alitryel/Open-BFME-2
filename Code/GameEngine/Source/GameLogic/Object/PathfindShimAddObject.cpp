@@ -61,9 +61,9 @@ void Pathfinder::RemoveObjectFromPathfindMapKeepingGateFlags(Object *object)
 int Pathfinder::AddBridge(int arg)
 {
 	int i = 2;
-	Slot *p = &m_slots[2];
-	for (; i <= 0xf; ++i, ++p) {
-		if (!((Rva0036666B *)p)->rva0036666B())
+	Slot *slot = &m_slots[2];
+	for (; i <= 0xf; ++i, ++slot) {
+		if (!((Rva0036666B *)slot)->rva0036666B())
 			goto second;
 	}
 	return 1;

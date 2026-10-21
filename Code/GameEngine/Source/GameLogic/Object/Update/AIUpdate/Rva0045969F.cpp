@@ -73,9 +73,9 @@ private:
 
 int Rva0045969F::rva0045969F()
 {
-	Drawable *d = (*(Thing **)((char *)this - 8))->getDrawable();
+	Drawable *drawable = (*(Thing **)((char *)this - 8))->getDrawable();
 	AI *ai = (*(Object **)((char *)this - 8))->m_ai;
-	if (d == 0 || ai == 0)
+	if (drawable == 0 || ai == 0)
 		return 0x3fffffff;
 	if (m_14 > 0)
 		--m_14;

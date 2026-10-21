@@ -1832,11 +1832,11 @@ void AIUpdateInterface::bfmePrivateCommand31(Int value, CommandSourceType comman
 // AIUpdateInterface::privateGuardPosition is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfacePrivateGuardPosition.cpp (0x00264BC2).
 
 // The end of the path that starts at w.
-static __forceinline const Waypoint *lastWaypoint(const Waypoint *w)
+static __forceinline const Waypoint *lastWaypoint(const Waypoint *waypoint)
 {
-	while (w && w->getLink(0))
-		w = w->getLink(0);
-	return w;
+	while (waypoint && waypoint->getLink(0))
+		waypoint = waypoint->getLink(0);
+	return waypoint;
 }
 
 // Command 0x06, slot 26, retail 0x0026B8E5: the BFME1 donor's

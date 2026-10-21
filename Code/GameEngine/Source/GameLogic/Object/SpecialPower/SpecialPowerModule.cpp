@@ -316,9 +316,9 @@ Bool SpecialPowerModule::initiateIntentToDoSpecialPower( const Object *targetObj
 {
 	Bool valid = false;
 	// tell our update modules that we intend to do this special power.
-	for( BehaviorModule** u = getObject()->getBehaviorModules(); *u; ++u )
+	for( BehaviorModule** behaviorModule = getObject()->getBehaviorModules(); *behaviorModule; ++behaviorModule )
 	{
-		SpecialPowerUpdateInterface* spu = (*u)->getSpecialPowerUpdateInterface();
+		SpecialPowerUpdateInterface* spu = (*behaviorModule)->getSpecialPowerUpdateInterface();
 		if( spu )
 		{
 			//Validate that we are calling the correct module!

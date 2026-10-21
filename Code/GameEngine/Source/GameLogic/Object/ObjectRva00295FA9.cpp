@@ -159,8 +159,8 @@ void Object::rva00295FA9(Object *other)
 	}
 	if (getRelationship(other) != ENEMIES)
 		return;
-	Weapon *w = getCurrentWeapon(0);
-	if (w != 0 && w->m_4->get() && w->isWithinAttackRange(this, other, 0.0f, 1))
+	Weapon *weapon = getCurrentWeapon(0);
+	if (weapon != 0 && weapon->m_4->get() && weapon->isWithinAttackRange(this, other, 0.0f, 1))
 		rva00295A84(other);
 	const Rva0028AC4EEntry *e = rva0028AC4E();
 	if (e != 0)
