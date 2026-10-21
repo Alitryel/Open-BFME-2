@@ -90,7 +90,7 @@ class LuaScriptEngine
 public:
 	void rva00338317RegisterScriptFunctions();
 	void InitializeInternalEvents();
-	void rva00335D5BRegisterDrawableFunctions();
+	void init();
 	void LoadXML(const char *filename, bool reload);
 	void LoadScripts(const char *filename);
 	static int ObjectDescription(lua_State *state);
@@ -227,7 +227,7 @@ int GetClientRandomNumberReal(lua_State*);
 // The Lua initialization/registration pattern follows the existing
 // BF1-guided sibling above; original member name remains unknown.
 // Both callers must share this visible static helper for the nativeESI ABI.
-void LuaScriptEngine::rva00335D5BRegisterDrawableFunctions()
+void LuaScriptEngine::init()
 {
  InitializeInternalEvents();
  if(m_drawLuaState==0) {

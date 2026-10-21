@@ -174,7 +174,7 @@ class W3DDisplayStringManager : public DisplayStringManager
 public:
 	virtual void postProcessLoad( void );
 	virtual void update( void );
-	virtual void rva00090430( void );
+	virtual void reset( void );
 	virtual DisplayString *newDisplayString( void );
 	virtual DisplayString *getGroupNumeralString( Int numeral );
 protected:
@@ -187,7 +187,7 @@ protected:
 // both text renderers of every display string and marks each one changed
 // with its resource frame cleared, so all text is rebuilt. The slot's name
 // is not established.
-void W3DDisplayStringManager::rva00090430( void )
+void W3DDisplayStringManager::reset( void )
 {
 	for (DisplayString *string = m_stringList; string; string = string->next())
 	{

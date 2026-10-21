@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
 //
-// ?rva004C2F6A@ProductionSpeedBonus@@UAEXH@Z, retail 0x004C2F6A, 124 bytes:
+// ?doSpecialPower@ProductionSpeedBonus@@UAEXH@Z, retail 0x004C2F6A, 124 bytes:
 // slot 10 of the special-power interface vtable 0x00C5C9E0 that
 // ProductionSpeedBonus's ctor 0x004C2EF5 installs at +0x10, the untargeted
 // use. For each entry of the module data's 4-byte list (+0x84..+0x88) it
@@ -62,7 +62,7 @@ public:
 	virtual void s0() = 0; virtual void s1() = 0; virtual void s2() = 0; virtual void s3() = 0;
 	virtual void s4() = 0; virtual void s5() = 0; virtual void s6() = 0; virtual void s7() = 0;
 	virtual void s8() = 0; virtual void s9() = 0;
-	virtual void rva004C2F6A(int options) = 0;
+	virtual void doSpecialPower(int options) = 0;
 	virtual void s11() = 0;
 	virtual void rva004C2F6ASlot12(const Coord3D *pos, int options) = 0;
 };
@@ -70,10 +70,10 @@ public:
 class ProductionSpeedBonus : public BehaviorModule, public SpecialPowerModuleInterface
 {
 public:
-	virtual void rva004C2F6A(int options);
+	virtual void doSpecialPower(int options);
 };
 
-void ProductionSpeedBonus::rva004C2F6A(int options)
+void ProductionSpeedBonus::doSpecialPower(int options)
 {
 	Object *obj = m_object;
 	const ProductionSpeedBonusModuleData *productionSpeedBonusModuleData = m_moduleData;

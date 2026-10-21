@@ -11,7 +11,7 @@
 // slot 1; finds and keeps that module (false without a +0x7C value or a
 // match), then answers slot 2 of what its +0x0C interface's slot 25 gives,
 // true when that is null.
-// ?rva004C67B9@StopSpecialPower@@UAEXH@Z, retail 0x004C67B9, 34 bytes:
+// ?doSpecialPower@StopSpecialPower@@UAEXH@Z, retail 0x004C67B9, 34 bytes:
 // slot 10 (argument unread); when slot 1 holds, runs slot 17 of the kept
 // module's slot-8 answer.
 
@@ -84,7 +84,7 @@ public:
 	virtual bool isReady() = 0;
 	virtual void gap2() = 0; virtual void gap3() = 0; virtual void gap4() = 0; virtual void gap5() = 0;
 	virtual void gap6() = 0; virtual void gap7() = 0; virtual void gap8() = 0; virtual void gap9() = 0;
-	virtual void rva004C67B9(int unused) = 0;
+	virtual void doSpecialPower(int unused) = 0;
 };
 
 class SpecialPowerModule : public BehaviorModule, public BehaviorModuleInterface, public SpecialPowerModuleInterface
@@ -97,7 +97,7 @@ class StopSpecialPower : public SpecialPowerModule
 {
 public:
 	virtual bool isReady();
-	virtual void rva004C67B9(int unused);
+	virtual void doSpecialPower(int unused);
 private:
 	Rva004C683CModule *m_34; // +0x34
 };
@@ -127,8 +127,8 @@ bool StopSpecialPower::isReady()
 	return true;
 }
 
-// ?rva004C67B9@StopSpecialPower@@UAEXH@Z @0x004C67B9
-void StopSpecialPower::rva004C67B9(int)
+// ?doSpecialPower@StopSpecialPower@@UAEXH@Z @0x004C67B9
+void StopSpecialPower::doSpecialPower(int)
 {
 	if (isReady())
 		m_34->m_iface.slot8()->slot17();

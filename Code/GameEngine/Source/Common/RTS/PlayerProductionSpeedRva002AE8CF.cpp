@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /MD /Oy-
 // Native Ghidra 002AE8CF..002AE930, 97B, RET12. Rowed
-// ProductionSpeedBonus::rva004C2F6A proves the Player receiver, string
+// ProductionSpeedBonus::doSpecialPower proves the Player receiver, string
 // list entry, float bonus and duration arguments. Retail establishes the
 // maps at +294/+2A8/+2BC: initialize a missing +2A8 float to zero, write
 // the +2BC integer duration, then the +294 float bonus. Original names
