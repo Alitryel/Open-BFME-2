@@ -103,3 +103,38 @@ Untried angles:
 - some other source construct where the end-of-function frees do not come from
   `~basic_string`, e.g. explicit releases in a wrapper, as in the
   `_BoolNameStorage` model of `stlport_wide_num_put_bool.cpp`.
+
+## 2026-10-21: frame 0x118 trials and the basic_string declaration
+
+Trial A: the existing bank with an opaque explicit-specialisation declaration
+of the wide `basic_string<wchar_t>::~basic_string()`. The declaration must sit
+before `<locale>` (after `<string>`, inside `namespace _STL`); after `<locale>`
+the compiler reports C2908 because `<locale>` already instantiated the dtor.
+Result: no change. Body 2576 B, frame 0x110, first diff still +0x1D
+(`sub esp,0x118` vs `0x110`). The bank's sites are controlled by the
+`_String_base` declaration and the depth-0 pragmas, not by `basic_string`.
+
+Trial B: the original `_monetary.c` body (plain `bool __is_negative`, no
+`align(8)`, direct `*__s++ = __point`, plain `copy`) with all-out-of-line char
+and wide `~basic_string` dtors. Result: 2678 B, frame **0x118**, first diff
++0x2A (`lea [esp+0x2c]` vs retail `[esp+0x3c]`). The instruction stream is
+retail's modulo stack slots, but the locals sit 0x10 low and `__loc` at 0x20
+against retail's 0x30. The real headers (`unsigned short`) and helper
+definitions move the layout, so the frame is not the only delta. Variants:
+char dtors inline 2805 B; header `copy` with no overrides 2283 B, frame 0x108,
+unresolved `copy<PBG>`/`__copy_aux<PAG>`; `/O1` 2003 B, wrong prologue. None
+beat the 0.8114 bank, and the bank keeps the correct slots. The trial source
+was deleted; it is reproducible from `vendor/stlport/stl/_monetary.c` plus the
+out-of-line dtor declarations.
+
+Frame analysis: target 0x118 against the bank's 0x110, with every shared local
+at the same displacement (`__loc` 0x3c and the `lea [esp+0x3c]` sequence
+match). The extra 8 bytes are at the top of the frame (B+0x110..B+0x118) and
+are not addressed by the body; the bank already carries the `align(8)`
+pattern, so this is not a missing local object. The 8 bytes track the
+EH-state/frame-size choice that follows the unresolved per-site dtor mix, not
+a separate layout error.
+
+No new lever for the per-site mix: visibility is per function, a nonzero
+`inline_depth` is function-level, and the `basic_string` declaration does not
+move the sites. The wall recorded in "What is left" stands.
