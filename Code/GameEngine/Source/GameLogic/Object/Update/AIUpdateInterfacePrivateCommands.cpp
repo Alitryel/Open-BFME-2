@@ -887,17 +887,19 @@ extern GameLogic *TheGameLogic;
 // 0x00BF91B0 (slot 1 is the matched PartitionFilterPossibleToAttack::allow
 // 0x00260FD0, whose +0x08/+0x0C/+0x10 fields these are) and 0x00BF91BC; the
 // second one's name is Zero Hour's (the filter its privateAttackPosition pairs
-// with the attack filter), donor-carried.
-class PartitionFilter
+// with the attack filter), donor-carried. Their base is the ledger's
+// Rva000421C8 (vtable 0x00BC26E0): both vtables keep its slot 2 0x0036CC7A.
+class Rva000421C8
 {
 public:
-	__declspec(dllimport) __forceinline PartitionFilter() : m_next(0) {}
-	virtual ~PartitionFilter() {}
+	__declspec(dllimport) __forceinline Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
 	virtual Bool allow(Object *objOther) = 0;
-	PartitionFilter *link(PartitionFilter *next);
+	virtual Int getPlayerMask();
+	Rva000421C8 *link(Rva000421C8 *next);
 
 private:
-	PartitionFilter *m_next;					// +0x04
+	Rva000421C8 *m_next;					// +0x04
 };
 
 enum AbleToAttackType
@@ -905,7 +907,7 @@ enum AbleToAttackType
 	ATTACK_NEW_TARGET = 0
 };
 
-class PartitionFilterPossibleToAttack : public PartitionFilter
+class PartitionFilterPossibleToAttack : public Rva000421C8
 {
 public:
 	PartitionFilterPossibleToAttack(AbleToAttackType t, const Object *obj, CommandSourceType commandSource)
@@ -918,7 +920,7 @@ private:
 	AbleToAttackType m_attackType;				// +0x10
 };
 
-class PartitionFilterSameMapStatus : public PartitionFilter
+class PartitionFilterSameMapStatus : public Rva000421C8
 {
 public:
 	__declspec(dllimport) __forceinline PartitionFilterSameMapStatus(const Object *obj) : m_obj(obj) {}
@@ -955,7 +957,7 @@ struct FindPositionOptions
 class PartitionManager
 {
 public:
-	Object *getClosestObject(const Coord3D *pos, float maxDist, Int dc, PartitionFilter *filters);	///< pinned 0x00625360
+	Object *getClosestObject(const Coord3D *pos, float maxDist, Int dc, Rva000421C8 *filters);	///< pinned 0x00625360
 	// 0x00285202 is called with no this and cleans no stack (cdecl, three
 	// arguments): BFME2's findPositionAround is static. Name from Zero Hour.
 	static Bool findPositionAround(const Coord3D *center, const FindPositionOptions *options, Coord3D *result);

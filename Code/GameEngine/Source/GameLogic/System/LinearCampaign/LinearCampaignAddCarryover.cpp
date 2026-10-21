@@ -54,6 +54,18 @@ template<class T>class Rva001EB984PoolAllocator {};
 class FreelistProxyHead {public:void setup(const void*,void*);};
 class FreelistPool {public:void*pop();};
 extern FreelistPool g_freelistPool00DB8FEC;
+// Retail's Object-pointer node factory pops the dedicated freelist (0x001EB9AC); spelled as Player.cpp emits it.
+namespace _STL {
+template <> inline __declspec(noinline)
+_List_node<Object *> *list<Object *, allocator<Object *> >::_M_create_node(Object *const &value)
+{
+    _List_node<Object *> *node = (_List_node<Object *> *)g_freelistPool00DB8FEC.pop();
+    Object **valuePtr = (Object **)((char *)node + 8);
+    if (valuePtr)
+        *valuePtr = value;
+    return node;
+}
+}
 // The visible constructor preserves the native unused-allocator argument
 // placement. Its /Oy- COMDAT copy loses to the exact strong /O1 provider
 // in StlportObjectFreelistListBaseCtor.cpp; no alternate body is called.

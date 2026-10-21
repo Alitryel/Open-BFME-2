@@ -1437,6 +1437,7 @@ public:
 	Rva00260EB1Filter(const Object *obj, Int flags, Bool fromOther)
 		: m_obj(obj), m_flags(flags), m_fromOther(fromOther) {}
 	virtual Bool allow(Object *obj);
+	virtual int getPlayerMask(); // slot 2, 0x00260E6A
 	const Object *m_obj;
 	Int m_flags;
 	Bool m_fromOther;
