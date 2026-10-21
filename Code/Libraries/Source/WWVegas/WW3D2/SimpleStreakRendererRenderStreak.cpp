@@ -7,6 +7,9 @@
 // reverse/attempt_support/0x00126433_simplestreak_render.md.
 // The device declaration comes from reference/shims/bfme_d3d8_sdk_settransform (SDK-typed
 // SetTransform); u_values is stored element by element before `last`, in WB's order.
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "reference/shims/bfme_matrix3d_sse_link/vector4.h"
 #define Matrix4x4 Matrix4
 #define inline __forceinline
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/shader.h"
@@ -42,7 +45,8 @@ class 	StaticSortListClass;
 #define SNAPSHOT_SAY(x)
 class WW3D
 {
-public: static bool IsCurrentlyRenderingShadowMap; static bool Is_Currently_Rendering_Shadow_Map(){return IsCurrentlyRenderingShadowMap;}
+private: static bool IsCurrentlyRenderingShadowMap;
+public: static bool Is_Currently_Rendering_Shadow_Map(){return IsCurrentlyRenderingShadowMap;}
 public:
 enum PrelitModeEnum {
 PRELIT_MODE_VERTEX,
@@ -1212,8 +1216,9 @@ float Rva000032B8(float);
 class SimpleShadowPass { public: virtual void Delete_This(); virtual void slot1(); virtual bool Begin(unsigned*,unsigned); virtual void BeginPass(unsigned); virtual void slot4(); virtual void EndPass(); virtual void End(); int refs; };
 class FXShaderSetup;
 // Shadow FX holder (WB refcount.h shapes); its out-of-line destructor and operator= are retail
-// 0x0007B724 (rowed as Rva00087A93) and 0x00072A94 (rowed as Rva00072A94).
-class Rva00087A93 { public: Rva00087A93(SimpleShadowPass*obj=0):m_obj(obj){} bool IsBound()const{return m_obj!=0;} ~Rva00087A93(){if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}} Rva00087A93&operator=(const Rva00087A93&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}m_obj=r.m_obj;}return *this;} SimpleShadowPass*operator->()const{return m_obj;} SimpleShadowPass*m_obj; };
+// 0x0007B724 (rowed as Rva00087A93) and 0x00072A94 (rowed as Rva00072A94). Both copy the held
+// pointer into a local before the decrement, as those rows do, so neither reloads it.
+class Rva00087A93 { public: Rva00087A93(SimpleShadowPass*obj=0):m_obj(obj){} bool IsBound()const{return m_obj!=0;} ~Rva00087A93(){SimpleShadowPass*obj=m_obj;if(obj&&--obj->refs==0)obj->Delete_This();} Rva00087A93&operator=(const Rva00087A93&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;SimpleShadowPass*old=m_obj;if(old&&--old->refs==0)old->Delete_This();m_obj=r.m_obj;}return *this;} SimpleShadowPass*operator->()const{return m_obj;} SimpleShadowPass*m_obj; };
 #pragma comment(linker, "/alternatename:?Rva000032B8@@YAMM@Z=?Rva000032B8@@YANM@Z")
 #define s_AlphaShadowFXShader (*(Rva00087A93*)&g_Va00DEE870)
 #define s_AdditiveShadowFXShader (*(Rva00087A93*)&g_Va00DEE86C)
