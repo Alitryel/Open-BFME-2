@@ -412,6 +412,11 @@ the paren lever).
     symbol count (0x00126433, 0x00743700).
   - Named local copies (`T *self=this;`) and removed pointer copies move F;
     inline accessors do not.
+  - Temporary keys wrap every 2048 temps (32·X mod 0x10000), so a strength-
+    reduced store `[iv+diff]` flips to `[diff+iv]` when the diff temp's X
+    crosses 256·(F(in)&7). Every paren node before the loop adds a temp:
+    dropping outer RHS parens on earlier, unrelated rows moves X back without
+    touching their code (0x0016BF40).
 - **CSE hash vars are lexical.** Declaring a local once and sharing it between
   two branches turns the second branch's expressions into hits and renumbers
   every later hash var (0x0017D770).
