@@ -83,7 +83,7 @@ class Rva006D2A60 { public: void *allocBlock(int); void freeBlock(void *,int); }
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 // Native InitArray allocates44B; ctor6D91B0 builds type0x16, hash+8,
 // AptArray vtableCEA778 and slots+20/+24/+28. Unaccessed state stays opaque.
-class AptArray : public AptValue { char m_arrayState[32]; public: int mnCount; AptValue *GetAt(int) const; AptArray(); static void *operator new(unsigned int n) { return g_pChainBlockAllocatorF4->allocBlock(n); } static void operator delete(void *p,unsigned int n) { g_pChainBlockAllocatorF4->freeBlock(p,n); } AptValue *get(int); void set(int,AptValue *); };
+class AptArray : public AptValue { char m_arrayState[32]; public: int mnCount; AptValue *GetAt(int) const; AptArray(); static void *operator new(unsigned int n) { return g_pChainBlockAllocatorF4->allocBlock(n); } static void operator delete(void *interpreter,unsigned int n) { g_pChainBlockAllocatorF4->freeBlock(interpreter,n); } AptValue *get(int); void set(int,AptValue *); };
 // PC callbacks occupy two independently zero-initialized slots in gAptFuncs.
 // Member handlers establish the getter/setter ABI; later source names their role.
 AptValue *(__cdecl *g_bfmeAptGetExternAtE17768)(const char *)=0;
@@ -340,118 +340,118 @@ private:
     HANDLER(ImplementsOp);
 #undef HANDLER
 };
-void AptActionInterpreter::_FunctionAptActionPushFloat(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushFloat(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    const unsigned char *i=c->pInstruction;
+    const unsigned char *i=localContext->pInstruction;
     union { float value; struct { char c0,c1,c2,c3; } bytes; } v;
     v.bytes.c0=*i++;v.bytes.c1=*i++;v.bytes.c2=*i++;v.bytes.c3=*i++;
-    c->pInstruction=i;
-    p->stack.Push(Rva008A4EA0MakeFloat(v.value));
+    localContext->pInstruction=i;
+    interpreter->stack.Push(Rva008A4EA0MakeFloat(v.value));
 }
-void AptActionInterpreter::_FunctionAptActionPushByte(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushByte(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    signed char value=*c->pInstruction++;
-    p->stack.Push(AptInteger::Create(value));
+    signed char value=*localContext->pInstruction++;
+    interpreter->stack.Push(AptInteger::Create(value));
 }
-void AptActionInterpreter::_FunctionAptActionPushWord(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushWord(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    const unsigned char *i=c->pInstruction;
+    const unsigned char *i=localContext->pInstruction;
     union { short value; struct { unsigned char c0,c1; } bytes; } v;
     v.bytes.c0=*i++;v.bytes.c1=*i++;
-    c->pInstruction=i;
-    p->stack.Push(AptInteger::Create(v.value));
+    localContext->pInstruction=i;
+    interpreter->stack.Push(AptInteger::Create(v.value));
 }
-void AptActionInterpreter::_FunctionAptActionPushDWord(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushDWord(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    const unsigned char *i=c->pInstruction;
+    const unsigned char *i=localContext->pInstruction;
     volatile union { int value; struct { unsigned char c0,c1,c2,c3; } bytes; } v;
     v.bytes.c0=*i++;v.bytes.c1=*i++;v.bytes.c2=*i++;v.bytes.c3=*i++;
-    c->pInstruction=i;
-    p->stack.Push(AptInteger::Create(v.value));
+    localContext->pInstruction=i;
+    interpreter->stack.Push(AptInteger::Create(v.value));
 }
-void AptActionInterpreter::_FunctionAptActionReturn(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionReturn(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->bEncounteredReturn=true;
+    localContext->bEncounteredReturn=true;
 }
-void AptActionInterpreter::_FunctionAptActionDefineDictionary(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDefineDictionary(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const AptConstantPool *data=(const AptConstantPool *)c->pInstruction;
-    c->pInstruction+=sizeof(AptConstantPool);
-    p->constantPool=*data;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const AptConstantPool *data=(const AptConstantPool *)localContext->pInstruction;
+    localContext->pInstruction+=sizeof(AptConstantPool);
+    interpreter->constantPool=*data;
 }
-void AptActionInterpreter::_FunctionAptActionPushStringDictByte(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushStringDictByte(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    unsigned char index=*c->pInstruction++;
-    p->stack.Push(p->constantPool.apItems[index]);
+    unsigned char index=*localContext->pInstruction++;
+    interpreter->stack.Push(interpreter->constantPool.apItems[index]);
 }
-void AptActionInterpreter::_FunctionAptActionPushStringDictWord(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushStringDictWord(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    const unsigned char *i=c->pInstruction;
+    const unsigned char *i=localContext->pInstruction;
     union { unsigned short index; struct { char c0,c1; } bytes; } v;
     v.bytes.c0=*i++;v.bytes.c1=*i++;
-    c->pInstruction=i;
-    p->stack.Push(p->constantPool.apItems[v.index]);
+    localContext->pInstruction=i;
+    interpreter->stack.Push(interpreter->constantPool.apItems[v.index]);
 }
-void AptActionInterpreter::_FunctionAptActionPushThis(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushThis(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     AptString *s=AptString::Create();
     s->str=*Rva0070B4F0GetString(0xA4);
-    p->stack.Push(s);
+    interpreter->stack.Push(s);
 }
-void AptActionInterpreter::_FunctionAptActionPushGlobal(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushGlobal(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     AptString *s=AptString::Create();
     s->str=*Rva0070B4F0GetString(7);
-    p->stack.Push(s);
+    interpreter->stack.Push(s);
 }
-void AptActionInterpreter::_FunctionAptActionPush0(AptActionInterpreter *const p, LocalContextT *const c) { p->stack.Push(AptInteger::Create(0)); }
-void AptActionInterpreter::_FunctionAptActionPush1(AptActionInterpreter *const p, LocalContextT *const c) { p->stack.Push(AptInteger::Create(1)); }
-void AptActionInterpreter::_FunctionAptActionPushTrue(AptActionInterpreter *const p, LocalContextT *const c) { p->stack.Push(AptBoolean::Create(true)); }
-void AptActionInterpreter::_FunctionAptActionPushFalse(AptActionInterpreter *const p, LocalContextT *const c) { p->stack.Push(AptBoolean::Create(false)); }
-void AptActionInterpreter::_FunctionAptActionPushUndefined(AptActionInterpreter *const p, LocalContextT *const c) { p->stack.Push(gpUndefinedValue); }
+void AptActionInterpreter::_FunctionAptActionPush0(AptActionInterpreter *const interpreter, LocalContextT *const localContext) { interpreter->stack.Push(AptInteger::Create(0)); }
+void AptActionInterpreter::_FunctionAptActionPush1(AptActionInterpreter *const interpreter, LocalContextT *const localContext) { interpreter->stack.Push(AptInteger::Create(1)); }
+void AptActionInterpreter::_FunctionAptActionPushTrue(AptActionInterpreter *const interpreter, LocalContextT *const localContext) { interpreter->stack.Push(AptBoolean::Create(true)); }
+void AptActionInterpreter::_FunctionAptActionPushFalse(AptActionInterpreter *const interpreter, LocalContextT *const localContext) { interpreter->stack.Push(AptBoolean::Create(false)); }
+void AptActionInterpreter::_FunctionAptActionPushUndefined(AptActionInterpreter *const interpreter, LocalContextT *const localContext) { interpreter->stack.Push(gpUndefinedValue); }
 
 typedef char LocalContextSize[sizeof(AptActionInterpreter::LocalContextT)==28 ? 1 : -1];
 typedef char ConstantPoolSize[sizeof(AptConstantPool)==8 ? 1 : -1];
 // Use the existing byte-verified stack provider's repository spelling.
 #pragma comment(linker, "/alternatename:?Push@AptBasePtrStack@@QAEXPAVAptValue@@@Z=?Push@AptBasePtrStack@@QAEXPAVBfmeAptValue006DCD20@@@Z")
 
-void AptActionInterpreter::_FunctionAptActionPushThisVariable(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushThisVariable(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *v=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,Rva0070B4F0GetString(0xA4),1);
-    p->stack.Push(v);
+    AptValue *v=interpreter->getVariable((AptValue *)localContext->pCurrentContext,localContext->pCurWith,Rva0070B4F0GetString(0xA4),1);
+    interpreter->stack.Push(v);
 }
-void AptActionInterpreter::_FunctionAptActionPushGlobalVariable(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushGlobalVariable(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    p->stack.Push(gpGlobalGlobalObject);
+    interpreter->stack.Push(gpGlobalGlobalObject);
 }
-void AptActionInterpreter::_FunctionAptActionPushZeroSetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushZeroSetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    p->stack.Push(AptInteger::Create(0));
-    _FunctionAptActionSetVariable(p,c);
+    interpreter->stack.Push(AptInteger::Create(0));
+    _FunctionAptActionSetVariable(interpreter,localContext);
 }
-void AptActionInterpreter::_FunctionAptActionPushString(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushString(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const char *const *data=(const char *const *)c->pInstruction;
-    c->pInstruction+=4;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const char *const *data=(const char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
     AptString *s=AptString::Create();
     s->str=*data;
-    p->stack.Push(s);
+    interpreter->stack.Push(s);
 }
-void AptActionInterpreter::_FunctionAptActionStringDictByteGetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStringDictByteGetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    unsigned char index=*c->pInstruction++;
-    AptValue *s=p->constantPool.apItems[index];
+    unsigned char index=*localContext->pInstruction++;
+    AptValue *s=interpreter->constantPool.apItems[index];
     EAStringC *name=&s->c_string()->str;
-    AptValue *v=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,name,1);
-    p->stack.Push(v);
+    AptValue *v=interpreter->getVariable((AptValue *)localContext->pCurrentContext,localContext->pCurWith,name,1);
+    interpreter->stack.Push(v);
 }
-void AptActionInterpreter::_FunctionAptActionStringDictByteGetMember(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStringDictByteGetMember(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    unsigned char index=*c->pInstruction++;
-    p->stack.Push(p->constantPool.apItems[index]);
-    _FunctionAptActionGetMember(p,c);
+    unsigned char index=*localContext->pInstruction++;
+    interpreter->stack.Push(interpreter->constantPool.apItems[index]);
+    _FunctionAptActionGetMember(interpreter,localContext);
 }
 
 // Source headers declare c_string() const; native callers select this exact
@@ -459,70 +459,70 @@ void AptActionInterpreter::_FunctionAptActionStringDictByteGetMember(AptActionIn
 #pragma comment(linker, "/alternatename:?c_string@AptValue@@QBEPAVAptString@@XZ=?checkedString@BfmeAptValue006DCD20@@QAEPAV1@XZ")
 #pragma comment(linker, "/alternatename:?gpGlobalGlobalObject@@3PAVAptValue@@A=?g_00E18650@@3VEAStringC@@A")
 
-void AptActionInterpreter::_FunctionAptActionPushStringGetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushStringGetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const char *const *data=(const char *const *)c->pInstruction;
-    c->pInstruction+=4;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const char *const *data=(const char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
     (*reinterpret_cast<EAStringC *>(&g_eaStringAtE177D4Storage))=*data;
-    AptValue *v=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,&(*reinterpret_cast<EAStringC *>(&g_eaStringAtE177D4Storage)),1);
-    p->stack.Push(v);
+    AptValue *v=interpreter->getVariable((AptValue *)localContext->pCurrentContext,localContext->pCurWith,&(*reinterpret_cast<EAStringC *>(&g_eaStringAtE177D4Storage)),1);
+    interpreter->stack.Push(v);
 }
 
-void AptActionInterpreter::_FunctionAptActionPushStringGetMember(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushStringGetMember(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const char *const *data=(const char *const *)c->pInstruction;
-    c->pInstruction+=4;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const char *const *data=(const char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
     AptString *s=AptString::Create();
     s->str=*data;
-    p->stack.Push(s);
-    _FunctionAptActionGetMember(p,c);
+    interpreter->stack.Push(s);
+    _FunctionAptActionGetMember(interpreter,localContext);
 }
 
-void AptActionInterpreter::_FunctionAptActionPushStringSetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushStringSetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const char *const *data=(const char *const *)c->pInstruction;
-    c->pInstruction+=4;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const char *const *data=(const char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
     AptString *s=AptString::Create();
     s->str=*data;
-    p->stack.Push(s);
-    _FunctionAptActionSetVariable(p,c);
+    interpreter->stack.Push(s);
+    _FunctionAptActionSetVariable(interpreter,localContext);
 }
 
-void AptActionInterpreter::_FunctionAptActionPushStringSetMember(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushStringSetMember(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const char *const *data=(const char *const *)c->pInstruction;
-    c->pInstruction+=4;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const char *const *data=(const char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
     AptString *s=AptString::Create();
     s->str=*data;
-    p->stack.Push(s);
-    _FunctionAptActionSetMember(p,c);
+    interpreter->stack.Push(s);
+    _FunctionAptActionSetMember(interpreter,localContext);
 }
 
-void AptActionInterpreter::_FunctionAptActionPushDuplicate(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPushDuplicate(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *v=p->stack.At(0);
-    p->stack.Push(v);
+    AptValue *v=interpreter->stack.At(0);
+    interpreter->stack.Push(v);
 }
-void AptActionInterpreter::_FunctionAptActionStackSwap(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStackSwap(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *a=p->stack.At(0);
-    AptValue *b=p->stack.At(1);
-    p->stack.PopNoDec();
-    p->stack.PopNoDec();
-    p->stack.PushNoInc(a);
-    p->stack.PushNoInc(b);
+    AptValue *a=interpreter->stack.At(0);
+    AptValue *b=interpreter->stack.At(1);
+    interpreter->stack.PopNoDec();
+    interpreter->stack.PopNoDec();
+    interpreter->stack.PushNoInc(a);
+    interpreter->stack.PushNoInc(b);
 }
 
 #pragma comment(linker, "/alternatename:?PushNoInc@AptBasePtrStack@@QAEXPAVAptValue@@@Z=?rva006FE7B0@AptBasePtrStack@@QAEXPAVBfmeAptValue006DCD20@@@Z")
 
-void AptActionInterpreter::_FunctionAptActionAdd(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionAdd(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -538,14 +538,14 @@ void AptActionInterpreter::_FunctionAptActionAdd(AptActionInterpreter *const p, 
             result=Rva008A4EA0MakeFloat(a+b);
         }
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionSubtract(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionSubtract(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -561,14 +561,14 @@ void AptActionInterpreter::_FunctionAptActionSubtract(AptActionInterpreter *cons
             result=Rva008A4EA0MakeFloat(b-a);
         }
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionMultiply(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionMultiply(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -584,8 +584,8 @@ void AptActionInterpreter::_FunctionAptActionMultiply(AptActionInterpreter *cons
             result=Rva008A4EA0MakeFloat(a*b);
         }
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
 // Each alias binds the independently checked retail provider. GetInt folds
@@ -596,10 +596,10 @@ void AptActionInterpreter::_FunctionAptActionMultiply(AptActionInterpreter *cons
 #pragma comment(linker, "/alternatename:?toFloat@AptValue@@QBEMXZ=?rva006DD460@BfmeAptValue006DCD20@@QAEMXZ")
 #pragma comment(linker, "/alternatename:?GetInt@AptInteger@@QBEHXZ=?Length@?$SimpleVecClass@K@@QBEHXZ")
 
-void AptActionInterpreter::_FunctionAptActionDivide(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDivide(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -610,14 +610,14 @@ void AptActionInterpreter::_FunctionAptActionDivide(AptActionInterpreter *const 
         if (a==0.f) result=gpUndefinedValue;
         else result=Rva008A4EA0MakeFloat(b/a);
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionModulo(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionModulo(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -627,13 +627,13 @@ void AptActionInterpreter::_FunctionAptActionModulo(AptActionInterpreter *const 
         if (a==0.f) result=gpUndefinedValue;
         else result=Rva008A4EA0MakeFloat(bfme_fmodf(bValue->toFloat(),a));
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionIncrement(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionIncrement(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (value->isUndefined()) result=gpUndefinedValue;
@@ -642,13 +642,13 @@ void AptActionInterpreter::_FunctionAptActionIncrement(AptActionInterpreter *con
         if (value->isInteger()) result=AptInteger::Create(value->toInteger()+1);
         else result=Rva008A4EA0MakeFloat(value->toFloat()+1.f);
     }
-    p->stack.Pop();
-    p->stack.Push(result);
+    interpreter->stack.Pop();
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionDecrement(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDecrement(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (value->isUndefined()) result=gpUndefinedValue;
@@ -657,16 +657,16 @@ void AptActionInterpreter::_FunctionAptActionDecrement(AptActionInterpreter *con
         if (value->isInteger()) result=AptInteger::Create(value->toInteger()-1);
         else result=Rva008A4EA0MakeFloat(value->toFloat()-1.f);
     }
-    p->stack.Pop();
-    p->stack.Push(result);
+    interpreter->stack.Pop();
+    interpreter->stack.Push(result);
 }
 
 #pragma comment(linker, "/alternatename:?toInteger@AptValue@@QBEHXZ=?toInteger@BfmeAptValue006DCD20@@QBEHXZ")
 
-void AptActionInterpreter::_FunctionAptActionEquals(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionEquals(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -682,14 +682,14 @@ void AptActionInterpreter::_FunctionAptActionEquals(AptActionInterpreter *const 
             result=AptBoolean::Create(fabs(a-b)<0.001);
         }
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionLessThan(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionLessThan(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -705,14 +705,14 @@ void AptActionInterpreter::_FunctionAptActionLessThan(AptActionInterpreter *cons
             result=AptBoolean::Create(b<a);
         }
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionAnd(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionAnd(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -728,14 +728,14 @@ void AptActionInterpreter::_FunctionAptActionAnd(AptActionInterpreter *const p, 
             result=AptBoolean::Create((a!=0.f && b!=0.f) ? true : false);
         }
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionOr(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionOr(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *aValue=p->stack.At(0);
-    AptValue *bValue=p->stack.At(1);
+    AptValue *aValue=interpreter->stack.At(0);
+    AptValue *bValue=interpreter->stack.At(1);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (aValue->isUndefined() || bValue->isUndefined()) result=gpUndefinedValue;
@@ -751,58 +751,58 @@ void AptActionInterpreter::_FunctionAptActionOr(AptActionInterpreter *const p, L
             result=AptBoolean::Create((a!=0.f || b!=0.f) ? true : false);
         }
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionNot(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionNot(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     AptValue *result=AptBoolean::Create(!value->toBool());
-    p->stack.Pop();
-    p->stack.Push(result);
+    interpreter->stack.Pop();
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionBranchAlways(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionBranchAlways(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const int *data=(const int *)c->pInstruction;
-    c->pInstruction+=4;
-    c->pInstruction+=*data;
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const int *data=(const int *)localContext->pInstruction;
+    localContext->pInstruction+=4;
+    localContext->pInstruction+=*data;
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionBranchIfTrue(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionBranchIfTrue(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const int *data=(const int *)c->pInstruction;
-    c->pInstruction+=4;
-    AptValue *condition=p->stack.At(0);
-    if (condition->toBool()==true) c->pInstruction+=*data;
-    p->stack.Pop();
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const int *data=(const int *)localContext->pInstruction;
+    localContext->pInstruction+=4;
+    AptValue *condition=interpreter->stack.At(0);
+    if (condition->toBool()==true) localContext->pInstruction+=*data;
+    interpreter->stack.Pop();
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionBranchIfFalse(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionBranchIfFalse(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const int *data=(const int *)c->pInstruction;
-    c->pInstruction+=4;
-    AptValue *condition=p->stack.At(0);
-    if (condition->toBool()==false) c->pInstruction+=*data;
-    p->stack.Pop();
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const int *data=(const int *)localContext->pInstruction;
+    localContext->pInstruction+=4;
+    AptValue *condition=interpreter->stack.At(0);
+    if (condition->toBool()==false) localContext->pInstruction+=*data;
+    interpreter->stack.Pop();
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionPop(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPop(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    int stackElements=p->stack.count;
-    if (stackElements<=p->mnStackFrameBase)
+    int stackElements=interpreter->stack.count;
+    if (stackElements<=interpreter->mnStackFrameBase)
         Rva006CC110Log(3,"--Warning-- Actionscript Popping when no items are in stack!\n");
-    if (stackElements>p->mnStackFrameBase) p->stack.Pop();
+    if (stackElements>interpreter->mnStackFrameBase) interpreter->stack.Pop();
     if (stackElements==1) {
         if (g_releaseVectorAtE17710->GetNumValues()!=0)
             g_releaseVectorAtE17710->ReleaseValues();
@@ -813,123 +813,123 @@ void AptActionInterpreter::_FunctionAptActionPop(AptActionInterpreter *const p, 
 // is independently established by AptValueVector::ReleaseValues and PopValue.
 #pragma comment(linker, "/alternatename:?GetNumValues@AptValueVector@@QBEHXZ=?Get_First_Collected_Object_Internal@CullSystemClass@@IAEPAVCullableClass@@XZ")
 
-void AptActionInterpreter::_FunctionAptActionCallFuncAndPop(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCallFuncAndPop(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    _FunctionAptActionCallFunction(p,c);
-    p->stack.Pop();
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    _FunctionAptActionCallFunction(interpreter,localContext);
+    interpreter->stack.Pop();
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionCallFuncSetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCallFuncSetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    _FunctionAptActionCallFunction(p,c);
-    _FunctionAptActionSetVariable(p,c);
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    _FunctionAptActionCallFunction(interpreter,localContext);
+    _FunctionAptActionSetVariable(interpreter,localContext);
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionCallMethodPop(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCallMethodPop(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    _FunctionAptActionCallMethod(p,c);
-    p->stack.Pop();
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    _FunctionAptActionCallMethod(interpreter,localContext);
+    interpreter->stack.Pop();
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionCallMethodSetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCallMethodSetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    _FunctionAptActionCallMethod(p,c);
-    _FunctionAptActionSetVariable(p,c);
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    _FunctionAptActionCallMethod(interpreter,localContext);
+    _FunctionAptActionSetVariable(interpreter,localContext);
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
 // Native dictionary-call handlers advance the instruction pointer before the
 // call. Later source advances afterward; keep the independently verified order.
-void AptActionInterpreter::_FunctionAptActionDictCallFuncPop(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDictCallFuncPop(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    unsigned char index=*c->pInstruction++;
-    p->stack.Push(p->constantPool.apItems[index]);
-    _FunctionAptActionCallFunction(p,c);
-    p->stack.Pop();
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    unsigned char index=*localContext->pInstruction++;
+    interpreter->stack.Push(interpreter->constantPool.apItems[index]);
+    _FunctionAptActionCallFunction(interpreter,localContext);
+    interpreter->stack.Pop();
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionDictCallFuncSetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDictCallFuncSetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    unsigned char index=*c->pInstruction++;
-    p->stack.Push(p->constantPool.apItems[index]);
-    _FunctionAptActionCallFunction(p,c);
-    _FunctionAptActionSetVariable(p,c);
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    unsigned char index=*localContext->pInstruction++;
+    interpreter->stack.Push(interpreter->constantPool.apItems[index]);
+    _FunctionAptActionCallFunction(interpreter,localContext);
+    _FunctionAptActionSetVariable(interpreter,localContext);
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionDictCallMethodPop(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDictCallMethodPop(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    unsigned char index=*c->pInstruction++;
-    p->stack.Push(p->constantPool.apItems[index]);
-    _FunctionAptActionCallMethod(p,c);
-    p->stack.Pop();
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    unsigned char index=*localContext->pInstruction++;
+    interpreter->stack.Push(interpreter->constantPool.apItems[index]);
+    _FunctionAptActionCallMethod(interpreter,localContext);
+    interpreter->stack.Pop();
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionDictCallMethodSetVar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDictCallMethodSetVar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    unsigned char index=*c->pInstruction++;
-    p->stack.Push(p->constantPool.apItems[index]);
-    _FunctionAptActionCallMethod(p,c);
-    _FunctionAptActionSetVariable(p,c);
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    unsigned char index=*localContext->pInstruction++;
+    interpreter->stack.Push(interpreter->constantPool.apItems[index]);
+    _FunctionAptActionCallMethod(interpreter,localContext);
+    _FunctionAptActionSetVariable(interpreter,localContext);
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionToInteger(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionToInteger(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     AptValue *result=0;
     if (Rva006CD220Get()==7) {
         if (value->isUndefined()) result=gpUndefinedValue;
     }
     if (!result) result=AptInteger::Create(value->toInteger());
-    p->stack.Pop();
-    p->stack.Push(result);
+    interpreter->stack.Pop();
+    interpreter->stack.Push(result);
 }
-void AptActionInterpreter::_FunctionAptActionStringLength(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStringLength(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     EAStringC text;
     value->toString(text);
     AptValue *result=AptInteger::Create(text.rva006D3750());
-    p->stack.Pop(1);
-    p->stack.Push(result);
+    interpreter->stack.Pop(1);
+    interpreter->stack.Push(result);
 }
-void AptActionInterpreter::_FunctionAptActionGetVariable(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGetVariable(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *name=p->stack.At(0);
+    AptValue *name=interpreter->stack.At(0);
     if (!name->isUndefined()) {
         EAStringC text;
         name->toString(text);
-        AptValue *value=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,&text,1);
-        p->stack.Pop();
-        p->stack.Push(value);
+        AptValue *value=interpreter->getVariable((AptValue *)localContext->pCurrentContext,localContext->pCurWith,&text,1);
+        interpreter->stack.Pop();
+        interpreter->stack.Push(value);
     }
 }
 
 // The native ToNumber shares the source's early return for SWF7 undefined;
 // retaining that branch also preserves its final argument-setup scheduling.
-void AptActionInterpreter::_FunctionAptActionToNumber(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionToNumber(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     if (!value->isFloat() && !value->isInteger()) {
         AptValue *result=gpUndefinedValue;
         if (!rva006fc370(value)) {
             if (Rva006CD220Get()==7 && value->isUndefined()) {
-                p->stack.rva006FE920();
-                p->stack.Push(result);
+                interpreter->stack.rva006FE920();
+                interpreter->stack.Push(result);
                 return;
             }
             EAStringC text;
@@ -938,41 +938,41 @@ void AptActionInterpreter::_FunctionAptActionToNumber(AptActionInterpreter *cons
             if (place!=-1 && place!=text.rva006D3750()) result=Rva008A4EA0MakeFloat(value->toFloat());
             else result=AptInteger::Create(value->toInteger());
         }
-        p->stack.rva006FE920();
-        p->stack.Push(result);
+        interpreter->stack.rva006FE920();
+        interpreter->stack.Push(result);
     }
 }
 // Native ToString handles SWF7 undefined through pooled text ID A9; the later
 // implementation uses Append_ToString. Preserve the native scoped temporary
 // and original SetString path, both independently visible in PC calls.
-void AptActionInterpreter::_FunctionAptActionToString(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionToString(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     if (!value->isString()) {
         if (Rva006CD220Get()==7 && value->isUndefined()) {
             AptString *str=AptString::Create();
             str->SetString(Rva0070B4F0GetString(0xA9)->rva00620090());
-            p->stack.rva006FE920();
-            p->stack.Push(str);
+            interpreter->stack.rva006FE920();
+            interpreter->stack.Push(str);
             return;
         }
         EAStringC text;
         value->toString(text);
-        p->stack.Pop();
+        interpreter->stack.Pop();
         AptString *str=AptString::Create();
         str->str=text;
-        p->stack.Push(str);
+        interpreter->stack.Push(str);
     }
 }
-void AptActionInterpreter::_FunctionAptActionSetVariable(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionSetVariable(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     EAStringC text;
-    AptValue *value=p->stack.At(0);
-    AptValue *name=p->stack.At(1);
+    AptValue *value=interpreter->stack.At(0);
+    AptValue *name=interpreter->stack.At(1);
     name->toString(text);
-    p->setVariable((AptValue *)c->pCurrentContext,c->pCurWith,&text,value,1);
-    p->stack.Pop(2);
-    if (g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0)
+    interpreter->setVariable((AptValue *)localContext->pCurrentContext,localContext->pCurWith,&text,value,1);
+    interpreter->stack.Pop(2);
+    if (g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0)
         g_releaseVectorAtE17710->ReleaseValues();
 }
 
@@ -981,10 +981,10 @@ void AptActionInterpreter::_FunctionAptActionSetVariable(AptActionInterpreter *c
 
 // PC equality uses two scoped native strings and retains nResult until the
 // Boolean factory; IsEqualTo is the existing provider for the source equality.
-void AptActionInterpreter::_FunctionAptActionStringEquals(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStringEquals(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *a=p->stack.At(0);
-    AptValue *b=p->stack.At(1);
+    AptValue *a=interpreter->stack.At(0);
+    AptValue *b=interpreter->stack.At(1);
     AptValue *result=0;
     int nResult=0;
     if (Rva006CD220Get()==7) {
@@ -1002,70 +1002,70 @@ void AptActionInterpreter::_FunctionAptActionStringEquals(AptActionInterpreter *
         if(as.IsEqualTo(&bs)) nResult=1;
         result=AptBoolean::Create(nResult!=0);
     }
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
 // The native Delete passes bIsMember=0, unlike the later source branch.
 // Its virtual slot4 predicate corresponds to ContainsNativeHashVirtual;
 // the original AptValue header independently supplies the const bool type.
-void AptActionInterpreter::_FunctionAptActionDelete(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDelete(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *name=p->stack.At(0);
-    AptValue *object=p->stack.At(1);
+    AptValue *name=interpreter->stack.At(0);
+    AptValue *object=interpreter->stack.At(1);
     if(object->ContainsNativeHashVirtual()) {
         EAStringC text;
         name->toString(text);
-        p->setVariable(object,c->pCurWith,&text,0,1,1,0);
+        interpreter->setVariable(object,localContext->pCurWith,&text,0,1,1,0);
     }
-    p->stack.Pop(2);
-    p->stack.Push(AptInteger::Create(1));
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(AptInteger::Create(1));
 }
-void AptActionInterpreter::_FunctionAptActionDelete2(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionDelete2(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *name=p->stack.At(0);
+    AptValue *name=interpreter->stack.At(0);
     EAStringC text;
     name->toString(text);
-    p->setVariable((AptValue *)c->pCurrentContext,c->pCurWith,&text,0,1,1,0);
-    p->stack.Pop();
-    p->stack.Push(AptInteger::Create(1));
+    interpreter->setVariable((AptValue *)localContext->pCurrentContext,localContext->pCurWith,&text,0,1,1,0);
+    interpreter->stack.Pop();
+    interpreter->stack.Push(AptInteger::Create(1));
 }
 
-void AptActionInterpreter::_FunctionAptActionGetMember(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGetMember(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *name=p->stack.At(0);
-    AptValue *object=p->stack.At(1);
+    AptValue *name=interpreter->stack.At(0);
+    AptValue *object=interpreter->stack.At(1);
     if(object->isUndefined() || name->isUndefined()) {
-        p->stack.Pop(2);
-        p->stack.Push(gpUndefinedValue);
+        interpreter->stack.Pop(2);
+        interpreter->stack.Push(gpUndefinedValue);
     } else if(object->isArray() && (name->isInteger() || name->isFloat())) {
         AptArray *array=object->c_array();
         AptValue *value=array->get(name->toInteger());
-        p->stack.PopAndPush(2,value);
+        interpreter->stack.PopAndPush(2,value);
     } else if(object->isExtern()) {
         AptValue *value=g_bfmeAptGetExternAtE17768(name->c_string()->GetInternalString()->rva00620090());
-        p->stack.PopAndPush(2,value);
+        interpreter->stack.PopAndPush(2,value);
     } else {
         EAStringC text;
         name->toString(text);
-        AptValue *value=p->getVariable(object,0,&text,1,0,1);
-        p->stack.PopAndPush(2,value);
+        AptValue *value=interpreter->getVariable(object,0,&text,1,0,1);
+        interpreter->stack.PopAndPush(2,value);
     }
 }
 // PC always converts the member name into a temporary (later source adds a
 // string fast path). Native pooled ID0 is __proto__; slot6 sets hasClass.
-void AptActionInterpreter::_FunctionAptActionSetMember(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionSetMember(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
-    AptValue *name=p->stack.At(1);
-    AptValue *object=p->stack.At(2);
+    AptValue *value=interpreter->stack.At(0);
+    AptValue *name=interpreter->stack.At(1);
+    AptValue *object=interpreter->stack.At(2);
     if(object->isArray() && (name->isInteger() || name->isFloat())) {
         AptArray *array=object->c_array();
         array->set(name->toInteger(),value);
     } else if(object->ContainsNativeHashVirtual() || object->isCIH()) {
         EAStringC text;
         name->toString(text);
-        p->setVariable(object,c->pCurWith,&text,value,1,0,1);
+        interpreter->setVariable(object,localContext->pCurWith,&text,value,1,0,1);
         if(text.IsEqualTo(Rva0070B4F0GetString(0)) && (object->isObject() || object->isCIH())) object->setHasClass(1);
     } else if(object->isExtern()) {
         EAStringC text;
@@ -1073,8 +1073,8 @@ void AptActionInterpreter::_FunctionAptActionSetMember(AptActionInterpreter *con
         AptString *str=name->c_string();
         g_bfmeAptSetExternAtE17764(str->str.rva00620090(),text.rva00620090());
     }
-    p->stack.Pop(3);
-    if(g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0) g_releaseVectorAtE17710->ReleaseValues();
+    interpreter->stack.Pop(3);
+    if(g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0) g_releaseVectorAtE17710->ReleaseValues();
 }
 
 #pragma comment(linker, "/alternatename:?isArray@AptValue@@QBE_NXZ=?isArray@BfmeAptValue006DCD20@@QBEHXZ")
@@ -1092,11 +1092,11 @@ void AptActionInterpreter::_FunctionAptActionSetMember(AptActionInterpreter *con
 
 // The native UTF-8 substring overloads return EAStringC by value. Preserve
 // their temporary lifetimes and the clamped one-based ActionScript index.
-void AptActionInterpreter::_FunctionAptActionSubString(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionSubString(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *count=p->stack.At(0);
-    AptValue *index=p->stack.At(1);
-    AptValue *value=p->stack.At(2);
+    AptValue *count=interpreter->stack.At(0);
+    AptValue *index=interpreter->stack.At(1);
+    AptValue *value=interpreter->stack.At(2);
     int nCount=count->toInteger();
     int nIndex=index->toInteger();
     --nIndex;
@@ -1107,31 +1107,31 @@ void AptActionInterpreter::_FunctionAptActionSubString(AptActionInterpreter *con
     if(nCount==0) sub->str.rva006D3470();
     else if(nCount<0) sub->str=text.rva006D5ED0(nIndex);
     else sub->str=text.rva006d5f30(nIndex,nCount);
-    p->stack.Pop(3);
-    p->stack.Push(sub);
+    interpreter->stack.Pop(3);
+    interpreter->stack.Push(sub);
 }
-void AptActionInterpreter::_FunctionAptActionAsciiToChar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionAsciiToChar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     if(!value->isUndefined()) {
         AptString *str=AptString::Create();
         str->str=EAStringC(value->toInteger(),1);
-        p->stack.Pop();
-        p->stack.Push(str);
+        interpreter->stack.Pop();
+        interpreter->stack.Push(str);
     } else {
-        p->stack.Pop();
-        p->stack.Push(gpUndefinedValue);
+        interpreter->stack.Pop();
+        interpreter->stack.Push(gpUndefinedValue);
     }
 }
 
-void AptActionInterpreter::_FunctionAptActionGreater(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGreater(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *a=p->stack.At(0);
-    AptValue *b=p->stack.At(1);
+    AptValue *a=interpreter->stack.At(0);
+    AptValue *b=interpreter->stack.At(1);
     if(Rva006CD220Get()==7) {
         if(a->isUndefined() || b->isUndefined()) {
-            p->stack.Pop(2);
-            p->stack.Push(gpUndefinedValue);
+            interpreter->stack.Pop(2);
+            interpreter->stack.Push(gpUndefinedValue);
             return;
         }
     }
@@ -1143,15 +1143,15 @@ void AptActionInterpreter::_FunctionAptActionGreater(AptActionInterpreter *const
     } else {
         result=b->toInteger()>a->toInteger();
     }
-    p->stack.PopAndPush(2,AptBoolean::Create(result!=0));
+    interpreter->stack.PopAndPush(2,AptBoolean::Create(result!=0));
 }
 
 // PC Trace builds prefix/text/newline before invoking the existing log slot.
 // Its SWF7 undefined temporary and null check are visible in native branches;
 // later source logs directly and therefore only supplies the semantic lead.
-void AptActionInterpreter::_FunctionAptActionTrace(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionTrace(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     EAStringC text;
     AptString *undefined=0;
     if(Rva006CD220Get()==7 && value->isUndefined()) {
@@ -1164,25 +1164,25 @@ void AptActionInterpreter::_FunctionAptActionTrace(AptActionInterpreter *const p
     line.Rva006D4F00Append(text);
     line.Rva006D50A0Append("\n");
     g_bfmeAptLogAtE1773C("%s",line.rva00620090());
-    p->stack.Pop();
+    interpreter->stack.Pop();
 }
 
 // PC opcode0x34 at table RVA9DC980 loads the same tick cell reset at
 // RVA6CD019 and advanced at6CD8B3. Later source calls it gnCurTick; reuse
 // the existing address-qualified provider rather than duplicate its storage.
 extern int g_rva00891FA0Value;
-void AptActionInterpreter::_FunctionAptActionGetTimer(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGetTimer(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    p->stack.Push(AptInteger::Create(g_rva00891FA0Value));
+    interpreter->stack.Push(AptInteger::Create(g_rva00891FA0Value));
 }
-void AptActionInterpreter::_FunctionAptActionLessThan2(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionLessThan2(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *a=p->stack.At(0);
-    AptValue *b=p->stack.At(1);
+    AptValue *a=interpreter->stack.At(0);
+    AptValue *b=interpreter->stack.At(1);
     if(Rva006CD220Get()==7) {
         if(a->isUndefined() || b->isUndefined()) {
-            p->stack.Pop(2);
-            p->stack.Push(gpUndefinedValue);
+            interpreter->stack.Pop(2);
+            interpreter->stack.Push(gpUndefinedValue);
             return;
         }
     }
@@ -1190,60 +1190,60 @@ void AptActionInterpreter::_FunctionAptActionLessThan2(AptActionInterpreter *con
     if(a->isString() && b->isString()) {
         result=strcmp(b->c_string()->GetInternalString()->rva00620090(),a->c_string()->GetInternalString()->rva00620090())<0;
     } else if(rva006fc370(a) || rva006fc370(b)) {
-        p->stack.Pop(2); p->stack.Push(gpUndefinedValue); return;
+        interpreter->stack.Pop(2); interpreter->stack.Push(gpUndefinedValue); return;
     } else if(a->isFloat() || b->isFloat()) {
         result=b->toFloat()<a->toFloat();
     } else {
         result=b->toInteger()<a->toInteger();
     }
     AptValue *v=AptBoolean::Create(result!=0);
-    p->stack.Pop(2); p->stack.Push(v);
+    interpreter->stack.Pop(2); interpreter->stack.Push(v);
 }
 
 // Native assertion-only handlers. The later source changes End to set the return
 // flag; PC retains the original unreachable assertion. Each dispatch slot and
 // full 35-byte body was checked independently, including literal and line.
-void AptActionInterpreter::_FunctionAptActionEnd(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionEnd(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0xc6b);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionToggleQuality(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionToggleQuality(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false && \" [APT] \\\"Toggle Quality\\\" is NOT supported. Please do not use this in your actionscript\\n\"", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0xcf0);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionStringLessThan(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStringLessThan(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x1204);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionMBLength(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionMBLength(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x123d);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionCharToAscii(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCharToAscii(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x125a);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionMBSubString(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionMBSubString(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x12b0);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionMBCharToAscii(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionMBCharToAscii(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x12ce);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionMBAsciiToChar(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionMBAsciiToChar(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x12eb);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
 }
-void AptActionInterpreter::_FunctionAptActionBitURShift(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionBitURShift(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     g_bfmeAptAssertAtE17734("false", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x1b92);
     if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
@@ -1252,31 +1252,31 @@ void AptActionInterpreter::_FunctionAptActionBitURShift(AptActionInterpreter *co
 // handler source agree. Native assertions retain original spelling and lines.
 class BfmeAptValue006DCD20;
 void rva007065e0(int,int,BfmeAptValue006DCD20 *,BfmeAptValue006DCD20 **);
-__forceinline AptValue *convertWith(AptCIH *c,AptValue *v) { AptValue *out; rva007065e0((int)c,0,(BfmeAptValue006DCD20 *)v,(BfmeAptValue006DCD20 **)&out); return out; }
-void AptActionInterpreter::_FunctionAptActionWith(AptActionInterpreter *const p,LocalContextT *const c)
+__forceinline AptValue *convertWith(AptCIH *localContext,AptValue *v) { AptValue *out; rva007065e0((int)localContext,0,(BfmeAptValue006DCD20 *)v,(BfmeAptValue006DCD20 **)&out); return out; }
+void AptActionInterpreter::_FunctionAptActionWith(AptActionInterpreter *const interpreter,LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const unsigned char *const *data=(const unsigned char *const *)c->pInstruction;
-    c->pInstruction+=4;
-    AptValue *value=p->stack.At(0);
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const unsigned char *const *data=(const unsigned char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
+    AptValue *value=interpreter->stack.At(0);
     if(value->isUndefined()) {
-        c->pCurWith=0;
-        c->pInstruction=*data;
+        localContext->pCurWith=0;
+        localContext->pInstruction=*data;
     } else {
-        value=convertWith(c->pCurrentContext,value);
+        value=convertWith(localContext->pCurrentContext,value);
         if(!value) {
             g_bfmeAptAssertAtE17734("pWith","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x1DA8);
             if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
         }
-        if(c->pCurWith) {
+        if(localContext->pCurWith) {
             g_bfmeAptAssertAtE17734("!pLocalContext->pCurWith","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x1DA9);
             if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
         }
-        c->pRemoveWithAt=*data;
-        c->pCurWith=value;
-        c->pCurWith->AddRef();
+        localContext->pRemoveWithAt=*data;
+        localContext->pCurWith=value;
+        localContext->pCurWith->AddRef();
     }
-    p->stack.Pop();
+    interpreter->stack.Pop();
 }
 
 
@@ -1321,17 +1321,17 @@ public:
         GetSpriteInstBase()->mbIsPlaying=play ? 1 : 0;
     }
 };
-void AptActionInterpreter::_FunctionAptActionPlay(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPlay(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptCIH *current=c->pCurrentContext;
+    AptCIH *current=localContext->pCurrentContext;
     if (!current->isUndefined() && !current->IsLevelInst()) {
-        if(c->pCurWith && c->pCurWith->isCIH()) c->pCurWith->c_cih()->SetIsPlaying(true);
-        else if(c->pCurrentContext->isCIH()) current->c_cih()->SetIsPlaying(true);
+        if(localContext->pCurWith && localContext->pCurWith->isCIH()) localContext->pCurWith->c_cih()->SetIsPlaying(true);
+        else if(localContext->pCurrentContext->isCIH()) current->c_cih()->SetIsPlaying(true);
     }
 }
-void AptActionInterpreter::_FunctionAptActionStop(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStop(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptCIH *current=c->pCurrentContext;
+    AptCIH *current=localContext->pCurrentContext;
     if (!current->isUndefined() && !current->IsLevelInst() && current->mpCharacterInst)
         current->c_cih()->SetIsPlaying(false);
 }
@@ -1339,15 +1339,15 @@ void AptActionInterpreter::_FunctionAptActionStop(AptActionInterpreter *const p,
 #pragma comment(linker, "/alternatename:?IsLevelInst@AptCIH@@QBE_NXZ=?rva006E03A0@BfmeAptValue006DCD20@@QBEHXZ")
 #pragma comment(linker, "/alternatename:?GetSpriteInstBase@AptCIH@@QBEPAUAptSpriteInstBase@@XZ=?rva006CFF40@AptCIH@@QBEPAXXZ")
 
-void AptActionInterpreter::_FunctionAptActionNextFrame(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionNextFrame(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptCIH *cih=c->pCurrentContext->c_cih();
+    AptCIH *cih=localContext->pCurrentContext->c_cih();
     cih->jumpToFrame(cih->SpriteBaseInline()->mnFrame+1);
     cih->SpriteBaseInline()->mbIsPlaying=0;
 }
-void AptActionInterpreter::_FunctionAptActionPrevFrame(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPrevFrame(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptCIH *cih=c->pCurrentContext->c_cih();
+    AptCIH *cih=localContext->pCurrentContext->c_cih();
     cih->jumpToFrame(cih->SpriteBaseInline()->mnFrame-1);
     cih->SpriteBaseInline()->mbIsPlaying=0;
 }
@@ -1360,37 +1360,37 @@ void __debugbreak();
 struct AptIntervalTimer { unsigned int field0; AptValue *callback; float interval,countdown; AptValue *context; AptValuePtrStack<AptValue>params; void cleanParams(); };
 class Rva006E34D0 { public: unsigned char prefix[0x30]; AptContextRootDisplay *display; AptIntervalTimer *intervalTimers; int nActiveTimers; unsigned char middle[8]; AptValue *mpDragMC; float a,b,c,d,tx,ty; unsigned char toMouse[0x74-0x60]; int mouseX,mouseY; unsigned char beforeMax[0xa8-0x7c]; int maxIntervalTimers; };
 extern Rva006E34D0 *g_bfmeAptPtrAtE176D0;
-void AptActionInterpreter::_FunctionAptActionStopDragMovie(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStopDragMovie(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     AptValue *drag=g_bfmeAptPtrAtE176D0->mpDragMC;
     if (drag) drag->Release();
     g_bfmeAptPtrAtE176D0->mpDragMC=gpUndefinedValue;
 }
 
-void AptActionInterpreter::_FunctionAptActionGotoFrame(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGotoFrame(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     AptCIH *cih=0;
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const int *frame=(const int *)c->pInstruction;
-    c->pInstruction+=4;
-    if(c->pCurWith && c->pCurWith->isCIH()) cih=c->pCurWith->c_cih();
-    else if(c->pCurrentContext->isCIH()) cih=c->pCurrentContext->c_cih();
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const int *frame=(const int *)localContext->pInstruction;
+    localContext->pInstruction+=4;
+    if(localContext->pCurWith && localContext->pCurWith->isCIH()) cih=localContext->pCurWith->c_cih();
+    else if(localContext->pCurrentContext->isCIH()) cih=localContext->pCurrentContext->c_cih();
     if(cih) {
         cih->jumpToFrame(*frame);
         cih->SpriteBaseInline()->mbIsPlaying=0;
     }
-    if(g_releaseVectorAtE17710->GetNumValues()!=0 && p->stack.count==0) g_releaseVectorAtE17710->ReleaseValues();
+    if(g_releaseVectorAtE17710->GetNumValues()!=0 && interpreter->stack.count==0) g_releaseVectorAtE17710->ReleaseValues();
 }
 
-void AptActionInterpreter::_FunctionAptActionInitArray(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionInitArray(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    int n=p->stack.At(0)->toInteger();
-    p->stack.Pop();
+    int n=interpreter->stack.At(0)->toInteger();
+    interpreter->stack.Pop();
     AptArray *a=new AptArray;
     a->AddRef();
-    for(int i=0;i<n;++i) a->set(i,p->stack.At(i));
-    p->stack.rva006FE050(n);
-    p->stack.PushNoInc(a);
+    for(int i=0;i<n;++i) a->set(i,interpreter->stack.At(i));
+    interpreter->stack.rva006FE050(n);
+    interpreter->stack.PushNoInc(a);
 }
 
 class BfmeAptValue006DCD20;
@@ -1398,32 +1398,32 @@ void rva007065e0(int,int,BfmeAptValue006DCD20 *,BfmeAptValue006DCD20 **);
 // Native indexed22-entry StringCode table, exactly the88 bytes at DDC928.
 // Later gaszPropertyNames supplies semantic order; retain address-qualified storage.
 int g_aptPropertyCodesAtDDC928[22]={23,26,25,28,2,17,1,21,22,8,14,16,6,11,4,20,9,5,15,12,24,27};
-void AptActionInterpreter::_FunctionAptActionGetProperty(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGetProperty(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *index=p->stack.At(0);
-    AptValue *target=p->stack.At(1);
+    AptValue *index=interpreter->stack.At(0);
+    AptValue *target=interpreter->stack.At(1);
     // Snapshot the native output cell at its observed read point.
     AptValue *volatile resolved;
-    rva007065e0((int)c->pCurrentContext,(int)c->pCurWith,(BfmeAptValue006DCD20 *)target,(BfmeAptValue006DCD20 **)&resolved);
+    rva007065e0((int)localContext->pCurrentContext,(int)localContext->pCurWith,(BfmeAptValue006DCD20 *)target,(BfmeAptValue006DCD20 **)&resolved);
     AptValue *object=resolved;
     if(object) {
         unsigned int n=index->toInteger();
-        AptValue *value=p->getVariable(object,c->pCurWith,Rva0070B4F0GetString(g_aptPropertyCodesAtDDC928[n]),1);
-        p->stack.Pop(2);p->stack.Push(value);
-    } else {p->stack.Pop(2);p->stack.Push(gpUndefinedValue);}
+        AptValue *value=interpreter->getVariable(object,localContext->pCurWith,Rva0070B4F0GetString(g_aptPropertyCodesAtDDC928[n]),1);
+        interpreter->stack.Pop(2);interpreter->stack.Push(value);
+    } else {interpreter->stack.Pop(2);interpreter->stack.Push(gpUndefinedValue);}
 }
-void AptActionInterpreter::_FunctionAptActionSetProperty(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionSetProperty(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
-    AptValue *index=p->stack.At(1);
-    AptValue *target=p->stack.At(2);
+    AptValue *value=interpreter->stack.At(0);
+    AptValue *index=interpreter->stack.At(1);
+    AptValue *target=interpreter->stack.At(2);
     // Snapshot the native output cell at its observed read point.
     AptValue *volatile resolved;
-    rva007065e0((int)c->pCurrentContext,(int)c->pCurWith,(BfmeAptValue006DCD20 *)target,(BfmeAptValue006DCD20 **)&resolved);
+    rva007065e0((int)localContext->pCurrentContext,(int)localContext->pCurWith,(BfmeAptValue006DCD20 *)target,(BfmeAptValue006DCD20 **)&resolved);
     unsigned int n=index->toInteger();
     AptValue *object=resolved;
-    if(object) p->setVariable(object,c->pCurWith,Rva0070B4F0GetString(g_aptPropertyCodesAtDDC928[n]),value,1);
-    p->stack.Pop(3);
+    if(object) interpreter->setVariable(object,localContext->pCurWith,Rva0070B4F0GetString(g_aptPropertyCodesAtDDC928[n]),value,1);
+    interpreter->stack.Pop(3);
 }
 
 // The original AptValue header supplies bool predicates and const checked casts.
@@ -1456,32 +1456,32 @@ void AptActionInterpreter::stackPushIndirect(AptValue *const pValue)
     stack.items[stack.count++]=pPushValue;
     pPushValue->AddRef();
 }
-void AptActionInterpreter::_FunctionAptActionPush(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionPush(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const AptConstantPool *data=(const AptConstantPool *)c->pInstruction;
-    c->pInstruction+=sizeof(AptConstantPool);
-    for (int i=0;i<data->nItems;++i) p->stackPushIndirect(data->apItems[i]);
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const AptConstantPool *data=(const AptConstantPool *)localContext->pInstruction;
+    localContext->pInstruction+=sizeof(AptConstantPool);
+    for (int i=0;i<data->nItems;++i) interpreter->stackPushIndirect(data->apItems[i]);
 }
 #pragma comment(linker, "/alternatename:?isLookup@AptValue@@QBE_NXZ=?isLookup@BfmeAptValue006DCD20@@QBEHXZ")
 #pragma comment(linker, "/alternatename:?isRegister@AptValue@@QBE_NXZ=?isRegister@BfmeAptValue006DCD20@@QBEHXZ")
 #pragma comment(linker, "/alternatename:?c_lookup@AptValue@@QBEPAVAptLookup@@XZ=?checkedLookup@BfmeAptValue006DCD20@@QAEPAV1@XZ")
 #pragma comment(linker, "/alternatename:?c_register@AptValue@@QBEPAVAptRegister@@XZ=?checkedRegister@BfmeAptValue006DCD20@@QAEPAV1@XZ")
 
-void AptActionInterpreter::_FunctionAptActionThrow(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionThrow(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    if (p->stack.count<1) {
+    if (interpreter->stack.count<1) {
         g_bfmeAptAssertAtE17734("pInterpreter->stack.GetSize() >= 1", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x25BC);
         if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
     }
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     value->AddRef();
-    p->mpThrownValue=value;
-    p->stack.Pop();
+    interpreter->mpThrownValue=value;
+    interpreter->stack.Pop();
 }
-void AptActionInterpreter::_FunctionAptActionTypeOf(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionTypeOf(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *v=p->stack.At(0);
+    AptValue *v=interpreter->stack.At(0);
     AptString *s=AptString::Create();
     if(v->getIsDefined()) {
         if(v->isInteger() || v->isFloat()) s->SetString(Rva0070B4F0GetString(0x63)->rva00620090());
@@ -1497,7 +1497,7 @@ void AptActionInterpreter::_FunctionAptActionTypeOf(AptActionInterpreter *const 
         else if(v->isUndefined()) s->SetString(Rva0070B4F0GetString(0xa9)->rva00620090());
         else if(v->isScriptFunction() || v->isNativeFunction()) s->SetString(Rva0070B4F0GetString(0x37)->rva00620090());
     } else s->SetString(Rva0070B4F0GetString(0xa9)->rva00620090());
-    p->stack.Pop(); p->stack.Push(s);
+    interpreter->stack.Pop(); interpreter->stack.Push(s);
 }
 
 
@@ -1516,15 +1516,15 @@ void AptActionInterpreter::_FunctionAptActionTypeOf(AptActionInterpreter *const 
 #pragma comment(linker, "/alternatename:?IsAnimationInst@AptCIH@@QBE_N_N@Z=?rva006CBEE0@BfmeAptValue006DCD20@@QBEH_N@Z")
 
 
-void AptActionInterpreter::_FunctionAptActionGotoLabel(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGotoLabel(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const char *const *data=(const char *const *)c->pInstruction;
-    c->pInstruction+=4;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const char *const *data=(const char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
     EAStringC label=*data;
     AptCIH *target;
-    if(c->pCurWith && c->pCurWith->isCIH()) target=c->pCurWith->c_cih();
-    else target=c->pCurrentContext;
+    if(localContext->pCurWith && localContext->pCurWith->isCIH()) target=localContext->pCurWith->c_cih();
+    else target=localContext->pCurrentContext;
     int frame=target->SpriteBaseInline()->character->movie.labelToFrame(&label)+1;
     if(frame-1>=0) {
         target->jumpToFrame(frame-1);
@@ -1533,62 +1533,62 @@ void AptActionInterpreter::_FunctionAptActionGotoLabel(AptActionInterpreter *con
 }
 #pragma comment(linker, "/alternatename:?labelToFrame@AptMovie@@QBEHPBVEAStringC@@@Z=?bfmeGo1034F@BfmeF1034@@QAEHH@Z")
 
-void AptActionInterpreter::_FunctionAptActionCallFrame(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCallFrame(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *value=p->stack.At(0);
+    AptValue *value=interpreter->stack.At(0);
     int frame=-1;
     if(value->isString()) {
         AptValue *labelContext;
         EAStringC name;
-        getContext(c->pCurrentContext,c->pCurWith,value->c_string()->GetInternalString(),&labelContext,name);
+        getContext(localContext->pCurrentContext,localContext->pCurWith,value->c_string()->GetInternalString(),&labelContext,name);
         frame=labelContext->c_cih()->GetCharacterInst()->character->movie.labelToFrame(&name);
     } else if(value->isInteger()) frame=value->toInteger();
     else {
         g_bfmeAptAssertAtE17734("NOT_REACHED", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x1EFD);
         if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
     }
-    p->stack.Pop();
-    if(frame!=-1) c->pCurrentContext->GetCharacterInst()->character->movie.runFrameActions(c->pCurrentContext,frame);
+    interpreter->stack.Pop();
+    if(frame!=-1) localContext->pCurrentContext->GetCharacterInst()->character->movie.runFrameActions(localContext->pCurrentContext,frame);
 }
 #pragma comment(linker, "/alternatename:?IsCharacterInst@AptCIH@@QBE_NXZ=?isCharacterInst@BfmeAptValue006DCD20@@QBEHXZ")
 #pragma comment(linker, "/alternatename:?runFrameActions@AptMovie@@QAEXPAVAptCIH@@H@Z=?rva0070F5C0@Rva0070F5C0@@QAEXPAVAptCIH@@H@Z")
 #pragma comment(linker, "/alternatename:?getContext@AptActionInterpreter@@CA_NPAVAptValue@@0PBVEAStringC@@PAPAV2@AAV3@@Z=?rva006FEC00@@YAEHHPAVEAStringC@@PAH0@Z")
 
-void AptActionInterpreter::_FunctionAptActionSetTarget2(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionSetTarget2(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *object=p->stack.At(0);
+    AptValue *object=interpreter->stack.At(0);
     EAStringC name;
     object->toString(name);
     if(name.rva006D3750()==0) {
-        if(c->pCurWith) c->pCurWith->Release();
-        c->pCurWith=0;
+        if(localContext->pCurWith) localContext->pCurWith->Release();
+        localContext->pCurWith=0;
     } else {
-        if(c->pCurWith) {
+        if(localContext->pCurWith) {
             g_bfmeAptAssertAtE17734("!pLocalContext->pCurWith", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x1087);
             if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
         }
-        AptValue *target=getObject(c->pCurrentContext,c->pCurWith,&name);
+        AptValue *target=getObject(localContext->pCurrentContext,localContext->pCurWith,&name);
         if(!target) {
             g_bfmeAptAssertAtE17734("pTarget", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x1089);
             if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
         }
-        c->pRemoveWithAt=0;
-        c->pCurWith=target;
-        c->pCurWith->AddRef();
+        localContext->pRemoveWithAt=0;
+        localContext->pCurWith=target;
+        localContext->pCurWith->AddRef();
     }
-    p->stack.Pop();
+    interpreter->stack.Pop();
 }
 
-void AptActionInterpreter::_FunctionAptActionSetTarget(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionSetTarget(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const char *const *data=(const char *const *)c->pInstruction;
-    c->pInstruction+=4;
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const char *const *data=(const char *const *)localContext->pInstruction;
+    localContext->pInstruction+=4;
     if((*data)[0]==0) {
-        if(c->pCurWith) c->pCurWith->Release();
-        c->pCurWith=0;
+        if(localContext->pCurWith) localContext->pCurWith->Release();
+        localContext->pCurWith=0;
     } else {
-        if(c->pCurWith) {
+        if(localContext->pCurWith) {
             g_bfmeAptAssertAtE17734("!pLocalContext->pCurWith", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x1D3A);
             if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
         }
@@ -1596,7 +1596,7 @@ void AptActionInterpreter::_FunctionAptActionSetTarget(AptActionInterpreter *con
         AptValue *target;
         if((*data)[0]=='/' || (*data)[0]=='.') {
             const char *path=*data;
-            AptCIH *t=c->pCurrentContext;
+            AptCIH *t=localContext->pCurrentContext;
             while(path[0]=='.' && path[1]=='.' && t->mpDisplayListParent) {
                 t=t->mpDisplayListParent;
                 path+=2;
@@ -1604,31 +1604,31 @@ void AptActionInterpreter::_FunctionAptActionSetTarget(AptActionInterpreter *con
             target=t;
         } else {
             name.TrimRight("/");
-            target=getObject(c->pCurrentContext,0,&name);
+            target=getObject(localContext->pCurrentContext,0,&name);
         }
         if(!target) {
             g_bfmeAptAssertAtE17734("pTarget", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x1D51);
             if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
         }
-        c->pRemoveWithAt=0;
-        c->pCurWith=target;
-        c->pCurWith->AddRef();
+        localContext->pRemoveWithAt=0;
+        localContext->pCurWith=target;
+        localContext->pCurWith->AddRef();
     }
 }
 
 
 // Native type IDs19 (level) and1/42 (strings) come from the target branches
 // and switch table; donor enum numbering differs. Native comparison is float.
-void AptActionInterpreter::_FunctionAptActionStrictEquals(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStrictEquals(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *a=p->stack.At(0),*b=p->stack.At(1);
+    AptValue *a=interpreter->stack.At(0),*b=interpreter->stack.At(1);
     int result=0;
     if(a->getVtblIndex()==19) a=gpUndefinedValue;
     if(b->getVtblIndex()==19) b=gpUndefinedValue;
     if(Rva006CD220Get()==7) {
         if(a->isUndefined()) ++result;
         if(b->isUndefined()) ++result;
-        if(result>0) { p->stack.PopAndPush(2,AptBoolean::Create(result==2));return; }
+        if(result>0) { interpreter->stack.PopAndPush(2,AptBoolean::Create(result==2));return; }
     }
     if(((a->isInteger() || a->isFloat()) && (b->isInteger() || b->isFloat())) || a->getVtblIndex()==b->getVtblIndex()) {
         switch(a->getVtblIndex()) {
@@ -1650,7 +1650,7 @@ void AptActionInterpreter::_FunctionAptActionStrictEquals(AptActionInterpreter *
         default: result=a==b;break;
         }
     }
-    p->stack.PopAndPush(2,AptBoolean::Create(result!=0));
+    interpreter->stack.PopAndPush(2,AptBoolean::Create(result!=0));
 }
 
 
@@ -1828,10 +1828,10 @@ static AptString *_concatAsStrings(AptValue *a,AptValue *b)
     return result;
 }
 
-void AptActionInterpreter::_FunctionAptActionStringAdd(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStringAdd(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *a=p->stack.At(0);
-    AptValue *b=p->stack.At(1);
+    AptValue *a=interpreter->stack.At(0);
+    AptValue *b=interpreter->stack.At(1);
     if(Rva006CD220Get()==7) {
         AptString *undefined=AptString::Create();
         undefined->SetString(Rva0070B4F0GetString(0xA9)->rva00620090());
@@ -1839,13 +1839,13 @@ void AptActionInterpreter::_FunctionAptActionStringAdd(AptActionInterpreter *con
         if(b->isUndefined()) b=undefined;
     }
     AptValue *result=_concatAsStrings(a,b);
-    p->stack.Pop(2);
-    p->stack.Push(result);
+    interpreter->stack.Pop(2);
+    interpreter->stack.Push(result);
 }
 
-void AptActionInterpreter::_FunctionAptActionAdd2(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionAdd2(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *a=p->stack.At(0),*b=p->stack.At(1);
+    AptValue *a=interpreter->stack.At(0),*b=interpreter->stack.At(1);
     int version=Rva006CD220Get();
     if(a->isString() || b->isString()) {
         if(version==7) {
@@ -1853,21 +1853,21 @@ void AptActionInterpreter::_FunctionAptActionAdd2(AptActionInterpreter *const p,
             if(b->isUndefined()) {b=AptString::Create();b->c_string()->SetString(Rva0070B4F0GetString(0xa9)->rva00620090());}
         }
         AptString *s=_concatAsStrings(a,b);
-        p->stack.Pop(2);p->stack.Push(s);
+        interpreter->stack.Pop(2);interpreter->stack.Push(s);
     } else if((a->isInteger() || b->isInteger()) && !a->isFloat() && !b->isFloat()) {
-        if(version==7 && (a->isUndefined() || b->isUndefined())) {p->stack.Pop(2);p->stack.Push(gpUndefinedValue);return;}
+        if(version==7 && (a->isUndefined() || b->isUndefined())) {interpreter->stack.Pop(2);interpreter->stack.Push(gpUndefinedValue);return;}
         int na=a->toInteger(),nb=b->toInteger();
-        p->stack.Pop(2);p->stack.Push(AptInteger::Create(na+nb));
+        interpreter->stack.Pop(2);interpreter->stack.Push(AptInteger::Create(na+nb));
     } else {
-        if(version==7 && (a->isUndefined() || b->isUndefined())) {p->stack.Pop(2);p->stack.Push(gpUndefinedValue);return;}
+        if(version==7 && (a->isUndefined() || b->isUndefined())) {interpreter->stack.Pop(2);interpreter->stack.Push(gpUndefinedValue);return;}
         float fa=a->toFloat(),fb=b->toFloat();
-        p->stack.Pop(2);p->stack.Push(Rva008A4EA0MakeFloat(fa+fb));
+        interpreter->stack.Pop(2);interpreter->stack.Push(Rva008A4EA0MakeFloat(fa+fb));
     }
 }
 
 
 
-class AptNativeHash { public: void Set(const EAStringC *const,AptValue *const); int mnTotalSize; void *mpData; AptValue *mp__proto__; AptValue *mpPrototype; unsigned int nEventHandlers; __forceinline AptValue *Get__Proto__() const { return mp__proto__; } __forceinline AptValue *GetPrototype() const { return mpPrototype; } __forceinline void SetPrototype(AptValue *p) { if(p) p->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=p; } __forceinline void Set__Proto__(AptValue *p) { if(p) p->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=p; } };
+class AptNativeHash { public: void Set(const EAStringC *const,AptValue *const); int mnTotalSize; void *mpData; AptValue *mp__proto__; AptValue *mpPrototype; unsigned int nEventHandlers; __forceinline AptValue *Get__Proto__() const { return mp__proto__; } __forceinline AptValue *GetPrototype() const { return mpPrototype; } __forceinline void SetPrototype(AptValue *interpreter) { if(interpreter) interpreter->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=interpreter; } __forceinline void Set__Proto__(AptValue *interpreter) { if(interpreter) interpreter->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=interpreter; } };
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 // Accessed AptPrototype prefix: AptValue8 + native hash20 + constructor pointer.
 class AptPrototype : public AptValue {
@@ -1878,16 +1878,16 @@ public:
     static void *operator new(unsigned int n) { return g_pChainBlockAllocatorF4->allocBlock(n); }
     static void operator delete(void *,unsigned int);
     __forceinline AptValue *GetSuperConstructor() const { return mp__constructor__; }
-    __forceinline void SetSuperConstructor(AptValue *p) { AptValue *old=mp__constructor__; mp__constructor__=p; p->AddRef(); if(old) old->Release(); }
+    __forceinline void SetSuperConstructor(AptValue *interpreter) { AptValue *old=mp__constructor__; mp__constructor__=interpreter; interpreter->AddRef(); if(old) old->Release(); }
 };
-void AptActionInterpreter::_FunctionAptActionExtends(AptActionInterpreter *const p,LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionExtends(AptActionInterpreter *const interpreter,LocalContextT *const localContext)
 {
-    if (p->stack.GetSize()<2) {
+    if (interpreter->stack.GetSize()<2) {
         g_bfmeAptAssertAtE17734("pInterpreter->stack.GetSize() >= 2", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x23FE);
         if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
     }
-    AptValue *pSuperClass=p->stack.At(0);
-    AptValue *pSubClass=p->stack.At(1);
+    AptValue *pSuperClass=interpreter->stack.At(0);
+    AptValue *pSubClass=interpreter->stack.At(1);
     if (pSuperClass->ContainsNativeHashVirtual() && pSubClass->isScriptFunction()) {
         AptNativeHash *pSuperHash=pSuperClass->GetNativeHashVirtual();
         AptNativeHash *pSubHash=pSubClass->GetNativeHashVirtual();
@@ -1903,7 +1903,7 @@ void AptActionInterpreter::_FunctionAptActionExtends(AptActionInterpreter *const
         pSuperClass->setHasClass(1);pSubClass->setHasClass(1);
         pSubPrototype->GetNativeHashVirtual()->Set__Proto__(pSuperPrototype);
     } else Rva006CC110Log(3,"--AptWarning-- Actionscript is attempting to use invalid objects in Extends Opcode.");
-    p->stack.Pop(2);
+    interpreter->stack.Pop(2);
 }
 
 #pragma comment(linker, "/alternatename:??0AptPrototype@@QAE@XZ=??0Rva006DE1A0@@QAE@XZ")
@@ -1915,22 +1915,22 @@ void AptActionInterpreter::_FunctionAptActionExtends(AptActionInterpreter *const
 // The invalid-object branch pops its own operands and returns; retail
 // tail-merged that pop into the common exit, which keeps MOV ECX ahead of
 // PUSH there. The scratch EAStringC lives for the whole handler.
-void AptActionInterpreter::_FunctionAptActionImplementsOp(AptActionInterpreter *const p,LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionImplementsOp(AptActionInterpreter *const interpreter,LocalContextT *const localContext)
 {
     EAStringC sTemp;
-    if (!(p->stack.GetSize()>2)) {
+    if (!(interpreter->stack.GetSize()>2)) {
         g_bfmeAptAssertAtE17734("pInterpreter->stack.GetSize() > 2", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x2505);
         if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
     }
-    AptValue *pObject=p->stack.At(0);
-    int nInterfaces=p->stack.At(1)->toInteger();
+    AptValue *pObject=interpreter->stack.At(0);
+    int nInterfaces=interpreter->stack.At(1)->toInteger();
     if (!(pObject->isScriptFunction() || pObject->isNativeFunction())) {
         if (!(pObject->isScriptFunction() || pObject->isNativeFunction())) {
             g_bfmeAptAssertAtE17734("pObject->isScriptFunction() || pObject->isNativeFunction()", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x250f);
             if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
         }
         Rva006CC110Log(4,"Implements Opcode attempting to mess with invalid object.");
-        p->stack.rva006E3AA0(nInterfaces+2);
+        interpreter->stack.rva006E3AA0(nInterfaces+2);
         return;
     }
     if (!(nInterfaces>0)) {
@@ -1939,7 +1939,7 @@ void AptActionInterpreter::_FunctionAptActionImplementsOp(AptActionInterpreter *
     }
     AptArray *pA=new AptArray();
     for (int i=0;i<nInterfaces;++i) {
-        AptValue *pTemp=p->stack.At(i+2);
+        AptValue *pTemp=interpreter->stack.At(i+2);
         if (!pTemp->ContainsNativeHashVirtual()) {
             g_bfmeAptAssertAtE17734("pTemp->ContainsNativeHashVirtual()", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x251d);
             if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
@@ -1953,7 +1953,7 @@ void AptActionInterpreter::_FunctionAptActionImplementsOp(AptActionInterpreter *
         EAStringC key("__INTERFACES__");
         pObject->GetNativeHashVirtual()->Set(&key,pA);
     }
-    p->stack.rva006E3AA0(nInterfaces+2);
+    interpreter->stack.rva006E3AA0(nInterfaces+2);
 }
 
 // PC prefix slotDDC920 points to FSCommand:; callback E17758 is zero-initialized.
@@ -1988,20 +1988,20 @@ AptValue *AptActionInterpreter::getObject(AptValue *current,AptValue *with,const
 }
 
 // Volatile out slot plus stable snapshot preserves native context load scheduling.
-void AptActionInterpreter::_FunctionAptActionGotoFrame2(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionGotoFrame2(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const int *data=(const int *)c->pInstruction;
-    c->pInstruction+=4;
-    AptValue *value=p->stack.At(0);
+    localContext->pInstruction=(const unsigned char *)(((unsigned int)localContext->pInstruction+3)&~3U);
+    const int *data=(const int *)localContext->pInstruction;
+    localContext->pInstruction+=4;
+    AptValue *value=interpreter->stack.At(0);
     AptCIH *cih=0;
-    if(c->pCurWith && c->pCurWith->isCIH()) cih=c->pCurWith->c_cih();
-    else if(c->pCurrentContext->isCIH()) cih=c->pCurrentContext->c_cih();
+    if(localContext->pCurWith && localContext->pCurWith->isCIH()) cih=localContext->pCurWith->c_cih();
+    else if(localContext->pCurrentContext->isCIH()) cih=localContext->pCurrentContext->c_cih();
     int frame=-1;
     if(value->isString()) {
         AptValue *volatile labelContext;
         EAStringC name;
-        getContext(c->pCurrentContext,c->pCurWith,value->c_string()->GetInternalString(),(AptValue **)&labelContext,name);
+        getContext(localContext->pCurrentContext,localContext->pCurWith,value->c_string()->GetInternalString(),(AptValue **)&labelContext,name);
         AptValue *resolved=labelContext;
         if(resolved->isCIH() && resolved->c_cih()->IsSpriteInstBase())
             frame=resolved->c_cih()->GetSpriteInstBase()->character->movie.labelToFrame(&name);
@@ -2010,7 +2010,7 @@ void AptActionInterpreter::_FunctionAptActionGotoFrame2(AptActionInterpreter *co
         cih->jumpToFrame(frame);
         cih->SpriteBaseInline()->mbIsPlaying=(*data!=0) ? 1 : 0;
     }
-    p->stack.Pop();
+    interpreter->stack.Pop();
 }
 // Rehomed from Rva007065E0Cluster.cpp. Preserve its address-named ABI and
 // verified121B body. Visibility lets MSVC prove the output cell does not escape;
@@ -2026,32 +2026,32 @@ __declspec(noinline) void rva007065e0(int a,int b,BfmeAptValue006DCD20 *value,Bf
 }
 
 void rva006ffce0(AptValue *,EAStringC &);
-void AptActionInterpreter::_FunctionAptActionTargetPath(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionTargetPath(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
     EAStringC buffer;
-    AptValue *obj=p->stack.At(0);
+    AptValue *obj=interpreter->stack.At(0);
     AptValue *volatile out;
-    rva007065e0((int)c->pCurrentContext,(int)c->pCurWith,(BfmeAptValue006DCD20 *)obj,(BfmeAptValue006DCD20 **)&out);
+    rva007065e0((int)localContext->pCurrentContext,(int)localContext->pCurWith,(BfmeAptValue006DCD20 *)obj,(BfmeAptValue006DCD20 **)&out);
     AptValue *context=out;
     if(context) {
         if(context->isCIH()) rva006ffce0((AptValue *)context->c_cih(),buffer);
         else buffer="";
         AptString *s=AptString::Create();
         s->str=buffer;
-        p->stack.Pop(); p->stack.Push(s);
+        interpreter->stack.Pop(); interpreter->stack.Push(s);
     } else {
-        p->stack.Pop(); p->stack.Push(gpUndefinedValue);
+        interpreter->stack.Pop(); interpreter->stack.Push(gpUndefinedValue);
     }
 }
 
 #pragma comment(linker, "/alternatename:?rva007064f0@@YAPAVBfmeAptValue006DCD20@@HHPAVEAStringC@@@Z=?getObject@AptActionInterpreter@@CAPAVAptValue@@PAV2@0PBVEAStringC@@@Z")
 
-void AptActionInterpreter::_FunctionAptActionRemoveSprite(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionRemoveSprite(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *path=p->stack.At(0);
+    AptValue *path=interpreter->stack.At(0);
     AptValue *object;
     if(!path->isUndefined()) {
-        rva007065e0((int)c->pCurrentContext,(int)c->pCurWith,(BfmeAptValue006DCD20 *)path,(BfmeAptValue006DCD20 **)&object);
+        rva007065e0((int)localContext->pCurrentContext,(int)localContext->pCurWith,(BfmeAptValue006DCD20 *)path,(BfmeAptValue006DCD20 **)&object);
         AptValue *resolved=object;
         if(resolved && resolved->isCIH()) {
             AptCIH *cih=resolved->c_cih();
@@ -2059,7 +2059,7 @@ void AptActionInterpreter::_FunctionAptActionRemoveSprite(AptActionInterpreter *
             parent->displayList.removeClonedObject(cih);
         }
     }
-    p->stack.Pop();
+    interpreter->stack.Pop();
 }
 
 extern "C" char *__cdecl strcpy(char *,const char *);
@@ -2115,19 +2115,19 @@ __declspec(noinline) unsigned char rva006FEC00(int value, int allowEmpty, EAStri
 	int *resultSlot, EAStringC *outString)
 {
 	const char *scan = src->rva00620090();
-	char c = *scan++;
+	char localContext = *scan++;
 	const int strict = allowEmpty;
 	bool allDigits = true;
-	while (c) {
-		if (c < '0') {
+	while (localContext) {
+		if (localContext < '0') {
 			allDigits = false;
 			break;
 		}
-		if (c == ':') {
+		if (localContext == ':') {
 			allDigits = false;
 			break;
 		}
-		c = *scan++;
+		localContext = *scan++;
 	}
 
 	if (allDigits && !strict) {
@@ -2142,14 +2142,14 @@ __declspec(noinline) unsigned char rva006FEC00(int value, int allowEmpty, EAStri
 	*outString = tmp;
 	return ok;
 }
-void AptActionInterpreter::_FunctionAptActionStartDragMovie(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStartDragMovie(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    AptValue *target=p->stack.At(0);
+    AptValue *target=interpreter->stack.At(0);
     if(target->isString()) {
         AptValue *context=0;
         EAStringC name;
-        rva006FEC00((int)c->pCurrentContext,(int)c->pCurWith,target->c_string()->GetInternalString(),(int *)&context,&name);
-        target=p->getVariable(context,c->pCurWith,&name,1);
+        rva006FEC00((int)localContext->pCurrentContext,(int)localContext->pCurWith,target->c_string()->GetInternalString(),(int *)&context,&name);
+        target=interpreter->getVariable(context,localContext->pCurWith,&name,1);
     }
     if(!target->isCIH()) {
         g_bfmeAptAssertAtE17734("pTarget->isCIH()", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x11BA);
@@ -2164,20 +2164,20 @@ void AptActionInterpreter::_FunctionAptActionStartDragMovie(AptActionInterpreter
     g_bfmeAptPtrAtE176D0->b=-9999.f;
     g_bfmeAptPtrAtE176D0->c=-9999.f;
     g_bfmeAptPtrAtE176D0->d=-9999.f;
-    if(!p->stack.At(1)->isInteger()) {
+    if(!interpreter->stack.At(1)->isInteger()) {
         float mouse=(float)g_bfmeAptPtrAtE176D0->mouseX;
         g_bfmeAptPtrAtE176D0->tx=mouse-target->c_cih()->matrixTX;
         mouse=(float)g_bfmeAptPtrAtE176D0->mouseY;
         g_bfmeAptPtrAtE176D0->ty=mouse-target->c_cih()->matrixTY;
     }
-    if(p->stack.At(2)->isInteger()) {
+    if(interpreter->stack.At(2)->isInteger()) {
         n+=4;
-        g_bfmeAptPtrAtE176D0->d=p->stack.At(3)->toFloat();
-        g_bfmeAptPtrAtE176D0->c=p->stack.At(4)->toFloat();
-        g_bfmeAptPtrAtE176D0->b=p->stack.At(5)->toFloat();
-        g_bfmeAptPtrAtE176D0->a=p->stack.At(6)->toFloat();
+        g_bfmeAptPtrAtE176D0->d=interpreter->stack.At(3)->toFloat();
+        g_bfmeAptPtrAtE176D0->c=interpreter->stack.At(4)->toFloat();
+        g_bfmeAptPtrAtE176D0->b=interpreter->stack.At(5)->toFloat();
+        g_bfmeAptPtrAtE176D0->a=interpreter->stack.At(6)->toFloat();
     }
-    p->stack.rva006E3AA0(n);
+    interpreter->stack.rva006E3AA0(n);
 }
 class AptObject : public AptValue { public: bool DoesImplementObject(AptValue *) const; };
 bool AptActionInterpreter::isObjectOfType(AptValue *pObject, AptValue *pInterface)
@@ -2201,37 +2201,37 @@ bool AptActionInterpreter::isObjectOfType(AptValue *pObject, AptValue *pInterfac
     } else if (!pObject->isScriptFunction() && !pObject->isObject() && pObject->getVtblIndex()==pInterface->getVtblIndex()) bIsOfType=true;
     return bIsOfType;
 }
-void AptActionInterpreter::_FunctionAptActionCastOp(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCastOp(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    if (p->stack.count<2) {
+    if (interpreter->stack.count<2) {
         g_bfmeAptAssertAtE17734("false && \"[APT] Actionscript Cast Op did not find enough parameters. Check Script code.\"", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x24C9);
         if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
-        p->stack.PopAndPush(p->stack.count,gpUndefinedValue);
+        interpreter->stack.PopAndPush(interpreter->stack.count,gpUndefinedValue);
         return;
     }
-    AptValue *object=p->stack.At(0);
-    AptValue *interfaceValue=p->stack.At(1);
-    if (isObjectOfType(object,interfaceValue)) p->stack.PopAndPush(2,object);
-    else { p->stack.Pop(2); p->stack.PushNoInc(gpUndefinedValue); }
+    AptValue *object=interpreter->stack.At(0);
+    AptValue *interfaceValue=interpreter->stack.At(1);
+    if (isObjectOfType(object,interfaceValue)) interpreter->stack.PopAndPush(2,object);
+    else { interpreter->stack.Pop(2); interpreter->stack.PushNoInc(gpUndefinedValue); }
 }
 #pragma comment(linker, "/alternatename:?getVtblIndex@AptValue@@QBE?AW4AptVirtualFunctionTable_Indices@@XZ=?get@Rva006DBB30SarDwordField@@QBEHXZ")
 
 
-void AptActionInterpreter::_FunctionAptActionInstanceOf(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionInstanceOf(AptActionInterpreter *const interpreter, LocalContextT *const localContext)
 {
-    if(!(p->stack.count>=2)) {
+    if(!(interpreter->stack.count>=2)) {
         g_bfmeAptAssertAtE17734("pInterpreter->stack.GetSize() >= 2","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x248d);
         if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
     }
-    if(p->stack.count<2) {
+    if(interpreter->stack.count<2) {
         g_bfmeAptAssertAtE17734("false && \"[APT] Actionscript InstanceOf Op did not find enough parameters. Check Script code.\"","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x2491);
         if(g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
-        p->stack.PopAndPush(p->stack.count,gpUndefinedValue);return;
+        interpreter->stack.PopAndPush(interpreter->stack.count,gpUndefinedValue);return;
     }
-    AptValue *obj=p->stack.At(0);
-    AptValue *type=p->stack.At(1);
+    AptValue *obj=interpreter->stack.At(0);
+    AptValue *type=interpreter->stack.At(1);
     bool result=isObjectOfType(obj,type);
-    p->stack.PopAndPush(2,AptBoolean::Create(result));
+    interpreter->stack.PopAndPush(2,AptBoolean::Create(result));
 }
 
 
@@ -2241,25 +2241,25 @@ void AptActionInterpreter::_FunctionAptActionInstanceOf(AptActionInterpreter *co
 // CallFunction: original dispatch slot and native 707910..707B77 (615 bytes).
 // Same-TU parser definitions above prove its output pointers do not escape,
 // allowing the original argument-slot reuse in this handler.
-void AptActionInterpreter::_FunctionAptActionCallFunction(AptActionInterpreter *const p,LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCallFunction(AptActionInterpreter *const interpreter,LocalContextT *const localContext)
 {
-    AptValue *name=p->stack.At(0);
-    AptValue *params=p->stack.At(1);
+    AptValue *name=interpreter->stack.At(0);
+    AptValue *params=interpreter->stack.At(1);
     EAStringC sVar;
     int nParams=params->toInteger();
     AptValue *function=0;
     AptValue *context=0;
     if(name->isArray()) name=name->c_array()->get(0);
     if(name->isString()) {
-        rva006FEC00((int)c->pCurrentContext,(int)c->pCurWith,name->c_string()->GetInternalString(),(int *)&context,&sVar);
-        function=p->getVariable(context,c->pCurWith,&sVar,1);
+        rva006FEC00((int)localContext->pCurrentContext,(int)localContext->pCurWith,name->c_string()->GetInternalString(),(int *)&context,&sVar);
+        function=interpreter->getVariable(context,localContext->pCurWith,&sVar,1);
     } else function=name;
     function->AddRef();
     name=0; params=0;
-    p->stack.Pop(2);
-    p->debugCallStack.Push(new Rva006FBDB0(sVar.rva00620090(),(int)(context?context:(AptValue *)c->pCurrentContext),0x4000000));
-    p->callFunction(context?context:(AptValue *)c->pCurrentContext,function,nParams);
-    p->debugCallStack.Pop();
+    interpreter->stack.Pop(2);
+    interpreter->debugCallStack.Push(new Rva006FBDB0(sVar.rva00620090(),(int)(context?context:(AptValue *)localContext->pCurrentContext),0x4000000));
+    interpreter->callFunction(context?context:(AptValue *)localContext->pCurrentContext,function,nParams);
+    interpreter->debugCallStack.Pop();
     function->Release();
 }
 
@@ -2708,8 +2708,8 @@ AptValue *callback006FEFF0(AptValue *,int nParams)
             g_bfmeAptPtrAtE176D0->intervalTimers[i].countdown=g_bfmeAptPtrAtE176D0->intervalTimers[i].interval;
             if(nParams>firstParam) {
             for(int remaining=nParams-firstParam;remaining>0;--remaining) {
-                AptValue *p=g_aptDateInterpreter.stack.At(firstParam);
-                g_bfmeAptPtrAtE176D0->intervalTimers[i].params.pushInline(p);
+                AptValue *interpreter=g_aptDateInterpreter.stack.At(firstParam);
+                g_bfmeAptPtrAtE176D0->intervalTimers[i].params.pushInline(interpreter);
                 ++firstParam;
             }
             }
@@ -2736,11 +2736,11 @@ public:
 struct BfmeAptScriptFunctionView { unsigned char prefix[0x20]; AptCIH *mpCIH; };
 extern AptPrototype *g_00E1807C;
 static __forceinline BfmeAptObjectFlagsView *bfmeObjectFlags(AptValue *v) { return (BfmeAptObjectFlagsView *)((BfmeAptValue006DCD20 *)v)->rva006DD0E0(); }
-void AptActionInterpreter::_FunctionAptActionCallMethod(AptActionInterpreter *const p,LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionCallMethod(AptActionInterpreter *const interpreter,LocalContextT *const localContext)
 {
-    AptValue *function=p->stack.At(0);
-    AptValue *object=p->stack.At(1);
-    AptValue *params=p->stack.At(2);
+    AptValue *function=interpreter->stack.At(0);
+    AptValue *object=interpreter->stack.At(1);
+    AptValue *params=interpreter->stack.At(2);
     int nParams=params->toInteger();
     EAStringC name;
     bool pushed=false;
@@ -2752,56 +2752,56 @@ void AptActionInterpreter::_FunctionAptActionCallMethod(AptActionInterpreter *co
     } else function->toString(name);
     if(!object->isUndefined()) {
         AptValue *savedObject=object,*savedParams=params;
-        p->thisStack.pushInline((AptValue *)c->pCurrentContext);
+        interpreter->thisStack.pushInline((AptValue *)localContext->pCurrentContext);
         function=0;
-        p->stack.Pop();p->stack.PopNoDec();p->stack.PopNoDec();
-        if(fn==0 || fn==gpUndefinedValue) fn=p->getVariable(object,0,&name);
+        interpreter->stack.Pop();interpreter->stack.PopNoDec();interpreter->stack.PopNoDec();
+        if(fn==0 || fn==gpUndefinedValue) fn=interpreter->getVariable(object,0,&name);
         if(!fn || fn->isUndefined()) {
             if(name.rva006D3510("apply") || name.rva006D3510("call")) {
                 fn=object;
                 if(params->isInteger() || params->isFloat()) {
-                    if(nParams>0) { AptValue *thisObj=p->stack.rva006FE580(0); object=(!thisObj || thisObj->isUndefined())?gpUndefinedValue:thisObj; p->stack.rva006FE920(); --nParams; }
+                    if(nParams>0) { AptValue *thisObj=interpreter->stack.rva006FE580(0); object=(!thisObj || thisObj->isUndefined())?gpUndefinedValue:thisObj; interpreter->stack.rva006FE920(); --nParams; }
                     else object=gpUndefinedValue;
                 } else {
-                    object=params; AptValue *actualParams=p->stack.rva006FE580(0); nParams=actualParams->toInteger();
-                    if(nParams>1) { AptValue *thisObj=p->stack.rva006FE580(1); if(thisObj && !thisObj->isUndefined()) object=thisObj; p->stack.rva006FE920(); --nParams; }
-                    p->stack.rva006FE920();
+                    object=params; AptValue *actualParams=interpreter->stack.rva006FE580(0); nParams=actualParams->toInteger();
+                    if(nParams>1) { AptValue *thisObj=interpreter->stack.rva006FE580(1); if(thisObj && !thisObj->isUndefined()) object=thisObj; interpreter->stack.rva006FE920(); --nParams; }
+                    interpreter->stack.rva006FE920();
                 }
                 if(name.rva006D3510("apply")) {
-                    AptValue *v=p->stack.rva006FE580(0);
-                    if(v->isArray()) { p->stack.rva006FE920(); AptArray *a=v->c_array(); int length=a->mnCount; nParams=nParams-1+length; for(int i=length-1;i>=0;--i) p->stack.Push(a->GetAt(i)); }
+                    AptValue *v=interpreter->stack.rva006FE580(0);
+                    if(v->isArray()) { interpreter->stack.rva006FE920(); AptArray *a=v->c_array(); int length=a->mnCount; nParams=nParams-1+length; for(int i=length-1;i>=0;--i) interpreter->stack.Push(a->GetAt(i)); }
                 }
             }
         }
         if(object->getHasClass()) {
             bool good=true; AptValue *value=object;
-            if(p->withStack.count==0) { if(value==c->pSuper) { EAStringC thisName("this"); value=p->getVariable((AptValue *)c->pCurrentContext,0,&thisName); } }
+            if(interpreter->withStack.count==0) { if(value==localContext->pSuper) { EAStringC thisName("this"); value=interpreter->getVariable((AptValue *)localContext->pCurrentContext,0,&thisName); } }
             else {
-                AptValue *top=p->withStack.top();
+                AptValue *top=interpreter->withStack.top();
                 if(value->isCIH() && ((const AptValue *)value)->c_cih()->mpDisplayListParent==(AptCIH *)top) {}
                 else if(value!=top) {
                     AptNativeHash *hash=top->GetNativeHashVirtual();
                     while(hash) { AptValue *proto=hash->mp__proto__; if(proto && proto==value) { good=false; break; } hash=proto?proto->GetNativeHashVirtual():0; }
                 }
             }
-            if(good) { pushed=true; if(value->isObject()) bfmeObjectFlags(value)->setInMainInst(1); p->withStack.push(value); }
+            if(good) { pushed=true; if(value->isObject()) bfmeObjectFlags(value)->setInMainInst(1); interpreter->withStack.push(value); }
         }
         bool stayAlive=false;
         if(object->getRefCount()==1) { object->AddRef(); stayAlive=true; }
-        p->debugCallStack.Push(new Rva006FBDB0(name.rva00620090(),(int)object,0x8000000));
+        interpreter->debugCallStack.Push(new Rva006FBDB0(name.rva00620090(),(int)object,0x8000000));
         if(((Rva006DC9E0 *)object)->rva006DC9E0()) {
-            if(object==g_00E1807C) object=p->thisStack.at(1);
-            if(object==c->pSuper) {
-                if(fn->isScriptFunction()) { BfmeAptScriptFunctionView *sf=(BfmeAptScriptFunctionView *)((BfmeAptValue006DCD20 *)fn)->rva006DCEE0(); AptCIH *old=sf->mpCIH; sf->mpCIH=c->pCurrentContext; p->callFunction(object,fn,nParams); sf->mpCIH=old; }
-                else p->callFunction(object,fn,nParams);
-            } else p->callFunction(object,fn,nParams);
-        } else p->callFunction(object,fn,nParams);
-        if(pushed==true) { AptValue *top=p->withStack.topInline(); if(top->isObject()) bfmeObjectFlags(top)->setInMainInst(0); p->withStack.pop(); }
+            if(object==g_00E1807C) object=interpreter->thisStack.at(1);
+            if(object==localContext->pSuper) {
+                if(fn->isScriptFunction()) { BfmeAptScriptFunctionView *sf=(BfmeAptScriptFunctionView *)((BfmeAptValue006DCD20 *)fn)->rva006DCEE0(); AptCIH *old=sf->mpCIH; sf->mpCIH=localContext->pCurrentContext; interpreter->callFunction(object,fn,nParams); sf->mpCIH=old; }
+                else interpreter->callFunction(object,fn,nParams);
+            } else interpreter->callFunction(object,fn,nParams);
+        } else interpreter->callFunction(object,fn,nParams);
+        if(pushed==true) { AptValue *top=interpreter->withStack.topInline(); if(top->isObject()) bfmeObjectFlags(top)->setInMainInst(0); interpreter->withStack.pop(); }
         if(stayAlive) object->Release();
-        p->debugCallStack.Pop();
-        if(p->stack.At(0)!=gpUndefinedValue && object->isArray() && (name.rva006D3510("pop") || name.rva006D3510("shift"))) ((AptValue *)p->stack.rva007062F0())->Release();
-        p->thisStack.pop(); savedObject->Release(); savedParams->Release();
-    } else { p->stack.rva006E3AA0(nParams+3); p->stack.PushNoInc(gpUndefinedValue); }
+        interpreter->debugCallStack.Pop();
+        if(interpreter->stack.At(0)!=gpUndefinedValue && object->isArray() && (name.rva006D3510("pop") || name.rva006D3510("shift"))) ((AptValue *)interpreter->stack.rva007062F0())->Release();
+        interpreter->thisStack.pop(); savedObject->Release(); savedParams->Release();
+    } else { interpreter->stack.rva006E3AA0(nParams+3); interpreter->stack.PushNoInc(gpUndefinedValue); }
 }
 
 // ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z, retail
