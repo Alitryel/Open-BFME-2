@@ -1462,3 +1462,4 @@ __ehhandler$?Rva002E048CParse@@YAXPAVINI@@@Z,0x007786A0,"Renamed to __ehhandler$
 ?Rva00402B19Parse@@YAXPAVINI@@@Z,0x00402B19,"Renamed to ?parseLivingWorldBuildingIconDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 __ehhandler$?Rva00402B19Parse@@YAXPAVINI@@@Z,0x00784C2A,"Renamed to __ehhandler$?parseLivingWorldBuildingIconDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
 ?Rva00210F64Parse@@YAXPAVINI@@@Z,0x00210F64,"Renamed to ?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"
+?Rva0040F0F0Parse@@YAXPAVINI@@@Z,0x0040F0F0,"Renamed to ?parseLivingWorldPlayerArmyDefinition@@YAXPAVINI@@@Z by tools/rename.py (canonical:iniblock)"

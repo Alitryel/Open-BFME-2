@@ -58,7 +58,7 @@ void Rva003FD7CEParse(INI *);
 void parseLivingWorldBuildingIconDefinition(INI *);
 void parseLivingWorldBuildPlotIconDefinition(INI *);
 void parseAwardSystemDefinition(INI *);
-void Rva0040F0F0Parse(INI *);
+void parseLivingWorldPlayerArmyDefinition(INI *);
 void parseAutoResolveHandicapLevelDefinition(INI *);
 void Rva00413D58Parse(INI *);
 void parseCrowdResponseDefinition(INI *);
@@ -415,7 +415,7 @@ BlockParse theLivingWorldAnimObjectBlockParse = { 0, "LivingWorldAnimObject", Rv
 BlockParse theLivingWorldBuildingIconBlockParse = { 0, "LivingWorldBuildingIcon", parseLivingWorldBuildingIconDefinition };	// VA 0x00DC1AB4 "LivingWorldBuildingIcon", parse 0x00402B19
 BlockParse theLivingWorldBuildPlotIconBlockParse = { 0, "LivingWorldBuildPlotIcon", parseLivingWorldBuildPlotIconDefinition };	// VA 0x00DC1B04 "LivingWorldBuildPlotIcon", parse 0x00402E30
 BlockParse theAwardSystemBlockParse = { 0, "AwardSystem", parseAwardSystemDefinition };	// VA 0x00DC1D9C "AwardSystem", parse 0x0040C32B
-BlockParse theLivingWorldPlayerArmyBlockParse = { 0, "LivingWorldPlayerArmy", Rva0040F0F0Parse };	// VA 0x00DC1F68 "LivingWorldPlayerArmy", parse 0x0040F0F0
+BlockParse theLivingWorldPlayerArmyBlockParse = { 0, "LivingWorldPlayerArmy", parseLivingWorldPlayerArmyDefinition };	// VA 0x00DC1F68 "LivingWorldPlayerArmy", parse 0x0040F0F0
 BlockParse theAutoResolveHandicapLevelBlockParse = { 0, "AutoResolveHandicapLevel", parseAutoResolveHandicapLevelDefinition };	// VA 0x00DC2044 "AutoResolveHandicapLevel", parse 0x0041355D
 BlockParse theLivingWorldAutoResolveSciencePurchasePointBonusBlockParse = { 0, "LivingWorldAutoResolveSciencePurchasePointBonus", LivingWorldAutoResolveSciencePurchasePointBonusScheduleStore::parseLivingWorldAutoResolveSciencePurchasePointBonusBlock };	// VA 0x00DC2050 "LivingWorldAutoResolveSciencePurchasePointBonus", parse 0x00413B4D
 BlockParse theAutoResolveReinforcementScheduleBlockParse = { 0, "AutoResolveReinforcementSchedule", Rva00413D58Parse };	// VA 0x00DC205C "AutoResolveReinforcementSchedule", parse 0x00413D58

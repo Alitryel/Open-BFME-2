@@ -277,7 +277,7 @@ class Rva00E02D6C;
 extern Rva00E02D6C *TheCampaignManager;
 extern const FieldParse LivingWorldPlayerArmyFields[];
 
-void Rva0040F0F0Parse(INI *ini)
+void parseLivingWorldPlayerArmyDefinition(INI *ini)
 {
 	if (TheCampaignManager)
 	{
