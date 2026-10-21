@@ -1,5 +1,9 @@
 // cl: /MD
-// ?rva00429093@CommandTranslator@@QAEHPAUArg@@H@Z @0x00429093 127B
+// ?createEvacuateMessage@CommandTranslator@@QAEHPAVDrawable@@H@Z @0x00429093. BFME1's
+// CommandTranslator::createEvacuateMessage (0x005ADA90) has the same callees in order, and
+// its message type 0x41F is this body's 0x420 (BFME2's enum is shifted by one
+// here, as for the two sibling create*Message bodies); Zero Hour's body shape.
+// 127B
 // Evidence: caller 0x0042A398 plus TheInGameUI slot73 plus PickAndPlayInfo ctor 0x004D92FE plus pickAndPlayUnitVoiceResponse pin plus MessageStreamSubsystem slot 0x48 with 0x420 plus appendObjectIDArgument 0x0030F979
 #include "../../../Libraries/Include/Lib/ICoord2D.h"
 
@@ -97,8 +101,9 @@ struct ArgInner
 	void *m_pad274;
 };
 
-struct Arg
+class Drawable
 {
+public:
 	char m_pad00[0xfc];
 	ArgInner *m_innerFC;
 };
@@ -106,13 +111,13 @@ struct Arg
 class CommandTranslator
 {
 public:
-	int rva00429093(Arg *a, int b);
+	int createEvacuateMessage(Drawable *a, int b);
 private:
 	char m_pad00[8];
 	unsigned char m_flag08;
 };
 
-int CommandTranslator::rva00429093(Arg *a, int b)
+int CommandTranslator::createEvacuateMessage(Drawable *a, int b)
 {
 	if (b == 2)
 		return 0x420;
