@@ -2,7 +2,7 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 //
-// ?rva0032DE04@SidesList@@QAEHABVAsciiString@@@Z
+// ?addPlayerByTemplate@SidesList@@QAEHABVAsciiString@@@Z
 // retail 0x0032DE04, 527 bytes. SidesList::addPlayerByTemplate shape from ZH
 // GeneralsMD SidesList.cpp (Plyr/Faction/PlyrCivilian/team/addTeam/addSide):
 // builds playerName/display/isHuman from template, team dict then side dict.
@@ -72,13 +72,13 @@ class SidesList
 {
 public:
 	int addSide(const Dict *d);
-	int rva0032DE04(const AsciiString &playerTemplate);
+	int addPlayerByTemplate(const AsciiString &playerTemplate);
 private:
 	char m_pad[0xF44];
 	TeamsInfoRec m_teams;
 };
 
-int SidesList::rva0032DE04(const AsciiString &playerTemplate)
+int SidesList::addPlayerByTemplate(const AsciiString &playerTemplate)
 {
 	AsciiString playerName;
 	UnicodeString playerDisplayName;
