@@ -10408,7 +10408,7 @@ name,address,notes
 ?rva003FDAEB@Rva003FDD05Host@@QAEXXZ,0x003FDAEB,"member vtable slot 0x003FDD05 calls first; opaque address name"
 ?rva003FDE1A@Rva003FDE1AHelper@@QAEXH@Z,0x003FDE1A,callee of setter 0x00318BC6 read from its REL32 displacement; w3-g26
 ?rva003FE342@Rva003FE402Host@@QAEXXZ,0x003FE342,"member vtable slot 0x003FE402 calls first; opaque address name"
-?rva003FF145@Rva003FF145@@QBE_NPBUBfmeNetAddress@@@Z,0x003FF145,alias pin: same body already rowed as ?rva003FF145@GameSlot@@QBEHPBUBfmeNetAddress@@@Z; it answers 0/1 in eax and the matched slot 0x003FF312 returns its al as bool; bool spelling binds the same bytes; no new identity inferred
+?rva003FF145@Rva003FF145@@QBE_NPBUBfmeNetAddress@@@Z,0x003FF145,alias pin: same body already rowed as ?isPlayer@GameSlot@@QBEHPBUBfmeNetAddress@@@Z; it answers 0/1 in eax and the matched slot 0x003FF312 returns its al as bool; bool spelling binds the same bytes; no new identity inferred
 ?rva00403382@AttributeModifierPoolUpdate@@QAE_NHPAMH@Z,0x00403382,REL32 read at the byte-verified Object::getShroudClearingRange 0x0028DE87: called on the found AttributeModifierPoolUpdate with (0x14 and a float out zeroed first and 0) and its bool result gates a (1 + value) range multiplier; identity unknown
 ?rva00403448@AttributeModifierPoolUpdate@@QAE_NHPAMHH@Z,0x00403448,REL32 read at the tail jmp of Object::rva0028C15E 0x0028C16E (after findAttributeModifierPoolUpdate returns the pool in ecx); native body 0x00403448..0x004034D4 ret 0x10 mirrors pinned sibling 0x00403382 but seeds *value with a constant and multiplies matches; identity unknown
 ?rva004047E3@Rva004047E3@@QAEXMM@Z,0x004047E3,float-pair probe on 0xA8-stride array called by 0x0056C21B fan-out; honest address-derived name
