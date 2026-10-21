@@ -2100,8 +2100,6 @@ alternatename	Code/GameEngine/Source/Common/BfmeConv908.cpp	?getInt@BfmeSrc803C9
 alternatename	Code/GameEngine/Source/Common/BfmeConv908.cpp	?getPtr@Rva00803620Getter@@QAEPAXPAX0@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv936.cpp	?bfmeVecDtor936B@@YGXPAXIHP6GX0@Z@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv937.cpp	?bfmeThrow937C@@YGXI@Z	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv943.cpp	?g_bfme943VftE1@@3PADA	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv943.cpp	?g_bfme943VftE2@@3PADA	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv969.cpp	??1Gen007F4D00@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv982.cpp	?g_bfmeHub982@@3PAVBfmeHub982@@A	1
 alternatename	Code/GameEngine/Source/Common/BfmeDropVGO.cpp	?bfmeDropA@@YAXPAX@Z	1
@@ -33000,8 +32998,6 @@ present_unmatched	Code/GameEngine/Source/Common/BfmeConv890.cpp	BfmeThingFAF::bf
 present_unmatched	Code/GameEngine/Source/Common/BfmeConv907.cpp	BfmeThingQB::bfmeGoQB	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeConv907.cpp	BfmeThingQE::bfmeGoQE	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeConv907.cpp	BfmeThingQF::bfmeGoQF	1
-present_unmatched	Code/GameEngine/Source/Common/BfmeConv943.cpp	bfmeGo943F@BfmeThing943F@@QAEXXZ	1
-present_unmatched	Code/GameEngine/Source/Common/BfmeConv943.cpp	bfmeGo943G@BfmeThing943G@@QAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeMeshHitTest1290.cpp	bfmeMeshHitTest1290@@YG_NPAUBfmeMesh1290@@PBUBfmeTransform2_1290@@HH@Z	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFive.cpp	BfmeThingCX::bfmeDropCX	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFive.cpp	BfmeThingCY::bfmeReleaseCY	1

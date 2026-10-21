@@ -1,6 +1,7 @@
 // cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?Rva001DD8C9Alloc@@YGPAXABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z @0x001DD8C9 37B hashtable node alloc via rowed allocate 0x000307F0 plus rowed _Construct 0x000A7849.
+// ?Rva001DD8C9Alloc@@YGPAXABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z @0x001DD8C9 37B hashtable node alloc via rowed allocate 0x000307F0 plus the rowed native placement copy 0x001DD745 (Rva001DD745Construct:
+// retail's call lands there, not on _Construct<pair<..., NoCaseTreeValue4>> 0x000A7849).
 // Evidence: unlock lane every callee rowed; caller 0x001DE556 hash insert buckets plus count; same 37B shape as 0x005472D3.
 #include <memory>
 #include <map>
@@ -16,11 +17,13 @@ namespace _STL {
 template <> NocasePair::pair(const NocasePair &);
 }
 
+void Rva001DD745Construct(void *dest, const void *source);
+
 void *__stdcall Rva001DD8C9Alloc(const NocasePair &src)
 {
 	char *p = _STL::allocator<char>::allocate(0x0c, 0);
 	*(int *)p = 0;
-	_STL::_Construct((NocasePair *)(p + 4), src);
+	Rva001DD745Construct(p + 4, &src);
 	return p;
 }
 

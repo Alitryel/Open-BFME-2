@@ -33,6 +33,10 @@ template <> NoCasePairCopy::pair(const NoCasePairCopy &);
 }
 
 typedef _STL::_Rb_tree<AsciiString, _STL::pair<const AsciiString, NoCaseTreeValue4>, _STL::_Select1st<_STL::pair<const AsciiString, NoCaseTreeValue4> >, BfmeStringNoCaseLess, _STL::allocator<_STL::pair<const AsciiString, NoCaseTreeValue4> > > NoCaseTree4CF550;
+// _M_create_node is the rowed 0x002CFA8E body (stlport_rb_tree_create_node_nocase4_002CFA8E.cpp):
+// retail's copy calls the distinct placement copy 0x002CF954, not the
+// _Construct<pair<..., NoCaseTreeValue4>> row 0x000A7849 the template would call.
+template <> NoCaseTree4CF550::_Link_type NoCaseTree4CF550::_M_create_node(const NoCaseTree4CF550::value_type &);
 template NoCaseTree4CF550::_Link_type NoCaseTree4CF550::_M_copy(NoCaseTree4CF550::_Link_type, NoCaseTree4CF550::_Link_type);
 
 // Whole-class instantiation of this tree. It reproduces operator= (retail 0x002D0867)
