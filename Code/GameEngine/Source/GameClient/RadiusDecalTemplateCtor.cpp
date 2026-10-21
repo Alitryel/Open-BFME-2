@@ -89,7 +89,7 @@ class RadiusDecalTemplate
 {
 public:
 	RadiusDecalTemplate();
-	void rva00330EE0(Xfer *xfer);
+	void xferRadiusDecalTemplate(Xfer *xfer);
 
 private:
 	AsciiString m_name; // +0x00
@@ -132,7 +132,7 @@ RadiusDecalTemplate::RadiusDecalTemplate()
 // purpose; the existing target constructor/assignment prove this layout.
 // BFME2 has a second string, float throb time, five extra tail fields and
 // no local version. The original target method name is not established.
-void RadiusDecalTemplate::rva00330EE0(Xfer *xfer)
+void RadiusDecalTemplate::xferRadiusDecalTemplate(Xfer *xfer)
 {
     *xfer == m_name;
     *xfer == m_secondName;
