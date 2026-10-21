@@ -67,7 +67,7 @@
 //   0x005FD95E  0x005FD628    1
 //   0x005FF8F8  0x005FF5F6    1
 
-void __cdecl operator delete(void *owned);
+void __cdecl operator delete(void *block);
 
 // Rowed twins of the pointee destructors below: same address, retail spelling. The reset signatures keep the
 // address-derived pointee names, so the calls cast to these declaration-only views.
