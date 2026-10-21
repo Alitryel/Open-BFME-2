@@ -69,7 +69,7 @@ struct AudioLock
 	int m_14;
 };
 
-// rva001DBE6E, rva001DBEB6 and draw are slots 9, 10 and 12 of the
+// reset, update and draw are slots 9, 10 and 12 of the
 // handler's vftable 0x00BDBC30 (installed by its ctor 0x001DCBC3 and dtor
 // 0x001DC6E4), as their WorldBuilder twins are of WB's: virtual, with the
 // vptr at +0. isFinished is called directly and stays a plain member.
@@ -77,9 +77,9 @@ class GameWindowTransitionsHandler
 {
 public:
 	bool isFinished();
-	virtual void rva001DBE6E();
+	virtual void reset();
 	virtual void draw();
-	virtual void rva001DBEB6();
+	virtual void update();
 private:
 	char m_pad04[0x20];
 	Rva001DBDA4 *m_24;
@@ -108,7 +108,7 @@ bool GameWindowTransitionsHandler::isFinished()
 
 // Retail 0x001DBE6E 72B: GameWindowTransitionsHandler slot 9 release of four Rva001DBDA4 lists plus clear byte at +0x69.
 // Evidence: vtable 0x007DBC30 slot 9 of the handler ctor; rowed rva001DBE17 callee; offsets +0x24 +0x28 +0x30 +0x2C +0x69; neighbours 0x001DBE51 and 0x001DBFEE.
-void GameWindowTransitionsHandler::rva001DBE6E()
+void GameWindowTransitionsHandler::reset()
 {
 	if (m_24)
 	{
@@ -156,7 +156,7 @@ void GameWindowTransitionsHandler::draw()
 // Donor-carried: BFME1 GameWindowTransitionsHandler::update 0x0048A320 300B logic (lock, secondary
 // E17-reset, hold-gated fireOnce discard, MessageStream idle-notify) + ZH GameWindowTransitions.cpp
 // update phase order; BFME2 deltas are target facts (+4 shifts, lock +0x38, 0x70 vs 0x6D, +0x51/+0x69).
-void GameWindowTransitionsHandler::rva001DBEB6()
+void GameWindowTransitionsHandler::update()
 {
 	HandlerLock lock(&m_38);
 	if (m_2C != m_24)
