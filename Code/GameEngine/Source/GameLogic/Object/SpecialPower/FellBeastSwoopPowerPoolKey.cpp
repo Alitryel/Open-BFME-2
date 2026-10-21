@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004C6C7C@FellBeastSwoopPower@@SA?AW4NameKeyType@@XZ @0x4C6C7C
+// ?getModuleNameKey@FellBeastSwoopPower@@UBE?AW4NameKeyType@@XZ @0x4C6C7C
 // (69B): cached pool-name key for FellBeastSwoopPower. The class
 // identity comes from the pool-name string the body pushes
 // ("FellBeastSwoopPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FellBeastSwoopPower
 {
 public:
-	static NameKeyType rva004C6C7C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C6C7C@FellBeastSwoopPower@@SA?AW4NameKeyType@@XZ
-NameKeyType FellBeastSwoopPower::rva004C6C7C()
+// ?getModuleNameKey@FellBeastSwoopPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType FellBeastSwoopPower::getModuleNameKey() const
 {
 	static NameKeyType TheFellBeastSwoopPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("FellBeastSwoopPower");

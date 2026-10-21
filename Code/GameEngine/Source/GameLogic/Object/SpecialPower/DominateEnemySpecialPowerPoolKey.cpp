@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004CC9DF@DominateEnemySpecialPower@@SA?AW4NameKeyType@@XZ @0x4CC9DF
+// ?getModuleNameKey@DominateEnemySpecialPower@@UBE?AW4NameKeyType@@XZ @0x4CC9DF
 // (69B): cached pool-name key for DominateEnemySpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("DominateEnemySpecialPower"); the body guards a function-local static
@@ -27,11 +27,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DominateEnemySpecialPower
 {
 public:
-	static NameKeyType rva004CC9DF();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004CC9DF@DominateEnemySpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType DominateEnemySpecialPower::rva004CC9DF()
+// ?getModuleNameKey@DominateEnemySpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType DominateEnemySpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheDominateEnemySpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("DominateEnemySpecialPower");
