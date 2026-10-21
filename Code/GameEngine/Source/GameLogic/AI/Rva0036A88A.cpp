@@ -5,7 +5,7 @@
 // asserted. Coordinate ordering uses the byte-matched sibling barrier pattern.
 
 //
-// ?rva0036A88A@Rva0036A88AOwner@@QAEHXZ @0x0036A88A 239B
+// ?update@Rva0036A88AOwner@@QAEHXZ @0x0036A88A 239B
 // Guard-state tick on the +0x18 machine: when TheGameLogic's frame passes
 // +0x24, refresh it from the AI interval (TheAI+0x18 then +0x44) plus the
 // frame and return -2 when the machine's lookForInnerTarget scan succeeds.
@@ -124,7 +124,7 @@ public:
 class Rva0036A88AOwner
 {
 public:
-	int rva0036A88A();
+	int update();
 
 private:
 	char m_pad00[0x18];
@@ -139,7 +139,7 @@ extern "C" void _ReadWriteBarrier(void);
 
 // Native direct destinations: onExit 0x00369217, onEnter 0x00369064,
 // update 0x0036914D; all use this unchanged.
-int Rva0036A88AOwner::rva0036A88A()
+int Rva0036A88AOwner::update()
 {
 	UnsignedInt frame = TheGameLogic->m_frame;
 	if (frame >= m_nextFrame) {

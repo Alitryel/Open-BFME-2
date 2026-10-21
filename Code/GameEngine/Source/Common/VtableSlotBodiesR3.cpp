@@ -708,13 +708,13 @@ struct Rva0036803FLogic
 class Rva0036803F
 {
 public:
-	int rva0036803F();
+	int onEnter();
 private:
 	char m_pad00[0x20];
 	int m_value20;
 };
 
-int Rva0036803F::rva0036803F()
+int Rva0036803F::onEnter()
 {
 	m_value20 = ((Rva0036803FLogic *)TheGameLogic)->m_value40 + 2;
 	return 0;
@@ -776,13 +776,13 @@ struct Rva00345F76Top
 class Rva00345F76
 {
 public:
-	int rva00345F76();
+	int onEnter();
 private:
 	char m_pad00[0x18];
 	Rva00345F76Top *m_top18;
 };
 
-int Rva00345F76::rva00345F76()
+int Rva00345F76::onEnter()
 {
 	return (m_top18->m_mid14->m_leaf04->m_flags114 & 0x2000) ? 0 : -2;
 }

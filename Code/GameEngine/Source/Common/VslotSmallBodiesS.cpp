@@ -361,7 +361,7 @@ class Rva005450B5
 {
 public:
 	void rva005450B5(Int unused);
-	void rva005451F3(Int unused);
+	void onExit(Int unused);
 private:
 	char m_pad00[0x18];
 	Rva005450B5Holder *m_18;
@@ -375,7 +375,7 @@ void Rva005450B5::rva005450B5(Int)
 		object->rva0028AE6D();
 	}
 }
-void Rva005450B5::rva005451F3(Int)
+void Rva005450B5::onExit(Int)
 {
 	Object *object = m_18->m_14;
 	if (object->m_conditionBits.test(257) != 0)

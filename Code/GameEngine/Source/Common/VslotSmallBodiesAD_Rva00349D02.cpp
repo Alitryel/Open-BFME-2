@@ -94,12 +94,12 @@ class AIAttackMeleeEngageState
 class Rva00349D02
 {
 public:
-	Int rva00349D02();
+	Int update();
 private:
 	char m_pad00[0x18];
 	Rva00349D02Machine *m_18;
 };
-Int Rva00349D02::rva00349D02()
+Int Rva00349D02::update()
 {
 	Object *owner = m_18->m_owner14;
 	Int result = reinterpret_cast<AIAttackMeleeEngageState *>(this)->updateInternal();

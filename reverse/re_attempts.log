@@ -80999,3 +80999,10 @@ Unwind@00b5bf67	0x0075BF67	31	blocked	Parent 0x00012190 is now matched and EH gr
 ?onExit@Rva004886C7@@QAEXH@Z	0x0048873F	44	landed	state-family vtable slot 5 (85-of-85 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5
 ?update@Rva004886C7@@QAEHXZ	0x0048876B	280	landed	state-family vtable slot 6 (92-of-93 named siblings: update); signature and body shape match (update of an AI state) t=3 model=claude-opus-5-5
 ?onExit@Rva0048893C@@QAEXH@Z	0x0048893C	47	landed	state-family vtable slot 5 (85-of-85 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5
+?onExit@Rva005450B5@@QAEXH@Z	0x005451F3	30	landed	state-family vtable slot 5 (85-of-85 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5
+?update@Rva00349D02@@QAEHXZ	0x00349D02	36	landed	state-family vtable slot 6 (91-of-92 named siblings: update); signature and body shape match (update of an AI state) t=3 model=claude-opus-5-5
+?onExit@Rva00346B6D@@QAEXH@Z	0x00346B6D	83	landed	state-family vtable slot 5 (84-of-84 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5
+?update@Rva0036A88AOwner@@QAEHXZ	0x0036A88A	239	landed	state-family vtable slot 6 (92-of-93 named siblings: update); signature and body shape match (update of an AI state) t=3 model=claude-opus-5-5
+?onEnter@Rva0036803F@@QAEHXZ	0x0036803F	16	landed	state-family vtable slot 4 (95-of-96 named siblings: onEnter); signature and body shape match (onEnter of an AI state) t=3 model=claude-opus-5-5
+?onEnter@Rva00345F76@@QAEHXZ	0x00345F76	30	landed	state-family vtable slot 4 (95-of-96 named siblings: onEnter); signature and body shape match (onEnter of an AI state) t=3 model=claude-opus-5-5
+?onExit@Rva003425A0@@QAEXH@Z	0x003425A0	31	landed	state-family vtable slot 5 (85-of-85 named siblings: onExit); signature and body shape match (onExit of an AI state) t=3 model=claude-opus-5-5

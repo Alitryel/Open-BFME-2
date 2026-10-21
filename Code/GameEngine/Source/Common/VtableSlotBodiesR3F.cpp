@@ -350,13 +350,13 @@ struct Rva003425A0Top
 class Rva003425A0
 {
 public:
-	void rva003425A0(int unused);
+	void onExit(int unused);
 private:
 	char m_pad00[0x18];
 	Rva003425A0Top *m_top18;
 };
 
-void Rva003425A0::rva003425A0(int)
+void Rva003425A0::onExit(int)
 {
 	m_top18->m_mid14->m_leaf258->m_value1A0 = 3.402823466e+38f;
 }

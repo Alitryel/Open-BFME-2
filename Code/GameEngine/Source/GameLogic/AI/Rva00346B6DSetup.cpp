@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva00346B6D@@QAEXH@Z @0x00346B6D 80B.
+// ?onExit@@QAEXH@Z @0x00346B6D 80B.
 // Void damage setup (thiscall, one unused int): inits a 0x7C info block on
 // the frame through the pinned 0x263895 member init plus field stores,
 // resolves the +0x258 slot virtual (float out, dead store) and scales the
@@ -69,13 +69,13 @@ float g_00BBB8D8 = 1.0f;
 class Rva00346B6D
 {
 public:
-	void rva00346B6D(int unused);
+	void onExit(int unused);
 
 	char m_pad00[0x18];
 	StateMachine *m_machine;
 };
 
-void Rva00346B6D::rva00346B6D(int unused)
+void Rva00346B6D::onExit(int unused)
 {
 	(void)unused;
 	Object *self = m_machine->m_obj14;

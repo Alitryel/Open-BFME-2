@@ -90,7 +90,7 @@ bool Rva0026156C::allow(Object *candidate)
 class Rva00349D02
 {
 public:
-	Int rva00349D02();
+	Int update();
 	Int rva003497E6();
 private:
 	char m_pad00[0x18];
