@@ -3,9 +3,9 @@
 // TunnelContain.cpp: TunnelContain overrides retail links from this TU (tu_map
 // approved), folded from two split units with these exact flags. The contain
 // interface at +0x34 carries both overrides: rva0047DE30 in slot 4 and
-// rva0047DCDF in slot 73.
+// iterateContained in slot 73.
 //
-// ?rva0047DCDF@TunnelContain@@UAEXP6AXPAX0@Z0I@Z @0x0047DCDF 48B.
+// ?iterateContained@TunnelContain@@UAEXP6AXPAX0@Z0I@Z @0x0047DCDF 48B.
 // Target evidence: the only reference to this body is slot 73 of the vtable
 // 0x00C475A4, which the matched TunnelContain ctor 0x0047DC41 and dtor
 // 0x0047DB3A install at +0x34 -- the contain interface base of the
@@ -186,7 +186,7 @@ public:
 	virtual Rva0036AE51ListView rva0047DE12();
 	virtual void s71();
 	virtual void s72();
-	virtual void rva0047DCDF(Rva004F553FCb cb, void *user, unsigned int flags) = 0;
+	virtual void iterateContained(Rva004F553FCb cb, void *user, unsigned int flags) = 0;
 };
 class GarrisonContain
 	: public B00, public B0C, public B10, public B20, public B24, public B28, public B2C, public B30
@@ -208,7 +208,7 @@ public:
 	virtual void onSelling();
 	virtual UpdateSleepTime update();
 	virtual bool isValidContainerFor(Object *obj, bool checkCapacity, bool a3);
-	virtual void rva0047DCDF(Rva004F553FCb cb, void *user, unsigned int flags);
+	virtual void iterateContained(Rva004F553FCb cb, void *user, unsigned int flags);
 	virtual void rva0047DE30();
 	virtual void addToContainList(Object *obj);
 	virtual void onDie(const DamageInfo *damageInfo);
@@ -221,7 +221,7 @@ private:
 	unsigned char m_flag9B0;
 	unsigned char m_flag9B1;
 };
-void TunnelContain::rva0047DCDF(Rva004F553FCb cb, void *user, unsigned int flags)
+void TunnelContain::iterateContained(Rva004F553FCb cb, void *user, unsigned int flags)
 {
 	if (!(flags & 1))
 		return;
@@ -249,10 +249,10 @@ void TunnelContain::rva0047DE30()
 
 // ?addToContainList@TunnelContain@@UAEXPAVObject@@@Z, retail 0x0047DC75,
 // 19 bytes: slot 40 of the contain interface at +0x34 (vtable 0x008475B8,
-// whose slot 68 is rva0047DCDF above). Zero Hour's TunnelContain::
+// whose slot 68 is iterateContained above). Zero Hour's TunnelContain::
 // addToContainList: the object joins the owning player's tunnel system
 // (+0x2E8, rowed TunnelTracker::addToContainList 0x004F56E5, reached by a
-// tail jump). BFME 2 keeps no null checks, like rva0047DCDF.
+// tail jump). BFME 2 keeps no null checks, like iterateContained.
 void TunnelContain::addToContainList(Object *obj)
 {
 	Player *owningPlayer = m_1C->getControllingPlayer();
