@@ -1,28 +1,27 @@
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.8114 date=2026-10-20
+// partial score=0.9067 date=2026-10-21
+// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
+// partial score=0.9067 date=2026-10-21 (claude3 fit scorer; the 0.8114 bank scores 0.8820 on it)
 // cl:  /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 //
 // Partial reconstruction of STLport 4.5.3 wide monetary string formatting.
-// Retail DF20..E952 is 2610 bytes; this bank emits 2594 bytes with the
-// retail 0x118 frame. Historical bank score 0.8114 is retained conservatively.
+// Retail DF20..E952 is 2610 bytes; this bank emits 2562 bytes with the
+// retail 0x118 frame and retail's slot for every outlined temporary.
 // The negative-sign boolean is separate from the copy helper's empty tag.
 // The verified wide allocator-base constructor at 0x00689600 is declared
 // opaque here. Its visibility changes stack colouring even when both forms
-// keep the call: memory differences fall from 111 to 99, and EH nonrelocation
-// byte differences fall from 17 to one. All temporary-flag slots now agree.
-// Locale remains [ebp-0xF0] versus retail [ebp-0xF4] in the first funclet.
-// The 23-state EH table agrees outside relocations. This is not an EH match.
-// An external EH call audit also finds 11 of 16 calls outside the emitted
-// names' admitted addresses: nine whole-wide calls target the 63-byte body,
-// and two base calls target the 14-byte body. Do not mask or pin this away.
-// Per-site depth 0 retains currency temporary and first-return calls; the
-// opaque wide base destructor retains the sign/base calls. Cleanup remains
-// incorrect at early returns and at the three final wide-string destructions.
-// No unresolved ordinary callees remain. The optimized WorldBuilder twin
-// independently confirms retail's complete body and cleanup instruction shape.
-// Measurements, rejected hypotheses and next angles are recorded in
-// reverse/attempt_support/df20-allocator-eh-20261021/handoff.md.
+// keep the call.
+// Per-site depth 0 on the currency and sign declarations outlines all six
+// conditional temporaries as whole-string destructor calls at retail's
+// offsets and states. The base destructor is no longer opaque, so the final
+// teardown frees inline as in retail. Residue: both early returns tail-merge
+// into the inline final teardown, where retail calls 0x00142D70 at the first
+// and 0x0000B3C0 twice at the second before jumping to the shared narrow and
+// locale tail; the sign temporaries call the whole-string name, which the
+// ledger resolves to 0x00142D70 (retail 0x0000B3C0). Do not mask or pin this
+// away. Measurements and rejected hypotheses:
+// reverse/attempt_support/df20-inline-budget-20261021/handoff.md.
 //
 /*
  * Copyright (c) 1999
@@ -128,7 +127,6 @@ template <> inline basic_string<char>::basic_string(const basic_string<char>& s)
 }
 namespace _STL {
 template <> basic_string<wchar_t>::basic_string(const basic_string<wchar_t>&);
-template <> _String_base<wchar_t, allocator<wchar_t> >::~_String_base();
 #pragma inline_depth(0)
 template <> template <> __forceinline basic_string<wchar_t>::basic_string(const wchar_t* first,const wchar_t* last,const allocator<wchar_t>& a) : _String_base<wchar_t,allocator<wchar_t> >(a) { _M_range_initialize(first,last,forward_iterator_tag()); }
 #pragma inline_depth(255)
@@ -200,9 +198,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
     // not.
 
   if (__digits.size() == 0) 
-#pragma inline_depth(0)
     return __s;
-#pragma inline_depth(255)
 
 
   string_type::const_iterator __digits_first = __digits.begin();
@@ -214,7 +210,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   if (__is_negative)
     ++__digits_first;
 
-#pragma inline_depth(1)
+#pragma inline_depth(0)
   string_type __sign = __intl ?
 			 __is_negative ? __punct_intl.negative_sign()
 				       : __punct_intl.positive_sign()
@@ -226,9 +222,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   while (__cp != __digits_last && __c_type.is(ctype_base::digit, *__cp))
     ++__cp;
   if (__cp == __digits_first)
-#pragma inline_depth(1)
     return __s;
-#pragma inline_depth(255)
 
   __digits_last = __cp;
 
