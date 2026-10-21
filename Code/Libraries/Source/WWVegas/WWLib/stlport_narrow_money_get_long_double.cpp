@@ -111,4 +111,10 @@ namespace _STL { template <> __declspec(dllimport) __declspec(nothrow) __forcein
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
-template class _STL::money_get<char, _STL::istreambuf_iterator<char, _STL::char_traits<char> > >;
+// Instantiate only the rowed long-double overload. Whole-class instantiation
+// also emitted a constructor and vtable referencing the separate string parser.
+template _STL::istreambuf_iterator<char, _STL::char_traits<char> >
+_STL::money_get<char, _STL::istreambuf_iterator<char, _STL::char_traits<char> > >::do_get(
+    _STL::istreambuf_iterator<char, _STL::char_traits<char> >,
+    _STL::istreambuf_iterator<char, _STL::char_traits<char> >,
+    bool, _STL::ios_base &, int &, long double &) const;
