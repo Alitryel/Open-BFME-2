@@ -13,13 +13,16 @@
 // byte differences fall from 17 to one. All temporary-flag slots now agree.
 // Locale remains [ebp-0xF0] versus retail [ebp-0xF4] in the first funclet.
 // The 23-state EH table agrees outside relocations. This is not an EH match.
+// An external EH call audit also finds 11 of 16 calls outside the emitted
+// names' admitted addresses: nine whole-wide calls target the 63-byte body,
+// and two base calls target the 14-byte body. Do not mask or pin this away.
 // Per-site depth 0 retains currency temporary and first-return calls; the
 // opaque wide base destructor retains the sign/base calls. Cleanup remains
 // incorrect at early returns and at the three final wide-string destructions.
 // No unresolved ordinary callees remain. The optimized WorldBuilder twin
 // independently confirms retail's complete body and cleanup instruction shape.
 // Measurements, rejected hypotheses and next angles are recorded in
-// reverse/attempt_support/df20-constructor-visibility-20261020/handoff.md.
+// reverse/attempt_support/df20-allocator-eh-20261021/handoff.md.
 //
 /*
  * Copyright (c) 1999
