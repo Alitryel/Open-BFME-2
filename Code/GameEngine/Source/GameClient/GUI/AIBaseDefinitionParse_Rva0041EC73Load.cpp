@@ -37,13 +37,13 @@ template <> inline _Vector_base<ScienceType, allocator<ScienceType> >::~_Vector_
 }
 
 struct Rva0021C21BElement {char bytes[4];};
-void Rva0041EC73Load(INI*);
+void parseAIBaseDefinition(INI*);
 class ModuleData;
 namespace _STL {
 template<class T>struct hash {};template<class T>struct equal_to {};
 template<class K,class V,class H=hash<K>,class E=equal_to<K>,class A=allocator<pair<const K,V> > >class hash_map {public:V&operator[](const K&);char body[20];};
 template<class V>struct _Select1st {};template<class V>struct _Hashtable_node {};
-template<class V,class K,class H,class S,class E,class A>class hashtable {friend void ::Rva0041EC73Load(INI*);public:__forceinline bool contains(const K &key) const {return _M_find(key)!=0;} private:template<class KT>_Hashtable_node<V>*_M_find(const KT&)const;};
+template<class V,class K,class H,class S,class E,class A>class hashtable {friend void ::parseAIBaseDefinition(INI*);public:__forceinline bool contains(const K &key) const {return _M_find(key)!=0;} private:template<class KT>_Hashtable_node<V>*_M_find(const KT&)const;};
 template<>void vector<ScienceType>::push_back(const ScienceType&);
 template<>void vector<const ModuleData*>::push_back(const ModuleData*const&);
 template<>vector<Rva0021C21BElement>&vector<Rva0021C21BElement>::operator=(const vector<Rva0021C21BElement>&);
@@ -55,7 +55,7 @@ typedef _STL::hashtable<_STL::pair<const NameKeyType,ArmorTemplate>,NameKeyType,
 class Object;class ObjectLookupMap {public:Object**findSlot(int*);};
 class Rva0022BD9ASubsystem;extern Rva0022BD9ASubsystem*TheBaseTemplateLibrary;
 struct Rva0041EC73View {char prefix[12];char map0C[20];_STL::hash_map<int,_STL::vector<ScienceType> >map20;};
-void Rva0041EC73Load(INI*ini){
+void parseAIBaseDefinition(INI*ini){
  Rva0041E732*value=new Rva0041E732;
  ini->initFromINI(value,fields);
  int sideKey=TheNameKeyGenerator->nameToKey(value->side);

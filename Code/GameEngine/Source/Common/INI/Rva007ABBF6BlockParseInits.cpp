@@ -67,7 +67,7 @@ void Rva004183ACParse(INI *);
 void Rva00418AC6Parse(INI *);
 void Rva004193E5Parse(INI *);
 void Rva0041999FParse(INI *);
-void Rva0041EC73Load(INI *);
+void parseAIBaseDefinition(INI *);
 void Rva0041FD3DParse(INI *);
 void Rva00420A29Parse(INI *);
 void iniParseEnvironmentSkyboxTextureDefinition(INI *);
@@ -427,7 +427,7 @@ BlockParse theAutoResolveLeadershipBlockParse = { 0, "AutoResolveLeadership", Rv
 BlockParse theAutoResolveBodyBlockParse = { 0, "AutoResolveBody", Rva00418AC6Parse };	// VA 0x00DC8244 "AutoResolveBody", parse 0x00418AC6
 BlockParse theAutoResolveCombatChainBlockParse = { 0, "AutoResolveCombatChain", Rva004193E5Parse };	// VA 0x00DC8250 "AutoResolveCombatChain", parse 0x004193E5
 BlockParse theAutoResolveWeaponBlockParse = { 0, "AutoResolveWeapon", Rva0041999FParse };	// VA 0x00DC825C "AutoResolveWeapon", parse 0x0041999F
-BlockParse theAIBaseBlockParse = { 0, "AIBase", Rva0041EC73Load };	// VA 0x00DC83F4 "AIBase", parse 0x0041EC73
+BlockParse theAIBaseBlockParse = { 0, "AIBase", parseAIBaseDefinition };	// VA 0x00DC83F4 "AIBase", parse 0x0041EC73
 BlockParse theArmyDefinitionBlockParse = { 0, "ArmyDefinition", ArmyDefinitionManager::parseArmyDefinition };	// VA 0x00DC8424 "ArmyDefinition", parse 0x0041F871
 BlockParse theMeshNameMatchesBlockParse = { 0, "MeshNameMatches", Rva0041FD3DParse };	// VA 0x00DC8430 "MeshNameMatches", parse 0x0041FD3D
 BlockParse theLivingWorldAITemplateBlockParse = { 0, "LivingWorldAITemplate", Rva00420A29Parse };	// VA 0x00DC8478 "LivingWorldAITemplate", parse 0x00420A29

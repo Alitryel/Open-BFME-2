@@ -60,3 +60,4 @@ function,?Rva00663700Handler@@YAXPAVBfmeDictESI@@PAVBfmeHostESI@@@Z,?kickHandler
 function,?Rva00663710Handler@@YAXHPAVBfmeThingVJK@@@Z,?pingHandler@@YAXHPAVBfmeThingVJK@@@Z,inferred,agree:nl-78a272430ea3,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00663710
 function,?rva006F7600@Rva006F7600@@QAEXH@Z,?remove@Rva006F7600@@QAEXH@Z,inferred,agree:nl-e58f37cd1d25,Code/Libraries/Source/Apt/Rva006F7600Remove.cpp,0x006F7600
 function,?Rva001DA980Parse@@YAXPAVINI@@@Z,?parseMusicTrackDefinition@@YAXPAVINI@@@Z,canonical:iniblock,retail INI block MusicTrack (reverse/ini_blocks.tsv),Code/GameEngine/Source/Common/INI/Rva001DA980AudioParsers.cpp,0x001DA980
+function,?Rva0041EC73Load@@YAXPAVINI@@@Z,?parseAIBaseDefinition@@YAXPAVINI@@@Z,canonical:iniblock,retail INI block AIBase (reverse/ini_blocks.tsv),Code/GameEngine/Source/GameClient/GUI/AIBaseDefinitionParse_Rva0041EC73Load.cpp,0x0041EC73
