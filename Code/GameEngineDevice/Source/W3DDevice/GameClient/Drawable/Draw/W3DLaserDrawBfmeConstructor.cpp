@@ -110,7 +110,7 @@ public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
 
 protected:
-	virtual ~DrawModule() {}
+	virtual ~DrawModule();
 };
 
 class LaserDrawInterface
