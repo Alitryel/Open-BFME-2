@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 //
-// ?Rva003BFD5ASet@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BFD5A 46B (dump range 18).
+// ?doTeamKill@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BFD5A 46B (dump range 18).
 // Team nullary setter through the doSetTeamState argument idiom: copies
 // the name through the rowed StringBase copy ctor, resolves the team
 // through rowed ScriptEngine 0x003584E9 getTeamNamed, and applies the
@@ -24,7 +24,7 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BFD5ASet(const AsciiString &team)
+void ScriptActions::doTeamKill(const AsciiString &team)
 {
 	Team *t = TheScriptEngine->getTeamNamed(team, false);
 	if (t != 0)

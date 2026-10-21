@@ -2,7 +2,7 @@
 // cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BB49BDestroy@ScriptActions@@QAEXPAVParameter@@@Z @0x003BB49B 34B leaf caller 0x003CB8F1 callees getUnitNamed destroyObject
+// ?doNamedDelete@ScriptActions@@QAEXPAVParameter@@@Z @0x003BB49B 34B leaf caller 0x003CB8F1 callees getUnitNamed destroyObject
 // Evidence: ScriptEngine getUnitNamed then GameLogic destroyObject.
 // ?Rva003BB4BDApply@ScriptActions@@QAEXPAVParameter@@MMMH@Z @0x003BB4BD 58B, the next
 // action case of the same dispatcher (caller 0x003CBA3A): getUnitNamed, then
@@ -27,7 +27,7 @@ public:
 	void destroyObject(Object *o);
 };
 extern GameLogic *TheGameLogic;
-void ScriptActions::Rva003BB49BDestroy(Parameter *p)
+void ScriptActions::doNamedDelete(Parameter *p)
 {
 	Object *o = TheScriptEngine->getUnitNamed(p);
 	if (!o)

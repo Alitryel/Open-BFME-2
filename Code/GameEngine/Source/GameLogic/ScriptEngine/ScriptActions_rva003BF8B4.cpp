@@ -1,7 +1,7 @@
 // cl: -O1 -arch:SSE -G7 -Ireference/shims/bfme2_ascii -DNDEBUG -MD -Ireference/shims/bfme2_ascii -Ireference/shims/bfmealloc -D_STLP_USE_STATIC_LIB -D_CRTIMP=
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
-// ?Rva003BF8B4Hunt@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BF8B4 79B
+// ?doTeamHunt@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BF8B4 79B
 // Script team hunt via getTeamNamed pin 0x003584E9 with false, createGroup
 // pin 0x002FEC4B, getTeamAsAIGroup pin 0x003A0F62, then rowed groupHunt
 // 0x0037008E with source 1.
@@ -35,7 +35,7 @@ public:
 extern ScriptEngine *TheScriptEngine;
 extern AI *TheAI;
 
-void ScriptActions::Rva003BF8B4Hunt(const AsciiString &teamName)
+void ScriptActions::doTeamHunt(const AsciiString &teamName)
 {
 	Team *team = TheScriptEngine->getTeamNamed((AsciiString &)teamName, false);
 	if (team == 0)

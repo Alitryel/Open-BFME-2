@@ -63,7 +63,7 @@ public:
     void Rva003BF7ACDo(AsciiString const &, Parameter *);
     void Rva003BF71EDo(AsciiString const &, AsciiString const &);
     void Rva003BF813Do(AsciiString const &, AsciiString const &, AsciiString const &);
-    void Rva003BF8B4Hunt(AsciiString const &);
+    void doTeamHunt(AsciiString const &);
     void Rva003BFFECDo(const AsciiString &name, bool unused);
     void Rva003BFC27Do(AsciiString const &);
     void Rva003BFB8CDo(AsciiString const &, int);
@@ -79,8 +79,8 @@ public:
     void Rva003BBE44Set(bool, int);
     void Rva003BBFFBSet(int, float);
     void Rva003BBAD3Set(void);
-    void Rva003BB4F7Kill(Parameter *);
-    void Rva003BB49BDestroy(Parameter *);
+    void doNamedKill(Parameter *);
+    void doNamedDelete(Parameter *);
     void Rva003BBFB1Select(Parameter *);
     void Rva003BBFD6Select(Parameter *);
     void Rva003BB274Ai(Parameter *, int);
@@ -208,8 +208,8 @@ public:
     void Rva003BAF1D(float, float, float, float);
     void Rva003C1F0A(AsciiString const &, StringBase<char> const &, float);
     void Rva003BC996Do(Parameter *, StringBase<char> const &, float);
-    void Rva003BBEDE(void);
-    void Rva003BBEE9(void);
+    void doFreezeTime(void);
+    void doUnfreezeTime(void);
     void doPlayerGarrisonAllBuildings(AsciiString const &);
     void doPlayerExitAllBuildings(AsciiString const &);
     void rva003BD2A6(bool value);
@@ -219,10 +219,10 @@ public:
     void Rva003BD19CSet(void *, Parameter *);
     void rva003BD3CB(void *, float, int);
     void Rva003BD884Set(Parameter *, AsciiString const *);
-    void Rva003BE9DBSet(AsciiString const &, float);
+    void doDamageTeamMembers(AsciiString const &, float);
     void Rva003BECCDSet(const AsciiString &team, const AsciiString &key, bool state);
     void Rva003BFAC3Set(AsciiString const &, int);
-    void Rva003BFD5ASet(AsciiString const &);
+    void doTeamKill(AsciiString const &);
     void Rva003C0C3ESet(AsciiString const &);
     void Rva003C3A3FSet(AsciiString const &, int);
     void Rva003BEA10Do(AsciiString const *, void *);

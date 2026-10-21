@@ -835,7 +835,7 @@ return;
 }
 case 12:
 {
-Rva003BE9DBSet(INLINE_TEXT(0), INLINE_REAL(1));
+doDamageTeamMembers(INLINE_TEXT(0), INLINE_REAL(1));
 return;
 }
 case 13:
@@ -1348,7 +1348,7 @@ return;
 }
 case 61:
 {
-Rva003BF8B4Hunt(TEXT(0));
+doTeamHunt(TEXT(0));
 return;
 }
 case 282:
@@ -1423,7 +1423,7 @@ return;
 }
 case 72:
 {
-Rva003BB49BDestroy(PARAM(0));
+doNamedDelete(PARAM(0));
 return;
 }
 case 73:
@@ -1478,12 +1478,12 @@ return;
 }
 case 75:
 {
-Rva003BB4F7Kill(PARAM(0));
+doNamedKill(PARAM(0));
 return;
 }
 case 76:
 {
-Rva003BFD5ASet(TEXT(0));
+doTeamKill(TEXT(0));
 return;
 }
 case 77:
@@ -1933,12 +1933,12 @@ return;
 }
 case 140:
 {
-Rva003BBEDE();
+doFreezeTime();
 return;
 }
 case 141:
 {
-Rva003BBEE9();
+doUnfreezeTime();
 return;
 }
 case 142:

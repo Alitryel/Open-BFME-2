@@ -24,12 +24,12 @@ public:
 
 extern class ScriptEngine *TheScriptEngine;
 
-void ScriptActions::Rva003BBEDE()
+void ScriptActions::doFreezeTime()
 {
 	(*(Rva000203AD5ByteOneSetter **)&TheScriptEngine)->enable();
 }
 
-void ScriptActions::Rva003BBEE9()
+void ScriptActions::doUnfreezeTime()
 {
 	((Rva000203ADDByteZeroSetter *)(*(Rva000203AD5ByteOneSetter **)&TheScriptEngine))->disable();
 }

@@ -2,7 +2,7 @@
 // stlport
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BB4F7Kill@ScriptActions@@QAEXPAVParameter@@@Z @0x003BB4F7 33B leaf caller 0x003CBA4F callees getUnitNamed kill
+// ?doNamedKill@ScriptActions@@QAEXPAVParameter@@@Z @0x003BB4F7 33B leaf caller 0x003CBA4F callees getUnitNamed kill
 // Evidence: ScriptEngine getUnitNamed then Object kill 8 0.
 enum DamageType { DAMAGE_8 = 8 };
 enum DeathType { DEATH_0 = 0 };
@@ -18,7 +18,7 @@ public:
 	Object *getUnitNamed(Parameter *p);
 };
 extern class ScriptEngine *TheScriptEngine;
-void ScriptActions::Rva003BB4F7Kill(Parameter *parameter)
+void ScriptActions::doNamedKill(Parameter *parameter)
 {
 	Object *object = TheScriptEngine->getUnitNamed(parameter);
 	if (!object)
