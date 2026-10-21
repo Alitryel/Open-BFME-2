@@ -81,6 +81,12 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
 { allocator<char>::deallocate(__p, __n); }
 }
+// Keep _String_base<char>::~_String_base inline-only: no call here leaves it out
+// of line, and this TU's COMDAT copy is not retail's 0x0000B3C0 body.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); }
+}
 
 // codegen otherwise instantiates the max<unsigned> COMDAT (one byte shape
 // per TU flags); a file-static overload takes those calls instead so this
@@ -126,6 +132,30 @@ protected:
 	UnsignedByte m_disconnectSlot;		// +0x1C
 	UnsignedInt m_unknown20;			// +0x20, not touched by the constructor
 	UnsignedInt m_disconnectFrame;		// +0x24
+};
+
+// The matched rows hold these constructors and setters under address-derived
+// names; the messages below are built and set through those names.
+class Rva004D57AE : public NetDestroyPlayerCommandMsg
+{
+public:
+	Rva004D57AE();
+	void setPlayerIndex(UnsignedInt value);
+};
+class Rva004D57F1 : public NetDisconnectPlayerCommandMsg
+{
+public:
+	Rva004D57F1();
+};
+class Rva004D580E : public NetDisconnectVoteCommandMsg
+{
+public:
+	Rva004D580E();
+};
+class BFMENetInformPlayerLeaveFrameCommandMsg
+{
+public:
+	void setLeavingPlayerID(Int playerID);
 };
 
 // BFME adds this connection-state query; the published ZH class declaration does not expose it.
@@ -393,7 +423,7 @@ void DisconnectManager::sendPlayerDestruct(Int slot, ConnectionManager *conMgr) 
 		currentID = GenerateNextCommandID();
 	}
 
-	NetDestroyPlayerCommandMsg *netmsg = newInstance(NetDestroyPlayerCommandMsg);	
+	Rva004D57AE *netmsg = newInstance(Rva004D57AE);
 	netmsg->setPlayerID(conMgr->getLocalPlayerID());
 	netmsg->setID(currentID);
 	netmsg->setPlayerIndex(slot);
@@ -423,7 +453,7 @@ void DisconnectManager::sendDisconnectCommand(Int slot, ConnectionManager *conMg
 	UnsignedInt disconnectFrame = getMaxDisconnectFrame();
 
 	// Need to do the NetDisconnectPlayerCommandMsg creation and sending here.
-	NetDisconnectPlayerCommandMsg *msg = newInstance(NetDisconnectPlayerCommandMsg);
+	NetDisconnectPlayerCommandMsg *msg = newInstance(Rva004D57F1);
 	msg->setDisconnectSlot(slot);
 	msg->setDisconnectFrame(disconnectFrame);
 	msg->setPlayerID(conMgr->getLocalPlayerID());
@@ -672,11 +702,11 @@ Bool DisconnectManager::isLocalPlayerNextPacketRouter(ConnectionManager *conMgr)
 // 0x00317B9B, which carry the names called here. The frame is read from
 // GameLogic+0x40 as voteForPlayerDisconnect does.
 void DisconnectManager::sendVoteCommand(Int slot, ConnectionManager *conMgr) {
-	NetDisconnectVoteCommandMsg *msg = newInstance(NetDisconnectVoteCommandMsg);
+	NetDisconnectVoteCommandMsg *msg = newInstance(Rva004D580E);
 
 	msg->setPlayerID(conMgr->getLocalPlayerID());
 	((NetDisconnectPlayerCommandMsg *)msg)->setDisconnectSlot(slot);
-	((NetFileProgressCommandMsg *)msg)->setProgress(
+	((BFMENetInformPlayerLeaveFrameCommandMsg *)msg)->setLeavingPlayerID(
 		reinterpret_cast<GameLogic *>(reinterpret_cast<char *>(TheGameLogic) + 4)->getFrame());
 	if (DoesCommandRequireACommandID(msg->getNetCommandType()) == TRUE) {
 		msg->setID(GenerateNextCommandID());

@@ -245,11 +245,14 @@ Rva005754FF::Rva005754FF(EmitVtableTag *)
 {
 }
 
-// ??_GRva0059EB41@@UAEPAXI@Z @0x0059EB41 29B: slot 2 of the vtable it stores, VA 0x00C711BC
+// ??_GRva0059EB41@@UAEPAXI@Z @0x0059EB41 29B: slot 2 of the vtable it stores, VA 0x00C711BC;
+// slots 0 and 1 are the shared empty three-argument body 0x000D1407 (ret 0Ch).
 class Rva0059EB41
 {
 public:
 	Rva0059EB41(EmitVtableTag *);
+	virtual void slot00(void *, void *, void *) {}
+	virtual void slot01(void *, void *, void *) {}
 	virtual ~Rva0059EB41() {}
 };
 

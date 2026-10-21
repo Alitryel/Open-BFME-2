@@ -78,12 +78,18 @@ protected:
 	T *m_finish;
 	T *m_endOfStorage;
 };
-// The faction build-list map's vectors; only the out-of-line push_back
-// (0x0032CA14, rowed under the 128-byte placeholder element) is called here.
+// The faction build-list map's vectors call only push_back (0x0032CA14, rowed
+// under the 128-byte placeholder); SidesInfo's AsciiString vector uses the rest.
 template <class T, class Alloc = allocator<T> > class vector : public _Vector_base<T, Alloc>
 {
 public:
+	__forceinline vector() : _Vector_base<T, Alloc>(Alloc()) {}
+	vector(const vector &x);
+	~vector();
 	void push_back(const T &x);
+	void swap(vector &x);
+	T *erase(T *first, T *last);
+	void clear() { erase(this->m_start, this->m_finish); }
 };
 // SidesList::operator= copies through the out-of-line copy instantiations.
 template <class InputIter, class OutputIter>
@@ -103,19 +109,6 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class SidesInfoStringVector : private _STL::_Vector_base<AsciiString, _STL::allocator<AsciiString> >
-{
-public:
-	__forceinline SidesInfoStringVector() :
-		_STL::_Vector_base<AsciiString, _STL::allocator<AsciiString> >(
-			_STL::allocator<AsciiString>()) {}
-	SidesInfoStringVector(const SidesInfoStringVector &that);
-	~SidesInfoStringVector();
-	void swap(SidesInfoStringVector &other);
-	AsciiString *erase(AsciiString *first, AsciiString *last);
-	void clear() { erase(m_start, m_finish); }
-};
-
 class SidesInfo
 {
 public:
@@ -134,7 +127,7 @@ private:
 	BuildListInfo *m_pBuildList;     // +0x00
 	Dict m_dict;                     // +0x04
 	ScriptList m_scripts;            // +0x08
-	SidesInfoStringVector m_strings; // +0x54
+	_STL::vector<AsciiString> m_strings; // +0x54
 };
 
 // Target 0x0032C667..0x0032C6AD: same members as the verified copy ctor,

@@ -220,10 +220,10 @@ public:
 
 	RegionDetailsMovieClip(int level, const AsciiString &name, int arg);
 	virtual void v0();
-	// Slot 1: builds the page movie for a slot.
-	virtual TreeHintRef00217D4C CreatePage(int slot, int level, const AsciiString &name);
-	// Slot 2: told the new current page (or -1).
-	virtual void v2(int page);
+	// Slot 1 (__purecall in vtable 0x00877BB4): builds the page movie for a slot.
+	virtual TreeHintRef00217D4C CreatePage(int slot, int level, const AsciiString &name) = 0;
+	// Slot 2: told the new current page (or -1); the base body is the empty 0x0047A69C (ret 4).
+	virtual void v2(int page) {}
 
 private:
 	Impl *m_impl; // +0x04

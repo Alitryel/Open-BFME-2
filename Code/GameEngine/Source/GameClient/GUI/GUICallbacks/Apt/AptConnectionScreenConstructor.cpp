@@ -110,10 +110,14 @@ public:
 struct NAT;
 extern NAT *TheNAT;
 
-class Rva0059EB41 : public Rva002BA8F1Listener
+// Native vftable 0x008711BC: slots 0 and 1 are the shared empty three-argument
+// body 0x000D1407 (ret 0Ch), slot 2 the deleting destructor 0x0059EB41.
+class Rva0059EB41
 {
 public:
-	virtual ~Rva0059EB41();
+	virtual void slot00(void *, void *, void *) {}
+	virtual void slot01(void *, void *, void *) {}
+	virtual ~Rva0059EB41() {}
 };
 
 class AptConnectionScreen : public Rva005248D0, public Rva0059EB41
@@ -133,7 +137,7 @@ AptConnectionScreen::AptConnectionScreen(void *level)
 	: m_level(level)
 {
 	if (TheNAT) {
-		((Rva005A6D47 *)TheNAT)->m_listeners.append(this);
+		((Rva005A6D47 *)TheNAT)->m_listeners.append((Rva002BA8F1Listener *)static_cast<Rva0059EB41 *>(this));
 		{
 			FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptConnectionScreen::RedrawGrid);
 			AsciiString name("Connection::RedrawGrid");

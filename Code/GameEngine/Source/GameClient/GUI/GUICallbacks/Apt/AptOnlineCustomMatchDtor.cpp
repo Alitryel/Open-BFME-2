@@ -51,11 +51,13 @@ private:
 	char m_pad[0x0C - 4];
 };
 
+// Native vftable 0x008711BC: slots 0 and 1 are the shared empty three-argument
+// body 0x000D1407 (ret 0Ch), slot 2 the deleting destructor 0x0059EB41.
 class Rva0059EB41
 {
 public:
-	virtual void slot00();
-	virtual void slot01();
+	virtual void slot00(void *, void *, void *) {}
+	virtual void slot01(void *, void *, void *) {}
 	virtual ~Rva0059EB41() {}
 };
 
