@@ -58,8 +58,44 @@ public:
 // constructor and destructor, member-wise copy constructor (the WWMath owner
 // view in coord3d.cpp).
 #include "../../Common/PlacementPositionValue.h"
+// list<Drawable *> nodes come from the freelist pool at VA 0x00DBA5E0 (pop
+// 0x002393E2), as in the rowed _List_base ctor 0x00239BB0.
+// Full layout view (FreelistPoolCtor.cpp): with pop() alone the declaration
+// count flips translateGameMessage's pendingBuild/builderObj spill slots.
+class FreelistPool
+{
+public:
+	void *pop();
+private:
+	int m_00;
+	void *m_04;
+	void *m_head;
+	void *(__cdecl *m_alloc)(int, int);
+	void (__cdecl *m_free)(void *, int);
+	int m_14;
+};
+extern FreelistPool g_freelistPool00DBA5E0;
 // bfme link decl-only begin
-namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+namespace _STL
+{
+template <> inline
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &__a)
+	: _M_node(__a, (_List_node<Drawable *> *)0)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base();
+template <> inline __declspec(noinline) _List_node<Drawable *> *
+list<Drawable *>::_M_create_node(Drawable *const &value)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	_Construct(&node->_M_data, value);
+	return node;
+}
+}
 // bfme link decl-only end
 
 class PickAndPlayInfo

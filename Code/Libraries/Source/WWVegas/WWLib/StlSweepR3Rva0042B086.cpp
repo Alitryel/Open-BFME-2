@@ -27,9 +27,30 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 
 
 class Drawable;
-class FreelistPool { public: void *pop(); };
+// Nodes come from the freelist pool at VA 0x00DBA5E0 (pop 0x002393E2, head
+// at +0x08); erase relinks the node onto that head inline (retail 0x0029DFE9).
+class FreelistPool { public: void *pop(); int m_00; void *m_04; void *m_head; };
 extern FreelistPool g_freelistPool00DBA5E0;
 namespace _STL {
+template <> inline
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &__a)
+	: _M_node(__a, (_List_node<Drawable *> *)0)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+template <> list<Drawable *>::iterator list<Drawable *>::erase(iterator __position)
+{
+	_List_node_base *__prev_node = __position._M_node->_M_prev;
+	_List_node_base *__next_node = __position._M_node->_M_next;
+	__prev_node->_M_next = __next_node;
+	__next_node->_M_prev = __prev_node;
+	*(void **)__position._M_node = g_freelistPool00DBA5E0.m_head;
+	g_freelistPool00DBA5E0.m_head = __position._M_node;
+	return iterator((_List_node<Drawable *> *)__next_node);
+}
 template<> __declspec(noinline) _List_node<Drawable*>* list<Drawable*>::_M_create_node(Drawable*const &value) {
  _List_node<Drawable*>* node=(_List_node<Drawable*>*)g_freelistPool00DBA5E0.pop();
  if(&node->_M_data!=0) node->_M_data=value;

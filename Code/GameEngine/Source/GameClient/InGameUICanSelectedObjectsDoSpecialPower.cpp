@@ -77,8 +77,31 @@ public:
 extern ActionManager *TheActionManager;
 
 #include <list>
+// list<Drawable *> nodes come from the freelist pool at VA 0x00DBA5E0 (pop
+// 0x002393E2), as in the rowed _List_base ctor 0x00239BB0.
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
 // bfme link decl-only begin
-namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+namespace _STL
+{
+template <> inline
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &__a)
+	: _M_node(__a, (_List_node<Drawable *> *)0)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base();
+template <> inline __declspec(noinline) _List_node<Drawable *> *
+list<Drawable *>::_M_create_node(Drawable *const &value)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	_Construct(&node->_M_data, value);
+	return node;
+}
+}
 // bfme link decl-only end
 // Keep the typed comparison local; the incidental base COMDAT differs from
 // the selected provider under this unit's compiler settings.
