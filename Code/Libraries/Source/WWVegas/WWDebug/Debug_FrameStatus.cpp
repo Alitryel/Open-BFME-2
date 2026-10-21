@@ -33,7 +33,7 @@ private:
 	enum { FRAME_HASH_SIZE = 10007 };
 
 	int m_prefix[4];	// after the vptr
-	int m_14;	// +0x14, the address last looked up
+	int m_lastLookedUpAddress;	// +0x14, the address last looked up
 	FrameHashEntry *frameHash[FRAME_HASH_SIZE];
 	unsigned char m_gap[0x9DF8 - 0x9C74];
 	int m_fastPath;
@@ -65,7 +65,7 @@ bool Debug::frameStatus(unsigned int addr, bool reset)
 		return true;
 
 	EnterCriticalSection((void *)&g_bfmeCsDWC);
-	m_14 = (int)addr;
+	m_lastLookedUpAddress = (int)addr;
 	FrameHashEntry *entry = LookupFrame(addr);
 	if (reset)
 	{

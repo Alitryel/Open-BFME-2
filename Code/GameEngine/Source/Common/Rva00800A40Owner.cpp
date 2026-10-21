@@ -54,7 +54,7 @@ class Rva00800920Owner
 	int m_18;
 	char m_pad1c[0xb8];
 	Rva00800A40Slot m_slots[8];
-	int m_1f4;						// mNumProbes, per the 0x00800B30 assert
+	int m_numProbes;						// mNumProbes, per the 0x00800B30 assert
 
 public:
 	int rva00800a40(void *input, unsigned char flag, int value);
@@ -106,7 +106,7 @@ int Rva00800920Owner::rva00800a40(
 	slot->m_1c = record.m_0c;
 	slot->m_20 = 0;
 	slot->m_08 = flag;
-	++m_1f4;
+	++m_numProbes;
 	return 0;
 }
 // BFME 2: the release side below is the same donor's second body, byte-identical
@@ -122,8 +122,8 @@ void Rva00800920Owner::rva00800b30(Rva00800A40Slot *slot)
 	slot->m_0c = 0;
 	slot->m_20 = 0;
 	slot->m_08 = 0;
-	--m_1f4;
-	if (m_1f4 < 0)
+	--m_numProbes;
+	if (m_numProbes < 0)
 		reinterpret_cast<Rva00800A40Diag *>(Rva007EB810Get())->fail(
 			"mNumProbes >= 0",
 			"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp",

@@ -121,12 +121,12 @@ public:
 struct WanderAIUpdateModuleData
 {
 	char m_pad00[0x64];
-	bool m_64;		// +0x64 attack instead of wandering
+	bool m_attackInsteadOfWandering;		// +0x64 attack instead of wandering
 	char m_pad65[0x68 - 0x65];
-	KindOfType m_68;	// +0x68 the KindOf it needs (-1 for any)
+	KindOfType m_requiredKindOf;	// +0x68 the KindOf it needs (-1 for any)
 	bool m_6C;		// +0x6C
 	char m_pad6D[0x70 - 0x6D];
-	int m_70;		// +0x70 the wander distance
+	int m_wanderDistance;		// +0x70 the wander distance
 };
 
 class ModuleData;
@@ -309,13 +309,13 @@ UpdateSleepTime WanderAIUpdate::update()
 	const WanderAIUpdateModuleData *data = getWanderAIUpdateModuleData();
 	Object *obj = m_object;
 	AIUpdateInterface::update();
-	if (data->m_68 != KINDOF_INVALID && !obj->isKindOf(data->m_68))
+	if (data->m_requiredKindOf != KINDOF_INVALID && !obj->isKindOf(data->m_requiredKindOf))
 		return UPDATE_SLEEP_NONE;
 	if (!reinterpret_cast<WanderIdleCallView *>(this)->rva002645FF())
 		return UPDATE_SLEEP_NONE;
 	if (!data->m_6C && !obj->testStatus(OBJECT_STATUS_RVA004A9424_3))
 		obj->setStatus(OBJECT_STATUS_RVA004A9424_3, true);
-	if (data->m_64) {
+	if (data->m_attackInsteadOfWandering) {
 		const Coord3D *pos = obj->getPosition();
 		Coord3D center = *pos;
 		Rva002614DFFilter notSelf(obj);
@@ -333,7 +333,7 @@ UpdateSleepTime WanderAIUpdate::update()
 			dest.x = pos->x;
 			dest.y = pos->y;
 			dest.z = pos->z;
-			range = data->m_70;
+			range = data->m_wanderDistance;
 			dest.x += GetGameLogicRandomValue(-range, range, WANDER_FILE, 0x6D);
 			dest.y += GetGameLogicRandomValue(-range, range, WANDER_FILE, 0x6E);
 			aiMoveToPosition(&dest, CMD_FROM_AI);
@@ -344,7 +344,7 @@ UpdateSleepTime WanderAIUpdate::update()
 		dest.x = obj->getPosition()->x;
 		dest.y = obj->getPosition()->y;
 		dest.z = obj->getPosition()->z;
-		range = data->m_70;
+		range = data->m_wanderDistance;
 		dest.x += GetGameLogicRandomValue(-range, range, WANDER_FILE, 0x79);
 		dest.y += GetGameLogicRandomValue(-range, range, WANDER_FILE, 0x7A);
 		aiMoveToPosition(&dest, CMD_FROM_AI);
