@@ -1,5 +1,7 @@
 // ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.975 date=2026-10-20
+// partial score=0.998 date=2026-10-21
+// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
+// partial score=0.998 date=2026-10-21
 // Bank draft of the LM_SunRays customized-render setup at 0x0009CD9B (1984B).
 // Decoded from the retail body: two Create_Render_Obj calls (the host's +0xD4
 // and "LM_SunRays" +0x188), the +0x18C/+0x190/+0x194 sub-object bindings via
@@ -225,7 +227,8 @@ void Rva0009C134Host::rva0009CD9B()
             fgets(line,100,fp);
             g_Va00DE5E38[i]=(float)(atof(line)*0.017453293005625408);
             fgets(line,100,fp);
-            g_Va00DE5E2C[i]=(float)(atof(line)*m_dc);
+            double d=atof(line)*m_dc;
+            g_Va00DE5E2C[i]=(float)d;
             if (i==2) break;
             fgets(line,100,fp); g_rva00DE5E24[i]=(float)atof(line);
             fgets(line,100,fp); g_rva00DE5E1C[i]=(float)atof(line);
@@ -251,10 +254,12 @@ void Rva0009C134Host::rva0009CD9B()
     m_1cc->Set_Shader(g_rva00DB622C);
     m_1cc->Set_Disable_Sorting(1);
     m_1cc->Set_Width(*(float *)(src+0xec));
-    Vector3 color;
-    color.X=*(float *)(src+0xf0);
-    color.Y=*(float *)(src+0xf4);
-    color.Z=*(float *)(src+0xf8);
-    m_1cc->Set_Color(color);
+    {
+        Vector3 color;
+        color.X=*(float *)(src+0xf0);
+        color.Y=*(float *)(src+0xf4);
+        color.Z=*(float *)(src+0xf8);
+        m_1cc->Set_Color(color);
+    }
     m_1cc->Set_Texture_Mapping_Mode(SegLineRendererClass::MAP_PERSPECTIVE);
 }
