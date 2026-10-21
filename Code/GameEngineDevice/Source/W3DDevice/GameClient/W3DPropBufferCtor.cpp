@@ -99,14 +99,27 @@ private:
 };
 
 // The BFME 2 vector holder at +0x2EE0C; element type and role unrecovered.
-class Rva000EF008PropList
+// Its default constructor is the ICF body 0x001F81BF (rowed as
+// Rva00174753Allocation's); its unwind copy of the destructor is 0x0008B4CD,
+// a tail jump to the rowed vector destructor 0x0008B470.
+class Rva00174753Allocation
 {
 public:
-	Rva000EF008PropList() throw();
-	~Rva000EF008PropList();
+	Rva00174753Allocation() throw();
 
 private:
 	void *m_vector[3];
+};
+
+class Rva0008B470
+{
+public:
+	~Rva0008B470();
+};
+
+struct Rva0008B4CD : public Rva00174753Allocation
+{
+	~Rva0008B4CD() { reinterpret_cast<Rva0008B470 *>(this)->~Rva0008B470(); }
 };
 
 class W3DPropBuffer : public Snapshot
@@ -128,7 +141,7 @@ protected:
 	Bool m_anythingChanged;
 	Bool m_initialized;
 	Bool m_doCull;
-	Rva000EF008PropList m_list2EE0C;
+	Rva0008B4CD m_list2EE0C;
 	TPropType m_propTypes[MAX_TYPES];
 	Int m_numPropTypes;
 	W3DShroudMaterialPassClass *m_propShroudMaterialPass;
