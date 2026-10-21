@@ -1,5 +1,24 @@
 # Character lookup: owned contracts and bounded source controls
 
+## Resolution (2026-10-21, landed exact)
+
+Landed in `Code/Libraries/Source/Apt/AptCharacterObjectMemberLookup.cpp` as
+5935 B (code through 0x6F113C plus switch tables through 0x6F12EE; 0x6F12EF is
+`cc` padding, so the 5936 B extent of earlier notes never matched), with its 29
+unwind funclets (eh_verify-bound labels 0x7A9930..0x7A9AC6) and its
+`__ehhandler$` at 0x7A9AD5. The unit needs the tool-recorded `-O2` override:
+the region default adds `/arch:SSE`, whose `movss` replaces retail's x87 `fld`.
+
+The last mismatch was the return-block merge set, and source order of the return
+labels settled it. Every result-producing case writes `result=...; goto dN;`, and
+the `dN: return result;` labels sit at the end of the function. cl merges a label
+block placed before `done` (case 10's `goto done`) into done's epilogue, keeps its
+own epilogue copy for a label placed after `done`, and collapses a label with two
+or more gotos. Retail's set: 18/19/20 before done (d20, d19, d18, done), the
+scroll/textColor/two float window cases 11/13/14/15 after done (any order),
+case 8 via `undef8: return gpUndefinedValue;` last, and case 21 a plain return.
+Everything below is history.
+
 Target `Rva006EFBC0ObjectMemberLookup`, independently named by WB1784910 as
 `AptCharacterInst::objectMemberLookup`. Read the complete 603-line bank, all
 RVA-specific log entries, the earlier Astra evidence JSON and complete native/

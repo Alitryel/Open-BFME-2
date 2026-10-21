@@ -1,29 +1,18 @@
-// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
-// partial score=0.79096 date=2026-10-21
-// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
-// partial score=0.79096 date=2026-10-21
-// Rva006EFBC0ObjectMemberLookup
-// partial score=0.79096 date=2026-10-20
-// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
-// partial score=0.7896 date=2026-10-20
-// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
-// partial score=0.7895675820112724 date=2026-10-20
-// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
-// partial score=0.7893 date=2026-10-17
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.7892620310435328 date=2026-10-14
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.7892620310435328 date=2026-10-14
-// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
-// partial score=0.7730629595203664 date=2026-10-13
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
-// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
-// partial score=0.671748132 date=2026-10-09
 // cl:  /O2 /DNDEBUG /MD /EHsc
-// AptCharacterInst::objectMemberLookup. Native EFBC0..F113C code
-// and F1140..F12EF dispatch tables; WB1784910 is the semantic guide.
-// All offsets below are measured from native accesses, not WB's +4 CIH view.
+//
+// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z,
+// retail 0x006EFBC0..0x006F113C (cdecl, C++ EH frame, handler 0x007A9AD5)
+// followed by its switch tables 0x006F1140..0x006F12EF: the AptCharacter.cpp
+// property-get worker, AptCharacterInst::objectMemberLookup per the WorldBuilder
+// twin 0x01784910 (semantic and structure guide only; all offsets below are
+// measured from native accesses, not WB's +4 CIH view).
+//
+// Lever: the return blocks. cl merges a `goto label; ... label: return result;`
+// block with the shared `done` return when the label is placed before `done`
+// at the end of the function, and keeps its own epilogue copy when the label
+// follows `done`. Retail merges cases 18-20 into done (case 10's block) and
+// keeps separate epilogues for the scroll, textColor and two float window
+// words (11, 13, 14, 15), so their labels follow `done`.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 static __forceinline void aptAssert(const char *test,const char *file,int line){
@@ -246,28 +235,26 @@ return v;
    case 7:((Rva006EBFF0*)text)->rva006EBFF0((AptValue*)((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false)));
 return AptInteger::Create(text->text.rva006D3750());
 
-   case 8:return gpUndefinedValue;
+   case 8:goto undef8;
 
    case 9:if(text->dirty&4)((Rva006E1260*)((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false)))->call(((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false))->parent);
 return AptInteger::Create(text->maxScroll);
 
-   case 10:result=AptBoolean::Create((text->definition->multiline&0xFFFFFF)!=0);
-done:
-return result;
+   case 10:{result=AptBoolean::Create((text->definition->multiline&0xFFFFFF)!=0);goto done;}
 
    case 11:if(text->dirty&4)((Rva006E1260*)((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false)))->call(((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false))->parent);
-return AptInteger::Create(text->scroll);
+{result=AptInteger::Create(text->scroll);goto d11;}
 
    case 12:((Rva006EBFF0*)text)->rva006EBFF0((AptValue*)((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false)));
 return makeLookupString(text->text);
 
-   case 13:return AptInteger::Create(text->textColor&0xFFFFFF);
+   case 13:{result=AptInteger::Create(text->textColor&0xFFFFFF);goto d13;}
 
    case 14:if(text->dirty&4)((Rva006E1260*)((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false)))->call(((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false))->parent);
-return Rva008A4EA0MakeFloat(*(float*)((char*)text+0x48));
+{result=Rva008A4EA0MakeFloat(*(float*)((char*)text+0x48));goto d14;}
 
    case 15:if(text->dirty&4)((Rva006E1260*)((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false)))->call(((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false))->parent);
-return Rva008A4EA0MakeFloat(*(float*)((char*)text+0x44));
+{result=Rva008A4EA0MakeFloat(*(float*)((char*)text+0x44));goto d15;}
 
    case 16:{
 AptString *v=AptString::Create();
@@ -278,7 +265,7 @@ return v;
    case 17:if(!text->variable.IsEmpty())return makeLookupString(text->variable);
 return gpUndefinedValue;
 
-   case 18:return AptBoolean::Create((text->definition->wordWrap&0xFFFFFF)!=0);
+   case 18:{result=AptBoolean::Create((text->definition->wordWrap&0xFFFFFF)!=0);goto d18;}
 
    case 19:{
 if(text->dirty&4)((Rva006E1260*)((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false)))->call(((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false))->parent);
@@ -286,7 +273,7 @@ Rect r;
 ((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false))->rva006E1DD0(&r);
 float n=r.bottom-r.top;
 if(n<0)n=0;
-return Rva008A4EA0MakeFloat(n);
+result=Rva008A4EA0MakeFloat(n);goto d19;
 }
 
    case 20:{
@@ -295,10 +282,10 @@ Rect r;
 ((AptCIH*)((BfmeAptValue006DCD20*)context)->rva006DCF60(false))->rva006E1DD0(&r);
 float n=r.right-r.left;
 if(n<0)n=0;
-return Rva008A4EA0MakeFloat(n);
+result=Rva008A4EA0MakeFloat(n);goto d20;
 }
 
-   case 21:{result=AptBoolean::Create(text->mouseWheel);goto done;}
+   case 21:return AptBoolean::Create(text->mouseWheel);
 
    }
 
@@ -610,7 +597,24 @@ return (AptValue*)g_Va00E181F4;
 
  }
 
- result=Rva008A4EA0MakeFloat(number);
- goto done;
+ return Rva008A4EA0MakeFloat(number);
+d20:
+ return result;
+d19:
+ return result;
+d18:
+ return result;
+done:
+ return result;
+d11:
+ return result;
+d13:
+ return result;
+d14:
+ return result;
+d15:
+ return result;
+undef8:
+ return gpUndefinedValue;
 
 }
