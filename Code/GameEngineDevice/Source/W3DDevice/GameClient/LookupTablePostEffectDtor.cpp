@@ -26,9 +26,9 @@ struct Field08
 // ??1Field08@@QAE@XZ present-unmatched
     ~Field08()
     {
-        RefCounted *p = m_ptr;
-        if (p && --p->m_ref == 0)
-            p->Release();
+        RefCounted *refCounted = m_ptr;
+        if (refCounted && --refCounted->m_ref == 0)
+            refCounted->Release();
     }
 };
 

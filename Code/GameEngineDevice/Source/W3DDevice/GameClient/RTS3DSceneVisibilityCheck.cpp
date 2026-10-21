@@ -45,7 +45,7 @@ public:
 class SphereClass
 {
 public:
-	__forceinline SphereClass(const SphereClass &s) : Center(s.Center), Radius(s.Radius) {}
+	__forceinline SphereClass(const SphereClass &sphere) : Center(sphere.Center), Radius(sphere.Radius) {}
 	Vector3 Center;
 	float Radius;
 };
@@ -336,7 +336,7 @@ public:
 class RefRenderObjListIterator
 {
 public:
-	RefRenderObjListIterator(GenericMultiListClass *l) : List(l), CurNode(l->Head.next) {}
+	RefRenderObjListIterator(GenericMultiListClass *genericMultiList) : List(genericMultiList), CurNode(genericMultiList->Head.next) {}
 	bool Is_Done() const { return CurNode == &List->Head; }
 	void Next() { CurNode = CurNode->next; }
 	MultiListObjectClass *Current_Object() const { return CurNode->object; }

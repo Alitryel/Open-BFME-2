@@ -1067,18 +1067,18 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 	Int x2, y2;			// used for simultaneous drawing of line pairs
 	Int size = 5;
 	Int halfSize = size / 2;
-	Image *image1, *image2;
+	Image *image, *image2;
 	// Draw Horizontal Lines
 	// All border pieces are based on a 10 pixel offset from the centerline
 	y = originalY - Offset;
 	y2 = maxY - OffsetLower;
 	x2 = maxX - (OffsetLower + BORDER_LINE_SIZE);
-	image1 = (Image *)TheMappedImageCollection->findImageByName("FrameT");
+	image = (Image *)TheMappedImageCollection->findImageByName("FrameT");
 	image2 = (Image *)TheMappedImageCollection->findImageByName("FrameB");
 	for( x=(originalX + 3); x <= x2; x += BORDER_LINE_SIZE )
 	{
 
-		((W3DDisplay *)TheDisplay)->rva0004D6B3( image1,
+		((W3DDisplay *)TheDisplay)->rva0004D6B3( image,
 													 x, y, x + size, y + size );
 		((W3DDisplay *)TheDisplay)->rva0004D6B3( image2,
 													 x, y2, x + size, y2 + size );
@@ -1092,7 +1092,7 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 	{
 		
 		//Blit Half piece
-		((W3DDisplay *)TheDisplay)->rva0004D6B3( image1,
+		((W3DDisplay *)TheDisplay)->rva0004D6B3( image,
 													 x, y, x + halfSize, y + size );
 		((W3DDisplay *)TheDisplay)->rva0004D6B3( image2,
 													 x, y2, x + halfSize, y2 + size );
@@ -1110,7 +1110,7 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 		x -= ((BORDER_LINE_SIZE / 2) - (((x2 - x) + 1) & ~1));
 
 		//Blit Half piece
-		((W3DDisplay *)TheDisplay)->rva0004D6B3(image1,
+		((W3DDisplay *)TheDisplay)->rva0004D6B3(image,
 													 x, y, x + halfSize, y + size );
 		((W3DDisplay *)TheDisplay)->rva0004D6B3( image2,
 													 x, y2, x + halfSize, y2 + size );
@@ -1119,7 +1119,7 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 
 	// Draw Vertical Lines
 	// All border pieces are based on a 10 pixel offset from the centerline
-	image1 = (Image *)TheMappedImageCollection->findImageByName("FrameL");
+	image = (Image *)TheMappedImageCollection->findImageByName("FrameL");
 	image2 = (Image *)TheMappedImageCollection->findImageByName("FrameR");
 
 	x = originalX - Offset;
@@ -1129,7 +1129,7 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 	for( y=(originalY + 3); y <= y2; y += BORDER_LINE_SIZE )
 	{
 
-		((W3DDisplay *)TheDisplay)->rva0004D6B3( image1,
+		((W3DDisplay *)TheDisplay)->rva0004D6B3( image,
 													 x, y, x + size, y + size );
 		((W3DDisplay *)TheDisplay)->rva0004D6B3( image2,
 													 x2, y, x2 + size, y + size );
@@ -1143,7 +1143,7 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 	{
 
 		//Blit Half piece
-		((W3DDisplay *)TheDisplay)->rva0004D6B3( image1,
+		((W3DDisplay *)TheDisplay)->rva0004D6B3( image,
 													 x, y, x + size, y + halfSize );
 		((W3DDisplay *)TheDisplay)->rva0004D6B3( image2,
 													 x2, y, x2 + size, y + halfSize );
@@ -1160,7 +1160,7 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 		y -= ((BORDER_LINE_SIZE / 2) - (((y2 - y) + 1) & ~1));
 
 		//Blit Half piece
-		((W3DDisplay *)TheDisplay)->rva0004D6B3( image1,
+		((W3DDisplay *)TheDisplay)->rva0004D6B3( image,
 													 x, y, x + size, y + halfSize );
 		((W3DDisplay *)TheDisplay)->rva0004D6B3( image2,
 													 x2, y, x2 + size, y + halfSize );
@@ -1170,23 +1170,23 @@ void drawSkinnyBorder( Int x, Int y, Int width, Int height)
 	// Draw Corners
 	x = originalX - 2;//BORDER_CORNER_SIZE ;
 	y = originalY - 2;//BORDER_CORNER_SIZE;
-	image1 = (Image *)TheMappedImageCollection->findImageByName("FrameCornerUL");
-	((W3DDisplay *)TheDisplay)->rva0004D6B3( image1,
+	image = (Image *)TheMappedImageCollection->findImageByName("FrameCornerUL");
+	((W3DDisplay *)TheDisplay)->rva0004D6B3( image,
 												 x, y, x + size, y + size );
 	x = maxX - 5;//BORDER_CORNER_SIZE;
 	y = originalY - 2;//BORDER_CORNER_SIZE;
-	image1 = (Image *)TheMappedImageCollection->findImageByName("FrameCornerUR");
-	((W3DDisplay *)TheDisplay)->rva0004D6B3(image1,
+	image = (Image *)TheMappedImageCollection->findImageByName("FrameCornerUR");
+	((W3DDisplay *)TheDisplay)->rva0004D6B3(image,
 												 x, y, x + size, y + size );
 	x = originalX - 2;//BORDER_CORNER_SIZE;
 	y = maxY - 5;//BORDER_CORNER_SIZE;
-	image1 = (Image *)TheMappedImageCollection->findImageByName("FrameCornerLL");
-	((W3DDisplay *)TheDisplay)->rva0004D6B3( image1,
+	image = (Image *)TheMappedImageCollection->findImageByName("FrameCornerLL");
+	((W3DDisplay *)TheDisplay)->rva0004D6B3( image,
 												 x, y, x + size, y + size );
 	x = maxX - 5;//BORDER_CORNER_SIZE;
 	y = maxY - 5;//BORDER_CORNER_SIZE;
-	image1 = (Image *)TheMappedImageCollection->findImageByName("FrameCornerLR");
-	((W3DDisplay *)TheDisplay)->rva0004D6B3(image1,
+	image = (Image *)TheMappedImageCollection->findImageByName("FrameCornerLR");
+	((W3DDisplay *)TheDisplay)->rva0004D6B3(image,
 												 x, y, x + size, y + size );
 
 

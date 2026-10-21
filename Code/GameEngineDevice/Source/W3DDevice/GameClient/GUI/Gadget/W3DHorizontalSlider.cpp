@@ -226,7 +226,7 @@ void W3DGadgetHorizontalSliderImageDraw( GameWindow *window,
 	blankSquare	= GadgetSliderGetDisabledImageRight( window );
 	fillSquare = GadgetSliderGetDisabledImageLeft( window );
 
-	SliderData *s = (SliderData *)window->winGetUserData();
+	SliderData *sliderData = (SliderData *)window->winGetUserData();
 	
 	Real xMulti = 1.0f;
 	Real yMulti = 1.0f;
@@ -245,11 +245,11 @@ void W3DGadgetHorizontalSliderImageDraw( GameWindow *window,
 	Int boxPadding = 1;
 	start.x = origin.x;
 	end.x	= start.x + boxWidth;
-	Real selectedPercent = (s->position - s->minVal)/INT_TO_REAL((s->maxVal - s->minVal));
+	Real selectedPercent = (sliderData->position - sliderData->minVal)/INT_TO_REAL((sliderData->maxVal - sliderData->minVal));
 	Int maxSelectedX = origin.x + (Int)(selectedPercent * size.x);
 	while(end.x < origin.x + size.x )
 	{
-		if (start.x <= maxSelectedX && end.x < origin.x + size.x && s->position != s->minVal)
+		if (start.x <= maxSelectedX && end.x < origin.x + size.x && sliderData->position != sliderData->minVal)
 			++numSelectedBoxes;
 		start.x = end.x + boxPadding;
 		end.x	= start.x + boxWidth;
@@ -315,8 +315,8 @@ void W3DGadgetHorizontalSliderImageDrawA( GameWindow *window,
 	window->winGetScreenPosition( &origin.x, &origin.y );
 	window->winGetSize( &size.x, &size.y );
 
-	SliderData *s = (SliderData *)window->winGetUserData();
-	Int transPos = (s->numTicks * (s->position - s->minVal)) + HORIZONTAL_SLIDER_THUMB_WIDTH/2;
+	SliderData *sliderData = (SliderData *)window->winGetUserData();
+	Int transPos = (sliderData->numTicks * (sliderData->position - sliderData->minVal)) + HORIZONTAL_SLIDER_THUMB_WIDTH/2;
 	IRegion2D clipLeft, clipRight;
 
 	// get image offset
@@ -466,7 +466,7 @@ void W3DGadgetHorizontalSliderImageDrawB( GameWindow *window,
 	window->winGetScreenPosition( &origin.x, &origin.y );
 	window->winGetSize( &size.x, &size.y );
 
-	SliderData *s = (SliderData *)window->winGetUserData();
+	SliderData *sliderData = (SliderData *)window->winGetUserData();
 	
 	Real xMulti = 1.0f;
 	Real yMulti = 1.0f;
@@ -485,7 +485,7 @@ void W3DGadgetHorizontalSliderImageDrawB( GameWindow *window,
 	tmp.format(L"\norigin: %d,%d size:%d,%d", origin.x, origin.y, size.x, size.y);
 	tooltip.concat(tmp);
 
-	tmp.format(L"\ns= %d <--> %d, numTicks=%g, pos = %d", s->minVal, s->maxVal, s->numTicks, s->position);
+	tmp.format(L"\ns= %d <--> %d, numTicks=%g, pos = %d", sliderData->minVal, sliderData->maxVal, sliderData->numTicks, sliderData->position);
 	tooltip.concat(tmp);
 
 	if( BitTest( instData->getState(), WIN_STATE_HILITED ) )
@@ -524,7 +524,7 @@ void W3DGadgetHorizontalSliderImageDrawB( GameWindow *window,
 	tmp.format(L"\ntop: start=%d,%d, end=%d,%d", start.x, start.y, end.x, end.y);
 	tooltip.concat(tmp);
 
-	while(start.x <= origin.x + (s->numTicks * (s->position - s->minVal)) && end.x < origin.x + size.x && s->position != s->minVal)
+	while(start.x <= origin.x + (sliderData->numTicks * (sliderData->position - sliderData->minVal)) && end.x < origin.x + size.x && sliderData->position != sliderData->minVal)
 	{
 		TheWindowManager->winDrawImage( fillSquare, 
 																		start.x, start.y,

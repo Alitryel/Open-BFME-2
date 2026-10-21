@@ -35,8 +35,8 @@ inline MouseThreadClass::~MouseThreadClass()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeMouseThreadClassInlineAnchor@@YAXPAVMouseThreadClass@@@Z absent-from-retail
-void _bfmeMouseThreadClassInlineAnchor(MouseThreadClass *p)
+void _bfmeMouseThreadClassInlineAnchor(MouseThreadClass *mouseThread)
 {
-    p->MouseThreadClass::~MouseThreadClass();
+    mouseThread->MouseThreadClass::~MouseThreadClass();
 }
 #pragma inline_depth()

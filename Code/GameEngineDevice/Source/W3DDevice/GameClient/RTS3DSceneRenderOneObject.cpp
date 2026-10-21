@@ -71,11 +71,11 @@ public:
 };
 
 inline Vector3 operator-(const Vector3 &a, const Vector3 &b) { return Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
-inline bool Spheres_Intersect(const SphereClass &s0, const SphereClass &s1)
+inline bool Spheres_Intersect(const SphereClass &sphere, const SphereClass &s1)
 {
-	Vector3 delta = s0.Center - s1.Center;
+	Vector3 delta = sphere.Center - s1.Center;
 	float dist2 = Vector3::Dot_Product(delta, delta);
-	if (dist2 < (s0.Radius + s1.Radius) * (s0.Radius + s1.Radius)) {
+	if (dist2 < (sphere.Radius + s1.Radius) * (sphere.Radius + s1.Radius)) {
 		return true;
 	} else {
 		return false;

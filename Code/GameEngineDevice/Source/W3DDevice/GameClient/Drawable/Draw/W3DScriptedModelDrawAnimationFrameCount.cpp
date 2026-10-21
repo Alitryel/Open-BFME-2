@@ -964,7 +964,7 @@ void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,bool preserve,bool f
  }
  float rate=1.0f;
  if(info->minSpeed!=1.0f||info->maxSpeed!=1.0f)rate=GetGameClientRandomValueReal(info->minSpeed,info->maxSpeed,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Drawable\\W3DScriptedModelDraw.cpp",0x1114);
- if(info->weaponTiming&&object){Weapon*w=object->getCurrentWeapon(0);if(w){int duration=(int)(info->duration*0.005f),time;if(w->computeStatus(0)==3)time=((Rva002C9504BinarySubField*)w)->get();else time=w->getPreAttackDelay(object,0,0)+w->rva002C9D3B(object,0);rate=(float)duration/(float)time;}}
+ if(info->weaponTiming&&object){Weapon*weapon=object->getCurrentWeapon(0);if(weapon){int duration=(int)(info->duration*0.005f),time;if(weapon->computeStatus(0)==3)time=((Rva002C9504BinarySubField*)weapon)->get();else time=weapon->getPreAttackDelay(object,0,0)+weapon->rva002C9D3B(object,0);rate=(float)duration/(float)time;}}
  float blend=info->blend;int mode=info->mode;
  if(adjustView->sequential){rate=1;start=0;blend=0;if(mode==2&&count==1)mode=1;}
  float end=(float)direction*-0.00001f;end+=(float)start;

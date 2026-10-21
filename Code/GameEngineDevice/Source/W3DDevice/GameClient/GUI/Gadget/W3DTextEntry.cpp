@@ -285,15 +285,15 @@ static void drawTextEntryText( GameWindow *window, Color textColor, Color textDr
 												Color compositeColor, Color compositeDropColor,
 												Int x, Int y )
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 	Int cursorPos;
 	Int compositeCursorPos = 0;
-	DisplayString *text = e->text;
+	DisplayString *text = entryData->text;
 	IRegion2D clipRegion, box;
 	CtorCoord origin, size;
 
 	// Check to see if the IME manager is composing text
-	e->constructText->setText( UnicodeString::TheEmptyString );
+	entryData->constructText->setText( UnicodeString::TheEmptyString );
 	if( TheIMEManager && TheIMEManager->isAttachedTo( window ) && TheIMEManager->isComposing() )
 	{
 		// The user is composing a string.
@@ -302,16 +302,16 @@ static void drawTextEntryText( GameWindow *window, Color textColor, Color textDr
 
 		TheIMEManager->getCompositionString( composition );
 
-		if( e->secretText )
+		if( entryData->secretText )
 		{
-			e->sText->setText( UnicodeString::TheEmptyString );
-			Int len = composition.getLength() + e->text->getTextLength();
+			entryData->sText->setText( UnicodeString::TheEmptyString );
+			Int len = composition.getLength() + entryData->text->getTextLength();
 			for( int i = 0; i < len; i++ )
-				e->sText->appendChar( '*' );
+				entryData->sText->appendChar( '*' );
 		}
 		else
 		{
-			e->constructText->setText( composition );
+			entryData->constructText->setText( composition );
 			compositeCursorPos = TheIMEManager->getCompositionCursorPosition();
 		}
 
@@ -322,14 +322,14 @@ static void drawTextEntryText( GameWindow *window, Color textColor, Color textDr
 		return;
 
 	// if our text is "secret" we will print only '*' characters
-	if( e->secretText )
-		text = e->sText;
+	if( entryData->secretText )
+		text = entryData->sText;
 
 	// Make sure our font is the same as our parent's.
 	if( text->getFont() != window->winGetFont() )
 		text->setFont( window->winGetFont() );
-	if( e->constructText->getFont() != window->winGetFont() )
-		e->constructText->setFont( window->winGetFont() );
+	if( entryData->constructText->getFont() != window->winGetFont() )
+		entryData->constructText->setFont( window->winGetFont() );
 
 	// clip the text to the edit window
 	window->winGetScreenPosition( &origin.x, &origin.y );
@@ -339,14 +339,14 @@ static void drawTextEntryText( GameWindow *window, Color textColor, Color textDr
 	clipRegion.lo.y = origin.y;
 	clipRegion.hi.y = origin.y + size.y;
 	IRegion2D region = clipRegion;
-	Int textWidth = text->getWidth( e->charPos );
+	Int textWidth = text->getWidth( entryData->charPos );
 
 	// scroll the text so the first character in view starts the entry
-	x += 2 - text->getWidth( e->scrollPos );
+	x += 2 - text->getWidth( entryData->scrollPos );
 	cursorPos = x;
 
-	UnsignedInt selectPos = e->selectPos;
-	UnsignedInt charPos = e->charPos;
+	UnsignedInt selectPos = entryData->selectPos;
+	UnsignedInt charPos = entryData->charPos;
 	UnsignedInt selStart = min( selectPos, charPos );
 	UnsignedInt selEnd = max( selectPos, charPos );
 	Int height = max( size.y - 4, window->winGetFont()->height );
@@ -364,13 +364,13 @@ static void drawTextEntryText( GameWindow *window, Color textColor, Color textDr
 	}
 
 	// draw the composition at the cursor
-	if( e->constructText->getTextLength() > 0 && charPos == selStart )
+	if( entryData->constructText->getTextLength() > 0 && charPos == selStart )
 	{
-		e->constructText->setClipRegion( &clipRegion );
-		e->constructText->setTextColor( compositeColor, compositeDropColor );
-		e->constructText->draw( x, y, 1, 1 );
-		cursorPos += e->constructText->getWidth( compositeCursorPos );
-		x += e->constructText->getWidth();
+		entryData->constructText->setClipRegion( &clipRegion );
+		entryData->constructText->setTextColor( compositeColor, compositeDropColor );
+		entryData->constructText->draw( x, y, 1, 1 );
+		cursorPos += entryData->constructText->getWidth( compositeCursorPos );
+		x += entryData->constructText->getWidth();
 	}
 
 	// draw the selection
@@ -406,13 +406,13 @@ static void drawTextEntryText( GameWindow *window, Color textColor, Color textDr
 		if( selEnd == charPos )
 		{
 			cursorPos += width;
-			if( e->constructText->getTextLength() > 0 )
+			if( entryData->constructText->getTextLength() > 0 )
 			{
-				Int compositeWidth = e->constructText->getWidth( compositeCursorPos );
-				e->constructText->setTextColor( compositeColor, compositeDropColor );
-				e->constructText->draw( x, y, 1, 1 );
-				cursorPos += e->constructText->getWidth( compositeCursorPos );
-				x += e->constructText->getWidth();
+				Int compositeWidth = entryData->constructText->getWidth( compositeCursorPos );
+				entryData->constructText->setTextColor( compositeColor, compositeDropColor );
+				entryData->constructText->draw( x, y, 1, 1 );
+				cursorPos += entryData->constructText->getWidth( compositeCursorPos );
+				x += entryData->constructText->getWidth();
 			}
 		}
 
@@ -448,13 +448,13 @@ static void drawTextEntryText( GameWindow *window, Color textColor, Color textDr
 //=============================================================================
 void W3DGadgetTextEntryDraw( GameWindow *window, WinInstanceData *instData )
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 	CtorCoord origin, size, start, end;
 	Color backBorder, backColor, textColor, textBorder,
 			compositeColor, compositeBorder;
 
 	// cancel unichar flag
-	e->receivedUnichar = FALSE;
+	entryData->receivedUnichar = FALSE;
 
 	// get size and position of window
 	window->winGetScreenPosition( &origin.x, &origin.y );
@@ -523,7 +523,7 @@ void W3DGadgetTextEntryDraw( GameWindow *window, WinInstanceData *instData )
 
 	// draw the text
 	Int textWidth, fontHeight;
-	e->text->getSize( &textWidth, &fontHeight );
+	entryData->text->getSize( &textWidth, &fontHeight );
 	Int startOffset = 5;
 	volatile Int width;
 
@@ -545,7 +545,7 @@ void W3DGadgetTextEntryDraw( GameWindow *window, WinInstanceData *instData )
 //=============================================================================
 void W3DGadgetTextEntryImageDraw( GameWindow *window, WinInstanceData *instData )
 {
-	EntryData *e = (EntryData *)window->winGetUserData();
+	EntryData *entryData = (EntryData *)window->winGetUserData();
 	CtorCoord origin, size, start, end;
 	Color textColor, textBorder;
 	Color compositeColor, compositeBorder;
@@ -554,7 +554,7 @@ void W3DGadgetTextEntryImageDraw( GameWindow *window, WinInstanceData *instData 
 	Int i;
 
 	// cancel unichar flag
-	e->receivedUnichar = FALSE;
+	entryData->receivedUnichar = FALSE;
 
 	// get size and position of window
 	window->winGetScreenPosition( &origin.x, &origin.y );
@@ -681,7 +681,7 @@ void W3DGadgetTextEntryImageDraw( GameWindow *window, WinInstanceData *instData 
 
 	// draw the text
 	Int textWidth, fontHeight;
-	e->text->getSize( &textWidth, &fontHeight );
+	entryData->text->getSize( &textWidth, &fontHeight );
 	Int startOffset = 5;
 	volatile Int width;
 

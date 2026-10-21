@@ -36,7 +36,7 @@ __declspec(noinline) inline void LightEnvironmentClass::Set_Output_Ambient( Vect
 }
 
 // ?bfmeAnchorLightEnvironmentClassSet_Output_Ambient absent-from-retail
-void bfmeAnchorLightEnvironmentClassSet_Output_Ambient(LightEnvironmentClass *p, Vector3 &oa)
+void bfmeAnchorLightEnvironmentClassSet_Output_Ambient(LightEnvironmentClass *lightEnvironment, Vector3 &oa)
 {
-	p->Set_Output_Ambient(oa);
+	lightEnvironment->Set_Output_Ambient(oa);
 }

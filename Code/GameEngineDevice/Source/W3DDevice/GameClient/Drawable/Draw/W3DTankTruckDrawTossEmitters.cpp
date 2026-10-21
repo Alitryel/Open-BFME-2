@@ -40,10 +40,10 @@ struct BfmeParticleSystemHandle {
     void *m_prev;
     void *m_next;
     ParticleSystem *get() const {
-        ParticleSystem *p = m_system;
-        if (!p)
-            p = Make001FCBD7();
-        return p;
+        ParticleSystem *particleSystem = m_system;
+        if (!particleSystem)
+            particleSystem = Make001FCBD7();
+        return particleSystem;
     }
 };
 class W3DTankTruckDraw {

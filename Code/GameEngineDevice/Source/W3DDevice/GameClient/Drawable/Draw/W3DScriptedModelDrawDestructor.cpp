@@ -678,8 +678,8 @@ W3DScriptedModelDraw::~W3DScriptedModelDraw()
  ((Rva000B3C61*)this)->rva000B3C61(1);
  ((Rva000B3C61*)this)->rva000B3C61(2);
  ((Rva000B3348*)this)->rva000B3348(0);
- const ThingTemplate*t=(m_60 ? (getDrawable()->getTemplate()) : (getDrawable()->getTemplate()));
- const float*sizePtr=&t->sinkSize;
+ const ThingTemplate*thingTemplate=(m_60 ? (getDrawable()->getTemplate()) : (getDrawable()->getTemplate()));
+ const float*sizePtr=&thingTemplate->sinkSize;
  if(*sizePtr>1.0f)
  {
   const Coord3D*p=getDrawable()->getPosition();

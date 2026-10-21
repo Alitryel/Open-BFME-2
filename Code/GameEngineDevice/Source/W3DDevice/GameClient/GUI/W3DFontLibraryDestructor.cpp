@@ -66,7 +66,7 @@ __declspec(noinline) inline W3DFontLibrary::~W3DFontLibrary()
 }
 
 // ?bfmeAnchorW3DFontLibraryDtor absent-from-retail
-void bfmeAnchorW3DFontLibraryDtor(W3DFontLibrary *p)
+void bfmeAnchorW3DFontLibraryDtor(W3DFontLibrary *w3DFontLibrary)
 {
-	p->W3DFontLibrary::~W3DFontLibrary();
+	w3DFontLibrary->W3DFontLibrary::~W3DFontLibrary();
 }

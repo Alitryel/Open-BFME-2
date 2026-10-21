@@ -27,7 +27,7 @@ if(m!=end)do{
  for(unsigned i=0;i<(unsigned)(m->end-m->begin);++i){AsciiStringPlusString pair;pair.m_left=&prefix;pair.m_right=&m->begin[i];*assets<<pair;}
 }while(++m!=modelsEnd);
 if(fx)fx->rva001E11F8((int)assets,context);
-TransitionNode*n=nodes->next;if(n!=nodes)do{((Rva000B2D4D*)n->value)->rva000B2D4D((int)assets,context);}while((n=n->next)!=nodes);
+TransitionNode*transitionNode=nodes->next;if(transitionNode!=nodes)do{((Rva000B2D4D*)transitionNode->value)->rva000B2D4D((int)assets,context);}while((transitionNode=transitionNode->next)!=nodes);
 for(TransitionFx18*p=effects;p!=effectsEnd;++p)if(p->value)p->value->rva001E11F8((int)assets,context);
 for(TransitionFx18*p=extra;p!=extraEnd;++p)if(p->value)p->value->rva001E11F8((int)assets,context);
 }

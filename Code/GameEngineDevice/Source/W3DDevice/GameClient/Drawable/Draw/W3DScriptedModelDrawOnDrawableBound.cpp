@@ -56,13 +56,13 @@ class Rva000B8F5AOuter { public: bool rva000BF9FC(void *boneState, bool force, i
 class W3DScriptedModelDrawModuleData
 {
 public:
-	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &c) const
+	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &modelConditionFlags) const
 	{
-		return (const ModelConditionInfo *)((Rva000B4B23 *)this)->rva000B4B23(c);
+		return (const ModelConditionInfo *)((Rva000B4B23 *)this)->rva000B4B23(modelConditionFlags);
 	}
-	const ModelConditionInfo *findBoneState(const ModelConditionFlags &c) const
+	const ModelConditionInfo *findBoneState(const ModelConditionFlags &modelConditionFlags) const
 	{
-		return (const ModelConditionInfo *)((Rva000B4BED *)this)->rva000B4BED(&c);
+		return (const ModelConditionInfo *)((Rva000B4BED *)this)->rva000B4BED(&modelConditionFlags);
 	}
 
 	unsigned char m_pad000[0x135];
@@ -216,9 +216,9 @@ class W3DScriptedModelDraw : public DrawModule, public ObjectDrawInterface, publ
 public:
 	virtual void onDrawableBoundToObject();
 	virtual void buildPlayingAnimationStringInfo(int index, AsciiString *animInfo, AsciiString *stateInfo);
-	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &c) const
+	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &modelConditionFlags) const
 	{
-		return getW3DModelDrawModuleData()->findBestInfo(c);
+		return getW3DModelDrawModuleData()->findBestInfo(modelConditionFlags);
 	}
 	void rva000BF9FC(const ModelConditionInfo *boneState, int a, int b)
 	{

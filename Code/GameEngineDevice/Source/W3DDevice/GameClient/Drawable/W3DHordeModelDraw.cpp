@@ -157,15 +157,15 @@ int W3DHordeModelDrawManager::rva0007A54B() {
  if(!count) return 0;
  for(HordeGroupNode *node=(HordeGroupNode*)header->_M_left;node!=header;node=(HordeGroupNode*)_STL::_Rb_global<bool>::_M_increment(node)) {
   W3DHordeModelDrawHandle **first=node->begin,**end=node->end;
-  for(W3DHordeModelDrawHandle **p=first;p!=end;) {
-   ++p;
+  for(W3DHordeModelDrawHandle **w3DHordeModelDrawHandle=first;w3DHordeModelDrawHandle!=end;) {
+   ++w3DHordeModelDrawHandle;
    float delta;
-   if(p==end) goto process;
+   if(w3DHordeModelDrawHandle==end) goto process;
    delta=node->data->rva00079176();
-   { W3DHordeModelDrawHandle *a=*first,*b=*p;
+   { W3DHordeModelDrawHandle *a=*first,*b=*w3DHordeModelDrawHandle;
    if(b->PartOfSameGroup(*a,delta)) goto next; }
 process: {
-    ProcessGroup(first,p);++groups;first=p;
+    ProcessGroup(first,w3DHordeModelDrawHandle);++groups;first=w3DHordeModelDrawHandle;
    }
 next:;
   }
@@ -252,18 +252,18 @@ bool W3DHordeModelDrawHandle::rva00078CE0(const W3DHordeModelDrawHandle *rhs) co
 	{
 		for (int i = 0; i <= 1; ++i)
 		{
-			const HordeAnimation &l = model->animations[i];
+			const HordeAnimation &hordeAnimation = model->animations[i];
 			const HordeAnimation &r = rhs->model->animations[i];
-			if (l.animation != r.animation)
-				return l.animation < r.animation;
-			if (l.animation == 0)
+			if (hordeAnimation.animation != r.animation)
+				return hordeAnimation.animation < r.animation;
+			if (hordeAnimation.animation == 0)
 				continue;
-			if (l.direction != r.direction)
-				return l.direction < r.direction;
-			if (l.mode != r.mode)
-				return l.mode < r.mode;
-			if (l.flag != r.flag)
-				return l.flag;
+			if (hordeAnimation.direction != r.direction)
+				return hordeAnimation.direction < r.direction;
+			if (hordeAnimation.mode != r.mode)
+				return hordeAnimation.mode < r.mode;
+			if (hordeAnimation.flag != r.flag)
+				return hordeAnimation.flag;
 		}
 	}
 	{

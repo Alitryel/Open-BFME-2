@@ -49,8 +49,8 @@ extern void (LightClass::*const g_bfmeLightSetSpecularAnchor)(const Vector3 &);
 void (LightClass::*const g_bfmeLightSetSpecularAnchor)(const Vector3 &) = &LightClass::Set_Specular;
 #pragma inline_depth(0)
 // ?_bfmeSceneFogRangeAnchor@@YAXPAVSceneClass@@PAM1@Z absent-from-retail
-void _bfmeSceneFogRangeAnchor(SceneClass *s, float *fogStart, float *fogEnd)
+void _bfmeSceneFogRangeAnchor(SceneClass *scene, float *fogStart, float *fogEnd)
 {
-	s->SceneClass::Get_Fog_Range(fogStart, fogEnd);
+	scene->SceneClass::Get_Fog_Range(fogStart, fogEnd);
 }
 #pragma inline_depth()

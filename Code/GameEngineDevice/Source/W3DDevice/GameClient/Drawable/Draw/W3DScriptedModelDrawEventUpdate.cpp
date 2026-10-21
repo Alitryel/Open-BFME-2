@@ -56,7 +56,7 @@ namespace _STL {
  template<class T,class A=allocator<T> >class _List_base {public:ListNode*node;~_List_base();};
  template<class T>struct _Nonconst_traits;
  template<class T,class Traits>struct _List_iterator {
-  _List_iterator(ListNode*n):_M_node(n){}
+  _List_iterator(ListNode*listNode):_M_node(listNode){}
   _List_iterator(const _List_iterator&r):_M_node(r._M_node){}
   ListNode *_M_node;
  };
@@ -177,24 +177,24 @@ void W3DScriptedModelDraw::rva000BD6C2()
     Rva00B9AC2 &event=*reinterpret_cast<Rva00B9AC2*>(&copied);
     if(frame==event.start||(event.start<0&&(event.period==0||frame%event.period==0))){
      _STL::list<Rva000BC0DBElement> events(reinterpret_cast<EventCollection*>(event.events)->list);
-     for(ListNode*n=events.node->next;n!=events.node;n=n->next){
-      EventNugget *e=reinterpret_cast<EventNugget*>(n->value);
-      if(e->type==9){
+     for(ListNode*listNode=events.node->next;listNode!=events.node;listNode=listNode->next){
+      EventNugget *eventNugget=reinterpret_cast<EventNugget*>(listNode->value);
+      if(eventNugget->type==9){
        ParticleEvent32 particle;
-       Rva000B9887Init(e,reinterpret_cast<BfmePod32*>(&particle));
+       Rva000B9887Init(eventNugget,reinterpret_cast<BfmePod32*>(&particle));
        state->particles.push_back(*reinterpret_cast<BfmePod32*>(&particle));
        if(!(drawable->status&8))particlesDirty=true;
       }
      }
     }else if(frame>=event.end){
      _STL::list<Rva000BC0DBElement> events(reinterpret_cast<EventCollection*>(event.events)->list);
-     for(ListNode*n=events.node->next;n!=events.node;n=n->next){
-      EventNugget*e=reinterpret_cast<EventNugget*>(n->value);
-      if(e->type==9){
-       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)e->particle);
+     for(ListNode*listNode=events.node->next;listNode!=events.node;listNode=listNode->next){
+      EventNugget*eventNugget=reinterpret_cast<EventNugget*>(listNode->value);
+      if(eventNugget->type==9){
+       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)eventNugget->particle);
        if(system){reinterpret_cast<Rva001F3852ByteOneSetter*>(system.operator->())->enable();system->destroy();}
        ListNode *id=particleIDs.node->next;
-       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==e->particle){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
+       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==eventNugget->particle){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
       }
      }
     }

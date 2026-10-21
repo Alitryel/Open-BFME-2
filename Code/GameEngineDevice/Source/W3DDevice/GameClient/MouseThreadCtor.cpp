@@ -28,8 +28,8 @@ inline MouseThreadClass::MouseThreadClass() : ThreadClass(0)
 
 #pragma inline_depth(0)
 // ?bfmeEmitMouseThreadCtor@@YAXPAVMouseThreadClass@@@Z present-unmatched
-void bfmeEmitMouseThreadCtor(MouseThreadClass *p)
+void bfmeEmitMouseThreadCtor(MouseThreadClass *mouseThread)
 {
-	p->MouseThreadClass::MouseThreadClass();
+	mouseThread->MouseThreadClass::MouseThreadClass();
 }
 #pragma inline_depth()

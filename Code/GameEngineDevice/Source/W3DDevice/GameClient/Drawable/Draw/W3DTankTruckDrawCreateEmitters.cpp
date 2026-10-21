@@ -45,8 +45,8 @@ class BfmeParticleSystemHandle { public:
     void *m_prev;
     void *m_next;
     ParticleSystem *get() const {
-        ParticleSystem *p = m_system;
-        if(!p)return Make001FCBD7();return p;
+        ParticleSystem *particleSystem = m_system;
+        if(!particleSystem)return Make001FCBD7();return particleSystem;
     }
 };
 class ParticleSystemTemplate;

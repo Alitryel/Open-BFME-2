@@ -24,7 +24,7 @@ template<> inline void StringBase<char>::set(const char *s) { set(s,s?strlen(s):
 inline AsciiString::AsciiString(const char *s,int n):StringBase<char>(s,n) {}
 #include "unicode_string.h"
 inline UnicodeString::UnicodeString() { new(this) StringBase<unsigned short>(); }
-inline UnicodeString::UnicodeString(const UnicodeString &s) { ((StringBase<unsigned short>*)this)->StringBase<unsigned short>::StringBase(*(const StringBase<unsigned short>*)&s); }
+inline UnicodeString::UnicodeString(const UnicodeString &unicodeString) { ((StringBase<unsigned short>*)this)->StringBase<unsigned short>::StringBase(*(const StringBase<unsigned short>*)&unicodeString); }
 inline UnicodeString::~UnicodeString() { ((StringBase<unsigned short>*)this)->~StringBase<unsigned short>(); }
 inline UnicodeString &UnicodeString::operator=(const UnicodeString &s) { ((StringBase<unsigned short>*)this)->set(*(const StringBase<unsigned short>*)&s); return *this; }
 inline UnicodeString &UnicodeString::operator=(const wchar_t *s) { ((StringBase<unsigned short>*)this)->set((const unsigned short*)s,s?wcslen(s):0); return *this; }

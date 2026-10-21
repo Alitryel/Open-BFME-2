@@ -103,9 +103,9 @@ __declspec(noinline) inline W3DTruckDraw::~W3DTruckDraw()
 }
 
 // ?bfmeAnchorW3DTruckDrawDtor absent-from-retail
-void bfmeAnchorW3DTruckDrawDtor(W3DTruckDraw *p)
+void bfmeAnchorW3DTruckDrawDtor(W3DTruckDraw *w3DTruckDraw)
 {
-	p->W3DTruckDraw::~W3DTruckDraw();
+	w3DTruckDraw->W3DTruckDraw::~W3DTruckDraw();
 }
 
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot

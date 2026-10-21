@@ -167,7 +167,7 @@ void W3DModelDraw::setTerrainDecal(TerrainDecalType type)
 		//turning off decals on this object. (or bad value.)
 		return;
 
-	const ThingTemplate *tmplate=getDrawable()->getTemplate();
+	const ThingTemplate *thingTemplate=getDrawable()->getTemplate();
 
 	//create a new terrain decal
 	Shadow::ShadowTypeInfo decalInfo;
@@ -176,10 +176,10 @@ void W3DModelDraw::setTerrainDecal(TerrainDecalType type)
 	decalInfo.m_type = SHADOW_ALPHA_DECAL;
 
 	decalInfo.m_ShadowName = TerrainDecalTextureName[type];
-	decalInfo.m_sizeX = tmplate->getShadowSizeX();
-	decalInfo.m_sizeY = tmplate->getShadowSizeY();
-	decalInfo.m_offsetX = tmplate->getShadowOffsetX();
-	decalInfo.m_offsetY = tmplate->getShadowOffsetY();
+	decalInfo.m_sizeX = thingTemplate->getShadowSizeX();
+	decalInfo.m_sizeY = thingTemplate->getShadowSizeY();
+	decalInfo.m_offsetX = thingTemplate->getShadowOffsetX();
+	decalInfo.m_offsetY = thingTemplate->getShadowOffsetY();
 	if (g_00DEC2D4 != NULL)
 		m_terrainDecal = ((ProjectedShadowManager *)g_00DEC2D4)->addDecal(m_renderObject,&decalInfo,0,0);
 	if (m_terrainDecal != NULL)

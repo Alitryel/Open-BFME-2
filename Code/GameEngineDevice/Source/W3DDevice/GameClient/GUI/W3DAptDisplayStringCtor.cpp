@@ -156,9 +156,9 @@ extern unsigned char g_aptHostStateStorage[32];
 #define s_aptScaleX (*(const Real *)(g_aptHostStateStorage + 0x10))
 #define s_aptScaleY (*(const Real *)(g_aptHostStateStorage + 0x14))
 
-static __forceinline char rawCharAt(const AsciiString &s, Int index)
+static __forceinline char rawCharAt(const AsciiString &asciiString, Int index)
 {
-	const char *text = *(const char *const *)&s;
+	const char *text = *(const char *const *)&asciiString;
 	return text ? text[8 + index] : 0;
 }
 

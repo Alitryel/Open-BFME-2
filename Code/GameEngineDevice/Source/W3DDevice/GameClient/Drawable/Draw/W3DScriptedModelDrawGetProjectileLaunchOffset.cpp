@@ -178,13 +178,13 @@ struct ModelConditionInfo
 class W3DModelDrawModuleData
 {
 public:
-	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &c) const
+	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &modelConditionFlags) const
 	{
-		return (const ModelConditionInfo *)((Rva000B4B23 *)this)->rva000B4B23(c);
+		return (const ModelConditionInfo *)((Rva000B4B23 *)this)->rva000B4B23(modelConditionFlags);
 	}
-	const ModelConditionInfo *rva00765DC0(const ModelConditionFlags &c) const
+	const ModelConditionInfo *rva00765DC0(const ModelConditionFlags &modelConditionFlags) const
 	{
-		return (const ModelConditionInfo *)((Rva000B4BED *)this)->rva000B4BED(&c);
+		return (const ModelConditionInfo *)((Rva000B4BED *)this)->rva000B4BED(&modelConditionFlags);
 	}
 
 	UnsignedByte m_unmodelled00[0x30];
@@ -240,9 +240,9 @@ public:
 		Coord3D *turretPitchPos) const;
 
 	const W3DModelDrawModuleData *getW3DModelDrawModuleData() const { return getModuleData(); }
-	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &c) const
+	const ModelConditionInfo *findBestInfo(const ModelConditionFlags &modelConditionFlags) const
 	{
-		return getW3DModelDrawModuleData()->findBestInfo(c);
+		return getW3DModelDrawModuleData()->findBestInfo(modelConditionFlags);
 	}
 };
 
@@ -289,17 +289,17 @@ Bool W3DScriptedModelDraw::getProjectileLaunchOffset(
 	if (!stateToUse)
 		return false;
 
-	const W3DModelDrawModuleData *d = getW3DModelDrawModuleData();
+	const W3DModelDrawModuleData *w3DModelDrawModuleData = getW3DModelDrawModuleData();
 	((Rva000C3886 *)stateToUse)->rva000C3886(NULL, ((const Rva000788D3FloatField *)getDrawable())->get(),
-		(Rva000C3886Range *)&d->m_extraPublicBones, (Rva000C3886Obj *)boneState, getDrawable()->m_bones);
+		(Rva000C3886Range *)&w3DModelDrawModuleData->m_extraPublicBones, (Rva000C3886Obj *)boneState, getDrawable()->m_bones);
 
 	Coord3D techOffset;
 	techOffset.x = 0.0f;
 	techOffset.y = 0.0f;
 	techOffset.z = 0.0f;
 	Matrix3D pivot;
-	if (!((const StringBase<char> *)&d->m_attachToDrawableBone)->isEmpty() &&
-		getDrawable()->getPristineBonePositions(d->m_attachToDrawableBone.str(), 0, NULL, &pivot, 1, 0) == 1)
+	if (!((const StringBase<char> *)&w3DModelDrawModuleData->m_attachToDrawableBone)->isEmpty() &&
+		getDrawable()->getPristineBonePositions(w3DModelDrawModuleData->m_attachToDrawableBone.str(), 0, NULL, &pivot, 1, 0) == 1)
 	{
 		pivot.Pre_Rotate_Z(getDrawable()->getOrientation());
 		techOffset.x = pivot.Get_X_Translation();

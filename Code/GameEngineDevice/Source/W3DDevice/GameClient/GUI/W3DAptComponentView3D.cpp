@@ -98,10 +98,10 @@ public:
 struct CameraViewportFields { char pad[0xC8]; Vector2 ViewportMin; Vector2 ViewportMax; char padD8[0xFC - 0xD8]; bool FrustumValid; };
 inline void CameraClass::Set_Viewport(const Vector2 &min, const Vector2 &max)
 {
-	CameraViewportFields *f = (CameraViewportFields *)this;
-	f->ViewportMin = min;
-	f->ViewportMax = max;
-	f->FrustumValid = false;
+	CameraViewportFields *cameraViewportFields = (CameraViewportFields *)this;
+	cameraViewportFields->ViewportMin = min;
+	cameraViewportFields->ViewportMax = max;
+	cameraViewportFields->FrustumValid = false;
 }
 // Display vtable slots 0x40/0x44 return the unsigned viewport extents.
 class Display {
@@ -301,9 +301,9 @@ void W3DAptComponentView3D::AddRenderObj(unsigned unused,const AsciiString &name
      light->ambient.set(0.5f,0.5f,0.5f);
      light->specular.set(0.5f,0.5f,0.5f);
      light->shadows=true;
-     const AptSphere &s=obj->bounds();
-     double end=2.0*s.radius;
-     double start=s.radius;
+     const AptSphere &aptSphere=obj->bounds();
+     double end=2.0*aptSphere.radius;
+     double start=aptSphere.radius;
      light->farStart=(float)start;
      light->farEnd=(float)end;
      scene->addLight(light,1);
