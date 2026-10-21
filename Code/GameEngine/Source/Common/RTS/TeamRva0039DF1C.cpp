@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva0039DF1C@Team@@QAE_NVBfmeFixedStorage0004543D@@0@Z 0x0039DF1C 107 Team member kind filter
+// ?hasAnyBuildings@Team@@QAE_NVBfmeFixedStorage0004543D@@0@Z 0x0039DF1C 107 Team member kind filter
 // Retail walks via rowed iterate 0x263864 and advance 0x263526, skips dead
 // Object+0x438 bit0 and status Object+0x94 bit0, template +0x108 sign and
 // 0x2000000 plus +0x11A bit 0x10, then rowed isKindOfMulti 0x0030AD7D on the
@@ -64,10 +64,10 @@ class Team
 {
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
-	bool rva0039DF1C(Rva0039DF1CFilter f1, Rva0039DF1CFilter f2);
+	bool hasAnyBuildings(Rva0039DF1CFilter f1, Rva0039DF1CFilter f2);
 };
 
-bool Team::rva0039DF1C(Rva0039DF1CFilter f1, Rva0039DF1CFilter f2)
+bool Team::hasAnyBuildings(Rva0039DF1CFilter f1, Rva0039DF1CFilter f2)
 {
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 		Object *cur = iter.cur();

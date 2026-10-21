@@ -76,10 +76,10 @@ public:
 	Bool rva0039EE21(Rva0039DDC2Filter filter, Bool flag);
 	Bool rva0039EE70(BfmeTab1026 *tab, Bool flag);
 	Bool hasAnyUnits();
-	Bool rva0039EEEE(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
+	Bool hasAnyBuildings(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
 	Bool rva0039EF46(BfmeTab1026 *tab);
 	Bool hasAnyObjects(Bool flag);
-	Bool rva0039EFC6();
+	Bool hasAnyBuildFacility();
 };
 
 // The player's team prototype list (an STL list node: next, prev, value).
@@ -203,7 +203,7 @@ Bool Player::rva002AB341(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2) c
 {
 	for (PlayerTeamNode *it = m_playerTeamPrototypes->m_next; it != m_playerTeamPrototypes; it = it->m_next)
 	{
-		if (it->m_value->rva0039EEEE(filter1, filter2))
+		if (it->m_value->hasAnyBuildings(filter1, filter2))
 			return true;
 	}
 	return false;
@@ -233,7 +233,7 @@ Bool Player::rva002AB3FA() const
 {
 	for (PlayerTeamNode *it = m_playerTeamPrototypes->m_next; it != m_playerTeamPrototypes; it = it->m_next)
 	{
-		if (it->m_value->rva0039EFC6())
+		if (it->m_value->hasAnyBuildFacility())
 			return true;
 	}
 	return false;

@@ -95,10 +95,10 @@ public:
 	Bool rva0039DDC2(Rva0039DDC2Filter filter, Bool flag);
 	Bool rva0039DE46(BfmeTab1026 *tab, Bool flag);
 	Bool hasAnyUnits();
-	Bool rva0039DF1C(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
+	Bool hasAnyBuildings(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
 	Bool rva0039DF87(BfmeTab1026 *tab);
 	Bool hasAnyObjects(Bool flag);
-	Bool rva0039E815();
+	Bool hasAnyBuildFacility();
 	Bool damageTeamMembers(Real amount);
 	void countObjectsByThingTemplate(Int numTmplates, const ThingTemplate* const* things, Bool ignoreDead, Int *counts, Bool ignoreUnderConstruction) const;
 
@@ -129,10 +129,10 @@ public:
 	Bool rva0039EE21(Rva0039DDC2Filter filter, Bool flag);
 	Bool rva0039EE70(BfmeTab1026 *tab, Bool flag);
 	Bool hasAnyUnits();
-	Bool rva0039EEEE(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
+	Bool hasAnyBuildings(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2);
 	Bool rva0039EF46(BfmeTab1026 *tab);
 	Bool hasAnyObjects(Bool flag);
-	Bool rva0039EFC6();
+	Bool hasAnyBuildFacility();
 	void damageTeamMembers(Real amount);
 
 private:
@@ -218,11 +218,11 @@ Bool TeamPrototype::hasAnyUnits()
 	return false;
 }
 
-Bool TeamPrototype::rva0039EEEE(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2)
+Bool TeamPrototype::hasAnyBuildings(Rva0039DF1CFilter filter1, Rva0039DF1CFilter filter2)
 {
 	for (DLINK_ITERATOR<Team> iter = iterate_TeamInstanceList(); !iter.done(); iter.advance())
 	{
-		if (iter.cur()->rva0039DF1C(filter1, filter2))
+		if (iter.cur()->hasAnyBuildings(filter1, filter2))
 			return true;
 	}
 	return false;
@@ -248,11 +248,11 @@ Bool TeamPrototype::hasAnyObjects(Bool flag)
 	return false;
 }
 
-Bool TeamPrototype::rva0039EFC6()
+Bool TeamPrototype::hasAnyBuildFacility()
 {
 	for (DLINK_ITERATOR<Team> iter = iterate_TeamInstanceList(); !iter.done(); iter.advance())
 	{
-		if (iter.cur()->rva0039E815())
+		if (iter.cur()->hasAnyBuildFacility())
 			return true;
 	}
 	return false;
