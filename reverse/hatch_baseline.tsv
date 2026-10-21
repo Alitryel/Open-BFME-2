@@ -5478,6 +5478,7 @@ class_gate_allow	Code/GameEngine/Source/GameNetwork/GameSpyOverlay.cpp	BfmeAudio
 class_gate_allow	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp	Coord2D	1	allow=76860afc702ba83d37adaa2e73c1a9f603769879
 class_gate_allow	Code/GameEngineDevice/Source/MilesAudioDevice/Rva006AD9B0GetAllowAudioReinitialize.cpp	AsciiString	1
 class_gate_allow	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawModuleData_parseEmbedPortal_Rva000C39F5.cpp	AsciiString	1
+class_gate_allow	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayGatherDebugStats.cpp	GameLogic	1	allow=48845b522189b0ba3f273d02e6bf51b0f643f898
 class_gate_allow	Code/Libraries/Source/Apt/AptActionInterpreterSetVariable.cpp	AptScriptFunctionBase	1
 class_gate_allow	Code/Libraries/Source/Apt/Rva0070A840Dtor.cpp	AsciiString	1
 class_gate_allow	Code/Libraries/Source/WWVegas/WWLib/stlport_list_asciistring_insert.cpp	AsciiString	1
@@ -20170,7 +20171,7 @@ pin	reverse/symbols.csv	0x0000295E	2
 pin	reverse/symbols.csv	0x00003227	1
 pin	reverse/symbols.csv	0x0000323B	1
 pin	reverse/symbols.csv	0x00003295	1
-pin	reverse/symbols.csv	0x000032B8	1	allow=c47598256d50a64291f3ec43a22b70b2899a43ff
+pin	reverse/symbols.csv	0x000032B8	1
 pin	reverse/symbols.csv	0x00003571	1
 pin	reverse/symbols.csv	0x00003702	3
 pin	reverse/symbols.csv	0x000052F8	1
@@ -20882,7 +20883,7 @@ pin	reverse/symbols.csv	0x000723C0	1
 pin	reverse/symbols.csv	0x0007243D	1
 pin	reverse/symbols.csv	0x00072892	4
 pin	reverse/symbols.csv	0x000728F0	1
-pin	reverse/symbols.csv	0x00072A94	1	allow=c47598256d50a64291f3ec43a22b70b2899a43ff
+pin	reverse/symbols.csv	0x00072A94	1
 pin	reverse/symbols.csv	0x00072AED	1
 pin	reverse/symbols.csv	0x00072B3A	1
 pin	reverse/symbols.csv	0x00072FE1	1
@@ -20899,7 +20900,7 @@ pin	reverse/symbols.csv	0x00075BD8	1
 pin	reverse/symbols.csv	0x00075E36	1
 pin	reverse/symbols.csv	0x00075E42	1
 pin	reverse/symbols.csv	0x000766F5	6
-pin	reverse/symbols.csv	0x0007671F	1	allow=c47598256d50a64291f3ec43a22b70b2899a43ff
+pin	reverse/symbols.csv	0x0007671F	1
 pin	reverse/symbols.csv	0x00076790	1
 pin	reverse/symbols.csv	0x00077F80	1
 pin	reverse/symbols.csv	0x00078246	2
@@ -21459,7 +21460,6 @@ pin	reverse/symbols.csv	0x000ECA4D	1
 pin	reverse/symbols.csv	0x000EDA94	1
 pin	reverse/symbols.csv	0x000EDB47	1
 pin	reverse/symbols.csv	0x000EEBF7	1
-pin	reverse/symbols.csv	0x000EEEF4	1
 pin	reverse/symbols.csv	0x000EF2C1	1
 pin	reverse/symbols.csv	0x000EF9CF	1
 pin	reverse/symbols.csv	0x000EFA4E	1
@@ -26340,7 +26340,7 @@ pin	reverse/symbols.csv	0x00425801	1
 pin	reverse/symbols.csv	0x00425B75	1
 pin	reverse/symbols.csv	0x00425DDD	1
 pin	reverse/symbols.csv	0x00425FEC	1
-pin	reverse/symbols.csv	0x004260FD	2	allow=cc5980ee4f50c166730d71d5a101d08a75d871d4
+pin	reverse/symbols.csv	0x004260FD	2
 pin	reverse/symbols.csv	0x004261B8	1
 pin	reverse/symbols.csv	0x00426402	1
 pin	reverse/symbols.csv	0x004264F4	1
@@ -27066,7 +27066,7 @@ pin	reverse/symbols.csv	0x004C2B0E	1
 pin	reverse/symbols.csv	0x004C2EF5	1
 pin	reverse/symbols.csv	0x004C3064	1
 pin	reverse/symbols.csv	0x004C30D8	1
-pin	reverse/symbols.csv	0x004C3121	7	allow=79c7d447ab7f87b5607029964e37b1603c990e73
+pin	reverse/symbols.csv	0x004C3121	7
 pin	reverse/symbols.csv	0x004C37C0	1
 pin	reverse/symbols.csv	0x004C38D5	1
 pin	reverse/symbols.csv	0x004C3A9F	3
@@ -27686,7 +27686,7 @@ pin	reverse/symbols.csv	0x0050722A	1
 pin	reverse/symbols.csv	0x00507522	1
 pin	reverse/symbols.csv	0x00507552	1
 pin	reverse/symbols.csv	0x00507823	1
-pin	reverse/symbols.csv	0x00507958	4	allow=79c7d447ab7f87b5607029964e37b1603c990e73
+pin	reverse/symbols.csv	0x00507958	4
 pin	reverse/symbols.csv	0x00507BB7	1
 pin	reverse/symbols.csv	0x00507C2D	1
 pin	reverse/symbols.csv	0x00508120	1
@@ -29763,7 +29763,7 @@ pin	reverse/symbols.csv	0x00659A20	1
 pin	reverse/symbols.csv	0x0065A920	1
 pin	reverse/symbols.csv	0x0065B650	1
 pin	reverse/symbols.csv	0x0065BB60	2
-pin	reverse/symbols.csv	0x0065CE90	11
+pin	reverse/symbols.csv	0x0065CE90	12	allow=137b84ced530fd484de56511d4342cbfb74c44f9
 pin	reverse/symbols.csv	0x0065CEA0	11
 pin	reverse/symbols.csv	0x0065CEE0	2
 pin	reverse/symbols.csv	0x0065CF10	2

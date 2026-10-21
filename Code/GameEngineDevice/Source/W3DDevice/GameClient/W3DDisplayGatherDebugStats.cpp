@@ -1,17 +1,20 @@
-// ?gatherDebugStats@W3DDisplay@@UAEXXZ
-// partial score=0.9968 date=2026-10-21
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
 // W3DDisplay::gatherDebugStats, retail 0x0004826C..0x00049271 (4101 bytes).
+// Zero Hour W3DDisplay::gatherDebugStats is the semantic guide (WB 0x967A20 is the
+// _INTERNAL build, which picks the drawable under the mouse instead). The release
+// moused-over lookup is spelled once per RMB arm: retail's stack packing needs the
+// two definitions of draw (weight 3 at StackPacking) that c2 tail-merges afterwards
+// into the single block at +0x8EE; the single-lookup Zero Hour form packs draw one
+// slot off. Behaviour is identical on both paths (concat, then the lookup).
 
 typedef unsigned short WChar;
 
-#include "../../reference/shims/bfme2_ascii/string_base.h"
-template <> void StringBase<char>::releaseBuffer() throw();
-#include "../../reference/shims/bfme2_ascii/ascii_string.h"
-#include "../../reference/shims/bfme2_ascii/unicode_string.h"
+#include "../../../../../reference/shims/bfme2_ascii/string_base.h"
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+#include "../../../../../reference/shims/bfme2_ascii/unicode_string.h"
 #define W(s) ((const WChar *)L##s)
 
-struct Coord3D { float x, y, z; };
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 enum PathfindLayerEnum { LAYER_INVALID = 0 };
 class GameFont;
 class FontLibrary { public: GameFont *getFont(const AsciiString *name, float size, bool bold); };
@@ -564,6 +567,7 @@ struct TerrainLogicVtbl
 struct NativeDebugDisplayFont { AsciiString name; int size; bool bold; };
 class GlobalLanguage { public: char m_pad[0xC8]; NativeDebugDisplayFont m_nativeDebugDisplay; };
 class GlobalData { public: char m_pad0[0x26]; bool m_useFpsLimit; char m_pad27; int m_framesPerSecondLimit; char m_pad2c[0x9C7 - 0x2C]; bool m_constantDebugUpdate; };
+// class-gate: allow GameLogic canonical view lacks getObjectCount (rowed 0x0023CFCE) that this body calls and keeps the +0x38/+0x40 words private
 class GameLogic { public: unsigned int getObjectCount(); int getTimestamp() const { return m_session; } int getFrame() const { return m_frame; } char m_pad[0x38]; int m_session; int m_pad3c; int m_frame; };
 class Keyboard { public: bool isShift(); bool isCtrl(); bool isAlt(); char m_pad[0xC]; unsigned char m_modifiers; };
 class Mouse { public: char m_pad[0x4F0C]; MouseIO m_currMouse; };
@@ -628,7 +632,10 @@ int __cdecl Rva00078BF4Get();
 __int64 __cdecl Rva00043024Get();
 __int64 __cdecl Rva0004300DGet();
 namespace EA { namespace Allocator { class GeneralAllocator; } }
-namespace MemoryPool { EA::Allocator::GeneralAllocator *GetHeapAllocatorByIndex(unsigned int index); }
+// Release MemoryPool::GetHeapAllocatorByIndex: retail calls the folded 3-byte zero-return body
+// at 0x65CE90 (WB wrapper 0x6FDCC0 via 0xDE03E0 supports the identity; the fold is below the
+// fold-proof minimum, so the call keeps an address-named placeholder).
+namespace MemoryPool { EA::Allocator::GeneralAllocator *Rva0065CE90(unsigned int index); }
 
 extern GlobalLanguage *TheGlobalLanguageData;
 extern FontLibrary *TheFontLibrary;
@@ -789,12 +796,12 @@ void W3DDisplay::gatherDebugStats(void)
 		m_displayStrings[14]->setText(unibuffer);
 
 		unibuffer.format(W("Video RAM: %d"), Debug_Statistics::Get_Record_Texture_Size());
-		if (MemoryPool::GetHeapAllocatorByIndex(0))
+		if (MemoryPool::Rva0065CE90(0))
 		{
 			unsigned int used = 0;
 			unsigned int peak = 0;
 			Rva006C1F60 *heap;
-			for (int i = 0; (heap = (Rva006C1F60 *)MemoryPool::GetHeapAllocatorByIndex(i)) != 0; i++)
+			for (int i = 0; (heap = (Rva006C1F60 *)MemoryPool::Rva0065CE90(i)) != 0; i++)
 			{
 				Slot64 *slot = heap->rva006C1AA0(3);
 				used += slot->m_used;
@@ -853,9 +860,15 @@ void W3DDisplay::gatherDebugStats(void)
 		const MouseIO *io = &TheMouse->m_currMouse;
 		if (io->leftState) unibuffer.concat(W("LMB "));
 		if (io->middleState) unibuffer.concat(W("MMB "));
-		if (io->rightState) unibuffer.concat(W("RMB "));
+		Drawable *draw;
+		if (io->rightState)
+		{
+			unibuffer.concat(W("RMB "));
+			draw = TheGameClient->findDrawableByID(TheInGameUI->getMousedOverDrawableID());
+		}
+		else
+			draw = TheGameClient->findDrawableByID(TheInGameUI->getMousedOverDrawableID());
 
-		Drawable *draw = TheGameClient->findDrawableByID(TheInGameUI->getMousedOverDrawableID());
 		Object *obj;
 		if (draw && (obj = draw->m_object) != 0)
 		{

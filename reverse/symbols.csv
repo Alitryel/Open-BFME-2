@@ -15936,3 +15936,4 @@ _atan2f,0x000422A0,math.h x86 inline atan2f (float)atan2((double)y(double)x): 0x
 ??0Matrix4@@QAE@XZ,0x0007671F,Matrix4 default ctor (Vector4 Row[4] through the vector constructor iterator; 22 B identical to the rowed placeholder ??0Rva0007671F@@QAE@XZ); called by SimpleStreak RenderStreak 0x00126433
 ??4Rva00087A93@@QAEAAV0@ABV0@@Z,0x00072A94,shadow FX holder operator= called by SimpleStreak RenderStreak 0x00126433 (rowed as ??4Rva00072A94@@QAEAAV0@ABV0@@Z)
 ?Rva000032B8@@YAMM@Z,0x000032B8,float-typed view of the rowed math wrapper ?Rva000032B8@@YANM@Z used by SimpleStreak RenderStreak 0x00126433
+?Rva0065CE90@MemoryPool@@YAPAVGeneralAllocator@Allocator@EA@@I@Z,0x0065CE90,release MemoryPool::GetHeapAllocatorByIndex called by W3DDisplay::gatherDebugStats at +0x5B5/+0x5E4; retail binds both calls to the folded 3-byte zero-return body; placeholder because the fold is below the fold-proof minimum
