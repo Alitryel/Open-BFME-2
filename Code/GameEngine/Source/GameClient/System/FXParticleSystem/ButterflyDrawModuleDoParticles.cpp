@@ -69,7 +69,7 @@ class Vector4 {public:
  // Constructors
  __forceinline Vector4() {}
  __forceinline Vector4(const Vector4 &vector4) {X=vector4.X;Y=vector4.Y;Z=vector4.Z;W=vector4.W;}
- __forceinline Vector4(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
+ __declspec(dllimport) __forceinline Vector4(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
  // Assignment
  __forceinline Vector4 &operator=(const Vector4 &v) {X=v.X;Y=v.Y;Z=v.Z;W=v.W;return *this;}
  __forceinline void Set(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
@@ -101,7 +101,10 @@ template<class T>class ShareBufferClass {public:T*Get_Array(){return Array;}priv
 extern ShareBufferClass<Vector3>*g_00E065C8;
 extern ShareBufferClass<Vector4>*g_00E065CC;
 class ShaderClass {public:unsigned ShaderBits;static ShaderClass _PresetAdditive2DShader,_PresetAlpha2DShader,_PresetAdditiveSpriteShader,_PresetAlphaSpriteShader,_PresetATestSpriteShader,_PresetMultiplicativeSpriteShader;void Enable_Fog(const char*);};
-extern ShaderClass g_00DB6250;
+// Use the existing four-byte particle shader storage owner.
+extern unsigned int BfmeParticleType2ShaderBits;
+// The existing world cache owns the complete matrix at RVA 009EE7C4.
+extern Matrix4 BFME2World;
 class TextureClass {public:void Release_Ref();};
 class BFME2ParticleTextureHandle {public:~BFME2ParticleTextureHandle(){if(Ptr)Ptr->Release_Ref();}TextureClass*Ptr;};
 class TextureAsset {public:static BFME2ParticleTextureHandle Get(const char*,int,int);};
@@ -109,7 +112,7 @@ template<class T>class RefCountPtr {public:const RefCountPtr&operator=(const Ref
 class Rva0090F8C0Holder {public:void set(int,RefCountClass*,RefCountClass*,RefCountClass*,RefCountClass*);};
 class Rva00177860 {public:void rva00177F82(RenderInfoClass&);void*refs[4];int count;RefCountPtr<TextureClass> texture;unsigned shader;float tail[4];};
 extern Rva00177860*g_00E06254;
-class DX8Wrapper {friend class FXParticleSystem::ButterflyDrawModule;protected:static unsigned render_state_changed;static Matrix4 DeviceProjectionMatrix;static bool FogEnable;private:static Matrix4 render_state_world,render_state_view;public:static __forceinline void Get_Transform(int t,Matrix4&m){switch((int)t){case 0x100:if(render_state_changed&0x40000)m.identity();else m=render_state_world.Transpose();break;case 2:if(render_state_changed&0x80000)m.identity();else m=render_state_view.Transpose();break;case 3:m=DeviceProjectionMatrix.Transpose();break;default:m.identity();break;}}};
+class DX8Wrapper {friend class FXParticleSystem::ButterflyDrawModule;protected:static unsigned render_state_changed;static Matrix4 DeviceProjectionMatrix;static bool FogEnable;private:static Matrix4 render_state_view;public:static __forceinline void Get_Transform(int t,Matrix4&m){switch((int)t){case 0x100:if(render_state_changed&0x40000)m.identity();else m=BFME2World.Transpose();break;case 2:if(render_state_changed&0x80000)m.identity();else m=render_state_view.Transpose();break;case 3:m=DeviceProjectionMatrix.Transpose();break;default:m.identity();break;}}};
 class WW3D {friend class FXParticleSystem::ButterflyDrawModule;static bool IsCurrentlyRenderingShadowMap;};
 class Rva001F4E2D {public:bool rva001F4E2D();};
 class Rva001F4D2D {public:float rva001F4D2D();};
@@ -172,7 +175,7 @@ int ButterflyDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*parti
  if(count>0){BFME2ParticleTextureHandle texture=TextureAsset::Get(getSystem()->texture.str(),0,0);
   if(g_00E06254){RefCountPtr<TextureClass>&dst=g_00E06254->texture;dst=*(RefCountPtr<TextureClass>*)&texture;
    ShaderClass shader=ShaderClass::_PresetAdditiveSpriteShader;
-   switch(getSystem()->shader){case 2:shader=g_00DB6250;break;case 3:shader=ShaderClass::_PresetAlphaSpriteShader;break;case 4:shader=ShaderClass::_PresetATestSpriteShader;break;case 5:shader=ShaderClass::_PresetMultiplicativeSpriteShader;break;case 6:shader=ShaderClass::_PresetAdditive2DShader;break;case 7:shader=ShaderClass::_PresetAlpha2DShader;break;}
+   switch(getSystem()->shader){case 2:shader=*reinterpret_cast<const ShaderClass *>(&BfmeParticleType2ShaderBits);break;case 3:shader=ShaderClass::_PresetAlphaSpriteShader;break;case 4:shader=ShaderClass::_PresetATestSpriteShader;break;case 5:shader=ShaderClass::_PresetMultiplicativeSpriteShader;break;case 6:shader=ShaderClass::_PresetAdditive2DShader;break;case 7:shader=ShaderClass::_PresetAlpha2DShader;break;}
    if(DX8Wrapper::FogEnable)shader.Enable_Fog("HardwareFog");g_00E06254->shader=shader.ShaderBits;
    ((Rva0090F8C0Holder*)g_00E06254)->set(count,(RefCountClass*)g_00E065C8,(RefCountClass*)g_00E065CC,0,0);g_00E06254->rva00177F82(rinfo);
   }
