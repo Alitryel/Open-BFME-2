@@ -125,7 +125,8 @@ class Rva00203B47Host {public:bool rva00203B47();};
 class GameClient;class View;extern GameLogic*TheGameLogic;extern GameClient*TheGameClient;extern View*TheTacticalView;extern GlobalData*TheWritableGlobalData;
 #define TheGlobalData ((const GlobalData*)TheWritableGlobalData)
 class TerrainTracksRenderObjClassSystem;extern TerrainTracksRenderObjClassSystem*TheTerrainTracksRenderObjClassSystem;class ScriptEngine;extern ScriptEngine*TheScriptEngine;
-extern HWND ApplicationHWnd;
+// WinMain owns the non-STRICT handle global; convert only at Win32 calls.
+extern void *ApplicationHWnd;
 extern int g_bfmeDisplayAnimationSyncClock,g_Va00DB3BDC;
 static int capturePending,captureIndex;extern int TheW3DFrameLengthInMsec;
 
@@ -144,7 +145,13 @@ bool __stdcall Rva0004538C(int value, unsigned int)
     return true;
 }
 
-void StatDebugDisplay();void Rva00043D69Callback();void Rva00043D96Callback();void Rva00043D3CCallback();
+class DebugDisplayInterface;
+struct _iobuf;
+typedef void DebugDisplayCallback(DebugDisplayInterface *, void *, _iobuf *);
+void StatDebugDisplay(DebugDisplayInterface *, void *, _iobuf *);
+void AnimDebugDisplay(DebugDisplayInterface *, void *, _iobuf *);
+void NetworkDebugDisplay(DebugDisplayInterface *, void *, _iobuf *);
+void SkirmishAIDebugDisplay(DebugDisplayInterface *, void *, _iobuf *);
 void Rva00079985Clear();
 class WW3D {public:static void Sync(unsigned);};
 class W3DDisplay {public:
@@ -236,18 +243,18 @@ void updateAverageFPS();void rva00043FB9();protected:void gatherAnimationDebuggi
 private:
 void rva00045213(char*,unsigned);void rva00047BC0(char*,unsigned,unsigned,const char*);
 public:
-char pad04[0x30-4]; void(*debugDisplayCallback)();char pad34[0x115-0x34];bool disabled;
+char pad04[0x30-4]; DebugDisplayCallback *debugDisplayCallback;char pad34[0x115-0x34];bool disabled;
 };
 // The slice index takes the count by const reference: retail's add eax,0xEA0 / mov ecx,[eax] in that arm is the materialized reference.
 inline int panoramaSliceIndex(int i,const int&count){return (i+count/2)%count;}
 void W3DDisplay::draw(){
- if(ApplicationHWnd && IsIconic(ApplicationHWnd))return;
+ if(ApplicationHWnd && IsIconic((HWND)ApplicationHWnd))return;
  updateAverageFPS();rva00043FB9();
  // compute debug statistics for display later
  if(debugDisplayCallback==StatDebugDisplay)W3DDisplay::gatherDebugStats();
- else if(debugDisplayCallback==Rva00043D69Callback)gatherAnimationDebuggingInfo();
- else if(debugDisplayCallback==Rva00043D96Callback)W3DDisplay::gatherNetworkStats();
- else if(debugDisplayCallback==Rva00043D3CCallback)gatherSkirmishAIStats();
+ else if(debugDisplayCallback==AnimDebugDisplay)gatherAnimationDebuggingInfo();
+ else if(debugDisplayCallback==NetworkDebugDisplay)W3DDisplay::gatherNetworkStats();
+ else if(debugDisplayCallback==SkirmishAIDebugDisplay)gatherSkirmishAIStats();
  bool freezeTime=!((FrameClient*)TheGameClient)->active;
  /// @todo: I'm assuming the first view is our main 3D view.
  W3DView*primaryW3DView=getFirstView();
@@ -283,7 +290,7 @@ void W3DDisplay::draw(){
    while(TheGlobalData->useFpsLimit && now-prevTime<minTime-1)now=timeGetTime();prevTime=now;}
   if(capturePending>0 && TheGlobalData->panoramaCount!=0){
    TheWritableGlobalData->panoramaMode=true;TheWritableGlobalData->panoramaStep=TWO_PI/TheGlobalData->panoramaCount;
-   RECT2 rect;GetClientRect(ApplicationHWnd,(RECT*)&rect);POINT2 point;point.x=rect.left;point.y=rect.top;ClientToScreen(ApplicationHWnd,(POINT*)&point);rect.left=point.x;rect.top=point.y;point.x=rect.right;point.y=rect.bottom;ClientToScreen(ApplicationHWnd,(POINT*)&point);rect.right=point.x;rect.bottom=point.y;
+   RECT2 rect;GetClientRect((HWND)ApplicationHWnd,(RECT*)&rect);POINT2 point;point.x=rect.left;point.y=rect.top;ClientToScreen((HWND)ApplicationHWnd,(POINT*)&point);rect.left=point.x;rect.top=point.y;point.x=rect.right;point.y=rect.bottom;ClientToScreen((HWND)ApplicationHWnd,(POINT*)&point);rect.right=point.x;rect.bottom=point.y;
    int width=rect.right-rect.left;int height=rect.bottom-rect.top;
    char*image=0;
    if(!TheGlobalData->panoramaIndividual)image=new char[width*3*height*TheGlobalData->panoramaCount];
