@@ -723,30 +723,8 @@ Bool OpenContain::isPassengerAllowedToFire( ObjectID id ) const
 	* to a new damage state, we will want to redeploy all our occupants to be at new fire
 	* points that are reflected in the new artwork */
 //-------------------------------------------------------------------------------------------------
-// ?OpenContain::monitorConditionChanges present-unmatched
-void OpenContain::monitorConditionChanges( void )
-{
-	Drawable *draw = getObject()->getDrawable();
-	Bool stateChanged = false;
-	ModelConditionFlags currCondition;
-
-	if( draw )
-	{
-		currCondition = draw->getModelConditionFlags();
-		if(currCondition != m_conditionState )
-			stateChanged = TRUE;
-	}
-
-	// on a state change we should redeploy our occupants
-	if( stateChanged )
-	{
-		// just yank all objects from the fire points and redeploy
-		redeployOccupants();
-		// record this as our current and up to date state
-		m_conditionState = currCondition;
-	}
-
-}  // end monitorConditionChanges
+// OpenContain::monitorConditionChanges: retail's body is the row at 0x00462C72
+// (OpenContainRva00462C72.cpp); this unit only declares it, so its vtable binds there.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

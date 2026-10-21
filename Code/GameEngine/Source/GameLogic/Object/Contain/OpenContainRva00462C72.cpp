@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva00462C72@OpenContain@@UAEXXZ, retail 0x00462C72, 97 bytes.
+// ?monitorConditionChanges@OpenContain@@MAEXXZ, retail 0x00462C72, 97 bytes.
 // Virtual slot 17 (offset 0x44) shared by OpenContain/CaveContain/HealContain
 // and 13 other Contain vtables (packet lists 16 vtables, e.g. 0x008435E8,
 // 0x00843CB8, 0x00844278). Compares the 0x4C-byte store at +0x84 against the
@@ -8,7 +8,9 @@
 // then copies. Evidence: vtable slot 17, rowed callees Thing::getDrawable
 // 0x005508E2, memset import 0x006291AE, Rva00045473Equal 0x00045473 (0x4C
 // memcmp predicate). Layout: +8 Thing*, +0x84 0x4C store (OpenContainCtor
-// precedent). Honest address name: class plus slot proven, method identity not.
+// precedent). Named from ZH OpenContain::monitorConditionChanges: same
+// compare and copy of the drawable's model-condition flags, calling slot 18
+// (redeployOccupants, 0x00464286) on a change.
 
 extern "C" void *__cdecl memset(void *dst, int c, unsigned int count);
 bool Rva00045473Equal(const void *a, const void *b);
@@ -40,7 +42,9 @@ class OpenContain
 public:
 	SLOT16(s0)
 	virtual void s16();
-	virtual void rva00462C72();
+protected:
+	virtual void monitorConditionChanges();	// slot 17, ZH OpenContain::monitorConditionChanges
+public:
 	virtual void s18();
 	const void *m_moduleData;
 	Thing *m_thing;
@@ -48,7 +52,7 @@ public:
 	Store84 m_store84;
 };
 
-void OpenContain::rva00462C72()
+void OpenContain::monitorConditionChanges()
 {
 	Store84 tmp;
 	Drawable *drawable = m_thing->getDrawable();
