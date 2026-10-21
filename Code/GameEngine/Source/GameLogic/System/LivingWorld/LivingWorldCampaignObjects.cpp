@@ -33,15 +33,15 @@ class SpawnArmy:public Snapshot{public:SpawnArmy(int);virtual ~SpawnArmy();
  virtual void loadPostProcess();
  virtual const char *GetSnapshotName()const;
  virtual void xfer(Xfer*);
- AsciiString m_04,m_08,m_0c,m_10,m_14,m_18,m_1c;
- float m_20,m_24;
- AsciiString m_28,m_2c,m_30,m_34;
- _STL::vector<AsciiString> m_38;
- float m_44;int m_48,m_4c;AsciiString m_50;bool m_54,m_55;
+ AsciiString m_04,m_08,m_constructButtonImage,m_constructButtonTitle,m_14,m_18,m_1c;
+ float m_position,m_24;
+ AsciiString m_initialRegion,m_playerArmy,m_palantirMovie,m_iconSize;
+ _STL::vector<AsciiString> m_spawnForTemplates;
+ float m_moveSpeed;int m_buildTime,m_4c;AsciiString m_heroTemplateName;bool m_isCity,m_spawnAtActStart;
 };
-SpawnArmy::SpawnArmy(int index):m_20(0.0f),m_24(0.0f),m_2c(AsciiString::TheEmptyString),m_48(1),m_4c(index),m_54(false),m_55(true){
- if(TheLivingWorldManager) m_44=((const SpawnManagerCostView *)TheLivingWorldManager)->revivalCost;
- else m_44=5.0f;
+SpawnArmy::SpawnArmy(int index):m_position(0.0f),m_24(0.0f),m_playerArmy(AsciiString::TheEmptyString),m_buildTime(1),m_4c(index),m_isCity(false),m_spawnAtActStart(true){
+ if(TheLivingWorldManager) m_moveSpeed=((const SpawnManagerCostView *)TheLivingWorldManager)->revivalCost;
+ else m_moveSpeed=5.0f;
 }
 
 SpawnArmy::~SpawnArmy() {}
@@ -142,20 +142,20 @@ void SpawnArmy::xfer(Xfer *stream)
 	Rva004E12D7Parse(&xfer, &m_4c);
 	xfer == m_04;
 	xfer == m_08;
-	xfer == *(Coord2D *)&m_20;
-	xfer == m_2c;
-	xfer == m_30;
-	xfer == m_34;
-	xferAsciiStringVector(&xfer, &m_38);
-	xfer == m_54;
-	xfer == m_50;
-	xfer == m_44;
-	xfer == m_55;
+	xfer == *(Coord2D *)&m_position;
+	xfer == m_playerArmy;
+	xfer == m_palantirMovie;
+	xfer == m_iconSize;
+	xferAsciiStringVector(&xfer, &m_spawnForTemplates);
+	xfer == m_isCity;
+	xfer == m_heroTemplateName;
+	xfer == m_moveSpeed;
+	xfer == m_spawnAtActStart;
 	if (version.m_minimum >= 2) {
 		xfer == m_18;
 	}
 	if (version.m_minimum >= 3) {
-		xfer == m_28;
+		xfer == m_initialRegion;
 		xfer == m_1c;
 	}
 }
@@ -253,7 +253,7 @@ const Image *SpawnArmy::GetButtonImage(int id) {
   void *hero=((LivingWorldPlayer*)player)->rva002E06EF();
   if(!hero)return missing;
   image=TheMappedImageCollection->findImageByName(TheCreateAHeroManager->GetButtonImageName((const CreateAHeroHero*)hero));
- } else image=TheMappedImageCollection->findImageByName(m_0c);
+ } else image=TheMappedImageCollection->findImageByName(m_constructButtonImage);
  return image?image:missing;
 }
 
@@ -294,7 +294,7 @@ class GameTextInterface { public:
 };
 extern GameTextInterface *TheGameText;
 UnicodeString Rva00319CED::rva004E25AF(int id) {
- UnicodeString title=TheGameText->fetch(((SpawnArmy*)this)->m_10);
+ UnicodeString title=TheGameText->fetch(((SpawnArmy*)this)->m_constructButtonTitle);
  void *thing=rva004E23E2();
  if(thing && (*((unsigned char*)thing+0x11f)&0x40)) {
   Rva002B2579Result *building=((Rva002BA8F1Logic*)TheLivingWorldLogic)->rva002B2579(id);
@@ -386,10 +386,10 @@ UnicodeString Rva00319CED::rva004E265F(int id)
  static AsciiString plural("CONTROLBAR:LW_Unit_BuildTimeAndCostPlural");
  bool found=false;
  UnicodeString cost;
- if(spawn->m_48==1)cost=TheGameText->fetch(singular,&found);
+ if(spawn->m_buildTime==1)cost=TheGameText->fetch(singular,&found);
  else cost=TheGameText->fetch(plural,&found);
  if(!found)return help;
- int duration=spawn->m_48;
+ int duration=spawn->m_buildTime;
  cost.format(&cost,duration,rva004E1755());
  help+=cost;
  if(!rva00319CED())return help;
