@@ -25,15 +25,18 @@ struct Rva00030DD0Lock;
 int Rva00030DD0AddRef(Rva00030DD0Lock *lock);
 int Rva00030DF0Release(Rva00030DD0Lock *lock);
 
-class Rva00030DD0Guard
+// TU-local view: this function's normal-exit cleanup calls the shared release
+// helper, so it must not emit the pinned ??1Rva00030DD0Guard COMDAT that the
+// funclet units resolve to 0x000317C0.
+class Rva006C1E20Guard
 {
 public:
-	Rva00030DD0Guard(Rva00030DD0Lock *lock) : m_lock(lock)
+	Rva006C1E20Guard(Rva00030DD0Lock *lock) : m_lock(lock)
 	{
 		if (m_lock != 0)
 			Rva00030DD0AddRef(m_lock);
 	}
-	~Rva00030DD0Guard()
+	~Rva006C1E20Guard()
 	{
 		if (m_lock != 0)
 			Rva00030DF0Release(m_lock);
@@ -71,7 +74,7 @@ private:
 
 bool Rva006C1F60::rva006C1E20(const void *block, int addressType)
 {
-	Rva00030DD0Guard guard(m_lock);
+	Rva006C1E20Guard guard(m_lock);
 	unsigned char *tag = (unsigned char *)&addressType;
 	bool result;
 	if (*tag != 0)
