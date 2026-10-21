@@ -63,12 +63,12 @@ typedef char RegisterContextSize[sizeof(AptActionInterpreter::LocalContextT)==28
 typedef char RegisterFunctionOffset[offsetof(AptActionInterpreter,mpCurrentFunction)==0x30 ? 1 : -1];
 typedef char RegisterThrownOffset[offsetof(AptActionInterpreter,mpThrownValue)==0x60 ? 1 : -1];
 
-void AptActionInterpreter::_FunctionAptActionStoreRegister(AptActionInterpreter *const p, LocalContextT *const c)
+void AptActionInterpreter::_FunctionAptActionStoreRegister(AptActionInterpreter *const interpreter, LocalContextT *const context)
 {
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    const int *data=(const int *)c->pInstruction;
-    c->pInstruction+=4;
-    AptScriptFunctionBase::SetRegisterValue(*data,p->stack.At(0));
+    context->pInstruction=(const unsigned char *)(((unsigned int)context->pInstruction+3)&~3U);
+    const int *data=(const int *)context->pInstruction;
+    context->pInstruction+=4;
+    AptScriptFunctionBase::SetRegisterValue(*data,interpreter->stack.At(0));
 }
 
 // Target 706070..706234; donor supplies semantics; native proves +30 function,
