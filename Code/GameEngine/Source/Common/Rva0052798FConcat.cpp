@@ -9,7 +9,7 @@ public:
 	virtual int getLength() const = 0;
 	virtual void _gap() const = 0;
 	virtual int getChars(T *dest) const = 0;
-	virtual ~CharSource() {}
+	~CharSource() {}
 };
 class CharSourceNarrow0052798F : public CharSource<char>
 {
