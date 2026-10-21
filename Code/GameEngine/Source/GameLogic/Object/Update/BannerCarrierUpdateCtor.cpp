@@ -24,7 +24,7 @@ void __identifier("??_GRva004969FF@@UAEPAXI@Z")();
 void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
 void __identifier("?name@Rva00496A18Named@@QBEPBDXZ")();
 void __identifier("?xfer@Rva0047F94C@@QAEXPAVXfer@@@Z")();
-void __identifier("?rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@BannerCarrierUpdate@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
 void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
@@ -35,7 +35,7 @@ extern "C" const void *const vtbl_00C4F838[13] = {
 	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
 	(const void *)&__identifier("?name@Rva00496A18Named@@QBEPBDXZ"), // slot 2 0x00496A18
 	(const void *)&__identifier("?xfer@Rva0047F94C@@QAEXPAVXfer@@@Z"), // slot 3 0x0047F94C
-	(const void *)&__identifier("?rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ"), // slot 4 0x00496A1E
+	(const void *)&__identifier("?getModuleNameKey@BannerCarrierUpdate@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x00496A1E
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0

@@ -26,7 +26,7 @@ void __identifier("??_GRva0078B83@@UAEPAXI@Z")();
 void __identifier("?rva000CA132@Rva000CA132@@QAEXXZ")();
 void __identifier("?name@Rva00078B7DNamed@@QBEPBDXZ")();
 void __identifier("?xfer@W3DHordeModelDraw@@MAEXPAVXfer@@@Z")();
-void __identifier("?rva000078B38@W3DHordeModelDraw@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@W3DHordeModelDraw@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?onDrawableBoundToObject@W3DHordeModelDraw@@QAEXXZ")();
 void __identifier("?rva000B7C18@W3DScriptedModelDraw@@QAEXXZ")();
@@ -86,7 +86,7 @@ extern const void *const g_00BC68F0[68] = {
 	(const void *)&__identifier("?rva000CA132@Rva000CA132@@QAEXXZ"), // slot 1 0x000CA132
 	(const void *)&__identifier("?name@Rva00078B7DNamed@@QBEPBDXZ"), // slot 2 0x00078B7D
 	(const void *)&__identifier("?xfer@W3DHordeModelDraw@@MAEXPAVXfer@@@Z"), // slot 3 0x00078BBB
-	(const void *)&__identifier("?rva000078B38@W3DHordeModelDraw@@SA?AW4NameKeyType@@XZ"), // slot 4 0x00078B38
+	(const void *)&__identifier("?getModuleNameKey@W3DHordeModelDraw@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x00078B38
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("?onDrawableBoundToObject@W3DHordeModelDraw@@QAEXXZ"), // slot 6 0x0007A7DD
 	(const void *)&__identifier("?rva000B7C18@W3DScriptedModelDraw@@QAEXXZ"), // slot 7 0x000B7C18

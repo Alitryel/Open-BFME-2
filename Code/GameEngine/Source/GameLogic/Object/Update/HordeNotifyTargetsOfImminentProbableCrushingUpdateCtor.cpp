@@ -26,7 +26,7 @@ void __identifier("??_GRva00253E19@@UAEPAXI@Z")();
 void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
 void __identifier("?name@Rva00253DF7Named@@QBEPBDXZ")();
 void __identifier("?xfer@NotifyTargetsOfImminentProbableCrushingUpdate@@MAEXPAVXfer@@@Z")();
-void __identifier("?rva000253DB2@HordeNotifyTargetsOfImminentProbableCrushingUpdate@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@HordeNotifyTargetsOfImminentProbableCrushingUpdate@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
 void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
@@ -37,7 +37,7 @@ extern "C" const void *const vtbl_00BF17F8[13] = {
 	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
 	(const void *)&__identifier("?name@Rva00253DF7Named@@QBEPBDXZ"), // slot 2 0x00253DF7
 	(const void *)&__identifier("?xfer@NotifyTargetsOfImminentProbableCrushingUpdate@@MAEXPAVXfer@@@Z"), // slot 3 0x004CEE39
-	(const void *)&__identifier("?rva000253DB2@HordeNotifyTargetsOfImminentProbableCrushingUpdate@@SA?AW4NameKeyType@@XZ"), // slot 4 0x00253DB2
+	(const void *)&__identifier("?getModuleNameKey@HordeNotifyTargetsOfImminentProbableCrushingUpdate@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x00253DB2
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0

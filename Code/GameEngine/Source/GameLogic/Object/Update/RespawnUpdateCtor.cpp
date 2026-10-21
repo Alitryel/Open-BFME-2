@@ -24,7 +24,7 @@ void __identifier("??_GRva004AF17D@@QAEPAXI@Z")();
 void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
 void __identifier("?name@Rva004AF15BNamed@@QBEPBDXZ")();
 void __identifier("?xfer@RespawnUpdate@@MAEXPAVXfer@@@Z")();
-void __identifier("?rva004AF116@RespawnUpdate@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?getModuleNameKey@RespawnUpdate@@UBE?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
 void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
 void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
@@ -38,7 +38,7 @@ extern const void *const g_00C556B0[16] = {
 	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
 	(const void *)&__identifier("?name@Rva004AF15BNamed@@QBEPBDXZ"), // slot 2 0x004AF15B
 	(const void *)&__identifier("?xfer@RespawnUpdate@@MAEXPAVXfer@@@Z"), // slot 3 0x004AF00B
-	(const void *)&__identifier("?rva004AF116@RespawnUpdate@@SA?AW4NameKeyType@@XZ"), // slot 4 0x004AF116
+	(const void *)&__identifier("?getModuleNameKey@RespawnUpdate@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x004AF116
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0

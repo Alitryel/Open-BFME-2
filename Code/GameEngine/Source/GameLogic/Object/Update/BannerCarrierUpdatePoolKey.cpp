@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ @0x496a1e
+// ?getModuleNameKey@BannerCarrierUpdate@@UBE?AW4NameKeyType@@XZ @0x496a1e
 // (69B): cached pool-name key for BannerCarrierUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("BannerCarrierUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BannerCarrierUpdate
 {
 public:
-	static NameKeyType rva000496A1E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType BannerCarrierUpdate::rva000496A1E()
+// ?getModuleNameKey@BannerCarrierUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType BannerCarrierUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheBannerCarrierUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("BannerCarrierUpdate");
