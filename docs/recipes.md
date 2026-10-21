@@ -316,7 +316,12 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   the clamps and both loops closed the body, at the same code size. A
   factorial over alias placement and cell-pointer temps found it in 288
   compiles. Reproduce the effect in a small probe first; it showed the alias
-  flips the order.
+  flips the order. Paren nodes are an independent lever for the same flips:
+  another seat's bank, with three SIB sites flipped, closed without the alias
+  through two FP parens, `fabs((height-heights[i]))` plus
+  `fabs((entry->getHeight()-h))` or a paren around one FLOOR/CEIL argument.
+  Each paren alone fixed those sites and flipped another one; only the pair
+  fixed all of them.
 - **Same store in both arms keeps a constant register local.** When retail
   keeps a zero (or other constant) register live only inside one block,
   write the source's if/else with the shared store repeated in both arms
