@@ -124,9 +124,9 @@ struct Rva00287C21Other
 	Int m_watchCount;					// +0x49C, -1 when not watching
 	void *m_watchList;					// +0x4A0
 };
-static inline unsigned int TemplateKindBits(const ThingTemplate *tmpl)
+static inline unsigned int TemplateKindBits(const ThingTemplate *thingTemplate)
 {
-	return *(const unsigned int *)((const char *)tmpl + 0x108);
+	return *(const unsigned int *)((const char *)thingTemplate + 0x108);
 }
 
 // The flammability a template gives its cell (WB reads it at +0x314).
@@ -325,7 +325,7 @@ private:
 };
 
 // ?rva00286373@FireLogicSystem@@QAEXHPBUCoord3D@@PBVThingTemplate@@@Z @0x00286373
-void FireLogicSystem::rva00286373(Int id, const Coord3D *pos, const ThingTemplate *tmpl)
+void FireLogicSystem::rva00286373(Int id, const Coord3D *pos, const ThingTemplate *thingTemplate)
 {
 	float fx = (float)floor(pos->x * 0.1f + 0.5);
 	Int x = FloatToLong(fx);
@@ -337,7 +337,7 @@ void FireLogicSystem::rva00286373(Int id, const Coord3D *pos, const ThingTemplat
 		node->m_id = id;
 		node->m_next = m_cells[x][y].m_objects;
 		m_cells[x][y].m_objects = node;
-		ChangeCellToObjectFlammability(x, y, tmpl);
+		ChangeCellToObjectFlammability(x, y, thingTemplate);
 	}
 }
 
@@ -423,9 +423,9 @@ void FireLogicSystem::ResetCellToOriginalFlammability(Int x, Int y)
     cell->m_field31 = 0;
 }
 
-void FireLogicSystem::ChangeCellToObjectFlammability(Int x, Int y, const ThingTemplate *tmpl)
+void FireLogicSystem::ChangeCellToObjectFlammability(Int x, Int y, const ThingTemplate *thingTemplate)
 {
-	const FlammabilityData *data = (const FlammabilityData *)((const char *)tmpl + 0x314);
+	const FlammabilityData *data = (const FlammabilityData *)((const char *)thingTemplate + 0x314);
 	Cell *cell = &m_cells[x][y];
 	cell->m_fuel = data->m_fuel;
 	cell->m_flammability = data->m_flammability;
@@ -551,7 +551,7 @@ void FireLogicSystem::ChangeBurnRateInArea(const Coord3D *pos, float radius, Int
 	float fr = (float)ceil(radius * 0.1f);
 	Int rad = FloatToLong(fr);
 	Int y = rad;
-	Int d = 0;
+	Int distance = 0;
 	Int err = 2 - 2 * rad;
 	Int bot = cx;
 	Int top = cx;
@@ -559,7 +559,7 @@ void FireLogicSystem::ChangeBurnRateInArea(const Coord3D *pos, float radius, Int
 		if (err + y > 0) {
 			if (y == 0) {
 				if (rad == 1) {
-					d++;
+					distance++;
 					bot++;
 					top--;
 				}
@@ -571,12 +571,12 @@ void FireLogicSystem::ChangeBurnRateInArea(const Coord3D *pos, float radius, Int
 			y--;
 			err += 1 - 2 * y;
 		}
-		if (d <= err)
+		if (distance <= err)
 			continue;
-		d++;
+		distance++;
 		bot++;
 		top--;
-		err += 2 * d + 1;
+		err += 2 * distance + 1;
 	}
 }
 
@@ -593,7 +593,7 @@ void FireLogicSystem::ChangeBurnRateInArea(const Coord3D *pos, float radius, con
 	float fr = (float)ceil(radius * 0.1f);
 	Int rad = FloatToLong(fr);
 	Int y = rad;
-	Int d = 0;
+	Int distance = 0;
 	Int err = 2 - 2 * rad;
 	Int bot = cx;
 	Int top = cx;
@@ -601,7 +601,7 @@ void FireLogicSystem::ChangeBurnRateInArea(const Coord3D *pos, float radius, con
 		if (err + y > 0) {
 			if (y == 0) {
 				if (rad == 1) {
-					d++;
+					distance++;
 					bot++;
 					top--;
 				}
@@ -613,12 +613,12 @@ void FireLogicSystem::ChangeBurnRateInArea(const Coord3D *pos, float radius, con
 			y--;
 			err += 1 - 2 * y;
 		}
-		if (d <= err)
+		if (distance <= err)
 			continue;
-		d++;
+		distance++;
 		bot++;
 		top--;
-		err += 2 * d + 1;
+		err += 2 * distance + 1;
 	}
 }
 
