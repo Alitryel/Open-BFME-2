@@ -349,6 +349,16 @@ node:b is in every one of entry:12's blocks (cc0bfc, cc0d8c, cc0e54, cc0f1c, cc0
 
 None is reachable from the loop-1 shapes tried so far. The remaining untested family is a change outside loop 1 that alters **which records exist at R2** (R1's 19-record group and its complex split on c30d88), so that count:5, this:7f, victim:7e or entry:12 reach R2 with a different set or priority. Screen candidates with `t55.txt` (w3 order and arg3 pieces at R2) and `t50.txt` (entry:12's neighbour set) before scoring. A body is a candidate when R2's group no longer contains node, or contains fewer than 3 records.
 
+### Fourth pass, addendum (score screens, no tracer)
+
+Bank unchanged at `2196 25 0.95334`. All of these were scored with `vrun.sh`; none changes loop 1 from the NODE state.
+
+| Trial | Result |
+|---|---|
+| Address-taken node: `AmoebaNode *node; AmoebaNode **cur=&node;` (at1), loop through `*cur` (at2), `AmoebaNode *node[1]` (at3) | 2196 27 / 2196 27 / 2196 25 identical. c2 resolves the pointer, so node stays a register candidate |
+| Sort element types, 2^5 factorial (`fxgen.txt`, writes `fx/v*.cpp` from `bank.cpp`): `int m_04`, `Object *m_08` without casts, `if(!unit)` split from the flags test, `bool forcePosition` declared before loop 1, source pointer `p` into `ordered` | the first four do nothing in any combination (2196 25). The source pointer `p` gives 2196 29 0.95107, worse |
+| WB twin, loop 1 | `parent` / `if(parent) victim=parent` store to the argument and the WB statement order match the bank. WB keeps `info` as a pointer local, so dropping the entry variable contradicts the twin; it was not tried |
+
 ## Open leads for the next session (ranked)
 
 0. **(Fourth pass, highest.)** Change R2's record population from outside loop 1 (R1's group and split), screened with `t55.txt`/`t50.txt`; see "Fourth pass". The neighbour and pop-order routes are closed at the c2 level.
