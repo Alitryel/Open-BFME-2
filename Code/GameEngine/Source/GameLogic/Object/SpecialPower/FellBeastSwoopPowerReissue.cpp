@@ -1,6 +1,7 @@
 // cl: /DNDEBUG /MD /GX
 //
-// FellBeastSwoopPower slot 17 (vftable 0x00C5DF80), retail 0x004C6E06, 67
+// FellBeastSwoopPower::triggerAbilityEffect, slot 17 (vftable 0x00C5DF80; the
+// slot-17 name of 23 sibling special-ability tables), retail 0x004C6E06, 67
 // bytes, on the primary this, and the two AICommandInterface commands it
 // issues, which retail emits as copies in this unit beside it.
 //
@@ -14,7 +15,7 @@
 // The commands build the stack AICommandParms through the rowed ctor
 // 0x00351BD0 and free its coordinate buffer inline on the way out, the recipe
 // of the rowed AICommandInterface commands (AICommandInterfaceAttackCommands.cpp,
-// Rva00336B23AICommand.cpp). Names by address.
+// Rva00336B23AICommand.cpp). The commands keep address names.
 extern "C" void __cdecl free(void *p);
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
@@ -94,7 +95,7 @@ class FellBeastSwoopPower
 {
 public:
 	virtual ~FellBeastSwoopPower();
-	virtual void rva004C6E06();
+	virtual void triggerAbilityEffect();
 private:
 	const ModuleData *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
@@ -117,7 +118,7 @@ void AICommandInterface::aiAttackLevelPosition(const Coord3D *pos, CommandSource
 	aiDoCommand(&parms);
 }
 
-void FellBeastSwoopPower::rva004C6E06()
+void FellBeastSwoopPower::triggerAbilityEffect()
 {
 	AIUpdateInterface *ai = Object::getAI(m_object);
 	if (ai == 0)

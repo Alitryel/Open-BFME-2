@@ -1,13 +1,13 @@
 // cl: /DNDEBUG /MD
 //
-// EvacuateGarrisonSpecialPower primary slot 19 (vtable 0x00C5FC28), retail
-// 0x004CDCB4 (78 bytes): the SpecialAbilityUpdate slot-19 base 0x00451B92
-// (the slot-19 entry of 26 special-ability vtables, SpecialAbilityUpdate's own
-// 0x00C3FBA8 among them; pinned by address), then, when the Object has an AI
+// EvacuateGarrisonSpecialPower::finishAbility, primary slot 19 (vtable
+// 0x00C5FC28), retail 0x004CDCB4 (78 bytes): the base
+// SpecialAbilityUpdate::finishAbility 0x00451B92 (the slot-19 entry of 26
+// special-ability vtables, SpecialAbilityUpdate's own 0x00C3FBA8 among them;
+// 23 sibling tables name slot 19 finishAbility), then, when the Object has an AI
 // and the Object recorded at +0x40 still exists, status 0x5D is set on our
 // Object and the AI gets the rowed AICommandInterface command 0x0036EBB8 on
-// that Object, from the command source its slot 143 reports. Named by the
-// base's address.
+// that Object, from the command source its slot 143 reports.
 enum ObjectID
 {
 	INVALID_ID = 0
@@ -67,7 +67,7 @@ public:
 	VSLOTS10(s0);
 	virtual void s10(); virtual void s11(); virtual void s12(); virtual void s13();
 	virtual void s14(); virtual void s15(); virtual void s16(); virtual void s17();
-	virtual void rva00451B92();
+	virtual void finishAbility();
 protected:
 	const ModuleData *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
@@ -77,11 +77,11 @@ protected:
 class EvacuateGarrisonSpecialPower : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva00451B92();
+	virtual void finishAbility();
 };
-void EvacuateGarrisonSpecialPower::rva00451B92()
+void EvacuateGarrisonSpecialPower::finishAbility()
 {
-	SpecialAbilityUpdate::rva00451B92();
+	SpecialAbilityUpdate::finishAbility();
 	Object *self = m_object;
 	AIUpdateInterface *ai = self->getAI();
 	if (ai == 0)
@@ -92,8 +92,3 @@ void EvacuateGarrisonSpecialPower::rva00451B92()
 	self->setStatus(OBJECT_STATUS_5D, true);
 	ai->getCommandInterface()->rva0036EBB8(target, ai->rvaSlot143());
 }
-
-// Placeholder virtuals this unit's vftables hold.  In retail each such slot
-// holds a rowed function; the vftable's address is proven by the vptr stores in
-// the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?rva00451B92@SpecialAbilityUpdate@@UAEXXZ=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")

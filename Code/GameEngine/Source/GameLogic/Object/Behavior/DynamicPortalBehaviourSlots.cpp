@@ -5,12 +5,15 @@
 // 0x00461257 (the one its slot-1 loadPostProcess tail-calls). The matched ctor
 // 0x00460B6C installs, over UpgradeModule, the BehaviorModuleInterface vtable
 // 0x00C42808 at +0x0C and 0x00C427A8 at +0x20; each override is compiled with
-// its subobject this. Names are by address.
+// its subobject this. Names follow the sibling tables: slot 45 of the +0x0C
+// table is mapLoadPostProcess (CastleMemberBehavior, ThreatFinderUpdate,
+// CastleBehavior), slot 1 of the four-slot create interface at +0x20 is
+// onBuildComplete (SupplyCenterCreate, ExperienceLevelCreate, SpecialPowerCreate).
 //
-// ?rva00461284@DynamicPortalBehaviour@@UAEXH@Z, retail 0x00461284, 22 bytes:
+// ?mapLoadPostProcess@DynamicPortalBehaviour@@UAEXH@Z, retail 0x00461284, 22 bytes:
 // +0x0C slot 45 (the argument unread); runs the member unless TheGameLogic's
 // +0x6E flag is set.
-// ?rva0046132F@DynamicPortalBehaviour@@UAEXXZ, retail 0x0046132F, 12 bytes:
+// ?onBuildComplete@DynamicPortalBehaviour@@UAEXXZ, retail 0x0046132F, 12 bytes:
 // +0x20 slot 1; clears +0x3D, then runs the member.
 #include "../../../../../Libraries/Source/WWVegas/WWLib/Object872.h"
 
@@ -49,7 +52,7 @@ protected:
 class BehaviorModuleInterface : public Rva00461284Slots<45>
 {
 public:
-	virtual void rva00461284(int a1) = 0;
+	virtual void mapLoadPostProcess(int a1) = 0;
 };
 
 struct Iface10 : public Rva00461284Slots<10> { virtual void upgradeImplementation() = 0; unsigned char m_pad[4]; };
@@ -60,7 +63,7 @@ class Rva0046132FIface
 {
 public:
 	virtual void gap0() = 0;
-	virtual void rva0046132F() = 0;
+	virtual void onBuildComplete() = 0;
 };
 
 class UpgradeModule : public BehaviorModule, public BehaviorModuleInterface, public Iface10, public Iface18, public Iface1C, public Rva0046132FIface
@@ -73,9 +76,9 @@ class DynamicPortalBehaviour : public UpgradeModule
 {
 public:
 	void createWaypoints();	// 0x00460F90, rowed in DynamicPortalBehaviourCreateWaypoints.cpp
-	virtual void rva00461284(int a1);
+	virtual void mapLoadPostProcess(int a1);
 	virtual void upgradeImplementation();
-	virtual void rva0046132F();
+	virtual void onBuildComplete();
 private:
 	void rva00461257();
 	unsigned char m_pad24[0x3C - 0x24];
@@ -83,15 +86,15 @@ private:
 	bool m_3D; // +0x3D
 };
 
-// ?rva00461284@DynamicPortalBehaviour@@UAEXH@Z @0x00461284
-void DynamicPortalBehaviour::rva00461284(int)
+// ?mapLoadPostProcess@DynamicPortalBehaviour@@UAEXH@Z @0x00461284
+void DynamicPortalBehaviour::mapLoadPostProcess(int)
 {
 	if (!TheGameLogic->m_6E)
 		rva00461257();
 }
 
-// ?rva0046132F@DynamicPortalBehaviour@@UAEXXZ @0x0046132F
-void DynamicPortalBehaviour::rva0046132F()
+// ?onBuildComplete@DynamicPortalBehaviour@@UAEXXZ @0x0046132F
+void DynamicPortalBehaviour::onBuildComplete()
 {
 	m_3D = false;
 	rva00461257();

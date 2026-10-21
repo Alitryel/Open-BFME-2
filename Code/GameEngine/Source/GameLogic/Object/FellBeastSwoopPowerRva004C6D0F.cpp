@@ -1,13 +1,14 @@
 // cl: /DNDEBUG /MD
-// Retail 0x004C6D0F (38 bytes): ?rva004C6D0F@FellBeastSwoopPower@@UAEX_N0@Z.
+// Retail 0x004C6D0F (38 bytes): ?onExit@FellBeastSwoopPower@@MAEX_N0@Z.
 // Identity: slot 13 of the primary vtable 0x00C5DF80 installed by the matched
 // FellBeastSwoopPower ctor 0x004C6C1E (slots 3/4 are the matched
 // FellBeastSwoopPower xfer and pool key). The class derives from
 // SpecialAbilityUpdate (slots 14/15 inherit 0x00450AE9/0x00450D9A); its own
 // slot 13 is 0x004502CE, pinned as SpecialAbilityUpdate::onExit (bool, bool)
 // from the BFME1 donor, so this is the FellBeastSwoopPower override of that
-// slot (ret 8, both args unused). Name by address: the override's exact
-// signature and access are not established.
+// slot (ret 8, both args unused). Named onExit like slot 13 of the sibling
+// special-ability tables (7 of 7 real names: SpecialAbilityUpdate,
+// ModelConditionSpecialAbilityUpdate, SpecialDisguiseUpdate, all protected).
 // Body: clear condition bit 7*32+20 on the owning Object (+0x08), then clear
 // the bool at +0x88 (zeroed by the matched ctor).
 //
@@ -93,13 +94,13 @@ class SpecialAbilityUpdate : public UpdateModule
 };
 class FellBeastSwoopPower : public SpecialAbilityUpdate
 {
-public:
-	virtual void rva004C6D0F(bool a, bool b);
+protected:
+	virtual void onExit(bool a, bool b);
 private:
 	unsigned char m_pad20[0x88 - 0x20];
 	bool m_88;
 };
-void FellBeastSwoopPower::rva004C6D0F(bool, bool)
+void FellBeastSwoopPower::onExit(bool, bool)
 {
 	clearModelConditionBit(m_object, 7 * 32 + 20);
 	m_88 = false;

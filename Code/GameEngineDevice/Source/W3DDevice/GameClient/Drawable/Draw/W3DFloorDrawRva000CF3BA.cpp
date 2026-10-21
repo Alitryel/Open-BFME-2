@@ -1,8 +1,10 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
-// ?rva000CF3BA@W3DFloorDraw@@UAEXH@Z, retail 0x000CF3BA (94 bytes, RET 4):
-// slot 11 (+0x2C) of W3DFloorDraw's vtable 0x007CD4E0; the argument is
-// unused. With module data (+4) and a drawable (+8), a non-zero module value
+// ?doDrawModule@W3DFloorDraw@@UAEXPBVMatrix3D@@@Z, retail 0x000CF3BA (94
+// bytes, RET 4): slot 11 (+0x2C) of W3DFloorDraw's vtable 0x007CD4E0, the
+// DrawModule slot that is _purecall in DrawModule's own table and
+// doDrawModule(const Matrix3D *) in W3DDebrisDraw, W3DRopeDraw, W3DLightDraw
+// and W3DProjectileStreamDraw; the transform is unused. With module data (+4) and a drawable (+8), a non-zero module value
 // at +0x20 and a drawable whose Object (+0xFC) is effectively dead (+0x438
 // bit 0), the terrain render object gets the drawable, a copy of the module
 // data's name at +0x08 and that value (rowed 0x0006B7BF, which hands them to
@@ -52,19 +54,20 @@ struct W3DFloorDrawModuleData
 	float m_value;			// +0x20
 };
 
+class Matrix3D;
 class W3DFloorDraw
 {
 public:
 	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
 	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
 	virtual void s08(); virtual void s09(); virtual void s10();
-	virtual void rva000CF3BA(int unused);	// +0x2C
+	virtual void doDrawModule(const Matrix3D *transformMtx);	// +0x2C
 private:
 	const W3DFloorDrawModuleData *m_moduleData;	// +0x04
 	Drawable *m_drawable;				// +0x08
 };
 
-void W3DFloorDraw::rva000CF3BA(int unused)
+void W3DFloorDraw::doDrawModule(const Matrix3D *transformMtx)
 {
 	const W3DFloorDrawModuleData *data = m_moduleData;
 	Drawable *draw = m_drawable;
