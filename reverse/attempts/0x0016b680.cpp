@@ -1,7 +1,5 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
-// partial score=0.98674 date=2026-10-21
-// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
-// partial score=0.98674 date=2026-10-21
+// partial score=0.961108627626285 date=2026-10-22
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // Compose with meshgeometry.cpp; target proof and provenance in re_attempts.log.
 // Matrices use the HTreePivotTransform::Get_Matrix3D spelling (0x0014D28E); both are scaled row by row as in BFME1 0x00925860.
@@ -47,7 +45,8 @@ private:
 template<class T> class ShareBufferClass {public:T *Get_Array() {return Array;} private:char fields00[0xc];T *Array;};
 __forceinline void BoneTransform::TransformPositionArray(const Vector3 *v,Vector3 *out,int count) const {
  while(count--) {
-  float x=(Rotation.W*v->X+(Rotation.Y*v->Z-v->Y*Rotation.Z));
+  float cx=Rotation.Y*v->Z-v->Y*Rotation.Z;
+  float x=(Rotation.W*v->X+cx);
   float y=Rotation.W*v->Y-(Rotation.X*v->Z-v->X*Rotation.Z);
   float z=Rotation.W*v->Z+(Rotation.X*v->Y-v->X*Rotation.Y);
   float w=-((Rotation.X*v->X)+Rotation.Y*v->Y+(Rotation.Z*v->Z));
@@ -90,7 +89,7 @@ void MeshModelClass::get_deformed_vertices(Vector3 *dst_vert,const HTreeClass *h
  unsigned short *runs=VertexRuns->Get_Array();
  unsigned short *bonelinks=VertexBoneLink->Get_Array();
  Rva00129510Inc();
- unsigned int vi=Get_Vertex_Count();
+ int vi=Get_Vertex_Count();
  int remaining=vi;
  while(remaining>0) {
   unsigned short *run=runs;
