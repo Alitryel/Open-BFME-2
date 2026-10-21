@@ -88,6 +88,9 @@ namespace _STL { template <> void *__malloc_alloc<0>::allocate(size_t); }
 #include <memory>
 enum { _MONEY_LEAKS_CHECK = 0 };
 #include <string>
+// allocate binds to the rowed retail copy (0x00025090, STLMallocAlloc0Allocate.cpp): this
+// unit's own out-of-line copy is not retail's and is first in link order.
+namespace _STL { template<> void* __malloc_alloc<0>::allocate(size_t); }
 namespace _STL {
 struct _MoneyLeak { ~_MoneyLeak() { if (_MONEY_LEAKS_CHECK) free(0); } };
 struct _MoneyPhantom { _MoneyLeak l; };
