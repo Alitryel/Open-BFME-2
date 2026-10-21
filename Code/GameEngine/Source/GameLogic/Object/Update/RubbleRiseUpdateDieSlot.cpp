@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva004A4D98@RubbleRiseUpdate@@UAEXPBVDamageInfo@@@Z, retail 0x004A4D98, 38
+// ?onDie@RubbleRiseUpdate@@UAEXPBVDamageInfo@@@Z, retail 0x004A4D98, 38
 // bytes: slot 0 of the vtable 0x00C52858 that RubbleRiseUpdate's ctors
 // (0x004A4C2D, 0x004A4D03) install at +0x20, the die-module slot: when the
 // module data's DieMuxData (at +8, rowed isDieApplicable 0x004CE588) applies to
@@ -36,17 +36,17 @@ private:
 class DieModuleInterface
 {
 public:
-	virtual void rva004A4D98(const DamageInfo *damageInfo) = 0;
+	virtual void onDie(const DamageInfo *damageInfo) = 0;
 };
 
 class RubbleRiseUpdate : public UpdateModule, public DieModuleInterface
 {
 public:
-	virtual void rva004A4D98(const DamageInfo *damageInfo);
+	virtual void onDie(const DamageInfo *damageInfo);
 	void rva004A4D70(); // the rise start, rowed in Rva004A4D70.cpp
 };
 
-void RubbleRiseUpdate::rva004A4D98(const DamageInfo *damageInfo)
+void RubbleRiseUpdate::onDie(const DamageInfo *damageInfo)
 {
 	Object *obj = m_object;
 	const RubbleRiseUpdateModuleData *rubbleRiseUpdateModuleData = m_moduleData;

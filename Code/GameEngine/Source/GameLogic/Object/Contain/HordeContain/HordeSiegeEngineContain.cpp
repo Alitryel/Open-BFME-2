@@ -78,7 +78,7 @@ class HordeTransportContain : public TransportContain
 {
 public:
 	void rva00463A4D(ContainmentList riders, int arg);	// 0x00463A4D
-	void rva00477513();					// 0x00477513
+	void redeployOccupants();					// 0x00477513
 
 private:
 	unsigned char m_padding11C[0x128 - 0x11C];

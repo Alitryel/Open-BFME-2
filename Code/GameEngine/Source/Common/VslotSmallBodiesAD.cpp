@@ -294,7 +294,7 @@ public:
 class ActivateModuleSpecialPower : public Rva004502CE
 {
 public:
-	void rva004CDF00(Int a, Int b);
+	void onExit(Int a, Int b);
 	void onObjectCreated();
 	void SetWakeState(Int a);
 private:

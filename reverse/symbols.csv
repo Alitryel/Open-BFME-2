@@ -15457,7 +15457,7 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva00357180@Rva00170D0FTree@@QBEPAURva00170D0FNode@@ABI@Z,0x00357180,callee of ?rva00170D0F@Rva00170D0F@@QAEXABI@Z
 ?rva00170AA9@Rva00170D0FTree@@QAEXURva00170D0FIterator@@@Z,0x00170AA9,callee of ?rva00170D0F@Rva00170D0F@@QAEXABI@Z
 ?rva00463A4D@HordeTransportContain@@QAEXV?$list@URva0036ADF9Element@@V?$allocator@URva0036ADF9Element@@@_STL@@@_STL@@H@Z,0x00463A4D,callee of ?rva0047D33A@HordeSiegeEngineContain@@QAEXXZ
-?rva00477513@HordeTransportContain@@QAEXXZ,0x00477513,callee of ?rva0047D33A@HordeSiegeEngineContain@@QAEXXZ
+?redeployOccupants@HordeTransportContain@@QAEXXZ,0x00477513,callee of ?rva0047D33A@HordeSiegeEngineContain@@QAEXXZ
 ?hasEntries@Rva00256AB0Owner@@QBE_NXZ,0x004DF49C,callee of ?rva0028BC3B@Rva0028BC3B@@QBE_NXZ
 ?rva00031660@GeneralAllocator@Allocator@EA@@QAEXPAX@Z,0x00031660,callee of ?rva00033D50@GeneralAllocator@Allocator@EA@@QAE_NXZ
 ?rva0004F82B@Rva0004F82B@@QAEXXZ,0x0004F82B,callee of ?reset@W3DTerrainVisual@@UAEXXZ

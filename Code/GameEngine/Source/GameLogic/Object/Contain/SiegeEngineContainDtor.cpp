@@ -99,7 +99,7 @@ public:
 	virtual void f20();
 	virtual void f30();
 	virtual void f34();
-	void rva0047C2F2();
+	void redeployOccupants();
 
 private:
 	_STL::list<int> m_list11C;
@@ -151,7 +151,7 @@ protected:
 // list at +0x11C is copied by value through 0x0036ADF9 into 0x00463A4D with
 // the address at +0x128, then OpenContain's 0x00464286 runs (tail jump).
 // Method name is address-derived.
-void SiegeEngineContain::rva0047C2F2()
+void SiegeEngineContain::redeployOccupants()
 {
 	reinterpret_cast<HordeTransportContain *>(this)->rva00463A4D(*reinterpret_cast<ContainmentList *>(&m_list11C), (int)&m_map128);
 	reinterpret_cast<OpenContain *>(this)->OpenContain::redeployOccupants();

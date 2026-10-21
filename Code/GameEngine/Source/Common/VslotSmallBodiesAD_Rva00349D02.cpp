@@ -281,7 +281,7 @@ protected:
 class ActivateModuleSpecialPower
 {
 public:
-	void rva004CDF00(bool a, bool b);
+	void onExit(bool a, bool b);
 	void onObjectCreated();
 	void SetWakeState(Int a);
 private:
@@ -289,7 +289,7 @@ private:
 	Int m_04;
 	Int m_08;
 };
-void ActivateModuleSpecialPower::rva004CDF00(bool a, bool b)
+void ActivateModuleSpecialPower::onExit(bool a, bool b)
 {
 	reinterpret_cast<SpecialAbilityUpdate *>(this)->SpecialAbilityUpdate::onExit(a, b);
 	SetWakeState(1);

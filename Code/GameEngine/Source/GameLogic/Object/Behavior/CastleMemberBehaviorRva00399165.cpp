@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// ?rva00399165@CastleMemberBehavior@@UAEXPBVDict@@@Z, retail 0x00399165..
+// ?mapLoadPostProcess@CastleMemberBehavior@@UAEXPBVDict@@@Z, retail 0x00399165..
 // 0x0039922D (200 bytes, EH, RET 4): slot 45 of CastleMemberBehavior's
 // +0x0C interface table, so it runs on that subobject and reads the owning
 // object at +0x08 (-4 here). Given a property dictionary, a castle piece
@@ -100,16 +100,16 @@ public:
 	V(30) V(31) V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39)
 	V(40) V(41) V(42) V(43) V(44)
 #undef V
-	virtual void rva00399165(const Dict *properties);	// slot 45
+	virtual void mapLoadPostProcess(const Dict *properties);	// slot 45
 };
 
 class CastleMemberBehavior : public ObjectModule, public BehaviorModuleInterface
 {
 public:
-	virtual void rva00399165(const Dict *properties);
+	virtual void mapLoadPostProcess(const Dict *properties);
 };
 
-void CastleMemberBehavior::rva00399165(const Dict *properties)
+void CastleMemberBehavior::mapLoadPostProcess(const Dict *properties)
 {
 	if (!properties)
 		return;

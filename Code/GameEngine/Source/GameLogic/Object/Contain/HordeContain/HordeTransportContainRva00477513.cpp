@@ -1,4 +1,4 @@
-// ?rva00477513@HordeTransportContain@@QAEXXZ
+// ?redeployOccupants@HordeTransportContain@@QAEXXZ
 // BFME1 ba7ddda7 Rva0024CAE0MaintainNestedRiders.cpp supplies the nested
 // rider-maintenance algorithm. BFME2's update at477AF3 calls4779F9 first;
 // its ctor and interface wrappers establish the primary receiver, +11D
@@ -131,7 +131,7 @@ class HordeTransportContain
  public:
  void rva004779F9();
  void rva0047727E(Thing *object);
- void rva00477513();
+ void redeployOccupants();
  void rva00463A4D(ContainmentList objects, int context);
  private:
  unsigned char prefix00[8];
@@ -159,7 +159,7 @@ class Thing
 // else branch passes to push_back by reference (retail: lea [ebp-0x18]), tests
 // obj->getTemplate() through the inline accessor (its `this` copy is retail's mov eax,ecx),
 // and passes the re-dereferenced *it to the +0x11D helper (retail: push ecx).
-void HordeTransportContain::rva00477513() 
+void HordeTransportContain::redeployOccupants() 
 {
  IntList objects;
  Rva0046247DPair outer;
