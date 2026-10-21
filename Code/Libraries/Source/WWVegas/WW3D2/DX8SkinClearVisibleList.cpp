@@ -32,6 +32,17 @@
 #include "vector2.h"
 #include "vector.h"
 #include "multilist.h"
+// Render inlines DynamicVectorClass<Vector3>::Resize, but retail's out-of-line
+// body is the size-optimised 0x000F0CF9 (FXShaderRendererSkin.cpp emits it):
+// expand the stock body here without emitting a copy.
+template <> __declspec(dllimport) __forceinline bool DynamicVectorClass<Vector3>::Resize(int newsize, Vector3 const *array)
+{
+	if (VectorClass<Vector3>::Resize(newsize, array)) {
+		if (Length() < ActiveCount) ActiveCount = Length();
+		return(true);
+	}
+	return(false);
+}
 
 // WWLib sharebuf.h with BFME's aligned-buffer constructor; Render inlines the
 // unsigned constructor into a dead create path, which retail's FuncInfo keeps.

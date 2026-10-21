@@ -102,6 +102,8 @@ template <class T> class ShareBufferClass : public RefCountClass
 {
 public:
     ShareBufferClass(int count, const char *msg, int alignment = 0);
+    // Rowed per instantiation (Vector2 0x000D1DC8); this unit only calls it.
+    virtual ~ShareBufferClass();
     T *Get_Array() { return m_array; }
 protected:
     T *m_rawBuffer; // +0x08
@@ -114,6 +116,8 @@ class UVBufferClass : public ShareBufferClass<Vector2>
 {
 public:
     UVBufferClass(int count, const char *msg) : ShareBufferClass<Vector2>(count, msg), m_crc(0xFFFFFFFF) {}
+    // Rowed at 0x000D2118 (UVBufferClassDtor.cpp); this unit only calls it.
+    virtual ~UVBufferClass();
 private:
     unsigned m_crc; // +0x18
 };
@@ -229,7 +233,14 @@ struct Rva0017368ATask
 };
 
 unsigned Rva001736A7Compare(const Rva0017368ATask &a, const Rva0017368ATask &b);
-void rva00174870(int begin, int end, int compare);
+// 0x00174870 is rowed as the STLport sort over these 32-byte records with a
+// bool comparator (stlport_bfmeassignrecord32_sort.cpp), as
+// FXShaderRendererFlushRenderingTasks.cpp calls it.
+struct BfmeAssignRecord32;
+namespace _STL {
+template<class It, class Cmp> void sort(It first, It last, Cmp comp);
+}
+typedef bool (*BfmeAssignRecord32Less)(const BfmeAssignRecord32 &, const BfmeAssignRecord32 &);
 
 class DynamicVBAccessClass
 {
@@ -349,7 +360,7 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
     if (m_tasks.empty())
         return;
 
-    rva00174870((int)m_tasks.begin(), (int)m_tasks.end(), (int)&Rva001736A7Compare);
+    _STL::sort((BfmeAssignRecord32 *)m_tasks.begin(), (BfmeAssignRecord32 *)m_tasks.end(), (BfmeAssignRecord32Less)&Rva001736A7Compare);
 
     int verticesToSkin = 0;
     for (Rva0017368ATask *it = m_tasks.begin(); it != m_tasks.end(); ++it) {

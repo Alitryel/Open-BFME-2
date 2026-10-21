@@ -27,6 +27,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array);
 // Native 0x000F1C7A is supplied by FXShaderRendererSkin.cpp.
 template <> DynamicVectorClass<Vector3>::DynamicVectorClass(unsigned, Vector3 const *);
+template <> bool DynamicVectorClass<Vector3>::Resize(int, Vector3 const *);
 #undef W3DMPO_GLUE
 #define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4

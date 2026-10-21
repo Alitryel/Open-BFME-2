@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfmerendobj /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it. Retail links one
 // copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
@@ -83,6 +83,7 @@ static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [
 #include "nstrdup.h"
 // bfme link decl-only begin
 template <> bool VectorClass<float>::operator==(VectorClass<float> const &) const;
+template <> bool VectorClass<HAnimComboDataClass *>::operator==(VectorClass<HAnimComboDataClass *> const &) const;
 template <> bool DynamicVectorClass<HAnimComboDataClass *>::Delete(int);
 template <> int DynamicVectorClass<float>::ID(float const &);
 template <> int VectorClass<float>::ID(float const &);
@@ -151,16 +152,9 @@ HAnimClass::~HAnimClass(void)
 // ??1HAnimComboDataClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 
-__declspec(noinline) inline void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
-{
-	if ( motion != NULL ) {
-		motion->Add_Ref();
-	}
-	if ( HAnim != NULL ) {
-		HAnim->Release_Ref();
-	}
-	HAnim = motion;
-}
+// HAnimComboDataClass::Set_HAnim (0x001007B0) is a size-optimised body from
+// the /O1 region (inc/dec refcounts); this /G7 /O2 unit only calls it. It is
+// built in HAnimComboDataSetHAnim.cpp.
 
 
 
@@ -204,9 +198,7 @@ void HAnimComboDataClass::Build_Active_Pivot_Map(void)
 HAnimComboClass::HAnimComboClass(void)
 {}
 
-// Body split to hanim_HAnimComboClass_ctor.cpp: retail built this ctor with
-// /G7 (sub edi,1 loop decrement) while the rest of this TU only matches
-// without it (Set_HAnim needs inc). See hanim_weight_vector_add.cpp.
+// Body split to hanim_HAnimComboClass_ctor.cpp. See hanim_weight_vector_add.cpp.
 
 
 // ??1HAnimComboClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
@@ -223,8 +215,7 @@ void	HAnimComboClass::Set_Motion( int index, HAnimClass *motion )
 	data->Set_HAnim(motion);
 }
 
-// Get_Motion is defined in HAnimComboClassGetMotion.cpp: its /G7 build
-// matches retail's ADD refcount increment; this unit needs INC for Set_HAnim.
+// Get_Motion is defined in HAnimComboClassGetMotion.cpp.
 
 // ?HAnimComboClass::Peek_Motion present-unmatched
 HAnimClass *HAnimComboClass::Peek_Motion( int index )

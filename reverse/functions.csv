@@ -1826,7 +1826,7 @@ _XMP_Test_Bit,,0x0061B780,33,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matc
 ??0Vector3i16@@QAE@GGG@Z,,0x00174C60,31,Code/Libraries/Source/WWVegas/WW3D2/decalmsh.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ?Get_Intel_Device@DX8Caps@@CA?AW4DeviceTypeIntel@1@I@Z,,0x0012B130,44,Code/Libraries/Source/WWVegas/WW3D2/dx8caps.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ??1?$HashTemplateClass@IPAVMeshClass@@@@QAE@XZ,,0x00171D70,36,Code/Libraries/Source/WWVegas/WW3D2/dx8rendererdebugger.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
-?Set_HAnim@HAnimComboDataClass@@QAEXPAVHAnimClass@@@Z,,0x001007B0,37,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
+?Set_HAnim@HAnimComboDataClass@@QAEXPAVHAnimClass@@@Z,,0x001007B0,37,Code/Libraries/Source/WWVegas/WW3D2/HAnimComboDataSetHAnim.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ??0PivotMapClass@@QAE@XZ,,0x00196B00,55,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ??1PivotMapClass@@UAE@XZ,,0x00197490,62,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
 ??_GPivotMapClass@@UAEPAXI@Z,,0x00197630,30,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,matched,ported from the Open-BFME-1 conversion; placed by masked byte-scan
