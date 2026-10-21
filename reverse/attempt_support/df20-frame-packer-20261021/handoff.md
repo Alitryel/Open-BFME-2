@@ -85,8 +85,48 @@ The original `_monetary.c` uses a plain `bool __is_negative`.
   are `/Op`, `__grouping[0] = __grouping[0] + __frac_digits`, `const` on width
   and `__ffield`, and the comparisons `4 > __i` and `0 != __frac_digits`.
 
+## Second round, same day (g42-g47, all disproven)
+
+- g42: route the ext and sym copies through a depth-0
+  `__money_copy_aux(..., __false_type()/_BothPtrType::_Ret())` with a temp or
+  named category tag, at helper depths 0, 1 and 2. Depth 0 or 1 leaves the aux
+  call out of line (0.9243); depth 2 gives a 0x110 frame (0.8612); routing the
+  sym copy through aux gives 0.8861 or 0.8922.
+- g43 copy specialisation: a temp rai tag, an `iterator_traits` temp and the
+  natural `__copy_aux` chain with a forceinline `__copy_aux` specialisation
+  (variant c3) are all byte-identical to the bank, so c3 is an equivalent and
+  more natural spelling. Calling through `_BothPtrType` without the aux
+  specialisation, dropping the specialisation, or keeping only the aux
+  specialisation all score 0.73-0.74.
+- g44 declaration reorders (frac before grouping, sep after grouping, point
+  after sep, width later, gen_curr later): all equal or worse. The current order
+  is best.
+- g45: removing the artificial block around `__curr_sym`, hoisting
+  `__sign_policy`, and the braces of the space-count loop are all inert. The bank
+  now drops the block and the braces.
+- g46: `__curr_sym.begin()` without the `static_cast` is inert (adopted). A
+  non-const `__sign.begin()+1` is worse (0.8618, 2613 B).
+- g47 allocator lifetime: a named allocator at the top or at the use, a
+  const-ref-bound temporary, `__digits.get_allocator()`. All worse (0.9001 or
+  0.9161), and none reproduces retail's byte slots.
+
+Slot-weight finding (`build/b3df20/slots.py`, push-normalised offsets): the
+heavily used dwords sit lowest (0xc has 16 uses, 0x10 has 12, 0x20 has 13), so
+the packer orders units by reference weight. The dword permutations
+(0x28/0x30, 0x44/0x48, 0x50/0x5c) follow from a different composition of the
+byte units. Ours puts alloc and the ext tag in one byte unit (0x2b) and gen_curr
+alone (0x37). Retail puts {alloc 0x2e, gen_curr 0x2f} in one dword and the ext
+tag alone (0x4f). The 0x17 slot is shared by liveness between is_neg and the
+sym tag. Toy t7 (`build/b3df20/toy6/t7.cpp`: an allocator temp passed to a ctor
+and a spilled bool) shares a byte between the forward tag and the bool by
+liveness, while A, RT1 and RT2 stay distinct. The pattern is context-sensitive,
+and no toy has reproduced retail's exact layout yet.
+
 ## Untried angles
 
+- Change reference weights so gen_curr shares a dword with alloc and the ext
+  tag is alone (for example, read gen_curr once more, or test it through a
+  copy).
 - Grow the toy towards do_put until the ext tag merges:
   - two EH-tracked strings live across the loop;
   - the `__intl ? a : b` facet selection;

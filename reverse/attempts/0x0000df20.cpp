@@ -212,7 +212,6 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
                                   : __punct.frac_digits();
 
 #pragma inline_depth(0)
-  {
   string_type __curr_sym = __intl ? __punct_intl.curr_symbol() 
                                   : __punct.curr_symbol();
 
@@ -300,11 +299,9 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
                             : __punct_intl.pos_format())
            : (__sign_policy.negative ? __punct.neg_format()
                             : __punct.pos_format());
-  {
-    for (int __i = 0; __i < 4; ++__i)
-      if (__format.field[__i] == (char) money_base::space)
-        ++__length;
-  }
+  for (int __i = 0; __i < 4; ++__i)
+    if (__format.field[__i] == (char) money_base::space)
+      ++__length;
 
   size_t __fill_amt = __length < __width ? __width - __length : 0;
 
@@ -327,7 +324,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
     }
     else if (__ffield == money_base::symbol) {
       if (__generate_curr)
-        __s = __money_copy_symbol(static_cast<const string_type&>(__curr_sym).begin(), static_cast<const string_type&>(__curr_sym).end(), __s, __sign_policy);
+        __s = __money_copy_symbol(__curr_sym.begin(), __curr_sym.end(), __s, __sign_policy);
     }
     else if (__ffield == money_base::sign) {
       if (__sign.size() != 0)
@@ -361,6 +358,5 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
     __s = fill_n(__s, __fill_amt, __fill);
   
   return __s;
-  }
 }
 }
