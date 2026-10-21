@@ -43,14 +43,15 @@ class Object
 	WeaponSet m_weaponSet;			// +0x330
 
 public:
-	RvaWeaponSlot *rva0028AEEA() const;
+	Weapon *findWaypointFollowingCapableWeapon();
 	bool getAmmoPipShowingInfo(void **outPtr, unsigned *outAmmo) const;
 };
 
-// ?rva0028AEEA@Object@@QBEPAURvaWeaponSlot@@XZ
-RvaWeaponSlot *Object::rva0028AEEA() const
+// ?findWaypointFollowingCapableWeapon@Object@@QAEPAVWeapon@@XZ: Zero Hour's and
+// BFME1's (0x001BE2B0, 11 bytes both) forwarder to WeaponSet's.
+Weapon *Object::findWaypointFollowingCapableWeapon()
 {
-	return (RvaWeaponSlot *)const_cast<WeaponSet &>(m_weaponSet).findWaypointFollowingCapableWeapon();
+	return m_weaponSet.findWaypointFollowingCapableWeapon();
 }
 
 // ?getAmmoPipShowingInfo@Object@@QBE_NPAPAXPAI@Z

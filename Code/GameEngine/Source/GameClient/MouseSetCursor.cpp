@@ -7,13 +7,13 @@
 // in [0, NUM_MOUSE_CURSORS) before m_cursorInfo (+0x0C, stride 0x54) is
 // indexed. The text comes from TheGameText's const-char fetch at slot 15
 // (+0x3C) and goes to the rowed setMouseText 0x001EEBD5, whose colour
-// parameters are named _MouseSixteen there.
+// parameters are named RGBAColorInt there.
 class Mouse;
 #include "ascii_string.h"
 #include "unicode_string.h"
 
-struct _MouseSixteen { int v[4]; };
-typedef _MouseSixteen RGBAColorInt;
+struct RGBAColorInt { int v[4]; };
+typedef RGBAColorInt RGBAColorInt;
 
 class GameTextInterface
 {
@@ -65,7 +65,7 @@ public:
 	// calls to it, so nothing inlines or deletes the out-of-line call that
 	// GameClientDisplayModeChange's rowed body needs.
 	void rva000B3FD0();
-	void rva001EEBD5( UnicodeString text, const _MouseSixteen *color, const _MouseSixteen *dropColor );
+	void setMouseText( UnicodeString text, const RGBAColorInt *color, const RGBAColorInt *dropColor );
 
 protected:
 	char m_pad004[0x0C - 4];
@@ -96,10 +96,10 @@ void Mouse::setCursor( MouseCursor cursor )
 	// set the new cursor text
 	if( info.cursorText.isEmpty() == false )
 	{
-		rva001EEBD5( TheGameText->fetch( info.cursorText.str() ),
+		setMouseText( TheGameText->fetch( info.cursorText.str() ),
 								 &info.cursorTextColor,
 								 &info.cursorTextDropColor );
 	}
 	else
-		rva001EEBD5( UnicodeString( L"" ), 0, 0 );
+		setMouseText( UnicodeString( L"" ), 0, 0 );
 }

@@ -3,7 +3,7 @@
 // ?doNamedFireWeaponFollowingWaypointPath@ScriptActions@@IAEXABVAsciiString@@0@Z
 // BFME1 donor reference/open-bfme-1/game/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_doNamedFireWeaponFollowingWaypointPath.cpp
 // Target evidence: named-unit lookup via rowed getUnitNamed 0x003588E7, Coord3D at Object+0x38,
-// terrain vtable slot +0x90 via TheTerrainLogic 0x00DFEC50, rowed rva0028AEEA 0x0028AEEA,
+// terrain vtable slot +0x90 via TheTerrainLogic 0x00DFEC50, rowed findWaypointFollowingCapableWeapon 0x0028AEEA,
 // rowed forceFireWeapon 0x002CE76F, rowed leaveGroup 0x0028C01F, rowed aiFollowWaypointPath 0x0036EC82.
 // Caller at 0x003CCA56. Prev Rva003C90B1Exit / next doUnitGuardForFramecount share flags.
 #include "ascii_string.h"
@@ -56,7 +56,7 @@ public:
 class Object
 {
 public:
-    RvaWeaponSlot *rva0028AEEA() const;
+    Weapon *findWaypointFollowingCapableWeapon();
     void leaveGroup();
 private:
     char pad0[0x38];
@@ -90,10 +90,10 @@ void ScriptActions::doNamedFireWeaponFollowingWaypointPath(const AsciiString &un
     Waypoint *waypoint = ((TerrainLogicByValue *)TheTerrainLogic)->getClosestWaypointOnPath(&pos, waypointPathLabel);
     if (!waypoint)
         return;
-    RvaWeaponSlot *slot = unit->rva0028AEEA();
-    if (!slot)
+    Weapon *weapon = unit->findWaypointFollowingCapableWeapon();
+    if (!weapon)
         return;
-    Object *projectile = ((Weapon *)slot)->forceFireWeapon(unit, &pos);
+    Object *projectile = weapon->forceFireWeapon(unit, &pos);
     if (!projectile)
         return;
     AIUpdateInterface *ai = projectile->m_ai;

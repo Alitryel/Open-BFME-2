@@ -28,7 +28,7 @@ template <> __forceinline void allocator<Coord3D>::deallocate(Coord3D* p, size_t
 #include "../Common/PlacementPositionValue.h"
 #include "RGBColor.h"
 static const RGBColor illegalBuildColor = { 1, 0, 0 };
-struct _MouseSixteen
+struct RGBAColorInt
 {
     int v[4];
 };
@@ -40,7 +40,7 @@ public:
         CURSOR_BUILD = 5,
         CURSOR_INVALID = 12
     };
-    void rva001EEBD5(UnicodeString, const _MouseSixteen*, const _MouseSixteen*);
+    void setMouseText(UnicodeString, const RGBAColorInt*, const RGBAColorInt*);
     char unknown[0x4f0c];
     ICoord2D pos;
 };
@@ -633,7 +633,7 @@ protected:
 // ?handleBuildPlacements@InGameUI@@IAEXXZ
 void InGameUI::handleBuildPlacements()
 {
-    TheMouse->rva001EEBD5(UnicodeString::TheEmptyString, 0, 0);
+    TheMouse->setMouseText(UnicodeString::TheEmptyString, 0, 0);
     Object* builder = TheGameLogic->findObjectByID(getPendingPlaceSourceObjectID());
     if (!builder || (!builder->getTemplate()->hasKind(14) && !builder->getTemplate()->hasKind(156)))
         return;
@@ -751,8 +751,8 @@ void InGameUI::handleBuildPlacements()
                 }
                 UnicodeString text;
                 text.format((const unsigned short*)L"%d", info.cost);
-                _MouseSixteen color = { { 32, 255, 128, 255 } }, shadow = { { 0, 0, 0, 255 } };
-                TheMouse->rva001EEBD5(text, &color, &shadow);
+                RGBAColorInt color = { { 32, 255, 128, 255 } }, shadow = { { 0, 0, 0, 255 } };
+                TheMouse->setMouseText(text, &color, &shadow);
                 RGBColor tint = illegalBuildColor;
                 switch (info.status)
                 {

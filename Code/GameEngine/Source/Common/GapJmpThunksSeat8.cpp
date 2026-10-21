@@ -930,8 +930,9 @@ enum GadgetGameMessage { GGM_NONE = 0 };
 class GameWindow;
 class ControlBar
 {
+protected:
+	CBCommandStatus processCommandTransitionUI(GameWindow *control, GadgetGameMessage gadgetMessage);
 public:
-	int rva00539997(int a, int b);
 	CBCommandStatus rva0053B1CF(GameWindow *button, unsigned int gadgetMessage);
 	CBCommandStatus processContextSensitiveButtonClick(GameWindow *button, GadgetGameMessage gadgetMessage);
 	CBCommandStatus processContextSensitiveButtonTransition(GameWindow *button, GadgetGameMessage gadgetMessage);
@@ -964,14 +965,15 @@ void Rva001FD2C5::rva001FD2C5(const StringBase<char> &other) { ((StringBase<char
 // 0x0031ABCF / 0x0031ABD4 (5B each): the incremental-link entries for
 // ControlBar::processContextSensitiveButtonClick and ...Transition (pinned in
 // symbols.csv; the GUI system callbacks ControlBarSystem / GeneralsExpPoints
-// call these addresses), tail jumps to the bodies 0x0053B1CF and 0x00539997.
+// call these addresses), tail jumps to the bodies 0x0053B1CF and 0x00539997
+// (processCommandTransitionUI, as Zero Hour's ...Transition returns).
 CBCommandStatus ControlBar::processContextSensitiveButtonClick(GameWindow *button, GadgetGameMessage gadgetMessage)
 {
 	return rva0053B1CF(button, gadgetMessage);
 }
 CBCommandStatus ControlBar::processContextSensitiveButtonTransition(GameWindow *button, GadgetGameMessage gadgetMessage)
 {
-	return (CBCommandStatus)rva00539997((int)button, gadgetMessage);
+	return processCommandTransitionUI(button, gadgetMessage);
 }
 
 // 0x0029A384 (5B) -> ResourceEntryCollector::rva004E551E 0x004E551E.

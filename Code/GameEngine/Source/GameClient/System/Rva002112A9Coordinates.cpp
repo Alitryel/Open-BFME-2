@@ -5,8 +5,8 @@
 class Mouse;
 #include "ascii_string.h"
 #include "unicode_string.h"
-struct _MouseSixteen { int v[4]; };
-class Mouse { public: void rva001EEBD5(UnicodeString,const _MouseSixteen*,const _MouseSixteen*); };
+struct RGBAColorInt { int v[4]; };
+class Mouse { public: void setMouseText(UnicodeString,const RGBAColorInt*,const RGBAColorInt*); };
 extern Mouse *TheMouse;
 struct CoordinatePair2112 { int x,y; };
 struct CoordinateVector2112 { float x,y,z; };
@@ -30,7 +30,7 @@ public: void rva002112A9();
 void Rva002112A9::rva002112A9()
 {
  if (!showCoordinates) {
-  TheMouse->rva001EEBD5(UnicodeString::TheEmptyString,0,0);
+  TheMouse->setMouseText(UnicodeString::TheEmptyString,0,0);
  } else {
   CoordinateVector2112 position;
   ((Rva002D3627Host *)TheLivingWorld)->project(&((Rva002D3627Host *)TheLivingWorld)->screen8C,&position);
@@ -38,10 +38,10 @@ void Rva002112A9::rva002112A9()
   text.format("X:%d, Y:%d <<< World position coordinate >>",(int)position.x,(int)position.y);
   UnicodeString wide;
   wide.translate(text);
-  _MouseSixteen foreground;
+  RGBAColorInt foreground;
   foreground.v[0]=255; foreground.v[1]=32; foreground.v[2]=255; foreground.v[3]=255;
-  _MouseSixteen background;
+  RGBAColorInt background;
   background.v[0]=0; background.v[1]=0; background.v[2]=0; background.v[3]=255;
-  TheMouse->rva001EEBD5(wide,&foreground,&background);
+  TheMouse->setMouseText(wide,&foreground,&background);
  }
 }

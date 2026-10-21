@@ -383,26 +383,7 @@ void Mouse::setCursorTooltip( UnicodeString tooltip, Int delay, const RGBColor *
 /** Set the text for the mouse cursor ... note that this is *NOT* the tooltip text we
 	* can set to be at the mouse position */
 // ------------------------------------------------------------------------------------------------
-// ?setMouseText@Mouse@@ present-unmatched
-void Mouse::setMouseText( UnicodeString text, 
-													const RGBAColorInt *color, 
-													const RGBAColorInt *dropColor )
-{
-
-	// sanity, if no display string has been created, get out of here
-	if( m_cursorTextDisplayString == NULL )
-		return;
-
-	// set the text into the cursor display string
-	m_cursorTextDisplayString->setText( text );
-
-	// save the colors to draw in
-	if( color )
-		m_cursorTextColor = *color;
-	if( dropColor )
-		m_cursorTextDropColor = *dropColor;
-
-}  // end setMouseText
+// Mouse::setMouseText (0x001EEBD5) is defined with its retail body in MouseRva001EEBD5.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Move the mouse to the position */

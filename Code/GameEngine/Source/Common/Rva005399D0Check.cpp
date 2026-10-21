@@ -128,11 +128,15 @@ struct Rva00539997Sub
 	int m_FC;
 };
 
+enum CBCommandStatus { CBC_COMMAND_NOT_USED = 0, CBC_COMMAND_USED = 1 };
+enum GadgetGameMessage { GGM_NONE = 0 };
+class GameWindow;
 class ControlBar
 {
+protected:
+	CBCommandStatus processCommandTransitionUI(GameWindow *control, GadgetGameMessage gadgetMessage);
 public:
 	void switchToContext(int ctx, void *data);
-	int rva00539997(int a, int b);
 	int rva005399D0Check(Object *);
 private:
 	char m_pad00[0x6C];
@@ -140,15 +144,18 @@ private:
 	int m_70;
 };
 
-// ?rva00539997@ControlBar@@QAEHHH@Z @0x00539997 (57B)
-int ControlBar::rva00539997(int, int)
+// ?processCommandTransitionUI@ControlBar@@IAE?AW4CBCommandStatus@@PAVGameWindow@@W4GadgetGameMessage@@@Z
+// @0x00539997 (57B): Zero Hour's and BFME1's (0x004A6520) ControlBar::
+// processCommandTransitionUI: with no source object outside multi-select,
+// drop to the empty context and report the command unused.
+CBCommandStatus ControlBar::processCommandTransitionUI(GameWindow *, GadgetGameMessage)
 {
 	int ctx = m_70;
 	if (ctx == 7 || (m_6C && m_6C->m_FC != 0))
-		return 1;
+		return CBC_COMMAND_USED;
 	if (ctx != 0 && ctx != 8 && ctx != 9)
 		switchToContext(0, 0);
-	return 0;
+	return CBC_COMMAND_NOT_USED;
 }
 
 int ControlBar::rva005399D0Check(Object *obj)

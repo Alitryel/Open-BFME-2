@@ -75,12 +75,12 @@ void rva004E4317();
 void Rva004E84ABRun();	// BFME 1's ResetInGameChat
 void Rva00433C75( const AsciiString &text, bool clear );	// BFME 1's UpdateDiplomacyBriefingText
 
-struct _MouseSixteen { int v[4]; };
+struct RGBAColorInt { int v[4]; };
 
 class Mouse
 {
 public:
-	void rva001EEBD5( UnicodeString text, const _MouseSixteen *color, const _MouseSixteen *dropColor );
+	void setMouseText( UnicodeString text, const RGBAColorInt *color, const RGBAColorInt *dropColor );
 };
 extern Mouse *TheMouse;
 
@@ -292,7 +292,7 @@ void InGameUI::reset()
 	rva004E4317();
 
 	setScrolling( false );
-	TheMouse->rva001EEBD5( UnicodeString::TheEmptyString, 0, 0 );
+	TheMouse->setMouseText( UnicodeString::TheEmptyString, 0, 0 );
 	((Rva0029C138 *)this)->rva0029C138();
 	m_924 = false;
 	m_914[0] = 0;

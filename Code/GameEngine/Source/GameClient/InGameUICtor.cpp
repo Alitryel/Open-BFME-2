@@ -88,12 +88,12 @@ private:
 // The selection helper reset also calls by address.
 class Rva0029C138 { public: void rva0029C138(); };
 
-struct _MouseSixteen { int v[4]; };
+struct RGBAColorInt { int v[4]; };
 
 class Mouse
 {
 public:
-	void rva001EEBD5( UnicodeString text, const _MouseSixteen *color, const _MouseSixteen *dropColor );
+	void setMouseText( UnicodeString text, const RGBAColorInt *color, const RGBAColorInt *dropColor );
 };
 extern Mouse *TheMouse;
 
@@ -733,7 +733,7 @@ InGameUI::InGameUI() :
 	m_984 = 0;
 
 	if( TheMouse )
-		TheMouse->rva001EEBD5( UnicodeString::TheEmptyString, 0, 0 );
+		TheMouse->setMouseText( UnicodeString::TheEmptyString, 0, 0 );
 
 	((ResourceEntryCollector *)&BfmeUiResourceEntryCollectorState)->rva004E551E();
 }
