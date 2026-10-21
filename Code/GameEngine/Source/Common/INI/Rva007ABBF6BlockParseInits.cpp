@@ -61,7 +61,7 @@ void parseAwardSystemDefinition(INI *);
 void Rva0040F0F0Parse(INI *);
 void parseAutoResolveHandicapLevelDefinition(INI *);
 void Rva00413D58Parse(INI *);
-void Rva00415D33Parse(INI *);
+void parseCrowdResponseDefinition(INI *);
 void Rva00417A94Parse(INI *);
 void parseAutoResolveLeadershipDefinition(INI *);
 void parseAutoResolveBodyDefinition(INI *);
@@ -421,7 +421,7 @@ BlockParse theLivingWorldAutoResolveSciencePurchasePointBonusBlockParse = { 0, "
 BlockParse theAutoResolveReinforcementScheduleBlockParse = { 0, "AutoResolveReinforcementSchedule", Rva00413D58Parse };	// VA 0x00DC205C "AutoResolveReinforcementSchedule", parse 0x00413D58
 BlockParse theLivingWorldAutoResolveResourceBonusBlockParse = { 0, "LivingWorldAutoResolveResourceBonus", LivingWorldAutoResolveResourceBonusScheduleStore::parseLivingWorldAutoResolveResourceBonusBlock };	// VA 0x00DC2068 "LivingWorldAutoResolveResourceBonus", parse 0x0041428F
 BlockParse theScoredKillEvaAnnouncerBlockParse = { 0, "ScoredKillEvaAnnouncer", ScoredKillEvaAnnouncerController::iniParseScoredKillEvaAnnouncerBlock };	// VA 0x00DC20B0 "ScoredKillEvaAnnouncer", parse 0x00414F85
-BlockParse theCrowdResponseBlockParse = { 0, "CrowdResponse", Rva00415D33Parse };	// VA 0x00DC20E0 "CrowdResponse", parse 0x00415D33
+BlockParse theCrowdResponseBlockParse = { 0, "CrowdResponse", parseCrowdResponseDefinition };	// VA 0x00DC20E0 "CrowdResponse", parse 0x00415D33
 BlockParse theHouseColorBlockParse = { 0, "HouseColor", Rva00417A94Parse };	// VA 0x00DC822C "HouseColor", parse 0x00417A94
 BlockParse theAutoResolveLeadershipBlockParse = { 0, "AutoResolveLeadership", parseAutoResolveLeadershipDefinition };	// VA 0x00DC8238 "AutoResolveLeadership", parse 0x004183AC
 BlockParse theAutoResolveBodyBlockParse = { 0, "AutoResolveBody", parseAutoResolveBodyDefinition };	// VA 0x00DC8244 "AutoResolveBody", parse 0x00418AC6

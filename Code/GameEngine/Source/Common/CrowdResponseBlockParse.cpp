@@ -115,7 +115,7 @@ struct _s__ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
-void __cdecl Rva00415D33Parse(INI *ini)
+void __cdecl parseCrowdResponseDefinition(INI *ini)
 {
 	if (TheCrowdResponseStore == 0)
 	{
