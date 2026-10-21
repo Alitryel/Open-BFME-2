@@ -11,6 +11,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #define BFME_MESHMATDESC_UV_ARRAY_EXTERNAL
 // Keep native color-array calls bound to the separately matched D1FBD owner.
 #define BFME_MESHMATDESC_COLOR_ARRAY_EXTERNAL
+// FastCriticalSectionClass::LockClass's destructor is retail's /O2 body
+// (0x000657D0): define it ahead of the size-optimised region below.
+#include "mutex.h"
 // Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
 // emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
 // RefCountClass's inline members and deleting destructor are retail's
@@ -23,10 +26,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #include "refcount.h"
 #pragma optimize("", on)
-#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
 // copy that competes with retail's integer-move owner (0x006D8A30).
 #include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp); this unit had no counterpart under Code/.
 

@@ -336,12 +336,17 @@ bool DX8SkinFVFCategoryContainer::Check_If_Mesh_Fits(MeshModelClass* mmc)
 }
 
 // ?Add_Delayed_Visible_Material_Pass@DX8SkinFVFCategoryContainer@@UAEXPAVMaterialPassClass@@PAVMeshClass@@@Z
-// retail 0x001460B0, 5 bytes: slot 5 of the class's vtable. Zero Hour's
-// dx8renderer.h defines it inline: skins route delayed passes straight into
-// Add_Visible_Material_Pass (a tail jump).
-void DX8SkinFVFCategoryContainer::Add_Delayed_Visible_Material_Pass(MaterialPassClass *pass, MeshClass *mesh)
+// retail 0x001460B0 (vtable slot 5): Zero Hour's dx8renderer.h inline, a tail jump to Add_Visible_Material_Pass.
+// Select-any like the header copies other units emit; the anchor below keeps this noinline body emitted.
+__declspec(noinline) inline void DX8SkinFVFCategoryContainer::Add_Delayed_Visible_Material_Pass(MaterialPassClass *pass, MeshClass *mesh)
 {
     Add_Visible_Material_Pass(pass, mesh);
+}
+
+// ?bfmeAnchorSkinAddDelayedVisibleMaterialPass absent-from-retail
+void bfmeAnchorSkinAddDelayedVisibleMaterialPass(DX8SkinFVFCategoryContainer *container, MaterialPassClass *pass, MeshClass *mesh)
+{
+    container->DX8SkinFVFCategoryContainer::Add_Delayed_Visible_Material_Pass(pass, mesh);
 }
 
 // Retail 0x00148520, vtable 0x00BD3544 slot 1. BFME adds the anchor slot: a mesh whose
