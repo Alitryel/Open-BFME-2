@@ -33,13 +33,13 @@ class Rva0021572A
 public:
 	Rva0021572A(INI *ini);
 private:
-	AsciiString m_00;
+	AsciiString m_libraryMap;
 	_STL::vector<BfmeE16> m_04;
 };
 
 Rva0021572A::Rva0021572A(INI *ini)
 {
 	const char *tok = ini->getNextToken(0);
-	m_00.set(tok);
+	m_libraryMap.set(tok);
 	ini->initFromINI(this, g_00BE574C);
 }
