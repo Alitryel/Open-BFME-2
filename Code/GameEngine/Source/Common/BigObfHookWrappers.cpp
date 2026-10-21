@@ -44,8 +44,10 @@ struct BigObfSlot
 	void       *m_b;
 };
 
+// Retail .data holds zero over each complete 0x90-byte slot. The four
+// accesses above prove the used fields; the intervening bytes stay opaque.
 #define BFME_OBF_SLOT( VA )                                               \
-	extern BigObfSlot g_ObfSlot##VA;
+	BigObfSlot g_ObfSlot##VA = {};
 
 // State initializer rowed as ?rvaXXXXXXXX@RvaXXXXXXXX@@QAEPAU1@PAX0@Z.
 #define BFME_OBF_STATE_METHOD( ADDR )                                     \
