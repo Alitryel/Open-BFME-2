@@ -17,8 +17,8 @@ class INI;
 
 void __cdecl helper001DA770(INI *ini, int kind, AsciiString *def, const char *name);
 
-// ?Rva001DA980Parse@@YAXPAVINI@@@Z
-void __cdecl Rva001DA980Parse(INI *ini)
+// ?parseMusicTrackDefinition@@YAXPAVINI@@@Z
+void __cdecl parseMusicTrackDefinition(INI *ini)
 {
 	AsciiString def("DefaultMusicTrack");
 	helper001DA770(ini, 0, &def, "MusicTrack");

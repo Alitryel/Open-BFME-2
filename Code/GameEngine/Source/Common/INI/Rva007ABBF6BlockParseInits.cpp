@@ -29,7 +29,7 @@ BlockParse *theBlockParseList = 0;
 // These static-only class declarations assert no instance layout.
 class INI;
 void Rva000B3FD0AptFreeSound();
-void Rva001DA980Parse(INI *);
+void parseMusicTrackDefinition(INI *);
 void Rva001DA9CAParse(INI *);
 void Rva001DAA14Parse(INI *);
 void Rva001DAA5EParse(INI *);
@@ -314,7 +314,7 @@ BlockParse theShadowMapBlockParse = { 0, "ShadowMap", parseShadowMapBlock };	// 
 BlockParse theLoadSubsystemBlockParse = { 0, "LoadSubsystem", parseSubsystemLegendDefinition };	// VA 0x00DB7034 "LoadSubsystem", parse 0x001B4E07
 BlockParse theAIDataBlockParse = { 0, "AIData", INI::parseAIDataDefinition };	// VA 0x00DB8934 "AIData", parse 0x001D8E7A
 BlockParse theArmorBlockParse = { 0, "Armor", ArmorStore::parseArmorDefinition };	// VA 0x00DB8A74 "Armor", parse 0x001D9484
-BlockParse theMusicTrackBlockParse = { 0, "MusicTrack", Rva001DA980Parse };	// VA 0x00DB8B08 "MusicTrack", parse 0x001DA980
+BlockParse theMusicTrackBlockParse = { 0, "MusicTrack", parseMusicTrackDefinition };	// VA 0x00DB8B08 "MusicTrack", parse 0x001DA980
 BlockParse theAudioEventBlockParse = { 0, "AudioEvent", Rva001DA9CAParse };	// VA 0x00DB8B14 "AudioEvent", parse 0x001DA9CA
 BlockParse theDialogEventBlockParse = { 0, "DialogEvent", Rva001DAA14Parse };	// VA 0x00DB8B20 "DialogEvent", parse 0x001DAA14
 BlockParse theAmbientStreamBlockParse = { 0, "AmbientStream", Rva001DAA5EParse };	// VA 0x00DB8B2C "AmbientStream", parse 0x001DAA5E
