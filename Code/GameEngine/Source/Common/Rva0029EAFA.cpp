@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
 // ?rva0029EAFA@Rva0029EAFA@@QAEXPBVGameMessage@@@Z @0x0029EAFA 232B
-// evidence: chain from 0x0029DE76; rowed GameMessage::getArgument plus Object::isMobile plus Rva0029ACA0::expireAllHints
+// evidence: chain from 0x0029DE76; rowed GameMessage::getArgument plus Object::isMobile plus InGameUI::expireAllHints
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
 union GameMessageArgumentType
@@ -30,7 +30,7 @@ public:
 	bool rva0029DE76(const Coord3D *pos);
 };
 
-class Rva0029ACA0
+class InGameUI
 {
 public:
 	void expireAllHints(int guard);
@@ -206,7 +206,7 @@ void Rva0029EAFA::rva0029EAFA(const GameMessage *msg)
 	pos.z = gameMessageArgumentType->location.z;
 	if (!((Rva0029DE76 *)this)->rva0029DE76(&pos))
 		return;
-	((Rva0029ACA0 *)this)->expireAllHints(0);
+	((InGameUI *)this)->expireAllHints(0);
 	int v = ((ClientFrameSubsystem *)TheGameClient)->getValue();
 	m_elems[m_count].unk = v;
 	m_elems[m_count].pos = pos;

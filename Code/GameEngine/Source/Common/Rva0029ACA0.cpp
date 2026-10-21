@@ -1,16 +1,16 @@
 // cl: /DNDEBUG /MD
-// ?expireHint@Rva0029ACA0@@QAEXHI@Z @0x0029ACA0 39B
+// ?expireHint@InGameUI@@QAEXHI@Z @0x0029ACA0 39B
 // Unlock lane: missing callee of 0x0029ACC7 loop (calls with (0,i) for i in 0..24).
 // Evidence: frameless thiscall ret 8; guards (arg1!=0 return and (unsigned)arg2>=0x19
 // return with jae); imul 0x14 strides with and [edx+ecx+0x4C],0 under /O1 and
 // mov byte [eax+ecx],1 for (arg2+4)*0x14; neighbours /O1.
-class Rva0029ACA0
+class InGameUI
 {
 public:
 	void expireHint(int a, unsigned int b);
 	void expireAllHints(int guard);
 };
-void Rva0029ACA0::expireHint(int a, unsigned int b)
+void InGameUI::expireHint(int a, unsigned int b)
 {
 	if (a != 0)
 		return;
@@ -19,7 +19,7 @@ void Rva0029ACA0::expireHint(int a, unsigned int b)
 	*(unsigned int *)((char *)this + b * 0x14 + 0x4C) = 0;
 	*(unsigned char *)((char *)this + (b + 4) * 0x14) = 1;
 }
-void Rva0029ACA0::expireAllHints(int guard)
+void InGameUI::expireAllHints(int guard)
 {
 	if (guard != 0)
 		return;
