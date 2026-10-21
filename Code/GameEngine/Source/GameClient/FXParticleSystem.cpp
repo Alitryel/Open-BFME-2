@@ -1920,57 +1920,57 @@ CategoryModuleClassBaseAssign8 g_categoryModuleClassBaseAssign8 = &CategoryModul
 // folds all of them onto 0x003A6201. Nothing here constructs one, so an
 // explicit destructor call per class is what forces them out.
 
-void fxDestroyBoxEmissionVolumeModuleTemplate(BoxEmissionVolumeModuleTemplate *p) { p->~BoxEmissionVolumeModuleTemplate(); }
+void fxDestroyBoxEmissionVolumeModuleTemplate(BoxEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~BoxEmissionVolumeModuleTemplate(); }
 
-void fxDestroyButterflyDrawModuleTemplate(ButterflyDrawModuleTemplate *p) { p->~ButterflyDrawModuleTemplate(); }
+void fxDestroyButterflyDrawModuleTemplate(ButterflyDrawModuleTemplate *moduleTemplate) { moduleTemplate->~ButterflyDrawModuleTemplate(); }
 
-void fxDestroyCylinderEmissionVolumeModuleTemplate(CylinderEmissionVolumeModuleTemplate *p) { p->~CylinderEmissionVolumeModuleTemplate(); }
-
-// Not claimed: with the destructor left implicit MSVC never emits it, and
-// declaring one out of line drops the null-checked base adjustment retail
-// keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyLightningDrawModuleTemplate(LightningDrawModuleTemplate *p) { p->~LightningDrawModuleTemplate(); }
+void fxDestroyCylinderEmissionVolumeModuleTemplate(CylinderEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~CylinderEmissionVolumeModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyLightningEmissionModuleTemplate(LightningEmissionModuleTemplate *p) { p->~LightningEmissionModuleTemplate(); }
-
-void fxDestroyLineEmissionVolumeModuleTemplate(LineEmissionVolumeModuleTemplate *p) { p->~LineEmissionVolumeModuleTemplate(); }
+void fxDestroyLightningDrawModuleTemplate(LightningDrawModuleTemplate *moduleTemplate) { moduleTemplate->~LightningDrawModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyOrthoEmissionVelocityModuleTemplate(OrthoEmissionVelocityModuleTemplate *p) { p->~OrthoEmissionVelocityModuleTemplate(); }
+void fxDestroyLightningEmissionModuleTemplate(LightningEmissionModuleTemplate *moduleTemplate) { moduleTemplate->~LightningEmissionModuleTemplate(); }
 
-void fxDestroyPointEmissionVolumeModuleTemplate(PointEmissionVolumeModuleTemplate *p) { p->~PointEmissionVolumeModuleTemplate(); }
-
-void fxDestroyQuadDrawModuleTemplate(QuadDrawModuleTemplate *p) { p->~QuadDrawModuleTemplate(); }
+void fxDestroyLineEmissionVolumeModuleTemplate(LineEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~LineEmissionVolumeModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyRenderObjectUpdateModuleTemplate(RenderObjectUpdateModuleTemplate *p) { p->~RenderObjectUpdateModuleTemplate(); }
+void fxDestroyOrthoEmissionVelocityModuleTemplate(OrthoEmissionVelocityModuleTemplate *moduleTemplate) { moduleTemplate->~OrthoEmissionVelocityModuleTemplate(); }
 
-void fxDestroySphereEmissionVolumeModuleTemplate(SphereEmissionVolumeModuleTemplate *p) { p->~SphereEmissionVolumeModuleTemplate(); }
+void fxDestroyPointEmissionVolumeModuleTemplate(PointEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~PointEmissionVolumeModuleTemplate(); }
 
-void fxDestroySphericalEmissionVelocityModuleTemplate(SphericalEmissionVelocityModuleTemplate *p) { p->~SphericalEmissionVelocityModuleTemplate(); }
-
-void fxDestroyStreakDrawModuleTemplate(StreakDrawModuleTemplate *p) { p->~StreakDrawModuleTemplate(); }
+void fxDestroyQuadDrawModuleTemplate(QuadDrawModuleTemplate *moduleTemplate) { moduleTemplate->~QuadDrawModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyTerrainFireEmissionModuleTemplate(TerrainFireEmissionModuleTemplate *p) { p->~TerrainFireEmissionModuleTemplate(); }
+void fxDestroyRenderObjectUpdateModuleTemplate(RenderObjectUpdateModuleTemplate *moduleTemplate) { moduleTemplate->~RenderObjectUpdateModuleTemplate(); }
+
+void fxDestroySphereEmissionVolumeModuleTemplate(SphereEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~SphereEmissionVolumeModuleTemplate(); }
+
+void fxDestroySphericalEmissionVelocityModuleTemplate(SphericalEmissionVelocityModuleTemplate *moduleTemplate) { moduleTemplate->~SphericalEmissionVelocityModuleTemplate(); }
+
+void fxDestroyStreakDrawModuleTemplate(StreakDrawModuleTemplate *moduleTemplate) { moduleTemplate->~StreakDrawModuleTemplate(); }
+
+// Not claimed: with the destructor left implicit MSVC never emits it, and
+// declaring one out of line drops the null-checked base adjustment retail
+// keeps, so this body is the ICF alias that cannot yet be proven.
+void fxDestroyTerrainFireEmissionModuleTemplate(TerrainFireEmissionModuleTemplate *moduleTemplate) { moduleTemplate->~TerrainFireEmissionModuleTemplate(); }
 
 
 // Every info destructor is one vtable store, and the linker folds all of them
 // onto 0x0049B47C - Snapshot's own destructor among them. Nothing here destroys
 // one, so an explicit call per class is what forces them out.
 
-void fxDestroyInfoBoxEmissionVolumeInfo(BoxEmissionVolumeInfo *p) { p->~BoxEmissionVolumeInfo(); }
+void fxDestroyInfoBoxEmissionVolumeInfo(BoxEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~BoxEmissionVolumeInfo(); }
 
-void fxDestroyInfoCylinderEmissionVolumeInfo(CylinderEmissionVolumeInfo *p) { p->~CylinderEmissionVolumeInfo(); }
+void fxDestroyInfoCylinderEmissionVolumeInfo(CylinderEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~CylinderEmissionVolumeInfo(); }
 
 DefaultAlphaModuleInfo::~DefaultAlphaModuleInfo() {}
 
@@ -1980,27 +1980,27 @@ __declspec(noinline) DefaultPhysicsModuleInfo::~DefaultPhysicsModuleInfo() {}
 
 __declspec(noinline) inline DefaultUpdateModuleInfo::~DefaultUpdateModuleInfo() {}
 
-void fxDestroyInfoEmissionVelocityInfo(EmissionVelocityInfo *p) { p->~EmissionVelocityInfo(); }
+void fxDestroyInfoEmissionVelocityInfo(EmissionVelocityInfo *moduleTemplate) { moduleTemplate->~EmissionVelocityInfo(); }
 
-void fxDestroyInfoEmissionVolumeInfo(EmissionVolumeInfo *p) { p->~EmissionVolumeInfo(); }
+void fxDestroyInfoEmissionVolumeInfo(EmissionVolumeInfo *moduleTemplate) { moduleTemplate->~EmissionVolumeInfo(); }
 
 __declspec(noinline) inline LightningDrawModuleInfo::~LightningDrawModuleInfo() {}
 
 inline LightningEmissionInfo::~LightningEmissionInfo() {}
 
-void fxDestroyInfoLineEmissionVolumeInfo(LineEmissionVolumeInfo *p) { p->~LineEmissionVolumeInfo(); }
+void fxDestroyInfoLineEmissionVolumeInfo(LineEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~LineEmissionVolumeInfo(); }
 
 inline OrthoEmissionVelocityInfo::~OrthoEmissionVelocityInfo() {}
 
 __declspec(noinline) inline RenderObjectUpdateModuleInfo::~RenderObjectUpdateModuleInfo() {}
 
-void fxDestroyInfoSphereEmissionVolumeInfo(SphereEmissionVolumeInfo *p) { p->~SphereEmissionVolumeInfo(); }
+void fxDestroyInfoSphereEmissionVolumeInfo(SphereEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~SphereEmissionVolumeInfo(); }
 
-void fxDestroyInfoSphericalEmissionVelocityInfo(SphericalEmissionVelocityInfo *p) { p->~SphericalEmissionVelocityInfo(); }
+void fxDestroyInfoSphericalEmissionVelocityInfo(SphericalEmissionVelocityInfo *moduleTemplate) { moduleTemplate->~SphericalEmissionVelocityInfo(); }
 
 inline TerrainFireEmissionInfo::~TerrainFireEmissionInfo() {}
 
-void fxDestroyInfoWindModuleInfo(WindModuleInfo *p) { p->~WindModuleInfo(); }
+void fxDestroyInfoWindModuleInfo(WindModuleInfo *moduleTemplate) { moduleTemplate->~WindModuleInfo(); }
 
 
 // More of the same nothing-to-copy assignments, each forced out by naming it.
@@ -2061,8 +2061,8 @@ struct Rva001F425C {
 };
 void Rva001F425C::call()
 {
-    for (LoopItemA **p = m_begin; p != m_end; ++p)
-        (*p)->tick();
+    for (LoopItemA **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate)
+        (*moduleTemplate)->tick();
 }
 
 struct LoopItemC {
@@ -2078,8 +2078,8 @@ struct Rva001F4276 {
 };
 void Rva001F4276::call(int a, int b)
 {
-    for (LoopItemC **p = m_begin; p != m_end; ++p)
-        (*p)->m3(a, b);
+    for (LoopItemC **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate)
+        (*moduleTemplate)->m3(a, b);
 }
 
 struct CondItemA {
@@ -2095,8 +2095,8 @@ struct Rva001F429A {
 };
 void Rva001F429A::call()
 {
-    for (CondItemA **p = m_begin; p != m_end; ++p) {
-        CondItemA *it = *p;
+    for (CondItemA **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate) {
+        CondItemA *it = *moduleTemplate;
         if (it->m_flag1C == 0)
             it->tick();
     }
@@ -2115,8 +2115,8 @@ struct Rva001F42BA {
 };
 void Rva001F42BA::call(int a)
 {
-    for (LoopItemB **p = m_begin; p != m_end; ++p)
-        (*p)->m3(a);
+    for (LoopItemB **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate)
+        (*moduleTemplate)->m3(a);
 }
 
 // Callers spell the ICF-folded module-info destructor at 0x0049B47C by address; bind that spelling here.
