@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00049BFDD@RadiateFearUpdate@@SA?AW4NameKeyType@@XZ @0x49BFDD
+// ?getModuleNameKey@RadiateFearUpdate@@UBE?AW4NameKeyType@@XZ @0x49BFDD
 // (69B): cached pool-name key for RadiateFearUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("RadiateFearUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RadiateFearUpdate
 {
 public:
-	static NameKeyType rva00049BFDD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049BFDD@RadiateFearUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType RadiateFearUpdate::rva00049BFDD()
+// ?getModuleNameKey@RadiateFearUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType RadiateFearUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheRadiateFearUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("RadiateFearUpdate");

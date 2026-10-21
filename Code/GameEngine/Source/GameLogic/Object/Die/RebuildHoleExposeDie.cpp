@@ -94,7 +94,7 @@ public:
 	DieModule(Thing *thing, const ModuleData *moduleData);
 };
 
-// ?rva000486792@RebuildHoleExposeDie@@SA?AW4NameKeyType@@XZ @0x486792
+// ?getModuleNameKey@RebuildHoleExposeDie@@UBE?AW4NameKeyType@@XZ @0x486792
 // (69B): cached pool-name key for RebuildHoleExposeDie. The class
 // identity comes from the pool-name string the body pushes
 // ("RebuildHoleExposeDie"); the body guards a function-local static
@@ -123,7 +123,7 @@ public:
 	RebuildHoleExposeDie(Thing *thing, const ModuleData *moduleData);
 	virtual void onDie(const DamageInfo *damageInfo);
 public:
-	static NameKeyType rva000486792();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 // tu-skeleton: 0x004866F3 44B ?xfer@RebuildHoleExposeDie@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Die/RebuildHoleExposeDieXfer.cpp (not merged yet)
@@ -152,8 +152,8 @@ RebuildHoleExposeDie::RebuildHoleExposeDie(Thing *thing, const ModuleData *modul
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Die/RebuildHoleExposeDiePoolKey.cpp
 
-// ?rva000486792@RebuildHoleExposeDie@@SA?AW4NameKeyType@@XZ
-NameKeyType RebuildHoleExposeDie::rva000486792()
+// ?getModuleNameKey@RebuildHoleExposeDie@@UBE?AW4NameKeyType@@XZ
+NameKeyType RebuildHoleExposeDie::getModuleNameKey() const
 {
 	static NameKeyType TheRebuildHoleExposeDiePoolKey =
 		TheNameKeyGenerator->nameToKey("RebuildHoleExposeDie");

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva000252CDF@UpgradeSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ @0x252CDF
+// ?getModuleNameKey@UpgradeSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ @0x252CDF
 // (69B): cached pool-name key for UpgradeSoundSelectorClientBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("UpgradeSoundSelectorClientBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class UpgradeSoundSelectorClientBehavior
 {
 public:
-	static NameKeyType rva000252CDF();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000252CDF@UpgradeSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType UpgradeSoundSelectorClientBehavior::rva000252CDF()
+// ?getModuleNameKey@UpgradeSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType UpgradeSoundSelectorClientBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheUpgradeSoundSelectorClientBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("UpgradeSoundSelectorClientBehavior");

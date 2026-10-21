@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00048FC30@HeightDieUpdate@@SA?AW4NameKeyType@@XZ @0x48fc30
+// ?getModuleNameKey@HeightDieUpdate@@UBE?AW4NameKeyType@@XZ @0x48fc30
 // (69B): cached pool-name key for HeightDieUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("HeightDieUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HeightDieUpdate
 {
 public:
-	static NameKeyType rva00048FC30();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048FC30@HeightDieUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType HeightDieUpdate::rva00048FC30()
+// ?getModuleNameKey@HeightDieUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType HeightDieUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheHeightDieUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("HeightDieUpdate");

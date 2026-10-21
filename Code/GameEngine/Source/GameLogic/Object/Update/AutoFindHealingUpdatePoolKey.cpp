@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0004950B4@AutoFindHealingUpdate@@SA?AW4NameKeyType@@XZ @0x4950b4
+// ?getModuleNameKey@AutoFindHealingUpdate@@UBE?AW4NameKeyType@@XZ @0x4950b4
 // (69B): cached pool-name key for AutoFindHealingUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("AutoFindHealingUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AutoFindHealingUpdate
 {
 public:
-	static NameKeyType rva0004950B4();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004950B4@AutoFindHealingUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType AutoFindHealingUpdate::rva0004950B4()
+// ?getModuleNameKey@AutoFindHealingUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType AutoFindHealingUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheAutoFindHealingUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("AutoFindHealingUpdate");

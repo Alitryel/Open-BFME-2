@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00028C992@ObjectDefectionHelper@@SA?AW4NameKeyType@@XZ @0x28C992
+// ?getModuleNameKey@ObjectDefectionHelper@@UBE?AW4NameKeyType@@XZ @0x28C992
 // (69B): cached pool-name key for ObjectDefectionHelper. The class
 // identity comes from the pool-name string the body pushes
 // ("ObjectDefectionHelper"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ObjectDefectionHelper
 {
 public:
-	static NameKeyType rva00028C992();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00028C992@ObjectDefectionHelper@@SA?AW4NameKeyType@@XZ
-NameKeyType ObjectDefectionHelper::rva00028C992()
+// ?getModuleNameKey@ObjectDefectionHelper@@UBE?AW4NameKeyType@@XZ
+NameKeyType ObjectDefectionHelper::getModuleNameKey() const
 {
 	static NameKeyType TheObjectDefectionHelperPoolKey =
 		TheNameKeyGenerator->nameToKey("ObjectDefectionHelper");
