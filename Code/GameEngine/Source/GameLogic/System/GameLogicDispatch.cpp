@@ -557,7 +557,7 @@ case ((GameMessage::Type)1074):
 			GuardMode gm = (GuardMode)msg->getArgument( 1 )->integer;
 			if (currentlySelectedGroup)
 			{
-				currentlySelectedGroup->rva00370410(obj, gm, CMD_FROM_PLAYER);
+				currentlySelectedGroup->groupGuardObject(obj, gm, CMD_FROM_PLAYER);
 			}
 
 			break;

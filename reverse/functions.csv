@@ -30981,7 +30981,7 @@ _io_flush,,0x0074AE00,194,Code/Libraries/Source/Lua/liolib.c,matched,BFME1 byte-
 ??1PartitionSolver@@QAE@XZ,,0x003C649E,105,Code/GameEngine/Source/Common/PartitionSolverDestructor.cpp,matched,ZH PartitionSolver layout and WB FFC440 stack-object lifetime identify four vector buffers; whole105B and EH exact; replaces opaque string-shaped view
 ??1Rva002B82D5@@QAE@XZ,,0x002B82D5,53,Code/GameEngine/Source/Common/Rva002B82D5Dtor.cpp,matched,family dtor via rowed 0x002B62A6 and 0x002B626E unblocks 7
 ?rva00067878@Rva00067878@@QAEXXZ,,0x00067878,67,Code/GameEngine/Source/Common/Rva00067878Clear.cpp,matched,unlock release CC D0 tail BfmeResetTextureRef clear
-?rva00370410@AIGroup@@QAEXPAVObject@@HW4CommandSourceType@@@Z,,0x00370410,65,Code/GameEngine/Source/GameLogic/AI/Rva00370410Group.cpp,matched,AIGroup forward via 0x0036F4DF same list loop
+?groupGuardObject@AIGroup@@QAEXPAVObject@@HW4CommandSourceType@@@Z,,0x00370410,65,Code/GameEngine/Source/GameLogic/AI/Rva00370410Group.cpp,matched,AIGroup forward via 0x0036F4DF same list loop
 ?rva00370451@AIGroup@@QAEXPBVTeam@@HW4CommandSourceType@@@Z,,0x00370451,65,Code/GameEngine/Source/GameLogic/AI/Rva00370451Group.cpp,matched,AIGroup forward via 0x0036F54D same list loop
 ?rva00370492@AIGroup@@QAEXPBVPolygonTrigger@@HW4CommandSourceType@@@Z,,0x00370492,65,Code/GameEngine/Source/GameLogic/AI/Rva00370492Group.cpp,matched,AIGroup forward via 0x0036F5BB same list loop
 ?rva003704D3@AIGroup@@QAEXPBVPolygonTrigger@@HW4CommandSourceType@@PBUCoord3D@@@Z,,0x003704D3,68,Code/GameEngine/Source/GameLogic/AI/Rva003704D3Group.cpp,matched,AIGroup forward via 0x0036F629 same list loop

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva00370410@AIGroup@@QAEXPAVObject@@HW4CommandSourceType@@@Z @0x00370410 65B
+// ?groupGuardObject@AIGroup@@QAEXPAVObject@@HW4CommandSourceType@@@Z @0x00370410 65B
 // AIGroup forward of aiGuardObject to each member via rowed 0x0036F4DF,
 // null object returns, same list-at-+0 plus Object+0x258 plus +0x20 loop.
 // Evidence: calls 0x0036F4DF; callers 0x00378690 0x003BF807 0x003C2BB5;
@@ -38,12 +38,12 @@ public:
 class AIGroup
 {
 public:
-	void rva00370410(Object *obj, int x, CommandSourceType cmdSource);
+	void groupGuardObject(Object *obj, int x, CommandSourceType cmdSource);
 private:
 	std::list<Object *> m_memberList;
 };
 
-void AIGroup::rva00370410(Object *obj, int x, CommandSourceType cmdSource)
+void AIGroup::groupGuardObject(Object *obj, int x, CommandSourceType cmdSource)
 {
 	if (obj == 0)
 		return;

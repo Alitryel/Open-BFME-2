@@ -106,7 +106,7 @@ struct Rva00372571Params
 class AIGroup
 {
 public:
-	void rva00370410(Object *target, int value, CommandSourceType cmdSource);
+	void groupGuardObject(Object *target, int value, CommandSourceType cmdSource);
 	void rva00372571(Rva00372571Params *params, int source);	// 0x00372571
 };
 
@@ -152,7 +152,7 @@ void ScriptActions::Rva003C2A9FDo(const AsciiString &teamName, int kindBit)
 	if (!group)
 		return;
 	team->getTeamAsAIGroup(group);
-	group->rva00370410(best, 0, CMD_FROM_SCRIPT);
+	group->groupGuardObject(best, 0, CMD_FROM_SCRIPT);
 }
 
 // 0x003C2260 (319B): the move form of 0x003C2A9F -- the team's new group is
