@@ -100,7 +100,7 @@ public:
 class Rva0049C93F
 {
 public:
-	int rva0049C93F();
+	int update();
 
 private:
 	char m_pad00[0x30];
@@ -118,7 +118,7 @@ static GiveUpgradeUpdate *parentOf(Rva0049C93F *self)
 
 // State 2 keeps the delivery; any other state clears +0x89 and forwards
 // slot 0x34. The +0x88 countdown subtracts the +0x04 object's +0xDC.
-int Rva0049C93F::rva0049C93F()
+int Rva0049C93F::update()
 {
 	Object *owner = *(Object **)((char *)this - 8);
 	AIUpdate *ai = owner->m_ai;

@@ -1,7 +1,7 @@
 #include "../../Common/PartitionRangeQueryCallView.h"
 // cl: /O1 /arch:SSE /DNDEBUG /MD
 //
-// ?rva0049520B@Rva0049520B@@QAEHXZ @0x0049520B 148B.
+// ?update@Rva0049520B@@QAEHXZ @0x0049520B 148B.
 // Player field +0x5c gates a counter at +0x10. Otherwise compare two
 // view floats and, when the actor slot 110 accepts, issue command 2.
 
@@ -184,14 +184,14 @@ public:
 class Rva0049520B
 {
 public:
-	int rva0049520B();
+	int update();
 
 private:
 	char m_pad[0x10];
 	int m_counter;
 };
 
-int Rva0049520B::rva0049520B()
+int Rva0049520B::update()
 {
 	Object *obj = *(Object **)((char *)this - 8);
 	Player *player = obj->getControllingPlayer();

@@ -322,7 +322,7 @@ void Rva00482E96::xfer(Xfer *xfer)
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?f2@Rva00481F82_S2@@UAEXXZ=?update@TerrainResourceBehavior@@UAE?AW4UpdateSleepTime@@XZ")
-#pragma comment(linker, "/alternatename:?f2@Rva00482E96_S2@@UAEXXZ=?rva00482BB9@Rva00482BB9@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?f2@Rva00482E96_S2@@UAEXXZ=?update@Rva00482BB9@@QAEHXZ")
 #pragma comment(linker, "/alternatename:?f3@Rva00481F82_S3@@UAEXXZ=?rva00482152@Rva00482152@@UAEXH@Z")
 #pragma comment(linker, "/alternatename:?f3@Rva00589079_S3@@UAEXXZ=?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@M0MM@Z")
 #pragma comment(linker, "/alternatename:?f4@Rva00482E96_S4@@UAEXXZ=?onDie@FireWeaponWhenDeadBehavior@@UAEXPBVDamageInfo@@@Z")

@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva0049862B@Rva0049862B@@QAEHXZ @0x0049862B 213B.
+// ?update@Rva0049862B@@QAEHXZ @0x0049862B 213B.
 // This sits at BattlePlanUpdate+0x10. The byte at +0x2c and a future frame
 // both return 1. State +0x20 is 0..3 and drives the plan helper at 0x00497FF3,
 // plus the rowed turret helpers. The answer is always 1.
@@ -66,7 +66,7 @@ protected:
 class Rva0049862B
 {
 public:
-	int rva0049862B();
+	int update();
 
 private:
 	BattlePlanUpdate *plan()
@@ -85,7 +85,7 @@ private:
 	unsigned char m_turretHeld;
 };
 
-int Rva0049862B::rva0049862B()
+int Rva0049862B::update()
 {
 	if (m_closed != 0)
 		return 1;

@@ -53,14 +53,14 @@ public:
 class Rva00482BB9
 {
 public:
-	Int rva00482BB9();
+	Int update();
 private:
 	char m_pad00[0x18];
 	Rva00482BB9Member m_18;
 	char m_1C[0x98 - 0x1C];
 	Int m_98;
 };
-Int Rva00482BB9::rva00482BB9()
+Int Rva00482BB9::update()
 {
 	Int *count = &m_98;
 	if (*count > 0 && --*count == 0)

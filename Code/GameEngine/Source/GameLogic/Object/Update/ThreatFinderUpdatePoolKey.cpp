@@ -69,13 +69,13 @@ struct Rva003ECD1BRoot
 class Rva003ECD1B
 {
 public:
-	int rva003ECD1B();
+	int update();
 };
 
 // Native 3ECD1B..3ECD60: receiver is an interior view at root+8.
 // Copy the owner's three-float position to child+554 when child exists;
 // return 1. The enclosing class and update-method identity remain unknown.
-int Rva003ECD1B::rva003ECD1B()
+int Rva003ECD1B::update()
 {
 	Rva003ECD1BRoot *root = reinterpret_cast<Rva003ECD1BRoot *>(
 		reinterpret_cast<char *>(this) - 8);

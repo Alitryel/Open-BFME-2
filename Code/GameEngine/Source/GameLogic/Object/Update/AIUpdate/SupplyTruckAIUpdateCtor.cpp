@@ -142,6 +142,6 @@ SupplyTruckAIUpdate::~SupplyTruckAIUpdate()
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?f00@AIBase00@@UAEXXZ=??_GSupplyTruckAIUpdate@@UAEPAXI@Z")
-#pragma comment(linker, "/alternatename:?f10@AIBase10@@UAEXXZ=?rva004A6A58@Rva004A6A58@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?f10@AIBase10@@UAEXXZ=?update@Rva004A6A58@@QAEHXZ")
 #pragma comment(linker, "/alternatename:?f20@AIBase20@@UAEXXZ=?aiDoCommand@AIUpdateInterface@@UAEXPBUAICommandParms@@@Z")
 #pragma comment(linker, "/alternatename:?f24@AIBase24@@UAEXXZ=?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z")
