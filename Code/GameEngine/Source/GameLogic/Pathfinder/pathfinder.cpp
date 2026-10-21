@@ -13,9 +13,9 @@
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+static inline const unsigned int &max(const unsigned int &lhs, const unsigned int &rhs)
 {
-    return a < b ? b : a;
+    return lhs < rhs ? rhs : lhs;
 }
 }
 #include <vector>
@@ -1033,11 +1033,11 @@ Pathfinder_FuncTightenPath::Pathfinder_FuncTightenPath(Pathfinder *pathfinder,
 }
 
 // scratch: Pathfinder::rva002EB4A0 rehomed (0x002EB4A0, 63 B)
-int Pathfinder::rva002EB4A0(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, void *info)
+int Pathfinder::rva002EB4A0(const Coord3D *lhs, const Coord3D *rhs, PathfindLayerEnum layer, void *info)
 {
 	ICoord2D tmp1;
 	ICoord2D tmp2;
-	return iterateCellsAlongLine(Rva002E7875WorldToCell(&tmp2, true, a), Rva002E7875WorldToCell(&tmp1, true, b), layer, (struct Rva002E85ADInfo *)info);
+	return iterateCellsAlongLine(Rva002E7875WorldToCell(&tmp2, true, lhs), Rva002E7875WorldToCell(&tmp1, true, rhs), layer, (struct Rva002E85ADInfo *)info);
 }
 
 struct Rva0028AC4EQ { char pad00[0x14]; Int value14; };
@@ -2384,11 +2384,11 @@ private:
 	int m_30;
 };
 
-inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int lhs, In002E6BA1 *rhs)
 {
-	m_30 = a;
-	m_00 = b->x;
-	m_04 = b->y;
+	m_30 = lhs;
+	m_00 = rhs->x;
+	m_04 = rhs->y;
 	m_08 = 0;
 	m_0C = 0;
 	m_10 = 0;
@@ -2410,11 +2410,11 @@ public:
 
 // Rehomed 0x002E8B7A (33 B), original Rva002E8B7AInit.cpp: takes the pool
 // head, unlinks it (0x002E6BE2) and initializes it for the cell (0x002E6BA1).
-inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
+inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int lhs, In002E6BA1 *in)
 {
 	MixFileInfoBuffer *node = *pp;
 	node->bfmeUnlink();
-	((Rva002E6BA1 *)node)->rva002E6BA1(a, in);
+	((Rva002E6BA1 *)node)->rva002E6BA1(lhs, in);
 	return node;
 }
 
@@ -2771,9 +2771,9 @@ int Pathfinder::_GetOverlapUnits(Object *object,const Coord3D *position,int *out
  for(int x=cell.x-below;x<cell.x+above;++x) {
   for(int y=cell.y-below;y<cell.y+above;++y) {
    for(int k=0;k<numLayers;++k) {
-    PathCollisionCell *c=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
-    if(c && c->info) {
-     for(PathCollisionNode *node=c->info->goals;node;node=node->next) {
+    PathCollisionCell *pathCell=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
+    if(pathCell && pathCell->info) {
+     for(PathCollisionNode *node=pathCell->info->goals;node;node=node->next) {
       if(node->object->rva002E6B89()) continue;
       out[count++]=node->object->getID();
       if(count==16) return count;
@@ -2858,9 +2858,9 @@ int Pathfinder::GetOverlapGoalUnits(Object *object,const Coord3D *position,int *
  for(int x=cell.x-below;x<cell.x+above;++x) {
   for(int y=cell.y-below;y<cell.y+above;++y) {
    for(int k=0;k<numLayers;++k) {
-    PathCollisionCell *c=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
-    if(c && c->info) {
-     for(PathCollisionNode *node=c->info->occupants;node;node=node->next) {
+    PathCollisionCell *pathCell=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
+    if(pathCell && pathCell->info) {
+     for(PathCollisionNode *node=pathCell->info->occupants;node;node=node->next) {
       if(node->object->rva002E6B89()) continue;
       out[count++]=node->object->getID();
       if(count==16) return count;
@@ -2890,9 +2890,9 @@ int Pathfinder::CountOverlapHordeGoalUnits(Object *object,const Coord3D *positio
  for(int x=cell.x-below;x<cell.x+above;++x) {
   for(int y=cell.y-below;y<cell.y+above;++y) {
    for(int k=0;k<numLayers;++k) {
-    PathCollisionCell *c=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
-    if(c && c->info) {
-     for(PathCollisionNode *node=c->info->hordeGoalNodes;node;node=node->next) {
+    PathCollisionCell *pathCell=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
+    if(pathCell && pathCell->info) {
+     for(PathCollisionNode *node=pathCell->info->hordeGoalNodes;node;node=node->next) {
       if(node->object==object) continue;
       if(node->object->container==object->container) ++count;
       else count+=2;
@@ -2926,15 +2926,15 @@ int Pathfinder::_GetAdjacentUnits(Object *object,const Coord3D *position,int *ou
   int step=(x==cell.x-below-1 || x==cell.x+above)?1:below+above+1;
   for(int y=cell.y-below-1;y<cell.y+above+1;y+=step) {
    for(int k=0;k<numLayers;++k) {
-    PathCollisionCell *c=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
-    if(c && c->info) {
-     for(PathCollisionNode *node=c->info->goals;node;node=node->next) {
+    PathCollisionCell *pathCell=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
+    if(pathCell && pathCell->info) {
+     for(PathCollisionNode *node=pathCell->info->goals;node;node=node->next) {
       if(node->object->rva002E6B89()) continue;
       out[count++]=node->object->getID();
       if(count==16) return count;
      }
-     if(!c->info->goals) {
-      Object *fallback=TheGameLogic->findObjectByID((ObjectID)(c->info?c->info->fallbackID:0));
+     if(!pathCell->info->goals) {
+      Object *fallback=TheGameLogic->findObjectByID((ObjectID)(pathCell->info?pathCell->info->fallbackID:0));
       if(fallback && !fallback->rva002E6B89()) {
        out[count++]=fallback->getID();
        if(count==16) return count;
@@ -3192,8 +3192,8 @@ static __forceinline void rotateOffset(float &x, float &y, float angle)
 	y = y * cosine + x * sine;
 	x = rotated;
 }
-static __forceinline void setInfoCell(TCheckMovementInfo &info, ICoord2D c) { info.cell = c; }
-static __forceinline void setInfoCellYX(TCheckMovementInfo &info, ICoord2D c) { info.cell.y = c.y; info.cell.x = c.x; }
+static __forceinline void setInfoCell(TCheckMovementInfo &info, ICoord2D pathCell) { info.cell = pathCell; }
+static __forceinline void setInfoCellYX(TCheckMovementInfo &info, ICoord2D pathCell) { info.cell.y = pathCell.y; info.cell.x = pathCell.x; }
 // 0x002E75A3 (304 B), rehomed from AI/PathfinderRva002E75A3.cpp: retail compiles
 // it in this object, so InternalFindPath's &clipFrom/&adjustTo stay local.
 #include "../../../../Libraries/Include/Lib/IRegion2D.h"
@@ -3213,27 +3213,27 @@ static __forceinline long clipCellRound(float f)
 	}
 	return i;
 }
-void Pathfinder::rva002E75A3(Coord3D *a, Coord3D *b)
+void Pathfinder::rva002E75A3(Coord3D *lhs, Coord3D *rhs)
 {
 	ICoord2D p2;
 	ICoord2D p1;
 	IRegion2D *clip = (IRegion2D *)&m_clampLo;
 	ICoord2D c2;
 	ICoord2D c1;
-	p1.x = clipCellRound(clipCellFloor(a->x * PATHFINDER_CELL_INV));
-	p1.y = clipCellRound(clipCellFloor(a->y * PATHFINDER_CELL_INV));
-	p2.x = clipCellRound(clipCellFloor(b->x * PATHFINDER_CELL_INV));
-	p2.y = clipCellRound(clipCellFloor(b->y * PATHFINDER_CELL_INV));
+	p1.x = clipCellRound(clipCellFloor(lhs->x * PATHFINDER_CELL_INV));
+	p1.y = clipCellRound(clipCellFloor(lhs->y * PATHFINDER_CELL_INV));
+	p2.x = clipCellRound(clipCellFloor(rhs->x * PATHFINDER_CELL_INV));
+	p2.y = clipCellRound(clipCellFloor(rhs->y * PATHFINDER_CELL_INV));
 	if (!ClipLine2D(&p1, &p2, &c1, &c2, clip))
 		return;
 	float base = 0.05f;
 	if (p1.x != c1.x || p1.y != c1.y) {
-		a->x = (float)(c1.x * 10) + base;
-		a->y = (float)(c1.y * 10) + base;
+		lhs->x = (float)(c1.x * 10) + base;
+		lhs->y = (float)(c1.y * 10) + base;
 	}
 	if (p2.x != c2.x || p2.y != c2.y) {
-		b->x = (float)(c2.x * 10) + base;
-		b->y = (float)(c2.y * 10) + base;
+		rhs->x = (float)(c2.x * 10) + base;
+		rhs->y = (float)(c2.y * 10) + base;
 	}
 }
 // 0x002E6FDF (59 B), rehomed from Rva002E6FDFClear.cpp.
@@ -3287,13 +3287,13 @@ struct Rva002E6DC4_P2
 };
 inline __declspec(noinline) bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_raw)
 {
-	Rva002E6DC4_P1 *a = (Rva002E6DC4_P1 *)a_raw;
-	Rva002E6DC4_P2 *b = (Rva002E6DC4_P2 *)b_raw;
-	if (!b)
+	Rva002E6DC4_P1 *lhs = (Rva002E6DC4_P1 *)a_raw;
+	Rva002E6DC4_P2 *rhs = (Rva002E6DC4_P2 *)b_raw;
+	if (!rhs)
 		return false;
-	unsigned int flags = b->m_C;
+	unsigned int flags = rhs->m_C;
 	unsigned char b18 = (unsigned char)(flags >> 18);
-	if ((b18 & 1) != 0 && a->m_5 != 0)
+	if ((b18 & 1) != 0 && lhs->m_5 != 0)
 		return false;
 	unsigned int low = flags & 0xF;
 	switch (low) {
@@ -3302,7 +3302,7 @@ inline __declspec(noinline) bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_r
 			return false;
 		break;
 	case 4: {
-		void *chase = b->m_0 ? b->m_0->m_28 : 0;
+		void *chase = rhs->m_0 ? rhs->m_0->m_28 : 0;
 		if (chase == m_48)
 			return true;
 		break;
@@ -3310,17 +3310,17 @@ inline __declspec(noinline) bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_r
 	default:
 		break;
 	}
-	if ((a->m_0 & g_00DBD33C[low]) == 0)
+	if ((lhs->m_0 & g_00DBD33C[low]) == 0)
 		return false;
 	unsigned char b17 = (unsigned char)(flags >> 17);
-	if (a->m_4 != 0 && (b17 & 1) != 0)
+	if (lhs->m_4 != 0 && (b17 & 1) != 0)
 		return false;
-	if (a->m_C != 0) {
+	if (lhs->m_C != 0) {
 		unsigned char b22 = (unsigned char)(flags >> 22);
 		if (((b22 & 1) == 0) && low == 4)
 			return false;
 	}
-	int v = a->m_8;
+	int v = lhs->m_8;
 	if (v < 0 || (int)((flags >> 19) & 3) <= v)
 		return true;
 	return false;
@@ -3793,7 +3793,7 @@ struct PathfinderAttackHandle
 // WB D48830 supplies FindClosestPath identity and target-specific stages;
 // ZH findClosestPath supplies closest-cell and hierarchical search semantics.
 inline __declspec(noinline) float Coord3D::length()const{return(float)sqrt(x*x+y*y+z*z);}
-inline __declspec(noinline) float Coord3D::GetLength()const{float a=x,b=y,c=z;return(float)sqrt(a*a+b*b+c*c);}
+inline __declspec(noinline) float Coord3D::GetLength()const{float lhs=x,rhs=y,pathCell=z;return(float)sqrt(lhs*lhs+rhs*rhs+pathCell*pathCell);}
 inline __declspec(noinline) float Coord3D::Normalize(){float len=GetLength();float scale=1.0f/len;x*=scale;y*=scale;z*=scale;return len;}
 Path *Pathfinder::FindClosestPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,
 Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
@@ -4383,8 +4383,8 @@ void __cdecl Rva002EBCA7Split(void *p, int *outHalf, unsigned char *outOdd)
 // Initialize the walk budget before x/y to retain the native load scheduling.
 struct Rva002ED7F7Budget{char pad[0x1200];int maxSteps;};
 class Rva002EC3CEProbes{public:bool rva002EAA41(int,int,int,int,int,bool);bool rva002E7BF0(int,int,bool,int,int,int,void*,bool);};
-static __forceinline void subtractMelee(Coord3D &a,const Coord3D&b){a.x-=b.x;a.y-=b.y; a.z-=b.z;}
-static __forceinline float distanceMelee(const Coord3D&a){return a.z*a.z+a.y*a.y+a.x*a.x;}
+static __forceinline void subtractMelee(Coord3D &lhs,const Coord3D&rhs){lhs.x-=rhs.x;lhs.y-=rhs.y; lhs.z-=rhs.z;}
+static __forceinline float distanceMelee(const Coord3D&lhs){return lhs.z*lhs.z+lhs.y*lhs.y+lhs.x*lhs.x;}
 bool Pathfinder::adjustToMeleeDestination(Object*obj,const LocomotorSet&set,Coord3D*dest){
  int i;
  int radius;Bool center;Rva002EBCA7Split(obj,&radius,(unsigned char*)&center);
@@ -4449,10 +4449,10 @@ private:
 	Rva002E8D74Pt *m_28;
 };
 
-inline float Rva002E8D74::rva002E8D74(int a, int b)
+inline float Rva002E8D74::rva002E8D74(int lhs, int rhs)
 {
-	int x = a * 10;
-	int y = b * 10;
+	int x = lhs * 10;
+	int y = rhs * 10;
 	float dx = (float)x - m_28->m_38;
 	float dy = (float)y - m_28->m_3C;
 	return dx * dx + dy * dy;
@@ -5009,14 +5009,14 @@ class Rva002E6CFE
 }
 ;
 // ?rva002E6CFE@Rva002E6CFE@@QAEXHHH@Z @0x002E6CFE 49B
-__declspec(noinline) inline void Rva002E6CFE::rva002E6CFE(int a, int b, int c)
+__declspec(noinline) inline void Rva002E6CFE::rva002E6CFE(int lhs, int rhs, int pathCell)
 
 {
- m_08 = c;
- if (c > 0) 
+ m_08 = pathCell;
+ if (pathCell > 0) 
  {
-  m_04 = ((b - a) << 8) / c;
-  m_00 = (m_04 / 2) + (a << 8);
+  m_04 = ((rhs - lhs) << 8) / pathCell;
+  m_00 = (m_04 / 2) + (lhs << 8);
   
  }
  
@@ -5177,10 +5177,10 @@ inline int Pathfinder::IterateCellsInRectangle(const ICoord2DBase *center,const 
  
 }
 extern float g_Va00BBB8E0;
-__declspec(noinline) inline Rva002E7DF5::Rva002E7DF5(int a,const _Rva002E7DF5Cell &cell) throw()
+__declspec(noinline) inline Rva002E7DF5::Rva002E7DF5(int lhs,const _Rva002E7DF5Cell &cell) throw()
 {
  float f=g_Va00BBB8E0;
- owner=a;
+ owner=lhs;
  sourceWords[0]=cell.x;
  sourceWords[1]=cell.y;
  sourceWords[2]=cell.z;
@@ -5366,8 +5366,8 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
    Int y=cell.y-below; lastY=cell.y+above;
    for(;y<lastY;++y)
     for(Int l=0;l<layerCount;++l) {
-     PathCollisionCell *c=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[l],x,y));
-     if(c && c->info)for(PathCollisionNode *n=c->info->occupants;n;n=n->next)if(n->object!=obj)++oldCount;
+     PathCollisionCell *pathCell=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[l],x,y));
+     if(pathCell && pathCell->info)for(PathCollisionNode *n=pathCell->info->occupants;n;n=n->next)if(n->object!=obj)++oldCount;
     }
   }
  }
@@ -5379,18 +5379,18 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
   Int y=cell.y-below; lastY=cell.y+above;
   for(;y<lastY;++y)
    for(Int l=0;l<layerCount;++l) {
-    Int layer=layers[l];PathfindCell *c=getCell((PathfindLayerEnum)layer,x,y);
-    if(!c)continue;
-    if(c->m_info & 0x10000) {
+    Int layer=layers[l];PathfindCell *pathCell=getCell((PathfindLayerEnum)layer,x,y);
+    if(!pathCell)continue;
+    if(pathCell->m_info & 0x10000) {
      static Int deltaX[]={-1,1,0,0};static Int deltaY[]={0,0,-1,1};
      for(Int i=0;i<4;++i) {
       PathfindCell *neighbor=getCell((PathfindLayerEnum)layer,x+deltaX[i],y+deltaY[i]);
       if(neighbor && ((neighbor->m_info>>4)&0x3F)!=layer)return false;
      }
     }
-    PathCollisionInfo *info=reinterpret_cast<PathCollisionCell *>(c)->info;
+    PathCollisionInfo *info=reinterpret_cast<PathCollisionCell *>(pathCell)->info;
     if(info) {
-     if(!((Rva002E6DC4 *)this)->rva002E6DC4(&query,c))return false;
+     if(!((Rva002E6DC4 *)this)->rva002E6DC4(&query,pathCell))return false;
      for(PathCollisionNode *n=info->occupants;n;n=n->next) {
       if(n->object==obj)continue;
       ++newCount;
@@ -6268,7 +6268,7 @@ struct PathfinderAttackPathView{void*vptr;PathfinderAttackNode*first;};
 struct AttackLimitView{char gap[0x9b8];Int debugAI;char pad[0x1214-0x9bc];unsigned int attackLimit;};
 __declspec(noinline) inline void Coord3D::normalize(){float len=length();if(len!=0.0f){float s=1.0f/len;x*=s;y*=s;z*=s;}}
 struct Rva002E8BCFSrc{char pad[0x10];Int m10;char m14;Bool m15;};
-__declspec(noinline) Rva002E8BCF::Rva002E8BCF(const Rva002E8BCFSrc*src,Bool a,Int b,Bool c){surfaces=src->m10;field4=a;field5=c;maxLayer=b;fieldC=src->m15;}
+__declspec(noinline) Rva002E8BCF::Rva002E8BCF(const Rva002E8BCFSrc*src,Bool lhs,Int rhs,Bool pathCell){surfaces=src->m10;field4=lhs;field5=pathCell;maxLayer=rhs;fieldC=src->m15;}
 struct PathfinderAttackCoord : Coord3D {
     __forceinline PathfinderAttackCoord() {}
     __forceinline PathfinderAttackCoord(const Coord3D &v) { x=v.x;y=v.y;z=v.z; }
