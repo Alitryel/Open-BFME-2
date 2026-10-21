@@ -7,7 +7,7 @@
 // +0x0C interface's slot 8 answers slot 0 for the module data's +0x7C value.
 // Names are by address.
 //
-// ?rva004C683C@StopSpecialPower@@UAE_NXZ, retail 0x004C683C, 111 bytes:
+// ?isReady@StopSpecialPower@@UAE_NXZ, retail 0x004C683C, 111 bytes:
 // slot 1; finds and keeps that module (false without a +0x7C value or a
 // match), then answers slot 2 of what its +0x0C interface's slot 25 gives,
 // true when that is null.
@@ -81,7 +81,7 @@ class SpecialPowerModuleInterface
 {
 public:
 	virtual void gap0() = 0;
-	virtual bool rva004C683C() = 0;
+	virtual bool isReady() = 0;
 	virtual void gap2() = 0; virtual void gap3() = 0; virtual void gap4() = 0; virtual void gap5() = 0;
 	virtual void gap6() = 0; virtual void gap7() = 0; virtual void gap8() = 0; virtual void gap9() = 0;
 	virtual void rva004C67B9(int unused) = 0;
@@ -96,14 +96,14 @@ protected:
 class StopSpecialPower : public SpecialPowerModule
 {
 public:
-	virtual bool rva004C683C();
+	virtual bool isReady();
 	virtual void rva004C67B9(int unused);
 private:
 	Rva004C683CModule *m_34; // +0x34
 };
 
-// ?rva004C683C@StopSpecialPower@@UAE_NXZ @0x004C683C
-bool StopSpecialPower::rva004C683C()
+// ?isReady@StopSpecialPower@@UAE_NXZ @0x004C683C
+bool StopSpecialPower::isReady()
 {
 	if (!m_34)
 	{
@@ -130,6 +130,6 @@ bool StopSpecialPower::rva004C683C()
 // ?rva004C67B9@StopSpecialPower@@UAEXH@Z @0x004C67B9
 void StopSpecialPower::rva004C67B9(int)
 {
-	if (rva004C683C())
+	if (isReady())
 		m_34->m_iface.slot8()->slot17();
 }
