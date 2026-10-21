@@ -56,9 +56,9 @@ private:
 	// +0x04 opaque pad (untouched by this ctor).
 	unsigned int m_pad04;
 	// +0x08 cleared word.
-	unsigned int m_08;
+	unsigned int m_modelName;
 	// +0x0C flag (false).
-	bool m_0C;
+	bool m_preDraw;
 	char m_pad0D[3]; // to the rowed 0x10 instance size
 };
 
@@ -67,8 +67,8 @@ W3DBuffDrawModuleData::W3DBuffDrawModuleData()
 {
 	*(unsigned int *)this = ((unsigned int)vtbl_00BCD270);
 	_ReadWriteBarrier();
-	m_08 &= 0;
-	m_0C = false;
+	m_modelName &= 0;
+	m_preDraw = false;
 }
 
 // ?buildFieldParse@W3DBuffDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x000CEE93
