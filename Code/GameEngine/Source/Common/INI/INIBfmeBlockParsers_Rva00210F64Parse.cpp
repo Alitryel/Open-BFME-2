@@ -302,7 +302,7 @@ template <class T, class A> class vector;
 struct BfmeStringRecord0022074B;
 void Rva00220FC4Parse(INI *ini, void *instance,
 	_STL::vector<BfmeStringRecord0022074B, _STL::allocator<BfmeStringRecord0022074B> > *store);
-void Rva0040C125Parse(INI *ini);
+void parseObjectAwardDefinition(INI *ini);
 void Rva00222278Parse(INI *ini, void *instance);
 void parseEyeTowerDefinition(INI *ini);
 class AwardSystemManager
@@ -481,7 +481,7 @@ extern const FieldParse ExperienceScalarTableFields[] =
 // retail .rdata 0x00839410 (2 entries + terminator)
 extern const FieldParse AwardSystemFields[] =
 {
-	{ "ObjectAward", (FieldParseProc)Rva0040C125Parse, 0, 0x0 },
+	{ "ObjectAward", (FieldParseProc)parseObjectAwardDefinition, 0, 0x0 },
 	{ "ThingStat", AwardSystemManager::parseThingStat, 0, 0x0 },
 	{ 0, 0, 0, 0 }
 };

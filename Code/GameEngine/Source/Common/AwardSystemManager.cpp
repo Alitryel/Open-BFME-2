@@ -182,7 +182,7 @@ extern const FieldParse BfmeObjectAwardFields[7]={
  {BfmeObjectAwardTriggerField,&AwardSystemManager::parseTrigger,0,28},
  {0,0,0,0}
 };
-void Rva0040C125Parse(INI *ini)
+void parseObjectAwardDefinition(INI *ini)
 {
  Rva0040B6D4 award;
  ini->initFromINI(&award,BfmeObjectAwardFields);
