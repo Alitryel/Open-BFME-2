@@ -19,7 +19,10 @@ struct Rva001DD1B3 {
     Rva001DD063 f04;
     Rva001DD1B3(const int &key, const Rva001DD063 &tail);
 };
-Rva001DD1B3::Rva001DD1B3(const int &key, const Rva001DD063 &tail)
+__declspec(noinline) inline Rva001DD1B3::Rva001DD1B3(const int &key, const Rva001DD063 &tail)
     : f00(key), f04(tail)
 {
 }
+// Select-any: Eva.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva001DD1B3Ctor absent-from-retail
+Rva001DD1B3 bfmeAnchorRva001DD1B3Ctor(const int &key, const Rva001DD063 &tail) { return Rva001DD1B3(key, tail); }

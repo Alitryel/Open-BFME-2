@@ -213,6 +213,15 @@ public:
 struct Rva001DD063
 {
 	Rva001DD063();						// 0x001DD1D0
+	// Memberwise copy, select-any here and rowed at 0x001DD063 (Rva001DD063Copy.cpp); its body
+	// stays visible so the delayed record's ctor is known not to leak the report.
+	__declspec(noinline) Rva001DD063(const Rva001DD063 &other)
+		: m_eventID(other.m_eventID), m_hasPosition(other.m_hasPosition), m_hasSecondPosition(other.m_hasSecondPosition)
+	{
+		m_position.x = other.m_position.x; m_position.y = other.m_position.y; m_position.z = other.m_position.z;
+		m_secondPosition.x = other.m_secondPosition.x; m_secondPosition.y = other.m_secondPosition.y;
+		m_secondPosition.z = other.m_secondPosition.z;
+	}
 
 	EvaEventID m_eventID;					// +0x00
 	Bool m_hasPosition;					// +0x04
@@ -226,8 +235,8 @@ struct Rva001DD063
 // multiset.
 struct Rva001DD1B3
 {
-	// Body kept visible (and out of line) so the key temporary is known not to escape; the
-	// emitted copy matches the rowed ctor at 0x001DD2BF.
+	// Body kept visible (and out of line) so the key temporary is known not to escape; its
+	// select-any copy is the rowed ctor 0x001DD2BF (Rva001DD1B3Ctor2.cpp).
 	__declspec(noinline) Rva001DD1B3(const Int &frame, const Rva001DD063 &report) : m_frame(frame), m_report(report) {}
 
 	Int m_frame;						// +0x00

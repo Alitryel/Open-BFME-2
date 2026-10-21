@@ -16,10 +16,13 @@ struct Rva001DD063 {
     int f1C;
     Rva001DD063(const Rva001DD063 &o);
 };
-Rva001DD063::Rva001DD063(const Rva001DD063 &o)
+__declspec(noinline) inline Rva001DD063::Rva001DD063(const Rva001DD063 &o)
     : f00(o.f00),
       b04(o.b04), b05(o.b05),
       f08(o.f08), f0C(o.f0C),
       f10(o.f10), f14(o.f14), f18(o.f18), f1C(o.f1C)
 {
 }
+// Select-any: Eva.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva001DD063Copy absent-from-retail
+Rva001DD063 bfmeAnchorRva001DD063Copy(const Rva001DD063 &o) { return Rva001DD063(o); }

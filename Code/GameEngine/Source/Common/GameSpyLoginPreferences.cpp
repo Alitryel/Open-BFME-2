@@ -168,6 +168,11 @@ namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,li
 namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::deallocate(_Rb_tree_node<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > *,unsigned int) const; }
 namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,list<AsciiString,allocator<AsciiString> > >,_Select1st<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > >,less<AsciiString>,allocator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::erase(_Rb_tree_iterator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > >,_Nonconst_traits<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >); }
 namespace _STL { template <> _List_iterator<AsciiString,_Nonconst_traits<AsciiString> > list<AsciiString,allocator<AsciiString> >::erase(_List_iterator<AsciiString,_Nonconst_traits<AsciiString> >); }
+// The two-string tree's destructor, _M_erase and erase(iterator) are the rowed
+// stlport_string_pair_cleanup.cpp bodies; this TU only calls them.
+namespace _STL { template <> _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::_M_erase(_Rb_tree_node<pair<AsciiString const,AsciiString> > *); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::erase(_Rb_tree_iterator<pair<AsciiString const,AsciiString>,_Nonconst_traits<pair<AsciiString const,AsciiString> > >); }
 // bfme link decl-only end
 
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
@@ -213,6 +218,9 @@ extern template _STL::_List_base<AsciiString,_STL::allocator<AsciiString> >::~_L
 typedef _STL::pair<AsciiString const, _STL::list<AsciiString, _STL::allocator<AsciiString> > > NickPair;
 template NickPair::~pair();
 template void _STL::_Destroy(NickPair *);
+// The two-string pair's _Destroy row (0x2C748) is kept the same way: its
+// tree's erase helpers are declared-only above.
+template void _STL::_Destroy(_STL::pair<AsciiString const, AsciiString> *);
 
 
 AsciiString AsciiStringToQuotedPrintable(AsciiString original);
