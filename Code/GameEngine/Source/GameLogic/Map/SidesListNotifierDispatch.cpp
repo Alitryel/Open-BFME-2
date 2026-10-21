@@ -63,26 +63,26 @@ private:
 	unsigned int m_index;			// +0x0C
 };
 
-void SidesListNotifier::dispatch(const Post *p)
+void SidesListNotifier::dispatch(const Post *post)
 {
 	unsigned int i = 0;
 	LatchRestore<unsigned int> latch(m_index, i);
 	while (i < (unsigned int)(m_end - m_begin))
 	{
 		m_index++;
-		(m_begin[i]->*p->callback)(p->owner);
+		(m_begin[i]->*post->callback)(post->owner);
 		i = m_index;
 	}
 }
 
-void SidesListNotifier::dispatchIndexed(const PostIndexed *p)
+void SidesListNotifier::dispatchIndexed(const PostIndexed *postIndexed)
 {
 	unsigned int i = 0;
 	LatchRestore<unsigned int> latch(m_index, i);
 	while (i < (unsigned int)(m_end - m_begin))
 	{
 		m_index++;
-		(m_begin[i]->*p->callback)(p->owner, p->index);
+		(m_begin[i]->*postIndexed->callback)(postIndexed->owner, postIndexed->index);
 		i = m_index;
 	}
 }

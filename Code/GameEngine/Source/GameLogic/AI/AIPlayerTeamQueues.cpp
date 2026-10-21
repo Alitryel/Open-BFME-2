@@ -55,7 +55,7 @@ public:
 class AIPlayer
 {
 public:
-	Bool isInList_TeamBuildQueue(TeamInQueue *o) const { return o->dlink_isInList_TeamBuildQueue(&m_dlinkhead_TeamBuildQueue); }
+	Bool isInList_TeamBuildQueue(TeamInQueue *teamInQueue) const { return teamInQueue->dlink_isInList_TeamBuildQueue(&m_dlinkhead_TeamBuildQueue); }
 	void prependTo_TeamBuildQueue(TeamInQueue *o);
 	void removeFrom_TeamBuildQueue(TeamInQueue *o);
 	typedef void (*RemoveAllProc_TeamBuildQueue)(TeamInQueue *o);
@@ -66,7 +66,7 @@ public:
 		return DLINK_ITERATOR<TeamInQueue>(m_dlinkhead_TeamBuildQueue, &TeamInQueue::dlink_next_TeamBuildQueue);
 	}
 
-	Bool isInList_TeamReadyQueue(TeamInQueue *o) const { return o->dlink_isInList_TeamReadyQueue(&m_dlinkhead_TeamReadyQueue); }
+	Bool isInList_TeamReadyQueue(TeamInQueue *teamInQueue) const { return teamInQueue->dlink_isInList_TeamReadyQueue(&m_dlinkhead_TeamReadyQueue); }
 	void removeFrom_TeamReadyQueue(TeamInQueue *o);
 	typedef void (*RemoveAllProc_TeamReadyQueue)(TeamInQueue *o);
 	void removeAll_TeamReadyQueue(RemoveAllProc_TeamReadyQueue p = NULL);
@@ -82,16 +82,16 @@ private:
 };
 
 // ------------------------------------------------------------------------------------------------
-void AIPlayer::prependTo_TeamBuildQueue(TeamInQueue *o)
+void AIPlayer::prependTo_TeamBuildQueue(TeamInQueue *teamInQueue)
 {
-	if (!isInList_TeamBuildQueue(o))
-		((Rva00160530 *)o)->set((Rva00160530 **)&m_dlinkhead_TeamBuildQueue);
+	if (!isInList_TeamBuildQueue(teamInQueue))
+		((Rva00160530 *)teamInQueue)->set((Rva00160530 **)&m_dlinkhead_TeamBuildQueue);
 }
 
-void AIPlayer::removeFrom_TeamBuildQueue(TeamInQueue *o)
+void AIPlayer::removeFrom_TeamBuildQueue(TeamInQueue *teamInQueue)
 {
-	if (isInList_TeamBuildQueue(o))
-		o->dlink_removeFrom_TeamBuildQueue(&m_dlinkhead_TeamBuildQueue);
+	if (isInList_TeamBuildQueue(teamInQueue))
+		teamInQueue->dlink_removeFrom_TeamBuildQueue(&m_dlinkhead_TeamBuildQueue);
 }
 
 void AIPlayer::reverse_TeamBuildQueue()
@@ -108,10 +108,10 @@ void AIPlayer::reverse_TeamBuildQueue()
 	m_dlinkhead_TeamBuildQueue = prev;
 }
 
-void AIPlayer::removeFrom_TeamReadyQueue(TeamInQueue *o)
+void AIPlayer::removeFrom_TeamReadyQueue(TeamInQueue *teamInQueue)
 {
-	if (isInList_TeamReadyQueue(o))
-		o->dlink_removeFrom_TeamReadyQueue(&m_dlinkhead_TeamReadyQueue);
+	if (isInList_TeamReadyQueue(teamInQueue))
+		teamInQueue->dlink_removeFrom_TeamReadyQueue(&m_dlinkhead_TeamReadyQueue);
 }
 
 // AIPlayer::removeAll_TeamReadyQueue is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/AI/AIPlayer_Rva004F0499.cpp (0x004F0499).

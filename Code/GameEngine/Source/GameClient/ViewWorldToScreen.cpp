@@ -48,8 +48,8 @@ __declspec(noinline) inline bool View::worldToScreen( const Coord3D *w, ICoord2D
 }
 
 // ?bfmeAnchorViewWorldToScreen absent-from-retail
-bool bfmeAnchorViewWorldToScreen(View *p, const Coord3D *w, ICoord2D *s)
+bool bfmeAnchorViewWorldToScreen(View *view, const Coord3D *w, ICoord2D *s)
 {
-	return p->worldToScreen(w, s);
+	return view->worldToScreen(w, s);
 }
 

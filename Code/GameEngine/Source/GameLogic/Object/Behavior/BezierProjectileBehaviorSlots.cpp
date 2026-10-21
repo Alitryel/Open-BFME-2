@@ -399,8 +399,8 @@ void BezierProjectileBehavior::rva0045B9FB(Object *other)
 	int idx = m_path.size() - 1 < (unsigned int)m_70 ? m_path.size() - 1 : m_70;
 	Object *obj = m_object;
 	Rva0045B9FBPoint cur(obj->m_position);
-	BezierPathPoint *p = m_path.begin() + (idx - 1 < 0 ? 0 : idx - 1);
-	Rva0045B9FBPoint delta(*p);
+	BezierPathPoint *bezierPathPoint = m_path.begin() + (idx - 1 < 0 ? 0 : idx - 1);
+	Rva0045B9FBPoint delta(*bezierPathPoint);
 	delta.sub(cur);
 	delta.scale(0.1f);
 	float angle = obj->m_orientation;

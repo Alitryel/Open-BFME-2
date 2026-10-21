@@ -109,7 +109,7 @@ __declspec(noinline) inline void BridgeBehavior::setScaffoldData(Object *object,
 
 // The anchor keeps the rowed select-any body emitted in this unit.
 // ?bfmeAnchorBridgeBehaviorSetScaffoldData absent-from-retail
-void bfmeAnchorBridgeBehaviorSetScaffoldData(BridgeBehavior *p)
+void bfmeAnchorBridgeBehaviorSetScaffoldData(BridgeBehavior *bridgeBehavior)
 {
-	p->setScaffoldData(0, 0, 0, 0, 0, 0);
+	bridgeBehavior->setScaffoldData(0, 0, 0, 0, 0, 0);
 }

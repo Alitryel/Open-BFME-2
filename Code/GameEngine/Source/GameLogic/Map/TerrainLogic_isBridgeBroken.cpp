@@ -173,8 +173,8 @@ class TerrainPlacementManagerView {public:
  virtual void p19();
  virtual void p20(const ThingTemplate*,const Coord3D*,float,float);
 };
-void TerrainLogic::rva0027D3D9(const ThingTemplate *templ,const Coord3D *position,const Matrix3D *matrix,float scale)
+void TerrainLogic::rva0027D3D9(const ThingTemplate *thingTemplate,const Coord3D *position,const Matrix3D *matrix,float scale)
 {
- reinterpret_cast<TerrainPlacementManagerView*>(TheTerrainVisual)->p20(templ,position,matrix->Get_Z_Rotation(),scale);
+ reinterpret_cast<TerrainPlacementManagerView*>(TheTerrainVisual)->p20(thingTemplate,position,matrix->Get_Z_Rotation(),scale);
 }
 

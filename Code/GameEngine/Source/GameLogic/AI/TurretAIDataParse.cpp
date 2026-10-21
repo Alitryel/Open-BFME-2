@@ -141,7 +141,7 @@ extern const FieldParse g_00C60B90[] =
 };
 
 // ?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z
-void TurretAIData::buildFieldParse(MultiIniFieldParse &p)
+void TurretAIData::buildFieldParse(MultiIniFieldParse &multiIniFieldParse)
 {
-	p.add(g_00C60B90, 0);
+	multiIniFieldParse.add(g_00C60B90, 0);
 }

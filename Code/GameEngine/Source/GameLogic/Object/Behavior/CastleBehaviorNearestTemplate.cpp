@@ -62,9 +62,9 @@ Object*CastleBehavior::rva00397429(const AsciiString&name)
  }
  return best;
 }
-Object*CastleBehavior::rva0039815B(ThingTemplate*tmpl,const Coord3D*pos,int mode)
+Object*CastleBehavior::rva0039815B(ThingTemplate*thingTemplate,const Coord3D*pos,int mode)
 {
- if(tmpl==0)
+ if(thingTemplate==0)
   return 0;
  float best;
  switch(mode) {
@@ -74,7 +74,7 @@ Object*CastleBehavior::rva0039815B(ThingTemplate*tmpl,const Coord3D*pos,int mode
  }
  ObjectID bestID=INVALID_OBJECT_ID;
  const CastleMemberList*ids=getNormalMembers();
- if(tmpl->isKindOf(0x40))
+ if(thingTemplate->isKindOf(0x40))
   ids=getAlternateMembers();
  for(const ObjectID*it=ids->begin();it!=ids->end();++it) {
   Object*obj=TheGameLogic->findObjectByID(*it);
@@ -91,5 +91,5 @@ Object*CastleBehavior::rva0039815B(ThingTemplate*tmpl,const Coord3D*pos,int mode
   case 1:if(best<=dist){bestID=obj->getID();best=dist;}break;
   }
  }
- return (Object*)rva00397FEB(*(void*const*)((const char*)this+0x38),bestID,tmpl,0);
+ return (Object*)rva00397FEB(*(void*const*)((const char*)this+0x38),bestID,thingTemplate,0);
 }

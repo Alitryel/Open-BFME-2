@@ -48,11 +48,11 @@ struct Coord3DCopy : Coord3D
         y = r.y;
         z = r.z;
     }
-    Coord3DCopy(const Coord3DCopy &r)
+    Coord3DCopy(const Coord3DCopy &coord3DCopy)
     {
-        x = r.x;
-        y = r.y;
-        z = r.z;
+        x = coord3DCopy.x;
+        y = coord3DCopy.y;
+        z = coord3DCopy.z;
     }
     ~Coord3DCopy() {}
     Coord3DCopy &operator=(const Coord3D &r)
@@ -321,10 +321,10 @@ static const float &larger(const float &a, const float &b) { return a > b ? a : 
 struct FormationOffset : Coord2D
 {
     FormationOffset() {}
-    FormationOffset(const FormationOffset &r)
+    FormationOffset(const FormationOffset &formationOffset)
     {
-        x = r.x;
-        y = r.y;
+        x = formationOffset.x;
+        y = formationOffset.y;
     }
     FormationOffset(const Coord2D &r)
     {
@@ -424,12 +424,12 @@ void AIGroup::moveFormationToPos(const Coord3D *pos, CommandSourceType source, i
             if (delta.lengthSqr() > endDistance * endDistance)
                 endNode = node;
         }
-        PathNode *tmpNode = endNode;
-        while (tmpNode)
+        PathNode *pathNode = endNode;
+        while (pathNode)
         {
-            if (tmpNode == startNode)
+            if (pathNode == startNode)
                 endNode = 0;
-            tmpNode = tmpNode->getNext();
+            pathNode = pathNode->getNext();
         }
         if (!startNode || !endNode)
         {

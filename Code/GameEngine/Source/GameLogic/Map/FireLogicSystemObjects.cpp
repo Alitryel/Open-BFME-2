@@ -670,8 +670,8 @@ void *FireLogicSystem::rva00286D4E(ObjectID id, Int x, Int y, bool add)
 	Cell *cell = &m_cells[x][y];
 	if (add)
 	{
-		for (WatcherNode *n = cell->m_0C; n; n = n->m_next)
-			if (n->m_id == id)
+		for (WatcherNode *watcherNode = cell->m_0C; watcherNode; watcherNode = watcherNode->m_next)
+			if (watcherNode->m_id == id)
 				return 0;
 		WatcherNode *node = (WatcherNode *)g_pool00286116.rva00285A3B();
 		node->m_next = cell->m_0C;
@@ -912,19 +912,19 @@ void FireLogicSystem::rva00286CC4()
 		while (cell != m_storage)
 		{
 			--cell;
-			WatcherNode *w = cell->m_0C;
-			while (w)
+			WatcherNode *watcherNode = cell->m_0C;
+			while (watcherNode)
 			{
-				WatcherNode *next = w->m_next;
-				Rva00286116Free(w);
-				w = next;
+				WatcherNode *next = watcherNode->m_next;
+				Rva00286116Free(watcherNode);
+				watcherNode = next;
 			}
-			ObjectNode *o = cell->m_objects;
-			while (o)
+			ObjectNode *objectNode = cell->m_objects;
+			while (objectNode)
 			{
-				ObjectNode *next = o->m_next;
-				Rva00286136Free(o);
-				o = next;
+				ObjectNode *next = objectNode->m_next;
+				Rva00286136Free(objectNode);
+				objectNode = next;
 			}
 		}
 		delete[] m_cells;

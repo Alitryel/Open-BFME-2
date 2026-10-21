@@ -83,10 +83,10 @@ class Rva000421C8 { public:
 };
 class Rva0026119DFilter:public Rva000421C8 { public: virtual bool allow(Object*); };
 class Rva002611BFFilter:public Rva000421C8 { public:
- Rva002611BFFilter(const Object*p):m_obj(p){} virtual bool allow(Object*);const Object *m_obj;
+ Rva002611BFFilter(const Object*object):m_obj(object){} virtual bool allow(Object*);const Object *m_obj;
 };
 class Rva00260EB1Filter:public Rva000421C8 { public:
- Rva00260EB1Filter(const Object*p,int f,bool b):m_obj(p),m_flags(f),m_match(b){}
+ Rva00260EB1Filter(const Object*object,int f,bool b):m_obj(object),m_flags(f),m_match(b){}
  virtual bool allow(Object*);virtual int getPlayerMask();const Object *m_obj;int m_flags;bool m_match;
 };
 enum UpdateSleepTime { UPDATE_SLEEP_NONE=1,UPDATE_SLEEP_FOREVER=0x3fffffff };
@@ -113,9 +113,9 @@ public: void rva0045C026();
 };
 UpdateSleepTime BezierProjectileBehavior::update()
 {
-	const BezierProjectileBehaviorModuleData *d = data;
+	const BezierProjectileBehaviorModuleData *bezierProjectileBehaviorModuleData = data;
 	Object *obj = object;
-	if (d == 0 || obj == 0)
+	if (bezierProjectileBehaviorModuleData == 0 || obj == 0)
 		return UPDATE_SLEEP_FOREVER;
 
 	int count = path.size();
@@ -125,33 +125,33 @@ UpdateSleepTime BezierProjectileBehavior::update()
 		return (UpdateSleepTime)bfmeCost();
 	}
 
-	if (d->nearEndFrames && step == count - d->nearEndFrames)
+	if (bezierProjectileBehaviorModuleData->nearEndFrames && step == count - bezierProjectileBehaviorModuleData->nearEndFrames)
 	{
 		obj->setCondition(155);
-		if (d->effect != -1)
+		if (bezierProjectileBehaviorModuleData->effect != -1)
 		{
 			int relation = 2;
-			if (d->includeAllies)
+			if (bezierProjectileBehaviorModuleData->includeAllies)
 				relation = 6;
 			relation |= 1;
 			if (((BezierGlobalData *)TheWritableGlobalData)->debug)
 			{
 				BezCoord pos(end);
 				pos.z = TheTerrainLogic->getGroundHeight(pos.x, pos.y, 0);
-				((BezierDebugDisplay *)TheTacticalView)->drawCircle(&pos, d->effectRadius, 0xffff00ff);
+				((BezierDebugDisplay *)TheTacticalView)->drawCircle(&pos, bezierProjectileBehaviorModuleData->effectRadius, 0xffff00ff);
 			}
-			BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(&end, d->effectRadius, 1,
+			BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(&end, bezierProjectileBehaviorModuleData->effectRadius, 1,
 				Rva00260EB1Filter(obj, relation, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(obj))), 1);
 			Object *other;
 			while ((other = iter.next()) != 0)
 			{
 				if (other != obj)
-					other->rva0028EC68(d->effect, obj, 1);
+					other->rva0028EC68(bezierProjectileBehaviorModuleData->effect, obj, 1);
 			}
 		}
 	}
 
-	if (victim != 0 && d->adjustDistance > 0.0f)
+	if (victim != 0 && bezierProjectileBehaviorModuleData->adjustDistance > 0.0f)
 	{
 		Object *target = TheGameLogic->findObjectByID(victim);
 		if (target)
@@ -166,8 +166,8 @@ UpdateSleepTime BezierProjectileBehavior::update()
 			if (distSqr > 0.1f)
 			{
 				float dist = (float)sqrt(distSqr);
-				if (dist > d->adjustDistance)
-					dist = d->adjustDistance;
+				if (dist > bezierProjectileBehaviorModuleData->adjustDistance)
+					dist = bezierProjectileBehaviorModuleData->adjustDistance;
 				delta.normalize();
 				end.x += dist * delta.x;
 				end.y += dist * delta.y;
@@ -182,7 +182,7 @@ UpdateSleepTime BezierProjectileBehavior::update()
 	}
 
 	const Coord3D *flightPos = &path[step];
-	if (d->orient && !d->tumble)
+	if (bezierProjectileBehaviorModuleData->orient && !bezierProjectileBehaviorModuleData->tumble)
 	{
 		float length = scale * 20.0f;
 		Coord3D prevPos;

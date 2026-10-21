@@ -113,9 +113,9 @@ SidesInfo *SidesList::findSkirmishSideInfo(AsciiString name, int *index)
 // at 0x000069B1 instead of strcmp. The named volatile rest feeds retail's
 // operand order; the shared nonthrowing compare declaration keeps the call's
 // EH state at retail's 0.
-bool SidesList::isPlayerDefaultTeam(TeamsInfo *t)
+bool SidesList::isPlayerDefaultTeam(TeamsInfo *teamsInfo)
 {
-	AsciiString tname = t->getDict()->getAsciiString(((Rva00148F5ECache &)TheKey_teamName).get());
+	AsciiString tname = teamsInfo->getDict()->getAsciiString(((Rva00148F5ECache &)TheKey_teamName).get());
 	if (tname.startsWith("team"))
 	{
 		const char * volatile rest = tname.str() + 4;

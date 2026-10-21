@@ -101,7 +101,7 @@ int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile a
 {
 	PathfindLayerEnum layerA3 = TheTerrainLogic->getLayerForDestination(0, a3);
 	PathfindLayerEnum layerA2 = TheTerrainLogic->getLayerForDestination(0, a2);
-	PathfindCell *cellA2 = rva002E8BF8(layerA2, a2);
+	PathfindCell *pathfindCell = rva002E8BF8(layerA2, a2);
 	PathfindCell *cellA3 = rva002E8BF8(layerA3, a3);
 	Rva002E99F9Query q;
 	q.m_8 |= -1;
@@ -111,7 +111,7 @@ int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile a
 	q.m_5 = 0;
 	unsigned short wB;
 	unsigned short wA;
-	wB = cellA2->m_8;
+	wB = pathfindCell->m_8;
 	unsigned int r1 = m_sub460.rva0053241F(&q, wB);
 	wA = cellA3->m_8;
 	unsigned int r2 = m_sub460.rva0053241F(&q, wA);

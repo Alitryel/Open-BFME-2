@@ -146,8 +146,8 @@ bool AIGroup::rva0036D869(UnsignedInt id, UnsignedInt commandOptions, Int unk)
 	if (!all) {
 	for (_STL::list<Object *>::iterator it = m_memberList.begin(); it != m_memberList.end(); ++it) {
 		Object *object = *it;
-		ThingTemplate *tmpl = object->m_template;
-		if ((tmpl->m_113 & 4) == 0)
+		ThingTemplate *thingTemplate = object->m_template;
+		if ((thingTemplate->m_113 & 4) == 0)
 			continue;
 		ExperienceLevelHandle handle = object->m_tracker->rva0039AC0C();
 		if (!((ExperienceLevelStore *)TheExperienceLevelSystem)->IsValid(handle))

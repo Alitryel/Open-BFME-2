@@ -58,8 +58,8 @@ protected:
 	Player *m_currentEnemy;
 };
 
-AISkirmishPlayer::AISkirmishPlayer(Player *p) :
-	AIPlayer(p),
+AISkirmishPlayer::AISkirmishPlayer(Player *player) :
+	AIPlayer(player),
 	m_curFlankBaseDefense(0),
 	m_curFrontBaseDefense(0),
 	m_curFlankLeftDefenseAngle(0.0f),
@@ -72,5 +72,5 @@ AISkirmishPlayer::AISkirmishPlayer(Player *p) :
 	m_currentEnemy(0)
 {
 	m_frameLastBuildingBuilt = TheGameLogic->getFrame();
-	p->setCanBuildUnits(true);
+	player->setCanBuildUnits(true);
 }

@@ -391,8 +391,8 @@ void FireLogicSystem::update()
 	{
 		Cell *cell = &m_cells[n->m_key.x / 10][n->m_key.y / 10];
 		if (cell->m_check)
-			for (WatcherNode *w = cell->m_0C; w; w = w->m_next)
-				damage[w->m_id] += cell->m_check;
+			for (WatcherNode *watcherNode = cell->m_0C; watcherNode; watcherNode = watcherNode->m_next)
+				damage[watcherNode->m_id] += cell->m_check;
 	}
 
 	DamageInfo info;

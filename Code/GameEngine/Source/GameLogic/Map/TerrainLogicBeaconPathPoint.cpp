@@ -31,8 +31,8 @@ inline float Coord3D::lengthSqr() const { return z * z + y * y + x * x; }
 inline float Coord3D::operator*(const Coord3DBase &v) const { return x * v.x + y * v.y + z * v.z; }
 inline Coord3D &Coord3D::operator-=(const Coord3DBase &v) { x -= v.x; y -= v.y; z -= v.z; return *this; }
 inline float Coord3D::Normalize() { float len = GetLength(); float s = 1.0f / len; x *= s; y *= s; z *= s; return len; }
-inline void Coord3D::sub(const Coord3DBase *v) { x -= v->x; y -= v->y; z -= v->z; }
-inline void Coord3D::add(const Coord3DBase *v) { x += v->x; y += v->y; z += v->z; }
+inline void Coord3D::sub(const Coord3DBase *coord3DBase) { x -= coord3DBase->x; y -= coord3DBase->y; z -= coord3DBase->z; }
+inline void Coord3D::add(const Coord3DBase *coord3DBase) { x += coord3DBase->x; y += coord3DBase->y; z += coord3DBase->z; }
 inline void Coord3D::scale(float s) { x *= s; y *= s; z *= s; }
 
 typedef bool Bool;

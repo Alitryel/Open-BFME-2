@@ -93,7 +93,7 @@ private:
 	unsigned int size() const
 	{
 		unsigned int n = 0;
-		for (ObjectListNode *p = m_head->m_next; p != m_head; p = p->m_next)
+		for (ObjectListNode *objectListNode = m_head->m_next; objectListNode != m_head; objectListNode = objectListNode->m_next)
 			++n;
 		return n;
 	}

@@ -15,9 +15,9 @@ public:
 	unsigned char m_privateStatus; // +0x438
 };
 
-bool Rva00547263(Object *p, const Coord3D *q)
+bool Rva00547263(Object *object, const Coord3D *q)
 {
-	if (p == 0 || (p->m_privateStatus & 1))
+	if (object == 0 || (object->m_privateStatus & 1))
 		return true;
-	return 20.0f > p->rva002C97E8(&p->m_position, q);
+	return 20.0f > object->rva002C97E8(&object->m_position, q);
 }

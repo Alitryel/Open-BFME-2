@@ -96,7 +96,7 @@ public:
 class Rva000AD6F4
 {
 public:
-	Rva000AD6F4(PolygonTrigger *p) : m_ptr(p) {}
+	Rva000AD6F4(PolygonTrigger *polygonTrigger) : m_ptr(polygonTrigger) {}
 	~Rva000AD6F4();
 	Rva002E3E2AOut rva002E3E2A();
 	PolygonTrigger *m_ptr;

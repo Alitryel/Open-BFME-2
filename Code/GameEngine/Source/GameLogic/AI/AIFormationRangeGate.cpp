@@ -46,29 +46,29 @@ public:
 // Preserve the established PAV ABI while the local parameter view sequences
 // its read ahead of the two ordered position reads.
 bool rva00344EB2Gate(Object *, Thing *);
-bool rva00344EB2Gate(Object *volatile a, Thing *b)
+bool rva00344EB2Gate(Object *volatile a, Thing *thing)
 {
-	if (b == 0)
+	if (thing == 0)
 		return false;
-	if ((b->m_438 & 1) != 0)
+	if ((thing->m_438 & 1) != 0)
 		return false;
-	if (b->testStatus(OBJECT_STATUS_26)) {
-		if (b->rva002931F5(false) != 0)
-			b = (Thing *)b->rva002931F5(false);
+	if (thing->testStatus(OBJECT_STATUS_26)) {
+		if (thing->rva002931F5(false) != 0)
+			thing = (Thing *)thing->rva002931F5(false);
 	}
 	Object *anchor=a;
-const volatile Coord3D& point=b->position;
+const volatile Coord3D& point=thing->position;
 float x=point.x;float y=point.y;
 Coord3D delta;delta.x=x-anchor->position.x;delta.y=y-anchor->position.y;
-	const Coord3D *dir = b->getUnitDirectionVector2D();
+	const Coord3D *dir = thing->getUnitDirectionVector2D();
 	const volatile Coord3D& direction=*dir;
 float vx=direction.x;float vy=direction.y;
 float dot = vx * delta.x + vy * delta.y;
 	if (0.0f > dot)
 		return false;
-	const Rva0028AC4EEntry *entry = b->rva0028AC4E();
+	const Rva0028AC4EEntry *entry = thing->rva0028AC4E();
 	if (entry != 0)
-		return ((Rva001E46E1 *)entry)->rva001E543F(b);
+		return ((Rva001E46E1 *)entry)->rva001E543F(thing);
 	else
 		return false;
 }

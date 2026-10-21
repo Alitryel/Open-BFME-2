@@ -377,7 +377,7 @@ static void RotateFormationOffset(const Coord3D *from,const Coord3D *to,Coord2D 
 }
 
 struct FormationVector:Coord3D {
- FormationVector(const FormationVector& p){x=p.x;y=p.y;z=p.z;}
+ FormationVector(const FormationVector& formationVector){x=formationVector.x;y=formationVector.y;z=formationVector.z;}
  FormationVector(const Coord3D& p){x=p.x;y=p.y;z=p.z;}
  ~FormationVector(){}
  FormationVector& sub(const Coord3D& p){x-=p.x;y-=p.y;z-=p.z;return *this;}

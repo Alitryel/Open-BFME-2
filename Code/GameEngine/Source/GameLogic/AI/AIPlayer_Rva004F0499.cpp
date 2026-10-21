@@ -37,10 +37,10 @@ void AIPlayer::removeAll_TeamReadyQueue( RemoveAllProc removeCallback )
 {
 	while (m_queueHead)
 	{
-		TeamInQueue *tmp = m_queueHead;
-		((Rva004F0479 *)this)->rva004F0479( tmp );
+		TeamInQueue *teamInQueue = m_queueHead;
+		((Rva004F0479 *)this)->rva004F0479( teamInQueue );
 		if (removeCallback)
-			(*removeCallback)( tmp );
+			(*removeCallback)( teamInQueue );
 	}
 }
 

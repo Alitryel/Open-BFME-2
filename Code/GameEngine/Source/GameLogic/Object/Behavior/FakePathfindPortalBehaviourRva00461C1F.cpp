@@ -143,7 +143,7 @@ void FakePathfindPortalBehaviour::rva00461C1F()
  PortalVector offset(radius+s_fakePortalWaypointMargin,0.0f,0.0f);
  float sine;
  offset.rotate((sine=sin(angle),cos(angle)),sine);
- struct PortalCoord : Coord3D { PortalCoord(const PortalVector &o) {x=o.x;y=o.y;z=o.z;} };
+ struct PortalCoord : Coord3D { PortalCoord(const PortalVector &portalVector) {x=portalVector.x;y=portalVector.y;z=portalVector.z;} };
  PortalCoord point(offset);
  point.x+=m_owner->position.x;
  point.y+=m_owner->position.y;

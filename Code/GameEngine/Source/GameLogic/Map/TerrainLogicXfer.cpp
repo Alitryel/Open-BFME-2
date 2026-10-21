@@ -507,9 +507,9 @@ void Rva0027C230::rva0028002F(Xfer *xfer)
 }
 
 // ?rva00280176@TerrainLogic@@QAEXPBVThingTemplate@@PBUCoord3D@@PBVMatrix3D@@M@Z @0x00280176
-void TerrainLogic::rva00280176(const ThingTemplate *tmpl, const Coord3D *pos, const Matrix3D *mtx, Real scale)
+void TerrainLogic::rva00280176(const ThingTemplate *thingTemplate, const Coord3D *pos, const Matrix3D *mtx, Real scale)
 {
-	const ModuleInfo &mi = tmpl->getDrawModuleInfo();
+	const ModuleInfo &mi = thingTemplate->getDrawModuleInfo();
 	const W3DTreeDrawModuleData *md = NULL;
 	for (Int i = 0; i < mi.getCount(); ++i)
 	{
@@ -524,22 +524,22 @@ void TerrainLogic::rva00280176(const ThingTemplate *tmpl, const Coord3D *pos, co
 		{
 		_bfme_debugRecordCallsite(1);
 		theDebug->beginReport();
-		theDebug->getReport(0, 0, 0)->setText("Shrub ")->setText(tmpl->getName().str())
+		theDebug->getReport(0, 0, 0)->setText("Shrub ")->setText(thingTemplate->getName().str())
 			->setText(" requires a W3DTreeDrawModule.\n")->show(2);
 		}
 		return;
 	}
 	DrawableID id = (DrawableID)((Rva00238E1B *)TheGameClient)->rva00238E1B();
-	Int shadowType = tmpl->getShadowType();
+	Int shadowType = thingTemplate->getShadowType();
 	TheTerrainVisual->addShrub(id, *pos, scale, mtx, 0.0f, md, shadowType,
-		&tmpl->getShadowTextureName(), &tmpl->getName());
+		&thingTemplate->getShadowTextureName(), &thingTemplate->getName());
 }
 
 // ?addTree@TerrainLogic@@QAEXPBVThingTemplate@@PBUCoord3D@@PBVMatrix3D@@M@Z @0x00283642
-void TerrainLogic::addTree(const ThingTemplate *tmpl, const Coord3D *pos, const Matrix3D *mtx, Real scale)
+void TerrainLogic::addTree(const ThingTemplate *thingTemplate, const Coord3D *pos, const Matrix3D *mtx, Real scale)
 {
 	m_field1910 = TheGameLogic->getFrame();
-	const ModuleInfo &mi = tmpl->getDrawModuleInfo();
+	const ModuleInfo &mi = thingTemplate->getDrawModuleInfo();
 	const W3DTreeDrawModuleData *md = NULL;
 	for (Int i = 0; i < mi.getCount(); ++i)
 	{
@@ -557,7 +557,7 @@ void TerrainLogic::addTree(const ThingTemplate *tmpl, const Coord3D *pos, const 
 		{
 			_bfme_debugRecordCallsite(1);
 			theDebug->beginReport();
-			theDebug->getReport(0, 0, 0)->setText("Tree ")->setText(tmpl->getName().str())
+			theDebug->getReport(0, 0, 0)->setText("Tree ")->setText(thingTemplate->getName().str())
 				->setText(" requires a W3DTreeDrawModule.\n")->show(2);
 		}
 		return;
@@ -567,17 +567,17 @@ void TerrainLogic::addTree(const ThingTemplate *tmpl, const Coord3D *pos, const 
 	short next = *bucket;
 	*bucket = (short)m_records.size();
 	Int v = TheWritableGlobalData->m_A60;
-	if (tmpl->get5B8() > 0)
-		v = tmpl->get5B8();
-	Rva0027D02F *rec = new Rva0027D02F((const unsigned int *)pos, id, m_field48++, (int)tmpl, next, v,
-		tmpl->get5EB(), tmpl->get5EC());
+	if (thingTemplate->get5B8() > 0)
+		v = thingTemplate->get5B8();
+	Rva0027D02F *rec = new Rva0027D02F((const unsigned int *)pos, id, m_field48++, (int)thingTemplate, next, v,
+		thingTemplate->get5EB(), thingTemplate->get5EC());
 	((FoldedAppendVector *)&m_records)->push_back((const ModuleData *)rec);
 	m_584->addObject(rec);
-	Int shadowType = tmpl->getShadowType();
+	Int shadowType = thingTemplate->getShadowType();
 	TheTerrainVisual->addTree(id, *pos, scale, mtx, 0.0f, md, shadowType,
-		&tmpl->getShadowTextureName(), &tmpl->getName());
+		&thingTemplate->getShadowTextureName(), &thingTemplate->getName());
 	if (TheFireLogicSystem())
-		TheFireLogicSystem()->rva00286373(id, pos, tmpl);
+		TheFireLogicSystem()->rva00286373(id, pos, thingTemplate);
 }
 
 // ?xfer@TerrainLogic@@MAEXPAVXfer@@@Z @0x00283845

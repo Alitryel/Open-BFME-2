@@ -37,15 +37,15 @@ private:
 	Object* m_owner;
 };
 
-Bool TurretAI::friend_isAnyWeaponInRangeOf(const Object* o) const
+Bool TurretAI::friend_isAnyWeaponInRangeOf(const Object* object) const
 {
 	for (Int i = 0; i < 6; ++i)
 	{
-		const Weapon* w = ((WeaponSet*)((char*)getOwner() + 0x330))->getWeaponInWeaponSlot((WeaponSlotType)i);
-		if (w == NULL || !isWeaponSlotOnTurret((WeaponSlotType)i))
+		const Weapon* weapon = ((WeaponSet*)((char*)getOwner() + 0x330))->getWeaponInWeaponSlot((WeaponSlotType)i);
+		if (weapon == NULL || !isWeaponSlotOnTurret((WeaponSlotType)i))
 			continue;
 
-		if (w->isWithinAttackRange(getOwner(), o, 0.0f, TRUE))
+		if (weapon->isWithinAttackRange(getOwner(), object, 0.0f, TRUE))
 			return TRUE;
 	}
 

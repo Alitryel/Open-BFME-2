@@ -44,12 +44,12 @@ void CastleBehavior::rva00398E9A(){
  Object *object=owner;
  if(!object)return;
  Player *civilian=ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey("PlyrCivilian"));
- const CastleData *d=data;
- if(d->radius<=0.0f || d->disabled)return;
+ const CastleData *castleData=data;
+ if(castleData->radius<=0.0f || castleData->disabled)return;
  Coord3D pos;
  pos.x=object->pos.x;pos.y=object->pos.y;pos.z=object->pos.z;
  BfmeFixedStorage0004543D flags;flags.set(8);flags.set(10);flags.set(11);flags.set(9);
- BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&pos,d->radius,0,
+ BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&pos,castleData->radius,0,
   PartitionFilterRejectByKindOf(Rva00045411BitSet(0,127),*(BfmeFixedStorage0004543D*)g_00DFEFA4StoragePrototype).link(Rva003959FA(flags).link(&Rva0026119DFilter())),0);
  int initial=-1;_STL::vector<int> weights(20U,initial);
  Rva00395D18 players;

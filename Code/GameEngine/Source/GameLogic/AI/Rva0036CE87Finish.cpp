@@ -125,9 +125,9 @@ void AIGroup::rva0036CE87()
 {
 	if (m_groundPath)
 	{
-		Path *p = m_groundPath;
-		reinterpret_cast<BFMEDeletablePath *>(p)->destroy();
-		operator delete(PathDeleteArgument(p, this));
+		Path *path = m_groundPath;
+		reinterpret_cast<BFMEDeletablePath *>(path)->destroy();
+		operator delete(PathDeleteArgument(path, this));
 		m_pathState24 = 10.0f;
 		m_pathState28 = 0.0f;
 		m_pathState2C = 0.0f;

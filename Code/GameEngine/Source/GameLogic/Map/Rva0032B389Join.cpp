@@ -8,9 +8,9 @@
 #include "ascii_string.h"
 
 
-AsciiString Rva0032B389Join(const AsciiString &a, const AsciiString &b)
+AsciiString Rva0032B389Join(const AsciiString &asciiString, const AsciiString &b)
 {
-	AsciiString tmp(a);
+	AsciiString tmp(asciiString);
 	tmp += '/';
 	((StringBase<char> *)&tmp)->concat(*(const StringBase<char> *)&b);
 	return tmp;

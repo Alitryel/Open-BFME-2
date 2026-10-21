@@ -136,15 +136,15 @@ private:
 // by-value ScriptList and trailing vector are established by target calls.
 SidesInfo::SidesInfo() : m_pBuildList(0) {}
 
-void SidesInfo::init(const Dict *d)
+void SidesInfo::init(const Dict *dict)
 {
 	::operator delete(m_pBuildList ? m_pBuildList->deleteInstance(0) : 0);
 	m_pBuildList = 0;
 	m_dict.clear();
 	m_scripts.clear();
 	m_strings.clear();
-	if (d)
-		m_dict = *d;
+	if (dict)
+		m_dict = *dict;
 }
 
 SidesInfo::~SidesInfo()
@@ -342,12 +342,12 @@ private:
 	FactionBuildLists m_factionBuildLists[20]; // +0xF80, 0x1C each
 };
 
-int SidesList::addSide(const Dict *d)
+int SidesList::addSide(const Dict *dict)
 {
 	int index = m_numSides;
 	if (index < 20) {
 		m_numSides = index + 1;
-		m_sides[index].init(d);
+		m_sides[index].init(dict);
 		m_notifier.post(Rva005CB260, this, index);
 		return index;
 	}

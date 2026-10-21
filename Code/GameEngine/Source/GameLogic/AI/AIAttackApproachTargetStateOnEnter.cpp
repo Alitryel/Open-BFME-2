@@ -2356,4 +2356,4 @@ public:
 
 // Select-any: other units compile copies of onEnter; the anchor keeps this unit's rowed bodies emitted.
 // ?bfmeAnchorAIAttackApproachTargetStateOnEnter absent-from-retail
-StateReturnType bfmeAnchorAIAttackApproachTargetStateOnEnter(AIAttackApproachTargetState *s) { return s->AIAttackApproachTargetState::onEnter(); }
+StateReturnType bfmeAnchorAIAttackApproachTargetStateOnEnter(AIAttackApproachTargetState *aIAttackApproachTargetState) { return aIAttackApproachTargetState->AIAttackApproachTargetState::onEnter(); }

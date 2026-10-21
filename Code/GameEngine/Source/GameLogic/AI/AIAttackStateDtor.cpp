@@ -83,7 +83,7 @@ __declspec(noinline) inline AIAttackState::~AIAttackState()
 }
 
 // ?bfmeAnchorAIAttackStateDtor absent-from-retail
-void bfmeAnchorAIAttackStateDtor(AIAttackState *p)
+void bfmeAnchorAIAttackStateDtor(AIAttackState *aIAttackState)
 {
-	p->AIAttackState::~AIAttackState();
+	aIAttackState->AIAttackState::~AIAttackState();
 }

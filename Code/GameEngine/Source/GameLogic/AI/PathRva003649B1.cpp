@@ -67,15 +67,15 @@ private:
 };
 
 
-void Path::rva003649B1(const PathNode *arg)
+void Path::rva003649B1(const PathNode *pathNode)
 {
 	if (m_isOptimized && m_pathTail) {
-		if (arg->m_position.x == m_pathTail->m_position.x && arg->m_position.y == m_pathTail->m_position.y)
+		if (pathNode->m_position.x == m_pathTail->m_position.x && pathNode->m_position.y == m_pathTail->m_position.y)
 			return;
 	}
 	void *mem = g_pathNodePool.rva002635C2();
-	PathNode *node = mem ? new (mem) PathNode(&arg->m_position, arg->m_layer) : 0;
-	node->m_waypointID = arg->m_waypointID;
+	PathNode *node = mem ? new (mem) PathNode(&pathNode->m_position, pathNode->m_layer) : 0;
+	node->m_waypointID = pathNode->m_waypointID;
 	PathNode *tail = m_pathTail;
 	if (tail) {
 		tail->m_next = node;

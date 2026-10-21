@@ -575,7 +575,7 @@ UpdateSleepTime AutoHealBehavior::update()
 	if (m_stopped)
 		return UPDATE_SLEEP_FOREVER;
 
-	const AutoHealBehaviorModuleData *d = getAutoHealBehaviorModuleData();
+	const AutoHealBehaviorModuleData *autoHealBehaviorModuleData = getAutoHealBehaviorModuleData();
 	Object *obj = getObject();
 
 	// do not heal if our status bit is not on.
@@ -585,9 +585,9 @@ UpdateSleepTime AutoHealBehavior::update()
 
 //DEBUG_LOG(("doing auto heal %d\n",TheGameLogic->getFrame()));
 
-	if (d->m_healOnlyIfNotInCombat && Rva00452496Check(obj))
+	if (autoHealBehaviorModuleData->m_healOnlyIfNotInCombat && Rva00452496Check(obj))
 	{
-		UnsignedInt delay = d->m_startHealingDelay;
+		UnsignedInt delay = autoHealBehaviorModuleData->m_startHealingDelay;
 		if (delay > 0)
 			return (UpdateSleepTime)delay;
 		return (UpdateSleepTime)BfmeLogicFramesPerSecond;
@@ -595,11 +595,11 @@ UpdateSleepTime AutoHealBehavior::update()
 
 	Real bonus;
 	obj->rva0028C149(0x13, &bonus, 0);
-	Int healAmount = (Int)((Real)d->m_healingAmount + bonus);
+	Int healAmount = (Int)((Real)autoHealBehaviorModuleData->m_healingAmount + bonus);
 	if (healAmount <= 0)
 		return UPDATE_SLEEP_NONE;
 
-	if (d->m_affectsWholePlayer)
+	if (autoHealBehaviorModuleData->m_affectsWholePlayer)
 	{
 		// Even newer system, I can ignore radius and iterate objects on the owning player.  Faster than scanning range 10,000,000
 		ObjectPointerList objectsToHeal;
@@ -607,12 +607,12 @@ UpdateSleepTime AutoHealBehavior::update()
 		if (owningPlayer)
 		{
 			AutoHealPlayerScanHelper helper;
-			helper.m_kindOfToTest = d->m_kindOf;
+			helper.m_kindOfToTest = autoHealBehaviorModuleData->m_kindOf;
 			helper.m_objectList = &objectsToHeal;
 			helper.m_theHealer = getObject();
-			helper.m_healOnlyIfNotUnderAttack = d->m_healOnlyIfNotUnderAttack;
-			helper.m_healOnlyIfNotInCombat = d->m_healOnlyIfNotInCombat;
-			helper.m_healOnlyOthers = d->m_healOnlyOthers;
+			helper.m_healOnlyIfNotUnderAttack = autoHealBehaviorModuleData->m_healOnlyIfNotUnderAttack;
+			helper.m_healOnlyIfNotInCombat = autoHealBehaviorModuleData->m_healOnlyIfNotInCombat;
+			helper.m_healOnlyOthers = autoHealBehaviorModuleData->m_healOnlyOthers;
 
 			// Smack all objects with this function, and we will end up with a list of Objects deserving of pulseHealObject
 			owningPlayer->iterateObjects(checkForAutoHeal, &helper);
@@ -621,9 +621,9 @@ UpdateSleepTime AutoHealBehavior::update()
 				pulseHealObject(*it, true);
 			objectsToHeal.clear();
 		}
-		return (UpdateSleepTime)d->m_healingDelay;
+		return (UpdateSleepTime)autoHealBehaviorModuleData->m_healingDelay;
 	}
-	else if (d->m_affectsContained)
+	else if (autoHealBehaviorModuleData->m_affectsContained)
 	{
 		ContainModuleInterface *contain = obj->getContain();
 		if (!contain && obj->getContainedBy())
@@ -637,7 +637,7 @@ UpdateSleepTime AutoHealBehavior::update()
 				pulseHealObject(*it, playFX);
 		}
 	}
-	else if (d->m_radius == 0)
+	else if (autoHealBehaviorModuleData->m_radius == 0)
 	{
 		//ORIGINAL SYSTEM -- JUST HEAL SELF!
 
@@ -646,7 +646,7 @@ UpdateSleepTime AutoHealBehavior::update()
 		if (body->getHealth() < body->getMaxHealth())
 		{
 			pulseHealObject(obj, true);
-			return (UpdateSleepTime)d->m_healingDelay;
+			return (UpdateSleepTime)autoHealBehaviorModuleData->m_healingDelay;
 		}
 		// go to sleep forever -- we'll wake back up when we are damaged again
 		return UPDATE_SLEEP_FOREVER;
@@ -654,34 +654,34 @@ UpdateSleepTime AutoHealBehavior::update()
 	else
 	{
 		//EXPANDED SYSTEM -- HEAL FRIENDLIES IN RADIUS
-		Bool respawnReady = TheGameLogic->getFrame() >= d->m_respawnMinimumDelay + m_lastRespawnFrame;
+		Bool respawnReady = TheGameLogic->getFrame() >= autoHealBehaviorModuleData->m_respawnMinimumDelay + m_lastRespawnFrame;
 		// setup scan filters
 		// scan objects in our region
 		BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(obj->getPosition(),
-			(Real)d->m_radius, 0,
+			(Real)autoHealBehaviorModuleData->m_radius, 0,
 			Rva00260EB1Filter(obj, ALLOW_ALLIES, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(obj))),
 			0);
 		Object *other;
 		while ((other = iter.next()) != NULL)
 		{
-			if (other->isAnyKindOf(d->m_kindOf))
+			if (other->isAnyKindOf(autoHealBehaviorModuleData->m_kindOf))
 			{
 				// do not heal if we are at max health already
 				BodyModuleInterface *body = other->getBodyModule();
 				if (body->getHealth() < body->getMaxHealth())
 				{
 					AutoHealPlayerScanHelper helper;
-					helper.m_kindOfToTest = d->m_kindOf;
+					helper.m_kindOfToTest = autoHealBehaviorModuleData->m_kindOf;
 					helper.m_objectList = NULL;
 					helper.m_theHealer = getObject();
-					helper.m_healOnlyIfNotUnderAttack = d->m_healOnlyIfNotUnderAttack;
-					helper.m_healOnlyIfNotInCombat = d->m_healOnlyIfNotInCombat;
-					helper.m_healOnlyOthers = d->m_healOnlyOthers;
+					helper.m_healOnlyIfNotUnderAttack = autoHealBehaviorModuleData->m_healOnlyIfNotUnderAttack;
+					helper.m_healOnlyIfNotInCombat = autoHealBehaviorModuleData->m_healOnlyIfNotInCombat;
+					helper.m_healOnlyOthers = autoHealBehaviorModuleData->m_healOnlyOthers;
 					if (Rva004524E5ShouldHeal(other, &helper))
 					{
 						pulseHealObject(other, true);
 
-						if (d->m_singleBurst && TheGameLogic->getDrawIconUI())
+						if (autoHealBehaviorModuleData->m_singleBurst && TheGameLogic->getDrawIconUI())
 						{
 							if (TheAnim2DCollection)
 							{
@@ -706,7 +706,7 @@ UpdateSleepTime AutoHealBehavior::update()
 					}
 				}
 			}
-			if (respawnReady && d->m_respawnNearbyHordeMembers && other->isKindOf(KINDOF_HORDE)
+			if (respawnReady && autoHealBehaviorModuleData->m_respawnNearbyHordeMembers && other->isKindOf(KINDOF_HORDE)
 				&& !other->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
 			{
 				HordeRespawnInterface *horde = (HordeRespawnInterface *)other->rva0028C197();
@@ -720,8 +720,8 @@ UpdateSleepTime AutoHealBehavior::update()
 						if (member)
 						{
 							member->updateShroudNow();
-							if (d->m_respawnFXList)
-								FXList::doFXObj(d->m_respawnFXList, member, NULL);
+							if (autoHealBehaviorModuleData->m_respawnFXList)
+								FXList::doFXObj(autoHealBehaviorModuleData->m_respawnFXList, member, NULL);
 						}
 					}
 				}
@@ -730,5 +730,5 @@ UpdateSleepTime AutoHealBehavior::update()
 		if (respawnReady)
 			m_lastRespawnFrame = TheGameLogic->getFrame();
 	}
-	return d->m_singleBurst ? UPDATE_SLEEP_FOREVER : (UpdateSleepTime)d->m_healingDelay;
+	return autoHealBehaviorModuleData->m_singleBurst ? UPDATE_SLEEP_FOREVER : (UpdateSleepTime)autoHealBehaviorModuleData->m_healingDelay;
 }

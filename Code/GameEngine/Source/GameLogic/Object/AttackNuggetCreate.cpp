@@ -87,7 +87,7 @@ protected:
 	Module *findModule(NameKeyType key) const;
 };
 struct ObjectHack : public Object {
-	static Module *find(const Object *o, NameKeyType k) { return ((ObjectHack*)o)->findModule(k); }
+	static Module *find(const Object *object, NameKeyType k) { return ((ObjectHack*)object)->findModule(k); }
 };
 
 class NameKeyGenerator {

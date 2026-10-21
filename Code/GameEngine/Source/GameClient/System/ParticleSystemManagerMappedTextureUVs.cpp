@@ -78,7 +78,7 @@ struct VideoPair
 {
 	struct { void *first; void *second; } s;
 	VideoPair(void *a,void *b) { s.first=a;s.second=b; }
-	VideoPair(const VideoPair &p) { s.first=p.s.first;s.second=p.s.second; }
+	VideoPair(const VideoPair &videoPair) { s.first=videoPair.s.first;s.second=videoPair.s.second; }
 };
 inline VideoPair makePair(void *const &x,void *const &y) { return VideoPair(x,y); }
 struct Rva0041534BIter { void *m_node; void *m_table; };
@@ -149,9 +149,9 @@ ParticleSystemTemplate *ParticleSystemManager::findParentTemplate(const AsciiStr
 	((Rva000427195 *)m_templateMap)->first(&begin);
 	for (; begin.m_current; begin.next())
 	{
-		ParticleSystemTemplate *tmpl = *(ParticleSystemTemplate **)((char *)begin.m_current + 8);
-		if (name.compare(tmpl->m_slaveSystemName) == 0 && !parentNum--)
-			return tmpl;
+		ParticleSystemTemplate *particleSystemTemplate = *(ParticleSystemTemplate **)((char *)begin.m_current + 8);
+		if (name.compare(particleSystemTemplate->m_slaveSystemName) == 0 && !parentNum--)
+			return particleSystemTemplate;
 	}
 	return 0;
 }
@@ -169,7 +169,7 @@ void ParticleSystemManager::bfmeStopCW(const BFMERetailAsciiString &name)
 	if (node == 0)
 		return;
 	((Rva001F58D4 *)this)->rva001F58D4();
-	ParticleSystemTemplate *tmpl = *(ParticleSystemTemplate **)((char *)node + 8);
-	::operator delete(tmpl ? tmpl->deleteInstance(0) : 0);
+	ParticleSystemTemplate *particleSystemTemplate = *(ParticleSystemTemplate **)((char *)node + 8);
+	::operator delete(particleSystemTemplate ? particleSystemTemplate->deleteInstance(0) : 0);
 	((Rva000427195 *)m_templateMap)->rva003A37DC(makePair(node,find.m_table));
 }

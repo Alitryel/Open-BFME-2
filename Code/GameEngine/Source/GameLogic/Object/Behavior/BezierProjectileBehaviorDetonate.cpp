@@ -181,17 +181,17 @@ void BezierProjectileBehavior::rva0045C026()
 		return;
 	GameLogic *logic = TheGameLogic;
 	Object *victim = logic->findObjectByID(m_victimID);
-	const BezierProjectileBehaviorModuleData *d = m_moduleData;
-	if (d && d->m_BC != -1 && d->m_B8 && victim) {
+	const BezierProjectileBehaviorModuleData *bezierProjectileBehaviorModuleData = m_moduleData;
+	if (bezierProjectileBehaviorModuleData && bezierProjectileBehaviorModuleData->m_BC != -1 && bezierProjectileBehaviorModuleData->m_B8 && victim) {
 		Object *launcher = logic->findObjectByID(m_launcherID);
 		if (launcher) {
-			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(victim->getPosition(), d->m_C0, 1,
+			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(victim->getPosition(), bezierProjectileBehaviorModuleData->m_C0, 1,
 				Rva00260EB1Filter(launcher, 7, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(launcher))), 1);
 			Object *other;
 			while ((other = hits.next()) != 0) {
 				if (other == launcher)
 					continue;
-				other->rva0028EC68(d->m_BC, launcher, d->m_B8);
+				other->rva0028EC68(bezierProjectileBehaviorModuleData->m_BC, launcher, bezierProjectileBehaviorModuleData->m_B8);
 			}
 		}
 	}

@@ -60,7 +60,7 @@ struct CastleConditions {unsigned words[19];void clear(){memset(words,0,sizeof(w
 // Complete native39AA0E..39ABC5 RET439B; next33B INI parser is independent.
 UpdateSleepTime CastleBehavior::update(){
  struct FlagPair {CastleConditions condition218,condition219;} flags;
- const CastleData*d=data;
+ const CastleData*castleData=data;
  bool elapsed=false;
  if(wait40>0.0f){wait40-=1.0f/BfmeLogicFramesPerSecond;if(wait40<0.0f){wait40=0.0f;elapsed=true;}}
  switch(state34){
@@ -71,11 +71,11 @@ UpdateSleepTime CastleBehavior::update(){
  case 1:
   state34=2;
   ((Rva00399959*)this)->unpack(false);
-  wait40=d->wait;
+  wait40=castleData->wait;
   break;
  case 2:
-  if(wait40+1.0f/BfmeLogicFramesPerSecond==d->wait)teleportStragglersFromWallToGround(false);
-  if(elapsed){state34=3;flags.condition219.clear();flags.condition218.clear();flags.condition218.set(218);flags.condition219.set(219);((Rva003979FB*)this)->rva003979FB((const int*)flags.condition218.words,(const int*)flags.condition219.words);wait40=d->transitionWait;}
+  if(wait40+1.0f/BfmeLogicFramesPerSecond==castleData->wait)teleportStragglersFromWallToGround(false);
+  if(elapsed){state34=3;flags.condition219.clear();flags.condition218.clear();flags.condition218.set(218);flags.condition219.set(219);((Rva003979FB*)this)->rva003979FB((const int*)flags.condition218.words,(const int*)flags.condition219.words);wait40=castleData->transitionWait;}
   break;
  case 3:
   if(elapsed){state34=4;flags.condition218.clear();flags.condition219.clear();flags.condition219.set(219);((Rva003979FB*)this)->rva003979FB((const int*)flags.condition219.words,(const int*)flags.condition218.words);rva00397B03(STATUS5,false);}
@@ -84,7 +84,7 @@ UpdateSleepTime CastleBehavior::update(){
   if(checkForAutoPack())initiatePack();else rva00398BC7();
   break;
  case 5:
-  if(elapsed){state34=0;rva0039A7D6();wait40=d->packedWait;}
+  if(elapsed){state34=0;rva0039A7D6();wait40=castleData->packedWait;}
   break;
  }
  return UPDATE_SLEEP_NONE;

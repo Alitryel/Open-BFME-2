@@ -16,10 +16,10 @@ Object *&list<Object*>::front() { return ((_Node *)this->_M_node._M_data->_M_nex
 }
 class AIGroup { public: void rva00370554(Object*,CommandSourceType); unsigned int pad00; std::list<Object*> m_memberList; };
 // Native 00370554..003705C2: first-member command through resolved producer.
-void AIGroup::rva00370554(Object *arg1,CommandSourceType source)
+void AIGroup::rva00370554(Object *object,CommandSourceType source)
 {
  if(m_memberList.empty()) return;
- Object *target=arg1;
+ Object *target=object;
  Object *original=target;
  Object *obj=m_memberList.front();
  if(obj && original) {

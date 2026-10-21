@@ -54,8 +54,8 @@ inline ViewShakeFXNugget::ViewShakeFXNugget()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeViewShakeFXNuggetInlineAnchor@@YAXPAVViewShakeFXNugget@@@Z absent-from-retail
-void _bfmeViewShakeFXNuggetInlineAnchor(ViewShakeFXNugget *p)
+void _bfmeViewShakeFXNuggetInlineAnchor(ViewShakeFXNugget *viewShakeFXNugget)
 {
-    p->ViewShakeFXNugget::ViewShakeFXNugget();
+    viewShakeFXNugget->ViewShakeFXNugget::ViewShakeFXNugget();
 }
 #pragma inline_depth()

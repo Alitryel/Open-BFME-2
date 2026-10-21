@@ -43,8 +43,8 @@ inline VideoPlayer::~VideoPlayer()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeVideoPlayerInlineAnchor@@YAXPAVVideoPlayer@@@Z absent-from-retail
-void _bfmeVideoPlayerInlineAnchor(VideoPlayer *p)
+void _bfmeVideoPlayerInlineAnchor(VideoPlayer *videoPlayer)
 {
-    p->VideoPlayer::~VideoPlayer();
+    videoPlayer->VideoPlayer::~VideoPlayer();
 }
 #pragma inline_depth()

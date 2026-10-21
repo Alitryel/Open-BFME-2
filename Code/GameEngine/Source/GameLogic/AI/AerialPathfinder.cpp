@@ -79,4 +79,4 @@ __declspec(noinline) inline bool AerialPathfinder::rva00375C28(Object*obj,const 
 }
 
 // ?bfmeAnchorAerialRva00375C28@@YAXPAVAerialPathfinder@@@Z absent-from-retail
-void bfmeAnchorAerialRva00375C28(AerialPathfinder *p) { p->rva00375C28(0, 0, 0, 0); }
+void bfmeAnchorAerialRva00375C28(AerialPathfinder *aerialPathfinder) { aerialPathfinder->rva00375C28(0, 0, 0, 0); }

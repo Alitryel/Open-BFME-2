@@ -58,9 +58,9 @@ private:
 	int m_24;
 };
 
-void CastleBehavior::rva00455076(const OpaqueRefElement4 &o, int v)
+void CastleBehavior::rva00455076(const OpaqueRefElement4 &opaqueRefElement4, int v)
 {
-	BfmeAudioEventPrefix136 tmp(o, 0);
+	BfmeAudioEventPrefix136 tmp(opaqueRefElement4, 0);
 	((Rva002D9531 *)&tmp)->rva002D9531(v);
 	int r = TheAudio->v25(&tmp);
 	m_24 = r;

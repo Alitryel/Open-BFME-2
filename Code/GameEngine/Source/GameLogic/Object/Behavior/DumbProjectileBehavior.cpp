@@ -132,9 +132,9 @@ DumbProjectileBehaviorModuleData::DumbProjectileBehaviorModuleData() :
 
 //-----------------------------------------------------------------------------
 // ?buildFieldParse@DumbProjectileBehaviorModuleData@@ present-unmatched
-void DumbProjectileBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
+void DumbProjectileBehaviorModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-  UpdateModuleData::buildFieldParse(p);
+  UpdateModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -159,7 +159,7 @@ void DumbProjectileBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
 		{ 0, 0, 0, 0 }
 	};
 
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -394,7 +394,7 @@ void DumbProjectileBehavior::projectileLaunchAtObjectOrPosition(
 	const ParticleSystemTemplate* exhaustSysOverride
 )
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	DEBUG_ASSERTCRASH(specificBarrelToUse>=0, ("specificBarrelToUse must now be explicit"));
 
@@ -402,7 +402,7 @@ void DumbProjectileBehavior::projectileLaunchAtObjectOrPosition(
 	m_extraBonusFlags = launcher ? launcher->getWeaponBonusCondition() : 0;
 	m_victimID = victim ? victim->getID() : INVALID_ID;
 	m_detonationWeaponTmpl = detWeap;
-	m_lifespanFrame = TheGameLogic->getFrame() + d->m_maxLifespan;
+	m_lifespanFrame = TheGameLogic->getFrame() + dumbProjectileBehaviorModuleData->m_maxLifespan;
 
 	Object* projectile = getObject();
 
@@ -417,7 +417,7 @@ void DumbProjectileBehavior::projectileLaunchAtObjectOrPosition(
 // ?projectileFireAtObjectOrPosition@DumbProjectileBehavior@@ present-unmatched
 void DumbProjectileBehavior::projectileFireAtObjectOrPosition( const Object *victim, const Coord3D *victimPos, const WeaponTemplate *detWeap, const ParticleSystemTemplate* exhaustSysOverride )
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 	Object* projectile = getObject();
 	Real weaponSpeed = detWeap ? detWeap->getWeaponSpeed() : 0.0f;
 	Real minWeaponSpeed = detWeap ? detWeap->getMinWeaponSpeed() : 0.0f;
@@ -444,7 +444,7 @@ void DumbProjectileBehavior::projectileFireAtObjectOrPosition( const Object *vic
 	}
 	
  	PhysicsBehavior* physics = projectile->getPhysics();
- 	if ( d->m_tumbleRandomly && physics)
+ 	if ( dumbProjectileBehaviorModuleData->m_tumbleRandomly && physics)
 	{
 		physics->setPitchRate( GameLogicRandomValueReal( -1.0f/PI, 1.0f/PI ) );
 		physics->setYawRate( GameLogicRandomValueReal( -1.0f/PI, 1.0f/PI ) );
@@ -467,7 +467,7 @@ void DumbProjectileBehavior::projectileFireAtObjectOrPosition( const Object *vic
 // ?calcFlightPath@DumbProjectileBehavior@@ present-unmatched
 Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	Coord3D controlPoints[4];
 	//First point is us, last point is them
@@ -491,12 +491,12 @@ Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 	Real targetDistance = WWMath::Sqrt(
 		targetVector.X * targetVector.X + targetVector.Y * targetVector.Y + targetVector.Z * targetVector.Z);
 	targetVector.Normalize();
-	Real firstIndent = targetDistance * d->m_firstPercentIndent;
+	Real firstIndent = targetDistance * dumbProjectileBehaviorModuleData->m_firstPercentIndent;
 	Vector3 firstPointAlongLine;
 	firstPointAlongLine.X = targetVector.X * firstIndent;
 	firstPointAlongLine.Y = targetVector.Y * firstIndent;
 	firstPointAlongLine.Z = targetVector.Z * firstIndent;
-	Real secondIndent = targetDistance * d->m_secondPercentIndent;
+	Real secondIndent = targetDistance * dumbProjectileBehaviorModuleData->m_secondPercentIndent;
 	Vector3 secondPointAlongLine;
 	secondPointAlongLine.X = targetVector.X * secondIndent;
 	secondPointAlongLine.Y = targetVector.Y * secondIndent;
@@ -510,8 +510,8 @@ Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 	// Z's are determined using the highest intervening height so they won't hit hills, low end bounded by current Zs
 	highestInterveningTerrain = max( highestInterveningTerrain, controlPoints[0].z );
 	highestInterveningTerrain = max( highestInterveningTerrain, controlPoints[3].z );
-	controlPoints[1].z = highestInterveningTerrain + d->m_firstHeight;
-	controlPoints[2].z = highestInterveningTerrain + d->m_secondHeight;
+	controlPoints[1].z = highestInterveningTerrain + dumbProjectileBehaviorModuleData->m_firstHeight;
+	controlPoints[2].z = highestInterveningTerrain + dumbProjectileBehaviorModuleData->m_secondHeight;
 
 	// With four control points, we have a curve.  We will decide how many frames we want to take to get to the target,
 	// and fill our vector with those curve points.
@@ -537,7 +537,7 @@ Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 // ?projectileHandleCollision@DumbProjectileBehavior@@ present-unmatched
 Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	if (other != NULL)
 	{
@@ -550,7 +550,7 @@ Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 			return true;
 		}
 
-		if (d->m_garrisonHitKillCount > 0)
+		if (dumbProjectileBehaviorModuleData->m_garrisonHitKillCount > 0)
 		{
 			ContainModuleInterface* contain = getRetailContain(other);
 			if( contain && contain->getContainCount() > 0 && contain->isGarrisonable() && !contain->isImmuneToClearBuildingAttacks() )
@@ -561,10 +561,10 @@ Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 				const ContainedItemsList* items = contain->getContainedItemsList();
 				if (items)
 				{
-					for (ContainedItemsList::const_iterator it = items->begin(); *it != NULL && numKilled < d->m_garrisonHitKillCount; )
+					for (ContainedItemsList::const_iterator it = items->begin(); *it != NULL && numKilled < dumbProjectileBehaviorModuleData->m_garrisonHitKillCount; )
 					{
 						Object* thingToKill = *it++;
-						if (!thingToKill->isEffectivelyDead() && thingToKill->isKindOfMulti(d->m_garrisonHitKillKindof, d->m_garrisonHitKillKindofNot))
+						if (!thingToKill->isEffectivelyDead() && thingToKill->isKindOfMulti(dumbProjectileBehaviorModuleData->m_garrisonHitKillKindof, dumbProjectileBehaviorModuleData->m_garrisonHitKillKindofNot))
 						{
 							//DEBUG_LOG(("Killed a garrisoned unit (%08lx %s) via Flash-Bang!\n",thingToKill,thingToKill->getTemplate()->getName().str()));
 							if (projectileLauncher)
@@ -578,7 +578,7 @@ Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 				if (numKilled > 0)
 				{
 					// note, fx is played at center of building, not at grenade's location
-					FXList::doFXObj(d->m_garrisonHitKillFX, other, NULL);
+					FXList::doFXObj(dumbProjectileBehaviorModuleData->m_garrisonHitKillFX, other, NULL);
 
 					getObject()->getControllingPlayer()->getAcademyStats()->recordClearedGarrisonedBuilding();
 
@@ -653,7 +653,7 @@ void DumbProjectileBehavior::detonate()
 // ?update@DumbProjectileBehavior@@ present-unmatched
 UpdateSleepTime DumbProjectileBehavior::update()
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	if (m_lifespanFrame != 0 && TheGameLogic->getFrame() >= m_lifespanFrame)
 	{
@@ -671,7 +671,7 @@ UpdateSleepTime DumbProjectileBehavior::update()
 		return UPDATE_SLEEP_NONE;
 	}
 
-	if (m_victimID != INVALID_ID && d->m_flightPathAdjustDistPerFrame > 0.0f)
+	if (m_victimID != INVALID_ID && dumbProjectileBehaviorModuleData->m_flightPathAdjustDistPerFrame > 0.0f)
 	{
 		Object* victim = TheGameLogic->findObjectByID(m_victimID);
 		if (victim)
@@ -686,8 +686,8 @@ UpdateSleepTime DumbProjectileBehavior::update()
 			if (distVictimMovedSqr > 0.1f)
 			{
 				Real distVictimMoved = sqrtf(distVictimMovedSqr);
-				if (distVictimMoved > d->m_flightPathAdjustDistPerFrame)
-					distVictimMoved = d->m_flightPathAdjustDistPerFrame;
+				if (distVictimMoved > dumbProjectileBehaviorModuleData->m_flightPathAdjustDistPerFrame)
+					distVictimMoved = dumbProjectileBehaviorModuleData->m_flightPathAdjustDistPerFrame;
 				delta.normalize();
 				m_flightPathEnd.x += distVictimMoved * delta.x;
 				m_flightPathEnd.y += distVictimMoved * delta.y;
@@ -705,7 +705,7 @@ UpdateSleepTime DumbProjectileBehavior::update()
 	//Otherwise, continue to force the flight path
 	Coord3D flightStep = m_flightPath[m_currentFlightPathStep];
 
-	if (d->m_orientToFlightPath && (!d->m_tumbleRandomly) )
+	if (dumbProjectileBehaviorModuleData->m_orientToFlightPath && (!dumbProjectileBehaviorModuleData->m_tumbleRandomly) )
   {
     if ( m_currentFlightPathStep > 0)
 	  {

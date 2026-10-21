@@ -39,8 +39,8 @@ private:
 void AIGroup::rva0036E1C3(const StringBase<char> &name, int val)
 {
 	for (ObjectListNode *it = m_memberList->m_next; it != m_memberList; it = it->m_next) {
-		Drawable *d = it->m_data->getDrawable();
-		if (d != 0)
-			d->setEmoticon(name, val);
+		Drawable *drawable = it->m_data->getDrawable();
+		if (drawable != 0)
+			drawable->setEmoticon(name, val);
 	}
 }

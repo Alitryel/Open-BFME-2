@@ -1794,9 +1794,9 @@ void AIPlayer::updateBridgeRepair()
 enum { INVALID_SKILLSET_SELECTION = -1 };
 
 // Retail inlines the one-character append as StringBase<char>::concat(&c, 1).
-static __forceinline void concatChar(AsciiString &s, char c)
+static __forceinline void concatChar(AsciiString &asciiString, char c)
 {
-	((StringBase<char> *)&s)->concat(&c, 1);
+	((StringBase<char> *)&asciiString)->concat(&c, 1);
 }
 
 void AIPlayer::doUpgradesAndSkills()

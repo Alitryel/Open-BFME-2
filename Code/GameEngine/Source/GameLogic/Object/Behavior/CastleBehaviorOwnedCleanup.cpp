@@ -26,9 +26,9 @@ void CastleBehavior::rva00397D0A(bool killObjects){
  rva00395EB8(owned);
  if(killObjects){owned->kill(DAMAGE8,DEATH0);}else{
   static NameKeyType key=TheNameKeyGenerator->nameToKey("EntEnragedUpdate");
-  Module*m=owned->findModule(key);if(m)((Rva002918E0Object*)m)->rva004B239A(1,1);
+  Module*module=owned->findModule(key);if(module)((Rva002918E0Object*)module)->rva004B239A(1,1);
   static NameKeyType lifetime=TheNameKeyGenerator->nameToKey("LifetimeUpdate");
-  m=owned->findModule(lifetime);if(m)((LifetimeUpdate*)m)->rva003A4AD2();
+  module=owned->findModule(lifetime);if(module)((LifetimeUpdate*)module)->rva003A4AD2();
  }
  }
  if(vec->size()>0 && !killObjects && data->fx) FXList::doFXObj(data->fx,object,0);

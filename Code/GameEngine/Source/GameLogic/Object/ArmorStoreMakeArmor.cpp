@@ -12,7 +12,7 @@
 class Armor
 {
 public:
-	Armor(const AsciiString &templateName) : m_templateName(templateName) {}
+	Armor(const AsciiString &asciiString) : m_templateName(asciiString) {}
 
 private:
 	AsciiString m_templateName;

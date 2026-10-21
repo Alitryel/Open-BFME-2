@@ -23,11 +23,11 @@ struct Coord3DCopy : Coord3D
         y = r.y;
         z = r.z;
     }
-    Coord3DCopy(const Coord3DCopy &r)
+    Coord3DCopy(const Coord3DCopy &coord3DCopy)
     {
-        x = r.x;
-        y = r.y;
-        z = r.z;
+        x = coord3DCopy.x;
+        y = coord3DCopy.y;
+        z = coord3DCopy.z;
     }
     ~Coord3DCopy() {}
     Coord3DCopy &operator=(const Coord3D &r)
@@ -611,17 +611,17 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
    Coord3DCopy dest;
    const Coord3D *p = node->getPosition();
    float x=p->x,y=p->y,z=p->z;
-   PathNode *tmpNode=node->getNextOptimized();
+   PathNode *pathNode=node->getNextOptimized();
    dest.x=x; dest.y=y; dest.z=z;
 
    PathNode *nextNode = 0;
-   for (; tmpNode; tmpNode = tmpNode->getNextOptimized())
+   for (; pathNode; pathNode = pathNode->getNextOptimized())
    {
-    Real dx = tmpNode->getPosition()->x - dest.x;
-    Real dy = tmpNode->getPosition()->y - dest.y;
+    Real dx = pathNode->getPosition()->x - dest.x;
+    Real dy = pathNode->getPosition()->y - dest.y;
     if (dx * dx + dy * dy > farEnoughSqr)
     {
-     nextNode = tmpNode;
+     nextNode = pathNode;
      break;
     }
    }
@@ -656,12 +656,12 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
     prevPos = dest;
    }
    node = node->getNextOptimized();
-   for (tmpNode = previousNode->getNextOptimized(); tmpNode && tmpNode != node; tmpNode = tmpNode->getNextOptimized())
+   for (pathNode = previousNode->getNextOptimized(); pathNode && pathNode != node; pathNode = pathNode->getNextOptimized())
    {
-    Real dx = tmpNode->getPosition()->x - node->getPosition()->x;
-    Real dy = tmpNode->getPosition()->y - node->getPosition()->y;
+    Real dx = pathNode->getPosition()->x - node->getPosition()->x;
+    Real dy = pathNode->getPosition()->y - node->getPosition()->y;
     if (dx * dx + dy * dy > farEnoughSqr)
-    previousNode = tmpNode;
+    previousNode = pathNode;
    }
   }
   {
@@ -958,17 +958,17 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
    Coord3DCopy dest;
    const Coord3D *p = node->getPosition();
    float x=p->x,y=p->y,z=p->z;
-   PathNode *tmpNode=node->getNextOptimized();
+   PathNode *pathNode=node->getNextOptimized();
    dest.x=x; dest.y=y; dest.z=z;
 
    PathNode *nextNode = 0;
-   for (; tmpNode; tmpNode = tmpNode->getNextOptimized())
+   for (; pathNode; pathNode = pathNode->getNextOptimized())
    {
-    Real dx = tmpNode->getPosition()->x - dest.x;
-    Real dy = tmpNode->getPosition()->y - dest.y;
+    Real dx = pathNode->getPosition()->x - dest.x;
+    Real dy = pathNode->getPosition()->y - dest.y;
     if (dx * dx + dy * dy > farEnoughSqr)
     {
-     nextNode = tmpNode;
+     nextNode = pathNode;
      break;
     }
    }
@@ -1003,12 +1003,12 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
     prevPos = dest;
    }
    node = node->getNextOptimized();
-   for (tmpNode = previousNode->getNextOptimized(); tmpNode && tmpNode != node; tmpNode = tmpNode->getNextOptimized())
+   for (pathNode = previousNode->getNextOptimized(); pathNode && pathNode != node; pathNode = pathNode->getNextOptimized())
    {
-    Real dx = tmpNode->getPosition()->x - node->getPosition()->x;
-    Real dy = tmpNode->getPosition()->y - node->getPosition()->y;
+    Real dx = pathNode->getPosition()->x - node->getPosition()->x;
+    Real dy = pathNode->getPosition()->y - node->getPosition()->y;
     if (dx * dx + dy * dy > farEnoughSqr)
-    previousNode = tmpNode;
+    previousNode = pathNode;
    }
   }
   Coord3DCopy dest;

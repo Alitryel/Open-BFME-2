@@ -103,11 +103,11 @@ void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 			_ReadWriteBarrier();
 			out->writeInt(*(int *)(base + off2));
 			((Rva00537EAD *)area)->rva00537EAD(out);
-			AsciiString *p = area->m_strings40;
+			AsciiString *asciiString = area->m_strings40;
 			for (int k = 4; k > 0; --k)
 			{
-				out->writeAsciiString(*p);
-				++p;
+				out->writeAsciiString(*asciiString);
+				++asciiString;
 			}
 			out->writeInt(area->m_color50.getAsInt());
 			out->writeReal(area->m_float5C);

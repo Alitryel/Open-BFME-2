@@ -112,4 +112,4 @@ bool AerialPathfinder::rva00375DFF(Object *obj, Rva00375A73Context *context, flo
 }
 
 // ?bfmeAnchorAerialRva00375C28Copy@@YAXPAVAerialPathfinder@@@Z absent-from-retail
-void bfmeAnchorAerialRva00375C28Copy(AerialPathfinder *p) { p->rva00375C28(0, 0, 0, 0); }
+void bfmeAnchorAerialRva00375C28Copy(AerialPathfinder *aerialPathfinder) { aerialPathfinder->rva00375C28(0, 0, 0, 0); }

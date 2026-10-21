@@ -36,15 +36,15 @@ public:
 	Rva00390533 *m_slot25C;
 };
 
-bool rva003460DB(Object *b)
+bool rva003460DB(Object *object)
 {
-	if (b->m_slot25C && b->m_slot25C->rva00390533())
+	if (object->m_slot25C && object->m_slot25C->rva00390533())
 		return false;
-	if ((((Rva003460DBFlags *)b->m_p4)->m_pad[0x10E] & 0x40) != 0 || b->rva0028F518())
+	if ((((Rva003460DBFlags *)object->m_p4)->m_pad[0x10E] & 0x40) != 0 || object->rva0028F518())
 		return false;
-	if (b->testStatus(OBJECT_STATUS_0F))
+	if (object->testStatus(OBJECT_STATUS_0F))
 	{
-		if (!b->testStatus(OBJECT_STATUS_11))
+		if (!object->testStatus(OBJECT_STATUS_11))
 			return false;
 	}
 	return true;

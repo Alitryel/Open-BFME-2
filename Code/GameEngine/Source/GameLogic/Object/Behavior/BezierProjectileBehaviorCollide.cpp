@@ -132,12 +132,12 @@ Bool BezierProjectileBehavior::rva0045CD6E( Object *other )
 		return false;
 
 	Object *obj = m_object;
-	const BezierProjectileBehaviorModuleData *d = m_moduleData;
+	const BezierProjectileBehaviorModuleData *bezierProjectileBehaviorModuleData = m_moduleData;
 
 	if( other != 0 )
 	{
 		rva0045B9FB( other );
-		if( !d->m_18 )
+		if( !bezierProjectileBehaviorModuleData->m_18 )
 			rva0045C026();
 		else if( isNotInHitList( other ) )
 			rva0045C812( other );
@@ -147,20 +147,20 @@ Bool BezierProjectileBehavior::rva0045CD6E( Object *other )
 	const WeaponTemplate *weapon;
 	if( m_bounceCount == 0 )
 	{
-		FXList::doFXPos( d->m_groundHitFX, obj->getPosition(), 0, 0.0f, 0 );
-		weapon = (obj ? d->m_groundHitWeapon : d->m_groundHitWeapon);
+		FXList::doFXPos( bezierProjectileBehaviorModuleData->m_groundHitFX, obj->getPosition(), 0, 0.0f, 0 );
+		weapon = (obj ? bezierProjectileBehaviorModuleData->m_groundHitWeapon : bezierProjectileBehaviorModuleData->m_groundHitWeapon);
 	}
 	else
 	{
-		FXList::doFXPos( d->m_bounceFX, obj->getPosition(), 0, 0.0f, 0 );
-		weapon = d->m_bounceWeapon;
+		FXList::doFXPos( bezierProjectileBehaviorModuleData->m_bounceFX, obj->getPosition(), 0, 0.0f, 0 );
+		weapon = bezierProjectileBehaviorModuleData->m_bounceWeapon;
 	}
 	if( weapon )
 		TheWeaponStore->createAndFireTempWeapon( weapon, obj, obj->getPosition() );
 
-	if( m_bounceCount < d->m_maxBounces )
+	if( m_bounceCount < bezierProjectileBehaviorModuleData->m_maxBounces )
 		rva0045CC72( 0 );
-	else if( !d->m_18 )
+	else if( !bezierProjectileBehaviorModuleData->m_18 )
 		rva0045C026();
 	else
 		rva0045C975( 0 );

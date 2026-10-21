@@ -54,7 +54,7 @@ static __forceinline void subCoord3D(Coord3D *d,const Coord3D *s){d->x-=s->x;d->
 struct PathGroundCoord : Coord3D {
 PathGroundCoord() {}
 PathGroundCoord(const Coord3D &v) { x=v.x; y=v.y; z=v.z; }
-PathGroundCoord(const PathGroundCoord &v) { x=v.x; y=v.y; z=v.z; }
+PathGroundCoord(const PathGroundCoord &pathGroundCoord) { x=pathGroundCoord.x; y=pathGroundCoord.y; z=pathGroundCoord.z; }
 void Sub(const Coord3D *v) { x-=v->x; y-=v->y; z-=v->z; }
 void Add(const Coord3D *v) { x+=v->x; y+=v->y; z+=v->z; }
 void Set(const Coord3D &v) { Coord3D::operator=(v); }

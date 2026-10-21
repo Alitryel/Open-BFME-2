@@ -101,4 +101,4 @@ void **Rva00265691IndirectCopy::copy(void **output) const
 
 // Select-any: PathRva00364AA2.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorPathAppendNode absent-from-retail
-void bfmeAnchorPathAppendNode(Path *p, const Coord3D *pos) { p->appendNode(pos, LAYER_GROUND, 0); }
+void bfmeAnchorPathAppendNode(Path *path, const Coord3D *pos) { path->appendNode(pos, LAYER_GROUND, 0); }

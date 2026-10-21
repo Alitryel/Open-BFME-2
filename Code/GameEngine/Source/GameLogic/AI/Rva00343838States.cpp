@@ -44,6 +44,6 @@ AttackFireWhileChargingMachine::AttackFireWhileChargingMachine(Object *owner, in
 	: StateMachine(owner, name, flag)
 {
 	(void)u;
-	AIChargeTargetState *s0 = new AIChargeTargetState((StateMachine *)this);
-	((StateMachine *)this)->defineState(0, (State *)s0, 0x270E, 0x270F, (const StateConditionInfo *)0);
+	AIChargeTargetState *aIChargeTargetState = new AIChargeTargetState((StateMachine *)this);
+	((StateMachine *)this)->defineState(0, (State *)aIChargeTargetState, 0x270E, 0x270F, (const StateConditionInfo *)0);
 }

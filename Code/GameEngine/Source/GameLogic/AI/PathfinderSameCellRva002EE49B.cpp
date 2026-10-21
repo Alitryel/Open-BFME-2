@@ -172,14 +172,14 @@ Bool Pathfinder::IsValidObjectMovement(Object *obj, const Coord3D *oldPos, const
 
 	ObjectID saved = m_ignoreObstacleID;
 	m_ignoreObstacleID = (ObjectID)((Rva0006E009DwordField *)ai)->get();
-	const ThingTemplate *tmpl = obj->getTemplate();
-	Int maxLayer = tmpl->m_56c;
-	Bool flag = tmpl->m_634;
-	AIUpdateInterface *ai2 = obj->getAI();
+	const ThingTemplate *thingTemplate = obj->getTemplate();
+	Int maxLayer = thingTemplate->m_56c;
+	Bool flag = thingTemplate->m_634;
+	AIUpdateInterface *aIUpdate = obj->getAI();
 
 	Bool ok;
 	{
-	Rva002E8BCF info((const Rva002E8BCFSrc *)((char *)ai2 + 0x1CC), !flag, maxLayer - 1, (obj->rva0028AFBB()));
+	Rva002E8BCF info((const Rva002E8BCFSrc *)((char *)aIUpdate + 0x1CC), !flag, maxLayer - 1, (obj->rva0028AFBB()));
 	ok = reinterpret_cast<Rva002E6DC4 *>(this)->rva002E6DC4(&info, newC);
 	}
 	m_ignoreObstacleID = saved;

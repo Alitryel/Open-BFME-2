@@ -51,21 +51,21 @@ private:
 
 void Rva00395BCB::rva00395BCB(const void *a_, const void *b_)
 {
-	const FlagArg *a = (const FlagArg *)a_;
+	const FlagArg *flagArg = (const FlagArg *)a_;
 	const FlagArg *b = (const FlagArg *)b_;
 	if (b->bits.test(219)) {
-		Ref4Inner *r4 = (Ref4Inner *)m_4;
-		OpaqueRefElement4 *ref = &r4->m_ref;
+		Ref4Inner *ref4Inner = (Ref4Inner *)m_4;
+		OpaqueRefElement4 *ref = &ref4Inner->m_ref;
 		if (*(void **)ref == 0)
 			return;
 		if (!TheAudio->IsPlaying(m_20)) {
-			Ref8Inner *r8 = (Ref8Inner *)m_8;
-			BfmeAudioEventPrefix136 ev(*ref, (ObjectID)r8->m_id);
+			Ref8Inner *ref8Inner = (Ref8Inner *)m_8;
+			BfmeAudioEventPrefix136 ev(*ref, (ObjectID)ref8Inner->m_id);
 			m_20 = TheAudio->AddEvent(ev);
 		}
 		return;
 	}
-	if (!a->bits.test(219))
+	if (!flagArg->bits.test(219))
 		return;
 	if (m_20 < 5)
 		return;

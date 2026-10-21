@@ -536,15 +536,15 @@ void StateMachine::rva004D7395()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeStateMachineInlineAnchor@@YAXPAVStateMachine@@@Z absent-from-retail
-void _bfmeStateMachineInlineAnchor(StateMachine *p)
+void _bfmeStateMachineInlineAnchor(StateMachine *stateMachine)
 {
-    p->isInBusyState();
-    p->isInAttackState();
-    p->isInGuardIdleState();
-    p->rva002621DA();
-    p->rva002621EB();
-    p->rva002621FC();
-    p->rva0026220D();
-    p->lock(0);
+    stateMachine->isInBusyState();
+    stateMachine->isInAttackState();
+    stateMachine->isInGuardIdleState();
+    stateMachine->rva002621DA();
+    stateMachine->rva002621EB();
+    stateMachine->rva002621FC();
+    stateMachine->rva0026220D();
+    stateMachine->lock(0);
 }
 #pragma inline_depth()

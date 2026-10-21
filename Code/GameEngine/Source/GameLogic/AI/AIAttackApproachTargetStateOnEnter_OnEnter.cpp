@@ -1219,8 +1219,8 @@ StateReturnType AIAttackSquadState::update()
 		return STATE_SUCCESS;
 	if (!owner->testStatus(OBJECT_STATUS_41))
 	{
-		const ThingTemplate *tmpl = victim->getTemplate();
-		if (!(tmpl->m_kindOf[0x06] & 0x80) && !(tmpl->m_kindOf[0x13] & 0x08) && !(tmpl->m_kindOf[0x0B] & 0x40) &&
+		const ThingTemplate *thingTemplate = victim->getTemplate();
+		if (!(thingTemplate->m_kindOf[0x06] & 0x80) && !(thingTemplate->m_kindOf[0x13] & 0x08) && !(thingTemplate->m_kindOf[0x0B] & 0x40) &&
 			victim->getControllingPlayer() == owner->getControllingPlayer())
 		{
 			ai->friend_setGoalObject(0);

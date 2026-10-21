@@ -111,7 +111,7 @@ private:
 UpdateSleepTime BuildingBehavior::update()
 {
 	Object *obj = getObject();
-	const BuildingBehaviorModuleData *d = getBuildingBehaviorModuleData();
+	const BuildingBehaviorModuleData *buildingBehaviorModuleData = getBuildingBehaviorModuleData();
 	if (obj == 0)
 		return UPDATE_SLEEP_FOREVER;
 	if ((obj->m_flags438 & 1) && !obj->testStatus((ObjectStatusTypes)0x58))
@@ -125,9 +125,9 @@ UpdateSleepTime BuildingBehavior::update()
 	if (m_field21)
 	{
 		for (Int i = 0; i < 4; ++i)
-			rva0045628C(&d->m_windows[i], draw, 0);
+			rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 0);
 		if (TheWritableGlobalData->m_134 == 4)
-			rva0045628C(&d->m_windows[0], draw, 1);
+			rva0045628C(&buildingBehaviorModuleData->m_windows[0], draw, 1);
 		m_field21 = false;
 		draw->rva002723ED();
 	}
@@ -138,22 +138,22 @@ UpdateSleepTime BuildingBehavior::update()
 		for (Int i = 0; i < 4; ++i)
 		{
 			if (TheWritableGlobalData->m_134 == 4 && i == 3)
-				rva0045628C(&d->m_windows[3], draw, 1);
+				rva0045628C(&buildingBehaviorModuleData->m_windows[3], draw, 1);
 			else if (i == 1 || i == 2)
-				rva0045628C(&d->m_windows[i], draw, 1);
+				rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 1);
 			else
-				rva0045628C(&d->m_windows[i], draw, 0);
+				rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 0);
 		}
-		rva0045628C(&d->m_windows[1], draw, 1);
+		rva0045628C(&buildingBehaviorModuleData->m_windows[1], draw, 1);
 		draw->rva002723ED();
 	}
 	else if (m_field20 && !obj->testStatus((ObjectStatusTypes)10))
 	{
 		m_field20 = false;
 		for (Int i = 0; i < 4; ++i)
-			rva0045628C(&d->m_windows[i], draw, 0);
+			rva0045628C(&buildingBehaviorModuleData->m_windows[i], draw, 0);
 		if (TheWritableGlobalData->m_134 == 4)
-			rva0045628C(&d->m_windows[0], draw, 1);
+			rva0045628C(&buildingBehaviorModuleData->m_windows[0], draw, 1);
 		draw->rva002723ED();
 	}
 	return UPDATE_SLEEP_NONE;

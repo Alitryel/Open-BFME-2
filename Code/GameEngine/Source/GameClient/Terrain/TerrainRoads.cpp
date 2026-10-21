@@ -289,9 +289,9 @@ __declspec(noinline) inline AsciiString TerrainRoadType::getDamageToOCLString( B
 }
 
 // ?bfmeAnchorTerrainRoadTypegetDamageToOCLString absent-from-retail
-AsciiString bfmeAnchorTerrainRoadTypegetDamageToOCLString(TerrainRoadType *p, BodyDamageType state, Int index)
+AsciiString bfmeAnchorTerrainRoadTypegetDamageToOCLString(TerrainRoadType *terrainRoadType, BodyDamageType state, Int index)
 {
-	return p->getDamageToOCLString(state, index);
+	return terrainRoadType->getDamageToOCLString(state, index);
 }
 
 void TerrainRoadType::friend_setDamageToOCLString( BodyDamageType state, Int index, AsciiString str )

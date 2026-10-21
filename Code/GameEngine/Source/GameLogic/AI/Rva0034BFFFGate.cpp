@@ -33,12 +33,12 @@ class AIChargeTargetState
 	void rva0034BFFF(Object *o);
 };
 
-void AIChargeTargetState::rva0034BFFF(Object *o)
+void AIChargeTargetState::rva0034BFFF(Object *object)
 {
 	WeaponSlotType st = WEAPONSLOT_0;
-	const Weapon *w = o->getCurrentWeapon(&st);
-	if (w == 0)
+	const Weapon *weapon = object->getCurrentWeapon(&st);
+	if (weapon == 0)
 		return;
-	o->setStatus(OBJECT_STATUS_0D, true);
-	o->fireCurrentWeapon(reinterpret_cast<const Coord3D *>((char *)o + 0x38));
+	object->setStatus(OBJECT_STATUS_0D, true);
+	object->fireCurrentWeapon(reinterpret_cast<const Coord3D *>((char *)object + 0x38));
 }

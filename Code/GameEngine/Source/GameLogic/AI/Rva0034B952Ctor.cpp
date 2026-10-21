@@ -59,8 +59,8 @@ Rva0034B952::Rva0034B952(Object *owner, unsigned int name)
 	: StateMachine(owner, name, false)
 {
 	*(const void **)this = g_00C122A0;
-	AIAttackState *s0 = new AIAttackState((StateMachine *)this, false, true, false, (AttackExitConditionsInterface *)0);
-	((StateMachine *)this)->defineState(0xa, (State *)s0, 0, 0, (const StateConditionInfo *)0);
+	AIAttackState *aIAttackState = new AIAttackState((StateMachine *)this, false, true, false, (AttackExitConditionsInterface *)0);
+	((StateMachine *)this)->defineState(0xa, (State *)aIAttackState, 0, 0, (const StateConditionInfo *)0);
 	Rva00342B87 *s1 = new Rva00342B87((StateMachine *)this);
 	((StateMachine *)this)->defineState(0x27, (State *)s1, 0, 0, (const StateConditionInfo *)0);
 	Rva0033FE65 *s2 = new Rva0033FE65((StateMachine *)this, 1);

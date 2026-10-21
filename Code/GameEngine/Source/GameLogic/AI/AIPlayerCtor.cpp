@@ -95,8 +95,8 @@ protected:
 	int m_74;
 };
 
-AIPlayer::AIPlayer(Player *p) :
-	m_player(p),
+AIPlayer::AIPlayer(Player *player) :
+	m_player(player),
 	m_readyToBuildTeam(false),
 	m_readyToBuildStructure(false),
 	m_teamTimer(2),
@@ -116,7 +116,7 @@ AIPlayer::AIPlayer(Player *p) :
 	m_74(0)
 {
 	m_frameLastBuildingBuilt = TheGameLogic->getFrame();
-	p->setCanBuildUnits(false);
+	player->setCanBuildUnits(false);
 
 	int i;
 	for (i = 0; i < 2; i++) {

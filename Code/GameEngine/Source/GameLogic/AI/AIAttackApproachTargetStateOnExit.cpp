@@ -295,10 +295,10 @@ StateReturnType AIAttackApproachTargetState::update()
 		WhichTurretType tur = ai->getWhichTurretForCurWeapon();
 		if (tur != TURRET_INVALID)
 		{
-			Object *temporaryTarget = ai->getNextMoodTarget( true, false );
-			if (temporaryTarget)
+			Object *object = ai->getNextMoodTarget( true, false );
+			if (object)
 			{
-				ai->setTurretTargetObject(tur, temporaryTarget, m_isForceAttacking);
+				ai->setTurretTargetObject(tur, object, m_isForceAttacking);
 				ai->m_bfmeFlag3C7 = true;
 			}
 		}
@@ -359,10 +359,10 @@ StateReturnType AIAttackApproachTargetState00C12678::update()
 		WhichTurretType tur = ai->getWhichTurretForCurWeapon();
 		if (tur != TURRET_INVALID)
 		{
-			Object *temporaryTarget = ai->getNextMoodTarget( true, false );
-			if (temporaryTarget)
+			Object *object = ai->getNextMoodTarget( true, false );
+			if (object)
 			{
-				ai->setTurretTargetObject(tur, temporaryTarget, false);
+				ai->setTurretTargetObject(tur, object, false);
 				ai->m_bfmeFlag3C7 = true;
 			}
 		}

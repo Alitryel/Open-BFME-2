@@ -199,7 +199,7 @@ public:
 	UnsignedInt size( void ) const
 	{
 		UnsignedInt n = 0;
-		for( BridgeBehaviorObjectIDNode *p = m_node->m_next; p != m_node; p = p->m_next )
+		for( BridgeBehaviorObjectIDNode *bridgeBehaviorObjectIDNode = m_node->m_next; bridgeBehaviorObjectIDNode != m_node; bridgeBehaviorObjectIDNode = bridgeBehaviorObjectIDNode->m_next )
 			++n;
 		return n;
 	}

@@ -372,7 +372,7 @@ PATHFINDER_CELL_LINE_WALK( Rva002F600CInfo )
 
 // Select-any: PathfinderRva002F83F5Neighbors.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorRva002F6B22 absent-from-retail
-Int bfmeAnchorRva002F6B22( Pathfinder *p, const ICoord2D *s, const ICoord2D *d, PathfindLayerEnum l, Rva002F5925Info *c ) { return p->iterateCellsAlongLine( s, d, l, c ); }
+Int bfmeAnchorRva002F6B22( Pathfinder *pathfinder, const ICoord2D *s, const ICoord2D *d, PathfindLayerEnum l, Rva002F5925Info *c ) { return pathfinder->iterateCellsAlongLine( s, d, l, c ); }
 
 // ?rva002E8251@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E7ED6Info@@@Z @0x002E8251 247B.
 // Private line walk checking flags &0x3f0 vs 0x10 via rowed getCell 0x002E6D62
@@ -548,7 +548,7 @@ __declspec(noinline) inline Int Pathfinder::ProcessConvexPoly( Int *xPts, Int *y
 // The anchors keep the rowed select-any bodies emitted (0x002E6D2F is
 // auto-inlined into its caller, so only its address keeps a copy).
 // ?bfmeAnchorRva002E8773@@YAXPAVPathfinder@@@Z absent-from-retail
-void bfmeAnchorRva002E8773(Pathfinder *p) { p->ProcessConvexPoly(0, 0, 0, 0, (Rva002E7E26 *)0); }
+void bfmeAnchorRva002E8773(Pathfinder *pathfinder) { pathfinder->ProcessConvexPoly(0, 0, 0, 0, (Rva002E7E26 *)0); }
 // ?bfmeAnchorRva002E6D2F@@YAP8Rva002E6CFE@@AE_NXZXZ absent-from-retail
 bool (Rva002E6CFE::*bfmeAnchorRva002E6D2F())() { return &Rva002E6CFE::rva002E6D2F; }
 

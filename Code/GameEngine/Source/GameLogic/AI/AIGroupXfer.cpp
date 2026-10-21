@@ -156,7 +156,7 @@ public:
 	UnsignedInt size( void ) const
 	{
 		UnsignedInt n = 0;
-		for( AIGroupMemberNode *p = m_node->m_next; p != m_node; p = p->m_next )
+		for( AIGroupMemberNode *aIGroupMemberNode = m_node->m_next; aIGroupMemberNode != m_node; aIGroupMemberNode = aIGroupMemberNode->m_next )
 			++n;
 		return n;
 	}

@@ -165,4 +165,4 @@ __declspec(noinline) inline void PolygonTrigger::rva002E36B7(int count)
 }
 // Select-any: PolygonTriggerParserParse.cpp and Rva00328DE4Add.cpp compile copies of these names; the anchor keeps the rowed bodies emitted.
 // ?bfmeAnchorPolygonTrigger absent-from-retail
-void bfmeAnchorPolygonTrigger(PolygonTrigger *p, Rva000AD6F4 *q, int n) { p->rva002E36B7(n); q->rva002E3E2A(); }
+void bfmeAnchorPolygonTrigger(PolygonTrigger *polygonTrigger, Rva000AD6F4 *q, int n) { polygonTrigger->rva002E36B7(n); q->rva002E3E2A(); }

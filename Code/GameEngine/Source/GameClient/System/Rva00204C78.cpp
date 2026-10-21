@@ -85,10 +85,10 @@ struct Rva00204C78 : Rva0020453CHolderBase
 void Rva00204C78::rva00204C78(const char *name)
 {
 	release();
-	ParticleSystemTemplate *tmpl = TheParticleSystemManager->findTemplate(AsciiString(name));
-	if (!tmpl)
+	ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(AsciiString(name));
+	if (!particleSystemTemplate)
 		return;
-	BfmeParticleSystemHandle handle = TheParticleSystemManager->createParticleSystem(tmpl, true);
+	BfmeParticleSystemHandle handle = TheParticleSystemManager->createParticleSystem(particleSystemTemplate, true);
 	if (handle.ptr)
 	{
 		ParticleSystem *created = (ParticleSystem *)handle.ptr;

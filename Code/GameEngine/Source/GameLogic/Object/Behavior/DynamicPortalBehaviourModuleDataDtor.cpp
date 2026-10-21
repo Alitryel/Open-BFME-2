@@ -125,7 +125,7 @@ DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData(EmitVtableTag
 
 // Forces the vtable, implicit virtual dtor and scalar-deleting dtor to be
 // emitted here (UpgradeModuleDataDtor precedent).
-void deleteDynamicPortalBehaviourModuleData(DynamicPortalBehaviourModuleData *p)
+void deleteDynamicPortalBehaviourModuleData(DynamicPortalBehaviourModuleData *dynamicPortalBehaviourModuleData)
 {
-	delete p;
+	delete dynamicPortalBehaviourModuleData;
 }

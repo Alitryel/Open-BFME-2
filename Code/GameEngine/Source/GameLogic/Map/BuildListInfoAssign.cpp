@@ -90,8 +90,8 @@ inline BuildListInfo &BuildListInfo::operator=(const BuildListInfo &that)
 // row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitBuildListInfoAssign@@YAXPAVBuildListInfo@@ABV1@@Z present-unmatched
-void bfmeEmitBuildListInfoAssign(BuildListInfo *p, const BuildListInfo &that)
+void bfmeEmitBuildListInfoAssign(BuildListInfo *buildListInfo, const BuildListInfo &that)
 {
-	*p = that;
+	*buildListInfo = that;
 }
 #pragma inline_depth()

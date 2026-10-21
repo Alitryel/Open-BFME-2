@@ -739,9 +739,9 @@ bool SidesList::parseLibraryMapListsChunk(DataChunkInput &file, DataChunkInfo *i
 // the relative point is a pair whose x is never stored. The list<MapObject *>
 // base constructor, _M_create_node, insert and base destructor fold onto the
 // list<int> rows 0x004EC36C, 0x000B6447, 0x005925E2 and 0x004EC395.
-static __forceinline void concatChar(AsciiString &s, char c)
+static __forceinline void concatChar(AsciiString &asciiString, char c)
 {
-	((StringBase<char> *)&s)->concat(&c, 1);
+	((StringBase<char> *)&asciiString)->concat(&c, 1);
 }
 
 void SidesList::writeCastleTemplateDataChunk(DataChunkOutput &out, MapObject *pMapObjs, const AsciiString &mapName, Rva002E3A8DHolder *paths)
@@ -1050,7 +1050,7 @@ bool __cdecl Rva0032BF39Equal(int a, int b);	// 0x0032BF39
 
 struct AsciiStringSum
 {
-	AsciiStringSum(const AsciiString &a, const AsciiString &b) : m_a(&a), m_b(&b) {}
+	AsciiStringSum(const AsciiString &asciiString, const AsciiString &b) : m_a(&asciiString), m_b(&b) {}
 	const AsciiString *m_a;
 	const AsciiString *m_b;
 };

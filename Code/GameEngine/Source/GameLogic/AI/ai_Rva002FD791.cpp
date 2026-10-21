@@ -269,11 +269,11 @@ public:
 		for (Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
 		{
 			// ignore empty slots.
-			const Weapon* w = m_obj->getWeaponInWeaponSlot((WeaponSlotType)i);
-			if (w == NULL)
+			const Weapon* weapon = m_obj->getWeaponInWeaponSlot((WeaponSlotType)i);
+			if (weapon == NULL)
 				continue;
 
-			if (w->isWithinAttackRange(m_obj, objOther))
+			if (weapon->isWithinAttackRange(m_obj, objOther))
 			{
 				return true;
 			}

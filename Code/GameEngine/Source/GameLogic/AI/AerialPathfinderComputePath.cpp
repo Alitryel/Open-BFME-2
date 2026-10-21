@@ -50,10 +50,10 @@ __declspec(noinline) inline void Coord3D::normalize()
     }
 }
 inline void Coord3D::scale(float s) { x *= s; y *= s; z *= s; }
-inline Coord3D &addCoord(Coord3D &p, const Coord3DBase &v) {
-    p.x += v.x;
-    p.y += v.y;
-    p.z += v.z;
+inline Coord3D &addCoord(Coord3D &p, const Coord3DBase &coord3DBase) {
+    p.x += coord3DBase.x;
+    p.y += coord3DBase.y;
+    p.z += coord3DBase.z;
     return p;
 }
 struct AerialCoord3D : public Coord3D
@@ -61,10 +61,10 @@ struct AerialCoord3D : public Coord3D
     AerialCoord3D &operator+=(const Coord3D &o) { x += o.x; y += o.y; z += o.z; return *this; }
     void set(const Coord3D *o) { x = o->x; y = o->y; z = o->z; }
 };
-inline void Coord3D::set(const Coord3DBase *v) {
-    x = v->x;
-    y = v->y;
-    z = v->z;
+inline void Coord3D::set(const Coord3DBase *coord3DBase) {
+    x = coord3DBase->x;
+    y = coord3DBase->y;
+    z = coord3DBase->z;
 }
 
 inline float capExtension(float value) {

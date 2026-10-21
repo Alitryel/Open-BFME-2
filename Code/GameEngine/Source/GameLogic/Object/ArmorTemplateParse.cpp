@@ -119,9 +119,9 @@ __declspec(noinline) inline ArmorTemplate::~ArmorTemplate()
 }
 
 // ?bfmeAnchorArmorTemplateDtor absent-from-retail
-void bfmeAnchorArmorTemplateDtor(ArmorTemplate *p)
+void bfmeAnchorArmorTemplateDtor(ArmorTemplate *armorTemplate)
 {
-	p->~ArmorTemplate();
+	armorTemplate->~ArmorTemplate();
 }
 
 // ?parseArmorCoefficients@ArmorTemplate@@SAXPAVINI@@PAX1PBX@Z

@@ -115,7 +115,7 @@ private:
 	Rva002E8BCFSrc *m_18;
 };
 // ?rva002E9D09@Rva002E9D09@@QAE_NPAVObject@@HH@Z @0x002E9D09 414B.
-int Rva002E9D09::rva002E9D09(Object *a1, int a2, int a3)
+int Rva002E9D09::rva002E9D09(Object *object, int a2, int a3)
 {
 	if (m_18 != 0)
 	{
@@ -124,11 +124,11 @@ int Rva002E9D09::rva002E9D09(Object *a1, int a2, int a3)
 			unsigned count = m_holder4->m_4->m_56C;
 			unsigned char b0b = m_holder4->m_4->m_634;
 			Rva002E8BCF tmp(m_18, b0b == 0, count - 1, m_holder4->rva0028AFBB());
-			if (!m_check0->rva002E6DC4(&tmp, a1))
+			if (!m_check0->rva002E6DC4(&tmp, object))
 				return 1;
 		}
 	}
-	unsigned flags = (unsigned)((Rva002E9D09CellView *)a1)->m_flagsC;
+	unsigned flags = (unsigned)((Rva002E9D09CellView *)object)->m_flagsC;
 	if ((flags & 0xF) == 5)
 		return 1;
 	unsigned char b18 = (unsigned char)(flags >> 18);
@@ -137,30 +137,30 @@ int Rva002E9D09::rva002E9D09(Object *a1, int a2, int a3)
 		if (m_holder4->rva0028AFBB())
 			return 1;
 	}
-	int tag = ((Rva002E9D09CellView *)a1)->m_flagsC & 0xF;
+	int tag = ((Rva002E9D09CellView *)object)->m_flagsC & 0xF;
 	if (tag == 2)
 		return 1;
 	if (tag == 4)
-		return ((PathfindCell *)a1)->IsObstaclePresent((ObjectID)m_10) == 0;
+		return ((PathfindCell *)object)->IsObstaclePresent((ObjectID)m_10) == 0;
 	// Tag 4 has already returned, so the donor's redundant obstacle test
 	// preserves the native query's final rejection of tags 5 and 6.
 	if (IS_IMPASSABLE((PathfindCell::CellType)tag))
 		return 1;
 	if (m_14 != 0)
 		return 0;
-Object *a1copy = a1;
+Object *a1copy = object;
 Rva002E9D09Node *node = 0;
 Object *res = m_holder4->rva002931F5(false);
 Rva002E9D09CellInfoView *sub = ((Rva002E9D09CellView *)a1copy)->m_info;
-a1 = res;
+object = res;
 if(sub) node=sub->m_nodes14; else node=0;
 for (;node;node=node->m_next)
 	{
 		if (node->m_obj == m_holder4)
 			continue;
-		if (a1 != 0)
+		if (object != 0)
 		{
-			if (node->m_obj->rva002931F5(false) == a1)
+			if (node->m_obj->rva002931F5(false) == object)
 				continue;
 		}
 		Object *o = node->m_obj;

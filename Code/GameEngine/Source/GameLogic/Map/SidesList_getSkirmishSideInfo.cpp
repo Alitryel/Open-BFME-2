@@ -38,8 +38,8 @@ __declspec(noinline) inline SidesInfo *SidesList::getSkirmishSideInfo(int i)
 }
 
 // ?bfmeAnchorSidesListGetSkirmishSideInfo absent-from-retail
-SidesInfo *bfmeAnchorSidesListGetSkirmishSideInfo(SidesList *p, int i)
+SidesInfo *bfmeAnchorSidesListGetSkirmishSideInfo(SidesList *sidesList, int i)
 {
-	return p->getSkirmishSideInfo(i);
+	return sidesList->getSkirmishSideInfo(i);
 }
 

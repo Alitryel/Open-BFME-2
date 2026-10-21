@@ -567,4 +567,4 @@ __declspec(noinline) inline StateReturnType AIAttackApproachTargetState::onEnter
 }
 // Select-any: other units compile copies of onEnter; the anchor keeps this unit's rowed bodies emitted.
 // ?bfmeAnchorRva00343FB0OnEnter absent-from-retail
-StateReturnType bfmeAnchorRva00343FB0OnEnter(AIAttackApproachTargetState *s) { return s->AIAttackApproachTargetState::onEnter(); }
+StateReturnType bfmeAnchorRva00343FB0OnEnter(AIAttackApproachTargetState *aIAttackApproachTargetState) { return aIAttackApproachTargetState->AIAttackApproachTargetState::onEnter(); }

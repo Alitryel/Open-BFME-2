@@ -106,9 +106,9 @@ private:
 void TeamsInfoRec::renameTeam(int id, const AsciiString &owner, const AsciiString &name)
 {
 	removeFromIndex(id);
-	Dict *d = &m_entries[id].m_dict;
-	d->setAsciiString(TheKey_teamOwner, owner);
-	d->setAsciiString(TheKey_teamName, name);
+	Dict *dict = &m_entries[id].m_dict;
+	dict->setAsciiString(TheKey_teamOwner, owner);
+	dict->setAsciiString(TheKey_teamName, name);
 	addToIndex(id);
 }
 

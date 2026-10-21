@@ -103,8 +103,8 @@ inline AutoHealBehaviorModuleData::AutoHealBehaviorModuleData()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeAutoHealBehaviorModuleDataInlineAnchor@@YAXPAVAutoHealBehaviorModuleData@@@Z absent-from-retail
-void _bfmeAutoHealBehaviorModuleDataInlineAnchor(AutoHealBehaviorModuleData *p)
+void _bfmeAutoHealBehaviorModuleDataInlineAnchor(AutoHealBehaviorModuleData *autoHealBehaviorModuleData)
 {
-    p->AutoHealBehaviorModuleData::AutoHealBehaviorModuleData();
+    autoHealBehaviorModuleData->AutoHealBehaviorModuleData::AutoHealBehaviorModuleData();
 }
 #pragma inline_depth()

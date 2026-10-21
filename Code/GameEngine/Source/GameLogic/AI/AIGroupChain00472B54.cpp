@@ -206,9 +206,9 @@ void Rva00472B54::rva00472B54(Object *obj, CommandSourceType src)
 	for (_STL::list<int>::iterator it = snap.begin(); it != snap.end(); ++it)
 		slotA8(*it);
 	for (_STL::map<int, int>::iterator it = m_map.begin(); it != m_map.end(); StepMapIterator(it)) {
-		Object *o = TheGameLogic->findObjectByID((ObjectID)(*it).first);
-		if (o)
-			grp->add(o);
+		Object *object = TheGameLogic->findObjectByID((ObjectID)(*it).first);
+		if (object)
+			grp->add(object);
 	}
 	grp->groupEnter(obj, src);
 	TheAI->destroyGroup(grp);

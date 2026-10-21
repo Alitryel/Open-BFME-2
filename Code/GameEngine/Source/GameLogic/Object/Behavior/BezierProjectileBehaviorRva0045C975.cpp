@@ -177,18 +177,18 @@ void BezierProjectileBehavior::rva0045C975(int)
 	Rva001E4912 bits;
 	((Rva001E42F2 *)obj)->rva001E42F2((const int *)bits.rva001E4912(0, 0x9a, 0x9b));
 
-	const BezierModuleData *d = m_moduleData;
-	if (d->m_flag19)
+	const BezierModuleData *bezierModuleData = m_moduleData;
+	if (bezierModuleData->m_flag19)
 	{
 		obj->setModelConditionState122();
 		obj->kill(DAMAGE_TYPE_8, DEATH_TYPE_0);
 	}
 	obj->setStatus(OBJECT_STATUS_5, false);
 
-	if (d->m_command38 > 0)
+	if (bezierModuleData->m_command38 > 0)
 	{
 		if (obj->getAI())
-			obj->getAI()->m_ai.rva0045003E(d->m_command38, COMMAND_SOURCE_2);
+			obj->getAI()->m_ai.rva0045003E(bezierModuleData->m_command38, COMMAND_SOURCE_2);
 	}
 	else if (obj->getAI())
 	{

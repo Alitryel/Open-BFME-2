@@ -56,8 +56,8 @@ BackAwayAndCowerStateMachine::BackAwayAndCowerStateMachine(Object *owner, Object
 	: StateMachine(owner, nameKey, false)
 {
 	((StateMachine *)this)->rva004D750F(goal);
-	AIBackAwayState *s0 = new AIBackAwayState((StateMachine *)this);
-	((StateMachine *)this)->defineState(0, (State *)s0, 1, 0x270F, (const StateConditionInfo *)0);
+	AIBackAwayState *aIBackAwayState = new AIBackAwayState((StateMachine *)this);
+	((StateMachine *)this)->defineState(0, (State *)aIBackAwayState, 1, 0x270F, (const StateConditionInfo *)0);
 	Rva0033F7C8 *s1 = new Rva0033F7C8((StateMachine *)this);
 	((StateMachine *)this)->defineState(1, (State *)s1, 0x270E, 0x270F, (const StateConditionInfo *)0);
 }

@@ -131,14 +131,14 @@ void Path::optimizeGroundPath(Int pathDiameter)
 				Int dx = node->getPosition()->x - anchor->getPosition()->x;
 				Int dy = node->getPosition()->y - anchor->getPosition()->y;
 				Bool mightBePassable = false;
-				PathNode *tmpNode;
+				PathNode *pathNode;
 				if (dx == 0)
 				{
 					mightBePassable = true;
-					for (tmpNode = node->getPrevious(); tmpNode && tmpNode != anchor;
-						tmpNode = tmpNode->getPrevious())
+					for (pathNode = node->getPrevious(); pathNode && pathNode != anchor;
+						pathNode = pathNode->getPrevious())
 					{
-						dx = tmpNode->getNext()->getPosition()->x - tmpNode->getPosition()->x;
+						dx = pathNode->getNext()->getPosition()->x - pathNode->getPosition()->x;
 						if (dx != 0)
 							mightBePassable = false;
 					}
@@ -146,10 +146,10 @@ void Path::optimizeGroundPath(Int pathDiameter)
 				if (dy == 0)
 				{
 					mightBePassable = true;
-					for (tmpNode = node->getPrevious(); tmpNode && tmpNode != anchor;
-						tmpNode = tmpNode->getPrevious())
+					for (pathNode = node->getPrevious(); pathNode && pathNode != anchor;
+						pathNode = pathNode->getPrevious())
 					{
-						dy = tmpNode->getNext()->getPosition()->y - tmpNode->getPosition()->y;
+						dy = pathNode->getNext()->getPosition()->y - pathNode->getPosition()->y;
 						if (dy != 0)
 							mightBePassable = false;
 					}
@@ -157,11 +157,11 @@ void Path::optimizeGroundPath(Int pathDiameter)
 				if (dx == dy)
 				{
 					mightBePassable = true;
-					for (tmpNode = node->getPrevious(); tmpNode && tmpNode != anchor;
-						tmpNode = tmpNode->getPrevious())
+					for (pathNode = node->getPrevious(); pathNode && pathNode != anchor;
+						pathNode = pathNode->getPrevious())
 					{
-						dx = tmpNode->getNext()->getPosition()->x - tmpNode->getPosition()->x;
-						dy = tmpNode->getNext()->getPosition()->y - tmpNode->getPosition()->y;
+						dx = pathNode->getNext()->getPosition()->x - pathNode->getPosition()->x;
+						dy = pathNode->getNext()->getPosition()->y - pathNode->getPosition()->y;
 						if (dy != dx)
 							mightBePassable = false;
 					}
@@ -169,11 +169,11 @@ void Path::optimizeGroundPath(Int pathDiameter)
 				if (dx == -dy)
 				{
 					mightBePassable = true;
-					for (tmpNode = node->getPrevious(); tmpNode && tmpNode != anchor;
-						tmpNode = tmpNode->getPrevious())
+					for (pathNode = node->getPrevious(); pathNode && pathNode != anchor;
+						pathNode = pathNode->getPrevious())
 					{
-						dx = tmpNode->getNext()->getPosition()->x - tmpNode->getPosition()->x;
-						dy = tmpNode->getNext()->getPosition()->y - tmpNode->getPosition()->y;
+						dx = pathNode->getNext()->getPosition()->x - pathNode->getPosition()->x;
+						dy = pathNode->getNext()->getPosition()->y - pathNode->getPosition()->y;
 						if (dy != -dx)
 							mightBePassable = false;
 					}

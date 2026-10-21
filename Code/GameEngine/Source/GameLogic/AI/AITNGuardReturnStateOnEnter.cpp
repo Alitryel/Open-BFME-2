@@ -48,7 +48,7 @@ struct ObjectIDList
 	struct const_iterator
 	{
 		ObjectIDListNode *_M_node;
-		const_iterator(ObjectIDListNode *n) : _M_node(n) {}
+		const_iterator(ObjectIDListNode *objectIDListNode) : _M_node(objectIDListNode) {}
 		const ObjectID &operator*() const { return _M_node->m_data; }
 		const_iterator &operator++() { _M_node = _M_node->m_next; return *this; }
 		const_iterator operator++(int) { const_iterator tmp = *this; _M_node = _M_node->m_next; return tmp; }

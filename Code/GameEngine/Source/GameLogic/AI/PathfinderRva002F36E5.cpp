@@ -58,14 +58,14 @@ private:
 
 PathfindCell *Pathfinder::rva002F36E5()
 {
-	Queue *q = &m_queue;
-	PathfindCell **base = q->m_base;
+	Queue *queue = &m_queue;
+	PathfindCell **base = queue->m_base;
 	PathfindCell *front = 0;
-	if (base != q->m_end)
+	if (base != queue->m_end)
 	{
 		front = *base;
 		front->SetOpen(false);
-		((Rva002EBB53Queue *)q)->pop();
+		((Rva002EBB53Queue *)queue)->pop();
 	}
 	return front;
 }
@@ -73,12 +73,12 @@ PathfindCell *Pathfinder::rva002F36E5()
 int Pathfinder::rva002F370D()
 {
 	int count = 0;
-	Queue *q = &m_queue;
-	while (!q->empty())
+	Queue *queue = &m_queue;
+	while (!queue->empty())
 	{
-		PathfindCell *front = q->front();
+		PathfindCell *front = queue->front();
 		front->SetOpen(false);
-		((Rva002EBB53Queue *)q)->pop();
+		((Rva002EBB53Queue *)queue)->pop();
 		++count;
 	}
 	return count;
@@ -87,11 +87,11 @@ int Pathfinder::rva002F370D()
 int Pathfinder::rva002F40E7()
 {
 	int n = rva002F370D();
-	MixFileInfoBuffer *p = m_34;
+	MixFileInfoBuffer *mixFileInfoBuffer = m_34;
 	int r = 0;
-	if (p != 0)
+	if (mixFileInfoBuffer != 0)
 	{
-		r = PathfindCell::ReleaseClosedList(p);
+		r = PathfindCell::ReleaseClosedList(mixFileInfoBuffer);
 		m_34 = 0;
 	}
 	m_40 += n;

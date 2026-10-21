@@ -178,10 +178,10 @@ struct FakePortalObjectView
 BehaviorModule *Rva004617CFFind(FakePortalObjectView *obj)
 {
 	static NameKeyType key = TheNameKeyGenerator->nameToKey("FakePathfindPortalBehaviour");
-	for (BehaviorModule **m = obj->m_behaviors; *m; ++m)
+	for (BehaviorModule **behaviorModule = obj->m_behaviors; *behaviorModule; ++behaviorModule)
 	{
-		if ((*m)->getModuleNameKey() == key)
-			return *m;
+		if ((*behaviorModule)->getModuleNameKey() == key)
+			return *behaviorModule;
 	}
 	return 0;
 }

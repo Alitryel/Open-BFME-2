@@ -99,10 +99,10 @@ public:
 AttackMeleeStateMachine::AttackMeleeStateMachine(Object *owner, int x, unsigned int name)
 	: StateMachine(owner, name, false)
 {
-	AIAttackMeleeApproachState *s0 = new AIAttackMeleeApproachState((StateMachine *)this);
-	((StateMachine *)this)->defineState(0xE1, (State *)s0, 0xE2, 0x270F, (const StateConditionInfo *)0);
-	AIAttackMeleeSquishState *s1 = new AIAttackMeleeSquishState((StateMachine *)this);
-	((StateMachine *)this)->defineState(0xE9, (State *)s1, 0xE2, 0x270F, (const StateConditionInfo *)0);
+	AIAttackMeleeApproachState *aIAttackMeleeApproachState = new AIAttackMeleeApproachState((StateMachine *)this);
+	((StateMachine *)this)->defineState(0xE1, (State *)aIAttackMeleeApproachState, 0xE2, 0x270F, (const StateConditionInfo *)0);
+	AIAttackMeleeSquishState *aIAttackMeleeSquishState = new AIAttackMeleeSquishState((StateMachine *)this);
+	((StateMachine *)this)->defineState(0xE9, (State *)aIAttackMeleeSquishState, 0xE2, 0x270F, (const StateConditionInfo *)0);
 	Rva00340BDC *s2 = new Rva00340BDC((StateMachine *)this, x != 0 ? x + 0x20 : 0);
 	((StateMachine *)this)->defineState(0xE2, (State *)s2, 0xE6, 0xE5, (const StateConditionInfo *)0);
 	Rva0033F627 *s3 = new Rva0033F627((StateMachine *)this);

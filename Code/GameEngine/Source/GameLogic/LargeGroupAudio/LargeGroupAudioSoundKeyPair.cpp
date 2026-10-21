@@ -87,9 +87,9 @@ struct FloatPair
  // Nontrivial coordinate return has the same two-float physical ABI.
  FloatPair(float a,float b):x(a),y(b){}
  operator float *() { return &x; }
-	FloatPair(const FloatPair &o) : x(o.x), y(o.y) {}
+	FloatPair(const FloatPair &floatPair) : x(floatPair.x), y(floatPair.y) {}
 	~FloatPair() {}
-	__forceinline bool isExactlyEqualTo(const FloatPair &o) const { return x == o.x && y == o.y; }
+	__forceinline bool isExactlyEqualTo(const FloatPair &floatPair) const { return x == floatPair.x && y == floatPair.y; }
 	float x;
 	float y;
 };
@@ -306,24 +306,24 @@ LargeGroupAudioSoundKeyPair::~LargeGroupAudioSoundKeyPair(){
 
 bool LargeGroupAudioSoundKeyPair::rva00568920() const
 {
-	const LargeGroupAudioSoundKeyPairDuckingView *v = (const LargeGroupAudioSoundKeyPairDuckingView *)this;
+	const LargeGroupAudioSoundKeyPairDuckingView *largeGroupAudioSoundKeyPairDuckingView = (const LargeGroupAudioSoundKeyPairDuckingView *)this;
 	for (int i = 0; i < 4; ++i)
-		if (v->m_vals[i] == 0)
+		if (largeGroupAudioSoundKeyPairDuckingView->m_vals[i] == 0)
 			return false;
 	return true;
 }
 
 void LargeGroupAudioSoundKeyPair::rva00568939(int key)
 {
-	LargeGroupAudioSoundKeyPairDuckingView *v = (LargeGroupAudioSoundKeyPairDuckingView *)this;
+	LargeGroupAudioSoundKeyPairDuckingView *largeGroupAudioSoundKeyPairDuckingView = (LargeGroupAudioSoundKeyPairDuckingView *)this;
 	if (!rva00568920())
 		return;
-	for (Rva00568939Elem *e = v->m_begin14; e != v->m_end18; ++e) {
+	for (Rva00568939Elem *e = largeGroupAudioSoundKeyPairDuckingView->m_begin14; e != largeGroupAudioSoundKeyPairDuckingView->m_end18; ++e) {
 		if (e->m_0c != key)
 			continue;
 		if (e->m_10)
 			return;
-		HostClass005C815B **slot = v->m_slots;
+		HostClass005C815B **slot = largeGroupAudioSoundKeyPairDuckingView->m_slots;
 		for (int left = 4; left != 0; --left, ++slot) {
 			if (*slot != 0) {
 				float f = e->m_08;

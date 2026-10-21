@@ -94,11 +94,11 @@ SmudgeManager::~SmudgeManager()
 		::operator delete(head->deleteInstance(0));
 	}
 
-	Smudge *head2;
-	while ((head2 = SmudgeSet::m_freeSmudgeList.Head()) != 0) {
+	Smudge *smudge;
+	while ((smudge = SmudgeSet::m_freeSmudgeList.Head()) != 0) {
 		m_freeSmudgeSetList.Remove_Head();
-		head2->Remove();
-		::operator delete(head2);
+		smudge->Remove();
+		::operator delete(smudge);
 	}
 }
 
