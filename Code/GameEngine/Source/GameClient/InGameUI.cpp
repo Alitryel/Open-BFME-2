@@ -1556,26 +1556,6 @@ Int InGameUI::selectAllUnitsByType(KindOfMaskType mustBeSet, KindOfMaskType must
     across the map.  For mouse clicks, i.e. Alt + click or double click, we can directly call
     selectMatchingAcrossScreen or selectMatchingAcrossMap */
 //-------------------------------------------------------------------------------------------------
-// ?InGameUI::selectUnitsMatchingCurrentSelection present-unmatched
-Int InGameUI::selectUnitsMatchingCurrentSelection()
-{
-	/// When implementing this, obey TheInGameUI->getMaxSelectCount() if it is > 0
-	Int numSelected = selectMatchingAcrossScreen();
-	if (numSelected == -1)
-		return numSelected;
-	if (numSelected == 0)
-	{
-		Int numSelectedAcrossMap = selectMatchingAcrossMap();
-		//if (numSelectedAcrossMap < 1)
-		//{
-			//UnicodeString message = TheGameText->fetch( "GUI:NothingSelected" );
-			//TheInGameUI->message( message );
-		//}
-		return numSelectedAcrossMap;
-	}
-	return numSelected;
-
-}
 
 //-----------------------------------------------------------------------------
 /**
