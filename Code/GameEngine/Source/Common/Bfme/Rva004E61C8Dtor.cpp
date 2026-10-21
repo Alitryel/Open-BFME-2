@@ -25,7 +25,7 @@ private:
 class Rva004E5D6E
 {
 public:
-	void rva004E5D6E();
+	void reset();
 };
 
 struct Rva004E61C8Inner
@@ -59,7 +59,7 @@ private:
 
 Rva004E61C8::~Rva004E61C8()
 {
-	((Rva004E5D6E *)this)->rva004E5D6E();
+	((Rva004E5D6E *)this)->reset();
 	void *p;
 	if (m_c != 0)
 		p = m_c->v0(0);

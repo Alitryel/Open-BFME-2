@@ -44,13 +44,13 @@ public:
 class Rva004210D0
 {
 public:
-	void rva004210D0();
+	void reset();
 private:
 	char m_pad00[0x0C];
 	Overridable **m_begin;
 	Overridable **m_end;
 };
-void Rva004210D0::rva004210D0()
+void Rva004210D0::reset()
 {
 	for (Overridable **it = m_begin; it != m_end; ++it)
 	{

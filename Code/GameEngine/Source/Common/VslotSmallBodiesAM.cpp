@@ -104,13 +104,13 @@ public:
 class Rva00420B55
 {
 public:
-	void rva00420B55();
+	void reset();
 private:
 	char m_pad00[0x10];
 	_STL::_List_base<int, _STL::allocator<int> > m_10;
 	bool m_14;
 };
-void Rva00420B55::rva00420B55()
+void Rva00420B55::reset()
 {
 	m_14 = false;
 	m_10.clear();

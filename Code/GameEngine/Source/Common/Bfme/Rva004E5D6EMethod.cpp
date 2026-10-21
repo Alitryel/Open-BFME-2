@@ -1,4 +1,4 @@
-// ?rva004E5D6E@Rva004E5D6E@@QAEXXZ
+// ?reset@Rva004E5D6E@@QAEXXZ
 // @0x004E5D6E 68B via STL clear: for_each delete + erase + zero + 0xff000000 store
 // cl: /MD /Oy- /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -31,7 +31,7 @@ struct Rva004E5D6EChild
 class Rva004E5D6E
 {
 public:
-	void rva004E5D6E();
+	void reset();
 private:
 	unsigned char m_pad0[0xc];
 	Rva004E5D6EChild *m_p; // +0xc
@@ -40,7 +40,7 @@ private:
 	int m_b; // +0x20
 	int m_c; // +0x24
 };
-void Rva004E5D6E::rva004E5D6E()
+void Rva004E5D6E::reset()
 {
 	m_a = 0;
 	m_b = 0;

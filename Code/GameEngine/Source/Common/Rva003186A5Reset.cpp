@@ -51,7 +51,7 @@ extern AudioManager *TheAudio;
 
 class Rva003186A5Owner {
 public:
-    void rva003186A5();
+    void reset();
 private:
     unsigned char pad00[0x10];
     int m_10;
@@ -66,7 +66,7 @@ private:
     int m_58;
 };
 
-void Rva003186A5Owner::rva003186A5()
+void Rva003186A5Owner::reset()
 {
     m_10 = 0;
     m_28 = 0;

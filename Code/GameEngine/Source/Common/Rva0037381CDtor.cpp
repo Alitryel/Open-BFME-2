@@ -19,7 +19,7 @@ typedef bool Bool;
 class Rva003734C0
 {
 public:
-	void rva003734C0();
+	void reset();
 };
 
 // The secondary native table C17E04 has Snapshot's four slots; its name
@@ -41,5 +41,5 @@ private:
 // ??1Rva0037381C@@UAE@XZ
 Rva0037381C::~Rva0037381C()
 {
-	((Rva003734C0 *)(void *)this)->rva003734C0();
+	((Rva003734C0 *)(void *)this)->reset();
 }

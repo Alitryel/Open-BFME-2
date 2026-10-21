@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?rva0042767F@Rva00427611@@QAEXXZ @0x0042767F 55B.
+// ?reset@Rva00427611@@QAEXXZ @0x0042767F 55B.
 // Frees every owned element of the malloc-config pointer vector at +0x10 of the
 // Rva00427611 object (the vector its dtor at 0x00427611 releases), then erases the
 // whole range. The element type is open: only a virtual first slot is witnessed
@@ -28,13 +28,13 @@ public:
 class Rva00427611
 {
 public:
-	void rva0042767F();
+	void reset();
 private:
 	char m_pad00[0x10];
 	_STL::vector<void *> m_elements;
 };
 
-void Rva00427611::rva0042767F()
+void Rva00427611::reset()
 {
 	for (void **it = m_elements.begin(); it != m_elements.end(); ++it)
 	{

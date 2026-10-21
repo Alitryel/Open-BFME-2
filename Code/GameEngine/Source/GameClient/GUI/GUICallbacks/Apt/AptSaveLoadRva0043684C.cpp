@@ -155,7 +155,7 @@ private:
 class Rva0037B3D1
 {
 public:
-	void rva0037B3D1();
+	void reset();
 };
 
 class BfmeSubobject0022CE19
@@ -366,7 +366,7 @@ void AptSaveLoad::rva0043684C()
 				else
 					++gameCount;
 			}
-			reinterpret_cast<Rva0037B3D1 *>(&recorder)->rva0037B3D1();
+			reinterpret_cast<Rva0037B3D1 *>(&recorder)->reset();
 		}
 	}
 
