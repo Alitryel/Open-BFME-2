@@ -33,8 +33,9 @@ struct DisplayString
 	virtual void setFont(GameFont *font);
 };
 
-struct DisplayStringManager
+class DisplayStringManager
 {
+public:
 	virtual void v000();
 	virtual void v004();
 	virtual void v008();
@@ -52,8 +53,9 @@ struct DisplayStringManager
 	virtual DisplayString *newDisplayString();
 };
 
-struct InGameUI
+class InGameUI
 {
+public:
 	virtual void v000();
 	virtual void v004();
 	virtual void v008();
@@ -150,8 +152,9 @@ struct InGameUI
 	virtual int getMousedOverDrawableID();
 };
 
-struct GameClient
+class GameClient
 {
+public:
 	virtual void v000();
 	virtual void v004();
 	virtual void v008();
@@ -172,8 +175,9 @@ struct GameClient
 	char m_pad[0xC4 - 4]; int m_onScreenObjectCount;
 };
 
-struct View
+class View
 {
+public:
 	virtual void v000();
 	virtual void v004();
 	virtual void v008();
@@ -316,8 +320,9 @@ struct View
 	virtual float getPitch();
 };
 
-struct TerrainRenderObject
+class TerrainRenderObject
 {
+public:
 	virtual void v000();
 	virtual void v004();
 	virtual void v008();
@@ -465,8 +470,9 @@ struct TerrainRenderObject
 	virtual int getNumExtraBlendTiles();
 };
 
-struct NetworkInterface
+class NetworkInterface
 {
+public:
 	virtual void v000();
 	virtual void v004();
 	virtual void v008();
@@ -531,8 +537,9 @@ struct NetworkInterface
 	virtual int getSequentialBufferCount(int i);
 };
 
-struct ParticleSystemManager
+class ParticleSystemManager
 {
+public:
 	virtual void v000();
 	virtual void v004();
 	virtual void v008();
@@ -649,13 +656,13 @@ extern InGameUI *TheInGameUI;
 extern View *TheTacticalView;
 extern PlayerList *ThePlayerList;
 extern ScriptEngine *TheScriptEngine;
-extern Rva002858E5 *TheTriggerManager;
+class Rva002872BA; extern Rva002872BA *TheTriggerManager;
 extern ParticleSystemManager *TheParticleSystemManager;
 extern NetworkInterface *TheNetwork;
 extern TerrainLogic *TheTerrainLogic;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
-extern Rva0026F0F0 *TheUpgradeCenter;
-extern TerrainRenderObject *TheTerrainRenderObject;
+class UpgradeCenter; extern UpgradeCenter *TheUpgradeCenter;
+class BaseHeightMapRenderObjClass; extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 extern const char *const ModelConditionNames[];
 extern const char *BodyStateNames[];
 
@@ -818,7 +825,7 @@ void W3DDisplay::gatherDebugStats(void)
 		s_drawCallsSinceLastUpdate = 0;
 		s_sortedPolysSinceLastUpdate = 0;
 
-		unibuffer.format(W("3-Way Blends: %d"), TheTerrainRenderObject->getNumExtraBlendTiles());
+		unibuffer.format(W("3-Way Blends: %d"), ((TerrainRenderObject *)TheTerrainRenderObject)->getNumExtraBlendTiles());
 		m_displayStrings[11]->setText(unibuffer);
 
 		Coord3D pos;
@@ -903,7 +910,7 @@ void W3DDisplay::gatherDebugStats(void)
 		if (TheTriggerManager)
 		{
 			int fuel, resistance, burnRate, maxBurn, decay;
-			if (TheTriggerManager->rva002858E5(&world.x, &fuel, &burnRate, &decay, &resistance, &maxBurn))
+			if (((Rva002858E5 *)TheTriggerManager)->rva002858E5(&world.x, &fuel, &burnRate, &decay, &resistance, &maxBurn))
 				unibuffer.format(W("Fire logic: fuel=%d, resistance=%d, burn rate=%d, max=%d, decay=%d"), fuel, resistance, burnRate, maxBurn, decay);
 			else
 				unibuffer.set(W("Fire logic: ---"));
@@ -1007,7 +1014,7 @@ void W3DDisplay::gatherDebugStats(void)
 				perLine = 0;
 				while (((Rva00046827 *)&mask)->rva00046827() > 0)
 				{
-					UpgradeTemplateView *upgrade = (UpgradeTemplateView *)TheUpgradeCenter->rva0026F0F0(&mask);
+					UpgradeTemplateView *upgrade = (UpgradeTemplateView *)((Rva0026F0F0 *)TheUpgradeCenter)->rva0026F0F0(&mask);
 					if (upgrade)
 					{
 						unibuffer2.format(W("%S "), upgrade->m_name.str());

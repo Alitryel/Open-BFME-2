@@ -2061,3 +2061,13 @@ unsigned int __stdcall Rva006C1BE0FormatLocation(char *buffer, unsigned int size
 	*p = 0;
 	return p - buffer;
 }
+
+// Release game code calls MemoryPool::GetHeapAllocatorByIndex through a
+// stub that only returns no allocator (W3DDisplay::gatherDebugStats at
+// +0x5B5/+0x5E4); retail folds it into the shared zero-return body.
+namespace MemoryPool {
+EA::Allocator::GeneralAllocator *Rva0065CE90(unsigned int index)
+{
+	return 0;
+}
+}
