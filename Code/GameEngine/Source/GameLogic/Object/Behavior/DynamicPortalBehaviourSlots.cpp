@@ -52,7 +52,7 @@ public:
 	virtual void rva00461284(int a1) = 0;
 };
 
-struct Iface10 : public Rva00461284Slots<10> { virtual void rva0046129A() = 0; unsigned char m_pad[4]; };
+struct Iface10 : public Rva00461284Slots<10> { virtual void upgradeImplementation() = 0; unsigned char m_pad[4]; };
 struct Iface18 { virtual void f18(); };
 struct Iface1C { virtual void f1C(); };
 
@@ -74,7 +74,7 @@ class DynamicPortalBehaviour : public UpgradeModule
 public:
 	void createWaypoints();	// 0x00460F90, rowed in DynamicPortalBehaviourCreateWaypoints.cpp
 	virtual void rva00461284(int a1);
-	virtual void rva0046129A();
+	virtual void upgradeImplementation();
 	virtual void rva0046132F();
 private:
 	void rva00461257();
@@ -183,7 +183,7 @@ public:
 // then primary helper460F90 and optional exit-interface slot8 with Object id.
 // The string+138 and Object id74/AI258 are target facts. No reference donor
 // establishes the original override spelling or forwarded string semantics.
-void DynamicPortalBehaviour::rva0046129A()
+void DynamicPortalBehaviour::upgradeImplementation()
 {
     rva004CE4A0();
     Object *object = m_object;

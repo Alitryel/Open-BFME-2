@@ -124,7 +124,7 @@ public:
     virtual void f1() = 0; virtual void f2() = 0; virtual void f3() = 0;
     virtual void f4() = 0; virtual void f5() = 0; virtual void f6() = 0;
     virtual void f7() = 0;
-    virtual void rva004B6B29() = 0;
+    virtual void upgradeRemovalImplementation() = 0;
     virtual void setExecuted(bool flag) = 0;
     virtual void upgradeImplementation() = 0;
     virtual void masks(GeometryUpgradeMask &set, GeometryUpgradeMask &clear) = 0;
@@ -140,14 +140,14 @@ public:
 class GeometryUpgrade : public UpgradeModule
 {
 public:
-    virtual void rva004B6B29();
+    virtual void upgradeRemovalImplementation();
     virtual void upgradeImplementation();
     const GeometryUpgradeModuleData *getData() const { return (const GeometryUpgradeModuleData *)m_moduleData; }
     void rva004B6B04(BfmeObjF9 *, void *vector, char flag);
 private:
     AsciiString m_upgradeName;
 };
-void GeometryUpgrade::rva004B6B29()
+void GeometryUpgrade::upgradeRemovalImplementation()
 {
     if (!executed())
         return;

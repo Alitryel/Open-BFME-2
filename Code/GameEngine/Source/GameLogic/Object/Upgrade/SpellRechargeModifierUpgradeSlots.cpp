@@ -10,9 +10,9 @@
 // modifiers come from the module data's float vector at +0x118, indexed by
 // the counter minus one, clamped to the vector. Names are by address.
 //
-// ?rva004B5F9F@SpellRechargeModifierUpgrade@@UAEXXZ, retail 0x004B5F9F, 114
+// ?upgradeImplementation@SpellRechargeModifierUpgrade@@UAEXXZ, retail 0x004B5F9F, 114
 // bytes: mux slot 10; counts one more upgrade and applies its modifier.
-// ?rva004B5E46@SpellRechargeModifierUpgrade@@UAEXXZ, retail 0x004B5E46, 126
+// ?upgradeRemovalImplementation@SpellRechargeModifierUpgrade@@UAEXXZ, retail 0x004B5E46, 126
 // bytes: mux slot 8; when mux slot 0 holds, counts one fewer and reapplies.
 // ?rva004B5DDC@SpellRechargeModifierUpgrade@@UAEXXZ, retail 0x004B5DDC, 42
 // bytes: +0x1C slot 1; with the module data's +0x124 flag runs mux slots 10
@@ -79,9 +79,9 @@ public:
 	virtual bool slot0() = 0;
 	virtual void gap1() = 0; virtual void gap2() = 0; virtual void gap3() = 0; virtual void gap4() = 0;
 	virtual void gap5() = 0; virtual void gap6() = 0; virtual void gap7() = 0;
-	virtual void rva004B5E46() = 0;
+	virtual void upgradeRemovalImplementation() = 0;
 	virtual void slot9(int a1) = 0;
-	virtual void rva004B5F9F() = 0;
+	virtual void upgradeImplementation() = 0;
 };
 
 struct UpgradeIface18 { virtual void f18(); };
@@ -102,16 +102,16 @@ public:
 class SpellRechargeModifierUpgrade : public UpgradeModule, public UpgradeIface18, public Rva004B5DDCIface
 {
 public:
-	virtual void rva004B5F9F();
-	virtual void rva004B5E46();
+	virtual void upgradeImplementation();
+	virtual void upgradeRemovalImplementation();
 	virtual void rva004B5DDC();
 	void rva004B5EC4(Player *oldPlayer, Player *newPlayer);
 private:
 	bool m_20; // +0x20
 };
 
-// ?rva004B5F9F@SpellRechargeModifierUpgrade@@UAEXXZ @0x004B5F9F
-void SpellRechargeModifierUpgrade::rva004B5F9F()
+// ?upgradeImplementation@SpellRechargeModifierUpgrade@@UAEXXZ @0x004B5F9F
+void SpellRechargeModifierUpgrade::upgradeImplementation()
 {
 	Player *player = m_object->getControllingPlayer();
 	const SpellRechargeModifierUpgradeModuleData *data = m_moduleData;
@@ -119,8 +119,8 @@ void SpellRechargeModifierUpgrade::rva004B5F9F()
 	applyModifier(player, data);
 }
 
-// ?rva004B5E46@SpellRechargeModifierUpgrade@@UAEXXZ @0x004B5E46
-void SpellRechargeModifierUpgrade::rva004B5E46()
+// ?upgradeRemovalImplementation@SpellRechargeModifierUpgrade@@UAEXXZ @0x004B5E46
+void SpellRechargeModifierUpgrade::upgradeRemovalImplementation()
 {
 	if (!slot0())
 		return;
@@ -137,7 +137,7 @@ void SpellRechargeModifierUpgrade::rva004B5DDC()
 {
 	if (m_moduleData->m_startsActive)
 	{
-		rva004B5F9F();
+		upgradeImplementation();
 		slot9(1);
 	}
 	m_20 = true;

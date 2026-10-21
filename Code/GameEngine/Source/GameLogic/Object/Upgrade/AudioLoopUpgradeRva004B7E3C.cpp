@@ -9,7 +9,7 @@
 // handle when present, marks it 1, then setWakeFrame via rowed 0x44DF71
 // to UPDATE_SLEEP_FOREVER. The secondary this at +0x28 gives primary via
 // -0x28, module data via -0x24, object via -0x20 and handle via +0x04
-// (primary+0x2C). Shape follows the rowed rva004B7DE0 secondary helper
+// (primary+0x2C). Shape follows the rowed upgradeRemovalImplementation secondary helper
 // plus the FoundationAIUpdateSlot14 TheAudio remove. Honest address name:
 // method identity unproven.
 

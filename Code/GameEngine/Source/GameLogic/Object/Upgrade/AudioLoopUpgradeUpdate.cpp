@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
 //
 // ?rva004B7B87@AudioLoopUpgrade@@QAEHXZ, retail 0x004B7B87, 35 bytes.
-// ?rva004B7DE0@AudioLoopUpgrade@@QAEXXZ, retail 0x004B7DE0, 46 bytes.
+// ?upgradeRemovalImplementation@AudioLoopUpgrade@@QAEXXZ, retail 0x004B7DE0, 46 bytes.
 // Virtual slot 18 (offset 0x48) of vtable 0x00858C70 (class of the rowed
 // AudioLoopUpgrade ctor; prev ModuleNameGetters 0x004B7B81 plus next pool key
 // 0x004B7BBB). Body stops the loop sound through TheAudio (data 0x009FE6E8)
@@ -64,7 +64,7 @@ class AudioLoopUpgrade
 {
 public:
 	int rva004B7B87();
-	void rva004B7DE0();
+	void upgradeRemovalImplementation();
 
 private:
 	unsigned char m_pad0C[0xc];
@@ -83,7 +83,7 @@ int AudioLoopUpgrade::rva004B7B87()
 	return UPDATE_SLEEP_FOREVER;
 }
 
-void AudioLoopUpgrade::rva004B7DE0()
+void AudioLoopUpgrade::upgradeRemovalImplementation()
 {
 	if (TheAudio != 0)
 	{

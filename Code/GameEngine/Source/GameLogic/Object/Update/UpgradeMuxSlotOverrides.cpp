@@ -50,7 +50,7 @@ protected:
 	virtual void upgradeImplementation() = 0;
 	virtual void getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const = 0;
 	virtual void performUpgradeFX() = 0;
-	virtual bool rva004B7E19() const = 0;
+	virtual bool requiresAllActivationUpgrades() const = 0;
 	unsigned int m_upgradeMuxFlags; // +0x04
 };
 
@@ -163,7 +163,7 @@ class AudioLoopUpgrade : public UpdateModuleView, public UpgradeMux
 {
 protected:
 	virtual void getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const;
-	virtual bool rva004B7E19() const;
+	virtual bool requiresAllActivationUpgrades() const;
 	virtual void performUpgradeFX();
 private:
 	const AudioLoopUpgradeModuleData *data() const { return (const AudioLoopUpgradeModuleData *)m_moduleData; }
@@ -175,8 +175,8 @@ void AudioLoopUpgrade::getUpgradeActivationMasks(UpgradeMaskType &activation, Up
 	data()->m_upgradeMuxData.rva0045F2D5(activation, conflicting);
 }
 
-// ?rva004B7E19@AudioLoopUpgrade@@MBE_NXZ @0x004B7E19
-bool AudioLoopUpgrade::rva004B7E19() const
+// ?requiresAllActivationUpgrades@AudioLoopUpgrade@@MBE_NXZ @0x004B7E19
+bool AudioLoopUpgrade::requiresAllActivationUpgrades() const
 {
 	return ((const AudioLoopUpgradeModuleData *)m_moduleData)->m_120;
 }
