@@ -330,6 +330,12 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   rest of the function. MSVC tail-merges the duplicate stores into one, and
   the merge point bounds the web. In GameLogic::setSawCRCMismatch 0x002401DD
   (1424 B), this was the whole residue: nd=35 before, exact after.
+  The store group matters: LANAPI::handleRequestJoin 0x0058277C (1844 B)
+  needs both serial-denial header stores repeated under the initialized
+  `player == 0` test, reason then type. Repeating only one store leaves 5
+  spanning the next loop in EBX; reversing the pair fixes the register web
+  but swaps the emitted stores. See the [exact body and negative
+  controls](../reverse/attempt_support/lan-58277c-20261021/recovery.md).
 - **KindOf tests as the full inline chain.** Write each KindOf test as
   `obj->isKindOf(k)` → `getTemplate()->isKindOf(k)` → `BitFlags::test(k)`,
   with the chain returning the masked `UnsignedInt` word as BuildAssistant.cpp

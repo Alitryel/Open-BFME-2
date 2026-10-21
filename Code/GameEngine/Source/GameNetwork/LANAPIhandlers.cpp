@@ -5,6 +5,12 @@
 // through its jump table at 0x0084B22F. The sender arrives as a pointer to
 // its address, as in Open-BFME-1's handlers.
 //
+// LANAPI::handleRequestJoin, retail 0x0058277C..0x00582EB0 (1844 bytes),
+// update message type 3. ZH supplies the admission/serial/name/seat outline;
+// target bytes establish BFME 2's CRC tuple, packet layout and saved-slot copy.
+// See reverse/attempt_support/lan-58277c-20261021/recovery.md for the MSVC
+// constant-sharing control and exact boundary/relocation evidence.
+//
 // LANAPI::handleRequestLobbyLeave, retail 0x005815AB (63 bytes), message type
 // 7: in the lobby, remove the lobby player (list +0x0C, next +0x10, address
 // +0x14) whose address equals the sender's (0x00248CBF) and refresh the
@@ -122,6 +128,7 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime( void );
 extern "C" __declspec(dllimport) unsigned short * __cdecl wcsncpy( unsigned short *dest, const unsigned short *source, unsigned int count );
 extern "C" void * __cdecl memcpy( void *dest, const void *source, unsigned int count );
 #pragma function(memcpy)
+extern "C" __declspec(dllimport) int __cdecl strncmp( const char *left, const char *right, unsigned int count );
 extern "C" int __cdecl strcmp( const char *left, const char *right );
 extern "C" void MD5Print( unsigned char digest[16], char output[33] );
 
@@ -147,6 +154,13 @@ struct BfmeNetAddress : public Rva00248CDD
 
 	UnsignedInt m_ip;
 	UnsignedShort m_port;
+};
+
+// A zeroed address built at the use, as NoConnectInfo below.
+struct NoAddress : public BfmeNetAddress
+{
+	NoAddress( void ) { m_ip = 0; m_port = 0; }
+	BfmeNetAddress *self( void ) { return this; }
 };
 
 class LANPlayer
@@ -226,10 +240,53 @@ public:
 	void setState( SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo );
 	void setAddress( const BfmeNetAddress &address ) { m_address = address; }
 	void unAccept( void );
+	Bool isHuman( void ) const;
+	Bool isOpen( void ) const;
+	void setPlayerTemplate( Int playerTemplate );
+	const UnicodeString &getName( void ) const { return m_name; }
 
-	UnsignedByte m_pre38[0x38 - 4];
+	UnsignedByte m_pre0C[0x0C - 4];
+	Int m_color;					// +0x0C
+	Int m_startPos;					// +0x10
+	Int m_bfme14;					// +0x14, set with the start position
+	Int m_playerTemplate;				// +0x18
+	Int m_teamNumber;				// +0x1C
+	Int m_handicap;					// +0x20
+	UnsignedByte m_pre30[0x30 - 0x24];
+	UnicodeString m_name;				// +0x30
+	UnsignedByte m_pre38[0x38 - 0x34];
 	BfmeNetAddress m_address;			// +0x38
-	UnsignedByte m_pad40[0x1AC - 0x40];
+	Int m_bfme40;					// +0x40
+	UnsignedByte m_pre50[0x50 - 0x44];
+	Int m_heroKind;					// +0x50
+	Int m_hero0C;					// +0x54
+	Int m_hero10;					// +0x58
+	Int m_hero;					// +0x5C, set through 0x003FF0E7
+	UnsignedByte m_pad60[0x1AC - 0x60];
+};
+
+// The slot's +0x5C setter, rowed as a Disp8 dword setter.
+class Rva003FF0E7DwordSlot
+{
+public:
+	void set( Int value );
+};
+
+// The LAN slot's serial (+0x1C8) getter and setter, rowed as an AsciiString
+// RVO getter and its abutting setter.
+class Rva00581777AsciiField
+{
+public:
+	AsciiString get( void ) const;
+	void rva00581740( AsciiString value );
+};
+
+// A saved game, as MpGameSetupSlots.cpp lays it out: eight slot copies at
+// +0x4C.
+struct TreeHintOpaque0043671B
+{
+	UnsignedByte m_pad00[0x4C];
+	GameSlot m_slots[8];				// +0x4C
 };
 
 class LANGameSlot : public GameSlot
@@ -277,7 +334,11 @@ public:
 private:
 	UnsignedByte m_pre11[0x11 - 4];
 	Bool m_inProgress;				// +0x11
-	UnsignedByte m_preCC[0xCC - 0x12];
+	UnsignedByte m_pre8C[0x8C - 0x12];
+public:
+	Bool m_isLocked;				// +0x8C
+	UnsignedByte m_preC8[0xC8 - 0x8D];
+	TreeHintOpaque0043671B *m_saved;		// +0xC8
 public:
 	UnsignedByte m_bfmeCC[16];			// +0xCC
 };
@@ -343,7 +404,6 @@ Bool ParseGameOptionsString( LANGameInfo *game, AsciiString options, const void 
 
 // The saved game filed under a printed digest (0x004360B3), as
 // MpGameSetupSlots.cpp declares it.
-struct TreeHintOpaque0043671B;
 TreeHintOpaque0043671B *Rva004360B3( AsciiString key );
 
 // The 16 bytes at a game's +0xCC, restored by 0x00381D02 under the ledger's
@@ -370,6 +430,43 @@ void GameInfoToByteBuffer( LANGameInfo *game, char *buffer, Int size );
 void Rva0044802D( char *buffer, Int size );
 
 void Rva00446A77Enable( void );
+
+Bool GetStringFromRegistry( AsciiString path, AsciiString key, AsciiString &val );
+
+// The dotted-quad print of four dwords (0x0038901D), under the ledger's
+// class name; an empty base puts it on the 16-byte exe CRC.
+class Rva0038901D
+{
+public:
+	AsciiString rva0038901D( void );
+};
+
+// The 16-byte exe CRC block and its copy (0x00237E28), as
+// LANAPIRequestGameJoin.cpp declares them.
+class Rva00237E28 : public Rva0038901D
+{
+public:
+	void rva00237E28( Rva00237E28 *dest );
+
+private:
+	UnsignedInt m_words[4];
+};
+
+class GlobalData
+{
+public:
+	UnsignedByte m_preB04[0xB04];
+	UnsignedInt m_iniCRC;				// +0xB04
+	Rva00237E28 m_exeCRC;				// +0xB08
+	UnsignedByte m_preB38[0xB38 - 0xB18];
+	UnsignedInt m_bfmeExtraCRC;			// +0xB38
+};
+extern GlobalData *TheWritableGlobalData;
+
+enum
+{
+	g_maxSerialLength = 0x17
+};
 
 class LANAPIInterface
 {
@@ -409,14 +506,29 @@ struct LANMessage
 	{
 		struct
 		{
-			WideChar gameName[20];			// +0x1E
+			UnsignedInt gameIP;			// +0x1E
+			Rva00237E28 exeCRC;			// +0x22
+			UnsignedInt iniCRC;			// +0x32
+			UnsignedInt bfmeExtraCRC;		// +0x36
+			char serial[g_maxSerialLength];		// +0x3A
+		} GameToJoin;
+		struct
+		{
+			WideChar gameName[g_lanGameNameLength + 1];	// +0x1E
+			UnsignedInt gameIP;			// +0x40
+			UnsignedShort gamePort;			// +0x44
 			UnsignedInt playerIP;			// +0x46
 			UnsignedShort playerPort;		// +0x4A
 			LANAPIInterface::ReturnType reason;	// +0x4C
+			Bool exeCRCMatch;			// +0x50
+			Bool iniCRCMatch;			// +0x51
+			Bool bfmeExtraCRCMatch;			// +0x52
 		} JoinDeny;
 		struct
 		{
-			WideChar gameName[20];			// +0x1E
+			WideChar gameName[g_lanGameNameLength + 1];	// +0x1E
+			UnsignedInt gameIP;			// +0x40
+			UnsignedShort gamePort;			// +0x44
 			UnsignedInt playerIP;			// +0x46
 			UnsignedShort playerPort;		// +0x4A
 			Int slotPosition;			// +0x4C
@@ -476,7 +588,7 @@ public:
 	virtual void OnGameList( LANGameInfo *gameList );	// slot 32
 	virtual void rva00248E87( void );		// slot 33, the player list refresh
 	virtual void OnGameJoin( LANAPIInterface::ReturnType ret, LANGameInfo *theGame, LANMessage *msg );
-	BFME_VSLOT(35)
+	virtual void rva002493BC( Int slot, UnicodeString playerName );	// slot 35, OnPlayerJoin
 	virtual void OnHostLeave( void );		// slot 36
 	virtual void OnPlayerLeave( UnicodeString player );	// slot 37
 	BFME_VSLOT(38)
@@ -496,7 +608,7 @@ public:
 	BFME_VSLOT(55) BFME_VSLOT(56)
 	virtual void fillInLANMessage( LANMessage *msg ) = 0;	// slot 57
 	BFME_VSLOT(58) BFME_VSLOT(59)
-	BFME_VSLOT(60)
+	virtual Bool rva00449B79( void );		// slot 60, whether we are the loopback address
 	virtual void rva00248E2F( Bool value );		// slot 61
 	BFME_VSLOT(62)
 	virtual LANPlayer *LookupPlayer( const BfmeNetAddress *who );
@@ -521,6 +633,7 @@ protected:
 	void handleRequestGameLeave( LANMessage *msg, const BfmeNetAddress *sender, Bool flag );
 	void handleGameAnnounce( LANMessage *msg, const BfmeNetAddress *sender );
 	void handleRequestLocations( LANMessage *msg, const BfmeNetAddress *sender );
+	void handleRequestJoin( LANMessage *msg, const BfmeNetAddress *sender );
 
 	UnsignedByte m_pre0C[0x0C - 4];
 	LANPlayer *m_lobbyPlayers;			// +0x0C
@@ -1004,4 +1117,195 @@ void LANAPI::handleRequestLocations( LANMessage *msg, const BfmeNetAddress *send
 	addPlayer( player );
 
 	OnNameChange( &player->m_address, player->m_name );
+}
+
+void LANAPI::handleRequestJoin( LANMessage *msg, const BfmeNetAddress *sender )
+{
+	BfmeNetAddress responseIP = *sender;	// need this cause the player may or may not be
+						// in the player list at the sendMessage.
+
+	if( msg->GameToJoin.gameIP != getLocalAddress()->m_ip )
+	{
+		return; // Not us.  Ignore it.
+	}
+	LANMessage reply;
+	fillInLANMessage( &reply );
+	if( !m_inLobby && m_currentGame && m_currentGame->getAddress( 0 )->Rva00248CBF( getLocalAddress() ) )
+	{
+		if( m_currentGame->isGameInProgress() )
+		{
+			reply.LANMessageType = 5;	// MSG_JOIN_DENY
+			reply.JoinDeny.reason = LANAPIInterface::RET_GAME_STARTED;
+			reply.JoinDeny.gameIP = getLocalAddress()->m_ip;
+			reply.JoinDeny.gamePort = getLocalAddress()->m_port;
+			reply.JoinDeny.playerIP = sender->m_ip;
+			reply.JoinDeny.playerPort = sender->m_port;
+		}
+		else
+		{
+			Int player;
+			Bool canJoin = true;
+
+			// see if the CRCs match
+			if( !rva00449B79() )
+			{
+				Rva00237E28 exeCRC;
+				TheWritableGlobalData->m_exeCRC.rva00237E28( &exeCRC );
+				Bool exeMatch = msg->GameToJoin.exeCRC.rva0038901D().compare( exeCRC.rva0038901D() ) == 0;
+				Bool iniMatch = msg->GameToJoin.iniCRC == TheWritableGlobalData->m_iniCRC;
+				Bool extraMatch = msg->GameToJoin.bfmeExtraCRC == TheWritableGlobalData->m_bfmeExtraCRC;
+				if( !exeMatch || !iniMatch || !extraMatch )
+				{
+					reply.LANMessageType = 5;	// MSG_JOIN_DENY
+					reply.JoinDeny.reason = LANAPIInterface::RET_CRC_MISMATCH;
+					reply.JoinDeny.gameIP = getLocalAddress()->m_ip;
+					reply.JoinDeny.gamePort = getLocalAddress()->m_port;
+					reply.JoinDeny.playerIP = sender->m_ip;
+					reply.JoinDeny.playerPort = sender->m_port;
+					reply.JoinDeny.exeCRCMatch = exeMatch;
+					reply.JoinDeny.iniCRCMatch = iniMatch;
+					reply.JoinDeny.bfmeExtraCRCMatch = extraMatch;
+					canJoin = false;
+				}
+			}
+
+			// check for a duplicate serial
+			AsciiString s;
+			for( player = 0; canJoin && player < MAX_SLOTS; ++player )
+			{
+				GameSlot *slot = (GameSlot *)m_currentGame->rva00447773( player );
+				s.clear();
+				if( player == 0 )
+				{
+					GetStringFromRegistry( "\\ergc", "", s );
+				}
+				else if( slot->isHuman() )
+				{
+					s = ((const Rva00581777AsciiField *)slot)->get();
+					if( s.isEmpty() )
+						s = "<Munkee>";
+				}
+
+				if( !s.isEmpty() )
+				{
+					if( !strncmp( s.str(), msg->GameToJoin.serial, g_maxSerialLength ) )
+					{
+						// serials match!  kick the punk!
+						// Keep both initialized-index arms: MSVC 7.1 merges them
+						// late, keeping the shared 5 local to this denial. Folding
+						// them by hand holds 5 in EBX through the name scan.
+						if( player == 0 )
+						{
+							reply.JoinDeny.reason = LANAPIInterface::RET_SERIAL_DUPE;
+							reply.LANMessageType = 5; // MSG_JOIN_DENY
+						}
+						else
+						{
+							reply.JoinDeny.reason = LANAPIInterface::RET_SERIAL_DUPE;
+							reply.LANMessageType = 5; // MSG_JOIN_DENY
+						}
+						reply.JoinDeny.gameIP = getLocalAddress()->m_ip;
+						reply.JoinDeny.gamePort = getLocalAddress()->m_port;
+						reply.JoinDeny.playerIP = sender->m_ip;
+						reply.JoinDeny.playerPort = sender->m_port;
+						reply.JoinDeny.exeCRCMatch = false;
+						reply.JoinDeny.iniCRCMatch = false;
+						reply.JoinDeny.bfmeExtraCRCMatch = false;
+						canJoin = false;
+						break;
+					}
+				}
+			}
+
+			// We're the host, so see if he has a duplicate name
+			for( player = 0; canJoin && player < MAX_SLOTS; ++player )
+			{
+				GameSlot *slot = (GameSlot *)m_currentGame->rva00447773( player );
+				if( slot->isHuman() && slot->getName().compare( msg->name ) == 0 )
+				{
+					// just deny duplicates
+					reply.LANMessageType = 5;	// MSG_JOIN_DENY
+					reply.JoinDeny.reason = LANAPIInterface::RET_DUPLICATE_NAME;
+					reply.JoinDeny.gameIP = getLocalAddress()->m_ip;
+					reply.JoinDeny.gamePort = getLocalAddress()->m_port;
+					reply.JoinDeny.playerIP = sender->m_ip;
+					reply.JoinDeny.playerPort = sender->m_port;
+					reply.JoinDeny.exeCRCMatch = false;
+					reply.JoinDeny.iniCRCMatch = false;
+					reply.JoinDeny.bfmeExtraCRCMatch = false;
+					canJoin = false;
+					break;
+				}
+			}
+
+			for( player = 0; canJoin && player < MAX_SLOTS; ++player )
+			{
+				if( ((GameSlot *)m_currentGame->rva00447773( player ))->isOpen() )
+				{
+					// OK, add him in.
+					reply.LANMessageType = 4;	// MSG_JOIN_ACCEPT
+					wcsncpy( reply.GameJoined.gameName, m_currentGame->getName().str(), g_lanGameNameLength );
+					reply.GameJoined.gameName[g_lanGameNameLength] = 0;
+					reply.GameJoined.slotPosition = player;
+					reply.GameJoined.gameIP = getLocalAddress()->m_ip;
+					reply.GameJoined.gamePort = getLocalAddress()->m_port;
+					reply.GameJoined.playerIP = sender->m_ip;
+					reply.GameJoined.playerPort = sender->m_port;
+
+					LANGameSlot newSlot;
+					newSlot.setState( SLOT_PLAYER, UnicodeString( msg->name ), NoConnectInfo().self() );
+					newSlot.setAddress( *sender );
+					newSlot.setLastHeard( timeGetTime() );
+					((Rva00581777AsciiField *)&newSlot)->rva00581740( AsciiString( msg->GameToJoin.serial ) );
+					if( m_currentGame->m_isLocked && m_currentGame->m_saved )
+					{
+						const GameSlot *saved = &m_currentGame->m_saved->m_slots[player];
+						newSlot.m_color = saved->m_color;
+						newSlot.m_startPos = saved->m_bfme14;
+						newSlot.m_bfme14 = saved->m_bfme14;
+						newSlot.setPlayerTemplate( saved->m_playerTemplate );
+						newSlot.m_teamNumber = saved->m_teamNumber;
+						newSlot.m_handicap = saved->m_handicap;
+						((Rva003FF0E7DwordSlot *)&newSlot)->set( saved->m_hero );
+						newSlot.m_hero0C = saved->m_hero0C;
+						newSlot.m_hero10 = saved->m_hero10;
+						newSlot.m_bfme40 = 1;
+					}
+					m_currentGame->setSlot( player, newSlot );
+
+					rva002493BC( player, UnicodeString( msg->name ) );
+					responseIP = NoAddress();
+					break;
+				}
+			}
+			if( canJoin && player == MAX_SLOTS )
+			{
+				reply.LANMessageType = 5;	// MSG_JOIN_DENY
+				wcsncpy( reply.JoinDeny.gameName, m_currentGame->getName().str(), g_lanGameNameLength );
+				reply.JoinDeny.gameName[g_lanGameNameLength] = 0;
+				reply.JoinDeny.reason = LANAPIInterface::RET_GAME_FULL;
+				reply.JoinDeny.gameIP = getLocalAddress()->m_ip;
+				reply.JoinDeny.gamePort = getLocalAddress()->m_port;
+				reply.JoinDeny.playerIP = sender->m_ip;
+				reply.JoinDeny.playerPort = sender->m_port;
+				reply.JoinDeny.exeCRCMatch = false;
+				reply.JoinDeny.iniCRCMatch = false;
+				reply.JoinDeny.bfmeExtraCRCMatch = false;
+			}
+		}
+	}
+	else
+	{
+		reply.LANMessageType = 5;	// MSG_JOIN_DENY
+		reply.JoinDeny.reason = LANAPIInterface::RET_GAME_GONE;
+		reply.JoinDeny.gameIP = getLocalAddress()->m_ip;
+		reply.JoinDeny.gamePort = getLocalAddress()->m_port;
+		reply.JoinDeny.playerIP = sender->m_ip;
+		reply.JoinDeny.playerPort = sender->m_port;
+		reply.JoinDeny.exeCRCMatch = false;
+		reply.JoinDeny.iniCRCMatch = false;
+		reply.JoinDeny.bfmeExtraCRCMatch = false;
+	}
+	Rva004495A2( &reply, (UnsignedInt)&responseIP );
+	RequestGameOptionsPacked( true, NoAddress().self() );
 }
