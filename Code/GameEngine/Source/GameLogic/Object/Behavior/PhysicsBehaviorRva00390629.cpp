@@ -77,7 +77,7 @@ class PhysicsBehaviorModuleData
 {
 public:
 	unsigned char m_pad[0x20];
-	unsigned int m_20; // +0x20
+	unsigned int m_shockStandingTime; // +0x20
 };
 class Thing;
 class ModuleData;
@@ -144,6 +144,6 @@ void PhysicsBehavior::rva003906BF()
 		return;
 	obj->setModelConditionState(4 * 32 + 0);
 	m_5C = true;
-	m_58 = ((const PhysicsBehaviorModuleData *)m_moduleData)->m_20;
+	m_58 = ((const PhysicsBehaviorModuleData *)m_moduleData)->m_shockStandingTime;
 	setWakeFrame(obj, UPDATE_SLEEP_NONE);
 }

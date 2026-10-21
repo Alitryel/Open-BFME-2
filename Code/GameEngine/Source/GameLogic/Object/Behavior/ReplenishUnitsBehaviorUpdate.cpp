@@ -239,9 +239,9 @@ struct ReplenishUnitsBehaviorModuleData
 	float m_enemyCheckRadius;			// +0x11C the enemy check radius
 	const FXList *m_120;		// +0x120 the replenish FX
 	ObjectStatusMask m_requiredTargetStatus;		// +0x124 the status a target needs
-	UpdateSleepTime m_134;		// +0x134 the sleep
+	UpdateSleepTime m_replenishDelay;		// +0x134 the sleep
 	char m_pad138;
-	bool m_139;			// +0x139
+	bool m_replenishHordeMembersOnly;			// +0x139
 };
 
 class ModuleData;
@@ -311,7 +311,7 @@ UpdateSleepTime ReplenishUnitsBehavior::update()
 	ReplenishUnitsBehavior *self = this;
 	if (self->isUpgradeActive() && !obj->isEffectivelyDead()) {
 		void *subject = 0;
-		if (data->m_139) {
+		if (data->m_replenishHordeMembersOnly) {
 			Rva0048438AInterface *provider = obj->m_250;
 			subject = provider ? provider->slot31() : 0;
 			if (!subject)
@@ -327,7 +327,7 @@ UpdateSleepTime ReplenishUnitsBehavior::update()
 			if (target)
 				self->rva004842DD(target);
 		}
-		return data->m_134;
+		return data->m_replenishDelay;
 	}
 	return UPDATE_SLEEP_FOREVER;
 }

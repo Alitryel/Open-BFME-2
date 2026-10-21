@@ -50,18 +50,18 @@ public:
 	virtual __declspec(noinline) ~LargeGroupAudioUpdateModuleData();
 
 private:
-	Rva003ED658 m_08;
-	int m_14;
-	int m_18;
-	short m_1C;
+	Rva003ED658 m_key;
+	int m_timeBetweenUpdatesMin;
+	int m_timeBetweenUpdatesVariation;
+	short m_unitWeight;
 };
 
 LargeGroupAudioUpdateModuleData::LargeGroupAudioUpdateModuleData(const LargeGroupAudioUpdateModuleData &other) :
 	Rva001408C0Target(other),
-	m_08(other.m_08),
-	m_14(other.m_14),
-	m_18(other.m_18),
-	m_1C(other.m_1C)
+	m_key(other.m_key),
+	m_timeBetweenUpdatesMin(other.m_timeBetweenUpdatesMin),
+	m_timeBetweenUpdatesVariation(other.m_timeBetweenUpdatesVariation),
+	m_unitWeight(other.m_unitWeight)
 {
 	reinterpret_cast<Rva00E03CE0 *>(&BfmeLargeGroupAudioRegistry)->Rva004ABEAE(this);
 }

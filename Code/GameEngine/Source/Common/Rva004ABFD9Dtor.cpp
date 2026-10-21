@@ -34,7 +34,7 @@ public:
 	virtual __declspec(noinline) ~LargeGroupAudioUpdateModuleData();
 private:
 	char m_pad04[4];
-	Rva003ED94FDtor m_08;
+	Rva003ED94FDtor m_key;
     int m_min; int m_variance; unsigned short m_weight;
 };
 LargeGroupAudioUpdateModuleData::~LargeGroupAudioUpdateModuleData()

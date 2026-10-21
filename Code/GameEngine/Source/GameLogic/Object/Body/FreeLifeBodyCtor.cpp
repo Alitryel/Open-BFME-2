@@ -25,9 +25,9 @@ class ModuleData;
 struct FreeLifeBodyModuleData
 {
 	unsigned char m_pad00[0x6C];
-	int m_6C;
-	int m_70;
-	bool m_74;
+	int m_freeLifeHealthPercent;
+	int m_freeLifeTime;
+	bool m_freeLifeInvincible;
 };
 
 class RespawnBody
@@ -67,7 +67,7 @@ FreeLifeBody::FreeLifeBody(Thing *thing, const ModuleData *moduleData)
 	m_secondary0C = (const void *)((unsigned int)vtbl_00C5AD78);
 	m_secondary10 = (const void *)((unsigned int)vtbl_00C5BD88);
 	m_108 = false;
-	m_110 = data->m_70;
-	m_100 = data->m_74;
-	m_104 = data->m_6C;
+	m_110 = data->m_freeLifeTime;
+	m_100 = data->m_freeLifeInvincible;
+	m_104 = data->m_freeLifeHealthPercent;
 }

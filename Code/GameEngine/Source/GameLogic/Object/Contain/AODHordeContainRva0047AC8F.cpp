@@ -134,24 +134,24 @@ extern GameLogic *TheGameLogic;
 struct AODHordeContainModuleData
 {
  char m_pad00[0x274];
- float m_274;
- float m_278;
- float m_27C;
- float m_280;
- float m_284;
- float m_288;
- float m_28C;
- float m_290;
- float m_294;
- float m_298;
- float m_29C;
+ float m_frequencyScale;
+ float m_frequencyRandomness;
+ float m_amplitudeScale;
+ float m_amplitudeRandomness;
+ float m_stillAmplitude;
+ float m_frequencyScaleZ;
+ float m_frequencyRandomnessZ;
+ float m_amplitudeScaleZ;
+ float m_amplitudeRandomnessZ;
+ float m_stillAmplitudeZ;
+ float m_oathFulfilledZFactor;
  float m_2A0;
- float m_2A4;
- float m_2A8;
- unsigned int m_2AC;
- float m_2B0;
- float m_2B4;
- float m_2B8;
+ float m_largeUnitMinHeight;
+ float m_largeUnitMaxHeight;
+ unsigned int m_largeUnitTimeout;
+ float m_largeUnitTailOff;
+ float m_scatterSpeedFactor;
+ float m_scatterRandomness;
 };
 
 class Rva0046ACF6
@@ -327,7 +327,7 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
   Locomotor *loco = me->m_ai->m_curLocomotor;
   speedRatio = reinterpret_cast<Rva0008BB38FloatField *>(loco)->get() / loco->getMaxSpeed(me);
  }
- float t = md->m_284;
+ float t = md->m_stillAmplitude;
  if (t < 0.0f)
  t = 0.0f;
  if (t > 1.0f)
@@ -337,8 +337,8 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  float speedFactor = (1.0f - t) * speedRatio + t;
  AODWave *wave = &m_wavesBegin[index];
  AODSway sway;
- sway.y = (float)aodSin(wave->m_00 + wave->m_08 * ((float)TheGameLogic->getFrame() * md->m_274)) * wave->m_04;
- sway.y = speedFactor * md->m_27C * sway.y;
+ sway.y = (float)aodSin(wave->m_00 + wave->m_08 * ((float)TheGameLogic->getFrame() * md->m_frequencyScale)) * wave->m_04;
+ sway.y = speedFactor * md->m_amplitudeScale * sway.y;
  sway.x = 0.0f;
  Rva00468E98Point dir=((Rva00468E98 *)this)->rotate(reinterpret_cast<const Rva00468E98Point &>(sway));
  float len = sway.length();
@@ -347,23 +347,23 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  dir.y = Sin(angle);
  dir.x *= len;
  dir.y *= len;
- t = md->m_298;
+ t = md->m_stillAmplitudeZ;
  if (t < 0.0f)
  t = 0.0f;
  if (t > 1.0f)
  t = 1.0f;
  if (t > 0.01f)
  m_04 = true;
- bob += (float)aodSin(wave->m_0C + wave->m_14 * ((float)TheGameLogic->getFrame() * md->m_288)) * wave->m_10;
+ bob += (float)aodSin(wave->m_0C + wave->m_14 * ((float)TheGameLogic->getFrame() * md->m_frequencyScaleZ)) * wave->m_10;
  speedFactor = (1.0f - t) * speedRatio + t;
- bob = speedFactor * md->m_290 * bob;
+ bob = speedFactor * md->m_amplitudeScaleZ * bob;
  if (obj->isKindOf((KindOfType)0xD7))
  {
   Coord2D temporary;
   Coord2D spread = *rva0046A5B1(&temporary, index);
   spread.normalize();
-  float s = md->m_2B4 * m_218;
-  s = (float)(index % 5) * md->m_2B8 * m_218 * 0.25f + s;
+  float s = md->m_scatterSpeedFactor * m_218;
+  s = (float)(index % 5) * md->m_scatterRandomness * m_218 * 0.25f + s;
   spread.x *= s;
   spread.y *= s;
   dir.x += spread.x;
@@ -380,12 +380,12 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  if (m_trackedLargeUnit)
  {
   float maxHeight = md->m_2A0 * m_largeUnitHeight;
-  if (maxHeight > md->m_2A8)
-  maxHeight = md->m_2A8;
-  if (maxHeight < md->m_2A4)
-  maxHeight = md->m_2A4;
+  if (maxHeight > md->m_largeUnitMaxHeight)
+  maxHeight = md->m_largeUnitMaxHeight;
+  if (maxHeight < md->m_largeUnitMinHeight)
+  maxHeight = md->m_largeUnitMinHeight;
   unsigned int elapsed = TheGameLogic->getFrame() - m_200;
-  if (elapsed >= md->m_2AC)
+  if (elapsed >= md->m_largeUnitTimeout)
   {
    m_trackedLargeUnit = INVALID_OBJECT_ID;
    {
@@ -396,7 +396,7 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
    }
   }
   float falloff = 1.0f;
-  int half = md->m_2AC / 2;
+  int half = md->m_largeUnitTimeout / 2;
   if (elapsed > (unsigned int)half)
   falloff = 1.0f - (float)(elapsed - half) / half;
   Coord3D delta;
@@ -414,7 +414,7 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
   if (across < 0.0f)
   across = 0.0f;
   float dist = along + across;
-  float radius = md->m_2B0 * maxHeight;
+  float radius = md->m_largeUnitTailOff * maxHeight;
   if (dist < radius)
   {
    float lift = (1.0f - AODHeightFalloff(dist / radius)) * maxHeight;
@@ -424,8 +424,8 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  }
  if (obj->isKindOf((KindOfType)0xD7))
  {
-  float rank = md->m_2B4 * md->m_29C * m_218;
-  rank = (float)((index + 2) % 5) * md->m_2B8 * md->m_29C * m_218 * 0.25f + rank;
+  float rank = md->m_scatterSpeedFactor * md->m_oathFulfilledZFactor * m_218;
+  rank = (float)((index + 2) % 5) * md->m_scatterRandomness * md->m_oathFulfilledZFactor * m_218 * 0.25f + rank;
   pos.z += rank;
  }
  {

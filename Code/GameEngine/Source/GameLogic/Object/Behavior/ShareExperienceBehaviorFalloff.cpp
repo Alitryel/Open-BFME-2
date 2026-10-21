@@ -145,10 +145,10 @@ class ShareExperienceBehaviorModuleData
 {
 public:
 	unsigned char m_pad[8];
-	float m_08;
-	float m_0C;
-	float m_10;		// +0x10 the share
-	int m_14;		// +0x14 the object filter
+	float m_radius;
+	float m_dropOff;
+	float m_percentage;		// +0x10 the share
+	int m_objectFilter;		// +0x14 the object filter
 };
 
 class Module
@@ -198,7 +198,7 @@ public:
 float ShareExperienceBehavior::GetDropOffValue(Coord3D *a, Pos0047FFFE *b)
 {
 	const ShareExperienceBehaviorModuleData *md = m_moduleData;
-	if (md->m_0C == g_Va00BBB8D8)
+	if (md->m_dropOff == g_Va00BBB8D8)
 	{
 		Coord3D diff;
 		diff.x = b->x;
@@ -208,7 +208,7 @@ float ShareExperienceBehavior::GetDropOffValue(Coord3D *a, Pos0047FFFE *b)
 		diff.y -= a->y;
 		diff.z -= a->z;
 		float len = diff.GetLength();
-		float f = g_Va00BBB8D8 - len / md->m_08;
+		float f = g_Va00BBB8D8 - len / md->m_radius;
 		if (f >= 0.0f)
 			return f;
 		return 0.0f;
@@ -220,14 +220,14 @@ void ShareExperienceBehavior::rva00480093(float amount)
 {
 	const ShareExperienceBehaviorModuleData *data = m_moduleData;
 	Object *obj = m_object;
-	if (!(data->m_10 > 0.0f))
+	if (!(data->m_percentage > 0.0f))
 		return;
 	if (obj->testStatus(OBJECT_STATUS_RVA00480093_65))
 		return;
 	bool selfFlag = (obj->m_template->m_110 >> 26) & 1;
-	const void *what = &data->m_14;
+	const void *what = &data->m_objectFilter;
 	Player *player = obj->getControllingPlayer();
-	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(obj->getPosition(), data->m_08, 0,
+	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(obj->getPosition(), data->m_radius, 0,
 		Rva002614DFFilter(obj).link(&Rva0026119DFilter())->link(&Rva00260EB1Filter(obj, 4, false))
 			->link(&Rva002611BFFilter(obj))
 			->link(&Rva002614ECFilter(what, player, true)), 0);
@@ -243,7 +243,7 @@ void ShareExperienceBehavior::rva00480093(float amount)
 		ExperienceTracker *tracker = other->m_264;
 		if (!tracker || !((const Rva0039ADF3 *)tracker)->rva0039AE04())
 			continue;
-		amount *= data->m_10;
+		amount *= data->m_percentage;
 		amount *= GetDropOffValue(&center, (Pos0047FFFE *)other);
 		if (amount > 0.0f)
 			tracker->rva0039B315(amount, true, true, true, 0);

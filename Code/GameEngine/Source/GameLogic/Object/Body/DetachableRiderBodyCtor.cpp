@@ -29,7 +29,7 @@ class ModuleData;
 struct DetachableRiderBodyModuleData
 {
 	unsigned char m_pad00[0x178];
-	bool m_178;
+	bool m_startsActive;
 };
 
 class UpgradeMux
@@ -75,6 +75,6 @@ DetachableRiderBody::DetachableRiderBody(Thing *thing, const ModuleData *moduleD
 	m_secondary0C = (const void *)((unsigned int)vtbl_00C5BFF8);
 	m_secondary10 = (const void *)((unsigned int)vtbl_00C5BF48);
 	*(void **)&m_100 = (void *)((unsigned int)vtbl_00C5BF00);
-	if (data->m_178)
+	if (data->m_startsActive)
 		m_100.giveSelfUpgrade();
 }

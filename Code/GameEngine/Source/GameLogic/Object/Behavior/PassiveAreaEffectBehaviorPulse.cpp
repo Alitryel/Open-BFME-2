@@ -89,13 +89,13 @@ private:
 struct PassiveAreaEffectBehaviorModuleData
 {
 	char m_pad00[0x0C];
-	float m_0C;
-	unsigned int m_10;
+	float m_healPercentPerSecond;
+	unsigned int m_pingDelay;
 	const AsciiString *m_14Begin;
 	const AsciiString *m_14End;
 	char m_pad1C[0x28 - 0x1C];
-	bool m_28;
-	int m_2C;
+	bool m_nonStackable;
+	int m_antiCategories;
 	const FXList *m_30;
 	const FXList *m_34;
 };
@@ -141,23 +141,23 @@ void PassiveAreaEffectBehavior::rva0048491F(Object *obj)
 		return;
 
 	const PassiveAreaEffectBehaviorModuleData *passiveAreaEffectBehaviorModuleData = m_moduleData;
-	if (passiveAreaEffectBehaviorModuleData->m_0C > 0.0f)
+	if (passiveAreaEffectBehaviorModuleData->m_healPercentPerSecond > 0.0f)
 	{
 		BodyModule *body = obj->getBodyModule();
 		if (body && body->getHealth() != body->getMaxHealth())
 		{
-			if (passiveAreaEffectBehaviorModuleData->m_28)
+			if (passiveAreaEffectBehaviorModuleData->m_nonStackable)
 			{
 				unsigned int now = TheGameLogic->getFrame();
-				if (body->getLastDamageFrame() + passiveAreaEffectBehaviorModuleData->m_10 > now)
+				if (body->getLastDamageFrame() + passiveAreaEffectBehaviorModuleData->m_pingDelay > now)
 					return;
 			}
 
-			float rate = passiveAreaEffectBehaviorModuleData->m_0C;
+			float rate = passiveAreaEffectBehaviorModuleData->m_healPercentPerSecond;
 			float amount = body->getMaxHealth() * (rate / BfmeLogicFramesPerSecond);
-			if (passiveAreaEffectBehaviorModuleData->m_10)
-				amount *= passiveAreaEffectBehaviorModuleData->m_10;
-			obj->rva0028FEA7(amount, m_object, passiveAreaEffectBehaviorModuleData->m_10);
+			if (passiveAreaEffectBehaviorModuleData->m_pingDelay)
+				amount *= passiveAreaEffectBehaviorModuleData->m_pingDelay;
+			obj->rva0028FEA7(amount, m_object, passiveAreaEffectBehaviorModuleData->m_pingDelay);
 
 			if (passiveAreaEffectBehaviorModuleData->m_34)
 				FXList::doFXObj(passiveAreaEffectBehaviorModuleData->m_34, obj, 0);
@@ -178,7 +178,7 @@ void PassiveAreaEffectBehavior::rva00484A08(Object *obj)
 	AttributeModifierPoolUpdate *pool = obj->findAttributeModifierPoolUpdate();
 	if (pool)
 	{
-		pool->rva00403415((int *)&passiveAreaEffectBehaviorModuleData->m_2C, TheGameLogic->getFrame() + passiveAreaEffectBehaviorModuleData->m_10);
+		pool->rva00403415((int *)&passiveAreaEffectBehaviorModuleData->m_antiCategories, TheGameLogic->getFrame() + passiveAreaEffectBehaviorModuleData->m_pingDelay);
 		if (passiveAreaEffectBehaviorModuleData->m_30)
 			FXList::doFXObj(passiveAreaEffectBehaviorModuleData->m_30, obj, 0);
 	}

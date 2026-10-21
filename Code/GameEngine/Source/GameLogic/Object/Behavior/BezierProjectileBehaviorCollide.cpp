@@ -58,7 +58,7 @@ extern WeaponStore *TheWeaponStore;
 struct BezierProjectileBehaviorModuleData
 {
 	unsigned char m_unmodelled00[0x18];
-	Bool m_18; // +0x18
+	Bool m_crushStyle; // +0x18
 	Int m_maxBounces; // +0x1C
 	unsigned char m_unmodelled20[0x9C - 0x20];
 	const FXList *m_groundHitFX; // +0x9C
@@ -137,7 +137,7 @@ Bool BezierProjectileBehavior::rva0045CD6E( Object *other )
 	if( other != 0 )
 	{
 		rva0045B9FB( other );
-		if( !bezierProjectileBehaviorModuleData->m_18 )
+		if( !bezierProjectileBehaviorModuleData->m_crushStyle )
 			rva0045C026();
 		else if( isNotInHitList( other ) )
 			rva0045C812( other );
@@ -160,7 +160,7 @@ Bool BezierProjectileBehavior::rva0045CD6E( Object *other )
 
 	if( m_bounceCount < bezierProjectileBehaviorModuleData->m_maxBounces )
 		rva0045CC72( 0 );
-	else if( !bezierProjectileBehaviorModuleData->m_18 )
+	else if( !bezierProjectileBehaviorModuleData->m_crushStyle )
 		rva0045C026();
 	else
 		rva0045C975( 0 );

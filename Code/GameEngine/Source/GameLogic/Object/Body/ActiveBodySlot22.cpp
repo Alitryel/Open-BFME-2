@@ -125,7 +125,7 @@ class ActiveBodyModuleData
 {
 public:
 	char m_pad00[0x4C];
-	float m_4C;		// +0x4C the radius
+	float m_cheerRadius;		// +0x4C the radius
 };
 
 class ActiveBody
@@ -145,7 +145,7 @@ protected:
 void ActiveBody::rva004BF9ED()
 {
 	const ActiveBodyModuleData *data = getActiveBodyModuleData();
-	if (data->m_4C <= 0.0f)
+	if (data->m_cheerRadius <= 0.0f)
 		return;
 	{
 		Object *obj = getObject();
@@ -155,9 +155,9 @@ void ActiveBody::rva004BF9ED()
 			pos.y = obj->getPosition()->y;
 			pos.z = obj->getPosition()->z;
 			pos.z = TheTerrainLogic->getGroundHeight(pos.x, pos.y);
-			TheTacticalView->rvaSlot12(&pos, data->m_4C, 0xFFFF8000);
+			TheTacticalView->rvaSlot12(&pos, data->m_cheerRadius, 0xFFFF8000);
 		}
-		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(obj->getPosition(), data->m_4C, 0,
+		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(obj->getPosition(), data->m_cheerRadius, 0,
 			Rva00260EB1Filter(obj, 1, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(obj))), 0);
 		Object *other;
 		while ((other = hits.next()) != 0)

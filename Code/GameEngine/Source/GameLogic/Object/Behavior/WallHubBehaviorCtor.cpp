@@ -100,9 +100,9 @@ class WallHubBehaviorModuleData
 {
 public:
 	unsigned char m_pad00[0x2C];
-	Real m_2c; // +0x2C
+	Real m_builderRadius; // +0x2C
 	unsigned char m_pad30[0x34 - 0x30];
-	UnsignedInt m_34; // +0x34
+	UnsignedInt m_options; // +0x34
 };
 
 class WallHubBehavior : public UpdateModule, public WallHubInterface
@@ -129,8 +129,8 @@ WallHubBehavior::WallHubBehavior(Thing *thing, const ModuleData *moduleData)
 	const WallHubBehaviorModuleData *data = getWallHubBehaviorModuleData();
 	if (data)
 	{
-		((Rva00295927 *)getObject())->rva00295927(data->m_34, (Image *)static_cast<WallHubInterface *>(this));
-		m_24 = data->m_2c;
+		((Rva00295927 *)getObject())->rva00295927(data->m_options, (Image *)static_cast<WallHubInterface *>(this));
+		m_24 = data->m_builderRadius;
 		if (m_24 == 9.876f)
 			m_24 = getObject()->getBfmeB8();
 	}

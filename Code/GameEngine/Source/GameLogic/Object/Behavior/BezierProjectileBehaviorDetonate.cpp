@@ -150,9 +150,9 @@ struct BezierProjectileBehaviorModuleData
 	char m_pad00[0x4A];
 	bool m_detonateCallsKill;	// +0x4A
 	char m_pad4B[0xB8 - 0x4B];
-	int m_B8;			// +0xB8
+	int m_postLandingStateTime;			// +0xB8
 	int m_BC;			// +0xBC (-1 for none)
-	float m_C0;			// +0xC0 the radius
+	float m_postLandingEmotionRadius;			// +0xC0 the radius
 };
 
 class BezierProjectileBehavior
@@ -182,16 +182,16 @@ void BezierProjectileBehavior::rva0045C026()
 	GameLogic *logic = TheGameLogic;
 	Object *victim = logic->findObjectByID(m_victimID);
 	const BezierProjectileBehaviorModuleData *bezierProjectileBehaviorModuleData = m_moduleData;
-	if (bezierProjectileBehaviorModuleData && bezierProjectileBehaviorModuleData->m_BC != -1 && bezierProjectileBehaviorModuleData->m_B8 && victim) {
+	if (bezierProjectileBehaviorModuleData && bezierProjectileBehaviorModuleData->m_BC != -1 && bezierProjectileBehaviorModuleData->m_postLandingStateTime && victim) {
 		Object *launcher = logic->findObjectByID(m_launcherID);
 		if (launcher) {
-			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(victim->getPosition(), bezierProjectileBehaviorModuleData->m_C0, 1,
+			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(victim->getPosition(), bezierProjectileBehaviorModuleData->m_postLandingEmotionRadius, 1,
 				Rva00260EB1Filter(launcher, 7, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(launcher))), 1);
 			Object *other;
 			while ((other = hits.next()) != 0) {
 				if (other == launcher)
 					continue;
-				other->rva0028EC68(bezierProjectileBehaviorModuleData->m_BC, launcher, bezierProjectileBehaviorModuleData->m_B8);
+				other->rva0028EC68(bezierProjectileBehaviorModuleData->m_BC, launcher, bezierProjectileBehaviorModuleData->m_postLandingStateTime);
 			}
 		}
 	}

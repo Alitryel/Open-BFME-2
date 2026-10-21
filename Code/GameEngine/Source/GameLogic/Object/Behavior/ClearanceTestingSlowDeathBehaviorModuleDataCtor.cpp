@@ -41,10 +41,10 @@ private:
 	unsigned char m_pad[0x190 - 4];
 	GeometryInfo m_geometry;
 	float m_offset[3];
-	float m_1F8;
-	float m_1FC;
-	float m_200;
-	float m_204;
+	float m_clearanceMaxHeight;
+	float m_clearanceMaxHeightFraction;
+	float m_clearanceMinHeight;
+	float m_clearanceMinHeightFraction;
 };
 
 // ??0ClearanceTestingSlowDeathBehaviorModuleData@@QAE@XZ @0x483E25
@@ -56,9 +56,9 @@ ClearanceTestingSlowDeathBehaviorModuleData::ClearanceTestingSlowDeathBehaviorMo
 	offset[0] = 0.0f;
 	offset[1] = 0.0f;
 	offset[2] = 0.0f;
-	m_1F8 = 20.0f;
+	m_clearanceMaxHeight = 20.0f;
 	float b = 1.1f;
-	m_1FC = b;
-	m_200 = c;
-	m_204 = b;
+	m_clearanceMaxHeightFraction = b;
+	m_clearanceMinHeight = c;
+	m_clearanceMinHeightFraction = b;
 }

@@ -40,24 +40,24 @@ public:
 private:
 	const void *m_vtable; // +0 (EBO: base contributes no size)
 	unsigned char m_pad[0x190 - 4]; // +4
-	int m_unk190; // +0x190
-	int m_unk194; // +0x194
-	float m_unk198; // +0x198
-	Rva0024C7B3Member m_unk19C; // +0x19C
-	float m_unk1B8; // +0x1B8
-	float m_unk1BC; // +0x1BC
-	bool m_unk1C0; // +0x1C0
+	int m_fXHitGround; // +0x190
+	int m_oCLHitGround; // +0x194
+	float m_delayFromGroundToFinalDeath; // +0x198
+	Rva0024C7B3Member m_crashAvoidKindOfs; // +0x19C
+	float m_crashAvoidRadius; // +0x1B8
+	float m_crashAvoidStrength; // +0x1BC
+	bool m_needToMaintainFlailingHeight; // +0x1C0
 };
 
 // ??0GiantBirdSlowDeathBehaviorModuleData@@QAE@XZ @0x461F7F
 GiantBirdSlowDeathBehaviorModuleData::GiantBirdSlowDeathBehaviorModuleData()
 	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C42E98)))
 {
-	m_unk190 = 0;
-	m_unk194 = 0;
-	m_unk198 = 0.0f;
-	memset(&m_unk19C, 0, 0x1C);
-	m_unk1B8 = 800.0f;
-	m_unk1BC = 0.1f;
-	m_unk1C0 = false;
+	m_fXHitGround = 0;
+	m_oCLHitGround = 0;
+	m_delayFromGroundToFinalDeath = 0.0f;
+	memset(&m_crashAvoidKindOfs, 0, 0x1C);
+	m_crashAvoidRadius = 800.0f;
+	m_crashAvoidStrength = 0.1f;
+	m_needToMaintainFlailingHeight = false;
 }

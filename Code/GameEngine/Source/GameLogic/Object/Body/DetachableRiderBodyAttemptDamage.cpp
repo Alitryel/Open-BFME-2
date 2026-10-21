@@ -56,9 +56,9 @@ public:
 struct DetachableRiderBodyModuleData
 {
 	unsigned char m_pad000[0x174];
-	Real m_174;			// +0x174
+	Real m_healthPercentageWhenRiderDies;			// +0x174
 	unsigned char m_pad178[0x17C - 0x178];
-	Real m_17C;			// +0x17C
+	Real m_riderlessDeathChance;			// +0x17C
 };
 
 class Module
@@ -146,14 +146,14 @@ void DetachableRiderBody::attemptDamage(DamageInfo *damageInfo)
 	Object *obj = m_object;
 	const DetachableRiderBodyModuleData *detachableRiderBodyModuleData = data();
 	bool active = isUpgradeActive();
-	bool keepRider = GetGameLogicRandomValueReal(0.0f, 1.0f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\DetachableRiderBody.cpp", 94) < detachableRiderBodyModuleData->m_17C;
+	bool keepRider = GetGameLogicRandomValueReal(0.0f, 1.0f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\DetachableRiderBody.cpp", 94) < detachableRiderBodyModuleData->m_riderlessDeathChance;
 	if (obj->test114Bit8())
 		keepRider = true;
 
 	if (active && !keepRider && !obj->testStatus(OBJECT_STATUS_27) && !obj->test1C8Bit4())
 	{
 		Real health = getHealth();
-		Real floor = getMaxHealth() * data()->m_174;
+		Real floor = getMaxHealth() * data()->m_healthPercentageWhenRiderDies;
 		Real amount = damageInfo->m_amount;
 		if (damageInfo->m_kill || health - amount <= 0.0f)
 		{

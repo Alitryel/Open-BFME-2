@@ -163,9 +163,9 @@ private:
 struct GettingBuiltBehaviorModuleData
 {
 	unsigned char m_pad00[0x14];
-	StringBase<char> m_14; // +0x14
+	StringBase<char> m_workerName; // +0x14
 	unsigned char m_pad18[0x20 - 0x18];
-	float m_20; // +0x20
+	float m_spawnTimer; // +0x20
 	float m_24; // +0x24
 	unsigned char m_pad28[0x30 - 0x28];
 	float m_30[1]; // +0x30, indexed by the Object +0x254 state
@@ -368,7 +368,7 @@ bool GettingBuiltBehavior::rva0045314E(Object *obj)
 // of the +0x20 vtable; whether the module data's +0x14 string is empty.
 bool GettingBuiltBehavior::rva004533A7()
 {
-	return ((const GettingBuiltBehaviorModuleData *)m_moduleData)->m_14.isEmpty();
+	return ((const GettingBuiltBehaviorModuleData *)m_moduleData)->m_workerName.isEmpty();
 }
 
 // ?rva004543D5@GettingBuiltBehavior@@UAEX_N@Z, retail 0x004543D5, 10 bytes: slot
@@ -557,9 +557,9 @@ extern ThingFactory *TheThingFactory;
 void __cdecl rva0045346D(const void *arg1, int arg2, int arg3)
 {
 	const GettingBuiltBehaviorModuleData *data = (const GettingBuiltBehaviorModuleData *)arg1;
-	if (!data->m_14.isEmpty())
+	if (!data->m_workerName.isEmpty())
 	{
-		void *found = (void *)TheThingFactory->findTemplate(*((const AsciiString *)&data->m_14));
+		void *found = (void *)TheThingFactory->findTemplate(*((const AsciiString *)&data->m_workerName));
 		if (found)
 			((ThingTemplate *)found)->GetAssetList(arg2, arg3);
 	}
@@ -603,7 +603,7 @@ bool GettingBuiltBehavior::rva004533B2()
 	{
 		Rva0045342FBody *body = m_object->m_254;
 		bool ready;
-		if (data()->m_20 < 0.0f)
+		if (data()->m_spawnTimer < 0.0f)
 		{
 			int out = 0;
 			ready = !m_object->rva0028C264(&out, TheWritableGlobalData->m_A88) && body->rva004533B2Slot5() < 1.0f;

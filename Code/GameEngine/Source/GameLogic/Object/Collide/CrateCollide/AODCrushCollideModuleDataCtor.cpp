@@ -66,15 +66,15 @@ private:
 	void *m_largeFX; // +0x18
 	void *m_largeOCL; // +0x1C
 	int m_damageType; // +0x20
-	int m_24; // +0x24
+	int m_deathType; // +0x24
 	float m_damage; // +0x28
 	Rva003623E5Member m_filter; // +0x2C
-	int m_30; // +0x30
-	int m_34; // +0x34
-	float m_38; // +0x38
-	int m_3C; // +0x3C
-	int m_40; // +0x40
-	float m_44; // +0x44
+	int m_specialDamageType; // +0x30
+	int m_specialDeathType; // +0x34
+	float m_specialDamage; // +0x38
+	int m_selfDamageType; // +0x3C
+	int m_selfDeathType; // +0x40
+	float m_selfDamage; // +0x44
 };
 
 // ??0AODCrushCollideModuleData@@QAE@XZ @0x4BBF89
@@ -87,14 +87,14 @@ AODCrushCollideModuleData::AODCrushCollideModuleData()
 	, m_largeFX(0)
 	, m_largeOCL(0)
 	, m_damageType(1)
-	, m_24(0)
+	, m_deathType(0)
 	, m_damage(0.0f)
 	, m_filter()
-	, m_30(1)
-	, m_34(0)
-	, m_38(0.0f)
-	, m_3C(1)
-	, m_40(0)
-	, m_44(0.0f)
+	, m_specialDamageType(1)
+	, m_specialDeathType(0)
+	, m_specialDamage(0.0f)
+	, m_selfDamageType(1)
+	, m_selfDeathType(0)
+	, m_selfDamage(0.0f)
 {
 }

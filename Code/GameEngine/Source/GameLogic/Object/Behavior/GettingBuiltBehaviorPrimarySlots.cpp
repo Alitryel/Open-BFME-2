@@ -99,9 +99,9 @@ public:
 struct GettingBuiltBehaviorModuleData
 {
 	unsigned char m_pad00[0x14];
-	AsciiString m_14; // +0x14
-	AsciiString m_18; // +0x18
-	bool m_1C; // +0x1C
+	AsciiString m_workerName; // +0x14
+	AsciiString m_evilWorkerName; // +0x18
+	bool m_testFaction; // +0x1C
 };
 
 class GettingBuiltBehaviorInterface : public Rva004534F5Slots<4>
@@ -136,20 +136,20 @@ void GettingBuiltBehavior::rva004534F5()
 	const GettingBuiltBehaviorModuleData *data = m_moduleData;
 	if (data)
 	{
-		if (data->m_1C)
+		if (data->m_testFaction)
 		{
 			Player *player = obj->getControllingPlayer();
 			if (player)
 			{
 				bool alt = player->m_34 ? player->m_34->m_1BC : false;
 				if (alt)
-					named = rva004534F5Find(TheThingFactory, data->m_18);
+					named = rva004534F5Find(TheThingFactory, data->m_evilWorkerName);
 				else
-					named = rva004534F5Find(TheThingFactory, data->m_14);
+					named = rva004534F5Find(TheThingFactory, data->m_workerName);
 			}
 		}
 		else
-			named = rva004534F5Find(TheThingFactory, data->m_14);
+			named = rva004534F5Find(TheThingFactory, data->m_workerName);
 	}
 	const ThingTemplate *thingTemplate = obj->m_template;
 	if (rva004534F5TestA(thingTemplate) || (rva004534F5TestB(thingTemplate) && (!named || rva004534F5TestA(named) || rva004534F5TestB(named))))

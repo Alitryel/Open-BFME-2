@@ -109,7 +109,7 @@ class CastleBehaviorModuleData
 {
 public:
 	unsigned char m_pad00[0x10];
-	StringBase<char> m_10; // +0x10 (an AsciiString)
+	StringBase<char> m_preBuiltPlyr; // +0x10 (an AsciiString)
 };
 
 // The +0x8C set (set ctor 0x000D3A71; rowed reset 0x002EE9B7).
@@ -191,7 +191,7 @@ CastleBehavior::CastleBehavior(Thing *thing, const ModuleData *moduleData)
 	m_8C.rva002EE9B7();
 	((Rva00397E50 *)this)->rva00397E50();
 
-	if (!((const CastleBehaviorModuleData *)m_moduleData)->m_10.isEmpty())
+	if (!((const CastleBehaviorModuleData *)m_moduleData)->m_preBuiltPlyr.isEmpty())
 		m_3C = true;
 
 	setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
