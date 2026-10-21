@@ -21691,7 +21691,6 @@ uw_0078e86f,,0x0078E86F,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;obj
 uw_0078e89e,,0x0078E89E,11,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1707
 uw_0078e8a9,,0x0078E8A9,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1626
 uw_0078e8b1,,0x0078E8B1,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1563
-uw_0078e8b9,,0x0078E8B9,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1011
 uw_0078e8cb,,0x0078E8CB,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_0078e8dd,,0x0078E8DD,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L870
 uw_0078e8ef,,0x0078E8EF,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L10907
@@ -97916,3 +97915,4 @@ __ehhandler$?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
 __ehhandler$?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z,,0x00771993,10,Code/GameEngine/Source/GameLogic/System/GameLogicDoXfer.cpp,matched,C++ EH handler of the matched parent 0x0024797E (prologue mov eax 0xB71993); whole 10B mov eax FuncInfo / jmp __CxxFrameHandler body emitted by the parent source
 ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ,,0x004B1633,2200,Code/GameEngine/Source/GameLogic/Object/Update/EmotionTrackerUpdate_update.cpp,matched,WB 0x1230DD0 EmotionTrackerUpdate::update; 29 inert numbered locals settle the +0x572 layer-compare call order (recipes local count)
 __ehhandler$?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ,,0x0078E8C1,10,Code/GameEngine/Source/GameLogic/Object/Update/EmotionTrackerUpdate_update.cpp,matched,Compiler-emitted native handler of EmotionTrackerUpdate update 0x004B1633; complete 10B mov FuncInfo 0x0093F324 plus jump to __CxxFrameHandler; parent bytes and full EH graph EXACT
+$L7774,,0x0078E8B9,8,Code/GameEngine/Source/GameLogic/Object/Update/EmotionTrackerUpdate_update.cpp,matched,gen-funclet;parent=?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ; native full EH graph proves cleanup and its exact destructor relocation; complete tail jump boundary
