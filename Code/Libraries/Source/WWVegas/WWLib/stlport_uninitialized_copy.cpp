@@ -24,7 +24,6 @@ struct Rva0039A48EElement
 	int a[2];
 };
 
-
 struct BfmeStringRecord005DDD40
 {
 public:
