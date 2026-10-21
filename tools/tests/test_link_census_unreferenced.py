@@ -92,8 +92,13 @@ def test_referenced_no_address_copy_still_loses_to_the_first_never_the_majority(
 def test_a_wrong_body_cannot_hide_by_being_unreferenced(referenced):
     # retail truth judges every name with a retail address, referenced or not
     copies = [("a.obj", "x", "wrong"), ("b.obj", "y", "retail"), ("c.obj", "z", "unknown")]
-    loses, rule = L.keep_rule(copies, referenced=referenced)
+    loses, rule = L.keep_rule(copies, referenced=referenced, retail_kept=False)
     assert rule == "retail" and loses == {"a.obj": True, "b.obj": False, "c.obj": True}
+    # retail-truth-3 exempts the wrong copy only because b.obj supplies retail's
+    loses, rule = L.keep_rule(copies, referenced=referenced)
+    assert rule == "retail" and loses == {"a.obj": False, "b.obj": False, "c.obj": True}
+    loses, rule = L.keep_rule([copies[0], copies[2]], referenced=referenced)
+    assert rule == "retail" and loses == {"a.obj": True, "c.obj": False}
 
 
 def test_comdat_losers_charges_only_referenced_no_address_names():
@@ -211,7 +216,7 @@ def test_an_index_without_references_judges_under_the_previous_rules(facts_of, c
     facts["b.obj"] = ([("?dead", "y", 4, None)], [], [], [])
     ix = index({"?dead": [(0, "x", None), (1, "y", None)]})
     assert C.check_object(SimpleNamespace(name="b.obj"), ix, None)["comdat"] == [("?dead", "first", None)]
-    assert L.PREVIOUS_RULES in capsys.readouterr().err
+    assert L.RETAIL_TRUTH_1 in capsys.readouterr().err
 
 
 def test_index_tables_carry_the_reference_graph():
@@ -222,8 +227,9 @@ def test_index_tables_carry_the_reference_graph():
 
 
 def test_rules_ids_and_rebaseline_order():
-    assert (L.RULES, L.PREVIOUS_RULES) == ("retail-truth-2", "retail-truth-1")
-    assert {L.PREVIOUS_RULES, L.PREVIOUS_RULES_NO_WRONG_SELECTED, L.RULES_NO_WRONG_SELECTED} <= set(L.KNOWN_RULES)
+    assert (L.RULES, L.PREVIOUS_RULES) == ("retail-truth-3", "retail-truth-2")
+    assert {L.PREVIOUS_RULES, L.PREVIOUS_RULES_NO_WRONG_SELECTED, L.RULES_NO_WRONG_SELECTED,
+            L.RETAIL_TRUTH_1, L.RETAIL_TRUTH_1_NO_WRONG_SELECTED} <= set(L.KNOWN_RULES)
     previous = [{"date": "2026-10-17 19:27", "commit": "a", "rules": L.PREVIOUS_RULES}]
     census = {"when": "2026-10-18 00:00", "rules": L.RULES}
     with pytest.raises(SystemExit, match="must be the re-baseline"):

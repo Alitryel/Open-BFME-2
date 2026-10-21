@@ -232,9 +232,37 @@ def test_no_retail_address_is_none():
 
 def test_keep_rule_retail_truth_ignores_link_order():
     copies = [("a.obj", "owner", "wrong"), ("b.obj", "right", "retail"), ("c.obj", "owner", "wrong")]
-    loses, rule = L.keep_rule(copies)
+    loses, rule = L.keep_rule(copies, retail_kept=False)  # retail-truth-2
     assert rule == "retail"
     assert loses == {"a.obj": True, "b.obj": False, "c.obj": True}
+
+
+def test_wrong_copy_does_not_lose_when_another_object_supplies_retail():
+    # retail-truth-3's false-reject fix (reverse/attempt_support/
+    # link-retail-copy-loser-false-reject-20261021.md): BfmeResultSourceA.cpp's
+    # own /O2 copy of ??1BfmeResultA differs from the retail body another
+    # object supplies. The link discards it, as the original build discarded
+    # its units' copies; whether the kept copy is retail's is wrong_selected's.
+    copies = [("a.obj", "owner", "wrong"), ("b.obj", "right", "retail"), ("c.obj", "owner", "wrong")]
+    loses, rule = L.keep_rule(copies)
+    assert rule == "retail" and loses == {"a.obj": False, "b.obj": False, "c.obj": False}
+
+
+def test_wrong_copy_still_loses_without_a_retail_copy():
+    # nothing proves another copy is retail's: the wrong one may be what runs
+    copies = [("a.obj", "bad", "wrong"), ("b.obj", "other", "unknown"), ("c.obj", "bad", "wrong")]
+    loses, rule = L.keep_rule(copies)
+    assert rule == "retail" and loses == {"a.obj": True, "b.obj": False, "c.obj": True}
+    assert L.keep_rule([("a.obj", "bad", "wrong")])[0] == {"a.obj": True}
+
+
+def test_a_kept_wrong_copy_is_still_wrong_selected():
+    # the exemption leaves the kept copy to judge_selected: link order keeping
+    # the wrong copy blocks every unit touching the name
+    copies = {"a.obj": ("bad", "wrong"), "b.obj": ("good", "retail")}
+    definers = {"a.obj", "b.obj"}
+    assert L.judge_selected("a.obj", copies, definers, set(), set()) == "wrong"
+    assert L.judge_selected("b.obj", copies, definers, set(), set()) == "ok"
 
 
 def test_keep_rule_unknown_copies_follow_the_proven_one():
@@ -586,8 +614,11 @@ def test_majority_never_decides_and_stlport_is_judged_like_any_name():
     for name in ("?f@@YAXXZ", "??0?$vector@HV?$allocator@H@_STL@@@_STL@@QAE@XZ", "??_L@YGXPAXIHP6EX0@Z1@Z"):
         copies = [("a.obj", "bad", "wrong"), ("b.obj", "bad", "wrong"), ("c.obj", "bad", "wrong"),
                   ("d.obj", "good", "retail")]
-        loses, rule = L.keep_rule(copies)
+        loses, rule = L.keep_rule(copies, retail_kept=False)
         assert rule == "retail" and loses == {"a.obj": True, "b.obj": True, "c.obj": True, "d.obj": False}, name
+        # retail-truth-3: the retail copy decides what runs; the others are discarded
+        loses, rule = L.keep_rule(copies)
+        assert rule == "retail" and not any(loses.values()), name
     assert not hasattr(L, "comdat_exempt")
 
 

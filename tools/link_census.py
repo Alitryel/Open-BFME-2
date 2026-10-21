@@ -34,7 +34,8 @@ them into the classes the integration work has to clear:
 reverse/link_status.csv: one row per C/C++
 source, `linked=yes` when, in the plain link (no alias scaffold), its object
 has no unresolved reference beyond imports and msvcrt.lib, no duplicate, and
-no COMDAT copy that differs from retail's body (comdat_losers), no name it
+no COMDAT copy that differs from retail's body while no other object supplies
+retail's (comdat_losers), no name it
 defines or references resolves in the link to a kept definition proven not
 retail's (wrong_selected; the /MAP of a second link says which it kept), and
 the file holds no hard-coded image address. LINKED is progress.py's DECOMPILED restricted to
@@ -921,7 +922,7 @@ def comdat_conflicts(objs):
             for name, found in copies.items() if len(found) > 1}
 
 
-def keep_rule(copies, referenced=True):
+def keep_rule(copies, referenced=True, retail_kept=True):
     """({object: loses?}, rule) for one COMDAT symbol's copies [(object, digest,
     verdict)] in link order.
 
@@ -940,6 +941,14 @@ def keep_rule(copies, referenced=True):
     drops every copy; which one the linker would pick decides nothing, and no
     copy loses. A referenced name, or one retail truth can judge, keeps the
     rules above.
+
+    `retail_kept` (since retail-truth-3): a copy proven wrong does not lose
+    when another copy of the name is proven retail's. That copy is the one the
+    image should run, and whether the link actually keeps it is judged
+    separately for every unit touching the name (judge_selected,
+    wrong_selected). A discarded copy runs nowhere: the original build
+    discarded its units' differing copies the same way (retail's body is one
+    unit's copy). False gives retail-truth-2, where every wrong copy loses.
     """
     verdicts = [verdict for _, _, verdict in copies]
     if all(verdict is None for verdict in verdicts):
@@ -952,7 +961,8 @@ def keep_rule(copies, referenced=True):
     kept = proven[0] if proven else unknown[0] if unknown else None
     loses = {}
     for obj, digest, verdict in copies:
-        loses[obj] = verdict == "wrong" or (verdict == "unknown" and digest != kept and digest not in proven)
+        wrong = verdict == "wrong" and not (retail_kept and proven)
+        loses[obj] = wrong or (verdict == "unknown" and digest != kept and digest not in proven)
     return loses, "retail"
 
 
@@ -1248,7 +1258,7 @@ def read_facts(objs, rows):
     return [object_facts(obj, truth) for obj in objs]
 
 
-def comdat_losers(objs, rows=None, stats=None, facts=None, referenced=None):
+def comdat_losers(objs, rows=None, stats=None, facts=None, referenced=None, retail_kept=True):
     """{object name: {symbol}} for COMDAT copies that are not retail's body.
 
     keep_rule() decides each symbol: by retail truth where the ledger gives it
@@ -1261,7 +1271,8 @@ def comdat_losers(objs, rows=None, stats=None, facts=None, referenced=None):
     rule decided. `facts` is read_facts(objs), read here when not given.
     `referenced` (link_references) is the set of names the link keeps
     reachable; keep_rule exempts the copies of a name with no retail address
-    outside it. None judges every name as referenced (PREVIOUS_RULES)."""
+    outside it. None judges every name as referenced (retail-truth-1).
+    `retail_kept` is keep_rule's: False measures retail-truth-2."""
     rows = ledger() if rows is None else rows
     facts = read_facts(objs, rows) if facts is None else facts
     copies = collections.defaultdict(list)
@@ -1271,7 +1282,7 @@ def comdat_losers(objs, rows=None, stats=None, facts=None, referenced=None):
     losers = collections.defaultdict(set)
     stats = stats if stats is not None else {}
     for name, found in copies.items():
-        loses, rule = keep_rule(found, referenced is None or name in referenced)
+        loses, rule = keep_rule(found, referenced is None or name in referenced, retail_kept)
         stats[f"symbols_{rule}"] = stats.get(f"symbols_{rule}", 0) + 1
         for obj, lost in loses.items():
             if lost:
@@ -1364,7 +1375,7 @@ def unreferenced_differs(objs, facts, referenced):
     """{object name: [entry]} for every COMDAT copy keep_rule's `unreferenced`
     rule exempts that differs from the majority copy of its name: a name with
     no retail address that nothing the link keeps references (`referenced`,
-    link_references; None, PREVIOUS_RULES, exempts nothing). Each entry is
+    link_references; None, retail-truth-1, exempts nothing). Each entry is
     {name, kind, bytes_differ, size, majority_size, majority_object}, kind by
     copy_kind. Diagnostic only: it decides nothing a link is charged with."""
     if referenced is None:
@@ -2126,7 +2137,8 @@ def write_status(log, rows, present, meta, kept, publish=True):
     objects. See excused() for exactly which names. A duplicate counts against both definers, since the log cannot say
     which copy is wrong. A COMDAT copy that is not retail's body counts against
     its object (comdat_losers: retail truth where the symbol has a retail
-    address, else the copy link.exe keeps, the first in link order; since
+    address, except, since retail-truth-3, when another object supplies the
+    retail-proven copy, else the copy link.exe keeps, the first in link order; since
     retail-truth-2 no copy of a name with no retail address that nothing the
     link keeps references loses: keep_rule, though such copies that differ
     from the majority are still listed, as a diagnostic only, in
@@ -2144,7 +2156,7 @@ def write_status(log, rows, present, meta, kept, publish=True):
 
     Returns (clean, files, blocking names, clean under the rule before
     wrong_selected, stats); stats["clean_previous_rules"] is the clean set
-    under PREVIOUS_RULES (every differing no-address copy charged). It also writes build/link_census/link_index.pkl, which tools/link_check.py
+    under PREVIOUS_RULES (every copy proven wrong charged). It also writes build/link_census/link_index.pkl, which tools/link_check.py
     reads to check one file in seconds (`meta` names the census). With
     publish=False neither file is written until stats["accept"]() is called,
     so record() can refuse a run whose inputs moved without leaving a status
@@ -2162,9 +2174,10 @@ def write_status(log, rows, present, meta, kept, publish=True):
     references = read_references(present)
     edges, referenced = link_references(present, facts, owners, references)
     losers = comdat_losers(present, rows, stats, facts, referenced)
-    # PREVIOUS_RULES charged every differing copy of a name with no retail
-    # address, referenced or not: census_rebaseline.py records the figures.
-    previous_losers = comdat_losers(present, rows, previous_stats, facts)
+    # PREVIOUS_RULES (retail-truth-2) charged every copy proven wrong, even
+    # when another object supplied the retail-proven copy: census_rebaseline.py
+    # records the figures.
+    previous_losers = comdat_losers(present, rows, previous_stats, facts, referenced, retail_kept=False)
     differs = unreferenced_differs(present, facts, referenced)
     results, exceptions = selection_verdicts(present, facts, owners, kept)
     wrong_selected, unknown_selected = {}, {}
@@ -2178,9 +2191,9 @@ def write_status(log, rows, present, meta, kept, publish=True):
     print(f"link_census: COMDAT keeper: {stats.get('symbols_retail', 0):,} symbols judged by retail truth "
           f"({stats.get('losers_retail', 0):,} losing copies), {stats.get('symbols_first', 0):,} with no retail "
           f"address by link order ({stats.get('losers_first', 0):,} losing copies), "
-          f"{stats.get('symbols_unreferenced', 0):,} with no retail address that nothing the link keeps references "
-          f"(their {previous_stats.get('losers_first', 0) - stats.get('losers_first', 0):,} differing copies lose "
-          f"nothing; {PREVIOUS_RULES} charged them)")
+          f"{stats.get('symbols_unreferenced', 0):,} with no retail address that nothing the link keeps references; "
+          f"{previous_stats.get('losers_retail', 0) - stats.get('losers_retail', 0):,} copies proven wrong lose "
+          f"nothing because another object supplies the retail copy ({PREVIOUS_RULES} charged them)")
     unresolved = collections.defaultdict(set)
     duplicates = collections.defaultdict(set)
     # An /alternatename alias whose target is an excused name: /NODEFAULTLIB
@@ -2557,17 +2570,22 @@ HISTORY = ROOT / "reverse/link_census_history.csv"
 # row's prev_rules is RULES_NO_WRONG_SELECTED (the same census without
 # wrong_selected); each re-baseline row (tools/census_rebaseline.py) has the
 # rules before it as prev_rules: LEGACY_RULES, measured by the previous
-# link_census.py on the same objects, and PREVIOUS_RULES (retail-truth-1:
-# every differing copy of a name with no retail address loses, referenced or
-# not), measured in the same judgment (REBASELINE_IN_PROCESS). Dates are UTC from RULES on (rows before it are mostly UTC; their
+# link_census.py on the same objects, retail-truth-1 (every differing copy of
+# a name with no retail address loses, referenced or not) and PREVIOUS_RULES
+# (retail-truth-2: every copy proven wrong loses, even when another object
+# supplies the retail copy), each measured in the same judgment as the rules
+# after it (REBASELINE_IN_PROCESS). Dates are UTC from RULES on (rows before it are mostly UTC; their
 # zone is whatever the runner had); rows stay in physical append order, and
 # readers take the last physical row as current.
-RULES = "retail-truth-2"
-RULES_NO_WRONG_SELECTED = "retail-truth-2-no-wrong-selected"
-PREVIOUS_RULES = "retail-truth-1"
-PREVIOUS_RULES_NO_WRONG_SELECTED = "retail-truth-1-no-wrong-selected"
+RULES = "retail-truth-3"
+RULES_NO_WRONG_SELECTED = "retail-truth-3-no-wrong-selected"
+PREVIOUS_RULES = "retail-truth-2"
+PREVIOUS_RULES_NO_WRONG_SELECTED = "retail-truth-2-no-wrong-selected"
+RETAIL_TRUTH_1 = "retail-truth-1"
+RETAIL_TRUTH_1_NO_WRONG_SELECTED = "retail-truth-1-no-wrong-selected"
 LEGACY_RULES = "majority-0"
-KNOWN_RULES = (LEGACY_RULES, PREVIOUS_RULES_NO_WRONG_SELECTED, PREVIOUS_RULES, RULES_NO_WRONG_SELECTED, RULES)
+KNOWN_RULES = (LEGACY_RULES, RETAIL_TRUTH_1_NO_WRONG_SELECTED, RETAIL_TRUTH_1,
+               PREVIOUS_RULES_NO_WRONG_SELECTED, PREVIOUS_RULES, RULES_NO_WRONG_SELECTED, RULES)
 REBASELINE_IN_PROCESS = object()  # record(rebaseline=...): PREVIOUS_RULES measured in the same judgment
 HISTORY_FIELDS = ["date", "commit", "objects", "unresolved", "alias", "pinned_elsewhere", "dump", "data",
                   "import", "unpinned", "duplicates", "comdat_conflicts", "comdat_vtables",
