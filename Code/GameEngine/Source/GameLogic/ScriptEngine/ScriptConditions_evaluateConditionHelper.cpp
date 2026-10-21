@@ -170,13 +170,13 @@ public:
 	bool rva003E6ED0(Parameter *, const AsciiString *, Parameter *, bool, bool);
 	bool rva003E83AF(Parameter *, Parameter *);
 	bool evaluateTypeSighted(const AsciiString &, Parameter *, Parameter *);
-	bool rva003EA566(Parameter *, Parameter *, Parameter *, Parameter *);
+	bool evaluateSkirmishSuppliesWithinDistancePerimeter(Parameter *, Parameter *, Parameter *, Parameter *);
 
 protected:
 	bool evaluateConditionHelper(Condition *c);
 	bool evaluatePlayerHasUnitKindInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *);
-	bool rva003E46B4(Parameter *, Parameter *, Parameter *);
-	bool rva003E477F(Parameter *, Parameter *, Parameter *);
+	bool evaluatePlayerHasComparisonPercentPower(Parameter *, Parameter *, Parameter *);
+	bool evaluatePlayerHasComparisonValueExcessPower(Parameter *, Parameter *, Parameter *);
 	bool rva003E4F79(Parameter *, Parameter *, Parameter *);
 	bool rva003E5017(Parameter *, Parameter *, Parameter *);
 	bool rva003E50B4(Parameter *, Parameter *);
@@ -277,12 +277,12 @@ protected:
 	bool evaluateVideoHasCompleted(Parameter *);
 	bool rva003E3EC3(Parameter *);
 	bool rva003E4519(Parameter *);
-	bool rva003E4A63(Condition *, Parameter *, Parameter *);
-	bool rva003E4AE4(Parameter *);
+	bool evaluateSkirmishSupplySourceSafe(Condition *, Parameter *, Parameter *);
+	bool evaluateSkirmishSupplySourceAttacked(Parameter *);
 	bool rva003E4D93(Parameter *, Parameter *, Parameter *, Parameter *);
 	bool rva003E51D9(Parameter *, Parameter *);
 	bool rva003E5267(Parameter *, Parameter *);
-	bool rva003E586B(Parameter *, Parameter *);
+	bool evaluatePlayerHasNOrFewerFactionBuildings(Parameter *, Parameter *);
 	bool rva003E58F0(Parameter *, Parameter *);
 	bool evaluatePlayerHasUnitTypeInArea(Condition *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, Parameter *, bool);
 	bool rva003E63CD(Condition *, Parameter *, Parameter *, Parameter *);
@@ -401,7 +401,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 32:
 		return this->evaluatePlayerHasNOrFewerBuildings(condition->getParameter(1), condition->getParameter(0));
 	case 79:
-		return this->rva003E586B(condition->getParameter(1), condition->getParameter(0));
+		return this->evaluatePlayerHasNOrFewerFactionBuildings(condition->getParameter(1), condition->getParameter(0));
 	case 131:
 		return this->rva003E58F0(condition->getParameter(1), condition->getParameter(0));
 	case 33:
@@ -547,9 +547,9 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 76:
 		return this->evaluateUnitHasEmptied(condition->getParameter(0));
 	case 83:
-		return this->rva003E46B4(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
+		return this->evaluatePlayerHasComparisonPercentPower(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 84:
-		return this->rva003E477F(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
+		return this->evaluatePlayerHasComparisonValueExcessPower(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2));
 	case 85:
 		return this->evaluateSkirmishSpecialPowerIsReady(condition->getParameter(0), condition->getParameter(1));
 	case 171:
@@ -567,7 +567,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 87:
 		return this->evaluateSkirmishPlayerIsFaction(condition->getParameter(0), condition->getParameter(1));
 	case 88:
-		return this->rva003EA566(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
+		return this->evaluateSkirmishSuppliesWithinDistancePerimeter(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), condition->getParameter(3));
 	case 89:
 		return this->slot15(condition->getParameter(0), condition->getParameter(1), condition->getParameter(2), true);
 	case 90:
@@ -593,9 +593,9 @@ bool ScriptConditions::evaluateConditionHelper(Condition *condition)
 	case 103:
 		return this->evaluateMusicHasCompleted(condition->getParameter(0), condition->getParameter(1));
 	case 105:
-		return this->rva003E4A63(condition, condition->getParameter(0), condition->getParameter(1));
+		return this->evaluateSkirmishSupplySourceSafe(condition, condition->getParameter(0), condition->getParameter(1));
 	case 106:
-		return this->rva003E4AE4(condition->getParameter(0));
+		return this->evaluateSkirmishSupplySourceAttacked(condition->getParameter(0));
 	case 107:
 		return this->evaluateSkirmishStartPosition(condition->getParameter(0), condition->getParameter(1));
 	case 108:

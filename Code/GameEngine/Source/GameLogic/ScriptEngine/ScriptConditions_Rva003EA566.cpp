@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
-// ScriptConditions::rva003EA566, retail 0x003EA566, 510 bytes (caller
+// ScriptConditions::evaluateSkirmishSuppliesWithinDistancePerimeter, retail 0x003EA566, 510 bytes (caller
 // 0x003EBAD9 in the condition dispatcher 0x003EA9AF). A BFME2 script
 // condition: for each player of the parameter's player mask (TheScriptEngine
 // 0x00357B82), whether some structure (KindOf bit 7) in the named trigger
@@ -170,11 +170,11 @@ extern ScriptEngine *TheScriptEngine;
 class ScriptConditions
 {
 public:
-	bool rva003EA566(Parameter *playerParm, Parameter *radiusParm, Parameter *areaParm,
+	bool evaluateSkirmishSuppliesWithinDistancePerimeter(Parameter *playerParm, Parameter *radiusParm, Parameter *areaParm,
 		Parameter *valueParm);
 };
 
-bool ScriptConditions::rva003EA566(Parameter *playerParm, Parameter *radiusParm, Parameter *areaParm,
+bool ScriptConditions::evaluateSkirmishSuppliesWithinDistancePerimeter(Parameter *playerParm, Parameter *radiusParm, Parameter *areaParm,
 	Parameter *valueParm)
 {
 	int mask = TheScriptEngine->rva00357B82(playerParm);

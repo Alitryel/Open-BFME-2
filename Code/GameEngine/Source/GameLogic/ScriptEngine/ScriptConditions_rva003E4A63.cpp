@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
-// ScriptConditions::rva003E4A63, retail 0x003E4A63 (129B; dispatcher call
+// ScriptConditions::evaluateSkirmishSupplySourceSafe, retail 0x003E4A63 (129B; dispatcher call
 // 0x003EBD0F): a cached player condition in Zero Hour's
 // evaluatePlayerUnitCondition style - the Condition's custom data holds the
 // last answer (1 true, -1 false) until its custom frame; otherwise it
@@ -59,10 +59,10 @@ extern int BfmeLogicFramesPerSecond; // logic frames per second
 class ScriptConditions
 {
 protected:
-    bool rva003E4A63(Condition *pCondition, Parameter *pPlayerParm, Parameter *pValueParm);
+    bool evaluateSkirmishSupplySourceSafe(Condition *pCondition, Parameter *pPlayerParm, Parameter *pValueParm);
 };
 
-bool ScriptConditions::rva003E4A63(Condition *pCondition, Parameter *pPlayerParm, Parameter *pValueParm)
+bool ScriptConditions::evaluateSkirmishSupplySourceSafe(Condition *pCondition, Parameter *pPlayerParm, Parameter *pValueParm)
 {
     if (TheGameLogic->getFrame() <= pCondition->getCustomFrame())
     {

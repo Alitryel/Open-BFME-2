@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
-// ScriptConditions::rva003E586B, retail 0x003E586B (133B; dispatcher call
+// ScriptConditions::evaluatePlayerHasNOrFewerFactionBuildings, retail 0x003E586B (133B; dispatcher call
 // 0x003EAF8D): the shape of Zero Hour's
 // evaluatePlayerHasNOrFewerFactionBuildings - a kind mask with two bits set
 // (BFME2 kinds 7 and 37) counted over every player of the BFME2 player mask
@@ -69,10 +69,10 @@ extern int BfmeLogicFramesPerSecond; // logic frames per second
 class ScriptConditions
 {
 protected:
-    bool rva003E586B(Parameter *pBuildingCountParm, Parameter *pPlayerParm);
+    bool evaluatePlayerHasNOrFewerFactionBuildings(Parameter *pBuildingCountParm, Parameter *pPlayerParm);
     bool rva003E58F0(Parameter *pBuildingCountParm, Parameter *pPlayerParm);
 };
-bool ScriptConditions::rva003E586B(Parameter *pBuildingCountParm, Parameter *pPlayerParm)
+bool ScriptConditions::evaluatePlayerHasNOrFewerFactionBuildings(Parameter *pBuildingCountParm, Parameter *pPlayerParm)
 {
     PlayerMaskType playerMask = TheScriptEngine->rva00357B82(pPlayerParm);
     KindOfMaskType mask;

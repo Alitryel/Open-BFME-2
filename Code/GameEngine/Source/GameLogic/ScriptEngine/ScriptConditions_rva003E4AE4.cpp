@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
-// ScriptConditions::rva003E4AE4, retail 0x003E4AE4 (70B; dispatcher call
+// ScriptConditions::evaluateSkirmishSupplySourceAttacked, retail 0x003E4AE4 (70B; dispatcher call
 // 0x003EBD27): true when any player of the BFME2 player mask answers the
 // Player forwarder 0x002A9CB8 (to its +0x2DC AI player; pinned from this
 // call). Same mask walk as ScriptConditions_evaluateSkirmishPlayerIsFaction.cpp.
@@ -34,10 +34,10 @@ extern ScriptEngine *TheScriptEngine;
 class ScriptConditions
 {
 protected:
-    bool rva003E4AE4(Parameter *pPlayerParm);
+    bool evaluateSkirmishSupplySourceAttacked(Parameter *pPlayerParm);
 };
 
-bool ScriptConditions::rva003E4AE4(Parameter *pPlayerParm)
+bool ScriptConditions::evaluateSkirmishSupplySourceAttacked(Parameter *pPlayerParm)
 {
     PlayerMaskType mask = TheScriptEngine->rva00357B82(pPlayerParm);
     while (mask)

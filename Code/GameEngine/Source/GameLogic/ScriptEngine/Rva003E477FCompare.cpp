@@ -37,10 +37,10 @@ extern class ScriptEngine *TheScriptEngine;
 class ScriptConditions
 {
 protected:
-	bool rva003E477F(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm);
+	bool evaluatePlayerHasComparisonValueExcessPower(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm);
 };
 
-bool ScriptConditions::rva003E477F(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm)
+bool ScriptConditions::evaluatePlayerHasComparisonValueExcessPower(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm)
 {
     int threshold = pValParm->m_int;
     int mask = TheScriptEngine->rva00357B82(pMaskParm);

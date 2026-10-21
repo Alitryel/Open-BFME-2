@@ -45,10 +45,10 @@ extern class ScriptEngine *TheScriptEngine;
 class ScriptConditions
 {
 protected:
-	bool rva003E46B4(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm);
+	bool evaluatePlayerHasComparisonPercentPower(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm);
 };
 
-bool ScriptConditions::rva003E46B4(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm)
+bool ScriptConditions::evaluatePlayerHasComparisonPercentPower(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm)
 {
     float threshold = (float)pValParm->m_int * 0.01f;
     int mask = TheScriptEngine->rva00357B82(pMaskParm);
