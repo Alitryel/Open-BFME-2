@@ -97,5 +97,42 @@ target at +0x28c differs.
   fold to F. A D-carrier with b ≥ 9 gives F at every cold site, so it would
   need the same per-site split as W.
 
-Scratch generators (untracked): `build/b3df20/gen16.py`–`gen20.py`,
+## Second round (same day, bank unchanged at 0.9127)
+
+Findings:
+
+- Which sites count as "late": every site after the first conditional early return (ret1).
+  - Removing ret1 makes every site inline under the W carrier.
+  - Moving the space loop and ret2 before the sign keeps ret2 late.
+  - So the split follows control flow (block frequency), not a site count.
+  - The final teardown is always inline.
+- W's inline cost includes the inlined S. With the carrier on S only (a=9), W is inlined again at the late sites.
+- In this TU, outlined W and S are both 14 B and frameless, because the proxy is see-through. W with one or more phantom carriers gets an EH frame (60 B).
+- Retail B (0xB3C0, 63 B) is probably selected from another TU's COMDAT. Retail's EH state stores before the early calls (0xb/0xa/5) equal ours when W is outlined.
+- WorldBuilder twin: va 0x6E71A0, 2610 B (= retail), probably the same optimised library.
+  - Its 49 direct calls map one-to-one onto retail's.
+  - The F sites (236/259/28c) call WB 0x6e7be0: 14 B, calls free, and is the first COMDAT after do_put, so it comes from the do_put TU.
+  - The B sites call WB 0x6e4540 (63 B), which is elsewhere, so it comes from another TU.
+- do_put TU COMDATs after the body, in emission order:
+
+| WB address | Size | Role / call sites |
+|---|---|---|
+| 0x6e7bf0 | 37 B | calls 0x6e7c20 (11 B); called at 449, the new_digits ctor |
+| 0x6e7c30 | 53 B | output-iterator put; called at 5e5 and later |
+| 0x6e7c70 | 106 B | one icall; called at 700 |
+| 0x6e7ce0 | 106 B | one icall; called at 8ae |
+| 0x6e7d50..0x6e7e30 | 27 B each | eight moneypunct virtual wrappers |
+| 0x6e7e50 | 102 B | called at 213 and 350 |
+
+  - The next step is to compare this list with our object's COMDAT set: which helpers the original TU outlined, whether F is W or D, and whether the copy at 700/8ae is `__copy` or `fill_n`.
+- Sibling lead: the narrow twin `stlport_narrow_money_put_string.cpp` (0xC410, matched) forces `allocator<char/unsigned short>::deallocate` inline under `#pragma optimize("gsy", on)` and uses a throwing `free`. Its destructor site map has not yet been compared with this body.
+
+Disproven (do not repeat):
+
+- Leak-check dtor on the allocator specialisation (wide, wide+char, `const` forms): frame 0xd8 (retail 0x118), W late.
+- TU-local `_STLP_alloc_proxy` specialisation with a leak dtor (wide, wide+char): frame 0xd8.
+- Natural inline budget: up to 32 dummy strings placed early or late in `do_put` cause no outlining (gen27).
+- Single `?:` sign, removing ret2, moving the loop+ret2 before the sign (gen24): none gives F@28c with B late.
+
+Scratch generators (untracked): `build/b3df20/gen16.py`–`gen27.py`, `runm.sh` (parallel scorer),
 `odis.py` (our disassembly), `calls.py`, `slots.py`.
