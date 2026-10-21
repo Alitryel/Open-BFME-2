@@ -40,22 +40,22 @@ class ModelConditionUpgradeModuleData : public Rva00253487Base
 public:
 	ModelConditionUpgradeModuleData();
 
-	CondStore m_118;
+	CondStore m_addConditionFlags;
 	CondStore m_164;
-	int m_1B0;
-	float m_1B4;
+	int m_addTempConditionFlag;
+	float m_tempConditionTime;
 };
 
 ModelConditionUpgradeModuleData::ModelConditionUpgradeModuleData()
 	: Rva00253487Base()
 {
-	CondStore *condStore = &m_118;
+	CondStore *condStore = &m_addConditionFlags;
 	*(unsigned int *)this = ((unsigned int)vtbl_00BF2558);
 	((Rva0042526Member *)condStore)->Rva0042526Member::Rva0042526Member();
 	CondStore *stor164 = &m_164;
 	((Rva0042526Member *)stor164)->Rva0042526Member::Rva0042526Member();
 	memset(condStore, 0, 0x4C);
 	memset(stor164, 0, 0x4C);
-	m_1B0 |= -1;
-	m_1B4 = 0.0f;
+	m_addTempConditionFlag |= -1;
+	m_tempConditionTime = 0.0f;
 }

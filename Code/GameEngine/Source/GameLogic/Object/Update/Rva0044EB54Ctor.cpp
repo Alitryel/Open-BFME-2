@@ -57,125 +57,125 @@ public:
 	SpecialAbilityUpdateModuleData();
 private:
 	int m_04;
-	OpaqueRefPtr m_08;
-	OpaqueRefPtr m_0C;
-	OpaqueRefPtr m_10;
-	OpaqueRefPtr m_14;
+	OpaqueRefPtr m_packSound;
+	OpaqueRefPtr m_unpackSound;
+	OpaqueRefPtr m_prepSoundLoop;
+	OpaqueRefPtr m_triggerSound;
 	Rva0044EB54Fields18 m_fields18;
 	int m_28;
 	int m_2C;
-	float m_30;
-	OpaqueRefPtr m_34;
-	int m_38;
-	int m_3C;
-	AsciiString m_40;
-	AsciiString m_44;
-	AsciiString m_48;
-	float m_4C;
-	float m_50;
-	float m_54;
-	float m_58;
-	int m_5C;
-	float m_60;
-	int m_64;
-	int m_68;
-	int m_6C;
-	int m_70;
-	int m_74;
-	int m_78;
-	int m_7C;
-	int m_80;
-	int m_84;
-	int m_88;
-	int m_8C;
-	int m_90;
-	int m_94;
-	int m_98;
-	int m_9C;
-	int m_A0;
-	int m_A4;
-	unsigned char m_A8;
-	unsigned char m_A9;
+	float m_grabPassengerHealGainPercent;
+	OpaqueRefPtr m_activeLoopSound;
+	int m_specialPowerTemplate;
+	int m_disableFXParticleSystem;
+	AsciiString m_specialObject;
+	AsciiString m_specialObjectAttachToBone;
+	AsciiString m_triggerAttributeModifier;
+	float m_startAbilityRange;
+	float m_abilityAbortRange;
+	float m_packUnpackVariationFactor;
+	float m_fleeRangeAfterCompletion;
+	int m_effectValue;
+	float m_effectRange;
+	int m_awardXPForTriggering;
+	int m_skillPointsForTriggering;
+	int m_unpackingVariation;
+	int m_persistentCount;
+	int m_preparationTime;
+	int m_persistentPrepTime;
+	int m_effectDuration;
+	int m_maxSpecialObjects;
+	int m_packTime;
+	int m_unpackTime;
+	int m_preTriggerUnstealthTime;
+	int m_paralyzeDurationWhenCompleted;
+	int m_paralyzeDurationWhenAborted;
+	int m_attributeModifierDuration;
+	int m_freezeAfterTriggerDuration;
+	int m_requiredConditions;
+	int m_rejectedConditions;
+	unsigned char m_skipPackingWithNoTarget;
+	unsigned char m_specialObjectsPersistent;
 	unsigned char m_AA;
 	unsigned char m_AB;
 	unsigned char m_AC;
 	unsigned char m_AD;
 	unsigned char m_AE;
 	unsigned char m_AF;
-	unsigned char m_B0;
-	unsigned char m_B1;
-	unsigned char m_B2;
-	unsigned char m_B3;
-	unsigned char m_B4;
-	unsigned char m_B5;
-	unsigned char m_B6;
-	unsigned char m_B7;
-	unsigned char m_B8;
+	unsigned char m_loseStealthOnTrigger;
+	unsigned char m_approachRequiresLOS;
+	unsigned char m_chargeAttackSpeedBoost;
+	unsigned char m_killAttributeModifierOnExit;
+	unsigned char m_killAttributeModifierOnRejected;
+	unsigned char m_mustFinishAbility;
+	unsigned char m_disableWhenWearingTheRing;
+	unsigned char m_instant;
+	unsigned char m_needCollisionBeforeTrigger;
 	AsciiString m_BC;
-	AsciiString m_C0;
-	unsigned char m_C4;
-	unsigned char m_C5;
-	unsigned char m_C6;
+	AsciiString m_chainedButton;
+	unsigned char m_suppressForHordes;
+	unsigned char m_approachUntilMembersInRange;
+	unsigned char m_ignoreFacingCheck;
 };
 
 SpecialAbilityUpdateModuleData::SpecialAbilityUpdateModuleData()
-	: m_08()
-	, m_0C()
-	, m_10()
-	, m_14()
+	: m_packSound()
+	, m_unpackSound()
+	, m_prepSoundLoop()
+	, m_triggerSound()
 	, m_28(0)
 	, m_2C(0)
-	, m_30(100.0f)
-	, m_34()
-	, m_38(0)
-	, m_3C(0)
-	, m_40()
-	, m_44()
-	, m_48()
-	, m_4C(10000000.0f)
-	, m_50(10000000.0f)
-	, m_54(0.0f)
-	, m_58(0.0f)
-	, m_5C(1)
-	, m_60(0.0f)
-	, m_64(0)
-	, m_68(-1)
-	, m_6C(0)
-	, m_70(-1)
-	, m_74(0)
-	, m_78(0)
-	, m_7C(0)
-	, m_80(1)
-	, m_84(0)
-	, m_88(0)
-	, m_8C(0)
-	, m_90(0)
-	, m_94(0)
-	, m_98(0)
-	, m_9C(0)
-	, m_A0(0)
-	, m_A4(0)
-	, m_A8(0)
-	, m_A9(0)
+	, m_grabPassengerHealGainPercent(100.0f)
+	, m_activeLoopSound()
+	, m_specialPowerTemplate(0)
+	, m_disableFXParticleSystem(0)
+	, m_specialObject()
+	, m_specialObjectAttachToBone()
+	, m_triggerAttributeModifier()
+	, m_startAbilityRange(10000000.0f)
+	, m_abilityAbortRange(10000000.0f)
+	, m_packUnpackVariationFactor(0.0f)
+	, m_fleeRangeAfterCompletion(0.0f)
+	, m_effectValue(1)
+	, m_effectRange(0.0f)
+	, m_awardXPForTriggering(0)
+	, m_skillPointsForTriggering(-1)
+	, m_unpackingVariation(0)
+	, m_persistentCount(-1)
+	, m_preparationTime(0)
+	, m_persistentPrepTime(0)
+	, m_effectDuration(0)
+	, m_maxSpecialObjects(1)
+	, m_packTime(0)
+	, m_unpackTime(0)
+	, m_preTriggerUnstealthTime(0)
+	, m_paralyzeDurationWhenCompleted(0)
+	, m_paralyzeDurationWhenAborted(0)
+	, m_attributeModifierDuration(0)
+	, m_freezeAfterTriggerDuration(0)
+	, m_requiredConditions(0)
+	, m_rejectedConditions(0)
+	, m_skipPackingWithNoTarget(0)
+	, m_specialObjectsPersistent(0)
 	, m_AA(0)
 	, m_AB(0)
 	, m_AC(0)
 	, m_AD(0)
 	, m_AE(0)
 	, m_AF(0)
-	, m_B0(0)
-	, m_B1(1)
-	, m_B2(0)
-	, m_B3(0)
-	, m_B4(0)
-	, m_B5(0)
-	, m_B6(0)
-	, m_B7(0)
-	, m_B8(0)
+	, m_loseStealthOnTrigger(0)
+	, m_approachRequiresLOS(1)
+	, m_chargeAttackSpeedBoost(0)
+	, m_killAttributeModifierOnExit(0)
+	, m_killAttributeModifierOnRejected(0)
+	, m_mustFinishAbility(0)
+	, m_disableWhenWearingTheRing(0)
+	, m_instant(0)
+	, m_needCollisionBeforeTrigger(0)
 	, m_BC()
-	, m_C0("")
-	, m_C4(0)
-	, m_C5(0)
-	, m_C6(0)
+	, m_chainedButton("")
+	, m_suppressForHordes(0)
+	, m_approachUntilMembersInRange(0)
+	, m_ignoreFacingCheck(0)
 {
 }

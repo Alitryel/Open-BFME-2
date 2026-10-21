@@ -87,12 +87,12 @@ class RousingSpeechUpdateModuleData
 {
 public:
 	unsigned char m_pad[0xC8];
-	float m_C8; // +0xC8
+	float m_bonusRadius; // +0xC8
 	unsigned char m_padCC[0xD4 - 0xCC];
 	const FXList *m_D4; // +0xD4
 	unsigned char m_padD8[0xDC - 0xD8];
 	bool m_DC; // +0xDC
-	float m_E0; // +0xE0
+	float m_waveWidth; // +0xE0
 };
 class RousingSpeechUpdate : public SpecialAbilityUpdate
 {
@@ -113,12 +113,12 @@ void RousingSpeechUpdate::rva004ACE11()
 	m_94 = 0.0f;
 	if (data->m_DC)
 	{
-		m_98 = data->m_E0;
-		if (m_98 > data->m_C8)
-			m_98 = data->m_C8;
+		m_98 = data->m_waveWidth;
+		if (m_98 > data->m_bonusRadius)
+			m_98 = data->m_bonusRadius;
 	}
 	else
 	{
-		m_98 = data->m_C8;
+		m_98 = data->m_bonusRadius;
 	}
 }

@@ -57,16 +57,16 @@ public:
 private:
 	const void *m_vtable; // +0 (EBO: base contributes no size)
 	unsigned char m_pad04[0xC0]; // +4..+0xC3
-	int m_unkC4; // +0xC4
-	int m_unkC8; // +0xC8
+	int m_fuelLifetime; // +0xC4
+	int m_ignitionDelay; // +0xC8
 	float m_unkCC; // +0xCC
-	float m_unkD0; // +0xD0
-	int m_unkD4; // +0xD4
-	unsigned char m_unkD8; // +0xD8
+	float m_distanceToTargetBeforeDiving; // +0xD0
+	int m_ignitionFX; // +0xD4
+	unsigned char m_detonateOnNoFuel; // +0xD8
 	int m_unkDC; // +0xDC
-	Rva0024C7B3Member m_unkE0; // +0xE0
+	Rva0024C7B3Member m_garrisonHitKillRequiredKindOf; // +0xE0
 	Rva0024C7B3Member m_unkFC; // +0xFC
-	int m_unk118; // +0x118
+	int m_garrisonHitKillFX; // +0x118
 	AsciiString m_exhaust; // +0x11C
 };
 
@@ -75,13 +75,13 @@ MissileUpdateModuleData::MissileUpdateModuleData()
 	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C53668)))
 	, m_exhaust(0)
 {
-	m_unkC4 = 0;
-	m_unkC8 = 0;
+	m_fuelLifetime = 0;
+	m_ignitionDelay = 0;
 	m_unkCC = 0.0f;
-	m_unkD0 = 0.0f;
-	m_unkD4 = 0;
-	m_unkD8 = 0;
+	m_distanceToTargetBeforeDiving = 0.0f;
+	m_ignitionFX = 0;
+	m_detonateOnNoFuel = 0;
 	m_unkDC = 0;
-	m_unk118 = 0;
+	m_garrisonHitKillFX = 0;
 	m_exhaust.set("");
 }

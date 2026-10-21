@@ -149,10 +149,10 @@ static __forceinline void clearModelConditionBit(Object *object, int bit)
 struct ModelConditionSpecialAbilityUpdateModuleData
 {
 	unsigned char m_pad00[0xC8];
-	int m_C8;
+	int m_whichSpecialPower;
 	bool m_CC;
 	bool m_CD;
-	float m_D0;	// +0xD0 the radius
+	float m_emotionPulseRadius;	// +0xD0 the radius
 	char m_D4[4];	// +0xD4 what the 0x002614EC filter compares
 };
 
@@ -193,7 +193,7 @@ void ModelConditionSpecialAbilityUpdate::startUnpacking()
 	const ModelConditionSpecialAbilityUpdateModuleData *data =
 		(const ModelConditionSpecialAbilityUpdateModuleData *)m_moduleData;
 	Object *object = m_object;
-	switch (data->m_C8)
+	switch (data->m_whichSpecialPower)
 	{
 	case 0:
 		setModelConditionBit(object, 10 * 32 + 10);
@@ -217,7 +217,7 @@ void ModelConditionSpecialAbilityUpdate::triggerAbilityEffect()
 	const ModelConditionSpecialAbilityUpdateModuleData *data =
 		(const ModelConditionSpecialAbilityUpdateModuleData *)m_moduleData;
 	if (data && (data->m_CC || data->m_CD)) {
-	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(getObject()->getPosition(), data->m_D0, 0,
+	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(getObject()->getPosition(), data->m_emotionPulseRadius, 0,
 		Rva00261409Filter(m_object->getControllingPlayer(), true, 4).link(Rva002611BFFilter(m_object)
 			.link(&Rva002614ECFilter(data->m_D4, m_object->getControllingPlayer(), true))), 0);
 	Object *other;

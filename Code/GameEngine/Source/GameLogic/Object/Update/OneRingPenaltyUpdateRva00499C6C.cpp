@@ -84,7 +84,7 @@ public:
 struct OneRingPenaltyUpdateModuleData
 {
 	unsigned char m_pad00[0x20];
-	OpaqueRefElement4 m_20; // +0x20
+	OpaqueRefElement4 m_discoveredSound; // +0x20
 };
 
 class ObjectModule
@@ -146,7 +146,7 @@ void OneRingPenaltyUpdate::rva00499C6C()
 		ring->rva00374815();
 		obj->setStatus((ObjectStatusTypes)0x12, false);
 		obj->rva0028EC68(5, 0, 1);
-		const OpaqueRefElement4 *ref = &data->m_20;
+		const OpaqueRefElement4 *ref = &data->m_discoveredSound;
 		if (ref->referent != 0)
 		{
 			BfmeAudioEventPrefix136 evt(*ref, obj->m_id74);

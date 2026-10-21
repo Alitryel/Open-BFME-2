@@ -80,7 +80,7 @@ private:
 	void *m_parentFireBoneName; // +0xC
 	bool m_parentFireBoneOnTurret; // +0x10
 	void *m_targetParticleSystem; // +0x14
-	float m_unk18; // +0x18
+	float m_laserLifetime; // +0x18
 };
 
 // ??0LaserUpdateModuleData@@QAE@XZ @0x363147
@@ -91,5 +91,5 @@ LaserUpdateModuleData::LaserUpdateModuleData()
 	m_parentFireBoneName = NULL;
 	m_targetParticleSystem = NULL;
 	m_parentFireBoneOnTurret = false;
-	m_unk18 = 0.0f;
+	m_laserLifetime = 0.0f;
 }

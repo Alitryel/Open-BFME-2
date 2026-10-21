@@ -129,11 +129,11 @@ private:
 struct RadiateFearUpdateModuleData
 {
 	unsigned char m_pad00[0x10];
-	bool m_10;		// +0x10
-	bool m_11;		// +0x11
-	bool m_12;		// +0x12
-	float m_14;		// +0x14 the radius
-	int m_18;		// +0x18 the delay
+	bool m_generateTerror;		// +0x10
+	bool m_generateFear;		// +0x11
+	bool m_generateUncontrollableFear;		// +0x12
+	float m_emotionPulseRadius;		// +0x14 the radius
+	int m_emotionPulseInterval;		// +0x18 the delay
 	Rva2225E0Filter m_objectFilter;	// +0x1C the object filter
 };
 
@@ -156,20 +156,20 @@ UpdateSleepTime RadiateFearUpdate::update()
 		return UPDATE_SLEEP_FOREVER;
 	if (!rvaUpgradeMuxSlot0())
 		return UPDATE_SLEEP_FOREVER;
-	if (data->m_10 || data->m_11 || data->m_12) {
-		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(getObject()->getPosition(), data->m_14, 0,
+	if (data->m_generateTerror || data->m_generateFear || data->m_generateUncontrollableFear) {
+		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(getObject()->getPosition(), data->m_emotionPulseRadius, 0,
 			Rva00261409Filter(m_object->getControllingPlayer(), true, 4).link(&Rva002611BFFilter(m_object)), 0);
 		Object *other;
 		while ((other = hits.next()) != 0) {
 			if (((Rva2225E0Filter &)data->m_objectFilter).accepts(other, obj->getControllingPlayer())) {
-				if (data->m_10)
-					other->applyFrom(6, m_object, data->m_18);
-				if (data->m_11)
-					other->applyFrom(4, m_object, data->m_18);
-				if (data->m_12)
-					other->applyFrom(5, m_object, data->m_18);
+				if (data->m_generateTerror)
+					other->applyFrom(6, m_object, data->m_emotionPulseInterval);
+				if (data->m_generateFear)
+					other->applyFrom(4, m_object, data->m_emotionPulseInterval);
+				if (data->m_generateUncontrollableFear)
+					other->applyFrom(5, m_object, data->m_emotionPulseInterval);
 			}
 		}
 	}
-	return (UpdateSleepTime)(obj->getID() % 5 + data->m_18);
+	return (UpdateSleepTime)(obj->getID() % 5 + data->m_emotionPulseInterval);
 }

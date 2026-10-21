@@ -121,10 +121,10 @@ extern GameLogic *TheGameLogic;
 struct OneRingPenaltyUpdateModuleData
 {
 	unsigned char m_pad00[0x0C];
-	UnsignedInt m_0C; // +0x0C
-	UnsignedInt m_10; // +0x10
-	UnsignedInt m_14; // +0x14
-	Real m_18; // +0x18
+	UnsignedInt m_ringTimeBeforeSpawning; // +0x0C
+	UnsignedInt m_timeSpentRoamingAround; // +0x10
+	UnsignedInt m_timeRingPowerSuppressed; // +0x14
+	Real m_startingDistanceFromMe; // +0x18
 };
 
 class OneRingPenaltyUpdate
@@ -149,8 +149,8 @@ void OneRingPenaltyUpdate::rva00499D23()
 	GameLogic *logic = TheGameLogic;
 	Object *ringer = logic->findObjectByID(m_24);
 	UnsignedInt now = logic->getFrame();
-	UnsignedInt start = m_28 + oneRingPenaltyUpdateModuleData->m_0C;
-	UnsignedInt end = start + oneRingPenaltyUpdateModuleData->m_10;
+	UnsignedInt start = m_28 + oneRingPenaltyUpdateModuleData->m_ringTimeBeforeSpawning;
+	UnsignedInt end = start + oneRingPenaltyUpdateModuleData->m_timeSpentRoamingAround;
 
 	if (now >= end)
 	{
@@ -170,13 +170,13 @@ void OneRingPenaltyUpdate::rva00499D23()
 		Real radius;
 		if (now - start == 0)
 		{
-			radius = oneRingPenaltyUpdateModuleData->m_18;
+			radius = oneRingPenaltyUpdateModuleData->m_startingDistanceFromMe;
 		}
 		else
 		{
-			Real startRadius = oneRingPenaltyUpdateModuleData->m_18;
+			Real startRadius = oneRingPenaltyUpdateModuleData->m_startingDistanceFromMe;
 			Real ratio = (Real)(now - start) / (Real)(end - start);
-			radius = startRadius + ratio * (oneRingPenaltyUpdateModuleData->m_18 / 2.0f - startRadius);
+			radius = startRadius + ratio * (oneRingPenaltyUpdateModuleData->m_startingDistanceFromMe / 2.0f - startRadius);
 		}
 		pos.x += Cos(m_2C) * radius;
 		Real sine = Sin(m_2C);

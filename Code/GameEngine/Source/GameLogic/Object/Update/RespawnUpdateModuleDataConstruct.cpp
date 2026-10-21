@@ -72,12 +72,12 @@ private:
 	Rva0042526Member m_block0C; // +0x0C
 	Rva0042526Member m_block58; // +0x58
 	Rva0042526Member m_blockA4; // +0xA4
-	unsigned m_fieldF0; // +0xF0
-	unsigned m_fieldF4; // +0xF4
-	unsigned m_fieldF8; // +0xF8
+	unsigned m_deathFX; // +0xF0
+	unsigned m_respawnFX; // +0xF4
+	unsigned m_initialSpawnFX; // +0xF8
 	unsigned m_fieldFC; // +0xFC
-	unsigned m_field100; // +0x100
-	unsigned m_field104; // +0x104
+	unsigned m_respawnAnimationTime; // +0x100
+	unsigned m_initialSpawnAnimationTime; // +0x104
 	unsigned char m_flag108; // +0x108
 	_STL::map<long, LadderPref> m_rules; // +0x10C
 	AsciiString m_str118; // +0x118
@@ -87,11 +87,11 @@ private:
 // ??0RespawnUpdateModuleData@@QAE@XZ
 RespawnUpdateModuleData::RespawnUpdateModuleData()
 {
-	m_fieldF0 = 0;
-	m_fieldF4 = 0;
-	m_fieldF8 = 0;
+	m_deathFX = 0;
+	m_respawnFX = 0;
+	m_initialSpawnFX = 0;
 	m_fieldFC = 0;
-	m_field100 = 0;
-	m_field104 = 0;
+	m_respawnAnimationTime = 0;
+	m_initialSpawnAnimationTime = 0;
 	m_flag108 = 0;
 }

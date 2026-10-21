@@ -34,7 +34,7 @@ extern Rva002A8F24 *TheSkirmishAIManager;
 struct PickupStuffUpdateModuleData
 {
 	unsigned char m_pad00[0x08];
-	bool m_08;			// +0x08
+	bool m_skirmishAIOnly;			// +0x08
 };
 class ModuleData;
 class ModuleBase
@@ -75,7 +75,7 @@ UpdateSleepTime PickupStuffUpdate::update()
 	if (obj->getAI())
 	{
 		const PickupStuffUpdateModuleData *data = (const PickupStuffUpdateModuleData *)m_moduleData;
-		if (!data->m_08 || TheSkirmishAIManager->rva002A8AB1(obj->getControllingPlayer()))
+		if (!data->m_skirmishAIOnly || TheSkirmishAIManager->rva002A8AB1(obj->getControllingPlayer()))
 		{
 			if (m_20)
 				rva00491EE6();

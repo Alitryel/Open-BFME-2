@@ -5,7 +5,7 @@
 // 0x004ACCB1 -> rowed dtor 0x004ACCCD). Layout from the dtor TU: unused +4,
 // AsciiString +8, int +0xC, three 44-byte curve members at +0x10/+0x3C/+0x68
 // (rowed ctor 0x002BF807, pinned Rva00504EADCurve::set 0x00504EAD). The
-// m_str08()/m_0c(0) member-init list is the retail-measured zero-register
+// m_str08()/m_color(0) member-init list is the retail-measured zero-register
 // shape; body: curve set(0,0,0,0), set(0,1,0,0), set(0,0,0,0).
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /O1
 // stlport
@@ -48,16 +48,16 @@ public:
 private:
 	int m_unused04;
 	AsciiString m_str08;
-	int m_0c;
-	Rva002BF807 m_10;
-	Rva002BF807 m_3c;
-	Rva002BF807 m_68;
+	int m_color;
+	Rva002BF807 m_radius;
+	Rva002BF807 m_opacity;
+	Rva002BF807 m_angle;
 };
 
 PartTheHeavensUpdateModuleData::PartTheHeavensUpdateModuleData()
-	: m_str08(), m_0c(0)
+	: m_str08(), m_color(0)
 {
-	m_10.set(0.0f, 0.0f, 0.0f, 0.0f);
-	m_3c.set(0.0f, 1.0f, 0.0f, 0.0f);
-	m_68.set(0.0f, 0.0f, 0.0f, 0.0f);
+	m_radius.set(0.0f, 0.0f, 0.0f, 0.0f);
+	m_opacity.set(0.0f, 1.0f, 0.0f, 0.0f);
+	m_angle.set(0.0f, 0.0f, 0.0f, 0.0f);
 }

@@ -32,7 +32,7 @@ class Object;
 struct RadiateFearUpdateModuleData
 {
 	unsigned char m_pad00[8];
-	bool m_08;
+	bool m_initiallyActive;
 };
 
 class UpgradeMux
@@ -90,6 +90,6 @@ RadiateFearUpdate::RadiateFearUpdate(Thing *thing, const ModuleData *moduleData)
 	*(void **)&m_20 = (void *)((unsigned int)vtbl_00C50F68);
 	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 	const RadiateFearUpdateModuleData *data = (const RadiateFearUpdateModuleData *)m_moduleData;
-	if (data->m_08)
+	if (data->m_initiallyActive)
 		m_20.giveSelfUpgrade();
 }

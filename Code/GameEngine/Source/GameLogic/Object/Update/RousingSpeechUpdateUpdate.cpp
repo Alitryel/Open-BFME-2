@@ -276,12 +276,12 @@ class RousingSpeechUpdateModuleData
 {
 public:
 	unsigned char m_pad[0xC8];
-	float m_C8; // +0xC8
+	float m_bonusRadius; // +0xC8
 	unsigned int m_CC; // +0xCC
-	int m_D0; // +0xD0
+	int m_updateInterval; // +0xD0
 	unsigned char m_padD4[0xDC - 0xD4];
 	bool m_DC; // +0xDC
-	float m_E0; // +0xE0
+	float m_waveWidth; // +0xE0
 	unsigned char m_padE4[0xF4 - 0xE4];
 	unsigned char m_F4[4]; // +0xF4
 };
@@ -312,17 +312,17 @@ UpdateSleepTime RousingSpeechUpdate::update()
 		m_90 = true;
 	}
 	const RousingSpeechUpdateModuleData *data = getRousingSpeechData();
-	if (TheGameLogic->getFrame() < m_8C && !(m_94 >= data->m_C8))
+	if (TheGameLogic->getFrame() < m_8C && !(m_94 >= data->m_bonusRadius))
 	{
 		if (data->m_DC)
 		{
 			m_94 = m_98;
-			m_98 += data->m_E0;
-			if (m_98 > data->m_C8)
-				m_98 = data->m_C8;
+			m_98 += data->m_waveWidth;
+			if (m_98 > data->m_bonusRadius)
+				m_98 = data->m_bonusRadius;
 		}
 		slot17();
-		return (UpdateSleepTime)getRousingSpeechData()->m_D0;
+		return (UpdateSleepTime)getRousingSpeechData()->m_updateInterval;
 	}
 	m_90 = false;
 	clearModelConditionBit(m_object, 6 * 32 + 15);

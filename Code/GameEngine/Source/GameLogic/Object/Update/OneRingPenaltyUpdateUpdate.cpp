@@ -64,9 +64,9 @@ extern GameLogic *TheGameLogic;
 struct OneRingPenaltyUpdateModuleData
 {
 	unsigned char m_pad00[0x0C];
-	UnsignedInt m_0C; // +0x0C
+	UnsignedInt m_ringTimeBeforeSpawning; // +0x0C
 	unsigned char m_pad10[0x14 - 0x10];
-	UnsignedInt m_14; // +0x14
+	UnsignedInt m_timeRingPowerSuppressed; // +0x14
 };
 
 class ObjectModule
@@ -126,7 +126,7 @@ UpdateSleepTime OneRingPenaltyUpdate::update()
 			wearing = true;
 	}
 	UnsignedInt now = TheGameLogic->getFrame();
-	if (m_30 != 0 && now > oneRingPenaltyUpdateModuleData->m_14 + m_30)
+	if (m_30 != 0 && now > oneRingPenaltyUpdateModuleData->m_timeRingPowerSuppressed + m_30)
 		rva00499C35();
 	else if (m_28 == 0)
 	{
@@ -141,7 +141,7 @@ UpdateSleepTime OneRingPenaltyUpdate::update()
 	}
 	else if (m_24)
 		rva00499D23();
-	else if (now > oneRingPenaltyUpdateModuleData->m_0C + m_28)
+	else if (now > oneRingPenaltyUpdateModuleData->m_ringTimeBeforeSpawning + m_28)
 		rva00499AFD();
 	return (UpdateSleepTime)BfmeLogicFramesPerSecond;
 }

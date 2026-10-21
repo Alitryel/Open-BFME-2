@@ -25,14 +25,14 @@ private:
 	float m_f14;
 	float m_f18;
 	float m_f1C;
-	int m_20;
-	unsigned char m_24;
+	int m_exitDelay;
+	unsigned char m_allowAirborneCreation;
 	unsigned char m_pad25[3];
-	int m_28;
+	int m_initialBurst;
 	float m_f2C;
-	unsigned char m_30;
-	unsigned char m_31;
-	unsigned char m_32;
+	unsigned char m_noExitPath;
+	unsigned char m_canRallyToSlaughter;
+	unsigned char m_useReturnToFormation;
 };
 // The retail table at RVA 0x007F1D58: 31 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
@@ -93,13 +93,13 @@ __declspec(noinline) inline QueueProductionExitUpdateModuleData::QueueProduction
 	m_f18 = fzero;
 	m_f1C = fzero;
 	_ReadWriteBarrier();
-	m_20 = 0;
-	m_24 = 0;
-	m_28 = 0;
+	m_exitDelay = 0;
+	m_allowAirborneCreation = 0;
+	m_initialBurst = 0;
 	m_f2C = fzero;
-	m_30 = 0;
-	m_31 = 0;
-	m_32 = 1;
+	m_noExitPath = 0;
+	m_canRallyToSlaughter = 0;
+	m_useReturnToFormation = 1;
 }
 
 // ?bfmeAnchorQueueProductionExitUpdateModuleDataCtor absent-from-retail

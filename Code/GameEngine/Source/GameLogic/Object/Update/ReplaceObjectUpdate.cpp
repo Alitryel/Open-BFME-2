@@ -211,7 +211,7 @@ public:
 	Rva004B2A9D **m_C8;	// +0xC8 the entries
 	Rva004B2A9D **m_CC;	// +0xCC their end
 	char m_padD0[4];
-	float m_D4;		// +0xD4 the radius
+	float m_replaceRadius;		// +0xD4 the radius
 	const FXList *m_D8;	// +0xD8
 	bool m_DC;		// +0xDC
 };
@@ -257,7 +257,7 @@ void ReplaceObjectUpdate::rva004B2D28()
 		for (Rva004B2A9D **it = data->m_C8; it != data->m_CC; ++it) {
 			Rva004B2A9D *entry = *it;
 			if (entry) {
-				BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_44, data->m_D4, 0,
+				BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_44, data->m_replaceRadius, 0,
 					Rva0026119DFilter().link(Rva002614DFFilter(m_object).link(&Rva002614ECFilter(entry, m_object->getControllingPlayer(), true))), 0);
 				Object *obj;
 				while ((obj = hits.next()) != 0) {

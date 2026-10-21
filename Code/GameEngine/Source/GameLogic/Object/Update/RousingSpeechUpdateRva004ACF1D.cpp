@@ -161,12 +161,12 @@ class RousingSpeechUpdateModuleData
 {
 public:
 	unsigned char m_pad[0xC8];
-	float m_C8; // +0xC8
+	float m_bonusRadius; // +0xC8
 	unsigned int m_CC; // +0xCC
-	int m_D0; // +0xD0
+	int m_updateInterval; // +0xD0
 	unsigned char m_padD4[0xDC - 0xD4];
 	bool m_DC; // +0xDC
-	float m_E0; // +0xE0
+	float m_waveWidth; // +0xE0
 };
 class RousingSpeechUpdate : public SpecialAbilityUpdate
 {
