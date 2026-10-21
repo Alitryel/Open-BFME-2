@@ -27,7 +27,7 @@ public:
 	virtual void *slot0(int zero) = 0;
 };
 
-class Rva0031934BOwner;
+class LivingWorldArmy;
 
 // The 0x60 helper's constructor 0x003FE412 is rowed as Rva003FE58A(void *, void *).
 class Rva003FE58A
@@ -38,7 +38,7 @@ private:
 	unsigned char m_pad[0x60];
 };
 
-class Rva0031934BOwner
+class LivingWorldArmy
 {
 public:
 	void createVisualObjects(const AsciiString *key);
@@ -48,7 +48,7 @@ private:
 	Rva0031934BHelper *m_88;
 };
 
-void Rva0031934BOwner::createVisualObjects(const AsciiString *key)
+void LivingWorldArmy::createVisualObjects(const AsciiString *key)
 {
 	void *payload = ((Rva002130F6 *)TheLivingWorldManager)->rva002130F6(key);
 	Rva0031934BHelper *helper = m_88;

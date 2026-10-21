@@ -1,5 +1,5 @@
 // cl: /EHs-
-// ?rva00318EC0@Rva0031934BOwner@@QAEXXZ, retail 0x00318EC0, 130 bytes.
+// ?rva00318EC0@LivingWorldArmy@@QAEXXZ, retail 0x00318EC0, 130 bytes.
 // Refresh after the +0x54 player index changes (0x0031911F): resolves the
 // player through TheLivingWorldLogic (0x002B51F8); hands the opaque
 // +0x19C colour to the +0x88 target's slot 6 and writes the +0x190 colour,
@@ -37,7 +37,7 @@ struct Rva00318EC0Colors
 	int m_color28;	// +0x28
 };
 
-class Rva0031934BOwner
+class LivingWorldArmy
 {
 public:
 	void rva00318EC0();
@@ -50,7 +50,7 @@ private:
 	Rva00318EC0Target *m_target88;	// +0x88
 };
 
-void Rva0031934BOwner::rva00318EC0()
+void LivingWorldArmy::rva00318EC0()
 {
 	int index = m_54;
 	Rva002E2903Player *player = reinterpret_cast<Rva002BA8F1Logic *>(TheLivingWorldLogic)->find(index, 0);

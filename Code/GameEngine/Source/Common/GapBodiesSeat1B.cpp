@@ -1073,7 +1073,7 @@ int Rva00318E9E::rva00318EAF() const
 }
 
 // --- 0x0031911F (15B): stores +0x54, then the rowed 0x00318EC0 refresh.
-class Rva0031934BOwner
+class LivingWorldArmy
 {
 public:
 	void rva00318EC0();										// 0x00318EC0
@@ -1083,7 +1083,7 @@ private:
 	int m_54;
 };
 
-void Rva0031934BOwner::rva0031911F(int value)
+void LivingWorldArmy::rva0031911F(int value)
 {
 	m_54 = value;
 	rva00318EC0();
