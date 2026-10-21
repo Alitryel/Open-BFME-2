@@ -14,8 +14,8 @@ public:
 	virtual ~Rva00367E31() {}
 private:
 	int m_04;
-	float m_08;
-	float m_0C;
+	float m_progressOverlayColor;
+	float m_backButtonTooltip;
 	float m_10;
 	float m_14;
 	int m_18;
@@ -24,8 +24,8 @@ private:
 Rva00367E31::Rva00367E31() : m_04(0), m_18(0)
 {
 	m_14 = 0.0f;
-	m_08 = 0.0f;
-	m_0C = 0.0f;
+	m_progressOverlayColor = 0.0f;
+	m_backButtonTooltip = 0.0f;
 	m_10 = 0.0f;
 }
 
@@ -36,8 +36,8 @@ public:
 	virtual ~Rva00545393() {}
 private:
 	int m_04;
-	float m_08;
-	float m_0C;
+	float m_progressOverlayColor;
+	float m_backButtonTooltip;
 	float m_10;
 	float m_14;
 	int m_18;
@@ -46,8 +46,8 @@ private:
 Rva00545393::Rva00545393() : m_04(0), m_18(0)
 {
 	m_14 = 0.0f;
-	m_08 = 0.0f;
-	m_0C = 0.0f;
+	m_progressOverlayColor = 0.0f;
+	m_backButtonTooltip = 0.0f;
 	m_10 = 0.0f;
 }
 
@@ -243,10 +243,10 @@ struct Rva005C8787
 	Rva005C8787();
 	int m_00;
 	int m_04;
-	float m_08;
+	float m_progressOverlayColor;
 };
 
-Rva005C8787::Rva005C8787() : m_00(0), m_04(0), m_08(1.0f)
+Rva005C8787::Rva005C8787() : m_00(0), m_04(0), m_progressOverlayColor(1.0f)
 {
 }
 
@@ -290,13 +290,13 @@ struct Rva002C902A
 	Rva002C902A();
 	float m_00;
 	float m_04;
-	float m_08;
-	float m_0C;
+	float m_progressOverlayColor;
+	float m_backButtonTooltip;
 	float m_10;
 	float m_14;
 };
 
-Rva002C902A::Rva002C902A() : m_00(0.0f), m_04(0.0f), m_08(0.0f), m_0C(0.0f), m_10(0.0f), m_14(3.4028234663852886e+38f)
+Rva002C902A::Rva002C902A() : m_00(0.0f), m_04(0.0f), m_progressOverlayColor(0.0f), m_backButtonTooltip(0.0f), m_10(0.0f), m_14(3.4028234663852886e+38f)
 {
 }
 
