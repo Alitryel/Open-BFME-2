@@ -2,14 +2,14 @@
 //
 // ?rva002785FB@Drawable@@QAEX_N@Z retail 0x002785FB 49B Drawable bool setter +0x448
 // true: Host 0x002783F6 with 0 then rowed Drawable::rva002784EB
-// false: rowed Drawable::rva002743D7 then rowed Rva002714CA::rva002714CA
+// false: rowed Drawable::stopAmbientSound then rowed Rva002714CA::rva002714CA
 // LINK BONUS names this mangling; callers 0x0029577E 0x002957CB 0x003BA967.
 
 class Drawable
 {
 public:
 	void rva002784EB();
-	void rva002743D7();
+	void stopAmbientSound();
 	void rva002785FB(bool v);
 private:
 	unsigned char m_pad00[0x448];
@@ -38,7 +38,7 @@ void Drawable::rva002785FB(bool v)
 	}
 	else
 	{
-		rva002743D7();
+		stopAmbientSound();
 		((Rva002714CA *)this)->rva002714CA();
 	}
 }

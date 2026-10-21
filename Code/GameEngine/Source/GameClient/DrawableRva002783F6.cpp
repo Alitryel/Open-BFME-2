@@ -1,7 +1,7 @@
 // cl: /O1 /DNDEBUG /MD
 //
 // ?rva002783F6@Rva002783F6Host@@QAEXH@Z, retail 0x002783F6, 74B: a Drawable
-// member (this goes straight to the rowed Drawable::rva002743D7), rowed
+// member (this goes straight to the rowed Drawable::stopAmbientSound), rowed
 // under the host name its 5 matched callers use. Target evidence: when the
 // three flag bytes +0x447/+0x448/+0x44A are all set, it runs 0x002743D7,
 // asks the owning Object (+0xFC) for its +0x254 module's slot-8 answer (0
@@ -31,7 +31,7 @@ public:
 class Drawable
 {
 public:
-	void rva002743D7();			// 0x002743D7
+	void stopAmbientSound();			// 0x002743D7
 };
 
 class Rva002783F6Host
@@ -59,7 +59,7 @@ void Rva002783F6Host::rva002783F6(int v)
 {
 	if (m_x447 && m_x448 && m_x44A)
 	{
-		((Drawable *)this)->rva002743D7();
+		((Drawable *)this)->stopAmbientSound();
 		Object *obj = m_object;
 		int query = 0;
 		if (obj)

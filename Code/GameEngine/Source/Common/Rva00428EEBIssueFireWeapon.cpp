@@ -116,7 +116,7 @@ public:
 	unsigned char m_pad00[0xFC];
 	Object *m_object;
 	void rva00278C7C(int selected);
-    void rva0027541E(const RGBColor*,unsigned int,unsigned int,unsigned int);
+    void colorFlash(const RGBColor*,unsigned int,unsigned int,unsigned int);
     const Coord3D* getPosition() const;
 };
 
@@ -437,7 +437,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
    msg->appendIntegerArgument(command->m_options);
    msg->appendObjectIDArgument(specificSource);
    msg->appendLocationArgument(*pos);
-   target->rva0027541E(0,8,0,0);
+   target->colorFlash(0,8,0,0);
    BfmeAudioEventPrefix136 ev(TheAudio->slot138()->special,0);
    TheAudio->addAudioEvent(&ev);
    PickAndPlayInfo info;

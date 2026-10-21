@@ -57,7 +57,7 @@ public:
  Rva0036CA00Str rva00278190();
  Rva0036CA00Str rva0027824D(int);
  void rva002781DA(Rva0010F149Handle);
- void rva002743D7();
+ void stopAmbientSound();
  void rva002784EB();
 };
 Rva0036CA00Str Drawable::rva0027824D(int selector)
@@ -117,7 +117,7 @@ public:
 void Rva00278341Host::rva00278341(int selector, int permanent)
 {
  Drawable *drawable=reinterpret_cast<Drawable *>(this);
- drawable->rva002743D7();
+ drawable->stopAmbientSound();
  Rva0036CA00Str info=drawable->rva0027824D(selector);
  if(info.handle.value && (!(unsigned char)permanent ||
      (unsigned char)reinterpret_cast<Rva001D98BD *>(info.handle.value)->rva001D9781()))

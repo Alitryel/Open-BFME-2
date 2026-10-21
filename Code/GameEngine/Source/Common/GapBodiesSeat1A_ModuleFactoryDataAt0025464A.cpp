@@ -800,9 +800,9 @@ public:
 class Drawable
 {
 public:
-	void rva002743D7();										// 0x002743D7
+	void stopAmbientSound();										// 0x002743D7
 	void rva002784EB();										// 0x002784EB
-	void rva002785D6(bool value);
+	void enableAmbientSound(bool value);
 	void rva0027862C(bool value);
 private:
 	char m_pad000[0x447];

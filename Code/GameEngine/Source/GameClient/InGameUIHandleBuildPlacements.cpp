@@ -150,7 +150,7 @@ public:
     const Coord3D* getPosition() const;
     void setDrawableHidden(bool);
     void rva002791E7(const ModelConditionFlags&, unsigned, unsigned);
-    void rva00275490(const RGBColor*);
+    void colorTint(const RGBColor*);
     char unknown44[0xb0 - 0x44];
     float opacity;
 };
@@ -816,13 +816,13 @@ void InGameUI::handleBuildPlacements()
                     icons[i].drawable->rva002791E7(
                         (const ModelConditionFlags&)Rva0028F59A(0, 108), 1, 0);
                     if (info.status == 10)
-                        icons[i].drawable->rva00275490(&tint);
+                        icons[i].drawable->colorTint(&tint);
                     else if (info.rva00392D71(i))
-                        icons[i].drawable->rva00275490(&tint);
+                        icons[i].drawable->colorTint(&tint);
                     else if (info.status != 0)
-                        icons[i].drawable->rva00275490(&illegalBuildColor);
+                        icons[i].drawable->colorTint(&illegalBuildColor);
                     else
-                        icons[i].drawable->rva00275490(0);
+                        icons[i].drawable->colorTint(0);
                 }
                 if (icons[last].drawable
                     && !icons[last].drawable->getTemplate()->isEquivalentTo(
@@ -847,11 +847,11 @@ void InGameUI::handleBuildPlacements()
                     ((Rva002707FA*)icons[last].drawable)->rva002707FA(1);
                     icons[last].angle = info.rva00392D1D(count);
                     if (info.rva00392D71(count))
-                        icons[last].drawable->rva00275490(&tint);
+                        icons[last].drawable->colorTint(&tint);
                     else if (info.status != 0)
-                        icons[last].drawable->rva00275490(&illegalBuildColor);
+                        icons[last].drawable->colorTint(&illegalBuildColor);
                     else
-                        icons[last].drawable->rva00275490(0);
+                        icons[last].drawable->colorTint(0);
                 }
                 for (int i = ((count - 1 >= 0) ? count - 1 : 0) + 1;
                     i < TheWritableGlobalData->maxLineBuildObjects - 1; ++i)
@@ -1008,15 +1008,15 @@ void InGameUI::handleBuildPlacements()
                     RGBColor tint = { 0, 0, 0.5f };
                     if (TheGameClient->getFrame() & 4)
                         tint.blue = 1.7f;
-                    icons[i].drawable->rva00275490(&tint);
+                    icons[i].drawable->colorTint(&tint);
                 }
                 else
-                    icons[i].drawable->rva00275490(&illegalBuildColor);
+                    icons[i].drawable->colorTint(&illegalBuildColor);
             }
             else if (anyIllegal)
-                icons[i].drawable->rva00275490(&illegalBuildColor);
+                icons[i].drawable->colorTint(&illegalBuildColor);
             else
-                icons[i].drawable->rva00275490(0);
+                icons[i].drawable->colorTint(0);
             if (code != 0)
                 TheTerrainVisual->addFactionBibDrawable(icons[i].drawable, code != 0 && code != 9, 0);
             else

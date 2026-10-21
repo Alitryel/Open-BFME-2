@@ -2,7 +2,7 @@
 //
 // ?setInaudible@Drawable@@QAEXXZ, retail 0x00274401, 68 bytes.
 // Drawable conditional reset plus array notify: if +0x44a flag set clear it
-// then rowed Rva002714CA release plus rowed Drawable rva002743D7 audio clear
+// then rowed Rva002714CA release plus rowed Drawable stopAmbientSound audio clear
 // then walk the +0x154 null-terminated element list calling slot 0x30 get
 // then slot 4 notify when present.
 // Evidence: packet disasm plus chain callees 0x002714CA and 0x002743D7 plus
@@ -43,7 +43,7 @@ class Drawable
 {
 public:
 	void setInaudible();
-	void rva002743D7();
+	void stopAmbientSound();
 private:
 	unsigned char m_pad0[0x154];
 	ElemA274401 **m_arr154;
@@ -57,7 +57,7 @@ void Drawable::setInaudible()
 		return;
 	m_flag44a = false;
 	((Rva002714CA *)this)->rva002714CA();
-	rva002743D7();
+	stopAmbientSound();
 	for (ElemA274401 **p = m_arr154; p != 0; ++p) {
 		ElemA274401 *a = *p;
 		if (a == 0)

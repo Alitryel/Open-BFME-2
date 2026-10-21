@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHs-c- /Ireference/shims/bfme2_vector3 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // Link view first: Vector3::Length stays inline without emitting a copy that competes with retail's owner (0x000692B3).
 #include "../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
-// ?rva0027541E@Drawable@@QAEXPBURGBColor@@III@Z @0x0027541E 114B evidence: lazy TintEnvelope at +0x68 via rowed new 0x2FDA0 and ctor 0x271826, TintEnvelope::play 0x2744F2 row, float 1.0f via g_Va00BBB8D8, clears bit 2 at +0x114; neighbours Rva00275376/Drawable_rva00275545 same flags.
+// ?colorFlash@Drawable@@QAEXPBURGBColor@@III@Z @0x0027541E 114B evidence: lazy TintEnvelope at +0x68 via rowed new 0x2FDA0 and ctor 0x271826, TintEnvelope::play 0x2744F2 row, float 1.0f via g_Va00BBB8D8, clears bit 2 at +0x114; neighbours Rva00275376/Drawable_rva00275545 same flags.
 // BFME1 34f59164 Rva00415790EnvelopeUpdate.cpp and Drawable.cpp provide the
 // envelope algorithm. Target play2744F2, attack27192B, decay2719C0 and
 // update274591 establish one vptr, vectors04/10/1c/28, counter34, signed
@@ -48,8 +48,8 @@ void *operator new(unsigned int s) throw();
 class Drawable
 {
 public:
-	void rva0027541E(const RGBColor *peak, unsigned int a1, unsigned int a2, unsigned int a3);
-	void rva00275490(const RGBColor *peak);
+	void colorFlash(const RGBColor *peak, unsigned int a1, unsigned int a2, unsigned int a3);
+	void colorTint(const RGBColor *peak);
 private:
 	unsigned char m_pad00[0x68];
 	Rva00271826 *m_68;
@@ -57,7 +57,7 @@ private:
 	int m_114;
 };
 
-void Drawable::rva0027541E(const RGBColor *peak, unsigned int a1, unsigned int a2, unsigned int a3)
+void Drawable::colorFlash(const RGBColor *peak, unsigned int a1, unsigned int a2, unsigned int a3)
 {
 	if (m_68 == 0)
 		m_68 = new Rva00271826;
@@ -74,10 +74,10 @@ void Drawable::rva0027541E(const RGBColor *peak, unsigned int a1, unsigned int a
 	m_114 &= ~4;
 }
 
-void Drawable::rva00275490(const RGBColor *peak)
+void Drawable::colorTint(const RGBColor *peak)
 {
 	if (peak != 0) {
-		rva0027541E(peak, 0, 0, (unsigned int)-2);
+		colorFlash(peak, 0, 0, (unsigned int)-2);
 		m_114 |= 4;
 	} else {
 		if (m_68 == 0)

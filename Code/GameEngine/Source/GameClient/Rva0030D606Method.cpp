@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii
 // ?rva0030D606@Rva0030D606@@QAEXXZ, retail 0x0030D606, 43B.
-// Audio-handle release plus holder clear twin of Drawable rva002743D7:
+// Audio-handle release plus holder clear twin of Drawable stopAmbientSound:
 // TheAudio slot 0x6c removeAudioEvent with +0x54 handle guarded by null plus 5 then store 1 then tail to rowed clear 0x000A8C9B on +0x58 holder.
 // Evidence: packet disasm plus TheAudio ?TheAudio@@3PAVAudioManager@@A plus rowed clear plus callers 0x0030DC32 0x0030E068 0x0030E09D plus jmp 0x0030D68D.
 typedef unsigned int AudioHandle;

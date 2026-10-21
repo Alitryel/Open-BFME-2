@@ -1021,9 +1021,9 @@ public:
 class Drawable
 {
 public:
-	void rva002743D7();										// 0x002743D7
+	void stopAmbientSound();										// 0x002743D7
 	void rva002784EB();										// 0x002784EB
-	void rva002785D6(bool value);
+	void enableAmbientSound(bool value);
 	void rva0027862C(bool value);
 private:
 	char m_pad000[0x447];
@@ -1032,7 +1032,7 @@ private:
 	bool m_449;
 };
 
-void Drawable::rva002785D6(bool value)
+void Drawable::enableAmbientSound(bool value)
 {
 	if (m_447 != value)
 	{
@@ -1040,7 +1040,7 @@ void Drawable::rva002785D6(bool value)
 		if (value)
 			((Rva002783F6Host *)this)->rva002783F6(0);
 		else
-			rva002743D7();
+			stopAmbientSound();
 	}
 }
 

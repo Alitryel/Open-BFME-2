@@ -8,7 +8,7 @@ public:
 class Drawable
 {
 public:
-	void rva002743D7();
+	void stopAmbientSound();
 	Rva0036CA00Str rva0027824D(int selector);
 };
 class Rva000A8C9B
@@ -37,7 +37,7 @@ private:
 // ?rva00279354@Rva00279354Host@@QAEX_N@Z
 void Rva00279354Host::rva00279354(bool v)
 {
-	((Drawable *)this)->rva002743D7();
+	((Drawable *)this)->stopAmbientSound();
 	m_10C.clear();
 	if (v != 0)
 		((Rva002783F6Host *)this)->rva002783F6(0);

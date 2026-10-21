@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /Oy-
 //
-// ?rva002743D7@Drawable@@QAEXXZ, retail 0x002743D7, 42 bytes.
+// ?stopAmbientSound@Drawable@@QAEXXZ, retail 0x002743D7, 42 bytes.
 // Drawable audio-handle release plus opaque holder clear: TheAudio slot 0x6c
 // removeAudioEvent with the +0x144 handle then store 1 then tail-jmp to the
 // rowed ?clear@Rva000A8C9B@@QAEXXZ on the +0x110 holder.
@@ -54,7 +54,7 @@ struct Rva000A8C9B
 class Drawable
 {
 public:
-	void rva002743D7();
+	void stopAmbientSound();
 private:
 	unsigned char m_pad0[0x110];
 	Rva000A8C9B m_holder110;
@@ -62,7 +62,7 @@ private:
 	unsigned int m_audio144;
 };
 
-void Drawable::rva002743D7()
+void Drawable::stopAmbientSound()
 {
 	TheAudio->removeAudioEvent(m_audio144);
 	m_audio144 = 1;

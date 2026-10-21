@@ -57,7 +57,7 @@ public:
 class Drawable
 {
 public:
-	void rva0027541E(const RGBColor *color, unsigned int a, unsigned int b, unsigned int c);
+	void colorFlash(const RGBColor *color, unsigned int a, unsigned int b, unsigned int c);
 };
 
 class UpgradeTemplate;
@@ -220,7 +220,7 @@ void Rva0044E6AE::rva0049CA2F()
 			found->rva00293077(upgrade);
 			Drawable *draw = found->getDrawable();
 			if (draw != 0)
-				draw->rva0027541E(&color, 4, 4, 0x0F);
+				draw->colorFlash(&color, 4, 4, 0x0F);
 		}
 		TheGameLogic->deselectObject(obj, 0xFFFFF, 1);
 	}

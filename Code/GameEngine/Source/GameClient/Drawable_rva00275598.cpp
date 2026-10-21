@@ -172,7 +172,7 @@ public:
  void updateDrawable();
  void rva00272DBB(Object *);
  void rva00272870(int);
- void rva0027541E(const RGBColor *,unsigned,unsigned,unsigned);
+ void colorFlash(const RGBColor *,unsigned,unsigned,unsigned);
  void rva0027292F(const Coord3D *,const Coord3D *);
  void fadeIn(unsigned);
  void setDrawableHidden(bool hidden);
@@ -399,7 +399,7 @@ void Drawable::updateDrawable() {
   reinterpret_cast<DrawableClientSlots *>(TheGameClient)->destroyDrawable(this);return;
  }
  if(flash168>0 && reinterpret_cast<DrawableClientSlots *>(TheGameClient)->getFrame()%g_00DFEB98==0) {
-  RGBColor color;color.setFromInt(flashColor16C);rva0027541E(&color,4,0,0);--flash168;
+  RGBColor color;color.setFromInt(flashColor16C);colorFlash(&color,4,0,0);--flash168;
  }
  if(prev11C!=tint118) {
   if(tint118&1) {

@@ -134,7 +134,7 @@ void InGameUI::rva002A3E24()
 // Original receiver/method spelling remains unresolved, so retain this owner.
 class Drawable {
 public:
- void rva00275490(const RGBColor *peak);
+ void colorTint(const RGBColor *peak);
  char unknown[0xB0];
  float opacity;
 };
@@ -159,7 +159,7 @@ void InGameUI::rva002A470F(ThingTemplate *type,const ICoord2D *position,RGBColor
  if(drawable) {
   drawable->opacity=1.0f;
   RGBColor grey={0.5f,0.5f,0.5f};
-  drawable->rva00275490(&grey);
+  drawable->colorTint(&grey);
  }
  Rva0029A469 *decal=*reinterpret_cast<Rva0029A469**>(reinterpret_cast<char*>(pool)+4);
  if(decal) {

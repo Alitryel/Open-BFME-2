@@ -273,7 +273,7 @@ public:
 	Drawable(const ThingTemplate *thingTemplate, DrawableStatus statusBits, int arg);
 	__forceinline void addIface(const ModuleData *iface) { if (iface) m_158.push_back(iface); }
 	virtual ~Drawable();
-	void rva002743D7();
+	void stopAmbientSound();
 	virtual void LoadPostProcess();
 	virtual const char *GetSnapshotName() const;
 	virtual void DoXfer(Xfer *xfer);
@@ -424,7 +424,7 @@ Drawable::~Drawable()
 		m_modules[i] = 0;
 	}
 
-	rva002743D7();
+	stopAmbientSound();
 	((Rva002714CA *)this)->rva002714CA();
 	((Rva00279354Host *)this)->rva00279354(false);
 	TheGameClient->removeFromRayEffects(this);

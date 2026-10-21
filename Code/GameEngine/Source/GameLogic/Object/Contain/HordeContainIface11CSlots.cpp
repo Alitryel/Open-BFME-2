@@ -283,7 +283,7 @@ public:
 	void rva00272BAB(int a1, int a2);
 	void rva00274176(bool a1);
 	void rva00272945(int a);
-	void rva0027541E(const RGBColor *color, unsigned int a2, unsigned int a3, unsigned int a4);
+	void colorFlash(const RGBColor *color, unsigned int a2, unsigned int a3, unsigned int a4);
 };
 class Thing
 {
@@ -4991,7 +4991,7 @@ void HordeContain::rva0046E7E3(const UpgradeTemplate *upgrade, bool all)
 			obj->rva00293077(upgrade);
 			Drawable *draw = ((Thing *)obj)->getDrawable();
 			if (draw)
-				draw->rva0027541E(&color, 4, 4, 15);
+				draw->colorFlash(&color, 4, 4, 15);
 		}
 	}
 	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
@@ -5000,7 +5000,7 @@ void HordeContain::rva0046E7E3(const UpgradeTemplate *upgrade, bool all)
 		obj->rva00293077(upgrade);
 		Drawable *draw = ((Thing *)obj)->getDrawable();
 		if (draw)
-			draw->rva0027541E(&color, 4, 4, 15);
+			draw->colorFlash(&color, 4, 4, 15);
 	}
 }
 
