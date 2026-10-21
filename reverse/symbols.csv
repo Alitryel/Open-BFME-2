@@ -5410,7 +5410,6 @@ name,address,notes
 ??_7StealthDetectorUpdateModuleData@@6B@,0x007F3540,slot0 is scalar-deleting ??_G at 0x256000 plus slot1 is 0x4B3FD0 ret-pair
 ??_7TerrainResourceBehaviorModuleData@@6B@,0x00849440,TerrainResourceBehaviorModuleData vtable installed by ctor 0x48202F; slot0 is scalar-deleting dtor 0x482259 calling dtor 0x482275
 ??_7ToggleMountedSpecialAbilityUpdateModuleData@@6B@,0x00855220,derived vtable for ToggleMountedSpecialAbilityUpdateModuleData ctor 0x4AE0AC; slot0 is scalar-deleting dtor 0x4AE0EF sitting right after the ctor cluster; slot1 is shared ret stub 0x4B3FD0
-??_7TransportContain@@6B@,0x00844278,TransportContain vtable installed by ctor 0x468559; slot0 is scalar-deleting dtor 0x468029 calling dtor 0x467E61; slot1 is 0x4783D7; slot2 is name getter 0x467F26
 ??_7UnitCrateCollideModuleData@@6B@,0x007F39C0,UnitCrateCollideModuleData vtable installed once by ctor 0x255A72 (mov [esi] imm at 0x255A8D); factory 0x255AB8 news 0x64 for this class; address read from the mov immediate at 0x255A8D
 ??_7Upgrade@@6B@,0x007FAA9C,Upgrade vtable installed by the matched ctor 0x0026EDDC (mov [eax] imm at 0x0026EDE7); slot0 deleting dtor 0x0026EF34 then 0x000B3FD0 then name getter 0x0026EDF9 (Upgrade) then status xfer 0x0026EE11
 ??_7VeterancyCrateCollideModuleData@@6B@,0x007F3AC0,VeterancyCrateCollideModuleData vtable installed by ctor 0x255B09 (mov [esi] imm at 0x255B1C); shared-fold with MoneyCrate sibling ctor 0x2562FA; address read from the mov immediate

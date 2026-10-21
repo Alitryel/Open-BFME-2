@@ -32,11 +32,18 @@ private:
 	int m_data; // 4 bytes (retail element size); real layout unrecovered
 };
 
-class DestroyDieModuleData
+class Xfer;
+
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+// The Die-family intermediate adds no destructible members: its dtor is the
+// inline Snapshot-vptr restore CreateCrateDieModuleDataDtor.cpp also emits
+// (retail 0x0049B47C), not a strong definition of this unit's own.
+class __declspec(novtable) DestroyDieModuleData : public Snapshot
 {
 public:
 	DestroyDieModuleData();
-	virtual ~DestroyDieModuleData();
+	virtual ~DestroyDieModuleData() {}
 
 private:
 	unsigned char m_pad[0x38 - 4];
@@ -62,11 +69,6 @@ inline CrushDieModuleData::CrushDieModuleData()
 {
 	for (int i = 0; i < CRUSH_COUNT; ++i)
 		m_crushSoundPercent[i] = 100;
-}
-
-// ??1DestroyDieModuleData@@UAE@XZ present-unmatched
-DestroyDieModuleData::~DestroyDieModuleData()
-{
 }
 
 // Header inlines that the units including the header emit as select-any

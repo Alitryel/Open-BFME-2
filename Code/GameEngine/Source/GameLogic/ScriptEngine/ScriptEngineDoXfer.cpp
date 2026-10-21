@@ -222,6 +222,7 @@ class Rva0020479E : public Snapshot
 {
 public:
 	Rva0020479E() : m_04(0), m_08(0), m_0c(0), m_10(0), m_24(0), m_28(0) {}
+	virtual ~Rva0020479E(); // Rva00205224Dtor.cpp (0x00205224)
 protected:
 	virtual void LoadPostProcess();
 	virtual void crc(Xfer *xfer);
