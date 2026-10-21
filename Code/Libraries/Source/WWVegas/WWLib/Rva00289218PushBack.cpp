@@ -44,7 +44,7 @@ public:
 // bfme link decl-only begin
 namespace _STL { template <> ModuleData const * * allocator<ModuleData const *>::allocate(unsigned int,void const *) const; }
 // bfme link decl-only end
-void Rva00289218::rva00289218(const ModuleData *p)
+void Rva00289218::rva00289218(const ModuleData *moduleData)
 {
-    m_vec.push_back(p);
+    m_vec.push_back(moduleData);
 }

@@ -42,17 +42,17 @@ public:
 	void Register(Object *a1, int a2);
 };
 
-void Object::setCommandSetStringOverride(const AsciiString &s)
+void Object::setCommandSetStringOverride(const AsciiString &asciiString)
 {
-	m_override.setCopyInline(s);	// rowed StringBase<char>::set (0x000366F0)
-	Player *p = getControllingPlayer();
-	if (p == 0)
+	m_override.setCopyInline(asciiString);	// rowed StringBase<char>::set (0x000366F0)
+	Player *player = getControllingPlayer();
+	if (player == 0)
 		return;
-	if (!p->isSkirmishAIPlayer())
+	if (!player->isSkirmishAIPlayer())
 		return;
 	if (m_override.compare(AsciiString::TheEmptyString) == 0)
 		return;
-	void *handler = TheSkirmishAIManager->rva002A8F24(p);
+	void *handler = TheSkirmishAIManager->rva002A8F24(player);
 	if (handler == 0)
 		return;
 	((AIStatCollector *)handler)->Register(this, 2);

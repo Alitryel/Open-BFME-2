@@ -57,11 +57,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "shader.h"
 
 
-void	W3dUtilityClass::Convert_Vector(const W3dVectorStruct & v,Vector3 * set)
+void	W3dUtilityClass::Convert_Vector(const W3dVectorStruct & w3dVector,Vector3 * set)
 {
-	set->X = v.X;
-	set->Y = v.Y;
-	set->Z = v.Z;
+	set->X = w3dVector.X;
+	set->Y = w3dVector.Y;
+	set->Z = w3dVector.Z;
 }
 
 void	W3dUtilityClass::Convert_Vector(const Vector3 & v,W3dVectorStruct * set)
@@ -72,21 +72,21 @@ void	W3dUtilityClass::Convert_Vector(const Vector3 & v,W3dVectorStruct * set)
 }
 
 // ?W3dUtilityClass::Convert_Quaternion present-unmatched
-void	W3dUtilityClass::Convert_Quaternion(const W3dQuaternionStruct & q,Quaternion * set)
+void	W3dUtilityClass::Convert_Quaternion(const W3dQuaternionStruct & w3dQuaternion,Quaternion * set)
 {
-	set->X = q.Q[0];
-	set->Y = q.Q[1];
-	set->Z = q.Q[2];
-	set->W = q.Q[3];
+	set->X = w3dQuaternion.Q[0];
+	set->Y = w3dQuaternion.Q[1];
+	set->Z = w3dQuaternion.Q[2];
+	set->W = w3dQuaternion.Q[3];
 }
 
 // ?W3dUtilityClass::Convert_Quaternion present-unmatched
-void W3dUtilityClass::Convert_Quaternion(const Quaternion & q,W3dQuaternionStruct * set)
+void W3dUtilityClass::Convert_Quaternion(const Quaternion & quaternion,W3dQuaternionStruct * set)
 {	
-	set->Q[0] = q.X;
-	set->Q[1] = q.Y;
-	set->Q[2] = q.Z;
-	set->Q[3] = q.W;
+	set->Q[0] = quaternion.X;
+	set->Q[1] = quaternion.Y;
+	set->Q[2] = quaternion.Z;
+	set->Q[3] = quaternion.W;
 }
 
 void	W3dUtilityClass::Convert_Color(const W3dRGBStruct & rgb,Vector3 * set)
@@ -112,12 +112,12 @@ void W3dUtilityClass::Convert_Color(const W3dRGBAStruct & rgb,Vector4 * set)
 	set->W = (float)rgb.A / 255.0f;
 }
 
-void W3dUtilityClass::Convert_Color(const Vector4 & v,W3dRGBAStruct * color)
+void W3dUtilityClass::Convert_Color(const Vector4 & vector4,W3dRGBAStruct * color)
 {
-	color->R = (uint8)(255.0f * v.X);
-	color->G = (uint8)(255.0f * v.Y);
-	color->B = (uint8)(255.0f * v.Z);
-	color->A = (uint8)(255.0f * v.W);
+	color->R = (uint8)(255.0f * vector4.X);
+	color->G = (uint8)(255.0f * vector4.Y);
+	color->B = (uint8)(255.0f * vector4.Z);
+	color->A = (uint8)(255.0f * vector4.W);
 }
 
 void W3dUtilityClass::Convert_Shader(const W3dShaderStruct & shader,ShaderClass * set)

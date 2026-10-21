@@ -66,8 +66,8 @@ bool Rva0060EF3E::rva0060EF3E(int v) {
   for(unsigned i=0;i<(unsigned)(((char*)p->m_end-(char*)p->m_begin)>>2);++i) {
    Rva0020EEF4Elem *e=(Rva0020EEF4Elem*)p->m_begin[i];
    if(e->m_13C==-1)continue;
-   CreateAHeroData *r=((Rva003F1093*)e)->rva003F083A(reinterpret_cast<void *>(v));
-   if(r && r->field20) {((Rva003F1093*)p->m_begin[i])->rva003F1CA2(r,0); return 1;}
+   CreateAHeroData *createAHeroData=((Rva003F1093*)e)->rva003F083A(reinterpret_cast<void *>(v));
+   if(createAHeroData && createAHeroData->field20) {((Rva003F1093*)p->m_begin[i])->rva003F1CA2(createAHeroData,0); return 1;}
   }
  }
  return 0;

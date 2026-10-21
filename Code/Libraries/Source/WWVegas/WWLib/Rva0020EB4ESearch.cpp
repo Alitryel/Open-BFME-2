@@ -43,15 +43,15 @@ private:
 };
 void Rva0020EB4EOuter::rva0020EB4E(void *argRaw)
 {
-	OuterArg *arg = (OuterArg *)argRaw;
-	((Rva003F7954 *)arg)->rva003F7954();
+	OuterArg *outerArg = (OuterArg *)argRaw;
+	((Rva003F7954 *)outerArg)->rva003F7954();
 	Rva0020EB4EInner *inner = m_inner;
 	void ***bounds = (void ***)&inner->m_begin;
 	for (unsigned i = 0; i < (unsigned)(((char *)bounds[1] - (char *)bounds[0]) >> 2); ++i)
 	{
 		Rva0020EB4EElem *e = (Rva0020EB4EElem *)bounds[0][i];
-		if (e->m_13C != arg->m_04->m_14)
+		if (e->m_13C != outerArg->m_04->m_14)
 			continue;
-		((LivingWorldRegion *)e)->rva003F2150((Rva003F7BB4 *)arg);
+		((LivingWorldRegion *)e)->rva003F2150((Rva003F7BB4 *)outerArg);
 	}
 }

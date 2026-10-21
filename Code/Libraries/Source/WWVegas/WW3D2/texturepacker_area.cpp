@@ -15,7 +15,7 @@ public:
 class AssetReference {
 public:
     TextureClass *object;
-    AssetReference(const AssetReference &a) : object(a.object) {
+    AssetReference(const AssetReference &assetReference) : object(assetReference.object) {
         if(object) object->Add_Ref();
     }
     ~AssetReference() { if(object) object->Release_Ref(); }

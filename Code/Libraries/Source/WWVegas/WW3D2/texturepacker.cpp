@@ -35,7 +35,7 @@ class AssetReference {
 public:
     TextureClass *object;
     AssetReference() : object(0) {}
-    AssetReference(const AssetReference &a) : object(a.object) { if(object) object->Add_Ref(); }
+    AssetReference(const AssetReference &assetReference) : object(assetReference.object) { if(object) object->Add_Ref(); }
     ~AssetReference() { if(object) object->Release_Ref(); }
     bool operator<(const AssetReference &a) const { return (unsigned)object < (unsigned)a.object; }
     bool Is_Initialized() const { if(object) return reinterpret_cast<TextureInitializationView *>(object)->Is_Initialized(); return false; }

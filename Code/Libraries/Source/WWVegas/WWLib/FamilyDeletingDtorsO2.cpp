@@ -7,7 +7,7 @@ struct EmitVtableTag;
 
 // ??_GTextureStatisticsStruct@@QAEPAXI@Z @0x118f30
 class TextureStatisticsStruct { public: ~TextureStatisticsStruct(); };
-void famgenDelete(TextureStatisticsStruct *p) { delete p; }
+void famgenDelete(TextureStatisticsStruct *textureStatistics) { delete textureStatistics; }
 
 // ??_GDX8IndexBufferClass@@UAEPAXI@Z @0x139200
 class DX8IndexBufferClass { public: DX8IndexBufferClass(EmitVtableTag *); virtual ~DX8IndexBufferClass(); };

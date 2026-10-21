@@ -82,8 +82,8 @@ inline Debug::FrameHashEntry *Debug::GetFrameEntry(unsigned int addr, unsigned i
 // copy for the ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitDebugGetFrameEntry@Debug@@SAXPAV1@@Z present-unmatched
-void Debug::bfmeEmitDebugGetFrameEntry(Debug *p)
+void Debug::bfmeEmitDebugGetFrameEntry(Debug *debug)
 {
-	p->GetFrameEntry(0, 0, 0, 0);
+	debug->GetFrameEntry(0, 0, 0, 0);
 }
 #pragma inline_depth()

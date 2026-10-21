@@ -59,9 +59,9 @@ inline void INIClass::Shutdown()
 // the ledger row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitINIClassShutdown@INIClass@@SAXPAV1@@Z present-unmatched
-void INIClass::bfmeEmitINIClassShutdown(INIClass *p)
+void INIClass::bfmeEmitINIClassShutdown(INIClass *iNI)
 {
-	p->Shutdown();
+	iNI->Shutdown();
 }
 #pragma inline_depth()
 

@@ -43,23 +43,23 @@ private:
 
 const LadderInfo *LadderList::findLadder(const AsciiString &addr, unsigned short port)
 {
-	for (LadderListNode *n = m_specialLadders->next; n != m_specialLadders; n = n->next)
+	for (LadderListNode *ladderListNode = m_specialLadders->next; ladderListNode != m_specialLadders; ladderListNode = ladderListNode->next)
 	{
-		LadderInfo *li = (LadderInfo *)n->value;
+		LadderInfo *li = (LadderInfo *)ladderListNode->value;
 		if (li->address.compare(addr) == 0 && li->port == port)
 			return li;
 	}
 
-	for (LadderListNode *n = m_standardLadders->next; n != m_standardLadders; n = n->next)
+	for (LadderListNode *ladderListNode = m_standardLadders->next; ladderListNode != m_standardLadders; ladderListNode = ladderListNode->next)
 	{
-		LadderInfo *li = (LadderInfo *)n->value;
+		LadderInfo *li = (LadderInfo *)ladderListNode->value;
 		if (li->address.compare(addr) == 0 && li->port == port)
 			return li;
 	}
 
-	for (LadderListNode *n = m_localLadders->next; n != m_localLadders; n = n->next)
+	for (LadderListNode *ladderListNode = m_localLadders->next; ladderListNode != m_localLadders; ladderListNode = ladderListNode->next)
 	{
-		LadderInfo *li = (LadderInfo *)n->value;
+		LadderInfo *li = (LadderInfo *)ladderListNode->value;
 		if (li->address.compare(addr) == 0 && li->port == port)
 			return li;
 	}

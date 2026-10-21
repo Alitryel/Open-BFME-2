@@ -51,9 +51,9 @@ inline DebugCmdInterfaceDebug::DebugCmdInterfaceDebug(void)
 // declaration): an explicitly-defined empty dtor emits the derived vtable
 // reinstall at entry (61B), while retail's implicit dtor keeps only the
 // EH state plus the base reinstall (55B). Probe-proven in build/.
-void deleteCmdInterfaceDebug(DebugCmdInterfaceDebug *p)
+void deleteCmdInterfaceDebug(DebugCmdInterfaceDebug *debugCmdInterfaceDebug)
 {
-	delete p;
+	delete debugCmdInterfaceDebug;
 }
 
 // ?Delete@DebugCmdInterfaceDebug@@UAEXXZ present-unmatched
@@ -67,8 +67,8 @@ void DebugCmdInterfaceDebug::Delete(void)
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeDebugCmdInterfaceDebugInlineAnchor@@YAXPAVDebugCmdInterfaceDebug@@@Z absent-from-retail
-void _bfmeDebugCmdInterfaceDebugInlineAnchor(DebugCmdInterfaceDebug *p)
+void _bfmeDebugCmdInterfaceDebugInlineAnchor(DebugCmdInterfaceDebug *debugCmdInterfaceDebug)
 {
-    p->DebugCmdInterfaceDebug::DebugCmdInterfaceDebug();
+    debugCmdInterfaceDebug->DebugCmdInterfaceDebug::DebugCmdInterfaceDebug();
 }
 #pragma inline_depth()

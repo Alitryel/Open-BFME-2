@@ -25,12 +25,12 @@ private:
 
 int Rva001EB8D7::rva001EB8D7(const StringBase<char> &s)
 {
-	Elem *p = m_start14;
-	while (p != m_finish18)
+	Elem *elem = m_start14;
+	while (elem != m_finish18)
 	{
-		if (p->m_str.compareNoCase(s) == 0)
-			return (p - m_start14);
-		++p;
+		if (elem->m_str.compareNoCase(s) == 0)
+			return (elem - m_start14);
+		++elem;
 	}
 	return -1;
 }

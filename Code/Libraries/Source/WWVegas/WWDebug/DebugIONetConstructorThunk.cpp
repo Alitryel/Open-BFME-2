@@ -32,8 +32,8 @@ inline DebugIONet::DebugIONet(void)
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeDebugIONetInlineAnchor@@YAXPAVDebugIONet@@@Z absent-from-retail
-void _bfmeDebugIONetInlineAnchor(DebugIONet *p)
+void _bfmeDebugIONetInlineAnchor(DebugIONet *debugIONet)
 {
-    p->DebugIONet::DebugIONet();
+    debugIONet->DebugIONet::DebugIONet();
 }
 #pragma inline_depth()

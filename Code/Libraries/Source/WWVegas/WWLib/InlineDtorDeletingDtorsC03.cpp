@@ -112,9 +112,9 @@ __declspec(noinline) inline StaticSortListClass::StaticSortListClass()
 // ?bfmeAnchorStaticSortListClass absent-from-retail
 void *bfmeAnchorStaticSortListClass(void *where)
 {
-	StaticSortListClass *p = (StaticSortListClass *)where;
-	p->StaticSortListClass::StaticSortListClass();
-	return p;
+	StaticSortListClass *staticSortList = (StaticSortListClass *)where;
+	staticSortList->StaticSortListClass::StaticSortListClass();
+	return staticSortList;
 }
 
 // ?<StaticSortListClass::StaticSortListClass> absent-from-retail

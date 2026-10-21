@@ -21,9 +21,9 @@ public:
 
 _STL::basic_ostream<char, _STL::char_traits<char> > &Rva001F696EPut(
 	_STL::basic_ostream<char, _STL::char_traits<char> > &os,
-	const AsciiString &s)
+	const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&s;
+	char *t = *(char **)(void *)&asciiString;
 	const char *p = t ? t + 8 : "";
 	os._M_put_nowiden(p);
 	return os;

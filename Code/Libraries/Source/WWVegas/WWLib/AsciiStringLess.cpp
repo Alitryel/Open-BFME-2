@@ -25,8 +25,8 @@ inline Bool operator<(const AsciiString &left, const AsciiString &right)
 
 #pragma inline_depth(0)
 // ?bfmeEmitAsciiStringLess@@YAXPBVAsciiString@@0@Z present-unmatched
-void bfmeEmitAsciiStringLess(const AsciiString *a, const AsciiString *b)
+void bfmeEmitAsciiStringLess(const AsciiString *asciiString, const AsciiString *b)
 {
-    operator<(*a, *b);
+    operator<(*asciiString, *b);
 }
 #pragma inline_depth()

@@ -96,7 +96,7 @@ struct ArmyUnitTree : private _STL::map<int,Rva00501875Count>
 {
  ArmyUnitTree() {}
  ~ArmyUnitTree() {}
- void insert(const IntIntPair &v) { ((IntIntTree *)this)->insert_equal(v); }
+ void insert(const IntIntPair &intIntPair) { ((IntIntTree *)this)->insert_equal(intIntPair); }
 };
 
 // 0x14 army record.

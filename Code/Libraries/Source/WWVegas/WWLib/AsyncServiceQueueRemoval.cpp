@@ -89,7 +89,7 @@ class Rva00041118Obj;
 class Rva00041078 {public:Rva00041078(Rva00041118Obj**,int,int);~Rva00041078();bool rva00041078(unsigned long,int,int*);unsigned char storage[0x64];};
 struct QueueCompletionRef {
  TargetNestedHandleData*item;
- __forceinline QueueCompletionRef(TargetNestedHandleData*p):item(p){if(item)++item->RefCount;}
+ __forceinline QueueCompletionRef(TargetNestedHandleData*targetNestedHandleData):item(targetNestedHandleData){if(item)++item->RefCount;}
  __forceinline ~QueueCompletionRef(){if(item)ReleaseTreeHintRef00217D4C(reinterpret_cast<TargetRef00217D4C*>(item->Unknown+8));}
 };
 Rva0036CA00Str AsyncServiceQueue::rva0073F231(TargetListAt0073EEE0::iterator where,unsigned long timeout){

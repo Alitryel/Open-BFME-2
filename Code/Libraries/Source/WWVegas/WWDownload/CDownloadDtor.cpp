@@ -54,8 +54,8 @@ inline CDownload::~CDownload()
 // unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
 // ?_bfmeCDownloadInlineAnchor@@YAXPAVCDownload@@@Z absent-from-retail
-void _bfmeCDownloadInlineAnchor(CDownload *p)
+void _bfmeCDownloadInlineAnchor(CDownload *download)
 {
-    p->CDownload::~CDownload();
+    download->CDownload::~CDownload();
 }
 #pragma inline_depth()

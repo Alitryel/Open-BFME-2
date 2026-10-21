@@ -17,7 +17,7 @@ private:
 	_STL::vector<CreateAHeroData *> m_vec;
 };
 
-bool Rva0020E9D0::rva0020E9D0(CreateAHeroData *p)
+bool Rva0020E9D0::rva0020E9D0(CreateAHeroData *createAHeroData)
 {
-	return _STL::find(m_vec.begin(), m_vec.end(), p) != m_vec.end();
+	return _STL::find(m_vec.begin(), m_vec.end(), createAHeroData) != m_vec.end();
 }

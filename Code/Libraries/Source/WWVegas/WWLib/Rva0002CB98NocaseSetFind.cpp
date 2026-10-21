@@ -38,7 +38,7 @@ public:
 	bool rva0002CB98(const AsciiString &a) const;
 };
 
-bool Rva0002CB98::rva0002CB98(const AsciiString &a) const
+bool Rva0002CB98::rva0002CB98(const AsciiString &asciiString) const
 {
-	return m_set.find(a) != m_set.end();
+	return m_set.find(asciiString) != m_set.end();
 }

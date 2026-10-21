@@ -45,7 +45,7 @@ LightPoint::~LightPoint()
 }
 
 // ?anchorDeleteLightPoint@@YAXPAVLightPoint@@@Z present-unmatched
-void anchorDeleteLightPoint(LightPoint *p)
+void anchorDeleteLightPoint(LightPoint *lightPoint)
 {
-	delete p;
+	delete lightPoint;
 }

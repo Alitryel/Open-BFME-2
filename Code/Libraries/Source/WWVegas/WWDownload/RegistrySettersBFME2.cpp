@@ -10,7 +10,7 @@ template<class T> class char_traits {};
 template<class T> class allocator {};
 template<class Pointer,class Value,class Alloc> class _STLP_alloc_proxy : public Alloc {
 public:
-    _STLP_alloc_proxy(const Alloc &a,Pointer data):Alloc(a),_M_data(data) {}
+    _STLP_alloc_proxy(const Alloc &alloc,Pointer data):Alloc(alloc),_M_data(data) {}
     Pointer _M_data;
 };
 template<class CharT,class Alloc> class _String_base_Registry_RV {

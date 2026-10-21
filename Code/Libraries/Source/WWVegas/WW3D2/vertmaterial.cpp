@@ -318,9 +318,9 @@ void VertexMaterialClass::Get_Diffuse(Vector3 * set) const
 	// AmbientColorSource instead, which puts the pointer back at +0x8 and
 	// leaves sizeof unchanged. That is the header fix; the full gate is red,
 	// so this read goes to the retail offset.
-	DynD3DMATERIAL8 * const bfmeMaterialDyn =
+	DynD3DMATERIAL8 * const dynD3DMATERIAL8 =
 			*(DynD3DMATERIAL8 * const *)((const char *)this + 8);
-	*set=Vector3(bfmeMaterialDyn->Mat.Diffuse.r,bfmeMaterialDyn->Mat.Diffuse.g,bfmeMaterialDyn->Mat.Diffuse.b);
+	*set=Vector3(dynD3DMATERIAL8->Mat.Diffuse.r,dynD3DMATERIAL8->Mat.Diffuse.g,dynD3DMATERIAL8->Mat.Diffuse.b);
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp

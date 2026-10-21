@@ -59,9 +59,9 @@ void Rva00081F03::rva00081F03()
 	{
 		if (m_vec70[i] != 0)
 		{
-			IndexBufferRef *p0 = (IndexBufferRef *)m_vec70[i];
-			if (--p0->m_refCount == 0)
-				p0->destroy();
+			IndexBufferRef *indexBufferRef = (IndexBufferRef *)m_vec70[i];
+			if (--indexBufferRef->m_refCount == 0)
+				indexBufferRef->destroy();
 			m_vec70[i] = 0;
 		}
 		if (m_vec88[i] != 0)

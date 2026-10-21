@@ -23,10 +23,10 @@ void Rva00283002::rva00283002()
     ListNode *cur = head->m_next;
     if (cur != head) {
         do {
-            ListNode *tmp = cur;
+            ListNode *listNode = cur;
             cur = cur->m_next;
-            tmp->m_data.~Rva00200667();
-            free(tmp);
+            listNode->m_data.~Rva00200667();
+            free(listNode);
         } while (cur != m_head);
     }
     m_head->m_next = m_head;
