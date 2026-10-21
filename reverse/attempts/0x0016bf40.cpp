@@ -1,4 +1,6 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
+// partial score=0.97 date=2026-10-21
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
 // partial score=0.97 date=2026-10-20
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
 // partial score=0.98 date=2026-10-20 (r57: outer parens on single-bone out.X sums; normal-blend parens on row 1)
