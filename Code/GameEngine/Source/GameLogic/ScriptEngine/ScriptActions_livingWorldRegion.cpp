@@ -2012,12 +2012,12 @@ return;
 }
 case 157:
 {
-Rva003BC048Set(TEXT(0), INTEGER(1));
+doSetMoney(TEXT(0), INTEGER(1));
 return;
 }
 case 158:
 {
-Rva003BC0A7Set(TEXT(0), INTEGER(1));
+doGiveMoney(TEXT(0), INTEGER(1));
 return;
 }
 case 163:
@@ -2112,7 +2112,7 @@ return;
 }
 case 173:
 {
-Rva003BC1A0Forward();
+doRadarRefresh();
 return;
 }
 case 177:
@@ -2142,7 +2142,7 @@ return;
 }
 case 176:
 {
-Rva003BC22EDo(REAL(0), REAL(1), REAL(2));
+doCameraSetDefault(REAL(0), REAL(1), REAL(2));
 return;
 }
 case 182:
@@ -2368,7 +2368,7 @@ return;
 }
 case 201:
 {
-Rva003BC306Do((Parameter *)(&TEXT(0)), REAL(1));
+doWaterChangeHeight((Parameter *)(&TEXT(0)), REAL(1));
 return;
 }
 case 204:
@@ -2398,7 +2398,7 @@ return;
 }
 case 211:
 {
-Rva003BC421Do(PARAM(0), 0);
+doDestroyAllContained(PARAM(0), 0);
 return;
 }
 case 212:
@@ -2413,7 +2413,7 @@ return;
 }
 case 214:
 {
-Rva003BC47ADo(INTEGER(0));
+doScreenShake(INTEGER(0));
 return;
 }
 case 215:

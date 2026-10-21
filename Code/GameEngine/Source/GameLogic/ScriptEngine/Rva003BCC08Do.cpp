@@ -3,7 +3,7 @@
 #include "../../../Include/GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // ?Rva003BCC08Do@ScriptActions@@QAEXMM@Z @0x003BCC08 47B: script TacticalView slot 0x1bc with 2-float pair.
-// Evidence: push ebp mov ebp,esp push ecx push ecx movss xmm0,[ebp+8] mov ecx,[0xFEA3C]=TheTacticalView movss [ebp-8],xmm0 movss xmm0,[ebp+0xc] lea edx,[ebp-8] movss [ebp-4],xmm0 mov eax,[ecx] push edx call [eax+0x1bc] leave ret 8; caller 0x003CDA74; sibling Rva003BC22EDo same TacticalView dummy pattern.
+// Evidence: push ebp mov ebp,esp push ecx push ecx movss xmm0,[ebp+8] mov ecx,[0xFEA3C]=TheTacticalView movss [ebp-8],xmm0 movss xmm0,[ebp+0xc] lea edx,[ebp-8] movss [ebp-4],xmm0 mov eax,[ecx] push edx call [eax+0x1bc] leave ret 8; caller 0x003CDA74; sibling doCameraSetDefault same TacticalView dummy pattern.
 struct Vec2_003BCC08
 {
 	float x;

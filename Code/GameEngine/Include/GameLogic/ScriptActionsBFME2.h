@@ -71,7 +71,7 @@ public:
     void Rva003C4449Do(AsciiString const &, AsciiString const &);
     void Rva003C4DC2Do(AsciiString const &);
     void Rva003BC259Remove(Parameter *);
-    void Rva003BC421Do(Parameter *, int);
+    void doDestroyAllContained(Parameter *, int);
     void Rva003BCCC6Do(Parameter *, Parameter *);
     void Rva003C4E28Find(AsciiString const &, float, float, float);
     void Rva003BB700(bool);
@@ -120,10 +120,10 @@ public:
     void Rva003BC4ABSet(AsciiString const &, int);
     void Rva003BC96FDo(Parameter *, int);
     void Rva003BCD1BDo(Parameter *);
-    void Rva003BC22EDo(float, float, float);
+    void doCameraSetDefault(float, float, float);
     void Rva003BCC08Do(float, float);
-    void Rva003BC47ADo(int);
-    void Rva003BC306Do(Parameter *, float);
+    void doScreenShake(int);
+    void doWaterChangeHeight(Parameter *, float);
     void Rva003BCAA1Set(float);
     void Rva003BC830Clear(AsciiString const &);
     void Rva003BC33DDo(Parameter *, float, float, float);
@@ -135,7 +135,7 @@ public:
     void Rva003BCFF5Forward(bool value);
     void Rva003BC4FFForward(void);
     void Rva003BC566Forward(void);
-    void Rva003BC1A0Forward(void);
+    void doRadarRefresh(void);
     void Rva003BC8F0Set(bool);
     void Rva003BCA7BSet(bool);
     void Rva003BCA8ESet(bool);
@@ -162,8 +162,8 @@ public:
     void Rva003BCA43Do(AsciiString const &);
     void Rva003BCA5DSet(unsigned char);
     void Rva003BCA68Set(bool);
-    void Rva003BC048Set(AsciiString const &, int);
-    void Rva003BC0A7Set(AsciiString const &, int);
+    void doSetMoney(AsciiString const &, int);
+    void doGiveMoney(AsciiString const &, int);
     void Rva003BACCA(Parameter *);
     void Rva003C3E75Apply(Parameter *, AsciiString const &, void *);
     void Rva003BD011Forward(bool value);

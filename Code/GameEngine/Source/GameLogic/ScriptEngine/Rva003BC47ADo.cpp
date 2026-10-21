@@ -2,7 +2,7 @@
 // cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD
 #include "GameLogic/ScriptActionsBFME2.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003BC47ADo@ScriptActions@@QAEXH@Z @0x003BC47A 49B: script TacticalView getPos then slot 0x1ac.
+// ?doScreenShake@ScriptActions@@QAEXH@Z @0x003BC47A 49B: script TacticalView getPos then slot 0x1ac.
 // Evidence: push ebp mov ebp,esp sub esp,0xc mov ecx,[0xFEA3C]=TheTacticalView mov eax,[ecx] lea edx,[ebp-0xc] push edx call [eax+0x118]=getPos push [ebp+8] mov ecx,[TheTacticalView] mov eax,[ecx] lea edx,[ebp-0xc] push edx call [eax+0x1ac] leave ret 4; caller 0x003CD11E; sibling Rva003E7FD5 same getPos slot 0x118 pattern.
 class TacticalView
 {
@@ -118,7 +118,7 @@ public:
 };
 extern class View *TheTacticalView;
 
-void ScriptActions::Rva003BC47ADo(int val)
+void ScriptActions::doScreenShake(int val)
 {
 	float buf[3];
 	((TacticalView *)TheTacticalView)->getPos(buf);
@@ -129,7 +129,7 @@ void ScriptActions::Rva003BC47ADo(int val)
 // Canonical ScriptActions owner; address-derived verbs remain uncertain.
 
 // Native 3BC466..3BC470 and 3BC470..3BC47A (10B each), just before
-// Rva003BC47ADo: TheRadar's force-on byte (+0x11, Zero Hour Radar::
+// doScreenShake: TheRadar's force-on byte (+0x11, Zero Hour Radar::
 // m_radarForceOn; the hidden byte is +0x10) set to true and back to false -
 // the shapes of Zero Hour's ScriptActions::doRadarForceEnable and
 // doRadarRevertNormal (inline Radar::forceOn). Neither uses ECX; they are
