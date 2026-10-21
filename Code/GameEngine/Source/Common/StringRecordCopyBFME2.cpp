@@ -14,8 +14,8 @@ struct BfmeStringRecord00063BE4 {
     unsigned int word0, word1, word2, word3, word4, word5, word6;
     AsciiString text;
     unsigned char tail0, tail1;
-    BfmeStringRecord00063BE4(const BfmeStringRecord00063BE4 &o)
-      : word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3), word4(o.word4), word5(o.word5), word6(o.word6), text(o.text), tail0(o.tail0), tail1(o.tail1) {}
+    BfmeStringRecord00063BE4(const BfmeStringRecord00063BE4 &source)
+      : word0(source.word0), word1(source.word1), word2(source.word2), word3(source.word3), word4(source.word4), word5(source.word5), word6(source.word6), text(source.text), tail0(source.tail0), tail1(source.tail1) {}
 };
 #include <memory>
 // Codegen view of BFME2 AsciiString's one-pointer StringBase<char> base. Its
@@ -27,7 +27,7 @@ template void _STL::_Construct<BfmeStringRecord00063BE4,BfmeStringRecord00063BE4
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord000B757D {
     unsigned int word0, word1; AsciiString text; unsigned int word2; unsigned char tail;
-    BfmeStringRecord000B757D(const BfmeStringRecord000B757D &o) : word0(o.word0), word1(o.word1), text(o.text), word2(o.word2), tail(o.tail) {}
+    BfmeStringRecord000B757D(const BfmeStringRecord000B757D &source) : word0(source.word0), word1(source.word1), text(source.text), word2(source.word2), tail(source.tail) {}
 };
 template void _STL::_Construct<BfmeStringRecord000B757D,BfmeStringRecord000B757D>(BfmeStringRecord000B757D*,const BfmeStringRecord000B757D&);
 
@@ -35,7 +35,7 @@ template void _STL::_Construct<BfmeStringRecord000B757D,BfmeStringRecord000B757D
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord000B950F {
     unsigned int word0; AsciiString text; unsigned int word1;
-    BfmeStringRecord000B950F(const BfmeStringRecord000B950F &o) : word0(o.word0), text(o.text), word1(o.word1) {}
+    BfmeStringRecord000B950F(const BfmeStringRecord000B950F &source) : word0(source.word0), text(source.text), word1(source.word1) {}
 };
 template void _STL::_Construct<BfmeStringRecord000B950F,BfmeStringRecord000B950F>(BfmeStringRecord000B950F*,const BfmeStringRecord000B950F&);
 
@@ -43,7 +43,7 @@ template void _STL::_Construct<BfmeStringRecord000B950F,BfmeStringRecord000B950F
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord000B9534 {
     AsciiString text; unsigned char flag; unsigned int word0, word1, word2, word3;
-    BfmeStringRecord000B9534(const BfmeStringRecord000B9534 &o) : text(o.text), flag(o.flag), word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3) {}
+    BfmeStringRecord000B9534(const BfmeStringRecord000B9534 &source) : text(source.text), flag(source.flag), word0(source.word0), word1(source.word1), word2(source.word2), word3(source.word3) {}
 };
 template void _STL::_Construct<BfmeStringRecord000B9534,BfmeStringRecord000B9534>(BfmeStringRecord000B9534*,const BfmeStringRecord000B9534&);
 
@@ -51,7 +51,7 @@ template void _STL::_Construct<BfmeStringRecord000B9534,BfmeStringRecord000B9534
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord002CF4C6 {
     AsciiString text0, text1; unsigned int word0, word1; unsigned char flag0, flag1;
-    BfmeStringRecord002CF4C6(const BfmeStringRecord002CF4C6 &o) : text0(o.text0), text1(o.text1), word0(o.word0), word1(o.word1), flag0(o.flag0), flag1(o.flag1) {}
+    BfmeStringRecord002CF4C6(const BfmeStringRecord002CF4C6 &source) : text0(source.text0), text1(source.text1), word0(source.word0), word1(source.word1), flag0(source.flag0), flag1(source.flag1) {}
 };
 template void _STL::_Construct<BfmeStringRecord002CF4C6,BfmeStringRecord002CF4C6>(BfmeStringRecord002CF4C6*,const BfmeStringRecord002CF4C6&);
 
@@ -59,7 +59,7 @@ template void _STL::_Construct<BfmeStringRecord002CF4C6,BfmeStringRecord002CF4C6
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord002CF5B1 {
     unsigned int word0, word1; AsciiString text;
-    BfmeStringRecord002CF5B1(const BfmeStringRecord002CF5B1 &o) : word0(o.word0), word1(o.word1), text(o.text) {}
+    BfmeStringRecord002CF5B1(const BfmeStringRecord002CF5B1 &source) : word0(source.word0), word1(source.word1), text(source.text) {}
 };
 template void _STL::_Construct<BfmeStringRecord002CF5B1,BfmeStringRecord002CF5B1>(BfmeStringRecord002CF5B1*,const BfmeStringRecord002CF5B1&);
 
@@ -67,7 +67,7 @@ template void _STL::_Construct<BfmeStringRecord002CF5B1,BfmeStringRecord002CF5B1
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord00395E75 {
     AsciiString text0, text1; unsigned int word;
-    BfmeStringRecord00395E75(const BfmeStringRecord00395E75 &o) : text0(o.text0), text1(o.text1), word(o.word) {}
+    BfmeStringRecord00395E75(const BfmeStringRecord00395E75 &source) : text0(source.text0), text1(source.text1), word(source.word) {}
 };
 template void _STL::_Construct<BfmeStringRecord00395E75,BfmeStringRecord00395E75>(BfmeStringRecord00395E75*,const BfmeStringRecord00395E75&);
 
@@ -75,7 +75,7 @@ template void _STL::_Construct<BfmeStringRecord00395E75,BfmeStringRecord00395E75
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord00568CE0 {
     AsciiString text0, text1; unsigned int word0, word1; unsigned char flag;
-    BfmeStringRecord00568CE0(const BfmeStringRecord00568CE0 &o) : text0(o.text0), text1(o.text1), word0(o.word0), word1(o.word1), flag(o.flag) {}
+    BfmeStringRecord00568CE0(const BfmeStringRecord00568CE0 &source) : text0(source.text0), text1(source.text1), word0(source.word0), word1(source.word1), flag(source.flag) {}
 };
 template void _STL::_Construct<BfmeStringRecord00568CE0,BfmeStringRecord00568CE0>(BfmeStringRecord00568CE0*,const BfmeStringRecord00568CE0&);
 
@@ -83,7 +83,7 @@ template void _STL::_Construct<BfmeStringRecord00568CE0,BfmeStringRecord00568CE0
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord000B75AE {
     AsciiString text; unsigned int word0, word1, word2, word3, word4, word5; unsigned char flag0, flag1, flag2, flag3;
-    BfmeStringRecord000B75AE(const BfmeStringRecord000B75AE &o) : text(o.text), word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3), word4(o.word4), word5(o.word5), flag0(o.flag0), flag1(o.flag1), flag2(o.flag2), flag3(o.flag3) {}
+    BfmeStringRecord000B75AE(const BfmeStringRecord000B75AE &source) : text(source.text), word0(source.word0), word1(source.word1), word2(source.word2), word3(source.word3), word4(source.word4), word5(source.word5), flag0(source.flag0), flag1(source.flag1), flag2(source.flag2), flag3(source.flag3) {}
 };
 template void _STL::_Construct<BfmeStringRecord000B75AE,BfmeStringRecord000B75AE>(BfmeStringRecord000B75AE*,const BfmeStringRecord000B75AE&);
 
@@ -91,7 +91,7 @@ template void _STL::_Construct<BfmeStringRecord000B75AE,BfmeStringRecord000B75AE
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord003B3F78 {
     unsigned int word0, word1; AsciiString text; unsigned char flag; unsigned short short0; unsigned int word2;
-    BfmeStringRecord003B3F78(const BfmeStringRecord003B3F78 &o) : word0(o.word0), word1(o.word1), text(o.text), flag(o.flag), short0(o.short0), word2(o.word2) {}
+    BfmeStringRecord003B3F78(const BfmeStringRecord003B3F78 &source) : word0(source.word0), word1(source.word1), text(source.text), flag(source.flag), short0(source.short0), word2(source.word2) {}
 };
 template void _STL::_Construct<BfmeStringRecord003B3F78,BfmeStringRecord003B3F78>(BfmeStringRecord003B3F78*,const BfmeStringRecord003B3F78&);
 
@@ -99,7 +99,7 @@ template void _STL::_Construct<BfmeStringRecord003B3F78,BfmeStringRecord003B3F78
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord0040360E {
     unsigned int word0; AsciiString text; unsigned int word1, word2;
-    BfmeStringRecord0040360E(const BfmeStringRecord0040360E &o) : word0(o.word0), text(o.text), word1(o.word1), word2(o.word2) {}
+    BfmeStringRecord0040360E(const BfmeStringRecord0040360E &source) : word0(source.word0), text(source.text), word1(source.word1), word2(source.word2) {}
 };
 template void _STL::_Construct<BfmeStringRecord0040360E,BfmeStringRecord0040360E>(BfmeStringRecord0040360E*,const BfmeStringRecord0040360E&);
 
@@ -108,7 +108,7 @@ template void _STL::_Construct<BfmeStringRecord0040360E,BfmeStringRecord0040360E
 // The shared one-pointer AsciiString now owns the observed string field.
 struct BfmeStringRecord00404BF3 {
     AsciiString text; float f0, f1, f2, f3, f4;
-    BfmeStringRecord00404BF3(const BfmeStringRecord00404BF3 &o) : text(o.text), f0(o.f0), f1(o.f1), f2(o.f2), f3(o.f3), f4(o.f4) {}
+    BfmeStringRecord00404BF3(const BfmeStringRecord00404BF3 &source) : text(source.text), f0(source.f0), f1(source.f1), f2(source.f2), f3(source.f3), f4(source.f4) {}
 };
 template void _STL::_Construct<BfmeStringRecord00404BF3,BfmeStringRecord00404BF3>(BfmeStringRecord00404BF3*,const BfmeStringRecord00404BF3&);
 
@@ -116,7 +116,7 @@ template void _STL::_Construct<BfmeStringRecord00404BF3,BfmeStringRecord00404BF3
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord001EA478 {
     AsciiString text0, text1;
-    BfmeStringRecord001EA478(const BfmeStringRecord001EA478 &o) : text0(o.text0), text1(o.text1) {}
+    BfmeStringRecord001EA478(const BfmeStringRecord001EA478 &source) : text0(source.text0), text1(source.text1) {}
 };
 template void _STL::_Construct<BfmeStringRecord001EA478,BfmeStringRecord001EA478>(BfmeStringRecord001EA478*,const BfmeStringRecord001EA478&);
 
@@ -125,15 +125,15 @@ template void _STL::_Construct<BfmeStringRecord001EA478,BfmeStringRecord001EA478
 struct BfmeStringRecord00426A5B {
     AsciiString text; unsigned char flag0, flag1, flag2;
     BfmeStringRecord00426A5B();
-    BfmeStringRecord00426A5B(const BfmeStringRecord00426A5B &o) : text(o.text), flag0(o.flag0), flag1(o.flag1), flag2(o.flag2) {}
-    BfmeStringRecord00426A5B &operator=(const BfmeStringRecord00426A5B &o);
+    BfmeStringRecord00426A5B(const BfmeStringRecord00426A5B &source) : text(source.text), flag0(source.flag0), flag1(source.flag1), flag2(source.flag2) {}
+    BfmeStringRecord00426A5B &operator=(const BfmeStringRecord00426A5B &source);
 };
 BfmeStringRecord00426A5B::BfmeStringRecord00426A5B() : text(AsciiString::TheEmptyString), flag0(0), flag1(1), flag2(0) {}
-inline BfmeStringRecord00426A5B &BfmeStringRecord00426A5B::operator=(const BfmeStringRecord00426A5B &o) {
-    ((StringBase<char> &)text).set((const StringBase<char> &)o.text);
-    flag0 = o.flag0;
-    flag1 = o.flag1;
-    flag2 = o.flag2;
+inline BfmeStringRecord00426A5B &BfmeStringRecord00426A5B::operator=(const BfmeStringRecord00426A5B &source) {
+    ((StringBase<char> &)text).set((const StringBase<char> &)source.text);
+    flag0 = source.flag0;
+    flag1 = source.flag1;
+    flag2 = source.flag2;
     return *this;
 }
 template void _STL::_Construct<BfmeStringRecord00426A5B,BfmeStringRecord00426A5B>(BfmeStringRecord00426A5B*,const BfmeStringRecord00426A5B&);
@@ -145,7 +145,7 @@ template BfmeStringRecord00426A5B* _STL::__copy<BfmeStringRecord00426A5B*, BfmeS
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord004071F7 {
     AsciiString text; unsigned int word0, word1;
-    BfmeStringRecord004071F7(const BfmeStringRecord004071F7 &o) : text(o.text), word0(o.word0), word1(o.word1) {}
+    BfmeStringRecord004071F7(const BfmeStringRecord004071F7 &source) : text(source.text), word0(source.word0), word1(source.word1) {}
 };
 template void _STL::_Construct<BfmeStringRecord004071F7,BfmeStringRecord004071F7>(BfmeStringRecord004071F7*,const BfmeStringRecord004071F7&);
 
@@ -153,7 +153,7 @@ template void _STL::_Construct<BfmeStringRecord004071F7,BfmeStringRecord004071F7
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord004D05B8 {
     unsigned short short0; AsciiString text;
-    BfmeStringRecord004D05B8(const BfmeStringRecord004D05B8 &o) : short0(o.short0), text(o.text) {}
+    BfmeStringRecord004D05B8(const BfmeStringRecord004D05B8 &source) : short0(source.short0), text(source.text) {}
 };
 template void _STL::_Construct<BfmeStringRecord004D05B8,BfmeStringRecord004D05B8>(BfmeStringRecord004D05B8*,const BfmeStringRecord004D05B8&);
 
@@ -161,7 +161,7 @@ template void _STL::_Construct<BfmeStringRecord004D05B8,BfmeStringRecord004D05B8
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord00331962 {
     unsigned int word; AsciiString text; unsigned char flag;
-    BfmeStringRecord00331962(const BfmeStringRecord00331962 &o) : word(o.word), text(o.text), flag(o.flag) {}
+    BfmeStringRecord00331962(const BfmeStringRecord00331962 &source) : word(source.word), text(source.text), flag(source.flag) {}
 };
 template void _STL::_Construct<BfmeStringRecord00331962,BfmeStringRecord00331962>(BfmeStringRecord00331962*,const BfmeStringRecord00331962&);
 
@@ -169,7 +169,7 @@ template void _STL::_Construct<BfmeStringRecord00331962,BfmeStringRecord00331962
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord000B94D2 {
     AsciiString text0, text1;
-    BfmeStringRecord000B94D2(const BfmeStringRecord000B94D2 &o) : text0(o.text0), text1(o.text1) {}
+    BfmeStringRecord000B94D2(const BfmeStringRecord000B94D2 &source) : text0(source.text0), text1(source.text1) {}
 };
 template void _STL::_Construct<BfmeStringRecord000B94D2,BfmeStringRecord000B94D2>(BfmeStringRecord000B94D2*,const BfmeStringRecord000B94D2&);
 
@@ -177,7 +177,7 @@ template void _STL::_Construct<BfmeStringRecord000B94D2,BfmeStringRecord000B94D2
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord00466E64 {
     AsciiString text0, text1; unsigned int word;
-    BfmeStringRecord00466E64(const BfmeStringRecord00466E64 &o) : text0(o.text0), text1(o.text1), word(o.word) {}
+    BfmeStringRecord00466E64(const BfmeStringRecord00466E64 &source) : text0(source.text0), text1(source.text1), word(source.word) {}
 };
 template void _STL::_Construct<BfmeStringRecord00466E64,BfmeStringRecord00466E64>(BfmeStringRecord00466E64*,const BfmeStringRecord00466E64&);
 
@@ -225,7 +225,7 @@ BfmeStringRecord00466E64 *Rva00467799::rva00467799(const StringBase<char> &key)
 // Original application type and scalar meanings are unknown.
 struct BfmeStringRecord00239B46 {
     AsciiString text; unsigned short short0;
-    BfmeStringRecord00239B46(const BfmeStringRecord00239B46 &o) : text(o.text), short0(o.short0) {}
+    BfmeStringRecord00239B46(const BfmeStringRecord00239B46 &source) : text(source.text), short0(source.short0) {}
 };
 template void _STL::_Construct<BfmeStringRecord00239B46,BfmeStringRecord00239B46>(BfmeStringRecord00239B46*,const BfmeStringRecord00239B46&);
 
@@ -286,7 +286,7 @@ void famgenDelete00568C4E(Rva00568C4E *p) { delete p; }
 class Rva000BB491
 {
 public:
-	Rva000BB491(const Rva000BB491 &o);
+	Rva000BB491(const Rva000BB491 &source);
 };
 template void _STL::_Construct<Rva000BB491, Rva000BB491>(Rva000BB491 *, const Rva000BB491 &);
 
@@ -296,7 +296,7 @@ template void _STL::_Construct<Rva000BB491, Rva000BB491>(Rva000BB491 *, const Rv
 class Rva000BB4AC
 {
 public:
-	Rva000BB4AC(const Rva000BB4AC &o);
+	Rva000BB4AC(const Rva000BB4AC &source);
 };
 template void _STL::_Construct<Rva000BB4AC, Rva000BB4AC>(Rva000BB4AC *, const Rva000BB4AC &);
 
@@ -306,7 +306,7 @@ template void _STL::_Construct<Rva000BB4AC, Rva000BB4AC>(Rva000BB4AC *, const Rv
 class Rva00568A20
 {
 public:
-	Rva00568A20(const Rva00568A20 &o) throw();
+	Rva00568A20(const Rva00568A20 &source) throw();
 };
 template void _STL::_Construct<Rva00568A20, Rva00568A20>(Rva00568A20 *, const Rva00568A20 &);
 
@@ -315,9 +315,9 @@ template void _STL::_Construct<Rva00568A20, Rva00568A20>(Rva00568A20 *, const Rv
 #pragma comment(linker, "/alternatename:??$_Construct@VRva00297360Element@@V1@@_STL@@YAXPAVRva00297360Element@@ABV1@@Z=??$_Construct@UBfmeStringRecord0040360E@@U1@@_STL@@YAXPAUBfmeStringRecord0040360E@@ABU1@@Z")
 #pragma inline_depth(0)
 // ?bfmeEmitBfmeStringRecord00426A5BAssign@@YAXPAUBfmeStringRecord00426A5B@@ABU1@@Z present-unmatched
-void bfmeEmitBfmeStringRecord00426A5BAssign(BfmeStringRecord00426A5B *p, const BfmeStringRecord00426A5B &o)
+void bfmeEmitBfmeStringRecord00426A5BAssign(BfmeStringRecord00426A5B *p, const BfmeStringRecord00426A5B &source)
 {
-	p->operator=(o);
+	p->operator=(source);
 }
 #pragma inline_depth()
 
