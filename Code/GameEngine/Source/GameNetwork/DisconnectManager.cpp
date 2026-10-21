@@ -37,10 +37,10 @@ void DisconnectManager::resetPlayerTimeout(Int slot)
 	m_playerTimeouts[slot] = timeGetTime();
 }
 
-void DisconnectManager::processDisconnectKeepAlive(void *a1, ConnectionManager *a2)
+void DisconnectManager::processDisconnectKeepAlive(void *a1, ConnectionManager *conMgr)
 {
 	int valC = *(int *)((char *)a1 + 0xC);
-	int localID = a2->getLocalPlayerID();
+	int localID = conMgr->getLocalPlayerID();
 	int idx = Rva004D39DEGet(valC, localID);
 	if (idx != -1)
 		resetPlayerTimeout(idx);
