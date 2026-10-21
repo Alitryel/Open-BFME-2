@@ -92,12 +92,12 @@ struct AssetList00208F90 {
 };
 class Rva0006C995 {public:Rva0006C995*rva0006C995(Rva001408C0Target*);};
 void bfmeMergeReceiverKeys(int);
-class Rva00067878 {public:void rva0006B3F3();};
 class Rva000686F2 {public:void rva000686F2();};
 class VertexMaterialClass {public:enum PresetType{PRELIT_DIFFUSE};static VertexMaterialClass*Get_Preset(PresetType);};
 extern unsigned int detailOpaqueShader;
 class BaseHeightMapRenderObjClass {
 public:
+ void rva0006B3F3();	// 0x0006B3F3 (BaseHeightMapScorchResources.cpp)
  virtual void gap000();
  virtual void gap001();
  virtual void gap002();
@@ -310,7 +310,7 @@ int BaseHeightMapRenderObjClass::initHeightData(int x,int y,WorldHeightMap*pMap,
    BFMEDX8DeviceLock lock;
    layer3=TextureAsset::Get(layer3Name.str(),0,0);
    layer4=TextureAsset::Get(layer4Name.str(),0,0);
-   ((Rva00067878*)this)->rva0006B3F3();
+   rva0006B3F3();
    ((Rva000686F2*)this)->rva000686F2();
    material=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
    shader=detailOpaqueShader;

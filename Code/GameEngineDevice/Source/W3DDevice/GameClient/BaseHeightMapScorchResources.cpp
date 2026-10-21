@@ -6,9 +6,9 @@
 // Same-valued receiver PHI in the inline slot accessor keeps the native
 // LEA-before-PUSH assignment order. No condition load survives optimization.
 //
-// ?rva0006B3F3@Rva00067878@@QAEXXZ, retail 0x0006B3F3, 217 bytes.
+// ?rva0006B3F3@BaseHeightMapRenderObjClass@@QAEXXZ, retail 0x0006B3F3, 217 bytes.
 // Chain lane: calls 0x00067878 just landed; allocates VB/IB at +0xCC/+0xD0
-// then sets texture at +0xD4 via BNH helper. Same class as Rva00067878.
+// then sets texture at +0xD4 via BNH helper. Same class as BaseHeightMapRenderObjClass.
 // Evidence: same +CC/D0/D4 offsets, rowed callees, EH new states.
 
 typedef unsigned int Uint;
@@ -64,7 +64,7 @@ public:
 };
 
 class Rva0006B3F3ScorchTexture:public RefCountPtr<TextureClass>{public:Rva0006B3F3ScorchTexture(int);};
-class Rva00067878
+class BaseHeightMapRenderObjClass
 {
 public:
 	void rva00067878();
@@ -82,7 +82,7 @@ private:
 };
 
 
-void Rva00067878::rva0006B3F3()
+void BaseHeightMapRenderObjClass::rva0006B3F3()
 {
 	if (m_vb != 0 || m_ib != 0)
 		rva00067878();

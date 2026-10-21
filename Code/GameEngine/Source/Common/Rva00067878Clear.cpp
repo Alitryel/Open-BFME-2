@@ -1,6 +1,6 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva00067878@Rva00067878@@QAEXXZ, retail 0x00067878, 67 bytes.
+// ?rva00067878@BaseHeightMapRenderObjClass@@QAEXXZ, retail 0x00067878, 67 bytes.
 // Unlock lane: releases ref-counted holders at +0xCC/+0xD0 (dec ref at +4,
 // virtual slot0 if zero, then and-zero) then tail-jumps to rowed
 // ?clear@BfmeResetTextureRef@@QAEXXZ at 0x0004D75B for +0xD4.
@@ -21,7 +21,7 @@ struct BfmeResetTextureRef
 	void clear();
 };
 
-class Rva00067878
+class BaseHeightMapRenderObjClass
 {
 public:
 	void rva00067878();
@@ -32,7 +32,7 @@ private:
 	BfmeResetTextureRef m_c;
 };
 
-void Rva00067878::rva00067878()
+void BaseHeightMapRenderObjClass::rva00067878()
 {
 	RefObj00067878 *a = m_a;
 	if (a)

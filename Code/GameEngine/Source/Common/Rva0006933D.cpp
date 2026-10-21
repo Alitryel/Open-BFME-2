@@ -16,7 +16,7 @@ struct BfmeResetTextureRef
 	BfmeResetResource *pointer;
 	void clear();
 };
-class Rva00067878
+class BaseHeightMapRenderObjClass
 {
 public:
 	void rva00067878();
@@ -45,7 +45,7 @@ private:
 };
 int Rva0006933D::rva0006933D()
 {
-	((Rva00067878 *)this)->rva00067878();
+	((BaseHeightMapRenderObjClass *)this)->rva00067878();
 	((Rva000687B8 *)this)->rva000687B8();
 	RefObj0006933D *a = m_3818;
 	if (a)
