@@ -13,8 +13,6 @@ class Rva00894D80Accessor {public:static unsigned increment(unsigned *);};
 class BfmeRefVGO {
 protected:unsigned *value;
 public:
- BfmeRefVGO():value(0){}
- ~BfmeRefVGO();
  BfmeRefVGO &operator=(const BfmeRefVGO &other){
   if(&other!=this){
    if(value && !Rva006CFDF0DecRef((int *)value))bfmeDropVGO(value);
@@ -24,9 +22,11 @@ public:
   return *this;
  }
 };
+// A default-argument ctor and no destructible subobject: the EH vector constructor
+// iterator takes the default ctor closure, which inlines the zeroing store (retail 0x00013260).
 class Rva004A9DF3Element:public BfmeRefVGO {
 public:
- Rva004A9DF3Element();
+ Rva004A9DF3Element(unsigned *handle=0){value=handle;}
  ~Rva004A9DF3Element();
  static void *operator new[](unsigned n){unsigned *p=(unsigned *)((Rva006DB160 *)g_pChainBlockAllocator)->allocBlock(n+4);*p=n;return p+1;}
  static void operator delete[](void *p){unsigned *q=(unsigned *)p-1;g_pChainBlockAllocator->freeBlock(q,*q+4);}
