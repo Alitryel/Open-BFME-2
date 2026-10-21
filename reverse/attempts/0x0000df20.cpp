@@ -1,27 +1,26 @@
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9067 date=2026-10-21
+// partial score=0.9127 date=2026-10-21
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.9067 date=2026-10-21 (claude3 fit scorer; the 0.8114 bank scores 0.8820 on it)
+// partial score=0.9127 date=2026-10-21 (build/b3df20 sc.py permute.fitness; the previous bank 29a0ce15eb scores 0.8798 on it, 0.9067 on the claude3 scorer)
 // cl:  /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 //
 // Partial reconstruction of STLport 4.5.3 wide monetary string formatting.
-// Retail DF20..E952 is 2610 bytes; this bank emits 2562 bytes with the
-// retail 0x118 frame and retail's slot for every outlined temporary.
-// The negative-sign boolean is separate from the copy helper's empty tag.
-// The verified wide allocator-base constructor at 0x00689600 is declared
-// opaque here. Its visibility changes stack colouring even when both forms
-// keep the call.
-// Per-site depth 0 on the currency and sign declarations outlines all six
-// conditional temporaries as whole-string destructor calls at retail's
-// offsets and states. The base destructor is no longer opaque, so the final
-// teardown frees inline as in retail. Residue: both early returns tail-merge
-// into the inline final teardown, where retail calls 0x00142D70 at the first
-// and 0x0000B3C0 twice at the second before jumping to the shared narrow and
-// locale tail; the sign temporaries call the whole-string name, which the
-// ledger resolves to 0x00142D70 (retail 0x0000B3C0). Do not mask or pin this
-// away. Measurements and rejected hypotheses:
-// reverse/attempt_support/df20-inline-budget-20261021/handoff.md.
+// Retail DF20..E952 is 2610 bytes; this bank emits 2610 bytes with the
+// retail 0x118 frame and a destructor call at all nine retail offsets.
+// The wide _String_base destructor carries nine qualified calls of a phantom
+// struct destructor that compile to nothing: they raise its inline cost so it
+// is outlined at every early exit and conditional temporary but stays inline
+// in the final teardown, without dropping the EH frame. Depth 0 on the
+// currency declaration outlines its two temporaries as whole-string calls.
+// Residue: the empty-digits return (+0x28c) calls the base destructor where
+// retail calls 0x00142D70 (no per-site split found without a pragma that
+// breaks the tail merge); the byte temporaries share one unit at esp+0x13
+// (retail 0x17/0x2e/0x4f), so slots 0x14..0x4b sit 4 bytes high, grouping
+// and sign swap 0x50/0x5c, and the two fill_n copies swap 0x74/0x94, which
+// moves two alignment pads. Do not mask or pin this away. Measurements and
+// rejected hypotheses: reverse/attempt_support/df20-ret1-goto-20261021/handoff.md
+// and reverse/attempt_support/df20-inline-budget-20261021/handoff.md.
 //
 /*
  * Copyright (c) 1999
@@ -91,6 +90,23 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 #define private public
 #include <string>
 #undef private
+enum { _MONEY_LEAKS_CHECK = 0 };
+namespace _STL {
+struct _MoneyLeak { ~_MoneyLeak() { if (_MONEY_LEAKS_CHECK) free(0); } };
+struct _MoneyPhantom { _MoneyLeak l; };
+template <> inline _String_base<unsigned short, allocator<unsigned short> >::~_String_base() {
+  _M_deallocate_block();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+  ((_MoneyPhantom *)this)->_MoneyPhantom::~_MoneyPhantom();
+}
+}
 // A declaration preserves the verified out-of-line constructor and its alias
 // effects; exposing its body changes the parent's local/temporary allocation.
 namespace _STL {
@@ -188,6 +204,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
                                   : __punct.frac_digits();
 
 #pragma inline_depth(0)
+  {
   string_type __curr_sym = __intl ? __punct_intl.curr_symbol() 
                                   : __punct.curr_symbol();
 
@@ -198,7 +215,9 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
     // not.
 
   if (__digits.size() == 0) 
+  {
     return __s;
+  }
 
 
   string_type::const_iterator __digits_first = __digits.begin();
@@ -210,7 +229,6 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   if (__is_negative)
     ++__digits_first;
 
-#pragma inline_depth(0)
   string_type __sign = __intl ?
 			 __is_negative ? __punct_intl.negative_sign()
 				       : __punct_intl.positive_sign()
@@ -336,5 +354,6 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
     __s = fill_n(__s, __fill_amt, __fill);
   
   return __s;
+  }
 }
 }
