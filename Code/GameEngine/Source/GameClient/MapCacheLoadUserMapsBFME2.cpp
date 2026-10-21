@@ -40,7 +40,7 @@ class FileSystem{public:File*openFile(const char*,int,int);void getFileListInDir
 class GlobalData{public:char pad[0xAB5];bool buildMapCache;};extern GlobalData*TheWritableGlobalData;
 class Xfer;enum INILoadType{INI_LOAD_INVALID,INI_LOAD_OVERWRITE,INI_LOAD_CREATE_OVERRIDES,INI_LOAD_MULTIFILE};
 class INI{public:INI();~INI();void load(AsciiString,INILoadType,Xfer*,void(*)(INI*));static void parseMapCacheDefinition(INI*);private:char storage[0x87C];};
-class Rva00300489{public:virtual AsciiString rva00300489()const;};
+class Rva00300489{public:virtual AsciiString getMapDir()const;};
 class Rva00300D7A{public:AsciiString rva00300D7A();};
 class Debug{public:class Format{public:Format(const char*,...);private:char text[0x200];};};
 class RvaLoadUserReport{public:
@@ -54,7 +54,7 @@ bool bfmeRva000387C0();void _bfme_debugRecordCallsite(int);
 class MapCache:public _STL::map<AsciiString,MapMetaData>{public:bool loadUserMaps();AsciiString getMapExtension()const;bool addMap(AsciiString,AsciiString,FileInfo*,bool);private:bool clearUnseenMaps(AsciiString);SeenMap m_seen;_STL::set<AsciiString>m_allowedMaps;};
 bool MapCache::loadUserMaps(){
  AsciiString mapDir;
- if(TheWritableGlobalData->buildMapCache)mapDir=((const Rva00300489*)this)->Rva00300489::rva00300489();
+ if(TheWritableGlobalData->buildMapCache)mapDir=((const Rva00300489*)this)->Rva00300489::getMapDir();
  else{
   mapDir=((Rva00300D7A*)this)->rva00300D7A();
   INI ini;AsciiString fname;fname.format("%s\\%s",mapDir.str(),"MapCache.ini");

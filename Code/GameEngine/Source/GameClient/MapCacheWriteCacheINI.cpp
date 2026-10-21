@@ -37,7 +37,7 @@ extern GlobalData *TheWritableGlobalData;
 class FileSystem;
 extern FileSystem *TheFileSystem;
 class Rva003006C4 { public: bool rva003006C4(const AsciiString &); };
-class Rva00300489 { public: virtual AsciiString rva00300489() const; };
+class Rva00300489 { public: virtual AsciiString getMapDir() const; };
 class Rva00300D7A : public Rva00300489 { public: AsciiString rva00300D7A(); };
 AsciiString AsciiStringToQuotedPrintable(AsciiString);
 AsciiString UnicodeStringToQuotedPrintable(UnicodeString);
@@ -50,7 +50,7 @@ void MapCache::writeCacheINI(bool userDir)
 {
     AsciiString mapDir;
     if (!userDir || TheWritableGlobalData->buildMapCache)
-        mapDir = ((Rva00300489 *)this)->Rva00300489::rva00300489();
+        mapDir = ((Rva00300489 *)this)->Rva00300489::getMapDir();
     else
         mapDir = ((Rva00300D7A *)this)->rva00300D7A();
     AsciiString filepath = mapDir;

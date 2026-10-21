@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/shims/sweep
-// ?rva000FF50D@Rva000FF50D@@QAEXXZ, retail 0x000FF50D, 217 bytes.
+// ?saveTracks@Rva000FF50D@@QAEXXZ, retail 0x000FF50D, 217 bytes.
 // Evidence: unlock lane; .wak/.wb literals plus fopen/fwrite/fclose IAT;
 // WaterTracks saveTracks donor (W3DWaterTracks.cpp saveTracks with .wak,
 // wb, fwrite start/end/type plus count) ported to member filename at +0x28
@@ -33,14 +33,14 @@ public:
 class Rva000FF50D
 {
 public:
-	void rva000FF50D();
+	void saveTracks();
 	char m_pad00[0x10];
 	WaterTracksObj *m_used;
 	char m_pad14[0x28 - 0x14];
 	AsciiString m_file;
 };
 
-void Rva000FF50D::rva000FF50D()
+void Rva000FF50D::saveTracks()
 {
 	AsciiString fileName = m_file;
 	char path[256];

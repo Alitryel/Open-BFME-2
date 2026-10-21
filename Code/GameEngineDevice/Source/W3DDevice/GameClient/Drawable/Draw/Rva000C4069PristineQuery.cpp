@@ -165,7 +165,7 @@ public:
 	virtual void objectDrawSlot00() const = 0;
 	virtual void objectDrawSlot01() const = 0;
 	virtual void objectDrawSlot02() const = 0;
-	virtual Int rva000C4069(const ModelConditionFlags &condition,
+	virtual Int getPristineBonePositionsForConditionState(const ModelConditionFlags &condition,
 		const char *boneNamePrefix, Int startIndex, Coord3D *positions, Matrix3D *transforms,
 		Int maxBones, Int *boneIndices) const = 0;
 };
@@ -176,7 +176,7 @@ public:
 	virtual void objectDrawSlot00() const;
 	virtual void objectDrawSlot01() const;
 	virtual void objectDrawSlot02() const;
-	virtual Int rva000C4069(const ModelConditionFlags &condition,
+	virtual Int getPristineBonePositionsForConditionState(const ModelConditionFlags &condition,
 		const char *boneNamePrefix, Int startIndex, Coord3D *positions, Matrix3D *transforms,
 		Int maxBones, Int *boneIndices) const;
 
@@ -192,7 +192,7 @@ public:
 	RenderObjClass *m_renderObject;						///< target +0x50
 };
 
-Int Rva000C4069::rva000C4069(
+Int Rva000C4069::getPristineBonePositionsForConditionState(
 	const ModelConditionFlags &condition,
 	const char *boneNamePrefix,
 	Int startIndex,

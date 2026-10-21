@@ -3,7 +3,7 @@
 // GameState save/map portable remap. Empty input returns itself via StringBase
 // copy at 0x000365F0. Else Ascii save dir from Unicode rva002DC267 at
 // 0x002DC267 plus Ascii ctor at 0x00038250, then MapCache "Maps" virtual
-// rva00300489 at 0x00300489, user maps rva00300D7A at 0x00300D7A and
+// getMapDir at 0x00300489, user maps rva00300D7A at 0x00300D7A and
 // LivingWorldScripts Rva0030062CGet at 0x0030062C, each via startsWithNoCase
 // at 0x0002C42F. Save branch sets g_00DBD054 and concats GameState
 // getMapLeafName at 0x002DC802; map branches set g_00DBD058/5C/60 and concat
@@ -23,7 +23,7 @@ public:
 class Rva00300489
 {
 public:
-	virtual AsciiString rva00300489() const;
+	virtual AsciiString getMapDir() const;
 };
 
 class Rva00300D7A : public Rva00300489
@@ -84,7 +84,7 @@ AsciiString GameState::realMapPathToPortableMapPath(const AsciiString &in) const
 	if (((const StringBase<char> &)in).startsWithNoCase((const StringBase<char> &)AsciiString(((const Rva002DC267 *)this)->rva002DC267()))) {
 		((StringBase<char> *)&prefix)->set(g_00DBD054);
 		((StringBase<char> *)&prefix)->concat((const StringBase<char> &)getMapLeafName(in));
-	} else if (((const StringBase<char> &)in).startsWithNoCase((const StringBase<char> &)((Rva00300489 *)TheMapCache)->Rva00300489::rva00300489())) {
+	} else if (((const StringBase<char> &)in).startsWithNoCase((const StringBase<char> &)((Rva00300489 *)TheMapCache)->Rva00300489::getMapDir())) {
 		((StringBase<char> *)&prefix)->set(g_00DBD058);
 		((StringBase<char> *)&prefix)->concat((const StringBase<char> &)getMapLeafAndDirName(in));
 	} else if (((const StringBase<char> &)in).startsWithNoCase((const StringBase<char> &)((Rva00300D7A *)TheMapCache)->rva00300D7A())) {

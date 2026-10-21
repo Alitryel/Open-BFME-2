@@ -22,7 +22,7 @@ public:
 class Rva002779CEHost
 {
 public:
-	void rva002779CE();
+	void drawConstructPercent();
 };
 class Rva00275F3FHost
 {
@@ -53,7 +53,7 @@ void Rva002796D9Host::drawIconLayer(int v)
 		((Rva0027601BHost *)this)->rva0027601B();
 		((Drawable *)this)->rva00273755();
 		((Rva00277C42Host *)this)->rva00277C42();
-		((Rva002779CEHost *)this)->rva002779CE();
+		((Rva002779CEHost *)this)->drawConstructPercent();
 		break;
 	case 1:
 		((Drawable *)this)->rva00273F74();

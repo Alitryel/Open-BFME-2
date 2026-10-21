@@ -175,7 +175,7 @@ extern LadderList *TheLadderList;
 class Rva00300489
 {
 public:
-	virtual AsciiString rva00300489() const;
+	virtual AsciiString getMapDir() const;
 };
 
 LadderInfo::LadderInfo()
@@ -338,7 +338,7 @@ static LadderInfo *parseLadder(AsciiString raw)
 			mapName.trim();
 			if (!mapName.isEmpty())
 			{
-				mapName.format("%s\\%s\\%s.map", ((Rva00300489 *)TheMapCache)->Rva00300489::rva00300489().str(), mapName.str(), mapName.str());
+				mapName.format("%s\\%s\\%s.map", ((Rva00300489 *)TheMapCache)->Rva00300489::getMapDir().str(), mapName.str(), mapName.str());
 				mapName = TheGameState->portableMapPathToRealMapPath(TheGameState->realMapPathToPortableMapPath(mapName));
 				((StringBase<char> &)(mapName)).toLower();
 				std::list<AsciiString> qmMaps = TheGameSpyConfig->getQMMaps();

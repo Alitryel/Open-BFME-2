@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
-// ?rva0029F4AB@Rva0029F4AB@@QAEXXZ retail 0x0029F4AB 133B
+// ?stopCameoMovie@Rva0029F4AB@@QAEXXZ retail 0x0029F4AB 133B
 // Window lookup for ControlBar.wnd:RightHUD plus partition clear and +0x5CC peer
 // release. Evidence: string literal; TheWindowManager slot 0xF0; TheNameKeyGenerator
 // nameToKey row; get row 0x00314046; friend_setPartitionData row; slot 0x1C release.
@@ -116,14 +116,14 @@ public:
 class Rva0029F4AB
 {
 public:
-	void rva0029F4AB();
+	void stopCameoMovie();
 
 private:
 	char _pad[0x5CC];
 	Rva0029F4ABPeer *m_5CC;
 };
 
-void Rva0029F4AB::rva0029F4AB()
+void Rva0029F4AB::stopCameoMovie()
 {
 	void *win;
 	{

@@ -83,7 +83,7 @@ extern waveInfo waveTypeInfo[WaveTypeMax];
 class WaterTracksObj { public: char pad[0x30]; waveType m_type; char pad34[8]; bool m_bound; char pad3d[0x68-0x3d]; int m_initTimeOffset; char pad6c[8]; int m_elapsedMs; char pad78[0xb0-0x78]; WaterTracksObj *m_nextSystem,*m_prevSystem; void init(float,float,Vector2&,Vector2&,char*,int,void *); };
 struct FeNode;
 class WaterTracksRenderSystem { public: char pad[0x10]; WaterTracksObj *m_usedModules,*m_freeModules; char unknown18[0x10]; AsciiString m_file; WaterTracksObj *bindTrack(waveType); void rva000FE188(); void rva000FE8FC(FeNode *); };
-class Rva000FF50D { public: void rva000FF50D(); };
+class Rva000FF50D { public: void saveTracks(); };
 // Existing opaque pin's integer argument carries the filename reference;
 // native FF F02/F05 passes this+28. Preserve the existing provider spelling.
 class Rva0007E90ECallee { public: void rva000FF5E6(int); };
@@ -441,7 +441,7 @@ void TestWaterUpdate(void)
 			{
 				if (saveTracksReset)
 				{	saveTracksReset=0;
-					reinterpret_cast<Rva000FF50D *>(TheWaterTracksRenderSystem)->rva000FF50D();
+					reinterpret_cast<Rva000FF50D *>(TheWaterTracksRenderSystem)->saveTracks();
 					haveStart=0;
 					haveEnd=0;
 					track=NULL;

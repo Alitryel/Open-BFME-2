@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// ?rva002779CE@Rva002779CEHost@@QAEXXZ retail 0x002779CE..0x00277C42
+// ?drawConstructPercent@Rva002779CEHost@@QAEXXZ retail 0x002779CE..0x00277C42
 // (628 bytes thiscall no args; Drawable draw-phase switch 0x002796D9 case
 // 0). Drawable::drawConstructPercent by its Zero Hour shape; the
 // WorldBuilder twin 0xCACAE0 has the same flow. Without an object or
@@ -206,7 +206,7 @@ public:
 class Rva002779CEHost
 {
 public:
-	void rva002779CE();
+	void drawConstructPercent();
 
 	Object *getObject() const { return m_object; }
 
@@ -218,7 +218,7 @@ private:
 	DisplayString *m_constructDisplayString; // +0x340
 };
 
-void Rva002779CEHost::rva002779CE()
+void Rva002779CEHost::drawConstructPercent()
 {
 	Object *obj = getObject();
 

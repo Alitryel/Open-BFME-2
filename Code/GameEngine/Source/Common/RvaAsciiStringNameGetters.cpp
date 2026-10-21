@@ -9,14 +9,14 @@
 
 #include "ascii_string.h"
 
-// ?rva00300489@Rva00300489@@UBE?AVAsciiString@@XZ @0x00300489 28B: "Maps"
+// ?getMapDir@Rva00300489@@UBE?AVAsciiString@@XZ @0x00300489 28B: "Maps"
 class Rva00300489
 {
 public:
-	virtual AsciiString rva00300489() const;
+	virtual AsciiString getMapDir() const;
 };
 
-AsciiString Rva00300489::rva00300489() const
+AsciiString Rva00300489::getMapDir() const
 {
 	return AsciiString("Maps");
 }

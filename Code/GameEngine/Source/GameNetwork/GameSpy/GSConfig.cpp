@@ -194,7 +194,7 @@ protected:
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-struct Rva00300489 {virtual AsciiString rva00300489() const;};
+struct Rva00300489 {virtual AsciiString getMapDir() const;};
 struct Rva0054E84C {bool rva0054E84C();};
 namespace _STL {template<> _List_base<int,allocator<int> >::~_List_base();}
 class SectionChecker
@@ -422,7 +422,7 @@ m_qmChannel(0)
 		{
 			((StringBase<char> &)(line)).toLower();
 			AsciiString mapName;
-			mapName.format("%s\\%s\\%s.map", ((const Rva00300489 *)TheMapCache)->Rva00300489::rva00300489().str(), line.str(), line.str());
+			mapName.format("%s\\%s\\%s.map", ((const Rva00300489 *)TheMapCache)->Rva00300489::getMapDir().str(), line.str(), line.str());
 			mapName = TheGameState->portableMapPathToRealMapPath(TheGameState->realMapPathToPortableMapPath(mapName));
 			((StringBase<char> &)(mapName)).toLower();
 

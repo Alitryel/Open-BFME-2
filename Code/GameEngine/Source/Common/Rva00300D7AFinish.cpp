@@ -7,7 +7,7 @@
 // else GlobalData user dir plus the "Maps" virtual 0x00300489. Rowed format
 // 0x38150, StringBase ctor 0x37BA0, set 0x55F5, copy ctor 0x365F0, concat
 // 0x6987, releaseBuffer 0x36410, GlobalData::rva002360DE 0x2360DE,
-// Rva00300489::rva00300489 0x300489, GetRegistryUseLocalUserMaps 0x235159;
+// Rva00300489::getMapDir 0x300489, GetRegistryUseLocalUserMaps 0x235159;
 // globals TheWritableGlobalData, empty literal 0x00BBAC1C; callers 0x002DC946
 // 0x002DCAE4 0x00300E67 0x00303441.
 //
@@ -31,7 +31,7 @@ extern GlobalData *TheWritableGlobalData;
 class Rva00300489
 {
 public:
-	virtual AsciiString rva00300489() const;
+	virtual AsciiString getMapDir() const;
 };
 
 class Rva00300D7A : public Rva00300489
@@ -52,7 +52,7 @@ AsciiString Rva00300D7A::rva00300D7A()
 		path.format("%s", "UserData\\Maps");
 	} else {
 		((StringBase<char> *)&path)->set(TheWritableGlobalData->rva002360DE().str());
-		appendStringBase(path, Rva00300489::rva00300489());
+		appendStringBase(path, Rva00300489::getMapDir());
 	}
 	return path;
 }

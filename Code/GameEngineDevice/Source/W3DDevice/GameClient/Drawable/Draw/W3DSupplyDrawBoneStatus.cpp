@@ -59,12 +59,12 @@ public:
 	char m_pad04[0x2D8];
 	int m_totalBones;
 	int m_lastNumberShown;
-	void rva000CAFA6(int maxSupply, int currentSupply);
+	void updateDrawModuleSupplyStatus(int maxSupply, int currentSupply);
 };
 
 template <class T> inline const T &BfmeMin(const T &lhs, const T &rhs) { return rhs < lhs ? rhs : lhs; }
 template <class T> inline const T &BfmeMax(const T &lhs, const T &rhs) { return lhs > rhs ? lhs : rhs; }
-void Rva000CAFA6::rva000CAFA6(int maxSupply, int currentSupply)
+void Rva000CAFA6::updateDrawModuleSupplyStatus(int maxSupply, int currentSupply)
 {
 	char *owner = *(char **)((char *)this - 8);
 	StringBase<char> prefix(*(StringBase<char> *)(owner + 0x188));
