@@ -136,7 +136,7 @@ class Pathfinder
 public:
 	PathfindCell *getCell( PathfindLayerEnum layer, Int cellX, Int cellY );
 	Int ProcessConvexPoly(Int*,Int*,Int,Int,Rva002E9D09*);
-	Int rva004DDA9A(Int*,Int*,Int,Int,Rva004DD9E3*);
+	Int ProcessConvexPoly(Int*,Int*,Int,Int,Rva004DD9E3*);
 	Int ProcessConvexPoly( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor );
 	Int rva002E7749(void *unused, Int cellX, Int cellY, Int layer, Int arg, bool check);
 	friend Int bfmeAnchorRva002F6B22( Pathfinder *, const ICoord2D *, const ICoord2D *, PathfindLayerEnum, Rva002F5925Info * );
@@ -639,7 +639,7 @@ Int Pathfinder::ProcessConvexPoly( Int *xPts, Int *yPts, Int numEdges, Int layer
 }
 
 
-Int Pathfinder::rva004DDA9A( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva004DD9E3 *visitor )
+Int Pathfinder::ProcessConvexPoly( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva004DD9E3 *visitor )
 {
 	Int i;
 	Int j = 1;

@@ -267,8 +267,8 @@ public:
     PathfindCell *getCell(PathfindLayerEnum,int,int);
     void *rva001E3647Pos(int,const Coord3D *);
     bool enabled() const { return m_enabled; }
-    int rva004DDDA4(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva004DD9E3 *);
-    int rva004DDA9A(int *,int *,int,int,Rva004DD9E3 *);
+    int IterateCellsInRectangle(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva004DD9E3 *);
+    int ProcessConvexPoly(int *,int *,int,int,Rva004DD9E3 *);
 private:
     unsigned char pad00[8]; bool m_enabled;
 };
@@ -301,7 +301,7 @@ void PathfinderPosGoalManager::AddObjPtr(Rva004DD843Slot *slot)
  visitor.slot=slot; visitor.category=slot->m_listKind; visitor.object=callbackObject;
  visitor.secondary=0; visitor.layer=slot->m_pathLayer;
  if (!(unsigned char)Rva002E6E6CGet(slot->m_pathLayer) && TheTerrainLogic->slot44(callbackObject,slot->m_pathLayer)) visitor.secondary=1;
- TheAI->map->rva004DDDA4((ICoord2DBase *)slot,&diameter,Rva004DD722Get(slot->m_angle),slot->m_pathLayer,&visitor);
+ TheAI->map->IterateCellsInRectangle((ICoord2DBase *)slot,&diameter,Rva004DD722Get(slot->m_angle),slot->m_pathLayer,&visitor);
 }
 
 
@@ -313,7 +313,7 @@ void PathfinderPosGoalManager::AddObjPtr(Rva004DD843Slot *slot)
 // VC7 /O1 /Oi emits separate fsin/fcos in the saved pure C++ trial (411B).
 // The four-instruction fsincos block is the proven x87 compiler exception;
 // all branches, corner arithmetic, cell lookup and callback traversal are C++.
-int Pathfinder::rva004DDDA4(const ICoord2DBase *center,const ICoord2DBase *diameter,float angle,int layer,Rva004DD9E3 *visitor)
+int Pathfinder::IterateCellsInRectangle(const ICoord2DBase *center,const ICoord2DBase *diameter,float angle,int layer,Rva004DD9E3 *visitor)
 {
  if (diameter->x==1 && diameter->y==1) {
    PathfindCell *cell=getCell((PathfindLayerEnum)layer,center->x,center->y);
@@ -343,7 +343,7 @@ int Pathfinder::rva004DDDA4(const ICoord2DBase *center,const ICoord2DBase *diame
    x[1]=x[2]=center->x+diameter->x-hx-1;
    y[2]=y[3]=center->y+diameter->y-hy-1;
  }
- return rva004DDA9A(x,y,4,layer,visitor);
+ return ProcessConvexPoly(x,y,4,layer,visitor);
 }
 
 

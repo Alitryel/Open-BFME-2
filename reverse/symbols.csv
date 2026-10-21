@@ -13850,7 +13850,7 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?iterateSaveFiles@GameState@@QAEXP6AXVUnicodeString@@PAX@Z1H@Z,0x002DF1F1,GameState::iterateSaveFiles: REL32 at 0x002DF4E1 in populateSaveGameListbox 0x002DF3B0 with ECX=this and pushes (callback 0x002DF0B4 / &m_availableGames +0xE14 / mode); body builds a L* search name plus the 0x002DBC97 mode suffix then lists getSaveDirectory through TheFileSystem and calls the callback with each UnicodeString name and userData; ret 0xC; ZH iterateSaveFiles shape plus the BFME 2 mode argument
 ?rva004DD8A6@@YAXHPAURva004DD8A6Entry@@H@Z,0x004DD8A6,
 ?AddObjPtr@PathfinderPosGoalManager@@QAEXPAURva004DD843Slot@@@Z,0x004DDF51,
-?rva004DDDA4@Pathfinder@@QAEHPBUICoord2DBase@@0MHPAVRva004DD9E3@@@Z,0x004DDDA4,
+?IterateCellsInRectangle@Pathfinder@@QAEHPBUICoord2DBase@@0MHPAVRva004DD9E3@@@Z,0x004DDDA4,
 ?erase@?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAEXU?$_Rb_tree_iterator@HU?$_Nonconst_traits@H@_STL@@@2@@Z,0x005530A8,set<int> spelling of the folded POD tree erase(iterator); REL32 read at 0x003A23EF in Team::rva003A23A5 erasing the found ObjectID node of the +0x130 set; fold-proof=Code/GameEngine/Source/Common/RTS/TeamGateMembership.cpp
 ?rva00337DEF@LuaScriptEngine@@QAEPAURva00336283Element@@ABVAsciiString@@@Z,0x00337DEF,REL32 call at 0x0039F18E in Team::updateState with ecx = TheLuaScriptEngine (VA 0x00E01DBC) and the template info +0xC4 string; Ghidra function start 0x337DEF (187B) sorted record vector lookup by name; address-derived name
 ?rva004783D7@Rva004697E1Contain@@QAEXXZ,0x004783D7,callee of ?rva004697E1@Rva004697E1Contain@@QAEXXZ
@@ -13883,7 +13883,7 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?Rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z,0x002F14F9,Address-derived member view; native58723D22B cdecl wrapper loads TheAI pathfinder10 then passes two Object pointers; WB/native2F14F9..2F18D4 inspect Object/weapon/relationships and return selected Object pointer/null EAX ret8. Original member name unknown.
 ?friend_setList@GameMessage@@QAEXPAVGameMessageList@@@Z,0x005F69C4,Existing MessageStream ledger owner compiles this whole 10B relocation-free setter at its gen-alias address; native 0x005C92F2 reaches it; callee application identity remains opaque in caller. fold-proof=Code/GameEngine/Source/Common/MessageStream.cpp
 ?onStancesBehaviorStanceChanged@Impl@InGameToggleStanceCommandButton@@UAEXAAVStancesBehavior@@HH@Z,0x00567B10,callee of ??1Impl@InGameToggleStanceCommandButton@@QAE@XZ
-?rva004DDA9A@Pathfinder@@QAEHPAH0HHPAVRva004DD9E3@@@Z,0x004DDA9A,
+?ProcessConvexPoly@Pathfinder@@QAEHPAH0HHPAVRva004DD9E3@@@Z,0x004DDA9A,
 ?rva000B49A1@RevivalExperienceView@@QBEHXZ,0x000B49A1,native37E983 constructor edge; BFME1 UnitRevivalTracker experience-level getter semantics; complete7B getter2C->C no relocations fold-proof=Code/GameEngine/Source/Common/RTS/UnitRevivalTracker.cpp
 ?UpdateCommandSet@CreateAHeroHero@@QAE_NH@Z,0x00407705,callee of ?productionSystemNewObject@UnitRevivalTracker@@QAEPAVObject@@IPBUCoord3D@@@Z
 ?rva0031DB83@Rva000427195@@QAEPAPAXABVAsciiString@@@Z,0x0031DB83,callee of ?rva0031E8D5@ControlBar@@QAEPAVCommandSet@@ABVAsciiString@@H@Z
