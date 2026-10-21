@@ -39,7 +39,7 @@ void Rva00202BB2Parse(INI *);
 void Rva00206DFFSearch(INI *);
 void Rva00206E63Search(INI *);
 void Rva00210A14Parse(INI *);
-void Rva00210F64Parse(INI *);
+void parseLivingWorldMapInfoDefinition(INI *);
 void Rva0021376BParse(INI *);
 void parseCloudEffectDefinition(INI *);
 void Rva00215C38Parse(INI *);
@@ -384,7 +384,7 @@ BlockParse theLargeGroupAudioMapBlockParse = { 0, "LargeGroupAudioMap", LargeGro
 BlockParse theLargeGroupAudioUnusedKnownKeysBlockParse = { 0, "LargeGroupAudioUnusedKnownKeys", LargeGroupAudio::parseLargeGroupAudioUnusedKnownKeysDefinition };	// VA 0x00DB98AC "LargeGroupAudioUnusedKnownKeys", parse 0x0020DE03
 BlockParse theLivingWorldRegionCampaignBlockParse = { 0, "LivingWorldRegionCampaign", Rva00210A14Parse };	// VA 0x00DB993C "LivingWorldRegionCampaign", parse 0x00210A14
 BlockParse theLivingWorldObjectBlockParse = { 0, "LivingWorldObject", Rva0021376BParse };	// VA 0x00DB9A20 "LivingWorldObject", parse 0x0021376B
-BlockParse theLivingWorldMapInfoBlockParse = { 0, "LivingWorldMapInfo", Rva00210F64Parse };	// VA 0x00DB9A2C "LivingWorldMapInfo", parse 0x00210F64
+BlockParse theLivingWorldMapInfoBlockParse = { 0, "LivingWorldMapInfo", parseLivingWorldMapInfoDefinition };	// VA 0x00DB9A2C "LivingWorldMapInfo", parse 0x00210F64
 BlockParse theModifierListBlockParse = { 0, "ModifierList", AttributeModifierStore::parseModifierListDefinition };	// VA 0x00DB9AD0 "ModifierList", parse 0x00214C4E
 BlockParse theCloudEffectBlockParse = { 0, "CloudEffect", parseCloudEffectDefinition };	// VA 0x00DB9B68 "CloudEffect", parse 0x0021526C
 BlockParse thePlayerAITypeBlockParse = { 0, "PlayerAIType", Rva00215C38Parse };	// VA 0x00DB9B74 "PlayerAIType", parse 0x00215C38

@@ -136,7 +136,7 @@ public:
 extern LivingWorldManager *TheLivingWorldManager;
 extern const FieldParse LivingWorldMapInfoFields[];
 
-void Rva00210F64Parse(INI *ini)
+void parseLivingWorldMapInfoDefinition(INI *ini)
 {
 	if (TheLivingWorldManager)
 	{
