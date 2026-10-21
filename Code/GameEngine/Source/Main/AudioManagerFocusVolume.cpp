@@ -81,7 +81,7 @@ float LookupFocusChannelVolume(int channel)
 			continue;
 		if ((focusVolume->m_channelMask & mask) == 0)
 			continue;
-		volume *= v->m_factor;
+		volume *= focusVolume->m_factor;
 	}
 	return volume;
 }
