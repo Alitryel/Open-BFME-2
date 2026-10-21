@@ -1,4 +1,4 @@
-// cl: -DNDEBUG -MD -EHsc -D_STLP_USE_STATIC_LIB /Os -Ireference/open-bfme-1/game/GameEngine/Source/Common/RTS
+// cl: /Ireference/shims/bfmealloc -DNDEBUG -MD -EHsc -D_STLP_USE_STATIC_LIB /Os -Ireference/open-bfme-1/game/GameEngine/Source/Common/RTS
 // stlport
 // readable body of ??1TeamFactory@@UAE@XZ: game/GameEngine/Source/Common/RTS/Team.cpp
 // readable body of ?addTeamPrototypeToList@TeamFactory@@QAEXPAVTeamPrototype@@@Z: game/GameEngine/Source/Common/RTS/Team.cpp
@@ -153,7 +153,6 @@ public:
 
 	void clear(void);
 	void addTeamPrototypeToList(TeamPrototype *team);
-	void instantiatePrototypeIndex(TeamPrototype *team);
 	// Two parameters, not one: 0x000F8191 pushes both `name` and `owner`
 	// before the call, matching the pair-keyed m_prototypes map.
 	TeamPrototype *findTeamPrototype(const AsciiString &owner, const AsciiString &name);
@@ -186,17 +185,8 @@ extern TeamFactory *TheTeamFactory;
 
 // clear is defined and verified in TeamFactoryClear.cpp.
 
-// addTeamPrototypeToList itself is rowed in TeamFactoryAddPrototype003A2B78.cpp; this unit keeps
-// the same body under a local name only to instantiate the map members it owns.
-void TeamFactory::instantiatePrototypeIndex(TeamPrototype *team)
-{
-	BfmeTeamPrototypeKey nk(TheNameKeyGenerator->nameToKey(team->m_first.str()),
-									TheNameKeyGenerator->nameToKey(team->m_second.str()));
-	std::map<BfmeTeamPrototypeKey, TeamPrototype *, std::less<BfmeTeamPrototypeKey> >::iterator it = m_prototypes.find(nk);
-	if (it != m_prototypes.end())
-		return;
-
-	m_prototypes[nk] = team;
-}
+// addTeamPrototypeToList itself is rowed in TeamFactoryAddPrototype003A2B78.cpp; this unit
+// instantiates the map members it owns (operator[] 0x003A2943 and what it calls out of line).
+template TeamPrototype *&std::map<BfmeTeamPrototypeKey, TeamPrototype *, std::less<BfmeTeamPrototypeKey> >::operator[](const BfmeTeamPrototypeKey &);
 
 // TeamFactory::initTeam is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/TeamFactoryInitTeam.cpp (0x003A404D).
