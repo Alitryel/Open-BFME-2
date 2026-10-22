@@ -34,6 +34,18 @@ class Rva00045411BitSet:public BfmeFixedStorage0004543D{public:Rva00045411BitSet
 class Rva003959FA:public Rva000421C8 {public:Rva003959FA(const BfmeFixedStorage0004543D&) throw();virtual bool allow(Object*);BfmeFixedStorage0004543D mask;};
 class PartitionFilterRejectByKindOf:public Rva000421C8 {public:PartitionFilterRejectByKindOf(const BfmeFixedStorage0004543D&,const BfmeFixedStorage0004543D&) throw();virtual bool allow(Object*);BfmeFixedStorage0004543D a,b;};
 struct Rva001408C0Target;
+// Preserve the header's inline cleanup while consuming the kept external
+// pointer-set helpers, as in the asset-worker unit using the same key type.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_Rb_tree_node<Rva001408C0Target *> >::deallocate(
+ _Rb_tree_node<Rva001408C0Target *> *node, size_t) const { if(node) ::free(node); }
+template <>
+_Rb_tree_base<Rva001408C0Target *, allocator<Rva001408C0Target *> >::~_Rb_tree_base();
+template <> __declspec(dllimport) __forceinline
+_Rb_tree<Rva001408C0Target *, Rva001408C0Target *, _Identity<Rva001408C0Target *>,
+ less<Rva001408C0Target *>, allocator<Rva001408C0Target *> >::~_Rb_tree() { clear(); }
+}
 class Rva00395D18:public _STL::set<Rva001408C0Target*> {public:~Rva00395D18();};
 class Rva00395F57 {public:bool canUnpack(bool);};
 class Rva00397EAC {public:bool isPlayerAllowedToCapture(Player*,int);};

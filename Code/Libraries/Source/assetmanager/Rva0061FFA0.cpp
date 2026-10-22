@@ -195,6 +195,13 @@ typedef _STL::_Rb_tree<Rva001408C0Key, Rva001408C0Key,
     _STL::_Identity<Rva001408C0Key>, _STL::less<Rva001408C0Key>,
     _STL::allocator<Rva001408C0Key> > AssetKeyTree;
 namespace _STL {
+// Keep the stock inline release through this unit's malloc allocator without
+// emitting an /O2 tree-node deallocator over the kept external provider.
+template <> __declspec(dllimport) __forceinline
+void allocator<_Rb_tree_node<Rva001408C0Key> >::deallocate(
+    _Rb_tree_node<Rva001408C0Key> *node, size_t count) const {
+    if (node) ::free(node);
+}
 // Consume the existing complete insert_unique provider at422047.
 template <> AssetKeyTree::iterator
 AssetKeyTree::_M_insert(_Rb_tree_node_base *, _Rb_tree_node_base *,
