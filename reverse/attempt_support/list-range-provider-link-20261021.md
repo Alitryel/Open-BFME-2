@@ -55,3 +55,23 @@ C1001 in P2/main.c line 148. The final code uses ordinary STLport
 instantiation with target-proven sizes instead. A forward-declared
 AsciiString alone also failed because list nodes require its complete type;
 the final range-erase bridge uses the canonical existing header.
+
+## Preparation recovery, 2026-10-22
+
+Replayed the checkout's ten preserved commits onto 0df867e973. Upstream
+f0c3e87577 already supplies the CrushDie callback repair; retained its source
+and kept the saved verification evidence. Upstream c55aebdc6a also supplies
+the 000BDBFA range-erase bridge. Git combined that bridge with this attempt's
+equivalent specialization without a text conflict; the required dry-run push
+gate caught MSVC C2995. Removed only the duplicated bridge and its unnecessary
+AsciiString include, retaining upstream's bridge and the native 32-byte record
+extent. The 115-byte assignment passes build.sh with all literal/import checks.
+
+The preparation record names no stash; the worktree had no saved untracked or
+unstaged edits beyond the rebase conflict. Backup ref
+refs/runner/preparation/1792628884160129801 remains intact. No commits skipped.
+The recovered source set's legacy link_check preview reports 8/10 units clean,
+0 -> 2,203 bytes against published e20daa4e78. This includes upstream's list
+repair and is not an incremental gain over current master. AIConstructor and
+stlport_pod_hash_bodies retain the previously documented unrelated blockers.
+Closed-strict closure and a new measured census remain unverified.
