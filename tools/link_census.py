@@ -711,6 +711,10 @@ class RetailTruth:
             for name in names:  # a gen-alias twin's object symbol names its original, not the twin
                 self.ledger[_normal(name)].add(address)
             names_at[address].add(row["name"])
+        # Rowed EH handler thunks (mov eax, FuncInfo; jmp __CxxFrameHandler),
+        # whatever function names them: /OPT:ICF folds identical ones.
+        self.eh_handlers = {int(row["target_rva"], 16) for row in rows
+                            if row["name"].startswith(self.FUNCTION_STATICS) and "icf-owner=" not in (row.get("notes") or "")}
         for row in data_ledger():  # a data row is byte-verified at its address, like a function row
             self.ledger[_normal(row["name"])].add(data_rva(row))
         # An address several names claim is an unresolved over-claim (at most
@@ -892,8 +896,15 @@ class RetailTruth:
                 # A static named after its function (MSVC's __ehhandler$<name>):
                 # the same name in every TU's copy and rowed like any body, so
                 # landing on its row proves the site. It never disproves one:
-                # a handler row can be the one of an ICF twin's home.
+                # a handler row can be the one of an ICF twin's home. A copy's
+                # own handler with no row of its name is proven where retail's
+                # slot lands on a rowed handler: /OPT:ICF folded it into a twin
+                # (2 concrete bytes, too few for a fold-proof pin), and a row
+                # under its own name would prove no more, the gate copying the
+                # FuncInfo DIR32 from retail.
                 found = self.addresses(referent["name"], kind)
+                if not found and referent["name"] == self.FUNCTION_STATICS[0] + symbol["name"]:
+                    found = getattr(self, "eh_handlers", set())
                 if not found or not self._lands(target, found):
                     result = "unknown"
                 continue

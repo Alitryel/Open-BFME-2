@@ -243,6 +243,29 @@ def test_static_eh_handler_named_after_its_function_is_judged_by_its_row():
     assert t.verdict(symbol("guarded"), body, [(1, L.RetailTruth.DIR32, unnamed)], "eh3", 5) == "unknown"
 
 
+def test_own_eh_handler_folded_into_a_rowed_twin_is_proven():
+    # /OPT:ICF folds identical handler thunks: retail basic_string<char>'s
+    # c-string ctor 0x9100 loads 0x0075B6D8, rowed as the default ctor's
+    # handler. The copy's own handler has no row of its name; landing on a
+    # rowed handler proves it (pin admission cannot: 2 concrete bytes).
+    image = bytearray(0x40)
+    image[0x00:0x05] = b"\xb8" + struct.pack("<I", L.BASE + 0x1030)
+    t = truth(image, {"cstr": {0x1000}, "__ehhandler$default": {0x1030}})
+    t.eh_handlers = {0x1030}
+    body = b"\xb8\0\0\0\0"
+    own = {"name": "__ehhandler$cstr", "section": 3, "storage": 3, "value": 0}
+    assert t.verdict(symbol("cstr"), body, [(1, L.RetailTruth.DIR32, own)], "f1", 5) == "retail"
+    # retail's slot must land on a rowed handler, not anywhere
+    t.eh_handlers = {0x1020}
+    t._cache = {}
+    assert t.verdict(symbol("cstr"), body, [(1, L.RetailTruth.DIR32, own)], "f2", 5) == "unknown"
+    # another function's unrowed handler is not this copy's own: unjudged
+    t.eh_handlers = {0x1030}
+    t._cache = {}
+    stranger = {**own, "name": "__ehhandler$other"}
+    assert t.verdict(symbol("cstr"), body, [(1, L.RetailTruth.DIR32, stranger)], "f3", 5) == "unknown"
+
+
 def test_no_retail_address_is_none():
     t = truth(IMAGE, LEDGER)
     assert t.verdict(symbol("inline_only"), b"\xc3", [], "g", 1) is None
