@@ -1,5 +1,7 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
-// partial score=0.961108627626285 date=2026-10-22
+// partial score=0.9893 date=2026-10-22
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
+// partial score=0.9893 date=2026-10-22 (nd 24/2237: S region only; handoff skin-0016b680-20261022-w13.md)
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // Compose with meshgeometry.cpp; target proof and provenance in re_attempts.log.
 // Matrices use the HTreePivotTransform::Get_Matrix3D spelling (0x0014D28E); both are scaled row by row as in BFME1 0x00925860.
@@ -9,6 +11,9 @@
 // their loops inside, in WB's operand order; the tree view is held in htree.
 // This version compiles against the real WWMath vector3.h, vector4.h, matrix3d.h and quat.h; SkinMatrix3D stands in for
 // BFME 2's Matrix3D blend member. The locals are WB 0xA0E990's set plus the run-record pointer run, which replaces htree.
+// The four int a0..a3 locals in TransformPositionArray are c2 symbol-counter shims (not source): they move the K4 chunk
+// so the blend pieces get retail key IDs (B and M regions exact). Replace them with the real construct before landing.
+#define protected public
 #include "vector3.h"
 #include "vector4.h"
 #include "matrix3d.h"
@@ -26,10 +31,10 @@ public:
   float yw=Rotation.Y*Rotation.W*2.0f;
   float zz=Rotation.Z*Rotation.Z*2.0f;
   float zw=Rotation.Z*Rotation.W*2.0f;
-  m[0][0]=(1.0f-yy-zz);m[0][1]=xy-zw;m[0][2]=xz+yw;
-  m[1][0]=xy+zw;m[1][1]=(1.0f-zz-xx);m[1][2]=yz-xw;
-  m[2][0]=xz-yw;m[2][1]=yz+xw;m[2][2]=(1.0f-yy-xx);
-  m[0][3]=Translation.X;m[1][3]=Translation.Y;m[2][3]=Translation.Z;
+  m.Row[0].X=(1.0f-yy-zz);m.Row[0].Y=xy-zw;m.Row[0].Z=xz+yw;
+  m.Row[1].X=xy+zw;m.Row[1].Y=(1.0f-zz-xx);m.Row[1].Z=yz-xw;
+  m.Row[2].X=xz-yw;m.Row[2].Y=yz+xw;m.Row[2].Z=(1.0f-yy-xx);
+  m.Row[0].W=Translation.X;m.Row[1].W=Translation.Y;m.Row[2].W=Translation.Z;
  }
  void TransformPositionArray(const Vector3 *v,Vector3 *out,int count) const;
  Quaternion Rotation;
@@ -50,6 +55,10 @@ __forceinline void BoneTransform::TransformPositionArray(const Vector3 *v,Vector
   float y=Rotation.W*v->Y-(Rotation.X*v->Z-v->X*Rotation.Z);
   float z=Rotation.W*v->Z+(Rotation.X*v->Y-v->X*Rotation.Y);
   float w=-((Rotation.X*v->X)+Rotation.Y*v->Y+(Rotation.Z*v->Z));
+  int a0=count;
+  int a1=count;
+  int a2=count;
+  int a3=count;
   out->X=(x*Rotation.W-w*Rotation.X+(z*Rotation.Y-y*Rotation.Z)+Translation.X);
   out->Y=(y*Rotation.W-w*Rotation.Y-(z*Rotation.X-x*Rotation.Z)+Translation.Y);
   out->Z=z*Rotation.W-w*Rotation.Z+(y*Rotation.X-x*Rotation.Y)+Translation.Z;
