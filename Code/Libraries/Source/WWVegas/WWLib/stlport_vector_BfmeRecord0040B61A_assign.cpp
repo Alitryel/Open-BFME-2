@@ -14,6 +14,10 @@
 #include <vector>
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@UBfmeRecord0040B61A@@V?$allocator@UBfmeRecord0040B61A@@@_STL@@@_STL@@IA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeRecord0040B61A;
+namespace _STL { template <> void vector<BfmeRecord0040B61A,allocator<BfmeRecord0040B61A> >::_M_clear(); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUBfmeRecord0040B61A@@U1@V?$allocator@UBfmeRecord0040B61A@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeRecord0040B61A;

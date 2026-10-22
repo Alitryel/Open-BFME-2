@@ -214,6 +214,9 @@ _List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawa
 #include "GameClient/SelectionInfo.h"
 #include "GameClient/SelectionXlat.h"
 #include "GameClient/TerrainVisual.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@IAEXPAPAXABQAXABU__true_type:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<void *,allocator<void *> >::_M_insert_overflow(void * *,void * const &,__true_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ?reserve@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void vector<void *,allocator<void *> >::reserve(unsigned int); }
