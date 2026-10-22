@@ -98,10 +98,7 @@ public:
 	UnicodeString(const UnicodeString &other) : StringBase<unsigned short>(other) {}
 	UnicodeString &operator=(const UnicodeString &other) { set(other); return *this; }
 	bool isEmpty() const { return m_data == 0 || m_data->length == 0; }
-	int compare(const UnicodeString &other) const
-	{
-		return StringBase<unsigned short>::compare(other);
-	}
+	int compare(const UnicodeString &other) const;
 	void translate(const char *text);
 	__declspec(dllimport) __forceinline void trim(void) { StringBase<unsigned short>::trim(); }
 	Bool nextToken(UnicodeString *token, const unsigned short *seps)
