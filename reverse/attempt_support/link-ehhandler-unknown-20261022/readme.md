@@ -55,3 +55,10 @@ measure LINKING the same way, so the change should be decided for both.
 in-process previous-rule measurement, a test that an EH-framed copy whose stub
 lands on the row is `retail` and one whose stub lands elsewhere is `wrong`, and
 `tools/tests/test_gate_exploits.py` still refusing every case.
+
+## Resolved upstream
+
+Burachi-3D landed the same resolution independently as 893116198
+("link_census: judge __ehhandler$ referents by their ledger row") with the
+retail-truth-4 rules (99874b268, ae3b3e68e) the same morning. The proposed
+patch here is superseded; keep this file only as the measurement record.
