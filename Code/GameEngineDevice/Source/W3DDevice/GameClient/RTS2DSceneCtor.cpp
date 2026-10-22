@@ -25,16 +25,7 @@ public:
 	char m_pad004[0x108 - 0x04];
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	void setName(AsciiString name);
-private:
-	char m_padAfterVptr[4];
-	AsciiString m_name;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class W3DStatusCircle
 {

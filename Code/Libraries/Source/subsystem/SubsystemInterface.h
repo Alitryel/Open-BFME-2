@@ -15,6 +15,8 @@ class SubsystemInterface {
 public:
     SubsystemInterface();
     virtual ~SubsystemInterface();
+    // Out of line in retail: 0x0006F3CC (row in subsystem/SubsystemInterfaceSetName.cpp).
+    void setName(AsciiString name);
     bool m_flag;
     AsciiString m_name;
 };

@@ -26,29 +26,7 @@ private:
 // spelled as reference/shims/subsystem_bfme2/subsystem_interface.h does (ctor
 // 0x001B4E63 / dtor 0x001B4E74 rowed as ??0/??1SubsystemInterface), so the
 // derived vtable below gets the retail 14-slot shape.
-class SubsystemInterface
-{
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-    virtual void init() = 0;
-    virtual bool loadIniFilesFromLegend();
-    virtual void postProcessLoad() {}
-    virtual bool vslot04(int) { return false; }
-    virtual bool vslot05() { return false; }
-    virtual int vslot06() { return 0; }
-    virtual void vslot07(int) {}
-    virtual void vslot08() {}
-    virtual void reset() = 0;
-    virtual void update() = 0;
-    virtual bool vslot11(int) { return false; }
-    virtual void vslot12() {}
-    virtual void vslot13(int) {}
-
-private:
-    char m_pad04[4];
-    void *m_member08;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva00220CD4 : public SubsystemInterface
 {

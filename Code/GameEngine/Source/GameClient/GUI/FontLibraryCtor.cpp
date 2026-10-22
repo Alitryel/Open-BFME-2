@@ -46,17 +46,7 @@ public:
 
 }
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init();
-	void setName(AsciiString name);
-
-private:
-	unsigned char m_bfmeBasePad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class FontLibrary : public SubsystemInterface
 {

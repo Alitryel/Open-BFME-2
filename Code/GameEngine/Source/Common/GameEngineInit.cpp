@@ -116,16 +116,7 @@ typedef bool Bool;
 class Xfer;
 class GameMessage { public: void appendIntegerArgument(Int arg); };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	void setName(AsciiString name);
-protected:
-	unsigned int m_04;
-	unsigned int m_08;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 template <class SUBSYSTEM> void initSubsystem(SUBSYSTEM *&sysref, AsciiString name, SUBSYSTEM *sys, Xfer *pXfer, const char *path1 = 0, const char *path2 = 0, const char *dirpath = 0);
 

@@ -17,16 +17,7 @@
 // judged this copy not retail's.
 #include "ascii_string.h"
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-	void setName(AsciiString name);
-
-private:
-	char m_padAfterVptr[4];
-	AsciiString m_name;
-};
+#include "SubsystemInterface.h"
 
 inline void SubsystemInterface::setName(AsciiString name)
 {

@@ -14,12 +14,7 @@ class BFME2NativeNetwork
 public:
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();  // rowed 0x001B4E63
-	void setName(AsciiString name);
-};
+#include "SubsystemInterface.h"
 
 class __declspec(novtable) BFME2NativeNetworkBase
 {

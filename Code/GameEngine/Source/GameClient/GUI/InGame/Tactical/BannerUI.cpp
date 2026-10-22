@@ -175,15 +175,7 @@ public:
 };
 
 // The subsystem base (rowed constructor 0x001B4E63 and setName 0x0006F3CC).
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	void setName(AsciiString name);
-private:
-	unsigned char m_pad04[0x0C - 0x04];
-};
+#include "../../../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class BannerUI : public SubsystemInterface
 {
