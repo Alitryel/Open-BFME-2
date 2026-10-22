@@ -5,6 +5,10 @@
 // cl: /I. /O1 /arch:SSE /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__copy@PBURva003F5FD0Record@@PAU1@H@_STL@@YAPAURva003F5FD0Record@@PBU1@0PAU1@ABUrandom_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003F5FD0Record;
+namespace _STL { template <> Rva003F5FD0Record * __copy<Rva003F5FD0Record const *,Rva003F5FD0Record *,int>(Rva003F5FD0Record const *,Rva003F5FD0Record const *,Rva003F5FD0Record *,random_access_iterator_tag const &,int *); }
 
 struct Rva003F5FD0Record { Rva003F5FD0Record(); Rva003F5FD0Record(const Rva003F5FD0Record&); ~Rva003F5FD0Record(); Rva003F5FD0Record& operator=(const Rva003F5FD0Record&); char bytes[48]; };
 namespace _STL { template<> void _Construct<Rva003F5FD0Record, Rva003F5FD0Record>(Rva003F5FD0Record*, const Rva003F5FD0Record&); }

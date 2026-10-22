@@ -5,6 +5,10 @@
 #include "unicode_string.h"
 #include "ascii_string.h"
 #include <map>
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBJVLadderPref@@@_STL@@@_STL@@@_STL@@QBEP:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LadderPref;
+namespace _STL { template <> _Rb_tree_node<pair<long const ,LadderPref> > * allocator<_Rb_tree_node<pair<long const ,LadderPref> > >::allocate(unsigned int,void const *) const; }
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

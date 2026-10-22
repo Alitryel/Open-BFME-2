@@ -12,6 +12,10 @@
 
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <map>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@UGen_p12pod@@U?$pair@$$CBUGen_p12pod@@H@_STL@@U?$_Select1st@U?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Gen_p12pod;
+namespace _STL { template <> _Rb_tree_node<pair<Gen_p12pod const ,int> > * _Rb_tree<Gen_p12pod,pair<Gen_p12pod const ,int>,_Select1st<pair<Gen_p12pod const ,int> >,less<Gen_p12pod>,allocator<pair<Gen_p12pod const ,int> > >::_M_create_node(pair<Gen_p12pod const ,int> const &); }
 // Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,
 // and this TU's COMDAT copy differs from the copy the link keeps.
 namespace _STL {

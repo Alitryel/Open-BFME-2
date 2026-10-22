@@ -47,6 +47,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> ICoord2D * allocator<ICoord2D>::allocate(unsigned int, void const *) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??4?$vector@UICoord2D@@V?$allocator@UICoord2D@@@_STL@@@_STL@@QAEAAV01@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct ICoord2D;
+namespace _STL { template <> vector<ICoord2D,allocator<ICoord2D> > & vector<ICoord2D,allocator<ICoord2D> >::operator=(vector<ICoord2D,allocator<ICoord2D> > const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBUICoord2D@@PAU1@@_STL@@YAPAUICoord2D@@PBU1@0PAU1@ABU__false_type:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct ICoord2D;

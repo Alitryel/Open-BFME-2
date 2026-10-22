@@ -34,6 +34,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(un
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Hashtable_node@U?$pair@$$CBHURva0052B81CElement@@@_STL@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0052B81CElement;
+namespace _STL { template <> void allocator<_Hashtable_node<pair<int const ,Rva0052B81CElement> > >::deallocate(_Hashtable_node<pair<int const ,Rva0052B81CElement> > *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
