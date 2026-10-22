@@ -97,6 +97,16 @@ __declspec(noinline) inline bool Rva0007C637(std::vector<BfmeE8> &input,std::vec
 #include "matrix3d.h"
 
 // ?BfmeE8::BfmeE8 absent-from-retail
+// Vector3::Cross_Product with its assert routed to a local stub: retail imports
+// no _assert, but the (folded) check still shapes the transform loops below,
+// and the header's unreferenced out-of-line copy would import __imp___assert.
+static __declspec(noinline) void __cdecl CrossProductFailed(const char *, const char *, unsigned) {}
+static __forceinline void CrossProduct(const Vector3 &a,const Vector3 &b,Vector3 *set_result) {
+	(void)( (set_result != &a) || (CrossProductFailed("set_result != &a", __FILE__, 375), 0) );
+	set_result->X = (a.Y * b.Z - a.Z * b.Y);
+	set_result->Y = (a.Z * b.X - a.X * b.Z);
+	set_result->Z = (a.X * b.Y - a.Y * b.X);
+}
 inline BfmeE8::BfmeE8(const Vector3 &v) : X(v.X), Y(v.Y) {}
 
 // Retail's Coord3D copy constructor makes _Construct<Coord3D> the null-checked body at 0x002CA82C.
@@ -443,12 +453,12 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	Vector3 lightDir = m_lightDirection;
 	lightDir.Normalize();
 	Vector3 axis1;
-	Vector3::Cross_Product(lightDir, Vector3(1.0f, 0.0f, 0.0f), &axis1);
+	CrossProduct(lightDir, Vector3(1.0f, 0.0f, 0.0f), &axis1);
 	if (axis1.Length2() < 0.1f)
-		Vector3::Cross_Product(lightDir, Vector3(0.0f, 1.0f, 0.0f), &axis1);
+		CrossProduct(lightDir, Vector3(0.0f, 1.0f, 0.0f), &axis1);
 	axis1.Normalize();
 	Vector3 axis2;
-	Vector3::Cross_Product(lightDir, axis1, &axis2);
+	CrossProduct(lightDir, axis1, &axis2);
 	axis2.Normalize();
 	Matrix3D lightTm;
 	lightTm.Set(axis1, axis2, lightDir, Vector3(0.0f, 0.0f, 0.0f));
