@@ -1,15 +1,17 @@
 // ?rva004404AC@AptMpGameSetup@@QAEX_NH@Z
-// partial score=0.9 date=2026-10-21
+// partial score=0.99 date=2026-10-22
 // ?rva004404AC@AptMpGameSetup@@QAEX_NH@Z
-// partial score=0.9 date=2026-10-21
+// partial score=0.99 date=2026-10-22
 // cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
-// STANDALONE: Code/GameEngine/Source/GameClient/GUI/Rva0043F483PopulatePlayerCombo.cpp at
-// 0d2e55ad1c (its cl line, no /G7 /arch:SSE) with the body appended at the end. That unit is
-// the home: appended to MpGameSetupSlots.cpp or MpGameSetupSlots_Init.cpp the same body gives
-// 606B without the EH frame. Here it gives 526/526B, 0 structural regions, every instruction
-// identical except the this/slot register roles (ours this=EDI slot=ESI, retail this=ESI
-// slot=EDI). History: reverse/attempt_support/0x004404ac-*.md.
+// STANDALONE: Code/GameEngine/Source/GameClient/GUI/Rva0043F483PopulatePlayerCombo.cpp
+// with the candidate appended at the end. Keep its same-unit helpers and flags.
+// 526 bytes / 183 instructions, zero structural differences, five EAX/ECX operand
+// differences in the team-window and locked-flag region (0x4405EC..0x440612).
+// Receiver/index now use retail's ESI/EDI. Both team arms intentionally have the
+// same semantics; C2 merges the instructions while changing allocation costs.
+// This is matching evidence, not a claim about the original source spelling.
+// Handoff: reverse/attempt_support/0x004404ac-mergeweb-20261022/readme.md
 //
 // Small AptMpGameSetup members of BFME2's LAN lobby panel (the screen's +0x288
 // object: its callback registration 0x0044303D binds the rowed
@@ -1134,6 +1136,7 @@ void AptMpGameSetup::rva004404AC(bool enable, int slot)
 	if (m_playerTemplate[slot])
 		m_playerTemplate[slot]->winEnable(enable);
 	GameWindow **team = &m_team[slot];
+if (slot == 0) {
 	if (*team)
 	{
 		bool locked = m_rules.m_04 == 1;
@@ -1147,6 +1150,22 @@ void AptMpGameSetup::rva004404AC(bool enable, int slot)
 		}
 		(*team)->winEnable(teamEnable);
 	}
+} else {
+	if (*team)
+	{
+		bool locked = m_rules.m_04 == 1;
+		bool teamEnable;
+		if (enable && !observer && !locked)
+			teamEnable = true;
+		else
+		{
+			teamEnable = false;
+			GadgetComboBoxHideList(*team);
+		}
+		(*team)->winEnable(teamEnable);
+	}
+}
+
 	if (slot == game->v13())
 	{
 		bool found = false;
