@@ -113,7 +113,7 @@ inline AsciiStringPlusStringText operator+(const AsciiStringPlusString &left, co
 // The independent +0x4C/+0x5C page selections are -1 in retail; the
 // +0x2C/+0x3C tab-window holders are separately destructible owners.
 #include <vector>
-struct BfmeStringRecord005F93E3 {unsigned word0,word1;UnicodeString text;~BfmeStringRecord005F93E3();};
+#include "../../../../Common/BfmeStringRecord005F93E3.h"
 class Rva005FA0C9;
 struct Rva005FA197Element {Rva005FA0C9*ptr;Rva005FA197Element(const Rva005FA197Element&);~Rva005FA197Element();};
 class Rva005FA0F7;

@@ -20,11 +20,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include "unicode_string.h"
-struct BfmeStringRecord005F93E3 {
-    unsigned int word0;
-    unsigned int word1;
-    UnicodeString text;
-};
+#include "../../../../GameEngine/Source/Common/BfmeStringRecord005F93E3.h"
 inline bool operator==(const BfmeStringRecord005F93E3 &x, const BfmeStringRecord005F93E3 &y) { return x.word0 == y.word0; }
 inline bool operator<(const BfmeStringRecord005F93E3 &x, const BfmeStringRecord005F93E3 &y) { return x.word0 < y.word0; }
 

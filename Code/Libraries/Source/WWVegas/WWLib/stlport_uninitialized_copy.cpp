@@ -100,13 +100,7 @@ public:
 	char m_body[12];
 };
 
-struct BfmeStringRecord005F93E3
-{
-public:
-	BfmeStringRecord005F93E3();
-	BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &other);
-	char m_body[12];
-};
+#include "../../../../GameEngine/Source/Common/BfmeStringRecord005F93E3.h"
 
 class RvaSmartPtr12
 {

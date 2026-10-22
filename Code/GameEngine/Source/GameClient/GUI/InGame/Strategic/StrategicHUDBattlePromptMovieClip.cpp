@@ -16,7 +16,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include "ascii_string.h"
 #include "unicode_string.h"
-struct BfmeStringRecord005F93E3 {unsigned int word0,word1;UnicodeString text;~BfmeStringRecord005F93E3();};
+#include "../../../../Common/BfmeStringRecord005F93E3.h"
 struct Rva005F91F3Src {unsigned int header,word0,word1;UnicodeString text;};
 struct Rva005F91F3 {unsigned int word0,word1;UnicodeString text;Rva005F91F3(const Rva005F91F3Src &);};
 void Rva00030830FreeAllocation(void *);

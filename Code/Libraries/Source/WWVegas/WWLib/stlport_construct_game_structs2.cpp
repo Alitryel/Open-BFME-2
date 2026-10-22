@@ -18,11 +18,7 @@ public:
 	BfmeStringRecord004071F7(const BfmeStringRecord004071F7 &other);
 };
 
-struct BfmeStringRecord005F93E3
-{
-public:
-	BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &other);
-};
+#include "../../../../GameEngine/Source/Common/BfmeStringRecord005F93E3.h"
 
 struct BfmeRecordOwner900
 {

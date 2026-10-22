@@ -55,10 +55,7 @@ struct BfmeStringRecord005EC43C {
     UnicodeString text; unsigned int word0, word1, word2, word3, word4;
     BfmeStringRecord005EC43C(const BfmeStringRecord005EC43C &o);
 };
-struct BfmeStringRecord005F93E3 {
-    unsigned int word0, word1; UnicodeString text;
-    BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &o);
-};
+#include "BfmeStringRecord005F93E3.h"
 
 namespace _STL
 {
