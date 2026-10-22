@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHa /Oy-
+// cl: /DNDEBUG /MD /EHa
 // readable body of ??0DebugIONet@@QAE@XZ: Code/Libraries/Source/WWVegas/WWDebug/debug_io_net.cpp
 // Open-BFME: empty DebugIONet ctor. Inlines the DebugIOInterface vtable
 // store, then stores the derived vtable, with the EH state around the
@@ -24,6 +24,10 @@ public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug/internal_io.h
+// Keep the base deleting destructor frameless, as its rowed owner does.
+// The derived constructor/factory retain the native EBP frame.
+#pragma optimize("y", off)
+
 class DebugIONet : public DebugIOInterface
 {
 public:

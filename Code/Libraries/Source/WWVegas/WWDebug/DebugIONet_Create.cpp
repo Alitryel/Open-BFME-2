@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHa /Oy-
+// cl: /DNDEBUG /MD /EHa
 
 // Preserve placement construction and unwind without an unused competing
 // external placement-new copy (the established WWDebug factory spelling).
@@ -31,6 +31,10 @@ public:
 	virtual void Execute(class Debug &dbg, const char *cmd, bool structuredCmd, unsigned argn, const char *const *argv) = 0;
 	virtual void Delete(void) = 0;
 };
+
+// Keep the base deleting destructor frameless, as its rowed owner does.
+// The derived constructor/factory retain the native EBP frame.
+#pragma optimize("y", off)
 
 class DebugIONet : public DebugIOInterface
 {
