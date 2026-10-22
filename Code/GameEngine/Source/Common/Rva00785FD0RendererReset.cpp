@@ -11,16 +11,23 @@
 #include "../../../../reference/shims/bfme_matrix4_sse_link/matrix4.h"
 
 class Rva00785FD0Renderer;
-extern Matrix4 BFME2World;
-// Owned here: the world-matrix cache the render units overwrite with
-// Transpose() results; retail .data starts it at zeros.
-// Preserve zero-initialized storage without a default-constructor copy.
-Matrix4 BFME2World(false);
+// DX8Wrapper::render_state (dx8wrapper.cpp, protected static, 656 bytes at 0x00DEE5D8): this view names only the transforms; world is +0x1EC, view +0x22C.
+struct RenderStateStruct
+{
+	char m_shaderToLights[0x1EC];
+	Matrix4 world;
+	Matrix4 view;
+	char m_buffers[0x290 - 0x26C];
+};
 typedef char RendererMatrixStorageSize[sizeof(Matrix4)==64 ? 1 : -1];
 class BfmeHub982 { public: void bfmeEnd982C(); };
 
 class DX8Wrapper
 {
+protected:
+	static RenderStateStruct render_state;
+private:
+
  friend class Rva00785FD0Renderer;
 protected:
  static int ResolutionWidth, ResolutionHeight;
@@ -206,7 +213,7 @@ void Rva00785FD0Renderer::rva00110FBF()
  world[2][2]=0.0f;
  world[0][3]=worldTranslateX; world[1][3]=worldTranslateY;
  world[2][3]=0.5f;
- BFME2World=world.Transpose();
+ DX8Wrapper::render_state.world=world.Transpose();
  DX8Wrapper::render_state_changed|=1;
  DX8Wrapper::render_state_changed&=~0x40000u;
  m_vertexOffset=0;

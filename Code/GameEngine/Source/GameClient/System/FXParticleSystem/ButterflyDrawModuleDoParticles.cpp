@@ -104,7 +104,14 @@ class ShaderClass {public:unsigned ShaderBits;static ShaderClass _PresetAdditive
 // Use the existing four-byte particle shader storage owner.
 extern unsigned int BfmeParticleType2ShaderBits;
 // The existing world cache owns the complete matrix at RVA 009EE7C4.
-extern Matrix4 BFME2World;
+// DX8Wrapper::render_state (dx8wrapper.cpp, protected static, 656 bytes at 0x00DEE5D8): this view names only the transforms; world is +0x1EC, view +0x22C.
+struct RenderStateStruct
+{
+	char m_shaderToLights[0x1EC];
+	Matrix4 world;
+	Matrix4 view;
+	char m_buffers[0x290 - 0x26C];
+};
 class TextureClass {public:void Release_Ref();};
 class BFME2ParticleTextureHandle {public:~BFME2ParticleTextureHandle(){if(Ptr)Ptr->Release_Ref();}TextureClass*Ptr;};
 class TextureAsset {public:static BFME2ParticleTextureHandle Get(const char*,int,int);};
@@ -112,7 +119,11 @@ template<class T>class RefCountPtr {public:const RefCountPtr&operator=(const Ref
 class Rva0090F8C0Holder {public:void set(int,RefCountClass*,RefCountClass*,RefCountClass*,RefCountClass*);};
 class Rva00177860 {public:void rva00177F82(RenderInfoClass&);void*refs[4];int count;RefCountPtr<TextureClass> texture;unsigned shader;float tail[4];};
 extern Rva00177860*g_00E06254;
-class DX8Wrapper {friend class FXParticleSystem::ButterflyDrawModule;protected:static unsigned render_state_changed;static Matrix4 DeviceProjectionMatrix;static bool FogEnable;private:static Matrix4 render_state_view;public:static __forceinline void Get_Transform(int t,Matrix4&m){switch((int)t){case 0x100:if(render_state_changed&0x40000)m.identity();else m=BFME2World.Transpose();break;case 2:if(render_state_changed&0x80000)m.identity();else m=render_state_view.Transpose();break;case 3:m=DeviceProjectionMatrix.Transpose();break;default:m.identity();break;}}};
+class DX8Wrapper {
+protected:
+	static RenderStateStruct render_state;
+private:
+friend class FXParticleSystem::ButterflyDrawModule;protected:static unsigned render_state_changed;static Matrix4 DeviceProjectionMatrix;static bool FogEnable;public:static __forceinline void Get_Transform(int t,Matrix4&m){switch((int)t){case 0x100:if(render_state_changed&0x40000)m.identity();else m=DX8Wrapper::render_state.world.Transpose();break;case 2:if(render_state_changed&0x80000)m.identity();else m=DX8Wrapper::render_state.view.Transpose();break;case 3:m=DeviceProjectionMatrix.Transpose();break;default:m.identity();break;}}};
 class WW3D {friend class FXParticleSystem::ButterflyDrawModule;static bool IsCurrentlyRenderingShadowMap;};
 class Rva001F4E2D {public:bool rva001F4E2D();};
 class Rva001F4D2D {public:float rva001F4D2D();};

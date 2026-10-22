@@ -23,9 +23,20 @@ extern "C" void _ReadWriteBarrier(void);
 struct BFME2TextureResource;
 struct BFME2TextureRef { BFME2TextureResource* Ptr; };
 void BFME2Set_Texture(unsigned,const BFME2TextureRef&);
-extern Matrix4 BFME2World;
+// DX8Wrapper::render_state (dx8wrapper.cpp, protected static, 656 bytes at 0x00DEE5D8): this view names only the transforms; world is +0x1EC, view +0x22C.
+struct RenderStateStruct
+{
+	char m_shaderToLights[0x1EC];
+	Matrix4 world;
+	Matrix4 view;
+	char m_buffers[0x290 - 0x26C];
+};
 // render_state_changed is protected in dx8wrapper.h (mangled @@1IA, as dx8wrapper.cpp defines it).
-class DX8Wrapper { friend class W3DAptRenderer; protected: static unsigned render_state_changed; public: static void bfmeRva00120650(unsigned,unsigned); static bool Has_Stencil(); static void Set_DX8_Render_State(unsigned long,unsigned); static void Set_Shader(const ShaderClass&); };
+class DX8Wrapper {
+protected:
+	static RenderStateStruct render_state;
+private:
+ friend class W3DAptRenderer; protected: static unsigned render_state_changed; public: static void bfmeRva00120650(unsigned,unsigned); static bool Has_Stencil(); static void Set_DX8_Render_State(unsigned long,unsigned); static void Set_Shader(const ShaderClass&); };
 struct BfmeAptVertexFormat { char unknown[12]; int vertexSize; };
 struct BfmeAptVertexBufferInterface {
  virtual void slot0()=0; virtual void slot1()=0; virtual void slot2()=0;
@@ -118,7 +129,7 @@ void W3DAptRenderer::rva00110CFE() {
    matrix[2][3]=z;
    _ReadWriteBarrier();
    shader.Set_Alpha_Test(ShaderClass::ALPHATEST_DISABLE);
-   BFME2World=matrix.Transpose();
+   DX8Wrapper::render_state.world=matrix.Transpose();
    DX8Wrapper::render_state_changed=(DX8Wrapper::render_state_changed&0xfffbffff)|1;
   }
   DX8Wrapper::Set_Shader(shader);

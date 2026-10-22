@@ -13,7 +13,7 @@
 //    gives its +0xA4 storage whose slots 11..15 return the vertex
 //    declaration the vertex buffer the vertex count the index buffer and
 //    the shader (by value); all four must be present;
-//  - the world transform becomes the identity (BFME2World with the world
+//  - the world transform becomes the identity (DX8Wrapper::render_state.world with the world
 //    changed bit set and the identity bit cleared) the buffers are bound
 //    (rowed Set_Vertex_Buffer / Set_Index_Buffer) the declaration set
 //    (D3D slot 87) and the rowed Apply_Render_State_Changes runs;
@@ -191,11 +191,22 @@ public:
 	}
 	Vector4 Row[4];
 };
-extern Matrix4 BFME2World;
+// DX8Wrapper::render_state (dx8wrapper.cpp, protected static, 656 bytes at 0x00DEE5D8): this view names only the transforms; world is +0x1EC, view +0x22C.
+struct RenderStateStruct
+{
+	char m_shaderToLights[0x1EC];
+	Matrix4 world;
+	Matrix4 view;
+	char m_buffers[0x290 - 0x26C];
+};
 void BFME2Set_Device_Transform(int transform, const Matrix4 &m);
 
 class DX8Wrapper
 {
+protected:
+	static RenderStateStruct render_state;
+private:
+
 public:
 	static void Set_Index_Buffer(const IndexBufferClass *ib, unsigned short index_base_offset);
 	static void Set_Vertex_Buffer(const VertexBufferClass *vb, unsigned int stream);
@@ -209,7 +220,7 @@ public:
 		switch (transform)
 		{
 		case 256:
-			BFME2World = m2.Transpose();
+			DX8Wrapper::render_state.world = m2.Transpose();
 			render_state_changed |= 0x1;
 			render_state_changed &= ~0x40000;
 			break;

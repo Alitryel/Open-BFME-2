@@ -199,7 +199,12 @@ bool								DX8Wrapper::world_identity;
 unsigned							DX8Wrapper::RenderStates[256];
 unsigned							DX8Wrapper::TextureStageStates[MAX_TEXTURE_STAGES][32];
 IDirect3DBaseTexture8 *		DX8Wrapper::Textures[MAX_TEXTURE_STAGES];
+// Retail keeps render_state in zero .bss and constructs it at startup (the rowed
+// initializer 0x007ACC20 calls the out-of-line constructor 0x0011FB40); without
+// inlining here the constructor is not folded into initialized data either.
+#pragma inline_depth(0)
 RenderStateStruct				DX8Wrapper::render_state;
+#pragma inline_depth()
 unsigned							DX8Wrapper::render_state_changed;
 
 bool								DX8Wrapper::FogEnable									= false;

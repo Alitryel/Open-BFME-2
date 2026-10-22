@@ -244,7 +244,14 @@ public:
 
 	Vector4 Row[4];
 };
-extern Matrix4 BFME2World;
+// DX8Wrapper::render_state (dx8wrapper.cpp, protected static, 656 bytes at 0x00DEE5D8): this view names only the transforms; world is +0x1EC, view +0x22C.
+struct RenderStateStruct
+{
+	char m_shaderToLights[0x1EC];
+	Matrix4 world;
+	Matrix4 view;
+	char m_buffers[0x290 - 0x26C];
+};
 
 enum _D3DTRANSFORMSTATETYPE
 {
@@ -255,6 +262,10 @@ enum _D3DTRANSFORMSTATETYPE
 
 class DX8Wrapper
 {
+protected:
+	static RenderStateStruct render_state;
+private:
+
 public:
 	static void Set_Light_Environment(LightEnvironmentClass *light_env);
 	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
@@ -265,12 +276,12 @@ public:
 		switch ((int)transform)
 		{
 		case D3DTS_WORLD:
-			BFME2World = m2.Transpose();
+			DX8Wrapper::render_state.world = m2.Transpose();
 			render_state_changed |= 0x1;
 			render_state_changed &= ~0x40000;
 			break;
 		case D3DTS_VIEW:
-			render_state_view = m2.Transpose();
+			DX8Wrapper::render_state.view = m2.Transpose();
 			render_state_changed |= 0x2;
 			render_state_changed &= ~0x80000;
 			break;
@@ -298,10 +309,7 @@ protected:
 
 private:
 	template<class T> friend struct DataRowPrivateProbe;
-	static Matrix4 render_state_view;
 };
-// Owned here: the view-matrix cache written above; retail .data starts it at 0.
-Matrix4 DX8Wrapper::render_state_view;
 
 // The rowed 0x00308DF0: the standing water area's (lazily reloaded) FX
 // shader setup.

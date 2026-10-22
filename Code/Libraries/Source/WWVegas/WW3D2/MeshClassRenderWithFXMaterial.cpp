@@ -103,11 +103,22 @@ struct IDirect3DDevice8
 	virtual long __stdcall GetTransform(D3DTRANSFORMSTATETYPE state, D3DMATRIX *matrix);
 };
 
-extern Matrix4 BFME2World;
+// DX8Wrapper::render_state (dx8wrapper.cpp, protected static, 656 bytes at 0x00DEE5D8): this view names only the transforms; world is +0x1EC, view +0x22C.
+struct RenderStateStruct
+{
+	char m_shaderToLights[0x1EC];
+	Matrix4 world;
+	Matrix4 view;
+	char m_buffers[0x290 - 0x26C];
+};
 extern unsigned number_of_DX8_calls;
 
 class DX8Wrapper
 {
+protected:
+	static RenderStateStruct render_state;
+private:
+
 public:
 	enum ChangedStates
 	{
@@ -122,12 +133,12 @@ public:
 		Matrix4 m2(matrix3D);
 		switch ((int)transform) {
 		case D3DTS_WORLD:
-			BFME2World = m2.Transpose();
+			DX8Wrapper::render_state.world = m2.Transpose();
 			render_state_changed |= (unsigned)WORLD_CHANGED;
 			render_state_changed &= ~(unsigned)WORLD_IDENTITY;
 			break;
 		case D3DTS_VIEW:
-			(&BFME2World)[1] = m2.Transpose();
+			DX8Wrapper::render_state.view = m2.Transpose();
 			render_state_changed |= (unsigned)VIEW_CHANGED;
 			render_state_changed &= ~(unsigned)VIEW_IDENTITY;
 			break;
@@ -146,11 +157,11 @@ public:
 		switch ((int)transform) {
 		case D3DTS_WORLD:
 			if (render_state_changed & WORLD_IDENTITY) matrix4.Make_Identity();
-			else matrix4 = BFME2World.Transpose();
+			else matrix4 = DX8Wrapper::render_state.world.Transpose();
 			break;
 		case D3DTS_VIEW:
 			if (render_state_changed & VIEW_IDENTITY) matrix4.Make_Identity();
-			else matrix4 = (&BFME2World)[1].Transpose();
+			else matrix4 = DX8Wrapper::render_state.view.Transpose();
 			break;
 		default:
 			_Get_D3D_Device8()->GetTransform(transform, &mat);
@@ -164,7 +175,7 @@ public:
 	static __forceinline void Set_MeshFX_World_Identity(void)
 	{
 		if (render_state_changed & (unsigned)WORLD_IDENTITY) return;
-		BFME2World.Make_Identity();
+		DX8Wrapper::render_state.world.Make_Identity();
 		render_state_changed |= (unsigned)WORLD_CHANGED | (unsigned)WORLD_IDENTITY;
 	}
 
