@@ -57,6 +57,8 @@ private:
 	std::list<EvacuationRecord> m_pendingEvacuations;
 };
 
+// Declared, not defined here: the link keeps the rowed retail copy (this unit's own copy differs).
+namespace _STL { template <> void allocator<_List_node<EvacuationRecord> >::deallocate(_List_node<EvacuationRecord> *,unsigned int)const; }
 void EvacuateDamage::rva004BAF2D(void *obj)
 {
 	Holder *holder = m_object->m_holder;

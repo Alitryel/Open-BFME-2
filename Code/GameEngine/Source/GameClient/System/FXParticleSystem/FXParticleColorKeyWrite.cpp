@@ -25,6 +25,8 @@ template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(siz
 }
 class File {public: virtual ~File(); virtual bool open(const char*,int=0); virtual void close(); virtual int read(void*,int); virtual int write(const void*,int);};
 #include "../../../../../Libraries/Include/Lib/RGBColor.h"
+// Declared, not defined here: the link keeps the rowed retail copy (this unit's own copy differs).
+namespace _STL { template <> basic_ostream<char,char_traits<char> > & _M_put_num<char,char_traits<char>,unsigned long>(basic_ostream<char,char_traits<char> > &,unsigned long); }
 // bfme link decl-only begin
 namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> >::basic_ostream(basic_streambuf<char, char_traits<char> > *); }
