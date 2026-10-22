@@ -27,6 +27,9 @@
 #include "../../Common/GameLogicObjectLookupView.h"
 #include "../../Common/BfmeSpecialPowerTimer8.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+// Suppress this TU's non-retail copy of ??$_Construct@HH@_STL@@YAXPAHABH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Construct<int,int>(int *,int const &); }
 
 class GameLogic;
 extern GameLogic *TheGameLogic;

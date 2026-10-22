@@ -18,6 +18,14 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAUBfmeNarrowRecord00427F75@@PAU1@@_STL@@YAPAUBfmeNarrowRecord0042:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeNarrowRecord00427F75;
+namespace _STL { template <> BfmeNarrowRecord00427F75 * __uninitialized_copy<BfmeNarrowRecord00427F75 *,BfmeNarrowRecord00427F75 *>(BfmeNarrowRecord00427F75 *,BfmeNarrowRecord00427F75 *,BfmeNarrowRecord00427F75 *,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__partial_sort@PAUVersionBlockEntry@@U1@VVersionBlockKeyCompare@@@_STL@@YAXPAUVersionBl:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct VersionBlockEntry; class VersionBlockKeyCompare;
+namespace _STL { template <> void __partial_sort<VersionBlockEntry *,VersionBlockEntry,VersionBlockKeyCompare>(VersionBlockEntry *,VersionBlockEntry *,VersionBlockEntry *,VersionBlockEntry *,VersionBlockKeyCompare); }
 // Suppress this TU's non-retail copy of ??$__median@UVersionBlockEntry@@VVersionBlockKeyCompare@@@_STL@@YAABUVersionBlockEntry@@AB:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct VersionBlockEntry; class VersionBlockKeyCompare;
