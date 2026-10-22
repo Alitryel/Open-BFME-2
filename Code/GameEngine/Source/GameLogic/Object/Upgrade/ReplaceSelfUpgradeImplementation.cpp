@@ -139,13 +139,13 @@ struct BfmeShapeE15;
 class BfmeObjE15
 {
 public:
-	BfmeShapeE15 *bfmeAtE15(Int index);
+	BfmeShapeE15 *getGeometryShape(Int index);
 };
 class GeometryInfo
 {
 public:
 	Int getShapeCount() const { return (m_shapesLast - m_shapesFirst) / 0x24; }
-	BfmeShapeE15 *getShape(Int index) const { return ((BfmeObjE15 *)this)->bfmeAtE15(index); }
+	BfmeShapeE15 *getShape(Int index) const { return ((BfmeObjE15 *)this)->getGeometryShape(index); }
 private:
 	unsigned char m_pad00[0x2C];
 	const char *m_shapesFirst;			// +0x2C

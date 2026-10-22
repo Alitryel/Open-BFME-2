@@ -9,7 +9,7 @@ struct TargetQuickTemplate {char pad[0x56C];int priority;char pad570[0x634-0x570
 class Object {public:bool rva0028AFBB()const;void *vptr;TargetQuickTemplate *definition;char pad8[0x38-8];Coord3D position;char pad44[0xB8-0x44];float observedSize;char padBC[0x258-0xBC];char *ai;};
 class LocomotorSet {public:char pad[0x10];unsigned surfaces;};
 struct BfmeShapeE15 {char pad[0x10];Coord3D offset;char tail[8];};
-class BfmeObjE15 {public:BfmeShapeE15 *bfmeAtE15(int);};
+class BfmeObjE15 {public:BfmeShapeE15 *getGeometryShape(int);};
 struct QuickStructureCellInfo {char pad[0x28];int structure;};
 class PathfindCell {public:QuickStructureCellInfo *info;int word4;unsigned short zone;unsigned short wordA;unsigned flags;enum CellType {CLEAR=0,OBSTACLE=4};CellType type()const{return (CellType)(flags&15);}};
 struct Rva002E8BCFSrc;
@@ -49,7 +49,7 @@ bool Pathfinder::QuickDoesPathExistToStructure(Object *object,const Coord3D *fro
  PathfindCell *sourceCell=rva002E8BF8(sourceLayer,from);
  PathfindCell *targetCell=rva002E8BF8(targetLayer,&target);
  if(targetCell->type()!=4){
-  const Coord3D &offset=((BfmeObjE15*)((char*)container+0xA8))->bfmeAtE15(0)->offset;
+  const Coord3D &offset=((BfmeObjE15*)((char*)container+0xA8))->getGeometryShape(0)->offset;
   target.x=offset.x+target.x;target.y=offset.y+target.y;target.z=offset.z+target.z;
   targetCell=rva002E8BF8(targetLayer,&target);
   if(targetCell->type()!=4)return QuickDoesPathExist(object,from,&target,(int)set);

@@ -1503,3 +1503,12 @@ __ehhandler$??0Rva0010F058@@QAE@H@Z,0x0076484D,Renamed to __ehhandler$??0Rva0010
 __ehhandler$??0Rva005D0C31@@QAE@PAX@Z,0x007A1C6F,Renamed to __ehhandler$??0Rva005D078B@@QAE@PAX@Z (class reconciliation: retail ctor 0x005D0C31 installs vtable 0x00875574 whose slot 0 is the rowed scalar deleting dtor 0x005D0A9F of ??1Rva005D078B 0x005D078B)
 ?rva001100A6@Rva001100A6@@QAEXXZ,0x001100A6,Cursor ABI corrected to ?rva001100A6@Rva001100A6@@QAIXPAX@Z; render 0xA9F98 passes cursor in EDX; identifiers unchanged
 ?rva001100C5@Rva001100C5@@QAEXXZ,0x001100C5,Cursor ABI corrected to ?rva001100C5@Rva001100C5@@QAIXPAX@Z; render 0xA9F98 passes cursor in EDX; identifiers unchanged
+?bfmeAtE15@BfmeObjE15@@QAEPAUBfmeShapeE15@@H@Z,0x006BD980,"Renamed to ?getGeometryShape@BfmeObjE15@@QAEPAUBfmeShapeE15@@H@Z by tools/rename.py (canonical:wb)"
+?Rva0044C3D4@@YA_NXZ,0x0044C3D4,"Renamed to ?DoAnyHeroTransfer@@YA_NXZ by tools/rename.py (canonical:wb)"
+?rva001518B2@Rva001518B2@@QAEXXZ,0x001518B2,"Renamed to ?PreLoad@Rva001518B2@@QAEXXZ by tools/rename.py (canonical:wb)"
+?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z,0x0016E450,"Renamed to ?GetEdges@Rva0016E450Source@@QAEPAXPAH@Z by tools/rename.py (canonical:wb)"
+__ehhandler$?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z,0x007677E0,"Renamed to __ehhandler$?GetEdges@Rva0016E450Source@@QAEPAXPAH@Z by tools/rename.py (canonical:wb)"
+?rva004E265F@SpawnArmy@@QAE?AVUnicodeString@@H@Z,0x004E265F,"Renamed to ?GetButtonHelp@SpawnArmy@@QAE?AVUnicodeString@@H@Z by tools/rename.py (canonical:wb)"
+__ehhandler$?rva004E265F@SpawnArmy@@QAE?AVUnicodeString@@H@Z,0x00791C2B,"Renamed to __ehhandler$?GetButtonHelp@SpawnArmy@@QAE?AVUnicodeString@@H@Z by tools/rename.py (canonical:wb)"
+?rva00567A6E@Rva00525E55@@QAEXH@Z,0x00567A6E,"Renamed to ?SetStance@Rva00525E55@@QAEXH@Z by tools/rename.py (canonical:wb)"
+?rva0057CA78@Rva0057CA78@@QAEHH@Z,0x0057CA78,"Renamed to ?GetNextSelectablePlayer@Rva0057CA78@@QAEHH@Z by tools/rename.py (canonical:wb)"

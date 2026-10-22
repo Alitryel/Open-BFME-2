@@ -15,7 +15,7 @@ public:
 class Rva0057CA78
 {
 public:
-	int rva0057CA78(int v);
+	int GetNextSelectablePlayer(int v);
 };
 
 class GameSlot
@@ -143,7 +143,7 @@ void *Rva0057C50C::v04(void *color, void *arg)
 	Rva0057CC70Color *src;
 	int slot = cC70Arg->m_field140;
 	if (slot == -1)
-		slot = ((Rva0057CA78 *)m_outer)->rva0057CA78(0);
+		slot = ((Rva0057CA78 *)m_outer)->GetNextSelectablePlayer(0);
 	GameSlot *gs = 0;
 	CC70Mid1 *cC70Mid1 = 0;
 	CC70Mid2 *cC70Mid2 = 0;

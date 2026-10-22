@@ -26,7 +26,7 @@ class Rva00279677{public:void rva00279677();};
 struct BfmeVecVNB{float x,y,z; BfmeVecVNB(const float *v):x(v[0]),y(v[1]),z(v[2]){} };
 class BfmeXformVNB{public:void bfmeApplyVNB(BfmeVecVNB*,float);};
 struct BfmeShapeE15 {int type;int field4;float major,minor,offsetX,offsetY,offsetZ;bool flag1C;char pad1D[3];bool enabled;char pad21[3];};
-class BfmeObjE15{public:BfmeShapeE15 *bfmeAtE15(int);};
+class BfmeObjE15{public:BfmeShapeE15 *getGeometryShape(int);};
 class Rva0087E370{public:void method(const Coord3D&,float,Region2D&)const;};
 struct FootprintTemplate {char pad[0x108];union {unsigned kinds[6];struct {unsigned kind0;unsigned pad1:28;unsigned isWall:1;unsigned isDefense:1;unsigned pad2:2;unsigned rest[4];};};unsigned words120;char pad124[0x4a0-0x124];float fenceWidth;__forceinline unsigned kind(int b)const{return kinds[b/32]&(1u<<(b%32));}};
 enum ObjectStatusTypes{Status77=77,Status88=88};
@@ -90,7 +90,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  if(drawable){if(drawable->rva0027267D((int)&data,(int)&poly,0,0)||drawable->rva002726C3((int)&data,(int)&poly,0,0))gate=true;}
  float angle=obj->orientation;
  for(int k=0;k<obj->end-obj->begin;++k){
-  BfmeShapeE15 *shape=((BfmeObjE15*)((char*)obj+0xa8))->bfmeAtE15(k);
+  BfmeShapeE15 *shape=((BfmeObjE15*)((char*)obj+0xa8))->getGeometryShape(k);
   if(!shape->enabled||shape->offsetZ>10.0f)continue;
   BfmeVecVNB pos(&objPos->x);
   float c=Cos(angle),s=Sin(angle);

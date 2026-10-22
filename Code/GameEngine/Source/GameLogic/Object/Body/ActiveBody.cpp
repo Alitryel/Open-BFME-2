@@ -361,7 +361,7 @@ struct BfmeShapeE15
 class BfmeObjE15
 {
 public:
-	BfmeShapeE15 *bfmeAtE15(int i);
+	BfmeShapeE15 *getGeometryShape(int i);
 	Int getNumShapes() const { return m_finish - m_start; }
 
 	unsigned char m_pad00[0x2C];
@@ -1635,7 +1635,7 @@ void ActiveBody::setCorrectDamageState(Bool arg)
 			Int count = geom.getNumShapes();
 			for (Int i = 0; i < count; ++i)
 			{
-				BfmeShapeE15 *shape = geom.bfmeAtE15(i);
+				BfmeShapeE15 *shape = geom.getGeometryShape(i);
 				if (((const StringBase<char> &)shape->m_name).compare("Bookend") == 0)
 				{
 					((BfmeObjF9 &)geom).rva0087FA50((const BfmeStrF9 &)AsciiString("Bookend"), 0);
@@ -1674,7 +1674,7 @@ void ActiveBody::setCorrectDamageState(Bool arg)
 			Int count = geom.getNumShapes();
 			for (Int i = 0; i < count; ++i)
 			{
-				BfmeShapeE15 *shape = geom.bfmeAtE15(i);
+				BfmeShapeE15 *shape = geom.getGeometryShape(i);
 				if (((const StringBase<char> &)shape->m_name).compare("Bookend") == 0)
 				{
 					((BfmeObjF9 &)geom).rva0087FA50((const BfmeStrF9 &)AsciiString("Bookend"), 0);

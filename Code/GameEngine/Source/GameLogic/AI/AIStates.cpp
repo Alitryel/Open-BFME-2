@@ -432,7 +432,7 @@ struct BfmeShapeE15
 class BfmeObjE15
 {
 public:
-	BfmeShapeE15 *bfmeAtE15(Int index);
+	BfmeShapeE15 *getGeometryShape(Int index);
 	unsigned char m_pad00[0x10];
 };
 
@@ -1006,8 +1006,8 @@ StateReturnType AIAttackMeleeEngageState::updateInternal()
 	{
 		inRange = true;
 		Real dist = (Real)sqrt(((Rva000CBA20 *)source)->distSq((const Rva000CBA20Point *)victim->getPosition()));
-		Real sourceRadius = source->m_geometryShapes.bfmeAtE15(0)->m_boundingRadius;
-		BfmeShapeE15 *victimShape = victim->m_geometryShapes.bfmeAtE15(0);
+		Real sourceRadius = source->m_geometryShapes.getGeometryShape(0)->m_boundingRadius;
+		BfmeShapeE15 *victimShape = victim->m_geometryShapes.getGeometryShape(0);
 		Real surfaceGap = dist - (victimShape->m_boundingRadius + (sourceRadius + 10.0f));
 		Real gap = surfaceGap + victim->rva0028AC7D();
 		if (gap < 0.0f)

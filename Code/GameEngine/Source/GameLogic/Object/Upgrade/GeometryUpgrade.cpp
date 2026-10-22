@@ -30,7 +30,7 @@ struct BfmeShapeE15
     bool active;
     char tail[3];
 };
-class BfmeObjE15 { public: BfmeShapeE15 *bfmeAtE15(int index); };
+class BfmeObjE15 { public: BfmeShapeE15 *getGeometryShape(int index); };
 class BfmeObjF9
 {
 public:
@@ -223,7 +223,7 @@ void GeometryUpgrade::upgradeImplementation()
         int count = geometry->end - geometry->begin;
         for (int i = 0; i < count; ++i)
         {
-            BfmeShapeE15 *shape = ((BfmeObjE15 *)geometry)->bfmeAtE15(i);
+            BfmeShapeE15 *shape = ((BfmeObjE15 *)geometry)->getGeometryShape(i);
             if (shape->active)
                 m_upgradeName = shape->name;
         }

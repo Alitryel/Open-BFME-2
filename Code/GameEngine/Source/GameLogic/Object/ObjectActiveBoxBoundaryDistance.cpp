@@ -29,7 +29,7 @@ struct BfmeVecVNB;
 class BfmeObjE15
 {
 public:
-    BfmeShapeE15 *bfmeAtE15(int index);
+    BfmeShapeE15 *getGeometryShape(int index);
 };
 
 class BfmeXformVNB
@@ -71,7 +71,7 @@ private:
 	friend class Object;
 };
 
-#define BfmeGeometryPieceAt(geometry, index) ((const BfmeGeometryPiece *)((BfmeObjE15 *)&(geometry))->bfmeAtE15(index))
+#define BfmeGeometryPieceAt(geometry, index) ((const BfmeGeometryPiece *)((BfmeObjE15 *)&(geometry))->getGeometryShape(index))
 #define BfmeTransformCenter(piece, position, angle) (((BfmeXformVNB *)(piece))->bfmeApplyVNB((BfmeVecVNB *)(position), angle))
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h

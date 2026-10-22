@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva0057CA78@Rva0057CA78@@QAEHH@Z retail 0x0057CA78 142B
+// ?GetNextSelectablePlayer@Rva0057CA78@@QAEHH@Z retail 0x0057CA78 142B
 // Evidence: this+0x18 via rowed 0x0043DA65 to GameInfo; virtual bool gate at
 // vtable +0x30 and int getter at vtable +0x34; rowed getConstSlot (0x003FF2BE)
 // and GameSlot::isAI (0x003FF127); slot startPos at +0x10 and playerTemplate at
@@ -51,10 +51,10 @@ struct Rva0057CA78
 {
 	char m_pad0[0x18];
 	Rva0043DA65 *m_ptr18;
-	int rva0057CA78(int start);
+	int GetNextSelectablePlayer(int start);
 };
 
-int Rva0057CA78::rva0057CA78(int start)
+int Rva0057CA78::GetNextSelectablePlayer(int start)
 {
 	GameInfo *info = (GameInfo *)m_ptr18->rva0043DA65();
 	if (!info)

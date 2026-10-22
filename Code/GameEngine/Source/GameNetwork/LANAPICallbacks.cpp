@@ -601,7 +601,7 @@ extern PlayerTemplateStore *ThePlayerTemplateStore;
 
 extern "C" __declspec(dllimport) Int __cdecl atoi( const char *text );
 
-Bool Rva0044C3D4( void );
+Bool DoAnyHeroTransfer( void );
 class GameWindow;
 void MessageBoxOk( UnicodeString titleString, UnicodeString bodyString, void (*okCallback)( void ) );
 Bool DoAnyMapTransfers( GameInfo *game );
@@ -942,7 +942,7 @@ void LANAPI::OnGameStart( void )
 		TheNetwork->parseUserList( m_currentGame );
 		TheGameLogic->clearGameData( false, false );
 
-		Bool heroesOk = Rva0044C3D4();
+		Bool heroesOk = DoAnyHeroTransfer();
 		if( !heroesOk )
 		{
 			OnPlayerLeave( m_name );
@@ -1023,7 +1023,7 @@ void LANAPI::OnWOTRGameStart( void )
 		TheNetwork->parseUserList( m_currentGame );
 		TheGameLogic->clearGameData( false, false );
 
-		Bool filesOk = Rva0044C3D4();
+		Bool filesOk = DoAnyHeroTransfer();
 		if( !filesOk )
 		{
 			OnPlayerLeave( m_name );

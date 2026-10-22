@@ -476,7 +476,7 @@ public:
 };
 extern NetworkInterface *TheNetwork;
 
-Bool Rva0044C3D4(void);
+Bool DoAnyHeroTransfer(void);
 Bool DoAnyMapTransfers(GameInfo *game);
 void InitGameLogicRandom(UnsignedInt seed);
 void GSMessageBoxOk(UnicodeString titleString, UnicodeString bodyString, void (*okFunc)(void));
@@ -573,7 +573,7 @@ void GameSpyStagingRoom::launchWOTRMPGame(void)
 	TheNetwork->parseUserList(this);
 	TheGameLogic->clearGameData(false, false);
 
-	Bool heroesOk = Rva0044C3D4();
+	Bool heroesOk = DoAnyHeroTransfer();
 	if (!heroesOk)
 	{
 		if (TheNetwork)
@@ -669,7 +669,7 @@ void GameSpyStagingRoom::launchGame(void)
 	TheNetwork->parseUserList(this);
 	TheGameLogic->clearGameData(false, false);
 
-	Bool heroesOk = Rva0044C3D4();
+	Bool heroesOk = DoAnyHeroTransfer();
 	if (!heroesOk)
 	{
 		if (TheNetwork)

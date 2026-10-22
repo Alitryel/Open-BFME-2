@@ -16,13 +16,13 @@ BfmeShapeE15 g_bfmeBadE15 = {{
 class BfmeObjE15
 {
 public:
-	BfmeShapeE15 *bfmeAtE15(int i);
+	BfmeShapeE15 *getGeometryShape(int i);
 	char m_00[0x2C];
 	BfmeShapeE15 *volatile m_start;
 	BfmeShapeE15 *m_finish;
 };
 
-BfmeShapeE15 *BfmeObjE15::bfmeAtE15(int i)
+BfmeShapeE15 *BfmeObjE15::getGeometryShape(int i)
 {
 	if (i >= 0)
 	{

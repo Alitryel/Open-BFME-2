@@ -666,7 +666,7 @@ public:
 class Rva0057CA78
 {
 public:
-	int rva0057CA78(int start);
+	int GetNextSelectablePlayer(int start);
 };
 
 // The panel's team, handicap and start position handlers, rowed under

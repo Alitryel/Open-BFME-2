@@ -95,7 +95,7 @@ struct BfmeShapeE15 : public BfmeXformVNB
 class BfmeObjE15
 {
 public:
-	BfmeShapeE15 *bfmeAtE15(int i);
+	BfmeShapeE15 *getGeometryShape(int i);
 	Int m_00;
 	bool m_small;			// +0x04
 	char m_pad05[0x10 - 0x05];
@@ -761,7 +761,7 @@ void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
  WatcherNode *list = 0;
  for (Int i = 0; i < obj->m_geometry.m_finish - obj->m_geometry.m_start; i++)
  {
-  BfmeShapeE15 *shape = obj->m_geometry.bfmeAtE15(i);
+  BfmeShapeE15 *shape = obj->m_geometry.getGeometryShape(i);
   if (!shape->m_active)
    continue;
   Coord3D offset = shape->m_offset;

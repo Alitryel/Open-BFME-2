@@ -19,12 +19,12 @@ private:
 class Rva001518B2
 {
 public:
-	void rva001518B2();
+	void PreLoad();
 private:
 	char m_pad00[0x14];
 	Rva001517DE *m_14;
 };
-void Rva001518B2::rva001518B2()
+void Rva001518B2::PreLoad()
 {
 	m_14 = new Rva001517DE;
 }

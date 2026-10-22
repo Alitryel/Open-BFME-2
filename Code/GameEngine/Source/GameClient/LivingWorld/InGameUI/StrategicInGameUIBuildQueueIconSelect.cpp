@@ -221,7 +221,7 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::SelectQueueIndex(int queue
 class Image;
 class SpawnArmy { public:
 	UnicodeString rva004E25AF(int);
-	UnicodeString rva004E265F(int);
+	UnicodeString GetButtonHelp(int);
  SpawnArmy(int index);
  const Image *GetPortraitImage(int index);	// 0x004E24DC
  virtual ~SpawnArmy();
@@ -332,7 +332,7 @@ namespace StrategicInGameUI {
 __declspec(noinline) static UnicodeString GetDisplayDescription(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
- if(queue->slot4(id,&army)) return ((SpawnArmy *)&army)->rva004E265F(context->m_id);
+ if(queue->slot4(id,&army)) return ((SpawnArmy *)&army)->GetButtonHelp(context->m_id);
  return UnicodeString::TheEmptyString;
 }
 }

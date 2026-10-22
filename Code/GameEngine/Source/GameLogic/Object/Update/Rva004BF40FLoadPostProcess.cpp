@@ -20,7 +20,7 @@ struct BfmeShapeE15
 class BfmeObjE15
 {
 public:
-	BfmeShapeE15 *bfmeAtE15(int index);
+	BfmeShapeE15 *getGeometryShape(int index);
 	int getCount() const { return (m_end - m_begin) / 36; }
 
 private:
@@ -71,7 +71,7 @@ void Rva004BF40F::rva004BF40F()
 	int count = shapes->getCount();
 	for (int i = 0; i < count; ++i)
 	{
-		BfmeShapeE15 *shape = shapes->bfmeAtE15(i);
+		BfmeShapeE15 *shape = shapes->getGeometryShape(i);
 		if (shape->m_name.compare("Bookend") == 0)
 		{
 			{

@@ -668,7 +668,7 @@ public:
 class Rva0057CA78
 {
 public:
-	int rva0057CA78(int start);
+	int GetNextSelectablePlayer(int start);
 };
 
 // The panel's team, handicap and start position handlers, rowed under
@@ -1506,7 +1506,7 @@ int AptMpGameSetup::rva00442CB3(unsigned int msg, unsigned int data1, unsigned i
 				{
 					int nextPlayer;
 					if (msg == 0x4008)
-						nextPlayer = ((Rva0057CA78 *)&m_60)->rva0057CA78(playerIdxInPos + 1);
+						nextPlayer = ((Rva0057CA78 *)&m_60)->GetNextSelectablePlayer(playerIdxInPos + 1);
 					else
 						nextPlayer = -1;
 					((Rva0043E0C5 *)this)->rva0043E132(playerIdxInPos, -1);
@@ -1516,7 +1516,7 @@ int AptMpGameSetup::rva00442CB3(unsigned int msg, unsigned int data1, unsigned i
 			}
 			else
 			{
-				int localSlot = ((Rva0057CA78 *)&m_60)->rva0057CA78(0);
+				int localSlot = ((Rva0057CA78 *)&m_60)->GetNextSelectablePlayer(0);
 				((Rva0043E0C5 *)this)->rva0043E132(localSlot, position);
 			}
 		}

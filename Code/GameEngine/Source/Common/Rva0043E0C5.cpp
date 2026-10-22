@@ -87,7 +87,7 @@ public:
 class Rva0057CA78
 {
 public:
-	int rva0057CA78(int value);
+	int GetNextSelectablePlayer(int value);
 };
 
 // What the callback 0x0043E6C9 is handed: the value at +0x12C is matched
@@ -201,7 +201,7 @@ void Rva0043E0C5::rva0043E6C9(Rva0043E6C9Arg *arg)
 			|| (info->amIHost() && info->getSlot(found)->isAI()))
 			rva0043E132(found, -1);
 	} else {
-		int index = m_60.rva0057CA78(0);
+		int index = m_60.GetNextSelectablePlayer(0);
 		if (index >= 0)
 			rva0043E132(index, value);
 	}

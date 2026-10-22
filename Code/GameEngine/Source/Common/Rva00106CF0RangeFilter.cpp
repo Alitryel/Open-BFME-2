@@ -18,7 +18,7 @@ struct Rva00106CF0Record
 class Rva0016E450Source
 {
 public:
-	void *rva0016E450(int *count);
+	void *GetEdges(int *count);
 };
 
 class Rva00106CF0Owner
@@ -48,7 +48,7 @@ void Rva00106CF0::UpdateSilhouetteLines()
 	Rva0016E450Source *source = owner->m_source;
 	unsigned int *output = m_output;
 	int count;
-	Rva00106CF0Record *record = (Rva00106CF0Record *)source->rva0016E450(&count);
+	Rva00106CF0Record *record = (Rva00106CF0Record *)source->GetEdges(&count);
 	if (count != 0)
 	{
 		do

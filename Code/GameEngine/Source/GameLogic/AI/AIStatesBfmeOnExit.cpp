@@ -634,7 +634,7 @@ struct BfmeShapeE15
 class BfmeObjE15
 {
 public:
-	BfmeShapeE15 *bfmeAtE15(int index);
+	BfmeShapeE15 *getGeometryShape(int index);
 };
 struct Rva0028AC4EEntry;
 class Thing
@@ -1641,8 +1641,8 @@ StateReturnType AIAttackMeleeHordeApproachTargetState::update()
 	{
 		specialTarget = true;
 		Real distance = (Real)sqrt(((Rva000CBA20 *)source)->distSq((const Rva000CBA20Point *)target->getPosition()));
-		Real sourceHeight = source->getShapes()->bfmeAtE15(0)->m_height;
-		Real gap = distance - (sourceHeight + target->getShapes()->bfmeAtE15(0)->m_height);
+		Real sourceHeight = source->getShapes()->getGeometryShape(0)->m_height;
+		Real gap = distance - (sourceHeight + target->getShapes()->getGeometryShape(0)->m_height);
 		Real range = target->rva0028AC7D() + gap;
 		if (range < 0.0f)
 			range = 0.0f;

@@ -74,7 +74,7 @@ class InGameHeroSelectInterface { public: class Impl { public: void SelectAllHer
 class Rva00525E55
 {
 public:
-	void rva00567A6E(Int a);
+	void SetStance(Int a);
 };
 class Rva00526342
 {
@@ -102,7 +102,7 @@ bool Rva00526342::rva00527111(Int a)
 }
 bool Rva00526342::rva00567D96(Int)
 {
-	m_08->rva00567A6E(m_0C);
+	m_08->SetStance(m_0C);
 	return true;
 }
 

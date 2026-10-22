@@ -28,7 +28,7 @@ class Image;
 class SpawnArmy:public Snapshot{public:SpawnArmy(int);virtual ~SpawnArmy();
 	void *rva004E23E2();
 	UnicodeString rva004E25AF(int);
-	UnicodeString rva004E265F(int);
+	UnicodeString GetButtonHelp(int);
 	int rva004E1755();
 	bool rva00319CED();
  SpawnArmy(const SpawnArmy&);
@@ -382,7 +382,7 @@ struct ArmyHelpBuildingView { unsigned char pad[0x24]; Rva0020E89C *region; };
 // help` site (the null army and null region tests are two ifs, not one ||) and
 // the queued-building counter sits in its own block, which lets cl share its
 // slot with the fetch return temporary like retail.
-UnicodeString SpawnArmy::rva004E265F(int id)
+UnicodeString SpawnArmy::GetButtonHelp(int id)
 {
  SpawnArmy *spawn=(SpawnArmy *)this;
  UnicodeString help=TheGameText->fetch(spawn->m_14);

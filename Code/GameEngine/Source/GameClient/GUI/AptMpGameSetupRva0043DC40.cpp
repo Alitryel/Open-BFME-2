@@ -808,7 +808,7 @@ class Rva0057CA78
 
 {
  public:
- int rva0057CA78(int start);
+ int GetNextSelectablePlayer(int start);
  
 }
 ;

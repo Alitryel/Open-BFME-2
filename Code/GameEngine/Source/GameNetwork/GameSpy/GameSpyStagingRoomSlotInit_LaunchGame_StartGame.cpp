@@ -478,7 +478,7 @@ public:
 };
 extern NetworkInterface *TheNetwork;
 
-Bool Rva0044C3D4(void);
+Bool DoAnyHeroTransfer(void);
 Bool DoAnyMapTransfers(GameInfo *game);
 void InitGameLogicRandom(UnsignedInt seed);
 void GSMessageBoxOk(UnicodeString titleString, UnicodeString bodyString, void (*okFunc)(void));

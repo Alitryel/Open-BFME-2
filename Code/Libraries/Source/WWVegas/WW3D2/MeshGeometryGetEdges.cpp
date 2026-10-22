@@ -89,7 +89,7 @@ void _bfme_debugRecordCallsite(int);
 #define GEOMETRY_REPORT(message) if(bfmeRva000387C0()) { _bfme_debugRecordCallsite(1); theDebug->slot60(); theDebug->slot6c(0,0,0).slot38("Geometry for model ").slot38(Get_Name()).slot38(message).slot4c(2); }
 class Rva0016E450Source {
 public:
- void *rva0016E450(int *edgeCount);
+ void *GetEdges(int *edgeCount);
  const char *Get_Name() { return MeshName ? MeshName->Get_Array() : 0; }
  char prefix[0x10];
  ShareBufferClass<char> *MeshName;
@@ -102,7 +102,7 @@ public:
 };
 // Welds vertices on positions quantized to 1/100, pairs each directed edge with its
 // reverse through a hash table and caches the edge list; the three reports flag meshes unfit for shadows.
-void *Rva0016E450Source::rva0016E450(int *edgeCount)
+void *Rva0016E450Source::GetEdges(int *edgeCount)
 {
  if(!Edges||!PolyCount||!VertexCount) { *edgeCount=0; return 0; }
  if(Edges->Get_Count()) { *edgeCount=Edges->Get_Count(); return Edges->Get_Array(); }

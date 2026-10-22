@@ -1,4 +1,4 @@
-// ?Rva0044C3D4@@YA_NXZ (0x0044C3D4, 493 B): WB DoAnyHeroTransfer (HeroTransfer.cpp).
+// ?DoAnyHeroTransfer@@YA_NXZ (0x0044C3D4, 493 B): WB DoAnyHeroTransfer (HeroTransfer.cpp).
 // The slot switch follows WB: a doIt flag set per kind, with send copied from it
 // only in the case 1/3 arm, which gives retail's send home and unthreaded test.
 // cl: /O1 /G6 /arch:SSE /MD /DNDEBUG /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
@@ -72,7 +72,7 @@ int GetGameClientRandomValue(int,int,char *,int);
 
 
 static __forceinline bool heroTransferReady() { return TheGameInfo && TheCreateAHeroManager; }
-bool Rva0044C3D4() {
+bool DoAnyHeroTransfer() {
  int i=0;
  if(!heroTransferReady())return false;
  else {

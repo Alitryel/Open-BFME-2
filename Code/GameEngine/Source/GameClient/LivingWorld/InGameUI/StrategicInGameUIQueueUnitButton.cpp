@@ -50,7 +50,7 @@ class SpawnArmy
 {
 public:
 	UnicodeString rva004E25AF(int playerID);
-	UnicodeString rva004E265F(int playerID);
+	UnicodeString GetButtonHelp(int playerID);
 	unsigned char m_pad00[0x48];
 	int m_48;
 	int m_4c;
@@ -158,7 +158,7 @@ Rva005E8908::Rva005E8908(int value, int playerID, SpawnArmy *unit)
 	: m_value(value), m_playerID(playerID),
 	  m_image(StrategicInGameUI::GetButtonImage(playerID, (SpawnArmy *)unit)),
 	  m_0c(unit->m_4c), m_10(unit->m_48),
-	  m_title(unit->rva004E25AF(playerID)), m_description(unit->rva004E265F(playerID))
+	  m_title(unit->rva004E25AF(playerID)), m_description(unit->GetButtonHelp(playerID))
 {
 }
 
