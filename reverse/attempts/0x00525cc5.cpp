@@ -1,4 +1,6 @@
 // ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
+// partial score=0.87 date=2026-10-22
+// ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
 // partial score=0.774 date=2026-10-19
 // ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
 // partial score=0.774 date=2026-10-17
@@ -18,6 +20,12 @@
 // listeners with the new node through the rowed 0x005258F8.
 // The frame guard selects sorted insertion before frame six and append afterward.
 // Notification dispatches virtual slot zero with the inserted iterator by value.
+// UPDATE 2026-10-22 (claude-opus-5-5): the rank loop written with a found flag
+// (while (!found && it != heroes.end()) { ... found = true; else ++it; }) is not
+// rotated: retail's top-tested cmp esi,[ebx] / jmp back shape, 213/213 B, every
+// instruction and branch aligned. Only residue: a 3-way callee-saved rotation
+// (retail obj=ESI, this/heroes=EBX, id+logic=EDI; ours obj=EDI, heroes=ESI,
+// id+logic=EBX), 27 lines, plus the unresolved 0x5258F8 iterator spelling.
 #include <list>
 
 namespace _STL {
@@ -73,12 +81,14 @@ void Holder00526309::Rva00525CC5(Obj00526309 *arg)
 		templ = obj->templ;
 		int rank = templ->rank638;
 		HeroInfoList::iterator it = heroes.begin();
-		for (; it != heroes.end(); ++it)
+		bool found = false;
+		while (!found && it != heroes.end())
 		{
 			Object *other = logic->findObjectByID((ObjectID)it->id);
-			if (!other) continue;
-			if (rank < other->templ->rank638)
-				break;
+			if (other && rank < other->templ->rank638)
+				found = true;
+			else
+				++it;
 		}
 		union { HeroNotify method; int fn; } binding;
 		binding.method = &Rva005259B9Listener::addHero;
