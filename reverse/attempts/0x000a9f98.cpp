@@ -1,5 +1,5 @@
 // ?render@AptShapeContainer@@QAEXXZ
-// partial score=0.96 date=2026-10-21
+// partial score=0.9898 date=2026-10-22
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /ICode/Libraries/Include/Lib
 // stlport
 // W3DAptAux.cpp -- W3DAptAux members recovered from WorldBuilder leads
@@ -539,6 +539,30 @@ static __forceinline void aptMatrixMulIndexed(V2 &out, const V2 &in, const AptRe
 	out.X = q[0] * m.a + q[1] * m.c + m.tx;
 	out.Y = q[0] * m.b + q[1] * m.d + m.ty;
 }
+static __forceinline void aptMatrixMulLineSecond(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	const float *q = &in.X;
+	float X0 = (m.a * q[0]);
+	float X1 = m.c * q[1];
+	out.X = X0 + X1 + m.tx;
+	out.Y = (((q[0] * m.b)) + ((q[1] * m.d))) + m.ty;
+}
+static __forceinline void aptMatrixMulSolidThird(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	const float *q = &in.X;
+	float X0 = (m.a * q[0]);
+	float X1 = (m.c * q[1]);
+	out.X = X0 + X1 + m.tx;
+	out.Y = q[0] * m.b + q[1] * m.d + m.ty;
+}
+static __forceinline void aptMatrixMulUVFirst(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	out.X = ((in.X * m.a) + (in.Y * m.c)) + m.tx;
+	out.Y = (in.X * m.b) + in.Y * m.d + m.ty;
+}
 void AptShapeContainer::render()
 {
 	V2 a, b;
@@ -577,7 +601,7 @@ void AptShapeContainer::render()
 					aptMatrixMul(v->pos, tri.p[1], m_transform);
 					v->z = 0.0f;
 					v->color = color;
-					aptMatrixMul(v->uv, tri.p[1], uvTransform);
+					aptMatrixMulUVFirst(v->uv, tri.p[1], uvTransform);
 					++v;
 					aptMatrixMul(v->pos, tri.p[0], m_transform);
 					v->z = 0.0f;
@@ -618,7 +642,7 @@ void AptShapeContainer::render()
 				v->z = 0.0f;
 				v->color = color;
 				++v;
-				aptMatrixMulIndexed(v->pos, tri.p[1], m_transform);
+				aptMatrixMulSolidThird(v->pos, tri.p[1], m_transform);
 				v->z = 0.0f;
 				v->color = color;
 				++v;
@@ -638,7 +662,7 @@ void AptShapeContainer::render()
 			for (_STL::vector<AptLineSegment>::iterator g = line->m_segments.begin(); g != line->m_segments.end(); ++g) {
 				const AptLineSegment &segment = *g;
 				aptMatrixMulNamedY(a, segment.a, m_transform);
-				aptMatrixMulIndexed(b, segment.b, m_transform);
+				aptMatrixMulLineSecond(b, segment.b, m_transform);
 				Rva001101D7Draw(W3DAptAux::s_renderer, (Rva001101D7 *)&lines, a, b, line->m_width, color);
 			}
 			W3DAptAux::s_renderer->rva001100C5(lines);
