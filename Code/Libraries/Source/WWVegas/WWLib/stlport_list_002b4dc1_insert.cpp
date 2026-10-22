@@ -27,7 +27,13 @@ bool operator<(const BfmeStringRecord002B4DC1 &a, const BfmeStringRecord002B4DC1
 // Retail's list(size_type) is rowed in stlport_list_002b8ff3_fill.cpp; keep this instantiation's
 // differing copy out of the link.
 namespace _STL { template <> list<BfmeStringRecord002B4DC1, allocator<BfmeStringRecord002B4DC1> >::list(unsigned int); }
-template class _STL::list<BfmeStringRecord002B4DC1, _STL::allocator<BfmeStringRecord002B4DC1> >;
+// Instantiate the recovered insert workers without the unrelated comparisons.
+namespace _STL {
+typedef list<BfmeStringRecord002B4DC1, allocator<BfmeStringRecord002B4DC1> > RecordList;
+template RecordList::iterator RecordList::insert(RecordList::iterator, const BfmeStringRecord002B4DC1 &);
+template void RecordList::_M_fill_insert(RecordList::iterator, unsigned int, const BfmeStringRecord002B4DC1 &);
+template void RecordList::insert(RecordList::iterator, unsigned int, const BfmeStringRecord002B4DC1 &);
+}
 
 // ?rva002B8106@Rva002B8106@@QAEXABUBfmeStringRecord002B4DC1@@@Z @ 0x002B8106 (26B).
 // Frameless forward to the rowed list::insert above with begin() position.
