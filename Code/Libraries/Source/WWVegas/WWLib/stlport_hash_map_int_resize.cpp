@@ -37,12 +37,13 @@ namespace _STL { template <> hash_map<int,int,hash<int>,equal_to<int>,allocator<
 namespace _STL { template <> void __advance<unsigned int const *,int>(unsigned int const * &,int,random_access_iterator_tag const &); }
 // Suppress this TU's non-retail copy of ??0?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
-
+
 namespace _STL { template <> hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::hashtable(size_t, const hash<int> &, const equal_to<int> &, const allocator<pair<const int, int> > &); }
 // Suppress this TU's non-retail copy of ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
 namespace _STL { template <> void hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::_M_initialize_buckets(size_t); }
 
-template class _STL::hash_map<int, int, _STL::hash<int>, _STL::equal_to<int>,
-	_STL::allocator<_STL::pair<const int, int> > >;
+template void _STL::hashtable<_STL::pair<const int, int>, int,
+    _STL::hash<int>, _STL::_Select1st<_STL::pair<const int, int> >,
+    _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, int> > >::resize(size_t);

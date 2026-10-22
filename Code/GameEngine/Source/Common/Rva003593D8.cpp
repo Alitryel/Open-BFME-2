@@ -37,6 +37,12 @@ struct Rva00358E26Record
 	bool operator==(const Rva00358E26Record &other) const { return word == other.word; }
 };
 
+namespace _STL {
+template <> unsigned int _Rb_tree<int, pair<const int, Rva00358E26Record>,
+    _Select1st<pair<const int, Rva00358E26Record> >, less<int>,
+    allocator<pair<const int, Rva00358E26Record> > >::erase(const int &);
+}
+
 class HotKeyManager
 {
 public:

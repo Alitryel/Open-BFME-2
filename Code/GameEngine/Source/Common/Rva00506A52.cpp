@@ -40,6 +40,12 @@ namespace _STL { template <> void allocator<const ModuleData *>::deallocate(cons
 class ModuleData;
 namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
 
+namespace _STL {
+template <> inline void _Construct<const ModuleData *, const ModuleData *>(
+    const ModuleData **p, const ModuleData *const &value)
+{ if (p) *p = value; }
+}
+
 class Player;
 class Object;
 class ModuleData;
