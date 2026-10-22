@@ -452,6 +452,22 @@ namespace _STL { template <> void vector<Rva0021F876, allocator<Rva0021F876> >::
 namespace _STL { template <> void vector<Rva00403927, allocator<Rva00403927> >::_M_clear(); }
 namespace _STL { template <> void vector<RvaSmartPtr12, allocator<RvaSmartPtr12> >::_M_clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00318203Element@@@_STL@@YAXPAURva00318203Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00318203Element;
+namespace _STL { template <> void _Destroy<Rva00318203Element *>(Rva00318203Element *,Rva00318203Element *); }
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00308E2CElement@@@_STL@@YAXPAURva00308E2CElement@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00308E2CElement;
+namespace _STL { template <> void _Destroy<Rva00308E2CElement *>(Rva00308E2CElement *,Rva00308E2CElement *); }
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva001DF3F1Element@@@_STL@@YAXPAURva001DF3F1Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001DF3F1Element;
+namespace _STL { template <> void _Destroy<Rva001DF3F1Element *>(Rva001DF3F1Element *,Rva001DF3F1Element *); }
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva001DAAF2Element@@@_STL@@YAXPAURva001DAAF2Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001DAAF2Element;
+namespace _STL { template <> void _Destroy<Rva001DAAF2Element *>(Rva001DAAF2Element *,Rva001DAAF2Element *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva00153A27Element@@@_STL@@YAXPAURva00153A27Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00153A27Element;
