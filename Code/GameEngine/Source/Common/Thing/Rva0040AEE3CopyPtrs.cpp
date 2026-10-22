@@ -5,8 +5,11 @@
 #include <vector>
 #include <algorithm>
 
+// The rowed range worker at 0x0040B218 advances by 16 bytes.
+// Preserve that stride in this opaque view when STLport emits __copy.
 class Rva0040AEE3
 {
+    char data[16];
 public:
 	Rva0040AEE3 &operator=(const Rva0040AEE3 &other);
 };

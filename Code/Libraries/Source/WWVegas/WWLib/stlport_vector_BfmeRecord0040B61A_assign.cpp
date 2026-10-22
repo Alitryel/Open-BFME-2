@@ -42,6 +42,50 @@ struct BfmeRecord0040B61A
 	int m_0C;
 };
 
-template _STL::vector<BfmeRecord0040B61A, _STL::allocator<BfmeRecord0040B61A> > &
-	_STL::vector<BfmeRecord0040B61A, _STL::allocator<BfmeRecord0040B61A> >::operator=(
-		const _STL::vector<BfmeRecord0040B61A, _STL::allocator<BfmeRecord0040B61A> > &);
+// The retail tail calls the existing 16-byte copy worker at 0x0040B2FD.
+// Its row retains the opaque Rva0040AEE3 spelling; do not emit a second
+// template copy using this unit's provisional element view.
+class Rva0040AEE3 { char data[16]; public: Rva0040AEE3(const Rva0040AEE3 &); };
+struct DestroyElem0040B52E;
+void Rva0040B52EDestroy(DestroyElem0040B52E *, DestroyElem0040B52E *);
+namespace _STL {
+template <> void _Construct<Rva0040AEE3, Rva0040AEE3>(Rva0040AEE3 *, const Rva0040AEE3 &);
+template <> BfmeRecord0040B61A *__uninitialized_copy<const BfmeRecord0040B61A *, BfmeRecord0040B61A *>(
+    const BfmeRecord0040B61A *, const BfmeRecord0040B61A *, BfmeRecord0040B61A *, const __false_type &);
+template <> inline Rva0040AEE3 *__uninitialized_copy<Rva0040AEE3 *, Rva0040AEE3 *>(
+    Rva0040AEE3 *first, Rva0040AEE3 *last, Rva0040AEE3 *result, const __false_type &)
+{
+    Rva0040AEE3 *cur = result;
+    for (; first != last; ++first, ++cur)
+        _Construct(cur, *first);
+    return cur;
+}
+template <>
+vector<BfmeRecord0040B61A, allocator<BfmeRecord0040B61A> > &
+vector<BfmeRecord0040B61A, allocator<BfmeRecord0040B61A> >::operator=(
+    const vector<BfmeRecord0040B61A, allocator<BfmeRecord0040B61A> > &__x)
+{
+    if (&__x != this) {
+        const size_type __xlen = __x.size();
+        if (__xlen > capacity()) {
+            pointer __tmp = _M_allocate_and_copy(__xlen, (const_pointer)__x._M_start+0,
+                (const_pointer)__x._M_finish+0);
+            _M_clear();
+            _M_start = __tmp;
+            _M_end_of_storage._M_data = _M_start + __xlen;
+        } else if (size() >= __xlen) {
+            pointer __i = __copy_ptrs((const_pointer)__x._M_start+0,
+                (const_pointer)__x._M_finish+0, (pointer)_M_start, _TrivialAss());
+            Rva0040B52EDestroy((DestroyElem0040B52E *)__i,
+                (DestroyElem0040B52E *)_M_finish);
+        } else {
+            __copy_ptrs((const_pointer)__x._M_start,
+                (const_pointer)__x._M_start + size(), (pointer)_M_start, _TrivialAss());
+            __uninitialized_copy((Rva0040AEE3 *)(__x._M_start + size()),
+                (Rva0040AEE3 *)__x._M_finish, (Rva0040AEE3 *)_M_finish, _IsPODType());
+        }
+        _M_finish = _M_start + __xlen;
+    }
+    return *this;
+}
+}
