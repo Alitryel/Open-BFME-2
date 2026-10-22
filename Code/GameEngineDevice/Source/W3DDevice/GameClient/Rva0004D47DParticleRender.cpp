@@ -35,6 +35,14 @@ namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAVRvaSmartPtr12@@V1@V?$allocator@VRvaSmartPtr12@@@_STL@@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class RvaSmartPtr12;
+namespace _STL { template <> RvaSmartPtr12 * _STLP_alloc_proxy<RvaSmartPtr12 *,RvaSmartPtr12,allocator<RvaSmartPtr12> >::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@VRvaSmartPtr12@@@_STL@@QBEXPAVRvaSmartPtr12@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class RvaSmartPtr12;
+namespace _STL { template <> void allocator<RvaSmartPtr12>::deallocate(RvaSmartPtr12 *,unsigned int) const; }
 
 class FrustumClass {};
 struct Vector3Data { float X, Y, Z; };

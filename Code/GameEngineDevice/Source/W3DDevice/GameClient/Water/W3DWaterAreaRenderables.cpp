@@ -18,6 +18,22 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00082C1DElement@@@_STL@@YAXPAURva00082C1DElement@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00082C1DElement;
+namespace _STL { template <> void _Destroy<Rva00082C1DElement *>(Rva00082C1DElement *,Rva00082C1DElement *); }
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00082BE6Element@@@_STL@@YAXPAURva00082BE6Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00082BE6Element;
+namespace _STL { template <> void _Destroy<Rva00082BE6Element *>(Rva00082BE6Element *,Rva00082BE6Element *); }
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAURva00082C1DElement@@@_STL@@YAXPAURva00082C1DElement@@0ABU__false_type@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00082C1DElement;
+namespace _STL { template <> void __destroy_aux<Rva00082C1DElement *>(Rva00082C1DElement *,Rva00082C1DElement *,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAURva00082BE6Element@@@_STL@@YAXPAURva00082BE6Element@@0ABU__false_type@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00082BE6Element;
+namespace _STL { template <> void __destroy_aux<Rva00082BE6Element *>(Rva00082BE6Element *,Rva00082BE6Element *,__false_type const &); }
 
 struct TreeHintRef00217D4C {void *p; ~TreeHintRef00217D4C();};
 namespace _STL {template<> vector<TreeHintRef00217D4C>::~vector();

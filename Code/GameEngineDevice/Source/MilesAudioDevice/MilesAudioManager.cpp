@@ -198,6 +198,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBIPAVImage@@@_STL@@V?$allocator@U?$pair@$$CBIPAVImage@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Image;
+namespace _STL { template <> _Rb_tree_base<pair<unsigned int const ,Image *>,allocator<pair<unsigned int const ,Image *> > >::~_Rb_tree_base(); }
 // Suppress this TU's non-retail copy of ??1?$_Vector_base@UOpaqueRefElement4@@V?$allocator@UOpaqueRefElement4@@@_STL@@@_STL@@QAE@X:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct OpaqueRefElement4;
