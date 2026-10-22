@@ -123,10 +123,6 @@ public:
     DefaultModuleTemplate<7> &operator=(const DefaultModuleTemplate<7> &that);
 };
 
-// A file-scope instance forces the implicit destructor out; it is what the
-// ledger compares.
-DefaultModuleTemplate<7> g_defaultModuleTemplate7;
-
 // The assignment hands straight through to the category base, the eighteen
 // bytes retail keeps next to the destructor fold.
 DefaultModuleTemplate<7> &DefaultModuleTemplate<7>::operator=(
@@ -252,12 +248,13 @@ inline OutwardEmissionVelocityModuleTemplate::~OutwardEmissionVelocityModuleTemp
 
 }
 
-// These twelve destructors are header inlines in copier units. The anchor retains
-// this unit's row copies; it is not retail code.
+// These header-inline destructors retain their row copies through this anchor.
+// The anchor is absent from retail.
 #pragma inline_depth(0)
 // ?_bfmeFXParticleSystemDefaultTemplateDtorInlineAnchor@@YAXXZ absent-from-retail
 void _bfmeFXParticleSystemDefaultTemplateDtorInlineAnchor()
 {
+    static_cast<FXParticleSystem::DefaultModuleTemplate<7> *>(0)->FXParticleSystem::DefaultModuleTemplate<7>::~DefaultModuleTemplate();
     static_cast<FXParticleSystem::DefaultModuleTemplate<0> *>(0)->FXParticleSystem::DefaultModuleTemplate<0>::~DefaultModuleTemplate();
     static_cast<FXParticleSystem::DefaultModuleTemplate<1> *>(0)->FXParticleSystem::DefaultModuleTemplate<1>::~DefaultModuleTemplate();
     static_cast<FXParticleSystem::DefaultModuleTemplate<2> *>(0)->FXParticleSystem::DefaultModuleTemplate<2>::~DefaultModuleTemplate();

@@ -347,6 +347,7 @@ public:
     public:                                                                                        \
         NAME();                                                                                    \
         NAME(const NAME &that);                                                                    \
+        virtual ~NAME();                                                                           \
                                                                                                    \
         NAME &operator=(const NAME &that);                                                         \
     };
@@ -380,6 +381,7 @@ class StreakDrawModuleTemplate : public ModuleTemplate, public SecondaryModuleBa
 public:
     StreakDrawModuleTemplate();
     StreakDrawModuleTemplate(const StreakDrawModuleTemplate &that);
+    virtual ~StreakDrawModuleTemplate();
 };
 
 class QuadDrawModule;
@@ -390,6 +392,7 @@ class QuadDrawModuleTemplate : public ModuleTemplate, public SecondaryModuleBase
 public:
     QuadDrawModuleTemplate();
     QuadDrawModuleTemplate(const QuadDrawModuleTemplate &that);
+    virtual ~QuadDrawModuleTemplate();
 };
 
 class ButterflyDrawModule;
@@ -400,6 +403,7 @@ class ButterflyDrawModuleTemplate : public ModuleTemplate, public SecondaryModul
 public:
     ButterflyDrawModuleTemplate();
     ButterflyDrawModuleTemplate(const ButterflyDrawModuleTemplate &that);
+    virtual ~ButterflyDrawModuleTemplate();
 };
 
 #define FX_EVENT_MODULE_TEMPLATE(NAME, INFO)                                                       \
@@ -408,6 +412,7 @@ public:
     public:                                                                                        \
         NAME();                                                                                    \
         NAME(const NAME &that);                                                                    \
+        virtual ~NAME();                                                                           \
                                                                                                    \
         NAME &operator=(const NAME &that);                                                         \
     };
@@ -651,7 +656,7 @@ OrthoEmissionVelocityModuleTag &(OrthoEmissionVelocityModuleTag::*g_orthoEmissio
     const OrthoEmissionVelocityModuleTag &) = &OrthoEmissionVelocityModuleTag::operator=;
 
 // The per-category default templates, each over the info its own category uses.
-#define FX_DEFAULT_TEMPLATE(CATEGORY, INFO)                                                            template <>                                                                                        class DefaultModuleTemplate<CATEGORY> : public ModuleTemplate, public SecondaryModuleBase,                                                 public INFO                                                {                                                                                                  public:                                                                                                DefaultModuleTemplate();                                                                           DefaultModuleTemplate(const DefaultModuleTemplate<CATEGORY> &that);                            };
+#define FX_DEFAULT_TEMPLATE(CATEGORY, INFO)                                                            template <>                                                                                        class DefaultModuleTemplate<CATEGORY> : public ModuleTemplate, public SecondaryModuleBase,                                                 public INFO                                                {                                                                                                  public:                                                                                                DefaultModuleTemplate();                                                                           DefaultModuleTemplate(const DefaultModuleTemplate<CATEGORY> &that); virtual ~DefaultModuleTemplate();                            };
 
 template <int CATEGORY>
 class DefaultModuleTemplate;
