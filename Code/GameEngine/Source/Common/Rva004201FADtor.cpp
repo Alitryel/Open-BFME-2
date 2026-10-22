@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHs /MD
+// cl: /O1 /Ob2 /EHs /MD /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // ??1VictoryConditions@@UAE@XZ, retail 0x004201FA, 62 bytes. Derived dtor of
 // VictoryConditions over Rva0041FE0E over SubsystemInterface: installs derived
 // vtable 0x00C3BA28 then calls rowed this->rva00420110 0x00420110 then
@@ -9,18 +9,16 @@
 // 0x0042017F overwrites to 0x00C3BA28; layout +0x10/+0x85 matches neighbours.
 
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-};
+// The shared native header gives Rva0041FE0E the same vtable (retail 0x00C3B988) as
+// GameEngineDeletingBaseDerived.cpp's view.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 class Rva0041FE0E : public SubsystemInterface
 {
 public:
 	Rva0041FE0E();
 	virtual ~Rva0041FE0E();
-	char m_pad04[8];
 	int m_0C;
 };
 
@@ -33,7 +31,11 @@ class VictoryConditions : public Rva0041FE0E
 public:
 	VictoryConditions();
     virtual ~VictoryConditions();
+    // Retail slot 1 of 0x00C3BA28 is the shared forwarder 0x000D20D6 to slot 9 (reset), as
+    // Zero Hour's VictoryConditions::init.
+    virtual void init() { reset(); }
     virtual void reset();
+    virtual void update();
     void rva00420110();
 private:
     bool m_endGameShowing; // +10
