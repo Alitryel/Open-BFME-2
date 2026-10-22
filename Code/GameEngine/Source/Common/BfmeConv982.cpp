@@ -110,7 +110,11 @@ public:
 	void bfmeEnd982C();
 };
 
-extern BfmeHub982 *g_bfmeHub982;
+class W3DAptAux
+{
+	friend void bfmeGo982C(BfmeT982 *);
+	static BfmeHub982 *s_renderer;
+};
 
 void rebuildMask(void);
 
@@ -121,12 +125,12 @@ void bfmeGo982C(BfmeT982 *t)
 
 	rebuildMask();
 
-	if (!g_bfmeHub982)
+	if (!W3DAptAux::s_renderer)
 		return;
 
-	g_bfmeHub982->bfmeBegin982C();
+	W3DAptAux::s_renderer->bfmeBegin982C();
 	t->bfmeTouch982C();
-	g_bfmeHub982->bfmeEnd982C();
+	W3DAptAux::s_renderer->bfmeEnd982C();
 }
 
 int __cdecl bfmeHelpWI(int color);
@@ -180,7 +184,3 @@ public:
 	bool m_byte2d;
 	bool m_byte2e;
 };
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_bfmeHub982@@3PAVBfmeHub982@@A=?g_00DE6170@@3PAVRva0011018B@@A")

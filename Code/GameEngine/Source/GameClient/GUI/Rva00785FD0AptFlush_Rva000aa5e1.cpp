@@ -20,21 +20,28 @@ public:
 	void __fastcall setMode(int mode);
 };
 
-class Rva00785FD0Item
+class AptShapeContainer
 {
 public:
-	void cleanup();
+	void render();
 };
 
 struct Rva00785FD0Node
 {
 	Rva00785FD0Node *next;
 	char pad[4];
-	Rva00785FD0Item *item;
+	AptShapeContainer *item;
 };
 
 extern char g_rva00785FD0Dirty;
-extern Rva00785FD0Renderer *g_rva00785FD0Renderer;
+class BfmeHub982;
+class W3DAptAux
+{
+	friend void rebuildMask();
+	static BfmeHub982 *s_renderer;
+};
+// The renderer is the existing W3DAptAux singleton at VA 0x00DE6170.
+// This unit uses its renderer-method view only at the call sites.
 // g_rva00785FD0Queue is only an alias of the owned global g_Va00DE6194 (ledger names column); this unit reads the owner through its own view type.
 extern unsigned int g_Va00DE6194;
 #define g_rva00785FD0Queue (*(Rva00785FD0Node * *)&g_Va00DE6194)
@@ -46,14 +53,14 @@ void rebuildMask()
 
 	if (g_rva00785FD0Queue->next == g_rva00785FD0Queue)
 	{
-		g_rva00785FD0Renderer->setMode(0);
+		((Rva00785FD0Renderer *)W3DAptAux::s_renderer)->setMode(0);
 		return;
 	}
 
 	g_rva00785FD0Dirty = 0;
-	g_rva00785FD0Renderer->stencil();
-	g_rva00785FD0Renderer->setMode(2);
+	((Rva00785FD0Renderer *)W3DAptAux::s_renderer)->stencil();
+	((Rva00785FD0Renderer *)W3DAptAux::s_renderer)->setMode(2);
 	for (Rva00785FD0Node *n = g_rva00785FD0Queue->next; n != g_rva00785FD0Queue; n = n->next)
-		n->item->cleanup();
-	g_rva00785FD0Renderer->setMode(1);
+		n->item->render();
+	((Rva00785FD0Renderer *)W3DAptAux::s_renderer)->setMode(1);
 }
