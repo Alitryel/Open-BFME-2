@@ -17,6 +17,14 @@
 
 #include <hash_map>
 #include <vector>
+namespace _STL {
+// The allocator is stateless; only the stored pointers need exchanging.
+template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left,
+                            _STLP_alloc_proxy<void **, void *, allocator<void *> > &right)
+{
+    swap(left._M_data, right._M_data);
+}
+}
 #include "ascii_string.h"
 
 #define NULL 0
