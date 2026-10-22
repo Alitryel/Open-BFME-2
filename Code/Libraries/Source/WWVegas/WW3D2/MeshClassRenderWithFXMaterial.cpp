@@ -360,8 +360,8 @@ void MeshClass::Render_With_FX_Material(Rva00087A93 method, int count)
 
 	if (Model->Get_Flag(MeshModelClass::SKIN)) {
 		if (Get_Anchor() && *Get_Anchor() && *Get_Anchor() != this) {
-			Matrix3D inv;
-			Matrix3D result;
+			Matrix3D inv(false);
+			Matrix3D result(false);
 			(*Get_Anchor())->Get_MeshFX_Transform().Get_Inverse(inv);
 			Matrix3D::Multiply(Get_MeshFX_Transform(), inv, &result);
 			DX8Wrapper::Set_MeshFX_Transform(D3DTS_WORLD, result);
@@ -388,7 +388,7 @@ void MeshClass::Render_With_FX_Material(Rva00087A93 method, int count)
 			} else {
 				target.Set(inv[0][3], inv[1][3], inv[2][3]);
 			}
-			Matrix3D tm;
+			Matrix3D tm(false);
 			tm.Obj_Look_At(mesh_position, target, 0.0f);
 			DX8Wrapper::Set_MeshFX_Transform(D3DTS_WORLD, tm);
 		} else {

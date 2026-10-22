@@ -550,10 +550,10 @@ public:
 	static WWINLINE const D3DLIGHT8& Peek_Light(unsigned index);
 	static WWINLINE bool Is_Light_Enabled(unsigned index);
 	static bool Validate_Device(void);
-	static void Set_Shader(const ShaderClass& shader);
+	static __declspec(dllimport) __forceinline void Set_Shader(const ShaderClass& shader);
 	static void Get_Shader(ShaderClass& shader);
 	static void Set_Texture(unsigned stage,TextureBaseClass* texture);
-	static void Set_Material(const VertexMaterialClass* material);
+	static __declspec(dllimport) __forceinline void Set_Material(const VertexMaterialClass* material);
 	static void Set_Light(unsigned index,const D3DLIGHT8* light);
 	static void Set_Light(unsigned index,const LightClass &light);
 	static void Apply_Render_State_Changes();	 
@@ -1013,13 +1013,13 @@ WWINLINE void DX8Wrapper::Get_Render_State(RenderStateStruct& state)
 {
 	state=render_state;
 }
-WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
 {
 	REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
 	render_state_changed|=MATERIAL_CHANGED;
 	SNAPSHOT_SAY(("DX8Wrapper::Set_Material(%s)\n",material ? material->Get_Name() : "NULL"));
 }
-WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 {
 	if (!ShaderClass::ShaderDirty && ((unsigned&)shader==(unsigned&)render_state.shader)) {
 		return;

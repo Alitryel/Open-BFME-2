@@ -55,6 +55,7 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 #include "htree.h"
 #include "hanim.h"
 #include "hcanim.h"
