@@ -74,6 +74,23 @@ private:
 	WindowVideoMap m_map;
 };
 
+// Keep the STLport inline semantics while binding external calls to the kept copies.
+namespace _STL {
+template <> void vector<ScienceType, allocator<ScienceType> >::push_back(const ScienceType &);
+typedef hashtable<pair<const GameWindow * const, WindowVideo *>, const GameWindow *,
+    WindowVideoManager::hashConstGameWindowPtr,
+    _Select1st<pair<const GameWindow * const, WindowVideo *> >,
+    equal_to<const GameWindow *>, allocator<pair<const GameWindow * const, WindowVideo *> > > WindowVideoTable;
+// ?WindowVideoTable::_M_bkt_num_key present-unmatched
+template <> __declspec(dllimport) __forceinline
+WindowVideoTable::size_type WindowVideoTable::_M_bkt_num_key(const key_type &__key) const
+{ return _M_bkt_num_key(__key, _M_buckets.size()); }
+// ?WindowVideoTable::_M_bkt_num present-unmatched
+template <> __declspec(dllimport) __forceinline
+WindowVideoTable::size_type WindowVideoTable::_M_bkt_num(const value_type &__obj) const
+{ return _M_bkt_num_key(_M_get_key(__obj)); }
+}
+
 void Rva002E02F0::rva002E02F0(int arg1, _STL::vector<ScienceType> *vec)
 {
 	vec->erase(vec->begin(), vec->end());
