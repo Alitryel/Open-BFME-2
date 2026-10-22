@@ -23,6 +23,9 @@ namespace _STL { template <> _Vector_base<GeometryShape,allocator<GeometryShape>
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryRecord;
 namespace _STL { template <> void _Construct<GeometryRecord,GeometryRecord>(GeometryRecord *,GeometryRecord const &); }
+// The record vector copy is supplied by GeometryRecordVectorCopyConstructor.cpp.
+namespace _STL { template <> vector<GeometryRecord>::vector(const vector<GeometryRecord> &); }
+namespace _STL { template <> _Vector_base<GeometryRecord,allocator<GeometryRecord> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUGeometryShape@@U1@V?$allocator@UGeometryShape@@@_STL@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryShape;
@@ -92,19 +95,20 @@ namespace _STL { template <> void allocator<GeometryRecord>::deallocate(Geometry
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void LoadPostProcess();
-	virtual const char *GetSnapshotName();
-	virtual void DoXfer(Xfer &xfer);
-};
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Geometry.h
 class GeometryInfo : public Snapshot
 {
 public:
+	GeometryInfo(const GeometryInfo &other);
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &xfer);
 private:
 	Bool m_isSmall;
 	int m_scalar08;
@@ -128,10 +132,27 @@ public:
 	virtual ~GeometryInfo();	// rowed elsewhere; declared so this unit binds to it
 };
 
-// Force emission of GeometryInfo's compiler-generated copy constructor.
-GeometryInfo copyGeometryInfo(const GeometryInfo &other)
+GeometryInfo::GeometryInfo(const GeometryInfo &other)
+	: Snapshot(other),
+	  m_isSmall(other.m_isSmall),
+	  m_scalar08(other.m_scalar08),
+	  m_scalar0c(other.m_scalar0c),
+	  m_scalar10(other.m_scalar10),
+	  m_scalar14(other.m_scalar14),
+	  m_scalar18(other.m_scalar18),
+	  m_scalar1c(other.m_scalar1c),
+	  m_scalar20(other.m_scalar20),
+	  m_scalar24(other.m_scalar24),
+	  m_scalar28(other.m_scalar28),
+	  m_shapes(other.m_shapes),
+	  m_records(other.m_records),
+	  m_cached44(other.m_cached44),
+	  m_cached48(other.m_cached48),
+	  m_cached4c(other.m_cached4c),
+	  m_cached50(other.m_cached50),
+	  m_cached54(other.m_cached54),
+	  m_cached58(other.m_cached58)
 {
-	return other;
 }
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

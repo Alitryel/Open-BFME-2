@@ -25,6 +25,9 @@ struct Rva005FA197Element {Rva005FA0C9 *ptr;Rva005FA197Element(Rva005FA0C9 *);Rv
 class Rva005FA0F7;
 struct Rva005FA1CEElement {Rva005FA0F7 *ptr;Rva005FA1CEElement(Rva005FA0F7 *);Rva005FA1CEElement(const Rva005FA1CEElement &);~Rva005FA1CEElement();};
 namespace _STL {
+// Range cleanup is supplied by the existing out-of-line template providers.
+template <> void _Destroy<Rva005FA197Element *>(Rva005FA197Element *,Rva005FA197Element *);
+template <> void _Destroy<Rva005FA1CEElement *>(Rva005FA1CEElement *,Rva005FA1CEElement *);
 template<> inline void allocator<BfmeStringRecord005F93E3>::deallocate(BfmeStringRecord005F93E3 *p,size_t) const {if(p)::Rva00030830FreeAllocation(p);}
 template<> void vector<BfmeStringRecord005F93E3>::push_back(const BfmeStringRecord005F93E3 &);
 }
@@ -41,7 +44,7 @@ class Rva005F94C2 {public: void rva005F94C2(); void rva005F9567(); char m_pad[0x
 class Rva005F8F31 {public: void rva005F8F31();};
 // Tab window forwarder 0x005CB265 (ICF-folded vslot thunk); the qualified call binds the pin directly.
 class Rva005CB265 {public: virtual int rva005CB265();};
-namespace StrategicHUD {class BattlePromptPlayerTabsMovieClip {public: void SetTabCount(int);};}
+namespace StrategicHUD {class BattlePromptPlayerTabsMovieClip {public: void SetTabCount(unsigned int);};}
 namespace StrategicHUD {class BattlePromptMovieClip {public: class Impl;};}
 class Rva005F8E37 {public: Rva005F8E37(StrategicHUD::BattlePromptMovieClip::Impl *,int,const AsciiString &);private:char opaque[0x40];};
 class Rva005F8E5A {public: Rva005F8E5A(StrategicHUD::BattlePromptMovieClip::Impl *,int,const AsciiString &);private:char opaque[0x3c];};
@@ -377,7 +380,8 @@ struct Rva005D2F96S24 : Rva005D2F96Base24
 Rva000B3F84Pair __cdecl Rva00108B93Make(const char *text);
 AsciiStringCharPlusText __cdecl operator+(const AsciiStringRefWithChar &left, const char *right);
 Rva005D2F96S24 __cdecl Rva005D2F96Build(const Rva005D2F96S16 &left, const char *right);
-AsciiString __cdecl Rva002D56C3(const Rva005D2F96Base24 &node);
+class Rva002D4688;
+AsciiString __cdecl Rva002D56C3Construct(Rva002D4688 &node);
 int __cdecl Rva0052519DFire(void *target, void *owner, const char *prefix, const char *event, int *result);
 class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
@@ -427,7 +431,7 @@ PlayerPageFrame::PlayerPageFrame(int level, const AsciiString &name, const char 
 	m_commands.AddCommandMapDelegate(*(Rva005F9852 *)Rva005F8FA2Copy(&node, (Rva005F8FA2Src *)&(prefix + m_name + "_On" + m_side + "PageFrameOpen"), (int)&number), DelegateDesc(this, &PlayerPageFrame::InternalOnOpen));
 	m_commands.AddCommandMapDelegate(*(Rva005F9852 *)Rva005F8FA2Copy(&node, (Rva005F8FA2Src *)&(prefix + m_name + "_On" + m_side + "PageFrameClosed"), (int)&number), DelegateDesc(this, &PlayerPageFrame::InternalOnClosed));
 	Rva0052519DFire((void *)g_bfmeAptWindowManager, (void *)m_level, m_name.str(),
-		Rva002D56C3((Rva005D2F96Base24 &)Rva005D2F96Build(
+		Rva002D56C3Construct((Rva002D4688 &)(Rva005D2F96Base24 &)Rva005D2F96Build(
 			(const Rva005D2F96S16 &)operator+(
 				(const AsciiStringRefWithChar &)Rva00108B93Make("Add"),
 				m_side),

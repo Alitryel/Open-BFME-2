@@ -185,18 +185,7 @@ public:
 		return NULL;
   }
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Weapon", INI::parseWeaponTemplate,	NULL, offsetof( FireWeaponNugget, m_weapon ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		FireWeaponNugget* nugget = newInstance(FireWeaponNugget);
-		ini->initFromINI(nugget, myFieldParse);
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void *store, const void *userData);
 
 private:
 	const WeaponTemplate* m_weapon;
@@ -248,21 +237,7 @@ public:
 		return NULL;
   }
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "NumberOfShots",	INI::parseInt,				NULL, offsetof( AttackNugget, m_numberOfShots ) },
-			{ "WeaponSlot",			INI::parseLookupList,	TheWeaponSlotTypeNamesLookupList, offsetof( AttackNugget, m_weaponSlot ) },
-			{ "DeliveryDecal",				RadiusDecalTemplate::parseRadiusDecalTemplate,	NULL, offsetof( AttackNugget, m_deliveryDecalTemplate ) },
-			{ "DeliveryDecalRadius",	INI::parseReal, NULL, offsetof(AttackNugget, m_deliveryDecalRadius) },
-			{ 0, 0, 0, 0 }
-		};
-
-		AttackNugget* nugget = newInstance(AttackNugget);
-		ini->initFromINI(nugget, myFieldParse);
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void *store, const void *userData);
 
 private:
 	RadiusDecalTemplate	m_deliveryDecalTemplate;
@@ -701,22 +676,7 @@ public:
 		return NULL;
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "SpinRate",					INI::parseAngularVelocityReal,	NULL, offsetof(ApplyRandomForceNugget, m_spinRate) },
-			{ "MinForceMagnitude",	INI::parseReal,	NULL, offsetof(ApplyRandomForceNugget, m_minMag) },
-			{ "MaxForceMagnitude",	INI::parseReal,	NULL, offsetof(ApplyRandomForceNugget, m_maxMag) },
-			{ "MinForcePitch",	INI::parseAngleReal,	NULL, offsetof(ApplyRandomForceNugget, m_minPitch) },
-			{ "MaxForcePitch",	INI::parseAngleReal,	NULL, offsetof(ApplyRandomForceNugget, m_maxPitch) },
-			{ 0, 0, 0, 0 }
-		};
-
-		ApplyRandomForceNugget* nugget = newInstance(ApplyRandomForceNugget);
-		ini->initFromINI(nugget, myFieldParse);
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void *store, const void *userData);
 
 protected:
 

@@ -24,6 +24,11 @@ struct BfmeOpaqueOwnedRecord492
 	char m_body[0x1EC];	// 492 bytes, as PeerThread.cpp (rowed _Deque_base 0x5532FF) and StlportOwnedRecordDeque.cpp define it
 };
 
+// The rowed deque base constructor owns map and node initialization.
+namespace _STL {
+template <> _Deque_base<BfmeOpaqueOwnedRecord492, allocator<BfmeOpaqueOwnedRecord492> >::_Deque_base(const allocator<BfmeOpaqueOwnedRecord492> &, size_t);
+}
+
 class BFMENetworkQueue
 {
 public:
