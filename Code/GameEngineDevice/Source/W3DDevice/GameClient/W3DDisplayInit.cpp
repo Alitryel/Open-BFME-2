@@ -71,12 +71,16 @@ public:
 	unsigned char m_bytes[0x11C - 4];
 };
 
+class Rva0006E52AObj;
+class Rva0006E52A { public: void rva0006E52A(Rva0006E52AObj *, Int); };
+class Rva0006E567Obj;
+class Rva0006E567 { public: void rva0006E567(Rva0006E567Obj *, Int); };
+void Rva001174D0(Int value);
+
 class RTS3DScene : public SceneClass
 {
 public:
 	RTS3DScene();
-	void rva0006E52A(LightClass *light, Int index);
-	void rva0006E567(LightClass *light, Int index);
 	unsigned char m_bytes[0x818 - 4];
 };
 
@@ -102,7 +106,6 @@ public:
 	static Bool Init(void *hwnd, char *defaultpal, Bool lite);
 	static Bool Set_Render_Device(Int dev, Int resx, Int resy, Int bits, Int windowed, Bool resize_window, Bool reset_device, Bool restore_assets);
 	static void Set_Ext_Swap_Interval(long swap);
-	static void rva001174D0(Int value);
 	static void Set_Prelit_Mode(PrelitModeEnum mode) { PrelitMode = mode; }
 	static void Enable_Static_Sort_Lists(Bool onoff) { AreStaticSortListsEnabled = onoff; }
 	static void Set_Thumbnail_Enabled(Bool onoff) { ThumbnailEnabled = onoff; }
@@ -174,7 +177,8 @@ public:
 	Rva0061EEE0();
 	unsigned char m_bytes[0x10];
 };
-extern Rva0061EEE0 *TheRva0061EEE0;
+class Rva009EB960;
+extern Rva009EB960 *Rva0134FAA0;
 
 Bool InitializeAssetManager(AsciiString root, AsciiString archive, Bool flag);
 void bfmeClearReceiverFlag(Int flag);
@@ -322,8 +326,8 @@ void W3DDisplay::init()
 	setTimeOfDay(TheGlobalData->m_timeOfDay);
 	for (i = 0; i < TheGlobalData->m_numGlobalLights; i++)
 	{
-		m_3DScene->rva0006E52A(m_myLight[i], i);
-		m_3DScene->rva0006E567(m_myLight2[i], i);
+		((Rva0006E52A *)m_3DScene)->rva0006E52A((Rva0006E52AObj *)m_myLight[i], i);
+		((Rva0006E567 *)m_3DScene)->rva0006E567((Rva0006E567Obj *)m_myLight2[i], i);
 	}
 
 	if (TheGlobalData->m_minVertexBuffer)
@@ -333,7 +337,7 @@ void W3DDisplay::init()
 		throw ERROR_INVALID_D3D;
 
 	WW3D::Set_Prelit_Mode(WW3D::PRELIT_MODE_LIGHTMAP_MULTI_PASS);
-	WW3D::rva001174D0(0);
+	Rva001174D0(0);
 	WW3D::Enable_Static_Sort_Lists(true);
 	WW3D::Set_Thumbnail_Enabled(false);
 	WW3D::Set_Screen_UV_Bias(true);
@@ -372,7 +376,7 @@ void W3DDisplay::init()
 
 	m_2DRender->Set_Coordinate_Range(RectClass(0.0f, 0.0f, (Real)getWidth(), (Real)getHeight()));
 
-	TheRva0061EEE0 = new Rva0061EEE0;
+	Rva0134FAA0 = (Rva009EB960 *)new Rva0061EEE0;
 	InitializeAssetManager(TheGlobalData->m_assetRoot, TheGlobalData->m_assetArchive, TheGlobalData->m_assetFlag > 0);
 	if (TheGlobalData->m_11C8)
 		bfmeClearReceiverFlag(0);

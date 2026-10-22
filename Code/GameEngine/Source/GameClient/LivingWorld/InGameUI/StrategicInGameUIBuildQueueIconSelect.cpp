@@ -46,6 +46,16 @@ public:
 	void rva005E73B2();
 };
 
+// The icon's +0x1C counted handle uses the rowed destructor at 0x005F8F96.
+class Rva005F8F96
+{
+public:
+	Rva005F8F96() : m_value(0) {}
+	~Rva005F8F96();
+
+	void *m_value;
+};
+
 namespace StrategicInGameUI
 {
 class BuildQueueDetailsPanel
@@ -81,15 +91,6 @@ private:
 	int m_selectedQueueIndex; // +0x30, -1 when none
 };
 
-// The +0x1C member cleared by the ctor and destroyed on unwind.
-struct Rva005E7D77Member
-{
-	Rva005E7D77Member() : m_value(0) {}
-	~Rva005E7D77Member();
-
-	int m_value;
-};
-
 // Target facts: vtable 0x00877F14 = { 0x005E7DF7, 0x005E712A, 0x005E73DC,
 // 0x005E7977, 0x005E715F, 0x005E7166 }: the icon slot's listener. WorldBuilder
 // names slots 0..3 OnBuildQueueIconSlotLeftClicked / RightClicked / RollOut /
@@ -123,7 +124,7 @@ private:
 	void *m_10;										// +0x10
 	int m_14;										// +0x14
 	int m_quantity;									// +0x18
-	Rva005E7D77Member m_1c;							// +0x1C
+	Rva005F8F96 m_1c;							// +0x1C
 	bool m_selected;								// +0x20
 	bool m_21;										// +0x21
 };
