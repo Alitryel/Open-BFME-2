@@ -13,6 +13,9 @@ namespace _STL { template <> void basic_ios<char, char_traits<char> >::clear(int
 namespace _STL { template <> bool ostreambuf_iterator<char, char_traits<char> >::failed() const; }
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, long) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_put_char@?$basic_ostream@DV?$char_traits@D@_STL@@@_STL@@QAEXD@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void basic_ostream<char,char_traits<char> >::_M_put_char(char); }
 
 extern float g_00BC2900;
 // g_00BC2900: matched references place it at VA 0xbc2900 (retail .rdata value 255.0f).
