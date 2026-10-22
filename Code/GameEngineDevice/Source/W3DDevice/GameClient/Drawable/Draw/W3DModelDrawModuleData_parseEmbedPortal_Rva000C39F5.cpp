@@ -8,7 +8,7 @@
 // unclaimed .text). Only the placed body is defined here.
 // stlport
 // Retail field-table owner: W3DModelDrawModuleData::EmbedPortal at +0xF0.
-// class-gate: allow AsciiString the donor TU-local one-pointer AsciiString/StringBase view emits the retail 190B body at 0x000C39F5, including the bfmeCompare1294 ABI name that resolves to the rowed StringBase<char>::compare body at 0x000069B1
+// class-gate: allow AsciiString the donor TU-local one-pointer AsciiString/StringBase view emits the retail 190B body at 0x000C39F5, whose compares call the rowed StringBase<char>::compare body at 0x000069B1
 
 typedef int Int;
 
@@ -16,6 +16,11 @@ namespace _STL
 {
 struct Rva007719C0Element;
 }
+
+// Retail's element construct callee 0x000BBA47 is the shared copy rowed as
+// Rva000BBA47Construct (stlport_construct_game_structs.cpp); same cdecl ABI.
+struct TreeKey00242F5E;
+void Rva000BBA47Construct(TreeKey00242F5E *destination, const TreeKey00242F5E &source);
 
 template <typename T>
 class StringBase
@@ -35,6 +40,7 @@ public:
 
     void set(const StringBase<T> &source);
     void toLower();
+    Int compare(const char *text) const;
 
 private:
     void releaseBuffer();
@@ -58,7 +64,6 @@ public:
         ((StringBase<char> *)this)->set(
             *(const StringBase<char> *)&source);
     }
-    Int bfmeCompare1294(const char *text) const;
 };
 
 namespace _STL
@@ -89,7 +94,8 @@ void _Construct(T *destination, const T &source);
 template <class T>
 __forceinline void BfmeElementConstruct(T *destination, const T &source)
 {
-    _Construct(destination, source);
+    Rva000BBA47Construct((TreeKey00242F5E *)destination,
+        *(const TreeKey00242F5E *)&source);
 }
 
 template <class T, class Allocator>
@@ -163,9 +169,10 @@ void W3DModelDrawModuleData::parseEmbedPortal(INI *ini, void *, void *store,
         finish[-1].m_name =
             *(const StringBase<char> *)&ini->getNextAsciiString();
 
-        if (mode.bfmeCompare1294("ramp") == 0)
+        // Retail's compares land on the rowed StringBase<char>::compare (0x000069B1).
+        if (((const StringBase<char> &)(mode)).compare("ramp") == 0)
             finish[-1].m_mode = 2;
-        else if (mode.bfmeCompare1294("ladder") == 0)
+        else if (((const StringBase<char> &)(mode)).compare("ladder") == 0)
             finish[-1].m_mode = 3;
     }
 }

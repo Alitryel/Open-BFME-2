@@ -122,9 +122,10 @@ void MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert)
 // globals when either of that object's +0xB8/+0x108 flags is set. The globals
 // are named address-derived externs (the DIR32 relocations are masked by the
 // byte gate; the names keep the literal addresses out of the source).
-// Retail globals 9F36B0/9F36AC are zero-initialized four-byte words.
-int g_rva009f36b0 = 0;
-int g_rva009f36ac = 0;
+// Retail globals 9F36B0/9F36AC are zero-initialized four-byte words, defined
+// once in Rva001499D0Cluster.cpp.
+extern int g_rva009f36b0;
+extern int g_rva009f36ac;
 extern int G00DEDA78;
 
 // 0x00DEDA24 is DX8Wrapper's protected FogColor (defined in dx8wrapper.cpp);
