@@ -134,9 +134,13 @@ public:
 	SubsystemInterface(void);
 	virtual ~SubsystemInterface(void);
 	virtual void init(void) = 0;
-	virtual void s02(void); virtual void s03(void); virtual void s04(void);
-	virtual void s05(void); virtual void s06(void); virtual void s07(void);
-	virtual void s08(void);
+	virtual bool loadIniFilesFromLegend();
+	virtual void postProcessLoad();
+	virtual bool vslot04(int);
+	virtual bool vslot05();
+	virtual int vslot06();
+	virtual void vslot07(int);
+	virtual void vslot08();
 	virtual void reset(void);                                            // +0x24
 	virtual void update(void);                                           // +0x28
 	void setName(AsciiString name);
@@ -717,6 +721,7 @@ template<> inline void vector<Rva0024622FEntry>::_M_insert_overflow(
 }
 }
 
+class Rva002259F3 { public: int rva002259F3() const; };
 class Rva00240E18 { public: void rva00240E18(bool); };
 class GameLogic : public SubsystemInterface, public Snapshot
 {
@@ -726,9 +731,9 @@ public:
 	virtual void init(void);
 	virtual void v11(void); virtual void v12(void);
 	virtual void update(int phase);                                      // +0x34
-	virtual TerrainLogic *createTerrainLogic(void);                      // +0x38
-	virtual GhostObjectManager *createGhostObjectManager(void);          // +0x3C
-	virtual BuffLogic *createBuffLogic(void);                            // +0x40
+	virtual TerrainLogic *createTerrainLogic(void) = 0;                      // +0x38
+	virtual GhostObjectManager *createGhostObjectManager(void) = 0;          // +0x3C
+	virtual BuffLogic *createBuffLogic(void) = 0;                            // +0x40
 
 	virtual void reset(void);
 
@@ -770,7 +775,7 @@ public:
 	const AsciiString &rva0023FB58(int index);
 	PlayerLeaveStatus *getPlayerLeaveStatus(int playerIndex);
 	void rva002401DD(BfmeThingEC *stream, unsigned int frame, int player);
-	bool rva002259F3(void);
+	__declspec(dllimport) __forceinline bool rva002259F3(void) { return (unsigned char)((const Rva002259F3 *)this)->rva002259F3() != 0; }
 	bool rva0042219(void);
 	void processCommandList(void);
 	void processDestroyList(void);
@@ -897,7 +902,9 @@ extern GameLogic *TheGameLogic;
 extern AI *TheAI;
 extern ScriptEngine *TheScriptEngine;
 extern StatsCollector *g_00E032F8;
-extern Rva00200BD9Holder *g_rva00200BD9Holder;
+template <class T> class OVERRIDE;
+class WaterTransparencySetting;
+extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
 
 // 0x0004224C (rowed as a this-returning member) is the out-of-line
 // constructor of a scope guard: when TheGameLogic exists it sets the FP mode
@@ -1120,7 +1127,7 @@ void GameLogic::reset(void)
 	m_9b = true;
 	m_a4 = 1;
 
-	g_rva00200BD9Holder = (Rva00200BD9Holder *)((Overridable *)g_rva00200BD9Holder)->deleteOverrides();
+	reinterpret_cast<Overridable *&>(TheWaterTransparency) = reinterpret_cast<Overridable *&>(TheWaterTransparency)->deleteOverrides();
 
 	m_94 = 0;
 	m_17c = 0;
@@ -2148,11 +2155,13 @@ class Rva0023C83B
 public:
 	Rva0023C83B(void)
 	{
-		EnableMenuItem(GetSystemMenu(ApplicationHWnd, 0), 0xF060, 1);
+		void *menu = GetSystemMenu(ApplicationHWnd, 0);
+		EnableMenuItem(menu, 0xF060, 1);
 	}
 	~Rva0023C83B(void) throw()
 	{
-		EnableMenuItem(GetSystemMenu(ApplicationHWnd, 0), 0xF060, 0);
+		void *menu = GetSystemMenu(ApplicationHWnd, 0);
+		EnableMenuItem(menu, 0xF060, 0);
 	}
 };
 
@@ -6242,6 +6251,18 @@ public:
 	int m_level;                                                         // +0x48
 	int m_experience;                                                    // +0x4C
 };
+
+// Keep the native node-construction call visible to the list insert body.
+namespace _STL {
+template <> void _Construct<Rva0024076D, Rva0024076D>(Rva0024076D *, const Rva0024076D &);
+template <> __declspec(noinline) inline
+_List_node<Rva0024076D> *list<Rva0024076D>::_M_create_node(const Rva0024076D &value)
+{
+    _Node *node = this->_M_node.allocate(1);
+    _Construct(&node->_M_data, value);
+    return node;
+}
+}
 
 // 0x0024877A, once per logic frame: snapshot and destroy every object (only
 // those with a visible drawable, or contained in one, when TheGameClient's

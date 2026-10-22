@@ -183,8 +183,18 @@ template <> struct hash<NameKeyType>
 class ArmorTemplate { char m_data[0x98]; };
 struct Rva001D9651Element { char m_data[1]; };
 typedef std::hash_map<int, Rva001D9651Element> Rva001D9651Map;
+
+// Use the existing map lifetime providers without emitting their helper copies.
+namespace _STL {
+template <> hash_map<int, Rva001D9651Element>::hash_map();
+template <> hash_map<int, Rva001D9651Element>::~hash_map();
+template <> void hashtable<pair<const int, Rva001D9651Element>, int, hash<int>, _Select1st<pair<const int, Rva001D9651Element> >, equal_to<int>, allocator<pair<const int, Rva001D9651Element> > >::clear();
+}
 typedef std::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>,
 	std::equal_to<NameKeyType> > ArmorTemplateMap;
+namespace _STL {
+template <> void hashtable<pair<const NameKeyType, ArmorTemplate>, NameKeyType, rts::hash<NameKeyType>, _Select1st<pair<const NameKeyType, ArmorTemplate> >, equal_to<NameKeyType>, allocator<pair<const NameKeyType, ArmorTemplate> > >::clear();
+}
 class Object;
 class Rva001D9670Store : public SubsystemInterface
 {
@@ -309,7 +319,8 @@ extern Rva0022AD10Subsystem *TheFormationAssistant;
 extern class AiOrdersManager *TheAiOrdersManager;
 extern class Rva00421520 *g_00E03158;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
-extern Rva0022AEE4Subsystem *TheDelayedExperienceLevelGrantSystem;
+class DelayedExperienceLevelGrantSystem;
+extern DelayedExperienceLevelGrantSystem *TheDelayedExperienceLevelGrantSystem;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 extern class Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore;
 extern class Rva002E18C3Lookup *TheLivingWorldAITemplateStore;
@@ -658,25 +669,28 @@ enum ErrorCode { ERROR_INVALID_D3D = 0xDEAD0007 };
 class GameEngine : public SubsystemInterface
 {
 public:
-	VSLOTS4(s0) VSLOTS4(s1) VSLOTS4(s2)
+	VSLOTS4(s0) VSLOTS4(s1)
+	virtual void reset(); virtual void update(); virtual void s22(); virtual void s23();
 	virtual void s30();
 	virtual void init(Int argc, char *argv[]);					// slot 14
-	virtual void s31(); virtual void s32(); virtual void s33();
+	virtual void s31(); virtual Bool rva00225AD5(); virtual Bool rva00225AFF();
 	virtual void setFramesPerSecondLimit(Int fps);				// slot 18 (+0x48)
 	virtual void s34();
 	virtual void setQuitting(Bool quitting);					// slot 20 (+0x50)
-	virtual void s35(); virtual void s36(); virtual void s37(); virtual void s38(); virtual void s39(); virtual void s3A();
+	virtual void s35(); virtual Bool isMultiplayerSession(); virtual void s37(); virtual void s38(); virtual void s39(); virtual void rva0023054C();
 	virtual FileSystem *createFileSystem();						// +0x6C
-	virtual GameLogic *createGameLogic();						// +0x70
-	virtual GameClient *createGameClient();						// +0x74
+	virtual GameLogic *createGameLogic() = 0;						// +0x70
+	virtual GameClient *createGameClient() = 0;						// +0x74
+protected:
 	virtual MessageStream *createMessageStream();				// +0x78
-	virtual ModuleFactory *createModuleFactory();				// +0x7C
-	virtual ThingFactory *createThingFactory();					// +0x80
-	virtual FunctionLexicon *createFunctionLexicon();			// +0x84
-	virtual Radar *createRadar();								// +0x88
-	virtual ParticleSystemManager *createParticleSystemManager();	// +0x8C
-	virtual AudioManager *createAudioManager();					// +0x90
-	virtual Rva0022AF59Subsystem *createAptPlayer();			// +0x94
+public:
+	virtual ModuleFactory *createModuleFactory() = 0;				// +0x7C
+	virtual ThingFactory *createThingFactory() = 0;					// +0x80
+	virtual FunctionLexicon *createFunctionLexicon() = 0;			// +0x84
+	virtual Radar *createRadar() = 0;								// +0x88
+	virtual ParticleSystemManager *createParticleSystemManager() = 0;	// +0x8C
+	virtual AudioManager *createAudioManager() = 0;					// +0x90
+	virtual Rva0022AF59Subsystem *createAptPlayer() = 0;			// +0x94
 
 	void initTiming();
 	void initSubsystems(Int argc, char *argv[]);
@@ -881,7 +895,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<Rva0022AD85Subsystem *&>(TheAiOrdersManager)), "TheAiOrdersManager", new Rva0022AD85Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022ADFASubsystem *&>(g_00E03158)), "TheLightPointSystem", new Rva0022ADFASubsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<ExperienceLevelSystem *&>(TheExperienceLevelSystem)), "TheExperienceLevelSystem", new ExperienceLevelSystem, (Xfer *)&xferCRC);
-		initSubsystem(TheDelayedExperienceLevelGrantSystem, "TheDelayedExperienceLevelGrantSystem", new Rva0022AEE4Subsystem, 0);
+		initSubsystem(reinterpret_cast<Rva0022AEE4Subsystem *&>(TheDelayedExperienceLevelGrantSystem), "TheDelayedExperienceLevelGrantSystem", new Rva0022AEE4Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022AF59Subsystem *&>(g_bfmeAptWindowManager)), "TheAptPlayer", createAptPlayer(), 0);
 		initSubsystem((reinterpret_cast<Rva0022AFCESubsystem *&>(TheLivingWorldPlayerTemplateStore)), "TheLivingWorldPlayerTemplateStore", new Rva0022AFCESubsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<Rva0022B043Subsystem *&>(TheLivingWorldAITemplateStore)), "TheLivingWorldAITemplateStore", new Rva0022B043Subsystem, (Xfer *)&xferCRC);
