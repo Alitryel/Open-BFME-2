@@ -32,3 +32,18 @@ inline bool operator<(const Rva00439862Element &left, const Rva00439862Element &
 
 // Instantiate the recovered operation and its required template dependencies.
 template unsigned int _STL::_Rb_tree<Rva00439862Element, Rva00439862Element, _STL::_Identity<Rva00439862Element>, _STL::less<Rva00439862Element>, _STL::allocator<Rva00439862Element> >::erase(Rva00439862Element const &);
+
+// Native 0x0043993E..0x00439943 is the complete forwarding entry between
+// the preceding RET and the next function. The unchanged receiver and key
+// reach verified erase 0x00439862; the original wrapper identity is unknown.
+typedef _STL::_Rb_tree<Rva00439862Element, Rva00439862Element,
+    _STL::_Identity<Rva00439862Element>, _STL::less<Rva00439862Element>,
+    _STL::allocator<Rva00439862Element> > Rva0043993ETree;
+class Rva0043993E : public Rva0043993ETree {
+public:
+    unsigned int rva0043993E(const Rva00439862Element &key);
+};
+unsigned int Rva0043993E::rva0043993E(const Rva00439862Element &key)
+{
+    return erase(key);
+}
