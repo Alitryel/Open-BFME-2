@@ -93,6 +93,15 @@ namespace _STL { template <> pair<ObjectID,ObjectID> make_pair<ObjectID,ObjectID
 // body emitted here differs; call the verified provider without a local copy.
 namespace _STL { template <> int __lg<int>(int); }
 
+// Both native assignment calls use the rowed trivial 8-byte vector provider
+// at 0x001D9BEE. Keep its established element name at the call boundary.
+struct BfmePod8 { int a[2]; };
+namespace _STL {
+template <> vector<BfmePod8, allocator<BfmePod8> > &
+vector<BfmePod8, allocator<BfmePod8> >::operator=(const vector<BfmePod8, allocator<BfmePod8> > &);
+}
+typedef _STL::vector<BfmePod8, _STL::allocator<BfmePod8> > RetailPartitionEntries;
+
 static Bool greater_than(PairObjectIDAndUInt a, PairObjectIDAndUInt b)
 {
 	return a.second > b.second;
@@ -101,8 +110,8 @@ static Bool greater_than(PairObjectIDAndUInt a, PairObjectIDAndUInt b)
 #pragma optimize("s", on)
 PartitionSolver::PartitionSolver(const EntriesVec& elements, const SpacesVec& spaces, SolutionType solveHow)
 {
-	m_data = elements;
-	m_spacesForData = spaces;
+	reinterpret_cast<RetailPartitionEntries &>(m_data) = reinterpret_cast<const RetailPartitionEntries &>(elements);
+	reinterpret_cast<RetailPartitionEntries &>(m_spacesForData) = reinterpret_cast<const RetailPartitionEntries &>(spaces);
 	m_howToSolve = solveHow;
 	//Added By Sadullah Nader
 	//Initializations inserted
