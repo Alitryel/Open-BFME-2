@@ -12792,7 +12792,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??$_Construct@URva005EA9E1Element@@U1@@_STL@@YAXPAURva005EA9E1Element@@ABU1@@Z,0x005EA9A9,
 ??$_Construct@URva003F587EElement@@U1@@_STL@@YAXPAURva003F587EElement@@ABU1@@Z,0x003F5822,
 ??$_Construct@URva004AE94DElement@@U1@@_STL@@YAXPAURva004AE94DElement@@ABU1@@Z,0x004AE915,
-??$_Construct@URva003B8B05Element@@U1@@_STL@@YAXPAURva003B8B05Element@@ABU1@@Z,0x003B8AD8,
 ??$_Construct@URva001F070CElement@@U1@@_STL@@YAXPAURva001F070CElement@@ABU1@@Z,0x001F06B9,
 ??$_Construct@URva003F1A8CElement@@U1@@_STL@@YAXPAURva003F1A8CElement@@ABU1@@Z,0x003F1A5F,
 ??$_Construct@URva00460F6BElement@@U1@@_STL@@YAXPAURva00460F6BElement@@ABU1@@Z,0x00460F18,
@@ -12929,7 +12928,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??$__uninitialized_copy@PBVRva002390CB@@PAV1@@_STL@@YAPAVRva002390CB@@PBV1@0PAV1@ABU__false_type@0@@Z,0x003399AD,Former byte-verified compiler-symbol binding restored after scaffold replacement; supersedes folded candidate names
 ??$__uninitialized_fill_n@PAUAnimSet@GenericObjectCreationNugget@@IU12@@_STL@@YAPAUAnimSet@GenericObjectCreationNugget@@PAU12@IABU12@ABU__false_type@0@@Z,0x001F070C,Former byte-verified compiler-symbol binding restored after scaffold replacement; supersedes folded candidate names
 ??$__uninitialized_fill_n@PAUBfmeE16@@IU1@@_STL@@YAPAUBfmeE16@@PAU1@IABU1@ABU__false_type@0@@Z,0x00421939,Former byte-verified compiler-symbol binding restored after scaffold replacement; supersedes folded candidate names
-??$__uninitialized_fill_n@PAUBfmePod104@@IU1@@_STL@@YAPAUBfmePod104@@PAU1@IABU1@ABU__false_type@0@@Z,0x003B8B05,Former byte-verified compiler-symbol binding restored after scaffold replacement; supersedes folded candidate names
 ??$__uninitialized_fill_n@PAVCreateAHeroSubClass@CreateAHeroManager@@IV12@@_STL@@YAPAVCreateAHeroSubClass@CreateAHeroManager@@PAV12@IABV12@ABU__false_type@0@@Z,0x0021EFC2,Former byte-verified compiler-symbol binding restored after scaffold replacement; supersedes folded candidate names
 ??$__uninitialized_fill_n@PAUBfmeStringRecord000331962@@IU1@@_STL@@YAPAUBfmeStringRecord000331962@@PAU1@IABU1@ABU__false_type@0@@Z,0x00331B6A,Former byte-verified compiler-symbol binding restored after scaffold replacement; supersedes folded candidate names
 ??$__uninitialized_fill_n@PAUBfmeStringRecord00204A30@@IU1@@_STL@@YAPAUBfmeStringRecord00204A30@@PAU1@IABU1@ABU__false_type@0@@Z,0x0020577A,Former byte-verified compiler-symbol binding restored after scaffold replacement; supersedes folded candidate names

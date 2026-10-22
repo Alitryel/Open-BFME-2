@@ -5,7 +5,9 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva003B8B05Element { char bytes[104]; bool operator<(const Rva003B8B05Element&)const; bool operator==(const Rva003B8B05Element&)const; };
+// Retail's loop calls _Construct<BfmePod104> (0x003B8AD8, StlportConstructFamily.cpp),
+// so the element is that 104-byte record with its out-of-line copy ctor.
+struct BfmePod104 { char m_pad[104]; BfmePod104(const BfmePod104 &); ~BfmePod104(); };
 
 // Instantiate the recovered operation and its required template dependencies.
-template Rva003B8B05Element * _STL::__uninitialized_fill_n<Rva003B8B05Element *, unsigned int, Rva003B8B05Element>(Rva003B8B05Element *, unsigned int, Rva003B8B05Element const &, _STL::__false_type const &);
+template BfmePod104 * _STL::__uninitialized_fill_n<BfmePod104 *, unsigned int, BfmePod104>(BfmePod104 *, unsigned int, BfmePod104 const &, _STL::__false_type const &);
