@@ -131,3 +131,8 @@ bool Rva000658C5::rva000658C5(MultiListObjectClass *obj, bool onlyonce)
 {
 	return Internal_Add(obj, onlyonce);
 }
+
+bool Rva000658C5::rva000658CA(MultiListObjectClass *obj)
+{
+	return Internal_Remove(obj);
+}
