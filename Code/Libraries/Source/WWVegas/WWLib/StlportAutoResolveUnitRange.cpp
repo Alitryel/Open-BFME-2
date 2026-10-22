@@ -20,7 +20,7 @@ struct TargetRef00217D4C {virtual void *destroy(unsigned); int references;};
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct Rva004F87BCElement {
  TargetRef00217D4C *m_ptr;
- Rva004F87BCElement(const Rva004F87BCElement &p):m_ptr(p.m_ptr) {if(m_ptr) ++m_ptr->references;}
+ Rva004F87BCElement(const Rva004F87BCElement &p);
  ~Rva004F87BCElement() {if(m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);}
  __declspec(noinline) Rva004F87BCElement &operator=(const Rva004F87BCElement &p) {
   if(this!=&p){if(p.m_ptr)++p.m_ptr->references;if(m_ptr)ReleaseTreeHintRef00217D4C(m_ptr);m_ptr=p.m_ptr;}return *this;
