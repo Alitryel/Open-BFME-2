@@ -114,6 +114,22 @@ extern const StaticNameKey TheKey_livingWorldPlayerID("livingWorldPlayerID");
 #include "W3DDevice/GameClient/W3DShadow.h"
 
 #include "Common/file.h"
+// Preserve STLport operations inline without unused external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline ICoord2D *
+__copy_backward_ptrs<ICoord2D *, ICoord2D *>(ICoord2D *__first, ICoord2D *__last, ICoord2D *__result, const __false_type &)
+{
+    return __copy_backward(__first, __last, __result, random_access_iterator_tag(), (ptrdiff_t *)0);
+}
+template <> __declspec(dllimport) __forceinline ICoord2D *
+vector<ICoord2D, allocator<ICoord2D> >::erase(ICoord2D *__first, ICoord2D *__last)
+{
+    pointer __i = __copy_ptrs(__last, this->_M_finish, __first, _TrivialAss());
+    _Destroy(__i, this->_M_finish);
+    this->_M_finish = __i;
+    return __first;
+}
+}
 // bfme link decl-only begin
 namespace _STL { template <> void vector<ICoord2D, allocator<ICoord2D> >::_M_insert_overflow(ICoord2D *, ICoord2D const &, __false_type const &, unsigned int, bool); }
 namespace _STL { template <> ICoord2D * allocator<ICoord2D>::allocate(unsigned int, void const *) const; }

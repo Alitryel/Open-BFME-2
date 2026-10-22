@@ -195,6 +195,22 @@ Bool WouldMapTransfer( const AsciiString& mapName );
 #include "GameLogic/FPUControl.h"
 #include "GameNetwork/GameInfo.h"
 #include "GameNetwork/NetworkDefs.h"
+// Preserve STLport operations inline without unused external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline ICoord2D *
+__copy_backward_ptrs<ICoord2D *, ICoord2D *>(ICoord2D *__first, ICoord2D *__last, ICoord2D *__result, const __false_type &)
+{
+    return __copy_backward(__first, __last, __result, random_access_iterator_tag(), (ptrdiff_t *)0);
+}
+template <> __declspec(dllimport) __forceinline ICoord2D *
+vector<ICoord2D, allocator<ICoord2D> >::erase(ICoord2D *__first, ICoord2D *__last)
+{
+    pointer __i = __copy_ptrs(__last, this->_M_finish, __first, _TrivialAss());
+    _Destroy(__i, this->_M_finish);
+    this->_M_finish = __i;
+    return __first;
+}
+}
 // bfme link decl-only begin
 namespace _STL { template <> list<Coord3D, allocator<Coord3D> >::list(allocator<Coord3D> const &); }
 namespace _STL { template <> pair<AsciiString const, MapMetaData>::pair(AsciiString const &, MapMetaData const &); }
@@ -220,6 +236,9 @@ namespace _STL {
 typedef _Rb_tree<AsciiString, pair<const AsciiString, MapMetaData>,
     _Select1st<pair<const AsciiString, MapMetaData> >, less<AsciiString>,
     allocator<pair<const AsciiString, MapMetaData> > > MapUtilMetadataTree;
+template <>
+_Rb_tree_node<pair<const AsciiString, MapMetaData> > *
+MapUtilMetadataTree::_M_lower_bound(const AsciiString &) const;
 template <> template <>
 __declspec(dllimport) __forceinline
 MapUtilMetadataTree::iterator MapUtilMetadataTree::find<AsciiString>(const AsciiString &key)
