@@ -134,6 +134,7 @@ enum KindOfType
 // BFME2's object status bit names (the name table at .rdata 0x009A5F30).
 enum ObjectStatusTypes
 {
+	OBJECT_STATUS_87 = 87,
 	OBJECT_STATUS_98 = 98,
 	OBJECT_STATUS_UNDER_CONSTRUCTION = 2,
 	OBJECT_STATUS_UNSELECTABLE = 3,
@@ -251,6 +252,7 @@ struct Rva002A7557In;
 class Drawable
 {
 public:
+	void fadeIn(unsigned frames);
 	void setAnimationLoopDuration(UnsignedInt numFrames);
 };
 
@@ -684,6 +686,9 @@ protected:
 class Object : public Thing
 {
 public:
+	void setBuilder(const Object *builder);
+	void setStatus(ObjectStatusTypes status, bool enabled);
+	void teleportTo(const Coord3D *pos, bool flag);
 	__forceinline UnsignedInt isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
 	Bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	__declspec(dllimport) __forceinline Bool testScriptStatusBit(ObjectScriptStatusBit b) const { return (m_scriptStatus & b) != 0; }
@@ -771,6 +776,7 @@ class Rva0039B7AD;
 class Rva003B0D7C
 {
 public:
+	unsigned withdraw(unsigned amount, class Rva0039B795 *scoreKeeper, bool flag);
 	void rva003B0D7C(int amount, Rva0039B7AD *score, bool flag);	// ZH's Money::deposit
 };
 
@@ -856,6 +862,7 @@ public:
 	void rva003920F7(UnsignedInt index, const Rva003920F7Src *src);
 };
 
+class Rva004D9A3C;
 class Rva0039205C : public Rva003920F7
 {
 public:
@@ -864,12 +871,31 @@ public:
 	void rva00392196(UnsignedInt index, Int status);
 	void rva00392CAC();
 
-	Int m_count;				// +0x00
-	Int m_cost;				// +0x04
-	unsigned char m_pad08[4];
-	Bool m_0C;				// +0x0C
-	Bool m_0D;				// +0x0D
-	Int m_status;				// +0x10
+	union { unsigned count; Int m_count; };         // +0x00
+	union { unsigned cost; Int m_cost; };           // +0x04
+	Rva004D9A3C *array;                             // +0x08
+	union { bool flagC; Bool m_0C; };               // +0x0C
+	union { bool flagD; Bool m_0D; };               // +0x0D
+	short padE;
+	union { int status; Int m_status; };            // +0x10
+	ObjectID objectID;                              // +0x14
+
+	Rva0039205C()
+	{
+		status = -1;
+		count = 0;
+		array = 0;
+		flagC = false;
+		flagD = false;
+		cost = 0;
+		objectID = INVALID_OBJECT_ID;
+	}
+	~Rva0039205C();
+	void *rva00392CC5(unsigned index);
+	Rva004D9A3C *rva00392CF9(unsigned index);
+	float rva00392D1D(unsigned index);
+	unsigned char rva00392D49(unsigned index);
+	int rva00392D71(int index);
 };
 
 class Rva00392FE0List
@@ -895,6 +921,7 @@ Real normalizeAngle(Real angle);
 class BuildAssistant
 {
 public:
+	bool rva00392DC0(Object *builder, const ThingTemplate *what, const Coord3D *pos, Player *player, unsigned kind, Object **result);
 	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
 	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
 	virtual void slot08();
@@ -908,7 +935,7 @@ public:
 	virtual Bool isLocationClearOfObjects(const Coord3D *worldPos, const ThingTemplate *build, Real angle, Object *builderObject, UnsignedInt options, Player *player, Bool flag);	// +0x44
 	virtual Bool rva0039361E(const Coord3D *pos, const ThingTemplate *whatToBuild, Real angle, Object *builder, Player *unused);	// +0x48
 	virtual void addBibs(const Coord3D *worldPos, const ThingTemplate *build);	// +0x4C
-	virtual void slot20();
+	virtual bool slot20(Rva0039205C *tiles, Object *builder, const ThingTemplate *what, const Coord3D *pos, unsigned kind);
 	virtual Bool rva0039321C(Rva0039205C *info, Object *first, Object *second, UnsignedInt key, Bool recursed);	// +0x54
 	virtual void slot22();
 	virtual Bool rva00391A70(const ThingTemplate *whatToBuild, const Object *builder);	// +0x5C
@@ -926,6 +953,240 @@ private:
 	unsigned char m_pad04[0x0C - 0x04];
 	ObjectSellList m_sellList;		// +0x0C
 };
+
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+template <> list<int>::_Node *list<int>::_M_create_node(const int &);
+}
+struct Rva0039BAD2Input;
+class Rva0039B795;
+
+class Rva0039BAD2
+{
+public:
+	void rva0039BAD2(Rva0039BAD2Input *, int);
+};
+struct NativeBuildTemplateView
+{
+	char head[0x11B];
+	unsigned char flag11B;
+	char rest[0xC8-0x11C+0x100];
+};
+
+struct NativeBuildRadiusView
+{
+	char head[0xC8];
+	float radius;
+};
+
+
+class Rva004D9A3C;
+
+class NativeBuildBehavior
+{
+public:
+	virtual void s0();
+	virtual void s1();
+	virtual void s2();
+	virtual void s3();
+	virtual void s4(int);
+	virtual void s5();
+	virtual void s6();
+	virtual void s7();
+	virtual void s8();
+	virtual void s9();
+	virtual void s10();
+	virtual void s11();
+	virtual void s12();
+	virtual void s13();
+	virtual int s14();
+	virtual void s15();
+	virtual void s16();
+	virtual void s17(int);
+	virtual void s18(Object*);
+};
+class NativeBuildBody
+{
+public:
+	virtual void s0();
+	virtual void s1();
+	virtual void s2();
+	virtual void s3();
+	virtual float s4(bool);
+	virtual void s5();
+	virtual void s6();
+	virtual void s7();
+	virtual void s8();
+	virtual void s9();
+	virtual void s10();
+	virtual void s11();
+	virtual void s12();
+	virtual void s13();
+	virtual void s14();
+	virtual void s15();
+	virtual void s16();
+	virtual void s17();
+	virtual void s18();
+	virtual void s19();
+	virtual void s20();
+	virtual void s21();
+	virtual void s22();
+	virtual void s23();
+	virtual void s24();
+	virtual void s25();
+	virtual void s26();
+	virtual void s27();
+	virtual void s28();
+	virtual void s29();
+	virtual void s30();
+	virtual void s31();
+	virtual void s32(float);
+};
+
+struct NativeBuildObjectView
+{
+	char head[4];
+	const ThingTemplate *thing;
+	char head8[0x74-8];
+	int id;
+	char pad78[0x254-0x78];
+	NativeBuildBody *body;
+	char pad258[0x280-0x258];
+	float construction;
+	char pad284[0x324-0x284];
+	float cost;
+	char pad328[0x438-0x328];
+	unsigned char dead;
+};
+
+class Rva001E4912
+{
+public:
+	Rva001E4912 *rva001E4912(int, unsigned, unsigned);
+	int bits[19];
+};
+class Rva001E431E
+{
+public:
+	void rva001E431E(const int *);
+};
+extern GameLogic *TheGameLogic;
+extern PartitionManager *ThePartitionManager;
+// Retail 0x00392DC0: construction tiles, created-object relationships and payment.
+// Target bytes establish the offsets and virtual slots below; the WorldBuilder
+// twin and the banked reconstruction supply the control-flow leads. Keep the
+// list node factory opaque while allowing STLport's insert body to inline.
+bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const Coord3D *pos,Player *player,unsigned kind,Object **result)
+{
+	if(!builder||!what||!pos||!player)
+		return false;
+	Rva0039205C tiles;
+	if(!slot20(&tiles,builder,what,pos,kind))
+		return false;
+	if(tiles.status!=0&&tiles.status!=10)
+		return false;
+	if(player->getMoney()->countMoney()<tiles.cost)
+		return false;
+	std::list<int> created;
+	int i=0;
+	if(tiles.count)
+	{
+		for(;i<tiles.count;i=i+1)
+		{
+			if(tiles.rva00392D71(i)==10)
+			{
+				float radius=tiles.rva00392CC5(i)?((NativeBuildRadiusView*)tiles.rva00392CC5(i))->radius:20.0f;
+				Object *old=ThePartitionManager->rva00625340((const Coord3D*)tiles.rva00392CF9(i),radius*0.25f,1);
+				if(old && old->isEffectivelyDead())
+				{
+					// This read uses the index home; other uses keep ordinary live ranges.
+					if(old->getTemplate()->isEquivalentTo((const ThingTemplate*)tiles.rva00392CC5((*(volatile unsigned *)&i))))
+					{
+						NativeBuildBehavior *behavior=(NativeBuildBehavior*)old->rva0028BD17();
+						if(behavior)
+							behavior->s4(0);
+					}
+				}
+			} else
+			{
+				Object *made=buildObjectNow(builder,(const ThingTemplate*)tiles.rva00392CC5(i),(const Coord3D*)tiles.rva00392CF9(i),tiles.rva00392D1D(i),player);
+				if(!made)
+					continue;
+				int id=(int)made->getID();
+				created.push_back(id);
+				made->setBuilder(builder);
+				if(tiles.rva00392D49(i))
+					made->teleportTo((const Coord3D*)tiles.rva00392CF9(i),false);
+				NativeBuildBody *body=(NativeBuildBody*)made->getBodyModule();
+				if(body)
+					body->s32((1.0f - body->s4(false)));
+				NativeBuildBehavior *behavior=(NativeBuildBehavior*)made->rva0028BD17();
+				NativeBuildBehavior *producer=(NativeBuildBehavior*)((Rva00293330*)builder)->rva00293330(kind);
+				if(behavior&&producer&&!(((const NativeBuildTemplateView*)made->getTemplate())->flag11B&0x10)&&(tiles.status!=10))
+				{
+					behavior->s17(producer->s14()*(int)i);
+				}
+				((NativeBuildObjectView*)made)->construction=0.0f;
+				made->setStatus(OBJECT_STATUS_87,false);
+				made->setStatus(OBJECT_STATUS_UNDER_CONSTRUCTION,true);
+				Rva001E4912 mask;
+				((Rva001E431E*)made)->rva001E431E((const int*)mask.rva001E4912(0,0x44,0x45));
+				if(((Thing*)made)->getDrawable())
+					((Thing*)made)->getDrawable()->fadeIn(0x8A);
+				if(result)
+				{
+					const NativeBuildTemplateView *resTpl=(const NativeBuildTemplateView*)made->getTemplate();
+					if(resTpl->flag11B&0x10)
+						*result=made;
+				}
+				const ThingTemplate *const &tile=(const ThingTemplate*)tiles.rva00392CC5(i);
+				if(tile)
+					((NativeBuildObjectView*)made)->cost=(float)(unsigned)tile->rva0033A69A(player,(int)builder,-1);
+			}
+		}
+	}
+	Object *parent=TheGameLogic->findObjectByID(tiles.objectID);
+	if(parent)
+	{
+		NativeBuildBehavior *behavior=(NativeBuildBehavior*)parent->rva0028BD17();
+		if(behavior)
+			behavior->s18(builder);
+		NativeBuildBehavior *producer=(NativeBuildBehavior*)builder->rva0028BD17();
+		if(producer)
+			producer->s18(parent);
+		for(std::list<int>::iterator it=created.begin();it!=created.end();++it)
+		{
+			Object *child=TheGameLogic->findObjectByID((ObjectID)*it);
+			if(child&&producer)
+				producer->s18(child);
+		}
+	}
+	for(std::list<int>::iterator it=created.begin();it!=created.end();++it)
+	{
+		Object *made=TheGameLogic->findObjectByID((ObjectID)*it);
+		if(!made)
+			continue;
+		NativeBuildBehavior *behavior=(NativeBuildBehavior*)made->rva0028BD17();
+		if(behavior)
+		{
+			if(parent)
+				behavior->s18(parent);
+			behavior->s18(builder);
+			for(std::list<int>::iterator jt=created.begin();jt!=created.end();++jt)
+			{
+				Object *other=TheGameLogic->findObjectByID((ObjectID)*jt);
+				if(other)
+					behavior->s18(other);
+			}
+		}
+		NativeBuildBehavior *producer=(NativeBuildBehavior*)builder->rva0028BD17();
+		if(producer)
+			producer->s18(made);
+	}
+	((Rva003B0D7C*)((char*)player+0x90))->withdraw(tiles.cost,(Rva0039B795*)((char*)player+0x3BC),true);
+	((Rva0039BAD2*)((char*)player+0x3BC))->rva0039BAD2((Rva0039BAD2Input*)tiles.rva00392CC5(0),tiles.cost);
+	return true;
+}
 
 // BFME1 defines this public pointer as NULL; BFME2 has a zero-filled slot at
 // 0x00A027B8, and native callers load it as the build-assistant receiver.
