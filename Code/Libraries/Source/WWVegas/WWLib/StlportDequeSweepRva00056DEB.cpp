@@ -15,5 +15,8 @@ namespace _STL { template <> void __destroy_aux<_Deque_iterator<Rva00056DEBEleme
 struct Rva00056DEBElement { char bytes[1]; ~Rva00056DEBElement(); bool operator<(const Rva00056DEBElement&)const; bool operator==(const Rva00056DEBElement&)const; };
 
 namespace _STL { template<> _Deque_base<Rva00056DEBElement, allocator<Rva00056DEBElement> >::~_Deque_base(); }
+// Suppress this TU's copies of template members whose kept copy (first in link
+// order) is another unit's. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void __destroy<_Deque_iterator<Rva00056DEBElement,_Nonconst_traits<Rva00056DEBElement> >,Rva00056DEBElement>(_Deque_iterator<Rva00056DEBElement,_Nonconst_traits<Rva00056DEBElement> >,_Deque_iterator<Rva00056DEBElement,_Nonconst_traits<Rva00056DEBElement> >,Rva00056DEBElement *); }
 
 template _STL::deque<Rva00056DEBElement>::~deque();

@@ -63,6 +63,12 @@ namespace _STL { template <> bool less<int>::operator()(int const &,int const &)
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Gen_lt_00940b40;
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<unsigned short const ,int>,_Nonconst_traits<pair<unsigned short const ,int> > >,bool> _Rb_tree<unsigned short,pair<unsigned short const ,int>,_Select1st<pair<unsigned short const ,int> >,Gen_lt_00940b40,allocator<pair<unsigned short const ,int> > >::insert_unique(pair<unsigned short const ,int> const &); }
+// Suppress this TU's copies of template members whose kept copy (first in link
+// order) is another unit's. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_node<pair<unsigned short const,int> > * _Rb_tree<unsigned short,pair<unsigned short const,int>,_Select1st<pair<unsigned short const,int> >,Gen_lt_00940b40,allocator<pair<unsigned short const,int> > >::_M_create_node(pair<unsigned short const,int> const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<unsigned short const,int>,_Nonconst_traits<pair<unsigned short const,int> > > _Rb_tree<unsigned short,pair<unsigned short const,int>,_Select1st<pair<unsigned short const,int> >,Gen_lt_00940b40,allocator<pair<unsigned short const,int> > >::_M_insert(_Rb_tree_node_base *,_Rb_tree_node_base *,pair<unsigned short const,int> const &,_Rb_tree_node_base *); }
+namespace _STL { template <> _Rb_tree_node<pair<unsigned short const,int> > * allocator<_Rb_tree_node<pair<unsigned short const,int> > >::allocate(unsigned int,void const *)const ; }
+namespace _STL { template <> _Rb_tree_iterator<pair<unsigned short const,int>,_Nonconst_traits<pair<unsigned short const,int> > > _Rb_tree<unsigned short,pair<unsigned short const,int>,_Select1st<pair<unsigned short const,int> >,Gen_lt_00940b40,allocator<pair<unsigned short const,int> > >::insert_unique(_Rb_tree_iterator<pair<unsigned short const,int>,_Nonconst_traits<pair<unsigned short const,int> > >,pair<unsigned short const,int> const &); }
 
 extern GameLogic *TheGameLogic;
 
