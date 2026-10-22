@@ -95,6 +95,9 @@ namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_t
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum ObjectID;
 namespace _STL { template <> void vector<ObjectID, allocator<ObjectID> >::_M_insert_overflow(ObjectID *, const ObjectID &, const __false_type &, size_t, bool); }
+// Suppress this TU's non-retail copy of ?push_back@?$vector@W4ObjectID@@...: the caller binds
+// retail's ICF-shared push_back at 0x002E01C6. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<ObjectID, allocator<ObjectID> >::push_back(const ObjectID &); }
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
