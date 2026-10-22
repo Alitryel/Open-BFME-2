@@ -66,12 +66,12 @@ public:
 	NameKeyType key() const;			// 0x00148F5E
 	operator NameKeyType() const { return key(); }
 
-private:
+// Public for retail's static aggregate initialization; layout is unchanged.
 	mutable NameKeyType m_key;
 	const char *m_name;
 };
 extern const StaticNameKey TheKey_objectName;			// VA 0x00DBDCC4
-extern const StaticNameKey TheKey_objectIsABase;		// VA 0x00DBDD0C
+extern const StaticNameKey TheKey_objectIsABase = { NAMEKEY_INVALID, "objectIsABase" };		// VA 0x00DBDD0C
 extern const StaticNameKey TheKey_objectBaseName;		// VA 0x00DBDD14
 extern const StaticNameKey TheKey_objectBasePriority;	// VA 0x00DBDD84
 extern const StaticNameKey TheKey_objectBasePhase;		// VA 0x00DBDD8C
@@ -87,7 +87,7 @@ private:
 extern Rva00148F5ECache TheKey_playerAIType;
 extern const StaticNameKey TheKey_playerName;			// VA 0x00DBDE24
 extern const StaticNameKey TheKey_teamOwner;			// VA 0x00DBD9FC
-extern const StaticNameKey TheKey_teamLibraryMapName;	// VA 0x00DBDC1C
+extern const StaticNameKey TheKey_teamLibraryMapName = { NAMEKEY_INVALID, "teamLibraryMapName" };	// VA 0x00DBDC1C
 extern const StaticNameKey TheKey_teamName;			// VA 0x00DBD9F4
 
 enum ErrorCode { ERROR_CORRUPT_FILE_FORMAT = 0xDEAD0005 };
