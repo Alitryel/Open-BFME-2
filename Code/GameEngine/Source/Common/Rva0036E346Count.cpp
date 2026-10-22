@@ -72,7 +72,7 @@ public:
 	void rva0036E2E2(bool flag);
 	bool rva0036E0E3();
  bool rva0036E357();
- inline int count() const {ListNode*listNode=m_head,*p=listNode->m_next;int n=0;while(p!=listNode){p=p->m_next;++n;}return n;}
+ inline int count() const {ListNode*listNode=m_head,*p=listNode->m_next;int memberCount=0;while(p!=listNode){p=p->m_next;++memberCount;}return memberCount;}
 
 private:
 	char m_pad0[4]; // +0x00
@@ -123,16 +123,16 @@ public:
 class Rva0036E1F7
 {
 public:
-	void groupOverrideSpecialPowerDestination(int a, int b, int c);
+	void groupOverrideSpecialPowerDestination(int spType, int loc, int cmdSource);
 
 private:
 	char m_pad0[4];
 	ListNode *m_head;
 };
 
-void Rva0036E1F7::groupOverrideSpecialPowerDestination(int a, int b, int c)
+void Rva0036E1F7::groupOverrideSpecialPowerDestination(int spType, int loc, int cmdSource)
 {
-	(void)c;
+	(void)cmdSource;
 	ListNode *cur = m_head->m_next;
 	if (cur == m_head)
 		return;
@@ -141,9 +141,9 @@ void Rva0036E1F7::groupOverrideSpecialPowerDestination(int a, int b, int c)
 		Object *obj = cur->m_obj;
 		if (obj != 0)
 		{
-			void *p = obj->rva0028BD5D(a);
-			if (p != 0)
-				((Rva0036E1F7Result *)p)->slot05(b);
+			void *spuInterface = obj->rva0028BD5D(spType);
+			if (spuInterface != 0)
+				((Rva0036E1F7Result *)spuInterface)->slot05(loc);
 		}
 		cur = cur->m_next;
 	} while (cur != m_head);
