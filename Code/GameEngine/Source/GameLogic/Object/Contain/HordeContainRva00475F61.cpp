@@ -157,6 +157,12 @@ public:
     unsigned int max_size() const { return (unsigned int)-1/sizeof(T); }
 };
 namespace _STL {
+// Convert the value allocator to the node allocator for pooled storage.
+template<class T,class U> struct _Alloc_traits<T,Rva001EB984PoolAllocator<U> > {
+    typedef Rva001EB984PoolAllocator<U> _Orig;
+    typedef Rva001EB984PoolAllocator<T> allocator_type;
+    static allocator_type create_allocator(const _Orig &a) { return allocator_type(a); }
+};
 template<class A,class B> inline Rva001EB984PoolAllocator<B> &__stl_alloc_rebind(Rva001EB984PoolAllocator<A> &a,const B *) {
     return (Rva001EB984PoolAllocator<B> &)a;
 }

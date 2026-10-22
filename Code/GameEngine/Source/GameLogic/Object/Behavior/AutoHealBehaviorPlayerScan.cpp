@@ -106,7 +106,7 @@ template <> class _List_base<Object *, Rva001EB984PoolAllocator<Object *> >
 public:
 	_List_base(const Rva001EB984PoolAllocator<Object *> &a);
 	~_List_base() throw(); // pinned 0x001EB769 body, emitted by HordeContainRva00475F61.cpp
-	__forceinline void clear() { ((Rva001EB130Holder *)this)->rva001EB130(); }
+	__declspec(dllimport) __forceinline void clear() { ((Rva001EB130Holder *)this)->rva001EB130(); }
 protected:
 	_List_node<Object *> *_M_node;
 };

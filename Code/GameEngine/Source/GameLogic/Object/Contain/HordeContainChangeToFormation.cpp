@@ -107,7 +107,7 @@ public:
 		return result;
 	}
 	T &front() { return *begin(); }
-	iterator erase(iterator pos)
+	__declspec(dllimport) __forceinline iterator erase(iterator pos)
 	{
 		_List_node_base *next = pos._M_node->_M_next;
 		_List_node_base *prev = pos._M_node->_M_prev;

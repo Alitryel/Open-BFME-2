@@ -234,7 +234,8 @@ public:
 	GameSlot *getSlot(int index);
 };
 
-extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo;
+extern SkirmishGameInfo *TheSkirmishGameInfo;
 
 AsciiString GameInfoToAsciiString(const GameInfo *info, bool flag);
 
@@ -462,7 +463,7 @@ void SkirmishPreferences::rva0043BE7C(void)
 {
 	if (!TheSkirmishGameInfo)
 		return;
-	Rva0043BE36(TheSkirmishGameInfo->getMap());
+	Rva0043BE36(((GameInfo *)TheSkirmishGameInfo)->getMap());
 	rva0043BD36();
 }
 
@@ -479,12 +480,12 @@ void SkirmishPreferences::rva0043BD36(void)
 {
 	if (!TheSkirmishGameInfo)
 		return;
-	AsciiString gameInfoValue = GameInfoToAsciiString(TheSkirmishGameInfo, true);
+	AsciiString gameInfoValue = GameInfoToAsciiString((GameInfo *)TheSkirmishGameInfo, true);
 	setAsciiString(buildProfileKey("GameInfo"), gameInfoValue);
 	gameInfoValue.set(":");
 	AsciiString num;
 	for (unsigned int i = 0; i < 8; ++i) {
-		GameSlot *slot = TheSkirmishGameInfo->getSlot(i);
+		GameSlot *slot = ((GameInfo *)TheSkirmishGameInfo)->getSlot(i);
 		int v = -1;
 		if (slot)
 			v = slot->m_heroIndex5C;

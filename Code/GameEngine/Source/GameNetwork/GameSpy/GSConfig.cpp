@@ -131,6 +131,14 @@ public:
  template<class U> Rva0054E8DCAllocator(const Rva0054E8DCAllocator<U>&) throw() {}
 };
 
+// The existing byte-allocator int-tree units provide these cleanup copies.
+namespace _STL {
+typedef _Rb_tree<int,int,_Identity<int>,less<int>,Rva0054E8DCAllocator<int> > GameSpyVipTree;
+template <> void GameSpyVipTree::_M_erase(_Rb_tree_node<int> *);
+template <> _Rb_tree_base<int,Rva0054E8DCAllocator<int> >::~_Rb_tree_base();
+template <> GameSpyVipTree::~_Rb_tree();
+}
+
 class GameSpyConfig : public GameSpyConfigInterface
 {
 public:

@@ -84,7 +84,12 @@ namespace _STL { template <> void *& vector<void *, allocator<void *> >::operato
 namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned int vector<void *>::size() const
+{ return (unsigned int)(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline vector<void *>::const_reference vector<void *>::operator[](size_type n) const
+{ return *(begin() + n); }
+}
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
@@ -357,6 +362,12 @@ enum { MAX_PLAYER_COUNT = 20 };
 typedef _STL::list<SuperweaponInfo *> SuperweaponList;
 typedef _STL::map<AsciiString, SuperweaponList> SuperweaponMap;
 
+// The rowed subscript uses this four-byte list view, as InGameUIXfer does.
+struct TreeHintOpaque002A484A : public _STL::list<int> {};
+typedef _STL::pair<const AsciiString,TreeHintOpaque002A484A> SuperweaponSubscriptPair;
+typedef _STL::map<AsciiString,TreeHintOpaque002A484A,_STL::less<AsciiString>,_STL::allocator<SuperweaponSubscriptPair> > SuperweaponSubscriptMap;
+template <> TreeHintOpaque002A484A &SuperweaponSubscriptMap::operator[](const AsciiString &);
+
 class InGameUI
 {
 public:
@@ -423,7 +434,7 @@ void InGameUI::addSuperweapon( int playerIndex, const AsciiString &powerName, Ob
 		m_superweaponNormalFont, m_superweaponNormalPointSize, m_superweaponNormalBold,
 		player->getPlayerColor(), (int)powerTemplate );
 
-	m_superweapons[playerIndex][powerName].push_back( info );
+	((SuperweaponList &)(*(SuperweaponSubscriptMap *)&m_superweapons[playerIndex])[powerName]).push_back( info );
 }
 
 // ?objectChangedTeam@InGameUI@@UAEXPBVObject@@HH@Z
