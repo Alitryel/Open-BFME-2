@@ -97,22 +97,7 @@ private:
 	MeshModelClass *Model;             // +0xC4
 };
 
-void MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert, Vector3 *dst_norm)
-{
-	Model->get_deformed_vertices(dst_vert, dst_norm,
-		(m_container != 0) ? m_container->Get_HTree() : 0);
-}
 
-// MeshClass::Get_Deformed_Vertices(Vector3*) at 0x00149A10 (64 bytes), right
-// after the two-array overload as in Zero Hour mesh.cpp, with the same
-// container guard; the compiler duplicates the short call tail into both arms.
-// The single-array MeshModelClass::get_deformed_vertices (0x0016B680) is
-// pinned from this body.
-void MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert)
-{
-	Model->get_deformed_vertices(dst_vert,
-		(m_container != 0) ? m_container->Get_HTree() : 0);
-}
 
 // ---------------------------------------------------------------------------
 // MeshClass::rva00149bb0 at 0x00149BB0 (57 bytes). Address-derived; identity
