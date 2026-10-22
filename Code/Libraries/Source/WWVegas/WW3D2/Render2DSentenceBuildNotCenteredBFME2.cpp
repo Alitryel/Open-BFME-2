@@ -13,6 +13,9 @@ void __cdecl operator delete[](void *) throw();
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Render2DClass;
 template <> void VectorClass<Render2DClass *>::Clear();
+template <> bool VectorClass<Render2DClass *>::Resize(int, Render2DClass *const *);
+template <> VectorClass<Render2DClass *>::~VectorClass();
+template <> DynamicVectorClass<Render2DClass *>::~DynamicVectorClass();
 extern "C" __declspec(dllimport) double __cdecl floor(double);
 void BFME_DX8_Thread_Lock();
 bool BFME_DX8_Thread_Assert();
@@ -142,6 +145,7 @@ public:
 
 	struct PendingSurfaceStruct : public W3DRadarResetSurface
 	{
+		~PendingSurfaceStruct();
 		DynamicVectorClass<Render2DClass *> Renderers;
 
 		bool operator==(const PendingSurfaceStruct &) { return false; }
