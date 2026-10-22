@@ -86,9 +86,8 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::ca
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+// Inline STLport's const access while leaving the external copy to its owner.
+namespace _STL { template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t n) const { return *(begin() + n); } }
 
 class NameKeyGenerator
 {
@@ -116,6 +115,14 @@ typedef std::hash_map<
 	ArmorTemplate,
 	rts::hash<NameKeyType>,
 	std::equal_to<NameKeyType> > ArmorTemplateMap;
+
+namespace _STL {
+typedef hashtable<pair<const NameKeyType, ArmorTemplate>, NameKeyType,
+    rts::hash<NameKeyType>, _Select1st<pair<const NameKeyType, ArmorTemplate> >,
+    equal_to<NameKeyType>, allocator<pair<const NameKeyType, ArmorTemplate> > > ArmorTable;
+// XferSaveOpen.cpp supplies the retail table-clear instantiation.
+template <> void ArmorTable::clear();
+}
 
 class ArmorStore : public SubsystemInterface
 {
