@@ -5,7 +5,7 @@
 // operator delete (0x0002FD60) and return this (ret 4), found in vtable slots
 // with no ledger owner (vtable bounds taken from the constructor vptr stores
 // in .text; slots shared by three or more vtables are not counted as owners).
-// Each destructor is declared, not defined, so the call resolves to its pin
+// Each destructor is declared, not defined, so the call resolves to its row or pin
 // in reverse/symbols.csv; the dummy tag constructors (no retail counterpart)
 // only make this TU emit each vtable and with it the deleting destructor.
 // Owner identities are not recovered, and these declarations model no layout
@@ -211,31 +211,51 @@ Rva004E0D67::Rva004E0D67(EmitVtableTag *)
 {
 }
 
-class __declspec(novtable) Rva004E4655Base0
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
+
+class GameWindow
 {
 public:
-	virtual ~Rva004E4655Base0();
+	GameWindow();
+protected:
+	virtual ~GameWindow();
 private:
-	char m_unmodelled[0x214];
+	unsigned char m_unmodelled04[0x218 - 4];
 };
 
-// Secondary base at +0x218: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0x218) at 0x004E4745 in its vtable is target evidence for it.
-class __declspec(novtable) Rva004E4655Base218
+class Rva005248D0
 {
 public:
-	virtual ~Rva004E4655Base218();
-};
-class Rva004E4655 : public Rva004E4655Base0, public Rva004E4655Base218
-{
-public:
-	Rva004E4655(EmitVtableTag *);
-public:
-	virtual ~Rva004E4655();
+	Rva005248D0();
+	virtual ~Rva005248D0();
+private:
+	unsigned char m_unmodelled04[0x58 - 4];
 };
 
-// ?<Rva004E4655::Rva004E4655> absent-from-retail
-Rva004E4655::Rva004E4655(EmitVtableTag *)
+// The screen base has GameWindow at +0 and the callback registry at +0x218.
+class _bfme_AptGameWindow : public GameWindow, public Rva005248D0
+{
+public:
+	_bfme_AptGameWindow(void *context);
+	virtual ~_bfme_AptGameWindow();
+private:
+	AsciiString m_filename;
+	int m_274;
+	char m_278;
+};
+
+// The secondary-table thunk at 0x004E4745 adjusts this by -0x218.
+class AptPlayerStatus : public _bfme_AptGameWindow
+{
+public:
+	AptPlayerStatus(EmitVtableTag *);
+	virtual ~AptPlayerStatus();
+private:
+	unsigned char m_unmodelled27C[0x2B4 - 0x27C];
+};
+
+// ?<AptPlayerStatus::AptPlayerStatus> absent-from-retail
+AptPlayerStatus::AptPlayerStatus(EmitVtableTag *) : _bfme_AptGameWindow(0)
 {
 }
 
@@ -350,7 +370,6 @@ Rva005105D7::Rva005105D7(EmitVtableTag *)
 {
 }
 
-#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 
 __forceinline const char *GetStr0050FDDC(const AsciiString &asciiString)
@@ -381,14 +400,6 @@ struct AsciiStringPlusText __cdecl operator+(const AsciiString &lhs, const char 
 
 void _bfme_closeAptScreen(const AsciiString &name);
 
-class Rva005248D0
-{
-public:
-	// Use the full registry constructor at 0x002D2C34; this view only models destruction.
-	Rva005248D0();
-	virtual ~Rva005248D0();
-};
-
 // Source-only bridge for the target's observed base-vtable transition; this
 // helper name does not assert an original intermediate class identity. Retail
 // stores VA 0x00C65518 (RVA 0x00865518) immediately before the pinned base dtor.
@@ -404,7 +415,7 @@ public:
 	Rva0050FDDC(EmitVtableTag *);
 	virtual ~Rva0050FDDC();
 private:
-	char m_pad04[0x5c - 4];
+	char m_pad58[0x5c - 0x58];
 	unsigned int m_5c;
 	AsciiString m_60;
 };
@@ -452,36 +463,33 @@ Rva00510D0C::Rva00510D0C(EmitVtableTag *)
 {
 }
 
-// Rva005125ED's two tables (data ledger): GameWindow at +0 and Rva005248D0 at +0x218, whose
-// slot 0 is a this-adjusting (sub ecx, 0x218) deleting-destructor thunk.
-class GameWindow { public: GameWindow(); protected: virtual ~GameWindow(); private: unsigned char m_unmodelled04[0x218 - 4]; };
-class Rva005125ED : public GameWindow, public Rva005248D0
+// AptMessenger has GameWindow at +0 and the callback registry at +0x218;
+// its secondary-table deleting-destructor thunk is 0x005125E2.
+class AptMessenger : public _bfme_AptGameWindow
 {
 public:
-	Rva005125ED(EmitVtableTag *);
-public:
-	virtual ~Rva005125ED();
+	AptMessenger(EmitVtableTag *);
+	virtual ~AptMessenger();
+private:
+	unsigned char m_unmodelled27C[0x2A0 - 0x27C];
 };
 
-// ?<Rva005125ED::Rva005125ED> absent-from-retail
-Rva005125ED::Rva005125ED(EmitVtableTag *)
+// ?<AptMessenger::AptMessenger> absent-from-retail
+AptMessenger::AptMessenger(EmitVtableTag *) : _bfme_AptGameWindow(0)
 {
 }
 
-// Primary base at +0 (the 0x218-byte screen window) and secondary base at
-// +0x218: slot 0 of the secondary table is the this-adjusting (sub ecx,
-// 0x218) deleting-destructor thunk 0x00512ED2, target evidence for both.
-class __declspec(novtable) Rva00512E49Base0 { public: virtual ~Rva00512E49Base0(); private: char m_unmodelled04[0x218 - 0x04]; };
-class __declspec(novtable) Rva00512E49Base218 { public: virtual ~Rva00512E49Base218(); };
-class Rva00512E49 : public Rva00512E49Base0, public Rva00512E49Base218
+// The secondary-table thunk at 0x00512ED2 adjusts this by -0x218.
+class AptDisconnectScreen : public _bfme_AptGameWindow
 {
 public:
-	Rva00512E49(EmitVtableTag *);
-public:
-	virtual ~Rva00512E49();
+	AptDisconnectScreen(EmitVtableTag *);
+	virtual ~AptDisconnectScreen();
+private:
+	unsigned char m_unmodelled27C[0x290 - 0x27C];
 };
 
-// ?<Rva00512E49::Rva00512E49> absent-from-retail
-Rva00512E49::Rva00512E49(EmitVtableTag *)
+// ?<AptDisconnectScreen::AptDisconnectScreen> absent-from-retail
+AptDisconnectScreen::AptDisconnectScreen(EmitVtableTag *) : _bfme_AptGameWindow(0)
 {
 }
