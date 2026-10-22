@@ -32,6 +32,16 @@ template <> void _Deque_base<BfmeE12, allocator<BfmeE12> >::_M_create_nodes(Bfme
 template <> deque<BfmeE12>::deque(const deque<BfmeE12> &);
 }
 
+// The no-exceptions unit supplies these retail deque helpers.
+namespace _STL {
+typedef deque<BfmeE12>::iterator E12Iterator;
+typedef deque<BfmeE12>::const_iterator E12ConstIterator;
+template <> void deque<BfmeE12>::_M_new_elements_at_front(size_t);
+template <> void deque<BfmeE12>::_M_new_elements_at_back(size_t);
+template <> E12Iterator __uninitialized_copy_copy<E12ConstIterator, E12Iterator, E12Iterator>(E12ConstIterator, E12ConstIterator, E12Iterator, E12Iterator, E12Iterator, __false_type);
+template <> E12Iterator __uninitialized_copy_copy<E12Iterator, E12ConstIterator, E12Iterator>(E12Iterator, E12Iterator, E12ConstIterator, E12ConstIterator, E12Iterator, __false_type);
+}
+
 template class _STL::deque<BfmeE12, _STL::allocator<BfmeE12 > >;
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

@@ -59,6 +59,9 @@ typedef std::hash_map<const GameWindow *, WindowVideo *,
 	WindowVideoManager::hashConstGameWindowPtr,
 	std::equal_to<const GameWindow *> > WindowVideoMap;
 
+// The manager unit supplies the retail default constructor.
+namespace _STL { template <> WindowVideoMap::hash_map(); }
+
 class WindowVideoHashtableHolder
 {
 public:
