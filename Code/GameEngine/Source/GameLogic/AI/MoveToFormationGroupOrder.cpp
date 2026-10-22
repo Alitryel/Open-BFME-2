@@ -24,11 +24,11 @@ namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
 namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
-namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> __declspec(dllimport) __forceinline void ** vector<void *, allocator<void *> >::begin() { return this->_M_start; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void *& vector<void *, allocator<void *> >::operator[](unsigned int n) { return *(begin() + n); } }
 namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
-namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *, allocator<void *> >::size() const { return this->_M_finish - this->_M_start; } }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
@@ -48,6 +48,8 @@ class Object{public:char pad[0x74];ObjectID id;};
 class Rva001EB769{public:void rva001EB769() throw();};
 namespace _STL{
 template<> inline _List_base<Object*,allocator<Object*> >::~_List_base(){((Rva001EB769*)this)->rva001EB769();}
+// Node creation is fully inlined into the list insertion.
+template<> __declspec(dllimport) __forceinline _List_node<Object*> *list<Object*>::_M_create_node(Object *const &value) { _List_node<Object*> *node = this->_M_node.allocate(1); _Construct(&node->_M_data, value); return node; }
 }
 extern GameLogic*TheGameLogic;
 namespace rts{template<class T>struct hash{size_t operator()(const T&v)const{return(size_t)v;}};}

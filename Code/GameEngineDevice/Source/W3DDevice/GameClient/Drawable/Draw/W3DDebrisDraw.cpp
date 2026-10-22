@@ -53,6 +53,28 @@
 
 HAnimClass *Get_HAnim(const char *name);
 
+class DrawModuleInlineAnchor : public DrawModule
+{
+public:
+	void destroyBase();
+};
+
+#pragma inline_depth(0)
+// ?DrawModuleInlineAnchor::destroyBase absent-from-retail
+void DrawModuleInlineAnchor::destroyBase()
+{
+	DrawModule::~DrawModule();
+}
+#pragma inline_depth()
+
+#pragma inline_depth(0)
+// ?bfmeDebrisDrawInterfaceAnchor absent-from-retail
+DebrisDrawInterface *bfmeDebrisDrawInterfaceAnchor(W3DDebrisDraw *draw)
+{
+	return draw->W3DDebrisDraw::getDebrisDrawInterface();
+}
+#pragma inline_depth()
+
 // BFME's render interfaces predate the Zero Hour headers used to build this
 // source tree.  Keep the retail virtual slots and the extended shadow
 // descriptor local to this translation unit.
@@ -110,27 +132,6 @@ RenderObjClass *Create_Render_Obj(const char *name, Real scale, Int color);
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1W3DDebrisDraw@@MAE@XZ present-unmatched
-W3DDebrisDraw::~W3DDebrisDraw(void)
-{
-	if (TheW3DShadowManager && m_shadow)
-	{	
-		TheW3DShadowManager->removeShadow(m_shadow);
-		m_shadow = NULL;
-	}
-	if (m_renderObject)
-	{
-		W3DDisplay::m_3DScene->Remove_Render_Object(m_renderObject);
-  	REF_PTR_RELEASE(m_renderObject);
- 		m_renderObject = NULL; 	
-	}
-	for (int i = 0; i < STATECOUNT; ++i)
-	{
-		REF_PTR_RELEASE(m_anims[i]);
-		m_anims[i] = NULL;
-	}
-}
-
 //-------------------------------------------------------------------------------------------------
 // ?setShadowsEnabled@W3DDebrisDraw@@UAEX_N@Z present-unmatched
 void W3DDebrisDraw::setShadowsEnabled(Bool enable)

@@ -35,6 +35,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // Suppress this TU's non-retail copy of ??$__copy@PAUAngleFXInfo@@PAU1@H@_STL@@YAPAUAngleFXInfo@@PAU1@00ABUrandom_access_iterator_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct AngleFXInfo;
+// Range erase is emitted by the module-data constructor unit.
+namespace _STL { template <> AngleFXInfo *vector<AngleFXInfo>::erase(AngleFXInfo *, AngleFXInfo *); }
 namespace _STL { template <> AngleFXInfo * __copy<AngleFXInfo *,AngleFXInfo *,int>(AngleFXInfo *,AngleFXInfo *,AngleFXInfo *,random_access_iterator_tag const &,int *); }
 
 class FXList;

@@ -20,10 +20,14 @@ private:
 	void *m_drawable;
 };
 
+enum ShadowType { SHADOW_NONE = 0 };
+class FXList;
+
 class DebrisDrawInterface
 {
 public:
-	virtual void debrisDrawInterfaceAnchor();
+	virtual void setModelName(AsciiString name, int color, ShadowType type) = 0;
+	virtual void setAnimNames(AsciiString initial, AsciiString flying, AsciiString final, const FXList *finalFX) = 0;
 };
 
 class RenderObjClass
@@ -75,6 +79,9 @@ class W3DDebrisDraw : public DrawableModuleLayoutBase,
 {
 	protected:
 	virtual ~W3DDebrisDraw();
+public:
+	virtual void setModelName(AsciiString name, int color, ShadowType type);
+	virtual void setAnimNames(AsciiString initial, AsciiString flying, AsciiString final, const FXList *finalFX);
 
 private:
 	AsciiString m_modelName;

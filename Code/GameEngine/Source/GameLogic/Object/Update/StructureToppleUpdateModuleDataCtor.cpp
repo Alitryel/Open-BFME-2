@@ -33,6 +33,8 @@ char g_00BF43A8;
 // The empty UpdateModuleData base (declared-only dtor) carries
 // unwindability for EH states 0/1/4; the vector bases arm none.
 
+// Preserve STLport's out-of-line pointer-copy wrapper.
+#include "../../../../../../vendor/stlport/stl/_algobase.h"
 #include <vector>
 // Suppress this TU's non-retail copy of ??1?$vector@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -147,11 +149,13 @@ vector<FXBoneInfo, allocator<FXBoneInfo> >::iterator
 vector<FXBoneInfo, allocator<FXBoneInfo> >::erase(
 	vector<FXBoneInfo, allocator<FXBoneInfo> >::iterator first,
 	vector<FXBoneInfo, allocator<FXBoneInfo> >::iterator last);
-template <>
-vector<AngleFXInfo, allocator<AngleFXInfo> >::iterator
-vector<AngleFXInfo, allocator<AngleFXInfo> >::erase(
-	vector<AngleFXInfo, allocator<AngleFXInfo> >::iterator first,
-	vector<AngleFXInfo, allocator<AngleFXInfo> >::iterator last);
+// Retail range erase calls the pointer-copy wrapper out of line.
+template <> __declspec(noinline) inline AngleFXInfo *
+__copy_ptrs<AngleFXInfo *, AngleFXInfo *>(AngleFXInfo *first, AngleFXInfo *last,
+    AngleFXInfo *result, const __false_type &)
+{
+    return __copy(first, last, result, random_access_iterator_tag(), (int *)0);
+}
 
 }
 
