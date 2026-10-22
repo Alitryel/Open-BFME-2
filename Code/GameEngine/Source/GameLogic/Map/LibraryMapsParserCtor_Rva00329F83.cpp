@@ -27,13 +27,7 @@ class BfmeParserRegistrationVE
 {
 public:
     BfmeParserRegistrationVE(DataChunkInput *table, AsciiString *name,
-        AsciiString *label)
-    {
-        m_vftable = _bfmeVftVE;
-        m_table = table;
-        m_parser = table->registerParser(*name, *label,
-            (BfmeParserCallback)j_0001579e, this);
-    }
+        AsciiString *label);
     ~BfmeParserRegistrationVE();
 
 protected:
