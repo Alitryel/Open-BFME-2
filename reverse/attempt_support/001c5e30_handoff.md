@@ -113,6 +113,18 @@ deltas sit in the shared walk/mode-2 machinery, one placement cascade:
    `mov cl,dl` copy vs direct `mov cl,[mem]` reload, stray `(x16-slot)` load vs
    retail's `[S+0x14]` reload). Reverted to the banked default+overwrite form. If the
    frame-slot fixes land first, retry the diamond after — the two interact.
+3. **Join-phases hoist** (the 20261020 readme's untried structural option) — TRIED:
+   xPhase/yPhase computed after the if/else join with the filtered arm reassigning
+   `mask = pbi->vectorMask` post-call (semantics preserved). MSVC physicalized the
+   phases ONCE at the join instead of duplicating them into the arms: 720 B,
+   register deltas 3→61 and memory deltas 17→47 (whole-body reshuffle). Reverted;
+   the stash bank stands.
+
+**Probe note for this body:** a plain `_VP6_PredictFilteredBlock` symbol lookup fails
+on the bank TU — it defines `Rva009B5530Prepare` with C++ linkage (the ledger's pinned
+caller-declared name). Use the scratch probe `build/probe/entryprobe2.py`, which
+passes the mangled name `?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z`; the
+bank reproduces 768 B through it (verified this session).
 
 ## Batch/publication context
 - Publish bar ≥500 new retail bytes; this function is the pending batch centerpiece
