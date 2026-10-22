@@ -188,7 +188,7 @@ extern "C" const void *const __identifier("??_7Rva003AE56F@@6BModuleInfoHeadBase
 extern "C" const void *const __identifier("??_7Rva003AE5F9@@6B@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?BUTTERFLY_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?BUTTERFLY_DRAW_MODULE_NAME@2@3QBDBVButterflyDrawModule@2@VButterflyDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Rva003AE5F9@@6BModuleInfoHeadBase@@@")[];
-extern const void *const g_00C1CDE0[];
+
 // The retail table at RVA 0x0081CDF0: 7 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -450,7 +450,11 @@ class Rva003AE50B { public: Rva003AE50B(void *a, void *b); };
 class Rva00560A1B { public: Rva00560A1B(void *a, void *b); };
 class Rva003AE61F { public: Rva003AE61F(void *a, void *b); };
 class Rva003ACC7C { public: Rva003ACC7C(void *a, void *b); };
-class Rva0055BF4B { public: Rva0055BF4B(const RvaSmartPtr12 &a, const Rva0055BF4BSrc *b); };
+class Rva0055B8CD { public: virtual void rva0055B8CD(Xfer *); };
+class __declspec(novtable) Rva0055BF4B : public Rva003AEEB3, public Snapshot {
+public: Rva0055BF4B(const RvaSmartPtr12 &a, const Rva0055BF4BSrc *b);
+virtual ~Rva0055BF4B();
+};
 class Rva003ABD20 { public: Rva003ABD20(const RvaSmartPtr12 &a, int b); };
 class Rva003ABD81 { public: Rva003ABD81(const RvaSmartPtr12 &a, int b); };
 struct Rva005641EDInput;
@@ -499,8 +503,17 @@ public:
 class Rva003ABCB5 : public Rva0055BF4B
 {
 public:
-	Rva003ABCB5(void *a, void *b);
+ Rva003ABCB5(void *a, void *b);
+ virtual ~Rva003ABCB5();
+ virtual void rva000B3FD0();
+ virtual void LoadPostProcess() {}
+ virtual const char *GetSnapshotName() { return "DefaultModule<CAT_COLOR>"; }
+ virtual void DoXfer(Xfer &stream);
 };
+void Rva003ABCB5::DoXfer(Xfer &stream) {
+ stream.Version1();
+ reinterpret_cast<Rva0055B8CD *>((char *)this+0x1C)->Rva0055B8CD::rva0055B8CD(&stream);
+}
 
 Rva003ABCB5::Rva003ABCB5(void *a, void *b)
 	: Rva0055BF4B(*(const RvaSmartPtr12 *)a, (const Rva0055BF4BSrc *)b)
@@ -508,7 +521,7 @@ Rva003ABCB5::Rva003ABCB5(void *a, void *b)
 	STAMP(0x00, g_00C1C53C);
 	STAMP(0x14, g_00C1C538);
 	STAMP(0x18, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
-	STAMP(0x1C, g_00C1CDE0);
+	STAMP(0x1C, __identifier("??_7Rva003ABCB5@@6BSnapshot@@@"));
 }
 
 class Rva003ABDC8 : public FXParticleSystem::Rva005FEAD0DefaultModule7
@@ -576,7 +589,7 @@ Rva003ACF32Module::Rva003ACF32Module(void *a, Rva003AD8C5Template *b)
 	STAMP(0x00, g_00C1CDF0);
 	STAMP(0x14, g_00C1C538);
 	STAMP(0x18, __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$0A@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@"));
-	STAMP(0x1C, g_00C1CDE0);
+	STAMP(0x1C, __identifier("??_7Rva003ABCB5@@6BSnapshot@@@"));
 }
 
 class Rva003AD904Template;

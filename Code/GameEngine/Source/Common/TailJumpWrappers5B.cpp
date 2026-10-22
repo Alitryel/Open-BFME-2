@@ -1164,3 +1164,7 @@ public:
 Rva003ABC6E::~Rva003ABC6E()
 {
 }
+
+class Rva0055BF4B { public: virtual ~Rva0055BF4B(); };
+class __declspec(novtable) Rva003ABCB5 : public Rva0055BF4B { public: virtual ~Rva003ABCB5(); };
+Rva003ABCB5::~Rva003ABCB5() {}

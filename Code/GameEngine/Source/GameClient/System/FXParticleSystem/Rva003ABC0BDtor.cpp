@@ -66,3 +66,9 @@ Rva003AEA42::~Rva003AEA42()
     unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
     *(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
 }
+
+class __declspec(novtable) Rva0055BF4B : public Rva003AEEB3 { public: virtual ~Rva0055BF4B(); };
+Rva0055BF4B::~Rva0055BF4B() {
+ unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
+ *(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+}

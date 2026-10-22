@@ -93,3 +93,18 @@ baseline comparisons show no new unresolved dependency: alpha replaces the
 old undefined C1CDBC data name with its generated exact table. Existing
 constructor-unit duplicate/link debt and TailJump's old Host destructor
 remain separate limitations. Existing production flags are preserved.
+
+## 0x003ABCFC color sibling
+
+Native49-byte constructor3ABCB5 stamps primary C1C53C, factory C1C538,
+category C1C780 and Snapshot C1CDE0 at+1C. The complete Snapshot table is
+[3ABCFC, B3FD0, 3ABCEE, 3ABCF4]; the existing raw primary keeps all seven
+native entries. The full DefaultModule<CAT_COLOR> literal at C1C558 is exact.
+The eight-byte deleting adjustor shares the same strict scalar/complete-dtor
+chain as alpha, with its own22-byte Rva0055BF4B cleanup companion at3ABC0B.
+All eight additions pass normal admission; the source retains alpha and
+velocity additions. The generated Snapshot provider replaces every C1CDE0
+raw reference in this file. Baseline-delta preview removes one more unresolved
+data name (six to five), retains the same12 old strong duplicates, and adds
+no wrong-selected body. This is not a claim that the preexisting unit debt is
+resolved. Both full Snapshot tables and both complete literals were checked.
