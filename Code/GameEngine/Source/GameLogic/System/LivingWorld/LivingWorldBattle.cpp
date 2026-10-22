@@ -29,7 +29,7 @@ struct Rva003F4E07Entry {
 };
 struct Rva003F4E07SummaryPair { int key; Rva003F4E07Entry* entry; };
 struct Rva003F4E07Summary { char pad00[0x40]; std::vector<Rva003F4E07SummaryPair>entries; };
-class LivingWorldArmy {
+struct LivingWorldArmy {
  public: char pad00[0x18]; StringBase<char> name; char pad1C[0x78-0x1C]; Rva003F4E07Summary*summary;
 };
 class Rva003190A5 { public: bool query() const; };

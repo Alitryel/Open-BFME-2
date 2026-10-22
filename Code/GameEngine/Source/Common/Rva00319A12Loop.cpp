@@ -30,7 +30,7 @@ public:
     int m_44;
 };
 
-class LivingWorldArmy {
+struct LivingWorldArmy {
 public:
     void KillSummaryEntry(int value);
 };

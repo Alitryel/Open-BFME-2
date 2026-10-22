@@ -15,7 +15,7 @@ public:
 };
 struct ArmySummaryEntryRef { Rva004F6093Holder holder; };
 class ArmySummary { public: ArmySummaryEntryRef GetEntry(int); };
-class LivingWorldArmy {
+struct LivingWorldArmy {
 public:
  void rva00319EF9(LivingWorldArmy *source,int key);
  char pad00[0x20]; int owner20; char pad24[0x78-0x24]; ArmySummary *summary78;

@@ -21,7 +21,7 @@ public:
 // Row 0x0031A591 is LivingWorldArmy::initiateMove; row 0x0020FAEA is
 // Rva0020EE29::rva0020FAEA.
 class Coord2D;
-class LivingWorldArmy
+struct LivingWorldArmy
 {
 public:
 	void initiateMove(const Coord2D &pos, Rva00318C32Ret *target, int flags);

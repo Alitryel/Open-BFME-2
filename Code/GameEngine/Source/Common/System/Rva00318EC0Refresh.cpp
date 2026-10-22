@@ -37,7 +37,7 @@ struct Rva00318EC0Colors
 	int m_color28;	// +0x28
 };
 
-class LivingWorldArmy
+struct LivingWorldArmy
 {
 public:
 	void rva00318EC0();

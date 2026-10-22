@@ -1073,7 +1073,7 @@ int Rva00318E9E::rva00318EAF() const
 }
 
 // --- 0x0031911F (15B): stores +0x54, then the rowed 0x00318EC0 refresh.
-class LivingWorldArmy
+struct LivingWorldArmy
 {
 public:
 	void rva00318EC0();										// 0x00318EC0

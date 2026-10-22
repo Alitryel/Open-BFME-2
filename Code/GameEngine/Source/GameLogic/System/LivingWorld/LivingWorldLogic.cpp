@@ -2272,6 +2272,9 @@ private:
 // auto-resolve object (ctor 0x004FA3C9 is LivingWorldAutoResolveBattle's row; dtor 0x004FA2E2); its list
 // dtor 0x002BBB18 is rowed in StlportVectorDtorFamily.cpp.
 struct Rva002BBB96Element { public: ~Rva002BBB96Element(); };
+// The list's destructor is that rowed body; this unit only calls it, so it declares it and
+// emits neither it nor the element _Destroy it would instantiate. Plain declaration-only form.
+namespace _STL { template <> vector<Rva002BBB96Element, allocator<Rva002BBB96Element> >::~vector(); }
 class Rva004FA2E2
 {
 public:

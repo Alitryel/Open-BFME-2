@@ -9,7 +9,7 @@
 typedef bool Bool;
 enum WeaponSlotType { PRIMARY_WEAPON = 0 };
 enum ObjectID { INVALID_ID = 0 };
-class LivingWorldArmy;
+struct LivingWorldArmy;
 
 class TurretAI
 {

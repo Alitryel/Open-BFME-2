@@ -8,7 +8,7 @@ class Rva0040CB3AIndexedField {
 public:
     int rva0040CB79(ArmySummaryEntry *entry) const;
 };
-class LivingWorldArmy {
+struct LivingWorldArmy {
 public:
     void KillSummaryEntry(int value);
 };

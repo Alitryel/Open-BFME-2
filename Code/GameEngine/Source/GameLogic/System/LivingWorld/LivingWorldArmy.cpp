@@ -314,7 +314,7 @@ class Rva00319924 {public:void clearFlags();};
 class Rva003FE05E {public:void rva003FE05E();};
 class Rva005392C2 {public:void rva005392C2();};
 
-class LivingWorldArmy : public Snapshot, public Rva003197EEList, public Rva00319D01ObserverBase {
+struct LivingWorldArmy : public Snapshot, public Rva003197EEList, public Rva00319D01ObserverBase {
 public:
  void createVisualObjects(const AsciiString*);
     LivingWorldArmy();

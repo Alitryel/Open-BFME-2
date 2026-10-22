@@ -39,7 +39,7 @@ class LWPlayerDef:public Snapshot {public:__declspec(nothrow) LWPlayerDef();LWPl
 class LivingWorldAI { public: LivingWorldAI(); ~LivingWorldAI(); char bytes[308]; };
 class Rva001EAE6FHelper { public: __declspec(nothrow) Rva001EAE6FHelper*clear80(); };
 struct ClearStorage { char bytes[128]; ClearStorage(){ ((Rva001EAE6FHelper*)this)->clear80(); } };
-class LivingWorldArmy;
+struct LivingWorldArmy;
 // Storage-only three-pointer header; application element identity stays at the consumer.
 struct PlayerPointerArray:public Header {__forceinline PlayerPointerArray():Header(){} };
 struct Color { float x,y,z; Color(float v):x(v),y(v),z(v){} };

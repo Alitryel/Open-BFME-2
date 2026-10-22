@@ -119,7 +119,7 @@ public:
     virtual Xfer &xferBool(bool &);
 };
 
-class LivingWorldArmy {
+struct LivingWorldArmy {
 public:
     virtual void xfer(Xfer *xfer);
     char pad04[0x18 - 0x04];
