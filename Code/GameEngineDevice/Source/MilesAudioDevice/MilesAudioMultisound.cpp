@@ -86,6 +86,9 @@ struct PlayingAudioRef {PlayingAudio*target;};
 class GameSlot {public:void setTeamNumber(int);};
 class Image;
 typedef _STL::map<unsigned,Image*> ResumeHandles;
+// Declaration-only: insert_unique binds to the rowed retail copy at 0x004D795B
+// (stlport_map_uint_image_insert.cpp) instead of this TU's /O1 copy.
+namespace _STL { template <> pair<ResumeHandles::iterator,bool> ResumeHandles::_Rep_type::insert_unique(const ResumeHandles::value_type &); }
 union Rva006AD590Slot {int m_asInt;float m_asFloat;};
 class Rva006AD590Entry {public:Rva006AD590Slot*find(int);char opaque[0x1c4];};
 class Rva003EF5DA {public:void rva003EF5DA(float);};
