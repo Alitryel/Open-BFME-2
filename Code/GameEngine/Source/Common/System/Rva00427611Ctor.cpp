@@ -42,15 +42,15 @@ private:
 
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-class Rva00427611 : public BFME2NativeNetwork, public Snapshot
+class CaveSystem : public BFME2NativeNetwork, public Snapshot
 {
 public:
-	~Rva00427611();	// rowed out of line; this view must not emit its own
-	Rva00427611();
+	~CaveSystem();	// rowed out of line; this view must not emit its own
+	CaveSystem();
 private:
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m10;
 };
 
-Rva00427611::Rva00427611()
+CaveSystem::CaveSystem()
 {
 }

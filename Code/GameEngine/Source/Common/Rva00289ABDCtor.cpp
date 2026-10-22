@@ -155,10 +155,10 @@ private:
 	int m_value;
 };
 
-class Rva00289ABD : public BFME2NativeNetwork
+class ExperienceLevelSystem : public BFME2NativeNetwork
 {
 public:
-	Rva00289ABD();
+	ExperienceLevelSystem();
 	ArmorRtsMap *m_hash0C;
 	ArmorRtsMap *m_hash10;
 	_STL::vector<BfmeE16> m_vec14;
@@ -166,10 +166,10 @@ public:
 	unsigned char m_b24;
 	_STL::map<int, void *> m_map28;
 public:
-	virtual ~Rva00289ABD();	// rowed elsewhere; declared so this unit binds to it
+	virtual ~ExperienceLevelSystem();	// rowed elsewhere; declared so this unit binds to it
 	virtual void rva00289180();	// slot 1, rowed in Rva00289180Finish.cpp (0x00289180)
 };
-Rva00289ABD::Rva00289ABD()
+ExperienceLevelSystem::ExperienceLevelSystem()
 	: m_vec14(_STL::allocator<BfmeE16>()), m_b24(0)
 {
 	m_rva20 = new Rva00288BBA("NOTFOUND_DEFAULT_ScalarTable");

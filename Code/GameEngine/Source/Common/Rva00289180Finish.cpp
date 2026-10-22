@@ -1,9 +1,9 @@
-// ?rva00289180@Rva00289ABD@@UAEXXZ
+// ?rva00289180@ExperienceLevelSystem@@UAEXXZ
 // partial score=0.91 date=2026-10-02
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
-// ?rva00289180@Rva00289ABD@@UAEXXZ retail 0x00289180 91 bytes v1.
-// Slot 9 cleanup of Rva00289ABD (vtable 0x007FB8F4): iterate hash_map at +0x0C
+// ?rva00289180@ExperienceLevelSystem@@UAEXXZ retail 0x00289180 91 bytes v1.
+// Slot 9 cleanup of ExperienceLevelSystem (vtable 0x007FB8F4): iterate hash_map at +0x0C
 // via rowed hashtable begin 0x00427195 and operator++ 0x0041E832, walk each
 // WindowVideo circular list via head at +0 until sentinel calling rowed
 // Overridable::deleteOverrides 0x001E35ED, then clear map at +0x28 via rowed
@@ -69,7 +69,7 @@ private:
 	int m_04Flag;
 };
 
-class Rva00289ABD
+class ExperienceLevelSystem
 {
 public:
 	virtual void rva00289180();
@@ -79,7 +79,7 @@ public:
 	Rva0028881C m_map28;
 };
 
-void Rva00289ABD::rva00289180()
+void ExperienceLevelSystem::rva00289180()
 {
 	WindowVideoMap::iterator tmp = m_hash0C->begin();
 	WindowVideoMap::iterator jt = tmp;

@@ -34,15 +34,15 @@ private:
 
 #include "Common/Snapshot.h"
 
-class Rva00427611 : public SubsystemInterface, public Snapshot
+class CaveSystem : public SubsystemInterface, public Snapshot
 {
 public:
-	virtual ~Rva00427611();
+	virtual ~CaveSystem();
 private:
 	Rva00427611Buffer m10;
 };
 
-inline Rva00427611::~Rva00427611()
+inline CaveSystem::~CaveSystem()
 {
 }
 
@@ -51,6 +51,6 @@ inline Rva00427611::~Rva00427611()
 // ?_bfmeRva00427611DtorInlineAnchor@@YAXXZ absent-from-retail
 void _bfmeRva00427611DtorInlineAnchor()
 {
-    static_cast<Rva00427611 *>(0)->Rva00427611::~Rva00427611();
+    static_cast<CaveSystem *>(0)->CaveSystem::~CaveSystem();
 }
 #pragma inline_depth()

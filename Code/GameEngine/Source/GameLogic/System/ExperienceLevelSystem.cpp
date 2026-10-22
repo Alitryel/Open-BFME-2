@@ -542,7 +542,7 @@ void ExperienceLevelStore::rva002891DB(const Rva002894A2 *level)
 
 //
 // INI reload slots of the ExperienceLevels store (vftable 0x00BFB8F4, class
-// Rva00289ABD; its constructor is 0x00289ABD):
+// ExperienceLevelSystem; its constructor is 0x00289ABD):
 //
 //   slot 4, 0x00289812  clear the table at +0x10 (0x00289371) and the
 //                       "needs restart" byte, then, when the shared slot 2
@@ -597,7 +597,7 @@ public:
 	virtual bool rva001B5384Slot2();
 };
 
-class Rva00289ABD : public Rva00289ABDBase
+class ExperienceLevelSystem : public Rva00289ABDBase
 {
 public:
 	virtual bool rva00289812(bool *needsRestart);
@@ -612,7 +612,7 @@ private:
 	Rva0028881C m_tree28;
 };
 
-bool Rva00289ABD::rva00289812(bool *needsRestart)
+bool ExperienceLevelSystem::rva00289812(bool *needsRestart)
 {
 	g_Va00DFECC9 = false;
 	m_table10->clear();
@@ -627,7 +627,7 @@ bool Rva00289ABD::rva00289812(bool *needsRestart)
 	return g_Va00DFECC8;
 }
 
-bool Rva00289ABD::rva00289874()
+bool ExperienceLevelSystem::rva00289874()
 {
 	if (g_Va00DFECC8)
 	{

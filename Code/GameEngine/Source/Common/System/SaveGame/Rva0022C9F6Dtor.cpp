@@ -48,16 +48,16 @@ private:
 	char m_pad[8];
 };
 
-class Rva0022C9F6 : public SubsystemInterface
+class AerialPathfinder : public SubsystemInterface
 {
 public:
-	virtual ~Rva0022C9F6();
+	virtual ~AerialPathfinder();
 
 private:
 	int m_unk0C;
 	_STL::_List_base<int, _STL::allocator<int> > m_list10;
 };
 
-Rva0022C9F6::~Rva0022C9F6()
+AerialPathfinder::~AerialPathfinder()
 {
 }

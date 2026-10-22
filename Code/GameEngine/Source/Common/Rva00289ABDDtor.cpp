@@ -39,10 +39,10 @@ private:
     char m_pad04[8];
 };
 
-class Rva00289ABD : public SubsystemInterface
+class ExperienceLevelSystem : public SubsystemInterface
 {
 public:
-    ~Rva00289ABD();
+    ~ExperienceLevelSystem();
     virtual void rva00289180();
     Rva00289371HashTable *m_hash0C;
     Rva00289371HashTable *m_hash10;
@@ -54,7 +54,7 @@ public:
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
-__declspec(noinline) inline Rva00289ABD::~Rva00289ABD()
+__declspec(noinline) inline ExperienceLevelSystem::~ExperienceLevelSystem()
 {
     Rva00288BF9Record *p = m_rva20;
     if (p != 0) {
@@ -87,7 +87,7 @@ __declspec(noinline) inline Rva00289ABD::~Rva00289ABD()
 }
 
 // ?bfmeAnchorRva00289ABDDtor absent-from-retail
-void bfmeAnchorRva00289ABDDtor(Rva00289ABD *p)
+void bfmeAnchorRva00289ABDDtor(ExperienceLevelSystem *p)
 {
-	p->Rva00289ABD::~Rva00289ABD();
+	p->ExperienceLevelSystem::~ExperienceLevelSystem();
 }

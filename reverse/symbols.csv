@@ -1667,11 +1667,9 @@ name,address,notes
 ??0ALU_UpgradeMux@@QAE@XZ,0x004CE2A3,callee of 0AudioLoopUpgrade (0x004B7CBC) at the site its BFME1 donor calls it; may be an ICF alias
 ??0AODCrushCollideModuleData@@QAE@XZ,0x004BBF89,EH 115B ctor with vtable 0xC5A350 and null FXList and OCL slots at +0x08/+0x0C/+0x10/+0x14/+0x18/+0x1C and filter member at +0x2C via 0x3623E5 and Damage fields matching own table 0x85A4A8; sole raw caller is ModuleData factory 0x251056 which news 0x48
 ??0AODHordeContain@@QAE@PAVThing@@PBVModuleData@@@Z,0x0047B3DB,(Thing*;ModuleData*) ctor called by AODHordeContain::friend_newModuleInstance (0x0024BB25); class from the ModuleFactory registration literal
-??0ActionManager@@QAE@XZ,0x0041B8B5,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0ActiveBody@@QAE@PAVThing@@PBVModuleData@@@Z,0x004BF6A1,(Thing*;ModuleData*) ctor called by ActiveBody::friend_newModuleInstance (0x002513AD); class from the ModuleFactory registration literal
 ??0ActiveBodyModuleData@@QAE@XZ,0x004BF59F,factory 0x2513E8 pushes the SupplyTruck proc and calls it as its ctor; called as base by Chinook 0x4C1E8B and sibling AIUpdateModuleData ctors
 ??0AdaptiveDeltaMotionChannelClass@@QAE@XZ,0x00195F60,address read from retail REL32 at 0x0018F261 in read_channel-AdaptiveDelta 0x0018F230; ctor zeroes 0x1C members then fsin filter-table init per BFME1 motchan donor
-??0AerialPathfinder@@QAE@XZ,0x0022C987,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0Anim2D@@QAE@PAURva002D752DNode@@PAVRva002D752D@@@Z,0x002D6D63,thiscall ctor sets Anim2D vtable 0x00803358 and calls Anim2D methods; call site 0x0027370A passes template and collection with new 0x34
 ??0AnimSet@GenericObjectCreationNugget@@QAE@ABU01@@Z,0x001F0558,address read from the retail REL32 at offset 0x1c of _Construct<AnimSet> 0x001F06B9 - self-verifying because that body byte-matches only with this displacement; one thiscall-arity stack push before the call matches the copy-ctor signature
 ??0AnimalAIUpdateModuleData@@QAE@XZ,0x0024BE43,ctor call in the byte-true AnimalAIUpdate data factory (ModuleFactory registers it under "AnimalAIUpdate")
@@ -1833,7 +1831,6 @@ name,address,notes
 ??0CastleBehaviorModuleData@@QAE@XZ,0x0039A027
 ??0CastleUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B6869,(Thing*;ModuleData*) ctor called by CastleUpgrade::friend_newModuleInstance (0x002505D2); class from the ModuleFactory registration literal
 ??0CaveContainModuleData@@QAE@XZ,0x00466D37,ctor call in the byte-true CaveContain data factory (ModuleFactory registers it under "CaveContain")
-??0CaveSystem@@QAE@XZ,0x004275D4,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0Cftp@@QAE@XZ,0x006CA5E0,address read from the REL32 displacement at a placed body
 ??0ChangeStanceGroupOrder@@QAE@ABV0@@Z,0x00546B08,callee read from retail REL32 at a given-back caller; byte-verified in the solo fork as Code/GameEngine/Source/GameLogic/AI/ChangeStanceGroupOrderCtor.cpp (row not yet given back)
 ??0ChangeStanceGroupOrder@@QAE@XZ,0x00546AEF,callee read from retail REL32 at a given-back caller; byte-verified in the solo fork as Code/GameEngine/Source/GameLogic/AI/ChangeStanceGroupOrderCtor.cpp (row not yet given back)
@@ -1914,7 +1911,6 @@ name,address,notes
 ??0EvacuateDamage@@QAE@PAVThing@@PBVModuleData@@@Z,0x004BAE1D
 ??0ExperienceLevelCreate@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B917B,(Thing*;ModuleData*) ctor called by ExperienceLevelCreate::friend_newModuleInstance (0x00250B92); class from the ModuleFactory registration literal
 ??0ExperienceLevelCreateBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B8CF7,callee of 0ExperienceLevelCreate (0x004B917B) at the site its BFME1 donor calls it; may be an ICF alias
-??0ExperienceLevelSystem@@QAE@XZ,0x00289ABD,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0ExperienceScalarUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B61C6,(Thing*;ModuleData*) ctor called by ExperienceScalarUpgrade::friend_newModuleInstance (0x002503F6); class from the ModuleFactory registration literal
 ??0FXListDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x004865DD,(Thing*;ModuleData*) ctor called by FXListDie::friend_newModuleInstance (0x0024CAA8); class from the ModuleFactory registration literal
 ??0FadeAndDieOrnamentUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x003A439D,(Thing*;ModuleData*) ctor called by FadeAndDieOrnamentUpdate::friend_newModuleInstance (0x0024ED5F); class from the ModuleFactory registration literal
@@ -1937,7 +1933,6 @@ name,address,notes
 ??0GameSpyGroupRoom@@QAE@ABV0@@Z,0x000365F0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0GameSpyPeerMessageQueue@@QAE@XZ,0x0038E171,callee of createNewMessageQueue (0x0038E460) at the site its BFME1 donor calls it; may be an ICF alias
 ??0GameState@@QAE@XZ,0x002DE4E6,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
-??0GameStateMap@@QAE@XZ,0x0041AC6A,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0GarrisonContain@@QAE@PAVThing@@PBVModuleData@@@Z,0x00477F06,(Thing*;ModuleData*) ctor called by GarrisonContain::friend_newModuleInstance (0x0024BA5B); class from the ModuleFactory registration literal
 ??0GarrisonContainModuleData@@QAE@XZ,0x0047978F,callers are own ModuleData factory 0x254FB4 plus derived base-call from 0x47A251; installs vtable 0x00C462D8; stores match table offsets 0x98 to 0xA8; GarrisonContain pool key rowed at 0x47801C
 ??0GarrisonObjectGroupOrder@@QAE@ABV0@@Z,0x00546C7F,callee read from retail REL32 at a given-back caller; byte-verified in the solo fork as Code/GameEngine/Source/GameLogic/AI/GarrisonObjectGroupOrderCtor.cpp (row not yet given back)
@@ -1985,7 +1980,6 @@ name,address,notes
 ??0HordeSiegeEngineContain@@QAE@PAVThing@@PBVModuleData@@@Z,0x0047D247,(Thing*;ModuleData*) ctor called by HordeSiegeEngineContain::friend_newModuleInstance (0x0024BC43); class from the ModuleFactory registration literal
 ??0HordeSiegeEngineContainModuleData@@QAE@XZ,0x0047DA08,ctor call in the byte-true HordeSiegeEngineContain data factory (ModuleFactory registers it under "HordeSiegeEngineContain")
 ??0HordeTransportContainDamageModuleData@@QAE@XZ,0x000B28BF,ctor call in the byte-true HordeTransportContainDamage data factory (ModuleFactory registers it under "HordeTransportContainDamage")
-??0HouseColorSystem@@QAE@XZ,0x00229557,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0INI@@QAE@XZ,0x0002CDB0,retail callee of SubsystemInterfaceList::initSubsystem (0x001B5266) at the site the BFME1 source makes this call
 ??0INIException@@QAA@HPBDZZ,0x0002F681,variadic INIException ctor spelling of the matched _rva002f681_fill body; coexists with that opaque pin per 0x120F0 triple-name precedent
 ??0Image@@QAE@XZ,0x002D8FE4,retail Image constructor initializes vptr and 0x34-byte layout; strings+4/+8 UV+0x14 holder+0x2C status+0x30
@@ -2021,7 +2015,6 @@ name,address,notes
 ??0Locomotor@@IAE@PBVLocomotorTemplate@@@Z,0x0040FDD1,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Locomotor@@QAE@PBVLocomotorTemplate@@_N@Z,0x001E449A,constructor called on the 0xB0-byte allocation with the template and flag by the byte-verified LocomotorStore::newLocomotor 0x001E4A81 read from its REL32 displacement
 ??0LocomotorSetUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B3F0B,(Thing*;ModuleData*) ctor called by LocomotorSetUpgrade::friend_newModuleInstance (0x0024FF33); class from the ModuleFactory registration literal
-??0LuaScriptEngine@@QAE@XZ,0x003379FD,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0DamageNugget@@QAE@XZ,0x00507C2D,ctor of the DamageNugget object newed by parseDamageNugget (0x002CC5E1); address-derived name; identity not recovered
 ??0Made002CC64B@@QAE@XZ,0x00508BE5,ctor of the AttributeModifierNugget object newed by parseAttributeModifierNugget (0x002CC64B); address-derived name; identity not recovered
 ??0Made002CC6AE@@QAE@XZ,0x00508E11,ctor of the SpecialModelConditionNugget object newed by parseSpecialModelConditionNugget (0x002CC6AE); address-derived name; identity not recovered
@@ -8405,7 +8398,6 @@ name,address,notes
 ?createNode@Rva000427195@@QAEPAXPBU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,0x002CF9DC,ICF twin of stdcall row 0x002CF9DC for table insert call with this; same 12B node and pair copy
 ?createNode@Rva00500BF5Tree@@QAEPAXABVRva00500500@@@Z,0x00500BA6,member ABI twin of rowed Rva00500BA6Create: factory ignores ECX; calls at 500C1D/500C36 and same Rva00500500 reference
 ?createRadiusDecal@RadiusDecalTemplate@@QBEXABUCoord3D@@MPBVPlayer@@AAVRadiusDecal@@@Z,0x00331459,address read from the REL32 displacement at a placed body
-?createRecorder@@YAPAVRecorderClass@@XZ,0x0037BCC4,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ?cullFrontOfList@ProjectileStreamUpdate@@IAEXXZ,0x0033F033,address read from the REL32 displacement at a placed body
 ?curr_symbol@?$moneypunct@D$00@_STL@@QBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@XZ,0x0000EA30,STLport moneypunct getter; emitted full 27-byte body has no relocations and equals retail byte for byte; linker-folded with the same virtual-slot string getter
 ?curr_symbol@?$moneypunct@D$0A@@_STL@@QBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@XZ,0x0000EA30,STLport moneypunct getter; emitted full 27-byte body has no relocations and equals retail byte for byte; linker-folded with the same virtual-slot string getter

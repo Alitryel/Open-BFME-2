@@ -111,11 +111,62 @@ struct LuaDrawableLink
 
 // TheLuaScriptEngine (VA 0x00E01DBC, the subsystem initSubsystem<LuaScriptEngine>
 // fills); only the current-drawable context it exposes to the callbacks.
-class LuaScriptEngine
+extern "C" void __cdecl lua_close(void *L);
+#include <stdlib.h>
+struct Rva003378D0
+{
+	~Rva003378D0();
+	char m_pad[12];
+};
+#include "subsystem_interface.h"
+template <class T> struct Rva00337AA8Buf
+{
+	void *m_ptr;
+	~Rva00337AA8Buf()
+	{
+		if (m_ptr != 0)
+			free(m_ptr);
+	}
+};
+// Retail C0E390 has the fourteen canonical subsystem slots, followed by
+// an empty hook, the name getter at337AA2 and the Version1 Xfer
+// callback at306A9B (same RET4 ABI as the owned free DoXfer worker). The constructor3379FD and
+// WB LuaScriptEngine dtor support identity; the address-derived type retains
+// compatibility with the already-owned deleting dtor337C70.
+enum ParticleSystemID { ParticleSystemIDUnknown = 0 };
+class Rva003371B1;
+struct BfmeOpaqueRecord156;
+namespace _STL {
+template<> ParticleSystemID *vector<ParticleSystemID>::erase(ParticleSystemID *,ParticleSystemID *);
+template<> Rva003371B1 *vector<Rva003371B1>::erase(Rva003371B1 *,Rva003371B1 *);
+template<> BfmeOpaqueRecord156 *vector<BfmeOpaqueRecord156>::erase(BfmeOpaqueRecord156 *,BfmeOpaqueRecord156 *);
+}
+class Rva00335C88 {public:void *rva00335C88(void *,void *);};
+struct Rva00337RangeView { void *start,*finish,*limit; };
+class LuaScriptEngine : public SubsystemInterface
 {
 public:
-	char m_pad00[0x9C];
-	LuaDrawableLink *m_drawable;	// +0x9C
+	virtual ~LuaScriptEngine();
+ virtual void init();
+ virtual void reset();
+ virtual void update() {}
+ virtual void slot14() {}
+ virtual const char *slot15(); virtual void rva00306A9B(Xfer *);
+private:
+	void *m_lua0C;
+	void *m_lua10;
+	char m_pad14[0x9C - 0x14];
+public:
+	LuaDrawableLink *m_drawable;
+private:
+	Rva00337AA8Buf<void> m_bufA0;
+	char m_padA4[0xAC - 0xA4];
+	bool m_flagAC; char m_padAD[3];
+	Rva003378D0 m_vecB0;
+	Rva00337AA8Buf<void> m_bufBC;
+	char m_padC0[0xC8 - 0xC0];
+	// C8 is explicitly released by the dtor body; BC/A0 are automatic.
+	void *m_bufC8; void *m_endCC, *m_limitD0;
 };
 // Retail VA 0x00E01DBC starts with four zero-filled bytes; the verified
 // initSubsystem<LuaScriptEngine> caller registers the subsystem here.
@@ -344,65 +395,12 @@ int ObjectTestCanSufferFear(lua_State *L)
  return 1;
 }
 
-extern "C" void __cdecl lua_close(void *L);
-#include <stdlib.h>
-struct Rva003378D0
-{
-	~Rva003378D0();
-	char m_pad[12];
-};
-#include "subsystem_interface.h"
-template <class T> struct Rva00337AA8Buf
-{
-	void *m_ptr;
-	~Rva00337AA8Buf()
-	{
-		if (m_ptr != 0)
-			free(m_ptr);
-	}
-};
-// Retail C0E390 has the fourteen canonical subsystem slots, followed by
-// an empty hook, the name getter at337AA2 and the Version1 Xfer
-// callback at306A9B (same RET4 ABI as the owned free DoXfer worker). The constructor3379FD and
-// WB LuaScriptEngine dtor support identity; the address-derived type retains
-// compatibility with the already-owned deleting dtor337C70.
-enum ParticleSystemID { ParticleSystemIDUnknown = 0 };
-class Rva003371B1;
-struct BfmeOpaqueRecord156;
-namespace _STL {
-template<> ParticleSystemID *vector<ParticleSystemID>::erase(ParticleSystemID *,ParticleSystemID *);
-template<> Rva003371B1 *vector<Rva003371B1>::erase(Rva003371B1 *,Rva003371B1 *);
-template<> BfmeOpaqueRecord156 *vector<BfmeOpaqueRecord156>::erase(BfmeOpaqueRecord156 *,BfmeOpaqueRecord156 *);
-}
-class Rva00335C88 {public:void *rva00335C88(void *,void *);};
-struct Rva00337RangeView { void *start,*finish,*limit; };
-class Rva00337AA8 : public SubsystemInterface
-{
-public:
-	virtual ~Rva00337AA8();
- virtual void init();
- virtual void reset();
- virtual void update() {}
- virtual void slot14() {}
- virtual const char *slot15(); virtual void rva00306A9B(Xfer *);
-private:
-	void *m_lua0C;
-	void *m_lua10;
-	char m_pad14[0xA0 - 0x14];
-	Rva00337AA8Buf<void> m_bufA0;
-	char m_padA4[0xAC - 0xA4];
-	bool m_flagAC; char m_padAD[3];
-	Rva003378D0 m_vecB0;
-	Rva00337AA8Buf<void> m_bufBC;
-	char m_padC0[0xC8 - 0xC0];
-	// C8 is explicitly released by the dtor body; BC/A0 are automatic.
-	void *m_bufC8; void *m_endCC, *m_limitD0;
-};
+
 
 // Native337C8C..337CEA vslot9 resets Lua0C and four vector ranges.
 // Element spellings of A0/BC are borrowed from the already-owned full
 // erase providers; target proves 4/156-byte widths and the same range ABI.
-void Rva00337AA8::reset()
+void LuaScriptEngine::reset()
 {
  if(m_lua0C) { lua_close(m_lua0C); m_lua0C=0; }
  _STL::vector<ParticleSystemID> *a=(_STL::vector<ParticleSystemID>*)&m_bufA0;

@@ -1,5 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_STLP_NO_EXCEPTIONS
-// ?Rva0037BCC4Create@@YAPAVRva0037BBED@@XZ @0x0037BCC4 53B
+// ?createRecorder@@YAPAVRecorderClass@@XZ @0x0037BCC4 53B
 // Evidence: leaf lane; allocates 0xE7C via rowed ??2 0x0002FDA0 then pinned
 // ctor 0x0037BB98 with null check and EH prolog; caller 0x0022F6A1 unclaimed;
 // class layout copied from Rva0037BBEDDtor.cpp so sizeof is 0xE7C.
@@ -59,9 +59,10 @@ private:
     int m_frameE78;
 };
 
-Rva0037BBED *Rva0037BCC4Create()
+class RecorderClass;
+RecorderClass *createRecorder()
 {
-    return new Rva0037BBED;
+    return reinterpret_cast<RecorderClass *>(new Rva0037BBED);
 }
 
 

@@ -14,15 +14,15 @@ extern "C" const void *const __identifier("??_7Rva0041B790@@6BSnapshot@@@")[];
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
 class SubsystemInterface { public: SubsystemInterface(); };
 
-class Rva0041AC6A
+class GameStateMap
 {
 public:
-	Rva0041AC6A();
+	GameStateMap();
 	char m_pad[12];
 	const void *volatile m_secondVptr;
 };
 
-Rva0041AC6A::Rva0041AC6A()
+GameStateMap::GameStateMap()
 {
 	reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface();
 	m_secondVptr = (const void *)g_00BBB554;

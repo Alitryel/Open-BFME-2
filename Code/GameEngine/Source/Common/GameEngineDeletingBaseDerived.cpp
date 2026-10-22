@@ -139,20 +139,20 @@ Rva00419CD4::~Rva00419CD4()
 {
 }
 
-class Rva0041B8C7 : public SubsystemInterface
+class ActionManager : public SubsystemInterface
 {
 public:
-	Rva0041B8C7();
-	virtual ~Rva0041B8C7();
+	ActionManager();
+	virtual ~ActionManager();
 };
 
 // ??0Rva0041B8C7@@QAE@XZ retail 0x0041B8B5 18B: base ctor 0x001B4E63 then own
 // vptr 0x00C3AE60 (caller 0x0022FA81).
-Rva0041B8C7::Rva0041B8C7()
+ActionManager::ActionManager()
 {
 }
 
-Rva0041B8C7::~Rva0041B8C7()
+ActionManager::~ActionManager()
 {
 }
 

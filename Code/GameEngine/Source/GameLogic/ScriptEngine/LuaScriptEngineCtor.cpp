@@ -25,9 +25,9 @@ struct BfmeOpaqueRecord156 { char data[156]; };
 struct BfmeStringRecord00063BE4 { unsigned words[7]; AsciiString text; unsigned char tail0,tail1; BfmeStringRecord00063BE4(); BfmeStringRecord00063BE4(const BfmeStringRecord00063BE4 &); };
 // Use the existing home-unit destructor instead of emitting a second copy.
 namespace _STL { template<> vector<BfmeStringRecord00063BE4>::~vector(); }
-class Rva00337AA8 : public SubsystemInterface {
+class LuaScriptEngine : public SubsystemInterface {
 public:
- Rva00337AA8(); virtual ~Rva00337AA8();
+ LuaScriptEngine(); virtual ~LuaScriptEngine();
  virtual void init(); virtual void reset(); virtual void update() {}
  virtual void slot14() {} virtual const char *slot15(); virtual void rva00306A9B(Xfer *);
 private:
@@ -39,5 +39,5 @@ private:
  _STL::vector<BfmeStringRecord00063BE4> vecC8;
  void *wordD4; bool flagD8; void *wordDC;
 };
-typedef char LuaSizeE0[sizeof(Rva00337AA8)==0xE0 ? 1 : -1];
-Rva00337AA8::Rva00337AA8():lua0C(0),lua10(0),drawable9C(0),flagAC(false),wordD4(0),flagD8(false),wordDC(0) {}
+typedef char LuaSizeE0[sizeof(LuaScriptEngine)==0xE0 ? 1 : -1];
+LuaScriptEngine::LuaScriptEngine():lua0C(0),lua10(0),drawable9C(0),flagAC(false),wordD4(0),flagD8(false),wordDC(0) {}

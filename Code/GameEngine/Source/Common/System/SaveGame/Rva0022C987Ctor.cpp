@@ -50,17 +50,17 @@ public:
 
 struct BfmePod8 { int a[2]; };
 
-class Rva0022C9F6 : public Rva0022C987Base
+class AerialPathfinder : public Rva0022C987Base
 {
 public:
-	Rva0022C9F6();
-	virtual ~Rva0022C9F6();
+	AerialPathfinder();
+	virtual ~AerialPathfinder();
 private:
 	BitFlags<11> m_flags0C;
 	_STL::_List_base<BfmePod8, _STL::allocator<BfmePod8> > m_list10;
 };
 
-Rva0022C9F6::Rva0022C9F6()
+AerialPathfinder::AerialPathfinder()
 	: m_flags0C()
 	, m_list10(_STL::allocator<BfmePod8>())
 {

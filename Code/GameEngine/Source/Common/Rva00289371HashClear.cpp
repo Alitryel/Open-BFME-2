@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 //
 // 0x00289371 (73 bytes): clear() of the hash table the ExperienceLevels
-// store (vftable 0x00BFB8F4, class Rva00289ABD) holds by pointer at +0x10;
+// store (vftable 0x00BFB8F4, class ExperienceLevelSystem) holds by pointer at +0x10;
 // its reload notice (slot 4, 0x00289812) calls it first. The shape is
 // STLport's hashtable::clear: walk the bucket vector (+4 begin, +8 end), free
 // every node of each chain through the out-of-line node deleter 0x00289164

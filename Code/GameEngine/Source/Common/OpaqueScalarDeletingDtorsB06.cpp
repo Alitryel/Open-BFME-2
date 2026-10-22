@@ -261,16 +261,16 @@ Rva0032EC63::Rva0032EC63(EmitVtableTag *)
 {
 }
 
-class Rva00337AA8
+class LuaScriptEngine
 {
 public:
-	Rva00337AA8(EmitVtableTag *);
+	LuaScriptEngine(EmitVtableTag *);
 public:
-	virtual ~Rva00337AA8();
+	virtual ~LuaScriptEngine();
 };
 
-// ?<Rva00337AA8::Rva00337AA8> absent-from-retail
-Rva00337AA8::Rva00337AA8(EmitVtableTag *)
+// ?<LuaScriptEngine::LuaScriptEngine> absent-from-retail
+LuaScriptEngine::LuaScriptEngine(EmitVtableTag *)
 {
 }
 
