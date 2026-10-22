@@ -632,8 +632,8 @@ public:
  static void Set_Vertex_Buffer(const DynamicVBAccessClass&);
  static void Set_Index_Buffer(const DynamicIBAccessClass&,unsigned short);
  static void Draw_Triangles(unsigned,unsigned,unsigned,unsigned);
- static void Set_Material(const VertexMaterialClass*);
- static void Set_Shader(const ShaderClass&);
+ static __declspec(dllimport) __forceinline void Set_Material(const VertexMaterialClass*);
+ static __declspec(dllimport) __forceinline void Set_Shader(const ShaderClass&);
 static __forceinline void SetUntransposedTransform(D3DTRANSFORMSTATETYPE type,const Matrix4x4&matrix4x4) { switch(type){case D3DTS_WORLD:render_state.world[0][0]=matrix4x4[0][0];
 render_state.world[0][1]=matrix4x4[0][1];
 render_state.world[0][2]=matrix4x4[0][2];
@@ -665,14 +665,14 @@ render_state.view[3][0]=matrix4x4[3][0];
 render_state.view[3][1]=matrix4x4[3][1];
 render_state.view[3][2]=matrix4x4[3][2];
 render_state.view[3][3]=matrix4x4[3][3];render_state_changed&=~(unsigned)VIEW_IDENTITY;render_state_changed|=(unsigned)VIEW_CHANGED;break;} }
- static void Set_Transform(D3DTRANSFORMSTATETYPE,const Matrix4x4&);
- static void Set_Transform(D3DTRANSFORMSTATETYPE,const Matrix3D&);
+ static __declspec(dllimport) __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE,const Matrix4x4&);
+ static __declspec(dllimport) __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE,const Matrix3D&);
  static void Get_Transform(D3DTRANSFORMSTATETYPE,Matrix4x4&);
  static Vector4 Convert_Color(unsigned);
  static unsigned Convert_Color(const Vector4&);
  static unsigned Convert_Color(const Vector3&,float);
- static unsigned Convert_Color_Clamp(Vector4);
- static void Clamp_Color(Vector4&);
+ static __declspec(dllimport) __forceinline unsigned Convert_Color_Clamp(Vector4);
+ static __declspec(dllimport) __forceinline void Clamp_Color(Vector4&);
  static IDirect3DDevice8* _Get_D3D_Device8();
 protected:
  static RenderStateStruct render_state;
@@ -776,7 +776,7 @@ WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector4& color)
 	return Convert_Color(reinterpret_cast<const Vector3&>(color),color[3]);
 }
 #include "cpudetect.h"
-WWINLINE void DX8Wrapper::Clamp_Color(Vector4& color)
+__declspec(dllimport) __forceinline void DX8Wrapper::Clamp_Color(Vector4& color)
 {
 	if (!CPUDetectClass::Has_CMOV_Instruction()) {
 		color[0] = color[0] <= 0.0f ? 0.0f : (color[0] > 1.0f ? 1.0f : color[0]);
@@ -823,19 +823,19 @@ WWINLINE void DX8Wrapper::Clamp_Color(Vector4& color)
 		mov dword ptr[esi+12],edi
 	}
 }
-WWINLINE unsigned int DX8Wrapper::Convert_Color_Clamp(Vector4 color)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color_Clamp(Vector4 color)
 {
 	DX8Wrapper::Clamp_Color(color);
 	return Convert_Color(reinterpret_cast<const Vector3&>(color),color[3]);
 }
 #endif
-WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
 {
 	REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
 	render_state_changed|=MATERIAL_CHANGED;
 	SNAPSHOT_SAY(("DX8Wrapper::Set_Material(%s)\n",material ? material->Get_Name() : "NULL"));
 }
-WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 {
 	if (!ShaderClass::ShaderDirty && ((unsigned&)shader==(unsigned&)render_state.shader)) {
 		return;
@@ -847,7 +847,7 @@ WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 #endif
 	SNAPSHOT_SAY(("DX8Wrapper::Set_Shader(%s)\n",shader.Get_Description(str)));
 }
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& matrix4x4)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& matrix4x4)
 {
 	switch ((int)transform) {
 	case D3DTS_WORLD:
@@ -876,7 +876,7 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 		break;
 	}
 }
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& matrix3D)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& matrix3D)
 {
 	Matrix4x4 m2(matrix3D);
 	switch ((int)transform) {

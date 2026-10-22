@@ -31,7 +31,8 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-#include "streakrender.h"
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/texture.h"
+#include "../../../../../reference/shims/bfmestreak/streakrender.h"
 #include "ww3d.h"
 #include "rinfo.h"
 #include "dx8wrapper.h"
@@ -73,18 +74,11 @@
 
 void StreakRendererClass::Set_Texture(TextureClass *texture)
 { 
-	REF_PTR_SET(Texture,texture); 
+	// Use the owned pointer slot for the native reference transaction.
+	TextureClass *&texture_slot = reinterpret_cast<TextureClass *&>(Texture);
+	REF_PTR_SET(texture_slot,texture);
 }
 #pragma optimize("", on)
-
-// ?Get_Texture@StreakRendererClass@@ present-unmatched
-TextureClass * StreakRendererClass::Get_Texture(void) const
-{
-	if (Texture != NULL) {
-		Texture->Add_Ref();
-	}
-	return Texture;
-}
 
 // void StreakRendererClass::Set_Current_UV_Offset(const Vector2 & offset)
 // {
@@ -107,134 +101,6 @@ TextureClass * StreakRendererClass::Get_Texture(void) const
 	// LastUsedSyncTime = WW3D::Get_Sync_Time();
 	// CurrentUVOffset.Set(0.0f,0.0f);
 // }
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-void StreakRendererClass::Render
-(	
-	RenderInfoClass & rinfo,
-	const Matrix3D & transform,
-	unsigned int num_points,
-	Vector3 * points,
-	const SphereClass & obj_sphere
-)
-{
-	//NOTHING!
-	return;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-void StreakRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
-	const float *base_tex_v, unsigned int *p_sub_point_cnt, Vector3 *xformed_subdiv_pts,
-	float *subdiv_tex_v)
-{
-	// CAUTION: freezing the random offsets will make it more readily apparent that the offsets
-	// are in camera space rather than worldspace.
-	struct StreakRendererRetailLayout {
-		TextureClass *Texture;
-		ShaderClass Shader;
-		float Width;
-		Vector3 Color;
-		float Opacity;
-		unsigned int SubdivisionLevel;
-		float NoiseAmplitude;
-		float MergeAbortFactor;
-		float TextureTileFactor;
-		unsigned int LastUsedSyncTime;
-		Vector2 CurrentUVOffset;
-		Vector2 UVOffsetDeltaPerMS;
-		unsigned int Bits;
-	};
-	const StreakRendererRetailLayout *retail_this =
-		reinterpret_cast<const StreakRendererRetailLayout *>(this);
-	int freeze_random = retail_this->Bits & FREEZE_RANDOM;
-	Random3Class randomize;
-	const float oo_int_max = 1.0f / (float)INT_MAX;
-	Vector3SolidBoxRandomizer randomizer(Vector3(1,1,1));
-	Vector3 randvec(0,0,0);
-	unsigned int sub_pointIndex = 0;
-
-	struct StreakSubdivision {
-		Vector3			StartPos;
-		Vector3			EndPos;
-		float				StartTexV;	// V texture coordinate of start point
-		float				EndTexV;		// V texture coordinate of end point
-		float				Rand;
-		unsigned int	Level;		// Subdivision level
-	};
-
-	StreakSubdivision stack[2 * MAX_STREAK_SUBDIV_LEVELS];	// Maximum number needed
-	int tos = 0;
-
-	for (unsigned int pointIndex = 0; pointIndex < point_cnt - 1; pointIndex++) {
-
-		// Subdivide the (pointIndex, pointIndex + 1) segment. Produce pointIndex and all subdivided points up to
-		// (not including) pointIndex + 1.
-		tos = 0;
-		stack[0].StartPos = xformed_pts[pointIndex];
-		stack[0].EndPos = xformed_pts[pointIndex + 1];
-		stack[0].StartTexV = base_tex_v[pointIndex];
-		stack[0].EndTexV = base_tex_v[pointIndex + 1];
-		stack[0].Rand = NoiseAmplitude;
-		stack[0].Level = 0;
-
-		for (; tos >= 0;) {
-			if (stack[tos].Level == SubdivisionLevel) {
-				// Generate point location and texture V coordinate
-				xformed_subdiv_pts[sub_pointIndex] = stack[tos].StartPos;
-				subdiv_tex_v[sub_pointIndex++] = stack[tos].StartTexV;
-
-				// Pop
-				tos--;
-			} else {
-				// Recurse down: pop existing entry and push two subdivided ones.
-				if (freeze_random) {
-					randvec.Set(randomize * oo_int_max, randomize * oo_int_max, randomize * oo_int_max);
-				} else {
-					randomizer.Get_Vector(randvec);
-				}
-				stack[tos + 1].StartPos = stack[tos].StartPos;
-				stack[tos + 1].EndPos = (stack[tos].StartPos + stack[tos].EndPos) * 0.5f + randvec * stack[tos].Rand;
-				stack[tos + 1].StartTexV = stack[tos].StartTexV;
-				stack[tos + 1].EndTexV = (stack[tos].StartTexV + stack[tos].EndTexV) * 0.5f;
-				stack[tos + 1].Rand = stack[tos].Rand * 0.5f;
-				stack[tos + 1].Level = stack[tos].Level + 1;
-				stack[tos].StartPos = stack[tos + 1].EndPos;
-				// stack[tos].EndPos already has the right value
-				stack[tos].StartTexV = stack[tos + 1].EndTexV;
-				// stack[tos].EndTexV already has the right value
-				stack[tos].Rand = stack[tos + 1].Rand;
-				stack[tos].Level = stack[tos + 1].Level;
-				tos++;
-			}
-		}
-	}
-	// Last point
-	xformed_subdiv_pts[sub_pointIndex] = xformed_pts[point_cnt - 1];
-	subdiv_tex_v[sub_pointIndex++] = base_tex_v[point_cnt - 1];
-
-	// Output:
-	*p_sub_point_cnt = sub_pointIndex;
-}
-
-
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-
 
 
 void StreakRendererClass::RenderStreak
@@ -1322,7 +1188,7 @@ void StreakRendererClass::RenderStreak
 	
 		DX8Wrapper::Set_Index_Buffer(ib_access,0);
 		DX8Wrapper::Set_Vertex_Buffer(Verts);				
-		DX8Wrapper::Set_Texture(0,Texture);
+		DX8Wrapper::Set_Texture(0,Texture.Peek());
 		DX8Wrapper::Set_Shader(shader);
 
 		if (sorting) 
@@ -1348,3 +1214,10 @@ void StreakRendererClass::RenderStreak
 // Retail's data references in this unit's matched rows land on globals defined
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
 #pragma comment(linker, "/alternatename:?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A=?g_mapperProjectionUpload_009EDBF0@@3VMatrix4@@A")
+
+// Keep Random3Class's rowed conversion emitted.
+// ?bfmeStreakRandomAnchor absent-from-retail
+int bfmeStreakRandomAnchor(Random3Class &random)
+{
+    return random;
+}
