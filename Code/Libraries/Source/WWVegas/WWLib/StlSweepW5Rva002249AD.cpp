@@ -61,4 +61,12 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva002249ADElement {Rva002249ADElement();Rva002249ADElement(const Rva002249ADElement&);Rva002249ADElement&operator=(const Rva002249ADElement&);~Rva002249ADElement(){}char bytes[8]; bool operator==(const Rva002249ADElement&)const;};
-template class _STL::hash_map<int,Rva002249ADElement>;
+// Instantiate only the rowed hashtable constructor, not the whole container,
+// which referenced element operations no unit defines.
+typedef _STL::pair<const int, Rva002249ADElement> Rva002249ADPair;
+typedef _STL::hashtable<Rva002249ADPair, int, _STL::hash<int>,
+	_STL::_Select1st<Rva002249ADPair>, _STL::equal_to<int>,
+	_STL::allocator<Rva002249ADPair> > Rva002249ADTable;
+template Rva002249ADTable::hashtable(Rva002249ADTable::size_type,
+	const Rva002249ADTable::hasher &, const Rva002249ADTable::key_equal &,
+	const Rva002249ADTable::allocator_type &);
