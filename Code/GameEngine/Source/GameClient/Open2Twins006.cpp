@@ -123,11 +123,13 @@ void Gen_00881040::bfmeDescribe(BfmeFlagTarget *target)
 	m_bfmeSink->bfmeAccept(target);
 }
 
+class Xfer;
 class ShroudManagerImpl
 {
 public:
 	ShroudManagerImpl();
 	~ShroudManagerImpl();
+	void rva0073D8B0(Xfer *xfer);
 private:
 	unsigned char storage[0x70];
 };
@@ -155,17 +157,6 @@ Open2Store8F75D0::Open2Store8F75D0()
  m_map = new ShroudManagerImpl;
 }
 
-class BfmeSinkB
-{
-public:
-	void bfmeAccept(BfmeFlagTarget *target);
-};
-
-// The sink is the shroud manager's own view of the receiver: retail's call from
-// Gen_008F7650::bfmeDescribe lands on 0x0073D8B0, the ledger's row for the
-// same (this, pointer) shape.
-#pragma comment(linker, "/alternatename:?bfmeAccept@BfmeSinkB@@QAEXPAVBfmeFlagTarget@@@Z=?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z")
-
 class Gen_008F7650
 {
 public:
@@ -173,7 +164,7 @@ public:
 
 private:
 	char m_bfmeHead[4];
-	BfmeSinkB *m_bfmeSink;
+	ShroudManagerImpl *m_bfmeSink;	// retail calls the rowed ShroudManagerImpl Xfer body 0x0073D8B0
 };
 
 void Gen_008F7650::bfmeDescribe(BfmeFlagTarget *target)
@@ -185,7 +176,7 @@ void Gen_008F7650::bfmeDescribe(BfmeFlagTarget *target)
 
 	target->bfmeDescribe(&flags);
 
-	m_bfmeSink->bfmeAccept(target);
+	m_bfmeSink->rva0073D8B0(reinterpret_cast<Xfer *>(target));
 }
 
 class Rva009A4620CollisionData
