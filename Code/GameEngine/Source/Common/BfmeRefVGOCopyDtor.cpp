@@ -69,3 +69,25 @@ void bfmeAnchorAptKeyDtor(Rva006D07E0Key *p)
 {
     p->Rva006D07E0Key::~Rva006D07E0Key();
 }
+
+// The by-value handle and member cleanups at 0x007A91A0/0x007A91B0 of
+// Rva008A2C80 also target the folded tail call at 0x000A9DF3. This member
+// view records their single counted pointer without asserting a class name.
+class Rva008A2BA0Handle
+{
+public:
+    ~Rva008A2BA0Handle();
+private:
+    BfmeRefVGO m_object;
+};
+
+// ??1Rva008A2BA0Handle@@QAE@XZ present-unmatched
+inline __declspec(noinline) Rva008A2BA0Handle::~Rva008A2BA0Handle()
+{
+}
+
+// ?bfmeAnchorCountedHandleDtor absent-from-retail
+void bfmeAnchorCountedHandleDtor(Rva008A2BA0Handle *p)
+{
+    p->Rva008A2BA0Handle::~Rva008A2BA0Handle();
+}
