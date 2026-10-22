@@ -420,11 +420,11 @@ void _bfme_debugRecordCallsite(int kind);
 
 // Asset load profiling state (BFME2-only; retail VAs 0xE09B08/0xE09A08/
 // 0xE09A00/0xE09C20/0xE09DB0/0xE09C10/0xE09C18).
-extern char g_00E09B08[];
-extern char g_bfmeProfilePrevFile[];
+char g_00E09B08[256];	// retail VA 0x00E09B08 (.bss), defined here
+char g_bfmeProfilePrevFile[256];	// retail VA 0x00E09A08 (.bss), defined here
 extern int g_00E09A00;
-extern Rva009EF0D0Element *g_bfmeProfileAssets[];
-extern int g_bfmeProfileCount;
+Rva009EF0D0Element *g_bfmeProfileAssets[100];	// retail VA 0x00E09C20 (.bss), defined here
+int g_bfmeProfileCount;	// retail VA 0x00E09DB0 (.bss), defined here
 extern __int64 g_bfmeProfileFreq;
 extern char g_bfmeProfileFreqInit;
 __int64 rva0061FCE0GetClockCyclesFast(void) throw();
