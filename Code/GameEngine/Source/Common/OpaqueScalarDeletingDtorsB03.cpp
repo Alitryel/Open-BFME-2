@@ -226,7 +226,9 @@ Rva0037DEE4::Rva0037DEE4(EmitVtableTag *)
 class Rva001ED41BBase0
 {
 public:
-	virtual ~Rva001ED41BBase0();
+	// Inline and empty, as in Rva001ED41BDtor.cpp (the derived dtor ends with its
+	// vptr store), so both units emit one ??_GRva001ED41BBase0.
+	virtual ~Rva001ED41BBase0() {}
 };
 
 // Secondary base at +0x4: the this-adjusting deleting-destructor thunk
