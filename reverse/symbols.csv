@@ -12741,7 +12741,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??4Rva004F4DC0Element@@QAEAAU0@ABU0@@Z,0x002CEFAA,
 ??4Rva00540082Element@@QAEAAU0@ABU0@@Z,0x00540053,
 ??4Rva003F421DElement@@QAEAAU0@ABU0@@Z,0x0040EAED,
-?_M_advance@?$_Deque_iterator_base@URva0054A230Element@@@_STL@@QAEXH@Z,0x00549CD4,
 ?_M_insert_overflow@?$vector@URva004DFCB0Element@@V?$allocator@URva004DFCB0Element@@@_STL@@@_STL@@IAEXPAURva004DFCB0Element@@ABU3@ABU__false_type@2@I_N@Z,0x002DFCF6,
 ?_M_advance@?$_Deque_iterator_base@URva00422767Element@@@_STL@@QAEXH@Z,0x00421B9B,
 ?allocate@?$allocator@URva0022105BElement@@@_STL@@QBEPAURva0022105BElement@@IPBX@Z,0x002226BE,
