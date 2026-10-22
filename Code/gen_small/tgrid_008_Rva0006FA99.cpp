@@ -25,4 +25,11 @@ static inline void _Construct(int *__p, const int &__val)
 { new (__p) int(__val); }
 }
 
+// _M_erase_after is the retail-proven copy SceneNodeListProviders.cpp owns
+// (0x0006FABF); declared only, so this TU emits no differing /Os copy.
+namespace _STL {
+template <> _Slist_node_base *
+_Slist_base<int, allocator<int> >::_M_erase_after(_Slist_node_base *, _Slist_node_base *);
+}
+
 template class _STL::slist<int >;
