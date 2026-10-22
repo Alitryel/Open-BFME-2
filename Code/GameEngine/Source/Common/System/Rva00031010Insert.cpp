@@ -72,6 +72,20 @@ namespace EA
 {
 namespace Allocator
 {
+static inline void rva00032B00AddDoubleFencepost(void *, unsigned int);
+// A chunk location carries the start and full raw extent into initialization.
+// Keeping that value boundary retains the native copy before the flags OR.
+struct Rva00032B00ChunkLocation
+{
+	unsigned int extent;
+	unsigned int *chunk;
+	Rva00032B00ChunkLocation(unsigned int n, unsigned int *p) : extent(n), chunk(p) {}
+};
+static __forceinline void rva00032B00InitializeChunk(Rva00032B00ChunkLocation info, unsigned int flags)
+{
+	info.chunk[1] = info.extent | flags;
+	rva00032B00AddDoubleFencepost(info.chunk, 0);
+}
 class GeneralAllocator
 {
 public:
@@ -123,11 +137,13 @@ private:
 	Rva00031010Node *m_top;					// +0x440
 	unsigned char m_pad444[4];
 	CoreBlock m_cores;					// +0x448
-	unsigned char m_pad468[0x4AC - 0x468];
+	unsigned char m_pad468[0x498 - 0x468];
+	bool m_topDown;
+	unsigned char m_pad499[0x4AC - 0x499];
 	int m_noNewCores;
 	unsigned char m_pad4B0[0x4D4 - 0x4B0];
 	unsigned int m_pageSize;				// +0x4D4
-	unsigned char m_pad4D8[4];
+	unsigned int m_minCoreSize;
 	unsigned int m_granularity;
 	unsigned char m_pad4E0[4];
 	Lock *m_4E4;						// +0x4E4
@@ -348,6 +364,101 @@ Rva00031010Node *GeneralAllocator::rva000334A0(unsigned int size)
 	}
 	return (Rva00031010Node *)chunk;
 }
+
+}
+}
+
+namespace EA
+{
+namespace Allocator
+{
+// Native writes the offset and both 8-byte markers in this order. These
+// ordered accesses preserve it without adding reads or writes; the qualifiers
+// and local value type do not identify retail's original declarations.
+static inline void rva00032B00AddDoubleFencepost(void *chunk, unsigned int flags)
+{
+	unsigned int *const header = static_cast<unsigned int *>(chunk);
+	unsigned int size = header[1];
+	unsigned int fencepostOffset = (size & 0x7FFFFFF8) - 9;
+	fencepostOffset &= 0xFFFFFFF8;
+	header[1] = (size & 0x80000007) | fencepostOffset;
+	unsigned int *const fencepost = reinterpret_cast<unsigned int *>(
+		reinterpret_cast<char *>(chunk) + fencepostOffset);
+	((volatile unsigned int *)fencepost)[0] = fencepostOffset;
+	((volatile unsigned int *)fencepost)[1] = flags | 8;
+	((volatile unsigned int *)fencepost)[2] = 8;
+	fencepost[3] = 9;
+}
+
+static inline unsigned int rva00032B00Align(unsigned int size, unsigned int alignment)
+{
+	return (size + alignment - 1) & ~(alignment - 1);
+}
+
+// Native 00032B00..00032C57 RET4; called by the matched core registration
+// and growth paths. VirtualAlloc and the descriptor/list/chunk accesses
+// establish this allocation path; field labels remain descriptive views.
+void *GeneralAllocator::rva00032B00(unsigned int size)
+{
+	unsigned int coreSize = rva00032B00Align(size, m_pageSize);
+	unsigned int chunkFlags = 1;
+	if (coreSize < m_minCoreSize)
+		coreSize = rva00032B00Align(m_minCoreSize, m_pageSize);
+	unsigned int reservedSize = (coreSize + 0xFFFF) & 0xFFFF0000;
+	CoreBlock *core = (CoreBlock *)VirtualAlloc(0, reservedSize, 0x2000, 4);
+	if (core)
+	{
+		coreSize = 0x100000;
+		if (m_granularity > coreSize)
+			coreSize = rva00032B00Align(m_granularity, m_pageSize);
+		if (coreSize > reservedSize)
+			coreSize = reservedSize;
+		core = (CoreBlock *)VirtualAlloc(core, coreSize, 0x1000, 4);
+	}
+	if (!core)
+	{
+		unsigned long type = 0x3000;
+		if (m_topDown)
+			type = 0x103000;
+		core = (CoreBlock *)VirtualAlloc(0, coreSize, type, 4);
+		if (core)
+		{
+			chunkFlags = 3;
+			reservedSize = coreSize;
+		}
+	}
+	if (core)
+	{
+		core->m_committedSize = coreSize;
+		core->m_size = coreSize;
+		core->m_firstChunk = (Rva00031010Node *)(((unsigned int)core + 0x27) & ~7);
+		core->m_flag0C = (chunkFlags >> 1) & 1;
+		CoreBlock *head = &m_cores;
+		bool notFirst = m_cores.m_prev != head;
+		// Retail writes +1C before the +0D/+0F/+0E flag group.
+		*(CoreBlock *volatile *)&core->m_prev = head;
+		*(volatile bool *)&core->m_freeCore = notFirst;
+		*(volatile bool *)&core->m_trimCore = notFirst;
+		*(volatile bool *)&core->m_freeCore2 = true;
+		core->m_releaseFunction = 0;
+		core->m_releaseContext = 0;
+		core->m_next = head->m_next;
+		head->m_next = core;
+		core->m_next->m_prev = core;
+		core->m_committedSize = reservedSize;
+		unsigned int *chunk = (unsigned int *)core->m_firstChunk;
+		const unsigned int &chunkSize = (unsigned int)core - (unsigned int)chunk + coreSize;
+		chunk[0] = 0;
+		// Preserve the descriptor/list and previous-size writes before the
+		// size/flags and fencepost writes performed by the initializer.
+		_ReadWriteBarrier();
+		Rva00032B00ChunkLocation info(chunkSize, chunk);
+		rva00032B00InitializeChunk(info, chunkFlags);
+		return chunk;
+	}
+	return 0;
+}
+
 
 }
 }

@@ -467,6 +467,18 @@ the paren lever).
   coord3d.cpp's body) keeps them in registers until the join (0x00509F3A).
 - **A dead initializer renumbers.** `Real range = 0.0f;` numbers `range`
   before later struct pieces, so they lead the products (0x0039321C).
+- **A pointer-and-extent value can retain a coalesced integer copy.**
+  GeneralAllocator 0x00032B00 needed `mov edx,eax; or edx,ebx; mov eax,edx`;
+  the scalar initializer instead overwrote EAX and emitted 341 of 343 bytes.
+  Passing the real chunk pointer and raw extent together by value to its
+  initializer retains a separate EDX arithmetic candidate. A one-field value
+  loses the copy again; reference members introduce unwanted stack homes.
+  Write ordering is a separate problem: ordered existing descriptor/footer
+  writes and a compiler barrier after clearing the previous-size word close
+  the remaining schedule. All 343 bytes and relocations match with stock
+  MSVC 13.10.3077 `/O2`; removing each ingredient reproduces its own mismatch.
+  This is one verified case, not a general need to wrap scalar arguments.
+  See [the recovery, controls and compiler observations](../reverse/attempt_support/corealloc-32b00-20261022.md).
 
 ## Linking
 
