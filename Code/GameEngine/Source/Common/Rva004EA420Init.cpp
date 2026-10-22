@@ -16,6 +16,7 @@
 #include <vector>
 #include "ascii_string.h"
 #include "Coord3D.h"
+#include "../GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilderFarmLibrary.h"
 
 #include "Common/GameLogicObjectLookupView.h"
 // Suppress this TU's non-retail copy of ?reserve@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXI@Z:
@@ -70,8 +71,7 @@ private:
 	char m_pad[0x74];
 };
 
-extern _STL::vector<const ModuleData *> g_00E04494;
-extern AsciiString g_00E04490;
+extern unsigned g_Va00E04490;
 
 class Rva004EA3B8
 {
@@ -81,12 +81,14 @@ public:
 
 void Rva004EA3B8::rva004EA420()
 {
-	if (!g_00E04494.empty())
+	_STL::vector<const ModuleData *> &farms =
+		reinterpret_cast<_STL::vector<const ModuleData *> &>(AIEconomyBuilder::m_farmList);
+	if (!farms.empty())
 		return;
 	int count = Rva004EA2C5Get();
 	if (count <= 0)
 		return;
-	g_00E04494.reserve(count);
+	farms.reserve(count);
 	int index = 0;
 	Object *obj = TheGameLogic->getFirstObject();
 	if (!obj)
@@ -94,12 +96,12 @@ void Rva004EA3B8::rva004EA420()
 	do
 	{
 		char *record = *(char **)((char *)obj + 4);
-		if (((const StringBase<char> *)(record + 0x64))->compare(*(const StringBase<char> *)&g_00E04490) == 0)
+		if (((const StringBase<char> *)(record + 0x64))->compare(*(const StringBase<char> *)&g_Va00E04490) == 0)
 		{
 			const ModuleData *entry = (const ModuleData *)new Rva00596F18((void *)index++);
 			((Rva00596F18 *)entry)->rva00573A00((const Coord3D *)((char *)obj + 0x38));
 			*(int *)((char *)entry + 0x3C) = *(int *)((char *)obj + 0x44);
-			g_00E04494.push_back(entry);
+			farms.push_back(entry);
 		}
 		obj = *(Object **)((char *)obj + 0x8C);
 	} while (obj);
