@@ -16,6 +16,15 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?copy@?$__char_traits_base@DH@_STL@@SAPADPADPBDI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * __char_traits_base<char,int>::copy(char *,char const *,unsigned int); }
+// Suppress this TU's non-retail copy of ??4?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV01@PBD@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > & basic_string<char,char_traits<char>,allocator<char> >::operator=(char const *); }
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PADDV?$allocator@D@_STL@@@_STL@@QAEXPADI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _STLP_alloc_proxy<char *,char,allocator<char> >::deallocate(char *,unsigned int); }
 // Suppress this TU's non-retail copy of ?move@?$__char_traits_base@DH@_STL@@SAPADPADPBDI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * __char_traits_base<char,int>::move(char *,char const *,unsigned int); }
