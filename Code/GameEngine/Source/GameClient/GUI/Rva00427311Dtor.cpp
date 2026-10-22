@@ -36,10 +36,17 @@ public:
 	virtual ~SubsystemInterface();
 };
 
+// The rowed empty-map constructor at 0x00427507 uses this neutral element
+// view. This call establishes neither an element identity nor a map-use layout.
+struct Rva00427507Element { char bytes[1]; bool operator<(const Rva00427507Element &) const; bool operator==(const Rva00427507Element &) const; };
+typedef _STL::hash_map<int, Rva00427507Element> RowedMapCtor00427507;
+namespace _STL { template <> RowedMapCtor00427507::hash_map(); }
+
 class Rva004271D9
 {
 public:
-	Rva004271D9();
+	__declspec(dllimport) __forceinline Rva004271D9()
+	{ ((RowedMapCtor00427507 *)this)->RowedMapCtor00427507::hash_map(); }
 	~Rva004271D9();
 private:
 	char m_pad[4];
@@ -51,6 +58,17 @@ private:
 typedef std::hash_map<const GameWindow *, WindowVideo *,
 	WindowVideoManager::hashConstGameWindowPtr,
 	std::equal_to<const GameWindow *> > Rva00427311Map;
+
+// Bind the iterator helper to the kept copy rather than emitting a losing one.
+namespace _STL {
+template <> size_t hashtable<
+	pair<const GameWindow *const, WindowVideo *>, const GameWindow *,
+	WindowVideoManager::hashConstGameWindowPtr,
+	_Select1st<pair<const GameWindow *const, WindowVideo *> >,
+	equal_to<const GameWindow *>,
+	allocator<pair<const GameWindow *const, WindowVideo *> >
+	>::_M_bkt_num_key(const GameWindow *const &) const;
+}
 
 class Rva00427311 : public SubsystemInterface
 {
