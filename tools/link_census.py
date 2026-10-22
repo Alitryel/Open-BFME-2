@@ -556,6 +556,7 @@ def classify(log, rows):
 
 COMDAT = 0x1000  # IMAGE_SCN_LNK_COMDAT
 EXTERNAL = 2      # IMAGE_SYM_CLASS_EXTERNAL
+STATIC = 3        # IMAGE_SYM_CLASS_STATIC
 WEAK_EXTERNAL = 105  # IMAGE_SYM_CLASS_WEAK_EXTERNAL: a vftable slot's ??_E deleting destructor
 
 
@@ -599,6 +600,7 @@ def _comdat_sections(data):
     optional = struct.unpack_from("<H", data, 16)[0]
     symbols = _coff_symbols(data)
     by_index = {symbol["index"]: symbol for symbol in symbols}
+    entries = []
     sections = []
     for index in range(count):
         offset = 20 + optional + index * 40
@@ -608,7 +610,10 @@ def _comdat_sections(data):
         sections.append((size, pointer, relocs, nrelocs, flags))
     for symbol in symbols:
         section = symbol["section"]
-        if symbol["storage"] != EXTERNAL or section <= 0 or section > count:
+        # A static mangled COMDAT symbol is no copy of its own, only a
+        # definition the external ones (or a weak external's default) reach.
+        local = symbol["storage"] == STATIC and symbol["name"].startswith("?")
+        if (symbol["storage"] != EXTERNAL and not local) or section <= 0 or section > count:
             continue
         size, pointer, relocs, nrelocs, flags = sections[section - 1]
         if not flags & COMDAT:
@@ -625,7 +630,23 @@ def _comdat_sections(data):
             label = (_normal(referent["name"]) if referent["storage"] in (EXTERNAL, WEAK_EXTERNAL) else "local")
             digest.update(b"%d:%d:" % (where, kind) + label.encode("latin-1") + b";")
             found.append((where, kind, referent))
-        yield symbol, body, found, digest.hexdigest()[:12], size
+        entries.append((symbol, body, found, digest.hexdigest()[:12], size))
+    # An external referent this object defines in a COMDAT of its own (a
+    # vftable, its ??_E) carries that definition, so RetailTruth can judge it
+    # where retail's slot points when no ledger row gives it an address.
+    # A weak external (a vftable slot's ??_E) reaches its default's definition.
+    defined = {entry[0]["index"]: entry for entry in entries}
+    by_name = {entry[0]["name"]: entry for entry in entries}
+    for weak, default in _weak_externals(data):
+        if default in by_name:
+            defined.update({s["index"]: by_name[default] for s in symbols
+                            if s["name"] == weak and s["storage"] == WEAK_EXTERNAL})
+    for entry in entries:
+        for _, _, referent in entry[2]:
+            if (referent["storage"] in (EXTERNAL, WEAK_EXTERNAL, STATIC)
+                    and referent["section"] != entry[0]["section"] and referent.get("index") in defined):
+                referent["definition"] = defined[referent["index"]]
+    yield from (entry for entry in entries if entry[0]["storage"] == EXTERNAL)
 
 
 def _normal(name):
@@ -831,7 +852,8 @@ class RetailTruth:
                         kind == RetailTruth.DIR32 and referent["name"] in RetailTruth.ABSOLUTE else
                         ("content", content) if content is not None else
                         ("self", referent["value"]) if same_section and referent["storage"] != EXTERNAL else
-                        ("external", _normal(referent["name"])) if external or
+                        ("external", _normal(referent["name"]),
+                         (referent.get("definition") or (None, None, None, None))[3]) if external or
                         referent["name"].startswith(RetailTruth.FUNCTION_STATICS) else
                         ("local",))
             found.append((where, kind, identity))
@@ -849,6 +871,39 @@ class RetailTruth:
                 results = ["unknown" if result == "wrong" else result for result in results]
             self._cache[key] = ("retail" if "retail" in results else "unknown" if "unknown" in results else "wrong")
         return self._cache[key]
+
+    DEFINITION_DEPTH = 6
+
+    def _defined_at(self, definition, target):
+        """True when this object's own definition of a referent no ledger row
+        places (a vftable, its ??_E, an RTTI record) is retail's bytes where
+        retail's relocation lands: judged like any copy, at that address,
+        through its own referents. It proves what a fold-proof row there
+        would, and only proves: a mismatch leaves the site unknown. A cycle
+        back to a definition already being judged at the same address holds
+        (a dtor storing the vptr of the vftable whose ??_E calls it)."""
+        symbol, body, relocs, digest, size = definition
+        key = (symbol["name"], digest, target)
+        if key in self._defining:
+            return True
+        if len(self._defining) >= self.DEFINITION_DEPTH:
+            return False
+        cache = self.__dict__.setdefault("_definition_cache", {})
+        if key in cache:
+            return cache[key]
+        outermost = not self._defining  # an inner result may rest on a cycle's assumption: not cached
+        self._defining.add(key)
+        try:
+            proven = self._judge(target - symbol["value"], symbol, body, relocs, size) == "retail"
+        finally:
+            self._defining.discard(key)
+        if outermost:
+            cache[key] = proven
+        return proven
+
+    @property
+    def _defining(self):
+        return self.__dict__.setdefault("_defining_set", set())
 
     def _judge(self, start, symbol, body, relocs, size):
         import struct
@@ -910,6 +965,9 @@ class RetailTruth:
                 continue
             else:  # a static's name is per TU (_$E2, $SG1234): no address to check
                 expected = None
+            if not expected and referent.get("definition") is not None:
+                if self._defined_at(referent["definition"], target):
+                    continue
             if not expected:
                 result = "unknown"
             elif not self._lands(target, expected):

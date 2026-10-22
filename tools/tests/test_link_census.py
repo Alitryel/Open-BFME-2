@@ -243,6 +243,33 @@ def test_static_eh_handler_named_after_its_function_is_judged_by_its_row():
     assert t.verdict(symbol("guarded"), body, [(1, L.RetailTruth.DIR32, unnamed)], "eh3", 5) == "unknown"
 
 
+def test_unplaced_referent_is_judged_by_its_own_definition_where_retail_points():
+    # The ctor stores a vftable no row places (??_7 has no address); this
+    # object's own vftable, whose slot 0 reaches the deleting dtor through a
+    # weak ??_E, is retail's bytes where retail's slot lands: proven.
+    image = bytearray(0x40)
+    image[0x00:0x05] = b"\xb8" + struct.pack("<I", L.BASE + 0x1020)  # ctor: mov eax, offset vftable
+    image[0x20:0x24] = struct.pack("<I", L.BASE + 0x1030)            # vftable slot 0
+    image[0x30:0x35] = jmp(0x1030, 0x1010)                            # ??_G: jmp ~X
+    t = truth(image, {"ctor": {0x1000}, "dtor": {0x1010}})
+    dtor = referent("dtor")
+    deleting = (symbol("??_G", section=4), jmp(0, 0)[:1] + b"\0\0\0\0", [(1, L.RetailTruth.REL32, dtor)], "g1", 5)
+    weak_e = {"name": "??_E", "section": 0, "storage": L.WEAK_EXTERNAL, "value": 0, "definition": deleting}
+    vftable = (symbol("??_7", section=3), b"\0\0\0\0", [(0, L.RetailTruth.DIR32, weak_e)], "v1", 4)
+    seven = {**referent("??_7"), "section": 3, "definition": vftable}
+    body = b"\xb8\0\0\0\0"
+    assert t.verdict(symbol("ctor"), body, [(1, L.RetailTruth.DIR32, seven)], "c1", 5) == "retail"
+    # a definition that is not retail's bytes there proves nothing: unknown, never wrong
+    other = (symbol("??_G", section=4), b"\xc3\0\0\0\0", [], "g2", 5)
+    vftable2 = (vftable[0], vftable[1], [(0, L.RetailTruth.DIR32, {**weak_e, "definition": other})], "v2", 4)
+    t._cache = {}
+    assert t.verdict(symbol("ctor"), body, [(1, L.RetailTruth.DIR32, {**seven, "definition": vftable2})],
+                     "c2", 5) == "unknown"
+    # without a definition the unplaced referent stays unknown, as before
+    t._cache = {}
+    assert t.verdict(symbol("ctor"), body, [(1, L.RetailTruth.DIR32, referent("??_7"))], "c3", 5) == "unknown"
+
+
 def test_own_eh_handler_folded_into_a_rowed_twin_is_proven():
     # /OPT:ICF folds identical handler thunks: retail basic_string<char>'s
     # c-string ctor 0x9100 loads 0x0075B6D8, rowed as the default ctor's
