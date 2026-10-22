@@ -6,6 +6,10 @@
 // Private 24B AsciiString (not shared 4B header): retail header-node is 0x2c/44B requiring 28B pair; shared 4B gives 8B pair/24B node so gate fails; size not in mangling so _M_copy name still matches.
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
+// Suppress this TU's non-retail copy of ??$_Construct@U?$pair@$$CBHVAsciiString@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHVAsciiString@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void _Construct<pair<int const ,AsciiString>,pair<int const ,AsciiString> >(pair<int const ,AsciiString> *,pair<int const ,AsciiString> const &); }
 class AsciiString { public: unsigned char m_data[24]; };
 // map<int, AsciiString>'s _M_clone_node is rowed in stlport_map_int_asciistring_clone.cpp
 // (retail 0x005041D8); declare it so this unit emits no copy of its own.

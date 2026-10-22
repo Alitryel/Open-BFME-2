@@ -37,6 +37,10 @@ struct Rva0040DC56Element {int a[1];};
 typedef _STL::vector<Rva0040DC56Element> EntryVector;
 namespace _STL {template<> EntryVector::~vector();}
 #include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva004F87BCElement@@@_STL@@YAXPAURva004F87BCElement@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva004F87BCElement;
+namespace _STL { template <> void _Destroy<Rva004F87BCElement *>(Rva004F87BCElement *,Rva004F87BCElement *); }
 // Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva004F87BCElement@@V?$allocator@URva004F87BCElement@@@_STL@@@_STL@@IA:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva004F87BCElement;

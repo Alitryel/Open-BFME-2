@@ -22,6 +22,14 @@ namespace _STL { void __cdecl free(void *block) throw(...); }
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva000BB4AC;
 namespace _STL { template <> Rva000BB4AC * __uninitialized_copy<Rva000BB4AC const *,Rva000BB4AC *>(Rva000BB4AC const *,Rva000BB4AC const *,Rva000BB4AC *,__false_type const &); }
+// Suppress this TU's non-retail copy of ??0?$vector@UBfmeStringRecord000B950F@@V?$allocator@UBfmeStringRecord000B950F@@@_STL@@@_ST:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord000B950F;
+namespace _STL { template <> vector<BfmeStringRecord000B950F,allocator<BfmeStringRecord000B950F> >::vector(vector<BfmeStringRecord000B950F,allocator<BfmeStringRecord000B950F> > const &); }
+// Suppress this TU's non-retail copy of ??0?$vector@VRva000BB491@@V?$allocator@VRva000BB491@@@_STL@@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva000BB491;
+namespace _STL { template <> vector<Rva000BB491,allocator<Rva000BB491> >::vector(vector<Rva000BB491,allocator<Rva000BB491> > const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBVRva000BB491@@PAV1@@_STL@@YAPAVRva000BB491@@PBV1@0PAV1@ABU__fals:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva000BB491;

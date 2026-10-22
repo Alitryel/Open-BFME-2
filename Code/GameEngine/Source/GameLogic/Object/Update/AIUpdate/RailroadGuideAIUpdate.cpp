@@ -95,6 +95,9 @@ namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiSt
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;
 namespace _STL { template <> _Vector_base<AsciiString,allocator<AsciiString> >::_Vector_base(unsigned int,allocator<AsciiString> const &); }
+// Suppress this TU's non-retail copy of ??$_Construct@VAsciiString@@V1@@_STL@@YAXPAVAsciiString@@ABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Construct<AsciiString,AsciiString>(AsciiString *,AsciiString const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBVAsciiString@@PAV1@@_STL@@YAPAVAsciiString@@PBV1@0PAV1@ABU__fals:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;

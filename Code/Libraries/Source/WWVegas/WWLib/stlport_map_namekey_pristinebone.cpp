@@ -22,6 +22,10 @@
 namespace _STL { void __cdecl free(void *block) throw(...); }
 #define free _STL::free
 #include <map>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@UPristineBoneInfo@@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; struct PristineBoneInfo;
+namespace _STL { template <> _Rb_tree_node<pair<NameKeyType const ,PristineBoneInfo> > * _Rb_tree<NameKeyType,pair<NameKeyType const ,PristineBoneInfo>,_Select1st<pair<NameKeyType const ,PristineBoneInfo> >,less<NameKeyType>,allocator<pair<NameKeyType const ,PristineBoneInfo> > >::_M_create_node(pair<NameKeyType const ,PristineBoneInfo> const &); }
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@UPristineBoneInfo@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum NameKeyType; struct PristineBoneInfo;
