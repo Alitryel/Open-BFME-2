@@ -72,4 +72,6 @@ __declspec(noinline) inline AngleFXInfo * _STL::vector<AngleFXInfo, _STL::alloca
 	return result;
 }
 
-template class _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >;
+// reserve emits the rowed allocate-and-copy; a whole-class instantiation also
+// referenced erase(first, last), which retail folds into vector<BfmePod8>'s.
+template void _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::reserve(_STL::size_t);

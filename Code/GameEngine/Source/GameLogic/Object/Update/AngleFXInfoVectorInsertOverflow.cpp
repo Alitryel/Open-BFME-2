@@ -13,10 +13,6 @@
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct AngleFXInfo;
 namespace _STL { template <> template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::_M_allocate_and_copy<AngleFXInfo *>(unsigned int,AngleFXInfo *,AngleFXInfo *); }
-// Suppress this TU's non-retail copy of ?erase@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAEPAUAngleFXInfo@@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct AngleFXInfo;
-namespace _STL { template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::erase(AngleFXInfo *,AngleFXInfo *); }
 
 class FXList;
 
@@ -43,4 +39,8 @@ __declspec(noinline) inline AngleFXInfo * _STL::vector<AngleFXInfo, _STL::alloca
 	return result;
 }
 
-template class _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >;
+// Instantiate only the rowed members: a whole-class instantiation also emits
+// erase(first, last), which retail folds into vector<BfmePod8>'s 0x003FA4DB.
+template void _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::_M_insert_overflow(AngleFXInfo *, const AngleFXInfo &, const _STL::__false_type &, _STL::size_t, bool);
+template void _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::reserve(_STL::size_t);
+template AngleFXInfo *_STL::allocator<AngleFXInfo>::allocate(_STL::size_t, const void *) const;
