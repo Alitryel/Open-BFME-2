@@ -720,8 +720,32 @@ struct Rva0046247DPair
 };
 struct Rva00462D35Mapped
 {
+	Rva00462D35Mapped() : m_bits(0) {}
 	unsigned int m_bits;
 };
+// Retail erases from the +0x170 ID set through 0x0046EDEF, the STLport
+// erase(const key &) body ICF shares with the int map: it calls map<int, int>'s
+// equal_range (0x002F1C89) and the erase-range body 0x0046A967 (rowed as
+// Rva002EE9B7::rva0046A967 in RvaTreeEraseRangeFamily.cpp). Spelled that way,
+// this unit's copy carries retail's callees.
+class Rva002EE9B7
+{
+public:
+	void rva0046A967(_STL::_Rb_tree<int, _STL::pair<const int, void *>, _STL::_Select1st<_STL::pair<const int, void *> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > >::iterator first,
+		_STL::_Rb_tree<int, _STL::pair<const int, void *>, _STL::_Select1st<_STL::pair<const int, void *> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > >::iterator last);
+};
+namespace _STL {
+template <> inline _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::size_type
+_Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::erase(const int &x)
+{
+	typedef _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > > IntIntTree;
+	typedef _Rb_tree<int, pair<const int, void *>, _Select1st<pair<const int, void *> >, less<int>, allocator<pair<const int, void *> > > IntPtrTree;
+	pair<IntIntTree::iterator, IntIntTree::iterator> q = reinterpret_cast<IntIntTree *>(this)->equal_range(x);
+	size_type n = distance(reinterpret_cast<IntPtrTree::iterator &>(q.first), reinterpret_cast<IntPtrTree::iterator &>(q.second));
+	reinterpret_cast<Rva002EE9B7 *>(this)->rva0046A967(reinterpret_cast<IntPtrTree::iterator &>(q.first), reinterpret_cast<IntPtrTree::iterator &>(q.second));
+	return n;
+}
+}
 // The module data's +0x188-record lookup (its result carries a template name
 // at +4).
 class Rva00469294
