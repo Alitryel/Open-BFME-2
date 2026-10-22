@@ -70,8 +70,19 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+// The uint reader shares the separately compiled scanner and wrapper.
+namespace _STL {
+template <> bool __get_integer<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, unsigned int>(istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, int, unsigned int &, int, bool, char, const string &, const __false_type &);
+template <> istreambuf_iterator<wchar_t, char_traits<wchar_t> > _M_do_get_integer<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, unsigned int, wchar_t>(istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, ios_base &, int &, unsigned int &, wchar_t *);
+}
 template class _STL::num_get<wchar_t, _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > >;
 // Native 18050..1805F: the out-of-line use_facet<ctype<wchar_t> > (push
 // ctype<wchar_t>::id VA 0x00DA6200, locale::_M_use_facet), an orphan .text
 // hole beside this unit's size() copy at 0x00018040.
 template const _STL::ctype<wchar_t> &_STL::use_facet<_STL::ctype<wchar_t> >(const _STL::locale &);
+
+// Retain the rowed iterator helpers formerly emitted by the generic uint scanner.
+template void _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> >::_M_bumpc();
+template wchar_t _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> >::operator*() const;
+template _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > &_STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> >::operator++();
+template bool _STL::operator!=<wchar_t, _STL::char_traits<wchar_t> >(const _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > &, const _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > &);

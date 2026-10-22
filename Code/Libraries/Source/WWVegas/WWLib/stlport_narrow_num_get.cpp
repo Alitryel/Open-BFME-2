@@ -76,6 +76,12 @@ namespace _STL { template <> bool __get_integer<istreambuf_iterator<char,char_tr
 namespace _STL {
 template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
 }
+// The 64-bit scanners have their own retail providers, like the 16/32-bit
+// instances above. Keep this explicit class instantiation from emitting twins.
+namespace _STL {
+template <> bool __get_integer<istreambuf_iterator<char, char_traits<char> >, unsigned __int64>(istreambuf_iterator<char, char_traits<char> > &, istreambuf_iterator<char, char_traits<char> > &, int, unsigned __int64 &, int, bool, char, const string &, const __false_type &);
+template <> bool __get_integer<istreambuf_iterator<char, char_traits<char> >, __int64>(istreambuf_iterator<char, char_traits<char> > &, istreambuf_iterator<char, char_traits<char> > &, int, __int64 &, int, bool, char, const string &, const __true_type &);
+}
 template class _STL::num_get<char, _STL::istreambuf_iterator<char, _STL::char_traits<char> > >;
 
 // Keep the two independently rowed string-termination helpers emitted.
@@ -98,3 +104,12 @@ template const _STL::ctype<char> &_STL::use_facet<_STL::ctype<char> >(const _STL
 _STL::string (_STL::numpunct<char>::*const bfmeNumGetTrueNameAnchor)() const = &_STL::numpunct<char>::truename;
 _STL::string (_STL::numpunct<char>::*const bfmeNumGetFalseNameAnchor)() const = &_STL::numpunct<char>::falsename;
 const char &(_STL::basic_string<char>::*const bfmeNumGetConstSubscriptAnchor)(size_t) const = &_STL::basic_string<char>::operator[];
+
+// Retain the rowed helpers formerly emitted by the generic 64-bit scanners.
+template bool _STL::operator!=<char, _STL::char_traits<char> >(const _STL::istreambuf_iterator<char, _STL::char_traits<char> > &, const _STL::istreambuf_iterator<char, _STL::char_traits<char> > &);
+extern int (*const bfmeNumGetDigitTableAnchor)(unsigned int) = &_STL::__get_digit_from_table;
+extern bool (_STL::string::*const bfmeNumGetEmptyAnchor)() const = &_STL::string::empty;
+extern size_t (_STL::string::*const bfmeNumGetSizeAnchor)() const = &_STL::string::size;
+extern __int64 (*const bfmeNumGetSignedMinAnchor)() = &_STL::numeric_limits<__int64>::min;
+extern __int64 (*const bfmeNumGetSignedMaxAnchor)() = &_STL::numeric_limits<__int64>::max;
+extern unsigned __int64 (*const bfmeNumGetUnsignedMaxAnchor)() = &_STL::numeric_limits<unsigned __int64>::max;
