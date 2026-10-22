@@ -47,16 +47,21 @@ template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 	const __false_type &tag);
 
-template <class InputIter, class OutputIter>
-OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
-	const __false_type *tag, int extra);
+struct random_access_iterator_tag
+{
+};
+
+// STLport's random-access copy loop, rowed at 0x0028F869 (stlport_copy_rva00297360.cpp).
+template <class RandomAccessIter, class OutputIter, class Distance>
+OutputIter __copy(RandomAccessIter first, RandomAccessIter last, OutputIter result,
+	const random_access_iterator_tag &, Distance *);
 
 template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 	const __false_type &tag)
 {
-	__false_type local;
-	return __copy_ptrs(first, last, result, &local, 0);
+	random_access_iterator_tag category;
+	return __copy(first, last, result, category, (int *)0);
 }
 
 }
