@@ -532,7 +532,7 @@ public:
 	virtual void xfer(Xfer *xfer);
 	virtual void run();
 	virtual void update();
-	virtual void v8();
+	virtual void slot08();
 	virtual AITactic *create();
 	void end(bool a, bool b);void NotifyTeamCreated(Team*);
 };
