@@ -110,6 +110,7 @@ class Rva00577DE1OwningCell
 {
 public:
 	Rva00577DE1OwningCell(int level, const AsciiString &name); // 0x00577DFB
+	void rva00577E3EForwardClear(); // 0x00577E3E
 
 private:
 	void *m_value;
@@ -124,7 +125,8 @@ namespace StrategicHUD
 class EndTurnButtonImpl
 {
 public:
-	EndTurnButtonImpl(int level, const AsciiString &name); // 0x00579575
+	EndTurnButtonImpl(int level, const AsciiString &name);
+	~EndTurnButtonImpl(); // 0x00579575
 
 private:
 	unsigned char m_pad[0x20];
@@ -137,10 +139,11 @@ namespace StrategicHUD
 class StatsDisplayImpl
 {
 public:
-	StatsDisplayImpl(int level, const AsciiString &name); // 0x00579E82
+	StatsDisplayImpl(int level, const AsciiString &name);
+	virtual ~StatsDisplayImpl(); // 0x00579E82
 
 private:
-	unsigned char m_pad[0x40];
+	unsigned char m_pad[0x40 - 4];
 };
 }
 
@@ -162,7 +165,8 @@ private:
 class Rva0057C04F
 {
 public:
-	Rva0057C04F(int level, const AsciiString &name); // 0x0057C152
+	Rva0057C04F(int level, const AsciiString &name);
+	~Rva0057C04F(); // 0x0057C152
 
 private:
 	unsigned char m_pad[0x1C];
@@ -231,6 +235,8 @@ public:
 	void SetHelpBox(void *newObj);
 };
 
+void operator delete(void *p);
+
 // The slot holders. Each one's destructor is its rowed clear, which the
 // Impl destructor calls once per slot, in reverse, under its own
 // unwind state. Where the clear is rowed under another class name than the
@@ -275,7 +281,15 @@ class Rva0042D729
 {
 public:
 	Rva0042D729() : m_ptr(0) {}
-	~Rva0042D729() { rva0042D74C(); }
+	__declspec(noinline) ~Rva0042D729()
+	{
+		Rva00577DE1OwningCell *old = m_ptr;
+		m_ptr = 0;
+		if (old == 0)
+			return;
+		old->rva00577E3EForwardClear();
+		operator delete(old);
+	}
 	void rva0042D729(Rva00577DE1OwningCell *p);
 	void rva0042D74C();
 
@@ -302,7 +316,15 @@ class Rva0042D7A3
 {
 public:
 	Rva0042D7A3() : m_ptr(0) {}
-	~Rva0042D7A3() { rva0042D7C6(); }
+	__declspec(noinline) ~Rva0042D7A3()
+	{
+		StrategicHUD::EndTurnButtonImpl *old = m_ptr;
+		m_ptr = 0;
+		if (old == 0)
+			return;
+		old->StrategicHUD::EndTurnButtonImpl::~EndTurnButtonImpl();
+		operator delete(old);
+	}
 	void rva0042D7A3(StrategicHUD::EndTurnButtonImpl *p);
 	void rva0042D7C6();
 
@@ -313,7 +335,15 @@ class Rva0042D7E0
 {
 public:
 	Rva0042D7E0() : m_ptr(0) {}
-	~Rva0042D7E0() { rva0042D803(); }
+	__declspec(noinline) ~Rva0042D7E0()
+	{
+		StrategicHUD::StatsDisplayImpl *old = m_ptr;
+		m_ptr = 0;
+		if (old == 0)
+			return;
+		old->StrategicHUD::StatsDisplayImpl::~StatsDisplayImpl();
+		operator delete(old);
+	}
 	void rva0042D7E0(StrategicHUD::StatsDisplayImpl *p);
 	void rva0042D803();
 
@@ -324,7 +354,15 @@ class Rva0042D81D
 {
 public:
 	Rva0042D81D() : m_ptr(0) {}
-	~Rva0042D81D() { rva0042D840(); }
+	__declspec(noinline) ~Rva0042D81D()
+	{
+		StrategicHUD::ChecklistUIImpl *old = m_ptr;
+		m_ptr = 0;
+		if (old == 0)
+			return;
+		old->StrategicHUD::ChecklistUIImpl::~ChecklistUIImpl();
+		operator delete(old);
+	}
 	void rva0042D81D(StrategicHUD::ChecklistUIImpl *p);
 	void rva0042D840();
 
@@ -351,7 +389,15 @@ class Rva0042D897
 {
 public:
 	Rva0042D897() : m_ptr(0) {}
-	~Rva0042D897() { rva0042D8BA(); }
+	__declspec(noinline) ~Rva0042D897()
+	{
+		Rva0057C04F *old = m_ptr;
+		m_ptr = 0;
+		if (old == 0)
+			return;
+		old->Rva0057C04F::~Rva0057C04F();
+		operator delete(old);
+	}
 	void rva0042D897(Rva0057C04F *p);
 	void rva0042D8BA();
 

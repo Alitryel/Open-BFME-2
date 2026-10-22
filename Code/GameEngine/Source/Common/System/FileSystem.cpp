@@ -81,6 +81,9 @@ typedef _Rb_tree<unsigned int, FileSystemUIntBoolPair,
     allocator<FileSystemUIntBoolPair> > FileSystemUIntBoolTree;
 template <> FileSystemUIntBoolTree::_Link_type
 FileSystemUIntBoolTree::_M_create_node(const FileSystemUIntBoolPair &);
+template <> bool &map<unsigned int, bool>::operator[](const unsigned int &);
+template FileSystemUIntBoolTree::_Link_type FileSystemUIntBoolTree::_M_lower_bound(const unsigned int &) const;
+template FileSystemUIntBoolTree::iterator FileSystemUIntBoolTree::lower_bound(const unsigned int &);
 // Retain this unit's separately matched pair construction helpers.
 template void _Construct<FileSystemUIntBoolPair, FileSystemUIntBoolPair>(
     FileSystemUIntBoolPair *, const FileSystemUIntBoolPair &);

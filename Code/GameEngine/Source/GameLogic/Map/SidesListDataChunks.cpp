@@ -206,6 +206,8 @@ private:
 	void *m_count;
 };
 
+class Gen0035B3A0 { public: void cleanup(); };
+
 class ScriptList
 {
 public:
@@ -214,7 +216,6 @@ public:
 	virtual ~ScriptList();
 	void swap(ScriptList *other);		// 0x003B58DF
 	void rva003B693A();					// 0x003B693A, WB discards overridden scripts
-	void rva003B7362();					// 0x003B7362, WB 0xaa4f20
 
 private:
 	char m_data[0x4C - 4];
@@ -273,7 +274,7 @@ class MapObject
 public:
 	MapObject *getNext() const { return m_nextMapObject; }
 	const ThingTemplate *getThingTemplate() { return (const ThingTemplate *)((BfmeThing932A *)this)->bfmeGo932A(); }
-	const Coord3D *getLocation() { return (const Coord3D *)((Rva0030D631 *)this)->rva0030D631(); }
+	__declspec(dllimport) __forceinline const Coord3D *getLocation() { return (const Coord3D *)((Rva0030D631 *)this)->rva0030D631(); }
 	float getAngle() const { return m_angle; }
 	Dict *getProperties() { return &m_properties; }
 
@@ -433,6 +434,11 @@ class LibraryMapCache;
 // its _M_find 0x0002C751 and insert 0x0002CA26 are rowed in WWLib.
 struct BfmeStringNoCaseLess { bool operator()(const AsciiString &a, const AsciiString &b) const; };
 typedef _STL::set<AsciiString, BfmeStringNoCaseLess> AsciiStringNoCaseSet;
+namespace _STL {
+template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess,
+    allocator<AsciiString> >::~_Rb_tree();
+}
+
 
 // BFME 2's SidesList has two bases (SidesList_sidesInfo.cpp), so its member
 // pointers are the 8-byte multiple-inheritance form; this view flattens them.
@@ -853,7 +859,7 @@ void SidesList::rva0032C88F(int index)
 	SidesInfo *side = getSideInfo(index);
 	ScriptList *scripts = &side->m_scripts;
 	if (scripts)
-		scripts->rva003B7362();
+		((Gen0035B3A0 *)scripts)->cleanup();
 	AsciiString name = side->m_dict.getAsciiString(TheKey_playerName);
 	for (int id = m_teamrec.getFirstTeamID(); id != 0; ) {
 		int nextID = m_teamrec.getNextTeamID(id);

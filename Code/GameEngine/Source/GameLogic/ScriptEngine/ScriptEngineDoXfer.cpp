@@ -130,6 +130,8 @@ struct ScriptFlag
 };
 typedef _STL::map<ScriptKey,ScriptFlag> ScriptFlagMap;
 typedef _STL::map<ScriptKey,int,TeamLess0019B850> ScriptDefaultIntMap;
+namespace _STL { template <> ScriptDefaultIntMap::_Rep_type::_Link_type ScriptDefaultIntMap::_Rep_type::_M_create_node(const ScriptDefaultIntMap::value_type &); }
+
 typedef _STL::map<ScriptKey,AsciiString> ScriptStringMap;
 typedef _STL::map<AsciiString,unsigned char> ScriptByteMap;
 
@@ -139,6 +141,17 @@ struct NoCaseTreeValue4
 	NoCaseTreeValue4() : m_value(0) {}
 };
 typedef _STL::list<_STL::pair<const AsciiString,NoCaseTreeValue4> > ListAsciiStringValue;
+void __cdecl Rva0020596AConstruct(void *dest, const void *source);
+namespace _STL {
+template <> _List_node<pair<const AsciiString, NoCaseTreeValue4> > *
+list<pair<const AsciiString, NoCaseTreeValue4>, allocator<pair<const AsciiString, NoCaseTreeValue4> > >::_M_create_node(const pair<const AsciiString, NoCaseTreeValue4> &value)
+{
+    _Node *node = (_Node *)allocator<char>::allocate(sizeof(_Node), 0);
+    Rva0020596AConstruct(&node->_M_data, &value);
+    return node;
+}
+}
+
 typedef _STL::list<BfmeSpecialPowerTimer8> ListSpecialPowerTimer;
 typedef _STL::list<AsciiString> ListAsciiString;
 typedef _STL::list<int> ListInt;

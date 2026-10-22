@@ -136,6 +136,7 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterat
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
+namespace _STL { template <> map<unsigned int, bool>::map(); }
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
 namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
@@ -462,6 +463,9 @@ virtual HeroTransferLog *record(int,int,int);
 extern Debug *theDebug;
 void _bfme_debugRecordCallsite(int);
 
+// The existing lookup row uses a char result and a scalar node output.
+class Rva004079D5 { public: char rva004079D5(int, int *); };
+
 class CreateAHeroHero
 {
 public:
@@ -483,7 +487,6 @@ public:
 	Bool GetAnimationFameCount(const Rva002B224BDwordField *drawable, void *animation, void *frameCount);
 
 private:
-	Bool rva004079D5(Int blingKey, CreateAHeroBlingNode **found) const;	// 0x004079D5
 
 	void *m_vtable;
 	ObjectID m_id; // +0x04, DoXfer ID tag
@@ -597,7 +600,7 @@ Bool CreateAHeroHero::GetAnimationFameCount(const Rva002B224BDwordField *drawabl
 Int CreateAHeroHero::GetBlingCount(Int blingKey) const
 {
 	CreateAHeroBlingNode *node = 0;
-	if (rva004079D5(blingKey, &node) && node != m_blingHeader)
+	if (((Rva004079D5 *)this)->rva004079D5(blingKey, (int *)&node) && node != m_blingHeader)
 		return node->m_idsFinish - node->m_idsStart;
 	return 0;
 }
@@ -606,7 +609,7 @@ Int CreateAHeroHero::GetBlingCount(Int blingKey) const
 Int CreateAHeroHero::GetBlingId(Int blingKey, UnsignedInt index) const
 {
 	CreateAHeroBlingNode *node = 0;
-	if (rva004079D5(blingKey, &node) && node != m_blingHeader
+	if (((Rva004079D5 *)this)->rva004079D5(blingKey, (int *)&node) && node != m_blingHeader
 		&& index < (UnsignedInt)(node->m_idsFinish - node->m_idsStart))
 		return node->m_idsStart[index];
 	return 0;
