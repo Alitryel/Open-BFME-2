@@ -213,6 +213,10 @@ typedef char rva00155b00_sentence_data_must_be_24[
 	(sizeof(Render2DSentenceClass::SentenceDataStruct) == 0x24) ? 1 : -1];
 typedef char rva00155b00_pending_surface_must_be_1c[
 	(sizeof(Render2DSentenceClass::PendingSurfaceStruct) == 0x1c) ? 1 : -1];
+// The emitted Add_Quad copy is a COMDAT the link may keep, so it must be
+// retail's 430 bytes: retail's Add_Quad unit (Render2DClassAddQuadColor.cpp)
+// is /O1, and only size optimisation gives its frame (push ebp ... leave).
+#pragma optimize("s", on)
 
 __declspec(noinline) inline void Render2DClass::Add_Quad(const RectClass &screen, const RectClass &uv,
 	BfmeUInt32 color0, BfmeUInt32 color1,
@@ -241,6 +245,7 @@ __declspec(noinline) inline void Render2DClass::Add_Quad(const RectClass &screen
 	indices[1] = baseVertexPair + 0x00020002;
 	indices[2] = baseVertexPair + 0x00030001;
 }
+#pragma optimize("", on)
 
 void Render2DSentenceClass::Draw_Sentence(uint32 color1, uint32 color2, uint32 color3, uint32 color4)
 {
