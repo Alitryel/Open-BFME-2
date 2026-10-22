@@ -4,7 +4,7 @@
 // stlport
 #include <vector>
 
-struct Rva0025BF40Element { char bytes[9];Rva0025BF40Element();Rva0025BF40Element(const Rva0025BF40Element&);~Rva0025BF40Element();Rva0025BF40Element&operator=(const Rva0025BF40Element&); bool operator<(const Rva0025BF40Element&)const; bool operator==(const Rva0025BF40Element&)const; };
+struct Rva0025BF40Element { char bytes[9]; bool operator<(const Rva0025BF40Element&)const; bool operator==(const Rva0025BF40Element&)const; };
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva0025BF40Element * _STL::__copy_backward_ptrs<Rva0025BF40Element *, Rva0025BF40Element *>(Rva0025BF40Element *, Rva0025BF40Element *, Rva0025BF40Element *, _STL::__false_type const &);

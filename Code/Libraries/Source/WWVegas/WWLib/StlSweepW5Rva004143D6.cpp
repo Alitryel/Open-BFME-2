@@ -4,7 +4,7 @@
 // stlport
 #include <vector>
 
-struct Rva004143D6Element { char bytes[9];Rva004143D6Element();Rva004143D6Element(const Rva004143D6Element&);~Rva004143D6Element();Rva004143D6Element&operator=(const Rva004143D6Element&); bool operator<(const Rva004143D6Element&)const; bool operator==(const Rva004143D6Element&)const; };
+struct Rva004143D6Element { unsigned int words[11]; bool operator<(const Rva004143D6Element&)const; bool operator==(const Rva004143D6Element&)const; };
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva004143D6Element * _STL::vector<Rva004143D6Element, _STL::allocator<Rva004143D6Element> >::_M_allocate_and_copy<Rva004143D6Element const *>(unsigned int, Rva004143D6Element const *, Rva004143D6Element const *);
