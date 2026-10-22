@@ -1,20 +1,7 @@
 // ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
 // partial score=0.9952542372881356 date=2026-10-22
-// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
-// partial score=0.9826 date=2026-10-20
-// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
-// partial score=0.995 date=2026-10-18
-// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
-// partial score=0.9857064040652715 date=2026-10-13
 // W7-ASTRA r2: full extent1475 includes124-byte switch table; ends0x005944D8.
 // WB0x154E140: all three explicit early returns restore local frame packing.
-// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
-// partial score=0.975 date=2026-10-13
-// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
-// partial score=0.92 date=2026-10-10
-// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
-// partial score=0.95395 date=2026-10-09
-// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
 // cl: /ICode/Libraries/Include /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // NetPacket.cpp: the NetPacket bodies retail links from this TU (tu_map approved),
 // folded from 24 one-function split units that shared these exact flags.
