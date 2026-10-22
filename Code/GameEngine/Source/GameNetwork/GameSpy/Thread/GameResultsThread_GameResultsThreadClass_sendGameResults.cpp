@@ -305,20 +305,4 @@ Int GameResultsThreadClass::sendGameResults( UnsignedInt IP, UnsignedShort port,
 	return results.length();
 }
 
-//-------------------------------------------------------------------------
-
-#pragma optimize("gty", on)
-namespace _STL
-{
-template <>
-void deque<GameResultsResponse, allocator<GameResultsResponse> >::_M_push_back_aux_v(
-	const GameResultsResponse &response)
-{
-	GameResultsResponse responseCopy = response;
-	_M_reserve_map_at_back();
-	*(this->_M_finish._M_node + 1) = this->_M_map_size.allocate(this->buffer_size());
-	_Construct(this->_M_finish._M_cur, responseCopy);
-	this->_M_finish._M_set_node(this->_M_finish._M_node + 1);
-	this->_M_finish._M_cur = this->_M_finish._M_first;
-}
-}
+// The queue helper is supplied by the interface provider.
