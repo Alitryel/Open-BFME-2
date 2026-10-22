@@ -22,16 +22,18 @@ public:
 	char m_pad[0x10];
 };
 
-class Gen_uwm_000e6c6f
+// The base destructor 0x000E6C6F is the rowed ??1Rva000E6AC0@@UAE@XZ
+// (Rva000E6AC0Ctor.cpp). The derived vtable holds only the deleting dtor,
+// as OpaqueScalarDeletingDtorsB01.cpp's view of it.
+class Rva000E6AC0
 {
 public:
-	~Gen_uwm_000e6c6f();
-	virtual void v0();
+	virtual ~Rva000E6AC0();
 };
 
 extern const void *const g_00BCECB8[];
 
-struct Rva000E9BAC : public Gen_uwm_000e6c6f
+struct Rva000E9BAC : public Rva000E6AC0
 {
 public:
 	virtual ~Rva000E9BAC();
