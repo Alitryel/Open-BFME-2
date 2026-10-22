@@ -20,6 +20,9 @@ struct BfmeStringRecord002B4DC1 { unsigned char m_data[12]; };
 bool operator==(const BfmeStringRecord002B4DC1 &a, const BfmeStringRecord002B4DC1 &b);
 bool operator<(const BfmeStringRecord002B4DC1 &a, const BfmeStringRecord002B4DC1 &b);
 
+// Retail's list(size_type) is rowed in stlport_list_002b8ff3_fill.cpp; keep this instantiation's
+// differing copy out of the link.
+namespace _STL { template <> list<BfmeStringRecord002B4DC1, allocator<BfmeStringRecord002B4DC1> >::list(unsigned int); }
 template class _STL::list<BfmeStringRecord002B4DC1, _STL::allocator<BfmeStringRecord002B4DC1> >;
 
 // ?rva002B8106@Rva002B8106@@QAEXABUBfmeStringRecord002B4DC1@@@Z @ 0x002B8106 (26B).
