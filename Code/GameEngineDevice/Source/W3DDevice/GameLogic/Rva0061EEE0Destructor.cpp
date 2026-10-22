@@ -79,11 +79,52 @@ namespace _STL { template <> void allocator<_Rb_tree_node<Rva001408C0Target *> >
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;
 typedef _STL::set<Rva001408C0Key> Rva001408C0Set;
+namespace _STL {
+template <> deque<int, allocator<int> >::~deque();
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_tree_node<Rva001408C0Target *> >::allocate(size_t __n, const void *) const
+{ return __n != 0 ? (_Rb_tree_node<Rva001408C0Target *> *)allocator<char>::allocate(__n * sizeof(_Rb_tree_node<Rva001408C0Target *>), 0) : 0; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<_Base &>(*this), (_Rb_tree_node<Rva001408C0Target *> *)0).allocate(__n, 0); }
+}
+// Keep STLport's pointer-set construction inline without competing external copies.
+namespace _STL {
+typedef _Rb_tree<Rva001408C0Key, Rva001408C0Key, _Identity<Rva001408C0Key>,
+    less<Rva001408C0Key>, allocator<Rva001408C0Key> > AssetPointerLinkTree;
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Key> *, _Rb_tree_node<Rva001408C0Key>, allocator<_Rb_tree_node<Rva001408C0Key> > >::_STLP_alloc_proxy(
+    const allocator<_Rb_tree_node<Rva001408C0Key> > &__a, _Rb_tree_node<Rva001408C0Key> *__p)
+    : allocator<_Rb_tree_node<Rva001408C0Key> >(__a), _M_data(__p) {}
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_base<Rva001408C0Key, allocator<Rva001408C0Key> >::_Rb_tree_base(const allocator_type &__a)
+    : _M_header(_STLP_CONVERT_ALLOCATOR(__a, _Node), (_Node *)0)
+{ _M_header._M_data = _M_header.allocate(1); }
+// ?AssetPointerLinkTree::_M_empty_initialize present-unmatched
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void AssetPointerLinkTree::_M_empty_initialize()
+{
+    _S_color(this->_M_header._M_data) = _S_rb_tree_red;
+    _M_root() = 0;
+    _M_leftmost() = this->_M_header._M_data;
+    _M_rightmost() = this->_M_header._M_data;
+}
+// ?AssetPointerLinkTree::_Rb_tree present-unmatched
+template <> __declspec(dllimport) __forceinline
+AssetPointerLinkTree::_Rb_tree(const less<Rva001408C0Key> &__comp, const allocator_type &__a)
+    : _Rb_tree_base<Rva001408C0Key, allocator<Rva001408C0Key> >(__a),
+      _M_node_count(0), _M_key_compare(__comp)
+{ _M_empty_initialize(); }
+}
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+set<Rva001408C0Key>::set() : _M_t(less<Rva001408C0Key>(), allocator<Rva001408C0Key>()) {}
+}
 
 class BfmeThingBVA
 {
 public:
-	BfmeThingBVA()
+	__forceinline BfmeThingBVA()
 	{
 		m_value = 0;
 		m_active = true;
@@ -168,6 +209,7 @@ typedef _STL::deque<int> GenDeque;
 class AssetManagerImpl
 {
 public:
+	AssetManagerImpl();
 	~AssetManagerImpl();
 
 private:
@@ -199,18 +241,6 @@ private:
 };
 
 typedef char GenDtorSizeCheck[sizeof(AssetManagerImpl) == 0x200 ? 1 : -1];
-
-// Constructor-only storage view for the already pinned 0x00624DB0 callee.
-// The target ledger identifies that callee as AssetManagerImpl; allocation
-// here proves 0x200 bytes and the +0x0C member is destroyed at 0x00625040.
-// Retain the existing address-derived constructor pin, rather than adding an alias.
-class Rva00624DB0
-{
-public:
-	Rva00624DB0();
-private:
-	char m_storage[0x200];
-};
 
 class Rva0061EEE0 : public SubsystemInterface
 {
@@ -292,5 +322,5 @@ AssetManagerImpl::~AssetManagerImpl()
 // which requires saving this as well as the new-expression allocation.
 Rva0061EEE0::Rva0061EEE0()
 {
-	m_renderObject = reinterpret_cast<AssetManagerImpl *>(new Rva00624DB0);
+	m_renderObject = new AssetManagerImpl;
 }

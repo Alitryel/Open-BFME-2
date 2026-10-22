@@ -72,11 +72,11 @@ namespace _STL { template <> void allocator<_Rb_tree_node<Rva001408C0Target *> >
 namespace _STL { template <> hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::~hashtable(); }
 // Suppress this TU's non-retail copy of ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
-
+
 namespace _STL { template <> void hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::_M_initialize_buckets(size_t); }
 // Suppress this TU's non-retail copy of ?clear@?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
-
+
 namespace _STL { template <> void hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::clear(); }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree@PAURva001408C0Target@@PAU1@U?$_Identity@PAURva001408C0Target@@@_STL@@U?$less:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -106,6 +106,48 @@ extern "C" __declspec(dllimport) unsigned long __cdecl _beginthread(void (__cdec
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;
 typedef _STL::set<Rva001408C0Key> Rva001408C0Set;
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_tree_node<Rva001408C0Target *> >::allocate(size_t __n, const void *) const
+{ return __n != 0 ? (_Rb_tree_node<Rva001408C0Target *> *)allocator<char>::allocate(__n * sizeof(_Rb_tree_node<Rva001408C0Target *>), 0) : 0; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<_Base &>(*this), (_Rb_tree_node<Rva001408C0Target *> *)0).allocate(__n, 0); }
+}
+
+
+// Keep STLport's pointer-set construction inline without competing external copies.
+namespace _STL {
+typedef _Rb_tree<Rva001408C0Key, Rva001408C0Key, _Identity<Rva001408C0Key>,
+    less<Rva001408C0Key>, allocator<Rva001408C0Key> > AssetPointerLinkTree;
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Key> *, _Rb_tree_node<Rva001408C0Key>, allocator<_Rb_tree_node<Rva001408C0Key> > >::_STLP_alloc_proxy(
+    const allocator<_Rb_tree_node<Rva001408C0Key> > &__a, _Rb_tree_node<Rva001408C0Key> *__p)
+    : allocator<_Rb_tree_node<Rva001408C0Key> >(__a), _M_data(__p) {}
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_base<Rva001408C0Key, allocator<Rva001408C0Key> >::_Rb_tree_base(const allocator_type &__a)
+    : _M_header(_STLP_CONVERT_ALLOCATOR(__a, _Node), (_Node *)0)
+{ _M_header._M_data = _M_header.allocate(1); }
+// ?AssetPointerLinkTree::_M_empty_initialize present-unmatched
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void AssetPointerLinkTree::_M_empty_initialize()
+{
+    _S_color(this->_M_header._M_data) = _S_rb_tree_red;
+    _M_root() = 0;
+    _M_leftmost() = this->_M_header._M_data;
+    _M_rightmost() = this->_M_header._M_data;
+}
+// ?AssetPointerLinkTree::_Rb_tree present-unmatched
+template <> __declspec(dllimport) __forceinline
+AssetPointerLinkTree::_Rb_tree(const less<Rva001408C0Key> &__comp, const allocator_type &__a)
+    : _Rb_tree_base<Rva001408C0Key, allocator<Rva001408C0Key> >(__a),
+      _M_node_count(0), _M_key_compare(__comp)
+{ _M_empty_initialize(); }
+}
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+set<Rva001408C0Key>::set() : _M_t(less<Rva001408C0Key>(), allocator<Rva001408C0Key>()) {}
+}
 
 struct Q1ReceiverLocalSet
 {
@@ -114,7 +156,7 @@ struct Q1ReceiverLocalSet
 	volatile bool m_active;
 	unsigned char m_padding[3];
 
-	Q1ReceiverLocalSet() { clear(); }
+	__forceinline Q1ReceiverLocalSet() { clear(); }
 
 	void clear()
 	{

@@ -56,6 +56,15 @@ void RegisterCreateAHeroAtRva0021D517(CreateAHeroData *);	// 0x0021D517
 typedef _STL::map<int, Rva00501875Count> CreateAHeroTree;
 typedef _STL::map<int, _STL::vector<_STL::vector<BfmeE8> > > CreateAHeroVectorMap;
 
+// EH cleanup uses the existing STLport destructor providers.
+namespace _STL {
+template <> vector<bool, allocator<bool> >::~vector();
+template <> vector<vector<BfmeE8>, allocator<vector<BfmeE8> > >::~vector();
+template <> _Rb_tree<int, pair<const int, vector<vector<BfmeE8> > >,
+    _Select1st<pair<const int, vector<vector<BfmeE8> > > >, less<int>,
+    allocator<pair<const int, vector<vector<BfmeE8> > > > >::~_Rb_tree();
+}
+
 class CreateAHeroData : public Snapshot
 {
 public:
