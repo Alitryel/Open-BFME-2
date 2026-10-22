@@ -319,13 +319,13 @@ public:
 	virtual void init() = 0;
 	virtual bool loadIniFilesFromLegend();
 	virtual void postProcessLoad();
-	virtual void vf04();
-	virtual void vf05();
+	virtual bool vslot04(int);
+	virtual bool vslot05();
 	virtual void draw();
-	virtual void vf07();
-	virtual void vf08();
-	virtual void reset() = 0;                                           // +0x24
-	virtual void update() = 0;                                          // +0x28
+	virtual void vslot07(int);
+	virtual void vslot08();
+	virtual void reset() = 0;                                                 // +0x24
+	virtual void update() = 0;                                                // +0x28
 
 	void setName(AsciiString name);
 
@@ -454,38 +454,38 @@ public:
 		CommandTranslator::CommandEvaluateType cmdType);                 // slot 18 (+0x48)
 	virtual void vf19();
 	virtual void vf20();
-	virtual void vf21();
-	virtual void vf22();
-	virtual void vf23();
-	virtual void vf24();
+	virtual void vf21() = 0;
+	virtual void vf22() = 0;
+	virtual bool loadMap(AsciiString mapName);
+	virtual void unloadMap(AsciiString mapName);
 	virtual void iterateDrawablesInRegion(Region3D *region, GameClientFuncPtr userFunc, void *userData); // slot 25 (+0x64)
 	virtual void rva002391AA(const FrustumClass *frustum, float radiusPad, GameClientFuncPtr userFunc, void *userData); // slot 26 (+0x68)
 	virtual void rva00238EBF(GameClientFuncPtr userFunc, void *userData); // slot 27 (+0x6C)
-	virtual void vf28();
+	virtual void vf28() = 0;
 	virtual void destroyDrawable(Drawable *draw);                       // slot 29 (+0x74)
 	virtual void setTimeOfDay(TimeOfDay tod);                           // slot 30 (+0x78)
 	virtual void vf31();
-	virtual void vf32();
+	virtual void vf32() = 0;
 	virtual void releaseShadows(void);                                  // slot 33 (+0x84)
 	virtual void allocateShadows(void);                                 // slot 34 (+0x88)
 	virtual Drawable *getDrawableList(void);                            // slot 35 (+0x8C)
 	virtual void rva00239911(void);                                     // slot 36 (+0x90)
 	// Factories, slots 37-50, named after the global init stores each in.
-	virtual Display *createGameDisplay();                               // +0x94
-	virtual InGameUI *createInGameUI();                                 // +0x98
-	virtual GameWindowManager *createWindowManager();                   // +0x9C
-	virtual FontLibrary *createFontLibrary();                           // +0xA0
-	virtual DisplayStringManager *createDisplayStringManager();         // +0xA4
-	virtual VideoPlayerInterface *createVideoPlayer();                  // +0xA8
-	virtual G00DFF080Obj *createTerrainVisual();                        // +0xAC
-	virtual Keyboard *createKeyboard();                                 // +0xB0
-	virtual Mouse *createMouse();                                       // +0xB4
-	virtual SnowManager *createSnowManager();                           // +0xB8
-	virtual Rva0027070CGlobal *createCloudEffectManager();              // +0xBC
-	virtual CloudBreakEffectManager *createCloudBreakEffectManager();   // +0xC0
-	virtual FireManager *createFireManager();                           // +0xC4
-	virtual Rva002D3627Host *vf50();                                    // +0xC8
-	virtual void setFrameRate(float rate);                              // +0xCC
+	virtual Display *createGameDisplay() = 0;                                 // +0x94
+	virtual InGameUI *createInGameUI() = 0;                                   // +0x98
+	virtual GameWindowManager *createWindowManager() = 0;                     // +0x9C
+	virtual FontLibrary *createFontLibrary() = 0;                             // +0xA0
+	virtual DisplayStringManager *createDisplayStringManager() = 0;           // +0xA4
+	virtual VideoPlayerInterface *createVideoPlayer() = 0;                    // +0xA8
+	virtual G00DFF080Obj *createTerrainVisual() = 0;                          // +0xAC
+	virtual Keyboard *createKeyboard() = 0;                                   // +0xB0
+	virtual Mouse *createMouse() = 0;                                         // +0xB4
+	virtual SnowManager *createSnowManager() = 0;                             // +0xB8
+	virtual Rva0027070CGlobal *createCloudEffectManager() = 0;                // +0xBC
+	virtual CloudBreakEffectManager *createCloudBreakEffectManager() = 0;     // +0xC0
+	virtual FireManager *createFireManager() = 0;                             // +0xC4
+	virtual Rva002D3627Host *vf50() = 0;                                      // +0xC8
+	virtual void setFrameRate(float rate) = 0;                                // +0xCC
 
 	DrawableTOCEntry *findTOCEntryByName(AsciiString name);
 	DrawableTOCEntry *findTOCEntryById(unsigned short id);
@@ -992,10 +992,10 @@ private:
 	int m_mode;
 };
 
-class Rva00432987 : public GameMessageTranslator
+class AptTranslator : public GameMessageTranslator
 {
 public:
-	Rva00432987();
+	AptTranslator();
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
 
 private:
@@ -1514,7 +1514,7 @@ void GameClient::init()
 
 	// register message translators
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva002390F8, 4);
-	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva00432987, 5);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new AptTranslator, 5);
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva002390F8Mode1, 10);
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new MetaEventTranslator, 20);
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new HotKeyTranslator, 25);

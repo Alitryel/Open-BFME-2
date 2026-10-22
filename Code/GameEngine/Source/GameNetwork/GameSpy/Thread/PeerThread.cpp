@@ -198,6 +198,13 @@ namespace _STL { template <> string &string::append(const char *); }
 extern "C" __declspec(dllimport) int __cdecl isdigit(int);
 extern "C" __declspec(dllimport) int __cdecl _stricmp(const char *, const char *);
 
+// Retain STLport pointer copying without an external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void ***copy_backward<void ***, void ***>(void ***first, void ***last, void ***result)
+{ return __copy_backward_aux(first, last, result, _BothPtrType<void ***, void ***>::_Ret()); }
+}
+
 // Native callback uses the already recovered GameSpy C API entry.
 extern "C" void peerGetPlayerProfileIDA(PEER, const char *, void *, void *, PEERBool);
 #pragma comment(linker, "/alternatename:??0PeerResponse@@QAE@XZ=??0BfmeOpaqueOwnedRecord840@@QAE@XZ")
@@ -599,7 +606,7 @@ const char* PeerThreadClass::s_values[NumKeys] = { s_valueBuffers[0], s_valueBuf
 // Stat lookup is recovered in PeerThreadLookupStat.cpp.
 
 // byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadClearPlayerStats.cpp
-void PeerThreadClass::clearPlayerStats(RoomType roomType)
+__declspec(noinline) inline void PeerThreadClass::clearPlayerStats(RoomType roomType)
 {
 	switch (roomType)
 	{
@@ -3349,7 +3356,7 @@ static UnsignedInt s_lastExtendedInfoFrame = 0;
 // Retail pushes that address as the ladport default while a separate "" lives
 // in a register across the player loop; an in-TU "" would be CSE'd into that
 // register, so the default names the folded location directly.
-extern char g_bfmeEmptyF9[];
+extern const char g_Rva0107301CEmptyString[];
 
 static void listingGamesCallback(PEER peer, PEERBool success, const char * name, SBServer server, PEERBool staging, int msg, Int percentListed, void * param)
 {
@@ -3491,7 +3498,7 @@ static void listingGamesCallback(PEER peer, PEERBool success, const char * name,
 			resp.stagingRoomPlayerNames[0] = hostName.str();
 		}
 		{
-			std::string ladPortStr = SBServerGetStringValueA(server, LADPORT_STR, g_bfmeEmptyF9);
+			std::string ladPortStr = SBServerGetStringValueA(server, LADPORT_STR, g_Rva0107301CEmptyString);
 			Rva00559F11Parse(ladPortStr.c_str(), resp.stagingRoom.ladPortValues);
 		}
 		resp.stagingRoom.scenario = SBServerGetIntValueA(server, "scen", -1);
