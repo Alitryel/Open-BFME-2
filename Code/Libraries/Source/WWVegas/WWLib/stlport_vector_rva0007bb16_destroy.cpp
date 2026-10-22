@@ -21,6 +21,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_fill_insert@?$vector@URva0007BB16Record@@V?$allocator@URva0007BB16Record@@@_STL@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0007BB16Record;
+namespace _STL { template <> void vector<Rva0007BB16Record,allocator<Rva0007BB16Record> >::_M_fill_insert(Rva0007BB16Record *,unsigned int,Rva0007BB16Record const &); }
 
 struct Rva0007BB16Record
 {

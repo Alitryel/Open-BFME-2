@@ -52,6 +52,9 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_S_sort@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocator@V?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _S_sort<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > >,less<basic_string<char,char_traits<char>,allocator<char> > > >(list<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > > &,less<basic_string<char,char_traits<char>,allocator<char> > >); }
 // Suppress this TU's non-retail copy of ??1?$list@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocator@V?$:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> list<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::~list(); }

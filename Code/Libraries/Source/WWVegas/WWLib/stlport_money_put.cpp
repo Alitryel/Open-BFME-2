@@ -15,6 +15,9 @@ namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > money_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, bool, ios_base &, char, long double) const; }
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__copy@PADV?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@H@_STL@@YA?AV?$ostreamb:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> ostreambuf_iterator<char,char_traits<char> > __copy<char *,ostreambuf_iterator<char,char_traits<char> >,int>(char *,char *,ostreambuf_iterator<char,char_traits<char> >,random_access_iterator_tag const &,int *); }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

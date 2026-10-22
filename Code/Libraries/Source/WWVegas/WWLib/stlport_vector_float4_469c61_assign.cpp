@@ -8,6 +8,14 @@
 // Rva007C454Ctor 0x7C3CD; flags follow stlport_vector_BfmeRecord0040B61A_assign.cpp (no STATIC_LIB so no
 // distance push per its comment); element name from stlport_vector_float4_469c61.cpp.
 #include <vector>
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUBfmeFloat4Record00469C61@@U1@V?$allocator@UBfmeFloat4Reco:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeFloat4Record00469C61;
+namespace _STL { template <> BfmeFloat4Record00469C61 * _STLP_alloc_proxy<BfmeFloat4Record00469C61 *,BfmeFloat4Record00469C61,allocator<BfmeFloat4Record00469C61> >::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UBfmeFloat4Record00469C61@@@_STL@@QBEXPAUBfmeFloat4Record00469C61@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeFloat4Record00469C61;
+namespace _STL { template <> void allocator<BfmeFloat4Record00469C61>::deallocate(BfmeFloat4Record00469C61 *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

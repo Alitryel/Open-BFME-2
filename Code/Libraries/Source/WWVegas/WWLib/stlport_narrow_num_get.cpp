@@ -65,6 +65,12 @@ namespace _STL { template <> bool __get_integer<istreambuf_iterator<char, char_t
 namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > num_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, ios_base &, int &, float &) const; }
 namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > num_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, ios_base &, int &, double &) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_M_do_get_integer@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@ID@_STL@@YA?AV?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> istreambuf_iterator<char,char_traits<char> > _M_do_get_integer<istreambuf_iterator<char,char_traits<char> >,unsigned int,char>(istreambuf_iterator<char,char_traits<char> > &,istreambuf_iterator<char,char_traits<char> > &,ios_base &,int &,unsigned int &,char *); }
+// Suppress this TU's non-retail copy of ??$__get_integer@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@I@_STL@@YA_NAAV?$is:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool __get_integer<istreambuf_iterator<char,char_traits<char> >,unsigned int>(istreambuf_iterator<char,char_traits<char> > &,istreambuf_iterator<char,char_traits<char> > &,int,unsigned int &,int,bool,char,basic_string<char,char_traits<char>,allocator<char> > const &,__false_type const &); }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

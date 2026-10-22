@@ -30,6 +30,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmePod40@@@_STL@@YAXPAUBfmePod40@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod40;
+namespace _STL { template <> void _Destroy<BfmePod40 *>(BfmePod40 *,BfmePod40 *); }
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAUBfmePod40@@@_STL@@YAXPAUBfmePod40@@0ABU__false_type@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod40;
+namespace _STL { template <> void __destroy_aux<BfmePod40 *>(BfmePod40 *,BfmePod40 *,__false_type const &); }
 
 struct BfmePod40
 {

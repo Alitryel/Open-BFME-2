@@ -23,6 +23,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??0?$vector@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAE@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> vector<GeometryShape,allocator<GeometryShape> >::vector(unsigned int); }
 
 typedef bool Bool;
 
