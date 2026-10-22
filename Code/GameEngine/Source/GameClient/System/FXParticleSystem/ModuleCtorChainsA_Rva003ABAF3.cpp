@@ -492,14 +492,6 @@ public:
 	Rva003ABCB5(void *a, void *b);
 };
 
-Rva003ABCB5::Rva003ABCB5(void *a, void *b)
-	: Rva0055BF4B(*(const RvaSmartPtr12 *)a, (const Rva0055BF4BSrc *)b)
-{
-	STAMP(0x00, g_00C1C53C);
-	STAMP(0x14, g_00C1C538);
-	STAMP(0x18, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
-	STAMP(0x1C, g_00C1CDE0);
-}
 
 class Rva003ABDC8 : public FXParticleSystem::Rva005FEAD0DefaultModule7
 {
@@ -583,14 +575,6 @@ public:
 	Rva003ACF32Module(void *a, Rva003AD8C5Template *b);
 };
 
-Rva003ACF32Module::Rva003ACF32Module(void *a, Rva003AD8C5Template *b)
-	: Rva003ABCB5(a, b)
-{
-	STAMP(0x00, g_00C1CDF0);
-	STAMP(0x14, g_00C1C538);
-	STAMP(0x18, __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$0A@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@"));
-	STAMP(0x1C, g_00C1CDE0);
-}
 
 class Rva003AD904Template;
 class Rva003ACFCFModule : public Rva003ABD20
@@ -656,14 +640,6 @@ public:
 	Rva003ABB93(void *a, void *b);
 };
 
-Rva003ABB93::Rva003ABB93(void *a, void *b)
-	: FXParticleSystem::LightningDrawModule(*(FXParticleSystem::TrackingPtr<FXParticleSystem::ParticleSystem> *)a,
-		(const FXParticleSystem::LightningDrawModuleTemplate *)b)
-{
-	STAMP(0x00, g_00C1C488);
-	STAMP(0x14, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
-	STAMP(0x18, __identifier("??_7Rva005EBCC0Object@@6BV3Slot2@@@"));
-}
 
 class Rva003ABBCB : public Rva003AE94E
 {
@@ -678,14 +654,6 @@ public:
 	Rva003ABC6E(void *a, void *b);
 };
 
-Rva003ABC6E::Rva003ABC6E(void *a, void *b)
-	: Rva003AEA42(*(const RvaSmartPtr12 *)a, (int)b)
-{
-	STAMP(0x00, g_00C1C508);
-	STAMP(0x14, g_00C1C504);
-	STAMP(0x18, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
-	STAMP(0x1C, g_00C1CDBC);
-}
 
 class Rva003ABE40 : public Rva003AEF9B
 {
@@ -693,14 +661,6 @@ public:
 	Rva003ABE40(void *a, void *b);
 };
 
-Rva003ABE40::Rva003ABE40(void *a, void *b)
-	: Rva003AEF9B(*(const RvaSmartPtr12 *)a, (int)b)
-{
-	STAMP(0x00, g_00C1C644);
-	STAMP(0x14, g_00C1C640);
-	STAMP(0x18, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
-	STAMP(0x1C, g_00C1CF28);
-}
 
 class Rva003ABE8D : public Rva003AF076
 {
@@ -719,13 +679,6 @@ public:
 	Rva003ACE5CModule(void *a, Rva003AD80BTemplate *b);
 };
 
-Rva003ACE5CModule::Rva003ACE5CModule(void *a, Rva003AD80BTemplate *b)
-	: Rva003ABB93(a, b)
-{
-	STAMP(0x00, __identifier("??_7Rva005EBCC0Object@@6BV3Slot0@@@"));
-	STAMP(0x14, __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?LIGHTNING_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?LIGHTNING_DRAW_MODULE_NAME@2@3QBDBVLightningDrawModule@2@VLightningDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@"));
-	STAMP(0x18, __identifier("??_7Rva005EBCC0Object@@6BV3Slot2@@@"));
-}
 
 class V3HostRva005E76E0;
 class Rva005E76E0Object : public Rva003ABBCB
@@ -760,14 +713,6 @@ public:
 	Rva003ACEFCModule(void *a, Rva003AD886Template *b);
 };
 
-Rva003ACEFCModule::Rva003ACEFCModule(void *a, Rva003AD886Template *b)
-	: Rva003ABC6E(a, b)
-{
-	STAMP(0x00, g_00C1CDCC);
-	STAMP(0x14, g_00C1C504);
-	STAMP(0x18, __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$00@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@"));
-	STAMP(0x1C, g_00C1CDBC);
-}
 
 class Rva003AD9BBTemplate;
 class Rva003AD0CAModule : public Rva003ABDF9
@@ -784,14 +729,6 @@ public:
 	Rva003AD100Module(void *a, Rva003AD9F7Template *b);
 };
 
-Rva003AD100Module::Rva003AD100Module(void *a, Rva003AD9F7Template *b)
-	: Rva003ABE40(a, b)
-{
-	STAMP(0x00, g_00C1CF38);
-	STAMP(0x14, g_00C1C640);
-	STAMP(0x18, __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@VRenderObjectParticleUpdateModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@"));
-	STAMP(0x1C, g_00C1CF28);
-}
 
 class V3HostRva005E7AD0;
 class Rva005E7AD0Object : public Rva003ABE8D
