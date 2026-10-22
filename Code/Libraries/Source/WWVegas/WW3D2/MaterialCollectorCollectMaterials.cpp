@@ -58,6 +58,12 @@ public:
     bool operator==(const RefCountPtr &other) const { return p == other.p; }
     bool operator!=(const RefCountPtr &other) const { return p != other.p; }
 };
+// Inlined everywhere here; dllimport keeps this TU's /O2 copy out of the object so
+// the link uses the retail-proven out-of-line copy.
+template <> __declspec(dllimport) __forceinline
+RefCountPtr<TextureClass>::RefCountPtr(const RefCountPtr<TextureClass> &other) : p(other.p) {
+    if (p) p->Add_Ref();
+}
 
 
 class MeshMatDescClass {
