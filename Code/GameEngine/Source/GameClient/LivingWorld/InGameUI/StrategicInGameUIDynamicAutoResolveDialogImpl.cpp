@@ -409,8 +409,7 @@ namespace StrategicInGameUI
 			{
 			public:
 				StartupStateHandler(Impl &owner, Int numPlayers) : StateHandler(owner), m_numPlayers(numPlayers) {}
-				virtual void Startup();
-				virtual void Update();
+				// Startup and Update use the empty StateHandler defaults.
 
 				Int m_numPlayers;
 			};

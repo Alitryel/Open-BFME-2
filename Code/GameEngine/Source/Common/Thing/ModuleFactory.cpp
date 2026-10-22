@@ -306,6 +306,20 @@ namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct AngleFXInfo;
 namespace _STL { template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::erase(AngleFXInfo *,AngleFXInfo *); }
+// Inline allocator cleanup without emitting an unused external copy.
+namespace _STL {
+template <> vector<AngleFXInfo, allocator<AngleFXInfo> >::~vector();
+template <> __declspec(dllimport) __forceinline
+void allocator<AngleFXInfo>::deallocate(AngleFXInfo *p, size_t count) const
+{ if (p != 0) __sgi_alloc::deallocate((void *)p, count * sizeof(value_type)); }
+// Clearing destroys the elements and retains the allocated storage.
+template <> __declspec(dllimport) __forceinline
+void vector<AngleFXInfo, allocator<AngleFXInfo> >::clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_finish = this->_M_start;
+}
+}
 // Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
@@ -627,7 +641,7 @@ StructureToppleUpdateModuleData::StructureToppleUpdateModuleData( EmitVtableTag 
 	m_maxToppleBurstDelay = 0;
 	m_structuralIntegrity = 0.1f;
 	m_structuralDecay = 0.0f;
-	m_damageFXTypes = DAMAGE_TYPE_FLAGS_NONE;
+	m_damageFXTypes.clear();
 	m_damageFXTypes.flip();
 	m_toppleStartFXList = NULL;
 	m_toppleDelayFXList = NULL;

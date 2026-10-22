@@ -135,6 +135,8 @@ public:
 		// This is an ABI view; the renderer-pointer element type is donor
 		// provenance and has not been established independently in the target.
 		DynamicVectorClass<int> rendererStorage;
+		// The shared destructor is defined in vector_class_resize.cpp.
+		~PendingSurfaceStruct();
 
 		bool operator==(const PendingSurfaceStruct &) { return false; }
 		bool operator!=(const PendingSurfaceStruct &) { return true; }

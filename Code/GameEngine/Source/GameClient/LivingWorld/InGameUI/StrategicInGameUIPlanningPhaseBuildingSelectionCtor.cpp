@@ -338,6 +338,11 @@ namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::_M_insert_
 struct TemplateCountKey { const ThingTemplate *pointer;
  __forceinline TemplateCountKey() {} __forceinline TemplateCountKey(const ThingTemplate *p):pointer(p){}
  __forceinline bool operator<(const TemplateCountKey &other)const{return pointer<other.pointer;} };
+// Bind the count-map helpers to their rowed ControlBar providers.
+namespace _STL {
+template <> _Rb_tree_base<pair<const TemplateCountKey, int>, allocator<pair<const TemplateCountKey, int> > >::_Rb_tree_base(const allocator<pair<const TemplateCountKey, int> > &);
+template <> _Rb_tree<TemplateCountKey, pair<const TemplateCountKey, int>, _Select1st<pair<const TemplateCountKey, int> >, less<TemplateCountKey>, allocator<pair<const TemplateCountKey, int> > >::~_Rb_tree();
+}
 struct CommandPopulationEntry { char unknown[216]; };
 struct CommandPlayerView { char unknown00[0x73C]; CommandPopulationEntry *begin,*end,*capacity; };
 struct CommandIncrement { int *value; CommandIncrement(int &v):value(&v){} ~CommandIncrement(){ ++*value; } };
