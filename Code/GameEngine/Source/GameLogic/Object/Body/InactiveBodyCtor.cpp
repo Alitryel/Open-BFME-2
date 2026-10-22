@@ -8,6 +8,7 @@
 // sets or clears the private-status bit at Object+0x438 by its Bool (13
 // callers). Retail's unwind map destroys the BodyModule base (0x004BD763)
 // in state 0. Base layout as in BodyModuleCtor.cpp.
+class DamageInfo;
 class Thing;
 class ModuleData;
 
@@ -42,7 +43,7 @@ public:
 class BodyModuleInterface
 {
 public:
-	virtual void bodyAnchor() = 0;
+	virtual void attemptDamage(DamageInfo *damageInfo) = 0;
 };
 
 class BodyModule : public BehaviorModule, public BodyModuleInterface
@@ -58,7 +59,7 @@ class InactiveBody : public BodyModule
 {
 public:
 	InactiveBody(Thing *thing, const ModuleData *moduleData);
-	virtual void bodyAnchor();
+	virtual void attemptDamage(DamageInfo *damageInfo);
 private:
 	bool m_dieCalled;
 };
