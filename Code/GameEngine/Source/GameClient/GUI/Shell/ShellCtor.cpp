@@ -30,6 +30,7 @@ class Shell : public SubsystemInterface
 {
 public:
 	Shell();
+	virtual void reset();	// slot 9, as ShellTop.cpp's view names it
 	virtual void update();
 private:
 	WindowLayout *m_screenStack[16];
