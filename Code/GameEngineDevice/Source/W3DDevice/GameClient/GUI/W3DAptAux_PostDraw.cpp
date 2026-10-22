@@ -217,22 +217,7 @@ struct Rva00785FD0Node;
 extern unsigned int g_Va00DE6194;
 #define g_rva00785FD0Queue (*(Rva00785FD0Node * *)&g_Va00DE6194)
 extern char g_rva00785FD0Dirty;
-void w3dDrawRenderingUnit(AptRenderingUnit *renderingUnit,Int mode)
-{
- if(!W3DAptAux::s_renderer || !renderingUnit) return;
- AptShapeContainer *const renderShape=renderingUnit->getShapes();
- AptShapeContainer *shapes=renderShape;
- if(!renderShape) return;
- renderShape->m_transform=g_aptRenderTransform;
- // The existing flush names the sentinel pointer; the list header is that
- // one pointer, and the native queue stores AptShapeContainer pointers.
- _STL::list<AptShapeContainer*> &queue=*(_STL::list<AptShapeContainer*>*)&g_rva00785FD0Queue;
- switch(mode) {
- case 1: queue.insert(queue.end(),shapes);g_rva00785FD0Dirty=1;return;
- case -1: if(!queue.empty()) {queue.remove(shapes);g_rva00785FD0Dirty=1;return;}
- case 0: rebuildMask();((Rva00785FD0Item*)renderShape)->cleanup();return;
- }
-}
+
 void *Rva000A91D3AptAlloc(unsigned int bytes);
 
 void Rva000A91D8AptFree(void *memory);
