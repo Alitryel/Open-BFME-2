@@ -35,7 +35,8 @@ public:
 	int m_0C;
 };
 
-extern int g_s4HeadRva0059D1F0;
+// Rva001DBAC3Derived.cpp emits the vtable installed at +0.
+extern "C" int __identifier("??_7Rva0035D352@@6B@");
 extern const FieldParse s4TableRva0059D1F0;
 
 struct S4BuiltRva0059D1F0 : public Rva00489210
@@ -45,7 +46,7 @@ struct S4BuiltRva0059D1F0 : public Rva00489210
 
 	S4BuiltRva0059D1F0()
 	{
-		m_00 = &g_s4HeadRva0059D1F0;
+		m_00 = &__identifier("??_7Rva0035D352@@6B@");
 		m_10 = 0;
 		m_14 = 0x1e;
 		m_18 = 1;

@@ -1,17 +1,6 @@
 // cl: -DNDEBUG -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/Common
-//
-// Near-twin of Rva0059EE10AttackNuggetFactory.cpp (retail 0x0059EE10, 135B):
-// same S4_PARSE_WITH_FIELDS shape (allocate, call the matched base
-// constructor through the ILT thunk pinned as
-// ??0BfmeAttackNuggetBase@@QAE@XZ at 0x0001B522, then override fields), but
-// this instance carries a TWO-WORD TAIL (m_10, m_14) beyond the base's own
-// +0x0C, re-installs +0 with its own address (a richer vtable-shaped
-// constant, see tools/vtable_lookup.py 0x0110CC98) instead of leaving the
-// base's default, and re-reads the tail word back into +4 AFTER
-// initFromINI() runs (the parse can rewrite +0x14, and +0x04 is kept in
-// sync with it). Class re-declared locally per file policy; identity of the
-// derived struct, its vtable-shaped global and the field table is not
-// recovered.
+// TextOnFrameTransition factory: parse the shared frame fields, then
+// synchronize the transition length with its end frame.
 
 struct FieldParse;
 
@@ -26,42 +15,40 @@ struct Gen_00489270
 	void m(int a);
 };
 
-class Rva001DBAA4 { public: Rva001DBAA4(); };
-class Rva00489210
+class Rva001DBAA4
 {
 public:
-	// Construction is the rowed ??0Rva001DBAA4, reached by a qualified call.
-	__declspec(dllimport) __forceinline Rva00489210() { ((Rva001DBAA4 *)this)->Rva001DBAA4::Rva001DBAA4(); }
-	int *m_00;
-	int m_04;
-	char m_08, m_09, m_0A;
-	int m_0C;
+	virtual ~Rva001DBAA4();
+	Rva001DBAA4();
+	int m_4;
+	bool m_8, m_9, m_A;
+	unsigned char m_pad0B;
+	int m_C;
 };
 
-extern int g_s4HeadRva005A01F0;
-extern const FieldParse s4TableRva005A01F0;
+extern const FieldParse CountUpTransitionFields[];
 
-struct S4BuiltRva005A01F0 : public Rva00489210
+class TextOnFrameTransition : public Rva001DBAA4
 {
-	int m_10, m_14;
+public:
+	virtual ~TextOnFrameTransition();
+	virtual void init(class GameWindow *win);
+	virtual void update(int frame);
+	virtual void reverse();
+	virtual void draw();
+	virtual void skip();
+	TextOnFrameTransition();
 
-	S4BuiltRva005A01F0()
-	{
-		m_00 = &g_s4HeadRva005A01F0;
-		m_10 = 0;
-		m_14 = 0x1e;
-		m_04 = 0x1e;
-		m_0C = 0;
-		m_09 = 1;
-	}
+	int m_startFrame;
+	int m_endFrame;
 };
 
 void s4ParseFieldsRva005A01F0(INI *ini, Gen_00489270 *sink)
 {
-	S4BuiltRva005A01F0 *t = new S4BuiltRva005A01F0;
+	TextOnFrameTransition *t = new TextOnFrameTransition;
 
-	ini->initFromINI(t, &s4TableRva005A01F0);
-	t->m_04 = t->m_14;
+	ini->initFromINI(t, CountUpTransitionFields);
+	t->m_4 = t->m_endFrame;
 
 	sink->m((int)t);
 }
