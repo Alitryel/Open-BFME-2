@@ -82,9 +82,10 @@ namespace _STL { template <> void vector<unsigned short,allocator<unsigned short
 // Suppress this TU's non-retail copy of ??1?$_Vector_base@GV?$allocator@G@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Vector_base<unsigned short,allocator<unsigned short> >::~_Vector_base(); }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@H@_STL@@@_STL@@QBEXPAU?$_Rb_tree_node@H@2@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void allocator<_Rb_tree_node<int> >::deallocate(_Rb_tree_node<int> *,unsigned int) const; }
+// Keep the int-node deallocate inline, as W3DTaint.cpp and W3DShroudCtor_W3DShroud.cpp
+// do, so this unit emits no copy of it and its set<int> erase/destructor copies match
+// theirs. dllimport + forceinline: no __imp_ remains.
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<_Rb_tree_node<int> >::deallocate(_Rb_tree_node<int> *p,size_t n)const { _STLP_ASSERT((p==0)==(n==0)) if(p) ::free((void*)p); } }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *,unsigned int) const; }
