@@ -91,7 +91,7 @@ struct BfmePod32 { char m[32]; BfmePod32(const BfmePod32 &); ~BfmePod32(); };
 // have the same STLport pointer/header layout and native payload width as
 // the constructor views above; their established call bindings stay intact.
 struct Gen_p64cd;
-struct Rva000B419E;
+struct Rva000BDBFARecord;
 
 // Native default construction zeros the same76-byte storage through the
 // rowed opaque bulk-zero constructor0x42526. Its copy uses the existing
@@ -189,8 +189,8 @@ BfmePod248 &BfmePod248::operator=(const BfmePod248 &rhs)
 		m_at60 = rhs.m_at60;
 		m_at9D = rhs.m_at9D;
 		m_s6C = rhs.m_s6C;
-		reinterpret_cast<_STL::list<Rva000B419E> &>(m_list) =
-			reinterpret_cast<const _STL::list<Rva000B419E> &>(rhs.m_list);
+		reinterpret_cast<_STL::list<Rva000BDBFARecord> &>(m_list) =
+			reinterpret_cast<const _STL::list<Rva000BDBFARecord> &>(rhs.m_list);
 		m_at70 = rhs.m_at70;
 		m_map = rhs.m_map;
 		m_v78 = rhs.m_v78;
