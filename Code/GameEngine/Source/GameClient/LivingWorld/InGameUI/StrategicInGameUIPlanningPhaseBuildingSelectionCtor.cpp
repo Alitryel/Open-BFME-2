@@ -268,6 +268,10 @@ extern "C" void _ReadWriteBarrier(void);
 namespace _STL { void __cdecl free(void *); }
 #include <vector>
 #include <map>
+// Keep the inlined STLport __malloc_alloc<0>::deallocate without emitting an
+// optimised out-of-line copy that would shadow retail's /Od body at 0x23A70
+// (STLMallocAlloc0Deallocate.cpp).
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }

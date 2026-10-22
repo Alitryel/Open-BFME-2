@@ -18,6 +18,10 @@ namespace _STL { template <> void *__malloc_alloc<0>::allocate(size_t); }
 #define COORD3D_VIEW_INLINE
 #include "Coord3DCtorView.h"
 #include <math.h>
+// Keep the inlined STLport __malloc_alloc<0>::deallocate without emitting an
+// optimised out-of-line copy that would shadow retail's /Od body at 0x23A70
+// (STLMallocAlloc0Deallocate.cpp).
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 // coord3d.cpp's Coord3D::length (0x00003571) and ::normalize (0x000035B6), visible here
 // so cl knows they keep no pointer to the direction vector (as AIAttackApproachComputePath.cpp).
 __declspec(noinline) inline float Coord3D::length() const

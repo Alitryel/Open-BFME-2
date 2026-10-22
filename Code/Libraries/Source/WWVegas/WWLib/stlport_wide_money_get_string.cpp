@@ -131,6 +131,10 @@ basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::_M_assign_disp
 }
 }
 #include <locale>
+// Keep the inlined STLport __malloc_alloc<0>::deallocate without emitting an
+// optimised out-of-line copy that would shadow retail's /Od body at 0x23A70
+// (STLMallocAlloc0Deallocate.cpp).
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 
 namespace _STL {
 template<> class basic_streambuf<wchar_t, char_traits<wchar_t> > {

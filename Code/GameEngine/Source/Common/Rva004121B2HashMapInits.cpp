@@ -31,6 +31,10 @@ namespace _STL {
 template <> bool less<unsigned int>::operator()(const unsigned int &a, const unsigned int &b) const;
 }
 #include <cstddef>
+// Keep the inlined STLport __malloc_alloc<0>::deallocate without emitting an
+// optimised out-of-line copy that would shadow retail's /Od body at 0x23A70
+// (STLMallocAlloc0Deallocate.cpp).
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 // bfme link decl-only begin
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }

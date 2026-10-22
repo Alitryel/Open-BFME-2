@@ -6671,6 +6671,9 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
 #include <map>
 #include <set>
 #include <deque>
+// Keep less<int>::operator() inlined without emitting an optimised out-of-line
+// copy that would shadow the retail-proven one other units supply.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &__x, const int &__y) const { return __x < __y; } }
 // Suppress this TU's non-retail copy of ??$copy_backward@PAPAPAXPAPAPAX@_STL@@YAPAPAPAXPAPAPAX00@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void * * * copy_backward<void * * *,void * * *>(void * * *,void * * *,void * * *); }

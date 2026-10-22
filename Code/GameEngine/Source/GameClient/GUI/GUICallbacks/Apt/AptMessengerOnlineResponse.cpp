@@ -36,6 +36,10 @@ template <typename T> __forceinline void StringBase<T>::concat(T c)
 }
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Keep the inlined STLport __malloc_alloc<0>::deallocate without emitting an
+// optimised out-of-line copy that would shadow retail's /Od body at 0x23A70
+// (STLMallocAlloc0Deallocate.cpp).
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 
 typedef int Int;
 typedef bool Bool;
