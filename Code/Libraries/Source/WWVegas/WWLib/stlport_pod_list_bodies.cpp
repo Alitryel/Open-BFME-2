@@ -80,6 +80,8 @@ struct BfmePod264 { BfmePod264(const BfmePod264 &); virtual ~BfmePod264(); int a
 namespace _STL { template <> void _Construct<BfmePod264, BfmePod264>(BfmePod264 *, BfmePod264 const &); }
 inline bool operator==(const BfmePod264 &x, const BfmePod264 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod264 &x, const BfmePod264 &y) { return x.a[0] < y.a[0]; }
+// push_back calls retail's 37-byte insert (0x00289ED7, stlport_list_pod264_insert.cpp) out of line; bind it there.
+namespace _STL { template <> list<BfmePod264>::iterator list<BfmePod264>::insert(iterator, const BfmePod264 &); }
 struct BfmeShortPod22 { short a[11]; };
 inline bool operator==(const BfmeShortPod22 &x, const BfmeShortPod22 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmeShortPod22 &x, const BfmeShortPod22 &y) { return x.a[0] < y.a[0]; }
@@ -100,6 +102,7 @@ template class _STL::list<BfmePod196, _STL::allocator<BfmePod196 > >;
 // Blanket instantiation also emitted unsupported comparisons and POD copies.
 template _STL::list<BfmePod264>::list(const _STL::list<BfmePod264> &);
 template void _STL::list<BfmePod264>::push_back(const BfmePod264 &);
+template _STL::list<BfmePod264>::_Node *_STL::list<BfmePod264>::_M_create_node(const BfmePod264 &);
 template _STL::_List_base<BfmePod264, _STL::allocator<BfmePod264> >::~_List_base();
 template class _STL::list<BfmeShortPod22, _STL::allocator<BfmeShortPod22 > >;
 template class _STL::list<BfmeShortPod26, _STL::allocator<BfmeShortPod26 > >;

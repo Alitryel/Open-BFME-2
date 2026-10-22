@@ -53,6 +53,9 @@ namespace _STL { template <> Rva0007BB16Record *__uninitialized_copy<Rva0007BB16
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0007BB16Record;
 namespace _STL { template <> void vector<Rva0007BB16Record, allocator<Rva0007BB16Record> >::_M_insert_overflow(Rva0007BB16Record *, const Rva0007BB16Record &, const __false_type &, size_t, bool); }
+// reserve (retail 0x0015239D, StlportVectorGrowthFootprints.cpp) is called out of line; declaring it
+// keeps this TU from emitting its non-retail _M_allocate_and_copy copy, so retail's (0x00151DCB) serves the link.
+namespace _STL { template <> void vector<Rva0007BB16Record, allocator<Rva0007BB16Record> >::reserve(size_t); }
 
 typedef unsigned int UINT;
 typedef unsigned long DWORD;

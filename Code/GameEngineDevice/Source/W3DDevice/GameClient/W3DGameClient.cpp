@@ -68,7 +68,7 @@ public:
 	virtual void updateIniSettings();
 
 private:
-	unsigned char m_retailData[ 0x60 ];
+	unsigned char m_retailData[ 0x6c ];
 };
 
 #define _W3DSNOW_H_
@@ -84,11 +84,12 @@ public:
 	virtual void updateIniSettings();
 
 private:
-	unsigned char m_retailData[ 0x34 ];
+	unsigned char m_retailData[ 0x3c ];
 };
 
-typedef char BFMERetailSnowManagerSizeCheck[ sizeof( SnowManager ) == 0x68 ? 1 : -1 ];
-typedef char BFMERetailW3DSnowManagerSizeCheck[ sizeof( W3DSnowManager ) == 0x9c ? 1 : -1 ];
+// Retail extents 0x74/0xB0: createSnowManager's operator new (0x0004C5F8, matched) pushes 0xB0.
+typedef char BFMERetailSnowManagerSizeCheck[ sizeof( SnowManager ) == 0x74 ? 1 : -1 ];
+typedef char BFMERetailW3DSnowManagerSizeCheck[ sizeof( W3DSnowManager ) == 0xb0 ? 1 : -1 ];
 
 #define __TERRAINVISUAL_H_
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/TerrainVisual.h

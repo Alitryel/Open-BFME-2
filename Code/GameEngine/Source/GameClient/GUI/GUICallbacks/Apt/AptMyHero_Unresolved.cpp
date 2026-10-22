@@ -271,10 +271,10 @@ class Keyboard {public:bool rva00232643(unsigned char);};
 extern Keyboard *TheKeyboard;
 extern int BfmeLogicFramesPerSecond;
 class Rva005B02B5 {public:void rva005B0249();void rva005B027F();void rva005B02B5();void rva005B02FD();};
-class Rva001DBAA4 {public:void unlock();};
-class Rva001DBAA4L {public:void lock();};
+// Same lock/unlock view as Rva0023C565Lock.cpp, so this unit's select-any ctor copy is retail's.
+class Rva001DBAA4 {public:void lock();void unlock();};
 class Rva0023C565 {
-public: Rva0023C565(){if(TheTransitionHandler)reinterpret_cast<Rva001DBAA4L *>(TheTransitionHandler)->lock();}
+public: Rva0023C565(){if(TheTransitionHandler)reinterpret_cast<Rva001DBAA4 *>(TheTransitionHandler)->lock();}
  __forceinline ~Rva0023C565(){if(TheTransitionHandler)reinterpret_cast<Rva001DBAA4 *>(TheTransitionHandler)->unlock();}
 };
 void AptMyHero::FrameUpdate() {
