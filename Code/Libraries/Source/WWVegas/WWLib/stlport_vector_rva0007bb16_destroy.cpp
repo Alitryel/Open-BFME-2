@@ -55,9 +55,10 @@ template<> vector<Rva0007BB16Record> &vector<Rva0007BB16Record>::operator=(const
 
 template void _STL::vector<Rva0007BB16Record>::_M_clear();
 
-// Whole-class instantiation: its members that are rowed were placed at retail
-// by masked search of this TU's emitted bodies plus REL32 callee agreement.
-template class _STL::vector<Rva0007BB16Record,_STL::allocator<Rva0007BB16Record> >;
+// Only this unit's rowed members; the rest of vector<Rva0007BB16Record> has
+// other retail owners (StlportVectorGrowthFootprints.cpp, Rva0015229CEraseRange.cpp, ...).
+template Rva0007BB16Record *_STL::uninitialized_fill_n<Rva0007BB16Record *, unsigned int, Rva0007BB16Record>(Rva0007BB16Record *, unsigned int, const Rva0007BB16Record &);
+template void _STL::_Construct<Rva0007BB16Record, Rva0007BB16Record>(Rva0007BB16Record *, const Rva0007BB16Record &);
 
 // ??$_Destroy over Rva0007BB16Record* is a header inline in STLport: other
 // units emit select-any copies of it, so a strong definition here was a
