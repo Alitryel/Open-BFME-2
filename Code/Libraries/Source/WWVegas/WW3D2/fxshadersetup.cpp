@@ -262,6 +262,10 @@ vector<Rva0007BB16Record>::erase(Rva0007BB16Record *first, Rva0007BB16Record *la
 { return ((Rva0015229CVector *)this)->EraseRange(first, last); }
 }
 
+// resize(n) is the rowed 0x00152DC6 body, which owns the 36-byte record's
+// default value; call it there rather than instantiate a local copy.
+class Rva00152BDBVector { public: void resize(unsigned); };
+
 // Preserve STLport's resize operations without another out-of-line copy.
 namespace _STL {
 template <> __declspec(dllimport) __forceinline void
@@ -729,7 +733,7 @@ bool FXShaderSetup::Load_W3D(ChunkLoadClass &cload)
 	FXShaderParameterVector parameters;
 	parameters.reserve(8);
 	while (cload.Open_Chunk()) {
-		parameters.resize(parameters.size() + 1);
+		((Rva00152BDBVector &)parameters).resize(parameters.size() + 1);
 		if (!((FXShader::Parameter &)parameters.back()).Load_W3D(&cload))
 			return false;
 		cload.Close_Chunk();
