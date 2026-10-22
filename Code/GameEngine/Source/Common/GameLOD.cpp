@@ -552,39 +552,6 @@ void GameLODManager::applyStaticLODLevel(StaticGameLODLevel level)
 
 }
 
-/**Parse a description of all the LOD settings for a given detail level*/
-// ?parseDynamicGameLODDefinition@INI@@SAXPAV1@@Z
-// Same shape as the static variant. m_dynamicGameLODInfo is at +0x120 in
-// GameLODManager with a 16-byte stride: retail computes the element address as
-// (index + 0x12) << 4 added to TheGameLODManager, which is index*16 + 0x120.
-// Offsets in the table are the ones retail's own table at 0x01076890 carries.
-static const FieldParse TheBFMEDynamicGameLODFieldParseTable[] =
-{
-	{ "MinimumFPS",			INI::parseInt,	NULL,	0x00 },
-	{ "ParticleSkipMask",	INI::parseInt,	NULL,	0x04 },
-	{ "DebrisSkipMask",		INI::parseInt,	NULL,	0x08 },
-	{ "SlowDeathScale",		INI::parseReal,	NULL,	0x0c },
-	{ 0, 0, 0, 0 }
-};
-
-// ?parseDynamicGameLODDefinition@INI@@SAXPAV1@@Z present-unmatched
-void INI::parseDynamicGameLODDefinition( INI* ini )
-{
-	AsciiString name;
-
-	name = ini->getNextToken();
-
-	if( TheGameLODManager )
-	{
-		Int index = TheGameLODManager->getDynamicGameLODIndex( name );
-		if( index != DYNAMIC_GAME_LOD_UNKNOWN )
-		{
-			void *lodInfo = (char *)TheGameLODManager + index * 16 + 0x120;
-			ini->initFromINI( lodInfo, TheBFMEDynamicGameLODFieldParseTable );
-		}
-	}
-}
-
 /**Parse an LOD level*/
 void INI::parseDynamicGameLODLevel( INI* ini, void * , void *store, const void*)
 {
@@ -596,42 +563,6 @@ void INI::parseDynamicGameLODLevel( INI* ini, void * , void *store, const void*)
 		}
 
 	throw INIException( 3, "invalid GameLODLevel token %s -- expected LOW/MEDIUM/HIGH", tok );
-}
-
-/**Convert LOD name to an index*/
-struct RetailLODStringHeader
-{
-	Int references;
-	unsigned short length;
-	unsigned short capacity;
-	char data[1];
-};
-
-static __forceinline Int compareLODNameNoCase(const AsciiString &name, const char *lodName)
-{
-	static const char emptyString = 0;
-	Int lodNameLength = lodName ? strlen(lodName) : 0;
-	RetailLODStringHeader *header =
-		*reinterpret_cast<RetailLODStringHeader *const *>(&name);
-	Int nameLength = header ? header->length : 0;
-	const char *nameText = header ? header->data : &emptyString;
-	Int compareLength = nameLength < lodNameLength ? nameLength : lodNameLength;
-	Int result = _memicmp(nameText, lodName, compareLength);
-	return result == 0 ? nameLength - lodNameLength : result;
-}
-
-// ?getDynamicGameLODIndex@GameLODManager@@QAEHVAsciiString@@@Z present-unmatched
-Int GameLODManager::getDynamicGameLODIndex(AsciiString name)
-{
-	for (Int i=0; i<DYNAMIC_GAME_LOD_COUNT; ++i)
-	{
-		const char *lodName = DynamicGameLODNames[i];
-		if (compareLODNameNoCase(name, lodName) == 0)
-			return i;
-	}
-
-	DEBUG_CRASH(( "GameLODManager::getGameLODIndex - Invalid LOD name '%s'\n", name.str() ));
-	return STATIC_GAME_LOD_UNKNOWN;
 }
 
 const char *GameLODManager::getDynamicGameLODLevelName(DynamicGameLODLevel level)
