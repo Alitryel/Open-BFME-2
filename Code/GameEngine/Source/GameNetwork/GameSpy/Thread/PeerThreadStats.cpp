@@ -42,18 +42,8 @@ class PeerThreadClass {
 public: void trackStatsForPlayer(RoomType roomType, const char *nick, const char *key, const char *val);
 private: std::string packStatKey(const char *nick, const char *key);
 };
-std::string PeerThreadClass::packStatKey(const char *nick, const char *key) {
-    std::string s = nick;
-    s.append(key);
-    return s;
-}
-void PeerThreadClass::trackStatsForPlayer(RoomType roomType, const char *nick, const char *key, const char *val) {
-    BfmePeerStats *state = reinterpret_cast<BfmePeerStats *>(this);
-    switch (roomType) {
-    case 1: state->group[packStatKey(nick, key)] = atoi(val); break;
-    case 2: state->staging[packStatKey(nick, key)] = atoi(val); break;
-    }
-}
+
+
 
 class GameLogic;
 extern GameLogic *TheGameLogic;
