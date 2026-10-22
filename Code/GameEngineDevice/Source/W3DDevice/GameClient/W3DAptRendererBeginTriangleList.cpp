@@ -24,7 +24,8 @@ struct BFME2TextureResource;
 struct BFME2TextureRef { BFME2TextureResource* Ptr; };
 void BFME2Set_Texture(unsigned,const BFME2TextureRef&);
 extern Matrix4 BFME2World;
-class DX8Wrapper { public: static unsigned render_state_changed; static void bfmeRva00120650(unsigned,unsigned); static bool Has_Stencil(); static void Set_DX8_Render_State(unsigned long,unsigned); static void Set_Shader(const ShaderClass&); };
+// render_state_changed is protected in dx8wrapper.h (mangled @@1IA, as dx8wrapper.cpp defines it).
+class DX8Wrapper { friend class W3DAptRenderer; protected: static unsigned render_state_changed; public: static void bfmeRva00120650(unsigned,unsigned); static bool Has_Stencil(); static void Set_DX8_Render_State(unsigned long,unsigned); static void Set_Shader(const ShaderClass&); };
 struct BfmeAptVertexFormat { char unknown[12]; int vertexSize; };
 struct BfmeAptVertexBufferInterface {
  virtual void slot0()=0; virtual void slot1()=0; virtual void slot2()=0;
