@@ -44,6 +44,7 @@ class HordeContain
 {
 public:
 	virtual ~HordeContain();
+	virtual void rva00470DC1();
 };
 
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
@@ -76,6 +77,10 @@ class AODHordeContain : public HordeContain
 {
 public:
 	virtual ~AODHordeContain();
+	// Same virtual list as AODHordeContainCtor.cpp, so both units emit the same vftables.
+	virtual void f00();
+	virtual void f20();
+	virtual void f11C();
 
 private:
 	_STL::vector<BfmeE16> m_vector;
