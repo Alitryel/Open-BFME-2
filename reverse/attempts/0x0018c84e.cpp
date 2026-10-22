@@ -1,38 +1,20 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
-// partial score=0.996 date=2026-10-20
+// partial score=0.9961423060437206 date=2026-10-22
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
-// partial score=0.995 date=2026-10-20
-// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
-// partial score=0.99 date=2026-10-19
-// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
-// partial score=0.986 date=2026-10-18
-// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
-// partial score=0.986 date=2026-10-17
-// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
-// partial score=0.9935589632 date=2026-10-15
-// W7-D1 r10 checkpoint: whole 2333B body; raw instruction diff12; EH EXACT.
-// The former bank's dummy assign is replaced by the real 169B provider from
-// Code/GameEngine/Source/Common/Rva0018C705AllocateCopy.cpp at 646a9870ce19118752904649d4ffac99cb9677e9.
-// Visible vector-base/alloc-proxy constructors implement the vendored STLport
-// initialization; same-object full29B/11B and the base's proxy relocation equal
-// retail211E58 and its actual callee. Their short instantiation still needs
-// ordinary fold admission before landing this parent; no pins were invented.
-// Target frame10C and every slot are restored by one padding byte on the
-// inline IndexBuffer WriteLock wrapper. The nested dead AsciiString scope
-// after the VB lock reproduces the retail null-action EH state5.
-// Remaining: normal-X pointer-load order; 2-bone remap load/allocation order;
-// four SIB base/index orders. No nonmatching Code edit is retained.
-// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
-// partial score=0.95 date=2026-10-14
 // cl: /I. /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
-// 0x0018C84E bank 2026-10-19 (claude-opus-5-5): hack-free, EH EXACT, 2333/2333, 10 instruction diffs +
-// one unresolved call. The old dead `if(0){AsciiString...}` EH hack is replaced by the real inline
-// MeshMatDescClass::Get_Color_Array(0,false) (meshmatdesc.h; WB pushes 0,0), whose dead new gives
-// retail's no-action state 5. Unresolved: 0x211E58 is the short remap vector's _Vector_base ctor
-// (movsx proves short); ~90 names fold there but none for short, and a fold-proof pin is blocked by
-// the short alloc proxy pinned at 0x7410 vs 0x14F3C4 (ledger repair). Left: strength-reduced loop
-// operand orders (normal-X loads, links[1] before links[0], four movzx/fld base/index orders).
-// Home: FXShaderGeometry.cpp (needs /EHsc; 0x18C131 stays exact). Scratch: build/nbr/r10/18c84e/.
+// FXShaderGeometry::Init, 0x0018C84E..0x0018D16B, bank reverified 2026-10-22.
+// Whole 2333-byte body; 9 differing bytes in 7 instructions at +0x707..+0x721.
+// EH EXACT; all calls resolve after the signed-short STL family repair.
+// Machine code unchanged from the 2026-10-20 bank. Score=0.9961423060.
+// Remaining: the two-bone remap block's EAX/ECX assignment and load order.
+// Read reverse/attempt_support/fxinit-schedule-20261022/readme.md before retrying.
+// WB A39110 supports the P/N copies INSIDE the two-bone arm, after weights;
+// A3A22C/A3A251 are tangent/binormal copies, not those P/N copies.
+// The old dead AsciiString EH scope is gone: the real inline MeshMatDescClass
+// Get_Color_Array creates retail's no-action state. The short _Vector_base
+// and alloc-proxy constructors now have real matching providers.
+// Provenance and eventual home/link preparation remain documented in
+// reverse/attempt_support/fxinit-wbinline-20261020/readme.md.
 // Native18C131..18C262 RET16. Original helper name unknown. FXShaderGeometry::Init supplies this + four
 // stack arguments: effect, technique handle, FVF output and basis flag.
 // D3DXGetShaderInputSemantics is the owned stdcall12 PE thunk 62AFC2.
@@ -58,7 +40,7 @@ public:
  virtual void slot20();virtual void slot21();virtual void slot22();virtual void slot23();virtual void slot24();virtual void slot25();virtual void slot26();
  virtual long __stdcall GetInt(void *,int *);
 };
-// Init 18C84E..18D169 support views. Field offsets come from Init's own accesses.
+// Init 18C84E..18D16B support views. Field offsets come from Init's own accesses.
 #include <string.h>
 #include "reference/shims/bfme2_ascii/ascii_string.h"
 #include "reference/shims/wwmath/Vector2.h"
