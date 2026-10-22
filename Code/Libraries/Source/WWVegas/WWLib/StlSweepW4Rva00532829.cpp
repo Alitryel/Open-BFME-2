@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva00532829Element { char bytes[1]; bool operator<(const Rva00532829Element&)const; bool operator==(const Rva00532829Element&)const; };
+struct Rva00532829Element { unsigned short key; short pad; bool operator<(const Rva00532829Element&b)const{return key<b.key;} bool operator==(const Rva00532829Element&)const; };
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva00532829Element * _STL::lower_bound<Rva00532829Element *, Rva00532829Element, _STL::less<Rva00532829Element> >(Rva00532829Element *, Rva00532829Element *, Rva00532829Element const &, _STL::less<Rva00532829Element>);

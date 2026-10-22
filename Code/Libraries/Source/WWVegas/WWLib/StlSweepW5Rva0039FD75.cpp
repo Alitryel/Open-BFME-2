@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <map>
 
-struct Rva0039FD75Element { short words[1]; bool operator<(const Rva0039FD75Element&b)const { return words[0]<b.words[0]; } bool operator==(const Rva0039FD75Element&b)const {return words[0]==b.words[0];} };
+struct Rva0039FD75Element { short words[4]; bool operator<(const Rva0039FD75Element&b)const { return words[0]<b.words[0]; } bool operator==(const Rva0039FD75Element&b)const {return words[0]==b.words[0];} };
 
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::_Rb_tree_node<_STL::pair<Rva0039FD75Element const, int> > * _STL::_Rb_tree<Rva0039FD75Element, _STL::pair<Rva0039FD75Element const, int>, _STL::_Select1st<_STL::pair<Rva0039FD75Element const, int> >, _STL::less<Rva0039FD75Element>, _STL::allocator<_STL::pair<Rva0039FD75Element const, int> > >::_M_clone_node(_STL::_Rb_tree_node<_STL::pair<Rva0039FD75Element const, int> > *);

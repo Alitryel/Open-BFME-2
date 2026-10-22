@@ -4,7 +4,7 @@
 // stlport
 #include <deque>
 
-struct Rva0054A461Element { char bytes[1]; bool operator<(const Rva0054A461Element&)const; bool operator==(const Rva0054A461Element&)const; };
+struct Rva0054A461Element { char bytes[8]; bool operator<(const Rva0054A461Element&)const; bool operator==(const Rva0054A461Element&)const; };
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::__destroy_aux<_STL::_Deque_iterator<Rva0054A461Element, _STL::_Nonconst_traits<Rva0054A461Element> > >(_STL::_Deque_iterator<Rva0054A461Element, _STL::_Nonconst_traits<Rva0054A461Element> >, _STL::_Deque_iterator<Rva0054A461Element, _STL::_Nonconst_traits<Rva0054A461Element> >, _STL::__false_type const &);
