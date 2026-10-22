@@ -14,7 +14,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct TargetRef00217D4C { virtual void*destroy(unsigned); int references; };
 struct Rva005F8F96 { ~Rva005F8F96(); TargetRef00217D4C *m_00; int m_04; };
 struct Rva00153729 {
- Rva00153729(); Rva00153729(const Rva00153729&); Rva00153729&operator=(const Rva00153729&);
+ Rva00153729(); Rva00153729(const Rva00153729&);
  // ?Rva00153729::~Rva00153729 present-unmatched
  ~Rva00153729() {}
  int key;

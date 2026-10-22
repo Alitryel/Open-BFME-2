@@ -39,11 +39,13 @@ public:
 
 typedef MixFileCreator::FileInfoStruct FileInfoStruct;
 
+// Use the rowed growth specialization at 0x00218B20.
+namespace _STL { template <> void vector<FileInfoStruct>::_M_insert_overflow(FileInfoStruct *, const FileInfoStruct &, const __false_type &, size_t, bool); }
+
 void Rva0021781DConstruct(FileInfoStruct *, const FileInfoStruct &);
 
 
-// Retail passes a __false_type prvalue as the tag; MSVC 7.1 /O1 materialises
-// it in the dead padding of __x's argument slot ([ebp+0x0b]).
+// The empty dispatch tag carries no state and needs no initialization.
 namespace _STL
 {
 template <>
@@ -56,7 +58,8 @@ void vector<FileInfoStruct>::push_back(const FileInfoStruct &__x)
 	}
 	else
 	{
-		this->_M_insert_overflow(_M_finish, __x, __false_type(), 1, true);
+		__false_type tag;
+		this->_M_insert_overflow(_M_finish, __x, tag, 1, true);
 	}
 }
 

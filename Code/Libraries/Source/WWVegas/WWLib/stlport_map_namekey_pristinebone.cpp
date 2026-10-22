@@ -52,6 +52,13 @@ struct PristineBoneInfo
 
 typedef _STL::map<NameKeyType, PristineBoneInfo> PristineBoneMap;
 typedef _STL::_Rb_tree<NameKeyType, PristineBoneMap::value_type, _STL::_Select1st<PristineBoneMap::value_type>, _STL::less<NameKeyType>, PristineBoneMap::allocator_type> PristineBoneTree;
+// Use the rowed placement helper and leave unused searches uninstantiated.
+namespace _STL {
+template <> void _Construct<PristineBoneMap::value_type, PristineBoneMap::value_type>(PristineBoneMap::value_type *, const PristineBoneMap::value_type &);
+template <> PristineBoneMap::iterator PristineBoneMap::find(const NameKeyType &);
+template <> PristineBoneMap::const_iterator PristineBoneMap::find(const NameKeyType &) const;
+template <> PristineBoneMap::size_type PristineBoneMap::count(const NameKeyType &) const;
+}
 // Retail's _M_copy is the no-EH copy (rowed 0x000BC2DE in
 // stlport_map_namekey_pristinebone_copy.cpp) that the copy constructor and
 // assignment here call; suppress this /EHsc unit's own instantiation and keep

@@ -18,15 +18,21 @@ public:
 class Rva004079D5
 {
 public:
-	char rva004079D5(int tmp, int *out);
+	__declspec(noinline) char rva004079D5(int tmp, int *out);
 private:
 	char m_pad00[0x74];
 	Rva004079D5Sub74 m_74;
 };
 
-char Rva004079D5::rva004079D5(int tmp, int *out)
+inline char Rva004079D5::rva004079D5(int tmp, int *out)
 {
 	int v = m_74.rva00388E63(&tmp);
 	*out = v;
 	return v != m_74.m_0;
+}
+
+// ?bfmeBlingLookupAnchor absent-from-retail
+char bfmeBlingLookupAnchor(Rva004079D5 *hero, int key, int *out)
+{
+	return hero->rva004079D5(key, out);
 }

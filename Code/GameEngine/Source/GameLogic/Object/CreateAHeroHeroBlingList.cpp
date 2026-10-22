@@ -54,7 +54,6 @@ public:
 	{
 	public:
 		void *GetBlingGroupNameKey(UnsignedInt index);			// 0x0021AD5D
-		Int rva0021BC2C(Int groupKey) const;				// 0x0021BC2C, the group's bling count
 		UnsignedInt GetBlingIndex(Int groupKey, UnsignedInt index);	// 0x0021BCEA
 		char m_pad00[0x28];
 		UnsignedInt m_blingGroupCount;					// +0x28
@@ -63,6 +62,12 @@ public:
 	Bool FindBlingByUpgradeName(const AsciiString &upgradeName, Int *blingId, Int *groupKey);
 };
 extern CreateAHeroManager *TheCreateAHeroManager;
+
+class Rva0021BC2C
+{
+public:
+	Int rva0021BC2C(Int groupKey);
+};
 
 class CreateAHeroHero;
 class CreateAHeroAward
@@ -144,7 +149,7 @@ void CreateAHeroHero::ConstructHeroBlingList()
 	for (UnsignedInt i = 0; i < subClass->m_blingGroupCount; ++i)
 	{
 		blingGroupKey = (Int)subClass->GetBlingGroupNameKey(i);
-		for (UnsignedInt j = 0; j < (UnsignedInt)subClass->rva0021BC2C(blingGroupKey); ++j)
+		for (UnsignedInt j = 0; j < (UnsignedInt)((Rva0021BC2C *)subClass)->rva0021BC2C(blingGroupKey); ++j)
 			m_bling[blingGroupKey].push_back(subClass->GetBlingIndex(blingGroupKey, j));
 	}
 

@@ -25,8 +25,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 // bfme link decl-only begin
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
 namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
@@ -42,7 +40,6 @@ namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); 
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
-namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
 typedef int Int;
@@ -54,6 +51,9 @@ class INI
 public:
 	const char *getNextToken(const char *seps = 0);					// 0x0002DF97
 	void initFromINI(void *what, const FieldParse *parseTable);	// 0x0002DE78
+	static void parseInt(INI *, void *, void *, const void *);
+	static void parseAsciiString(INI *, void *, void *, const void *);
+	static void Rva002F592_ParseArmyPlacementPos(INI *, void *, void *, const void *);
 };
 
 // ArmyPlacementPos elements: the Coord2D INI::Rva002F592_ParseArmyPlacementPos
@@ -148,7 +148,44 @@ public:
 };
 extern LivingWorldLogic *TheLivingWorldLogic;
 
-extern const FieldParse Rva00210A14FieldParseTable[];		// VA 0x00BE4120
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
+
+class LivingWorldRegionManager
+{
+public:
+	static void rva00210620(INI *, void *, void *, const void *);
+};
+
+class LivingWorldRegionBonusRule
+{
+public:
+	static void ParseINI(INI *, void *, void *, const void *);
+};
+
+// Campaign fields at native 0x00BE4120, including its null sentinel.
+extern const FieldParse Rva00210A14FieldParseTable[] =
+{
+	{"Region", LivingWorldRegionManager::rva00210620, 0, 0x00},
+	{"RegionBonusArmy", INI::parseAsciiString, 0, 0x04},
+	{"RegionBonusResource", INI::parseAsciiString, 0, 0x08},
+	{"RegionBonusLegendary", INI::parseAsciiString, 0, 0x0C},
+	{"HeroOnlyArmyCommandPoints", INI::parseInt, 0, 0x10},
+	{"SmallArmyCommandPoints", INI::parseInt, 0, 0x14},
+	{"MediumArmyCommandPoints", INI::parseInt, 0, 0x18},
+	{"ArmyPlacementPos", INI::Rva002F592_ParseArmyPlacementPos, 0, 0x20},
+	{"ArmyRetreatRounds", INI::parseInt, 0, 0x58},
+	{"ArmyCarryoverPoints", INI::parseInt, 0, 0x1C},
+	{"RegionConqueredSound", INI::parseAsciiString, 0, 0x50},
+	{"RegionEffectsManagerName", INI::parseAsciiString, 0, 0x54},
+	{"ConcurrentRegionBonus", LivingWorldRegionBonusRule::ParseINI, 0, 0x00},
+	{0, 0, 0, 0}
+};
 
 void parseLivingWorldRegionCampaignDefinition(INI *ini)
 {

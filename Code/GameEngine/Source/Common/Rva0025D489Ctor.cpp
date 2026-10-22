@@ -291,7 +291,7 @@ public:
 	virtual void v37();
 	virtual void rva0025C14D();
 	virtual void rva0025C18B(Rva0025C18BCoord *a, Rva0025C18BCoord *b);
-	virtual void v40();
+	virtual void rva0025C238();
 	virtual void v41() = 0;
 	virtual void v42() = 0;
 	virtual void v43() = 0;

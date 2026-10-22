@@ -46,6 +46,9 @@ public:
 
 typedef MixFileCreator::FileInfoStruct FileInfoStruct;
 
+// Use the rowed push_back specialization at 0x00218DD2.
+namespace _STL { template <> void vector<FileInfoStruct>::push_back(const FileInfoStruct &); }
+
 class INI
 {
 public:
