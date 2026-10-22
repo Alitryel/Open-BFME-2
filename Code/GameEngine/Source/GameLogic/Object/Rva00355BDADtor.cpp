@@ -6,6 +6,10 @@
 
 #include "Common/Snapshot.h"
 
+// ArmorTemplateMap is the Armor hash_map; its destructor is the hashtable
+// destructor the 0x00355257 gen-alias row stands for (same 57-byte body).
+#pragma comment(linker, "/alternatename:??1ArmorTemplateMap@@QAE@XZ=??1?$hashtable@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@W4NameKeyType@@U?$hash@W4NameKeyType@@@rts@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@U?$equal_to@W4NameKeyType@@@2@V?$allocator@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@@_STL@@QAE@XZ")
+
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
 class SubsystemInterface
 {
