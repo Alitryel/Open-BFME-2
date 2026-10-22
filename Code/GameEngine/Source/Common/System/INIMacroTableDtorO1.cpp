@@ -19,6 +19,10 @@ namespace _STL { template <> void *& vector<void *, allocator<void *> >::operato
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?clear@?$hashtable@U?$pair@$$CBVAsciiString@@V1@@_STL@@VAsciiString@@U?$hash@VAsciiString@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void hashtable<pair<AsciiString const ,AsciiString>,AsciiString,rts::hash<AsciiString>,_Select1st<pair<AsciiString const ,AsciiString> >,equal_to<AsciiString>,allocator<pair<AsciiString const ,AsciiString> > >::clear(); }
 typedef _STL::pair<const AsciiString, AsciiString> MacroPair;
 typedef _STL::hashtable<MacroPair, AsciiString, rts::hash<AsciiString>,
     _STL::_Select1st<MacroPair>, _STL::equal_to<AsciiString>,

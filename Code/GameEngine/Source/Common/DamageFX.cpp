@@ -90,6 +90,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$hash_map@W4NameKeyType@@VDamageFX@@U?$hash@W4NameKeyType@@@rts@@U?$equal_to@W4NameKey:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class DamageFX;
+namespace _STL { template <> hash_map<NameKeyType,DamageFX,rts::hash<NameKeyType>,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,DamageFX> > >::hash_map(); }
 // Suppress this TU's non-retail copy of ??0?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAE@ABV?$allocator@PAX@1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> vector<void *,allocator<void *> >::vector(allocator<void *> const &); }

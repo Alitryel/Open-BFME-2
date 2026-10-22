@@ -123,6 +123,10 @@ private:
 	char m_pad[8];
 };
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree@W4ObjectID@@U?$pair@$$CBW4ObjectID@@H@_STL@@U?$_Select1st@U?$pair@$$CBW4Obje:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> _Rb_tree<ObjectID,pair<ObjectID const ,int>,_Select1st<pair<ObjectID const ,int> >,less<ObjectID>,allocator<pair<ObjectID const ,int> > >::~_Rb_tree(); }
 // Suppress this TU's non-retail copy of ?push_back@?$vector@URva00287F76Element@@V?$allocator@URva00287F76Element@@@_STL@@@_STL@@Q:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00287F76Element;

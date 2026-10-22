@@ -337,6 +337,20 @@ namespace _STL { template <> void advance<unsigned int const *, int>(unsigned in
 namespace _STL { template <> unsigned int hash<char const *>::operator()(char const *) const; }
 namespace _STL { template <> pair<AsciiString const, ThingTemplate *> & hashtable<pair<AsciiString const, ThingTemplate *>, AsciiString, rts::hash<AsciiString>, _Select1st<pair<AsciiString const, ThingTemplate *> >, rts::equal_to<AsciiString>, allocator<pair<AsciiString const, ThingTemplate *> > >::_M_insert(pair<AsciiString const, ThingTemplate *> const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUPrereqUnitRec@ProductionPrerequisite@@@_STL@@YAXPAUPrereqUnitRec@Production:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Destroy<ProductionPrerequisite::PrereqUnitRec *>(ProductionPrerequisite::PrereqUnitRec *,ProductionPrerequisite::PrereqUnitRec *); }
+// Suppress this TU's non-retail copy of ??$_M_find@VAsciiString@@@?$hashtable@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@V:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; class ThingTemplate;
+namespace _STL { template <> template <> _Hashtable_node<pair<AsciiString const ,ThingTemplate *> > * hashtable<pair<AsciiString const ,ThingTemplate *>,AsciiString,rts::hash<AsciiString>,_Select1st<pair<AsciiString const ,ThingTemplate *> >,rts::equal_to<AsciiString>,allocator<pair<AsciiString const ,ThingTemplate *> > >::_M_find<AsciiString>(AsciiString const &) const; }
+// Suppress this TU's non-retail copy of ?_M_insert@?$hashtable@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@VAsciiString@@U?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; class ThingTemplate;
+namespace _STL { template <> pair<AsciiString const ,ThingTemplate *> & hashtable<pair<AsciiString const ,ThingTemplate *>,AsciiString,rts::hash<AsciiString>,_Select1st<pair<AsciiString const ,ThingTemplate *> >,rts::equal_to<AsciiString>,allocator<pair<AsciiString const ,ThingTemplate *> > >::_M_insert(pair<AsciiString const ,ThingTemplate *> const &); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@UPrereqUnitRec@ProductionPrerequisite@@V?$allocator@UPrereqUnitRec@Prod:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<ProductionPrerequisite::PrereqUnitRec,allocator<ProductionPrerequisite::PrereqUnitRec> >::_M_clear(); }
 // Suppress this TU's non-retail copy of ??$_Construct@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@U12@@_STL@@YAXPAU?$pair@$:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString; class ThingTemplate;
