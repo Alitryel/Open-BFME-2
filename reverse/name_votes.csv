@@ -94,3 +94,12 @@ Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.c
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|PartModuleData|m_68,1947f1b3e491c6ca934d4515,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,1b563284351149d694fadcf9,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|local|PartTheHeavensUpdate::rva004AC9FA|t,7466762b78ef83039f1e6f2c,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|class||Rva005E39A6Owner,0d7daa4d5c236313e63031ef,seat-b-sonnet,rn-1022-4-b,w-8b401a32bf45,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|Rva005E39A6Owner|m_map14,f91476de65f7fede652cb71a,seat-b-sonnet,rn-1022-4-b,w-8b401a32bf45,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005E3B1A|rva005E3B1A,f9d3e39fdda5aa9acb604215,seat-b-sonnet,rn-1022-4-b,w-8b401a32bf45,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005E39A6|rva005E39A6,17e7e1380a25a82f149eada6,seat-b-sonnet,rn-1022-4-b,w-8b401a32bf45,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|class||Rva005E3B1AMid,a5e759de1d856378a54787c0,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|class||Rva005F2767Inner,f256caf938f3ff678ae986ef,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|Rva005E39A6Owner|m_map14,c6ab5087f2a3b0b8ff7be05e,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005E3B1A|rva005E3B1A,f9d3e39fdda5aa9acb604215,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005F2767|rva005F2767,4e0a3db8e0e86fae4cbd4b5f,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22

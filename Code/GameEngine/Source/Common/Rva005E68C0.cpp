@@ -3,7 +3,7 @@
 // Same observed fields and existing calls; original class identity unresolved.
 class Rva005F6037ByteChaseField {public:unsigned char get()const;};
 class Rva005F62FE {public:void rva005F62FE(bool);};
-class Rva005E3B1A {public:bool rva005E3B1A(int)const;};
+class Rva005E3B1A {public:bool IsSelected(int)const;};
 class Rva005E508F {public:void rva005E5097(int);void rva005E508F(int);};
 struct Rva005E68C0Entry {int first,second;};
 class Rva0040CC0EIndexedField {public:int get(int)const;char pad0[0x40];Rva005E68C0Entry *first,*last;};
@@ -16,7 +16,7 @@ void Rva005E68C0::rva005E68C0(){
  int count=catalog->last-catalog->first;
  for(int index=0;index<count;++index){
   int item=catalog->get(index);
-  if(item!=selected && !((Rva005E3B1A*)((char*)guard+0xC))->rva005E3B1A(item))
+  if(item!=selected && !((Rva005E3B1A*)((char*)guard+0xC))->IsSelected(item))
    ((Rva005E508F*)((char*)guard+0xC))->rva005E508F(item);
  }
  ((Rva005F62FE*)view)->rva005F62FE(true);

@@ -1512,3 +1512,4 @@ __ehhandler$?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z,0x007677E0,"Renamed to _
 __ehhandler$?rva004E265F@SpawnArmy@@QAE?AVUnicodeString@@H@Z,0x00791C2B,"Renamed to __ehhandler$?GetButtonHelp@SpawnArmy@@QAE?AVUnicodeString@@H@Z by tools/rename.py (canonical:wb)"
 ?rva00567A6E@Rva00525E55@@QAEXH@Z,0x00567A6E,"Renamed to ?SetStance@Rva00525E55@@QAEXH@Z by tools/rename.py (canonical:wb)"
 ?rva0057CA78@Rva0057CA78@@QAEHH@Z,0x0057CA78,"Renamed to ?GetNextSelectablePlayer@Rva0057CA78@@QAEHH@Z by tools/rename.py (canonical:wb)"
+?rva005E3B1A@Rva005E3B1A@@QBE_NH@Z,0x005E3B1A,"Renamed to ?IsSelected@Rva005E3B1A@@QBE_NH@Z by tools/rename.py (inferred)"
