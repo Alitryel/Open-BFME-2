@@ -44,7 +44,22 @@ protected:
 };
 
 // Derived vtable 0x010F5E78: no symbol in dir32_addresses.csv names it.
-extern void *g_010F5E78[];
+// Retail RVA 0x0080747C (.rdata, 8 B) holds two matched code pointers.
+extern "C" {
+void __identifier("??_GRva003B241AOwner@@QAEPAXI@Z")();
+void __identifier("?rva003028F1@Rva003028F1@@UAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z")();
+}
+extern void *g_010F5E78[2] =
+{
+	(void *)&__identifier("??_GRva003B241AOwner@@QAEPAXI@Z"),
+	(void *)&__identifier("?rva003028F1@Rva003028F1@@UAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z"),
+};
+
+// The registration callback is the matched row at RVA 0x0041579E, and the
+// constructor's EH cleanup destroys the base subobject whose matched dtor is
+// the one at RVA 0x003B241A (the class that installs this vtable).
+#pragma comment(linker, "/alternatename:?bfmeChunkParserVE@@YAXXZ=??0Rva0041579E@@QAE@ABV0@@Z")
+#pragma comment(linker, "/alternatename:??1BfmeParserRegistrationVE@@QAE@XZ=??1BfmeParserBindingBaseVE@@UAE@XZ")
 
 class Gen004502D0ParserRegistration : public BfmeParserRegistrationVE
 {
