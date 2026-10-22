@@ -53,3 +53,16 @@ Rva0055F197::~Rva0055F197()
 	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
 	*(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
 }
+
+// Rva003ABC6E's native constructor calls the Rva003AEA42 provider;
+// its complete destructor shares the Snapshot-at-1C/common-head cleanup.
+class __declspec(novtable) Rva003AEA42 : public Rva003AEEB3
+{
+public:
+    virtual ~Rva003AEA42();
+};
+Rva003AEA42::~Rva003AEA42()
+{
+    unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
+    *(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+}

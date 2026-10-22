@@ -1,4 +1,4 @@
-// cl: /MD
+// cl: /MD /Ireference/shims/moduledata
 // Split from ModuleCtorChainsA_Rva003ABAF3.cpp: these definitions reference a callee with no matched body yet,
 // so they are kept apart from the unit's bodies that already link.
 // Split from ModuleCtorChainsA.cpp: these definitions reference a callee with no matched body yet,
@@ -354,7 +354,7 @@ void __identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z")();
 void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
 }
 extern const void *const g_00C1C504[6];
-extern const void *const g_00C1CDBC[];
+
 extern const void *const g_00C1C644[];
 // The retail table at RVA 0x0081C640: 13 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
@@ -420,7 +420,29 @@ struct Rva005641EDInput;
 struct DrawInfo2;
 class Rva005634F7 { public: Rva005634F7(void *a, DrawInfo2 *b); };
 class Rva003AE94E { public: Rva003AE94E(void *a, void *b); };
-class Rva003AEA42 { public: Rva003AEA42(const RvaSmartPtr12 &a, int b); };
+
+class Xfer { public: void Version1(); };
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "Common/Snapshot.h"
+class __declspec(novtable) Rva003AEEB3
+{
+public:
+    virtual ~Rva003AEEB3();
+    virtual void rva000B3FD0() = 0;
+    virtual void *rva003ABC6ESlot2() = 0;
+    virtual void DoXfer(Xfer &) = 0;
+private: char m_unmodelled_04[0x1C - 4];
+};
+class Rva0055B266 { public: virtual void rva0055B266(Xfer *); };
+class __declspec(novtable) Rva003AEA42 : public Rva003AEEB3, public Snapshot
+{
+public:
+    Rva003AEA42(const RvaSmartPtr12 &a, int b);
+    virtual ~Rva003AEA42();
+};
 class Rva003AEF9B { public: Rva003AEF9B(const RvaSmartPtr12 &a, int b); };
 class Rva003AF076 { public: Rva003AF076(const RvaSmartPtr12 &a, const Rva005648FEInput &b); };
 
@@ -632,8 +654,18 @@ public:
 class Rva003ABC6E : public Rva003AEA42
 {
 public:
-	Rva003ABC6E(void *a, void *b);
+    Rva003ABC6E(void *a, void *b);
+    virtual ~Rva003ABC6E();
+    virtual void rva000B3FD0();
+    virtual void LoadPostProcess() {}
+    virtual const char *GetSnapshotName() { return "DefaultModule<CAT_ALPHA>"; }
+    virtual void DoXfer(Xfer &stream);
 };
+void Rva003ABC6E::DoXfer(Xfer &stream)
+{
+    stream.Version1();
+    reinterpret_cast<Rva0055B266 *>((char *)this + 0x1C)->Rva0055B266::rva0055B266(&stream);
+}
 
 Rva003ABC6E::Rva003ABC6E(void *a, void *b)
 	: Rva003AEA42(*(const RvaSmartPtr12 *)a, (int)b)
@@ -641,7 +673,7 @@ Rva003ABC6E::Rva003ABC6E(void *a, void *b)
 	STAMP(0x00, g_00C1C508);
 	STAMP(0x14, g_00C1C504);
 	STAMP(0x18, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
-	STAMP(0x1C, g_00C1CDBC);
+	STAMP(0x1C, __identifier("??_7Rva003ABC6E@@6BSnapshot@@@"));
 }
 
 class Rva003ABE40 : public Rva003AEF9B
@@ -723,7 +755,7 @@ Rva003ACEFCModule::Rva003ACEFCModule(void *a, Rva003AD886Template *b)
 	STAMP(0x00, g_00C1CDCC);
 	STAMP(0x14, g_00C1C504);
 	STAMP(0x18, __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$00@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@"));
-	STAMP(0x1C, g_00C1CDBC);
+	STAMP(0x1C, __identifier("??_7Rva003ABC6E@@6BSnapshot@@@"));
 }
 
 class Rva003AD9BBTemplate;

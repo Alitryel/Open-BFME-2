@@ -1147,3 +1147,20 @@ class __declspec(novtable) Rva003AD19BModule : public Rva003ABA36 {
 public: virtual ~Rva003AD19BModule();
 };
 Rva003AD19BModule::~Rva003AD19BModule() {}
+
+// Native constructor 3ABC6E installs C1CDBC at +1C. Its secondary
+// deleting helper reaches the common 3AD3F7 scalar helper, whose complete
+// destructor reaches the same Snapshot-bearing base cleanup at 3ABC0B.
+class Rva003AEA42
+{
+public:
+    virtual ~Rva003AEA42();
+};
+class __declspec(novtable) Rva003ABC6E : public Rva003AEA42
+{
+public:
+    virtual ~Rva003ABC6E();
+};
+Rva003ABC6E::~Rva003ABC6E()
+{
+}

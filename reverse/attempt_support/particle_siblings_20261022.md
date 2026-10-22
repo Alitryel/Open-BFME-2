@@ -74,3 +74,22 @@ and new eight-byte body); the remaining constructor file links (1,334 to
 1,292 bytes due solely to rehome). TailJumpWrappers5B retains its independently
 confirmed preexisting unresolved Rva0078D310Host destructor; this patch adds
 no such dependency. No fresh census or full link runner was launched.
+
+## 0x003ABCAD alpha sibling
+
+Native constructor 3ABC6E stamps primary C1C508, factory C1C504 and Snapshot
+C1CDBC at +1C. The complete Snapshot table is [3ABCAD, B3FD0, 3ABC9F,
+3ABCA5]. Its full alpha-name literal and all four entries are exact.
+The actual constructor references its emitted Snapshot table; the outer
+3ACEFC constructor uses that same provider. No dummy anchor or weak pin is
+introduced. Scalar3AD3F7 folds the owner's complete destructor into3ACB6F;
+that five-byte body tails to the genuine3AEA42 base cleanup at3ABC0B.
+The new base cleanup companion reproduces the existing22-byte body and
+canonical Snapshot+1C store plus common-head teardown. Seven folded
+companions and the new8-byte adjustor pass normal add_match verification.
+Only the supported Snapshot table is newly emitted; primary/factory tables
+retain their existing raw native providers. Scratch and published-object
+baseline comparisons show no new unresolved dependency: alpha replaces the
+old undefined C1CDBC data name with its generated exact table. Existing
+constructor-unit duplicate/link debt and TailJump's old Host destructor
+remain separate limitations. Existing production flags are preserved.
