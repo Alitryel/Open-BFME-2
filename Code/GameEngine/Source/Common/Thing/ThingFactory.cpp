@@ -340,6 +340,10 @@ namespace _STL { template <> pair<AsciiString const, ThingTemplate *> & hashtabl
 // Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PBW4ScienceType@@@?$vector@W4ScienceType@@V?$allocator@W4ScienceTy:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum ScienceType;
+namespace _STL { template <> template <> ScienceType * vector<ScienceType,allocator<ScienceType> >::_M_allocate_and_copy<ScienceType const *>(unsigned int,ScienceType const *,ScienceType const *); }
+// Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PBW4ScienceType@@@?$vector@W4ScienceType@@V?$allocator@W4ScienceTy:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ScienceType;
 namespace _STL { template <> ScienceType * vector<ScienceType,allocator<ScienceType> >::_M_allocate_and_copy<ScienceType const *>(unsigned int,ScienceType const *,ScienceType const *); }
 // Suppress this TU's non-retail copy of ??$__advance@PBIH@_STL@@YAXAAPBIHABUrandom_access_iterator_tag@0@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
