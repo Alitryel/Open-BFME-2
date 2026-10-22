@@ -91,6 +91,10 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 #define private public
 #include <string>
 #undef private
+// Preserve inline frees while leaving the out-of-line malloc allocator cleanup
+// to its retail-proven provider.
+namespace _STL { template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 // allocator<wchar_t>::deallocate is the retail-proven fold at 0x0046264A: keep
 // the inline expansions without emitting a differing copy ahead of it in link order.
 namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned short>::deallocate(unsigned short *__p, size_t __n) const
