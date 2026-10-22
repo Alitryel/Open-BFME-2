@@ -5,6 +5,12 @@
 // unit is built with /EHsc and emits an EH prologue retail does not have.
 
 #include <hash_map>
+// Preserve inline allocation while binding outlined calls to the shared provider.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **_STLP_alloc_proxy<void **, void *, allocator<void *> >::allocate(size_t n)
+{ return __stl_alloc_rebind(static_cast<allocator<void *> &>(*this), (void **)0).allocate(n, 0); }
+}
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
 // Bind to the kept retail copy instead of emitting this unit's own.
