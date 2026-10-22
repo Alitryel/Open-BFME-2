@@ -17,7 +17,6 @@ class Rva00506B1B
 public:
 	Rva00506B1B();
 	virtual ~Rva00506B1B();
-	virtual void v0();
 	virtual void v1();
 	bool m_04;
 };
