@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
+// cl: /O1 /arch:SSE /ICode/GameEngine/Source/Common /ICode/Libraries/Include /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
 // stlport
 //
 // ??0DamageNugget@@QAE@XZ retail 0x00507C2D 343B
@@ -14,6 +14,8 @@
 // base rowed 0x0050775B plus derived vtables 0x00864048/0x00864C38/
 // 0x008650B8 plus callers parseDamageNugget 0x002CC606 plus derived
 // Made002CCA37 0x0050B1FF and Made002CCCF3 0x0050BF92 call here.
+// Position-effect body (WorldBuilder DamageNugget::doEffectPosition 0x0109FAD0):
+// recovery reverse/attempt_support/damage507d84-recovery-20261022/readme.md.
 #include <vector>
 #include <string.h>
 
@@ -65,6 +67,130 @@ struct Made002CC5E1DamageScalar
 	float scalar;
 };
 
+// Current canonical GameLogic view; no duplicate converged datum.
+#include "GameLogicObjectLookupView.h"
+typedef float Real;
+typedef bool Bool;
+typedef int Int;
+
+#include "Lib/Coord3D.h"
+static inline void coordSet(Coord3D &d, const Coord3D *p) { d.x = p->x; d.y = p->y; d.z = p->z; }
+static inline void coordSub(Coord3D &d, const Coord3D *p) { d.x -= p->x; d.y -= p->y; d.z -= p->z; }
+
+class Vector3
+{
+public:
+	Vector3() {}
+	Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
+	Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Real Length2() const { return X * X + Y * Y + Z * Z; }
+	void Normalize();
+	Real X, Y, Z;
+};
+
+class WWMath
+{
+public:
+	static Real __fastcall Inv_Sqrt(Real value);
+};
+
+__forceinline void Vector3::Normalize()
+{
+	Real len2 = Length2();
+	if (len2 != 0.0f)
+	{
+		Real oolen = WWMath::Inv_Sqrt(len2);
+		X *= oolen;
+		Y *= oolen;
+		Z *= oolen;
+	}
+}
+
+inline Real Dot_Product(const Vector3 &a, const Vector3 &b)
+{
+	return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+}
+
+Real Cos(Real angle);
+
+class Rva00507D84TemplateView
+{
+public:
+	unsigned char pad00[0x10A];
+	unsigned char kind10A;
+	unsigned char pad10B[0x11D - 0x10B];
+	unsigned char kind11D;
+};
+
+class Matrix3D
+{
+public:
+	Vector3 Get_X_Vector() const { return Vector3(Row[0][0], Row[1][0], Row[2][0]); }
+	Real Row[3][4];
+};
+class Thing
+{
+public:
+ virtual Real calculateHeightAboveTerrain() const;
+ Real getHeightAboveTerrain() const;
+ const Matrix3D *getTransformMatrix() const { return &m_transform; }
+ Rva00507D84TemplateView *m_template;
+ Matrix3D m_transform;
+ Coord3D m_position;
+ unsigned char pad44[0x54-0x44];
+ mutable float m_cachedAltitudeAboveTerrain;
+ float m_cachedAltitudeAboveTerrainOrWater;
+ mutable int m_cacheFlags;
+};
+class Object : public Thing
+{
+public:
+ const Coord3D *getPosition() const {return &m_position;}
+ unsigned char pad60[0x250-0x60];
+ void *m_contain;
+};
+extern GameLogic *TheGameLogic;
+class GlobalData
+{
+public:
+	unsigned char pad00[0xB40];
+	Real m_singleTargetRadius;		// +0xB40
+};
+extern GlobalData *TheWritableGlobalData;
+
+class Rva000421C8
+{
+public:
+	virtual ~Rva000421C8() {}
+	virtual bool allow(Object *obj) = 0;
+	virtual int getPlayerMask();
+	Rva000421C8 *m_next;
+};
+
+class Rva0006EE7A { public: Rva0006EE7A(int,int,int); private: unsigned char bytes[28]; };
+static inline const BfmeFixedStorage0004543D &damageStorage(const Rva0006EE7A &v) {return reinterpret_cast<const BfmeFixedStorage0004543D &>(v);}
+#include "RTS/XYDistanceCallView.h"
+class Rva0004584D : public Rva000421C8
+{
+public:
+	Rva0004584D(const BfmeFixedStorage0004543D &mustBeSet, const BfmeFixedStorage0004543D &mustBeClear);
+	virtual bool allow(Object *obj);
+private:
+	BfmeFixedStorage0004543D m_08;
+	BfmeFixedStorage0004543D m_24;
+};
+
+#include "PartitionRangeQueryCallView.h"
+extern PartitionManager *ThePartitionManager;
+
+struct Rva00507D84WeaponView
+{
+	unsigned char pad00[8];
+	ObjectID sourceID08;
+};
+
+
 // The native owner calls the shared vector destructor at 0x00507BD0.
 // Keep its allocator and element teardown with that retail provider.
 namespace _STL {
@@ -88,10 +214,33 @@ private:
 	bool m_124;
 };
 
+// Pointer-only virtual-call view of native vtable 0x00864048. Keep the
+// constructor unit's existing partial DamageNugget vtable declaration; this
+// interface is never constructed and emits no alternate vtable or datum.
+class Rva00507D84Calls {public:
+ virtual void slot0();
+	virtual Bool v1(void *weapon, Object *target);
+	virtual void v2();
+	virtual void v3();
+	virtual void v4();
+	virtual void v5();
+	virtual void slot6();
+	virtual void v7();
+	virtual void v8();
+	virtual void v9();
+	virtual void v10();
+	virtual void v11();
+	virtual void v12();
+	virtual void v13();
+	virtual Bool v14(void *weapon, Object *target, const Coord3D *position);
+};
+
 class DamageNugget : public Rva00507823
 {
 public:
 	DamageNugget();
+	void rva00507D84(void *weapon, const Coord3D *position);
+
 private:
 	float m_128;
 	float m_12C;
@@ -147,4 +296,77 @@ DamageNugget::DamageNugget()
 	m_19C.initFromStorages(
 		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
 		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
+}
+
+// The single-target exit returns from inside the loop, as WorldBuilder 0x10A115B
+// does, so the range result is destroyed on both exits.
+void DamageNugget::rva00507D84(void *weapon, const Coord3D *position)
+{
+	Real radius = m_130;
+	if (1.0f > radius)
+		radius = 1.0f;
+	Object *source = TheGameLogic->findObjectByID(static_cast<Rva00507D84WeaponView *>(weapon)->sourceID08);
+	Int mode = 3;
+	if (m_1A0)
+		mode = 1;
+	else if (radius >= 10.0f)
+	{
+		if (!(source->m_template->kind11D & 8) || !(source->m_template->kind10A & 0x20) || !source->m_contain)
+			mode = 4;
+	}
+	Rva0004584D filter(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype), damageStorage(Rva0006EE7A(0, 0x59, 0x36)));
+	BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(position, radius, mode, &filter, 0);
+	Object *obj;
+	while ((obj = iter.next()) != 0)
+	{
+		if (m_138 < 3.14159265359f)
+		{
+			Coord3D toObj; coordSet(toObj, obj->getPosition()); coordSub(toObj, position);
+			Coord3D delta; coordSet(delta, position); coordSub(delta, source->getPosition());
+			Vector3 facing(delta.x, delta.y, delta.z);
+			if (delta.length() == 0.0f)
+				facing = source->getTransformMatrix()->Get_X_Vector();
+			Vector3 dir(toObj.x, toObj.y, toObj.z);
+			facing.Normalize();
+			dir.Normalize();
+			Real dot = Dot_Product(facing, dir);
+			if (!(dot >= Cos(m_138)))
+			{
+				if (!m_13C)
+					continue;
+			}
+			else if (m_13C)
+				continue;
+		}
+		if (!reinterpret_cast<Rva00507D84Calls *>(this)->v1(weapon, obj))
+			continue;
+		if (m_140 != -1.0f)
+		{
+			Real sourceZ = source->getPosition()->z;
+
+			Real objectZ = obj->getPosition()->z;
+			if ((objectZ - sourceZ) > m_140)
+				continue;
+		}
+		if (m_144 != -1.0f)
+		{
+			// C2 folds these calls after computing allocation costs, which
+			// preserves the native position/object register assignment.
+			if (position == 0)
+				obj->getHeightAboveTerrain();
+			else
+				obj->getHeightAboveTerrain();
+			if (obj->getHeightAboveTerrain() > m_144)
+				continue;
+		}
+		if (m_134 > 0.0f)
+		{
+			if (reinterpret_cast<Rva000CBA20 *>(obj)->distSq(reinterpret_cast<const Rva000CBA20Point *>(position)) < m_134 * m_134)
+				continue;
+		}
+		if (!reinterpret_cast<Rva00507D84Calls *>(this)->v14(weapon, obj, position))
+			continue;
+		if (TheWritableGlobalData->m_singleTargetRadius >= radius)
+			return;
+	}
 }

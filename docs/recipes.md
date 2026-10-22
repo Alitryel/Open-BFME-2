@@ -453,8 +453,11 @@ the paren lever).
   window/flag tie. On 0x00655B90, a labelled duplicate of the final zero store
   fixed the EBX/EBP exchange while preserving the ordinary length loop. C2
   removed the added tests and instructions but kept different allocation
-  costs. Use defined, side-effect-free predicates, preserve call-related
-  reloads and verify the complete body. See the two 20261022 recovery handoffs.
+  costs. On 0x00507D84, duplicating the discarded height query under an
+  equivalent pointer branch lowered the object's priority from 59 to 57 while
+  position stayed at 59, fixing the EBX/EDI exchange. Use defined,
+  side-effect-free predicates, preserve call-related reloads and verify the
+  complete body. See the three 20261022 recovery handoffs.
 - **Split-range reload order.** RewriteSplitGlobregs inserts reloads by the
   pieces' new candidate numbers. Those come from the `_FreeGlobs` list (LIFO),
   which coalesced copies refill. Building a matrix row-wise
