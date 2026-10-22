@@ -15,6 +15,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAVRva004E32F2@@IV1@@_STL@@YAPAVRva004E32F2@@PAV1@IABV1@ABU__fal:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva004E32F2;
+namespace _STL { template <> Rva004E32F2 * __uninitialized_fill_n<Rva004E32F2 *,unsigned int,Rva004E32F2>(Rva004E32F2 *,unsigned int,Rva004E32F2 const &,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAVRva004E32F2@@@_STL@@YAXPAVRva004E32F2@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva004E32F2;

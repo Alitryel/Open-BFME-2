@@ -34,6 +34,9 @@ class FXList;
 class AIUpdateInterface;
 
 #include "../../../Common/GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ??0?$pair@$$CBGH@_STL@@QAE@ABGABH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> pair<unsigned short const ,int>::pair(unsigned short const &,int const &); }
 // Suppress this TU's non-retail copy of ??R?$less@H@_STL@@QBE_NABH0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool less<int>::operator()(int const &,int const &) const; }
