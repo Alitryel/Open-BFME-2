@@ -31,4 +31,7 @@ namespace _STL { template <> void _String_base<unsigned short, allocator<unsigne
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
 
-template class _STL::basic_stringbuf<wchar_t, _STL::char_traits<wchar_t>, _STL::allocator<wchar_t> >;
+// The wide filebuf unit supplies the retail sbumpc body.
+namespace _STL { template <> wchar_t basic_streambuf<wchar_t, char_traits<wchar_t> >::sbumpc(); }
+template _STL::streamsize _STL::basic_streambuf<wchar_t, _STL::char_traits<wchar_t> >::xsgetn(wchar_t *, _STL::streamsize);
+template wchar_t _STL::__char_traits_base<wchar_t, wchar_t>::not_eof(const wchar_t &);

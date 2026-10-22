@@ -100,6 +100,14 @@ namespace _STL { template<> void* __malloc_alloc<0>::allocate(size_t); }
 // out-of-line copy is not retail's and is first in link order.
 namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned short>::deallocate(unsigned short *__p, size_t) const { if (__p != 0) free(__p); } }
 namespace _STL {
+// The rowed wide allocator supplies the proxy's allocation calls.
+template <> unsigned short *allocator<unsigned short>::allocate(size_t, const void *) const;
+// Keep the allocator forwarding inline without an unused external copy.
+template <> __declspec(dllimport) __forceinline unsigned short *
+_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t count)
+{
+    return allocator<unsigned short>::allocate(count, 0);
+}
 struct _MoneyLeak { ~_MoneyLeak() { if (_MONEY_LEAKS_CHECK) free(0); } };
 struct _MoneyPhantom { _MoneyLeak l; };
 template <> inline basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string() {
@@ -113,7 +121,7 @@ template <> inline basic_string<unsigned short, char_traits<unsigned short>, all
   if (this == 0) exit(1);
   _Destroy(this->_M_start, this->_M_finish + 1);
 }
-template <> template <> basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >&
+template <> template <> __declspec(noinline) inline basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >&
 basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::_M_assign_dispatch<wchar_t*>(wchar_t* __f, wchar_t* __l, const __false_type& __t) {
     pointer __cur = this->_M_start;
     while (__f != __l && __cur != this->_M_finish) {

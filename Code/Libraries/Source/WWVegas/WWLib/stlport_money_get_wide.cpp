@@ -42,4 +42,15 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
-template class _STL::money_get<wchar_t, _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > >;
+// Keep the STLport allocation forwarding inline without an unused external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned short *
+_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t count)
+{
+    return allocator<unsigned short>::allocate(count, 0);
+}
+}
+typedef _STL::basic_string<wchar_t> WideString;
+template _STL::back_insert_iterator<WideString> &_STL::back_insert_iterator<WideString>::operator=(const wchar_t &);
+template WideString &WideString::_M_append_dispatch<wchar_t *>(wchar_t *, wchar_t *, const _STL::__false_type &);
+template WideString &WideString::append<wchar_t *>(wchar_t *, wchar_t *);
