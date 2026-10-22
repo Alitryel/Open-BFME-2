@@ -35,6 +35,8 @@ namespace _STL { void __cdecl free(void *block) throw(...); }
 #include <string>
 #include <vector>
 #undef free
+// Character-buffer cleanup remains inline; the library supplies deallocate.
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned short>::deallocate(unsigned short *p, size_t) const { if (p != 0) _STL::free(p); } }
 
 // Retail calls the STLport library's string operator= (0x0001B790);
 // declaring the specialization keeps this /O1 unit from emitting its own
