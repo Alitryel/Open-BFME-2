@@ -158,6 +158,7 @@ private:
 
 	TCHAR *		m_Buffer;
 
+	template<class T> friend struct DataRowPrivateProbe;	// data-row size probe of the private statics
 	static TCHAR	m_NullChar;
 	static TCHAR *	m_EmptyString;
 
