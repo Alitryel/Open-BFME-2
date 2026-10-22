@@ -70,10 +70,6 @@ void AptRadialMenu::Impl::EnableButtonInput(int button, bool enable)
 	m_buttons[button]->EnableInput(enable);
 }
 
-void AptRadialMenu::Impl::PositionButton(int button, const Coord2D &position, const Coord2D &size)
-{
-	m_buttons[button]->Move(position, size);
-}
 
 // Native 00577D93..00577DE1 RET4; WB014C6FF0 EnableInput asserts342.
 // Existing caller EnableButtonInput and its method pin establish this receiver.
