@@ -1,5 +1,7 @@
 // cl: /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+// EH already preserves the parent frames; omit /Oy- so the generated
+// deleting destructor also matches the rowed 28-byte retail provider.
 // ??1IngameNoticeDisplay@@UAE@XZ @0x004E61C8 105B: dtor stores vtable calls 0x4E5D6E deletes +0xc virtual result vector auto frees +0x10 base SubsystemInterface
 #include <vector>
 // Bind to the kept retail copy instead of emitting this unit's own.
