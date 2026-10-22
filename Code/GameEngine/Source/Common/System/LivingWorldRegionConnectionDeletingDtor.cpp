@@ -1,4 +1,4 @@
-// cl: /MD
+// cl: /Ireference/shims/moduledata /MD
 // Each destructor rowed in another unit is only declared here: the inline
 // constructor references the vtable, which brings the compiler's deleting
 // destructor into this unit without a second definition of the destructor;
@@ -9,17 +9,29 @@
 // The class is declared locally only so its deleting destructor is
 // emitted; the complete-destructor call resolves through that
 // destructor's own row at 0x003F2517, and the operator delete through
-// the rowed 0x0002FD60.
-class LivingWorldRegionConnection
+// the rowed 0x0002FD60. The Snapshot base and the remaining virtuals repeat
+// LivingWorldRegionConnectionCtor.cpp's view (vtable 0x00C36E48), so this
+// unit's vtable copy is the one every other unit emits.
+#include "Common/Snapshot.h"
+
+class LivingWorldRegionConnection : public Snapshot
 {
 public:
-	explicit LivingWorldRegionConnection(int) {}
+	explicit LivingWorldRegionConnection(int);
 	virtual ~LivingWorldRegionConnection();
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &xfer);
 private:
 	int m_famgen;
 };
 
-LivingWorldRegionConnection *famgenNew_LivingWorldRegionConnection() { return new LivingWorldRegionConnection(0); }
+// The class is abstract in this view, so a defined tag constructor (no
+// retail counterpart) emits the vtable instead of a new-expression.
+// ?<LivingWorldRegionConnection::LivingWorldRegionConnection> absent-from-retail
+LivingWorldRegionConnection::LivingWorldRegionConnection(int)
+{
+}
 
 void famgenDelete(LivingWorldRegionConnection *livingWorldRegionConnection)
 {

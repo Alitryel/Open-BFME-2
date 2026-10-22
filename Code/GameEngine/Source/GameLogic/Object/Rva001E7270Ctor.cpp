@@ -14,7 +14,9 @@
 class Object;
 namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
 class Object;
-class __declspec(novtable) SubsystemInterface {public:SubsystemInterface();virtual ~SubsystemInterface();private:virtual void unused()=0;char flag;int value;};
+// Only the destructor slot is modelled: the Rva001E72B4Dtor.cpp and
+// OpaqueScalarDeletingDtorsB03.cpp views emit the same one-slot vtable copy.
+class __declspec(novtable) SubsystemInterface {public:SubsystemInterface();virtual ~SubsystemInterface();private:char flag;int value;};
 class Rva001E72B4:public SubsystemInterface {public:Rva001E72B4();private:_STL::map<int,void*> map;_STL::vector<Object*> entries;public:
 	virtual ~Rva001E72B4();	// rowed elsewhere; declared so this unit binds to it
 };

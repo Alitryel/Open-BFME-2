@@ -14,4 +14,8 @@ public:
  virtual void Rva00314581Unlink();
 private: void *next; void *window;
 };
+// The destructor is rowed in GameWindow.cpp (0x003148E6); its visible body
+// here lets the deleting destructor this unit's vtable emits inline it, as
+// retail's 0x003149EA does, instead of calling it.
+inline Rva0031455E::~Rva0031455E() { Rva00314581Unlink(); }
 Rva0031455E::Rva0031455E() : next(0),window(0) {}
