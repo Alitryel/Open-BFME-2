@@ -297,3 +297,43 @@ void Q1Receiver0134FAAC::refresh()
 			m_field1e4 = r0.size() + r1.size() + r2.size() - m_field1e0;
 	}
 }
+
+// Use the pointer-set providers and keep the remaining helpers inline.
+namespace _STL {
+typedef Rva001408C0Target *Q1LinkKey;
+typedef _Rb_tree_node<Q1LinkKey> Q1LinkNode;
+typedef _Rb_tree<Q1LinkKey, Q1LinkKey, _Identity<Q1LinkKey>, less<Q1LinkKey>, allocator<Q1LinkKey> > Q1LinkTree;
+template <> void allocator<Q1LinkNode>::deallocate(Q1LinkNode *, size_t) const;
+template <> Q1LinkNode *Q1LinkTree::_M_create_node(Q1LinkKey const &);
+template <> _Rb_tree_base<Q1LinkKey, allocator<Q1LinkKey> >::~_Rb_tree_base();
+}
+
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+Q1LinkNode *allocator<Q1LinkNode>::allocate(size_t __n, const void *) const
+{ return __n != 0 ? (Q1LinkNode *)allocator<char>::allocate(__n * sizeof(Q1LinkNode), 0) : 0; }
+template <> __declspec(dllimport) __forceinline
+Q1LinkNode *_STLP_alloc_proxy<Q1LinkNode *, Q1LinkNode, allocator<Q1LinkNode> >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<allocator<Q1LinkNode> &>(*this), (Q1LinkNode *)0).allocate(__n, 0); }
+}
+
+namespace _STL {
+
+template <> template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *Q1LinkTree::_M_find<Rva001408C0Target *>(Rva001408C0Target * const &__k) const
+{
+    _Link_type __y = this->_M_header._M_data;
+    _Link_type __x = _M_root();
+    while (__x != 0)
+        if (!_M_key_compare(_S_key(__x), __k))
+            __y = __x, __x = _S_left(__x);
+        else
+            __x = _S_right(__x);
+    if (__y == this->_M_header._M_data || _M_key_compare(__k, _S_key(__y)))
+        __y = this->_M_header._M_data;
+    return __y;
+}
+template <> template <> __declspec(dllimport) __forceinline
+Q1LinkTree::const_iterator Q1LinkTree::find<Rva001408C0Target *>(Rva001408C0Target * const &__x) const
+{ return const_iterator(_M_find(__x)); }
+}

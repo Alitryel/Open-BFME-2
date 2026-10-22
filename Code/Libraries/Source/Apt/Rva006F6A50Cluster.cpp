@@ -314,10 +314,10 @@ public:
 
 // The base's inlined ctor writes +0x14, +0x04, +0x0C and +0x10; its vtable store
 // is dead and dropped, so the derived vtable store below is the only one left.
-class Rva006F8D70Base
+class Rva006F8460
 {
 public:
-	Rva006F8D70Base()
+	Rva006F8460()
 	{
 		m_14 = 0;
 		m_04 = -1;
@@ -325,7 +325,8 @@ public:
 		m_10 = 0;
 	}
 
-	virtual ~Rva006F8D70Base();
+	virtual ~Rva006F8460();
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocator->freeBlock(p, size); }
 
 	int m_04;
 	int m_pad08;
@@ -335,7 +336,7 @@ public:
 	char m_pad15[3];
 };
 
-class Rva006F8D70 : public Rva006F8D70Base
+class Rva006F8D70 : public Rva006F8460
 {
 public:
 	Rva006F8D70();
@@ -789,7 +790,7 @@ extern "C" void _ReadWriteBarrier();
 struct AptCharacter {int type;int value04,value08,value0c,value10,value14;int value18,value1c,value20,value24;char unknown28[0x34-0x28];const char*defaultText;const char*variable;};
 struct AptCharacterInst {const void*vtable;int value;int frame;AptCharacter*character;AptNativeHash*hash;int word14,word18;volatile unsigned word1c;int word20,word24;char unknown28[0x3c-0x28];int word3c;char unknown40[0x50-0x40];int word50,word54,word58,word5c;int word60,word64;char unknown68[0x78-0x68];};
 class Rva006ED150 {public:Rva006ED150();virtual ~Rva006ED150();char rest[0x30-4];};
-class Rva006F7140Derived:public Rva006ED150 {public:POOL_NEW POOL_DELETE Rva006F7140Derived(){} };
+class Rva006F7140Derived:public Rva006ED150 {public:POOL_NEW POOL_DELETE __declspec(dllimport) __forceinline Rva006F7140Derived(){} };
 class Rva006ED2A0 {public:Rva006ED2A0();char storage[0x78];POOL_NEW POOL_DELETE};
 
 // ??0Rva006F7D80@@QAE@XZ @0x006F7D80 27B and ??0Rva006F7DA0@@QAE@XZ

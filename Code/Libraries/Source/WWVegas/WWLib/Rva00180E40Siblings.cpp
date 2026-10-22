@@ -44,17 +44,26 @@ Rva006892D0Derived::Rva006892D0Derived()
 {
 }
 
-class Rva006ED060Base
+class Rva006ED150
 {
 public:
-	Rva006ED060Base();
-	virtual ~Rva006ED060Base();
+	Rva006ED150();
+	virtual ~Rva006ED150();
+	char m_remaining[0x30 - 4];
 };
 
-class Rva006F7140Derived : public Rva006ED060Base
+class Rva006DB270
+{
+public:
+	void freeBlock(void *, int);
+};
+extern Rva006DB270 *g_pChainBlockAllocator;
+
+class Rva006F7140Derived : public Rva006ED150
 {
 public:
 	Rva006F7140Derived();
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocator->freeBlock(p, size); }
 };
 
 Rva006F7140Derived::Rva006F7140Derived()

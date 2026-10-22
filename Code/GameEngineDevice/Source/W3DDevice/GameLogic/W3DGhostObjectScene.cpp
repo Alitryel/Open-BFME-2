@@ -676,8 +676,8 @@ class GhostObjectManager
 public:
 	virtual ~GhostObjectManager();																			///< slot 0
 protected:
-	virtual void v01( void );																						///< slot 1
-	virtual const char *v02( void ) const;																///< slot 2
+	virtual void loadPostProcess( void );																						///< slot 1
+	virtual const char *GetSnapshotName( void ) const;																///< slot 2
 	virtual void xfer( Xfer *xfer );																		///< slot 3
 public:
 	virtual void reset( void );																					///< slot 4

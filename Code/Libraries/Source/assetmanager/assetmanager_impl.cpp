@@ -800,3 +800,41 @@ Rva0061F910Set &Rva0061F910Set::retain(const Rva0061F910Set &other)
 	}
 	return *this;
 }
+
+// Keep STLport's inline operations without emitting competing external copies.
+namespace _STL {
+typedef Rva001408C0Target *Q1LinkKey;
+typedef _Rb_tree_node<Q1LinkKey> Q1LinkNode;
+typedef _Rb_tree<Q1LinkKey, Q1LinkKey, _Identity<Q1LinkKey>, less<Q1LinkKey>, allocator<Q1LinkKey> > Q1LinkTree;
+template <> __declspec(dllimport) __forceinline
+void allocator<Q1LinkNode>::deallocate(Q1LinkNode *__p, size_t __n) const
+{ if (__p != 0) __sgi_alloc::deallocate((void *)__p, __n * sizeof(Q1LinkNode)); }
+
+template <> template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *Q1LinkTree::_M_find<Rva001408C0Target *>(Rva001408C0Target * const &__k) const
+{
+    _Link_type __y = this->_M_header._M_data;
+    _Link_type __x = _M_root();
+    while (__x != 0)
+        if (!_M_key_compare(_S_key(__x), __k))
+            __y = __x, __x = _S_left(__x);
+        else
+            __x = _S_right(__x);
+    if (__y == this->_M_header._M_data || _M_key_compare(__k, _S_key(__y)))
+        __y = this->_M_header._M_data;
+    return __y;
+}
+template <> template <> __declspec(dllimport) __forceinline
+Q1LinkTree::const_iterator Q1LinkTree::find<Rva001408C0Target *>(Rva001408C0Target * const &__x) const
+{ return const_iterator(_M_find(__x)); }
+}
+
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+unsigned int *fill_n<unsigned int *, unsigned int, unsigned int>(unsigned int *__first, unsigned int __n, const unsigned int &__val)
+{
+    for (; __n > 0; --__n, ++__first)
+        *__first = __val;
+    return __first;
+}
+}
