@@ -65,10 +65,12 @@ struct Rva001DDBC6Record
 	char bytes[4];
 };
 
-struct Rva001DED2BElement
+// Mapped type of the two maps: hash_map<int, T>() is rowed at 0x001DED2B and calls
+// the hashtable constructor rowed for Rva001DE80FElement (0x001DE80F).
+struct Rva001DE80FElement
 {
 	char bytes[4];
-	bool operator==(const Rva001DED2BElement &) const;
+	bool operator==(const Rva001DE80FElement &) const;
 };
 
 struct upgradePair
@@ -138,8 +140,8 @@ private:
 	_STL::map<int, Rva001DDBC6Record> m_10;					// +0x10
 	_STL::vector<int> m_1C;									// +0x1C
 	_STL::vector<int> m_allEventInfos;						// +0x28
-	_STL::hash_map<int, Rva001DED2BElement> m_34;			// +0x34
-	_STL::hash_map<int, Rva001DED2BElement> m_names;		// +0x48
+	_STL::hash_map<int, Rva001DE80FElement> m_34;			// +0x34
+	_STL::hash_map<int, Rva001DE80FElement> m_names;		// +0x48
 	_STL::vector<int> m_eventStatus;						// +0x5C
 	_STL::list<upgradePair> m_queue;						// +0x68
 	_STL::list<upgradePair>::iterator m_queuePosition;		// +0x6C
