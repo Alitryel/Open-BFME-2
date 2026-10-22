@@ -730,6 +730,7 @@ protected:
 	static int								ZBias;
 	static float							ZNear;
 	static float							ZFar;
+	static Matrix4x4						DeviceProjectionMatrix;	// BFME 2: 0x00DEDBF0, 64 bytes before ProjectionMatrix
 	static Matrix4x4						ProjectionMatrix;
 
 	friend void DX8_Assert();
