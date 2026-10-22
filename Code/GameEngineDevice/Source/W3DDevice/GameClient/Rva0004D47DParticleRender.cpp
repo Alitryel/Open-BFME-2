@@ -138,6 +138,7 @@ class RvaSmartPtr12
 public:
 	void rva0004CBC0();
 	RvaSmartPtr12(const RvaSmartPtr12 &that);
+	RvaSmartPtr12 &operator=(const RvaSmartPtr12 &that);
 	~RvaSmartPtr12()
 	{
 		if (m_ptr)

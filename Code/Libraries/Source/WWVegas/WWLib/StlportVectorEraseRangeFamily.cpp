@@ -377,10 +377,10 @@ void BfmeHelperYS::bfmeAttachYS(Gen_00755E70 *owner)
 	*(unsigned int *)((char *)ownerForStore + 0x2E8) = (unsigned int)record;
 }
 
-class Gen_00755E70
+class W3DScriptedModelDraw
 {
 public:
-	void bfmeFinishYS();
+	virtual void onDrawableBoundToObject();
 };
 
 class W3DHordeModelDraw
@@ -400,7 +400,7 @@ void W3DHordeModelDraw::onDrawableBoundToObject()
 	BfmeHelperYS *helper = &s_bfmeHelperYS;
 	TheW3DHordeModelDrawManager = reinterpret_cast<W3DHordeModelDrawManager *>(helper);
 	helper->bfmeAttachYS(reinterpret_cast<Gen_00755E70 *>(this));
-	reinterpret_cast<Gen_00755E70 *>(this)->bfmeFinishYS();
+	reinterpret_cast<W3DScriptedModelDraw *>(this)->W3DScriptedModelDraw::onDrawableBoundToObject();
 }
 
 // Native 0x004149B4: STLport4.5.3 record vector clear forwarding to its owned provider.

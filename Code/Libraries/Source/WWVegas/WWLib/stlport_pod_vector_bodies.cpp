@@ -255,11 +255,15 @@ namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod180, Bfm
 class CreateAHeroManager
 {
 public:
-    class CreateAHeroSubClass { public: int a[54]; };
+    class CreateAHeroSubClass { public: int a[54]; ~CreateAHeroSubClass(); };
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline vector<CreateAHeroManager::CreateAHeroSubClass,allocator<CreateAHeroManager::CreateAHeroSubClass> >::~vector() { _Destroy(this->_M_start, this->_M_finish); } }
-namespace _STL { template <> void _Destroy(CreateAHeroManager::CreateAHeroSubClass *); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _Destroy(CreateAHeroManager::CreateAHeroSubClass *value)
+{ value->~CreateAHeroSubClass(); }
+}
 // Retail's _Construct<CreateAHeroSubClass> is rowed in stlport_construct_pod216.cpp
 // (0x0021EF66); declare that specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<CreateAHeroManager::CreateAHeroSubClass, CreateAHeroManager::CreateAHeroSubClass>(CreateAHeroManager::CreateAHeroSubClass *__p, const CreateAHeroManager::CreateAHeroSubClass &__val); }
@@ -333,13 +337,7 @@ template <> __declspec(dllimport) __forceinline
 void _Destroy<BfmePod252 *>(BfmePod252 *__first, BfmePod252 *__last)
 { __destroy(__first, __last, (BfmePod252 *)0); }
 
-template <> __declspec(dllimport) __forceinline
-void vector<BfmePod252>::_M_clear()
-{
-    _Destroy(this->_M_start, this->_M_finish);
-    this->_M_end_of_storage.deallocate(this->_M_start,
-        this->_M_end_of_storage._M_data - this->_M_start);
-}
+template <> void vector<BfmePod252>::_M_clear();
 
 }
 
@@ -370,21 +368,57 @@ void vector<BfmePod104>::_M_clear()
 }
 
 template <> __declspec(dllimport) __forceinline
-void vector<BfmePod128>::_M_clear()
-{
-    _Destroy(this->_M_start, this->_M_finish);
-    this->_M_end_of_storage.deallocate(this->_M_start,
-        this->_M_end_of_storage._M_data - this->_M_start);
-}
-
-
-template <> __declspec(dllimport) __forceinline
 char *_STLP_alloc_proxy<char *, char, allocator<char> >::allocate(size_t __n)
 { return __stl_alloc_rebind(static_cast<allocator<char> &>(*this), (char *)0).allocate(__n, 0); }
 
 template <> __declspec(dllimport) __forceinline
 char *uninitialized_fill_n<char *, unsigned int, char>(char *__first, unsigned int __n, const char &__x)
 { return __uninitialized_fill_n(__first, __n, __x, __true_type()); }
+}
+
+// Retail growth uses the no-catch sequence and out-of-line cleanup.
+namespace _STL {
+template <> void vector<CreateAHeroManager::CreateAHeroSubClass>::_M_clear();
+template <> inline void vector<BfmePod252>::_M_insert_overflow(
+    BfmePod252 *__position, const BfmePod252 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else {
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    }
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+template <> inline void vector<CreateAHeroManager::CreateAHeroSubClass>::_M_insert_overflow(
+    CreateAHeroManager::CreateAHeroSubClass *__position, const CreateAHeroManager::CreateAHeroSubClass &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else {
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    }
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
 }
 
 // Retail growth constructs and releases the non-trivial element without a catch.

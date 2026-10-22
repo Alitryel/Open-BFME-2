@@ -68,9 +68,17 @@ private:
 	int m_flag;
 };
 
+struct Rva00414BDBElement
+{
+    ~Rva00414BDBElement();
+};
+
+// The native range loop destroys 48-byte records through the shared destructor.
 struct Rva001DEF38Element
 {
-	~Rva001DEF38Element();
+    __declspec(dllimport) __forceinline ~Rva001DEF38Element()
+    { reinterpret_cast<Rva00414BDBElement *>(this)->Rva00414BDBElement::~Rva00414BDBElement(); }
+    unsigned char m_storage[48];
 };
 
 class Rva000427195 {public:void rva003A2A41();};
