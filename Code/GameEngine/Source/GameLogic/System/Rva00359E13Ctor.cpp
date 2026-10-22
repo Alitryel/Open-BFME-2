@@ -14,6 +14,9 @@
 
 #include "Lib/Region3D.h"
 #include "Lib/BfmeE16.h"
+// vector<BfmeE16>'s destructor is needed here only for this constructor's unwind;
+// declared only, so this unit emits no differing copy of it.
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 class Rva00330757Member
 {
