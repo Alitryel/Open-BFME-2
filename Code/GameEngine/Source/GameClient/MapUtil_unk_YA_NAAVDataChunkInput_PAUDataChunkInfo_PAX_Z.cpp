@@ -157,8 +157,9 @@ static WaypointMap *m_waypoints = 0;
 static Coord3DList	m_supplyPositions;
 static Coord3DList	m_techPositions;
 
-static Int m_mapDX = 0;
-static Int m_mapDY = 0;
+// External: MapUtilLoadMap.cpp and MapCacheAddMap.cpp read them (retail VAs 0x00DFF124/128).
+extern "C" Int m_mapDX = 0;
+extern "C" Int m_mapDY = 0;
 
 // ?calcCRC@@YAIVAsciiString@@0@Z
 // Body in MapUtil_calcCRC.asm (exact 457B retail @ 0x00450560).
