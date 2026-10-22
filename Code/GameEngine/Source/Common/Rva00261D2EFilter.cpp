@@ -157,3 +157,8 @@ bool Rva00391667Filter::allow(Object *other)
  }
  return false;
 }
+
+// BuildAssistant.cpp builds this filter in isLocationClearOfObjects through its
+// constructor 0x00391667 and names the class by that address (Rva00391667,
+// vftable 0x00C1A068); its slot-1 reference binds to this body.
+#pragma comment(linker, "/alternatename:?allow@Rva00391667@@UAE_NPAVObject@@@Z=?allow@Rva00391667Filter@@UAE_NPAVObject@@@Z")

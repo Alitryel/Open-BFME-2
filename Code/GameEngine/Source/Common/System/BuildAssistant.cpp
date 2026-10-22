@@ -109,6 +109,8 @@ typedef int Color;
 enum KindOfType
 {
 	KINDOF_2 = 2,
+	KINDOF_12 = 12,
+	KINDOF_120 = 120,
 	KINDOF_SHRUBBERY = 6,
 	KINDOF_STRUCTURE = 7,
 	KINDOF_DOZER = 14,
@@ -132,6 +134,7 @@ enum KindOfType
 // BFME2's object status bit names (the name table at .rdata 0x009A5F30).
 enum ObjectStatusTypes
 {
+	OBJECT_STATUS_98 = 98,
 	OBJECT_STATUS_UNDER_CONSTRUCTION = 2,
 	OBJECT_STATUS_UNSELECTABLE = 3,
 	OBJECT_STATUS_SOLD = 19
@@ -204,7 +207,9 @@ enum LegalBuildCode
 
 enum CellShroudStatus
 {
-	CELLSHROUD_CLEAR
+	CELLSHROUD_CLEAR,
+	CELLSHROUD_3 = 3,
+	CELLSHROUD_4 = 4
 };
 
 enum ObjectScriptStatusBit
@@ -302,6 +307,27 @@ public:
 	Real m_range;				// +0x30
 };
 
+class ModuleData;
+
+class Rva0033B3D7Data
+{
+public:
+	unsigned char m_pad00[0x2C];
+	Real m_range;				// +0x2C
+};
+
+// ThingTemplate's behavior module list (begin/end/storage, 20-byte entries).
+class ModuleInfo
+{
+public:
+	Int getCount() const { return ((const char *)m_end - (const char *)m_begin) / 20; }
+	const ModuleData *getNthData(Int i) const;
+private:
+	const void *m_begin;
+	const void *m_end;
+	const void *m_storage;
+};
+
 class ThingTemplate
 {
 public:
@@ -316,6 +342,8 @@ public:
 	UnsignedShort getRefundValue() const { return m_refundValue; }
 	Int rva0033A69A(const Player *player, Int a, Int b) const;
 	const ModuleData *rva0033B427(Int unused) const;
+	const ModuleData *rva0033B3D7() const;
+	const ModuleInfo &getBehaviorModuleInfo() const { return m_behaviorModuleInfo; }
 
 private:
 	unsigned char m_pad000[0x64];
@@ -326,7 +354,9 @@ private:
 	GeometryInfo m_geometryInfo;	// +0xA0
 	unsigned char m_pad0FC[0x108 - 0xFC];
 	UnsignedInt m_kindOf[8];		// +0x108
-	unsigned char m_pad128[0x4AC - 0x128];
+	unsigned char m_pad128[0x2E4 - 0x128];
+	ModuleInfo m_behaviorModuleInfo;	// +0x2E4
+	unsigned char m_pad2F0[0x4AC - 0x2F0];
 	Real m_visionRange;			// +0x4AC, ZH's name for addBibs' base range
 	unsigned char m_pad4B0[0x5DC - 0x4B0];
 	UnsignedShort m_refundValue;		// +0x5DC
@@ -671,6 +701,7 @@ public:
 	ObjectID getID() const { return m_id; }
 	ObjectID get7C() const { return m_7C; }
 	Bool testStatus(ObjectStatusTypes bit) const;
+	CellShroudStatus getShroudStatusForPlayer(Int playerIndex) const;
 	void rva0028CDEB(const Rva00346BC0 &mask, Bool set);		// setStatus
 	__declspec(dllimport) __forceinline void setConstructionPercent(Real percent) { m_constructionPercent = percent; }
 	ContainModuleInterface *getContain() const { return m_contain; }
@@ -693,7 +724,9 @@ private:
 	ObjectID m_id;				// +0x074
 	unsigned char m_pad078[4];
 	ObjectID m_7C;				// +0x07C, target link ID
-	unsigned char m_pad080[0xA8 - 0x80];
+	unsigned char m_pad080[0x94 - 0x80];
+	unsigned m_statusBits[4];		// +0x094
+	unsigned char m_padA4[4];
 	GeometryInfo m_geometryInfo;		// +0x0A8
 	unsigned char m_pad104[0x244 - 0x104];
 	BehaviorModule **m_behaviors;		// +0x244, null-terminated
@@ -918,6 +951,8 @@ public:
 	Int m_maxLineBuildObjects;		// +0xA94
 	unsigned char m_padA98[0xB94 - 0xA98];
 	Real m_sellPercentage;			// +0xB94
+	unsigned char m_padB98[0x1220 - 0xB98];
+	Real m_1220;				// +0x1220
 };
 extern GlobalData *TheWritableGlobalData;
 
@@ -972,6 +1007,7 @@ public:
 	void AddObjectToPathfindMap(Object *object);
 	void GetCellType(int pos, void *isValid, void *isBlocked, void *cellType, int layer);
 	void *rva001E4461(int layer, int pos);
+	Bool QuickDoesPathExist(Object *, const Coord3D *, const Coord3D *, Int);
 };
 
 class AI
@@ -2226,6 +2262,316 @@ LegalBuildCode BuildAssistant::isLocationLegalToBuild( const Coord3D *worldPos,
 	return LBC_OK;
 
 }  // end isLocationLegalToBuild
+
+// isLocationClearOfObjects' scan filters (target evidence: the ctors at 0x00391667 and
+// 0x0039161C store vftables 0x00C1A068 and 0x00C1A05C; Rva00261353Filter's allow is
+// rowed at 0x00261353).
+class Rva00391667 : public Rva000421C8
+{
+public:
+	Rva00391667(const void *pos);
+	virtual Bool allow(Object *obj);
+	Real m_range;				// +0x08
+	Coord3D m_pos;				// +0x0C
+};
+
+class Rva0039161C : public Rva000421C8
+{
+public:
+	Rva0039161C(const void *pos, const void *geom, Real angle, bool desired);
+	virtual Bool allow(Object *obj);
+	Coord3D m_pos;
+	const void *m_geom;
+	Real m_angle;
+	bool m_desired;
+	bool m_1d;
+};
+
+class Rva00261353Filter : public Rva000421C8
+{
+public:
+	Rva00261353Filter(Int playerIndex) : m_playerIndex(playerIndex) {}
+	virtual Bool allow(Object *obj);
+	Int m_playerIndex;
+};
+
+class Module
+{
+	unsigned char m_pad00[0x18];
+public:
+	ObjectID m_18;				// +0x18
+};
+
+class CastleBehavior
+{
+public:
+	static Module *rva000395708(Object *obj);
+};
+
+class PoolMember
+{
+public:
+	void Rva00268902() throw();
+};
+
+struct Rva00394173Node
+{
+	Rva00394173Node *m_next;
+	Rva00394173Node *m_prev;
+	ObjectID m_id;
+};
+
+class Rva00394173Member
+{
+public:
+	Rva00394173Member(const Rva00394173Member &that);
+	~Rva00394173Member() { ((PoolMember *)this)->Rva00268902(); }
+	Rva00394173Node *m_head;
+};
+
+class Rva00394173Field
+{
+public:
+	Rva00394173Member get() const;
+};
+
+struct Rva00394879Exit
+{
+	unsigned char m_pad00[0x14];
+	Coord3D m_offset;			// +0x14
+};
+
+struct Rva00394879Door
+{
+	unsigned char m_pad00[0xC8];
+	Coord3D m_offset;			// +0xC8
+};
+
+class ModuleData
+{
+public:
+	virtual void m00(); virtual void m01(); virtual void m02(); virtual void m03();
+	virtual void m04(); virtual void m05(); virtual void m06(); virtual void m07();
+	virtual void m08(); virtual void m09(); virtual void m10(); virtual void m11();
+	virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
+	virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
+	virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
+	virtual void m24();
+	virtual const Rva00394879Exit *rva00394879Exit() const;	// +0x64
+	virtual void m26(); virtual void m27(); virtual void m28();
+	virtual const Rva00394879Door *rva00394879Door() const;	// +0x74
+};
+
+// The out-of-line helpers stay calls (as in retail) but their bodies must be visible here:
+// without them c2 assumes the locals' addresses escape and the frame grows to 0x128.
+__declspec(noinline) inline float Coord2D::length() const
+{
+	return (float)sqrt(x * x + y * y);
+}
+
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+	float x_value = x;
+	float y_value = y;
+	float z_value = z;
+	return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
+
+Rva00391667::Rva00391667(const void *pos)
+{
+	const int *q = (const int *)pos;
+	int *d = (int *)&m_pos;
+	d[0] = q[0];
+	d[1] = q[1];
+	d[2] = q[2];
+	m_range = 0.0f;
+}
+
+inline void Coord3D::zero()
+{
+	x = 0.0f;
+	y = 0.0f;
+	z = 0.0f;
+}
+
+//-------------------------------------------------------------------------------------------------
+/** Is the footprint of 'build' at 'worldPos' clear of objects? Retail 0x00394879; WB F97630.
+	The KindOf tests on 'them' and builderObject's dozer test read the template byte, the
+	kind-120 test the inline isKindOf chain. The door centre goes through a non-escaping Coord3D
+	(z, y, x) copied field-wise into the address-taken centre, and its y half reads worldPos
+	directly: both keep retail's schedule and operand order. */
+//-------------------------------------------------------------------------------------------------
+Bool BuildAssistant::isLocationClearOfObjects( const Coord3D *worldPos, const ThingTemplate *build,
+	Real angle, Object *builderObject, UnsignedInt options, Player *player, Bool flag )
+{
+	Bool b20 = (options >> 5) & 1;
+	Bool b40 = (options >> 6) & 1;
+	Bool b100 = (options >> 8) & 1;
+	Bool b200 = (options >> 9) & 1;
+	Bool b400 = (options >> 10) & 1;
+	Rva00391667 rangeFilter( worldPos );
+	Rva0039161C collideFilter( worldPos, &build->getTemplateGeometryInfo(), angle, true );
+	Real range;
+	Rva000421C8 *filter;
+	const Rva0033B3D7Data *data = (const Rva0033B3D7Data *)build->rva0033B3D7();
+	if( data )
+	{
+		range = TheWritableGlobalData->m_1220 * 2.0f;
+		rangeFilter.m_range = data->m_range;
+		filter = &rangeFilter;
+	}
+	else
+	{
+		range = build->getTemplateGeometryInfo().getBoundingCircleRadius() + TheWritableGlobalData->m_1220;
+		if( build->isKindOf( KINDOF_189 ) )
+			collideFilter.m_1d = false;
+		filter = &collideFilter;
+	}
+
+	BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange( worldPos, range, FROM_BOUNDINGSPHERE_3D, filter, 0 );
+	Object *them;
+	while( (them = iter.next()) != NULL )
+	{
+		if( builderObject && flag )
+		{
+			CellShroudStatus cs = them->getShroudStatusForPlayer( builderObject->getControllingPlayer()->m_playerIndex );
+			if( cs == CELLSHROUD_3 || cs == CELLSHROUD_4 )
+				continue;
+		}
+		if( isRemovableForConstruction( them ) == TRUE )
+			continue;
+		if( them->getTemplate()->isKindOfByte( KINDOF_12 ) || them->getTemplate()->isKindOfByte( KINDOF_INERT ) )
+			continue;
+		if( b100 && builderObject && builderObject->getTemplate()->isKindOf( KINDOF_120 ) )
+		{
+			Module *m = CastleBehavior::rva000395708( them );
+			if( m )
+			{
+				ObjectID id = m->m_18;
+				if( id == builderObject->getID() )
+					continue;
+			}
+			if( them == builderObject )
+				continue;
+			if( them->getTemplate()->isKindOfByte( KINDOF_DOZER ) )
+				continue;
+		}
+		if( !build->isKindOf( KINDOF_104 ) && build->isKindOf( KINDOF_189 ) &&
+				them->getTemplate()->isKindOfByte( KINDOF_156 ) && them == builderObject )
+			continue;
+		if( them->testStatus( OBJECT_STATUS_98 ) )
+			continue;
+		if( them->getTemplate()->isKindOfByte( KINDOF_152 ) )
+			continue;
+		if( them->getTemplate()->isKindOfByte( KINDOF_2 ) )
+		{
+			if( b20 && builderObject && builderObject->getRelationship( them ) != ENEMIES )
+				continue;
+			return FALSE;
+		}
+		if( builderObject && builderObject->getRelationship( them ) == ENEMIES && !b200 )
+			return FALSE;
+		if( b200 && builderObject && builderObject->getRelationship( them ) == ENEMIES &&
+				them->getTemplate()->isKindOfByte( KINDOF_STRUCTURE ) )
+			return FALSE;
+	}
+
+	if( b400 && builderObject )
+	{
+		Player *owner = builderObject->getControllingPlayer();
+		if( owner )
+		{
+			Rva00394173Member list = ((const Rva00394173Field *)owner)->get();
+			for( Rva00394173Node *node = list.m_head->m_next; node != list.m_head; node = node->m_next )
+			{
+				Object *obj = TheGameLogic->findObjectByID( node->m_id );
+				if( obj && build->getTemplateGeometryInfo().CollidesWith( *worldPos, angle, obj->getGeometryInfo(),
+						*obj->getPosition(), obj->getOrientation() ) )
+					return FALSE;
+			}
+		}
+	}
+	if( b20 || b40 || b100 )
+		return TRUE;
+
+	// the exit or door point of the structure must stay reachable and unblocked
+	const Coord3D *wp = worldPos;
+	Coord3D pt;
+	pt.zero();
+	const ModuleInfo &info = build->getBehaviorModuleInfo();
+	Int count = info.getCount();
+	for( Int i = 0; i < count; ++i )
+	{
+		const ModuleData *md = info.getNthData( i );
+		if( md )
+		{
+			const Rva00394879Exit *exitData = md->rva00394879Exit();
+			if( exitData )
+			{
+				pt = exitData->m_offset;
+				Vector3 dir( pt.x, pt.y, pt.z );
+				dir.Normalize();
+				dir *= 20.0f;
+				pt.x += dir.X;
+				pt.y += dir.Y;
+				pt.z += dir.Z;
+				break;
+			}
+			const Rva00394879Door *doorData = md->rva00394879Door();
+			if( doorData )
+			{
+				pt = doorData->m_offset;
+				break;
+			}
+		}
+	}
+	if( pt.GetLength() != 0.0f )
+	{
+		Matrix3D tm( true );
+		tm.Rotate_Z( angle );
+		Vector3 out;
+		Matrix3D::Transform_Vector( tm, Vector3( pt.x, pt.y, pt.z ), &out );
+		out.X += wp->x;
+		out.Y += wp->y;
+		if( builderObject && builderObject->getTemplate()->isKindOfByte( KINDOF_DOZER )
+				&& !TheAI->pathfinder()->QuickDoesPathExist( builderObject, worldPos, (const Coord3D *)&out, 0 ) )
+			return FALSE;
+
+		Real dy = out.Y - wp->y;
+		Coord2D dir;
+		dir.x = out.X - wp->x;
+		dir.y = dy;
+		Real len = dir.length();
+		GeometryInfo doorGeom( GEOMETRY_BOX, FALSE, 1.0f, len * 0.5, 0.5f );
+		Real inv = 1.0f / len;
+		Real doorAngle = atan2( dir.x * inv, dy * inv );
+		Coord3D tmp;
+		tmp.z = wp->z;
+		tmp.y = (out.Y + worldPos->y) * 0.5f;
+		tmp.x = (out.X + wp->x) * 0.5f;
+		Coord3D center;
+		center.x = tmp.x;
+		center.y = tmp.y;
+		center.z = tmp.z;
+		Real doorRange = build->getTemplateGeometryInfo().getMajorRadius() * 2.0f;
+		BfmeWideResult iter2 = ThePartitionManager->iterateObjectsInRange( worldPos, doorRange, FROM_CENTER_3D,
+			Rva0004584D( *(BfmeFixedStorage0004543D *)&Rva00045411BitSet( 0, KINDOF_STRUCTURE ),
+					*(BfmeFixedStorage0004543D *)&KINDOFMASK_NONE )
+				.link( &Rva00261353Filter( builderObject->getControllingPlayer()->m_playerIndex ) ), 0 );
+		while( (them = iter2.next()) != NULL )
+		{
+			const GeometryInfo &themGeom = them->getGeometryInfo();
+			if( themGeom.CollidesWith( *them->getPosition(), them->getOrientation(), doorGeom, center, doorAngle ) )
+				return FALSE;
+		}
+	}
+	return TRUE;
+}  // end isLocationClearOfObjects
+
+inline __declspec(noinline) Bool Object::testStatus( ObjectStatusTypes bit ) const
+{
+	return (m_statusBits[(UnsignedInt)bit >> 5] & (1u << (bit & 31))) != 0;
+}
 
 // Native [0x003919F6,0x00391A70): cdecl two-object connectivity predicate.
 // WB 0x00F9BED0 independently repeats kind 156, link-ID comparisons and
