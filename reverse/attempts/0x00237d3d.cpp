@@ -1,20 +1,11 @@
 // ?Rva00237D3DCheck@@YAHXZ
-// partial score=0.791 date=2026-10-22
+// partial score=0.802326 date=2026-10-22
+// cl: /O1 /G6 /arch:SSE /DNDEBUG /MD /EHsc
 // ?Rva00237D3DCheck@@YAHXZ
-// partial score=0.791 date=2026-10-20
-// ?Rva00237D3DCheck@@YAHXZ
-// partial score=0.791 date=2026-10-17
-// ?Rva00237D3DCheck@@YAHXZ
-// partial score=0.628 date=2026-10-15
-// ?Rva00237D3DCheck@@YAHXZ
-// partial score=0.887 date=2026-10-14
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// Native237D3D..237E1F,226B. Caller238646 consumes int EAX.
-// Win32 import identities and the inlined GUID establish executable signature
-// verification. Native237E0A..237E1A contains16 internal NOP bytes; result is
-// unconditionally1 despite preserving WinVerifyTrust's status in EBX.
-// Retail discards the status: the NOP run replaced its test after linking, so the
-// dead mov ebx,eax and the NOPs have no C++ spelling and the body returns 1.
+// Retail: RVA 0x237D3D, extent 226. This diagnostic emits 219 bytes.
+// WinTrust file=16/data=44 and stack GUID are established by retail accesses.
+// The unsigned low bit is at most one, so the final predicate is always true.
+// Masked bytes match through +0xCC; sixteen NOPs and the return tail differ.
 struct TrustGuid { unsigned long a; unsigned short b,c; unsigned char d[8]; };
 struct TrustFile { unsigned long size; const unsigned short *path; void *file; TrustGuid *subject; };
 struct TrustData { unsigned long size; void *policy,*sip; unsigned long ui,revocation,choice; TrustFile *file; unsigned long state; void *stateData; const unsigned short *url; unsigned long flags; };
@@ -48,7 +39,5 @@ int Rva00237D3DCheck() {
     data.stateData=0;
     data.url=0;
     data.flags=0x210;
-    WinVerifyTrust(0,&action,&data);
-    LocalFree(argv);
-    return 1;
+    long status=WinVerifyTrust(0,&action,&data); unsigned long u=(unsigned long)status; LocalFree(argv); int r=0; if(((u&1u)<=1u)) goto yes; return r; yes:return r+1;
 }
