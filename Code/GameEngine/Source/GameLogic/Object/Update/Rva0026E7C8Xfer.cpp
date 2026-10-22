@@ -24,6 +24,14 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAURva003328B6Element@@U1@V?$allocator@URva003328B6Element@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003328B6Element;
+namespace _STL { template <> Rva003328B6Element * _STLP_alloc_proxy<Rva003328B6Element *,Rva003328B6Element,allocator<Rva003328B6Element> >::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@URva003328B6Element@@@_STL@@QBEXPAURva003328B6Element@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003328B6Element;
+namespace _STL { template <> void allocator<Rva003328B6Element>::deallocate(Rva003328B6Element *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

@@ -83,6 +83,10 @@ enum NameKeyType
 };
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVLocomotorTemplate@@@_STL@@QBEPAPBVLocomotorTemplate@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LocomotorTemplate;
+namespace _STL { template <> LocomotorTemplate const * * allocator<LocomotorTemplate const *>::allocate(unsigned int,void const *) const; }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVLocomotorTemplate@@@_STL@@QBEXPAPBVLocomotorTemplate@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class LocomotorTemplate;

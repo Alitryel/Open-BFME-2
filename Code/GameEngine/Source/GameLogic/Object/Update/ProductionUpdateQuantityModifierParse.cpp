@@ -13,6 +13,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUQuantityModifier@@U1@V?$allocator@UQuantityModifier@@@_ST:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct QuantityModifier;
+namespace _STL { template <> QuantityModifier * _STLP_alloc_proxy<QuantityModifier *,QuantityModifier,allocator<QuantityModifier> >::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UQuantityModifier@@@_STL@@QBEXPAUQuantityModifier@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct QuantityModifier;
+namespace _STL { template <> void allocator<QuantityModifier>::deallocate(QuantityModifier *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

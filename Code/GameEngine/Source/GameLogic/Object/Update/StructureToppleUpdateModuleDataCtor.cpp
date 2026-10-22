@@ -34,6 +34,34 @@ char g_00BF43A8;
 // unwindability for EH states 0/1/4; the vector bases arm none.
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$vector@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct FXBoneInfo;
+namespace _STL { template <> vector<FXBoneInfo,allocator<FXBoneInfo> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> vector<AngleFXInfo,allocator<AngleFXInfo> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL@@QAE@X:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> vector<ObjectCreationList const *,allocator<ObjectCreationList const *> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> _Vector_base<ObjectCreationList const *,allocator<ObjectCreationList const *> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> _Vector_base<AngleFXInfo,allocator<AngleFXInfo> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct FXBoneInfo;
+namespace _STL { template <> _Vector_base<FXBoneInfo,allocator<FXBoneInfo> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UFXBoneInfo@@@_STL@@QBEXPAUFXBoneInfo@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct FXBoneInfo;
+namespace _STL { template <> void allocator<FXBoneInfo>::deallocate(FXBoneInfo *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEXPAPBVObjectCreationList@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ObjectCreationList;
