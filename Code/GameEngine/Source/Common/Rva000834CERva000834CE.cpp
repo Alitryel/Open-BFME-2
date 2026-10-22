@@ -24,10 +24,11 @@ public:
 		unsigned min_vertex_index, unsigned vertex_count);
 };
 
-class Rva0008304A
+// The native refresh target is now rowed in W3DWater.cpp at 0x0008304A.
+class RenderableStandingWaterArea
 {
 public:
-	void rva0008304A();
+	void AllocateAndFillBuffers();
 };
 
 class Rva000834CE
@@ -46,7 +47,7 @@ public:
 void Rva000834CE::rva000834CE()
 {
 	if (m_needsRefresh) {
-		((Rva0008304A *)this)->rva0008304A();
+		((RenderableStandingWaterArea *)this)->AllocateAndFillBuffers();
 		m_needsRefresh = false;
 	}
 
