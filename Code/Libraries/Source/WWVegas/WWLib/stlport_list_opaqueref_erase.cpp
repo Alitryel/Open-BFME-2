@@ -38,4 +38,11 @@ struct OpaqueRefElement4
 bool operator==(const OpaqueRefElement4 &a, const OpaqueRefElement4 &b);
 bool operator<(const OpaqueRefElement4 &a, const OpaqueRefElement4 &b);
 
-template class _STL::list<OpaqueRefElement4, _STL::allocator<OpaqueRefElement4> >;
+// Emit the recovered operations and their ownership chain. The whole-class
+// instantiation also emitted sort/remove with undefined element comparisons;
+// those operations have no retail owner in this unit.
+template _STL::list<OpaqueRefElement4>::iterator
+_STL::list<OpaqueRefElement4>::erase(iterator);
+template void _STL::list<OpaqueRefElement4>::pop_front();
+template void _STL::list<OpaqueRefElement4>::pop_back();
+template _STL::list<OpaqueRefElement4>::~list();
