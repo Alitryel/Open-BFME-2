@@ -16,13 +16,13 @@ public:
 	~GODupBase();
 };
 
+// Retail's factory allocates 16 B: the 4 B snapshot base plus the canonical
+// 12 B SubsystemInterface. The old 8 B subsystem view needed 4 B padding here.
 class Rva000647B5 : public GODupBase
 {
 public:
 	Rva000647B5();
 	~Rva000647B5();
-private:
-	char m_pad[4];
 };
 
 void *__cdecl operator new(unsigned int size);
