@@ -181,7 +181,7 @@ Rva005CC656::~Rva005CC656()
 //   0x004867F9  0x0045CE54  RebuildHoleExposeDie -> DieModule
 //   0x0047E51B  0x0047BF43  RiderChangeContain -> SiegeEngineContain
 //   0x000416E7  0x00238B90  Rva000416E7 -> Rva00238B90
-//   0x000A43C8  0x00104E03  Rva0008FF3E -> Rva00104E03
+//   0x000A43C8  0x00104E03  Rva0008FF3E -> Rva0078D310Host
 //   0x000D089D  0x000C8BE0  Rva000D089D -> W3DModelDrawModuleData
 //   0x0010F00C  0x001164F5  Rva0010F00C -> Rva001164F5
 //   0x0021113D  0x003FAFB9  Rva0021113D -> Rva003FAFB9
@@ -307,13 +307,13 @@ Rva000416E7::~Rva000416E7()
 {
 }
 
-class Rva00104E03
+class Rva0078D310Host
 {
 public:
-	virtual ~Rva00104E03();
+	virtual ~Rva0078D310Host();
 };
 
-class __declspec(novtable) Rva0008FF3E : public Rva00104E03
+class __declspec(novtable) Rva0008FF3E : public Rva0078D310Host
 {
 public:
 	virtual ~Rva0008FF3E();

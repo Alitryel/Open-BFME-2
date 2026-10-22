@@ -1949,7 +1949,7 @@ name,address,notes
 ??0Gen003AA0D0@@QAE@XZ,0x005DE5EA,callee of ??0?$vector@UGen003AA0D0@@V?$allocator@UGen003AA0D0@@@_STL@@@_STL@@QAE@I@Z at retail 0x005DE870 read from its REL32 displacement; opaque polymorphic payload ctor body unrowed
 ??0Gen005ED0D0@@QAE@PAVHost005ED050@@@Z,0x003AF049,callee of ?create@Host005ED050@@QAEPAVGen005ED0D0@@XZ at retail 0x003AF012 read from its REL32 displacement; donor-carried name; body unrowed
 ??0Gen005EDB10@@QAE@PAVHost005EDA90@@@Z,0x003AF645,callee of ?create@Host005EDA90@@QAEPAVGen005EDB10@@XZ at retail 0x003AF60E read from its REL32 displacement; donor-carried name; body unrowed
-??0Gen0078D1C0@@QAE@XZ,0x00104EBF,callee of ??0Rva0078D270GameWindowHost@@QAE@XZ at retail 0x00104F32 read from its REL32 displacement; body unrowed
+??0Rva00104DB0@@QAE@XZ,0x00104EBF,callee of ??0Rva0078D270GameWindowHost@@QAE@XZ at retail 0x00104F32 read from its REL32 displacement; body unrowed
 ??0GenBase009A1A30@@QAE@XZ,0x001B4E63,BFME1 donor name for the base ctor called by Rva001129B0 (0x0005107D); retail calls SubsystemInterface ctor 0x001B4E63 there (alias)
 ??0GenBase009EB7D0@@QAE@XZ,0x0061ED40,retail REL32 from Create_Rva00972880_Prototype at 0x00181165; BFME1 prototype base constructor
 ??0GenX005EBB30@@QAE@PAVHostX005EBB30@@@Z,0x003AE683,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
@@ -2988,7 +2988,6 @@ name,address,notes
 ??1Gen0002AB5D@@QAE@XZ,0x000AAE59,callee of ?Rva007889D0@@YAXPAVGen0002AB5D@@@Z at retail 0x000AB450 read from its REL32 displacement; body unrowed
 ??1Gen000658A0@@QAE@XZ,0x0002CC70,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1Gen003AA0D0@@UAE@XZ,0x005DE5B5,callee of ??0?$vector@UGen003AA0D0@@V?$allocator@UGen003AA0D0@@@_STL@@@_STL@@QAE@I@Z at retail 0x005DE870 read from its REL32 displacement; ICF alias onto the rowed Rva005DE5B5 destroy helper
-??1Gen0078D1C0@@UAE@XZ,0x00104DB0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1Gen007EB140@@UAE@XZ,0x00657690,address read from the REL32 displacement in DirtySock Y2ScalarDeleters at 0x006580E0; BFME1 names this dtor; body not yet converted
 ??1Gen007F4D00@@UAE@XZ,0x006617C0,address read from the REL32 displacement in DirtySock Y2ScalarDeleters at 0x006617A0; BFME1 names this dtor; body not yet converted
 ??1Gen007F86D0@@UAE@XZ,0x00664710,address read from the REL32 displacement in DirtySock Y2ScalarDeleters at 0x00664D50; BFME1 names this dtor; body not yet converted
@@ -4186,7 +4185,7 @@ name,address,notes
 ??1Rva000FE9C7@@QAE@XZ,0x000FE290,non-virtual dtor called directly by scalar deleting dtor 0x000FE9C7; owning class unproven (address also carries bfmeResetSH row)
 ??1Rva00102188@@UAE@XZ,0x00102188,opaque dtor; call target of retail scalar-deleting-dtor at 0x1021BE (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva00104DB0@@UAE@XZ,0x00104DB0,opaque dtor; call target of retail scalar-deleting-dtor at 0x104F16 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
-??1Rva00104E03@@UAE@XZ,0x00104E03,opaque dtor; call target of retail scalar-deleting-dtor at 0x104F73 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
+??1Rva0078D310Host@@UAE@XZ,0x00104E03,opaque dtor; call target of retail scalar-deleting-dtor at 0x104F73 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva00108650@@UAE@XZ,0x00108650,"destructor the scalar deleting destructor 0x00108D17 calls (REL32 at 0x00108D1A; vtable 0x00BCF9AC#0); opaque address name"
 ??1Rva00108B4D@@UAE@XZ,0x00108B4D,"destructor the scalar deleting destructor 0x000EFAD2 calls (REL32 at 0x000EFAD5; vtable 0x00BCEFA0#0); opaque address name"
 ??1Rva001095B2@@UAE@XZ,0x001095B2,opaque dtor; call target of retail scalar-deleting-dtor at 0x10B9C9 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
@@ -15086,7 +15085,7 @@ _VP6_ReadTokens,0x001BC3D0,callee of _VP6_DecodeBlock
 ??1Rva0036CA00Str@@QAE@XZ,0x0010F149,inline dtor of the 4-byte counted handle (if m_item Release_Ref): every defining unit emits 8B 09 85 C9 74 05 E9 <Release_Ref 0x00050ED3> C3 = retail 0x0010F149 (row ??1BfmeStringTailRecord156); was 0x00036410 (releaseBuffer) from a BFME1-donor call-site guess at 0x0050C4E8
 ?rva006BEF80@Rva006BEF80@@QAEXHHHHHH@Z,0x006BEF80,thiscall callee of 0x0033A77F (REL32 at 0x0033A799); ghidra FUN_00abef80 1079B ends ret 0x18 = six dword args
 ?rva005CCF47@Impl@Checklist@StrategicInGameUI@@QAE?AUChecklistItemRef@3@PAVChecklistItem@3@@Z,0x005CCF47,callee of 0x005CCFF3 (REL32 at 0x005CD004); ghidra FUN_009ccf47 138B RET8 = hidden return + one arg; name as in the banked 0x005CCF47 attempts
-??0Rva0010F058@@QAE@H@Z,0x0010F058,callees of 0x000A8D0B (REL32 at 0x000A8D32 and 0x000A8D4B): ctor FUN_0050f058 108B ret 4 (one arg) and method FUN_0050f962 143B ret 8 (two args); names as in the banked attempts
+??0Rva0010F0C4@@QAE@H@Z,0x0010F058,callees of 0x000A8D0B (REL32 at 0x000A8D32 and 0x000A8D4B): ctor FUN_0050f058 108B ret 4 (one arg) and method FUN_0050f962 143B ret 8 (two args); names as in the banked attempts
 ?rva0010F962@Rva0010F962@@QAEXHH@Z,0x0010F962,callees of 0x000A8D0B (REL32 at 0x000A8D32 and 0x000A8D4B): ctor FUN_0050f058 108B ret 4 (one arg) and method FUN_0050f962 143B ret 8 (two args); names as in the banked attempts
 ?rva001B5384@Rva00221088@@QAEXXZ,0x001B5384,thiscall callee of 0x002210CF (REL32 at 0x00221114) on the StrategicHUD static; ghidra FUN_005b5384 426B single plain ret = no stack args
 ??0Rva004FD1BC@@QAE@XZ,0x004FD0DA,scenario ctor called by Scenario::ParseINI 0x004FD94E (REL32 at 0x004FD97E) on its new 0xB0-byte object; ghidra 226B plain ret; name as in the banked 0x004FD0DA attempt

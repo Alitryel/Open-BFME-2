@@ -2403,11 +2403,11 @@ _Rva0088E1A0ShowAssertCrashDialog,0x0003D880,address,placeholder
 ??_GRva0010461F@@UAEPAXI@Z,0x00104723,address,placeholder
 ??1Rva00104DB0@@UAE@XZ,0x00104DB0,address,placeholder
 ?rva00104DE6@Rva00104DE6@@QAEXPBURva00104DE6Font@@@Z,0x00104DE6,address,placeholder
-??1Rva00104E03@@UAE@XZ,0x00104E03,address,placeholder
+??1Rva0078D310Host@@UAE@XZ,0x00104E03,address,placeholder
 ?rva00104E68@Rva00104DE6@@QAEXHHHH@Z,0x00104E68,address,placeholder
 ??_GRva00104DB0@@UAEPAXI@Z,0x00104F16,address,placeholder
-??0Rva0078D270GameWindowHost@@QAE@XZ,0x00104F32,address,placeholder
-??_GRva00104E03@@UAEPAXI@Z,0x00104F73,address,placeholder
+??0Rva0078D310Host@@QAE@XZ,0x00104F32,address,placeholder
+??_GRva0078D310Host@@UAEPAXI@Z,0x00104F73,address,placeholder
 ??0Rva0078D310Host@@QAE@PAX@Z,0x00104F8F,address,placeholder
 ?Rva00104FD5Create@@YGPAVRva0078D310Host@@PAX@Z,0x00104FD5,address,placeholder
 ?Rva001052F9Get@@YAHXZ,0x001052F9,address,placeholder
@@ -18323,7 +18323,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ??_GRva005D073A@@UAEPAXI@Z,0x005D0A83,address,placeholder
 ??_GRva005D078B@@UAEPAXI@Z,0x005D0A9F,address,placeholder
 ?clear@Rva005D0ABB@@QAEXXZ,0x005D0ABB,address,placeholder
-??0Rva005D0C31@@QAE@PAX@Z,0x005D0C31,address,placeholder
+??0Rva005D078B@@QAE@PAX@Z,0x005D0C31,address,placeholder
 ??1Rva005D0D85@@UAE@XZ,0x005D0D85,address,placeholder
 ??_GRva005D0D85@@UAEPAXI@Z,0x005D1007,address,placeholder
 ??_GRva005D1035@@UAEPAXI@Z,0x005D1035,address,placeholder

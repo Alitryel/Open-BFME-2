@@ -22,10 +22,10 @@ private:
 
 // The 0x28-byte object 0x000A8D0B allocates; constructor and member names
 // follow the banked 0x0010F058 / 0x0010F962 attempts (address-derived).
-class Rva0010F058
+class Rva0010F0C4
 {
 public:
-	Rva0010F058(int a);
+	Rva0010F0C4(int a);
 private:
 	char unknown00[0x28];
 };
@@ -60,6 +60,6 @@ inline __declspec(noinline) void Rva000A8C9B::rva000A8CE5(OpaqueRefCounted *valu
 // then forwards the other two arguments to the pointee's 0x10F962.
 void Rva000A8C9B::rva000A8D0B(int a, int b, int c)
 {
-	rva000A8CE5(reinterpret_cast<OpaqueRefCounted *>(new Rva0010F058(a)));
+	rva000A8CE5(reinterpret_cast<OpaqueRefCounted *>(new Rva0010F0C4(a)));
 	reinterpret_cast<Rva0010F962 *>(m_ptr)->rva0010F962(*reinterpret_cast<const AsciiString *>(b), reinterpret_cast<const void *>(c));
 }

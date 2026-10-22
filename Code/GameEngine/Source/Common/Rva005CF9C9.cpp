@@ -93,11 +93,11 @@ public:
 	virtual ~Rva005D0C31Second();
 };
 
-class Rva005D0C31 : public Rva005CF8A1, public Rva005D0C31Second
+class Rva005D078B : public Rva005CF8A1, public Rva005D0C31Second
 {
 public:
-	Rva005D0C31(void *owner);
-	virtual ~Rva005D0C31();
+	Rva005D078B(void *owner);
+	virtual ~Rva005D078B();
 };
 
 namespace StrategicInGameUI
@@ -172,7 +172,7 @@ void Rva005D0DBBCallback::rva005D0E65()
 {
 	reinterpret_cast<StrategicInGameUI::BattleResolver::Impl::PromptStateHandler *>(
 		reinterpret_cast<char *>(this) - 8)->SendResolutionMethodMessage(2);
-	Rva005D0C31 *state = new Rva005D0C31(
+	Rva005D078B *state = new Rva005D078B(
 		*reinterpret_cast<Rva005CF9C9Mid **>(reinterpret_cast<char *>(this) - 4));
 	reinterpret_cast<Rva005D0DBBOwner *>(owner())->m_state.rva00575674((Object *)state);
 }

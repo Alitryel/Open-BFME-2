@@ -1,4 +1,4 @@
-// cl: -GF -Gy -MD -EHsc -GR -DNDEBUG -DWIN32 -D_WINDOWS -Ireference/open-bfme-1/game/GameEngine/Source/GameClient/GUI
+// cl: -GF -Gy -MD -EHsc -DNDEBUG -DWIN32 -D_WINDOWS -Ireference/open-bfme-1/game/GameEngine/Source/GameClient/GUI
 
 //
 // ??0Rva0078D310Host@@QAE@PAX@Z
@@ -9,10 +9,10 @@
 // recompiled /Os). The donor file carries this single definition, so the
 // dedicated TU is that body verbatim.
 //
-class Gen0078D1C0
+class Rva00104DB0
 {
 public:
-	Gen0078D1C0();
+	Rva00104DB0();
 };
 
 class BfmeAptScreenBase
@@ -22,7 +22,7 @@ public:
 	virtual ~BfmeAptScreenBase();
 
 protected:
-	Gen0078D1C0 *m_memberPointer;
+	Rva00104DB0 *m_memberPointer;
 	char m_unreconstructed[ 0x210 ];
 };
 
@@ -33,7 +33,7 @@ public:
 	virtual ~Rva0078D310Host();
 
 private:
-	Gen0078D1C0 m_member;
+	Rva00104DB0 m_member;
 };
 
 Rva0078D310Host::Rva0078D310Host( void *context )

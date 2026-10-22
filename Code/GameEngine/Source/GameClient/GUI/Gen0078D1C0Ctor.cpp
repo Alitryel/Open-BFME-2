@@ -21,11 +21,11 @@ private:
 	char m_unreconstructed[0xC0];
 };
 
-class Gen0078D1C0 : public Gen0078D1C0Base
+class Rva00104DB0 : public Gen0078D1C0Base
 {
 public:
-	Gen0078D1C0();
-	virtual ~Gen0078D1C0();
+	Rva00104DB0();
+	virtual ~Rva00104DB0();
 private:
 	Render2DSentenceClass m_sentence;
 	int m_first;
@@ -35,7 +35,7 @@ private:
 	bool m_secondFlag;
 };
 
-Gen0078D1C0::Gen0078D1C0()
+Rva00104DB0::Rva00104DB0()
 {
 	m_second = 0;
 	m_first = 0;
