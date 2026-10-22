@@ -40,6 +40,12 @@ struct BfmeRecord001ECAF9
 	/* the rowed Rva001EB329::rva001EB329 */ __declspec(dllimport) __forceinline void rva001EB329(INI * p0) { ((Rva001EB329 *)this)->rva001EB329(p0); }
 };
 
+// Retail's record ctor/dtor are folded onto the 0x001EC311 and 0x001EC349
+// rows: same thiscall shapes over the same 36-byte record, and this unit's
+// verified row resolves the calls there.
+#pragma comment(linker, "/alternatename:??0BfmeRecord001ECAF9@@QAE@ABV?$StringBase@D@@@Z=??0Rva001EC311@@QAE@ABV?$StringBase@D@@@Z")
+#pragma comment(linker, "/alternatename:??1BfmeRecord001ECAF9@@QAE@XZ=??1Rva001EC349@@QAE@XZ")
+
 void Rva001ED2C5Parse(INI *ini, void *unused, _STL::vector<BfmeRecord001ECAF9> *vec)
 {
 	const char *tok = ini->getNextToken(0);

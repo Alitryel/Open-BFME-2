@@ -8,6 +8,11 @@
 #include <vector>
 #include "BFME2ParticleTextureHandles.h"
 
+// The fallback texture handle store pushes through its own vector spelling;
+// retail resolves the call to the 0x004DFCB0 push_back row (same thiscall and
+// one pointer argument), so bind it.
+#pragma comment(linker, "/alternatename:?vecPushBack@Rva0020FB8BVec20@@QAEXAAPAX@Z=?push_back@?$vector@PAVRva0020479E@@V?$allocator@PAVRva0020479E@@@_STL@@@_STL@@QAEXABQAVRva0020479E@@@Z")
+
 // Native fallback getters 0x00132E76..0x00132F30 and 0x00132F30..0x00132FE9.
 // Target evidence: the matched particle and terrain callbacks use these handles
 // as absent-texture fallbacks. Each constructs a lazy one-pixel format-21 texture
