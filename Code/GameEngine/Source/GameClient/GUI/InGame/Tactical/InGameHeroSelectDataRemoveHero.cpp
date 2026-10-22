@@ -42,6 +42,7 @@ struct NodeRef00525D9A {NodeRef00525D9A(Pod12Node00525D9A*p):m_ptr(p){} Pod12Nod
 class Holder00525D9A {
 public:
  __declspec(noinline) void Rva005258F8(int,NodeRef00525D9A);
+ template<class T,class Traits> __declspec(noinline) void Rva005258F8(int,_STL::_List_iterator<T,Traits>);
  __declspec(noinline) void rva00525407(const HeroCall &);
 private:Rva005259B9Listener **begin,**end,**capacity;unsigned int index;
 };
@@ -80,3 +81,15 @@ void Rva002D37Sub::rva00525A80(int objectWord)
 {
     implementation->rva005259B9(reinterpret_cast<Object *>(objectWord));
 }
+
+// The add-hero caller passes STLport's nontrivial iterator temporary directly.
+// This overload is a byte-and-relocation twin of the rowed 30-byte raw-node
+// implementation at 0x005258F8 (including its rva00525407 call). Its definition
+// stays in that owner's unit so the fold pin can prove the whole body.
+struct BfmePod12 { char payload[12]; BfmePod12(const BfmePod12 &); ~BfmePod12(); };
+template<class T,class Traits>
+void Holder00525D9A::Rva005258F8(int fn,_STL::_List_iterator<T,Traits> node) {
+ union{int fn;HeroNotify method;} binding;binding.fn=fn;
+ HeroCall tmp;tmp.method=binding.method;tmp.arg.node=node._M_node;rva00525407(tmp);
+}
+template void Holder00525D9A::Rva005258F8(int,_STL::list<BfmePod12>::iterator);
