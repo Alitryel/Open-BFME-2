@@ -1,4 +1,4 @@
-// cl: /MD /EHsc /DNDEBUG /Ireference/shims/moduledata
+// cl: /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 //
 // ??1OpenContainModuleData@@UAE@XZ, retail 0x00257481, 134 bytes.
 // Target evidence: the base ctor 0x00465124 installs vtable 0x00C43658, whose
@@ -13,6 +13,8 @@
 // its address-derived name (donor-free).
 
 #include "Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 class OpaqueRefCounted
 {
@@ -83,7 +85,7 @@ private:
 	int m_x[3];
 };
 
-class __declspec(novtable) OpenContainModuleData : public Snapshot
+class __declspec(novtable) OpenContainModuleData : public ModuleData
 {
 public:
 	virtual ~OpenContainModuleData();

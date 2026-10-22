@@ -18,6 +18,8 @@
 #include <vector>
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree@URva00463D59Element@@U1@U?$_Identity@URva00463D59Element@@@_STL@@U?$less@URv:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00463D59Element;
@@ -55,6 +57,8 @@ class AsciiString;
 namespace _STL { template <> void allocator<AsciiString>::deallocate(AsciiString *, size_t) const; }
 
 struct BfmePod32 { int m_data[8]; };
+// Retail folds this list destructor to the rowed whole-body wrapper at 207F08.
+namespace _STL { template <> list<BfmePod32, allocator<BfmePod32> >::~list(); }
 struct Rva00463D59Element { int m_a; int m_b; };
 inline bool operator<(const Rva00463D59Element &a, const Rva00463D59Element &b) { return a.m_a < b.m_a; }
 
@@ -117,15 +121,13 @@ struct Rva0024CA24Bits
 	unsigned int m_words[4];
 };
 
-class OpenContainModuleData : public Snapshot
+// Native C43658 has the shared 31-slot interface with a true slot 8.
+class OpenContainModuleData : public ModuleData
 {
 public:
 	OpenContainModuleData();
 	virtual ~OpenContainModuleData();
-protected:
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess();
+	virtual bool slot08() const { return true; }
 private:
 	int m_04;
 	DieMuxData m_dieMuxData;			// +0x08
