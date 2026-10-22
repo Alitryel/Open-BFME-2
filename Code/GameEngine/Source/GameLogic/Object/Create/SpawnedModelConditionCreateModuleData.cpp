@@ -22,6 +22,10 @@
 // TU builds without /GX.
 #include <vector>
 #include "Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAUBfmeStringHeadRecord160@@@_STL@@YAXPAUBfmeStringHeadRecord160@@0ABU__f:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringHeadRecord160;
+namespace _STL { template <> void __destroy_aux<BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *,BfmeStringHeadRecord160 *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmeStringHeadRecord160@@@_STL@@YAXPAUBfmeStringHeadRecord160@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringHeadRecord160;

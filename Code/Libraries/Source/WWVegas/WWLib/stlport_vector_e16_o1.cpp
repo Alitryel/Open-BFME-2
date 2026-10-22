@@ -39,6 +39,10 @@ template <> vector<BfmeE16> &vector<BfmeE16>::operator=(const vector<BfmeE16> &)
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_fill_insert(BfmeE16 *, unsigned int, BfmeE16 const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAUBfmeE16@@PAU1@@_STL@@YAPAUBfmeE16@@PAU1@00ABU__false_type@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE16;
+namespace _STL { template <> BfmeE16 * __uninitialized_copy<BfmeE16 *,BfmeE16 *>(BfmeE16 *,BfmeE16 *,BfmeE16 *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAUBfmeE16@@IU1@@_STL@@YAPAUBfmeE16@@PAU1@IABU1@ABU__false_type@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeE16;

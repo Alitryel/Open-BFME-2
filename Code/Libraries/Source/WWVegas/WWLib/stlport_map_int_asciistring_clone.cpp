@@ -17,6 +17,10 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 }
 
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+// Suppress this TU's non-retail copy of ??$_Construct@VRva00064640Record@@V1@@_STL@@YAXPAVRva00064640Record@@ABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva00064640Record;
+namespace _STL { template <> void _Construct<Rva00064640Record,Rva00064640Record>(Rva00064640Record *,Rva00064640Record const &); }
 // Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@VRva00064640Record@@V1@U?$_Identity@VRva00064640Record@@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva00064640Record;

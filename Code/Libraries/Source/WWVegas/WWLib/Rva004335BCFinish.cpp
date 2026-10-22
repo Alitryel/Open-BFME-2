@@ -16,6 +16,9 @@
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class BfmeStringTailRecord156;
 namespace _STL { template <> BfmeStringTailRecord156 * allocator<BfmeStringTailRecord156>::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ??$_Destroy@PAVBfmeStringTailRecord156@@@_STL@@YAXPAVBfmeStringTailRecord156@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Destroy<BfmeStringTailRecord156 *>(BfmeStringTailRecord156 *,BfmeStringTailRecord156 *); }
 // Suppress this TU's non-retail copy of ??$_Construct@VBfmeStringTailRecord156@@V1@@_STL@@YAXPAVBfmeStringTailRecord156@@ABV1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class BfmeStringTailRecord156;
