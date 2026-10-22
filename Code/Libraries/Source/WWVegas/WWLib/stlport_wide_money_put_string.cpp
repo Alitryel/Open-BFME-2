@@ -172,8 +172,8 @@ inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 }
 
 namespace _STL {
-template <> template <> __declspec(noinline) void basic_string<char>::_M_range_initialize(char* first,char* last) { _M_range_initialize(first,last,forward_iterator_tag()); }
-template <> template <> __declspec(noinline) void basic_string<char>::_M_range_initialize(const char* first,const char* last) { _M_range_initialize(first,last,forward_iterator_tag()); }
+template <> template <> inline __declspec(noinline) void basic_string<char>::_M_range_initialize(char* first,char* last) { _M_range_initialize(first,last,forward_iterator_tag()); }
+template <> template <> inline __declspec(noinline) void basic_string<char>::_M_range_initialize(const char* first,const char* last) { _M_range_initialize(first,last,forward_iterator_tag()); }
 }
 namespace _STL {
 #pragma inline_depth(0)
