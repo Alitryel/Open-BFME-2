@@ -64,4 +64,7 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva006200B0Element { unsigned char words[1];bool operator<(const Rva006200B0Element&)const;bool operator==(const Rva006200B0Element&)const; };
+// hash_map::_M_equal compares elements with an operator== that has no body;
+// declare it so the class instantiation below does not emit it.
+namespace _STL { template <> bool _STLP_CALL hash_map<unsigned,Rva006200B0Element>::_M_equal(const hash_map<unsigned,Rva006200B0Element> &, const hash_map<unsigned,Rva006200B0Element> &); }
 template class _STL::hash_map<unsigned,Rva006200B0Element>;

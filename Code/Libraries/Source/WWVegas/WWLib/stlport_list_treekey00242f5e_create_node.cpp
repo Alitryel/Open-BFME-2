@@ -26,7 +26,12 @@ struct TreeKey00242F5E
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> _List_iterator<TreeKey00242F5E,_Nonconst_traits<TreeKey00242F5E> > list<TreeKey00242F5E,allocator<TreeKey00242F5E> >::insert(_List_iterator<TreeKey00242F5E,_Nonconst_traits<TreeKey00242F5E> >,TreeKey00242F5E const &); }
 
-bool operator==(const TreeKey00242F5E &a, const TreeKey00242F5E &b);
+// remove()/unique() need an operator== retail never defines; declare them
+// specialized so the class instantiation below does not emit them.
+namespace _STL {
+template <> void list<TreeKey00242F5E,allocator<TreeKey00242F5E> >::remove(TreeKey00242F5E const &);
+template <> void list<TreeKey00242F5E,allocator<TreeKey00242F5E> >::unique();
+}
 bool operator<(const TreeKey00242F5E &a, const TreeKey00242F5E &b);
 
 // Retail's placement copy here is the distinct body rowed at 0x0029FB9C, not
