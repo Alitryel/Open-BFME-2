@@ -57,11 +57,14 @@ public:
 	}
 };
 
+// Named for this unit only: the frameless 14-byte ~_String_base at 0x00142D70
+// is a separate body, and this view's unused out-of-line copy (EH-framed, like
+// the destructor below) must not compete with it.
 template <class CharT, class Alloc>
-class _String_base
+class _WideStringBaseView
 {
 public:
-	~_String_base()
+	~_WideStringBaseView()
 	{
 		if (_M_start != 0)
 			free(_M_start);
@@ -73,7 +76,7 @@ public:
 };
 
 template <class CharT, class Traits, class Alloc>
-class basic_string : private _String_base<CharT, Alloc>
+class basic_string : private _WideStringBaseView<CharT, Alloc>
 {
 public:
 	~basic_string();
