@@ -1005,6 +1005,9 @@ struct Render2DDevice9 {
     virtual HRESULT __stdcall GetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD* pValue)=0;
     virtual HRESULT __stdcall SetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD Value)=0;
 };
+// The out-of-line copy of this inline is a COMDAT the link may keep; retail's
+// (0x000661DD) is size-optimised (__EH_prolog frame), unlike this /O2 unit.
+#pragma optimize("s", on)
 WWINLINE void DX8Wrapper::Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
 {
 if (stage >= MAX_TEXTURE_STAGES)
@@ -1026,6 +1029,7 @@ TextureStageStates[stage][(unsigned int)state]=value;
 ((Render2DDevice9*)_Get_D3D_Device8())->SetTextureStageState(stage,state,value); number_of_DX8_calls++;
 DX8_RECORD_TEXTURE_STAGE_STATE_CHANGE();
 }
+#pragma optimize("", on)
 
 
 
