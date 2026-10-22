@@ -28,7 +28,11 @@ __declspec(noinline) inline bool Rva00332F5B::rva00332F81(const Rva00332F5B &oth
  return m_nameKey==other.m_nameKey&&Rva00045473Equal(&m_required,&other.m_required)&&Rva00045473Equal(&m_excluded,&other.m_excluded);
 }
 struct EventFlagEntry {void setKeyFromName(const char *);};
-struct Rva00336AB2Element {unsigned char bytes[156];};
+// The event record is BfmeOpaqueRecord156: push_back 0x00336AB2 is rowed for it
+// (StlSweepW5Rva00336AB2.cpp) and calls its rowed _Construct and overflow.
+// (Object156.h's member view clashes with this unit's WeaponTemplateSetHead.)
+struct BfmeOpaqueRecord156 {unsigned char bytes[156];};
+typedef BfmeOpaqueRecord156 Rva00336AB2Element;
 extern template void _STL::vector<Rva00336AB2Element>::push_back(const Rva00336AB2Element &);
 class LuaScriptEngine {public:void rva002E9680ParseModelConditionEvent(BfmeLexEAN *);
  private:char pad[0xBC];_STL::vector<Rva00336AB2Element> m_modelConditionEvents;

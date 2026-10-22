@@ -1,5 +1,4 @@
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
-// Element identity and unconstrained fields remain address-derived structural inference.
 // cl: /O1 /arch:SSE /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -64,5 +63,17 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
-struct Rva005DFBB8Element { unsigned words[4];Rva005DFBB8Element();Rva005DFBB8Element(const Rva005DFBB8Element&b);bool operator<(const Rva005DFBB8Element&)const;bool operator==(const Rva005DFBB8Element&)const; };
-template class _STL::hash_map<int,Rva005DFBB8Element>;
+// The element is LadderPref: the pair copy (0x005DFBB8) calls the rowed
+// LadderPref copy ctor 0x005BA3F5 (LadderPrefCopy.cpp). The long-keyed twin of
+// this body is rowed in stlport_map_long_ladderpref.cpp; this row keeps the
+// sweep's int key.
+class LadderPref
+{
+public:
+    LadderPref(const LadderPref &source);
+    ~LadderPref();
+private:
+    int m_words[4];
+};
+// Instantiate only the rowed pair copy constructor.
+template _STL::pair<const int, LadderPref>::pair(const _STL::pair<const int, LadderPref> &);
