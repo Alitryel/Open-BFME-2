@@ -24,6 +24,10 @@
 #include "Common/AsciiString.h"
 #pragma optimize("", on)
 #include "PreRTS.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void _STLP_alloc_proxy<_Rb_tree_node<AsciiString> *,_Rb_tree_node<AsciiString>,allocator<_Rb_tree_node<AsciiString> > >::deallocate(_Rb_tree_node<AsciiString> *,unsigned int); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@_STL@@QBEXPAU?$_Rb_tree_nod:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;

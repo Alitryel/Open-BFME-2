@@ -34,6 +34,10 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAUBfmeWordValue4@@@_STL@@QBEXPAPAUBfmeWordValue4@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeWordValue4;
+namespace _STL { template <> void allocator<BfmeWordValue4 *>::deallocate(BfmeWordValue4 * *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@UBfmeWordValue4@@@_STL@@QBEXPAUBfmeWordValue4@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeWordValue4;

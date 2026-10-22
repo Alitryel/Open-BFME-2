@@ -19,6 +19,10 @@
 #include "../GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilderFarmLibrary.h"
 
 #include "Common/GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAPBVModuleData@@PBV1@V?$allocator@PBVModuleData@@@_STL@@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> void _STLP_alloc_proxy<ModuleData const * *,ModuleData const *,allocator<ModuleData const *> >::deallocate(ModuleData const * *,unsigned int); }
 // Suppress this TU's non-retail copy of ?reserve@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;

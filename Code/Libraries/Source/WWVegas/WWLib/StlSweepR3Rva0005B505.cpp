@@ -52,6 +52,9 @@ namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?erase@?$hashtable@HHU?$hash@H@_STL@@U?$_Identity@H@2@U?$equal_to@H@2@V?$allocator@H@2@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void hashtable<int,int,hash<int>,_Identity<int>,equal_to<int>,allocator<int> >::erase(_Ht_iterator<int,_Const_traits<int>,int,hash<int>,_Identity<int>,equal_to<int>,allocator<int> >,_Ht_iterator<int,_Const_traits<int>,int,hash<int>,_Identity<int>,equal_to<int>,allocator<int> >); }
+// Suppress this TU's non-retail copy of ?erase@?$hashtable@HHU?$hash@H@_STL@@U?$_Identity@H@2@U?$equal_to@H@2@V?$allocator@H@2@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> unsigned int hashtable<int,int,hash<int>,_Identity<int>,equal_to<int>,allocator<int> >::erase(int const &); }
 // Suppress this TU's non-retail copy of ?_M_bkt_num_key@?$hashtable@HHU?$hash@H@_STL@@U?$_Identity@H@2@U?$equal_to@H@2@V?$allocato:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

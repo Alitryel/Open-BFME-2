@@ -12,6 +12,10 @@
 // compiler-shape hypothesis for the encoding, not a recovered declaration.
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??0?$_Vector_base@VBfmeStringTailRecord156@@V?$allocator@VBfmeStringTailRecord156@@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BfmeStringTailRecord156;
+namespace _STL { template <> _Vector_base<BfmeStringTailRecord156,allocator<BfmeStringTailRecord156> >::_Vector_base(unsigned int,allocator<BfmeStringTailRecord156> const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@VBfmeStringTailRecord156@@@_STL@@QBEPAVBfmeStringTailRecord156@@IPBX:
 // Suppress this TU's non-retail copy of ??0?$vector@VBfmeStringTailRecord156@@V?$allocator@VBfmeStringTailRecord156@@@_STL@@@_STL@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
