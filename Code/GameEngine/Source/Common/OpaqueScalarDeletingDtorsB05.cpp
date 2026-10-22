@@ -39,7 +39,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 //   0x002BFD53  0x002BFB2D  0x00BFE508#0
 //   0x002C5590  0x002C5398  0x00BFF658#0
 //   0x002C65EB  0x002C6354  0x00C004E4#0
-//   0x002CD5E0  0x002CCD56  0x00C02114#0
 //   0x002CE047  0x002CD4A6  0x00C02170#0
 //   0x002D09F5  0x002D0588  0x00C0233C#0
 //   0x002D2C9E  0x005248D0  0x00C02A80#0
@@ -420,19 +419,6 @@ private:
 
 // ?<Rva002C6354::Rva002C6354> absent-from-retail
 Rva002C6354::Rva002C6354(EmitVtableTag *)
-{
-}
-
-class Rva002CCD56
-{
-public:
-	Rva002CCD56(EmitVtableTag *);
-public:
-	virtual ~Rva002CCD56();
-};
-
-// ?<Rva002CCD56::Rva002CCD56> absent-from-retail
-Rva002CCD56::Rva002CCD56(EmitVtableTag *)
 {
 }
 
