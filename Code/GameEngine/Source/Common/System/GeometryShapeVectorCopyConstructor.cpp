@@ -27,6 +27,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 typedef bool Bool;
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@IA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> void vector<GeometryShape,allocator<GeometryShape> >::_M_insert_overflow(GeometryShape *,GeometryShape const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ??$_Construct@UGeometryShape@@U1@@_STL@@YAXPAUGeometryShape@@ABU1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryShape;

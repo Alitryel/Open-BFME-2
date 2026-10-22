@@ -18,6 +18,10 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__unguarded_insertion_sort_aux@PAUVersionBlockEntry@@U1@VVersionBlockKeyCompare@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct VersionBlockEntry; class VersionBlockKeyCompare;
+namespace _STL { template <> void __unguarded_insertion_sort_aux<VersionBlockEntry *,VersionBlockEntry,VersionBlockKeyCompare>(VersionBlockEntry *,VersionBlockEntry *,VersionBlockEntry *,VersionBlockKeyCompare); }
 // Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }

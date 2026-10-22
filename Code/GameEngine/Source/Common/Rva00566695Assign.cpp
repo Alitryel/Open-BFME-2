@@ -10,6 +10,10 @@
 #include <map>
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_clone_node@?$_Rb_tree@HU?$pair@$$CBHVAsciiString@@@_STL@@U?$_Select1st@U?$pair@$$CBHVA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_node<pair<int const ,AsciiString> > * _Rb_tree<int,pair<int const ,AsciiString>,_Select1st<pair<int const ,AsciiString> >,less<int>,allocator<pair<int const ,AsciiString> > >::_M_clone_node(_Rb_tree_node<pair<int const ,AsciiString> > *); }
 // map<int, AsciiString>'s node creation is rowed in stlport_rb_tree_copy_0052D25D.cpp
 // (retail 0x0050116B); declare it so this unit emits no copy of its own.
 namespace _STL { template <> _Rb_tree<int, pair<const int, AsciiString>, _Select1st<pair<const int, AsciiString> >, less<int>, allocator<pair<const int, AsciiString> > >::_Link_type

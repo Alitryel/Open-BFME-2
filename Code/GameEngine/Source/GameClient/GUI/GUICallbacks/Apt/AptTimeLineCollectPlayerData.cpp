@@ -81,6 +81,14 @@ public:
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 #include "../../../../../../Libraries/Include/Lib/RGBColor.h"
+// Suppress this TU's non-retail copy of ??4?$vector@URva0026F4F4Element@@V?$allocator@URva0026F4F4Element@@@_STL@@@_STL@@QAEAAV01@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0026F4F4Element;
+namespace _STL { template <> vector<Rva0026F4F4Element,allocator<Rva0026F4F4Element> > & vector<Rva0026F4F4Element,allocator<Rva0026F4F4Element> >::operator=(vector<Rva0026F4F4Element,allocator<Rva0026F4F4Element> > const &); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva0051F7ADRecord@@V?$allocator@URva0051F7ADRecord@@@_STL@@@_STL@@IAEX:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0051F7ADRecord;
+namespace _STL { template <> void vector<Rva0051F7ADRecord,allocator<Rva0051F7ADRecord> >::_M_clear(); }
 // Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PBURva0051F7ADRecord@@@?$vector@URva0051F7ADRecord@@V?$allocator@U:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0051F7ADRecord;
