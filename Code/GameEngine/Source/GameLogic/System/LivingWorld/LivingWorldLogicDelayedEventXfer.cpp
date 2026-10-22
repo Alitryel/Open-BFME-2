@@ -52,6 +52,7 @@ struct Rva000A8C9B
 class Rva003FD3EF : public Rva002BB49CEvent
 {
 public:
+	__declspec(dllimport) __forceinline Rva003FD3EF() {}
 	virtual ~Rva003FD3EF();
 	char m_pad04[8];
 	Rva000A8C9B m_0c;
@@ -66,6 +67,7 @@ public:
 class Rva003FD4DA : public Rva002BB49CEvent
 {
 public:
+	__declspec(dllimport) __forceinline Rva003FD4DA() {}
 	virtual ~Rva003FD4DA();
 	char m_pad04[8];
 	StringBase<char> m_0c;

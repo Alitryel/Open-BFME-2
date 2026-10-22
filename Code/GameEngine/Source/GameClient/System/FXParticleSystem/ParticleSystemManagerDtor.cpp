@@ -99,6 +99,7 @@ public:
 class RvaSmartPtr12
 {
 public:
+	void attach() throw();
 	void rva0004CBC0() throw();
 	RvaSmartPtr12 &operator=(const RvaSmartPtr12 &that) throw();
 };
@@ -113,14 +114,13 @@ public:
 	{
 		m_p = ptr;
 		if (m_p != 0)
-			attach();
+			reinterpret_cast<RvaSmartPtr12 *>(this)->attach();
 		else
 		{
 			m_08 = 0;
 			m_04 = 0;
 		}
 	}
-	void attach() throw();
 	Rva001F9D98Handle &operator=(const Rva001F9D98Handle &that)
 	{
 		reinterpret_cast<RvaSmartPtr12 *>(this)->operator=(

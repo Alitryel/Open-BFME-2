@@ -58,7 +58,7 @@ private:
 
 struct EmitVtableTag;
 
-class Rva00415CAB
+class Rva00415CAB : public SubsystemInterface
 {
 public:
 	Rva00415CAB(EmitVtableTag *);
@@ -127,7 +127,7 @@ Rva0041F042::Rva0041F042(EmitVtableTag *)
 {
 }
 
-class Rva0041F94A
+class Rva0041F94A : public SubsystemInterface
 {
 public:
 	Rva0041F94A(EmitVtableTag *);
@@ -189,22 +189,37 @@ Rva00431FB5::Rva00431FB5(EmitVtableTag *)
 {
 }
 
-class Rva00435DE7Base0
+// The screen destructors share the GameWindow and secondary-base prefix.
+// Their rowed base destructor fixes the secondary vptr at +0x218.
+class GameWindow
 {
 public:
-	virtual ~Rva00435DE7Base0();
+	GameWindow();
+protected:
+	virtual ~GameWindow();
 private:
 	char m_unmodelled[0x214];
 };
 
-// Secondary base at +0x218: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0x218) at 0x004360A8 in its vtable is target evidence for it.
-class Rva00435DE7Base218
+class Rva005248D0
 {
 public:
-	virtual ~Rva00435DE7Base218();
+	Rva005248D0();
+	virtual ~Rva005248D0();
+private:
+	char m_unmodelled[0x54];
 };
-class AptSaveLoad : public Rva00435DE7Base0, public Rva00435DE7Base218
+
+class _bfme_AptGameWindow : public GameWindow, public Rva005248D0
+{
+public:
+	_bfme_AptGameWindow(void *context);
+	virtual ~_bfme_AptGameWindow();
+private:
+	AsciiString m_filename270;
+};
+
+class AptSaveLoad : public _bfme_AptGameWindow
 {
 public:
 	AptSaveLoad(EmitVtableTag *);
@@ -213,7 +228,7 @@ public:
 };
 
 // ?<AptSaveLoad::AptSaveLoad> absent-from-retail
-AptSaveLoad::AptSaveLoad(EmitVtableTag *)
+AptSaveLoad::AptSaveLoad(EmitVtableTag *) : _bfme_AptGameWindow(0)
 {
 }
 
@@ -282,22 +297,7 @@ Rva0043B660::~Rva0043B660()
 {
 }
 
-class Rva0043D1C9Base0
-{
-public:
-	virtual ~Rva0043D1C9Base0();
-private:
-	char m_unmodelled[0x214];
-};
-
-// Secondary base at +0x218: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0x218) at 0x0043D34F in its vtable is target evidence for it.
-class Rva0043D1C9Base218
-{
-public:
-	virtual ~Rva0043D1C9Base218();
-};
-class Rva0043D1C9 : public Rva0043D1C9Base0, public Rva0043D1C9Base218
+class Rva0043D1C9 : public _bfme_AptGameWindow
 {
 public:
 	Rva0043D1C9(EmitVtableTag *);
@@ -306,7 +306,7 @@ public:
 };
 
 // ?<Rva0043D1C9::Rva0043D1C9> absent-from-retail
-Rva0043D1C9::Rva0043D1C9(EmitVtableTag *)
+Rva0043D1C9::Rva0043D1C9(EmitVtableTag *) : _bfme_AptGameWindow(0)
 {
 }
 
