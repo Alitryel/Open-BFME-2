@@ -131,6 +131,9 @@ namespace _STL {
 template <> _String_base<wchar_t,allocator<wchar_t> >::_String_base(const allocator<wchar_t>&);
 }
 #include <locale>
+// Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_allocate_block(unsigned int); }
 // Suppress this TU's non-retail copy of ??$fill_n@V?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@IG@_STL@@YA?AV?$ostreambuf:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> ostreambuf_iterator<unsigned short,char_traits<unsigned short> > fill_n<ostreambuf_iterator<unsigned short,char_traits<unsigned short> >,unsigned int,unsigned short>(ostreambuf_iterator<unsigned short,char_traits<unsigned short> >,unsigned int,unsigned short const &); }

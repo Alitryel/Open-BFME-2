@@ -10,6 +10,9 @@
 // bfme link decl-only begin
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_allocate_block(unsigned int); }
 // Suppress this TU's non-retail copy of ??$_M_range_initialize@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> template <> void basic_string<char,char_traits<char>,allocator<char> >::_M_range_initialize<char const *>(char const *,char const *,forward_iterator_tag const &); }
