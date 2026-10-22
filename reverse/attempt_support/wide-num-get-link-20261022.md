@@ -16,9 +16,9 @@ reusable receipts. Ordinary link_check then reports LINKS 0 -> 563 legacy
 bytes. No self-strict/closed-strict link-cycle result is claimed. Census index
 08160bc2c9, BFME1 verified pointer 37c3022de1ab944c7ffe536440d637dc8199091c.
 
-Publication reconciliation: upstream d8e35779cb independently landed this
-unsigned-int overload suppression and iterator instantiations, together with
-additional scanner-provider repairs, before this batch rebased. Keep upstream's
+Publication reconciliation: upstream d8e35779cb independently resolved this
+unsigned-int scanner dependency with helper declarations and the same iterator
+instantiations, together with additional scanner-provider repairs, before this batch rebased. Keep upstream's
 source in full. This commit preserves the independent experiment and blocker
 handoffs; its 563-byte result is historical evidence and contributes no
 additional gain over the updated origin/master.
