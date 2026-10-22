@@ -39,3 +39,18 @@ inline bool operator<(const Rva003597C3Element &left, const Rva003597C3Element &
 
 // Instantiate the recovered operation and its required template dependencies.
 template unsigned int _STL::_Rb_tree<Rva003597C3Element, Rva003597C3Element, _STL::_Identity<Rva003597C3Element>, _STL::less<Rva003597C3Element>, _STL::allocator<Rva003597C3Element> >::erase(Rva003597C3Element const &);
+
+// Native 0x0035980C..0x00359811 is an independent entry after RET4;
+// it forwards the unchanged receiver and key to the verified 0x003597C3
+// erase and returns its count. The containing wrapper identity is unknown.
+typedef _STL::_Rb_tree<Rva003597C3Element, Rva003597C3Element,
+    _STL::_Identity<Rva003597C3Element>, _STL::less<Rva003597C3Element>,
+    _STL::allocator<Rva003597C3Element> > Rva0035980CTree;
+class Rva0035980C : public Rva0035980CTree {
+public:
+    unsigned int rva0035980C(const Rva003597C3Element &key);
+};
+unsigned int Rva0035980C::rva0035980C(const Rva003597C3Element &key)
+{
+    return erase(key);
+}
