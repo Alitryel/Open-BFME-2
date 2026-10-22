@@ -48,9 +48,16 @@ struct Rva0006FB50EraseAccess : _STL::_Slist_base<int,_STL::allocator<int> > {
  using _STL::_Slist_base<int,_STL::allocator<int> >::_M_erase_after;
 };
 typedef char SceneClearHeadSize4[sizeof(Rva0006FB50EraseAccess)==4?1:-1];
-Rva0006FB50List::~Rva0006FB50List() throw()
+// Select-any like the other units' copies (a strong definition duplicates theirs at link time).
+inline __declspec(noinline) Rva0006FB50List::~Rva0006FB50List() throw()
 {
  ((Rva0006FB50EraseAccess*)this)->_M_erase_after((_STL::_Slist_node_base*)this,0);
+}
+
+// ?bfmeAnchorRva0006FB50ListDtor absent-from-retail
+void bfmeAnchorRva0006FB50ListDtor(Rva0006FB50List *p)
+{
+ p->Rva0006FB50List::~Rva0006FB50List();
 }
 
 namespace _STL {
