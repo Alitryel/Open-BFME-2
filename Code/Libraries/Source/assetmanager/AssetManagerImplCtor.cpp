@@ -44,6 +44,12 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::ca
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$deque@HV?$allocator@H@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> deque<int,allocator<int> >::~deque(); }
+// Suppress this TU's non-retail copy of ?_M_create_nodes@?$_Deque_base@HV?$allocator@H@_STL@@@_STL@@IAEXPAPAH0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Deque_base<int,allocator<int> >::_M_create_nodes(int * *,int * *); }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
