@@ -31,8 +31,16 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL
 {
 
-// The shared base destructor is defined with its retail /Od settings in
-// stlport_stdexcept_dtors_od.cpp.
+
+// Retail builds these destructors /Od (rowed here); the deleting destructors
+// below stay /O2.
+#pragma optimize("", off)
+// Shared base destructor: retail uses the unoptimised body folded with
+// std::bad_alloc at 0x00023850.
+// ?__Named_exception::~__Named_exception present-unmatched
+__Named_exception::~__Named_exception() _STLP_NOTHROW_INHERENTLY
+{
+}
 
 logic_error::~logic_error() _STLP_NOTHROW_INHERENTLY
 {
@@ -69,6 +77,7 @@ overflow_error::~overflow_error() _STLP_NOTHROW_INHERENTLY
 underflow_error::~underflow_error() _STLP_NOTHROW_INHERENTLY
 {
 }
+#pragma optimize("", on)
 
 // STLport 4.5.3 builds with _STLP_EXTERN_RANGE_ERRORS, so <stl/_range_errors.h>
 // only declares these and src/dll_main.cpp defines them. Every container's
