@@ -1192,8 +1192,8 @@ Bool Pathfinder::rva002ED535(Object *obj, Coord3D *dest)
 	{
 		if (info.found)
 			break;
-		float cosine = (float)cos(angle);
-		float sine = (float)sin(angle);
+		float cosine = cosf(angle);
+		float sine = sinf(angle);
 		float dx = cosine * radius;
 		Coord3D next;
 		next.x = start.x + dx;
@@ -3193,8 +3193,8 @@ static __forceinline void pathfinderLog(const char *text) { fprintf((PathfinderL
 // Coord2D::Rotate(float) inlined: the CRT pair runs, then fsincos replaces it.
 static __forceinline void rotateOffset(float &x, float &y, float angle)
 {
-	float sine = (float)sin(angle);
-	float cosine = (float)cos(angle);
+	float sine = sinf(angle);
+	float cosine = cosf(angle);
 	__asm
 	{
 		fld angle
@@ -6680,6 +6680,8 @@ namespace _STL { template <> void allocator<_Rb_tree_node<int> >::deallocate(_Rb
 // Keep less<int>::operator() inlined without emitting an optimised out-of-line
 // copy that would shadow the retail-proven one other units supply.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &__x, const int &__y) const { return __x < __y; } }
+// stlport_deque_ptr_o1.cpp supplies the rowed map-reservation helper.
+namespace _STL { template <> void deque<void *>::_M_reserve_map_at_back(size_t); }
 // Suppress this TU's non-retail copy of ??$copy_backward@PAPAPAXPAPAPAX@_STL@@YAPAPAPAXPAPAPAX00@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void * * * copy_backward<void * * *,void * * *>(void * * *,void * * *,void * * *); }
@@ -6722,6 +6724,8 @@ template <> FoldZoneInsert::_Link_type FoldZoneInsert::_M_create_node(const Fold
 typedef _STL::multimap<int, int> FoldZoneRangeMap;                    // 0x002F1C89
 typedef _STL::_Rb_tree<int, _STL::pair<const int, int >, _STL::_Select1st<_STL::pair<const int, int > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, int > > > FoldZoneRange;
 typedef _STL::set<Rva002F307AElement> FoldWayTreeCtor;                // 0x002F307A
+// The rowed constructor owns its element cleanup dependencies.
+namespace _STL { template <> FoldWayTreeCtor::set(); }
 typedef _STL::map<int, Rva002F0BB5Element> FoldWayTreeDtorMap;        // 0x002F0BB5
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F0BB5Element >, _STL::_Select1st<_STL::pair<const int, Rva002F0BB5Element > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F0BB5Element > > > FoldWayTreeDtor;
 // Both folded tree teardowns are rowed (StlSweepW4Rva002F0B8A.cpp / StlSweepW4Rva002F0BB5.cpp);
@@ -6743,6 +6747,8 @@ template <> _Rb_tree_base<pair<const unsigned char, short>, allocator<pair<const
 typedef _STL::set<int> FoldVisited;                                   // 0x000BC15D 0x00388F63
 typedef _STL::_Rb_tree<int, int, _STL::_Identity<int>, _STL::less<int>, _STL::allocator<int> > FoldVisitedTree;
 typedef _STL::_Deque_base<BfmeWordValue4, _STL::allocator<BfmeWordValue4> > FoldQueueCtor; // 0x00605464
+// StlportNestedWordDeque.cpp supplies the retail map initializer and node allocator.
+namespace _STL { template <> void FoldQueueCtor::_M_initialize_map(size_t); }
 typedef _STL::deque<void *> FoldQueue;                                // 0x00423BD8 0x002EE9A0
 typedef _STL::_Deque_base<void *, _STL::allocator<void *> > FoldQueueDtor; // 0x0054FAAC
 
