@@ -14,6 +14,20 @@
 #include "ascii_string.h"
 
 struct TreeKey00242F5E { int m_a; int m_b; };
+// The native eight-byte range copy calls the rowed placement-copy helper.
+void Rva001D9B0FConstruct(void *, const void *);
+namespace _STL {
+template <> inline TreeKey00242F5E *__uninitialized_copy<const TreeKey00242F5E *, TreeKey00242F5E *>(
+    const TreeKey00242F5E *first, const TreeKey00242F5E *last,
+    TreeKey00242F5E *result, const __false_type &)
+{
+    TreeKey00242F5E *cur = result;
+    for (; first != last; ++first, ++cur)
+        Rva001D9B0FConstruct(cur, first);
+    return cur;
+}
+}
+
 // Its range destroy is rowed with the TreeKey vector growth path
 // (TreeKey00242F5EVectorOverflow); this unit's copy is not retail's.
 namespace _STL { template <> void _Destroy<TreeKey00242F5E *>(TreeKey00242F5E *, TreeKey00242F5E *); }
@@ -33,6 +47,7 @@ class Rva001DA2D5 : public Rva001DA2D5Base
 {
 public:
 	virtual ~Rva001DA2D5();
+	virtual const AsciiString &getAudioName() const;
 	Rva001DA2D5(const Rva001DA2D5 &other);
 private:
 	AsciiString m_str08;

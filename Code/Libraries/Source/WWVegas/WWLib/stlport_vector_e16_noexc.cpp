@@ -22,6 +22,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include "../../../Include/Lib/BfmeE16.h"
+// Assignment is not used by this instantiation's rowed members.
+namespace _STL { template <> vector<BfmeE16> &vector<BfmeE16>::operator=(const vector<BfmeE16> &); }
+
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::vector(vector<BfmeE16, allocator<BfmeE16> > const &); }

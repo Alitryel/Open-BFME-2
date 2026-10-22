@@ -34,10 +34,16 @@ struct BfmePod128;
 namespace _STL { template <> vector<BfmePod128,allocator<BfmePod128> >::vector(vector<BfmePod128,allocator<BfmePod128> > const &); }
 
 struct BfmePod128 { int a[32]; };
+// Keep implicit pair cleanup inline; this insertion unit has no native destructor calls.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline vector<BfmePod128>::~vector()
+{ _Destroy(_M_start, _M_finish); }
+}
 
 typedef _STL::map<int, _STL::vector<BfmePod128> > IntPod128VectorMap;
 
-template class _STL::map<int, _STL::vector<BfmePod128> >;
+// Instantiate the insertion path without unused map teardown members.
+template _STL::pair<IntPod128VectorMap::iterator, bool> IntPod128VectorMap::insert(const IntPod128VectorMap::value_type &);
 
 // Retail 0x0032C58A, 27 bytes: build the map's value pair by value through its
 // (const int &, const vector &) constructor (0x0032BFCB). Rva0033BEF5Make's

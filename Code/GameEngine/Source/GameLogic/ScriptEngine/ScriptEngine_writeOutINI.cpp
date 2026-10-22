@@ -88,6 +88,9 @@ public:
 	bool operator()(int a, int b) const;
 };
 
+// The native sort body is supplied by stlport_sort_rva00204bb8.cpp.
+namespace _STL { template <> void sort<int *, Rva00204BB8>(int *, int *, Rva00204BB8); }
+
 class Rva000427195;
 class Rva000411084
 {

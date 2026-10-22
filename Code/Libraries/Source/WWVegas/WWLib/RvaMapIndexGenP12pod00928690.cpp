@@ -63,11 +63,15 @@ template void Rva00928690Tree::_M_erase(Rva00928690Tree::_Link_type);
 template Rva00928690Tree::~_Rb_tree();
 
 #include <hash_map>
-// bfme link decl-only begin
-namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
-namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
-// bfme link decl-only end
+// Keep the clear worker's vector accessors inline without standalone copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void **vector<void *>::begin()
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline void *&vector<void *>::operator[](unsigned int n)
+{ return *(begin() + n); }
+template <> __declspec(dllimport) __forceinline unsigned int vector<void *>::size() const
+{ return unsigned int(_M_finish - _M_start); }
+}
 typedef _STL::pair<int, int> Rva00928590Key;
 struct Rva00928590Hash { unsigned operator()(const Rva00928590Key &) const; };
 struct Rva00928590Eq { bool operator()(const Rva00928590Key &, const Rva00928590Key &) const; };

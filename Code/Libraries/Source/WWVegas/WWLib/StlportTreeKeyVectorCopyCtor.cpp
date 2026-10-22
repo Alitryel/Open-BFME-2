@@ -16,6 +16,19 @@ public:
 	TreeKey00242F5E(const TreeKey00242F5E &other);
 	char m_body[8];
 };
+// The native eight-byte range copy calls the rowed placement-copy helper.
+void Rva001D9B0FConstruct(void *, const void *);
+namespace _STL {
+template <> inline TreeKey00242F5E *__uninitialized_copy<const TreeKey00242F5E *, TreeKey00242F5E *>(
+    const TreeKey00242F5E *first, const TreeKey00242F5E *last,
+    TreeKey00242F5E *result, const __false_type &)
+{
+    TreeKey00242F5E *cur = result;
+    for (; first != last; ++first, ++cur)
+        Rva001D9B0FConstruct(cur, first);
+    return cur;
+}
+}
 namespace _STL {
 template<> void _Construct<TreeKey00242F5E, TreeKey00242F5E>(TreeKey00242F5E *, const TreeKey00242F5E &);
 }

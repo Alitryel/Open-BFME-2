@@ -10,15 +10,15 @@
 // the link keeps.
 namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
-namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+namespace _STL { template <> __declspec(dllimport) __forceinline void ** vector<void *>::begin() { return _M_start; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *>::size() const { return unsigned int(_M_finish - _M_start); } }
 namespace _STL {
 template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
 }
 #include <hash_map>
 // Bind to the kept retail copy instead of emitting this unit's own.
 // bfme link decl-only begin
-namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> __declspec(dllimport) __forceinline void *& vector<void *>::operator[](unsigned int n) { return *(begin() + n); } }
 // bfme link decl-only end
 typedef _STL::pair<int, int> Rva00928590Key;
 struct Rva00928590Hash { unsigned operator()(const Rva00928590Key &) const; };

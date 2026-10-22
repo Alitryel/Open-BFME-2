@@ -20,6 +20,21 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include "../../../Include/Lib/BfmeE16.h"
+// Native stride-16 range copies construct through the rowed 0x0052C404 helper.
+void Rva0052C404Construct(void *, const void *);
+namespace _STL {
+template <> inline BfmeE16 *__uninitialized_copy<const BfmeE16 *, BfmeE16 *>(
+    const BfmeE16 *first, const BfmeE16 *last, BfmeE16 *result, const __false_type &)
+{
+    BfmeE16 *cur = result;
+    for (; first != last; ++first, ++cur)
+        Rva0052C404Construct(cur, first);
+    return cur;
+}
+// Assignment is not used by this instantiation's rowed members.
+template <> vector<BfmeE16> &vector<BfmeE16>::operator=(const vector<BfmeE16> &);
+}
+
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_fill_insert(BfmeE16 *, unsigned int, BfmeE16 const &); }
@@ -32,6 +47,8 @@ namespace _STL {
 template <> void vector<BfmeE16, allocator<BfmeE16> >::reserve(unsigned int);
 }
 template class _STL::vector<BfmeE16, _STL::allocator<BfmeE16 > >;
+template BfmeE16 *_STL::__copy<const BfmeE16 *, BfmeE16 *, int>(
+    const BfmeE16 *, const BfmeE16 *, BfmeE16 *, const _STL::random_access_iterator_tag &, int *);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
