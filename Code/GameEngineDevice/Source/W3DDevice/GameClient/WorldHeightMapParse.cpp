@@ -86,12 +86,16 @@ private:
 	void *m_object;
 };
 
+class Rva000AD71D;
+class Rva000AF160 { public: void reset(Rva000AD71D *object); };
+
 class Rva000AF146
 {
 public:
 	Rva000AF146() : m_object(0) {}
 	~Rva000AF146();
-	void reset(Rva00328D9D *object);
+	__declspec(dllimport) __forceinline void reset(Rva00328D9D *object)
+	{ ((Rva000AF160 *)this)->reset((Rva000AD71D *)object); }
 private:
 	Rva00328D9D *m_object;
 };
@@ -151,10 +155,11 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 class GameLogic;
 extern GameLogic *TheGameLogic;
 
+class CameraMarkerList { public: void clear(); };
+
 class View
 {
 public:
-	void rva0025F30D();
 	unsigned char m_pad00[0x80];
 	unsigned char m_namedCameras[4];	// +0x80
 };
@@ -269,7 +274,7 @@ void WorldHeightMap::parse(DataChunkInput &file, void *polygonOwner, void *owner
 		Rva000AF082 globalLighting(BFME_REG(file), 0);
 		Rva000AF0E4 lightingData(BFME_REG(file), 0);
 		file.registerParser(AsciiString("EnvironmentData"), AsciiString::TheEmptyString, ParseEnvironmentDataChunk, 0);
-		TheTacticalView->rva0025F30D();
+		((CameraMarkerList *)TheTacticalView)->clear();
 		Rva000AF01A namedCameras(TheTacticalView->m_namedCameras, BFME_REG(file), 0);
 		if (!file.parse(this))
 			throw ERROR_CORRUPT_FILE_FORMAT;

@@ -29,19 +29,16 @@ void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
 }
 // Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+namespace _STL { template <> __declspec(dllimport) __forceinline vector<void *>::const_iterator vector<void *>::begin() const { return _M_start; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t n) const { return *(begin() + n); } }
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
 // the retail copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
 template <> void *&_STL::vector<void*>::operator[](size_t);
 }
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
-// Suppress the TU's non-retail const-begin copy (row 47 family2-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
+// Inline the bucket count and bind mutable iterators to their shared copies.
 namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
-template <> size_t vector<void*>::size() const;
+template <> __declspec(dllimport) __forceinline size_t vector<void*>::size() const { return size_t(_M_finish - _M_start); }
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
@@ -73,5 +70,13 @@ typedef _STL::hash_map<Rva00928590Key, int, Rva00928590Hash,
 	Rva00928590Eq,
 	_STL::allocator<_STL::pair<const Rva00928590Key, int> > >
 	Rva00928620Map;
+
+namespace _STL {
+typedef pair<const Rva00928590Key, int> EdgeValue;
+typedef hashtable<EdgeValue, Rva00928590Key, Rva00928590Hash,
+    _Select1st<EdgeValue>, Rva00928590Eq, allocator<EdgeValue> > EdgeTable;
+template <> EdgeValue &EdgeTable::_M_insert(const EdgeValue &);
+template void EdgeTable::resize(unsigned int);
+}
 
 template int &Rva00928620Map::operator[]( const Rva00928590Key & );

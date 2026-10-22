@@ -29,6 +29,7 @@ private:
 class Rva000AEFAA : public BfmeParserBindingBaseVE
 {
 public:
+	virtual ~Rva000AEFAA();
 	Rva000AEFAA(void *owner, BfmeParserRegistryVE *registry, const AsciiString *parentLabel);
 private:
 	void *m_owner;
@@ -45,6 +46,7 @@ Rva000AEFAA::Rva000AEFAA(void *owner, BfmeParserRegistryVE *registry, const Asci
 class Rva000AEF42 : public BfmeParserBindingBaseVE
 {
 public:
+	virtual ~Rva000AEF42();
 	Rva000AEF42(void *owner, BfmeParserRegistryVE *registry, const AsciiString *parentLabel);
 private:
 	void *m_owner;
@@ -65,6 +67,7 @@ struct DataChunkInfo;
 class Rva000AF01A : public BfmeParserBindingBaseVE
 {
 public:
+	virtual ~Rva000AF01A();
 	Rva000AF01A(void *owner, BfmeParserRegistryVE *registry, const AsciiString *parentLabel);
 	bool rva000afbb6(DataChunkInput &file, DataChunkInfo *info);
 private:
@@ -83,6 +86,7 @@ Rva000AF01A::Rva000AF01A(void *owner, BfmeParserRegistryVE *registry, const Asci
 class Rva000AF0E4 : public BfmeParserBindingBaseVE
 {
 public:
+	virtual ~Rva000AF0E4();
 	Rva000AF0E4(BfmeParserRegistryVE *registry, const AsciiString *parentLabel);
 };
 
@@ -97,6 +101,7 @@ Rva000AF0E4::Rva000AF0E4(BfmeParserRegistryVE *registry, const AsciiString *pare
 class Rva000AF082 : public BfmeParserBindingBaseVE
 {
 public:
+	virtual ~Rva000AF082();
 	Rva000AF082(BfmeParserRegistryVE *registry, const AsciiString *parentLabel);
 };
 
@@ -112,6 +117,7 @@ Rva000AF082::Rva000AF082(BfmeParserRegistryVE *registry, const AsciiString *pare
 class Rva000AEEDA : public BfmeParserBindingBaseVE
 {
 public:
+	virtual ~Rva000AEEDA();
 	Rva000AEEDA(void *owner, BfmeParserRegistryVE *registry, const AsciiString *parentLabel);
 private:
 	void *m_owner;

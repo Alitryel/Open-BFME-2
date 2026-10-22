@@ -19,12 +19,17 @@ namespace _STL { template <> void advance<unsigned int const *,int>(unsigned int
 // Suppress this TU's non-retail copy of ?get_allocator@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBE?AV?$allocator@PAX@2@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> allocator<void *> vector<void *,allocator<void *> >::get_allocator() const; }
-// Suppress this TU's non-retail copy of ?begin@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEPAPAXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void * * vector<void *,allocator<void *> >::begin(); }
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEAAPAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void * & vector<void *,allocator<void *> >::operator[](unsigned int); }
+// Bucket access stays inline, as in RvaHashIndex00928620.cpp, so _M_insert is retail's copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() { return _M_start; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void *&vector<void *>::operator[](unsigned int n) { return *(begin() + n); } }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_STLP_alloc_proxy<int *, int, allocator<int> >::_STLP_alloc_proxy(const allocator<int> &a, int *p)
+    : allocator<int>(a), _M_data(p) {}
+template <> __declspec(dllimport) __forceinline
+_Vector_base<int, allocator<int> >::_Vector_base(const allocator<int> &a)
+    : _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {}
+}
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@UGen_p12pod@@U?$pair@$$CBUGen_p12pod@@H@_STL@@U?$_Select1st@U?$p:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Gen_p12pod;
@@ -66,6 +71,11 @@ struct Rva00928590Eq {
 };
 typedef _STL::hash_map<Rva00928590Key,int,Rva00928590Hash,Rva00928590Eq,
  _STL::allocator<_STL::pair<const Rva00928590Key,int> > > EdgeMap;
+namespace _STL {
+template <> void hashtable<pair<const Rva00928590Key, int>, Rva00928590Key,
+    Rva00928590Hash, _Select1st<pair<const Rva00928590Key, int> >,
+    Rva00928590Eq, allocator<pair<const Rva00928590Key, int> > >::resize(unsigned int);
+}
 class Rva0016E400 {
 public:
  Rva0016E400();
