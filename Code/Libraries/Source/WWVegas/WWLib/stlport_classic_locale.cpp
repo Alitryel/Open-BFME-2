@@ -45,6 +45,9 @@ namespace _STL { template<> basic_string<char>::basic_string(const char*, const 
 template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
 // Likewise the wide one: the rowed 63B fold in that unit serves the link.
 template <> _STL::_String_base<unsigned short, _STL::allocator<unsigned short> >::~_String_base();
+// ~basic_string<unsigned short> binds to the rowed retail 63B copy (0x0000B3C0): this
+// unit's own copy is a jmp to ~_String_base, first in link order and not retail's.
+template <> _STL::basic_string<unsigned short, _STL::char_traits<unsigned short>, _STL::allocator<unsigned short> >::~basic_string();
 #include <locale>
 // STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
 // retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes

@@ -56,6 +56,9 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 // Both return-value temporaries call the out-of-line 63-byte complete-object
 // destructor at 0x0000B3C0.
 namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string(); }
+// deallocate binds to the rowed retail copy (0x0046264A fold): this unit's own
+// out-of-line copy is not retail's and is first in link order.
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned short>::deallocate(unsigned short *__p, size_t) const { if (__p != 0) free(__p); } }
 
 #include <locale>
 // bfme link decl-only begin

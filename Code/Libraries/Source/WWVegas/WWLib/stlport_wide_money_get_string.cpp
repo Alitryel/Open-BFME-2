@@ -96,6 +96,9 @@ template <> wchar_t *basic_string<wchar_t>::_M_insert_aux(wchar_t *, wchar_t);
 // allocate binds to the rowed retail copy (0x00025090, STLMallocAlloc0Allocate.cpp): this
 // unit's own out-of-line copy is not retail's and is first in link order.
 namespace _STL { template<> void* __malloc_alloc<0>::allocate(size_t); }
+// deallocate binds to the rowed retail copy (0x0046264A fold): this unit's own
+// out-of-line copy is not retail's and is first in link order.
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned short>::deallocate(unsigned short *__p, size_t) const { if (__p != 0) free(__p); } }
 namespace _STL {
 struct _MoneyLeak { ~_MoneyLeak() { if (_MONEY_LEAKS_CHECK) free(0); } };
 struct _MoneyPhantom { _MoneyLeak l; };

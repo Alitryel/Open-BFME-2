@@ -1,6 +1,10 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 
+// ~basic_string<unsigned short> binds to the rowed retail 63B copy (0x0000B3C0): this
+// unit's own copy is not retail's and comes before it in link order.
+#include <string>
+template <> _STL::basic_string<unsigned short, _STL::char_traits<unsigned short>, _STL::allocator<unsigned short> >::~basic_string();
 #include <locale>
 // STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
 // retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
