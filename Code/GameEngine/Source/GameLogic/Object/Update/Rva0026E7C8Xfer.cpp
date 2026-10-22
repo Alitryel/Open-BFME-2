@@ -28,10 +28,9 @@ namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva003328B6Element;
 namespace _STL { template <> Rva003328B6Element * _STLP_alloc_proxy<Rva003328B6Element *,Rva003328B6Element,allocator<Rva003328B6Element> >::allocate(unsigned int); }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@URva003328B6Element@@@_STL@@QBEXPAURva003328B6Element@@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// Inline the allocator release so vector cleanup uses the native game free.
 struct Rva003328B6Element;
-namespace _STL { template <> void allocator<Rva003328B6Element>::deallocate(Rva003328B6Element *,unsigned int) const; }
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<Rva003328B6Element>::deallocate(Rva003328B6Element *p,unsigned int) const { if (p) free(p); } }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
@@ -149,18 +148,23 @@ Xfer *xferSTLObjectIDList(Xfer *xfer, BridgeBehaviorObjectIDList *list);
 class Rva0029FB3BMember : public BridgeBehaviorObjectIDList
 {
 public:
-	~Rva0029FB3BMember();
+	~Rva0029FB3BMember() throw();
 	void reset();
 };
 
 struct Rva003328B6Element
 {
+	__forceinline ~Rva003328B6Element() {}
 	NameKeyType m_key1;
 	NameKeyType m_key2;
 	Rva0029FB3BMember m_list;
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva003328B6Element,Rva003328B6Element>(Rva003328B6Element *p,Rva003328B6Element const &v) { new (p) Rva003328B6Element(v); } }
+
+namespace _STL {
+template <> void _Destroy<Rva003328B6Element *>(Rva003328B6Element *, Rva003328B6Element *);
+}
 
 class Rva00331EAD : public Rva003328B6Element
 {

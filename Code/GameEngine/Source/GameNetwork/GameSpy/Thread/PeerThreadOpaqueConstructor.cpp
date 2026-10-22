@@ -63,7 +63,7 @@ struct Rva0037BF60Less{bool operator()(int,int)const;};
 typedef _STL::_Rb_tree<int,_STL::pair<const int,int>,_STL::_Select1st<_STL::pair<const int,int> >,Rva0037BF60Less,_STL::allocator<_STL::pair<const int,int> > > WorkerTree;
 namespace _STL {template<> WorkerTree::_Rb_tree();template<> map<string,int>::map();}
 class Rva00388EAE:public WorkerTree{public:~Rva00388EAE();void rva00389129();};
-class Rva0038AAEBThreadObject:public ThreadClass{public:Rva0038AAEBThreadObject(MutexClass*);virtual ~Rva0038AAEBThreadObject();virtual void Execute();virtual void Thread_Function();
+class Rva0038AAEBThreadObject:public ThreadClass{public:Rva0038AAEBThreadObject(MutexClass*);virtual ~Rva0038AAEBThreadObject();virtual void Thread_Function();
  bool isConnecting,isConnected;char pad52[2];std::string loginName,originalName,password,email;
  int profileID,groupRoomID;bool sawComplete;char pad8d[3];int unknown90;bool unknown94;char pad95[3];
  std::map<std::string,int> groupStats,stagingStats;

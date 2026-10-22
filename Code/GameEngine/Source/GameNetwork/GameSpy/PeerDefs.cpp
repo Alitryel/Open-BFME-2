@@ -127,6 +127,7 @@ class GameSpyGroupRoom : public AsciiUnicodePair
 {
 public:
 	GameSpyGroupRoom();		// 0x0038226B
+	__declspec(dllimport) __forceinline GameSpyGroupRoom(const GameSpyGroupRoom &other) : AsciiUnicodePair(other) {}
 	~GameSpyGroupRoom();
 	GameSpyGroupRoom &operator=(const GameSpyGroupRoom &other);	// 0x00381E56
 };

@@ -47,6 +47,7 @@ class Rva0029FB3BMember : public PoolMember
 {
 public:
 	void *init(void *context);
+	~Rva0029FB3BMember() throw();
 };
 
 class Rva00331EAD
@@ -57,7 +58,7 @@ public:
 	Rva0029FB3BMember m_08;
 
 	Rva00331EAD(int a, int b);
-	~Rva00331EAD() { m_08.Rva00268902(); }
+	~Rva00331EAD() {}
 };
 
 class Rva003328ED

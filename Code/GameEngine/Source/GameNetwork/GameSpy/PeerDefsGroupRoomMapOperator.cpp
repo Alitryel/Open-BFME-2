@@ -31,12 +31,8 @@ bool less<int>::operator()(const int &a, const int &b) const
 
 typedef int Int;
 
-class GameSpyGroupRoom
+struct AsciiUnicodePair
 {
-public:
-	GameSpyGroupRoom();
-	GameSpyGroupRoom( const GameSpyGroupRoom &other );
-
 	AsciiString m_name;
 	UnicodeString m_translatedName;
 	Int m_groupID;
@@ -44,12 +40,26 @@ public:
 	Int m_maxWaiting;
 	Int m_numGames;
 	Int m_numPlaying;
-	Int m_bfmeExtra;
+	Int m_roomType;
+	AsciiUnicodePair(const AsciiUnicodePair &other);
+	__declspec(dllimport) __forceinline ~AsciiUnicodePair() {}
 };
 
-extern void j_00035f03();
-#pragma comment(linker, "/alternatename:??0GameSpyGroupRoom@@QAE@ABV0@@Z=?j_00035f03@@YAXXZ")
-
+class GameSpyGroupRoom : public AsciiUnicodePair
+{
+public:
+	GameSpyGroupRoom();		// 0x0038226B
+	__declspec(dllimport) __forceinline GameSpyGroupRoom(const GameSpyGroupRoom &other) : AsciiUnicodePair(other) {}
+	GameSpyGroupRoom &operator=(const GameSpyGroupRoom &other);	// 0x00381E56
+};
 typedef std::map<Int, GameSpyGroupRoom> GroupRoomMap;
+
+// PeerDefs.cpp supplies these tree and value copies.
+namespace _STL {
+typedef pair<const int, GameSpyGroupRoom> GroupRoomValue;
+typedef _Rb_tree<int, GroupRoomValue, _Select1st<GroupRoomValue>, less<int>, allocator<GroupRoomValue> > GroupRoomTree;
+template <> GroupRoomValue::pair(const GroupRoomValue &);
+template <> _Rb_tree_node<GroupRoomValue> *GroupRoomTree::_M_create_node(const GroupRoomValue &);
+}
 
 template GameSpyGroupRoom &GroupRoomMap::operator[]( const Int &key );

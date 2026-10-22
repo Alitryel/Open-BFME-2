@@ -127,10 +127,7 @@ Real ArmorTemplate::adjustDamage(DamageType t, Real damage) const
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-ArmorStore::ArmorStore()
-{
-	m_armorTemplates.clear();
-}
+// ArmorStore construction is defined in ArmorStoreCtor.cpp.
 
 //-------------------------------------------------------------------------------------------------
 // ??1ArmorStore@@UAE@XZ is rowed in its own unit; this copy collided with it.
@@ -168,3 +165,13 @@ typedef _STL::hashtable<ArmorRowValue, NameKeyType, rts::hash<NameKeyType>,
     _STL::allocator<ArmorRowValue> > ArmorRowTable;
 template _STL::_Hashtable_node<ArmorRowValue> *ArmorRowTable::_M_find<NameKeyType>(const NameKeyType &) const;
 template void ArmorRowTable::resize(unsigned int);
+template void ArmorRowTable::clear();
+template void ArmorRowTable::_M_initialize_buckets(unsigned int);
+#pragma inline_depth(0)
+// ?armorMapDestructorAnchor absent-from-retail
+void armorMapDestructorAnchor(_STL::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> > *map)
+{
+    map->~hash_map();
+}
+
+#pragma inline_depth(8)
