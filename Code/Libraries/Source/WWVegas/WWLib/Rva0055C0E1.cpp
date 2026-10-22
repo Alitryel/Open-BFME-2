@@ -6,6 +6,15 @@
 
 #include <ostream>
 
+// Numeric insertion calls the separately rowed long-output worker. Keep
+// this unit's independently rowed facet lookup without emitting another worker.
+namespace _STL {
+template <> basic_ostream<char, char_traits<char> > &
+_M_put_num<char, char_traits<char>, long>(basic_ostream<char, char_traits<char> > &, long);
+}
+template const _STL::num_put<char, _STL::ostreambuf_iterator<char, _STL::char_traits<char> > > &
+_STL::use_facet<_STL::num_put<char, _STL::ostreambuf_iterator<char, _STL::char_traits<char> > > >(const _STL::locale &);
+
 #include "../../../Include/Lib/RGBColor.h"
 // bfme link decl-only begin
 namespace _STL { template <> bool basic_ios<char, char_traits<char> >::_S_eof(int); }
