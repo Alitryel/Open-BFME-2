@@ -16,6 +16,9 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_deallocate_block(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *,unsigned int) const; }

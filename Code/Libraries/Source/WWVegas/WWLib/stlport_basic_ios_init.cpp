@@ -43,6 +43,9 @@ namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ost
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::operator<<(unsigned long); }
 namespace _STL { template <> locale basic_ios<unsigned short, char_traits<unsigned short> >::imbue(locale const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_deallocate_block(); }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

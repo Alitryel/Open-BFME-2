@@ -37,6 +37,9 @@ namespace _STL { template <> void basic_string<char, char_traits<char>, allocato
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > basic_stringbuf<char, char_traits<char>, allocator<char> >::str() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_deallocate_block(); }
 // Suppress this TU's non-retail copy of ?seekoff@?$basic_stringbuf@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@MAE?AV?$fpos@H@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> fpos<int> basic_stringbuf<char,char_traits<char>,allocator<char> >::seekoff(long,int,int); }
