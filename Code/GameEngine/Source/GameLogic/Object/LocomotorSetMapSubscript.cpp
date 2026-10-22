@@ -53,6 +53,10 @@ namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, 
 namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, allocator<unsigned int> > > > * _Rb_tree<int, pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Select1st<pair<int const, vector<unsigned int, allocator<unsigned int> > > >, less<int>, allocator<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >::_M_create_node(pair<int const, vector<unsigned int, allocator<unsigned int> > > const &); }
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Nonconst_traits<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >, bool> _Rb_tree<int, pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Select1st<pair<int const, vector<unsigned int, allocator<unsigned int> > > >, less<int>, allocator<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >::insert_unique(pair<int const, vector<unsigned int, allocator<unsigned int> > > const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$map@W4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemp:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum LocomotorSetType; class LocomotorTemplate;
+namespace _STL { template <> map<LocomotorSetType,vector<LocomotorTemplate const *,allocator<LocomotorTemplate const *> >,less<LocomotorSetType>,allocator<pair<LocomotorSetType const ,vector<LocomotorTemplate const *,allocator<LocomotorTemplate const *> > > > >::map(); }
 // Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allo:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum LocomotorSetType; class LocomotorTemplate;

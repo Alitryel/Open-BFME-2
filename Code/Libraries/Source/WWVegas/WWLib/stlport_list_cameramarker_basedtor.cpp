@@ -13,6 +13,10 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$_Construct@UCameraMarker@@U1@@_STL@@YAXPAUCameraMarker@@ABU1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct CameraMarker;
+namespace _STL { template <> void _Construct<CameraMarker,CameraMarker>(CameraMarker *,CameraMarker const &); }
 
 struct CameraMarker
 {

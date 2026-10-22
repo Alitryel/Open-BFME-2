@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva003F7B22Element@@V?$allocator@URva003F7B22Element@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003F7B22Element;
+namespace _STL { template <> void vector<Rva003F7B22Element,allocator<Rva003F7B22Element> >::_M_insert_overflow(Rva003F7B22Element *,Rva003F7B22Element const &,__false_type const &,unsigned int,bool); }
 
 struct Rva0040DC56Element
 {

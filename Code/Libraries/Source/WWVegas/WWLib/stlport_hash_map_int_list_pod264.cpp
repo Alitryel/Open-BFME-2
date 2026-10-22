@@ -42,6 +42,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(un
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UBfmePod264@@V?$allocator@UBfmePod264@@@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod264;
+namespace _STL { template <> void _List_base<BfmePod264,allocator<BfmePod264> >::clear(); }
 // Suppress this TU's non-retail copy of ?insert@?$list@UBfmePod264@@V?$allocator@UBfmePod264@@@_STL@@@_STL@@QAE?AU?$_List_iterator:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod264;

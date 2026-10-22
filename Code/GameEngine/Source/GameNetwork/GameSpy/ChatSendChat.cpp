@@ -16,6 +16,9 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?assign@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@PBD0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > & basic_string<char,char_traits<char>,allocator<char> >::assign(char const *,char const *); }
 // Suppress this TU's non-retail copy of ?copy@?$__char_traits_base@DH@_STL@@SAPADPADPBDI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * __char_traits_base<char,int>::copy(char *,char const *,unsigned int); }

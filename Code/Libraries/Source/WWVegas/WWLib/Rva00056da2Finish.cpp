@@ -17,6 +17,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <deque>
 #include <vector>
+// Suppress this TU's non-retail copy of ??$copy_backward@U?$_Deque_iterator@UOpaqueRefElement4@@U?$_Nonconst_traits@UOpaqueRefElem:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct OpaqueRefElement4;
+namespace _STL { template <> _Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> > copy_backward<_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> > >(_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >); }
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *);
 class OpaqueRefCounted {
 public:

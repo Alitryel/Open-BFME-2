@@ -10,6 +10,10 @@
 
 #include <map>
 #include <vector>
+// Suppress this TU's non-retail copy of ??0?$map@W4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemp:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum LocomotorSetType; class LocomotorTemplate;
+namespace _STL { template <> map<LocomotorSetType,vector<LocomotorTemplate const *,allocator<LocomotorTemplate const *> >,less<LocomotorSetType>,allocator<pair<LocomotorSetType const ,vector<LocomotorTemplate const *,allocator<LocomotorTemplate const *> > > > >::map(); }
 
 class LocomotorTemplate;
 

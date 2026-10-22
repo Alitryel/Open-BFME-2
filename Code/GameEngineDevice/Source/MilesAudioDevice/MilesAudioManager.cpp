@@ -198,6 +198,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$copy_backward@U?$_Deque_iterator@UOpaqueRefElement4@@U?$_Nonconst_traits@UOpaqueRefElem:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct OpaqueRefElement4;
+namespace _STL { template <> _Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> > copy_backward<_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> > >(_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >); }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBIPAVImage@@@_STL@@V?$allocator@U?$pair@$$CBIPAVImage@@@_STL:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Image;
