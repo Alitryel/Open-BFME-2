@@ -1139,3 +1139,11 @@ private:
 W3DSailModelDraw::~W3DSailModelDraw()
 {
 }
+
+// Existing 3AD19B constructor and3AF208 copy pair primaryC1CF9C
+// with +18 SnapshotC1C8A8. Its scalar3AD257 calls this 3AD273 fold.
+// Destructor-only partial view follows the already recovered3AD273 wrapper.
+class __declspec(novtable) Rva003AD19BModule : public Rva003ABA36 {
+public: virtual ~Rva003AD19BModule();
+};
+Rva003AD19BModule::~Rva003AD19BModule() {}

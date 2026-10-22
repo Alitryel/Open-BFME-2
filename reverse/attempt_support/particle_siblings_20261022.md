@@ -52,3 +52,25 @@ functions: 501 unique placements already covered, 455 ambiguous placements,
 headers, compiler flags and gate rules were retained. A Windows extended
 path was required for long donor filenames. These counts describe discovery,
 not additional recovered C++ bytes.
+
+## Scope isolation before publication
+
+The first production layout exposed three additional COMDAT disagreements in
+Ortho/Spherical/Cylindrical info destructors because it changed a shared
+primary view across 26 constructors. The final implementation instead rehomes
+only the already rowed 42-byte 3AD19B constructor and its emitted companions
+into existing Rva003AF208Clone.cpp under that file's /EHsc settings. Its three
+original table symbol names are retained. The other 25 constructors preserve
+their original views and bytes; the three unwanted info-destructor copies are
+absent from the isolated object. Both old and new clone EH graphs remain exact.
+The destructor-only five-byte companion remains in TailJumpWrappers5B.cpp.
+This does not claim the rest of any partial primary interface is reconstructed.
+
+Normal admission and whole-file build pass 99/99 rows across the isolated
+clone file, remaining constructor file and destructor wrapper file. Placement
+rescan finds zero further bodies. Link preview: the isolated clone file links
+(55 to 105 unique bytes, including the rehomed existing 42-byte constructor
+and new eight-byte body); the remaining constructor file links (1,334 to
+1,292 bytes due solely to rehome). TailJumpWrappers5B retains its independently
+confirmed preexisting unresolved Rva0078D310Host destructor; this patch adds
+no such dependency. No fresh census or full link runner was launched.

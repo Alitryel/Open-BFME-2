@@ -1,4 +1,4 @@
-// cl: /EHsc
+// cl: /EHsc /Ireference/shims/moduledata
 
 // ?clone@Rva003AF208@@QBEPAV1@XZ @0x003AF1D1 55B: vslot 2 (offset 0x8) of vtable 0x0081CF9C
 // (class of ??0Rva003AF208@@QAE@ABV0@@Z in ParticleModuleTemplateCopyCtors.cpp).
@@ -25,3 +25,51 @@ Rva003AF208 *Rva003AF208::clone() const
 {
 	return new Rva003AF208(*this);
 }
+
+
+class Xfer { public: void Version1(); };
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "Common/Snapshot.h"
+class GameClientRandomVariable { public: int type; float low,high; };
+Xfer &xferRandomVariable(Xfer &, GameClientRandomVariable &);
+class DefaultModuleHeadBase {
+public:
+ virtual ~DefaultModuleHeadBase();
+ virtual void rva000B3FD0() = 0;
+ virtual Rva003AF208 *clonePartial() const = 0;
+ virtual void DoXfer(Xfer &) = 0;
+private: unsigned int storage[4];
+};
+namespace FXParticleSystem {
+class Rva003AA228Slice { public: virtual void unusedVirtual() = 0; };
+class Rva003AA228 : public DefaultModuleHeadBase, public Rva003AA228Slice { public: virtual ~Rva003AA228(); };
+template<int Category> class DefaultParticleModule;
+template<> class DefaultParticleModule<4> : public Rva003AA228 { public: virtual ~DefaultParticleModule(); };
+class __declspec(novtable) EmissionVelocityInfo : public Snapshot { public: virtual ~EmissionVelocityInfo(); };
+class SphericalEmissionVelocityInfo : public EmissionVelocityInfo { private: GameClientRandomVariable var; };
+class SphericalEmissionVelocityModule : public DefaultParticleModule<4>, public SphericalEmissionVelocityInfo { public: virtual ~SphericalEmissionVelocityModule(); };
+}
+class Rva003ACBA3 : public FXParticleSystem::SphericalEmissionVelocityModule {
+public: Rva003ACBA3(void *,void *); virtual ~Rva003ACBA3();
+};
+class Rva003ADA95Template;
+class Rva003AD19BModule : public Rva003ACBA3 {
+public:
+ Rva003AD19BModule(void *owner,Rva003ADA95Template *module_template);
+ virtual ~Rva003AD19BModule();
+ virtual void rva000B3FD0() {}
+ virtual Rva003AF208 *clonePartial() const;
+ virtual void DoXfer(Xfer &);
+ virtual void LoadPostProcess() {}
+ virtual const char *GetSnapshotName() { return "EmissionVelocityInfo"; }
+};
+Rva003AD19BModule::Rva003AD19BModule(void *owner,Rva003ADA95Template *module_template) : Rva003ACBA3(owner,module_template) {}
+Rva003AF208 *Rva003AD19BModule::clonePartial() const { return new Rva003AF208(*reinterpret_cast<const Rva003AF208 *>(this)); }
+void Rva003AD19BModule::DoXfer(Xfer &stream) {
+ stream.Version1();
+ xferRandomVariable(stream,*reinterpret_cast<GameClientRandomVariable *>(reinterpret_cast<char *>(this)+0x1C));
+}
+typedef char ModuleSizeCheck[sizeof(Rva003AD19BModule)==0x28?1:-1];
