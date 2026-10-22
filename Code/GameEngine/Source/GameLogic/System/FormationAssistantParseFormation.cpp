@@ -38,11 +38,11 @@ namespace _STL {template<> OuterDeque::~deque();}
 namespace _STL {template<> void OuterDeque::_M_push_back_aux_v(const InnerDeque &);}
 // Native helper ledger views preserve the independently proven 40-byte deque elements
 // and four-byte keys; casts select those existing specializations without new pins.
-struct Rva004226E2Element {char data[40];};
+struct BfmePod40 {char data[40];};
 struct Rva00423BD8Element {int word0;bool operator<(const Rva00423BD8Element &)const;bool operator==(const Rva00423BD8Element &)const;};
 struct BfmeOpaque40 {char bytes[40];};
 namespace _STL {
-template<> Rva004226E2Element &deque<Rva004226E2Element>::back();
+template<> BfmePod40 &deque<BfmePod40>::back();
 template<> void deque<Rva00423BD8Element>::push_back(const Rva00423BD8Element &);
 }
 struct Rva004251C4Table {unsigned unknown;unsigned columns;TripleDeque rows;};
@@ -57,12 +57,12 @@ class INIException {
 void Rva004251C4Parse(INI *ini,Rva004251C4Table *table)
 {
  table->rows.push_back(OuterDeque());
- OuterDeque &row=*(OuterDeque *)&((_STL::deque<Rva004226E2Element> *)&table->rows)->back();
+ OuterDeque &row=*(OuterDeque *)&((_STL::deque<BfmePod40> *)&table->rows)->back();
  AsciiString text=ini->getNextAsciiString();
  AsciiString token;
  while(!text.isEmpty()) {
   row.push_back(InnerDeque());
-  InnerDeque &cell=*(InnerDeque *)&((_STL::deque<Rva004226E2Element> *)&row)->back();
+  InnerDeque &cell=*(InnerDeque *)&((_STL::deque<BfmePod40> *)&row)->back();
   while(text.nextToken(&token,"|")) {
    Rva00423BD8Element key;key.word0=TheNameKeyGenerator->nameToKey(token);((_STL::deque<Rva00423BD8Element> *)&cell)->push_back(key);
   }
