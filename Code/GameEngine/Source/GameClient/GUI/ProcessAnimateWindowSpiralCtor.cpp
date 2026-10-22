@@ -7,6 +7,10 @@
 // the home TU simplified it to TheDisplay->getWidth (slot 0x20) and diverged.
 // The home TU keeps its (non-matching) def removed on landing; siblings stay
 // green via their rows.
+// Retail also keeps the inline abstract-base constructor at 0x005C4F7F.
+// Request its out-of-line copy from the canonical header. Without emission
+// the empty constructor is inlined away in every derived constructor.
+class __declspec(dllexport) ProcessAnimateWindow;
 #include "PreRTS.h"
 #include "GameClient/ProcessAnimateWindow.h"
 #include "GameClient/AnimateWindowManager.h"
