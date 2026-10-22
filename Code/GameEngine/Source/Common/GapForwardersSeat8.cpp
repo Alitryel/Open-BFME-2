@@ -483,6 +483,11 @@ public:
 	Rva003AA6BD(EmitVtableTag *);
 	virtual ~Rva003AA6BD();
 };
+// The ledger's row at 0x003AA6BD is the FXParticleSystem template dtor's own
+// spelling (a 5-byte jump to 0x003A9C39); the address-derived name the vector
+// deleting destructor below calls is that same body, so bind the two.
+#pragma comment(linker, "/alternatename:??1Rva003AA6BD@@UAE@XZ=??1?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?RENDEROBJECT_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_DRAW_MODULE_NAME@2@3QBDBVRenderObjectDrawModule@2@VRenderObjectDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+
 // ?<Rva003AA6BD::Rva003AA6BD> absent-from-retail
 Rva003AA6BD::Rva003AA6BD(EmitVtableTag *) {}
 

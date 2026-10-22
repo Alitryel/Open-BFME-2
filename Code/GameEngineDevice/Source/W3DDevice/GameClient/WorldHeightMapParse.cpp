@@ -100,6 +100,10 @@ private:
 	Rva00328D9D *m_object;
 };
 
+// The ledger's row at 0x000AF146 is this owner's 26-byte clear (same thiscall
+// shape and the same body); the destructor below is that spelling.
+#pragma comment(linker, "/alternatename:??1Rva000AF146@@QAE@XZ=?clear@Rva000AF146@@QAEXXZ")
+
 class Rva0032989F
 {
 public:

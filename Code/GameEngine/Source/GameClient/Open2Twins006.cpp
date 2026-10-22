@@ -161,6 +161,11 @@ public:
 	void bfmeAccept(BfmeFlagTarget *target);
 };
 
+// The sink is the shroud manager's own view of the receiver: retail's call from
+// Gen_008F7650::bfmeDescribe lands on 0x0073D8B0, the ledger's row for the
+// same (this, pointer) shape.
+#pragma comment(linker, "/alternatename:?bfmeAccept@BfmeSinkB@@QAEXPAVBfmeFlagTarget@@@Z=?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z")
+
 class Gen_008F7650
 {
 public:

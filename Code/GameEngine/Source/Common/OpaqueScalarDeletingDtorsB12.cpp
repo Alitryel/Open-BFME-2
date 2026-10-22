@@ -106,6 +106,11 @@ public:
 	virtual ~Rva005204EF();
 };
 
+// The ledger's row at 0x005204EF is the screen-window destructor's own
+// spelling; the deleting destructor above calls the address-derived name for
+// the same 224-byte body, so bind the two.
+#pragma comment(linker, "/alternatename:??1Rva005204EF@@UAE@XZ=??1Rva005202C8@@UAE@XZ")
+
 // ?<Rva005204EF::Rva005204EF> absent-from-retail
 Rva005204EF::Rva005204EF(EmitVtableTag *)
 {

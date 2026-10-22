@@ -2,6 +2,10 @@
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
+
+// This view reaches ThreadClass::Execute as a private member; the ledger's body
+// at 0x006104B0 is the same function under the public spelling.
+#pragma comment(linker, "/alternatename:?Execute@ThreadClass@@QAEXXZ=?Execute@ThreadClass@@UAEXXZ")
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
