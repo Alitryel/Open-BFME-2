@@ -66,3 +66,38 @@ into bfmealloc removed that copy. Both trials passed all 4/4 byte rows, includin
 the 20-byte INI parser. Final `link_check.py --prepare-current` issued a reusable
 strict compile receipt; `--new-variants` passed. This is a legacy local linkage
 gain, not a closed-strict or full-link measurement. No census or link cycle ran.
+
+## Current-provider audit after the repair
+
+Fresh explicit checks of 25 additional sole-blocker candidates found seven
+already linking with current source (2,151 B). Those inherited improvements are
+not credited to this seat. Replacing the obsolete wide_money_put_string provider
+in the same preview likewise lets vector_pair (570 B), Rva00222278Parse (192 B)
+and locale_global (364 B) link without edits. Its current source already declares
+malloc_alloc::allocate and emits locale::~locale as inline. Do not retry those
+census findings as new repairs.
+
+A clean GameSpyGroupRoom destructor trial reproduced the native 53-byte body
+at 0x0038240F, but the paired current providers already let both consumers link
+(2,963 B). The trial and provisional row were removed: no link gain. Likewise,
+LocomotorMoveTowardsPositionHorde already calls canonical Object::isKindOf;
+the census's old rva0006F039 name is stale.
+
+Remaining investigated candidates need independent changes: RefCountClass's
+/O2 versus /O1 deleting-destructor shape; wide ios imbue's load-bearing inline
+string assignment (prior two failed trials and C1001); ModuleData-pointer
+_Construct's load-bearing visibility; or canonical AptValueWithHash/GC teardown
+and virtual providers for Rva006FBC90Owner. Existing attempt records retain the
+source variants; none was retried unchanged. ArmorStoreParse's body and
+Rva004EA420Init's file/body were held by other workers, so neither was edited.
+For the latter, current AIEconomyBuilderFarmLibrary.h and the rowed owners in
+Rva007B6880Thunks/Rva007AB85CAtexitInits are leads for replacing the old E04494/
+E04490 declarations; respect the existing claim.
+
+The remaining broad ranking is not a current closure measurement: strict
+current-ledger preview refuses the 143 missing receipts and the published index
+contains stale providers. A fresh runner census/receipts or a newly rowed provider
+should precede another unchanged sweep of these findings. No full verification
+runner was started. progress.py origin/master reports +0 authored C++ bytes;
+its census-based linked delta is -199,836 B from differing measurement inputs,
+not the measured Chat repair delta. The accepted local gain remains 185 B only.
