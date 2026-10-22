@@ -9,6 +9,10 @@
 // allocate at 0x000307F0, one-argument _free at 0x00030830).
 
 #include <vector>
+// Suppress this TU's non-retail copy of ?erase@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAEPAUAngleFXInfo@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::erase(AngleFXInfo *,AngleFXInfo *); }
 
 class FXList;
 

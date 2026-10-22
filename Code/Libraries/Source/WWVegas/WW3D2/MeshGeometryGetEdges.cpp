@@ -10,6 +10,9 @@
 #include <map>
 #include <vector>
 #include <hash_map>
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPAXPAXV?$allocator@PAX@_STL@@@_STL@@QAEPAPAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * * _STLP_alloc_proxy<void * *,void *,allocator<void *> >::allocate(unsigned int); }
 // Suppress this TU's non-retail copy of ??$__advance@PBIH@_STL@@YAXAAPBIHABUrandom_access_iterator_tag@0@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void __advance<unsigned int const *,int>(unsigned int const * &,int,random_access_iterator_tag const &); }

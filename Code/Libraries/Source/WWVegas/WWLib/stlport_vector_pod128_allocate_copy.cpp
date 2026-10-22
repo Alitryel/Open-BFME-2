@@ -15,5 +15,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@IAEXPAUB:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod128;
+namespace _STL { template <> void vector<BfmePod128,allocator<BfmePod128> >::_M_insert_overflow(BfmePod128 *,BfmePod128 const &,__false_type const &,unsigned int,bool); }
 struct BfmePod128 { int a[32]; };
 template class _STL::vector<BfmePod128, _STL::allocator<BfmePod128> >;

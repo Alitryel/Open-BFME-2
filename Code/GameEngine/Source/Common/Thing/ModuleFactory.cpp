@@ -302,6 +302,10 @@ namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
 namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?erase@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAEPAUAngleFXInfo@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::erase(AngleFXInfo *,AngleFXInfo *); }
 // Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }

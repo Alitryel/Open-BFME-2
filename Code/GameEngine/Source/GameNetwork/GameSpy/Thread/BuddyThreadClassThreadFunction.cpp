@@ -31,6 +31,9 @@ void Rva00030830GameFree(void*);
 namespace _STL { template<> void vector<AsciiString>::push_back(const AsciiString&); }
 #include <string.h>
 #include "mutex.h"
+// Suppress this TU's non-retail copy of ??0?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> >::basic_string(); }
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
