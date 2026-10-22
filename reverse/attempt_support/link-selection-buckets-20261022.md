@@ -29,3 +29,24 @@ build/seat-selection-final-before.log, build/seat-selection-final-after.log,
 build/seat-selection-strict.log. No pin, ledger, shared-header or class-layout
 change was needed. ArmorStoreParse has the subscript blocker too but its RVAs
 are claimed by another worker, so this seat left that unit untouched.
+
+## Preparation recovery after dd5807dd58
+
+The five-commit outgoing batch encountered C2995 after the upstream selection
+helper repair supplied the same inline vector subscript and bucket helper.
+The additional early specializations in 7ef0269a55 are now redundant; remove
+that commit's source addition, leaving the entire selection source identical
+to origin/master at dd5807dd58. The historical paired +4,145 B result above
+is superseded by upstream and is not an additional gain in this batch.
+The RVAs are now claimed by other workers; recovery only removes this
+checkout's redundant addition and preserves their complete upstream source.
+The preparation backup ref remains refs/runner/preparation/1792695743399482081.
+No recorded stash or resyncStash needs applying, no rebase is active, and the
+six untracked reverse/zh_sweep files remain untouched.
+
+Recovery checks: scoped build passes 3/3 rows plus literal/float/import gates;
+eh_verify reports 1 EXACT; class_gate and find_declared_unmatched pass.
+The current-source legacy preview links all 4,145 bytes against census
+08160bc2c9 (2026-10-22 17:08); this confirms upstream's repair, not new gain.
+check_csv passes. The full outgoing range is checked by the push dry run
+before recovery publication.
