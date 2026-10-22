@@ -32,6 +32,16 @@
 #include "vector2.h"
 #include "vector.h"
 #include "multilist.h"
+
+// Bind the out-of-line vector members to their rowed providers.
+template <> VectorClass<Vector3>::VectorClass(int, const Vector3 *);
+template <> bool VectorClass<Vector3>::Resize(int, const Vector3 *);
+template <> __declspec(dllimport) __forceinline DynamicVectorClass<Vector3>::DynamicVectorClass(unsigned size, const Vector3 *array)
+    : VectorClass<Vector3>(size, array)
+{
+    GrowthStep = 10;
+    ActiveCount = 0;
+}
 // Render inlines DynamicVectorClass<Vector3>::Resize, but retail's out-of-line
 // body is the size-optimised 0x000F0CF9 (FXShaderRendererSkin.cpp emits it):
 // expand the stock body here without emitting a copy.
@@ -44,15 +54,15 @@ template <> __declspec(dllimport) __forceinline bool DynamicVectorClass<Vector3>
 	return(false);
 }
 
-// WWLib sharebuf.h with BFME's aligned-buffer constructor; Render inlines the
-// unsigned constructor into a dead create path, which retail's FuncInfo keeps.
+// BFME's aligned-buffer layout; destruction binds the rowed providers.
+// Render expands the aligned-buffer constructor in its unwind graph.
 class RefCountClass
 {
 public:
     RefCountClass() : NumRefs(1) {}
     virtual void Delete_This();
 protected:
-    virtual ~RefCountClass() {}
+    virtual ~RefCountClass();
 private:
     int NumRefs;
 };
@@ -60,18 +70,8 @@ private:
 template <class T> class ShareBufferClass : public RefCountClass
 {
 public:
-    ShareBufferClass(int count, const char *msg, int alignment = 0) :
-        Count(count),
-        Alignment(alignment)
-    {
-        if (Alignment == 0) {
-            RawBuffer = new T[Count];
-            Array = RawBuffer;
-        } else {
-            RawBuffer = (T *)new char[Count * sizeof(T) + Alignment];
-            Array = (T *)(((unsigned int)RawBuffer + Alignment - 1) & ~(Alignment - 1));
-        }
-    }
+    ShareBufferClass(int count, const char *msg, int alignment = 0);
+    virtual ~ShareBufferClass();
     T *Get_Array() { return Array; }
 protected:
     T *RawBuffer;
@@ -79,6 +79,20 @@ protected:
     int Count;
     int Alignment;
 };
+
+// The inlined allocation path retains Render's native unwind states.
+template <> __declspec(dllimport) __forceinline
+ShareBufferClass<unsigned>::ShareBufferClass(int count, const char *msg, int alignment)
+    : Count(count), Alignment(alignment)
+{
+    if (Alignment == 0) {
+        RawBuffer = new unsigned[Count];
+        Array = RawBuffer;
+    } else {
+        RawBuffer = (unsigned *)new char[Count * sizeof(unsigned) + Alignment];
+        Array = (unsigned *)(((unsigned int)RawBuffer + Alignment - 1) & ~(Alignment - 1));
+    }
+}
 
 class UVBufferClass : public ShareBufferClass<Vector2>
 {
@@ -94,8 +108,9 @@ public:
 class MeshMatDescClass
 {
 public:
-    Vector2 *Get_UV_Array(int pass, int stage);
-    Vector2 *Get_UV_Array_By_Index(int index, bool create);
+    // Render expands these accessors; their out-of-line bodies have rowed owners.
+    __declspec(dllimport) __forceinline Vector2 *Get_UV_Array(int pass, int stage);
+    __declspec(dllimport) __forceinline Vector2 *Get_UV_Array_By_Index(int index, bool create);
     unsigned *Get_Color_Array(int index, bool create);
     int PassCount;
     int VertexCount;
@@ -106,7 +121,7 @@ public:
     ShareBufferClass<unsigned> *ColorArray[2];
 };
 
-inline Vector2 *MeshMatDescClass::Get_UV_Array(int pass, int stage)
+__declspec(dllimport) __forceinline Vector2 *MeshMatDescClass::Get_UV_Array(int pass, int stage)
 {
     if (UVSource[pass][stage] == -1) {
         return NULL;
@@ -117,7 +132,7 @@ inline Vector2 *MeshMatDescClass::Get_UV_Array(int pass, int stage)
     return NULL;
 }
 
-inline Vector2 *MeshMatDescClass::Get_UV_Array_By_Index(int index, bool create)
+__declspec(dllimport) __forceinline Vector2 *MeshMatDescClass::Get_UV_Array_By_Index(int index, bool create)
 {
     if (create && !UV[index]) {
         UV[index] = new UVBufferClass(VertexCount, "MeshMatDescClass::UV");
@@ -152,7 +167,7 @@ public:
     int VertexCount;
     unsigned char pad1[0x94 - 0x2C];
     MeshMatDescClass *CurMatDesc;
-    const Vector2 *Get_UV_Array_By_Index(int index)
+    __declspec(dllimport) __forceinline const Vector2 *Get_UV_Array_By_Index(int index)
     { return CurMatDesc->Get_UV_Array_By_Index(index, false); }
     unsigned *Get_Color_Array(int array_index, bool create = true)
     { return CurMatDesc->Get_Color_Array(array_index, create); }

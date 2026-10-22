@@ -3,9 +3,8 @@
 // ??0AptMpGameSetup@@QAE@PAVMpGameSetupOwner@@H@Z, retail 0x00441ece, 780 bytes. Banked partial (score 0.99) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
 // stlport
-// Target-only constructor view. WB names AptMpGameSetup; native780 proves
-// initialization order and offsets. Proper destructor/vtable ownership and
-// callback43E6C9 ABI remain unresolved; declarations below are trial views.
+// WB names AptMpGameSetup; native initialization proves the layout below.
+// Destructor and vtable ownership remain unresolved.
 #include <vector>
 #include <string.h>
 #include "ascii_string.h"
@@ -13,6 +12,7 @@
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
 namespace _STL {
+template <> vector<bool, allocator<bool> >::~vector();
 template <> vector<AsciiString, allocator<AsciiString> >::~vector();
 template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
 template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
@@ -43,11 +43,15 @@ class GameWindow;
 class MpGameSetupComboRef {
 public:MpGameSetupComboRef();~MpGameSetupComboRef();GameWindow* window;
 };
-class __multiple_inheritance FunctorTarget;
-typedef void (FunctorTarget::*FunctorMethod)();
+// The callback row at 0x0043E6C9 takes the map-selection argument.
+struct Rva0043E6C9Arg;
+class __multiple_inheritance Rva0043E0C5 {
+public: void rva0043E6C9(Rva0043E6C9Arg *);
+};
+typedef void (Rva0043E0C5::*FunctorMethod)(Rva0043E6C9Arg *);
 struct FunctorBinding {
- FunctorTarget* target;unsigned int pad;FunctorMethod method;
- FunctorBinding(FunctorMethod m,FunctorTarget*functorTarget):target(functorTarget),method(m){}
+ Rva0043E0C5* target;unsigned int pad;FunctorMethod method;
+ FunctorBinding(FunctorMethod m,Rva0043E0C5*functorTarget):target(functorTarget),method(m){}
 };
 class Rva0057BC63FunctorHolder {public:Rva0057BC63FunctorHolder(const FunctorBinding&);TargetRef00217D4C* pointer;};
 struct TreeHintRef00217D4C:public Rva0057BC63FunctorHolder {
@@ -117,7 +121,7 @@ AptMpGameSetup::AptMpGameSetup(MpGameSetupOwner*owner,int flags):
  ping3b8=TheMappedImageCollection->findImageByName(AsciiString("AptPing03"));
  ping3bc=TheMappedImageCollection->findImageByName(AsciiString("AptPing02"));
  ping3c0=TheMappedImageCollection->findImageByName(AsciiString("AptPing01"));
- ((Rva0043F20C*)&map60)->rva0043F20C(FunctorBinding(reinterpret_cast<FunctorMethod>(&AptMpGameSetup::rva0043E6C9),reinterpret_cast<FunctorTarget*>(this)));
+ ((Rva0043F20C*)&map60)->rva0043F20C(FunctorBinding(&Rva0043E0C5::rva0043E6C9,reinterpret_cast<Rva0043E0C5*>(this)));
  if(TheGlobalData->modeFlags&3) flags3a4&=~0x40;
  if(flags3a4&0x40) {if(!g_Va00E03340) flags3a4&=~0x40;}
  if(!(flags3a4&0x40)) ((Rva0057E97A*)&rulesD0)->rva0057E9ED(1,3);
@@ -181,7 +185,7 @@ Rva004421E1::Rva004421E1(Rva004444D2*owner,int flags):
  ping3b8=TheMappedImageCollection->findImageByName(AsciiString("AptPing03"));
  ping3bc=TheMappedImageCollection->findImageByName(AsciiString("AptPing02"));
  ping3c0=TheMappedImageCollection->findImageByName(AsciiString("AptPing01"));
- ((Rva0043F20C*)&map60)->rva0043F20C(FunctorBinding(reinterpret_cast<FunctorMethod>(&AptMpGameSetup::rva0043E6C9),reinterpret_cast<FunctorTarget*>(this)));
+ ((Rva0043F20C*)&map60)->rva0043F20C(FunctorBinding(&Rva0043E0C5::rva0043E6C9,reinterpret_cast<Rva0043E0C5*>(this)));
  if(TheGlobalData->modeFlags&3) flags3a4&=~0x40;
  if(flags3a4&0x40) {if(!g_Va00E03340) flags3a4&=~0x40;}
  if(!(flags3a4&0x40)) ((Rva0057E97A*)&rulesD0)->rva0057E9ED(1,3);
