@@ -73,7 +73,9 @@ public:
 		int v[2];
 	};
 	Rva00574ABB(const Payload *src) throw();
-	virtual ~Rva00574ABB();
+	// Inline empty, as Rva005CE259Ctor.cpp's view: its deleting-dtor copy is
+	// first in link order and inlines this body.
+	virtual ~Rva00574ABB() {}
 	int m_ref;
 	Payload m_data;
 };
