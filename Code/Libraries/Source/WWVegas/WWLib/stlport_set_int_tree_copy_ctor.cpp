@@ -15,6 +15,12 @@
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree_node<int> * _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::_M_create_node(int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@H@_STL@@U12@V?$allocator@U?$_Rb_tree_no:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _STLP_alloc_proxy<_Rb_tree_node<int> *,_Rb_tree_node<int>,allocator<_Rb_tree_node<int> > >::deallocate(_Rb_tree_node<int> *,unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@H@_STL@@@_STL@@QBEXPAU?$_Rb_tree_node@H@2@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<_Rb_tree_node<int> >::deallocate(_Rb_tree_node<int> *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> >::~_Rb_tree(); }

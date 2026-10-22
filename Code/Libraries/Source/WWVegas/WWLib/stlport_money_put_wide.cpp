@@ -17,6 +17,9 @@ namespace _STL { template <> unsigned short * allocator<unsigned short>::allocat
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > money_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, bool, ios_base &, unsigned short, long double) const; }
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$copy@PBGV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@YA?AV?$ostreambuf_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> ostreambuf_iterator<unsigned short,char_traits<unsigned short> > copy<unsigned short const *,ostreambuf_iterator<unsigned short,char_traits<unsigned short> > >(unsigned short const *,unsigned short const *,ostreambuf_iterator<unsigned short,char_traits<unsigned short> >); }
 // Suppress this TU's non-retail copy of ??0?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAE@ABV?$allocator@G@1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _String_base<unsigned short,allocator<unsigned short> >::_String_base(allocator<unsigned short> const &); }

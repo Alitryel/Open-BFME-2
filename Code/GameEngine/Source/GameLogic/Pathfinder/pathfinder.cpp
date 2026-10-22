@@ -6671,6 +6671,12 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
 #include <map>
 #include <set>
 #include <deque>
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@H@_STL@@U12@V?$allocator@U?$_Rb_tree_no:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _STLP_alloc_proxy<_Rb_tree_node<int> *,_Rb_tree_node<int>,allocator<_Rb_tree_node<int> > >::deallocate(_Rb_tree_node<int> *,unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@H@_STL@@@_STL@@QBEXPAU?$_Rb_tree_node@H@2@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<_Rb_tree_node<int> >::deallocate(_Rb_tree_node<int> *,unsigned int) const; }
 // Keep less<int>::operator() inlined without emitting an optimised out-of-line
 // copy that would shadow the retail-proven one other units supply.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &__x, const int &__y) const { return __x < __y; } }

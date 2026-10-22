@@ -84,6 +84,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 namespace _STL { template <> void _Base_bitset<4>::_M_do_reset(); }
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$bitset@$0HE@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<116>::bitset(); }
 // Suppress this TU's non-retail copy of ?clear@?$_Rb_tree@PBVThingTemplate@@U?$pair@QBVThingTemplate@@H@_STL@@U?$_Select1st@U?$pai:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ThingTemplate;

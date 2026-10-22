@@ -113,6 +113,9 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree@HU?$pair@$$CBHPAX@_STL@@U?$_Select1st@U?$pair@$$CBHPAX@_STL@@@2@U?$less@H@2@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree<int,pair<int const ,void *>,_Select1st<pair<int const ,void *> >,less<int>,allocator<pair<int const ,void *> > >::~_Rb_tree(); }
 // Suppress this TU's non-retail copy of ?_M_next_size@?$hashtable@U?$pair@$$CBHURva001FEAB2Element@@@_STL@@HU?$hash@H@2@U?$_Select:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001FEAB2Element;
