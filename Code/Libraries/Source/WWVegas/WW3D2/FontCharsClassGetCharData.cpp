@@ -27,7 +27,7 @@ class FontCharsClass
 	char m_unreconstructed_0C[0x450 - 0x0C];
 	FontCharMap m_chars;
 
-	FontCharsClassCharDataStruct const *Store_GDI_Char(unsigned short ch);
+	FontCharsClassCharDataStruct const *Store_Thai_GDI_Glyph(unsigned short ch);
 	FontCharsClassCharDataStruct const *Get_Char_Data(unsigned short ch);
 };
 
@@ -42,7 +42,7 @@ FontCharsClassCharDataStruct const *FontCharsClass::Get_Char_Data(unsigned short
 		if (node != cur->m_chars.header)
 			fontCharsClassCharData = node->m_data;
 		if (fontCharsClassCharData == 0)
-			fontCharsClassCharData = cur->Store_GDI_Char(key);
+			fontCharsClassCharData = cur->Store_Thai_GDI_Glyph(key);
 		if (fontCharsClassCharData != (FontCharsClassCharDataStruct const *)-1)
 			return fontCharsClassCharData;
 		FontCharsClass *alt = cur->AlternateUnicodeFont;

@@ -61,7 +61,16 @@ BFME_LITERAL_NAME_GETTER(Rva001F37BENamed, "FXParticleInfo")
 BFME_LITERAL_NAME_GETTER(Rva001FC179Named, "FXParticle")
 BFME_LITERAL_NAME_GETTER(Rva002047C9Named, "SequentialScript")
 // LargeGroupAudio getter is owned by the complete subsystem unit.
-BFME_LITERAL_NAME_GETTER(Rva00050C2BNamed, "GeometryInfo")
+class GeometryInfo
+{
+public:
+	virtual const char *GetSnapshotName();
+};
+
+const char *GeometryInfo::GetSnapshotName()
+{
+	return "GeometryInfo";
+}
 BFME_LITERAL_NAME_GETTER(MilesAudioManager, "MilesAudioManager")
 BFME_LITERAL_NAME_GETTER(W3DRenderObjectSnapshot, "W3DRenderObjectSnapshot")
 BFME_LITERAL_NAME_GETTER(Rva0008BC8BNamed, "View")

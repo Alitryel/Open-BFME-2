@@ -1090,7 +1090,6 @@ ModuleData* ModuleInfo::friend_getNthData(Int i)
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?crc@GeometryInfo@@MAEXPAVXfer@@@Z=??_GRva0050B2A@@UAEPAXI@Z")
 #pragma comment(linker, "/alternatename:?xfer@GeometryInfo@@MAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?loadPostProcess@GeometryInfo@@MAEXXZ=?name@Rva00050C2BNamed@@QBEPBDXZ")
 
 // Native boundary 0x00331578..0x0033162B (179B), RET 4. The target compares
 // scalar words at +8/+18/+28, seven floats at +C/+10/+14/+24/+20/+2C/+30,

@@ -5819,4 +5819,3 @@ SightingInfo::~SightingInfo()
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?crc@GeometryInfo@@MAEXPAVXfer@@@Z=??_GRva0050B2A@@UAEPAXI@Z")
 #pragma comment(linker, "/alternatename:?xfer@GeometryInfo@@MAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?loadPostProcess@GeometryInfo@@MAEXXZ=?name@Rva00050C2BNamed@@QBEPBDXZ")

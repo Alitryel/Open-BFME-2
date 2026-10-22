@@ -11143,7 +11143,7 @@ _math_rad,,0x00748740,38,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.r
 _math_frexp,,0x00748770,68,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.frexp via check_number + pushnumber x2; callees pinned
 _math_random,,0x00748900,298,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.random via rand + gettop switch + check_int + pushnumber; callees pinned
 ?name@Rva002AE621Named@@QBEPBDXZ,,0x002AE621,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning Command; vtable ref in .rdata; address-derived placeholder name
-?name@Rva00050C2BNamed@@QBEPBDXZ,,0x00050C2B,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning GeometryInfo; vtable ref at 0x7C4E9C with 0x4B3FD0 family slot pattern; address-derived placeholder name
+?GetSnapshotName@GeometryInfo@@UAEPBDXZ,,0x00050C2B,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning GeometryInfo; vtable ref at 0x7C4E9C with 0x4B3FD0 family slot pattern; address-derived placeholder name
 _str_len,,0x00748AA0,64,Code/Libraries/Source/Lua/lstrlib.c,matched,Lua string len via donor; callees pinned
 ?name@MilesAudioManager@@QBEPBDXZ,,0x000518B2,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning MilesAudioManager; vtable ref at 0x7C55A4; address-derived placeholder name
 ?name@W3DRenderObjectSnapshot@@QBEPBDXZ,,0x000638A2,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning W3DRenderObjectSnapshot; vtable ref at 0x7C59FC with 0x4B3FD0 family slot pattern; address-derived placeholder name
@@ -31733,7 +31733,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ?rva005622A6@Rva005622A6@@QAEXPAVXfer@@@Z,,0x005622A6,164,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva005622A6Xfer.cpp,matched,xfer twelve floats plus rotation enum
 ?rva0056234A@Rva0056234A@@UAEXPAVXfer@@@Z,,0x0056234A,28,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0056234AXfer.cpp,matched,containing xfer via member at 0xC
 ??_GRva004209CC@@UAEPAXI@Z,,0x00420A0D,28,Code/GameEngine/Source/Common/Rva004209CCDtor.cpp,matched,chain deleting dtor via rowed dtor plus delete; rehomed from FamilyDeletingDtors_Rva004209CC.cpp: Rva004209CCDtor.cpp owns ~Rva004209CC and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
-?rva002D7AA6@Radar@@QAEXH@Z,,0x002D7AA6,10,Code/GameEngine/Source/Common/System/Radar.cpp,matched,leaf clearer via Radar neighbours plus and-zero
+?refreshTerrain@Radar@@UAEXPAVTerrainLogic@@@Z,,0x002D7AA6,10,Code/GameEngine/Source/Common/System/Radar.cpp,matched,leaf clearer via Radar neighbours plus and-zero
 ?rva00028C70@Rva00028C70@@QAEHDH@Z,,0x00028C70,29,Code/GameEngine/Source/Common/Rva00028C70Forward.cpp,matched,Rva forwarder to bfmeFwdOneSUA via BfmeThingSUA cast
 ?rva006003A5@Rva006003FC@@QAEXPAVObject@@@Z,,0x006003A5,8,Code/GameEngine/Source/Common/Rva006003A5.cpp,matched,vslot via slot2 plus pinned performUpgradeFX
 ?rva0033EF86@Rva0033EEC9@@QAEXPBUCoord3D@@@Z,,0x0033EF86,8,Code/GameEngine/Source/Common/Rva0033EF86.cpp,matched,leaf forward via member plus rowed setPosition

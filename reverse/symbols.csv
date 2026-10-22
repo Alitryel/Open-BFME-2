@@ -9743,7 +9743,6 @@ name,address,notes
 ?recenterTurret@TurretAI@@QAEXXZ,0x004D8298,address read from the retail REL32 at 0x0026267B in AIUpdateInterface::recenterTurret; 11B delegate matching TurretAI::recenterTurret
 ?recompute@AIGroup@@AAEXXZ,0x0036D2C5,REL32 read at the byte-verified AIGroup::getSpeed 0x0036E333 (called when the +0x0C dirty byte is set); body calls getCenter 0x0036D035 then stores the +0x08 speed and clears +0x0C as ZH AIGroup::recompute does
 ?refresh@Q1Receiver0134FAAC@@QAEXXZ,0x006227E0,address read from the REL32 displacement at placed m009F19E0 body 0x00624690
-?refreshTerrain@Radar@@UAEXPAVTerrainLogic@@@Z,0x002D7AA6,ZH name for the rowed opaque ?rva002D7AA6@Radar (clears the queued terrain-refresh frame +0x1460 as Zero Hour's Radar::refreshTerrain); REL32 base call from W3DRadar::refreshTerrain 0x000500EC
 ?regainFocus@@YAXXZ,0x0035D326,WinMain regainFocus helper
 ?regainFocus@AudioManager@@QAEXXZ,0x001DBC0B,address read from the REL32 in WndProc's WM_ACTIVATE arm at 0x000018D7; the call site encodes this jump thunk, not the body
 ?registerNewCave@CaveSystem@@QAEXH@Z,0x004276B6,donor CaveSystem::registerNewCave(Int); target calls from CaveContain registration paths support this role; donor name is carried rather than independently proven

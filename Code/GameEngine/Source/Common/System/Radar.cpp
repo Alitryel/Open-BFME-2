@@ -323,7 +323,7 @@ public:
 	Object *searchListForRadarLocationMatch(RadarObject *list, ICoord2D *target);
 	void findDrawPositions(Int startX, Int startY, Int width, Int height,
 		ICoord2D *ul, ICoord2D *lr);
-	void rva002D7AA6(int dummy);
+	virtual void refreshTerrain(TerrainLogic *terrain);
 	void rva002D7BB7(void const *src);
 	Bool localPixelToRadar(const ICoord2D *pixel, ICoord2D *radar);
 
@@ -406,13 +406,9 @@ Object *Radar::searchListForRadarLocationMatch(RadarObject *list, ICoord2D *targ
 	return 0;
 }
 
-// ?rva002D7AA6@Radar@@QAEXH@Z @0x002D7AA6 10B clearer.
-// Retail and [ecx+0x1460],0 then ret 4. Evidence: leaf lane; neighbours
-// findDrawPositions and RadarNewMap; and-mem-zero needs /O1;
-// ret 4 via single dummy int param.
-void Radar::rva002D7AA6(int dummy)
+// Clear the queued terrain refresh frame. The terrain argument is unused.
+void Radar::refreshTerrain(TerrainLogic *)
 {
-	(void)dummy;
 	m_1460 = 0;
 }
 
