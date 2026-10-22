@@ -5366,7 +5366,6 @@ _DeletePostProcInstance,,0x001B68D0,36,Code/Libraries/Source/VP6/PostProcInstanc
 ??0GenericMultiListIterator@@QAE@PAVGenericMultiListClass@@@Z,,0x00144830,17,Code/Libraries/Source/WWVegas/WW3D2/scene.cpp,matched,
 ?Set_Fog_Enable@SceneClass@@UAEX_N@Z,,0x0065D7A0,10,Code/Libraries/Source/WWVegas/WW3D2/scene.cpp,matched,
 ?Cast_Ray@AABTreeClass@@QAE_NAAVRayCollisionTestClass@@@Z,,0x00168C00,17,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,
-?Cast_AABox@AABTreeClass@@QAE_NAAVAABoxCollisionTestClass@@@Z,,0x00168C20,17,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,
 ?Get_Poly_Surface_Type@MeshGeometryClass@@QBEEH@Z,,0x0016A220,16,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,
 ?Set_Hierarchy_Valid@Animatable3DObjClass@@IBEX_N@Z,,0x0019B0D0,13,Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp,matched,
 ?Peek_Animation@Animatable3DObjClass@@UAEPAVHAnimClass@@XZ,,0x001A4DC0,19,Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp,matched,

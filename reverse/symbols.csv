@@ -5614,7 +5614,6 @@ name,address,notes
 ?CRC_Stringi@@YAKPAD@Z,0x003EC953,copy-#1 1-arg CRC_Stringi with inline toupper; called by in-family wrapper 0x3ECA44; partial banked 0.95
 ?Capture_Bone@HTreeClass@@QAEXH@Z,0x00166980,address read from the REL32 displacement at a byte-verified placed body (0x1A4EC0)
 ?Capture_Update@HTreeClass@@QAEHH@Z,0x001622B0,address read from the retail REL32 at 0x00162B84 (Base_Update) +0x001660D6 (Combo_Update) +5 more update-loop sites; int returned (callers store eax and re-seed the sweep); searches 36B captured-bone records by pivot key and applies the held quaternion/translation (world-space aware)
-?Cast_AABox_Recursive@AABTreeClass@@AAE_NPAUCullNodeStruct@1@AAVAABoxCollisionTestClass@@@Z,0x00198730
 ?ChangeBuffer@EAStringC@@AAEXIIIW4CBPushZero@1@I@Z,0x006D4AA0
 ?Change_Polygon_Renderer_Texture@DX8FVFCategoryContainer@@QAEXAAV?$MultiListClass@VDX8PolygonRendererClass@@@@ABV?$RefCountPtr@VTextureClass@@@@1II@Z,0x00146200,955B renderer texture migration; reference dx8renderer.cpp algorithm and unsigned pass/stage signature; retail compares handle referents then traverses pass category list and input polygon list to queue source/destination moves
 ?Check@Rva0059E647Entry@@QAE_NH@Z,0x002DFA43,wrapper-call spelling for the 0x59E647 entry predicate (thiscall 1 arg ret 4 verified); target REL32 from retail call at 0x0059E6A1
@@ -8174,7 +8173,6 @@ name,address,notes
 ?canDoSpecialPowerAtObject@ActionManager@@QAE_NPBVObject@@0W4CommandSourceType@@PBVSpecialPowerTemplate@@I_N@Z,0x0041CFCC,"Zero Hour ActionManager::canDoSpecialPowerAtObject (obj, target, CMD_FROM_AI, template, options 0, checkSourceRequirements 1) on TheActionManager: REL32 at 0x004955E2 in CommandButtonHuntUpdate::scanClosestTarget 0x00495489 where the donor makes that call"
 ?canRepairObject@ActionManager@@QAE_NPBVObject@@0W4CommandSourceType@@@Z,0x0041CE99,"ActionManager::canRepairObject (obj, objectToRepair, cmdSource) on TheActionManager: REL32 at 0x004A9BF6 in DozerAIUpdate::privateRepair 0x004A9BDE"
 ?cancelDock@DockUpdate@@UAEXPAVObject@@@Z,0x00589E77,"DockUpdateInterface slot 13 in every dock +0x20 vtable: frees the docker's approach slot (0x00589AFF), and when it is the active docker (+0x60) clears it and the inside byte +0x64 and resets the docking conditions, the Zero Hour cancelDock"
-?cast_aabox_brute_force@MeshGeometryClass@@IAE_NAAVAABoxCollisionTestClass@@@Z,0x0016CD30
 ?cast_ray_brute_force@MeshGeometryClass@@IAE_NAAVRayCollisionTestClass@@@Z,0x0016CE00
 ?cellCallback@Rva002E6F92Info@@QAEHPAVPathfindCell@@0HH@Z,0x002E6F92,callback read from retail REL32 at 0x002E840D in the cell line walk 0x002E8348 (byte-exact modulo relocs in PathfinderCellLineWalks.cpp): called with (previous cell current cell x y); owner identity unproven
 ?cellCallback@Rva002E7261Info@@QAEHPAVPathfindCell@@0HH@Z,0x002E7261,callback read from retail REL32 at 0x002E810A in the cell line walk 0x002E8045 (byte-exact modulo relocs in PathfinderCellLineWalks.cpp): called with (previous cell current cell x y); owner identity unproven
