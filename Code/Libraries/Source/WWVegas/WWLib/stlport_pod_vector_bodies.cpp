@@ -83,6 +83,9 @@ namespace _STL { template <> BfmePod44 *vector<BfmePod44, allocator<BfmePod44> >
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod20;
 namespace _STL { template <> void vector<BfmePod20, allocator<BfmePod20> >::_M_fill_insert(BfmePod20 *, size_t, const BfmePod20 &); }
+// Native overflow is owned by stlport_pod_noexc_bodies.cpp (RVA 0x001DE402).
+struct BfmePod52;
+namespace _STL { template <> void vector<BfmePod52, allocator<BfmePod52> >::_M_insert_overflow(BfmePod52 *, BfmePod52 const &, __false_type const &, unsigned int, bool); }
 // Suppress this TU's non-retail copy of ?_M_fill_insert@?$vector@UBfmePod52@@V?$allocator@UBfmePod52@@@_STL@@@_STL@@QAEXPAUBfmePod:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod52;
@@ -657,7 +660,7 @@ template _STL::_Vector_base<BfmePod44,_STL::allocator<BfmePod44> >::_Vector_base
 
 template _STL::_Vector_base<BfmePod52,_STL::allocator<BfmePod52> >::_Vector_base(unsigned int,_STL::allocator<BfmePod52> const &);
 
-template void _STL::vector<BfmePod52,_STL::allocator<BfmePod52> >::push_back(BfmePod52 const &);
+// The no-EH provider owns push_back together with its overflow callee.
 
 template BfmePod44 * _STL::__copy_backward<BfmePod44 *,BfmePod44 *,int>(BfmePod44 *,BfmePod44 *,BfmePod44 *,_STL::random_access_iterator_tag const &,int *);
 

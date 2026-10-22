@@ -142,3 +142,6 @@ template _STL::_Bit_iter<_STL::_Bit_reference,_STL::_Bit_reference *> & _STL::_B
 template void _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::clear(void);
 
 template void _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::insert(BfmePod28 *,unsigned int,BfmePod28 const &);
+
+// Keep the native push_back with its compiler-visible no-EH overflow body.
+template void _STL::vector<BfmePod52>::push_back(const BfmePod52 &);
