@@ -951,30 +951,30 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	DecalLOD	0x0002EC4E	0xDB9644	0x40
 0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	MinParticlePriority	0x0002EC4E	0xC1B6A4	0x44
 0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	MinParticleSkipPriority	0x0002EC4E	0xC1B6A4	0x48
-0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	MinimumFPS	0x0002EF56	0x0	0x0
-0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	ParticleSkipMask	0x0002EF56	0x0	0x4
-0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	DebrisSkipMask	0x0002EF56	0x0	0x8
-0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	SlowDeathScale	0x0002EFC0	0x0	0xC
-0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	MaximumAmbientStreams	0x0002EF56	0x0	0x0
-0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	AllowDolby	0x0002E850	0x0	0x4
-0x007E3308	?Rva00202BB2Parse@@YAXPAVINI@@@Z	AllowReverb	0x0002E850	0x0	0x5
-0x007E3908	?Rva00206DFFSearch@@YAXPAVINI@@@Z ?Rva00206E63Search@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	InternalName	0x0002F11E	0x0	0xC
-0x007E3908	?Rva00206DFFSearch@@YAXPAVINI@@@Z ?Rva00206E63Search@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	UIName	0x0002F11E	0x0	0x4
-0x007E3908	?Rva00206DFFSearch@@YAXPAVINI@@@Z ?Rva00206E63Search@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	UIName2	0x0002F11E	0x0	0x8
-0x007E3908	?Rva00206DFFSearch@@YAXPAVINI@@@Z ?Rva00206E63Search@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	HelpText	0x0002F11E	0x0	0x7C
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	Region	0x00210620	0x0	0x0
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	RegionBonusArmy	0x0002F11E	0x0	0x4
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	RegionBonusResource	0x0002F11E	0x0	0x8
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	RegionBonusLegendary	0x0002F11E	0x0	0xC
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	HeroOnlyArmyCommandPoints	0x0002EF56	0x0	0x10
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	SmallArmyCommandPoints	0x0002EF56	0x0	0x14
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	MediumArmyCommandPoints	0x0002EF56	0x0	0x18
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	ArmyPlacementPos	0x0002F592	0x0	0x20
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	ArmyRetreatRounds	0x0002EF56	0x0	0x58
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	ArmyCarryoverPoints	0x0002EF56	0x0	0x1C
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	RegionConqueredSound	0x0002F11E	0x0	0x50
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	RegionEffectsManagerName	0x0002F11E	0x0	0x54
-0x007E4120	?Rva0020E2F2Get@@YAHXZ ?Rva00210A14Parse@@YAXPAVINI@@@Z	ConcurrentRegionBonus	0x00210AB8	0x0	0x0
+0x007E3478	?parseStaticGameLODDefinition@INI@@SAXPAV1@@Z	MinimumFPS	0x0002EF56	0x0	0x0
+0x007E3478	?parseStaticGameLODDefinition@INI@@SAXPAV1@@Z	ParticleSkipMask	0x0002EF56	0x0	0x4
+0x007E3478	?parseStaticGameLODDefinition@INI@@SAXPAV1@@Z	DebrisSkipMask	0x0002EF56	0x0	0x8
+0x007E3478	?parseStaticGameLODDefinition@INI@@SAXPAV1@@Z	SlowDeathScale	0x0002EFC0	0x0	0xC
+0x007E34B8	?parseAudioLODDefinition@INI@@SAXPAV1@@Z	MaximumAmbientStreams	0x0002EF56	0x0	0x0
+0x007E34B8	?parseAudioLODDefinition@INI@@SAXPAV1@@Z	AllowDolby	0x0002E850	0x0	0x4
+0x007E34B8	?parseAudioLODDefinition@INI@@SAXPAV1@@Z	AllowReverb	0x0002E850	0x0	0x5
+0x007E3908	?parseScriptAction@@YAXPAVINI@@@Z ?parseScriptCondition@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	InternalName	0x0002F11E	0x0	0xC
+0x007E3908	?parseScriptAction@@YAXPAVINI@@@Z ?parseScriptCondition@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	UIName	0x0002F11E	0x0	0x4
+0x007E3908	?parseScriptAction@@YAXPAVINI@@@Z ?parseScriptCondition@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	UIName2	0x0002F11E	0x0	0x8
+0x007E3908	?parseScriptAction@@YAXPAVINI@@@Z ?parseScriptCondition@@YAXPAVINI@@@Z ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z	HelpText	0x0002F11E	0x0	0x7C
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	Region	0x00210620	0x0	0x0
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	RegionBonusArmy	0x0002F11E	0x0	0x4
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	RegionBonusResource	0x0002F11E	0x0	0x8
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	RegionBonusLegendary	0x0002F11E	0x0	0xC
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	HeroOnlyArmyCommandPoints	0x0002EF56	0x0	0x10
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	SmallArmyCommandPoints	0x0002EF56	0x0	0x14
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	MediumArmyCommandPoints	0x0002EF56	0x0	0x18
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	ArmyPlacementPos	0x0002F592	0x0	0x20
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	ArmyRetreatRounds	0x0002EF56	0x0	0x58
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	ArmyCarryoverPoints	0x0002EF56	0x0	0x1C
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	RegionConqueredSound	0x0002F11E	0x0	0x50
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	RegionEffectsManagerName	0x0002F11E	0x0	0x54
+0x007E4120	?Rva0020E2F2Get@@YAHXZ ?parseLivingWorldRegionCampaignDefinition@@YAXPAVINI@@@Z	ConcurrentRegionBonus	0x00210AB8	0x0	0x0
 0x007E4448	?ParseINI@LivingWorldRegionBonusRule@@SAXPAVINI@@PAX1PBX@Z	Territory	0x0002F11E	0x0	0x38
 0x007E4448	?ParseINI@LivingWorldRegionBonusRule@@SAXPAVINI@@PAX1PBX@Z	EffectName	0x0002F11E	0x0	0x44
 0x007E4448	?ParseINI@LivingWorldRegionBonusRule@@SAXPAVINI@@PAX1PBX@Z	Regions	0x0002F196	0x0	0x20
@@ -989,123 +989,123 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x007E4448	?ParseINI@LivingWorldRegionBonusRule@@SAXPAVINI@@PAX1PBX@Z	LookAtCenter	0x0002F558	0x0	0x48
 0x007E4448	?ParseINI@LivingWorldRegionBonusRule@@SAXPAVINI@@PAX1PBX@Z	LookAtHeading	0x0002EFC0	0x0	0x50
 0x007E4448	?ParseINI@LivingWorldRegionBonusRule@@SAXPAVINI@@PAX1PBX@Z	LookAtZoom	0x0002EFC0	0x0	0x54
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MapObject	0x0002F11E	0x0	0x0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	NumWorldTiles	0x0002EF56	0x0	0x4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CloudBorderSubObject	0x0002F11E	0x0	0x180
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	TextLayerSubObject	0x0002F11E	0x0	0x184
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	Center	0x0002F558	0x0	0x8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	Extent	0x0002F558	0x0	0x10
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AptCenter	0x0002F558	0x0	0x18
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AptZoom	0x0002EFC0	0x0	0x20
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AptPitch	0x0002EFC0	0x0	0x24
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	EmbersPartSys	0x0002F11E	0x0	0x34
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CloudPos	0x0002F507	0x0	0x28
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	Ambient	0x0002F259	0x0	0x38
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	SunDir	0x0002F558	0x0	0x44
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	SunRGB	0x0002F259	0x0	0x4C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	Accent1Dir	0x0002F558	0x0	0x58
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	Accent1RGB	0x0002F259	0x0	0x60
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	Accent2Dir	0x0002F558	0x0	0x6C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	Accent2RGB	0x0002F259	0x0	0x74
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MenBanner	0x0002F11E	0x0	0x80
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ElvesBanner	0x0002F11E	0x0	0x84
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	DwarvesBanner	0x0002F11E	0x0	0x88
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	IsengardBanner	0x0002F11E	0x0	0x8C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MordorBanner	0x0002F11E	0x0	0x90
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	WildBanner	0x0002F11E	0x0	0x94
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	NeutralBanner	0x0002F11E	0x0	0x98
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MenAnts	0x0002F11E	0x0	0x9C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ElvesAnts	0x0002F11E	0x0	0xA0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	DwarvesAnts	0x0002F11E	0x0	0xA4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	IsengardAnts	0x0002F11E	0x0	0xA8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MordorAnts	0x0002F11E	0x0	0xAC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	WildAnts	0x0002F11E	0x0	0xB0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	NeutralAnts	0x0002F11E	0x0	0xB4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	BattleMarker	0x0002F11E	0x0	0xB8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	PalantirMarker	0x0002F11E	0x0	0xBC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	RegionAwardDisputeMarker	0x0002F11E	0x0	0xC0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	BattleMarkerCreatedSound	0x00339900	0x0	0x14C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	EnterMapSound	0x00339900	0x0	0x150
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	BannerScaleSpeed	0x0002EFC0	0x0	0xC4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	BannerMaxScale	0x0002EFC0	0x0	0xC8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	BannerTiltAngle	0x0002EFC0	0x0	0xCC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	BannerHeight	0x0002EFC0	0x0	0xD0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyHeight	0x0002EFC0	0x0	0xD4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	BeaconHeight	0x0002EFC0	0x0	0xD8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	HeroArmyIconDiameter	0x0002EFC0	0x0	0xE0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	NumPointsPerArmyLine	0x0002EF72	0x0	0xE4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyLineHeightBias	0x0002EFC0	0x0	0xE8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyLineWidth	0x0002EFC0	0x0	0xEC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyLineColorAttacking	0x0002F259	0x0	0xF0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyLineColorNeutral	0x0002F259	0x0	0xFC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyLineColorAllied	0x0002F259	0x0	0x108
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyLineTextureName	0x0002F11E	0x0	0x114
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRays	0x0002F11E	0x0	0x118
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysPartSys	0x0002F11E	0x0	0x11C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysPartSysOffset	0x0002F507	0x0	0x120
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysColor	0x0002F259	0x0	0x12C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysColorScale	0x0002EFC0	0x0	0x138
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysEffectShells	0x0002EF56	0x0	0x13C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysEffectDiameter	0x0002EF56	0x0	0x140
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysEffectLifetime	0x0002EF56	0x0	0x144
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimRaysCreateSound	0x00339900	0x0	0x148
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimCloud	0x0002F11E	0x0	0x154
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimCloudPartSys	0x0002F11E	0x0	0x158
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	NumAnimClouds	0x0002EF56	0x0	0x15C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimCloudLifetime	0x0002EF56	0x0	0x178
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimCloudRegionMin	0x0002F507	0x0	0x160
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AnimCloudRegionMax	0x0002F507	0x0	0x16C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MordorCloud	0x0002F11E	0x0	0x17C
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CloudGrowthPos	0x0002F507	0x0	0x194
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CloudGrowthRate	0x0002EF56	0x0	0x1A0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CloudInitialSize	0x0002EFC0	0x0	0x1A4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CloudGrowthSize	0x0002EFC0	0x0	0x1AC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CloudInitialOpacity	0x0002EFC0	0x0	0x1A8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CameraBoundX	0x0002EFC0	0x0	0x1B4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	CameraBoundY	0x0002EFC0	0x0	0x1B8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ClickScrollThreshold	0x0002EF56	0x0	0x1CC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MouseWheelZoomPerTick	0x0002EFC0	0x0	0x1BC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MouseWheelZoomDampenFactor	0x0002EFC0	0x0	0x1C0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AutoScrollSpeed	0x0002EFC0	0x0	0x1C4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	MaxAutoScrollTime	0x0002EFC0	0x0	0x1C8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ShadowColor	0x0002F3FE	0x0	0x1D0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	EnableMapShadows	0x0002E850	0x0	0x1EC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	AddShadowSubObject	0x0002E896	0x0	0x188
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	DefaultArmyMoveSpeed	0x0002EFC0	0x0	0xDC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmySelectedFadeInStart	0x0002EF56	0x0	0x1D4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmySelectedFadeInEnd	0x0002EF56	0x0	0x1D8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmySelectedFadeOutStart	0x0002EF56	0x0	0x1DC
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmySelectedFadeOutEnd	0x0002EF56	0x0	0x1E0
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyHilightedFadeInTime	0x0002EF56	0x0	0x1E4
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	ArmyHilightedFadeOutTime	0x0002EF56	0x0	0x1E8
-0x007E4560	?Rva00210F64Parse@@YAXPAVINI@@@Z	EyeTower	0x003F9CD2	0x0	0x0
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	CloudTexture	0x0002F11E	0x0	0x0
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DarkCloudTexture	0x0002F11E	0x0	0x4
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	AlphaTexture	0x0002F11E	0x0	0x8
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	PropagateSpeed	0x0002EFC0	0x0	0xC
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	Angle	0x0002EF56	0x0	0x10
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DissipateTexture	0x0002F11E	0x0	0x14
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DissipateStartLevel	0x0002EFC0	0x0	0x18
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DissipateSpeed	0x0002EFC0	0x0	0x1C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DarkeningFactor	0x0002F259	0x0	0x20
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DarkeningFactorRain	0x0002F259	0x0	0x2C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DarkeningRate	0x0002EF56	0x0	0x38
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LighteningRate	0x0002EF56	0x0	0x3C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	CloudScrollSpeed	0x0002EFC0	0x0	0x40
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	DissipateRateScale	0x0002EFC0	0x0	0x44
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningShadows	0x0002E850	0x0	0x48
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	JitterLightningLightPosition	0x0002E850	0x0	0x49
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	JitterLightningLightIntensity	0x0002E850	0x0	0x4A
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningChance	0x0002EFC0	0x0	0x4C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningShadowColor	0x0002F259	0x0	0x50
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningShadowIntensity	0x0002EFC0	0x0	0x5C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningDuration	0x00338A9D	0x0	0x60
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningFrequency	0x0002EFC0	0x0	0x6C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningIntensity	0x00338A9D	0x0	0x70
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningLightPosition1	0x0002F558	0x0	0x7C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningLightPosition2	0x0002F558	0x0	0x84
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningLightPosition3	0x0002F558	0x0	0x8C
-0x007E5390	?Rva0021526CParse@@YAXPAVINI@@@Z	LightningFX	0x0002F11E	0x0	0x94
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MapObject	0x0002F11E	0x0	0x0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	NumWorldTiles	0x0002EF56	0x0	0x4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CloudBorderSubObject	0x0002F11E	0x0	0x180
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	TextLayerSubObject	0x0002F11E	0x0	0x184
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	Center	0x0002F558	0x0	0x8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	Extent	0x0002F558	0x0	0x10
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AptCenter	0x0002F558	0x0	0x18
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AptZoom	0x0002EFC0	0x0	0x20
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AptPitch	0x0002EFC0	0x0	0x24
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	EmbersPartSys	0x0002F11E	0x0	0x34
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CloudPos	0x0002F507	0x0	0x28
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	Ambient	0x0002F259	0x0	0x38
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	SunDir	0x0002F558	0x0	0x44
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	SunRGB	0x0002F259	0x0	0x4C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	Accent1Dir	0x0002F558	0x0	0x58
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	Accent1RGB	0x0002F259	0x0	0x60
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	Accent2Dir	0x0002F558	0x0	0x6C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	Accent2RGB	0x0002F259	0x0	0x74
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MenBanner	0x0002F11E	0x0	0x80
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ElvesBanner	0x0002F11E	0x0	0x84
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	DwarvesBanner	0x0002F11E	0x0	0x88
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	IsengardBanner	0x0002F11E	0x0	0x8C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MordorBanner	0x0002F11E	0x0	0x90
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	WildBanner	0x0002F11E	0x0	0x94
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	NeutralBanner	0x0002F11E	0x0	0x98
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MenAnts	0x0002F11E	0x0	0x9C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ElvesAnts	0x0002F11E	0x0	0xA0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	DwarvesAnts	0x0002F11E	0x0	0xA4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	IsengardAnts	0x0002F11E	0x0	0xA8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MordorAnts	0x0002F11E	0x0	0xAC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	WildAnts	0x0002F11E	0x0	0xB0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	NeutralAnts	0x0002F11E	0x0	0xB4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	BattleMarker	0x0002F11E	0x0	0xB8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	PalantirMarker	0x0002F11E	0x0	0xBC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	RegionAwardDisputeMarker	0x0002F11E	0x0	0xC0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	BattleMarkerCreatedSound	0x00339900	0x0	0x14C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	EnterMapSound	0x00339900	0x0	0x150
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	BannerScaleSpeed	0x0002EFC0	0x0	0xC4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	BannerMaxScale	0x0002EFC0	0x0	0xC8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	BannerTiltAngle	0x0002EFC0	0x0	0xCC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	BannerHeight	0x0002EFC0	0x0	0xD0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyHeight	0x0002EFC0	0x0	0xD4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	BeaconHeight	0x0002EFC0	0x0	0xD8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	HeroArmyIconDiameter	0x0002EFC0	0x0	0xE0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	NumPointsPerArmyLine	0x0002EF72	0x0	0xE4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyLineHeightBias	0x0002EFC0	0x0	0xE8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyLineWidth	0x0002EFC0	0x0	0xEC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyLineColorAttacking	0x0002F259	0x0	0xF0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyLineColorNeutral	0x0002F259	0x0	0xFC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyLineColorAllied	0x0002F259	0x0	0x108
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyLineTextureName	0x0002F11E	0x0	0x114
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRays	0x0002F11E	0x0	0x118
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysPartSys	0x0002F11E	0x0	0x11C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysPartSysOffset	0x0002F507	0x0	0x120
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysColor	0x0002F259	0x0	0x12C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysColorScale	0x0002EFC0	0x0	0x138
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysEffectShells	0x0002EF56	0x0	0x13C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysEffectDiameter	0x0002EF56	0x0	0x140
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysEffectLifetime	0x0002EF56	0x0	0x144
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimRaysCreateSound	0x00339900	0x0	0x148
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimCloud	0x0002F11E	0x0	0x154
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimCloudPartSys	0x0002F11E	0x0	0x158
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	NumAnimClouds	0x0002EF56	0x0	0x15C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimCloudLifetime	0x0002EF56	0x0	0x178
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimCloudRegionMin	0x0002F507	0x0	0x160
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AnimCloudRegionMax	0x0002F507	0x0	0x16C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MordorCloud	0x0002F11E	0x0	0x17C
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CloudGrowthPos	0x0002F507	0x0	0x194
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CloudGrowthRate	0x0002EF56	0x0	0x1A0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CloudInitialSize	0x0002EFC0	0x0	0x1A4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CloudGrowthSize	0x0002EFC0	0x0	0x1AC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CloudInitialOpacity	0x0002EFC0	0x0	0x1A8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CameraBoundX	0x0002EFC0	0x0	0x1B4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	CameraBoundY	0x0002EFC0	0x0	0x1B8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ClickScrollThreshold	0x0002EF56	0x0	0x1CC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MouseWheelZoomPerTick	0x0002EFC0	0x0	0x1BC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MouseWheelZoomDampenFactor	0x0002EFC0	0x0	0x1C0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AutoScrollSpeed	0x0002EFC0	0x0	0x1C4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	MaxAutoScrollTime	0x0002EFC0	0x0	0x1C8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ShadowColor	0x0002F3FE	0x0	0x1D0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	EnableMapShadows	0x0002E850	0x0	0x1EC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	AddShadowSubObject	0x0002E896	0x0	0x188
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	DefaultArmyMoveSpeed	0x0002EFC0	0x0	0xDC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmySelectedFadeInStart	0x0002EF56	0x0	0x1D4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmySelectedFadeInEnd	0x0002EF56	0x0	0x1D8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmySelectedFadeOutStart	0x0002EF56	0x0	0x1DC
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmySelectedFadeOutEnd	0x0002EF56	0x0	0x1E0
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyHilightedFadeInTime	0x0002EF56	0x0	0x1E4
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	ArmyHilightedFadeOutTime	0x0002EF56	0x0	0x1E8
+0x007E4560	?parseLivingWorldMapInfoDefinition@@YAXPAVINI@@@Z	EyeTower	0x003F9CD2	0x0	0x0
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	CloudTexture	0x0002F11E	0x0	0x0
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DarkCloudTexture	0x0002F11E	0x0	0x4
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	AlphaTexture	0x0002F11E	0x0	0x8
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	PropagateSpeed	0x0002EFC0	0x0	0xC
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	Angle	0x0002EF56	0x0	0x10
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DissipateTexture	0x0002F11E	0x0	0x14
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DissipateStartLevel	0x0002EFC0	0x0	0x18
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DissipateSpeed	0x0002EFC0	0x0	0x1C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DarkeningFactor	0x0002F259	0x0	0x20
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DarkeningFactorRain	0x0002F259	0x0	0x2C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DarkeningRate	0x0002EF56	0x0	0x38
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LighteningRate	0x0002EF56	0x0	0x3C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	CloudScrollSpeed	0x0002EFC0	0x0	0x40
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	DissipateRateScale	0x0002EFC0	0x0	0x44
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningShadows	0x0002E850	0x0	0x48
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	JitterLightningLightPosition	0x0002E850	0x0	0x49
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	JitterLightningLightIntensity	0x0002E850	0x0	0x4A
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningChance	0x0002EFC0	0x0	0x4C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningShadowColor	0x0002F259	0x0	0x50
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningShadowIntensity	0x0002EFC0	0x0	0x5C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningDuration	0x00338A9D	0x0	0x60
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningFrequency	0x0002EFC0	0x0	0x6C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningIntensity	0x00338A9D	0x0	0x70
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningLightPosition1	0x0002F558	0x0	0x7C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningLightPosition2	0x0002F558	0x0	0x84
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningLightPosition3	0x0002F558	0x0	0x8C
+0x007E5390	?parseCloudEffectDefinition@@YAXPAVINI@@@Z	LightningFX	0x0002F11E	0x0	0x94
 0x007E5A50	?ParseBannerTypeInfo@BannerUI@@SAXPAVINI@@@Z	FlagObj	0x0002F11E	0x0	0x0
 0x007E5A50	?ParseBannerTypeInfo@BannerUI@@SAXPAVINI@@@Z	GlowObj	0x0002F11E	0x0	0x4
 0x007E5A50	?ParseBannerTypeInfo@BannerUI@@SAXPAVINI@@@Z	Icon	0x0002F11E	0x0	0x8
@@ -1142,10 +1142,10 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x007E6BD8	??0Rva00221B42@@QAE@ABVAsciiString@@ABVRva00221A58@@PAVINI@@@Z	Icon	0x0002F11E	0x0	0x8
 0x007E6BD8	??0Rva00221B42@@QAE@ABVAsciiString@@ABVRva00221A58@@PAVINI@@@Z	MessageFont	0x0037691C	0x0	0xC
 0x007E6BD8	??0Rva00221B42@@QAE@ABVAsciiString@@ABVRva00221A58@@PAVINI@@@Z	MessageColor	0x0002F3FE	0x0	0x18
-0x007E6CE0	?Rva0022232EParse@@YAXPAVINI@@@Z	DefaultOpenAudio	0x00221714	0x0	0x0
-0x007E6CE0	?Rva0022232EParse@@YAXPAVINI@@@Z	DefaultMessageFont	0x0022175F	0x0	0x0
-0x007E6CE0	?Rva0022232EParse@@YAXPAVINI@@@Z	DefaultMessageColor	0x002216A6	0x0	0x0
-0x007E6CE0	?Rva0022232EParse@@YAXPAVINI@@@Z	NotificationType	0x00222278	0x0	0x0
+0x007E6CE0	?parseInGameNotificationBoxDefinition@@YAXPAVINI@@@Z	DefaultOpenAudio	0x00221714	0x0	0x0
+0x007E6CE0	?parseInGameNotificationBoxDefinition@@YAXPAVINI@@@Z	DefaultMessageFont	0x0022175F	0x0	0x0
+0x007E6CE0	?parseInGameNotificationBoxDefinition@@YAXPAVINI@@@Z	DefaultMessageColor	0x002216A6	0x0	0x0
+0x007E6CE0	?parseInGameNotificationBoxDefinition@@YAXPAVINI@@@Z	NotificationType	0x00222278	0x0	0x0
 0x007E8520	?parseGameDataDefinition@GlobalData@@SAXPAVINI@@@Z ?vslot06@GlobalData@@UAEHXZ	Windowed	0x0002E850	0x0	0x2C
 0x007E8520	?parseGameDataDefinition@GlobalData@@SAXPAVINI@@@Z ?vslot06@GlobalData@@UAEHXZ	XResolution	0x0002EF56	0x0	0x30
 0x007E8520	?parseGameDataDefinition@GlobalData@@SAXPAVINI@@@Z ?vslot06@GlobalData@@UAEHXZ	YResolution	0x0002EF56	0x0	0x34
@@ -2101,9 +2101,9 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x007FA6E8	?Rva0026EDB1Get@@YAHXZ ?parseUpgradeDefinition@UpgradeCenter@@SAXPAVINI@@@Z	GroupOrder	0x0002EF72	0x0	0x88
 0x007FA6E8	?Rva0026EDB1Get@@YAHXZ ?parseUpgradeDefinition@UpgradeCenter@@SAXPAVINI@@@Z	StrategicIcon	0x0002F11E	0x0	0x8C
 0x007FA6E8	?Rva0026EDB1Get@@YAHXZ ?parseUpgradeDefinition@UpgradeCenter@@SAXPAVINI@@@Z	SkirmishAIHeuristic	0x004DBFF1	0x0	0x98
-0x007FB620	?Rva002859A8Parse@@YAXPAVINI@@@Z	MaxCellsBurning	0x0002EF56	0x0	0x90
-0x007FB620	?Rva002859A8Parse@@YAXPAVINI@@@Z	FuelRegenerationRate	0x0002EF56	0x0	0x94
-0x007FB620	?Rva002859A8Parse@@YAXPAVINI@@@Z	TerrainCellType	0x00285FA9	0x0	0x0
+0x007FB620	?parseFireLogicSystemDefinition@@YAXPAVINI@@@Z	MaxCellsBurning	0x0002EF56	0x0	0x90
+0x007FB620	?parseFireLogicSystemDefinition@@YAXPAVINI@@@Z	FuelRegenerationRate	0x0002EF56	0x0	0x94
+0x007FB620	?parseFireLogicSystemDefinition@@YAXPAVINI@@@Z	TerrainCellType	0x00285FA9	0x0	0x0
 0x007FBAC0	?friend_parseExperienceLevelDefinition@ExperienceLevelStore@@SAXPAVINI@@@Z	RequiredExperience	0x0002EF56	0x0	0x18
 0x007FBAC0	?friend_parseExperienceLevelDefinition@ExperienceLevelStore@@SAXPAVINI@@@Z	ExperienceAward	0x0002EF56	0x0	0x1C
 0x007FBAC0	?friend_parseExperienceLevelDefinition@ExperienceLevelStore@@SAXPAVINI@@@Z	ExperienceAwardOwnGuysDie	0x0002EF56	0x0	0x20
@@ -2215,25 +2215,25 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x007FD804	?Rva002A8922Get@@YAHXZ ?Rva002A8945_ParseCombatChainDefinition@INI@@SAXPAV1@PAX1PBX@Z	Unit	0x004E8E57	0x0	0x0
 0x007FD804	?Rva002A8922Get@@YAHXZ ?Rva002A8945_ParseCombatChainDefinition@INI@@SAXPAV1@PAX1PBX@Z	TargetTypes	0x004E8EA6	0x0	0x4
 0x007FD804	?Rva002A8922Get@@YAHXZ ?Rva002A8945_ParseCombatChainDefinition@INI@@SAXPAV1@PAX1PBX@Z	TargetPriorityModifiers	0x004E8D8C	0x0	0x44
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	CombatChainDefinition	0x002A8945	0x0	0x0
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	BrutalDifficultyCheats	0x002A898A	0x0	0x0
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DifficultyTuning	0x002A89D2	0x0	0x0
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableBaseBuilding	0x0002E850	0x0	0x848
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableEconomyBuilding	0x0002E850	0x0	0x849
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableUnitBuilding	0x0002E850	0x0	0x84A
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableScienceUpgrading	0x0002E850	0x0	0x84B
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableUnitUpgrading	0x0002E850	0x0	0x84C
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableTacticalAI	0x0002E850	0x0	0x84D
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableTeamBuilding	0x0002E850	0x0	0x84E
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DisableWallBuilding	0x0002E850	0x0	0x84F
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	MakeAllSkirmishSidesAIControlled	0x0002E850	0x0	0x850
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	AnyTypeTemplateDisabledSlots	0x004E8EFF	0x0	0x854
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	TeamIdleCheckRadius	0x0002EFC0	0x0	0x860
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	TeamTimeUntilConsideredIdle	0x0002EFC0	0x0	0x864
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DefenseTreeNodeRadius	0x0002EFC0	0x0	0x868
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	TimeBetweenEnemyChangeLO	0x0002EFC0	0x0	0x86C
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	TimeBetweenEnemyChangeHI	0x0002EFC0	0x0	0x870
-0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?Rva002A8A31Parse@@YAXPAVINI@@@Z	DefaultTargetThreatRadius	0x0002EFC0	0x0	0x874
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	CombatChainDefinition	0x002A8945	0x0	0x0
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	BrutalDifficultyCheats	0x002A898A	0x0	0x0
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DifficultyTuning	0x002A89D2	0x0	0x0
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableBaseBuilding	0x0002E850	0x0	0x848
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableEconomyBuilding	0x0002E850	0x0	0x849
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableUnitBuilding	0x0002E850	0x0	0x84A
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableScienceUpgrading	0x0002E850	0x0	0x84B
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableUnitUpgrading	0x0002E850	0x0	0x84C
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableTacticalAI	0x0002E850	0x0	0x84D
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableTeamBuilding	0x0002E850	0x0	0x84E
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DisableWallBuilding	0x0002E850	0x0	0x84F
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	MakeAllSkirmishSidesAIControlled	0x0002E850	0x0	0x850
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	AnyTypeTemplateDisabledSlots	0x004E8EFF	0x0	0x854
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	TeamIdleCheckRadius	0x0002EFC0	0x0	0x860
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	TeamTimeUntilConsideredIdle	0x0002EFC0	0x0	0x864
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DefenseTreeNodeRadius	0x0002EFC0	0x0	0x868
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	TimeBetweenEnemyChangeLO	0x0002EFC0	0x0	0x86C
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	TimeBetweenEnemyChangeHI	0x0002EFC0	0x0	0x870
+0x007FDA50	?Rva002A8A0FGet@@YAHXZ ?parseSkirmishAIDataDefinition@@YAXPAVINI@@@Z	DefaultTargetThreatRadius	0x0002EFC0	0x0	0x874
 0x00800A90	?parseWeaponTemplateSet@WeaponTemplateSet@@QAEXPAVINI@@PBVThingTemplate@@@Z	Conditions	0x002C8C06	0x0	0x4
 0x00800A90	?parseWeaponTemplateSet@WeaponTemplateSet@@QAEXPAVINI@@PBVThingTemplate@@@Z	Weapon	0x002C726C	0x0	0x0
 0x00800A90	?parseWeaponTemplateSet@WeaponTemplateSet@@QAEXPAVINI@@PBVThingTemplate@@@Z	AutoChooseSources	0x002C729F	0x0	0x0
@@ -2404,34 +2404,34 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x00803A28	?Rva001DAEB2Get@@YAHXZ ?parseTerrainBridgeDefinition@INI@@SAXPAV1@@Z	RepairedToSound	0x00339900	0x0	0xD8
 0x00803A28	?Rva001DAEB2Get@@YAHXZ ?parseTerrainBridgeDefinition@INI@@SAXPAV1@@Z	TransitionToOCL	0x002DAFEC	0x0	0x0
 0x00803A28	?Rva001DAEB2Get@@YAHXZ ?parseTerrainBridgeDefinition@INI@@SAXPAV1@@Z	TransitionToFX	0x002DB0DB	0x0	0x0
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	BuildingNugget	0x002E012D	0x0	0x30
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	AvailableTo	0x002E2612	0x0	0x3C
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	CanDefendTerritory	0x0002E850	0x0	0x8
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	CreateUnitDuringAutoResolve	0x0002E850	0x0	0x9
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	BattleThingTemplate	0x0002F11E	0x0	0xC
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	BuildingIcon	0x0002F11E	0x0	0x10
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	ConstructButtonImage	0x0002F11E	0x0	0x14
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	ConstructButtonTitle	0x0002F11E	0x0	0x18
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	ConstructButtonHelp	0x0002F11E	0x0	0x1C
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	TurnsToBuild	0x0002EF56	0x0	0x28
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	Type	0x0002EC4E	0xC042F8	0x2C
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	DisplayNameTag	0x0002F11E	0x0	0x20
-0x00804310	?Rva002DF99DGet@@YAHXZ ?Rva002E048CParse@@YAXPAVINI@@@Z	DisplayDescriptionTag	0x0002F11E	0x0	0x24
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	Faction	0x0002F11E	0x0	0x4
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	StartingWorldCP	0x0002EF56	0x0	0x8
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	StartingTacticalCP	0x0002EF56	0x0	0x10
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	StartingHeroCP	0x0002EF56	0x0	0x18
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	MaxWorldCP	0x0002EF56	0x0	0xC
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	MaxTacticalCP	0x0002EF56	0x0	0x14
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	MaxHeroCP	0x0002EF56	0x0	0x1C
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	FactionIcon	0x0002F11E	0x0	0x20
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	DefaultArmyIconName	0x0002F11E	0x0	0x24
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	BuildPlotIconName	0x0002F11E	0x0	0x28
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	BuildPlotSelectionPortraitName	0x0002F11E	0x0	0x2C
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	GarrisonSelectionPortraitName	0x0002F11E	0x0	0x30
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	GarrisonDisplayNameTag	0x0002F11E	0x0	0x34
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	Music	0x00339900	0x0	0x38
-0x00804820	?Rva002E2386Parse@@YAXPAVINI@@@Z ?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	AutoResolveLoop	0x00339900	0x0	0x3C
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	BuildingNugget	0x002E012D	0x0	0x30
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	AvailableTo	0x002E2612	0x0	0x3C
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	CanDefendTerritory	0x0002E850	0x0	0x8
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	CreateUnitDuringAutoResolve	0x0002E850	0x0	0x9
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	BattleThingTemplate	0x0002F11E	0x0	0xC
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	BuildingIcon	0x0002F11E	0x0	0x10
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	ConstructButtonImage	0x0002F11E	0x0	0x14
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	ConstructButtonTitle	0x0002F11E	0x0	0x18
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	ConstructButtonHelp	0x0002F11E	0x0	0x1C
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	TurnsToBuild	0x0002EF56	0x0	0x28
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	Type	0x0002EC4E	0xC042F8	0x2C
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	DisplayNameTag	0x0002F11E	0x0	0x20
+0x00804310	?Rva002DF99DGet@@YAHXZ ?parseLivingWorldBuildingDefinition@@YAXPAVINI@@@Z	DisplayDescriptionTag	0x0002F11E	0x0	0x24
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	Faction	0x0002F11E	0x0	0x4
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	StartingWorldCP	0x0002EF56	0x0	0x8
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	StartingTacticalCP	0x0002EF56	0x0	0x10
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	StartingHeroCP	0x0002EF56	0x0	0x18
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	MaxWorldCP	0x0002EF56	0x0	0xC
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	MaxTacticalCP	0x0002EF56	0x0	0x14
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	MaxHeroCP	0x0002EF56	0x0	0x1C
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	FactionIcon	0x0002F11E	0x0	0x20
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	DefaultArmyIconName	0x0002F11E	0x0	0x24
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	BuildPlotIconName	0x0002F11E	0x0	0x28
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	BuildPlotSelectionPortraitName	0x0002F11E	0x0	0x2C
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	GarrisonSelectionPortraitName	0x0002F11E	0x0	0x30
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	GarrisonDisplayNameTag	0x0002F11E	0x0	0x34
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	Music	0x00339900	0x0	0x38
+0x00804820	?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ ?parseLivingWorldPlayerTemplateDefinition@@YAXPAVINI@@@Z	AutoResolveLoop	0x00339900	0x0	0x3C
 0x008049D8	?ParseLivingWorldPlayer@LivingWorldPlayer@@SAXPAVINI@@PAX@Z	PlayerTemplate	0x0002F11E	0x0	0xC
 0x008049D8	?ParseLivingWorldPlayer@LivingWorldPlayer@@SAXPAVINI@@PAX@Z	AITemplate	0x0002F11E	0x0	0x10
 0x008049D8	?ParseLivingWorldPlayer@LivingWorldPlayer@@SAXPAVINI@@PAX@Z	BaseRegion	0x0002F11E	0x0	0x14
@@ -2579,14 +2579,14 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x008084C0	?Rva00309E2AGet@@YAHXZ ?parseFireEffect@@YAXPAVINI@@@Z	Velocity	0x0002EFC0	0x0	0x4C
 0x008084C0	?Rva00309E2AGet@@YAHXZ ?parseFireEffect@@YAXPAVINI@@@Z	TextureCross	0x0002EFC0	0x0	0x50
 0x008084C0	?Rva00309E2AGet@@YAHXZ ?parseFireEffect@@YAXPAVINI@@@Z	TextureRepeatCount	0x0002EFC0	0x0	0x54
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	TerrainFireSystem	0x0002F11E	0x0	0x0
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	TerrainSmokeSystem	0x0002F11E	0x0	0x4
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	BurntTerrainColor	0x0002F259	0x0	0x8
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	FuelIndicatorColor	0x0002F259	0x0	0x14
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	EnableScorches	0x0002E850	0x0	0x20
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	ScorchFrequency	0x00338A9D	0x0	0x24
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	ScorchSize	0x00338A9D	0x0	0x30
-0x00808708	?Rva0030AFFBParse@@YAXPAVINI@@@Z	ScorchIntensity	0x0002EFC0	0x0	0x3C
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	TerrainFireSystem	0x0002F11E	0x0	0x0
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	TerrainSmokeSystem	0x0002F11E	0x0	0x4
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	BurntTerrainColor	0x0002F259	0x0	0x8
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	FuelIndicatorColor	0x0002F259	0x0	0x14
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	EnableScorches	0x0002E850	0x0	0x20
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	ScorchFrequency	0x00338A9D	0x0	0x24
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	ScorchSize	0x00338A9D	0x0	0x30
+0x00808708	?parseFireDefinition@@YAXPAVINI@@@Z	ScorchIntensity	0x0002EFC0	0x0	0x3C
 0x0080C3A8	?Rva002009F5Get@@YAHXZ ?parseTerrainDefinition@INI@@SAXPAV1@@Z	Texture	0x0002F11E	0x0	0x8
 0x0080C3A8	?Rva002009F5Get@@YAHXZ ?parseTerrainDefinition@INI@@SAXPAV1@@Z	BlendEdges	0x0002E850	0x0	0xC
 0x0080C3A8	?Rva002009F5Get@@YAHXZ ?parseTerrainDefinition@INI@@SAXPAV1@@Z	Class	0x00339E1C	0xDBE340	0x10
@@ -3062,19 +3062,19 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x00837468	?ParseINI@LogicTurn@LivingWorldTutorial@@SAXPAVINI@@PAURva003F9004@@@Z	Text	0x0002F11E	0x0	0x10
 0x00837468	?ParseINI@LogicTurn@LivingWorldTutorial@@SAXPAVINI@@PAURva003F9004@@@Z	ClearPreviousText	0x0002E850	0x0	0x19
 0x00837468	?ParseINI@LogicTurn@LivingWorldTutorial@@SAXPAVINI@@PAURva003F9004@@@Z	TaskAfterAudio	0x003F8F2B	0x0	0x0
-0x00837668	?rva003F9CD2@@YAXPAVINI@@@Z	PupilAnimObject	0x0002F11E	0x0	0x4
-0x00837668	?rva003F9CD2@@YAXPAVINI@@@Z	PupilBeamAnimObject	0x0002F11E	0x0	0x8
-0x00837668	?rva003F9CD2@@YAXPAVINI@@@Z	EyeDecalAnimObject	0x0002F11E	0x0	0xC
-0x00837668	?rva003F9CD2@@YAXPAVINI@@@Z	EyeDecalBeamAnimObject	0x0002F11E	0x0	0x10
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	OnSelectedSound	0x00339900	0x0	0x10
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	OnMovePlannedSound	0x00339900	0x0	0x14
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	OnMoveStartedSound	0x00339900	0x0	0x18
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	WelcomeReinforcementsSound	0x00339900	0x0	0x1C
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	KickOutReinforcementsSound	0x00339900	0x0	0x20
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	DisbandUnitSound	0x00339900	0x0	0x24
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	RetreatTeleportToHomeRegionEvaEvent	0x001DEE74	0x0	0x28
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	RetreatTeleportToNonHomeRegionEvaEvent	0x001DEE74	0x0	0x2C
-0x00837788	?Rva003F9EDFParse@@YAXPAVINI@@@Z	Object	0x0056B668	0x0	0x4
+0x00837668	?parseEyeTowerDefinition@@YAXPAVINI@@@Z	PupilAnimObject	0x0002F11E	0x0	0x4
+0x00837668	?parseEyeTowerDefinition@@YAXPAVINI@@@Z	PupilBeamAnimObject	0x0002F11E	0x0	0x8
+0x00837668	?parseEyeTowerDefinition@@YAXPAVINI@@@Z	EyeDecalAnimObject	0x0002F11E	0x0	0xC
+0x00837668	?parseEyeTowerDefinition@@YAXPAVINI@@@Z	EyeDecalBeamAnimObject	0x0002F11E	0x0	0x10
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	OnSelectedSound	0x00339900	0x0	0x10
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	OnMovePlannedSound	0x00339900	0x0	0x14
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	OnMoveStartedSound	0x00339900	0x0	0x18
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	WelcomeReinforcementsSound	0x00339900	0x0	0x1C
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	KickOutReinforcementsSound	0x00339900	0x0	0x20
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	DisbandUnitSound	0x00339900	0x0	0x24
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	RetreatTeleportToHomeRegionEvaEvent	0x001DEE74	0x0	0x28
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	RetreatTeleportToNonHomeRegionEvaEvent	0x001DEE74	0x0	0x2C
+0x00837788	?parseLivingWorldArmyIconDefinition@@YAXPAVINI@@@Z	Object	0x0056B668	0x0	0x4
 0x008378F0	?rva003FA6FF@Rva003FA776@@QAEPBUFieldParse@@XZ	ObjectType	0x0002EC4E	0xDBE980	0x10
 0x008378F0	?rva003FA6FF@Rva003FA776@@QAEPBUFieldParse@@XZ	DefaultFlashValue	0x0002EFC0	0x0	0x14
 0x008378F0	?rva003FA6FF@Rva003FA776@@QAEPBUFieldParse@@XZ	FlashVariation	0x0002EFC0	0x0	0x18
@@ -3090,13 +3090,13 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x00837CD8	?Rva003FD7CEParse@@YAXPAVINI@@@Z	Xfer	0x0002E850	0x0	0x11
 0x00837CD8	?Rva003FD7CEParse@@YAXPAVINI@@@Z	OrientAngle	0x0002EFC0	0x0	0x14
 0x00837CD8	?Rva003FD7CEParse@@YAXPAVINI@@@Z	Shadow	0x0002F21A	0xDC18A8	0x18
-0x00838380	?Rva00402B19Parse@@YAXPAVINI@@@Z	OnSelectedSound	0x00339900	0x0	0x10
-0x00838380	?Rva00402B19Parse@@YAXPAVINI@@@Z	OnConstructionBegunSound	0x00339900	0x0	0x14
-0x00838380	?Rva00402B19Parse@@YAXPAVINI@@@Z	OnConstructionFinishedSound	0x00339900	0x0	0x18
-0x00838380	?Rva00402B19Parse@@YAXPAVINI@@@Z	Object	0x0056BDFC	0x0	0x4
-0x00838448	?Rva00402E30Parse@@YAXPAVINI@@@Z	OnSelectedSound	0x00339900	0x0	0x10
-0x00838448	?Rva00402E30Parse@@YAXPAVINI@@@Z	OnBuildingDestroyedSound	0x00339900	0x0	0x14
-0x00838448	?Rva00402E30Parse@@YAXPAVINI@@@Z	Object	0x0056BF1F	0x0	0x4
+0x00838380	?parseLivingWorldBuildingIconDefinition@@YAXPAVINI@@@Z	OnSelectedSound	0x00339900	0x0	0x10
+0x00838380	?parseLivingWorldBuildingIconDefinition@@YAXPAVINI@@@Z	OnConstructionBegunSound	0x00339900	0x0	0x14
+0x00838380	?parseLivingWorldBuildingIconDefinition@@YAXPAVINI@@@Z	OnConstructionFinishedSound	0x00339900	0x0	0x18
+0x00838380	?parseLivingWorldBuildingIconDefinition@@YAXPAVINI@@@Z	Object	0x0056BDFC	0x0	0x4
+0x00838448	?parseLivingWorldBuildPlotIconDefinition@@YAXPAVINI@@@Z	OnSelectedSound	0x00339900	0x0	0x10
+0x00838448	?parseLivingWorldBuildPlotIconDefinition@@YAXPAVINI@@@Z	OnBuildingDestroyedSound	0x00339900	0x0	0x14
+0x00838448	?parseLivingWorldBuildPlotIconDefinition@@YAXPAVINI@@@Z	Object	0x0056BF1F	0x0	0x4
 0x00838658	?Rva00404715Get@@YAHXZ	Modifier	0x00404648	0x0	0x0
 0x00838658	?Rva00404715Get@@YAHXZ	Duration	0x00338B30	0x0	0x18
 0x00838658	?Rva00404715Get@@YAHXZ	ModelCondition	0x000B9468	0x0	0x1C
@@ -3121,12 +3121,12 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x008387C0	?Rva00215C48Get@@YAHXZ ?iniParseVictorySystemDefinition@@YAXPAVINI@@@Z	ScalePerLogicFrame	0x0002EFC0	0x0	0x18
 0x008387C0	?Rva00215C48Get@@YAHXZ ?iniParseVictorySystemDefinition@@YAXPAVINI@@@Z	SubtractPerLogicFrame	0x0002EFC0	0x0	0x1C
 0x008387C0	?Rva00215C48Get@@YAHXZ ?iniParseVictorySystemDefinition@@YAXPAVINI@@@Z	CellBonusRadius	0x0002EFC0	0x0	0x24
-0x00839538	?Rva0040F0F0Parse@@YAXPAVINI@@@Z	Name	0x0002F11E	0x0	0x18
-0x00839538	?Rva0040F0F0Parse@@YAXPAVINI@@@Z	DisplayNameTag	0x0002F11E	0x0	0x64
-0x00839538	?Rva0040F0F0Parse@@YAXPAVINI@@@Z	Color	0x0002F259	0x0	0x24
-0x00839538	?Rva0040F0F0Parse@@YAXPAVINI@@@Z	NightColor	0x0002F259	0x0	0x28
-0x00839538	?Rva0040F0F0Parse@@YAXPAVINI@@@Z	ArmyEntry	0x0040F077	0x0	0x0
-0x00839538	?Rva0040F0F0Parse@@YAXPAVINI@@@Z	SurvivalThreshhold	0x0002EF56	0x0	0x60
+0x00839538	?parseLivingWorldPlayerArmyDefinition@@YAXPAVINI@@@Z	Name	0x0002F11E	0x0	0x18
+0x00839538	?parseLivingWorldPlayerArmyDefinition@@YAXPAVINI@@@Z	DisplayNameTag	0x0002F11E	0x0	0x64
+0x00839538	?parseLivingWorldPlayerArmyDefinition@@YAXPAVINI@@@Z	Color	0x0002F259	0x0	0x24
+0x00839538	?parseLivingWorldPlayerArmyDefinition@@YAXPAVINI@@@Z	NightColor	0x0002F259	0x0	0x28
+0x00839538	?parseLivingWorldPlayerArmyDefinition@@YAXPAVINI@@@Z	ArmyEntry	0x0040F077	0x0	0x0
+0x00839538	?parseLivingWorldPlayerArmyDefinition@@YAXPAVINI@@@Z	SurvivalThreshhold	0x0002EF56	0x0	0x60
 0x00839968	?rva0041330C@Rva0041330C@@QAEXPAVINI@@@Z	GUIDisplayedLevel	0x0002EF56	0x0	0x0
 0x00839968	?rva0041330C@Rva0041330C@@QAEXPAVINI@@@Z	WeaponMultiplier	0x0002EFC0	0x0	0x4
 0x00839968	?rva0041330C@Rva0041330C@@QAEXPAVINI@@@Z	ArmorMultiplier	0x0002EFC0	0x0	0x8
@@ -3149,22 +3149,22 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x0083A658	?Rva00417AE3Get@@YAHXZ ?Rva00417AE9@@YAXPAVINI@@PAX1PBX@Z ?Rva00417FF0Parse@@YAXPAVINI@@PAX1PBX@Z	WeaponMultiplier	0x0002F1BA	0x0	0xC
 0x0083A658	?Rva00417AE3Get@@YAHXZ ?Rva00417AE9@@YAXPAVINI@@PAX1PBX@Z ?Rva00417FF0Parse@@YAXPAVINI@@PAX1PBX@Z	ExperienceMultiplier	0x0002F1BA	0x0	0x10
 0x0083A658	?Rva00417AE3Get@@YAHXZ ?Rva00417AE9@@YAXPAVINI@@PAX1PBX@Z ?Rva00417FF0Parse@@YAXPAVINI@@PAX1PBX@Z	ArmorMultiplier	0x0002F1BA	0x0	0x14
-0x0083A730	?Rva00418060Get@@YAHXZ ?Rva004183ACParse@@YAXPAVINI@@@Z	Affects	0x00417EF9	0x0	0x4
-0x0083A730	?Rva00418060Get@@YAHXZ ?Rva004183ACParse@@YAXPAVINI@@@Z	AffectsHigherLevelFirst	0x0002E850	0x0	0x14
-0x0083A730	?Rva00418060Get@@YAHXZ ?Rva004183ACParse@@YAXPAVINI@@@Z	BonusForLevel	0x00417FF0	0x0	0x8
-0x0083A8B0	?Rva004186DAGet@@YAHXZ ?Rva00418AC6Parse@@YAXPAVINI@@@Z	HitpointsAtLevel	0x004185E4	0x0	0x0
-0x0083A8B0	?Rva004186DAGet@@YAHXZ ?Rva00418AC6Parse@@YAXPAVINI@@@Z	RegenerateAtLevel	0x0041865F	0x0	0xC
-0x0083A8B0	?Rva004186DAGet@@YAHXZ ?Rva00418AC6Parse@@YAXPAVINI@@@Z	CanBeAttacked	0x0002E850	0x0	0x1C
-0x0083A8B0	?Rva004186DAGet@@YAHXZ ?Rva00418AC6Parse@@YAXPAVINI@@@Z	LeaveInArmySummary	0x0002E850	0x0	0x1D
-0x0083AAC8	?Rva00419663Get@@YAHXZ ?Rva0041999FParse@@YAXPAVINI@@@Z	DamagePerRound	0x0041951D	0x0	0x14
-0x0083AAC8	?Rva00419663Get@@YAHXZ ?Rva0041999FParse@@YAXPAVINI@@@Z	LevelBonus	0x004195EC	0x0	0x4
-0x0083AAC8	?Rva00419663Get@@YAHXZ ?Rva0041999FParse@@YAXPAVINI@@@Z	ReduceAttackWhenHurt	0x0002E850	0x0	0x34
-0x0083AAC8	?Rva00419663Get@@YAHXZ ?Rva0041999FParse@@YAXPAVINI@@@Z	MissPercentChance	0x0002EF56	0x0	0x10
-0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?Rva0041EC73Load@@YAXPAVINI@@@Z	Side	0x0002F11E	0x0	0x0
-0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?Rva0041EC73Load@@YAXPAVINI@@@Z	Map	0x0002F11E	0x0	0x4
-0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?Rva0041EC73Load@@YAXPAVINI@@@Z	GameMapToUseOn	0x0002F11E	0x0	0x8
-0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?Rva0041EC73Load@@YAXPAVINI@@@Z	PlayerPositions	0x004E8EFF	0x0	0xC
-0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?Rva0041EC73Load@@YAXPAVINI@@@Z	AllowsArbirtaryRotation	0x0002E850	0x0	0x18
+0x0083A730	?Rva00418060Get@@YAHXZ ?parseAutoResolveLeadershipDefinition@@YAXPAVINI@@@Z	Affects	0x00417EF9	0x0	0x4
+0x0083A730	?Rva00418060Get@@YAHXZ ?parseAutoResolveLeadershipDefinition@@YAXPAVINI@@@Z	AffectsHigherLevelFirst	0x0002E850	0x0	0x14
+0x0083A730	?Rva00418060Get@@YAHXZ ?parseAutoResolveLeadershipDefinition@@YAXPAVINI@@@Z	BonusForLevel	0x00417FF0	0x0	0x8
+0x0083A8B0	?Rva004186DAGet@@YAHXZ ?parseAutoResolveBodyDefinition@@YAXPAVINI@@@Z	HitpointsAtLevel	0x004185E4	0x0	0x0
+0x0083A8B0	?Rva004186DAGet@@YAHXZ ?parseAutoResolveBodyDefinition@@YAXPAVINI@@@Z	RegenerateAtLevel	0x0041865F	0x0	0xC
+0x0083A8B0	?Rva004186DAGet@@YAHXZ ?parseAutoResolveBodyDefinition@@YAXPAVINI@@@Z	CanBeAttacked	0x0002E850	0x0	0x1C
+0x0083A8B0	?Rva004186DAGet@@YAHXZ ?parseAutoResolveBodyDefinition@@YAXPAVINI@@@Z	LeaveInArmySummary	0x0002E850	0x0	0x1D
+0x0083AAC8	?Rva00419663Get@@YAHXZ ?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z	DamagePerRound	0x0041951D	0x0	0x14
+0x0083AAC8	?Rva00419663Get@@YAHXZ ?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z	LevelBonus	0x004195EC	0x0	0x4
+0x0083AAC8	?Rva00419663Get@@YAHXZ ?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z	ReduceAttackWhenHurt	0x0002E850	0x0	0x34
+0x0083AAC8	?Rva00419663Get@@YAHXZ ?parseAutoResolveWeaponDefinition@@YAXPAVINI@@@Z	MissPercentChance	0x0002EF56	0x0	0x10
+0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?parseAIBaseDefinition@@YAXPAVINI@@@Z	Side	0x0002F11E	0x0	0x0
+0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?parseAIBaseDefinition@@YAXPAVINI@@@Z	Map	0x0002F11E	0x0	0x4
+0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?parseAIBaseDefinition@@YAXPAVINI@@@Z	GameMapToUseOn	0x0002F11E	0x0	0x8
+0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?parseAIBaseDefinition@@YAXPAVINI@@@Z	PlayerPositions	0x004E8EFF	0x0	0xC
+0x0083AF18	?Rva0041E6B8Get@@YAHXZ ?parseAIBaseDefinition@@YAXPAVINI@@@Z	AllowsArbirtaryRotation	0x0002E850	0x0	0x18
 0x0083B000	?Rva0041F286Get@@YAHXZ ?Rva0041F524_ParseArmyMember@INI@@SAXPAV1@PAX1PBX@Z	Unit	0x0002F11E	0x0	0x0
 0x0083B000	?Rva0041F286Get@@YAHXZ ?Rva0041F524_ParseArmyMember@INI@@SAXPAV1@PAX1PBX@Z	PercentageOfArmyPhase1	0x0002EFC0	0x0	0x4
 0x0083B000	?Rva0041F286Get@@YAHXZ ?Rva0041F524_ParseArmyMember@INI@@SAXPAV1@PAX1PBX@Z	PercentageOfArmyPhase2	0x0002EFC0	0x0	0x8
@@ -3215,23 +3215,23 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x0083B5E8	?Rva0041F71AGet@@YAHXZ ?parseArmyDefinition@ArmyDefinitionManager@@SAXPAVINI@@@Z	UpgradeSciencePriorityImportantHigh	0x0002EFC0	0x0	0xD4
 0x0083B5E8	?Rva0041F71AGet@@YAHXZ ?parseArmyDefinition@ArmyDefinitionManager@@SAXPAVINI@@@Z	UnitUpgradePriorityLow	0x0002EFC0	0x0	0xD8
 0x0083B5E8	?Rva0041F71AGet@@YAHXZ ?parseArmyDefinition@ArmyDefinitionManager@@SAXPAVINI@@@Z	UnitUpgradePriorityHigh	0x0002EFC0	0x0	0xDC
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	DesiredSoldierRatio	0x0002EF56	0x0	0x4
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	DesiredArcherRatio	0x0002EF56	0x0	0x8
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	DesiredPikemenRatio	0x0002EF56	0x0	0xC
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	DesiredCavalryRatio	0x0002EF56	0x0	0x10
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	DesiredMonsterRatio	0x0002EF56	0x0	0x14
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	DesiredHeroRatio	0x0002EF56	0x0	0x18
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	DesiredFortressRatio	0x0002EF56	0x0	0x1C
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BuildingScoreArmory	0x0002EF56	0x0	0x24
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BuildingScoreBarracks	0x0002EF56	0x0	0x28
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BuildingScoreCastle	0x0002EF56	0x0	0x2C
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BuildingScoreFarm	0x0002EF56	0x0	0x30
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BonusPreferenceResource	0x0002EF56	0x0	0x34
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BonusPreferenceArmy	0x0002EF56	0x0	0x38
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BonusPreferenceLegendary	0x0002EF56	0x0	0x3C
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BonusPreferenceAttack	0x0002EF56	0x0	0x40
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BonusPreferenceDefense	0x0002EF56	0x0	0x44
-0x0083BC20	?Rva00420965Get@@YAHXZ ?Rva00420A29Parse@@YAXPAVINI@@@Z	BonusPreferenceExperience	0x0002EF56	0x0	0x48
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	DesiredSoldierRatio	0x0002EF56	0x0	0x4
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	DesiredArcherRatio	0x0002EF56	0x0	0x8
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	DesiredPikemenRatio	0x0002EF56	0x0	0xC
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	DesiredCavalryRatio	0x0002EF56	0x0	0x10
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	DesiredMonsterRatio	0x0002EF56	0x0	0x14
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	DesiredHeroRatio	0x0002EF56	0x0	0x18
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	DesiredFortressRatio	0x0002EF56	0x0	0x1C
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BuildingScoreArmory	0x0002EF56	0x0	0x24
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BuildingScoreBarracks	0x0002EF56	0x0	0x28
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BuildingScoreCastle	0x0002EF56	0x0	0x2C
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BuildingScoreFarm	0x0002EF56	0x0	0x30
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BonusPreferenceResource	0x0002EF56	0x0	0x34
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BonusPreferenceArmy	0x0002EF56	0x0	0x38
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BonusPreferenceLegendary	0x0002EF56	0x0	0x3C
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BonusPreferenceAttack	0x0002EF56	0x0	0x40
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BonusPreferenceDefense	0x0002EF56	0x0	0x44
+0x0083BC20	?Rva00420965Get@@YAHXZ ?parseLivingWorldAITemplateDefinition@@YAXPAVINI@@@Z	BonusPreferenceExperience	0x0002EF56	0x0	0x48
 0x0083D3A8	?Rva00438176Parse@@YAXPAVINI@@PAX1PBX@Z	ForbiddenConditions	0x0002EB38	0xDC8C44	0x0
 0x0083D3A8	?Rva00438176Parse@@YAXPAVINI@@PAX1PBX@Z	ForbiddenWeaponConditions	0x002C8C06	0x0	0x4
 0x0083D3A8	?Rva00438176Parse@@YAXPAVINI@@PAX1PBX@Z	DetectionRange	0x0002EFC0	0x0	0x14
@@ -4372,19 +4372,19 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	FirePitch	0x0002F0D5	0x0	0x40
 0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	MinPhysicalPitch	0x0002F0D5	0x0	0x44
 0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	GroundUnitPitch	0x0002F0D5	0x0	0x48
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	TurretFireAngleSweep	0x004D7F36	0x0	0x0
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	TurretSweepSpeedModifier	0x004D7F69	0x0	0x0
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	ControlledWeaponSlots	0x004D7EF9	0x0	0x4C
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	AllowsPitch	0x0002E850	0x0	0x66
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	MinIdleScanAngle	0x0002F0D5	0x0	0x50
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	MaxIdleScanAngle	0x0002F0D5	0x0	0x54
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	MinIdleScanInterval	0x00338B30	0x0	0x58
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	MaxIdleScanInterval	0x00338B30	0x0	0x5C
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	RecenterTime	0x00338B30	0x0	0x60
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	InitiallyDisabled	0x0002E850	0x0	0x64
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	FiresWhileTurning	0x0002E850	0x0	0x65
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	TurretMaxDeflectionCW	0x0002F0D5	0x0	0x68
-0x00860B90	?buildFieldParse@TurretAIData@@SAXAAVMultiIniFieldParse@@@Z	TurretMaxDeflectionACW	0x0002F0D5	0x0	0x6C
+0x00860C00		TurretFireAngleSweep	0x004D7F36	0x0	0x0
+0x00860C00		TurretSweepSpeedModifier	0x004D7F69	0x0	0x0
+0x00860C00		ControlledWeaponSlots	0x004D7EF9	0x0	0x4C
+0x00860C00		AllowsPitch	0x0002E850	0x0	0x66
+0x00860C00		MinIdleScanAngle	0x0002F0D5	0x0	0x50
+0x00860C00		MaxIdleScanAngle	0x0002F0D5	0x0	0x54
+0x00860C00		MinIdleScanInterval	0x00338B30	0x0	0x58
+0x00860C00		MaxIdleScanInterval	0x00338B30	0x0	0x5C
+0x00860C00		RecenterTime	0x00338B30	0x0	0x60
+0x00860C00		InitiallyDisabled	0x0002E850	0x0	0x64
+0x00860C00		FiresWhileTurning	0x0002E850	0x0	0x65
+0x00860C00		TurretMaxDeflectionCW	0x0002F0D5	0x0	0x68
+0x00860C00		TurretMaxDeflectionACW	0x0002F0D5	0x0	0x6C
 0x00861310	?rva004DCAD2@Rva004DCAD2@@QAEXPAVINI@@@Z	CopyFrom	0x004DCA34	0x0	0x0
 0x00861310	?rva004DCAD2@Rva004DCAD2@@QAEXPAVINI@@@Z	Type	0x004DC702	0x0	0x4
 0x00861310	?rva004DCAD2@Rva004DCAD2@@QAEXPAVINI@@@Z	IgnoreIfUnitIdle	0x0002E850	0x0	0x8
@@ -4890,15 +4890,15 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x009B9EC8	?parseCreateAHeroBlingBinder@@YAXPAVINI@@PAX1PBX@Z	MinValueUpgrade	0x0002F11E	0x0	0x4
 0x009B9EC8	?parseCreateAHeroBlingBinder@@YAXPAVINI@@PAX1PBX@Z	MaxValueUpgrade	0x0002F11E	0x0	0x8
 0x009B9EC8	?parseCreateAHeroBlingBinder@@YAXPAVINI@@PAX1PBX@Z	DefaultValueUpgrade	0x0002F11E	0x0	0xC
-0x009B9F18	?Rva0021EAD3Parse@@YAXPAVINI@@@Z	BlingUpgradeName	0x0002F11E	0x0	0x8
-0x009B9F18	?Rva0021EAD3Parse@@YAXPAVINI@@@Z	NameTag	0x0002F11E	0x0	0x0
-0x009B9F18	?Rva0021EAD3Parse@@YAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x4
-0x009B9F18	?Rva0021EAD3Parse@@YAXPAVINI@@@Z	GroupName	0x00148FBE	0x0	0xC
-0x009B9F68	?Rva0021ECB2Parse@@YAXPAVINI@@@Z	GroupName	0x00148FBE	0x0	0x0
-0x009B9F68	?Rva0021ECB2Parse@@YAXPAVINI@@@Z	LabelTag	0x0002F11E	0x0	0x4
-0x009B9F68	?Rva0021ECB2Parse@@YAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x8
-0x009B9F68	?Rva0021ECB2Parse@@YAXPAVINI@@@Z	UISlot	0x0002EF72	0x0	0xC
-0x009B9F68	?Rva0021ECB2Parse@@YAXPAVINI@@@Z	BlingType	0x0002EC4E	0xDB9D00	0x10
+0x009B9F18	?parseCreateAHeroBlingDefinition@@YAXPAVINI@@@Z	BlingUpgradeName	0x0002F11E	0x0	0x8
+0x009B9F18	?parseCreateAHeroBlingDefinition@@YAXPAVINI@@@Z	NameTag	0x0002F11E	0x0	0x0
+0x009B9F18	?parseCreateAHeroBlingDefinition@@YAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x4
+0x009B9F18	?parseCreateAHeroBlingDefinition@@YAXPAVINI@@@Z	GroupName	0x00148FBE	0x0	0xC
+0x009B9F68	?parseCreateAHeroBlingBinderDefinition@@YAXPAVINI@@@Z	GroupName	0x00148FBE	0x0	0x0
+0x009B9F68	?parseCreateAHeroBlingBinderDefinition@@YAXPAVINI@@@Z	LabelTag	0x0002F11E	0x0	0x4
+0x009B9F68	?parseCreateAHeroBlingBinderDefinition@@YAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x8
+0x009B9F68	?parseCreateAHeroBlingBinderDefinition@@YAXPAVINI@@@Z	UISlot	0x0002EF72	0x0	0xC
+0x009B9F68	?parseCreateAHeroBlingBinderDefinition@@YAXPAVINI@@@Z	BlingType	0x0002EC4E	0xDB9D00	0x10
 0x009B9FC8	?parseCreateAHeroSubClass@CreateAHeroManager@@SAXPAVINI@@PAX1PBX@Z	BlingUpgrades	0x0021EE37	0x0	0x0
 0x009B9FC8	?parseCreateAHeroSubClass@CreateAHeroManager@@SAXPAVINI@@PAX1PBX@Z	Awards	0x0021A7A3	0x0	0x30
 0x009B9FC8	?parseCreateAHeroSubClass@CreateAHeroManager@@SAXPAVINI@@PAX1PBX@Z	Stats	0x0021A859	0x0	0x3C
@@ -4915,12 +4915,12 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x009B9FC8	?parseCreateAHeroSubClass@CreateAHeroManager@@SAXPAVINI@@PAX1PBX@Z	DefaultFaction	0x0002EC4E	0xDB9D18	0x64
 0x009B9FC8	?parseCreateAHeroSubClass@CreateAHeroManager@@SAXPAVINI@@PAX1PBX@Z	UsableFactions	0x0021C3E7	0x0	0x68
 0x009B9FC8	?parseCreateAHeroSubClass@CreateAHeroManager@@SAXPAVINI@@PAX1PBX@Z	ViewInfo	0x00219440	0x0	0x6C
-0x009BA0D8	?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z	UpgradeName	0x0002F11E	0x0	0x10
-0x009BA0D8	?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z	NameTag	0x0002F11E	0x0	0x0
-0x009BA0D8	?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x4
-0x009BA0D8	?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z	PowersDescTag	0x0002F11E	0x0	0x8
-0x009BA0D8	?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z	IconImage	0x0002F11E	0x0	0xC
-0x009BA0D8	?rva002202BF@CreateAHeroManager@@SAXPAVINI@@@Z	SubClass	0x0021FB0C	0x0	0x14
+0x009BA0D8	?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z	UpgradeName	0x0002F11E	0x0	0x10
+0x009BA0D8	?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z	NameTag	0x0002F11E	0x0	0x0
+0x009BA0D8	?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x4
+0x009BA0D8	?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z	PowersDescTag	0x0002F11E	0x0	0x8
+0x009BA0D8	?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z	IconImage	0x0002F11E	0x0	0xC
+0x009BA0D8	?parseCreateAHeroClassDefinition@CreateAHeroManager@@SAXPAVINI@@@Z	SubClass	0x0021FB0C	0x0	0x14
 0x009BA870	?buildFieldParse@ArmorUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z	KillArmorUpgrade	0x0002E850	0x0	0x118
 0x009BA870	?buildFieldParse@ArmorUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z	IgnoreArmorUpgrade	0x0002E850	0x0	0x119
 0x009BA870	?buildFieldParse@ArmorUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z	ArmorSetFlag	0x0002EC4E	0x0	0x0
@@ -5140,11 +5140,11 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x009C0E78	?Rva003B0FA0Get@@YAHXZ ?parseSpecialPowerDefinition@SpecialPowerStore@@SAXPAVINI@@@Z	MaxCastRange	0x0002EFC0	0x0	0x74
 0x009C0E78	?Rva003B0FA0Get@@YAHXZ ?parseSpecialPowerDefinition@SpecialPowerStore@@SAXPAVINI@@@Z	ForbiddenObjectFilter	0x00361CA5	0x0	0x78
 0x009C0E78	?Rva003B0FA0Get@@YAHXZ ?parseSpecialPowerDefinition@SpecialPowerStore@@SAXPAVINI@@@Z	ForbiddenObjectRange	0x0002EFC0	0x0	0x7C
-0x009C14C8	?Rva003EE72EGet@@YAHXZ ?Rva003EF467@@YAXPAVINI@@@Z	RegionObject	0x003EEABF	0x0	0x1C
-0x009C14C8	?Rva003EE72EGet@@YAHXZ ?Rva003EF467@@YAXPAVINI@@@Z	NeutralRegionColor	0x0002F259	0x0	0x20
-0x009C14C8	?Rva003EE72EGet@@YAHXZ ?Rva003EF467@@YAXPAVINI@@@Z	RegionBorderColor	0x0002F259	0x0	0x2C
-0x009C14C8	?Rva003EE72EGet@@YAHXZ ?Rva003EF467@@YAXPAVINI@@@Z	ShellStartPositionColor	0x0002F259	0x0	0x38
-0x009C14C8	?Rva003EE72EGet@@YAHXZ ?Rva003EF467@@YAXPAVINI@@@Z	ShouldShowRegionBorders	0x0002E850	0x0	0x54
+0x009C14C8	?Rva003EE72EGet@@YAHXZ ?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z	RegionObject	0x003EEABF	0x0	0x1C
+0x009C14C8	?Rva003EE72EGet@@YAHXZ ?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z	NeutralRegionColor	0x0002F259	0x0	0x20
+0x009C14C8	?Rva003EE72EGet@@YAHXZ ?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z	RegionBorderColor	0x0002F259	0x0	0x2C
+0x009C14C8	?Rva003EE72EGet@@YAHXZ ?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z	ShellStartPositionColor	0x0002F259	0x0	0x38
+0x009C14C8	?Rva003EE72EGet@@YAHXZ ?parseLivingWorldRegionEffectsDefinition@@YAXPAVINI@@@Z	ShouldShowRegionBorders	0x0002E850	0x0	0x54
 0x009C1DD8	?parseThingStat@AwardSystemManager@@SAXPAVINI@@PAX1PBX@Z	StatName	0x00148FBE	0x0	0x0
 0x009C1DD8	?parseThingStat@AwardSystemManager@@SAXPAVINI@@PAX1PBX@Z	ThingTemplateNames	0x00149002	0x0	0x4
 0x009C1DD8	?parseThingStat@AwardSystemManager@@SAXPAVINI@@PAX1PBX@Z	ExcludedThings	0x00149002	0x0	0x10
@@ -5155,12 +5155,12 @@ table_rva	owners	field	parse_rva	user_data	offset
 0x009C1DD8	?parseThingStat@AwardSystemManager@@SAXPAVINI@@PAX1PBX@Z	MultiPlayerOnly	0x0002E850	0x0	0x64
 0x009C1DD8	?parseThingStat@AwardSystemManager@@SAXPAVINI@@PAX1PBX@Z	PrimaryKey	0x0002F11E	0x0	0x5C
 0x009C1DD8	?parseThingStat@AwardSystemManager@@SAXPAVINI@@PAX1PBX@Z	SecondaryKey	0x0002F11E	0x0	0x60
-0x009C1E88	?Rva0040C125Parse@@YAXPAVINI@@@Z	AwardName	0x00148FBE	0x0	0x0
-0x009C1E88	?Rva0040C125Parse@@YAXPAVINI@@@Z	ImageName	0x0002F11E	0x0	0x18
-0x009C1E88	?Rva0040C125Parse@@YAXPAVINI@@@Z	NameTag	0x0002F11E	0x0	0x10
-0x009C1E88	?Rva0040C125Parse@@YAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x14
-0x009C1E88	?Rva0040C125Parse@@YAXPAVINI@@@Z	UpgradeAwards	0x00149002	0x0	0x4
-0x009C1E88	?Rva0040C125Parse@@YAXPAVINI@@@Z	Trigger	0x0040BAF7	0x0	0x1C
+0x009C1E88	?parseObjectAwardDefinition@@YAXPAVINI@@@Z	AwardName	0x00148FBE	0x0	0x0
+0x009C1E88	?parseObjectAwardDefinition@@YAXPAVINI@@@Z	ImageName	0x0002F11E	0x0	0x18
+0x009C1E88	?parseObjectAwardDefinition@@YAXPAVINI@@@Z	NameTag	0x0002F11E	0x0	0x10
+0x009C1E88	?parseObjectAwardDefinition@@YAXPAVINI@@@Z	DescriptionTag	0x0002F11E	0x0	0x14
+0x009C1E88	?parseObjectAwardDefinition@@YAXPAVINI@@@Z	UpgradeAwards	0x00149002	0x0	0x4
+0x009C1E88	?parseObjectAwardDefinition@@YAXPAVINI@@@Z	Trigger	0x0040BAF7	0x0	0x1C
 0x009C9CA0	?buildFieldParse@RiderChangeContainModuleData@@SAXAAVMultiIniFieldParse@@@Z	Rider1	0x0047E3E1	0x0	0x1B8
 0x009C9CA0	?buildFieldParse@RiderChangeContainModuleData@@SAXAAVMultiIniFieldParse@@@Z	Rider2	0x0047E3E1	0x0	0x1D0
 0x009C9CA0	?buildFieldParse@RiderChangeContainModuleData@@SAXAAVMultiIniFieldParse@@@Z	Rider3	0x0047E3E1	0x0	0x1E8

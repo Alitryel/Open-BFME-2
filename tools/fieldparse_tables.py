@@ -48,10 +48,22 @@ import csv,bisect,collections
 osz=struct.unpack_from('<H',d,pe+20)[0]; o=pe+24+osz
 va,ro,rs=struct.unpack_from('<I',d,o+12)[0],struct.unpack_from('<I',d,o+20)[0],struct.unpack_from('<I',d,o+16)[0]
 assert d[o:o+5]==b'.text'
+# A run of rows with no {0,...} terminator between two tables reads as one
+# table. Code that addresses a row inside the run as a table of its own
+# (an imm32 in .text naming that row) starts a new table there: rows after
+# the split belong to that owner's object, with offsets from its own base.
+# Only a row whose offset restarts at 0 can start one: a stray imm32 that
+# happens to equal a mid-table row address does not split a table.
+tx=d[ro:ro+rs]
+split=[]
+for t in tables:
+    cut=[0]+[i for i in range(1,len(t['rows'])) if t['rows'][i][3]==0 and t['rows'][i-1][3]>0 and tx.find(struct.pack('<I',base+t['va']+16*i))>=0]+[len(t['rows'])]
+    for a,b in zip(cut,cut[1:]):
+        split.append({'va':t['va']+16*a,'rows':t['rows'][a:b]})
+tables=split
 T=tables
 want={base+t['va']:t for t in T}
 refs=collections.defaultdict(list)
-tx=d[ro:ro+rs]
 for tv in want:
     b=struct.pack('<I',tv); i=tx.find(b)
     while i>=0: refs[tv].append(va+i); i=tx.find(b,i+1)
