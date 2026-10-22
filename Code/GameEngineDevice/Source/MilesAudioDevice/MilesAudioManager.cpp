@@ -7136,3 +7136,72 @@ __declspec(noinline) inline Rva00054EBETable::iterator Rva00055951::rva00055951(
 
 // model=gpt-6.1-sol; restores the request lookup and removes the extra volatile read.
 // See reverse/attempt_support/miles-stop-5fa3c-20261019.md for the remaining +0xBD mismatch.
+
+// RVA 0x0005BE59: view-scoped audio volume refresh. WB supports function-scope
+// pan and inline getViewType accesses; both source details preserve retail allocation.
+void MilesAudioManager::rva0005BE59(void *slot, float value, void *index)
+{
+    const AsciiString &eventName = *reinterpret_cast<const AsciiString *>(slot);
+    int viewType = reinterpret_cast<int>(index);
+    float pan;
+    PlayingAudioRef playing;
+    PlayingAudioList::iterator it;
+    for (it = m_playingSounds.begin(); it != m_playingSounds.end(); ++it) {
+        playing = *it;
+        if (playing.get()
+            && (reinterpret_cast<const StringBase<char> *>(&eventName)->isEmpty()
+                || reinterpret_cast<const BfmeAudioEventInfoNameView *>(playing->m_event->m_info)->getEventName() == eventName)
+            && playing->m_event->getViewType() == viewType) {
+            void *sample = get2DSampleHandleForPlayingAudio(&playing);
+            if (sample) {
+                rva000592B8(playing->m_event.get());
+                float volume = rva0005A9F8(&playing, 1, 1);
+                AIL_sample_volume_pan(sample, 0, &pan);
+                AIL_set_sample_volume_pan(sample, volume, pan);
+            }
+        }
+    }
+    for (PlayingAudioList::iterator it3D = m_playing3DSounds.begin(); it3D != m_playing3DSounds.end(); ++it3D) {
+        playing = *it3D;
+        if (playing.get()
+            && (reinterpret_cast<const StringBase<char> *>(&eventName)->isEmpty()
+                || reinterpret_cast<const BfmeAudioEventInfoNameView *>(playing->m_event->m_info)->getEventName() == eventName)) {
+            AudioEventRTS *event = playing->m_event.get();
+            if (event->getViewType() == viewType) {
+                void *sample3D = get3DSampleHandleForPlayingAudio(playing);
+                if (sample3D) {
+                    rva000592B8(event);
+                    AIL_set_3D_sample_volume(sample3D, rva0005A9F8(&playing, 1, 1));
+                }
+            }
+        }
+    }
+    for (it = m_playingStreams.begin(); it != m_playingStreams.end(); ++it) {
+        playing = *it;
+        if (playing.get()
+            && (reinterpret_cast<const StringBase<char> *>(&eventName)->isEmpty()
+                || reinterpret_cast<const BfmeAudioEventInfoNameView *>(playing->m_event->m_info)->getEventName() == eventName)
+            && playing->m_event->getViewType() == viewType
+            && playing->m_event->m_info->m_atB0 != 3) {
+            rva000592B8(playing->m_event.get());
+            ((Rva000A8AEE *)&playing->m_at0C)->rva000A8AEE(rva0005A9F8(&playing, 1, 1));
+        }
+    }
+    for (int musicSystem = 0; musicSystem < 2; ++musicSystem) {
+        MusicStack &stack = m_musicStack[viewType][musicSystem];
+        for (MusicStack::iterator music = stack.begin(), end = stack.end(); music != end; ++music) {
+            playing = *reinterpret_cast<const PlayingAudioRef *>(&*music);
+            if (playing.get()
+                && (reinterpret_cast<const StringBase<char> *>(&eventName)->isEmpty()
+                    || reinterpret_cast<const BfmeAudioEventInfoNameView *>(playing->m_event->m_info)->getEventName() == eventName)
+                && playing->m_event->getViewType() == viewType)
+                rva000592B8(playing->m_event.get());
+        }
+    }
+    QueuedAudioEvents::iterator queuedEnd = m_queuedEvents[viewType].end();
+    for (QueuedAudioEvents::iterator event = m_queuedEvents[viewType].begin(); event != queuedEnd; ++event) {
+        if (reinterpret_cast<const StringBase<char> *>(&eventName)->isEmpty()
+            || reinterpret_cast<const BfmeAudioEventInfoNameView *>(event->m_info)->getEventName() == eventName)
+            rva000592B8(playing->m_event.get());
+    }
+}
