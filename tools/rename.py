@@ -3042,10 +3042,40 @@ def journal_alive(record):
     if not record or record.get("host") != socket.gethostname() or record.get("boot") != _boot_id():
         return False
     try:
-        os.kill(int(record.get("pid", 0)), 0)
-    except (OSError, ValueError):
+        pid = int(record.get("pid", 0))
+    except ValueError:
         return False
-    return int(record.get("pid", 0)) != os.getpid()
+    if not _pid_alive(pid):
+        return False
+    return pid != os.getpid()
+
+
+def _pid_alive(pid):
+    """True while process `pid` runs. On Windows os.kill(pid, 0) is not a
+    probe: signal 0 is CTRL_C_EVENT, which interrupts the console group, so
+    ask the process handle for its exit code instead."""
+    if pid <= 0:
+        return False
+    if os.name == "nt":
+        import ctypes
+        from ctypes import wintypes
+        k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        k32.OpenProcess.restype = wintypes.HANDLE
+        handle = k32.OpenProcess(0x1000, False, pid)        # PROCESS_QUERY_LIMITED_INFORMATION
+        if not handle:
+            return ctypes.get_last_error() == 5              # access denied: it exists
+        try:
+            code = wintypes.DWORD()
+            if not k32.GetExitCodeProcess(handle, ctypes.byref(code)):
+                return False
+            return code.value == 259                         # STILL_ACTIVE
+        finally:
+            k32.CloseHandle(handle)
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
 
 
 def write_journal(ctx, plan, claimed=None):
