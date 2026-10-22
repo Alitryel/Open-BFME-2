@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAURva003F7B22Element@@IU1@@_STL@@YAPAURva003F7B22Element@@PAU1@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003F7B22Element;
+namespace _STL { template <> Rva003F7B22Element * __uninitialized_fill_n<Rva003F7B22Element *,unsigned int,Rva003F7B22Element>(Rva003F7B22Element *,unsigned int,Rva003F7B22Element const &,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAURva003F7B22Element@@PAU1@@_STL@@YAPAURva003F7B22Element@@PAU1@0:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva003F7B22Element;

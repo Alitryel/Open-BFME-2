@@ -23,6 +23,10 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?insert@?$list@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@QAE?AU:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> _List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> > list<crateCreationEntry,allocator<crateCreationEntry> >::insert(_List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> >,crateCreationEntry const &); }
 
 struct crateCreationEntry
 {

@@ -173,6 +173,14 @@ void StrategicHUD::BattlePromptMovieClip::Impl::rva005F96D4(){
 // is significant even when emitted out of line: MSVC preserves its three
 // temporary homes A4/94/40. A declaration alone wrongly shares that storage.
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva005FA1CEElement@@V?$allocator@URva005FA1CEElement@@@_STL@@@_STL@@IA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005FA1CEElement;
+namespace _STL { template <> void vector<Rva005FA1CEElement,allocator<Rva005FA1CEElement> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva005FA197Element@@V?$allocator@URva005FA197Element@@@_STL@@@_STL@@IA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005FA197Element;
+namespace _STL { template <> void vector<Rva005FA197Element,allocator<Rva005FA197Element> >::_M_clear(); }
 // Keep ??1?$_Vector_base@UBfmeStringRecord005F93E3@@V?$allocator@UBfmeStringRecord005F93E3@@@_STL
 // inline: retail's ~vector at 0x005F97D4 (rowed through this unit's fold proof) frees the
 // storage itself. The out-of-line copy an unwind action still needs is the same body the

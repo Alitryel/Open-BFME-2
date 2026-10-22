@@ -16,6 +16,9 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?move@?$__char_traits_base@GG@_STL@@SAPAGPAGPBGI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned short * __char_traits_base<unsigned short,unsigned short>::move(unsigned short *,unsigned short const *,unsigned int); }
 // Suppress this TU's non-retail copy of ?erase@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAEPAGPAG0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> unsigned short * basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::erase(unsigned short *,unsigned short *); }
