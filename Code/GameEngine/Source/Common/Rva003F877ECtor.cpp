@@ -1,7 +1,9 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /O1 /G7 /Oy-
 // stlport
 //
-// ??0Rva003F877E@@QAE@HH@Z @0x003F877E 43B.
+// ??0Rva003F87A9@@QAE@HH@Z @0x003F877E 43B.
+// The class is Rva003F87A9: vtable 0x00C37318 slot 0 is ??_GRva003F87A9
+// (0x003F8DDC), which calls the rowed dtor 0x003F87A9 (Rva003F87A9Dtor.cpp).
 // Ctor of unknown class with vtable 0x00837318: stores two int args at +4/+8,
 // then constructs vector<BfmeE16> at +0xC via rowed Vector_base 0x00211E58.
 // Evidence: leaf lane; callees all rowed; caller Parse body at 0x003F91A4;
@@ -20,15 +22,15 @@ struct Base003F877E
 	int m_08;
 };
 
-class Rva003F877E : public Base003F877E
+class Rva003F87A9 : public Base003F877E
 {
 public:
-	Rva003F877E(int a, int b);
-	virtual ~Rva003F877E();
+	Rva003F87A9(int a, int b);
+	virtual ~Rva003F87A9();
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_0C;
 };
 
-Rva003F877E::Rva003F877E(int a, int b) : Base003F877E(a, b), m_0C()
+Rva003F87A9::Rva003F87A9(int a, int b) : Base003F877E(a, b), m_0C()
 {
 }
 // Rva003F91A4Parse: native 0x003F91A4..0x003F9258 including INT3 tail.
@@ -84,7 +86,7 @@ void Rva003F91A4Parse(INI *ini,Rva003F9048 *outer) {
  if(!ini || !outer) throw INIException(3,"Invalid data in LogicTurn::ParseINI");
  AsciiString token=ini->getNextQuotedAsciiString();
  int phase=ini->scanInt(token.str());
- Rva003F877E *created=new Rva003F877E(reinterpret_cast<int>(outer),phase);
+ Rva003F87A9 *created=new Rva003F87A9(reinterpret_cast<int>(outer),phase);
  ini->initFromINI(created,g_logicTurnFields);
  outer->rva003F9048(reinterpret_cast<const ModuleData*>(created));
 }
