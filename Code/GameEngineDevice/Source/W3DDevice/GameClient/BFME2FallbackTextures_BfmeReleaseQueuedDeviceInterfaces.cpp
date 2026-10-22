@@ -76,16 +76,7 @@ class Rva0013331A {
  unsigned char prefix[8]; BfmeDeferredTexture *texture;
 public: void rva0013331A();
 };
-void Rva0013331A::rva0013331A() {
- if(!texture)return;
- if(Rva0134FAA0) {
-  ScopedCriticalSection guard(deferredDeviceMutex());
-  reinterpret_cast<Rva0020FB8BVec20 *>(&deferredDeviceQueue())->vecPushBack(reinterpret_cast<void *&>(texture));
- } else {
-  texture->Release();
- }
- texture=0;
-}
+
 
 // Native 0x00133283..0x0013331A (151 bytes); the corrected whole boundary
 // includes both guard lifetimes and the final EH epilogue. Callers include
