@@ -50,7 +50,7 @@ template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*,
 template <> vector<int, allocator<int> >::~vector();
 template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
-#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 #include "Coord3D.h"
 #include "../../Common/GameLogicObjectLookupView.h"
@@ -128,7 +128,7 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ModuleDataBase
 {
 public:
-	virtual void slot0();
+	virtual ~ModuleDataBase() {}
 	NameKeyType m_moduleTagNameKey;
 };
 
@@ -250,20 +250,20 @@ public:
 class BfmeCtorFirstBase001B3A20
 {
 public:
-	virtual void slot() = 0;
+	virtual AsciiString rva00290EE0() = 0;
 };
 class BfmeCtorVirtualBase001B3A20
 {
 public:
-	virtual void slot() = 0;
+	virtual void *slot() = 0;
 };
 class BfmeCtor001B3A20 : public BfmeCtorFirstBase001B3A20, public virtual BfmeCtorVirtualBase001B3A20
 {
 public:
 	BfmeCtor001B3A20() throw();
 };
-struct Rva00BFC2B8Base { virtual void base06CSlot0(); };
-struct Rva00BFC290Base { virtual void base070Slot0(); };
+struct Rva00BFC2B8Base { virtual void base06CSlot0() = 0; };
+struct Rva00BFC290Base { virtual Coord3D rva0028C037() = 0; };
 
 template <int N> class BitFlags;
 struct CreateMask;
@@ -315,7 +315,7 @@ struct CameraMarker
 };
 struct BfmePod124 { int a[31]; };
 struct CreateMask { BitFlags<117> m_status; };
-class Rva004E04FD { public: Rva004E04FD(); ~Rva004E04FD(); unsigned char m_data[0x18]; };
+struct Rva001EB15A { Rva001EB15A(); ~Rva001EB15A(); unsigned char m_data[0x18]; };
 
 enum SpecialPowerType {};
 class SpecialAbilityUpdate;
@@ -324,12 +324,15 @@ class Object : public Thing, public Snapshot, public BfmeCtor001B3A20, public Rv
 public:
 	Object(const ThingTemplate *tt, const CreateMask *mask, Team *team, ObjectID id);
 
-	virtual void LoadPostProcess();
+	virtual void loadPostProcess();
 	virtual const char *GetSnapshotName() const;
-	virtual void DoXfer(Xfer *xfer);
-	virtual void slot();
+protected:
+	virtual void xfer(Xfer *xfer);
+public:
+	virtual AsciiString rva00290EE0();
+	virtual void *slot();
 	virtual void base06CSlot0();
-	virtual void base070Slot0();
+	virtual Coord3D rva0028C037();
 protected:
 	virtual ~Object();
 public:
@@ -434,7 +437,7 @@ public:
 	void *m_450;						// +0x450
 	bool m_454, m_455, m_456;				// +0x454
 	int m_458, m_45c, m_460, m_464;				// +0x458
-	Rva004E04FD m_468;					// +0x468
+	Rva001EB15A m_468;					// +0x468
 	bool m_480;						// +0x480
 	int m_484;						// +0x484
 	int m_488;						// +0x488

@@ -25,12 +25,30 @@ void Rva00030830FreeAllocation(void *);
 #include <vector>
 #undef free
 #include <string.h>
-// bfme link decl-only begin
-namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::_M_set(unsigned int *, unsigned int *, unsigned int *); }
-// bfme link decl-only end
-// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@IV?$allocator@I@_STL@@@_STL@@IAEXPAIABIABU__true_type@2@I_N@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::_M_insert_overflow(unsigned int *, const unsigned int &, const __true_type &, size_t, bool); }
+// Keep the header stores inline and bind external calls to the existing provider.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void vector<unsigned int>::_M_set(unsigned int *s, unsigned int *f, unsigned int *e) {
+ this->_M_start = s;
+ this->_M_finish = f;
+ this->_M_end_of_storage._M_data = e;
+}
+}
+// STLport's visible growth body preserves the unused tag argument contract.
+namespace _STL {
+template <> inline
+void vector<unsigned int>::_M_insert_overflow(unsigned int *__position, const unsigned int &__x, const __true_type &, size_t __fill_len, bool __atend) {
+ const size_type __old_size = size();
+ const size_type __len = __old_size + (max)(__old_size, __fill_len);
+ pointer __new_start = this->_M_end_of_storage.allocate(__len);
+ pointer __new_finish = (pointer)__copy_trivial(this->_M_start, __position, __new_start);
+ __new_finish = fill_n(__new_finish, __fill_len, __x);
+ if (!__atend)
+  __new_finish = (pointer)__copy_trivial(__position, this->_M_finish, __new_finish);
+ _M_clear();
+ _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 struct BfmePod16 {char bytes[16];};
 namespace _STL {template<> __declspec(noinline) BfmePod16 *vector<BfmePod16>::erase(BfmePod16 *,BfmePod16 *);}
 // Native 5C counters are four-byte integers. This scoped view uses the

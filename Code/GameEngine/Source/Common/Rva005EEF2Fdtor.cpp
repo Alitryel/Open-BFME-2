@@ -9,12 +9,12 @@
 #include "RegionArmyIconSlotView.h"
 
 // ?Rva005EEF2FBase0dtor present-unmatched
-Rva005EEF2FBase0::~Rva005EEF2FBase0()
+inline Rva005EEF2FBase0::~Rva005EEF2FBase0()
 {
 }
 
 // ?Rva005EEF2FBase4dtor present-unmatched
-Rva005EEF2FBase4::~Rva005EEF2FBase4()
+inline Rva005EEF2FBase4::~Rva005EEF2FBase4()
 {
 }
 

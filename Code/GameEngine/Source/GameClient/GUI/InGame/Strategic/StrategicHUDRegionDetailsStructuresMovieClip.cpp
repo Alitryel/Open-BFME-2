@@ -176,18 +176,14 @@ struct Rva005EF5CA : AsciiStringPlusStringText { operator AsciiString(); AsciiSt
 Rva005EF5CA operator+(const AsciiStringPlusStringText &,const AsciiString &);
 
 class Rva005242D7 { public: Rva005242D7(); ~Rva005242D7(); private: char bytes[12]; };
-class Rva005EEF2FBase0 { public: virtual ~Rva005EEF2FBase0(); };
-class Rva005EEF2FBase4 { public: Rva005EEF2FBase4(): refs(0) {} virtual ~Rva005EEF2FBase4(); int refs; };
+class Rva005EEF2FBase0 { public: virtual ~Rva005EEF2FBase0() {} };
+class Rva005EEF2FBase4 { public: Rva005EEF2FBase4(): refs(0) {} virtual ~Rva005EEF2FBase4() {} int refs; };
 
 #include "Coord2D.h"
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAURva005F13E6Element@@U1@V?$allocator@URva005F13E6Element@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005F13E6Element;
 namespace _STL { template <> Rva005F13E6Element * _STLP_alloc_proxy<Rva005F13E6Element *,Rva005F13E6Element,allocator<Rva005F13E6Element> >::allocate(unsigned int); }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@URva005F13E6Element@@@_STL@@QBEXPAURva005F13E6Element@@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva005F13E6Element;
-namespace _STL { template <> void allocator<Rva005F13E6Element>::deallocate(Rva005F13E6Element *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva005F13E6Element@@@_STL@@YAXPAURva005F13E6Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005F13E6Element;
@@ -332,6 +328,19 @@ struct Rva005F13E6Element
 	StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot *m_slot;
 };
 
+
+// Icon references use the native raw allocator and free their storage directly.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<Rva005F13E6Element>::deallocate(Rva005F13E6Element *__p, size_t __n) const {
+ _STLP_ASSERT((__p == 0) == (__n == 0))
+ if (__p != 0) ::free((void *)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<Rva005F13E6Element *, Rva005F13E6Element, allocator<Rva005F13E6Element> >::deallocate(Rva005F13E6Element *__p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<Rva005F13E6Element> &>(*this), (Rva005F13E6Element *)0).deallocate(__p, __n);
+}
+}
 
 AsciiString __cdecl Rva00222834Get(int val);
 
