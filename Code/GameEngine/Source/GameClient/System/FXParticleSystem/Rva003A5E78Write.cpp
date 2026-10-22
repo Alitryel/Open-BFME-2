@@ -32,6 +32,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <sstream>
+// basic_stringbuf<char>'s constructor is the rowed body 0x001F6813
+// (stlport_narrow_ostringstream_dtor.cpp); declared so this unit does not emit
+// its own constructor chain with a non-retail basic_streambuf<char> constructor.
+namespace _STL { template <> basic_stringbuf<char, char_traits<char>, allocator<char> >::basic_stringbuf(int); }
 // bfme link decl-only begin
 namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> >::basic_ostream(basic_streambuf<char, char_traits<char> > *); }
