@@ -6,6 +6,10 @@
 // 0x00416521 then list hook insertion; identical shape to list<BfmeStringRecord001EA478>::insert
 // at 0x001EA958 and list<int>::insert at 0x005925E2; caller 0x0041691F.
 #include <list>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@UBfmeStringRecord00415F34@@V?$allocator@UBfmeStringRecord00415F34@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord00415F34;
+namespace _STL { template <> _List_node<BfmeStringRecord00415F34> * list<BfmeStringRecord00415F34,allocator<BfmeStringRecord00415F34> >::_M_create_node(BfmeStringRecord00415F34 const &); }
 // Suppress this TU's non-retail copy of ??$_Construct@UBfmeStringRecord00415F34@@U1@@_STL@@YAXPAUBfmeStringRecord00415F34@@ABU1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringRecord00415F34;

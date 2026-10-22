@@ -34,6 +34,10 @@ class FXList;
 class AIUpdateInterface;
 
 #include "../../../Common/GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ?_M_lower_bound@?$_Rb_tree@GU?$pair@$$CBGH@_STL@@U?$_Select1st@U?$pair@$$CBGH@_STL@@@2@UGe:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Gen_lt_00940b40;
+namespace _STL { template <> _Rb_tree_node<pair<unsigned short const ,int> > * _Rb_tree<unsigned short,pair<unsigned short const ,int>,_Select1st<pair<unsigned short const ,int> >,Gen_lt_00940b40,allocator<pair<unsigned short const ,int> > >::_M_lower_bound(unsigned short const &) const; }
 // Suppress this TU's non-retail copy of ??R?$less@G@_STL@@QBE_NABG0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool less<unsigned short>::operator()(unsigned short const &,unsigned short const &) const; }
