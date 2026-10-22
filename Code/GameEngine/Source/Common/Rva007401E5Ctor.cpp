@@ -11,9 +11,10 @@ class Rva007401F6Base
 public:
 	Rva007401F6Base() : m_04(-1) {}
 	virtual ~Rva007401F6Base();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
+	// Retail vtable 0x00CF15E8 holds __purecall in all three Snapshot slots.
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
 protected:
 	int m_04;
 };
