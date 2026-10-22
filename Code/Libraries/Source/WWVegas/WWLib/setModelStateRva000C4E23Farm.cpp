@@ -36,6 +36,14 @@ namespace _STL { void __cdecl free(void *block); }
 #include <vector>
 #include <string>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAVAsciiString@@IV1@@_STL@@YAPAVAsciiString@@PAV1@IABV1@ABU__fal:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> AsciiString * __uninitialized_fill_n<AsciiString *,unsigned int,AsciiString>(AsciiString *,unsigned int,AsciiString const &,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__find@PAVAsciiString@@PBD@_STL@@YAPAVAsciiString@@PAV1@0ABQBDABUrandom_access_iterator:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> AsciiString * __find<AsciiString *,char const *>(AsciiString *,AsciiString *,char const * const &,random_access_iterator_tag const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAVAsciiString@@PAV1@@_STL@@YAPAVAsciiString@@PAV1@00ABU__false_ty:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;

@@ -5,6 +5,10 @@
 #include "unicode_string.h"
 #include "ascii_string.h"
 #include <map>
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBJVLadderPref@@@_STL@@V?$allocator@U?$pair@$$CBJVLadderPref@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LadderPref;
+namespace _STL { template <> _Rb_tree_base<pair<long const ,LadderPref>,allocator<pair<long const ,LadderPref> > >::_Rb_tree_base(allocator<pair<long const ,LadderPref> > const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBJVLadderPref@@@_STL@@@_STL@@@_STL@@QBEP:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class LadderPref;

@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UQuantityModifier@@V?$allocator@UQuantityModifier@@@_STL@@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct QuantityModifier;
+namespace _STL { template <> void vector<QuantityModifier,allocator<QuantityModifier> >::_M_insert_overflow(QuantityModifier *,QuantityModifier const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAUQuantityModifier@@IU1@@_STL@@YAPAUQuantityModifier@@PAU1@IABU:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct QuantityModifier;

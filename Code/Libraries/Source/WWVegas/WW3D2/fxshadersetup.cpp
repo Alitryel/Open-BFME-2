@@ -41,6 +41,10 @@ static inline const int &min(const int &a, const int &b)
 }
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@VRva00151DAB@@V?$allocator@VRva00151DAB@@@_STL@@@_STL@@IAEXPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva00151DAB;
+namespace _STL { template <> void vector<Rva00151DAB,allocator<Rva00151DAB> >::_M_insert_overflow(Rva00151DAB *,Rva00151DAB const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAVRva00151DAB@@IV1@@_STL@@YAPAVRva00151DAB@@PAV1@IABV1@ABU__fal:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva00151DAB;

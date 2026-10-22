@@ -30,6 +30,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <map>
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?erase@?$vector@UBfmeAssignRecord44@@V?$allocator@UBfmeAssignRecord44@@@_STL@@@_STL@@QAEPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord44;
+namespace _STL { template <> BfmeAssignRecord44 * vector<BfmeAssignRecord44,allocator<BfmeAssignRecord44> >::erase(BfmeAssignRecord44 *,BfmeAssignRecord44 *); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAUBfmeStringTailRecord156@@IU1@@_STL@@YAPAUBfmeStringTailRecord:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringTailRecord156;
+namespace _STL { template <> BfmeStringTailRecord156 * __uninitialized_fill_n<BfmeStringTailRecord156 *,unsigned int,BfmeStringTailRecord156>(BfmeStringTailRecord156 *,unsigned int,BfmeStringTailRecord156 const &,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAUBfmeStringTailRecord156@@PAU1@@_STL@@YAPAUBfmeStringTailRecord1:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringTailRecord156;

@@ -502,6 +502,10 @@ namespace _STL { template <> void vector<Rva000CF83CElement,allocator<Rva000CF83
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00501E3FElement;
 namespace _STL { template <> void _Destroy<Rva00501E3FElement *>(Rva00501E3FElement *,Rva00501E3FElement *); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva0020A227Element@@V?$allocator@URva0020A227Element@@@_STL@@@_STL@@IA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0020A227Element;
+namespace _STL { template <> void vector<Rva0020A227Element,allocator<Rva0020A227Element> >::_M_clear(); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva0020A227Element@@@_STL@@YAXPAURva0020A227Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0020A227Element;

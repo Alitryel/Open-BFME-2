@@ -2,6 +2,10 @@
 // stlport
 // ?removeMessageAction@HotKeyManager@@QAEII@Z 0x003593D8 16B; tree erase call and +0x24 this adjustment are retail evidence
 #include <map>
+// Suppress this TU's non-retail copy of ?erase@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00358E26Record;
+namespace _STL { template <> void _Rb_tree<int,pair<int const ,Rva00358E26Record>,_Select1st<pair<int const ,Rva00358E26Record> >,less<int>,allocator<pair<int const ,Rva00358E26Record> > >::erase(_Rb_tree_iterator<pair<int const ,Rva00358E26Record>,_Nonconst_traits<pair<int const ,Rva00358E26Record> > >,_Rb_tree_iterator<pair<int const ,Rva00358E26Record>,_Nonconst_traits<pair<int const ,Rva00358E26Record> > >); }
 // Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHU:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00358E26Record;
