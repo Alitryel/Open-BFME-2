@@ -48,10 +48,12 @@ public:
 	virtual ~UpdateModule();
 };
 
+// Same view as SiegeDockingBehaviorConstructorThunk.cpp, so both units emit one
+// +0x20 table (retail 0x00C41404).
 class SiegeDockingBehaviorSecondaryBase
 {
 public:
-	virtual void slot();
+	virtual void slot() = 0;
 };
 
 extern "C" void free(void *ptr);
