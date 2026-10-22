@@ -2487,6 +2487,52 @@ def read_funclet(row, object_symbol, output, target):
         "does either, so this is the body that label names now")
 
 
+def proven_folded_weak_dtor_owner(row, owner, address, output, symbol_map, rows):
+    """An emitted same-unit scalar dtor may be a strictly proven ICF fold.
+
+    Never install a weak name globally. Borrow only the existing full ICF
+    proof for the actual scalar definition, with weak recursion disabled,
+    and require independently strict real scalar owners at this address.
+    """
+    if (owner["source"] != row["source"]
+            or not owner["name"].endswith("@@UAEPAXI@Z")):
+        return False
+    size = int(owner["target_size"])
+    peers = [r for r in rows
+             if r["name"] != owner["name"] and r["name"].startswith("??_G")
+             and r["name"].endswith("@@UAEPAXI@Z")
+             and r["status"] == "matched" and not is_alias_row(r)
+             and "gen-alias" not in notes_tokens(r) and not is_scaffold_row(r)
+             and ledger_object_symbol(r) == r["name"]
+             and int(r["target_rva"], 16) == address
+             and int(r["target_size"]) == size]
+    if not peers:
+        return False
+    # Same-unit source receipt and complete relocation identity come from the
+    # ordinary ICF proof. It also refuses alternate addresses and tiny stubs.
+    import pin_admission
+    pins = list(csv.DictReader(io.StringIO(SYMBOLS.read_text(encoding="utf-8-sig"))))
+    receipt = {}
+    problems = pin_admission.fold_proof_problems(
+        {"name": owner["name"], "notes": "fold-proof=" + owner["source"]},
+        address, rows, lambda: symbol_map, pins=pins, receipt=receipt,
+        allow_weak=False)
+    if problems or Path(receipt.get("output", "")).resolve() != output.resolve():
+        return False
+    # The ICF binding proof compares every real owner's relocation identity;
+    # verify every scalar peer's full bytes as well, with no alias masking or
+    # weak fallback. A merely rowed/masked peer cannot vouch for this edge.
+    for peer in peers:
+        peer_output = row_object(peer)
+        body, _ = read_object_symbol_bytes(peer_output, peer["name"], code_only=True)
+        if len(body) != size:
+            return False
+        patch = compile_function(peer, symbol_map, peer_output, allow_weak=False)
+        if patch["unresolved"] or patch["masked"] or patch["bytes"] != patch["target"]:
+            return False
+    return True
+
+
 def proven_weak_dtor_default(row, name, address, output, symbol_map):
     """Prove an MSVC vector-dtor weak reference to its class's rowed scalar dtor.
 
@@ -2527,16 +2573,22 @@ def proven_weak_dtor_default(row, name, address, output, symbol_map):
             if (definition.get('storage') != 2 or not definition.get('type', 0) & 0x20
                     or not sections[definition['section'] - 1]['characteristics'] & 0x20):
                 return False
-        owners = [r for r in load_all_function_rows() if r['name'] == default]
+        rows = load_all_function_rows()
+        owners = [r for r in rows if r['name'] == default]
         if len(owners) != 1:
             return False
         owner = owners[0]
         if (owner['status'] != 'matched'
                 or int(owner['target_rva'], 16) != address
                 or ledger_object_symbol(owner) != default or is_alias_row(owner)
-                or 'gen-alias' in notes_tokens(owner) or is_scaffold_row(owner)
+                or is_scaffold_row(owner)
                 or address not in symbol_map.get(default, ())):
             return False
+        if 'gen-alias' in notes_tokens(owner):
+            if not definitions:
+                return False
+            return proven_folded_weak_dtor_owner(
+                row, owner, address, output, symbol_map, rows)
         if owner['source'] != row['source']:
             # Another unit owns and gates the scalar dtor, as for any call
             # bound to that row's name; this object's COMDAT copy (if any)

@@ -194,7 +194,8 @@ def fold_prover(rows, pins=()):
     return lambda pin, rva: fold_proof_problems(pin, rva, rows, symbol_map, pins)
 
 
-def fold_proof_problems(pin, rva, rows, symbol_map, pins=(), receipt=None):
+def fold_proof_problems(pin, rva, rows, symbol_map, pins=(), receipt=None,
+                        *, allow_weak=True):
     """Why `pin` is NOT proven to be an ICF fold onto rva ([] = proven).
 
     /OPT:ICF gives two COMDATs one body only when their bytes AND their
@@ -272,7 +273,7 @@ def fold_proof_problems(pin, rva, rows, symbol_map, pins=(), receipt=None):
             owners.setdefault((address, size), []).append(r)
     proof = {"source": source, "rows": rows, "pins": pins, "base": base,
              "extents": extents, "owners": owners, "compiled": set(),
-             "overlay": dict(base), "proven": {}}
+             "overlay": dict(base), "proven": {}, "allow_weak": allow_weak}
     problems = _compile_unit(source, proof)
     if problems:
         return problems
@@ -446,7 +447,8 @@ def _prove_body(name, rva, proof, depth):
              "target_size": str(len(compiled)), "source": source, "status": "matched",
              "notes": ""}
     try:
-        patch = build.compile_function(probe, proof["overlay"], output)
+        patch = build.compile_function(probe, proof["overlay"], output,
+                                       allow_weak=proof.get("allow_weak", True))
     except (OSError, ValueError, SystemExit) as error:
         return [f"{source}: {error}"]
     target = patch["target"]
@@ -485,7 +487,8 @@ def _prove_body(name, rva, proof, depth):
                 return problems
             proof["overlay"][callee] = [address]
         try:
-            patch = build.compile_function(probe, proof["overlay"], output)
+            patch = build.compile_function(probe, proof["overlay"], output,
+                                           allow_weak=proof.get("allow_weak", True))
         except (OSError, ValueError, SystemExit) as error:
             return [f"{source}: {error}"]
         if patch["unresolved"]:
