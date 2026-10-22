@@ -123,6 +123,10 @@ private:
 	char m_pad[8];
 };
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ?push_back@?$vector@URva00287F76Element@@V?$allocator@URva00287F76Element@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00287F76Element;
+namespace _STL { template <> void vector<Rva00287F76Element,allocator<Rva00287F76Element> >::push_back(Rva00287F76Element const &); }
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva00287F76Element@@V?$allocator@URva00287F76Element@@@_STL@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00287F76Element;

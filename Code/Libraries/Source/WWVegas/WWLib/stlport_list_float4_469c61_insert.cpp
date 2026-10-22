@@ -3,6 +3,10 @@
 // ?insert@?$list@UBfmeFloat4Record00469C61@@V?$allocator@UBfmeFloat4Record00469C61@@@_STL@@@_STL@@QAE?AU?$_List_iterator@UBfmeFloat4Record00469C61@@U?$_Nonconst_traits@UBfmeFloat4Record00469C61@@@_STL@@@2@U32@ABUBfmeFloat4Record00469C61@@@Z @0x001DD86F 37B single-node insert via rowed create_node 0x001DD6ED.
 // Evidence: unlock lane every callee rowed; same 37B shape as 0x001EBD16 0x001FD72C 0x00280A68.
 #include <list>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@UBfmeFloat4Record00469C61@@V?$allocator@UBfmeFloat4Record00469C61@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeFloat4Record00469C61;
+namespace _STL { template <> _List_node<BfmeFloat4Record00469C61> * list<BfmeFloat4Record00469C61,allocator<BfmeFloat4Record00469C61> >::_M_create_node(BfmeFloat4Record00469C61 const &); }
 // Suppress this TU's non-retail copy of ??$_Construct@UBfmeFloat4Record00469C61@@U1@@_STL@@YAXPAUBfmeFloat4Record00469C61@@ABU1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeFloat4Record00469C61;

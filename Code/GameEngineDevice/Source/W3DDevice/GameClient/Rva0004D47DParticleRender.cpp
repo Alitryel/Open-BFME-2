@@ -35,6 +35,10 @@ namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?push_back@?$vector@VRvaSmartPtr12@@V?$allocator@VRvaSmartPtr12@@@_STL@@@_STL@@QAEXABVRvaS:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class RvaSmartPtr12;
+namespace _STL { template <> void vector<RvaSmartPtr12,allocator<RvaSmartPtr12> >::push_back(RvaSmartPtr12 const &); }
 // Suppress this TU's non-retail copy of ?_M_clear@?$vector@VRvaSmartPtr12@@V?$allocator@VRvaSmartPtr12@@@_STL@@@_STL@@IAEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class RvaSmartPtr12;

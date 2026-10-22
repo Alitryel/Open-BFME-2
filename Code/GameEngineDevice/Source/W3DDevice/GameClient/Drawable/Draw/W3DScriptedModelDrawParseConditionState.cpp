@@ -22,6 +22,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?push_back@?$vector@UBfmePod252@@V?$allocator@UBfmePod252@@@_STL@@@_STL@@QAEXABUBfmePod252:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod252;
+namespace _STL { template <> void vector<BfmePod252,allocator<BfmePod252> >::push_back(BfmePod252 const &); }
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmePod252@@V?$allocator@UBfmePod252@@@_STL@@@_STL@@IAEXPAUB:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod252;
