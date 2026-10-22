@@ -48,27 +48,29 @@ struct BfmeSlotJA
 	BfmeHookJA *m_bfmeHook;
 };
 
-class BfmeThing932A
+class ThingTemplate;
+
+class MapObject
 {
 public:
-	BfmeSlotJA *bfmeGo932A();
+	const ThingTemplate *getThingTemplate() const;
 	char m_bfmePad[0x18];
 	BfmeSlotJA *m_bfmeSlot;
 };
 
-// ?bfmeGo932A@BfmeThing932A@@QAEPAUBfmeSlotJA@@XZ, retail 0x0030D833 (22B).
+// ?getThingTemplate@MapObject@@QBEPBVThingTemplate@@XZ, retail 0x0030D833 (22B).
 //
 // The hook call is a tail jmp (same shape as the donor); it resolves
 // through the ledger pin at 0x001E35DF, whose +4-chain-walker bytes are
 // neutrally rowed as a dup_ span.
-BfmeSlotJA *BfmeThing932A::bfmeGo932A()
+const ThingTemplate *MapObject::getThingTemplate() const
 {
 	BfmeSlotJA *s = m_bfmeSlot;
 	if (s) {
 		BfmeHookJA *h = s->m_bfmeHook;
 		if (h)
-			return h->bfmeCallJA();
-		return s;
+			return (const ThingTemplate *)h->bfmeCallJA();
+		return (const ThingTemplate *)s;
 	}
 	return 0;
 }

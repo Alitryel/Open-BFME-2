@@ -10301,7 +10301,7 @@ _LoadChunk,,0x00756CF0,23,Code/Libraries/Source/Lua/lundump.c,matched,BFME1 byte
 ?Rva004BCB20@@YAXPAVGameWindow@@H@Z,,0x00328543,60,Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetUserDataHelpers.cpp,matched,BFME1 byte-identical donor; b1 0x004BCB20
 _settabss,,0x00747DC0,30,Code/Libraries/Source/Lua/ldblib.c,matched,BFME1 byte-identical donor; b1 0x00990C60; ICF twin is the same source
 ?bfmeGo1034F@BfmeF1034@@QAEHH@Z,,0x0070F010,33,Code/GameEngine/Source/Common/BfmeConv1034.cpp,matched,BFME1 byte-identical donor; b1 0x008D3280
-?bfmeGo932A@BfmeThing932A@@QAEPAUBfmeSlotJA@@XZ,,0x0030D833,22,Code/GameEngine/Source/Common/BfmeConv932.cpp,matched,BFME1 donor b1 0x00087E80; tail jmp via ledger hook pin
+?getThingTemplate@MapObject@@QBEPBVThingTemplate@@XZ,,0x0030D833,22,Code/GameEngine/Source/Common/BfmeConv932.cpp,matched,BFME1 donor b1 0x00087E80; tail jmp via ledger hook pin
 _luaK_code2,,0x00752240,976,Code/Libraries/Source/Lua/lcode.c,matched,BFME1 byte-identical donor; b1 0x0099E880; exact via unclaimed_scan
 _luaK_tostack,,0x00753160,889,Code/Libraries/Source/Lua/lcode.c,matched,BFME1 byte-identical donor; exact via unclaimed_scan
 ?bfmeGo1026F@BfmeF1026@@QAEXHHH@Z,,0x004BD6DA,52,Code/GameEngine/Source/Common/BfmeConv1026.cpp,matched,BFME1 byte-identical donor b1 0x00217500; 0x28AFA9 rowed getControllingPlayer and 0x242C09 pinned destroyObject; 1 pin bfmeHas1026

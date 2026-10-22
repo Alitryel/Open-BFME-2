@@ -19,12 +19,11 @@ class Dict { public:
  private:void releaseData();void *data;
 };
 class DataChunkInput {public:float readReal();int readInt();AsciiString readAsciiString();Dict readDict();};
-class ThingTemplate;
+class ThingTemplate { public: char unknown[0x111]; unsigned char flags; };
 class ThingFactory {public: bool rva002D06AA(const AsciiString &); const ThingTemplate *findTemplate(const AsciiString &);};
 extern ThingFactory *TheThingFactory;
 class Rva0030D748 { public: AsciiString rva0030D748(); };
-struct BfmeSlotJA { char unknown[0x111]; unsigned char flags; };
-class BfmeThing932A {public:BfmeSlotJA *bfmeGo932A();};
+class MapObject {public:const ThingTemplate *getThingTemplate() const;};
 class Rva0030DBD5 {public:
  virtual ~Rva0030DBD5();
  Rva0030DBD5(Coord3D,const AsciiString&,float,int,const Dict*,void*);
@@ -53,7 +52,7 @@ bool ParseObjectDataChunk(DataChunkInput &file,DataChunkInfo *info,void *) {
  if(object->dict.getType(g_00DBDC74.get())==Dict::INT) {
   object->flags|=4;
   *reinterpret_cast<Coord3D *>(&(*m_waypoints)[reinterpret_cast<Rva0030D748 *>(object)->rva0030D748()])=loc;
- } else if(reinterpret_cast<BfmeThing932A *>(object)->bfmeGo932A() && (reinterpret_cast<BfmeThing932A *>(object)->bfmeGo932A()->flags &0x20)) m_supplyPositions.push_back(loc);
+ } else if(reinterpret_cast<MapObject *>(object)->getThingTemplate() && (reinterpret_cast<MapObject *>(object)->getThingTemplate()->flags &0x20)) m_supplyPositions.push_back(loc);
  void *allocation=object ? reinterpret_cast<MapObjectDeleteSlotView *>(object)->destroy(0):0;
  ::operator delete(allocation);
  return true;

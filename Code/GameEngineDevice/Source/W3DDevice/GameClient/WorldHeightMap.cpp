@@ -304,17 +304,6 @@ void MapObject::setWaypointName(AsciiString n) { getProperties()->setAsciiString
 
 // MapObject::countMapObjectsWithOwner is recovered in WorldHeightMap_Rva0030e26f.cpp.
 
-//-------------------------------------------------------------------------------------------------
-// ?getThingTemplate@MapObject@@ present-unmatched
-const ThingTemplate *MapObject::getThingTemplate( void ) const
-{
-	if (m_thingTemplate)
-		return (const ThingTemplate*) m_thingTemplate->getFinalOverride(); 
-	
-	return NULL;
-}
-
-
 /* ********* WorldHeightMap class ****************************/
 
 TileData *WorldHeightMap::m_alphaTiles[NUM_ALPHA_TILES]={0,0,0,0,0,0,0,0,0,0,0,0};

@@ -278,10 +278,8 @@ private:
 	unsigned char m_kindOf[4];			// +0x108
 };
 
-// MapObject's template and location getters, rowed under their address-era
-// spellings: the final-override walk 0x0030D833 and 0x0030D631.
-struct BfmeSlotJA;
-class BfmeThing932A { public: BfmeSlotJA *bfmeGo932A(); };
+// MapObject resolves the final template override at 0x0030D833; the
+// location getter at 0x0030D631 retains its address-derived spelling.
 class BfmeRetBWF;
 class Rva0030D631 { public: BfmeRetBWF *rva0030D631(); };
 
@@ -289,7 +287,7 @@ class MapObject
 {
 public:
 	MapObject *getNext() const { return m_nextMapObject; }
-	const ThingTemplate *getThingTemplate() { return (const ThingTemplate *)((BfmeThing932A *)this)->bfmeGo932A(); }
+	const ThingTemplate *getThingTemplate() const;
 	const Coord3D *getLocation() { return (const Coord3D *)((Rva0030D631 *)this)->rva0030D631(); }
 	float getAngle() const { return m_angle; }
 	Dict *getProperties() { return &m_properties; }

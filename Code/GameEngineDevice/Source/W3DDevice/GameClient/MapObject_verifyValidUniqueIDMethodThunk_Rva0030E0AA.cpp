@@ -70,11 +70,8 @@ class ThingTemplate : public ThingTemplateHead, public ThingTemplateName
 {
 };
 
-// The three MapObject getters' retail bodies are rowed under address names
-// (BfmeConv932.cpp 0x0030D833, Rva0030D748Method.cpp, Rva0030D808Method.cpp);
-// WorldHeightMap.cpp's same-name copies are not retail's, so calls bind to the rows.
-struct BfmeSlotJA;
-class BfmeThing932A { public: BfmeSlotJA *bfmeGo932A(); };
+// The waypoint and generic-AI name getters bind to their rowed
+// address-derived owners in Rva0030D748Method.cpp and Rva0030D808Method.cpp.
 class Rva0030D748 { public: AsciiString rva0030D748(); };
 class Rva0030D808 { public: AsciiString rva0030D808(); };
 
@@ -169,8 +166,8 @@ void MapObject::verifyValidUniqueID()
 	int indexOfThisObject = highestIndex + 1;
 
 	const char *thingName;
-	if (((const ThingTemplate *)((BfmeThing932A *)this)->bfmeGo932A())) {
-		thingName = ((const ThingTemplate *)((BfmeThing932A *)this)->bfmeGo932A())->getName().str();
+	if (getThingTemplate()) {
+		thingName = getThingTemplate()->getName().str();
 	} else if (isWaypoint()) {
 		thingName = ((Rva0030D748 *)this)->rva0030D748().str();
 	} else if (isGenericAIObject()) {
