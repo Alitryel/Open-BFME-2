@@ -1192,3 +1192,26 @@ void OpenContain::loadPostProcess()
     }
     self->restoreIDs74.clear();
 }
+
+// Complete native entry 0x0046491E..0x00464923 forwards the unchanged
+// receiver and key reference to the verified erase at 0x004643E8 and
+// returns its unsigned count. The record/tree view is already established;
+// keep an address-derived label for the unidentified containing wrapper.
+struct Rva00463E09Record;
+typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00463E09Record>,
+	_STL::_Select1st<_STL::pair<int const, Rva00463E09Record> >,
+	_STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00463E09Record> > > Rva0046491ETree;
+// Use the existing verified provider without emitting another template copy.
+namespace _STL {
+template <> unsigned int Rva0046491ETree::erase(const int &);
+}
+class Rva0046491E : public Rva0046491ETree
+{
+public:
+	unsigned int rva0046491E(const int &key);
+};
+
+unsigned int Rva0046491E::rva0046491E(const int &key)
+{
+	return erase(key);
+}
