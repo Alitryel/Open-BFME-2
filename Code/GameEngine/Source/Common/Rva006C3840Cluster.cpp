@@ -12,15 +12,17 @@ struct Rva00030DD0Lock;
 int Rva00030DD0AddRef(Rva00030DD0Lock *lock);
 int Rva00030DF0Release(Rva00030DD0Lock *lock);
 
-class Rva00030DD0Guard
+// The counted critical-section guard; Rva00034C90Finish.cpp supplies retail's
+// out-of-line destructor (0x000317C0) under this name.
+class Rva00034C90Lock
 {
 public:
-	Rva00030DD0Guard(Rva00030DD0Lock *lock) : m_lock(lock)
+	Rva00034C90Lock(Rva00030DD0Lock *lock) : m_lock(lock)
 	{
 		if (m_lock != 0)
 			Rva00030DD0AddRef(m_lock);
 	}
-	~Rva00030DD0Guard()
+	~Rva00034C90Lock()
 	{
 		if (m_lock != 0)
 			Rva00030DF0Release(m_lock);
@@ -48,7 +50,7 @@ private:
 
 void Rva006C1F60::rva006C3840(int arg1, int arg2)
 {
-	Rva00030DD0Guard guard(m_lock);
+	Rva00034C90Lock guard(m_lock);
 	if (m_540 != arg1) {
 		rva006C33D0(0, 0);
 		m_540 = arg1;

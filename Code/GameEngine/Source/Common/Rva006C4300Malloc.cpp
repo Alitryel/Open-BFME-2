@@ -83,15 +83,17 @@ protected:
 	Rva006C4300Chunk m_delayed;
 };
 
-class Rva00030DD0Guard
+// The counted critical-section guard; Rva00034C90Finish.cpp supplies retail's
+// out-of-line destructor (0x000317C0) under this name.
+class Rva00034C90Lock
 {
 public:
-	Rva00030DD0Guard(Rva00030DD0Lock *lock) : m_lock(lock)
+	Rva00034C90Lock(Rva00030DD0Lock *lock) : m_lock(lock)
 	{
 		if (m_lock != 0)
 			Rva00030DD0AddRef(m_lock);
 	}
-	~Rva00030DD0Guard()
+	~Rva00034C90Lock()
 	{
 		if (m_lock != 0)
 			Rva00030DF0Release(m_lock);
@@ -161,7 +163,7 @@ void *Rva006C40C0::rva006C40C0(void *a, void *b)
 	if (total < size)
 		return 0;
 
-	Rva00030DD0Guard guard(m_lock);
+	Rva00034C90Lock guard(m_lock);
 	void *p;
 	for (;;) {
 		p = mallocMarked(total, flags);
@@ -193,7 +195,7 @@ int Rva006C4460::rva006C4300(int a, int b, int c, int d)
 	if (m_lock != 0)
 		Rva00030DF0Release(m_lock);
 
-	Rva00030DD0Guard guard(m_lock);
+	Rva00034C90Lock guard(m_lock);
 	void *p = ((EA::Allocator::GeneralAllocator *)this)->rva000344A0(total, b, c, d);
 	for (;;) {
 		if (p != 0) {
@@ -226,7 +228,7 @@ void *Rva006C4530::rva006C4530(void *a, void *b, void *c)
 	if (m_lock != 0)
 		Rva00030DF0Release(m_lock);
 
-	Rva00030DD0Guard guard(m_lock);
+	Rva00034C90Lock guard(m_lock);
 	void *p = ((EA::Allocator::GeneralAllocator *)this)->rva00034A60(1, total, flags);
 	for (;;) {
 		if (p != 0) {
