@@ -1,4 +1,6 @@
 // ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
+// partial score=0.9952542372881356 date=2026-10-22
+// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
 // partial score=0.9826 date=2026-10-20
 // ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
 // partial score=0.995 date=2026-10-18
@@ -417,29 +419,29 @@ public:
 	Bool rva0058D601(NetCommandRef *msg);
 	Int rva0058E57B();
 
-	static NetCommandMsg *rva0058DA7E(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DB4D(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DC1C(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DCEB(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DD89(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DDF2(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DE5B(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DEC5(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DEF7(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DF29(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0059205C(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readAckBothMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readAckStage1Message(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readAckStage2Message(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readFrameMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readRouterFallbackMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readPlayerLeaveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDestroyPlayerMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readKeepAliveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectKeepAliveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectPlayerMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectChatMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *readGameMessage(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva00592123(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readChatMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva00592208(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DFB8(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E047(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectVoteMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readProgressMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E0B0(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E20D(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E2D7(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E367(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E3F4(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E481(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E511(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readInformPlayerLeaveFrameMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readRequestPlayerLeaveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readRequestFrameDataMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectFrameMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandRef *ConstructNetCommandMsgFromRawData(UnsignedByte *data, UnsignedShort dataLength);
 	// The type-17 reader the linker folded into the type-16 body; its own symbol
 	// keeps ConstructNetCommandMsgFromRawData's two call blocks apart.
@@ -869,46 +871,46 @@ NetCommandList *NetPacket::getCommandList()
 				msg = readGameMessage(m_packet, offset);
 				break;
 			case 0:
-				msg = rva0058DA7E(m_packet, offset);
+				msg = readAckBothMessage(m_packet, offset);
 				break;
 			case 1:
-				msg = rva0058DB4D(m_packet, offset);
+				msg = readAckStage1Message(m_packet, offset);
 				break;
 			case 2:
-				msg = rva0058DC1C(m_packet, offset);
+				msg = readAckStage2Message(m_packet, offset);
 				break;
 			case 3:
-				msg = rva0058DCEB(m_packet, offset);
+				msg = readFrameMessage(m_packet, offset);
 				break;
 			case 23:
-				msg = rva0058DD89(m_packet, offset);
+				msg = readRouterFallbackMessage(m_packet, offset);
 				break;
 			case 10:
-				msg = rva0058DDF2(m_packet, offset);
+				msg = readPlayerLeaveMessage(m_packet, offset);
 				break;
 			case 11:
-				msg = rva0058DE5B(m_packet, offset);
+				msg = readDestroyPlayerMessage(m_packet, offset);
 				break;
 			case 12:
-				msg = rva0058DEC5(m_packet, offset);
+				msg = readKeepAliveMessage(m_packet, offset);
 				break;
 			case 25:
-				msg = rva0058DEF7(m_packet, offset);
+				msg = readDisconnectKeepAliveMessage(m_packet, offset);
 				break;
 			case 26:
-				msg = rva0058DF29(m_packet, offset);
+				msg = readDisconnectPlayerMessage(m_packet, offset);
 				break;
 			case 13:
-				msg = rva0059205C(m_packet, offset);
+				msg = readDisconnectChatMessage(m_packet, offset);
 				break;
 			case 27:
-				msg = rva0058DFB8(m_packet, offset);
+				msg = readDisconnectVoteMessage(m_packet, offset);
 				break;
 			case 14:
-				msg = rva00592123(m_packet, offset);
+				msg = readChatMessage(m_packet, offset);
 				break;
 			case 15:
-				msg = rva0058E047(m_packet, offset);
+				msg = readProgressMessage(m_packet, offset);
 				break;
 			case 16:
 				msg = rva0058E0B0(m_packet, offset);
@@ -932,16 +934,16 @@ NetCommandList *NetPacket::getCommandList()
 				msg = rva0058E2D7(m_packet, offset);
 				break;
 			case 8:
-				msg = rva0058E367(m_packet, offset);
+				msg = readInformPlayerLeaveFrameMessage(m_packet, offset);
 				break;
 			case 7:
-				msg = rva0058E3F4(m_packet, offset);
+				msg = readRequestPlayerLeaveMessage(m_packet, offset);
 				break;
 			case 9:
-				msg = rva0058E481(m_packet, offset);
+				msg = readRequestFrameDataMessage(m_packet, offset);
 				break;
 			case 28:
-				msg = rva0058E511(m_packet, offset);
+				msg = readDisconnectFrameMessage(m_packet, offset);
 				break;
 			case 5:
 				msg = (NetCommandMsg *)Rva00592496Read((Int)m_packet, (UnsignedInt *)&offset);
