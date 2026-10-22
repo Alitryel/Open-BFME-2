@@ -36,6 +36,10 @@ namespace _STL { void __cdecl free(void *block); }
 #include <vector>
 #include <string>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAVAsciiString@@PAV1@@_STL@@YAPAVAsciiString@@PAV1@00ABU__false_ty:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> AsciiString * __uninitialized_copy<AsciiString *,AsciiString *>(AsciiString *,AsciiString *,AsciiString *,__false_type const &); }
 // Suppress this TU's non-retail copy of ?erase@?$vector@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocat:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > * vector<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::erase(basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > *); }

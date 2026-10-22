@@ -91,6 +91,10 @@ namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned 
 namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) const; }
 namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBVAsciiString@@PAV1@@_STL@@YAPAVAsciiString@@PBV1@0PAV1@ABU__fals:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> AsciiString * __uninitialized_copy<AsciiString const *,AsciiString *>(AsciiString const *,AsciiString const *,AsciiString *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$__copy@PAVAsciiString@@PAV1@H@_STL@@YAPAVAsciiString@@PAV1@00ABUrandom_access_iterator_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;

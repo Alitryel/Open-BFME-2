@@ -44,6 +44,9 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::ca
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?begin@?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Ht_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> >,int,hash<int>,_Select1st<pair<int const ,int> >,equal_to<int>,allocator<pair<int const ,int> > > hashtable<pair<int const ,int>,int,hash<int>,_Select1st<pair<int const ,int> >,equal_to<int>,allocator<pair<int const ,int> > >::begin(); }
 // Suppress this TU's non-retail copy of ??1?$_Deque_base@HV?$allocator@H@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Deque_base<int,allocator<int> >::~_Deque_base(); }

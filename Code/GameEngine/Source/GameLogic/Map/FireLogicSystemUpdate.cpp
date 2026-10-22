@@ -123,6 +123,10 @@ private:
 	char m_pad[8];
 };
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva00287F76Element@@V?$allocator@URva00287F76Element@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00287F76Element;
+namespace _STL { template <> void vector<Rva00287F76Element,allocator<Rva00287F76Element> >::_M_insert_overflow(Rva00287F76Element *,Rva00287F76Element const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ?erase@?$vector@UBfmePod8@@V?$allocator@UBfmePod8@@@_STL@@@_STL@@QAEPAUBfmePod8@@PAU3@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod8;

@@ -49,6 +49,10 @@ namespace _STL { template <> void allocator<AsciiString>::deallocate(AsciiString
 namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
 namespace _STL { template <> _Rb_tree_base<AsciiString, allocator<AsciiString> >::_Rb_tree_base(allocator<AsciiString> const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void vector<AsciiString,allocator<AsciiString> >::_M_clear(); }
 
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 

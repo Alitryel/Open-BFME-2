@@ -27,6 +27,10 @@
 #include "../../Common/GameLogicObjectLookupView.h"
 #include "../../Common/BfmeSpecialPowerTimer8.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@V?$allocator@U?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; struct NoCaseTreeValue4;
+namespace _STL { template <> _List_node<pair<AsciiString const ,NoCaseTreeValue4> > * list<pair<AsciiString const ,NoCaseTreeValue4>,allocator<pair<AsciiString const ,NoCaseTreeValue4> > >::_M_create_node(pair<AsciiString const ,NoCaseTreeValue4> const &); }
 // Suppress this TU's non-retail copy of ??$_Construct@HH@_STL@@YAXPAHABH@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _Construct<int,int>(int *,int const &); }
