@@ -104,11 +104,6 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  *   PointGroupClass::Update_Arrays -- Update all arrays used in rendering *
  *   PointGroupClass::Peek_Texture -- Peeks texture                        *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-// RefCountClass's inline members and deleting destructor are retail's
-// size-optimised bodies: compile them for size, as hlod.cpp does.
-#pragma optimize("s", on)
-#include "refcount.h"
-#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "vector.h"
 #include "vector2.h"
@@ -387,12 +382,6 @@ public:
 #include "aabox.h"
 #include "statistics.h"
 #include "simplevec.h"
-// TextureBaseClass::Add_Ref at 0x000424B6 is the size-optimised word
-// increment, as sphereobj.cpp parses it.
-#pragma optimize("t", off)
-#pragma optimize("s", on)
-#include "texture.h"
-#pragma optimize("", on)
 #include "vector.h"
 #include "vp.h"
 #include "matrix4.h"
