@@ -40,8 +40,6 @@ public:
 	AsciiString getFilename() const;
 	int getLineNum() const;
 	void initFromINI(void *what, const struct FieldParse *parseTable);
-	static void parseAttributeModifier(INI *ini, void *instance, void *store, const void *userData);
-	static void parseMeleeBehavior(INI *ini, void *instance, void *store, const void *userData);
 private:
 	char m_storage[0x87C];
 };
@@ -179,6 +177,7 @@ class NameKeyGenerator
 public:
 	NameKeyType nameToKey(const char *name);
 	const AsciiString &keyToName(NameKeyType key);
+	static void parseStringAsNameKeyType(INI *, void *, void *, const void *);
 };
 
 extern NameKeyGenerator *TheNameKeyGenerator;
@@ -206,12 +205,18 @@ struct FieldParse
 
 extern const char *const TheStanceNames[];
 
+class HordeContainModuleData
+{
+public:
+	static void parseMeleeBehavior(INI *, void *, void *, const void *);
+};
+
 void __cdecl parseStance(INI *ini, void *data)
 {
 	int index = ini->scanIndexList(ini->getNextToken(0), TheStanceNames);
 	FieldParse parseTable[] = {
-		{ "AttributeModifier", INI::parseAttributeModifier, 0, 0 },
-		{ "MeleeBehavior", INI::parseMeleeBehavior, 0, 4 },
+		{ "AttributeModifier", NameKeyGenerator::parseStringAsNameKeyType, 0, 0 },
+		{ "MeleeBehavior", HordeContainModuleData::parseMeleeBehavior, 0, 4 },
 		{ 0, 0, 0, 0 }
 	};
 	ini->initFromINI(&((BfmePod52 *)data)->m_stances[index], parseTable);

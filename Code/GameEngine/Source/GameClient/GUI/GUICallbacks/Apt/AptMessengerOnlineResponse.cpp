@@ -243,7 +243,7 @@ public:
 extern GameTextInterface *TheGameText;
 class GameState { public: AsciiString portableMapPathToRealMapPath(const AsciiString &path) const; };
 extern GameState *TheGameState;
-extern int g_lastJoinedGroupRoomID; // 0x00DD3938: -1 after leaving, 0 in a staging room
+int g_lastJoinedGroupRoomID = -1; // 0x00DD3938: -1 after leaving, 0 in a staging room
 extern int GameSpyColor[2];
 void Rva00381C2DClear(unsigned int index);
 void Rva00381C82AddChatText(int index, const UnicodeString &text, int color);

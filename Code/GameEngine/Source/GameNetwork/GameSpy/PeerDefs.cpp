@@ -127,6 +127,7 @@ class GameSpyGroupRoom : public AsciiUnicodePair
 {
 public:
 	GameSpyGroupRoom();		// 0x0038226B
+	~GameSpyGroupRoom();
 	GameSpyGroupRoom &operator=(const GameSpyGroupRoom &other);	// 0x00381E56
 };
 class BuddyInfo {};

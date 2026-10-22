@@ -362,10 +362,8 @@ private:
 	CreateAHeroHero *m_boundHero;				// +0x1E0
 };
 
-// The manager's global: GameEngine::init registers the subsystem under the
-// name "TheCreateAHeroManager" (call site 0x0022FC2F) into VA 0x00DFE344;
-// matched references place it there (retail .data initial value 0).
-CreateAHeroManager *TheCreateAHeroManager = 0;
+// The manager's global at VA 0x00DFE344 is defined in CreateAHero.cpp.
+extern CreateAHeroManager *TheCreateAHeroManager;
 
 // CreateAHeroManager::CreateAHeroClass::GetBlingCount, retail 0x0021BE23.
 Int CreateAHeroManager::CreateAHeroClass::GetBlingCount(Int blingKey, UnsignedInt subClassIndex) const
