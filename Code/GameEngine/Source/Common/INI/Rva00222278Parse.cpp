@@ -21,6 +21,10 @@
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; struct TreeHintRef00221D6B;
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const ,TreeHintRef00221D6B> > * _Rb_tree<AsciiString,pair<AsciiString const ,TreeHintRef00221D6B>,_Select1st<pair<AsciiString const ,TreeHintRef00221D6B> >,less<AsciiString>,allocator<pair<AsciiString const ,TreeHintRef00221D6B> > >::_M_create_node(pair<AsciiString const ,TreeHintRef00221D6B> const &); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString; struct TreeHintRef00221D6B;

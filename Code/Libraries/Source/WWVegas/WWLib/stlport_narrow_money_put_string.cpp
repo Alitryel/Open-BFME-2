@@ -93,6 +93,9 @@ namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > & ost
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$fill_n@V?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@ID@_STL@@YA?AV?$ostreambuf:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> ostreambuf_iterator<char,char_traits<char> > fill_n<ostreambuf_iterator<char,char_traits<char> >,unsigned int,char>(ostreambuf_iterator<char,char_traits<char> >,unsigned int,char const &); }
 // Suppress this TU's non-retail copy of ??$_M_range_initialize@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> template <> void basic_string<char,char_traits<char>,allocator<char> >::_M_range_initialize<char *>(char *,char *); }

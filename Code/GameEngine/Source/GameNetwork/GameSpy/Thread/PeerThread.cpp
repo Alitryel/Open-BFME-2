@@ -127,6 +127,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterat
 #include "thread.h"
 
 #include "Common/MiniLog.h"
+// Suppress this TU's non-retail copy of ??$copy@PAPAPAXPAPAPAX@_STL@@YAPAPAPAXPAPAPAX00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * * * copy<void * * *,void * * *>(void * * *,void * * *,void * * *); }
 // Suppress this TU's non-retail copy of ?copy@?$__char_traits_base@DH@_STL@@SAPADPADPBDI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * __char_traits_base<char,int>::copy(char *,char const *,unsigned int); }
