@@ -38,6 +38,10 @@ namespace _STL { template <> void * * vector<void *,allocator<void *> >::begin()
 // Suppress this TU's non-retail copy of ?begin@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEPBQAXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void * const * vector<void *,allocator<void *> >::begin() const; }
+// The const subscript is emitted through that suppressed begin(), so its copy
+// carries a call retail's does not (the 29-copy majority reads _M_start).
+// dllimport keeps this TU from emitting a copy; forceinline keeps the shape.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const & vector<void *,allocator<void *> >::operator[](unsigned int __n) const { return _M_start[__n]; } }
 // Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEAAPAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void * & vector<void *,allocator<void *> >::operator[](unsigned int); }
