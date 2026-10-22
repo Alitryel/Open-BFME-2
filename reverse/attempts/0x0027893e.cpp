@@ -1,61 +1,13 @@
 // ?onComingOutOfShroud@Drawable@@AAEXXZ
-// partial score=0.93 date=2026-10-20
-// 2026-10-20: clean checked STLport bitset recovery; still 740/747 bytes.
-// Object home/frame now match retail; holder/template register choice remains.
-// Private method spelling agrees with the owned caller and existing pin.
-// Earlier comments below document superseded banks and do not describe this state.
+// partial score=0.995 date=2026-10-22
+// ?onComingOutOfShroud@Drawable@@AAEXXZ
 // stlport
-// ?onComingOutOfShroud@Drawable@@QAEXXZ
-// partial score=0.741 date=2026-10-17
-// ?onComingOutOfShroud@Drawable@@QAEXXZ
-// partial score=0.804 date=2026-10-15
-// ?onComingOutOfShroud@Drawable@@AAEXXZ
-// partial score=0.87 date=2026-10-13
-// ?onComingOutOfShroud@Drawable@@AAEXXZ
-// partial score=0.87 date=2026-10-13
-// ?onComingOutOfShroud@Drawable@@AAEXXZ
-// partial score=0.87 date=2026-10-13
 // cl: /O1 /Ob1 /d2inlS100 /D_STLP_USE_STATIC_LIB /G7 /arch:SSE /DNDEBUG /MD /EHsc /I.
-// ?onComingOutOfShroud@Drawable@@AAEXXZ, retail 0x0027893E..0x00278C29 (747 bytes).
-// Owner TU: Code/GameEngine/Source/GameClient/DrawableLazyHelper.cpp
-// (contiguous with rowed 0x002788C7; region default supplies -arch:SSE -G7).
-// Identity: WorldBuilder twin 0x00CA3700 (Drawable::onComingOutOfShroud,
-// Drawable.cpp; EnemyObjectSighted / EnemyCampSighted debug lines, line 2084
-// castle assert). Retail offsets (target-measured; WB debug layout differs):
-// template +0x04 (kind bytes +0x108, EVA events +0x59C/+0x5A0/+0x5A4/+0x5A8),
-// object +0xFC, status bits +0x114, reported bytes +0x445/+0x446,
-// object status +0x438. All callees rowed or pinned with verified manglings:
-// Eva 0x1DE2DA (bool(EvaEventID,Coord3D*,Coord3D*)), 272AD5, 272A6A, 294471 pin
-// (bool(void*,int) thiscall), 28AFA9, 2AB08B, 4A1828 (cdecl, caller pop-ecx
-// cleanup reproduced), 270260, 2706A8, 28B6D6 (PROTECTED const: declare under
-// protected: with friend class Drawable to get the IBE mangling), 49DC5,
-// 5508E2 (call as Object::getDrawable const, same spelling as landed sibling
-// DrawableShroud.cpp; folds to rowed Thing::getDrawable), 3955DA (static),
-// 3974CE, 2706F0 (cdecl callback, DIR32). NameKeyGenerator::nameToKey via the
-// 0x148E1A (const char*) row. Static "CastleMemberBehavior" key init matches
-// (guard byte + EH state + nameToKey). Early region (through 0x278AB4)
-// byte-identical modulo relocs/jump targets.
-// WALL (single allocator fixed point, ~34 bytes): retail spills obj to a home
-// (mov [ebp-0x10],ebx right after the two loads; frame 0x18 vs 0x14) and keeps
-// the 0x80 mask homeless in ebx (mov ebx,0x80 twice: before the kind-7 test
-// and after the static-init barrier; test byte [edi+0x108],bl / test bl,al /
-// or eax,ebx). Ours keeps obj in ebx to the end (no home) so the mask spills
-// (immediates, or eax,edx via a home). Late obj uses must all come from the
-// [ebp-0x10] home (controllingPlayer, nearest, findModule, castle 272AD5 and
-// position, both dead tests, both positions, revealed+shrouded 272AD5; edx
-// carries it into the shared revealed/shrouded tail at 0x278BF3).
-// PROVEN NEGATIVES (do not retry): plain copies/refs/structs of obj fold
-// (U1); declaration/statement order neutral; isKindOf(7) vs (k[0]&mask)
-// same-block folds to imm - the kind-7 use must share the live mask web;
-// volatile obj-copy forces the top home store but sorts its slot last
-// (-0x14 not -0x10) and rotates this/obj/tmpl (this loses esi); sibling-scope
-// twin mask80 decls; goto-form of the holder/controller join (+3B).
-// T-PROBE (diagnostic): deleting one late addr-use flips obj home-based but
-// re-ranks tmpl into ebx - obj/tmpl are within one use of each other.
-// PRESCRIPTION: find a non-volatile, non-reshuffling home anchor for the late
-// obj web that sorts its slot FIRST (-0x10); a single shared 0x80 local (kind7
-// + 2 tests + 2 ors, born right before kind7) should then take ebx.
-// t=40 model=muse-spark (seat W7-MP6).
+// Retail: 0x0027893E..0x00278C29 (747 B). WB twin: 0x00CA3700.
+// Target offsets are measured from retail; KindOf's 218-bit size has ledger
+// support. ZH BitFlags supplies the checked-test semantic guide only.
+// Handoff: reverse/attempt_support/drawable-shroud-tail-20261022.md
+// Destination: Code/GameEngine/Source/GameClient/Drawable.cpp (not integrated).
 #include <bitset>
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
@@ -222,10 +174,11 @@ struct SightedEventData
 void Drawable::onComingOutOfShroud()
 {
 	const ThingTemplate *tmpl = m_template;
-	
+
 	Object *obj = m_object;
-	
-	
+
+
+	int notifyEvent;
 	Player *localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer() : 0;
 	if (!tmpl || !obj || !localPlayer || !TheGameLogic || TheGameLogic->getFrame() <= 5)
 		return;
@@ -239,9 +192,10 @@ void Drawable::onComingOutOfShroud()
 			} else {
 				Player *controller = obj->getControllingPlayer();
 				if (controller) {
+					int dataEvent = tmpl->m_sightedEvent;
 					SightedEventData data;
 					data.drawable = this;
-					data.event = tmpl->m_sightedEvent;
+					data.event = dataEvent;
 					if (controller->iterateObjects(rva00272A6A, &data) == 1)
 						skip = false;
 					else
@@ -270,8 +224,8 @@ void Drawable::onComingOutOfShroud()
 		}
 
 		int mask80 = 0x80;
-		
-		if (tmpl->testKindInView(7) && !(m_status & 0x40)) {
+
+		if ((((const unsigned char *)&tmpl->m_kindOf)[0] & mask80) && !(m_status & 0x40)) {
 			static NameKeyType key_CastleMemberBehavior = TheNameKeyGenerator->nameToKey("CastleMemberBehavior");
 			Module *member = obj->findModule(key_CastleMemberBehavior);
 			if (member) {
@@ -298,12 +252,8 @@ void Drawable::onComingOutOfShroud()
 
 		if (!(m_status & mask80) && !obj->isEffectivelyDead()) {
 			m_status |= mask80;
-			int event = tmpl->m_revealedEvent;
-			if (event != -1) {
-				Object *nearest = ((Drawable *)obj)->rva00272AD5();
-				if (nearest)
-					TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), obj->getPosition());
-			}
+			notifyEvent = tmpl->m_revealedEvent;
+			goto completeNotify;
 		}
 	} else {
 		if (((Rva00270260 *)this)->rva00270260())
@@ -311,12 +261,15 @@ void Drawable::onComingOutOfShroud()
 		int mask80 = 0x80;
 		if (!(m_status & mask80) && !obj->isEffectivelyDead()) {
 			m_status |= mask80;
-			int event = tmpl->m_shroudedEvent;
-			if (event != -1) {
-				Object *nearest = ((Drawable *)obj)->rva00272AD5();
-				if (nearest)
-					TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), obj->getPosition());
-			}
+			notifyEvent = tmpl->m_shroudedEvent;
+			goto completeNotify;
 		}
+	}
+	return;
+completeNotify:
+	if (notifyEvent != -1) {
+		Object *nearest = ((Drawable *)obj)->rva00272AD5();
+		if (nearest)
+			TheEva->reportEvaEvent((EvaEventID)notifyEvent, nearest->getPosition(), obj->getPosition());
 	}
 }
