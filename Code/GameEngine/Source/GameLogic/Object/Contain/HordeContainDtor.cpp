@@ -62,18 +62,27 @@ public:
 	virtual ~OpenContain();
 };
 
-class TransportExtra { public: virtual void transportExtra(); };
+class ThingTemplate;
+class PayloadContainView;
+struct Coord3D;
+
+class TransportExtra
+{
+public:
+	virtual Object *createPayloadMember(const ThingTemplate *, PayloadContainView *, Object *, const char *, int) = 0;
+};
 
 class TransportContain : public OpenContain, public TransportExtra
 {
 public:
 	virtual ~TransportContain();
+	virtual Object *createPayloadMember(const ThingTemplate *, PayloadContainView *, Object *, const char *, int);
 private:
 	unsigned char m_pad100[0x10];
 	_STL::vector<AsciiString> m_110;
 };
 
-struct Iface11C { virtual void f11C(); };
+struct Iface11C { virtual void rva00472329(const Coord3D *, int) = 0; };
 
 struct DelBase { virtual void *F(int); };
 
@@ -108,6 +117,7 @@ class HordeContain : public TransportContain, public Iface11C
 {
 public:
 	virtual ~HordeContain();
+	virtual void rva00472329(const Coord3D *, int);
 private:
 	unsigned char m_pad120[0x170 - 0x120];
 	Rva002EE9B7 m_170;

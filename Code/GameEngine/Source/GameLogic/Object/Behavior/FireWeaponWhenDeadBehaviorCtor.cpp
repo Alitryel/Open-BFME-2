@@ -81,7 +81,7 @@ class UpgradeMux
 {
 public:
 	UpgradeMux();
-	virtual Bool attemptUpgrade();
+	virtual Bool isAlreadyUpgraded() const;
 	void giveSelfUpgrade();
 protected:
 	Bool m_upgradeExecuted; // +0x04

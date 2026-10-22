@@ -11,7 +11,7 @@ public:
 	SubsystemInterface();
 	virtual ~SubsystemInterface();
 	virtual void init() = 0;
-	virtual void reset() = 0;
+	virtual bool loadIniFilesFromLegend();
 	virtual void update() = 0;
 
 private:
@@ -41,7 +41,6 @@ public:
 	CollisionManager();
 	virtual ~CollisionManager();
 	virtual void init();
-	virtual void reset();
 	virtual void update();
 	virtual void crc(void *xfer);
 	virtual void xfer(void *xfer);
