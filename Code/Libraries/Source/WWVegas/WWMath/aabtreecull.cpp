@@ -86,6 +86,10 @@ public:
 #include "aabtreecull.h"
 // Use the shared object-pool release copy from AABTreeCullO1Inlines.cpp.
 template <> void ObjectPoolClass<AABTreeLinkClass,256>::Free_Object_Memory(AABTreeLinkClass *);
+// Defined in AABTreeCullO1Inlines.cpp: retail's single /O1 out-of-line copy of
+// the header ctor. Calls here construct the link without emitting this TU's
+// non-retail /Ob2 COMDAT copy.
+AABTreeLinkClass *_bfmeAABTreeLinkAnchor(void *storage, AABTreeCullSystemClass *system);
 #include "chunkio.h"
 #include "iostruct.h"
 #include <string.h>
@@ -246,7 +250,10 @@ void AABTreeCullSystemClass::Add_Object_Internal(CullableClass * obj,int node_in
 		"AABTreeCullSystemClass::Add -- Object is already in another culling system!\n"
 	);
 
-	AABTreeLinkClass * new_link = new AABTreeLinkClass(this);
+	// Use retail's single /O1 ctor copy (AABTreeCullO1Inlines.cpp) so this TU
+	// does not emit its own non-retail COMDAT copy.
+	AABTreeLinkClass * new_link = _bfmeAABTreeLinkAnchor(
+		AABTreeLinkClass::operator new(sizeof(AABTreeLinkClass)), this);
 	obj->Set_Cull_Link(new_link);
 
 	if (node_index == -1) {
@@ -423,7 +430,10 @@ void AABTreeCullSystemClass::Add_Loaded_Object(AABTreeNodeClass * node,CullableC
 		"AABTreeCullSystemClass::Add_Loaded_Object -- Object is already in another culling system!\n"
 	);
 
-	AABTreeLinkClass * new_link = new AABTreeLinkClass(this);
+	// Use retail's single /O1 ctor copy (AABTreeCullO1Inlines.cpp) so this TU
+	// does not emit its own non-retail COMDAT copy.
+	AABTreeLinkClass * new_link = _bfmeAABTreeLinkAnchor(
+		AABTreeLinkClass::operator new(sizeof(AABTreeLinkClass)), this);
 	obj->Set_Cull_Link(new_link);
 
 	node->Add_Object(obj);
