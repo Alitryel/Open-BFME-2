@@ -15,9 +15,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <cstddef>
 // bfme link decl-only begin
 namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
@@ -32,7 +30,6 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
-namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -63,5 +60,9 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
-struct Rva002A5876Element {Rva002A5876Element();Rva002A5876Element(const Rva002A5876Element&);Rva002A5876Element&operator=(const Rva002A5876Element&);~Rva002A5876Element(){}char bytes[8]; bool operator==(const Rva002A5876Element&)const;};
-template class _STL::hash_map<int,Rva002A5876Element>;
+// The mapped type is Rva002A480AElement: this constructor's only call goes to the rowed
+// hashtable<pair<const int, Rva002A480AElement>> constructor at 0x002A480A
+// (StlSweepW5Rva002A480A.cpp), whose body this unit emits identically. Only the rowed hash_map
+// constructor is instantiated.
+struct Rva002A480AElement {Rva002A480AElement();Rva002A480AElement(const Rva002A480AElement&);Rva002A480AElement&operator=(const Rva002A480AElement&);~Rva002A480AElement(){}char bytes[8]; bool operator==(const Rva002A480AElement&)const;};
+template _STL::hash_map<int, Rva002A480AElement>::hash_map();
