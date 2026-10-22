@@ -10,6 +10,8 @@
 // getVertexBuffer stay visible here (inline) because retail's /O2 RenderStreak inlines them.
 #define Matrix4x4 Matrix4
 void operator delete[](void*) throw();
+// Keep the math overload inline without emitting an external copy.
+__declspec(dllimport) __forceinline float __cdecl fabs(float);
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/texture.h"
 #include "reference/shims/bfmestreak/streakrender.h"
 #include "ww3d.h"

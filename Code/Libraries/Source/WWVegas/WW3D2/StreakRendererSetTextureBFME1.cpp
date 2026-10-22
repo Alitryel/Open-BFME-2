@@ -35,8 +35,12 @@
 #include "../../../../../reference/shims/bfmestreak/streakrender.h"
 #include "ww3d.h"
 #include "rinfo.h"
+#include "../../../../../reference/shims/bfme_seglinerender/seglinerender_dx8vertexbuffer.h"
+#define BFME_SORTING_DWORD_DRAW
 #include "dx8wrapper.h"
 #include "sortingrenderer.h"
+struct TargetCenter3 { float x,y,z; };
+class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCenter3 &, unsigned, unsigned, unsigned, unsigned); };
 #include "vp.h"
 #include "vector3i.h"
 #include "random.h"
@@ -103,7 +107,8 @@ void StreakRendererClass::Set_Texture(TextureClass *texture)
 // }
 
 
-void StreakRendererClass::RenderStreak
+// The native out-of-line renderer is owned by StreakRendererRenderStreak.cpp.
+inline void StreakRendererClass::RenderStreak
 (	
 	RenderInfoClass & rinfo,
 	const Matrix3D & transform,
@@ -298,6 +303,7 @@ void StreakRendererClass::RenderStreak
 
 		struct LineSegment 
 		{
+			__declspec(noinline) LineSegment() {}
 			Vector3	StartPlane;
 			Vector3	EdgePlane[NUM_EDGES];
 		};
@@ -1131,10 +1137,10 @@ void StreakRendererClass::RenderStreak
 		** Render
 		*/		
 		
-		DynamicVBAccessClass Verts((sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8),dynamic_fvf_type,vnum);
+		DynamicVBAccessClass Verts((sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8),5,vnum,0);
 		// Copy in the data to the  VB
 		{
-			DynamicVBAccessClass::WriteLockClass Lock(&Verts);
+			DynamicVBAccessClass::WriteLock Lock(&Verts);
 			unsigned int i;
 			unsigned char *vb=(unsigned char*)Lock.Get_Formatted_Vertex_Array();			
 			const FVFInfoClass& fvfinfo=Verts.FVF_Info();			
@@ -1193,7 +1199,7 @@ void StreakRendererClass::RenderStreak
 
 		if (sorting) 
 		{	
-			SortingRendererClass::Insert_Triangles(obj_sphere,0,triangleIndex,0,vnum);
+			BfmeSortingDispatchAt0012FE00::Insert(reinterpret_cast<const TargetCenter3&>(obj_sphere),0,triangleIndex,0,vnum);
 		} 
 		else 
 		{
@@ -1220,4 +1226,17 @@ void StreakRendererClass::RenderStreak
 int bfmeStreakRandomAnchor(Random3Class &random)
 {
     return random;
+}
+
+// Keep the rowed matrix inlines emitted independently of RenderStreak.
+// ?bfmeStreakMatrixAnchor absent-from-retail
+void bfmeStreakMatrixAnchor(Matrix3D *rows, Matrix4 *identity, Matrix4 *transpose,
+    const Matrix4 &source, bool make_identity, const float *values)
+{
+    new (rows) Matrix3D(values[0], values[1], values[2], values[3],
+        values[4], values[5], values[6], values[7],
+        values[8], values[9], values[10], values[11]);
+    new (identity) Matrix4(make_identity);
+    new (transpose) Matrix4(source.Transpose());
+    DX8Wrapper::Set_Transform(D3DTS_WORLD, source);
 }

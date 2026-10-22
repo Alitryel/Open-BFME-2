@@ -1,5 +1,4 @@
 // cl: /Ireference/shims/bfmestages /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
-// Keep MSVC math.h float overloads local; matched operations already inline.
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it; retail links the
 // /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
@@ -8,15 +7,12 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
-#pragma push_macro("inline")
-#define inline static inline
 // RefCountClass's inline members and deleting destructor are retail's
 // size-optimised bodies: compile them for size, as hlod.cpp does.
 #pragma optimize("s", on)
 #include "refcount.h"
 #pragma optimize("", on)
 #include <math.h>
-#pragma pop_macro("inline")
 // Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
 // /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
 #include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
@@ -252,7 +248,7 @@ void StreakRendererClass::Render
 
 
 
-void StreakRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
+__declspec(noinline) inline void StreakRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
 	const float *base_tex_v, unsigned int *p_sub_point_cnt, Vector3 *xformed_subdiv_pts,
 	float *subdiv_tex_v)
 {
@@ -348,7 +344,7 @@ void StreakRendererClass::subdivision_util(unsigned int point_cnt, const Vector3
 
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/StreakRendererClass_getVertexBuffer_Thunk.cpp
 // ?getVertexBuffer@StreakRendererClass@@AAEPAUVertexFormatXYZUV1@@I@Z
-VertexFormatXYZUV1 *StreakRendererClass::getVertexBuffer(unsigned int number)
+__declspec(noinline) inline VertexFormatXYZUV1 *StreakRendererClass::getVertexBuffer(unsigned int number)
 {
 	// TODO: use a stl vector instead of our own array.
 	if (number > m_vertexBufferSize)
@@ -389,3 +385,22 @@ void bfmeStreakMathAnchor(Matrix3D &out, const Matrix3D &a, const Matrix3D &b,
     sorting = streak.Is_Sorting_Disabled();
     mode = streak.Get_Texture_Mapping_Mode();
 }
+
+// Keep the rowed private helper definitions emitted from their owner.
+// ?bfmeStreakVertexBufferAnchor absent-from-retail
+template <VertexFormatXYZUV1 *(StreakRendererClass::*Member)(unsigned)>
+VertexFormatXYZUV1 *bfmeStreakVertexBufferAnchor(StreakRendererClass &streak, unsigned count)
+{
+    return (streak.*Member)(count);
+}
+template VertexFormatXYZUV1 *bfmeStreakVertexBufferAnchor<&StreakRendererClass::getVertexBuffer>(StreakRendererClass &, unsigned);
+
+// ?bfmeStreakSubdivisionAnchor absent-from-retail
+template <void (StreakRendererClass::*Member)(unsigned, const Vector3 *, const float *, unsigned *, Vector3 *, float *)>
+void bfmeStreakSubdivisionAnchor(StreakRendererClass &streak, unsigned count,
+    const Vector3 *points, const float *tex, unsigned *sub_count, Vector3 *sub_points, float *sub_tex)
+{
+    (streak.*Member)(count, points, tex, sub_count, sub_points, sub_tex);
+}
+template void bfmeStreakSubdivisionAnchor<&StreakRendererClass::subdivision_util>(StreakRendererClass &, unsigned,
+    const Vector3 *, const float *, unsigned *, Vector3 *, float *);
