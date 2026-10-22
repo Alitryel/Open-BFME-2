@@ -50,12 +50,6 @@ private:
 	bool m_isActive; // +0x40
 };
 
-class Rva0020479E
-{
-public:
-	Rva0020479E();	// 0x0020479E (SequentialScript ctor, rowed under this name)
-	unsigned char opaque[0x2C];
-};
 class Team;
 class Rva0020D451Engine
 {
@@ -63,11 +57,19 @@ public:
 	void rva0020D451(const AsciiString &scope, void *action, void *script, void *scriptName, Team *team);	// rowed 0x0020D451
 };
 
+class Xfer;
 class SequentialScript
 {
 public:
 	SequentialScript();
 	virtual ~SequentialScript();
+protected:
+	virtual void loadPostProcess();
+public:
+	virtual const char *GetSnapshotName();
+protected:
+	virtual void xfer(Xfer *xfer);
+public:
 
 	Team *m_teamToExecOn; // +0x04
 	int m_objectID; // +0x08
@@ -85,7 +87,7 @@ class ScriptEngine
 {
 public:
 	bool rva0020A1D0(const AsciiString &scope, Script *script, Team *team, Player *player);
-	void appendSequentialScript(const Rva0020479E *scriptToSequence);
+	void appendSequentialScript(const SequentialScript *scriptToSequence);
 	void AppendDebugMessage(const AsciiString &strToAdd, bool forcePause);
 };
 
@@ -147,13 +149,13 @@ void Team::updateGenericScripts()
 					{
 						if (script->isOneShot())
 						{
-							SequentialScript *seq = (SequentialScript *)new Rva0020479E;
+							SequentialScript *seq = new SequentialScript;
 							seq->m_teamToExecOn = this;
 							seq->m_bfmeScriptScope = scope;
 							seq->m_bfmeScriptName = m_proto->getGenericScriptName(i);
 							seq->m_scriptToExecuteSequentially = script;
 							seq->m_timesToLoop = script->getLoopCount();
-							TheScriptEngine->appendSequentialScript((const Rva0020479E *)seq);
+							TheScriptEngine->appendSequentialScript(seq);
 						}
 					}
 					else

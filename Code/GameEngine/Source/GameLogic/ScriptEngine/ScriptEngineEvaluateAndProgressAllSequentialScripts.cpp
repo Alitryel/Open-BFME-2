@@ -37,11 +37,12 @@ class Player;
 class Object;
 class Parameter;
 class ScriptAction;
+class Xfer;
 class SequentialScript;
 
-// LINK: appendSequentialScript takes the rowed Rva0020479E record view (0x00207557); 0x00203693 / 0x003B2832 are rowed as
+// LINK: appendSequentialScript takes the rowed SequentialScript record view (0x00207557); 0x00203693 / 0x003B2832 are rowed as
 // Rva00203693Host::rva00203693 and Rva003B2832::rva003B2832 (same this-call int-returning ABI), called through views of the same objects.
-class Rva0020479E;
+class SequentialScript;
 class Rva00203693Host
 {
 public:
@@ -59,7 +60,7 @@ class ScriptEngine
 {
 public:
 	void AppendDebugMessage(const AsciiString &strToAdd, Bool forcePause);
-	void appendSequentialScript(const Rva0020479E *scriptToSequence);
+	void appendSequentialScript(const SequentialScript *scriptToSequence);
 	void evaluateAndProgressAllSequentialScripts();
 
 protected:
@@ -148,6 +149,13 @@ class SequentialScript
 {
 public:
 	virtual ~SequentialScript();
+protected:
+	virtual void loadPostProcess();
+public:
+	virtual const char *GetSnapshotName();
+protected:
+	virtual void xfer(Xfer *xfer);
+public:
 
 	Team *m_teamToExecOn;	// +0x04
 	ObjectID m_objectID;	// +0x08
@@ -470,7 +478,7 @@ void ScriptEngine::evaluateAndProgressAllSequentialScripts()
 						seqScript->m_framesToWait = -1;
 						Int ndx = it - m_sequentialScripts.begin();
 						--m_bfme1C;
-						appendSequentialScript((const Rva0020479E *)seqScript);
+						appendSequentialScript((const SequentialScript *)seqScript);
 						lastIt = m_sequentialScripts.end();
 						++m_bfme1C;
 						it = m_sequentialScripts.begin() + ndx;

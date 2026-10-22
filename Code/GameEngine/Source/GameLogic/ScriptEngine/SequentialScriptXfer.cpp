@@ -183,11 +183,14 @@ extern ScriptEngine *TheScriptEngine;
 
 class SequentialScript
 {
+public:
+	virtual ~SequentialScript();
 protected:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
+	virtual void loadPostProcess();
+public:
+	virtual const char *GetSnapshotName();
+protected:
+	virtual void xfer(Xfer *xfer);
 private:
 	Team *m_teamToExecOn;																											///< 0x04
 	ObjectID m_objectID;																											///< 0x08
@@ -250,3 +253,8 @@ void SequentialScript::xfer( Xfer *xfer )
 	*xfer == m_dontAdvanceInstruction;
 
 }  // end xfer
+
+// ?SequentialScript::loadPostProcess present-unmatched
+void SequentialScript::loadPostProcess()
+{
+}

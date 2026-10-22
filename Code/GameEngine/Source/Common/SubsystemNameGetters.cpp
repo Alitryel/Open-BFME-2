@@ -59,7 +59,8 @@ BFME_LITERAL_NAME_GETTER(Rva00414307Named, "ScoredKillEvaAnnouncer")
 BFME_LITERAL_NAME_GETTER(Rva004E0777Named, "LivingWorldBuilding")
 BFME_LITERAL_NAME_GETTER(Rva001F37BENamed, "FXParticleInfo")
 BFME_LITERAL_NAME_GETTER(Rva001FC179Named, "FXParticle")
-BFME_LITERAL_NAME_GETTER(Rva002047C9Named, "SequentialScript")
+class SequentialScript { public: virtual const char *GetSnapshotName(); };
+const char *SequentialScript::GetSnapshotName() { return "SequentialScript"; }
 // LargeGroupAudio getter is owned by the complete subsystem unit.
 class GeometryInfo
 {

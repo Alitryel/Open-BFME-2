@@ -67,12 +67,6 @@ public:
 	bool m_isActive;					// +0x40
 };
 
-class Rva0020479E
-{
-public:
-	Rva0020479E() throw();	// 0x0020479E (SequentialScript ctor, rowed under this name)
-	unsigned char opaque[0x2C];
-};
 class Rva00358752Opaque
 {
 public:
@@ -84,11 +78,19 @@ public:
 	AsciiString resolveName(const AsciiString &name);	// 0x002046C0 (rowed)
 };
 
+class Xfer;
 class SequentialScript
 {
 public:
 	SequentialScript() throw();
 	virtual ~SequentialScript();
+protected:
+	virtual void loadPostProcess();
+public:
+	virtual const char *GetSnapshotName();
+protected:
+	virtual void xfer(Xfer *xfer);
+public:
 
 	Team *m_teamToExecOn;	// +0x04
 	ObjectID m_objectID;	// +0x08
@@ -127,7 +129,7 @@ public:
 	bool evaluateConditions(Script *pScript, Team *thisTeam, Player *player);
 	Player *getCurrentPlayer();
 	Team *getTeamNamed(AsciiString name, bool exact);
-	void appendSequentialScript(const Rva0020479E *scriptToSequence);
+	void appendSequentialScript(const SequentialScript *scriptToSequence);
 	void executeSequentialScript(Script *pScript, const AsciiString &scriptName);
 };
 
@@ -135,7 +137,7 @@ void ScriptEngine::executeSequentialScript(Script *pScript, const AsciiString &s
 {
 	if (evaluateConditions(pScript, 0, 0)) {
 		if (getCurrentPlayer()) {
-			SequentialScript *seqScript = (SequentialScript *)new Rva0020479E;
+			SequentialScript *seqScript = new SequentialScript;
 			Rva003B3536 target(pScript->m_sequentialTarget);
 			if (!target.m_d) {
 				Team *team = getTeamNamed(target.m_e, false);
@@ -161,7 +163,7 @@ void ScriptEngine::executeSequentialScript(Script *pScript, const AsciiString &s
 			seqScript->m_bfmeScriptScope = ((Rva002046C0Owner *)this)->resolveName(seqScript->m_bfmeScriptName);
 			seqScript->m_scriptToExecuteSequentially = pScript;
 			seqScript->m_timesToLoop = target.m_c;
-			appendSequentialScript((const Rva0020479E *)seqScript);
+			appendSequentialScript(seqScript);
 			::delete seqScript;
 		}
 		if (pScript->m_isOneShot)

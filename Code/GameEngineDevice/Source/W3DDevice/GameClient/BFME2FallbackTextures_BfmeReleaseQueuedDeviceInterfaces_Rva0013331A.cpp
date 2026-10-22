@@ -11,7 +11,7 @@
 // The fallback texture handle store pushes through its own vector spelling;
 // retail resolves the call to the 0x004DFCB0 push_back row (same thiscall and
 // one pointer argument), so bind it.
-#pragma comment(linker, "/alternatename:?vecPushBack@Rva0020FB8BVec20@@QAEXAAPAX@Z=?push_back@?$vector@PAVRva0020479E@@V?$allocator@PAVRva0020479E@@@_STL@@@_STL@@QAEXABQAVRva0020479E@@@Z")
+#pragma comment(linker, "/alternatename:?vecPushBack@Rva0020FB8BVec20@@QAEXAAPAX@Z=?push_back@?$vector@PAVSequentialScript@@V?$allocator@PAVSequentialScript@@@_STL@@@_STL@@QAEXABQAVSequentialScript@@@Z")
 
 // Native fallback getters 0x00132E76..0x00132F30 and 0x00132F30..0x00132FE9.
 // Target evidence: the matched particle and terrain callbacks use these handles

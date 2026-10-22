@@ -191,21 +191,29 @@ class ModuleData;
 
 class Rva00336C90 { public: Rva00336C90& operator=(const Rva00336C90&); };
 class Rva003B24C7 { public: void rva003B24C7(bool); };
-struct Rva0020479EQuad { int m_count0, m_index0, m_count1, m_index1; };
-class Rva0020479E {
+struct SequentialScriptQuad { int m_count0, m_index0, m_count1, m_index1; };
+class Xfer;
+class SequentialScript {
 public:
  // The owned constructor only stores fields and its vptr; it cannot throw.
- Rva0020479E() throw(); virtual ~Rva0020479E();
+ SequentialScript() throw(); virtual ~SequentialScript();
+protected:
+ virtual void loadPostProcess();
+public:
+ virtual const char *GetSnapshotName();
+protected:
+ virtual void xfer(Xfer *xfer);
+public:
  int m_04, m_08, m_0c, m_10;
- Rva0020479EQuad m_14;
+ SequentialScriptQuad m_14;
  unsigned char m_24;
- Rva0020479E *m_28;
+ SequentialScript *m_28;
 };
 
 class ScriptEngine
 {
 public:
- void appendSequentialScript(const Rva0020479E *script);
+ void appendSequentialScript(const SequentialScript *script);
 	AsciiString getStats( Real *curTimePtr, Real *script1Time, Real *script2Time );
 	bool evaluateConditions(Script *pScript, Team *thisTeam, Player *player);
 	bool evaluateTimer(Condition *condition);
@@ -429,14 +437,14 @@ void ScriptEngine::updateFades(void)
 // WB B3EBB0 names appendSequentialScript; ZH ScriptEngine.cpp:7738 supplies
 // the copy/search/link algorithm. Target adds enable(true) at copied script+10.
 // Native fields: team04, object08, script14, instruction18, next28; vector10.
-void ScriptEngine::appendSequentialScript(const Rva0020479E *script) {
- Rva0020479E *created=new Rva0020479E;
+void ScriptEngine::appendSequentialScript(const SequentialScript *script) {
+ SequentialScript *created=new SequentialScript;
  *reinterpret_cast<Rva00336C90*>(created)=*reinterpret_cast<const Rva00336C90*>(script);
  reinterpret_cast<Rva003B24C7*>(created->m_14.m_count0+0x10)->rva003B24C7(true);
  created->m_28=0;
  created->m_14.m_index0=-1;
  for(_STL::vector<const ModuleData*>::iterator it=m_sequentialScripts.begin();it!=m_sequentialScripts.end();++it) {
-  Rva0020479E *current=reinterpret_cast<Rva0020479E*>(const_cast<ModuleData*>(*it));
+  SequentialScript *current=reinterpret_cast<SequentialScript*>(const_cast<ModuleData*>(*it));
   if(!current) continue;
   if((script->m_08 && script->m_08==current->m_08) || (script->m_04 && script->m_04==current->m_04)) {
    while(current->m_28) current=current->m_28;

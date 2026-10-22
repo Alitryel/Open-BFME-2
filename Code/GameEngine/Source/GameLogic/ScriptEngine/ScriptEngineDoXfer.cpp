@@ -229,29 +229,32 @@ struct Rva0020A227Element
 
 // Retail 0x0020479E (Rva0020479ECtor.cpp): stores only, so loading needs no
 // unwind state around the allocation.
-struct Rva0020479EQuad
+struct SequentialScriptQuad
 {
 	int m_count0;
 	int m_index0;
 	int m_count1;
 	int m_index1;
-	Rva0020479EQuad() : m_count0(0), m_index0(-1), m_count1(0), m_index1(-1) {}
+	SequentialScriptQuad() : m_count0(0), m_index0(-1), m_count1(0), m_index1(-1) {}
 };
 
-class Rva0020479E : public Snapshot
+// Snapshot occupies offset zero; this view spells its four retail slots.
+class SequentialScript
 {
 public:
-	Rva0020479E() : m_04(0), m_08(0), m_0c(0), m_10(0), m_24(0), m_28(0) {}
-	virtual ~Rva0020479E(); // Rva00205224Dtor.cpp (0x00205224)
+	SequentialScript() : m_04(0), m_08(0), m_0c(0), m_10(0), m_24(0), m_28(0) {}
+	virtual ~SequentialScript(); // Rva00205224Dtor.cpp (0x00205224)
 protected:
-	virtual void LoadPostProcess();
-	virtual void crc(Xfer *xfer);
-	virtual void DoXfer(Xfer *xfer);
+	virtual void loadPostProcess();
+public:
+	virtual const char *GetSnapshotName();
+protected:
+	virtual void xfer(Xfer *xfer);
 	int m_04;
 	int m_08;
 	int m_0c;
 	int m_10;
-	Rva0020479EQuad m_14;
+	SequentialScriptQuad m_14;
 	unsigned char m_24;
 	int m_28;
 };
@@ -317,7 +320,7 @@ protected:
 class ScriptEngine : public SubsystemInterface, public Snapshot
 {
 public:
-	typedef _STL::vector<Rva0020479E *> VecSequentialScriptPtr;
+	typedef _STL::vector<SequentialScript *> VecSequentialScriptPtr;
 	typedef _STL::vector<Rva0020A227Element> VecNamedRequests;
 	typedef _STL::vector<BfmeStringRecord00204A30> VecNamedReveal;
 	typedef _STL::vector<ObjectTypes *> AllObjectTypes;
@@ -482,14 +485,14 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	// sequential scripts
 	UnsignedShort sequentialScriptCount = m_sequentialScripts.size();
 	xfer->xferUnsignedShort(&sequentialScriptCount);
-	Rva0020479E *sequentialScript;
+	SequentialScript *sequentialScript;
 	if (xfer->IsStoring())
 	{
 		VecSequentialScriptPtr::iterator it;
 		for (it = m_sequentialScripts.begin(); it != m_sequentialScripts.end(); ++it)
 		{
 			sequentialScript = *it;
-			xfer->xferSnapshot(sequentialScript);
+			xfer->xferSnapshot((Snapshot *)sequentialScript);
 		}
 	}
 	else
@@ -498,9 +501,9 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 			throw XferException(5, 0);
 		for (UnsignedShort i = 0; i < sequentialScriptCount; ++i)
 		{
-			sequentialScript = new Rva0020479E;
+			sequentialScript = new SequentialScript;
 			m_sequentialScripts.push_back(sequentialScript);
-			xfer->xferSnapshot(sequentialScript);
+			xfer->xferSnapshot((Snapshot *)sequentialScript);
 		}
 	}
 
