@@ -384,22 +384,7 @@ public:
 		}
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Color",						INI::parseRGBColor,								NULL, offsetof( LightPulseFXNugget, m_color ) },
-			{ "Radius",						INI::parseReal,										NULL, offsetof( LightPulseFXNugget, m_radius ) },
-			{ "RadiusAsPercentOfObjectSize",		INI::parsePercentToReal,	NULL, offsetof( LightPulseFXNugget, m_boundingCirclePct ) },
-			{ "IncreaseTime",			INI::parseDurationUnsignedInt,	NULL, offsetof( LightPulseFXNugget, m_increaseFrames ) },
-			{ "DecreaseTime",			INI::parseDurationUnsignedInt,	NULL, offsetof( LightPulseFXNugget, m_decreaseFrames ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		LightPulseFXNugget* nugget = newInstance( LightPulseFXNugget );	
-		ini->initFromINI(nugget, myFieldParse);
-		((FXList*)instance)->addFXNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/);
 
 private:
 	RGBColor			m_color;
@@ -431,18 +416,7 @@ public:
 		}
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Type",				parseShakeType,								NULL, offsetof( ViewShakeFXNugget, m_shake ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		ViewShakeFXNugget* nugget = newInstance( ViewShakeFXNugget );	
-		ini->initFromINI(nugget, myFieldParse);
-		((FXList*)instance)->addFXNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/);
 
 protected:
 	static void parseShakeType( INI* ini, void *instance, void *store, const void* /*userData*/ )
@@ -491,19 +465,7 @@ public:
 		}
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Type",				parseScorchType,			NULL, offsetof( TerrainScorchFXNugget, m_scorch ) },
-			{ "Radius",			INI::parseReal,				NULL, offsetof( TerrainScorchFXNugget, m_radius ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		TerrainScorchFXNugget* nugget = newInstance( TerrainScorchFXNugget );	
-		ini->initFromINI(nugget, myFieldParse);
-		((FXList*)instance)->addFXNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/);
 
 protected:
 
