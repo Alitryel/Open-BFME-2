@@ -401,9 +401,24 @@ Rva004D65DC *Rva00592520Read(Int data, UnsignedInt *readOffset);
 Rva004D6208 *Rva005922FBRead(Int data, UnsignedInt *readOffset);
 Rva004D62A9 *Rva005923C5Read(Int data, UnsignedInt *readOffset);
 
+// The rowed constructor at 0x0058B06A initializes a 0x10-byte list.
+class NetCommandList
+{
+public:
+	NetCommandList();
+	void reset();
+	NetCommandRef *addMessage(NetCommandMsg *msg);
+private:
+	const void *m_vtable;
+	NetCommandRef *m_first;
+	NetCommandRef *m_last;
+	NetCommandRef *m_lastMessageInserted;
+};
+
 class NetPacket
 {
 public:
+	NetCommandList *getCommandList();
 	static _STL::list<NetPacket *> ConstructBigCommandPacketList(NetCommandRef *ref);
 	virtual ~NetPacket();
 	NetPacket();
@@ -571,6 +586,12 @@ private:
 class NetAckBothCommandMsg
 {
 public:
+	UnsignedInt getX20() { return m_20; }
+	UnsignedInt getX24() { return m_24; }
+	void set20(UnsignedInt v) { m_20 = v; }
+	void set24(UnsignedInt v) { m_24 = v; }
+	void setCommandID(UnsignedShort);
+	void setOriginalPlayerID(UnsignedByte);
 	NetAckBothCommandMsg();
 	UnsignedShort getCommandID();
 	UnsignedByte getOriginalPlayerID();
@@ -589,6 +610,12 @@ public:
 class NetAckStage1CommandMsg
 {
 public:
+	UnsignedInt getX20() { return m_20; }
+	UnsignedInt getX24() { return m_24; }
+	void set20(UnsignedInt v) { m_20 = v; }
+	void set24(UnsignedInt v) { m_24 = v; }
+	void setCommandID(UnsignedShort);
+	void setOriginalPlayerID(UnsignedByte);
 	NetAckStage1CommandMsg();
 	UnsignedShort getCommandID();
 	UnsignedByte getOriginalPlayerID();
@@ -605,6 +632,12 @@ public:
 class NetAckStage2CommandMsg
 {
 public:
+	UnsignedInt getX20() { return m_20; }
+	UnsignedInt getX24() { return m_24; }
+	void set20(UnsignedInt v) { m_20 = v; }
+	void set24(UnsignedInt v) { m_24 = v; }
+	void setCommandID(UnsignedShort);
+	void setOriginalPlayerID(UnsignedByte);
 	NetAckStage2CommandMsg();
 	UnsignedShort getCommandID();
 	UnsignedByte getOriginalPlayerID();
@@ -5185,4 +5218,262 @@ NetPacketList NetPacket::ConstructBigCommandPacketList(NetCommandRef *ref)
 	bigPacketData = 0;
 
 	return packetList;
+}
+
+// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
+// 0x00593F15..0x005944D8: 1351 code bytes and a 124-byte switch table.
+// BFME1 getCommandList and ZH NetPacket.cpp provide parser semantics; target
+// callers/readers and WB 0x0154E140 establish the ABI, tags and early returns.
+// See reverse/attempt_support/netpacket-tail-20261022f/readme.md for provenance
+// and the conditional shared-tail form that preserves retail allocation.
+NetCommandList *NetPacket::getCommandList()
+{
+	NetCommandList *retval = new NetCommandList();
+	retval->reset();
+
+	UnsignedByte commandType = 0;
+	UnsignedInt frame = 0;
+	UnsignedInt timestamp = 0;
+	UnsignedByte playerID = 0;
+	UnsignedByte relay = 0;
+	UnsignedInt commandID = 0;
+	NetCommandRef *lastCommand = 0;
+	Bool commandIDSet = false;
+	Int offset;
+
+	Int i = 0;
+	while (i < m_packetLen) {
+		if (m_packet[i] == 'T') {
+			++i;
+			memcpy(&commandType, m_packet + i, sizeof(UnsignedByte));
+			i += sizeof(UnsignedByte);
+		} else if (m_packet[i] == 'S') {
+			++i;
+			memcpy(&timestamp, m_packet + i, sizeof(UnsignedInt));
+			i += sizeof(UnsignedInt);
+		} else if (m_packet[i] == 'F') {
+			++i;
+			memcpy(&frame, m_packet + i, sizeof(UnsignedInt));
+			i += sizeof(UnsignedInt);
+		} else if (m_packet[i] == 'P') {
+			++i;
+			memcpy(&playerID, m_packet + i, sizeof(UnsignedByte));
+			i += sizeof(UnsignedByte);
+		} else if (m_packet[i] == 'R') {
+			++i;
+			memcpy(&relay, m_packet + i, sizeof(UnsignedByte));
+			i += sizeof(UnsignedByte);
+		} else if (m_packet[i] == 'C') {
+			++i;
+			memcpy(&commandID, m_packet + i, sizeof(UnsignedShort));
+			i += sizeof(UnsignedShort);
+			commandIDSet = true;
+		} else if (m_packet[i] == 'D') {
+			++i;
+			offset = i;
+
+			NetCommandMsg *msg;
+			msg = 0;
+			switch (commandType) {
+			case 4:
+				msg = readGameMessage(m_packet, offset);
+				break;
+			case 0:
+				msg = readAckBothMessage(m_packet, offset);
+				break;
+			case 1:
+				msg = readAckStage1Message(m_packet, offset);
+				break;
+			case 2:
+				msg = readAckStage2Message(m_packet, offset);
+				break;
+			case 3:
+				msg = readFrameMessage(m_packet, offset);
+				break;
+			case 23:
+				msg = readRouterFallbackMessage(m_packet, offset);
+				break;
+			case 10:
+				msg = readPlayerLeaveMessage(m_packet, offset);
+				break;
+			case 11:
+				msg = readDestroyPlayerMessage(m_packet, offset);
+				break;
+			case 12:
+				msg = readKeepAliveMessage(m_packet, offset);
+				break;
+			case 25:
+				msg = readDisconnectKeepAliveMessage(m_packet, offset);
+				break;
+			case 26:
+				msg = readDisconnectPlayerMessage(m_packet, offset);
+				break;
+			case 13:
+				msg = readDisconnectChatMessage(m_packet, offset);
+				break;
+			case 27:
+				msg = readDisconnectVoteMessage(m_packet, offset);
+				break;
+			case 14:
+				msg = readChatMessage(m_packet, offset);
+				break;
+			case 15:
+				msg = readProgressMessage(m_packet, offset);
+				break;
+			case 16:
+				msg = rva0058E0B0(m_packet, offset);
+				break;
+			case 17:
+				msg = rva0058E0B0Type17(m_packet, offset);
+				break;
+			case 18:
+				msg = readWrapperMessage(m_packet, offset);
+				break;
+			case 20:
+				msg = rva0058E20D(m_packet, offset);
+				break;
+			case 19:
+				msg = (NetCommandMsg *)Rva005922FBRead((Int)m_packet, (UnsignedInt *)&offset);
+				break;
+			case 21:
+				msg = (NetCommandMsg *)Rva005923C5Read((Int)m_packet, (UnsignedInt *)&offset);
+				break;
+			case 22:
+				msg = rva0058E2D7(m_packet, offset);
+				break;
+			case 8:
+				msg = readInformPlayerLeaveFrameMessage(m_packet, offset);
+				break;
+			case 7:
+				msg = readRequestPlayerLeaveMessage(m_packet, offset);
+				break;
+			case 9:
+				msg = readRequestFrameDataMessage(m_packet, offset);
+				break;
+			case 28:
+				msg = readDisconnectFrameMessage(m_packet, offset);
+				break;
+			case 5:
+				msg = (NetCommandMsg *)Rva00592496Read((Int)m_packet, (UnsignedInt *)&offset);
+				break;
+			case 6:
+				msg = (NetCommandMsg *)Rva00592520Read((Int)m_packet, (UnsignedInt *)&offset);
+				break;
+			case 30:
+				msg = rva00592208(m_packet, offset);
+				break;
+			}
+
+			if (msg == 0) {
+				delete lastCommand;
+				lastCommand = 0;
+				return retval;
+			}
+
+			msg->setTiming(timestamp, frame);
+			msg->setPlayerID(playerID);
+			msg->setNetCommandType(commandType);
+			if (DoesCommandRequireACommandID((NetCommandType)commandType)) {
+				if (!commandIDSet) {
+					++commandID;
+				}
+				msg->setID((UnsignedShort)commandID);
+			}
+			commandIDSet = false;
+
+			NetCommandRef *ref;
+			ref = retval->addMessage(msg);
+			if (ref != 0) {
+				ncrSetRelay(ref, relay);
+			}
+
+			if (lastCommand != 0) {
+				delete lastCommand;
+				lastCommand = 0;
+			}
+			lastCommand = new NetCommandRef(msg);
+
+			msg->detach();
+			msg = 0;
+			// Keep both completion edges: VC7.1 merges them after allocation,
+			// placing Z's this reload before the shared cursor reload.
+			if (commandType == 1) {
+			finishCommand:
+				i = offset;
+			} else {
+				i = offset;
+			}
+		} else if (m_packet[i] == 'Z') {
+			++i;
+			offset = i;
+			if (lastCommand == 0) {
+				return retval;
+			}
+			NetCommandMsg *msg = 0;
+			if (commandType == 1) {
+				msg = (NetCommandMsg *)new NetAckStage1CommandMsg();
+				NetAckStage1CommandMsg *last = (NetAckStage1CommandMsg *)ncrCommand(lastCommand);
+				((NetAckStage1CommandMsg *)msg)->setCommandID(last->getCommandID() + 1);
+				((NetAckStage1CommandMsg *)msg)->setOriginalPlayerID(last->getOriginalPlayerID());
+				((NetAckStage1CommandMsg *)msg)->set20(last->getX20());
+				((NetAckStage1CommandMsg *)msg)->set24(last->getX24());
+			} else if (commandType == 2) {
+				msg = (NetCommandMsg *)new NetAckStage2CommandMsg();
+				NetAckStage2CommandMsg *last = (NetAckStage2CommandMsg *)ncrCommand(lastCommand);
+				((NetAckStage2CommandMsg *)msg)->setCommandID(last->getCommandID() + 1);
+				((NetAckStage2CommandMsg *)msg)->setOriginalPlayerID(last->getOriginalPlayerID());
+				((NetAckStage2CommandMsg *)msg)->set20(last->getX20());
+				((NetAckStage2CommandMsg *)msg)->set24(last->getX24());
+			} else if (commandType == 0) {
+				msg = (NetCommandMsg *)new NetAckBothCommandMsg();
+				NetAckBothCommandMsg *last = (NetAckBothCommandMsg *)ncrCommand(lastCommand);
+				((NetAckBothCommandMsg *)msg)->setCommandID(last->getCommandID() + 1);
+				((NetAckBothCommandMsg *)msg)->setOriginalPlayerID(last->getOriginalPlayerID());
+				((NetAckBothCommandMsg *)msg)->set20(last->getX20());
+				((NetAckBothCommandMsg *)msg)->set24(last->getX24());
+			} else {
+				if (lastCommand != 0) {
+					delete lastCommand;
+					lastCommand = 0;
+				}
+				return retval;
+			}
+
+			msg->setTiming(timestamp, frame);
+			msg->setPlayerID(playerID);
+			msg->setNetCommandType(commandType);
+			if (DoesCommandRequireACommandID((NetCommandType)commandType)) {
+				if (!commandIDSet) {
+					++commandID;
+				}
+				msg->setID((UnsignedShort)commandID);
+			}
+			commandIDSet = false;
+
+			NetCommandRef *ref = retval->addMessage(msg);
+			if (ref != 0) {
+				ncrSetRelay(ref, relay);
+			}
+
+			delete lastCommand;
+			lastCommand = 0;
+			lastCommand = new NetCommandRef(msg);
+
+			msg->detach();
+			msg = 0;
+			if (commandType == 1) {
+				goto finishCommand;
+			}
+			i = offset;
+		} else {
+			rva0058E57B();
+			++i;
+		}
+	}
+
+	if (lastCommand != 0) {
+		delete lastCommand;
+		lastCommand = 0;
+	}
+	return retval;
 }

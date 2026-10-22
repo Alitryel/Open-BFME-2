@@ -451,6 +451,16 @@ the paren lever).
   which coalesced copies refill. Building a matrix row-wise
   (`Row[i] = m[i]`, as WWMath's `Matrix4x4(const Matrix3D &)` does) left
   retail's free list (0x0007F0FB).
+- **A shared successor can separate a compensation reload from a cursor copy.**
+  NetPacket::getCommandList (0x00593F15) was seven bytes short of exact: Z
+  reloaded ESI before EBX, preventing a backward jump into D's ESI tail.
+  A conditional edge from Z into D's conditional cursor assignment, with an
+  identical assignment in D's other arm, preserved that shared successor
+  through allocation. Both predicates disappear; EBX now reloads before the
+  jump and all 1475 bytes match. A jump to the loop header instead fixed the
+  tail but changed loop rotation. See
+  `reverse/attempt_support/netpacket-tail-20261022f/readme.md` for the exact
+  source and safe declaration scopes.
 - **Address-taken status.** An out-of-line call taking `&local` makes the local
   address-taken for the whole function, so its fields are stored in every arm.
   An inline definition of the callee (for example `Coord3D::length` with
