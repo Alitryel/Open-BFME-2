@@ -275,13 +275,13 @@ public:
     void rva004EDA60();
     void rva004EDDAA();
 	virtual void slot00();
-	virtual void slot01();
-	virtual void slot02();
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
 	virtual bool initializeTeamTemplate(void *p, int dummy);
 	virtual unsigned int getNumberOfTeamsNeeded();
 	virtual void xfer(Xfer *xfer);
-	virtual void slot06();
-	virtual void slot07();
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
 	virtual void slot08();
 
 	Player *playerForAssist() const { return (Player *)m_24; }

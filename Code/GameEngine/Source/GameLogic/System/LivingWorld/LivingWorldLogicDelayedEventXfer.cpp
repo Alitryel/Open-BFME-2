@@ -74,6 +74,8 @@ public:
 class __declspec(novtable) Rva002B30CA : public Rva002BB49CEvent
 {
 public:
+	// RvaSmallVtableCtors.cpp owns the standalone constructor.
+	__declspec(dllimport) __forceinline Rva002B30CA() {}
 	virtual ~Rva002B30CA();
 	char m_pad04[0x1C];
 };

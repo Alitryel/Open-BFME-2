@@ -176,11 +176,22 @@ public:
 	void rva002860CF(Rva002860CFIterator it);
 };
 struct Rva00287B2AResult;
+struct Rva0028688AKey;
+struct Rva0028688ANode;
+struct Rva00286E33Result
+{
+    Rva0028688ANode *node;
+    bool inserted;
+};
+class Rva0028688A
+{
+public:
+    Rva00286E33Result rva00286E33(const Rva0028688AKey &key);
+};
 class Rva00286214
 {
 public:
 	Rva00286214Node *rva00286214(const Rva00285672 *key);
- Rva00287B2AResult rva00286E33(const Rva00285672 *key);
  __declspec(noinline) Rva00287B2AResult rva00287B2A(const Rva00285672 *key);
 	void erase(Rva002860CFIterator pos) { ((Rva002860CFHost *)this)->rva002860CF(pos); }
 	Rva00286214();	// the map's default ctor 0x00242F01
@@ -1041,9 +1052,10 @@ struct Rva00287B2AResult
 // Existing35B insert wrapper stays visible/out of line: this closes native
 // xfer frame54 and result slots. Original burning-cell key identity remains
 // unknown beyond the target-proven centre-key interface and layout.
-Rva00287B2AResult Rva00286214::rva00287B2A(const Rva00285672 *key) {
- Rva00287B2AResult p=rva00286E33(key);
- return Rva00287B2AResult(p.m_it,p.m_inserted);
+inline Rva00287B2AResult Rva00286214::rva00287B2A(const Rva00285672 *key) {
+ Rva00286E33Result p = reinterpret_cast<Rva0028688A *>(this)->rva00286E33(
+     *reinterpret_cast<const Rva0028688AKey *>(key));
+ return Rva00287B2AResult(reinterpret_cast<Rva00286214Node *>(p.node), p.inserted);
 }
 
 static __forceinline const Rva00285672 *fireKey(const Rva00285BEC &key) {return reinterpret_cast<const Rva00285672 *>(&key);}
