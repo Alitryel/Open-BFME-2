@@ -476,3 +476,8 @@ extern HWND ApplicationHWnd;
 // W3DMouse::setCursorDirection is defined in W3DMouseCursorDirection.cpp
 // with the target cursor layout and InGameUI virtual prefix.
 
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:?Execute@ThreadClass@@QAEXXZ=?Execute@ThreadClass@@UAEXXZ")

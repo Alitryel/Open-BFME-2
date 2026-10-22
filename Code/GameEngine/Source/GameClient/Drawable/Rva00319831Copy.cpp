@@ -73,3 +73,9 @@ void Rva003195C9Owner::rva00319831(void *arg)
 	m_40 = m_48;
 	((Rva003197EEList *)(((char *)this) + 8))->forEach(&Rva003197EEListener::notify10, this);
 }
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:?rva00318B83Free@@YGPBUTWheelInfo@@PAX@Z=?getWheelInfo@Drawable@@QBEPBUTWheelInfo@@XZ")
+#pragma comment(linker, "/alternatename:?rva00538ED1@Rva00538ED1@@QAEXXZ=?rva00538ED1@Rva00538E22@@QAEXH@Z")

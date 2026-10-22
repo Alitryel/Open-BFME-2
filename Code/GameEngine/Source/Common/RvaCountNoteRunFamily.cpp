@@ -414,3 +414,15 @@ int Rva003EF3F7Owner::fwd(int a, int b)
 	((Rva003EF34AOwner *)this)->fwd(a, b);
 	return a;
 }
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:??1Rva0052B7B3Dtor@@QAE@XZ=?j_0052b7b3@@YAXXZ")
+#pragma comment(linker, "/alternatename:?note@Rva00056BFESub@@QAEXH@Z=?resize@?$hashtable@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@U?$hash@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@U?$_Select1st@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@@2@U?$equal_to@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@@2@@_STL@@QAEXI@Z")
+#pragma comment(linker, "/alternatename:?note@Rva000E0322Sub@@QAEXH@Z=?rva000E0322@Rva000E0322@@QAEXI@Z")
+#pragma comment(linker, "/alternatename:?note@Rva00212858Sub@@QAEXH@Z=?rva00212858@Rva000427195@@QAEXI@Z")
+#pragma comment(linker, "/alternatename:?note@Rva0053F1ECSub@@QAEXH@Z=?resize@?$hashtable@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@W4NameKeyType@@U?$hash@W4NameKeyType@@@rts@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@U?$equal_to@W4NameKeyType@@@5@V?$allocator@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@@_STL@@QAEXI@Z")
+#pragma comment(linker, "/alternatename:?run@Rva00054BC3Sub@@QAEXHH@Z=?insert_unique_noresize@?$hashtable@PAURva00051107AudioRequest@@PAU1@URva00051B89Hash@@U?$_Identity@PAURva00051107AudioRequest@@@_STL@@URva00050E1CEqualTo@@V?$allocator@PAURva00051107AudioRequest@@@4@@_STL@@QAE?AU?$pair@U?$_Ht_iterator@PAURva00051107AudioRequest@@U?$_Nonconst_traits@PAURva00051107AudioRequest@@@_STL@@PAU1@URva00051B89Hash@@U?$_Identity@PAURva00051107AudioRequest@@@3@URva00050E1CEqualTo@@V?$allocator@PAURva00051107AudioRequest@@@3@@_STL@@_N@2@ABQAURva00051107AudioRequest@@@Z")
+#pragma comment(linker, "/alternatename:?run@Rva000556ABSub@@QAEXHH@Z=?insert_unique_noresize@?$hashtable@URva000556ABRecord@@U1@U?$hash@URva000556ABRecord@@@_STL@@U?$_Identity@URva000556ABRecord@@@3@U?$equal_to@URva000556ABRecord@@@3@V?$allocator@URva000556ABRecord@@@3@@_STL@@QAE?AU?$pair@U?$_Ht_iterator@URva000556ABRecord@@U?$_Nonconst_traits@URva000556ABRecord@@@_STL@@U1@U?$hash@URva000556ABRecord@@@3@U?$_Identity@URva000556ABRecord@@@3@U?$equal_to@URva000556ABRecord@@@3@V?$allocator@URva000556ABRecord@@@3@@_STL@@_N@2@ABURva000556ABRecord@@@Z")
+#pragma comment(linker, "/alternatename:?run@Rva000E0298Sub@@QAEXHH@Z=?rva000E0298@Rva000E01B0@@QAE?AUNativeInsertResult@@ABURva000E007DPair@@@Z")

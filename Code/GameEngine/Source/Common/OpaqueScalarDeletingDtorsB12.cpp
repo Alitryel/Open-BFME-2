@@ -370,3 +370,8 @@ extern int g_Va00E048DC;
 AptMainMenu::~AptMainMenu() {
  if(g_Va00E048DC==reinterpret_cast<int>(this)) {reinterpret_cast<Rva005B7010 *>(&resource290)->rva005B7010();g_Va00E048DC=0;}
 }
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:??1Rva005204EF@@UAE@XZ=??1Rva005202C8@@UAE@XZ")

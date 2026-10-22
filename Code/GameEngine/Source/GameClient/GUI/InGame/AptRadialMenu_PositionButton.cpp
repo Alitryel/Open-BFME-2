@@ -99,3 +99,8 @@ struct Rva00577EB2 : _STL::_Vector_base<unsigned,_STL::allocator<unsigned> > {
 class Rva00577F0FVector { public: void reserve(unsigned); };
 class Rva005C6D4D { public: void secondarySetCount(int); };
 
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:?Move@ButtonShell@Impl@AptRadialMenu@@QAEXVCoord2D@@0@Z=?Move@ButtonShell@Impl@AptRadialMenu@@QAEXHHHH@Z")

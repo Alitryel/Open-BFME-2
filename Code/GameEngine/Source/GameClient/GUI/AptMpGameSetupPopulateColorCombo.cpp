@@ -129,3 +129,9 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
  if(changed)dirty=true;
  return true;
 }
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:??0MpGameSetupComboRef@@QAE@ABV0@@Z=??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBHH@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHH@_STL@@@_STL@@@2@@_STL@@QAE@ABV01@@Z")
+#pragma comment(linker, "/alternatename:??1MpGameSetupComboRef@@QAE@XZ=??1Region2D@@QAE@XZ")
