@@ -80,3 +80,15 @@ void rva000ABBB3(float x, float y, float z, int index)
 	GlobalLightingChunkVectors[index].components.y = y;
 	GlobalLightingChunkVectors[index].components.z = z;
 }
+
+// Native 0x000ADE62..0x000ADE67 is a separate tail entry to the rowed
+// unsigned-char fill_n at 0x000AD829. Its three cdecl arguments and return
+// pass through unchanged. The original wrapper name is not established.
+// Keep this call out of line, as the native entry does, without changing
+// the compilation of fill_n itself or the other bodies above.
+#pragma inline_depth(0)
+unsigned char *rva000ADE62(unsigned char *first, unsigned int count, const unsigned char &value)
+{
+	return _STL::fill_n<unsigned int>(first, count, value);
+}
+#pragma inline_depth()
