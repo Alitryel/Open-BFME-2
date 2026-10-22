@@ -90,7 +90,9 @@ inline UnsignedInt GameMakeColor(int r, int g, int b, int a) { return (a << 24) 
 
 class GameWindow;
 
-struct Rva0031E92DElement
+// Mapped type of m_0030: hash_map<int, T>() is rowed at 0x0031E92D and calls the
+// hashtable constructor rowed for Rva0031DBFCElement (0x0031DBFC).
+struct Rva0031DBFCElement
 {
 	char m_data[1];
 };
@@ -158,7 +160,7 @@ private:
 	bool m_0028;
 	char m_pad29[3];
 	void *m_002C;
-	_STL::hash_map<int, Rva0031E92DElement> m_0030;
+	_STL::hash_map<int, Rva0031DBFCElement> m_0030;
 	GameWindow *m_contextParent[10];
 	void *m_006C;
 	int m_0070;
