@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /EHsc
-// ??1Rva00317BBB@@UAE@XZ @0x00317BBB 93B: virtual dtor draining the intrusive list at +0xC node by node through virtual slot 0 with arg 0 plus global operator delete, then base 0x001B4E74. Evidence: vtable 0x0080C62C store plus deleting-dtor caller 0x00317C18 plus rowed operator delete 0x0002FD60; node slot-0 identity unproven so TU-local ListNode facade.
+// ??1TerrainTypeCollection@@UAE@XZ @0x00317BBB 93B: virtual dtor draining the intrusive list at +0xC node by node through virtual slot 0 with arg 0 plus global operator delete, then base 0x001B4E74. Evidence: vtable 0x0080C62C store plus deleting-dtor caller 0x00317C18 plus rowed operator delete 0x0002FD60; node slot-0 identity unproven so TU-local ListNode facade.
 class AsciiStringMember {
 public:
   ~AsciiStringMember();
@@ -12,9 +12,9 @@ struct ListNode {
   char m_pad04[0x1C];
   ListNode *m_next;
 };
-class Rva00317BBB : public SubsystemInterface {
+class TerrainTypeCollection : public SubsystemInterface {
 public:
-  virtual ~Rva00317BBB();
+  virtual ~TerrainTypeCollection();
   // Retail vtable 0x00C0C62C slots 1/9/10 (init/reset/update) are the folded
   // empty body 0x000B3FD0 (same view as Rva00317BA5Ctor.cpp).
   virtual void init() {}
@@ -24,7 +24,7 @@ private:
   ListNode *m_head;
 };
 void __cdecl operator delete(void *p);
-Rva00317BBB::~Rva00317BBB()
+TerrainTypeCollection::~TerrainTypeCollection()
 {
   if (m_head != 0) {
     ListNode *next;

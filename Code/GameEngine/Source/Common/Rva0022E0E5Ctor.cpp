@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfmelist /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ??0Rva0022E0E5@@QAE@XZ @0x0022E0E5 60B.
+// ??0SubsystemLegend@@QAE@XZ @0x0022E0E5 60B.
 // Ctor: base BFME2NativeNetwork via inline ctor calling rowed baseConstruct
 // 0x001B4E63, vtable 0x007D7678, list<BfmePod72> member at +0xC via rowed
 // _List_base ctor 0x00229924. Layout base 0xC plus list at +0xC; pattern from
@@ -30,15 +30,15 @@ private:
 	int m_value08;
 };
 
-class Rva0022E0E5 : public BFME2NativeNetwork
+class SubsystemLegend : public BFME2NativeNetwork
 {
 public:
-	Rva0022E0E5();
-	virtual ~Rva0022E0E5();
+	SubsystemLegend();
+	virtual ~SubsystemLegend();
 private:
 	_STL::list<BfmePod72, _STL::allocator<BfmePod72> > m_list0C;
 };
 
-Rva0022E0E5::Rva0022E0E5()
+SubsystemLegend::SubsystemLegend()
 {
 }

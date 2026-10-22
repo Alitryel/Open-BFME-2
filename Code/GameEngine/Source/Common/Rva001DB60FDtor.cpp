@@ -1,10 +1,9 @@
 // cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /MD /EHsc
 //
-// ??1Rva001DB60F@@UAE@XZ retail 0x001DB60F 91B. Dtor storing vtable 0x007DBA7C
+// ??1MetaMap@@UAE@XZ retail 0x001DB60F 91B. Dtor storing vtable 0x007DBA7C
 // then clearing a MetaMapRec list at +0xC via rowed dtor 0x001DB48E plus rowed
 // operator delete then tailing to rowed SubsystemInterface dtor 0x001B4E74.
 // Evidence: vtable store plus rowed callees plus deleting-dtor caller 0x001DB66A.
-// Honest address name.
 class MetaMapRec
 {
 public:
@@ -16,16 +15,16 @@ public:
 typedef bool Bool;
 #include "subsystem_interface.h"
 
-class Rva001DB60F : public SubsystemInterface
+class MetaMap : public SubsystemInterface
 {
 public:
-	Rva001DB60F();
-	virtual ~Rva001DB60F();
+	MetaMap();
+	virtual ~MetaMap();
 private:
 	MetaMapRec *m_head;
 };
 
-Rva001DB60F::~Rva001DB60F()
+MetaMap::~MetaMap()
 {
 	while (m_head != 0) {
 		MetaMapRec *next = m_head->m_next;
@@ -34,9 +33,9 @@ Rva001DB60F::~Rva001DB60F()
 	}
 }
 
-// ??0Rva001DB60F@@QAE@XZ retail 0x001DB3E8 22B, the matching constructor
+// ??0MetaMap@@QAE@XZ retail 0x001DB3E8 22B, the matching constructor
 // (same vtable 0x007DBA7C; caller 0x0022E2E4): the canonical subsystem base,
 // then an empty record list.
-Rva001DB60F::Rva001DB60F() : m_head(0)
+MetaMap::MetaMap() : m_head(0)
 {
 }

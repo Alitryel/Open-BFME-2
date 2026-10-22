@@ -1,6 +1,6 @@
 // cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // stlport
-// ??0Rva0022CA74@@QAE@XZ @0x0022CA74 33B
+// ??0RankInfoStore@@QAE@XZ @0x0022CA74 33B
 // Derived ctor: baseConstruct via inlined base then vtable 0xBE2704 then
 // BfmeE16 Vector_base at +0xC. Same 33B shape as rowed ??0Rva00421242 at
 // 0x00421242 (push ecx push esi mov esi ecx call baseConstruct lea eax
@@ -23,17 +23,17 @@ public:
 typedef bool Bool;
 #include "subsystem_interface.h"
 
-class Rva0022CA74 : public SubsystemInterface
+class RankInfoStore : public SubsystemInterface
 {
 public:
-	Rva0022CA74();
+	RankInfoStore();
 protected:
-	virtual ~Rva0022CA74();
+	virtual ~RankInfoStore();
 private:
 	_STL::vector<BfmeE16> m_vec;
 };
 
-Rva0022CA74::Rva0022CA74()
+RankInfoStore::RankInfoStore()
 : m_vec()
 {
 }

@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /EHsc
 //
-// ??0Rva00317BBB@@QAE@XZ at 0x00317BA5, 22 bytes.
-// Ctor beside rowed dtor ??1Rva00317BBB@@UAE@XZ at 0x00317BBB: the rowed
+// ??0TerrainTypeCollection@@QAE@XZ at 0x00317BA5, 22 bytes.
+// Ctor beside rowed dtor ??1TerrainTypeCollection@@UAE@XZ at 0x00317BBB: the rowed
 // SubsystemInterface base ctor 0x001B4E63, then zero +0x0C, then vtable
 // 0x00C0C62C, then return this.
 // Evidence: vtable store plus base ctor call plus dtor row plus caller
@@ -14,11 +14,11 @@ typedef bool Bool;
 
 struct ListNode;
 
-class Rva00317BBB : public SubsystemInterface
+class TerrainTypeCollection : public SubsystemInterface
 {
 public:
-	Rva00317BBB();
-	virtual ~Rva00317BBB();
+	TerrainTypeCollection();
+	virtual ~TerrainTypeCollection();
 	virtual void init() {}
 	virtual void reset() {}
 	virtual void update() {}
@@ -26,7 +26,7 @@ private:
 	ListNode *m_head;
 };
 
-Rva00317BBB::Rva00317BBB()
+TerrainTypeCollection::TerrainTypeCollection()
 	: m_head(0)
 {
 }

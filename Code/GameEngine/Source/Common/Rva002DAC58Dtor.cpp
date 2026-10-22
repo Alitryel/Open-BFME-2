@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /MD /EHsc
-// ??1Rva002DAC58@@UAE@XZ @0x002DAC58 128B: dtor with two node lists plus SubsystemInterface.
+// ??1TerrainRoadCollection@@UAE@XZ @0x002DAC58 128B: dtor with two node lists plus SubsystemInterface.
 // Evidence: vptr 0x00C03D64 store, lists at +0xC/+0x10 with virtual slot0 get(0) plus global delete row 0x2FD60, base dtor row 0x1B4E74, deleting dtor caller 0x002DACD8 28B, neighbour Rva002DB311Dtor /O1 /MD /EHsc.
 
 // BFME2 SubsystemInterface (12-byte base, 14-slot vtable 0x00BD77A0; ctor
@@ -15,10 +15,10 @@ struct Rva002DAC58Node
 	Rva002DAC58Node *m_next;
 };
 
-class Rva002DAC58 : public SubsystemInterface
+class TerrainRoadCollection : public SubsystemInterface
 {
 public:
-	virtual ~Rva002DAC58();
+	virtual ~TerrainRoadCollection();
 	// Retail vtable 0x00C03D64 slots 1/9/10 (init/reset/update) are the folded
 	// empty body at 0x000B3FD0.
 	virtual void init() {}
@@ -29,7 +29,7 @@ private:
 	Rva002DAC58Node *m_list10;
 };
 
-Rva002DAC58::~Rva002DAC58()
+TerrainRoadCollection::~TerrainRoadCollection()
 {
 	while (m_list0C)
 	{

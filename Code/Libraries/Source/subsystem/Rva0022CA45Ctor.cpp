@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /Ob2 /Oy- /DNDEBUG /MD /GX- /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??0Rva0022CA45@@QAE@XZ @0x0022CA45 (47B): frameless ctor running
+// ??0ScienceStore@@QAE@XZ @0x0022CA45 (47B): frameless ctor running
 // baseConstruct() over this, then the own vtable, then two outlined
 // _Vector_base<BfmeE16> member inits at +0xC/+0x18; returns this.
 // Follows precedent Rva00221088Ctor: a __declspec(novtable) head lets the
@@ -55,14 +55,14 @@ public:
 	virtual ~Rva0022CA45Base() {}
 };
 
-class Rva0022CA45 : public Rva0022CA45Base
+class ScienceStore : public Rva0022CA45Base
 {
 public:
 	virtual void rva_vtable_anchor() {}
-	Rva0022CA45();
+	ScienceStore();
 private:
 	_STL::_Vector_base<BfmeE16, _STL::allocator<BfmeE16> > m_vecA;
 	_STL::_Vector_base<BfmeE16, _STL::allocator<BfmeE16> > m_vecB;
 };
 
-Rva0022CA45::Rva0022CA45() : m_vecA(_STL::allocator<BfmeE16>()), m_vecB(_STL::allocator<BfmeE16>()) {}
+ScienceStore::ScienceStore() : m_vecA(_STL::allocator<BfmeE16>()), m_vecB(_STL::allocator<BfmeE16>()) {}
