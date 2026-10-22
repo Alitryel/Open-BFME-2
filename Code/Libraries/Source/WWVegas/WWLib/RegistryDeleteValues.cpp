@@ -57,6 +57,10 @@ template <> VectorClass<StringClass>::VectorClass(int, StringClass const *);
 template <> void DynamicVectorClass<StringClass>::Clear();
 template <> bool VectorClass<StringClass>::Resize(int, StringClass const *);
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$DynamicVectorClass@VStringClass@@@@UAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class StringClass;
+template <> DynamicVectorClass<StringClass>::~DynamicVectorClass();
 void	RegistryClass::Delete_Value( const char * name)
 {
 	if (IsLocked) {
