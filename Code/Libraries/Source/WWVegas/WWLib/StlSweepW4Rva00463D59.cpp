@@ -22,4 +22,9 @@ struct Rva00463D59Element {
  char bytes[8];
 };
 bool operator<(const Rva00463D59Element&,const Rva00463D59Element&);
-template class _STL::set<Rva00463D59Element>;
+// MSVC also instantiates the unused member-tree destructor with this constructor.
+// Keep that operation external; this unit recovers only default construction.
+namespace _STL { template <> _Rb_tree<Rva00463D59Element, Rva00463D59Element, _Identity<Rva00463D59Element>, less<Rva00463D59Element>, allocator<Rva00463D59Element> >::~_Rb_tree(); }
+
+// Emit only the rowed constructor; unrelated set operations require element bodies.
+template _STL::set<Rva00463D59Element>::set();
