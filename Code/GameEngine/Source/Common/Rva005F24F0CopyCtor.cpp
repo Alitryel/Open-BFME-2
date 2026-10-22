@@ -34,7 +34,7 @@ private:
 
 struct Rva005F2439Element {
  Rva005F2439Element(); Rva005F2439Element(const Rva005F2439Element&);
- ~Rva005F2439Element(); Rva005F2439Element&operator=(const Rva005F2439Element&);
+ Rva005F2439Element&operator=(const Rva005F2439Element&);
  char bytes[8];
 };
 bool operator<(const Rva005F2439Element&,const Rva005F2439Element&);

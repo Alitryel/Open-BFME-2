@@ -12,7 +12,6 @@ struct Rva00415B15Element
 {
 	Rva00415B15Element();
 	Rva00415B15Element(const Rva00415B15Element &that);
-	~Rva00415B15Element();
 	Rva00415B15Element &operator=(const Rva00415B15Element &that);
 	char bytes[8];
 };
