@@ -28,6 +28,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva00413B16Element@@V?$allocator@URva00413B16Element@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00413B16Element;
+namespace _STL { template <> void vector<Rva00413B16Element,allocator<Rva00413B16Element> >::_M_insert_overflow(Rva00413B16Element *,Rva00413B16Element const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva00413B16Element@@V?$allocator@URva00413B16Element@@@_STL@@@_STL@@IA:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00413B16Element;

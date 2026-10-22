@@ -23,6 +23,9 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$?8U?$pair@$$CBHH@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHH@_STL@@@1@U21@HU?$hash@H@1@U?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool operator==<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> >,_Nonconst_traits<pair<int const ,int> >,int,hash<int>,_Select1st<pair<int const ,int> >,equal_to<int>,allocator<pair<int const ,int> > >(_Ht_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> >,int,hash<int>,_Select1st<pair<int const ,int> >,equal_to<int>,allocator<pair<int const ,int> > > const &,_Ht_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> >,int,hash<int>,_Select1st<pair<int const ,int> >,equal_to<int>,allocator<pair<int const ,int> > > const &); }
 // Suppress this TU's non-retail copy of ??$advance@PBIH@_STL@@YAXAAPBIH@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void advance<unsigned int const *,int>(unsigned int const * &,int); }

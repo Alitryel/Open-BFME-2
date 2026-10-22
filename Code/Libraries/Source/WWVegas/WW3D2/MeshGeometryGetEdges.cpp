@@ -10,6 +10,10 @@
 #include <map>
 #include <vector>
 #include <hash_map>
+// Suppress this TU's non-retail copy of ??A?$map@UGen_p12pod@@HU?$less@UGen_p12pod@@@_STL@@V?$allocator@U?$pair@$$CBUGen_p12pod@@H:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Gen_p12pod;
+namespace _STL { template <> int & map<Gen_p12pod,int,less<Gen_p12pod>,allocator<pair<Gen_p12pod const ,int> > >::operator[](Gen_p12pod const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAPAXIPAX@_STL@@YAPAPAXPAPAXIABQAXABU__true_type@0@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void * * __uninitialized_fill_n<void * *,unsigned int,void *>(void * *,unsigned int,void * const &,__true_type const &); }

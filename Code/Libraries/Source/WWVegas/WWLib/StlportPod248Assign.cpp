@@ -18,6 +18,10 @@ namespace _STL { void __cdecl free(void *block) throw(...); }
 #include <map>
 #include <vector>
 #include <list>
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBVRva000BB491@@PAV1@@_STL@@YAPAVRva000BB491@@PBV1@0PAV1@ABU__fals:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva000BB491;
+namespace _STL { template <> Rva000BB491 * __uninitialized_copy<Rva000BB491 const *,Rva000BB491 *>(Rva000BB491 const *,Rva000BB491 const *,Rva000BB491 *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??1?$vector@UBfmeFixedObject60@@V?$allocator@UBfmeFixedObject60@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeFixedObject60;
