@@ -74,10 +74,12 @@ struct S4Cmp002EB8E0
 	}
 };
 
-void bfmeIterSwapS4SortElem20(S4SortElem20 *left, S4SortElem20 *right);
-
 namespace _STL
 {
+
+// Retail calls the rowed S4 value swap at 0x3373D9 directly. Its reference
+// arguments have the same addresses as the partition iterators.
+template <class T> void swap(T &left, T &right);
 
 template <class RandomAccessIter, class Tp, class Compare>
 RandomAccessIter __unguarded_partition(RandomAccessIter first,
@@ -92,7 +94,7 @@ RandomAccessIter __unguarded_partition(RandomAccessIter first,
 			--last;
 		if (!(first < last))
 			return first;
-		bfmeIterSwapS4SortElem20(first, last);
+		_STL::swap(*first, *last);
 		++first;
 	}
 }
