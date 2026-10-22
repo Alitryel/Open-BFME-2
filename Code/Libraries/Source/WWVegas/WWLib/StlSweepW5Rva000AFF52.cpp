@@ -4,6 +4,9 @@
 // stlport
 #include <deque>
 #include <string>
+// Suppress this TU's non-retail copy of ??1?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::~basic_string(); }
 
 struct Rva000AFF52Element { unsigned prefix[2];_STL::basic_string<wchar_t> strings[1];unsigned suffix[2]; bool operator<(const Rva000AFF52Element&)const; bool operator==(const Rva000AFF52Element&)const; };
 

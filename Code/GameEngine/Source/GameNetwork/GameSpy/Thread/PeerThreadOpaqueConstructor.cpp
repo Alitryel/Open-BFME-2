@@ -36,6 +36,9 @@ namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::~basic_string(); }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBHH@_STL@@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Rb_tree_base<pair<int const ,int>,allocator<pair<int const ,int> > >::~_Rb_tree_base(); }
