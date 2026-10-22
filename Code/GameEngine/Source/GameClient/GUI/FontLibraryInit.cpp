@@ -277,3 +277,8 @@ void Rva00425F10::parseStanceTemplateDefinition(INI *ini)
 	};
 	ini->initFromINI(&it2->second, parseTable);
 }
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:??0StanceData@@QAE@XZ=??0PlayingAudioUnknown0C@@QAE@XZ")
