@@ -8,7 +8,8 @@ OUT=ROOT/'build/canmake-replay-20261022'
 OUT.mkdir(parents=True,exist_ok=True)
 HOME=ROOT/'Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder'
 SYMBOL='?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z'
-base=(ROOT/'reverse/attempts/0x00596e15.cpp').read_text()
+# Freeze the 204-byte input: later sessions may improve the live bank.
+base=subprocess.check_output(['git','show','69526d2ae11afc4582e85371b0ff60dbd293e616:reverse/attempts/0x00596e15.cpp'],text=True)
 base=re.sub(r'#include "([^"]+)"',lambda m:'#include "'+(HOME/m[1]).resolve().as_posix()+'"',base)
 base=base.replace('register int zero = 0;','').replace('m_startNodeID == zero','m_startNodeID == 0').replace('if (0) { AsciiString dummy; }','')
 base=base.replace('rva0055ADD8(', 'failBuild(')

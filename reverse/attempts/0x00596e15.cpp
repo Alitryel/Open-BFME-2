@@ -1,13 +1,5 @@
 // ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
-// partial score=0.886 date=2026-10-19
-// ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
-// partial score=0.886 date=2026-10-17
-// ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
-// partial score=0.8559 date=2026-10-13
-// ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
-// partial score=0.97 date=2026-10-13
-// ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
-// partial score=0.88 date=2026-10-13
+// partial score=0.94598 date=2026-10-22
 // cl: /O1 /G7 /arch:SSE /MD /EHsc
 // WorldBuilder names 0x1538510 AIBuildableWallSegment::build. The paired
 // retail body 0x00596D99..0x00596E13 preserves its base-build fallback,
@@ -118,7 +110,7 @@ class Rva0055ADD8
 
 {
  public:
- int rva0055ADD8(int ignored);
+ int failBuild(int ignored);
  
 }
 ;
@@ -183,7 +175,7 @@ bool AIBuildableWallSegment::build(Player *player)
   return true;
   
  }
- ((Rva0055ADD8 *)this)->rva0055ADD8((int)player);
+ ((Rva0055ADD8 *)this)->failBuild((int)player);
  return false;
  
 }
@@ -206,43 +198,29 @@ float AIBuildableWallSegment::getTotalCost(Player *player)
  return (float)m_totalCost;
  
 }
-// 0x00596E15 (218B, RET4): AIBuildableWallSegment::canMake (WB 0x15386C0).
-// W7-MP5 r3: canonical Rva0039205C makes every retail instruction shape match
-// (push ebx/esi, xor ebx,ebx, six ebx stores, mov [ebp-4],ebx, cmp eax,ebx).
-// Without the dummy the success/failure dtors tail-merge to 202B (one shared
-// call 0x39205C, return value in EBX); retail keeps TWO dtor sites and returns
-// 0 via xor eax,eax / 9 via push 9+pop esi. AsciiString dummy keeps the paths
-// separate (213B, nd~5): default-ctor form costs 11B (lea+mov [ebp-0x18],ebx+
-// call 0x36410) + 4B frame; retail's extra 16B is its own failure-path dtor.
-// Remaining lever: force the dtor duplication without the dummy (cl tail-merge).
-// Retail success destroys the quote and returns zero after caching the cost.
-// The compiler merges success and failure into one destructor tail.
+// 0x00596E15: diagnostic 216-byte bank; retail is 218 bytes.
+// See reverse/attempt_support/canmake-early-cleanup-20261022/readme.md.
 int AIBuildableWallSegment::canMake(Player *player)
-
 {
- register int zero = 0;
- if (m_startNodeID == zero)
- return AIBuildableStructure::canMake(player);
- Object *startNode = TheGameLogic->findObjectByID(m_startNodeID);
- Rva0039205C result;
- bool failed = !((BuildAssistant *)TheBuildAssistant)->quoteWall(
- &result, startNode, &startNode->m_position, getWorldPosition(), false);
- if (failed)
- return 9;
- switch (result.m_20)
- {
- case 0:
-  break;
- case 7:
-  return 2;
- default:
-  return 9;
- }
- unsigned int money = player->m_money;
- if (money < result.m_pad04)
- return 2;
- m_totalCost = result.m_pad04;
- if (0) { AsciiString dummy; }
- return 0;
- 
+    if (m_startNodeID == 0)
+        return AIBuildableStructure::canMake(player);
+    Object *startNode = TheGameLogic->findObjectByID(m_startNodeID);
+    Rva0039205C result;
+    bool failed = !((BuildAssistant *)TheBuildAssistant)->quoteWall(
+        &result, startNode, &startNode->m_position, getWorldPosition(), false);
+    if (failed) { return 9; }
+    if (result.m_20 == 7) return 2;
+    if (result.m_20 != 0) return 9;
+    unsigned int money = player->m_money;
+    if (money < (unsigned int)result.m_pad04) goto insufficient;
+    m_totalCost = result.m_pad04;
+    return 0;
+insufficient:
+    {
+        do {
+            if (!(player->m_money < (unsigned int)result.m_pad04)) break;
+            return 2;
+        } while (0);
+        return 0;
+    }
 }
