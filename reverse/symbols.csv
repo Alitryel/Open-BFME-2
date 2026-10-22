@@ -8401,7 +8401,6 @@ name,address,notes
 ?curr_symbol@?$moneypunct@G$0A@@_STL@@QBE?AV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@XZ,0x0000EA30,STLport wide moneypunct getter; retail money_get<wchar_t>::do_get(string_type) calls this address; ICF-folded with the narrow getter
 ?d_003c5270@@YAXXZ,0x003EF648,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?d_00794790@@YAXPAVGameWindow@@PAVWinInstanceData@@@Z,0x000A501C,callee of the lexicon-named W3DGadgetPushButtonImageDraw (0x000A6019) at the site the BFME1 donor calls it; may be an ICF alias
-?d_007e8b00@@YAXXZ,0x00655B90
 ?d_007f65e0@@YAXXZ,0x00662D70,Target direct callee of address-derived game-reply wrapper at 0x006636B0; donor label stays address-derived
 ?d_00885980@Rva00885980Class@@QAEHXZ,0x006CA490
 ?d_008af650@@YAXXZ,0x006EE6C0

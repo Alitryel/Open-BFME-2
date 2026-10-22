@@ -19,9 +19,9 @@ extern void *bfmeGo929C();
 // 0x007EC030: deletes the named field from the record.
 int Rva007EC030( char *text, const char *tag );
 
-// 0x007E8B00: replaces or appends one field in the record; still a dump.
-extern void d_007e8b00( void );
-typedef int ( __cdecl *Rva007E8B00Replace )( char *record, int size, char *field );
+// Retail 0x00655B90: replaces or appends a record field. The placeholder
+// spelling is inherited from the independently matched DirtySock donor.
+int Rva007E8B00( unsigned char *buffer, int size, const char *field );
 
 // g_Rva011293A0HexFirst: matched references place it at VA 0xce0c10; retail contents, sized to the
 // 0x108-byte gap before the next known global there.
@@ -83,7 +83,7 @@ char g_Rva011294A8HexSecond[256] = {
 
 // g_bfmeFeslFieldClassTable: FESL record-field name class table, retail VA
 // 0xce0e20 (256 bytes, .rdata) directly after g_Rva011294A8HexSecond. Every
-// consumer is the FESL record-field replacer d_007e8b00 (0x00655b90): it
+// consumer is the FESL record-field replacer Rva007E8B00 (0x00655b90): it
 // compares record and field characters by table class (0 = invalid/end, 1 =
 // field separator ':' or '=', >=2 = the upper-cased character value, so
 // 'a'-'z' fold to 'A'-'Z' and digits/underscore stay). Values read from
@@ -113,6 +113,181 @@ extern const unsigned char g_bfmeFeslFieldClassTable[256] = {
 // between the "or@@" literal run and the 0x009d7f48 pointer table); BFME 1's
 // bank calls the same byte Rva007E8B00Separator and compares it with '\n'.
 char g_bfmeFeslFieldSeparator = '\n';
+
+extern "C" void * __cdecl memmove( void *dest, const void *src, unsigned int count );
+extern "C" int __cdecl memcmp( const void *left, const void *right, unsigned int count );
+extern "C" void * __cdecl memcpy( void *dest, const void *src, unsigned int count );
+
+// Complete 549-byte FESL copy of the DirtySock Y4TextToValue.c donor.
+// Keep the final equivalent clear paths and the volatile separator read;
+// see reverse/attempt_support/fesl-655b90-recovery-20261022/readme.md.
+int Rva007E8B00( unsigned char *buffer, int size, const char *field )
+{
+	int i;
+	int iDelta;
+	unsigned char *p;
+	unsigned char *pValue;
+	unsigned char *pTail;
+	unsigned char cClassBuffer;
+	unsigned char cClassField;
+	unsigned char *pBuffer;
+
+	pBuffer = buffer;
+
+	if ( pBuffer == 0 )
+	{
+		return -1;
+	}
+
+	if ( field == 0 || (unsigned int)*field <= ' ' )
+	{
+		return -1;
+	}
+
+	if ( *field == '~' )
+	{
+		for ( p = pBuffer; *p != 0; p++ )
+		{
+		}
+
+		if ( p != pBuffer && p[ -1 ] >= ' '
+			&& p[ -1 ] != g_bfmeFeslFieldSeparator
+			&& p < pBuffer + size - 1 )
+		{
+			*p = g_bfmeFeslFieldSeparator;
+			p++;
+			*p = 0;
+		}
+
+		pTail = p;
+		pValue = pTail;
+	}
+	else
+	{
+		p = pBuffer;
+
+		for ( ;; )
+		{
+			if ( *p == 0 )
+			{
+				if ( p != pBuffer && p[ -1 ] >= ' '
+					&& p[ -1 ] != g_bfmeFeslFieldSeparator
+					&& p < pBuffer + size - 1 )
+				{
+					*p = g_bfmeFeslFieldSeparator;
+					p++;
+					*p = 0;
+				}
+
+				pTail = p;
+				pValue = pTail;
+				break;
+			}
+
+			if ( *p <= ' ' )
+			{
+				p++;
+				continue;
+			}
+
+			if ( g_bfmeFeslFieldClassTable[ *p ] == 1 )
+			{
+				pTail = p;
+				pValue = pTail;
+				break;
+			}
+
+			for ( i = 0; ; i++ )
+			{
+				cClassBuffer = g_bfmeFeslFieldClassTable[ p[ i ] ];
+				cClassField = g_bfmeFeslFieldClassTable[ (unsigned char)field[ i ] ];
+
+				if ( cClassBuffer != cClassField || cClassBuffer < 2 )
+				{
+					break;
+				}
+			}
+
+			if ( cClassBuffer + cClassField == 2 )
+			{
+				pTail = p;
+				pValue = pTail;
+
+				for ( ; *pTail >= ' '; pTail++ )
+				{
+				}
+
+				if ( *pTail > 0 )
+				{
+					pTail++;
+				}
+
+				break;
+			}
+
+			do
+			{
+				p++;
+			}
+			while ( *p >= ' ' );
+		}
+	}
+
+	for ( i = 0; (unsigned int)field[ i ] >= ' '; i++ )
+	{
+	}
+	i++;
+
+	iDelta = i - ( pTail - pValue );
+
+	for ( p = pTail; *p != 0; p++ )
+	{
+	}
+
+	p++;
+
+	if ( iDelta > 0 && pBuffer + size - p < iDelta )
+	{
+		return -1;
+	}
+
+	if ( iDelta == 0 && memcmp( pValue, field, i ) == 0 )
+	{
+		return 0;
+	}
+
+	if ( iDelta > 0 )
+	{
+		memmove( pTail + iDelta, pTail, p - pTail );
+	}
+
+	if ( iDelta < 0 )
+	{
+		memmove( pValue, pValue - iDelta, p - ( pValue - iDelta ) );
+	}
+
+	memcpy( pValue, field, i );
+
+	if ( pValue[ i ] == 0 && g_bfmeFeslFieldSeparator != '\n' )
+	{
+		// Equivalent paths retain the allocation weights needed by VC7.1.
+		// Their merged store gives retail's late EBP save and EBX value pointer.
+		if ( i > 0 )
+			goto clearPositive;
+		pValue[ i - 1 ] = 0;
+		goto clearDone;
+clearPositive:
+		pValue[ i - 1 ] = 0;
+clearDone:
+		;
+	}
+	else
+	{
+		pValue[ i - 1 ] = *(volatile char *)&g_bfmeFeslFieldSeparator;
+	}
+
+	return i - 1;
+}
 
 // The record's "name=" prefix, as the DirtySock copy's Rva007EC730 writes it:
 // a null name empties the record instead.
@@ -212,7 +387,7 @@ static int Rva007E8D30( const char *name, const char *value, char *record, int s
 
 	*p = 0;
 
-	iResult = ( ( Rva007E8B00Replace )d_007e8b00 )( record, size, item );
+	iResult = Rva007E8B00( (unsigned char *)record, size, item );
 	( ( Rva007EFFC0Allocator * )bfmeGo929C() )->release( item, 0 );
 	return iResult;
 }

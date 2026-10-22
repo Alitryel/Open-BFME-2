@@ -446,6 +446,15 @@ the paren lever).
   FgDoHeadMerge, FgTryTailMerge and FgTryCommonTailMerge delete references
   afterwards. A slot that needs one more weight than its final references can
   come from a store that was later merged away (0x0004826C).
+- **Equivalent control paths can retain allocation costs after merging.**
+  When only register choices differ, test small duplicated equivalent paths
+  around the affected values. On 0x004404AC, an outer duplicated team block
+  fixed receiver/index roles; a nested identical HideList call fixed the short
+  window/flag tie. On 0x00655B90, a labelled duplicate of the final zero store
+  fixed the EBX/EBP exchange while preserving the ordinary length loop. C2
+  removed the added tests and instructions but kept different allocation
+  costs. Use defined, side-effect-free predicates, preserve call-related
+  reloads and verify the complete body. See the two 20261022 recovery handoffs.
 - **Split-range reload order.** RewriteSplitGlobregs inserts reloads by the
   pieces' new candidate numbers. Those come from the `_FreeGlobs` list (LIFO),
   which coalesced copies refill. Building a matrix row-wise
