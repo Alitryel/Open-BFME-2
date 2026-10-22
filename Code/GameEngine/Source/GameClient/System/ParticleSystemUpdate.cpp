@@ -350,7 +350,7 @@ Bool ParticleSystem::update(Int localPlayerIndex)
 			/// @todo Concatenate this, instead of overriding (MSB)
 			m_transform.Set_X_Translation(controlPos->x);
 			m_transform.Set_Y_Translation(controlPos->y);
-			m_transform.Set_Z_Translation(controlPos->z);
+			m_transform[2][3] = controlPos->z;	// same store as Set_Z_Translation, without emitting its /arch:SSE copy
 			m_isIdentity = false;
 			m_lastPos = m_pos;
 			m_pos = *controlPos;
