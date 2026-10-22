@@ -9926,7 +9926,6 @@ name,address,notes
 ?rva00067225@BaseHeightMapRenderObjClass@@QAEEMM@Z,0x00067225,retail REL32 at 0x00062DE9 in W3DTerrainLogic vtable slot 0x007C58E8 forwarder with ECX=TheTerrainRenderObject; 115B m_map+0x37C0 clamped cell query calling 0x000AE18D byte getter; isCliffCell twin shape; name address-derived
 ?rva00067298@BaseHeightMapRenderObjClass@@QAE_NMM@Z,0x00067298,retail REL32 at 0x00062E08 in W3DTerrainLogic vtable slot 0x007C58EC forwarder with ECX=TheTerrainRenderObject; 115B m_map+0x37C0 clamped cell query calling 0x000AE1DC bit plane; isCliffCell twin shape; name address-derived
 ?rva0006730B@BaseHeightMapRenderObjClass@@QAEEMM@Z,0x0006730B,retail REL32 at 0x00062E27 in W3DTerrainLogic vtable slot 0x007C58F0 forwarder with ECX=TheTerrainRenderObject; 115B m_map+0x37C0 clamped cell query calling 0x000AE234 byte getter; isCliffCell twin shape; name address-derived
-?rva00067494@Rva000677CAHost@@QAEXHHHHHHPAEPA_N@Z,0x00067494,dump range 1 wrapper callee for 0x677CA
 ?rva00068061@Rva00068061NullTarget@@QAEXH@Z,0x00068061,"method a null-checked vtable-slot forwarder tail-jumps to (ret 4); opaque address name"
 ?rva000680B3@Rva000680B3NullTarget@@QAEXXZ,0x000680B3,"method a null-checked vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva0006819B@Rva0006819BNullTarget@@QAEHHH@Z,0x0006819B,"method a null-checked vtable-slot forwarder tail-jumps to (ret 8); opaque address name"

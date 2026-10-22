@@ -36,13 +36,14 @@ template <> __declspec(dllimport) __forceinline
 void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
+// The corner probe at 0x00067494 is the rowed BaseHeightMapRenderObjClass::CheckCorners.
+class BaseHeightMapRenderObjClass { public: void CheckCorners(int, int, int, int, int, int, bool *, bool *); };
 struct Rva0006DC8EDimensions {char opaque00[8]; int width; int height;};
 class Rva000677CAHost
 {
 public:
     void updateView(bool partial, int minX, int maxX, int minY, int maxY);
 	bool rva000677CA(int a, int b, float f);
-	void rva00067494(int a1, int a2, int a3, int a4, int a5, int a6, unsigned char *p, bool *out);
 private:
     char opaque00[0x37A0];
     float slope;
@@ -57,7 +58,7 @@ bool Rva000677CAHost::rva000677CA(int a, int b, float f)
 	bool out = false;
 	unsigned char *p = &((unsigned char *)&f)[3];
 	int fi = (int)f;
-	rva00067494(a, b, 0x100, 0, fi, 0, p, &out);
+	((BaseHeightMapRenderObjClass *)this)->CheckCorners(a, b, 0x100, 0, fi, 0, (bool *)p, &out);
 	return out == false;
 }
 
