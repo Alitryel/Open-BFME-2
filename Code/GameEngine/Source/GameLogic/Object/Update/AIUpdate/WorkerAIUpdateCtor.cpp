@@ -358,13 +358,21 @@ public:
 	virtual void slot0();
 };
 
+class Xfer;
+enum NameKeyType;
+
 class AIUpdateInterface : public UpdateModule, public AICommandInterface, public AIUpdateInterface24
 {
 public:
 	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
 	// Primary vtable slots 1-8 (slot 0 is the destructor).
-	virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04();
-	virtual void v05(); virtual void v06(); virtual void v07();
+	virtual void v01();
+	virtual void v02();
+	virtual void xfer(Xfer *xfer);
+	virtual NameKeyType getModuleNameKey() const;
+	virtual void onObjectCreated();
+	virtual void v06();
+	virtual void v07();
 	virtual void onDelete(); // vslot 8
 	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int unused);
 	virtual void aiDoCommand(const AICommandParms *parms);
@@ -780,27 +788,48 @@ enum DozerTask
 	DOZER_TASK_REPAIR
 };
 
+enum DozerDockPoint;
+enum DozerBuildSubTask;
+class Rva002390CB;
+
 class DozerAIInterface
 {
 public:
 	virtual void onDelete() = 0; // vslot 0
-	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int unused) = 0; // vslot 1
-	virtual void slot2() = 0; virtual void slot3() = 0;
-	virtual void slot4() = 0; virtual void slot5() = 0;
+	virtual Real getRepairHealthPerSecond() const = 0; // vslot 1
+	virtual Real getBoredTime() const = 0;
+	virtual Real getBoredRange() const = 0;
+	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int flags) = 0; // vslot 4
+	virtual DozerTask getMostRecentCommand() = 0; // vslot 5
 	virtual Bool isTaskPending(DozerTask task) = 0; // vslot 6
-	virtual void slot7() = 0; virtual void slot8() = 0;
-	virtual Int getCurrentTask() = 0; // vslot 9 (+0x24)
-	virtual void slot10() = 0; virtual void slot11() = 0;
+	virtual ObjectID getTaskTarget(DozerTask task) = 0; // vslot 7
+	virtual Bool isAnyTaskPending() = 0; // vslot 8
+	virtual DozerTask getCurrentTask() const = 0; // vslot 9
+	virtual void setCurrentTask(DozerTask task) = 0;
+	virtual Bool getIsRebuild() = 0; // vslot 11
 	virtual void newTask(DozerTask task, Object *target) = 0; // vslot 12
 	virtual void cancelTask(DozerTask task) = 0; // vslot 13
-	virtual void slot14() = 0;
+	virtual void internalTaskComplete(DozerTask task) = 0; // vslot 14
 	virtual void internalCancelTask(DozerTask task) = 0; // vslot 15
 	virtual void internalTaskCompleteOrCancelled(DozerTask task) = 0; // vslot 16
-	virtual void slot17() = 0; virtual void slot18() = 0; virtual void slot19() = 0;
-	virtual void slot20() = 0; virtual void slot21() = 0;
-	virtual void removeBridgeScaffolding(Object *object) = 0; // vslot22
-	virtual void slot23() = 0;
+	virtual const Coord3D *getDockPoint(DozerTask task, DozerDockPoint point) = 0; // vslot 17
+	virtual void setBuildSubTask(DozerBuildSubTask subTask) = 0; // vslot 18
+	virtual DozerBuildSubTask getBuildSubTask() = 0; // vslot 19
+	virtual Bool canAcceptNewRepair(Object *obj) = 0;
+	virtual void createBridgeScaffolding(Object *bridgeTower) = 0; // vslot 21
+	virtual void removeBridgeScaffolding(Object *bridgeTower) = 0;
+	// BFME 2 hands over the drawable's sound record (by reference).
+	virtual void startBuildingSound(const Rva002390CB &sound, ObjectID constructionSiteID) = 0; // vslot 23
 	virtual void finishBuildingSound() = 0; // vslot 24
+	// Slots 26 and 29 use the phantom structure id; slot 28 shares slot 29.
+	// Names 25, 26 and 31 come from WorldBuilder's DozerAIUpdate asserts.
+	virtual void createPhantomStructure(const ThingTemplate *what, Player *owningPlayer, const Coord3D *pos, Real angle) = 0; // vslot 25
+	virtual void makePhantomStructureReal() = 0; // vslot 26
+	virtual void destroyPhantomStructure() = 0; // vslot 27
+	virtual Object *slot28() = 0;
+	virtual Object *rva00489DD1() = 0; // vslot 29
+	virtual void slot30() = 0;
+	virtual void notifyConstructionComplete() = 0; // vslot 31
 };
 
 struct WorkerAIUpdateModuleData
@@ -900,6 +929,7 @@ class WorkerAIUpdate : public AIUpdateInterface, public DozerAIInterface, public
 {
 public:
 	WorkerAIUpdate(Thing *thing, const ModuleData *moduleData);
+	virtual NameKeyType getModuleNameKey() const;
 	virtual void onDelete();
 	virtual void supplyTruckSlot0();
 	virtual void aiDoCommand(const AICommandParms *parms);
@@ -913,6 +943,7 @@ public:
 	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int unused);
 	Bool isSupplyTruckBrainActiveAndBusy();
 protected:
+	virtual void xfer(Xfer *xfer);
 	virtual ~WorkerAIUpdate();
 	const WorkerAIUpdateModuleData *getWorkerAIUpdateModuleData() const { return (const WorkerAIUpdateModuleData *)getModuleData(); }
 	Bool findGoodBuildOrRepairPosition(const Object *me, const Object *target, Coord3D &positionOut);
