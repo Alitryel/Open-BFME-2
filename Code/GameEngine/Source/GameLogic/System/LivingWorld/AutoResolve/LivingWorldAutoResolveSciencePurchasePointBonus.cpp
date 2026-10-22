@@ -56,6 +56,8 @@ struct BfmeNarrowRecord00427F75 : public Rva00413B16Element
 	~BfmeNarrowRecord00427F75();		// 0x0022CCEF
 };
 
+// Suppress this TU's non-retail copy: the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Destroy<Rva00413B16Element *>(Rva00413B16Element *, Rva00413B16Element *); }
 struct Rva0041386B : public BfmeNarrowRecord00427F75
 {
 	Rva0041386B();						// 0x0041386B
