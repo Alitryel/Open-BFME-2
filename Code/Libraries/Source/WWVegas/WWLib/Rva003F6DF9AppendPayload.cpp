@@ -20,6 +20,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
 }
+// The overflow body is supplied by StlportVectorInsertOverflowFamily.cpp.
+struct BfmePod104;
+namespace _STL {
+template <> void vector<BfmePod104, allocator<BfmePod104> >::_M_insert_overflow(BfmePod104 *, const BfmePod104 &, const __false_type &, unsigned int, bool);
+}
+
 class ModuleData;
 class CreateAHeroData;
 struct BfmePod104 { int data[26]; };

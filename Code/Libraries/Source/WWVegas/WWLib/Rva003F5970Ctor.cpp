@@ -29,10 +29,21 @@ namespace _STL { template <> void _Construct<BfmeAssignRecord104,BfmeAssignRecor
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
+// The overflow body is supplied by StlportVectorInsertOverflowFamily.cpp.
+struct BfmePod104;
+namespace _STL {
+template <> void vector<BfmePod104, allocator<BfmePod104> >::_M_insert_overflow(BfmePod104 *, const BfmePod104 &, const __false_type &, unsigned int, bool);
+}
+
 struct BfmePod104
 {
 	int a[26];
 };
+
+// The record reserve body is supplied by stlport_asciistring_record_bodies.cpp.
+namespace _STL {
+template <> void vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::reserve(unsigned int);
+}
 
 struct BfmeAssignRecord104
 {

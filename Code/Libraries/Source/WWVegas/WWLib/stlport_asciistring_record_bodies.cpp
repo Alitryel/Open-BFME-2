@@ -98,6 +98,7 @@ namespace _STL {
 // specializations before the whole-class instantiations below suppresses
 // emission here; this file's bodies keep calling them by the same names.
 template <> void _Destroy<BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *);
+template <> void _Destroy<BfmeAssignRecord44 *>(BfmeAssignRecord44 *, BfmeAssignRecord44 *);
 template <> BfmeAssignRecord32 *vector<BfmeAssignRecord32, allocator<BfmeAssignRecord32> >::erase(BfmeAssignRecord32 *, BfmeAssignRecord32 *);
 template <> BfmeAssignRecord172 *vector<BfmeAssignRecord172, allocator<BfmeAssignRecord172> >::erase(BfmeAssignRecord172 *, BfmeAssignRecord172 *);
 }
@@ -124,6 +125,8 @@ template class _STL::vector<BfmeAssignRecord84, _STL::allocator<BfmeAssignRecord
 // this TU emitting them. Its own _M_clear, _Destroy and __destroy_aux rows
 // stay instantiated (kept for the same units).
 namespace _STL {
+template <> BfmeStringHeadRecord148 *__uninitialized_copy<BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *>(BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *, const __false_type &);
+template <> BfmeStringHeadRecord148 *__uninitialized_fill_n<BfmeStringHeadRecord148 *, unsigned int, BfmeStringHeadRecord148>(BfmeStringHeadRecord148 *, unsigned int, const BfmeStringHeadRecord148 &, const __false_type &);
 template <> void vector<BfmeStringHeadRecord148, allocator<BfmeStringHeadRecord148> >::_M_insert_overflow(BfmeStringHeadRecord148 *, const BfmeStringHeadRecord148 &, const __false_type &, unsigned int, bool);
 template <> void vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::_M_insert_overflow(BfmeStringHeadRecord160 *, const BfmeStringHeadRecord160 &, const __false_type &, unsigned int, bool);
 template <> BfmeStringHeadRecord160 *__uninitialized_copy<BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, const __false_type &);

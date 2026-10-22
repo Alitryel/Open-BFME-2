@@ -34,10 +34,41 @@ namespace _STL { template <> void vector<Rva003F7B22Element,allocator<Rva003F7B2
 struct Rva003F7B22Element;
 namespace _STL { template <> void vector<Rva003F7B22Element,allocator<Rva003F7B22Element> >::_M_insert_overflow(Rva003F7B22Element *,Rva003F7B22Element const &,__false_type const &,unsigned int,bool); }
 
+// Erase and reserve bind their existing STLport family providers.
+namespace _STL {
+template <> Rva0040DC56Element *vector<Rva0040DC56Element, allocator<Rva0040DC56Element> >::erase(Rva0040DC56Element *, Rva0040DC56Element *);
+template <> void vector<Rva0040DC56Element, allocator<Rva0040DC56Element> >::reserve(unsigned int);
+}
+
+// Holder copies retain the reference at +0xB0; assignment uses its native owner.
+struct TargetRef00217D4C { void *m_vtbl; int references; };
+struct Rva002B2F97Target { char m_pad[0xAC]; TargetRef00217D4C m_ac; };
+class Rva002B2F97
+{
+public:
+    Rva002B2F97 &operator=(const Rva002B2F97 &other);
+private:
+    Rva002B2F97Target *m_ptr;
+};
+
 struct Rva0040DC56Element
 {
-	int a[1];
+    Rva002B2F97Target *m_ptr;
+    Rva0040DC56Element(const Rva0040DC56Element &other) : m_ptr(other.m_ptr)
+    {
+        if (m_ptr)
+            ++m_ptr->m_ac.references;
+    }
+    __declspec(dllimport) __forceinline Rva0040DC56Element &operator=(const Rva0040DC56Element &other)
+    {
+        *reinterpret_cast<Rva002B2F97 *>(this) = *reinterpret_cast<const Rva002B2F97 *>(&other);
+        return *this;
+    }
 };
+
+// Keep the copy worker and placement construction available to their callers.
+template Rva0040DC56Element *_STL::__copy<Rva0040DC56Element *, Rva0040DC56Element *, int>(Rva0040DC56Element *, Rva0040DC56Element *, Rva0040DC56Element *, const _STL::random_access_iterator_tag &, int *);
+template void _STL::_Construct<Rva0040DC56Element, Rva0040DC56Element>(Rva0040DC56Element *, const Rva0040DC56Element &);
 
 struct Rva003F7B22Element
 {
