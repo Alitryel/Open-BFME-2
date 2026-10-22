@@ -96,6 +96,7 @@ namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>:
 #undef free
 
 struct BfmePod128 { ~BfmePod128(); int a[32]; };
+namespace _STL { template <> void vector<BfmePod128>::_M_clear(); }
 struct BfmeE8 { int a[2]; };
 
 class BuildListInfo { public: BuildListInfo &operator=(const BuildListInfo &); };

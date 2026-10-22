@@ -35,7 +35,9 @@ struct OpaqueRefElement4 {
     ~OpaqueRefElement4() { if (referent) referent->Release_Ref(); }
     OpaqueRefElement4 &operator=(const OpaqueRefElement4 &);
 };
-template class _STL::deque<OpaqueRefElement4, _STL::allocator<OpaqueRefElement4> >;
+typedef _STL::_Deque_iterator<OpaqueRefElement4, _STL::_Nonconst_traits<OpaqueRefElement4> > OpaqueRefDequeIterator;
+template OpaqueRefDequeIterator _STL::uninitialized_copy<OpaqueRefDequeIterator, OpaqueRefDequeIterator>(
+    OpaqueRefDequeIterator, OpaqueRefDequeIterator, OpaqueRefDequeIterator);
 
 struct Rva00055864Node
 {

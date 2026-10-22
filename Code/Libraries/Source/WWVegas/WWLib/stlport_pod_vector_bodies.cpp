@@ -182,11 +182,38 @@ inline bool operator<(const BfmePod104 &x, const BfmePod104 &y) { return x.a[0] 
 // (0x003B8AD8); declare that specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod104, BfmePod104>(BfmePod104 *__p, const BfmePod104 &__val); }
 struct BfmePod128 { int a[32]; };
+namespace _STL {
+template <> void vector<BfmePod128>::_M_clear();
+}
 inline bool operator==(const BfmePod128 &x, const BfmePod128 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod128 &x, const BfmePod128 &y) { return x.a[0] < y.a[0]; }
 // Retail's _Construct<BfmePod128> is pinned elsewhere; declare that
 // specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod128, BfmePod128>(BfmePod128 *__p, const BfmePod128 &__val); }
+// This growth path uses STLport's no-exception allocation and copy sequence.
+namespace _STL {
+template <> inline void vector<BfmePod128>::_M_insert_overflow(
+    BfmePod128 *__position, const BfmePod128 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else {
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    }
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
+
 struct BfmePod144 { int a[36]; };
 inline bool operator==(const BfmePod144 &x, const BfmePod144 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod144 &x, const BfmePod144 &y) { return x.a[0] < y.a[0]; }

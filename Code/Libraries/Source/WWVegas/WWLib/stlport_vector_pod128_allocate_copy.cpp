@@ -24,4 +24,10 @@ namespace _STL { template <> vector<BfmePod128,allocator<BfmePod128> >::vector(v
 struct BfmePod128;
 namespace _STL { template <> void vector<BfmePod128,allocator<BfmePod128> >::_M_insert_overflow(BfmePod128 *,BfmePod128 const &,__false_type const &,unsigned int,bool); }
 struct BfmePod128 { int a[32]; };
-template class _STL::vector<BfmePod128, _STL::allocator<BfmePod128> >;
+namespace _STL {
+template <> __declspec(nothrow) void _Construct<BfmePod128, BfmePod128>(
+    BfmePod128 *, const BfmePod128 &);
+}
+
+template BfmePod128 *_STL::vector<BfmePod128>::_M_allocate_and_copy<const BfmePod128 *>(
+    unsigned int, const BfmePod128 *, const BfmePod128 *);
