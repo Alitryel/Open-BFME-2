@@ -59,6 +59,8 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 // Base hash of open files; the key/value names of the rowed 0x000A7E7A
 // constructor are address-derived (StlSweepW4Rva000A7E7A.cpp).
 struct Rva000A7E7AElement { char bytes[1]; bool operator<(const Rva000A7E7AElement&)const; bool operator==(const Rva000A7E7AElement&)const; };
+// Use the existing retail base-hash constructor rather than emitting its dependencies here.
+namespace _STL { template <> hash_map<int,Rva000A7E7AElement>::hash_map(); }
 
 class AudioFileCache;
 // The cached file (WorldBuilder: OpenAudioFile); 0x54-byte allocation and
