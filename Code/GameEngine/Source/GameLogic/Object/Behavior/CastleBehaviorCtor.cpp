@@ -196,3 +196,13 @@ CastleBehavior::CastleBehavior(Thing *thing, const ModuleData *moduleData)
 
 	setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 }
+
+// Names this unit's constructor and vftables reference but no unit defines
+// under the spelling used here. Each is bound to the row that owns the retail
+// address: ~FoundationAIUpdate is the rowed 0x00455050 destructor, the shared
+// empty-map ctor body is the 25-byte 0x0033C432 row, and the placeholder slot0
+// is the +0x20 interface slot 0x00452D78 (the +0x30 interface slot is retail's
+// _purecall; the single placeholder here stands for both).
+#pragma comment(linker, "/alternatename:??1FoundationAIUpdate@@UAE@XZ=??1Rva00455050@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??0Rva00395CEB@@QAE@XZ=??0?$map@HPAXU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot0@CastleBehavior@@UAEXXZ=?Rva00452D78Adjust@@YIPAXPAX@Z")
