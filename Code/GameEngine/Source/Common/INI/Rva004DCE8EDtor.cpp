@@ -25,6 +25,9 @@ struct Rva00462D35Mapped
 typedef _STL::_Rb_tree<unsigned short, _STL::pair<const unsigned short, int>, _STL::_Select1st<_STL::pair<const unsigned short, int> >, _STL::less<unsigned short>, _STL::allocator<_STL::pair<const unsigned short, int> > > Rva004DCE8ETree20;
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva00462D35Mapped>, _STL::_Select1st<_STL::pair<const int, Rva00462D35Mapped> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00462D35Mapped> > > Rva004DCE8ETree14;
 
+// The +0x14 tree's destructor is rowed at 0x004636FE (the call at 0x004DCEB2); declared only
+// so this unit emits no non-retail copy of it.
+namespace _STL { template <> Rva004DCE8ETree14::~_Rb_tree(); }
 class Rva004DCE8E
 {
 public:
