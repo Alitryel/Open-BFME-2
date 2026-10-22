@@ -689,6 +689,7 @@ class RetailTruth:
     DIR32, DIR32NB, REL32 = 0x0006, 0x0007, 0x0014
     ABSOLUTE = {"__except_list": 0}  # msvcrt.lib's absolute symbols (fs:[0])
     CONSTANT = ("??_C@", "__real@")  # content-named: retail may hold several copies
+    FUNCTION_STATICS = ("__ehhandler$",)  # statics named after their function: one per function
 
     @staticmethod
     def _rvas(address):
@@ -826,7 +827,8 @@ class RetailTruth:
                         kind == RetailTruth.DIR32 and referent["name"] in RetailTruth.ABSOLUTE else
                         ("content", content) if content is not None else
                         ("self", referent["value"]) if same_section and referent["storage"] != EXTERNAL else
-                        ("external", _normal(referent["name"])) if external else
+                        ("external", _normal(referent["name"])) if external or
+                        referent["name"].startswith(RetailTruth.FUNCTION_STATICS) else
                         ("local",))
             found.append((where, kind, identity))
         return symbol["value"], tuple(found)
@@ -886,6 +888,15 @@ class RetailTruth:
                 expected = {start + referent["value"]}  # a label in this very section
             elif referent["storage"] in (EXTERNAL, WEAK_EXTERNAL):
                 expected = self.addresses(referent["name"], kind)
+            elif referent["name"].startswith(self.FUNCTION_STATICS):
+                # A static named after its function (MSVC's __ehhandler$<name>):
+                # the same name in every TU's copy and rowed like any body, so
+                # landing on its row proves the site. It never disproves one:
+                # a handler row can be the one of an ICF twin's home.
+                found = self.addresses(referent["name"], kind)
+                if not found or not self._lands(target, found):
+                    result = "unknown"
+                continue
             else:  # a static's name is per TU (_$E2, $SG1234): no address to check
                 expected = None
             if not expected:

@@ -225,6 +225,24 @@ def test_bytes_differ_is_wrong_and_unknown_name_is_unknown():
     assert t.verdict(symbol("dtor"), body, [(1, L.RetailTruth.REL32, referent("nowhere"))], "f", 5) == "unknown"
 
 
+def test_static_eh_handler_named_after_its_function_is_judged_by_its_row():
+    # MSVC's __ehhandler$<function> is static in its own COMDAT section, yet
+    # named after one function: its row gives the address every TU's copy
+    # must reach (??1?$basic_string@G... 0xB3C0's handler 0x0075B7CB).
+    image = bytearray(0x40)
+    image[0x00:0x05] = b"\xb8" + struct.pack("<I", L.BASE + 0x1030)  # mov eax, offset handler
+    t = truth(image, {"guarded": {0x1000}, "__ehhandler$guarded": {0x1030}, "__ehhandler$elsewhere": {0x1020}})
+    body = b"\xb8\0\0\0\0"
+    handler = {"name": "__ehhandler$guarded", "section": 3, "storage": 3, "value": 0}
+    assert t.verdict(symbol("guarded"), body, [(1, L.RetailTruth.DIR32, handler)], "eh1", 5) == "retail"
+    # another function's handler row does not disprove the site: the ledger can
+    # name a handler after an ICF twin whose home is not this copy's
+    other = {**handler, "name": "__ehhandler$elsewhere"}
+    assert t.verdict(symbol("guarded"), body, [(1, L.RetailTruth.DIR32, other)], "eh2", 5) == "unknown"
+    unnamed = {**handler, "name": "$L1234"}  # a numbered label stays unjudged
+    assert t.verdict(symbol("guarded"), body, [(1, L.RetailTruth.DIR32, unnamed)], "eh3", 5) == "unknown"
+
+
 def test_no_retail_address_is_none():
     t = truth(IMAGE, LEDGER)
     assert t.verdict(symbol("inline_only"), b"\xc3", [], "g", 1) is None
