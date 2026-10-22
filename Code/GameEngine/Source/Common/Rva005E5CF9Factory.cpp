@@ -4,7 +4,7 @@
 // cl: /EHsc /Oy- /Ob2 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // ?rva005E5CF9@Rva005E5CF9@@QAE?AURvaF1Handle@@H@Z, retail 0x005E5CF9 (84B).
 // Factory method returning RvaF1Handle by value: allocates 0x28 bytes, runs
-// rowed ??0Rva005F589E@@QAE@HPAX@Z with (int arg, this+8), null-checked AddRef
+// rowed ??0Rva005F5819@@QAE@HPAX@Z with (int arg, this+8), null-checked AddRef
 // (inc [eax+4]) and hidden-pointer return (ret 8). Evidence: callee row
 // 0x005F589E, new row 0x0002FDA0, EH_prolog row 0x00629188, ret-8 + hidden
 // pointer shape matching RvaFamily1Clones clones, this+8 as second ctor arg.
@@ -19,11 +19,11 @@ struct RvaF1Handle
 	~RvaF1Handle();
 };
 
-class Rva005F589E
+class Rva005F5819
 {
 	char m_pad[0x28];
 public:
-	Rva005F589E(int a1, void *a2);
+	Rva005F5819(int a1, void *a2);
 };
 
 struct Rva005E5CF9In
@@ -42,7 +42,7 @@ struct Rva005E5CF9
 
 RvaF1Handle Rva005E5CF9::rva005E5CF9(int a1)
 {
-	return RvaF1Handle(new Rva005F589E(a1, (void *)&m_in));
+	return RvaF1Handle(new Rva005F5819(a1, (void *)&m_in));
 }
 
 // Widened queue: three independently witnessed members of this factory
@@ -113,17 +113,17 @@ struct Rva005F5F2BIn
 	int m_04;
 	Rva005A0B4CList *m_08;
 };
-class Rva005F5C77
+class Rva005F5BF2
 {
 	char m_storage[0x28];
 public:
-	Rva005F5C77(void *argument, Rva005F5C77In *context);
+	Rva005F5BF2(void *argument, Rva005F5C77In *context);
 };
-class Rva005F5F2B
+class Rva005F5EA6
 {
 	char m_storage[0x28];
 public:
-	Rva005F5F2B(void *argument, Rva005F5F2BIn *context);
+	Rva005F5EA6(void *argument, Rva005F5F2BIn *context);
 };
 struct Rva005E5D4D
 {
@@ -140,11 +140,11 @@ struct Rva005E5DA1
 
 RvaF1Handle Rva005E5D4D::rva005E5D4D(void *argument)
 {
-	return RvaF1Handle(new Rva005F5C77(argument, &m_context));
+	return RvaF1Handle(new Rva005F5BF2(argument, &m_context));
 }
 RvaF1Handle Rva005E5DA1::rva005E5DA1(void *argument)
 {
-	return RvaF1Handle(new Rva005F5F2B(argument, &m_context));
+	return RvaF1Handle(new Rva005F5EA6(argument, &m_context));
 }
 class Rva005E92F7
 {

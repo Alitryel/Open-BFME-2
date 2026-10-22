@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /EHsc /MD
-// ??0Rva005F589E@@QAE@HPAX@Z, retail 0x005F589E (174B).
+// ??0Rva005F5819@@QAE@HPAX@Z, retail 0x005F589E (174B).
 // Button ctor same 174B shape as sibling 0x005F5C77: three-base object (Base0 at +0
 // with int at +4, image holder at +8 built by pinned 0x005E1680 from a "button"
 // AsciiString temporary, listener at +0x1C), int/List* at +0x20/+0x24 from the
@@ -73,21 +73,21 @@ struct Rva005F589EIn
 	Rva005A0B4CList *m_08;
 };
 
-struct Rva005E16DA;
+class Rva005E16DA;
 
-extern Rva005E16DA g_00E068EC;
+extern Rva005E16DA g_rva00E068EC;
 
-class Rva005F589E : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
+class Rva005F5819 : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
 {
 public:
-	Rva005F589E(int a1, void *a2);
-	virtual ~Rva005F589E();
+	Rva005F5819(int a1, void *a2);
+	virtual ~Rva005F5819();
 private:
 	int m_20;
 	Rva005A0B4CList *m_24;
 };
 
-Rva005F589E::Rva005F589E(int a1, void *a2raw)
+Rva005F5819::Rva005F5819(int a1, void *a2raw)
 	: Rva00567960BaseMid()
 	, Rva005E12D1((void *)a1, AsciiString("button"), ((Rva005F589EIn *)a2raw)->m_00)
 	, Rva005E4AE2Listener()
@@ -95,7 +95,7 @@ Rva005F589E::Rva005F589E(int a1, void *a2raw)
 	Rva005F589EIn *a2 = (Rva005F589EIn *)a2raw;
 	m_20 = a2->m_04;
 	m_24 = a2->m_08;
-	const Image *img = ((Rva005E16B9 *)&g_00E068EC)->GetImage();
+	const Image *img = ((Rva005E16B9 *)&g_rva00E068EC)->GetImage();
 	((Rva005E1158 *)this)->rva005E1158(img);
 	m_24->append((Rva002BA8F1Listener *)static_cast<Rva005E4AE2Listener *>(this));
 }

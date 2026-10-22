@@ -19298,11 +19298,11 @@ _rva005DE059,0x005DE059,address,placeholder
 ?Rva005F5B0FNotify@@YAXPAURva005F5B0FA@@PAURva005F5B0FB@@@Z,0x005F5B0F,address,placeholder
 ??1Rva005F5BF2@@UAE@XZ,0x005F5BF2,address,placeholder
 ??_GRva005F5BF2@@UAEPAXI@Z,0x005F5C5B,address,placeholder
-??0Rva005F5C77@@QAE@PAXPAURva005F5C77In@@@Z,0x005F5C77,address,placeholder
+??0Rva005F5BF2@@QAE@PAXPAURva005F5C77In@@@Z,0x005F5C77,address,placeholder
 ?rva005F5D25@Rva005F5D25@@UAE?AURva005E1753Result@@XZ,0x005F5D25,address,placeholder
 ??1Rva005F5EA6@@UAE@XZ,0x005F5EA6,address,placeholder
 ??_GRva005F5EA6@@UAEPAXI@Z,0x005F5F0F,address,placeholder
-??0Rva005F5F2B@@QAE@PAXPAURva005F5F2BIn@@@Z,0x005F5F2B,address,placeholder
+??0Rva005F5EA6@@QAE@PAXPAURva005F5F2BIn@@@Z,0x005F5F2B,address,placeholder
 ?get@Rva005F6029PtrChaseField@@QBEHXZ,0x005F6029,address,placeholder
 ?get@Rva005F6030PtrChaseField@@QBEHXZ,0x005F6030,address,placeholder
 ?get@Rva005F603EPtrChaseField@@QBEHXZ,0x005F603E,address,placeholder

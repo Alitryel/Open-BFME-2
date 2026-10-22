@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /EHsc /MD
-// ??0Rva005F5C77@@QAE@PAXPAURva005F5C77In@@@Z @0x005F5C77 174B
+// ??0Rva005F5BF2@@QAE@PAXPAURva005F5C77In@@@Z @0x005F5C77 174B
 // Button constructor sibling of 0x005F5F2B (same 174B shape, same callees,
 // differing only in vtables and image global): three-base object (Base0 at +0
 // with int at +4, image holder at +8 built by pinned 0x005E1680 from a "button"
@@ -89,21 +89,21 @@ struct Rva005F5C77In
 	Rva005A0B4CList *m_08;
 };
 
-struct Rva005E16DA;
+class Rva005E16DA;
 
 extern Rva005E16DA g_rva00E06900;
 
-class Rva005F5C77 : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
+class Rva005F5BF2 : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
 {
 public:
-	Rva005F5C77(void *a1, Rva005F5C77In *a2);
-	virtual ~Rva005F5C77();
+	Rva005F5BF2(void *a1, Rva005F5C77In *a2);
+	virtual ~Rva005F5BF2();
 private:
 	int m_20;
 	Rva005A0B4CList *m_24;
 };
 
-Rva005F5C77::Rva005F5C77(void *a1, Rva005F5C77In *a2)
+Rva005F5BF2::Rva005F5BF2(void *a1, Rva005F5C77In *a2)
 	: Rva00567960BaseMid()
 	, Rva005E12D1(a1, AsciiString("button"), a2->m_00)
 	, Rva005E4AE2Listener()
