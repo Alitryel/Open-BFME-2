@@ -37,7 +37,7 @@ class BaseHeightMapRenderObjClass:public RenderObjClass,public DX8_CleanupHook,p
 public:BaseHeightMapRenderObjClass();virtual~BaseHeightMapRenderObjClass();virtual void ReleaseResources();virtual void ReAcquireResources();virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);
 char unknown0CC[0x3884-0xCC];
 };
-struct Rva00174753Allocation:private _STL::_Vector_base<int,_STL::allocator<int> >{Rva00174753Allocation()throw();~Rva00174753Allocation(){}};
+struct Rva00174753Allocation:private _STL::_Vector_base<int,_STL::allocator<int> >{Rva00174753Allocation()throw();~Rva00174753Allocation();};
 namespace _STL {template<>_Vector_base<int,allocator<int> >::_Vector_base(const allocator<int>&)throw();}
 struct Rva000E3BFEArrayMember {Rva000E3BFEArrayMember();char data[12];};
 class BfmeTaintModeView;extern BfmeTaintModeView*g_bfmeTaintModeView;

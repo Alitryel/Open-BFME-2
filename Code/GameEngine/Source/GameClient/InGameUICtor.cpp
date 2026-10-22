@@ -272,15 +272,7 @@ class Rva0029B5E3
 {
 public:
 	Rva0029B5E3() : m_ptr( 0 ) {}
-	~Rva0029B5E3()
-	{
-		Rva004E668E *owned = (Rva004E668E *)m_ptr;
-		m_ptr = 0;
-		if (owned) {
-			owned->Rva004E668E::~Rva004E668E();
-			::operator delete(owned);
-		}
-	}
+	~Rva0029B5E3();
 	void clear();
 
 private:
@@ -302,15 +294,7 @@ class Rva0029B620
 {
 public:
 	Rva0029B620( InGameNotificationBoxMovieClip *box ) : m_ptr( box ) {}
-	~Rva0029B620()
-	{
-		InGameNotificationBoxMovieClip *owned = (InGameNotificationBoxMovieClip *)m_ptr;
-		m_ptr = 0;
-		if (owned) {
-			owned->InGameNotificationBoxMovieClip::~InGameNotificationBoxMovieClip();
-			::operator delete(owned);
-		}
-	}
+	~Rva0029B620();
 	void clear();
 
 private:

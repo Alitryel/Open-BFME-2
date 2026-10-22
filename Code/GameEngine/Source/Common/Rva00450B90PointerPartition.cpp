@@ -17,17 +17,7 @@ struct Rva00450B90Item
 class Rva00450B90Predicate
 {
 public:
-	bool operator()(const Rva00450B90Item *item) const
-	{
-		if (!(((m_mask & 1) && item->m_flag26) ||
-		      ((m_mask & 2) && !item->m_flag26)))
-			return false;
-
-		return !((item->m_flag24 && (m_mask & 4)) ||
-		         (!item->m_flag24 && (m_mask & 8)) ||
-		         (item->m_flag25 && (m_mask & 0x10)) ||
-		         (!item->m_flag25 && (m_mask & 0x20)));
-	}
+	bool operator()(const Rva00450B90Item *item) const;
 
 	unsigned int m_mask;
 };
