@@ -19,6 +19,7 @@
 #undef _CRTIMP
 #define _CRTIMP
 #include <list>
+#include <vector>
 
 // _List_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
@@ -62,6 +63,7 @@ extern float g_Va00DEC49C;
 
 class W3DAptAux
 {
+	friend class AptShapeContainer;
  friend void w3dDrawRenderingUnit(class AptRenderingUnit*,Int);
 	friend void w3dCustomControlRender(const char *name, Int arg1, class AptRenderingUnit *renderingUnit, Int arg3);
 
@@ -156,12 +158,15 @@ struct AptRenderTransform
 
 AptRenderTransform g_aptRenderTransform; // native zero-filled DE6148..DE6160
 
+class AptShape;
 class AptShapeContainer
 {
 public:
+	void render();
 	void getRenderRegion(Coord2D &topLeft, Coord2D &bottomRight);	// 0x000A99B8
 
-	unsigned char m_pad00[0x10];
+	unsigned char m_pad00[4];
+	_STL::vector<AptShape *> m_shapes;
 	AptRenderTransform m_transform;				// +0x10
 };
 
@@ -375,7 +380,7 @@ class W3DAptRenderer {public:void *__fastcall BeginTriangleList(int count);};
 // shows the same ECX receiver and EDX count doubled before BeginTriangleList.
 // The purpose and original wrapper name remain unknown; this unit reuses
 // its established neutral renderer view.
-void *__fastcall BfmeHub982::rva00111312(int count)
+__declspec(noinline) void *__fastcall BfmeHub982::rva00111312(int count)
 {
  return reinterpret_cast<W3DAptRenderer *>(this)->BeginTriangleList(count*2);
 }
@@ -496,4 +501,244 @@ void BfmeT982::bfmeTouch982C()
 		m_displayString->slot38((int)x, (int)y, 1, 1);
 	else
 		m_displayString->slot34((int)x, (int)y);
+}
+
+// AptShapeContainer::render: native A9F98..AA557; WB 8A7F00 names
+// W3DAptAux.cpp:1190..1332. Native accesses establish the shape/vector,
+// transform and output-vertex layouts below. Renderer/helper names remain
+// neutral where only their address and ABI are established.
+class TextureBaseClass { public: void Release_Ref(); };
+class TextureClass : public TextureBaseClass {};
+template <class T> class RefCountPtr {
+public:
+	RefCountPtr() : Referent(0) {}
+	~RefCountPtr() { if (Referent) Referent->Release_Ref(); }
+	T *Referent;
+};
+class AssetReference {
+public:
+	~AssetReference() { if (m_texture) m_texture->Release_Ref(); }
+	operator bool() const { return m_texture != 0; }
+	TextureClass *m_texture;
+};
+class Rva001100A6 { public: void __fastcall rva001100A6(void *vertices); };
+class Rva001100C5 { public: void __fastcall rva001100C5(void *lines); };
+class Rva001103A5 { public: void __fastcall rva001103A5(const RefCountPtr<TextureClass> &texture); };
+class Rva000A9F23 { public: AssetReference rva000A9F23(); };
+class ShroudFilter { public: int minFilter, magFilter, unused08, words0C[2]; int getMag() const { return magFilter; } void setMag(int v) { magFilter = v; } void setMin(int v) { minFilter = v; } void SetMip(int); };
+class ShroudTexture { public: ShroudFilter *getFilter(); };
+struct V2 { float X, Y; };
+struct Rva001101D7;
+void __fastcall Rva001101D7Draw(void *renderer, Rva001101D7 *sink, const V2 &a, const V2 &b, float width, unsigned long color);
+struct AptTriangle { V2 p[3]; };
+struct AptLineSegment { V2 a, b; };
+struct AptVertex { V2 pos; float z; unsigned long color; V2 uv; float pad[2]; };
+class AptTexturedShape {
+public:
+	void scaleTransformToTexture(const TextureBaseClass *texture);	// 0x000A9C39
+	void *m_vptr;
+	unsigned long m_color;					// +0x04
+	_STL::vector<AptTriangle> m_triangles;			// +0x08
+	bool m_14;
+	bool m_textureSpace;					// +0x15
+	unsigned char m_pad16[2];
+	void *m_texture;					// +0x18
+	AptRenderTransform m_uvTransform;			// +0x1C
+};
+class AptSolidShape {
+public:
+	void *m_vptr;
+	unsigned long m_color;					// +0x04
+	_STL::vector<AptTriangle> m_triangles;			// +0x08
+};
+class AptLineShape {
+public:
+	void *m_vptr;
+	float m_width;						// +0x04
+	unsigned long m_color;					// +0x08
+	_STL::vector<AptLineSegment> m_segments;		// +0x0C
+};
+class AptShape {
+public:
+	virtual void slot00();
+	virtual int getType();					// +0x04
+	virtual AptTexturedShape *asTextured();			// +0x08
+	virtual AptSolidShape *asSolid();			// +0x0C
+	virtual AptLineShape *asLine();				// +0x10
+};
+
+static __forceinline void aptMatrixMul(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	out.X = in.X * m.a + in.Y * m.c + m.tx;
+	out.Y = in.X * m.b + in.Y * m.d + m.ty;
+}
+static __forceinline void aptMatrixMulNamedY(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	out.X = in.X * m.a + in.Y * m.c + m.tx;
+	float Y0 = in.X * m.b;
+	float Y1 = in.Y * m.d;
+	out.Y = Y0 + Y1 + m.ty;
+}
+static __forceinline void aptMatrixMulNamedProducts(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	float X0 = in.X * m.a;
+	float X1 = in.Y * m.c;
+	out.X = X0 + X1 + m.tx;
+	float Y0 = in.X * m.b;
+	float Y1 = in.Y * m.d;
+	out.Y = Y0 + Y1 + m.ty;
+}
+static __forceinline void aptMatrixMulIndexed(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	const float *q = &in.X;
+	out.X = q[0] * m.a + q[1] * m.c + m.tx;
+	out.Y = q[0] * m.b + q[1] * m.d + m.ty;
+}
+static __forceinline void aptMatrixMulLineSecond(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	const float *q = &in.X;
+	float X0 = (m.a * q[0]);
+	float X1 = m.c * q[1];
+	out.X = X0 + X1 + m.tx;
+	out.Y = (((q[0] * m.b)) + ((q[1] * m.d))) + m.ty;
+}
+static __forceinline void aptMatrixMulSolidThird(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	const float *q = &in.X;
+	float X0 = (m.a * q[0]);
+	float X1 = (m.c * q[1]);
+	out.X = X0 + X1 + m.tx;
+	out.Y = q[0] * m.b + q[1] * m.d + m.ty;
+}
+
+static __forceinline void aptMatrixMulUVLast(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	out.X = in.X * m.a + in.Y * m.c + m.tx;
+	// Preserve the native load order of the two Y products.
+	out.Y = in.X * m.b + *reinterpret_cast<const volatile float *>(&in.Y) * m.d + m.ty;
+}
+
+static __forceinline void aptMatrixMulUVFirst(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	out.X = ((in.X * m.a) + (in.Y * m.c)) + m.tx;
+	// Preserve the native load order of the two Y products.
+	out.Y = (in.X * m.b) + *reinterpret_cast<const volatile float *>(&in.Y) * m.d + m.ty;
+}
+void AptShapeContainer::render()
+{
+	V2 a, b;
+	for (_STL::vector<AptShape *>::iterator it = m_shapes.begin(); it != m_shapes.end(); ++it) {
+		AptShape *shape = *it;
+		switch (shape->getType()) {
+		case 0: {
+			AptTexturedShape *textured = shape->asTextured();
+			if (!textured)
+				break;
+			AssetReference texture = ((Rva000A9F23 *)textured)->rva000A9F23();
+			if (texture) {
+				if (!textured->m_textureSpace)
+					textured->scaleTransformToTexture((const TextureBaseClass *)&texture);
+				if (aptMatrixMode == 1 && ((ShroudTexture *)&texture)->getFilter()->getMag() != 1) {
+					((ShroudTexture *)&texture)->getFilter()->setMag(aptMatrixMode);
+					((ShroudTexture *)&texture)->getFilter()->setMin(aptMatrixMode);
+					((ShroudTexture *)&texture)->getFilter()->SetMip(aptMatrixMode);
+				}
+			}
+			unsigned long color = Rva000A90B0(textured->m_color);
+			((Rva001103A5 *)W3DAptAux::s_renderer)->rva001103A5(*(const RefCountPtr<TextureClass> *)&texture);
+			AptVertex *v = (AptVertex *)((W3DAptRenderer *)W3DAptAux::s_renderer)->BeginTriangleList(textured->m_triangles.size());
+			if (v) {
+				const AptRenderTransform &uvTransform = textured->m_uvTransform;
+				// Textured triangles use the native 1/0/2 winding.
+				const int firstVertex = 1;
+				const int secondVertex = 0;
+				const int thirdVertex = 2;
+				const int depth = 0;
+				const int vertexStep = 1;
+				for (_STL::vector<AptTriangle>::iterator t = textured->m_triangles.begin(); t != textured->m_triangles.end(); ++t) {
+					const int first = firstVertex;
+					const int second = secondVertex;
+					const int third = thirdVertex;
+					const AptTriangle &tri = *t;
+					aptMatrixMul(v->pos, tri.p[first], m_transform);
+					v->z = (float)depth;
+					v->color = color;
+					aptMatrixMulUVFirst(v->uv, tri.p[first], uvTransform);
+					v += vertexStep;
+					aptMatrixMul(v->pos, tri.p[second], m_transform);
+					v->z = (float)depth;
+					v->color = color;
+					aptMatrixMul(v->uv, tri.p[second], uvTransform);
+					v += vertexStep;
+					aptMatrixMulIndexed(v->pos, tri.p[third], m_transform);
+					v->z = (float)depth;
+					v->color = color;
+					aptMatrixMulUVLast(v->uv, tri.p[third], uvTransform);
+					v += vertexStep;
+				}
+				((Rva001100A6 *)W3DAptAux::s_renderer)->rva001100A6(v);
+			}
+			break;
+		}
+		case 1: {
+			AptSolidShape *solid = shape->asSolid();
+			if (!solid)
+				break;
+			unsigned long color = Rva000A90B0(solid->m_color);
+			((Rva001103A5 *)W3DAptAux::s_renderer)->rva001103A5(RefCountPtr<TextureClass>());
+			AptVertex *v = (AptVertex *)((W3DAptRenderer *)W3DAptAux::s_renderer)->BeginTriangleList(solid->m_triangles.size());
+			if (!v)
+				break;
+			for (_STL::vector<AptTriangle>::iterator t = solid->m_triangles.begin(); t != solid->m_triangles.end(); ++t) {
+				// Solid triangles use the native 0/2/1 winding.
+				const int first = 0;
+				const int second = 2;
+				const int third = 1;
+				const int depth = 0;
+				const int vertexStep = 1;
+				const AptTriangle &tri = *t;
+				aptMatrixMulNamedProducts(v->pos, tri.p[first], m_transform);
+				v->z = (float)depth;
+				v->color = color;
+				v += vertexStep;
+				aptMatrixMul(v->pos, tri.p[second], m_transform);
+				v->z = (float)depth;
+				v->color = color;
+				v += vertexStep;
+				aptMatrixMulSolidThird(v->pos, tri.p[third], m_transform);
+				v->z = (float)depth;
+				v->color = color;
+				v += vertexStep;
+			}
+			((Rva001100A6 *)W3DAptAux::s_renderer)->rva001100A6(v);
+			break;
+		}
+		case 2: {
+			AptLineShape *line = shape->asLine();
+			if (!line)
+				break;
+			unsigned long color = Rva000A90B0(line->m_color);
+			((Rva001103A5 *)W3DAptAux::s_renderer)->rva001103A5(RefCountPtr<TextureClass>());
+			void *lines = W3DAptAux::s_renderer->rva00111312(line->m_segments.size());
+			if (!lines)
+				break;
+			for (_STL::vector<AptLineSegment>::iterator g = line->m_segments.begin(); g != line->m_segments.end(); ++g) {
+				const AptLineSegment &segment = *g;
+				aptMatrixMulNamedY(a, segment.a, m_transform);
+				aptMatrixMulLineSecond(b, segment.b, m_transform);
+				Rva001101D7Draw(W3DAptAux::s_renderer, (Rva001101D7 *)&lines, a, b, line->m_width, color);
+			}
+			((Rva001100C5 *)W3DAptAux::s_renderer)->rva001100C5(lines);
+			break;
+		}
+		}
+	}
 }
