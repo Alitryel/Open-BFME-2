@@ -99,6 +99,22 @@ namespace _STL { template <> void deque<BuddyRequest, allocator<BuddyRequest> >:
 namespace _STL { template <> void deque<BuddyRequest, allocator<BuddyRequest> >::_M_reallocate_map(unsigned int, bool); }
 namespace _STL { template <> BuddyRequest * allocator<BuddyRequest>::allocate(unsigned int, void const *) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@VBuddyRequest@@@_STL@@QBEXPAVBuddyRequest@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BuddyRequest;
+namespace _STL { template <> void allocator<BuddyRequest>::deallocate(BuddyRequest *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAVBuddyRequest@@@_STL@@QBEXPAPAVBuddyRequest@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BuddyRequest;
+namespace _STL { template <> void allocator<BuddyRequest *>::deallocate(BuddyRequest * *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@VBuddyResponse@@@_STL@@QBEXPAVBuddyResponse@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BuddyResponse;
+namespace _STL { template <> void allocator<BuddyResponse>::deallocate(BuddyResponse *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAVBuddyResponse@@@_STL@@QBEXPAPAVBuddyResponse@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BuddyResponse;
+namespace _STL { template <> void allocator<BuddyResponse *>::deallocate(BuddyResponse * *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }

@@ -127,6 +127,15 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterat
 #include "thread.h"
 
 #include "Common/MiniLog.h"
+// Suppress this TU's non-retail copy of ?find@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QBEIPBDII@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned int basic_string<char,char_traits<char>,allocator<char> >::find(char const *,unsigned int,unsigned int) const; }
+// Suppress this TU's non-retail copy of ??$search@PBDPBDU?$_Eq_traits@V?$char_traits@D@_STL@@@_STL@@@_STL@@YAPBDPBD000U?$_Eq_trait:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char const * search<char const *,char const *,_Eq_traits<char_traits<char> > >(char const *,char const *,char const *,char const *,_Eq_traits<char_traits<char> >); }
+// Suppress this TU's non-retail copy of ?_M_deallocate@?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAGPAG@_STL@@YAPAGPAG00ABU__true_type@0@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> unsigned short * __uninitialized_copy<unsigned short *,unsigned short *>(unsigned short *,unsigned short *,unsigned short *,__true_type const &); }

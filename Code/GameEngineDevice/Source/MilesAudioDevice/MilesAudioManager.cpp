@@ -198,6 +198,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UOpaqueRefElement4@@V?$allocator@UOpaqueRefElement4@@@_STL@@@_STL@@QAE@X:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct OpaqueRefElement4;
+namespace _STL { template <> _Vector_base<OpaqueRefElement4,allocator<OpaqueRefElement4> >::~_Vector_base(); }
 
 // Declaration-only: the rowed set<AsciiString> tree members are bound,
 // this TU emits no per-flag copy of them or of their allocator leaves.

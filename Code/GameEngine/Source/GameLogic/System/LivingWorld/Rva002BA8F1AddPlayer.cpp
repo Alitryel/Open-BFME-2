@@ -26,6 +26,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include "../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PAVRva002E2903Player@@V?$allocator@PAVRva002E2903Player@@@_STL@@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva002E2903Player;
+namespace _STL { template <> void vector<Rva002E2903Player *,allocator<Rva002E2903Player *> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAVRva002E2903Player@@@_STL@@QBEXPAPAVRva002E2903Player@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva002E2903Player;
+namespace _STL { template <> void allocator<Rva002E2903Player *>::deallocate(Rva002E2903Player * *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PAVRva002E2903Player@@@_STL@@QBEPAPAVRva002E2903Player@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva002E2903Player;
+namespace _STL { template <> Rva002E2903Player * * allocator<Rva002E2903Player *>::allocate(unsigned int,void const *) const; }
 struct Rva002BA8F1Input {
     char at00[8]; AsciiString at08, at0C, at10;
     int at14, at18; char at1C[8]; bool at24;
