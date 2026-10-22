@@ -84,3 +84,13 @@ Code/GameEngine/Source/Common/Rva0036E346Count.cpp|param|Rva0036E1F7::groupOverr
 Code/GameEngine/Source/Common/Rva0036E346Count.cpp|param|Rva0036E1F7::groupOverrideSpecialPowerDestination|b,5d60c65ac81b75ec016eba14,seat-b-sonnet,rn-1022-1-b,w-f5ec132651c8,2026-10-22
 Code/GameEngine/Source/Common/Rva0036E346Count.cpp|param|Rva0036E1F7::groupOverrideSpecialPowerDestination|c,7e67ad50f1055a8726e19537,seat-b-sonnet,rn-1022-1-b,w-f5ec132651c8,2026-10-22
 Code/GameEngine/Source/Common/Rva0036E346Count.cpp|local|Rva0036E1F7::groupOverrideSpecialPowerDestination|p,d726afea00b4b51a5ee1598e,seat-b-sonnet,rn-1022-1-b,w-f5ec132651c8,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|PartModuleData|m_10,c818458137ccd7d3f462ef7e,seat-a,rn-1022-5-a,w-05e25208bf0a,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|PartModuleData|m_3c,8273b67b7c8ff11632a70626,seat-a,rn-1022-5-a,w-05e25208bf0a,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|PartModuleData|m_68,1947f1b3e491c6ca934d4515,seat-a,rn-1022-5-a,w-05e25208bf0a,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,3bb143a5488051104f5c6606,seat-a,rn-1022-5-a,w-05e25208bf0a,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|local|PartTheHeavensUpdate::rva004AC9FA|t,7466762b78ef83039f1e6f2c,seat-a,rn-1022-5-a,w-05e25208bf0a,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|PartModuleData|m_10,c818458137ccd7d3f462ef7e,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|PartModuleData|m_3c,8273b67b7c8ff11632a70626,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|PartModuleData|m_68,1947f1b3e491c6ca934d4515,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,1b563284351149d694fadcf9,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|local|PartTheHeavensUpdate::rva004AC9FA|t,7466762b78ef83039f1e6f2c,seat-b-sonnet,rn-1022-5-b,w-380e932e4b6b,2026-10-22

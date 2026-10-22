@@ -19,11 +19,11 @@ class PartModuleData
 {
 public:
 	char m_pad0[0x10];
-	FCurve m_10;
+	FCurve m_radius;
 	char m_pad1[0x3c - 0x11];
-	FCurve m_3c;
+	FCurve m_opacity;
 	char m_pad2[0x68 - 0x3d];
-	FCurve m_68;
+	FCurve m_angle;
 };
 
 class ShadowChild
@@ -62,17 +62,17 @@ void PartTheHeavensUpdate::rva004AC9FA(int elapsed)
 	if (m_shadow == 0)
 		return;
 	PartModuleData *data = m_moduleData;
-	float t = (float)(unsigned)elapsed;
-	float doubled = data->m_10.operator()(t);
+	float elapsedFrames = (float)(unsigned)elapsed;
+	float doubled = data->m_radius.operator()(elapsedFrames);
 	doubled = doubled + doubled;
-	volatile float rads = (m_shadow ? (data->m_68.operator()(t)) : (data->m_68.operator()(t))) * RADS_PER_DEGREE;
+	volatile float rads = (m_shadow ? (data->m_angle.operator()(elapsedFrames)) : (data->m_angle.operator()(elapsedFrames))) * RADS_PER_DEGREE;
 	ShadowChild *first = m_shadow->m_58;
 	first->m_58 = doubled;
 	first->m_5c = doubled;
 	ShadowChild *second = m_shadow->m_5c;
 	second->m_58 = doubled;
 	second->m_5c = doubled;
-	m_shadow->setOpacity((int)(data->m_3c.operator()(t) * 255.0f));
+	m_shadow->setOpacity((int)(data->m_opacity.operator()(elapsedFrames) * 255.0f));
 	float neg = -rads;
 	*(int *)&m_shadow->m_58->m_20 = *(int *)&rads;
 	m_shadow->m_5c->m_20 = neg;
