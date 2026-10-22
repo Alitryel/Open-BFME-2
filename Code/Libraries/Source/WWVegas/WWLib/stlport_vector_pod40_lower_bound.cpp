@@ -27,5 +27,15 @@ struct BfmePod40 { int a[10]; __forceinline bool operator<(const BfmePod40 &o) c
 namespace _STL { template <> vector<BfmePod40, allocator<BfmePod40> >::~vector(); }
 namespace _STL { template <> BfmePod40 *vector<BfmePod40, allocator<BfmePod40> >::erase(BfmePod40 *); }
 namespace _STL { template <> BfmePod40 *vector<BfmePod40, allocator<BfmePod40> >::erase(BfmePod40 *, BfmePod40 *); }
-template class _STL::vector<BfmePod40, _STL::allocator<BfmePod40> >;
+// reserve inlines this cleanup; its out-of-line copy belongs to the retail provider.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void vector<BfmePod40>::_M_clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start,
+        this->_M_end_of_storage._M_data - this->_M_start);
+}
+}
+template _STL::_Vector_base<BfmePod40, _STL::allocator<BfmePod40> >::_Vector_base(unsigned int, const _STL::allocator<BfmePod40> &);
+template void _STL::vector<BfmePod40>::reserve(unsigned int);
 template BfmePod40 *_STL::__lower_bound<BfmePod40 *, BfmePod40, _STL::less<BfmePod40>, int>(BfmePod40 *, BfmePod40 *, const BfmePod40 &, _STL::less<BfmePod40>, int *);

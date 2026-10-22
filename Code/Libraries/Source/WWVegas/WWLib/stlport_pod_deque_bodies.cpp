@@ -29,9 +29,11 @@ struct BfmePod28 { int a[7]; };
 struct BfmePod40 { int a[10]; };
 struct BfmePod56 { int a[14]; };
 struct BfmePod108 { int a[27]; };
-template class _STL::deque<BfmePod16, _STL::allocator<BfmePod16 > >;
-template class _STL::deque<BfmePod20, _STL::allocator<BfmePod20 > >;
-template class _STL::deque<BfmePod28, _STL::allocator<BfmePod28 > >;
-template class _STL::deque<BfmePod40, _STL::allocator<BfmePod40 > >;
-template class _STL::deque<BfmePod56, _STL::allocator<BfmePod56 > >;
-template class _STL::deque<BfmePod108, _STL::allocator<BfmePod108 > >;
+// Instantiate the recovered operations and their native callees only.
+template void _STL::deque<BfmePod16>::push_back(const BfmePod16 &);
+template void _STL::_Deque_iterator_base<BfmePod28>::_M_increment();
+template void _STL::_Deque_iterator_base<BfmePod40>::_M_increment();
+template void _STL::_Deque_iterator_base<BfmePod40>::_M_decrement();
+template BfmePod108 *_STL::allocator<BfmePod108>::allocate(unsigned int, const void *) const;
+template BfmePod56 *_STL::allocator<BfmePod56>::allocate(unsigned int, const void *) const;
+template void _STL::deque<BfmePod28>::_M_reserve_map_at_back(unsigned int);

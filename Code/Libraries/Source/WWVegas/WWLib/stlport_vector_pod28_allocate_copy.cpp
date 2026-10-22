@@ -25,5 +25,7 @@ struct BfmePod28 { int a[7]; __forceinline bool operator<(const BfmePod28 &o) co
 // bfme link decl-only BfmePod28
 namespace _STL { template <> BfmePod28 * vector<BfmePod28, allocator<BfmePod28> >::erase(BfmePod28 *, BfmePod28 *); }
 namespace _STL { template <> BfmePod28 * vector<BfmePod28, allocator<BfmePod28> >::erase(BfmePod28 *); }
-template class _STL::vector<BfmePod28, _STL::allocator<BfmePod28> >;
+template BfmePod28 *_STL::vector<BfmePod28>::_M_allocate_and_copy<const BfmePod28 *>(unsigned int, const BfmePod28 *, const BfmePod28 *);
+template void _STL::vector<BfmePod28>::clear();
+template void _STL::vector<BfmePod28>::_M_insert_overflow(BfmePod28 *, const BfmePod28 &, const _STL::__false_type &, unsigned int, bool);
 template BfmePod28 *_STL::__lower_bound<BfmePod28 *, BfmePod28, _STL::less<BfmePod28>, int>(BfmePod28 *, BfmePod28 *, const BfmePod28 &, _STL::less<BfmePod28>, int *);

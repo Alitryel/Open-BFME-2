@@ -88,23 +88,32 @@ inline bool operator<(const BfmeShortPod22 &x, const BfmeShortPod22 &y) { return
 struct BfmeShortPod26 { short a[13]; };
 inline bool operator==(const BfmeShortPod26 &x, const BfmeShortPod26 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmeShortPod26 &x, const BfmeShortPod26 &y) { return x.a[0] < y.a[0]; }
-template class _STL::list<BfmePod12, _STL::allocator<BfmePod12 > >;
-template class _STL::list<BfmePod20, _STL::allocator<BfmePod20 > >;
-template class _STL::list<BfmePod24, _STL::allocator<BfmePod24 > >;
-template class _STL::list<BfmePod8, _STL::allocator<BfmePod8 > >;
-template class _STL::list<BfmePod28, _STL::allocator<BfmePod28 > >;
-template class _STL::list<BfmePod32, _STL::allocator<BfmePod32 > >;
-template class _STL::list<BfmePod60, _STL::allocator<BfmePod60 > >;
-template class _STL::list<BfmePod72, _STL::allocator<BfmePod72 > >;
-template class _STL::list<BfmePod124, _STL::allocator<BfmePod124 > >;
-template class _STL::list<BfmePod196, _STL::allocator<BfmePod196 > >;
 // Emit the recovered experience-list operations and their cleanup only.
 // Blanket instantiation also emitted unsupported comparisons and POD copies.
 template _STL::list<BfmePod264>::list(const _STL::list<BfmePod264> &);
 template void _STL::list<BfmePod264>::push_back(const BfmePod264 &);
 template _STL::list<BfmePod264>::_Node *_STL::list<BfmePod264>::_M_create_node(const BfmePod264 &);
 template _STL::_List_base<BfmePod264, _STL::allocator<BfmePod264> >::~_List_base();
-template class _STL::list<BfmeShortPod22, _STL::allocator<BfmeShortPod22 > >;
-template class _STL::list<BfmeShortPod26, _STL::allocator<BfmeShortPod26 > >;
 
 
+// Instantiate the recovered list operations and their native callees only.
+template _STL::list<BfmePod20>::list(const _STL::allocator<BfmePod20> &);
+template _STL::list<BfmePod24>::list(const _STL::allocator<BfmePod24> &);
+template _STL::list<BfmePod28>::list(const _STL::allocator<BfmePod28> &);
+template _STL::list<BfmePod32>::list(const _STL::allocator<BfmePod32> &);
+template _STL::list<BfmePod60>::list(const _STL::allocator<BfmePod60> &);
+template _STL::list<BfmePod8>::list(const _STL::allocator<BfmePod8> &);
+template _STL::list<BfmePod124>::list(const _STL::allocator<BfmePod124> &);
+template _STL::list<BfmePod196>::list(const _STL::allocator<BfmePod196> &);
+template _STL::list<BfmePod72>::list(const _STL::allocator<BfmePod72> &);
+template _STL::list<BfmePod32>::list(const _STL::list<BfmePod32> &);
+template _STL::list<BfmePod196>::list(const _STL::list<BfmePod196> &);
+template _STL::list<BfmePod60>::_Node *_STL::list<BfmePod60>::_M_create_node(const BfmePod60 &);
+template _STL::list<BfmePod72>::_Node *_STL::list<BfmePod72>::_M_create_node(const BfmePod72 &);
+template _STL::list<BfmePod124>::_Node *_STL::list<BfmePod124>::_M_create_node(const BfmePod124 &);
+template _STL::list<BfmePod196>::_Node *_STL::list<BfmePod196>::_M_create_node(const BfmePod196 &);
+template _STL::list<BfmePod12>::_Node *_STL::list<BfmePod12>::_M_create_node(const BfmePod12 &);
+template void _STL::list<BfmePod12>::remove(const BfmePod12 &);
+template void _STL::list<BfmePod32>::push_back(const BfmePod32 &);
+template _STL::list<BfmePod196> &_STL::list<BfmePod196>::operator=(const _STL::list<BfmePod196> &);
+template _STL::list<BfmePod32>::_Node *_STL::list<BfmePod32>::_M_create_node(const BfmePod32 &);

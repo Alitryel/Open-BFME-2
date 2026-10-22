@@ -261,7 +261,7 @@ namespace _STL { template <> void _Destroy(CreateAHeroManager::CreateAHeroSubCla
 namespace _STL { template <> __declspec(nothrow) void _Construct<CreateAHeroManager::CreateAHeroSubClass, CreateAHeroManager::CreateAHeroSubClass>(CreateAHeroManager::CreateAHeroSubClass *__p, const CreateAHeroManager::CreateAHeroSubClass &__val); }
 inline bool operator==(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] < y.a[0]; }
-struct BfmePod248 { int a[62]; };
+struct BfmePod248 { int a[62]; ~BfmePod248(); };
 namespace _STL {template<> vector<BfmePod248,allocator<BfmePod248> >::~vector();}
 inline bool operator==(const BfmePod248 &x, const BfmePod248 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod248 &x, const BfmePod248 &y) { return x.a[0] < y.a[0]; }
@@ -316,24 +316,7 @@ BfmePod44 *vector<BfmePod44>::_M_allocate_and_copy<BfmePod44 *>(
 
 // Keep the shared destruction workers in their existing retail providers.
 namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void __destroy_aux<BfmePod248 *>(BfmePod248 *__first, BfmePod248 *__last, const __false_type &)
-{
-    for (; __first != __last; ++__first)
-        _Destroy(&*__first);
-}
-
-template <> __declspec(dllimport) __forceinline
-void _Destroy<BfmePod248 *>(BfmePod248 *__first, BfmePod248 *__last)
-{ __destroy(__first, __last, (BfmePod248 *)0); }
-
-template <> __declspec(dllimport) __forceinline
-void vector<BfmePod248>::_M_clear()
-{
-    _Destroy(this->_M_start, this->_M_finish);
-    this->_M_end_of_storage.deallocate(this->_M_start,
-        this->_M_end_of_storage._M_data - this->_M_start);
-}
+template <> void vector<BfmePod248>::_M_clear();
 
 template <> __declspec(dllimport) __forceinline
 void __destroy_aux<BfmePod252 *>(BfmePod252 *__first, BfmePod252 *__last, const __false_type &)
@@ -398,6 +381,52 @@ char *_STLP_alloc_proxy<char *, char, allocator<char> >::allocate(size_t __n)
 template <> __declspec(dllimport) __forceinline
 char *uninitialized_fill_n<char *, unsigned int, char>(char *__first, unsigned int __n, const char &__x)
 { return __uninitialized_fill_n(__first, __n, __x, __true_type()); }
+}
+
+// Retail growth constructs and releases the non-trivial element without a catch.
+namespace _STL {
+template <> inline void vector<BfmePod248>::_M_insert_overflow(
+    pointer position, const BfmePod248 &value, const __false_type &,
+    size_type fillCount, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillCount);
+    pointer newStart = this->_M_end_of_storage.allocate(length);
+    pointer newFinish = newStart;
+    newFinish = __uninitialized_copy(this->_M_start, position, newStart, __false_type());
+    if (fillCount == 1) {
+        _Construct(newFinish, value);
+        ++newFinish;
+    } else
+        newFinish = __uninitialized_fill_n(newFinish, fillCount, value, __false_type());
+    if (!atEnd)
+        newFinish = __uninitialized_copy(position, this->_M_finish, newFinish, __false_type());
+    _M_clear();
+    _M_set(newStart, newFinish, newStart + length);
+}
+}
+
+// The 28-byte growth worker is likewise retail's body without a catch.
+namespace _STL {
+template <> inline void vector<BfmePod28>::_M_insert_overflow(
+    pointer position, const BfmePod28 &value, const __false_type &,
+    size_type fillCount, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillCount);
+    pointer newStart = this->_M_end_of_storage.allocate(length);
+    pointer newFinish = newStart;
+    newFinish = __uninitialized_copy(this->_M_start, position, newStart, __false_type());
+    if (fillCount == 1) {
+        _Construct(newFinish, value);
+        ++newFinish;
+    } else
+        newFinish = __uninitialized_fill_n(newFinish, fillCount, value, __false_type());
+    if (!atEnd)
+        newFinish = __uninitialized_copy(position, this->_M_finish, newFinish, __false_type());
+    _M_clear();
+    _M_set(newStart, newFinish, newStart + length);
+}
 }
 
 // The 20-byte growth worker is the complete no-catch retail body at

@@ -18,4 +18,4 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmePod32 { int a[8]; };
 // bfme link decl-only BfmePod32
 namespace _STL { template <> vector<BfmePod32, allocator<BfmePod32> >::~vector(); }
-template class _STL::vector<BfmePod32, _STL::allocator<BfmePod32> >;
+template BfmePod32 *_STL::vector<BfmePod32>::_M_allocate_and_copy<const BfmePod32 *>(unsigned int, const BfmePod32 *, const BfmePod32 *);
