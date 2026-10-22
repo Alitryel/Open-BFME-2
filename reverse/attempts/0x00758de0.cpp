@@ -1,6 +1,8 @@
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
-// partial score=0.9069 date=2026-10-22
+// partial score=0.924924924924925 date=2026-10-22
 // cl: /O2 /MD /EHsc /I.
+// Diagnostic only: the packed fastcall interface is an ABI model, not a proven original type.
+// The uniform virtual-interface control is preserved in the final-schedule support packet.
 // Keep the saved node while advancing the shared cursor.
 // Prepare each response with the two sources of that saved node.
 // Read the normal's x and y, copy its z, then negate all three into the reverse.
@@ -22,6 +24,10 @@ struct ContactSource {
  virtual bool test(void *info)=0;
  virtual void respond(void *info)=0;
 };
+struct PArg { const ContactVector * p; PArg(const ContactVector &p):p(&p){} };
+struct PPair { PArg point,normal; PPair(const ContactVector &p,const ContactVector &n):point(p),normal(n){} };
+struct AlternateSource { virtual void slot0()=0; virtual void slot1()=0; virtual void slot2()=0; virtual void * __fastcall preparePair(PPair a)=0; };
+inline void *altPrepare(ContactSource *s,const ContactVector &point,const ContactVector &normal) {return ((AlternateSource *)s)->preparePair(PPair(point,normal));}
 struct ContactData { void *owner; ContactSource *source; };
 struct ContactNode {
  ContactData *first,*second;
@@ -58,6 +64,6 @@ void BfmeThingCGD::bfmeTwoCGD() {
   if(node->state==2) continue;
   node->first->source->respond(node->second->source->prepare(node->point,node->normal));
   if(node->first->source==0 || node->second->source==0) continue;
-  node->second->source->respond(node->first->source->prepare(node->point,ContactVector(node->normal).negate()));
+  node->second->source->respond(altPrepare(node->first->source,node->point,ContactVector(node->normal).negate()));
  }
 }
