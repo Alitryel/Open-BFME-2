@@ -39,3 +39,32 @@ name_globals.py --dry-run reports0files/0edits. Current-object checks of
 45near-two-blocker units found7alreadyclean, including this seat's narrow
 and wide scanner repairs; no upstream improvement is credited to this seat.
 The published census is08160bc2c9 (2026-10-22 17:08).
+
+Session close and integrated batch
+---------------------------------
+At dd5807dd58, upstream had independently isolated Pod900 and freed 2,174 B.
+Rebased the earlier complete helper repair by rehoming its four rows to their
+original unit and removing the temporary split unit. The 2,662 -> 2,838 B
+three-unit current-object cohort proves only +176 B additional legacy gain;
+the upstream isolation gain is excluded from our final total.
+
+Seven pending repair commits now add 3,505 B relative to this upstream tree:
+Pod900 176; StructureTopple 266; wide scanners 563; narrow scanners 1,181;
+vector180 destruction 221; build-queue destruction 929; notice frame 169.
+The last four are this session's new repairs (+2,500 B). All seven units
+pass the integrated gate, 119/119 rows, and current-object link_check reports
+7/7 clean (5,679 B in the units, including upstream's 2,174 B). These remain
+legacy predictions; no self-strict or closed-strict gain is claimed.
+
+progress.py origin/master after integration reports exact coverage unchanged,
+with 46 B moving from authored to generated classification because the five
+existing build-queue EH labels now have their proven gen-funclet parents.
+Published linking counters remain unchanged until a fresh census measures the
+tree. The unrelated read-only four-unit refresh was interrupted before it
+returned predictions; it is not evidence that any queue is exhausted.
+
+Narrow append's reopened visible-body trial is restored, logged and released;
+resume only after the allocator ABI and deallocation visibility prerequisites
+in 20261022-narrow-append-visible/readme.md change. Other unresolved work is
+listed above. End this long session after publication/runner handoff at the
+context limit; no unfinished source reconstruction remains in Code/.
