@@ -6,10 +6,9 @@
 // second-table miss fills (0x50/0x14) for the same callee plus the pinned
 // 1-arg callee, stamps +0xC and runs the pinned tail body. The middle arg
 // is unused. Targets from retail REL32; strcmp via plain C decl reusing
-// the existing thunk pin; tables as named externs.
+// the existing thunk pin; the two table names are retail's string literals
+// ("SavedHeroList" 0x00C73640, "SavedHeroStats" 0x00C73630).
 extern "C" int __cdecl strcmp(const char *a, const char *b);
-extern char g_rva005B6967T0[];
-extern char g_rva005B6967T1[];
 
 struct Rva005B6967Buf
 {
@@ -17,6 +16,8 @@ struct Rva005B6967Buf
 	int y;
 	int z;
 };
+
+class GameWindow;
 
 namespace AptCreateAHero {
 class Manager;
@@ -34,28 +35,28 @@ public:
 	void InitGadgets(char *a, int unused, char *c);
 };
 
-void Rva005B6967F(char *s, int n, int *p);
-void Rva005B6967G(char *s);
+void GadgetListBoxSetColumnWidths(GameWindow *listbox, int numColumns, int *widths);
+void GadgetListBoxAddMultiSelect(GameWindow *listbox);
 
 void AptCreateAHero::Manager::InitGadgets(char *a, int unused, char *c)
 {
 	if (c == 0)
 		return;
 	Rva005B6967Buf buf;
-	if (strcmp(a, g_rva005B6967T0) == 0) {
+	if (strcmp(a, "SavedHeroList") == 0) {
 		buf.x = 9;
 		buf.y = 0x2e;
 		buf.z = 0x2d;
-		Rva005B6967F(c, 3, &buf.x);
+		GadgetListBoxSetColumnWidths((GameWindow *)c, 3, &buf.x);
 		m_8 = c;
 		PopulateHeroList();
 	} else {
-		if (strcmp(a, g_rva005B6967T1) != 0)
+		if (strcmp(a, "SavedHeroStats") != 0)
 			return;
 		buf.y = 0x50;
 		buf.z = 0x14;
-		Rva005B6967F(c, 2, &buf.y);
-		Rva005B6967G(c);
+		GadgetListBoxSetColumnWidths((GameWindow *)c, 2, &buf.y);
+		GadgetListBoxAddMultiSelect((GameWindow *)c);
 		m_C = c;
 		rva005B5F2E();
 	}

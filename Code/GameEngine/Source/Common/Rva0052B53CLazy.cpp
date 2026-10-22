@@ -14,25 +14,24 @@ void __cdecl MD5Update(MD5_CTX *context, unsigned char *input, unsigned int inpu
 class XferSave
 {
 public:
+	XferSave();				// 0x0060D1F7
+	virtual ~XferSave();			// 0x0060D0B3
 	virtual void XferEnum(void *context, const void *bytes, unsigned int count);
+	char m_pad[0x40 - 4];
 };
 void *__cdecl ji_006291ae(void *dest, int val, unsigned int count);
 #pragma comment(linker, "/alternatename:?ji_006291ae@@YAPAXPAXHI@Z=?ji_006291ae@@YAXXZ")
 
 typedef int Int;
 
-class Rva009D8630BlockWriter
-{
-public:
-	Rva009D8630BlockWriter();
-	virtual ~Rva009D8630BlockWriter();
-	char m_pad[0x40 - 4];
-};
-
-class XferMD5CRC : public Rva009D8630BlockWriter
+// The ctor's base and unwind calls are XferSave's ctor and dtor. The
+// destructor is declared only: its copy comes from the unit that also
+// models the 0x0052B497 destructor (SaveGameInfoCopyBFME2.cpp).
+class XferMD5CRC : public XferSave
 {
 public:
 	XferMD5CRC(unsigned char v);
+	virtual ~XferMD5CRC();
 	void rva0052B53C();
 	unsigned char *GetCRC();
 	void XferImpl(void *a, const void *b, unsigned int c);
