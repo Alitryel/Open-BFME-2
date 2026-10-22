@@ -38,12 +38,14 @@ public:
 	virtual void slot2() = 0;
 };
 
-class DamageModule : public DamageModuleBase,
+// Call the existing row owner directly: the DamageModule spelling selects a
+// different inline destructor in the current link. Retail calls 0x004B96CC.
+class Rva004B96CC : public DamageModuleBase,
 		     public DamageModuleInterface1,
 		     public DamageModuleInterface2
 {
 public:
-	virtual ~DamageModule();
+	virtual ~Rva004B96CC();
 };
 
 class TensileFormationUpdateMember
@@ -57,7 +59,7 @@ private:
 	void *m_capacity;
 };
 
-class TransitionDamageFX : public DamageModule
+class TransitionDamageFX : public Rva004B96CC
 {
 protected:
 	virtual ~TransitionDamageFX();
