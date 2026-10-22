@@ -37,6 +37,42 @@ template <> struct less<UnicodeString>
 
 typedef std::map<UnicodeString, UnicodeString> UnicodeStringMap;
 
+namespace _STL {
+typedef _Rb_tree<UnicodeString, pair<const UnicodeString, UnicodeString>,
+    _Select1st<pair<const UnicodeString, UnicodeString> >, less<UnicodeString>,
+    allocator<pair<const UnicodeString, UnicodeString> > > UnicodeStringTree;
+
+// Cache the header throughout the lower-bound search and final key check.
+template <> template <> inline UnicodeStringTree::_Link_type
+UnicodeStringTree::_M_find<UnicodeString>(const UnicodeString &key) const
+{
+    _Link_type candidate = this->_M_header._M_data;
+    _Link_type header = this->_M_header._M_data;
+    _Link_type node = (_Link_type)header->_M_parent;
+    while (node != 0)
+    {
+        if (!(node->_M_value_field.first < key))
+        {
+            candidate = node;
+            node = (_Link_type)node->_M_left;
+        }
+        else
+            node = (_Link_type)node->_M_right;
+    }
+    if (candidate == header || key < candidate->_M_value_field.first)
+        candidate = header;
+    return candidate;
+}
+
+template <> inline UnicodeString &UnicodeStringMap::operator[](const UnicodeString &key)
+{
+    iterator position = lower_bound(key);
+    if (position == end() || key_comp()(key, position->first))
+        position = insert(position, value_type(key, UnicodeString()));
+    return position->second;
+}
+}
+
 // The two finds are inside a state that retail never unwinds out of, so they
 // carry no EH state store: declaring them throw() is what keeps the store
 // count at retail's (state 6/7 for the restores, 3 for the temporaries).

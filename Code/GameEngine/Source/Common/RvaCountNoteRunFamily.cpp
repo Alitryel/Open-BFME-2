@@ -48,10 +48,10 @@ public:
 	void run(int a, int b);
 };
 
-class Rva000E0322Sub
+class Rva000E0322
 {
 public:
-	void note(int value);
+	void rva000E0322(unsigned int value);
 };
 
 class Rva000E0298Sub
@@ -60,10 +60,11 @@ public:
 	void run(int a, int b);
 };
 
-class Rva00212858Sub
+class Rva000427195
 {
 public:
-	void note(int value);
+	void rva00212858(unsigned int value);
+	int bucketIndex(const class AsciiString *key);
 };
 
 struct InsertRet003EF264;
@@ -171,7 +172,7 @@ int Rva00057D38Owner::fwd(int a, int b)
 int Rva000E0536Owner::fwd(int a, int b)
 {
 	int next = m_count + 1;
-	((Rva000E0322Sub *)this)->note(next);
+	((Rva000E0322 *)this)->rva000E0322(next);
 	((Rva000E0298Sub *)this)->run(a, b);
 	return a;
 }
@@ -179,7 +180,7 @@ int Rva000E0536Owner::fwd(int a, int b)
 int Rva003EF34AOwner::fwd(int a, int b)
 {
 	int next = m_count + 1;
-	((Rva00212858Sub *)this)->note(next);
+	((Rva000427195 *)this)->rva00212858(next);
 	((Rva003EF264Sub *)this)->run(a, b);
 	return a;
 }
@@ -187,7 +188,7 @@ int Rva003EF34AOwner::fwd(int a, int b)
 int Rva0052B7F8Owner::fwd(int a, int b)
 {
 	int next = m_count + 1;
-	((Rva00212858Sub *)this)->note(next);
+	((Rva000427195 *)this)->rva00212858(next);
 	((Rva0052B737Sub *)this)->run(a, b);
 	return a;
 }
@@ -322,7 +323,6 @@ friend class ::Rva0052B737Sub;
 };
 typedef hashtable<Rva0052B6D9Pair, int, hash<int>, _Select1st<Rva0052B6D9Pair>, equal_to<int>, allocator<Rva0052B6D9Pair> > Rva0052B6D9Provider;
 }
-class Rva000427195 { public: int bucketIndex(const AsciiString *key); };
 InsertRet0052B737 *Rva0052B737Sub::run(int resultAddress, int keyAddress)
 {
     InsertRet0052B737 *result=(InsertRet0052B737*)resultAddress;

@@ -14,7 +14,7 @@
 // passes the +0x14 base is erased (rowed 0x002B7250 on the +0x04 list of
 // the object returned by 0x002B256E called on TheLivingWorldLogic); then
 // the members die: +0x40 (rowed Rva005CD651 dtor) +0x30 (0x005CD7DA)
-// +0x2C and +0x28 (pinned Gen_uw_000ad6f4 dtor 0x000AD6F4) and +0x24
+// +0x2C and +0x28 (rowed Rva000AD6F4 dtor 0x000AD6F4) and +0x24
 // (0x0055076F). The retained address-derived spelling is the rowed destructor's.
 // WB identifies the owning phase as PlanningPhaseBehavior::Impl through its
 // translateGameMessage table slot; member type names remain borrowed views.
@@ -89,17 +89,26 @@ public:
 // in slot1. BDBA74 begins with purecall and a deleting destructor. The phase
 // overrides translation while inheriting destruction; adding a second plain
 // virtual would shift the destructor. Only this translator prefix is viewed.
-class Rva0057621AInterface : public Base0_00576C4B
+class UserInputTranslator : public Base0_00576C4B
 {
 public:
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
 };
 
-class VBase00C6EE28
+// The base constructors and destructors use the existing retail tables.
+namespace PhaseBaseTables {
+extern "C" const void *const __identifier("??_7VBase00C6EE28@@6B@")[];
+extern "C" const void *const __identifier("??_7BfmeCtorVirtualBase001B3A20@@6B@")[];
+}
+
+class __declspec(novtable) VBase00C6EE28
 {
 public:
 	VBase00C6EE28();
-	virtual ~VBase00C6EE28() {}
+	virtual ~VBase00C6EE28()
+	{
+		*(const void **)this = PhaseBaseTables::__identifier("??_7VBase00C6EE28@@6B@");
+	}
 };
 // ??0VBase00C6EE28@@QAE@XZ @0x002E701A 9B: the default constructor, storing the
 // class's own vtable (VA 0x00C6EE28) and returning this.
@@ -107,6 +116,7 @@ public:
 // the anchor keeps the noinline body emitted.
 inline VBase00C6EE28::VBase00C6EE28()
 {
+	*(const void **)this = PhaseBaseTables::__identifier("??_7VBase00C6EE28@@6B@");
 }
 
 // ?bfmeAnchorVBase00C6EE28Ctor absent-from-retail
@@ -115,10 +125,17 @@ void *bfmeAnchorVBase00C6EE28Ctor(void *where)
 	return ::new (where) VBase00C6EE28();
 }
 
-class BfmeCtorVirtualBase001B3A20
+class __declspec(novtable) BfmeCtorVirtualBase001B3A20
 {
 public:
-	virtual ~BfmeCtorVirtualBase001B3A20() {}
+	BfmeCtorVirtualBase001B3A20()
+	{
+		*(const void **)this = PhaseBaseTables::__identifier("??_7BfmeCtorVirtualBase001B3A20@@6B@");
+	}
+	virtual ~BfmeCtorVirtualBase001B3A20()
+	{
+		*(const void **)this = PhaseBaseTables::__identifier("??_7BfmeCtorVirtualBase001B3A20@@6B@");
+	}
 };
 
 class Rva005CD1A9
@@ -154,11 +171,11 @@ private:
 	Rva005CC61E m_member;
 };
 
-class Gen_uw_000ad6f4
+class Rva000AD6F4
 {
 public:
-	Gen_uw_000ad6f4() : m_p(0) {}
-	~Gen_uw_000ad6f4();
+	Rva000AD6F4() : m_p(0) {}
+	~Rva000AD6F4();
 
 private:
 	void *m_p;
@@ -194,7 +211,7 @@ private:
 	char m_data[12];
 };
 
-class Rva00575F38 : public Rva0057621AInterface, public VBase00C6EE28, public BfmeCtorVirtualBase001B3A20,
+class Rva00575F38 : public UserInputTranslator, public VBase00C6EE28, public BfmeCtorVirtualBase001B3A20,
 	public Rva005CD1A9, public Rva005753E9
 {
 public:
@@ -207,8 +224,8 @@ private:
 	int m_1C;                // +0x1C
 	int m_20;                // +0x20
 	Rva0055076F m_24;      // +0x24
-	Gen_uw_000ad6f4 m_28;  // +0x28
-	Gen_uw_000ad6f4 m_2C;  // +0x2C
+	Rva000AD6F4 m_28;  // +0x28
+	Rva000AD6F4 m_2C;  // +0x2C
 	Rva005CD7DA m_30;      // +0x30
 	Rva005CD651 m_40;      // +0x40
 };

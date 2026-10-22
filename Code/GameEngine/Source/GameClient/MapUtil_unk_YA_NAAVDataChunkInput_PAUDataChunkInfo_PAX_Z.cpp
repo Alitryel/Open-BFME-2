@@ -139,9 +139,9 @@ void _STLP_alloc_proxy<_List_node<Coord3D> *, _List_node<Coord3D>, allocator<_Li
 // PRIVATE DATA ///////////////////////////////////////////////////////////////////////////////////
 static char *mapExtension = ".map";
 
-static Int m_width = 0;						///< Height map width.
-static Int m_height = 0;					///< Height map height (y size of array).
-static Int m_borderSize = 0;			///< Non-playable border area.
+extern "C" Int m_width = 0;						///< Height map width.
+extern "C" Int m_height = 0;					///< Height map height (y size of array).
+extern "C" Int m_borderSize = 0;			///< Non-playable border area.
 struct BfmePod8 { int a[2]; };
 class BfmePod8Vector : public _STL::vector<BfmePod8, _STL::allocator<BfmePod8> >
 {
@@ -170,10 +170,12 @@ UnsignedInt calcCRC( AsciiString dirName, AsciiString fname );
 static __declspec(noinline) Bool ParseSizeOnly(DataChunkInput &file, DataChunkInfo *info)
 {
 	m_width = file.readInt();
-	m_height = file.readInt();
+	Int height = file.readInt();
 	if (info->version >= K_HEIGHT_MAP_VERSION_3) {
+		m_height = height;
 		m_borderSize = file.readInt();
 	} else {
+		m_height = height;
 		m_borderSize = 0;
 	}
 
@@ -210,7 +212,7 @@ static __declspec(noinline) Bool ParseSizeOnly(DataChunkInput &file, DataChunkIn
 	return true;
 }
 
-static Bool ParseSizeOnlyInChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
+Bool ParseSizeOnlyInChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
 {
 	return ParseSizeOnly(file, info);
 }

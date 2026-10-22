@@ -276,9 +276,9 @@ namespace _STL { template <> bool bitset<116>::_Unchecked_test(unsigned int) con
 // PRIVATE DATA ///////////////////////////////////////////////////////////////////////////////////
 static char *mapExtension = ".map";
 
-static Int m_width = 0;						///< Height map width.
-static Int m_height = 0;					///< Height map height (y size of array).
-static Int m_borderSize = 0;			///< Non-playable border area.
+extern "C" Int m_width;						///< Height map width.
+extern "C" Int m_height;					///< Height map height (y size of array).
+extern "C" Int m_borderSize;			///< Non-playable border area.
 static std::vector<ICoord2D> m_boundaries;	///< All the boundaries we use for the map
 static Int m_dataSize = 0;				///< size of m_data.
 static UnsignedByte *m_data = 0;	///< array of z(height) values in the height map.
@@ -388,7 +388,7 @@ static Bool ParseObjectsDataChunk(DataChunkInput &file, DataChunkInfo *info, voi
 }
 
 #pragma optimize("s", on)
-static Bool ParseWorldDictDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
+Bool ParseWorldDictDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
 {
 	worldDict = file.readDict();
 	return true;

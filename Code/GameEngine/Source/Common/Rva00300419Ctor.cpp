@@ -13,13 +13,27 @@ public:
 class DataChunkInput;
 class DataChunkParser { public: DataChunkParser(DataChunkInput *input, const AsciiString *label, const AsciiString *parentLabel); };
 
+namespace ParserBindingTable { extern "C" const void *const __identifier("??_7BfmeParserBindingBaseVE@@6B@")[]; }
+
+class Q1Forwardee0000871A
+{
+public:
+	void handle(int token);
+};
+
 class __declspec(novtable) BfmeParserBindingBaseVE
 {
 public:
 	// The base is the rowed DataChunkParser ctor (0x000ABB87), called by that name.
 	__declspec(dllimport) __forceinline BfmeParserBindingBaseVE(BfmeParserRegistryVE *registry, void *label, void *parentLabel)
 	{ reinterpret_cast<DataChunkParser *>(this)->DataChunkParser::DataChunkParser((DataChunkInput *)registry, (const AsciiString *)label, (const AsciiString *)parentLabel); }
-	virtual ~BfmeParserBindingBaseVE();
+	// The parser binding destructor supplies this shared table and cleanup.
+	virtual ~BfmeParserBindingBaseVE()
+	{
+		int token = (int)m_token;
+		*(const void **)this = ParserBindingTable::__identifier("??_7BfmeParserBindingBaseVE@@6B@");
+		((Q1Forwardee0000871A *)m_registry)->handle(token);
+	}
 	virtual void bfmeSlot0();
 	virtual void bfmeSlot1();
 private:

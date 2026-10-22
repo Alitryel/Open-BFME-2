@@ -24,7 +24,14 @@ enum GameMessageDisposition
 
 class GameMessage;
 
-class UserInputTranslator
+class Base0_00576C4B
+{
+public:
+    virtual GameMessageDisposition translateGameMessage(const GameMessage *) = 0;
+    virtual ~Base0_00576C4B() {}
+};
+
+class UserInputTranslator : public Base0_00576C4B
 {
 public:
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
