@@ -34,3 +34,16 @@ template void Rva00462D35Tree::_M_erase(Rva00462D35Tree::_Link_type);
 // 0x004636FE provider used by native 0x004DD206 constructor unwind cleanup.
 // The two retained bodies still verify in full; allocator COMDAT debt remains.
 template void Rva00462D35Tree::clear();
+
+// Independent native entry 0x0046AADE..0x0046AAE3 lies between the
+// preceding forwarding entry and a new EH prologue. It passes its
+// unchanged receiver to the verified tree clear at 0x004633FC.
+// The original containing wrapper name remains unknown.
+class Rva0046AADE : public Rva00462D35Tree {
+public:
+    void rva0046AADE();
+};
+void Rva0046AADE::rva0046AADE()
+{
+    clear();
+}
