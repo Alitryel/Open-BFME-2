@@ -1128,10 +1128,20 @@ class Mutex : public Rva0040EDB { public: Mutex(int, const char *, void *); };
 // and the 0xF4-byte record at +0x14 (ctor 0x001ED70C).
 // The +0xB90 stream owner: zero-initialized in place and destroyed on unwind
 // (the constructor's EH map gives it its own state); readers take the pointer.
+class Rva00A897D { public: virtual ~Rva00A897D(); void rva000A89C1(void); };
+
 class MilesStreamOwnerRef {
 public:
     MilesStreamOwnerRef() : m_owner(0) {}
-    ~MilesStreamOwnerRef();
+    __declspec(noinline) ~MilesStreamOwnerRef()
+    {
+        Rva00A897D *owner = static_cast<Rva00A897D *>(m_owner);
+        m_owner = 0;
+        if (owner) {
+            owner->Rva00A897D::~Rva00A897D();
+            ::operator delete(owner);
+        }
+    }
     operator void *() const { return m_owner; }
 private:
     void *m_owner;
@@ -6873,7 +6883,6 @@ void MilesAudioManager::mapLogicalHandleToPhysicalHandle(unsigned int logical, u
 // TheAudio, drain the completed list and both request containers, then free
 // the loop buffers, the file cache, the misc record and the settings.
 extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void *handle, unsigned long ms);
-class Rva00A897D { public: void rva000A89C1(void); };
 MilesAudioManager::~MilesAudioManager()
 {
     m_stopLoopBufferThread = true;

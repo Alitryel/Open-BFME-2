@@ -142,11 +142,6 @@ public:
 	Rva004D57AE();
 	void setPlayerIndex(UnsignedInt value);
 };
-class Rva004D57F1 : public NetDisconnectPlayerCommandMsg
-{
-public:
-	Rva004D57F1();
-};
 class Rva004D580E : public NetDisconnectVoteCommandMsg
 {
 public:
@@ -455,7 +450,7 @@ void DisconnectManager::sendDisconnectCommand(Int slot, ConnectionManager *conMg
 	UnsignedInt disconnectFrame = getMaxDisconnectFrame();
 
 	// Need to do the NetDisconnectPlayerCommandMsg creation and sending here.
-	NetDisconnectPlayerCommandMsg *msg = newInstance(Rva004D57F1);
+	NetDisconnectPlayerCommandMsg *msg = newInstance(NetDisconnectPlayerCommandMsg);
 	msg->setDisconnectSlot(slot);
 	msg->setDisconnectFrame(disconnectFrame);
 	msg->setPlayerID(conMgr->getLocalPlayerID());

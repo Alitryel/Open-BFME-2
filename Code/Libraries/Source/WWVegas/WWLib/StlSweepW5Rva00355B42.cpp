@@ -66,5 +66,24 @@ template <> void **vector<void*>::end();
 // Retail's ctor calls the hashtable ctor rowed at 0x00355B02 (StlSweepW5Rva00355B02.cpp,
 // same flags), so the element is that unit's Rva00355B02Element.
 struct Rva00355B02Element {Rva00355B02Element();Rva00355B02Element(const Rva00355B02Element&);Rva00355B02Element&operator=(const Rva00355B02Element&);~Rva00355B02Element(){}char bytes[8]; bool operator==(const Rva00355B02Element&)const;};
+typedef _STL::pair<const int, Rva00355B02Element> ArmorMapPair;
+typedef _STL::hashtable<ArmorMapPair, int, _STL::hash<int>,
+    _STL::_Select1st<ArmorMapPair>, _STL::equal_to<int>,
+    _STL::allocator<ArmorMapPair> > ArmorMapTable;
+class ArmorTemplateMap
+{
+public:
+    ArmorTemplateMap();
+    ~ArmorTemplateMap();
+private:
+    ArmorMapTable m_table;
+};
+
+__declspec(noinline) ArmorTemplateMap::ArmorTemplateMap()
+    : m_table(100, _STL::hash<int>(), _STL::equal_to<int>(),
+        _STL::allocator<ArmorMapPair>())
+{
+}
+
 // Instantiate only the rowed constructor.
 template _STL::hash_map<int,Rva00355B02Element>::hash_map();

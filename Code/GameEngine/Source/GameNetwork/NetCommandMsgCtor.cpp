@@ -173,19 +173,19 @@ Rva004D59B8::Rva004D59B8() : NetCommandMsg()
 	m_commandType = (NetCommandType)28;
 }
 
-// ??0Rva004D57F1@@QAE@XZ @0x004D57F1 29B: calls base plus dword 0 at +0x24 via And plus vtable 0x860244 plus type 26 plus byte 0 at +0x1c.
+// ??0NetDisconnectPlayerCommandMsg@@QAE@XZ @0x004D57F1 29B: calls base plus dword 0 at +0x24 via And plus vtable 0x860244 plus type 26 plus byte 0 at +0x1c.
 // Honest-address ctor with 4-byte plus 1-byte derived members sharing KeepAlive vtable via ICF.
-class Rva004D57F1 : public NetCommandMsg
+class NetDisconnectPlayerCommandMsg : public NetCommandMsg
 {
 public:
-	Rva004D57F1();
+	NetDisconnectPlayerCommandMsg();
 private:
 	bool m_1c;
 	char m_pad1D[0x24 - 0x1D];
 	unsigned int m_24;
 };
 
-Rva004D57F1::Rva004D57F1() : NetCommandMsg()
+NetDisconnectPlayerCommandMsg::NetDisconnectPlayerCommandMsg() : NetCommandMsg()
 {
 	m_24 = 0;
 	m_commandType = (NetCommandType)26;
@@ -193,7 +193,7 @@ Rva004D57F1::Rva004D57F1() : NetCommandMsg()
 }
 
 // ??0Rva004D580E@@QAE@XZ @0x004D580E 29B: calls base plus dword 0 at +0x20 via And plus vtable 0x860244 plus type 27 plus byte 0 at +0x1c.
-// Honest-address ctor with 4-byte plus 1-byte derived members sharing KeepAlive vtable via ICF; same recipe as Rva004D57F1 above with m_20.
+// Honest-address ctor with 4-byte plus 1-byte derived members sharing KeepAlive vtable via ICF; same recipe as NetDisconnectPlayerCommandMsg above with m_20.
 // Callers at 0x004D3A3D 0x0058DFDC.
 class Rva004D580E : public NetCommandMsg
 {

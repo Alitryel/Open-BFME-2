@@ -48,11 +48,13 @@ bool operator<(const crateCreationEntry &a, const crateCreationEntry &b);
 namespace _STL
 {
 
-// Declared only; the gate resolves this reference to the pinned body at
-// 0x0035CA02 (twin of the pair _Construct dup_ row, identical bytes).
+// The crate entry copies its owning name and chance through STLport.
 template <>
-void _Construct<crateCreationEntry, crateCreationEntry>(
-	crateCreationEntry *, const crateCreationEntry &);
+__declspec(noinline) inline void _Construct<crateCreationEntry, crateCreationEntry>(
+	crateCreationEntry *entry, const crateCreationEntry &source)
+{
+	new ((void *)entry) crateCreationEntry(source);
+}
 
 }
 

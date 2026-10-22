@@ -683,17 +683,11 @@ private:
 	char m_pad[0x24];
 };
 
-class Rva004D57F1
-{
-public:
-	Rva004D57F1();
-private:
-	char m_pad[0x28];
-};
-
 class NetDisconnectPlayerCommandMsg
 {
+	char m_pad[0x28];
 public:
+	NetDisconnectPlayerCommandMsg();
 	void setDisconnectSlot(UnsignedByte slot);
 	void setDisconnectFrame(UnsignedInt frame);
 };
@@ -2780,11 +2774,11 @@ NetCommandMsg *NetPacket::readDisconnectKeepAliveMessage(unsigned char *data, in
 
 // ?readDisconnectPlayerMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0058DF29, 143 bytes:
 // ZH's readDisconnectPlayerMessage (slot byte, then disconnect frame) on the
-// rowed type-26 ctor Rva004D57F1; both setters are the folded 10-byte bodies
+// rowed type-26 ctor NetDisconnectPlayerCommandMsg; both setters are the folded 10-byte bodies
 // sendDisconnectCommand's pins name. Same shape as readDisconnectVoteMessage below.
 NetCommandMsg *NetPacket::readDisconnectPlayerMessage(UnsignedByte *data, Int &readOffset)
 {
-	Rva004D57F1 *msg = new Rva004D57F1();
+	NetDisconnectPlayerCommandMsg *msg = new NetDisconnectPlayerCommandMsg();
 	UnsignedByte slot = 0;
 	memcpy(&slot, data + readOffset, sizeof(slot));
 	readOffset += sizeof(slot);
