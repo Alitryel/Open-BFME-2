@@ -18,6 +18,10 @@
 #include "Coord3D.h"
 
 #include "Common/GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ?reserve@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> void vector<ModuleData const *,allocator<ModuleData const *> >::reserve(unsigned int); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

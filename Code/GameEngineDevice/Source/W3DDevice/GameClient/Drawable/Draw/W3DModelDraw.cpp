@@ -170,6 +170,9 @@ namespace _STL {
 template <> void _Rb_tree<NameKeyType, pair<const NameKeyType, PristineBoneInfo>, _Select1st<pair<const NameKeyType, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::clear();
 }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_Base_bitset@$03@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Base_bitset<4>::_Base_bitset(); }
 // Suppress this TU's non-retail copy of ?set@?$bitset@$0HF@@_STL@@QAEAAV12@IH@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bitset<117> & bitset<117>::set(unsigned int,int); }

@@ -276,6 +276,10 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?reserve@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> void vector<ModuleData const *,allocator<ModuleData const *> >::reserve(unsigned int); }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBUTemplateCountKey@@H@_STL@@V?$allocator@U?$pair@$$CBUTempla:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct TemplateCountKey;

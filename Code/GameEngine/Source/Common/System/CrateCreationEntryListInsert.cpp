@@ -20,6 +20,10 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> void _List_base<crateCreationEntry,allocator<crateCreationEntry> >::clear(); }
 
 struct crateCreationEntry
 {

@@ -22,6 +22,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmePod252@@V?$allocator@UBfmePod252@@@_STL@@@_STL@@IAEXPAUB:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod252;
+namespace _STL { template <> void vector<BfmePod252,allocator<BfmePod252> >::_M_insert_overflow(BfmePod252 *,BfmePod252 const &,__false_type const &,unsigned int,bool); }
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
