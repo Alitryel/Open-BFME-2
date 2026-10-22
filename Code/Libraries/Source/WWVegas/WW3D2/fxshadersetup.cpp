@@ -204,9 +204,11 @@ public:
 
 // One FX shader parameter (FXShader::Parameter, 0x24 bytes); the vector
 // helpers are rowed under this placeholder element name.
+class Rva00151248 { public: Rva00151248(); };
 struct Rva0007BB16Record
 {
-	Rva0007BB16Record();
+	// Construction is the rowed ??0Rva00151248, reached by a qualified call.
+	__declspec(dllimport) __forceinline Rva0007BB16Record() { ((Rva00151248 *)this)->Rva00151248::Rva00151248(); }
 	Rva0007BB16Record(const Rva0007BB16Record &that);
 	~Rva0007BB16Record();
 	Rva0007BB16Record &operator=(const Rva0007BB16Record &that);
