@@ -14,27 +14,6 @@ typedef int Int;
 
 #include "ascii_string.h"
 
-class BfmeStringLiteralBase
-{
-    friend class BFMERetailAsciiString;
-
-private:
-    BfmeStringLiteralBase(const char *string);
-};
-
-class BFMERetailAsciiString
-{
-public:
-    // Declared only: the donor's inline ctor/dtor were emitted here as
-    // private COMDATs that are not retail's bodies for these names.
-    BFMERetailAsciiString(const char *string);
-    ~BFMERetailAsciiString();
-
-private:
-    void releaseBuffer();
-    char *m_data;
-};
-
 class Parameter
 {
 public:
@@ -112,8 +91,8 @@ void ScriptEngine::setPriorityDefault(ScriptAction *action)
     AttackPriorityInfo *info = findAttackInfo(action->getParameter(0)->getString(), true);
     if (info == 0)
     {
-        BFMERetailAsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
-        AppendDebugMessage(*(const AsciiString *)&message, false);
+        AsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
+        AppendDebugMessage(message, false);
         return;
     }
     info->setDefaultPriority(action->getParameter(1)->getInt());
@@ -127,8 +106,8 @@ void ScriptEngine::setPriorityKind(ScriptAction *action)
     AttackPriorityInfo *info = findAttackInfo(action->getParameter(0)->getString(), true);
     if (info == 0)
     {
-        BFMERetailAsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
-        AppendDebugMessage(*(const AsciiString *)&message, false);
+        AsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
+        AppendDebugMessage(message, false);
         return;
     }
     KindOfType kind = (KindOfType)action->getParameter(1)->getInt();
