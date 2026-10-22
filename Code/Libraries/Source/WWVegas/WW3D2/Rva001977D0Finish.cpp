@@ -25,6 +25,12 @@ public:
 		VectorMax = 0;
 	}
 
+	virtual bool operator==(const VectorClass<T> &) const;
+	virtual bool Resize(int, T const * = 0);
+	virtual void Clear();
+	virtual int ID(T const *);
+	virtual int ID(T const &);
+
 	T *Vector;			// +0x04
 	int VectorMax;			// +0x08
 	bool IsValid;			// +0x0c
