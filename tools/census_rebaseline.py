@@ -160,7 +160,7 @@ def measure_old(rev, out=WORK / "old"):
 
 
 def record_in_process():
-    """Steps 3 for PREVIOUS_RULES: one judgment of this census's log, /MAP and
+    """Steps 3 for IN_PROCESS_RULES: one judgment of this census's log, /MAP and
     objects under both rules; record() refuses unless the commit, tools and
     objects are still those the census linked."""
     census = json.loads((link_census.OUT / "census.json").read_text(encoding="utf-8"))
@@ -191,20 +191,24 @@ def run(*command):
         raise SystemExit(f"census_rebaseline: {' '.join(command)} exited {done.returncode}; nothing committed")
 
 
-def message_in_process(new):
+def message_in_process(new, previous=None):
     def pct(field):
         return 100 * int(new[field]) / int(new["game_code"])
+    previous = previous or new.get("prev_rules") or link_census.PREVIOUS_RULES
+    why = {"retail-truth-3": "an unproven COMDAT copy that differs from the proven one loses, even when "
+                             "the copy the link keeps is retail's",
+           "retail-truth-2": "every COMDAT copy proven not retail's loses, and so does an unproven one "
+                             "that differs from the proven one"}.get(previous, "the previous keep rule")
     return (f"link_census: re-baseline LINKING under {link_census.RULES}\n\n"
-            f"One census of {new['commit']} judged under both rules in one pass, on the\n"
-            f"same link log, /MAP and objects ({link_census.PREVIOUS_RULES}: an unproven COMDAT\n"
-            "copy that differs from the proven one loses; {RULES}: not when the copy\n"
-            "the link keeps is retail's).\n\n".replace("{RULES}", link_census.RULES) +
-            f"  {link_census.PREVIOUS_RULES:<22} {int(new['files_linked_prev_rule']):>6,} files  "
+            f"One census of {new['commit']} judged under both rules in one pass, on the same link "
+            f"log, /MAP and objects ({previous}: {why}; {link_census.RULES}: neither loses when the "
+            "link keeps a retail copy).\n\n"
+            f"  {previous:<22} {int(new['files_linked_prev_rule']):>6,} files  "
             f"{int(new['linked_authored_prev_rule']):>10,} B  {pct('linked_authored_prev_rule'):6.2f}%\n"
             f"  {link_census.RULES:<22} {int(new['files_linked']):>6,} files  "
             f"{int(new['linked_authored']):>10,} B  {pct('linked_authored'):6.2f}%\n\n"
             "The row's *_prev_rule columns hold the previous rules' figures\n"
-            f"(prev_rules={link_census.PREVIOUS_RULES}); progress.py, the card and the chart\n"
+            f"(prev_rules={previous}); progress.py, the card and the chart\n"
             "report the step as a rule change, not as progress. Card, chart\n"
             "and map regenerated (no Discord post).\n")
 
@@ -246,12 +250,13 @@ def main(argv=None):
         return 0
     head = preflight(args.any_commit)
     previous = previous_rules()
-    in_process = previous == link_census.PREVIOUS_RULES
+    in_process = previous in link_census.IN_PROCESS_RULES
     if in_process and args.old_tools:
         raise SystemExit(f"census_rebaseline: {previous} is measured in the same judgment; --old-tools does not apply")
     if not in_process and previous != link_census.LEGACY_RULES:
         raise SystemExit(f"census_rebaseline: the history's last row is {previous}; this tool re-baselines "
-                         f"{link_census.RULES} from {link_census.PREVIOUS_RULES} or {link_census.LEGACY_RULES} only")
+                         f"{link_census.RULES} from {', '.join(link_census.IN_PROCESS_RULES)} or "
+                         f"{link_census.LEGACY_RULES} only")
     rev = None if in_process else args.old_tools or default_old_tools()
     if rev:
         old_source(rev)
@@ -280,7 +285,7 @@ def main(argv=None):
     if git("rev-parse", "HEAD") != head:
         raise SystemExit("census_rebaseline: HEAD moved during the run; nothing committed")
     new = link_census.read_history()[-1]
-    text = message_in_process(new) if in_process else message(json.loads(OLD_FIGURES.read_text(encoding="utf-8")),
+    text = message_in_process(new, previous) if in_process else message(json.loads(OLD_FIGURES.read_text(encoding="utf-8")),
                                                                  new)
     print(text)
     if args.commit:

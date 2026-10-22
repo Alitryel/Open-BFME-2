@@ -268,6 +268,34 @@ def test_in_process_rebaseline_records_previous_rules_from_the_same_judgment(tmp
         L.record(linked(obj, when="2026-10-03 00:00"), [], rebaseline=L.REBASELINE_IN_PROCESS)
 
 
+def test_in_process_rebaseline_continues_a_history_that_skipped_a_rule(tmp_path, monkeypatch):
+    # No retail-truth-3 row was ever recorded: the retail-truth-4 re-baseline
+    # measures the last row's retail-truth-2 in the same judgment (both
+    # exemptions off) and the row names it as prev_rules.
+    from test_link_census_currency import _record_harness, linked
+    obj, source = tmp_path / "f.obj", tmp_path / "f.cpp"
+    obj.write_bytes(b"object")
+    accepted, asked = _record_harness(tmp_path, monkeypatch, obj, source), []
+    monkeypatch.setattr(L, "read_history", lambda: [{"date": "2026-10-01 00:00", "commit": "x",
+                                                     "rules": L.RETAIL_TRUTH_2}])
+
+    def status(*a, **k):
+        asked.append(k.get("previous_rules"))
+        return ({"a.cpp", "b.cpp"}, 3, 0, {"a.cpp", "b.cpp"},
+                {"accept": lambda: accepted.append(True), "clean_previous_rules": {"a.cpp"}})
+    monkeypatch.setattr(L, "write_status", status)
+    monkeypatch.setattr(L, "linked_figures", lambda clean: {"linked_bytes": 10 * len(clean),
+                                                            "linked_authored": 5 * len(clean), "game_code": 10})
+    figure = L.record(linked(obj), [], rebaseline=L.REBASELINE_IN_PROCESS)
+    assert asked == [L.RETAIL_TRUTH_2] and accepted == [True]
+    assert (figure["rules"], figure["prev_rules"]) == (L.RULES, L.RETAIL_TRUTH_2)
+    assert L.IN_PROCESS_RULES[L.RETAIL_TRUTH_2] == {"retail_kept": False, "retail_first": False}
+    monkeypatch.setattr(L, "read_history", lambda: [{"date": "2026-10-01 00:00", "commit": "x",
+                                                     "rules": L.RETAIL_TRUTH_1}])
+    with pytest.raises(SystemExit, match="same judgment"):
+        L.record(linked(obj), [], rebaseline=L.REBASELINE_IN_PROCESS)
+
+
 def test_exploit_a_new_retail_addressed_copy_seeds_what_it_calls(facts_of):
     # b.obj adds a copy of ?rowed (a retail address: verdict "retail") that
     # calls ?dead; ?rowed is in the image whoever calls it, so ?dead is

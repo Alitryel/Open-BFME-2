@@ -2147,7 +2147,7 @@ def excused(symbol, runtime, imported, thunks=None):
     return symbol in runtime
 
 
-def write_status(log, rows, present, meta, kept, publish=True):
+def write_status(log, rows, present, meta, kept, publish=True, previous_rules=None):
     """One row per C/C++ source: does its object link cleanly on its own terms?
 
     Per file, not per program: a clean file may still call into one that is
@@ -2199,10 +2199,11 @@ def write_status(log, rows, present, meta, kept, publish=True):
     references = read_references(present)
     edges, referenced = link_references(present, facts, owners, references)
     losers = comdat_losers(present, rows, stats, facts, referenced)
-    # PREVIOUS_RULES (retail-truth-3) charged every unproven copy that differs
-    # from the proven one, even when the copy the link keeps is retail's:
-    # census_rebaseline.py records the figures.
-    previous_losers = comdat_losers(present, rows, previous_stats, facts, referenced, retail_first=False)
+    # The previous rules (PREVIOUS_RULES, retail-truth-3, unless a re-baseline
+    # names another IN_PROCESS_RULES entry) differ from RULES only in
+    # keep_rule's exemptions: census_rebaseline.py records the figures.
+    previous_losers = comdat_losers(present, rows, previous_stats, facts, referenced,
+                                    **IN_PROCESS_RULES[previous_rules or PREVIOUS_RULES])
     differs = unreferenced_differs(present, facts, referenced)
     results, exceptions = selection_verdicts(present, facts, owners, kept)
     wrong_selected, unknown_selected = {}, {}
@@ -2478,13 +2479,20 @@ def record(census, rows, rerun=False, rebaseline=None):
     for an ordinary row, whose *_prev_rule figures are this census without
     wrong_selected. `rebaseline` (census_rebaseline.py only) is the previous
     rules' figures for the same objects: the one row where the rules change.
-    REBASELINE_IN_PROCESS measures PREVIOUS_RULES in this very judgment (the
-    same objects, log and /MAP: write_status' clean_previous_rules), which is
-    possible because PREVIOUS_RULES differs from RULES only in keep_rule.
+    REBASELINE_IN_PROCESS measures the history's last rules in this very
+    judgment (the same objects, log and /MAP: write_status'
+    clean_previous_rules), which is possible for IN_PROCESS_RULES: they differ
+    from RULES only in keep_rule's exemptions.
     """
     in_process = rebaseline is REBASELINE_IN_PROCESS
+    previous_rules = None
     if in_process:
-        rebaseline = {"rules": PREVIOUS_RULES}
+        last = read_history()
+        previous_rules = row_rules(last[-1]) if last else None
+        if previous_rules not in IN_PROCESS_RULES and previous_rules != RULES:  # RULES: check_history_rules says so
+            raise SystemExit(f"link_census: the history's last row is {previous_rules}; only "
+                             f"{', '.join(IN_PROCESS_RULES)} can be measured in the same judgment")
+        rebaseline = {"rules": previous_rules}
     verify_data_objects()
     if census["missing"]:
         raise SystemExit(f"link_census: {census['missing']:,} objects were missing from the link; "
@@ -2551,7 +2559,8 @@ def record(census, rows, rerun=False, rebaseline=None):
           f"{census.get('seconds', 0):.0f}s", flush=True)
     guard("during the selection link")
     clean, files, blocking, clean_prev, prepared = write_status(
-        log, rows, present, {"date": census["when"], "commit": commit, "clean_tree": True}, kept, publish=False)
+        log, rows, present, {"date": census["when"], "commit": commit, "clean_tree": True}, kept, publish=False,
+        previous_rules=previous_rules)
     before = linked_figures(clean_prev)
     figure = {"files": files, "files_linked": len(clean), "blocking_names": blocking,
               "addresses": sum(count for count, _ in link_debt.per_file(link_debt.addresses)),
@@ -2560,7 +2569,7 @@ def record(census, rows, rerun=False, rebaseline=None):
               "rules": RULES, "prev_rules": RULES_NO_WRONG_SELECTED}
     if in_process:
         previous = linked_figures(prepared["clean_previous_rules"])
-        rebaseline = {"rules": PREVIOUS_RULES, "files_linked": len(prepared["clean_previous_rules"]),
+        rebaseline = {"rules": previous_rules, "files_linked": len(prepared["clean_previous_rules"]),
                       "linked_bytes": previous["linked_bytes"], "linked_authored": previous["linked_authored"],
                       "game_code": previous["game_code"]}
     if rebaseline is not None:
@@ -2616,7 +2625,13 @@ LEGACY_RULES = "majority-0"
 KNOWN_RULES = (LEGACY_RULES, RETAIL_TRUTH_1_NO_WRONG_SELECTED, RETAIL_TRUTH_1,
                RETAIL_TRUTH_2_NO_WRONG_SELECTED, RETAIL_TRUTH_2,
                PREVIOUS_RULES_NO_WRONG_SELECTED, PREVIOUS_RULES, RULES_NO_WRONG_SELECTED, RULES)
-REBASELINE_IN_PROCESS = object()  # record(rebaseline=...): PREVIOUS_RULES measured in the same judgment
+REBASELINE_IN_PROCESS = object()  # record(rebaseline=...): the last row's rules measured in the same judgment
+# Earlier rules that differ from RULES only in keep_rule's exemptions, so a
+# re-baseline measures them on the same objects, log and /MAP: keep_rule's
+# arguments for each. A history that skipped a rule's own re-baseline (no
+# retail-truth-3 row was ever recorded) re-baselines from its last row.
+IN_PROCESS_RULES = {PREVIOUS_RULES: {"retail_first": False},
+                    RETAIL_TRUTH_2: {"retail_kept": False, "retail_first": False}}
 HISTORY_FIELDS = ["date", "commit", "objects", "unresolved", "alias", "pinned_elsewhere", "dump", "data",
                   "import", "unpinned", "duplicates", "comdat_conflicts", "comdat_vtables",
                   "scaffold_aliases", "scaffold_unresolved", "scaffold_crashed",
