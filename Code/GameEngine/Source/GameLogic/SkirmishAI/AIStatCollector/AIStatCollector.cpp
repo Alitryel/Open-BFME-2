@@ -57,6 +57,9 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$hash_map@HHU?$hash@H@_STL@@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> hash_map<int,int,hash<int>,equal_to<int>,allocator<pair<int const ,int> > >::~hash_map(); }
 // Suppress this TU's non-retail copy of ??0?$hash_map@HHU?$hash@H@_STL@@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> hash_map<int,int,hash<int>,equal_to<int>,allocator<pair<int const ,int> > >::hash_map(); }

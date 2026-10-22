@@ -6,6 +6,10 @@
 // Retail 0x00289ED7 (37 bytes) is the insert worker; same pattern as
 // stlport_list_int_insert.cpp.
 #include <list>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@UBfmePod264@@V?$allocator@UBfmePod264@@@_STL@@@_STL@@IAEPAU?$_List_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod264;
+namespace _STL { template <> _List_node<BfmePod264> * list<BfmePod264,allocator<BfmePod264> >::_M_create_node(BfmePod264 const &); }
 // Suppress this TU's non-retail copy of ?clear@?$_List_base@UBfmePod264@@V?$allocator@UBfmePod264@@@_STL@@@_STL@@QAEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod264;

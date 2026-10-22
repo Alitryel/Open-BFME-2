@@ -18,6 +18,10 @@
 namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, allocator<unsigned int> > > > * _Rb_tree<int, pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Select1st<pair<int const, vector<unsigned int, allocator<unsigned int> > > >, less<int>, allocator<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >::_M_copy(_Rb_tree_node<pair<int const, vector<unsigned int, allocator<unsigned int> > > > *, _Rb_tree_node<pair<int const, vector<unsigned int, allocator<unsigned int> > > > *); }
 namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, allocator<unsigned int> > > > * _Rb_tree<int, pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Select1st<pair<int const, vector<unsigned int, allocator<unsigned int> > > >, less<int>, allocator<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >::_M_create_node(pair<int const, vector<unsigned int, allocator<unsigned int> > > const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??4?$vector@URva0021C21BElement@@V?$allocator@URva0021C21BElement@@@_STL@@@_STL@@QAEAAV01@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0021C21BElement;
+namespace _STL { template <> vector<Rva0021C21BElement,allocator<Rva0021C21BElement> > & vector<Rva0021C21BElement,allocator<Rva0021C21BElement> >::operator=(vector<Rva0021C21BElement,allocator<Rva0021C21BElement> > const &); }
 
 struct Rva0021C21BElement { char bytes[4]; };
 struct Rva0021C33FElement

@@ -43,6 +43,10 @@ template _STL::vector<BfmeObject544>::~vector();
 // bfme link decl-only begin
 namespace _STL { template <> void _Destroy<BfmeVectorRecord000BDF17 *>(BfmeVectorRecord000BDF17 *, BfmeVectorRecord000BDF17 *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmeStringHeadRecord184@@@_STL@@YAXPAUBfmeStringHeadRecord184@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringHeadRecord184;
+namespace _STL { template <> void _Destroy<BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *,BfmeStringHeadRecord184 *); }
 struct RvaPair004C3D4C { AsciiString m_key; int m_value; public: ~RvaPair004C3D4C(); };
 template _STL::vector<RvaPair004C3D4C>::~vector();
 
