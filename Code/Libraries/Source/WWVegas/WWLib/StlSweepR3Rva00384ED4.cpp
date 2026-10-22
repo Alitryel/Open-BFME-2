@@ -48,3 +48,21 @@ template void _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>, _STL
 // the range erase above (its native call target 0x00384ED4). Buddy and buddy
 // request map consumers (0x003871F6, 0x00416C69, 0x004177D5) pass the profile.
 template unsigned int _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>, _STL::_Select1st<_STL::pair<int const, Rva00384ED4Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00384ED4Record> > >::erase(int const &);
+
+// Native 0x00385F24..0x00385F29 independently forwards the unchanged
+// receiver, key-reference argument and count result to the rowed key erase
+// at 0x00385CBA. Keep the existing opaque record/tree view; the wrapper's
+// original name and containing application class are not established.
+typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>,
+	_STL::_Select1st<_STL::pair<int const, Rva00384ED4Record> >,
+	_STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00384ED4Record> > > Rva00385F24Tree;
+class Rva00385F24 : public Rva00385F24Tree
+{
+public:
+	unsigned int rva00385F24(const int &key);
+};
+
+unsigned int Rva00385F24::rva00385F24(const int &key)
+{
+	return erase(key);
+}
