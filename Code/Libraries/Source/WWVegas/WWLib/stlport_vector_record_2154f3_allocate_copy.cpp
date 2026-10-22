@@ -29,4 +29,16 @@ namespace _STL { template <> BfmeVectorRecord0002154F3 * vector<BfmeVectorRecord
 namespace _STL {
 template <> void _Construct<BfmeVectorRecord0002154F3, BfmeVectorRecord0002154F3>(BfmeVectorRecord0002154F3 *, const BfmeVectorRecord0002154F3 &);
 }
-template class _STL::vector<BfmeVectorRecord0002154F3, _STL::allocator<BfmeVectorRecord0002154F3> >;
+typedef BfmeVectorRecord0002154F3 Record;
+typedef _STL::vector<Record, _STL::allocator<Record> > RecordVector;
+template RecordVector::~vector();
+template void RecordVector::push_back(const Record &);
+template void RecordVector::_M_insert_overflow(Record *, const Record &, const _STL::__false_type &, unsigned int, bool);
+template void RecordVector::_M_clear();
+template Record *RecordVector::_M_allocate_and_copy(unsigned int, const Record *, const Record *);
+template void _STL::fill(Record *, Record *, const Record &);
+template Record *_STL::__copy_backward(Record *, Record *, Record *, const _STL::random_access_iterator_tag &, int *);
+template Record *_STL::__uninitialized_fill_n(Record *, unsigned int, const Record &, const _STL::__false_type &);
+template void _STL::_Destroy(Record *);
+
+template Record *_STL::__copy(Record *, Record *, Record *, const _STL::random_access_iterator_tag &, int *);

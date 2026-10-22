@@ -38,6 +38,9 @@
 //   0x00362E73  0x00362CF2  0x00C16FE8#0
 //   0x00362E8F  0x00362D6C  0x00C17068#0
 
+typedef bool Bool;
+#include "../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
+
 struct EmitVtableTag;
 
 class Rva002D5380
@@ -176,7 +179,7 @@ Rva00318637::Rva00318637(EmitVtableTag *)
 {
 }
 
-class Rva0031DCF0
+class Rva0031DCF0 : public SubsystemInterface
 {
 public:
 	Rva0031DCF0(EmitVtableTag *);
@@ -598,14 +601,7 @@ int GameState::rva002DF2F6(const UnicodeString &filename)
 // source-name leads only. Retail allocates a 0x154-byte implementation after
 // loading Apt\\ with the empty AsciiString cell at VA DFF030.
 #include "Common/Snapshot.h"
-class SubsystemInterface
-{
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-private:
-    char opaque04[8];
-};
+
 class Rva000AD6F4
 {
 public:

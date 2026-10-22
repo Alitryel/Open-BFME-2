@@ -16,15 +16,10 @@
 // rowed owners' spellings.
 #include "ascii_string.h"
 #include <hash_map>
-// bfme link decl-only begin
-namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+// Match RelationMapXfer.cpp's inline bucket-vector accessors.
+namespace _STL { template <> __declspec(dllimport) __forceinline void *& vector<void *, allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
-// bfme link decl-only end
-// Suppress this TU's non-retail copy of ?_M_bkt_num_key@?$hashtable@U?$pair@$$CBHW4Relationship@@@_STL@@HU?$hash@H@2@U?$_Select1st:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-enum Relationship;
-namespace _STL { template <> unsigned int hashtable<pair<int const ,Relationship>,int,hash<int>,_Select1st<pair<int const ,Relationship> >,equal_to<int>,allocator<pair<int const ,Relationship> > >::_M_bkt_num_key(int const &) const; }
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *, allocator<void *> >::size() const { return (unsigned int)(this->_M_finish - this->_M_start); } }
 
 typedef bool Bool;
 typedef int Int;

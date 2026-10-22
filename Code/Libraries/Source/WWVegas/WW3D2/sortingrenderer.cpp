@@ -321,69 +321,15 @@ void SortingRendererClass::Deinit()
 //
 // ----------------------------------------------------------------------------
 
-// ?Insert_VolumeParticle@SortingRendererClass@@SAXABVSphereClass@@GGGGG@Z present-unmatched
-void SortingRendererClass::Insert_VolumeParticle(
-	const SphereClass& bounding_sphere,
-	unsigned short start_index, 
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count,
-	unsigned short layerCount)
+// Insert_VolumeParticle uses unsigned ranges and is defined in SortingRendererBFME1.cpp.
+
+template void DLListClass<SortingNodeStruct>::Add_Head(DLNodeClass<SortingNodeStruct> *);
+template void DLListClass<SortingNodeStruct>::Add_Tail(DLNodeClass<SortingNodeStruct> *);
+template void DLNodeClass<SortingNodeStruct>::Insert_After(DLNodeClass<SortingNodeStruct> *);
+template void DLNodeClass<SortingNodeStruct>::Insert_Before(DLNodeClass<SortingNodeStruct> *);
+
+// ?bfmeEmitIsSortingEnabled absent-from-retail
+bool bfmeEmitIsSortingEnabled()
 {
-	if (!WW3D::Is_Sorting_Enabled()) {
-		DX8Wrapper::Draw_Triangles(start_index,polygon_count,min_vertex_index,vertex_count);
-		return;
-	}
-
-	//FOR VOLUME_PARTICLE LOGIC:
-	// WE MUST MULTIPLY THE VERTCOUNT AND POLYCOUNT BY THE VOLUME_PARTICLE DEPTH
-	DX8_RECORD_SORTING_RENDER( polygon_count * layerCount,vertex_count * layerCount);//THIS IS VOLUME_PARTICLE SPECIFIC
-
-	SortingNodeStruct* state=Get_Sorting_Struct();
-	DX8Wrapper::Get_Render_State(state->sorting_state);
-
- 	WWASSERT(
-		((state->sorting_state.index_buffer_type==BUFFER_TYPE_SORTING || state->sorting_state.index_buffer_type==BUFFER_TYPE_DYNAMIC_SORTING) &&
-		(state->sorting_state.vertex_buffer_types[0]==BUFFER_TYPE_SORTING || state->sorting_state.vertex_buffer_types[0]==BUFFER_TYPE_DYNAMIC_SORTING)));
-
-	state->bounding_sphere=bounding_sphere;
-	state->start_index=start_index;
-	state->min_vertex_index=min_vertex_index;
-	state->polygon_count=polygon_count * layerCount;//THIS IS VOLUME_PARTICLE SPECIFIC
-	state->vertex_count=vertex_count * layerCount;//THIS IS VOLUME_PARTICLE SPECIFIC
-
-	SortingVertexBufferClass* vertex_buffer=static_cast<SortingVertexBufferClass*>(state->sorting_state.vertex_buffers[0]);
-	WWASSERT(vertex_buffer);
-	WWASSERT(state->vertex_count<=vertex_buffer->Get_Vertex_Count());
-
-	// Transform the center point to view space for sorting
-
-	D3DXMATRIX mtx=(D3DXMATRIX&)state->sorting_state.world*(D3DXMATRIX&)state->sorting_state.view;
-	D3DXVECTOR3 vec=(D3DXVECTOR3&)state->bounding_sphere.Center;
-	D3DXVECTOR4 transformed_vec;
-	D3DXVec3Transform(
-		&transformed_vec,
-		&vec,
-		&mtx); 
-	state->transformed_center=Vector3(transformed_vec[0],transformed_vec[1],transformed_vec[2]);
-
-
-	// BUT WHAT IS THE DEAL WITH THE VERTCOUNT AND POLYCOUNT BEING N BUT TRANSFORMED CENTER COUNT == 1
-
-	//THE TRANSFORMED CENTER[2] IS THE ZBUFFER DEPTH
-	
-	/// @todo lorenzen sez use a bucket sort here... and stop copying so much data so many times
-
-	SortingNodeStruct* node=sorted_list.Head();
-	while (node) {
-		if (state->transformed_center.Z>node->transformed_center.Z) {
-			if (sorted_list.Head()==sorted_list.Tail())
-				sorted_list.Add_Head(state);
-			else
-				state->Insert_Before(node);
-			break;
-		}
-		node=node->Succ();
-	}
-	if (!node) sorted_list.Add_Tail(state);
+    return WW3D::Is_Sorting_Enabled();
 }

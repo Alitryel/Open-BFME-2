@@ -44,6 +44,8 @@ inline bool operator<(const Gen_p12pod &a, const Gen_p12pod &b)
 typedef _STL::map<Gen_p12pod, int, _STL::less<Gen_p12pod>,
 	_STL::allocator<_STL::pair<const Gen_p12pod, int> > > Rva00928690Map;
 
+#include "GenP12TreeInsertUnique.h"
+
 template int &Rva00928690Map::operator[](const Gen_p12pod &);
 
 // Native GetEdges0016E450 calls this same established three-int key map.

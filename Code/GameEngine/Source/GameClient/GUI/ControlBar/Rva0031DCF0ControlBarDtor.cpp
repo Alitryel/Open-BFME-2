@@ -65,7 +65,6 @@ public:
 };
 extern GameWindowManager *TheWindowManager;
 
-class Rva001B4E82 { public: void rva001B4E82(void *subsystem); };
 
 struct Rva0031DCF0Owned
 {
@@ -210,5 +209,5 @@ Rva0031DCF0::~Rva0031DCF0()
 	m_23C.clear();
 
 	if (TheSubsystemList)
-		((Rva001B4E82 *)TheSubsystemList)->rva001B4E82(this);
+		TheSubsystemList->removeSubsystem(this);
 }
