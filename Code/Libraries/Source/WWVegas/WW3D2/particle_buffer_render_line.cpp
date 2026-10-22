@@ -69,6 +69,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "texture.h"
 #include "dx8wrapper.h"
 #include "vector3.h"
+// Suppress this TU's non-retail copy of ?Resize@?$SimpleDynVecClass@VVector3@@@@UAE_NH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3;
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
 
 // Donor predicate is inlined here so this TU retains the original call graph.
 inline int ParticleBufferClass::Is_Freeze_Random(void) const

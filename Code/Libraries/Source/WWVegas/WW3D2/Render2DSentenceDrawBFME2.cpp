@@ -19,6 +19,22 @@ void __cdecl operator delete[](void *) throw();
 #include "vector2.h"
 #include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/rect.h"
 #include <math.h>
+// Suppress this TU's non-retail copy of ?ID@?$VectorClass@H@@UAEHPBH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> int VectorClass<int>::ID(int const *);
+// Suppress this TU's non-retail copy of ?ID@?$VectorClass@H@@UAEHABH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> int VectorClass<int>::ID(int const &);
+// Suppress this TU's non-retail copy of ?Resize@?$VectorClass@H@@UAE_NHPBH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> bool VectorClass<int>::Resize(int,int const *);
+// Suppress this TU's non-retail copy of ??8?$VectorClass@H@@UBE_NABV0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class VectorClass;
+template <> bool VectorClass<int>::operator==(VectorClass<int> const &) const;
+// Suppress this TU's non-retail copy of ?Clear@?$VectorClass@H@@UAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> void VectorClass<int>::Clear();
 typedef unsigned long uint32;
 
 class BfmeSurfaceResource

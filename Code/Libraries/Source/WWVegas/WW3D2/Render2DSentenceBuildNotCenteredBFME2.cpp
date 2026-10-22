@@ -9,6 +9,10 @@ void __cdecl operator delete[](void *) throw();
 #include "vector.h"
 #include "vector2i.h"
 #include "vector2.h"
+// Suppress this TU's non-retail copy of ?Clear@?$VectorClass@PAVRender2DClass@@@@UAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass;
+template <> void VectorClass<Render2DClass *>::Clear();
 extern "C" __declspec(dllimport) double __cdecl floor(double);
 void BFME_DX8_Thread_Lock();
 bool BFME_DX8_Thread_Assert();

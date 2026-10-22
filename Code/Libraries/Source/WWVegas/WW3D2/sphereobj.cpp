@@ -126,6 +126,10 @@
 #include "dx8indexbuffer.h"
 #include "sortingrenderer.h"
 #include "visrasterizer.h"
+// Suppress this TU's non-retail copy of ??0KeyClass@?$PrimitiveAnimationChannelClass@VVector3@@@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3;
+template <> PrimitiveAnimationChannelClass<Vector3>::KeyClass::KeyClass();
 
 static bool Sphere_Array_Valid = false;
 
