@@ -185,6 +185,9 @@ typedef _STL::map<AsciiString, PlayerInfo, AsciiComparator> PlayerInfoMap;	// ct
 // Suppress this TU's non-retail copy of the PlayerInfoMap _M_erase; the copy
 // rowed in PeerDefs.cpp (0x00383ACA) serves the link. Declaration-only form.
 namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const ,PlayerInfo>,_Select1st<pair<AsciiString const ,PlayerInfo> >,AsciiComparator,allocator<pair<AsciiString const ,PlayerInfo> > >::_M_erase(_Rb_tree_node<pair<AsciiString const ,PlayerInfo> > *); }
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBHVAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBHVAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$al:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_base<pair<int const, AsciiString>, allocator<pair<int const, AsciiString> > >::_Rb_tree_base(allocator<pair<int const, AsciiString> > const &); }
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
 class UserPreferences : public PreferenceMap
