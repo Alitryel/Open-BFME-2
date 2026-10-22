@@ -34,6 +34,9 @@ class FXList;
 class AIUpdateInterface;
 
 #include "../../../Common/GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ??0?$pair@U?$_Rb_tree_iterator@U?$pair@$$CBHH@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHH@_ST:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >,bool>::pair(_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > const &,bool const &); }
 // Suppress this TU's non-retail copy of ??E?$_Rb_tree_iterator@U?$pair@$$CBHH@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHH@_STL@@@2@@_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > & _Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >::operator++(); }

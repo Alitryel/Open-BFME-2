@@ -18,6 +18,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAV?$vector@UBfmePod88@@V?$allocator@UBfmePod88@@@_STL@@@_STL@@I:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod88;
+namespace _STL { template <> vector<BfmePod88,allocator<BfmePod88> > * __uninitialized_fill_n<vector<BfmePod88,allocator<BfmePod88> > *,unsigned int,vector<BfmePod88,allocator<BfmePod88> > >(vector<BfmePod88,allocator<BfmePod88> > *,unsigned int,vector<BfmePod88,allocator<BfmePod88> > const &,__false_type const &); }
 
 struct BfmePod88
 {
