@@ -7,7 +7,9 @@
 // retail order is call, then the int argument at +0x14, float 0 at +0x18, byte 0 at +0x1C, the
 // vtable store sitting between the first two). The argument is an opaque 32-bit value.
 // Other units view this class for the destructor and setter; this one only needs the
-// constructor, so it declares the two virtuals it must emit a table for.
+// constructor. Its vtable view matches FreeMemberDeleters.cpp's (destructor only), so
+// both units emit the same table; the setter and third slot need the class reconciled
+// with the Rva0030F388 method views first.
 class Rva00330757Member
 {
 	char m_pad[0x10];
@@ -19,7 +21,6 @@ class Rva0030F42E:public Rva00330757Member
 {
 public:
  virtual ~Rva0030F42E();
- virtual void rva0030F3BF(float);
  int m_14;float m_18;bool m_1C;
  Rva0030F42E(int arg);
 };
