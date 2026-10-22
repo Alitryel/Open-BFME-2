@@ -131,8 +131,20 @@ public:
 	~UpdateModuleData();
 };
 
+// The native angle-vector erase calls the existing 8-byte range-erase
+// owner at 0x003FA4DB. Bind that call to its rowed spelling; the AngleFXInfo
+// specialization emitted elsewhere does not reproduce that body.
+struct BfmePod8 { int words[2]; };
+
 namespace _STL
 {
+template <> BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *, BfmePod8 *);
+template <> __declspec(dllimport) __forceinline AngleFXInfo *
+vector<AngleFXInfo>::erase(AngleFXInfo *first, AngleFXInfo *last)
+{
+	return (AngleFXInfo *)((vector<BfmePod8> *)this)->erase(
+		(BfmePod8 *)first, (BfmePod8 *)last);
+}
 
 // Declared-only explicit specializations: keep the calls external (the
 // FXBoneInfo erase resolves to its rowed true name; the two _Vector_base
