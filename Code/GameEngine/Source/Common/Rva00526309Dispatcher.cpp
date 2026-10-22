@@ -18,10 +18,16 @@ struct Obj00526309
 	Flags00526309 *m_4;
 };
 
+// 0x00525D9A is rowed as Holder00525D9A::Rva00525D9A (Rva00525D9AListAppend.cpp).
+struct Obj00525D9A;
+struct Holder00525D9A
+{
+	void Rva00525D9A(Obj00525D9A *obj);
+};
+
 struct Holder00526309
 {
 	void Rva00525CC5(Obj00526309 *obj);
-	void Rva00525D9A(Obj00526309 *obj);
 	void Rva00526309(Obj00526309 *obj);
 };
 
@@ -34,7 +40,7 @@ void Holder00526309::Rva00526309(Obj00526309 *obj)
 		return;
 	}
 	if (flags->m_119 & 0x80)
-		Rva00525D9A(obj);
+		((Holder00525D9A *)this)->Rva00525D9A((Obj00525D9A *)obj);
 }
 
 struct Rva00526333
