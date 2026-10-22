@@ -243,8 +243,8 @@ extern unsigned g_Va00E065EC;
 extern unsigned g_Va00E06620;
 extern unsigned g_Va00E06710;
 extern unsigned g_Va00E06724;	// retail RVA 0x00A06724 (.bss), defined in Rva007B6A00AtexitThunks.cpp
-extern unsigned g_Va00E06734;
-extern unsigned g_Va00E06748;
+extern int g_00E06734;	// data row 0x00A06734 (Rva005E8DB5.cpp)
+extern int g_00E06748;	// data row 0x00A06748 (Rva005E8DB5.cpp)
 extern unsigned g_Va00E08D48;	// retail RVA 0x00A08D48 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E09E50;	// retail RVA 0x00A09E50 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E09E60;
@@ -425,17 +425,17 @@ void __cdecl rva007B9947();
 void __cdecl rva007B9965();
 
 
-// ?rva007B9979@@YAXXZ @ 0x007B9979 (10B): ecx=&g_Va00E06734, tail-jump to rowed ??1Rva005E16DA@@UAE@XZ (0x005E16FD)
+// ?rva007B9979@@YAXXZ @ 0x007B9979 (10B): ecx=&g_00E06734, tail-jump to rowed ??1Rva005E16DA@@UAE@XZ (0x005E16FD)
 void __cdecl rva007B9979()
 {
-	Rva005E16DA *p = (Rva005E16DA *)&g_Va00E06734;
+	Rva005E16DA *p = (Rva005E16DA *)&g_00E06734;
 	p->Rva005E16DA::~Rva005E16DA();
 }
 
-// ?rva007B9983@@YAXXZ @ 0x007B9983 (10B): ecx=&g_Va00E06748, tail-jump to rowed ??1Rva005E16DA@@UAE@XZ (0x005E16FD)
+// ?rva007B9983@@YAXXZ @ 0x007B9983 (10B): ecx=&g_00E06748, tail-jump to rowed ??1Rva005E16DA@@UAE@XZ (0x005E16FD)
 void __cdecl rva007B9983()
 {
-	Rva005E16DA *p = (Rva005E16DA *)&g_Va00E06748;
+	Rva005E16DA *p = (Rva005E16DA *)&g_00E06748;
 	p->Rva005E16DA::~Rva005E16DA();
 }
 void __cdecl rva007B9AB0();

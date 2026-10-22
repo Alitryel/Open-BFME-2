@@ -65,4 +65,5 @@ template <> void **vector<void*>::end();
 
 struct Rva001FEAB2Element { char bytes[1]; bool operator<(const Rva001FEAB2Element&)const; bool operator==(const Rva001FEAB2Element&)const; };
 namespace _STL {template<> struct hash<Rva001FEAB2Element> { unsigned operator()(const Rva001FEAB2Element&) const; };}
-template class _STL::hash_map<int,Rva001FEAB2Element>;
+// Emit only the rowed member; the rest of the class has other retail owners.
+template _STL::hash_map<int,Rva001FEAB2Element>::hash_map();

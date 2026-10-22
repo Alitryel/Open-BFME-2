@@ -61,4 +61,6 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva002A480AElement {Rva002A480AElement();Rva002A480AElement(const Rva002A480AElement&);Rva002A480AElement&operator=(const Rva002A480AElement&);~Rva002A480AElement(){}char bytes[8]; bool operator==(const Rva002A480AElement&)const;};
-template class _STL::hash_map<int,Rva002A480AElement>;
+// Emit only the rowed member; the rest of the class has other retail owners.
+template _STL::hashtable<_STL::pair<const int, Rva002A480AElement>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<const int, Rva002A480AElement> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, Rva002A480AElement> > >::hashtable(
+	_STL::size_t, const _STL::hash<int> &, const _STL::equal_to<int> &, const _STL::allocator<_STL::pair<const int, Rva002A480AElement> > &);
