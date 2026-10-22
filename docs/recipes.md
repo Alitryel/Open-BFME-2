@@ -607,3 +607,13 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   recover supported real translation-unit context, never insert arbitrary
   dummy functions to manipulate this state. See the
   [traces, controls and three exact extents](../reverse/attempt_support/army-normalizer-41f369-20261021/recovery.md).
+
+- **An indexed mask and named capacity can interact across distant regions.**
+  At 0x0008304A, a named second-pass `cell = y * nx + x` plus a named cache
+  capacity fixed both stack coloring and cursor-register allocation; either
+  edit alone had failed. The remaining constructor argument-order swap closed
+  when the raw boundary pointer became its actual vector and inline
+  `getBoundaryPoint` accessor, supported by the WorldBuilder twin. Restore
+  supported container/accessor context before extending inert-local scans.
+  The C++ allocator's throwing free also restored the final EH-state store.
+  See [the controls and exact recovery](../reverse/attempt_support/water-allocate-8304a-20261022/recovery.md).
