@@ -15,26 +15,24 @@
 
 #include "Coord3D.h"
 
-// The mutex member call names the master's real class (row ??0Mutex@@QAE@HPBDPAX@Z
-// at 0x00040F1E, Code/GameEngine/Source/Common/Rva00040F1EMutex.cpp). This TU
-// only needs the ctor's name and the member's 8-byte size; it declares neither
-// virtuals nor a local definition of the dtor.
+// Constructors and virtual destructors use their rowed class names.
+// Each synchronization member has a vptr and a four-byte handle.
 class Mutex
 {
 public:
 	Mutex(int a, const char *b, void *c);
-	~Mutex();
+	virtual ~Mutex();
 private:
-	char m_pad[8];
+	char m_pad[4];
 };
 
 class Rva0040F9D
 {
 public:
 	Rva0040F9D(int a, int b, const char *c, void *d);
-	~Rva0040F9D();
+	virtual ~Rva0040F9D();
 private:
-	char m_pad[8];
+	char m_pad[4];
 };
 
 class Rva0073F4F3

@@ -5,13 +5,15 @@
 // an XML-attributes writer. The base recipe is the rowed Rva006D6500
 // construction in Code/Libraries/Source/Apt/Rva006D6360Ctor.cpp; the writer's
 // callees are all pinned (isXmlAttributes 0x006DBEC0, rva006DD2A0 0x006DD2A0,
-// isString 0x006DC0D0, checkedString 0x006DCE50, EAStringC 0x00620090). Class and
-// method names are this image's addresses; nothing here names the real types.
+// isString 0x006DC0D0, checkedString 0x006DCE50, EAStringC 0x00620090).
+// The enclosing class and writer identities remain address-derived.
 
-class Rva00711380AptBase
+// The used vtable prefix is AptValue::AddRef followed by Release.
+class AptValue
 {
 public:
-	virtual void vtableSlot0();
+	virtual void AddRef();
+	virtual void Release();
 	unsigned int m_flags;
 };
 
@@ -27,13 +29,12 @@ public:
 	AptNativeHash(int size);
 };
 
-class Rva006D6360 : public Rva00711380AptBase
+class Rva006D6360 : public AptValue
 {
 	AptNativeHash m_hash;
 
 public:
 	Rva006D6360(int type, int size);
-	virtual ~Rva006D6360();
 };
 
 class Rva00711380 : public Rva006D6360
@@ -43,7 +44,6 @@ class Rva00711380 : public Rva006D6360
 
 public:
 	Rva00711380(int type, int arg);
-	virtual ~Rva00711380();
 };
 
 Rva00711380::Rva00711380(int type, int arg) : Rva006D6360(type, 8)
