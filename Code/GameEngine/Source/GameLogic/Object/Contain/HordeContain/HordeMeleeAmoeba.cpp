@@ -4,10 +4,28 @@
 // Existing587D9C constructor establishes held4 / vector8 / force14 / data18.
 // Native and WB prove60B entry offsets and circular-list / AI slots individually.
 // The swarm recovery supplied the matching STLport indexing pattern.
-#include "Coord3D.h"
+#include "Coord3DCtorView.h"
+#include "Coord2D.h"
+#include <math.h>
 #include <vector>
+class AmoebaCoord2D : public Coord2D {
+public:
+ __forceinline float GetLength() const {
+  float x_value=x, y_value=y;
+  return (float)sqrt(x_value*x_value+y_value*y_value);
+ }
+ __forceinline float Normalize() {
+  float length=GetLength();
+  float inverse=1.0f/length;
+  x*=inverse; y*=inverse;
+  return length;
+ }
+ AmoebaCoord2D &operator-=(const AmoebaCoord2D &v) { x-=v.x; y-=v.y; return *this; }
+ AmoebaCoord2D &operator+=(const AmoebaCoord2D &v) { x+=v.x; y+=v.y; return *this; }
+ AmoebaCoord2D &operator*=(float f) { x*=f; y*=f; return *this; }
+};
 class Object;
-enum ObjectStatusTypes { AMOEBA_STATUS_1C=0x1c };
+enum ObjectStatusTypes { AMOEBA_STATUS_1C=0x1c, AMOEBA_STATUS_45=0x45 };
 enum WeaponSlotType { PRIMARY_WEAPON=0 };
 enum CommandSourceType { AMOEBA_COMMAND=2 };
 class Weapon { public: bool isWithinAttackRange(const Object *,const Object *,float,int) const; };
@@ -48,12 +66,18 @@ public:
  bool testStatus(ObjectStatusTypes) const;
  const Weapon *getCurrentWeapon(WeaponSlotType *) const;
  int rva0028B511() const;
+ float rva002C97E8(const Coord3D *,const Coord3D *) const;
+ float GetRelativeAngle(const Coord3D *) const;
+ float rva002636F6(const Coord3D *,const void *,const Coord3D *) const;
+ void *rva0028C197() const;
  void rva0028ACEE(int,int);
  void rva00295F05(bool); void rva0028CDB6(); void rva001E42F2(const int *);
  unsigned char pad0[4]; void *m_template;
  unsigned char pad8[0x38-8]; Coord3D m_position;
  unsigned char pad44[0x74-0x44]; int m_id;
- unsigned char pad78[0x250-0x78]; AmoebaContainer *m_container;
+ const Coord3D *getPosition() const { return &m_position; }
+ unsigned char pad78[0xB8-0x78]; float radius;
+ unsigned char padBC[0x250-0xBC]; AmoebaContainer *m_container;
  unsigned char pad254[4]; AmoebaAI *m_ai; AmoebaAI *m_specialAI;
  unsigned char pad260[0x438 - 0x260]; unsigned char m_status;
 };
@@ -79,11 +103,12 @@ struct AmoebaAttackEntry {
  int timer; ICoord2D cells[4];
  int groupValue; bool arrived,active; unsigned char pad3A[2];
 };
-struct AmoebaData { unsigned char pad[0x18]; unsigned char nugget[0x64-0x18]; int groupValue; };
+struct AmoebaData { int unused; float angleWeight,alignment,preferredDistance,maxDistance,maxBuildingDistance; int mask[19]; int groupValue,minRest,maxRest; };
 class HordeMeleeAmoeba {
 public:
  virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void startMeleeAttack(Object *);
- virtual void slot4(); virtual void slot5();
+ virtual void slot4(); virtual void updateMeleeAttack(Object *);
+ void AttackUnit(Object *,Object *);
  virtual void notifyOfMemberDeath(Object *);
  virtual void slot7();
  virtual void slot8();
@@ -148,7 +173,7 @@ void HordeMeleeAmoeba::notifyOfMemberDeath(Object *deadUnit)
       {
        entry.arrived = false;
        entry.groupValue = data->groupValue;
-       obj->rva001E42F2((const int *)&data->nugget);
+       obj->rva001E42F2(data->mask);
       }
      }
     }
@@ -179,4 +204,171 @@ bool HordeMeleeAmoeba::rva0058776E(int index,Coord3D *result)
   return true;
  }
  return false;
+}
+
+struct Rva00588195Elem { float m_key; unsigned int m_04,m_08; };
+namespace _STL { template<class Iterator> void sort(Iterator,Iterator); }
+class Pathfinder { public: bool rva002F07F5(Object *,const Coord3D *); };
+struct AmoebaAIManager { unsigned char pad[0x10]; Pathfinder *pathfinder; };
+class AI; extern AI *TheAI;
+class Rva001E42F2 { public: void rva001E42F2(const int *); };
+class Rva001E431E { public: void rva001E431E(const int *); };
+class Rva0058729D { public: bool rva0058729D(const ICoord2DBase &); };
+class AmoebaPositionProvider : public AmoebaSlots<38> { public: virtual void setLeader(Object *)=0; };
+ICoord2D *Rva002EBC14Cell(ICoord2D *,void *,const Coord3D *);
+Object *Rva0058723D(Object *,Object *);
+int GetGameLogicRandomValue(int,int,char *,int);
+
+static __forceinline Object *amoebaLeader(AmoebaHeld *held) { return *(Object **)((char *)held+8); }
+void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
+{
+ if(!victim) return;
+ Object *parent=victim->rva002931F5(false);
+ if(parent) victim=parent;
+ ((AmoebaPositionProvider *)((char *)held+0x11c))->setLeader(amoebaLeader(held));
+ AmoebaRange range;
+ ((AmoebaListProvider *)((char *)held+0x20))->fill(&range);
+ Rva00588195Elem ordered[50];
+ AmoebaNode *next;
+ int count=0;
+ for(AmoebaNode *node=range.list->head->next;node!=range.list->head;) {
+  {
+  Object *unit=node->object;
+  if(!unit || (unit->m_status&1)) goto advanceNode;
+  if(unit->m_specialAI && *(unsigned char *)((char *)unit->m_specialAI+0x5c)) goto advanceNode;
+  AmoebaAI *ai=unit->m_ai;
+  if(!ai) goto advanceNode;
+  int index=((Rva0046ACF6 *)held)->rva0046ACF6(unit->m_id);
+  if(index<0 || index>=attacks.size()) goto completeBody;
+  AmoebaAttackEntry &entry=attacks[index];
+  if(*(int *)((char *)ai+0x1fc)==4 && *(int *)((char *)ai+0x140)) { entry.needsPosition=true; entry.timer=0; goto completeBody; }
+  if(unit->testStatus(AMOEBA_STATUS_1C) || unit->testStatus(AMOEBA_STATUS_45)) goto advanceNode;
+  if(!ai->idleBlocked()) {
+   ((AICommandInterface *)((char *)ai+0x20))->aiIdle(AMOEBA_COMMAND);
+   entry.position=unit->m_position; entry.timer=0; entry.active=true; entry.needsPosition=true;
+  }
+  ordered[count].m_04=index;
+  ordered[count].m_key=unit->rva002C97E8(&unit->m_position,&victim->m_position);
+  ordered[count].m_08=(unsigned int)unit;
+  ++count;
+  }
+// Keep the two completion edges: their shared cursor copy produces the
+// retail spill and frame slots before MSVC merges the identical tails.
+completeBody:
+ if(force) {
+advanceNode:
+ next=node;
+ } else { next=node; }
+ node=next->next;
+ }
+ _STL::sort(ordered,ordered+count);
+ bool forcePosition=force;
+ force=false;
+ for(int n=0;n<count;++n) {
+  Object *unit=(Object *)ordered[n].m_08;
+  AmoebaAttackEntry &entry=attacks[ordered[n].m_04];
+  Object *attack=Rva0058723D(unit,victim);
+  if(attack) {
+   if(entry.arrived) { entry.arrived=false; entry.groupValue=data->groupValue; ((Rva001E42F2 *)unit)->rva001E42F2(data->mask); }
+   unit->rva0028CDB6(); entry.needsPosition=true; entry.timer=0; AttackUnit(unit,attack); continue;
+  }
+  if(forcePosition) {
+   unit->rva0028CDB6(); entry.needsPosition=true;
+   if(entry.arrived) { entry.arrived=false; entry.groupValue=data->groupValue; ((Rva001E42F2 *)unit)->rva001E42F2(data->mask); }
+  }
+  ICoord2D bestCell;
+  ICoord2D current;
+  Rva002EBC14Cell(&current,unit,&unit->m_position);
+  float bestScore=0.0f;
+  Coord3D best;
+  bool outside=false;
+  bool valid[3][3];
+  if(!entry.arrived) {
+   if(!entry.groupValue) {
+    entry.arrived=true;
+    entry.groupValue=GetGameLogicRandomValue(data->minRest,data->maxRest,(char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeMeleeAmoeba.cpp",0x123);
+    ((Rva001E431E *)unit)->rva001E431E(data->mask);
+   } else --entry.groupValue;
+  }
+  if(entry.arrived) {
+   if(!entry.groupValue) {
+    entry.arrived=false; entry.groupValue=data->groupValue;
+    ((Rva001E42F2 *)unit)->rva001E42F2(data->mask);
+   } else --entry.groupValue;
+  }
+  if(!entry.arrived) {
+   for(int i=-1;i<=1;++i) {
+    for(int j=-1;j<=1;++j) {
+     if(i==0 && j==0) continue;
+     Coord3D candidate=unit->m_position;
+     candidate.x+=(float)(i*10); candidate.y+=(float)(j*10);
+     Pathfinder *pathfinder=((AmoebaAIManager *)TheAI)->pathfinder;
+     if(!pathfinder->rva002F07F5(unit,&candidate)) { valid[i+1][j+1]=false; continue; }
+     ICoord2D cell=current; cell.x+=i; cell.y+=j;
+     if(((Rva0058729D *)&entry)->rva0058729D(reinterpret_cast<const ICoord2DBase &>(cell))) { valid[i+1][j+1]=false; continue; }
+     valid[i+1][j+1]=true;
+     float score=10000.0f-fabs(unit->GetRelativeAngle(&candidate))*data->angleWeight*0.31836995f;
+     Object *other;
+     if((*(unsigned char *)((char *)victim->m_template+0x115))&0x20) {
+      AmoebaRangeQuery *query=(AmoebaRangeQuery *)victim->rva0028C197();
+      if(!query) other=0; else other=query->query(0,&candidate,0.0f,0,0);
+     } else other=victim;
+     if(other) {
+      AmoebaCoord2D toward;
+      toward.x=unit->m_position.x-other->m_position.x; toward.y=unit->m_position.y-other->m_position.y;
+      toward.Normalize();
+      AmoebaCoord2D perpendicular,left,right;
+      left.x=right.x=unit->m_position.x-candidate.x;
+      left.y=right.y=unit->m_position.y-candidate.y;
+      perpendicular.x=left.y; perpendicular.y=-left.x;
+      perpendicular.Normalize();
+      float radius=other->radius; perpendicular.x*=radius; perpendicular.y*=radius;
+      left+=perpendicular;
+      left.Normalize();
+      right-=perpendicular;
+      right.Normalize();
+      if(toward.x*left.x+toward.y*left.y<data->alignment && toward.x*right.x+toward.y*right.y<data->alignment) continue;
+     }
+     Object *destination=other?other:victim;
+     score-=sqrt(unit->rva002636F6(&candidate,destination,&destination->m_position));
+     AmoebaCoord2D group;
+     const Coord3D *leaderPos=amoebaLeader(held)->getPosition();
+     group.x=leaderPos->x-candidate.x;
+     group.y=leaderPos->y-candidate.y;
+     float distance=group.x*group.x+group.y*group.y;
+     float maximum=other && (*(unsigned char *)((char *)other->m_template+0x108)&0x80)?data->maxBuildingDistance:data->maxDistance;
+     if(distance>maximum*maximum) { outside=true; continue; }
+     if(distance>data->preferredDistance*data->preferredDistance) score-=sqrt(distance);
+     if(score>bestScore) { bestScore=score; best=candidate; bestCell=cell; }
+    }
+   }
+  }
+   if(bestScore<1.0f && outside) {
+    for(int i=-1;i<=1;++i) {
+     for(int j=-1;j<=1;++j) {
+      if(i==0 && j==0) continue;
+      if(!valid[i+1][j+1]) continue;
+      Coord3D candidate=unit->m_position;
+      candidate.x+=(float)(i*10); candidate.y+=(float)(j*10);
+      AmoebaCoord2D group;
+      const Coord3D *leaderPos=amoebaLeader(held)->getPosition();
+      group.x=leaderPos->x-candidate.x;
+      group.y=leaderPos->y-candidate.y;
+      float score=1000000.0f-(group.x*group.x+group.y*group.y);
+      if(score>bestScore) { bestScore=score; best=candidate; bestCell.x=current.x+i; bestCell.y=current.y+j; }
+     }
+    }
+   }
+   if(bestScore>0.0f) {
+    entry.needsPosition=false; entry.position=best; entry.active=true;
+    entry.rva005872CF(reinterpret_cast<const ICoord2DBase &>(bestCell));
+    unit->rva0028ACEE((int)&best,amoebaLeader(held)->rva0028B511());
+    continue;
+   }
+  Object *fallback=Rva0058723D(unit,0);
+  if(fallback) {
+   if(entry.arrived) { entry.arrived=false; entry.groupValue=data->groupValue; ((Rva001E42F2 *)unit)->rva001E42F2(data->mask); }
+   unit->rva0028CDB6(); entry.needsPosition=true; entry.timer=0; AttackUnit(unit,fallback);
+  } else entry.rva005872CF(reinterpret_cast<const ICoord2DBase &>(current));
+ }
 }
