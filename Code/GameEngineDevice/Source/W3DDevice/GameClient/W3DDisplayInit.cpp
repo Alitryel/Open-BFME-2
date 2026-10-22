@@ -96,7 +96,7 @@ class WWMath
 {
 public:
 	static void Init();
-	static void rva0069E440();
+	static void Shutdown();
 };
 
 class WW3D
@@ -364,7 +364,7 @@ void W3DDisplay::init()
 			if (WW3D::Set_Render_Device(0, getWidth(), getHeight(), getBitDepth(), getWindowed(), true, false, true) != true)
 			{
 				shutdownRenderDevice();
-				WWMath::rva0069E440();
+				WWMath::Shutdown();
 				throw ERROR_INVALID_D3D;
 			}
 		}

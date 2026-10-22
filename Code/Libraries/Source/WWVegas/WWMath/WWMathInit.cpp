@@ -1,6 +1,7 @@
 // cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath
 //
-// WWMath::Init at 0x00711AD0 and WWMath::Fast_Acos at 0x007185C0, from BFME 1's
+// WWMath::Init at 0x00711AD0, WWMath::Shutdown (ICF 0x0069E440) and
+// WWMath::Fast_Acos at 0x007185C0, from BFME 1's
 // WWMath/wwmath.cpp built with BFME 2's /G7 /arch:SSE. WWLib/wwmath.cpp keeps
 // Random_Float.
 // Keep CRT float adapters local, as in the native math siblings.
@@ -41,6 +42,12 @@ void		WWMath::Init(void)
 			_FastInvSinTable[a]=WWMATH_FLOAT_MAX;
 		}
 	}
+}
+
+void		WWMath::Shutdown(void)
+{
+	// BFME drift (as in BFME 1): no LookupTableMgrClass::Shutdown() call; the
+	// empty body is the image's shared one-byte return at 0x0069E440 (ICF).
 }
 
 

@@ -139,10 +139,20 @@ public:
 	// (after Set_Shader 0x0013EEF0); the ledger rows that address as
 	// MapObject::setRenderObj and gives Set_Material to 0x0030D3AD, so it is
 	// reached through an address-derived pin until those rows are reconciled.
-	void rva0013EF10(VertexMaterialClass *mat);
 	void Set_Shader(ShaderClass shader);
 	char m_pad08[0x38 - 0x08];
 };
+
+// MaterialPassClass's material setter is retail 0x0013EF10, the ICF-shared
+// ref-counted pointer setter rowed as MapObject::setRenderObj; the union calls
+// that row's name with the same thiscall ABI.
+class RenderObjClass;
+class MapObject { public: void setRenderObj(RenderObjClass *robj); };
+union NativeSetMaterialCall {
+	void (MapObject::*target)(RenderObjClass *);
+	void (MaterialPassClass::*member)(VertexMaterialClass *);
+};
+typedef char SetMaterialPointerWidth[sizeof(NativeSetMaterialCall)==4 ? 1 : -1];
 
 class W3DShroudMaterialPassClass
 {
@@ -224,12 +234,13 @@ RTS3DScene::RTS3DScene()
 	heatVisionMtl->Set_Ambient(0, 0, 0);
 	heatVisionMtl->Set_Diffuse(0.02f, 0.01f, 0.00f);
 	heatVisionMtl->Set_Emissive(0.5f, 0.2f, 0.0f);
-	m_heatVisionMaterialPass->rva0013EF10(heatVisionMtl);
+	NativeSetMaterialCall setMaterial = {&MapObject::setRenderObj};
+	(m_heatVisionMaterialPass->*setMaterial.member)(heatVisionMtl);
 	ShaderClass heatVisionShader = ShaderClass::_PresetAdditiveSolidShader;
 	heatVisionShader.Set_Depth_Compare(ShaderClass::PASS_EQUAL);
 	m_heatVisionMaterialPass->Set_Shader(heatVisionShader);
 	heatVisionMtl->Release_Ref();
-	m_heatVisionOnlyPass->rva0013EF10(heatVisionMtl);
+	(m_heatVisionOnlyPass->*setMaterial.member)(heatVisionMtl);
 	heatVisionShader.Set_Depth_Compare(ShaderClass::PASS_LEQUAL);
 	heatVisionShader.Set_Depth_Mask(ShaderClass::DEPTH_WRITE_DISABLE);
 	m_heatVisionOnlyPass->Set_Shader(heatVisionShader);
