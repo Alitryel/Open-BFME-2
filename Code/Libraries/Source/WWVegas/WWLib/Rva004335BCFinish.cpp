@@ -12,6 +12,10 @@
 // compiler-shape hypothesis for the encoding, not a recovered declaration.
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$_Construct@VBfmeStringTailRecord156@@V1@@_STL@@YAXPAVBfmeStringTailRecord156@@ABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BfmeStringTailRecord156;
+namespace _STL { template <> void _Construct<BfmeStringTailRecord156,BfmeStringTailRecord156>(BfmeStringTailRecord156 *,BfmeStringTailRecord156 const &); }
 
 struct TreeKey00242F5E { int m_a; int m_b; };
 // The native eight-byte range copy calls the rowed placement-copy helper.

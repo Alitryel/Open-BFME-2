@@ -15,6 +15,10 @@ namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned 
 // bfme link decl-only begin
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva00260B88Element@@V?$allocator@URva00260B88Element@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00260B88Element;
+namespace _STL { template <> void vector<Rva00260B88Element,allocator<Rva00260B88Element> >::_M_insert_overflow(Rva00260B88Element *,Rva00260B88Element const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAURva00260B88Element@@U1@V?$allocator@URva00260B88Element@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00260B88Element;

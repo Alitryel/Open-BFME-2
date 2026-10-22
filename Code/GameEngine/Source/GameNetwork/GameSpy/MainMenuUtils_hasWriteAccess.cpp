@@ -78,6 +78,10 @@ namespace _STL { template <> void _List_base<QueuedDownload, allocator<QueuedDow
 namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
 namespace _STL { template <> void allocator<char>::deallocate(char *, unsigned int) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_List_base@VQueuedDownload@@V?$allocator@VQueuedDownload@@@_STL@@@_STL@@QAE@ABV?$allo:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class QueuedDownload;
+namespace _STL { template <> _List_base<QueuedDownload,allocator<QueuedDownload> >::_List_base(allocator<QueuedDownload> const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@D@_STL@@QBEPADIPBX@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * allocator<char>::allocate(unsigned int,void const *) const; }

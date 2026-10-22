@@ -24,6 +24,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva003328B6Element@@V?$allocator@URva003328B6Element@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003328B6Element;
+namespace _STL { template <> void vector<Rva003328B6Element,allocator<Rva003328B6Element> >::_M_insert_overflow(Rva003328B6Element *,Rva003328B6Element const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAURva003328B6Element@@U1@V?$allocator@URva003328B6Element@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva003328B6Element;

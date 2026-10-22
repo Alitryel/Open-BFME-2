@@ -41,6 +41,10 @@ void free(void *);
 #include <stdio.h>
 #include <algorithm>
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__partial_sort@PAHHVRva00204BB8@@@_STL@@YAXPAH000VRva00204BB8@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva00204BB8;
+namespace _STL { template <> void __partial_sort<int *,int,Rva00204BB8>(int *,int *,int *,int *,Rva00204BB8); }
 
 class File
 {

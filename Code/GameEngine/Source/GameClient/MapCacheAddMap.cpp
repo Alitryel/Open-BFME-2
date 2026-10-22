@@ -48,6 +48,10 @@ namespace _STL {template<> struct less<AsciiString> { bool operator()(const Asci
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?erase@?$list@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAE?AU?$_List_iterator@UCoord:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> _List_iterator<Coord3D,_Nonconst_traits<Coord3D> > list<Coord3D,allocator<Coord3D> >::erase(_List_iterator<Coord3D,_Nonconst_traits<Coord3D> >); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@UCoord3D@@@_STL@@@_STL@@QBEXPAU?$_List_node@UCoord3D:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Coord3D;

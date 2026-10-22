@@ -139,6 +139,9 @@ basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::_M_assign_disp
 }
 }
 #include <locale>
+// Suppress this TU's non-retail copy of ?reserve@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::reserve(unsigned int); }
 // Suppress this TU's non-retail copy of ??E?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@QAEAAV01@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> istreambuf_iterator<unsigned short,char_traits<unsigned short> > & istreambuf_iterator<unsigned short,char_traits<unsigned short> >::operator++(); }
