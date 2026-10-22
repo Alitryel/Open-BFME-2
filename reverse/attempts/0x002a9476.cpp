@@ -1,8 +1,6 @@
 // ?addNewAIForPlayer@Rva002A8F24@@QAEPAXPAVPlayer@@@Z
-// partial score=0.9 date=2026-10-14
-// ?addNewAIForPlayer@Rva002A8F24@@QAEPAXPAVPlayer@@@Z
-// partial score=0.8 date=2026-10-09
-// cl: /O1 /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
+// partial score=0.93762 date=2026-10-21
+// cl: /O1 /arch:SSE /G7 /Ireference/shims/bfmealloc /O1 /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2
 // stlport
 // WB E8E070 names SkirmishAIManager::Register. Retail2A9365..2A93F5
 // establishes the controller dispatches and unique hero-ID insertion.
@@ -10,12 +8,40 @@
 // consistent with its already verified providers and consumers.
 // Object +4B0/+74 and template +121 bit10 are native evidence; WB's
 // corresponding offsets and flag implementation differ from this target.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 #include <vector>
 #include <algorithm>
 #include <map>
-#include <hash_map>
+
+// Preserve STLport's inlined walk without emitting a competing size-profile
+// wrapper. stlport_map_int_int.cpp owns the complete retail entry at 0x169ED0.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{
+    _M_node = _Rb_global_inst::_M_increment(_M_node);
+    return *this;
+}
+}
+// Keep the inlined node comparison local; this unit's incidental
+// tree-base operator!= copy conflicts with the selected provider.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <new>
 
+class Xfer;
 class Player;
 class CreateAHeroData;
 enum ObjectID { OBJECTID_INVALID = 0 };
@@ -47,7 +73,33 @@ public:
     AIStatCollector(Player *);
     unsigned char nativeStorage[0x38];
 };
-class Rva002A8F24
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+typedef bool Bool;
+#include "subsystem_interface.h"
+// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
+// bfme link decl-only begin
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, int> > * _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_M_create_node(pair<int const, int> const &); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &); }
+// Call retail's hinted insert_unique (0x00422EC0) instead of emitting this unit's own copy.
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, pair<int const, int> const &); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@IAEXPAW4Ob:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> void vector<ObjectID, allocator<ObjectID> >::_M_insert_overflow(ObjectID *, const ObjectID &, const __false_type &, size_t, bool); }
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+
+namespace _STL { template <> pair<_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::iterator, bool> _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::insert_unique(const pair<const int, int> &); }
+class Rva002A8F24 :public SubsystemInterface,public Snapshot
 {
 public:
     Rva002A8AB1Record *rva002A8AB1(void *);
@@ -55,36 +107,25 @@ public:
     void rva002A9365(Object *);
     void findPreSpawnedObjects();
     void *addNewAIForPlayer(Player *);
+    void rva002A95F9();
+    virtual ~Rva002A8F24();
+    virtual void init();
+    virtual void reset();
+    virtual void update();
+    virtual void loadPostProcess();
+    virtual const char *GetSnapshotName() const;
+    virtual void xfer(Xfer *);
 private:
-    unsigned char prefix00[0x908];
+    unsigned char prefix00[0x860-0x10];
+    bool forceAI860;
+    unsigned char gap861[0x908-0x861];
     _STL::map<int,int> collectors908;
     _STL::vector<const class ModuleData *> teams914;
-    _STL::hash_map<unsigned int,void *> builders920;
+    unsigned char builders920[0x14];
     _STL::vector<ObjectID> heroIDs934;
+    class ObjectCreationList *owned940;
 };
 
-void Rva002A8F24::rva002A9365(Object *object)
-{
-    if (object->excluded4b0)
-        return;
-    Rva002A8AB1Record *record = rva002A8AB1(object->getControllingPlayer());
-    if (record)
-        record->rva002C6A3D(object);
-    AIStatCollector *collector = static_cast<AIStatCollector *>(rva002A8F24(object->getControllingPlayer()));
-    if (collector)
-        collector->Register(object);
-    if (!(object->template04->kindOf121 & 0x10))
-        return;
-    ObjectID id = object->id74;
-    ObjectID *end = heroIDs934.end();
-    CreateAHeroData **found = _STL::find(reinterpret_cast<CreateAHeroData **>(heroIDs934.begin()),
-        reinterpret_cast<CreateAHeroData **>(end), reinterpret_cast<CreateAHeroData *&>(id));
-    if (reinterpret_cast<ObjectID *>(found) == end)
-    {
-        ObjectID appendID = object->id74;
-        heroIDs934.push_back(appendID);
-    }
-}
 
 // WB E8D510 and native 2A9411..2A9476: iterate every AI player's default
 // team and register its members. The 24-byte iterator ABI is independently
@@ -104,7 +145,11 @@ public:
 class Player {
 public:
     bool rva002AA245() const;
-    unsigned char prefix00[0x2ec];
+    const class AsciiString &getSide() const { return *(const AsciiString *)side58; }
+    int getPlayerIndex() const { return playerIndex54; }
+    unsigned char prefix00[0x54];
+    int playerIndex54;
+    unsigned char side58[0x2ec-0x58];
     Team *defaultTeam2ec;
 };
 class PlayerList {
@@ -114,20 +159,66 @@ public:
     int playerCount14;
 };
 extern PlayerList *ThePlayerList;
-void Rva002A8F24::findPreSpawnedObjects() {
-    for (int i=0; i<ThePlayerList->playerCount14; ++i) {
-        Player *player=ThePlayerList->getNthPlayer(i);
-        if (player->rva002AA245()) {
-            for (DLINK_ITERATOR<Object> it=player->defaultTeam2ec->iterate_TeamMemberList();
-                !it.done(); it.advance())
-                rva002A9365(it.cur());
-        }
-    }
+
+
+class GameInfo {
+public:
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual void slot0C();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1C();
+    virtual void slot20();
+    virtual void slot24();
+    virtual void slot28();
+    virtual void slot2C();
+    virtual void slot30();
+    virtual void slot34();
+    virtual void slot38();
+    virtual void slot3C();
+    virtual void slot40();
+    virtual void slot44();
+    virtual bool slot48();
+    virtual bool slot4c();
+};
+extern GameInfo *TheGameInfo;
+class GameLogic;
+extern GameLogic *TheGameLogic;
+class Rva0023C6A4 { public: bool rva00200084(); };
+void Rva004ECE14Clear();
+class AIGameTeam { public: void addPlayer(const ModuleData *); void rva004E94FB();void rva004E951C(void*); };
+
+
+// Native manager snapshot pass; version min1/current2, CRC bail then farm/wall
+// shared libraries, every owned team, and every collector with version pointer.
+struct ManagerVersion { ManagerVersion(unsigned char a,unsigned char b):min(a),current(b){} unsigned char min,current; };
+struct ManagerXferHead {virtual void slot00();virtual void slot04();virtual void slot08();virtual void slot0c();virtual bool slot10() const;};
+template<int N>struct ManagerXferSlots:ManagerXferSlots<N-1>{virtual void gap(char(*)[N]);};
+template<>struct ManagerXferSlots<0>:ManagerXferHead{};
+struct ManagerXferView:ManagerXferSlots<5>{virtual void version(ManagerVersion*);};
+class AIEconomyBuilder {public:static void DoXferFarmLibrary(Xfer*);};
+void Rva004E99F1Xfer(Xfer*);
+class Rva004DFA0E {public:void rva004DFA0E(void*,void*);};
+void Rva002A8F24::xfer(Xfer* xfer) {
+ ManagerXferView*io=reinterpret_cast<ManagerXferView*>(xfer);
+ if(io->slot10())return;
+ ManagerVersion version(1,2);
+ io->version(&version);
+ AIEconomyBuilder::DoXferFarmLibrary(xfer);
+ Rva004E99F1Xfer(xfer);
+ for(const ModuleData**it=teams914.begin();it!=teams914.end();++it)
+  reinterpret_cast<AIGameTeam*>(const_cast<ModuleData*>(*it))->rva004E951C(xfer);
+ for(_STL::map<int,int>::iterator it=collectors908.begin(),end=collectors908.end();it!=end;++it)
+  reinterpret_cast<Rva004DFA0E*>(it->second)->rva004DFA0E(xfer,&version);
 }
 
-// Existing provider spellings preserve independently verified call ownership.
+#include <hash_map>
+class AsciiString;
+typedef _STL::hash_map<int,AsciiString> DozerMap;
 class Rva004E94CA { public: bool rva004E94CA(Player *); };
-class Rva004E9823 { public: void rva004E9823(const ModuleData *); };
 class Rva004E9600 { public: void *rva004E95D4(void *); };
 class Rva004E962A { public: Rva004E962A(); unsigned char nativeStorage[0x28]; };
 class AsciiString;
@@ -137,40 +228,34 @@ extern ArmorStore *g_00E0312C;
 enum NameKeyType { NAMEKEY_INVALID=0 };
 class NameKeyGenerator { public: NameKeyType nameToKey(const AsciiString &); };
 extern NameKeyGenerator *TheNameKeyGenerator;
-class Rva002A9140 { public: AsciiString &rva002A9140(const int &); };
+struct DozerNode;
+class Rva002A9140 { public: AsciiString &rva002A9140(const int &); DozerNode *_M_find(const int &) const; };
 class Rva004EC1CE { public: void rva004EC1CE(const AsciiString &); };
-
+__forceinline void joinTeam0(AIGameTeam *t, Player *p) {t->addPlayer((const ModuleData *)p);}
+__forceinline void * getTeamAI0(Rva004E9600 *t, Player *p) {return t->rva004E95D4(p);}
 void *Rva002A8F24::addNewAIForPlayer(Player *player) {
     void *ai=0;
-    const ModuleData **it=teams914.begin(), **end=teams914.end();
-    for (; it!=(end ? end : end); ++it) {
+    for (const ModuleData **it=teams914.begin(), **end=teams914.end(); it!=end; ++it) {
         if (((Rva004E94CA *)*it)->rva004E94CA(player)) {
-            ((Rva004E9823 *)*it)->rva004E9823((const ModuleData *)player);
-            ai=((Rva004E9600 *)*it)->rva004E95D4(player);
+            joinTeam0((AIGameTeam *)*it,player);
+            ai=getTeamAI0((Rva004E9600 *)*it,player);
             break;
         }
     }
     if (!ai) {
         Rva004E962A *team=new Rva004E962A;
-        ((Rva004E9823 *)team)->rva004E9823((const ModuleData *)player);
+        ((AIGameTeam *)team)->addPlayer((const ModuleData *)player);
         ai=((Rva004E9600 *)team)->rva004E95D4(player);
         teams914.push_back((const ModuleData *&)team);
     }
-    const AsciiString &name=*(const AsciiString *)((char *)player+0x58);
-    if (g_00E0312C->rva0041F474(name)) {
-        int key=TheNameKeyGenerator->nameToKey(name);
-        if (builders920.end() != builders920.find((const unsigned &)key))
-            ((Rva004EC1CE *)ai)->rva004EC1CE(((Rva002A9140 *)&builders920)->rva002A9140(key));
+    if (g_00E0312C->rva0041F474(player->getSide())) {
+        int key=TheNameKeyGenerator->nameToKey(player->getSide());
+        if (((DozerMap *)builders920)->find(key) != ((DozerMap *)builders920)->end())
+            ((Rva004EC1CE *)ai)->rva004EC1CE(((Rva002A9140 *)builders920)->rva002A9140(key));
     } else {
         *(bool *)((char *)ai+0x168)=true;
     }
     AIStatCollector *collector=new AIStatCollector(player);
-    int playerID=*(int *)((char *)player+0x54);
-    collectors908[playerID]=(int)collector;
+    collectors908[player->getPlayerIndex()]=(int)collector;
     return ai;
 }
-
-// Independent317a trial 2026-10-09: typed player/map formulation emitted326B
-// against native323B. Three additional stack bytes and EBX lifetime differ;
-// argument-slot reuse emitted332B. Complete alternate trial retained locally
-// in build/skirmish-bank-ours.cpp; no recovery or byte-progress claim.
