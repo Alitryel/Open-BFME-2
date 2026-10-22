@@ -24,6 +24,8 @@ namespace _STL { template <> void allocator<Rva004F8D92Element>::deallocate(Rva0
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva004F8D92Element;
 namespace _STL { template <> void _Destroy<Rva004F8D92Element *>(Rva004F8D92Element *,Rva004F8D92Element *); }
+// Suppress this TU's non-retail copy: the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<Rva004F8D92Element, allocator<Rva004F8D92Element> >::_M_clear(); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
