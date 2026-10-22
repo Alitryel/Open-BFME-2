@@ -64,6 +64,8 @@ struct BfmeObject872;
 typedef _STL::vector<BfmeObject872,_STL::allocator<BfmeObject872> > VBfmeObject872;
 struct BfmeContainerRecord002CF46E;
 typedef _STL::vector<BfmeContainerRecord002CF46E,_STL::allocator<BfmeContainerRecord002CF46E> > VBfmeContainerRecord002CF46E;
+template _STL::_Vector_base<BfmeContainerRecord002CF46E,_STL::allocator<BfmeContainerRecord002CF46E> >::_Vector_base(
+    const _STL::allocator<BfmeContainerRecord002CF46E> &);
 struct Rva0021C21BElement;
 typedef _STL::vector<Rva0021C21BElement,_STL::allocator<Rva0021C21BElement> > VRva0021C21BElement;
 struct BfmeFixedObject260;
@@ -142,7 +144,9 @@ struct TemplateThreatBreakdown { unsigned int bits; TemplateThreatBreakdown() : 
 struct NoCaseMapView { ~NoCaseMapView(); NoCaseTree tree; NoCaseMapView() : tree(BfmeStringNoCaseLess(), NoCaseTree::allocator_type()) {} };
 struct Rva0025753F { SoundRecordTree tree; Rva0025753F() : tree(_STL::less<BfmeStringRecord002CF550>(), SoundRecordTree::allocator_type()) {} ~Rva0025753F(); };
 struct Rva0033C3F3 : VRva002D0EDCElement { __forceinline Rva0033C3F3() {} ~Rva0033C3F3(); };
-struct Rva0033D4ABVec : VBfmeContainerRecord002CF46E { __forceinline Rva0033D4ABVec() {} ~Rva0033D4ABVec(); };
+class Rva002DFC30 { public: ~Rva002DFC30(); unsigned char m_data[0xC]; };
+namespace _STL { template<> vector<Rva002DFC30>::~vector(); }
+typedef _STL::vector<Rva002DFC30> WeaponTemplateSetVector;
 class ThingTemplate : public Rva001E3624 {
 public:
     ThingTemplate(); virtual ~ThingTemplate();
@@ -184,7 +188,7 @@ public:
     float m_buildFadeInOnCreateTime;
     VBfmeObject872 m_armorTemplateSets;
     ArmorSetFinderView m_armorTemplateSetFinder;
-    Rva0033D4ABVec m_weaponTemplateSets;
+    WeaponTemplateSetVector m_weaponTemplateSets;
     WeaponSetFinderView m_weaponTemplateSetFinder;
     Rva0025753F m_perUnitSounds;
     NoCaseMapView m_perUnitFX;

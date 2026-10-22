@@ -29,6 +29,7 @@
 #include <string.h>
 #include <list>
 #include <map>
+#include <hash_map>
 #include <vector>
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -327,15 +328,27 @@ private:
 	char m_opaque[0x10];
 };
 
+struct Rva002A480AElement
+{
+	Rva002A480AElement();
+	Rva002A480AElement(const Rva002A480AElement &);
+	Rva002A480AElement &operator=(const Rva002A480AElement &);
+	~Rva002A480AElement() {}
+	char bytes[8];
+	bool operator==(const Rva002A480AElement &) const;
+};
+
+namespace _STL { template<> hash_map<int, Rva002A480AElement>::hash_map(); }
+
 // Bucket table at +0x874 (constructor 0x002A5876, destructor 0x002A4052).
 class Rva002A1D02
 {
 public:
-	Rva002A1D02();
+	__declspec(dllimport) __forceinline Rva002A1D02() {}
 	~Rva002A1D02();
 
 private:
-	char m_opaque[0x14];
+	_STL::hash_map<int, Rva002A480AElement> m_table;
 };
 
 class RadiusDecal
