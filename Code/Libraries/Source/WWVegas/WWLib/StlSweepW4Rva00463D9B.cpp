@@ -34,3 +34,17 @@ inline bool operator<(const Rva00463D9BElement &left, const Rva00463D9BElement &
 
 // Instantiate the recovered operation and its required template dependencies.
 template unsigned int _STL::_Rb_tree<Rva00463D9BElement, Rva00463D9BElement, _STL::_Identity<Rva00463D9BElement>, _STL::less<Rva00463D9BElement>, _STL::allocator<Rva00463D9BElement> >::erase(Rva00463D9BElement const &);
+
+// Native 0x004643C9..0x004643CE is an independent forwarding entry.
+// Retain the verified tree/key view without claiming set or multiset identity.
+typedef _STL::_Rb_tree<Rva00463D9BElement, Rva00463D9BElement,
+    _STL::_Identity<Rva00463D9BElement>, _STL::less<Rva00463D9BElement>,
+    _STL::allocator<Rva00463D9BElement> > Rva004643C9Tree;
+class Rva004643C9 : public Rva004643C9Tree {
+public:
+    unsigned int rva004643C9(const Rva00463D9BElement &key);
+};
+unsigned int Rva004643C9::rva004643C9(const Rva00463D9BElement &key)
+{
+    return erase(key);
+}
