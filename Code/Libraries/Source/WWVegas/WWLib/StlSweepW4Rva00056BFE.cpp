@@ -10,6 +10,15 @@
 // the link keeps.
 namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL {
+// The allocator is stateless; only the stored pointers need exchanging.
+template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left,
+                            _STLP_alloc_proxy<void **, void *, allocator<void *> > &right)
+{
+    swap(left._M_data, right._M_data);
+}
+}
+
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::_STLP_alloc_proxy(const _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
 namespace _STL {
 template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }

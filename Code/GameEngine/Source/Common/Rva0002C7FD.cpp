@@ -26,6 +26,15 @@ namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int ve
 namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 // bfme link decl-only begin
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL {
+// The allocator is stateless; only the stored pointers need exchanging.
+template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left,
+                            _STLP_alloc_proxy<void **, void *, allocator<void *> > &right)
+{
+    swap(left._M_data, right._M_data);
+}
+}
+
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 // bfme link decl-only end

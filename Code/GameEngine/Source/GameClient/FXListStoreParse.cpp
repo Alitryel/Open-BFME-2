@@ -27,6 +27,15 @@ namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int ve
 namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL {
+// The allocator is stateless; only the stored pointers need exchanging.
+template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left,
+                            _STLP_alloc_proxy<void **, void *, allocator<void *> > &right)
+{
+    swap(left._M_data, right._M_data);
+}
+}
+
+namespace _STL {
 template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
 }
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae

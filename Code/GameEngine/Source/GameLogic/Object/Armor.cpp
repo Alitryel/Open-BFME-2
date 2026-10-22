@@ -63,6 +63,15 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL {
+// The allocator is stateless; only the stored pointers need exchanging.
+template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left,
+                            _STLP_alloc_proxy<void **, void *, allocator<void *> > &right)
+{
+    swap(left._M_data, right._M_data);
+}
+}
+
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
