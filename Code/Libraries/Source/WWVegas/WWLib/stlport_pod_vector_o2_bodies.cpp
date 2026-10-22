@@ -78,4 +78,7 @@ namespace _STL { template <> void _STLP_alloc_proxy<BfmePod36 *,BfmePod36,alloca
 struct BfmePod36;
 namespace _STL { template <> BfmePod36 * _STLP_alloc_proxy<BfmePod36 *,BfmePod36,allocator<BfmePod36> >::allocate(unsigned int); }
 struct BfmePod36 { int a[9]; };
-template class _STL::vector<BfmePod36, _STL::allocator<BfmePod36 > >;
+// Emit the owned erase operations and their copy helper, not unused vector
+// constructors whose non-retail copies can win selection for other units.
+template BfmePod36 *_STL::vector<BfmePod36>::erase(BfmePod36 *);
+template BfmePod36 *_STL::vector<BfmePod36>::erase(BfmePod36 *, BfmePod36 *);
