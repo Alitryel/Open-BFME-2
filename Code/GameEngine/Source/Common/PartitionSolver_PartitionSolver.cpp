@@ -80,6 +80,10 @@ Some info about partioning problems:
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
 #include "Common/PartitionSolver.h"
+// Suppress this TU's non-retail copy of ??0?$_Vector_base@U?$pair@W4ObjectID@@I@_STL@@V?$allocator@U?$pair@W4ObjectID@@I@_STL@@@2@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> _Vector_base<pair<ObjectID,unsigned int>,allocator<pair<ObjectID,unsigned int> > >::_Vector_base(unsigned int,allocator<pair<ObjectID,unsigned int> > const &); }
 // Suppress this TU's non-retail copy of ??$make_pair@W4ObjectID@@W41@@_STL@@YA?AU?$pair@W4ObjectID@@W41@@0@ABW4ObjectID@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum ObjectID;

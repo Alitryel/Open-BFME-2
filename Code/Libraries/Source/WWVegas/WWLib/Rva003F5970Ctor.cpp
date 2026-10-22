@@ -18,6 +18,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 class ModuleData;
 
 #include "../../../Include/Lib/BfmeE16.h"
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@UBfmeAssignRecord104@@V?$allocator@UBfmeAssignRecord104@@@_STL@@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord104;
+namespace _STL { template <> void vector<BfmeAssignRecord104,allocator<BfmeAssignRecord104> >::_M_clear(); }
 // Suppress this TU's non-retail copy of ?reserve@?$vector@UBfmeAssignRecord104@@V?$allocator@UBfmeAssignRecord104@@@_STL@@@_STL@@Q:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeAssignRecord104;
