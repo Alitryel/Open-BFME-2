@@ -34,6 +34,9 @@ class FXList;
 class AIUpdateInterface;
 
 #include "../../../Common/GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ??R?$less@H@_STL@@QBE_NABH0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool less<int>::operator()(int const &,int const &) const; }
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@GU?$pair@$$CBGH@_STL@@U?$_Select1st@U?$pair@$$CBGH@_STL@@@2@UGen:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Gen_lt_00940b40;

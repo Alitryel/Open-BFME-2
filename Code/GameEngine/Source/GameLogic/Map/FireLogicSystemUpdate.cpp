@@ -123,6 +123,10 @@ private:
 	char m_pad[8];
 };
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ?erase@?$vector@UBfmePod8@@V?$allocator@UBfmePod8@@@_STL@@@_STL@@QAEPAUBfmePod8@@PAU3@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> BfmePod8 * vector<BfmePod8,allocator<BfmePod8> >::erase(BfmePod8 *,BfmePod8 *); }
 
 // A material entry (0x18 bytes): the array constructor zeroes all six
 // dwords (0x00286297) and the destructor releases the string at +4

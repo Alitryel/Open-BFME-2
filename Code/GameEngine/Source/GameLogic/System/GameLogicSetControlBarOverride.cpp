@@ -14,6 +14,10 @@
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@UTreeKey00242F5E@@U?$pair@$$CBUTreeKey00242F5E@@UTreeOpaqueMapp:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct TreeKey00242F5E; struct TreeOpaqueMapped242F5E;
+namespace _STL { template <> _Rb_tree_node<pair<TreeKey00242F5E const ,TreeOpaqueMapped242F5E> > * _Rb_tree<TreeKey00242F5E,pair<TreeKey00242F5E const ,TreeOpaqueMapped242F5E>,_Select1st<pair<TreeKey00242F5E const ,TreeOpaqueMapped242F5E> >,less<TreeKey00242F5E>,allocator<pair<TreeKey00242F5E const ,TreeOpaqueMapped242F5E> > >::_M_create_node(pair<TreeKey00242F5E const ,TreeOpaqueMapped242F5E> const &); }
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@UTreeKey00242F5E@@U?$pair@$$CBUTreeKey00242F5E@@UTreeOpaqueMappe:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct TreeKey00242F5E; struct TreeOpaqueMapped242F5E;

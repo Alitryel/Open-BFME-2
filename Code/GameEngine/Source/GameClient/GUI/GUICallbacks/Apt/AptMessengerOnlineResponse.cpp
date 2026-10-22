@@ -36,6 +36,9 @@ template <typename T> __forceinline void StringBase<T>::concat(T c)
 }
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ??R?$less@H@_STL@@QBE_NABH0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool less<int>::operator()(int const &,int const &) const; }
 // Keep the inlined STLport __malloc_alloc<0>::deallocate without emitting an
 // optimised out-of-line copy that would shadow retail's /Od body at 0x23A70
 // (STLMallocAlloc0Deallocate.cpp).

@@ -112,6 +112,10 @@ inline BfmeE8::BfmeE8(const Vector3 &v) : X(v.X), Y(v.Y) {}
 // Retail's Coord3D copy constructor makes _Construct<Coord3D> the null-checked body at 0x002CA82C.
 #include "Lib/Coord3DCtorView.h"
 #include "Lib/Region2D.h"
+// Suppress this TU's non-retail copy of ?erase@?$vector@UBfmePod8@@V?$allocator@UBfmePod8@@@_STL@@@_STL@@QAEPAUBfmePod8@@PAU3@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> BfmePod8 * vector<BfmePod8,allocator<BfmePod8> >::erase(BfmePod8 *,BfmePod8 *); }
 // The record view of stlport_vector_float4_469c61.cpp, whose member-wise copy gives retail's _Construct.
 struct BfmeFloat4Record00469C61 {
 	float x, y, z, w;

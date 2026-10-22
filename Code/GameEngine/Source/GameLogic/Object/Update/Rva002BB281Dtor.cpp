@@ -3,6 +3,10 @@
 // ??1Rva002BB281@@QAE@XZ @ 0x002BB281 54B
 // Evidence: EH dtor calls rowed vector dtor 0x002B703F at +0x2C then pinned Rva002BB281Member08 dtor at dup 0x002BAD1C (same 57B clear-plus-free as Rva000427195) at +8; same shape as sibling BfmeAssignRecord52 dtor 0x002B707E; unblocks 0x002BC971; chain from 0x002B703F.
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva0040DC56Element@@@_STL@@YAXPAURva0040DC56Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0040DC56Element;
+namespace _STL { template <> void _Destroy<Rva0040DC56Element *>(Rva0040DC56Element *,Rva0040DC56Element *); }
 
 struct Rva0040DC56Element
 {

@@ -90,6 +90,10 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Construct@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBW4Nam:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> void _Construct<pair<NameKeyType const ,FXList>,pair<NameKeyType const ,FXList> >(pair<NameKeyType const ,FXList> *,pair<NameKeyType const ,FXList> const &); }
 // Suppress this TU's non-retail copy of ??0?$_List_base@PAVFXNugget@@V?$allocator@PAVFXNugget@@@_STL@@@_STL@@QAE@ABV?$allocator@PA:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class FXNugget;
