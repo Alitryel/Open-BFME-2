@@ -102,12 +102,17 @@ deltas sit in the shared walk/mode-2 machinery, one placement cascade:
    cheap int temp (e.g. `int shift = pbi->motionShift;`) consumed by both shifts in a
    way that occupies ECX earlier. Probe each against `entryprobe.py 0x100`; a win here
    should simultaneously fix the walk-Y home-cmp and the frame size.
-2. **Limit-diamond form** — write the mode-2 limit as explicit `if (st) ... else ...`
-   diamond (both paths store limit to its home) instead of default+overwrite, and check
-   the 0x80 store sinks into the else tail.
-3. If neither moves bytes after 2-3 probes, close per the 30-min rule: the banked 672 B
-   body stands; reconsider only after other seats land VP6 siblings that refresh
+2. If that does not move bytes after 2-3 probes, close per the 30-min rule: the banked
+   672 B body stands; reconsider only after other seats land VP6 siblings that refresh
    pressure heuristics.
+
+## Also tried (recorded outcomes, do not repeat blind)
+2. **Limit-diamond form** — TRIED: `if (st) limit = ...; else limit = 0x80;` gave the
+   retail structure (0x80 store sinks into the else tail, taken tail `jmp`s over it)
+   but net +2 B (674) and the emitting reg/slot details stayed off (je vs jbe test,
+   `mov cl,dl` copy vs direct `mov cl,[mem]` reload, stray `(x16-slot)` load vs
+   retail's `[S+0x14]` reload). Reverted to the banked default+overwrite form. If the
+   frame-slot fixes land first, retry the diamond after — the two interact.
 
 ## Batch/publication context
 - Publish bar ≥500 new retail bytes; this function is the pending batch centerpiece
