@@ -15,5 +15,7 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 { return a._M_node != b._M_node; }
 }
 
-struct Rva0055AB41Element { double words[1];bool operator<(const Rva0055AB41Element&)const;bool operator==(const Rva0055AB41Element&)const; };
-template class _STL::list<Rva0055AB41Element>;
+struct Rva0055AB41Element { int words[1];bool operator<(const Rva0055AB41Element&)const;bool operator==(const Rva0055AB41Element&)const; };
+// Only the rowed copy constructor is instantiated (retail's 0x0C list node holds a
+// 4-byte element); the whole list would emit members needing the element's == and <.
+template _STL::list<Rva0055AB41Element>::list(const _STL::list<Rva0055AB41Element> &);

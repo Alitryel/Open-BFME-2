@@ -18,8 +18,10 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
 }
 struct Rva0043B69CElement {
  Rva0043B69CElement(); Rva0043B69CElement(const Rva0043B69CElement&);
- ~Rva0043B69CElement(); Rva0043B69CElement&operator=(const Rva0043B69CElement&);
+ ~Rva0043B69CElement(){} Rva0043B69CElement&operator=(const Rva0043B69CElement&);
  char bytes[8];
 };
 bool operator<(const Rva0043B69CElement&,const Rva0043B69CElement&);
-template class _STL::set<Rva0043B69CElement>;
+// Only the rowed default constructor is instantiated; the whole set would emit
+// members needing the element's undefined ctors, dtor and operator<.
+template _STL::set<Rva0043B69CElement>::set();

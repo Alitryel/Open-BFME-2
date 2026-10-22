@@ -61,4 +61,7 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva0031DBFCElement {Rva0031DBFCElement();Rva0031DBFCElement(const Rva0031DBFCElement&);Rva0031DBFCElement&operator=(const Rva0031DBFCElement&);~Rva0031DBFCElement(){}char bytes[8]; bool operator==(const Rva0031DBFCElement&)const;};
-template class _STL::hash_map<int,Rva0031DBFCElement>;
+// Only the rowed hashtable constructor is instantiated: the whole hash_map
+// would emit members that reference the element's undefined ctors and ==.
+template _STL::hashtable<_STL::pair<int const, Rva0031DBFCElement>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva0031DBFCElement> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva0031DBFCElement> > >::hashtable(
+	unsigned int, const _STL::hash<int> &, const _STL::equal_to<int> &, const _STL::allocator<_STL::pair<int const, Rva0031DBFCElement> > &);
