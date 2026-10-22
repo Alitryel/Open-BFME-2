@@ -61,15 +61,22 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
+// hash_map wraps this table storage. Use the storage constructor directly
+// to preserve both wrappers' verified layout and exception states; the original
+// member type remains inferred.
+typedef _STL::hashtable<_STL::pair<const int, int>, int, _STL::hash<int>,
+    _STL::_Select1st<_STL::pair<const int, int> >, _STL::equal_to<int>,
+    _STL::allocator<_STL::pair<const int, int> > > RetailCountTable;
+
 class Rva0016E400
 {
 public:
     Rva0016E400();
 private:
-    _STL::hash_map<int, int> m_map;
+    RetailCountTable m_map;
 };
 
-Rva0016E400::Rva0016E400() : m_map() {}
+Rva0016E400::Rva0016E400() : m_map(100, _STL::hash<int>(), _STL::equal_to<int>(), _STL::allocator<_STL::pair<const int, int> >()) {}
 
 // ??0Rva00624D60@@QAE@XZ, retail 0x00624D60, 72 bytes: the same constructor (a
 // default hash_map<int, int> member) for another class; only the EH handler
@@ -79,6 +86,6 @@ class Rva00624D60
 public:
     Rva00624D60();
 private:
-    _STL::hash_map<int, int> m_map;
+    RetailCountTable m_map;
 };
-Rva00624D60::Rva00624D60() : m_map() {}
+Rva00624D60::Rva00624D60() : m_map(100, _STL::hash<int>(), _STL::equal_to<int>(), _STL::allocator<_STL::pair<const int, int> >()) {}
