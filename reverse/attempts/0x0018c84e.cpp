@@ -7,7 +7,7 @@
 // EH EXACT; all calls resolve after the signed-short STL family repair.
 // Machine code unchanged from the 2026-10-20 bank. Score=0.9961423060.
 // Remaining: the two-bone remap block's EAX/ECX assignment and load order.
-// Read reverse/attempt_support/fxinit-live-20261022/readme.md before retrying.
+// Read reverse/attempt_support/fxinit-split-20261022/readme.md before retrying.
 // WB A39110 supports the P/N copies INSIDE the two-bone arm, after weights;
 // A3A22C/A3A251 are tangent/binormal copies, not those P/N copies.
 // The old dead AsciiString EH scope is gone: the real inline MeshMatDescClass
