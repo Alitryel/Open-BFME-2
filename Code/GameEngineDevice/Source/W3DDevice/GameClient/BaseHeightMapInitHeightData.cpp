@@ -94,7 +94,9 @@ class Rva0006C995 {public:Rva0006C995*rva0006C995(Rva001408C0Target*);};
 void bfmeMergeReceiverKeys(int);
 class Rva000686F2 {public:void rva000686F2();};
 class VertexMaterialClass {public:enum PresetType{PRELIT_DIFFUSE};static VertexMaterialClass*Get_Preset(PresetType);};
-extern unsigned int detailOpaqueShader;
+// HeightMap.cpp's detail-blend shader (one ShaderBits dword).
+class ShaderClass {public:unsigned int ShaderBits;};
+extern ShaderClass detailOpaqueShader;
 class BaseHeightMapRenderObjClass {
 public:
  void rva0006B3F3();	// 0x0006B3F3 (BaseHeightMapScorchResources.cpp)
@@ -313,7 +315,7 @@ int BaseHeightMapRenderObjClass::initHeightData(int x,int y,WorldHeightMap*pMap,
    rva0006B3F3();
    ((Rva000686F2*)this)->rva000686F2();
    material=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
-   shader=detailOpaqueShader;
+   shader=detailOpaqueShader.ShaderBits;
   }
  }
  return 0;
