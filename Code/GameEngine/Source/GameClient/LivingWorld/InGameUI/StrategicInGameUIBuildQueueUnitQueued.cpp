@@ -194,6 +194,9 @@ struct Rva005E71C6Ref {
 class Rva005E7198;
 inline Rva005E71C6Ref &Rva005E71C6Ref::operator=(const Rva005E71C6Ref &r){if(this==&r)return *this;Rva005E7ED7 *n=r.object;if(n)n->AddRef();Rva005E7ED7 *o=object;if(o)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)(Rva0007DF07*)o);object=r.object;return *this;}
 namespace _STL {template <> __declspec(nothrow) __declspec(noinline) inline void _Construct<Rva005E71C6Ref,Rva005E71C6Ref>(Rva005E71C6Ref *p,const Rva005E71C6Ref &r){new(p) Rva005E71C6Ref(r);}}
+// The native range dispatch is owned by the icon-selection unit (0x005E7FB0).
+// Keep its exception cleanup call instead of emitting a competing inline loop.
+namespace _STL { template <> void _Destroy<Rva005E71C6Ref *>(Rva005E71C6Ref *, Rva005E71C6Ref *); }
 Rva005E7198 *__cdecl Rva005E7256CopyBackward(Rva005E7198 *,Rva005E7198 *,Rva005E7198 *,void *,int);
 namespace _STL {__declspec(noinline) Rva005E71C6Ref *__copy_backward_ptrs(Rva005E71C6Ref *f,Rva005E71C6Ref *l,Rva005E71C6Ref *r,const __false_type &){char tag;return (Rva005E71C6Ref*)Rva005E7256CopyBackward((Rva005E7198*)f,(Rva005E7198*)l,(Rva005E7198*)r,&tag,0);}}
 class Rva005E7D72;
