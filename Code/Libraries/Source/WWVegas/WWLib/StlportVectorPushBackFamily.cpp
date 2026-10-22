@@ -494,6 +494,10 @@ namespace _STL { template <> void vector<Rva0021F876, allocator<Rva0021F876> >::
 namespace _STL { template <> void vector<Rva00403927, allocator<Rva00403927> >::_M_clear(); }
 namespace _STL { template <> void vector<RvaSmartPtr12, allocator<RvaSmartPtr12> >::_M_clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00501E3FElement@@@_STL@@YAXPAURva00501E3FElement@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00501E3FElement;
+namespace _STL { template <> void _Destroy<Rva00501E3FElement *>(Rva00501E3FElement *,Rva00501E3FElement *); }
 // Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva005FA1CEElement@@V?$allocator@URva005FA1CEElement@@@_STL@@@_STL@@IA:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005FA1CEElement;

@@ -9,6 +9,10 @@
 // 2/1/0 with __EH_prolog; caller 0x001EBFC9 is the ??_G deleting wrapper.
 #include <vector>
 #include "Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmeAssignRecord172@@@_STL@@YAXPAUBfmeAssignRecord172@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord172;
+namespace _STL { template <> void _Destroy<BfmeAssignRecord172 *>(BfmeAssignRecord172 *,BfmeAssignRecord172 *); }
 
 extern "C" void __cdecl free(void *ptr);
 

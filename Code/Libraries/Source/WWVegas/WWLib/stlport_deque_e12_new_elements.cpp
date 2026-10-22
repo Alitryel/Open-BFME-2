@@ -20,6 +20,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <deque>
+// Suppress this TU's non-retail copy of ??$copy@U?$_Deque_iterator@UBfmeE12@@U?$_Nonconst_traits@UBfmeE12@@@_STL@@@_STL@@U12@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE12;
+namespace _STL { template <> _Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> > copy<_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> > >(_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >); }
 struct BfmeE12 { float x, y, z; };
 // Reuse the complete stock-header copy-backward provider at 0x00585A18.
 typedef _STL::_Deque_iterator<BfmeE12, _STL::_Nonconst_traits<BfmeE12> > BfmeE12CopyIterator;

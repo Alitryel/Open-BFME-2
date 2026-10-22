@@ -22,6 +22,10 @@
 namespace _STL { void __cdecl free(void *block) throw(...); }
 #define free _STL::free
 #include <map>
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@UPristineBoneInfo@@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; struct PristineBoneInfo;
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<NameKeyType const ,PristineBoneInfo>,_Nonconst_traits<pair<NameKeyType const ,PristineBoneInfo> > >,bool> _Rb_tree<NameKeyType,pair<NameKeyType const ,PristineBoneInfo>,_Select1st<pair<NameKeyType const ,PristineBoneInfo> >,less<NameKeyType>,allocator<pair<NameKeyType const ,PristineBoneInfo> > >::insert_unique(pair<NameKeyType const ,PristineBoneInfo> const &); }
 // Keep the genuine STLport _M_erase emission: its complete 45-byte body,
 // recursive call and allocator binding fold onto native 0x000B646B.
 // The rowed neutral owner remains; this is an independently verified template fold.

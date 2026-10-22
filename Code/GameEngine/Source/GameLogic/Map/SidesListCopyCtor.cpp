@@ -31,6 +31,10 @@
 namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
 namespace _STL { template <> void _List_base<AsciiString, allocator<AsciiString> >::clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$copy@PAVSidesInfo@@PAV1@@_STL@@YAPAVSidesInfo@@PAV1@00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class SidesInfo;
+namespace _STL { template <> SidesInfo * copy<SidesInfo *,SidesInfo *>(SidesInfo *,SidesInfo *,SidesInfo *); }
 // Suppress this TU's non-retail copy of ??4?$vector@URva0032C0E3Element@@V?$allocator@URva0032C0E3Element@@@_STL@@@_STL@@QAEAAV01@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0032C0E3Element;

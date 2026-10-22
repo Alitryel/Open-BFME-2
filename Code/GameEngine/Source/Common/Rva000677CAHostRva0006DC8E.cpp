@@ -22,6 +22,9 @@ namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> vector<bool, allocator<bool> >::begin(); }
 namespace _STL { template <> void vector<bool, allocator<bool> >::insert(_Bit_iter<_Bit_reference, _Bit_reference *>, unsigned int, bool); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?resize@?$vector@_NV?$allocator@_N@_STL@@@_STL@@QAEXI_N@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<bool,allocator<bool> >::resize(unsigned int,bool); }
 #pragma optimize("", on)
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

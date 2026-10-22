@@ -7,6 +7,10 @@
 // SaveMapPreviewCopy.cpp; the non-const range instantiation is an ICF twin of the
 // Rva004E194E pin at the same address.
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Construct@VSaveMapPreview@@V1@@_STL@@YAXPAVSaveMapPreview@@ABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class SaveMapPreview;
+namespace _STL { template <> void _Construct<SaveMapPreview,SaveMapPreview>(SaveMapPreview *,SaveMapPreview const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAVSaveMapPreview@@V1@V?$allocator@VSaveMapPreview@@@_STL@@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class SaveMapPreview;

@@ -80,6 +80,10 @@
 // returning a byte-wide result tested with `test al,al`.
 
 #include <algorithm>
+// Suppress this TU's non-retail copy of ??$__unguarded_insertion_sort_aux@PAUS4SortElem12@@U1@US4Cmp002E1690@@@_STL@@YAXPAUS4SortE:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct S4SortElem12; struct S4Cmp002E1690;
+namespace _STL { template <> void __unguarded_insertion_sort_aux<S4SortElem12 *,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,S4SortElem12 *,S4SortElem12 *,S4Cmp002E1690); }
 // Suppress this TU's non-retail copy of ??$__unguarded_insertion_sort_aux@PAUS4SortElem20@@U1@US4Cmp002EB8E0@@@_STL@@YAXPAUS4SortE:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct S4SortElem20; struct S4Cmp002EB8E0;

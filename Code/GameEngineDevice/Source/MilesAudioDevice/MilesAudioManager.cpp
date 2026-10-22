@@ -203,6 +203,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Construct@VPlayingAudioRef@@V1@@_STL@@YAXPAVPlayingAudioRef@@ABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class PlayingAudioRef;
+namespace _STL { template <> void _Construct<PlayingAudioRef,PlayingAudioRef>(PlayingAudioRef *,PlayingAudioRef const &); }
 // Suppress this TU's non-retail copy of ??$copy_backward@U?$_Deque_iterator@UOpaqueRefElement4@@U?$_Nonconst_traits@UOpaqueRefElem:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct OpaqueRefElement4;
