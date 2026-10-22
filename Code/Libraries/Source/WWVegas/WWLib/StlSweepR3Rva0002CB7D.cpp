@@ -1,6 +1,6 @@
 // STLport 4.5.3 reference instantiation. Target boundary and byte comparison prove operation shape.
 // Element spelling/layout is donor inference; opaque records have address-derived identity.
-// cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // The emitted unsigned max copy must match retail RVA 0x00013740.
 // Define it for speed, then restore this unit's flags for its own bodies.
@@ -36,15 +36,40 @@ vector<void *>::const_reference vector<void *>::operator[](size_type __n) const 
 
 
 
-struct Rva0002CB7DRecord {  char bytes[1];  bool operator==(const Rva0002CB7DRecord&)const; };
-
-
-
-// Instantiate the recovered member; retain only its required template dependencies.
-template _STL::_Ht_iterator<_STL::pair<int const, Rva0002CB7DRecord>, _STL::_Nonconst_traits<_STL::pair<int const, Rva0002CB7DRecord> >, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva0002CB7DRecord> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva0002CB7DRecord> > > _STL::hashtable<_STL::pair<int const, Rva0002CB7DRecord>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva0002CB7DRecord> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva0002CB7DRecord> > >::find<int>(int const &);
-
+// The table is the case-insensitive AsciiString-keyed one: this find's only
+// call goes to the rowed _M_find<AsciiString> at 0x0002C9E7
+// (stlport_hashtable_nocase_asciistring_m_find.cpp, whose doc names this body
+// 0x0002CB7D as its caller). Key, functors and placeholder value repeat that
+// unit's view; _M_find is declared only so its row serves the call.
+#include "ascii_string.h"
+namespace rts
+{
+	template <class T> struct hash
+	{
+	};
+	template <> struct hash<AsciiString>
+	{
+		unsigned int operator()(const AsciiString &key) const;
+	};
+	template <class T> struct equal_to
+	{
+	};
+	template <> struct equal_to<AsciiString>
+	{
+		bool operator()(const AsciiString &a, const AsciiString &b) const;
+	};
+}
+struct Rva0002C9E7Value
+{
+	int m_value;
+};
+typedef _STL::pair<const AsciiString, Rva0002C9E7Value> NoCaseAsciiValue;
+typedef _STL::hashtable<NoCaseAsciiValue, AsciiString, rts::hash<AsciiString>,
+	_STL::_Select1st<NoCaseAsciiValue>, rts::equal_to<AsciiString>,
+	_STL::allocator<NoCaseAsciiValue> > NoCaseAsciiHashtable;
+template NoCaseAsciiHashtable::iterator NoCaseAsciiHashtable::find<AsciiString>(const AsciiString &);
 // The outer hash_map::find at retail 0x0002CCAF (20 bytes): forwards the
-// result slot and the argument to the tree/table member of this unit.
-#include <hash_map>
-typedef _STL::hash_map<int, Rva0002CB7DRecord, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, Rva0002CB7DRecord> > > HM_0002CCAF;
-template HM_0002CCAF::iterator HM_0002CCAF::find(const int &);
+// result slot and the argument to the table member above.
+typedef _STL::hash_map<AsciiString, Rva0002C9E7Value, rts::hash<AsciiString>, rts::equal_to<AsciiString>,
+	_STL::allocator<NoCaseAsciiValue> > HM_0002CCAF;
+template HM_0002CCAF::iterator HM_0002CCAF::find(const AsciiString &);
