@@ -685,3 +685,11 @@ int Rva004ECE0AKeep(const int *a, const int *b)
 {
 	return Rva004ECE0AEqual(a, b);
 }
+
+// Placeholder virtuals this unit's vftable holds. Retail's AITactic vftable
+// (0x00C629E4) has the deleting destructor of the 0x004EDCE9 destructor in slot
+// 0, the ICF-shared trivial virtual 0x000910FB in slot 4 and 0x004EDDAA in slot
+// 8; bind each placeholder to the row that owns that address.
+#pragma comment(linker, "/alternatename:?slot00@AITactic@@UAEXXZ=??_GRva004EDCE9@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?getNumberOfTeamsNeeded@AITactic@@UAEIXZ=?Create@GameFileClass@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?slot08@AITactic@@UAEXXZ=?rva004EDDAA@AITactic@@QAEXXZ")
