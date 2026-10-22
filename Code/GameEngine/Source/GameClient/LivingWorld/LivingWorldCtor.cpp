@@ -52,6 +52,12 @@ private:
 typedef _STL::hash_map<int, Rva002C00C1Element, _STL::hash<int>, _STL::equal_to<int>,
 	_STL::allocator<_STL::pair<const int, Rva002C00C1Element> > > LivingWorldTable;
 
+// The two tables' destructors are the rowed 0x002BF6D6 and 0x002BFA4D
+// (LivingWorldDtor.cpp's Rva002BF6D6 and Rva002BF75A members); their
+// constructors are the rowed hash_map constructor 0x002C00C1.
+struct Rva002BF6D6 { LivingWorldTable m_table; ~Rva002BF6D6(); };
+struct Rva002BF75A { LivingWorldTable m_table; ~Rva002BF75A(); };
+
 class Rva00330757Member
 {
 public:
@@ -113,11 +119,7 @@ class LivingWorld : public Rva00330757Member, public Snapshot
 {
 public:
 	LivingWorld();
-	virtual ~LivingWorld();
-protected:
-	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
+	virtual ~LivingWorld(); // vtable view matches LivingWorldDtor.cpp's (Snapshot slots inherited)
 private:
 	int m_14;
 	bool m_18;
@@ -140,8 +142,8 @@ private:
 	int m_88;
 	LivingWorldPair m_8C;
 	bool m_94;
-	LivingWorldTable m_98;
-	LivingWorldTable m_AC;
+	Rva002BF6D6 m_98;
+	Rva002BF75A m_AC;
 };
 
 LivingWorld::LivingWorld()
