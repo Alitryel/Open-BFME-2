@@ -166,6 +166,11 @@ struct OpaqueRefElement4 {
 };
 
 typedef _STL::deque<OpaqueRefElement4, _STL::allocator<OpaqueRefElement4> > MusicStack;
+// Use the retail deque erase emitted by StlportOwnedDeque.cpp.
+namespace _STL { template <> MusicStack::iterator MusicStack::erase(MusicStack::iterator); }
+
+// The vector destructor is provided by StlportVectorDtorDeferred.cpp.
+namespace _STL { template <> vector<OpaqueRefElement4>::~vector(); }
 
 enum MusicSystem { MUSIC_SYSTEM_0, MUSIC_SYSTEM_1 };
 inline MusicSystem &operator--(MusicSystem &ms, int) { ms = (MusicSystem)(ms - 1); return ms; }
@@ -737,6 +742,11 @@ struct AudioTriggerAreaSave {
     int m_triggerID;
     float m_level;
 };
+// Use the folded erase bodies emitted by stlport_pod_vector_malloc_bodies.cpp.
+namespace _STL {
+template <> AudioTriggerArea *vector<AudioTriggerArea>::erase(AudioTriggerArea *, AudioTriggerArea *);
+template <> AudioTriggerAreaSave *vector<AudioTriggerAreaSave>::erase(AudioTriggerAreaSave *, AudioTriggerAreaSave *);
+}
 // xfer (0x0005E3E5) appends through the no-EH 8-byte push_back 0x00539A2E,
 // which stlport_vector_e8_allocate_copy.cpp instantiates; this /EHsc unit
 // would emit another _M_insert_overflow for it, so it only declares it.
@@ -1065,9 +1075,6 @@ public:
     void *rva001F8437(const AsciiString &key);
 };
 
-// Existing donor-derived alias of the rowed STLport tree increment worker.
-struct BfmeNode1105;
-BfmeNode1105 *__cdecl bfmeNext1105(BfmeNode1105 *node);
 
 // Rowed at 0x0005F279 under its address-derived host.
 class Rva0005F279Host { public: void rva0005F279(void); };
@@ -1078,13 +1085,8 @@ class Rva0005F279Host { public: void rva0005F279(void); };
 // 0x000587C6, the name getter 0x000518B2 and the xfer 0x0005E3E5), so the
 // base before it is SubsystemInterface's 12 bytes: vptr, +0x04 flag and the
 // +0x08 name (layout of the rowed SubsystemInterface constructor 0x001B4E63).
-class SubsystemInterface {
-public:
-    virtual ~SubsystemInterface();
-private:
-    bool m_flag;
-    AsciiString m_name;
-};
+typedef bool Bool;
+#include "../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
 
 // Native base constructor 0x0005107D: SubsystemInterface 0x001B4E63, then
 // the Snapshot and the abstract base's own vftables (BC5148/BC5138) -- Zero
@@ -1146,17 +1148,20 @@ extern "C" __declspec(dllimport) __int64 __cdecl _time64(__int64 *);
 class Rva00057151 { public: void rva00057151(int, int, int); };
 class Rva0036CA00Str;
 struct Rva0010F149Handle;
+class Rva00052B3D;
+struct BfmeAudioEventPrefix136;
 class MilesAudioManager : public AudioManager {
 public:
     MilesAudioManager();
     virtual ~MilesAudioManager();
-    // Virtual slots 0..74 are not named here; slot 75 (+0x12C) looks an
-    // event info up by name.
-    virtual void init(); virtual void slot02(); virtual void slot03(); virtual void slot04();
-    virtual void slot05(); virtual void slot06(); virtual void slot07(); virtual void slot08(); virtual void slot09();
+    // SubsystemInterface supplies slots 0..13; later virtuals retain retail order.
+    virtual void init();
+    virtual bool vslot04(int);
+    virtual bool vslot05();
+    virtual void reset();
     // Slot 10 (retail 0x00062690) is the per-frame update below.
-    virtual void update(); virtual void slot11(); virtual void slot12(); virtual void slot13(); virtual void rva00061C87(unsigned int viewMask);
-    virtual void slot15(); virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
+    virtual void update(); virtual void rva00061C87(unsigned int viewMask);
+    virtual void stopAudio(enum AudioAffect affect); virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
     virtual void slot20(); virtual void slot21(); virtual void slot22(); virtual void slot23(); virtual void slot24();
     virtual void slot25(); virtual void removePlayingAudio(const AsciiString &eventName, int viewType); virtual void slot27();
     // Slot 28 (+0x70): kills the sound playing under a handle and reports
@@ -1174,10 +1179,10 @@ public:
     virtual AudioEventInfoRef findAudioEventInfo(const AsciiString &name) const;
     // Slots 76..106 are not named here; slot 107 (+0x1AC, retail vftable
     // 0x007C55B0) is the rowed 0x000516EF.
-    virtual void slot76(); virtual void slot77(); virtual void slot78(); virtual void slot79(); virtual void slot80();
+    virtual void slot76(); virtual void slot77(); virtual void slot78(); virtual void slot79(); virtual float getAudioLengthMS(const BfmeAudioEventPrefix136 *event);
     virtual void slot81(); virtual void slot82(); virtual void slot83(); virtual void slot84(); virtual void slot85();
     virtual void slot86(); virtual void slot87(); virtual void slot88(); virtual void slot89(); virtual void slot90();
-    virtual void slot91(); virtual void slot92();
+    virtual void slot91(); virtual const _STL::vector<const char *> &rva00058314();
     // Slots 93/94 (+0x174/+0x178, vftable entries 0x007C5724/0x007C5728):
     // set or (level 1.0) drop a trigger area's audio level.
     virtual void rva0005824D(PolygonTrigger *trigger, float level);
@@ -1295,8 +1300,6 @@ public:
     bool rva006AD9B0(void);    // 0x00059646, cached reinitialize setting
     void rva0005E0A4(void);    // 0x0005E0A4 (pinned), called by the update
     void rva0005B708(void);    // 0x0005B708 (rowed in MilesAudioSubtitleDrain.cpp)
-    // 0x0005F2BB (pinned; WorldBuilder names it processAmbientStreams).
-    void rva0005F2BB(class Rva00052B3D *state);
     void processAmbientStreams(PlayingAudioList::iterator *streams);
     void rva00060309(void);
     void rva000583BA(unsigned int affect, unsigned int viewMask, int arg);
@@ -2260,6 +2263,11 @@ bool MilesAudioManager::attemptReload(int unused)
 // layout and hasher, reached through that type.
 typedef _STL::hash_set<Rva00051B89Keyed *, Rva00051B89Hash, _STL::equal_to<Rva00051B89Keyed *> >
     Rva00051B89KeyedSet;
+// Bind the bucket lookup to its rowed STLport instantiation.
+namespace _STL {
+typedef hashtable<Rva00051B89Keyed *, Rva00051B89Keyed *, Rva00051B89Hash, _Identity<Rva00051B89Keyed *>, equal_to<Rva00051B89Keyed *>, allocator<Rva00051B89Keyed *> > MilesKeyedTable;
+template <> unsigned int MilesKeyedTable::_M_bkt_num_key(Rva00051B89Keyed *const &) const;
+}
 
 // Retail 0x00056FD9: drops the queued audio requests of the view types in
 // viewMask (all of them for 7; a request without an event counts as view
@@ -2675,7 +2683,7 @@ AsciiString MilesAudioManager::rva0005B19E(const AsciiString &key)
         reinterpret_cast<char *>(this) + 0xB0);
     void *next = tree->rva001F8437(key);
     if (next != *reinterpret_cast<void **>(tree))
-        next = bfmeNext1105(reinterpret_cast<BfmeNode1105 *>(next));
+        next = _STL::_Rb_global<bool>::_M_increment(static_cast<_STL::_Rb_tree_node_base *>(next));
 
     void *header = *reinterpret_cast<void **>(tree);
     if (next == header) {
@@ -5565,9 +5573,7 @@ class Rva00052B3D
 {
 public:
     Rva00052B3D();
-private:
-    int m_at00;
-    int m_at04;
+    PlayingAudioList::iterator m_streams[2];
 };
 
 // The subtitle window the update deletes once it reports itself finished.
@@ -5636,7 +5642,7 @@ void MilesAudioManager::update()
     startPendingMusicTracks();
     Rva00052B3D ambient;
     processPlayingList(&ambient);
-    rva0005F2BB(&ambient);
+    processAmbientStreams(ambient.m_streams);
     rva0005B708();
     m_viewTypeChanged = false;
     m_at6A8 = false;
@@ -7108,7 +7114,7 @@ public:
     Rva000A8684();
 };
 
-Rva00054EBETable::iterator Rva00055951::rva00055951(unsigned int handle)
+__declspec(noinline) inline Rva00054EBETable::iterator Rva00055951::rva00055951(unsigned int handle)
 {
     Rva000A8684 request;
     request.m_08 = handle;

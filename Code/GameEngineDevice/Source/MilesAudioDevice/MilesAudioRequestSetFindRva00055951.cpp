@@ -56,9 +56,15 @@ public:
     Rva00054EBETable::iterator rva00055951(unsigned int handle);
 };
 
-Rva00054EBETable::iterator Rva00055951::rva00055951(unsigned int handle)
+__declspec(noinline) inline Rva00054EBETable::iterator Rva00055951::rva00055951(unsigned int handle)
 {
     Rva000A8684 request;
     request.m_08 = handle;
     return reinterpret_cast<Rva00054EBETable *>(this)->find(reinterpret_cast<int>(&request));
+}
+
+// ?bfmeAnchorMilesAudioRequestSetFind absent-from-retail
+Rva00054EBETable::iterator bfmeAnchorMilesAudioRequestSetFind(Rva00055951 *requests, unsigned int handle)
+{
+    return requests->rva00055951(handle);
 }
