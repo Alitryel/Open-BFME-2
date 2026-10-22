@@ -1,17 +1,5 @@
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.9069 date=2026-10-22
-// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
-// partial score=0.9069 date=2026-10-20
-// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
-// partial score=0.7658 date=2026-10-20
-// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
-// partial score=0.5915915915915916 date=2026-10-19
-// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
-// partial score=0.7809467362098941 date=2026-10-15
-// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
-// partial score=0.783 date=2026-10-15
-// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
-// partial score=0.5916 date=2026-10-08
 // cl: /O2 /MD /EHsc /I.
 // Keep the saved node while advancing the shared cursor.
 // Prepare each response with the two sources of that saved node.
