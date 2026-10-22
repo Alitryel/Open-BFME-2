@@ -124,6 +124,19 @@ extern void buildRegion(const ICoord2D *, const ICoord2D *, IRegion2D *);
 #include "PreRTS.h"
 #define _STLP_BFME_LOWER_BOUND_EXTERN
 #include <hash_map>
+// Keep the bucket helpers inline here without emitting competing copies.
+// SelectionIDMap owns the lookup specialization for this same ID table.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void *const &
+vector<void *>::operator[](size_t n) const
+{
+ return *(this->_M_start + n);
+}
+typedef hashtable<pair<const int, bool>, int, hash<int>,
+ _Select1st<pair<const int, bool> >, equal_to<int>,
+ allocator<pair<const int, bool> > > SelectionMessageIDTable;
+template <> size_t SelectionMessageIDTable::_M_bkt_num_key(const int &) const;
+}
 #include "Common/Thing.h"
 #include "Common/GameType.h"
 #ifndef _DRAWABLE_H_
