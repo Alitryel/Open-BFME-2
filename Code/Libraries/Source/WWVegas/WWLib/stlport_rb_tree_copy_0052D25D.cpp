@@ -7,5 +7,11 @@
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 class AsciiString { public: unsigned char m_data[24]; };
+// map<int, AsciiString>'s _M_clone_node is rowed in stlport_map_int_asciistring_clone.cpp
+// (retail 0x005041D8); declare it so this unit emits no copy of its own.
+namespace _STL { template <> _Rb_tree<int, pair<const int, AsciiString>, _Select1st<pair<const int, AsciiString> >, less<int>, allocator<pair<const int, AsciiString> > >::_Link_type
+_Rb_tree<int, pair<const int, AsciiString>, _Select1st<pair<const int, AsciiString> >, less<int>, allocator<pair<const int, AsciiString> > >::_M_clone_node(_Link_type); }
 typedef _STL::_Rb_tree<int, _STL::pair<const int, AsciiString>, _STL::_Select1st<_STL::pair<const int, AsciiString> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, AsciiString> > > HAsciiStringMapTree;
 template HAsciiStringMapTree::_Rb_tree(const HAsciiStringMapTree &);
+// The rowed _M_create_node (above) was emitted through _M_clone_node; keep it emitted.
+template HAsciiStringMapTree::_Link_type HAsciiStringMapTree::_M_create_node(const HAsciiStringMapTree::value_type &);

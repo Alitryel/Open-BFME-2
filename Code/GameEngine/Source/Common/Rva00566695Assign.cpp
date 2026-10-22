@@ -18,6 +18,10 @@ namespace _STL { template <> _Rb_tree_node<pair<int const ,AsciiString> > * _Rb_
 // (retail 0x0050116B); declare it so this unit emits no copy of its own.
 namespace _STL { template <> _Rb_tree<int, pair<const int, AsciiString>, _Select1st<pair<const int, AsciiString> >, less<int>, allocator<pair<const int, AsciiString> > >::_Link_type
 _Rb_tree<int, pair<const int, AsciiString>, _Select1st<pair<const int, AsciiString> >, less<int>, allocator<pair<const int, AsciiString> > >::_M_create_node(const pair<const int, AsciiString> &); }
+// map<int, AsciiString>'s _M_clone_node is rowed in stlport_map_int_asciistring_clone.cpp
+// (retail 0x005041D8); declare it so this unit emits no copy of its own.
+namespace _STL { template <> _Rb_tree<int, pair<const int, AsciiString>, _Select1st<pair<const int, AsciiString> >, less<int>, allocator<pair<const int, AsciiString> > >::_Link_type
+_Rb_tree<int, pair<const int, AsciiString>, _Select1st<pair<const int, AsciiString> >, less<int>, allocator<pair<const int, AsciiString> > >::_M_clone_node(_Link_type); }
 // This unit owns _Construct<pair<const int, AsciiString>>; keep it emitted.
 template void _STL::_Construct<_STL::pair<const int, AsciiString>, _STL::pair<const int, AsciiString> >(_STL::pair<const int, AsciiString> *, const _STL::pair<const int, AsciiString> &);
 
