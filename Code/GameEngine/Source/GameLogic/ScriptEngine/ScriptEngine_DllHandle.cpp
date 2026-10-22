@@ -32,14 +32,20 @@ private:
 class DllHandle
 {
 public:
+	// The copy constructors the throw info names are rowed in
+	// ScriptEngine_DllHandleExceptionCopies.cpp (0x0020426C, 0x00204285):
+	// declared only, so this unit emits no implicit copies of its own.
 	class Exception : public exception
 	{
+	public:
+		Exception(const Exception &other);
 	};
 
 	class LoadFailure : public Exception
 	{
 	public:
 		LoadFailure();
+		LoadFailure(const LoadFailure &other);
 	};
 
 	DllHandle(const char *name);
