@@ -7,11 +7,16 @@
 // Layout from the rowed ctor 0x00111850 (ref 1, +0x2AB4 zeroed). Helper
 // class names are local.
 
-class TileDataRefBase
+// The base is RefCountClass (vptr BC650C restored by its inline dtor), the
+// view TileDataGetRGBDataForWidth.cpp uses, so both units emit one TileData
+// vtable whose slot 0 is RefCountClass::Delete_This.
+class RefCountClass
 {
 public:
 	virtual void Delete_This();
-	virtual ~TileDataRefBase() {}
+protected:
+	virtual ~RefCountClass() {}
+public:
 
 	void Release_Ref()
 	{
@@ -22,14 +27,14 @@ public:
 	int m_numRefs;
 };
 
-class TileData : public TileDataRefBase
+class TileData : public RefCountClass
 {
 public:
 	virtual ~TileData();
 
 private:
 	unsigned char m_data[0x2AB4 - 8];
-	TileDataRefBase *m_ref; // +0x2AB4
+	RefCountClass *m_ref; // +0x2AB4
 };
 
 TileData::~TileData()
