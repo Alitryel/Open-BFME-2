@@ -47,7 +47,44 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "multilist.h"
 #pragma optimize("", on)
 #include "multilist.h"
-#include "sharebuf.h"
+// Use the same BFME aligned-buffer view as DX8SkinClearVisibleList.cpp.
+// Destruction binds to the rowed providers; the visible imported constructor
+// retains Add_Mesh's inline allocation without emitting an /O2 standalone copy.
+class RefCountClass
+{
+public:
+ RefCountClass() : NumRefs(1) {}
+ virtual void Delete_This();
+protected:
+ virtual ~RefCountClass();
+private:
+ int NumRefs;
+};
+template <class T> class ShareBufferClass : public RefCountClass
+{
+public:
+ ShareBufferClass(int count, const char *msg, int alignment = 0);
+ virtual ~ShareBufferClass();
+ T *Get_Array() { return Array; }
+ int Get_Count() { return Count; }
+protected:
+ T *RawBuffer;
+ T *Array;
+ int Count;
+ int Alignment;
+};
+template <> __declspec(dllimport) __forceinline
+ShareBufferClass<unsigned>::ShareBufferClass(int count, const char *msg, int alignment)
+ : Count(count), Alignment(alignment)
+{
+ if (Alignment == 0) {
+  RawBuffer = new unsigned[Count];
+  Array = RawBuffer;
+ } else {
+  RawBuffer = (unsigned *)new char[Count * sizeof(unsigned) + Alignment];
+  Array = (unsigned *)(((unsigned int)RawBuffer + Alignment - 1) & ~(Alignment - 1));
+ }
+}
 // ShareBufferClassUnsignedCtor.cpp supplies the retail buffer destructor.
 template <> ShareBufferClass<unsigned int>::~ShareBufferClass();
 #include "vector2.h"
