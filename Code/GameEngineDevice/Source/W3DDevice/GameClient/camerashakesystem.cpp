@@ -136,3 +136,8 @@ bool Rva000658C5::rva000658CA(MultiListObjectClass *obj)
 {
 	return Internal_Remove(obj);
 }
+
+MultiListObjectClass *Rva000658C5::rva000658CF()
+{
+	return Internal_Remove_List_Head();
+}
