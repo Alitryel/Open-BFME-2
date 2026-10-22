@@ -617,3 +617,15 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   supported container/accessor context before extending inert-local scans.
   The C++ allocator's throwing free also restored the final EH-state store.
   See [the controls and exact recovery](../reverse/attempt_support/water-allocate-8304a-20261022/recovery.md).
+
+- **A stack-tested flag can still change another value's register priority.**
+  FoundationAIUpdate::construct (0x0045569D) already tested its rebuild flag
+  from the argument home, but c2 counted the cached flag candidate in the
+  guarded ID-copy block. Making the by-value Bool parameter volatile removed
+  that candidate: newMember's priority fell from 34 to 28, delaying its
+  allocation enough to keep the later receiver in EDI and close all 1174
+  bytes. The flag guards and exact EH graph survive. Trace initial priority
+  calculation and sorted-list insertion; editing a priority after insertion
+  does not reorder the list. This is a source adaptation, not evidence that
+  the original declaration was volatile. See the
+  [native identity and allocator evidence](../reverse/identity_evidence/0045569d-foundation-construct.md).

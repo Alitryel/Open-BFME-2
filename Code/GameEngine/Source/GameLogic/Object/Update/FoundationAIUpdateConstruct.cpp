@@ -1,12 +1,6 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.95 date=2026-10-22
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX
-// Current best faithful bank: 1175 bytes against retail's 1174.
-// The atan2f setup now matches; the remaining difference starts at +0x345.
-// Retail carries interface this in EDI from onStructureCreated through the
-// module lookups. This body uses EAX there and reloads this into EBX later.
-// EH graph is EXACT, including all three unwind states and the Lua list slot.
-// See reverse/attempt_support/foundation-45569d-context-20261022/readme.md.
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX /I.
+// Native 1174-byte body and EH graph verified; see the identity record.
 //
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // retail 0x0045569D, 1174 bytes (ret 0x18): slot 7 of the +0x20 interface
@@ -50,14 +44,14 @@ typedef float Real;
 #define FALSE false
 
 #define COORD3D_VIEW_INLINE
-#include "../../Code/Libraries/Include/Lib/Coord3DCtorView.h"
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0
 };
 
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class NameKeyGenerator
 {
@@ -216,7 +210,7 @@ private:
 class Object : public Thing
 {
 public:
-	BodyModuleInterface *getBodyModule() const { return m_body; }
+	__declspec(dllimport) __forceinline BodyModuleInterface *getBodyModule() const { return m_body; }
 protected:
 	Module *findModule(NameKeyType key) const;
 	friend class FoundationAIUpdate;
@@ -443,8 +437,10 @@ public:
 
 //-------------------------------------------------------------------------------------------------
 Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *pos, Real angle,
-	Player *owningPlayer, Int unused, Bool isRebuild)
+	Player *owningPlayer, Int unused, volatile Bool isRebuild)
 {
+	// Keep the flag in its argument home: a cached candidate changes the
+	// member-copy block priorities and splits the later receiver live range.
 	const FoundationAIUpdateModuleData *md = getFoundationAIUpdateModuleData();
 	if (what == NULL || pos == NULL || owningPlayer == NULL)
 		return NULL;
