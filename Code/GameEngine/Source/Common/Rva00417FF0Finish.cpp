@@ -87,10 +87,8 @@ extern "C" void __stdcall rva002f681_fill(void *e, int argCount, const char *for
 struct _s__ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
-// Format literal at VA 0x00C3A6C8 and TI1 INIException ThrowInfo at 0x00CFE2FC.
-// Held as extern const so the pushes stay 5-byte immediates.
-extern const char g_00C3A6C8[];
-extern const int g_00CFE2FC;
+// Compiler-owned INIException metadata at VA 0x00CFE2FC.
+extern "C" const _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
 void __cdecl Rva00417FF0Parse(INI *ini, void *, void *store, const void *)
 {
@@ -101,7 +99,7 @@ void __cdecl Rva00417FF0Parse(INI *ini, void *, void *store, const void *)
 		((_STL::map<int, BfmePod24> *)store)->insert(_STL::pair<const int, BfmePod24>(tmp.a[0], tmp));
 	if (!res.second) {
 		INIExceptionBuf00417FF0 e;
-		rva002f681_fill(&e, 1, g_00C3A6C8, tmp.a[0]);
-		_CxxThrowException(&e, (const _s__ThrowInfo *)&g_00CFE2FC); __assume(0);
+		rva002f681_fill(&e, 1, "Two BonusForLevel entries with duplicate MinLevel of %d", tmp.a[0]);
+		_CxxThrowException(&e, &__identifier("_TI1?AVINIException@@")); __assume(0);
 	}
 }
