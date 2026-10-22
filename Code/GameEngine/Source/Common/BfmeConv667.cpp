@@ -21,3 +21,8 @@ void bfmeGoDAB()
 {
 	bfmeRegisterDAB(WaterSettings, 0x7c, 6, __identifier("??1WaterSetting@@UAE@XZ"));
 }
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:?bfmeRegisterDAB@@YGXPAXIIP6AX0@Z@Z=??_M@YGXPAXIHP6EX0@Z@Z")

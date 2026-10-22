@@ -36,3 +36,8 @@ char bfmeBlingLookupAnchor(Rva004079D5 *hero, int key, int *out)
 {
 	return hero->rva004079D5(key, out);
 }
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:?rva00388E63@Rva004079D5Sub74@@QAEHPAH@Z=??$_M_find@H@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBHH@_STL@@@1@ABH@Z")

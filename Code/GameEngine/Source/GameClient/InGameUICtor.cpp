@@ -756,3 +756,6 @@ InGameUI::InGameUI() :
 
 	((ResourceEntryCollector *)&BfmeUiResourceEntryCollectorState)->rva004E551E();
 }
+
+#pragma comment(linker, "/alternatename:??0Rva0029B63A@@QAE@XZ=??0?$map@HV?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@U?$less@H@2@V?$allocator@U?$pair@$$CBHV?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@@_STL@@@2@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0Rva002A1D02@@QAE@XZ=??0?$hash_map@HURva002A480AElement@@U?$hash@H@_STL@@U?$equal_to@H@3@V?$allocator@U?$pair@$$CBHURva002A480AElement@@@_STL@@@3@@_STL@@QAE@XZ")
