@@ -1,5 +1,11 @@
 # addNewAIForPlayer: retail register layout recovered; one copy remains
 
+**Resolved:** the [subsequent recovery](../002a9476-recovery-20261022/recovery.md)
+closes all 323 bytes with ordinary C++, without these adapters. The text below
+records the earlier partial result. Its bank was removed on recovery; for the
+historical replay, restore `reverse/attempts/0x002a9476.cpp` from commit
+`3d5972685be231e777a80783689e4503cdc0ce45` into an isolated checkout at that commit.
+
 Partial, not a recovery. Target `0x002A9476..0x002A95B9`, 323 bytes through
 `ret 4`. The replacement bank is `reverse/attempts/0x002a9476.cpp`.
 It emits **325 bytes / 112 instructions**, against retail's 323 / 111.

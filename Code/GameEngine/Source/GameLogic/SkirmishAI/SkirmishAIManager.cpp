@@ -143,7 +143,12 @@ public:
 class Player {
 public:
     bool rva002AA245() const;
-    unsigned char prefix00[0x2ec];
+    // Inline-only target view; do not emit a competing shared accessor copy.
+    __declspec(dllimport) __forceinline const class AsciiString &getSide() const { return *(const AsciiString *)side58; }
+    int getPlayerIndex() const { return playerIndex54; }
+    unsigned char prefix00[0x54];
+    int playerIndex54;
+    unsigned char side58[0x2ec-0x58];
     Team *defaultTeam2ec;
 };
 class PlayerList {
@@ -183,7 +188,7 @@ class GameLogic;
 extern GameLogic *TheGameLogic;
 class Rva0023C6A4 { public: bool rva00200084(); };
 void Rva004ECE14Clear();
-class AIGameTeam { public: void rva004E94FB();void rva004E951C(void*); };
+class AIGameTeam { public: void addPlayer(const ModuleData *); void rva004E94FB();void rva004E951C(void*); };
 
 
 // Native manager snapshot pass; version min1/current2, CRC bail then farm/wall
@@ -207,4 +212,52 @@ void Rva002A8F24::xfer(Xfer* xfer) {
   reinterpret_cast<AIGameTeam*>(const_cast<ModuleData*>(*it))->rva004E951C(xfer);
  for(_STL::map<int,int>::iterator it=collectors908.begin(),end=collectors908.end();it!=end;++it)
   reinterpret_cast<Rva004DFA0E*>(it->second)->rva004DFA0E(xfer,&version);
+}
+
+#include <hash_map>
+class AsciiString;
+typedef _STL::hash_map<int,AsciiString> DozerMap;
+class Rva004E94CA { public: bool rva004E94CA(Player *); };
+class Rva004E9600 { public: void *rva004E95D4(void *); };
+class Rva004E962A { public: Rva004E962A(); unsigned char nativeStorage[0x28]; };
+class ArmorTemplate;
+class ArmorStore { public: const ArmorTemplate *rva0041F474(const AsciiString &) const; };
+class Rva0022BD25Subsystem;
+extern Rva0022BD25Subsystem *TheArmyDefinitionManager;
+enum NameKeyType { NAMEKEY_INVALID=0 };
+class NameKeyGenerator { public: NameKeyType nameToKey(const AsciiString &); };
+extern NameKeyGenerator *TheNameKeyGenerator;
+class Rva002A9140 { public: AsciiString &rva002A9140(const int &); };
+class Rva004EC1CE { public: void rva004EC1CE(const AsciiString &); };
+// WB E8E370 proves this method and its player/team/army/collector behavior.
+// Native 2A9476..2A95B9: preparation of the side reference in each selection
+// path preserves the compiler allocation; the common use emits one LEA.
+void *Rva002A8F24::addNewAIForPlayer(Player *player) {
+    const AsciiString *side;
+    void *ai=0;
+    for (const ModuleData **it=teams914.begin(), **end=teams914.end(); it!=end; ++it) {
+        side=&player->getSide();
+        if (((Rva004E94CA *)*it)->rva004E94CA(player)) {
+            ((AIGameTeam *)*it)->addPlayer((const ModuleData *)player);
+            ai=((Rva004E9600 *)*it)->rva004E95D4(player);
+            break;
+        }
+    }
+    if (!ai) {
+        Rva004E962A *team=new Rva004E962A;
+        ((AIGameTeam *)team)->addPlayer((const ModuleData *)player);
+        ai=((Rva004E9600 *)team)->rva004E95D4(player);
+        teams914.push_back((const ModuleData *&)team);
+        side=&player->getSide();
+    }
+    if (((ArmorStore *)TheArmyDefinitionManager)->rva0041F474(*side)) {
+        int key=TheNameKeyGenerator->nameToKey(*side);
+        if (((DozerMap *)builders920)->find(key) != ((DozerMap *)builders920)->end())
+            ((Rva004EC1CE *)ai)->rva004EC1CE(((Rva002A9140 *)builders920)->rva002A9140(key));
+    } else {
+        *(bool *)((char *)ai+0x168)=true;
+    }
+    AIStatCollector *collector=new AIStatCollector(player);
+    collectors908[player->getPlayerIndex()]=(int)collector;
+    return ai;
 }

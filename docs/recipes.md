@@ -336,6 +336,17 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   spanning the next loop in EBX; reversing the pair fixes the register web
   but swaps the emitted stores. See the [exact body and negative
   controls](../reverse/attempt_support/lan-58277c-20261021/recovery.md).
+- **Preparing a consumed address on each path can change register weighting.**
+  In addNewAIForPlayer 0x002A9476 (323 B), taking `&player->getSide()` only after
+  team selection gave EBX to the vector address and emitted 332 B. Preparing
+  that address at the top of the search loop and after new-team insertion,
+  then consuming it in the common code, produced all 323 retail bytes with
+  direct calls. The repeated preparations disappear into one post-join LEA;
+  C2's player record changes from refs/cost/priority 8/9/28 to 9/12/43. Preserve
+  semantics: prepare a stable field address, not an early value that calls may
+  change, and assign it on every path reaching its use. Moving preparation
+  merely inside the found branch did not match. See the [source controls,
+  allocator observations and full verification](../reverse/attempt_support/002a9476-recovery-20261022/recovery.md).
 - **KindOf tests as the full inline chain.** Write each KindOf test as
   `obj->isKindOf(k)` → `getTemplate()->isKindOf(k)` → `BitFlags::test(k)`,
   with the chain returning the masked `UnsignedInt` word as BuildAssistant.cpp
