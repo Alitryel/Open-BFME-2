@@ -25,3 +25,13 @@ No changed donor headers/inputs/tools. MemoryPool/Contain/EAStringC repairs were
 reviewed; no supported instance of their old pattern in these units. A full
 baseline byte gate waited on the host compiler flock and was interrupted before
 compiling; donor checkout/pointer and freshness success stamp were left unchanged.
+
+Preparation recovery: upstream 78a9580cf33bd5e5741384e72d287bce29203b64
+independently landed the same const-subscript specialization. Replaying our
+commit duplicated that definition and failed C2995. Remove our earlier copy
+and retain upstream's equivalent definition. The historical paired +407 B
+measurement above remains evidence of the original repair, but those bytes
+already link upstream and contribute no additional gain from this recovery.
+The preparation record names no stash or resyncStash; its retained backup
+04566185323271011722ca39cc1811abe30994c8 contains the same five repair commits
+now rebased onto current upstream. No saved edit needs separate restoration.

@@ -17,8 +17,6 @@
 
 #include <hash_map>
 #include <vector>
-// Preserve inline subscript access without emitting a competing library copy.
-namespace _STL { template <> __declspec(dllimport) __forceinline void * const &vector<void *>::operator[](unsigned int n) const { return this->_M_start[n]; } }
 namespace _STL {
 // The allocator is stateless; only the stored pointers need exchanging.
 template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left,
