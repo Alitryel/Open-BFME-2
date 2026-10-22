@@ -26,7 +26,9 @@ void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 struct BfmeFloat4Record00469C61 {
     BfmeFloat4Record00469C61();
     BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &o);
-    BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &o);
+    // Plain four-dword assignment: retail's element copy (0x0007BF5A -> 0x0007BF77) runs
+    // the shared 16-byte copy 0x0004254E per element.
+    BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &o) { x = o.x; y = o.y; z = o.z; w = o.w; return *this; }
     float x, y, z, w;
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
