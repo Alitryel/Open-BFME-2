@@ -30,4 +30,5 @@ struct CameraMarker
 bool operator==(const CameraMarker &a, const CameraMarker &b);
 bool operator<(const CameraMarker &a, const CameraMarker &b);
 
-template class _STL::list<CameraMarker, _STL::allocator<CameraMarker> >;
+// Emit only the rowed member; the rest of the list has other retail owners.
+template _STL::list<CameraMarker>::iterator _STL::list<CameraMarker>::erase(_STL::list<CameraMarker>::iterator);
