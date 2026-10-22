@@ -15,6 +15,6 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 struct BfmeStringRecord00239B46 {
     unsigned char m_data[8];
 };
-bool operator==(const BfmeStringRecord00239B46 &a, const BfmeStringRecord00239B46 &b);
-bool operator<(const BfmeStringRecord00239B46 &a, const BfmeStringRecord00239B46 &b);
-template class _STL::list<BfmeStringRecord00239B46, _STL::allocator<BfmeStringRecord00239B46> >;
+// Only the rowed member is instantiated (no unrowed element comparisons).
+template _STL::list<BfmeStringRecord00239B46, _STL::allocator<BfmeStringRecord00239B46> >::iterator
+_STL::list<BfmeStringRecord00239B46, _STL::allocator<BfmeStringRecord00239B46> >::insert(iterator, const BfmeStringRecord00239B46 &);
