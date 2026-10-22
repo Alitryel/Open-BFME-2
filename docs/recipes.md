@@ -629,3 +629,12 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   does not reorder the list. This is a source adaptation, not evidence that
   the original declaration was volatile. See the
   [native identity and allocator evidence](../reverse/identity_evidence/0045569d-foundation-construct.md).
+
+- **Qualify individual reads when aggregate volatility is too broad.** At
+  0x007586F0, independently indexing the second merge list fixed its address
+  calculation but lowered the first list pointer's C2 priority from 32 to -40,
+  rotating registers and adding ten bytes. A volatile-qualified inline count
+  accessor at just the two existing first-list tests raised its priority to 24
+  and matched all 460 bytes. Qualifying the whole record had not worked.
+  This is a compiler-cost adaptation, not evidence of the original field's
+  declaration. See [the controlled traces and normal byte gate](../reverse/attempt_support/collision-7586f0-recovery-20261022/readme.md).

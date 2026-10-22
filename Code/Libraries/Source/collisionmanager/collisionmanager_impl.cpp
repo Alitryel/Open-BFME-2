@@ -332,3 +332,105 @@ void CollisionManagerImpl::UpdateSort()
 		}
 	}
 }
+
+// Bottom-up axis-list merge sort at 0x007586F0 (460 bytes). The UpdateSort
+// caller and identical WorldBuilder body at 0x01802EC0 establish its purpose
+// and layout; the original method name is unknown. The two left-run count
+// reads use a volatile-qualified accessor to reproduce VC7.1 register costs,
+// preserving the same reads and merge operations. This is a codegen choice,
+// not evidence that the original field was declared volatile.
+struct SortList
+{
+	Rva009A3AD0Endpoint *head;
+	Rva009A3AD0Endpoint *tail;
+	unsigned int count;
+	unsigned int getCount() const volatile { return count; }
+};
+typedef Rva009A3AD0Endpoint Endpoint;
+
+
+void CollisionManagerImpl::rva007586F0()
+{
+	for (unsigned int k = 0; k < m_axisCount; k++)
+	{
+		SortList lists[4];
+		lists[1].count = 0;
+		lists[0].count = 0;
+		lists[0].head = 0;
+		int i = 0;
+		Endpoint *cur = m_axisHeads[k];
+		while (cur)
+		{
+			Endpoint *next = cur->m_next;
+			cur->m_next = lists[i].head;
+			lists[i].head = cur;
+			lists[i].count++;
+			i ^= 1;
+			cur = next;
+		}
+		int src = 0;
+		unsigned int runLen = 1;
+		while (lists[src + 1].count != 0)
+		{
+			SortList *A = &lists[src];
+			SortList *B = &lists[src + 1];
+
+			int out = src ^ 2;
+			lists[out + 1].count = 0;
+			lists[out].count = 0;
+			while (A->getCount() != 0)
+			{
+				unsigned int b = runLen;
+				unsigned int a = runLen;
+				SortList *o = &lists[out];
+				for (;;)
+				{
+					SortList *from;
+					if (a != 0 && A->getCount() != 0)
+					{
+						if (b != 0 && B->count != 0 && A->head->m_value > B->head->m_value)
+						{
+							from = B;
+							b--;
+						}
+						else
+						{
+							from = A;
+							a--;
+						}
+					}
+					else if (b != 0 && B->count != 0)
+					{
+						from = B;
+						b--;
+					}
+					else
+						break;
+					from->count--;
+					Endpoint *e = from->head;
+					from->head = e->m_next;
+					if (o->count == 0)
+					{
+						o->head = e;
+						o->tail = e;
+					}
+					else
+					{
+						o->tail->m_next = e;
+						o->tail = e;
+					}
+					o->count++;
+				}
+				out ^= 1;
+			}
+			runLen <<= 1;
+			src ^= 2;
+		}
+		if (lists[src].count > 1)
+			lists[src].tail->m_next = 0;
+		m_axisHeads[k] = lists[src].head;
+		m_axisHeads[k]->m_prev = 0;
+		for (Endpoint *p = m_axisHeads[k]; p->m_next != 0; p = p->m_next)
+			p->m_next->m_prev = p;
+	}
+}
