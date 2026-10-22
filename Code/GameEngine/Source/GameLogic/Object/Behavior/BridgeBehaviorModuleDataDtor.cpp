@@ -9,6 +9,10 @@
 // The registered FX/OCL callbacks establish the lists at +0x10 and +0x14.
 #include <list>
 #include "Common/AsciiString.h"
+// Suppress this TU's non-retail copy of ??1?$_List_base@UBridgeBehaviorListValue12@@V?$allocator@UBridgeBehaviorListValue12@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BridgeBehaviorListValue12;
+namespace _STL { template <> _List_base<BridgeBehaviorListValue12,allocator<BridgeBehaviorListValue12> >::~_List_base(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@UBridgeBehaviorListValue12@@@_STL@@@_STL@@QBEXPAU?$_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BridgeBehaviorListValue12;

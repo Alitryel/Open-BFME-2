@@ -14,6 +14,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@UBfmeFixedObject60@@@_STL@@QBEPAUBfmeFixedObject60@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeFixedObject60;
+namespace _STL { template <> BfmeFixedObject60 * allocator<BfmeFixedObject60>::allocate(unsigned int,void const *) const; }
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

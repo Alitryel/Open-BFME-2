@@ -41,6 +41,14 @@ static inline const int &min(const int &a, const int &b)
 }
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAVRva00151DAB@@IV1@@_STL@@YAPAVRva00151DAB@@PAV1@IABV1@ABU__fal:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva00151DAB;
+namespace _STL { template <> Rva00151DAB * __uninitialized_fill_n<Rva00151DAB *,unsigned int,Rva00151DAB>(Rva00151DAB *,unsigned int,Rva00151DAB const &,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAVRva00151DAB@@PAV1@@_STL@@YAPAVRva00151DAB@@PAV1@00ABU__false_ty:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva00151DAB;
+namespace _STL { template <> Rva00151DAB * __uninitialized_copy<Rva00151DAB *,Rva00151DAB *>(Rva00151DAB *,Rva00151DAB *,Rva00151DAB *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAURva0007BB16Record@@IU1@@_STL@@YAPAURva0007BB16Record@@PAU1@IA:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0007BB16Record;

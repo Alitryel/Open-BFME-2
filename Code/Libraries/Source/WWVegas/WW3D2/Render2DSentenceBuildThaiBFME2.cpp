@@ -18,6 +18,9 @@ void __cdecl operator delete[](void *) throw();
 #include "vector.h"
 #include "vector2i.h"
 #include "vector2.h"
+// Suppress this TU's non-retail copy of ??$fill_n@PAGIG@_STL@@YAPAGPAGIABG@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned short * fill_n<unsigned short *,unsigned int,unsigned short>(unsigned short *,unsigned int,unsigned short const &); }
 // Suppress this TU's non-retail copy of ?Clear@?$VectorClass@PAVRender2DClass@@@@UAEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Render2DClass;
