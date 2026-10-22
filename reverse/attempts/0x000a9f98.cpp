@@ -53,8 +53,6 @@ class BfmeHub982
 {
 public:
 	void * __fastcall rva00111312(int count);
-	void __fastcall rva001100A6(void *vertices);	// 0x001100A6, closes a triangle list
-	void __fastcall rva001100C5(void *lines);	// 0x001100C5, closes a line list
 	void rva001116E2();				// 0x001116E2
 	void bfmeBegin982C();				// 0x00111319
 	void bfmeEnd982C();				// 0x00110611
@@ -464,6 +462,8 @@ public:
 	operator bool() const { return m_texture != 0; }
 	TextureClass *m_texture;
 };
+class Rva001100A6 { public: void __fastcall rva001100A6(void *vertices); };
+class Rva001100C5 { public: void __fastcall rva001100C5(void *lines); };
 class Rva001103A5 { public: void __fastcall rva001103A5(const RefCountPtr<TextureClass> &texture); };
 class Rva000A9F23 { public: AssetReference rva000A9F23(); };
 class ShroudFilter { public: int minFilter, magFilter, unused08, words0C[2]; int getMag() const { return magFilter; } void setMag(int v) { magFilter = v; } void setMin(int v) { minFilter = v; } void SetMip(int); };
@@ -614,7 +614,7 @@ void AptShapeContainer::render()
 					aptMatrixMul(v->uv, tri.p[2], uvTransform);
 					++v;
 				}
-				W3DAptAux::s_renderer->rva001100A6(v);
+				((Rva001100A6 *)W3DAptAux::s_renderer)->rva001100A6(v);
 			}
 			break;
 		}
@@ -647,7 +647,7 @@ void AptShapeContainer::render()
 				v->color = color;
 				++v;
 			}
-			W3DAptAux::s_renderer->rva001100A6(v);
+			((Rva001100A6 *)W3DAptAux::s_renderer)->rva001100A6(v);
 			break;
 		}
 		case 2: {
@@ -665,7 +665,7 @@ void AptShapeContainer::render()
 				aptMatrixMulLineSecond(b, segment.b, m_transform);
 				Rva001101D7Draw(W3DAptAux::s_renderer, (Rva001101D7 *)&lines, a, b, line->m_width, color);
 			}
-			W3DAptAux::s_renderer->rva001100C5(lines);
+			((Rva001100C5 *)W3DAptAux::s_renderer)->rva001100C5(lines);
 			break;
 		}
 		}
