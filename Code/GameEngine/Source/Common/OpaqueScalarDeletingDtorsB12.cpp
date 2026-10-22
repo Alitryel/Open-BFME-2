@@ -15,7 +15,6 @@
 //   wrapper     dtor        vtable#slot
 //   0x0051588B  0x00514EAB  0x00C65F10#0
 //   0x00517582  0x005173F8  0x00C66428#0
-//   0x005206E2  0x005204EF  0x00C675DC#0
 //   0x00521CE3  0x00521977  0x00C67910#0
 //   0x00524BFF  0x00524BB4  0x00C67DFC#0
 //   0x0052B40F  0x0052B3B2  0x00C685E0#0
@@ -93,28 +92,8 @@ Rva005173F8::Rva005173F8(EmitVtableTag *)
 {
 }
 
-// Primary base at +0 (the 0x218-byte screen window) and secondary base at
-// +0x218: slot 0 of the secondary table is the this-adjusting (sub ecx,
-// 0x218) deleting-destructor thunk 0x005204E4, target evidence for both.
-class __declspec(novtable) Rva005204EFBase0 { public: virtual ~Rva005204EFBase0(); private: char m_unmodelled04[0x218 - 0x04]; };
-class __declspec(novtable) Rva005204EFBase218 { public: virtual ~Rva005204EFBase218(); };
-class Rva005204EF : public Rva005204EFBase0, public Rva005204EFBase218
-{
-public:
-	Rva005204EF(EmitVtableTag *);
-public:
-	virtual ~Rva005204EF();
-};
-
-// The ledger's row at 0x005204EF is the screen-window destructor's own
-// spelling; the deleting destructor above calls the address-derived name for
-// the same 224-byte body, so bind the two.
-#pragma comment(linker, "/alternatename:??1Rva005204EF@@UAE@XZ=??1Rva005202C8@@UAE@XZ")
-
-// ?<Rva005204EF::Rva005204EF> absent-from-retail
-Rva005204EF::Rva005204EF(EmitVtableTag *)
-{
-}
+// 0x005206E2 and its thunk 0x005204E4 are AptTimeLine's (??_GRva005202C8,
+// ??_ERva005202C8), emitted with its vtable in AptTimeLineCtor.cpp.
 
 // ??_GAptSkirmish (0x00521CE3) is emitted with the AptSkirmish vtable in
 // AptSkirmishDestructor.cpp.
@@ -370,8 +349,3 @@ extern int g_Va00E048DC;
 AptMainMenu::~AptMainMenu() {
  if(g_Va00E048DC==reinterpret_cast<int>(this)) {reinterpret_cast<Rva005B7010 *>(&resource290)->rva005B7010();g_Va00E048DC=0;}
 }
-
-// Names this unit references that no unit defines under that spelling. Each is
-// bound to the row that owns the pinned retail address (same address, same
-// body); the pin keeps the name, the row supplies the definition.
-#pragma comment(linker, "/alternatename:??1Rva005204EF@@UAE@XZ=??1Rva005202C8@@UAE@XZ")
