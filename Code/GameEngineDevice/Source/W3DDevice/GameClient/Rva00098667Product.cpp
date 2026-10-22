@@ -8,11 +8,13 @@
 // (new 0x68 plus this ctor). Boundary verified (push esi at 0x98667,
 // pop esi + ret at end).
 
-class Rva0030AFC4Base
+// The base is the rowed Rva00985E4: its ctor 0x0030AFC4 (??0Rva00985E4) is the call at
+// 0x0009866A and its dtor 0x000985E4 is rowed in SubsystemDerivedDtors.cpp.
+class Rva00985E4
 {
 public:
-	Rva0030AFC4Base();
-	virtual ~Rva0030AFC4Base();
+	Rva00985E4();
+	virtual ~Rva00985E4();
 
 private:
 	char m_pad04[0x4C - 4];
@@ -42,7 +44,7 @@ private:
 	int m_18;
 };
 
-class Rva00098667Product : public Rva0030AFC4Base
+class Rva00098667Product : public Rva00985E4
 {
 public:
 	Rva00098667Product();
