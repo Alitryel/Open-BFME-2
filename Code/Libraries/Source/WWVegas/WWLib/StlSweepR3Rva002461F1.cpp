@@ -20,7 +20,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 // The 0x50-byte record whose dtor is 0x00240831 (Rva0024076DCtor.cpp).
-class Rva0024076D { public: ~Rva0024076D(); bool operator==(const Rva0024076D&) const; bool operator<(const Rva0024076D&) const; private: unsigned char bytes[80]; };
+// Its copy constructor is the rowed out-of-line 0x002419E2 (Rva0024314ARecordCopy.cpp),
+// which retail's _Construct 0x0024314A calls.
+class Rva0024076D { public: Rva0024076D(const Rva0024076D &); ~Rva0024076D(); bool operator==(const Rva0024076D&) const; bool operator<(const Rva0024076D&) const; private: unsigned char bytes[80]; };
 
 
 // Instantiate the recovered member; retain only its required template dependencies.

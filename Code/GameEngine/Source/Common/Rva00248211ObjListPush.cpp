@@ -7,6 +7,8 @@
 // The 0x50-byte record whose dtor is 0x00240831 (Rva0024076DCtor.cpp).
 class Rva0024076D {
 public:
+	// Copy ctor: the rowed out-of-line 0x002419E2 (Rva0024314ARecordCopy.cpp).
+	Rva0024076D(const Rva0024076D &);
 	~Rva0024076D();
 private:
 	char m_pad[0x50];
