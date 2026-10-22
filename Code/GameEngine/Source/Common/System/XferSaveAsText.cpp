@@ -26,6 +26,9 @@ namespace _STL { void __cdecl free(void *); }
 #undef free
 #include <stdarg.h>
 #include <string.h>
+// Suppress this TU's non-retail copy of ??0?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> >::basic_string(basic_string<char,char_traits<char>,allocator<char> > const &); }
 // Import-inline: every _STL::max<unsigned int> use here is inlined, and this
 // unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
 namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; } }
