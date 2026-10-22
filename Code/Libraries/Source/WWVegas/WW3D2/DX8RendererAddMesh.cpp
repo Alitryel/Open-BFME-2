@@ -109,7 +109,7 @@ struct PolygonBuffer { char pad[12]; TriIndex *data; };
 class UVBufferClass : public ShareBufferClass<Vector2>
 {
 public:
- UVBufferClass(int count, const char* msg) : ShareBufferClass<Vector2>(count, msg), CRC(0xFFFFFFFF) { }
+ UVBufferClass(int count, const char* msg);
  unsigned CRC;
 };
 class MeshMatDescClass {
