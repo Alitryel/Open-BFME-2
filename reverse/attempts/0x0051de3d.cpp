@@ -1,24 +1,6 @@
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
-// partial score=0.794 date=2026-10-19
-// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
-// partial score=0.794 date=2026-10-17
-// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
-// partial score=0.9 date=2026-10-15
-// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
-// partial score=0.9 date=2026-10-15
-// ?rva0051DE3D@Rva0051DE3D@@QAEXXZ
-// partial score=0.9 date=2026-10-15
-// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
-// partial score=0.9675 date=2026-10-14
-// ?Rva0051DE3D@@YAHPAVGameWindow@@IABVAsciiString@@@Z
-// partial score=0.9592 date=2026-10-13
-// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
-// partial score=0.8733459357 date=2026-10-13
-// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
-// partial score=0.98 date=2026-10-11
+// partial score=0.9806579794700435 date=2026-10-22
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // BFME2's score screen Apt callbacks, 0x0051BF75 onward, bound by these
@@ -903,11 +885,8 @@ bool AptScoreScreen::PopulatePersistentUnitsListbox()
 // templates' order, set the veterancy icons and the upgrade flags; in the
 // living world the region names the map, lists its bonuses, shows its
 // image, and in state 1 the persistent units list follows.
-// seat2 d3: non-const end()-begin() (no volatile) gives retail's frame 0x38 and the
-// begin.p spill [ebp-0x20]; residue: cl folds end() to this+0x294/0x298 instead of
-// the vector register, which rotates ebx/esi/edi (this,vec,zero) globally (+6B).
-// Register-normalised the body otherwise equals retail. size()/refs/inline helpers
-// drop the spill (1055B).
+// Banked allocation probe: the local member pointer restores the native hero
+// iterator spill. The final indirect call still adds four bytes; not matched.
 void AptScoreScreen::rva0051DE3D()
 
 {
@@ -1018,8 +997,11 @@ void AptScoreScreen::rva0051DE3D()
     ((Rva002239B2 *)TheRva00222A8BTarget)->rva002239E2(key, ((Rva003F038E *)region)->rva003F03B9());
     
    }
+
+    typedef bool (AptScoreScreen::*Populate51)();
+   const Populate51 populate51 = &AptScoreScreen::PopulatePersistentUnitsListbox;
    if (m_280 == 1)
-   PopulatePersistentUnitsListbox();
+   (this->*populate51)();
    
   }
   
