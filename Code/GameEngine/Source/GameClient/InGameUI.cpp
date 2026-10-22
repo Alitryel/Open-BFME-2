@@ -1295,23 +1295,7 @@ void InGameUI::playMovie( const AsciiString& movieName )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?InGameUI::stopMovie present-unmatched
-void InGameUI::stopMovie( void )
-{
-	delete m_videoBuffer;
-	m_videoBuffer = NULL;
-
-	if ( m_videoStream )
-	{
-		m_videoStream->close();
-		m_videoStream = NULL;
-	}
-
-	if (!m_currentlyPlayingMovie.isEmpty()) {
-		//TheScriptEngine->notifyOfCompletedVideo(m_currentlyPlayingMovie); // removing sync error source -MDC
-		m_currentlyPlayingMovie = AsciiString::TheEmptyString;
-	}
-}
+// InGameUI::stopMovie is defined in Rva0029B4C4.cpp.
 
 // ------------------------------------------------------------------------------------------------
 // InGameUI::videoBuffer
@@ -1329,26 +1313,7 @@ VideoBuffer* InGameUI::videoBuffer( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?InGameUI::stopCameoMovie present-unmatched
-void InGameUI::stopCameoMovie( void )
-{
-//RightHUD
-	//GameWindow *window = TheWindowManager->winGetWindowFromId(NULL,TheNameKeyGenerator->nameToKey( AsciiString("ControlBar.wnd:CameoMovieWindow") ));
-	GameWindow *window = TheWindowManager->winGetWindowFromId(NULL,TheNameKeyGenerator->nameToKey( AsciiString("ControlBar.wnd:RightHUD") ));
-//	window->winHide(FALSE);
-	WinInstanceData *winData = window->winGetInstanceData();
-	winData->setVideoBuffer(NULL);
-	
-	delete m_cameoVideoBuffer;
-	m_cameoVideoBuffer = NULL;
-
-	if ( m_cameoVideoStream )
-	{
-		m_cameoVideoStream->close();
-		m_cameoVideoStream = NULL;
-	}
-	
-}
+// InGameUI::stopCameoMovie is defined in Common/Rva0029F4AB.cpp.
 
 // ------------------------------------------------------------------------------------------------
 // InGameUI::videoBuffer

@@ -186,10 +186,23 @@ protected:
 	void handleRadiusCursor();
 
 public:
-	void rva0029A64A();
+	virtual ~InGameUI();
+#define SLOT(N) virtual void slot##N();
+	SLOT(001) SLOT(002) SLOT(003) SLOT(004) SLOT(005) SLOT(006) SLOT(007) SLOT(008)
+	SLOT(009) SLOT(010) SLOT(011) SLOT(012) SLOT(013) SLOT(014) SLOT(015) SLOT(016)
+	SLOT(017) SLOT(018) SLOT(019) SLOT(020) SLOT(021) SLOT(022) SLOT(023) SLOT(024)
+	SLOT(025) SLOT(026) SLOT(027) SLOT(028) SLOT(029) SLOT(030) SLOT(031) SLOT(032)
+	SLOT(033) SLOT(034) SLOT(035) SLOT(036) SLOT(037) SLOT(038) SLOT(039) SLOT(040)
+	SLOT(041) SLOT(042) SLOT(043) SLOT(044) SLOT(045) SLOT(046) SLOT(047) SLOT(048)
+	SLOT(049) SLOT(050) SLOT(051) SLOT(052) SLOT(053) SLOT(054) SLOT(055) SLOT(056)
+	SLOT(057) SLOT(058) SLOT(059) SLOT(060) SLOT(061) SLOT(062) SLOT(063) SLOT(064)
+	SLOT(065) SLOT(066) SLOT(067) SLOT(068) SLOT(069) SLOT(070) SLOT(071) SLOT(072)
+	SLOT(073) SLOT(074) SLOT(075) SLOT(076) SLOT(077) SLOT(078) SLOT(079) SLOT(080)
+#undef SLOT
+	virtual void setRadiusCursorNone();
 
 private:
-	unsigned char m_pad[0x888];
+	unsigned char m_pad[0x888 - 4];
 	int m_888;
 	RadiusDecal m_curRadiusCursor; // +0x88C
 };
@@ -223,7 +236,7 @@ void InGameUI::handleRadiusCursor()
 	m_curRadiusCursor.update();
 }
 
-void InGameUI::rva0029A64A()
+void InGameUI::setRadiusCursorNone()
 {
 	m_curRadiusCursor.clear();
 	m_888 = 0;
