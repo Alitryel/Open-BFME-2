@@ -60,3 +60,8 @@ template void LocomotorMapTree::clear();
 template _STL::_Rb_tree_base<LocomotorMapValue, _STL::allocator<LocomotorMapValue> >::_Rb_tree_base(const _STL::allocator<LocomotorMapValue> &);
 template LocomotorMapTree::_Rb_tree(const _STL::less<LocomotorSetType> &, const _STL::allocator<LocomotorMapValue> &);
 template LocomotorMap::map();
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@0@ABU10@@Z=?Rva001E7243Construct@@YAXPAXPBX@Z")

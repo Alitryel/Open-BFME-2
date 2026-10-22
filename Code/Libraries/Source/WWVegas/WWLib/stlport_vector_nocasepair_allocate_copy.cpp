@@ -70,3 +70,8 @@ Type *_STL::vector<Type, Allocator>::_M_allocate_and_copy(size_type n, ForwardIt
 	return result;
 }
 template CopyNoCasePair *_STL::vector<CopyNoCasePair, _STL::allocator<CopyNoCasePair> >::_M_allocate_and_copy<const CopyNoCasePair *>(unsigned int, const CopyNoCasePair *, const CopyNoCasePair *);
+
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:?allocate@?$allocator@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@_STL@@QBEPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@2@IPBX@Z=?allocate@?$allocator@UBfmeE8@@@_STL@@QBEPAUBfmeE8@@IPBX@Z")
