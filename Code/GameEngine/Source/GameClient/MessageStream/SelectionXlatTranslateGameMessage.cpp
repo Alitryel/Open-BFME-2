@@ -256,6 +256,17 @@ namespace _STL { template <> unsigned int vector<void *,allocator<void *> >::siz
 // Suppress this TU's non-retail copy of ??0?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAE@ABV?$allocator@PAX@1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> vector<void *,allocator<void *> >::vector(allocator<void *> const &); }
+// Preserve native inline reads without emitting competing library helpers.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void *const &
+vector<void *>::operator[](size_t n) const { return *(this->_M_start + n); }
+// The allocator base is stateless; exchanging bucket storage only swaps pointers.
+template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &a,
+                            _STLP_alloc_proxy<void **, void *, allocator<void *> > &b)
+{
+ swap(a._M_data, b._M_data);
+}
+}
 namespace _STL
 
 {
@@ -618,6 +629,16 @@ class NativeMouse43003C { public:
 namespace _STL {
 typedef pair<const int, Bool> SelectionValue43003C;
 template <> void hashtable<SelectionValue43003C, int, hash<int>, _Select1st<SelectionValue43003C>, equal_to<int>, allocator<SelectionValue43003C> >::clear();
+template <> __declspec(dllimport) __forceinline unsigned int
+hashtable<SelectionValue43003C, int, hash<int>, _Select1st<SelectionValue43003C>, equal_to<int>, allocator<SelectionValue43003C> >::_M_bkt_num_key(const int &key) const
+{
+ return _M_bkt_num_key(key, _M_buckets.size());
+}
+template <> __declspec(dllimport) __forceinline unsigned int
+hashtable<SelectionValue43003C, int, hash<int>, _Select1st<SelectionValue43003C>, equal_to<int>, allocator<SelectionValue43003C> >::_M_bkt_num(const SelectionValue43003C &value) const
+{
+ return _M_bkt_num_key(_M_get_key(value));
+}
 }
 
 
