@@ -64,5 +64,17 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
-struct Rva00380DA3Element { unsigned words[4];Rva00380DA3Element();Rva00380DA3Element(const Rva00380DA3Element&b);bool operator<(const Rva00380DA3Element&)const;bool operator==(const Rva00380DA3Element&)const; };
-template class _STL::hash_map<int,Rva00380DA3Element>;
+// The row at 0x00380DA3 copies the int key, then calls 0x00380D30, the rowed
+// MultiplayerColorDefinition copy constructor, for the value at +4: this is
+// pair<const int, MultiplayerColorDefinition>'s copy constructor (symbols.csv
+// already pinned that name here). Instantiate only it; the 0x40-byte value
+// layout is MultiplayerColorPairConstructor.cpp's, opaque here.
+class MultiplayerColorDefinition
+{
+public:
+	MultiplayerColorDefinition(const MultiplayerColorDefinition &other);
+private:
+	char m_opaque[0x40];
+};
+template _STL::pair<const int, MultiplayerColorDefinition>::pair(
+	const _STL::pair<const int, MultiplayerColorDefinition> &);

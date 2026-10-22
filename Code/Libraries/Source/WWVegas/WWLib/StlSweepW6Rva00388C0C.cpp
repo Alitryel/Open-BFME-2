@@ -20,4 +20,9 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
 }
 
 struct Rva00388C0CElement { _STL::auto_ptr<unsigned> value;unsigned word0;Rva00388C0CElement(const Rva00388C0CElement&b);Rva00388C0CElement& operator=(const Rva00388C0CElement&b);bool operator<(const Rva00388C0CElement&)const;bool operator==(const Rva00388C0CElement&)const; };
-template class _STL::set<Rva00388C0CElement>;
+// Instantiate only the rowed member, not the whole set: the rest of the
+// container referenced element operations no unit defines.
+typedef _STL::_Rb_tree<Rva00388C0CElement, Rva00388C0CElement,
+	_STL::_Identity<Rva00388C0CElement>, _STL::less<Rva00388C0CElement>,
+	_STL::allocator<Rva00388C0CElement> > Rva00388C0CTree;
+template Rva00388C0CTree::_Link_type Rva00388C0CTree::_S_minimum(Rva00388C0CTree::_Link_type);
