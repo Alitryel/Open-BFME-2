@@ -1,8 +1,7 @@
 // cl: /DNDEBUG /MD /EHa
 // Open-BFME: Debug I/O net destructor. Stores the net vtable, CloseHandle on
 // the pipe at +4 unless it is INVALID_HANDLE_VALUE, then restores the
-// DebugIOInterface vtable. Named apart from ??1DebugIONet which is already
-// claimed on the FreeConsole ICF body.
+// DebugIOInterface vtable.
 
 typedef void *HANDLE;
 
@@ -29,16 +28,22 @@ public:
 // The derived destructor and its EH graph retain their retail frame pointer.
 #pragma optimize("y", off)
 
-class Rva0088FB30NetIO : public DebugIOInterface
+class DebugIONet : public DebugIOInterface
 {
 	HANDLE m_pipe;
 
 public:
-	virtual ~Rva0088FB30NetIO();
+	virtual ~DebugIONet();
+	// Rowed in debug_io_net.cpp; declared so this unit's vftable is DebugIONet's.
+	virtual int Read(char *buf, int maxchar);
+	virtual void Write(StringType type, const char *src, const char *str);
+	virtual void EmergencyFlush(void);
+	virtual void Execute(class Debug &dbg, const char *cmd, bool structuredCmd, unsigned argn, const char *const *argv);
+	virtual void Delete(void);
 };
 
-// ??1Rva0088FB30NetIO@@UAE@XZ
-Rva0088FB30NetIO::~Rva0088FB30NetIO()
+// ??1DebugIONet@@UAE@XZ (stores vftable 0x007C09C8, ??_7DebugIONet)
+DebugIONet::~DebugIONet()
 {
 	if (m_pipe != (HANDLE)-1)
 		CloseHandle(m_pipe);
