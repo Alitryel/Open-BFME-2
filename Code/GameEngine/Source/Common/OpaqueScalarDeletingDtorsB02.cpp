@@ -12,7 +12,6 @@
 // beyond the secondary-base offsets their adjustor thunks prove.
 //
 //   wrapper     dtor        vtable#slot
-//   0x003AD257  0x003AD273  0x00C1CC28#0
 //   0x003AD42F  0x003AD2AE  0x00C1D00C#0
 //   0x003AD3F7  0x003ACB6F  0x00C1C578#0
 //   0x003AE270  0x003ADFB2  0x00C1D31C#0
@@ -39,34 +38,6 @@
 //   0x00135F19  0x00135E35  0x00BD28F0#9
 
 struct EmitVtableTag;
-
-class Rva003AD273Base0
-{
-public:
-	virtual ~Rva003AD273Base0();
-private:
-	char m_unmodelled_04[0x18 - 0x04];
-};
-
-// Secondary base at +0x18: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0x18) in its vtable is target evidence for it.
-class Rva003AD273Base18
-{
-public:
-	virtual ~Rva003AD273Base18();
-};
-class Rva003AD273 : public Rva003AD273Base0, public Rva003AD273Base18
-{
-public:
-	Rva003AD273(EmitVtableTag *);
-public:
-	virtual ~Rva003AD273();
-};
-
-// ?<Rva003AD273::Rva003AD273> absent-from-retail
-Rva003AD273::Rva003AD273(EmitVtableTag *)
-{
-}
 
 class Rva003AD2AEBase0
 {
