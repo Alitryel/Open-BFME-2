@@ -11,7 +11,13 @@ class UserParser;
 class DataChunkInput;
 struct DataChunkInfo;
 extern "C" int _bfmeVftVE[];
-extern "C" int g_0109C030[];
+extern "C" const unsigned char __identifier("??_GRva003B241AOwner@@QAEPAXI@Z")[];
+extern "C" const unsigned char __identifier("?parse@LibraryMapsParser@@UAE_NAAVDataChunkInput@@PAVDataChunkInfo@@@Z")[];
+// Native table at RVA 0x0080D924: folded deleting wrapper, then parse.
+extern "C" const void *const g_0109C030[2] = {
+    __identifier("??_GRva003B241AOwner@@QAEPAXI@Z"),
+    __identifier("?parse@LibraryMapsParser@@UAE_NAAVDataChunkInput@@PAVDataChunkInfo@@@Z")
+};
 
 typedef bool (*BfmeParserCallback)(DataChunkInput &, DataChunkInfo *, void *);
 void j_0001579e();
@@ -31,7 +37,7 @@ public:
     ~BfmeParserRegistrationVE();
 
 protected:
-    void *m_vftable;
+    const void *m_vftable;
     DataChunkInput *m_table;
     UserParser *m_parser;
 };

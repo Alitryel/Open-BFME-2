@@ -1,6 +1,6 @@
-// The members of the ConstIntGetters5.cpp family whose constant is an image address
-// no unit defines yet, split out so the rest of the family links; each moves
-// back once its target has a definition to name.
+// Address-valued getters from the ConstIntGetters5.cpp family.
+// Named data providers supply recovered globals; unresolved values
+// remain literal until their providers are recovered.
 //
 // Cold-slice B8-imm32 const-int returners without vtable carriage (twin-free TU).
 //
@@ -16,9 +16,16 @@
 // ?Rva001DB686Get@@YAHXZ @ 0x001db686 (6B): returns 0x00c0cd88.
 // Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
 // no branch sources. Opaque address-derived name.
+struct FieldParse;
+struct _D3DADAPTER_IDENTIFIER8;
+extern "C" const FieldParse __identifier("?m_controlBarSchemeFieldParseTable@ControlBarSchemeManager@@2QBUFieldParse@@B")[];
+extern "C" char __identifier("?ProcessorString@CPUDetectClass@@0PADA")[48];
+extern "C" _D3DADAPTER_IDENTIFIER8 __identifier("?CurrentAdapterIdentifier@DX8Wrapper@@1U_D3DADAPTER_IDENTIFIER8@@A");
+extern const char *g_Va00DC85C4Names[9];
+
 int Rva001DB686Get(void)
 {
-	return 0x00c0cd88;
+	return (int)__identifier("?m_controlBarSchemeFieldParseTable@ControlBarSchemeManager@@2QBUFieldParse@@B");
 }
 
 
@@ -59,7 +66,7 @@ int Rva0041F310Get(void)
 // int3-padded both sides, no direct callers. Opaque address-derived name.
 int Rva0011C460Get(void)
 {
-	return 0x00dec5e8;
+	return (int)&__identifier("?CurrentAdapterIdentifier@DX8Wrapper@@1U_D3DADAPTER_IDENTIFIER8@@A");
 }
 
 // ?Rva002A8A0FGet@@YAHXZ @ 0x002a8a0f (6B): returns 0x00bfda50.
@@ -137,7 +144,7 @@ int Rva0033A507Get(void)
 // address-derived name.
 int Rva0033A7BBGet(void)
 {
-	return 0x00dc85c4;
+	return (int)g_Va00DC85C4Names;
 }
 
 
@@ -192,7 +199,7 @@ int Rva0041F71AGet(void)
 // int3-padded both sides, no direct callers. Opaque address-derived name.
 int Rva00611030Get(void)
 {
-	return 0x00e08c58;
+	return (int)__identifier("?ProcessorString@CPUDetectClass@@0PADA");
 }
 
 // ?Rva006882D0Get@@YAHXZ @ 0x006882d0 (6B): returns 0x00ce43b0.

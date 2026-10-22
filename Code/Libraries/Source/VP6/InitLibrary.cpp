@@ -44,12 +44,12 @@ int g_bfmeIdentityIndex[128] = {
 	35, 36, 48, 49, 57, 58, 62, 63,
 };
 
-// The retail operands as immediates (mov form): the DC quantizer table and
-// its end in .rdata, the writable dword table in .bss. Extern spellings
-// would emit lea-form address materialization and a longer body.
-static int *const g_dcScale = (int *)0x00DFD950;
-static const short *const g_dcQuant = (const short *)0x00BD7E60;
-static const short *const g_dcQuantEnd = (const short *)0x00BD7EE0;
+// The library initializer fills the 64 native DC scale entries.
+int g_00DFD950[64];
+extern const unsigned short g_bfmeApplyTableC[64];
+static int *const g_dcScale = g_00DFD950;
+static const short *const g_dcQuant = (const short *)g_bfmeApplyTableC;
+static const short *const g_dcQuantEnd = (const short *)(g_bfmeApplyTableC + 64);
 
 // RVA 0x001B8FB0
 extern "C" void __cdecl VP6_DMachineSpecificConfig(void)
