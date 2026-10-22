@@ -1,5 +1,4 @@
 // STLport 4.5.3 reference instantiation. Target boundary and byte comparison prove operation shape.
-// Element spelling/layout is donor inference; opaque records have address-derived identity.
 // cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // The emitted unsigned max copy must match retail RVA 0x00013740.
@@ -29,13 +28,22 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 
-struct Rva003AFFBERecord {  int word0;int word1;int word2; bool Less(const Rva003AFFBERecord&)const; };
-struct Rva003AFFBERecordCompare { bool operator()(const Rva003AFFBERecord&a,const Rva003AFFBERecord&b)const {return a.Less(b);} };
-template void _STL::sort(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
-template void _STL::stable_sort(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
-template void _STL::make_heap(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
-template void _STL::push_heap(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
-template void _STL::pop_heap(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
-template void _STL::sort_heap(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
-template void _STL::partial_sort(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
-template void _STL::nth_element(Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecord*,Rva003AFFBERecordCompare);
+// The element is Rva003B02F4Entry with comparator Rva003B02F4Greater: this __push_heap_aux's
+// only call (0x003AFFE5) goes to the rowed __push_heap<Rva003B02F4Entry *, int,
+// Rva003B02F4Entry, Rva003B02F4Greater> at 0x003AFE48 (stlport_priority_queue_rva003b02f4.cpp),
+// declared only here. Only the rowed __push_heap_aux is instantiated.
+struct Rva003B02F4Entry
+{
+	float key;
+	unsigned int a;
+	unsigned int b;
+};
+struct Rva003B02F4Greater
+{
+	bool operator()(const Rva003B02F4Entry &x, const Rva003B02F4Entry &y) const
+	{
+		return x.key > y.key;
+	}
+};
+namespace _STL { template <> void __push_heap<Rva003B02F4Entry *, int, Rva003B02F4Entry, Rva003B02F4Greater>(Rva003B02F4Entry *, int, int, Rva003B02F4Entry, Rva003B02F4Greater); }
+template void _STL::__push_heap_aux<Rva003B02F4Entry *, Rva003B02F4Greater, int, Rva003B02F4Entry>(Rva003B02F4Entry *, Rva003B02F4Entry *, Rva003B02F4Greater, int *, Rva003B02F4Entry *);
