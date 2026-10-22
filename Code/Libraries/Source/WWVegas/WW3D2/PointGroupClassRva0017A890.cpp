@@ -61,6 +61,11 @@ static __forceinline Vector3 operator * (const Matrix3D &A,const Vector3 &a)
 	);
 }
 static Vector3 GroundMultiplierX(1,0,0),GroundMultiplierY(0,1,0);
+// The static VertexLoc instantiates VectorClass<Vector3>; its /O2 copies of
+// the constructor and Resize are not retail's, so bind both to the rowed
+// 0x000F0D2F and 0x000F0BF1 bodies (vector_class_vector3_ctor/_resize.cpp).
+template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
+template <> bool VectorClass<Vector3>::Resize(int, Vector3 const *);
 static VectorClass<Vector3> VertexLoc;
 extern VectorClass<Vector2> VertexUV;
 
