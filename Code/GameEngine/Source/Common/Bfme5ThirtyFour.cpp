@@ -677,9 +677,11 @@ public:
 class Rva004A9DF3Element
 {
 public:
-	Rva004A9DF3Element();
+	// Match the sibling Apt array view: retail's EH vector constructor
+	// takes the void default-argument closure at 0x00013260.
+	Rva004A9DF3Element(unsigned int *value = 0) : m_value(value) {}
 	~Rva004A9DF3Element();
-	int m_value;
+	unsigned int *m_value;
 };
 
 class ModuleTagString
