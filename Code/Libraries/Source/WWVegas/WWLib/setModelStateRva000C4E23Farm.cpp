@@ -36,6 +36,9 @@ namespace _STL { void __cdecl free(void *block); }
 #include <vector>
 #include <string>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_allocate_block(unsigned int); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAVAsciiString@@IV1@@_STL@@YAPAVAsciiString@@PAV1@IABV1@ABU__fal:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;

@@ -17,6 +17,9 @@ extern "C" __declspec(dllimport) int __cdecl atoi(const char*);
 namespace _STL { template <> vector<basic_string<char, char_traits<char>, allocator<char> >, allocator<basic_string<char, char_traits<char>, allocator<char> > > >::~vector(); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_allocate_block(unsigned int); }
 // Suppress this TU's non-retail copy of ??1?$_Vector_base@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$alloc:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Vector_base<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::~_Vector_base(); }

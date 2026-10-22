@@ -11,6 +11,9 @@ namespace _STL { void __cdecl free(void *); }
 #include <string>
 #include <vector>
 #include <hash_map>
+// Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_allocate_block(unsigned int); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@D@_STL@@QBEPADIPBX@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * allocator<char>::allocate(unsigned int,void const *) const; }

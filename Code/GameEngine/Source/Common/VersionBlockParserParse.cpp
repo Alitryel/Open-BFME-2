@@ -18,6 +18,9 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_allocate_block(unsigned int); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAUBfmeNarrowRecord00427F75@@PAU1@@_STL@@YAPAUBfmeNarrowRecord0042:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeNarrowRecord00427F75;
