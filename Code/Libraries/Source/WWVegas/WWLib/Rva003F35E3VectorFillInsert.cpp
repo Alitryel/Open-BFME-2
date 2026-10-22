@@ -114,3 +114,18 @@ template <> void _Construct<Rva003F3277Record, Rva003F3277Record>(
 	_STLP_PLACEMENT_NEW ((void *)p) Rva003F3277VectorValue(*(const Rva003F3277VectorValue *)&value);
 }
 }
+
+// Complete native forwarder 0x003F3744..0x003F3749: the verified
+// fill-insert at 0x003F35E3 receives the same ECX and three stack arguments.
+// Retain an address-derived wrapper instead of asserting an original
+// application class or a particular STL public-overload identity.
+class Rva003F3744 : public _STL::vector<Rva003F3277Record, _STL::allocator<Rva003F3277Record> >
+{
+public:
+	void rva003F3744(Rva003F3277Record *position, unsigned int count, const Rva003F3277Record &value);
+};
+
+void Rva003F3744::rva003F3744(Rva003F3277Record *position, unsigned int count, const Rva003F3277Record &value)
+{
+	_M_fill_insert(position, count, value);
+}
