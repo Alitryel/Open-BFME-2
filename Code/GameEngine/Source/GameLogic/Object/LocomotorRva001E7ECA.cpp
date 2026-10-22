@@ -1,34 +1,11 @@
-// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.975 date=2026-10-22
-// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.979 date=2026-10-15
-// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.9335 date=2026-10-15
-// W9-O2 (2026-10-16, claude-opus-5.5): case 4/5 is `requires=true;` (retail stores [ebp-0xd]=1 at 0x1E8100; the old
-// `requires=requires` dropped that 4-byte store and hid the size delta). Now 1567/1563 B, residue = zero-constant CSE only.
-// Probes (value changes, not landable): layer's normal arg 0 -> 4 makes case 1 retail-exact (2 underwater zeros alone form no
-// web, vptr gets EDI); ground's normal arg 0 -> 4 makes case 6 retail-exact (web starts at the BitSet push). So retail treats
-// exactly the two Coord3D* normal NULL args as non-members of the zero web. Inert: default args (=0), local Coord3D *n = 0,
-// (Coord3D*)0 / 0L / static/reinterpret casts / false / '\0', bool/enum/short/char/float param types, inline wrappers, ternary,
-// named bool, braces, statement order in case 6, member getSurfaceHtAtPt instead of the union adapter.
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common /ICode
-// BF1 cee35b7d8 Locomotor.cpp handleBehaviorZ and clean ZH Locomotor.cpp2220
-// are the semantic guide. Native1E7ECA..1E84C1 is1527B plus36B jump table;
-// nine-case routing independently read:0 ground 1 sea 2/3 dynamic 4/5 fixed
-// 6 buildings 7 highest layer 8 future goal; mode9 uses interface slot142.
-// Original method spelling remains uncertain; class is known from WB1E46E1.
-// Target proves data behavior70 flags44 height48 damping50 matrix68 and
-// Object future198/flag1A6 disabled1C8 model118 and flags438.
-// Rva1E40D9Get is the owned stdcall view of an unused-this member. The MSVC
-// single-inheritance member-pointer adapter keeps the native ECX setup.
-// Reuse canonical PartitionRangeQueryCallView; filter64/mask28 lifetimes
-// and temporary base-vptr restore are target-observed. Existing FPS owner
-// g_Va00DBA4E4 is read in this bank only; no second datum or alias introduced.
-// 2026-10-15 s1: getMaxSpeed call resolved to matched Locomotor::getMaxSpeed; model
-// bit 103 via ModelFlags words (as LocomotorHeight.cpp) and plain bool/no volatile
-// fix case 4/5 sete, case 7 and model-bit ops. Sole remaining delta: zero-constant CSE
-// (xor edi,edi + push edi) in case 1 (underwater/layer, 3 zeros) and case 6 (starts at
-// ground() zero); native pushes literal 0 there and keeps vptr in edi (no spill).
+// Locomotor Z worker, retail 0x001E7ECA..0x001E84E5: 1527 code bytes
+// and a nine-entry (36-byte) switch table. Method spelling is unproven.
+// BFME1 cee35b7d8 handleBehaviorZ and ZH Locomotor.cpp:2220 are semantic
+// guides; retail proves the receiver, offsets, routing, calls and ABI.
+// Evidence: reverse/attempt_support/0x001e7eca-exact-20261022/readme.md.
+// The identical branch arms below bound constant live ranges before C2's
+// late tail merge. Hoisting either call changes retail's zero allocation.
 #include "Coord3D.h"
 #include "PartitionRangeQueryCallView.h"
 class GameLogic;
@@ -353,7 +330,12 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
    requires=false;
    if(object->disabled&8)break;
    float water;
-   if(((LocoTerrainView*)TheTerrainLogic)->underwater(pos.x,pos.y,&water,0,0))pos.z=water;
+   bool wet;
+   if(flags44&1)
+    wet=((LocoTerrainView*)TheTerrainLogic)->underwater(pos.x,pos.y,&water,0,0);
+   else
+    wet=((LocoTerrainView*)TheTerrainLogic)->underwater(pos.x,pos.y,&water,0,0);
+   if(wet)pos.z=water;
    else pos.z=((LocoTerrainView*)TheTerrainLogic)->layer(pos.x,pos.y,object->rva0028B511(),0,true);
    if(object->definition->flags11f&8)
    {
@@ -379,7 +361,10 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
   case 6:
   {
    requires=true;
-   pos.z=((LocoTerrainView*)TheTerrainLogic)->ground(pos.x,pos.y,0);
+   if(object->disabled&1)
+    pos.z=((LocoTerrainView*)TheTerrainLogic)->ground(pos.x,pos.y,0);
+   else
+    pos.z=((LocoTerrainView*)TheTerrainLogic)->ground(pos.x,pos.y,0);
    float highest=0.0f;
    BfmeWideResult result=ThePartitionManager->iterateObjectsInRange((const Coord3D*)&pos,1.0f,1,&Rva0004584D(*(const BfmeFixedStorage0004543D*)&Rva00045411BitSet(0,7),*(const BfmeFixedStorage0004543D*)&KINDOFMASK_NONE),0);
    Object*entry;

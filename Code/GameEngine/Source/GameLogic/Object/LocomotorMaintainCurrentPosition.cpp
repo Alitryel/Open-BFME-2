@@ -21,10 +21,10 @@ public:
  char unknown158[0x25C-0x158]; void *physics;
 };
 class Rva001E6516 {public: void rva001E6516(Object*);};
-class Rva001E46E1 {public: bool rva001E7ECA(Object*,const Coord3D*);};
 struct MaintainTemplate {char unknown[0x74];int appearance;};
 class Locomotor {
 public:
+ bool rva001E7ECA(Object*,const Coord3D*);
  bool locoUpdate_maintainCurrentPosition(Object*);
  __forceinline bool getFlag(unsigned bit) const {return (flags&(1U<<bit))!=0;}
 protected:
@@ -74,7 +74,7 @@ bool Locomotor::locoUpdate_maintainCurrentPosition(Object *obj)
   speed=0.0f;((Rva001E6516*)this)->rva001E6516(obj);requiresConstantCalling=true;break;
  }
  // but we do need to do this even if not moving, for hovering/Thrusting things.
- if(((Rva001E46E1*)this)->rva001E7ECA(obj,&maintainPos)) requiresConstantCalling=true;
+ if(rva001E7ECA(obj,&maintainPos)) requiresConstantCalling=true;
  ((Thing*)obj)->setTransformMatrix(&savedTransform);
  return requiresConstantCalling;
 }

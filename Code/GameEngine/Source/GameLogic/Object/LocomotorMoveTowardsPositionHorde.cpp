@@ -889,7 +889,6 @@ public:
 	float rva001E3F4D(Object *obj,int condition);
 	void rva001E546B(Object *obj);
 	bool rva001E5F1D(Object*,const Coord3D*,float*);
-	Bool rva001E7ECA(Object *obj, const Coord3D *goalPos); // 0x001E7ECA
 	void *m_00;
 	const Rva001E46E1Data *m_data;
 	char m_pad08[0x24 - 8];
@@ -966,6 +965,7 @@ class Locomotor
  {
   LOCO_FLAG_7 = 7
  };
+ Bool rva001E7ECA(Object *obj, const Coord3D *goalPos);
  Real getMaxSpeed(Object *) const;
  Bool rva001E4194(Object *obj);
  bool moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way);
@@ -1495,7 +1495,7 @@ void Locomotor::rva001E9083(Object *obj, const Coord3D *goalPos, Real onPathDist
 	}
 	path = Rva001E3FFDGet((Rva001E3FFDOuter *)obj);
 	if (!path || !((Rva001E3591 *)path)->rva001E3591())
-		((Rva001E46E1 *)this)->rva001E7ECA(obj, goalPos);
+		rva001E7ECA(obj, goalPos);
 	obj->setTransformMatrix(&m_transform);
 	m_99 = false;
 }
