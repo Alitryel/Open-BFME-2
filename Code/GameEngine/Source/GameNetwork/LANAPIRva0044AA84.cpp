@@ -6,13 +6,7 @@
 
 unsigned int __cdecl ResolveIP(AsciiString addr);
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface(void);
-private:
-	unsigned char m_baseFields[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class LANAPIInterface : public SubsystemInterface
 {
 public:

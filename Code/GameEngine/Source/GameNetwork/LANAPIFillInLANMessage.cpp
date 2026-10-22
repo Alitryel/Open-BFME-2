@@ -33,14 +33,7 @@ public:
 
 #include "unicode_string.h"
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface(void);
-
-private:
-	UnsignedByte m_baseFields[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class LANAPIInterface : public SubsystemInterface
 {

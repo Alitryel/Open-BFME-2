@@ -13,7 +13,7 @@ extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64 *
 extern "C" const void *const __identifier("??_7Rva0025E4CD@@6B@")[];
 
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Network
 {

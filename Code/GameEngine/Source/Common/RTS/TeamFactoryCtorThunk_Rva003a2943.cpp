@@ -52,19 +52,7 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 // matched), so the ctor below is declared, never defined, and resolves
 // there as an external call.
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-	virtual void init(void);
-	virtual void reset(void);
-	virtual void update(void);
-
-private:
-	void *m_name;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // Modelled second base: matches Snapshot's shape. Its ctor is trivial and
 // defined right here (inline) so the compiler folds the call away, exactly

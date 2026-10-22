@@ -4,11 +4,7 @@
 // under EH state 0 then rowed base ??1VideoPlayer@@UAE@XZ 0x00689350.
 // Shape matches Generals BinkVideoPlayer::~BinkVideoPlayer() { deinit(); }.
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class VideoPlayerBase : public SubsystemInterface
 {

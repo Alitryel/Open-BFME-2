@@ -7,12 +7,7 @@
 */
 // Zero Hour W3DSnow.cpp update with target-specific accumulator fields.
 // The two final helpers retain address-derived names; their results are unused.
-class SubsystemInterface {
-public:
-    virtual ~SubsystemInterface();
-private:
-    unsigned int m_targetBase[2];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class SnowManager : public SubsystemInterface {
 public:

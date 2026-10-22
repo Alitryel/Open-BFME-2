@@ -31,14 +31,7 @@ public:
 	void rva00072FE6();
 };
 
-class SubsystemInterface
-{
-public:
-	virtual void s00();
-	virtual void init() = 0;
-private:
-	unsigned char m_pad04[0x0C - 0x04];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class PlayerTemplateStore : public SubsystemInterface
 {

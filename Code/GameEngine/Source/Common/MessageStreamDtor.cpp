@@ -17,20 +17,7 @@ public:
 	};
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void postProcessLoad();
-	virtual void reset() = 0;
-	virtual void update() = 0;
-	virtual void draw();
-
-private:
-	unsigned char m_pad[0xC - 4]; // +0x04..+0x0B
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 void operator delete(void *ptr);
 

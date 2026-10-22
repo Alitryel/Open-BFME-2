@@ -58,14 +58,7 @@ public:
 };
 extern Rva00214E02 TheCloudEffectSettings;	// 0x00DFE280
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	AsciiString m_name;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva009519B : public SubsystemInterface
 {

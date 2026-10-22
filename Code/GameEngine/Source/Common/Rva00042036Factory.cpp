@@ -7,14 +7,7 @@ public:
 	~BfmeSnapshotBase();
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual void bfmeSlot0(void);
-private:
-	int m_bfmeState;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class GODupBase : public BfmeSnapshotBase, public SubsystemInterface
 {
