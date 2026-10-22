@@ -53,6 +53,18 @@ namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, 
 namespace _STL { template <> _Rb_tree_node<pair<int const, vector<unsigned int, allocator<unsigned int> > > > * _Rb_tree<int, pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Select1st<pair<int const, vector<unsigned int, allocator<unsigned int> > > >, less<int>, allocator<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >::_M_create_node(pair<int const, vector<unsigned int, allocator<unsigned int> > > const &); }
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Nonconst_traits<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >, bool> _Rb_tree<int, pair<int const, vector<unsigned int, allocator<unsigned int> > >, _Select1st<pair<int const, vector<unsigned int, allocator<unsigned int> > > >, less<int>, allocator<pair<int const, vector<unsigned int, allocator<unsigned int> > > > >::insert_unique(pair<int const, vector<unsigned int, allocator<unsigned int> > > const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree@IU?$pair@$$CBIV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@U?$_Select1st@U?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree<unsigned int,pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > >,_Select1st<pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > > >,less<unsigned int>,allocator<pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > > > >::~_Rb_tree(); }
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBIV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@V?$allocator:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_base<pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > >,allocator<pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > > > >::_Rb_tree_base(allocator<pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > > > const &); }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBIV?$vector@IV?$allocator@I@_STL@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_node<pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > > > * allocator<_Rb_tree_node<pair<unsigned int const ,vector<unsigned int,allocator<unsigned int> > > > >::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_node<pair<int const ,vector<unsigned int,allocator<unsigned int> > > > * allocator<_Rb_tree_node<pair<int const ,vector<unsigned int,allocator<unsigned int> > > > >::allocate(unsigned int,void const *) const; }
 
 class LocomotorTemplate;
 

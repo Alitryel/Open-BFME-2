@@ -18,6 +18,22 @@
 #include <vector>
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree@URva00463D59Element@@U1@U?$_Identity@URva00463D59Element@@@_STL@@U?$less@URv:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00463D59Element;
+namespace _STL { template <> _Rb_tree<Rva00463D59Element,Rva00463D59Element,_Identity<Rva00463D59Element>,less<Rva00463D59Element>,allocator<Rva00463D59Element> >::~_Rb_tree(); }
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@URva00463D59Element@@V?$allocator@URva00463D59Element@@@_STL@@@_STL@@QA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00463D59Element;
+namespace _STL { template <> _Rb_tree_base<Rva00463D59Element,allocator<Rva00463D59Element> >::~_Rb_tree_base(); }
+// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@URva00463D59Element@@U1@U?$_Identity@URva00463D59Element@@@_STL@@U?$l:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00463D59Element;
+namespace _STL { template <> void _Rb_tree<Rva00463D59Element,Rva00463D59Element,_Identity<Rva00463D59Element>,less<Rva00463D59Element>,allocator<Rva00463D59Element> >::_M_erase(_Rb_tree_node<Rva00463D59Element> *); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@URva00463D59Element@@@_STL@@@_STL@@QBEXPAU?$_Rb_t:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00463D59Element;
+namespace _STL { template <> void allocator<_Rb_tree_node<Rva00463D59Element> >::deallocate(_Rb_tree_node<Rva00463D59Element> *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ??1?$_List_base@UBfmePod32@@V?$allocator@UBfmePod32@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod32;
