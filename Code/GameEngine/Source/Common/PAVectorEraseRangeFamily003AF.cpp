@@ -26,6 +26,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__copy@PAUElem003AF9E0@@PAU1@H@_STL@@YAPAUElem003AF9E0@@PAU1@00ABUrandom_access_iterato:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Elem003AF9E0;
+namespace _STL { template <> Elem003AF9E0 * __copy<Elem003AF9E0 *,Elem003AF9E0 *,int>(Elem003AF9E0 *,Elem003AF9E0 *,Elem003AF9E0 *,random_access_iterator_tag const &,int *); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {

@@ -99,6 +99,10 @@ namespace _STL { template <> void deque<BuddyRequest, allocator<BuddyRequest> >:
 namespace _STL { template <> void deque<BuddyRequest, allocator<BuddyRequest> >::_M_reallocate_map(unsigned int, bool); }
 namespace _STL { template <> BuddyRequest * allocator<BuddyRequest>::allocate(unsigned int, void const *) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_destroy_nodes@?$_Deque_base@VBuddyRequest@@V?$allocator@VBuddyRequest@@@_STL@@@_STL@@I:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BuddyRequest;
+namespace _STL { template <> void _Deque_base<BuddyRequest,allocator<BuddyRequest> >::_M_destroy_nodes(BuddyRequest * *,BuddyRequest * *); }
 // Suppress this TU's non-retail copy of ??1?$_Deque_base@VBuddyRequest@@V?$allocator@VBuddyRequest@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class BuddyRequest;

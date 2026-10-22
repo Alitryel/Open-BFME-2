@@ -22,6 +22,14 @@ namespace _STL { void __cdecl free(void *block) throw(...); }
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva000BB491;
 namespace _STL { template <> Rva000BB491 * __uninitialized_copy<Rva000BB491 const *,Rva000BB491 *>(Rva000BB491 const *,Rva000BB491 const *,Rva000BB491 *,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBUBfmeStringRecord000B950F@@PAU1@@_STL@@YAPAUBfmeStringRecord000B:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord000B950F;
+namespace _STL { template <> BfmeStringRecord000B950F * __uninitialized_copy<BfmeStringRecord000B950F const *,BfmeStringRecord000B950F *>(BfmeStringRecord000B950F const *,BfmeStringRecord000B950F const *,BfmeStringRecord000B950F *,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBUBfmeVectorRecord000BDF17@@PAU1@@_STL@@YAPAUBfmeVectorRecord000B:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeVectorRecord000BDF17;
+namespace _STL { template <> BfmeVectorRecord000BDF17 * __uninitialized_copy<BfmeVectorRecord000BDF17 const *,BfmeVectorRecord000BDF17 *>(BfmeVectorRecord000BDF17 const *,BfmeVectorRecord000BDF17 const *,BfmeVectorRecord000BDF17 *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??1?$vector@UBfmeFixedObject60@@V?$allocator@UBfmeFixedObject60@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeFixedObject60;
