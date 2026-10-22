@@ -2,10 +2,9 @@
 //
 // AdaptiveDeltaMotionChannelClass::getframe<4>, retail 0x0018FCC0 (194 bytes),
 // split out of hcanim.cpp with hcanim.cpp's flags and template. It is the only
-// caller of decompress<4> (retail 0x0018F9C0), whose generic body is not yet
-// retail's (bank reverse/attempts/0x0018f9c0.cpp); compiled in hcanim.cpp that
-// COMDAT kept the whole unit from linking. hcanim.cpp declares the
-// specialization and calls it here.
+// caller of decompress<4> (retail 0x0018F9C0, 222 bytes), whose instantiation
+// lives here too; compiled in hcanim.cpp that COMDAT kept the whole unit from
+// linking. hcanim.cpp declares the specialization and calls it here.
 #include <string.h>
 
 typedef unsigned long uint32;
@@ -37,33 +36,40 @@ private:
 	template <int N> void decompress(uint32 src_idx, float *srcdata, uint32 frame_idx, float *outdata);
 };
 
-// ?AdaptiveDeltaMotionChannelClass::decompress present-unmatched
+// ??$decompress@$03@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z
+// The packet cursor is taken from base only on the decoding path: declaring
+// it at the top of the vector loop keeps base and the cursor in separate
+// webs, and the register colouring of the whole head changes with it.
 template <int N>
 void AdaptiveDeltaMotionChannelClass::decompress(uint32 src_idx, float *srcdata, uint32 frame_idx, float *outdata)
 {
 	unsigned char *base = (unsigned char *) Data;
-
+	float *src = srcdata;
+	uint32 start;
 	if (srcdata == NULL) {
-		src_idx = 0;
-		srcdata = (float *) base;
+		start = 0;
+		src = (float *) Data;
+		base = (unsigned char *) Data;
+	} else {
+		start = src_idx;
 	}
-
 	if (frame_idx >= NumFrames) {
-		src_idx = frame_idx;
+		start = frame_idx;
 	}
 
 	base += sizeof(float) * N;										// skip non-compressed header information
-	base += (PACKET_SIZE * N) * (src_idx >> 4);				// skip out to current packet
+	base += (PACKET_SIZE * N) * (start >> 4);					// skip out to current packet
 
 	for (int vi = 0; vi < N; vi++) {
-		unsigned char *pPacket = base + PACKET_SIZE * vi;
-		float last_value = srcdata[vi];
-		if (src_idx < frame_idx) {
-			int fi = src_idx & 0xF;
-			uint32 frame = src_idx;
+		float last_value = src[vi];
+		if (start < frame_idx) {
+			unsigned char *pPacket = base;
+			int fi = start & 0xF;
+			uint32 frame = start;
 			do {
-			float filter = bfme2AdaptiveDeltaFilterTable[*pPacket] * Scale;	// decompression filter
+			uint32 filter_index = *pPacket;
 			pPacket++;
+			float filter = bfme2AdaptiveDeltaFilterTable[filter_index] * Scale;	// decompression filter
 
 			// data is grouped in sets of 16 nybbles
 			do {
@@ -86,6 +92,7 @@ void AdaptiveDeltaMotionChannelClass::decompress(uint32 src_idx, float *srcdata,
 		}
 
 		outdata[vi] = last_value;
+		base += PACKET_SIZE;
 	}
 }
 
