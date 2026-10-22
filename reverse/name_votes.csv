@@ -103,3 +103,7 @@ Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|class||Rva005F2767Inner
 Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|Rva005E39A6Owner|m_map14,c6ab5087f2a3b0b8ff7be05e,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22
 Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005E3B1A|rva005E3B1A,f9d3e39fdda5aa9acb604215,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22
 Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005F2767|rva005F2767,4e0a3db8e0e86fae4cbd4b5f,seat-a,rn-1022-4-a,w-a1523f162398,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_1c,c7ecf49ad7b19a5d46767387,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_20,6161201c0d48d63087f33323,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_1c,c7ecf49ad7b19a5d46767387,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_20,6161201c0d48d63087f33323,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22

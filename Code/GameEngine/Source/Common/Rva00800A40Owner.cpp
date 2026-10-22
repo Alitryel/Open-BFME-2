@@ -40,8 +40,8 @@ struct Rva00800A40Slot
 	int m_10;
 	int m_14;
 	int m_18;
-	int m_1c;
-	int m_20;
+	int m_port;
+	int m_nextProbeTime;
 };
 
 class Rva00800920Owner
@@ -103,8 +103,8 @@ int Rva00800920Owner::rva00800a40(
 	slot->m_0c = value;
 	slot->m_14 = record.m_04;
 	slot->m_18 = record.m_08;
-	slot->m_1c = record.m_0c;
-	slot->m_20 = 0;
+	slot->m_port = record.m_0c;
+	slot->m_nextProbeTime = 0;
 	slot->m_08 = flag;
 	++m_numProbes;
 	return 0;
@@ -120,7 +120,7 @@ void Rva00800920Owner::rva00800b30(Rva00800A40Slot *slot)
 	slot->m_00 = 0;
 	slot->m_04 = 0;
 	slot->m_0c = 0;
-	slot->m_20 = 0;
+	slot->m_nextProbeTime = 0;
 	slot->m_08 = 0;
 	--m_numProbes;
 	if (m_numProbes < 0)
