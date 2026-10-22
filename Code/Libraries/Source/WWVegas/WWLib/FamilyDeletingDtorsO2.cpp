@@ -5,17 +5,30 @@
 
 struct EmitVtableTag;
 
+// The index-buffer tables inherit Delete_This in slot zero; retail puts their
+// deleting destructors in slot one (0x00BD2EF4 and 0x00BD2EFC).
+class __declspec(novtable) RefCountClass
+{
+public:
+	__declspec(dllimport) __forceinline RefCountClass() : NumRefs(1) {}
+	virtual void Delete_This();
+protected:
+	virtual ~RefCountClass();
+private:
+	int NumRefs;
+};
+
 // ??_GTextureStatisticsStruct@@QAEPAXI@Z @0x118f30
 class TextureStatisticsStruct { public: ~TextureStatisticsStruct(); };
 void famgenDelete(TextureStatisticsStruct *textureStatistics) { delete textureStatistics; }
 
 // ??_GDX8IndexBufferClass@@UAEPAXI@Z @0x139200
-class DX8IndexBufferClass { public: DX8IndexBufferClass(EmitVtableTag *); virtual ~DX8IndexBufferClass(); };
+class DX8IndexBufferClass : public RefCountClass { public: DX8IndexBufferClass(EmitVtableTag *); virtual ~DX8IndexBufferClass(); };
 // ?<DX8IndexBufferClass::DX8IndexBufferClass> absent-from-retail
 DX8IndexBufferClass::DX8IndexBufferClass(EmitVtableTag *) {}
 
 // ??_GSortingIndexBufferClass@@UAEPAXI@Z @0x139220
-class SortingIndexBufferClass { public: SortingIndexBufferClass(EmitVtableTag *); virtual ~SortingIndexBufferClass(); };
+class SortingIndexBufferClass : public RefCountClass { public: SortingIndexBufferClass(EmitVtableTag *); virtual ~SortingIndexBufferClass(); };
 // ?<SortingIndexBufferClass::SortingIndexBufferClass> absent-from-retail
 SortingIndexBufferClass::SortingIndexBufferClass(EmitVtableTag *) {}
 
