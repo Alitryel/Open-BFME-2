@@ -177,22 +177,18 @@ Rva0038ADE2::Rva0038ADE2(EmitVtableTag *)
 {
 }
 
-class Rva003ABA4CBase0
-{
-public:
-	virtual ~Rva003ABA4CBase0();
-private:
-	char m_unmodelled_04[0x18 - 0x04];
+// The rowed Rva003ABA4C destructor identifies bases at +0 and +0x18.
+class __declspec(novtable) Rva003AF50D {
+public: virtual ~Rva003AF50D() throw();
+private: char m_pad[0x18 - 4];
 };
-
-// Secondary base at +0x18: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0x18) in its vtable is target evidence for it.
-class Rva003ABA4CBase18
-{
-public:
-	virtual ~Rva003ABA4CBase18();
+namespace FXParticleSystem {
+class GpuDrawModuleInfo {
+public: GpuDrawModuleInfo(); virtual ~GpuDrawModuleInfo();
+private: char m_pad[0x14 - 4];
 };
-class Rva003ABA4C : public Rva003ABA4CBase0, public Rva003ABA4CBase18
+}
+class Rva003ABA4C : public Rva003AF50D, public FXParticleSystem::GpuDrawModuleInfo
 {
 public:
 	Rva003ABA4C(EmitVtableTag *);
@@ -335,7 +331,7 @@ public:
 private:
     char unmodelled04[8];
 };
-class Rva003B92A2
+class Rva003B9132
 {
 public:
     void rva003B9132();
@@ -360,7 +356,7 @@ public:
 
 Rva003B923B::~Rva003B923B()
 {
-    ((Rva003B92A2 *)this)->rva003B9132();
+    ((Rva003B9132 *)this)->rva003B9132();
 }
 
 // ?<Rva003B923B::Rva003B923B> absent-from-retail
@@ -537,10 +533,10 @@ Rva003F9D08::Rva003F9D08(EmitVtableTag *)
 }
 
 // Target 0x003FCE38 assigns the shared empty string at +4, calls the
-// existing unresolved operation 0x003FCD71, unregisters this pointer from
+// rowed LivingWorldVisual operation 0x003FCD71, unregisters this pointer from
 // the 0x00DFE1C8 singleton, and conditionally unlinks its +0x1C handle.
 // The owner name is deliberately retained from the rowed deleting wrapper.
-class Rva003FCD71 { public: void rva003FCD71(); };
+class LivingWorldVisual { public: void rva003FCD71(); };
 class CreateAHeroData;
 class Rva00211541 { public: void rva00211541(CreateAHeroData *); };
 class LivingWorldManager;
@@ -558,7 +554,7 @@ public:
 Rva003FCE38::~Rva003FCE38()
 {
     string04 = AsciiString::TheEmptyString;
-    ((Rva003FCD71 *)this)->rva003FCD71();
+    ((LivingWorldVisual *)this)->rva003FCD71();
     if (TheLivingWorldManager)
         ((Rva00211541 *)TheLivingWorldManager)->rva00211541((CreateAHeroData *)this);
 }

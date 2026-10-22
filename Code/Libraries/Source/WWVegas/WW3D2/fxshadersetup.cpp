@@ -57,6 +57,13 @@ namespace _STL { template <> void vector<Rva0007BB16Record, allocator<Rva0007BB1
 // keeps this TU from emitting its non-retail _M_allocate_and_copy copy, so retail's (0x00151DCB) serves the link.
 namespace _STL { template <> void vector<Rva0007BB16Record, allocator<Rva0007BB16Record> >::reserve(size_t); }
 
+// Bind growth helpers to their exact definitions in StlportVectorGrowthFootprints.cpp.
+class Rva00151DAB;
+namespace _STL {
+template <> void vector<Rva00151DAB>::_M_insert_overflow(Rva00151DAB *, const Rva00151DAB &, const __false_type &, size_t, bool);
+template <> Rva0007BB16Record *uninitialized_fill_n<Rva0007BB16Record *, unsigned int, Rva0007BB16Record>(Rva0007BB16Record *, unsigned int, const Rva0007BB16Record &);
+}
+
 typedef unsigned int UINT;
 typedef unsigned long DWORD;
 typedef long HRESULT;
@@ -227,6 +234,26 @@ struct Rva0007BB16Record
 typedef _STL::vector<Rva0007BB16Record> FXShaderParameterVector;
 namespace _STL { template<> vector<Rva0007BB16Record> &vector<Rva0007BB16Record>::operator=(const vector<Rva0007BB16Record> &); }
 
+// EraseRange at 0x0015229C uses the record's rowed copy and destroy helpers.
+class Rva0015229CVector { public: Rva0007BB16Record *EraseRange(Rva0007BB16Record *, Rva0007BB16Record *); };
+namespace _STL {
+template <> __declspec(dllimport) __forceinline Rva0007BB16Record *
+vector<Rva0007BB16Record>::erase(Rva0007BB16Record *first, Rva0007BB16Record *last)
+{ return ((Rva0015229CVector *)this)->EraseRange(first, last); }
+}
+
+// Preserve STLport's resize operations without another out-of-line copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void
+vector<Rva0007BB16Record>::resize(size_t count, const Rva0007BB16Record &value)
+{
+    if (count < size())
+        erase(begin() + count, end());
+    else
+        insert(end(), count - size(), value);
+}
+}
+
 namespace FXShader
 {
 struct Parameter
@@ -253,9 +280,11 @@ public:
 	RefCountPtr<TextureClass> m_texture;	// +4
 };
 
-// Reuse the verified nullable placement-copy provider at 170A97.
-// Its 18B body calls the existing 1709BA binding copy constructor.
-namespace _STL { template<> void _Construct<Rva00151DAB,Rva00151DAB>(Rva00151DAB *,const Rva00151DAB &); }
+// Exact providers are emitted by Rva00170999.cpp and StlportVectorGrowthFootprints.cpp.
+namespace _STL {
+template<> void _Construct<Rva00151DAB,Rva00151DAB>(Rva00151DAB *,const Rva00151DAB &);
+template<> void vector<Rva00151DAB>::push_back(const Rva00151DAB &);
+}
 
 class FXShaderAsset
 {
@@ -298,6 +327,8 @@ public:
 };
 
 // Reference holder for the shader asset (placeholder-named in the ledger).
+class Rva001514B2 { public: void *rva001514B2(int, int); };
+
 class Rva0015148D
 {
 public:
@@ -314,7 +345,6 @@ public:
 	}
 
 	void *rva0015148D();			// 0x0015148D, loaded effect or NULL
-	void *rva001514B2(int arg, int technique);	// 0x001514B2
 	bool IsValid() const { return m_asset != 0; }
 	const char *Get_Name() const { return m_asset ? m_asset->Get_Name() : 0; }
 	bool Is_Loaded() const { return m_asset ? m_asset->Is_Initialized() : false; }
@@ -459,7 +489,7 @@ bool FXShaderSetup::Begin_Rendering(UINT *passes, int arg)
 		effect->ApplyParameterBlock(m_ParameterBlock);
 	for (Rva00151DAB *it = m_Textures.begin(); it != m_Textures.end(); ++it)
 		effect->SetTexture(it->m_parameter, ((const TextureBaseClass *)&it->m_texture)->Peek_D3D_Base_Texture());
-	m_ShaderAsset.rva001514B2(arg, (int)m_Technique);
+	((Rva001514B2 *)&m_ShaderAsset)->rva001514B2(arg, (int)m_Technique);
 	if (FAILED(effect->Begin(passes, 6)))
 		return false;
 	Rva00129670Inc();

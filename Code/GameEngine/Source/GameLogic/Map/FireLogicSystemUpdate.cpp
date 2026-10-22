@@ -71,6 +71,10 @@ struct Rva00287B2AResult
 	Rva00286214Node *m_node;
 	bool m_inserted;
 };
+struct Rva0028688AKey;
+struct Rva0028688ANode;
+struct Rva00286E33Result { Rva0028688ANode *node; bool inserted; };
+struct Rva0028688A { Rva00286E33Result rva00286E33(const Rva0028688AKey &); };
 class Rva00286214
 {
 public:
@@ -78,7 +82,6 @@ public:
 	void erase(Rva002860CFIterator pos) { ((Rva002860CFHost *)this)->rva002860CF(pos); }
 	Rva00286214();	// the map's default ctor 0x00242F01
 	~Rva00286214();	// the tree teardown 0x0028681A
-	Rva00287B2AResult rva00286E33(const Rva00285672 *key);
  __declspec(noinline) Rva00287B2AResult rva00287B2A(const Rva00285672 *key);	// insert 0x00287B2A
 	Rva00286214Node *m_header;
 	unsigned int m_size;	// +0x04
@@ -235,12 +238,13 @@ struct Rva00286214Node
 	FireCellCentre m_key;			// +0x18, the cell's centre
 };
 
-// The per-object fire damage (DamageInfo ctor 0x00263895; 0x7C bytes) and
-// the Object calls update makes with it.
+// The 0x7C-byte damage record uses the rowed Rva00263895Member initializer.
+// Object consumes its damage and death types and the per-cell amount.
+class Rva00263895Member { public: Rva00263895Member(); };
 class DamageInfo
 {
 public:
-	DamageInfo();
+	__declspec(dllimport) __forceinline DamageInfo() { ((Rva00263895Member *)this)->Rva00263895Member::Rva00263895Member(); }
 	char m_pad00[0x10];
 	Int m_10;		// +0x10, damage type
 	char m_pad14[0x1C - 0x14];
@@ -285,8 +289,8 @@ struct BfmePod8 { int a[2]; };
 // hidden, it shifts update's frame by four bytes.
 inline Rva00287B2AResult Rva00286214::rva00287B2A(const Rva00285672 *key)
 {
-	Rva00287B2AResult p = rva00286E33(key);
-	return Rva00287B2AResult(p.m_node, p.m_inserted);
+	Rva00286E33Result p = ((Rva0028688A *)this)->rva00286E33(*(const Rva0028688AKey *)key);
+	return Rva00287B2AResult((Rva00286214Node *)p.node, p.inserted);
 }
 
 static inline Rva00287B2AResult insertCell(Rva00286214 &set, const Rva00285BEC &key)
@@ -298,6 +302,17 @@ struct Rva00287F76Element
 	void *m_cell;
 	unsigned short m_value;
 };
+
+// The rowed placement copy preserves the six live bytes of each eight-byte slot.
+void __cdecl Rva002861B0Copy(void *, const void *);
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void
+_Construct<Rva00287F76Element, Rva00287F76Element>(Rva00287F76Element *dest, const Rva00287F76Element &source)
+{ Rva002861B0Copy(dest, &source); }
+typedef pair<const ObjectID, int> FireDamagePair;
+typedef _Rb_tree<ObjectID, FireDamagePair, _Select1st<FireDamagePair>, less<ObjectID>, allocator<FireDamagePair> > FireDamageTree;
+template <> pair<FireDamageTree::iterator, bool> FireDamageTree::insert_unique(const FireDamagePair &);
+}
 
 // ?update@FireLogicSystem@@UAEXXZ @0x00287FAD
 // Burns a tenth of the grid's rows a frame, damages the objects watching a

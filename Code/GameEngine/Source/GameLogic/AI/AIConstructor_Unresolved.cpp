@@ -37,7 +37,9 @@ public:
  TAiData *next()const{return m_next;}
 	virtual ~TAiData();
 	virtual const char *GetSnapshotName() const;
+protected:
 	virtual void xfer( Xfer *xfer );
+public:
 	virtual void loadPostProcess();
 
 private:

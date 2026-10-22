@@ -200,8 +200,9 @@ template <> Rva0005A084Element *__uninitialized_copy<Rva0005A084Element *, Rva00
 template <> Rva0005A084Element *__uninitialized_fill_n<Rva0005A084Element *, unsigned int, Rva0005A084Element>(Rva0005A084Element *, unsigned int, const Rva0005A084Element &, const __false_type &);
 }
 
-// _Construct is declared, not defined: each call resolves to the address the
-// retail push_back calls (a ledger row or a pin).
+// The six-byte placement copy is rowed at 0x002861B0.
+__declspec(nothrow) void __cdecl Rva002861B0Copy(void *, const void *);
+// Placement-copy calls bind to the ledger or pinned owners retail calls.
 namespace _STL
 {
 template <> __declspec(nothrow) void _Construct<RvaSmartPtr12, RvaSmartPtr12>(RvaSmartPtr12 *__p, const RvaSmartPtr12 &__val);
@@ -222,7 +223,9 @@ template <> __declspec(nothrow) void _Construct<Rva0020A227Element, Rva0020A227E
 template <> __declspec(nothrow) void _Construct<Rva00214243Element, Rva00214243Element>(Rva00214243Element *__p, const Rva00214243Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva0021F876, Rva0021F876>(Rva0021F876 *__p, const Rva0021F876 &__val);
 template <> __declspec(nothrow) void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *__p, const Rva00260B88Element &__val);
-template <> __declspec(nothrow) void _Construct<Rva00287F76Element, Rva00287F76Element>(Rva00287F76Element *__p, const Rva00287F76Element &__val);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void
+_Construct<Rva00287F76Element, Rva00287F76Element>(Rva00287F76Element *__p, const Rva00287F76Element &__val)
+{ Rva002861B0Copy(__p, &__val); }
 template <> __declspec(nothrow) void _Construct<Rva002898ACElement, Rva002898ACElement>(Rva002898ACElement *__p, const Rva002898ACElement &__val);
 template <> __declspec(nothrow) void _Construct<Rva002B9062Element, Rva002B9062Element>(Rva002B9062Element *__p, const Rva002B9062Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva002B72C9, Rva002B72C9>(Rva002B72C9 *__p, const Rva002B72C9 &__val);
