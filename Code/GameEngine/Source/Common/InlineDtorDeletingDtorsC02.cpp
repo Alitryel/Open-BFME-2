@@ -20,6 +20,14 @@ public:
 	Rva00108475();
 	Rva00108475(EmitVtableTag *);
 	virtual ~Rva00108475();
+	// Retail vtable 0x007CF994 is the deleting dtor then five __purecall
+	// slots: the slot list Rva0010C785Lifecycle.cpp and Rva00108DBCCtor.cpp
+	// declare, so every unit emits one ??_7Rva00108475.
+	virtual void rva0010BE72() = 0;
+	virtual void *rva0010C065(void *) = 0;
+	virtual void *rva0010C145(void *, void *, bool, bool) = 0;
+	virtual void forward(unsigned, unsigned, unsigned) = 0;
+	virtual unsigned forwardIf(unsigned, void *, unsigned, unsigned) = 0;
 };
 
 // ??0Rva00108475@@QAE@XZ @0x00108657 9B: the default constructor, storing the
@@ -34,7 +42,9 @@ __declspec(noinline) inline Rva00108475::Rva00108475()
 // ?bfmeAnchorRva00108475 absent-from-retail
 void *bfmeAnchorRva00108475(void *where)
 {
-	return new (where) Rva00108475();
+	Rva00108475 *p = (Rva00108475 *)where;
+	p->Rva00108475::Rva00108475();
+	return p;
 }
 
 
