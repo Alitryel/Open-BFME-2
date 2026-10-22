@@ -19,16 +19,21 @@ session start (`python tools/claims.py renew 0x001C5E30`, 4 h lease).
   exactly as retail does).
 
 ## Where the work stands
-- WIP TU (untracked, freshest copy): `Code/Libraries/Source/VP6/PredictFilteredBlock.cpp`
-  — compiles to **672 B** vs retail 768. Entry-region bytes 0x000-0x02E match retail
-  (mod relocations). Mode-2 abs needs: limit hoisted to ECX before cdq, vx already in
-  EAX at the cdq (no `mov eax,edx` remat), `sub eax,edx` reg form (no `>>31` home spill).
-- Prior body also banked via `re_log.py record ... partial --stash` (score 0.9) →
-  `reverse/attempts/0x001c5e30.cpp`; commits e3a053741e9 + e91af4e51d9 hold the bank.
-- Retail ground truth: `build/probe/pred_disasm.txt`.
-- Probe loop: `& 'C:\Program Files\Git\bin\bash.exe' -c 'cd /c/Users/nleig/AppData/Local/Temp/opencode/bfme2-goal-1015 && python build/probe/entryprobe.py 0x100'`
-  (arg = INSTRUCTION count, not bytes — 0x100 = 256 instructions covers the whole body;
-  first output line = symbol size).
+- **The stash slot now holds the 0.975-fit bank** (yasinschroeder `b77614648a2`,
+  768 B exact size, retail oracle 1238/1238): this seat's 670/672 B re-banks
+  (score 0.9) had overwritten a strictly better body; restore + re-log row committed.
+  Residue work is governed by
+  `reverse/attempt_support/predict-filtered-slots-20261020/readme.md` (regime table,
+  disproven sweeps, oracle usage) — that readme outranks the next-shot list below.
+- WIP TU (untracked): `Code/Libraries/Source/VP6/PredictFilteredBlock.cpp` — currently the
+  **bank copy** (768 B verified through the probe; experiments edit this file and are
+  reverted to the bank copy when they fail).
+- Retail ground truth: `build/probe/pred_disasm.txt`. True bank disasm:
+  `build/probe/bank_disasm.txt` (regenerated 20261022 — the copy that sat there during
+  the earlier hoist work was the 720-B hoist emission, never the bank's bytes).
+- Probe loop: `python build/probe/entryprobe2.py 0x120` (mangled pinned symbol; the arg
+  = instruction count; first line = symbol size). Redirect the output to capture the
+  disasm — a bare run prints only the size line.
 
 ## Converged this session (all byte-verified vs retail)
 1. Walk ±1 update as literal `ptr2Offset += 2 * ((short)x > 0) - 1;`
@@ -59,7 +64,32 @@ session start (`python tools/claims.py renew 0x001C5E30`, 4 h lease).
 - LF mask re-read → ECX right after the call; stride `[0x10]=0x10` immediate.
 - Block 1 walk-inside reload `mov ecx,[esp+0x28]` after the je.
 
-## Remaining deltas (672→768 B, current accounting)
+## Remaining deltas — 20261022 refresh (bank, 768 B; ~18 residue bytes)
+
+Supersedes the 672-B accounting below (kept for history; it describes the retired body).
+
+The bank's residue decomposes into ONE staging event plus its slot cycle:
+- Retail unfiltered arm (`pred_disasm.txt` 0x1C5EDE..0x1C5F31): x ZE-load EAX; y SE-load
+  ECX; **mvy-home [S+0x1C] committed immediately** (`mov [esp+0x1c],ecx`); remat
+  `movsx ecx,cx` (re-SE in place); chain `mov esi,ecx; sar esi,0x1f; and esi,edx;
+  add esi,ecx` (**ECX alive into the add**); y-copy `mov ebp,ecx`; **y32-home [S+0x20]
+  late**; then x-home [S+0x18] + `movsx eax,ax` remat.
+- Bank unfiltered arm (`bank_disasm.txt` +0AE..+0FB): identical loads; remat escapes to
+  ESI (`movsx esi,cx`); **y32-home [S+0x18] early** (before the chain); chain reads the
+  home (`add esi,[esp+0x18]`); **mvy-home [S+0x20] late**; x-home [S+0x1C] + same remat.
+- The filtered arm mirrors it: bank stores y→[S+0x20], x→[S+0x1C], re-stores y32→[S+0x18];
+  retail y→[S+0x1C], x→[S+0x18], re-store y32→[S+0x20] — the same one-slot cycle in both
+  arms, same commit order (y first, then x).
+- Everything else already matches retail: prologues byte-identical (incl. the source
+  slot [S+0x28]), stride [S+0x10] / offset1+x-term [S+0x14], phase ANDs, walk head and
+  walk body modulo the three homes; walk-step forms already retail-exact (both WORD-
+  compare their mvy homes — a `(y > 0)` step form would emit a dword compare and diverge).
+
+So the whole delta = **which of {mvy, y32} spills early around the adjY chain** — an
+allocator-internal decision. All C-level spaces able to move it are exhausted (the
+20261020 sweeps, the join-hoist, and the decl-order probe below).
+
+## Remaining deltas (672→768 B, retired 672-B body, historical)
 Entry region 0x000-0x02E matches retail byte-for-byte (mod relocations). All remaining
 deltas sit in the shared walk/mode-2 machinery, one placement cascade:
 - prologue locals: `sub esp,0x10` (4 slots) vs retail `sub 0x14` (5). Mine is missing the
@@ -119,6 +149,12 @@ deltas sit in the shared walk/mode-2 machinery, one placement cascade:
    phases ONCE at the join instead of duplicating them into the arms: 720 B,
    register deltas 3→61 and memory deltas 17→47 (whole-body reshuffle). Reverted;
    the stash bank stands.
+4. **Decl-order reorder** — TRIED (20261022): rearranged the 13 locals into the
+   spilled-triple order (x, mvy, y) to test whether MSVC assigns these slot indices
+   off the decl block. Byte-identical output (768 B, unchanged 17 mem / 3 reg
+   residue): the allocator does not read them off the decl block. The declaration
+   axis is now fully closed — order inert, and the types are byte-locked (SAR needs
+   signed x/y; `movsx` needs short mvx/mvy; `y = mvy` must stay a SE-extend).
 
 **Probe note for this body:** a plain `_VP6_PredictFilteredBlock` symbol lookup fails
 on the bank TU — it defines `Rva009B5530Prepare` with C++ linkage (the ledger's pinned
