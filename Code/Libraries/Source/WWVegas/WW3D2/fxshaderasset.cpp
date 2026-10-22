@@ -223,19 +223,30 @@ private:
 	void *m_extra;
 };
 
-struct Rva0007BB16Record
+// Native constructor 0x151597 initializes this same 36-byte layout.
+// Use the rowed storage owner so construction calls it once, without
+// implicitly constructing the two string handles again in this view.
+class Rva00151248
 {
-	Rva0007BB16Record();
-	~Rva0007BB16Record();
-	void SetName(const char *name);
-	void SetType(unsigned int type);
-
-	AsciiString m_name;	// +0x00
-	unsigned int m_type;	// +0x04
-	AsciiString m_08;	// +0x08
-	float m_vector[4];	// +0x0C
-	int m_int;		// +0x1C
-	bool m_bool;		// +0x20
+public:
+    Rva00151248();
+    AsciiString m_name;
+    unsigned int m_type;
+    AsciiString m_08;
+    float m_vector[4];
+    int m_int;
+    bool m_bool;
+};
+class Rva0042CBB6 { public: void rva002B230F(int); };
+struct Rva0007BB16Record : Rva00151248
+{
+    __declspec(dllimport) __forceinline Rva0007BB16Record() : Rva00151248() {}
+    Rva0007BB16Record(const Rva0007BB16Record &);
+    ~Rva0007BB16Record();
+    void SetName(const char *name);
+    // The native call targets the folded +4 setter at 0x2B230F.
+    __declspec(dllimport) __forceinline void SetType(unsigned int type)
+    { ((Rva0042CBB6 *)this)->rva002B230F((int)type); }
 };
 
 struct Rva004DFCB0Element
