@@ -16,10 +16,13 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
                               const _Rb_tree_iterator<_RbVal, _RbRight> &b)
 { return a._M_node != b._M_node; }
 }
+// No destructor is declared: none is rowed, and the set constructor (the only
+// rowed member here) does not depend on one.
 struct Rva00501219Element {
  Rva00501219Element(); Rva00501219Element(const Rva00501219Element&);
- ~Rva00501219Element(); Rva00501219Element&operator=(const Rva00501219Element&);
+ Rva00501219Element&operator=(const Rva00501219Element&);
  char bytes[8];
 };
 bool operator<(const Rva00501219Element&,const Rva00501219Element&);
-template class _STL::set<Rva00501219Element>;
+// Only the rowed set constructor is instantiated.
+template _STL::set<Rva00501219Element>::set();

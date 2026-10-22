@@ -61,4 +61,5 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva0024619AElement {Rva0024619AElement();Rva0024619AElement(const Rva0024619AElement&);Rva0024619AElement&operator=(const Rva0024619AElement&);~Rva0024619AElement(){}char bytes[8]; bool operator==(const Rva0024619AElement&)const;};
-template class _STL::hash_map<int,Rva0024619AElement>;
+// Only the rowed hashtable constructor is instantiated.
+template _STL::hashtable<_STL::pair<const int,Rva0024619AElement>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<const int,Rva0024619AElement> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<const int,Rva0024619AElement> > >::hashtable(size_t, const _STL::hash<int> &, const _STL::equal_to<int> &, const _STL::allocator<_STL::pair<const int,Rva0024619AElement> > &);
