@@ -1,4 +1,8 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+
+#pragma comment(linker, "/alternatename:?dummy1@Rva0033068BListener@@QAEXPAXH@Z=?rva005CB26A@Rva005CB26A@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?dummy2@Rva0033068BListener@@QAEXPAXH@Z=?invokeMessage@Rva0042C0DBDelegate@@QAEHPAVGameMessage@@@Z")
+
 // stlport
 // ?rva003306B0@Rva003306B0@@QAEXPAVCreateAHeroData@@@Z @ 0x003306B0 94B
 // Evidence: chain from rowed Release 0x0053FA32; calls rowed find 0x0020E873, rowed forEach 0x0033068B twice, rowed erase 0x001FF51F; vector at +0x10, list at +0x00.

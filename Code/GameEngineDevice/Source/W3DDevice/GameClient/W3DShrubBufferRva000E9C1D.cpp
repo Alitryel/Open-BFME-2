@@ -8,6 +8,12 @@
 // declarations, which is why this source only needs the member types.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 
+#pragma comment(linker, "/alternatename:??0Rva000E9C1DRecord@@QAE@XZ=??0Rva000E771B@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0Rva000E9C1DType@@QAE@XZ=??0Rva00735D80TreeType@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva000E9C1DType@@QAE@XZ=??1Rva000E86B8@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?tailB@Rva00066A9ASub@@QAEXXZ=?rva000E6FC8@Rva000E6FC8@@QAEXXZ")
+
+
 class Rva000E6AC0Base
 {
 public:

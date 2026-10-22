@@ -1,4 +1,7 @@
 // STLport 4.5.3 reference instantiation. Target boundary and byte comparison prove operation shape.
+
+#pragma comment(linker, "/alternatename:??4Rva00289FBCRecord@@QAEAAU0@ABU0@@Z=?rva00289902@Rva00289902@@QAEAAV1@ABV1@@Z")
+
 // Element spelling/layout is donor inference; opaque records have address-derived identity.
 // cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport

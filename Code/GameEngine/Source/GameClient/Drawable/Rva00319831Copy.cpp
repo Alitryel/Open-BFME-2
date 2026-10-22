@@ -1,4 +1,8 @@
 // cl: /O1 /DNDEBUG /MD
+
+#pragma comment(linker, "/alternatename:?rva00318B83Free@@YGPBUTWheelInfo@@PAX@Z=?getWheelInfo@Drawable@@QBEPBUTWheelInfo@@XZ")
+#pragma comment(linker, "/alternatename:?rva00538ED1@Rva00538ED1@@QAEXXZ=?rva00538ED1@Rva00538E22@@QAEXH@Z")
+
 // Reconstruction of the 58B dense-wheel copier at 0x00319831: when the
 // Drawable wheel info is present and dense, run the pinned 0x538ED1
 // worker on the second fetch, then mirror +0x44/+0x48 into +0x3C/+0x40;

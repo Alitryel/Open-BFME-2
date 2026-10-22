@@ -1,4 +1,7 @@
 // cl: /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+
+#pragma comment(linker, "/alternatename:?Move@ButtonShell@Impl@AptRadialMenu@@QAEXVCoord2D@@0@Z=?Move@ButtonShell@Impl@AptRadialMenu@@QAEXHHHH@Z")
+
 // stlport
 // Split from AptRadialMenu.cpp: these definitions reference a callee with no matched body yet,
 // so they are kept apart from the unit's bodies that already link.

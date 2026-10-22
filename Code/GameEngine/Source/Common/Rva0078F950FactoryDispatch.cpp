@@ -15,6 +15,19 @@
 // mov/test branch shape while the argument record selects one of the two
 // already reconstructed 0x2F8-byte object factories.
 
+#pragma comment(linker, "/alternatename:?Rva0078EF00New@@YGPAXPAX@Z=?Rva0008F999Create@@YGPAVRva000A2670@@PAX@Z")
+#pragma comment(linker, "/alternatename:?Rva0078EF80New@@YGPAXPAX@Z=?Rva0008F9D3Create@@YGPAVRva000A26C7@@PAX@Z")
+#pragma comment(linker, "/alternatename:?Rva0078F000New@@YGPAXPAX@Z=?Rva0008FA0DCreate@@YGPAVRva000A26F7@@PAX@Z")
+#pragma comment(linker, "/alternatename:?Rva0078F080New@@YGPAXPAX@Z=?Rva0008FA47Create@@YGPAVRva000A270F@@PAX@Z")
+#pragma comment(linker, "/alternatename:?Rva0078F300New@@YGPAVRva007996A0VptrCtor@@PAX@Z=?Rva0008FB69Create@@YGPAVRva000A12FE@@PAX@Z")
+#pragma comment(linker, "/alternatename:?Rva0078F380New@@YGPAVRva00799730VptrCtor@@PAX@Z=?Rva0008FBA3Create@@YGPAVRva000A1346@@PAX@Z")
+#pragma comment(linker, "/alternatename:?Rva0078F400New@@YGPAVRva00790C40VptrCtor@@PAX@Z=?Rva0008FBDDCreate@@YGPAVRva000A15FE@@PAX@Z")
+#pragma comment(linker, "/alternatename:?Rva0078F480New@@YGPAVRva00790CD0VptrCtor@@PAX@Z=?Rva0008FC17Create@@YGPAVRva000A1646@@PAX@Z")
+#pragma comment(linker, "/alternatename:?dispatchFactory@Rva0078F770Owner@@QAEPAVGameWindow@@PAURva0078F950Record@@PAURva0078F770Secondary@@HH@Z=?gogoGadgetListBox@GameWindowManager@@UAEPAVGameWindow@@PAVGadgetCreateView@@PAU_ListboxData@@PAVGameFont@@_N@Z")
+#pragma comment(linker, "/alternatename:?dispatchFactory@Rva0078F830Owner@@QAEHPAURva0078F950Record@@HHH@Z=?gogoGadgetSlider@TabWindowManagerView@@QAEPAVGameWindow@@PAVGadgetCreateView@@PAUSliderDataView@@PAVGameFont@@_N@Z")
+#pragma comment(linker, "/alternatename:?flags@Rva0078F830Predicate@@QAEEXZ=?get@Rva005C4AF1DwordField@@QBEHXZ")
+
+
 class Rva007903F0VptrCtor;
 class Rva00790480VptrCtor;
 class Rva00793150VptrCtor;

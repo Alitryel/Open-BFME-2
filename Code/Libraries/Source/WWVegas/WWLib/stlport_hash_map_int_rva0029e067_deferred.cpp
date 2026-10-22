@@ -1,4 +1,7 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc
+
+#pragma comment(linker, "/alternatename:?resize@?$hashtable@U?$pair@$$CBHURva0029E067@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva0029E067@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva0029E067@@@_STL@@@2@@_STL@@QAEXI@Z=?resize@?$hashtable@U?$pair@$$CBH_N@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBH_N@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBH_N@_STL@@@2@@_STL@@QAEXI@Z")
+
 // stlport
 //
 // The node path of hash_map<int, Rva0029E067>: its pair copy (0x0029E13C)

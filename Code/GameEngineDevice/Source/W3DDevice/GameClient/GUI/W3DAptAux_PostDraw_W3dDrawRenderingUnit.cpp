@@ -1,4 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB
+
+#pragma comment(linker, "/alternatename:?cleanup@Rva00785FD0Item@@QAEXXZ=?render@AptShapeContainer@@QAEXXZ")
+
 // stlport
 // Split from W3DAptAux_PostDraw.cpp: these definitions reference a callee with no matched body yet,
 // so they are kept apart from the unit's bodies that already link.
