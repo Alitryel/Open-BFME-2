@@ -1,13 +1,12 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
-// ??0Rva00317B35@@QAE@XZ @ 0x00317B35, 102 bytes. Name and layout are
-// address-derived; the caller allocates 0x2c bytes and stores the result in
-// TheDrawGroupInfo. Field meanings are not established by target evidence.
+// GameClient::GameClient allocates 0x2c bytes for TheDrawGroupInfo and calls
+// this constructor. Target field meanings remain unrecovered.
 #include "ascii_string.h"
 
-class Rva00317B35
+class DrawGroupInfo
 {
 public:
-	Rva00317B35();
+	DrawGroupInfo();
 private:
 	AsciiString m_font;
 	int m_unk04;
@@ -25,7 +24,7 @@ private:
 	unsigned char m_unk28;
 };
 
-Rva00317B35::Rva00317B35()
+DrawGroupInfo::DrawGroupInfo()
 {
 	((StringBase<char> *)&m_font)->StringBase<char>::set("Arial");
 	m_unk04 = 0x0c;
