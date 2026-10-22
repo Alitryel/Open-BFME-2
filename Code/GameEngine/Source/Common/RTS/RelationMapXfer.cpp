@@ -206,6 +206,11 @@ void XferRelationship( Xfer *xfer, Int *value );
 typedef _STL::hash_map< Int, Relationship, _STL::hash<Int>, _STL::equal_to<Int> > PlayerRelationMapType;
 typedef _STL::hash_map< UnsignedInt, Relationship, _STL::hash<UnsignedInt>, _STL::equal_to<UnsignedInt> > TeamRelationMapType;
 
+// Player.cpp supplies the same team-relation subscript provider.
+namespace _STL {
+template <> Relationship &hash_map<unsigned int, Relationship>::operator[](const unsigned int &);
+}
+
 // ------------------------------------------------------------------------------------------------
 // Copy helper views use existing ICF-owned hash providers. The lookup's
 // Object spelling is an opaque four-byte ABI carrier, not a relationship type.

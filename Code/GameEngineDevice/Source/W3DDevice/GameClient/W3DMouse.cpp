@@ -91,8 +91,7 @@ class __declspec(novtable) MouseThreadClass : public ThreadClass
 {
 
 public:
-// ??0MouseThreadClass@@ present-unmatched
-	MouseThreadClass::MouseThreadClass() : ThreadClass() {}
+	MouseThreadClass();
 
 	void Thread_Function();
 
@@ -401,13 +400,6 @@ struct BfmeMouseCameraDepth
 	UnsignedByte padF4[0xf4];
 	Real depth;
 };
-
-// Keep the inline CameraClass accessor COMDAT available to the existing
-// same-TU alias row at 0x006E2440; draw itself uses the proven BFME +0xf4
-// field and must not call the shifted reference accessor.
-typedef Real (CameraClass::*BfmeMouseCameraDepthAccessor)( void ) const;
-static volatile BfmeMouseCameraDepthAccessor BfmeMouseCameraDepthMethod =
-	&CameraClass::Get_Depth;
 
 // The generated thunk is the proven direct route to Display::drawImage's
 // float-coordinate implementation.  Its placeholder declaration is void(),

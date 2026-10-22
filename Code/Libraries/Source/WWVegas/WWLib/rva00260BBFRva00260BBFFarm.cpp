@@ -43,6 +43,8 @@ struct Rva00260B88Element
  
 }
 ;
+// Use the existing vector clear provider.
+namespace _STL { template <> void vector<Rva00260B88Element>::_M_clear(); }
 class Rva0025FB9B
 {
  public:void rva0025FB9B();
