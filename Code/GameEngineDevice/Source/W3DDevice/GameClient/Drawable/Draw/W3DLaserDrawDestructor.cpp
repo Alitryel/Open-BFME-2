@@ -27,10 +27,12 @@ protected:
 	virtual ~DrawModule() {}
 };
 
+// Same slot views as W3DLaserDrawBfmeConstructor.cpp, so both units emit one pair of
+// W3DLaserDraw tables.
 class LaserDrawInterface
 {
 public:
-	virtual void bfmeLaserDrawInterfaceSlot();
+	virtual float getLaserTemplateWidth() const = 0;
 };
 
 class SegmentedLineClass
@@ -39,10 +41,11 @@ public:
 	virtual void Release();
 };
 
-class Gen_00757830
+// The texture vector dies through the rowed 0x000C9A12 (the call at 0x000C9BA8).
+class Rva000C9A12
 {
 public:
-	~Gen_00757830();
+	~Rva000C9A12();
 
 	void *m_start;
 	void *m_finish;
@@ -77,13 +80,14 @@ RTS2DScene *W3DDisplay::m_2DScene = 0;
 class W3DLaserDraw : public DrawModule, public LaserDrawInterface
 {
 public:
-	virtual void doDrawModule();
+	virtual void doDrawModule(const class Matrix3D *transform);
+	virtual float getLaserTemplateWidth() const;
 
 protected:
 	virtual ~W3DLaserDraw();
 
 	SegmentedLineClass **m_line3D;
-	Gen_00757830 m_textureVector;
+	Rva000C9A12 m_textureVector;
 };
 
 void __cdecl operator delete[](void *block);
