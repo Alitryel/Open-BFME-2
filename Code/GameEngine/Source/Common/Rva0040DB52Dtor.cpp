@@ -24,6 +24,10 @@ class Rva0040DB52 : public Snapshot
 {
 public:
 	virtual ~Rva0040DB52();
+protected:
+	// Retail slot 3 of 0x008394CC (rowed in Rva0040DB52Xfer.cpp); declared so this unit's
+	// vtable matches the constructor unit's.
+	virtual void xfer(Xfer *xfer);
 private:
 	char m_pad04[0x10];
 	AsciiStringLike m_str14;
