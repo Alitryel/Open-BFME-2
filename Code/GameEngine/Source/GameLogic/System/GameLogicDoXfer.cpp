@@ -686,7 +686,4 @@ struct GameLogicControlBarOverrides
 	ControlBarOverrideMap m_controlBarOverrides;	// +0x24
 };
 
-void GameLogic::setControlBarOverride(const AsciiString &commandSetName, int slot, const CommandButton *commandButton)
-{
-	((GameLogicControlBarOverrides *)this)->m_controlBarOverrides[(const TreeKey00242F5E &)_STL::make_pair(slot, commandSetName)].m_bits = (unsigned int)commandButton;
-}
+// setControlBarOverride is rowed at 0x0024792F (GameLogicSetControlBarOverride.cpp).
