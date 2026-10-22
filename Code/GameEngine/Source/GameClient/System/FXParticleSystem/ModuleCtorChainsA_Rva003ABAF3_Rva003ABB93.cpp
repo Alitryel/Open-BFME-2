@@ -80,19 +80,8 @@ void __identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ")();
 void __identifier("?Create@GameFileClass@@UAEHXZ")();
 void __identifier("?Rva004647D1Get@@YAMXZ")();
 }
-extern const void *const g_00C1C3C8[11] = {
-	(const void *)&__identifier("??_GRva003AD273@@UAEPAXI@Z"), // slot 0 0x003AD257
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?xfer@ObjectModule@@QAEXPAVXfer@@@Z"), // slot 3 0x00560AE1
-	(const void *)&__identifier("?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x005601D9
-	(const void *)&__identifier("?rva00560ABA@Rva00560ABA@@QAE?AVAsciiString@@XZ"), // slot 5 0x00560ABA
-	(const void *)&__identifier("?rva004BD9CB@Rva004BD9CB@@UBE?AVAsciiString@@XZ"), // slot 6 0x004BD9CB
-	(const void *)&__identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ"), // slot 7 0x0055C44F
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 8 0x000910FB
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 9 0x000910FB
-	(const void *)&__identifier("?Rva004647D1Get@@YAMXZ"), // slot 10 0x004647D1
-};
+// Owned by ModuleCtorChainsA_Rva003ABAF3.cpp (data_rows); declared only here.
+extern const void *const g_00C1C3C8[11];
 // The retail table at RVA 0x0081C404: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -107,19 +96,8 @@ void __identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ")();
 void __identifier("?Create@GameFileClass@@UAEHXZ")();
 void __identifier("?Rva004647D1Get@@YAMXZ")();
 }
-extern const void *const g_00C1C404[11] = {
-	(const void *)&__identifier("??_GRva003AD273@@UAEPAXI@Z"), // slot 0 0x003AD257
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?xfer@ObjectModule@@QAEXPAVXfer@@@Z"), // slot 3 0x00560AE1
-	(const void *)&__identifier("?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x00560B11
-	(const void *)&__identifier("?rva00560ABA@Rva00560ABA@@QAE?AVAsciiString@@XZ"), // slot 5 0x00560ABA
-	(const void *)&__identifier("?rva004BD9CB@Rva004BD9CB@@UBE?AVAsciiString@@XZ"), // slot 6 0x004BD9CB
-	(const void *)&__identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ"), // slot 7 0x0055C44F
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 8 0x000910FB
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 9 0x000910FB
-	(const void *)&__identifier("?Rva004647D1Get@@YAMXZ"), // slot 10 0x004647D1
-};
+// Owned by ModuleCtorChainsA_Rva003ABAF3.cpp (data_rows); declared only here.
+extern const void *const g_00C1C404[11];
 // The retail table at RVA 0x0081C538: 1 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -165,16 +143,8 @@ void __identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")();
 void __identifier("?rva003ABEFD@Rva003ABEFD@@QAEMXZ")();
 void __identifier("?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z")();
 }
-extern const void *const g_00C1C6DC[8] = {
-	(const void *)&__identifier("??_GRva003AD2AE@@UAEPAXI@Z"), // slot 0 0x003AD42F
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?DoXfer@Rva0055DB41@@UAEXAAVXfer@@@Z"), // slot 3 0x0055DB41
-	(const void *)&__identifier("?rva0055CD70@Rva0055CD70@@QAEXMMM@Z"), // slot 4 0x0055CD70
-	(const void *)&__identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ"), // slot 5 0x0050B5C6
-	(const void *)&__identifier("?rva003ABEFD@Rva003ABEFD@@QAEMXZ"), // slot 6 0x003ABEFD
-	(const void *)&__identifier("?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z"), // slot 7 0x0055DDD1
-};
+// Owned by ModuleCtorChainsA_Rva003ABAF3.cpp (data_rows); declared only here.
+extern const void *const g_00C1C6DC[8];
 extern "C" const void *const __identifier("??_7Rva003AF47D@@6BIntermediate3AFC6FC@@@")[];
 extern "C" const void *const __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$0A@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
@@ -311,19 +281,8 @@ void __identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ")();
 void __identifier("?Create@GameFileClass@@UAEHXZ")();
 void __identifier("?Rva004647D1Get@@YAMXZ")();
 }
-extern const void *const g_00C1C488[11] = {
-	(const void *)&__identifier("??_GRva003AD273@@UAEPAXI@Z"), // slot 0 0x003AD257
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?rva00561527@Rva00561527@@UAEXPAVXfer@@@Z"), // slot 3 0x00561527
-	(const void *)&__identifier("?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x00561564
-	(const void *)&__identifier("?rva00560ABA@Rva00560ABA@@QAE?AVAsciiString@@XZ"), // slot 5 0x00560ABA
-	(const void *)&__identifier("?rva004BD9CB@Rva004BD9CB@@UBE?AVAsciiString@@XZ"), // slot 6 0x004BD9CB
-	(const void *)&__identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ"), // slot 7 0x0055C44F
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 8 0x000910FB
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 9 0x000910FB
-	(const void *)&__identifier("?Rva004647D1Get@@YAMXZ"), // slot 10 0x004647D1
-};
+// Owned by ModuleCtorChainsA_Rva003ABAF3.cpp (data_rows); declared only here.
+extern const void *const g_00C1C488[11];
 extern "C" const void *const __identifier("??_7Rva005EBCC0Object@@6BV3Slot2@@@")[];
 // The retail table at RVA 0x0081C4C8: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
