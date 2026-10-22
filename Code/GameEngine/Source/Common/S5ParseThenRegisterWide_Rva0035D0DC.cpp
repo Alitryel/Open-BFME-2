@@ -1,82 +1,78 @@
 // cl: -DNDEBUG -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/Common
-// Open-BFME7: three more bodies of the INI definition-parsing family that
-// S4ParseThenRegisterWithFields.cpp describes (allocate a derived record whose
-// constructor is inlined after the shared base constructor 0x00489210, fill it
-// through INI::initFromINI, copy +0x14 into +4 again, hand it to the sink at
-// 0x00489270).  These three allocate 0x28..0x38 bytes and write more fields;
-// each constructor repeats retail's store order .  Identity of the derived
-// classes, their +0 pointers and their tables is not recovered: every name is
-// address-derived and the data objects are extern declarations.
+// BFME1 factory provenance retained from the original import. Native factory
+// 35D0DC calls the existing 58-byte constructor 35D097, allocates 0x28 bytes,
+// parses table C16428, then copies end frame +14 to frame length +4.
+// The target constructor/destructor pair supplies the neutral Rva0035D0D1
+// owner; the original derived-class name remains unresolved.
 
-struct FieldParse;
-
-// upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INI.h
+class INI;
+struct FieldParse
+{
+    const char *token;
+    void (*parse)(INI *, void *, void *, const void *);
+    const void *userData;
+    int offset;
+};
 class INI
 {
 public:
-	void initFromINI( void *what, const FieldParse *table );
+    void initFromINI(void *, const FieldParse *);
+    static void parseInt(INI *, void *, void *, const void *);
+    static void parseBool(INI *, void *, void *, const void *);
+    static void parseBitString32(INI *, void *, void *, const void *);
 };
+struct Gen_00489270 { void m(int); };
 
-struct Gen_00489270
-{
-	void m( int a );
-};
-
-class Rva001DBAA4 { public: Rva001DBAA4(); };
-class Rva00489210
+class Rva001DBAA4
 {
 public:
-	// Construction is the rowed ??0Rva001DBAA4, reached by a qualified call.
-	__declspec(dllimport) __forceinline Rva00489210() { ((Rva001DBAA4 *)this)->Rva001DBAA4::Rva001DBAA4(); }
-	int *m_00;
-	int m_04;
-	char m_08, m_09, m_0A;
-	int m_0C;
+    virtual ~Rva001DBAA4();
+    Rva001DBAA4();
+    int m_4;
+    bool m_8;
+    bool m_9;
+    bool m_A;
+    char m_padB;
+    int m_C;
 };
 
-#define S5_PARSE( NAME, INIT, BODY, FIELDS )                                         \
-	extern int g_s5Head##NAME;                                                 \
-	extern const FieldParse s5Table##NAME;                                     \
-	struct S5Built##NAME : public Rva00489210                                  \
-	{                                                                          \
-		FIELDS                                                                 \
-		S5Built##NAME() INIT { BODY }                                          \
-	};                                                                         \
-	void s5parse##NAME( INI *ini, Gen_00489270 *sink )                         \
-	{                                                                          \
-		S5Built##NAME *t = new S5Built##NAME;                                  \
-		ini->initFromINI( t, &s5Table##NAME );                                 \
-		t->m_04 = t->m_14;                                                     \
-		sink->m( (int)t );                                                     \
-	}
+class Rva0035D0D1 : public Rva001DBAA4
+{
+public:
+    Rva0035D0D1();
+    virtual ~Rva0035D0D1();
+    virtual void slot1(int);
+    virtual void slot2(int);
+    virtual void slot3();
+    virtual void slot4();
+    virtual void Rva0035D1C6();
+    virtual void slot6();
+    int m_10;
+    int m_14;
+    int m_18;
+    bool m_1C;
+    char m_pad1D[3];
+    float m_20;
+    bool m_24;
+};
 
-#define S5_PARSE_TWO( NAME, MIDBODY, BODY, FIELDS )                            	extern int g_s5Head##NAME;                                                 	extern const FieldParse s5Table##NAME;                                     	struct S5Mid##NAME : public Rva00489210                                    	{                                                                          		FIELDS                                                                 		S5Mid##NAME() { MIDBODY }                                              	};                                                                         	struct S5Built##NAME : public S5Mid##NAME                                  	{                                                                          		S5Built##NAME() { BODY }                                               	};                                                                         	void s5parse##NAME( INI *ini, Gen_00489270 *sink )                         	{                                                                          		S5Built##NAME *t = new S5Built##NAME;                                  		ini->initFromINI( t, &s5Table##NAME );                                 		t->m_04 = t->m_14;                                                     		sink->m( (int)t );                                                     	}
+// Native DBA1F8..DBA208: complete null-terminated bit-name list, before
+// the unrelated NONE/HOLD/KILL/SPAWN table. Its pointer is C16428+0x28.
+const char *fadeViewBitNames[] = { "Tactical", "World", "Shell", 0 };
 
+// Native C16428..C16478: four FieldParse records and the null record.
+extern const FieldParse s5Table0059FB50[] = {
+    { "StartFrame", &INI::parseInt, 0, 0x10 },
+    { "EndFrame", &INI::parseInt, 0, 0x14 },
+    { "ViewsToFade", &INI::parseBitString32, fadeViewBitNames, 0x18 },
+    { "LeaveSilent", &INI::parseBool, 0, 0x1C },
+    { 0, 0, 0, 0 }
+};
 
-
-// Same family, but 0x0059FB50 stores Rva0059FB40TailDtor's own vftable
-// (retail VA 0x0110CBEC; the derived destructor at 0x0059FB40 re-seats [ecx] to
-// it).  That table is a COMDAT emitted by VptrTailJumpDestructors.cpp and C++
-// has no expression for a vftable address, so it is spelled by its decorated
-// symbol with __identifier, the convention BfmeConv2067.cpp uses for this
-// family, instead of by a stand-in name.
-#define S5_PARSE_VFT( NAME, BODY, FIELDS )                                       \
-	extern "C" int __identifier("??_7Rva0059FB40TailDtor@@6B@");               \
-	extern const FieldParse s5Table##NAME;                                     \
-	struct S5Built##NAME : public Rva00489210                                  \
-	{                                                                          \
-		FIELDS                                                                 \
-		S5Built##NAME() { BODY }                                               \
-	};                                                                         \
-	void s5parse##NAME( INI *ini, Gen_00489270 *sink )                         \
-	{                                                                          \
-		S5Built##NAME *t = new S5Built##NAME;                                  \
-		ini->initFromINI( t, &s5Table##NAME );                                 \
-		t->m_04 = t->m_14;                                                     \
-		sink->m( (int)t );                                                     \
-	}
-
-// 0x0059FB50 157 B, 0x28 bytes
-S5_PARSE_VFT( 0059FB50,
-	m_00 = &__identifier("??_7Rva0059FB40TailDtor@@6B@"); m_10 = 0; m_14 = 30; m_18 = 7; m_1C = 0; m_20 = 1.0f; m_24 = 0; m_04 = m_14;,
-	int m_10; int m_14; int m_18; char m_1C; float m_20; char m_24; )
+void s5parse0059FB50(INI *ini, Gen_00489270 *sink)
+{
+    Rva0035D0D1 *t = new Rva0035D0D1;
+    ini->initFromINI(t, s5Table0059FB50);
+    t->m_4 = t->m_14;
+    sink->m((int)t);
+}
