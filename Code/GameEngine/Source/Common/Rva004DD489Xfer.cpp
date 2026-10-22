@@ -141,6 +141,10 @@ enum ObjectID
 };
 void XferObjectID(Xfer *xfer, ObjectID *id);
 struct Gen_lt_00940b40 : public _STL::less<unsigned short> {};
+// Suppress this TU's copy of the ushort/int map's insert_unique: it differs
+// from the one ConnectionManager_fileTransfer.cpp emits first, which the link
+// keeps. Plain declaration-only form (no __imp_).
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<unsigned short const, int>, _Nonconst_traits<pair<unsigned short const, int> > >, bool> _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, Gen_lt_00940b40, allocator<pair<unsigned short const, int> > >::insert_unique(pair<unsigned short const, int> const &); }
 class Rva004DD489
 {
 public:
