@@ -68,6 +68,22 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "wwprofile.h"
 #include "wwmemlog.h"
 #include "dx8wrapper.h"
+// Suppress this TU's non-retail copy of ??8?$VectorClass@PAVRender2DClass@@@@UBE_NABV0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass; class VectorClass;
+template <> bool VectorClass<Render2DClass *>::operator==(VectorClass<Render2DClass *> const &) const;
+// Suppress this TU's non-retail copy of ?ID@?$VectorClass@PAVRender2DClass@@@@UAEHPBQAVRender2DClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass;
+template <> int VectorClass<Render2DClass *>::ID(Render2DClass * const *);
+// Suppress this TU's non-retail copy of ?ID@?$VectorClass@PAVRender2DClass@@@@UAEHABQAVRender2DClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass;
+template <> int VectorClass<Render2DClass *>::ID(Render2DClass * const &);
+// Suppress this TU's non-retail copy of ?Resize@?$VectorClass@PAVRender2DClass@@@@UAE_NHPBQAVRender2DClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass;
+template <> bool VectorClass<Render2DClass *>::Resize(int,Render2DClass * const *);
 
 #ifdef _INTERNAL
 // for occasional debugging...

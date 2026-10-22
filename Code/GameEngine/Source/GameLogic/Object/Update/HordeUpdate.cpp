@@ -50,6 +50,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?parse@?$BitFlags@$0HE@@@QAEXPAVINI@@PAVAsciiString@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class INI; class AsciiString;
+template <> void BitFlags<116>::parse(INI *,AsciiString *);
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

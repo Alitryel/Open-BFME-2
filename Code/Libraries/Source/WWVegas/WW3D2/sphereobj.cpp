@@ -126,6 +126,21 @@
 #include "dx8indexbuffer.h"
 #include "sortingrenderer.h"
 #include "visrasterizer.h"
+// Suppress this TU's non-retail copy of ?Save@?$PrimitiveAnimationChannelClass@VVector3@@@@UAEXAAVChunkSaveClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3; class ChunkSaveClass;
+template <> void PrimitiveAnimationChannelClass<Vector3>::Save(ChunkSaveClass &);
+// Suppress this TU's non-retail copy of ?Uninitialised_Grow@?$SimpleVecClass@VKeyClass@?$PrimitiveAnimationChannelClass@M@@@@UAE_N:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class PrimitiveAnimationChannelClass;
+template <> bool SimpleVecClass<PrimitiveAnimationChannelClass<float>::KeyClass>::Uninitialised_Grow(int);
+// Suppress this TU's non-retail copy of ?Uninitialised_Grow@?$SimpleVecClass@VKeyClass@?$PrimitiveAnimationChannelClass@VVector3@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class PrimitiveAnimationChannelClass; class Vector3;
+template <> bool SimpleVecClass<PrimitiveAnimationChannelClass<Vector3>::KeyClass>::Uninitialised_Grow(int);
+// Suppress this TU's non-retail copy of ??0KeyClass@?$PrimitiveAnimationChannelClass@M@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> PrimitiveAnimationChannelClass<float>::KeyClass::KeyClass();
 // Suppress this TU's non-retail copy of ??0KeyClass@?$PrimitiveAnimationChannelClass@VVector3@@@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Vector3;

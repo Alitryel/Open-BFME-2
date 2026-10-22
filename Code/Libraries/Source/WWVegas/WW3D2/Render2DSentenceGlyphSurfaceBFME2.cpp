@@ -9,6 +9,9 @@ template <> int VectorClass<int>::ID(int const &);
 template <> int VectorClass<int>::ID(int const *);
 template <> bool VectorClass<int>::Resize(int, int const *);
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?Clear@?$DynamicVectorClass@H@@UAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> void DynamicVectorClass<int>::Clear();
 
 // Donor BFME1 9cbfb551fe20 Render2DSentenceClass_Allocate_New_Surface.cpp.
 // BFME2 native158990..158B93/515B uses font/text/glyph buffer/calc parameters.

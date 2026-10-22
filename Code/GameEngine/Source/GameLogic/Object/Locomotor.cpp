@@ -69,6 +69,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 // bfme link decl-only begin
 template <> float clamp<float>(float, float, float);
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$max@M@@YAMMM@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> float max<float>(float,float);
 // Suppress this TU's non-retail copy of ?test@?$bitset@$0N@@_STL@@QBE_NI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool bitset<13>::test(unsigned int) const; }

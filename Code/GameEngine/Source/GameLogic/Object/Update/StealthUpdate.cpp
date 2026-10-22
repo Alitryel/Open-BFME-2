@@ -77,6 +77,10 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameLogic/Module/PhysicsUpdate.h"
 #include "GameLogic/Module/ContainModule.h"
 #include "GameLogic/Module/SpawnBehavior.h"
+// Suppress this TU's non-retail copy of ?testForAll@?$BitFlags@$0CN@@@QBE_NABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class BitFlags;
+template <> bool BitFlags<45>::testForAll(BitFlags<45> const &) const;
 // Suppress this TU's non-retail copy of ?_M_do_and@?$_Base_bitset@$01@_STL@@QAEXABU12@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _Base_bitset<2>::_M_do_and(_Base_bitset<2> const &); }

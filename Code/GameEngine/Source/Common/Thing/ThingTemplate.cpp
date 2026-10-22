@@ -133,6 +133,10 @@ namespace _STL { template <> void _Construct<WeaponTemplateSet, WeaponTemplateSe
 namespace _STL { template <> void _Destroy<ProductionPrerequisite *>(ProductionPrerequisite *, ProductionPrerequisite *); }
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?parse@?$BitFlags@$0HE@@@QAEXPAVINI@@PAVAsciiString@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class INI; class AsciiString;
+template <> void BitFlags<116>::parse(INI *,AsciiString *);
 
 // Retail keeps one vector<ProductionPrerequisite>::push_back (0x0033EA10); this
 // unit calls it rather than leading link order with its own copy.
