@@ -1,5 +1,8 @@
 // cl: /GX-
-// ?rva001100A6@Rva001100A6@@QAEXXZ @0x001100A6 31B via virtual-slot12 clearer
+// ?rva001100A6@Rva001100A6@@QAIXPAX@Z @0x001100A6 31B via virtual-slot12 clearer
+// Cursor ABI: retail render 0xA9F98 passes renderer in ECX and cursor in EDX
+// at +0x16F (line), +0x2EE and +0x58B (triangle). The body ignores the cursor;
+// keep it in the signature so callers reproduce that argument setup.
 // evidence: retail tests [this+D0] then calls [[ptr+1C]+30] then clears [this+DC]; callers 0x000A9F98 x3
 class Slot12
 {
@@ -26,14 +29,14 @@ struct Mid
 class Rva001100A6
 {
 public:
-	void rva001100A6();
+	void __fastcall rva001100A6(void *vertices);
 private:
 	char m_pad[0xD0];
 	Mid *m_mid;
 	char m_pad2[8];
 	int m_cleared;
 };
-void Rva001100A6::rva001100A6()
+void __fastcall Rva001100A6::rva001100A6(void *vertices)
 {
 	if (m_mid != 0)
 	{
@@ -45,11 +48,11 @@ void Rva001100A6::rva001100A6()
 class Rva001100C5
 {
 public:
-	void rva001100C5();
+	void __fastcall rva001100C5(void *lines);
 };
 
-void Rva001100C5::rva001100C5()
+void __fastcall Rva001100C5::rva001100C5(void *lines)
 {
-	((Rva001100A6 *)this)->rva001100A6();
+	((Rva001100A6 *)this)->rva001100A6(lines);
 }
 

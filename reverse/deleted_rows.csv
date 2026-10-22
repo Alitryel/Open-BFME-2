@@ -1501,3 +1501,5 @@ __ehhandler$??0Rva0010F058@@QAE@H@Z,0x0076484D,Renamed to __ehhandler$??0Rva0010
 ??0Rva005D0C31@@QAE@PAX@Z,0x005D0C31,Renamed to ??0Rva005D078B@@QAE@PAX@Z (class reconciliation: retail ctor 0x005D0C31 installs vtable 0x00875574 whose slot 0 is the rowed scalar deleting dtor 0x005D0A9F of ??1Rva005D078B 0x005D078B)
 ?rva005D0034@Rva005D0C31@@UAEXHHH@Z,0x005D0034,Renamed to ?rva005D0034@Rva005D078B@@UAEXHHH@Z (class reconciliation: retail ctor 0x005D0C31 installs vtable 0x00875574 whose slot 0 is the rowed scalar deleting dtor 0x005D0A9F of ??1Rva005D078B 0x005D078B)
 __ehhandler$??0Rva005D0C31@@QAE@PAX@Z,0x007A1C6F,Renamed to __ehhandler$??0Rva005D078B@@QAE@PAX@Z (class reconciliation: retail ctor 0x005D0C31 installs vtable 0x00875574 whose slot 0 is the rowed scalar deleting dtor 0x005D0A9F of ??1Rva005D078B 0x005D078B)
+?rva001100A6@Rva001100A6@@QAEXXZ,0x001100A6,Cursor ABI corrected to ?rva001100A6@Rva001100A6@@QAIXPAX@Z; render 0xA9F98 passes cursor in EDX; identifiers unchanged
+?rva001100C5@Rva001100C5@@QAEXXZ,0x001100C5,Cursor ABI corrected to ?rva001100C5@Rva001100C5@@QAIXPAX@Z; render 0xA9F98 passes cursor in EDX; identifiers unchanged
