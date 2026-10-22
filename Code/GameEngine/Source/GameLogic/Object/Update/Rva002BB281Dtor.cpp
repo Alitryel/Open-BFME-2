@@ -10,6 +10,9 @@ struct Rva0040DC56Element
 	int m_pad[4];
 };
 
+// The member vector's destructor is rowed in Rva002B703FDtor.cpp (0x002B703F); declared
+// only so this unit emits no copy of it or of its element-destroy helpers.
+namespace _STL { template <> vector<Rva0040DC56Element, allocator<Rva0040DC56Element> >::~vector(); }
 struct Rva002BB281Member08
 {
 	~Rva002BB281Member08();
