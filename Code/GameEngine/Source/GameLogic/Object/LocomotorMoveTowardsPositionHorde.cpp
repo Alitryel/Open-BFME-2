@@ -621,7 +621,6 @@ class Object : public Thing
  ContainModuleInterface *getContain() const { return m_contain; }
  void rva0028AE6D();
  void rva0028CFB2(const int*,const int*);
- bool rva0006F039(int)const;
  float rva0028B842() const;
  int rva0028B511() const;
  void rva001E431E(const int*);
@@ -1206,8 +1205,8 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
  } else {
   rva6007Clear(obj,135);rva6007Clear(obj,136);
   if(actualSpeed>threshold){
-   if(distance>m_data->m_80 && obj->rva0006F039(131))rva6007Clear(obj,131);
-   if(!obj->rva0006F039(131))m_98=true;
+   if(distance>m_data->m_80 && obj->isKindOf((KindOfType)131))rva6007Clear(obj,131);
+   if(!obj->isKindOf((KindOfType)131))m_98=true;
   }
  }
 }
