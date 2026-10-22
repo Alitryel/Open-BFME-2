@@ -76,4 +76,19 @@ struct BfmePod264 { int a[66]; };
 // bfme link decl-only BfmePod264
 namespace _STL { template <> void _Construct<BfmePod264, BfmePod264>(BfmePod264 *, BfmePod264 const &); }
 
+// Use the fold-proven lookup owner at 0x002888D4.
+namespace _STL {
+template <> template <> __declspec(dllimport) __forceinline _Hashtable_node<pair<const int, list<BfmePod264> > > *
+hashtable<pair<const int, list<BfmePod264> >, int, hash<int>,
+          _Select1st<pair<const int, list<BfmePod264> > >, equal_to<int>,
+          allocator<pair<const int, list<BfmePod264> > > >::_M_find<int>(const int &key) const {
+    size_type n = _M_hash(key) % _M_buckets.size();
+    _Node *first;
+    for (first = (_Node *)_M_buckets[n];
+         first && !_M_equals(_M_get_key(first->_M_val), key);
+         first = first->_M_next) {}
+    return first;
+}
+}
+
 template _STL::list<BfmePod264> &_STL::hash_map<int, _STL::list<BfmePod264>, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, _STL::list<BfmePod264> > > >::operator[](const int &);
