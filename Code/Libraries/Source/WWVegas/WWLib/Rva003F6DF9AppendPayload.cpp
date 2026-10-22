@@ -53,17 +53,17 @@ class Rva0040CB2CIndexedField {public:int get(int)const;};
 struct Rva003F6D35Inner {
  unsigned word;_STL::vector<const ModuleData*> payloads;_STL::vector<BfmePod104> data;unsigned tail[5];
 };
-class Rva003F6D35Owner:public Rva003F6DF9OwnerBase,public Rva002BA8F1Listener {public:
- Rva003F6D35Inner *findOrCreateRva003F6D35(void*);
- void appendPayloadRva003F6DF9(void*,Rva003F6DF9Payload*);
+class Rva003F6D35Owner { public: Rva003F6D35Inner *findOrCreateRva003F6D35(void *); };
+class LivingWorldBattle:public Rva003F6DF9OwnerBase,public Rva002BA8F1Listener {public:
+ void AddArmy(int,void*);
 };
-void Rva003F6D35Owner::appendPayloadRva003F6DF9(void *input,Rva003F6DF9Payload *payload){
- Rva003F6D35Inner *inner=findOrCreateRva003F6D35(input);
- Rva003F6DF9Data *data=payload->data;
+void LivingWorldBattle::AddArmy(int input,void *payload){
+ Rva003F6D35Inner *inner=((Rva003F6D35Owner *)this)->findOrCreateRva003F6D35((void *)input);
+ Rva003F6DF9Data *data=((Rva003F6DF9Payload *)payload)->data;
  if(data)data->dirty=0;
- input=payload; CreateAHeroData *&search=(CreateAHeroData*&)input;
+ input=(int)payload; CreateAHeroData *&search=(CreateAHeroData*&)input;
  if(_STL::find((CreateAHeroData**)inner->payloads.begin(),(CreateAHeroData**)inner->payloads.end(),search)==(CreateAHeroData**)inner->payloads.end()){
-  input=payload; const ModuleData *&entry=(const ModuleData*&)input;
+  input=(int)payload; const ModuleData *&entry=(const ModuleData*&)input;
   inner->payloads.push_back(entry);
   inner->data.push_back(*(BfmePod104*)data);
   if(data){
@@ -73,6 +73,6 @@ void Rva003F6D35Owner::appendPayloadRva003F6DF9(void *input,Rva003F6DF9Payload *
     child->field98=0;child->flaga8=false;
    }
   }
-  payload->listeners.append(static_cast<Rva002BA8F1Listener*>(this));
+  ((Rva003F6DF9Payload *)payload)->listeners.append(static_cast<Rva002BA8F1Listener*>(this));
  }
 }

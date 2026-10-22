@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva000B3A2D@Rva000B3A2D@@QAEXXZ @0x000B3A2D 59B
+// ?loadPostProcess@W3DModelDraw@@MAEXXZ @0x000B3A2D 59B
 // Unlock lane: validate wide string at +0, int global g_bfmeDisplayAnimationSyncClock to +0xb8,
 // TheGameClient slot 0x7c int to g_Va00DB3BDC, if int at +0x214 >=0 call
 // subobject at +0xc slot 0x60 with (val != 0). Callers 0x000CDE4A 0x000CEA3C
@@ -7,7 +7,7 @@
 template <typename T>
 class StringBase
 {
-	friend class Rva000B3A2D;
+	friend class W3DModelDraw;
 	void validate() const;
 };
 
@@ -42,18 +42,18 @@ public:
 	virtual void s24(bool x);
 };
 
-class Rva000B3A2D
+class W3DModelDraw
 {
-public:
-	void rva000B3A2D();
+protected:
+	virtual void loadPostProcess();
 private:
-	char m_pad00[0xb8];
+	char m_pad00[0xb8 - 4];
 	int m_b8;
 	char m_padBC[0x214 - 0xbc];
 	int m_214;
 };
 
-void Rva000B3A2D::rva000B3A2D()
+void W3DModelDraw::loadPostProcess()
 {
 	((StringBase<unsigned short> *)this)->validate();
 	m_b8 = g_bfmeDisplayAnimationSyncClock;

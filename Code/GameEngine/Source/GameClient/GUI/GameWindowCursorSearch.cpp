@@ -19,9 +19,9 @@ public:
  unsigned char opaque0[8]; unsigned m_status; CursorCoord m_size;
  CursorRegion m_region; unsigned char opaque24[0x1F8-0x24];
  Rva003141BCWindowView*m_next; void*unknown1FC; Rva003141BCWindowView*m_parent; Rva003141BCWindowView*m_child;
- Rva003141BCWindowView*winPointInChild(int,int,bool,bool=false);
  Rva003141BCWindowView*rva003142E1(int,int,bool,bool);
 };
+class GameWindow { public: GameWindow *winPointInChild(int,int,bool,bool=false); };
 class AudioManager; extern AudioManager *TheAudio;
 struct Rva003141BCMiscView { char unknown[0x88]; OpaqueRefElement4 disabledClick; };
 class Rva003141BCAudioView { public:
@@ -105,9 +105,10 @@ class Rva003141BCAudioView { public:
  virtual void slot77();
  virtual const Rva003141BCMiscView *getMiscAudio();
 };
-Rva003141BCWindowView *Rva003141BCWindowView::winPointInChild(int x,int y,bool ignoreEnableCheck,bool playDisabledSound)
+GameWindow *GameWindow::winPointInChild(int x,int y,bool ignoreEnableCheck,bool playDisabledSound)
 {
-    for (Rva003141BCWindowView *child=m_child;child;child=child->m_next) {
+    Rva003141BCWindowView *self = reinterpret_cast<Rva003141BCWindowView *>(this);
+    for (Rva003141BCWindowView *child=self->m_child;child;child=child->m_next) {
         CursorCoord origin=child->m_region.lo;
         Rva003141BCWindowView *parent=child->m_parent;
         while(parent) {
@@ -120,7 +121,7 @@ Rva003141BCWindowView *Rva003141BCWindowView::winPointInChild(int x,int y,bool i
             bool hidden=BitTest(child->m_status,WIN_STATUS_HIDDEN);
             if (!hidden) {
                 if (enabled || BitTest(child->m_status,0x20000000))
-                    return child->winPointInChild(x,y,ignoreEnableCheck,playDisabledSound);
+                    return reinterpret_cast<GameWindow *>(child)->winPointInChild(x,y,ignoreEnableCheck,playDisabledSound);
                 else if (playDisabledSound && TheAudio) {
                     BfmeAudioEventPrefix136 disabledClick(reinterpret_cast<Rva003141BCAudioView *>(TheAudio)->getMiscAudio()->disabledClick,2);
                     reinterpret_cast<Rva003141BCAudioView *>(TheAudio)->addAudioEvent(&disabledClick);
@@ -146,19 +147,19 @@ Rva003141BCWindowView *CursorManagerView::getWindowUnderCursor( Int x, Int y, Bo
 	if( m_mouseCaptor )
 	{
 		// in what what window within the captured window are we?
-		return m_mouseCaptor->winPointInChild( x, y, ignoreEnabled );
+		return reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(m_mouseCaptor)->winPointInChild( x, y, ignoreEnabled ));
 	}
 
 	if( m_grabWindow )
 	{
 		// in what what window within the grabbed window are we?
-		return m_grabWindow->winPointInChild( x, y, ignoreEnabled );
+		return reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(m_grabWindow)->winPointInChild( x, y, ignoreEnabled ));
 	}
 
 	Rva003141BCWindowView *window = NULL;
 	if( m_modalHead && m_modalHead->window )
 	{
-		return m_modalHead->window->winPointInChild( x, y, ignoreEnabled );
+		return reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(m_modalHead->window)->winPointInChild( x, y, ignoreEnabled ));
 	}
 	else
 	{
@@ -176,7 +177,7 @@ Rva003141BCWindowView *CursorManagerView::getWindowUnderCursor( Int x, Int y, Bo
 				if( BitTest( window->m_status, WIN_STATUS_ENABLED ) || ignoreEnabled )
 				{
 					// determine which child window the mouse is in
-					window = window->winPointInChild( x, y, ignoreEnabled );
+					window = reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(window)->winPointInChild( x, y, ignoreEnabled ));
 					break;  // exit for
 				}
 			}  // end if
@@ -198,7 +199,7 @@ Rva003141BCWindowView *CursorManagerView::getWindowUnderCursor( Int x, Int y, Bo
 					if( BitTest( window->m_status, WIN_STATUS_ENABLED )|| ignoreEnabled)
 					{								
 						// determine which child window the mouse is in
-						window = window->winPointInChild( x, y, ignoreEnabled );
+						window = reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(window)->winPointInChild( x, y, ignoreEnabled ));
 						break;  // exit for
 					}
 				}
@@ -220,7 +221,7 @@ Rva003141BCWindowView *CursorManagerView::getWindowUnderCursor( Int x, Int y, Bo
 					if( BitTest( window->m_status, WIN_STATUS_ENABLED )|| ignoreEnabled)
 					{
 						// determine which child window the mouse is in
-						window = window->winPointInChild( x, y, ignoreEnabled );
+						window = reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(window)->winPointInChild( x, y, ignoreEnabled ));
 						break;  // exit for
 					}
 				}
@@ -257,7 +258,7 @@ Rva003141BCWindowView *Rva003141BCWindowView::rva003142E1(int x, int y, bool a3,
 		}
 		if (x >= ox && x <= ox + child->m_size.x && y >= oy && y <= oy + child->m_size.y) {
 			if (a3 != true || !BitTest(child->m_status, WIN_STATUS_HIDDEN)) {
-				return child->winPointInChild(x, y, a4, false);
+				return reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(child)->winPointInChild(x, y, a4, false));
 			}
 		}
 	}

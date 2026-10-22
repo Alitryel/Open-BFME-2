@@ -30,7 +30,6 @@ class DisplayString;
 enum { GWS_SCROLL_LISTBOX=0x20, GWS_COMBO_BOX=0x8000, GWS_ENTRY_FIELD=0x40, GWS_STATIC_TEXT=0x80 };
 struct WindowPickCoord { int x; int y; };
 // Method-only declaration of the independently rowed child-search provider.
-class Rva003141BCWindowView { public: Rva003141BCWindowView *winPointInChild(int, int, bool, bool = false); };
 #define NULL 0
 #define BitTest(value, mask) (((value) & (mask)) != 0)
 enum { WIN_STATUS_TAB_STOP = 0x100, WIN_STATUS_HIDDEN = 0x10 };
@@ -93,6 +92,7 @@ extern GameWindowManager *TheWindowManager;
 class GameWindow
 {
 public:
+	GameWindow *winPointInChild(int, int, bool, bool = false);
 	Int winSetSize(Int width, Int height);
 	virtual void winSetFont(GameFont *);
 	void winSetEnabledTextColors(int color, int borderColor);
@@ -413,7 +413,7 @@ GameWindow *GameWindow::winPointInAnyChild( Int x, Int y, bool ignoreHidden, boo
 		{
 
 			if( !(ignoreHidden == true &&	BitTest( child->m_status, WIN_STATUS_HIDDEN )) )
-				return (GameWindow *)((Rva003141BCWindowView *)child)->winPointInChild( x, y, ignoreEnableCheck );
+				return child->winPointInChild( x, y, ignoreEnableCheck );
 
 		}  // end if
 

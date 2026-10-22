@@ -45,11 +45,11 @@ public:
  UnsignedInt getStyle() { return m_style; }
  UnicodeString getTooltipText(); Int getTooltipTextLength();
 };
-class Rva003141BCWindowView { public: Rva003141BCWindowView *winPointInChild(int,int,bool=false,bool=false); };
 class Rva002C027B { public: void *rva002C027B(); };
 class Rva003140AB { public: bool rva003140AB(Rva003140AB*); };
 class GameWindow {
 public:
+ GameWindow *winPointInChild(int,int,bool=false,bool=false);
  virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0C();
  virtual void invokeTooltip(WinInstanceData*, UnsignedInt);
  virtual void slot14(); virtual void slot18(); virtual void slot1C(); virtual void slot20(); virtual Bool hasTooltip();
@@ -175,7 +175,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 		m_grabWindow = NULL;
 
 		// what what window within the captured window are we in
-		window = reinterpret_cast<GameWindow*>(reinterpret_cast<Rva003141BCWindowView*>(m_mouseCaptor)->winPointInChild( mousePos->x, mousePos->y ));
+		window = m_mouseCaptor->winPointInChild( mousePos->x, mousePos->y );
 
 		//
 		// send buttons, drags, wheels to the windows, we don't continually
@@ -240,7 +240,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 				case GWM_LEFT_UP:
 				{
 					//Play a beep sound if the window is disabled.
-					reinterpret_cast<GameWindow*>(reinterpret_cast<Rva003141BCWindowView*>(m_grabWindow)->winPointInChild( mousePos->x, mousePos->y, FALSE, TRUE ));
+					m_grabWindow->winPointInChild( mousePos->x, mousePos->y, FALSE, TRUE );
 
 					BitClear( m_grabWindow->m_status, WIN_STATUS_ACTIVE );
 					if( m_grabWindow->winPointInWindow( mousePos->x, mousePos->y ) )
@@ -329,7 +329,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 
 			if( m_modalHead && m_modalHead->window )
 			{
-				window = reinterpret_cast<GameWindow*>(reinterpret_cast<Rva003141BCWindowView*>(m_modalHead->window)->winPointInChild( mousePos->x, mousePos->y ));
+				window = m_modalHead->window->winPointInChild( mousePos->x, mousePos->y );
 			}
 			else
 			{
@@ -359,7 +359,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 					childWindow = window->winPointInAnyChild(mousePos->x, mousePos->y, TRUE, TRUE);
 					if( childWindow->hasTooltip() ||
 						reinterpret_cast<Rva002C027B*>(&childWindow->m_instData)->rva002C027B() ) toolTipWindow = childWindow;
-					window = reinterpret_cast<GameWindow*>(reinterpret_cast<Rva003141BCWindowView*>(window)->winPointInChild(mousePos->x, mousePos->y));
+					window = window->winPointInChild(mousePos->x, mousePos->y);
 				}
 
 			}  // end else, no modal head

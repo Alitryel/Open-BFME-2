@@ -2104,6 +2104,7 @@ class Rva003F4ABBOwner { public: void * indexedCall(Int, Int); };
 class LivingWorldBattle
 {
 public:
+	void AddArmy(Int player, void *army);
 void RetreatArmiesForPlayer(void*);bool rva003F4538();int rva003F45DF();void rva003F5397(int,int,int,int);
 	void rva003F498A(class Rva003F498ACallback*);
  Int GetTeamNumberForSide(Int side);			// 0x003F458A
@@ -2128,12 +2129,6 @@ void RetreatArmiesForPlayer(void*);bool rva003F4538();int rva003F45DF();void rva
 };
 // WorldBuilder's LivingWorldBattle::AddArmy, 0x003F6DF9, rowed as
 // Rva003F6D35Owner::appendPayloadRva003F6DF9 (Rva003F6DF9AppendPayload.cpp).
-struct Rva003F6DF9Payload;
-class Rva003F6D35Owner
-{
-public:
-	void appendPayloadRva003F6DF9(void *player, Rva003F6DF9Payload *army);
-};
 class Rva003F468D
 {
 public:
@@ -2459,7 +2454,7 @@ void LivingWorldLogic::PrepareBattleForLoading(LivingWorldBattle *battle)
 				Int player = ((Rva003F468D *)battle)->rva003F468D(side, a);
 				army = CreateEmptyGarrisonArmy((Rva002B6A04Player *)player, (LivingWorldRegion *)battle->m_region);
 				if (army != 0)
-					((Rva003F6D35Owner *)battle)->appendPayloadRva003F6DF9((void *)player, (Rva003F6DF9Payload *)army);
+					battle->AddArmy((Int)player, army);
 			}
 			armies.begin()[k] = (const ModuleData *)army;
 		}

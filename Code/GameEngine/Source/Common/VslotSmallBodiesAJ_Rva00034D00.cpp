@@ -156,10 +156,10 @@ public:
 	void rva005CB260();
 };
 
-class Rva000B3A2D
+class W3DModelDraw
 {
-public:
-	void rva000B3A2D();
+protected:
+	virtual void loadPostProcess();
 };
 
 class Rva00131CEAForwarder
@@ -544,7 +544,7 @@ public:
 
 
 // 0x000CA132: tail jump to Rva000B3A2D::rva000B3A2D.
-class Rva000CA132 : public Rva000B3A2D
+class Rva000CA132 : public W3DModelDraw
 {
 public:
 	void rva000CA132();

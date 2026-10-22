@@ -13,7 +13,6 @@
 
 // The base loadPostProcess at 0x000B3A2D is rowed under its address-derived
 // name (Rva000B3A2D.cpp); the call binds that row.
-class Rva000B3A2D { public: void rva000B3A2D(); };
 
 class W3DModelDraw
 {
@@ -32,7 +31,7 @@ protected:
 void W3DTankDraw::loadPostProcess(void)
 {
 	// extend base class
-	reinterpret_cast<Rva000B3A2D *>(this)->rva000B3A2D();
+	W3DModelDraw::loadPostProcess();
 
 	// toss any existing ones and re-create 'em (since this module expects 'em to always be around)
 	tossEmitters();

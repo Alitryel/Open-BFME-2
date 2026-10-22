@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
 //
-// ?rva00205D5D@ScriptEngine@@QAEPAURva00205D5DEntry@@ABVAsciiString@@_N@Z, retail 0x00205D5D, 128 bytes.
+// ?findAttackInfo@ScriptEngine@@QAEPAVAttackPriorityInfo@@ABVAsciiString@@_N@Z, retail 0x00205D5D, 128 bytes.
 // ScriptEngine attack-priority-set table: 256 entries of 0x10 at 0x19100 with
 // AsciiString at +4, count at 0x1A100. Searches index 1.. for compare==0,
 // returns entry start (string-4); else if create and count<0x100 appends via
@@ -10,14 +10,15 @@
 // priority set" limit; callees are rowed StringBase::compare and pinned
 // AsciiString::operator=.
 #include "ascii_string.h"
-struct Rva00205D5DEntry
+class AttackPriorityInfo
 {
+public:
 	int m_00;
 	AsciiString m_name;
 	int m_08;
 	int m_0C;
+	void setPriority(const class ThingTemplate *, int);
 };
-class AttackPriorityInfo;
 class ThingTemplate;
 class ThingFactory
 {
@@ -56,10 +57,6 @@ struct Rva00205DDDAI
 class AI;
 extern AI *TheAI;
 
-class Overridable;
-class Image;
-// The rowed 0x358333 provider keeps neutral pointer-valued ABI names.
-class Rva0034C5E0 { public: void rva00358333(Overridable *, Image *); };
 
 class Debug
 {
@@ -127,7 +124,7 @@ private:
 class ScriptEngine
 {
 public:
-	Rva00205D5DEntry *rva00205D5D(const AsciiString &s, bool create);
+	AttackPriorityInfo *findAttackInfo(const AsciiString &s, bool create);
 	const AttackPriorityInfo *getAttackInfo(const AsciiString &name);
 	ObjectTypes *getObjectTypes(const AsciiString &objectTypeList);
 	void AppendDebugMessage(const AsciiString &message, bool forcePause);
@@ -137,13 +134,13 @@ protected:
 
 private:
 	char m_pad[0x19100];
-	Rva00205D5DEntry m_table[256];
+	AttackPriorityInfo m_table[256];
 	int m_count;
 };
 
 extern ScriptEngine *TheScriptEngine;
 
-Rva00205D5DEntry *ScriptEngine::rva00205D5D(const AsciiString &asciiString, bool create)
+AttackPriorityInfo *ScriptEngine::findAttackInfo(const AsciiString &asciiString, bool create)
 {
 	for (int i = 1; i < m_count; ++i)
 	{
@@ -178,7 +175,7 @@ const AttackPriorityInfo *ScriptEngine::getAttackInfo(const AsciiString &name)
 	{
 		if (set->m_name.compare(name) == 0)
 		{
-			Rva00205D5DEntry *info = rva00205D5D(name, true);
+			AttackPriorityInfo *info = findAttackInfo(name, true);
 			if (!info)
 				break;
 
@@ -188,7 +185,7 @@ const AttackPriorityInfo *ScriptEngine::getAttackInfo(const AsciiString &name)
 			{
 				const ThingTemplate *thing = TheThingFactory->findTemplate(item->m_templateName);
 				if (thing)
-					reinterpret_cast<Rva0034C5E0 *>(info)->rva00358333((Overridable *)thing, (Image *)item->m_priority);
+					info->setPriority(thing, item->m_priority);
 				item = item->m_next;
 			}
 			return reinterpret_cast<const AttackPriorityInfo *>(info);
@@ -220,7 +217,7 @@ void ScriptEngine::setPriorityThing(ScriptAction *action)
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(typeArgument);
 	if (!types)
 	{
-		Overridable *thingTemplate = (Overridable *)TheThingFactory->findTemplate(typeArgument);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(typeArgument);
 		if (!thingTemplate)
 		{
 			AppendDebugMessage(AsciiString("***Attempting to set attack priority on an invalid thing:***"), false);
@@ -228,14 +225,14 @@ void ScriptEngine::setPriorityThing(ScriptAction *action)
 			return;
 		}
 
-		Rva00205D5DEntry *info = rva00205D5D(action->getParameter(0)->getString(), true);
+		AttackPriorityInfo *info = findAttackInfo(action->getParameter(0)->getString(), true);
 		if (!info)
 		{
 			AsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
 			AppendDebugMessage(message, false);
 			return;
 		}
-		reinterpret_cast<Rva0034C5E0 *>(info)->rva00358333(thingTemplate, (Image *)action->getParameter(2)->getInt());
+		info->setPriority(thingTemplate, action->getParameter(2)->getInt());
 		return;
 	}
 	else
@@ -243,7 +240,7 @@ void ScriptEngine::setPriorityThing(ScriptAction *action)
 		for (unsigned int typeIndex = 0; typeIndex < types->getListSize(); typeIndex++)
 		{
 			AsciiString thisTypeName = types->getNthInList(typeIndex);
-			Overridable *thisType = (Overridable *)TheThingFactory->findTemplate(thisTypeName);
+			const ThingTemplate *thisType = TheThingFactory->findTemplate(thisTypeName);
 			if (!thisType)
 			{
 				{
@@ -254,14 +251,14 @@ void ScriptEngine::setPriorityThing(ScriptAction *action)
 				return;
 			}
 
-			Rva00205D5DEntry *info = rva00205D5D(action->getParameter(0)->getString(), true);
+			AttackPriorityInfo *info = findAttackInfo(action->getParameter(0)->getString(), true);
 			if (!info)
 			{
 				AsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
 				AppendDebugMessage(*(const AsciiString *)&message, false);
 				return;
 			}
-			reinterpret_cast<Rva0034C5E0 *>(info)->rva00358333(thisType, (Image *)action->getParameter(2)->getInt());
+			info->setPriority(thisType, action->getParameter(2)->getInt());
 		}
 		return;
 	}

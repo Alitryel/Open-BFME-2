@@ -174,10 +174,10 @@ public:
 	void rva005CB260();
 };
 
-class Rva000B3A2D
+class W3DModelDraw
 {
-public:
-	void rva000B3A2D();
+protected:
+	virtual void loadPostProcess();
 };
 
 class Rva00131CEAForwarder
@@ -612,14 +612,14 @@ void Rva000B23DD::rva000B23DD()
 }
 
 // 0x000CA132: tail jump to Rva000B3A2D::rva000B3A2D.
-class Rva000CA132 : public Rva000B3A2D
+class Rva000CA132 : public W3DModelDraw
 {
 public:
 	void rva000CA132();
 };
 void Rva000CA132::rva000CA132()
 {
-	Rva000B3A2D::rva000B3A2D();
+	W3DModelDraw::loadPostProcess();
 }
 
 // 0x000EF961: tail jump to Rva00131CEAForwarder::rva00131CEA.

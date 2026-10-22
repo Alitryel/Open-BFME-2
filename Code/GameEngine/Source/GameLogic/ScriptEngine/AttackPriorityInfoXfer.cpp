@@ -169,10 +169,6 @@ extern ThingFactory *TheThingFactory;
 
 typedef _STL::map< const ThingTemplate *, Int, _STL::less< const ThingTemplate * > > AttackPriorityMap;
 
-class Overridable;
-class Image;
-// The rowed 0x358333 provider keeps neutral pointer-valued ABI names.
-class Rva0034C5E0 { public: void rva00358333(Overridable *, Image *); };
 
 class AttackPriorityInfo
 {
@@ -257,9 +253,7 @@ void AttackPriorityInfo::xfer( Xfer *xfer )
 			*xfer == priority;
 
 			// set priority (this will allocate the map on the first call as well)
-			reinterpret_cast<Rva0034C5E0 *>(this)->rva00358333(
-				reinterpret_cast<Overridable *>(const_cast<ThingTemplate *>(thingTemplate)),
-				reinterpret_cast<Image *>(priority));
+			setPriority(thingTemplate, priority);
 
 		}  // end for
 

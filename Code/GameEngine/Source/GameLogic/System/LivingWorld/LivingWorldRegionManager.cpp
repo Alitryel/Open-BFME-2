@@ -624,10 +624,9 @@ struct LivingWorldBattlePlayerView;
 struct LivingWorldBattleCoord;
 class Rva003F468D { public: int rva003F4DAE(int); };
 // WorldBuilder's LivingWorldBattle::AddArmy 0x003F6DF9, rowed as Rva003F6D35Owner::appendPayloadRva003F6DF9.
-struct Rva003F6DF9Payload;
-class Rva003F6D35Owner { public: void appendPayloadRva003F6DF9(void *,Rva003F6DF9Payload *); };
 class LivingWorldBattle {
 public:
+ void AddArmy(int,void *);
  class BattlePlayer {
  public:
   void *player;
@@ -665,7 +664,7 @@ void LivingWorldRegionManager::AddBattle(RegionBattleView *region,const RegionSl
  Rva002E2903Player *owner=reinterpret_cast<Rva002BA8F1Logic *>(TheLivingWorldLogic)->find(region->getOwner(),0);
  if (owner && battle->rva003F48EF(owner) && !battle->rva003F4FBD(owner) && reinterpret_cast<Rva003F02E4 *>(region)->rva003F02E4()) {
   LivingWorldArmy *garrison=TheLivingWorldLogic->CreateEmptyGarrisonArmy(reinterpret_cast<Rva002B6A04Player *>(owner),reinterpret_cast<LivingWorldRegion *>(region));
-  if (garrison) reinterpret_cast<Rva003F6D35Owner *>(battle)->appendPayloadRva003F6DF9(owner,reinterpret_cast<Rva003F6DF9Payload *>(garrison));
+  if (garrison) battle->AddArmy(reinterpret_cast<int>(owner),garrison);
  }
  for(int side=0;side<battle->sideCount();++side) {
   for(int player=0;player<reinterpret_cast<Rva003F468D *>(battle)->rva003F4DAE(side);++player) {

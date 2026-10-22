@@ -71,7 +71,7 @@ public:
 
 protected:
 	void setLowControlBarConfig(void);
-	void rva0031B0CE(void);
+	void setDefaultControlBarConfig(void);
 
 private:
 	unsigned char m_pad00[0x1C];
@@ -96,8 +96,8 @@ void ControlBar::setLowControlBarConfig(void)
 
 // Native 0x0031B0CE..0x0031B134: resets stage, uses a float 0.8 height
 // factor, restores the default position, shows the master and updates images.
-// Target establishes these operations; the original method name is unproven.
-void ControlBar::rva0031B0CE(void)
+// The switchControlBarStage caller and Zero Hour body identify the member.
+void ControlBar::setDefaultControlBarConfig(void)
 {
  m_currentControlBarStage = CONTROL_BAR_STAGE_DEFAULT;
  TheTacticalView->setHeight((Int)(.8f * TheDisplay->getHeight()));
