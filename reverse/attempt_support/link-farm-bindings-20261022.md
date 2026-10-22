@@ -78,3 +78,32 @@ regeneration also reports missing unrelated objects, so it is not a replacement
 full data measurement. Canonical data placement remains unverified here.
 The farm commit's shadow hatch counter likewise warned about two references
 to its already-owned address-named global; it added no separate datum.
+
+## Screen-effect copy helpers
+
+Moved bfmeReset (0x309E30, 27 B), bfmeCopyTable (0x309E51, 20 B), and
+bfmeCopySecond (0x309E6B, 20 B) into the corresponding glow, ring and fire
+parser units. The parsers already own each saved/active object. Their target
+relocations establish VA DBD7B8/DBD7DC (36 B), DBD800/DBD860 (96 B), and
+DBD8C0/DBD918 (88 B); the copy bodies address those same objects. BFME1 donor
+6d9434269164392c5ba62aaa7c15a86b5b020d76 supplies the copy semantics; target
+bytes and parser relocations independently support these storage bindings.
+Names and layouts are preserved, with no new data or pins. Removed the three
+rowless standalone helper units and their six undefined data aliases.
+
+Same-index current-object legacy preview: 630 -> 697 authored nonpadding
+bytes, +67 B. To measure retirement with the existing index, the three old
+units were temporarily compiled as empty translation units alongside the
+three updated owners; the final tree deletes those obsolete units. All 12/12
+rows in the owners pass the byte gate and strict reusable receipt preparation;
+closure was not checked. This is a legacy retirement preview, not evidence of
+closed-strict or actual placement gain. Class, frozen-source, CSV, converged
+data and whitespace checks pass. Scratch logs are
+build/link-seat-effects-{before,after,strict}.txt and
+build/link-seat-effects-{reset,ring,fire}-add.txt.
+
+The shadow data check reports two new wrong-name findings for the glow saved
+and active objects. The committed data ledger still selects the deleted
+undefined aliases as unowned names, while listing the existing parser-local
+objects as definitions at those same addresses. Ring/fire storage references
+are already baselined. No data ledger or baseline was changed.

@@ -220,3 +220,12 @@ void parseGlowEffect( INI *ini )
 		s_glowEffectSaved = s_glowEffectActive;
 	g_bfmeDirtyCU = TRUE;
 }
+
+// Reset the active effect using the same storage as its parser.
+// BFME1 donor 6d9434269164392c5ba62aaa7c15a86b5b020d76 supplied this copy;
+// BFME2 parser relocations establish the shared saved/active objects.
+void __cdecl bfmeReset(void)
+{
+	s_glowEffectActive = s_glowEffectSaved;
+	g_bfmeDirtyCU = TRUE;
+}

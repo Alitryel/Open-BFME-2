@@ -260,3 +260,11 @@ void Rva007AE756FireEffectInit()
 	s_fireEffectActive.m_unknown28[2] = s_fireEffectActive.m_unknown28[1];
 	s_fireEffectActive.m_unknown28[0] = s_fireEffectActive.m_unknown28[1];
 }
+
+// Reset the active effect using the same storage as its parser.
+// BFME1 donor 6d9434269164392c5ba62aaa7c15a86b5b020d76 supplied this copy;
+// BFME2 parser relocations establish the shared saved/active objects.
+void __cdecl bfmeCopySecond(void)
+{
+	s_fireEffectActive = s_fireEffectSaved;
+}
