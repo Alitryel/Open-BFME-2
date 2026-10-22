@@ -373,15 +373,6 @@ Int CreateAHeroManager::GetBlingCount(Int blingKey, const CreateAHeroHero *hero)
 	return 0;
 }
 
-// CreateAHeroManager::CreateAHeroClass::GetBlingCount, retail 0x0021BE23.
-Int CreateAHeroManager::CreateAHeroClass::GetBlingCount(Int blingKey, UnsignedInt subClassIndex) const
-{
-	const CreateAHeroSubClass *subClass = rva00219B9E(subClassIndex);
-	if (subClass)
-		return subClass->rva0021BC2C(blingKey);
-	return 0;
-}
-
 // CreateAHeroManager::CreateAHeroClass::GetSubClassDefaultBlingId, retail
 // 0x0021BEA2.
 Int CreateAHeroManager::CreateAHeroClass::GetSubClassDefaultBlingId(Int blingKey, UnsignedInt subClassIndex) const
@@ -427,27 +418,6 @@ const AsciiString &CreateAHeroManager::GetBlingUpgradeName(Int blingKey, const C
 			return bling->m_upgradeName;
 	}
 	return AsciiString::TheEmptyString;
-}
-
-// CreateAHeroManager::FindBlingByUpgradeName, retail 0x0021D4CE: the table
-// index and id of the bling granted by an upgrade.
-Bool CreateAHeroManager::FindBlingByUpgradeName(const AsciiString &upgradeName, Int *index, Int *blingId)
-{
-	CreateAHeroBlingEntry *it = rva0021D120(m_blings.begin(), m_blings.end(), upgradeName);
-	if (it == m_blings.end())
-		return false;
-	*index = it - m_blings.begin();
-	*blingId = it->m_blingId;
-	return true;
-}
-
-// Target calls the matched CreateAHeroClass::GetBlingCount at 0x0021BE23.
-// The original method name is not independently proven, so keep the RVA label.
-Int CreateAHeroManager::rva0021BEE0(Int blingKey, UnsignedInt classIndex, UnsignedInt subClassIndex) const
-{
-	if (classIndex < m_classes.size())
-		return m_classes[classIndex].GetBlingCount(blingKey, subClassIndex);
-	return 0;
 }
 
 // CreateAHeroManager::GetSubClassDefaultBlingId, retail 0x0021BF11.
@@ -574,65 +544,6 @@ extern "C" const FieldParse CreateAHeroClassFieldParse[];
 // knowing the body, does not reload TheCreateAHeroManager across it.
 template <> inline bool StringBase<char>::isEmpty() const { return m_data == 0 || m_data->length == 0; }
 
-void CreateAHeroManager::parseCreateAHeroClassDefinition(INI *ini)
-{
-	Rva0021F804 heroClass(AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"));
-	ini->initFromINI(&heroClass, CreateAHeroClassFieldParse);
-	if (heroClass.m_upgradeName.isNone() || ((const BfmeStringPresenceValue *)&heroClass.m_upgradeName)->isEmpty())
-		throw INIException(3, "No upgrade name specified while parsing CreateAHeroClass.");
-	if (TheUpgradeCenter->findUpgrade(heroClass.m_upgradeName) == 0)
-		throw INIException(3, "Upgrade %s not found while parsing CreateAHeroClass.", heroClass.m_upgradeName.str());
-	if (TheCreateAHeroManager->rva0021B31C(heroClass.m_upgradeName))
-		throw INIException(3, "A Create-a-Hero Class with the upgrade %s already exists.", heroClass.m_upgradeName.str());
-	TheCreateAHeroManager->rva0022020C(heroClass);
-}
-
-// CreateAHeroManager::iniParseCreateAHeroSystem, retail 0x0022044C (684
-// bytes), the CreateAHeroSystem block parser (BlockParse node VA 0x00DB9D38).
-// WB names it (CreateAHero.cpp:3270..3367): fill the manager from the block,
-// require every stat, clamp the special-animation chance to [0, 100], require
-// a weapon group and the three animation names, and drop a CanBuild upgrade
-// name that no upgrade answers. The DEBUG reports are compiled out.
-void CreateAHeroManager::iniParseCreateAHeroSystem(INI *ini)
-{
-	if (TheCreateAHeroManager == 0)
-		return;
-
-	ini->initFromINI(TheCreateAHeroManager, CreateAHeroSystemFieldParse);
-
-	Rva00219453Validate(TheCreateAHeroManager->m_stratigicDefeatStat, "StratigicDefeatStatName");
-	Rva00219453Validate(TheCreateAHeroManager->m_stratigicVictoryStat, "StratigicVictoryStatName");
-	Rva00219453Validate(TheCreateAHeroManager->m_stratigicMPDefeatStat, "StratigicMPDefeatStatName");
-	Rva00219453Validate(TheCreateAHeroManager->m_stratigicMPVictoryStat, "StratigicMPVictoryStatName");
-	Rva00219453Validate(TheCreateAHeroManager->m_skirmishDefeatStat, "SkirmishDefeatStatName");
-	Rva00219453Validate(TheCreateAHeroManager->m_skirmishVictoryStat, "SkirmishVictoryStatName");
-	Rva00219453Validate(TheCreateAHeroManager->m_openPlayDefeatStat, "OpenPlayDefeatStatName");
-	Rva00219453Validate(TheCreateAHeroManager->m_openPlayVictoryStat, "OpenPlayVictoryStatName");
-
-	TheCreateAHeroManager->m_specialAnimPercentChance = std::min(100.0f, TheCreateAHeroManager->m_specialAnimPercentChance);
-	TheCreateAHeroManager->m_specialAnimPercentChance = std::max(0.0f, TheCreateAHeroManager->m_specialAnimPercentChance);
-
-	static NameKeyType noneKey = TheNameKeyGenerator->nameToKey("None");
-	static NameKeyType emptyKey = TheNameKeyGenerator->nameToKey("");
-	if (TheCreateAHeroManager->m_weaponGroupName == NAMEKEY_INVALID
-		|| TheCreateAHeroManager->m_weaponGroupName == noneKey
-		|| TheCreateAHeroManager->m_weaponGroupName == emptyKey)
-		throw INIException(3, "WeaponGroupName is not a valid in CreateAHeroSystem.ini.");
-
-	if (TheCreateAHeroManager->m_selectedCheerAnimName.isNone() || ((const StringBase<char> *)&TheCreateAHeroManager->m_selectedCheerAnimName)->isEmpty())
-		throw INIException(3, "SelectedCheerAninName is not a valid in CreateAHeroSystem.ini.");
-	if (TheCreateAHeroManager->m_examineWeaponAnimName.isNone() || ((const StringBase<char> *)&TheCreateAHeroManager->m_examineWeaponAnimName)->isEmpty())
-		throw INIException(3, "ExamineWeaponAninName is not a valid in CreateAHeroSystem.ini.");
-	if (TheCreateAHeroManager->m_examineSelfAnimName.isNone() || ((const StringBase<char> *)&TheCreateAHeroManager->m_examineSelfAnimName)->isEmpty())
-		throw INIException(3, "ExamineSelfAninName is not a valid in CreateAHeroSystem.ini.");
-
-	if (!((const StringBase<char> *)&TheCreateAHeroManager->m_canBuildUpgradeName)->isEmpty())
-	{
-		if (TheUpgradeCenter->findUpgrade(TheCreateAHeroManager->m_canBuildUpgradeName) == 0)
-			TheCreateAHeroManager->m_canBuildUpgradeName.clear();
-	}
-}
-
 // Retail 0x0021B31C: the hero class granted by an upgrade, or NULL. The class
 // parser (0x002202BF) refuses a second class with the same upgrade through it.
 CreateAHeroManager::CreateAHeroClass *CreateAHeroManager::rva0021B31C(const AsciiString &upgradeName)
@@ -722,31 +633,6 @@ inline char BlingFirstChar(const AsciiString &string)
 {
     const char *buffer=*reinterpret_cast<const char *const *>(&string);
     return buffer ? buffer[8] : 0;
-}
-
-// WB B801A0 names this FieldParse callback; native21EE37..21EF66 RET0
-// parses the upgrade list and recognizes the leading default marker '@'.
-// Its three EH states own the list, the current upgrade and the substring
-// conversion result. Retail's builder and converter have a12-byte view ABI.
-void CreateAHeroManager::parseHeroBlingUpgrades(INI *ini, void *instance, void *, const void *)
-{
-    std::vector<AsciiString> upgrades;
-    INI::parseAsciiStringVectorAppend(ini,0,&upgrades,0);
-    CreateAHeroSubClass *subClass=static_cast<CreateAHeroSubClass *>(instance);
-    for (unsigned i=0;i<upgrades.size();++i) {
-        int index=0;
-        int blingId=0;
-        AsciiString upgrade=upgrades[i];
-        bool makeDefault=false;
-        if (upgrade.getLength()>1 && BlingFirstChar(upgrade)=='@') {
-            makeDefault=true;
-            Rva000B6AF5Rec view;
-            upgrade=*reinterpret_cast<Rva000B6AA9Rec *>(
-                Rva000B6AF5Build(&view,reinterpret_cast<void **>(&upgrade),upgrade.getLength()-1));
-        }
-        if (TheCreateAHeroManager->FindBlingByUpgradeName(upgrade,&index,&blingId))
-            subClass->AddBling(blingId,index,makeDefault);
-    }
 }
 
 // Native21B474..21B5D6 and WB B7D7B0 establish the binding operation.
