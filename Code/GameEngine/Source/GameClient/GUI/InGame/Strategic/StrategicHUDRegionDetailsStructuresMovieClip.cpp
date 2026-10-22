@@ -253,10 +253,6 @@ public:
  class IconSlot;
 };
 
-StrategicHUD::RegionDetailsStructuresMovieClip::RegionDetailsStructuresMovieClip(int level, const AsciiString &name, int iconSlotCount, int arg)
-	: m_impl(new Impl(this, level, name, iconSlotCount, arg))
-{
-}
 
 class GameTextInterface {public:
  virtual ~GameTextInterface();
@@ -376,23 +372,7 @@ class Rva005F122DVector {public: void reserve(unsigned int); };
 class Rva005F141D { public: void OnRegionFortressRollOver(const char *); void rva005F057A(const char *); };
 class InGameCommandButtonMovieClip { public: class Impl { public: void OnOverButton(const char *); }; };
 namespace StrategicHUD { class ArmyMemberIconMovieClip { public: class Impl { public: void OnRollOver(const char *); }; }; }
-StrategicHUD::RegionDetailsStructuresMovieClip::Impl::Impl(RegionDetailsStructuresMovieClip *owner, int level, const AsciiString &name, int iconSlotCount, int arg)
-	: m_owner(owner), m_level(level), m_name(name), m_arg(arg), m_44(0), m_48(0), m_4c(false), m_4d(false)
-{
-	Rva0052519DFire(g_bfmeAptWindowManager, (void *)m_level, m_name.str(), "SetIconSlotCount", &iconSlotCount);
-	reinterpret_cast<Rva005F122DVector *>(&m_iconSlots)->reserve(iconSlotCount);
-	for (int i = 0; i < iconSlotCount; ++i)
-	{
-		m_iconSlots.push_back(new IconSlot(this,i));
-	}
-	StrategicHUD::SetBuildingNameString(m_level, (Rva005F066COuter *)&m_name, m_buildingName);
-	AsciiString prefix;
-	prefix.format("_level%u.", m_level);
-	m_commands.AddCommandMapDelegate(prefix + m_name + "_OnRegionFortressRollOver", DelegateDesc((Rva005F141D *)this, &Rva005F141D::OnRegionFortressRollOver));
-	m_commands.AddCommandMapDelegate(prefix + m_name + "_OnRegionFortressRollOut", DelegateDesc((InGameCommandButtonMovieClip::Impl *)this, &InGameCommandButtonMovieClip::Impl::OnOverButton));
-	m_commands.AddCommandMapDelegate(prefix + m_name + "_OnRegionFortressTypeRollOver", DelegateDesc((Rva005F141D *)this, &Rva005F141D::rva005F057A));
-	m_commands.AddCommandMapDelegate(prefix + m_name + "_OnRegionFortressTypeRollOut", DelegateDesc((StrategicHUD::ArmyMemberIconMovieClip::Impl *)this, &StrategicHUD::ArmyMemberIconMovieClip::Impl::OnRollOver));
-}
+
 
 
 #pragma pointers_to_members(full_generality, multiple_inheritance)
@@ -417,17 +397,5 @@ class AptCustomRenderAdder {public:
 // reloads owner/adder after holder construction. The helper-on-adder form
 // cached that receiver too soon and compiled16 extra bytes. No pins added.
 template<class T> static __forceinline FunctorBinding structureBinding(T*target,void(T::*method)(const char*)){FunctorBinding binding(target,method);return binding;}
-StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot::IconSlot(Impl*owner,int index)
- :m_owner(owner),m_index(index),m_listener(0),m_state(0),m_word1C(0),m_word20(0),m_total(-1),m_remaining(-1),m_showProgress(false),m_turnsRolledOver(false) {
- AsciiString prefix;prefix.format("_level%u.",m_owner->m_level);
- AsciiString number;number.format("%d",m_index);
- m_owner->m_commands.AddCommandMap(prefix+m_owner->m_name+"_OnIconSlotClicked"+number,AptRef<AptCommandMap>(structureBinding((Rva005F0CC9*)this,&Rva005F0CC9::OnIconSlotClicked)));
- m_owner->m_commands.AddCommandMap(prefix+m_owner->m_name+"_OnIconSlotRollOver"+number,AptRef<AptCommandMap>(structureBinding((Rva005F0CC9*)this,&Rva005F0CC9::OnIconSlotRollOver)));
- m_owner->m_commands.AddCommandMap(prefix+m_owner->m_name+"_OnIconSlotRollOut"+number,AptRef<AptCommandMap>(structureBinding((Rva005F0CC9*)this,&Rva005F0CC9::OnIconSlotRollOut)));
- m_owner->m_commands.AddCommandMap(prefix+m_owner->m_name+"_OnIconSlotTypeRollOver"+number,AptRef<AptCommandMap>(structureBinding((Rva005F0CC9*)this,&Rva005F0CC9::OnIconSlotTypeRollOver)));
- m_owner->m_commands.AddCommandMap(prefix+m_owner->m_name+"_OnIconSlotTypeRollOut"+number,AptRef<AptCommandMap>(structureBinding((Rva005F0CC9*)this,&Rva005F0CC9::OnIconSlotTypeRollOut)));
- m_owner->m_commands.AddCommandMap(prefix+m_owner->m_name+"_OnRollOverTurnsRemaining"+number,AptRef<AptCommandMap>(structureBinding((Rva005F0CC9*)this,&Rva005F0CC9::OnRollOverTurnsRemaining)));
- m_owner->m_commands.AddCommandMap(prefix+m_owner->m_name+"_OnRollOutTurnsRemaining"+number,AptRef<AptCommandMap>(structureBinding((Rva005F0CC9*)this,&Rva005F0CC9::OnRollOutTurnsRemaining)));
- ((AptCustomRenderAdder*)&m_owner->m_custom)->AddCustomRender(prefix+m_owner->m_name+"_RenderProgress"+number,AptRef<AptCustomRender>(structureBinding((Rva005F0CC9*)this,reinterpret_cast<void(Rva005F0CC9::*)(const char*)>(&Rva005F0CC9::RenderProgress))));
-}
+
 typedef char StructuresIconSlotIs48[sizeof(StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot)==48 ? 1 : -1];
