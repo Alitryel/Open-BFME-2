@@ -27,7 +27,6 @@
 //   0x003B93A0  0x003B923B  0x00C1FB04#0
 //   0x003ED249  0x003ED1FC  0x00C36100#0
 //   0x003EE3E2  0x003EE1BE  0x00C3613C#0
-//   0x003EF44B  0x003EF36E  0x00C363D8#0
 //   0x003F36EC  0x003F332E  0x00C36FA4#0
 //   0x003F6CDD  0x003F6A91  0x00C3709C#0
 //   0x003F8DC0  0x003F8728  0x00C37314#0
@@ -392,19 +391,6 @@ public:
 
 // ?<Rva003EE1BE::Rva003EE1BE> absent-from-retail
 Rva003EE1BE::Rva003EE1BE(EmitVtableTag *)
-{
-}
-
-class Rva003EF36E
-{
-public:
-	Rva003EF36E(EmitVtableTag *);
-public:
-	virtual ~Rva003EF36E();
-};
-
-// ?<Rva003EF36E::Rva003EF36E> absent-from-retail
-Rva003EF36E::Rva003EF36E(EmitVtableTag *)
 {
 }
 
