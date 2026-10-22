@@ -1088,12 +1088,16 @@ public:
 // The +0x20 contain interface (vtable 0x00C44EC8): slot 70 fills the
 // contained-items pair.
 typedef void (*ContainIterateFunc)(Object *obj, void *userData);
+// The base iteration body 0x004635EC is rowed as SlaughterHordeContain::rva004635EC;
+// baseIterateContained calls that spelling with the interface's own this.
+class SlaughterHordeContain { public: virtual void rva004635EC(ContainIterateFunc func, void *userData, int flags); };
 class ContainModuleInterface : public Rva00468D11Slots<38>
 {
 public:
 	virtual bool slot38(Object *obj, int a2, int a3) = 0;
 	virtual void cgap39() = 0; virtual void cgap40() = 0; virtual void slot41(const Object *obj, int a2) = 0; virtual void cgap42() = 0; virtual void cgap43() = 0; virtual void cgap44() = 0; virtual void cgap45() = 0; virtual void cgap46() = 0; virtual void cgap47() = 0; virtual void cgap48() = 0; virtual void cgap49() = 0; virtual void cgap50() = 0; virtual void cgap51() = 0; virtual void cgap52() = 0; virtual void cgap53() = 0; virtual void cgap54() = 0; virtual void cgap55() = 0; virtual void cgap56() = 0; virtual void cgap57() = 0; virtual void cgap58() = 0; virtual void cgap59() = 0; virtual void cgap60() = 0; virtual void cgap61() = 0; virtual void cgap62() = 0; virtual void cgap63() = 0; virtual void cgap64() = 0; virtual void cgap65() = 0; virtual void cgap66() = 0; virtual void cgap67() = 0;
 	virtual void iterateContained(ContainIterateFunc func, void *userData, int a3);	// slot 68; the base body is 0x004635EC
+	__forceinline void baseIterateContained(ContainIterateFunc func, void *userData, int a3) { ((SlaughterHordeContain *)this)->SlaughterHordeContain::rva004635EC(func, userData, a3); }
 	virtual int slot69(int a1) = 0;
 	virtual void rva0046D27ASlot70(Rva0046247DPair &p) = 0;
 	virtual void cgap71() = 0; virtual void cgap72() = 0; virtual void cgap73() = 0; virtual void cgap74() = 0; virtual void cgap75() = 0; virtual void cgap76() = 0; virtual void cgap77() = 0;
@@ -1293,7 +1297,6 @@ public:
 	void checkSpecialUnitDeath(Object *obj);
 	void *rva0046AF12();
 	int getBannerCarrierIndexToUse(const Object *obj, const ThingTemplate **outTemplate);
-	HordeBannerCarrierUpdate *rva00468E26(Object *obj);	// 0x00468E26, banner carrier update lookup
 	virtual void iterateContained(ContainIterateFunc func, void *userData, int a3);
 	virtual bool attemptBestFirePointPosition(Object *source, Weapon *weapon, Object *victim);
 	virtual bool rva0046BB38(Object *other);
@@ -4390,7 +4393,7 @@ void HordeContain::iterateContained(ContainIterateFunc func, void *userData, int
 	}
 	else
 	{
-		ContainModuleInterface::iterateContained(func, userData, a3);
+		ContainModuleInterface::baseIterateContained(func, userData, a3);
 	}
 }
 
@@ -4405,6 +4408,17 @@ static inline bool clearSpecialUnitID(ObjectID &slot, ObjectID id)
 	return false;
 }
 
+// The banner carrier update lookup 0x00468E26 is rowed as the stdcall
+// Rva00468E26Get, whose body ignores ECX; retail calls it with this in ECX.
+// The union gives that call the member ABI under the row's own name.
+Module *__stdcall Rva00468E26Get(Object *);
+class BannerUpdateOwner {};
+union NativeBannerUpdateCall {
+ Module *(__stdcall *target)(Object *);
+ Module *(BannerUpdateOwner::*member)(Object *);
+};
+typedef char BannerUpdatePointerWidth[sizeof(NativeBannerUpdateCall)==4 ? 1 : -1];
+
 // HordeContain::checkSpecialUnitDeath, retail 0x0046936B (66 bytes): WB
 // names it and asserts the banner carrier's update module exists. A dying
 // special unit (+0x264, or the banner carrier at +0x26C) is forgotten; for
@@ -4416,7 +4430,8 @@ void HordeContain::checkSpecialUnitDeath(Object *obj)
 		return;
 	if (clearSpecialUnitID(m_26C, id))
 	{
-		HordeBannerCarrierUpdate *update = rva00468E26(obj);
+		NativeBannerUpdateCall getter = {&Rva00468E26Get};
+		HordeBannerCarrierUpdate *update = (HordeBannerCarrierUpdate *)(((BannerUpdateOwner *)this)->*getter.member)(obj);
 		if (update)
 			m_27C = update->m_data->m_value;
 	}
@@ -4746,6 +4761,27 @@ public:
 	AODOffset2D *rva00468E98(AODOffset2D *out, AODOffset2D offset);
 };
 
+// 0x00468E98 is rowed as Rva00468E98::rotate (by-value result through the
+// hidden pointer). The union calls that name with this view's explicit out
+// pointer, which occupies the same stack slot.
+class Rva00468E98Point
+{
+public:
+	float x, y;
+	Rva00468E98Point(const Rva00468E98Point &other);
+	~Rva00468E98Point();
+};
+class Rva00468E98
+{
+public:
+	Rva00468E98Point rotate(Rva00468E98Point);
+};
+union NativeRotateCall {
+	Rva00468E98Point (Rva00468E98::*target)(Rva00468E98Point);
+	AODOffset2D *(AODHordeContain::*member)(AODOffset2D *out, AODOffset2D offset);
+};
+typedef char RotatePointerWidth[sizeof(NativeRotateCall)==4 ? 1 : -1];
+
 struct Rva0046A5B1Record
 {
 	unsigned char m_pad00[0x0C];
@@ -4756,7 +4792,8 @@ struct Rva0046A5B1Record
 Coord2D *HordeContain::rva0046A5B1(Coord2D *offset, int index)
 {
 	Rva0046A5B1Record *rec = (Rva0046A5B1Record *)m_188Begin + index;
-	((AODHordeContain *)this)->rva00468E98((AODOffset2D *)offset, rec->m_offset);
+	NativeRotateCall rotate = {&Rva00468E98::rotate};
+	(((AODHordeContain *)this)->*rotate.member)((AODOffset2D *)offset, rec->m_offset);
 	return offset;
 }
 
