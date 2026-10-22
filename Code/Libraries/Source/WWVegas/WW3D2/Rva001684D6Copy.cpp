@@ -6,6 +6,7 @@
 // This16B view follows the native helper's complete pointer/count stores;
 // field use is independently established by WB-named Set_Points168605.
 // Primitive copies are nonthrowing; only renderer construction needs state2.
+#define BFME_RO_DTOR_DECL_ONLY
 #include "rendobj.h"
 template<class T>class SimpleVecClass{public:SimpleVecClass(int);SimpleVecClass(const SimpleVecClass&) throw();virtual ~SimpleVecClass() throw();virtual bool Resize(int);virtual bool Uninitialised_Grow(int);protected:T*Vector;int VectorMax;};
 template<class T>class SimpleDynVecClass:public SimpleVecClass<T>{public:SimpleDynVecClass(int=0);SimpleDynVecClass(const SimpleDynVecClass&) throw();virtual ~SimpleDynVecClass() throw();virtual bool Resize(int);protected:int ActiveCount;};

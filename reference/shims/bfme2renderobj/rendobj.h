@@ -750,9 +750,13 @@ protected:
 
 #pragma optimize("", on)
 
+// Size-optimized clients call the retail-owned destructor instead of emitting
+// a second, differently framed exception-handling body.
+#ifndef BFME_RO_DTOR_DECL_ONLY
 inline RenderObjClass::~RenderObjClass(void)
 {
 }
+#endif
 
 inline void RenderObjClass::Set_Sub_Objects_Match_LOD(int onoff)
 { if (onoff) { Bits |= SUBOBJS_MATCH_LOD; } else { Bits &= ~SUBOBJS_MATCH_LOD; } }
