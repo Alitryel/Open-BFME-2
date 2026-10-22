@@ -4,7 +4,18 @@
 // stlport
 #include <vector>
 
-struct Rva0049DD5EElement {Rva0049DD5EElement();Rva0049DD5EElement(const Rva0049DD5EElement&);Rva0049DD5EElement&operator=(const Rva0049DD5EElement&);virtual void slot0();virtual ~Rva0049DD5EElement();char bytes[4]; bool operator==(const Rva0049DD5EElement&)const;};
+// The fill loop's construct call goes to 0x0049DD0B, pinned as
+// _Construct<QuantityModifier> (the REL32 target of the rowed
+// vector<QuantityModifier> overflow 0x0049F729), so the element is
+// QuantityModifier (AsciiString plus int, 8 bytes; opaque here).
+struct QuantityModifier
+{
+	QuantityModifier(const QuantityModifier &);
+	char m_opaque[8];
+};
 
-// Instantiate the recovered operation and its required template dependencies.
-template Rva0049DD5EElement * _STL::__uninitialized_fill_n<Rva0049DD5EElement *, unsigned int, Rva0049DD5EElement>(Rva0049DD5EElement *, unsigned int, Rva0049DD5EElement const &, _STL::__false_type const &);
+namespace _STL {
+template <> void _Construct<QuantityModifier, QuantityModifier>(QuantityModifier *, const QuantityModifier &);
+}
+
+template QuantityModifier * _STL::__uninitialized_fill_n<QuantityModifier *, unsigned int, QuantityModifier>(QuantityModifier *, unsigned int, QuantityModifier const &, _STL::__false_type const &);

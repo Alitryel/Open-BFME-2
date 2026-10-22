@@ -1019,7 +1019,6 @@ name,address,notes
 ??$__uninitialized_fill_n@PAUPayload@DeliverPayloadNugget@@IU12@@_STL@@YAPAUPayload@DeliverPayloadNugget@@PAU12@IABU12@ABU__false_type@0@@Z,0x004F6AAE
 ??$__uninitialized_fill_n@PAUPrereqUnitRec@@IU1@@_STL@@YAPAUPrereqUnitRec@@PAU1@IABU1@ABU__false_type@0@@Z,0x002A73C0
 ??$__uninitialized_fill_n@PAUPrereqUnitRec@ProductionPrerequisite@@IU12@@_STL@@YAPAUPrereqUnitRec@ProductionPrerequisite@@PAU12@IABU12@ABU__false_type@0@@Z,0x004F50BD,overflow 0x004F5165 fill path; 37B byte-exact twin of rowed PAU BfmeStringRecord worker via _Construct 0x002CF99D
-??$__uninitialized_fill_n@PAUQuantityModifier@@IU1@@_STL@@YAPAUQuantityModifier@@PAU1@IABU1@ABU__false_type@0@@Z,0x0049DD5E,QuantityModifier fill_n 37B worker; retail REL32 target of placed overflow 0x0049F729
 ??$__uninitialized_fill_n@PAURva0004B22EElement@@IU1@@_STL@@YAPAURva0004B22EElement@@PAU1@IABU1@ABU__false_type@0@@Z,0x00049D97,target overflow 0x4B22E calls this when fill count is not one; boundary 0x49D97/37 advances by 0x5C and calls construction wrapper 0x49D44; emitter type makes no application-field claim
 ??$__uninitialized_fill_n@PAURva00082BE6Element@@IU1@@_STL@@YAPAURva00082BE6Element@@PAU1@IABU1@ABU__false_type@0@@Z,0x00577CA0,REL32 from 178B vector overflow 0x0008257F or0x00082631; 4B element proven by rowed push_back and matching helper bodies
 ??$__uninitialized_fill_n@PAURva00082C1DElement@@IU1@@_STL@@YAPAURva00082C1DElement@@PAU1@IABU1@ABU__false_type@0@@Z,0x00577CA0,REL32 from 178B vector overflow 0x0008257F or0x00082631; 4B element proven by rowed push_back and matching helper bodies
@@ -13029,7 +13028,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??$_Construct@URva00317CCDElement@@U1@@_STL@@YAXPAURva00317CCDElement@@ABU1@@Z,0x00317CA0,
 ??$_Construct@URva0032ADA3Element@@U1@@_STL@@YAXPAURva0032ADA3Element@@ABU1@@Z,0x0032ACFC,
 ??$_Construct@URva0048C872Element@@U1@@_STL@@YAXPAURva0048C872Element@@ABU1@@Z,0x0048C81F,
-??$_Construct@URva0049DD5EElement@@U1@@_STL@@YAXPAURva0049DD5EElement@@ABU1@@Z,0x0049DD0B,
 ??$_Construct@URva004C3AF2Element@@U1@@_STL@@YAXPAURva004C3AF2Element@@ABU1@@Z,0x004C3A9F,
 ?erase@?$list@URva004907AAElement@@V?$allocator@URva004907AAElement@@@_STL@@@_STL@@QAE?AU?$_List_iterator@URva004907AAElement@@U?$_Nonconst_traits@URva004907AAElement@@@_STL@@@2@U32@@Z,0x002ABB20,
 ?_M_lower_bound@?$_Rb_tree@URva0016DEC0Element@@U1@U?$_Identity@URva0016DEC0Element@@@_STL@@U?$less@URva0016DEC0Element@@@3@V?$allocator@URva0016DEC0Element@@@3@@_STL@@ABEPAU?$_Rb_tree_node@URva0016DEC0Element@@@2@ABURva0016DEC0Element@@@Z,0x0016D6A0,
