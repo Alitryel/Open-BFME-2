@@ -41,6 +41,7 @@ public:
 	bool Is_Empty(void) { return (Head.Next == &Head); }
 
 protected:
+	bool Internal_Add(MultiListObjectClass *obj, bool onlyonce);
 	bool Internal_Remove(MultiListObjectClass *obj);
 	MultiListObjectClass *Internal_Remove_List_Head(void);
 
@@ -109,4 +110,24 @@ void CameraShakeSystemClass::CameraShakerClass::Timestep(float dt)
 bool CameraShakeSystemClass::CameraShakerClass::Is_Expired(void)
 {
 	return ElapsedTime >= Duration;
+}
+
+// Three independent five-byte entries between the destructor at 0x658BA
+// and the getter at 0x658D4 forward ECX and the argument stack unchanged
+// into the rowed GenericMultiListClass methods. The reference multilist.h
+// explains these forwarding semantics, but neither the list's concrete
+// class nor its element type is established: retain address-derived names
+// and the generic MultiListObjectClass interface instead of guessing a
+// MultiListClass<CameraShakerClass> instantiation from adjacency.
+class Rva000658C5 : public GenericMultiListClass
+{
+public:
+	bool rva000658C5(MultiListObjectClass *obj, bool onlyonce);
+	bool rva000658CA(MultiListObjectClass *obj);
+	MultiListObjectClass *rva000658CF();
+};
+
+bool Rva000658C5::rva000658C5(MultiListObjectClass *obj, bool onlyonce)
+{
+	return Internal_Add(obj, onlyonce);
 }
