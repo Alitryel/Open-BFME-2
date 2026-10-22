@@ -2,6 +2,22 @@
 // stlport
 
 #include <string>
+// Inline uses here keep the stock body (with its length_error path), but this unit,
+// the first in link order to spell it, must not emit an out-of-line copy: retail's
+// _String_base<char>::_M_allocate_block is the 0x00007460 body without that path,
+// which stlport_narrow_string_allocate_block.cpp emits. dllimport + forceinline: no __imp_.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void _String_base<char, allocator<char> >::_M_allocate_block(size_t __n)
+{
+	if ((__n <= (max_size() + 1)) && (__n > 0)) {
+		_M_start = _M_end_of_storage.allocate(__n);
+		_M_finish = _M_start;
+		_M_end_of_storage._M_data = _M_start + __n;
+	}
+	else
+		_M_throw_length_error();
+}
+}
 // Native 0x00025AD0 is supplied by stlport_vector_voidptr.cpp.
 // Keep this profile from emitting a competing allocator-proxy swap.
 namespace _STL {
