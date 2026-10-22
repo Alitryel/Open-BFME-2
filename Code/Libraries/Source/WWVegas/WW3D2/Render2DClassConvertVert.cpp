@@ -4,7 +4,7 @@
 //
 // Zero Hour writes a Vector2 through BiasedCoordinateOffset. BFME keeps one
 // offset at +0x0C (see Set_Coordinate_Range) and writes a third coordinate
-// from g_BfmeRender2DZ, the same global Add_Quad stores into each vertex.
+// from g_Va00DEC49C, the same global Add_Quad stores into each vertex.
 // Layout: CoordinateScale at +0x04, CoordinateOffset at +0x0C.
 
 #include "../../../../../reference/shims/wwmath/Vector2.h"
@@ -17,7 +17,7 @@ public:
 	float Z;
 };
 
-extern "C" float g_BfmeRender2DZ;
+extern float g_Va00DEC49C;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/render2d.h
 class Render2DClass
@@ -37,7 +37,7 @@ void Render2DClass::Convert_Vert(Vector3 &vert_out, const Vector2 &vert_in)
 {
 	vert_out.X = CoordinateScale.X * vert_in.X + CoordinateOffset.X;
 	vert_out.Y = vert_in.Y * CoordinateScale.Y + CoordinateOffset.Y;
-	vert_out.Z = g_BfmeRender2DZ;
+	vert_out.Z = g_Va00DEC49C;
 }
 
 // ?Convert_Vert@Render2DClass@@QAEXAAVVector3@@MM@Z
@@ -45,7 +45,5 @@ void Render2DClass::Convert_Vert(Vector3 &vert_out, float x_in, float y_in)
 {
 	vert_out.X = x_in * CoordinateScale.X + CoordinateOffset.X;
 	vert_out.Y = y_in * CoordinateScale.Y + CoordinateOffset.Y;
-	vert_out.Z = g_BfmeRender2DZ;
+	vert_out.Z = g_Va00DEC49C;
 }
-// _g_BfmeRender2DZ: the global at VA 0xdec49c is ?g_Va00DEC49C@@3MA.
-#pragma comment(linker, "/alternatename:_g_BfmeRender2DZ=?g_Va00DEC49C@@3MA")

@@ -85,14 +85,14 @@ int Rva0009B254::rva0009B254() const
 }
 
 // --- 0x000A8F13 (15B), 0x000A8F22 / 0x000A8F2C (10B each): setters of
-// g_BfmeRender2DZ and the 0x00DB5FB0 / 0x00DB5FC8 words.
-extern "C" float g_BfmeRender2DZ;
+// g_Va00DEC49C and the 0x00DB5FB0 / 0x00DB5FC8 words.
+extern float g_Va00DEC49C;
 extern int g_00DB5FB0;
 extern int g_Va00DB5FC8;
 
 void rva000A8F13(float z)
 {
-	g_BfmeRender2DZ = z;
+	g_Va00DEC49C = z;
 }
 
 void rva000A8F22(int value)

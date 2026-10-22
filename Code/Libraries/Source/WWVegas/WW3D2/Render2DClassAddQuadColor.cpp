@@ -35,7 +35,7 @@ struct BfmeRenderVertex
 
 typedef BfmeUInt32 (__cdecl *BfmeColorConverter)(BfmeUInt32 color);
 
-extern "C" float g_BfmeRender2DZ;
+extern float g_Va00DEC49C;
 extern int g_Va00DB5FC8;
 
 class Render2DClass
@@ -59,7 +59,7 @@ private:
 	{
 		vertex.x = x * m_coordinateScaleX + m_biasedCoordinateOffsetX;
 		vertex.y = y * m_coordinateScaleY + m_biasedCoordinateOffsetY;
-		vertex.z = g_BfmeRender2DZ;
+		vertex.z = g_Va00DEC49C;
 	}
 
 public:

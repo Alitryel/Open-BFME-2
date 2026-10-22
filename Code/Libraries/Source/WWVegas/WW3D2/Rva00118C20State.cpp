@@ -9,7 +9,7 @@ extern unsigned int g_Va00DEC4A8;
 extern unsigned int g_Va00DEC4A4;
 extern unsigned int g_Va00DEC4A0;
 extern float g_Va007C26F0;
-extern "C" float g_BfmeRender2DZ;
+extern float g_Va00DEC49C;
 
 class DX8Wrapper
 {
@@ -31,7 +31,7 @@ void Rva00118C20(void)
 	} else {
 		g_Va00DB5FC0 = 2;
 		g_Va00DB5FC4 = 5;
-		g_BfmeRender2DZ = g_Va007C26F0;
+		g_Va00DEC49C = g_Va007C26F0;
 		g_Va00DEC4A8 = 0;
 		g_Va00DEC4A4 = 0;
 		g_Va00DEC4A0 = 0;

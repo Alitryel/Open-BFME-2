@@ -44,7 +44,7 @@ extern int g_Va00DB5FC8;
 // memory at the member's address rather than through a register copy of it.
 
 // Add_Quad's helper names the 0x00DEC49C Z global as its select-any home does.
-extern "C" float g_BfmeRender2DZ;
+extern float g_Va00DEC49C;
 class RectClass;
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/render2d.h
@@ -91,7 +91,7 @@ private:
 	{
 		vertex.x = x * m_coordinateScaleX + m_biasedCoordinateOffsetX;
 		vertex.y = y * m_coordinateScaleY + m_biasedCoordinateOffsetY;
-		vertex.z = g_BfmeRender2DZ;
+		vertex.z = g_Va00DEC49C;
 	}
 
 public:
