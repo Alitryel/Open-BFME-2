@@ -32,6 +32,9 @@
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 #include <windows.h>
+// Suppress this TU's non-retail copy of ?_M_reallocate_map@?$deque@HV?$allocator@H@_STL@@@_STL@@IAEXI_N@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void deque<int,allocator<int> >::_M_reallocate_map(unsigned int,bool); }
 
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;

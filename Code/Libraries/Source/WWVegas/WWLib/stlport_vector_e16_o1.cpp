@@ -39,6 +39,10 @@ template <> vector<BfmeE16> &vector<BfmeE16>::operator=(const vector<BfmeE16> &)
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_fill_insert(BfmeE16 *, unsigned int, BfmeE16 const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAUBfmeE16@@IU1@@_STL@@YAPAUBfmeE16@@PAU1@IABU1@ABU__false_type@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE16;
+namespace _STL { template <> BfmeE16 * __uninitialized_fill_n<BfmeE16 *,unsigned int,BfmeE16>(BfmeE16 *,unsigned int,BfmeE16 const &,__false_type const &); }
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 // The verified reserve at 0x0022118F supplies the native allocator/copy

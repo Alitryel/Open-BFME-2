@@ -109,6 +109,10 @@ namespace _STL { template <> void *& vector<void *, allocator<void *> >::operato
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_bkt_num_key@?$hashtable@PAURva00051107AudioRequest@@PAU1@URva00051B89Hash@@U?$_Identit:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00051107AudioRequest; struct Rva00051B89Hash; struct Rva00050E1CEqualTo;
+namespace _STL { template <> unsigned int hashtable<Rva00051107AudioRequest *,Rva00051107AudioRequest *,Rva00051B89Hash,_Identity<Rva00051107AudioRequest *>,Rva00050E1CEqualTo,allocator<Rva00051107AudioRequest *> >::_M_bkt_num_key(Rva00051107AudioRequest * const &) const; }
 // Suppress this TU's non-retail copy of ?_M_skip_to_next@?$_Hashtable_iterator@PAURva00051107AudioRequest@@PAU1@URva00051B89Hash@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00051107AudioRequest; struct Rva00051B89Hash; struct Rva00050E1CEqualTo;

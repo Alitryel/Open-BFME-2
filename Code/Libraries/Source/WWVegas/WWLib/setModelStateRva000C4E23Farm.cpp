@@ -36,6 +36,9 @@ namespace _STL { void __cdecl free(void *block); }
 #include <vector>
 #include <string>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?erase@?$vector@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocat:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > * vector<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::erase(basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > *); }
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_ST:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void vector<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::_M_insert_overflow(basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > const &,__false_type const &,unsigned int,bool); }
