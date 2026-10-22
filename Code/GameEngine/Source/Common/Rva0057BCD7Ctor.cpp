@@ -24,7 +24,8 @@ class Rva0057BCD7 : public Rva0057BCD7Base0, public Rva00330757Member
 {
 public:
 	Rva0057BCD7();
-	virtual ~Rva0057BCD7();
+	// No virtual dtor: retail's vtable 0x00C6F248 holds nine __purecall
+	// slots and no dtor slot (symbols.csv ??1Rva0057BCEC note).
 };
 
 Rva0057BCD7::Rva0057BCD7()
