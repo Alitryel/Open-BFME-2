@@ -89,8 +89,10 @@ public:
 
 class WW3D
 {
-public:
+	// Private in retail's class (mangling @@0): matches the definition ww3d.cpp
+	// compiles, which is the only object that provides this bool.
 	static bool AreStaticSortListsEnabled;
+	friend class Rva0004D47D;
 };
 
 // The byte owned by GlobalByteGetters.cpp; cleared while deferred layers draw.
