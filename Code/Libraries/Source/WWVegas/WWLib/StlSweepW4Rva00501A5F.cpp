@@ -67,4 +67,6 @@ struct Rva00501776 { Rva00501776();Rva00501776(const Rva00501776&);~Rva00501776(
 // bfme link decl-only Rva00501776
 namespace _STL { template <> pair<int const, Rva00501776>::pair(pair<int const, Rva00501776> const &); }
 namespace _STL {template<> struct hash<Rva00501776> { unsigned operator()(const Rva00501776&) const; };}
-template class _STL::hash_map<int,Rva00501776>;
+// Instantiate only the rowed pair constructor: a whole-class instantiation also emitted members
+// needing the element's undefined operations and kept the unit from linking.
+template _STL::pair<int const, Rva00501776>::pair(int const &, Rva00501776 const &);
