@@ -170,6 +170,10 @@ namespace _STL {
 template <> void _Rb_tree<NameKeyType, pair<const NameKeyType, PristineBoneInfo>, _Select1st<pair<const NameKeyType, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::clear();
 }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void _STLP_alloc_proxy<AsciiString *,AsciiString,allocator<AsciiString> >::deallocate(AsciiString *,unsigned int); }
 // Suppress this TU's non-retail copy of ??0?$_Base_bitset@$03@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Base_bitset<4>::_Base_bitset(); }

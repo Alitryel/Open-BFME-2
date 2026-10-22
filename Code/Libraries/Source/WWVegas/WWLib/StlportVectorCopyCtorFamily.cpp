@@ -21,6 +21,10 @@
 //   0x0052CE7D   0x0C   0x005C8C37    0x0052C9D3            Rva0052BEF0 (_Construct 0x0052C431 inside the copy)
 //   0x0052D417   0x0C   0x005C8C37    0x0052D3F1            Rva005668E9Element (rowed uninitialized_copy type)
 #include <vector>
+// Suppress this TU's non-retail copy of ??0?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE8;
+namespace _STL { template <> vector<BfmeE8,allocator<BfmeE8> >::vector(vector<BfmeE8,allocator<BfmeE8> > const &); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva005668E9Element@@@_STL@@YAXPAURva005668E9Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005668E9Element;

@@ -11,6 +11,10 @@
 // before and after the search are debug-only list counts whose consumers the
 // release build stripped; written here as the empty walks retail keeps.
 #include <list>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@PAVTeamPrototype@@@_STL@@@_STL@@QBEXPAU?$_List_node@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class TeamPrototype;
+namespace _STL { template <> void allocator<_List_node<TeamPrototype *> >::deallocate(_List_node<TeamPrototype *> *,unsigned int) const; }
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {

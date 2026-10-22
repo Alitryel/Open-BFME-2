@@ -113,6 +113,14 @@ namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) cons
 namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
 namespace _STL { template <> Coord3D * vector<Coord3D, allocator<Coord3D> >::erase(Coord3D *, Coord3D *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAUCoord3D@@U1@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAEXPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void _STLP_alloc_proxy<Coord3D *,Coord3D,allocator<Coord3D> >::deallocate(Coord3D *,unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UCoord3D@@@_STL@@QBEXPAUCoord3D@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void allocator<Coord3D>::deallocate(Coord3D *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUCoord3D@@U1@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAEPAUCo:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Coord3D;

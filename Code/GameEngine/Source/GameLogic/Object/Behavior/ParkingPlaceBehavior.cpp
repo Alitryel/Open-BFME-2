@@ -93,6 +93,14 @@ namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned 
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAUCoord3D@@U1@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAEXPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void _STLP_alloc_proxy<Coord3D *,Coord3D,allocator<Coord3D> >::deallocate(Coord3D *,unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UCoord3D@@@_STL@@QBEXPAUCoord3D@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void allocator<Coord3D>::deallocate(Coord3D *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?set@?$bitset@$0CN@@_STL@@QAEAAV12@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bitset<45> & bitset<45>::set(unsigned int); }

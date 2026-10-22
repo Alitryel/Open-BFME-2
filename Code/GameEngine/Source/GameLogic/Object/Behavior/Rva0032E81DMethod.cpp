@@ -5,6 +5,14 @@
 // vector copyctor, returning this. Evidence: callees rowed; caller at
 // 0x0032E925; prev/next STLport TUs.
 #include <vector>
+// Suppress this TU's non-retail copy of ??0?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE8;
+namespace _STL { template <> vector<BfmeE8,allocator<BfmeE8> >::vector(vector<BfmeE8,allocator<BfmeE8> > const &); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@PAV12@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE8;
+namespace _STL { template <> vector<BfmeE8,allocator<BfmeE8> > * __uninitialized_copy<vector<BfmeE8,allocator<BfmeE8> > const *,vector<BfmeE8,allocator<BfmeE8> > *>(vector<BfmeE8,allocator<BfmeE8> > const *,vector<BfmeE8,allocator<BfmeE8> > const *,vector<BfmeE8,allocator<BfmeE8> > *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??0?$_Vector_base@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@IABV?$allocator@UBfmeE8:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeE8;

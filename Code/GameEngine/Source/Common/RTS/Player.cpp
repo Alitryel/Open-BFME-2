@@ -234,6 +234,10 @@ namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 namespace _STL { template <> void _List_base<Object *, allocator<Object *> >::clear(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@PAVTeamPrototype@@@_STL@@@_STL@@QBEXPAU?$_List_node@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class TeamPrototype;
+namespace _STL { template <> void allocator<_List_node<TeamPrototype *> >::deallocate(_List_node<TeamPrototype *> *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?_M_is_equal@?$_Base_bitset@$03@_STL@@QBE_NABU12@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool _Base_bitset<4>::_M_is_equal(_Base_bitset<4> const &) const; }
