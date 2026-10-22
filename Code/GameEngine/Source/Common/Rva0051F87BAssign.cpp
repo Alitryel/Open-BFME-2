@@ -31,6 +31,10 @@ struct Rva0051F7ADRecord
 {
 	char bytes[12];
 };
+// vector<Rva0051F7ADRecord>::operator= is rowed at 0x0051F7AD
+// (StlSweepR3Rva0051F7AD.cpp); declared only, so this unit emits no copy of it
+// nor of the _Destroy and __uninitialized_copy it would pull in.
+namespace _STL { template <> vector<Rva0051F7ADRecord, allocator<Rva0051F7ADRecord> > &vector<Rva0051F7ADRecord, allocator<Rva0051F7ADRecord> >::operator=(const vector<Rva0051F7ADRecord, allocator<Rva0051F7ADRecord> > &); }
 
 struct Rva0026F4F4Element
 {
