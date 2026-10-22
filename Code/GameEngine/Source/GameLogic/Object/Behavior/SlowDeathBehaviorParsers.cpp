@@ -175,7 +175,8 @@ enum SlowDeathPhaseType
 	SD_PHASE_COUNT = 4
 };
 
-extern const char *TheSlowDeathPhaseNames[];
+// Retail RVA 0x009C9598: four phase strings followed by NULL.
+const char *TheSlowDeathPhaseNames[] = { "INITIAL", "MIDPOINT", "FINAL", "HIT_GROUND", NULL };
 
 class SlowDeathBehaviorModuleData
 {
@@ -263,25 +264,3 @@ void SlowDeathBehaviorModuleData::rva0045E8A9(INI *ini, void *instance, void * /
 	}
 }
 
-// ?parseDeathFlags@SlowDeathBehaviorModuleData@@SAXPAVINI@@PAX1PBX@Z
-void SlowDeathBehaviorModuleData::parseDeathFlags(INI *ini, void *instance, void * /*store*/, const void * /*userData*/)
-{
-	static Rva000B6253 s_allowedModelFlags(0, 0x95, 0x96, 0x97, 0x98, 0xB1);
-	static WeaponTemplateSetHead s_disallowedModelFlags = ((WeaponTemplateSetHead &)s_allowedModelFlags).rva0045D859();
-
-	SlowDeathBehaviorModuleData *self = (SlowDeathBehaviorModuleData *)instance;
-	WeaponTemplateSetHead &modelFlags = self->m_deathModelFlags;
-	AsciiString description;
-	((Rva000B937E &)modelFlags).rva000B937E(ini, &description);
-	if (0)
-	{
-		Rva0045E293EliminatedLifetime eliminated0;
-		Rva0045E293EliminatedLifetime eliminated1;
-		rva0045e293EliminatedSink(&eliminated0, &eliminated1);
-	}
-	modelFlags.rva000B3ED3((const WeaponTemplateSetHead &)s_allowedModelFlags);
-	((Rva003339CE &)self->m_deathStatusFlags).rva00334506(description);
-
-	static Rva0045D887 s_allowedStatusFlags(0, 0x1F, 0x20, 0x21, 0x22, 0x23);
-	self->m_deathStatusFlags._M_do_and((const _STL::_Base_bitset<4> &)s_allowedStatusFlags);
-}
