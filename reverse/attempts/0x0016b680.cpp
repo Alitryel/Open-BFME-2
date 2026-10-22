@@ -1,9 +1,12 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
-// partial score=0.9893 date=2026-10-22
+// partial score=0.9893 date=2026-10-23
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
-// partial score=0.9893 date=2026-10-22 (nd 24/2237: S region only; handoffs skin-0016b680-20261022-w13.md, -w14.md: late-pass key model)
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
+// Diagnostic candidate, not a matched source. See mesh-real-references-20261023/readme.md.
 // Compose with meshgeometry.cpp; target proof and provenance in re_attempts.log.
+// Four used component references replace the previous inert counter locals.
+// SkinMatrix3D exposes its inherited rows legally; no access-control macro is used.
+// The component-reference spelling is a reconstruction hypothesis, not an original-source claim.
 // Matrices use the HTreePivotTransform::Get_Matrix3D spelling (0x0014D28E); both are scaled row by row as in BFME1 0x00925860.
 // Shape follows WorldBuilder MeshGeometryClass::get_deformed_vertices (0xA0E990): buffers read through Get_Array(),
 // pivots through Get_Transform(), and the blend sums in the order of its Matrix3D helper (0xA0ECA0).
@@ -11,17 +14,19 @@
 // their loops inside, in WB's operand order; the tree view is held in htree.
 // This version compiles against the real WWMath vector3.h, vector4.h, matrix3d.h and quat.h; SkinMatrix3D stands in for
 // BFME 2's Matrix3D blend member. The locals are WB 0xA0E990's set plus the run-record pointer run, which replaces htree.
-// The four int a0..a3 locals in TransformPositionArray are c2 symbol-counter shims (not source): they move the K4 chunk
-// so the blend pieces get retail key IDs (B and M regions exact). Replace them with the real construct before landing.
-#define protected public
 #include "vector3.h"
 #include "vector4.h"
 #include "matrix3d.h"
 #include "quat.h"
 void Rva00129510Inc();
+class SkinMatrix3D : public Matrix3D {
+public:
+ using Matrix3D::Row;
+ void Blend(const Vector3 *in0,const SkinMatrix3D &tm1,const Vector3 *in1,Vector3 *out,int count) const;
+};
 class BoneTransform {
 public:
- __forceinline void Get_Matrix3D(Matrix3D &m) const {
+ __forceinline void Get_Matrix3D(SkinMatrix3D &m) const {
   float xx=Rotation.X*Rotation.X*2.0f;
   float xy=Rotation.X*Rotation.Y*2.0f;
   float xz=Rotation.X*Rotation.Z*2.0f;
@@ -55,20 +60,16 @@ __forceinline void BoneTransform::TransformPositionArray(const Vector3 *v,Vector
   float y=Rotation.W*v->Y-(Rotation.X*v->Z-v->X*Rotation.Z);
   float z=Rotation.W*v->Z+(Rotation.X*v->Y-v->X*Rotation.Y);
   float w=-((Rotation.X*v->X)+Rotation.Y*v->Y+(Rotation.Z*v->Z));
-  int a0=count;
-  int a1=count;
-  int a2=count;
-  int a3=count;
-  out->X=(x*Rotation.W-w*Rotation.X+(z*Rotation.Y-y*Rotation.Z)+Translation.X);
-  out->Y=(y*Rotation.W-w*Rotation.Y-(z*Rotation.X-x*Rotation.Z)+Translation.Y);
-  out->Z=z*Rotation.W-w*Rotation.Z+(y*Rotation.X-x*Rotation.Y)+Translation.Z;
+  const float &rotationZ=Rotation.Z;
+  const float &rotationW=Rotation.W;
+  const float &translationX=Translation.X;
+  const float &translationY=Translation.Y;
+  out->X=(x*rotationW-w*Rotation.X+(z*Rotation.Y-y*rotationZ)+translationX);
+  out->Y=(y*rotationW-w*Rotation.Y-(z*Rotation.X-x*rotationZ)+translationY);
+  out->Z=z*rotationW-w*rotationZ+(y*Rotation.X-x*Rotation.Y)+Translation.Z;
   v++;out++;
  }
 }
-class SkinMatrix3D : public Matrix3D {
-public:
- void Blend(const Vector3 *in0,const SkinMatrix3D &tm1,const Vector3 *in1,Vector3 *out,int count) const;
-};
 __forceinline void SkinMatrix3D::Blend(const Vector3 *in0,const SkinMatrix3D &tm1,const Vector3 *in1,Vector3 *out,int count) const {
  while(count--) {
   out->X=Row[0].X*in0->X+Row[0].Y*in0->Y+Row[0].Z*in0->Z+Row[0].W+tm1.Row[0].X*in1->X+tm1.Row[0].Y*in1->Y+tm1.Row[0].Z*in1->Z+tm1.Row[0].W;
