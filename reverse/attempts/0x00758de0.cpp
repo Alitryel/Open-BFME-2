@@ -1,4 +1,6 @@
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
+// partial score=0.9069 date=2026-10-22
+// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.9069 date=2026-10-20
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.7658 date=2026-10-20
