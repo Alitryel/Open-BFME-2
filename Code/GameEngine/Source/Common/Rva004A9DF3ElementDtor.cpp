@@ -24,9 +24,40 @@ __declspec(noinline) inline Rva004A9DF3Element::~Rva004A9DF3Element()
 {
 }
 
+// The same 5B tail jump under the two other names pinned at this address (the
+// counted key of the Apt units and the Rva008A2C80 handle). Their units inline
+// the release, so without these the link kept one of their non-retail copies;
+// retail kept this /O1 jump for every name.
+class Rva006D07E0Key : public BfmeRefVGO
+{
+public:
+	~Rva006D07E0Key();
+};
+
+class Rva008A2BA0Handle : public BfmeRefVGO
+{
+public:
+	~Rva008A2BA0Handle();
+};
+
+__declspec(noinline) inline Rva006D07E0Key::~Rva006D07E0Key()
+{
+}
+
+__declspec(noinline) inline Rva008A2BA0Handle::~Rva008A2BA0Handle()
+{
+}
+
 // ?bfmeAnchorRva004A9DF3ElementDtor absent-from-retail
 void bfmeAnchorRva004A9DF3ElementDtor(Rva004A9DF3Element *p)
 {
 	p->Rva004A9DF3Element::~Rva004A9DF3Element();
+}
+
+// ?bfmeAnchorRva004A9DF3FoldedDtors absent-from-retail
+void bfmeAnchorRva004A9DF3FoldedDtors(Rva006D07E0Key *key, Rva008A2BA0Handle *handle)
+{
+	key->Rva006D07E0Key::~Rva006D07E0Key();
+	handle->Rva008A2BA0Handle::~Rva008A2BA0Handle();
 }
 
