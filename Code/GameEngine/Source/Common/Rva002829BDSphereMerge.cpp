@@ -40,6 +40,9 @@ __declspec(noinline) inline void Coord3D::normalize()
     }
 }
 class ModuleData;
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPBVModuleData@@...:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const ModuleData **_STLP_alloc_proxy<const ModuleData **, const ModuleData *, allocator<const ModuleData *> >::allocate(size_t); }
 typedef void *(__cdecl *Rva00282B26Callback)(void *key);
 class Rva004DFA43 { public: bool rva004DFA43(void*,void*); };
 class Rva002829BD {
