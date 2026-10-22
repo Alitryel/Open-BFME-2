@@ -105,3 +105,16 @@ namespace _STL
 // existing neutral binding; no exclusive original identity is claimed.
 void Rva0069E440Destroy(char *, char *) {}
 }
+
+namespace _STL
+{
+// The /Od string-replace and conversion units call this char* copy out of line;
+// retail folds it onto __copy_trivial (0x000179B0, pinned there). Supply that
+// retail-proven copy of the name.
+template <class _InputIter, class _ForwardIter>
+inline _ForwardIter Rva000179B0UninitializedCopy(_InputIter __first, _InputIter __last, _ForwardIter __result)
+{
+	return (_ForwardIter)__copy_trivial(__first, __last, __result);
+}
+template char *Rva000179B0UninitializedCopy<char *, char *>(char *, char *, char *);
+}
