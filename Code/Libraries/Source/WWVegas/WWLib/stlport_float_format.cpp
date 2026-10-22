@@ -321,6 +321,9 @@ namespace _STL { template <> _Node_Alloc_Lock<1, 0>::~_Node_Alloc_Lock(); }
 namespace _STL { template <> void * __node_alloc<1, 0>::_S_refill(unsigned int); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$append@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PBD0:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > & basic_string<char,char_traits<char>,allocator<char> >::append<char const *>(char const *,char const *,forward_iterator_tag const &); }
 #      define _FPCLASSIFY(x)     (_IS32(x)?_Fpclassf(x):_Fpclass(x))
        extern int _Fpclass(double);
        extern int _Fpclassf(float);
