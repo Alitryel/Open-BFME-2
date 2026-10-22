@@ -70,10 +70,12 @@ public:
 };
 
 class CreateAHeroHero;
-class CreateAHeroAward
+// The rowed predicate takes its hero context as an opaque word and returns
+// 0 or 1. This caller tests its low byte in retail.
+class Rva0040AA27
 {
 public:
-	Bool rva0040AA27(const CreateAHeroHero *hero) const;	// 0x0040AA27, the hero meets the award
+	int rva0040AA27(int context);
 };
 // The award record's upgrade-key list (+0x04) and its keyed getter.
 class Rva0040A7F1
@@ -156,7 +158,7 @@ void CreateAHeroHero::ConstructHeroBlingList()
 	for (UnsignedInt awardIndex = 0; awardIndex < (UnsignedInt)((Rva00406E7D *)this)->rva00406E7D(); ++awardIndex)
 	{
 		BfmePod40 *award = TheAwardSystemManager->rva0040AAD5(((Rva00406E8F *)this)->rva00406E8F(awardIndex));
-		if (!award || !((const CreateAHeroAward *)award)->rva0040AA27(this))
+		if (!award || !(unsigned char)((Rva0040AA27 *)award)->rva0040AA27((int)this))
 			continue;
 		const Rva0040A7F1 *upgrades = (const Rva0040A7F1 *)award;
 		for (UnsignedInt k = 0; k < upgrades->m_upgradeKeys.size(); ++k)
