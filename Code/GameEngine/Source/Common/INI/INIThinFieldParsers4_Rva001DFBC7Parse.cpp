@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /GX-
-// Split from INIThinFieldParsers4.cpp: these definitions reference a callee with no matched body yet,
-// so they are kept apart from the unit's bodies that already link.
+// Split from INIThinFieldParsers4.cpp; parse tables are owned below and the
+// four-byte enum append calls the existing retail ScienceType vector provider.
 //
 // Thin token FieldParse procs (original names unproven; address names):
 //   0x001DFBC7 33B / 0x001DFC09 33B Type (0x00BDD7F4 / 0x00BDD8A0, store
@@ -17,7 +17,7 @@
 
 #define NULL 0
 
-struct LookupListRec;
+struct LookupListRec { const char *name; int value; };
 
 class INI
 {
@@ -43,14 +43,26 @@ public:
 	~INIException();
 };
 
-extern const LookupListRec g_00BDD0B4[];
-extern const LookupListRec g_00BDD1D0[];
-extern const char *g_00DCAE84[];
+// Retail pointer/value pairs, including the terminating pair.
+extern const LookupListRec g_00BDD0B4[] = {
+    { "SUBTLE", 0 }, { "NORMAL", 1 }, { "STRONG", 2 }, { "SEVERE", 3 },
+    { "CINE_EXTREME", 4 }, { "CINE_INSANE", 5 }, { 0, 0 }
+};
+extern const LookupListRec g_00BDD1D0[] = {
+    { "SCORCH_1", 0 }, { "SCORCH_2", 1 }, { "SCORCH_3", 2 },
+    { "SCORCH_4", 3 }, { "SCORCH_5", 4 }, { "SCORCH_6", 5 },
+    { "SCORCH_7", 6 }, { "SCORCH_8", 7 }, { "SCORCH_9", 8 },
+    { "RANDOM", -1 }, { 0, 0 }
+};
+// Five native weather names; the adjacent pointer array is excluded.
+const char *g_00DCAE84[] = { "NONE", "CLOUDY", "RAINY", "CLOUDYRAINY", "SUNNY" };
 extern const char *const TheStanceNames[];
 
-enum StanceType
+// This is only the rowed four-byte enum-vector call ABI; application enum
+// identity is not inferred from the folded push_back body at RVA 0x002E01C6.
+enum ScienceType
 {
-	STANCE_INVALID = -1
+	SCIENCE_INVALID = -1
 };
 
 namespace _STL
@@ -59,14 +71,14 @@ template <class T> class allocator
 {
 };
 template <class T, class A> class vector;
-template <> class vector<StanceType, allocator<StanceType> >
+template <> class vector<ScienceType, allocator<ScienceType> >
 {
 public:
-	void push_back(const StanceType &x);
+	void push_back(const ScienceType &x);
 private:
-	StanceType *m_start;
-	StanceType *m_finish;
-	StanceType *m_endOfStorage;
+	ScienceType *m_start;
+	ScienceType *m_finish;
+	ScienceType *m_endOfStorage;
 };
 }
 
@@ -97,9 +109,9 @@ void Rva0035B864Parse(INI *ini, void *, void *store, const void *)
 	const char *token = ini->getNextToken();
 	while (token)
 	{
-		StanceType stance = (StanceType)ini->scanIndexList(token, TheStanceNames);
+		ScienceType stance = (ScienceType)ini->scanIndexList(token, TheStanceNames);
 		if (stance >= 0 && stance < 6)
-			((_STL::vector<StanceType, _STL::allocator<StanceType> > *)store)->push_back(stance);
+			((_STL::vector<ScienceType, _STL::allocator<ScienceType> > *)store)->push_back(stance);
 		token = ini->getNextTokenOrNull();
 	}
 }
