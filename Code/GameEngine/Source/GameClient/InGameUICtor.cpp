@@ -380,6 +380,14 @@ public:
 
 	InGameUI();
 	virtual ~InGameUI();
+	// Declared in the order InGameUIDtor.cpp declares them, so both units
+	// emit the same vtable copy.
+	virtual void removeMilitarySubtitle();	// slot 24
+	virtual void placeBuildAvailable( const ThingTemplate *build, Drawable *buildDrawable );	// slot 55
+	virtual void setRadiusCursorNone();		// slot 81
+	virtual void stopMovie();				// slot 88
+	virtual void stopCameoMovie();			// slot 91
+	virtual void resetIdleWorker();			// slot 117
 
 protected:
 	bool m_superweaponHiddenByScript;		// +0x14
