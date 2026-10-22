@@ -37,7 +37,7 @@ public:
 private: unsigned char remaining[0x58];
 };
 class Rva0024C7B3Member { public: Rva0024C7B3Member(); unsigned int words[7]; };
-template<int N> class BitFlags : public Rva0024C7B3Member {};
+template<int N> class BitFlags : public Rva0024C7B3Member { public: __declspec(dllimport) __forceinline BitFlags() {} };
 typedef BitFlags<116> KindOfMaskType;
 extern KindOfMaskType KINDOFMASK_NONE;
 class OpaqueRefCounted;
@@ -78,6 +78,7 @@ typedef _STL::_Rb_tree<LocomotorSetType,_STL::pair<const LocomotorSetType,_STL::
 namespace _STL {
 // The owned FX tree destructor uses its verified EHs provider.
 // Keep that cleanup out of this EHsc constructor unit.
+template<> LocomotorTree::~_Rb_tree();
 template<> NoCaseTree::~_Rb_tree();
 template<> SoundRecordTree::~_Rb_tree();
 template<> vector<Rva002D0EDCElement,allocator<Rva002D0EDCElement> >::~vector();

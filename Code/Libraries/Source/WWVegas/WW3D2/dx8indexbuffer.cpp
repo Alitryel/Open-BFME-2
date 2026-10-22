@@ -61,7 +61,12 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "refcount.h"
 #pragma optimize("", on)
 #include "dx8caps.h"
+// These buffers use global allocation and deallocation.
+#pragma push_macro("W3DMPO_GLUE")
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS) public:
 #include "dx8indexbuffer.h"
+#pragma pop_macro("W3DMPO_GLUE")
 #include "dx8wrapper.h"
 #include "dx8caps.h"
 
@@ -595,23 +600,7 @@ void DynamicIBAccessClass::Allocate_Sorting_Dynamic_Buffer()
 	}
 
 	if (!_DynamicSortingIndexArray) {
-		// Retail allocates here with `push 24; call ??2@YAPAXI@Z` -- the GLOBAL
-		// operator new -- not the getClassMemoryPool() + allocateFromW3DMemPool
-		// pair that SortingIndexBufferClass's W3DMPO_GLUE generates.  Retail
-		// built the class in this unit with no glue at all, so `::new` is what
-		// reproduces its bytes.
-		//
-		// KNOWN ASYMMETRY, recorded rather than hidden: the glue also supplies a
-		// POOLED operator delete, and this class still carries it, so the
-		// deleting destructor reached from Release_Ref() would hand a
-		// globally-allocated pointer to freeFromW3DMemPool.  Retail had no such
-		// mismatch because its class had neither half.  The correct fix is to
-		// suppress W3DMPO_GLUE for the length of the dx8indexbuffer.h include,
-		// the way meshmatdesc.cpp does for VertexMaterialClass; that is blocked
-		// on an include-order problem (pulling always.h in first makes a
-		// different copy of the header win, one that declares this method
-		// private, so the unit stops exporting ?...@QAE and exports @AAE).
-		// See reverse/re_attempts.log for 0x00138F50.
+		// The buffer header selects global deallocation, matching this allocation.
 		_DynamicSortingIndexArray=::new SortingIndexBufferClass(_DynamicSortingIndexArraySize);
 		_DynamicSortingIndexArrayOffset=0;
 	}

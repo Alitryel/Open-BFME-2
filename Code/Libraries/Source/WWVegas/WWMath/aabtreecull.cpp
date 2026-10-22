@@ -84,6 +84,8 @@ public:
 
 #define COLMATHPLANE_H // use the source-local inline expressions below
 #include "aabtreecull.h"
+// Use the shared object-pool release copy from AABTreeCullO1Inlines.cpp.
+template <> void ObjectPoolClass<AABTreeLinkClass,256>::Free_Object_Memory(AABTreeLinkClass *);
 #include "chunkio.h"
 #include "iostruct.h"
 #include <string.h>
