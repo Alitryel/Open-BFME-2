@@ -866,16 +866,16 @@ public:
 class ObjectModule : public Rva0049B47C, public MiBase1, public ObjectModule_B2
 {
 public:
-	virtual ~ObjectModule()
-	{
-	}
+	ObjectModule(EmitVtableTag *);
+	virtual ~ObjectModule();
 };
 
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void ObjectModule_Anchor(ObjectModule *object)
+// The tag constructor (no retail counterpart) makes this TU emit the vtable and with it
+// the scalar deleting destructor; the destructor is only declared here (an in-class
+// placeholder would emit a ??1 copy the census proves wrong against the rowed 0x49B47C).
+// ?<ObjectModule::ObjectModule> absent-from-retail
+ObjectModule::ObjectModule(EmitVtableTag *)
 {
-	object->ObjectModule::~ObjectModule();
 }
 
 // Guarded-delete clear() batch: each owner below holds a heap element at
@@ -1068,3 +1068,25 @@ Rva005F329E::~Rva005F329E()
 {
     delete m_elem;
 }
+#pragma comment(linker, "/alternatename:??1ObjectModule@@UAE@XZ=??1Snapshot@@UAE@XZ")
+
+// Names the emitted vtables and deleting destructors above reference that no unit defines
+// under this spelling. Each is bound to the row owning the retail address: the nine opaque
+// destructors by the REL32 in their ??_G (read from retail), the Rva00494A97 secondary-base
+// slots by slot 0 of its retail vftables (0x00C4E988, 0x00C4E964, 0x00C4E900). ObjectModule
+// has a single vptr in retail, so ObjectModule_B2 is a stand-in base: its placeholder is
+// bound to slot 1 of the ObjectModule vftable (0x00C07E1C), the empty virtual, and claims
+// nothing about a retail secondary vftable.
+#pragma comment(linker, "/alternatename:??1Rva00119D00@@UAE@XZ=??1Render2DClass@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva005333F@@UAE@XZ=?rva0005333F@Rva0005333FHolder@@QAEXXZ")
+#pragma comment(linker, "/alternatename:??1Rva0072892@@UAE@XZ=??1RefCountClass@@MAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0084CEF@@UAE@XZ=??1Rva00084CEF@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0089851@@UAE@XZ=??1RunwayInfo@FlightDeckBehavior@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0090771@@UAE@XZ=??1Rva000906DE@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0090840@@UAE@XZ=??1Rva007E3C20Vp6Stream@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva009D6FA@@UAE@XZ=??1Rva0009D55BProduct@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva00B6CF1@@UAE@XZ=??1BfmeStringRecord000B94D2@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva00494A97_S2@@UAEXXZ=?update@WeaponModeSpecialPowerUpdate@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?f3@Rva00494A97_S3@@UAEXXZ=?rva00494C81@Rva00494C81@@QAEXHHHHH@Z")
+#pragma comment(linker, "/alternatename:?f4@Rva00494A97_S4@@UAEXXZ=?eq@Rva0026A910@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@ObjectModule_B2@@UAEXXZ=??1Region2D@@QAE@XZ")
