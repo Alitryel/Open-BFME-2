@@ -7,7 +7,8 @@
 // no-escape behavior controls register allocation and temporary stack homes.
 // See reverse/attempt_evidence/0x005e868f_crack_i.txt.
 class Rva004E3184;
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/inputs/vendor/stlport
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// stlport
 class Rva005E7ED7;
 struct Rva005E76AEContext;
 class Rva005E72B4Queue;
@@ -65,6 +66,11 @@ struct Rva005E71C6Ref;
 #include <stl/_algobase.h>
 namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
 #include <vector>
+// Use the existing range-destruction dispatch and worker.
+namespace _STL {
+template <> void _Destroy<Rva005E71C6Ref *>(Rva005E71C6Ref *, Rva005E71C6Ref *);
+template <> void __destroy_aux<Rva005E71C6Ref *>(Rva005E71C6Ref *, Rva005E71C6Ref *, const __false_type &);
+}
 
 namespace StrategicInGameUI
 {
