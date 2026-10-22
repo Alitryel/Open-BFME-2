@@ -89,6 +89,28 @@ typedef _STL::set<Rva001408C0Key> Rva001408C0Set;
 typedef _STL::_Rb_tree<Rva001408C0Key,Rva001408C0Key,_STL::_Identity<Rva001408C0Key>,_STL::less<Rva001408C0Key>,_STL::allocator<Rva001408C0Key> > PointerTree;
 typedef _STL::_Rb_tree<int,int,_STL::_Identity<int>,_STL::less<int>,_STL::allocator<int> > IntSetTreeCopyView;
 namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_tree_node<Rva001408C0Target *> >::allocate(size_t __n, const void *) const {
+    return __n != 0 ? reinterpret_cast<value_type *>(allocator<char>::allocate(__n * sizeof(value_type), 0)) : 0;
+}
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t __n) {
+    return __stl_alloc_rebind(static_cast<_Base &>(*this), (_Rb_tree_node<Rva001408C0Target *> *)0).allocate(__n, 0);
+}
+template <> __declspec(dllimport) __forceinline
+void IntSetTreeCopyView::clear() {
+    if (_M_node_count != 0) {
+        _M_erase(_M_root());
+        _M_leftmost() = this->_M_header._M_data;
+        _M_root() = 0;
+        _M_rightmost() = this->_M_header._M_data;
+        _M_node_count = 0;
+    }
+}
+
+}
+
+namespace _STL {
 template<> PointerTree::~_Rb_tree();
 template<> IntSetTreeCopyView::_Rb_tree(const IntSetTreeCopyView&);
 }
@@ -297,10 +319,20 @@ typedef _STL::deque<int> AssetQueue;
 class Rva000309B0
 {
 public:
-	Rva000309B0(unsigned int tag);
-	~Rva000309B0();
+    Rva000309B0 *rva00030980(void *value);
+    void rva000309B0();
 private:
-	unsigned int m_tag;
+    void *m_value;
+};
+
+class AssetWorkerHeapScope
+{
+    Rva000309B0 m_scope;
+public:
+    // ?AssetWorkerHeapScope::AssetWorkerHeapScope absent-from-retail
+    __forceinline AssetWorkerHeapScope(unsigned tag) { m_scope.rva00030980((void *)tag); }
+    // ?AssetWorkerHeapScope::~AssetWorkerHeapScope absent-from-retail
+    __forceinline ~AssetWorkerHeapScope() { m_scope.rva000309B0(); }
 };
 
 int bfmeRva0011F600();
@@ -517,7 +549,7 @@ void AssetManagerImpl::LoadAsset(Rva009EF0D0Element *asset)
 	}
 
 	asset->m_bfmeQueued = 1;
-	Rva000309B0 heap(0x61737374);
+	AssetWorkerHeapScope heap(0x61737374);
 	if (queue == 7)
 		asset->m_bfmeState = 0;
 

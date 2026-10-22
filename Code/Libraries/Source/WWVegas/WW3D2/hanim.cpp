@@ -19,6 +19,7 @@ void __cdecl operator delete[](void *) throw();
 // RefCountClass's inline members and deleting destructor are retail's
 // size-optimised bodies: compile them for size, as hlod.cpp does.
 #pragma optimize("s", on)
+#include "../../../../../reference/shims/bfmepool/mempool.h"
 #include "refcount.h"
 #pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
@@ -158,37 +159,6 @@ HAnimClass::~HAnimClass(void)
 
 
 
-/*
-**	This function will replace the current pivot map (if any) with another pivot map that is
-** set to 1 for only those pivot indices that actually have data.
-*/
-// ?HAnimComboDataClass::Build_Active_Pivot_Map present-unmatched
-void HAnimComboDataClass::Build_Active_Pivot_Map(void) 
-{
-	if ( PivotMap != NULL ) {
-		PivotMap->Release_Ref();
-	}
-	if(HAnim == NULL) {
-		PivotMap = 0;
-		return;
-	}
-
-	int numpivots = HAnim->Get_Num_Pivots();
-	PivotMap = NEW_REF( PivotMapClass, ());
-	PivotMap->Resize(numpivots);
-
-	int count = 0;
-	while(count < numpivots) {
-		if(HAnim->Is_Node_Motion_Present(count)) {
-			PivotMap->Add(1);
-
-		} else {
-			PivotMap->Add(0);
-		}
-		count++;
-	}
-}
-
 /*	
 **	HAnimComboClass
 **
@@ -207,18 +177,10 @@ HAnimComboClass::HAnimComboClass(void)
 
 
 
-void	HAnimComboClass::Set_Motion( int index, HAnimClass *motion )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	data->Set_HAnim(motion);
-}
-
 // Get_Motion is defined in HAnimComboClassGetMotion.cpp.
 
 // ?HAnimComboClass::Peek_Motion present-unmatched
-HAnimClass *HAnimComboClass::Peek_Motion( int index )
+__declspec(noinline) inline HAnimClass *HAnimComboClass::Peek_Motion( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -246,7 +208,7 @@ float	HAnimComboClass::Get_Frame( int index )
 }
 
 // ?HAnimComboClass::Set_Weight present-unmatched
-void	HAnimComboClass::Set_Weight( int index, float weight )
+__declspec(noinline) inline void	HAnimComboClass::Set_Weight( int index, float weight )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -255,7 +217,7 @@ void	HAnimComboClass::Set_Weight( int index, float weight )
 }
 
 // ?HAnimComboClass::Get_Weight present-unmatched
-float	HAnimComboClass::Get_Weight( int index )
+__declspec(noinline) inline float	HAnimComboClass::Get_Weight( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -267,7 +229,7 @@ float	HAnimComboClass::Get_Weight( int index )
 // Get_Pivot_Weight_Map has the same /G7 provider as Get_Motion.
 
 // ?HAnimComboClass::Peek_Pivot_Weight_Map present-unmatched
-PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
+__declspec(noinline) inline PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -279,3 +241,18 @@ PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
 
 // ?Remove_Anim_Combo_Data@HAnimComboClass@@QAEXPAVHAnimComboDataClass@@@Z is rowed in its own unit; this copy collided with it.
 
+
+// ?bfmeAnchorHAnimComboAccessors absent-from-retail
+void bfmeAnchorHAnimComboAccessors(HAnimComboClass *combo, int index, float weight)
+{
+	combo->Peek_Motion(index);
+	combo->Set_Weight(index, weight);
+	combo->Get_Weight(index);
+	combo->Peek_Pivot_Weight_Map(index);
+}
+
+// ?bfmeAnchorHAnimPivotMap absent-from-retail
+PivotMapClass *bfmeAnchorHAnimPivotMap()
+{
+	return new PivotMapClass();
+}

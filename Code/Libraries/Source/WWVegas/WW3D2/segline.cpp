@@ -83,6 +83,21 @@ static SegLineRendererClass _LineRenderer;
 void __cdecl operator delete(void *) throw();
 void __cdecl operator delete[](void *) throw();
 
+// Keep SimpleVec operations inline; their out-of-line owners use the retail size-built copies.
+
+template <> __declspec(dllimport) __forceinline
+SimpleVecClass<Vector3>::SimpleVecClass(int size) : Vector(NULL), VectorMax(0) {
+    if (size > 0) Resize(size);
+}
+
+template <> __declspec(dllimport) __forceinline
+SimpleDynVecClass<Vector3>::SimpleDynVecClass(int size) : SimpleVecClass<Vector3>(size), ActiveCount(0) {}
+
+template <> __declspec(dllimport) __forceinline
+bool SimpleDynVecClass<Vector3>::Shrink() {
+    if (ActiveCount < VectorMax / 4) return Resize(ActiveCount);
+    return true;
+}
 
 /*
 ** SegmentedLineClass implementation:

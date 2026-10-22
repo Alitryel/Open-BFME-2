@@ -37,6 +37,7 @@
  * Functions:                                                                                  * 
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#include "../../../../../reference/shims/ffactory_o1_dtor/ffactory.h"
 #include "mixfile.h"
 #include "wwdebug.h"
 #include "ffactory.h"

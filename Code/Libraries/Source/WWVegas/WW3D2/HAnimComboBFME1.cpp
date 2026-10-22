@@ -14,6 +14,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // RefCountClass's inline members and deleting destructor are retail's
 // size-optimised bodies: compile them for size, as hlod.cpp does.
 #pragma optimize("s", on)
+#include "../../../../../reference/shims/bfmepool/mempool.h"
 #include "refcount.h"
 #pragma optimize("", on)
 #include "winbase_shim.h"
@@ -134,11 +135,6 @@ public:
 **
 */
 
-
-// ??1NamedPivotMapClass@@ present-unmatched
-NamedPivotMapClass::~NamedPivotMapClass(void)
-{
-}
 
 // configure the base pivot map using the specified tree
 void NamedPivotMapClass::Update_Pivot_Map(const HTreeClass *Tree)
@@ -459,3 +455,6 @@ void HAnimComboClass::Remove_Anim_Combo_Data(HAnimComboDataClass * Data)
 {
 	HAnimComboData.Delete(Data);
 }
+
+template int VectorClass<BfmeWeightInfoVddAnchor::Info>::ID(BfmeWeightInfoVddAnchor::Info const &);
+template bool VectorClass<BfmeWeightInfoVddAnchor::Info>::operator==(VectorClass<BfmeWeightInfoVddAnchor::Info> const &) const;
