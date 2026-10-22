@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /MD
+// cl: /D_STLP_USE_STATIC_LIB /O1 /arch:SSE /G7 /MD
 // stlport
 // ?rva00359811@Rva00359811@@QAEIABURva003597C3Element@@_N@Z 0x00359811 27B; branch and set erase call are retail evidence
 #include <set>
