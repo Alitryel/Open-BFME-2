@@ -3,12 +3,11 @@
 // Open-BFME: INI parse-and-register factory at retail 0x0059EE10 (135B).
 // Same S4_PARSE_WITH_FIELDS shape as S4ParseThenRegisterWithFields.cpp
 // (twin 0x0059C4C0, 142B): allocate 0x10 bytes, run the matched base
-// constructor Rva00489210 (its own call goes through the ILT thunk pinned
-// as ??0BfmeAttackNuggetBase@@QAE@XZ at 0x0001B522, which jumps to
-// 0x00489210), then override m_00/m_04/m_0C/m_09.  This instance has no
-// tail fields (S4_NO_TAIL) and AT4 == 2.  Class re-declared locally per
-// file policy; identity of the derived struct, s4Head global and field
-// table is not recovered.
+// constructor Rva0035D47B at 0x0035D45A, which calls the native base at
+// 0x001DBAA4, then overrides the vptr and fields +4/+C/+9. This instance has no
+// tail fields (S4_NO_TAIL) and AT4 == 2. Target constructor and destructor
+// rows establish the neutral Rva0035D47B owner; its original name remains
+// unresolved. The empty field table uses its existing native data owner.
 
 struct FieldParse;
 
@@ -23,37 +22,34 @@ struct Gen_00489270
 	void m(int a);
 };
 
-class Rva001DBAA4 { public: Rva001DBAA4(); };
-class Rva00489210
+// The native allocation calls the existing constructor at RVA 0x0035D45A.
+// Match that provider's 16-byte view rather than emitting a second constructor
+// and an undefined integer spelling for its vtable.
+class Rva001DBAA4
 {
 public:
-	// Construction is the rowed ??0Rva001DBAA4, reached by a qualified call.
-	__declspec(dllimport) __forceinline Rva00489210() { ((Rva001DBAA4 *)this)->Rva001DBAA4::Rva001DBAA4(); }
-	int *m_00;
-	int m_04;
-	char m_08, m_09, m_0A;
-	int m_0C;
+    virtual ~Rva001DBAA4();
+    Rva001DBAA4();
+    int m_4;
+    bool m_8, m_9, m_A;
+    char m_padB;
+    int m_C;
 };
-
-extern int g_s4HeadRva0059EE10;
-extern const FieldParse s4TableRva0059EE10;
-
-struct S4BuiltRva0059EE10 : public Rva00489210
+class Rva0035D47B : public Rva001DBAA4
 {
-	S4BuiltRva0059EE10()
-	{
-		m_00 = &g_s4HeadRva0059EE10;
-		m_04 = 2;
-		m_0C = 0;
-		m_09 = 1;
-	}
+public:
+    Rva0035D47B();
+    virtual ~Rva0035D47B();
 };
+
+// The native null record at VA 0x00C6BB18 already has this data owner.
+extern const int g_emptyFieldParseTable[4];
 
 void s4ParseFieldsRva0059EE10(INI *ini, Gen_00489270 *sink)
 {
-	S4BuiltRva0059EE10 *t = new S4BuiltRva0059EE10;
+	Rva0035D47B *t = new Rva0035D47B;
 
-	ini->initFromINI(t, &s4TableRva0059EE10);
+	ini->initFromINI(t, reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable));
 
 	sink->m((int)t);
 }

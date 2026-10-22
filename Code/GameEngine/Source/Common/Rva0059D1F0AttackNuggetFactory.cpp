@@ -7,15 +7,33 @@
 // wider tail -- two words (m_10, m_14) plus two bytes (m_18, m_19) -- and
 // re-installs +0 with its own address before the post-parse m_04=m_14
 // resync. Class re-declared locally per file policy; identity of the
-// derived struct, its vtable-shaped global and the field table is not
-// recovered.
+// derived struct is unresolved; its field table is owned below from retail.
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *table);
+	static void parseInt(INI *, void *, void *, const void *);
+	static void parseBool(INI *, void *, void *, const void *);
+};
+
+// Retail VA 0x00C164B0: three 16-byte records followed by the null record.
+// The native table supplies the callback identities and target field offsets;
+// the derived class's original name remains unresolved.
+extern const FieldParse s4TableRva0059D1F0[] = {
+	{ "StartFrame", &INI::parseInt, 0, 0x10 },
+	{ "EndFrame", &INI::parseInt, 0, 0x14 },
+	{ "FadeInUnfrozenSounds", &INI::parseBool, 0, 0x18 },
+	{ 0, 0, 0, 0 }
 };
 
 struct Gen_00489270
@@ -37,7 +55,6 @@ public:
 
 // Rva001DBAC3Derived.cpp emits the vtable installed at +0.
 extern "C" int __identifier("??_7Rva0035D352@@6B@");
-extern const FieldParse s4TableRva0059D1F0;
 
 struct S4BuiltRva0059D1F0 : public Rva00489210
 {
@@ -59,7 +76,7 @@ void s4ParseFieldsRva0059D1F0(INI *ini, Gen_00489270 *sink)
 {
 	S4BuiltRva0059D1F0 *t = new S4BuiltRva0059D1F0;
 
-	ini->initFromINI(t, &s4TableRva0059D1F0);
+	ini->initFromINI(t, s4TableRva0059D1F0);
 	t->m_04 = t->m_14;
 
 	sink->m((int)t);
