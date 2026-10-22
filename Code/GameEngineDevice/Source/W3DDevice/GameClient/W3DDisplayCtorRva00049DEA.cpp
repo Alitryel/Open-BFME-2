@@ -90,8 +90,7 @@ class Display
 {
  public:
  Display();
- virtual ~Display();
- virtual void slot04();
+ virtual ~Display(); // vtable view matches W3DDisplayDtor.cpp's (destructor only)
  char data[0x13c];
  char pad140[4];
  
