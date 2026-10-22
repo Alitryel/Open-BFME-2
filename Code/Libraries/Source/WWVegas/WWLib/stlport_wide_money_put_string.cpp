@@ -123,6 +123,9 @@ namespace _STL {
 template <> _String_base<wchar_t,allocator<wchar_t> >::_String_base(const allocator<wchar_t>&);
 }
 #include <locale>
+// Suppress this TU's non-retail copy of ?allocate@?$__malloc_alloc@$0A@@_STL@@SAPAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.
