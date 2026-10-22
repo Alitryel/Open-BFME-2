@@ -95,3 +95,51 @@ def test_iniblock_replaces_only_a_placeholder(tmp_path):
     root = make_tree(tmp_path, blocks(row))
     with pytest.raises(Refusal, match="only a placeholder"):
         function_plan(root, rva=0x00403000, new="countAll", basis="canonical:iniblock", evidence="block Widget")
+
+
+# ------------------------- a real name the reference block tables contradict
+
+ZH = rename.INI_REFERENCE_TABLES[0][0]
+B1 = rename.INI_REFERENCE_TABLES[1][0]
+REAL = ("Widget", "0x00700000", "0x00800000", "0x00403000", "?count@Widget@@QAEHXZ", "countAll", ZH + ":2")
+
+
+def contradicted(row=REAL, zh='{ "Gadget", Widget::count },\n{ "Widget", Widget::countAll },\n', b1=None):
+    extra = blocks(row)
+    extra[ZH] = zh
+    if b1 is not None:
+        extra[B1] = b1
+    return extra
+
+
+def real_plan(root):
+    return function_plan(root, rva=0x00403000, new="countAll", basis="canonical:iniblock",
+                         evidence="retail INI block Widget; ZH INI.cpp gives count to Gadget")
+
+
+def test_iniblock_replaces_a_real_name_the_tables_give_another_token(tmp_path):
+    assert real_plan(make_tree(tmp_path, contradicted())).basis == "canonical:iniblock"
+
+
+def test_iniblock_contradiction_needs_a_cited_not_derived_name(tmp_path):
+    root = make_tree(tmp_path, contradicted(row=REAL[:6] + ("derived",)))
+    with pytest.raises(Refusal):
+        real_plan(root)
+
+
+def test_iniblock_contradiction_needs_the_cited_table_to_name_the_target(tmp_path):
+    root = make_tree(tmp_path, contradicted(zh='{ "Gadget", Widget::count },\n'))
+    with pytest.raises(Refusal):
+        real_plan(root)
+
+
+def test_iniblock_contradiction_needs_the_old_name_given_to_another_token(tmp_path):
+    root = make_tree(tmp_path, contradicted(zh='{ "Widget", Widget::countAll },\n'))
+    with pytest.raises(Refusal):
+        real_plan(root)
+
+
+def test_iniblock_contradiction_refuses_when_any_table_gives_the_old_name_this_token(tmp_path):
+    root = make_tree(tmp_path, contradicted(b1='REGISTER_BLOCK( Widget, "Widget", Widget::count );\n'))
+    with pytest.raises(Refusal):
+        real_plan(root)

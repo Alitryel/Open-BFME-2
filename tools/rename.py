@@ -1146,6 +1146,48 @@ def mechanical_stems(ctx, source):
     return {s.lower() for s in stems}
 
 
+
+# The reference block tables canonical:iniblock may cite: Zero Hour's INI.cpp
+# table and BFME 1's REGISTER_BLOCK list (tools/ini_blocks.py reads the same).
+INI_REFERENCE_TABLES = (
+    ("reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source/Common/INI/INI.cpp",
+     r'\{\s*"(\w+)",\s*(?:\w+::)?(\w+)\s*\}'),
+    ("reference/open-bfme-1/game/GameEngine/Source/Common/INI/ini.cpp",
+     r'REGISTER_BLOCK\(\s*\w+,\s*"(\w+)",\s*(?:\w+::)?(\w+)\s*\)'))
+
+
+def iniblock_contradiction(ctx, rva, old_word, new_word):
+    """True only when the retail registration at `rva` contradicts its current
+    real name: reverse/ini_blocks.tsv registers the callback for token T under
+    a reference-cited (not derived) name equal to `new_word`, the cited
+    reference table maps T to `new_word`, and a reference table maps `old_word`
+    to a different token and never to T. A mislabel the tables disprove, and
+    nothing else, lets canonical:iniblock replace a real name."""
+    if rva is None or not old_word or old_word == new_word:
+        return False
+    regs = [line.split("\t") for line in (ctx.read(INI_BLOCKS) or b"").decode("utf-8", errors="replace")
+            .splitlines()[1:] if line.count("\t") >= 6]
+    hits = [r for r in regs if _rva(r[3]) == rva]
+    if len(hits) != 1:
+        return False
+    token, name, source = hits[0][0], hits[0][5], hits[0][6].strip()
+    if name != new_word or source == "derived" or ":" not in source:
+        return False
+    cited = source.rsplit(":", 1)[0]
+    pairs = {}
+    for path, pattern in INI_REFERENCE_TABLES:
+        for line in (ctx.read(path) or b"").decode("utf-8", errors="replace").splitlines():
+            m = re.search(pattern, line)
+            if m:
+                pairs.setdefault(path, set()).add((m.group(1), m.group(2)))
+    if (token, new_word) not in pairs.get(cited, set()):
+        return False
+    every = set().union(*pairs.values()) if pairs else set()
+    if (token, old_word) in every:
+        return False
+    return any(fn == old_word and tok != token for tok, fn in every)
+
+
 def check_canonical(ctx, kind, evidence_kind, evidence, new_name, new_word, rva, *, old_word=None):
     """Verify a canonical basis against the record it cites; raises Refusal.
     A canonical name is permanent (nothing replaces it), so it is never
@@ -1249,8 +1291,10 @@ def check_canonical(ctx, kind, evidence_kind, evidence, new_name, new_word, rva,
             raise Refusal(f"canonical:iniblock: {INI_BLOCKS} registers no block parser at "
                           + (f"0x{rva:08X}" if rva is not None else "this row"))
         token, recorded, name = hits[0][0], hits[0][4], hits[0][5]
-        if not old_word or not is_placeholder(old_word):
-            raise Refusal(f"canonical:iniblock replaces only a placeholder, not {old_word}")
+        if not old_word or not (is_placeholder(old_word)
+                                or iniblock_contradiction(ctx, rva, old_word, new_word)):
+            raise Refusal(f"canonical:iniblock replaces only a placeholder, or a real name the reference "
+                          f"block tables give to another token, not {old_word}")
         sharing = [r for r in ctx.rows() if _rva(r.get("target_rva")) == rva]
         if len(sharing) != 1 or sharing[0].get("name") != recorded:
             raise Refusal(f"canonical:iniblock: 0x{rva:08X} is not exactly the row {INI_BLOCKS} recorded "
@@ -1303,7 +1347,9 @@ def check_basis(ctx, kind, basis, evidence, old_name, old_word, rva, *, new_name
     if which == "inferred" and not placeholder:
         raise Refusal(f"{old_word} is a real name, not a placeholder; an inferred name may replace "
                       "only a placeholder or weak name")
-    if which == "canonical" and not placeholder and not (recorded or "").startswith("inferred"):
+    if which == "canonical" and not placeholder and not (recorded or "").startswith("inferred") \
+            and not (basis == "canonical:iniblock" and kind == "function"
+                     and iniblock_contradiction(ctx, rva, old_word, new_word)):
         raise Refusal(f"{old_word} is a real name that name_basis.csv does not record as inferred; "
                       "a canonical name may replace only a placeholder or an inferred name")
     if which == "inferred":
