@@ -134,7 +134,7 @@ Finish or revert each body or homogeneous trivial batch before the next.
 and prior evidence, select one promising function or concrete prerequisite.
 Stay with it while testing new, evidence-backed hypotheses. Switch only when
 viable hypotheses are exhausted or a specific prerequisite prevents further
-progress; preserve findings for the next agent. The ~30-minute reassessment
+progress; preserve findings for the next agent. The ~120-minute reassessment
 below is a review point, not an automatic stopping time.
 
 The rebuild is past 99% completion. Humans have independently solved the remaining
@@ -429,7 +429,7 @@ enforces this in both hooks; the push hook scans your whole outgoing range, so a
 blocked push may name a historical lift. Never `--no-verify`.
 
 Ghidra boundaries, xrefs and vtables are identity evidence; decompiled C is not
-byte-match proof. After ~30 minutes without meaningful progress, reassess. Continue while testing
+byte-match proof. After ~120 minutes without meaningful progress, reassess. Continue while testing
 a new evidence-backed hypothesis; identity, layout, dependency and compiler
 discoveries count as progress. Bank and switch when viable hypotheses are
 exhausted or a concrete prerequisite blocks further work. Before declaring a
