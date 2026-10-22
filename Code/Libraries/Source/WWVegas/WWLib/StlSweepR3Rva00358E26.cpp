@@ -46,9 +46,29 @@ bool operator==(const Rva00358E26Record&b)const{return word==b.word;}
 };
 namespace _STL {template<>struct __type_traits<Rva00358E26Record>:__type_traits_aux<1>{};}
 
+typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00358E26Record>,
+	_STL::_Select1st<_STL::pair<int const, Rva00358E26Record> >,
+	_STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00358E26Record> > > Rva00359269Tree;
+
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template void _STL::_Rb_tree<int, _STL::pair<int const, Rva00358E26Record>, _STL::_Select1st<_STL::pair<int const, Rva00358E26Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00358E26Record> > >::erase(_STL::_Rb_tree_iterator<_STL::pair<int const, Rva00358E26Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00358E26Record> > >, _STL::_Rb_tree_iterator<_STL::pair<int const, Rva00358E26Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00358E26Record> > >);
 
 // Incidental target placement 0x00358FA5: donor member spelling/layout remains an inference.
 template unsigned int _STL::_Rb_tree<int, _STL::pair<int const, Rva00358E26Record>, _STL::_Select1st<_STL::pair<int const, Rva00358E26Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00358E26Record> > >::erase(int const &);
+
+// Native 0x00359269..0x0035926E is an independent tail entry to the
+// verified key erase at 0x00358FA5, with ECX and its reference argument
+// unchanged. The existing tree view establishes the forwarding interface;
+// neither the original wrapper name nor its containing application type
+// is established, so retain an address-derived wrapper.
+class Rva00359269 : public Rva00359269Tree
+{
+public:
+	unsigned int rva00359269(const int &key);
+};
+
+unsigned int Rva00359269::rva00359269(const int &key)
+{
+	return erase(key);
+}
