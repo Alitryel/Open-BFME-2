@@ -142,6 +142,10 @@ struct GeometryShape { char m_pad[36]; public: GeometryShape(const GeometryShape
 namespace _STL { template <> void _Construct<GeometryShape, GeometryShape>(GeometryShape *, GeometryShape const &); }
 namespace _STL { template <> void _Destroy<RvaSmartPtr12 *>(RvaSmartPtr12 *, RvaSmartPtr12 *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmePod104@@@_STL@@YAXPAUBfmePod104@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod104;
+namespace _STL { template <> void _Destroy<BfmePod104 *>(BfmePod104 *,BfmePod104 *); }
 // 4-byte element; push_back 0x005F13E6.
 struct Rva005F13E6Element { char m_pad[4]; public: Rva005F13E6Element(const Rva005F13E6Element &); ~Rva005F13E6Element(); };
 // 4-byte element; push_back 0x005FA197.

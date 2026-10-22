@@ -4,6 +4,14 @@
 // stlport
 #include <list>
 #include <memory>
+// Suppress this TU's non-retail copy of ??1?$list@URva000BC0DBElement@@V?$allocator@URva000BC0DBElement@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva000BC0DBElement;
+namespace _STL { template <> list<Rva000BC0DBElement,allocator<Rva000BC0DBElement> >::~list(); }
+// Suppress this TU's non-retail copy of ??1?$_List_base@URva000BC0DBElement@@V?$allocator@URva000BC0DBElement@@@_STL@@@_STL@@QAE@X:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva000BC0DBElement;
+namespace _STL { template <> _List_base<Rva000BC0DBElement,allocator<Rva000BC0DBElement> >::~_List_base(); }
 // _List_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
 // overloads take those calls instead so this TU emits no external copy.

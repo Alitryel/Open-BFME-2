@@ -17,6 +17,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@UBfmePod20@@V?$allocator@UBfmePod20@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod20;
+namespace _STL { template <> void vector<BfmePod20,allocator<BfmePod20> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAUBfmePod20@@U1@V?$allocator@UBfmePod20@@@_STL@@@_STL@@QA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod20;
+namespace _STL { template <> void _STLP_alloc_proxy<BfmePod20 *,BfmePod20,allocator<BfmePod20> >::deallocate(BfmePod20 *,unsigned int); }
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUBfmePod20@@U1@V?$allocator@UBfmePod20@@@_STL@@@_STL@@QAEP:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod20;
+namespace _STL { template <> BfmePod20 * _STLP_alloc_proxy<BfmePod20 *,BfmePod20,allocator<BfmePod20> >::allocate(unsigned int); }
 
 struct BfmePod20 { int a[5]; };
 

@@ -18,6 +18,26 @@ namespace _STL { void __cdecl free(void *block) throw(...); }
 #include <map>
 #include <vector>
 #include <list>
+// Suppress this TU's non-retail copy of ??1?$vector@UBfmeFixedObject60@@V?$allocator@UBfmeFixedObject60@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeFixedObject60;
+namespace _STL { template <> vector<BfmeFixedObject60,allocator<BfmeFixedObject60> >::~vector(); }
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmeFixedObject60@@@_STL@@YAXPAUBfmeFixedObject60@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeFixedObject60;
+namespace _STL { template <> void _Destroy<BfmeFixedObject60 *>(BfmeFixedObject60 *,BfmeFixedObject60 *); }
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@UBfmePod32@@V?$allocator@UBfmePod32@@@_STL@@@_STL@@IAEPAU?$_List_no:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod32;
+namespace _STL { template <> _List_node<BfmePod32> * list<BfmePod32,allocator<BfmePod32> >::_M_create_node(BfmePod32 const &); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UBfmeFixedObject60@@V?$allocator@UBfmeFixedObject60@@@_STL@@@_STL@@QAE@X:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeFixedObject60;
+namespace _STL { template <> _Vector_base<BfmeFixedObject60,allocator<BfmeFixedObject60> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UBfmeVectorRecord000BDF17@@V?$allocator@UBfmeVectorRecord000BDF17@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeVectorRecord000BDF17;
+namespace _STL { template <> _Vector_base<BfmeVectorRecord000BDF17,allocator<BfmeVectorRecord000BDF17> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ??1?$_List_base@UBfmePod32@@V?$allocator@UBfmePod32@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod32;

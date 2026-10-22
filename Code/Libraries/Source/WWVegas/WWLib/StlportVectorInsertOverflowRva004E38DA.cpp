@@ -22,6 +22,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmePod88@@@_STL@@YAXPAUBfmePod88@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod88;
+namespace _STL { template <> void _Destroy<BfmePod88 *>(BfmePod88 *,BfmePod88 *); }
 
 struct BfmePod88 {
 	char opaque[88];
