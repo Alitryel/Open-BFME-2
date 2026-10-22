@@ -12492,7 +12492,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?clear@?$_Rb_tree@HU?$pair@$$CBHURva002F0BB5Element@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@@2@@_STL@@QAEXXZ,0x002EEA1D,
 ??1?$_Rb_tree_base@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@V?$allocator@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@@2@@_STL@@QAE@XZ,0x002EEA46,
 ??0Rva004157BBElement@@QAE@ABU0@@Z,0x0041573F,
-??0Rva00500839Element@@QAE@ABU0@@Z,0x0050055D,
 ??0Rva00540053Element@@QAE@ABU0@@Z,0x0053FFCE,
 ??$__lower_bound@PAURva00336283Element@@U1@U?$less@URva00336283Element@@@_STL@@H@_STL@@YAPAURva00336283Element@@PAU1@0ABU1@U?$less@URva00336283Element@@@0@PAH@Z,0x00335CAE,
 ??$__lower_bound@PAURva00532829Element@@U1@U?$less@URva00532829Element@@@_STL@@H@_STL@@YAPAURva00532829Element@@PAU1@0ABU1@U?$less@URva00532829Element@@@0@PAH@Z,0x0053249D,

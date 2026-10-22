@@ -144,24 +144,20 @@ public:
 	Rva0050055D(const Rva0050055D &other);
 };
 
-struct Rva00500839Element : public Rva002B82D5
-{
-};
-
 namespace _STL
 {
 template <>
-struct pair<const int, Rva00500839Element>
+struct pair<const int, Rva0050055D>
 {
 	pair(const pair &other);
 	const int first;
-	Rva00500839Element second;
+	Rva0050055D second;
 };
 }
 
 typedef _STL::pair<const int, AsciiString> GlobalValue;
 typedef _STL::_Rb_tree<int, GlobalValue, _STL::_Select1st<GlobalValue>, _STL::less<int>, _STL::allocator<GlobalValue> > GlobalTree;
-typedef _STL::pair<const int, Rva00500839Element> DistancePair;
+typedef _STL::pair<const int, Rva0050055D> DistancePair;
 // The provider owns DistancePair's copy constructor. Keep ownership of this
 // local placement lifetime here so no competing implicit pair destructor is
 // emitted. Only the two-tree member has nontrivial destruction.

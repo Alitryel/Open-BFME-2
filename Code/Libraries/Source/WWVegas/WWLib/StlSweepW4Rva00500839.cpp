@@ -63,6 +63,9 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
-struct Rva00500839Element { Rva00500839Element();Rva00500839Element(const Rva00500839Element&);~Rva00500839Element();Rva00500839Element&operator=(const Rva00500839Element&);char bytes[1]; bool operator<(const Rva00500839Element&)const; bool operator==(const Rva00500839Element&)const; };
-namespace _STL {template<> struct hash<Rva00500839Element> { unsigned operator()(const Rva00500839Element&) const; };}
-template class _STL::hash_map<int,Rva00500839Element>;
+// The element is Rva0050055D: this pair copy ctor's only call goes to the rowed
+// Rva0050055D copy ctor at 0x0050055D (Rva0050055DCopy.cpp).
+class Rva0050055D { public: Rva0050055D(const Rva0050055D &other); private: char m_bytes[0x18]; };
+
+// Emit only the rowed member.
+template _STL::pair<const int, Rva0050055D>::pair(const _STL::pair<const int, Rva0050055D> &);
