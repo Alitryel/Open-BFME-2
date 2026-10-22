@@ -18,4 +18,15 @@ struct Rva001D28F0Element
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> vector<Rva001D28F0Element,allocator<Rva001D28F0Element> >::~vector(); }
 
-template class _STL::vector<Rva001D28F0Element>;
+typedef _STL::vector<Rva001D28F0Element> ElementVector;
+
+// Instantiate the recovered operations and their required template dependencies.
+template void ElementVector::_M_insert_overflow(Rva001D28F0Element *,
+    const Rva001D28F0Element &, const _STL::__false_type &, unsigned int, bool);
+template void ElementVector::push_back(const Rva001D28F0Element &);
+template ElementVector::iterator ElementVector::erase(ElementVector::iterator);
+template void ElementVector::_M_clear();
+template Rva001D28F0Element &ElementVector::operator[](unsigned int);
+
+template Rva001D28F0Element *_STL::uninitialized_fill_n(
+    Rva001D28F0Element *, unsigned int, const Rva001D28F0Element &);

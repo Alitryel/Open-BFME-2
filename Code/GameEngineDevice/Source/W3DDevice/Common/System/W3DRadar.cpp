@@ -747,17 +747,22 @@ private:
 	void *m_surface;
 };
 
-class W3DRadarResetTexture
+struct CursorTextureSlot
+{
+	void *Ptr;
+	W3DRadarResetSurface Get_Surface_Level(int level);
+};
+
+class W3DRadarResetTexture : public CursorTextureSlot
 {
 public:
 	W3DRadarResetSurface getSurfaceLevel();
-	W3DRadarResetSurface getSurfaceLevel( UnsignedInt level );
 };
 
 // ?getSurfaceLevel@W3DRadarResetTexture@@QAE?AVW3DRadarResetSurface@@XZ present-unmatched
 W3DRadarResetSurface W3DRadarResetTexture::getSurfaceLevel()
 {
-	return getSurfaceLevel( 0 );
+	return Get_Surface_Level( 0 );
 }
 
 class W3DRadarResetVirtuals
