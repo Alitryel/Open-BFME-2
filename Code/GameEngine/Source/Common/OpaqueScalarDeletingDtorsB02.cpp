@@ -248,7 +248,44 @@ Rva0055F98A::Rva0055F98A(EmitVtableTag *)
 {
 }
 
-class Rva00740555
+// Leading slots of retail vtable 0x008F1578 (27 slots): 0 Delete_This (0x6CE57),
+// 1 deleting dtor 0x1042CF, 2-5 the rowed SimpleSceneClass Add_Render_Object /
+// Remove_Render_Object / Create_Iterator / Destroy_Iterator, 6 SceneClass::
+// Set_Ambient_Light (0x6E265). Shared by every unit that emits ??_7Rva00740555.
+class Vector3;
+class RenderObjClass;
+class SceneIterator;
+class RefCountClass
+{
+public:
+	virtual void Delete_This();
+protected:
+	virtual ~RefCountClass();
+private:
+	int NumRefs;
+};
+class SceneClass : public RefCountClass
+{
+public:
+	virtual void Add_Render_Object(RenderObjClass *obj) = 0;
+	virtual void Remove_Render_Object(RenderObjClass *obj) = 0;
+	virtual SceneIterator *Create_Iterator() = 0;
+	virtual void Destroy_Iterator(SceneIterator *it) = 0;
+	virtual void Set_Ambient_Light(const Vector3 &color);
+};
+class SimpleSceneClass : public SceneClass
+{
+public:
+	SimpleSceneClass();
+	virtual ~SimpleSceneClass();
+	virtual void Add_Render_Object(RenderObjClass *obj);
+	virtual void Remove_Render_Object(RenderObjClass *obj);
+	virtual SceneIterator *Create_Iterator();
+	virtual void Destroy_Iterator(SceneIterator *it);
+private:
+	char m_pad08[0x108 - 8];
+};
+class Rva00740555 : public SimpleSceneClass
 {
 public:
 	Rva00740555(EmitVtableTag *);
