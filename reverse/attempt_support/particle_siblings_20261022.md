@@ -130,3 +130,30 @@ in-memory overlay of the actual three production objects has no unresolved,
 duplicate, COMDAT, address or selected-body blockers. The new destructor
 object has one unique definition, so its added overlay position changes no
 competing definition. This is a preview, not a published census measurement.
+
+## 0x003ABDC0 update sibling
+
+Native3ABD81 constructor and3AEC5E copy establish the owner and original four
+vtable names. Verified prefixes are primary C1C5BC=[3AD3F7,B3FD0,purecall,
+55F710], factory C1C5B8=[3AC9AF], category C1C780=[purecall], and complete
+Snapshot C1CE88=[3ABDC0,B3FD0,3ABDB2,3ABDB8]. The native info payload is104B
+and complete owner132B. An address-derived Snapshot payload view keeps exactly
+four slots; the legacy DefaultUpdateModuleInfo pointer-xfer declaration is
+used only for the qualified call on this+1C. It is not inherited as a fifth
+runtime slot. The full update-name literal is exact. The89-byte factory
+companion preserves the old factory-interface spelling and its native EH graph.
+The destructor-only novtable unit defines only its intended five-byte cleanup.
+
+All nine rows pass normal admission with no weak pin; the new adjustor adds
+exactly eight unique bytes. Whole-file placement rescan is empty. The bounded
+three-current-object provider overlay has zero blockers in every category,
+with the same new-unique-unit/census limitation described for physics above.
+
+## Final verifier validation
+
+The separate verifier repair passed246 production regression tests, including
+all instantiated gate exploit cases, old weak-default refusals, ICF admission
+and STLport fold cases. Thirteen existing fixture skips were reported. Two
+independent reviewers repeated the proof/test assessment. Every real new
+adjustor subsequently passed normal production add_match with no masking or
+unresolved calls and without adding global weak-name bindings or exemptions.

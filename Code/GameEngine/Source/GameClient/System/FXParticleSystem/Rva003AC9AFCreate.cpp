@@ -194,3 +194,8 @@ Rva003AD03BModule *Rva003AD03BTemplate::rva003AD03B(unsigned int arg)
 {
 	return new Rva003AD03BModule(arg, *(Rva003A59C3Src *)this);
 }
+
+class DefaultModuleSecondBase { public: virtual Rva003AC9AFModule *rva003AC9AF(unsigned int); };
+Rva003AC9AFModule *DefaultModuleSecondBase::rva003AC9AF(unsigned int arg) {
+ return new Rva003AC9AFModule(arg, *reinterpret_cast<Src0055F840 *>((char *)this-0x14));
+}
