@@ -21,6 +21,9 @@
 #define _STLP_NO_METHOD_SPECIALIZATION
 #include <fstream>
 
+// Use the rowed generic-widening initializer, as the other fstream units do.
+namespace _STL { template <> void basic_ios<char, char_traits<char> >::init(basic_streambuf<char, char_traits<char> > *); }
+
 template <>
 _STL::basic_fstream<char, _STL::char_traits<char> >::basic_fstream(
 	const char *__s, _STL::ios_base::openmode __m) :
