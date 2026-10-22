@@ -27,6 +27,16 @@ public:
 
 extern DamageFXStore *TheDamageFXStore;
 
+// The lookup's retail body 0x00360966 is the ICF-shared one rowed as
+// ArmorStore::findArmorTemplate (ArmorStoreCtor.cpp); call it by that name
+// with the same thiscall ABI (DamageFXStore::findDamageFX has no row).
+class ArmorTemplate;
+class ArmorStore
+{
+public:
+	const ArmorTemplate *findArmorTemplate(AsciiString name) const;
+};
+
 class INI
 {
 public:
@@ -42,5 +52,5 @@ void INI::parseDamageFX(INI *ini, void *, void *store, const void *)
 	if (_strcmpi(token, "None") == 0)
 		*(const DamageFX **)store = 0;
 	else
-		*(const DamageFX **)store = TheDamageFXStore->findDamageFX(token);
+		*(const DamageFX **)store = (const DamageFX *)((const ArmorStore *)TheDamageFXStore)->findArmorTemplate(token);
 }
