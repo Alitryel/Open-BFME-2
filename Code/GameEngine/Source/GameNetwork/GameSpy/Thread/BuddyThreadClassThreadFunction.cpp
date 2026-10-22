@@ -25,6 +25,10 @@
 void Rva00030830GameFree(void*);
 #define free Rva00030830GameFree
 #include <string>
+// Keep the vendor base cleanup inline while binding any outlined call to
+// the common STLport provider; no competing game-free copy is emitted.
+namespace _STL { template <> __declspec(dllimport) __forceinline
+_String_base<char, allocator<char> >::~_String_base() throw() { _M_deallocate_block(); } }
 #include <memory>
 #include <vector>
 #include "ascii_string.h"
