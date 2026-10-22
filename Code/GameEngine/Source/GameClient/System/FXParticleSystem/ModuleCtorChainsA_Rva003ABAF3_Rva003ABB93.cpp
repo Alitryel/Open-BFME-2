@@ -371,7 +371,20 @@ void __identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ")();
 void __identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ")();
 }
 extern const void *const g_00C1C640[13];
-extern const void *const g_00C1CF28[];
+// The retail table at RVA 0x0081CF28: 4 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_ERva003ABD81@@WBM@AEPAXI@Z")();
+void __identifier("??1?$_STLP_alloc_proxy@PAPAVObject@@PAV1@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ")();
+void __identifier("?name@Rva003ABE7FNamed@@QBEPBDXZ")();
+void __identifier("?rva00562233@Rva00562233@@WBM@AEXPAVXfer@@@Z")();
+}
+extern const void *const g_00C1CF28[4] = {
+	(const void *)&__identifier("??_ERva003ABD81@@WBM@AEPAXI@Z"), // slot 0 0x003ABDC0
+	(const void *)&__identifier("??1?$_STLP_alloc_proxy@PAPAVObject@@PAV1@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?name@Rva003ABE7FNamed@@QBEPBDXZ"), // slot 2 0x003ABE7F
+	(const void *)&__identifier("?rva00562233@Rva00562233@@WBM@AEXPAVXfer@@@Z"), // slot 3 0x003ABE85
+};
 // The retail table at RVA 0x0081C6A4: 4 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
