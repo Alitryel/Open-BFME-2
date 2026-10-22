@@ -20,4 +20,12 @@ class Rva0036CA00Str { public: unsigned char m_data[4]; };
 bool operator==(const Rva0036CA00Str &a, const Rva0036CA00Str &b);
 bool operator<(const Rva0036CA00Str &a, const Rva0036CA00Str &b);
 
+// remove/unique/merge/sort need element operator==/operator<, which have no
+// body; declare them specialized so the class instantiation below emits none.
+namespace _STL {
+template <> void list<Rva0036CA00Str,allocator<Rva0036CA00Str> >::remove(Rva0036CA00Str const &);
+template <> void list<Rva0036CA00Str,allocator<Rva0036CA00Str> >::unique();
+template <> void list<Rva0036CA00Str,allocator<Rva0036CA00Str> >::merge(list<Rva0036CA00Str,allocator<Rva0036CA00Str> > &);
+template <> void list<Rva0036CA00Str,allocator<Rva0036CA00Str> >::sort();
+}
 template class _STL::list<Rva0036CA00Str, _STL::allocator<Rva0036CA00Str> >;

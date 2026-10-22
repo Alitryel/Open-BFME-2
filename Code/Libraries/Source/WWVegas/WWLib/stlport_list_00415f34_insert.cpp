@@ -21,4 +21,12 @@ struct BfmeStringRecord00415F34 { unsigned char m_data[24]; };
 bool operator==(const BfmeStringRecord00415F34 &a, const BfmeStringRecord00415F34 &b);
 bool operator<(const BfmeStringRecord00415F34 &a, const BfmeStringRecord00415F34 &b);
 
+// remove/unique/merge/sort need element operator==/operator<, which have no
+// body; declare them specialized so the class instantiation below emits none.
+namespace _STL {
+template <> void list<BfmeStringRecord00415F34,allocator<BfmeStringRecord00415F34> >::remove(BfmeStringRecord00415F34 const &);
+template <> void list<BfmeStringRecord00415F34,allocator<BfmeStringRecord00415F34> >::unique();
+template <> void list<BfmeStringRecord00415F34,allocator<BfmeStringRecord00415F34> >::merge(list<BfmeStringRecord00415F34,allocator<BfmeStringRecord00415F34> > &);
+template <> void list<BfmeStringRecord00415F34,allocator<BfmeStringRecord00415F34> >::sort();
+}
 template class _STL::list<BfmeStringRecord00415F34, _STL::allocator<BfmeStringRecord00415F34> >;
