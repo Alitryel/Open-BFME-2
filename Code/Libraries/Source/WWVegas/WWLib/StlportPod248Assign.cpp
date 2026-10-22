@@ -121,6 +121,12 @@ namespace _STL {
 template <> void _Destroy<Rva000BB4AC *>(Rva000BB4AC *first, Rva000BB4AC *last);
 }
 
+// Use the existing retail container destructors for outlined cleanup.
+namespace _STL {
+template <> list<BfmePod32, allocator<BfmePod32> >::~list();
+template <> vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::~vector();
+}
+
 struct BfmePod248
 {
 	AsciiString m_s00;

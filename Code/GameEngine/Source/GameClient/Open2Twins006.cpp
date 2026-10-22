@@ -1,13 +1,9 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/moduledata
 // stlport
 // BFME1 donor: reference/open-bfme-1/Code/GameEngine/Source/GameClient/Open2Twins006.cpp
-// Trimmed to the served ??1Open2Store880FC0 dtor only; the donor's
-// 8F75D0/9A2680 twins and Force wrappers have no ledger rows here.
-// Repair: retail installs the Snapshot-base vptr at +0xC, not the donor's
-// +8, and reads the map member at +0x10, so SubsystemInterface runs 12
-// bytes here (one pad word after m_name).
+// The owned implementation at +0x10 uses its retail destructor provider.
+// SubsystemInterface occupies 12 bytes, placing Snapshot at +0xC.
 
-#include <map>
 #include "Common/Snapshot.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
@@ -27,14 +23,11 @@ private:
 // Snapshot is the canonical BFME2 base from reference/shims/moduledata/Common/Snapshot.h
 // (virtual dtor then crc/xfer/loadPostProcess, vtable 0x00BBB554).
 
-enum NameKeyType
+class PartitionManagerImpl
 {
-	NAMEKEY_INVALID = 0
+public:
+	virtual ~PartitionManagerImpl();
 };
-
-class Open2Held880FC0;
-
-typedef std::map<NameKeyType, Open2Held880FC0 *, std::less<NameKeyType> > Open2Map880FC0;
 
 struct Rva009F5970StateInit
 {
@@ -54,13 +47,17 @@ public:
 	virtual void init();
 
 private:
-	Open2Map880FC0 *m_map;
+	PartitionManagerImpl *m_map;
 };
 
 // @??1Open2Store880FC0@@UAE@XZ 0x00880FC0
 Open2Store880FC0::~Open2Store880FC0()
 {
-	delete m_map;
+	PartitionManagerImpl *impl = m_map;
+	if (impl) {
+		impl->PartitionManagerImpl::~PartitionManagerImpl();
+		::operator delete(impl);
+	}
 }
 
 // ?init@Open2Store880FC0@@UAEXXZ 0x00625560 67B slot1 of 0x0087C6B0 calls T_009f4fb0::m at 0x006276E0 with zeroed state
@@ -126,9 +123,14 @@ void Gen_00881040::bfmeDescribe(BfmeFlagTarget *target)
 	m_bfmeSink->bfmeAccept(target);
 }
 
-class Open2Held8F75D0;
-
-typedef std::map<NameKeyType, Open2Held8F75D0 *, std::less<NameKeyType> > Open2Map8F75D0;
+class ShroudManagerImpl
+{
+public:
+	ShroudManagerImpl();
+	~ShroudManagerImpl();
+private:
+	unsigned char storage[0x70];
+};
 
 class Open2Store8F75D0 : public SubsystemInterface, public Snapshot
 {
@@ -137,7 +139,7 @@ public:
 	virtual ~Open2Store8F75D0();
 
 private:
-	Open2Map8F75D0 *m_map;
+	ShroudManagerImpl *m_map;
 };
 
 // @??1Open2Store8F75D0@@UAE@XZ 0x00739980
@@ -146,24 +148,11 @@ Open2Store8F75D0::~Open2Store8F75D0()
 	delete m_map;
 }
 
-// Constructor recovery from BFME1 revision6583b3c1ff21db4a561285717028fdafc780b7db
-// game/GameEngine/Source/Common/System/Rva008F7510ShroudManagerCtor.cpp.
-// Target7398D0..73995F is143B; CF1250/CF1240 lead to this existing
-// owner's rowed deleting destructor739E40 and its Snapshot adjustment739960.
-// The rowed739970 literal names the subsystem ShroudManager. Retail calls
-// rowed base1B4E63 (12B prefix) and allocates70B before rowed214B ctor73E310.
-// The donor's purpose is independently supported; its original class spelling
-// is unknown. Reuse the established Open2Store8F75D0 opaque owner instead of
-// introducing a second class for the same target. The legacy destructor's map
-// pointer spelling is retained as a teardown ABI view; the constructor does
-// not assert that the allocated implementation is that STL map type.
-class ShroudManagerImpl {
-public: ShroudManagerImpl();
-private: unsigned char storage[0x70];
-};
+// BFME1 donor: Rva008F7510ShroudManagerCtor.cpp at 6583b3c1ff21db4a561285717028fdafc780b7db.
+// Retail allocates 0x70 bytes and constructs the owned ShroudManagerImpl at 0x0073E310.
 Open2Store8F75D0::Open2Store8F75D0()
 {
- m_map = reinterpret_cast<Open2Map8F75D0 *>(new ShroudManagerImpl);
+ m_map = new ShroudManagerImpl;
 }
 
 class BfmeSinkB
@@ -194,9 +183,11 @@ void Gen_008F7650::bfmeDescribe(BfmeFlagTarget *target)
 	m_bfmeSink->bfmeAccept(target);
 }
 
-class Open2Held9A2680;
-
-typedef std::map<NameKeyType, Open2Held9A2680 *, std::less<NameKeyType> > Open2Map9A2680;
+class Rva009A4620CollisionData
+{
+public:
+	~Rva009A4620CollisionData();
+};
 
 class Open2Store9A2680 : public SubsystemInterface, public Snapshot
 {
@@ -204,7 +195,7 @@ public:
 	virtual ~Open2Store9A2680();
 
 private:
-	Open2Map9A2680 *m_map;
+	Rva009A4620CollisionData *m_map;
 };
 
 // @??1Open2Store9A2680@@UAE@XZ 0x00758310

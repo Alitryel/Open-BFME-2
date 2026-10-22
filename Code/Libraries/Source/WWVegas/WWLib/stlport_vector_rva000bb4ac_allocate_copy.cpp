@@ -23,6 +23,9 @@ private:
 	char m_pad[0x18];
 };
 #include <vector>
+// Container teardown is provided by StlportPod248Assign.cpp.
+namespace _STL { template <> _Vector_base<Rva000BB4AC, allocator<Rva000BB4AC> >::~_Vector_base(); }
+namespace _STL { template <> vector<Rva000BB4AC, allocator<Rva000BB4AC> >::~vector(); }
 // bfme link decl-only begin
 namespace _STL { template <> vector<Rva000BB4AC, allocator<Rva000BB4AC> > & vector<Rva000BB4AC, allocator<Rva000BB4AC> >::operator=(vector<Rva000BB4AC, allocator<Rva000BB4AC> > const &); }
 namespace _STL { template <> void _Destroy<Rva000BB4AC *>(Rva000BB4AC *, Rva000BB4AC *); }

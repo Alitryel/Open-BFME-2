@@ -211,7 +211,7 @@ Rva004E0D67::Rva004E0D67(EmitVtableTag *)
 {
 }
 
-class Rva004E4655Base0
+class __declspec(novtable) Rva004E4655Base0
 {
 public:
 	virtual ~Rva004E4655Base0();
@@ -221,7 +221,7 @@ private:
 
 // Secondary base at +0x218: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x218) at 0x004E4745 in its vtable is target evidence for it.
-class Rva004E4655Base218
+class __declspec(novtable) Rva004E4655Base218
 {
 public:
 	virtual ~Rva004E4655Base218();
@@ -289,6 +289,8 @@ public:
 	Rva004FBCBE(EmitVtableTag *);
 public:
 	virtual ~Rva004FBCBE();
+	virtual void slot04();
+	virtual void slot08();
 };
 
 // ?<Rva004FBCBE::Rva004FBCBE> absent-from-retail

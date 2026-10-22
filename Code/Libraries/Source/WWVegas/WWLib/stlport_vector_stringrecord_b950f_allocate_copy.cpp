@@ -22,6 +22,8 @@ struct BfmeStringRecord000B950F {
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord000B950F,BfmeStringRecord000B950F>(BfmeStringRecord000B950F*,const BfmeStringRecord000B950F&);
 #include <vector>
+// Container teardown is provided by StlportPod248Assign.cpp.
+namespace _STL { template <> _Vector_base<BfmeStringRecord000B950F, allocator<BfmeStringRecord000B950F> >::~_Vector_base(); }
 // Only the rowed members: a whole-class instantiation also emitted this
 // TU's operator=, which differs from retail and, first in link order, was
 // kept over the retail copy.
