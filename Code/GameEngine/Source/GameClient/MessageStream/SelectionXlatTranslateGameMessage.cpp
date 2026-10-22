@@ -631,6 +631,9 @@ class NativeMouse43003C { public:
 
 namespace _STL {
 typedef pair<const int, Bool> SelectionValue43003C;
+// Use the rowed table and map constructors in StlSweepW5Rva0042FFC0.cpp.
+template <> hash_map<int, Bool>::hash_map();
+template <> hashtable<SelectionValue43003C, int, hash<int>, _Select1st<SelectionValue43003C>, equal_to<int>, allocator<SelectionValue43003C> >::hashtable(unsigned int, const hash<int>&, const equal_to<int>&, const allocator<SelectionValue43003C>&);
 template <> void hashtable<SelectionValue43003C, int, hash<int>, _Select1st<SelectionValue43003C>, equal_to<int>, allocator<SelectionValue43003C> >::clear();
 template <> __declspec(dllimport) __forceinline unsigned int
 hashtable<SelectionValue43003C, int, hash<int>, _Select1st<SelectionValue43003C>, equal_to<int>, allocator<SelectionValue43003C> >::_M_bkt_num_key(const int &key) const
