@@ -25,7 +25,8 @@ class __declspec(novtable) Rva00421242Base
 {
 public:
 	Rva00421242Base() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual void unused();
+	// Slot 0 of the class's vftable is the deleting dtor (as in Rva00421242Dtor.cpp's view).
+	virtual ~Rva00421242Base();
 	char m_flag;
 	int m_value;
 };
@@ -43,8 +44,3 @@ Rva00421242::Rva00421242()
 : m_vec()
 {
 }
-
-// Placeholder virtuals this unit's vftables hold.  In retail each such slot
-// holds a rowed function; the vftable's address is proven by the vptr stores in
-// the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?unused@Rva00421242Base@@UAEXXZ=??_GRva00421242@@MAEPAXI@Z")
