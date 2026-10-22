@@ -81,6 +81,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // ?init@ProductionPrerequisite@@QAEXXZ present-unmatched
 void ProductionPrerequisite::init()
 {
+	// Taking the member address retains the matched push_back instantiation
+	// after removing the duplicate addUnitPrereq body. This scope can name
+	// the private record without changing the class's access or mangling.
+	void (std::vector<PrereqUnitRec>::*emitPushBack)(const PrereqUnitRec &) =
+		&std::vector<PrereqUnitRec>::push_back;
+	(void)emitPushBack;
 	m_prereqUnits.clear();
 	m_prereqSciences.clear();
 	
@@ -149,16 +155,10 @@ const ThingTemplate *ProductionPrerequisite::getExistingBuildFacilityTemplate( c
 	* a new 'block' and is required in ADDDITION to other entries. 
 	* Return FALSE if no space left to add unit */
 //-------------------------------------------------------------------------------------------------
-// ?addUnitPrereq@ProductionPrerequisite@@ present-unmatched
-void ProductionPrerequisite::addUnitPrereq( AsciiString unit, Bool orUnitWithPrevious )
-{
-	PrereqUnitRec info;
-	info.name = unit;
-	info.flags = orUnitWithPrevious ? UNIT_OR_WITH_PREV : 0;
-	info.unit = NULL;
-	m_prereqUnits.push_back(info);
+// The byte-verified overloads are owned by
+// Common/Thing/ProductionPrerequisiteAddUnitPrereq.cpp. Retain this unit's
+// rowed vector helper without a second, unverified addUnitPrereq definition.
 
-}  // end addUnitPrereq
 
 //-------------------------------------------------------------------------------------------------
 /** Add a unit prerequisite, if 'orWithPrevious' is set then this unit is said
