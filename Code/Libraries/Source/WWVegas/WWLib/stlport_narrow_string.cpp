@@ -94,9 +94,16 @@ namespace _STL { template <> size_t basic_string<char, char_traits<char>, alloca
 // Retail's insert(iterator, n, c) at 0x00029530 is emitted by
 // stlport_string_insert_fill.cpp; this unit's copy precedes it in link order.
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::insert(char *, size_t, char); }
+// Native substr at 0x0002AD50 belongs to stlport_narrow_string_substr.cpp.
+// This earlier explicit instantiation must bind to that retail-proven body.
+namespace _STL { template <> basic_string<char> basic_string<char>::substr(size_t, size_t) const; }
 // bfme link decl-only end
 
 template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;
+
+// substr formerly instantiated this independently rowed mutable-range family.
+template _STL::basic_string<char>::basic_string(
+        char *, char *, const _STL::allocator<char>&);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
