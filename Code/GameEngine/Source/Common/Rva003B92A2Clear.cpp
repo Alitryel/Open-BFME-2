@@ -9,6 +9,10 @@
 // address-derived. Retail's `lea ecx,[esi+0x20]` and the push order
 // [ecx+4] then [ecx] are the erase(begin, end) argument shape.
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__copy@PAUBfmeAssignRecord104@@PAU1@H@_STL@@YAPAUBfmeAssignRecord104@@PAU1@00ABUrandom_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord104;
+namespace _STL { template <> BfmeAssignRecord104 * __copy<BfmeAssignRecord104 *,BfmeAssignRecord104 *,int>(BfmeAssignRecord104 *,BfmeAssignRecord104 *,BfmeAssignRecord104 *,random_access_iterator_tag const &,int *); }
 // Suppress this TU's non-retail copy of ?erase@?$vector@UBfmeAssignRecord104@@V?$allocator@UBfmeAssignRecord104@@@_STL@@@_STL@@QAE:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeAssignRecord104;

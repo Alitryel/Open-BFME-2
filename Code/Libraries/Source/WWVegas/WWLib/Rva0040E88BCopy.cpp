@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva0040DC56Element@@V?$allocator@URva0040DC56Element@@@_STL@@@_STL@@IA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0040DC56Element;
+namespace _STL { template <> void vector<Rva0040DC56Element,allocator<Rva0040DC56Element> >::_M_clear(); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva0040DC56Element@@@_STL@@YAXPAURva0040DC56Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0040DC56Element;

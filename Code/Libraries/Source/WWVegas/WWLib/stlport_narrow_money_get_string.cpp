@@ -94,6 +94,9 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
 namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > & istreambuf_iterator<char, char_traits<char> >::operator++(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??E?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@QAEAAV01@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> istreambuf_iterator<char,char_traits<char> > & istreambuf_iterator<char,char_traits<char> >::operator++(); }
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

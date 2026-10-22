@@ -80,6 +80,10 @@ Some info about partioning problems:
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
 #include "Common/PartitionSolver.h"
+// Suppress this TU's non-retail copy of ??$make_pair@W4ObjectID@@W41@@_STL@@YA?AU?$pair@W4ObjectID@@W41@@0@ABW4ObjectID@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> pair<ObjectID,ObjectID> make_pair<ObjectID,ObjectID>(ObjectID const &,ObjectID const &); }
 
 // Retail's shared __lg<int> is rowed at 0x78C9C. The /G7 /arch:SSE
 // body emitted here differs; call the verified provider without a local copy.
