@@ -42,5 +42,6 @@ typedef _STL::pair<const int, Rva0029E067> IntRva0029E067Value;
 
 typedef _STL::hashtable<IntRva0029E067Value, int, _STL::hash<int>, _STL::_Select1st<IntRva0029E067Value>, _STL::equal_to<int>, _STL::allocator<IntRva0029E067Value> > IntRva0029E067Table;
 
-template IntRva0029E067Table::reference IntRva0029E067Table::find_or_insert(const IntRva0029E067Value &);
-template IntRva0029E067Table::reference IntRva0029E067Table::_M_insert(const IntRva0029E067Value &);
+// The copy/node path does not require the deferred bucket-resize body.
+template _STL::_Hashtable_node<IntRva0029E067Value> *
+IntRva0029E067Table::_M_new_node(const IntRva0029E067Value &);
