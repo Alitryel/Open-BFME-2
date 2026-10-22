@@ -43,13 +43,7 @@ void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<
 
 extern "C" void __cdecl free(void *block) throw(...);
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[0x0C - 0x04];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 extern const void *const g_00BBB554[];
 

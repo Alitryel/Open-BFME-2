@@ -61,17 +61,7 @@ public:
 	void rva00212858(unsigned int n);
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void reset() = 0;
-	virtual void update() = 0;
-private:
-	unsigned char m_pad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva002D0E14 : public SubsystemInterface
 {

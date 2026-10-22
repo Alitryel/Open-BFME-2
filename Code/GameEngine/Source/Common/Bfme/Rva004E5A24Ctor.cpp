@@ -10,7 +10,7 @@ extern "C" void _ReadWriteBarrier(void);
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 
 // 0x001B4E63 is the rowed SubsystemInterface ctor; the base construct calls it by that name.
-class SubsystemInterface { public: SubsystemInterface(); };
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class __declspec(novtable) BFME2NativeNetwork
 {

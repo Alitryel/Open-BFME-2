@@ -221,14 +221,7 @@ public:
 	void rva002DE311();
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad04[0xC - 4];
-};
+#include "../../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 enum SnapshotType { SNAPSHOT_SAVELOAD = 0 };
 

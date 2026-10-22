@@ -17,7 +17,7 @@ public:
 };
 
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class __declspec(novtable) Rva0022CD78Head
 {

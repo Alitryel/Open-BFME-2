@@ -37,15 +37,7 @@
 #include "../Common/GameLogicObjectLookupView.h"
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	char m_opaque04[0xC - 0x4];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // The five-slot interface at +0x10: its table 0x00C078DC is all purecall.
 class InGameUIInterface10

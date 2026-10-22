@@ -199,14 +199,7 @@ public:
 	virtual ListNode0025D9E3 *getNext();
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
- virtual ~SubsystemInterface();
-private:
-	char m_pad[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 extern GameLogic *TheGameLogic;
 

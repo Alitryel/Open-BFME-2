@@ -8,17 +8,7 @@
 // SubsystemInterface base call (0x001B4E63) and the vtable store (0xC35B38)
 // remain.
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-
-private:
-	bool m_subsystemFlag;  // +0x04
-	int  m_subsystemValue; // +0x08
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ScriptConditionsInterface : public SubsystemInterface
 {

@@ -96,14 +96,7 @@ struct Rva001D92BB
 	Rva001D904A m_table;
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	int m_08;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva001D92C0 : public SubsystemInterface
 {

@@ -100,28 +100,7 @@ class ThingTemplate;
 
 // The subsystem base (ctor 0x001B4E63, dtor 0x001B4E74) and Snapshot at
 // +0x0C, the second base whose vtable 0x00BBB554 the destructor restores.
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init();
-	virtual bool loadIniFilesFromLegend();
-	virtual void postProcessLoad();
-	virtual bool vslot04(int);
-	virtual bool vslot05();
-	virtual int vslot06();
-	virtual void vslot07(int);
-	virtual void vslot08();
-	virtual void reset();
-	virtual void update();
-	virtual bool vslot11(int);
-	virtual void vslot12();
-	virtual void vslot13(int);
-
-private:
-	char m_pad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree@W4ObjectID@@U?$pair@$$CBW4ObjectID@@H@_STL@@U?$_Select1st@U?$pair@$$CBW4Obje:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

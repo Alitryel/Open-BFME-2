@@ -12,14 +12,7 @@
 #include "ascii_string.h"
 
 // Base dtor at 0x001B4E74 by its row name ??1SubsystemInterface@@UAE@XZ (SubsystemInterface.cpp).
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class MultiplayerColorDefinition;
 

@@ -10,7 +10,7 @@ class LightClass:public RefCountClass{};
 class MaterialPassClass:public RefCountClass{};
 class W3DShroudMaterialPassClass:public RefCountClass{};
 class SimpleSceneClass{public:virtual~SimpleSceneClass();char pad[0x104];};
-class SubsystemInterface{public:virtual~SubsystemInterface();char pad[8];};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class BfmeRefSceneList{public:virtual~BfmeRefSceneList();char head[20];};
 class LightEnvironmentClass{public:~LightEnvironmentClass();char data[0x228];};
 struct SceneVector3{float X,Y,Z;};

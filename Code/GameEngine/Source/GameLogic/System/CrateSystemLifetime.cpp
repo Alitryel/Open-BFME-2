@@ -26,25 +26,7 @@
 
 extern "C" void __cdecl free(void *);
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();			// 0x001B4E63
-	virtual ~SubsystemInterface();		// 0x001B4E74, slot 0 (deleting)
-	virtual void slot01() = 0;
-	virtual void slot02() = 0;
-	virtual void slot03() = 0;
-	virtual void slot04() = 0;
-	virtual void slot05() = 0;
-	virtual void slot06() = 0;
-	virtual void slot07() = 0;
-	virtual void slot08() = 0;
-	virtual void reset() = 0;		// slot 9
-
-private:
-	int m_04;
-	int m_08;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Overridable
 {

@@ -18,15 +18,7 @@
 // vtable and scalar-deleting dtor emission; operator delete resolves
 // via the rowed ??3).
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	unsigned char m_pad[0xC - 4]; // +0x04..+0x0B
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class GameMessage
 {

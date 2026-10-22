@@ -12,15 +12,7 @@
 // inline empty one) is not retail's, which would stop that unit linking too.
 #include "ascii_string.h"
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	AsciiString m_name;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // The two darkening colours are zeroed by an inline default constructor
 // (stored in member order), the shadow colour only by a chained assignment

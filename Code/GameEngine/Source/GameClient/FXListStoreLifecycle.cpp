@@ -79,7 +79,7 @@ struct Rva001E287F {
  NativeBeginTable::iterator begin(){return reinterpret_cast<NativeBeginTable *>(this)->begin();}
  void clear(){reinterpret_cast<NativeClearTable *>(this)->clear();}
 };
-class SubsystemInterface {public:virtual ~SubsystemInterface();char opaque04[8];};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class Rva001E2AD9:public SubsystemInterface {public:virtual ~Rva001E2AD9();Rva001E287F map0C;_STL::vector<FxHeapObject *> nuggets20;};
 Rva001E2AD9::~Rva001E2AD9(){
  for(NativeBeginTable::iterator it=map0C.begin();it.node;++it){

@@ -48,22 +48,7 @@ struct BfmeE8 { int a[2]; };
 typedef _STL::map<int, _STL::vector<BfmePod128> > MapType0032EF3E;
 typedef _STL::map<int, _STL::vector<_STL::vector<BfmeE8> > > MapType0032EF3E_B;
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual bool loadIniFilesFromLegend();
-	virtual void reset() = 0;
-	virtual void update() = 0;
-	virtual void draw();
-	SubsystemInterface(const SubsystemInterface &that);
-
-private:
-	bool m_flag;
-	char m_pad05[3];
-	char m_name[4];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva00330757Member
 {

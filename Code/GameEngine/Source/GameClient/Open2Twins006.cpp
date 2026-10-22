@@ -7,18 +7,7 @@
 #include "Common/Snapshot.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	void *m_name;
-	// Retail installs the Snapshot-base vptr at +0xC (not the donor's +8),
-	// so this base runs 12 bytes here, not 8.
-	int m_bfmePad08;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // Snapshot is the canonical BFME2 base from reference/shims/moduledata/Common/Snapshot.h
 // (virtual dtor then crc/xfer/loadPostProcess, vtable 0x00BBB554).

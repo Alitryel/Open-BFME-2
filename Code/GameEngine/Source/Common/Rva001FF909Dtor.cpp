@@ -24,14 +24,7 @@ template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() {
 template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return _M_finish; }
 }
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	int m_08;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva001FF909Owned
 {

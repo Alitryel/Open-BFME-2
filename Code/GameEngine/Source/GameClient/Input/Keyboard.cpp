@@ -55,16 +55,7 @@ public:
 };
 
 // Ledger name of SubsystemInterface (vptr, +0x04, AsciiString at +0x08).
-class SubsystemInterface
-{
-public:
-	SubsystemInterface() throw();
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad04[4];
-	AsciiStringMember m_member08;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 

@@ -49,18 +49,7 @@ private:
 typedef _STL::map<unsigned int, Image *> ImageNameMap;
 // TU-local BFME2 SubsystemInterface (12-byte base, retail-proven).
 #define __SUBSYSTEMINTERFACE_H_
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void reset() = 0;
-	virtual void update() = 0;
-
-private:
-	unsigned char m_bfmeBasePad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ImageCollection : public SubsystemInterface
 {

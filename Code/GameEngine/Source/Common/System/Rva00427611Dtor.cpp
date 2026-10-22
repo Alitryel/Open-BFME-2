@@ -24,13 +24,7 @@ private:
 	void *m_end;
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 #include "Common/Snapshot.h"
 

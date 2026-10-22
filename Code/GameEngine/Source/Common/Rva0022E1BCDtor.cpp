@@ -15,13 +15,7 @@ struct BfmeVectorRecord0002154F3
 {
 	char m_pad[16];
 };
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class Rva0022E1BC
 {
 public:

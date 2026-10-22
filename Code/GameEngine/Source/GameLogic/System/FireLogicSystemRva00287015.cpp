@@ -150,20 +150,7 @@ class PolygonTrigger;
 
 // The subsystem base (ctor 0x001B4E63, dtor 0x001B4E74) and Snapshot at
 // +0x0C, the second base whose vtable 0x00BBB554 the destructor restores.
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init();
-	virtual void postProcessLoad();
-	virtual void reset();
-	virtual void update();
-	virtual void draw();
-
-private:
-	char m_pad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 #include "Snapshot.h"
 
 // A material entry (0x18 bytes): the array constructor zeroes all six

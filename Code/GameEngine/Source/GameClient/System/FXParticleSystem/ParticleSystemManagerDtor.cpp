@@ -28,16 +28,7 @@ struct DX8ThreadLockScope
 	~DX8ThreadLockScope() { BFME_DX8_Thread_Assert(); }
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-
-private:
-	char m_pad04[0x0C - 0x04];
-};
+#include "../../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class RefCountClass
 {

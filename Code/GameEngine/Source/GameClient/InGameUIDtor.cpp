@@ -32,14 +32,7 @@
 #include "../Common/GameLogicObjectLookupView.h"
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	char m_opaque04[0xC - 0x4];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ControlBar : public SubsystemInterface {};
 class RadarWindowOverrideSource : public SubsystemInterface {};

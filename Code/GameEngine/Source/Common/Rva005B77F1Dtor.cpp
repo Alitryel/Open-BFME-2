@@ -55,15 +55,7 @@ public:
 	~AsciiStringMember();
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[4];
-	AsciiStringMember m_member08;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // The base constructor is the rowed ??0SubsystemInterface@@QAE@XZ (0x001B4E63).
 

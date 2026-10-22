@@ -83,12 +83,7 @@ public:
 	int tagValue;
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-	char pad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Snapshot
 {

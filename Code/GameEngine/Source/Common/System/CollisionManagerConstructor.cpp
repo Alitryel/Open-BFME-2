@@ -5,19 +5,7 @@
 // getter; caller 0x243FB5 constructs a 0x14-byte object. The base constructor
 // clears byte +4 and name storage +8; setName at 0x6F3CC confirms the latter.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual bool loadIniFilesFromLegend();
-	virtual void update() = 0;
-
-private:
-	unsigned char m_unknown04[4];
-	void *m_name;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
 #pragma optimize("s", on)

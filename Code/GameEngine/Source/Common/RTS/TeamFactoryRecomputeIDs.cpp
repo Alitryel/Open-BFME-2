@@ -40,7 +40,7 @@ private:
  char unknown00[0x0c]; unsigned id; char unknown10[0x334-0x10]; Team *head;
 };
 struct PrototypeNode: _STL::_Rb_tree_node_base {unsigned key[2];TeamPrototype *value;};
-class SubsystemInterface {public:virtual ~SubsystemInterface();private:char unknown04[8];};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class TeamFactory: public SubsystemInterface,public Snapshot {
 protected:virtual void loadPostProcess();
 private:

@@ -23,14 +23,7 @@ public:
 	virtual ~SnapBase() { *(const void **)this = g_00BBB554; }
 };
 #include "ascii_string.h"
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class Rva002DAB18 : public SnapBase, public SubsystemInterface
 {
 public:

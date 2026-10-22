@@ -308,14 +308,7 @@ class Rva00206706 { public: void rva00206FE6(); };
 
 enum { MAX_ATTACK_PRIORITIES = 256, MAX_PLAYER_COUNT = 20 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-protected:
-	bool m_dumpUpdate;
-	int m_curUpdateTime;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ScriptEngine : public SubsystemInterface, public Snapshot
 {

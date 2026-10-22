@@ -35,15 +35,7 @@ typedef _STL::pair<const UnicodeString, Bool> LanguageFilterValue;
 typedef _STL::map<UnicodeString, Bool, UnicodeStringLessThan,
     _STL::allocator<LanguageFilterValue> > LanguageFilterMap;
 
-class SubsystemInterface
-{
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-    virtual void init();
-protected:
-    void *m_name[2];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class LanguageFilter : public SubsystemInterface
 {

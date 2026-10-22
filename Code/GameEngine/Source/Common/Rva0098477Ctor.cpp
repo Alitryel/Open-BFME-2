@@ -16,13 +16,7 @@ extern "C" void _ReadWriteBarrier(void);
 // LINK: the pin ?baseConstruct@BFME2NativeNetwork was retired when its address 0x1B4E63 was
 // rowed as SubsystemInterface::SubsystemInterface. The base is modelled by a non-polymorphic
 // 0xC-byte view whose ctor is the rowed one (called first, ecx = this, as before).
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-private:
-	int m_pad00[3];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva0098477 : public SubsystemInterface
 {

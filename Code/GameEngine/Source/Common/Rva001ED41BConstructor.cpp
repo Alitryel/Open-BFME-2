@@ -28,14 +28,7 @@ template <> vector<int, allocator<int> >::~vector();
 template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[0x0C - 0x04];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 struct Zero { int v; __forceinline Zero() : v(0) {} };
 

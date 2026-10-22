@@ -26,13 +26,7 @@ private:
 	int m_value;
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva00318637 : public SubsystemInterface, public Snapshot
 {

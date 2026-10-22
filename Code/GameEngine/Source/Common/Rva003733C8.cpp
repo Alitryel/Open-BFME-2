@@ -35,7 +35,7 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class __declspec(novtable) Rva003733C8Primary
 {

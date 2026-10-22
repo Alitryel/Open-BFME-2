@@ -193,14 +193,7 @@ struct TeamPrototypeMap
 	unsigned int size() const { return m_nodeCount; }
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	unsigned char m_pad04[0x0C - 0x04];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 enum { TEAM_FACTORY_PROTOTYPE_SLOTS = 40 };
 

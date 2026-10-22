@@ -19,15 +19,7 @@
 // the +0x2B4 tree, the +0x218 table and the +0x2CC vector.
 #include "Common/Snapshot.h"
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-protected:
-	unsigned int m_04;
-	unsigned int m_08;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 struct ArmySwapView;
 struct ArmyMemberRangeView;

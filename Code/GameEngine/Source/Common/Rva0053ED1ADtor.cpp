@@ -4,14 +4,7 @@
 // ??1Rva0053ED1A@@UAE@XZ @0x0053ED78 90B dtor installs vtables plus frees vector buffer plus secondary plus base via caller ??_G 0x0053EF12. Evidence: pin plus vtable slots plus rowed base SubsystemInterface plus twin-pinned secondary Rva005C6D4D at 0x005C6C7B plus rowed _free.
 #include <vector>
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // The secondary base (ctor 0x005C6D4D, Rva0053ED1ACtor.cpp's Rva005C6D4D)
 // under its destructor's rowed name: ??1Rva005C6C7B@@UAE@XZ at 0x005C6C7B.

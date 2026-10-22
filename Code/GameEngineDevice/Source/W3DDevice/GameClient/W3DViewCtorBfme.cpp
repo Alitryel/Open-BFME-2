@@ -57,15 +57,7 @@ public:
 	char m_pada4[0xb4 - 0xa4];
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	int m_08;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // Data-only record used as the +0xC0 base and the +0x2478 member.
 class Rva000C0Record

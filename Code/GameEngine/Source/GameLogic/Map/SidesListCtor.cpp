@@ -10,13 +10,7 @@
 #include <list>
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
-class SubsystemInterface {
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-private:
-    int m_data[2];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 // Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmePod128@@@_STL@@YAXPAUBfmePod128@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

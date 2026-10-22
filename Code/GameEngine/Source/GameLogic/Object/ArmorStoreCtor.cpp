@@ -97,18 +97,7 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void reset() = 0;
-	virtual void update() = 0;
-
-private:
-	unsigned char m_bfme04[8]; // retail ctor zeroes byte@4 and dword@8
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 typedef std::hash_map<
 	NameKeyType,

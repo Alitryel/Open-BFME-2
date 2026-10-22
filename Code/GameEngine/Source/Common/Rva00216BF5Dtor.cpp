@@ -27,14 +27,7 @@ public:
 	int RemoveCommandMap(const AsciiString *name);
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	int m_08;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva00216AF6
 {

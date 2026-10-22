@@ -11,13 +11,7 @@
 // LINK: the pin ?baseConstruct@BFME2NativeNetwork was retired when its address 0x1B4E63 was
 // rowed as SubsystemInterface::SubsystemInterface; the base is a non-polymorphic 0xC-byte view
 // whose extern ctor is that rowed symbol (first call, ecx = this, as before).
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-private:
-	int m_pad00[3];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 extern const void *const g_00C3CA30[];
 class AnimationSoundModuleManager;

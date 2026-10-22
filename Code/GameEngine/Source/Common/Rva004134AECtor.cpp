@@ -11,15 +11,7 @@
 // the rowed callee spellings.
 #include <map>
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class LadderPref { public: char m_opaque[0x10]; };	// 16 bytes: the retail copy ctor 0x5BA3F5 copies +0, +4, +8 (short), +0xC
 // Nothing this unit's rows reach calls the map's subtree erase or its node

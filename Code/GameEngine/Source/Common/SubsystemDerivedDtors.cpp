@@ -14,15 +14,7 @@
 
 #include "ascii_string.h"
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	int m_04;
-	AsciiString m_name;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva0098477 : public SubsystemInterface
 {

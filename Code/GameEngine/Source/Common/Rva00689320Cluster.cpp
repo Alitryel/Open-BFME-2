@@ -14,14 +14,7 @@ extern char g_Va00CE4918;		// 0x00CE4918, opaque table/data address
 // LINK: the pin ?baseConstruct@BFME2NativeNetwork was retired when its address 0x1B4E63 was
 // rowed as SubsystemInterface::SubsystemInterface; the base is a non-polymorphic 0xC-byte view
 // whose extern ctor is that rowed symbol (first call, ecx = this, as before).
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-
-	void *m_bfmeVptr;		// +0x00
-	char m_bfmePad[8];		// +0x04, base size 0x0C
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva00689320 : public SubsystemInterface
 {

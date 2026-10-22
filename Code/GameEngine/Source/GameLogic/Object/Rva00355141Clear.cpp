@@ -28,17 +28,7 @@ typedef _STL::hashtable<
 	_STL::equal_to<NameKeyType>,
 	_STL::allocator<_STL::pair<const NameKeyType, ArmorTemplate> > > ArmorHashTable;
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void reset() = 0;
-	virtual void update() = 0;
-private:
-	unsigned char m_bfme04[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class SnapshotBase
 {

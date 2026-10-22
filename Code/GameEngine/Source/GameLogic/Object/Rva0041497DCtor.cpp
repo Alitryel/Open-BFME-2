@@ -19,7 +19,7 @@ namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 // 0x001B4E63 is the rowed SubsystemInterface ctor (BFME2NativeNetwork's
 // former baseConstruct spelling had no definition); same base view as
 // Rva001FDB55Ctor.cpp, so the inline base ctor copies agree.
-class SubsystemInterface { public: SubsystemInterface(); };
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class __declspec(novtable) BFME2NativeNetwork
 {

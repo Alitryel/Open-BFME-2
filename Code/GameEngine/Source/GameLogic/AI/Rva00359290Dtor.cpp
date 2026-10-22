@@ -9,15 +9,7 @@ typedef _STL::map<AsciiString,NamedTimerInfo *> EmptyMapView;
 // in reverse order through the rowed Rva00358D62/Rva00358E6A bodies, then
 // the rowed SubsystemInterface dtor. No new pins; the base is an opaque
 // 0xC TU-local stand-in.
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad[0xC - 4];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // Constructor storage view only: native folds every empty-map construction
 // to existing33C432. The actual key/value instantiations remain unknown.

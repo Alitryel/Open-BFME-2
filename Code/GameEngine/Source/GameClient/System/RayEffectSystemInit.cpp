@@ -11,15 +11,7 @@
 
 class Drawable;
 
-class SubsystemInterface
-{
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-
-private:
-    char m_baseFields[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 struct RayEffectData
 {

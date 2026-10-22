@@ -131,15 +131,7 @@ private:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-protected:
-	int m_unmodelled04;
- AsciiString m_name;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // ZH SpecialPower.h is the semantic guide; target template size80/name10/id14.
 class SpecialPowerStore : public SubsystemInterface

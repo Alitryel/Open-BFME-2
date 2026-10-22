@@ -14,7 +14,7 @@ inline bool operator==(const BfmePod72 &x, const BfmePod72 &y) { return x.a[0] =
 inline bool operator<(const BfmePod72 &x, const BfmePod72 &y) { return x.a[0] < y.a[0]; }
 
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class __declspec(novtable) BFME2NativeNetwork
 {

@@ -8,14 +8,7 @@ public:
 	virtual void keep() = 0;
 	virtual ~SnapBase();
 };
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 struct IntZero
 {
 	int m_value;

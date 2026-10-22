@@ -51,14 +51,7 @@ public:
 	GameFont *next; // +0x04
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	unsigned char m_bfmeBasePad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // The two map members, under the names their rowed destructors carry.
 class Rva00217A02

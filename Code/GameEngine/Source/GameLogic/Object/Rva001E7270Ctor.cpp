@@ -20,7 +20,7 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Ob
 class Object;
 // Only the destructor slot is modelled: the Rva001E72B4Dtor.cpp and
 // OpaqueScalarDeletingDtorsB03.cpp views emit the same one-slot vtable copy.
-class __declspec(novtable) SubsystemInterface {public:SubsystemInterface();virtual ~SubsystemInterface();private:char flag;int value;};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class Rva001E72B4:public SubsystemInterface {public:Rva001E72B4();private:_STL::map<int,void*> map;_STL::vector<Object*> entries;public:
 	virtual ~Rva001E72B4();	// rowed elsewhere; declared so this unit binds to it
 };

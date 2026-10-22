@@ -24,15 +24,7 @@ public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();					// retail 0x009A1A30
-	virtual ~SubsystemInterface();			// retail 0x001B4E74
-
-private:
-	int m_bfmeState;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class GODupBase : public BfmeSnapshotBase, public SubsystemInterface
 {

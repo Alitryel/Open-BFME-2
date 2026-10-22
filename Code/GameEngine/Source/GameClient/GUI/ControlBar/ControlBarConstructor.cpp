@@ -103,18 +103,7 @@ struct PlayerAITypeEntry
 	char m_unknown[12];
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init();
-	virtual void reset();
-	virtual void update();
-protected:
-	int m_flag;
-	AsciiString m_name;
-};
+#include "../../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class SubsystemInterfaceList
 {

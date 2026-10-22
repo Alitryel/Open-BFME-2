@@ -16,7 +16,7 @@ template<> _STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char>
 void Rva00030830GameFree(void*);
 struct BfmeViewRequestStorage {void *start,*finish,*end;~BfmeViewRequestStorage(){if(start)Rva00030830GameFree(start);}};
 class Rva0025EF18 {public:virtual ~Rva0025EF18();char pad[0xb0];};
-class SubsystemInterface {public:virtual ~SubsystemInterface();char pad[8];};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 #include "Rva0008990CArrayOwner.h"
 class Rva008B77D {public:virtual ~Rva008B77D();char pad[0x70];};
 class CameraRef {public:virtual void Delete_This();int refs;void Release_Ref(){refs--;if(refs==0)Delete_This();}};

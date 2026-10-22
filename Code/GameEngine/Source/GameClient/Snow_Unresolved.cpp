@@ -8,17 +8,7 @@
 // Zero Hour/BFME1 Snow.cpp donor, adapted to target layout and initialization.
 // Donor field names are retained through visibility; later fields are offset views.
 // Unidentified virtual slots retain neutral names in this target ABI view.
-class SubsystemInterface {
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-    virtual void init() = 0;
-    // Target vtables place loadIniFilesFromLegend at slot 2 (0x001B5384).
-    // The existing SubsystemInterface provider implements this bool method.
-    virtual bool loadIniFilesFromLegend();
-private:
-    unsigned int m_targetBaseWords[2]; // Offset evidence: SnowManager begins at +0x0C.
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // Two adjacent floats that retail copies with one override lookup.
 struct SnowFloatPair {

@@ -14,14 +14,7 @@ public:
 	Rva002D6C1CNode *m_next; // +0x04
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva002D6C1C : public SubsystemInterface
 {

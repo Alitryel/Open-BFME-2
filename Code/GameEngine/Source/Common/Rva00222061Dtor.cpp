@@ -30,14 +30,7 @@ typedef _Rb_tree<AsciiString, HintValue, _Select1st<HintValue>,
     less<AsciiString>, allocator<HintValue> > HintTree;
 }
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Open2Dtor4793C0
 {

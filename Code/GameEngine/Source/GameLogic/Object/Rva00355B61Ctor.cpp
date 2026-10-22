@@ -4,18 +4,7 @@
 // Retail 0x00355B61 (85 bytes): SubsystemInterface plus Snapshot bases and two
 // 0x14-byte ArmorTemplateMap members. The map calls must use the already-owned
 // constructor/dtor COMDATs at 0x00355B42 and 0x00355257, not local instantiations.
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void reset() = 0;
-	virtual void update() = 0;
-
-private:
-	unsigned char m_bfme04[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class SnapshotBase
 {

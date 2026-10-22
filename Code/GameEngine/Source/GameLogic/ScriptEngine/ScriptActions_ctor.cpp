@@ -15,17 +15,7 @@ extern "C" const void *const vtbl_00C1FD98[];  // ??_7Rva003BA6A9@@6B@
 
 extern class TerrainLogic *TheTerrainLogic;
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-
-private:
-	bool m_subsystemFlag;  // +0x04
-	int  m_subsystemValue; // +0x08
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ScriptActionsInterface : public SubsystemInterface
 {

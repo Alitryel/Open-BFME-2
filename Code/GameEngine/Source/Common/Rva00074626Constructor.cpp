@@ -8,14 +8,7 @@
 // struct with an inline zeroing constructor: that is what makes MSVC keep the
 // vftable store before the integer zero register and the declaration-order
 // interleave of int and float stores. Names address-derived.
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[0x0C - 0x04];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 struct Zero { int v; __forceinline Zero() : v(0) {} };
 struct ZeroF { float v; __forceinline ZeroF() : v(0.0f) {} };

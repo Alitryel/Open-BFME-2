@@ -20,14 +20,7 @@ public:
 
 // Rowed SubsystemInterface ctor/dtor; the destructor view has this same
 // twelve-byte base and a single virtual destructor slot.
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva004209CC : public SubsystemInterface
 {

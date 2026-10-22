@@ -6,19 +6,7 @@
 // is unknown, so retained existing address-derived callee pin name.
 #include "Common/Snapshot.h"
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void reset() = 0;
-	virtual void update() = 0;
-
-private:
-	unsigned char m_unknown04[4];
-	void *m_name;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 // The grid type is fully defined in BfmeGridRasterCircle.cpp; this unit only
 // needs its 0x124-byte size and the rowed constructor at 0x006C1490.

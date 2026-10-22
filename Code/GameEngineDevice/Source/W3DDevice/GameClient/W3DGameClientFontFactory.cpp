@@ -26,16 +26,7 @@ public:
 	unsigned char m_pad[0x0C];
 };
 }
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	~SubsystemInterface();
-	virtual void init();
-	void setName(int dummy);
-private:
-	unsigned char m_bfmeBasePad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 class FontLibrary : public SubsystemInterface
 {
 public:

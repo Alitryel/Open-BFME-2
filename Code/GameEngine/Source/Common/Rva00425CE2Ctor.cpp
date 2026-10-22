@@ -16,14 +16,7 @@
 // 0x0004543D). Layout from the dtor TU Rva00425CE2Dtor.cpp.
 #include <string.h>
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class BfmeFixedStorage0004543D
 {

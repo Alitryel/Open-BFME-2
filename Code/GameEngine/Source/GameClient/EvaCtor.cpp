@@ -51,14 +51,7 @@ namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
 }
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();									// 0x001B4E63
-	virtual ~SubsystemInterface();
-private:
-	unsigned char m_04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 struct Rva001DDBC6Record
 {

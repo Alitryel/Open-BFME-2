@@ -28,13 +28,7 @@ private:
 	char m_pad04[0x108 - 0x04];
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva006ED6F : public SimpleSceneClass, public SubsystemInterface
 {

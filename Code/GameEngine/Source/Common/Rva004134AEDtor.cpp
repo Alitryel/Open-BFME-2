@@ -8,13 +8,7 @@
 // in 28B body 0x00413492 (likely ??_G) becomes ready; neighbour 0x004134E3 is
 // a method of a class with a map at +0xC in the same directory.
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva0041331E
 {

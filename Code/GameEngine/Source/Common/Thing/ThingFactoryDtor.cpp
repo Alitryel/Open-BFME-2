@@ -9,13 +9,7 @@
 // AsciiString-keyed table destructor at 0x002CFF2D, pinned under an
 // address-named member class) and the SubsystemInterface base destructor
 // 0x001B4E74 runs.
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_base04[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva002CFF2D
 {

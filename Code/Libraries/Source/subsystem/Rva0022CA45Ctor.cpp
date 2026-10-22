@@ -36,15 +36,7 @@ namespace _STL
 // LINK: the pin ?baseConstruct@BFME2NativeNetwork was retired when its address 0x1B4E63 was
 // rowed as SubsystemInterface::SubsystemInterface; the 0xC-byte base (vptr, flag, value) is a
 // novtable view whose extern ctor is that rowed symbol.
-class __declspec(novtable) SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-private:
-	char m_flag;
-	int m_value;
-};
+#include "SubsystemInterface.h"
 
 // Precedent Rva00221088Ctor: novtable head whose inlined ctor runs
 // baseConstruct() over this, so the call precedes the own vtable store.

@@ -30,15 +30,7 @@ extern "C" __declspec(dllimport) FARPROC __stdcall GetProcAddress(HMODULE module
 extern "C" __declspec(dllimport) int __stdcall FreeLibrary(HMODULE module);
 extern "C" void __cdecl free(void *block);
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-private:
-	bool m_subsystemFlag;  // +0x04
-	int  m_subsystemValue; // +0x08
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 

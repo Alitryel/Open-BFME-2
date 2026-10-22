@@ -31,13 +31,7 @@
 
 extern "C" void __cdecl free(void *p);
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-
-	unsigned char m_pad04[0x0c - 0x04];
-};
+#include "../../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class CreateAHeroData;
 

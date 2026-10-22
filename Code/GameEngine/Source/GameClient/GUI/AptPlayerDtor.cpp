@@ -84,12 +84,7 @@ struct FreeOnDestroy
     void *m_block;
 };
 
-class SubsystemInterface
-{
-public:
-    virtual ~SubsystemInterface();
-    char m_state[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class AptPlayer : public SubsystemInterface
 {

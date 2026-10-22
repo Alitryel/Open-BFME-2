@@ -37,13 +37,7 @@ public:
 };
 
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	unsigned char m_pad04[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 typedef std::hash_map<
 	NameKeyType,

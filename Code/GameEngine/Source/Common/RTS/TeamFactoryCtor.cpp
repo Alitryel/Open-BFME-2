@@ -27,25 +27,7 @@
 struct BfmePod8;
 namespace _STL { template <> _Rb_tree<int,pair<int const ,BfmePod8>,_Select1st<pair<int const ,BfmePod8> >,less<int>,allocator<pair<int const ,BfmePod8> > >::~_Rb_tree(); }
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual bool loadIniFilesFromLegend();
-	virtual void postProcessLoad();
-	virtual bool vslot04(int);
-	virtual bool vslot05();
-	virtual int vslot06();
-	virtual void vslot07(int);
-	virtual void vslot08();
-	virtual void reset() = 0;
-	virtual void update() = 0;
-
-private:
-	char m_pad04[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 struct BfmePod8
 {

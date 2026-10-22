@@ -13,14 +13,7 @@
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
-class SubsystemInterface
-{
-public:
-	SubsystemInterface() throw();
-	virtual ~SubsystemInterface();
-private:
-	char m_pad[8];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva0022DE6B : public SubsystemInterface
 {

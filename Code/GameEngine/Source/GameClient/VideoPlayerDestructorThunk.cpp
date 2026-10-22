@@ -4,11 +4,7 @@
 // Open-BFME5: VideoPlayer destructor ? clear global singleton then chain bases
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class VideoPlayerBase : public SubsystemInterface
 {

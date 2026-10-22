@@ -354,15 +354,7 @@ public:
 	void rva002A44D5( const AsciiString &timerName );
 };
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	char m_opaque04[0xC - 0x4];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class InGameUIInterface10
 {

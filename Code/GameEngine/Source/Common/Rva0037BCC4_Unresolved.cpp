@@ -17,14 +17,7 @@ public:
 };
 
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
-class SubsystemInterface
-{
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-    int m_pad04;
-    int m_pad08;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva0037D097CRCView
 {

@@ -91,14 +91,7 @@ public:
 	void rva0023E7D9();
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	int m_08;
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 
 class Rva00242E71 { public: ~Rva00242E71(); private: unsigned char m_data[0x14]; };

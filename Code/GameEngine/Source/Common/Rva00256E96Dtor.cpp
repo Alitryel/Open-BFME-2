@@ -13,7 +13,7 @@
 #include <functional>
 #include <utility>
 #include "../../Include/Common/BfmeModuleData.h"
-class SubsystemInterface {public:SubsystemInterface();virtual ~SubsystemInterface();private:int p4,p8;};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 #include "Common/Snapshot.h"
 // Constructor-only ABI adapter for the existing empty12B tree provider.
 // Its LadderPref payload spelling is not a target ModuleFactory data claim.

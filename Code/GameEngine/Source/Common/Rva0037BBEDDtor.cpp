@@ -20,13 +20,7 @@ public:
 	char m_pad[0xE3C - 4];
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-	int m_pad04;
-	int m_pad08;
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class Rva0037BBED : public SubsystemInterface
 {

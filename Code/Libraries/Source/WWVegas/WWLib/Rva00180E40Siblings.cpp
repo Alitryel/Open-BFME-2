@@ -27,12 +27,7 @@ Rva00180E40Derived::Rva00180E40Derived()
 {
 }
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-};
+#include "../../subsystem/SubsystemInterface.h"
 
 class Rva006892D0Derived : public SubsystemInterface
 {

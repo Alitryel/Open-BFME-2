@@ -17,21 +17,7 @@
 
 #include "Common/Snapshot.h"
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init();
-#define SLOT(N) virtual void slot##N();
-	SLOT(02) SLOT(03) SLOT(04) SLOT(05) SLOT(06) SLOT(07) SLOT(08)
-#undef SLOT
-	virtual void reset();	// slot 9
-	virtual void update();	// slot 10
-
-private:
-	char m_opaque04[0xC - 0x4];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class View;
 class Drawable;
