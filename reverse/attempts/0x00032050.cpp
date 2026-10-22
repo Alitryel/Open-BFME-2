@@ -8,6 +8,12 @@
 // partial score=0.81 date=2026-10-13
 // ?rva00032050@GeneralAllocator@Allocator@EA@@QAEIPAXI@Z
 // partial score=0.55 date=2026-10-03
+// 2026-10-22: free CheckCount calls reach retail's check order/polarity (140 B)
+// but assign this=ESI/lock=EDI/chunk=EBX/size=EAX/result=ESI (first diff 0x00).
+// This barrier shape keeps retail's prologue (this=EDI/lock=ESI/size spilled,
+// first diff 0x46) but the canonical chain order. The fifth term is
+// size >= size+0x10; the [esp+14h] spill is the masked size, not flags.
+// Details: reverse/attempt_support/00032050_general_allocator.md
 // no // cl: line: base flags -O2 -GR- -EHsc-
 // Banked attempt for ?rva00032050@GeneralAllocator@Allocator@EA@@QAEIPAXI@Z
 // Retail 0x00032050..0x000320DC (140 bytes). Current standalone and whole-home
