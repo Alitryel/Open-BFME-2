@@ -9,7 +9,8 @@ struct __false_type {
 struct random_access_iterator_tag {
 };
 template <class InputIter, class OutputIter> OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result, const __false_type &tag);
-template <class InputIter, class OutputIter> OutputIter __copy(InputIter first, InputIter last, OutputIter result, const random_access_iterator_tag &tag, int *distance);
+// Match STLport's distance template parameter so the call binds the rowed worker.
+template <class InputIter, class OutputIter, class Distance> OutputIter __copy(InputIter first, InputIter last, OutputIter result, const random_access_iterator_tag &tag, Distance *distance);
 template <class T> class allocator {
 };
 template <class T, class A> class vector {
@@ -26,7 +27,9 @@ template <class ForwardIter> void _Destroy(ForwardIter first, ForwardIter last);
 // ??$__copy_ptrs@PAUBfmeVectorRecord0002154F3@@PAU1@@_STL@@YAPAUBfmeVectorRecord0002154F3@@PAU1@00ABU__false_type@0@@Z present-unmatched
 template <> __declspec(noinline) BfmeVectorRecord0002154F3 *_STL::__copy_ptrs<BfmeVectorRecord0002154F3 *, BfmeVectorRecord0002154F3 *>(BfmeVectorRecord0002154F3 *first, BfmeVectorRecord0002154F3 *last, BfmeVectorRecord0002154F3 *result, const _STL::__false_type &tag)
 {
-	return _STL::__copy(first, last, result, _STL::random_access_iterator_tag(), (int *)0);
+	// Retail forwards an uninitialized empty tag local, as in Rva0021570DCopy.
+	_STL::random_access_iterator_tag category;
+	return _STL::__copy(first, last, result, category, (int *)0);
 }
 _STL::vector<BfmeVectorRecord0002154F3, _STL::allocator<BfmeVectorRecord0002154F3> >::iterator _STL::vector<BfmeVectorRecord0002154F3, _STL::allocator<BfmeVectorRecord0002154F3> >::erase(iterator first, iterator last)
 {
