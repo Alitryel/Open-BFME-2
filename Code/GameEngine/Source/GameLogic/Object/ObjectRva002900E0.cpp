@@ -48,7 +48,7 @@ enum DisabledType
 class Rva001E4A4E
 {
 public:
-	int rva001E4A4E(int bit);
+	bool rva001E4A4E(int bit);
 };
 
 class Object

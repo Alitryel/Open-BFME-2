@@ -44,7 +44,7 @@ Object *Team::rva0039E8EB()
 class Rva0028D8EB
 {
 public:
-	int rva0028D8EB(int bit);
+	bool rva0028D8EB(int bit);
 };
 Object *Team::rva0039E968(int bit)
 {

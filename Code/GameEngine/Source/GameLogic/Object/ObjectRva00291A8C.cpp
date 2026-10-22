@@ -214,7 +214,7 @@ public:
 };
 
 
-class Rva001E4A4E {public:int rva001E4A4E(int);};
+class Rva001E4A4E {public:bool rva001E4A4E(int);};
 class Rva00270619 {public:void Rva00270619Clear(int);};
 class ObjectCollisionFlags {public:
  unsigned bits[3];

@@ -46,13 +46,14 @@ public:
 	static int getSingleBitFromName(const char *name);
 };
 
-// Retail returns the kind bit in al (callers test al); the row keeps the
-// int spelling, so the Bool view truncates rather than converting.
+// Native callers examine the template query's bool result in AL.
+enum KindOfType { KINDOF_INVALID = -1 };
+
 class ThingTemplate
 {
 public:
-	int rva000456AC(int bit) const;
-	Bool isKindOf(int bit) const { return (Bool)rva000456AC(bit); }
+	bool isKindOf(KindOfType bit) const;
+	Bool isKindOf(int bit) const { return (Bool)isKindOf((KindOfType)bit); }
 };
 
 class Object

@@ -404,6 +404,8 @@ public:
 	virtual unsigned int getLastDamageTime() const; // +0x40
 };
 
+enum KindOfType { KINDOF_INVALID = -1 };
+
 class ThingTemplate
 {
 public:
@@ -420,11 +422,11 @@ public:
 	// KindOf 48 (BFME 1's ScriptConditionsRva0032A710.cpp).
 	bool testKindOf30() const { return (m_kindOf10E & 0x01) != 0; }
 	bool testKindOf59() const { return (m_kindOf113 & 0x02) != 0; }
-	int rva000456AC(int kind) const;
+	bool isKindOf(KindOfType kind) const;
 	// The KindOf mask read in place as 32-bit words from +0x108.
 	template <unsigned int BIT> unsigned int testKindOfBit() const { return ((const unsigned int *)((const char *)this + 0x108))[BIT >> 5] & (1u << (BIT & 31)); }
 	// Retain the inlined query without an unused competing external copy.
-	__declspec(dllimport) __forceinline bool isKindOf(int kind) const { return (unsigned char)rva000456AC(kind) != 0; }
+	__declspec(dllimport) __forceinline bool isKindOf(int kind) const { return (unsigned char)isKindOf((KindOfType)kind) != 0; }
 	float getRva51C() const { return m_51C; }
 	// KindOf bit 0x2F (byte +0x10D, bit 7), unnamed: skipped by the team
 	// health total alongside 0x59.

@@ -1587,12 +1587,7 @@ class ThingTemplate
 public:
 	const AsciiString &getName(void) const { return m_name; }
 	void GetAssetList(int a, int b);
-	int rva000456AC(int bit) const;
-	__declspec(dllimport) __forceinline bool isKindOf(KindOfType t) const
-	{
-		unsigned int mask = 1u << (t & 31);
-		return (m_kindof[t >> 5] & mask) != 0;
-	}
+	bool isKindOf(KindOfType t) const;
 
 private:
 	char m_pad00[0x64];
@@ -2025,7 +2020,7 @@ void GameLogic::rva00246422(bool dontCreate)
 			const ThingTemplate *tt = pMapObj->getThingTemplate();
 			if (tt == 0)
 				continue;
-			if (!tt->isKindOf((KindOfType)62) && !tt->isKindOf((KindOfType)63))
+			if (!((tt->m_kindof[62 >> 5] & (1u << (62 & 31))) != 0) && !((tt->m_kindof[63 >> 5] & (1u << (63 & 31))) != 0))
 				continue;
 			const Coord3D *loc = pMapObj->getLocation();
 			Coord3D pos;
@@ -2033,9 +2028,9 @@ void GameLogic::rva00246422(bool dontCreate)
 			pos.y = loc->y;
 			pos.z = loc->z;
 			Matrix3D mtx(true);
-			if (tt->isKindOf((KindOfType)62))
+			if (((tt->m_kindof[62 >> 5] & (1u << (62 & 31))) != 0))
 				TheTerrainLogic->addTree(tt, &pos, &mtx, 1.0f);
-			else if (tt->isKindOf((KindOfType)63))
+			else if (((tt->m_kindof[63 >> 5] & (1u << (63 & 31))) != 0))
 				TheTerrainLogic->rva00280176(tt, &pos, &mtx, 1.0f);
 		}
 		loadAllObjects(&created, kindRef((KindOfType)0x3c), 0, true);
@@ -5486,9 +5481,9 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 			continue;
 		if (thingTemplate->m_5e5)
 			continue;
-		if (excludeKind && (char)thingTemplate->rva000456AC(*excludeKind))
+		if (excludeKind && (char)thingTemplate->isKindOf(*excludeKind))
 			continue;
-		if (requireKind && !(char)thingTemplate->rva000456AC(*requireKind))
+		if (requireKind && !(char)thingTemplate->isKindOf(*requireKind))
 			continue;
 		if ((thingTemplate->m_108 & 0x40) && !useTrees)
 			continue;

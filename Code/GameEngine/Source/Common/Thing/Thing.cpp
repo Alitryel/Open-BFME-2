@@ -181,7 +181,9 @@ static void CopyThingMatrix3D(Matrix3D &dst, const Matrix3D &src)
 // ?isKindOf@Thing@@QBE_NW4KindOfType@@@Z present-unmatched
 Bool Thing::isKindOf(KindOfType t) const 
 { 
-	return getTemplate()->isKindOf(t); 
+	// Retail stores the template kind mask at +0x108.
+	const KindOfMaskType &kindOf = *(const KindOfMaskType *)((const char *)getTemplate() + 0x108);
+	return TEST_KINDOFMASK(kindOf, t);
 }
 
 //-------------------------------------------------------------------------------------------------

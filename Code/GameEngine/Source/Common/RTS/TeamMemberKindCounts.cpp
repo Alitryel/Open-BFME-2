@@ -11,8 +11,7 @@ extern "C" void _ReadWriteBarrier();
 // slot, via the rowed Object::testStatus) when asked - Zero Hour's
 // countObjectsByThingTemplate filters applied to a kind instead of a
 // template list. Same member walk as TeamRva0039DDC2.cpp. Retail tests the
-// kind test's AL; keep the existing int-returning row name and convert its
-// low byte at the call site instead of introducing an alias. Caller 0x003E5E6A.
+// kind test's AL through the bool-returning template query. Caller 0x003E5E6A.
 
 class Object;
 
@@ -36,10 +35,12 @@ enum ObjectStatusTypes
 	OBJECT_STATUS_UNDER_CONSTRUCTION = 2
 };
 
+enum KindOfType { KINDOF_INVALID = -1 };
+
 class ThingTemplate
 {
 public:
-	int rva000456AC(int kind) const;
+	bool isKindOf(KindOfType kind) const;
 	bool isEquivalentTo(const ThingTemplate *tt) const;
 };
 
@@ -76,7 +77,7 @@ int Team::rva0039DC05(int kind, bool ignoreDead, bool ignoreUnderConstruction) c
 			continue;
 		if (ignoreUnderConstruction && obj->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
 			continue;
-		if (!(unsigned char)obj->getTemplate()->rva000456AC(kind))
+		if (!(unsigned char)obj->getTemplate()->isKindOf((KindOfType)kind))
 			continue;
 		++count;
 	}

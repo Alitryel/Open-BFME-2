@@ -445,7 +445,6 @@ public:
 	// Retail 0x000456AC: the kind-of bit words start at +0x108.
 	__declspec(noinline) bool isKindOf(KindOfType t) const { return Rva001E4426Test(&m_108, t); }
 	bool isEquivalentTo(const ThingTemplate *other) const;
-	int rva000456AC(int bit) const;
 	// This local +0x114 mask view must not emit the generic +0x108 kind helper.
 	__forceinline unsigned int hordeKindMask(int kind) const
 	{
