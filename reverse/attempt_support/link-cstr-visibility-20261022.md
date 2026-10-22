@@ -1,5 +1,8 @@
 # Narrow C-string constructor visibility, 2026-10-22
 
+The isolated-provider link verdict below is superseded by the paired-current
+check at the end. The failed source trials remain valid evidence.
+
 Trial tree: 8124f88828, with verified BFME 1 inputs 42bba2ddbd5c.
 MSVC 7.1 and each source's unchanged `// cl:` settings were used.
 
@@ -46,3 +49,31 @@ after upstream repairs. Those are not gains from this session. Refresh both
 providers and consumers before using stale census blockers to choose a repair.
 The EH assignment's separate handoff is eh-stubs-base-fold-20261022.md: three
 new 8-byte cleanups verified, five unchanged blockers remain.
+
+## Paired-current follow-up
+
+At 7975c91816, with the same published index 08160bc2c9, checking the three
+unchanged consumers together with stlport_narrow_string_cstr_ctor.cpp and
+registry.cpp gives 5/5 clean: 172 + 295 + 2362 + 108 + 4418 = 7355 linked
+bytes. The census comparison is 4526 -> 7355; all of this is already upstream
+behavior, not a new repair. This removes the justification for further
+constructor-suppression trials. These are legacy previews, not closed-strict
+closure evidence.
+
+Other current paired checks likewise find inherited repairs: the float4
+assignment (183 B), Rva0054000B insert (152 B), opaque B12 destructors (701 B),
+gap forwarders (739 B), notice display (197 B), C828C vector overflow (221 B),
+HAnimCombo finish (94 B), ocean water (1581 B), and selection translator
+(4145 B) already link. The current FXParticleSystemFactories and
+HAnimComboBFME1 providers retain their own unrelated blockers.
+
+The remaining assigned EH stubs are unchanged: 768841/76884B/768868 depend
+on the unrowed 18C84E parent held by another worker; 75C850 needs coordinated
+lock destructor ownership; 7A70A0 retains the scalar/array-delete cleanup
+codegen difference. Preserve the two EH handoffs rather than retrying them.
+
+Fallback checks: name_globals.py --dry-run kept zero edits; rehome_rows.py
+cannot run because the fetched census bundle lacks build/link_census/census.log.
+No full census was started. BFME1 upstream fetched successfully, but updating
+the clean verified 42bba2ddbd5c pointer to 4592ab9117f4 is deferred to the
+worker holding file:reference/open-bfme-1; no freshness stamp was advanced.
