@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?init@FontLibrary@@UAEXXZ, retail 0x00217561, 89 bytes.
@@ -157,7 +157,8 @@ enum NameKeyType
 
 struct StanceData
 {
-	StanceData();
+	// Retail array initializer at 0x00425E8A passes the folded two-word ctor.
+	StanceData() : m_attributeModifier(0), m_meleeBehavior(0) {}
 	int m_attributeModifier;
 	int m_meleeBehavior;
 };
