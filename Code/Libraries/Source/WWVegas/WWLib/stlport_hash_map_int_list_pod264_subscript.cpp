@@ -26,6 +26,10 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_bkt_num_key@?$hashtable@U?$pair@$$CBHV?$list@UBfmePod264@@V?$allocator@UBfmePod264@@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod264;
+namespace _STL { template <> unsigned int hashtable<pair<int const ,list<BfmePod264,allocator<BfmePod264> > >,int,hash<int>,_Select1st<pair<int const ,list<BfmePod264,allocator<BfmePod264> > > >,equal_to<int>,allocator<pair<int const ,list<BfmePod264,allocator<BfmePod264> > > > >::_M_bkt_num_key(int const &) const; }
 // Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }

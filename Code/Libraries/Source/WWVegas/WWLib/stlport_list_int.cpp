@@ -16,6 +16,9 @@ namespace _STL { template <> void list<int, allocator<int> >::push_front(int con
 namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &, _List_iterator<int, _Nonconst_traits<int> >); }
 namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?insert@?$list@HV?$allocator@H@_STL@@@_STL@@QAE?AU?$_List_iterator@HU?$_Nonconst_traits@H@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _List_iterator<int,_Nonconst_traits<int> > list<int,allocator<int> >::insert(_List_iterator<int,_Nonconst_traits<int> >); }
 // Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,
 // and this TU's COMDAT copy differs from the copy the link keeps.
 namespace _STL {

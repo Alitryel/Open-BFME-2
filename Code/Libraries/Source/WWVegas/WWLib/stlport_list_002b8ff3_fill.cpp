@@ -6,6 +6,10 @@
 // fill insert via rowed 0x002B815B, wide temp teardown via 0x00036E70. Evidence: callees rowed, shape matches
 // list<UnicodeString> fill ctor precedent 0x0043C072.
 #include <list>
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UBfmeStringRecord002B4DC1@@V?$allocator@UBfmeStringRecord002B4DC1@@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord002B4DC1;
+namespace _STL { template <> void _List_base<BfmeStringRecord002B4DC1,allocator<BfmeStringRecord002B4DC1> >::clear(); }
 
 template <typename T> class StringBase
 {
