@@ -1592,69 +1592,6 @@ void WorkOrder::validateFactory(Player *thisPlayer)
 		m_factoryID = INVALID_OBJECT_ID;
 }
 
-void AIPlayer::queueUnits()
-{
-	queueSupplyTruck();
-
-	for (DLINK_ITERATOR<TeamInQueue> iter = iterate_TeamBuildQueue(); !iter.done(); iter.advance())
-	{
-		TeamInQueue *team = iter.cur();
-		for (WorkOrder *order = team->m_workOrders; order; order = order->m_next)
-		{
-			const Coord3D *loc = &team->m_team->getPrototype()->m_homeLocation;
-			Coord3D home;
-			home.x = loc->x;
-			home.y = loc->y;
-			home.z = loc->z;
-			Bool hasHome = false;
-			if (team->m_team->getPrototype()->m_hasHomeLocation)
-				hasHome = true;
-			else
-				hasHome = getBaseCenter(&home);
-			while (order->isWaitingToBuild())
-			{
-				Object *unit;
-				if (hasHome)
-					unit = team->m_team->tryToRecruit(order->m_thing, &home, TheAI->getAiData()->m_maxRecruitDistance, order->m_bfmeInt2C, 0, 0);
-				else
-					unit = team->m_team->tryToRecruit(order->m_thing, &home, 100000.0f, order->m_bfmeInt2C, 0, 0);
-				if (unit)
-				{
-					order->m_numCompleted++;
-
-					AsciiString teamStr = "Team '";
-					teamStr.concat(team->m_team->getPrototype()->getName());
-					reinterpret_cast<StringBase<char> *>(&teamStr)->concat("' recruits ");
-					teamStr.concat(order->m_thing->getName());
-					reinterpret_cast<StringBase<char> *>(&teamStr)->concat(" from team '");
-					teamStr.concat(unit->m_team->getPrototype()->getName());
-					reinterpret_cast<StringBase<char> *>(&teamStr)->concat("'");
-					TheScriptEngine->AppendDebugMessage(teamStr, false);
-
-					unit->setTeam(team->m_team);
-
-					AIUpdateInterface *ai = unit->getAI();
-					if (ai)
-					{
-						if (hasHome)
-							ai->getCommandInterface()->aiMoveToPosition(&home, CMD_FROM_AI);
-						else
-							ai->getCommandInterface()->aiIdle(CMD_FROM_AI);
-					}
-					team->m_team->setActive();
-				}
-				else
-				{
-					break;
-				}
-			}
-			if (order->isWaitingToBuild() && !order->m_bfmeFlag29)
-				startTraining(order, team->m_priorityBuild, team->m_team->getName());
-			else if (!TheSkirmishAIManager->rva002A8AB1(m_player))
-				order->validateFactory(m_player);
-		}
-	}
-}
 
 void AIPlayer::queueDozer()
 {
