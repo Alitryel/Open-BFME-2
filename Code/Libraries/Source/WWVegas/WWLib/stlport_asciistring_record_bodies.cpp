@@ -30,6 +30,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <map>
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??1?$vector@UBfmeAssignRecord172@@V?$allocator@UBfmeAssignRecord172@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord172;
+namespace _STL { template <> vector<BfmeAssignRecord172,allocator<BfmeAssignRecord172> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$vector@UBfmeAssignRecord44@@V?$allocator@UBfmeAssignRecord44@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord44;
+namespace _STL { template <> vector<BfmeAssignRecord44,allocator<BfmeAssignRecord44> >::~vector(); }
 bool operator<(const AsciiString &, const AsciiString &);
 bool operator==(const AsciiString &, const AsciiString &);
 struct BfmeAssignRecord24 { AsciiString s; int a[5]; };

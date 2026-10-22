@@ -10,6 +10,13 @@
 #include <map>
 #include <vector>
 #include <hash_map>
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@UGen_p12pod@@U?$pair@$$CBUGen_p12pod@@H@_STL@@U?$_Select1st@U?$p:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Gen_p12pod;
+namespace _STL { template <> _Rb_tree_iterator<pair<Gen_p12pod const ,int>,_Nonconst_traits<pair<Gen_p12pod const ,int> > > _Rb_tree<Gen_p12pod,pair<Gen_p12pod const ,int>,_Select1st<pair<Gen_p12pod const ,int> >,less<Gen_p12pod>,allocator<pair<Gen_p12pod const ,int> > >::insert_unique(_Rb_tree_iterator<pair<Gen_p12pod const ,int>,_Nonconst_traits<pair<Gen_p12pod const ,int> > >,pair<Gen_p12pod const ,int> const &); }
+// Suppress this TU's non-retail copy of ??$fill_n@PAPAXIPAX@_STL@@YAPAPAXPAPAXIABQAX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * * fill_n<void * *,unsigned int,void *>(void * *,unsigned int,void * const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPAXPAXV?$allocator@PAX@_STL@@@_STL@@QAEPAPAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void * * _STLP_alloc_proxy<void * *,void *,allocator<void *> >::allocate(unsigned int); }

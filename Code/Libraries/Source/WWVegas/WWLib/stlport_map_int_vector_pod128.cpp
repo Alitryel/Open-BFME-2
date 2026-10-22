@@ -28,6 +28,10 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??0?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod128;
+namespace _STL { template <> vector<BfmePod128,allocator<BfmePod128> >::vector(vector<BfmePod128,allocator<BfmePod128> > const &); }
 
 struct BfmePod128 { int a[32]; };
 

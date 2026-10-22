@@ -75,6 +75,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??0?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod128;
+namespace _STL { template <> vector<BfmePod128,allocator<BfmePod128> >::vector(vector<BfmePod128,allocator<BfmePod128> > const &); }
 // Suppress this TU's non-retail copy of ??1?$_Vector_base@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod128;
