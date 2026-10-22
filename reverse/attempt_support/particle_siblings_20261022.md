@@ -108,3 +108,25 @@ raw reference in this file. Baseline-delta preview removes one more unresolved
 data name (six to five), retains the same12 old strong duplicates, and adds
 no wrong-selected body. This is not a claim that the preexisting unit debt is
 resolved. Both full Snapshot tables and both complete literals were checked.
+
+## 0x003ABD5B physics sibling
+
+Native3ABD20 constructor and3AEB9C copy establish the owner. The existing
+four vtable names are retained. Their verified native prefixes are primary
+C1C578=[3AD3F7,B3FD0,purecall,55EF39], factory C1C574=[3ACF68], category
+C1C780=[purecall], and complete Snapshot C1CE54=[3ABD5B,B3FD0,3ABD55,3ABD63].
+The category interface is abstract in native; no fictitious destructor entry
+is used. The Snapshot name literal is complete and native. The same-size
+separate destructor view uses novtable solely for retail's no-vptr-store
+five-byte cleanup fold; its object defines only that function and calls the
+already rowed Rva0055F197 cleanup at3ABC0B. It avoids redefining incompatible
+private class views in TailJumpWrappers5B. Scalar and callback companions,
+including the89-byte factory under the old factory-interface class spelling,
+pass whole-byte/REL32 checks. The factory's EH graph is exact.
+
+Normal add_match admits all nine rows with no weak pin; only the new eight
+bytes increase coverage. Whole-file placement rescan is empty. A bounded
+in-memory overlay of the actual three production objects has no unresolved,
+duplicate, COMDAT, address or selected-body blockers. The new destructor
+object has one unique definition, so its added overlay position changes no
+competing definition. This is a preview, not a published census measurement.

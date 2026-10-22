@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHs-c-
+// cl: /DNDEBUG /MD /EHs-c- /Ireference/shims/moduledata
 // ??0Rva003ABD20@@QAE@ABVRvaSmartPtr12@@H@Z, retail 0x003ABD20, 49 bytes.
 // Empty derived of the rowed ??0Rva0055F197@@QAE@ABVRvaSmartPtr12@@H@Z at
 // 0x0055F197: forwards (smart, x) then re-stamps the four vftables
@@ -6,6 +6,13 @@
 // Same empty-body shape as the DefaultModuleDerivedSmartCtors trio via rowed
 // base 0x0055BEE9; all vtable dwords are DIR32 sites. Caller at 0x003ACFDA.
 
+class Xfer { public: void Version1(); };
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "Common/Snapshot.h"
+class Rva003ACF68Object;
 class RvaSmartPtr12
 {
 public:
@@ -21,13 +28,13 @@ private:
 class DefaultModuleSecondBase
 {
 public:
-	virtual ~DefaultModuleSecondBase();
+	virtual Rva003ACF68Object *rva003ACF68(unsigned int);
 };
 
 class DefaultModuleThirdBase
 {
 public:
-	virtual ~DefaultModuleThirdBase();
+	virtual const void *classView() const = 0;
 };
 
 class DefaultModuleHeadBase
@@ -35,6 +42,9 @@ class DefaultModuleHeadBase
 public:
 	DefaultModuleHeadBase(const RvaSmartPtr12 &smart, int i);
 	virtual ~DefaultModuleHeadBase();
+ virtual void rva000B3FD0() = 0;
+ virtual void *clone() const = 0;
+ virtual void DoXfer(Xfer &) = 0;
 
 	RvaSmartPtr12 m_smart;
 	int m_int10;
@@ -57,11 +67,12 @@ public:
 
 namespace FXParticleSystem
 {
-class DefaultPhysicsModuleInfo
+class __declspec(novtable) DefaultPhysicsModuleInfo : public Snapshot
 {
 public:
 	DefaultPhysicsModuleInfo();
 	virtual ~DefaultPhysicsModuleInfo();
+ virtual void DoXfer(Xfer &);
 };
 }
 
@@ -82,16 +93,27 @@ private:
 	unsigned char m_3d;
 };
 
+// Native3ABD20 constructor establishes this owner and all four vptr stores.
+// C1C578 primary prefix=[3AD3F7,B3FD0,purecall,55EF39].
+// C1CE54 Snapshot=[3ABD5B,B3FD0,3ABD55,3ABD63] at+1C.
+// Complete destructor is the existing5B3ACB6F fold, defined separately with
+// the proven novtable destructor view; this TU only declares it.
 class Rva003ABD20 : public Rva0055F197
 {
 public:
 	__declspec(noinline) Rva003ABD20(const RvaSmartPtr12 &smart, int x);
 	// Empty: retail's vtable 0x0081C578 slot 0 0x003AD3F7 calls 0x003ACB6F, one
 	// jump to the base dtor 0x003ABC0B (Rva0055F197's, see Rva003ABC0BDtor.cpp).
-	virtual ~Rva003ABD20() {}
+	virtual ~Rva003ABD20();
+ virtual void rva000B3FD0() {}
+ virtual void LoadPostProcess() {}
+ virtual const char *GetSnapshotName() { return "DefaultModule<CAT_PHYSICS>"; }
+ virtual void DoXfer(Xfer &);
 };
 
 Rva003ABD20::Rva003ABD20(const RvaSmartPtr12 &smart, int x)
 	: Rva0055F197(smart, x)
 {
 }
+
+void Rva003ABD20::DoXfer(Xfer &stream) { stream.Version1(); FXParticleSystem::DefaultPhysicsModuleInfo::DoXfer(stream); }

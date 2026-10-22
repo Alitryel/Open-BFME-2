@@ -89,3 +89,12 @@ Rva003ACF68Object *Rva003ACF68Host::rva003ACF68( unsigned int arg )
 {
 	return new Rva003ACF68Object( arg, *reinterpret_cast<Src0055F218 *>( this ) );
 }
+
+// C1C574 slot0 is the established +0x14 factory interface.
+class DefaultModuleSecondBase {
+public: virtual Rva003ACF68Object *rva003ACF68(unsigned int arg);
+};
+Rva003ACF68Object *DefaultModuleSecondBase::rva003ACF68(unsigned int arg)
+{
+ return new Rva003ACF68Object(arg, *reinterpret_cast<Src0055F218 *>((char *)this - 0x14));
+}
