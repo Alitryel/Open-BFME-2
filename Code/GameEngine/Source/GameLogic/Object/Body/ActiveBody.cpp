@@ -18,6 +18,10 @@
 namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &a, const unsigned int &b) { return a < b ? b : a; } }
 #include <string.h>
 #include <list>
+// list<Drawable *>'s base destructor is retail's pooled body 0x00239AF4, defined
+// in InGameUICtor.cpp; this unit's allocator shims would emit a raw-free copy.
+class Drawable;
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
 #include <hash_map>
 #include "ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"

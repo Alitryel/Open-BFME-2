@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <list>
+// list<Drawable *>'s base destructor is retail's pooled body 0x00239AF4, defined
+// in InGameUICtor.cpp; this unit's allocator shims would emit a raw-free copy.
+class Drawable;
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
 
 // _List_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
