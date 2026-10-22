@@ -42,7 +42,10 @@ class Rva002239B2 {public: void rva002239E2(const AsciiString &,const Image *);}
 class CreateAHeroData {
 public:
  virtual ~CreateAHeroData();
- virtual void slot04();virtual void slot08();virtual void slot0C();virtual void slot10();
+protected:
+ virtual void loadPostProcess();
+public:
+ virtual void slot08();virtual void slot0C();virtual void slot10();
  CreateAHeroData &operator=(const CreateAHeroData &);
 protected:
  char pad04[4];

@@ -142,7 +142,8 @@ template <int _Words> struct _Base_bitset
 class Rva0026AFDAMember
 {
 public:
-	Rva0026AFDAMember() throw();
+	__declspec(dllimport) __forceinline Rva0026AFDAMember() throw() { initMember(); }
+	Rva0026AFDAMember *initMember() throw();
 	~Rva0026AFDAMember();
 private:
 	unsigned char m_pad[0xC4];

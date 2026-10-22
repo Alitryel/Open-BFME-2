@@ -7316,7 +7316,7 @@ public:
 	~Rva00207F08Dtor();
 };
 
-Rva00207F08Dtor::~Rva00207F08Dtor()
+__declspec(noinline) inline Rva00207F08Dtor::~Rva00207F08Dtor()
 {
 }
 
