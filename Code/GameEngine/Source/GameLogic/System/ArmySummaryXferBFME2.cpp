@@ -8,7 +8,7 @@
 // This closes every prior register, frame and reload residue; no alias pin.
 // Local reconstruction from native flow; neighbouring proven C++ is structural
 // guidance. No donor source spelling is asserted for the reference handle.
-// cl: /O1 /G7 /arch:SSE /GX /MD /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /GX /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 // ?xfer@ArmySummary@@MAEXPAVXfer@@@Z
 // Retail 0x0040EE89..0x0040F077 (494 bytes).
