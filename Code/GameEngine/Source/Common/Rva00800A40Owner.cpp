@@ -30,7 +30,7 @@ struct Rva00800A40Diag
 struct Rva007EB810Diag;
 extern Rva007EB810Diag *Rva007EB810Get();
 
-struct Rva00800A40Slot
+struct ProbeSlot
 {
 	int m_00;
 	int m_04;
@@ -53,12 +53,12 @@ class Rva00800920Owner
 	unsigned char m_pad15[3];
 	int m_18;
 	char m_pad1c[0xb8];
-	Rva00800A40Slot m_slots[8];
+	ProbeSlot m_slots[8];
 	int m_numProbes;						// mNumProbes, per the 0x00800B30 assert
 
 public:
 	int rva00800a40(void *input, unsigned char flag, int value);
-	void rva00800b30(Rva00800A40Slot *slot);
+	void rva00800b30(ProbeSlot *slot);
 };
 
 int Rva00800920Owner::rva00800a40(
@@ -83,7 +83,7 @@ int Rva00800920Owner::rva00800a40(
 	}
 	goto no_slot;
 
-	Rva00800A40Slot *slot = 0;
+	ProbeSlot *slot = 0;
 	found_slot:
 	slot = &m_slots[index];
 	goto check_slot;
@@ -111,11 +111,11 @@ int Rva00800920Owner::rva00800a40(
 }
 // BFME 2: the release side below is the same donor's second body, byte-identical
 // in game.dat at 0x0066CF10 (string literals verified at their BFME 2 addresses).
-// ?rva00800b30@Rva00800920Owner@@QAEXPAURva00800A40Slot@@@Z
+// ?rva00800b30@Rva00800920Owner@@QAEXPAUProbeSlot@@@Z
 // 0x00800B30 (58 B), the release side of rva00800a40: it clears the fields
 // that body fills (id, +0x04, value, +0x20 and the flag byte) and drops the
 // probe count, asserting "mNumProbes >= 0" at gamebrowserdemangler.cpp:0x147.
-void Rva00800920Owner::rva00800b30(Rva00800A40Slot *slot)
+void Rva00800920Owner::rva00800b30(ProbeSlot *slot)
 {
 	slot->m_00 = 0;
 	slot->m_04 = 0;

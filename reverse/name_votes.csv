@@ -107,3 +107,13 @@ Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_1c,c
 Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_20,6161201c0d48d63087f33323,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
 Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_1c,c7ecf49ad7b19a5d46767387,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
 Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|member|Rva00800A40Slot|m_20,6161201c0d48d63087f33323,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Input,b98dd9b19f1a22b4a0080b8a,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Target,dfd2345cade0a6d989be6b0b,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Diag,26d950bab32b420769b11a00,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Slot,9b78d322d1174abd18200d85,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|function|0x0066CF10|rva00800b30,2ea285287cad8dc9fd02d277,seat-a,rn-1022-3-a,w-4d2a4d7200fd,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Input,b54cd4f735a8c7b956b71c1b,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Target,5dfb2bb165bf3336f3612e9b,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Diag,06e7c29a1bf952b9c9929aed,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Slot,9b78d322d1174abd18200d85,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|function|0x0066CF10|rva00800b30,aa4a880599f47b7c3e17eaad,seat-b-sonnet,rn-1022-3-b,w-38b82391364c,2026-10-22
