@@ -443,14 +443,14 @@ void rva001173f0(unsigned int renderInfo);
 // W3DMeshHolderHold.cpp): cl then proves the holder's address does not
 // escape and keeps the held pointer in EDI across the draw loop as retail
 // does; with only a declaration it reloads the holder after every call.
+// The holder itself is a RefCountPtr<RenderingMethod>: its release is the
+// rowed fold 0x0007B724 the unwind funclet 0x007641F4 jumps to.
 class HAnimClass : public RefCountClass
 {
 };
 class HAnimComboDataClass
 {
 public:
-	HAnimComboDataClass() : HAnim(0) {}
-	~HAnimComboDataClass() { if (HAnim) HAnim->Release_Ref(); }
 	__declspec(noinline) void Set_HAnim(HAnimClass *motion)
 	{
 		if (motion != 0)
@@ -459,7 +459,6 @@ public:
 			HAnim->Release_Ref();
 		HAnim = motion;
 	}
-	operator RefCountPtr<FXShader::RenderingMethod> &() { return *reinterpret_cast<RefCountPtr<FXShader::RenderingMethod> *>(this); }
 
 private:
 	HAnimClass *HAnim;
@@ -573,8 +572,8 @@ void WaterRenderObjClass::rva001014A9(RenderInfoClass &rinfo, bool depthOnly)
 		if (!shader)
 			continue;
 		drewItems = true;
-		HAnimComboDataClass method;
-		method.Set_HAnim(reinterpret_cast<HAnimClass *>(shader));
+		RefCountPtr<FXShader::RenderingMethod> method;
+		reinterpret_cast<HAnimComboDataClass &>(method).Set_HAnim(reinterpret_cast<HAnimClass *>(shader));
 		rinfo.Push_Rendering_Method(method);
 		for (_STL::set<Rva001014A9Item *>::const_iterator item = area->getItems().begin(); item != area->getItems().end(); ++item)
 		{
