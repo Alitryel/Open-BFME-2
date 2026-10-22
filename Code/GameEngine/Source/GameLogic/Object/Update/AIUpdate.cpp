@@ -202,42 +202,11 @@ const LocomotorTemplateVector* AIUpdateModuleData::findLocomotorTemplateVector(L
 // (its row's unit; BFME 2 throws INIException and uses plain new).
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void AIUpdateModuleData::parseLocomotorSet(INI* ini, void *instance, void * /*store*/, const void* /*userData*/)
-{
-	ThingTemplate *tt = (ThingTemplate *)instance;
-	AIUpdateModuleData *self = tt->friend_getAIModuleInfo();
-	if (!self) 
-	{
-		DEBUG_CRASH( ("Attempted to specify a locomotor for object %s without an AIUpdate block.", tt->getName().str() ) );
-		throw INI_INVALID_DATA;
-	}
-
-	LocomotorSetType set = (LocomotorSetType)INI::scanIndexList(ini->getNextToken(), TheLocomotorSetNames);
-	if (!self->m_locomotorTemplates[set].empty())
-	{
-		if (ini->getLoadType() != INI_LOAD_CREATE_OVERRIDES)
-		{
-			DEBUG_CRASH(("re-specifying a LocomotorSet is no longer allowed\n"));
-			throw INI_INVALID_DATA;
-		}
-	}
-
-	self->m_locomotorTemplates[set].clear();
-	for (const char* locoName = ini->getNextToken(); locoName; locoName = ini->getNextTokenOrNull())
-	{
-		if (!*locoName || !stricmp(locoName, "None"))
-			continue;
-
-		NameKeyType locoKey = NAMEKEY(locoName);
-		const LocomotorTemplate* lt = TheLocomotorStore->findLocomotorTemplate(locoKey);
-		if (!lt)
-		{
-			DEBUG_CRASH(("Locomotor %s not found!\n",locoName));
-			throw INI_INVALID_DATA;
-		}
-		self->m_locomotorTemplates[set].push_back(lt);
-	}
-}
+// AIUpdateModuleData::parseLocomotorSet: defined in AIUpdateParseLocomotorSet.cpp
+// (its row's unit, 0x0026E699); this Zero Hour copy was a second definition.
+// Its use of vector<const LocomotorTemplate*>::empty is this unit's row, so
+// instantiate that member here.
+template bool _STL::vector<const LocomotorTemplate *>::empty() const;
 
 //-------------------------------------------------------------------------------------------------
 // subclasses may want to override this, to use a subclass of AIStateMachine.
