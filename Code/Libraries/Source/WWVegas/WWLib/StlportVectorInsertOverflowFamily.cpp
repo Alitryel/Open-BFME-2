@@ -26,6 +26,24 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Typed placement-copy declarations use their existing retail owners.
+struct TreeKey00242F5E;
+void __cdecl Rva002889E4Construct(TreeKey00242F5E *, const TreeKey00242F5E &);
+class Rva004733E0;
+void __cdecl Rva0030CA53Set(Rva004733E0 *, const Rva004733E0 *);
+struct Rva004F6966;
+void __cdecl Rva004F6B69Construct(Rva004F6966 *, const Rva004F6966 *);
+class Rva004C5DD0;
+struct Rva004C5DD0Pair;
+void __cdecl Rva004F6A52Assign(Rva004C5DD0 *, const Rva004C5DD0Pair *);
+void __cdecl Rva000BBA47Construct(TreeKey00242F5E *, const TreeKey00242F5E &);
+
+// Placement-copy owners share the target two-pointer cdecl ABI.
+void __cdecl Rva001D9B0FConstruct(void *, const void *);
+void __cdecl Rva00317CA0Construct(void *, const void *);
+void __cdecl Rva0032ACFCConstruct(void *, const void *);
+void __cdecl Rva004C3A9FConstruct(void *, const void *);
+
 
 // 12-byte element; push_back 0x0004CF63.
 class RvaSmartPtr12 { char m_pad[12]; public: RvaSmartPtr12(const RvaSmartPtr12 &); ~RvaSmartPtr12(); };
@@ -72,7 +90,13 @@ struct Rva003F7B22Element { char m_pad[4]; public: Rva003F7B22Element(const Rva0
 // 20-byte element; push_back 0x0040457D.
 class Rva00403927 { char m_pad[20]; public: Rva00403927(const Rva00403927 &); ~Rva00403927(); };
 // 24-byte element; push_back 0x00413B16.
-struct Rva00413B16Element { char m_pad[24]; public: Rva00413B16Element(const Rva00413B16Element &); ~Rva00413B16Element(); };
+class BfmeNarrowRecord00427F75 { public: ~BfmeNarrowRecord00427F75(); };
+struct Rva00413B16Element {
+    char m_pad[24];
+    Rva00413B16Element(const Rva00413B16Element &);
+    __declspec(dllimport) __forceinline ~Rva00413B16Element()
+    { ((BfmeNarrowRecord00427F75 *)this)->BfmeNarrowRecord00427F75::~BfmeNarrowRecord00427F75(); }
+};
 // 24-byte element; push_back 0x00414258.
 struct Rva00414258Element { char m_pad[24]; public: Rva00414258Element(const Rva00414258Element &); ~Rva00414258Element(); };
 // 44-byte element; push_back 0x00414BA4.
@@ -103,7 +127,7 @@ struct Rva004F87BCElement {
 // cdecl spelling leaves stack cleanup to the caller just as retail does.
 struct Rva005F8FCC {void *rva005F8FCC(unsigned);};
 namespace _STL {
-template<> void __destroy_aux<Rva004F87BCElement *>(Rva004F87BCElement *first,Rva004F87BCElement *last,const __false_type &)
+template<> __declspec(noinline) inline void __destroy_aux<Rva004F87BCElement *>(Rva004F87BCElement *first,Rva004F87BCElement *last,const __false_type &)
 {
  for(;first!=last;++first) reinterpret_cast<Rva005F8FCC *>(first)->rva005F8FCC(0);
 }
@@ -166,6 +190,11 @@ struct BfmePod104 { char m_pad[104]; public: BfmePod104(const BfmePod104 &); ~Bf
 class BfmeThingUBB { char m_pad[16]; public: BfmeThingUBB(const BfmeThingUBB &); ~BfmeThingUBB(); };
 // 4-byte element; push_back 0x005E825C.
 struct Rva005E71C6Ref { char m_pad[4]; public: Rva005E71C6Ref(const Rva005E71C6Ref &); ~Rva005E71C6Ref(); };
+// BuildQueueIconSelect supplies the native counted-reference range dispatcher.
+namespace _STL {
+template <> void _Destroy<Rva005E71C6Ref *>(Rva005E71C6Ref *, Rva005E71C6Ref *);
+}
+
 // 8-byte element; push_back 0x004F93B0.
 struct Rva004F93B0Element { char m_pad[8]; public: Rva004F93B0Element(const Rva004F93B0Element &); ~Rva004F93B0Element(); };
 // 156-byte element; push_back 0x004CC337 (stlport_asciistring_record_bodies.cpp).
@@ -175,17 +204,22 @@ namespace _STL
 template <> void _Construct<RvaSmartPtr12, RvaSmartPtr12>(RvaSmartPtr12 *, const RvaSmartPtr12 &);
 template <> void _Construct<Rva000CF83CElement, Rva000CF83CElement>(Rva000CF83CElement *, const Rva000CF83CElement &);
 template <> void _Construct<Rva00153A27Element, Rva00153A27Element>(Rva00153A27Element *, const Rva00153A27Element &);
-template <> void _Construct<Rva001DAAF2Element, Rva001DAAF2Element>(Rva001DAAF2Element *, const Rva001DAAF2Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva001DAAF2Element, Rva001DAAF2Element>(Rva001DAAF2Element *__p, const Rva001DAAF2Element &__val)
+{ Rva001D9B0FConstruct(__p, &__val); }
 template <> void _Construct<Rva001DF3F1Element, Rva001DF3F1Element>(Rva001DF3F1Element *, const Rva001DF3F1Element &);
 template <> void _Construct<Rva0020A227Element, Rva0020A227Element>(Rva0020A227Element *, const Rva0020A227Element &);
 template <> void _Construct<Rva0021F876, Rva0021F876>(Rva0021F876 *, const Rva0021F876 &);
 template <> void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *, const Rva00260B88Element &);
-template <> void _Construct<Rva00308E2CElement, Rva00308E2CElement>(Rva00308E2CElement *, const Rva00308E2CElement &);
-template <> void _Construct<Rva002898ACElement, Rva002898ACElement>(Rva002898ACElement *, const Rva002898ACElement &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva00308E2CElement, Rva00308E2CElement>(Rva00308E2CElement *__p, const Rva00308E2CElement &__val)
+{ Rva0030CA53Set(reinterpret_cast<Rva004733E0 *>(__p), reinterpret_cast<const Rva004733E0 *>(&__val)); }
+template <> __declspec(dllimport) __forceinline void _Construct<Rva002898ACElement, Rva002898ACElement>(Rva002898ACElement *__p, const Rva002898ACElement &__val)
+{ Rva002889E4Construct(reinterpret_cast<TreeKey00242F5E *>(__p), *reinterpret_cast<const TreeKey00242F5E *>(&__val)); }
 template <> void _Construct<Rva002B9062Element, Rva002B9062Element>(Rva002B9062Element *, const Rva002B9062Element &);
 template <> void _Construct<Rva002B72C9, Rva002B72C9>(Rva002B72C9 *, const Rva002B72C9 &);
-template <> void _Construct<Rva00318203Element, Rva00318203Element>(Rva00318203Element *, const Rva00318203Element &);
-template <> void _Construct<Rva0032DC80Element, Rva0032DC80Element>(Rva0032DC80Element *, const Rva0032DC80Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva00318203Element, Rva00318203Element>(Rva00318203Element *__p, const Rva00318203Element &__val)
+{ Rva00317CA0Construct(__p, &__val); }
+template <> __declspec(dllimport) __forceinline void _Construct<Rva0032DC80Element, Rva0032DC80Element>(Rva0032DC80Element *__p, const Rva0032DC80Element &__val)
+{ Rva0032ACFCConstruct(__p, &__val); }
 template <> void _Construct<Rva0032EA3FElement, Rva0032EA3FElement>(Rva0032EA3FElement *, const Rva0032EA3FElement &);
 template <> void _Construct<Rva003328B6Element, Rva003328B6Element>(Rva003328B6Element *, const Rva003328B6Element &);
 template <> void _Construct<Rva0033A23AElement, Rva0033A23AElement>(Rva0033A23AElement *, const Rva0033A23AElement &);
@@ -199,10 +233,12 @@ template <> void _Construct<Rva00414258Element, Rva00414258Element>(Rva00414258E
 template <> void _Construct<Rva00414BA4Element, Rva00414BA4Element>(Rva00414BA4Element *, const Rva00414BA4Element &);
 template <> void _Construct<BfmeStringRecord00466E64, BfmeStringRecord00466E64>(BfmeStringRecord00466E64 *, const BfmeStringRecord00466E64 &);
 template <> void _Construct<Rva00475F2AElement, Rva00475F2AElement>(Rva00475F2AElement *, const Rva00475F2AElement &);
-template <> void _Construct<Rva004C3F09Element, Rva004C3F09Element>(Rva004C3F09Element *, const Rva004C3F09Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva004C3F09Element, Rva004C3F09Element>(Rva004C3F09Element *__p, const Rva004C3F09Element &__val)
+{ Rva004C3A9FConstruct(__p, &__val); }
 template <> void _Construct<Rva004F87BCElement, Rva004F87BCElement>(Rva004F87BCElement *, const Rva004F87BCElement &);
 template <> void _Construct<Rva004F8D92Element, Rva004F8D92Element>(Rva004F8D92Element *, const Rva004F8D92Element &);
-template <> void _Construct<Rva004F9018Element, Rva004F9018Element>(Rva004F9018Element *, const Rva004F9018Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva004F9018Element, Rva004F9018Element>(Rva004F9018Element *__p, const Rva004F9018Element &__val)
+{ Rva004F6B69Construct(reinterpret_cast<Rva004F6966 *>(__p), reinterpret_cast<const Rva004F6966 *>(&__val)); }
 template <> void _Construct<Rva00501E3FElement, Rva00501E3FElement>(Rva00501E3FElement *, const Rva00501E3FElement &);
 template <> void _Construct<Rva0052BE33, Rva0052BE33>(Rva0052BE33 *, const Rva0052BE33 &);
 template <> void _Construct<Rva005668E9Element, Rva005668E9Element>(Rva005668E9Element *, const Rva005668E9Element &);
@@ -216,11 +252,13 @@ template <> void _Construct<Rva005F13E6Element, Rva005F13E6Element>(Rva005F13E6E
 template <> void _Construct<Rva005FA197Element, Rva005FA197Element>(Rva005FA197Element *, const Rva005FA197Element &);
 template <> void _Construct<Rva005FA1CEElement, Rva005FA1CEElement>(Rva005FA1CEElement *, const Rva005FA1CEElement &);
 template <> void _Construct<BfmeContainerRecord002CF46E, BfmeContainerRecord002CF46E>(BfmeContainerRecord002CF46E *, const BfmeContainerRecord002CF46E &);
-template <> void _Construct<_STL::Rva007719C0Element, _STL::Rva007719C0Element>(_STL::Rva007719C0Element *, const _STL::Rva007719C0Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<_STL::Rva007719C0Element, _STL::Rva007719C0Element>(_STL::Rva007719C0Element *__p, const _STL::Rva007719C0Element &__val)
+{ Rva000BBA47Construct(reinterpret_cast<TreeKey00242F5E *>(__p), *reinterpret_cast<const TreeKey00242F5E *>(&__val)); }
 template <> void _Construct<BfmePod104, BfmePod104>(BfmePod104 *, const BfmePod104 &);
 template <> void _Construct<BfmeThingUBB, BfmeThingUBB>(BfmeThingUBB *, const BfmeThingUBB &);
 template <> void _Construct<Rva005E71C6Ref, Rva005E71C6Ref>(Rva005E71C6Ref *, const Rva005E71C6Ref &);
-template <> void _Construct<Rva004F93B0Element, Rva004F93B0Element>(Rva004F93B0Element *, const Rva004F93B0Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva004F93B0Element, Rva004F93B0Element>(Rva004F93B0Element *__p, const Rva004F93B0Element &__val)
+{ Rva004F6A52Assign(reinterpret_cast<Rva004C5DD0 *>(__p), reinterpret_cast<const Rva004C5DD0Pair *>(&__val)); }
 template <> void _Construct<BfmeStringTailRecord156, BfmeStringTailRecord156>(BfmeStringTailRecord156 *, const BfmeStringTailRecord156 &);
 }
 
