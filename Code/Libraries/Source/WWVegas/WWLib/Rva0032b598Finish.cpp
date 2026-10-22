@@ -15,6 +15,10 @@
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_Vector_base@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@IABV?$allocator@UBfmeE8:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE8;
+namespace _STL { template <> _Vector_base<BfmeE8,allocator<BfmeE8> >::_Vector_base(unsigned int,allocator<BfmeE8> const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUBfmeE8@@U1@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAEPAUBfme:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeE8;

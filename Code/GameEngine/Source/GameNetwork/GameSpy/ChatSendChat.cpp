@@ -16,6 +16,15 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?erase@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAEPAGPAG0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned short * basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::erase(unsigned short *,unsigned short *); }
+// Suppress this TU's non-retail copy of ?_M_construct_null_aux@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@AAEX:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::_M_construct_null_aux(unsigned short *,__true_type const &); }
+// Suppress this TU's non-retail copy of ?_M_construct_null@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@AAEXPAG@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::_M_construct_null(unsigned short *); }
 // Suppress this TU's non-retail copy of ?assign@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAEAAV12@PBG0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> > & basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::assign(unsigned short const *,unsigned short const *); }
