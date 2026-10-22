@@ -180,7 +180,10 @@ def regroup(name, fields, nested, queue):
         if any(offset <= t < offset + size for t in taken):
             continue
         inside = [f for f in out if offset <= f["offset"] < offset + size]
-        if [(f["offset"], f["size"], f["kind"]) for f in inside] != leaves:
+        # A candidate with no decided leaf in its span cannot fold.  Without
+        # this guard the empty-leaf case passes the equality below and max()
+        # then raises on an empty sequence (MilesAudioManager).
+        if not inside or [(f["offset"], f["size"], f["kind"]) for f in inside] != leaves:
             continue
         weakest = max((f["decided_by"] for f in inside), key=lambda r: RULE_STRENGTH.index(r)
                       if r in RULE_STRENGTH else len(RULE_STRENGTH))

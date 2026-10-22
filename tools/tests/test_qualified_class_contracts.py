@@ -141,6 +141,17 @@ def test_member_aggregates_vote_as_leaves_and_fold_back():
     assert [q["attribute"] for q in queue] == ["nested@0x8", "nested@0xc"]
 
 
+def test_empty_nested_candidate_is_skipped_not_crashed():
+    # A view-declared aggregate can survive with no decided leaves; its empty
+    # span used to pass the fold equality and crash max() (MilesAudioManager).
+    fields = [{"offset": 8, "size": 4, "kind": "f4", "type": "float", "name": "x",
+               "decided_by": "retail-access", "views": 1}]
+    queue = []
+    out = contract.regroup("EmptyNested", fields, [(0, 8, "Empty", "empty", "zh", [])], queue)
+    assert out == fields
+    assert queue == []
+
+
 def test_generated_header_includes_nested_canonical_headers(tmp_path, monkeypatch):
     registry = tmp_path / "canonical_classes.csv"
     registry.write_text("class,header,notes\nCoord2D,Code/Lib/Coord2D.h,x\n", encoding="utf-8")
