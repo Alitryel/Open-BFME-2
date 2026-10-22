@@ -28,7 +28,19 @@ struct Rva000C828CElement {
 	~Rva000C828CElement();
 };
 
+struct BfmeStringTailRecord180;
 namespace _STL {
+template <> void __destroy_aux<BfmeStringTailRecord180 *>(
+    BfmeStringTailRecord180 *, BfmeStringTailRecord180 *, const __false_type &);
+// The retail range wrapper at 0xC4DEF calls the rowed helper at 0xC47CF.
+// Keep that relationship without inventing an opaque element destructor.
+template <> inline void _Destroy<Rva000C828CElement *>(
+    Rva000C828CElement *first, Rva000C828CElement *last)
+{
+    __false_type nontrivial;
+    __destroy_aux((BfmeStringTailRecord180 *)first,
+                  (BfmeStringTailRecord180 *)last, nontrivial);
+}
 template <> void _Construct<Rva000C828CElement, Rva000C828CElement>(
 	Rva000C828CElement *, const Rva000C828CElement &);
 }
