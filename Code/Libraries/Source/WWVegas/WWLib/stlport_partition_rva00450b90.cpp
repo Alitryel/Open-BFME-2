@@ -26,11 +26,9 @@ public:
 			return false;
 
 	selected26:
-		if ((item->m_flag24 && (m_mask & 0x04) != 0)
+		return !((item->m_flag24 && (m_mask & 0x04) != 0)
 				|| (!item->m_flag24 && (m_mask & 0x08) != 0))
-			return false;
-
-		return !((item->m_flag25 && (m_mask & 0x10) != 0)
+			&& !((item->m_flag25 && (m_mask & 0x10) != 0)
 			|| (!item->m_flag25 && (m_mask & 0x20) != 0));
 	}
 
