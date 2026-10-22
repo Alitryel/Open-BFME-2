@@ -18,6 +18,10 @@ namespace _STL { void __cdecl free(void *block) throw(...); }
 #include <map>
 #include <vector>
 #include <list>
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBVRva000BB4AC@@PAV1@@_STL@@YAPAVRva000BB4AC@@PBV1@0PAV1@ABU__fals:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva000BB4AC;
+namespace _STL { template <> Rva000BB4AC * __uninitialized_copy<Rva000BB4AC const *,Rva000BB4AC *>(Rva000BB4AC const *,Rva000BB4AC const *,Rva000BB4AC *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBVRva000BB491@@PAV1@@_STL@@YAPAVRva000BB491@@PBV1@0PAV1@ABU__fals:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva000BB491;

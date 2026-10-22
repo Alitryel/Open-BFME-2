@@ -13,6 +13,10 @@
 // allocator), so its N is exact only up to that rounding: BfmeShortPod22/26
 // place equally as 24/28-byte int elements under /GX.
 #include <list>
+// Suppress this TU's non-retail copy of ?insert@?$list@UBfmePod124@@V?$allocator@UBfmePod124@@@_STL@@@_STL@@QAE?AU?$_List_iterator:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod124;
+namespace _STL { template <> _List_iterator<BfmePod124,_Nonconst_traits<BfmePod124> > list<BfmePod124,allocator<BfmePod124> >::insert(_List_iterator<BfmePod124,_Nonconst_traits<BfmePod124> >,BfmePod124 const &); }
 // Suppress this TU's non-retail copy of ?insert@?$list@UBfmePod72@@V?$allocator@UBfmePod72@@@_STL@@@_STL@@QAE?AU?$_List_iterator@U:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod72;

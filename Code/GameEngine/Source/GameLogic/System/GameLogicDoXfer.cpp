@@ -33,6 +33,10 @@ struct XferVersionInfo
 };
 
 #include "Lib/Coord3DBase.h"
+// Suppress this TU's non-retail copy of ??0?$pair@$$CBVAsciiString@@W4BuildableStatus@@@_STL@@QAE@ABVAsciiString@@ABW4BuildableSta:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; enum BuildableStatus;
+namespace _STL { template <> pair<AsciiString const ,BuildableStatus>::pair(AsciiString const &,BuildableStatus const &); }
 // Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@UTreeKey00242F5E@@U?$pair@$$CBUTreeKey00242F5E@@UTreeOpaqueMapp:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct TreeKey00242F5E; struct TreeOpaqueMapped242F5E;

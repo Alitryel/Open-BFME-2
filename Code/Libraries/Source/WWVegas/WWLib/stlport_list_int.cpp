@@ -16,6 +16,9 @@ namespace _STL { template <> void list<int, allocator<int> >::push_front(int con
 namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &, _List_iterator<int, _Nonconst_traits<int> >); }
 namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$swap@V?$_STLP_alloc_proxy@PAU?$_List_node@H@_STL@@U12@V?$allocator@U?$_List_node@H@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void swap<_STLP_alloc_proxy<_List_node<int> *,_List_node<int>,allocator<_List_node<int> > > >(_STLP_alloc_proxy<_List_node<int> *,_List_node<int>,allocator<_List_node<int> > > &,_STLP_alloc_proxy<_List_node<int> *,_List_node<int>,allocator<_List_node<int> > > &); }
 // Suppress this TU's non-retail copy of ?remove@?$list@HV?$allocator@H@_STL@@@_STL@@QAEXABH@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void list<int,allocator<int> >::remove(int const &); }

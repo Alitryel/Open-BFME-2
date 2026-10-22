@@ -12,6 +12,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAURva001504A1Record@@PAU1@@_STL@@YAPAURva001504A1Record@@PAU1@00A:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001504A1Record;
+namespace _STL { template <> Rva001504A1Record * __uninitialized_copy<Rva001504A1Record *,Rva001504A1Record *>(Rva001504A1Record *,Rva001504A1Record *,Rva001504A1Record *,__false_type const &); }
 // Retail range cleanup is the rowed virtual-destruction dispatcher.
 struct Rva001504A1Record;
 class Rva0014F3E7;

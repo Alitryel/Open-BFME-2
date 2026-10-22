@@ -9,6 +9,10 @@
 // allocate at 0x000307F0, one-argument _free at 0x00030830).
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PAUAngleFXInfo@@@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::_M_allocate_and_copy<AngleFXInfo *>(unsigned int,AngleFXInfo *,AngleFXInfo *); }
 // Suppress this TU's non-retail copy of ?erase@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAEPAUAngleFXInfo@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct AngleFXInfo;
