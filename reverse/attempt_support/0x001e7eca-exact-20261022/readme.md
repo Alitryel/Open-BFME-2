@@ -75,3 +75,24 @@ Full link status for the new TU is unavailable from the published census
 (e20daa4e78); no maintainer-only census or link cycle was started. The normal
 new-variant check and commit/push gates provide the available acceptance
 checks; publication results are reported in the session result.
+
+## Data-owner follow-up
+
+Recovery 559df2d80f passed the commit and outgoing byte gates (38/38 rows,
+eight exact EH graphs), and was pushed. Its shadow data check exposed the
+bank's old `g_Va00DBA4E4` frame-rate declaration. The new TU now declares and
+reads the existing verified `int BfmeLogicFramesPerSecond` owner instead,
+at RVA 0x009BA4E4, VA 0x00DBA4E4. This changes no data definition or symbol
+pin. Data row 400 and `frame-rate-owner-link-20261014/readme.md` establish
+the owner, type and four-byte retail initializer; the previous same-name
+shim was not proof of data ownership. This removes all four address-global
+hatch occurrences introduced by the recovered source and its wrong-name
+finding. It adds zero retail code bytes; the body remains exact.
+
+Follow-up acceptance: the worker and owner compile together, 38/38 rows and
+one data row byte-exact. Enforced data identity on the worker has zero
+findings; converged-data checks accept both sources. An additional enforced
+check of the unchanged owner reports its pre-existing wrong-name references
+to TheTerrainVisual and g_currentAptOnlineCustomMatch (two outside baseline);
+these unrelated owner references are not caused or repaired by this change.
+The new-variant COMDAT check accepts all four recovered/consumer sources.

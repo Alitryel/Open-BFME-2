@@ -26,7 +26,7 @@ struct LocoGlobalView
  
 }
 ;
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 enum KindOfType
 {
  KINDOF_9A=0x9a
@@ -316,7 +316,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
    if(!((Rva001E46E1*)this)->rva001E5F1D(object,(const Coord3D*)&pos,&surface))
    {
     surface=((LocoTerrainView*)TheTerrainLogic)->layer(pos.x,pos.y,layer,0,true);
-    if(((LocoFrameView*)TheGameLogic)->frame>(unsigned)g_Va00DBA4E4 && (layer==16||Rva001E3679(layer)) && pos.z-surface>20.0f)surface=pos.z;
+    if(((LocoFrameView*)TheGameLogic)->frame>(unsigned)BfmeLogicFramesPerSecond && (layer==16||Rva001E3679(layer)) && pos.z-surface>20.0f)surface=pos.z;
     
    }
    pos.z=surface;
@@ -389,7 +389,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
     Coord3D &normal=work.normal;
     float preferred=((LocoTerrainView*)TheTerrainLogic)->layer(pos.x,pos.y,layer,&normal,false)+height48;
     if((bool)((flags44>>3)&1))preferred=goal->z;
-    float delta=((pos.z+(preferred-pos.z)*damping50)-pos.z)/((float)g_Va00DBA4E4*2.0f);
+    float delta=((pos.z+(preferred-pos.z)*damping50)-pos.z)/((float)BfmeLogicFramesPerSecond*2.0f);
     if(delta!=0.0f)
     {
      pos.z+=delta;
@@ -411,7 +411,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
     if((bool)((flags44>>3)&1))preferred=goal->z;
     float delta;
     if(object->flags438&1)delta=((LocoGlobalView*)TheWritableGlobalData)->falling;
-    else delta=((pos.z+(preferred-pos.z)*damping50)-pos.z)/((float)g_Va00DBA4E4*2.0f);
+    else delta=((pos.z+(preferred-pos.z)*damping50)-pos.z)/((float)BfmeLogicFramesPerSecond*2.0f);
     if(delta!=0.0f)
     {
      pos.z+=delta;
