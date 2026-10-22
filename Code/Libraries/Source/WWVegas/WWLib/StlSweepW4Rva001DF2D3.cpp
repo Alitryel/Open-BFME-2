@@ -16,3 +16,17 @@ struct Rva001DF2D3Element { Rva001DF2D3Element();Rva001DF2D3Element(const Rva001
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva001DF2D3Element, _STL::allocator<Rva001DF2D3Element> >::_M_fill_insert(Rva001DF2D3Element *, unsigned int, Rva001DF2D3Element const &);
+
+// Complete native 0x001DF428..0x001DF42D follows RET4 and precedes a
+// separate EH prologue. It forwards the unchanged vector receiver and
+// three arguments to the verified fill-insert at 0x001DF2D3. The original
+// wrapper name and application element identity remain unknown.
+class Rva001DF428 : public _STL::vector<Rva001DF2D3Element, _STL::allocator<Rva001DF2D3Element> >
+{
+public:
+    void rva001DF428(Rva001DF2D3Element *position, unsigned int count, const Rva001DF2D3Element &value);
+};
+void Rva001DF428::rva001DF428(Rva001DF2D3Element *position, unsigned int count, const Rva001DF2D3Element &value)
+{
+    _M_fill_insert(position, count, value);
+}
