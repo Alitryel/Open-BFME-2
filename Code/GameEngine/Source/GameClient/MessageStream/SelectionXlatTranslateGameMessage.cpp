@@ -164,6 +164,35 @@ public:
 #include "Common/GameAudio.h"
 #include "Common/GameEngine.h"
 #include "Common/MessageStream.h"
+// list<Drawable *> nodes come from the freelist pool at VA 0x00DBA5E0 (pop
+// 0x002393E2), as in the rowed _List_base ctor 0x00239BB0 (see
+// PlaceEventTranslator.cpp); this unit's allocator shims would otherwise emit
+// a raw-allocator body for that name.
+class FreelistPool
+{
+public:
+	void *pop();
+private:
+	int m_00;
+	void *m_04;
+	void *m_head;
+	void *(__cdecl *m_alloc)(int, int);
+	void (__cdecl *m_free)(void *, int);
+	int m_14;
+};
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL
+{
+template <> inline
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &__a)
+	: _M_node(__a, (_List_node<Drawable *> *)0)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+}
 #include "Common/MiscAudio.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
