@@ -87,6 +87,29 @@ template <> inline void deque<int>::_M_pop_front_aux() {
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
 namespace _STL { template <> _Rb_tree<Rva001408C0Target *, Rva001408C0Target *, _Identity<Rva001408C0Target *>, less<Rva001408C0Target *>, allocator<Rva001408C0Target *> >::~_Rb_tree(); }
+// Retail's pointer-set lookups are /O1-shaped and out of line: find (0x004D7546)
+// calls _M_find (0x00357180), and rva00624130 calls find. The explicit
+// specializations take the state at their definition (instantiations would
+// take the end-of-unit /O2 state and inline).
+#pragma optimize("s", on)
+namespace _STL {
+template <> template <> __declspec(noinline) inline _Rb_tree_node<Rva001408C0Target *> *_Rb_tree<Rva001408C0Target *, Rva001408C0Target *, _Identity<Rva001408C0Target *>, less<Rva001408C0Target *>, allocator<Rva001408C0Target *> >::_M_find<Rva001408C0Target *>(Rva001408C0Target * const &__k) const
+{
+    _Link_type __y = this->_M_header._M_data;
+    _Link_type __x = _M_root();
+    while (__x != 0)
+      if (!_M_key_compare(_S_key(__x), __k))
+	__y = __x, __x = _S_left(__x);
+      else
+	__x = _S_right(__x);
+    if (__y == this->_M_header._M_data || _M_key_compare(__k, _S_key(__y)))
+      __y = this->_M_header._M_data;
+    return __y;
+}
+template <> template <> __declspec(noinline) inline _Rb_tree<Rva001408C0Target *, Rva001408C0Target *, _Identity<Rva001408C0Target *>, less<Rva001408C0Target *>, allocator<Rva001408C0Target *> >::const_iterator _Rb_tree<Rva001408C0Target *, Rva001408C0Target *, _Identity<Rva001408C0Target *>, less<Rva001408C0Target *>, allocator<Rva001408C0Target *> >::find<Rva001408C0Target *>(Rva001408C0Target * const &__x) const
+{ return const_iterator(_M_find(__x)); }
+}
+#pragma optimize("", on)
 
 
 
