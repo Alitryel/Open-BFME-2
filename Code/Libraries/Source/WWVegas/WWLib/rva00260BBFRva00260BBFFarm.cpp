@@ -47,6 +47,17 @@ struct Rva00260B88Element
  
 }
 ;
+// Native vector placement copy owns UnicodeString, rather than copying its
+// pointer bits. Bind the existing typed placement-copy owner at 0x0026061A.
+struct BfmeStringRecord005DDD40;
+void Rva0026061AConstruct(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *dest, const Rva00260B88Element &source)
+{
+ Rva0026061AConstruct((BfmeStringRecord005DDD40 *)dest, (const BfmeStringRecord005DDD40 &)source);
+}
+}
 // Use the existing vector clear provider.
 namespace _STL { template <> void vector<Rva00260B88Element>::_M_clear(); }
 class Rva0025FB9B
