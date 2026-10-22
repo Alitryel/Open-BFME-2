@@ -6688,7 +6688,7 @@ namespace _STL { template <> void * * * copy_backward<void * * *,void * * *>(voi
 // Folded element spellings of the rowed STLport members.
 struct Rva002F307AElement {
 	Rva002F307AElement(); Rva002F307AElement(const Rva002F307AElement &);
-	~Rva002F307AElement(); Rva002F307AElement &operator=(const Rva002F307AElement &);
+	Rva002F307AElement &operator=(const Rva002F307AElement &);
 	char bytes[8];
 };
 bool operator<(const Rva002F307AElement &, const Rva002F307AElement &);
