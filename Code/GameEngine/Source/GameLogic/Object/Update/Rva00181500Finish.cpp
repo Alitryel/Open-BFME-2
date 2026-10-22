@@ -48,9 +48,18 @@ struct AngleFXInfo
 	FXList *fxList;
 };
 
+// The growth and allocator providers are defined by AngleFXInfoVectorInsertOverflow.cpp.
+namespace _STL {
+template <> void vector<AngleFXInfo>::push_back(const AngleFXInfo &);
+template <> void vector<AngleFXInfo>::_M_insert_overflow(AngleFXInfo *, const AngleFXInfo &, const __false_type &, unsigned int, bool);
+template <> __declspec(dllimport) __forceinline
+AngleFXInfo *allocator<AngleFXInfo>::allocate(unsigned int n, const void *) const
+{ return n != 0 ? reinterpret_cast<AngleFXInfo *>(allocator<char>::allocate(n * sizeof(AngleFXInfo), 0)) : 0; }
+}
+
 template<>
 template<>
-AngleFXInfo * _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::_M_allocate_and_copy<AngleFXInfo *>(
+__declspec(noinline) inline AngleFXInfo * _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::_M_allocate_and_copy<AngleFXInfo *>(
 	unsigned int n, AngleFXInfo *first, AngleFXInfo *last)
 {
 	AngleFXInfo *result = this->_M_end_of_storage.allocate(n);

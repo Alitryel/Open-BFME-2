@@ -23,4 +23,20 @@ struct AngleFXInfo
 	FXList *fxList;
 };
 
+// Shared allocation/copy specialization, also emitted by Rva00181500Finish.cpp.
+template<>
+template<>
+__declspec(noinline) inline AngleFXInfo * _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::_M_allocate_and_copy<AngleFXInfo *>(
+	unsigned int n, AngleFXInfo *first, AngleFXInfo *last)
+{
+	AngleFXInfo *result = this->_M_end_of_storage.allocate(n);
+	for (AngleFXInfo *p = first; p != last; ++p)
+	{
+		AngleFXInfo *dest = (AngleFXInfo *)((char *)result + ((char *)p - (char *)first));
+		if (dest)
+			*dest = *p;
+	}
+	return result;
+}
+
 template class _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >;

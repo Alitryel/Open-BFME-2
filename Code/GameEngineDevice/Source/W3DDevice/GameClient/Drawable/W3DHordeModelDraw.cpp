@@ -188,8 +188,8 @@ namespace _STL {
 template <> HordeHandleWordVector &HordeHandleWordMap::operator[](const unsigned int &);
 template <> void HordeHandleWordVector::push_back(const unsigned int &);
 // Keep the native inline constructor and use linked lifetime owners.
-template <> HordeHandleWordVector::~vector();
-template <> _Vector_base<unsigned int, allocator<unsigned int> >::~_Vector_base();
+template <> __declspec(dllimport) __forceinline _Vector_base<unsigned int, allocator<unsigned int> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+template <> __forceinline HordeHandleWordVector::~vector() { _Destroy(this->_M_start, this->_M_finish); }
 template <> __declspec(noinline) _Vector_base<unsigned int, allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &a) throw();
 template <> __declspec(dllimport) __forceinline HordeHandleWordVector::vector(const allocator<unsigned int> &a) throw() : _Vector_base<unsigned int, allocator<unsigned int> >(a) {}
 }

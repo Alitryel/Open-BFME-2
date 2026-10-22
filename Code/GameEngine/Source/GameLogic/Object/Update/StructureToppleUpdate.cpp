@@ -63,6 +63,20 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "GameClient/InGameUI.h"
 // bfme link decl-only begin
 namespace _STL { template <> AngleFXInfo * allocator<AngleFXInfo>::allocate(unsigned int, void const *) const; }
+namespace _STL {
+template <> void vector<AngleFXInfo>::_M_insert_overflow(AngleFXInfo *, const AngleFXInfo &, const __false_type &, unsigned int, bool);
+template <> inline void vector<AngleFXInfo>::push_back(const AngleFXInfo &value)
+{
+    if (this->_M_finish != this->_M_end_of_storage._M_data) {
+        _Construct(this->_M_finish, value);
+        ++this->_M_finish;
+    } else {
+        _IsPODType tag;
+        _M_insert_overflow(this->_M_finish, value, tag, 1UL, true);
+    }
+}
+}
+template AngleFXInfo *_STL::__uninitialized_fill_n<AngleFXInfo *, unsigned int, AngleFXInfo>(AngleFXInfo *, unsigned int, const AngleFXInfo &, const _STL::__false_type &);
 // bfme link decl-only end
 
 // codegen otherwise instantiates the max<unsigned> COMDAT (one byte shape

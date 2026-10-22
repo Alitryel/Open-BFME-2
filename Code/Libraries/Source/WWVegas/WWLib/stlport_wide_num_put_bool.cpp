@@ -60,12 +60,20 @@ namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned s
 // out-of-line copy is not retail's and is first in link order.
 namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned short>::deallocate(unsigned short *__p, size_t) const { if (__p != 0) free(__p); } }
 
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// Forward to the rowed allocator without emitting a separate proxy copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned short *
+_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t count)
+{ return allocator<unsigned short>::allocate(count, 0); }
+}
+
 #include <locale>
 // bfme link decl-only begin
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __copy_integer_and_fill<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(unsigned short const *, int, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, int, int, unsigned short, unsigned short, unsigned short); }
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > & ostreambuf_iterator<unsigned short, char_traits<unsigned short> >::operator=(unsigned short); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
-namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ??$uninitialized_copy@PAGPAG@_STL@@YAPAGPAG00@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

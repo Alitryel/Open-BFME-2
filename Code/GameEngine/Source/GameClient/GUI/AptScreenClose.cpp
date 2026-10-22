@@ -106,12 +106,11 @@ struct NameClearFunctor00462540 {
     AsciiString m_name;
 };
 
-class Gen_00C700A0Target;
 struct BfmeAptScreenRefStorage;
-extern Gen_00C700A0Target TheBfmeObject_00C700A0;
+extern unsigned int AptComponentWindowDataTableStorage[5];
 extern BfmeAptScreenRefStorage g_aptScreenReferences;
 
-WindowTable *const g_windowTable = (WindowTable *)&TheBfmeObject_00C700A0;
+WindowTable *const g_windowTable = (WindowTable *)AptComponentWindowDataTableStorage;
 AptScreenRefTable *const g_theAptScreenRefMap = (AptScreenRefTable *)&g_aptScreenReferences;
 
 void _bfme_closeAptScreen(const AsciiString &name)

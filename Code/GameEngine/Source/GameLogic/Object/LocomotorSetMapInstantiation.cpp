@@ -77,6 +77,12 @@ typedef _STL::_Rb_tree<LocomotorSetType, BfmeRetailLocomotorValue,
     _STL::_Select1st<BfmeRetailLocomotorValue>, _STL::less<LocomotorSetType>,
     _STL::allocator<BfmeRetailLocomotorValue> > BfmeRetailLocomotorTree;
 namespace _STL {
+// Inline the vendor iterator wrapper without emitting a second external copy.
+template <> template <> __declspec(dllimport) __forceinline
+BfmeRetailLocomotorTree::const_iterator BfmeRetailLocomotorTree::find<LocomotorSetType>(const LocomotorSetType &key) const
+{ return const_iterator(_M_find(key)); }
+// The complete tree destructor is emitted by LocomotorSetMapSubscript.cpp.
+template <> BfmeRetailLocomotorTree::~_Rb_tree();
 template <> BfmeRetailLocomotorTree::_Link_type BfmeRetailLocomotorTree::_M_copy(
     BfmeRetailLocomotorTree::_Link_type, BfmeRetailLocomotorTree::_Link_type);
 }
