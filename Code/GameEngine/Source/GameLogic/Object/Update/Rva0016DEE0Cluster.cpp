@@ -158,9 +158,11 @@ struct equal_to
 
 }
 
-// Explicit instantiation of the DamageFX map so this TU emits the rowed
-// hashtable members, in particular the destructor that inlines ?clear@... and
-// the bucket-vector free. No wrapper function is declared: the matching symbol
-// is ??1?$hashtable@... itself (retail's compiler inlined the hash_map and
-// hashtable destructor layers straight into it).
-template class _STL::hash_map<NameKeyType, DamageFX, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> >;
+// Instantiate only the owned destructor. Whole-map instantiation also emitted
+// non-retail resize and range-erase copies that the link selected ahead of
+// other units. The destructor still inlines clear and bucket-vector teardown.
+typedef _STL::pair<const NameKeyType, DamageFX> DamageFXPair;
+typedef _STL::hashtable<DamageFXPair, NameKeyType, rts::hash<NameKeyType>,
+    _STL::_Select1st<DamageFXPair>, rts::equal_to<NameKeyType>,
+    _STL::allocator<DamageFXPair> > DamageFXTable;
+template DamageFXTable::~hashtable();
