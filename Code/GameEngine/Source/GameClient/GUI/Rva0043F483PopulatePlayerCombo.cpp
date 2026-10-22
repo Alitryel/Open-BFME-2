@@ -1089,3 +1089,109 @@ void AptMpGameSetup::PopulatePlayerCombo(int slot)
     } else GadgetComboBoxSetText(*combo,previousText);
 }
 
+// Retail 0x004404AC..0x004406BA, 526 bytes. The WB twin at 0x0149E9C0
+// and the slot-refresh caller establish this per-slot widget enable cascade.
+void AptMpGameSetup::rva004404AC(bool enable, int slot)
+{
+	GameInfo *game = (GameInfo *)m_game->rva0043DA65();
+	if (!game)
+		return;
+	if (slot == -1 || slot >= 8)
+		slot = game->v13();
+	if (slot == -1 || slot >= 8)
+		return;
+	bool observer = game->getConstSlot(slot)->isObserver();
+	MpGameSetupComboRef combo(m_colorCombo[slot]);
+	if (combo.m_window)
+	{
+		if (observer)
+			combo.rva00323736(true);
+		combo.m_window->winEnable(enable && !observer);
+	}
+	if (m_handicap[slot])
+		m_handicap[slot]->winEnable(enable && !observer);
+	GameWindow *hero = m_hero[slot];
+	if (hero)
+	{
+		if (m_rules.m_00 == 1)
+			hero->winEnable(enable && !observer);
+		else
+		{
+			hero->winEnable(false);
+			if (Rva00322910(hero))
+			{
+				GadgetComboBoxSetSelectedPos(hero, 0, false);
+				HandleHeroSelection(slot);
+			}
+		}
+		UpdateHeroDisplay(slot);
+	}
+	if (m_playerTemplate[slot])
+		m_playerTemplate[slot]->winEnable(enable);
+	GameWindow **team = &m_team[slot];
+	// Keep both equivalent merge paths: VC7.1's allocation costs need this
+	// source graph for the retail ESI/EDI and EAX/ECX choices. See the recovery
+	// evidence; these branches make no claim about the original spelling.
+	if (slot == 0)
+	{
+		GameWindow *window = *team;
+		if (window)
+		{
+			bool locked = m_rules.m_04 == 1;
+			bool teamEnable;
+			if (enable && !observer && !locked)
+				teamEnable = true;
+			else
+			{
+				teamEnable = false;
+				if (window == combo.m_window)
+					GadgetComboBoxHideList(window);
+				else
+					GadgetComboBoxHideList(window);
+			}
+			(*team)->winEnable(teamEnable);
+		}
+	}
+	else
+	{
+		GameWindow *window = *team;
+		if (window)
+		{
+			bool locked = m_rules.m_04 == 1;
+			bool teamEnable;
+			if (enable && !observer && !locked)
+				teamEnable = true;
+			else
+			{
+				teamEnable = false;
+				if (window == combo.m_window)
+					GadgetComboBoxHideList(window);
+				else
+					GadgetComboBoxHideList(window);
+			}
+			(*team)->winEnable(teamEnable);
+		}
+	}
+
+	if (slot == game->v13())
+	{
+		bool found = false;
+		if (enable && game->getConstSlot(game->v13())->m_hasMap)
+		{
+			if (!observer)
+				found = true;
+			else if (game->v12())
+			{
+				for (int i = 0; i < 8; ++i)
+				{
+					if (game->getConstSlot(i) && game->getConstSlot(i)->isAI())
+					{
+						found = true;
+						break;
+					}
+				}
+			}
+		}
+		((AptMapPreview *)&m_60)->rva0057C597(found);
+	}
+}
