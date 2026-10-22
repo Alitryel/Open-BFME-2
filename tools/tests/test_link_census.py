@@ -272,6 +272,30 @@ def test_keep_rule_unknown_copies_follow_the_proven_one():
     assert L.keep_rule(copies)[0] == {"a.obj": False, "b.obj": False, "c.obj": True}
 
 
+def test_unknown_copy_does_not_lose_when_the_kept_copy_is_retail():
+    # retail-truth-4's false-reject fix (reverse/attempt_support/
+    # link-unknown-copy-beside-retail-false-reject-20261022.md): the first
+    # ??0Matrix3D@@QAE@XZ copy in link order is the proven 22-byte ??_H form;
+    # /O2 units' 3-byte copies are unproven (their address has shared claims)
+    # and never run, because the link keeps the first copy.
+    copies = [("a.obj", "y", "retail"), ("b.obj", "x", "unknown"), ("c.obj", "z", "wrong"), ("d.obj", "y", "retail")]
+    loses, rule = L.keep_rule(copies)
+    assert rule == "retail" and not any(loses.values())
+    loses, _ = L.keep_rule(copies, retail_first=False)  # retail-truth-3
+    assert loses == {"a.obj": False, "b.obj": True, "c.obj": False, "d.obj": False}
+    loses, _ = L.keep_rule(copies, retail_kept=False)  # retail-truth-2
+    assert loses == {"a.obj": False, "b.obj": True, "c.obj": True, "d.obj": False}
+
+
+def test_unknown_copy_still_loses_when_the_kept_copy_is_unproven():
+    # the first copy is the one the link keeps: when it is unproven, an
+    # unproven copy that differs from the proven one may be what runs
+    copies = [("a.obj", "x", "unknown"), ("b.obj", "y", "retail"), ("c.obj", "z", "unknown")]
+    assert L.keep_rule(copies)[0] == {"a.obj": True, "b.obj": False, "c.obj": True}
+    copies = [("a.obj", "z", "wrong"), ("b.obj", "y", "retail"), ("c.obj", "x", "unknown")]
+    assert L.keep_rule(copies)[0] == {"a.obj": False, "b.obj": False, "c.obj": True}
+
+
 def test_keep_rule_without_retail_address_keeps_first_in_link_order():
     copies = [("a.obj", "x", None), ("b.obj", "y", None), ("c.obj", "y", None)]
     loses, rule = L.keep_rule(copies)

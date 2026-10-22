@@ -14,8 +14,9 @@ COMDAT copies with their retail-truth verdicts, and every file's blockers):
   duplicate   a strong definition another object also defines
   comdat      a COMDAT copy that is not retail's body (link_census.keep_rule:
               retail truth where the symbol has a retail address, unless
-              another object supplies the retail-proven copy, else the first
-              copy in link order)
+              another object supplies the retail-proven copy or, for an
+              unproven copy, the copy the link keeps is retail's; else the
+              first copy in link order)
   addresses   hard-coded image addresses in the source (link_debt.addresses)
   selected    a name the object defines or references whose definition the
               link keeps is proven not retail's (link_census.judge_selected:

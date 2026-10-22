@@ -227,8 +227,9 @@ def test_index_tables_carry_the_reference_graph():
 
 
 def test_rules_ids_and_rebaseline_order():
-    assert (L.RULES, L.PREVIOUS_RULES) == ("retail-truth-3", "retail-truth-2")
+    assert (L.RULES, L.PREVIOUS_RULES) == ("retail-truth-4", "retail-truth-3")
     assert {L.PREVIOUS_RULES, L.PREVIOUS_RULES_NO_WRONG_SELECTED, L.RULES_NO_WRONG_SELECTED,
+            L.RETAIL_TRUTH_2, L.RETAIL_TRUTH_2_NO_WRONG_SELECTED,
             L.RETAIL_TRUTH_1, L.RETAIL_TRUTH_1_NO_WRONG_SELECTED} <= set(L.KNOWN_RULES)
     previous = [{"date": "2026-10-17 19:27", "commit": "a", "rules": L.PREVIOUS_RULES}]
     census = {"when": "2026-10-18 00:00", "rules": L.RULES}
