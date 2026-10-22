@@ -147,12 +147,12 @@ namespace _STL { template <> void _String_base<unsigned short, allocator<unsigne
 namespace _STL {
 class _Messages {
 public:
- _Messages();
+ _Messages() {}
  virtual int do_open(const string&,const locale&) const;
  virtual string do_get(int,int,int,const string&) const;
  virtual wstring do_get(int,int,int,const wstring&) const;
  virtual void do_close(int) const;
- virtual ~_Messages();
+ __declspec(dllimport) __forceinline virtual ~_Messages() {}
  bool _M_delete;
 };
 class _STLP_CLASS_DECLSPEC _Time_Info {

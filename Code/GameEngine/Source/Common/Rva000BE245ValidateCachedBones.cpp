@@ -8,6 +8,8 @@
 // unclaimed .text). Only the placed body is defined here; the donor's
 // other definitions are omitted.
 // stlport
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
+#define ASCIISTRING_H
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -865,11 +867,6 @@ static __declspec(noinline) int __cdecl Rva000B2BA3Get(const Rva000B2BE5Src *p, 
 	return 0;
 }
 int Rva000B2CBDGet();
-template <class T> class StringBase
-{
-public:
-	bool isEmpty() const;
-};
 
 class Rva0013101E
 {
