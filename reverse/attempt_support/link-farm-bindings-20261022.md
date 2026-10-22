@@ -51,3 +51,30 @@ repairs; these are not session gains. ControlBar destructor also links when
 its already-repaired opaque provider is refreshed. The published census is
 older than those sources. rehome_rows cannot run without its census.log input;
 no census or maintainer-only runner was started to recreate it.
+
+## Narrow-string initializer consumers
+
+stlport_narrow_string_range_ctors.cpp copied from three undefined StaticEmpty
+aliases. Retail calls at 0x17A40/0x17AA0/0x19D30 read storage at VA DDEF08,
+DDEEFC and DDEF38. Rva007AB8D0StringInits.cpp already owns these addresses as
+g_Va00DDEF08/g_Va00DDEEFC/g_Va00DDEF38 and constructs "true", "false" and "";
+Rva007B6880Thunks.cpp already destroys them through the same string view.
+The repair binds the consumers to those existing owners, without new data.
+The owner's unsigned storage declaration is pre-existing modeling debt.
+
+Same-index legacy preview: 0 -> 367 authored nonpadding bytes, 1/1 unit links,
+against ae3b3e68e2. All 8/8 rows byte-exact, five EH graphs EXACT, strict
+reusable byte receipt passes. Closure was not checked; this is no claim of
+closed-strict or actual placement gain. Frozen-source, class and whitespace
+checks pass; converged-data check reports no second names. Scratch logs:
+build/link-seat-range-{before,after,byte,strict}.txt.
+
+The shadow data check reports three wrong-name references: committed
+reverse/data_ledger.csv still calls the removed, undefined aliases the owner
+(defs=0). A scratch-only regeneration, build/link-seat-data-ledger.csv,
+selects the three existing initializer owners (defs=1), agreeing with the
+existing data_rows. No generated ledger or baseline was edited. That scratch
+regeneration also reports missing unrelated objects, so it is not a replacement
+full data measurement. Canonical data placement remains unverified here.
+The farm commit's shadow hatch counter likewise warned about two references
+to its already-owned address-named global; it added no separate datum.
