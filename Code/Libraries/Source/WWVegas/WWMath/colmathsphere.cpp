@@ -47,6 +47,8 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// BFME 2 names the rotation class Matrix3 (rowed Set at 0x00711E70).
+#define Matrix3x3 Matrix3
 #include "../../../../../reference/shims/bfme_matrix3d_invrot_link/matrix3d.h"
 #include "colmath.h"
 #include "aaplane.h"
@@ -104,7 +106,10 @@ bool CollisionMath::Intersection_Test(const SphereClass & sphere,const OBBoxClas
 	/*
 	** Compute the sphere's position in the box's coordinate system
 	*/
-	Matrix3D tm(box.Basis,box.Center);
+	// Keep the empty row initialization local and use the retail Set provider.
+	// The donor rotation constructor emits a non-retail vector iterator here.
+	Matrix3D tm;
+	tm.Set(box.Basis,box.Center);
 	Vector3 box_rel_center;
 	Matrix3D::Inverse_Transform_Vector(tm,sphere.Center,&box_rel_center);
 

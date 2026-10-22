@@ -51,6 +51,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// BFME 2 uses the Matrix3 providers for the donor Matrix3x3 type.
+#define Matrix3x3 Matrix3
 #include "coltest.h"
 
 
