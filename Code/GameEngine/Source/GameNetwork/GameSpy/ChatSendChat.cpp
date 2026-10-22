@@ -156,7 +156,8 @@ public:
 	bool rva001EFD9C(UnicodeString message, bool isAction, const SelPair *sels);
 };
 
-extern Rva001EFD9C *TheGameSpyInfo;
+class GameSpyInfoInterface;
+extern GameSpyInfoInterface *TheGameSpyInfo;
 
 bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPair *sels)
 {
@@ -174,14 +175,14 @@ bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPai
 		return false;
 	}
 	AsciiString names;
-	PlayerInfo *pi = TheGameSpyInfo->rva00382CCE(TheGameSpyInfo->getLocalName().str());
+	PlayerInfo *pi = ((Rva001EFD9C *)TheGameSpyInfo)->rva00382CCE(((Rva001EFD9C *)TheGameSpyInfo)->getLocalName().str());
 	if (pi)
 		names.format("%s", pi->m_name.str());
 	else
-		names.format("%s", TheGameSpyInfo->getLocalName().str());
+		names.format("%s", ((Rva001EFD9C *)TheGameSpyInfo)->getLocalName().str());
 	for (int *it = sels->begin(); it != sels->end(); ++it)
 	{
-		pi = TheGameSpyInfo->rva00382D0A(*it);
+		pi = ((Rva001EFD9C *)TheGameSpyInfo)->rva00382D0A(*it);
 		if (!pi)
 			continue;
 		AsciiString tmp;

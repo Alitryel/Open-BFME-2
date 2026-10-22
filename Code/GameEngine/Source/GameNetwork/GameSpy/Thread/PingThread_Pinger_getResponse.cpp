@@ -42,10 +42,11 @@
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #include <cstddef>
-// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// Keep the allocator operation inline as in DisconnectManagerO1.cpp.
 namespace _STL {
-template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
 }
 
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -64,8 +65,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include "Common/StackDump.h"
 #include "Common/SubsystemInterface.h"
+// Destroy the string inline as in the kept PingResponse destructor.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); }
+}
 // bfme link decl-only begin
-namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
