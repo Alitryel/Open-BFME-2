@@ -5,24 +5,32 @@ namespace _STL { void __cdecl free(void *); }
 #define free _STL::free
 #include <vector>
 #undef free
-struct Rva009F39F0Payload { void *start, *finish, *end, *cursor; int refs; Rva009F39F0Payload():start(0),finish(0),end(0){} };
+// The payload's owned storage and implicit destructor follow the BFME 1 donor
+// (CommandButtonHuntUpdateScanClosestTarget.cpp: a vector, cursor and count).
+// The out-of-line result destructor (retail 0x0004AA28) and the payload's
+// implicit destructor (0x0007FAB3) are /O1-shaped: compiled in this state.
+#pragma optimize("s", on)
+struct BfmeWideResultStorage {
+ void *start, *finish, *end;
+ BfmeWideResultStorage():start(0),finish(0),end(0){}
+ ~BfmeWideResultStorage() { if (start) _STL::free(start); }
+};
+struct BfmeWideResultPayload { BfmeWideResultStorage items; void *cursor; int refs; };
 // The native four-byte result uses the already-owned neutral constructor.
 // Inline copy/cleanup retain the retail refcount accesses; original type unknown.
 struct Rva009F39F0Result {
- Rva009F39F0Payload *value;
+ BfmeWideResultPayload *value;
  Rva009F39F0Result();
  __forceinline Rva009F39F0Result(const Rva009F39F0Result &other):value(other.value) {
-  ++((Rva009F39F0Payload *)value)->refs;
+  ++value->refs;
  }
  __forceinline ~Rva009F39F0Result() {
-  --((Rva009F39F0Payload *)value)->refs;
-  if (((Rva009F39F0Payload *)value)->refs==0) {
-   Rva009F39F0Payload *payload=(Rva009F39F0Payload *)value;
-   if (payload->start) _STL::free(payload->start);
-   ::operator delete(payload);
-  }
+  --value->refs;
+  if (value->refs==0)
+   delete value;
  }
 };
+#pragma optimize("", on)
 struct Rva009F4130Range { float x0,y0,z0,x1,y1; };
 struct Rva009F4130NodeList { int count; void *head; };
 class BfmeThingEQ;

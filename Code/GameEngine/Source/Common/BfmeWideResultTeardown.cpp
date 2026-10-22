@@ -15,16 +15,28 @@
 
 extern "C" void __cdecl free(void *);
 
-// Only the accessed payload prefix is modeled: native teardown 0x0007FAB3
+// Only the accessed payload words are modeled: native teardown 0x0007FAB3
 // frees the owned pointer at +0, and 0x0004AA28 reads the count at +0x10.
-// The donor's vector/cursor layout motivates this ownership relationship;
-// the intervening bytes and original payload type are not asserted here.
-struct BfmeWideResultPayload
+// As in the donor (a vector, cursor and count), the payload's destructor is
+// implicit: it is a select-any copy here, like PartitionManagerGetObjectsInRange.cpp's.
+// The intervening bytes and original payload type are not asserted here.
+#pragma optimize("s", on)
+struct BfmeWideResultStorage
 {
     void *m_storage;
-    unsigned char m_unmodelled[0x0c];
+    unsigned char m_unmodelled[0x08];
+    ~BfmeWideResultStorage()
+    {
+        if (m_storage)
+            free(m_storage);
+    }
+};
+
+struct BfmeWideResultPayload
+{
+    BfmeWideResultStorage m_items;
+    void *m_cursor;
     int m_refCount;
-    ~BfmeWideResultPayload();
 };
 
 struct BfmeWideResult
@@ -35,18 +47,8 @@ struct BfmeWideResult
 	~BfmeWideResult();
 };
 
-#pragma optimize("s", on)
-// ?BfmeWideResultPayload::~BfmeWideResultPayload present-unmatched
-// This emitted 14-byte destructor is independently exact at 0x0007FAB3,
-// already rowed as BasicStringCharDtor_dup. Its _free call is native 0x30830.
-// The folded provider has the same thiscall ABI and destroys this storage;
-// no additional row or progress is claimed for that already covered range.
-BfmeWideResultPayload::~BfmeWideResultPayload()
-{
-    if (m_storage)
-        free(m_storage);
-}
-
+// The emitted payload destructor is independently exact at 0x0007FAB3,
+// already rowed as BasicStringCharDtor_dup; its _free call is native 0x30830.
 BfmeWideResult::~BfmeWideResult()
 {
     void *&payload = m_value;
