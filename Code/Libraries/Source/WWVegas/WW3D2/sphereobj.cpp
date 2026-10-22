@@ -126,6 +126,25 @@
 #include "dx8indexbuffer.h"
 #include "sortingrenderer.h"
 #include "visrasterizer.h"
+// Suppress this TU's non-retail copy of ?Evaluate@?$LERPAnimationChannelClass@M@@UAEMM@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> float LERPAnimationChannelClass<float>::Evaluate(float);
+// Suppress this TU's non-retail copy of ?Evaluate@?$LERPAnimationChannelClass@VVector3@@@@UAE?AVVector3@@M@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3;
+template <> Vector3 LERPAnimationChannelClass<Vector3>::Evaluate(float);
+// Suppress this TU's non-retail copy of ?Load_Variables@?$PrimitiveAnimationChannelClass@M@@IAEXAAVChunkLoadClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ChunkLoadClass;
+template <> void PrimitiveAnimationChannelClass<float>::Load_Variables(ChunkLoadClass &);
+// Suppress this TU's non-retail copy of ?Load_Variables@?$PrimitiveAnimationChannelClass@VVector3@@@@IAEXAAVChunkLoadClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3; class ChunkLoadClass;
+template <> void PrimitiveAnimationChannelClass<Vector3>::Load_Variables(ChunkLoadClass &);
+// Suppress this TU's non-retail copy of ?Save@?$PrimitiveAnimationChannelClass@M@@UAEXAAVChunkSaveClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ChunkSaveClass;
+template <> void PrimitiveAnimationChannelClass<float>::Save(ChunkSaveClass &);
 // Suppress this TU's non-retail copy of ?Save@?$PrimitiveAnimationChannelClass@VVector3@@@@UAEXAAVChunkSaveClass@@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Vector3; class ChunkSaveClass;
