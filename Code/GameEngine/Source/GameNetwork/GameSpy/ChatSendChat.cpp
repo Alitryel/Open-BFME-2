@@ -16,6 +16,12 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?length@?$__char_traits_base@GG@_STL@@SAIPBG@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned int __char_traits_base<unsigned short,unsigned short>::length(unsigned short const *); }
+// Suppress this TU's non-retail copy of ?assign@?$__char_traits_base@GG@_STL@@SAXAAGABG@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void __char_traits_base<unsigned short,unsigned short>::assign(unsigned short &,unsigned short const &); }
 // Suppress this TU's non-retail copy of ?move@?$__char_traits_base@GG@_STL@@SAPAGPAGPBGI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> unsigned short * __char_traits_base<unsigned short,unsigned short>::move(unsigned short *,unsigned short const *,unsigned int); }

@@ -13,6 +13,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__copy_backward_ptrs@PAUBfmePod36@@PAU1@@_STL@@YAPAUBfmePod36@@PAU1@00ABU__false_type@0:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod36;
+namespace _STL { template <> BfmePod36 * __copy_backward_ptrs<BfmePod36 *,BfmePod36 *>(BfmePod36 *,BfmePod36 *,BfmePod36 *,__false_type const &); }
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@IAEXPAUBfm:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod36;
+namespace _STL { template <> void vector<BfmePod36,allocator<BfmePod36> >::_M_insert_overflow(BfmePod36 *,BfmePod36 const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAUBfmePod36@@IU1@@_STL@@YAPAUBfmePod36@@PAU1@IABU1@ABU__false_t:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod36;

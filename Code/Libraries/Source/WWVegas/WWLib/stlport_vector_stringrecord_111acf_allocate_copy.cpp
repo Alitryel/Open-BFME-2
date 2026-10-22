@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 class AsciiString { public: AsciiString(const AsciiString &); __forceinline ~AsciiString(); protected: void releaseBuffer(); private: void *m_data; };
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__copy@PBUBfmeStringRecord00111ACF@@PAU1@H@_STL@@YAPAUBfmeStringRecord00111ACF@@PBU1@0P:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord00111ACF;
+namespace _STL { template <> BfmeStringRecord00111ACF * __copy<BfmeStringRecord00111ACF const *,BfmeStringRecord00111ACF *,int>(BfmeStringRecord00111ACF const *,BfmeStringRecord00111ACF const *,BfmeStringRecord00111ACF *,random_access_iterator_tag const &,int *); }
 struct BfmeStringRecord00111ACF {
     AsciiString first;
     unsigned int word4;

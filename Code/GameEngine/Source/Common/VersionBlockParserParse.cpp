@@ -18,6 +18,10 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmeNarrowRecord00427F75@@V?$allocator@UBfmeNarrowRecord0042:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeNarrowRecord00427F75;
+namespace _STL { template <> void vector<BfmeNarrowRecord00427F75,allocator<BfmeNarrowRecord00427F75> >::_M_insert_overflow(BfmeNarrowRecord00427F75 *,BfmeNarrowRecord00427F75 const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAUBfmeNarrowRecord00427F75@@IU1@@_STL@@YAPAUBfmeNarrowRecord004:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeNarrowRecord00427F75;

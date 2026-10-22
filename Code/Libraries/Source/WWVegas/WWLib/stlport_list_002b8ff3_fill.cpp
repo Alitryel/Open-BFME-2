@@ -6,6 +6,10 @@
 // fill insert via rowed 0x002B815B, wide temp teardown via 0x00036E70. Evidence: callees rowed, shape matches
 // list<UnicodeString> fill ctor precedent 0x0043C072.
 #include <list>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@UBfmeStringRecord002B4DC1@@V?$allocator@UBfmeStringRecord002B4DC1@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord002B4DC1;
+namespace _STL { template <> _List_node<BfmeStringRecord002B4DC1> * list<BfmeStringRecord002B4DC1,allocator<BfmeStringRecord002B4DC1> >::_M_create_node(BfmeStringRecord002B4DC1 const &); }
 // Suppress this TU's non-retail copy of ?clear@?$_List_base@UBfmeStringRecord002B4DC1@@V?$allocator@UBfmeStringRecord002B4DC1@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringRecord002B4DC1;

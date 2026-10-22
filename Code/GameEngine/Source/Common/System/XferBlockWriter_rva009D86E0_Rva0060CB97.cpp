@@ -64,6 +64,9 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(un
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$?8DV?$char_traits@D@_STL@@V?$allocator@D@1@@_STL@@YA_NABV?$basic_string@DV?$char_traits:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool operator==<char,char_traits<char>,allocator<char> >(basic_string<char,char_traits<char>,allocator<char> > const &,basic_string<char,char_traits<char>,allocator<char> > const &); }
 // Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _String_base<char,allocator<char> >::_M_deallocate_block(); }

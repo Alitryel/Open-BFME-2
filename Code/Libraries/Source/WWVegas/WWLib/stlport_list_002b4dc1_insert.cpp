@@ -5,6 +5,10 @@
 // Evidence: identical 37B shape to list<int>::insert at 0x005925E2 calling rowed _M_create_node;
 // here calls rowed 002B4DC1 _M_create_node at 0x002B60D7 then list hook insertion; callers 0x002B7120 and 0x002B8117.
 #include <list>
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@UBfmeStringRecord002B4DC1@@V?$allocator@UBfmeStringRecord002B4DC1@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord002B4DC1;
+namespace _STL { template <> _List_node<BfmeStringRecord002B4DC1> * list<BfmeStringRecord002B4DC1,allocator<BfmeStringRecord002B4DC1> >::_M_create_node(BfmeStringRecord002B4DC1 const &); }
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
