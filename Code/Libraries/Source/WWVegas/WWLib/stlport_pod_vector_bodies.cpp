@@ -45,6 +45,9 @@ namespace _STL { template <> unsigned char * allocator<unsigned char>::allocate(
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod248;
 namespace _STL { template <> void _Destroy<BfmePod248 *>(BfmePod248 *,BfmePod248 *); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@UBfmePod248@@V?$allocator@UBfmePod248@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<BfmePod248,allocator<BfmePod248> >::_M_clear(); }
 // Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PBUBfmePod128@@@?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod128;

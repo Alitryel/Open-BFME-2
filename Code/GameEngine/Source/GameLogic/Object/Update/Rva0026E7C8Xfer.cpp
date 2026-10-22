@@ -32,6 +32,9 @@ namespace _STL { template <> Rva003328B6Element * __uninitialized_fill_n<Rva0033
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva003328B6Element;
 namespace _STL { template <> Rva003328B6Element * __uninitialized_copy<Rva003328B6Element *,Rva003328B6Element *>(Rva003328B6Element *,Rva003328B6Element *,Rva003328B6Element *,__false_type const &); }
+// Suppress this TU's non-retail copy of ?reserve@?$vector@URva003328B6Element@@V?$allocator@URva003328B6Element@@@_STL@@@_STL@@QAE:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<Rva003328B6Element,allocator<Rva003328B6Element> >::reserve(unsigned int); }
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva003328B6Element@@V?$allocator@URva003328B6Element@@@_STL@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva003328B6Element;
