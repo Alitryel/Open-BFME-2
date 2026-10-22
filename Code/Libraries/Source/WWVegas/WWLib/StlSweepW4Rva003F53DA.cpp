@@ -16,3 +16,17 @@ struct Rva003F53DAElement { Rva003F53DAElement();Rva003F53DAElement(const Rva003
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva003F53DAElement, _STL::allocator<Rva003F53DAElement> >::_M_fill_insert(Rva003F53DAElement *, unsigned int, Rva003F53DAElement const &);
+
+// Independent native 0x003F5724..0x003F5729 follows the complete
+// RemoveArmy RET4 and precedes another body. It forwards the unchanged
+// receiver and three arguments to verified fill-insert 0x003F53DA.
+// The containing wrapper and application element identity remain unknown.
+class Rva003F5724 : public _STL::vector<Rva003F53DAElement, _STL::allocator<Rva003F53DAElement> >
+{
+public:
+    void rva003F5724(Rva003F53DAElement *position, unsigned int count, const Rva003F53DAElement &value);
+};
+void Rva003F5724::rva003F5724(Rva003F53DAElement *position, unsigned int count, const Rva003F53DAElement &value)
+{
+    _M_fill_insert(position, count, value);
+}
