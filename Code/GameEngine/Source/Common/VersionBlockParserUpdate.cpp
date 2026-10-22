@@ -23,6 +23,14 @@ namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__insertion_sort@PAUVersionBlockEntry@@VVersionBlockKeyCompare@@@_STL@@YAXPAUVersionBlo:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct VersionBlockEntry; class VersionBlockKeyCompare;
+namespace _STL { template <> void __insertion_sort<VersionBlockEntry *,VersionBlockKeyCompare>(VersionBlockEntry *,VersionBlockEntry *,VersionBlockKeyCompare); }
+// Suppress this TU's non-retail copy of ??$__introsort_loop@PAUVersionBlockEntry@@U1@HVVersionBlockKeyCompare@@@_STL@@YAXPAUVersio:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct VersionBlockEntry; class VersionBlockKeyCompare;
+namespace _STL { template <> void __introsort_loop<VersionBlockEntry *,VersionBlockEntry,int,VersionBlockKeyCompare>(VersionBlockEntry *,VersionBlockEntry *,VersionBlockEntry *,int,VersionBlockKeyCompare); }
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmeNarrowRecord00427F75@@V?$allocator@UBfmeNarrowRecord0042:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeNarrowRecord00427F75;

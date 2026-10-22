@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__copy@PAUBfmePod36@@PAU1@H@_STL@@YAPAUBfmePod36@@PAU1@00ABUrandom_access_iterator_tag@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod36;
+namespace _STL { template <> BfmePod36 * __copy<BfmePod36 *,BfmePod36 *,int>(BfmePod36 *,BfmePod36 *,BfmePod36 *,random_access_iterator_tag const &,int *); }
 // Suppress this TU's non-retail copy of ??$__copy_backward_ptrs@PAUBfmePod36@@PAU1@@_STL@@YAPAUBfmePod36@@PAU1@00ABU__false_type@0:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod36;

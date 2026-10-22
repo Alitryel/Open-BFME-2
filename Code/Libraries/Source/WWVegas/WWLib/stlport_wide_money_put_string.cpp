@@ -127,6 +127,12 @@ namespace _STL {
 template <> _String_base<wchar_t,allocator<wchar_t> >::_String_base(const allocator<wchar_t>&);
 }
 #include <locale>
+// Suppress this TU's non-retail copy of ??$_M_range_initialize@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> template <> void basic_string<char,char_traits<char>,allocator<char> >::_M_range_initialize<char *>(char *,char *); }
+// Suppress this TU's non-retail copy of ??$_M_range_initialize@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> template <> void basic_string<char,char_traits<char>,allocator<char> >::_M_range_initialize<char const *>(char const *,char const *); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@G@_STL@@QBEPAGIPBX@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int,void const *) const; }

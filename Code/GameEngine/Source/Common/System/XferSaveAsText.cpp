@@ -26,6 +26,9 @@ namespace _STL { void __cdecl free(void *); }
 #undef free
 #include <stdarg.h>
 #include <string.h>
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_ST:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::_M_insert_overflow(basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > * __uninitialized_fill_n<basic_string<char,char_traits<char>,allocator<char> > *,unsigned int,basic_string<char,char_traits<char>,allocator<char> > >(basic_string<char,char_traits<char>,allocator<char> > *,unsigned int,basic_string<char,char_traits<char>,allocator<char> > const &,__false_type const &); }
