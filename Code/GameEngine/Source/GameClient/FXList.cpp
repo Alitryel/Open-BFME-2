@@ -90,6 +90,18 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$hash@W:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> pair<NameKeyType const ,FXList> & hashtable<pair<NameKeyType const ,FXList>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,FXList> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,FXList> > >::_M_insert(pair<NameKeyType const ,FXList> const &); }
+// Suppress this TU's non-retail copy of ?resize@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$hash@W4Na:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> void hashtable<pair<NameKeyType const ,FXList>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,FXList> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,FXList> > >::resize(unsigned int); }
+// Suppress this TU's non-retail copy of ?_M_next_size@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$has:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> unsigned int hashtable<pair<NameKeyType const ,FXList>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,FXList> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,FXList> > >::_M_next_size(unsigned int) const; }
 // Suppress this TU's non-retail copy of ?_M_new_node@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$hash:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum NameKeyType; class FXList;
