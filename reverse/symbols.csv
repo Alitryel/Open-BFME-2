@@ -12358,7 +12358,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??$__uninitialized_fill_n@PAURva00569450Record@@HU1@@_STL@@YAPAURva00569450Record@@PAU1@HABU1@ABU__false_type@0@@Z,0x00569109
 ??$__uninitialized_fill_n@PAURva005AE78ARecord@@HU1@@_STL@@YAPAURva005AE78ARecord@@PAU1@HABU1@ABU__false_type@0@@Z,0x005AE6F8
 ?insert_equal@?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAE?AU?$_Rb_tree_iterator@HU?$_Nonconst_traits@H@_STL@@@2@ABH@Z,0x004CA68B
-??$__make_heap@PAURva002F0D35Record@@U?$less@URva002F0D35Record@@@_STL@@U1@H@_STL@@YAXPAURva002F0D35Record@@0U?$less@URva002F0D35Record@@@0@0PAH@Z,0x002EF216
 ??$insert@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEXPAD00ABUforward_iterator_tag@1@@Z,0x001EC1B4
 ??$_M_allocate_and_copy@PBURva001FFD6BRecord@@@?$vector@URva001FFD6BRecord@@V?$allocator@URva001FFD6BRecord@@@_STL@@@_STL@@IAEPAURva001FFD6BRecord@@IPBU2@0@Z,0x001FFA2D
 ?_M_clear@?$vector@URva001FFD6BRecord@@V?$allocator@URva001FFD6BRecord@@@_STL@@@_STL@@IAEXXZ,0x0032E7E2
@@ -14602,7 +14601,7 @@ _D3DXLoadVolumeFromFileInMemory@36,0x0062AF8C,Native1318F0 in-image JMP IAT veri
 ?rva00053D89@Rva0006047CSub@@QAEXXZ,0x00053D89,callee of ?rva0006047C@Rva0006047CSelf@@QAEXXZ
 ?rva00033150@Rva00033150@@QAEXH@Z,0x00033150,callee of ?rva006C1A50@Rva006C1A50Owner@@QAEXH@Z
 ?rva000338F0@Rva000338F0@@QAEXH@Z,0x000338F0,callee of ?rva006C1A50@Rva006C1A50Owner@@QAEXH@Z
-?push_back@?$vector@URva002F0D35Record@@V?$allocator@URva002F0D35Record@@@_STL@@@_STL@@QAEXABURva002F0D35Record@@@Z,0x004DFCB0,callee of ?rva002F3738@Rva002F3738@@QAEXPAPAX@Z
+?push_back@?$vector@PAU_Rva002EBB53Wrap@@V?$allocator@PAU_Rva002EBB53Wrap@@@_STL@@@_STL@@QAEXABQAU_Rva002EBB53Wrap@@@Z,0x004DFCB0,callee of ?rva002F3738@Rva002F3738@@QAEXPAPAX@Z
 ?rva0060EF3E@Rva0060EF3E@@QAE_NH@Z,0x0020EF3E,callee of ?rva002B25BF@Rva002B25BFOwner@@QAE_NH@Z
 ?bfmePrivateCommand42@HordeAIUpdate@@MAEXPAVObject@@W4CommandSourceType@@@Z,0x0049AC5F,slot 23 of HordeAIUpdate primary vftable 0x008505F8 (+0x5C holds 0x0049AC5F; base AIUpdateInterface::bfmePrivateCommand42 0x0026D56C called inside under the Object::rva0028C197 test); REL32 from HordeWorkerAIUpdate::bfmePrivateCommand42 0x0049B227; body unrowed (null-action EH frame wall)
 ?getIndicesNVertices@W3DBridge@@QAEXPAGPAUVertexFormatXYZNDUV1@@PAH2PAV?$RefMultiListIterator@VRenderObjClass@@@@@Z,0x000DF11E,W3DBridge::getIndicesNVertices (unrowed 1038B body); address read from retail REL32 at 0x000DF5CB in loadBridgesInVertexAndIndexBuffers 0x000DF52C - its per-bridge call takes ib/vb/&curIndex/&curVertex/lights exactly as ZH

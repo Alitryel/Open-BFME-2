@@ -2,10 +2,11 @@
 // stlport
 // ?rva002F3738@Rva002F3738@@QAEXPAPAX@Z @0x002F3738 33B
 // Thiscall, one pointer-to-pointer argument, ret 4: push_back of the 4-byte
-// record at the argument into the vector at +0, then std::make_heap over
+// pointer at the argument into the vector at +0, then std::push_heap over
 // [begin, end) with the one-byte empty comparator stored at +0xC. Follows
-// 0x002F370D (43B) in PathfinderRva002F36E5.cpp; the heap instance is the
-// rowed StlSweep make_heap at 0x002F0D35 with the same opaque record.
+// 0x002F370D (43B) in PathfinderRva002F36E5.cpp; the heap call is the rowed
+// push_heap<_Rva002EBB53Wrap **, Rva002EBB53Compare> 0x002F0D35 (its own
+// callee __push_heap_aux 0x002EF216 proves the element and comparator).
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 namespace _STL {
@@ -17,15 +18,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <algorithm>
 #include <functional>
 #include <vector>
-// Suppress this TU's non-retail copy of ??$__adjust_heap@PAURva002F0D35Record@@HU1@U?$less@URva002F0D35Record@@@_STL@@@_STL@@YAXPA:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva002F0D35Record;
-namespace _STL { template <> void __adjust_heap<Rva002F0D35Record *,int,Rva002F0D35Record,less<Rva002F0D35Record> >(Rva002F0D35Record *,int,int,Rva002F0D35Record,less<Rva002F0D35Record>); }
-// Suppress this TU's non-retail copy of ??$__push_heap@PAURva002F0D35Record@@HU1@U?$less@URva002F0D35Record@@@_STL@@@_STL@@YAXPAUR:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva002F0D35Record;
-namespace _STL { template <> void __push_heap<Rva002F0D35Record *,int,Rva002F0D35Record,less<Rva002F0D35Record> >(Rva002F0D35Record *,int,int,Rva002F0D35Record,less<Rva002F0D35Record>); }
-
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit
 // dllimport+forceinline specializations take those calls inline so this
@@ -39,23 +31,34 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 
-struct Rva002F0D35Record
-{
-	void *m_value;
-	bool operator<(const Rva002F0D35Record &) const;
+struct _Rva002EBB53Inner {
+    char m_pad[0x10];
+    unsigned short m_key;
 };
+struct _Rva002EBB53Wrap {
+    _Rva002EBB53Inner *m_inner;
+};
+// Empty comparator, greater-than on the payload key: the smallest key is on
+// top of the heap.
+struct Rva002EBB53Compare {
+    bool operator()(const _Rva002EBB53Wrap *a, const _Rva002EBB53Wrap *b) const
+    {
+        return a->m_inner->m_key > b->m_inner->m_key;
+    }
+};
+extern template void _STL::push_heap(_Rva002EBB53Wrap **, _Rva002EBB53Wrap **, Rva002EBB53Compare);
 
 class Rva002F3738
 {
 public:
 	void rva002F3738(void **value);
 private:
-	_STL::vector<Rva002F0D35Record> m_vec;
-	_STL::less<Rva002F0D35Record> m_less;
+	_STL::vector<_Rva002EBB53Wrap *> m_vec;
+	Rva002EBB53Compare m_compare;
 };
 
 void Rva002F3738::rva002F3738(void **value)
 {
-	m_vec.push_back(*reinterpret_cast<Rva002F0D35Record *>(value));
-	_STL::make_heap(m_vec.begin(), m_vec.end(), m_less);
+	m_vec.push_back(*reinterpret_cast<_Rva002EBB53Wrap **>(value));
+	_STL::push_heap(m_vec.begin(), m_vec.end(), m_compare);
 }
