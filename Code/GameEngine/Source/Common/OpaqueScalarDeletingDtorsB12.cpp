@@ -146,6 +146,21 @@ public:
 	Rva0053947D(EmitVtableTag *);
 public:
 	virtual ~Rva0053947D();
+	virtual void v01();
+	virtual void rva005391D3();
+	virtual void v03();
+	virtual void v04();
+	virtual void v05();
+	virtual void v06();
+	virtual void v07();
+	virtual void v08();
+	virtual void v09();
+	virtual void v10();
+	virtual void v11();
+	virtual void v12();
+	virtual int v13();
+	virtual void v14();
+	virtual void *v15(int i);
 	unsigned char m_list_storage[0x14];
 };
 
@@ -262,8 +277,8 @@ Rva005685EE::Rva005685EE(EmitVtableTag *)
 // Rva0056AD19's two tables (data ledger): Rva0056AC26A at +0 (vptr plus one word) and
 // Rva0056AC26B at +0x8, whose slot 0 is a this-adjusting (sub ecx, 8)
 // deleting-destructor thunk -- target evidence for that base and offset.
-class Rva0056AC26A { public: virtual ~Rva0056AC26A(); private: char m_unmodelled04[4]; };
-class Rva0056AC26B { public: virtual ~Rva0056AC26B(); };
+class __declspec(novtable) Rva0056AC26A { public: virtual ~Rva0056AC26A(); private: char m_unmodelled04[4]; };
+class __declspec(novtable) Rva0056AC26B { public: virtual ~Rva0056AC26B(); };
 class Rva0056AD19 : public Rva0056AC26A, public Rva0056AC26B
 {
 public:

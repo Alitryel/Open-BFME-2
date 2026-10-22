@@ -110,7 +110,9 @@ void Rva00339184(const char *token, void *store);
 class Rva000B6253
 {
 public:
-	Rva000B6253(int init, unsigned int bit1, unsigned int bit2, unsigned int bit3, unsigned int bit4, unsigned int bit5) throw();
+	Rva000B6253 *rva000B6253(int init, unsigned int bit1, unsigned int bit2, unsigned int bit3, unsigned int bit4, unsigned int bit5) throw();
+	__declspec(dllimport) __forceinline Rva000B6253(int init, unsigned int bit1, unsigned int bit2, unsigned int bit3, unsigned int bit4, unsigned int bit5) throw()
+	{ rva000B6253(init, bit1, bit2, bit3, bit4, bit5); }
 	unsigned int m_words[19];
 };
 

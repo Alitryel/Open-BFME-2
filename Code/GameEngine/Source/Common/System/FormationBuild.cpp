@@ -15,6 +15,7 @@ namespace _STL {template<> __declspec(dllimport) __forceinline void allocator<un
 class FreelistPool {public:void*pop();};
 extern FreelistPool g_freelistPool00DB8FEC;
 namespace _STL {template<> __declspec(dllimport) __forceinline unsigned*allocator<unsigned>::allocate(size_t n,const void*)const{return n?(unsigned*)allocator<char>::allocate(n*sizeof(unsigned),0):0;}}
+namespace _STL {template<> __declspec(dllimport) __forceinline unsigned* _STLP_alloc_proxy<unsigned*,unsigned,allocator<unsigned> >::allocate(size_t n){return allocator<unsigned>::allocate(n);}}
 class Object;
 class GameWindow;
 struct BfmePod32 {int words[8];};
@@ -40,7 +41,7 @@ template<class T,class A=allocator<T> > class list {public:
  typedef _List_iterator<T,_Nonconst_traits<T> > iterator;
  typedef _List_iterator<T,_Const_traits<T> > const_iterator;
  iterator erase(iterator,iterator);
- void insert(iterator,const_iterator,const_iterator);
+ template<class InputIter> void insert(iterator,InputIter,InputIter);
  
  __declspec(noinline) _List_node<T> *_M_create_node(const T&x){
   _List_node<T>*node=(_List_node<T>*)g_freelistPool00DB8FEC.pop();
@@ -70,11 +71,10 @@ struct FormationSlot16 {int candidate;Object*object;int width,height;};
 struct FormationRowNode {_STL::_List_node_base link;_STL::vector<FormationSlot16> slots;};
 class FreelistProxyHead {public:__declspec(noinline) void setup(const void*,void*value){*(void**)this=value;}};
 
-void *rva000307F0_new(unsigned,int);
 namespace _STL {
 template<> __declspec(noinline) inline _List_base<Coord3D,allocator<Coord3D> >::_List_base(const allocator<Coord3D>&a){
  char dummy;((FreelistProxyHead*)this)->setup(&dummy,0);
- _List_node_base*n=(_List_node_base*)rva000307F0_new(20,0);
+ _List_node_base*n=(_List_node_base*)allocator<char>::allocate(20,0);
  n->next=n;n->prev=n;head=n;
 }
 }

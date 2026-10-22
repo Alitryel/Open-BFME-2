@@ -20,6 +20,7 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 
 class GameWindow;
 typedef _STL::list<GameWindow *, _STL::allocator<GameWindow *> > GWList;
+namespace _STL { template <> GWList::iterator GWList::erase(GWList::iterator); }
 
 class Rva00423D92
 {
@@ -27,7 +28,7 @@ public:
 	void rva00423D92(GWList::const_iterator a, GWList::const_iterator b, const _STL::__false_type &c);
 };
 
-void Rva00423D92::rva00423D92(GWList::const_iterator first2, GWList::const_iterator last2, const _STL::__false_type &)
+__declspec(noinline) inline void Rva00423D92::rva00423D92(GWList::const_iterator first2, GWList::const_iterator last2, const _STL::__false_type &)
 {
 	GWList *me = (GWList *)this;
 	GWList::iterator first1 = me->begin();
@@ -38,4 +39,10 @@ void Rva00423D92::rva00423D92(GWList::const_iterator first2, GWList::const_itera
 		me->erase(first1, last1);
 	else
 		me->insert(last1, first2, last2);
+}
+
+// ?<emitGameWindowAssignDispatch> absent-from-retail
+void emitGameWindowAssignDispatch(Rva00423D92 *list, GWList::const_iterator first, GWList::const_iterator last, const _STL::__false_type &tag)
+{
+	list->rva00423D92(first, last, tag);
 }

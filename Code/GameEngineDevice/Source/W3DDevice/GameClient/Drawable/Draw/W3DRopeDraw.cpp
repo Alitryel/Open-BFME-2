@@ -48,6 +48,7 @@ namespace _STL { template <> BfmeE16 * allocator<BfmeE16>::allocate(unsigned int
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
 template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
+template <> void vector<BfmeE16>::_M_clear();
 }
 
 
