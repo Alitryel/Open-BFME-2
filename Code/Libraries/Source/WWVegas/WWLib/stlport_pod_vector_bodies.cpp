@@ -147,7 +147,6 @@ struct BfmePod68 { int a[17]; };
 // bfme link decl-only BfmePod68
 namespace _STL { template <> BfmePod68 * vector<BfmePod68, allocator<BfmePod68> >::erase(BfmePod68 *, BfmePod68 *); }
 namespace _STL { template <> BfmePod68 * vector<BfmePod68, allocator<BfmePod68> >::erase(BfmePod68 *); }
-template BfmePod68 * _STL::__copy(BfmePod68 *, BfmePod68 *, BfmePod68 *, const _STL::random_access_iterator_tag &, ptrdiff_t *);
 inline bool operator==(const BfmePod68 &x, const BfmePod68 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod68 &x, const BfmePod68 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod76 { int a[19]; };
@@ -266,6 +265,114 @@ inline bool operator<(const BfmePod340 &x, const BfmePod340 &y) { return x.a[0] 
 // (0x004D9B98); declare that specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod340, BfmePod340>(BfmePod340 *__p, const BfmePod340 &__val); }
 
+// These allocation helpers use the no-catch bodies owned by the POD providers.
+namespace _STL {
+template <> template <> inline
+BfmePod32 *vector<BfmePod32>::_M_allocate_and_copy<BfmePod32 *>(
+    size_t __n, BfmePod32 *__first, BfmePod32 *__last)
+{
+    BfmePod32 *__result = this->_M_end_of_storage.allocate(__n);
+    __uninitialized_copy(__first, __last, __result, __false_type());
+    return __result;
+}
+
+template <> template <> inline
+BfmePod44 *vector<BfmePod44>::_M_allocate_and_copy<BfmePod44 *>(
+    size_t __n, BfmePod44 *__first, BfmePod44 *__last)
+{
+    BfmePod44 *__result = this->_M_end_of_storage.allocate(__n);
+    __uninitialized_copy(__first, __last, __result, __false_type());
+    return __result;
+}
+
+}
+
+// Keep the shared destruction workers in their existing retail providers.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __destroy_aux<BfmePod248 *>(BfmePod248 *__first, BfmePod248 *__last, const __false_type &)
+{
+    for (; __first != __last; ++__first)
+        _Destroy(&*__first);
+}
+
+template <> __declspec(dllimport) __forceinline
+void _Destroy<BfmePod248 *>(BfmePod248 *__first, BfmePod248 *__last)
+{ __destroy(__first, __last, (BfmePod248 *)0); }
+
+template <> __declspec(dllimport) __forceinline
+void vector<BfmePod248>::_M_clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start,
+        this->_M_end_of_storage._M_data - this->_M_start);
+}
+
+template <> __declspec(dllimport) __forceinline
+void __destroy_aux<BfmePod252 *>(BfmePod252 *__first, BfmePod252 *__last, const __false_type &)
+{
+    for (; __first != __last; ++__first)
+        _Destroy(&*__first);
+}
+
+template <> __declspec(dllimport) __forceinline
+void _Destroy<BfmePod252 *>(BfmePod252 *__first, BfmePod252 *__last)
+{ __destroy(__first, __last, (BfmePod252 *)0); }
+
+template <> __declspec(dllimport) __forceinline
+void vector<BfmePod252>::_M_clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start,
+        this->_M_end_of_storage._M_data - this->_M_start);
+}
+
+}
+
+// Keep header operations inline without emitting unused external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void vector<BfmePod40>::_M_clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start,
+        this->_M_end_of_storage._M_data - this->_M_start);
+}
+
+template <> __declspec(dllimport) __forceinline
+void vector<BfmePod88>::_M_clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start,
+        this->_M_end_of_storage._M_data - this->_M_start);
+}
+
+template <> __declspec(dllimport) __forceinline
+void vector<BfmePod104>::_M_clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start,
+        this->_M_end_of_storage._M_data - this->_M_start);
+}
+
+template <> __declspec(dllimport) __forceinline
+void vector<BfmePod128>::_M_clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start,
+        this->_M_end_of_storage._M_data - this->_M_start);
+}
+
+
+template <> __declspec(dllimport) __forceinline
+char *_STLP_alloc_proxy<char *, char, allocator<char> >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<allocator<char> &>(*this), (char *)0).allocate(__n, 0); }
+
+template <> __declspec(dllimport) __forceinline
+char *uninitialized_fill_n<char *, unsigned int, char>(char *__first, unsigned int __n, const char &__x)
+{ return __uninitialized_fill_n(__first, __n, __x, __true_type()); }
+}
+
 // The 20-byte growth worker is the complete no-catch retail body at
 // 0x59B809. Other element copies in this TU retain their native EH paths.
 // Keep STLport 4.5.3 growth/copy/fill/release semantics for this specialization.
@@ -369,74 +476,21 @@ namespace _STL { template <> BfmePod52 *vector<BfmePod52, allocator<BfmePod52> >
 // insert/resize call _M_fill_insert out of line: bind it to the rowed retail copy
 // (0x005B1748, StlportVectorFillInsertRva005B1748.cpp) instead of emitting this unit's own.
 namespace _STL { template <> void vector<BfmePod20, allocator<BfmePod20> >::_M_fill_insert(BfmePod20 *, size_t, const BfmePod20 &); }
-template class _STL::vector<unsigned char, _STL::allocator<unsigned char> >;
-template class _STL::vector<char, _STL::allocator<char > >;
-template class _STL::vector<BfmePod20, _STL::allocator<BfmePod20 > >;
-template class _STL::vector<BfmePod24, _STL::allocator<BfmePod24 > >;
-template class _STL::vector<BfmePod28, _STL::allocator<BfmePod28 > >;
-template class _STL::vector<BfmePod32, _STL::allocator<BfmePod32 > >;
-template void _STL::_Construct(BfmePod36 *, const BfmePod36 &);
-template BfmePod36 *_STL::__uninitialized_fill_n(BfmePod36 *, size_t, const BfmePod36 &, const _STL::__false_type &);
-template BfmePod36 *_STL::__uninitialized_copy(const BfmePod36 *, const BfmePod36 *, BfmePod36 *, const _STL::__false_type &);
-template BfmePod36 *_STL::uninitialized_fill_n(BfmePod36 *, size_t, const BfmePod36 &);
-template class _STL::vector<BfmePod40, _STL::allocator<BfmePod40 > >;
-template class _STL::vector<BfmePod44, _STL::allocator<BfmePod44 > >;
-template class _STL::vector<BfmePod48, _STL::allocator<BfmePod48 > >;
-template class _STL::vector<BfmePod52, _STL::allocator<BfmePod52 > >;
 // This size-only view retains allocation and plain assignment operations.
-template class _STL::allocator<BfmePod60>;
-template BfmePod60* _STL::__copy<BfmePod60*, BfmePod60*, int>(
-    BfmePod60*, BfmePod60*, BfmePod60*, const _STL::random_access_iterator_tag&, int*);
-template BfmePod60* _STL::__copy_backward<BfmePod60*, BfmePod60*, int>(
-    BfmePod60*, BfmePod60*, BfmePod60*, const _STL::random_access_iterator_tag&, int*);
-template void _STL::fill<BfmePod60*, BfmePod60>(BfmePod60*, BfmePod60*, const BfmePod60&);
-template class _STL::vector<BfmePod68, _STL::allocator<BfmePod68 > >;
-template class _STL::vector<BfmePod76, _STL::allocator<BfmePod76 > >;
-template class _STL::vector<BfmePod80, _STL::allocator<BfmePod80 > >;
-template class _STL::vector<BfmePod88, _STL::allocator<BfmePod88 > >;
-template class _STL::vector<BfmePod92, _STL::allocator<BfmePod92 > >;
-template class _STL::vector<BfmePod104, _STL::allocator<BfmePod104 > >;
-template class _STL::vector<BfmePod128, _STL::allocator<BfmePod128 > >;
-template class _STL::vector<BfmePod144, _STL::allocator<BfmePod144 > >;
-template class _STL::vector<BfmePod148, _STL::allocator<BfmePod148 > >;
-template class _STL::vector<BfmePod160, _STL::allocator<BfmePod160 > >;
-template class _STL::vector<BfmePod172, _STL::allocator<BfmePod172 > >;
-template class _STL::vector<BfmePod180, _STL::allocator<BfmePod180 > >;
-template class _STL::vector<CreateAHeroManager::CreateAHeroSubClass, _STL::allocator<CreateAHeroManager::CreateAHeroSubClass > >;
-template _STL::vector<BfmePod248>::vector(const _STL::vector<BfmePod248>&);
-template void _STL::vector<BfmePod248>::push_back(const BfmePod248&);
-template BfmePod248* _STL::__uninitialized_fill_n<BfmePod248*,unsigned int,BfmePod248>(BfmePod248*,unsigned int,const BfmePod248&,const _STL::__false_type&);
-template _STL::vector<BfmePod252>::vector(const _STL::vector<BfmePod252>&);
-template void _STL::vector<BfmePod252>::push_back(const BfmePod252&);
-template BfmePod252* _STL::__uninitialized_fill_n<BfmePod252*,unsigned int,BfmePod252>(BfmePod252*,unsigned int,const BfmePod252&,const _STL::__false_type&);
 // Only allocation and plain assignment are claimed for this size-only view.
-template class _STL::allocator<BfmePod260>;
-template BfmePod260* _STL::__copy<BfmePod260*, BfmePod260*, int>(
-    BfmePod260*, BfmePod260*, BfmePod260*,
-    const _STL::random_access_iterator_tag&, int*);
 // Instantiate matched members without this profile's unrelated allocation/copy
 // body; the no-EH provider owns retail 0x004D9C1C.
-template void _STL::vector<BfmePod340>::push_back(const BfmePod340 &);
-template BfmePod340 *_STL::__uninitialized_copy<const BfmePod340 *, BfmePod340 *>(
-    const BfmePod340 *, const BfmePod340 *, BfmePod340 *, const _STL::__false_type &);
-template BfmePod340 *_STL::__uninitialized_fill_n<BfmePod340 *, unsigned int, BfmePod340>(
-    BfmePod340 *, unsigned int, const BfmePod340 &, const _STL::__false_type &);
-template BfmePod340 *_STL::allocator<BfmePod340>::allocate(unsigned int, const void *) const;
 // ??$__find@PAUBfmePod20@@U1@@_STL@@YAPAUBfmePod20@@PAU1@0ABU1@ABUrandom_access_iterator_tag@0@@Z @0x002194CC 118B
 // Unrolled random-access __find over 20-byte elements comparing a[0]; caller
 // 0x002198BE is the 27B find wrapper that becomes ready on landing.
-template BfmePod20* _STL::__find(BfmePod20*, BfmePod20*, const BfmePod20&, const _STL::random_access_iterator_tag&);
 // ??$find@PAUBfmePod20@@U1@@_STL@@YAPAUBfmePod20@@PAU1@0ABU1@@Z @0x002198AD 27B
 // find wrapper over the rowed __find 0x002194CC via tag local; callers
 // 0x0021EAA6 0x004EDD71.
-template BfmePod20* _STL::find(BfmePod20*, BfmePod20*, const BfmePod20&);
 // ??$__find@PAUBfmePod40@@U1@@_STL@@YAPAUBfmePod40@@PAU1@0ABU1@ABUrandom_access_iterator_tag@0@@Z @0x0040A68F 118B
 // Unrolled random-access __find over 40-byte elements comparing a[0]; caller
 // 0x0040A891 is the 27B find wrapper that becomes ready on landing.
-template BfmePod40* _STL::__find(BfmePod40*, BfmePod40*, const BfmePod40&, const _STL::random_access_iterator_tag&);
 // ??$find@PAUBfmePod40@@U1@@_STL@@YAPAUBfmePod40@@PAU1@0ABU1@@Z @0x0040A891 27B
 // find wrapper over __find 0x0040A68F via tag local.
-template BfmePod40* _STL::find(BfmePod40*, BfmePod40*, const BfmePod40&);
 // ?rva0040AAD5@Rva0040AAD5@@QAEPAUBfmePod40@@H@Z @0x0040AAD5 35B
 // Searches vector<BfmePod40> at +0xC by first-field key via rowed find
 // 0x0040A891; caller 0x0040C0FE passes [edi] int key and tests for null.
@@ -457,4 +511,291 @@ BfmePod40 *Rva0040AAD5::rva0040AAD5(int key)
 // 0x68 in retail; caller 0x0040A8AC is the 27B find wrapper it unlocks.
 // ??$find@PAUBfmePod104@@U1@@_STL@@YAPAUBfmePod104@@PAU1@0ABU1@@Z @0x0040A8AC 27B
 // find wrapper over __find 0x0040A705 via tag local.
-template BfmePod104* _STL::find(BfmePod104*, BfmePod104*, const BfmePod104&);
+
+// Instantiate the matched members without unrelated container operations.
+template void _STL::_Construct<BfmePod20,BfmePod20>(BfmePod20 *,BfmePod20 const &);
+
+template void _STL::_Construct<BfmePod24,BfmePod24>(BfmePod24 *,BfmePod24 const &);
+
+template void _STL::_Construct<BfmePod28,BfmePod28>(BfmePod28 *,BfmePod28 const &);
+
+template void _STL::_Construct<BfmePod36,BfmePod36>(BfmePod36 *,BfmePod36 const &);
+
+template void _STL::_Construct<BfmePod44,BfmePod44>(BfmePod44 *,BfmePod44 const &);
+
+template void _STL::_Construct<BfmePod68,BfmePod68>(BfmePod68 *,BfmePod68 const &);
+
+template _STL::vector<char,_STL::allocator<char> >::vector(unsigned int);
+
+template void _STL::vector<BfmePod44,_STL::allocator<BfmePod44> >::reserve(unsigned int);
+
+template void _STL::vector<BfmePod32,_STL::allocator<BfmePod32> >::reserve(unsigned int);
+
+template _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::vector(_STL::vector<BfmePod40,_STL::allocator<BfmePod40> > const &);
+
+template _STL::vector<BfmePod44,_STL::allocator<BfmePod44> >::vector(_STL::vector<BfmePod44,_STL::allocator<BfmePod44> > const &);
+
+template _STL::vector<BfmePod48,_STL::allocator<BfmePod48> >::vector(_STL::vector<BfmePod48,_STL::allocator<BfmePod48> > const &);
+
+template _STL::vector<BfmePod52,_STL::allocator<BfmePod52> >::vector(_STL::vector<BfmePod52,_STL::allocator<BfmePod52> > const &);
+
+template _STL::_Vector_base<BfmePod32,_STL::allocator<BfmePod32> >::_Vector_base(unsigned int,_STL::allocator<BfmePod32> const &);
+
+template _STL::_Vector_base<BfmePod44,_STL::allocator<BfmePod44> >::_Vector_base(unsigned int,_STL::allocator<BfmePod44> const &);
+
+template _STL::_Vector_base<BfmePod52,_STL::allocator<BfmePod52> >::_Vector_base(unsigned int,_STL::allocator<BfmePod52> const &);
+
+template void _STL::vector<BfmePod52,_STL::allocator<BfmePod52> >::push_back(BfmePod52 const &);
+
+template BfmePod44 * _STL::__copy_backward<BfmePod44 *,BfmePod44 *,int>(BfmePod44 *,BfmePod44 *,BfmePod44 *,_STL::random_access_iterator_tag const &,int *);
+
+template BfmePod52 * _STL::__copy_backward<BfmePod52 *,BfmePod52 *,int>(BfmePod52 *,BfmePod52 *,BfmePod52 *,_STL::random_access_iterator_tag const &,int *);
+
+template BfmePod60 * _STL::__copy_backward<BfmePod60 *,BfmePod60 *,int>(BfmePod60 *,BfmePod60 *,BfmePod60 *,_STL::random_access_iterator_tag const &,int *);
+
+template void _STL::fill<BfmePod44 *,BfmePod44>(BfmePod44 *,BfmePod44 *,BfmePod44 const &);
+
+template void _STL::fill<BfmePod52 *,BfmePod52>(BfmePod52 *,BfmePod52 *,BfmePod52 const &);
+
+template void _STL::fill<BfmePod60 *,BfmePod60>(BfmePod60 *,BfmePod60 *,BfmePod60 const &);
+
+template BfmePod44 * _STL::allocator<BfmePod44>::allocate(unsigned int,void const *)const ;
+
+template BfmePod52 * _STL::allocator<BfmePod52>::allocate(unsigned int,void const *)const ;
+
+template BfmePod60 * _STL::allocator<BfmePod60>::allocate(unsigned int,void const *)const ;
+
+template _STL::vector<BfmePod104,_STL::allocator<BfmePod104> >::vector(_STL::vector<BfmePod104,_STL::allocator<BfmePod104> > const &);
+
+template _STL::vector<BfmePod88,_STL::allocator<BfmePod88> >::vector(_STL::vector<BfmePod88,_STL::allocator<BfmePod88> > const &);
+
+template _STL::vector<BfmePod128,_STL::allocator<BfmePod128> >::vector(_STL::vector<BfmePod128,_STL::allocator<BfmePod128> > const &);
+
+template _STL::_Vector_base<BfmePod104,_STL::allocator<BfmePod104> >::_Vector_base(unsigned int,_STL::allocator<BfmePod104> const &);
+
+template _STL::_Vector_base<BfmePod128,_STL::allocator<BfmePod128> >::_Vector_base(unsigned int,_STL::allocator<BfmePod128> const &);
+
+template _STL::_Vector_base<BfmePod88,_STL::allocator<BfmePod88> >::_Vector_base(unsigned int,_STL::allocator<BfmePod88> const &);
+
+template void _STL::vector<BfmePod128,_STL::allocator<BfmePod128> >::push_back(BfmePod128 const &);
+
+template void _STL::vector<BfmePod144,_STL::allocator<BfmePod144> >::push_back(BfmePod144 const &);
+
+template void _STL::vector<BfmePod148,_STL::allocator<BfmePod148> >::push_back(BfmePod148 const &);
+
+template void _STL::vector<BfmePod160,_STL::allocator<BfmePod160> >::push_back(BfmePod160 const &);
+
+template void _STL::vector<BfmePod172,_STL::allocator<BfmePod172> >::push_back(BfmePod172 const &);
+
+template void _STL::vector<BfmePod180,_STL::allocator<BfmePod180> >::push_back(BfmePod180 const &);
+
+template void _STL::vector<BfmePod68,_STL::allocator<BfmePod68> >::push_back(BfmePod68 const &);
+
+template void _STL::vector<BfmePod76,_STL::allocator<BfmePod76> >::push_back(BfmePod76 const &);
+
+template void _STL::vector<BfmePod88,_STL::allocator<BfmePod88> >::push_back(BfmePod88 const &);
+
+template void _STL::vector<BfmePod92,_STL::allocator<BfmePod92> >::push_back(BfmePod92 const &);
+
+template BfmePod128 * _STL::__uninitialized_fill_n<BfmePod128 *,unsigned int,BfmePod128>(BfmePod128 *,unsigned int,BfmePod128 const &,_STL::__false_type const &);
+
+template BfmePod144 * _STL::__uninitialized_fill_n<BfmePod144 *,unsigned int,BfmePod144>(BfmePod144 *,unsigned int,BfmePod144 const &,_STL::__false_type const &);
+
+template BfmePod148 * _STL::__uninitialized_fill_n<BfmePod148 *,unsigned int,BfmePod148>(BfmePod148 *,unsigned int,BfmePod148 const &,_STL::__false_type const &);
+
+template BfmePod160 * _STL::__uninitialized_fill_n<BfmePod160 *,unsigned int,BfmePod160>(BfmePod160 *,unsigned int,BfmePod160 const &,_STL::__false_type const &);
+
+template BfmePod172 * _STL::__uninitialized_fill_n<BfmePod172 *,unsigned int,BfmePod172>(BfmePod172 *,unsigned int,BfmePod172 const &,_STL::__false_type const &);
+
+template BfmePod180 * _STL::__uninitialized_fill_n<BfmePod180 *,unsigned int,BfmePod180>(BfmePod180 *,unsigned int,BfmePod180 const &,_STL::__false_type const &);
+
+template BfmePod68 * _STL::__uninitialized_fill_n<BfmePod68 *,unsigned int,BfmePod68>(BfmePod68 *,unsigned int,BfmePod68 const &,_STL::__false_type const &);
+
+template BfmePod88 * _STL::__uninitialized_fill_n<BfmePod88 *,unsigned int,BfmePod88>(BfmePod88 *,unsigned int,BfmePod88 const &,_STL::__false_type const &);
+
+template BfmePod92 * _STL::__uninitialized_fill_n<BfmePod92 *,unsigned int,BfmePod92>(BfmePod92 *,unsigned int,BfmePod92 const &,_STL::__false_type const &);
+
+template BfmePod148 * _STL::allocator<BfmePod148>::allocate(unsigned int,void const *)const ;
+
+template BfmePod172 * _STL::allocator<BfmePod172>::allocate(unsigned int,void const *)const ;
+
+template BfmePod180 * _STL::allocator<BfmePod180>::allocate(unsigned int,void const *)const ;
+
+template BfmePod104 * _STL::allocator<BfmePod104>::allocate(unsigned int,void const *)const ;
+
+template BfmePod128 * _STL::allocator<BfmePod128>::allocate(unsigned int,void const *)const ;
+
+template BfmePod76 * _STL::allocator<BfmePod76>::allocate(unsigned int,void const *)const ;
+
+template BfmePod92 * _STL::allocator<BfmePod92>::allocate(unsigned int,void const *)const ;
+
+template BfmePod80 * _STL::__uninitialized_fill_n<BfmePod80 *,unsigned int,BfmePod80>(BfmePod80 *,unsigned int,BfmePod80 const &,_STL::__false_type const &);
+
+template _STL::vector<CreateAHeroManager::CreateAHeroSubClass,_STL::allocator<CreateAHeroManager::CreateAHeroSubClass> >::vector(_STL::vector<CreateAHeroManager::CreateAHeroSubClass,_STL::allocator<CreateAHeroManager::CreateAHeroSubClass> > const &);
+
+template _STL::vector<BfmePod248,_STL::allocator<BfmePod248> >::vector(_STL::vector<BfmePod248,_STL::allocator<BfmePod248> > const &);
+
+template _STL::vector<BfmePod252,_STL::allocator<BfmePod252> >::vector(_STL::vector<BfmePod252,_STL::allocator<BfmePod252> > const &);
+
+template _STL::_Vector_base<CreateAHeroManager::CreateAHeroSubClass,_STL::allocator<CreateAHeroManager::CreateAHeroSubClass> >::_Vector_base(unsigned int,_STL::allocator<CreateAHeroManager::CreateAHeroSubClass> const &);
+
+template _STL::_Vector_base<BfmePod248,_STL::allocator<BfmePod248> >::_Vector_base(unsigned int,_STL::allocator<BfmePod248> const &);
+
+template _STL::_Vector_base<BfmePod252,_STL::allocator<BfmePod252> >::_Vector_base(unsigned int,_STL::allocator<BfmePod252> const &);
+
+template void _STL::vector<BfmePod248,_STL::allocator<BfmePod248> >::push_back(BfmePod248 const &);
+
+template void _STL::vector<BfmePod252,_STL::allocator<BfmePod252> >::push_back(BfmePod252 const &);
+
+template void _STL::vector<BfmePod340,_STL::allocator<BfmePod340> >::push_back(BfmePod340 const &);
+
+template BfmePod248 * _STL::__uninitialized_fill_n<BfmePod248 *,unsigned int,BfmePod248>(BfmePod248 *,unsigned int,BfmePod248 const &,_STL::__false_type const &);
+
+template BfmePod252 * _STL::__uninitialized_fill_n<BfmePod252 *,unsigned int,BfmePod252>(BfmePod252 *,unsigned int,BfmePod252 const &,_STL::__false_type const &);
+
+template BfmePod340 * _STL::__uninitialized_fill_n<BfmePod340 *,unsigned int,BfmePod340>(BfmePod340 *,unsigned int,BfmePod340 const &,_STL::__false_type const &);
+
+template CreateAHeroManager::CreateAHeroSubClass * _STL::allocator<CreateAHeroManager::CreateAHeroSubClass>::allocate(unsigned int,void const *)const ;
+
+template BfmePod248 * _STL::allocator<BfmePod248>::allocate(unsigned int,void const *)const ;
+
+template BfmePod252 * _STL::allocator<BfmePod252>::allocate(unsigned int,void const *)const ;
+
+template BfmePod260 * _STL::allocator<BfmePod260>::allocate(unsigned int,void const *)const ;
+
+template BfmePod340 * _STL::allocator<BfmePod340>::allocate(unsigned int,void const *)const ;
+
+template BfmePod68 * _STL::allocator<BfmePod68>::allocate(unsigned int,void const *)const ;
+
+template BfmePod88 * _STL::allocator<BfmePod88>::allocate(unsigned int,void const *)const ;
+
+template BfmePod40 * _STL::__uninitialized_copy<BfmePod40 const *,BfmePod40 *>(BfmePod40 const *,BfmePod40 const *,BfmePod40 *,_STL::__false_type const &);
+
+template void _STL::vector<BfmePod20,_STL::allocator<BfmePod20> >::push_back(BfmePod20 const &);
+
+template void _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::push_back(BfmePod28 const &);
+
+template void _STL::vector<BfmePod32,_STL::allocator<BfmePod32> >::push_back(BfmePod32 const &);
+
+template void _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::push_back(BfmePod40 const &);
+
+template BfmePod92 * _STL::__uninitialized_copy<BfmePod92 const *,BfmePod92 *>(BfmePod92 const *,BfmePod92 const *,BfmePod92 *,_STL::__false_type const &);
+
+template BfmePod144 * _STL::__uninitialized_copy<BfmePod144 const *,BfmePod144 *>(BfmePod144 const *,BfmePod144 const *,BfmePod144 *,_STL::__false_type const &);
+
+template BfmePod44 * _STL::__copy<BfmePod44 *,BfmePod44 *,int>(BfmePod44 *,BfmePod44 *,BfmePod44 *,_STL::random_access_iterator_tag const &,int *);
+
+template BfmePod44 * _STL::__uninitialized_fill_n<BfmePod44 *,unsigned int,BfmePod44>(BfmePod44 *,unsigned int,BfmePod44 const &,_STL::__false_type const &);
+
+template BfmePod44 * _STL::__uninitialized_copy<BfmePod44 const *,BfmePod44 *>(BfmePod44 const *,BfmePod44 const *,BfmePod44 *,_STL::__false_type const &);
+
+template void _STL::vector<char,_STL::allocator<char> >::_M_fill_insert(char *,unsigned int,char const &);
+
+template BfmePod36 * _STL::__uninitialized_fill_n<BfmePod36 *,unsigned int,BfmePod36>(BfmePod36 *,unsigned int,BfmePod36 const &,_STL::__false_type const &);
+
+template BfmePod36 * _STL::__uninitialized_copy<BfmePod36 const *,BfmePod36 *>(BfmePod36 const *,BfmePod36 const *,BfmePod36 *,_STL::__false_type const &);
+
+template BfmePod24 * _STL::__uninitialized_copy<BfmePod24 const *,BfmePod24 *>(BfmePod24 const *,BfmePod24 const *,BfmePod24 *,_STL::__false_type const &);
+
+template BfmePod24 * _STL::__uninitialized_fill_n<BfmePod24 *,unsigned int,BfmePod24>(BfmePod24 *,unsigned int,BfmePod24 const &,_STL::__false_type const &);
+
+template BfmePod180 * _STL::__uninitialized_copy<BfmePod180 const *,BfmePod180 *>(BfmePod180 const *,BfmePod180 const *,BfmePod180 *,_STL::__false_type const &);
+
+template BfmePod248 * _STL::__uninitialized_copy<BfmePod248 const *,BfmePod248 *>(BfmePod248 const *,BfmePod248 const *,BfmePod248 *,_STL::__false_type const &);
+
+template BfmePod76 * _STL::__uninitialized_copy<BfmePod76 const *,BfmePod76 *>(BfmePod76 const *,BfmePod76 const *,BfmePod76 *,_STL::__false_type const &);
+
+template BfmePod76 * _STL::__uninitialized_fill_n<BfmePod76 *,unsigned int,BfmePod76>(BfmePod76 *,unsigned int,BfmePod76 const &,_STL::__false_type const &);
+
+template BfmePod68 * _STL::__uninitialized_copy<BfmePod68 const *,BfmePod68 *>(BfmePod68 const *,BfmePod68 const *,BfmePod68 *,_STL::__false_type const &);
+
+template BfmePod68 * _STL::__copy<BfmePod68 *,BfmePod68 *,int>(BfmePod68 *,BfmePod68 *,BfmePod68 *,_STL::random_access_iterator_tag const &,int *);
+
+template BfmePod52 * _STL::__copy<BfmePod52 *,BfmePod52 *,int>(BfmePod52 *,BfmePod52 *,BfmePod52 *,_STL::random_access_iterator_tag const &,int *);
+
+template BfmePod52 * _STL::__uninitialized_fill_n<BfmePod52 *,unsigned int,BfmePod52>(BfmePod52 *,unsigned int,BfmePod52 const &,_STL::__false_type const &);
+
+template BfmePod172 * _STL::__uninitialized_copy<BfmePod172 const *,BfmePod172 *>(BfmePod172 const *,BfmePod172 const *,BfmePod172 *,_STL::__false_type const &);
+
+template BfmePod28 * _STL::__uninitialized_copy<BfmePod28 const *,BfmePod28 *>(BfmePod28 const *,BfmePod28 const *,BfmePod28 *,_STL::__false_type const &);
+
+template BfmePod28 * _STL::__uninitialized_fill_n<BfmePod28 *,unsigned int,BfmePod28>(BfmePod28 *,unsigned int,BfmePod28 const &,_STL::__false_type const &);
+
+template BfmePod260 * _STL::__copy<BfmePod260 *,BfmePod260 *,int>(BfmePod260 *,BfmePod260 *,BfmePod260 *,_STL::random_access_iterator_tag const &,int *);
+
+template BfmePod128 * _STL::__uninitialized_copy<BfmePod128 const *,BfmePod128 *>(BfmePod128 const *,BfmePod128 const *,BfmePod128 *,_STL::__false_type const &);
+
+template BfmePod148 * _STL::__uninitialized_copy<BfmePod148 const *,BfmePod148 *>(BfmePod148 const *,BfmePod148 const *,BfmePod148 *,_STL::__false_type const &);
+
+template BfmePod160 * _STL::__uninitialized_copy<BfmePod160 const *,BfmePod160 *>(BfmePod160 const *,BfmePod160 const *,BfmePod160 *,_STL::__false_type const &);
+
+template BfmePod32 * _STL::__uninitialized_copy<BfmePod32 const *,BfmePod32 *>(BfmePod32 const *,BfmePod32 const *,BfmePod32 *,_STL::__false_type const &);
+
+template BfmePod32 * _STL::__uninitialized_fill_n<BfmePod32 *,unsigned int,BfmePod32>(BfmePod32 *,unsigned int,BfmePod32 const &,_STL::__false_type const &);
+
+template BfmePod340 * _STL::__uninitialized_copy<BfmePod340 const *,BfmePod340 *>(BfmePod340 const *,BfmePod340 const *,BfmePod340 *,_STL::__false_type const &);
+
+template BfmePod88 * _STL::__uninitialized_copy<BfmePod88 const *,BfmePod88 *>(BfmePod88 const *,BfmePod88 const *,BfmePod88 *,_STL::__false_type const &);
+
+template BfmePod252 * _STL::__uninitialized_copy<BfmePod252 const *,BfmePod252 *>(BfmePod252 const *,BfmePod252 const *,BfmePod252 *,_STL::__false_type const &);
+
+template BfmePod80 * _STL::__uninitialized_copy<BfmePod80 const *,BfmePod80 *>(BfmePod80 const *,BfmePod80 const *,BfmePod80 *,_STL::__false_type const &);
+
+template BfmePod40 * _STL::__uninitialized_fill_n<BfmePod40 *,unsigned int,BfmePod40>(BfmePod40 *,unsigned int,BfmePod40 const &,_STL::__false_type const &);
+
+template BfmePod60 * _STL::__copy<BfmePod60 *,BfmePod60 *,int>(BfmePod60 *,BfmePod60 *,BfmePod60 *,_STL::random_access_iterator_tag const &,int *);
+
+template BfmePod20 * _STL::__uninitialized_fill_n<BfmePod20 *,unsigned int,BfmePod20>(BfmePod20 *,unsigned int,BfmePod20 const &,_STL::__false_type const &);
+
+template BfmePod20 * _STL::__uninitialized_copy<BfmePod20 const *,BfmePod20 *>(BfmePod20 const *,BfmePod20 const *,BfmePod20 *,_STL::__false_type const &);
+
+template BfmePod44 * _STL::uninitialized_fill_n<BfmePod44 *,unsigned int,BfmePod44>(BfmePod44 *,unsigned int,BfmePod44 const &);
+
+template BfmePod36 * _STL::uninitialized_fill_n<BfmePod36 *,unsigned int,BfmePod36>(BfmePod36 *,unsigned int,BfmePod36 const &);
+
+template BfmePod52 * _STL::uninitialized_fill_n<BfmePod52 *,unsigned int,BfmePod52>(BfmePod52 *,unsigned int,BfmePod52 const &);
+
+template BfmePod172 * _STL::uninitialized_fill_n<BfmePod172 *,unsigned int,BfmePod172>(BfmePod172 *,unsigned int,BfmePod172 const &);
+
+template BfmePod80 * _STL::uninitialized_fill_n<BfmePod80 *,unsigned int,BfmePod80>(BfmePod80 *,unsigned int,BfmePod80 const &);
+
+template BfmePod20 * _STL::uninitialized_fill_n<BfmePod20 *,unsigned int,BfmePod20>(BfmePod20 *,unsigned int,BfmePod20 const &);
+
+template BfmePod44 * _STL::__copy_backward_ptrs<BfmePod44 *,BfmePod44 *>(BfmePod44 *,BfmePod44 *,BfmePod44 *,_STL::__false_type const &);
+
+template CreateAHeroManager::CreateAHeroSubClass * _STL::__uninitialized_copy<CreateAHeroManager::CreateAHeroSubClass const *,CreateAHeroManager::CreateAHeroSubClass *>(CreateAHeroManager::CreateAHeroSubClass const *,CreateAHeroManager::CreateAHeroSubClass const *,CreateAHeroManager::CreateAHeroSubClass *,_STL::__false_type const &);
+
+template BfmePod48 * _STL::__uninitialized_copy<BfmePod48 const *,BfmePod48 *>(BfmePod48 const *,BfmePod48 const *,BfmePod48 *,_STL::__false_type const &);
+
+template void _STL::vector<CreateAHeroManager::CreateAHeroSubClass,_STL::allocator<CreateAHeroManager::CreateAHeroSubClass> >::push_back(CreateAHeroManager::CreateAHeroSubClass const &);
+
+template void _STL::vector<char,_STL::allocator<char> >::_M_insert_overflow(char *,char const &,_STL::__true_type const &,unsigned int,bool);
+
+template void _STL::vector<BfmePod104,_STL::allocator<BfmePod104> >::push_back(BfmePod104 const &);
+
+template void _STL::vector<BfmePod48,_STL::allocator<BfmePod48> >::push_back(BfmePod48 const &);
+
+template _STL::_Vector_base<char,_STL::allocator<char> >::_Vector_base(unsigned int,_STL::allocator<char> const &);
+
+template BfmePod20 * _STL::__find<BfmePod20 *,BfmePod20>(BfmePod20 *,BfmePod20 *,BfmePod20 const &,_STL::random_access_iterator_tag const &);
+
+template BfmePod20 * _STL::find<BfmePod20 *,BfmePod20>(BfmePod20 *,BfmePod20 *,BfmePod20 const &);
+
+template BfmePod40 * _STL::__find<BfmePod40 *,BfmePod40>(BfmePod40 *,BfmePod40 *,BfmePod40 const &,_STL::random_access_iterator_tag const &);
+
+template BfmePod40 * _STL::find<BfmePod40 *,BfmePod40>(BfmePod40 *,BfmePod40 *,BfmePod40 const &);
+
+template BfmePod104 * _STL::__find<BfmePod104 *,BfmePod104>(BfmePod104 *,BfmePod104 *,BfmePod104 const &,_STL::random_access_iterator_tag const &);
+
+template BfmePod104 * _STL::find<BfmePod104 *,BfmePod104>(BfmePod104 *,BfmePod104 *,BfmePod104 const &);
+
+template void _STL::vector<unsigned char,_STL::allocator<unsigned char> >::_M_insert_overflow(unsigned char *,unsigned char const &,_STL::__true_type const &,unsigned int,bool);
+
+template _STL::allocator<CreateAHeroManager::CreateAHeroSubClass> _STL::vector<CreateAHeroManager::CreateAHeroSubClass,_STL::allocator<CreateAHeroManager::CreateAHeroSubClass> >::get_allocator(void)const ;
+
+template void _STL::vector<char,_STL::allocator<char> >::insert(char *,unsigned int,char const &);
+
+template BfmePod52 * _STL::__uninitialized_copy<BfmePod52 *,BfmePod52 *>(BfmePod52 *,BfmePod52 *,BfmePod52 *,_STL::__false_type const &);
+
+// Shared header destructor used by the char-vector callers.
+template _STL::vector<char>::~vector();

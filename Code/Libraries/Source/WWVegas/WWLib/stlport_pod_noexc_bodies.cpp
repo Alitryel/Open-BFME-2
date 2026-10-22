@@ -79,18 +79,62 @@ class BuddyRequest
 	char m_bfmeBody[0x2B8];
 };
 namespace _STL { template <> BfmePod52 *vector<BfmePod52, allocator<BfmePod52> >::erase(BfmePod52 *, BfmePod52 *); }
-template class _STL::vector<BfmePod28, _STL::allocator<BfmePod28 > >;
-template class _STL::vector<BfmePod32, _STL::allocator<BfmePod32 > >;
-template class _STL::vector<BfmePod40, _STL::allocator<BfmePod40 > >;
-template class _STL::vector<BfmePod44, _STL::allocator<BfmePod44 > >;
-template class _STL::vector<BfmePod52, _STL::allocator<BfmePod52 > >;
-template class _STL::vector<BfmePod68, _STL::allocator<BfmePod68 > >;
-template class _STL::vector<BfmePod76, _STL::allocator<BfmePod76 > >;
-template class _STL::deque<BfmePod8, _STL::allocator<BfmePod8 > >;
-template class _STL::deque<BfmePod16, _STL::allocator<BfmePod16 > >;
-template class _STL::deque<BfmePod20, _STL::allocator<BfmePod20 > >;
-template class _STL::deque<BfmePod28, _STL::allocator<BfmePod28 > >;
-template class _STL::deque<BfmePod492, _STL::allocator<BfmePod492 > >;
-template class _STL::deque<BuddyRequest, _STL::allocator<BuddyRequest > >;
-template class _STL::deque<BfmePod840, _STL::allocator<BfmePod840 > >;
-template _STL::_Bit_iterator &_STL::_Bit_iterator::operator++();
+
+// Instantiate the matched members without unrelated container operations.
+template void _STL::deque<BfmePod28,_STL::allocator<BfmePod28> >::_M_reallocate_map(unsigned int,bool);
+
+template void _STL::vector<BfmePod44,_STL::allocator<BfmePod44> >::_M_insert_overflow(BfmePod44 *,BfmePod44 const &,_STL::__false_type const &,unsigned int,bool);
+
+template void _STL::vector<BfmePod52,_STL::allocator<BfmePod52> >::_M_insert_overflow(BfmePod52 *,BfmePod52 const &,_STL::__false_type const &,unsigned int,bool);
+
+template void _STL::vector<BfmePod68,_STL::allocator<BfmePod68> >::_M_insert_overflow(BfmePod68 *,BfmePod68 const &,_STL::__false_type const &,unsigned int,bool);
+
+template void _STL::vector<BfmePod76,_STL::allocator<BfmePod76> >::_M_insert_overflow(BfmePod76 *,BfmePod76 const &,_STL::__false_type const &,unsigned int,bool);
+
+template void _STL::vector<BfmePod32,_STL::allocator<BfmePod32> >::_M_insert_overflow(BfmePod32 *,BfmePod32 const &,_STL::__false_type const &,unsigned int,bool);
+
+template void _STL::_Deque_base<BfmePod16,_STL::allocator<BfmePod16> >::_M_initialize_map(unsigned int);
+
+template void _STL::_Deque_base<BfmePod8,_STL::allocator<BfmePod8> >::_M_initialize_map(unsigned int);
+
+template void _STL::_Deque_base<BfmePod28,_STL::allocator<BfmePod28> >::_M_initialize_map(unsigned int);
+
+template _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::vector(_STL::vector<BfmePod28,_STL::allocator<BfmePod28> > const &);
+
+template _STL::vector<BfmePod32,_STL::allocator<BfmePod32> >::vector(_STL::vector<BfmePod32,_STL::allocator<BfmePod32> > const &);
+
+template void _STL::_Deque_base<BfmePod28,_STL::allocator<BfmePod28> >::_M_create_nodes(BfmePod28 * *,BfmePod28 * *);
+
+template void _STL::_Deque_base<BfmePod492,_STL::allocator<BfmePod492> >::_M_initialize_map(unsigned int);
+
+template void _STL::_Deque_base<BfmePod840,_STL::allocator<BfmePod840> >::_M_initialize_map(unsigned int);
+
+template void _STL::_Deque_base<BuddyRequest,_STL::allocator<BuddyRequest> >::_M_initialize_map(unsigned int);
+
+template void _STL::_Deque_base<BfmePod492,_STL::allocator<BfmePod492> >::_M_create_nodes(BfmePod492 * *,BfmePod492 * *);
+
+template void _STL::_Deque_base<BfmePod840,_STL::allocator<BfmePod840> >::_M_create_nodes(BfmePod840 * *,BfmePod840 * *);
+
+template void _STL::_Deque_base<BuddyRequest,_STL::allocator<BuddyRequest> >::_M_create_nodes(BuddyRequest * *,BuddyRequest * *);
+
+template void _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::reserve(unsigned int);
+
+template _STL::deque<BfmePod28,_STL::allocator<BfmePod28> >::deque(_STL::allocator<BfmePod28> const &);
+
+template _STL::deque<BfmePod16,_STL::allocator<BfmePod16> >::deque(_STL::allocator<BfmePod16> const &);
+
+template _STL::deque<BfmePod8,_STL::allocator<BfmePod8> >::deque(_STL::allocator<BfmePod8> const &);
+
+template _STL::deque<BfmePod20,_STL::allocator<BfmePod20> >::deque(_STL::allocator<BfmePod20> const &);
+
+template _STL::deque<BuddyRequest,_STL::allocator<BuddyRequest> >::deque(_STL::allocator<BuddyRequest> const &);
+
+template void _STL::_Destroy<_STL::_Deque_iterator<BfmePod16,_STL::_Nonconst_traits<BfmePod16> > >(_STL::_Deque_iterator<BfmePod16,_STL::_Nonconst_traits<BfmePod16> >,_STL::_Deque_iterator<BfmePod16,_STL::_Nonconst_traits<BfmePod16> >);
+
+template BfmePod32 * _STL::vector<BfmePod32,_STL::allocator<BfmePod32> >::_M_allocate_and_copy<BfmePod32 *>(unsigned int,BfmePod32 *,BfmePod32 *);
+
+template _STL::_Bit_iter<_STL::_Bit_reference,_STL::_Bit_reference *> & _STL::_Bit_iter<_STL::_Bit_reference,_STL::_Bit_reference *>::operator++(void);
+
+template void _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::clear(void);
+
+template void _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::insert(BfmePod28 *,unsigned int,BfmePod28 const &);
