@@ -24,12 +24,14 @@ public:
 class TextOnFrameTransition : public Rva001DBAA4
 {
 public:
-	virtual ~TextOnFrameTransition(void);
+	// Retail vftable 0x00C1669C: the destructor (0x0035FA2A) clears +0x0C and chains to
+	// the base; draw and skip are the shared empty body 0x000B3FD0.
+	virtual ~TextOnFrameTransition(void) { m_C = 0; }
 	virtual void init(class GameWindow *win);
 	virtual void update(Int frame);
 	virtual void reverse(void);
-	virtual void draw(void);
-	virtual void skip(void);
+	virtual void draw(void) {}
+	virtual void skip(void) {}
 	TextOnFrameTransition(void);
 
 	Int m_startFrame;	// +0x10
@@ -44,3 +46,4 @@ TextOnFrameTransition::TextOnFrameTransition(void)
 	m_4 = 30;
 	m_9 = TRUE;
 }
+

@@ -61,4 +61,6 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva0002D281Element {Rva0002D281Element();Rva0002D281Element(const Rva0002D281Element&);Rva0002D281Element&operator=(const Rva0002D281Element&);~Rva0002D281Element(){}char bytes[8]; bool operator==(const Rva0002D281Element&)const;};
-template class _STL::hash_map<int,Rva0002D281Element>;
+// Instantiate only the rowed constructor: a whole-class instantiation also emitted members
+// needing the element's undefined operations and kept the unit from linking.
+template _STL::hashtable<_STL::pair<int const, Rva0002D281Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva0002D281Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva0002D281Element> > >::hashtable(unsigned int, _STL::hash<int> const &, _STL::equal_to<int> const &, _STL::allocator<_STL::pair<int const, Rva0002D281Element> > const &);

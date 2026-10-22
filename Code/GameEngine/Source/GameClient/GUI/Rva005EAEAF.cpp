@@ -71,11 +71,28 @@ struct Rva005EAEAFData
 	int m_key;
 };
 
+// Retail's completion call lands on the rowed 0x005EA441, which is
+// ShowBattleStepStateHandler::Done (thiscall, no args) on this same object.
+namespace StrategicInGameUI {
+class DynamicAutoResolveDialog
+{
+public:
+	class Impl
+	{
+	public:
+		class ShowBattleStepStateHandler
+		{
+		public:
+			void Done();
+		};
+	};
+};
+}
+
 class Rva005EAEAF
 {
 public:
 	void rva005EAEAF(int side, int index);
-	void rva005EA441();
 private:
 	char m_pad00[4];
 	Rva005EAEAFData *m_data;
@@ -104,5 +121,6 @@ void Rva005EAEAF::rva005EAEAF(int side, int index)
 	}
 completed:
 	if (--m_remaining <= 0)
-		rva005EA441();
+		reinterpret_cast<StrategicInGameUI::DynamicAutoResolveDialog::Impl::ShowBattleStepStateHandler *>(this)->Done();
 }
+

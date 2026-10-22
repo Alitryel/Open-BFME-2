@@ -26,15 +26,11 @@ public:
 	BfmeTagZBRefCounted *m_bfmeTagZB;
 };
 
-extern void j_0004782a();
-
-void __cdecl bfmeSendZB(void *first, void *second, void *third, BfmeTagZB tag)
+// The rowed copy constructor (0x0014A120) only needs an emitting caller; the old one
+// forwarded through an unrowed placeholder address (0x0004782A) that kept the unit
+// from linking.
+// ?bfmeEmitZBCopy@@YAXPAVBfmeTagZB@@ABV1@@Z absent-from-retail
+void bfmeEmitZBCopy(BfmeTagZB *p, const BfmeTagZB &o)
 {
-	((void (__cdecl *)(void *, void *, void *, BfmeTagZB, BfmeTagZB))j_0004782a)(
-		first, second, third, tag, BfmeTagZB());
-}
-
-void __cdecl bfmeMakeZB(void *first, void *second, void *third)
-{
-	bfmeSendZB(first, second, third, BfmeTagZB());
+	p->BfmeTagZB::BfmeTagZB(o);
 }

@@ -39,11 +39,13 @@ class Squad
 {
 public:
 	Squad();
-	virtual ~Squad();
+	// Retail 0x0026AF86 (via ??_G 0x0026AF6A): frees the two vectors' storage.
+	virtual ~Squad() {}
 
 protected:
-	virtual void loadPostProcess();
-	virtual const char *getSnapshotName() const;
+	// Slot 1 is the shared empty body 0x000B3FD0; slot 2 (0x00268CD6) returns "Squad".
+	virtual void loadPostProcess() {}
+	virtual const char *getSnapshotName() const { return "Squad"; }
 	virtual void xfer(Xfer *xfer);
 
 private:
@@ -54,3 +56,4 @@ private:
 Squad::Squad()
 {
 }
+

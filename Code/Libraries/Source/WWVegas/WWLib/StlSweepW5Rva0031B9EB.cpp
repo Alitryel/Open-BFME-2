@@ -4,7 +4,9 @@
 // stlport
 #include <vector>
 
-struct Rva0031B9EBElement { char bytes[9];Rva0031B9EBElement();Rva0031B9EBElement(const Rva0031B9EBElement&);~Rva0031B9EBElement();Rva0031B9EBElement&operator=(const Rva0031B9EBElement&); bool operator<(const Rva0031B9EBElement&)const; bool operator==(const Rva0031B9EBElement&)const; };
+// Retail's allocate (0x00068E15, shl 2) and copy loop (0x001DD10D, one dword per element)
+// prove a 4-byte element copied by value; the copy constructor is that inline dword copy.
+struct Rva0031B9EBElement { int value;Rva0031B9EBElement();Rva0031B9EBElement(const Rva0031B9EBElement&o):value(o.value){}~Rva0031B9EBElement();Rva0031B9EBElement&operator=(const Rva0031B9EBElement&); bool operator<(const Rva0031B9EBElement&)const; bool operator==(const Rva0031B9EBElement&)const; };
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva0031B9EBElement * _STL::vector<Rva0031B9EBElement, _STL::allocator<Rva0031B9EBElement> >::_M_allocate_and_copy<Rva0031B9EBElement const *>(unsigned int, Rva0031B9EBElement const *, Rva0031B9EBElement const *);

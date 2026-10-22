@@ -36,10 +36,13 @@ public:
     virtual ~SpawnUnitBehaviorIface2();
 };
 
+// Retail's base vftable 0x00C1C780 (stored at +0x20 before the derived one) starts with
+// a __purecall slot, overridden at 0x00C59120 by the AsciiString getter 0x004B8851; the
+// derived table there holds that one slot, so the interface has no virtual destructor.
 class SpawnUnitBehaviorIface3
 {
 public:
-    virtual ~SpawnUnitBehaviorIface3();
+    virtual void slot0() const = 0;
 };
 
 // The base is retail's UpdateModule: its constructor (0x00253390) and
