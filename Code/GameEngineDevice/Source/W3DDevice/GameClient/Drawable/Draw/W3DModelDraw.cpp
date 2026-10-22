@@ -83,6 +83,8 @@ template <> _Rb_tree<NameKeyType, pair<const NameKeyType, PristineBoneInfo>, _Se
 }
 #include "ascii_string.h"
 namespace _STL {
+// The retail find wrapper and search body are supplied by MpGameSetupSlots_Init_InitGadgets.cpp.
+template <> AsciiString *find<AsciiString *, AsciiString>(AsciiString *, AsciiString *, const AsciiString &);
 template <> vector<AsciiString, allocator<AsciiString> > &
 vector<AsciiString, allocator<AsciiString> >::operator=(const vector<AsciiString, allocator<AsciiString> > &);
 // Bottom-loop overload: this TU's flags compile the generic range-destroy to

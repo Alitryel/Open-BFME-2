@@ -80,6 +80,7 @@ class InGameNotificationBoxMovieClip
 {
 public:
 	InGameNotificationBoxMovieClip();
+	~InGameNotificationBoxMovieClip();
 
 private:
 	char m_opaque[0x54];
@@ -265,21 +266,31 @@ private:
 };
 
 // Owning pointers: +0x588 and +0x9CC reset inline, +0x58C through 0x004E7F7E.
+class Rva004E668E { public: ~Rva004E668E(); };
 class Rva0029B5E3
 {
 public:
 	Rva0029B5E3() : m_ptr( 0 ) {}
-	~Rva0029B5E3() { clear(); }
+	~Rva0029B5E3()
+	{
+		Rva004E668E *owned = (Rva004E668E *)m_ptr;
+		m_ptr = 0;
+		if (owned) {
+			owned->Rva004E668E::~Rva004E668E();
+			::operator delete(owned);
+		}
+	}
 	void clear();
 
 private:
 	void *m_ptr;
 };
 
+class Rva004E7F43 { public: Rva004E7F43 *rva004E7F43(); };
 class Rva004E7F29
 {
 public:
-	Rva004E7F29();
+	__declspec(dllimport) __forceinline Rva004E7F29() { ((Rva004E7F43 *)this)->rva004E7F43(); }
 	~Rva004E7F29();
 
 private:
@@ -290,7 +301,15 @@ class Rva0029B620
 {
 public:
 	Rva0029B620( InGameNotificationBoxMovieClip *box ) : m_ptr( box ) {}
-	~Rva0029B620() { clear(); }
+	~Rva0029B620()
+	{
+		InGameNotificationBoxMovieClip *owned = (InGameNotificationBoxMovieClip *)m_ptr;
+		m_ptr = 0;
+		if (owned) {
+			owned->InGameNotificationBoxMovieClip::~InGameNotificationBoxMovieClip();
+			::operator delete(owned);
+		}
+	}
 	void clear();
 
 private:

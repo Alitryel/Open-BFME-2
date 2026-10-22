@@ -520,17 +520,18 @@ struct Rva00573A00
 struct Rva003A2FD4Proto{char pad[0x2CC];int m_2CC;char pad2D0[0x31C-0x2D0];bool m_31C;};
 class TeamPrototype;
 class TeamFactory{public:Rva003A2FD4Proto*initTeamForTacticalAI(const AsciiString&,void*,int,unsigned);Team*createTeamOnPrototype(TeamPrototype*,bool);};
-extern TeamFactory*TheTeamFactory;extern const char*g_00DBC1B8TacticTypeNames[];
+extern TeamFactory*TheTeamFactory;extern const char*g_009BC1B8[];
 class AITactic
 {
 public:
 	virtual ~AITactic();
 	virtual bool canRun(void *request);
 	virtual void cleanUp();
-	virtual void initializeTeamTemplate();
+	virtual bool initializeTeamTemplate(void *team, int dummy);
 	virtual void v4();
 	virtual void xfer(Xfer *xfer);
 	virtual void run();
+	virtual void update();
 	virtual void v8();
 	virtual AITactic *create();
 	void end(bool a, bool b);void NotifyTeamCreated(Team*);
@@ -567,6 +568,7 @@ public:
 	bool rva005AC294();
 	void moveDozerAway();virtual void run();
 	virtual void update();
+	virtual AITactic *create();
 private:
 	ObjectID m_58;		// +0x58
 	unsigned int m_5C;	// +0x5C
@@ -758,7 +760,7 @@ void AIStructureCreepTactic::run()
 			if (obj != 0) {
 				AsciiString teamName;
 				unsigned int id = m_id;
-				teamName.format("%s_%s_%u_%u", g_00DBC1B8TacticTypeNames[0], m_name.str(), id, 0);
+				teamName.format("%s_%s_%u_%u", g_009BC1B8[0], m_name.str(), id, 0);
 				unsigned tacticId = m_id;
 				Player *player = m_owner;
 				Rva003A2FD4Proto *proto = TheTeamFactory->initTeamForTacticalAI(

@@ -34,6 +34,8 @@ template <> __declspec(dllimport) __forceinline void *const &vector<void *>::ope
 // unit calls the base constructor (0x00239BB0) and node creator (0x00239BD8)
 // out of line, so it spells retail's bodies as its siblings do.
 class Drawable;
+// The pooled Drawable sentinel teardown is supplied by InGameUICtor.cpp.
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
 class FreelistPool { public: void *pop(); };
 extern FreelistPool g_freelistPool00DBA5E0;
 namespace _STL {

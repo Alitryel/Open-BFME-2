@@ -69,6 +69,8 @@ class ModuleData;
 struct RegionBattleView;
 struct RegionBattlePoint;
 struct RegionCampaignView;
+// The vector teardown is inlined; retain STLport deallocation without an external copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<const ModuleData *, allocator<const ModuleData *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); } }
 typedef _STL::vector<const ModuleData *> RegionSlots;
 
 class LivingWorldRegionManager

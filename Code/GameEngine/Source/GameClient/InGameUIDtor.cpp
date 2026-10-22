@@ -150,10 +150,19 @@ private:
 };
 
 // Owning pointers: +0x588 and +0x9CC reset inline, +0x58C through 0x004E7F7E.
+class Rva004E668E { public: ~Rva004E668E(); };
 class Rva0029B5E3
 {
 public:
-	~Rva0029B5E3() { clear(); }
+	~Rva0029B5E3()
+	{
+		Rva004E668E *owned = (Rva004E668E *)m_ptr;
+		m_ptr = 0;
+		if (owned) {
+			owned->Rva004E668E::~Rva004E668E();
+			::operator delete(owned);
+		}
+	}
 	void clear();
 
 private:
@@ -169,10 +178,19 @@ private:
 	void *m_ptr;
 };
 
+class InGameNotificationBoxMovieClip { public: ~InGameNotificationBoxMovieClip(); };
 class Rva0029B620
 {
 public:
-	~Rva0029B620() { clear(); }
+	~Rva0029B620()
+	{
+		InGameNotificationBoxMovieClip *owned = (InGameNotificationBoxMovieClip *)m_ptr;
+		m_ptr = 0;
+		if (owned) {
+			owned->InGameNotificationBoxMovieClip::~InGameNotificationBoxMovieClip();
+			::operator delete(owned);
+		}
+	}
 	void clear();
 
 private:
