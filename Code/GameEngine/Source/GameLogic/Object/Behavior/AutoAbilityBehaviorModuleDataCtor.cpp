@@ -12,6 +12,9 @@
 // 0x0024CA24 and then cleared again with memset; the Query entries build
 // through ehvec with the element ctor 0x0045A1D9 and dtor 0x0045A226.
 #include "Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+// Preserve the native Snapshot teardown in the constructor's EH cleanup.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 #include "ascii_string.h"
 #include <bitset>
 #include <string.h>
@@ -41,16 +44,18 @@ private:
 	Rva003623E5Member m_filter;
 };
 
-class AutoAbilityBehaviorModuleData : public Snapshot
+// The native ehvec constructor callback is the rowed 18-byte init at
+// 45A1D9: initialize state, construct the +4 filter, return this. Its
+// thiscall ABI is the compiler's array-element constructor ABI; keep the
+// established row name when binding the compiler-generated callback.
+#pragma comment(linker, "/alternatename:??0AutoAbilityQueryEntry@@QAE@XZ=?init@AutoAbilityQueryEntry@@QAEPAV1@XZ")
+
+// C41568 has all 31 shared ModuleData slots, with this class's own deleter.
+class AutoAbilityBehaviorModuleData : public ModuleData
 {
 public:
 	AutoAbilityBehaviorModuleData();
 	virtual ~AutoAbilityBehaviorModuleData();
-
-protected:
-	virtual void loadPostProcess(void);
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
 
 private:
 	int m_moduleTagNameKey; // +4

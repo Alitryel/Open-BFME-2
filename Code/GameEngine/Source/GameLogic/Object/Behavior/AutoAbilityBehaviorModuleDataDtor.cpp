@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX /Ireference/shims/moduledata
+// cl: /DNDEBUG /MD /GX /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii
 //
 // ??1AutoAbilityBehaviorModuleData@@UAE@XZ, retail 0x0045A517, 73 bytes.
 // Destroys the query array at +0x2C (6 entries via ehvec ??_M with the pinned
@@ -13,17 +13,10 @@
 // with init 0x0045A1D9, bytes at 0x5C-0x5F) and the factory at 0x0024AFE5
 // which news 0x60. Called by the ??_G at 0x0045A4FB.
 
+#define BFME_STRINGBASE_PUBLIC_DTOR
 #include "Common/Snapshot.h"
-
-template <typename T>
-class StringBase
-{
-public:
-	~StringBase();
-
-private:
-	void *m_data;
-};
+#include "../../../../Include/Common/BfmeModuleData.h"
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 class Rva00360D26Member
 {
@@ -43,7 +36,7 @@ private:
 	Rva00360D26Member m_filter;
 };
 
-class __declspec(novtable) AutoAbilityBehaviorModuleData : public Snapshot
+class __declspec(novtable) AutoAbilityBehaviorModuleData : public ModuleData
 {
 public:
 	virtual ~AutoAbilityBehaviorModuleData();

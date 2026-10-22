@@ -1,4 +1,4 @@
-// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 //
 // SpawnedModelConditionCreateModuleData: ctor at retail 0x00257840 (28B) and
@@ -22,6 +22,7 @@
 // TU builds without /GX.
 #include <vector>
 #include "Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
 // Suppress this TU's non-retail copy of ??$__destroy_aux@PAUBfmeStringHeadRecord160@@@_STL@@YAXPAUBfmeStringHeadRecord160@@0ABU__f:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringHeadRecord160;
@@ -43,18 +44,16 @@ public:
 	void initFromINIMultiProc(void *what, void (__cdecl *proc)(MultiIniFieldParse &));
 };
 
-class SpawnedModelConditionCreateModuleData : public Snapshot
+// Native BF4228..BF42A4 contains the complete shared 31-slot ModuleData
+// interface. Only slot 0 differs; the three Snapshot-shaped declarations
+// formerly here omitted slots 4..30 and named callbacks with no provider.
+class SpawnedModelConditionCreateModuleData : public ModuleData
 {
 public:
 	SpawnedModelConditionCreateModuleData();
 	virtual ~SpawnedModelConditionCreateModuleData();
 	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
-
-	// Snapshot slots 1..3 (retail 0x000B3FD0, 0x00065212, 0x0047A69C); defined elsewhere.
-	virtual void loadPostProcess(void);
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
 
 private:
 	int m_unused04;

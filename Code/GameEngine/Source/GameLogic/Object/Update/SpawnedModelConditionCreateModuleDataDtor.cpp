@@ -1,4 +1,4 @@
-// cl: /GX /DNDEBUG /MD /D_STLP_USE_MALLOC
+// cl: /GX /DNDEBUG /MD /D_STLP_USE_MALLOC /Ireference/shims/bfme2_ascii
 // stlport
 // ??1SpawnedModelConditionCreateModuleData@@UAE@XZ @0x00257C88 48B
 // ModuleData dtor: tears down the vector at +0x08 through the rowed
@@ -16,11 +16,16 @@
 struct BfmeStringHeadRecord160 { public: ~BfmeStringHeadRecord160(); };
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+// The constructor installs ModuleData's 31-slot interface. Native teardown
+// restores Snapshot's BBB554 table after destroying the vector; the shared
+// ModuleData view leaves the intermediate inheritance unrecovered.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 // bfme link decl-only begin
 namespace _STL { template <> void __destroy_aux<BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, __false_type const &); }
 namespace _STL { template <> vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::~vector(); }
 // bfme link decl-only end
-class __declspec(novtable) SpawnedModelConditionCreateModuleData : public Snapshot
+class __declspec(novtable) SpawnedModelConditionCreateModuleData : public ModuleData
 {
 public:
 	virtual ~SpawnedModelConditionCreateModuleData();
