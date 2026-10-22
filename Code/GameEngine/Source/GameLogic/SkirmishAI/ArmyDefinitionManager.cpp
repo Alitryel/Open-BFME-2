@@ -34,6 +34,12 @@ template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *
 // Bind vector<void*>(n, value) to the kept retail copy in stlport_vector_voidptr_alloc.cpp.
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(size_t, void * const &, const allocator<void *> &); }
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?begin@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEPAPAXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * * vector<void *,allocator<void *> >::begin(); }
+// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEAAPAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * & vector<void *,allocator<void *> >::operator[](unsigned int); }
 
 class INI;
 struct FieldParse {

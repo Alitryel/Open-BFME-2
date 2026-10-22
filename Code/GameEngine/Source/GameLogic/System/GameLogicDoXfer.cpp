@@ -33,6 +33,9 @@ struct XferVersionInfo
 };
 
 #include "Lib/Coord3DBase.h"
+// Suppress this TU's non-retail copy of ?begin@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEPBQAXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * const * vector<void *,allocator<void *> >::begin() const; }
 
 class Xfer
 {

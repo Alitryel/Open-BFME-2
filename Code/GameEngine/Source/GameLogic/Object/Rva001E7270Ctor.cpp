@@ -9,6 +9,10 @@
 // stlport
 #include <map>
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Object;
+namespace _STL { template <> vector<Object *,allocator<Object *> >::~vector(); }
 // Import-inline: this unit's bfmealloc _Vector_base<Object*> dtor copy is not retail's
 // EH-framed body (0x001F1609); its uses here are all inlined, so none is emitted.
 class Object;
