@@ -6,6 +6,7 @@
 namespace _STL { template <> void allocator<char>::deallocate(char *, unsigned int) const; }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> char *fill_n<unsigned int>(char *, unsigned int, const char &); }
 // bfme link decl-only end
 
 template class _STL::rope<char, _STL::allocator<char> >;
