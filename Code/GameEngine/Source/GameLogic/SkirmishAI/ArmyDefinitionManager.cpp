@@ -34,6 +34,9 @@ template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *
 // Bind vector<void*>(n, value) to the kept retail copy in stlport_vector_voidptr_alloc.cpp.
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(size_t, void * const &, const allocator<void *> &); }
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??R?$less@I@_STL@@QBE_NABI0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool less<unsigned int>::operator()(unsigned int const &,unsigned int const &) const; }
 // Suppress this TU's non-retail copy of ?get_allocator@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBE?AV?$allocator@PAX@2@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> allocator<void *> vector<void *,allocator<void *> >::get_allocator() const; }
