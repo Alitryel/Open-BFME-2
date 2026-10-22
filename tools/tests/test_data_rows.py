@@ -287,6 +287,33 @@ def test_no_compiler_sizeof_no_size(tmp_path, monkeypatch):
     assert not ok and "unproven" in message and "does not compile" in message
 
 
+STATIC = "?d@?BC@??f@@YAHH@Z@4PAHA"  # int d[] = {...}; a static local of int f(int)
+COMDAT_DATA = 0xC0301040  # .data with IMAGE_SCN_LNK_COMDAT
+
+
+def test_a_function_local_static_is_sized_by_its_own_comdat_section(tmp_path, monkeypatch):
+    # no probe TU can name a static local, but MSVC 7.1 gives it a COMDAT
+    # section of exactly sizeof(it): that size, and nothing larger, is proven
+    img = image_with(data=struct.pack("<3i", 1, -1, 0))
+    compiled(tmp_path, monkeypatch, [(".data", COMDAT_DATA, struct.pack("<2i", 1, -1), 8, [])], [(STATIC, 0, 1)])
+    assert verify(img, row(STATIC, size="8"), {})[0]
+    assert "size 12 unproven" in verify(img, row(STATIC, size="12"), {})[1]
+    ok, message = verify(image_with(data=struct.pack("<2i", 1, 1)), row(STATIC, size="8"), {})
+    assert not ok and "differs" in message
+
+
+@pytest.mark.parametrize("flags, symbols, name", [
+    (0xC0300040, [(STATIC, 0, 1)], STATIC),                             # not a COMDAT: padding is no size
+    (COMDAT_DATA, [(STATIC, 0, 1), ("?e@?BC@??f@@YAHH@Z@4PAHA", 4, 1)], STATIC),  # a second symbol shares it
+    (COMDAT_DATA, [("?h@?BC@??f@@YAHH@Z@4PAHA", 0, 1), (STATIC, 4, 1)], STATIC),  # not at the start
+    (COMDAT_DATA, [("?s@@3US@@A", 0, 1)], "?s@@3US@@A"),                # a nameable global keeps the probe
+])
+def test_only_a_static_local_alone_in_its_comdat_takes_the_section_size(tmp_path, monkeypatch, flags, symbols, name):
+    compiled(tmp_path, monkeypatch, [(".data", flags, bytes(8), 8, [])], symbols)
+    ok, message = verify(image_with(data=bytes(8)), row(name, size="4" if symbols[0][0] != name else "8"), {})
+    assert not ok and "unproven" in message
+
+
 def test_verify_with_no_rows_reads_nothing_and_passes(tmp_path, monkeypatch):
     """The ledger starts empty: the gate's data check must be a no-op on it."""
     empty = tmp_path / "data_rows.csv"

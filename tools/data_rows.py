@@ -478,6 +478,26 @@ def compiled_arithmetic(source, symbol):
                         f" {shape}")
 
 
+LOCAL_STATIC = re.compile(r"^\?\w+@\?\w+@\?\?")  # ?name@?<block>@??<function>@4<type>
+IMAGE_SCN_LNK_COMDAT = 0x1000
+
+
+def _local_static_size(sec, symbols, sym):
+    """(bytes, how) for a function-local static, which no probe TU can name:
+    MSVC 7.1 gives one its own COMDAT section and emits exactly sizeof(it)
+    there (a 3-byte struct, 1-, 6- and 9-byte arrays and a double get
+    sections of 3, 1, 6, 9 and 8 bytes; alignment lives in the section
+    flags, not in padding). Only that shape is accepted: the static at offset
+    0 of a COMDAT section that defines no other named symbol. Else None."""
+    if not LOCAL_STATIC.match(sym["name"]) or not sec["flags"] & IMAGE_SCN_LNK_COMDAT or sym["value"]:
+        return None
+    others = [s for s in symbols.values() if s["section"] == sym["section"] and s is not sym
+              and s["name"] and not s["name"].startswith(".")]
+    if others:
+        return None
+    return sec["size"], "the function-local static's own COMDAT section size"
+
+
 def symbol_size(sections, symbols, sym, source=None, sizer=compiled_size):
     """(proven sizes, what proves them) for a defined or COMMON data symbol.
 
@@ -499,6 +519,8 @@ def symbol_size(sections, symbols, sym, source=None, sizer=compiled_size):
     if source is None:
         return set(), f"no source to evaluate sizeof in (allocation extent {extent} is not a size)"
     size, how = sizer(source, sym["name"])
+    if size is None:
+        size, how = _local_static_size(sec, symbols, sym) or (None, how)
     if size is None:
         return set(), how
     scalar = rl.mangled_scalar_size(sym["name"])
