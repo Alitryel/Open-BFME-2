@@ -46,7 +46,7 @@ class LivingWorldBuildPlot;
 struct Rva005F0220In;
 const Image *__cdecl Rva005F0220Get(Rva005F0220In *);
 namespace StrategicInGameUI { const Image *__cdecl GetButtonImage(void *); }
-const Image *__cdecl Rva005F0318Get(void *);
+__declspec(noinline) const Image *__cdecl Rva005F0318Get(void *);
 class Rva005E261C { public: void rva005E261C(); };
 // Native constructor 0x005E28FE proves a primary vptr/count pair and
 // two four-byte observer bases at +8 and +C. The building-change vtable
@@ -117,6 +117,7 @@ struct Rva005E2B0EElement {
  ~Rva005E2B0EElement() { ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)pointer); }
  int *pointer;
 };
+namespace _STL { template <> void vector<Rva005E2B0EElement>::_M_clear(); }
 namespace StrategicInGameUI {
 class RegionDetailsStructuresPage::Impl : public StrategicHUD::RegionDetailsStructuresMovieClip {
 public:
@@ -167,7 +168,7 @@ struct Rva005D23BBSelection;
 namespace StrategicInGameUI {
 const Image *__cdecl GetSelectionPortrait(const Rva005D23BBSelection *selection);
 }
-const Image *__cdecl Rva005F0318Get(void *plot) {
+__declspec(noinline) const Image *__cdecl Rva005F0318Get(void *plot) {
     return StrategicInGameUI::GetSelectionPortrait((const Rva005D23BBSelection *)plot);
 }
 

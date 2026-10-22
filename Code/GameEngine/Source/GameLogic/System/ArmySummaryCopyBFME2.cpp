@@ -35,6 +35,9 @@ enum ObjectID
 	FORCE_OBJECTID_TO_LONG_SIZE = 0x7fffffff
 };
 
+// The ObjectID vector copy is provided by VectorObjectIDFillInsert.cpp.
+namespace _STL { template <> vector<ObjectID>::vector(const vector<ObjectID> &); }
+
 struct TargetRef00217D4C
 {
 	void *m_vtbl;

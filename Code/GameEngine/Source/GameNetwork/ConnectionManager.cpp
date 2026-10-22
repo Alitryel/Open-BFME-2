@@ -146,6 +146,9 @@ private:
 struct Gen_lt_00940b40 : public _STL::less<unsigned short> {};
 typedef _STL::map<unsigned short, int, Gen_lt_00940b40> Rva004D2C8EFileProgressMap;
 
+// The progress-map subscript is provided by ConnectionManagerRva004D28C6.cpp.
+namespace _STL { template <> int &Rva004D2C8EFileProgressMap::operator[](const unsigned short &key); }
+
 class Rva004D2C8EConnectionManagerLayout
 {
 public:
@@ -413,18 +416,19 @@ void ConnectionManager::processRunAheadMetrics(NetRunAheadMetricsCommandMsg *msg
 void ConnectionManager::processFileAnnounce(NetFileAnnounceCommandMsg *msg) 
 {
 	DEBUG_LOG(("ConnectionManager::processFileAnnounce() - expecting '%s' (%s) in command %d\n", msg->getPortableFilename().str(), msg->getRealFilename().str(), msg->getFileID()));
+	UnsignedShort fileID;
 	Rva004D2C8EConnectionManagerLayout *layout = (Rva004D2C8EConnectionManagerLayout *)this;
-	layout->s_fileCommandMap[((Rva004D5973WordField *)msg)->get()] = ((Rva004D632D *)msg)->rva004D632D();
-	layout->s_fileRecipientMaskMap[((Rva004D5973WordField *)msg)->get()] = ((Rva001DCD01ByteField *)msg)->get();
+	layout->s_fileCommandMap[(fileID = ((Rva004D5973WordField *)msg)->get())] = ((Rva004D632D *)msg)->rva004D632D();
+	layout->s_fileRecipientMaskMap[(fileID = ((Rva004D5973WordField *)msg)->get())] = ((Rva001DCD01ByteField *)msg)->get();
 	for (Int i=0; i<MAX_SLOTS; ++i)
 	{
 		if ( (1<<i) & ((Rva001DCD01ByteField *)msg)->get() )
 		{
-			layout->s_fileProgressMap[i][((Rva004D5973WordField *)msg)->get()] = 0;
+			layout->s_fileProgressMap[i][(fileID = ((Rva004D5973WordField *)msg)->get())] = 0;
 		}
 		else
 		{
-			layout->s_fileProgressMap[i][((Rva004D5973WordField *)msg)->get()] = 100; // they don't need to get it, so they're already done.
+			layout->s_fileProgressMap[i][(fileID = ((Rva004D5973WordField *)msg)->get())] = 100; // they don't need to get it, so they're already done.
 		}
 	}
 }
