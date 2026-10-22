@@ -5,6 +5,7 @@
 // builds vtable 0x7F91B0 with +8=source +0xc=2 +0x10=0; BFME1 donor
 // PartitionManager.cpp BfmePossibleToAttackFilter; BFME2 base is 8B so +8/+0xc/+0x10.
 typedef bool Bool;
+typedef int Int;
 
 enum AbleToAttackType
 {
@@ -32,15 +33,30 @@ public:
 	CanAttackResult getAbleToAttackSpecificObject(AbleToAttackType t, const Object *target, CommandSourceType commandSource) const;
 };
 
-class PartitionFilterPossibleToAttack
+// BFME 2's partition filter base (ctor 0x000421C8): a vptr and the +0x04
+// link to the next filter; slot 0 deleting dtor, slot 1 allow, slot 2 the
+// shared getPlayerMask 0x0036CC7A.  The matched body below reads the derived
+// fields at +0x08/+0x0C/+0x10 on this base (the ZH source's private
+// m_pad04 is this base's m_next, keep the offsets identical).
+class Rva000421C8
+{
+public:
+	__declspec(dllimport) __forceinline Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
+	virtual Bool allow(Object *objOther) = 0;
+	virtual Int getPlayerMask();
+private:
+	Rva000421C8 *m_next;						// +0x04
+};
+
+class PartitionFilterPossibleToAttack : public Rva000421C8
 {
 public:
 	virtual Bool allow(Object *objOther);
 private:
-	int m_pad04;
-	const Object *m_obj;
-	CommandSourceType m_commandSource;
-	AbleToAttackType m_attackType;
+	const Object *m_obj;						// +0x08
+	CommandSourceType m_commandSource;			// +0x0C
+	AbleToAttackType m_attackType;				// +0x10
 };
 
 Bool PartitionFilterPossibleToAttack::allow(Object *objOther)

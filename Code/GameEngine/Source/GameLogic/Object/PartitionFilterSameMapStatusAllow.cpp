@@ -8,6 +8,7 @@
 // same byte is EFFECTIVELY_DEAD, the test BFME2's
 // AIUpdateInterface::isAllowedToRespondToAiCommands makes first.
 typedef bool Bool;
+typedef int Int;
 
 enum ObjectPrivateStatusBits
 {
@@ -26,13 +27,27 @@ private:
 	unsigned char m_privateStatus;				// +0x438
 };
 
+// BFME 2's partition filter base (ctor 0x000421C8): a vptr and the +0x04
+// link to the next filter; slot 0 deleting dtor, slot 1 allow, slot 2 the
+// shared getPlayerMask 0x0036CC7A.  The ZH source's private m_unmodelled_04
+// is this base's m_next, so m_obj stays at +0x08.
+class Rva000421C8
+{
+public:
+	__declspec(dllimport) __forceinline Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
+	virtual Bool allow(Object *objOther) = 0;
+	virtual Int getPlayerMask();
+private:
+	Rva000421C8 *m_next;						// +0x04
+};
+
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PartitionManager.h
-class PartitionFilterSameMapStatus
+class PartitionFilterSameMapStatus : public Rva000421C8
 {
 public:
 	virtual Bool allow(Object *objOther);
 private:
-	int m_unmodelled_04;
 	const Object *m_obj;						// +0x08
 };
 
