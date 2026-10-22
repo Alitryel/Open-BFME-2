@@ -110,6 +110,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<int, _Nonconst_traits<int> >, bool> _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::insert_unique(int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> >::~_Rb_tree(); }
 
 #ifdef _INTERNAL
 // for occasional debugging...

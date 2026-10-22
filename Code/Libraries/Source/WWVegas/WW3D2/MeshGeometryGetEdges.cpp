@@ -10,6 +10,9 @@
 #include <map>
 #include <vector>
 #include <hash_map>
+// Suppress this TU's non-retail copy of ??$__advance@PBIH@_STL@@YAXAAPBIHABUrandom_access_iterator_tag@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void __advance<unsigned int const *,int>(unsigned int const * &,int,random_access_iterator_tag const &); }
 struct VertexPosition { float x,y,z; };
 struct Gen_p12pod {
  Gen_p12pod(const VertexPosition &vertexPosition) { a[0]=int(vertexPosition.x); a[1]=int(vertexPosition.y); a[2]=int(vertexPosition.z); }

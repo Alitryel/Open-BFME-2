@@ -337,6 +337,9 @@ namespace _STL { template <> void advance<unsigned int const *, int>(unsigned in
 namespace _STL { template <> unsigned int hash<char const *>::operator()(char const *) const; }
 namespace _STL { template <> pair<AsciiString const, ThingTemplate *> & hashtable<pair<AsciiString const, ThingTemplate *>, AsciiString, rts::hash<AsciiString>, _Select1st<pair<AsciiString const, ThingTemplate *> >, rts::equal_to<AsciiString>, allocator<pair<AsciiString const, ThingTemplate *> > >::_M_insert(pair<AsciiString const, ThingTemplate *> const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__advance@PBIH@_STL@@YAXAAPBIHABUrandom_access_iterator_tag@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void __advance<unsigned int const *,int>(unsigned int const * &,int,random_access_iterator_tag const &); }
 // Suppress this TU's non-retail copy of ??$__lower_bound@PBIIU?$less@I@_STL@@H@_STL@@YAPBIPBI0ABIU?$less@I@0@PAH@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> const unsigned int *__lower_bound<const unsigned int *, unsigned int, less<unsigned int>, int>(const unsigned int *, const unsigned int *, const unsigned int &, less<unsigned int>, int *); }

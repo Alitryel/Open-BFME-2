@@ -9,6 +9,9 @@ namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> char *fill_n<unsigned int>(char *, unsigned int, const char &); }
 namespace _STL { template <> char *uninitialized_fill_n<char *, unsigned int, char>(char *, unsigned int, const char &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$fill_n@I@_STL@@YAPADPADIABD@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * fill_n<unsigned int>(char *,unsigned int,char const &); }
 
 template class _STL::rope<char, _STL::allocator<char> >;
 

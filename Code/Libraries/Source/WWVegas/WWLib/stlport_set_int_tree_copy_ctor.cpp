@@ -15,6 +15,9 @@
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree_node<int> * _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::_M_create_node(int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> >::~_Rb_tree(); }
 // Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@AAEXPAU?$_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> >::_M_erase(_Rb_tree_node<int> *); }

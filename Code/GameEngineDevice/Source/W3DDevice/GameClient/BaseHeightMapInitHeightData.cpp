@@ -31,6 +31,10 @@ class BoundedShortGrid {public:
  short rva00062A58(int a,int b){int idx=m_stride*b+a;if(idx<0)return 0;if(idx>=m_capacity)return 0;if(m_data)return m_data[idx];return 0;}
  unsigned char m_unknown00[0x08];int m_stride;unsigned char m_unknown0C[0x20-0x0C];int m_capacity;short *m_data;};
 #include "../../../../Libraries/Include/Lib/Region2D.h"
+// Suppress this TU's non-retail copy of ??0?$set@PAURva001408C0Target@@U?$less@PAURva001408C0Target@@@_STL@@V?$allocator@PAURva001:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> set<Rva001408C0Target *,less<Rva001408C0Target *>,allocator<Rva001408C0Target *> >::set(); }
 // Suppress this TU's non-retail copy of ??0?$_Rb_tree@PAURva001408C0Target@@PAU1@U?$_Identity@PAURva001408C0Target@@@_STL@@U?$less:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
