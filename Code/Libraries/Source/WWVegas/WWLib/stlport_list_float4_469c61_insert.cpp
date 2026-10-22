@@ -15,4 +15,7 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 struct BfmeFloat4Record00469C61 { unsigned char m_data[16]; };
 bool operator==(const BfmeFloat4Record00469C61 &, const BfmeFloat4Record00469C61 &);
 bool operator<(const BfmeFloat4Record00469C61 &, const BfmeFloat4Record00469C61 &);
-template class _STL::list<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> >;
+// Instantiate only the rowed members: the whole-class instantiation also emitted
+// merge/unique/remove, which need the record's undefined comparisons.
+template _STL::list<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> >::iterator _STL::list<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> >::insert(_STL::list<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> >::iterator, const BfmeFloat4Record00469C61 &);
+template void _STL::list<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> >::push_back(const BfmeFloat4Record00469C61 &);
