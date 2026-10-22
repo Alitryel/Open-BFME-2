@@ -95,11 +95,22 @@ namespace _STL { template <> void __destroy_aux<BfmePod128 *>(BfmePod128 *,BfmeP
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 #undef free
 
-struct BfmePod128 { ~BfmePod128(); int a[32]; };
+// Copying an entry is the BuildListInfo copy constructor (0x00329DE6), which
+// retail's _Construct 0x0032A2AF calls under an EH frame.
+class BuildListInfo { public: BuildListInfo(const BuildListInfo &other); BuildListInfo &operator=(const BuildListInfo &); };
+struct BfmePod128
+{
+	__forceinline BfmePod128(const BfmePod128 &other)
+	{ ((BuildListInfo *)this)->BuildListInfo::BuildListInfo((const BuildListInfo &)other); }
+	~BfmePod128();
+	int a[32];
+};
 namespace _STL { template <> void vector<BfmePod128>::_M_clear(); }
+// ~vector inlines ~_Vector_base's free in retail 0x0032BE80; this unit's ~_Vector_base
+// is declared above, so take SidesListCtor.cpp's retail copy instead.
+namespace _STL { template <> vector<BfmePod128>::~vector(); }
 struct BfmeE8 { int a[2]; };
 
-class BuildListInfo { public: BuildListInfo &operator=(const BuildListInfo &); };
 class PolygonalArea {
 public:
     virtual void slot0();
