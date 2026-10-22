@@ -215,7 +215,8 @@ template <> Relationship &hash_map<unsigned int, Relationship>::operator[](const
 // Copy helper views use existing ICF-owned hash providers. The lookup's
 // Object spelling is an opaque four-byte ABI carrier, not a relationship type.
 typedef _STL::hashtable<_STL::pair<const int,Relationship>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<const int,Relationship> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<const int,Relationship> > > PlayerRelationTableView;
-class PlayerRelationHashMap {public: void clear();};
+// The neutral bucket-table owner supplies the complete retail clear at 1DBCDC.
+class Rva004DFC20 {public: void clear();};
 class Object;
 class ObjectLookupMap {public: Object **findSlot(int *);};
 struct RelationCopyNodeView {void *next; int key; int value;};
@@ -296,8 +297,8 @@ void PlayerRelationMap::xfer( Xfer *xfer )
 			// read relationship
 			XferRelationship( xfer, &r );
 
-			// assign relationship
-			m_map[ playerIndex ] = (Relationship)r;
+			// The retail find-or-insert at 41F4E5 owns this four-byte slot.
+			*reinterpret_cast<Relationship*>(reinterpret_cast<ObjectLookupMap*>(&m_map)->findSlot(&playerIndex)) = (Relationship)r;
 
 		}  // end for, i
 
@@ -370,7 +371,7 @@ void TeamRelationMap::xfer( Xfer *xfer )
 // and uses the existing find-or-insert provider; original method name unknown.
 // The direct hashtable begin view preserves the native hidden-return ordering.
 PlayerRelationMap *PlayerRelationMap::rva002ADE71(const PlayerRelationMap *source) {
- reinterpret_cast<PlayerRelationHashMap*>(&m_map)->clear();
+ reinterpret_cast<Rva004DFC20*>(&m_map)->clear();
  (this?_ReadWriteBarrier():_ReadWriteBarrier());
  PlayerRelationMapType *sourceMap=const_cast<PlayerRelationMapType*>(&source->m_map);
  PlayerRelationMapType::iterator it=reinterpret_cast<PlayerRelationTableView*>(const_cast<PlayerRelationMapType*>(&source->m_map))->begin();
