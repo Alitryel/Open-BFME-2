@@ -730,7 +730,9 @@ struct PathfinderAttackHandle
 	__forceinline ~PathfinderAttackHandle() { ((Rva002EAD62 *)this)->rva002EAD62(); }
 };
 
-extern unsigned int PathfinderSearchCellsVisited; extern bool PathfinderFaceGoalFlag;
+extern unsigned int PathfinderSearchCellsVisited;
+// Retail 0x009BD4AC, initialised true (.data byte 01).
+bool PathfinderFaceGoalFlag = true;
 void Rva002EBCA7Split(void *,Int *,unsigned char *);
 struct PathfinderCellPoint : Coord3D {
  __forceinline PathfinderCellPoint() {}
