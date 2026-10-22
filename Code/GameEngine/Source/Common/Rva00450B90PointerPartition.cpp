@@ -19,18 +19,14 @@ class Rva00450B90Predicate
 public:
 	bool operator()(const Rva00450B90Item *item) const
 	{
-		if ((m_mask & 0x01) != 0 && item->m_flag26)
-			goto selected26;
-		if ((m_mask & 0x02) == 0 || item->m_flag26)
+		if (!(((m_mask & 1) && item->m_flag26) ||
+		      ((m_mask & 2) && !item->m_flag26)))
 			return false;
 
-	selected26:
-		if ((item->m_flag24 && (m_mask & 0x04) != 0)
-				|| (!item->m_flag24 && (m_mask & 0x08) != 0))
-			return false;
-
-		return !((item->m_flag25 && (m_mask & 0x10) != 0)
-			|| (!item->m_flag25 && (m_mask & 0x20) != 0));
+		return !((item->m_flag24 && (m_mask & 4)) ||
+		         (!item->m_flag24 && (m_mask & 8)) ||
+		         (item->m_flag25 && (m_mask & 0x10)) ||
+		         (!item->m_flag25 && (m_mask & 0x20)));
 	}
 
 	unsigned int m_mask;

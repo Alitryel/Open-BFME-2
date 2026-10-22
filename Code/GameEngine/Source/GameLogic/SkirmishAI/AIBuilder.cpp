@@ -21,6 +21,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <new>
 #include <vector>
+// The scalar-vector users share the existing out-of-line assignment provider.
+namespace _STL { template <> vector<unsigned> &vector<unsigned>::operator=(const vector<unsigned> &); }
 // Import-inline: this unit's bfmealloc _Vector_base<Object*> dtor copy is not retail's
 // EH-framed body (0x001F1609); its uses here are all inlined, so none is emitted.
 class Object;

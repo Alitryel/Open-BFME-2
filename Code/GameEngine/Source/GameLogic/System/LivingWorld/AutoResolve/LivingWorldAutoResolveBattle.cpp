@@ -61,6 +61,12 @@ namespace _STL { template <> Rva004F87BCElement * __copy_backward_ptrs<Rva004F87
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> Rva004F87BCElement * copy<Rva004F87BCElement *,Rva004F87BCElement *>(Rva004F87BCElement *,Rva004F87BCElement *,Rva004F87BCElement *); }
 typedef _STL::vector<Rva004F87BCElement> UnitVector;
+// Use the owning-reference destruction and range-insertion providers.
+namespace _STL {
+template <> void __destroy_aux<Rva004F87BCElement *>(Rva004F87BCElement *, Rva004F87BCElement *, const __false_type &);
+template <> void __destroy<Rva004F87BCElement *, Rva004F87BCElement>(Rva004F87BCElement *, Rva004F87BCElement *, Rva004F87BCElement *);
+template <> template <class Iterator> void vector<Rva004F87BCElement, allocator<Rva004F87BCElement> >::_M_range_insert(Rva004F87BCElement *, Iterator, Iterator, const forward_iterator_tag &);
+}
 template void UnitVector::insert<Rva004F87BCElement *>(Rva004F87BCElement *,Rva004F87BCElement *,Rva004F87BCElement *);
 
 class Rva004F7DF9Vector {public: void reserve(unsigned);};

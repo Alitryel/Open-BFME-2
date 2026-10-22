@@ -526,6 +526,14 @@ template<class T, class U> struct _Alloc_traits<T, Rva0054E8DCAllocator<U> > {
 }
 
 
+// This allocator family shares its tree cleanup with W3DShroud and GSConfig.
+namespace _STL {
+typedef _Rb_tree<int, int, _Identity<int>, less<int>, Rva0054E8DCAllocator<int> > TaintByteTree;
+template <> void TaintByteTree::_M_erase(_Rb_tree_node<int> *);
+template <> _Rb_tree_base<int, Rva0054E8DCAllocator<int> >::~_Rb_tree_base();
+template <> TaintByteTree::~_Rb_tree();
+}
+
 class W3DTaint
 {
 public:
