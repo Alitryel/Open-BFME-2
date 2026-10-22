@@ -18,14 +18,15 @@ struct EmitVtableTag;
 
 // The this-adjusting deleting-destructor thunk (sub ecx, 0x4) in the
 // secondary vtable proves a second base with a virtual destructor at +0x4;
-// these two bases model only that.
-class TeamBase0
+// these two bases model only that. novtable: the tag constructor stores no
+// base vptr, so this TU emits no base vtables (or their deleting dtors).
+class __declspec(novtable) TeamBase0
 {
 public:
 	virtual ~TeamBase0();
 };
 
-class TeamBase4
+class __declspec(novtable) TeamBase4
 {
 public:
 	virtual ~TeamBase4();
