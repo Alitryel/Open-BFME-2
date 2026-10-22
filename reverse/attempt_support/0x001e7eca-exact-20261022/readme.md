@@ -96,3 +96,18 @@ check of the unchanged owner reports its pre-existing wrong-name references
 to TheTerrainVisual and g_currentAptOnlineCustomMatch (two outside baseline);
 these unrelated owner references are not caused or repaired by this change.
 The new-variant COMDAT check accepts all four recovered/consumer sources.
+
+## Final verification, 22 October
+
+At BFME2 5f53781a10, with recovery 559df2d80f already on origin/master, a
+fresh scoped build again accepts the worker (1/1 function and ten float
+literals). `check_csv.py` accepts all 97,965 function rows, and
+`find_declared_unmatched.py` accepts the source. Enforced data identity finds
+zero issues; converged-data verification checks ten addresses with no second
+names or unjudged rows. There is no remaining byte mismatch or live claim
+for this assignment. The data-owner follow-up and this verification record
+are the final publication batch; no further body was selected.
+
+The BFME1 updater lock still belongs to claudeb3 and is under six hours old.
+The checkout remains at the committed 37c3022de1 inputs; this seat neither
+updates that pointer nor marks the concurrent freshness work successful.
