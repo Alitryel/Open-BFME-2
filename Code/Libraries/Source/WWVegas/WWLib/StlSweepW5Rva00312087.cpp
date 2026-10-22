@@ -1,10 +1,14 @@
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
-// Element identity and unconstrained fields remain address-derived structural inference.
 // cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
+// The element is BfmeStringHeadRecord184: this forwarder's only call goes to the rowed
+// __copy_backward<BfmeStringHeadRecord184 *> at 0x003115CC (stlport_asciistring_record_bodies.cpp),
+// which also emits this same forwarder for BfmeStringHeadRecord184.
 #include <vector>
 
-struct Rva00312087Element { char bytes[9];Rva00312087Element();Rva00312087Element(const Rva00312087Element&);~Rva00312087Element();Rva00312087Element&operator=(const Rva00312087Element&); bool operator<(const Rva00312087Element&)const; bool operator==(const Rva00312087Element&)const; };
+struct BfmeStringHeadRecord184 { unsigned char body[184]; ~BfmeStringHeadRecord184(); BfmeStringHeadRecord184 &operator=(const BfmeStringHeadRecord184 &); };
 
-// Instantiate the recovered operation and its required template dependencies.
-template Rva00312087Element * _STL::__copy_backward_ptrs<Rva00312087Element *, Rva00312087Element *>(Rva00312087Element *, Rva00312087Element *, Rva00312087Element *, _STL::__false_type const &);
+// Declared only: the rowed copy serves the call.
+namespace _STL { template <> BfmeStringHeadRecord184 *__copy_backward<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, int>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const random_access_iterator_tag &, int *); }
+
+template BfmeStringHeadRecord184 *_STL::__copy_backward_ptrs<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const _STL::__false_type &);

@@ -1,5 +1,4 @@
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
-// Element identity and unconstrained fields remain address-derived structural inference.
 // cl: /Og /Os /Ob1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -63,6 +62,13 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
-struct Rva0041FCB7Element { char bytes[1]; bool operator<(const Rva0041FCB7Element&)const; bool operator==(const Rva0041FCB7Element&)const; };
-namespace _STL {template<> struct hash<Rva0041FCB7Element> { unsigned operator()(const Rva0041FCB7Element&) const; };}
-template class _STL::hash_map<int,Rva0041FCB7Element>;
+// The element is Rva0041FC37Element: this constructor's only call goes to the rowed
+// hashtable<pair<const int, Rva0041FC37Element> > constructor at 0x0041FC37 (StlSweepW5Rva0041FC37.cpp),
+// which declares the same element view. Only the rowed hash_map constructor is
+// instantiated (the whole hash_map would emit members that reference the
+// element's undefined ctors and ==).
+struct Rva0041FC37Element {Rva0041FC37Element();Rva0041FC37Element(const Rva0041FC37Element&);Rva0041FC37Element&operator=(const Rva0041FC37Element&);~Rva0041FC37Element(){}char bytes[8]; bool operator==(const Rva0041FC37Element&)const;};
+typedef _STL::pair<const int, Rva0041FC37Element> Rva0041FC37ElementPair;
+// The bucket-size helper is declared only: the kept copy serves its call.
+namespace _STL { template <> unsigned int hashtable<Rva0041FC37ElementPair, int, hash<int>, _Select1st<Rva0041FC37ElementPair>, equal_to<int>, allocator<Rva0041FC37ElementPair> >::_M_next_size(unsigned int) const; }
+template _STL::hash_map<int, Rva0041FC37Element, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<Rva0041FC37ElementPair> >::hash_map();
