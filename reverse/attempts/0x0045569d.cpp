@@ -1,29 +1,12 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.95 date=2026-10-21
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.95 date=2026-10-19
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.95 date=2026-10-19
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.94 date=2026-10-19
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.976 date=2026-10-17
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.76 date=2026-10-15
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.94 date=2026-10-15
+// partial score=0.95 date=2026-10-22
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX
-// d2 wave-2 rebank (0.94, 1175/1174B, 89 diff lines; compiled as the home TU
-// FoundationAIUpdateSlots.cpp replacement): barrier removed; lever 7 (visible
-// findObjectByID via GameLogicObjectLookupView.h) with TheGameLogic read
-// directly fixes the prologue (foundation EDI + [ebp-0x14], name literal EBX);
-// kind-0x69 order is placement angle THEN + Get_Z_Rotation; the atan2 adapter
-// is called as FLOAT-returning (needs address-named pin
-// ?Rva000422A0Atan2@@YAMMM@Z=0x000422A0, else the double spelling adds
-// fld st(0)/fstp st(0)); md->m_mode re-read (no local) gives md in EDI.
-// Left: `push ecx` before the delta.x spill in the atan2 arg setup, and
-// after the Lua block retail keeps `this` in EDI / newMember in EBX (ours
-// this in EBX, newMember in EDI), shifting the cost/self registers.
+// Current best faithful bank: 1175 bytes against retail's 1174.
+// The atan2f setup now matches; the remaining difference starts at +0x345.
+// Retail carries interface this in EDI from onStructureCreated through the
+// module lookups. This body uses EAX there and reloads this into EBX later.
+// EH graph is EXACT, including all three unwind states and the Lua list slot.
+// See reverse/attempt_support/foundation-45569d-context-20261022/readme.md.
 //
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // retail 0x0045569D, 1174 bytes (ret 0x18): slot 7 of the +0x20 interface
@@ -54,7 +37,7 @@
 // WorldBuilder's FoundationAIUpdate::construct; the slot's other names are
 // by address.
 
-// The atan2 adapter returns double and the angle argument is converted to float.
+// The float-returning atan2f declaration reproduces the native argument setup.
 // Member IDs copy directly, and construction cost uses the caller's template.
 
 typedef bool Bool;
@@ -67,14 +50,14 @@ typedef float Real;
 #define FALSE false
 
 #define COORD3D_VIEW_INLINE
-#include "../../../../Code/Libraries/Include/Lib/Coord3DCtorView.h"
+#include "../../Code/Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0
 };
 
-#include "../../../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class NameKeyGenerator
 {
