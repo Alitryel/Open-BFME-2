@@ -208,13 +208,18 @@ extern const FieldParse WindFieldParse[] = {
     { 0, 0, 0, 0 }
 };
 }
-class Rva003A5560
+namespace FXParticleSystem {
+
+template <int CATEGORY>
+class DefaultModuleTemplate
 {
 public:
-	void rva003A5560(INI *ini);
+	void parse(INI *ini);
 };
 
-void Rva003A5560::rva003A5560(INI *ini)
+template <>
+void DefaultModuleTemplate<7>::parse(INI *ini)
 {
-	ini->initFromINI(this, FXParticleSystem::WindFieldParse);
+	ini->initFromINI(this, WindFieldParse);
+}
 }

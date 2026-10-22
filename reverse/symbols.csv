@@ -9556,7 +9556,6 @@ name,address,notes
 ?parse@?$DefaultModuleTemplate@$01@FXParticleSystem@@QAEXPAVINI@@@Z,0x0055F4BC,BFME2 export; the module template INI parser createTemplate calls after allocating
 ?parse@?$DefaultModuleTemplate@$02@FXParticleSystem@@QAEXPAVINI@@@Z,0x0055EE4C,BFME2 export; the module template INI parser createTemplate calls after allocating
 ?parse@?$DefaultModuleTemplate@$05@FXParticleSystem@@QAEXPAVINI@@@Z,0x0055C434,BFME2 export; the module template INI parser createTemplate calls after allocating
-?parse@?$DefaultModuleTemplate@$06@FXParticleSystem@@QAEXPAVINI@@@Z,0x003A5560,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?parse@?$DefaultModuleTemplate@$0A@@FXParticleSystem@@QAEXPAVINI@@@Z,0x0055B93F,BFME2 export; the module template INI parser createTemplate calls after allocating
 ?parse@BoxEmissionVolumeModuleTemplate@FXParticleSystem@@QAEXPAVINI@@@Z,0x0055CFB1,BFME2 export; the module template INI parser createTemplate calls after allocating
 ?parse@ButterflyDrawModuleTemplate@FXParticleSystem@@QAEXPAVINI@@@Z,0x00560A9F,BFME2 export; the module template INI parser createTemplate calls after allocating
