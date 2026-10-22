@@ -259,7 +259,7 @@ public:
 	static void Set_Light_Environment(LightEnvironmentClass *light_env);
 	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
 
-	static __forceinline void Set_Transform(_D3DTRANSFORMSTATETYPE transform, const Matrix3D &matrix3D)
+	static __declspec(dllimport) __forceinline void Set_Transform(_D3DTRANSFORMSTATETYPE transform, const Matrix3D &matrix3D)
 	{
 		Matrix4 m2(matrix3D);
 		switch ((int)transform)
@@ -427,11 +427,7 @@ private:
 	unsigned char m_data[0x228];
 };
 
-class WW3D
-{
-public:
-	static void Flush(RenderInfoClass &rinfo);
-};
+void rva001173f0(unsigned int renderInfo);
 
 // The counted shader holder of the water draw: retail assigns it through the
 // rowed 0x001007B0, the one add-ref/release/store body ICF keeps under
@@ -581,7 +577,7 @@ void WaterRenderObjClass::rva001014A9(RenderInfoClass &rinfo, bool depthOnly)
 		rinfo.Pop_Rendering_Method();
 	}
 	if (drewItems)
-		WW3D::Flush(rinfo);
+		rva001173f0(reinterpret_cast<unsigned int>(&rinfo));
 
 	for (_STL::vector<RenderableStandingWaterArea *>::iterator ocean = m_standingWaterAreas.begin(); ocean != m_standingWaterAreas.end(); ++ocean)
 	{

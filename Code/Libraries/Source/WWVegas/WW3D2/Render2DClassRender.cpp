@@ -576,7 +576,7 @@ static void Set_DX8_Material(const D3DMATERIAL8* mat);
 static void Set_Gamma(float gamma,float bright,float contrast,bool calibrate=true,bool uselimit=true);
 static void Set_DX8_ZBias(int zbias);
 static void Set_Projection_Transform_With_Z_Bias(const Matrix4x4& matrix,float znear, float zfar);	 
-static void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m);
+static __declspec(dllimport) __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& m);
 static void Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m);
 static void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m);
 static void	Set_World_Identity();
@@ -601,7 +601,7 @@ static bool Validate_Device(void);
 static void Set_Shader(const ShaderClass& shader);
 static void Get_Shader(ShaderClass& shader);
 static void Set_Texture(unsigned stage,TextureBaseClass* texture);
-static void Set_Material(const VertexMaterialClass* material);
+static __declspec(dllimport) __forceinline void Set_Material(const VertexMaterialClass* material);
 static void Set_Light(unsigned index,const D3DLIGHT8* light);
 static void Set_Light(unsigned index,const LightClass &light);
 static void Apply_Render_State_Changes();	 
@@ -792,6 +792,7 @@ static bool Find_Z_Mode(D3DFORMAT colorbuffer,D3DFORMAT backbuffer, D3DFORMAT *z
 static bool Test_Z_Mode(D3DFORMAT colorbuffer,D3DFORMAT backbuffer, D3DFORMAT zmode);
 static void Compute_Caps(WW3DFormat display_format);
 static DX8_CleanupHook *m_pCleanupHook;
+protected:
 static RenderStateStruct			render_state;
 static unsigned						render_state_changed;
 static Matrix4x4						DX8Transforms[D3DTS_WORLD+1];
@@ -1039,7 +1040,7 @@ DX8_RECORD_TEXTURE_STAGE_STATE_CHANGE();
 
 
 
-WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
 {
 REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
 render_state_changed|=MATERIAL_CHANGED;
@@ -1057,7 +1058,7 @@ StringClass str;
 #endif
 SNAPSHOT_SAY(("DX8Wrapper::Set_Shader(%s)\n",shader.Get_Description(str)));
 }
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& matrix4x4)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix4x4& matrix4x4)
 {
 switch ((int)transform) {
 case D3DTS_WORLD:
@@ -1308,7 +1309,8 @@ static bool _Is_Triangle_Draw_Enabled() { return _EnableTriangleDraw; }
 struct BFME2TextureRef { TextureBaseClass *Ptr; BFME2TextureRef():Ptr(0) {} ~BFME2TextureRef() { if(Ptr) Ptr->Release_Ref(); } };
 void BFME2Set_Texture(unsigned stage, const BFME2TextureRef &texture);
 #include <string.h>
-extern int G00DB5FBC, G00DB5FC0, G00DB5FC4, G00DEC4A0, G00DEC4A4, G00DEC4A8;
+extern int G00DB5FBC, G00DB5FC0, G00DB5FC4;
+extern unsigned int g_Va00DEC4A0, g_Va00DEC4A4, g_Va00DEC4A8;
 void Rva00118810();
 struct BfmeRenderVertex {
 float x,y,z; int NextRun,IndexStart,IndexCount; unsigned color; float u,v; char unknown24[8];
@@ -1399,8 +1401,8 @@ DX8Wrapper::Set_DX8_Texture_Stage_State(2,D3DTSS_ALPHAOP,1);
 ShaderClass::Invalidate();
 }
 ShaderClass shader;
-shader.Set_Depth_Mask((ShaderClass::DepthMaskType)G00DEC4A0);
-shader.Set_Alpha_Test((ShaderClass::AlphaTestType)G00DEC4A4);
+shader.Set_Depth_Mask((ShaderClass::DepthMaskType)g_Va00DEC4A0);
+shader.Set_Alpha_Test((ShaderClass::AlphaTestType)g_Va00DEC4A4);
 shader.Set_Depth_Compare((ShaderClass::DepthCompareType)G00DB5FBC);
 shader.Set_Src_Blend_Func((ShaderClass::SrcBlendFuncType)G00DB5FC0);
 shader.Set_Dst_Blend_Func((ShaderClass::DstBlendFuncType)G00DB5FC4);
@@ -1444,7 +1446,7 @@ DX8Wrapper::Set_DX8_Texture_Stage_State(0,D3DTSS_COLORARG2,3);
 DX8Wrapper::Set_DX8_Texture_Stage_State(0,D3DTSS_COLOROP,4);
 }
 }
-if(G00DEC4A8) Rva00118810();
+if(g_Va00DEC4A8) Rva00118810();
 DX8Wrapper::Draw_Triangles(start_index,batch.RangeD[mode]/3,0,Vertices.Length());
 start_index+=batch.RangeD[mode];
 }
@@ -1461,6 +1463,6 @@ DX8Wrapper::Set_DX8_Texture_Stage_State(2,D3DTSS_ALPHAOP,1);
 }
 ShaderClass::Invalidate();
 }
-if(G00DEC4A8) DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILENABLE,0);
+if(g_Va00DEC4A8) DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILENABLE,0);
 Reset();
 }

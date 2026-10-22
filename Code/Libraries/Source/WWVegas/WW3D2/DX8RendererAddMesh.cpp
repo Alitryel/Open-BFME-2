@@ -48,6 +48,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #include "multilist.h"
 #include "sharebuf.h"
+// ShareBufferClassUnsignedCtor.cpp supplies the retail buffer destructor.
+template <> ShareBufferClass<unsigned int>::~ShareBufferClass();
 #include "vector2.h"
 #include "vector3.h"
 // Standard nothrow array delete: the split table's inline destructor adds no
