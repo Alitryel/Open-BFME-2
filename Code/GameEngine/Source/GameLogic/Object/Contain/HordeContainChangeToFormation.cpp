@@ -252,6 +252,9 @@ class FreelistProxyHead {public:void setup(const void*,void*);};
 class FreelistPool {public:void*pop();};
 extern FreelistPool g_freelistPool00DB8FEC;
 namespace _STL {
+// The destructor is the pinned 0x001EB769 body, emitted by HordeContainRva00475F61.cpp;
+// this unit's jmp forwarder copy was not retail's. Declaration only (no __imp_).
+template<> _List_base<Object*,Rva001EB984PoolAllocator<Object*> >::~_List_base() throw();
 // Select-any like every other unit's copy (rowed in StlportObjectFreelistListBaseCtor.cpp).
 template<> inline __declspec(noinline) _List_base<Object*,Rva001EB984PoolAllocator<Object*> >::_List_base(const Rva001EB984PoolAllocator<Object*>&a)
 {

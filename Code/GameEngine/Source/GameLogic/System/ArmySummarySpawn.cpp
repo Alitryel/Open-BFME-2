@@ -51,7 +51,7 @@ template<class T,class A>class _List_base;
 template<>class _List_base<Object*,Rva001EB984PoolAllocator<Object*> > {
 public:
  _List_base(const Rva001EB984PoolAllocator<Object*>&);
- __forceinline ~_List_base() throw(){((Rva001EB769*)this)->rva001EB769();}
+ ~_List_base() throw(); // pinned 0x001EB769 body, emitted by HordeContainRva00475F61.cpp
  void*head;
 };
 __declspec(noinline) inline _List_base<Object*,Rva001EB984PoolAllocator<Object*> >::_List_base(const Rva001EB984PoolAllocator<Object*>&a)
@@ -62,7 +62,7 @@ __declspec(noinline) inline _List_base<Object*,Rva001EB984PoolAllocator<Object*>
 template<>class list<Object*,Rva001EB984PoolAllocator<Object*> > : public _List_base<Object*,Rva001EB984PoolAllocator<Object*> > {
 public:
  list(const Rva001EB984PoolAllocator<Object*>&a=Rva001EB984PoolAllocator<Object*>()):_List_base<Object*,Rva001EB984PoolAllocator<Object*> >(a){}
- __forceinline void push_back(Object*const&v){((list<Object*,allocator<Object*> >*)this)->push_back(v);}
+ void push_back(Object *const &v); // pinned 0x001EC03C body, emitted by HordeContainRva00475F61.cpp
  bool empty()const{return *(void**)head==head;}
  Object*front()const{return ((LoadedObjectNode*)head)->next->value;}
 };

@@ -105,7 +105,7 @@ template <> class _List_base<Object *, Rva001EB984PoolAllocator<Object *> >
 {
 public:
 	_List_base(const Rva001EB984PoolAllocator<Object *> &a);
-	__forceinline ~_List_base() throw() { ((Rva001EB769 *)this)->rva001EB769(); }
+	~_List_base() throw(); // pinned 0x001EB769 body, emitted by HordeContainRva00475F61.cpp
 	__forceinline void clear() { ((Rva001EB130Holder *)this)->rva001EB130(); }
 protected:
 	_List_node<Object *> *_M_node;
@@ -126,7 +126,7 @@ public:
 		: _List_base<Object *, Rva001EB984PoolAllocator<Object *> >(a) {}
 	iterator begin() { iterator it; it._M_node = _M_node->_M_next; return it; }
 	iterator end() { iterator it; it._M_node = _M_node; return it; }
-	__forceinline void push_back(Object *const &x) { ((list<Object *> *)this)->push_back(x); }
+	void push_back(Object *const &x); // pinned 0x001EC03C body, emitted by HordeContainRva00475F61.cpp
 };
 }
 
