@@ -95,7 +95,8 @@ extern "C" void __cdecl free(void *p);
 void Rva003A5DA0WriteWindHeader(const void *self, File *file, unsigned int *flags);
 void Rva003AFC6BWrite(File *file, unsigned int *flags);
 
-extern const char *g_00C1B6C4[];
+// The wind-motion name table rowed at 0x00C1B6C4 (Rva003A547EXfer.cpp).
+namespace FXParticleSystem { extern const char * const WindMotionNames[]; }
 extern "C" const float kG1;
 extern "C" const float kG2;
 extern "C" const float kG3;
@@ -146,7 +147,7 @@ void WindModuleTemplate::rva003A5E78(File *file, unsigned int flags)
     Rva003A5DA0WriteWindHeader(this, file, &flags);
     _STL::basic_ostringstream<char, _STL::char_traits<char>, _STL::allocator<char> > oss(16);
     if (m_windMotion != 1)
-        Rva001F82ABWrite(oss, flags, "WindMotion", &g_00C1B6C4[m_windMotion]);
+        Rva001F82ABWrite(oss, flags, "WindMotion", const_cast<const char **>(&FXParticleSystem::WindMotionNames[m_windMotion]));
     if (m_windStrength != kG1)
         Rva003A5D34Write(oss, flags, "WindStrength", m_windStrength);
     if (m_windFullStrengthDist != kG2)

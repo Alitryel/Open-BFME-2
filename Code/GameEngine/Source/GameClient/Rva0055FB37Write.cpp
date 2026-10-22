@@ -77,7 +77,7 @@ extern "C" void __cdecl free(void *p);
 void Rva0055FA5FWriteHeader(const void *self, File *file, unsigned int *flags);
 void Rva003AFC6BWrite(File *file, unsigned int *flags);
 
-extern const char *g_00C1B6D8[];
+extern const char *const g_00C1B6D8[];	// defined so in FXParticleSystemModuleParsers.cpp
 
 struct S001F87D5 {
     char _0[4];
@@ -132,7 +132,7 @@ void Rva0055FB37::rva0055FB37(File *file, unsigned int flags)
     if (!Rva001F3744IsZero((const S001F3744 *)&m_angularDamping))
         Rva001F8B5FWrite(oss, flags, "AngularDamping", m_angularDamping);
     if (m_rotation != 1)
-        Rva001F82ABWrite(oss, flags, "Rotation", &g_00C1B6D8[m_rotation]);
+        Rva001F82ABWrite(oss, flags, "Rotation", const_cast<const char **>(&g_00C1B6D8[m_rotation]));
     if (!Rva001F3744IsZero((const S001F3744 *)&m_angleXY))
         Rva001F8B5FWrite(oss, flags, "AngleXY", m_angleXY);
     if (!Rva001F3744IsZero((const S001F3744 *)&m_angularRateXY))
@@ -192,7 +192,7 @@ void Rva005625C5::rva005625C5(File *file,unsigned flags) {
   Rva001F8B5FWrite(oss,flags,"AngularRateZ",m_AngularRateZ);
  if(!Rva001F3744IsZero((const S001F3744*)&m_AngularDamping))
   Rva001F8B5FWrite(oss,flags,"AngularDamping",m_AngularDamping);
- if(rotation!=1)Rva001F82ABWrite(oss,flags,"Rotation",&g_00C1B6D8[rotation]);
+ if(rotation!=1)Rva001F82ABWrite(oss,flags,"Rotation",const_cast<const char **>(&g_00C1B6D8[rotation]));
  Rva001F458BWrite(*file,(const Rva001F458BText&)oss.str());
  Rva003AFC6BWrite(file,&flags);
 }
