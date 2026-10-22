@@ -81,6 +81,10 @@ public:
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 #include "../../../../../../Libraries/Include/Lib/RGBColor.h"
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBURva0051F7ADRecord@@PAU1@@_STL@@YAPAURva0051F7ADRecord@@PBU1@0PA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0051F7ADRecord;
+namespace _STL { template <> Rva0051F7ADRecord * __uninitialized_copy<Rva0051F7ADRecord const *,Rva0051F7ADRecord *>(Rva0051F7ADRecord const *,Rva0051F7ADRecord const *,Rva0051F7ADRecord *,__false_type const &); }
 // Suppress this TU's non-retail copy of ??$_Construct@URva0051F7ADRecord@@U1@@_STL@@YAXPAURva0051F7ADRecord@@ABU1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0051F7ADRecord;

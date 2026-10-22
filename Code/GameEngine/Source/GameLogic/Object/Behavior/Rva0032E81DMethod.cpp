@@ -5,6 +5,10 @@
 // vector copyctor, returning this. Evidence: callees rowed; caller at
 // 0x0032E925; prev/next STLport TUs.
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$vector@V?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@V?$allocator@V?$vector@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE8;
+namespace _STL { template <> vector<vector<BfmeE8,allocator<BfmeE8> >,allocator<vector<BfmeE8,allocator<BfmeE8> > > >::~vector(); }
 // Suppress this TU's non-retail copy of ??$__destroy@PAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@V12@@_STL@@YAXPAV?$v:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeE8;

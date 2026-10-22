@@ -34,6 +34,10 @@ class FXList;
 class AIUpdateInterface;
 
 #include "../../../Common/GameLogicObjectLookupView.h"
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@GU?$pair@$$CBGH@_STL@@U?$_Select1st@U?$pair@$$CBGH@_STL@@@2@UGen:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Gen_lt_00940b40;
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<unsigned short const ,int>,_Nonconst_traits<pair<unsigned short const ,int> > >,bool> _Rb_tree<unsigned short,pair<unsigned short const ,int>,_Select1st<pair<unsigned short const ,int> >,Gen_lt_00940b40,allocator<pair<unsigned short const ,int> > >::insert_unique(pair<unsigned short const ,int> const &); }
 
 extern GameLogic *TheGameLogic;
 

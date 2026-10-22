@@ -60,6 +60,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // bfme link decl-only begin
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$bitset@$0HE@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<116>::bitset(); }
 // Suppress this TU's non-retail copy of ?set@?$bitset@$0HE@@_STL@@QAEAAV12@IH@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bitset<116> & bitset<116>::set(unsigned int,int); }

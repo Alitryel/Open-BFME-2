@@ -924,6 +924,9 @@ namespace _STL { template <> _List_iterator<Drawable *, _Nonconst_traits<Drawabl
 namespace _STL { template <> _List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> > list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::insert(_List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> >, SuperweaponInfo *const &); }
 namespace _STL { template <> void list<Drawable *, allocator<Drawable *> >::push_back(Drawable *const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$bitset@$0HE@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<116>::bitset(); }
 // Suppress this TU's non-retail copy of ?_M_create_node@?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@IAEPAU?$_List_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Drawable;

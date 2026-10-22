@@ -127,6 +127,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterat
 #include "thread.h"
 
 #include "Common/MiniLog.h"
+// Suppress this TU's non-retail copy of ??0?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::basic_string(basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> > const &); }
 // Suppress this TU's non-retail copy of ??0?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> >::basic_string(); }

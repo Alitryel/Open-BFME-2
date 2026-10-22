@@ -135,6 +135,12 @@ namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_p
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > num_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, bool) const; }
 namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> ostreambuf_iterator<unsigned short,char_traits<unsigned short> > money_put<unsigned short,ostreambuf_iterator<unsigned short,char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short,char_traits<unsigned short> >,bool,ios_base &,unsigned short,basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> > const &) const; }
+// Suppress this TU's non-retail copy of ?do_get@?$money_get@GV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> istreambuf_iterator<unsigned short,char_traits<unsigned short> > money_get<unsigned short,istreambuf_iterator<unsigned short,char_traits<unsigned short> > >::do_get(istreambuf_iterator<unsigned short,char_traits<unsigned short> >,istreambuf_iterator<unsigned short,char_traits<unsigned short> >,bool,ios_base &,int &,basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> > &) const; }
 // Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _String_base<unsigned short, allocator<unsigned short> >::_M_deallocate_block(); }

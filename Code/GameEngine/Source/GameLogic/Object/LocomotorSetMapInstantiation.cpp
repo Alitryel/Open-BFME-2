@@ -28,6 +28,10 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allo:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum LocomotorSetType; class LocomotorTemplate;
+namespace _STL { template <> _Rb_tree_base<pair<LocomotorSetType const ,vector<LocomotorTemplate const *,allocator<LocomotorTemplate const *> > >,allocator<pair<LocomotorSetType const ,vector<LocomotorTemplate const *,allocator<LocomotorTemplate const *> > > > >::_Rb_tree_base(allocator<pair<LocomotorSetType const ,vector<LocomotorTemplate const *,allocator<LocomotorTemplate const *> > > > const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomo:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum LocomotorSetType; class LocomotorTemplate;

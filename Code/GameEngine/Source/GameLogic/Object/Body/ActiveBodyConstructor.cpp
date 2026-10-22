@@ -77,6 +77,10 @@ private:
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBUBfmeE16@@PAU1@@_STL@@YAPAUBfmeE16@@PBU1@0PAU1@ABU__false_type@0:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE16;
+namespace _STL { template <> BfmeE16 * __uninitialized_copy<BfmeE16 const *,BfmeE16 *>(BfmeE16 const *,BfmeE16 const *,BfmeE16 *,__false_type const &); }
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
