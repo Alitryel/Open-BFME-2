@@ -20,16 +20,16 @@ extern const void *const g_00BEDCB4[4] = {
 // The retail table at RVA 0x007EDAA8: 4 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("?rva00306C15@Rva00306C49@@QAEHPAXH@Z")();
-void __identifier("?get@Rva00306C42BinarySubField@@QBEHXZ")();
-void __identifier("?rva00306C49@Rva00306C49@@QAE_NH@Z")();
-void __identifier("?rva00306C58@Rva00306C49@@QAE_NXZ")();
+void __identifier("?slot00@Rva0023DB34@@UAEHPAXH@Z")();
+void __identifier("?slot04@Rva0023DB34@@UAEHXZ")();
+void __identifier("?slot08@Rva0023DB34@@UAE_NH@Z")();
+void __identifier("?slot0C@Rva0023DB34@@UAE_NXZ")();
 }
 extern const void *const g_00BEDAA8[4] = {
-	(const void *)&__identifier("?rva00306C15@Rva00306C49@@QAEHPAXH@Z"), // slot 0 0x00306C15
-	(const void *)&__identifier("?get@Rva00306C42BinarySubField@@QBEHXZ"), // slot 1 0x00306C42
-	(const void *)&__identifier("?rva00306C49@Rva00306C49@@QAE_NH@Z"), // slot 2 0x00306C49
-	(const void *)&__identifier("?rva00306C58@Rva00306C49@@QAE_NXZ"), // slot 3 0x00306C58
+	(const void *)&__identifier("?slot00@Rva0023DB34@@UAEHPAXH@Z"), // slot 0 0x00306C15
+	(const void *)&__identifier("?slot04@Rva0023DB34@@UAEHXZ"), // slot 1 0x00306C42
+	(const void *)&__identifier("?slot08@Rva0023DB34@@UAE_NH@Z"), // slot 2 0x00306C49
+	(const void *)&__identifier("?slot0C@Rva0023DB34@@UAE_NXZ"), // slot 3 0x00306C58
 };
 namespace _STL
 {

@@ -641,26 +641,28 @@ short Rva00285703::rva00285703()
 
 // 0x00306C49: sets the word at +8 to the word at +4 plus its argument and
 // answers true; 0x00306C58: whether the word at +8 has reached the word at
-// +0xC (unsigned).
-class Rva00306C49
+// +0xC (unsigned). Slots 2 and 3 of the table 0x00BEDAA8 that the constructor
+// 0x0023DB34 installs (RvaSmallVtableCtors.cpp).
+class Rva0023DB34
 {
 public:
-	bool rva00306C49(int offset);
-	bool rva00306C58();
+	virtual int slot00(void *p, int n);
+	virtual int slot04();
+	virtual bool slot08(int n);
+	virtual bool slot0C();
 private:
-	char m_pad00[4];
 	unsigned int m_base04;
 	unsigned int m_cursor08;
 	unsigned int m_end0C;
 };
 
-bool Rva00306C49::rva00306C49(int offset)
+bool Rva0023DB34::slot08(int offset)
 {
 	m_cursor08 = m_base04 + offset;
 	return true;
 }
 
-bool Rva00306C49::rva00306C58()
+bool Rva0023DB34::slot0C()
 {
 	return m_cursor08 >= m_end0C;
 }
