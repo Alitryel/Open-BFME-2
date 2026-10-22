@@ -1,12 +1,12 @@
 // cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
-// STLport 4.5.3 vector<T>::vector(const vector &) for trivially copyable
+// STLport 4.5.3 vector<T>::vector(const vector &) for nothrow-copyable
 // element views: the 68/71-byte body without an EH frame (out-of-line
 // get_allocator, _Vector_base(n, alloc), then __uninitialized_copy with the
 // [ebp+0Bh] tag temp), the shape of the rowed vector<BfmeE8> copy in
-// stlport_vector_e8_allocate_copy.cpp, whose flags these are.  A trivial
-// element makes the copy loop nothrow, which is what drops the EH frame the
+// stlport_vector_e8_allocate_copy.cpp, whose flags these are.  A nothrow
+// element copy drops the EH frame the
 // StlportVectorCopyCtorFamily.cpp members carry.  Stride comes from each
 // body's own sar/idiv and _Vector_base; element names reuse the spelling the
 // ledger gives the same vector's other helpers.  Callees spelled differently
@@ -22,6 +22,25 @@ struct Rva00153A27Element
 {
 	unsigned int m_data[2];
 };
+
+// Retail 0x004F6B7B copy-constructs this eight-byte reference handle by
+// calling the established incrementing copy at 0x004F62FE, not by copying
+// its two words. Keep the existing element view and bind that operation.
+class Rva00468520
+{
+public:
+    Rva00468520 *set(const Rva00468520 *);
+};
+namespace _STL {
+template <> __declspec(nothrow)
+void _Construct<Rva00153A27Element, Rva00153A27Element>(
+    Rva00153A27Element *destination, const Rva00153A27Element &source)
+{
+    if (destination)
+        reinterpret_cast<Rva00468520 *>(destination)->set(
+            reinterpret_cast<const Rva00468520 *>(&source));
+}
+}
 
 class Rva0040CB11Entry
 {
