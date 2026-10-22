@@ -38,9 +38,12 @@ namespace _STL { template <> _List_iterator<BfmePod264,_Nonconst_traits<BfmePod2
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod264;
 namespace _STL { template <> unsigned int hashtable<pair<int const ,list<BfmePod264,allocator<BfmePod264> > >,int,hash<int>,_Select1st<pair<int const ,list<BfmePod264,allocator<BfmePod264> > > >,equal_to<int>,allocator<pair<int const ,list<BfmePod264,allocator<BfmePod264> > > > >::_M_bkt_num_key(int const &) const; }
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+// Keep bucket access inline so the key-only search reproduces retail's
+// complete 47-byte body without emitting a competing public accessor.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void *>::operator[](size_t n) const { return _M_start[n]; }
+}
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
 // the retail copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
@@ -51,10 +54,11 @@ template <> void *&_STL::vector<void*>::operator[](size_t);
 namespace _STL {
 template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
 }
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// Keep the bucket count inline with the const accessor above; neither
+// specialization emits a competing public vector helper.
 namespace _STL {
-template <> size_t vector<void*>::size() const;
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(_M_finish - _M_start); }
 }
 // Suppress this TU's non-retail vector<void*> begin/end copies (family2-LK3 rows 6/9):
 // the retail copies serve the link. Plain declaration-only form (no __imp_).

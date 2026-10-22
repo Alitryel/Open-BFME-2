@@ -50,9 +50,12 @@ namespace _STL { template <> void _List_base<BfmePod264,allocator<BfmePod264> >:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod264;
 namespace _STL { template <> _List_iterator<BfmePod264,_Nonconst_traits<BfmePod264> > list<BfmePod264,allocator<BfmePod264> >::insert(_List_iterator<BfmePod264,_Nonconst_traits<BfmePod264> >,BfmePod264 const &); }
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+// Keep bucket access inline so the key-only search reproduces retail's
+// complete 47-byte body without emitting a competing public accessor.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void *>::operator[](size_t n) const { return _M_start[n]; }
+}
 // Suppress this TU's non-retail const-begin copy (row 47 family2-LK3): the
 // /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
 namespace _STL {
