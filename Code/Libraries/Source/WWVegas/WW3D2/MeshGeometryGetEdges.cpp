@@ -10,6 +10,12 @@
 #include <map>
 #include <vector>
 #include <hash_map>
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAPAXIPAX@_STL@@YAPAPAXPAPAXIABQAXABU__true_type@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void * * __uninitialized_fill_n<void * *,unsigned int,void *>(void * *,unsigned int,void * const &,__true_type const &); }
+// Suppress this TU's non-retail copy of ??$advance@PBIH@_STL@@YAXAAPBIH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void advance<unsigned int const *,int>(unsigned int const * &,int); }
 // Suppress this TU's non-retail copy of ?get_allocator@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBE?AV?$allocator@PAX@2@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> allocator<void *> vector<void *,allocator<void *> >::get_allocator() const; }

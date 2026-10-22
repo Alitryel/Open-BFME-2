@@ -337,6 +337,9 @@ namespace _STL { template <> void advance<unsigned int const *, int>(unsigned in
 namespace _STL { template <> unsigned int hash<char const *>::operator()(char const *) const; }
 namespace _STL { template <> pair<AsciiString const, ThingTemplate *> & hashtable<pair<AsciiString const, ThingTemplate *>, AsciiString, rts::hash<AsciiString>, _Select1st<pair<AsciiString const, ThingTemplate *> >, rts::equal_to<AsciiString>, allocator<pair<AsciiString const, ThingTemplate *> > >::_M_insert(pair<AsciiString const, ThingTemplate *> const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$advance@PBIH@_STL@@YAXAAPBIH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void advance<unsigned int const *,int>(unsigned int const * &,int); }
 // Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PBW4ScienceType@@@?$vector@W4ScienceType@@V?$allocator@W4ScienceTy:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum ScienceType;
