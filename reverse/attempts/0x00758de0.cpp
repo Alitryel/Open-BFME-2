@@ -36,6 +36,7 @@ struct ContactNode {
  ContactNode **back;
  ContactNode *next;
 };
+__forceinline void *__cdecl bridge(ContactData *s,const ContactVector &p,const ContactVector &n) { return s->source->prepare(p,n); }
 class BfmeThingCGD {
 public:
  void bfmeTwoCGD();
@@ -62,7 +63,7 @@ void BfmeThingCGD::bfmeTwoCGD() {
   if(node->state==0)
    node->state=node->first->source->test(node->second->source->prepare(node->point,node->normal))?1:2;
   if(node->state==2) continue;
-  node->first->source->respond(node->second->source->prepare(node->point,node->normal));
+  node->first->source->respond(bridge(node->second,node->point,node->normal));
   if(node->first->source==0 || node->second->source==0) continue;
   node->second->source->respond(altPrepare(node->first->source,node->point,ContactVector(node->normal).negate()));
  }
