@@ -54,27 +54,46 @@ public:
 
 // The two tables (data ledger): ModuleInfoHeadBase at +0 and the
 // LineEmissionVolumeInfo table at +0x1C, both with xfer in slot 3; slot 3 of
-// the second is the this-adjusting (sub ecx, 0x1C) thunk 0x003AC125.
-class Rva003AF7FEHeadView
+// the second is the this-adjusting (sub ecx, 0x1C) thunk 0x003AC125. Slot 2
+// of the head table is __purecall. The +0x1C table's slots 1 and 2 are the
+// rowed FXParticleSystem::EmissionVolumeInfo LoadPostProcess (0x000B3FD0) and
+// GetSnapshotName (0x001F354A), so that base is EmissionVolumeInfo. Slot 0 of
+// the head table is ??_GRva003ABC58 (0x003AF929), which only calls the rowed
+// ~Rva003ABC58 (0x003ABC58): the class's direct base is Rva003ABC58, whose
+// dtor restores the +0x1C table and tail-jumps to the rowed ~Rva003AF50D
+// (0x003A983C), the +0 base. The views are novtable so this TU emits no base
+// tables of its own.
+class __declspec(novtable) Rva003AF50D
 {
 public:
-	virtual ~Rva003AF7FEHeadView();
+	virtual ~Rva003AF50D();
 	virtual void rva0055D616() = 0;
-	virtual void s02();
+	virtual void s02() = 0;
 protected:
 	virtual void xfer(Xfer *xfer) = 0;
 private:
 	char m_unmodelled04[0x1C - 0x04];
 };
 
-class Rva003AF7FEInfoView
+namespace FXParticleSystem
+{
+class __declspec(novtable) EmissionVolumeInfo
 {
 public:
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
+	EmissionVolumeInfo();	// rowed 0x001F353D
+	virtual ~EmissionVolumeInfo();
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
 protected:
 	virtual void xfer(Xfer *xfer) = 0;
+};
+}
+
+class __declspec(novtable) Rva003ABC58 : public Rva003AF50D,
+	public FXParticleSystem::EmissionVolumeInfo
+{
+public:
+	virtual ~Rva003ABC58();
 };
 
 struct EmitVtableTag;
@@ -91,11 +110,10 @@ public:
 
 extern class View *TheTacticalView;
 
-class Rva003AF7FE : public Rva003AF7FEHeadView, public Rva003AF7FEInfoView
+class Rva003AF7FE : public Rva003ABC58
 {
 public:
 	Rva003AF7FE(EmitVtableTag *);
-	virtual ~Rva003AF7FE();
 	virtual void rva0055D616();
 	void rva0055D6D7(Coord3D pos);
 
