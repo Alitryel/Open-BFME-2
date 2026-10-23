@@ -29,7 +29,7 @@ struct Rva005E5424Value { const int *vbtable;
  Rva005E5424Base &virtualBase() { return *reinterpret_cast<Rva005E5424Base*>(reinterpret_cast<char*>(this)+vbtable[1]); }
 };
 struct Rva005E5424Node : _STL::_Rb_tree_node_base { unsigned opaqueKey; Rva005E5424Value *value; };
-class Rva005F2767 { public: bool rva005F2767() const; };
+class Rva005F2767 { public: bool IsMouseOverBackButton() const; };
 class Rva005E3DE8 { public: UnicodeString rva005E3E1D(); };
 struct RGBColor;
 class Mouse { public: void rva001EEA6D(UnicodeString,int,const RGBColor*,float); };
@@ -48,7 +48,7 @@ void Rva005E39AE::rva005E5424() {
   (node->value->virtualBase().*action)();
  }
  if(m_2d) rva005E39AE();
- if(m_18->rva005F2767()) TheMouse->rva001EEA6D(((Rva005E3DE8*)&g_Va00E06710)->rva005E3E1D(),-1,0,1.0f);
+ if(m_18->IsMouseOverBackButton()) TheMouse->rva001EEA6D(((Rva005E3DE8*)&g_Va00E06710)->rva005E3E1D(),-1,0,1.0f);
 }
 
 // ?rva005E549E@Rva005E549E@@UAEXXZ @0x005E549E 8B: the member forwarder that

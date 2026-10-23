@@ -26563,7 +26563,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ?clear@StateMachine@@QAEXXZ,,0x004D72C5,68,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot5 plus BFME1 donor clear plus FLT_MAX unk34
 ?set@Rva001F3D03Slot@@QAEXMM@Z,,0x001F3D03,30,Code/GameEngine/Source/Common/Rva001F3D03Set.cpp,matched,forward two floats to plus0x14 var via rowed setRange UNIFORM
 ?clear@TurretStateMachine@@UAEXXZ,,0x004D853F,28,Code/GameEngine/Source/Common/TurretStateMachineSetState.cpp,matched,vtable slot5 plus BFME1 donor clear plus rowed base clear; spelled virtual: slot 5 of vftable 0x00C609C8 that the class's own constructor install at +0; retail never calls it directly; the view takes the vptr at +0
-?rva005F2767@Rva005F2767@@QBE_NXZ,,0x005F2767,12,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,matched,Bit-4 getter via bitfield honest address name
+?IsMouseOverBackButton@Rva005F2767@@QBE_NXZ,,0x005F2767,12,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,matched,Bit-4 getter via bitfield honest address name
 ?updateStateMachine@StateMachine@@QAE?AW4StateReturnType@@XZ,,0x004D7321,98,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot4 plus BFME1 donor update plus friend pins
 ?rva0045A421@AutoAbilityBehavior@@QAEXPAX@Z,,0x0045A421,38,Code/GameEngine/Source/GameLogic/Object/Behavior/AutoAbilityBehaviorRva0045A421.cpp,matched,AutoAbility copy plus wake via pinned assign plus rowed wake
 ??1AutoAbilityBehaviorModuleData@@UAE@XZ,,0x0045A517,73,Code/GameEngine/Source/GameLogic/Object/Behavior/AutoAbilityBehaviorModuleDataDtor.cpp,matched,AutoAbility ModuleData dtor via array plus string plus Snapshot base

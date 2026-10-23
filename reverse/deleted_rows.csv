@@ -1842,3 +1842,4 @@ __ehhandler$??1Rva0050FDDC@@UAE@XZ,0x0079497E,"Renamed to __ehhandler$??1Rva0050
 ??$__uninitialized_copy@PBURva0049DD38Element@@PAU1@@_STL@@YAPAURva0049DD38Element@@PBU1@0PAU1@ABU__false_type@0@@Z,0x0049DD38,"Renamed to ??$__uninitialized_copy@PAUQuantityModifier@@PAU1@@_STL@@YAPAUQuantityModifier@@PAU1@00ABU__false_type@0@@Z: retail _M_insert_overflow<QuantityModifier> 0x0049F729 calls it (existing pin), and its loop calls _Construct<QuantityModifier> 0x0049DD0B with stride 8"
 ?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,0x00507D84,"Renamed to ?doEffectPosition@DamageNugget@@QAEXPAXPBUCoord3D@@@Z by tools/rename.py (canonical:wb)"
 __ehhandler$?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,0x0079421E,"Renamed to __ehhandler$?doEffectPosition@DamageNugget@@QAEXPAXPBUCoord3D@@@Z by tools/rename.py (canonical:wb)"
+?rva005F2767@Rva005F2767@@QBE_NXZ,0x005F2767,"Renamed to ?IsMouseOverBackButton@Rva005F2767@@QBE_NXZ by tools/rename.py (inferred)"
