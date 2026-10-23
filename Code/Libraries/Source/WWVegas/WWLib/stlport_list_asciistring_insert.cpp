@@ -8,6 +8,8 @@
 // insert worker; the node is 12 bytes (8 links + 4-byte StringBase-model
 // AsciiString) and create delegates per element to the matched StringBase
 // _Construct helper at 0x0002C485, which names the element type.
+#define BFME_ASCII_DTOR_DECL
+#include "ascii_string.h"
 #include <list>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
@@ -19,51 +21,8 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 }
 
 
-template <typename T> struct BfmeStringData
-{
-	int refCount;
-	unsigned short length;
-	unsigned short capacity;
-	T text[1];
-};
-
-#pragma optimize("sy", on)
-template <class T> class StringBase
-{
-    void *m_data;
-    StringBase(const StringBase<T> &);
-public:
-    int compare(const StringBase<T> &) const;
-    void set(const StringBase<T> &);
-    friend class AsciiString;
-};
-
-// class-gate: allow AsciiString Retail list erase at 0x000BC67A calls the dtor thunk at 0x0048BA39.
-class AsciiString
-{
-public:
-    AsciiString() : m_text(0) {}
-    AsciiString(const AsciiString &that)
-    {
-        ((StringBase<char> *)this)->StringBase<char>::StringBase(*(const StringBase<char> *)&that);
-    }
-    AsciiString &operator=(const AsciiString &that)
-    {
-        ((StringBase<char> *)this)->set(*(const StringBase<char> *)&that);
-        return *this;
-    }
-    ~AsciiString();
-    int compare(const AsciiString &that) const throw();
-private:
-    char *m_text;
-};
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> _List_node<AsciiString> * list<AsciiString,allocator<AsciiString> >::_M_create_node(AsciiString const &); }
-
-inline bool operator==(const AsciiString &a, const AsciiString &b) { return a.compare(b) == 0; }
-inline bool operator!=(const AsciiString &a, const AsciiString &b) { return a.compare(b) != 0; }
-inline bool operator<(const AsciiString &a, const AsciiString &b) { return a.compare(b) < 0; }
-#pragma optimize("", on)
 
 // Keep the verified operations and reuse their existing base providers.
 // A whole-class instantiation emits incompatible copies of unused members.
@@ -75,9 +34,6 @@ template AsciiList &AsciiList::operator=(const AsciiList &);
 template AsciiList::iterator AsciiList::insert(AsciiList::iterator,const AsciiString &);
 template void AsciiList::push_back(const AsciiString &);
 template AsciiList::iterator AsciiList::erase(AsciiList::iterator);
-
-// Retail comparison spelling names the verified worker at RVA 0x69D6.
-#pragma comment(linker, "/alternatename:?compare@AsciiString@@QBEHABV1@@Z=?compare@?$StringBase@D@@QBEHABV1@@Z")
 
 class Rva001FD42B
 {
