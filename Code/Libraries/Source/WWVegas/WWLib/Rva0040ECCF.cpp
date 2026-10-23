@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /EHsc
+// cl: /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /GX
 // stlport
 // ?AddArmyEntry@ArmySummary@@QAEHABVRva004F6093Holder@@@Z @0x0040ECCF 128B
 // Adds holder to sorted entry vector and broadcasts to listener list.
@@ -83,8 +83,23 @@ public:
 	Rva0040F454Target *m_ptr;
 };
 
-// Retail's dtor (0x002B703F) was built under different EH flags; call it.
-extern template _STL::vector<Rva004F6093Holder>::~vector();
+// Retail's __uninitialized_copy for the holder (0x003F74CF) copies each element
+// through the out-of-line null-checked placement copy rowed at 0x002B2FE2
+// rather than inlining the holder's copy constructor.
+void __cdecl Rva002B2FE2Copy(Rva004F6093Holder *dst, const Rva004F6093Holder &src);
+namespace _STL {
+template <> inline Rva004F6093Holder *__uninitialized_copy(Rva004F6093Holder *__first,
+		Rva004F6093Holder *__last, Rva004F6093Holder *__result, const __false_type &)
+{
+	Rva004F6093Holder *__cur = __result;
+	for (; __first != __last; ++__first, ++__cur)
+		Rva002B2FE2Copy(__cur, *__first);
+	return __cur;
+}
+}
+
+// The unit builds /GX: under /EHsc the holder vector's dtor (retail 0x002B703F)
+// drops the EH state reset after the range destroy.
 
 class Rva0040CB11Entry
 {
