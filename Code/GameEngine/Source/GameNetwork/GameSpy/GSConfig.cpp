@@ -89,9 +89,10 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *,unsigned int) const; }
-// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAGGV?$allocator@G@_STL@@@_STL@@QAEPAGI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> unsigned short * _STLP_alloc_proxy<unsigned short *,unsigned short,allocator<unsigned short> >::allocate(unsigned int); }
+// Keep the port vector's allocate inline in this unit's overflow copy: an out-of-line call
+// was the link's only reference to the ?allocate@?$_STLP_alloc_proxy@PAGGV?$allocator@G@_STL@@@_STL@@QAEPAGI@Z
+// COMDAT. dllimport + forceinline: no __imp_ remains.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned short * _STLP_alloc_proxy<unsigned short *,unsigned short,allocator<unsigned short> >::allocate(unsigned int n) { return __STATIC_CAST(allocator<unsigned short>&,*this).allocate(n,0); } }
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
