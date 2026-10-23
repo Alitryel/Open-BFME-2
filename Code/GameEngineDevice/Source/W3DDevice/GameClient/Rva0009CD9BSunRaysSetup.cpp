@@ -5,7 +5,7 @@
 // sin/cos, the livingworld.txt atof pass into the DE5E00 globals and the
 // SegmentedLineClass setup. Unrowed 0x9C18A/0x9B28C keep Rva-named methods.
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /O1 /arch:SSE /G7 /MD /EHsc
-// Unrowed data cells (extern-only placeholders; the closers own their names).
+// The two-entry livingworld arrays below own their retail zero-filled storage.
 
 // Retail corrections: guarded resources, complete light colors/transforms and unchecked file reads.
 // Texture ownership and line allocation follow retail; original class identity remains unresolved.
@@ -79,7 +79,8 @@ class SegmentedLineClass {
     char m_data[0x12c];
 public:
     SegmentedLineClass();
-    void Set_Texture(const RefCountPtr<TextureClass> &);
+    // Existing row 0x15E250 uses this spelling; retail consumes a texture-slot address.
+    void Set_Texture(TextureClass *);
     void Set_Shader(ShaderClass);
     void Set_Width(float);
     void Set_Color(const Vector3 &);
@@ -116,7 +117,7 @@ extern W3DShadowManager *TheW3DShadowManager;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 extern float g_Va00DE5E38[3],g_Va00DE5E2C[3];
-extern float g_rva00DE5E24[2],g_rva00DE5E1C[2],g_rva00DE5E14[2],g_rva00DE5E0C[2];
+float g_rva00DE5E24[2],g_rva00DE5E1C[2],g_rva00DE5E14[2],g_rva00DE5E0C[2];
 extern float g_00DE5E08,g_00DE5E04,g_00DE5E00;
 extern float g_00DE5E44,g_00DB4AA8,BfmeCameraPanRotationLimit,BfmeCameraPanRotationRate;
 class Rva0009D55BProduct {
@@ -248,7 +249,8 @@ void Rva0009C134Host::rva0009CD9B()
     BfmeCameraPanRotationRate=g_rva00DE5E0C[index];
     m_1cc=new SegmentedLineClass;
     m_1d0=(const RefCountPtr<TextureClass> &)TextureAsset::Get(((AsciiString *)(src+0x114))->str(),0,0);
-    m_1cc->Set_Texture(m_1d0);
+    // 0x15E250 forwards to 0x1911E0, which dereferences this slot before Add_Ref.
+    m_1cc->Set_Texture((TextureClass *)&m_1d0);
     m_1cc->Set_Shader(ShaderClass::_PresetAdditiveShader);
     m_1cc->Set_Disable_Sorting(1);
     m_1cc->Set_Width(*(float *)(src+0xec));
