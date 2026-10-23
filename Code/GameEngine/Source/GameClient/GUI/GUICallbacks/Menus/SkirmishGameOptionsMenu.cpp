@@ -223,11 +223,9 @@ static Int getNextSelectablePlayer(Int start)
 	return -1;
 }
 
-SkirmishPreferences::SkirmishPreferences( void )
-{
-	// note, the superclass will put this in the right dir automatically, this is just a leaf name
-	load("Skirmish.ini");
-}
+// BFME2's constructor takes the profile index and is recovered in
+// Common/SkirmishPreferences.cpp. The Zero Hour no-argument constructor
+// emitted a competing, non-retail preference vtable.
 
 // SkirmishPreferences::~SkirmishPreferences: defined in SkirmishPreferences.cpp (its row's unit).
 

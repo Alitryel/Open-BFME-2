@@ -499,7 +499,7 @@ void SkirmishPreferences::rva0043BD36(void)
 static __forceinline void assignEncodedName(const AsciiString &value, PreferenceMap *prefs,
  const AsciiString &key)
 {
- AsciiString &slot = (*prefs)[key]; slot.set(value);
+ AsciiString &slot = (*prefs)[key]; ((StringBase<char> *)&slot)->set(*(const StringBase<char> *)&value);
 }
 void SkirmishPreferences::rebuildUserNamesEntry()
 {
