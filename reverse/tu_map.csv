@@ -53422,7 +53422,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006D62C0,62,code,Code/Libraries/Source/Apt/string/EAString.cpp,approved,F,F=Code/Libraries/Source/Apt/string/EAString.cpp N=Code/Libraries/Source/Apt/string/EAStringC.cpp,Code/Libraries/Source/Apt/string/EAString.cpp
 0x006D6340,5,code,Code/GameEngine/Source/Common/BfmeAptValue006DCD20.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeAptValue006DCD20.cpp,Code/GameEngine/Source/Common/TailJumpWrappers5B.cpp
 0x006D6360,86,code,,,-,,Code/Libraries/Source/Apt/Rva006D6360Ctor.cpp
-0x006D63C0,76,code,,,-,,Code/Libraries/Source/Apt/Rva006D63C0Dtor.cpp
+0x006D63C0,76,code,,,-,,Code/GameEngine/Source/Common/Rva006FBC90OwnerDtor.cpp
 0x006D6410,43,code,,,-,,Code/Libraries/Source/Apt/Rva006D6360Ctor.cpp
 0x006D6440,32,code,,,-,,Code/GameEngine/Source/Common/SmallGaps/Rva008993E0Bit8Access.cpp
 0x006D6460,10,code,,,-,,Code/GameEngine/Source/Common/SmallGaps/Rva008993E0Bit8Access.cpp

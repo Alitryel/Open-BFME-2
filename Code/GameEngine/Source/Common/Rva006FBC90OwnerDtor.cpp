@@ -16,21 +16,67 @@ public:
 
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;   // 0x00E176F4
 
-struct Rva006DE350
+// The owner is the AptValueWithHash-derived frame stack of
+// AptFrameStackConstructors.cpp, which constructs it and emits the first copy
+// of its vtable. The Apt value interface below is AptScriptFunction.h's
+// declaration order, so this copy names the same 15 slots; only the hash
+// member at +8 keeps the rowed Rva0070A840 destructor spelling, because
+// ??1AptNativeHash@@QAE@XZ (pinned at the same 0x0070A840) has no row.
+struct AptNativeHash;
+class EAStringC;
+
+class AptValue
 {
-	virtual ~Rva006DE350();
+public:
+	virtual void AddRef();
+	virtual void Release();
+	virtual void ForceDelete();
+	virtual AptNativeHash *GetNativeHashVirtual();
+	virtual bool ContainsNativeHashVirtual() const;
+	virtual int getHasClass() const;
+	virtual void setHasClass(int);
+	virtual AptValue *objectMemberLookup(AptValue *const, const EAStringC *const) const;
+	virtual bool objectMemberSet(AptValue *const, const EAStringC *const, AptValue *const);
+	virtual void DeleteThis();
+	virtual void PreDestroy();
+	virtual void DestroyGCPointers();
+	virtual bool IsGarbageCollected() const = 0;
+	virtual void RegisterReferences() const = 0;
+protected:
+	virtual ~AptValue();
+	unsigned int mnValueData;
+};
+
+class __declspec(novtable) AptValueGC : public AptValue
+{
+public:
+	virtual bool IsGarbageCollected() const;
+protected:
+	virtual ~AptValueGC() {}
 };
 
 struct Rva0070A840
 {
 	~Rva0070A840();
+	char m_data[0x14];
 };
 
-struct Rva006FBC90Owner : public Rva006DE350
+class __declspec(novtable) AptValueWithHash : public AptValueGC
 {
-	char m_pad[4]; // +0x04..0x07
-	Rva0070A840 m_member; // +0x08
-	char m_rest[0x20 - 0x09]; // to the 0x20 bytes the pool release frees
+public:
+	virtual AptNativeHash *GetNativeHashVirtual();
+	virtual bool ContainsNativeHashVirtual() const;
+	virtual void RegisterReferences() const;
+	virtual void DestroyGCPointers();
+protected:
+	virtual ~AptValueWithHash() {}
+	Rva0070A840 mNativeHash; // +0x08
+};
+
+class Rva006FBC90Owner : public AptValueWithHash
+{
+	AptValue *parent; // +0x1C
+public:
 	virtual ~Rva006FBC90Owner();
 	static void operator delete(void *p, unsigned int size)
 	{

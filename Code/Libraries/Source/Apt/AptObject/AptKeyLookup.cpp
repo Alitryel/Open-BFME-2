@@ -131,9 +131,3 @@ extern Rva008A47B0Item *g_rva008A47B0_4;
 extern Rva008A47B0Item *g_rva008A47B0_5;
 extern Rva008A47B0Item *g_rva008A47B0_6;
 extern Rva008A47B0Item *g_rva008A47B0_7;
-
-
-// Native6D6340 is the empty canonical GC-base destructor, tail-calling
-// the51B AptValue teardown at6DE350. The exact analog-object constructor
-// EH action7A92AF and PDB inheritance independently establish this lifetime.
-AptValueGC::~AptValueGC() {}
