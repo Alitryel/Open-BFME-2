@@ -263,7 +263,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *ref);
 struct HotKeyActionBase
 {
 	HotKeyActionBase() : m_refCount(0) {}
-	virtual ~HotKeyActionBase();
+	virtual ~HotKeyActionBase() {}
 
 	int m_refCount; // +0x04
 };
@@ -272,7 +272,7 @@ struct HotKeyActionBase
 struct SelectNearestBuilderAction : HotKeyActionBase
 {
 	SelectNearestBuilderAction(void *panel) : m_panel(panel) {}
-	virtual ~SelectNearestBuilderAction();
+	virtual ~SelectNearestBuilderAction() {}
 
 	void *m_panel; // +0x08
 };
@@ -336,7 +336,7 @@ class Gen_uwm_00524f5a
 {
 public:
 	virtual void v00() = 0;
-	~Gen_uwm_00524f5a();
+	~Gen_uwm_00524f5a() {}
 };
 
 class Rva00527378Payload : public Gen_uwm_00524f5a
