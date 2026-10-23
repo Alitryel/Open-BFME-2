@@ -12,7 +12,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 
-struct Rva00584405Element {Rva00584405Element();Rva00584405Element(const Rva00584405Element&);Rva00584405Element&operator=(const Rva00584405Element&);~Rva00584405Element(){}char bytes[28]; bool operator==(const Rva00584405Element&)const;};
+// Implicit assignment copies the complete storage block, including its padding.
+struct Rva00584405Element {Rva00584405Element();Rva00584405Element(const Rva00584405Element&);~Rva00584405Element(){}char bytes[28]; bool operator==(const Rva00584405Element&)const;};
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva00584405Element, _STL::allocator<Rva00584405Element> >::_M_fill_insert(Rva00584405Element *, unsigned int, Rva00584405Element const &);

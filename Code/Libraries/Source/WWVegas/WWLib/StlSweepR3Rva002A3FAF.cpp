@@ -30,18 +30,15 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
-// Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// Inline const bucket access without emitting an external specialization.
+namespace _STL { template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t n) const { return *(this->_M_start + n); } }
+// Inline bucket access without emitting an external vector specialization.
 namespace _STL {
-template <> void *&_STL::vector<void*>::operator[](size_t);
+template <> __declspec(dllimport) __forceinline void *&_STL::vector<void*>::operator[](size_t n) { return *(this->_M_start + n); }
 }
-// Suppress this TU's non-retail const-begin copy (row 47 family2-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
+// Inline the bucket start while the shared unit keeps its external copy.
 namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
+template <> __declspec(dllimport) __forceinline vector<void *>::const_iterator _STL::vector<void *>::begin() const { return this->_M_start; }
 }
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
@@ -51,10 +48,9 @@ template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
 namespace _STL {
 template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const;
 }
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// Inline the bucket count while preserving declaration-only mutable iterators.
 namespace _STL {
-template <> size_t vector<void*>::size() const;
+template <> __declspec(dllimport) __forceinline size_t vector<void*>::size() const { return this->_M_finish - this->_M_start; }
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
