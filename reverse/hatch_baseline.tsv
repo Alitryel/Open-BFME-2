@@ -21849,7 +21849,7 @@ pin	reverse/symbols.csv	0x0014D1E3	1
 pin	reverse/symbols.csv	0x0014DB83	2
 pin	reverse/symbols.csv	0x0014DB9F	2
 pin	reverse/symbols.csv	0x0014DC9E	1
-pin	reverse/symbols.csv	0x0014F3C4	215
+pin	reverse/symbols.csv	0x0014F3C4	216	allow=d4cbcb7ad0e58c5da4870b5f06d6eae6861356ce
 pin	reverse/symbols.csv	0x0014F480	3
 pin	reverse/symbols.csv	0x0014F4A1	2
 pin	reverse/symbols.csv	0x0014F4C2	2
@@ -22920,7 +22920,7 @@ pin	reverse/symbols.csv	0x00219542	1
 pin	reverse/symbols.csv	0x0021956E	2
 pin	reverse/symbols.csv	0x002195B7	1
 pin	reverse/symbols.csv	0x002197A6	4
-pin	reverse/symbols.csv	0x0021983A	106
+pin	reverse/symbols.csv	0x0021983A	107	allow=d4cbcb7ad0e58c5da4870b5f06d6eae6861356ce
 pin	reverse/symbols.csv	0x00219880	2
 pin	reverse/symbols.csv	0x002198C8	3
 pin	reverse/symbols.csv	0x002198EC	2
@@ -23001,7 +23001,7 @@ pin	reverse/symbols.csv	0x00221CD7	1
 pin	reverse/symbols.csv	0x00221D6B	1
 pin	reverse/symbols.csv	0x00221FFA	1
 pin	reverse/symbols.csv	0x0022239C	1
-pin	reverse/symbols.csv	0x002226BE	24
+pin	reverse/symbols.csv	0x002226BE	25	allow=d4cbcb7ad0e58c5da4870b5f06d6eae6861356ce
 pin	reverse/symbols.csv	0x0022274A	1
 pin	reverse/symbols.csv	0x00222A8B	6
 pin	reverse/symbols.csv	0x00222B19	1
@@ -26237,7 +26237,7 @@ pin	reverse/symbols.csv	0x00421B9B	2
 pin	reverse/symbols.csv	0x00421D16	1
 pin	reverse/symbols.csv	0x00421D28	1
 pin	reverse/symbols.csv	0x00421D4E	1
-pin	reverse/symbols.csv	0x00421D73	7
+pin	reverse/symbols.csv	0x00421D73	8	allow=d4cbcb7ad0e58c5da4870b5f06d6eae6861356ce
 pin	reverse/symbols.csv	0x00421E7E	1
 pin	reverse/symbols.csv	0x00421EEA	1
 pin	reverse/symbols.csv	0x00422047	1
@@ -27851,7 +27851,7 @@ pin	reverse/symbols.csv	0x0052C915	3
 pin	reverse/symbols.csv	0x0052C93B	2
 pin	reverse/symbols.csv	0x0052C961	2
 pin	reverse/symbols.csv	0x0052C987	2
-pin	reverse/symbols.csv	0x0052C9AD	2
+pin	reverse/symbols.csv	0x0052C9AD	3	allow=d4cbcb7ad0e58c5da4870b5f06d6eae6861356ce
 pin	reverse/symbols.csv	0x0052C9D3	2
 pin	reverse/symbols.csv	0x0052CAAB	1
 pin	reverse/symbols.csv	0x0052CF0F	1

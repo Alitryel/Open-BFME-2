@@ -35,7 +35,7 @@ public:
 private:
 	char m_pad[12];
 };
-struct BfmeE16;
+class Rva004E1A04;
 struct Rva005668E9Element;
 class Rva0052BEF0;
 
@@ -137,7 +137,7 @@ class Rva004E1A04;
 void __cdecl Rva0052CEDDClear(Rva004E1A04 *, Rva004E1A04 *);
 
 namespace _STL {
-template <> inline __declspec(noinline) vector<BfmeE16, allocator<BfmeE16> >::~vector()
+template <> inline __declspec(noinline) vector<Rva004E1A04, allocator<Rva004E1A04> >::~vector()
 {
  Rva0052CEDDClear(reinterpret_cast<Rva004E1A04 *>(m_start),
                        reinterpret_cast<Rva004E1A04 *>(m_finish));
@@ -172,7 +172,7 @@ public:
 	Rva0052CD81 m_6C;
 	Rva0052C867 m_78;
 	Rva0052C8AB m_84;
-	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_90;
+	_STL::vector<Rva004E1A04, _STL::allocator<Rva004E1A04> > m_90;
 	_STL::vector<Rva005668E9Element, _STL::allocator<Rva005668E9Element> > m_9C;
 	_STL::vector<Rva0052BEF0, _STL::allocator<Rva0052BEF0> > m_A8;
 	unsigned char m_B4;

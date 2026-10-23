@@ -35,6 +35,26 @@ template <> inline BfmeE16 *__uninitialized_copy<const BfmeE16 *, BfmeE16 *>(
 template <> vector<BfmeE16> &vector<BfmeE16>::operator=(const vector<BfmeE16> &);
 }
 
+// Native parent 52D555 copies its nontrivial stride-16 member at +90.
+class Rva004E1A04 {
+public:
+    ~Rva004E1A04();
+private:
+    char m_data[16];
+};
+namespace _STL {
+template <> vector<BfmeE16>::vector(const vector<BfmeE16> &);
+template <> inline Rva004E1A04 *__uninitialized_copy<const Rva004E1A04 *, Rva004E1A04 *>(
+    const Rva004E1A04 *first, const Rva004E1A04 *last, Rva004E1A04 *result, const __false_type &)
+{
+    Rva004E1A04 *cur = result;
+    for (; first != last; ++first, ++cur)
+        Rva0052C404Construct(cur, first);
+    return cur;
+}
+}
+template _STL::vector<Rva004E1A04>::vector(const _STL::vector<Rva004E1A04> &);
+
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_fill_insert(BfmeE16 *, unsigned int, BfmeE16 const &); }
