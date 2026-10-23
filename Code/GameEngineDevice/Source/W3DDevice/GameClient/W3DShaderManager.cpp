@@ -182,10 +182,8 @@ long __cdecl Rva00077C19Load(const char *strFilePath, unsigned int *pHandle)
 		{
 		File *file = TheFileSystem->openFile(strFilePath, File::READ | File::BINARY, 0);
 		if (file == 0) {
-			// The retail shared error call receives each string as an immediate
-			// stack argument. MSVC folds a C++ message phi through EAX instead.
-			__asm { push OFFSET g_shaderMsgNotFound }
-			goto reportFailure;
+			OutputDebugStringA(g_shaderMsgNotFound);
+			return (long)0x80004005L;
 		}
 
 		FileInfo fileInfo;
@@ -197,8 +195,8 @@ long __cdecl Rva00077C19Load(const char *strFilePath, unsigned int *pHandle)
 
 		unsigned long *shader = (unsigned long *)HeapAlloc(GetProcessHeap(), 8, fileSize);
 		if (shader == 0) {
-			__asm { push OFFSET g_shaderMsgNoMemory }
-			goto reportFailure;
+			OutputDebugStringA(g_shaderMsgNoMemory);
+			return (long)0x80004005L;
 		}
 
 		((Rva00077D0FFileView *)file)->read(shader, fileSize);
@@ -208,15 +206,11 @@ long __cdecl Rva00077C19Load(const char *strFilePath, unsigned int *pHandle)
 			DX8Wrapper::_Get_D3D_Device8(), shader, (unsigned long *)pHandle);
 		HeapFree(GetProcessHeap(), 0, shader);
 		if (hr < 0) {
-			__asm { push OFFSET g_shaderMsgCreateFail }
-			goto reportFailure;
+			OutputDebugStringA(g_shaderMsgCreateFail);
+			return (long)0x80004005L;
 		}
 		}
 		return 0;
-
-	reportFailure:
-		((void (__stdcall *)(void))OutputDebugStringA)();
-		return (long)0x80004005L;
 	}
 	catch (...)
 	{
