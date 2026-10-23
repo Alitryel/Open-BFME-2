@@ -20,19 +20,28 @@ class RefCountClass
 public:
 	// Match the retail base constructor and donor virtual order. Its inline
 	// copies initialize one reference; Delete_This occupies slot zero.
-	RefCountClass() : NumRefs(1) {}
+	__declspec(dllimport) __forceinline RefCountClass() : NumRefs(1) {}
 	virtual void Delete_This();
 protected:
-	virtual ~RefCountClass() {}
+	virtual ~RefCountClass();
 private:
 	int NumRefs;
 };
+
+class Matrix4;
 
 class TextureMapperClass : public RefCountClass
 {
 public:
 	TextureMapperClass(const TextureMapperClass &src);
 	virtual ~TextureMapperClass();
+	virtual int Mapper_ID() const;
+	virtual TextureMapperClass *Clone() const = 0;
+	virtual bool Is_Time_Variant();
+	virtual void Apply(int) = 0;
+	virtual void Reset();
+	virtual bool Needs_Normals();
+	virtual void Calculate_Texture_Matrix(Matrix4 &) = 0;
 	unsigned Stage;
 };
 
@@ -41,7 +50,12 @@ class GridTextureMapperClass : public TextureMapperClass
 public:
 	GridTextureMapperClass(const GridTextureMapperClass &src);
 	virtual ~GridTextureMapperClass();
+	virtual int Mapper_ID() const;
+	virtual TextureMapperClass *Clone() const;
+	virtual bool Is_Time_Variant();
+	virtual void Apply(int);
 	virtual void Reset();
+	virtual void Calculate_Texture_Matrix(Matrix4 &);
 
 	int Unk;
 	int Sign;

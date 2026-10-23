@@ -46,17 +46,7 @@ Rva00600352 *__fastcall rva00600352Init(Rva00600352 *o, int fwd, int volatile a,
 // input's object through 0x003F468D and RGBColor::getAsInt at +0x184), then
 // copies the third input's three words to +0x14. Address-derived names;
 // the member constructor's thiscall spelling is pinned at 0x00600352.
-struct RvaSmallVtableZeroBase
-{
-	void *m_04;
-	RvaSmallVtableZeroBase() : m_04(0) {}
-};
-class Rva0007DF07 : public RvaSmallVtableZeroBase
-{
-public:
-	Rva0007DF07() {}
-	virtual ~Rva0007DF07();
-};
+#include "../../Include/Common/Rva0007DF07.h"
 #include "../../../Libraries/Include/Lib/RGBColor.h"
 // 0x003F468D returns the player as an int (its rowed spelling).
 class Rva003F468D { public: int rva003F468D(int a, int b); };

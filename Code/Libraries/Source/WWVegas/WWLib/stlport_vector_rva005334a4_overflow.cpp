@@ -14,8 +14,19 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 struct Rva005334A4Element {
-	int a;
-	Rva005334A4Element(const Rva005334A4Element &);
+	unsigned short a;
+	unsigned short b;
+	Rva005334A4Element(const Rva005334A4Element &source)
+		: a(source.a), b(source.b) {}
 };
+namespace _STL {
+template <> inline __declspec(noinline)
+void _Construct<Rva005334A4Element, Rva005334A4Element>(
+	Rva005334A4Element *destination, const Rva005334A4Element &source)
+{
+	::new ((void *)destination) Rva005334A4Element(source);
+}
+}
+
 template void _STL::vector<Rva005334A4Element, _STL::allocator<Rva005334A4Element> >::_M_insert_overflow(
 	Rva005334A4Element *, const Rva005334A4Element &, const _STL::__false_type &, unsigned int, bool);
