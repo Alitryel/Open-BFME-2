@@ -60,3 +60,28 @@ deltas were +0. The BFME 1 freshness update remains assigned to the recent
 shared `codex4` lock, so no success stamp was written. No production source
 or byte-verification input changed. The standing assignment allows only the
 two fallback bodies above; unrelated queues were not opened.
+
+## Ownership recheck at 03:30 UTC
+
+At `05ad990e98f6867430289f7975008bb5d968bd62`, sequential fresh claim
+commands again refused all three permitted targets. The camera lease belongs
+to `yasinschroeder-codexb2` (3.9 h left), `0x001C2B80` to
+`yasinschroeder-claudec` (2.8 h), and `0x001C5E30` to
+`yasinschroeder-codex7` (3.8 h, verified locally awaiting publication).
+An independent filtered claim listing confirmed these owners. An earlier
+overlapping fetch lost `FETCH_HEAD`; the sequential checks completed without
+that error, so the blocker is ownership rather than an inferred empty queue.
+
+No claim was acquired, no reconstruction trial was started, and no other
+owner's lease was released. The seat23 handoff and picker history were read;
+the 0.9741961628516264 bank remains unchanged (SHA256
+`f585abbaa3d1d5ef987cdfd827deebefca3c10b4a332114a9145f93f9f7ffb03`).
+Resume from the seat23 handoff above after obtaining ownership. No new source
+hypothesis has been disproved by this coordination-only check.
+
+The pull and ledger check passed; the published link index fetch added 22,891
+reusable objects. The recent BFME 1 update lock still belongs to `codex4`, so
+the runner rule requires skipping this update without writing a freshness
+success stamp. Production sources, ledger rows and compiler inputs were not
+changed; no byte build is warranted for this evidence-only update. The final
+`python3 tools/progress.py origin/master` result is reported in session metadata.
