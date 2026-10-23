@@ -45,8 +45,9 @@ declare those introduced, unused local emission copies, not unclaimed retail
 bodies. All seven find_declared_unmatched checks pass.
 
 Seven obsolete private-template pins are removed, with no new pin, alias,
-object-symbol row or exception. No hatch register entry exists for these seven
-pins, so no register or baseline file is edited. Code/shim searches find each
+object-symbol row or exception. The hatch register groups pins by native
+address, rather than by template name; the seven corresponding address caps
+are tightened by one in the register follow-up. Code/shim searches find each
 element name only in its own changed unit. Normal byte verification after pin
 retirement proves the direct callee bindings without those pins.
 
