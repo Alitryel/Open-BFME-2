@@ -8,3 +8,6 @@ struct Rva0032B4B2Element {Rva0032B4B2Element();Rva0032B4B2Element(const Rva0032
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::_Rb_tree<int, _STL::pair<int const, Rva0032B4B2Element>, _STL::_Select1st<_STL::pair<int const, Rva0032B4B2Element> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva0032B4B2Element> > >::erase(_STL::_Rb_tree_iterator<_STL::pair<int const, Rva0032B4B2Element>, _STL::_Nonconst_traits<_STL::pair<int const, Rva0032B4B2Element> > >);
+
+// The tree erase calls the dtor at 0x002046BB for each node value.
+#pragma comment(linker, "/alternatename:??1Rva0032B4B2Element@@UAE@XZ=??1Rva002046BBValue@@QAE@XZ")

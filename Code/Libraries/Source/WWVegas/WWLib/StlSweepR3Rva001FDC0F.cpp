@@ -62,3 +62,7 @@ struct Rva001FDC0FRecord {Rva001FDC0FRecord();Rva001FDC0FRecord(const Rva001FDC0
 namespace _STL {
 template void hashtable<pair<const int,Rva001FDC0FRecord>,int,hash<int>,_Select1st<pair<const int,Rva001FDC0FRecord> >,equal_to<int>,allocator<pair<const int,Rva001FDC0FRecord> > >::_M_copy_from(const hashtable<pair<const int,Rva001FDC0FRecord>,int,hash<int>,_Select1st<pair<const int,Rva001FDC0FRecord> >,equal_to<int>,allocator<pair<const int,Rva001FDC0FRecord> > > &);
 }
+
+// Retail's _M_new_node is the row at 0x00056E53; suppress this TU's own copy (which would call the element copy constructor, defined nowhere) and bind the template name to that row.
+namespace _STL { template <> _Hashtable_node<pair<const int,Rva001FDC0FRecord> > * hashtable<pair<const int,Rva001FDC0FRecord>,int,hash<int>,_Select1st<pair<const int,Rva001FDC0FRecord> >,equal_to<int>,allocator<pair<const int,Rva001FDC0FRecord> > >::_M_new_node(const pair<const int,Rva001FDC0FRecord> &); }
+#pragma comment(linker, "/alternatename:?_M_new_node@?$hashtable@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@@_STL@@AAEPAU?$_Hashtable_node@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@ABU?$pair@$$CBHURva001FDC0FRecord@@@2@@Z=?Rva00056E53New@@YGPAUHashNode00056E53@@ABU?$pair@$$CBVAsciiString@@UTreeHintPayload0005808E@@@_STL@@@Z")

@@ -33,3 +33,6 @@ template void _STL::hashtable<_STL::pair<Rva00057FC1Record const, Rva00057FC1Rec
 // 0x00058A81 (5B), unreferenced in retail: the out-of-line hash_map::clear
 // over the same table, a tail jump into the hashtable clear above.
 template void _STL::hash_map<Rva00057FC1Record, Rva00057FC1Record>::clear(void);
+
+// The Record destructor is the pinned name for the 0x00056EB1 body that hashtable::clear calls per node.
+#pragma comment(linker, "/alternatename:??1Rva00057FC1Record@@QAE@XZ=?Rva00056EB1Free@@YGXPAX@Z")
