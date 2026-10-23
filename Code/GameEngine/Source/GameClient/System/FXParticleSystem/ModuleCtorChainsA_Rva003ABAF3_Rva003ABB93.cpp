@@ -301,7 +301,6 @@ void __identifier("?get@Rva00094A98FloatField@@QBEMXZ")();
 }
 extern const void *const g_00C1C4C8[11];
 extern "C" const void *const __identifier("??_7Rva003AE928@@6B@")[];
-extern const void *const g_00C1C508[];
 // The retail table at RVA 0x0081C504: 6 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -314,7 +313,6 @@ void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
 }
 extern const void *const g_00C1C504[6];
 
-extern const void *const g_00C1C644[];
 // The retail table at RVA 0x0081C640: 13 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -655,7 +653,7 @@ void Rva003ABC6E::DoXfer(Xfer &stream)
 Rva003ABC6E::Rva003ABC6E(void *a, void *b)
 	: Rva003AEA42(*(const RvaSmartPtr12 *)a, (int)b)
 {
-	STAMP(0x00, g_00C1C508);
+	STAMP(0x00, g_00C1C504 + 1);
 	STAMP(0x14, g_00C1C504);
 	STAMP(0x18, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
 	STAMP(0x1C, __identifier("??_7Rva003ABC6E@@6BSnapshot@@@"));
@@ -670,7 +668,7 @@ public:
 Rva003ABE40::Rva003ABE40(void *a, void *b)
 	: Rva003AEF9B(*(const RvaSmartPtr12 *)a, (int)b)
 {
-	STAMP(0x00, g_00C1C644);
+	STAMP(0x00, g_00C1C640 + 1);
 	STAMP(0x14, g_00C1C640);
 	STAMP(0x18, __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@"));
 	STAMP(0x1C, g_00C1CF28);

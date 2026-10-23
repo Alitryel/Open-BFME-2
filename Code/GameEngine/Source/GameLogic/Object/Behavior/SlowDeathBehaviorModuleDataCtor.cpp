@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 //
 // ??0SlowDeathBehaviorModuleData@@QAE@XZ, retail 0x0045E386, 287 bytes.
@@ -24,6 +24,11 @@
 // 0x483E36).
 #include <bitset>
 #include <vector>
+#include "Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+
+// The native 31-slot interface tears down to Snapshot; the word at +4 is separate.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 class FXList;
 class ObjectCreationList;
@@ -70,28 +75,19 @@ private:
 	unsigned char m_pad[0x4C];
 };
 
-class UpdateModuleData
-{
-public:
-	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	virtual ~UpdateModuleData() {}
-
-private:
-	unsigned char m_pad04[4];
-};
-
 enum
 {
 	SLOWDEATH_PHASE_COUNT = 4,
 };
 
-class SlowDeathBehaviorModuleData : public UpdateModuleData
+class SlowDeathBehaviorModuleData : public ModuleData
 {
 public:
 	SlowDeathBehaviorModuleData();
 	virtual ~SlowDeathBehaviorModuleData();
 
 private:
+	unsigned char m_pad04[4];
 	DieMuxData m_dieMuxData; // +0x08
 	float m_sinkRate; // +0x38
 	int m_probabilityModifier; // +0x3c
