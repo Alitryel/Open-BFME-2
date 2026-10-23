@@ -15,4 +15,17 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <deque>
 struct BfmeOpaque40 { unsigned char bytes[40]; };
-template class _STL::deque<BfmeOpaque40, _STL::allocator<BfmeOpaque40> >;
+typedef _STL::_Deque_iterator<BfmeOpaque40, _STL::_Nonconst_traits<BfmeOpaque40> > BfmeDeque40Iterator;
+typedef _STL::_Deque_iterator<BfmeOpaque40, _STL::_Const_traits<BfmeOpaque40> > BfmeDeque40ConstIterator;
+
+// Instantiate the retained iterator and cleanup operations.
+template int _STL::_Deque_iterator_base<BfmeOpaque40>::_M_subtract(const _STL::_Deque_iterator_base<BfmeOpaque40> &) const;
+template void _STL::_Deque_iterator_base<BfmeOpaque40>::_M_advance(int);
+template BfmeDeque40Iterator BfmeDeque40Iterator::operator+(int) const;
+template BfmeOpaque40 &BfmeDeque40Iterator::operator[](int) const;
+template BfmeDeque40ConstIterator &BfmeDeque40ConstIterator::operator+=(int);
+template int BfmeDeque40Iterator::operator-(const BfmeDeque40Iterator &) const;
+template BfmeOpaque40 &_STL::deque<BfmeOpaque40, _STL::allocator<BfmeOpaque40> >::operator[](unsigned int);
+template void _STL::_Destroy(BfmeDeque40Iterator, BfmeDeque40Iterator);
+template BfmeDeque40Iterator _STL::__uninitialized_copy(BfmeDeque40Iterator, BfmeDeque40Iterator, BfmeDeque40Iterator, const _STL::__false_type &);
+template BfmeOpaque40 **_STL::copy(BfmeOpaque40 **, BfmeOpaque40 **, BfmeOpaque40 **);

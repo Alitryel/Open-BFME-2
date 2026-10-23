@@ -70,7 +70,6 @@ _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::_M_create_
 	return __p;
 }
 
-// Explicit instantiation so the class's inline callers (insert, push_back)
-// odr-use the specialization above; explicit-instantiation-only members are
-// invisible to find_declared_unmatched.
-template class _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >;
+// Instantiate the retained operations without unrelated list members.
+template _STL::_List_node<crateCreationEntry> *_STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::_M_create_node(const crateCreationEntry &);
+template void _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::sort();
