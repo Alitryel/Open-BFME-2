@@ -42,3 +42,7 @@ template Record *_STL::__uninitialized_fill_n(Record *, unsigned int, const Reco
 template void _STL::_Destroy(Record *);
 
 template Record *_STL::__copy(Record *, Record *, Record *, const _STL::random_access_iterator_tag &, int *);
+
+// 0x0021567B calls the fill above through the out-of-line uninitialized_fill_n wrapper
+// (three arguments plus the __false_type tag at [ebp-1]).
+template Record *_STL::uninitialized_fill_n(Record *, unsigned int, const Record &);
