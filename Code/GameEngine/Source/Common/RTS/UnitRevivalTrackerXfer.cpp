@@ -27,6 +27,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@VUnitRevivalEntry@@V?$allocator@VUnitRevivalEntry@@@_STL@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class UnitRevivalEntry;
+// Range erase already has a complete retail provider; keep this unit from
+// instantiating its private element-assignment dependency.
+namespace _STL { template <> __declspec(dllimport) __forceinline UnitRevivalEntry *vector<UnitRevivalEntry, allocator<UnitRevivalEntry> >::erase(UnitRevivalEntry *, UnitRevivalEntry *); }
 namespace _STL { template <> void vector<UnitRevivalEntry,allocator<UnitRevivalEntry> >::_M_insert_overflow(UnitRevivalEntry *,UnitRevivalEntry const &,__false_type const &,unsigned int,bool); }
 // Suppress this TU's non-retail copy of ??$_Construct@VUnitRevivalEntry@@V1@@_STL@@YAXPAVUnitRevivalEntry@@ABV1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -97,6 +100,21 @@ public:
 private:
 	char m_bytes[0xD8];
 };
+
+// The native 0x37F435 call uses the existing D8-stride erase owner at
+// 0x2E2690. Both views describe that same vector ABI; preserve the owner name.
+struct Rva002E2690Element;
+namespace _STL {
+template <> Rva002E2690Element *vector<Rva002E2690Element, allocator<Rva002E2690Element> >::erase(Rva002E2690Element *, Rva002E2690Element *);
+template <> __declspec(dllimport) __forceinline
+UnitRevivalEntry *vector<UnitRevivalEntry, allocator<UnitRevivalEntry> >::erase(UnitRevivalEntry *first, UnitRevivalEntry *last)
+{
+    return reinterpret_cast<UnitRevivalEntry *>(
+        reinterpret_cast<vector<Rva002E2690Element> *>(this)->erase(
+            reinterpret_cast<Rva002E2690Element *>(first),
+            reinterpret_cast<Rva002E2690Element *>(last)));
+}
+}
 
 typedef _STL::vector<UnitRevivalEntry> UnitRevivalEntryVector;
 
