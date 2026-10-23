@@ -39,7 +39,16 @@ BFME_LITERAL_NAME_GETTER(Rva0006D054Named, "BaseHeightMapRenderObjClass")
 BFME_LITERAL_NAME_GETTER(Rva00078B7DNamed, "W3DHordeModelDraw")
 BFME_LITERAL_NAME_GETTER(WaterRenderObjClass, "WaterRenderObjClass")
 BFME_LITERAL_NAME_GETTER(Rva0008EFD2Named, "InGameUI")
-BFME_LITERAL_NAME_GETTER(Rva001DD02BNamed, "Eva")
+class Eva
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *Eva::GetSnapshotName() const
+{
+	return "Eva";
+}
 BFME_LITERAL_NAME_GETTER(Rva002AA3AFNamed, "Energy")
 BFME_LITERAL_NAME_GETTER(Rva00091AACNamed, "W3DTerrainVisual")
 BFME_LITERAL_NAME_GETTER(W3DDebrisDraw, "W3DDebrisDraw")

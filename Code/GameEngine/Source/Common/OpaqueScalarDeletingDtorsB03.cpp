@@ -130,16 +130,16 @@ class Rva001DF057Base0 { public: virtual ~Rva001DF057Base0(); private: char m_un
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) at 0x001DF0F1 in its vtable is target evidence for it.
 class Rva001DF057BaseC { public: virtual ~Rva001DF057BaseC(); };
-class Rva001DF057 : public Rva001DF057Base0, public Rva001DF057BaseC
+class Eva : public Rva001DF057Base0, public Rva001DF057BaseC
 {
 public:
-	Rva001DF057(EmitVtableTag *);
+	Eva(EmitVtableTag *);
 public:
-	virtual ~Rva001DF057();
+	virtual ~Eva();
 };
 
-// ?<Rva001DF057::Rva001DF057> absent-from-retail
-Rva001DF057::Rva001DF057(EmitVtableTag *)
+// ?<Eva::Eva> absent-from-retail
+Eva::Eva(EmitVtableTag *)
 {
 }
 

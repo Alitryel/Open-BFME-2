@@ -17,6 +17,7 @@
 #include <list>
 #include <hash_map>
 #include <vector>
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 #include "ascii_string.h"
 // Bind to the kept retail copy instead of emitting this unit's own.
@@ -111,7 +112,7 @@ public:
 	void *rva001DCF82();									// 0x001DCF82
 };
 
-extern const char *TheEvaMessageNames[];
+extern "C" const char *TheEvaMessageNames[];
 
 enum
 {
@@ -123,9 +124,9 @@ class Eva : public SubsystemInterface, public Snapshot
 public:
 	Eva();
 	virtual ~Eva();
+	virtual const char *GetSnapshotName() const;
 
 protected:
-	virtual void crc(Xfer *xfer);
 	virtual void xfer(Xfer *xfer);
 	virtual void loadPostProcess();
 
@@ -157,4 +158,9 @@ Eva::Eva()
 		InsertResult result;
 		((Rva001DE556 *)&m_names)->rva001DE84F(&result, entry);
 	}
+}
+
+// ?Eva::loadPostProcess present-unmatched
+void Eva::loadPostProcess()
+{
 }

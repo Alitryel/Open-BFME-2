@@ -1,12 +1,10 @@
 // cl: /MD /O1 /G7
-//
-// Target evidence: the 50-byte body calls the supplied object's virtual
-// slots +0x28 and +0x90. It passes two true bytes to the first and this+0x70
-// to the second. The interface slots and data offset follow those calls; the
-// original class and method identities remain unknown.
+// Eva Snapshot table VA 0x00BDC5A8 slot 3 points to this transfer body.
+// Xfer slots +0x28 and +0x90 receive two true bytes and this+0x70.
 
-struct Rva001DD031Interface
+class Xfer
 {
+public:
 	virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0c();
 	virtual void slot10(); virtual void slot14(); virtual void slot18(); virtual void slot1c();
 	virtual void slot20(); virtual void slot24();
@@ -21,13 +19,13 @@ struct Rva001DD031Interface
 	virtual void slot90(void *data);
 };
 
-class Rva001DD031
+class Eva
 {
-public:
-	void rva001dd031(Rva001DD031Interface *object);
+protected:
+	virtual void xfer(Xfer *object);
 };
 
-void Rva001DD031::rva001dd031(Rva001DD031Interface *object)
+void Eva::xfer(Xfer *object)
 {
 	bool flags[2] = { true, true };
 	object->slot28(flags);

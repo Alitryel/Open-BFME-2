@@ -108,10 +108,10 @@ struct Rva001DF057Buf
 	void *m_ptr;
 };
 
-class Rva001DF057 : public SubsystemInterface, public SnapBase
+class Eva : public SubsystemInterface, public SnapBase
 {
 public:
-	virtual ~Rva001DF057();
+	virtual ~Eva();
 private:
 	Rva001DD70F m_tree10;
 	char m_pad18[0x1C - 0x10 - sizeof(Rva001DD70F)];
@@ -124,6 +124,6 @@ private:
 	_STL::_List_base<int, _STL::allocator<int> > m_list68;
 };
 
-Rva001DF057::~Rva001DF057()
+Eva::~Eva()
 {
 }

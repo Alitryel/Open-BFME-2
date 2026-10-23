@@ -4212,7 +4212,6 @@ name,address,notes
 ??1Rva001DBAA4@@UAE@XZ,0x001DBAC3,twin pin base dtor per Rva001DBAA4Ctor vtable comment and retail jmp from 0x003603D4
 ??1Rva001DBAC3@@UAE@XZ,0x001DBAC3,opaque leaf base dtor (7B mov-vptr plus ret); 2 derived 11B dtors tail-call it; identity unproven
 ??1Rva001DBAC3Base@@UAE@XZ,0x001DBAC3,base destructor tail-called by twelve derived dtors (0x35D47B..0x35FF76); rowed under a setter placeholder
-??1Rva001DF057@@UAE@XZ,0x001DF057,"destructor the scalar deleting destructor 0x001DF3D5 calls (REL32 at 0x001DF3D8; vtable 0x00BDC5B8#0); opaque address name"
 ??1Rva001E009E@@UAE@XZ,0x001E009E,"destructor the scalar deleting destructor 0x001E0A3B calls (REL32 at 0x001E0A3E; vtable 0x00BDD754#0); opaque address name"
 ??1Rva001E125D@@UAE@XZ,0x001E125D,"destructor the scalar deleting destructor 0x001E1241 calls (REL32 at 0x001E1244; vtable 0x00BDD95C#0); opaque address name"
 ??1Rva001E2747@@UAE@XZ,0x001E27C6,dtor installs its own vftable 0x00BDD970 (bytes at ++19) and is the REL32 callee of the slot-0 ??_G at 0x001E2952

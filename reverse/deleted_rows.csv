@@ -1665,3 +1665,9 @@ __ehhandler$??1Rva0052CFB1@@UAE@XZ,0x007971FA,"Renamed to __ehhandler$??1LivingW
 ?xfer@Rva00482E96@@MAEXPAVXfer@@@Z,0x00482BDB,"Renamed to the FireWeaponWhenDeadBehavior member (class reconciliation): retail vftable 0x008497B4, stored by the rowed ??0FireWeaponWhenDeadBehavior@@ ctor 0x00482D80, holds this ??_G 0x00482EBD at slot 0, loadPostProcess 0x00482C39 at 1 and xfer 0x00482BDB at 3."
 ?name@SidesList@@QBEPBDXZ,0x0032ED53,"Renamed to ?GetSnapshotName@SidesList@@UBEPBDXZ: constructor-installed Snapshot table VA 0x00C0DA88 slot 2 points here"
 ?rva0045D859@WeaponTemplateSetHead@@QAEPAV1@PAV1@@Z,0x0045D859,Signature corrected to ?rva0045D859@WeaponTemplateSetHead@@QAE?AV1@XZ: native hidden result pointer established by unchanged guarded-static caller45E2EE and byte-exact ordinary by-value provider46B; identifier and ownership retained.
+?name@Rva001DD02BNamed@@QBEPBDXZ,0x001DD02B,"Renamed to ?GetSnapshotName@Eva@@UBEPBDXZ: Eva Snapshot table VA 0x00BDC5A8 slot 2 points here"
+??_GRva001DF057@@UAEPAXI@Z,0x001DF3D5,"Renamed to ??_GEva@@UAEPAXI@Z: Eva primary table VA 0x00BDC5B8 slot 0 points here"
+??_ERva001DF057@@WM@AEPAXI@Z,0x001DF0F1,"Renamed to ??_EEva@@WM@AEPAXI@Z: Eva Snapshot table VA 0x00BDC5A8 slot 0 adjusts this by -12"
+??1Rva001DF057@@UAE@XZ,0x001DF057,"Renamed to ??1Eva@@UAE@XZ: Eva primary deleting destructor calls this body which restores both constructor tables"
+?rva001dd031@Rva001DD031@@QAEXPAURva001DD031Interface@@@Z,0x001DD031,"Renamed to ?xfer@Eva@@MAEXPAVXfer@@@Z: Eva Snapshot table VA 0x00BDC5A8 slot 3 points here"
+__ehhandler$??1Rva001DF057@@UAE@XZ,0x00769AA4,"Renamed to __ehhandler$??1Eva@@UAE@XZ: follows the rename of its function"

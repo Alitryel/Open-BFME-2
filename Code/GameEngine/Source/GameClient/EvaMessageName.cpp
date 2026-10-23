@@ -77,7 +77,7 @@ struct EvaMessageNameNode
     int m_message;
 };
 
-static const char *TheEvaMessageNames[] =
+extern "C" const char *TheEvaMessageNames[] =
 {
     "DefaultEvaEvent",
     "BeaconDetected",
