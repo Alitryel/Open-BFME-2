@@ -1416,11 +1416,9 @@ GameSpyInfoInterface *GameSpyInfoInterface::createNewGameSpyInfoInterface(void)
 	return reinterpret_cast<GameSpyInfoInterface *>(new GameSpyInfo);
 }
 
-// Retail's str() falls back to its function-local TheNullChr, which the
-// linker folded with the "" literal at 0x00BBAC1C. This TU's shim str()
-// returns "" itself, so the empty defaults below name the pinned
-// g_bfmeEmptyF9 there to keep the two constants distinct, as in retail.
-extern char g_bfmeEmptyF9[];
+// Empty defaults use the existing string object at VA 0x00BBAC1C.
+// Keep it distinct from the str() shim's empty literal.
+extern const char g_Rva0107301CEmptyString[];
 
 // ?SetUpGameSpy@@YAXPBD0@Z @0x00386F7F 576B
 // ZH's SetUpGameSpy without the rank-point table; BFME 2 creates the ladder
@@ -1429,9 +1427,9 @@ extern char g_bfmeEmptyF9[];
 void SetUpGameSpy(const char *motdBuffer, const char *configBuffer)
 {
 	if (!motdBuffer)
-		motdBuffer = g_bfmeEmptyF9;
+		motdBuffer = g_Rva0107301CEmptyString;
 	if (!configBuffer)
-		configBuffer = g_bfmeEmptyF9;
+		configBuffer = g_Rva0107301CEmptyString;
 
 	TearDownGameSpy();
 
