@@ -17,8 +17,8 @@ class BaseA
 {
 public:
 	__declspec(dllimport) __forceinline BaseA() : m_04(2), m_08(1) {}
-	virtual void a0();
-	virtual void a1();
+	virtual void a0(void *, void *) = 0;
+	virtual void a1(void *) = 0;
 	virtual ~BaseA() {}
 private:
 	int m_04;

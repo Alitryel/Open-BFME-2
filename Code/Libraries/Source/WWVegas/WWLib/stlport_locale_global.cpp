@@ -121,12 +121,12 @@ __forceinline _Locale_impl *_M_add_ref(_Locale_impl *impl)
 	return impl;
 }
 
-extern _Locale_impl *_Stl_loc_global_impl;
+extern _Locale_impl *_Stl_classic_locale_impl;
 
 __forceinline locale::locale()
 {
 	_M_impl = 0;
-	_M_impl = _M_add_ref(_Stl_loc_global_impl);
+	_M_impl = _M_add_ref(_Stl_classic_locale_impl);
 }
 
 __forceinline locale::locale(const locale& that) {
@@ -187,8 +187,8 @@ locale __cdecl locale::global(const locale &L)
 
 	{
 		_STLP_auto_lock lock(_Stl_loc_global_locale_lock);
-		_Stl_loc_global_impl->_M_decr();
-		_Stl_loc_global_impl = L._M_impl;
+		_Stl_classic_locale_impl->_M_decr();
+		_Stl_classic_locale_impl = L._M_impl;
 	}
 
 	if (L.name() != _Nameless)
@@ -198,7 +198,3 @@ locale __cdecl locale::global(const locale &L)
 }
 
 }
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?_Stl_loc_global_impl@_STL@@3PAV_Locale_impl@1@A=?_Stl_classic_locale_impl@_STL@@3PAV_Locale_impl@1@A")
