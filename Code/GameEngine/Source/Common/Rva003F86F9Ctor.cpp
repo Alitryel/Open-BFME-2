@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /O1 /G7 /Oy-
 // stlport
 //
-// ??0Rva003F86F9@@QAE@HH@Z @0x003F86F9 47B.
+// ??0Rva003F8728@@QAE@HH@Z @0x003F86F9 47B.
 // Ctor of unknown class with vtable 0x00837314: stores two int args at +4/+8,
 // then constructs vector<BfmeE16> at +0xC via rowed Vector_base 0x00211E58,
 // then sets dword at +0x18 to -1.
@@ -19,16 +19,16 @@ struct Base003F86F9
 	int m_08;
 };
 
-class Rva003F86F9 : public Base003F86F9
+class Rva003F8728 : public Base003F86F9
 {
 public:
-	Rva003F86F9(int a, int b);
-	virtual ~Rva003F86F9();
+	Rva003F8728(int a, int b);
+	virtual ~Rva003F8728();
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_0C;
 	int m_18;
 };
 
-Rva003F86F9::Rva003F86F9(int a, int b) : Base003F86F9(a, b), m_0C(), m_18(-1)
+Rva003F8728::Rva003F8728(int a, int b) : Base003F86F9(a, b), m_0C(), m_18(-1)
 {
 }
 
@@ -71,7 +71,7 @@ void Rva003F90E4Parse(INI *ini,Rva003F9004 *outer) {
  if(!ini || !outer) throw INIException(3,"Invalid data in LogicTurnPhase::ParseINI");
  AsciiString token=ini->getNextQuotedAsciiString();
  int phase=ini->scanIndexList(token.str(),g_logicTurnPhaseNames);
- Rva003F86F9 *created=new Rva003F86F9((outer->field04?outer->field04:outer->field04),phase);
+ Rva003F8728 *created=new Rva003F8728((outer->field04?outer->field04:outer->field04),phase);
  ini->initFromINI(created,&g_logicTurnPhaseFields);
  outer->rva003F9004(reinterpret_cast<const ModuleData*>(created));
 }
