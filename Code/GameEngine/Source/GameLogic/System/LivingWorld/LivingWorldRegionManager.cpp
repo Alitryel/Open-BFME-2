@@ -130,11 +130,22 @@ void LivingWorldRegionManager::EnumeratePendingBattles(PendingBattleVisitor &vis
 // has no vftable (the ctor stores the id at +0), so the delete calls the dtor
 // 0x002105A6 directly, as WB does. The id counter and the parse table are
 // named here from their roles; retail keeps only their addresses.
-struct FieldParse;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(class INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
 public:
+	static void parseAsciiString(INI *, void *, void *, const void *);
+	static void parseAsciiStringVector(INI *, void *, void *, const void *);
+	static void parseInt(INI *, void *, void *, const void *);
+	static void parseCoord2D(INI *, void *, void *, const void *);
+	static void parseReal(INI *, void *, void *, const void *);
 	void initFromINI(void *what, const FieldParse *parseTable);	// 0x0002DE78
 };
 
@@ -334,10 +345,33 @@ public:
 	Bool IsRuleSatisfied(Rva002E071E *player, float *fraction);
 
 private:
+	template <class T> friend struct DataRowPrivateProbe;
 	static Int getNextRuleID() { return ++s_ruleCount; }
 
 	static Int s_ruleCount;
 	static const FieldParse s_fieldParseTable[];
+};
+
+void Rva001DEE74Parse(INI *, void *, void *, const void *);
+
+Int LivingWorldRegionBonusRule::s_ruleCount = 0;
+const FieldParse LivingWorldRegionBonusRule::s_fieldParseTable[] =
+{
+	{ "Territory", INI::parseAsciiString, 0, 0x38 },
+	{ "EffectName", INI::parseAsciiString, 0, 0x44 },
+	{ "Regions", INI::parseAsciiStringVector, 0, 0x20 },
+	{ "LegendaryBonus", INI::parseInt, 0, 0x10 },
+	{ "ResourceBonus", INI::parseInt, 0, 0x08 },
+	{ "ArmyBonus", INI::parseInt, 0, 0x0C },
+	{ "AttackBonus", INI::parseInt, 0, 0x14 },
+	{ "DefenseBonus", INI::parseInt, 0, 0x18 },
+	{ "ExperienceBonus", INI::parseInt, 0, 0x1C },
+	{ "UnifiedEvaEvent", Rva001DEE74Parse, 0, 0x3C },
+	{ "LostEvaEvent", Rva001DEE74Parse, 0, 0x40 },
+	{ "LookAtCenter", INI::parseCoord2D, 0, 0x48 },
+	{ "LookAtHeading", INI::parseReal, 0, 0x50 },
+	{ "LookAtZoom", INI::parseReal, 0, 0x54 },
+	{ 0, 0, 0, 0 }
 };
 
 void LivingWorldRegionBonusRule::ParseINI(INI *ini, void *instance, void *store, const void *userData)
