@@ -32,4 +32,10 @@ public:
 	};
 };
 
+// These operations bind to the copies in FlightDeckBehavior.cpp.
+namespace _STL {
+template <> void vector<FlightDeckBehavior::FlightDeckInfo>::reserve(unsigned int);
+template <> template <> FlightDeckBehavior::FlightDeckInfo *vector<FlightDeckBehavior::FlightDeckInfo>::_M_allocate_and_copy<FlightDeckBehavior::FlightDeckInfo *>(unsigned int, FlightDeckBehavior::FlightDeckInfo *, FlightDeckBehavior::FlightDeckInfo *);
+}
+
 template class _STL::vector<FlightDeckBehavior::FlightDeckInfo, _STL::allocator<FlightDeckBehavior::FlightDeckInfo> >;

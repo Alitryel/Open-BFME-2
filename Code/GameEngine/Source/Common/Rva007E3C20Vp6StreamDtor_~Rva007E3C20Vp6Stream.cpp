@@ -1,6 +1,5 @@
 // cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /G7
-// Split from Rva007E3C20Vp6StreamDtor.cpp: these definitions reference a callee with no matched body yet,
-// so they are kept apart from the unit's bodies that already link.
+// VP6 stream destruction and frame decoding.
 // ??1Rva007E3C20Vp6Stream@@UAE@XZ, retail 0x00090840..0x000908F6 (182
 // bytes, EH): the VP6 stream's destructor, called by its scalar deleting
 // destructor (??_GRva0090840, call at 0x00091156; table 0x00BC7F20).
@@ -12,14 +11,20 @@
 // global operator delete (a ::delete); the +0x54 buffer is released by the
 // rowed Rva00090714Free (0x00090714) and cleared under a single test; the
 // audio handles at +0x5C/+0x60 go to TheAudio slot 27. The +0x1C member and
-// the base keep the ledger's spellings for their bodies (rowed 0x00106A2D,
-// pinned 0x0068A110). The layout is the rowed constructor 0x000907C1's.
+// the base use the rowed bodies at 0x00106A2D and 0x0068A110.
+// The layout is the rowed constructor 0x000907C1's.
 
-class Gen_uwm_0068a110
+class BfmeThingUC
 {
 public:
-	virtual void slot0();
-	~Gen_uwm_0068a110();
+	void bfmeResetUC();
+};
+
+// The rowed cleanup restores the base vptr.
+class __declspec(novtable) Gen_0081E480
+{
+public:
+	virtual ~Gen_0081E480() { ((BfmeThingUC *)this)->bfmeResetUC(); }
 private:
 	int m_count;
 	int m_first;
@@ -122,10 +127,11 @@ extern "C" int __cdecl VP6_DecodeFrameToYUV(PB_INSTANCE *pbi, unsigned char *buf
 typedef void (__cdecl *Vp6ForwardFn)(int, int, int, int, int);
 
 class Rva007E3C20Vp6Stream;
-extern Rva007E3C20Vp6Stream *g_vp6ActiveStream;
-extern int g_vp6PairCounter;
+// The frame decoder writes the active stream and advances the pair counter.
+Rva007E3C20Vp6Stream *g_vp6ActiveStream;
+int g_vp6PairCounter;
 
-class Rva007E3C20Vp6Stream : public Gen_uwm_0068a110
+class Rva007E3C20Vp6Stream : public Gen_0081E480
 {
 public:
 	virtual ~Rva007E3C20Vp6Stream();

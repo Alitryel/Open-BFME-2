@@ -58,6 +58,11 @@ public:
 		GrowthStep = 10;
 		ActiveCount = 0;
 	}
+	virtual ~DynamicVectorClassWide();
+	virtual bool Resize(int size, T const *array = 0);
+	virtual void Clear();
+	virtual int ID(T const *ptr);
+	virtual int ID(T const &object);
 protected:
 	int ActiveCount;
 	int GrowthStep;
@@ -101,6 +106,11 @@ public:
 		GrowthStep = 10;
 		ActiveCount = 0;
 	}
+	virtual ~DynamicVectorClass();
+	virtual bool Resize(int size, T const *array = 0);
+	virtual void Clear();
+	virtual int ID(T const *ptr);
+	virtual int ID(T const &object);
 protected:
 	int ActiveCount;
 	int GrowthStep;
