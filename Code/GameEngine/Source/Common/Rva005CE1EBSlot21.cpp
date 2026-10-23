@@ -37,18 +37,19 @@ public:
 	void rva005E88DD();
 };
 
-class Rva005CDF6C
+namespace StrategicInGameUI { class PlanningPhaseBuildingSelection; }
+class StrategicInGameUI::PlanningPhaseBuildingSelection
 {
 public:
-	void rva005CE1EB();
+	virtual void onBuildingChanged();
 private:
-	unsigned char m_pad00[0x14];
+	unsigned char m_pad00[0x10];
 	Rva005CB84A *m_14;
 	Rva005CE1EBSource *m_18;
 	Rva005E88DDNullTarget *m_1C;
 };
 
-void Rva005CDF6C::rva005CE1EB()
+void StrategicInGameUI::PlanningPhaseBuildingSelection::onBuildingChanged()
 {
 	reinterpret_cast<Rva000B3FD0 *>(this)->rva000B3FD0();
 	if (m_18->rva004E0625())

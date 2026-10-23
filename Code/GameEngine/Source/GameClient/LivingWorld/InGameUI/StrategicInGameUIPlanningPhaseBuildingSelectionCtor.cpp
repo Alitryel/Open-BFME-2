@@ -47,12 +47,7 @@ public:
 };
 
 // The building-observer interface at +0x08.
-class LivingWorldBuildingObserver
-{
-public:
-	virtual ~LivingWorldBuildingObserver();
-	virtual void onBuildingChanged();
-};
+#include "../../../../Include/Common/LivingWorldObservers.h"
 
 // Region views (placeholder-rowed members of the region at +0x18).
 class Rva004E0625 { public: int rva004E0625() const; };
@@ -161,6 +156,14 @@ public:
 	PlanningPhaseBuildingSelection(void *owner, void *context, PlanningUI *ui, void *extra, LivingWorldRegion *region);
 	virtual ~PlanningPhaseBuildingSelection();
 	virtual void onBuildingChanged();
+	virtual int slot2(void *);
+	virtual int slot3(const void *, int);
+	virtual void rva005CE10A();
+	virtual bool slot5(int);
+	virtual bool slot6(int);
+	virtual int rva005CE7BF(int);
+	virtual void event1_1(int);
+	virtual void NotifyBuildingAboutToBeDestroyedByUI(int);
 
 private:
 	void *m_context;		// +0x0C
@@ -735,3 +738,15 @@ void ControlBar::populateCommand(Object *obj,bool refresh)
     }
 }
 
+
+class Rva005E57A2Callback { public: int invoke(); };
+
+void StrategicInGameUI::PlanningPhaseBuildingSelection::event1_1(int)
+{
+	((Rva005E57A2Callback *)this)->invoke();
+}
+
+int StrategicInGameUI::PlanningPhaseBuildingSelection::slot2(void *) { return 0; }
+int StrategicInGameUI::PlanningPhaseBuildingSelection::slot3(const void *, int) { return -1; }
+bool StrategicInGameUI::PlanningPhaseBuildingSelection::slot5(int) { return false; }
+bool StrategicInGameUI::PlanningPhaseBuildingSelection::slot6(int) { return false; }

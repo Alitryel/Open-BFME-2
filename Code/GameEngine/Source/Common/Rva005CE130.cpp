@@ -26,24 +26,27 @@ public:
 	void fwd(int a, int b);
 };
 
-class Rva005CE130
+class Rva005E67FE { public: virtual ~Rva005E67FE(); int m_04; };
+#include "../../Include/Common/LivingWorldObservers.h"
+namespace StrategicInGameUI { class PlanningPhaseBuildingSelection; }
+class StrategicInGameUI::PlanningPhaseBuildingSelection : public Rva005E67FE, public LivingWorldBuildingObserver
 {
 public:
-	void NotifyBuildingAboutToBeDestroyedByUI(int arg);
-	char m_lead[0x10];
-	Rva004E05F0 *m_10;
+	virtual void NotifyBuildingAboutToBeDestroyedByUI(int arg);
+	char m_lead[0x0C];
+	Rva004E05F0 *m_region;
 };
 
-void Rva005CE130::NotifyBuildingAboutToBeDestroyedByUI(int arg)
+void StrategicInGameUI::PlanningPhaseBuildingSelection::NotifyBuildingAboutToBeDestroyedByUI(int arg)
 {
 	(void)arg;
-	Rva004E05F0 *p = m_10;
+	Rva004E05F0 *p = m_region;
 	Rva003F1093 *f1 = p->m_24;
 	if (f1 == 0)
 		return;
 	CreateAHeroData *createAHeroData = p->rva004E05F0();
 	if (createAHeroData == 0)
 		return;
-	Rva005E683EMid *outer = (Rva005E683EMid *)((char *)this - 8);
+	Rva005E683EMid *outer = (Rva005E683EMid *)this;
 	outer->fwd((int)f1, (int)createAHeroData);
 }

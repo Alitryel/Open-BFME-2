@@ -1720,3 +1720,10 @@ __ehhandler$??0Rva003F332E@@QAE@PAXHABVAsciiString@@@Z,0x00783F68,"Renamed to __
 ??0Rva00062A7EProduct@@QAE@XZ,0x00062A7E,"Renamed to ??0W3DTerrainLogic@@QAE@XZ: constructor installs BC5890 whose name slot returns W3DTerrainLogic"
 ?rva005B486D@Rva005B486DOwner@@QAEXXZ,0x005B486D,"Renamed to ?rva005B486D@Powers@AptCreateAHero@@UAEXXZ: Powers constructor-installed table VA 0x00C72F3C slot 3 points here"
 ?dup_0006ede3@@YAXXZ,0x0006EDE3,Wrong-layout Script alias replaced by byte-exact NetDisconnectPlayerCommandMsg::setDisconnectSlot. Native sendDisconnectCommand and readDisconnectPlayerMessage prove byte payload at +0x1C; BFME2 Script active is at +0x40. See network-byte-setter-astra-s2-20261023.
+?NotifyBuildingAboutToBeDestroyedByUI@Rva005CE130@@QAEXH@Z,0x005CE130,"Renamed to ?NotifyBuildingAboutToBeDestroyedByUI@PlanningPhaseBuildingSelection@StrategicInGameUI@@UAEXH@Z: constructor 005CE5B3 installs the table selecting this body"
+??1Rva005CE4FA@@UAE@XZ,0x005CE4FA,"Renamed to ??1PlanningPhaseBuildingSelection@StrategicInGameUI@@UAE@XZ: constructor 005CE5B3 installs the table selecting this body"
+__ehhandler$??1Rva005CE4FA@@UAE@XZ,0x007A16A2,"Renamed to __ehhandler$??1PlanningPhaseBuildingSelection@StrategicInGameUI@@UAE@XZ: follows the rename of its function"
+??_GRva005CE4FA@@UAEPAXI@Z,0x005CE7A3,"Renamed to ??_GPlanningPhaseBuildingSelection@StrategicInGameUI@@UAEPAXI@Z: constructor 005CE5B3 installs the table selecting this body"
+?rva005CE10A@Rva005CE10A@@QAEXXZ,0x005CE10A,"Renamed to ?rva005CE10A@PlanningPhaseBuildingSelection@StrategicInGameUI@@UAEXXZ: constructor 005CE5B3 installs the unique table selecting this body"
+?rva005CE1EB@Rva005CDF6C@@QAEXXZ,0x005CE1EB,"Renamed to ?onBuildingChanged@PlanningPhaseBuildingSelection@StrategicInGameUI@@UAEXXZ: constructor 005CE5B3 installs the unique table selecting this body"
+?rva005CE7BF@Rva005CE7BF@@QAEHH@Z,0x005CE7BF,"Renamed to ?rva005CE7BF@PlanningPhaseBuildingSelection@StrategicInGameUI@@UAEHH@Z: constructor 005CE5B3 installs the unique table selecting this body"

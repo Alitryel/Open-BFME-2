@@ -26,9 +26,9 @@ namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<p
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 class Rva00330757Member {public:Rva00330757Member() throw();~Rva00330757Member() throw();char storage[16];};
 class Rva002B2294DwordImmSetter{public:void apply();};class Rva0002B221ADwordImmSetter{public:void apply();};class Rva002B228DDwordImmSetter{public:void apply();};
-class LivingWorldBuildingObserver {public:~LivingWorldBuildingObserver();virtual void slot0(void*);virtual void slot1(void*);virtual void slot2(void*);virtual void slot3(void*,void*);};
-class LivingWorldRegionObserver {public:~LivingWorldRegionObserver(){((Rva0002B221ADwordImmSetter*)this)->apply();}virtual void slot0(void*,int,int);virtual void slot1(void*,int,int);virtual void slot2(void*,void*);virtual void slot3(void*,void*);};
-class LivingWorldPlayerObserver {public:~LivingWorldPlayerObserver(){((Rva002B228DDwordImmSetter*)this)->apply();}virtual void slot0(void*);virtual void slot1(void*);virtual void slot2(void*,void*,void*);virtual void slot3(void*);};
+#include "../../../../Include/Common/LivingWorldObservers.h"
+
+
 struct BfmeStringRecord002B4DC1{UnicodeString text;int a,b;BfmeStringRecord002B4DC1():a(0),b(3){}~BfmeStringRecord002B4DC1(){}};
 namespace _STL{template<>list<BfmeStringRecord002B4DC1>::list(unsigned);template<>map<int,void*>::map();template<>_List_base<BfmeStringRecord002B4DC1,allocator<BfmeStringRecord002B4DC1> >::~_List_base();}
 class Rva004EDFFFDwordImmSetter{public:void apply();};
@@ -51,7 +51,7 @@ public:
  Rva002B964F();virtual ~Rva002B964F();
  virtual void init();virtual void reset();virtual void update();
  virtual void loadPostProcess();virtual const char*GetSnapshotName();virtual void xfer(Xfer*);
- virtual void slot1(void*);virtual void slot0(void*,int,int);virtual void slot0(void*);virtual void slot2(void*,void*,void*);
+ virtual void event1_1(int);virtual void event4_0(int,int,int);virtual void event5_0(Rva004EF2ABArg*);virtual void event5_2(int,int,int);
 
  _STL::vector<BfmeE16> players;
  void*localPlayer;int word9C,wordA0,wordA4,wordA8,wordAC;Rva00210B38*regions;

@@ -87,8 +87,9 @@ Int Rva0056A9CF::rva0056A9CF(Int value) {return m_word == value;}
 
 // 0x005ce7bf: vtable-backed integer predicate; only the accessed word
 // and the native ABI are known. Original owner and field meaning are unknown.
-class Rva005CE7BF {public: Int rva005CE7BF(Int value); private: char m_prefix[0x18]; Int m_word;};
-Int Rva005CE7BF::rva005CE7BF(Int value) {return m_word == value;}
+namespace StrategicInGameUI { class PlanningPhaseBuildingSelection; }
+class StrategicInGameUI::PlanningPhaseBuildingSelection {public: virtual Int rva005CE7BF(Int value); private: char m_prefix[0x14]; Int m_word;};
+Int StrategicInGameUI::PlanningPhaseBuildingSelection::rva005CE7BF(Int value) {return m_word == value;}
 
 // 0x0046322c: vtable-backed integer predicate; only the accessed word
 // and the native ABI are known. Original owner and field meaning are unknown.

@@ -4689,7 +4689,6 @@ name,address,notes
 ??1Rva005CD0FEElem@@QAE@XZ,0x005CD0FE,element destructor called by the guarded-delete clear helper; address from its retail REL32 call and a Ghidra function start
 ??1Rva005CDA3D@@UAE@XZ,0x005CDA3D,opaque dtor called by the scalar deleting dtor at 0x005CDB43 (vtable 0x00C75038#0); identity unproven; address-derived name
 ??1Rva005CDDA4@@UAE@XZ,0x005CDDA4,opaque dtor called by the scalar deleting dtor at 0x005CDF2D (vtable 0x00C750BC#0); identity unproven; address-derived name
-??1Rva005CE4FA@@UAE@XZ,0x005CE4FA,opaque dtor called by the scalar deleting dtor at 0x005CE7A3 (vtable 0x00C75158#0); identity unproven; address-derived name
 ??1Rva005CE874@@UAE@XZ,0x005CE874,opaque dtor called by the scalar deleting dtor at 0x005CE8C0 (vtable 0x00C75184#0); identity unproven; address-derived name
 ??1Rva005CEE07@@UAE@XZ,0x005CEE07,opaque dtor called by the scalar deleting dtor at 0x005CF062 (vtable 0x00C75214#0); identity unproven; address-derived name
 ??1Rva005CEE9F@@UAE@XZ,0x005CEE9F,opaque dtor called by the scalar deleting dtor at 0x005CF1F4 (vtable 0x00C7522C#0); identity unproven; address-derived name

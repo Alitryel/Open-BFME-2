@@ -88,12 +88,7 @@ RVA002B964F_LIST( Rva002B964FList5C )
 RVA002B964F_LIST( Rva002B964FList6C )
 RVA002B964F_LIST( Rva002B964FList7C )
 
-class LivingWorldBuildingObserver
-{
-public:
-	virtual void slot00() = 0;
-	~LivingWorldBuildingObserver() {}
-};
+#include "../../../../Include/Common/LivingWorldObservers.h"
 
 #include "../../../../Include/Common/Rva0056B126B2.h"
 
