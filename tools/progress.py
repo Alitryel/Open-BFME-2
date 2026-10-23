@@ -5,7 +5,9 @@ BYTE-MATCHED, GAME CODE C++ and LINKING print first: the three numbers on the
 README card and in the daily Discord post (tools/readme_progress.py), computed
 the same way. BYTE-MATCHED ("rebuilt from source") is everything that rebuilds
 to game.dat's exact bytes (authored and generated C++, vendored source,
-attached prebuilt libraries; dumps excluded), over all code. GAME CODE C++ is
+attached prebuilt libraries and verified data in .text; dumps excluded), over
+all non-padding .text bytes. Embedded data has its own lane, never authored
+function-code credit. GAME CODE C++ is
 the C++ we wrote over the game's own code (all code minus vendored source and
 prebuilt libraries); LINKING is the part of it whose files also link cleanly,
 over the census tree's game code, both measured and stored by the last
@@ -92,7 +94,7 @@ GENERATED_ROOTS = ("Code/gen_small/", "Code/gen_asm/")
 GEN_NOTE_RE = re.compile(r"(?:^|;)\s*gen-[a-z]|identity=generated\b")
 # Provenance lanes, best evidence first. Overlapping claims on one byte resolve
 # to the earliest lane, so the lanes partition Total exact with no double count.
-SOURCE_LANES = ("authored", "vendored", "generated", "library", "dump")
+SOURCE_LANES = ("authored", "vendored", "generated", "library", "data", "dump")
 EMIT_RE = re.compile(
     r"\b_{1,2}emit\s+(?:0x([0-9a-fA-F]{1,2})|([0-9a-fA-F]{1,3})h)\b",
     re.IGNORECASE,
@@ -371,8 +373,8 @@ def naked_cpp_rows_at(matched, ref):
     return naked_cpp_rows(matched, naked_source_texts(matched, ref))
 
 
-def coverage(matched, text_start, text_size, naked_rows=()):
-    """Return absolute .text-byte ownership for clean C++ and assembly rows."""
+def coverage(matched, text_start, text_size, naked_rows=(), text_data=()):
+    """Return absolute .text coverage for C++, assembly and verified data."""
     text_end = text_start + text_size
     cpp = []
     asm = []
@@ -389,10 +391,13 @@ def coverage(matched, text_start, text_size, naked_rows=()):
         (asm if kind == "asm" else cpp).append((start, end))
 
     cpp_bytes = interval_bytes(cpp)
-    exact_bytes = interval_bytes(cpp + asm)
+    code_bytes = interval_bytes(cpp + asm)
+    data = [(max(start, text_start), min(end, text_end)) for start, end, _ in text_data]
+    exact_bytes = interval_bytes(cpp + asm + data)
     return {
         "cpp": cpp_bytes,
-        "asm_only": exact_bytes - cpp_bytes,
+        "asm_only": code_bytes - cpp_bytes,
+        "data_only": exact_bytes - code_bytes,
         "unmatched": text_size - exact_bytes,
         "exact": exact_bytes,
         "text": text_size,
@@ -404,7 +409,7 @@ def source_lane(source, notes, naked):
 
     Provenance asks who wrote the thing the bytes come out of. It is a
     different question from the code axis (which language) and it is the one
-    the project is graded on, because only two of these five lanes are source
+    the project is graded on, because only two of the code lanes are source
     anybody recovered.
 
       authored   C++ we wrote from the disassembly.
@@ -496,6 +501,7 @@ def print_scorecard(ref1, label2, old_stats, new_stats):
     rows = (
         ("C++ exact", "cpp"),
         ("ASM-only exact", "asm_only"),
+        ("Data-only exact", "data_only"),
         ("Unmatched", "unmatched"),
         ("Total exact", "exact"),
     )
@@ -516,11 +522,12 @@ def rebuildable(split):
     authored it does not enter into it; nobody at EA hand-wrote the unwind
     funclets either, and a 1:1 build does not require us to hand-write d3dx9.
 
+    Verified data in .text qualifies separately from all function-code lanes.
     A byte-true dump is the one lane that fails the test: the source file
     contains retail's own bytes, so deleting game.dat would delete the
     thing we claim to hold. Dumps fix a boundary and say nothing else.
     """
-    return split["authored"] + split["vendored"] + split["generated"] + split["library"]
+    return split["authored"] + split["vendored"] + split["generated"] + split["library"] + split.get("data", 0)
 
 
 LINK_STATUS = "reverse/link_status.csv"
@@ -539,13 +546,41 @@ def _text_at(ref, path):
     return result.stdout if result.returncode == 0 else None
 
 
+def text_data_at(ref):
+    """Matched data-ledger extents in retail .text, at the requested state.
+
+    Like function coverage, these are gate-verified ledger claims, not a new
+    compile during reporting. Old commits without a data ledger contribute zero.
+    Non-.text data never contributes to the code-section coverage denominator.
+    """
+    import data_rows
+    raw = _text_at(ref, "reverse/data_rows.csv")
+    if raw is None:
+        return []
+    try:
+        rows = data_rows.parse(raw.encode("utf-8"))
+        out = []
+        for _, row in rows:
+            if "_fields" in row:
+                raise ValueError("malformed data row")
+            if row["status"] != "matched" or row["section"] != ".text":
+                continue
+            if row["address_kind"] not in ("va", "rva") or int(row["size"]) <= 0:
+                raise ValueError("invalid data address kind or size")
+            start = data_rows.va_of(row) - data_rows.IMAGE_BASE
+            out.append((start, start + int(row["size"]), row["source"]))
+        return out
+    except ValueError as exc:
+        raise SystemExit(f"invalid data_rows.csv at {ref or 'worktree'}: {exc}") from exc
+
+
 @lru_cache(maxsize=None)
 def _text_image():
     start, size = retail_text()
     return start, build.read_target_bytes(start, size)
 
 
-def real_split(matched, notes, text_start, text_size, naked_rows=(), keep=None):
+def real_split(matched, notes, text_start, text_size, naked_rows=(), keep=None, text_data=()):
     """source_split counted the way real_code_denominator counts: 0xCC bytes
     excluded, so numerator and denominator agree (source_split counts a row's
     0xCC bytes, about 0.16 pp of the headline). `keep(key, source)` filters rows."""
@@ -553,6 +588,10 @@ def real_split(matched, notes, text_start, text_size, naked_rows=(), keep=None):
     text_end = text_start + text_size
     naked_rows = set(naked_rows)
     lanes = {name: [] for name in SOURCE_LANES}
+    # A function-only filter must never start crediting unrelated data.
+    if keep is None:
+        lanes["data"] = [(max(start, text_start), min(end, text_end))
+                         for start, end, _ in text_data if max(start, text_start) < min(end, text_end)]
     for key, (size, source) in matched.items():
         if keep and not keep(key, source):
             continue
@@ -721,13 +760,14 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
     print("               (the three figures on the README card and in the daily Discord post)")
     census_line("LINKED", "linked_bytes", None, "all our own source in files that link cleanly (the chart)")
 
-    print(f"\nreal code = .text minus {padding:,} bytes of 0xCC padding = {denominator:,} bytes")
+    print(f"\nreal .text bytes = .text minus {padding:,} bytes of 0xCC padding = {denominator:,} bytes")
     print("  byte-matched, by where its source comes from:")
     for label, key in (("C++ we wrote", "authored"), ("vendored library source", "vendored"),
-                       ("generator-written C++", "generated"), ("prebuilt .lib attached", "library")):
-        print(f"    {label:<24} {new_split[key]:>10,} bytes ({percent(new_split[key], denominator):6.2f}%)"
-              f"  delta {format_delta(new_split[key], old_split[key], denominator)}")
-    unclaimed = denominator - sum(new_split[lane] for lane in SOURCE_LANES)
+                       ("generator-written C++", "generated"), ("prebuilt .lib attached", "library"),
+                       ("verified data in .text", "data")):
+        print(f"    {label:<24} {new_split.get(key, 0):>10,} bytes ({percent(new_split.get(key, 0), denominator):6.2f}%)"
+              f"  delta {format_delta(new_split.get(key, 0), old_split.get(key, 0), denominator)}")
+    unclaimed = denominator - sum(new_split.get(lane, 0) for lane in SOURCE_LANES)
     print("  not byte-matched:")
     print(f"    {'still only retail bytes':<24} {new_split['dump']:>10,} bytes "
           f"({percent(new_split['dump'], denominator):6.2f}%)  <- dumps: a boundary, nothing more")
@@ -736,7 +776,7 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
     own, own_before = decompiled(new_split), decompiled(old_split)
     print(f"  our own source (C++ we wrote + library source) {own:,} bytes ({percent(own, denominator):.2f}%)"
           f"  delta {format_delta(own, own_before, denominator)}")
-    print(f"GAME DATA      not measured  <- {data_denominator():,} bytes of .rdata/.data; no data is byte-verified yet")
+    print(f"GAME DATA      no aggregate coverage metric  <- {data_denominator():,} bytes of .rdata/.data; individual data-ledger rows are verified")
 
 
 def marker_delta(ref1, ref2):
@@ -829,14 +869,15 @@ def main():
     text_start, text_size = retail_text()
     old_naked = naked_cpp_rows_at(old, ref1)
     new_naked = naked_cpp_rows_at(new, ref2)
-    old_stats = coverage(old, text_start, text_size, old_naked)
-    new_stats = coverage(new, text_start, text_size, new_naked)
+    old_data, new_data = text_data_at(ref1), text_data_at(ref2)
+    old_stats = coverage(old, text_start, text_size, old_naked, old_data)
+    new_stats = coverage(new, text_start, text_size, new_naked, new_data)
     label2 = ref2 or "worktree"
 
     padding, denominator = real_code_denominator(text_start, text_size)
     old_notes, new_notes = notes_at(ref1), notes_at(ref2)
-    print_headline(padding, denominator, real_split(old, old_notes, text_start, text_size, old_naked),
-                   real_split(new, new_notes, text_start, text_size, new_naked), census_at(ref1), census_at(ref2),
+    print_headline(padding, denominator, real_split(old, old_notes, text_start, text_size, old_naked, text_data=old_data),
+                   real_split(new, new_notes, text_start, text_size, new_naked, text_data=new_data), census_at(ref1), census_at(ref2),
                    census_rows_at(ref2))
     print_scorecard(ref1, label2, old_stats, new_stats)
     if args.details:

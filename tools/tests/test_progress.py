@@ -63,6 +63,7 @@ def test_union_and_cpp_precedence():
     assert stats == {
         "cpp": 15,
         "asm_only": 15,
+        "data_only": 0,
         "unmatched": 70,
         "exact": 30,
         "text": 100,
@@ -299,7 +300,7 @@ def test_source_lanes_partition_claims_and_exclude_dumps():
     split = progress.source_split(matched, notes, 0x1000, 200,
                                   naked_rows={("emit", "0x1060")})
     assert split == {"authored": 10, "vendored": 10, "generated": 20,
-                     "library": 10, "dump": 20, "recovered": 20}, split
+                     "library": 10, "data": 0, "dump": 20, "recovered": 20}, split
     stats = progress.coverage(matched, 0x1000, 200, {("emit", "0x1060")})
     assert sum(split[lane] for lane in progress.SOURCE_LANES) == stats["exact"]
     print("PASS provenance lanes partition claimed bytes; dumps excluded")

@@ -351,7 +351,7 @@ def main():
     notes = progress.notes_at(None)
     start, size = progress.retail_text()
     naked = progress.naked_cpp_rows_at(matched, None)
-    split = progress.real_split(matched, notes, start, size, naked)
+    split = progress.real_split(matched, notes, start, size, naked, text_data=progress.text_data_at(None))
     census = progress.census_at(None)
     _, total = progress.real_code_denominator(start, size)
     names, placeholders = name_metric.readable()
@@ -360,7 +360,7 @@ def main():
                "linked_authored": int(census["linked_authored"]) if census and census.get("linked_authored") else None,
                "linked_game_code": int(census["game_code"]) if census and census.get("game_code") else None,
                "strict": strict_link(),
-               **{lane: split[lane] for lane in ("authored", "vendored", "generated", "library")}}
+               **{lane: split.get(lane, 0) for lane in ("authored", "vendored", "generated", "library", "data")}}
     output = progress.ROOT / "docs" / "progress.svg"
     output.write_text(render(current, previous_state()), encoding="utf-8", newline="\n")
     rows = measures(current)

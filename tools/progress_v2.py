@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Progress under rules=v2, published NEXT TO the existing bars (which do not change).
+"""Progress by provenance, including verified data embedded in .text.
 
 The old bars answer "how much rebuilds to retail's bytes". Every one of them was
 moved by things that are not recovered source (FIX_PLAN_v2 rules 2, 3, 8, 9), so
 v2 shows what each is made of and puts a counter beside each headline:
 
   rebuilt from source  = recovered source (authored C++ + vendored library source)
-                       + generator-written C++ + attached prebuilt .lib
+                       + generator-written C++ + attached prebuilt .lib + verified .text data
                        (the old "Rebuilt from source" bar, exactly: the parts sum to it)
                        dumps (MASM `db`, __emit, naked lifts) are shown on their own and
                        were never in the bar
@@ -21,7 +21,7 @@ v2 shows what each is made of and puts a counter beside each headline:
                        /alternatename, __emit lines, .asm `db` bytes; and keyed gate
                        debt (baseline lines a repair removes -- repairs are credited here)
 
-History: <reverse>/progress_v2_history.csv, one row per day, `rules` = v2 on every row
+History: <reverse>/progress_v2_history.csv, one row per day, `rules` = v2-text-data on new rows
 (the link census's convention); progress_history.csv is untouched.
 
   python3 tools/progress_v2.py                       # worktree
@@ -43,7 +43,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import progress  # noqa: E402
 
-RULES = "v2"
+RULES = "v2-text-data"
 ROOT = progress.ROOT
 BFME1 = (ROOT / "targets" / "game" / "reverse").is_dir()
 REV = "targets/game/reverse" if BFME1 else "reverse"
@@ -56,7 +56,7 @@ GATE_DEBT = ((f"{REV}/body_guard_baseline.csv", "csv"), (f"{REV}/full_gate_basel
 TITLE = "BFME 1" if BFME1 else "BFME 2"
 
 FIELDS = ["date", "commit", "rules", "total", "byte_matched", "recovered", "authored", "vendored",
-          "generated", "library", "dump", "cpp_evidence", "cpp_readable", "cpp_address",
+          "generated", "library", "data", "dump", "cpp_evidence", "cpp_readable", "cpp_address",
           "link_receipt", "link_placed", "link_self_strict", "link_closed_strict",
           "matched_rows", "pins", "alias_rows", "alternatename", "emit", "asm_bytes", "gate_debt"]
 
@@ -168,7 +168,7 @@ def measure(ref=None):
     matched, notes = progress.matched_at(ref), progress.notes_at(ref)
     start, size = progress.retail_text()
     naked = progress.naked_cpp_rows_at(matched, ref)
-    split = progress.real_split(matched, notes, start, size, naked)
+    split = progress.real_split(matched, notes, start, size, naked, text_data=progress.text_data_at(ref))
     _, total = progress.real_code_denominator(start, size)
     evidence = evidence_names(ref)
     tiers = {key: name_tier(key[0], int(key[1], 16), evidence) for key in matched}
@@ -183,7 +183,7 @@ def measure(ref=None):
              "cpp_evidence": ev, "cpp_readable": named - (ev or 0), "cpp_address": split["authored"] - named,
              "matched_rows": len(matched), "gate_debt": gate_debt(ref), "link": load_receipt(ref),
              "hatches": hatches}
-    if point["recovered"] + split["generated"] + split["library"] != point["byte_matched"]:
+    if point["recovered"] + split["generated"] + split["library"] + split["data"] != point["byte_matched"]:
         raise AssertionError("v2 parts do not sum to the old Rebuilt-from-source bar")
     return point
 
@@ -192,7 +192,7 @@ def history_row(point, day, commit):
     link, hatches = point["link"] or {}, point["hatches"] or {}
     row = {"date": day, "commit": commit, "rules": RULES,
            **{k: point[k] for k in ("total", "byte_matched", "recovered", "authored", "vendored", "generated",
-                                    "library", "dump", "cpp_readable", "cpp_address", "matched_rows",
+                                    "library", "data", "dump", "cpp_readable", "cpp_address", "matched_rows",
                                     "gate_debt")},
            "cpp_evidence": "" if point["cpp_evidence"] is None else point["cpp_evidence"],
            "link_receipt": link.get("commit", ""),
@@ -236,12 +236,12 @@ def delta(now, row, field):
 def report(point, prev=None):
     total, lines = point["total"], []
     add = lines.append
-    add(f"{TITLE} progress, rules={RULES} (beside the existing bars; they are unchanged)")
+    add(f"{TITLE} progress, rules={RULES} (same accounting as the headline bars)")
     add(f"REBUILT FROM SOURCE (old bar)  {point['byte_matched']:>10,} B {pct(point['byte_matched'], total):6.2f}% "
-        f"= the three parts below")
+        f"= recovered source + generated C++ + libraries + verified .text data")
     for label, key in (("recovered source", "recovered"), ("  authored C++", "authored"),
                        ("  vendored library source", "vendored"), ("generator-written C++", "generated"),
-                       ("prebuilt .lib attached", "library")):
+                       ("prebuilt .lib attached", "library"), ("verified data in .text", "data")):
         add(f"  {label:<28} {point[key]:>10,} B {pct(point[key], total):6.2f}%{delta(point[key], prev, key)}")
     add(f"  {'dumps (not in the bar)':<28} {point['dump']:>10,} B {pct(point['dump'], total):6.2f}%"
         f"  <- MASM db / __emit / naked lifts")
@@ -300,10 +300,10 @@ def svg(point):
                 f'text-anchor="end">{pct(point["byte_matched"], total):.2f}%</text>'
                 f'<rect class="track" x="28" y="{y + 10}" width="{width}" height="14"/>'
                 + stack(y + 10, [(point["recovered"], colors["recovered"]), (point["generated"], colors["generated"]),
-                                 (point["library"], colors["library"])])
+                                 (point["library"], colors["library"]), (point["data"], colors["library"])])
                 + f'<text x="28" y="{y + 44}" class="muted" font-size="12.5">recovered source '
                 f'{pct(point["recovered"], total):.2f}% + generator C++ {pct(point["generated"], total):.2f}% + '
-                f'prebuilt .lib {pct(point["library"], total):.2f}%; dumps {pct(point["dump"], total):.2f}% '
+                f'prebuilt .lib {pct(point["library"], total):.2f}% + data {pct(point["data"], total):.2f}%; dumps {pct(point["dump"], total):.2f}% '
                 f'not counted</text>')
     y += 74
     ev = point["cpp_evidence"]
@@ -351,7 +351,7 @@ def svg(point):
   </style>
   <rect class="card" x="0.5" y="0.5" width="879" height="{height - 1}" rx="12"/>
   <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif">
-    <text x="28" y="30" class="muted" font-size="13" font-weight="600" letter-spacing="1.3">{TITLE} · RULES V2 · WHAT THE BARS ARE MADE OF</text>
+    <text x="28" y="30" class="muted" font-size="13" font-weight="600" letter-spacing="1.3">{TITLE} · {RULES.upper()} · WHAT THE BARS ARE MADE OF</text>
     {body}
   </g>
 </svg>

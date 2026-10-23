@@ -63,3 +63,11 @@ Once repaired, replace the existing raw descriptor with a typed definition,
 verify its 24 bytes and relocation as well as openKeyboard's full 188-byte
 body, and inspect linker placement of the .text-resident data. No fresh linking
 census or linked executable was run or claimed here.
+
+## Coverage accounting follow-up
+
+The progress tools now include matched data_rows.csv extents in .text in a
+separate data lane. This credits 4094 non-0xCC bytes from the table (4096 in
+the full-section diagnostic), with interval union preventing double counting.
+It does not increase authored C++, function-row counts, or census linking.
+The pointer-resolution and consumer-integration limitation above still applies.

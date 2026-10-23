@@ -40,11 +40,15 @@ def fake(monkeypatch):
     monkeypatch.setattr(progress, "naked_cpp_rows_at", lambda matched, ref: ())
     monkeypatch.setattr(progress, "real_code_denominator", lambda start, size: (0, 1000))
 
-    def real_split(matched, notes, start, size, naked=(), keep=None):
+    monkeypatch.setattr(progress, "text_data_at", lambda ref: [])
+
+    def real_split(matched, notes, start, size, naked=(), keep=None, text_data=()):
         out = {lane: 0 for lane in progress.SOURCE_LANES}
         for key, (n, source) in matched.items():
             if keep is None or keep(key, source):
                 out[ROWS[key][2]] += n
+        if keep is None:
+            out['data'] = sum(end - start for start, end, _ in text_data)
         return out
     monkeypatch.setattr(progress, "real_split", real_split)
     return files
@@ -55,6 +59,16 @@ def test_parts_sum_to_the_old_bar(fake):
     assert point["byte_matched"] == progress.rebuildable(point) == 100 + 50 + 20 + 40 + 30 + 25
     assert point["recovered"] + point["generated"] + point["library"] == point["byte_matched"]
     assert point["dump"] == 10 and "dumps (not in the bar)" in v2.report(point)
+
+
+def test_verified_text_data_has_its_own_part_and_history_field(fake, monkeypatch):
+    monkeypatch.setattr(progress, 'text_data_at', lambda ref: [(0x8000, 0x8007, 'Code/table.cpp')])
+    point = v2.measure()
+    assert point['data'] == 7 and point['byte_matched'] == 272
+    assert point['recovered'] == 210 and point['authored'] == 170
+    assert v2.history_row(point, '2026-10-23', 'abc')['data'] == 7
+    assert 'verified data in .text' in v2.report(point)
+    assert '+ data 0.70%' in v2.svg(point)
 
 
 def test_authored_split_by_name(fake, monkeypatch):
@@ -151,7 +165,7 @@ def test_history_rows_carry_rules_v2_and_deltas_compare_within_rules(fake, tmp_p
     v2.write_history(rows + [v2.history_row(point, "2026-10-06", "def")])
     text = (tmp_path / v2.HISTORY).read_text()
     assert text.splitlines()[0].split(",") == v2.FIELDS
-    assert all(line.split(",")[2] == "v2" for line in text.splitlines()[1:])
+    assert all(line.split(",")[2] == v2.RULES for line in text.splitlines()[1:])
     prev = v2.previous_v2(rows + [{"date": "2026-10-05x", "rules": "v3"}], "2026-10-06")
     assert prev["date"] == "2026-10-05"
     assert "(-5 since 2026-10-05)" in v2.report(point, prev)

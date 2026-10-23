@@ -213,12 +213,13 @@ def test_main_measures_names_and_persists_them(tmp_path, monkeypatch):
     monkeypatch.setattr(daily.progress, "notes_at", lambda *a: {})
     monkeypatch.setattr(daily.progress, "retail_text", lambda: (0, 100))
     monkeypatch.setattr(daily.progress, "naked_cpp_rows_at", lambda *a: [])
-    monkeypatch.setattr(daily.progress, "real_split", lambda *a: sample())
+    monkeypatch.setattr(daily.progress, "real_split", lambda *a, **k: dict(sample(), data=7))
     monkeypatch.setattr(daily.progress, "census_at", lambda *a: None)
     monkeypatch.setattr(daily.progress, "real_code_denominator", lambda *a: (0, 100))
     monkeypatch.setattr(daily.name_metric, "readable", lambda: (200, 58))
     daily.main()
     state = json.loads(path.read_text())
+    assert state['data'] == 7 and daily.measures(state)['matched'] == (67, 100)
     assert state["declared_names"] == 200 and state["readable_names"] == 142
     assert ">71.00%<" in (tmp_path / "docs/progress.svg").read_text()
 
@@ -288,7 +289,7 @@ def test_unreadable_receipt_never_stops_the_daily_post(tmp_path, monkeypatch):
     monkeypatch.setattr(daily.progress, "notes_at", lambda *a: {})
     monkeypatch.setattr(daily.progress, "retail_text", lambda: (0, 100))
     monkeypatch.setattr(daily.progress, "naked_cpp_rows_at", lambda *a: [])
-    monkeypatch.setattr(daily.progress, "real_split", lambda *a: sample())
+    monkeypatch.setattr(daily.progress, "real_split", lambda *a, **k: sample())
     monkeypatch.setattr(daily.progress, "census_at", lambda *a: None)
     monkeypatch.setattr(daily.progress, "real_code_denominator", lambda *a: (0, 100))
     monkeypatch.setattr(daily.name_metric, "readable", lambda: (200, 58))
@@ -326,7 +327,7 @@ def test_malformed_receipts_never_stop_main(tmp_path, monkeypatch, text):
     monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/token")
     monkeypatch.setattr(daily, "urlopen", lambda *a, **k: io.BytesIO(b'{"id":"7"}'))
     for name, value in (("matched_at", lambda *a: []), ("notes_at", lambda *a: {}), ("retail_text", lambda: (0, 100)),
-                        ("naked_cpp_rows_at", lambda *a: []), ("real_split", lambda *a: sample()),
+                        ("naked_cpp_rows_at", lambda *a: []), ("real_split", lambda *a, **k: sample()),
                         ("census_at", lambda *a: None), ("real_code_denominator", lambda *a: (0, 100))):
         monkeypatch.setattr(daily.progress, name, value)
     monkeypatch.setattr(daily.name_metric, "readable", lambda: (200, 58))

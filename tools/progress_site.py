@@ -33,7 +33,8 @@ def measure(ref):
     """(total, byte-matched, decompiled) real-code bytes at one commit."""
     matched, notes = progress.matched_at(ref), progress.notes_at(ref)
     start, size = progress.retail_text()
-    split = progress.real_split(matched, notes, start, size, progress.naked_cpp_rows_at(matched, ref))
+    split = progress.real_split(matched, notes, start, size, progress.naked_cpp_rows_at(matched, ref),
+                                text_data=progress.text_data_at(ref))
     _, total = progress.real_code_denominator(start, size)
     return total, progress.rebuildable(split), progress.decompiled(split)
 
@@ -136,7 +137,7 @@ def _subtract(start, end, claimed, starts):
     return pieces
 
 
-def per_source(matched, notes, text_start, text_size, naked_rows):
+def per_source(matched, notes, text_start, text_size, naked_rows, text_data=()):
     """{source: {lane: real bytes}} that sums exactly to progress.real_split:
     lanes claim bytes in priority order, and within a lane the earliest row
     (by address) owns an overlap."""
@@ -145,6 +146,8 @@ def per_source(matched, notes, text_start, text_size, naked_rows):
     text_end = text_start + text_size
     naked_rows = set(naked_rows)
     lanes = {name: [] for name in progress.SOURCE_LANES}
+    lanes["data"] = [(max(start, text_start), min(end, text_end), source)
+                     for start, end, source in text_data if max(start, text_start) < min(end, text_end)]
     for key, (size, source) in matched.items():
         start, end = max(int(key[1], 16), text_start), min(int(key[1], 16) + size, text_end)
         if start < end:
@@ -219,8 +222,9 @@ def render(out, svg_dir=None):
     matched, notes = progress.matched_at(None), progress.notes_at(None)
     start, size = progress.retail_text()
     naked = progress.naked_cpp_rows_at(matched, None)
-    split = progress.real_split(matched, notes, start, size, naked)
-    by_source = per_source(matched, notes, start, size, naked)
+    text_data = progress.text_data_at(None)
+    split = progress.real_split(matched, notes, start, size, naked, text_data=text_data)
+    by_source = per_source(matched, notes, start, size, naked, text_data)
     for lane in progress.SOURCE_LANES:  # the map must add up to the headline, byte for byte
         assert sum(c[lane] for c in by_source.values()) == split[lane], lane
     _, total = progress.real_code_denominator(start, size)
@@ -235,7 +239,7 @@ def render(out, svg_dir=None):
     cats = collections.defaultdict(collections.Counter)
     blocks = collections.defaultdict(collections.Counter)
     for source, lanes in by_source.items():
-        rebuilt = sum(lanes[l] for l in ("authored", "vendored", "generated", "library"))
+        rebuilt = progress.rebuildable(lanes)
         own = sum(lanes[l] for l in progress.DECOMPILED_LANES)
         joined = sum(lanes[l] for l in progress.DECOMPILED_LANES) if source in clean else 0
         for bucket in (cats[category(source)], blocks[block_of(source)]):
@@ -401,7 +405,7 @@ def map_svg(tiles, W, H):
     height = int(top + H * scale + 20)
     return _frame(880, height, "BFME 2 \u00b7 MAP",
                   [(150, "url(#dots)", "linked"), (222, OWN, "byte-matched: our own source"),
-                   (420, OTHER, "generated code, Microsoft libraries"), (660, "#6e7681", "still original")],
+                   (420, OTHER, "generated code, libraries, verified data"), (660, "#6e7681", "still original")],
                   "\n".join(body), "Map of BFME 2's code by folder")
 
 
@@ -516,7 +520,7 @@ footer{{margin-top:22px;color:var(--muted);font-size:12px;line-height:1.6}} foot
 <nav><a href="https://github.com/Open-BFME/Open-BFME-2">Open-BFME</a> / BFME 2 / Progress</nav>
 <h1 id="headline"><span id="who">BFME 2</span> is <span class="b" id="mp">{matched_pct}%</span> byte-matched<span class="sep">·</span><span class="g" id="lp">{linked_pct}%</span> linked</h1>
 <div class="track"><div class="fill" id="m" style="width:{matched_w}%;background:{other_c}"></div><div class="fill" id="o" style="width:{own_w}%;background:{own_c}"></div><div class="fill dots" id="l" style="width:{linked_w}%"></div></div>
-<div class="key"><span><i class="dots"></i>Linked</span><span><i style="background:{own_c}"></i>Byte-matched: our own source</span><span><i style="background:{other_c}"></i>Byte-matched: generated code, Microsoft libraries</span><span><i style="background:var(--rest)"></i>Still original</span><span>Code <b id="codemb">{code_mb} MB</b> · Data {data_mb} MB, not measured yet</span></div>
+<div class="key"><span><i class="dots"></i>Linked</span><span><i style="background:{own_c}"></i>Byte-matched: our own source</span><span><i style="background:{other_c}"></i>Byte-matched: generated code, libraries, verified data</span><span><i style="background:var(--rest)"></i>Still original</span><span>Code <b id="codemb">{code_mb} MB</b> · Data {data_mb} MB, not measured yet</span></div>
 <div class="tabs" id="tabs">{tabs}</div>
 <div class="note" id="note"></div>
 <h2>Over time <span class="key"><span><i style="background:{own_c}"></i>byte-matched, daily</span><span><i class="dots"></i>linking, per census</span></span></h2>
