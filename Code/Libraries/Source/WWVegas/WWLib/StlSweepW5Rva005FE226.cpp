@@ -8,3 +8,8 @@ struct Rva005FE226Element {Rva005FE226Element();Rva005FE226Element(const Rva005F
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva005FE226Element * _STL::__uninitialized_copy<Rva005FE226Element const *, Rva005FE226Element *>(Rva005FE226Element const *, Rva005FE226Element const *, Rva005FE226Element *, _STL::__false_type const &);
+
+// Retail's call goes to the rowed _Construct at 0x005FE0F5; suppress this TU's own copy (which would
+// call the element copy constructor, defined nowhere) and bind the template name to that row.
+namespace _STL { template <> void _Construct<Rva005FE226Element, Rva005FE226Element>(Rva005FE226Element *, const Rva005FE226Element &); }
+#pragma comment(linker, "/alternatename:??$_Construct@URva005FE226Element@@U1@@_STL@@YAXPAURva005FE226Element@@ABU1@@Z=?Rva005FE0F5Construct@@YAXPAUBfmeStringRecord005F93E3@@ABU1@@Z")

@@ -55,3 +55,9 @@ private:
 Win32BIGFileSystem::Win32BIGFileSystem()
 {
 }
+
+// Destructor names this unit's vftable and unwind reference, bound to the rows the retail bytes lead to:
+// ??1Win32BIGFileSystem@@UAE@XZ: the deleting destructor 0x00604572 calls 0x00604465
+#pragma comment(linker, "/alternatename:??1Win32BIGFileSystem@@UAE@XZ=??1Rva00604465@@UAE@XZ")
+// ??1Rva00602635VTableInstall@@UAE@XZ: that destructor finishes by calling the vptr-restoring base destructor row at 0x0060263E
+#pragma comment(linker, "/alternatename:??1Rva00602635VTableInstall@@UAE@XZ=?apply@Rva00060263EDwordImmSetter@@QAEXXZ")

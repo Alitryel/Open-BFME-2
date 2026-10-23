@@ -39,3 +39,9 @@ private:
 Rva00355B61::Rva00355B61()
 {
 }
+
+// Destructor names this unit's vftable and unwind reference, bound to the rows the retail bytes lead to:
+// ??1Rva00355B61@@UAE@XZ: the deleting destructor 0x00355BBE calls 0x00355BDA
+#pragma comment(linker, "/alternatename:??1Rva00355B61@@UAE@XZ=??1Rva00355BDA@@UAE@XZ")
+// ??1SnapshotBase@@UAE@XZ: that destructor finishes by calling ~SubsystemInterface (0x001B4E74), its base
+#pragma comment(linker, "/alternatename:??1SnapshotBase@@UAE@XZ=??1SubsystemInterface@@UAE@XZ")

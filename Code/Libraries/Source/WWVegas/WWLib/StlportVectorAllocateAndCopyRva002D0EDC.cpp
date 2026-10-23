@@ -19,3 +19,8 @@ struct Rva002D0EDCElement {
 template Rva002D0EDCElement *
 _STL::vector<Rva002D0EDCElement>::_M_allocate_and_copy(
 	unsigned int, const Rva002D0EDCElement *, const Rva002D0EDCElement *);
+
+// Retail's call goes to the rowed _Construct at 0x002D0BEA; suppress this TU's own copy (which would
+// call the element copy constructor, defined nowhere) and bind the template name to that row.
+namespace _STL { template <> void _Construct<Rva002D0EDCElement, Rva002D0EDCElement>(Rva002D0EDCElement *, const Rva002D0EDCElement &); }
+#pragma comment(linker, "/alternatename:??$_Construct@URva002D0EDCElement@@U1@@_STL@@YAXPAURva002D0EDCElement@@ABU1@@Z=??$_Construct@VGeometryInfo@@V1@@_STL@@YAXPAVGeometryInfo@@ABV1@@Z")
