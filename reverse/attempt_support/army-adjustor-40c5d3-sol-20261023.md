@@ -71,3 +71,19 @@ the claim. The current class intentionally leaves that method declared, not
 defined. This preserves the complete slot surface without touching the claimed
 body, but leaves an explicit link prerequisite. A generated table and exact
 destructor/adjustor bytes are not a claim that this unit already links.
+
+The 28-byte virtual scalar was readmitted through add_match in 4e9a51d9f4.
+The three-source link preview against census 456ce161c5 (2026-10-23 06:28)
+reports both constructor units clean, increasing the preview from 865 to
+1,063 bytes. The destructor unit has exactly one unresolved name:
+`?loadPostProcess@ArmySummaryEntry@@MAEXXZ`. This is a preview, not a new
+census or a closed dependency proof.
+
+The adjustor admission then hit a distinct verifier false rejection:
+`add_match --replace-rva 0x0040C5D9` does not recognize the existing exact
+`gen-thunk;gap;target=0x0040C5DE` row as replaceable scaffold. Its source is
+the generator-owned `Code/gen_small/gthunks_000_admitted.cpp`, defining the
+anonymous tail call `void j_0040c5d9() { b_0040c5de(); }`. No ledger deletion,
+generated-file edit, no-verify admission or byte-gate bypass was used. The
+refusal is logged separately; any recognizer repair must be a separate
+Verifier-Change commit with regression coverage and the exploit suite intact.
