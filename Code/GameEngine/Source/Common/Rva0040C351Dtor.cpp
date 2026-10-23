@@ -1,44 +1,31 @@
-// cl: /O1 /DNDEBUG /MD
-// ??1ArmySummaryEntry@@UAE@XZ @0x0040C39E (29B). Dtor of ArmySummaryEntry (own vtable
-// 0x00C3944C, member at +0xAC with derived vtable 0x00C3945C restored to base
-// 0x00BC6F20 by the inlined member dtor), tail-jmp to base dtor. Same layout
-// as the neighbour ctor TU Rva0040C351Ctor.cpp; base dtor is rowed under the
-// ICF twin ??1Rva0037DEE4 at 0x0037DEE4 (pin).
-extern const void *const g_00C3944C[];
-extern const void *const g_00C3945C[];
-extern "C" const unsigned char __identifier("??_7Secondary005E7ED7@@6B@")[];
+// cl: /O1 /DNDEBUG /MD /Ireference/shims/moduledata
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+#include "../../Include/Common/Rva0007DF07.h"
 
-class CarryoverUnit
+class CarryoverUnit : public Snapshot
 {
 public:
-	CarryoverUnit();
 	virtual ~CarryoverUnit();
 private:
 	char m_pad[0xAC - 4];
 };
 
-struct MemberAC
-{
-	~MemberAC();
-	void *m_vtable;
-	int m_04;
-};
-
-// ??1MemberAC@@QAE@XZ present-unmatched
-__forceinline MemberAC::~MemberAC() { m_vtable = (void *)__identifier("??_7Secondary005E7ED7@@6B@"); }
-
-class __declspec(novtable) ArmySummaryEntry : public CarryoverUnit
+class ArmySummaryEntry : public CarryoverUnit, public Rva0007DF07
 {
 public:
-	ArmySummaryEntry();
 	virtual ~ArmySummaryEntry();
-private:
-	MemberAC m_ac;
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
 };
 
 ArmySummaryEntry::~ArmySummaryEntry()
 {
-	*(const void **)this = g_00C3944C;
-	MemberAC *memberAC = &m_ac;
-	memberAC->m_vtable = (void *)g_00C3945C;
+}
+
+const char *ArmySummaryEntry::GetSnapshotName() const
+{
+	return "ArmySummaryEntry";
 }

@@ -41,3 +41,33 @@ vtable is not the complete native table and must not land. Integrate the
 complete Snapshot surface and reconcile the raw table providers/consumers
 before admitting the new adjustor. The secondary offset is established;
 this partial destructor view does not establish the full class size.
+
+## Production integration and limits
+
+The incorrect scalar owner and its destructor pin were retracted in
+d54e386715. The raw primary-table data row was retracted with its definition:
+its first entry depended on the removed false scalar identity. The normal
+commit hooks verified the remaining 20 functions and two data rows.
+
+The production destructor now uses the canonical four-slot Snapshot surface
+and Rva0007DF07 secondary base. The constructors reference the compiler's two
+actual vftable symbols instead of separate address-named globals. The const
+name getter is admitted as an exact six-byte ICF twin of the existing opaque
+returner, with no unique-byte gain. The three-source byte gate is required
+before committing this integration.
+
+Independent private-object inspection of the protected-slot model confirms
+complete emitted extents of 29 bytes for the parent, 28 for the virtual scalar
+deleting destructor, and 11 for the secondary adjustor. Every REL32 matches
+the existing parent/base destructor or operator delete, or the adjustor's
+genuine weak default to the scalar. The parent has three DIR32 relocations;
+their native words are copied by the byte comparison, not independently
+resolved by that private diagnostic. The generated primary table has exactly
+four relocations at offsets 0/4/8/12; the secondary has one at offset 0.
+
+The shared empty body at 000B3FD0 is held by another worker (link seat w3).
+Do not add its ArmySummaryEntry::loadPostProcess ICF implementation or force
+the claim. The current class intentionally leaves that method declared, not
+defined. This preserves the complete slot surface without touching the claimed
+body, but leaves an explicit link prerequisite. A generated table and exact
+destructor/adjustor bytes are not a claim that this unit already links.

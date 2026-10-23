@@ -15,8 +15,6 @@ class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 extern "C" const void *const vtbl_00BC6F20[];  // folded, 7 classes; via ??_7Rva0007DF07@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BC6F20=??_7Rva0007DF07@@6B@")
-extern const void *const g_00C3944C[];
-extern const void *const g_00C3945C[];
 
 class Player;
 class Object;
@@ -106,8 +104,6 @@ struct Rva0040C430Ret
 // (m_ac() gives base 0xBC6F20 plus 0 which body overwrites with 0xC3945C,
 // this gets 0xC3944C), ints/bytes copied from source. Callers in unclaimed
 // 0x0040E96D 0x0040EAED 0x0040F34E 0x004E0BDC 0x004F7B6B 0x0059B1EC.
-extern const void *const g_00C3944C[];
-extern const void *const g_00C3945C[];
 
 
 void ArmySummaryEntry::Parse(INI *ini)
