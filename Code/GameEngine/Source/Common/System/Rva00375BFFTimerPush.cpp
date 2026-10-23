@@ -5,11 +5,7 @@
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 
-struct BfmeSpecialPowerTimer8
-{
-	unsigned int m_templateID;
-	unsigned int m_readyFrame;
-};
+#include "../BfmeSpecialPowerTimer8.h"
 
 namespace _STL {
 template<> void list<BfmeSpecialPowerTimer8, allocator<BfmeSpecialPowerTimer8> >::push_back(const BfmeSpecialPowerTimer8 &);

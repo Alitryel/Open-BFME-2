@@ -11,11 +11,7 @@
 class AsciiString;
 unsigned long __cdecl Rva003ECA13Get(const AsciiString &s);
 
-struct BfmeSpecialPowerTimer8
-{
-	unsigned int m_templateID;
-	unsigned int m_readyFrame;
-};
+#include "../../Common/BfmeSpecialPowerTimer8.h"
 
 class ScriptEngine
 {

@@ -73,11 +73,7 @@ public:
 	int tag;
 };
 
-struct BfmeSpecialPowerTimer8
-{
-	unsigned int m_templateID;
-	unsigned int m_readyFrame;
-};
+#include "../../Common/BfmeSpecialPowerTimer8.h"
 
 // Declare the rowed push_back so this TU calls it instead of emitting a
 // competing generic insert/_M_create_node copy (same as Rva002AC6B1 precedent).

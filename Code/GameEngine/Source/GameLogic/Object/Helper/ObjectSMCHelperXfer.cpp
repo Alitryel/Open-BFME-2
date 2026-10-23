@@ -163,7 +163,7 @@ public:
 // layout as ObjectSMCHelperTimerValue (condition + frame); the retail xfer
 // calls it directly, so this TU calls the row name via cast. Declaration
 // only: the definition lives in the row owner.
-struct BfmeSpecialPowerTimer8 { unsigned int m_templateID; unsigned int m_readyFrame; };
+#include "../../../Common/BfmeSpecialPowerTimer8.h"
 
 namespace _STL
 {

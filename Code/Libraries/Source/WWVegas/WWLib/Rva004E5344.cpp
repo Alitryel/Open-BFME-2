@@ -3,11 +3,7 @@
 // Conditional timer insert at +0x38 via rowed 0x357DF8 when a<b, floats bitcast to timer words.
 // Evidence: movss/comiss plus rowed rva00357DF8, callees rowed, callers 0x4E53EB/0x4E5446 in 0x4E5372,
 // prev/next WWLib neighbours, honest Rva name.
-struct BfmeSpecialPowerTimer8
-{
-	unsigned int m_templateID;
-	unsigned int m_readyFrame;
-};
+#include "../../../../GameEngine/Source/Common/BfmeSpecialPowerTimer8.h"
 
 class Rva00357DF8
 {
