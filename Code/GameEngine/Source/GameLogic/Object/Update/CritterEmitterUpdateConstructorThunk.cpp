@@ -2,6 +2,8 @@
 
 class Thing;
 class ModuleData;
+class Object;
+class Coord3D;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Module.h
 class ObjectModule
@@ -48,7 +50,7 @@ private:
 class CritterEmitterUpdateIface3
 {
 public:
-    virtual ~CritterEmitterUpdateIface3();
+    virtual void onCollide(Object *, const Coord3D *, const Coord3D *) = 0;
 };
 
 class CritterEmitterUpdate : public UpdateModule,
@@ -56,6 +58,10 @@ class CritterEmitterUpdate : public UpdateModule,
 {
 public:
     CritterEmitterUpdate(Thing *, const ModuleData *);
+    virtual void onCollide(Object *, const Coord3D *, const Coord3D *);
+
+protected:
+    virtual ~CritterEmitterUpdate();
 
 private:
     unsigned char m_24;

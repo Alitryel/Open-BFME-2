@@ -445,19 +445,19 @@ public:
 	__forceinline virtual ~Rva0050FDDCRestore() { *(unsigned int *)this = ((unsigned int)vtbl_00C65518); }
 };
 
-class Rva0050FDDC : public Rva0050FDDCRestore
+class Rva0050FC54 : public Rva0050FDDCRestore
 {
 public:
-	Rva0050FDDC(EmitVtableTag *);
-	virtual ~Rva0050FDDC();
+	Rva0050FC54(EmitVtableTag *);
+	virtual ~Rva0050FC54();
 private:
 	char m_pad58[0x5c - 0x58];
 	unsigned int m_5c;
 	AsciiString m_60;
 };
 
-// ?<Rva0050FDDC::Rva0050FDDC> absent-from-retail
-Rva0050FDDC::Rva0050FDDC(EmitVtableTag *)
+// ?<Rva0050FC54::Rva0050FC54> absent-from-retail
+Rva0050FC54::Rva0050FC54(EmitVtableTag *)
 {
 }
 
@@ -465,7 +465,7 @@ Rva0050FDDC::Rva0050FDDC(EmitVtableTag *)
 // temporary and member strings, then transitions through vtable RVA 0x00865518
 // before calling the byte-pinned base destructor at 0x005248D0.
 // Original class and complete parent layout remain unproven.
-Rva0050FDDC::~Rva0050FDDC()
+Rva0050FC54::~Rva0050FC54()
 {
 	AsciiString tmp;
 	tmp.format("_level%u.%s", m_5c, GetStr0050FDDC(m_60));
@@ -473,16 +473,16 @@ Rva0050FDDC::~Rva0050FDDC()
 	_bfme_closeAptScreen(tmp + "_InitSlider");
 }
 
-class Rva00510665
+class Rva0050FF55
 {
 public:
-	Rva00510665(EmitVtableTag *);
+	Rva0050FF55(EmitVtableTag *);
 public:
-	virtual ~Rva00510665();
+	virtual ~Rva0050FF55();
 };
 
-// ?<Rva00510665::Rva00510665> absent-from-retail
-Rva00510665::Rva00510665(EmitVtableTag *)
+// ?<Rva0050FF55::Rva0050FF55> absent-from-retail
+Rva0050FF55::Rva0050FF55(EmitVtableTag *)
 {
 }
 

@@ -182,7 +182,7 @@ public:
 //   0x004C1B7B  0x004C1569  Rva004C1B7B -> RespawnBodyModuleData
 //   0x004C6CC1  0x0044ECCE  Rva004C6CC1 -> Rva0044ECCE
 //   0x004C70A8  0x00493DEF  Rva004C70A8 -> SpecialPowerModule
-//   0x00510665  0x0050FDDC  Rva00510665 -> Rva0050FDDC
+//   0x00510665  0x0050FDDC  Rva0050FF55 -> Rva0050FC54
 //   0x0052163E  0x003148E6  Rva0052163E -> Rva0031455E
 //   0x00576803  0x005D1A42  Rva005765D1 -> Rva005D19F8
 //   0x0057682F  0x005D1ADE  Rva0057682F -> Rva005D1ADE
@@ -550,16 +550,16 @@ public:
 };
 
 
-class Rva0050FDDC
+class Rva0050FC54
 {
 public:
-	virtual ~Rva0050FDDC();
+	virtual ~Rva0050FC54();
 };
 
-class __declspec(novtable) Rva00510665 : public Rva0050FDDC
+class __declspec(novtable) Rva0050FF55 : public Rva0050FC54
 {
 public:
-	virtual ~Rva00510665();
+	virtual ~Rva0050FF55();
 };
 
 

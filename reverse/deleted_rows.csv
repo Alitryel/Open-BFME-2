@@ -1827,3 +1827,8 @@ __ehhandler$??0Rva00210B38@@QAE@PAVRva002B964F@@@Z,0x0076D663,"Renamed to __ehha
 __ehhandler$??0Rva002B964F@@QAE@XZ,0x007764DD,"Renamed to __ehhandler$??0LivingWorldLogic@@QAE@XZ: follows the rename of its function"
 __ehhandler$??1Rva002B964F@@UAE@XZ,0x0077668F,"Renamed to __ehhandler$??1LivingWorldLogic@@UAE@XZ: follows the rename of its function"
 __ehhandler$?DoXfer@LivingWorldRegionManager@@QAEXPAVXfer@@@Z,0x0076D625,"Renamed to __ehhandler$?xfer@LivingWorldRegionManager@@UAEXPAVXfer@@@Z: follows the rename of its function"
+??_GRva0050FDDC@@UAEPAXI@Z,0x0051062D,"Renamed to ??_GRva0050FC54@@UAEPAXI@Z: retail tribute constructor table reaches this destructor family"
+??_GRva00510665@@UAEPAXI@Z,0x00510649,"Renamed to ??_GRva0050FF55@@UAEPAXI@Z: retail tribute constructor table reaches this destructor family"
+??1Rva0050FDDC@@UAE@XZ,0x0050FDDC,"Renamed to ??1Rva0050FC54@@UAE@XZ: retail tribute constructor table reaches this destructor family"
+??1Rva00510665@@UAE@XZ,0x00510665,"Renamed to ??1Rva0050FF55@@UAE@XZ: retail tribute constructor table reaches this destructor family"
+__ehhandler$??1Rva0050FDDC@@UAE@XZ,0x0079497E,"Renamed to __ehhandler$??1Rva0050FC54@@UAE@XZ: follows the rename of its function"
