@@ -27,6 +27,8 @@ void __cdecl operator delete[](void *) throw();
 #pragma optimize("s", on)
 #include "../../../../../reference/shims/bfmepool/mempool.h"
 #include "refcount.h"
+// Match the native Hashable deleting destructor, as hcanim.cpp does.
+#include "hash.h"
 #pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "winbase_shim.h"

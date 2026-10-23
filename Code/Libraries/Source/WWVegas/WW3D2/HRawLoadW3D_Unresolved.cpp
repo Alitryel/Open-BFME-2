@@ -40,6 +40,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // size-optimised bodies: compile them for size, as hlod.cpp does.
 #pragma optimize("s", on)
 #include "refcount.h"
+// Match the native Hashable deleting destructor, as hcanim.cpp does.
+#include "hash.h"
 #pragma optimize("", on)
 #include "always.h"
 // Scoped by -Ireference/shims/bfmehrawanim on the unit's `// cl:` line.
