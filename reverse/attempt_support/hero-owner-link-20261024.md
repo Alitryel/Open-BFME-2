@@ -46,30 +46,47 @@ FileSystem precedes the hero in link order and emitted incompatible copies of
 the same typed tree and base destructors under its donor allocator settings.
 Declaration-only bindings now use the proven hero teardown. FileSystem's five
 existing rows remain byte-exact. The hero's native free-based allocator and
-proxy wrappers stay inline-only, avoiding two newly competing COMDAT copies;
+proxy wrappers stay inline-only, avoiding competing COMDAT copies;
 an initial out-of-line version was rejected by the existing new-variants check
 and corrected before staging.
 
+The first commit's shadow identity check additionally exposed FileSystem's
+55-byte default map constructor at the native 25-byte constructor address.
+Its donor tree/base constructors (57/36 bytes) also retained the donor
+allocator. This is a real provider mismatch, even though the caller bytes and
+link preview passed. The correction supplies the actual vendor constructor
+chain in the hero unit: base 1F0534 (36 bytes), tree 1F068F (42), map 33C432
+(25). Each whole body and every relocation agrees with the existing owner.
+Definitions follow the callers, preserving their out-of-line code generation;
+FileSystem binds the same proven construction chain. These three typed owners
+add zero unique bytes. The existing identity scanner reports zero wrong
+bindings across both edited units after this repair.
+The allocation wrappers also stay inline-only: removing FileSystem's old
+constructors otherwise makes the hero's allocator-specific wrappers the first
+copies for other consumers. The existing new-variants check caught this too;
+the correction retains the real allocator<char> allocation path and all
+native constructor bytes.
+
 ## Verification and measured scope
 
-- Prescribed build.sh: 69/69 rows across both edited units; literals 28+6,
+- Prescribed build.sh: 72/72 rows across both edited units; literals 28+6,
   compiler floats 3, named import 1 all verified.
-- Existing prepare-current gate: 76/76 rows across FileSystem, hero,
+- Existing prepare-current gate: 79/79 rows across FileSystem, hero,
   MapSubscriptRva00407FB2, Rva0040AA27 and CreateAHeroElementCopy.
 - eh_verify: 10 EXACT, zero baseline exceptions and zero missing objects.
 - Existing link_check --new-variants for both edited units: exit 0.
 - check_csv and find_declared_unmatched pass; FileSystem retains its ten
   previously annotated unclaimed definitions.
-- Same-index five-unit link preview: 267 -> 5647 file-counted bytes.
-  Hero 0 -> 5312; map subscript 0 -> 68; existing award provider 217 -> 217
-  and element provider 50 -> 50. Of the 5380 file-counted increase, 56 bytes
-  are the existing shared destructor newly owned under the typed name, not
+- Same-index five-unit link preview: 267 -> 5750 file-counted bytes.
+  Hero 0 -> 5415; map subscript 0 -> 68; existing award provider 217 -> 217
+  and element provider 50 -> 50. Of the 5483 file-counted increase, 159 bytes
+  are existing shared lifetimes newly owned under their typed names, not
   new unique recovery. The original hero's 5256 matched bytes and map's 68
   are the substantive linking repair.
-- FileSystem itself remains at zero linked bytes, with two independent
-  unresolveds: ArchiveFileSystem::getFileListInDirectory and imported
-  __new_alloc::allocate. It previously also had imported deallocate and the
-  wrong selected subscript. These remaining prerequisites are not this claim.
+- FileSystem itself remains at zero linked bytes, with the independent
+  unresolved ArchiveFileSystem::getFileListInDirectory. Its imported
+  __new_alloc allocation/deallocation and wrong selected subscript blockers
+  are removed. The remaining archive prerequisite is not this claim.
 
 This is an existing-tool scoped prediction, not a fresh full-image census or
 closed link-cycle result. No maintainer-only verification runner was started.

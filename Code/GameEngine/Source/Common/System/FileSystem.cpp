@@ -85,6 +85,14 @@ typedef _Rb_tree<unsigned int, FileSystemUIntBoolPair,
 template <> FileSystemUIntBoolTree::~_Rb_tree();
 template <> _Rb_tree_base<FileSystemUIntBoolPair,
     allocator<FileSystemUIntBoolPair> >::~_Rb_tree_base();
+// Use the same native construction chain as that teardown, rather than
+// this donor's unoptimized constructors and __new_alloc node allocation.
+template <> map<unsigned int, bool>::map();
+template <> FileSystemUIntBoolTree::_Rb_tree(const less<unsigned int> &,
+    const allocator<FileSystemUIntBoolPair> &);
+template <> _Rb_tree_base<FileSystemUIntBoolPair,
+    allocator<FileSystemUIntBoolPair> >::_Rb_tree_base(
+        const allocator<FileSystemUIntBoolPair> &);
 template <> FileSystemUIntBoolTree::_Link_type
 FileSystemUIntBoolTree::_M_create_node(const FileSystemUIntBoolPair &);
 template <> bool &map<unsigned int, bool>::operator[](const unsigned int &);

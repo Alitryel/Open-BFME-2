@@ -146,6 +146,14 @@ typedef _Rb_tree<unsigned, pair<const unsigned, bool>, _Select1st<pair<const uns
 typedef _Rb_tree_node<pair<const unsigned, bool> > HeroBoolNode;
 // Keep the native free-based teardown inline without exporting allocator
 // wrappers under names shared with donor units using another allocator.
+template <> __declspec(dllimport) __forceinline HeroBoolNode *
+allocator<HeroBoolNode>::allocate(size_t count, const void *) const {
+    return count != 0 ? (HeroBoolNode *)allocator<char>::allocate(count * sizeof(HeroBoolNode), 0) : 0;
+}
+template <> __declspec(dllimport) __forceinline HeroBoolNode *
+_STLP_alloc_proxy<HeroBoolNode *, HeroBoolNode, allocator<HeroBoolNode> >::allocate(size_t count) {
+    return ((allocator<HeroBoolNode> &)*this).allocate(count, 0);
+}
 template <> __declspec(dllimport) __forceinline void
 allocator<HeroBoolNode>::deallocate(HeroBoolNode *node, size_t) const {
     if (node != 0) ::free(node);
@@ -1022,4 +1030,25 @@ void CreateAHeroHero::DoXfer(Xfer &xfer)
         else { m_savedCRC=crc.crc; xfer.word(&m_savedCRC); }
     } else { m_updateAwards=true; m_savedCRC=crc.crc; }
     if(xfer.load())m_state38=0x2ff;
+}
+
+// Define the native constructor chain after its callers, keeping their
+// verified out-of-line calls while replacing incompatible donor providers.
+
+namespace _STL {
+template <> __declspec(noinline) inline
+_Rb_tree_base<pair<const unsigned, bool>, allocator<pair<const unsigned, bool> > >::_Rb_tree_base(
+    const allocator<pair<const unsigned, bool> > &a)
+    : _M_header(allocator<HeroBoolNode>(a), (HeroBoolNode *)0) {
+    _M_header._M_data = _M_header.allocate(1);
+}
+// ??0?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBI_N@_STL@@@2@@_STL@@QAE@ABU?$less@I@1@ABV?$allocator@U?$pair@$$CBI_N@_STL@@@1@@Z
+template <> __declspec(noinline) inline
+HeroBoolTree::_Rb_tree(const less<unsigned> &compare, const allocator_type &a)
+    : _Rb_tree_base<pair<const unsigned, bool>, allocator<pair<const unsigned, bool> > >(a),
+      _M_node_count(0), _M_key_compare(compare) {
+    _M_empty_initialize();
+}
+template <> __declspec(noinline) inline map<unsigned, bool>::map()
+    : _M_t(key_compare(), allocator_type()) {}
 }
