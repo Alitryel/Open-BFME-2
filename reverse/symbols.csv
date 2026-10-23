@@ -681,7 +681,6 @@ name,address,notes
 ??$__pop_heap@PAHHHVRva00422CA8@@@_STL@@YAXPAH00HVRva00422CA8@@0@Z,0x00423EF7,ICF twin of rowed 5-arg pop heap at same address; 6-arg overload Distance int identical 41B body called by 30B aux 0x00423F9F
 ??$__pop_heap@PAHHP6A_NHH@ZH@_STL@@YAXPAH00HP6A_NHH@Z0@Z,0x002C52E0,same body as Rva002C52E0PopHeap rowed here: STLport's instantiation for the function-pointer value sorts reproduces it and their callers call it
 ??$__pop_heap@PAHHU?$less@H@_STL@@H@_STL@@YAXPAH00HU?$less@H@0@0@Z,0x0040ACD7,address read from the REL32 displacement at a placed body
-??$__pop_heap@PAHHVRva00204BB8@@H@_STL@@YAXPAH00HVRva00204BB8@@0@Z,0x0021D375,callee REL32 read by locate.py from a unique masked-byte placement emitted by stlport_sort_rva00204bb8.cpp
 ??$__pop_heap@PAPAVMapMetaData@@PAV1@URva0043FE9ALess@@H@_STL@@YAXPAPAVMapMetaData@@00PAV1@URva0043FE9ALess@@PAH@Z,0x00441DBF,same body as Rva00441DBFPop rowed here: STLport's sort<MapMetaData** Rva0043FE9ALess> (sort 0x004434EF) reproduces it and its callers call it
 ??$__pop_heap@PAPAXPAXP6A_NPAX0@ZH@_STL@@YAXPAPAX00PAXP6A_N11@ZPAH@Z,0x002C52E0,same body as Rva002C52E0PopHeap rowed here: STLport's instantiation for the function-pointer value sorts reproduces it and their callers call it
 ??$__pop_heap@PAPAXPAXURva002E0864Cmp@@H@_STL@@YAXPAPAX00PAXURva002E0864Cmp@@PAH@Z,0x002E1824,same body as Rva002E1824Reinsert rowed here: STLport's sort<void** Rva002E0864Cmp> (sort 0x002E2D4A) reproduces it and its callers call it

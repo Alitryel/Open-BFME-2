@@ -19,12 +19,13 @@ void __cdecl Rva00207BAAWrap(int *first, int *last, Rva00204BB8 comp);
 namespace _STL
 {
 
-template <class RandomAccessIter, class Tp, class Compare>
+// STLport 4.5.3's own signatures (the trailing _Distance* tag included).
+template <class RandomAccessIter, class Tp, class Compare, class Distance>
 void __pop_heap(RandomAccessIter first, RandomAccessIter last,
-    RandomAccessIter result, Tp val, Compare comp);
+    RandomAccessIter result, Tp val, Compare comp, Distance *);
 
 template <class RandomAccessIter, class Compare>
-void __sort_heap(RandomAccessIter first, RandomAccessIter last, Compare comp);
+void sort_heap(RandomAccessIter first, RandomAccessIter last, Compare comp);
 
 template <class RandomAccessIter, class Tp, class Compare>
 void __partial_sort(RandomAccessIter first, RandomAccessIter middle,
@@ -33,14 +34,10 @@ void __partial_sort(RandomAccessIter first, RandomAccessIter middle,
 	Rva00207BAAWrap(first, middle, comp);
 	for (RandomAccessIter i = middle; i < last; ++i) {
 		if (comp(*i, *first)) {
-			typedef void (__cdecl *PopHeap5)(int *, int *, int *, int, Rva00204BB8);
-			typedef void (__cdecl *PopHeap6)(int *, int *, int *, int, Rva00204BB8, int);
-			PopHeap5 fn5 = (PopHeap5)&_STL::__pop_heap<int *, int, Rva00204BB8>;
-			PopHeap6 fn6 = (PopHeap6)fn5;
-			fn6(first, middle, i, *i, comp, 0);
+			__pop_heap(first, middle, i, *i, comp, (int *)0);
 		}
 	}
-	__sort_heap(first, middle, comp);
+	sort_heap(first, middle, comp);
 }
 
 template void __partial_sort<int *, int,
