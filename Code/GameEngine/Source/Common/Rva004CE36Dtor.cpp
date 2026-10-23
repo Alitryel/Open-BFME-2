@@ -11,7 +11,7 @@
 class Rva001F9D98Primary
 {
 public:
-	virtual void s0();
+	virtual ~Rva001F9D98Primary();
 private:
 	int m_04;
 	int m_08;
@@ -20,7 +20,7 @@ private:
 class Rva001F9D98Secondary
 {
 public:
-	virtual void s0();
+	virtual ~Rva001F9D98Secondary();
 protected:
 	unsigned char m_pad04[0x5C - 0x0C - 4];
 	int m_5C;	// +0x5C

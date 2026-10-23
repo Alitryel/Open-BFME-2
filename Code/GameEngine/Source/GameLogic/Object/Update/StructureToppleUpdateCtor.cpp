@@ -97,7 +97,7 @@ class DieModuleInterface
 {
 public:
 	DieModuleInterface() {}
-	virtual void onDie(DamageInfo *damageInfo);
+	virtual void onDie(const DamageInfo *damageInfo) = 0;
 };
 
 enum StructureToppleStateType
@@ -114,6 +114,7 @@ class StructureToppleUpdate : public UpdateModule, public DieModuleInterface
 public:
 	StructureToppleUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual ~StructureToppleUpdate();
+	virtual void onDie(const DamageInfo *damageInfo);
 private:
 	const Object *getObject(void) const { return m_object; }
 	unsigned int m_toppleFrame;

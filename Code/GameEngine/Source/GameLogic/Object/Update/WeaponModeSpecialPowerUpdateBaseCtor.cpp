@@ -103,6 +103,7 @@ class WeaponModeSpecialPowerUpdateBase : public UpdateModule,
 {
 public:
 	WeaponModeSpecialPowerUpdateBase(Thing *thing, const ModuleData *moduleData);
+	virtual ~WeaponModeSpecialPowerUpdateBase();
 
 protected:
 	void setWakeFrame(Object *object, UpdateSleepTime when);

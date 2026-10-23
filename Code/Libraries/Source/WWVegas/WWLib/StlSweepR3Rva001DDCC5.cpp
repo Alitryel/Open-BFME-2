@@ -59,4 +59,6 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 
 
 struct Rva001DDCC5Record {Rva001DDCC5Record();Rva001DDCC5Record(const Rva001DDCC5Record&);~Rva001DDCC5Record();Rva001DDCC5Record&operator=(const Rva001DDCC5Record&);char bytes[1];bool operator<(const Rva001DDCC5Record&)const;bool operator==(const Rva001DDCC5Record&)const;};
-namespace _STL {template class hashtable<pair<const int,Rva001DDCC5Record>,int,hash<int>,_Select1st<pair<const int,Rva001DDCC5Record> >,equal_to<int>,allocator<pair<const int,Rva001DDCC5Record> > >;}
+namespace _STL {
+template void hashtable<pair<const int,Rva001DDCC5Record>,int,hash<int>,_Select1st<pair<const int,Rva001DDCC5Record> >,equal_to<int>,allocator<pair<const int,Rva001DDCC5Record> > >::_M_copy_from(const hashtable<pair<const int,Rva001DDCC5Record>,int,hash<int>,_Select1st<pair<const int,Rva001DDCC5Record> >,equal_to<int>,allocator<pair<const int,Rva001DDCC5Record> > > &);
+}

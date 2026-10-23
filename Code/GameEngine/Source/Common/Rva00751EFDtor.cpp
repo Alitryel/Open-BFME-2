@@ -13,9 +13,6 @@ class Rva00074626
 {
 public:
 	virtual ~Rva00074626() {}
-	virtual void slot1() = 0;
-	virtual void slot2() = 0;
-	virtual void slot3() = 0;
 };
 
 struct Rva000751EFSlot
