@@ -531,6 +531,18 @@ the paren lever).
   one more.
   Spellings, operand order, types and declaration scope were inert. A
   432-variant factorial over these levers gave 14 exact bodies.
+- **Reference-bound temporaries for a hoisted single-use invariant.** In
+  PlaneAddNoise_C (0x001B69C0) retail's pixel-loop preheader computed both
+  `-(int)first` and a separate byte `NEG8(first)` whose only use is a
+  conditional store. A named local with one conditional use is sunk into the
+  store (c2's LICM never hoists a conditional-only invariant); giving it a
+  second use hoists it but leaves that use visible (a `movsx` compare or a
+  `dec` store). Binding both bounds at loop scope as
+  `const int &lower = -first; const signed char &negFirst = -first;` gives
+  retail's preheader exactly: the temporaries the references keep alive stay
+  unconditional defs without a visible second use. 513 const/reference
+  variants against 2,100 earlier spelling, scope, type, guard and helper
+  variants; only the reference forms closed it.
   See [the model, measurements and scripts](../reverse/attempt_support/diagonal-1c2b80-20261023c/readme.md).
 
 ## Linking
