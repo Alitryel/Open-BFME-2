@@ -19,6 +19,50 @@ namespace _STL { template <> void _String_base<unsigned short, allocator<unsigne
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
 
+
+// Retail assignment calls erase at 0x13110 instead of inlining it.
+// Preserve STLport's erase body and its separately verified 65-byte copy.
+namespace _STL {
+template <> __declspec(noinline) inline basic_string<unsigned short>::iterator
+basic_string<unsigned short>::erase(iterator first, iterator last)
+{
+    if (first != last) {
+        traits_type::move(first, last, (this->_M_finish - last) + 1);
+        pointer newFinish = this->_M_finish - (last - first);
+        _Destroy(newFinish + 1, this->_M_finish + 1);
+        this->_M_finish = newFinish;
+    }
+    return first;
+}
+}
+
+// The range append provider is shared with the verified assignment worker.
+// Specialize the member template for this string type, retaining its iterator
+// parameter, as supported by VC7.1.
+namespace _STL {
+template <> template <class InputIter> basic_string<unsigned short> &
+basic_string<unsigned short>::append(
+    InputIter, InputIter, const forward_iterator_tag &);
+template <> template <class InputIter> inline basic_string<unsigned short> &
+basic_string<unsigned short>::_M_assign_dispatch(
+    InputIter first, InputIter last, const __false_type &)
+{
+    unsigned short *current = _M_start;
+    while (first != last && current != _M_finish) {
+        traits_type::assign(*current, *first);
+        ++first;
+        ++current;
+    }
+    if (first == last)
+        erase(current, end());
+    else {
+        forward_iterator_tag tag;
+        append((const unsigned short *)first, (const unsigned short *)last, tag);
+    }
+    return *this;
+}
+}
+
 // Instantiate only the members this unit's rows cover; a whole-class
 // instantiation also emitted wrong copies of append, op= and friends that
 // outrank retail's in link order.
@@ -39,6 +83,8 @@ template wchar_t *WideCharTraitsBase::move(wchar_t *, const wchar_t *, size_t);
 template wchar_t *WideCharTraitsBase::copy(wchar_t *, const wchar_t *, size_t);
 template wchar_t *WideCharTraitsBase::assign(wchar_t *, size_t, wchar_t);
 template void WideCharTraitsBase::assign(wchar_t &, const wchar_t &);
+// Retain the allocator row previously instantiated through range append.
+template unsigned short *_STL::allocator<unsigned short>::allocate(size_t, const void *) const;
 // Keep the rowed placement constructor that the insert helper used to instantiate.
 template void _STL::_Construct<wchar_t, wchar_t>(wchar_t *, const wchar_t &);
 template bool _STL::_Eq_traits<_STL::char_traits<wchar_t> >::operator()(const wchar_t &, const wchar_t &) const;
