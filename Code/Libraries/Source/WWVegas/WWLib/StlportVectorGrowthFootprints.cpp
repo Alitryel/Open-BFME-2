@@ -127,6 +127,17 @@ class Rva00151DAB { char m_pad[8]; public: Rva00151DAB(const Rva00151DAB &); ~Rv
 struct Rva00153729 { char m_pad[76]; public: Rva00153729(const Rva00153729 &); ~Rva00153729(); };
 // 8-byte element; layout owner StlportVectorDtorChains.cpp.
 class BfmeStringTailRecord156 { char m_pad[8]; public: BfmeStringTailRecord156(const BfmeStringTailRecord156 &); ~BfmeStringTailRecord156(); };
+// vector<BfmeVectorRecord002AF478>'s ~vector and _M_clear destroy their range
+// through retail 0x002B0CE7, whose element destructor is 0x002AF1EC
+// (Rva002AF6C5Element), not this record's 0x005EA85F. Spell that loop here.
+struct Rva002AF6C5Element { ~Rva002AF6C5Element(); };
+namespace _STL {
+template <> __declspec(noinline) inline void _Destroy<BfmeVectorRecord002AF478 *>(BfmeVectorRecord002AF478 *first, BfmeVectorRecord002AF478 *last)
+{
+	for (; first != last; ++first)
+		((Rva002AF6C5Element *)first)->~Rva002AF6C5Element();
+}
+}
 namespace _STL
 {
 template <> void _Construct<BfmeAssignRecord32, BfmeAssignRecord32>(BfmeAssignRecord32 *, const BfmeAssignRecord32 &);
@@ -182,6 +193,8 @@ template void _STL::vector<BfmeVectorRecord002AF478>::_M_insert_overflow(
     BfmeVectorRecord002AF478 *, const BfmeVectorRecord002AF478 &, const _STL::__false_type &, unsigned int, bool);
 // Retail 0x002B0F1E.
 template void _STL::vector<BfmeVectorRecord002AF478>::_M_clear();
+// The record's own range destroy (0x005EAA83) is still rowed here.
+template void _STL::__destroy_aux<BfmeVectorRecord002AF478 *>(BfmeVectorRecord002AF478 *, BfmeVectorRecord002AF478 *, const _STL::__false_type &);
 // Retail 0x002B0EDF.
 template _STL::vector<BfmeVectorRecord002AF478>::~vector();
 // Retail 0x00337B57.
