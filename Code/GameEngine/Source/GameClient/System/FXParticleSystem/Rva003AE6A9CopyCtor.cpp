@@ -40,14 +40,25 @@ public:
 	Rva003AF50D(const Rva003AF50D &other);
 	virtual ~Rva003AF50D();
 };
-class Intermediate3AE6A9 : public Rva003AF50D
+// The unwind funclet 0x00781E91 of this ctor destroys the intermediate
+// through the rowed ??1Rva003A97E0 (0x003A97E0); modelled as a novtable view
+// under the intermediate so the implicit ~Intermediate3AE6A9 calls it.
+class __declspec(novtable) Rva003A97E0 : public Rva003AF50D
 {
 public:
-	__forceinline Intermediate3AE6A9(const Intermediate3AE6A9 &other)
+	__forceinline Rva003A97E0(const Rva003A97E0 &other)
 		: Rva003AF50D(other)
 	{
 	}
-	virtual ~Intermediate3AE6A9();
+	virtual ~Rva003A97E0();
+};
+class Intermediate3AE6A9 : public Rva003A97E0
+{
+public:
+	__forceinline Intermediate3AE6A9(const Intermediate3AE6A9 &other)
+		: Rva003A97E0(other)
+	{
+	}
 };
 namespace FXParticleSystem {
 class RenderObjectDrawModuleInfo {
@@ -58,16 +69,28 @@ private:
 	char m_pad[0x40 - 4];
 };
 }
-class Rva003AE6A9 : public Intermediate3AE6A9, public FXParticleSystem::RenderObjectDrawModuleInfo {
+// Slot 0 of this class's own table 0x0081D4F4 is ??_GRva003AB9FF (0x003AE720),
+// whose dtor is the rowed ~Rva003AB9FF (0x003AB9FF); this ctor's EH handler
+// is that dtor's too. Modelled as a novtable Rva003AB9FF view holding both
+// bases, so the implicit ~Rva003AE6A9 calls it (real base or ICF-folded dtor
+// name: not settled).
+class __declspec(novtable) Rva003AB9FF : public Intermediate3AE6A9, public FXParticleSystem::RenderObjectDrawModuleInfo {
+public:
+	__forceinline Rva003AB9FF(const Rva003AB9FF &other)
+		: Intermediate3AE6A9(other)
+		, FXParticleSystem::RenderObjectDrawModuleInfo((const FXParticleSystem::RenderObjectDrawModuleInfo &)other)
+	{
+	}
+	virtual ~Rva003AB9FF();
+};
+class Rva003AE6A9 : public Rva003AB9FF {
 public:
 	Rva003AE6A9(const Rva003AE6A9 &other);
-	virtual ~Rva003AE6A9();
 private:
 	int m_58;
 };
 Rva003AE6A9::Rva003AE6A9(const Rva003AE6A9 &other)
-	: Intermediate3AE6A9(other)
-	, FXParticleSystem::RenderObjectDrawModuleInfo((const FXParticleSystem::RenderObjectDrawModuleInfo &)other)
+	: Rva003AB9FF(other)
 	, m_58(other.m_58)
 {
 }
