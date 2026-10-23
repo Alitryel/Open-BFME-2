@@ -164,25 +164,10 @@ void BezierSegment::evaluateBezSegmentAtT(Real tValue, Coord3D *outResult) const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?BezierSegment::getSegmentPoints present-unmatched
-void BezierSegment::getSegmentPoints(Int numSegments, VecCoord3D *outResult) const
-{
-	if (!outResult) {
-		return;
-	}
-	
-	outResult->clear();
-	outResult->resize(numSegments);
-
-	BezFwdIterator iter(numSegments, this);
-	iter.start();
-	Int i = 0;
-	while (!iter.done()) {
-		(*outResult)[i] = iter.getCurrent();
-		++i;
-		iter.next();
-	}
-}
+// The imported getSegmentPoints body had no retail row and called five undefined
+// donor BezFwdIterator methods. The target tessellator and iterator are already
+// recovered separately in Rva0055A7DBTess.cpp and Rva005C76C0Ctor.cpp. Keep their
+// established target views; do not emit an unsupported second donor interface.
 
 //-------------------------------------------------------------------------------------------------
 // This function isn't terribly fast. There are alternatives, and if this is too slow, we can 

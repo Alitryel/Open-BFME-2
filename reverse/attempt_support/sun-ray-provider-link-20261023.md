@@ -33,3 +33,13 @@ existing caller units already use the rowed pointer spelling.
 The same commit records a read-only rejected prerequisite-assignment candidate:
 2D0C44/564CD4/565668 confuse a single-string record and vector<int> with native
 two-string/record providers. No speculative source change from that probe remains.
+
+Shadow-check limitation: code_identity_gate reports one new binding finding for
+uw_0076061c, naming the RefCountPtr<TextureClass> destructor at retail 0002FD60
+(operator delete). Its scanner takes the stale ledger object-symbol L2515; the
+normal byte gate and strict receipt instead follow the exact parent EH graph,
+which locates this row at the renumbered L2516. Thus the shadow finding appears
+to inspect the neighboring delete cleanup against this row's retail bytes.
+This was reproduced with code_identity_gate.check on this source. The commit
+was accepted normally; no baseline or verifier workaround was made. A tooling
+seat should reconcile identity scanning with the byte gate's EH-label resolver.
