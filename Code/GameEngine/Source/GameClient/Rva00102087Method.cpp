@@ -19,6 +19,12 @@ struct BfmeStringRecord00111ACF
 	char m_unported[28];
 };
 
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUEvaMessageInfo@@@_STL@@YAXPAUEvaMessageInfo@@0@Z
+// (it called the undefined ??1EvaMessageInfo): EvaMessageVectorDtor.cpp emits
+// retail's 0x000AFF52 copy. Plain declaration-only form (no __imp_).
+struct EvaMessageInfo;
+namespace _STL { template <> void _Destroy<EvaMessageInfo *>(EvaMessageInfo *, EvaMessageInfo *); }
+
 struct EvaMessageInfo
 {
 	char m_unported[28];
