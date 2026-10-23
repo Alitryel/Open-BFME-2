@@ -190,11 +190,7 @@ public:
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-class GameLogic
-{
-public:
-	bool rva00085124();
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct GlobalA01E48

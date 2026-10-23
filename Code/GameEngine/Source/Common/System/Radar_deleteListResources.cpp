@@ -59,11 +59,7 @@ public:
 	RadarObject *m_radarData; // +0x260
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-};
+#include "../GameLogicObjectLookupView.h"
 
 class Radar
 {

@@ -35,14 +35,7 @@ public:
 	static void doFXObj(const FXList *fx, const Object *primary, const Object *secondary);
 };
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	char m_pad00[0x40];
-	unsigned int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;

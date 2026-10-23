@@ -19,11 +19,7 @@
 #include "ascii_string.h"
 #include <algorithm>
 
-class GameLogic
-{
-public:
-	void rva00376D49();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Rva00203BE1ByteOneSetter

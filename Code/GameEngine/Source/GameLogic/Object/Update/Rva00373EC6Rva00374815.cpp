@@ -76,14 +76,7 @@ struct Rva004CE41ECondition
 	ModelConditionFlagType m_type; // +0x00
 	unsigned int m_frames; // +0x04
 };
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Rva00373EC6ModuleData
 {

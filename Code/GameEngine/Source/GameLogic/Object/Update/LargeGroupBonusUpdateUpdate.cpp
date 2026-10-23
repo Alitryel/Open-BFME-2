@@ -220,14 +220,7 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct LargeGroupBonusUpdateModuleData

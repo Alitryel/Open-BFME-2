@@ -40,11 +40,7 @@ struct BfmeOwner1026
 	BfmeTab1026 m_bfmeTab;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

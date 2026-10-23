@@ -26,15 +26,7 @@ struct ObjectTemplate
 	unsigned int m_kind;
 };
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-
-private:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

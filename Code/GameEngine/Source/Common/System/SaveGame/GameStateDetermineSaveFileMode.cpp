@@ -8,13 +8,7 @@
 
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-class GameLogic
-{
-public:
-	char m_pad[0x110];
-	int m_110;
-	int m_114;
-};
+#include "../../GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Rva002BA8F1Logic;
 

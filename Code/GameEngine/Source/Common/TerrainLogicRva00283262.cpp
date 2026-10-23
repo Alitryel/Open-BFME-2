@@ -22,11 +22,7 @@ public:
 	Coord3D m_pos38;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Rva000421C8

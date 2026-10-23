@@ -19,11 +19,7 @@ unsigned char g_00DFE168;
 
 extern "C" __declspec(dllimport) void *__stdcall GetProcAddress(HMODULE module, const char *name);
 
-class GameLogic
-{
-public:
-	unsigned char isGamePaused();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 #define TheGlobalData (*(unsigned char **)&TheWritableGlobalData)

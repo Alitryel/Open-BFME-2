@@ -144,15 +144,7 @@ private:
 	Int m_totalBuildingsLost;           // +0xCC
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-	UnsignedInt getFrame() const { return m_frame; }
-
-	char m_pad00[ 0x40 ];
-	UnsignedInt m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

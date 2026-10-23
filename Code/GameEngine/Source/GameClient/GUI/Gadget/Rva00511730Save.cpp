@@ -54,14 +54,7 @@ class LANAPI; extern LANAPI *TheLAN;
 #define TheLAN ((Global009FE958 *)TheLAN)
 
 // TheGameLogic (0x00DFE78C): the game mode at +0x110.
-class GameLogic
-{
-public:
-	bool isInMultiplayerGame();
-
-	unsigned char m_pad000[0x110];
-	int m_110; // +0x110
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

@@ -106,12 +106,7 @@ extern PlayerList *ThePlayerList;
 extern AI *TheAI;
 extern InGameUI *TheInGameUI;
 
-class GameLogic
-{
-public:
-	void selectObject(Object *obj, Bool createNewSelection, PlayerMaskType playerMask, Bool affectClient);
-	void deselectObject(Object *obj, PlayerMaskType playerMask, Bool affectClient);
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 void GameLogic::selectObject(Object *obj, Bool createNewSelection, PlayerMaskType playerMask, Bool affectClient)
 {

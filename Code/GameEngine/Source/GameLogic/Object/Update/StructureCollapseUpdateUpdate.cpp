@@ -213,15 +213,7 @@ private:
 	Real m_constructionPercent; // +0x280
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_pad000[0x40];
-	UnsignedInt m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class GlobalData

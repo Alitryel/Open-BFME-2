@@ -30,11 +30,7 @@ public:
 
 class GameLogic;
 extern GameLogic *TheGameLogic;
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 int __cdecl GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 

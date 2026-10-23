@@ -28,13 +28,7 @@ public:
 };
 extern Display *TheDisplay;
 
-class GameLogic
-{
-	char m_pad00[0x110];
-public:
-	int m_gameMode;
-	bool isInMultiplayerGame();
-};
+#include "GameLogicObjectLookupView.h"
 class BfmeGlob939D : public GameLogic
 {
 public:

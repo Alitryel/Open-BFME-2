@@ -95,13 +95,7 @@ class Rva004DF7DB {
 public:
  void rva004DF7DB(UpdateSleepTime frame);
 };
-class GameLogic {
-public:
- unsigned int getFrame() const { return m_frame40; }
-private:
- unsigned char m_pad00[0x40];
- unsigned int m_frame40;
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
 __forceinline bool rva0028CDEBStatusBit(const void *mask, unsigned int bit)

@@ -96,11 +96,7 @@ public:
 	Object *m_next;
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class ScriptEngine

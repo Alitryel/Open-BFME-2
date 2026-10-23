@@ -13,11 +13,7 @@ public:
 	void *m_274;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "../GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

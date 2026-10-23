@@ -11,12 +11,7 @@ extern "C" __declspec(dllimport) int __cdecl _snprintf(char *buffer, unsigned in
 
 #include "ascii_string.h"
 
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x6d];
-	unsigned char m_6d;
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Rva0023C902 { public: int rva0023C902(); };
 class ScriptEngine

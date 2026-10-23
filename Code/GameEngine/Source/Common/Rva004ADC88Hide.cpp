@@ -36,11 +36,7 @@ public:
 	void setStatus(ObjectStatusTypes status, bool set);
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

@@ -57,16 +57,7 @@ enum
 	MAX_SLOTS = 8
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-	void processProgressComplete(Int playerID);
-
-private:
-	char m_pad00[0x40];
-	UnsignedInt m_frame;
-};
+#include "../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

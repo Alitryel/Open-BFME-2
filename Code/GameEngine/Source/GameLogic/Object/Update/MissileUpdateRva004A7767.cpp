@@ -8,15 +8,7 @@
 // getFrame, ja unsigned compare.
 class Thing;
 class Object;
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline unsigned int getFrame() { return m_frame; } // Native +0x40 inline frame load.
-	void destroyObject(Object *obj);
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class BezierProjectileBehavior
 {

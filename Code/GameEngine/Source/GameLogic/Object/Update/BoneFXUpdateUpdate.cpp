@@ -238,15 +238,7 @@ enum
 	BONE_FX_MAX_BONES = 8
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-
-private:
-	char m_unknown00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct BaseBoneListInfo

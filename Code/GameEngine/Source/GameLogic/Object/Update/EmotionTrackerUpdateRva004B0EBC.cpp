@@ -6,15 +6,7 @@
 // double-derefs +4 then tests byte at +0x18C, returns bool.
 extern class GameLogic *TheGameLogic;
 
-class GameLogic
-{
-public:
-    int getFrame() const { return m_frame; }
-
-private:
-    char m_pad[0x40];
-    int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class EmotionTrackerUpdate
 {

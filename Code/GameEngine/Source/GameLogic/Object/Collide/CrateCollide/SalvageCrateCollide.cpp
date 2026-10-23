@@ -108,10 +108,7 @@ public:
 };
 extern GameTextInterface *TheGameText;
 
-class GameLogic
-{
-public:
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 // The multiplayer-or-skirmish predicate at 0x0023C6FD is rowed as

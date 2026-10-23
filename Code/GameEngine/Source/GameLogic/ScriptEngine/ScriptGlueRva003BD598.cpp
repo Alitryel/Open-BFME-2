@@ -9,11 +9,7 @@
 // W3DTerrainVisual::removeAllBibs when the visual global is set, flags the
 // campaign manager byte, applies the rowed 0x002036A9 imm setter, and
 // tail-jumps the pinned 0x0021A54A member on the hero-manager global.
-class GameLogic
-{
-public:
-	void rva00376D49();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Rva003BBAD3

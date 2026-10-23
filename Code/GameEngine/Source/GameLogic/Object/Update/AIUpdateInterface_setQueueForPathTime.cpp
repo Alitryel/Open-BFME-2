@@ -27,14 +27,7 @@ protected:
 	void setWakeFrame(Object *obj, UpdateSleepTime when);
 };
 
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; } // Native +0x40 inline frame load.
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

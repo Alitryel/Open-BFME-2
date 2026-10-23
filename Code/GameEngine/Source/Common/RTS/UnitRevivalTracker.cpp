@@ -327,15 +327,7 @@ public:
 	AsciiString m_templateName;	// +0xD4
 };
 
-class GameLogic
-{
-public:
-	Int getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_pad00[0x40];
-	Int m_frame;
-};
+#include "../GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Rva0037E421

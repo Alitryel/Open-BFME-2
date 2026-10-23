@@ -164,13 +164,7 @@ public:
 };
 extern AI *TheAI;
 
-class GameLogic
-{
-public:
-	unsigned getFrame() const { return m_frame; }
-	char m_pad00[0x40];
-	unsigned m_frame;	// +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 extern int BfmeLogicFramesPerSecond;

@@ -21,11 +21,7 @@ public:
 	Object *getUnitNamed(Parameter *p);
 };
 extern class ScriptEngine *TheScriptEngine;
-class GameLogic
-{
-public:
-	void destroyObject(Object *o);
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 void ScriptActions::doNamedDelete(Parameter *p)
 {

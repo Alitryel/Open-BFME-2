@@ -14,11 +14,7 @@ public:
 	int m_handle;
 };
 
-class GameLogic
-{
-public:
-	void rva0023D0C2(Object *obj, int handle);
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

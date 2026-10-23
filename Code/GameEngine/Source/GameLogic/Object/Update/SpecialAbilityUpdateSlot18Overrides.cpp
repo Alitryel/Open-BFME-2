@@ -56,14 +56,7 @@ class SpecialPowerUpdateInterface
 public:
 	virtual void specialPowerUpdateAnchor();
 };
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class SpecialAbilityUpdate : public UpdateModule, public SpecialPowerUpdateInterface
 {

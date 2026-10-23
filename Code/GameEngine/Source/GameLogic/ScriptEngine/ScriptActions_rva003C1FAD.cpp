@@ -13,11 +13,7 @@ public:
 	unsigned char m_flags1c8;
 };
 
-class GameLogic {
-public:
-	Object *getFirstObject();
-	void destroyObject(Object *o);
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

@@ -43,18 +43,7 @@ enum
 	MAX_SLOTS = 8
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-	UnsignedInt getTimestamp() const { return m_timestamp; }
-
-private:
-	char m_pad00[0x38];
-	UnsignedInt m_timestamp;
-	char m_pad3C[0x40 - 0x3c];
-	UnsignedInt m_frame;
-};
+#include "../Common/GameLogicObjectLookupView.h"
 
 class GlobalData
 {

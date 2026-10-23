@@ -52,11 +52,7 @@ public:
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/GameLogic.h
-class GameLogic
-{
-public:
-	void processProgress( int player, int percent );
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Mouse
 {

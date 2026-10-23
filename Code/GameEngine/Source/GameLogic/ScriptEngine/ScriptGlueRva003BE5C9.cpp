@@ -11,11 +11,7 @@
 // three strings plus the evil byte.
 #include "ascii_string.h"
 
-class GameLogic
-{
-public:
-	void rva00376D49();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Rva003BBAD3

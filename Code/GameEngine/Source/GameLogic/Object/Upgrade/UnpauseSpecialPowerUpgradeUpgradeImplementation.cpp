@@ -51,14 +51,7 @@ private:
 	unsigned char m_pad000[0x244];
 	BehaviorModule **m_behaviors; // +0x244
 };
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class ModuleData;
 class ObjectModuleBase

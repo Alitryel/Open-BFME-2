@@ -137,11 +137,7 @@ private:
 	AIUpdateInterface *m_ai; // +0x258
 };
 class State;
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class StateMachine
 {

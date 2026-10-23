@@ -39,12 +39,7 @@ public:
 
 extern GameClient *TheGameClient;
 
-class GameLogic
-{
-public:
-	void bindObjectAndDrawable( Object *obj, Drawable *draw );
-	void sendObjectDestroyed( Object *obj );
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 void GameLogic::bindObjectAndDrawable(Object* obj, Drawable* draw)
 {

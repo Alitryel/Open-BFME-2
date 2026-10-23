@@ -22,15 +22,7 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_FOREVER = 0x3fffffff
 };
 
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; } // Native +0x40 inline frame load.
-
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40 (Poisoned precedent)
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

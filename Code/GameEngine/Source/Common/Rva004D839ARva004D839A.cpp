@@ -4,14 +4,7 @@
 // the body is the banked one up to statement/operand order and local types.
 // Evidence: unlock lane; caller 0x004D83D1 calls it; chain esi+0x18 -> +0x3c -> +8 -> lo/hi at +0x58/+0x5c; TheGameLogic+0x40 frame added; rowed GetGameLogicRandomValue; store to +0x20.
 
-class GameLogic
-{
-	char m_pad[0x40];
-	unsigned m_frame;
-
-public:
-	unsigned getFrame() const { return m_frame; }
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

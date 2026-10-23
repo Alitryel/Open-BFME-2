@@ -96,13 +96,7 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_40; }
-	char m_pad00[0x40];
-	unsigned int m_40;	// +0x40
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 enum CellShroudStatus

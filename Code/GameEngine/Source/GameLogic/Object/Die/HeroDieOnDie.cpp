@@ -43,14 +43,7 @@ public:
 	SpecialPowerModuleInterface *getSpecialPowerModule(const SpecialPowerTemplate *spTemplate) const;	// 0x0028BB9E
 };
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	unsigned int m_frame;		// +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct HeroDieModuleData

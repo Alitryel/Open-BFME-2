@@ -10,14 +10,7 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 // slot at VA 0x00C5CC3C: with an argument, hands its +0x38 block and the

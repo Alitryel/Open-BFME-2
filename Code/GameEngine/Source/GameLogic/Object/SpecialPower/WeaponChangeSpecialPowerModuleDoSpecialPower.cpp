@@ -38,14 +38,7 @@ public:
 	bool testBit(int bit) const;
 };
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 enum WeaponSetType { WEAPONSET_FIRST = 0 };

@@ -10,13 +10,7 @@
 // restamps the scan frame. Retail compares with fcompi, which MSVC 7.1 emits only under
 // /arch:SSE.
 class Object;
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_40; }
-	char m_pad000[0x40];
-	unsigned int m_40;		// +0x40, the frame
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
 

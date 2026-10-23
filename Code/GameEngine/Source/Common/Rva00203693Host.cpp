@@ -7,11 +7,7 @@
 // setne cl; inc ecx; mov eax,ecx. Callers at 0x002096E7, 0x0020C5F5,
 // 0x0020CB0C pass this in ecx (ignored) and test the int result.
 
-class GameLogic
-{
-public:
-	bool rva001DCD1C();
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 

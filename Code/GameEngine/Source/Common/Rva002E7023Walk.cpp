@@ -42,11 +42,7 @@ private:
 	Rva00269566Owner *m_p258; // +0x258
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic; // ?TheGameLogic@@3PAVGameLogic@@A
 
 class Rva004618D4Caller

@@ -207,12 +207,7 @@ void __cdecl Rva004162B7Notify(AsciiString a, UnicodeString u)
 	}
 }
 
-class GameLogic
-{
-public:
-	char m_pad[0x110];
-	int m_110;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

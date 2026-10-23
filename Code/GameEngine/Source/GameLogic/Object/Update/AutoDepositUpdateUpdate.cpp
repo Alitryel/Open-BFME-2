@@ -80,15 +80,7 @@ public:
 };
 extern InGameUI *TheInGameUI;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-
-private:
-	char m_unknown00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 // The multiplayer-or-skirmish predicate at 0x0023C6FD is rowed as

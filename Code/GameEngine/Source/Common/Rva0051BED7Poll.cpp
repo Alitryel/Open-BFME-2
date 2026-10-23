@@ -9,18 +9,7 @@
 // body is reached only through the vtable slot at rva 0x00866C6C (no direct
 // callers), so no caller fixes the type further.
 
-class GameLogic
-{
-public:
-	bool isInMultiplayerGame();
-
-private:
-	unsigned char m_pad[0x110];
-
-public:
-	int m_110; // game mode: 1 LAN, 5 internet (rowed isInMultiplayerGame)
-	int m_114;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

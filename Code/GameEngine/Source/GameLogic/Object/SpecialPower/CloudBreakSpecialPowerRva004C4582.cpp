@@ -27,11 +27,7 @@ public:
 	void rva0028EC68(int a, void *b, int c);
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

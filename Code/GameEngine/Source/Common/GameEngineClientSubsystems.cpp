@@ -6,11 +6,7 @@
 // update calls, while a skipped frame records the client frame number and
 // returns without consuming those queues.
 
-class GameLogic
-{
-public:
-    bool rva002423E3(void);
-};
+#include "GameLogicObjectLookupView.h"
 
 class ClientSubsystem
 {

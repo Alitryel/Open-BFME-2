@@ -16,11 +16,7 @@ public:
 	void GameLogic_tacticalBattleComplete();
 };
 
-class GameLogic
-{
-public:
-	void TransitionFromLivingWorldTacticalBattle();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 void GameLogic::TransitionFromLivingWorldTacticalBattle()
 {

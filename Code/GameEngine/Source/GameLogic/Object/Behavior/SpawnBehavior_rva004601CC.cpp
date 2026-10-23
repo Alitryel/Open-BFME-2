@@ -39,15 +39,7 @@ typedef bool Bool;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 // SpawnBehavior's primary bases (UpdateModule) fill +0x00..+0x1F; the

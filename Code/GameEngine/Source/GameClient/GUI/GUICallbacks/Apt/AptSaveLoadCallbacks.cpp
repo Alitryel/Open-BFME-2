@@ -133,11 +133,7 @@ public:
 
 // TheGameLogic; its rowed 0x0023D30F (rowed as the stdcall
 // Rva0023D30FCall) likewise.
-class GameLogic
-{
-public:
-	void rva0023D30F(int a, int b, UnicodeString *name);
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

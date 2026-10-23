@@ -11,11 +11,7 @@ class Object;
 
 typedef bool Bool;
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

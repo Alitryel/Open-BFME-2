@@ -7,11 +7,7 @@
 // TheScriptEngine and compares the bool result. Precedent:
 // Rva00203B47Host::rva00203B47 (opaque host ignoring this, // cl: /O1).
 
-class GameLogic
-{
-public:
-	bool rva001DCD1C();
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 

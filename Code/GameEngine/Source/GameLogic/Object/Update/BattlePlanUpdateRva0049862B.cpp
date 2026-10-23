@@ -34,15 +34,7 @@ public:
 	AIUpdateInterface *m_ai;
 };
 
-class GameLogic
-{
-public:
-	unsigned getFrame() const { return m_frame; }
-
-private:
-	char m_pad[0x40];
-	unsigned m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

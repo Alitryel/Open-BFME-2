@@ -10,13 +10,7 @@
 // reference/open-bfme-1/Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModule.cpp.
 // Identity stays honest address name; class groups the subobject fields.
 
-class GameLogic
-{
-	char m_pad[0x40];
-public:
-	unsigned int m_frame;
-	unsigned int getFrame() const { return m_frame; }
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

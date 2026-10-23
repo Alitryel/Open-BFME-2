@@ -8,13 +8,7 @@
 // Evidence: thiscall via isInMultiplayerGame row, getData row 0x0030F2C7,
 // g_bfme939Helper VA 0x00E02290, state 1/5 tail.
 
-class GameLogic
-{
-	char m_pad[0x110];
-public:
-	int m_gameMode;
-	bool isInMultiplayerGame();
-};
+#include "GameLogicObjectLookupView.h"
 
 class BfmeGlob939D : public GameLogic
 {

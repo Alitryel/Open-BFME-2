@@ -14,11 +14,7 @@ public:
 
 class Object;
 
-class GameLogic
-{
-public:
-	void deselectObject(Object *obj, unsigned int mask, bool affectClient);
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

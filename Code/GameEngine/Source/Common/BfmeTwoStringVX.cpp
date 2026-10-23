@@ -28,14 +28,7 @@ public:
 	~BfmeStrVX(void) {}
 };
 
-class GameLogic
-{
-private:
-	char m_bfmePrefix[0x74];
-
-public:
-	unsigned char m_bfmeResetFlag;
-};
+#include "GameLogicObjectLookupView.h"
 
 class Display
 {

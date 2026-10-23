@@ -42,11 +42,7 @@ void __cdecl Rva00511730(int unused);
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *text);
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char *buffer, unsigned int count, const char *format, ...);
 
-class GameLogic
-{
-public:
-	bool isInMultiplayerGame();
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

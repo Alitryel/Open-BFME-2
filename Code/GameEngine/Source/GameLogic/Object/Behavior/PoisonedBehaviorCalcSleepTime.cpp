@@ -49,15 +49,7 @@ public:
 	virtual void update();
 };
 
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; } // Native +0x40 inline frame load.
-
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40 (retail; reference header says +0x3C)
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

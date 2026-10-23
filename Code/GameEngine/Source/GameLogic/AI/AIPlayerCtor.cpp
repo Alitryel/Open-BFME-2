@@ -18,14 +18,7 @@ private:
 	bool m_canBuildUnits;
 };
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct Rva004F04FCScriptEngine

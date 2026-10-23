@@ -36,14 +36,7 @@ struct ChainValue
 	char m_pad00[0x64];
 	AsciiString m_value;
 };
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	int m_frame;
-	char m_pad44[0x170];
-	int m_1b4;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 extern "C" void *theLogicRandomLogFile;
 

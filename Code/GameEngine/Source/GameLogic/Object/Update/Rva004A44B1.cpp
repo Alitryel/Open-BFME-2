@@ -40,11 +40,7 @@ protected:
 	friend class Rva004A44B1;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern class NameKeyGenerator *TheNameKeyGenerator;
 extern class GameLogic *TheGameLogic;

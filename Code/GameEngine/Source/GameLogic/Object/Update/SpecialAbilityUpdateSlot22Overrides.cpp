@@ -25,14 +25,7 @@ public:
 	void setWeaponSetFlag(WeaponSetType wst);
 	bool rva0029091E(unsigned int i) const;
 };
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class ModuleData;
 class BehaviorModule

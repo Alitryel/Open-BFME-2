@@ -66,9 +66,7 @@ public:
 	BfmeCommandButtonDispatchILT *resolve();
 };
 
-class GameLogic
-{
-};
+#include "GameLogicObjectLookupView.h"
 
 class GameLogicFindControlBarOverrideILT
 {

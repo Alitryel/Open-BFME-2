@@ -46,14 +46,7 @@ struct TurretData
 	unsigned m_slotMask;
 };
 
-class GameLogic
-{
-	char m_pad[0x40];
-	unsigned m_frame;
-
-public:
-	unsigned getFrame() const { return m_frame; }
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

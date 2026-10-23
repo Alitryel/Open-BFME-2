@@ -69,11 +69,7 @@ public:
 };
 extern ControlBar *TheControlBar;
 
-class GameLogic
-{
-public:
-	Bool isInMultiplayerGame();
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Player

@@ -12,11 +12,7 @@ typedef bool Bool;
 int GetGameLogicRandomValue(Int lo, Int hi, char *file, Int line);
 extern int BfmeLogicFramesPerSecond;
 
-class GameLogic
-{
-public:
-	bool rva001DCD1C();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Parameter

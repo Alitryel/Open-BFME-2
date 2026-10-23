@@ -68,11 +68,7 @@ private:
 	char m_pad[0x1C];
 };
 
-class GameLogic
-{
-public:
-	void selectObject(Object *obj, bool createNewSelection, PlayerMaskType playerMask, bool affectClient);
-};
+#include "../GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

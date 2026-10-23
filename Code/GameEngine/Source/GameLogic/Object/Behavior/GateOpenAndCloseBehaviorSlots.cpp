@@ -36,14 +36,7 @@ class ModuleData;
 
 unsigned char Rva00498B8BGet(Object *object);
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class GateOpenBehaviorList

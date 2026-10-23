@@ -9,12 +9,7 @@
 // Body provenance: placeholder Rva002D2F32Post.cpp (matched, "exact
 // identities unproven" views carried over unchanged). The +0x128 owner
 // field view claims nothing about Impl's real members.
-class GameLogic
-{
-public:
-	char m_pad[0x110];
-	int m_110;
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct Rva002D2F32Mid

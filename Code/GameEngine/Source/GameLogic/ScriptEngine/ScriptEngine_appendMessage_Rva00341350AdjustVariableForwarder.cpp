@@ -173,16 +173,7 @@ public:
 	}
 };
 
-class GameLogic
-{
-public:
-	Bool rva001DCD1C();					// 0x001DCD1C
-	Int getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_unknown00[0x40];
-	Int m_frame;						// +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 // The three-pointer vector living at GlobalData+0x10F4 in BFME 2 (+0x11E0 in
 // the BFME 1 donor; both retail readers here, 0x002053FA and 0x002054FF, load

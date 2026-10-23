@@ -24,14 +24,7 @@ public:
 	bool testStatus(ObjectStatusTypes bit) const;
 };
 
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; } // Native +0x40 inline frame load.
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

@@ -47,14 +47,7 @@ enum TurretStateType
 	TURRETAI_HOLD = 5
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class State

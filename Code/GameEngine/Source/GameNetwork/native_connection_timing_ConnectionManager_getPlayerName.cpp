@@ -354,16 +354,7 @@ private:
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/GameLogic.h
-class GameLogic
-{
-	public:
-	void processProgressComplete(int playerID);
-	void processProgress(int playerID, int percentage);
-	void timeOutGameStart();
-	unsigned int getFrame() { return frame; }
-	char unknown[0x3C];
-	unsigned int frame;
-};
+#include "../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

@@ -41,15 +41,7 @@ private:
 	unsigned int m_suspendFXDelay; // +0x150
 };
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-
-private:
-	char m_pad00[0x40];
-	unsigned int m_frame; // +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

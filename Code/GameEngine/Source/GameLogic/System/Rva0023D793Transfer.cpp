@@ -47,11 +47,7 @@ public:
 	char m_pad9C[0x3BC - 0x9C];
 	char m_track[0x14];
 };
-class GameLogic
-{
-public:
-	void CallPlayerGiveMoney(int a1, int a2, int a3);
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 void GameLogic::CallPlayerGiveMoney(int a1, int a2, int a3)
 {

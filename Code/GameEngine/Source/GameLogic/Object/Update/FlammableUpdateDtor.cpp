@@ -471,15 +471,7 @@ extern AI *TheAI;
 // BFME 2 keeps the logic frame rate in a global (0x009BA4E4).
 extern int BfmeLogicFramesPerSecond;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-	void deselectObject(Object *obj, UnsignedInt playerMask, Bool affectClient);
-private:
-	char m_unknown00[0x40];
-	UnsignedInt m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

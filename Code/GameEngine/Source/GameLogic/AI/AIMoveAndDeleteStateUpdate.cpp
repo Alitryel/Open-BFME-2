@@ -88,11 +88,7 @@ private:
 	unsigned char m_pad25C[0x438 - 0x25C];
 	unsigned char m_privateStatus; // +0x438
 };
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class StateMachine
 {

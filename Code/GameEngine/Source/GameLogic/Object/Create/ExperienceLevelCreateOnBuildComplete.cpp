@@ -28,10 +28,7 @@ private:
 	unsigned char m_pad000[0x264];
 	ExperienceTracker *m_experienceTracker;	// +0x264
 };
-class GameLogic
-{
-public:
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 // The multiplayer-or-skirmish predicate at 0x0023C6FD is rowed as

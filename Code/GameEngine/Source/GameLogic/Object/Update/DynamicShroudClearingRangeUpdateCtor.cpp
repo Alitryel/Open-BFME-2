@@ -38,13 +38,7 @@ public:
 	float getShroudClearingRange() const;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_unreconstructed_00[0x40];
-	unsigned int m_frame;
-	unsigned int getFrame() const { return m_frame; }
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

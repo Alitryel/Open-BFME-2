@@ -25,14 +25,7 @@ public:
 	Object *m_next; // +0x8C
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-private:
-	unsigned char m_pad[0xAC];
-	Object *m_first; // +0xAC
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 // The rowed initializer at 7B31DF constructs "FarmTemplate" in this

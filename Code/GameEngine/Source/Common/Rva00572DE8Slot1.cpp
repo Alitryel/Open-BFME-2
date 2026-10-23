@@ -40,11 +40,7 @@ public:
 	bool rva002AB87D(const UpgradeTemplate *tmpl) const;
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-};
+#include "GameLogicObjectLookupView.h"
 
 struct Rva00572E0FTemplate
 {

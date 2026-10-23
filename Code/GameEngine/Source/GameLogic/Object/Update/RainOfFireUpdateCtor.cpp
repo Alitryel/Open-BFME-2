@@ -61,15 +61,7 @@ protected:
 	int m_bfmeReserved;
 };
 
-class GameLogic
-{
-public:
-	unsigned getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_reserved[0x40];
-	unsigned m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

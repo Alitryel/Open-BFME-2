@@ -15,7 +15,7 @@ enum NameKeyType;
 enum ObjectStatusTypes;
 enum ObjectID;
 class DamageInfo { public: unsigned char before08[8]; ObjectID source; };
-class GameLogic { public: Object *findObjectByID(ObjectID); };
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class NameKeyGenerator { public: NameKeyType nameToKey(const char *); };
 extern NameKeyGenerator *TheNameKeyGenerator;

@@ -34,11 +34,7 @@ struct RebuildHoleBehaviorModuleData
 	float m_workerRespawnDelay;				// +0x08
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);			// 0x00242C09
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

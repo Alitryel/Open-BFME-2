@@ -33,15 +33,7 @@ enum
 	MAX_MESSAGES = 128
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getTimestamp() const { return m_timestamp; }
-
-private:
-	char m_pad00[0x38];
-	UnsignedInt m_timestamp;
-};
+#include "../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

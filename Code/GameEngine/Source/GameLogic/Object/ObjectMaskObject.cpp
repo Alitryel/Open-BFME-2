@@ -26,11 +26,7 @@ private:
 
 class Object;
 
-class GameLogic
-{
-public:
-	void deselectObject(Object *obj, PlayerMaskType playerMask, Bool affectClient);
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

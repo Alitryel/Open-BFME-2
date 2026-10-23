@@ -20,11 +20,7 @@ struct Rva00E02D6CFlags
 };
 class Rva00E02D6C; extern Rva00E02D6C *TheCampaignManager;
 
-class GameLogic
-{
-public:
-	bool rva0042219();
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class BfmeMemberRV;
