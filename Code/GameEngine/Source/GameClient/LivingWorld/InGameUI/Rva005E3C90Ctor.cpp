@@ -44,10 +44,18 @@ private:
 	Rva005F4096 m_08;
 };
 
+// Same counted icon-slot owner as Rva005F2577Holder in the matched
+// CreateMemberIconSlot provider: null guard, refcount at +4, slot-0 release.
 struct Rva005F38D8Ref
 {
-	void *m_ptr;
-	~Rva005F38D8Ref();
+	struct Inner { virtual void release(); int references; };
+	Inner *m_ptr;
+	__forceinline ~Rva005F38D8Ref()
+	{
+		Inner *p = m_ptr;
+		if (p && --p->references == 0)
+			p->release();
+	}
 };
 
 class Rva005F38D8
