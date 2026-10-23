@@ -26,6 +26,9 @@ namespace _STL { void __cdecl free(void *); }
 #undef free
 #include <stdarg.h>
 #include <string.h>
+// ~_Vector_base<string> is supplied by the first unit in link order
+// (stlport_uninitialized_fill_n12.cpp); this unit's copy differs from it.
+namespace _STL { template <> _Vector_base<basic_string<char, char_traits<char>, allocator<char> >, allocator<basic_string<char, char_traits<char>, allocator<char> > > >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?push_back@?$vector@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$all:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void vector<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::push_back(basic_string<char,char_traits<char>,allocator<char> > const &); }
