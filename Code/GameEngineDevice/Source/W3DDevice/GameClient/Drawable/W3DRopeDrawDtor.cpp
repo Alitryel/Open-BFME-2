@@ -36,16 +36,25 @@ protected:
 	virtual ~DrawModule() {}
 };
 
+struct RGBColor;
+
 class RopeDrawInterface
 {
 public:
-	virtual void ropeSlot();
+	virtual void initRopeParms(float length, float width, const RGBColor &color,
+		float wobbleLen, float wobbleAmp, float wobbleRate) = 0;
+	virtual void setRopeCurLen(float length) = 0;
+	virtual void setRopeSpeed(float curSpeed, float maxSpeed, float accel) = 0;
 };
 
 class W3DRopeDraw : public DrawModule, public RopeDrawInterface
 {
 public:
 	virtual ~W3DRopeDraw();
+	virtual void initRopeParms(float length, float width, const RGBColor &color,
+		float wobbleLen, float wobbleAmp, float wobbleRate);
+	virtual void setRopeCurLen(float length);
+	virtual void setRopeSpeed(float curSpeed, float maxSpeed, float accel);
 private:
 	_STL::vector<BfmePod16> m_segments;
 	void tossSegments();
@@ -55,8 +64,3 @@ W3DRopeDraw::~W3DRopeDraw()
 {
 	tossSegments();
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?ropeSlot@RopeDrawInterface@@UAEXXZ=?initRopeParms@W3DRopeDraw@@UAEXMMABURGBColor@@MMM@Z")

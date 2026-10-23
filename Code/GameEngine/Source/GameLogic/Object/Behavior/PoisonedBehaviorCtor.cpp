@@ -87,7 +87,9 @@ class PoisonedBehavior : public UpdateModule, public DamageModuleInterface
 {
 public:
 	PoisonedBehavior(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~PoisonedBehavior();
+public:
 	virtual void onDamage(DamageInfo *damageInfo);
 	virtual void onHealing(DamageInfo *damageInfo);
 	virtual void onBodyDamageStateChange(
