@@ -62,6 +62,9 @@ class Rva00506B1B
 {
 public:
 	virtual ~Rva00506B1B();
+	// Retail vftable 0x00C63F9C: dtor, then two __purecall slots.
+	virtual void v1() = 0;
+	virtual void v2() = 0;
 };
 class Rva00598B2A : public Rva00506B1B
 {

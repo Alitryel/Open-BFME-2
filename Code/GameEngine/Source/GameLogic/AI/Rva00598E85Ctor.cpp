@@ -69,6 +69,9 @@ class Rva00506B1B
 public:
 	Rva00506B1B();										// 0x00506B1B
 	virtual ~Rva00506B1B() {}
+	// Retail vftable 0x00C63F9C: dtor, then two __purecall slots.
+	virtual void v1() = 0;
+	virtual void v2() = 0;
 	bool m_04;
 };
 

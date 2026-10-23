@@ -10,28 +10,23 @@
 // ??_GRva00506B1B@@UAEPAXI@Z @0x00506B3B 29B: vtable slot 0; the dtor is the
 // inline vptr reset (0x00506B28 is its out-of-line copy), then delete.
 
-inline void *operator new(unsigned int, void *p) { return p; }
 class Rva00506B1B
 {
 public:
 	Rva00506B1B();
 	virtual ~Rva00506B1B() {}
-	virtual void v1();
+	// Retail vftable 0x00C63F9C has three slots: this dtor, then two
+	// __purecall entries (vftable_map), so the base is abstract.
+	virtual void v1() = 0;
+	virtual void v2() = 0;
 	void rva00506B2F();
 	bool m_04;
 };
 
-// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
-// the anchor keeps the noinline body emitted.
-__declspec(noinline) inline Rva00506B1B::Rva00506B1B()
+// No other unit defines this ctor, so the out-of-line definition is its home.
+Rva00506B1B::Rva00506B1B()
 {
 	m_04 = false;
-}
-
-// ?bfmeAnchorRva00506B1BCtor absent-from-retail
-void *bfmeAnchorRva00506B1BCtor(void *where)
-{
-	return ::new (where) Rva00506B1B();
 }
 
 void Rva00506B1B::rva00506B2F()
@@ -40,8 +35,3 @@ void Rva00506B1B::rva00506B2F()
 		return;
 	v1();
 }
-
-// Placeholder virtuals this unit's vftables hold.  In retail each such slot
-// holds a rowed function; the vftable's address is proven by the vptr stores in
-// the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?v1@Rva00506B1B@@UAEXXZ=__purecall")
