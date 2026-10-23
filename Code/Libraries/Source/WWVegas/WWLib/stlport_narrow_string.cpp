@@ -56,6 +56,29 @@ extern "C" void __cdecl free(void *);
 // string units supply their unchanged allocator-proxy implementation.
 namespace _STL { template <> char *_STLP_alloc_proxy<char *, char, allocator<char> >::allocate(size_t); }
 
+// Retail folds the mutable byte-copy dispatch onto the 21-byte 4598CC
+// wrapper. Its three memory pushes need size optimization: the surrounding
+// /O2 profile otherwise emits a different 24-byte register-push wrapper.
+// Limit that setting and the out-of-line __copy_trivial call to this helper;
+// restore the TU defaults before the existing string bodies.
+#pragma optimize("s", on)
+namespace _STL {
+template <> inline char *__uninitialized_copy<char *, char *>(char *first, char *last, char *result, const __true_type &) {
+#pragma inline_depth(0)
+    return (char *)__copy_trivial(first, last, result);
+#pragma inline_depth()
+}
+template char *__uninitialized_copy<char *, char *>(char *, char *, char *, const __true_type &);
+}
+#pragma optimize("", on)
+
+// Preserve the generic byte-copy caller's existing inlined trivial-copy body.
+namespace _STL {
+template <> inline char *uninitialized_copy<char *, char *>(char *first, char *last, char *result) {
+    return (char *)__copy_trivial(first, last, result);
+}
+}
+
 // Inline uses here keep the stock body (with its length_error path), but this unit,
 // the first in link order to spell it, must not emit an out-of-line copy: retail's
 // _String_base<char>::_M_allocate_block is the 0x00007460 body without that path,
@@ -172,7 +195,7 @@ basic_string<char, char_traits<char>, allocator<char> >::append<const char *>(co
 			size_type __mx = *(__old_size < __n_sz ? &__n_sz : &__old_size);
 			const size_type __len = __old_size + __mx + 1;
 			pointer __new_start = __len != 0 ? allocator<char>::allocate(__len,0) : 0;
-			pointer __new_finish = uninitialized_copy(_M_start, _M_finish, __new_start);
+			pointer __new_finish = uninitialized_copy((const char *)_M_start, (const char *)_M_finish, __new_start);
 
 			__new_finish = uninitialized_copy(__f, __l, __new_finish);
 			_M_construct_null(__new_finish);
@@ -211,7 +234,7 @@ basic_string<char, char_traits<char>, allocator<char> >::append<char *>(char *__
 			size_type __mx = *(__old_size < __n_sz ? &__n_sz : &__old_size);
 			const size_type __len = __old_size + __mx + 1;
 			pointer __new_start = __len != 0 ? allocator<char>::allocate(__len,0) : 0;
-			pointer __new_finish = uninitialized_copy(_M_start, _M_finish, __new_start);
+			pointer __new_finish = uninitialized_copy((const char *)_M_start, (const char *)_M_finish, __new_start);
 
 			__new_finish = uninitialized_copy(__f, __l, __new_finish);
 			_M_construct_null(__new_finish);
