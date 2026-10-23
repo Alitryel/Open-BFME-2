@@ -52,7 +52,6 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "GameLogic/Object.h"
 #include "GameLogic/Weapon.h"
 #include "GameLogic/WeaponSet.h"
-#include "GameLogic/Module/AIUpdate.h"
 #include "GameLogic/Module/AssistedTargetingUpdate.h"
 #include "GameLogic/Module/LaserUpdate.h"
 
@@ -95,12 +94,11 @@ Bool AssistedTargetingUpdate::isFreeToAssist() const
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// Existing 0026C2D9 command-provider spelling; native receiver is
-// the AI update at Object+0x258 plus its command-interface subobject +0x20.
-class Rva0026C2D9Commands
+// The command interface is the AI update at Object+0x258 plus 0x20.
+class AICommandInterface
 {
 public:
-    void Rva0026C2D9Command(void *victim, int shots, int source);
+    void rva0026C2D9(Object *victim, int shots, CommandSourceType source);
 };
 
 // BFME2 FieldParse table VA C4AFE8 uses the rowed ThingFactory parser
@@ -122,10 +120,10 @@ void AssistedTargetingUpdate::assistAttack( const Object *requestingObject, Obje
 
 	// lock it just till the weapon is empty or the attack is "done"
 	me->setWeaponLock( md->m_weaponSlot, LOCKED_TEMPORARILY );
-	reinterpret_cast<Rva0026C2D9Commands *>(
+	reinterpret_cast<AICommandInterface *>(
         reinterpret_cast<char *>(*reinterpret_cast<void **>(
             reinterpret_cast<char *>(me) + 0x258)) + 0x20)->
-        Rva0026C2D9Command(victimObject, md->m_clipSize, CMD_FROM_AI);
+        rva0026C2D9(victimObject, md->m_clipSize, CMD_FROM_AI);
 
 
 	const BfmeAssistedLaserTemplates *lasers =
