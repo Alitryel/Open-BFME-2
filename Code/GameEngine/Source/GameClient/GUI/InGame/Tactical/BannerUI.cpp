@@ -323,6 +323,35 @@ public:
 
 template Rva00215E6F _STL::for_each<BfmePod28 *, Rva00215E6F>(BfmePod28 *, BfmePod28 *, Rva00215E6F);
 
+// Orphan receiver initializer, complete native body 0x00215E21..0x00215E3B.
+// Only the first 25 bytes of its object are observed. Original type, name,
+// full object size, and constructor status are unknown. Similar stores in
+// CreateBanner do not establish that this is the same native record type.
+struct Rva00215E21
+{
+    unsigned int m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+    unsigned int m_0C;
+    unsigned int m_10;
+    unsigned int m_14;
+    unsigned char m_18;
+
+    Rva00215E21 *rva00215E21();
+};
+
+Rva00215E21 *Rva00215E21::rva00215E21()
+{
+    m_00 = (unsigned int)-1;
+    m_04 = 0;
+    m_08 = 0;
+    m_0C = 0;
+    m_10 = 0;
+    m_14 = 0;
+    m_18 = 0;
+    return this;
+}
+
 int BannerUI::CreateBanner(int bannerID)
 {
 	BfmePod28 banner;
