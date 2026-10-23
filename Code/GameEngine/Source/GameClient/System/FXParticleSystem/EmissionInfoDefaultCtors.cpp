@@ -152,6 +152,8 @@ class DefaultPhysicsModuleInfo : public Snapshot
 public:
 	DefaultPhysicsModuleInfo();
 	__declspec(noinline) virtual ~DefaultPhysicsModuleInfo();
+	// Retail vtable 0x00C1BCB0 slot 1 is the exported LoadPostProcess 0x000B3FD0.
+	virtual void LoadPostProcess();
 	virtual const char *GetSnapshotName();
 	virtual void DoXfer(Xfer &);
 

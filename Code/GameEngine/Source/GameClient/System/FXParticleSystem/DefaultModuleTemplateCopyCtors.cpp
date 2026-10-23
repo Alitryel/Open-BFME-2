@@ -120,9 +120,6 @@ Rva003AEB0A::Rva003AEB0A(const Rva003AEB0A &that)
 	*(void **)((char *)this + 0x18) = &Rva003AEB0A_v18b;
 }
 
-// Existing complete 64-byte component copy at retail 0x3A7736.
-class Rva003A7736 { public: Rva003A7736(const Rva003A7736 &); };
-
 class Rva003AEBC9
 {
 public:
@@ -142,13 +139,13 @@ Rva003AEBC9::Rva003AEBC9(const Rva003AEBC9 &that)
 	const void *src = &that;
 	((Rva003AEEB3 *)this)->Rva003AEEB3::Rva003AEEB3(*(const Rva003AEEB3 *)src);
 	const void *sub_src = src ? (const char *)src + 0x1C : 0;
-	Rva003A7736 *sub =
-		(Rva003A7736 *)((char *)this + 0x1C);
+	FXParticleSystem::DefaultPhysicsModuleInfo *sub =
+		(FXParticleSystem::DefaultPhysicsModuleInfo *)((char *)this + 0x1C);
 	*(void **)this = &__identifier("??_7Rva0055BF21@@6BDefaultModuleHeadBase@@@");
 	*(void **)((char *)this + 0x14) = &Rva003AEBC9_v14a;
 	*(void **)((char *)this + 0x18) = &Rva003AEBC9_v18a;
-	sub->Rva003A7736::Rva003A7736(
-		*(const Rva003A7736 *)sub_src);
+	sub->DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo(
+		*(const FXParticleSystem::DefaultPhysicsModuleInfo *)sub_src);
 	*(void **)sub = &Rva003AEBC9_vsub;
 	*(void **)this = &Rva003AEBC9_v0b;
 	*(void **)((char *)this + 0x14) = &Rva003AEBC9_v14b;

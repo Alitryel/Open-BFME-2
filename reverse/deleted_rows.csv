@@ -2364,3 +2364,4 @@ __ehhandler$?Rva00418985Construct@@YAXPAURva0041890FRecord@@ABU1@@Z,0x00786694,"
 ?Rva00337501Copy@@YAPAVRva002E9E70@@PAV1@00@Z,0x00337501,"Renamed to ?uninitializedCopyBackward@@YAPAVRva002E9E70@@PAV1@00@Z by tools/rename.py (inferred)"
 ?Rva0030C2CESave@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,0x0030C2CE,"Renamed to ?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z by tools/rename.py (inferred)"
 __ehhandler$?Rva0030C2CESave@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,0x0077A099,"Renamed to __ehhandler$?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z by tools/rename.py (inferred)"
+??0Rva003A7736@@QAE@ABV0@@Z,0x003A7736,Renamed to ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@ABV01@@Z: canonical:export (exports.csv ordinal 239 at 0x003A7736)
