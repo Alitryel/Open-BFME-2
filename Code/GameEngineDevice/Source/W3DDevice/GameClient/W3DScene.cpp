@@ -320,307 +320,18 @@ BfmeCameraCullSphereMethod bfmeAnchorCameraCullSphere()
 //=============================================================================
 /** Renders a single drawable entity. */
 //=============================================================================
-// ?RTS3DScene::renderSpecificDrawables present-unmatched
-void RTS3DScene::renderSpecificDrawables(RenderInfoClass &rinfo, Int numDrawable, Drawable **theDrawables)
-{
-#ifdef DIRTY_CONDITION_FLAGS
-	StDrawableDirtyStuffLocker lockDirtyStuff;
-#endif
-	Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
-	RefRenderObjListIterator it(&UpdateList);	
-	// loop through all render objects in the list:
-	for (it.First(&RenderList); !it.Is_Done();) 
-	{
-		RenderObjClass *robj;
-		// get the render object
-		robj = it.Peek_Obj();
-
-		it.Next();	//advance to next object in case this one gets deleted during renderOneObject().
-
-		DrawableInfo *drawInfo = (DrawableInfo *)robj->Get_User_Data();
-		Drawable *draw=NULL;
-		if (drawInfo)
-			draw = drawInfo->m_drawable;
-		if (!draw) continue;
-		Bool match = false;
-		for (Int i = 0; i<numDrawable; i++) {
-			if (theDrawables[i] == draw) {
-				match = true;
-				break;
-			}
-		}
-		if (match) {
-			renderOneObject(rinfo, robj, localPlayerIndex);
-		}
-	}
-}
+// RTS3DScene::renderSpecificDrawables: no retail row yet; the Zero Hour copy called the
+// Zero Hour three-argument renderOneObject, which BFME 2 does not have (its renderOneObject
+// takes a fourth int).
 
 //============================================================================
 // RTS3DScene::renderOneObject
 //=============================================================================
 /** Renders a single drawable entity. */
 //=============================================================================
-// Unit-local view with the header's Set_Output_Ambient body: the inlined call left an
-// unreferenced Zero Hour-layout (+0x160) Set_Output_Ambient COMDAT that the link kept
-// ahead of retail's 0x0006E136; this by-product gets a name of its own.
-struct W3DSceneLightEnv : public LightEnvironmentClass
-{
-	void setOutputAmbient(Vector3 &oa) { OutputAmbient = oa; }
-};
-
-// ?RTS3DScene::renderOneObject present-unmatched
-void RTS3DScene::renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, Int localPlayerIndex)
-{
-
-	Drawable *draw = NULL;
-	DrawableInfo *drawInfo = NULL;
-	Bool drawableHidden=FALSE;
-	Object* obj = NULL;
-	ObjectShroudStatus ss=OBJECTSHROUD_INVALID;
-	Bool doExtraMaterialPop=FALSE;
-	Bool doExtraFlagsPop=FALSE;
-	LightClass **sceneLights=m_globalLight;
-
-
-
-	if (robj->Class_ID() == RenderObjClass::CLASSID_IMAGE3D	)
-	{	robj->Render(rinfo);	//notify decals system that this track is visible
-		return;	//decals are not lit by this system yet so skip rest of lighting
-	}
-
-	LightEnvironmentClass lightEnv;
-	SphereClass sph = robj->Get_Bounding_Sphere();
-	drawInfo = (DrawableInfo *)robj->Get_User_Data();
-	if (drawInfo)
-	{	draw = drawInfo->m_drawable;
-		//If we have a drawInfo but not drawable, we must be dealing with
-		//a ghost object which is always fogged.
-		if (!draw)
-			ss = OBJECTSHROUD_FOGGED;
-	}
-
-	// all this ambient business no longer handles the tinting and flashing stuff,
-	// but it does still light the drawable explicitly, and can be fudged like this
-	// infantry test does, here...
-	// the tint has been delegated to the getTint() stuff, below... MLorenzen
-	Vector3 ambient = Get_Ambient_Light();
-	if (draw && (drawableHidden=draw->isDrawableEffectivelyHidden()) != TRUE)
-	{
-#ifdef NOT_IN_USE
-		const Vector3* drawAmbient = draw->getAmbientLight();
-		if (drawAmbient)
-			ambient.Add(ambient, *drawAmbient, &ambient);
-#endif
-		obj = draw->getObject();
-		if (obj) {
-			ss = obj->getShroudedStatus(localPlayerIndex);
-			// For objects like planes, that pop out of the shroud, fire, then head back, 
-			// we keep drawing them for 2 seconds after they return to the fogged area, 
-			// so the player can see them and missiles chasing them.  jba.
-			if (ss == OBJECTSHROUD_CLEAR) {
-				draw->setShroudClearFrame(TheGameLogic->getFrame());
-			}	else if (ss >= OBJECTSHROUD_FOGGED && draw->getShroudClearFrame()!=0) {
-				UnsignedInt limit = 2*LOGICFRAMES_PER_SECOND;
-				if (obj->isEffectivelyDead()) {
-					limit += 3*LOGICFRAMES_PER_SECOND;
-				}
-				if (TheGameLogic->getFrame() < limit + draw->getShroudClearFrame()) {
-					// It's been less than 2 seconds since we could see them clear, so keep showing them.
-					ss = OBJECTSHROUD_PARTIAL_CLEAR;
-				}
-			}
- 			if (!robj->Peek_Scene())
- 				return;	//this object was removed by the getShroudedStatus() call.
-		}
-		else
-		{	//drawable with no object so no way to know if it's shrouded.
-			ss = OBJECTSHROUD_CLEAR;	//assume not shrouded/fogged.
-			//Check to see if there is another unrelated object which controls the shroud status
-			//(Hack for prison camps which contain enemy prisoner drawables)
-			if (drawInfo->m_shroudStatusObjectID != INVALID_ID)
-			{	Object *shroudObject=TheGameLogic->findObjectByID(drawInfo->m_shroudStatusObjectID);
-				if (shroudObject && shroudObject->getShroudedStatus(localPlayerIndex) >= OBJECTSHROUD_FOGGED)
-					ss = OBJECTSHROUD_SHROUDED;	//we will assume that drawables without objects are 'particle' like and therefore don't need drawing if fogged/shrouded.
-			}
-		}
-
-		if (draw->isKindOf(KINDOF_INFANTRY))
-		{	//ambient = m_infantryAmbient;  //has no effect - see comment on m_infantryAmbient
-			sceneLights = m_infantryLight;
-		}
-
-		lightEnv.Reset(sph.Center, ambient);
-
-
-		// HANDLE THE SPECIAL DRAWABLE-LEVEL COLORING SETTINGS FIRST
-
-		const Vector3 *tintColor = NULL;
-		const Vector3 *selectionColor = NULL;
-
-		tintColor			 = draw->getTintColor();
-		selectionColor = draw->getSelectionColor();
-
-		if ( tintColor || selectionColor )
-		{
-			Vector3 sumTint, temp, restore;
-			
-			sumTint.Set(0,0,0); 
-			
-			if (tintColor)
-				Vector3::Add(sumTint, *tintColor, &sumTint);
-			if (selectionColor)
-				Vector3::Add(sumTint, *selectionColor, &sumTint);
-
-			for (Int globalLightIndex = 0; globalLightIndex < m_numGlobalLights; globalLightIndex++)
-			{
-				sceneLights[globalLightIndex]->Get_Diffuse( &temp );
-				restore = temp;
-
-				Vector3::Add(temp, sumTint, &temp);
-
-				sceneLights[globalLightIndex]->Set_Diffuse( temp );
-				lightEnv.Add_Light(*sceneLights[globalLightIndex]);
-				sceneLights[globalLightIndex]->Set_Diffuse( restore );
-
-			} // next light
-			
-			temp = lightEnv.Get_Equivalent_Ambient();
-			Vector3::Add(sumTint, temp, &temp );
-
-			static_cast<W3DSceneLightEnv &>(lightEnv).setOutputAmbient( temp );
-
-		}
-		else // no funny coloring going on, so just add the lights normally
-		{
-			for (Int globalLightIndex = 0; globalLightIndex < m_numGlobalLights; globalLightIndex++)
-			{
-				lightEnv.Add_Light(*sceneLights[globalLightIndex]);
-			}
-		}
-
-		//Apply custom render pass for any drawables with heatvision enabled
-		if (draw->getSecondMaterialPassOpacity() != 0 ) 
-		{
-			rinfo.materialPassEmissiveOverride = draw->getSecondMaterialPassOpacity();
-
-      //if ( draw->testTintStatus( TINT_STATUS_FRENZY ) )
-      //{
-			//	rinfo.Push_Material_Pass(m_heatVisionMaterialPass);
-      //}
-			//else 
-      if (draw->getStealthLook() == STEALTHLOOK_VISIBLE_DETECTED )
-			{
-			  rinfo.materialPassEmissiveOverride = draw->getSecondMaterialPassOpacity();
-				// THIS WILL EXPLICITLY SKIP THE FIRST PASS SO THAT HEATVISION ONLY WILL RENDER
-				rinfo.Push_Override_Flags(RenderInfoClass::RINFO_OVERRIDE_ADDITIONAL_PASSES_ONLY);
-				rinfo.Push_Material_Pass(m_heatVisionOnlyPass);
-        doExtraFlagsPop = TRUE;
-			}
-			else
-			{
-				//THIS CALLS FOR THE HEATVISION TO RENDER
-			  rinfo.materialPassEmissiveOverride = draw->getSecondMaterialPassOpacity();
-				rinfo.Push_Material_Pass(m_heatVisionMaterialPass);
-			}
-
-			doExtraMaterialPop = TRUE;
-		}
-	}
-	else
-	{	//either no drawable or it is hidden
-		if (drawableHidden)
-			return;	//don't bother with anything else
-
-		//Render object without a drawable.  Must be either some fluff/debug object or a ghostObject.
-		if (ss == OBJECTSHROUD_FOGGED)
-		{	//Must be ghost object because we don't fog normal things.  Fogged objects always have a predefined
-			//lighting environment applied which emulates the look of fog.
-			rinfo.light_environment = &m_foggedLightEnv;
-			robj->Render(rinfo);
-			rinfo.light_environment = NULL;
-			return;
-		}
-		else
-		{	lightEnv.Reset(sph.Center, ambient);
-			for (Int globalLightIndex = 0; globalLightIndex < m_numGlobalLights; globalLightIndex++)
-				lightEnv.Add_Light(*m_globalLight[globalLightIndex]);
-		}
-	}
-
-	if (!drawableHidden)
-	{
-		//standard scene lights
-		RefRenderObjListIterator it2(&LightList);	
-		for (it2.First(); !it2.Is_Done(); it2.Next())
-		{	
-			LightClass *pLight = (LightClass*)it2.Peek_Obj();
-			SphereClass lSph = pLight->Get_Bounding_Sphere();
-			Bool cull = (pLight->Get_Type() == LightClass::POINT && !Spheres_Intersect(sph, lSph));
-			if (!cull) {
-				lightEnv.Add_Light(*pLight);
-			}
-		}
-
-    if( draw && draw->getReceivesDynamicLights() )
-    {
-		  // dynamic lights
-		  RefRenderObjListIterator dynaLightIt(&m_dynamicLightList);	
-		  for (dynaLightIt.First(); !dynaLightIt.Is_Done(); dynaLightIt.Next())
-		  {	
-			  W3DDynamicLight* pDyna = (W3DDynamicLight*)dynaLightIt.Peek_Obj();
-			  if (!pDyna->isEnabled()) {
-				  continue;
-			  }
-			  SphereClass lSph = pDyna->Get_Bounding_Sphere();
-			  if (pDyna->Get_Type() == LightClass::POINT && !Spheres_Intersect(sph, lSph)) {
-				  continue;
-			  }
-			  lightEnv.Add_Light(*(LightClass*)dynaLightIt.Peek_Obj());
-		  }
-    }
-		
-		lightEnv.Pre_Render_Update(rinfo.Camera.Get_Transform());
-		rinfo.light_environment = &lightEnv;
-
-		if (drawInfo)
-		{
-#if defined(_DEBUG) || defined(_INTERNAL)
-			if (!TheGlobalData->m_shroudOn)
-				ss = OBJECTSHROUD_CLEAR;
-#endif
-			
-			if (m_customPassMode == SCENE_PASS_DEFAULT)	
-			{
-				if (ss <= OBJECTSHROUD_CLEAR)
-					robj->Render(rinfo);
-				else
-				{	
-						rinfo.Push_Material_Pass(m_shroudMaterialPass);
-						robj->Render(rinfo);
-						rinfo.Pop_Material_Pass();
-				}
-			}
-			else
-			if (m_maskMaterialPass)
-			{	rinfo.Push_Material_Pass(m_maskMaterialPass);
-				rinfo.Push_Override_Flags(RenderInfoClass::RINFO_OVERRIDE_ADDITIONAL_PASSES_ONLY);
-				robj->Render(rinfo);
-				rinfo.Pop_Override_Flags();
-				rinfo.Pop_Material_Pass();
-			}
-		}//drawInfo exists so rendering a drawable.
-		else
-		{
-			robj->Render(rinfo);
-		}
-	}//drawable or robj is not hidden
-
-	rinfo.light_environment = NULL;
-	if (doExtraMaterialPop)	//check if there is an extra material on the stack from the add'l material effect.
-		rinfo.Pop_Material_Pass();
-	if (doExtraFlagsPop)
-		rinfo.Pop_Override_Flags();	//flags used to disable base pass and only render custom heat vision pass.
-}
+// RTS3DScene::renderOneObject: retail's body is the row at 0x0006FB59
+// (RTS3DSceneRenderOneObject.cpp); this unit only declares it. Its Zero Hour copy here
+// was a second definition that pulled Zero Hour-only Object/Drawable members.
 
 //DECLARE_PERF_TIMER(translucentRender)
 
@@ -800,110 +511,10 @@ void renderStenciledPlayerColor( UnsignedInt color, UnsignedInt stencilRef, Bool
 #define MAX_VISIBLE_OCCLUDED_PLAYER_OBJECTS	512 //maximum number of occluded objects permitted per player
 
 /*Version which does not require stencil buffer*/
-// ?RTS3DScene::flushOccludedObjects present-unmatched
-void RTS3DScene::flushOccludedObjects(RenderInfoClass & rinfo)
-{
-	RenderObjClass *robj;
-	Drawable *draw;
+// RTS3DScene::flushOccludedObjects / flushTranslucentObjects: BFME 2's passes are the
+// rows in RTS3DSceneFlushTranslucent.cpp and flushOccludedObjectsIntoStencil; the Zero Hour
+// copies here called the three-argument renderOneObject BFME 2 does not have.
 
-	TheW3DShadowManager->setStencilShadowMask(0);
-
-	if (m_occludedObjectsCount)
-	{
-		Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
-
-		if (DX8Wrapper::Has_Stencil())	//just in case we have shadows, disable them over occluded pixels.
-		{
-			//Set all stencil pixels of potentially occluded objects to 128.
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILENABLE, TRUE );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_ZENABLE, TRUE );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILREF,      128 );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILMASK,     0xffffffff );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILWRITEMASK,0xffffffff );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILFAIL,  D3DSTENCILOP_KEEP );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILPASS,  D3DSTENCILOP_REPLACE );
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILFUNC,  D3DCMP_ALWAYS );
-		}
-
-		//First draw all the solid colored models
-		///@todo: Optimize this so that the extra passes don't actually install the material since it's all the same.
-		rinfo.Push_Override_Flags(RenderInfoClass::RINFO_OVERRIDE_ADDITIONAL_PASSES_ONLY);	//disable textures
-		for (Int i=0; i<m_occludedObjectsCount; i++)
-		{
-			robj=m_potentialOccludees[i];
-
-			draw = ((DrawableInfo *)robj->Get_User_Data())->m_drawable;
-			Object *object=draw->getObject();
-
-			Int index=object->getControllingPlayer()->getPlayerIndex();
-
-			rinfo.Push_Material_Pass(m_occludedMaterialPass[index]);
-			robj->Render(rinfo);
-			rinfo.Pop_Material_Pass();
-		}
-		rinfo.Pop_Override_Flags();
-		TheDX8MeshRenderer.Flush();
-
-		//Now draw the normal models so they cover up the colored models on any pixels that
-
-		//Now draw the normal models so they cover up the colored models on any pixels that
-		//Normal models will clear stencil value from 128 back to 0 where the object pixels are
-		//not occluded but will leave  128 in stencil where still occluded.
-		if (DX8Wrapper::Has_Stencil())
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILREF,      0 );
-
-		for (i=0; i<m_occludedObjectsCount; i++)
-		{
-			robj=m_potentialOccludees[i];
-			renderOneObject(rinfo, robj, localPlayerIndex);//WW3D::Render(*robj,rinfo);
-		}
-
-		//Flush all the submitted translucent objects.
-		TheDX8MeshRenderer.Flush();
-		m_occludedObjectsCount = 0;
-		DX8Wrapper::Set_DX8_Render_State(D3DRS_STENCILENABLE, FALSE );
-		TheW3DShadowManager->setStencilShadowMask(0x80808080);	//upper MSB always contains flag indicating occluded player color.
-	}
-
-	//Reset scene ambient because we sometimes mess around with it to make objects
-	//glow, etc. when processing drawables.  This is a good place to do it because this
-	//function gets called right after we flush regular render objects.
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_AMBIENT,DX8Wrapper::Convert_Color(this->Get_Ambient_Light(),0.0f));
-}
-
-// ?RTS3DScene::flushTranslucentObjects present-unmatched
-void RTS3DScene::flushTranslucentObjects(RenderInfoClass & rinfo)
-{
-	RenderObjClass *robj;
-	Drawable *draw;
-
-	if (m_translucentObjectsCount)
-	{
-		Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
-
-		for (Int i=0; i<m_translucentObjectsCount; i++)
-		{
-			robj=m_translucentObjectsBuffer[i];
-			draw = ((DrawableInfo *)robj->Get_User_Data())->m_drawable;
-
-			rinfo.alphaOverride = draw->getEffectiveOpacity();
-
-			renderOneObject(rinfo, robj, localPlayerIndex);//WW3D::Render(*robj,rinfo);
-		}
-
-		//Flush all the submitted translucent objects.
-		TheDX8MeshRenderer.Flush();
-		WW3D::Render_And_Clear_Static_Sort_Lists(rinfo);	//draws things like water
-		rinfo.alphaOverride = 1.0f;	//disable forced alpha
-		m_translucentObjectsCount = 0;
-	}
-
-	//Reset scene ambient because we sometimes mess around with it to make objects
-	//glow, etc. when processing drawables.  This is a good place to do it because this
-	//function gets called right after we flush regular render objects.
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_AMBIENT,DX8Wrapper::Convert_Color(this->Get_Ambient_Light(),0.0f));
-}
 
 //=============================================================================
 // RTS3DScene::createLightsIterator
@@ -972,18 +583,8 @@ void RTS3DScene::removeDynamicLight(W3DDynamicLight * obj)
 //=============================================================================
 /** Customized render for the 2d scene management */
 //=============================================================================
-// ?RTS3DScene::draw present-unmatched
-void RTS3DScene::draw( )
-{
-
-	if (m_camera == NULL) {
-		DEBUG_CRASH(("Null m_camera in RTS3DScene::draw"));
-		return;
-	}
-	WW3D::Render( this, m_camera );
-
-
-}  // end Customized_Render
+// RTS3DScene::draw: Zero Hour's body called the Zero Hour WW3D::Render(scene, camera)
+// overload, which BFME 2 does not have; no retail row yet (see the ZH reference).
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1002,26 +603,14 @@ void RTS3DScene::draw( )
 //=============================================================================
 /** */
 //=============================================================================
-// ?RTS2DScene::~RTS2DScene present-unmatched
-RTS2DScene::~RTS2DScene()
-{
-	this->Remove_Render_Object(m_status);
-	REF_PTR_RELEASE(m_status);
-}  // end ~RTS2DScene
+// RTS2DScene::~RTS2DScene: no retail row yet; the Zero Hour copy emitted a Zero Hour
+// RTS2DScene vtable (SimpleSceneClass::Create_Iterator(bool)) that BFME 2 does not have.
 
 //=============================================================================
 // RTS2DScene::Custimized_Render
 //=============================================================================
 /** Customized render for the 2d scene management */
 //=============================================================================
-// ?RTS2DScene::Customized_Render present-unmatched
-void RTS2DScene::Customized_Render( RenderInfoClass &rinfo )
-{
-
-	// call simple scene class renderer
-	SimpleSceneClass::Customized_Render( rinfo );
-
-}  // end Customized_Render
 
 //=============================================================================
 // RTS2DScene::doRender
@@ -1036,18 +625,7 @@ void RTS2DScene::Customized_Render( RenderInfoClass &rinfo )
 //=============================================================================
 /** Customized render for the 2d scene management */
 //=============================================================================
-// ?RTS2DScene::draw present-unmatched
-void RTS2DScene::draw( )
-{
-
-	if (m_camera == NULL) {
-		DEBUG_CRASH(("Null m_camera in RTS2DScene::draw"));
-		return;
-	}
-	WW3D::Render( this, m_camera );
-
-
-}  // end Customized_Render
+// RTS2DScene::draw: see RTS3DScene::draw above.
 
 
 
@@ -1060,34 +638,8 @@ void RTS2DScene::draw( )
 //=============================================================================
 /** */
 //=============================================================================
-// ?RTS3DInterfaceScene::RTS3DInterfaceScene present-unmatched
-RTS3DInterfaceScene::RTS3DInterfaceScene()
-{
-}  // end RTS3DInterfaceScene
-
-//=============================================================================
-// RTS3DInterfaceScene::~RTS3DInterfaceScene
-//=============================================================================
-/** */
-//=============================================================================
-// ?RTS3DInterfaceScene::~RTS3DInterfaceScene present-unmatched
-RTS3DInterfaceScene::~RTS3DInterfaceScene()
-{
-}  // end ~RTS3DInterfaceScene
-
-//=============================================================================
-// RTS3DInterfaceScene::Custimized_Render
-//=============================================================================
-/** Customized render for the 3d interface scene management */
-//=============================================================================
-// ?RTS3DInterfaceScene::Customized_Render present-unmatched
-void RTS3DInterfaceScene::Customized_Render( RenderInfoClass &rinfo )
-{
-
-	// call simple scene class renderer
-	SimpleSceneClass::Customized_Render( rinfo );
-
-}  // end Customized_Render
+// RTS3DInterfaceScene ctor/dtor/Customized_Render: no retail rows yet; the Zero Hour
+// copies emitted its Zero Hour vtable, as RTS2DScene's did.
 
 
 
