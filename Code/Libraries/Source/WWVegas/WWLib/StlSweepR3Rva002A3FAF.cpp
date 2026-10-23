@@ -1,6 +1,6 @@
 // STLport 4.5.3 reference instantiation. Target boundary and byte comparison prove operation shape.
 // Element spelling/layout is donor inference; opaque records have address-derived identity.
-// cl: /O1 /G7 /EHsc /MD /D_STLP_USE_MALLOC /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /EHsc /MD /D_STLP_USE_MALLOC /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 // The emitted unsigned max copy must match retail RVA 0x00013740.
 // Define it for speed, then restore this unit's flags for its own bodies.
@@ -57,7 +57,40 @@ template <> void **vector<void*>::end();
 
 
 
-struct Rva002A3FAFRecord { Rva002A3FAFRecord(); Rva002A3FAFRecord(const Rva002A3FAFRecord&); ~Rva002A3FAFRecord(); Rva002A3FAFRecord&operator=(const Rva002A3FAFRecord&); char bytes[52]; bool operator==(const Rva002A3FAFRecord&)const; bool operator<(const Rva002A3FAFRecord&)const; };
+#include "ascii_string.h"
+
+// Native pair construction at 29FB63 copies its 52-byte payload through
+// 29E067: two AsciiString handles followed by scalar fields. These are the
+// accesses of the existing neutral Rva0029E067 provider, not donor field names.
+struct Rva002A3FAFRecord {
+    Rva002A3FAFRecord();
+    __declspec(noinline) Rva002A3FAFRecord(const Rva002A3FAFRecord &);
+    ~Rva002A3FAFRecord();
+    Rva002A3FAFRecord &operator=(const Rva002A3FAFRecord &);
+    AsciiString m_00;
+    AsciiString m_04;
+    int m_08, m_0c, m_10, m_14, m_18;
+    unsigned char m_1c;
+    int m_20, m_24, m_28, m_2c, m_30;
+    bool operator==(const Rva002A3FAFRecord &) const;
+    bool operator<(const Rva002A3FAFRecord &) const;
+};
+
+Rva002A3FAFRecord::Rva002A3FAFRecord(const Rva002A3FAFRecord &src)
+    : m_00(src.m_00), m_04(src.m_04)
+{
+    m_08 = src.m_08;
+    m_0c = src.m_0c;
+    m_10 = src.m_10;
+    m_14 = src.m_14;
+    m_18 = src.m_18;
+    m_1c = src.m_1c;
+    m_20 = src.m_20;
+    m_24 = src.m_24;
+    m_28 = src.m_28;
+    m_2c = src.m_2c;
+    m_30 = src.m_30;
+}
 
 
 // This caller's native REL32 already names the kept provider at 0x00330E5D.
