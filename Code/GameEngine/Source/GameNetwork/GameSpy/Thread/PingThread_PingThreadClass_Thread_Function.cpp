@@ -17,11 +17,11 @@
 // address-named member pin beside its stdcall row).
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE
-// Retail's allocators free through the game's free wrapper at 0x00030830 (the rowed
-// Rva00030830GameFree), as in the sibling GameResultsThreadClassThreadFunction.cpp.
+// STL allocators call the game's C-linkage free wrapper at RVA 0x00030830.
+// Its throwing declaration preserves cleanup states at the call sites.
 #include <stdlib.h>
-void __cdecl Rva00030830GameFree(void *);
-#define free Rva00030830GameFree
+namespace GameMemory { extern "C" void __cdecl free(void *) throw(...); }
+#define free GameMemory::free
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #include <cstddef>
 #include <winsock.h>	// This one has to be here. Prevents collisions with winsock2.h

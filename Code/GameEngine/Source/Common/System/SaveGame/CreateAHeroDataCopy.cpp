@@ -6,6 +6,7 @@
 // int/int trees21CF2C; AsciiString payload tree40884B; bit-vector389413;
 // int/vector<unsigned> tree21E146. Unknown application fields stay offset-named.
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
+#define _STLP_TRIVIAL_DESTRUCTOR_BUG // Declare pair destruction for explicit specialization.
 #include <memory>
 #include <vector>
 #include <map>
@@ -29,10 +30,12 @@ namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); 
 // Suppress this TU's non-retail copy of ??0?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@ABV?$allocator@_N@1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Bvector_base<allocator<bool> >::_Bvector_base(const allocator<bool> &); }
+namespace _STL { template <> vector<bool>::~vector(); }
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 struct TreeHintPayload001F8ACB { unsigned int value; };
 bool operator<(const AsciiString &, const AsciiString &);
+namespace _STL { template <> pair<const AsciiString, TreeHintPayload001F8ACB>::~pair(); }
 // Scalar-vector copy is supplied by the complete retail 0x002CFAB9 provider.
 namespace _STL {
 template <> vector<unsigned int>::vector(const vector<unsigned int> &);
