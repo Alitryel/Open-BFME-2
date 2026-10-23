@@ -109,7 +109,9 @@ class WallHubBehavior : public UpdateModule, public WallHubInterface
 {
 public:
 	WallHubBehavior(Thing *thing, const ModuleData *moduleData);
-	virtual ~WallHubBehavior();
+	// Retail 0x00452D52 (rowed ??1Rva00452D52) stores the four vptrs the ctor
+	// installs and tail-jumps ~UpdateModule 0x0024A797; this body folds onto it.
+	virtual ~WallHubBehavior() {}
 	virtual void slot00() = 0;
 	virtual void slot01() = 0;
 	virtual void slot02() = 0;

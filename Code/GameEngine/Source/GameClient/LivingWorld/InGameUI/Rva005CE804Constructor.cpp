@@ -24,8 +24,11 @@ class Rva005E8F50;
 class Rva005CEA51 {public:Rva005CEA51():pointer(0){}__declspec(noinline) ~Rva005CEA51();void rva005CEA51(Rva005E8F50*);void rva005CE7EA();Rva005E8F50*pointer;};
 typedef char Rva005CEA51SizeCheck[(sizeof(Rva005CEA51)==4)?1:-1];
 struct FwdArg { char pad[0x1c]; int id; };
+// The inline dtor compiles to the 76 bytes of the rowed ??1Rva005CE874 at
+// 0x005CE874 (both vptrs, member +1C through 0x005CE7EA, observer vptr
+// BED658, base dtor 0x005E6810), which its deleting dtor 0x005CE8C0 calls.
 class Rva005CE804 : public Rva005E67FE, public Rva005CE804Observer {
- public: Rva005CE804(void*,int,int,int,int,FwdArg*); virtual ~Rva005CE804(); virtual void onBuildingChanged() = 0;
+ public: Rva005CE804(void*,int,int,int,int,FwdArg*); virtual ~Rva005CE804() {} virtual void onBuildingChanged() = 0;
  private: int a; int b; int c; FwdArg *region; Rva005CEA51 owned;
 };
 Rva005CE804::Rva005CE804(void *owner,int context,int unused,int ui,int extra,FwdArg *fwdArg):Rva005E67FE(owner),a(context),b(ui),c(extra),region(fwdArg) {
