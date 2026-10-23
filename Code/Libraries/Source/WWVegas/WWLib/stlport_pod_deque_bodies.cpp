@@ -39,6 +39,19 @@ struct BfmePod28 { int a[7]; };
 struct BfmePod40 { int a[10]; };
 struct BfmePod56 { int a[14]; };
 struct BfmePod108 { int a[27]; };
+// The 16-byte deque's slow path is the recovered narrow-record body at
+// 0x0041A9E8. Bind the POD view to that owner rather than emitting a trivial
+// copy of the element where retail copy-constructs its string.
+struct Rva0041A9E8 {
+    void rva0041A9E8(const BfmeNarrowRecord0041A617 &);
+};
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void deque<BfmePod16>::_M_push_back_aux_v(const BfmePod16 &x)
+{
+    ((Rva0041A9E8 *)this)->rva0041A9E8((const BfmeNarrowRecord0041A617 &)x);
+}
+}
 // Instantiate the recovered operations and their native callees only.
 template void _STL::deque<BfmePod16>::push_back(const BfmePod16 &);
 template void _STL::_Deque_iterator_base<BfmePod28>::_M_increment();
