@@ -47,14 +47,14 @@ struct Rva0055BCF1Src
 class Rva0055BCD2Part0
 {
 public:
-	virtual void slot00();
+	virtual ~Rva0055BCD2Part0();
 	void *m_system; // +0x04
 };
 
 class SecondaryModuleBase
 {
 public:
-	virtual void slot00();
+	virtual void slot00() = 0;
 };
 
 class Rva0055BCD2 : public Rva0055BCD2Part0, public SecondaryModuleBase
@@ -68,8 +68,7 @@ class Rva0055BC8B
 {
 public:
 	Rva0055BC8B();
-	~Rva0055BC8B();
-	virtual void slot00();
+	virtual ~Rva0055BC8B();
 	RGBColorKeyframe m_colorKey[8]; // +0x04
 	float m_colorScale; // +0x84
 };
@@ -84,6 +83,7 @@ class Rva0055BCF1 : public Rva0055BCD2, public Rva0055BC8B
 {
 public:
 	Rva0055BCF1(unsigned int a, const Rva0055BCF1Src *src);
+	virtual ~Rva0055BCF1();
 	RGBColor m_color; // +0x94
 	RGBColor m_colorRate; // +0xA0
 	int m_colorTargetKey; // +0xAC

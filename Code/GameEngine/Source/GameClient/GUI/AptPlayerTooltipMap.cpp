@@ -77,7 +77,7 @@ template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*,
 template <> vector<int, allocator<int> >::~vector();
 template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
-typedef int Bool;
+typedef bool Bool;
 #include "subsystem_interface.h"
 // bfme link decl-only begin
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }

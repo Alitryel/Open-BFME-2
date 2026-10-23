@@ -147,22 +147,11 @@ Rva0021113D::Rva0021113D(EmitVtableTag *)
 {
 }
 
-class Rva00214405Base0
-{
-public:
-	virtual ~Rva00214405Base0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) in its vtable is target evidence for it.
-class Rva00214405BaseC
-{
-public:
-	virtual ~Rva00214405BaseC();
-};
-class Rva00214405 : public Rva00214405Base0, public Rva00214405BaseC
+// The complete destructor uses SubsystemInterface at +0 and Snapshot at +0xC.
+class Rva00214405 : public SubsystemInterface, public Snapshot
 {
 public:
 	Rva00214405(EmitVtableTag *);
@@ -240,11 +229,8 @@ Rva00413A24::Rva00413A24(EmitVtableTag *)
 {
 }
 
-class Rva0023AE08Base0 { public: virtual ~Rva0023AE08Base0(); private: char m_unmodelled[0x8]; };
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x0023B270 in its vtable is target evidence for it.
-class Rva0023AE08BaseC { public: virtual ~Rva0023AE08BaseC(); };
-class Rva0023AE08 : public Rva0023AE08Base0, public Rva0023AE08BaseC
+// GameClient's complete destructor uses the same two bases and +0xC thunk.
+class Rva0023AE08 : public SubsystemInterface, public Snapshot
 {
 public:
 	Rva0023AE08(EmitVtableTag *);
@@ -263,6 +249,7 @@ public:
 	Rva0023FD06(EmitVtableTag *);
 public:
 	virtual ~Rva0023FD06();
+	virtual int rva0023FCD3(float a, int b);
 };
 
 // ?<Rva0023FD06::Rva0023FD06> absent-from-retail
