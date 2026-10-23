@@ -147,6 +147,14 @@
     "size": 372,
     "source": "Code/Libraries/Source/WWVegas/WWMath/coord3d_lengthestimate.cpp",
     "decided_by": "byte-verified owner; native CastleBehavior nearest-template 0x00397429 calls it on a 12-byte XYZ delta; WB EBD340 calls named Coord3D::GetLengthEstimate on the corresponding delta"
+   },
+   {
+    "declaration": "float lengthSqr() const;",
+    "name": "?lengthSqr@Coord3D@@QBEMXZ",
+    "rva": "0x00065A1A",
+    "size": 31,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp",
+    "decided_by": "byte-verified owner; native camera helper 0x00102F83 calls it on the twelve-byte explicit-target vector at descriptor offset 0x64; declaration only with unchanged layout"
    }
   ]
  },

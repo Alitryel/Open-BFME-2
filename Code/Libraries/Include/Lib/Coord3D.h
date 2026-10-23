@@ -27,6 +27,8 @@ struct Coord3D {
     bool equals(const struct Coord3DBase &that) const;
     // Native 0x00003ACE/372; nearest-template caller 0x00397429.
     float GetLengthEstimate() const;
+    // Native 0x00065A1A/31; camera helper 0x00102F83 tests the explicit target.
+    float lengthSqr() const;
 };
 
 #endif // CANONICAL_COORD3D_H

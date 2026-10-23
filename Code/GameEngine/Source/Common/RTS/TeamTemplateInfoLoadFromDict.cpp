@@ -11,11 +11,11 @@
 // evidence in the TeamTemplateInfo vtable name getter (VA 0x00C1AE70).
 // Direct target calls are in the TeamTemplateInfo constructor at 0x003A285D
 // and the reset/reload path at 0x003A2C94.
-// Assign the home member directly and walk the list through Zero Hour's
-// Waypoint::getNext: VC7.1 then restores ESI before EDI after the waypoint
-// copy, exactly as retail. A cached destination pointer reverses those
-// independent restores, and so does reading the link directly once
-// Coord3D declares normalize. keyToName uses its verified provider.
+// Copy the home member through the inline reference helper and walk the list
+// through Zero Hour's Waypoint::getNext. With Coord3D's lengthSqr declaration,
+// this retains retail's ESI-before-EDI restores after the three MOVSDs.
+// A direct assignment reverses those independent restores in VC7.1.
+// keyToName uses its verified provider.
 // The existing lazy-cache owner is called directly; no alias pin is required.
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
@@ -42,6 +42,10 @@ public:
  bool getBool(int,bool *exists=0) const;
  AsciiString getAsciiString(int,bool *exists=0) const;
 };
+static __forceinline void copyHome(Coord3D &destination, const Coord3D &source)
+{
+ destination = source;
+}
 class Waypoint { public:
  char prefix[8]; AsciiString name; Coord3D m_location; int m_18; Waypoint *m_pNext;
  const AsciiString &getName() const { return name; }
@@ -271,7 +275,7 @@ void TeamTemplateInfo::loadFromDict(Dict *dict)
 	if (exists) {
 		for (Waypoint *way = TheTerrainLogic->getFirstWaypoint(); way; way = way->getNext()) {
 			if (((const StringBase<char> *)&way->getName())->compare(*(const StringBase<char> *)&waypoint) == 0) {
-				m_homeLocation = *way->getLocation();
+				copyHome(m_homeLocation, *way->getLocation());
 				m_hasHomeLocation = true;
 			}
 		}

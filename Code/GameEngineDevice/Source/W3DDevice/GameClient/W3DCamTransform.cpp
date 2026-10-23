@@ -1,4 +1,4 @@
-// cl: /I. /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
+// cl: /I. /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 //
 // W3DCamTransform::transitionLiveMode
 // ?transitionLiveMode@W3DCamTransform@@QAEXPAVVector3@@0PAVView@@@Z
@@ -29,14 +29,27 @@
 
 #include "ascii_string.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
+
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 typedef int Int;
 typedef bool Bool;
 typedef float Real;
 
-#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "Code/Libraries/Include/Lib/ICoord2D.h"
 
+// A used scalar aggregate keeps each arithmetic result in its native memory
+// home and preserves the compiler's scheduling regions. This is a codegen
+// adaptation, not a claim that this helper type occurred in the original.
+struct CameraScalar
+{
+    float value;
+    CameraScalar(float x) : value(x) {}
+};
+static __forceinline CameraScalar addCameraScalar(float a, float b)
+{
+    return CameraScalar(a + b);
+}
 class Vector3
 {
 public:
@@ -45,18 +58,27 @@ public:
 	Real Z;
 
 	Vector3() {}
-	Vector3(const Vector3 &vec)
+    Vector3(float x,float y,float z):X(x),Y(y),Z(z) {}
+	Vector3(const Vector3 &v)
 	{
-		X = vec.X;
-		Y = vec.Y;
-		Z = vec.Z;
+		X = v.X;
+		Y = v.Y;
+		Z = v.Z;
 	}
 
-	Vector3 &operator=(const Vector3 &vec)
+	Vector3 &operator=(const Coord3D &that)
 	{
-		X = vec.X;
-		Y = vec.Y;
-		Z = vec.Z;
+		X = that.x;
+		Y = that.y;
+		Z = that.z;
+		return *this;
+	}
+
+	Vector3 &operator=(const Vector3 &v)
+	{
+		X = v.X;
+		Y = v.Y;
+		Z = v.Z;
 		return *this;
 	}
 
@@ -67,6 +89,13 @@ public:
 		Z = z;
 	}
 
+	__forceinline Vector3 &operator+=(const Vector3 &v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
+	__forceinline Vector3 &operator-=(const Vector3 &v) { X -= v.X; Y -= v.Y; Z -= v.Z; return *this; }
+	__forceinline Vector3 &operator*=(float k) { X = X*k; Y=Y*k; Z=Z*k; return *this; }
+	__forceinline friend Vector3 operator-(const Vector3 &a,const Vector3 &b) { return Vector3(a.X-b.X,a.Y-b.Y,a.Z-b.Z); }
+	__forceinline float Length2() const { return X*X + Y*Y + Z*Z; }
+	__forceinline float Length() const;
+	static __forceinline float Distance(const Vector3 &p1, const Vector3 &p2);
 	static __forceinline void Lerp(const Vector3 &a, const Vector3 &b, Real alpha, Vector3 *set_result)
 	{
 		set_result->X = (a.X + (b.X - a.X) * alpha);
@@ -79,8 +108,11 @@ class Object
 {
 public:
 	const Coord3D *getPosition() const { return &m_pos; }
+    unsigned char cameraKindFlags() const {return *((const unsigned char*)m_template+0x109);}
 private:
-	unsigned char m_pad00[0x38];
+	unsigned char m_pad00[4];
+    const void *m_template; // native +4
+    unsigned char m_pad08[0x38-8];
 	Coord3D m_pos;					// +0x38
 };
 
@@ -110,12 +142,179 @@ extern View *TheTacticalView;
 extern GameLogic *TheGameLogic;
 extern unsigned int BfmeLiveCameraModeNameStorage;	// live camera mode name (AsciiString)
 
+#include <math.h>
+#include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath/wwmath.h"
+__forceinline float Vector3::Length() const { return WWMath::Sqrt(Length2()); }
+__forceinline float Vector3::Distance(const Vector3 &p1, const Vector3 &p2) { Vector3 temp; temp = p1 - p2; return (temp.Length()); }
+// Reduced donor math view: formulas from GeneralsMD WWMath/matrix3d.h.
+class Vector4 {
+public:
+    float X,Y,Z,W;
+    Vector4() {}
+    __forceinline Vector4 &operator=(const Vector4 &v) {X=v.X;Y=v.Y;Z=v.Z;W=v.W;return *this;}
+    __forceinline void Set(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
+    float &operator[](int i) {return (&X)[i];}
+    const float &operator[](int i)const {return (&X)[i];}
+};
+class Matrix3D {
+public:
+    Vector4 Row[3];
+    Matrix3D() {}
+    explicit Matrix3D(bool init) {if(init)Make_Identity();}
+    __forceinline Matrix3D(const Vector3 &a, float angle) {
+        float c = cosf(angle);
+        float s = sinf(angle);
+        Row[0].Set(
+            (float)(a.X*a.X + c*(1.0f - a.X*a.X)),
+            (float)(a.X*a.Y*(1.0f - c) - a.Z*s),
+            (float)(a.Z*a.X*(1.0f - c) + a.Y*s),
+            0.0f);
+        Row[1].Set(
+            (float)(a.X*a.Y*(1.0f - c) + a.Z*s),
+            (float)(a.Y*a.Y + c*(1.0f - a.Y*a.Y)),
+            (float)(a.Y*a.Z*(1.0f - c) - a.X*s),
+            0.0f);
+        Row[2].Set(
+            (float)(a.Z*a.X*(1.0f - c) - a.Y*s),
+            (float)(a.Y*a.Z*(1.0f - c) + a.X*s),
+            (float)(a.Z*a.Z + c*(1 - a.Z*a.Z)),
+            0.0f);
+    }
+    __forceinline Matrix3D &operator=(const Matrix3D &m) {
+        Row[0]=m.Row[0];Row[1]=m.Row[1];Row[2]=m.Row[2];return *this;
+    }
+    __forceinline void Make_Identity() {
+        Row[0][0]=1; Row[0][1]=0; Row[0][2]=0; Row[0][3]=0;
+        Row[1][0]=0; Row[1][1]=1; Row[1][2]=0; Row[1][3]=0;
+        Row[2][0]=0; Row[2][1]=0; Row[2][2]=1; Row[2][3]=0;
+    }
+    void Look_At(const Vector3 &,const Vector3 &,float);
+    __forceinline void mulVector3(Vector3 &v) const {
+        float x=Row[0][0]*v.X+Row[0][1]*v.Y+Row[0][2]*v.Z+Row[0][3];
+        float y=Row[1][0]*v.X+Row[1][1]*v.Y+Row[1][2]*v.Z+Row[1][3];
+        float z=Row[2][0]*v.X+Row[2][1]*v.Y+Row[2][2]*v.Z+Row[2][3];
+        v.Set(x,y,z);
+    }
+    __forceinline void mulCameraAngleVector(Vector3 &v) const {
+        float x=Row[0][0]*v.X+Row[0][1]*v.Y+Row[0][2]*v.Z+Row[0][3];
+        float y=(Row[1][0]*v.X+Row[1][1]*v.Y)+Row[1][2]*v.Z+Row[1][3];
+        float z=(Row[2][0]*v.X+Row[2][1]*v.Y)+Row[2][2]*v.Z+Row[2][3];
+        v.Set(x,y,z);
+    }
+    __forceinline void Rotate_X(float theta) {
+	float tmp1,tmp2;
+	float s,c;
+	s = sinf(theta);
+	c = cosf(theta);
+	tmp1 = Row[0][1]; tmp2 = Row[0][2];
+	Row[0][1] = (float)( c*tmp1 + (s*tmp2));
+	Row[0][2] = (float)(-s*tmp1 + c*tmp2);
+	tmp1 = Row[1][1]; tmp2 = Row[1][2];
+	Row[1][1] = (float)( c*tmp1 + (s*tmp2));
+	Row[1][2] = (float)(-s*tmp1 + c*tmp2);
+	tmp1 = Row[2][1]; tmp2 = Row[2][2];
+	Row[2][1] = (float)( c*tmp1 + (s*tmp2));
+	Row[2][2] = (float)(-s*tmp1 + c*tmp2);
+    }
+    __forceinline void Rotate_Y(float theta) {
+	float tmp1,tmp2;
+	float s,c;
+	s = sinf(theta);
+	c = cosf(theta);
+	tmp1 = Row[0][0]; tmp2 = Row[0][2];
+	Row[0][0] = (float)(c*tmp1 - s*tmp2);
+	Row[0][2] = (float)(s*tmp1 + c*tmp2);
+	tmp1 = Row[1][0]; tmp2 = Row[1][2];
+	Row[1][0] = (float)(c*tmp1 - s*tmp2);
+	Row[1][2] = (float)(s*tmp1 + c*tmp2);
+	tmp1 = Row[2][0]; tmp2 = Row[2][2];
+	Row[2][0] = (float)(c*tmp1 - s*tmp2);
+	Row[2][2] = (float)(s*tmp1 + c*tmp2);
+    }
+    __forceinline void Rotate_Y(float s,float c)
+{
+	float tmp1,tmp2;
+
+	tmp1 = Row[0][0]; tmp2 = Row[0][2];
+	Row[0][0] = (float)(c*tmp1 - s*tmp2);
+	Row[0][2] = (float)(s*tmp1 + c*tmp2);
+
+	tmp1 = Row[1][0]; tmp2 = Row[1][2];
+	Row[1][0] = (float)(c*tmp1 - s*tmp2);
+	Row[1][2] = (float)(s*tmp1 + c*tmp2);
+
+	tmp1 = Row[2][0]; tmp2 = Row[2][2];
+	Row[2][0] = (float)(c*tmp1 - s*tmp2);
+	Row[2][2] = (float)(s*tmp1 + c*tmp2);
+}
+    __forceinline void Rotate_Z(float theta) {
+	float tmp1,tmp2;
+	float c,s;
+	c = cosf(theta);
+	s = sinf(theta);
+	tmp1 = Row[0][0]; tmp2 = Row[0][1];
+	Row[0][0] = (float)( c*tmp1 + s*tmp2);
+	Row[0][1] = (float)(-s*tmp1 + c*tmp2);
+	tmp1 = Row[1][0]; tmp2 = Row[1][1];
+	Row[1][0] = (float)( c*tmp1 + s*tmp2);
+	Row[1][1] = (float)(-s*tmp1 + c*tmp2);
+	tmp1 = Row[2][0]; tmp2 = Row[2][1];
+	Row[2][0] = (float)( c*tmp1 + s*tmp2);
+	Row[2][1] = (float)(-s*tmp1 + c*tmp2);
+    }
+};
+class CameraAnimation {public:virtual void slot0();virtual void slot1();virtual void getTransform(Matrix3D *);};
+class Rva0010274F {
+public:
+    Matrix3D *transform; float distance;
+    Vector3 source,target,shakerAngles;
+    float groundLevel,zoom,angle,pitch,roll,fov,finalRotation,targetZAdjustment;
+    Coord3D pos,previousPos,explicitTarget;
+    float shakeX,shakeY;
+    bool constraintValid; char pad79[3];
+    float minX,minY,maxX,maxY;
+    bool realZoom; char pad8d[3]; Vector3 offset;
+    bool liveCamera; char pad9d[3]; float fxPitch; ObjectID lock;
+    bool positionHold,retainHold,slaved;char padab;
+    AsciiString slaveName,boneName;
+    char padb4[0xd0-0xb4]; bool special,padd1,nearAdjust,padd3;
+    int mode; CameraAnimation *animation; float animationValue;
+};
+class CameraShakeSystemClass {public:void Update_Camera_Shaker(Vector3,Vector3 *);};
+class Rva0065CA4 {public:void rva00065E3C(float);};
+extern CameraShakeSystemClass CameraShakerSystem;
+class Display {public:
+    PAD_VIRTUALS10(d0) PAD_VIRTUALS10(d1) PAD_VIRTUALS10(d2) PAD_VIRTUALS10(d3)
+    PAD_VIRTUALS10(d4) PAD_VIRTUALS10(d5) PAD_VIRTUALS10(d6) PAD_VIRTUALS10(d7)
+    virtual void d80();virtual void d81();virtual void d82();virtual void d83();
+    virtual void d84();virtual void d85();virtual void d86();virtual void d87();
+    virtual bool isLetterBoxed();
+};
+extern Display *TheDisplay;
+class ScriptEngine;
+extern ScriptEngine *TheScriptEngine;
+class Rva00358752Opaque {public:Object *lookupUnitByValue(AsciiString);};
+class Rva002B224BDwordField {public:int get()const;};
+class Drawable;
+class Thing {public:Drawable *getDrawable() const;};
+class ObjectDrawInterface {public:virtual void slot0();virtual void slot1();virtual bool boneTransform(const AsciiString &,Matrix3D *)const;};
+class DrawModule {public:
+    PAD_VIRTUALS10(dm0) PAD_VIRTUALS10(dm1) PAD_VIRTUALS10(dm2) PAD_VIRTUALS10(dm3)
+    virtual void dm40();virtual void dm41();virtual const ObjectDrawInterface *getObjectDrawInterface()const;
+};
+
+class Rva00102F83Owner { public: void rva00102F83(Rva0010274F *); };
+
 class W3DCamTransform
 {
 public:
 	void transitionLiveMode(Vector3 *pos, Vector3 *target, View *view);
+    friend class Rva00102F83Owner;
 private:
-	unsigned char m_pad00[0x28];
+	unsigned char m_pad00[0x0c];
+    Vector3 m_cameraSource; // +0x0c
+    char m_pad18[2]; bool m_cameraFlag; // +0x1a
+    char m_pad1b[0x28-0x1b];
 	Int m_liveState;				// +0x28
 	Vector3 m_liveTarget;				// +0x2C
 	Vector3 m_livePos;				// +0x38
@@ -244,3 +443,176 @@ void W3DCamTransform::transitionLiveMode(Vector3 *pos, Vector3 *target, View *vi
 			break;
 	}
 }
+
+// Whole native 0x00102F83..0x0010404E, 4299 bytes, RET4.
+// ?rva00102F83@Rva00102F83Owner@@QAEXPAVRva0010274F@@@Z
+// Target evidence: W3DView caller passes its camera state at +0xC0 and a
+// 0xE0 descriptor. WorldBuilder supplies the camera flow and local lifetimes;
+// GeneralsMD supplies the vector/matrix formulas. The established neutral
+// entry and descriptor symbols are retained. Identity: enclosing camera state;
+// original entry-point/descriptor names are not independently established.
+// The scalar-value helper preserves separate pitch arms and native stores.
+static __forceinline void pitchCamera(Vector3 &s,const Vector3 &t,float p) {s.X=CameraScalar((s.X-t.X)/p).value+t.X;s.Y=CameraScalar((s.Y-t.Y)/p).value+t.Y;}
+class Rva0010274F;static __forceinline Vector3 translated(Vector3 p,const Rva0010274F *v);
+static __forceinline Vector3 translated(Vector3 p,const Rva0010274F *v) {p.X+=v->pos.x;p.Y+=v->pos.y;return p;}
+__forceinline float cameraMin(float a,float b) {return a<b?a:b;}
+__forceinline float cameraMax(float a,float b) {return a>b?a:b;}
+/** @todo This is inefficient. We should construct the matrix directly using vectors. */
+void Rva00102F83Owner::rva00102F83(Rva0010274F *v)
+{
+    Vector3 sourcePos,targetPos;
+    if(v->mode==4) {
+        if(v->animation) {
+            struct AnimatedTransform {Matrix3D tm;float value;} result;
+            v->animation->getTransform(&result.tm);
+            *v->transform=result.tm; v->animationValue=result.value; return;
+        }
+        v->mode=0;
+    }
+    // add in the camera shake, if any
+    v->pos.x+=v->shakeX;v->pos.y+=v->shakeY;
+    if(v->mode==2) {
+        sourcePos=v->pos;
+        if(v->explicitTarget.lengthSqr()==0.0f) {targetPos=sourcePos;targetPos.Z=0;}
+        else targetPos.Set(v->explicitTarget.x,v->explicitTarget.y,v->explicitTarget.z);
+        v->transform->Make_Identity();v->transform->Look_At(sourcePos,targetPos,v->roll); return;
+    }
+    if(v->constraintValid) {
+        {float x=cameraMax(v->minX,v->pos.x); v->pos.x=x;
+        v->pos.x=cameraMin(v->maxX,x);}
+        v->pos.y=cameraMax(v->minY,v->pos.y);
+        v->pos.y=cameraMin(v->maxY,v->pos.y);
+    }
+    // set position of camera itself
+    if(v->realZoom) {
+        sourcePos=v->offset;
+        float capped=v->zoom;
+        if(capped>1.0f)capped=1.0f;
+        if(capped<0.5f)capped=0.5f;
+        v->fov=0.87266463f*capped;
+    } else {
+        sourcePos.X=v->offset.X*v->zoom;sourcePos.Y=v->offset.Y*v->zoom;sourcePos.Z=v->offset.Z*v->zoom;
+        if(v->liveCamera) {
+            Object *object=TheGameLogic->findObjectByID(v->lock);
+            if(object) sourcePos.Z=(v->offset.Z+object->getPosition()->z)*v->zoom;
+        }
+    }
+    // camera looking at origin
+    targetPos.Set(0,0,0);
+    float groundFraction=v->groundLevel/sourcePos.Z;
+    float factor=CameraScalar((float)(1.0-groundFraction)).value;
+    // construct a matrix to rotate around the up vector by the given angle
+    Matrix3D angleTransform(Vector3(0,0,1),v->angle);
+    // construct a matrix to rotate around the horizontal vector by the given angle
+    Matrix3D pitchTransform(Vector3(1,0,0),v->pitch);
+    // rotate camera position (pitch, then angle)
+    pitchTransform.mulVector3(sourcePos); angleTransform.mulCameraAngleVector(sourcePos);
+    sourcePos *= factor;
+    // translate to current XY position
+    sourcePos.X=addCameraScalar(sourcePos.X,v->pos.x).value;
+    sourcePos.Y=addCameraScalar(sourcePos.Y,v->pos.y).value;
+    targetPos.X=addCameraScalar(targetPos.X,v->pos.x).value;
+    targetPos.Y=addCameraScalar(targetPos.Y,v->pos.y).value;
+    Object *object=v->liveCamera?TheGameLogic->findObjectByID(v->lock):0;
+    if(v->liveCamera && (!object || (object->cameraKindFlags()&0x10))) {
+        Matrix3D angleTransform2(Vector3(0,0,1),v->angle);
+        Matrix3D pitchTransform2(Vector3(1,0,0),v->pitch);
+        pitchTransform2.mulVector3(sourcePos);angleTransform2.mulCameraAngleVector(sourcePos);
+        sourcePos=translated(sourcePos,v);
+        sourcePos.Z=addCameraScalar(sourcePos.Z,v->pos.z).value;
+        targetPos.X=addCameraScalar(targetPos.X,v->pos.x).value;
+        targetPos.Y=addCameraScalar(targetPos.Y,v->pos.y).value;
+        targetPos.Z+=v->pos.z+v->targetZAdjustment;
+    } else {
+        sourcePos.Z+=v->groundLevel;
+        targetPos.Z+=v->groundLevel+v->targetZAdjustment;
+    }
+    // The following code moves camera down and pitch up when player zooms in.
+    // Use scripts to switch to useRealZoomCam
+    if(v->realZoom) {
+        float pitchAdjust=1.0f;
+        if(!TheDisplay->isLetterBoxed()) {
+            float capped=v->zoom;
+            if(capped>1.0f)capped=1.0f;
+            if(capped<0.5f)capped=0.5f;
+            sourcePos.Z*=capped*0.75f+0.25f; // move camera down physically
+            pitchAdjust=capped; // adjust camera to pitch up
+        }
+        v->fxPitch=1.0f*(0.25f+pitchAdjust*0.75f);
+        pitchCamera(sourcePos,targetPos,v->fxPitch);
+    } else if(v->fxPitch <= 1.0f || v->liveCamera) {
+        if(v->liveCamera) {
+        if(reinterpret_cast<W3DCamTransform *>(this)->m_cameraFlag)reinterpret_cast<W3DCamTransform *>(this)->m_cameraFlag=false;
+        reinterpret_cast<W3DCamTransform *>(this)->m_cameraSource=sourcePos;
+        Vector3 p1=targetPos; p1.Z=0;
+        Vector3 p2=sourcePos; p2.Z=0;
+        float distance=Vector3::Distance(p1,p2);
+        float height=tan(v->fxPitch)*distance;
+        targetPos.Z=sourcePos.Z-height;
+        } else {
+            float height=sourcePos.Z-targetPos.Z; height*=v->fxPitch;targetPos.Z=sourcePos.Z-height;
+        }
+    } else {
+        sourcePos.X=(sourcePos.X-targetPos.X)/v->fxPitch+targetPos.X;
+        sourcePos.Y=(sourcePos.Y-targetPos.Y)/v->fxPitch+targetPos.Y;
+    }
+    if(v->positionHold) {
+        Vector3 delta=v->source-sourcePos;
+        sourcePos=v->source;
+        targetPos.X+=delta.X;targetPos.Y+=delta.Y;targetPos.Z+=delta.Z;
+        v->pos=v->previousPos;v->pos.x+=delta.X;v->pos.y+=delta.Y;v->previousPos=v->pos;
+        if(!v->retainHold)v->positionHold=false;
+    }
+    v->source=sourcePos;v->target=targetPos;
+    Vector3 delta=v->source;
+    delta-=v->target;
+    v->distance=WWMath::Sqrt(((delta.X*delta.X) + delta.Z*delta.Z) + delta.Y*delta.Y);
+    if(!v->special) reinterpret_cast<W3DCamTransform *>(this)->transitionLiveMode(&sourcePos,&targetPos,(View*)v);
+    if(v->explicitTarget.lengthSqr()>0)targetPos.Set(v->explicitTarget.x,v->explicitTarget.y,v->explicitTarget.z);
+    // build new camera transform
+    v->transform->Make_Identity();v->transform->Look_At(sourcePos,targetPos,v->roll);
+    if(!v->special) {
+        //WST 11/12/2002 New camera shaker system
+        ((Rva0065CA4 *)*(CameraShakeSystemClass**)&CameraShakerSystem)->rva00065E3C(1.0f/30.0f);
+        (*(CameraShakeSystemClass**)&CameraShakerSystem)->Update_Camera_Shaker(sourcePos,&v->shakerAngles);
+        v->transform->Rotate_X(v->shakerAngles.X);
+        v->transform->Rotate_Y(v->shakerAngles.Y);
+        v->transform->Rotate_Z(v->shakerAngles.Z);
+    }
+    // (gth) check if the camera is being controlled by an animation
+    if(v->slaved) {
+        // find object named m_cameraSlaveObjectName
+        Object *slave=((Rva00358752Opaque*)TheScriptEngine)->lookupUnitByValue(v->slaveName);
+        if(slave) {
+            // dig out the drawable
+            Drawable *draw=((Thing*)slave)->getDrawable();
+            if(draw) {
+                // dig out the first draw module with an ObjectDrawInterface
+                DrawModule **modules=(DrawModule**)((Rva002B224BDwordField*)draw)->get();
+                for(;*modules;++modules) {
+                    const ObjectDrawInterface *di=(*modules)->getObjectDrawInterface();
+                    if(di) {
+                        // Ok, slam it into the camera!
+                        Matrix3D tm(false);di->boneTransform(v->boneName,&tm);*v->transform=tm;
+                        // WST 10.22.2002. Update the Listener positions used by audio system
+                        Matrix3D *transform=v->transform; Coord3D origin; origin.x=transform->Row[0][3]; origin.y=transform->Row[1][3]; origin.z=transform->Row[2][3]; v->previousPos=origin; break;
+                    }
+                }
+            } else v->slaved=false;
+        } else v->slaved=false;
+    }
+    float finalAngle=v->finalRotation;
+    Matrix3D *finalTransform=v->transform;
+    float finalSin=sinf(finalAngle);
+    float finalCos=cosf(finalAngle);
+    finalTransform->Rotate_Y(finalSin,finalCos);
+    if(v->special&&v->nearAdjust) {
+        sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)/(90.0f+v->fxPitch);
+        sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)/(90.0f+v->fxPitch);
+        v->transform->Look_At(sourcePos,targetPos,0);
+        v->source=sourcePos;v->target=targetPos;
+    }
+}
+
+// Target Z updates are kept inside their WB-proven live/non-live arms.
+// Full native extent and every relocation verified; see the landing evidence.

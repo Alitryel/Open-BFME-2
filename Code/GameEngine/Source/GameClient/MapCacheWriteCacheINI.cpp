@@ -77,7 +77,13 @@ void MapCache::writeCacheINI(bool userDir)
             fprintf(fp,"  timestampHi = %d\n",md.timestampHi);
             fprintf(fp,"  isOfficial = %s\n",md.isOfficial ? yes : no);
             fprintf(fp,"  isMultiplayer = %s\n",md.isMultiplayer ? yes : no);
-            fprintf(fp,"  isScenarioMP = %s\n",md.isScenarioMP ? yes : no);
+            // Keep the last label selection explicit: VC7.1 then retains
+            // retail's shared "no" register across all three map flags.
+            {
+                const char *scenarioLabel = no;
+                if (md.isScenarioMP) scenarioLabel = yes;
+                fprintf(fp,"  isScenarioMP = %s\n",scenarioLabel);
+            }
             fprintf(fp,"  numPlayers = %d\n",md.numPlayers);
             fprintf(fp,"  extentMin = X:%2.2f Y:%2.2f Z:%2.2f\n",md.extent.lo.x,md.extent.lo.y,md.extent.lo.z);
             fprintf(fp,"  extentMax = X:%2.2f Y:%2.2f Z:%2.2f\n",md.extent.hi.x,md.extent.hi.y,md.extent.hi.z);
