@@ -53,3 +53,11 @@ so its saved census and generated-coverage deltas include other upstream work;
 use the session-base comparison and the per-repair paired previews to assess
 this seat. Do not infer a fresh census measurement from progress.py.
 No maintainer-only verification runner was started.
+
+Publication remains blocked by the pre-existing FireWeaponWhenDeadBehavior
+class-view DIR32 discrepancy introduced by upstream 712d5ce6d6. The full gate
+passed all 98,109 function and 2,140 data rows and refused that one consistency
+check. See link-seat-20261023-publication.md for exact relocations and the
+concrete next task. The list preview was rechecked at +116 B and all remaining
+claims were released. Commits are preserved locally; no successful publication
+or closed-strict gain is claimed.
