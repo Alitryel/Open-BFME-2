@@ -9,11 +9,16 @@
 // of the wrapper remain unknown.
 // Codegen: retail keeps `add esp,4` after the checker call and the ebp frame only when the
 // checker's body is visible in the unit (its register effects are known); the visible copy is
-// the same COMDAT name as the matched 0x00559B4B row, which the link resolves to retail's bytes.
+// the 0x00559B4B row itself, so both live in this unit (one definition). Its own body has no
+// frame pointer in retail, unlike the wrapper's (/Oy-).
+// ?Rva00559B4BCheck@@YAEH@Z, retail 0x00559B4B, 25 bytes: 1 for 3/4/5 else 0, as a byte;
+// caller 0x00559CF3 pushes one argument then add esp,4 (__cdecl).
+#pragma optimize("y", on)
 __declspec(noinline) unsigned char __cdecl Rva00559B4BCheck(int v)
 {
 	return v == 3 || v == 4 || v == 5;
 }
+#pragma optimize("", on)
 UnicodeString __cdecl Rva00559C3D(unsigned char valid, int value);
 UnicodeString __cdecl Rva00559CE5(int type, int value)
 {

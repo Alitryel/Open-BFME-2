@@ -38774,7 +38774,7 @@ _GetThisFrameReconPtr,,0x001B6330,11,Code/Libraries/Source/VP6/PbAccessors.cpp,m
 ?rva007B7A73@@YAXXZ,,0x007B7A73,10,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,Freelist pool clear thunk at 0x007B7A73
 ?rva00531196@Rva00531196@@QAEXPAI@Z,,0x00531196,159,Code/GameEngine/Source/Common/Rva00531196Finish.cpp,matched,bitfield insert from packed dword p[3] via (m_val and ~mask) or (value and mask) idiom; caller 0x005329C8
 ?rva006C1F60@Rva006C1F60@@QAEHI@Z,,0x006C1F60,113,Code/GameEngine/Source/Common/Rva006C1F60Finish.cpp,matched,lock-guarded float clamp to int via __ftol2; clamps result in place; flag 0x800 at +0x514 scale +0x534 min +0x538 max +0x53c; caller 0x006C2463
-?Rva00559B4BCheck@@YAEH@Z,,0x00559B4B,25,Code/GameEngine/Source/Common/Rva00559B4BCheck.cpp,matched,free check 3-4-5 via caller 0x00559CF3
+?Rva00559B4BCheck@@YAEH@Z,,0x00559B4B,25,Code/GameEngine/Source/GameNetwork/Rva00559CE5Wrapper.cpp,matched,free check 3-4-5 via caller 0x00559CF3
 ?rva00355290@ArmorTemplate@@QAEHXZ,,0x00355290,45,Code/GameEngine/Source/GameLogic/Object/Rva00355290Check.cpp,matched,nonempty circular list check at 0x4 with first node 0x8 versus 0x8 via rowed find caller
 ?rva00202613@Rva00202613@@QAEHM@Z,,0x00202613,32,Code/GameEngine/Source/Common/Rva00202613Level.cpp,matched,float to LOD level via 5 entry 16B threshold table at 0x1C8 beside rowed 0x202633
 ?rva001B4EAB@Rva001B4EAB@@QAEXXZ,,0x001B4EAB,166,Code/GameEngine/Source/Common/Rva001B4EABExport.cpp,matched,per-entry exporter via rowed set format releaseBuffer slot 0x2c caller 0x002304BB
