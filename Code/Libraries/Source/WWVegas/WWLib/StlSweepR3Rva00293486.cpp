@@ -36,5 +36,14 @@ static __forceinline void _Construct(Rva00293486Record *dest, const Rva00293486R
 
 
 
+// Retail's loop calls the rowed placement-copy owner
+// Rva002927CBConstruct 0x002927CB (stlport_construct_game_structs.cpp).
+struct TreeKey00242F5E;
+void __cdecl Rva002927CBConstruct(TreeKey00242F5E *, const TreeKey00242F5E &);
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00293486Record, Rva00293486Record>(Rva00293486Record *__p, const Rva00293486Record &__val)
+{ Rva002927CBConstruct(reinterpret_cast<TreeKey00242F5E *>(__p), *reinterpret_cast<const TreeKey00242F5E *>(&__val)); }
+}
+
 // Instantiate the recovered member; retain only its required template dependencies.
 template _STL::_List_node<Rva00293486Record> * _STL::list<Rva00293486Record, _STL::allocator<Rva00293486Record> >::_M_create_node(Rva00293486Record const &);
