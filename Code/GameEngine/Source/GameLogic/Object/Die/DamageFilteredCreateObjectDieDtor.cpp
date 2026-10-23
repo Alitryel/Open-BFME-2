@@ -17,6 +17,9 @@ private:
 	char m_pad04[8];
 };
 
+// Empty structural stand-ins: retail's +0x0C/+0x10/+0x14 subobject vtables
+// hold the shared empty return, so these bodies are the shared 1-byte ret at
+// 0x000B3FD0 (fold).
 class MiBase1
 {
 public:
@@ -26,13 +29,13 @@ public:
 class DamageFilteredCreateObjectDie_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() {}
 };
 
 class DamageFilteredCreateObjectDie_B3
 {
 public:
-	virtual void f3();
+	virtual void f3() {}
 };
 
 class DamageFilteredCreateObjectDie : public DieModule, public MiBase1,
