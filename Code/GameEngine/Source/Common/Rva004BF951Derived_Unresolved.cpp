@@ -34,7 +34,7 @@ public:
 class Rva004C089E_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 class Rva004C089E : public Rva004BF951, public MiBase1, public Rva004C089E_B2
@@ -50,7 +50,7 @@ Rva004C089E::~Rva004C089E()
 class Rva004C0988_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 class Rva004C0988 : public Rva004BF951, public MiBase1, public Rva004C0988_B2
@@ -79,7 +79,7 @@ public:
 class Rva004C131B_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 class Rva004C131B : public Rva004BF951, public MiBase1, public Rva004C131B_B2
@@ -95,7 +95,7 @@ Rva004C131B::~Rva004C131B()
 class Rva004C1BAB_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 
 private:
 	char m_pad04[0xEC];

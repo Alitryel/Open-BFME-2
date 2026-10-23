@@ -59,9 +59,9 @@ Xfer &xferRandomVariable(Xfer &xfer, GameClientRandomVariable &var);
 class Rva003AF9A9HeadView
 {
 public:
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
 protected:
 	virtual void xfer(Xfer *xfer) = 0;
 private:
@@ -71,9 +71,9 @@ private:
 class Rva003AF9A9InfoView
 {
 public:
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
 protected:
 	virtual void xfer(Xfer *xfer) = 0;
 private:

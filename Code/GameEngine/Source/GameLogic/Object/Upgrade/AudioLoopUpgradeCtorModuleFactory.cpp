@@ -24,8 +24,8 @@ protected:
 	Object *m_object;
 };
 
-class ALU_Iface1 { public: virtual void slot(); };
-class ALU_Iface2 { public: virtual void slot(); };
+class ALU_Iface1 { public: virtual void slot() = 0; };
+class ALU_Iface2 { public: virtual void slot() = 0; };
 
 // The base is retail's UpdateModule: its constructor (0x00253390),
 // destructor and setWakeFrame are rowed elsewhere, so they are declared,

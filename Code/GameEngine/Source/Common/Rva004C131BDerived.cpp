@@ -27,7 +27,7 @@ public:
 class Rva004C1604_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 class Rva004C1604 : public Rva004C131B, public MiBase1, public Rva004C1604_B2
@@ -43,7 +43,7 @@ Rva004C1604::~Rva004C1604()
 class Rva004C1866_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 class Rva004C1866 : public Rva004C131B, public MiBase1, public Rva004C1866_B2
