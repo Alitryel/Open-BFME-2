@@ -59,6 +59,14 @@ public:
 		return append(first, last, tag);
 	}
 
+	// Retail 0x000160F0 calls the dispatch below with the tag's address
+	// off the stack, again without zeroing the empty object.
+	template <class InputIter>
+	basic_string<CharT, Traits, Alloc> &assign(InputIter first, InputIter last)
+	{
+		__false_type tag;
+		return _M_assign_dispatch(first, last, tag);
+	}
 
 	template <class InputIter>
 	basic_string<CharT, Traits, Alloc> &_M_assign_dispatch(InputIter first, InputIter last,
@@ -96,6 +104,9 @@ basic_string<CharT, Traits, Alloc>::_M_assign_dispatch(InputIter __f, InputIter 
 template basic_string<char, char_traits<char>, allocator<char> > &
 basic_string<char, char_traits<char>, allocator<char> >::_M_assign_dispatch<char *>(
 		char *, char *, const __false_type &);
+
+template basic_string<char, char_traits<char>, allocator<char> > &
+basic_string<char, char_traits<char>, allocator<char> >::assign<char *>(char *, char *);
 
 }
 
