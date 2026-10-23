@@ -7,15 +7,17 @@ public:
 	void clear();
 };
 
-class Rva005F1749
+namespace StrategicHUD { class RegionDetailsStructuresMovieClip; }
+
+class StrategicHUD::RegionDetailsStructuresMovieClip
 {
 public:
-	virtual ~Rva005F1749();
+	virtual ~RegionDetailsStructuresMovieClip();
 private:
 	Rva005F13CC m_04;
 };
 
-Rva005F1749::~Rva005F1749()
+StrategicHUD::RegionDetailsStructuresMovieClip::~RegionDetailsStructuresMovieClip()
 {
 	m_04.clear();
 }

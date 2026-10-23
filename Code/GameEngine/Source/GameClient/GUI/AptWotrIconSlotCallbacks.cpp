@@ -136,8 +136,7 @@ int __cdecl Rva00525338Fire(void *a1, void *a2, const char *a3, const char *a4, 
 class Rva005F0CC9
 {
 public:
-	virtual void DoSetState(int state);
-	void DoHideProgress();
+	virtual void slot01(int);
 	void OnIconSlotClicked(const char *unused);
 	void OnIconSlotRollOut(const char *unused);
 	void OnIconSlotRollOver(const char *unused);
@@ -147,6 +146,34 @@ public:
 	void OnRollOverTurnsRemaining(const char *unused);
 	void RenderProgress(const Coord2D *position, const Coord2D *size, void *unused3, void *unused4);
 
+private:
+	unsigned char m_pad04[0x0C - 0x04];
+	Rva005F0505Owner *m_owner; // +0x0C
+	int m_index; // +0x10
+	Rva005EEE74Listener *m_listener; // +0x14
+	int m_state; // +0x18
+	unsigned char m_pad1C[0x24 - 0x1C];
+	int m_total; // +0x24
+	int m_remaining; // +0x28
+	bool m_showProgress; // +0x2C
+	bool m_turnsRolledOver; // +0x2D
+};
+
+namespace StrategicHUD { class RegionDetailsStructuresMovieClip { public: class Impl { public: class IconSlot; }; }; }
+class Image;
+class StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot
+{
+public:
+ virtual void slot01(int);
+ virtual int slot02() const;
+ virtual void DoSetState(int);
+ virtual const Image *slot04() const;
+ virtual void slot05(const Image *);
+ virtual const Image *slot06() const;
+ virtual void slot07(const Image *);
+ virtual unsigned char slot08() const;
+ virtual void DoShowProgress(int, int);
+ virtual void DoHideProgress();
 private:
 	unsigned char m_pad04[0x0C - 0x04];
 	Rva005F0505Owner *m_owner; // +0x0C
@@ -267,7 +294,7 @@ void Rva005F141D::rva005F057A(const char *unused)
 // Retail 0x005F0A50 (WorldBuilder RegionDetailsStructuresMovieClip::Impl::
 // IconSlot::DoSetState, vtable match): "SetIconSlotState" with the slot index
 // and the state's name.
-void Rva005F0CC9::DoSetState(int state)
+void StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot::DoSetState(int state)
 {
 	if (state == m_state)
 		return;
@@ -277,7 +304,7 @@ void Rva005F0CC9::DoSetState(int state)
 
 // Retail 0x005F0BF2 (WorldBuilder IconSlot::DoHideProgress): hides the
 // progress overlay once shown.
-void Rva005F0CC9::DoHideProgress()
+void StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot::DoHideProgress()
 {
 	if (!m_showProgress)
 		return;

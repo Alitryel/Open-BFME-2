@@ -321,15 +321,15 @@ class CreateAHeroHero
 public:
 	bool Update(Int flags);
 };
-class Rva005B023A
+class AptMyHero
 {
 public:
-	void rva005B023A();
+	virtual void slot14();
 private:
-	char m_pad00[0x150];
+	char m_pad04[0x150 - 4];
 	bool m_150;
 };
-void Rva005B023A::rva005B023A()
+void AptMyHero::slot14()
 {
 	m_150 = true;
 	reinterpret_cast<CreateAHeroHero *>(this)->Update(0);

@@ -74,4 +74,13 @@ BFME_LITERAL_NAME_GETTER(Rva00351753Named, "AIStateMachine")
 BFME_LITERAL_NAME_GETTER(Rva0037BB4DNamed, "GameInfo")
 BFME_LITERAL_NAME_GETTER(Rva003A5784Named, "ParticleWindModuleInfo")
 BFME_LITERAL_NAME_GETTER(Rva003ABE7FNamed, "RenderObjectUpdateModule")
-BFME_LITERAL_NAME_GETTER(Rva00409353Named, "CreateAHeroData")
+class CreateAHeroData
+{
+public:
+ virtual const char *GetSnapshotName() const;
+};
+
+const char *CreateAHeroData::GetSnapshotName() const
+{
+ return "CreateAHeroData";
+}

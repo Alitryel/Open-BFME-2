@@ -32,10 +32,12 @@ class CreateAHeroData
 public:
 	CreateAHeroData(int, int, int, const UnicodeString &, int, int, int);
 	virtual ~CreateAHeroData();
-	virtual void slot04();
-	virtual void slot08();
-	virtual void slot0C();
-	virtual void slot10();
+protected:
+ virtual void loadPostProcess();
+public:
+ virtual const char *GetSnapshotName() const;
+ virtual void DoXfer(class Xfer &);
+ virtual bool Update(int);
 protected:
 	char pad04[0x140 - 4];
 };
@@ -156,6 +158,17 @@ public:
 	AptExternHandlerAdder m_externHandlers;
 };
 
+class CreateAHeroHero { public: void rva005B0357(int, char *, int); };
+class Rva005B03B4 { public: void rva005B03B4(int, char *, int); };
+class Rva005B0608
+{
+public:
+ void rva005B0608(unsigned, char *, int);
+ void rva005B0648(unsigned, char *, int);
+ void rva005B068E(unsigned, char *, int);
+ void rva005B06CE(unsigned, char *, bool);
+};
+
 class AptMyHero : public CreateAHeroData
 {
 public:
@@ -163,12 +176,6 @@ public:
 	virtual ~AptMyHero();
 	virtual void slot14();
 
-	void rva005B0608(int index, char *value, bool set);
-	void rva005B0648(int index, char *value, bool set);
-	void rva005B068E(int index, char *value, bool set);
-	void rva005B06CE(int index, char *value, bool set);
-	void rva005B03B4(int index, char *value, bool set);
-	void rva005B0357(int index, char *value, bool set);
 
 private:
 	AptCreateAHero *holder140;
@@ -198,9 +205,9 @@ AptMyHero::AptMyHero(AptCreateAHero *holder)
 
 	{
 		int i = 0;
-		DelegateDesc baseHandler = MakeDelegate(this, &AptMyHero::rva005B0608);
-		DelegateDesc curHandler = MakeDelegate(this, &AptMyHero::rva005B0648);
-		DelegateDesc maxHandler = MakeDelegate(this, &AptMyHero::rva005B068E);
+		DelegateDesc baseHandler = MakeDelegate(this, &Rva005B0608::rva005B0608);
+		DelegateDesc curHandler = MakeDelegate(this, &Rva005B0608::rva005B0648);
+		DelegateDesc maxHandler = MakeDelegate(this, &Rva005B0608::rva005B068E);
 		for (; i < 5; ++i) {
 			holder140->m_externHandlers.AddExternHandler(rva005B0A53("Base", i), i, AptRef<AptExternHandler>(baseHandler));
 			holder140->m_externHandlers.AddExternHandler(rva005B0A53("Cur", i), i, AptRef<AptExternHandler>(curHandler));
@@ -209,7 +216,7 @@ AptMyHero::AptMyHero(AptCreateAHero *holder)
 	}
 	{
 		int i = 0;
-		DelegateDesc appearanceHandler = MakeDelegate(this, &AptMyHero::rva005B06CE);
+		DelegateDesc appearanceHandler = MakeDelegate(this, &Rva005B0608::rva005B06CE);
 		for (; i < 7; ++i) {
 			AsciiString name;
 			name.format("MyHero::NumAppearance_%d", i);
@@ -218,21 +225,21 @@ AptMyHero::AptMyHero(AptCreateAHero *holder)
 	}
 	{
 		AsciiString name("MyHero::MaxAttribute");
-		holder140->m_externHandlers.AddExternHandler(name, 0, AptRef<AptExternHandler>(MakeDelegate(this, &AptMyHero::rva005B03B4)));
+		holder140->m_externHandlers.AddExternHandler(name, 0, AptRef<AptExternHandler>(MakeDelegate(this, &Rva005B03B4::rva005B03B4)));
 	}
 	{
 		AsciiString name("MyHero::MaxAwards");
-		holder140->m_externHandlers.AddExternHandler(name, 1, AptRef<AptExternHandler>(MakeDelegate(this, &AptMyHero::rva005B03B4)));
+		holder140->m_externHandlers.AddExternHandler(name, 1, AptRef<AptExternHandler>(MakeDelegate(this, &Rva005B03B4::rva005B03B4)));
 	}
 	{
 		AsciiString name("MyHero::IsSystemHero");
-		holder140->m_externHandlers.AddExternHandler(name, 2, AptRef<AptExternHandler>(MakeDelegate(this, &AptMyHero::rva005B03B4)));
+		holder140->m_externHandlers.AddExternHandler(name, 2, AptRef<AptExternHandler>(MakeDelegate(this, &Rva005B03B4::rva005B03B4)));
 	}
 	{
 		unsigned int awards = TheCreateAHeroManager->m_1D4;
 		unsigned int i = 0;
 		if (awards > 0) {
-			DelegateDesc awardHandler = MakeDelegate(this, &AptMyHero::rva005B0357);
+			DelegateDesc awardHandler = MakeDelegate(this, &CreateAHeroHero::rva005B0357);
 			do {
 				AsciiString name;
 				name.format("MyHero::AwardState_%d", i);

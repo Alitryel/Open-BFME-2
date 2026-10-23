@@ -358,13 +358,15 @@ struct Rva005F07ADOwner
 	Rva00524306 m_images;		// +0x1C
 };
 
-class Rva005F07AD
+namespace StrategicHUD { class RegionDetailsStructuresMovieClip { public: class Impl { public: class IconSlot; }; }; }
+class Image;
+class StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot
 {
 public:
-	void rva005F0728(const Image *image);
-	void rva005F07AD(const Image *image);
+	virtual void slot05(const Image *image);
+	virtual void slot07(const Image *image);
 private:
-	char m_pad00[0x0C];
+	char m_pad04[0x0C - 4];
 	Rva005F07ADOwner *m_owner;	// +0x0C
 	int m_index;				// +0x10
 	char m_pad14[0x08];
@@ -372,8 +374,8 @@ private:
 	const Image *m_image;		// +0x20
 };
 
-APT_SLOT_IMAGE_KEY_SET( Rva005F07AD, rva005F0728, "_level%u.%s_IconSlotPortrait%d", m_portrait, m_owner->m_images )
-APT_SLOT_IMAGE_KEY_SET( Rva005F07AD, rva005F07AD, "_level%u.%s_IconSlotTypeImage%d", m_image, m_owner->m_images )
+APT_SLOT_IMAGE_KEY_SET( StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot, slot05, "_level%u.%s_IconSlotPortrait%d", m_portrait, m_owner->m_images )
+APT_SLOT_IMAGE_KEY_SET( StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot, slot07, "_level%u.%s_IconSlotTypeImage%d", m_image, m_owner->m_images )
 
 struct Rva005F6CA8Owner
 {
@@ -400,12 +402,12 @@ public:
 class StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot
 {
 public:
-	void rva005F6CA8(const Image *image);
-	void rva005F6D2C(const Image *image);
+	virtual void rva005F6CA8(const Image *image);
+	virtual void rva005F6D2C(const Image *image);
 	void SetQuantityString(int quantity);
 	void SetProgressString(int unused, int turns);
 private:
-	char m_pad00[8];
+	char m_pad04[4];
 	const Image *m_portrait;	// +0x08
 	const Image *m_typeImage;	// +0x0C
 	char m_pad10[0x0C];

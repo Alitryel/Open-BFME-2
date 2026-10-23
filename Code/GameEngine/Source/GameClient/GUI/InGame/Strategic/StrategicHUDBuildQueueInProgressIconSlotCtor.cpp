@@ -46,7 +46,7 @@ class Rva005F6941 {public:
  virtual int rva0057E556()const;virtual void DoSetState(int);
  virtual int rva0030D377()const=0;virtual int rva00091A56()const=0;
  virtual void rva005F7512(int,int)=0;
- void*listener;void*portrait,*typeImage;int quantity,state;bool hovered;
+ void*listener;const Image*portrait,*typeImage;int quantity,state;bool hovered;
 };
 namespace StrategicHUD {class BuildQueueDetailsMovieClip {public:class Impl;};}
 class StrategicHUD::BuildQueueDetailsMovieClip::Impl {public:char prefix[4];unsigned int level;AsciiString name;char gap[8];AptCommandMapAdder maps;char images[12];AptCustomRenderAdder renders;class QueuedIconSlot;class InProgressIconSlot;};
@@ -60,6 +60,15 @@ public:InProgressIconSlot(Impl*);~InProgressIconSlot();virtual void DoSetState(i
  void rva005F6899(const Coord2D*,const Coord2D*,void*,void*);void SetQuantityString(int);void SetProgressString(int,int);
 private:Impl*owner;int total,remaining;bool turnsHover;
 };
+unsigned char Rva005F6941::rva004C9990() const { return hovered; }
+void Rva005F6941::rva002B230F(void *value) { listener = value; }
+int Rva005F6941::rva001DB09D() const { return quantity; }
+int Rva005F6941::rva0057E556() const { return state; }
+const Image *StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot::rva0030F45F() const { return portrait; }
+const Image *StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot::rva001DB0A8() const { return typeImage; }
+int StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot::rva0030D377() const { return total; }
+int StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot::rva00091A56() const { return remaining; }
+
 #define PROGRESS_BIND(TEXT,METHOD) owner->maps.AddCommandMap(prefix+owner->name+TEXT,AptRef<AptCommandMap>(DelegateDesc((QueuedIconSlot*)this,&QueuedIconSlot::METHOD)))
 StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot::InProgressIconSlot(Impl *parent):owner(parent),total(0),remaining(0),turnsHover(false) {
  {AsciiString prefix;prefix.format("_level%u.",owner->level);

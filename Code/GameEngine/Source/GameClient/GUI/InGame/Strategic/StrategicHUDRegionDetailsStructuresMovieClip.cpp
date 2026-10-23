@@ -176,7 +176,22 @@ struct Rva005EF5CA : AsciiStringPlusStringText { operator AsciiString(); AsciiSt
 Rva005EF5CA operator+(const AsciiStringPlusStringText &,const AsciiString &);
 
 class Rva005242D7 { public: Rva005242D7(); ~Rva005242D7(); private: char bytes[12]; };
-class Rva005EEF2FBase0 { public: virtual ~Rva005EEF2FBase0() {} };
+class Image;
+class Rva005F0584Base0
+{
+public:
+ virtual void slot01(int) = 0;
+ virtual int slot02() const = 0;
+ virtual void DoSetState(int) = 0;
+ virtual const Image *slot04() const = 0;
+ virtual void slot05(const Image *) = 0;
+ virtual const Image *slot06() const = 0;
+ virtual void slot07(const Image *) = 0;
+ virtual unsigned char slot08() const = 0;
+ virtual void DoShowProgress(int, int) = 0;
+ virtual void DoHideProgress() = 0;
+ ~Rva005F0584Base0() {}
+};
 class Rva005EEF2FBase4 { public: Rva005EEF2FBase4(): refs(0) {} virtual ~Rva005EEF2FBase4() {} int refs; };
 
 #include "Coord2D.h"
@@ -265,19 +280,20 @@ extern GameTextInterface *TheGameText;
 class BfmeAptWindowManager {public:void bfmeSetText(const AsciiString &,const UnicodeString &,bool);};
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 int __cdecl Rva00525338Fire(void *,void *,const char *,const char *,int *,void *);
-class StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot : public Rva005EEF2FBase0,public Rva005EEF2FBase4 {
+class Image;
+class StrategicHUD::RegionDetailsStructuresMovieClip::Impl::IconSlot : public Rva005F0584Base0,public Rva005EEF2FBase4 {
 public:
  IconSlot(Impl*,int);
  virtual ~IconSlot();
  virtual void slot01(int);
- virtual int slot02()const;
+ virtual int slot02() const;
  virtual void DoSetState(int);
- virtual void *slot04();
- virtual void slot05(void *);
- virtual unsigned slot06();
- virtual void slot07(void *);
- virtual unsigned char slot08()const;
- virtual void DoShowProgress(int total,int remaining);
+ virtual const Image *slot04() const;
+ virtual void slot05(const Image *);
+ virtual const Image *slot06() const;
+ virtual void slot07(const Image *);
+ virtual unsigned char slot08() const;
+ virtual void DoShowProgress(int, int);
  virtual void DoHideProgress();
 private:
   Impl *m_owner;

@@ -45,7 +45,9 @@ public:
 protected:
  virtual void loadPostProcess();
 public:
- virtual void slot08();virtual void slot0C();virtual void slot10();
+ virtual const char *GetSnapshotName() const;
+ virtual void DoXfer(class Xfer &);
+ virtual bool Update(int);
  CreateAHeroData &operator=(const CreateAHeroData &);
 protected:
  char pad04[4];

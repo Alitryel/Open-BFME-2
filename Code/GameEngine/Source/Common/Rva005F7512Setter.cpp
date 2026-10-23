@@ -15,22 +15,18 @@ public:
 class StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot
 {
 public:
-	void SetProgressString(int unused, int turns);
-};
-class Rva005F6A58
-{
-public:
-	virtual void rva005F7512(int a, int b);
+ void SetProgressString(int unused, int turns);
+ virtual void rva005F7512(int a, int b);
 private:
-	char m_pad04[0x20 - 4];
-	int m_20;
-	int m_24;
+ char m_pad04[0x20 - 4];
+ int m_20;
+ int m_24;
 };
-void Rva005F6A58::rva005F7512(int a, int b)
+void StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot::rva005F7512(int a, int b)
 {
 	if (a == m_20 && b == m_24)
 		return;
-	((StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot *)this)->SetProgressString(a, b);
+	SetProgressString(a, b);
 	m_20 = a;
 	m_24 = b;
 }

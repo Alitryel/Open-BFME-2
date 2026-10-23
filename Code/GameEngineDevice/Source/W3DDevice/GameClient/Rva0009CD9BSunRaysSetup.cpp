@@ -68,9 +68,9 @@ public:
 class ShaderClass {
 public:
     unsigned m_value;
-    ShaderClass(const ShaderClass &shader) : m_value(shader.m_value) {}
+    __declspec(dllimport) __forceinline ShaderClass(const ShaderClass &shader) : m_value(shader.m_value) {}
+    static ShaderClass _PresetAdditiveShader;
 };
-extern ShaderClass g_rva00DB622C;
 class SegLineRendererClass {
 public:
     enum TextureMapMode { MAP_NONE=0,MAP_LINEAR=1,MAP_PERSPECTIVE=2 };
@@ -117,8 +117,8 @@ class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 extern float g_Va00DE5E38[3],g_Va00DE5E2C[3];
 extern float g_rva00DE5E24[2],g_rva00DE5E1C[2],g_rva00DE5E14[2],g_rva00DE5E0C[2];
-extern float g_rva00DE5E08,g_rva00DE5E04,g_rva00DE5E00;
-extern float g_rva00DE5E44,g_rva00DB4AA8,g_rva00DB4AAC,g_rva00DB4AB0;
+extern float g_00DE5E08,g_00DE5E04,g_00DE5E00;
+extern float g_00DE5E44,g_00DB4AA8,BfmeCameraPanRotationLimit,BfmeCameraPanRotationRate;
 class Rva0009D55BProduct {
 public:
     void rva0009C18A();
@@ -233,23 +233,23 @@ void Rva0009C134Host::rva0009CD9B()
             fgets(line,100,fp); g_rva00DE5E14[i]=(float)atof(line);
             fgets(line,100,fp); g_rva00DE5E0C[i]=(float)atof(line);
         }
-        fgets(line,100,fp); g_rva00DE5E08=(float)atof(line);
-        fgets(line,100,fp); g_rva00DE5E04=(float)atof(line);
-        fgets(line,100,fp); g_rva00DE5E00=(float)atof(line);
+        fgets(line,100,fp); g_00DE5E08=(float)atof(line);
+        fgets(line,100,fp); g_00DE5E04=(float)atof(line);
+        fgets(line,100,fp); g_00DE5E00=(float)atof(line);
         fclose(fp);
     }
     int index=0;
     if (TheWritableGlobalData && *((char *)TheWritableGlobalData+0xd2e)) index=1;
     m_13c=g_Va00DE5E38[index];
     m_d8=g_Va00DE5E2C[index];
-    g_rva00DE5E44=g_rva00DE5E24[index];
-    g_rva00DB4AA8=g_rva00DE5E1C[index];
-    g_rva00DB4AAC=g_rva00DE5E14[index];
-    g_rva00DB4AB0=g_rva00DE5E0C[index];
+    g_00DE5E44=g_rva00DE5E24[index];
+    g_00DB4AA8=g_rva00DE5E1C[index];
+    BfmeCameraPanRotationLimit=g_rva00DE5E14[index];
+    BfmeCameraPanRotationRate=g_rva00DE5E0C[index];
     m_1cc=new SegmentedLineClass;
     m_1d0=(const RefCountPtr<TextureClass> &)TextureAsset::Get(((AsciiString *)(src+0x114))->str(),0,0);
     m_1cc->Set_Texture(m_1d0);
-    m_1cc->Set_Shader(g_rva00DB622C);
+    m_1cc->Set_Shader(ShaderClass::_PresetAdditiveShader);
     m_1cc->Set_Disable_Sorting(1);
     m_1cc->Set_Width(*(float *)(src+0xec));
     {

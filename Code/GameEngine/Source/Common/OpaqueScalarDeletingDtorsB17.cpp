@@ -153,16 +153,17 @@ Rva005F00FB::Rva005F00FB(EmitVtableTag *)
 {
 }
 
-class Rva005F1749
+namespace StrategicHUD {
+class RegionDetailsStructuresMovieClip
 {
 public:
-	Rva005F1749(EmitVtableTag *);
-public:
-	virtual ~Rva005F1749();
+ RegionDetailsStructuresMovieClip(EmitVtableTag *);
+ virtual ~RegionDetailsStructuresMovieClip();
 };
+}
 
-// ?<Rva005F1749::Rva005F1749> absent-from-retail
-Rva005F1749::Rva005F1749(EmitVtableTag *)
+// ?<StrategicHUD::RegionDetailsStructuresMovieClip::RegionDetailsStructuresMovieClip> absent-from-retail
+StrategicHUD::RegionDetailsStructuresMovieClip::RegionDetailsStructuresMovieClip(EmitVtableTag *)
 {
 }
 
