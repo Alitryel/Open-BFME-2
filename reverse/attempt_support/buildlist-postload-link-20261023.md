@@ -44,3 +44,32 @@ and constructor-unit definition rather than introducing a second provider.
 The +622 B above is the original saved legacy measurement, not an additional
 recovery gain over origin/master. Constructor declarations still bind to the
 upstream provider. The recovered source matches upstream's constructor unit.
+
+## Transfer-unit duplicate repair
+
+At BFME 2 `0c95e5179b`, the transfer unit still defined the empty
+`BuildListInfo::loadPostProcess` after `Rva0032A186Finish.cpp` acquired its
+verified complete retail body at RVA `000B3FD0`. Remove the older unrowed
+definition and retain its virtual declaration, binding to the rowed provider.
+No layout, identity, pin or matched-body change is needed.
+
+Measured with `tools/link_check.py` on BuildListInfoXfer,
+Rva0032A186Finish, BuildListInfoCtor and BuildListInfoCopyCtor together:
+
+| Current-object preview | Before | After |
+| --- | ---: | ---: |
+| Units linking | 2/4 | 4/4 |
+| Matched bytes linking | 622 | 1,076 |
+
+The repair gains **454 B** against the current pre-edit tree: 305 B in the
+transfer unit and 149 B in the destructor unit. The published census
+(`0393df10e2`, 2026-10-23 19:47) had 927 B in this cohort, so the net change
+against that older census is 149 B. These are legacy previews, not self-strict
+or closed-strict measurements. The unreferenced setNextBuildList diagnostic
+remains and does not block either unit.
+
+Acceptance: scoped `./build.sh` passes 1/1 transfer rows and 8/8 provider
+rows, including four EH funclet pins; `find_declared_unmatched.py --fail`
+passes for the edited unit; `git diff --check` passes. BFME 1 donor inputs
+remain at the verified `96c88c73a5cd` revision; this repair uses the existing
+BFME 2 provider rather than importing a donor change.
