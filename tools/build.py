@@ -3749,7 +3749,12 @@ def verify_dir32_consistency(rows):
     sym2base = defaultdict(set)
     static_symbols = {}
     object_paths = RowObjectPaths(require_row_object)
-    for row in rows:
+    # Retail order scatters siblings beyond _object_layout's bounded cache.
+    # Keep each TU/member together so its COFF is parsed once. Every row still
+    # contributes to the same tree-wide map, with the same final path recheck.
+    for row in sorted(rows, key=lambda row: (
+            row["source"], ledger_member(row)
+            if Path(row["source"]).suffix.lower() == LIB_SUFFIX else "")):
         obj = object_paths.get(row)
         trva, tsz = int(row["target_rva"], 16), int(row["target_size"])
         target = read_target_bytes(trva, tsz)
