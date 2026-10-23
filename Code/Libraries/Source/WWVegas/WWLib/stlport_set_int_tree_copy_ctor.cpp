@@ -38,6 +38,9 @@ namespace _STL { template <> _Rb_tree<int,int,_Identity<int>,less<int>,allocator
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> >::_M_erase(_Rb_tree_node<int> *); }
 
+// The rank-set provider owns the recursive integer-set copy.
+namespace _STL { template <> _Rb_tree_node<int> * _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> >::_M_copy(_Rb_tree_node<int> *, _Rb_tree_node<int> *); }
+
 typedef _STL::_Rb_tree<int, int, _STL::_Identity<int>, _STL::less<int>, _STL::allocator<int> > IntSetTree;
 
 template IntSetTree::_Rb_tree(const IntSetTree &);

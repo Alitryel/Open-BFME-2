@@ -16,17 +16,29 @@
 
 void __cdecl Rva00030830GameFree(void *);
 
-class VBase00C6EE28
-{
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+	Rva0030B72CPoint() {}
+	__forceinline Rva0030B72CPoint(const Rva0030B72CPoint &p):x(p.x),y(p.y) {}
+	float x,y;
+};
+
+class VBase00C6EE28 {
 public:
-	virtual void s0() = 0;
 	~VBase00C6EE28() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 class Rva00538133Root
 {
 public:
-	virtual void s1();
+	virtual ~Rva00538133Root();
 private:
 	unsigned char m_pad04[0x18 - 4];
 };
@@ -35,7 +47,6 @@ class Rva0053805DBase : public Rva00538133Root, public virtual VBase00C6EE28
 {
 public:
 	virtual ~Rva0053805DBase();
-	virtual void s0();
 private:
 	unsigned char m_pad1C[0x30 - 0x1C];
 };
@@ -44,7 +55,13 @@ class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
 	virtual ~Rva00330C50();
-	virtual void s0();
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
 private:
 	void *m_08;
 	unsigned char m_pad0C[0x38 - 0x0C];
@@ -74,7 +91,6 @@ class Rva0030CAA9Owner : public Rva0053805DBase, public Rva00330C50, public Rva0
 {
 public:
 	virtual ~Rva0030CAA9Owner();
-	virtual void s0();
 private:
 	unsigned char m_pad78[0x9C - 0x78];
 	AsciiString m_name9C;			// +0x9C

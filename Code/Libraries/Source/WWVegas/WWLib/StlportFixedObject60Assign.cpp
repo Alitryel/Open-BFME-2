@@ -57,4 +57,29 @@ struct BfmeFixedObject60 {
 };
 typedef char FixedObjectExtent[sizeof(BfmeFixedObject60) == 60 ? 1 : -1];
 
-template class _STL::vector<BfmeFixedObject60, _STL::allocator<BfmeFixedObject60> >;
+// Retail keeps these helpers out of line without exception cleanup.
+namespace _STL {
+template <> __declspec(noinline) inline
+BfmeFixedObject60 *__uninitialized_copy<const BfmeFixedObject60 *, BfmeFixedObject60 *>(
+    const BfmeFixedObject60 *first, const BfmeFixedObject60 *last,
+    BfmeFixedObject60 *result, const __false_type &)
+{
+    BfmeFixedObject60 *cur = result;
+    for (; first != last; ++first, ++cur)
+        _Construct(&*cur, *first);
+    return cur;
+}
+
+template <> template <> __declspec(noinline) inline
+BfmeFixedObject60 *vector<BfmeFixedObject60>::_M_allocate_and_copy<const BfmeFixedObject60 *>(
+    unsigned int n, const BfmeFixedObject60 *first, const BfmeFixedObject60 *last)
+{
+    BfmeFixedObject60 *result = this->_M_end_of_storage.allocate(n);
+    __uninitialized_copy(first, last, result, _IsPODType());
+    return result;
+}
+}
+
+template _STL::vector<BfmeFixedObject60> & _STL::vector<BfmeFixedObject60>::operator=(const _STL::vector<BfmeFixedObject60> &);
+template BfmeFixedObject60 * _STL::vector<BfmeFixedObject60>::erase(BfmeFixedObject60 *, BfmeFixedObject60 *);
+template _STL::vector<BfmeFixedObject60>::~vector();

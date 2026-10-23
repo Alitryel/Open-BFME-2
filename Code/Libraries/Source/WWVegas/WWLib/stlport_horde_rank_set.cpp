@@ -74,7 +74,21 @@ template <> RankTree::_Link_type RankTree::_M_create_node(const int &value)
     return node;
 }
 
+// The integer-set copy shares these node operations with rank insertion.
+// ?RankTree::_M_clone_node present-unmatched
+template <> __declspec(noinline) inline
+RankTree::_Link_type RankTree::_M_clone_node(_Link_type x)
+{
+    _Link_type node = _M_create_node(x->_M_value_field);
+    node->_M_color = x->_M_color;
+    node->_M_left = 0;
+    node->_M_right = 0;
+    return node;
+}
+
 #pragma optimize("y", off)
 template _STL::pair<RankTree::iterator, bool> RankTree::insert_unique(const int &);
 typedef _STL::set<int> RankSet;
 template _STL::pair<RankSet::iterator, bool> RankSet::insert(const int &);
+
+template RankTree::_Link_type RankTree::_M_copy(_Link_type, _Link_type);
