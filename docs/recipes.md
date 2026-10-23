@@ -389,6 +389,20 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   allocator leak-check shim added. The same call on a parameter
   (`((Phantom *)&__t)->~Phantom()` in a visible callee) marks an unused tag
   argument used, so the caller keeps its zero store and stack slot.
+- **A merged pointer IV whose delta recomputes `imul` although a register
+  or slot already holds the product: spell the product differently where
+  the bottom pointer is formed.** In UpdateUMVBorder 0x1B96A0 retail forms
+  the U/V row-copy delta as `mov eax,edx; imul eax,ebp; sub eax,esi; add
+  eax,ecx` (border*stride - src + dstBottom). With one `uvBorder * stride`
+  spelling, global CSE reuses the top pointer's product and the merge
+  becomes `sub ecx,edi`. Writing the bottom destination through the top
+  pointer, `memcpy(dstTop + (dstBottom - (src - ((unsigned)border / 2) *
+  stride)), ...)`, keeps the two products apart and reproduces the delta;
+  arithmetic identities (`+ 0`, `| 0`, negations, casts of `uvBorder`) are
+  CSE'd away. The same body's last residue was frame and loop-entry shape:
+  re-test an "it breaks the prologue" verdict (here the direct
+  `memset(dst, src[0], n)` read) after other regions change, since c2
+  colours the whole frame at once.
 
 ## c2 3077 levers traced on 2026-10-20
 
