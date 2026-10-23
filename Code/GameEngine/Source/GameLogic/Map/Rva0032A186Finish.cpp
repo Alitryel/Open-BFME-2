@@ -23,11 +23,11 @@ public:
 class Snapshot
 {
 public:
-	virtual void *deleteInstance(int flags);
+	virtual void *deleteInstance(int flags) = 0;
 	virtual ~Snapshot();
-	virtual void crc();
-	virtual void loadPostProcess();
-	virtual void xfer();
+	virtual void crc() = 0;
+	virtual void loadPostProcess() = 0;
+	virtual void xfer() = 0;
 };
 inline Snapshot::~Snapshot()
 {

@@ -66,7 +66,7 @@ private:
 };
 
 class PB_Iface1 { public: virtual void slot(); };
-class EvacuateDamageInterface { public: virtual void slot(); };
+class EvacuateDamageInterface { public: virtual void slot() = 0; };
 
 // The target's three-vptr base is only address-identified at 0x004B96CC.
 class Rva004B96CC : public PB_DeepBase,

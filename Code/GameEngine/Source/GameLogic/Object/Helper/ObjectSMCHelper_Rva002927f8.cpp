@@ -83,9 +83,9 @@ class ObjectSMCHelper : public ObjectHelper
 public:
 	ObjectSMCHelper(Thing *thing, const ModuleData *moduleData);
 	virtual ~ObjectSMCHelper();
-	virtual void moduleInterfaceAnchor();
-	virtual void behaviorModuleInterfaceAnchor();
-	virtual void updateModuleInterfaceAnchor();
+	virtual void moduleInterfaceAnchor() = 0;
+	virtual void behaviorModuleInterfaceAnchor() = 0;
+	virtual void updateModuleInterfaceAnchor() = 0;
 
 private:
 	_STL::list<Rva002571A0Elem> m_timers;

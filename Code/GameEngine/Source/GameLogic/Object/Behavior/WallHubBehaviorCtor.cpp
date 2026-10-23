@@ -110,12 +110,12 @@ class WallHubBehavior : public UpdateModule, public WallHubInterface
 public:
 	WallHubBehavior(Thing *thing, const ModuleData *moduleData);
 	virtual ~WallHubBehavior();
-	virtual void slot00();
-	virtual void slot01();
-	virtual void slot02();
-	virtual void slot03();
-	virtual void slot04();
-	virtual void slot05();
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual void slot03() = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
 private:
 	const WallHubBehaviorModuleData *getWallHubBehaviorModuleData() const { return (const WallHubBehaviorModuleData *)m_moduleData; }
 

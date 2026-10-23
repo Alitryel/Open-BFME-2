@@ -64,10 +64,10 @@ class Pathfinder : public PathfindServicesInterface, public Snapshot
 {
 public:
 	Pathfinder();
- virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4(); virtual void slot5(); virtual void slot6();
+ virtual void slot0() = 0; virtual void slot1() = 0; virtual void slot2() = 0; virtual void slot3() = 0; virtual void slot4() = 0; virtual void slot5() = 0; virtual void slot6() = 0;
 	virtual ~Pathfinder();
-	virtual void loadPostProcess();
-	virtual const char *GetSnapshotName() const;
+	virtual void loadPostProcess() = 0;
+	virtual const char *GetSnapshotName() const = 0;
 	virtual void xfer(Xfer *);
 	void rva002F462C();
 

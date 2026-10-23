@@ -65,9 +65,9 @@ private:
 class GettingBuiltBehaviorSecondary
 {
 public:
-	virtual void sec00();
-	virtual void sec04();
-	virtual void sec08();
+	virtual void sec00() = 0;
+	virtual void sec04() = 0;
+	virtual void sec08() = 0;
 };
 
 typedef unsigned int AudioHandle;

@@ -125,14 +125,14 @@ public:
 	void rva0039AD45();
 	float rva0039ADB9( float experience, int rank ) const;
 	virtual ~ExperienceTracker();
-	virtual void crc(Xfer *xfer);
+	virtual void crc(Xfer *xfer) = 0;
 	virtual void v2() = 0;
 	// ?isTrainable@ExperienceTracker@@QBE_NXZ, the rowed byte getter 0x0039ADAF
 	// (pinned), inlined by its callers here: the template's byte at +0x5E7.
 	__declspec(dllimport) __forceinline bool isTrainable() const { return *((const unsigned char *)m_04 + 0x5E7) != 0; }
 protected:
 	virtual void xfer(Xfer *xfer);
-	virtual void rvaSlot4( const Overridable *level, bool notify );	// slot 4 (+0x10)
+	virtual void rvaSlot4( const Overridable *level, bool notify ) = 0;	// slot 4 (+0x10)
 private:
 	const ThingTemplate *m_04;
 	AsciiString m_08;

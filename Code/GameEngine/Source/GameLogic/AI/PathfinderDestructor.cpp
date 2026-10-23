@@ -19,8 +19,8 @@ class PathfindServicesInterface {public: virtual void slot0()=0;virtual void slo
 class Pathfinder : public PathfindServicesInterface, public Snapshot {
 public: ~Pathfinder();
 private:
- virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4(); virtual void slot5(); virtual void slot6();
- virtual void loadPostProcess(); virtual const char *GetSnapshotName()const; virtual void xfer(Xfer*);
+ virtual void slot0() = 0; virtual void slot1() = 0; virtual void slot2() = 0; virtual void slot3() = 0; virtual void slot4() = 0; virtual void slot5() = 0; virtual void slot6() = 0;
+ virtual void loadPostProcess() = 0; virtual const char *GetSnapshotName()const = 0; virtual void xfer(Xfer*) = 0;
  char unknown08[0x60-8];
  PathfindLayer layers[16];
  PathfindZoneManager zones;

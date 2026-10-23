@@ -197,12 +197,12 @@ class Rva001F9D98 : public SubsystemInterface, public Snapshot
 public:
 	Rva001F9D98();
 	virtual ~Rva001F9D98();
-	virtual void init();
+	virtual void init() = 0;
 
 protected:
-	virtual void loadPostProcess();
-	virtual const char *GetSnapshotName() const;
-	virtual void xfer(Xfer *xfer);
+	virtual void loadPostProcess() = 0;
+	virtual const char *GetSnapshotName() const = 0;
+	virtual void xfer(Xfer *xfer) = 0;
 
 private:
 	int m_10[7];                        // +0x10

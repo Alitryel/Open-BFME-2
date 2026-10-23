@@ -78,25 +78,25 @@ protected:
 class SpawnBehaviorInterface
 {
 public:
-	virtual void spawnBehaviorAnchor();
+	virtual void spawnBehaviorAnchor() = 0;
 };
 
 class DieModuleInterface
 {
 public:
-	virtual void dieAnchor();
+	virtual void dieAnchor() = 0;
 };
 
 class DamageModuleInterface
 {
 public:
-	virtual void damageAnchor();
+	virtual void damageAnchor() = 0;
 };
 
 class SpawnExtraBase
 {
 public:
-	virtual void spawnExtraAnchor();
+	virtual void spawnExtraAnchor() = 0;
 };
 
 class UpgradeMux

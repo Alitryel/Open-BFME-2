@@ -66,8 +66,8 @@ public:
     DefaultDrawModuleInfo() {}
     virtual ~DefaultDrawModuleInfo();
     virtual const char *GetSnapshotName();
-    virtual void LoadPostProcess();
-    virtual void DoXfer(Xfer &xfer);
+    virtual void LoadPostProcess() = 0;
+    virtual void DoXfer(Xfer &xfer) = 0;
 };
 
 }
@@ -75,7 +75,7 @@ public:
 class T1A1_005DD290 {
 public:
     T1A1_005DD290(void *first, void *second);
-    virtual void primarySlot();
+    virtual void primarySlot() = 0;
     virtual ~T1A1_005DD290();
 
     unsigned int m_storage[4];
@@ -83,7 +83,7 @@ public:
 
 class ParticleModuleInterface005F2CA0 {
 public:
-    virtual void interfaceSlot();
+    virtual void interfaceSlot() = 0;
 };
 
 class ParticleModule005F2CA0
@@ -91,7 +91,7 @@ class ParticleModule005F2CA0
       public ParticleModuleInterface005F2CA0 {
 public:
     ParticleModule005F2CA0(void *first, void *second);
-    virtual void moduleSlot();
+    virtual void moduleSlot() = 0;
 };
 
 struct Rva001408C0Target;

@@ -22,13 +22,13 @@ private:
 class Rva00082EF5Base0
 {
 public:
-	virtual void v0();
+	virtual void v0() = 0;
 	int m_04;
 };
 class Rva00082EF5Base8
 {
 public:
-	virtual void v0();
+	virtual void v0() = 0;
 	unsigned char m_pad04[0x3c - 0x0c];
 };
 class Rva00082EF5 : public Rva00082EF5Base0, public Rva00082EF5Base8
@@ -42,7 +42,7 @@ class Gen_uwm_0007de9a
 {
 public:
 	Gen_uwm_0007de9a() {}
-	virtual void v0();
+	virtual void v0() = 0;
 	~Gen_uwm_0007de9a();			// 0x0007DE9A
 };
 
