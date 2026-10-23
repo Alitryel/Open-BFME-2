@@ -1,4 +1,5 @@
-// cl: /O1 /GX /arch:SSE2
+// cl: /O1 /GX /arch:SSE2 /Ireference/shims/fxparticle_link
+#include "ModuleTemplate.h"
 
 #include "../../../Libraries/Include/Lib/Region2D.h"
 
@@ -52,6 +53,7 @@ const UpgradeTemplate *UpgradeCenter::rva001DB0A8() const
 }
 
 class Xfer;
+class INI;
 
 namespace FXParticleSystem
 {
@@ -82,15 +84,6 @@ void ParticleSystemTemplate::setUV(const Region2D *region)
 // install it and the destructor restores it, with no member traffic at all.
 // That table is one slot, the deleting destructor: every other unit's view
 // emits it so, and a second pure slot here made all of them lose the COMDAT.
-class ModuleTemplate
-{
-public:
-    ModuleTemplate();
-    ModuleTemplate(const ModuleTemplate &that);
-
-    virtual ~ModuleTemplate();
-};
-
 inline ModuleTemplate::ModuleTemplate()
 {
 }
@@ -634,10 +627,10 @@ public:
 protected:
     CategoryModuleClass(bool isDefault, const char *key, const char *name);
 
-    // Protected and NOT virtual - retail spells it IAE - even though the class
-    // is polymorphic through v1. All it does is restore the vtable.
+    // The nonvirtual destructor restores the category factory table.
     ~CategoryModuleClass();
-    virtual void v1() = 0;
+    virtual ModuleTemplate *createTemplate() const = 0;
+    virtual ModuleTemplate *createTemplate(::INI *ini) const = 0;
 
     const char *m_key;
     const char *m_name;
@@ -767,7 +760,8 @@ protected:
     CategoryModuleClass(bool isDefault, const char *key, const char *name);
 
     ~CategoryModuleClass() {}
-    virtual void v1() = 0;
+    virtual ModuleTemplate *createTemplate() const = 0;
+    virtual ModuleTemplate *createTemplate(::INI *ini) const = 0;
 
     const char *m_key;
     const char *m_name;

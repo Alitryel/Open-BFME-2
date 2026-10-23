@@ -26,6 +26,9 @@ class CategoryModuleTemplateBase : public ModuleTemplate, public CategoryModuleI
 template <int Category>
 class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
 {
+public:
+	CategoryModuleTemplate(const CategoryModuleTemplate &that) throw();
+	virtual ~CategoryModuleTemplate();
 };
 
 struct GameClientRandomVariable
@@ -38,11 +41,7 @@ struct GameClientRandomVariable
 class DefaultPhysicsModuleInfo
 {
 public:
-	DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that)
-		: m_field0(that.m_field0), m_field1(that.m_field1), m_field2(that.m_field2),
-		  m_field3(that.m_field3), m_var1(that.m_var1)
-	{
-	}
+	DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that) throw();
 	virtual ~DefaultPhysicsModuleInfo();
 
 private:
@@ -58,6 +57,7 @@ class DefaultModuleTemplate : public CategoryModuleTemplate<Category>, public De
 {
 public:
 	DefaultModuleTemplate(const DefaultModuleTemplate &that);
+	virtual ~DefaultModuleTemplate();
 };
 
 template <int Category>

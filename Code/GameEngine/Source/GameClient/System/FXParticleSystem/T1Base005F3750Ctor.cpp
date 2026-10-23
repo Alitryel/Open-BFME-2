@@ -116,8 +116,8 @@ private:
     bool m_changed;
 };
 
-class ParticleSystemZA;
-extern ParticleSystemZA *bfmeNullSystemZA();
+class ParticleSystem;
+extern ParticleSystem *Make001FCBD7();
 extern void bfmeMergeReceiverKeys(int value);
 class Rva009EB960;
 extern Rva009EB960 *Rva0134FAA0;
@@ -138,10 +138,10 @@ T1Base_005F3750::T1Base_005F3750(
     , FXParticleSystem::DefaultDrawModuleInfo() {
     if (Rva0134FAA0 != 0) {
         AssetList assets;
-        ParticleSystemZA *systemObject =
-            *(ParticleSystemZA **)((unsigned char *)this + 4);
+        ParticleSystem *systemObject =
+            *(ParticleSystem **)((unsigned char *)this + 4);
         if (systemObject == 0)
-            systemObject = bfmeNullSystemZA();
+            systemObject = Make001FCBD7();
         assets << *(const AsciiString *)((unsigned char *)systemObject + 0x10);
         bfmeMergeReceiverKeys((int)&assets);
     }

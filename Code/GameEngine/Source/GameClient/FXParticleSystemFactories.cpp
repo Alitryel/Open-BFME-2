@@ -1,4 +1,5 @@
-// cl: /EHsc
+// cl: /EHsc /Ireference/shims/fxparticle_link
+#include "ModuleTemplate.h"
 #include <memory>
 
 // The module factories, split out of FXParticleSystemModules.cpp for one flag.
@@ -27,14 +28,8 @@ class INI;
 namespace FXParticleSystem
 {
 
-class ModuleTemplate
-{
-public:
-    // Keep the trivial bodies visible here: the rowed draw-template destructors
-    // inline both base vptr restores in retail instead of calling across TUs.
-    virtual ~ModuleTemplate() {}
-    virtual void v1() = 0;
-};
+// The draw-template destructors inline both base vptr restores in retail.
+inline ModuleTemplate::~ModuleTemplate() {}
 
 class SecondaryModuleBase
 {
@@ -369,6 +364,7 @@ public:
     {                                                                                              \
     public:                                                                                        \
         NAME();                                                                                    \
+        virtual ~NAME();                                                                           \
         NAME(const NAME &that);                                                                    \
                                                                                                    \
         NAME &operator=(const NAME &that);                                                         \
@@ -382,7 +378,15 @@ FX_MODULE_TEMPLATE(BoxEmissionVolumeModuleTemplate, BoxEmissionVolumeInfo)
 FX_MODULE_TEMPLATE(LineEmissionVolumeModuleTemplate, LineEmissionVolumeInfo)
 FX_MODULE_TEMPLATE(CylinderEmissionVolumeModuleTemplate, CylinderEmissionVolumeInfo)
 FX_MODULE_TEMPLATE(SphericalEmissionVelocityModuleTemplate, SphericalEmissionVelocityInfo)
-FX_MODULE_TEMPLATE(HemisphericalEmissionVelocityModuleTemplate, HemisphericalEmissionVelocityInfo)
+class HemisphericalEmissionVelocityModuleTemplate : public ModuleTemplate,
+    public SecondaryModuleBase, public HemisphericalEmissionVelocityInfo
+{
+public:
+    HemisphericalEmissionVelocityModuleTemplate();
+    HemisphericalEmissionVelocityModuleTemplate(const HemisphericalEmissionVelocityModuleTemplate &);
+    HemisphericalEmissionVelocityModuleTemplate &operator=(const HemisphericalEmissionVelocityModuleTemplate &);
+    void parse(INI *ini);
+};
 FX_MODULE_TEMPLATE(CylindricalEmissionVelocityModuleTemplate, CylindricalEmissionVelocityInfo)
 FX_MODULE_TEMPLATE(OutwardEmissionVelocityModuleTemplate, OutwardEmissionVelocityInfo)
 FX_MODULE_TEMPLATE(OrthoEmissionVelocityModuleTemplate, OrthoEmissionVelocityInfo)
@@ -433,7 +437,8 @@ protected:
     // its own decorated name. That is what makes every wrapper's destructor
     // public and non-virtual too - retail spells them QAE.
     ~CategoryModuleClass() {}
-    virtual void v1() = 0;
+    virtual ModuleTemplate *createTemplate() const = 0;
+    virtual ModuleTemplate *createTemplate(::INI *ini) const = 0;
 };
 
 template <int CATEGORY, const char *const &KEY, const char *const &NAME, class MODULE,
@@ -494,6 +499,44 @@ typename TAG::TemplateType *ConcreteModuleTemplate<TAG>::clone() const
     return new ConcreteModuleTemplate<TAG>(*this);
 }
 
+// These clones bind to the byte-exact wrapper definitions in the module unit.
+extern const char *const CYLINDRICAL_EMISSION_VELOCITY_MODULE_KEY;
+extern const char *const CYLINDRICAL_EMISSION_VELOCITY_MODULE_NAME;
+class CylindricalEmissionVelocityModule;
+template <> CylindricalEmissionVelocityModuleTemplate *ConcreteModuleTemplate<ModuleTag<4, CYLINDRICAL_EMISSION_VELOCITY_MODULE_KEY, CYLINDRICAL_EMISSION_VELOCITY_MODULE_NAME, CylindricalEmissionVelocityModule, CylindricalEmissionVelocityModuleTemplate, DefaultParticleModule<4> > >::clone() const;
+extern const char *const HEMISPHERICAL_EMISSION_VELOCITY_MODULE_KEY;
+extern const char *const HEMISPHERICAL_EMISSION_VELOCITY_MODULE_NAME;
+class HemisphericalEmissionVelocityModule;
+template <> HemisphericalEmissionVelocityModuleTemplate *ConcreteModuleTemplate<ModuleTag<4, HEMISPHERICAL_EMISSION_VELOCITY_MODULE_KEY, HEMISPHERICAL_EMISSION_VELOCITY_MODULE_NAME, HemisphericalEmissionVelocityModule, HemisphericalEmissionVelocityModuleTemplate, DefaultParticleModule<4> > >::clone() const;
+extern const char *const OUTWARD_EMISSION_VELOCITY_MODULE_KEY;
+extern const char *const OUTWARD_EMISSION_VELOCITY_MODULE_NAME;
+class OutwardEmissionVelocityModule;
+template <> OutwardEmissionVelocityModuleTemplate *ConcreteModuleTemplate<ModuleTag<4, OUTWARD_EMISSION_VELOCITY_MODULE_KEY, OUTWARD_EMISSION_VELOCITY_MODULE_NAME, OutwardEmissionVelocityModule, OutwardEmissionVelocityModuleTemplate, DefaultParticleModule<4> > >::clone() const;
+extern const char *const SPHERICAL_EMISSION_VELOCITY_MODULE_KEY;
+extern const char *const SPHERICAL_EMISSION_VELOCITY_MODULE_NAME;
+class SphericalEmissionVelocityModule;
+template <> SphericalEmissionVelocityModuleTemplate *ConcreteModuleTemplate<ModuleTag<4, SPHERICAL_EMISSION_VELOCITY_MODULE_KEY, SPHERICAL_EMISSION_VELOCITY_MODULE_NAME, SphericalEmissionVelocityModule, SphericalEmissionVelocityModuleTemplate, DefaultParticleModule<4> > >::clone() const;
+extern const char *const LIGHTNING_DRAW_MODULE_KEY;
+extern const char *const LIGHTNING_DRAW_MODULE_NAME;
+class LightningDrawModule;
+template <> LightningDrawModuleTemplate *ConcreteModuleTemplate<ModuleTag<6, LIGHTNING_DRAW_MODULE_KEY, LIGHTNING_DRAW_MODULE_NAME, LightningDrawModule, LightningDrawModuleTemplate, DefaultParticleModule<6> > >::clone() const;
+extern const char *const TERRAIN_FIRE_EMISSION_MODULE_KEY;
+extern const char *const TERRAIN_FIRE_EMISSION_MODULE_NAME;
+class TerrainFireEmissionModule;
+template <> TerrainFireEmissionModuleTemplate *ConcreteModuleTemplate<ModuleTag<5, TERRAIN_FIRE_EMISSION_MODULE_KEY, TERRAIN_FIRE_EMISSION_MODULE_NAME, TerrainFireEmissionModule, TerrainFireEmissionModuleTemplate, DefaultParticleModule<5> > >::clone() const;
+extern const char *const LIGHTNING_EMISSION_MODULE_KEY;
+extern const char *const LIGHTNING_EMISSION_MODULE_NAME;
+class LightningEmissionModule;
+template <> LightningEmissionModuleTemplate *ConcreteModuleTemplate<ModuleTag<5, LIGHTNING_EMISSION_MODULE_KEY, LIGHTNING_EMISSION_MODULE_NAME, LightningEmissionModule, LightningEmissionModuleTemplate, DefaultParticleModule<5> > >::clone() const;
+extern const char *const RENDEROBJECT_UPDATE_MODULE_KEY;
+extern const char *const RENDEROBJECT_UPDATE_MODULE_NAME;
+class RenderObjectUpdateModule;
+class RenderObjectParticleUpdateModule;
+template <> RenderObjectUpdateModuleTemplate *ConcreteModuleTemplate<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, RenderObjectParticleUpdateModule > >::clone() const;
+
+template <> ConcreteModuleTemplate<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, DefaultParticleModule<2> > >::ConcreteModuleTemplate(
+    const ConcreteModuleTemplate<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, DefaultParticleModule<2> > > &that);
+
 // The module class that builds them. createTemplate is one operator new for the
 // wrapper's size and a tail jump into its default constructor.
 template <class TAG>
@@ -502,7 +545,6 @@ class ConcreteModuleClass : public TAG::ClassBase
 public:
     virtual typename TAG::TemplateType *createTemplate() const;
     virtual typename TAG::TemplateType *createTemplate(INI *ini) const;
-    virtual void v1();
 
 private:
     // Private, and its only caller is the class's own single instance - which is
@@ -515,11 +557,6 @@ private:
 
 template <class TAG>
 ConcreteModuleClass<TAG> ConcreteModuleClass<TAG>::s_instance;
-
-template <class TAG>
-void ConcreteModuleClass<TAG>::v1()
-{
-}
 
 template <class TAG>
 ConcreteModuleClass<TAG>::ConcreteModuleClass()
@@ -651,11 +688,13 @@ typedef ConcreteModuleTemplate<OrthoEmissionVelocityModuleTag> OrthoEmissionVelo
 typedef ConcreteModuleClass<OrthoEmissionVelocityModuleTag>
     OrthoEmissionVelocityModuleClassConcrete;
 
+template <> OrthoEmissionVelocityModuleTemplate *OrthoEmissionVelocityModuleConcrete::clone() const;
+
 extern OrthoEmissionVelocityModuleConcrete g_orthoEmissionVelocityModuleConcrete;
 template class ConcreteModuleClass<OrthoEmissionVelocityModuleTag>;
 
 // The per-category default templates, each over the info its own category uses.
-#define FX_DEFAULT_TEMPLATE(CATEGORY, INFO)                                                            template <>                                                                                        class DefaultModuleTemplate<CATEGORY> : public ModuleTemplate, public SecondaryModuleBase,                                                 public INFO                                                {                                                                                                  public:                                                                                                DefaultModuleTemplate();                                                                           DefaultModuleTemplate(const DefaultModuleTemplate<CATEGORY> &that);                                                                                                                                   void parse(INI *ini);                                                                          };
+#define FX_DEFAULT_TEMPLATE(CATEGORY, INFO)                                                            template <>                                                                                        class DefaultModuleTemplate<CATEGORY> : public ModuleTemplate, public SecondaryModuleBase,                                                 public INFO                                                {                                                                                                  public:                                                                                                DefaultModuleTemplate();                                                                           DefaultModuleTemplate(const DefaultModuleTemplate<CATEGORY> &that); virtual ~DefaultModuleTemplate();                                                                                                                                   void parse(INI *ini);                                                                          };
 
 template <int CATEGORY>
 class DefaultModuleTemplate;
@@ -701,7 +740,7 @@ const char *const &DefaultModuleTag<CATEGORY>::s_key = DefaultModuleKey<CATEGORY
 template <int CATEGORY>
 const char *const &DefaultModuleTag<CATEGORY>::s_name = DefaultModuleName<CATEGORY>::VALUE;
 
-#define FX_DEFAULT_WRAPPER(CATEGORY)                                                                   typedef ConcreteModuleTemplate<DefaultModuleTag<CATEGORY> > DefaultConcrete##CATEGORY;                                                                                                                extern DefaultConcrete##CATEGORY g_defaultConcrete##CATEGORY;                                                                                                                                                              template class ConcreteModuleClass<DefaultModuleTag<CATEGORY> >;
+#define FX_DEFAULT_WRAPPER(CATEGORY)                                                                   typedef ConcreteModuleTemplate<DefaultModuleTag<CATEGORY> > DefaultConcrete##CATEGORY;                                                                                                                template <> DefaultModuleTemplate<CATEGORY> *DefaultConcrete##CATEGORY::clone() const; extern DefaultConcrete##CATEGORY g_defaultConcrete##CATEGORY;                                                                                                                                                              template class ConcreteModuleClass<DefaultModuleTag<CATEGORY> >;
 
 FX_DEFAULT_WRAPPER(0)
 FX_DEFAULT_WRAPPER(1)

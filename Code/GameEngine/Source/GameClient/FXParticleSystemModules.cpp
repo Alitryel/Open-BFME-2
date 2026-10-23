@@ -1,4 +1,5 @@
-// cl: /O1 /GX- /arch:SSE2
+// cl: /O1 /GX- /arch:SSE2 /Ireference/shims/fxparticle_link
+#include "ModuleTemplate.h"
 
 // The module wrappers, kept apart from the module templates themselves.
 //
@@ -12,15 +13,12 @@
 // wrapper's size - with its constructors and assignment declared and not
 // defined.
 
+class INI;
+
 namespace FXParticleSystem
 {
 
-class ModuleTemplate
-{
-public:
-    virtual ~ModuleTemplate();
-    virtual void v1() = 0;
-};
+
 
 class SecondaryModuleBase
 {
@@ -217,6 +215,7 @@ class CategoryModuleTemplate<7> : public ModuleTemplate, public SecondaryModuleB
 public:
     CategoryModuleTemplate();
     CategoryModuleTemplate(const CategoryModuleTemplate &that);
+    virtual ~CategoryModuleTemplate();
 };
 
 class DefaultPhysicsModuleInfo
@@ -459,7 +458,8 @@ protected:
     // its own decorated name. That is what makes every wrapper's destructor
     // public and non-virtual too - retail spells them QAE.
     ~CategoryModuleClass() {}
-    virtual void v1() = 0;
+    virtual ModuleTemplate *createTemplate() const = 0;
+    virtual ModuleTemplate *createTemplate(::INI *ini) const = 0;
 };
 
 template <int CATEGORY, const char *const &KEY, const char *const &NAME, class MODULE,
@@ -522,14 +522,12 @@ typename TAG::TemplateType *ConcreteModuleTemplate<TAG>::clone() const
 
 // The module class that builds them. createTemplate is one operator new for the
 // wrapper's size and a tail jump into its default constructor.
-class INI;
-
 template <class TAG>
 class ConcreteModuleClass : public TAG::ClassBase
 {
 public:
     virtual typename TAG::TemplateType *createTemplate() const;
-    virtual void v1();
+    virtual typename TAG::TemplateType *createTemplate(::INI *ini) const;
 
 private:
     // Private, and its only caller is the class's own single instance - which is
@@ -542,11 +540,6 @@ private:
 
 template <class TAG>
 ConcreteModuleClass<TAG> ConcreteModuleClass<TAG>::s_instance;
-
-template <class TAG>
-void ConcreteModuleClass<TAG>::v1()
-{
-}
 
 template <class TAG>
 ConcreteModuleClass<TAG>::ConcreteModuleClass()
