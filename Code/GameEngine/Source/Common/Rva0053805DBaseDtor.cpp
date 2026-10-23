@@ -30,10 +30,11 @@ struct Rva0030B72CPoint {
  float x,y;
 };
 
-class VBase00C6EE28
+// Native seven-slot polygon interface, as in Rva00330C50Ctor.cpp.
+class Rva00330C50Interface
 {
 public:
-	~VBase00C6EE28() {}
+	~Rva00330C50Interface() {}
 	virtual int slot0() const = 0;
 	virtual Rva0030B72CPoint slot1(int index) const = 0;
 	virtual int slot2() const = 0;
@@ -94,7 +95,7 @@ private:
 };
 
 class Rva0053805DBase : public Rva0007DF07, public Rva00330757Member,
-	public virtual VBase00C6EE28
+	public virtual Rva00330C50Interface
 {
 public:
 	virtual ~Rva0053805DBase();
