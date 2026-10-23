@@ -33,7 +33,7 @@
 // as retail does; left undeclared, cl falls back to scalar operator delete.
 void operator delete[](void *p);
 
-class Rva003A8BD7VecBase0
+class __declspec(novtable) Rva003A8BD7VecBase0
 {
 public:
 	virtual ~Rva003A8BD7VecBase0();
@@ -43,7 +43,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A8BD7VecBase8
+class __declspec(novtable) Rva003A8BD7VecBase8
 {
 public:
 	virtual ~Rva003A8BD7VecBase8();
@@ -57,7 +57,7 @@ public:
 	virtual ~Rva003A8BD7Vec();
 };
 
-class Rva003A8C5AVecBase0
+class __declspec(novtable) Rva003A8C5AVecBase0
 {
 public:
 	virtual ~Rva003A8C5AVecBase0();
@@ -67,7 +67,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A8C5AVecBase8
+class __declspec(novtable) Rva003A8C5AVecBase8
 {
 public:
 	virtual ~Rva003A8C5AVecBase8();
@@ -81,7 +81,7 @@ public:
 	virtual ~Rva003A8C5AVec();
 };
 
-class Rva003A8E25VecBase0
+class __declspec(novtable) Rva003A8E25VecBase0
 {
 public:
 	virtual ~Rva003A8E25VecBase0();
@@ -91,7 +91,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A8E25VecBase8
+class __declspec(novtable) Rva003A8E25VecBase8
 {
 public:
 	virtual ~Rva003A8E25VecBase8();
@@ -105,7 +105,7 @@ public:
 	virtual ~Rva003A8E25Vec();
 };
 
-class Rva003A9057VecBase0
+class __declspec(novtable) Rva003A9057VecBase0
 {
 public:
 	virtual ~Rva003A9057VecBase0();
@@ -115,7 +115,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A9057VecBase8
+class __declspec(novtable) Rva003A9057VecBase8
 {
 public:
 	virtual ~Rva003A9057VecBase8();
@@ -129,7 +129,7 @@ public:
 	virtual ~Rva003A9057Vec();
 };
 
-class Rva003A9152VecBase0
+class __declspec(novtable) Rva003A9152VecBase0
 {
 public:
 	virtual ~Rva003A9152VecBase0();
@@ -139,7 +139,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A9152VecBase8
+class __declspec(novtable) Rva003A9152VecBase8
 {
 public:
 	virtual ~Rva003A9152VecBase8();
@@ -153,7 +153,7 @@ public:
 	virtual ~Rva003A9152Vec();
 };
 
-class Rva003A91E3VecBase0
+class __declspec(novtable) Rva003A91E3VecBase0
 {
 public:
 	virtual ~Rva003A91E3VecBase0();
@@ -163,7 +163,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A91E3VecBase8
+class __declspec(novtable) Rva003A91E3VecBase8
 {
 public:
 	virtual ~Rva003A91E3VecBase8();
@@ -177,15 +177,19 @@ public:
 	virtual ~Rva003A91E3Vec();
 };
 
-class Rva003A9F8A
+namespace FXParticleSystem
+{
+class LifeEventModuleInfo
 {
 public:
-	virtual ~Rva003A9F8A();
+	LifeEventModuleInfo();
+	virtual ~LifeEventModuleInfo();
 private:
 	char m_unmodelled_04[0x18 - 0x04];
 };
+}
 
-class Rva003AA0C0Base0
+class __declspec(novtable) Rva003AA0C0Base0
 {
 public:
 	virtual ~Rva003AA0C0Base0();
@@ -195,7 +199,7 @@ private:
 
 // Secondary base at +0xC, proven by the this-adjusting thunk (sub ecx,
 // 0xC) to this class's vector deleting destructor in its vtable.
-class Rva003AA0C0BaseC
+class __declspec(novtable) Rva003AA0C0BaseC
 {
 public:
 	virtual ~Rva003AA0C0BaseC();
@@ -209,15 +213,19 @@ public:
 	virtual ~Rva003AA0C0();
 };
 
-class Rva003A9A8B
+namespace FXParticleSystem
+{
+class RenderObjectDrawModuleInfo
 {
 public:
-	virtual ~Rva003A9A8B();
+	RenderObjectDrawModuleInfo();
+	virtual ~RenderObjectDrawModuleInfo();
 private:
 	char m_unmodelled_04[0x40 - 0x04];
 };
+}
 
-class Rva003A9C39Base0
+class __declspec(novtable) Rva003A9C39Base0
 {
 public:
 	virtual ~Rva003A9C39Base0();
@@ -227,7 +235,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A9C39Base8
+class __declspec(novtable) Rva003A9C39Base8
 {
 public:
 	virtual ~Rva003A9C39Base8();
@@ -241,15 +249,19 @@ public:
 	virtual ~Rva003A9C39();
 };
 
-class Rva003A9D43
+namespace FXParticleSystem
+{
+class GpuDrawModuleInfo
 {
 public:
-	virtual ~Rva003A9D43();
+	GpuDrawModuleInfo();
+	virtual ~GpuDrawModuleInfo();
 private:
 	char m_unmodelled_04[0x14 - 0x04];
 };
+}
 
-class Rva003A9E80Base0
+class __declspec(novtable) Rva003A9E80Base0
 {
 public:
 	virtual ~Rva003A9E80Base0();
@@ -259,7 +271,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A9E80Base8
+class __declspec(novtable) Rva003A9E80Base8
 {
 public:
 	virtual ~Rva003A9E80Base8();
@@ -273,15 +285,19 @@ public:
 	virtual ~Rva003A9E80();
 };
 
-class Rva003AA02DVec
+namespace FXParticleSystem
+{
+class TerrainCollisionModuleInfo
 {
 public:
-	virtual ~Rva003AA02DVec();
+	TerrainCollisionModuleInfo();
+	virtual ~TerrainCollisionModuleInfo();
 private:
 	char m_unmodelled_04[0x1C - 0x04];
 };
+}
 
-class Rva003AA17FVecBase0
+class __declspec(novtable) Rva003AA17FVecBase0
 {
 public:
 	virtual ~Rva003AA17FVecBase0();
@@ -291,7 +307,7 @@ private:
 
 // Secondary base at +0xC, proven by the this-adjusting thunk (sub ecx,
 // 0xC) to this class's vector deleting destructor in its vtable.
-class Rva003AA17FVecBaseC
+class __declspec(novtable) Rva003AA17FVecBaseC
 {
 public:
 	virtual ~Rva003AA17FVecBaseC();
@@ -313,7 +329,7 @@ private:
 	char m_unmodelled_04[0x48 - 0x04];
 };
 
-class Rva003AA76FBase0
+class __declspec(novtable) Rva003AA76FBase0
 {
 public:
 	virtual ~Rva003AA76FBase0();
@@ -323,7 +339,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003AA76FBase8
+class __declspec(novtable) Rva003AA76FBase8
 {
 public:
 	virtual ~Rva003AA76FBase8();
@@ -346,13 +362,13 @@ void bfmeVectorDeleteAnchorV04()
 	new Rva003A9057Vec[2];
 	new Rva003A9152Vec[2];
 	new Rva003A91E3Vec[2];
-	new Rva003A9F8A[2];
+	new FXParticleSystem::LifeEventModuleInfo[2];
 	new Rva003AA0C0[2];
-	new Rva003A9A8B[2];
+	new FXParticleSystem::RenderObjectDrawModuleInfo[2];
 	new Rva003A9C39[2];
-	new Rva003A9D43[2];
+	new FXParticleSystem::GpuDrawModuleInfo[2];
 	new Rva003A9E80[2];
-	new Rva003AA02DVec[2];
+	new FXParticleSystem::TerrainCollisionModuleInfo[2];
 	new Rva003AA17FVec[2];
 	new Rva003AA6BD[2];
 	new Rva003AA76F[2];

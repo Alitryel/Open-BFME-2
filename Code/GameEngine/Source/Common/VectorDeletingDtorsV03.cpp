@@ -33,7 +33,7 @@
 // as retail does; left undeclared, cl falls back to scalar operator delete.
 void operator delete[](void *p);
 
-class Rva003A64F0VecBase0
+class __declspec(novtable) Rva003A64F0VecBase0
 {
 public:
 	virtual ~Rva003A64F0VecBase0();
@@ -43,7 +43,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A64F0VecBase8
+class __declspec(novtable) Rva003A64F0VecBase8
 {
 public:
 	virtual ~Rva003A64F0VecBase8();
@@ -57,15 +57,19 @@ public:
 	virtual ~Rva003A64F0Vec();
 };
 
-class Rva003A66B2Vec
+namespace FXParticleSystem
+{
+class BoxEmissionVolumeInfo
 {
 public:
-	virtual ~Rva003A66B2Vec();
+	BoxEmissionVolumeInfo();
+	virtual ~BoxEmissionVolumeInfo();
 private:
 	char m_unmodelled_04[0x14 - 0x04];
 };
+}
 
-class Rva003A679DVecBase0
+class __declspec(novtable) Rva003A679DVecBase0
 {
 public:
 	virtual ~Rva003A679DVecBase0();
@@ -75,7 +79,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A679DVecBase8
+class __declspec(novtable) Rva003A679DVecBase8
 {
 public:
 	virtual ~Rva003A679DVecBase8();
@@ -89,15 +93,19 @@ public:
 	virtual ~Rva003A679DVec();
 };
 
-class Rva003A6833Vec
+namespace FXParticleSystem
+{
+class SphereEmissionVolumeInfo
 {
 public:
-	virtual ~Rva003A6833Vec();
+	SphereEmissionVolumeInfo();
+	virtual ~SphereEmissionVolumeInfo();
 private:
 	char m_unmodelled_04[0xC - 0x04];
 };
+}
 
-class Rva003A690DVecBase0
+class __declspec(novtable) Rva003A690DVecBase0
 {
 public:
 	virtual ~Rva003A690DVecBase0();
@@ -107,7 +115,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A690DVecBase8
+class __declspec(novtable) Rva003A690DVecBase8
 {
 public:
 	virtual ~Rva003A690DVecBase8();
@@ -129,15 +137,19 @@ private:
 	char m_unmodelled_04[0x20 - 0x04];
 };
 
-class Rva003A70D1Vec
+namespace FXParticleSystem
+{
+class OrthoEmissionVelocityInfo
 {
 public:
-	virtual ~Rva003A70D1Vec();
+	OrthoEmissionVelocityInfo();
+	virtual ~OrthoEmissionVelocityInfo();
 private:
 	char m_unmodelled_04[0x28 - 0x04];
 };
+}
 
-class Rva003A71D4VecBase0
+class __declspec(novtable) Rva003A71D4VecBase0
 {
 public:
 	virtual ~Rva003A71D4VecBase0();
@@ -147,7 +159,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A71D4VecBase8
+class __declspec(novtable) Rva003A71D4VecBase8
 {
 public:
 	virtual ~Rva003A71D4VecBase8();
@@ -161,15 +173,19 @@ public:
 	virtual ~Rva003A71D4Vec();
 };
 
-class Rva003A72ACVec
+namespace FXParticleSystem
+{
+class SphericalEmissionVelocityInfo
 {
 public:
-	virtual ~Rva003A72ACVec();
+	SphericalEmissionVelocityInfo();
+	virtual ~SphericalEmissionVelocityInfo();
 private:
 	char m_unmodelled_04[0x10 - 0x04];
 };
+}
 
-class Rva003A73ADVecBase0
+class __declspec(novtable) Rva003A73ADVecBase0
 {
 public:
 	virtual ~Rva003A73ADVecBase0();
@@ -179,7 +195,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A73ADVecBase8
+class __declspec(novtable) Rva003A73ADVecBase8
 {
 public:
 	virtual ~Rva003A73ADVecBase8();
@@ -193,13 +209,17 @@ public:
 	virtual ~Rva003A73ADVec();
 };
 
-class Rva003A7532Vec
+namespace FXParticleSystem
+{
+class CylindricalEmissionVelocityInfo
 {
 public:
-	virtual ~Rva003A7532Vec();
+	CylindricalEmissionVelocityInfo();
+	virtual ~CylindricalEmissionVelocityInfo();
 private:
 	char m_unmodelled_04[0x1C - 0x04];
 };
+}
 
 class Rva003A77A7Vec
 {
@@ -209,7 +229,7 @@ private:
 	char m_unmodelled_04[0x24 - 0x04];
 };
 
-class Rva003A7853VecBase0
+class __declspec(novtable) Rva003A7853VecBase0
 {
 public:
 	virtual ~Rva003A7853VecBase0();
@@ -219,7 +239,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A7853VecBase8
+class __declspec(novtable) Rva003A7853VecBase8
 {
 public:
 	virtual ~Rva003A7853VecBase8();
@@ -233,15 +253,19 @@ public:
 	virtual ~Rva003A7853Vec();
 };
 
-class Rva003A795AVec
+namespace FXParticleSystem
+{
+class DefaultUpdateModuleInfo
 {
 public:
-	virtual ~Rva003A795AVec();
+	DefaultUpdateModuleInfo();
+	virtual ~DefaultUpdateModuleInfo();
 private:
 	char m_unmodelled_04[0x68 - 0x04];
 };
+}
 
-class Rva003A7A06VecBase0
+class __declspec(novtable) Rva003A7A06VecBase0
 {
 public:
 	virtual ~Rva003A7A06VecBase0();
@@ -251,7 +275,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A7A06VecBase8
+class __declspec(novtable) Rva003A7A06VecBase8
 {
 public:
 	virtual ~Rva003A7A06VecBase8();
@@ -265,7 +289,7 @@ public:
 	virtual ~Rva003A7A06Vec();
 };
 
-class Rva003A7B9FVecBase0
+class __declspec(novtable) Rva003A7B9FVecBase0
 {
 public:
 	virtual ~Rva003A7B9FVecBase0();
@@ -275,7 +299,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A7B9FVecBase8
+class __declspec(novtable) Rva003A7B9FVecBase8
 {
 public:
 	virtual ~Rva003A7B9FVecBase8();
@@ -291,19 +315,19 @@ public:
 void bfmeVectorDeleteAnchorV03()
 {
 	new Rva003A64F0Vec[2];
-	new Rva003A66B2Vec[2];
+	new FXParticleSystem::BoxEmissionVolumeInfo[2];
 	new Rva003A679DVec[2];
-	new Rva003A6833Vec[2];
+	new FXParticleSystem::SphereEmissionVolumeInfo[2];
 	new Rva003A690DVec[2];
 	new Rva003A69B4Vec[2];
-	new Rva003A70D1Vec[2];
+	new FXParticleSystem::OrthoEmissionVelocityInfo[2];
 	new Rva003A71D4Vec[2];
-	new Rva003A72ACVec[2];
+	new FXParticleSystem::SphericalEmissionVelocityInfo[2];
 	new Rva003A73ADVec[2];
-	new Rva003A7532Vec[2];
+	new FXParticleSystem::CylindricalEmissionVelocityInfo[2];
 	new Rva003A77A7Vec[2];
 	new Rva003A7853Vec[2];
-	new Rva003A795AVec[2];
+	new FXParticleSystem::DefaultUpdateModuleInfo[2];
 	new Rva003A7A06Vec[2];
 	new Rva003A7B9FVec[2];
 }

@@ -30,15 +30,24 @@
 // as retail does; left undeclared, cl falls back to scalar operator delete.
 void operator delete[](void *p);
 
-class Rva003A6E82Vec
+namespace FXParticleSystem
+{
+template <int CATEGORY> class CategoryModuleTemplate;
+}
+
+namespace FXParticleSystem
+{
+class TerrainFireEmissionInfo
 {
 public:
-	virtual ~Rva003A6E82Vec();
+	TerrainFireEmissionInfo();
+	virtual ~TerrainFireEmissionInfo();
 private:
 	char m_unmodelled_04[0x30 - 0x04];
 };
+}
 
-class Rva003A6F85VecBase0
+class __declspec(novtable) Rva003A6F85VecBase0
 {
 public:
 	virtual ~Rva003A6F85VecBase0();
@@ -48,7 +57,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A6F85VecBase8
+class __declspec(novtable) Rva003A6F85VecBase8
 {
 public:
 	virtual ~Rva003A6F85VecBase8();
@@ -62,7 +71,7 @@ public:
 	virtual ~Rva003A6F85Vec();
 };
 
-class Rva003A7614VecBase0
+class __declspec(novtable) Rva003A7614VecBase0
 {
 public:
 	virtual ~Rva003A7614VecBase0();
@@ -72,7 +81,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A7614VecBase8
+class __declspec(novtable) Rva003A7614VecBase8
 {
 public:
 	virtual ~Rva003A7614VecBase8();
@@ -86,7 +95,7 @@ public:
 	virtual ~Rva003A7614Vec();
 };
 
-class Rva003A8681VecBase0
+class __declspec(novtable) Rva003A8681VecBase0
 {
 public:
 	virtual ~Rva003A8681VecBase0();
@@ -96,7 +105,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A8681VecBase8
+class __declspec(novtable) Rva003A8681VecBase8
 {
 public:
 	virtual ~Rva003A8681VecBase8();
@@ -110,7 +119,7 @@ public:
 	virtual ~Rva003A8681Vec();
 };
 
-class Rva003A8FACVecBase0
+class __declspec(novtable) Rva003A8FACVecBase0
 {
 public:
 	virtual ~Rva003A8FACVecBase0();
@@ -120,7 +129,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A8FACVecBase8
+class __declspec(novtable) Rva003A8FACVecBase8
 {
 public:
 	virtual ~Rva003A8FACVecBase8();
@@ -134,7 +143,7 @@ public:
 	virtual ~Rva003A8FACVec();
 };
 
-class Rva003A9286VecBase0
+class __declspec(novtable) Rva003A9286VecBase0
 {
 public:
 	virtual ~Rva003A9286VecBase0();
@@ -144,7 +153,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A9286VecBase8
+class __declspec(novtable) Rva003A9286VecBase8
 {
 public:
 	virtual ~Rva003A9286VecBase8();
@@ -158,7 +167,7 @@ public:
 	virtual ~Rva003A9286Vec();
 };
 
-class Rva003A93D4VecBase0
+class __declspec(novtable) Rva003A93D4VecBase0
 {
 public:
 	virtual ~Rva003A93D4VecBase0();
@@ -168,7 +177,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A93D4VecBase8
+class __declspec(novtable) Rva003A93D4VecBase8
 {
 public:
 	virtual ~Rva003A93D4VecBase8();
@@ -190,13 +199,18 @@ private:
 	char m_unmodelled_04[0x8 - 0x04];
 };
 
-class Rva00001F64Vec
+namespace FXParticleSystem
+{
+template <>
+class CategoryModuleTemplate<8>
 {
 public:
-	virtual ~Rva00001F64Vec();
+	CategoryModuleTemplate();
+	virtual ~CategoryModuleTemplate();
 private:
 	char m_unmodelled_04[0xC - 0x04];
 };
+}
 
 class Rva001F3574Vec
 {
@@ -206,15 +220,19 @@ private:
 	char m_unmodelled_04[0x8 - 0x04];
 };
 
-class Rva001F36C3Vec
+namespace FXParticleSystem
+{
+class WindModuleInfo
 {
 public:
-	virtual ~Rva001F36C3Vec();
+	WindModuleInfo();
+	virtual ~WindModuleInfo();
 private:
 	char m_unmodelled_04[0x48 - 0x04];
 };
+}
 
-class Rva001F4540VecBase0
+class __declspec(novtable) Rva001F4540VecBase0
 {
 public:
 	virtual ~Rva001F4540VecBase0();
@@ -224,7 +242,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva001F4540VecBase8
+class __declspec(novtable) Rva001F4540VecBase8
 {
 public:
 	virtual ~Rva001F4540VecBase8();
@@ -238,10 +256,11 @@ public:
 	virtual ~Rva001F4540Vec();
 };
 
-class Rva002A983D
+class Rva002B2508
 {
 public:
-	virtual ~Rva002A983D();
+	Rva002B2508();
+	virtual ~Rva002B2508();
 private:
 	char m_unmodelled_04[0x2C - 0x04];
 };
@@ -249,7 +268,7 @@ private:
 // ?<bfmeVectorDeleteAnchorV02> absent-from-retail
 void bfmeVectorDeleteAnchorV02()
 {
-	new Rva003A6E82Vec[2];
+	new FXParticleSystem::TerrainFireEmissionInfo[2];
 	new Rva003A6F85Vec[2];
 	new Rva003A7614Vec[2];
 	new Rva003A8681Vec[2];
@@ -257,9 +276,9 @@ void bfmeVectorDeleteAnchorV02()
 	new Rva003A9286Vec[2];
 	new Rva003A93D4Vec[2];
 	new Rva00001F18[2];
-	new Rva00001F64Vec[2];
+	new FXParticleSystem::CategoryModuleTemplate<8>[2];
 	new Rva001F3574Vec[2];
-	new Rva001F36C3Vec[2];
+	new FXParticleSystem::WindModuleInfo[2];
 	new Rva001F4540Vec[2];
-	new Rva002A983D[2];
+	new Rva002B2508[2];
 }
