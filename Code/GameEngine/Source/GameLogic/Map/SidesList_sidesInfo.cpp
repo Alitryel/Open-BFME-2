@@ -468,10 +468,7 @@ void SidesList::DoXfer(Xfer *xfer)
 	xfer->xferBool(&m_cleared);
 }
 
-// ?SidesList::LoadPostProcess present-unmatched
-void SidesList::LoadPostProcess()
-{
-}
+// SidesList::LoadPostProcess is the matched empty body in SidesListCtor.cpp.
 
 void SidesList::emptySides()
 {
