@@ -12,7 +12,8 @@
 //   _Construct  _M_new_node  pair copy   mapped view
 //   0x002E00CC  0x002E0273   0x002DFD82  BfmePod72
 //   0x00418985  0x004189ED   0x0041890F  BfmePod32
-//   0x004192A4  0x0041930C   0x0041922E  BfmePod20
+// The 0x004192A4 BfmePod20 placement view is isolated in
+// StlportPairConstructPod20.cpp pending its string-aware callee reconciliation.
 // The native 41985E/4198C6 family now uses the typed string-key record
 // in Rva004197E8Pair.cpp; its former integer-key view was retired.
 //
@@ -25,18 +26,11 @@
 
 struct BfmePod72 { int a[18]; BfmePod72(const BfmePod72 &); };
 struct BfmePod32 { int a[8]; BfmePod32(const BfmePod32 &); };
-struct BfmePod20 { int a[5]; BfmePod20(const BfmePod20 &); };
 
 typedef _STL::pair<const int, BfmePod72> IntPod72Pair;
 typedef _STL::pair<const int, BfmePod32> IntPod32Pair;
-typedef _STL::pair<const int, BfmePod20> IntPod20Pair;
-
-// This payload's native pair copy has its own string-aware provider.
-// Do not emit the generic BfmePod20 copy from this placement-only view.
-template <> _STL::pair<const int, BfmePod20>::pair(const _STL::pair<const int, BfmePod20> &);
 
 template void _STL::_Construct<IntPod72Pair, IntPod72Pair>(IntPod72Pair *, const IntPod72Pair &);
-template void _STL::_Construct<IntPod20Pair, IntPod20Pair>(IntPod20Pair *, const IntPod20Pair &);
 template _STL::pair<const int, BfmePod72>::pair(const int &, const BfmePod72 &);
 
 // LivingWorld AI's non-const-key temporaries convert to tree value_type.
@@ -64,7 +58,3 @@ struct Rva00501E3FElement
 template _STL::pair<const int, Rva00501656>::pair(const _STL::pair<int, Rva00501656> &);
 template _STL::pair<const int, Rva00501776>::pair(const _STL::pair<int, Rva00501776> &);
 template _STL::pair<const int, Rva00501E3FElement>::pair(const _STL::pair<int, Rva00501E3FElement> &);
-
-// Native 0x0078671B: complete 14-byte placement-new failure cleanup.
-// The exact 45-byte parent and native EH graph bind this action to the
-// existing no-op placement delete; the original record identity stays unknown.
