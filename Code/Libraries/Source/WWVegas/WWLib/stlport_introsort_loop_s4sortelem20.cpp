@@ -76,15 +76,10 @@ struct S4Cmp002EB8E0
 namespace _STL
 {
 
-// Bind the retail 0x002EB330 partial-sort
-// owner instead of emitting another helper family in this TU.
-template <>
-void __partial_sort<S4SortElem20 *, S4SortElem20, S4Cmp002EB8E0>(
-	S4SortElem20 *, S4SortElem20 *, S4SortElem20 *,
-	S4SortElem20 *, S4Cmp002EB8E0);
-
-template void __introsort_loop<S4SortElem20 *, S4SortElem20, int,
-	S4Cmp002EB8E0>(S4SortElem20 *, S4SortElem20 *, S4SortElem20 *, int,
+// Partition emits the rowed swap, iterator swap and comparator without
+// instantiating the unused introsort and partial-sort helper chain.
+template S4SortElem20 *__unguarded_partition<S4SortElem20 *, S4SortElem20,
+	S4Cmp002EB8E0>(S4SortElem20 *, S4SortElem20 *, S4SortElem20,
 	S4Cmp002EB8E0);
 
 }

@@ -11,16 +11,7 @@ typedef int Int;
 
 struct FieldParse;
 
-class INIException
-{
-public:
-	INIException( Int code, const char *msg, ... );
-	INIException( const INIException &other );
-
-private:
-	char *mFailureMessage;
-	Int m_argCount;
-};
+#include "../../../../../reference/shims/iniexception/Common/INIException.h"
 
 class INI
 {

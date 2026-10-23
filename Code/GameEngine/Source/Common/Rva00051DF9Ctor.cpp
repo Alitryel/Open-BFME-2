@@ -60,22 +60,7 @@ Rva005813E::Rva005813E() : Rva0051D93(OpaqueRefElement4(), 0)
 {
 }
 
-// ?<MyAudioPrefix88::MyAudioPrefix88> absent-from-retail
-MyAudioPrefix88::MyAudioPrefix88(EmitVtableTag *)
-{
-}
-
 // ?<Rva00051E4D::Rva00051E4D> absent-from-retail
 Rva00051E4D::Rva00051E4D(EmitVtableTag *) : m_count(0)
-{
-}
-
-// ?<Rva0051D93::Rva0051D93> absent-from-retail
-Rva0051D93::Rva0051D93(EmitVtableTag *) : MyAudioPrefix88((EmitVtableTag *)0), Rva00051E4D((EmitVtableTag *)0)
-{
-}
-
-// ?<Rva005813E::Rva005813E> absent-from-retail
-Rva005813E::Rva005813E(EmitVtableTag *) : Rva0051D93((EmitVtableTag *)0)
 {
 }
