@@ -27,3 +27,18 @@ Related sweep: SlowDeathBehaviorModuleDataCtor and CallHelpOnDamageModuleDataDto
 already use the shared interface on this checkout. CreateCrateDieModuleDataDtor
 already links 89 B and needs no change. Their stale census entries are not new
 improvements. GettingBuiltBehavior was repaired upstream previously.
+
+Recovery reconciliation (2026-10-23): upstream 4bfe15ba2f already landed
+this module-data repair. Retain its include search roots and destructor
+implementation; do not count its 140 B again. The saved overlapping commit
+995479f874 additionally opted this manually configured STLport unit into the
+supported dependency inventory with `// stlport`; retain that marker.
+Its paired constructor/destructor legacy preview was 99 -> 239 B, with
+6/6 rows and EH EXACT 1/1. Strict reusable byte preparation passed for that
+saved variant; recovery must recheck the reconciled source before claiming
+that receipt. No closed-strict gain is claimed.
+
+The preceding Armor commit's hook also reported shadow code-identity
+findings on lookup/erase callee bindings and an unrowed delete-node copy.
+Its +153 B figure remains a legacy scoped prediction, without independently
+proven closed-strict linkage.
