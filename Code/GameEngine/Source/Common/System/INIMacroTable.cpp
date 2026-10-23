@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -37,9 +37,10 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 }
 
 #include <cstddef>
+// Keep the empty allocator and default vector constructors visible: together
+// with the provider's STL exception setting this preserves the 64-byte retail
+// hashtable constructor, which calls the storage base at 0x00025100.
 // bfme link decl-only begin
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
 namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
@@ -51,7 +52,6 @@ namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, v
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
-namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
 // Declaration-only: the macro table's destructor binds the rowed hashtable destructor
