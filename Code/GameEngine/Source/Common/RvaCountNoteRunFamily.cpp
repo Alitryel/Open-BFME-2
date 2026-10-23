@@ -15,7 +15,7 @@
 // One ledger row per member.
 
 #pragma comment(linker, "/alternatename:??1Rva0052B7B3Dtor@@QAE@XZ=?j_0052b7b3@@YAXXZ")
-#pragma comment(linker, "/alternatename:?note@Rva00056BFESub@@QAEXH@Z=?resize@?$hashtable@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@U?$hash@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@U?$_Select1st@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@@2@U?$equal_to@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@@2@@_STL@@QAEXI@Z")
+#pragma comment(linker, "/alternatename:?note@Rva00056BFESub@@QAEXH@Z=?resize@?$hashtable@PAURva00051107AudioRequest@@PAU1@URva00051B89Hash@@U?$_Identity@PAURva00051107AudioRequest@@@_STL@@URva00050E1CEqualTo@@V?$allocator@PAURva00051107AudioRequest@@@4@@_STL@@QAEXI@Z")
 #pragma comment(linker, "/alternatename:?note@Rva000E0322Sub@@QAEXH@Z=?rva000E0322@Rva000E0322@@QAEXI@Z")
 #pragma comment(linker, "/alternatename:?note@Rva00212858Sub@@QAEXH@Z=?rva00212858@Rva000427195@@QAEXI@Z")
 #pragma comment(linker, "/alternatename:?note@Rva0053F1ECSub@@QAEXH@Z=?resize@?$hashtable@U?$pair@$$CBH_N@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBH_N@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBH_N@_STL@@@2@@_STL@@QAEXI@Z")
@@ -419,7 +419,7 @@ int Rva003EF3F7Owner::fwd(int a, int b)
 // bound to the row that owns the pinned retail address (same address, same
 // body); the pin keeps the name, the row supplies the definition.
 #pragma comment(linker, "/alternatename:??1Rva0052B7B3Dtor@@QAE@XZ=?j_0052b7b3@@YAXXZ")
-#pragma comment(linker, "/alternatename:?note@Rva00056BFESub@@QAEXH@Z=?resize@?$hashtable@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@U?$hash@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@U?$_Select1st@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@@2@U?$equal_to@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@URva00056BFEElement@@@_STL@@@2@@_STL@@QAEXI@Z")
+#pragma comment(linker, "/alternatename:?note@Rva00056BFESub@@QAEXH@Z=?resize@?$hashtable@PAURva00051107AudioRequest@@PAU1@URva00051B89Hash@@U?$_Identity@PAURva00051107AudioRequest@@@_STL@@URva00050E1CEqualTo@@V?$allocator@PAURva00051107AudioRequest@@@4@@_STL@@QAEXI@Z")
 #pragma comment(linker, "/alternatename:?note@Rva000E0322Sub@@QAEXH@Z=?rva000E0322@Rva000E0322@@QAEXI@Z")
 #pragma comment(linker, "/alternatename:?note@Rva00212858Sub@@QAEXH@Z=?rva00212858@Rva000427195@@QAEXI@Z")
 #pragma comment(linker, "/alternatename:?note@Rva0053F1ECSub@@QAEXH@Z=?resize@?$hashtable@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@W4NameKeyType@@U?$hash@W4NameKeyType@@@rts@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@U?$equal_to@W4NameKeyType@@@5@V?$allocator@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@@_STL@@QAEXI@Z")

@@ -1,5 +1,9 @@
-// STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
-// Element identity and unconstrained fields remain address-derived structural inference.
+// STLport4.5.3 hashtable::resize of MilesAudioManager's request set (hash_set at +0x9C).
+// Target evidence: the only caller, 0x00057B27, is that set's insert_unique (it calls
+// this body, then insert_unique_noresize at 0x00054BC3), and the bucket helper this body
+// calls, 0x00051B89, hashes the key as a pointer (null -> 0, else the dword at +8).
+// The row was formerly named as a hash_map<string, element> resize, whose bucket helper
+// would call the string hash. Key, hash and equality names are address-derived.
 // cl: /O1 /G7 /Oy- /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 #define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
@@ -23,10 +27,27 @@ namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *
 namespace _STL {
 template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
 }
-#include <hash_map>
-#include <string>
-#include <utility>
-// Bind to the kept retail copy instead of emitting this unit's own.
+#include <hash_set>
+
+// Layout view of MilesAudioManager.cpp's request record: only +0x08 is read here.
+struct Rva00051107AudioRequest { int m_request; char m_at04[4]; unsigned int m_at08; char m_at0C[0x18 - 0x0C]; };
+struct Rva00051B89Hash {
+    unsigned int operator()(const Rva00051107AudioRequest *req) const
+    {
+        unsigned int handle = reinterpret_cast<unsigned int>(req);
+        if (req)
+            handle = req->m_at08;
+        return handle;
+    }
+};
+struct Rva00050E1CEqualTo {
+    bool operator()(const Rva00051107AudioRequest *left, const Rva00051107AudioRequest *right) const;
+};
+
+typedef _STL::hashtable<Rva00051107AudioRequest *, Rva00051107AudioRequest *, Rva00051B89Hash,
+    _STL::_Identity<Rva00051107AudioRequest *>, Rva00050E1CEqualTo,
+    _STL::allocator<Rva00051107AudioRequest *> > Rva00051107AudioRequestTable;
+
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 // bfme link decl-only begin
@@ -35,9 +56,6 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 // Suppress this TU's non-retail copy of ??$__less@I@_STL@@YA?AU?$less@I@0@PAI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> less<unsigned int> __less<unsigned int>(unsigned int *); }
-// Suppress this TU's non-retail copy of ??0?$_STLP_alloc_proxy@PAPAXPAXV?$allocator@PAX@_STL@@@_STL@@QAE@ABV01@@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
 // COMDAT (one byte shape per TU flags); a declaration-only specialization
 // stops this TU emitting its copy so callers bind the kept copy.
@@ -46,7 +64,5 @@ namespace _STL {
 template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const;
 }
 
-struct Rva00056BFEElement { char bytes[1]; Rva00056BFEElement();Rva00056BFEElement(const Rva00056BFEElement&);~Rva00056BFEElement();Rva00056BFEElement& operator=(const Rva00056BFEElement&); bool operator<(const Rva00056BFEElement&)const; bool operator==(const Rva00056BFEElement&)const; };
-
 // Instantiate the recovered operation and its required template dependencies.
-template void _STL::hashtable<_STL::pair<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > const, Rva00056BFEElement>, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::hash<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > >, _STL::_Select1st<_STL::pair<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > const, Rva00056BFEElement> >, _STL::equal_to<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > >, _STL::allocator<_STL::pair<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > const, Rva00056BFEElement> > >::resize(unsigned int);
+template void Rva00051107AudioRequestTable::resize(unsigned int);
