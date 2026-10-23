@@ -37757,7 +37757,6 @@ _rva006D9D70Comparator,,0x006D9D70,203,Code/Libraries/Source/Apt/AptValue/Rva006
 ?Rva005EC135Delete@@YAXPAPAX@Z,,0x005EC135,33,Code/GameEngine/Source/Common/Rva005EC135Delete.cpp,matched,safe delete vector deleting dtor slot0 operator delete nulls
 ??0Rva005ECA91@@QAE@XZ,,0x005ECA91,63,Code/GameEngine/Source/Common/Rva005ECA91Ctor.cpp,matched,ctor vtable vector BfmeE16 ObjectCreationList same class as dtor
 ??1Rva005ECA91@@MAE@XZ,,0x005ECAD0,60,Code/GameEngine/Source/Common/Rva005ECA91Dtor.cpp,matched,vtable 0x008785B0 at this member +0x10 dtor 0x005242D7 member +0x4 dtor 0x005EC9BA EH prolog
-??1Rva005ECFE4@@MAE@XZ,,0x005ECFE4,11,Code/GameEngine/Source/Common/Rva005ECFE4Dtor.cpp,matched,vtable 0x008785B4 at this jmp base 0x005ECAD0 chain
 ?Rva00527925Fire@@YAHPAX0PBD1PBM@Z,,0x00527925,106,Code/GameEngine/Source/Common/Rva00527925Fire.cpp,matched,free float Apt firer via rowed Get 0x002228E8 plus rowed AptCall 0x00222B19 and empty fallback
 ?rva00265143@AIUpdateInterface@@QAEHXZ,,0x00265143,48,Code/GameEngine/Source/GameLogic/Object/Update/Rva00265143Finish.cpp,matched,AI state vector size() subobject at +0x3C via machine +0x30
 ?rva0044DEC1@GameModePreferences@@QAEXABVAsciiString@@@Z,,0x0044DEC1,103,Code/GameEngine/Source/Common/Rva0044DEC1Finish.cpp,matched,Password setter QP temporary held in edi via slot.set(temporary)
@@ -37784,7 +37783,6 @@ _rva006D9D70Comparator,,0x006D9D70,203,Code/Libraries/Source/Apt/AptValue/Rva006
 ?xfer@DelayedDeathBody@@MAEXPAVXfer@@@Z,,0x004C17CC,62,Code/GameEngine/Source/GameLogic/Object/Body/DelayedDeathBodyXfer.cpp,matched,slot 3 of 0x0085BBE8 Version1 plus 2 bools base-last
 ?portableMapPathToRealMapPath@GameState@@QBE?AVAsciiString@@ABV2@@Z,,0x002DC9F7,421,Code/GameEngine/Source/Common/System/SaveGame/GameStatePortableMapPathToReal.cpp,matched,inverse of 0x002DC833 plus retail LivingWorldScripts branch
 ??_GRva005ECA91@@MAEPAXI@Z,,0x005ECB0C,28,Code/GameEngine/Source/Common/Rva005ECA91Dtor.cpp,matched,deleting dtor slot0 vtable 0x008785B0 emitted by ??1 unit
-??_GRva005ECFE4@@MAEPAXI@Z,,0x005ECFC8,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva005ECFE4.cpp,matched,deleting dtor slot0 vtable 0x008785B4 chain from 0x005ECFE4
 ??$__insertion_sort@PAHVRva005E4300Cmp@@@_STL@@YAXPAH0VRva005E4300Cmp@@@Z,,0x005E4A1B,45,Code/Libraries/Source/WWVegas/WWLib/stlport_unguarded_partition_rva005E4300.cpp,matched,chain insertion family rowed callee 0x005E4862
 ??$__unguarded_insertion_sort@PAHVRva005E4300Cmp@@@_STL@@YAXPAH0VRva005E4300Cmp@@@Z,,0x005E4A48,23,Code/Libraries/Source/WWVegas/WWLib/stlport_unguarded_insertion_sort_rva005E4300.cpp,matched,chain from just-landed aux 0x005E48A1
 ??$__final_insertion_sort@PAHVRva005E4300Cmp@@@_STL@@YAXPAH0VRva005E4300Cmp@@@Z,,0x005E4C2F,68,Code/Libraries/Source/WWVegas/WWLib/stlport_final_insertion_sort_rva005E4300.cpp,matched,chain from 0x005E4A1B and 0x005E4A48 same 68B shape as 0x004243D4
