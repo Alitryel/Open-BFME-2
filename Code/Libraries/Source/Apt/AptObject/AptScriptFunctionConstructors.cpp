@@ -94,3 +94,16 @@ void AptScriptFunction1::SetArgument(AptValue *pValue, int nIndex)
     EAStringC name(mpFunction->aszParams[nIndex]);
     AptFrameStackHash::Of(spFrameStack).Set(&name, pValue);
 }
+
+// AptScriptFunctionBase virtuals, by retail vftable slot (0x00CEE938, 0x00CEE9A0, 0x00CEEAE8):
+// slot 10 PreDestroy is the empty body, 11 DestroyGCPointers 0x00709E00, 13 RegisterReferences
+// 0x00709D80, 21 SetupBeforeExecution 0x00709E50, 24 CreatingNestedFunction 0x00709A00. The
+// destructor 0x00709B80 stores the base table 0x00CEE8C8 and tails into AptObject's; every
+// derived deleting destructor (0x0070A530, 0x0070A590) calls it directly.
+#pragma comment(linker, "/alternatename:??1AptScriptFunctionBase@@MAE@XZ=??1Rva00709B80@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?PreDestroy@AptScriptFunctionBase@@UAEXXZ=?debugIgnoreLeaks@?$StringBase@D@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?DestroyGCPointers@AptScriptFunctionBase@@UAEXXZ=?DestroyGCPointers@Rva00709B80@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?RegisterReferences@AptScriptFunctionBase@@UBEXXZ=?rva00709D80@Rva00709B80@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?SetupBeforeExecution@AptScriptFunctionBase@@UAEXPAU_AptScriptFunctionState@@PAVAptValue@@@Z=?rva00709E50@Rva00709E50@@QAEXPAPAXH@Z")
+#pragma comment(linker, "/alternatename:?CreatingNestedFunction@AptScriptFunctionBase@@MAEXXZ=?rva00709A00@Rva8D0D80Result@@QAEXXZ")
+#pragma comment(linker, "/alternatename:??1AptScriptFunction1@@MAE@XZ=??1Rva00709B80@@UAE@XZ")

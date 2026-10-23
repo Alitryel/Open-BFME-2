@@ -146,3 +146,26 @@ AptScriptFunctionBase::AptScriptFunctionBase(AptVirtualFunctionTable_Indices eTy
 #pragma comment(linker, "/alternatename:?GetRootAnimation@AptCIH@@QAEPAV1@XZ=?rva006E0CB0@AptCIH@@QBEPBV1@XZ")
 #pragma comment(linker, "/alternatename:??1AptObject@@MAE@XZ=??1Rva006D6470Owner@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??3AptPrototype@@SAXPAXI@Z=?Rva006F12F0Free@@YAXPAXH@Z")
+
+// AptScriptFunctionBase virtuals, by retail vftable slot (0x00CEE938, 0x00CEE9A0, 0x00CEEAE8):
+// slot 10 PreDestroy is the empty body, 11 DestroyGCPointers 0x00709E00, 13 RegisterReferences
+// 0x00709D80, 21 SetupBeforeExecution 0x00709E50, 24 CreatingNestedFunction 0x00709A00. The
+// destructor 0x00709B80 stores the base table 0x00CEE8C8 and tails into AptObject's; every
+// derived deleting destructor (0x0070A530, 0x0070A590) calls it directly.
+#pragma comment(linker, "/alternatename:??1AptScriptFunctionBase@@MAE@XZ=??1Rva00709B80@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?PreDestroy@AptScriptFunctionBase@@UAEXXZ=?debugIgnoreLeaks@?$StringBase@D@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?DestroyGCPointers@AptScriptFunctionBase@@UAEXXZ=?DestroyGCPointers@Rva00709B80@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?RegisterReferences@AptScriptFunctionBase@@UBEXXZ=?rva00709D80@Rva00709B80@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?SetupBeforeExecution@AptScriptFunctionBase@@UAEXPAU_AptScriptFunctionState@@PAVAptValue@@@Z=?rva00709E50@Rva00709E50@@QAEXPAPAXH@Z")
+#pragma comment(linker, "/alternatename:?CreatingNestedFunction@AptScriptFunctionBase@@MAEXXZ=?rva00709A00@Rva8D0D80Result@@QAEXXZ")
+// AptScriptFunctionByteCodeBlock's own slots in 0x00CEEAE8: 15 Duplicate 0x0070A360, 16 GetName
+// 0x0066EA50, 17 GetNumArguments 0x0065CE90 (returns 0), 18 GetByteCodeBase 0x0066D5B0, 19
+// GetByteCodeSize 0x00149580, 20 GetConstantPool 0x0070A310, 22 SetArgument 0x0070A330.
+#pragma comment(linker, "/alternatename:??1AptScriptFunctionByteCodeBlock@@MAE@XZ=??1Rva00709B80@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?Duplicate@AptScriptFunctionByteCodeBlock@@UAEPAVAptScriptFunctionBase@@PAVAptCIH@@@Z=?rva0070A360@Rva0070A330@@QAEHH@Z")
+#pragma comment(linker, "/alternatename:?GetName@AptScriptFunctionByteCodeBlock@@UBEPBDXZ=?get@Rva0066EA50DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?GetNumArguments@AptScriptFunctionByteCodeBlock@@UAEIXZ=?GetNativeHashVirtual@AptValue@@UAEPAUAptNativeHash@@XZ")
+#pragma comment(linker, "/alternatename:?GetByteCodeBase@AptScriptFunctionByteCodeBlock@@UAEPBEXZ=?get@Rva0066D5B0DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?GetByteCodeSize@AptScriptFunctionByteCodeBlock@@UAEIXZ=?get@Rva00149580DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?GetConstantPool@AptScriptFunctionByteCodeBlock@@UAE?AUAptConstantPool@@XZ=?rva0070A310@Rva0070A310@@QAEXPAURva0070A310Pair@@@Z")
+#pragma comment(linker, "/alternatename:?SetArgument@AptScriptFunctionByteCodeBlock@@UAEXPAVAptValue@@H@Z=?rva0070A330@Rva0070A330@@QAEXHH@Z")
