@@ -431,7 +431,7 @@ public:
 class AIUpdateInterface24
 {
 public:
-	virtual void slot0();
+	virtual void onCollide(Object *obj, const Coord3D *loc, const Coord3D *normal) = 0;
 };
 
 // ZH's build sub-tasks; BFME 2 turns to face the site (2) before building.
@@ -503,6 +503,7 @@ class AIUpdateInterface : public UpdateModule, public AICommandInterface, public
 {
 public:
 	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
+	virtual void onCollide(Object *obj, const Coord3D *loc, const Coord3D *normal);
 	// Primary vtable slots 1-92 (slot 0 is the destructor).
 	virtual void v01();
 	virtual void v02();

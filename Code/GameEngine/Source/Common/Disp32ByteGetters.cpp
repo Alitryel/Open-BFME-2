@@ -7,8 +7,8 @@
 // does not fit the sign-byte form, so MSVC 7.1 emits `8A 81 DISP32`, plus
 // `ret`, for seven bytes total. This is the disp32 sibling of the
 // byte-getter lane; the opcode itself is why it lives in its own
-// translation unit. Identity is not recovered: every name is derived from
-// its address.
+// translation unit. Other than the worker flag getter, owner identities
+// remain address-derived.
 // No // cl: line (defaults match the frameless seven-byte shape).
 #define BFME_DISP32_BYTE_GETTER(NAME, DISP) \
 	class NAME \
@@ -72,7 +72,15 @@ BFME_DISP32_BYTE_GETTER(Rva0044951BByteField, 0xF68)
 BFME_DISP32_BYTE_GETTER(Rva0046F859ByteField, 0x190)
 BFME_DISP32_BYTE_GETTER(Rva0047C033ByteField, 0x104)
 BFME_DISP32_BYTE_GETTER(Rva004A9B9CByteField, 0xD6)
-BFME_DISP32_BYTE_GETTER(Rva004A9BB0ByteField, 0xD4)
+class WorkerAIUpdate
+{
+public:
+	virtual bool isForcedIntoWantingState() const;
+private:
+	char m_pad04[0xD4 - 4];
+	bool m_forcePending;
+};
+bool WorkerAIUpdate::isForcedIntoWantingState() const { return m_forcePending; }
 BFME_DISP32_BYTE_GETTER(Rva004B0CE8ByteField, 0x18D)
 BFME_DISP32_BYTE_GETTER(Rva004B872BByteField, 0x735)
 BFME_DISP32_BYTE_GETTER(Rva004BF8D8ByteField, 0xB7)

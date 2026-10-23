@@ -1644,3 +1644,5 @@ __ehhandler$??0Rva0018BEC7@@QAE@XZ,0x007687F8,"Renamed to __ehhandler$??0FXShade
 ?rva006DE150@Rva006DE150@@QAEXXZ,0x006DE150,"Renamed to ?DestroyGCPointers@AptValueWithHash@@UAEXXZ: AptValueWithHash vtable 008EA228 slot 11 clears its native hash"
 ?rva006DCC00@Rva006D6360@@QAEXXZ,0x006DCC00,"Renamed to ?RegisterReferences@AptValueWithHash@@UBEXXZ: AptValueWithHash vtable 008EA228 slot 13 marks its native hash"
 ??1Rva006D63C0@@QAE@XZ,0x006D63C0,"Renamed to ??1AptValueWithHash@@MAE@XZ: AptValueWithHash vtable 008EA228 slot 14 helper calls this complete destructor"
+?get@Rva004A9BB0ByteField@@QBEEXZ,0x004A9BB0,"Renamed to ?isForcedIntoWantingState@WorkerAIUpdate@@UBE_NXZ: retail Worker supply table VA 0x00C540B0 slot 12 uniquely reads its force-pending byte at receiver+0xD4"
+?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z,0x0026DF0D,"Renamed to ?onCollide@AIUpdateInterface@@UAEXPAVObject@@PBUCoord3D@@1@Z: retail shared collide-interface table VA 0x00C52F88 slot 0 uniquely reaches the RET12 collision body with secondary receiver+0x24"

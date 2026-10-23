@@ -1,9 +1,9 @@
-// ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
+// ?onCollide@AIUpdateInterface@@UAEXPAVObject@@PBUCoord3D@@1@Z
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-// ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
-// ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
-// ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
+// ?onCollide@AIUpdateInterface@@UAEXPAVObject@@PBUCoord3D@@1@Z
+// ?onCollide@AIUpdateInterface@@UAEXPAVObject@@PBUCoord3D@@1@Z
+// ?onCollide@AIUpdateInterface@@UAEXPAVObject@@PBUCoord3D@@1@Z
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
 // AIUpdateInterface-adjacent command/locomotor queue insert at 0x0026DF0D
@@ -35,20 +35,17 @@ private:
 extern GameLogic *TheGameLogic;
 extern unsigned char g_00DFE7A8;
 
+struct Coord3D;
+
 class AIUpdateInterface
 {
 public:
+	virtual void onCollide(Object *obj, const Coord3D *loc, const Coord3D *normal);
 	bool rva0026CF11(Object *obj);
 	void rva00262989(unsigned value);
 };
 
-class Rva0026DF0D
-{
-public:
-	void f(Object *obj, int b, int c);
-};
-
-void Rva0026DF0D::f(Object *obj, int b, int c)
+void AIUpdateInterface::onCollide(Object *obj, const Coord3D *loc, const Coord3D *normal)
 {
 	if (obj == 0)
 		return;
