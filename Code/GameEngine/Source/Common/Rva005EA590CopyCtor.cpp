@@ -13,7 +13,6 @@
 class Rva005EA6C0Part0
 {
 public:
-	virtual void s0();
 	virtual ~Rva005EA6C0Part0() {}
 	int m_field04;
 };
@@ -21,14 +20,15 @@ public:
 class Rva005EA6C0Part1
 {
 public:
-	virtual void s0();
-	virtual ~Rva005EA6C0Part1() {}
+	virtual void s0() = 0;
+	~Rva005EA6C0Part1() {}
 };
 
-class Rva005EA6C0 : public Rva005EA6C0Part0, public Rva005EA6C0Part1
+class Rva0055BCD2 : public Rva005EA6C0Part0, public Rva005EA6C0Part1
 {
 public:
-	Rva005EA6C0( const Rva005EA6C0 & );
+	Rva0055BCD2( const Rva0055BCD2 & );
+	virtual ~Rva0055BCD2();
 };
 
 struct Rva005EA590Block
@@ -40,7 +40,7 @@ class Rva005E95C0
 {
 public:
 	Rva005E95C0( const Rva005E95C0 & );
-	virtual ~Rva005E95C0();
+	virtual ~Rva005E95C0() {}
 	Rva005EA590Block m_block;
 	int m_field84;
 };
@@ -50,7 +50,7 @@ struct Rva005EA590Triple
 	int m_value[ 3 ];
 };
 
-class Rva005EA590 : public Rva005EA6C0, public Rva005E95C0
+class Rva005EA590 : public Rva0055BCD2, public Rva005E95C0
 {
 public:
 	Rva005EA590( const Rva005EA590 & );
@@ -60,7 +60,7 @@ public:
 };
 
 Rva005EA590::Rva005EA590( const Rva005EA590 &o )
-	: Rva005EA6C0( o ), Rva005E95C0( o )
+	: Rva0055BCD2( o ), Rva005E95C0( o )
 {
 	m_fields94 = o.m_fields94;
 	m_fieldsA0 = o.m_fieldsA0;

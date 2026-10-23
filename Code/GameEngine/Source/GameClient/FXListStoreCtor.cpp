@@ -67,6 +67,14 @@ public:
 	virtual ~FXList();
 };
 
+// The node-emission unit supplies this bucket-count helper.
+namespace _STL {
+template <> unsigned int hashtable<pair<const NameKeyType, FXList>, NameKeyType,
+    rts::hash<NameKeyType>, _Select1st<pair<const NameKeyType, FXList> >,
+    rts::equal_to<NameKeyType>, allocator<pair<const NameKeyType, FXList> >
+    >::_M_next_size(unsigned int) const;
+}
+
 class FXListStore : public SubsystemInterface
 {
 public:
