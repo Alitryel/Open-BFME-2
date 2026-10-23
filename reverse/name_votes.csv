@@ -695,3 +695,16 @@ Code/GameEngine/Source/GameNetwork/Y4FeslPlayerData.cpp|class||Rva00809400Attrib
 Code/GameEngine/Source/GameNetwork/Y4FeslPlayerData.cpp|class||Rva00809330Attribute,3c780dba341b3ed23326963a,gpt-6.1-sol,codex6-20261023-234730-16,w-bcdd62231570,2026-10-23
 Code/GameEngine/Source/GameNetwork/Y4FeslPlayerData.cpp|class||Rva00809330Attributes,14f4761d732c3911e57a5893,gpt-6.1-sol,codex6-20261023-234730-16,w-bcdd62231570,2026-10-23
 Code/GameEngine/Source/Common/Rva002BEBE3Step.cpp|local|Rva002C021A::rva002BEBE3|v,2383ae795ada94fadd9d56ee,gpt-6.1-sol,codex6-20261023-234730-17,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp|global||g_rva00E0675C,6930bc86a4482f038a0b4480,gpt-6.1-sol,codex6-20261023-234730-20,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp|global||g_rva00E068EC,4cc64d1f2fdb0e69c71bae45,gpt-6.1-sol,codex6-20261023-234730-20,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp|global||g_rva00E06900,47bfe3f991fa6bcc9ddc72de,gpt-6.1-sol,codex6-20261023-234730-20,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp|global||g_rva00E06918,469fcccf08144ca12cc9baa1,gpt-6.1-sol,codex6-20261023-234730-20,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/Rva0028B749.cpp|param|Rva0028B749Host::rva0028B749|a,e8f3695f9a53ba9e15491d35,gpt-6.1-sol,codex6-20261023-234730-21,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/Rva0028B749.cpp|param|Rva0028B749Host::rva0028B749|b,3ff80a85f6ef3b4c887d3f4e,gpt-6.1-sol,codex6-20261023-234730-21,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp|member|BfmeSubDEC|m_bfmeColor,5b67c96429a7f020bc204a12,gpt-6.1-sol,codex6-20261023-234730-22,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|function|0x004ABABC|rva004ABABC,8d2b85407a7dc164ca882276,gpt-6.1-sol,codex6-20261023-234730-23,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|function|0x004ABA93|rva004ABA93,1acc1f1e9b8289ba16ef64cc,gpt-6.1-sol,codex6-20261023-234730-23,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp|function|0x003743BB|Rva003743BB,5a816dc0e5c5219412f3160f,gpt-6.1-sol,codex6-20261023-234730-24,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp|param|Rva003743CF::rva003743CF|p,55c3974c74541fdd9e574f32,gpt-6.1-sol,codex6-20261023-234730-24,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp|param|Rva003743CF::rva003743CF|b,487efa1b6dadebc9982bba11,gpt-6.1-sol,codex6-20261023-234730-24,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|member|Rva000F0AB2Node|m_next68,cb21e7e58e5422ef8771d582,gpt-6.1-sol,codex6-20261023-234730-26,w-bcdd62231570,2026-10-23
