@@ -43,3 +43,6 @@ Legacy MSVC region tuning flags G5/G6/G7 are translated explicitly to
 Clang -mtune=pentium/pentiumpro/pentium4. Other flags pass through unchanged;
 the default MSVC profile receives exactly its original arguments. This is
 compiler option adaptation, not a byte-verification exception.
+
+The upstream host MinGW-w64 notices are reproduced verbatim under notices/
+for any runtime portions included in these original compiler binaries.
