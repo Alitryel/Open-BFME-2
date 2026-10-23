@@ -44508,7 +44508,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00596269,98,code-unledgered,,,-,,
 0x005962CB,28,code,,,-,,Code/GameEngine/Source/Common/Rva005961D6Ctor.cpp
 0x005962E7,16,code,,,-,,Code/GameEngine/Source/Common/Rva0010BA61Wrappers.cpp
-0x005962F7,111,code,Code/GameEngine/Source/Common/AIUnitStats.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUnitStats.cpp,Code/GameEngine/Source/Common/Rva005962F7.cpp
+0x005962F7,111,code,Code/GameEngine/Source/Common/AIUnitStats.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUnitStats.cpp,Code/GameEngine/Source/Common/AIUnitStats.cpp
 0x00596366,35,code,,,-,,Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp
 0x00596389,11,code,,,-,,Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp
 0x00596394,13,code,,,-,,Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp
@@ -44528,9 +44528,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00596686,7,code,,,-,,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp
 0x0059668D,51,code,,,-,,Code/GameEngine/Source/Common/Bfme5SeventyOne.cpp
 0x005966C0,29,code,,,-,,Code/GameEngine/Source/Common/Rva0059675ADtor.cpp
-0x005966DD,125,code,Code/GameEngine/Source/Common/FadeInTextRender.cpp,proposed,N,N=Code/GameEngine/Source/Common/FadeInTextRender.cpp,Code/GameEngine/Source/Common/Rva0059675ACtor.cpp
+0x005966DD,125,code,Code/GameEngine/Source/Common/FadeInTextRender.cpp,proposed,N,N=Code/GameEngine/Source/Common/FadeInTextRender.cpp,Code/GameEngine/Source/Common/FadeInTextRender.cpp
 0x0059675A,89,code,Code/GameEngine/Source/Common/FadeInTextRender.cpp,proposed,N,N=Code/GameEngine/Source/Common/FadeInTextRender.cpp,Code/GameEngine/Source/Common/Rva0059675ADtor.cpp
-0x005967B3,341,code,Code/GameEngine/Source/Common/FadeInTextRender.cpp,proposed,N,N=Code/GameEngine/Source/Common/FadeInTextRender.cpp,Code/GameEngine/Source/Common/Rva0059675AInitialize.cpp
+0x005967B3,341,code,Code/GameEngine/Source/Common/FadeInTextRender.cpp,proposed,N,N=Code/GameEngine/Source/Common/FadeInTextRender.cpp,Code/GameEngine/Source/Common/FadeInTextRender_LoadAssets.cpp
 0x00596908,481,code-unledgered,Code/GameEngine/Source/Common/FadeInTextRender.cpp,proposed,C,C=0x005967B3..0x00596AE9,
 0x00596AE9,28,code,Code/GameEngine/Source/Common/FadeInTextRender.cpp,proposed,N,N=Code/GameEngine/Source/Common/FadeInTextRender.cpp,Code/GameEngine/Source/Common/Rva0059675ADtor.cpp
 0x00596B05,11,code,,,-,,Code/GameEngine/Source/Common/Rva0055B0CCDerived.cpp
@@ -44561,19 +44561,19 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0059717F,272,code,,,-,,Code/GameEngine/Source/Common/Rva005970EDCtor.cpp
 0x0059728F,134,code,,,-,,Code/GameEngine/Source/Common/Rva005970EDCtor.cpp
 0x00597315,28,code,,,-,,Code/GameEngine/Source/Common/Rva005970EDCtor.cpp
-0x00597331,26,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/Rva0059734BCtor.cpp
+0x00597331,26,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/AIUpgrade.cpp
 0x0059734B,11,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/Rva0055B0CCDerived.cpp
 0x00597356,28,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/Rva0055B0CCDerived.cpp
 0x00597372,24,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,C,C=0x00597356..0x0059738A,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp
 0x0059738A,78,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,U,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUpgrade.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUpgradeBuild.cpp
 0x005973D8,78,code-unledgered,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,C,C=0x0059738A..0x00597426,
 0x00597426,80,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/VslotSmallBodiesAE.cpp
-0x00597476,86,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/Rva00597476.cpp
+0x00597476,86,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/AIUpgrade_getCostPerTick.cpp
 0x005974CC,244,code,Code/GameEngine/Source/Common/AIUpgrade.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIUpgrade.cpp,Code/GameEngine/Source/Common/Rva005974CC.cpp
 0x005975C0,23,code-unledgered,,,-,,
 0x005975E1,17,code,,,-,,Code/GameEngine/Source/Common/NativeBlockWriters.cpp
 0x005975F2,5,code,,,-,,Code/GameEngine/Source/Common/Disp8ByteSetters.cpp
-0x005975F7,27,code,,,-,,Code/GameEngine/Source/Common/Rva005975F7.cpp
+0x005975F7,27,code,,,-,,Code/GameEngine/Source/Common/AIEconomyBuilder_postInit.cpp
 0x00597612,9,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Die/CreateObjectDie.cpp
 0x0059761B,47,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Die/Rva0059761BXfer.cpp
 0x0059764A,73,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUpgradeScienceBuilder/AIUpgradeScienceBuilder.cpp,approved,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUpgradeScienceBuilder/AIUpgradeScienceBuilder.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUpgradeScienceBuilder/AIUpgradeScienceBuilderKindMask.cpp
@@ -44668,10 +44668,10 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00599F58,13,code,,,-,,Code/GameEngine/Source/Common/DispByteFieldSetters.cpp
 0x00599F74,54,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,K,K=Rva0059AC4D,Code/GameEngine/Source/GameLogic/SkirmishAI/AITeamBuilder/AITeamBuilder.cpp
 0x00599FAA,45,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,C,C=0x00599F74..0x00599FD7,Code/GameEngine/Source/Common/Rva00599FAAClear.cpp
-0x00599FD7,69,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,N,N=Code/GameEngine/Source/Common/AITeamBuilder.cpp,Code/GameEngine/Source/Common/Rva00599FD7Count.cpp
+0x00599FD7,69,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,N,N=Code/GameEngine/Source/Common/AITeamBuilder.cpp,Code/GameEngine/Source/Common/AITeamBuilder_getCurNumUnits.cpp
 0x0059A01C,311,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,U,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AITeamBuilder/AITeamBuilder.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AITeamBuilder/AITeamBuilder.cpp
 0x0059A153,110,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,C,C=0x0059A01C..0x0059A1C1,Code/GameEngine/Source/GameLogic/SkirmishAI/AITeamBuilder/AITeamBuilder.cpp
-0x0059A1C1,151,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,N,N=Code/GameEngine/Source/Common/AITeamBuilder.cpp,Code/GameEngine/Source/Common/Rva0059A1C1.cpp
+0x0059A1C1,151,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,N,N=Code/GameEngine/Source/Common/AITeamBuilder.cpp,Code/GameEngine/Source/Common/AITeamBuilder_doesTeamMeetThreat.cpp
 0x0059A258,41,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,C,C=0x0059A1C1..0x0059A281,Code/GameEngine/Source/Common/RvaTreeEraseClearFamily.cpp
 0x0059A281,56,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,C,C=0x0059A1C1..0x0059A2B9,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x0059A2B9,5,code,Code/GameEngine/Source/Common/AITeamBuilder.cpp,proposed,C,C=0x0059A1C1..0x0059A2BE,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
@@ -44789,7 +44789,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0059E848,25,code,,,-,,Code/GameEngine/Source/Common/Rva0059E848Flush.cpp
 0x0059E861,17,code,,,-,,Code/GameEngine/Source/Common/Rva0059E861Wrapper.cpp
 0x0059E872,16,code,Code/GameEngine/Source/GameLogic/Object/ObjectTypes.cpp,proposed,K,K=Rva00376A62 noncontiguous,Code/GameEngine/Source/Common/Rva00376A62Contains.cpp
-0x0059E8A1,127,code,,,-,,Code/GameEngine/Source/Common/Rva0059E8A1Parse.cpp
+0x0059E8A1,127,code,,,-,,Code/GameEngine/Source/Common/parseAsciiStringSetForPositionInfo.cpp
 0x0059E920,113,code-unledgered,,,-,,
 0x0059E991,28,code,,displaced,-,N=Code/GameEngine/Source/Common/PlayerPosition.cpp,Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp
 0x0059E9BD,132,code-unledgered,,,-,,
@@ -44856,7 +44856,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005A0B4C,22,code,,,-,,Code/GameEngine/Source/Common/Rva005A0B4CListAppend.cpp
 0x005A0B62,28,code,,,-,,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB14.cpp
 0x005A0B7E,240,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatch.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatch.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatchCallbacks.cpp
-0x005A0C6E,243,code,Code/GameEngine/Source/Common/AptOnlineCustomMatch.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptOnlineCustomMatch.cpp,Code/GameEngine/Source/Common/Rva005A0C6EFinish.cpp
+0x005A0C6E,243,code,Code/GameEngine/Source/Common/AptOnlineCustomMatch.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptOnlineCustomMatch.cpp,Code/GameEngine/Source/Common/AptOnlineCustomMatch_InitGadgets.cpp
 0x005A0D61,97,code,,,-,,Code/GameEngine/Source/Common/Rva005A0D61Box.cpp
 0x005A0DC2,339,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatch.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatch.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatchCallbacks.cpp
 0x005A0F15,10,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatch.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatch.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatchCallbacks.cpp
@@ -44897,11 +44897,11 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005A684F,26,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,C,C=0x005A678E..0x005A687F,Code/GameEngine/Source/GameNetwork/NATUpdateBfme.cpp
 0x005A687F,13,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,C,C=0x005A678E..0x005A688C,Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp
 0x005A688C,119,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/NAT.cpp S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/Rva005A688CMethod.cpp
-0x005A6903,92,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/Rva005A6903Box.cpp
-0x005A695F,97,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/Rva005A6903Box.cpp
+0x005A6903,92,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/NAT.cpp
+0x005A695F,97,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/NAT.cpp
 0x005A69C0,140,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp
 0x005A6A4C,55,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/Rva005A688CMethod.cpp
-0x005A6A83,145,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,C,C=0x005A6A4C..0x005A6B14,Code/GameEngine/Source/Common/Rva005A6A83Method.cpp
+0x005A6A83,145,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,C,C=0x005A6A4C..0x005A6B14,Code/GameEngine/Source/Common/NAT_probeMangler.cpp
 0x005A6B14,380,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/NAT.cpp S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/GameNetwork/NAT.cpp,Code/GameEngine/Source/GameNetwork/NATAttachSlotList.cpp
 0x005A6B28,360,code-unledgered,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,C,C=0x005A6B14..0x005A6C90,
 0x005A6C90,21,code,Code/GameEngine/Source/GameNetwork/NAT.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/NAT.cpp N=Code/GameEngine/Source/Common/NAT.cpp,Code/GameEngine/Source/Common/Rva005A688CMethod.cpp
@@ -44998,17 +44998,17 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005AA2A7,50,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,U,N=Code/GameEngine/Source/Common/AIFlankAttackTactic.cpp,Code/GameEngine/Source/Common/Rva004ECECDTacticCreate.cpp
 0x005AA2D9,488,code-unledgered,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,F,F=Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,
 0x005AA4C1,156,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,U,N=Code/GameEngine/Source/Common/AIFlankAttackTacticImp.cpp,Code/GameEngine/Source/Common/Rva005AA4C1.cpp
-0x005AA55D,81,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,U,N=Code/GameEngine/Source/Common/AIFlankAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005AA55DDtor.cpp
+0x005AA55D,81,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,U,N=Code/GameEngine/Source/Common/AIFlankAttackTactic.cpp,Code/GameEngine/Source/Common/AIFlankAttackTactic.cpp
 0x005AA5AE,97,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp
 0x005AA60F,28,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp
-0x005AA62B,28,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,U,N=Code/GameEngine/Source/Common/AIFlankAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005AA55DDtor.cpp
+0x005AA62B,28,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/OffensiveTactics/AIFlankAttackTactic.cpp,approved,U,N=Code/GameEngine/Source/Common/AIFlankAttackTactic.cpp,Code/GameEngine/Source/Common/AIFlankAttackTactic.cpp
 0x005AA647,11,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005DC73CDerived.cpp
-0x005AA652,17,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005AA647Tactic.cpp
-0x005AA663,13,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005AA647Tactic.cpp
-0x005AA670,40,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005AA647Tactic.cpp
+0x005AA652,17,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp
+0x005AA663,13,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp
+0x005AA670,40,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp
 0x005AA698,28,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005DC73CDerived.cpp
-0x005AA6B4,79,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005AA647Tactic.cpp
-0x005AA703,50,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/Rva005AA647Tactic.cpp
+0x005AA6B4,79,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp
+0x005AA703,50,code,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp,Code/GameEngine/Source/Common/AISimpleAttackTactic.cpp
 0x005AA735,11,code,,,-,,Code/GameEngine/Source/Common/Rva005DCB27Derived.cpp
 0x005AA740,131,code,,,-,,Code/GameEngine/Source/Common/Rva005AA735Tactic.cpp
 0x005AA7C3,28,code,,,-,,Code/GameEngine/Source/Common/Rva005DCB27Derived.cpp
@@ -45048,7 +45048,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005AB354,106,code,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,Code/GameEngine/Source/Common/Rva005AB309Tactic.cpp
 0x005AB3BE,97,code,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,Code/GameEngine/Source/Common/Rva004ECECDTacticCtors.cpp
 0x005AB41F,60,code,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,Code/GameEngine/Source/Common/Rva004ECECDTacticCreate.cpp
-0x005AB45B,94,code,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,Code/GameEngine/Source/Common/Rva005AB45B.cpp
+0x005AB45B,94,code,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,Code/GameEngine/Source/Common/AIReturnTheRingTactic_findRingBearer.cpp
 0x005AB4B9,254,code-unledgered,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,C,C=0x005AB45B..0x005AB5B7,
 0x005AB5B7,179,code,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,Code/GameEngine/Source/Common/Rva005AB309Tactic.cpp
 0x005AB66A,59,code,Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIReturnTheRingTactic.cpp,Code/GameEngine/Source/Common/Rva005AB309Tactic.cpp
