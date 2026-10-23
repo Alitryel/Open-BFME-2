@@ -24,3 +24,6 @@ protected:
 OrCondition::OrCondition() : m_nextOr(0), m_firstAnd(0)
 {
 }
+
+// vftable 0x00C1F3F4 slot 0 is the deleting dtor 0x003B331E, whose dtor call is the body at 0x003B262E.
+#pragma comment(linker, "/alternatename:??1OrCondition@@UAE@XZ=??1Rva003B262E@@MAE@XZ")
