@@ -74,6 +74,26 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 class Vector3;
 template <> bool SimpleDynVecClass<Vector3>::Resize(int);
 
+// Keep the header operations inline without emitting competing template copies.
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<Vector3>::Shrink()
+{
+    if (ActiveCount < VectorMax / 4)
+        return Resize(ActiveCount);
+    return true;
+}
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<Vector4>::Shrink()
+{
+    if (ActiveCount < VectorMax / 4)
+        return Resize(ActiveCount);
+    return true;
+}
+template <> __declspec(dllimport) __forceinline void SimpleDynVecClass<Vector4>::Delete_All(bool allow_shrink)
+{
+    ActiveCount = 0;
+    if (allow_shrink)
+        Shrink();
+}
+
 // Donor predicate is inlined here so this TU retains the original call graph.
 inline int ParticleBufferClass::Is_Freeze_Random(void) const
 {

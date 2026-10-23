@@ -3,6 +3,26 @@
 void __cdecl operator delete[](void *) throw();
 #include "vector.h"
 #include "vector2i.h"
+template <> __declspec(dllimport) __forceinline
+VectorClass<int>::VectorClass(int size, const int *array)
+    : Vector(0), VectorMax(size), IsValid(true), IsAllocated(false)
+{
+    if (size) {
+        if (array)
+            Vector = new ((void *)array) int[size];
+        else {
+            Vector = new int[size];
+            IsAllocated = true;
+        }
+    }
+}
+template <> __declspec(dllimport) __forceinline
+DynamicVectorClass<int>::DynamicVectorClass(unsigned size, const int *array)
+    : VectorClass<int>(size, array)
+{
+    GrowthStep = 10;
+    ActiveCount = 0;
+}
 // bfme link decl-only begin
 template <> bool VectorClass<int>::operator==(VectorClass<int> const &) const;
 template <> int VectorClass<int>::ID(int const &);
@@ -135,6 +155,7 @@ public:
 
 	struct PendingSurfaceStruct : public W3DRadarResetSurface
 	{
+		__declspec(dllimport) __forceinline PendingSurfaceStruct() {}
 		// Retail destruction uses the shared four-byte scalar base table BBB5AC.
 		// This is an ABI view; the renderer-pointer element type is donor
 		// provenance and has not been established independently in the target.

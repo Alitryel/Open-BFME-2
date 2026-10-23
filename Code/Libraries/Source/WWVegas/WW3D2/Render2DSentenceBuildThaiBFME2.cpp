@@ -26,6 +26,21 @@ namespace _STL { template <> unsigned short * fill_n<unsigned short *,unsigned i
 class Render2DClass;
 template <> void VectorClass<Render2DClass *>::Clear();
 
+// These word helpers retain STLport's inline operations and external providers.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void
+fill<unsigned short *, unsigned short>(unsigned short *first, unsigned short *last, const unsigned short &value)
+{
+    for (; first != last; ++first)
+        *first = value;
+}
+template <> __declspec(dllimport) __forceinline unsigned short *
+__uninitialized_copy<unsigned short *, unsigned short *>(unsigned short *first, unsigned short *last, unsigned short *result, const __true_type &)
+{
+    return __copy_aux(first, last, result, _BothPtrType<unsigned short *, unsigned short *>::_Ret());
+}
+}
+
 struct BfmeWordVec : std::vector<unsigned short> {
     __declspec(noinline) void resize(unsigned int n,unsigned short x) {
         if (n < size()) erase(begin() + n, end());
@@ -172,6 +187,8 @@ public:
 
 	struct PendingSurfaceStruct : public W3DRadarResetSurface
 	{
+		PendingSurfaceStruct();
+		~PendingSurfaceStruct();
 		DynamicVectorClass<Render2DClass *> Renderers;
 
 		bool operator==(const PendingSurfaceStruct &) { return false; }

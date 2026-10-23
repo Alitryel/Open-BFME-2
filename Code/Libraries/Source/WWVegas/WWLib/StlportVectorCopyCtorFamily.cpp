@@ -66,7 +66,7 @@ public:
 	~Rva0052BDE6() {}
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva0052BDE6,Rva0052BDE6>(Rva0052BDE6 *p,Rva0052BDE6 const &v) { new (p) Rva0052BDE6(v); } }
+namespace _STL { template <> void _Construct<Rva0052BDE6,Rva0052BDE6>(Rva0052BDE6 *, Rva0052BDE6 const &); }
 
 class Rva0052BE33
 {
@@ -82,7 +82,7 @@ public:
 	~Rva0052BEF0() {}
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva0052BEF0,Rva0052BEF0>(Rva0052BEF0 *p,Rva0052BEF0 const &v) { new (p) Rva0052BEF0(v); } }
+namespace _STL { template <> void _Construct<Rva0052BEF0,Rva0052BEF0>(Rva0052BEF0 *, Rva0052BEF0 const &); }
 
 struct Rva005668E9Element
 {
@@ -90,7 +90,7 @@ struct Rva005668E9Element
 	~Rva005668E9Element() {}
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva005668E9Element,Rva005668E9Element>(Rva005668E9Element *p,Rva005668E9Element const &v) { new (p) Rva005668E9Element(v); } }
+namespace _STL { template <> void _Construct<Rva005668E9Element,Rva005668E9Element>(Rva005668E9Element *, Rva005668E9Element const &); }
 // Keep the Rva0052BDE6/Rva0052BEF0 range destroys inline-only: nothing here
 // calls them out of line, and this view's empty-destructor copies are not the
 // bodies retail kept (the overflow units own them).
@@ -107,6 +107,42 @@ void __destroy_aux<Rva0052BEF0 *>(Rva0052BEF0 *__first, Rva0052BEF0 *__last, con
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline
 void _Destroy<Rva0052BEF0 *>(Rva0052BEF0 *__first, Rva0052BEF0 *__last)
 { __destroy(__first, __last, (Rva0052BEF0 *)0); }
+}
+
+// These retail copy loops construct each destination element out of line.
+namespace _STL {
+template <> __declspec(noinline) inline Rva00423A4A *
+__uninitialized_copy<const Rva00423A4A *, Rva00423A4A *>(const Rva00423A4A *first, const Rva00423A4A *last, Rva00423A4A *result, const __false_type &)
+{
+    Rva00423A4A *cur = result;
+    for (; first != last; ++first, ++cur)
+        _Construct(cur, *first);
+    return cur;
+}
+template <> __declspec(noinline) inline Rva0052BDE6 *
+__uninitialized_copy<const Rva0052BDE6 *, Rva0052BDE6 *>(const Rva0052BDE6 *first, const Rva0052BDE6 *last, Rva0052BDE6 *result, const __false_type &)
+{
+    Rva0052BDE6 *cur = result;
+    for (; first != last; ++first, ++cur)
+        _Construct(cur, *first);
+    return cur;
+}
+template <> __declspec(noinline) inline Rva0052BEF0 *
+__uninitialized_copy<const Rva0052BEF0 *, Rva0052BEF0 *>(const Rva0052BEF0 *first, const Rva0052BEF0 *last, Rva0052BEF0 *result, const __false_type &)
+{
+    Rva0052BEF0 *cur = result;
+    for (; first != last; ++first, ++cur)
+        _Construct(cur, *first);
+    return cur;
+}
+template <> __declspec(noinline) inline Rva005668E9Element *
+__uninitialized_copy<const Rva005668E9Element *, Rva005668E9Element *>(const Rva005668E9Element *first, const Rva005668E9Element *last, Rva005668E9Element *result, const __false_type &)
+{
+    Rva005668E9Element *cur = result;
+    for (; first != last; ++first, ++cur)
+        _Construct(cur, *first);
+    return cur;
+}
 }
 
 template _STL::vector<Rva002B72C9>::vector(const _STL::vector<Rva002B72C9> &);
