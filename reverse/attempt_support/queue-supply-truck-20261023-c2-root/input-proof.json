@@ -25,7 +25,8 @@
       "-MD",
       "-GX",
       "-D_CRTIMP=",
-      "-D_STLP_USE_STATIC_LIB"
+      "-D_STLP_USE_STATIC_LIB",
+      "-Ireference/shims/bfmealloc"
     ],
     "source": "build/supplytruck-oct23/clean-baseline.cpp"
   },
@@ -55,7 +56,8 @@
       "-MD",
       "-GX",
       "-D_CRTIMP=",
-      "-D_STLP_USE_STATIC_LIB"
+      "-D_STLP_USE_STATIC_LIB",
+      "-Ireference/shims/bfmealloc"
     ],
     "source": "build/supplytruck-oct23/diagnostic-missing-restore.cpp"
   },
