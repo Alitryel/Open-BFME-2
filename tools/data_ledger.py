@@ -34,7 +34,10 @@ address, sorted:
 
 It is not reverse/data_rows.csv (tools/data_rows.py, ported from
 Open-BFME-1: a byte-verified ownership ledger the census links), and nothing
-here is byte-verified. It is the address index the data
+here is independently byte-verified. Explicit owners from data_rows.csv
+take precedence over heuristic name selection, both when generating and loading
+this index; a stale object census cannot rename a verified global. It is the
+address index the data
 sweep (tools/data_sweep.py) and the DIR32 check (tools/data_check.py) key on.
 
   python3 tools/data_ledger.py            # rewrite reverse/data_ledger.csv
@@ -257,7 +260,7 @@ def ledger_rows(bind, defs):
             "kind": kinds[0] if kinds else "global", "name": name, "source": owner, "status": status,
             "names": ";".join(sorted(n if loc is None else f"{n}@{loc}" for n, loc in names)) if len(names) > 1 else "",
             "defs": len(definitions), "refs": sum(names.values())})
-    return out
+    return list(with_verified_owners({int(r["address"], 16): r for r in out}).values())
 
 
 def render(rows):
@@ -268,12 +271,47 @@ def render(rows):
     return buffer.getvalue()
 
 
-def load(path=LEDGER):
-    """{rva: row} of the committed ledger."""
+def with_verified_owners(index):
+    """Reconcile the heuristic index with explicit data_rows ownership.
+
+    This does not admit another name at an address: the owner replaces the
+    heuristic name, so aliases remain wrong-name findings and other definitions
+    remain duplicate-def findings. Keep observed aliases/counts for diagnostics.
+    Integrity errors refuse the index rather than silently picking an owner.
+    Byte verification of data_rows remains the ordinary build gate's job.
+    """
+    import data_rows
+    path = data_rows.DATA_ROWS
     if not path.exists():
-        return {}
-    with path.open(newline="", encoding="utf-8") as handle:
-        return {int(r["address"], 16): r for r in csv.DictReader(handle)}
+        return index
+    raw = path.read_bytes()
+    problems = []
+    data_rows.check(raw, problems)
+    if problems:
+        raise ValueError("cannot use data ownership: " + "; ".join(problems))
+    result = {address: dict(row) for address, row in index.items()}
+    for _line, owner in data_rows.parse(raw):
+        address = data_rows.va_of(owner) - IMAGE_BASE
+        row = result.get(address, {})
+        names = set(filter(None, row.get("names", "").split(";")))
+        names.update(filter(None, (row.get("name"), owner["name"])))
+        row.update(address=f"0x{address:08X}", size=owner["size"],
+                   section=owner["section"], kind=kind_of(owner["name"]),
+                   name=owner["name"], source=owner["source"],
+                   status="provisional" if len(names) > 1 else "owned",
+                   names=";".join(sorted(names)) if len(names) > 1 else "",
+                   defs=row.get("defs", 0), refs=row.get("refs", 0))
+        result[address] = row
+    return dict(sorted(result.items()))
+
+
+def load(path=LEDGER):
+    """{rva: row} of the cached index reconciled with explicit ownership."""
+    index = {}
+    if path.exists():
+        with path.open(newline="", encoding="utf-8") as handle:
+            index = {int(r["address"], 16): r for r in csv.DictReader(handle)}
+    return with_verified_owners(index)
 
 
 def main(argv=None):

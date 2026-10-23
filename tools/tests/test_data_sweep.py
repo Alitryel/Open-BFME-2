@@ -1,5 +1,10 @@
 """data_sweep's text edits and data_check's findings, without a compiler."""
 import sys
+import collections
+import csv
+import io
+import tempfile
+from unittest.mock import patch
 import unittest
 from pathlib import Path
 
@@ -87,6 +92,84 @@ class Ledger(unittest.TestCase):
         best, owner, status = dl.choose(names, defs, collections.Counter())
         self.assertEqual(best[0], "?TheScriptEngine@@3PAVScriptEngine@@A")
         self.assertEqual((owner, status), ("ScriptEngine.cpp", "provisional"))
+
+
+class VerifiedOwnership(unittest.TestCase):
+    OWNER = "?g_Va00DDEF08@@3IA"
+    ALIAS = "?g_00DDEF08StaticEmpty@@3HA"
+    SOURCE = "Code/StringInits.cpp"
+    ADDRESS = 0x9DEF08
+
+    def setUp(self):
+        import data_rows
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        self.owned = self.root / "data_rows.csv"
+        self.index = self.root / "data_ledger.csv"
+        self.row = dict(name=self.OWNER, address="0x009DEF08", address_kind="rva",
+                        size="4", section=".data", source=self.SOURCE,
+                        status="matched", evidence="verified owner", model="test")
+        self.write_owners([self.row])
+        self.index.write_text(dl.render([dict(address="0x009DEF08", size=12,
+            section=".data", kind="global", name=self.ALIAS, source="",
+            status="unowned", names=self.ALIAS + ";" + self.OWNER, defs=0, refs=4)]))
+        self.patch = patch.object(data_rows, "DATA_ROWS", self.owned)
+        self.patch.start()
+        self.addCleanup(self.patch.stop)
+        sections = patch.object(data_rows, "retail_sections",
+                               return_value=[(".data", 0xD00000, 0xE00000)])
+        sections.start()
+        self.addCleanup(sections.stop)
+
+    def write_owners(self, rows):
+        import data_rows
+        output = io.StringIO()
+        writer = csv.DictWriter(output, data_rows.FIELDS, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+        self.owned.write_text(output.getvalue())
+
+    def test_owner_replaces_unowned_alias_in_loaded_index(self):
+        ledger = dl.load(self.index)
+        facts = {self.SOURCE: ({(self.OWNER, self.ADDRESS)}, {self.OWNER}),
+                 "User.cpp": ({(self.OWNER, self.ADDRESS)}, set())}
+        self.assertEqual(data_check.findings(facts, ledger), [])
+        self.assertEqual(ledger[self.ADDRESS]["size"], "4")
+
+    def test_alias_and_second_definition_still_refused(self):
+        ledger = dl.load(self.index)
+        facts = {"Alias.cpp": ({(self.ALIAS, self.ADDRESS)}, set()),
+                 "Duplicate.cpp": ({(self.OWNER, self.ADDRESS)}, {self.OWNER})}
+        self.assertEqual(data_check.findings(facts, ledger), [
+            ("Alias.cpp", "wrong-name", self.ALIAS, "0x009DEF08"),
+            ("Duplicate.cpp", "duplicate-def", self.OWNER, "0x009DEF08")])
+
+    def test_generated_index_uses_owner_even_without_owner_object(self):
+        bind = {self.ADDRESS: collections.Counter({(self.ALIAS, None): 4})}
+        with patch.object(dl, "retail_sections", return_value=[(".data", 0x900000, 0x100000, 0x100000)]):
+            rows = dl.ledger_rows(bind, {})
+        self.assertEqual(rows[0]["name"], self.OWNER)
+        self.assertEqual(rows[0]["source"], self.SOURCE)
+        self.assertEqual(rows[0]["size"], "4")
+        self.assertIn(self.ALIAS, rows[0]["names"])
+
+    def test_data_only_owner_is_checked_without_cached_index_entry(self):
+        self.index.write_text(dl.render([]))
+        self.row.update(address="0x00DDEF08", address_kind="va")
+        self.write_owners([self.row])
+        ledger = dl.load(self.index)
+        self.assertEqual(ledger[self.ADDRESS]["name"], self.OWNER)
+
+    def test_ambiguous_ownership_is_refused(self):
+        self.write_owners([self.row, dict(self.row, name=self.ALIAS)])
+        with self.assertRaises(ValueError):
+            dl.load(self.index)
+
+    def test_unmatched_ownership_is_refused(self):
+        self.write_owners([dict(self.row, status="unmatched")])
+        with self.assertRaises(ValueError):
+            dl.load(self.index)
 
 
 class Check(unittest.TestCase):

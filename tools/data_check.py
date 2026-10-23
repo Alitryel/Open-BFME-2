@@ -573,7 +573,11 @@ def main(argv=None):
         else:
             sources = args.sources
         return check_converged(sources, converged)
-    ledger = dl.load()
+    try:
+        ledger = dl.load()
+    except (OSError, ValueError) as error:
+        print(f"data_check: cannot use data ledger: {error}")
+        return 1
     if not ledger:
         print("data_check: no reverse/data_ledger.csv; nothing to check")
         return 0
