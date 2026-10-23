@@ -9568,7 +9568,6 @@ _VP6_CreateQuantizer,,0x001B7990,73,Code/Libraries/Source/VP6/CreateQuantizer.cp
 ?Add_Texture@MaterialInfoClass@@QAEPAXPAX@Z,,0x0016FBF0,23,Code/GameEngine/Source/Common/MaterialInfoClass_Add_Texture.cpp,matched,BFME1 byte-identical donor; b1 0x0092FD40; class and method per WorldBuilder MaterialInfoClass::Add_Texture: adds to the texture DynamicVectorClass (rowed Add) as WB's does; WW3D's MaterialInfoClass has the method; wb-name-unverified
 _CreatePostProcInstance,,0x001B6890,63,Code/Libraries/Source/VP6/PostProcInstance.cpp,matched,Clean-room spec 001b6890; CreatePostProcInstance: cdecl allocating zeroing and configuring a 0xC8-byte post-processor instance; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001b6890.md and retail only
 ?grokIf1@BfmeIf1VMK@@QAEXXZ,,0x00024850,32,Code/GameEngine/Source/Common/BfmeGrokOdIf0.cpp,matched,BFME1 byte-identical donor; b1 0x0082BDE0
-?grokIf0@BfmeIf0VMJ@@QAEXXZ,,0x00024830,27,Code/GameEngine/Source/Common/BfmeGrokOdIf0.cpp,matched,BFME1 byte-identical donor; b1 0x0082BDC0
 ?bfmeAddFO@BfmeHostFO@@QAEHPBD0@Z,,0x0066DCA0,82,Code/GameEngine/Source/Common/BfmeConv2049.cpp,matched,BFME1 byte-identical donor; b1 0x008019A0
 ?go@Rva007E8980@@QAEXHE@Z,,0x00655A10,51,Code/GameEngine/Source/Common/Rva007E8980Guard.cpp,matched,BFME1 byte-identical donor; b1 0x007E8980
 ?bfmeAddFP@BfmeHostFP@@QAEHPBD0@Z,,0x0066E6F0,82,Code/GameEngine/Source/Common/BfmeConv2050.cpp,matched,BFME1 byte-identical donor; b1 0x008024B0

@@ -1658,3 +1658,4 @@ __ehhandler$??0Rva0018BEC7@@QAE@XZ,0x007687F8,"Renamed to __ehhandler$??0FXShade
 ?xfer@Rva0052CFB1@@UAEXPAVXfer@@@Z,0x0052BAFE,"Renamed to ?xfer@LivingWorldCampaign@@UAEXPAVXfer@@@Z: retail vtable 0x00868780 slot 3 transfers campaign field 0x08"
 __ehhandler$??1Rva0052CFB1@@UAE@XZ,0x007971FA,"Renamed to __ehhandler$??1LivingWorldCampaign@@UAE@XZ: follows the rename of its function"
 ?MeasureIcmpPing@@YGHIH@Z,0x0054F99E,"Renamed to ?doPing@PingThreadClass@@AAEHIH@Z: retail caller 0x00550306 passes the PingThreadClass receiver in ECX"
+?grokIf0@BfmeIf0VMJ@@QAEXXZ,0x00024830,"Retired BFME1 donor model stand-in; the 27-byte body at 0x00024830 is emitted by the local BfmeNodeAllocLock destructor in BfmeSmallAllocPR.cpp and is the unwind cleanup target of the rowed parent 0x000279A0. The real STLport false dtor identity is the <false;0> twin of the 0x00024850 pin."
