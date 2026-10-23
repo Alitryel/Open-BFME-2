@@ -16,8 +16,8 @@ class BfmeBaseVNH
 {
 public:
 	BfmeBaseVNH(unsigned w, char f);
-	virtual ~BfmeBaseVNH();
-	virtual void handle();
+	// vtable 0x007FE008 slot 1 is the shared empty return (0x000B3FD0).
+	virtual void handle() {}
 
 	unsigned m_bfme04;
 	char m_bfme08;
@@ -27,7 +27,6 @@ class Rva003FD2C2 : public BfmeBaseVNH
 {
 public:
 	Rva003FD2C2(unsigned w, const Coord3D *pos, float angle, unsigned x, char f);
-	virtual ~Rva003FD2C2();
 	Coord3D m_pos;		// +0x0C
 	float m_angle;		// +0x18
 	unsigned m_scaled;	// +0x1C

@@ -14,8 +14,8 @@ class BfmeBaseVNH
 {
 public:
 	BfmeBaseVNH(unsigned w, char f);
-	virtual ~BfmeBaseVNH();
-	virtual void handle();
+	// vtable 0x007FE008 slot 1 is the shared empty return (0x000B3FD0).
+	virtual void handle() {}
 
 	unsigned m_bfme04;
 	char m_bfme08;
@@ -25,7 +25,6 @@ class Rva003FD348 : public BfmeBaseVNH
 {
 public:
 	Rva003FD348(unsigned w, unsigned x, char f);
-	virtual ~Rva003FD348();
 	unsigned m_0c;
 };
 
