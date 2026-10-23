@@ -22,7 +22,9 @@ namespace _STL { template <> unsigned short * basic_string<unsigned short, char_
 namespace _STL { template <> unsigned short * __char_traits_base<unsigned short, unsigned short>::move(unsigned short *, unsigned short const *, unsigned int); }
 // bfme link decl-only end
 
-struct Rva0054A5ADElement { _STL::basic_string<wchar_t> strings[1]; bool operator<(const Rva0054A5ADElement&)const; bool operator==(const Rva0054A5ADElement&)const; };
+// Retail's body calls __copy_backward<deque_iterator<BfmeE8>> (0x0054A152,
+// stlport_deque_e8_o1.cpp), so the element is that unit's 8-byte BfmeE8.
+struct BfmeE8 { int a, b; };
 
 // Instantiate the recovered operation and its required template dependencies.
-template _STL::_Deque_iterator<Rva0054A5ADElement, _STL::_Nonconst_traits<Rva0054A5ADElement> > _STL::__copy_backward_aux<_STL::_Deque_iterator<Rva0054A5ADElement, _STL::_Nonconst_traits<Rva0054A5ADElement> >, _STL::_Deque_iterator<Rva0054A5ADElement, _STL::_Nonconst_traits<Rva0054A5ADElement> > >(_STL::_Deque_iterator<Rva0054A5ADElement, _STL::_Nonconst_traits<Rva0054A5ADElement> >, _STL::_Deque_iterator<Rva0054A5ADElement, _STL::_Nonconst_traits<Rva0054A5ADElement> >, _STL::_Deque_iterator<Rva0054A5ADElement, _STL::_Nonconst_traits<Rva0054A5ADElement> >, _STL::__false_type const &);
+template _STL::_Deque_iterator<BfmeE8, _STL::_Nonconst_traits<BfmeE8> > _STL::__copy_backward_aux<_STL::_Deque_iterator<BfmeE8, _STL::_Nonconst_traits<BfmeE8> >, _STL::_Deque_iterator<BfmeE8, _STL::_Nonconst_traits<BfmeE8> > >(_STL::_Deque_iterator<BfmeE8, _STL::_Nonconst_traits<BfmeE8> >, _STL::_Deque_iterator<BfmeE8, _STL::_Nonconst_traits<BfmeE8> >, _STL::_Deque_iterator<BfmeE8, _STL::_Nonconst_traits<BfmeE8> >, _STL::__false_type const &);
