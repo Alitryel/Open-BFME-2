@@ -365,7 +365,9 @@ public:
 	virtual void onCollide(Object *obj, const Coord3D *loc, const Coord3D *normal);
 	// Primary vtable slots 1-8 (slot 0 is the destructor).
 	virtual void v01();
-	virtual void v02();
+protected:
+	virtual const char *GetSnapshotName() const;
+public:
 	virtual void xfer(Xfer *xfer);
 	virtual NameKeyType getModuleNameKey() const;
 	virtual void onObjectCreated();
@@ -932,6 +934,7 @@ public:
 	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int unused);
 	Bool isSupplyTruckBrainActiveAndBusy();
 protected:
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 	virtual ~WorkerAIUpdate();
 	const WorkerAIUpdateModuleData *getWorkerAIUpdateModuleData() const { return (const WorkerAIUpdateModuleData *)getModuleData(); }

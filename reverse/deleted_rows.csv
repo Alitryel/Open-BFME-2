@@ -2031,3 +2031,5 @@ __ehhandler$?rva00059A25@Rva00059A25@@QAEXABVAsciiString@@H@Z,0x0075D851,"Rename
 ?rva000515B3@Rva000515B3@@QAEXH@Z,0x000515B3,"Renamed to ?rva000515B3@MilesAudioManager@@UAEXH@Z: retail MilesAudioManager table 0x007C55B0 slot 66 targets 0x000515B3"
 ?rva000518A4@Rva000518A4@@QAEHH@Z,0x000518A4,"Renamed to ?rva000518A4@MilesAudioManager@@UAEHH@Z: retail MilesAudioManager table 0x007C55B0 slot 39 targets 0x000518A4"
 ?rva000512BC@Rva000512BCForwarder@@QAEXXZ,0x000512BC,"Renamed to ?rva000512BC@MilesAudioManager@@UAEXXZ: retail MilesAudioManager table 0x007C55B0 slot 96 targets 0x000512BC"
+?name@WorkerAIUpdate@@QBEPBDXZ,0x004A9B4B,"Renamed to ?GetSnapshotName@WorkerAIUpdate@@MBEPBDXZ: retail constructor table slot 2 targets the class-name getter of the Snapshot interface"
+?name@DozerAIUpdate@@QBEPBDXZ,0x00489629,"Renamed to ?GetSnapshotName@DozerAIUpdate@@MBEPBDXZ: retail constructor table slot 2 targets the class-name getter of the Snapshot interface"

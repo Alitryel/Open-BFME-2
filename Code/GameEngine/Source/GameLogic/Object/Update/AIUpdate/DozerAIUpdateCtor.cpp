@@ -506,7 +506,9 @@ public:
 	virtual void onCollide(Object *obj, const Coord3D *loc, const Coord3D *normal);
 	// Primary vtable slots 1-92 (slot 0 is the destructor).
 	virtual void v01();
-	virtual void v02();
+protected:
+	virtual const char *GetSnapshotName() const;
+public:
 	virtual void xfer(Xfer *xfer);
 	virtual NameKeyType getModuleNameKey() const;
 	virtual void onObjectCreated();
@@ -1050,6 +1052,7 @@ private:
 	void createMachines();
 
 protected:
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 	virtual void privateRepair(Object *obj, CommandSourceType cmdSource);
 	virtual void privateResumeConstruction(Object *obj, CommandSourceType cmdSource);
