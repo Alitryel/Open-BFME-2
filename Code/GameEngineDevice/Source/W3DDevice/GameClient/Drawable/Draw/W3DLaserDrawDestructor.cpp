@@ -80,7 +80,7 @@ RTS2DScene *W3DDisplay::m_2DScene = 0;
 class W3DLaserDraw : public DrawModule, public LaserDrawInterface
 {
 public:
-	virtual void doDrawModule(const class Matrix3D *transform) = 0;
+	virtual void doDrawModule(const class Matrix3D *transform);
 	virtual float getLaserTemplateWidth() const;
 
 protected:

@@ -4,15 +4,14 @@
 // Target facts: no own vptr store (the implicit dtor); destroys the second
 // base at +0x08 through the rowed ??1Rva005E9F3F 0x005E9F3F (null-checked
 // this+8 adjust) under EH state 0 for the primary base, whose inline dtor
-// then resets to its vtable 0x00C75290 (Rva005CF872 { ??_G, slot 1, slot 2 }).
+// then resets to its vtable 0x00C75290 (Rva005CF872 { ??_G, slot 1 }).
 // Identity unproven; address-derived names.
 
 class Rva005CF872
 {
 public:
 	virtual ~Rva005CF872() {}
-	virtual void slot1() = 0;
-	virtual void slot2() = 0;
+	virtual void Update() {}
 
 private:
 	int m_04;
@@ -22,6 +21,10 @@ class Rva005E9F3F
 {
 public:
 	virtual ~Rva005E9F3F();
+	virtual void event1() = 0;
+	virtual void event2() = 0;
+	virtual void event3() = 0;
+	virtual void event4() = 0;
 
 private:
 	void *m_04;
@@ -31,8 +34,11 @@ class Rva005CFDA6 : public Rva005CF872, public Rva005E9F3F
 {
 public:
 	Rva005CFDA6();
-	virtual void slot1() = 0;
-	virtual void slot2() = 0;
+	virtual void Update() = 0;
+	virtual void event1() = 0;
+	virtual void event2() = 0;
+	virtual void event3() = 0;
+	virtual void event4() = 0;
 };
 
 // The implicit virtual dtor (no own vptr store) is emitted with the vtable

@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // Open-BFME5: BfmeQuickMatchScreenBase's constructor, retail 0x00470620, 86
 // bytes. The body carried only a machine byte-dump row; reverse/reloc_names.csv
@@ -13,16 +13,12 @@
 
 typedef int Int;
 
-class BfmeQuickMatchSlot
-{
-public:
-	BfmeQuickMatchSlot() { m_bfmePointer = 0; }
-	~BfmeQuickMatchSlot();
-	void set(const BfmeQuickMatchSlot &other);
-
-private:
-	void *m_bfmePointer;
-};
+// The +0x04 member is an AsciiString: the unwind funclet destroys it through
+// ??1AsciiString 0x0048BA39 and bfmeAttach copies it through the StringBase
+// copy-set 0x000366F0.
+#define BFME_ASCII_DTOR_DECL
+#include "ascii_string.h"
+typedef AsciiString BfmeQuickMatchSlot;
 
 struct BfmeQuickMatchNode
 {
@@ -57,7 +53,7 @@ public:
 	virtual void bfmeSlot1(void);
 	virtual void bfmeSlot2(void) = 0;
 	virtual void bfmeSlot3(void) = 0;
-	virtual void bfmeSlot4(void);
+	virtual void rva00538AB0(bool flag);
 	virtual void bfmeSlot5(void) = 0;
 	virtual void bfmeAdd(void *payload) = 0;
 
@@ -89,7 +85,7 @@ void BfmeQuickMatchScreenBase::bfmeAttach(void *screen)
 		node = node->m_next;
 	}
 
-	m_bfmeSlot.set(*(BfmeQuickMatchSlot *)((char *)screen + 0x24));
+	((StringBase<char> *)&m_bfmeSlot)->set(*(const StringBase<char> *)((char *)screen + 0x24));
 }
 
 // ??0BfmeQuickMatchScreenBase@@QAE@PAX@Z
@@ -108,4 +104,3 @@ BfmeQuickMatchScreenBase::BfmeQuickMatchScreenBase(void *screen)
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?bfmeSlot0@BfmeQuickMatchScreenBase@@UAEXXZ=?runInit@WindowLayout@@QAEXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeSlot1@BfmeQuickMatchScreenBase@@UAEXXZ=??_GRva00538C5F@@UAEPAXI@Z")
-#pragma comment(linker, "/alternatename:?bfmeSlot4@BfmeQuickMatchScreenBase@@UAEXXZ=?rva00538AB0@BfmeQuickMatchScreenBase@@UAEX_N@Z")

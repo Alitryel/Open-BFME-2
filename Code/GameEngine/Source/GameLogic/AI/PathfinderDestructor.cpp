@@ -20,7 +20,9 @@ class Pathfinder : public PathfindServicesInterface, public Snapshot {
 public: ~Pathfinder();
 private:
  virtual void slot0() = 0; virtual void slot1() = 0; virtual void slot2() = 0; virtual void slot3() = 0; virtual void slot4() = 0; virtual void slot5() = 0; virtual void slot6() = 0;
- virtual void loadPostProcess() = 0; virtual const char *GetSnapshotName()const = 0; virtual void xfer(Xfer*) = 0;
+public:
+ virtual void loadPostProcess() = 0; virtual const char *GetSnapshotName()const = 0; virtual void xfer(Xfer*);
+private:
  char unknown08[0x60-8];
  PathfindLayer layers[16];
  PathfindZoneManager zones;
