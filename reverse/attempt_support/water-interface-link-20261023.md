@@ -46,3 +46,12 @@ imports pass; strict reusable receipt preparation passes all six sources;
 new-variant check, frozen-definition check, check_csv and diff check pass.
 No census, link cycle, nightly, boot runner or verifier edit was performed.
 Scratch paired previews and acceptance output are build/link-seat-water-*.
+
+Post-commit shadow identity diagnostic: allowed_symbols scans the stale literal
+object-symbol=$L1420 on Unwind@00b79dae and reports a divergent call at
+0x002E3E51. Exact parent EH mapping instead binds $L1419 to 0x00779DAE
+and $L1420 to 0x00779DB9. The normal byte gate follows that verified mapping;
+the shadow identity scanner currently reads ledger_object_symbol directly.
+This is a label-renumbering scanner limitation, not evidence of a changed
+cleanup call. Preserve this diagnostic for a separate verifier repair with
+a regression test; no tool or baseline was modified.
