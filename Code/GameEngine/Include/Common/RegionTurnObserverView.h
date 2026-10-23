@@ -9,6 +9,6 @@ class RegionTurnObserverView
 {
 public:
     virtual void BeginTurn(int, int) {}
-    virtual void EndTurn(int, int) {}
+    virtual void OnTurnEnding(int, int) {}
     ~RegionTurnObserverView() {}
 };

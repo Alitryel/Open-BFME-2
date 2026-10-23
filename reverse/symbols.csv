@@ -4308,7 +4308,6 @@ name,address,notes
 ??1Rva002B644A@@EAE@XZ,0x004FC05C,dtor installs its own vftable 0x00BFE280 (bytes at ++19) and is the REL32 callee of the slot-0 ??_G at 0x002B647C
 ??1Rva002B74DE@@QAE@XZ,0x002B74DE,pointee destructor called by the owning-pointer reset 0x002B9099 (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name
 ??1Rva002B905DDtor@@QAE@XZ,0x002B905D,dtor thunk stub at 0x002B905D to 0x00433BD7 (target of thunk 0x007B839B)
-??1Rva002B964F@@UAE@XZ,0x002B964F,"destructor the scalar deleting destructor 0x002BAEE5 calls (REL32 at 0x002BAEE8; vtable 0x00BFE2E4#0); opaque address name"
 ??1Rva002BB281Member08@@QAE@XZ,0x002BAD1C,retail REL32 at 0x002BB2A5 in 0x002BB281 targets dup 0x002BAD1C whose 57B body is same clear-plus-free as rowed Rva000427195 dtor 0x001FDEDB except handler
 ??1Rva002BB6BE20Rec@@QAE@XZ,0x002B6B4C,20B vector-at-8 destroy ICF twin of rowed Member44 dtor via call at 0x002BB6C7; same body; needed for Destroy 0x002BB6BE
 ??1Rva002BEDA4@@QAE@XZ,0x002BEDA4,destructor called by the vtable-referenced scalar deleting dtor 0x005CBAEE (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name

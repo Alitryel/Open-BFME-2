@@ -73,9 +73,18 @@ struct RegionCampaignView;
 namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<const ModuleData *, allocator<const ModuleData *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); } }
 typedef _STL::vector<const ModuleData *> RegionSlots;
 
-class LivingWorldRegionManager
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+#include "../../../../Include/Common/RegionTurnObserverView.h"
+class LivingWorldRegionManager : public Snapshot, public RegionTurnObserverView
 {
 public:
+	virtual ~LivingWorldRegionManager();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+	virtual void BeginTurn(int, int);
+	virtual void OnTurnEnding(int, int);
 	void EnumeratePendingBattles(PendingBattleVisitor &visitor) const;
 	void AddBattle(RegionBattleView *, const RegionSlots &, const RegionSlots &, const RegionBattlePoint &);
 	LivingWorldPendingBattle *rva0020E57F(unsigned int);
@@ -89,12 +98,13 @@ public:
 private:
 	friend class LivingWorldRegionBonusRule;
 
-	unsigned char m_pad00[0x8];
 	RegionCampaignView *m_campaign08;				// +0x08
 	unsigned char m_pad0C[0x14 - 0xC];
 	_STL::vector<LivingWorldPendingBattle *> m_pendingBattles; // +0x14
-	unsigned char m_pad20[0x30 - 0x20];
+	_STL::vector<void *> m_completed;
+	Int m_key2C;
 	Int m_nextBattleID;							// +0x30
+	_STL::vector<void *> m_campaigns;
 };
 
 // LivingWorldRegionManager::GetRegionCenterPoint, retail 0x0020F27E.
@@ -264,7 +274,6 @@ struct RegionBonusRuleRegionIDList
 };
 
 #define BFME_SNAPSHOT_NAME_SLOT
-#include "Common/Snapshot.h"
 
 // A rule's bonus block (+0x04): a Snapshot with six ints, copied by the rowed
 // 0x0020E449 and scaled by the rowed 0x0020E27B; a copy dies inline, leaving
@@ -469,8 +478,8 @@ Rva0021030E::~Rva0021030E()
 // Its primary Snapshot table has four slots; the +4 observer base has two
 // turn callbacks and no virtual destructor. The three pointer vectors are
 // at +14, +20 and +34; +34 owns the campaign records destroyed above.
-// Preserve the existing address-derived destructor owner rather than infer
-// names for the observer interface or the remaining primary-slot methods.
+// The primary name slot identifies LivingWorldRegionManager; the two
+// secondary callbacks use the shared turn-observer interface.
 class CreateAHeroData;
 class Rva002B7250
 {
@@ -487,27 +496,7 @@ class Rva0020F685
 public:
 	void rva0020F685();
 };
-#include "../../../../Include/Common/RegionTurnObserverView.h"
-class Rva00210B38 : public Snapshot, public RegionTurnObserverView
-{
-public:
-	virtual ~Rva00210B38();
-protected:
-	virtual void loadPostProcess();
-	virtual const char *GetSnapshotName(void) const;
-	virtual void xfer(Xfer *);
-	virtual void BeginTurn(int, int);
-	virtual void EndTurn(int, int);
-private:
-	void *m_campaign08;
-	int m_key0C, m_key10;
-	_STL::vector<void *> m_pending;
-	_STL::vector<void *> m_completed;
-	unsigned char m_pad2C[8];
-	_STL::vector<void *> m_campaigns;
-};
-
-Rva00210B38::~Rva00210B38()
+LivingWorldRegionManager::~LivingWorldRegionManager()
 {
 	for (unsigned int i = 0; i < m_campaigns.size(); ++i)
 		delete static_cast<Rva002109F8 *>(m_campaigns[i]);

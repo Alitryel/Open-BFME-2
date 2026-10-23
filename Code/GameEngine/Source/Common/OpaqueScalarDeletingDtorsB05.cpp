@@ -302,16 +302,16 @@ class Rva002B964FBaseC
 public:
 	virtual ~Rva002B964FBaseC();
 };
-class Rva002B964F : public Rva002B964FBase0, public Rva002B964FBaseC
+class LivingWorldLogic : public Rva002B964FBase0, public Rva002B964FBaseC
 {
 public:
-	Rva002B964F(EmitVtableTag *);
+	LivingWorldLogic(EmitVtableTag *);
 public:
-	virtual ~Rva002B964F();
+	virtual ~LivingWorldLogic();
 };
 
-// ?<Rva002B964F::Rva002B964F> absent-from-retail
-Rva002B964F::Rva002B964F(EmitVtableTag *)
+// ?<LivingWorldLogic::LivingWorldLogic> absent-from-retail
+LivingWorldLogic::LivingWorldLogic(EmitVtableTag *)
 {
 }
 

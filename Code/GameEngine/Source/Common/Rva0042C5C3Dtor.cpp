@@ -143,7 +143,7 @@ public:
 	virtual ~Rva0042C5C3();
  virtual int translateGameMessage(const void *);
  virtual void event6_0(int);
- virtual void EndTurn(int,int);
+ virtual void OnTurnEnding(int,int);
  int rva0042C0DB(const Rva0042C083Param *,int);
 private:
 	int m_18;
@@ -231,7 +231,7 @@ int Rva0042C5C3::translateGameMessage(const void *raw){
 }
 
 void Rva0042C5C3::event6_0(int){m_2C=0;}
-void Rva0042C5C3::EndTurn(int,int value){m_2C=value;}
+void Rva0042C5C3::OnTurnEnding(int,int value){m_2C=value;}
 
 // Native C3C6E4 is the two-slot translator table. C3C6DC at+4 is the
 // two-slot Logic observer; C3C6D4 at+8 is the two-slot turn observer.

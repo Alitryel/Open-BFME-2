@@ -1,7 +1,7 @@
-// cl: /O1 /G7 /arch:SSE /MD
+// cl: /O1 /G7 /arch:SSE /MD /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii
 // Native2BC653..2BC830 RET4 and WBd8b3e0 establish the complete snapshot
-// transfer. The original owner/method name remains unknown; native receiver
-// is the snapshot view at whole+0C. Target establishes all accessed fields,
+// transfer. The name slot identifies LivingWorldLogic; its native receiver
+// is the Snapshot view at whole+0C. Target establishes all accessed fields,
 // ID transfer roles90..A0 and versions1/6,5,6,2; WB is the structural guide.
 // Recompute the whole receiver at each use: a long-lived parent local adds
 // an early EBX save that retail lacks. Canonical globals and their providers
@@ -70,12 +70,16 @@ class RvaSnapshotView {public:virtual void s0();virtual void s1();virtual void s
 class RvaSnapshotResetView {public:
  virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();virtual void s6();virtual void s7();virtual void s8();virtual void s9();virtual void reset(int);
 };
-class Rva002BC653Snapshot {public:void rva002BC653(Xfer*);
- char unknown00[0x90];int army90,building94,plot98,spawn9C,playerA0;RvaSnapshotView*otherA4;bool enabledA8,flagA9;char unknownAA[0xBD-0xAA];bool loadEnabledBD;char unknownBE[0xF0-0xBE];int counterF0;
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+#include "../../../../../Libraries/Source/subsystem/SubsystemInterface.h"
+class LivingWorldLogic : public SubsystemInterface, public Snapshot
+{public:virtual void xfer(Xfer*);
+ char unknown10[0x9C - 0x10];int army90,building94,plot98,spawn9C,playerA0;RvaSnapshotView*otherA4;bool enabledA8,flagA9;char unknownAA[0xBD-0xAA];bool loadEnabledBD;char unknownBE[0xF0-0xBE];int counterF0;
 };
-void Rva002BC653Snapshot::rva002BC653(Xfer*xfer){
+void LivingWorldLogic::xfer(Xfer*xfer){
  if(xfer->IsCRC()){
-  if(!enabledA8 || !((BfmeSelectionState*)((char*)this-12))->isSelectionLocked())return;
+  if(!enabledA8 || !((BfmeSelectionState*)((char*)this))->isSelectionLocked())return;
  }
  Version version(1,6);
  xfer->xferVersion(&version);
@@ -88,19 +92,19 @@ void Rva002BC653Snapshot::rva002BC653(Xfer*xfer){
   xfer->xferBool(&loadEnabledBD);
   if(!loadEnabledBD){((Rva002BED10*)((Rva002D3627Host *)TheLivingWorld))->rva002BED10();return;}
   ((Rva002BED10*)((Rva002D3627Host *)TheLivingWorld))->rva002BED10();
-  ((Rva002BBA45*)((BfmeSelectionState*)((char*)this-12)))->rva002BBA45(xfer);
+  ((Rva002BBA45*)((BfmeSelectionState*)((char*)this)))->rva002BBA45(xfer);
  }else{
   loadEnabledBD=enabledA8;
   xfer->xferBool(&loadEnabledBD);
   if(!loadEnabledBD)return;
-  ((Rva002BB5DD*)((BfmeSelectionState*)((char*)this-12)))->rva002BB5DD(xfer);
+  ((Rva002BB5DD*)((BfmeSelectionState*)((char*)this)))->rva002BB5DD(xfer);
  }
  ((RvaSnapshotView*)((char*)TheCampaignManager+12))->transfer(xfer);
  xfer->xferBool(&flagA9);
  if(xfer->IsLoading()){
   ((Rva002BBBE7*)&g_Va00E04544)->rva002BC39D();
-  if(flagA9)((Glo012F1028Type*)((BfmeSelectionState*)((char*)this-12)))->rva002B7D03();
-  else ((Rva002B7C74*)((BfmeSelectionState*)((char*)this-12)))->rva002B7C74();
+  if(flagA9)((Glo012F1028Type*)((BfmeSelectionState*)((char*)this)))->rva002B7D03();
+  else ((Rva002B7C74*)((BfmeSelectionState*)((char*)this)))->rva002B7C74();
  }
  otherA4->transfer(xfer);
  TheGameLogic->rva0023CFE4(xfer);
@@ -109,7 +113,7 @@ void Rva002BC653Snapshot::rva002BC653(Xfer*xfer){
   if(version.current>=6)xfer->xferSnapshot(((Rva002D3627Host *)TheLivingWorld));
  }
  if(xfer->IsLoading()){
-  if(((BfmeSelectionState*)((char*)this-12))->isSelectionLocked())((Rva002B6AA2*)((BfmeSelectionState*)((char*)this-12)))->rva002B6AA2();
+  if(((BfmeSelectionState*)((char*)this))->isSelectionLocked())((Rva002B6AA2*)((BfmeSelectionState*)((char*)this)))->rva002B6AA2();
   else ((RvaSnapshotResetView*)((Rva002D3627Host *)TheLivingWorld))->reset(0);
  }
  if(version.current>=2)xfer->xferInt(&counterF0);

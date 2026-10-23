@@ -1,4 +1,4 @@
-// cl: /GX- /DNDEBUG /MD
+// cl: /GX- /DNDEBUG /MD /Ireference/shims/moduledata
 //
 // Small vtable-slot bodies with no ledger owner and no Ghidra entry (sized
 // from their bytes), batch V. As in VslotSmallBodiesA-U, each class and
@@ -152,15 +152,22 @@ struct Rva0020EB07Info
 	char m_pad00[0x2C];
 	Rva0020EB07Vector<Rva003F055A *> m_2C;
 };
-class Rva0020EB07
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+#include "../../Include/Common/RegionTurnObserverView.h"
+class LivingWorldRegionManager : public Snapshot, public RegionTurnObserverView
 {
 public:
-	void rva0020EB07(Int a, Int b);
+	virtual ~LivingWorldRegionManager();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+	virtual void BeginTurn(int, int);
+	virtual void OnTurnEnding(int, int);
 private:
-	Int m_00;
 	Rva0020EB07Info *m_04;
 };
-void Rva0020EB07::rva0020EB07(Int a, Int b)
+void LivingWorldRegionManager::BeginTurn(Int a, Int b)
 {
 	Rva0020EB07Vector<Rva003F055A *> &v = m_04->m_2C;
 	for (UnsignedInt i = 0; i < (UnsignedInt)v.size(); i++)

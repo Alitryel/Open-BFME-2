@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii
+// cl: /O1 /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 // WB B590C0/B59670 name LivingWorldRegionManager::XferRegions/DoXfer and
 // System/LivingWorld/LivingWorldRegionManager.cpp. Complete native bounds
@@ -97,13 +97,21 @@ struct RegionCampaignView
 	char unknown04[0x28];
 	_STL::vector<RegionSnapshotTransferView *> regions;
 };
-class LivingWorldRegionManager
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+#include "../../../../Include/Common/RegionTurnObserverView.h"
+class LivingWorldRegionManager : public Snapshot, public RegionTurnObserverView
 {
 public:
 	void SelectCampaign(const StringBase<char> &);
 	void XferRegions(Xfer *);
-	void DoXfer(Xfer *);
-	char unknown00[8];
+	virtual ~LivingWorldRegionManager();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+	virtual void BeginTurn(int, int);
+	virtual void OnTurnEnding(int, int);
+
 	RegionCampaignView *current;
 	int battle0C, battle10;
 	char unknown14[0x18];
@@ -139,7 +147,7 @@ void LivingWorldRegionManager::XferRegions(Xfer *xfer)
 	}
 }
 
-void LivingWorldRegionManager::DoXfer(Xfer *xfer)
+void LivingWorldRegionManager::xfer(Xfer *xfer)
 {
 	XferVersion version;
 	version.fields.minimum = 1;

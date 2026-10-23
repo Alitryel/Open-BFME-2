@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /Ob1 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /Ob1 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 #include <new>
 #include <hash_map>
@@ -101,7 +101,6 @@ public:
 	void rva0020F483();
 	void rva002100E6(void *a1, void *a2);
 	void rva002101C6(void *a1);
-	void rva002102CA();
 	bool rva0020F91D(void *a1, void *a2, void *a3);
 	void *rva0020F9F6(void *a1, void *a2, void *filter);
 	void *rva0020FAEA(float *a1, void *a2);
@@ -173,23 +172,19 @@ public:
 	void rva0020F685();
 };
 
-class Rva0020FB41Primary
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+#include "../../../../GameEngine/Include/Common/RegionTurnObserverView.h"
+class LivingWorldRegionManager : public Snapshot, public RegionTurnObserverView
 {
 public:
-	virtual void v00();
-};
+	virtual ~LivingWorldRegionManager();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+	virtual void BeginTurn(int, int);
+	virtual void OnTurnEnding(int, int);
 
-class Rva00BE4350Turn
-{
-public:
-	virtual void rva0020EB07(int a1, int a2);
-	virtual void OnTurnEnding(int a1, int a2);
-};
-
-class LivingWorldRegionManager : public Rva0020FB41Primary, public Rva00BE4350Turn
-{
-public:
-	virtual void OnTurnEnding(int a1, int a2);
 
 private:
 	Rva0020EE29Inner *m_08;
@@ -490,7 +485,7 @@ void Rva0020EE29::rva002101C6(void *arg)
 	rva002100E6(arg, &m_20);
 }
 
-// ?rva002102CA@Rva0020EE29@@QAEXXZ @0x002102CA 68B
+// LivingWorldRegionManager::loadPostProcess at 0x002102CA.
 // Runs every entry of the +0x8 inner vector through its vtable slot-1, runs
 // the rowed-pending same-class 0x0020F483, and tail-jumps to the
 // rowed-pending inner 0x0020F5B3. Evidence: retail bounds-pointer traversal
@@ -505,13 +500,13 @@ public:
 	virtual void v01();
 };
 
-void Rva0020EE29::rva002102CA()
+void LivingWorldRegionManager::loadPostProcess()
 {
-	Rva002102CAElem ***bounds = (Rva002102CAElem ***)&m_inner->m_begin;
+	Rva002102CAElem ***bounds = (Rva002102CAElem ***)&m_08->m_begin;
 	for (unsigned i = 0; i < (unsigned)(((char *)bounds[1] - (char *)bounds[0]) >> 2); ++i)
 		bounds[0][i]->v01();
-	rva0020F483();
-	m_inner->rva0020F5B3();
+	reinterpret_cast<Rva0020EE29 *>(this)->rva0020F483();
+	m_08->rva0020F5B3();
 }
 
 // ?rva0020F685@Rva0020EE29@@QAEXXZ @0x0020F685 141B

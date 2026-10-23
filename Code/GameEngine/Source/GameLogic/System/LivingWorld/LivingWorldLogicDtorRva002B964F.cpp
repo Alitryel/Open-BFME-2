@@ -1,10 +1,10 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 //
-// ??1Rva002B964F@@UAE@XZ
+// ??1LivingWorldLogic@@UAE@XZ
 // retail 0x002B964F..0x002B98AD (606 bytes), thiscall, EH frame.
 //
-// LivingWorldLogic's destructor, kept under the class's existing placeholder
-// name (the adjustor thunk 0x002B9647 is rowed as ??_ERva002B964F@@WM@AE).
+// The Snapshot name slot identifies LivingWorldLogic; the +0x0C Snapshot
+// deleting-destructor thunk adjusts this before entering its complete owner.
 // WorldBuilder twin 0xD7CBB0 (unnamed; it calls
 // LivingWorldLogic::processArmyDestroyList) gives the body: leave the two
 // global observer lists (rowed 0x002B7250 on 0x00E04424 and 0x00E02E88)
@@ -47,7 +47,6 @@ extern Rva002B7250 g_registryAtE02E88;
 
 class Rva002B7C74 { public: void rva002B7C74(); };
 class Rva002B4CED { public: void rva002B753B(); };
-class LivingWorldLogic { public: void processArmyDestroyList(); };
 class Rva002B7B25 { public: void rva002B7B25(); };
 class Rva002B6900 { public: void rva002B6900(); };
 class Rva002B7B71 { public: void rva002B7B71(); };
@@ -187,14 +186,15 @@ public:
 	void *m_object;
 };
 
-class Rva002B964F : public SubsystemInterface, public Snapshot,
+class LivingWorldLogic : public SubsystemInterface, public Snapshot,
 	public Rva002B964FList1C, public Rva002B964FList2C, public Rva002B964FList3C,
 	public Rva002B964FList4C, public Rva002B964FList5C, public Rva002B964FList6C,
 	public Rva002B964FList7C, public LivingWorldBuildingObserver,
 	public Rva0056B126B2, public Rva002B964FPlayerObserver
 {
 public:
-	virtual ~Rva002B964F();
+	virtual ~LivingWorldLogic();
+	void processArmyDestroyList();
 
 	Rva002B964FWordVector m_vector8C;			// +0x8C
 	unsigned char m_pad98[0xb0 - 0x98];
@@ -219,7 +219,7 @@ public:
 	Rva002B9099 m_autoBattleResolver;			// +0x178
 };
 
-Rva002B964F::~Rva002B964F()
+LivingWorldLogic::~LivingWorldLogic()
 {
 	g_00E04424.rva002B7250((CreateAHeroData *)(LivingWorldBuildingObserver *)this);
 	g_registryAtE02E88.rva002B7250((CreateAHeroData *)(Rva0056B126B2 *)this);

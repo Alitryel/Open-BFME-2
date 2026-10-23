@@ -98,7 +98,11 @@ const char *TerrainLogic::GetSnapshotName() const
 }
 BFME_LITERAL_NAME_GETTER(Rva00214052Named, "LivingWorldManager")
 BFME_LITERAL_NAME_GETTER(Rva001FD2AENamed, "Money")
-BFME_LITERAL_NAME_GETTER(Rva002104B0Named, "LivingWorldRegionManager")
+class LivingWorldRegionManager { public: virtual const char *GetSnapshotName() const; };
+const char *LivingWorldRegionManager::GetSnapshotName() const
+{
+	return "LivingWorldRegionManager";
+}
 BFME_LITERAL_NAME_GETTER(SkirmishGameInfo, "SkirmishGameInfo")
 BFME_LITERAL_NAME_GETTER(Rva0028CBDBNamed, "ObjectWeaponStatusHelper")
 BFME_LITERAL_NAME_GETTER(ObjectSMCHelper, "ObjectSMCHelper")
@@ -109,7 +113,11 @@ BFME_LITERAL_NAME_GETTER(PlayerRelationMap, "PlayerRelationMap")
 BFME_LITERAL_NAME_GETTER(Rva002B30A8Named, "DelayedAudioEventModule")
 BFME_LITERAL_NAME_GETTER(Rva002B30D3Named, "DelayedCameraEventModule")
 BFME_LITERAL_NAME_GETTER(Rva002B596CNamed, "DelayedWorldTextEventModule")
-BFME_LITERAL_NAME_GETTER(Rva002B9641Named, "LivingWorldLogic")
+class LivingWorldLogic { public: virtual const char *GetSnapshotName() const; };
+const char *LivingWorldLogic::GetSnapshotName() const
+{
+	return "LivingWorldLogic";
+}
 BFME_LITERAL_NAME_GETTER(Rva002BAE89Named, "DelayedSplineCameraEventModule")
 // Slot 2 of native RadarObject table VA C035D0 returns this literal.
 // The canonical BFME2 Snapshot interface names this slot GetSnapshotName;

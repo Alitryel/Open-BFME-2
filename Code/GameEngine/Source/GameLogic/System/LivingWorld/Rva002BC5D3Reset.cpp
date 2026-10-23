@@ -1,6 +1,6 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii
 //
-// ?rva002BC5D3@Rva002BC5D3@@QAEXXZ @0x002BC5D3, native 2BC5D3..2BC653 (128 B,
+// LivingWorldLogic::loadPostProcess, native 2BC5D3..2BC653 (128 B,
 // ret 0). Identity: the WB debug body at va 0xd89ef0 (callgraph match 2.0)
 // reproduces this exact statement order; the receiver is an observer
 // subobject at +0xC of the object it resets, whose members are
@@ -8,13 +8,13 @@
 // with a virtual at vslot 1), m_bd (+0xBD guard) and m_dc (+0xDC tail guard).
 // The reset target is the same object Rva002BA8F1Logic::setLocal
 // (0x002B38F7) and Rva002B296F::rva002B296F (0x002B296F) are called on, so
-// its own offsets are reached through (char *)this - 0xC: player +0x98 =
+// its own offsets are reached through (char *)this: player +0x98 =
 // this+0x8C, region manager +0xB0 = this+0xA4, BfmeSelectionState flags
 // +0xB4/+0xB5 (rowed isSelectionLocked 0x0042253A), phase byte +0xE8 =
 // this+0xDC. Every call is a landed row: 0x002BC39D Rva002BBBE7 list clear
 // on the g_Va00E04544 global object, 0x005020CC BuildRegionDistances,
 // 0x002B38F7 setLocal, 0x0042253A isSelectionLocked, 0x002B296F phase
-// refresh. Names of the receiver/observer stay address-derived; the globals
+// refresh. The Snapshot name slot identifies LivingWorldLogic; the globals
 // are the ledger's own (TheCampaignManager 0x00A02D6C, g_00DFE1C8 0x009FE1C8,
 // g_00DFEF18 0x009FEF18, g_Va00E04544 0x00A04544).
 
@@ -114,14 +114,17 @@ public:
 	virtual void slot04();
 };
 
-// The observer subobject at +0xC whose reset method this is.
-class Rva002BC5D3
+// The Snapshot override receives the secondary subobject at +0xC.
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+#include "../../../../../Libraries/Source/subsystem/SubsystemInterface.h"
+class LivingWorldLogic : public SubsystemInterface, public Snapshot
 {
 public:
-	void rva002BC5D3();
+	virtual void loadPostProcess();
 
 private:
-	char m_pad00[0x8C];
+	char m_pad10[0x98 - 0x10];
 	Rva002E2903Player *m_player8C;		// +0x8C
 	char m_pad90[0xA4 - 0x90];
 	Rva002BC5D3RegionMgr *m_regionA4;	// +0xA4
@@ -131,7 +134,7 @@ private:
 	unsigned char m_dc;			// +0xDC
 };
 
-void Rva002BC5D3::rva002BC5D3()
+void LivingWorldLogic::loadPostProcess()
 {
 	if (m_bd != 0)
 	{
@@ -141,7 +144,7 @@ void Rva002BC5D3::rva002BC5D3()
 		((Rva002BBBE7 *)&g_Va00E04544)->rva002BC39D();
 		Rva005020CCBuildRegionDistances();
 
-		Rva002BA8F1Logic *logic = (Rva002BA8F1Logic *)((char *)this - 0xC);
+		Rva002BA8F1Logic *logic = (Rva002BA8F1Logic *)((char *)this);
 		logic->setLocal(m_player8C);
 
 		if (!((BfmeSelectionState *)logic)->isSelectionLocked())
