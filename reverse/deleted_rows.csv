@@ -1756,3 +1756,4 @@ __ehhandler$??1Rva005E80FD@@UAE@XZ,0x007A3E1A,"Renamed to __ehhandler$??1Impl@Bu
 __ehhandler$??0Rva005E8350@@QAE@PAVRva005E87E0@@PAX1PAURva005CE172Context@@@Z,0x007A3E8E,"Renamed to __ehhandler$??0Impl@BuildQueueDetailsPanel@StrategicInGameUI@@QAE@PAVRva005E87E0@@PAX1PAURva005CE172Context@@@Z: follows the rename of its function"
 ??_GRva005E80FD@@UAEPAXI@Z,0x005E8240,"Renamed to ??_GImpl@BuildQueueDetailsPanel@StrategicInGameUI@@UAEPAXI@Z: retail constructor and destructor install Impl tables C77F54 C77F44 C77F34"
 ?g_Va00E06724@@3IA,0x00A06724,"Renamed to ?g_Va00E06724@@3PAIA: retail constructor initializes a sixteen-byte object and queue constructor reads its third word"
+??0Rva00201EACLODManager@@QAE@XZ,0x00201EAC,"Renamed to ??0GameLODManager@@QAE@XZ: GameEngine::init calls this constructor for TheGameLODManager"

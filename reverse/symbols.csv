@@ -1924,7 +1924,6 @@ name,address,notes
 ??0GadgetCreateView@@QAE@XZ,0x0022239C,0x34-byte create-view zeroer called before snapshotCreateView by 0x003174CB/0x0031C9DF/0x0031CAD2; folds with the matched _ArcInfoStruct ctor body
 ??0GameEngine@@QAE@XZ,0x0022DA66,GameEngine default ctor; base of Win32GameEngine ctor 0x41D41
 ??0GameEngineDeletingBase@@QAE@XZ,0x001B4E63,twin spelling of the rowed baseConstruct ctor at the same address; Keyboard ctor at 0x232920 (formerly rowed AIPlayer) calls it as its base constructor
-??0GameLODManager@@QAE@XZ,0x00201EAC,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0GameMessage@@QAE@W4Type@0@@Z,0x0030F47A,"GameMessage ctor: the Zero Hour MessageStream::appendMessage and insertMessage bodies place uniquely at 0x0030F6D4/0x0030F704 (/O1) and construct the new message here (calls at 0x0030F6EA and 0x0030F71A); same body as the row named ??0Rva0030F47A@@QAE@PAX@Z"
 ??0GameMessageParserArgumentType@@QAE@W4GameMessageArgumentDataType@@H@Z,0x0054D593,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0GameResultsQueue@@QAE@XZ,0x00551A94,callee of ?createNewGameResultsInterface@GameResultsInterface@@SAPAV1@ at retail 0x00551B28 read from its REL32 displacement; body unrowed

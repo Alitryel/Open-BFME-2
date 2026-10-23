@@ -109,9 +109,9 @@ typedef char Rva00201D79StrideCheck[sizeof(Rva00201D79BenchProfile)==0x14 ? 1 : 
 // decoded BFME 2 array counts/strides and every scalar store, not the donor's
 // overall layout. Target Ghidra boundary [0x00201EAC..0x0020200D) is 353B;
 // callbacks above and array iterator0x1423 are separately verified recoveries.
-struct Rva00201EACLODManager
+struct GameLODManager
 {
-    Rva00201EACLODManager();
+    GameLODManager();
     Rva00201DC4LODInfo staticInfo[6];
     Rva00201E2BLODInfo dynamicInfo[5];
     Rva00201E45LODInfo audioInfo[2];
@@ -128,7 +128,7 @@ struct Rva00201EACLODManager
     int word17EC, word17F0;
 };
 
-Rva00201EACLODManager::Rva00201EACLODManager()
+GameLODManager::GameLODManager()
 {
     word1768=-1; word176C=3; word1770=-1; word1774=2;
     word1778=3; word177C=3; word1780=2; word1784=2; word1788=3;
@@ -141,4 +141,4 @@ Rva00201EACLODManager::Rva00201EACLODManager()
     for (int i=0;i<5;++i) counts17AC[i]=0;
 }
 
-typedef char Rva00201EACSizeCheck[sizeof(Rva00201EACLODManager)==0x17F4 ? 1 : -1];
+typedef char Rva00201EACSizeCheck[sizeof(GameLODManager)==0x17F4 ? 1 : -1];

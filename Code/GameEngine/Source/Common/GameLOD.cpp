@@ -232,35 +232,7 @@ void INI::parseLODPreset(INI *ini)
 	}
 }
 
-// ??0GameLODManager@@QAE@XZ present-unmatched
-GameLODManager::GameLODManager(void)
-{
-	m_currentStaticLOD = STATIC_GAME_LOD_UNKNOWN;
-	m_currentDynamicLOD = DYNAMIC_GAME_LOD_HIGH;
-	m_numParticleGenerations=0;
-	m_dynamicParticleSkipMask=0;
-	m_numDebrisGenerations=0;
-	m_dynamicDebrisSkipMask=0;
-	m_videoPassed=false;
-	m_cpuPassed=false;
-	m_memPassed=false;
-	m_slowDeathScale=1.0f;
-	m_idealDetailLevel = STATIC_GAME_LOD_UNKNOWN;
-	m_videoChipType = DC_MAX;
-	m_cpuType = XX;
-	m_numRAM=0;
-	m_cpuFreq=0;
-	m_intBenchIndex=0;
-	m_floatBenchIndex=0;
-	m_memBenchIndex=0;
-	m_compositeBenchIndex=0;
-	m_numBenchProfiles=0;
-	m_currentTextureReduction=0;
-	m_reallyLowMHz = 400;
-	
-	for (Int i=0; i<STATIC_GAME_LOD_CUSTOM; i++)
-		m_numLevelPresets[i]=0;
-};
+// The retail constructor is defined in Rva00201DC4LODDefaults.cpp.
 
 GameLODManager::~GameLODManager()
 {
@@ -412,7 +384,7 @@ struct BfmeGameLODGlobalData
 class Shell
 {
 public:
-	Bool showShellMap(Bool useShellMap);
+	Bool showShellMap(Bool useShellMap, Bool restartShellGame);
 };
 
 extern Shell *TheShell;
@@ -460,7 +432,7 @@ Bool GameLODManager::setStaticLODLevel(StaticGameLODLevel level)
 	}
 
 	if (TheShell)
-		TheShell->showShellMap(TRUE);
+		TheShell->showShellMap(TRUE, TRUE);
 
 	return_true:
 	return TRUE;
