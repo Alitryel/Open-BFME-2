@@ -32,6 +32,8 @@ namespace _STL { template <> void vector<UnitRevivalEntry,allocator<UnitRevivalE
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class UnitRevivalEntry;
 namespace _STL { template <> void _Construct<UnitRevivalEntry,UnitRevivalEntry>(UnitRevivalEntry *,UnitRevivalEntry const &); }
+// Use the push_back copy emitted by UnitRevivalTrackerRva0037F2C0Finish.cpp.
+namespace _STL { template <> void vector<UnitRevivalEntry,allocator<UnitRevivalEntry> >::push_back(UnitRevivalEntry const &); }
 
 class AsciiString;
 class UnicodeString;
