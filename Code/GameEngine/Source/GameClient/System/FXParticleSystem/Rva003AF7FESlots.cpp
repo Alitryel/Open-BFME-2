@@ -57,12 +57,15 @@ public:
 // the second is the this-adjusting (sub ecx, 0x1C) thunk 0x003AC125. Slot 2
 // of the head table is __purecall. The +0x1C table's slots 1 and 2 are the
 // rowed FXParticleSystem::EmissionVolumeInfo LoadPostProcess (0x000B3FD0) and
-// GetSnapshotName (0x001F354A), so that base is EmissionVolumeInfo. Slot 0 of
-// the head table is ??_GRva003ABC58 (0x003AF929), which only calls the rowed
-// ~Rva003ABC58 (0x003ABC58): the class's direct base is Rva003ABC58, whose
-// dtor restores the +0x1C table and tail-jumps to the rowed ~Rva003AF50D
-// (0x003A983C), the +0 base. The views are novtable so this TU emits no base
-// tables of its own.
+// GetSnapshotName (0x001F354A): the copy ctor 0x003AF7FE copies a
+// LineEmissionVolumeInfo there, viewed here as its EmissionVolumeInfo part.
+// Slot 0 of the head table is ??_GRva003ABC58 (0x003AF929), which only calls
+// the rowed ~Rva003ABC58 (0x003ABC58: restore the +0x1C table, tail-jump to
+// the rowed ~Rva003AF50D 0x003A983C, the +0 base). That dtor body is shared
+// (ICF) by the module-info classes of this shape, so the class is modelled
+// over a Rva003ABC58 view whose dtor the implicit ~Rva003AF7FE calls; whether
+// Rva003ABC58 is a real base or only the folded dtor's name is not settled.
+// The views are novtable so this TU emits no base tables of its own.
 class __declspec(novtable) Rva003AF50D
 {
 public:
