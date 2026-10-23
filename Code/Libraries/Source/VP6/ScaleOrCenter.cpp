@@ -26,7 +26,7 @@ struct ScaleOrCenterConfig
 	unsigned int uvWidth;        // 0x0C
 };
 
-void __cdecl d_009a8c50();                                  // 0x001B96A0 UpdateUMVBorder
+extern "C" void __cdecl UpdateUMVBorder(void);                                  // 0x001B96A0 UpdateUMVBorder
 // 0x001BAF30, the rowed _AnyRatioFrameScale (C linkage; viewed here with this
 // unit's instance and config types).
 extern "C" int __cdecl AnyRatioFrameScale(ScaleOrCenterInstance *instance, int frame,
@@ -41,7 +41,7 @@ extern "C" void __cdecl ScaleOrCenter(ScaleOrCenterInstance *instance, int frame
 	ScaleOrCenterConfig *config)
 {
 	if (instance->level != 0)
-		((void (__cdecl *)(ScaleOrCenterInstance *, int))d_009a8c50)(instance, frame);
+		((void (__cdecl *)(ScaleOrCenterInstance *, int))UpdateUMVBorder)(instance, frame);
 	if (instance->scalingMode > 1)
 	{
 		if (instance->scalingMode != 2)

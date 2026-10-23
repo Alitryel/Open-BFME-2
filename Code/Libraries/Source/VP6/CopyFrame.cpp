@@ -35,7 +35,7 @@ struct CopyFrameInstance
 };
 
 // 0x001B96A0 UpdateUMVBorder, still carried under its pinned ledger name.
-extern void __cdecl d_009a8c50(void);
+extern "C" void __cdecl UpdateUMVBorder(void);	// 0x001B96A0, UpdateUMVBorder.cpp
 
 extern "C" void __cdecl CopyFrame(
 	CopyFrameInstance *self,
@@ -83,5 +83,5 @@ extern "C" void __cdecl CopyFrame(
 		}
 	}
 
-	((void (__cdecl *)(CopyFrameInstance *, int))d_009a8c50)(self, offset);
+	((void (__cdecl *)(CopyFrameInstance *, int))UpdateUMVBorder)(self, offset);
 }

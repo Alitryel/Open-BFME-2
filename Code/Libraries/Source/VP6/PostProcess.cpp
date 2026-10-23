@@ -26,8 +26,8 @@ extern "C" void __cdecl DeblockFrameInterlaced(Rva009AF320Context *, int, int);
 extern "C" void __cdecl SimpleDeblockFrame(Rva009B3800Context *, int, int);
 
 struct Rva009A6130Context;
-void __cdecl d_009a8c50(void);
-#define Rva009A8C50(c, f) ((void (__cdecl *)(Rva009A6130Context *, unsigned char *))d_009a8c50)((c), (f))
+extern "C" void __cdecl UpdateUMVBorder(void);	// 0x001B96A0, UpdateUMVBorder.cpp
+#define Rva009A8C50(c, f) ((void (__cdecl *)(Rva009A6130Context *, unsigned char *))UpdateUMVBorder)((c), (f))
 extern "C" void __cdecl DeringFrame(Rva009A6130Context *, unsigned char *, unsigned char *);
 extern "C" void __cdecl DeringFrameInterlaced(Rva009A6130Context *, unsigned char *, unsigned char *);
 

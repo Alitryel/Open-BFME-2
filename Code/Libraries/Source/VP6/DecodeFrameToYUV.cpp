@@ -20,9 +20,9 @@ extern "C" void __cdecl InitHeaderBuffer(HeaderReader *reader, const unsigned ch
 extern "C" int __cdecl VP6_LoadFrame(PB_INSTANCE *pbi);							// 0x001BD550
 extern "C" void __cdecl VP6_StartDecode(BOOL_CODER *coder, unsigned char *source);	// 0x001BCEE0
 extern "C" void VP6_DecodeFrameMbs(PB_INSTANCE *pbi);								// 0x001BC9C0
-void __cdecl d_009a8c50(void);													// 0x001B96A0 UpdateUMVBorder
+extern "C" void __cdecl UpdateUMVBorder(void);													// 0x001B96A0 UpdateUMVBorder
 typedef void (__cdecl *UpdateUMVBorderFn)(PostProcessor *post, unsigned char *frame);
-#define UpdateUMVBorder ((UpdateUMVBorderFn)d_009a8c50)
+#define UpdateUMVBorder ((UpdateUMVBorderFn)&UpdateUMVBorder)
 
 // The system-state clear routine pointer at VA 0x00E22D10.
 extern void *g_bfmeSlotB48;
