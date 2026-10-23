@@ -1,7 +1,61 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 
+// Native narrow append calls the static byte allocator at 0x307F0.
+// Preserve the standard empty allocator view with that recovered ABI; the
+// remaining members retain STLport 4.5.3 semantics. This is TU-local.
+#include <memory>
+namespace _STL {
+template <>
+class allocator<char> {
+public:
+
+  typedef char        value_type;
+  typedef value_type *       pointer;
+  typedef const char* const_pointer;
+  typedef char&       reference;
+  typedef const char& const_reference;
+  typedef size_t     size_type;
+  typedef ptrdiff_t  difference_type;
+# if defined (_STLP_MEMBER_TEMPLATE_CLASSES)
+  template <class _Tp1> struct rebind {
+    typedef allocator<_Tp1> other;
+  };
+# endif
+  allocator() _STLP_NOTHROW {}
+ # if defined (_STLP_MEMBER_TEMPLATES)
+  template <class _Tp1> allocator(const allocator<_Tp1>&) _STLP_NOTHROW {}
+ # endif    
+  allocator(const allocator<char>&) _STLP_NOTHROW {}
+  ~allocator() _STLP_NOTHROW {}
+  pointer address(reference __x) { return &__x; }
+  const_pointer address(const_reference __x) const { return &__x; }
+  // __n is permitted to be 0.  The C++ standard says nothing about what the return value is when __n == 0.
+  static char* __cdecl allocate(size_type __n, const void* = 0);
+  // __p is permitted to be a null pointer, only if n==0.
+  void deallocate(pointer __p, size_type __n) const {
+    _STLP_ASSERT( (__p == 0) == (__n == 0) )
+      if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+  }
+  // backwards compatibility
+  void deallocate(pointer __p) const {  if (__p != 0) __sgi_alloc::deallocate((void*)__p, sizeof(value_type)); }
+  size_type max_size() const _STLP_NOTHROW  { return size_t(-1) / sizeof(value_type); }
+  void construct(pointer __p, const char& __val) const { _STLP_STD::_Construct(__p, __val); }
+  void destroy(pointer __p) const { _STLP_STD::_Destroy(__p); }
+# if defined(__MRC__)||defined(__SC__)
+  template <class _T2> bool operator==(const allocator<_T2>&) const  { return true; }
+  template <class _T2> bool operator!=(const allocator<_T2>&) const { return false; }
+# endif
+};
+
+}
 #include <string>
+// BFME uses its direct game free at 0x30830 rather than the CRT import.
+extern "C" void __cdecl free(void *);
+// The recovered append calls the static allocator directly. Let the other
+// string units supply their unchanged allocator-proxy implementation.
+namespace _STL { template <> char *_STLP_alloc_proxy<char *, char, allocator<char> >::allocate(size_t); }
+
 // Inline uses here keep the stock body (with its length_error path), but this unit,
 // the first in link order to spell it, must not emit an out-of-line copy: retail's
 // _String_base<char>::_M_allocate_block is the 0x00007460 body without that path,
@@ -98,6 +152,89 @@ namespace _STL { template <> void basic_string<char, char_traits<char>, allocato
 // This earlier explicit instantiation must bind to that retail-proven body.
 namespace _STL { template <> basic_string<char> basic_string<char>::substr(size_t, size_t) const; }
 // bfme link decl-only end
+
+namespace _STL {
+// Keep the verified 1B3E0 body visible: declaration-only member-template
+// specialization triggers VC7.1 C1001 in the range dispatch wrapper.
+// Local allocation and deallocation preserve the native calls independently
+// of the other members' required external _M_deallocate_block.
+template <> template <> inline basic_string<char, char_traits<char>, allocator<char> > &
+basic_string<char, char_traits<char>, allocator<char> >::append<const char *>(const char *__first, const char *__last,
+		const forward_iterator_tag &)
+{
+	const char *__f = __first;
+	const char *__l = __last;
+	if (__f != __l) {
+		const size_type __old_size = size();
+		difference_type __n = __l - __f;
+		if ((size_type)__n + __old_size > capacity()) {
+			size_type __n_sz = (size_type)__n;
+			size_type __mx = *(__old_size < __n_sz ? &__n_sz : &__old_size);
+			const size_type __len = __old_size + __mx + 1;
+			pointer __new_start = __len != 0 ? allocator<char>::allocate(__len,0) : 0;
+			pointer __new_finish = uninitialized_copy(_M_start, _M_finish, __new_start);
+
+			__new_finish = uninitialized_copy(__f, __l, __new_finish);
+			_M_construct_null(__new_finish);
+			if (_M_start != 0) free(_M_start);
+			_M_start = __new_start;
+			_M_finish = __new_finish;
+			_M_end_of_storage._M_data = __new_start + __len;
+		}
+		else {
+			const char * __f1 = __f;
+			++__f1;
+			uninitialized_copy(__f1, __l, _M_finish + 1);
+			_M_construct_null(_M_finish + __n);
+			char_traits<char>::assign(*end(), *__f);
+			_M_finish += __n;
+		}
+	}
+
+	return *this;
+}
+
+// Mutable input ranges use the same read-only operation and fold onto
+// the native 254-byte const-range body; the existing 120F0 caller proves
+// the direct call to 1B3E0.
+template <> template <> inline basic_string<char, char_traits<char>, allocator<char> > &
+basic_string<char, char_traits<char>, allocator<char> >::append<char *>(char *__first, char *__last,
+		const forward_iterator_tag &)
+{
+	const char *__f = __first;
+	const char *__l = __last;
+	if (__f != __l) {
+		const size_type __old_size = size();
+		difference_type __n = __l - __f;
+		if ((size_type)__n + __old_size > capacity()) {
+			size_type __n_sz = (size_type)__n;
+			size_type __mx = *(__old_size < __n_sz ? &__n_sz : &__old_size);
+			const size_type __len = __old_size + __mx + 1;
+			pointer __new_start = __len != 0 ? allocator<char>::allocate(__len,0) : 0;
+			pointer __new_finish = uninitialized_copy(_M_start, _M_finish, __new_start);
+
+			__new_finish = uninitialized_copy(__f, __l, __new_finish);
+			_M_construct_null(__new_finish);
+			if (_M_start != 0) free(_M_start);
+			_M_start = __new_start;
+			_M_finish = __new_finish;
+			_M_end_of_storage._M_data = __new_start + __len;
+		}
+		else {
+			const char * __f1 = __f;
+			++__f1;
+			uninitialized_copy(__f1, __l, _M_finish + 1);
+			_M_construct_null(_M_finish + __n);
+			char_traits<char>::assign(*end(), *__f);
+			_M_finish += __n;
+		}
+	}
+
+	return *this;
+}
+
+}
+
 
 template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;
 
