@@ -19,4 +19,7 @@ struct BfmePod16
 	~BfmePod16();
 };
 
+// The rowed iterator range cleanup supplies element destruction.
+namespace _STL { template <> void _Destroy<BfmePod16>(BfmePod16 *); }
+
 template _STL::deque<BfmePod16, _STL::allocator<BfmePod16> >::~deque();

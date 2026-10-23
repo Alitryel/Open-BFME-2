@@ -4,13 +4,18 @@
 // built through the EH vector constructor iterator.
 // Identity unrecovered; named from the address.
 
-class Rva008947A0Elem
+class BfmeRefVGO
 {
 public:
-	Rva008947A0Elem(void);
-	~Rva008947A0Elem();
+	~BfmeRefVGO();
+private:
+	unsigned *m_value;
+};
 
-	int m_data;
+class Rva008947A0Elem : public BfmeRefVGO
+{
+public:
+	Rva008947A0Elem();
 };
 
 // The head cleanup binds the chain destructor used by the native unwind state.

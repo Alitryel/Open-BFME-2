@@ -45,11 +45,18 @@ private:
     unsigned char m_flag0c;
 };
 
-Rva0055BCD2::~Rva0055BCD2()
+__declspec(noinline) inline Rva0055BCD2::~Rva0055BCD2()
 {
     unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
     *(volatile unsigned int *)b08 = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
     *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7V3Vt01111D90@@6B@"));
+}
+
+// Keep the shared select-any destructor emitted in its row's home unit.
+// ?bfmeAnchorRva0055BCD2Dtor absent-from-retail
+void bfmeAnchorRva0055BCD2Dtor(Rva0055BCD2 *p)
+{
+    p->Rva0055BCD2::~Rva0055BCD2();
 }
 
 // The primary eight bytes carry no resources; the parent below performs both

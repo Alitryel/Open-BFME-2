@@ -19,6 +19,9 @@
 // is the same without the per-key variation.
 
 class Xfer;
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+extern "C" const void *const __identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")[];
+extern "C" const void *const __identifier("??_7V3Vt01111D90@@6B@")[];
 
 #include "../../../../../Libraries/Include/Lib/RGBColor.h"
 
@@ -44,10 +47,10 @@ struct Rva0055BCF1Src
 	GameClientRandomVariable m_colorScale; // +0xA0
 };
 
-class Rva0055BCD2Part0
+class __declspec(novtable) Rva0055BCD2Part0
 {
 public:
-	virtual ~Rva0055BCD2Part0();
+	virtual ~Rva0055BCD2Part0() {}
 	void *m_system; // +0x04
 };
 
@@ -57,18 +60,23 @@ public:
 	virtual void slot00() = 0;
 };
 
-class Rva0055BCD2 : public Rva0055BCD2Part0, public SecondaryModuleBase
+class __declspec(novtable) Rva0055BCD2 : public Rva0055BCD2Part0, public SecondaryModuleBase
 {
 public:
 	Rva0055BCD2(unsigned int a);
-	~Rva0055BCD2();
+	~Rva0055BCD2()
+	{
+		unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
+		*(volatile unsigned int *)b08 = (unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@");
+		*(volatile unsigned int *)this = (unsigned int)__identifier("??_7V3Vt01111D90@@6B@");
+	}
 };
 
-class Rva0055BC8B
+class Rva0055BC8B : public Snapshot
 {
 public:
 	Rva0055BC8B();
-	virtual ~Rva0055BC8B();
+	virtual ~Rva0055BC8B() {}
 	RGBColorKeyframe m_colorKey[8]; // +0x04
 	float m_colorScale; // +0x84
 };
@@ -83,7 +91,6 @@ class Rva0055BCF1 : public Rva0055BCD2, public Rva0055BC8B
 {
 public:
 	Rva0055BCF1(unsigned int a, const Rva0055BCF1Src *src);
-	virtual ~Rva0055BCF1();
 	RGBColor m_color; // +0x94
 	RGBColor m_colorRate; // +0xA0
 	int m_colorTargetKey; // +0xAC
