@@ -14,7 +14,18 @@ typedef unsigned int size_t;
 void *operator new(size_t size);
 void operator delete(void *p);
 
-class RenderObjClass;
+class RenderObjClass
+{
+public:
+	virtual void Delete_This();
+	void Release_Ref()
+	{
+		if (--m_numRefs == 0)
+			Delete_This();
+	}
+private:
+	int m_numRefs;
+};
 
 class SimpleSceneClass
 {
@@ -22,6 +33,7 @@ public:
 	SimpleSceneClass();
 	virtual ~SimpleSceneClass();
 	virtual void Add_Render_Object(RenderObjClass *obj);
+	virtual void Remove_Render_Object(RenderObjClass *obj);
 	char m_pad004[0x108 - 0x04];
 };
 
@@ -45,6 +57,19 @@ protected:
 	RenderObjClass *m_status;
 	CameraClass *m_camera;
 };
+
+// The vtable this ctor emits needs the destructor. Retail's is the rowed
+// 0x0006ED6F (Rva006ED6FDtor.cpp, same vftables 0x00BC62A0/+0x108); this inline
+// copy has its body: remove and release the status object, then the bases.
+inline RTS2DScene::~RTS2DScene()
+{
+	SimpleSceneClass::Remove_Render_Object(m_status);
+	if (m_status)
+	{
+		m_status->Release_Ref();
+		m_status = 0;
+	}
+}
 
 RTS2DScene::RTS2DScene()
 {
