@@ -21,4 +21,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 struct Rva0048D628Record { Rva0048D628Record(); Rva0048D628Record(const Rva0048D628Record&); ~Rva0048D628Record(); Rva0048D628Record&operator=(const Rva0048D628Record&); private: char bytes[8]; };
 namespace _STL {template<> void _Construct<Rva0048D628Record,Rva0048D628Record>(Rva0048D628Record*,const Rva0048D628Record&);}
+namespace _STL {template<> void _Destroy<Rva0048D628Record*>(Rva0048D628Record*,Rva0048D628Record*);}
 template void _STL::vector<Rva0048D628Record>::push_back(const Rva0048D628Record&);
+
+// Bind lifetime operations to the existing rowed native providers.
+// push_back and overflow 48D48F call the cdecl copy provider 48C81F.
+// Native cleanup C060A calls range destructor 48CE25, whose loop steps 8.
+// These bindings identify operations on an ABI view, not a new game type.
+#pragma comment(linker, "/alternatename:??$_Construct@URva0048D628Record@@U1@@_STL@@YAXPAURva0048D628Record@@ABU1@@Z=?Rva0048C81FConstruct@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva0048D628Record@@@_STL@@YAXPAURva0048D628Record@@0@Z=??$_Destroy@PAVCameraMarker@@@_STL@@YAXPAVCameraMarker@@0@Z")

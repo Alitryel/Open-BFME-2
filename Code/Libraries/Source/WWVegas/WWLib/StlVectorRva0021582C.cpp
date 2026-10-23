@@ -21,9 +21,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 struct Rva0021582CRecord { Rva0021582CRecord(); Rva0021582CRecord(const Rva0021582CRecord&); ~Rva0021582CRecord(); Rva0021582CRecord&operator=(const Rva0021582CRecord&); private: char bytes[16]; };
 namespace _STL {template<> void _Construct<Rva0021582CRecord,Rva0021582CRecord>(Rva0021582CRecord*,const Rva0021582CRecord&);}
+namespace _STL {template<> void _Destroy<Rva0021582CRecord*>(Rva0021582CRecord*,Rva0021582CRecord*);}
 template void _STL::vector<Rva0021582CRecord>::reserve(unsigned int);
 
-// Retail's reserve (0x0021582C) reaches the element copy worker 0x0021559C and element destructor 0x002154BE through
-// its rowed _M_allocate_and_copy / _M_clear; those rows name the same 16-byte record BfmeVectorRecord002154F3.
+// Bind lifetime operations to the existing rowed native providers.
+// reserve calls allocate-and-copy 215614 -> uninitialized_copy 2155C9
+// -> cdecl placement copy 21559C; clear 21580E calls destroy range 215783.
+// Both loops step 0x10, independently establishing this opaque view width.
+// These bindings identify operations on an ABI view, not a new game type.
 #pragma comment(linker, "/alternatename:??$_Construct@URva0021582CRecord@@U1@@_STL@@YAXPAURva0021582CRecord@@ABU1@@Z=??$_Construct@UBfmeVectorRecord002154F3@@U1@@_STL@@YAXPAUBfmeVectorRecord002154F3@@ABU1@@Z")
-#pragma comment(linker, "/alternatename:??1Rva0021582CRecord@@QAE@XZ=??1BfmeVectorRecord0002154F3@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva0021582CRecord@@@_STL@@YAXPAURva0021582CRecord@@0@Z=??$_Destroy@PAUBfmeVectorRecord0002154F3@@@_STL@@YAXPAUBfmeVectorRecord0002154F3@@0@Z")

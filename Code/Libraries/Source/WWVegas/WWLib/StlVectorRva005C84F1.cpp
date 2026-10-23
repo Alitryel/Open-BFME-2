@@ -23,7 +23,11 @@ struct Rva005C84F1Record { Rva005C84F1Record(); Rva005C84F1Record(const Rva005C8
 namespace _STL {template<> void _Construct<Rva005C84F1Record,Rva005C84F1Record>(Rva005C84F1Record*,const Rva005C84F1Record&);}
 template void _STL::vector<Rva005C84F1Record>::reserve(unsigned int);
 
-// Retail's reserve reaches the element copy worker and element destructor through its rowed helpers; bind the
-// record's template/dtor names to those rows.
+// Bind this opaque element view to the existing native lifetime providers.
+// reserve calls 5C8445 -> uninitialized_copy 5C83FA -> _Construct 5C83CD;
+// its old storage cleanup calls 5C84D3 -> destroy range 5C847B -> 5C8FBD.
+// Both loops step by 0x48, matching this view. The copy provider takes two
+// cdecl pointers; the destructor takes this in ECX and has no stack arguments.
+// These are the rowed owners, not new identities for the application record.
 #pragma comment(linker, "/alternatename:??$_Construct@URva005C84F1Record@@U1@@_STL@@YAXPAURva005C84F1Record@@ABU1@@Z=??$_Construct@URva005C8624Element@@U1@@_STL@@YAXPAURva005C8624Element@@ABU1@@Z")
 #pragma comment(linker, "/alternatename:??1Rva005C84F1Record@@QAE@XZ=??1Rva005C8FBD@@QAE@XZ")
