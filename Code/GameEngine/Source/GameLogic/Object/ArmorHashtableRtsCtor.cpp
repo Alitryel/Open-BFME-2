@@ -101,4 +101,6 @@ struct equal_to
 
 typedef _STL::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> > ArmorRtsMap;
 
-template class _STL::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> >;
+// Instantiate the rowed constructors without the unresolved insertion path.
+// See ArmorHashtableRtsInsertDeferred.cpp for the original insertion rows.
+template _STL::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> >::hash_map();
