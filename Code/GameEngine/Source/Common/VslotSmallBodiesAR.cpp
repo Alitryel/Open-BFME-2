@@ -14,7 +14,6 @@
 //  0x005CFCD1 via dtor 0x005CF86B   0x005E57AD via dtor 0x005E57C9
 //  0x005EA28F via dtor 0x005EA2AB   0x00604A6F via dtor 0x00604A68
 //  0x005FAA31 via dtor 0x004E84A4
-//  0x0040C5DE via dtor 0x0040C39E
 //  0x004AF161 via dtor 0x004AF17D
 //  0x004BAF11 via dtor 0x004BAEC8
 // (0x0040FD1C and 0x00558F6E belong to the virtual dtors rowed in Rva0040FB4ADtor.cpp
@@ -27,7 +26,6 @@ class UpdateModule { public: virtual ~UpdateModule(); };
 // Each dtor is rowed at its address under another name (a virtual dtor, or an
 // ICF-folded setter/cleanup); forward to it so ??_G calls the rowed symbol.
 class Rva002BED74 { public: virtual ~Rva002BED74(); };
-class ArmySummaryEntry { public: virtual ~ArmySummaryEntry(); };
 class Rva004318C6 { public: virtual ~Rva004318C6(); };
 class EvacuateDamage { protected: virtual ~EvacuateDamage(); friend class Rva004BAEC8; };
 class Rva000419B8DDwordImmSetter { public: void apply(); };
@@ -48,7 +46,6 @@ class Rva005E57C9 { public: __declspec(dllimport) __forceinline ~Rva005E57C9() {
 class Rva005EA2AB { public: __declspec(dllimport) __forceinline ~Rva005EA2AB() { reinterpret_cast<Rva0005EA2ABDwordImmSetter *>(this)->apply(); } };
 class Rva00604A68 { public: __declspec(dllimport) __forceinline ~Rva00604A68() { reinterpret_cast<Rva000604A68DwordImmSetter *>(this)->apply(); } };
 class Rva004E84A4 { public: __declspec(dllimport) __forceinline ~Rva004E84A4() { reinterpret_cast<Rva0004E84A4DwordImmSetter *>(this)->apply(); } };
-class Rva0040C39E { public: __declspec(dllimport) __forceinline ~Rva0040C39E() { reinterpret_cast<ArmySummaryEntry *>(this)->ArmySummaryEntry::~ArmySummaryEntry(); } };
 class Rva004AF17D { public: __declspec(noinline) ~Rva004AF17D(); };
 class Rva004BAEC8 { public: __declspec(dllimport) __forceinline ~Rva004BAEC8() { reinterpret_cast<EvacuateDamage *>(this)->EvacuateDamage::~EvacuateDamage(); } };
 class Rva006022CA { public: __declspec(dllimport) __forceinline ~Rva006022CA() { reinterpret_cast<Rva006022CAFileCleanupForward *>(this)->cleanup(); } };
@@ -64,7 +61,6 @@ void Rva005E57C9_DeleteAnchor(Rva005E57C9 *p) { delete p; }
 void Rva005EA2AB_DeleteAnchor(Rva005EA2AB *p) { delete p; }
 void Rva00604A68_DeleteAnchor(Rva00604A68 *p) { delete p; }
 void Rva004E84A4_DeleteAnchor(Rva004E84A4 *p) { delete p; }
-void Rva0040C39E_DeleteAnchor(Rva0040C39E *p) { delete p; }
 void Rva004AF17D_DeleteAnchor(Rva004AF17D *p) { delete p; }
 void Rva004BAEC8_DeleteAnchor(Rva004BAEC8 *p) { delete p; }
 void Rva006022CA_DeleteAnchor(Rva006022CA *p) { delete p; }
