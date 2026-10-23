@@ -227,3 +227,11 @@ void SimpleSceneClass::Customized_Render(RenderInfoClass &rinfo)
         if(robj->Is_Really_Visible()) robj->Render(rinfo);
     }
 }
+
+// SimpleSceneClass's retail vftable (0x00BD33D0, SceneClass slots after its two RefCount-side
+// entries): slot 7 Get_Ambient_Light 0x005C4AD5, slot 9 Get_Fog_Enable 0x004C54EC, slot 11
+// Get_Fog_Color 0x004F5FA3, each an ICF-folded trivial getter. The unit declares the abstract
+// getters; bind them to the rows at those addresses.
+#pragma comment(linker, "/alternatename:?Get_Ambient_Light@SceneClass@@UAEABVVector3@@XZ=?get@Rva005C4AD5LeaField@@QBEPAXXZ")
+#pragma comment(linker, "/alternatename:?Get_Fog_Enable@SceneClass@@UAE_NXZ=?get@Rva004C54ECByte@@QAEEXZ")
+#pragma comment(linker, "/alternatename:?Get_Fog_Color@SceneClass@@UAEABVVector3@@XZ=?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")

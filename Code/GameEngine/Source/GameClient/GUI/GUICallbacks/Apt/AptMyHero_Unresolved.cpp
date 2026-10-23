@@ -325,3 +325,11 @@ void AptMyHero::FrameUpdate() {
  flag151=true;
  flag151=!rva005B0725();
 }
+
+// ~MyHeroBlingBlock: the call site in this unit's rows reads 0x0007FAB3 from retail, where the
+// folded vector<int> destructor row lives. DoXfer and Update are slots 3 and 4 of retail's
+// CreateAHeroData vftable (0x00C38D88: 0x00408C11 and 0x004083FF, spelled CreateAHeroHero in the
+// ledger).
+#pragma comment(linker, "/alternatename:??1MyHeroBlingBlock@@QAE@XZ=??1?$vector@HV?$allocator@H@_STL@@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?DoXfer@CreateAHeroData@@UAEXAAVXfer@@@Z=?DoXfer@CreateAHeroHero@@QAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?Update@CreateAHeroData@@UAE_NH@Z=?Update@CreateAHeroHero@@QAE_NH@Z")
