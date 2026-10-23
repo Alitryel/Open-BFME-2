@@ -1,6 +1,24 @@
 // cl: /DBFME_ASCII_KEEP_COPY_SET_BODY /DBFME_ASCII_DTOR_DECL /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii_common /Ireference/shims/bfme2_ascii /O1 /G7 /D_STLP_USE_STATIC_LIB /D_BFME_RETAIL_TREE_INSERT_LAYOUT /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/nat /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /D_STLP_NO_EXCEPTIONS
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
+// Load the native ThreadClass ABI before donor headers reach thread.h.
+// Its 0x50-byte base has Execute in virtual slot 1.
+#define THREAD_H
+class ThreadClass {
+public:
+    ThreadClass(const char *name = 0);
+    virtual ~ThreadClass();
+    virtual void Execute();
+    bool Is_Running();
+    static void Switch_Thread();
+protected:
+    virtual void Thread_Function() = 0;
+private:
+    char m_name[0x40];
+    unsigned int m_threadId;
+    void *m_handle;
+    int m_priority;
+};
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -124,7 +142,7 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterat
 
 #include "strtok_r.h"
 #include "mutex.h"
-#include "thread.h"
+
 
 #include "Common/MiniLog.h"
 // Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
@@ -177,6 +195,8 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, siz
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >,bool>::pair(_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > const &a,bool const &b) : first(a), second(b) {} }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
+
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<const int, int> > >::deallocate(_Rb_tree_node<pair<const int, int> > *, unsigned int) const; }
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
@@ -304,9 +324,8 @@ enum
 
 //-------------------------------------------------------------------------
 
-// Target vtable getters read PeerThreadClass connection bytes at +0x50/+0x51;
-// the donor class puts the same Bool members at +0x58/+0x59. Keep the target
-// offsets local to these queue getters instead of changing the class layout.
+// Queue getters read native connection and group-room offsets through this
+// compact view, preserving their existing inline call shape.
 struct BfmePeerThreadStatusView {
 	UnsignedByte unknown_00[0x50];
 	Bool m_isConnecting;
@@ -329,21 +348,6 @@ struct Rva006105F0 { void stop(); };
 struct Rva0038909EPeerThreadDtorView {
 	virtual void *destroy(unsigned int flags);
 };
-// The vtable installed by target constructor 0x38AAEB has scalar deleting
-// destructor at slot 0 and ThreadClass::Execute at slot +4. The object remains
-// address-derived because the target-only tail/layout is not otherwise named.
-struct Rva0038AAEBThreadObject {
-	void *targetVtable;
-	unsigned char opaqueTail[0x4ac];
-	Rva0038AAEBThreadObject(MutexClass *queueMutex);
-};
-typedef char Rva0038AAEBThreadObject_size_check[
-	sizeof(Rva0038AAEBThreadObject) == 0x4b0 ? 1 : -1];
-struct Rva0038AAEBThreadExecuteVtable {
-	virtual void scalarDeletingDtorSlot();
-	virtual void executeSlot();
-};
-
 // Target's request queue advances in 0x1EC-byte steps. Its push_back body is
 // already verified under this size-only record view. Target members and payload
 // meanings remain unclaimed; PeerRequest is donor context for the queue role.
@@ -425,8 +429,7 @@ GameSpyPeerMessageQueueInterface *TheGameSpyPeerMessageQueue;
 //-------------------------------------------------------------------------
 
 // Native enum callback at 38B5DB stores the completion flag at +48C.
-// Preserve this measured view without shifting the donor thread fields.
-// Native player-left callback reads the quickmatch status at +294.
+// The native player-left callback reads quickmatch status at +294.
 struct BfmePeerQMState { unsigned char unknown[0x294]; QMStatus status; };
 struct BfmePeerEnumState { unsigned char unknown[0x48c]; Bool sawEnd; };
 
@@ -434,44 +437,10 @@ class PeerThreadClass : public ThreadClass
 {
 
 public:
-	PeerThreadClass() : ThreadClass()
-	{
-		//Added By Sadullah Nader
-		//Initializations inserted
-		m_roomJoined = m_allowObservers = m_hasPassword = FALSE;
-    m_useStats = TRUE;
-		m_exeCRC = m_iniCRC = 0;
-		m_gameVersion = 0;
-		m_ladderPort = 0;
-		m_localRoomID = 0;
-		m_maxPlayers = 0;
-		m_numObservers = 0;
-		m_maxPlayers = 0;
-		m_qmGroupRoom = 0;
-		m_sawEndOfEnumPlayers = m_sawMatchbot = FALSE;
-		m_sawCompleteGameList = FALSE;
-		//
-		m_isConnecting = m_isConnected = false; 
-		m_groupRoomID = m_profileID = 0;
-		m_nextStagingServer = 1; m_stagingServers.clear();
-		m_pingStr = ""; m_mapName = ""; m_ladderIP = ""; m_isHosting = false;
-		for (Int i=0; i<MAX_SLOTS; ++i)
-		{
-			m_playerNames[i] = "";
-			
-			//Added by Sadullah Nader
-			//Initializations 
-			m_playerColors[i] = 0;
-			m_playerFactions[i] = 0;
-			m_playerLosses[i] = 0;
-			m_playerProfileID[i] = 0;
-			m_playerWins[i] = 0;
+	PeerThreadClass(MutexClass *queueMutex);
+	virtual ~PeerThreadClass();
 
-			//
-		}
-	}
-
-	void Thread_Function();
+	virtual void Thread_Function();
 
 	void markAsDisconnected( void ) { m_isConnecting = m_isConnected = false; }
 
@@ -545,6 +514,8 @@ private:
 	Int m_profileID;
 	Int m_groupRoomID;
 	Bool m_sawCompleteGameList;
+	Int m_startGameValue;
+	Bool m_useStats;
 
 #ifdef USE_BROADCAST_KEYS
 	enum { NumKeys = 9, ValBufSize = 20 };
@@ -562,12 +533,17 @@ private:
 	Bool m_isHosting;
 	Bool m_hasPassword;
 	std::string m_mapName;
+	Int m_valueC0;
+	std::string m_openStaging;
 	std::string m_playerNames[MAX_SLOTS];
 	UnsignedInt m_exeCRC;
 	UnsignedInt m_iniCRC;
 	UnsignedInt m_gameVersion;
+	UnsignedInt m_crcWord3;
+	UnsignedInt m_value140, m_value144;
+	UnsignedInt m_hash148[4];
+	UnsignedInt m_value158;
 	Bool m_allowObservers;
-  Bool m_useStats;
 	std::string m_pingStr;
 	std::string m_ladderIP;
 	UnsignedShort m_ladderPort;
@@ -575,13 +551,16 @@ private:
 	Int m_playerLosses[MAX_SLOTS];
 	Int m_playerProfileID[MAX_SLOTS];
 	Int m_playerColors[MAX_SLOTS];
+	Int m_playerHandicaps[MAX_SLOTS];
 	Int m_playerFactions[MAX_SLOTS];
 	Int m_numPlayers;
 	Int m_maxPlayers;
 	Int m_numObservers;
 
+	Int m_value248[10];
+	Int m_value270;
 	Int m_nextStagingServer;
-	std::map<Int, SBServer> m_stagingServers;
+	std::map<Int, Int> m_stagingServers;
 	std::wstring m_localStagingServerName;
 	Int m_localRoomID;
 
@@ -593,7 +572,12 @@ private:
 	Bool m_sawEndOfEnumPlayers;
 	Bool m_sawMatchbot;
 	std::string m_matchbotName;
+	Bool m_suspendStateChanged;
+	Int m_value4A0, m_value4A4;
+	Bool m_listGroupRooms;
+	MutexClass *m_lock;
 };
+typedef char PeerThreadClass_size_check[sizeof(PeerThreadClass) == 0x4b0 ? 1 : -1];
 
 #ifdef USE_BROADCAST_KEYS
 // Native data table DC0768 contains these nine literal pointers in this order.
@@ -683,10 +667,10 @@ void GameSpyPeerMessageQueue::startThread( void )
 		return;
 	_bfme_hole_tailOwner.set(NEW MutexClass::LockClass(
 		_bfme_hole_thirdMutex, -1));
-	Rva0038AAEBThreadObject *thread =
-		NEW Rva0038AAEBThreadObject(&_bfme_hole_thirdMutex);
-	m_thread = (PeerThreadClass *)thread;
-	((Rva0038AAEBThreadExecuteVtable *)thread)->executeSlot();
+	PeerThreadClass *thread =
+		NEW PeerThreadClass(&_bfme_hole_thirdMutex);
+	m_thread = thread;
+	thread->Execute();
 }
 
 void GameSpyPeerMessageQueue::endThread( void )

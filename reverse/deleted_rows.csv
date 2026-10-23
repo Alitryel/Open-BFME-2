@@ -1920,3 +1920,8 @@ __ehhandler$??0Rva00576C4B@@QAE@PAVRva00576B5E@@H@Z,0x0079B5C3,"Renamed to __ehh
 ??1Rva0018BEC7_Member@@UAE@XZ,0x000E14BD,Renamed to ??1SourceNamespace_Fog@FXShaderParameterSourceNamespaceWW3D@@UAE@XZ: native BD5BD4 slot1=18BFCE; WorldBuilder fxshadernamespaceww3d.cpp:102 self-assert identifies SourceNamespace_Fog. rename.py cannot express a nested-class destination.
 ??_GRva0018BEC7_Member@@UAEPAXI@Z,0x001F45C3,Renamed to ??_GSourceNamespace_Fog@FXShaderParameterSourceNamespaceWW3D@@UAEPAXI@Z: native BD5BD4 slot1=18BFCE; WorldBuilder fxshadernamespaceww3d.cpp:102 self-assert identifies SourceNamespace_Fog. rename.py cannot express a nested-class destination.
 ?areThreadsRunning@Rva00419D2A@@QAE_NXZ,0x00419D2A,Reconciled owner with Rva0041A644: native queue table C3AD70 slot16 and worker offset74 agree; no separate body or identity
+??_GRva0038ADE2@@UAEPAXI@Z,0x0038ADC6,"Renamed to ??_GPeerThreadClass@@UAEPAXI@Z: constructor table C1989C selects PeerThreadClass::Thread_Function"
+??0Rva0038AAEBThreadObject@@QAE@PAVMutexClass@@@Z,0x0038AAEB,"Renamed to ??0PeerThreadClass@@QAE@PAVMutexClass@@@Z: constructor table C1989C selects PeerThreadClass::Thread_Function"
+??1Rva0038ADE2@@UAE@XZ,0x0038ADE2,"Renamed to ??1PeerThreadClass@@UAE@XZ: constructor table C1989C selects PeerThreadClass::Thread_Function"
+__ehhandler$??0Rva0038AAEBThreadObject@@QAE@PAVMutexClass@@@Z,0x00780512,"Renamed to __ehhandler$??0PeerThreadClass@@QAE@PAVMutexClass@@@Z: follows the rename of its function"
+__ehhandler$??1Rva0038ADE2@@UAE@XZ,0x007805F8,"Renamed to __ehhandler$??1PeerThreadClass@@UAE@XZ: follows the rename of its function"

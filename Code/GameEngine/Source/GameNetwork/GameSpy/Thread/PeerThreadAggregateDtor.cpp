@@ -2,8 +2,8 @@
 // stlport
 // Retail 0038ADE2..0038AF29: aggregate teardown preceding the WB-named
 // PeerThreadClass::pushStatsToRoom. Constructor38AAEB installs C1989C;
-// slot0 deleting wrapper38ADC6 calls this virtual destructor. The outer
-// address-derived identity is retained because WB F69A90 is unnamed.
+// Slot0 deleting wrapper38ADC6 calls this virtual destructor; table slot2
+// is the rowed PeerThreadClass::Thread_Function.
 // Native teardown proves lifetime members at54..490: eight strings atD0;
 // two PlayerStatMap trees at98/A4; record dtors at278/298; ThreadClass base
 // teardown last. All gaps derive from native member addresses. This is a
@@ -47,13 +47,28 @@ public:
 typedef basic_string<char> string;
 }
 namespace std = _STL;
-class ThreadClass { public: virtual ~ThreadClass(); private: char pad[0x50]; };
+class ThreadClass {
+public:
+    ThreadClass(const char *name);
+    virtual ~ThreadClass();
+    virtual void Execute();
+    bool Is_Running();
+    static void Switch_Thread();
+protected:
+    virtual void Thread_Function() = 0;
+private:
+    char m_name[0x40];
+    unsigned int m_threadId;
+    void *m_handle;
+    int m_priority;
+};
 struct BfmeOpaqueOwnedRecord492 { ~BfmeOpaqueOwnedRecord492(); char bytes[492]; };
 struct Rva00388EAE { ~Rva00388EAE(); char bytes[12]; };
-class __declspec(novtable) Rva0038ADE2 : public ThreadClass {
-public: virtual ~Rva0038ADE2();
+class __declspec(novtable) PeerThreadClass : public ThreadClass {
+public: virtual ~PeerThreadClass();
+ virtual void Thread_Function();
 private:
- std::string s54,s60,s6c,s78;
+ char gap50[4]; std::string s54,s60,s6c,s78;
  char gap84[0x14];
  std::map<std::string,int> m98,ma4;
  char gapb0[4]; std::string sb4;
@@ -65,7 +80,7 @@ private:
  BfmeOpaqueOwnedRecord492 record298; char gap484[12];
  std::string s490;
 };
-Rva0038ADE2::~Rva0038ADE2() {}
+PeerThreadClass::~PeerThreadClass() {}
 
 // Native unwind action 0x0078059A belongs to this destructor's complete
 // EH graph. It destroys names[8] at owner+0xD0 with 12-byte stride, through

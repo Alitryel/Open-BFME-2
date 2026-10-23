@@ -164,16 +164,32 @@ Rva00386374::Rva00386374(EmitVtableTag *)
 {
 }
 
-class Rva0038ADE2
-{
+class ThreadClass {
 public:
-	Rva0038ADE2(EmitVtableTag *);
-public:
-	virtual ~Rva0038ADE2();
+    ThreadClass(const char *name);
+    virtual ~ThreadClass();
+    virtual void Execute();
+    bool Is_Running();
+    static void Switch_Thread();
+protected:
+    virtual void Thread_Function() = 0;
+private:
+    char m_name[0x40];
+    unsigned int m_threadId;
+    void *m_handle;
+    int m_priority;
 };
 
-// ?<Rva0038ADE2::Rva0038ADE2> absent-from-retail
-Rva0038ADE2::Rva0038ADE2(EmitVtableTag *)
+class PeerThreadClass : public ThreadClass
+{
+public:
+    PeerThreadClass(EmitVtableTag *);
+    virtual ~PeerThreadClass();
+    virtual void Thread_Function();
+};
+
+// ?<PeerThreadClass::PeerThreadClass> absent-from-retail
+PeerThreadClass::PeerThreadClass(EmitVtableTag *) : ThreadClass(0)
 {
 }
 

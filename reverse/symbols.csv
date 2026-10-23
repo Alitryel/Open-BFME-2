@@ -2275,7 +2275,6 @@ name,address,notes
 ??0Rva003862EDMember@@QAE@ABV0@@Z,0x0038630B,address read from the retail REL32 at 0x003862ED in CompositeRvoGetters::get; member copy ctor for the +0x84 RVO getter
 ??0Rva00389DF1Member@@QAE@ABV0@@Z,0x005559FC,address read from the retail REL32 at 0x00389DF1 in CompositeRvoGetters::get; member copy ctor for the +0x1B0 RVO getter
 ??0Rva00389E0FMember@@QAE@ABV0@@Z,0x00555616,address read from the retail REL32 at 0x00389E0F in CompositeRvoGetters::get; member copy ctor for the +0x340 RVO getter
-??0Rva0038AAEBThreadObject@@QAE@PAVMutexClass@@@Z,0x0038AAEB,target startThread at 0x38B1C0 calls this at 0x38B224 with ECX=new object and a pointer to queue MutexClass +0x6C; allocation size 0x4B0 and constructor-installed vtable 0xC1989C independently support the worker-object role; Ghidra boundary 0x38AAEB/662; address-derived opaque class view
 ??0Rva00394173Member@@QAE@ABV0@@Z,0x00332106,address read from the retail REL32 at 0x00394173 in CompositeRvoGetters::get; member copy ctor for the +0x754 RVO getter
 ??0Rva00395561@@QAE@XZ,0x00395534,Rva00395561 default ctor: zeroes counter then drains GameLogic +0x1B4 into it; Ghidra FUN_00795534 45B; paired with rowed drain method 0x395561
 ??0Rva003959FA@@QAE@ABVBfmeFixedStorage0004543D@@@Z,0x003959FA,"one-mask partition filter ctor: +0x04 link cleared, vftable 0x00C1A25C, the mask copied to +0x08 through 0x0004543D, ret 4; REL32 in StructureCreep 0x005ABEA2"
@@ -4374,7 +4373,6 @@ name,address,notes
 ??1Rva0038465B@@QAE@XZ,0x0038465B,address-derived 5-byte forwarding thunk reached by unwind cleanup 0x0078228F; retail E9 at this address targets rowed body 0x00383EB2; class identity unproven
 ??1Rva00385B78SavedMap@@QAE@XZ,0x00383EB2,native loadSavedIgnoreList100 56B clear/free dtor at call385BBE; complete rowed provider independently verified; address-derived consumed tree view and hidden-return ABI
 ??1Rva00386374@@UAE@XZ,0x00386374,"destructor the scalar deleting destructor 0x0038745D calls (REL32 at 0x00387460; vtable 0x00C19500#0); opaque address name"
-??1Rva0038ADE2@@UAE@XZ,0x0038ADE2,"destructor the scalar deleting destructor 0x0038ADC6 calls (REL32 at 0x0038ADC9; vtable 0x00C1989C#0); opaque address name"
 ??1Rva0039C151Subobject@@QAE@XZ,0x0039C151,opaque zero-arg thiscall subobject teardown called at +0x14 by the byte-verified Rva00520211Element dtor; target call displacement gives address, identity only inferred from cleanup order
 ??1Rva003A35A0Element@@QAE@XZ,0x00089851,callee of ?insertAfterIndex@Rva003A39C0Owner@@QAEXABURva003A39C0Words@@@Z at retail 0x0031305E read from its REL32 displacement; donor-named alias of the rowed 184B element dtor at 0x00089851
 ??1Rva003A6201@@UAE@XZ,0x003A6201,"destructor the vector deleting destructor 0x003A6AAA calls and hands to the eh vector destructor iterator (DIR32 at 0x003A6AB9); opaque address name"
