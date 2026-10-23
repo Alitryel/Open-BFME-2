@@ -85,3 +85,26 @@ the runner rule requires skipping this update without writing a freshness
 success stamp. Production sources, ledger rows and compiler inputs were not
 changed; no byte build is warranted for this evidence-only update. The final
 `python3 tools/progress.py origin/master` result is reported in session metadata.
+
+## Ownership recheck at 03:48 UTC
+
+At `5b35f96ca5`, fresh sequential claims still refused the camera and
+`0x001C2B80`. A filtered independent listing confirms live owners
+`yasinschroeder-codexb2` (3.6 h left) and `yasinschroeder-claudec`
+(2.5 h). The second fallback, `0x001C5E30`, is now a matched 768-byte
+clean-room body in `Code/Libraries/Source/VP6/PredictFilteredBlock.cpp`,
+confirmed directly in `origin/master`'s ledger. It needs no new claim or
+reconstruction. This exhausts the standing assignment's permitted targets;
+unrelated queues remain outside this seat's scope.
+
+No claim was acquired, no source trial was run, and the score-0.9741961628516264
+camera bank was preserved. Resume its seat23 handoff when ownership becomes
+available. No source hypothesis was tested or ruled out by this recheck.
+
+The pull and ledger check passed. The published-index fetch kept the current
+2026-10-22 23:07 index and added 22,832 reusable objects. The overdue BFME 1
+check is now covered by the recent shared update lock owned by `codex8`;
+per the runner rule this seat skips that update without writing a success
+stamp. The required `python3 tools/progress.py origin/master` passed with all
+coverage and linking deltas +0. Production source and byte-verification inputs
+remain unchanged; no byte build was warranted for this coordination record.
