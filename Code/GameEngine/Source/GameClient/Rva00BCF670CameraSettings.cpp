@@ -154,9 +154,9 @@ class Rva00BCF670CameraSettings
 {
 public:
 	Rva00BCF670CameraSettings();
-	virtual void vslot00(); virtual void vslot01(); virtual void vslot02(); virtual void vslot03();
-	virtual void vslot04(); virtual void vslot05(); virtual void vslot06(); virtual void vslot07();
-	virtual void vslot08(); virtual void vslot09(); virtual void vslot10(); virtual void vslot11();
+	virtual void vslot00() = 0; virtual void vslot01() = 0; virtual void vslot02() = 0; virtual void vslot03() = 0;
+	virtual void vslot04() = 0; virtual void vslot05() = 0; virtual void vslot06() = 0; virtual void vslot07() = 0;
+	virtual void vslot08() = 0; virtual void vslot09() = 0; virtual void vslot10() = 0; virtual void vslot11() = 0;
 	virtual void loadMinHeight();					// slot 12
 	virtual void loadMaxHeight();					// slot 13
 	virtual void loadPitchAngle();					// slot 14
@@ -165,7 +165,7 @@ public:
 	virtual void reload();							// slot 17
 	virtual void getCameraOffset(Coord3D *offset, float *yaw);	// slot 18
 	virtual bool setTriggerArea(const AsciiString &name, const Coord3D *pos);	// slot 19
-	virtual void vslot20();
+	virtual void vslot20() = 0;
 	virtual void constrainPosition(Coord3D *pos);	// slot 21
 
 	void reset();
