@@ -350,6 +350,22 @@ def split_function_name(mangled):
     raise Refusal(f"{mangled} is not a function name this tool can respell")
 
 
+def refers_to_identifier(mangled, suffix):
+    """True when `?ident@suffix` back-references its identifier (name fragment
+    0) or cannot be read well enough to say it does not. The parser reads the
+    NAME positions of the symbol: a `0` there is the name back-reference, while
+    the same digit in a TYPE position (`PAUS@@0@Z`: the second argument has the
+    first one's type) leaves the name table alone, so respelling the identifier
+    changes nothing after it. A symbol outside the parser's subset keeps the
+    textual test, which cannot tell the two apart and so refuses both."""
+    refs = []
+    try:
+        fragments(mangled, refs=refs)
+    except Unparsed:
+        return bool(re.search(r"(?:[VUT]|W4|@)0@", suffix))
+    return 0 in refs
+
+
 def rename_function_symbol(mangled, new_ident):
     """`mangled` with only its identifier respelled; refuses when MSVC's
     name back-references would make the compiler spell the result differently
@@ -358,7 +374,7 @@ def rename_function_symbol(mangled, new_ident):
     become such a reference)."""
     prefix, old_ident, suffix = split_function_name(mangled)
     if prefix == "?":
-        if re.search(r"(?:[VUT]|W4|@)0@", suffix):
+        if refers_to_identifier(mangled, suffix):
             raise Refusal(f"{mangled}: a back-reference to the identifier (fragment 0) follows it; "
                           "respelling it would change the rest of the signature")
         if re.search(r"(?<![A-Za-z0-9_])%s@" % re.escape(new_ident), suffix) or \
@@ -377,7 +393,13 @@ class Unparsed(ValueError):
 FUNCLET_PREFIXES = ("__ehhandler$", "__unwindfunclet$")
 
 
-def fragments(symbol):
+class _Out(list):
+    """fragments' output list; `refs` (when set) also collects the digit of
+    every name back-reference the parser meets in a name position."""
+    refs = None
+
+
+def fragments(symbol, refs=None):
     """(start, end) of every name fragment of `symbol` -- each identifier of
     a qualified name, template name and C name -- in order. A class token is
     only ever one whole fragment, so `TBar` (a struct named TBar: `PAUTBar@@`)
@@ -394,7 +416,8 @@ def fragments(symbol):
         if not match:
             raise Unparsed(symbol)
         return [(offset + match.start(1), offset + match.end(1))]
-    out = []
+    out = _Out()
+    out.refs = refs
     try:
         end = _parse_symbol(text, 0, out)
     except (IndexError, ValueError) as error:
@@ -439,6 +462,8 @@ def _parse_qualified(s, i, out):
         if c == "@":
             return i + 1
         if c.isdigit():
+            if out.refs is not None:
+                out.refs.append(int(c))
             i += 1
         elif s.startswith("?$?", i):                    # template operator / special member
             k = i + 3
