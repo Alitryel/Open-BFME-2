@@ -15,10 +15,19 @@ public:
 	virtual ~Rva00074626() {}
 };
 
+extern "C" void __cdecl free(void *block);
+
+// The record's teardown frees its first pointer: the 14-byte body retail
+// ICF-folds with vector<int>'s destructor at 0x0007FAB3.
 struct Rva000751EFSlot
 {
-	~Rva000751EFSlot();
-	unsigned char m_data[0x0C];
+	void *m_first;
+	unsigned char m_data[0x0C - 4];
+	~Rva000751EFSlot()
+	{
+		if (m_first != 0)
+			free(m_first);
+	}
 };
 
 class Rva000751EFRef
