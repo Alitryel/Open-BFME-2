@@ -194,7 +194,7 @@ public:
 
 	virtual void startThreads();
 	virtual void endThreads();
-	virtual bool areThreadsRunning() = 0;
+	virtual bool areThreadsRunning();
 	virtual void addRequest(const BfmeNarrowRecord0041A5D2 &request);
 	virtual bool getRequest(BfmeNarrowRecord0041A5D2 &request);
 	virtual void addResponse(const BfmePod16 &response);

@@ -9,31 +9,6 @@
 typedef int Int;
 typedef bool Bool;
 
-// slot at VA 0x00C3ADB0: true when the one thread in the +0x74 table is
-// running (rowed ThreadClass::Is_Running).
-class ThreadClass
-{
-public:
-	Bool Is_Running();
-};
-class Rva00419D2A
-{
-public:
-	Bool areThreadsRunning();
-private:
-	char m_pad00[0x74];
-	ThreadClass *m_threads[1];
-};
-Bool Rva00419D2A::areThreadsRunning()
-{
-	for (Int i = 0; i < 1; ++i)
-	{
-		if (m_threads[i] && m_threads[i]->Is_Running())
-			return true;
-	}
-	return false;
-}
-
 // slot at VA 0x00C3BE24: deleteOverrides on every non-NULL entry of the
 // pointer array [+0x0C, +0x10) (rowed Overridable::deleteOverrides).
 class Overridable

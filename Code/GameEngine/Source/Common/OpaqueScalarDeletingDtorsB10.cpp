@@ -84,19 +84,6 @@ Rva00419E38::Rva00419E38(EmitVtableTag *)
 {
 }
 
-class Rva0041A644
-{
-public:
-	Rva0041A644(EmitVtableTag *);
-public:
-	virtual ~Rva0041A644();
-};
-
-// ?<Rva0041A644::Rva0041A644> absent-from-retail
-Rva0041A644::Rva0041A644(EmitVtableTag *)
-{
-}
-
 // Rva0041B790's two tables (data ledger): GameEngineDeletingBase at +0 and Snapshot at +0xC, whose
 // slot 0 is a this-adjusting (sub ecx, 0xC) deleting-destructor thunk.
 // Both bases are the native 12-byte SubsystemInterface: ctor 1B4E63,

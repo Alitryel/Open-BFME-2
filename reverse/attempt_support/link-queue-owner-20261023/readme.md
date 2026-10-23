@@ -1,4 +1,40 @@
-# Queue virtual-owner link prerequisite
+# Queue virtual-owner link repair: resolved
+
+Follow-up at 4cf1695b67 after upstream released B10. The original blocker
+below is resolved. Scalar deleting destructor41A7DB now lives with the
+complete constructor in GameResultsQueueStartup_Unresolved.cpp; all28 bytes
+and relocations are exact. Remove B10's synthetic one-slot view and
+emission-only constructor. Reconcile worker-status419D2A with Rva0041A644
+in both views using the preserved patch's target evidence. The third
+createGameResults view already agrees and remains63/63 B linked.
+
+Current before: B10 572 B and startup633 B link; constructor/dtor0/285 B.
+VslotSmallBodiesM is unchanged from the published index (blob equality
+checked), where its117 B link. Total1322 B. After:544+673+313+77=1607 B,
+all four link. **+285 B newly linkable**, accounting for both moved rows
+(40 B and28 B). No coverage, self-strict or closed-strict gain claimed.
+Before/after previews: before-current.txt and after-current.txt.
+
+Validation: build.sh40/40; four-provider strict preparation40/40 with reusable
+receipts; eight EH graphs EXACT; check_csv, find_declared_unmatched and
+diff --check pass. The initial scalar-row placement in startup was rejected
+because that unit emits no scalar destructor; corrected to the constructor
+unit, then the full gate passed. No pins, aliases, shared headers or verifier
+changes. B10 loses one emission-only constructor and private class view.
+
+Other current-object audits: registry1907 B links with its already-fixed
+narrow-string provider; colour ctor514 B links with V3InlineTemplateDtor;
+AptError572 B and phase destructor482 B already link. No inherited gains
+credited. Narrow-string compare/insert/range initialization, CreateAHeroData,
+event and word-vector blockers retain their previous evidence. Camera
+transform needs unlanded102F83 and AI queue needs4F37B0. Particle namespace
+reconciliation needs scalar destructor1F4B47 in B03, held by another worker;
+no edit attempted. Larger class repairs need whole class contracts.
+name_globals dry-run yields zero edits; rehome probes yield an already-linked
+pair. No measurement-matched data-back artifact was available. BFME1
+freshness remains blocked as recorded in link-ww3d-fog-20261023.md.
+
+## Original blocked investigation
 
 Baseline HEAD 27dd681fd2, published census 456ce161c5 (retail-truth-4).
 BFME 1 verified donor 96c88c73; compiler flags remain the units' original flags.

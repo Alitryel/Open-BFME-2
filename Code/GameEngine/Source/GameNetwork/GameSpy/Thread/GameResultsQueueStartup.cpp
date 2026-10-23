@@ -135,6 +135,7 @@ public:
 	virtual ~ThreadClass();
 	virtual void Execute();
 	void Stop();			// 0x006105F0
+	bool Is_Running();
 
 private:
 	char m_storage[0x54 - 4];
@@ -305,4 +306,17 @@ bool Rva0041A644::areGameResultsBeingSent()
 	if (m.Failed())
 		return true;
 	return m_requestCount > 0;
+}
+
+// The native queue table's slot at C3ADB0 is 419D2A. Its receiver+74
+// thread array is this constructor's worker array; the former standalone
+// Rva00419D2A view described the same object, with no independent identity.
+bool Rva0041A644::areThreadsRunning()
+{
+	for (int i = 0; i < 1; ++i)
+	{
+		if (m_workerThreads[i] && m_workerThreads[i]->Is_Running())
+			return true;
+	}
+	return false;
 }
