@@ -37,3 +37,10 @@ explicit providers with strict reusable receipts, including 45 string literals
 and the renumbered cleanup labels through their exact parent EH graphs.
 find_declared_unmatched and check_csv pass. Ordinary commit hooks must also
 pass before this repair is banked.
+
+Recovery reconciliation: upstream 8bf8041bea now provides loadPostProcess in
+Rva0032A186Finish.cpp and owns its fold row. Remove the saved duplicate row
+and constructor-unit definition rather than introducing a second provider.
+The +622 B above is the original saved legacy measurement, not an additional
+recovery gain over origin/master. Constructor declarations still bind to the
+upstream provider. The recovered source matches upstream's constructor unit.

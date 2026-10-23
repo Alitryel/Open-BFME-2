@@ -29,3 +29,7 @@ outside-baseline findings: supply/tech list names in the consumer and MapUtil's
 private map dimensions; those definitions/relocations are untouched.
 
 The source-name sweep finds no additional consumers of these two shared names.
+
+Recovery reconciliation: the shared-state source changes are already present
+in recovery upstream 202984df58. The replayed commit preserves only this
+independent evidence; its original +1,085 B is not a new recovery gain.
