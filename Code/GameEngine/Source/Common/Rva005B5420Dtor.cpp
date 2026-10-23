@@ -1,28 +1,34 @@
 // cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHsc /arch:SSE /G7
 // stlport
 // ??1Rva005B5420@@UAE@XZ @0x005B5420 101B.
-// Virtual dtor closing CahClass InitGadgets and destroying map at +0x1C.
+// Virtual dtor closing CahClass InitGadgets and destroying the owned pointer list at +0x1C.
 // Evidence: leaf lane plus caller deleting dtor 0x005B576E; vtables
 // 0x00873450/0x00872B74; literal CahClass::InitGadgets; close row plus
-// StringBase ctor plus releaseBuffer plus rb-tree dtor rows.
+// StringBase ctor plus releaseBuffer plus owning pointer-list dtor rows.
 #include "ascii_string.h"
-#include <map>
-// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBHURva0040A603Record@@@_STL@@V?$allocator@U?$pair@$$CBHURva0:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva0040A603Record;
-namespace _STL { template <> _Rb_tree_base<pair<int const ,Rva0040A603Record>,allocator<pair<int const ,Rva0040A603Record> > >::~_Rb_tree_base(); }
-// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@HU?$pair@$$CBHURva0040A603Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHU:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva0040A603Record;
-namespace _STL { template <> void _Rb_tree<int,pair<int const ,Rva0040A603Record>,_Select1st<pair<int const ,Rva0040A603Record> >,less<int>,allocator<pair<int const ,Rva0040A603Record> > >::_M_erase(_Rb_tree_node<pair<int const ,Rva0040A603Record> > *); }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHURva0040A603Record@@@_STL@@@_STL@@@_:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva0040A603Record;
-namespace _STL { template <> void allocator<_Rb_tree_node<pair<int const ,Rva0040A603Record> > >::deallocate(_Rb_tree_node<pair<int const ,Rva0040A603Record> > *,unsigned int) const; }
-
-typedef int Int;
-
-struct Rva0040A603Record { char bytes[1]; };
+#include <stdlib.h>
+// The native member cleanup calls 0x0040A603, whose complete body and EH
+// graph establish the owning pointer-list type in 0CreateAHeroManager21FE49.
+// The earlier tree spelling was only a donor guess: its clear pin targets
+// the pointer-list clear body 0x0040A59B, not a tree operation.
+class CreateAHeroData;
+class Rva0040A3F9
+{
+public:
+    __forceinline ~Rva0040A3F9() { if (m_begin) free(m_begin); }
+    CreateAHeroData **m_begin;
+    CreateAHeroData **m_end;
+    CreateAHeroData **m_capacity;
+    bool m_flag;
+    unsigned int size() const { return m_end - m_begin; }
+    CreateAHeroData *rva0040A32F(int index);
+};
+class Rva0040A530 : public Rva0040A3F9
+{
+public:
+    Rva0040A530(bool flag);
+    __declspec(noinline) ~Rva0040A530();
+};
 
 void _bfme_closeAptScreen(const AsciiString &s);
 
@@ -39,7 +45,7 @@ public:
 	void rva005B5418(const char *unused);
 private:
 	char m_pad04[0x1C - 4];
-	_STL::map<Int, Rva0040A603Record> m_map1C;
+	Rva0040A530 m_ownedList1C;
 };
 
 Rva005B5420::~Rva005B5420()
