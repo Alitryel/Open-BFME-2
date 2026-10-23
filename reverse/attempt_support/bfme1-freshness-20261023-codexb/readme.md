@@ -57,3 +57,23 @@ repaired; this note does not waive or indefinitely suspend that check.
 
 No authored C++ or newly linked bytes are claimed. No maintainer-only
 verification runner was started. Model gpt-6.1-sol, 2026-10-23 UTC.
+
+## Concurrent upstream resolution
+
+The final progress comparison found that origin/master had advanced while
+the old-pointer gate ran. After rebasing this evidence onto `0fa5a5b477`,
+the factory repair was already present in upstream `6ae1fde8d5` (obsolete
+derived padding removed). A fresh ordinary
+`./build.sh Code/GameEngine/Source/Common/Rva00042036Factory.cpp` then exited
+zero: 1/1 function row, source claims and scoped reference checks passed.
+The allocation failure above is therefore historical, not a current
+unresolved factory blocker. No full gate was rerun after this rebase.
+
+Upstream also contains the independently verified pointer
+`f890413e75e671748215ba2ef3304aa7953993e9` and its paired passing gates in
+`../bfme1-freshness-20261022-f890/readme.md`. The clean donor checkout now
+agrees with that committed pointer. The pull fetched a newer official
+master, `f36a4db066aa61edeee90085a31d628eb829001d`; this seat did not test an
+update to that revision or write a freshness-success stamp. The next
+freshness pass must use the now-repaired production inputs and preserve
+the upstream verified pointer until its new comparison passes.

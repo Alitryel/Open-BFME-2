@@ -18,5 +18,16 @@
   "data_rows_verified": 2135,
   "no_op_patch": "unrunnable because functions failed",
   "full_gate_log_sha256": "01e254f07ab02451e72879006b78c5898a7409302f111c389e7832228b34a0e4",
-  "freshness_success_stamp_written": false
+  "freshness_success_stamp_written": false,
+  "concurrent_upstream_resolution": {
+    "rebased_onto": "0fa5a5b477dbcce1ec612e730ed954120ff59f11",
+    "factory_repair_commit": "6ae1fde8d5",
+    "scoped_factory_recheck_exit_code": 0,
+    "scoped_factory_rows_passed": 1,
+    "full_gate_rerun": false,
+    "committed_and_checked_out_verified_pointer": "f890413e75e671748215ba2ef3304aa7953993e9",
+    "newest_official_master_fetched": "f36a4db066aa61edeee90085a31d628eb829001d",
+    "newest_official_pointer_tested": false,
+    "success_stamp_written": false
+  }
 }
