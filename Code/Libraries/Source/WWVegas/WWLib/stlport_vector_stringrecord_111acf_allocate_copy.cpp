@@ -29,4 +29,29 @@ struct BfmeStringRecord00111ACF {
 namespace _STL {
 template <> void _Construct<BfmeStringRecord00111ACF, BfmeStringRecord00111ACF>(BfmeStringRecord00111ACF *, const BfmeStringRecord00111ACF &);
 }
+// The mutable-range uninitialized copy (0x003F62F5) and push_back (0x003F6CF9)
+// construct through 0x003F62C8, rowed as _Construct<EvaMessageInfo>, while
+// the const-range copy and fill rows here use 0x000AD77B; spell those two.
+struct EvaMessageInfo;
+namespace _STL {
+template <> void _Construct<EvaMessageInfo, EvaMessageInfo>(EvaMessageInfo *, const EvaMessageInfo &);
+template <> inline BfmeStringRecord00111ACF *
+__uninitialized_copy<BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *>(BfmeStringRecord00111ACF *first,
+    BfmeStringRecord00111ACF *last, BfmeStringRecord00111ACF *result, const __false_type &)
+{
+    BfmeStringRecord00111ACF *cur = result;
+    for ( ; first != last; ++first, ++cur)
+        _Construct((EvaMessageInfo *)cur, *(const EvaMessageInfo *)first);
+    return cur;
+}
+template <> inline void vector<BfmeStringRecord00111ACF>::push_back(const BfmeStringRecord00111ACF &x)
+{
+    if (this->_M_finish != this->_M_end_of_storage._M_data) {
+        _Construct((EvaMessageInfo *)this->_M_finish, (const EvaMessageInfo &)x);
+        ++this->_M_finish;
+    }
+    else
+        _M_insert_overflow(this->_M_finish, x, __false_type(), 1UL, true);
+}
+}
 template class _STL::vector<BfmeStringRecord00111ACF, _STL::allocator<BfmeStringRecord00111ACF> >;
