@@ -553,7 +553,7 @@ public:
 class Rva00494A97_S2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 
 private:
 	char m_pad04[12];
@@ -562,13 +562,13 @@ private:
 class Rva00494A97_S3
 {
 public:
-	virtual void f3();
+	virtual void f3() = 0;
 };
 
 class Rva00494A97_S4
 {
 public:
-	virtual void f4();
+	virtual void f4() = 0;
 };
 
 class Rva00494A97 : public Rva00589079, public Rva00494A97_S1, public Rva00494A97_S2, public Rva00494A97_S3, public Rva00494A97_S4
@@ -856,7 +856,7 @@ Rva0084CEF::Rva0084CEF(EmitVtableTag *)
 class ObjectModule_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 // Owner proven (unlike the opaque entries above): this deleting dtor sits

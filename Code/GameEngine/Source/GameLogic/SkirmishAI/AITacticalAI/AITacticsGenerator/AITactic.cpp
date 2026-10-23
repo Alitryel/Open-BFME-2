@@ -274,15 +274,15 @@ public:
     bool anyTeamMembersInCombat();
     void rva004EDA60();
     void rva004EDDAA();
-	virtual void slot00();
+	virtual void slot00() = 0;
 	virtual void slot01() = 0;
 	virtual void slot02() = 0;
 	virtual bool initializeTeamTemplate(void *p, int dummy);
-	virtual unsigned int getNumberOfTeamsNeeded();
+	virtual unsigned int getNumberOfTeamsNeeded() = 0;
 	virtual void xfer(Xfer *xfer);
 	virtual void slot06() = 0;
 	virtual void slot07() = 0;
-	virtual void slot08();
+	virtual void slot08() = 0;
 
 	Player *playerForAssist() const { return (Player *)m_24; }
     void end(bool a, bool b);

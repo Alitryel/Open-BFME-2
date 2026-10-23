@@ -1119,7 +1119,7 @@ class ContainModuleInterface : public Rva00468D11Slots<38>
 public:
 	virtual bool slot38(Object *obj, int a2, int a3) = 0;
 	virtual void cgap39() = 0; virtual void cgap40() = 0; virtual void slot41(const Object *obj, int a2) = 0; virtual void cgap42() = 0; virtual void cgap43() = 0; virtual void cgap44() = 0; virtual void cgap45() = 0; virtual void cgap46() = 0; virtual void cgap47() = 0; virtual void cgap48() = 0; virtual void cgap49() = 0; virtual void cgap50() = 0; virtual void cgap51() = 0; virtual void cgap52() = 0; virtual void cgap53() = 0; virtual void cgap54() = 0; virtual void cgap55() = 0; virtual void cgap56() = 0; virtual void cgap57() = 0; virtual void cgap58() = 0; virtual void cgap59() = 0; virtual void cgap60() = 0; virtual void cgap61() = 0; virtual void cgap62() = 0; virtual void cgap63() = 0; virtual void cgap64() = 0; virtual void cgap65() = 0; virtual void cgap66() = 0; virtual void cgap67() = 0;
-	virtual void iterateContained(ContainIterateFunc func, void *userData, int a3);	// slot 68; the base body is 0x004635EC
+	virtual void iterateContained(ContainIterateFunc func, void *userData, int a3) = 0;	// slot 68; the base body is 0x004635EC
 	__forceinline void baseIterateContained(ContainIterateFunc func, void *userData, int a3) { ((SlaughterHordeContain *)this)->SlaughterHordeContain::rva004635EC(func, userData, a3); }
 	virtual int slot69(int a1) = 0;
 	virtual void rva0046D27ASlot70(Rva0046247DPair &p) = 0;

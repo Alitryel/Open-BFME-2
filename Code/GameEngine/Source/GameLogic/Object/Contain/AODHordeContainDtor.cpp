@@ -27,7 +27,7 @@ struct Iface2C { virtual void f2C(); };
 struct Iface30 { virtual void f30(); };
 struct Iface34 { virtual void f34(); unsigned char m_pad[0xFC - 0x38]; };
 struct IfaceFC { virtual void fFC(); unsigned char m_pad[0x11C - 0x100]; };
-struct Iface11C { virtual void f11C(); unsigned char m_pad[0x30C - 0x11C - 4]; };
+struct Iface11C { virtual void f11C() = 0; unsigned char m_pad[0x30C - 0x11C - 4]; };
 
 class HordeContain
 	: public Iface00

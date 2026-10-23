@@ -527,13 +527,13 @@ public:
 	virtual ~AITactic();
 	virtual bool canRun(void *request);
 	virtual void cleanUp();
-	virtual bool initializeTeamTemplate(void *team, int dummy);
-	virtual void v4();
+	virtual bool initializeTeamTemplate(void *team, int dummy) = 0;
+	virtual void v4() = 0;
 	virtual void xfer(Xfer *xfer);
 	virtual void run();
 	virtual void update();
 	virtual void slot08();
-	virtual AITactic *create();
+	virtual AITactic *create() = 0;
 	void end(bool a, bool b);void NotifyTeamCreated(Team*);
 };
 

@@ -142,7 +142,7 @@ inline Base0_00576C4B::Base0_00576C4B()
 class PhaseTranslator00576DF1 : public Base0_00576C4B
 {
 public:
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *) = 0;
 };
 
 class Listener00576C4B
@@ -167,7 +167,7 @@ class Rva00576C4B : public PhaseTranslator00576DF1, public Rva005CD1A9, public L
 {
 public:
 	Rva00576C4B(Rva00576B5E *,int);
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *) = 0;
 	virtual ~Rva00576C4B();
 private:
 	Inner00576C4B *m_s;

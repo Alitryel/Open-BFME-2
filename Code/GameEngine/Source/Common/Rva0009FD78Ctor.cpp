@@ -10,12 +10,12 @@ public:
 class Rva0009FD78 : public Rva0078D310Host {
 public:
 	Rva0009FD78(void *context);
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
-	virtual void slot3();
-	virtual void slot4();
-	virtual int dispatch();
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
+	virtual void slot3() = 0;
+	virtual void slot4() = 0;
+	virtual int dispatch() = 0;
 };
 
 Rva0009FD78::Rva0009FD78(void *context) : Rva0078D310Host(context)

@@ -127,8 +127,8 @@ public:
 	virtual const char *GetSnapshotName() const;
 
 protected:
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess();
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
 
 private:
 	_STL::map<int, Rva001DDBC6Record> m_10;					// +0x10

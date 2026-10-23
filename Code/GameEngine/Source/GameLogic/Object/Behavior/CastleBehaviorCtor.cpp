@@ -152,7 +152,7 @@ class CastleBehavior : public FoundationAIUpdate, public CastleBehaviorInterface
 public:
 	CastleBehavior(Thing *thing, const ModuleData *moduleData);
 	virtual ~CastleBehavior();
-	virtual void slot0();
+	virtual void slot0() = 0;
 private:
 	Int m_34; // +0x34
 	Int m_38; // +0x38

@@ -116,12 +116,12 @@ private:
 	unsigned char m_pad04[0x10 - 4];
 };
 
-class Gen_uwm_00429191 { public: virtual void s0(); ~Gen_uwm_00429191() {} };
-class Gen_uwm_0057428c { public: virtual void s0(); ~Gen_uwm_0057428c() {} };
-class Gen_uwm_005e186a { public: virtual void s0(); ~Gen_uwm_005e186a() {} };
-class Rva005E186A { public: virtual void s0(); ~Rva005E186A() {} };
-class Gen_uwm_00574265 { public: virtual void s0(); ~Gen_uwm_00574265() {} };
-class Gen_uwm_005fed52 { public: virtual void s0(); ~Gen_uwm_005fed52() {} };
+class Gen_uwm_00429191 { public: virtual void s0() = 0; ~Gen_uwm_00429191() {} };
+class Gen_uwm_0057428c { public: virtual void s0() = 0; ~Gen_uwm_0057428c() {} };
+class Gen_uwm_005e186a { public: virtual void s0() = 0; ~Gen_uwm_005e186a() {} };
+class Rva005E186A { public: virtual void s0() = 0; ~Rva005E186A() {} };
+class Gen_uwm_00574265 { public: virtual void s0() = 0; ~Gen_uwm_00574265() {} };
+class Gen_uwm_005fed52 { public: virtual void s0() = 0; ~Gen_uwm_005fed52() {} };
 
 namespace StrategicInGameUI
 {

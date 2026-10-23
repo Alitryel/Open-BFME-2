@@ -17,10 +17,10 @@ class W3DProjectedShadowManager : public Rva00108475 {
 public:
  W3DProjectedShadowManager();
  __declspec(noinline) virtual ~W3DProjectedShadowManager();
- virtual void rva0010BE72(); virtual void *rva0010C065(void *);
- virtual void *rva0010C145(void *,void *,bool,bool); virtual void forward(unsigned,unsigned,unsigned);
- virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
- virtual unsigned dispatch(unsigned,void *,unsigned,unsigned);
+ virtual void rva0010BE72(); virtual void *rva0010C065(void *) = 0;
+ virtual void *rva0010C145(void *,void *,bool,bool) = 0; virtual void forward(unsigned,unsigned,unsigned) = 0;
+ virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned) = 0;
+ virtual unsigned dispatch(unsigned,void *,unsigned,unsigned) = 0;
 private:
  unsigned m_04,m_08,m_0c,m_10,m_14,m_18,m_1c,m_20;
  LightEnvironmentClass m_light;
