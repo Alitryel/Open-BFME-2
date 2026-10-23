@@ -35,7 +35,7 @@ struct BfmeQ1039;
 void bfmeGo1039E(BfmeQ1039 *q, int v);
 
 typedef float Real;
-typedef unsigned char Bool;
+typedef bool Bool;
 
 Real GetGameClientRandomValueReal(Real low, Real high, char *file, int line);
 Real GetGameLogicRandomValueReal(Real low, Real high, char *file, int line);
