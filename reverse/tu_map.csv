@@ -4183,7 +4183,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0007EC87,28,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,C,C=0x0007E829..0x0007ECA3,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp
 0x0007ECA3,281,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,C,C=0x0007E829..0x0007EDBC,Code/GameEngine/Source/Common/Rva0007F944HostFamily.cpp
 0x0007EDBC,244,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,C,C=0x0007E829..0x0007EEBE,
-0x0007EEBE,119,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,U,N=Code/GameEngine/Source/Common/RenderableRiverArea.cpp,Code/GameEngine/Source/Common/Rva0007EEBELoad.cpp
+0x0007EEBE,119,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,U,N=Code/GameEngine/Source/Common/RenderableRiverArea.cpp,Code/GameEngine/Source/Common/RenderableRiverArea_createTexture.cpp
 0x0007EF35,454,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterRenderObjClass.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterRenderSettingDestructor.cpp
 0x0007F0FB,1921,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,C,C=0x0007EF35..0x0007F87C,
 0x0007F87C,174,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,approved,C,C=0x0007EF35..0x0007F92A,
@@ -4661,7 +4661,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00090381,47,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,proposed,K,K=Rva00090360,Code/GameEngine/Source/Common/Rva00090360Ctor.cpp
 0x000903B0,103,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp
 0x00090417,25,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp
-0x0009045E,108,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,approved,C,C=0x00090417..0x000904CA,Code/GameEngine/Source/Common/Rva00090360Dtor.cpp
+0x0009045E,108,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,approved,C,C=0x00090417..0x000904CA,Code/GameEngine/Source/Common/W3DDisplayStringManager.cpp
 0x000904CA,266,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp
 0x000905D4,28,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,approved,C,C=0x000904CA..0x000905F0,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp
 0x000905F0,238,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringManager.cpp
@@ -4716,7 +4716,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00091ACE,28,code,,,-,,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp
 0x00091AEA,445,code-unledgered,,,-,,
 0x00091CA7,102,code-unledgered,,,-,,
-0x00091D0D,37,code,,,-,,Code/GameEngine/Source/Common/Rva00091D0DShutdownStep.cpp
+0x00091D0D,37,code,,,-,,Code/GameEngine/Source/Common/W3DTerrainVisual_update.cpp
 0x00091D32,11,code,,,-,,Code/GameEngine/Source/Common/VslotSizedForwarders.cpp
 0x00091D61,81,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00091D61Finish.cpp
 0x00091DB2,18,code,,,-,,Code/GameEngine/Source/Common/VslotSmallBodiesC.cpp
@@ -5331,8 +5331,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000A98BA,34,code,,,-,,Code/GameEngine/Source/Common/Rva000A98BACleanup.cpp
 0x000A98DC,112,code,,,-,,Code/GameEngine/Source/GameClient/GUI/Rva00783F90PackedColor.cpp
 0x000A99B8,641,code-unledgered,,,-,,
-0x000A9C39,142,code,Code/GameEngine/Source/Common/AptTexturedShape.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptTexturedShape.cpp,Code/GameEngine/Source/Common/Rva000A9C39Mapper.cpp
-0x000A9CC7,111,code,,,-,,Code/GameEngine/Source/Common/Rva000A9CC7Dtor.cpp
+0x000A9C39,142,code,Code/GameEngine/Source/Common/AptTexturedShape.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptTexturedShape.cpp,Code/GameEngine/Source/Common/AptTexturedShape_scaleTransformToTexture.cpp
+0x000A9CC7,111,code,,,-,,Code/GameEngine/Source/Common/W3DAptDisplayString.cpp
 0x000A9D36,114,code,,,-,,Code/GameEngine/Source/GameClient/GUI/Rva00784900GetText.cpp
 0x000A9DA8,28,code,,,-,,Code/GameEngine/Source/GameClient/GUI/Rva007849C0Clear.cpp
 0x000A9DC4,47,code,,,-,,Code/GameEngine/Source/Common/Rva000A9DC4Get.cpp
@@ -5368,7 +5368,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000AAD26,54,code,,,-,,Code/GameEngine/Source/Common/Rva000AAD26FamilyDtors.cpp
 0x000AAD5C,39,code,,,-,,Code/GameEngine/Source/Common/Rva000AAD5CCtor.cpp
 0x000AAD83,5,code-unledgered,,,-,,
-0x000AAD88,57,code,,,-,,Code/GameEngine/Source/Common/Rva000AAD88Clone.cpp
+0x000AAD88,57,code,,,-,,Code/GameEngine/Source/Common/w3dAllocateString.cpp
 0x000AADC1,124,code,,,-,,Code/GameEngine/Source/Common/Rva000AADC1Dtor.cpp
 0x000AAE3D,28,code,,,-,,Code/GameEngine/Source/Common/Rva000AAE3DCtor.cpp
 0x000AAE59,176,code,,,-,,Code/GameEngine/Source/Common/Rva00787C20HashOwnerDestructor.cpp
@@ -5735,7 +5735,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000B5FE6,453,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDraw.cpp,proposed,C,C=0x000B5D7F..0x000B61AB noncontiguous,
 0x000B61AB,168,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDraw.cpp,proposed,N,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDraw.cpp noncontiguous,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawRva000B61AB.cpp
 0x000B6253,129,code,,,-,,Code/GameEngine/Source/Common/Rva000B6253.cpp
-0x000B62D4,157,code,,,-,,Code/GameEngine/Source/Common/Rva000B62D4Permuted.cpp
+0x000B62D4,157,code,,,-,,Code/GameEngine/Source/Common/parseModelConditionFlags.cpp
 0x000B6371,7,code,,,-,,Code/GameEngine/Source/Common/Disp8SubDwordFieldGetters.cpp
 0x000B6378,58,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_e8_o1.cpp
 0x000B63B2,60,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_b9534_vector_base.cpp
@@ -6443,7 +6443,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000D1BA6,68,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1AF3..0x000D1BEA noncontiguous,Code/GameEngine/Source/Common/Bfme/Rva006DABB0Destructor.cpp
 0x000D1BEA,38,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1AF3..0x000D1C10 noncontiguous,Code/GameEngine/Source/Common/Rva000D1BEA.cpp
 0x000D1C10,115,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1AF3..0x000D1C83 noncontiguous,Code/GameEngine/Source/Common/Rva000D1C10.cpp
-0x000D1C83,158,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,U,N=Code/GameEngine/Source/Common/W3DBuffBuffer.cpp noncontiguous,Code/GameEngine/Source/Common/Rva000D1C83.cpp
+0x000D1C83,158,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,U,N=Code/GameEngine/Source/Common/W3DBuffBuffer.cpp noncontiguous,Code/GameEngine/Source/Common/W3DBuffBuffer_allocateBuffBuffers.cpp
 0x000D1D33,149,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1C83..0x000D1DC8 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/sharebuf_vector2_ctor.cpp
 0x000D1DC8,26,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1C83..0x000D1DE2 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/sharebuf_vector2_ctor.cpp
 0x000D1DE2,110,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1C83..0x000D1E50 noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/ShareBufferClassUnsignedCtor.cpp
@@ -6915,9 +6915,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000F0803,47,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp noncontiguous,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowCompleteDestructor.cpp
 0x000F0832,16,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp noncontiguous,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp
 0x000F0842,208,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowManager.cpp noncontiguous,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowRenderStencilShadows.cpp
-0x000F0912,68,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,C,C=0x000F0842..0x000F0972 noncontiguous,Code/GameEngine/Source/Common/Rva000F0912Clear.cpp
+0x000F0912,68,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,C,C=0x000F0842..0x000F0972 noncontiguous,Code/GameEngine/Source/Common/W3DVolumetricShadowManager_invalidateCachedLightPositions.cpp
 0x000F0956,28,code,,displaced,-,N=Code/GameEngine/Source/Common/W3DBufferManager.cpp,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-8fbc.cpp
-0x000F0972,111,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,C,C=0x000F0842..0x000F09E1 noncontiguous,Code/GameEngine/Source/Common/Rva000F0972Release.cpp
+0x000F0972,111,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,C,C=0x000F0842..0x000F09E1 noncontiguous,Code/GameEngine/Source/Common/W3DVolumetricShadowManager_ReleaseResources.cpp
 0x000F09E1,148,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp N=Code/GameEngine/Source/Common/W3DVolumetricShadowManager.cpp noncontiguous,Code/GameEngine/Source/Common/W3DVolumetricShadowManagerReAcquire.cpp
 0x000F0A75,61,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,proposed,S,S=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp N=Code/GameEngine/Source/Common/W3DVolumetricShadowManager.cpp noncontiguous,Code/GameEngine/Source/Common/VslotMiscForwarders.cpp
 0x000F0AB2,37,code,,,-,,Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp
@@ -7248,7 +7248,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00106CEC,4,code,,,-,,Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp
 0x00106CF0,102,code,,,-,,Code/GameEngine/Source/Common/Rva00106CF0RangeFilter.cpp
 0x00106D56,539,code-unledgered,,,-,,
-0x00106F82,35,code,Code/GameEngine/Source/Common/W3DVolumetricShadowV2.cpp,proposed,N,N=Code/GameEngine/Source/Common/W3DVolumetricShadowV2.cpp,Code/GameEngine/Source/Common/Rva00106F82TangentField.cpp
+0x00106F82,35,code,Code/GameEngine/Source/Common/W3DVolumetricShadowV2.cpp,proposed,N,N=Code/GameEngine/Source/Common/W3DVolumetricShadowV2.cpp,Code/GameEngine/Source/Common/W3DVolumetricShadowV2_SetShadowAngleLimit.cpp
 0x00106FA5,17,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowVisibleBounds.cpp
 0x00106FB6,144,code,,displaced,-,S=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowVisibleBounds.cpp
 0x00107046,244,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2.cpp,proposed,N,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2.cpp noncontiguous,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowManagerV2Render.cpp
@@ -7389,7 +7389,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0010E676,516,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DUtility.cpp
 0x0010E87A,463,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DUtility.cpp
 0x0010EA49,516,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DUtility.cpp
-0x0010EC4D,104,code,Code/GameEngine/Source/Common/OpenAudioFile.cpp,proposed,N,N=Code/GameEngine/Source/Common/OpenAudioFile.cpp,Code/GameEngine/Source/Common/Rva0010EC4DGuard.cpp
+0x0010EC4D,104,code,Code/GameEngine/Source/Common/OpenAudioFile.cpp,proposed,N,N=Code/GameEngine/Source/Common/OpenAudioFile.cpp,Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp
 0x0010ECB5,8,code,,,-,,Code/GameEngine/Source/Common/Rva0010ECB5Set.cpp
 0x0010ECBD,39,code,,,-,,Code/GameEngine/Source/Common/Rva0010ECBDFinish.cpp
 0x0010ECE4,89,code,,,-,,Code/GameEngine/Source/Common/Rva0010ECBDFinish.cpp
@@ -8980,7 +8980,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0015162C,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGetters4.cpp
 0x00151632,90,code,,,-,,Code/GameEngine/Source/Common/Rva00151632Dtor.cpp
 0x0015168C,53,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva0015168CHeroContains.cpp
-0x001516C1,86,code,,,-,,Code/GameEngine/Source/Common/Rva001516C1RegisterPrototype.cpp
+0x001516C1,86,code,,,-,,Code/GameEngine/Source/Common/FXShaderAsset_Register.cpp
 0x00151717,28,code,,,-,,Code/GameEngine/Source/Common/Rva00151632Dtor.cpp
 0x00151733,17,code,,,-,,Code/GameEngine/Source/Common/Disp8NullAdjustGetters.cpp
 0x00151744,113,code,,,-,,Code/GameEngine/Source/Common/Rva00151744Clear.cpp
@@ -8993,7 +8993,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00151915,963,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/fxshaderasset.cpp
 0x00151CD8,22,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/fxshaderasset.cpp
 0x00151CEE,44,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,Code/Libraries/Source/WWVegas/WW3D2/fxshadersetup.cpp
-0x00151D1A,69,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,proposed,C,C=0x00151CEE..0x00151D5F,Code/GameEngine/Source/Common/Rva00151D1AApply.cpp
+0x00151D1A,69,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,proposed,C,C=0x00151CEE..0x00151D5F,Code/GameEngine/Source/Common/FXShaderSetup_UpdateDynamicParameterSet.cpp
 0x00151D5F,38,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,Code/Libraries/Source/WWVegas/WW3D2/fxshadersetup.cpp
 0x00151D85,38,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,Code/Libraries/Source/WWVegas/WW3D2/fxshadersetup.cpp
 0x00151DAB,13,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderSetup.cpp,proposed,C,C=0x00151D85..0x00151DB8,Code/GameEngine/Source/Common/Rva00151DABTextureRelease.cpp
@@ -10348,9 +10348,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0018BDCF,125,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/fxshadernamespaceww3d.cpp
 0x0018BE4C,25,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/fxshadernamespaceww3d.cpp
 0x0018BE65,25,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/fxshadernamespaceww3d.cpp
-0x0018BE87,64,code,,,-,,Code/GameEngine/Source/Common/Rva0018BE87Finish.cpp
+0x0018BE87,64,code,,,-,,Code/GameEngine/Source/Common/FXShaderParameterSourceNamespaceWW3D.cpp
 0x0018BEC7,66,code,,,-,,Code/GameEngine/Source/Common/Rva0018BEC7Ctor.cpp
-0x0018BF09,28,code,,,-,,Code/GameEngine/Source/Common/Rva0018BE87Finish.cpp
+0x0018BF09,28,code,,,-,,Code/GameEngine/Source/Common/FXShaderParameterSourceNamespaceWW3D.cpp
 0x0018BF25,169,code-unledgered,,,-,,
 0x0018BFCE,186,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/fxshadernamespaceww3d.cpp
 0x0018C088,19,code-unledgered,,,-,,
@@ -13548,7 +13548,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0020E3EF,17,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E400 noncontiguous,Code/GameEngine/Source/Common/Disp8NullAdjustGetters.cpp
 0x0020E400,31,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E41F noncontiguous,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_voidptr_opt.cpp
 0x0020E41F,13,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E42C noncontiguous,Code/GameEngine/Source/Common/Disp8DivAvgDwordGetters.cpp
-0x0020E42C,29,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E449 noncontiguous,Code/GameEngine/Source/Common/Rva000D1930Ctor.cpp
+0x0020E42C,29,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E449 noncontiguous,Code/GameEngine/Source/Common/RegionBonusInfo.cpp
 0x0020E449,51,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E47C noncontiguous,Code/GameEngine/Source/Common/V3PolyCopyCtors.cpp
 0x0020E47C,23,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E493 noncontiguous,Code/GameEngine/Source/Common/Coord3DCopy.cpp
 0x0020E493,23,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E39D..0x0020E4AA noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020E493Copy.cpp
@@ -38934,7 +38934,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004F0456,35,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamQueues.cpp
 0x004F0479,32,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamQueues.cpp
 0x004F0499,39,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayer_Rva004F0499.cpp
-0x004F04C0,35,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F0499..0x004F04E3 noncontiguous,Code/GameEngine/Source/Common/Rva00160A00Flip.cpp
+0x004F04C0,35,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F0499..0x004F04E3 noncontiguous,Code/GameEngine/Source/Common/AIPlayer_flip.cpp
 0x004F04E3,4,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F0499..0x004F04F1 noncontiguous,Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp
 0x004F04F1,4,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F0499..0x004F04F5 noncontiguous,Code/GameEngine/Source/Common/Disp8DwordFieldGetters.cpp
 0x004F04F5,7,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F0499..0x004F04FC noncontiguous,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp
