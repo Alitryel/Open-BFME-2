@@ -157,6 +157,55 @@ A global's consumers are invisible to the byte gate, because DIR32 is masked. Fo
 `rename.py` refuses a global rename when it cannot find and rewrite every consumer. It reports
 `data_ledger.csv` as stale instead of editing it.
 
+### `rename.py carry`: notes added after a rename
+
+A seat working on a tree older than a rename can add a `gen-funclet` row whose
+`parent=` still spells the parent's old name; the union merge keeps it, and
+`rename.py check` reports `reverse/functions.csv still spells <old>`. No rename
+can repair that (the owner row already has the new name). Worse, build.py finds
+a funclet from `__ehhandler$<parent>` and the parent's exact EH graph, so a
+stale `parent=` leaves the row riding on its `object-symbol=$L` pin alone, with
+the byte gate still green.
+
+    python3 tools/rename.py carry --all --dry-run     # the plan and the refusals
+    python3 tools/rename.py carry --all               # apply, verify, print the paths to stage
+    python3 tools/rename.py carry --range origin/master..HEAD
+
+`check` prints this command when its problem is a stale notes token carry can
+cover. `carry` replays every `function`, `global`, `class` and mangled `carry`
+record of `name_basis.csv` in order over the tokens of each functions.csv notes
+field (`parent=`, `parents=`, `icf-owner=`, `dup-of=`, `object-symbol=` and free
+prose), so a chain `A -> B -> C`, a function rename followed by a class rename
+and the reverse order all end at the live spelling. A record that a later
+record restores or whose old spelling a later rename reuses is skipped, as in
+`check`. It rewrites only the notes field of each row (the planner asserts the
+other six fields are byte-identical), writes no tombstone and no
+`name_basis.csv` row (it is not the `carry` basis kind), and goes through the
+same journal, `./build.sh`, `check_csv` and restore path as a rename, so
+`rename.py recover` restores a killed run. After `parent=` is fixed the build
+locates each funclet from its parent's EH graph, which is the byte check this
+needs.
+
+A record is carried only when the live ledger proves each respelling:
+
+- the old spelling names no row, pin or data row;
+- the new spelling names exactly one matched functions.csv row (or one data
+  row), and for a function chain that row is at the renamed RVA (a funclet-name
+  token is checked through its parent);
+- for a `gen-funclet` row's `parent=`, the parent is a row of the funclet's own
+  source and so is `__ehhandler$<parent>`;
+- the token is one of the symbol-valued keys above or prose; `import=`,
+  `target=` and any other `key=` are refused;
+- no old spelling is left outside the notes (a row name, a pin, a data row, a
+  body owner or a source), and the row is not in generated source.
+
+A record is all or nothing. Anything it cannot prove is listed as `carry
+refused: <record>: <reason>` and the exit status is 2 (0 when everything was
+carried or there was nothing to do, 1 when verification failed and everything
+was restored); the other records still land. A plan over `--max-files` sources
+is refused as a whole: carry fewer renames (`--range`). Commit the printed paths
+(functions.csv only) with the suggested subject, then run `check` again.
+
 ### `reverse/name_basis.csv`
 
 Append-only and union-merged, one row per rename:
@@ -278,7 +327,9 @@ lander does the following:
 2. Runs `git pull --rebase origin master`, then
    `python3 tools/rename.py check --range origin/master..HEAD`. A seat that
    added a pin, a caller or an extern with the old spelling while the rename was in
-   flight passes every gate and breaks only the link; `check` catches it.
+   flight passes every gate and breaks only the link; `check` catches it. When
+   the old spelling is a functions.csv notes token (a funclet's `parent=`),
+   `python3 tools/rename.py carry --range origin/master..HEAD` repairs it.
 3. Pushes, then runs the `python3 tools/claims.py release ...` command that the tool printed.
 
 ## Renaming by hand

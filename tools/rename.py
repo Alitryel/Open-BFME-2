@@ -82,6 +82,18 @@ another seat added a pin, a caller or an extern with the old spelling passes
 every gate (the byte gate masks DIR32, a stale pin keeps the old name
 resolving) and breaks only the link; `check` refuses it.
 
+A name that was spelled after its rename landed (a funclet row's `parent=`
+token added by a seat working on a pre-rename tree) is carried forward by
+`rename.py carry --all`: it replays every recorded rename over the notes
+tokens of reverse/functions.csv (`parent=`, `parents=`, `icf-owner=`,
+`dup-of=`, `object-symbol=`, prose), proves each respelling against the live
+ledger (the old spelling names no row, pin or data row; the new one names
+exactly one row, at the renamed function's RVA; a funclet's parent is in the
+funclet's own source with its `__ehhandler$` row), changes only those notes
+fields, and runs the same verify/rollback/journal path as a rename. It writes
+no name_basis.csv row and no tombstone, and it refuses (exit 2, listed) what it
+cannot prove.
+
 Two kinds need more than a word rewrite. A `global` (one reverse/data_rows.csv
 row) is invisible to the byte gate, which masks DIR32 operands: a consumer
 left on the old extern still matches and only the link breaks, so consumers
@@ -915,6 +927,7 @@ class Plan:
     path_rows: dict = field(default_factory=dict)     # ledger -> records whose path column moved
     owner_rows: list = field(default_factory=list)    # body_owners.csv (name, rva) renamed with their row
     carried: list = field(default_factory=list)       # name_basis.csv records carried to a new spelling
+    spellings: list = field(default_factory=list)     # carry: (old spelling, new spelling, occurrences)
 
     def edit(self, ctx, rel, data):
         if rel not in self.before:
@@ -922,14 +935,21 @@ class Plan:
         self.after[rel] = data
 
     def subject(self):
+        if self.kind == "carry":
+            return f"Carry {len(self.spellings)} renamed spelling(s) into ledger notes"
         if self.kind in ("member", "param", "local"):
             return f"Rename {self.old} to {self.new_word} ({self.basis})"
         return f"Rename {self.old_word or self.old} to {self.new_word or self.new} ({self.basis})"
 
     def report(self):
         where = f" at 0x{self.rva:08X}" if self.rva is not None else ""
-        lines = [f"rename: {self.kind} {self.old} -> {self.new}{where} ({self.basis})",
-                 f"  owner source: {self.source}"]
+        if self.kind == "carry":
+            lines = [f"rename: carry {len(self.spellings)} spelling(s) into {len(self.notes_rows)} "
+                     "functions.csv notes field(s)"]
+            lines += [f"    {old} -> {new} (x{count})" for old, new, count in self.spellings]
+        else:
+            lines = [f"rename: {self.kind} {self.old} -> {self.new}{where} ({self.basis})",
+                     f"  owner source: {self.source}"]
         for old, new in self.moves:
             lines.append(f"  git mv {old} {new}")
         for rel, count in sorted(self.path_rows.items()):
@@ -3465,6 +3485,345 @@ def check_renames(ctx, rows):
     return problems
 
 
+# ---------------------------------------------------------------- carry
+#
+# `check` finds a landed rename's old spelling back in a ledger. The commonest
+# way is a notes token: a seat working on a tree older than the rename adds a
+# `gen-funclet` row whose `parent=` still spells the parent's old name, and the
+# union merge keeps it. No rename can fix that (the owner row already carries
+# the new name, so the request reads as "the new name is the old name"), and
+# the stale `parent=` stops build.py locating the funclet from its parent's
+# exact EH graph: the row then rides on its `object-symbol=$L` pin alone while
+# the byte gate stays green. `carry` replays the recorded renames over the
+# notes tokens of functions.csv and writes the spelling the token would have
+# had if it had existed at the time, only where the live ledger proves it.
+
+CARRY_KINDS = ("function", "global", "class", "carry")
+# Tokens whose value is a symbol of this ledger. `import=` and `target=` hold
+# DLL import names (never renamed); any other `key=` is not understood.
+CARRY_KEYS = frozenset({"parent", "parents", "icf-owner", "dup-of", "object-symbol"})
+NOTES_TOKEN = re.compile(r"(?:__ehhandler\$|__unwindfunclet\$)?[A-Za-z_?@][A-Za-z0-9_?@$]*")
+NOTES_KEY = re.compile(r"\s*([A-Za-z][A-Za-z0-9_-]*)=(?:[^|;=]*\|)*")
+
+
+class NothingToCarry(Exception):
+    """No notes token spells a renamed-away name (or none could be proven)."""
+
+
+class _Unparsed(Exception):
+    def __init__(self, record, why):
+        super().__init__(why)
+        self.record, self.why = record, why
+
+
+@dataclass
+class CarryRecord:
+    order: int           # position among the effective records (chronological)
+    row: dict            # the name_basis.csv record
+    rva: object = None   # a function record's RVA
+    pattern: object = None
+
+    @property
+    def kind(self):
+        return self.row["kind"]
+
+    @property
+    def old(self):
+        return self.row["old"]
+
+    @property
+    def new(self):
+        return self.row["new"]
+
+    def label(self):
+        return f"{self.kind} {self.old} -> {self.new}"
+
+    def quick(self):
+        """A substring every symbol this record changes contains."""
+        return f"{self.old}@" if self.kind == "class" else self.old
+
+    def apply(self, symbol):
+        if self.quick() not in symbol:
+            return symbol
+        if self.kind == "class":
+            try:
+                return class_sub(symbol, self.old, self.new)[0]
+            except Unparsed as error:
+                raise _Unparsed(self, f"cannot tokenize a mangled name spelling {self.old}: {error}") from None
+        return self.pattern.sub(lambda _m: self.new, symbol)
+
+
+def carry_candidates(ctx):
+    """The name_basis.csv records a notes token can lag behind, in file order:
+    function, global, class and (mangled) carry rows, minus a row whose old
+    spelling a later row takes as its new one (check_renames skips it too: a
+    restore, or a spelling reused for another name, so an old token is ambiguous
+    and never carried). Records that fork (one old spelling renamed to two
+    different names) stay in and are refused by plan_carry."""
+    every = name_basis_rows(ctx)
+    out = []
+    for position, row in enumerate(every):
+        old, new = row.get("old", ""), row.get("new", "")
+        if row.get("kind") not in CARRY_KINDS or not old or not new or old == new:
+            continue
+        if row["kind"] == "carry" and not old.startswith("?"):
+            continue
+        if any(r.get("new") == old for r in every[position + 1:]):
+            continue
+        record = CarryRecord(len(out), row, rva=_rva(row.get("rva")) if row["kind"] == "function" else None)
+        if row["kind"] != "class":
+            record.pattern = mangled_re(old)
+        out.append(record)
+    return out
+
+
+def notes_key(notes, start):
+    """The `key` of the `key=` token a symbol at `start` is the value of, None
+    for free prose, "?" for an `=` that no token key explains."""
+    head = notes[:start]
+    head = head[head.rfind(";") + 1:]
+    if not head.strip():
+        return None
+    match = NOTES_KEY.fullmatch(head)
+    if match:
+        return match.group(1)
+    return "?" if head.rstrip().endswith("=") else None
+
+
+def rebuilt_payload(payload, flds, notes):
+    """The record `payload` with only its notes field (the last) replaced, or
+    None when the quoting would change anything else."""
+    canonical = csv_line(flds)[:-1]
+    if canonical == payload:
+        return csv_line(flds[:-1] + [notes])[:-1]
+    plain = ',"\r\n'
+    old = flds[-1]
+    if old and not any(c in old + notes for c in plain) and payload.endswith(old.encode("utf-8")):
+        return payload[:-len(old.encode("utf-8"))] + notes.encode("utf-8")
+    return None
+
+
+def plan_carry(ctx, *, max_files=25, only=None):
+    """Plan carrying every recorded rename onto the functions.csv notes tokens
+    still spelling a renamed-away name. Returns (Plan or None, refusals) where
+    refusals are (record label, reason). Writes nothing. `only` limits the work
+    to occurrences whose chain holds one of those name_basis.csv records."""
+    records = carry_candidates(ctx)
+    refused = {}
+
+    def refuse(record, why):
+        refused.setdefault(record.order, []).append(why)
+
+    by_old = {}
+    for record in records:
+        by_old.setdefault(record.old, set()).add(record.new)
+    for record in records:
+        if len(by_old[record.old]) > 1:
+            refuse(record, f"{record.old} is renamed to {len(by_old[record.old])} different names (a forked chain)")
+    if not records:
+        return None, []
+
+    raw = ctx.read(FUNCTIONS)
+    ledger_io.lf_terminator(raw, "functions.csv")
+    lines = [(payload, term, ledger_io.fields(payload)) for payload, term in ledger_io.split_records(raw)]
+    header = lines[0][2]
+    try:
+        column = {name: header.index(name) for name in ("name", "target_rva", "source", "status", "notes")}
+    except ValueError:
+        raise Refusal("functions.csv header lacks name/target_rva/source/status/notes") from None
+    if column["notes"] != len(header) - 1:
+        raise Refusal("functions.csv: notes is not the last column")
+    width = len(header)
+
+    functions, name_source, live = {}, set(), set()
+    for _payload, _term, flds in lines[1:]:
+        if len(flds) != width:
+            continue
+        name = flds[column["name"]]
+        live.add(name)
+        name_source.add((name, flds[column["source"]]))
+        functions.setdefault(name, []).append(flds)
+    live |= {p.get("name", "") for p in ctx.pins()}
+    data_names = {}
+    for row in ctx.dicts(DATA_ROWS):
+        data_names[row.get("name", "")] = data_names.get(row.get("name", ""), 0) + 1
+    live |= set(data_names)
+
+    quick = re.compile("|".join(re.escape(r.quick()) for r in records))
+    cache = {}
+
+    def replay(token):
+        if token not in cache:
+            current, chain = token, []
+            try:
+                for record in records:
+                    moved = record.apply(current)
+                    if moved != current:
+                        chain.append(record)
+                        current = moved
+                cache[token] = (current, chain)
+            except _Unparsed as error:
+                cache[token] = error
+        return cache[token]
+
+    occurrences = []   # dicts: line, key, old, new, chain, start, end
+    for number, (_payload, _term, flds) in enumerate(lines):
+        if number == 0 or len(flds) != width:
+            continue
+        notes = flds[column["notes"]]
+        if not quick.search(notes):
+            continue
+        for match in NOTES_TOKEN.finditer(notes):
+            token = match.group(0)
+            if "?" not in token and not any(r.pattern is not None and r.old in token for r in records):
+                continue
+            found = replay(token)
+            if isinstance(found, _Unparsed):
+                refuse(found.record, found.why)
+                continue
+            current, chain = found
+            if chain:
+                occurrences.append(dict(line=number, key=notes_key(notes, match.start()), old=token, new=current,
+                                        chain=chain, start=match.start(), end=match.end()))
+    if only is not None:
+        occurrences = [o for o in occurrences if any(r.row in only for r in o["chain"])]
+
+    def matched_rows(name):
+        return [f for f in functions.get(name, []) if f[column["status"]] == "matched"]
+
+    # Per-occurrence proof; a failure refuses every record of the chain.
+    for o in occurrences:
+        old, new, chain = o["old"], o["new"], o["chain"]
+        flds = lines[o["line"]][2]
+        where = f"0x{_rva(flds[column['target_rva']]) or 0:08X} {flds[column['name']]}"
+        fail = None
+        core = new
+        for prefix in FUNCLET_PREFIXES:
+            core = core.removeprefix(prefix)
+        if is_generated(flds[column["source"]]):
+            fail = f"{where}: the row is in generated source {flds[column['source']]} (carry does not verify Code/gen_*)"
+        elif o["key"] is not None and o["key"] not in CARRY_KEYS:
+            fail = f"{where}: {old} is the value of `{o['key']}=`, which carry does not rewrite"
+        elif old in live:
+            fail = f"{where}: {old} still names a live row, pin or data row (current, or a resurrected owner)"
+        else:
+            fn_rows, data_count = matched_rows(new), data_names.get(new, 0)
+            if not ((len(fn_rows) == 1 and not data_count) or (not fn_rows and data_count == 1)):
+                fail = (f"{where}: {new} names {len(fn_rows)} matched functions.csv row(s) and {data_count} "
+                        "data row(s), not exactly one")
+            else:
+                rvas = {r.rva for r in chain if r.kind == "function"}
+                if len(rvas) > 1 or None in rvas:
+                    fail = f"{where}: the chain renames more than one address ({sorted(map(str, rvas))})"
+                elif rvas:
+                    at = {_rva(f[column["target_rva"]]) for f in matched_rows(core)}
+                    if at != rvas:
+                        fail = (f"{where}: {core} is at {', '.join(f'0x{a:08X}' for a in sorted(at) if a is not None) or 'no address'}, "
+                                f"not the renamed function's 0x{next(iter(rvas)):08X}")
+                if not fail and o["key"] == "parent" and "gen-funclet" in {t.strip() for t in
+                                                                           flds[column["notes"]].split(";")}:
+                    source = flds[column["source"]]
+                    parents = matched_rows(new)
+                    if len(parents) != 1 or parents[0][column["source"]] != source:
+                        fail = f"{where}: parent {new} is not a row of the funclet's own source {source}"
+                    elif ("__ehhandler$" + new, source) not in name_source:
+                        fail = f"{where}: __ehhandler${new} is not a row of {source}"
+        if fail:
+            for record in chain:
+                refuse(record, fail)
+
+    # A record is all or nothing: drop every occurrence a refused record touches,
+    # and every record whose rewrite still leaves its old spelling elsewhere.
+    def surviving():
+        return [o for o in occurrences if not any(r.order in refused for r in o["chain"])]
+
+    def render(live_occurrences):
+        by_line = {}
+        for o in live_occurrences:
+            by_line.setdefault(o["line"], []).append(o)
+        out = []
+        for number, (payload, term, flds) in enumerate(lines):
+            if number in by_line:
+                notes = flds[column["notes"]]
+                for o in sorted(by_line[number], key=lambda o: -o["start"]):
+                    notes = notes[:o["start"]] + o["new"] + notes[o["end"]:]
+                rebuilt = rebuilt_payload(payload, flds, notes)
+                if rebuilt is None or ledger_io.fields(rebuilt) != flds[:-1] + [notes]:
+                    for o in by_line[number]:
+                        for record in o["chain"]:
+                            refuse(record, f"line {number + 1}: the notes field cannot be rewritten without "
+                                           "touching another field's bytes")
+                    out.append(payload + term)
+                    continue
+                payload = rebuilt
+            out.append(payload + term)
+        return b"".join(out)
+
+    kept = surviving()
+    while True:
+        if not kept:
+            return None, refusal_list(records, refused)
+        text = render(kept).decode("utf-8")
+        if surviving() != kept:
+            kept = surviving()
+            continue
+        texts = {rel: (ctx.read(rel) or b"").decode("utf-8", errors="replace") for rel in CHECK_LEDGERS}
+        texts[FUNCTIONS] = text
+        bad = {}
+        for record in {r.order: r for o in kept for r in o["chain"]}.values():
+            problems = check_row(ctx, record.row, texts)
+            if problems:
+                bad[record.order] = (record, problems[0])
+        if not bad:
+            break
+        for record, why in bad.values():
+            refuse(record, f"{why} (outside the notes carry rewrites; resolve that first)")
+        kept = surviving()
+
+    changed = {o["line"] for o in kept}
+    new_raw = render(kept)
+    spellings = {}
+    for o in kept:
+        key = (o["old"], o["new"])
+        spellings[key] = spellings.get(key, 0) + 1
+    plan = Plan("carry", "", "", "carry", "", "", None)
+    plan.edit(ctx, FUNCTIONS, new_raw)
+    plan.spellings = [(old, new, count) for (old, new), count in sorted(spellings.items())]
+    for number in sorted(changed):
+        flds = lines[number][2]
+        plan.notes_rows.append((flds[column["name"]], _rva(flds[column["target_rva"]])))
+    sources = sorted({lines[n][2][column["source"]] for n in changed})
+    plan.verify = sources
+    if len(sources) > max_files:
+        raise Refusal(f"{len(sources)} sources to verify (over --max-files {max_files}); carry fewer "
+                      "renames at once (--range) or raise --max-files")
+    plan.claims = sorted({at for _name, at in plan.notes_rows if at is not None}) + \
+        [f"file:{s}" for s in sources if s.startswith("Code/")]
+    for number in changed:   # the in-memory proof: only the notes field moved
+        old_flds, new_flds = lines[number][2], ledger_io.fields(ledger_io.split_records(new_raw)[number][0])
+        if old_flds[:-1] != new_flds[:-1]:
+            raise Refusal(f"internal error: line {number + 1} changed outside its notes field")
+    return plan, refusal_list(records, refused)
+
+
+def refusal_list(records, refused):
+    """[(record label, reason)] for every refused record, in record order."""
+    by_order = {r.order: r for r in records}
+    return [(by_order[order].label(), why) for order in sorted(refused) for why in dict.fromkeys(refused[order])]
+
+
+def _plan_carry_kind(ctx, max_files=25, only=None):
+    """plan_rename's entry for `carry`: the refusals ride on the context."""
+    plan, refusals = plan_carry(ctx, max_files=max_files, only=only)
+    ctx._cache["_carry_refusals"] = refusals
+    if plan is None:
+        raise NothingToCarry()
+    return plan
+
+
+PLANNERS["carry"] = _plan_carry_kind
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0],
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -3493,6 +3852,18 @@ def main(argv=None):
     span.add_argument("--range", dest="span", help="the commits to check, e.g. origin/master..HEAD")
     span.add_argument("--all", action="store_true", help="every name_basis.csv record")
     checker.add_argument("--root", type=Path, default=ROOT, help="TEST-ONLY: operate on another tree")
+    carrier = kinds.add_parser("carry", help="write a landed rename's new spelling into the functions.csv notes "
+                                             "tokens (parent=, icf-owner=, ...) that still spell the old one; "
+                                             "not the name_basis.csv `carry` kind, and it records no basis row")
+    reach = carrier.add_mutually_exclusive_group(required=True)
+    reach.add_argument("--range", dest="span", help="only renames the commits in A..B added")
+    reach.add_argument("--all", action="store_true", help="every name_basis.csv record")
+    carrier.add_argument("--dry-run", action="store_true", help="print the plan and the refusals, write nothing")
+    carrier.add_argument("--no-claim", action="store_true", help="skip tools/claims.py (tests)")
+    carrier.add_argument("--max-files", type=int, default=25, help="refuse a larger blast radius (default 25)")
+    carrier.add_argument("--release-claims", action="store_true",
+                         help="release this run's claims when it ends (default: keep them for the lander)")
+    carrier.add_argument("--root", type=Path, default=ROOT, help="TEST-ONLY: operate on another tree")
     recovery = kinds.add_parser("recover", help="restore every rename a killed run left half-applied")
     recovery.add_argument("--root", type=Path, default=ROOT, help="TEST-ONLY: operate on another tree")
     back = kinds.add_parser("revert", help="put the placeholder back over a landed inferred name "
@@ -3565,6 +3936,24 @@ def main(argv=None):
             print(f"rename: {why}", file=sys.stderr)
             return 1
         return 0
+    if args.kind == "carry":
+        ctx = Context(args.root, object_scan=False)
+        try:
+            only = None if args.all else basis_rows_in_range(ctx, args.span)
+            run("carry", ctx, dry_run=args.dry_run, claim=not args.no_claim,
+                keep_claims=False if args.release_claims else None, max_files=args.max_files, only=only)
+        except NothingToCarry:
+            print("rename: carry: no notes token spells a renamed-away name that carry can prove")
+        except Refusal as why:
+            print(f"rename: refused: {why}", file=sys.stderr)
+            return 2
+        except VerifyFailed as why:
+            print(f"rename: {why}", file=sys.stderr)
+            return 1
+        refusals = ctx._cache.get("_carry_refusals", [])
+        for label, why in refusals:
+            print(f"rename: carry refused: {label}: {why}", file=sys.stderr)
+        return 2 if refusals else 0
     if args.kind == "check":
         ctx = Context(args.root, object_scan=False)
         rows = name_basis_rows(ctx) if args.all else basis_rows_in_range(ctx, args.span)
@@ -3572,6 +3961,15 @@ def main(argv=None):
         for problem in problems:
             print(f"rename: check: {problem}", file=sys.stderr)
         print(f"rename: check: {len(rows)} rename(s), {len(problems)} problem(s)")
+        if any(f"{FUNCTIONS} still " in problem for problem in problems):
+            try:
+                coverable, _refusals = plan_carry(ctx, only=rows)
+            except Refusal:
+                coverable = True
+            if coverable:
+                print("rename: check: a stale spelling in functions.csv notes (parent=, icf-owner=, ...) is "
+                      "carried by: python3 tools/rename.py carry " + ("--all" if args.all else f"--range {args.span}"),
+                      file=sys.stderr)
         return 1 if problems else 0
     ctx = Context(args.root, object_scan=not args.no_object_scan, sweep_dirs=args.sweep_dir or ("build",))
     kwargs = dict(new=args.new, basis=args.basis, evidence=args.evidence, max_files=args.max_files)
