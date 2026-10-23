@@ -457,7 +457,10 @@ the paren lever).
   equivalent pointer branch lowered the object's priority from 59 to 57 while
   position stayed at 59, fixing the EBX/EDI exchange. Use defined,
   side-effect-free predicates, preserve call-related reloads and verify the
-  complete body. See the three 20261022 recovery handoffs.
+  complete body. On 0x000BD6C2, identical destroy calls under a node
+  predicate raised the node's priority from 9 to 15 and restored the single
+  loop latch and shared cleanup. See the 20261022 recovery handoffs and
+  `scripted-bd6c2-recovery-20261023/readme.md`.
 - **Split-range reload order.** RewriteSplitGlobregs inserts reloads by the
   pieces' new candidate numbers. Those come from the `_FreeGlobs` list (LIFO),
   which coalesced copies refill. Building a matrix row-wise
