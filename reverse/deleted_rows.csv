@@ -1801,3 +1801,8 @@ __ehhandler$??1Rva002FDF72@@UAE@XZ,0x0077907D,"Renamed to __ehhandler$??1TAiData
 ?clear@Rva002FD7D7DwordClearer@@QAEXXZ,0x002FD7D7,"Renamed to ?init@AI@@UAEXXZ: AI constructor-installed primary table VA 0x00C073D0 slot 1 points here"
 ?reset@AI@@QAEXXZ,0x002FEB3A,"Renamed to ?reset@AI@@UAEXXZ: AI constructor-installed primary table VA 0x00C073D0 slot 9 points here"
 ??_GRva002FDF72@@UAEPAXI@Z,0x002FE041,"Merged into ??_GTAiData@@UAEPAXI@Z: the same deleting destructor, slot 0 of TAiData's table VA 0x00C071E4"
+??0Rva00243177@@QAE@XZ,0x00243177,"Renamed to ??0Rva000D3FA0Map@@QAE@XZ: constructor table 0x007EE024 slot 0 calls destructor 0x004398D8"
+__ehhandler$??0Rva00243177@@QAE@XZ,0x007713E3,"Renamed to __ehhandler$??0Rva000D3FA0Map@@QAE@XZ: follows the rename of its function"
+?rva00439965@Rva00243177@@QAEXXZ,0x00439965,"Renamed to ?rva00439965@Rva000D3FA0Map@@QAEXXZ: constructor table 0x007EE024 slot 0 calls destructor 0x004398D8"
+__ehhandler$?rva00439965@Rva00243177@@QAEXXZ,0x00788203,"Renamed to __ehhandler$?rva00439965@Rva000D3FA0Map@@QAEXXZ: follows the rename of its function"
+??0Rva005C46D9@@QAE@ABV?$StringBase@D@@@Z,0x005C46D9,"Renamed to ??0Rva005C4758@@QAE@ABV?$StringBase@D@@@Z: constructor table 0x008746CC slot 0 calls destructor 0x005C4758"

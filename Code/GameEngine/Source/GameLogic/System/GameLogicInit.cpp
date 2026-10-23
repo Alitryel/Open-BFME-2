@@ -456,10 +456,10 @@ public:
 	void rva0043821C(void);
 };
 
-class Rva00243177
+class Rva000D3FA0Map
 {
 public:
-	Rva00243177(void);
+	Rva000D3FA0Map(void);
 	void rva00439965(void);
 
 private:
@@ -873,7 +873,7 @@ public:
 	UpdateModuleList m_164;
 	Rva00359E13 *m_170;
 	Rva0043B660 *m_174;
-	Rva00243177 *m_178;
+	Rva000D3FA0Map *m_178;
 	int m_17c;
 	int m_180;
 	Rva0040DB52 m_184;
@@ -1003,7 +1003,7 @@ void GameLogic::init(void)
 	m_174 = new Rva0043B660;
 	m_174->rva000B3FD0();
 
-	m_178 = new Rva00243177;
+	m_178 = new Rva000D3FA0Map;
 	((Rva0043821C *)m_178)->rva0043821C();
 
 	TheGhostObjectManager = createGhostObjectManager();

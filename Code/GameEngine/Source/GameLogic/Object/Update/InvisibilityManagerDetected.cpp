@@ -188,14 +188,14 @@ typedef _STL::_Rb_tree<Rva00439862Element,Rva00439862Element,_STL::_Identity<Rva
 namespace _STL {template<> unsigned InvisibilityEraseProvider::erase(const Rva00439862Element&);}
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond; // VA 0x00DBA4E4
-class Rva00243177 {public:void rva00439965();};
+class Rva000D3FA0Map {public:void rva00439965();};
 
 // Native00439965..00439A22 is a complete EH-prologue/RET body. WB127FD30
 // independently confirms the frame gate and gather-then-erase traversal.
 // Manager +4 tree, +14 next frame, node +10 ObjectID and +14 record are
 // target accesses. Established provider spellings do not resolve the original
 // manager name or the erase provider's donor-derived element type.
-void Rva00243177::rva00439965()
+void Rva000D3FA0Map::rva00439965()
 {
  Rva00439E0C *manager=(Rva00439E0C*)this;
  unsigned frame=TheGameLogic->getFrame();

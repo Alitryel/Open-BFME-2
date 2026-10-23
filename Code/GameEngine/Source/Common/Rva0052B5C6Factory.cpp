@@ -2,12 +2,12 @@
 
 #include "ascii_string.h"
 
-class Rva005C46D9
+class Rva005C4758
 {
 public:
-	// Rowed ??0Rva005C46D9@@QAE@ABV?$StringBase@D@@@Z (Rva005C46D9Ctor.cpp).
-	Rva005C46D9(const StringBase<char> &source);
-	virtual ~Rva005C46D9();
+	// Rowed ??0Rva005C4758@@QAE@ABV?$StringBase@D@@@Z (Rva005C46D9Ctor.cpp).
+	Rva005C4758(const StringBase<char> &source);
+	virtual ~Rva005C4758();
 
 private:
 	char m_fields[24];
@@ -20,7 +20,7 @@ private:
 // copy-source type. The source object's full identity and layout remain unknown.
 void *__stdcall rva0052B5C6(const void *source)
 {
-	return new Rva005C46D9(*(const StringBase<char> *)source);
+	return new Rva005C4758(*(const StringBase<char> *)source);
 }
 
 class Rva004FA830
