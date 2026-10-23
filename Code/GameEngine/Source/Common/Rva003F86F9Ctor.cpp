@@ -43,7 +43,14 @@ Rva003F8728::Rva003F8728(int a, int b) : Base003F86F9(a, b), m_0C(), m_18(-1)
 // thrown object directly at EBP-0x14; class type, destructor and deep-copy
 // metadata match retail and the existing INIException implementation.
 #include "ascii_string.h"
-struct FieldParse;
+class INI;
+typedef void (*FieldParseProc)(INI *, void *, void *, const void *);
+struct FieldParse {
+ const char *token;
+ FieldParseProc parse;
+ const void *userData;
+ int offset;
+};
 class INI {
 public:
  AsciiString getNextQuotedAsciiString();
@@ -64,14 +71,26 @@ public:
  INIException &operator=(const INIException &);
 };
 // Descriptive data roles; original table names remain unproven.
-extern const char *const g_logicTurnPhaseNames[];
-extern const FieldParse g_logicTurnPhaseFields;
+extern const char *const g_logicTurnPhaseNames[8] = {
+ "Planning", "MoveArmies", "ResolveBattles", "FakePhaseOne",
+ "PlanRetreats", "RetreatArmies", "Complete", 0
+};
+namespace LivingWorldTutorial {
+ class LogicTurn { public: static void ParseINI(INI *, Rva003F9004 *); };
+}
+// Retail C374EC: one Session callback followed by the complete null entry.
+// The callback's two accessed arguments are the existing row's proven ABI;
+// the INI dispatcher supplies the usual four arguments to FieldParseProc.
+extern const FieldParse g_logicTurnPhaseFields[2] = {
+ { "Session", reinterpret_cast<FieldParseProc>(&LivingWorldTutorial::LogicTurn::ParseINI), 0, 0 },
+ { 0, 0, 0, 0 }
+};
 // Retail proves two accessed cdecl arguments; no trailing-parameter claim.
 void Rva003F90E4Parse(INI *ini,Rva003F9004 *outer) {
  if(!ini || !outer) throw INIException(3,"Invalid data in LogicTurnPhase::ParseINI");
  AsciiString token=ini->getNextQuotedAsciiString();
  int phase=ini->scanIndexList(token.str(),g_logicTurnPhaseNames);
  Rva003F8728 *created=new Rva003F8728((outer->field04?outer->field04:outer->field04),phase);
- ini->initFromINI(created,&g_logicTurnPhaseFields);
+ ini->initFromINI(created,g_logicTurnPhaseFields);
  outer->rva003F9004(reinterpret_cast<const ModuleData*>(created));
 }
