@@ -19,6 +19,7 @@ class MultiIniFieldParse;
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
 	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
 	static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
@@ -59,7 +60,6 @@ struct FieldParse
 extern const FieldParse g_battlePlanUpdateFieldParseTable[];
 
 void Rva002567EAParse(INI *ini, void *instance, void *store, const void *userData);
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 
 // Zero Hour's BodyModule.h TheMaxHealthChangeTypeNames, a per-unit static
 // list with no terminator (retail's copy here: .data 0x00DCB3FC, three names
@@ -78,19 +78,19 @@ extern const FieldParse g_battlePlanUpdateFieldParseTable[] =
 	{ "HoldTheLinePlanAnimationTime", INI::parseDurationUnsignedInt, 0, 0x10 },
 	{ "SearchAndDestroyPlanAnimationTime", INI::parseDurationUnsignedInt, 0, 0x14 },
 	{ "TransitionIdleTime", INI::parseDurationUnsignedInt, 0, 0x18 },
-	{ "BombardmentPlanUnpackSoundName", Rva00339900Parse, 0, 0x1C },
-	{ "BombardmentPlanPackSoundName", Rva00339900Parse, 0, 0x20 },
+	{ "BombardmentPlanUnpackSoundName", INI::parseAudioEventRTS, 0, 0x1C },
+	{ "BombardmentPlanPackSoundName", INI::parseAudioEventRTS, 0, 0x20 },
 	{ "BombardmentMessageLabel", INI::parseAsciiString, 0, 0x24 },
-	{ "BombardmentAnnouncementName", Rva00339900Parse, 0, 0x28 },
-	{ "SearchAndDestroyPlanUnpackSoundName", Rva00339900Parse, 0, 0x2C },
-	{ "SearchAndDestroyPlanIdleLoopSoundName", Rva00339900Parse, 0, 0x30 },
-	{ "SearchAndDestroyPlanPackSoundName", Rva00339900Parse, 0, 0x34 },
+	{ "BombardmentAnnouncementName", INI::parseAudioEventRTS, 0, 0x28 },
+	{ "SearchAndDestroyPlanUnpackSoundName", INI::parseAudioEventRTS, 0, 0x2C },
+	{ "SearchAndDestroyPlanIdleLoopSoundName", INI::parseAudioEventRTS, 0, 0x30 },
+	{ "SearchAndDestroyPlanPackSoundName", INI::parseAudioEventRTS, 0, 0x34 },
 	{ "SearchAndDestroyMessageLabel", INI::parseAsciiString, 0, 0x38 },
-	{ "SearchAndDestroyAnnouncementName", Rva00339900Parse, 0, 0x3C },
-	{ "HoldTheLinePlanUnpackSoundName", Rva00339900Parse, 0, 0x40 },
-	{ "HoldTheLinePlanPackSoundName", Rva00339900Parse, 0, 0x44 },
+	{ "SearchAndDestroyAnnouncementName", INI::parseAudioEventRTS, 0, 0x3C },
+	{ "HoldTheLinePlanUnpackSoundName", INI::parseAudioEventRTS, 0, 0x40 },
+	{ "HoldTheLinePlanPackSoundName", INI::parseAudioEventRTS, 0, 0x44 },
 	{ "HoldTheLineMessageLabel", INI::parseAsciiString, 0, 0x48 },
-	{ "HoldTheLineAnnouncementName", Rva00339900Parse, 0, 0x4C },
+	{ "HoldTheLineAnnouncementName", INI::parseAudioEventRTS, 0, 0x4C },
 	{ "ValidMemberKindOf", Rva002567EAParse, 0, 0x54 },
 	{ "InvalidMemberKindOf", Rva002567EAParse, 0, 0x70 },
 	{ "BattlePlanChangeParalyzeTime", INI::parseDurationUnsignedInt, 0, 0x50 },

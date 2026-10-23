@@ -20,6 +20,7 @@ struct FieldParse
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	void initFromINI(void *what, const FieldParse *parseTable);
 	static void Rva002F592_ParseArmyPlacementPos(INI *ini, void *instance, void *store, const void *userData);
 	static void Rva003F156F_ParseRegionBonus(INI *ini, void *instance, void *store, const void *userData);
@@ -35,7 +36,6 @@ public:
 
 // The callbacks of the table below, all rowed; two have other signatures and
 // are cast to the field-parse type.
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 void parseConnectionRva003F348F(INI *ini, void *instance, void *store, const void *userData);
 void Rva003F25DF(void *ini, void *instance, void *store, void *userData);
 class LivingWorldRegion
@@ -66,8 +66,8 @@ extern const FieldParse Rva003F3F03Table[] =
 	{ "MovieNameFirstTime", INI::parseAsciiString, 0, 0x40 },
 	{ "MovieNameRepeat", INI::parseAsciiString, 0, 0x44 },
 	{ "SkirmishStillImage", INI::parseAsciiString, 0, 0x48 },
-	{ "SkirmishVoiceTrack", Rva00339900Parse, 0, 0x4C },
-	{ "SkirmishMusicTrack", Rva00339900Parse, 0, 0x50 },
+	{ "SkirmishVoiceTrack", INI::parseAudioEventRTS, 0, 0x4C },
+	{ "SkirmishMusicTrack", INI::parseAudioEventRTS, 0, 0x50 },
 	{ "SubObject", INI::parseAsciiString, 0, 0x54 },
 	{ "StrategicValue", INI::parseInt, 0, 0x58 },
 	{ "RegionBonus", INI::Rva003F156F_ParseRegionBonus, 0, 0x5C },

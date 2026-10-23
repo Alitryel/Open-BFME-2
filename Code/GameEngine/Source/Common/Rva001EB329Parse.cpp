@@ -20,13 +20,13 @@ struct FieldParse
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	void initFromINI(void *what, const FieldParse *table);
 	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
 	static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
 	static void parseAsciiStringVectorAppend(INI *ini, void *instance, void *store, const void *userData);
 };
 
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 
 // Retail's campaign mission field table at VA 0x00BDF0E8 (.rdata, 112 bytes:
 // six records and the zero sentinel), transcribed from retail's own bytes.
@@ -35,7 +35,7 @@ extern const FieldParse CampaignMissionFieldParse[] =
 	{ "Map",                                 &INI::parseAsciiString,             0, 0x04 },
 	{ "IntroMovie",                          &INI::parseAsciiString,             0, 0x08 },
 	{ "LoadScreenImage",                     &INI::parseAsciiString,             0, 0x0C },
-	{ "LoadScreenMusicTrack",                &Rva00339900Parse,                  0, 0x10 },
+	{ "LoadScreenMusicTrack",                &INI::parseAudioEventRTS,                  0, 0x10 },
 	{ "MillisecondsAfterStartToStartFadeUp", &INI::parseDurationUnsignedInt,     0, 0x14 },
 	{ "DelayCarryoverSpawningOf",            &INI::parseAsciiStringVectorAppend, 0, 0x18 },
 	{ 0, 0, 0, 0 }

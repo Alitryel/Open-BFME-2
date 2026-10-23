@@ -35,6 +35,7 @@ private:
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	void initFromINIMulti(void *what, const MultiIniFieldParse &parse);
 	const char *getNextTokenOrNull(const char *seps);
 	const char *getNextToken(const char *seps);
@@ -616,7 +617,6 @@ void Rva001DEE74Parse(INI *ini, void *instance, void *store, const void *userDat
 void Rva001DFBC7Parse(INI *ini, void *instance, void *store, const void *userData);
 void Rva001DFC09Parse(INI *ini, void *instance, void *store, const void *userData);
 void Rva001DFC2AParse(INI *ini, void *instance, void *store, const void *userData);
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
 
 // GameType.cpp's weather names: FXNugget's Weather field indexes them.
@@ -658,7 +658,7 @@ extern const FieldParse EvaEventFXNuggetFieldParse[] =
 // retail .rdata 0x007DCB18 (1 entry + terminator)
 extern const FieldParse SoundFXNuggetFieldParse[] =
 {
-	{ "Name", Rva00339900Parse, 0, 0x148 },
+	{ "Name", INI::parseAudioEventRTS, 0, 0x148 },
 	{ 0, 0, 0, 0 }
 };
 

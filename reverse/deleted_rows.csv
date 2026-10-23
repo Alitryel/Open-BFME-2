@@ -1952,3 +1952,6 @@ __ehhandler$??1Rva0081FDD@@UAE@XZ,0x0075F630,"Renamed to __ehhandler$??1Renderab
 ?name@Rva00486E76Named@@QBEPBDXZ,0x00486E76,"Renamed to ?GetSnapshotName@AssistedTargetingUpdate@@MBEPBDXZ: named native constructor table slot 2 returns the module literal"
 ?name@Rva00488351Named@@QBEPBDXZ,0x00488351,"Renamed to ?GetSnapshotName@DeletionUpdate@@MBEPBDXZ: named native constructor table slot 2 returns the module literal"
 ?name@Rva0048B68ANamed@@QBEPBDXZ,0x0048B68A,"Renamed to ?GetSnapshotName@FireSpreadUpdate@@MBEPBDXZ: named native constructor table slot 2 returns the module literal"
+?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z,0x00339AF1,"Renamed to ?parseScienceVector@INI@@SAXPAV1@PAX1PBX@Z: retail CommandButton field table 0x00815468 binds this callback"
+?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z,0x0033940F,"Renamed to ?parseThingTemplate@INI@@SAXPAV1@PAX1PBX@Z: retail CommandButton field table 0x00815468 binds this callback"
+?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z,0x00339900,"Renamed to ?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z: retail MiscAudio sound fields bind this token parser"

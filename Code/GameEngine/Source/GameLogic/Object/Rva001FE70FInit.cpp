@@ -23,9 +23,9 @@ void __identifier("?parseAsciiStringVectorAppend@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseProductionCostChange@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseProductionTimeChange@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseProductionVeterancyLevel@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z")();
-void __identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseScienceVector@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
-void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?iniParseObjectFilter@@YAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?Rva001FDD33_ParseResourceModifierValues@INI@@SAXPAV1@PAX1PBX@Z")();
@@ -62,8 +62,8 @@ extern const FieldParse g_00BE2070[62] = {
 	{ "ProductionCostChange", (FieldParseProc)&__identifier("?parseProductionCostChange@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
 	{ "ProductionTimeChange", (FieldParseProc)&__identifier("?parseProductionTimeChange@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
 	{ "ProductionVeterancyLevel", (FieldParseProc)&__identifier("?parseProductionVeterancyLevel@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
-	{ "IntrinsicSciences", (FieldParseProc)&__identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x120 },
-	{ "IntrinsicSciencesMP", (FieldParseProc)&__identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x12C },
+	{ "IntrinsicSciences", (FieldParseProc)&__identifier("?parseScienceVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x120 },
+	{ "IntrinsicSciencesMP", (FieldParseProc)&__identifier("?parseScienceVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x12C },
 	{ "PurchaseScienceCommandSet", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x138 },
 	{ "PurchaseScienceCommandSetMP", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x13C },
 	{ "SpecialPowerShortcutCommandSet", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x140 },
@@ -78,9 +78,9 @@ extern const FieldParse g_00BE2070[62] = {
 	{ "EnabledImage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x174 },
 	{ "SideIconImage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x178 },
 	{ "BeaconName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x17C },
-	{ "LightPointsUpSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x1A4 },
-	{ "ObjectiveAddedSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x1A8 },
-	{ "ObjectiveCompletedSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x1AC },
+	{ "LightPointsUpSound", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1A4 },
+	{ "ObjectiveAddedSound", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1A8 },
+	{ "ObjectiveCompletedSound", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1AC },
 	{ "InitialUpgrades", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x180 },
 	{ "DefaultPlayerAIType", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1B0 },
 	{ "SpellBook", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1B4 },

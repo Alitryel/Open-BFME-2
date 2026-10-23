@@ -52,6 +52,7 @@ inline const char *specialPowerNameText(const AsciiString &name) {
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextToken( const char *seps = 0 );
 	void initFromINI( void *what, const FieldParse *parseTable );
 	int getLoadType() const { return m_loadType; }
@@ -64,7 +65,7 @@ public:
 	static void parseBitString32( INI *ini, void *instance, void *store, const void *userData );
 	static void parseIndexList( INI *ini, void *instance, void *store, const void *userData );
 	static void parseDurationUnsignedInt( INI *ini, void *instance, void *store, const void *userData );
-	static void Rva00339AF1_ParseSciences( INI *ini, void *instance, void *store, const void *userData );
+	static void parseScienceVector( INI *ini, void *instance, void *store, const void *userData );
 
 private:
 	int m_unmodelled00;
@@ -149,7 +150,6 @@ protected:
 
 extern SpecialPowerStore *TheSpecialPowerStore;
 
-void Rva00339900Parse( INI *ini, void *instance, void *store, const void *userData );
 void Rva001DEE74Parse( INI *ini, void *instance, void *store, const void *userData );
 void iniParseObjectFilter( INI *ini, void *instance, void *store, const void *userData );
 class Rva003B1017 { public: static void parseFromINI( INI *ini, void *instance, void *store, const void *userData ); };
@@ -208,10 +208,10 @@ const FieldParse SpecialPowerTemplate::m_specialPowerFieldParse[] =
 {
 	{ "Flags", INI::parseBitString32, SpecialPowerFlagNames, 0x18 },
 	{ "ReloadTime", INI::parseDurationUnsignedInt, NULL, 0x20 },
-	{ "RequiredSciences", INI::Rva00339AF1_ParseSciences, NULL, 0x24 },
+	{ "RequiredSciences", INI::parseScienceVector, NULL, 0x24 },
 	{ "LightPointCost", INI::parseInt, NULL, 0x30 },
-	{ "InitiateSound", Rva00339900Parse, NULL, 0x34 },
-	{ "InitiateAtLocationSound", Rva00339900Parse, NULL, 0x38 },
+	{ "InitiateSound", INI::parseAudioEventRTS, NULL, 0x34 },
+	{ "InitiateAtLocationSound", INI::parseAudioEventRTS, NULL, 0x38 },
 	{ "UnitSpecificSoundToUseAsInitiateIntendToDoVoice", INI::parseAsciiString, NULL, 0x3C },
 	{ "UnitSpecificSoundToUseAsEnterStateInitiateIntendToDoVoice", INI::parseAsciiString, NULL, 0x40 },
 	{ "EvaEventToPlayOnSuccess", Rva001DEE74Parse, NULL, 0x44 },

@@ -4,16 +4,17 @@
 // a cdecl audio-event token parser (each parser checks "NoSound"; the 0x339235
 // family also takes "EVA:" and "+SOUND:" prefixes, and 0x33939F rejects EVA
 // sounds with "This is not a valid place to use the EVA: sound syntax: %s").
-// Referenced from 73 / 46 / 35 FieldParse rows. Original names unproven, so
-// the procs and helpers keep their address names:
+// The first two callbacks and token helpers retain address names.
+// MiscAudio sound fields use INI::parseAudioEventRTS:
 //
 // ?Rva003393DFParse@@YAXPAVINI@@PAX1PBX@Z 24B @0x003393DF -> 0x00339235
 // ?Rva003393F7Parse@@YAXPAVINI@@PAX1PBX@Z 24B @0x003393F7 -> 0x0033939F
-// ?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z 24B @0x00339900 -> 0x00339184
+// ?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z 24B @0x00339900 -> 0x00339184
 
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextToken(const char *seps = 0);
 };
 
@@ -33,7 +34,7 @@ void Rva003393F7Parse(INI *ini, void *, void *store, const void *)
 	Rva0033939F(token, store);
 }
 
-void Rva00339900Parse(INI *ini, void *, void *store, const void *)
+void INI::parseAudioEventRTS(INI *ini, void *, void *store, const void *)
 {
 	const char *token = ini->getNextToken();
 	Rva00339184(token, store);

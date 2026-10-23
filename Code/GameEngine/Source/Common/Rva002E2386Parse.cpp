@@ -18,6 +18,7 @@ struct FieldParse;
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextToken(const char *seps);
 	void initFromINI(void *what, const FieldParse *parseTable);
 	static void parseInt(INI *ini, void *instance, void *store, const void *userData);	// rowed 0x002EF56
@@ -35,10 +36,9 @@ struct FieldParse
 // Retail 0x00C3BC20: seventeen integer fields followed by a zero terminator.
 // RVA 0x00339900's field parser: the audio-token routine GlobalWeatherSystem.cpp
 // names directly for "WeatherSound" (mangled
-// ?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z), aliased because this TU spells its
+// ?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z), aliased because this TU spells its
 // INI view locally and a redeclaration of the same free function is fine.
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
-#define Rva00333900ParseAlias Rva00339900Parse
+#define Rva00333900ParseAlias INI::parseAudioEventRTS
 
 extern const FieldParse g_00C3BC20[] =
 {
@@ -81,7 +81,7 @@ extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 // all rowed: 0x0042F11E -> ?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z (row 0x2F11E,
 // INI_parseAsciiString.cpp), 0x0042EF56 -> ?parseInt@INI@@SAXPAV1@PAX1PBX@Z (row
 // 0x2EF56, INI_parseInt.cpp) and 0x0042EF56's siblings 0x00739900 ->
-// ?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z (row 0x339900, the audio-token parser
+// ?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z (row 0x339900, the audio-token parser
 // GlobalWeatherSystem.cpp already uses for "WeatherSound"). Offsets are the
 // record's own field offsets. The `extern` on the definition keeps the object
 // external, exactly as the g_00C3BC20 table above.

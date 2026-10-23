@@ -207,7 +207,7 @@ void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
-void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
@@ -224,9 +224,9 @@ extern const FieldParse g_00BFA6E8[27] = {
 	{ "BuildTime", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x30 },
 	{ "BuildCost", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x34 },
 	{ "ButtonImage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x6C },
-	{ "ResearchSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x40 },
+	{ "ResearchSound", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x40 },
 	{ "ResearchCompleteEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x44 },
-	{ "UnitSpecificSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x48 },
+	{ "UnitSpecificSound", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x48 },
 	{ "UpgradeFX", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x3C },
 	{ "LocalPlayerGainsUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4C },
 	{ "AlliedPlayerGainsUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x50 },

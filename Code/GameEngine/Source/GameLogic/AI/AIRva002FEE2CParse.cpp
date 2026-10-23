@@ -17,7 +17,7 @@ class INI
 {
 public:
 	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
-	static void Rva0033940F_Parse(INI *ini, void *instance, void *store, const void *userData);
+	static void parseThingTemplate(INI *ini, void *instance, void *store, const void *userData);
 };
 
 struct Rva002FED53PointerTarget;
@@ -39,7 +39,7 @@ void Rva002FEE2CParse(INI *ini, void * /*instance*/, void *store, const void * /
 {
 	Rva002FEE2CThing *thing;
 	int value;
-	INI::Rva0033940F_Parse(ini, 0, &thing, 0);
+	INI::parseThingTemplate(ini, 0, &thing, 0);
 	INI::parseInt(ini, 0, &value, 0);
 	Rva002FEE2CRecord record;
 	if (thing && !thing->name.isEmpty())

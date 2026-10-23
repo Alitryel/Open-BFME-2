@@ -23,11 +23,11 @@ struct FieldParse
 	int offset;
 };
 
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
+extern "C" void __identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z")(INI *ini, void *instance, void *store, const void *userData);
 // Retail VA 0x00BEF820 (.rdata): 2 field records and a zero sentinel.
 extern const FieldParse g_00BEF820[] = {
-	{ "SoundDeploy", &Rva00339900Parse, 0, 0xC8 },
-	{ "SoundUndeploy", &Rva00339900Parse, 0, 0xCC },
+	{ "SoundDeploy", &__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC8 },
+	{ "SoundUndeploy", &__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xCC },
 	{ 0, 0, 0, 0 }
 };
 

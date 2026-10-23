@@ -78,7 +78,7 @@ namespace LivingWorldTutorial
 }
 
 extern "C" {
-void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?ParseINI@SessionTask@LivingWorldTutorial@@SAXPAVINI@@PAURva003F7C0C@@@Z")();
@@ -112,7 +112,7 @@ extern const FieldParse g_00C373D8[4] = {
 };
 // The retail table at 0x00837468: 4 entries and the null terminator; every parser is a rowed code owner.
 extern const FieldParse g_00C37468[5] = {
-	{ "Audio", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x8 },
+	{ "Audio", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
 	{ "Text", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
 	{ "ClearPreviousText", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x19 },
 	{ "TaskAfterAudio", (FieldParseProc)&__identifier("?ParseINI@SessionTask@LivingWorldTutorial@@SAXPAVINI@@PAURva003F7C0C@@@Z"), 0, 0x0 },

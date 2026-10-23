@@ -47,16 +47,16 @@ typedef _STL::set<BfmeRecord001DD3BC> Rva004255F0Map;
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	void initFromINI( void *what, const FieldParse *parseTable );
 	static void parseAsciiString( INI *ini, void *instance, void *store, const void *userData );
 };
 
-void Rva00339900Parse( INI *ini, void *instance, void *store, const void *userData );
 
 // Retail VA 0x00BDC048: the record's two fields and the zero sentinel.
 extern const FieldParse Rva004255F0FieldParseTable[] = {
 	{ "Side", &INI::parseAsciiString, 0, 0x0 },
-	{ "Sound", &Rva00339900Parse, 0, 0x4 },
+	{ "Sound", &INI::parseAudioEventRTS, 0, 0x4 },
 	{ 0, 0, 0, 0 }
 };
 

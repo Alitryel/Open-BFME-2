@@ -64,7 +64,7 @@ extern const LookupListRec CommandButtonMappedBorderTypeNames[7] = { { "NONE", 0
 extern "C" {
 void __identifier("?parseCommand@CommandButton@@SAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z")();
-void __identifier("?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseThingTemplate@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseUpgradeTemplate@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?Rva00339A13_ParseUpgradeKeyList@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
@@ -72,7 +72,7 @@ void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?Rva002C8C06Parse@@YAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
-void __identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseScienceVector@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseSpecialPowerTemplate@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?rva0035AED4@@YAXPAVINI@@PAX1PBX@Z")();
@@ -88,7 +88,7 @@ void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
 extern const FieldParse g_00C15468[55] = {
 	{ "Command", (FieldParseProc)&__identifier("?parseCommand@CommandButton@@SAXPAVINI@@PAX1PBX@Z"), 0, 0x14 },
 	{ "Options", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBFB68, 0x1C },
-	{ "Object", (FieldParseProc)&__identifier("?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x20 },
+	{ "Object", (FieldParseProc)&__identifier("?parseThingTemplate@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x20 },
 	{ "Upgrade", (FieldParseProc)&__identifier("?parseUpgradeTemplate@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x24 },
 	{ "NeededUpgrade", (FieldParseProc)&__identifier("?Rva00339A13_ParseUpgradeKeyList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x28 },
 	{ "NeededUpgradeAny", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x34 },
@@ -99,7 +99,7 @@ extern const FieldParse g_00C15468[55] = {
 	{ "WeaponSlotToggle3", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponSlotTypeNamesLookupList, 0x8C },
 	{ "FlagsUsedForToggle", (FieldParseProc)&__identifier("?Rva002C8C06Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x90 },
 	{ "MaxShotsToFire", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA0 },
-	{ "Science", (FieldParseProc)&__identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA4 },
+	{ "Science", (FieldParseProc)&__identifier("?parseScienceVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA4 },
 	{ "SpecialPower", (FieldParseProc)&__identifier("?parseSpecialPowerTemplate@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x44 },
 	{ "ToggleButtonName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x48 },
 	{ "TextLabel", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x58 },

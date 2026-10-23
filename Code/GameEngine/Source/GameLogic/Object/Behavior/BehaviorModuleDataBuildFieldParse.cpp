@@ -16,6 +16,7 @@ struct FieldParse
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
     static void parseAsciiString(INI *, void *, void *, const void *);
     static void parseAsciiStringVector(INI *, void *, void *, const void *);
     static void parseAsciiStringVectorAppend(INI *, void *, void *, const void *);
@@ -31,7 +32,6 @@ public:
     static void parseVelocityReal(INI *, void *, void *, const void *);
 };
 void Rva001DEE74Parse(INI *, void *, void *, const void *);
-void Rva00339900Parse(INI *, void *, void *, const void *);
 void iniParseObjectFilter(INI *, void *, void *, const void *);
 
 class MultiIniFieldParse
@@ -230,10 +230,10 @@ const FieldParse GateOpenAndCloseBehaviorModuleData::m_fieldParse[] =
     { "RepelCollidingUnits", INI::parseBool, 0, 0x18 },
     { "GeometryForOpen", INI::parseAsciiStringVectorAppend, 0, 0x2C },
     { "GeometryForClosed", INI::parseAsciiStringVectorAppend, 0, 0x38 },
-    { "SoundOpeningGateLoop", Rva00339900Parse, 0, 0x1C },
-    { "SoundFinishedOpeningGate", Rva00339900Parse, 0, 0x20 },
-    { "SoundClosingGateLoop", Rva00339900Parse, 0, 0x24 },
-    { "SoundFinishedClosingGate", Rva00339900Parse, 0, 0x28 },
+    { "SoundOpeningGateLoop", INI::parseAudioEventRTS, 0, 0x1C },
+    { "SoundFinishedOpeningGate", INI::parseAudioEventRTS, 0, 0x20 },
+    { "SoundClosingGateLoop", INI::parseAudioEventRTS, 0, 0x24 },
+    { "SoundFinishedClosingGate", INI::parseAudioEventRTS, 0, 0x28 },
     { "TimeBeforePlayingOpenSound", INI::parseDurationUnsignedInt, 0, 0x44 },
     { "TimeBeforePlayingClosedSound", INI::parseDurationUnsignedInt, 0, 0x48 },
     { 0, 0, 0, 0x00 },
@@ -429,7 +429,7 @@ const FieldParse CastleMemberBehaviorModuleData::m_fieldParse[] =
     { "CampDestroyedOwnerEvaEvent", Rva001DEE74Parse, 0, 0x08 },
     { "CampDestroyedAllyEvaEvent", Rva001DEE74Parse, 0, 0x0C },
     { "CampDestroyedAttackerEvaEvent", Rva001DEE74Parse, 0, 0x10 },
-    { "BeingBuiltSound", Rva00339900Parse, 0, 0x14 },
+    { "BeingBuiltSound", INI::parseAudioEventRTS, 0, 0x14 },
     { "StoreUpgradePrice", INI::parseBool, 0, 0x18 },
     { "CountsForEvaCastleBreached", INI::parseBool, 0, 0x19 },
     { 0, 0, 0, 0x00 },

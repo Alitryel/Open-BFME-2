@@ -64,6 +64,7 @@ enum { MAX_BRIDGE_BODY_FX = 3 };
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextSubToken(const char *expected);
 	Int scanIndexList(const char *token, const char *const *nameList);
 	Int scanInt(const char *token);
@@ -85,7 +86,6 @@ struct FieldParse
 
 // BFME 2 parses the bridge sound tokens through the audio-token parser rowed
 // in INIAudioTokenParsers.cpp, not ZH's INI::parseAsciiString.
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 
 class INIException
 {
@@ -211,8 +211,8 @@ const FieldParse TerrainRoadType::m_terrainBridgeFieldParseTable[] =
 	{ "TowerObjectNameFromRight",		&INI::parseAsciiString,		0, 0x58 },
 	{ "TowerObjectNameToLeft",			&INI::parseAsciiString,		0, 0x5C },
 	{ "TowerObjectNameToRight",			&INI::parseAsciiString,		0, 0x60 },
-	{ "DamagedToSound",					&Rva00339900Parse,			0, 0x68 },	// m_damageToSoundString[BODY_DAMAGED]
-	{ "RepairedToSound",				&Rva00339900Parse,			0, 0xD8 },	// m_repairedToSoundString[BODY_DAMAGED]
+	{ "DamagedToSound",					&INI::parseAudioEventRTS,			0, 0x68 },	// m_damageToSoundString[BODY_DAMAGED]
+	{ "RepairedToSound",				&INI::parseAudioEventRTS,			0, 0xD8 },	// m_repairedToSoundString[BODY_DAMAGED]
 	{ "TransitionToOCL",				&TerrainRoadType::parseTransitionToOCL,	0, 0 },
 	{ "TransitionToFX",					&TerrainRoadType::parseTransitionToFX,	0, 0 },
 	{ 0, 0, 0, 0 }

@@ -60,6 +60,7 @@ struct FieldParse
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	static void parseAsciiString(INI *, void *, void *, const void *);
 	static void parseBool(INI *, void *, void *, const void *);
 	static void parseFXList(INI *, void *, void *, const void *);
@@ -102,7 +103,6 @@ public:
 void Rva000B9468Parse(INI *, void *, void *, const void *);
 void Rva002567EAParse(INI *, void *, void *, const void *);
 void Rva002C8C06Parse(INI *, void *, void *, const void *);
-void Rva00339900Parse(INI *, void *, void *, const void *);
 void Rva00464081ParseMask(INI *, void *, void *, const void *);
 void Rva00464574Parse(INI *, void *, void *, const void *);
 void iniParseObjectFilter(INI *, void *, void *, const void *);
@@ -272,11 +272,11 @@ extern const FieldParse BfmeSpecialAbilityUpdateFields[] = {
 	{ "FleeRangeAfterCompletion", &INI::parseReal, 0, 0x58 },
 	{ "DisableFXParticleSystem", &INI::parseParticleSystemTemplate, 0, 0x3C },
 	{ "DoCaptureFX", &INI::parseBool, 0, 0xAF },
-	{ "PackSound", &Rva00339900Parse, 0, 0x8 },
-	{ "UnpackSound", &Rva00339900Parse, 0, 0xC },
-	{ "PrepSoundLoop", &Rva00339900Parse, 0, 0x10 },
-	{ "TriggerSound", &Rva00339900Parse, 0, 0x14 },
-	{ "ActiveLoopSound", &Rva00339900Parse, 0, 0x34 },
+	{ "PackSound", &INI::parseAudioEventRTS, 0, 0x8 },
+	{ "UnpackSound", &INI::parseAudioEventRTS, 0, 0xC },
+	{ "PrepSoundLoop", &INI::parseAudioEventRTS, 0, 0x10 },
+	{ "TriggerSound", &INI::parseAudioEventRTS, 0, 0x14 },
+	{ "ActiveLoopSound", &INI::parseAudioEventRTS, 0, 0x34 },
 	{ "LoseStealthOnTrigger", &INI::parseBool, 0, 0xB0 },
 	{ "AwardXPForTriggering", &INI::parseInt, 0, 0x64 },
 	{ "SkillPointsForTriggering", &INI::parseInt, 0, 0x68 },
@@ -717,9 +717,9 @@ public:
 // The matched registration proves the class relationship; retail supplies
 // every token, offset and callback. Global spelling is descriptive.
 extern const FieldParse BfmeCrushDieFields[] = {
-	{ "TotalCrushSound", &Rva00339900Parse, 0, 0x38 },
-	{ "BackEndCrushSound", &Rva00339900Parse, 0, 0x3C },
-	{ "FrontEndCrushSound", &Rva00339900Parse, 0, 0x40 },
+	{ "TotalCrushSound", &INI::parseAudioEventRTS, 0, 0x38 },
+	{ "BackEndCrushSound", &INI::parseAudioEventRTS, 0, 0x3C },
+	{ "FrontEndCrushSound", &INI::parseAudioEventRTS, 0, 0x40 },
 	{ "TotalCrushSoundPercent", &INI::parseInt, 0, 0x48 },
 	{ "BackEndCrushSoundPercent", &INI::parseInt, 0, 0x4C },
 	{ "FrontEndCrushSoundPercent", &INI::parseInt, 0, 0x50 },
@@ -935,7 +935,7 @@ public:
 // The matched registration proves the class relationship; retail supplies
 // every token, offset and callback. Global spelling is descriptive.
 extern const FieldParse BfmeAudioLoopUpgradeFields[] = {
-	{ "SoundToPlay", &Rva00339900Parse, 0, 0x8 },
+	{ "SoundToPlay", &INI::parseAudioEventRTS, 0, 0x8 },
 	{ "KillAfterMS", &INI::parseDurationUnsignedInt, 0, 0xC },
 	{ "KillOnDeath", &INI::parseBool, 0, 0x10 },
 	{ 0, 0, 0, 0 }
@@ -1382,8 +1382,8 @@ public:
 // every token, offset and callback. Global spelling is descriptive.
 extern const FieldParse BfmeOpenContainFields[] = {
 	{ "ContainMax", &INI::parseInt, 0, 0x70 },
-	{ "EnterSound", &Rva00339900Parse, 0, 0x38 },
-	{ "ExitSound", &Rva00339900Parse, 0, 0x3C },
+	{ "EnterSound", &INI::parseAudioEventRTS, 0, 0x38 },
+	{ "ExitSound", &INI::parseAudioEventRTS, 0, 0x3C },
 	{ "DamagePercentToUnits", &INI::parsePercentToReal, 0, 0x6C },
 	{ "PassengerFilter", &iniParseObjectFilter, 0, 0x40 },
 	{ "ManualPickUpFilter", &iniParseObjectFilter, 0, 0x44 },

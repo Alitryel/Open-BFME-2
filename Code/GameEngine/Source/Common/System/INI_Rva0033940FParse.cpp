@@ -1,11 +1,11 @@
 // cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /GX /Oi-
-// ?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z, retail 0x0033940F, 236 bytes.
+// ?parseThingTemplate@INI@@SAXPAV1@PAX1PBX@Z, retail 0x0033940F, 236 bytes.
 // INI parse callback in the same family as INI_parseMappedImage (0x003390B2)
 // and INI_parseWeaponTemplate (0x00339569): getNextToken, throw ERROR_BUG
 // when the ThingFactory collection (g_009FF000) is null, store null for
 // "None", otherwise resolve through rowed rva002D06CA and report a missing
 // entry through theDebug. Caller 0x002FEE2C passes (ini, 0, &store, 0) like
-// parseInt. The callback name stays address-derived.
+// parseInt. The retail CommandButton Object field uses this callback.
 
 #include "ascii_string.h"
 
@@ -21,7 +21,7 @@ class INI
 {
 public:
 	const char *getNextToken(const char *seps = 0);
-	static void Rva0033940F_Parse(INI *ini, void *instance, void *store, const void *userData);
+	static void parseThingTemplate(INI *ini, void *instance, void *store, const void *userData);
 };
 
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
@@ -62,7 +62,7 @@ enum ErrorCode
 	ERROR_BUG = (ERROR_BASE + 0x0000)
 };
 
-void INI::Rva0033940F_Parse(INI *ini, void *, void *store, const void *)
+void INI::parseThingTemplate(INI *ini, void *, void *store, const void *)
 {
 	const char *token = ini->getNextToken(0);
 	if (TheThingFactory == 0) {

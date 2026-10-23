@@ -68,7 +68,7 @@ public:
 	AsciiString getFilename() const;
 	int getLineNum() const;
 	void initFromINI(void *what, const FieldParse *parseTable);
-	static void Rva0033940F_Parse(INI *ini, void *instance, void *store, const void *userData);
+	static void parseThingTemplate(INI *ini, void *instance, void *store, const void *userData);
 };
 
 void rva00421749(INI *ini, void *instance, void *store, const void *userData);
@@ -139,7 +139,7 @@ void rva00423FD8(INI *ini, void *instance, void *store, const void *userData)
 	FieldParse table[] =
 	{
 		{ "ObjectFilter", rva00421749, 0, 4 },
-		{ "PreviewObject", INI::Rva0033940F_Parse, 0, 8 },
+		{ "PreviewObject", INI::parseThingTemplate, 0, 8 },
 		{ 0, 0, 0, 0 }
 	};
 	ini->initFromINI(&record, table);

@@ -33,7 +33,6 @@ struct FieldParse
 // 0x0056BF1F), so the tables below resolve instead of trading one unresolved
 // name for another. Declared with the real INI* first argument because that is
 // what makes the mangled names the census saw match.
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 void Rva001DEE74Parse(INI *ini, void *instance, void *store, const void *userData);
 void Rva0056B668Parse(INI *ini, void *instance, void *store, const void *userData);
 void Rva0056BDFCParse(INI *ini, void *instance, void *store, const void *userData);
@@ -52,6 +51,7 @@ private:
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextToken(const char *seps);
 	void initFromINIMulti(void *what, const MultiIniFieldParse &parse);
 
@@ -85,9 +85,9 @@ int Rva0056B767Get(void);
 // Symbol ?g_00C38380@@3QBUFieldParse@@B, transcribed below.
 extern const FieldParse g_00C38380[] =
 {
-	{ "OnSelectedSound",              &Rva00339900Parse, 0, 0x10 },
-	{ "OnConstructionBegunSound",     &Rva00339900Parse, 0, 0x14 },
-	{ "OnConstructionFinishedSound",  &Rva00339900Parse, 0, 0x18 },
+	{ "OnSelectedSound",              &INI::parseAudioEventRTS, 0, 0x10 },
+	{ "OnConstructionBegunSound",     &INI::parseAudioEventRTS, 0, 0x14 },
+	{ "OnConstructionFinishedSound",  &INI::parseAudioEventRTS, 0, 0x18 },
 	{ "Object",                       &Rva0056BDFCParse, 0, 0x04 },
 	{ 0, 0, 0, 0 }
 };
@@ -115,12 +115,12 @@ void parseLivingWorldBuildingIconDefinition(INI *ini)
 // No donor layout or original callback method name is asserted here.
 extern const FieldParse LivingWorldArmyIconFields[] =
 {
-	{ "OnSelectedSound",                      &Rva00339900Parse, 0, 0x10 },
-	{ "OnMovePlannedSound",                   &Rva00339900Parse, 0, 0x14 },
-	{ "OnMoveStartedSound",                   &Rva00339900Parse, 0, 0x18 },
-	{ "WelcomeReinforcementsSound",           &Rva00339900Parse, 0, 0x1C },
-	{ "KickOutReinforcementsSound",           &Rva00339900Parse, 0, 0x20 },
-	{ "DisbandUnitSound",                     &Rva00339900Parse, 0, 0x24 },
+	{ "OnSelectedSound",                      &INI::parseAudioEventRTS, 0, 0x10 },
+	{ "OnMovePlannedSound",                   &INI::parseAudioEventRTS, 0, 0x14 },
+	{ "OnMoveStartedSound",                   &INI::parseAudioEventRTS, 0, 0x18 },
+	{ "WelcomeReinforcementsSound",           &INI::parseAudioEventRTS, 0, 0x1C },
+	{ "KickOutReinforcementsSound",           &INI::parseAudioEventRTS, 0, 0x20 },
+	{ "DisbandUnitSound",                     &INI::parseAudioEventRTS, 0, 0x24 },
 	{ "RetreatTeleportToHomeRegionEvaEvent",  &Rva001DEE74Parse,  0, 0x28 },
 	{ "RetreatTeleportToNonHomeRegionEvaEvent", &Rva001DEE74Parse, 0, 0x2C },
 	{ "Object",                                &Rva0056B668Parse, 0, 0x04 },
@@ -149,8 +149,8 @@ void parseLivingWorldArmyIconDefinition(INI *ini)
 // table the ledger bounds before the sibling's rapid-iteration literal.
 extern const FieldParse LivingWorldBuildPlotIconFields[] =
 {
-	{ "OnSelectedSound",         &Rva00339900Parse, 0, 0x10 },
-	{ "OnBuildingDestroyedSound", &Rva00339900Parse, 0, 0x14 },
+	{ "OnSelectedSound",         &INI::parseAudioEventRTS, 0, 0x10 },
+	{ "OnBuildingDestroyedSound", &INI::parseAudioEventRTS, 0, 0x14 },
 	{ "Object",                   &Rva0056BF1FParse, 0, 0x04 },
 	{ 0, 0, 0, 0 }
 };

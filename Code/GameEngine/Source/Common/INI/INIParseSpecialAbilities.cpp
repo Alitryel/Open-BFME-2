@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /DNDEBUG /MD /GX
 // Rva00339B50_ParseSpecialAbilities (retail 0x00339B50, 74 bytes), in the INI
-// parse run beside Rva00339AF1_ParseSciences. Each remaining token is looked
+// parse run beside parseScienceVector. Each remaining token is looked
 // up through the rowed SpecialPowerStore::findSpecialPowerTemplate
 // (0x0029B6EB, AsciiString built in the outgoing argument slot) on
 // TheSpecialPowerStore (VA 0x00E02D4C); a hit appends the id (+0x14) of its

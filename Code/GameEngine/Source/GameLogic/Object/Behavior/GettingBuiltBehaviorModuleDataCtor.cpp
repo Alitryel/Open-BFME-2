@@ -22,6 +22,7 @@ struct FieldParse
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
 	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
 	static void parsePercentToReal(INI *ini, void *instance, void *store, const void *userData);
@@ -29,7 +30,6 @@ public:
 	static void parseWeaponTemplate(INI *ini, void *instance, void *store, const void *userData);
 };
 
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
 // Retail VA 0x00C402A0 (.rdata): 17 field records and a zero sentinel.
 extern const FieldParse g_00C402A0[] = {
@@ -40,9 +40,9 @@ extern const FieldParse g_00C402A0[] = {
 	{ "RebuildWhenDead", &INI::parseBool, 0, 0x2C },
 	{ "HealWeapon", &INI::parseWeaponTemplate, 0, 0x28 },
 	{ "RebuildTimeSeconds", &INI::parseReal, 0, 0x24 },
-	{ "SelfBuildingLoop", &Rva00339900Parse, 0, 0x8 },
-	{ "SelfRepairFromDamageLoop", &Rva00339900Parse, 0, 0xC },
-	{ "SelfRepairFromRubbleLoop", &Rva00339900Parse, 0, 0x10 },
+	{ "SelfBuildingLoop", &INI::parseAudioEventRTS, 0, 0x8 },
+	{ "SelfRepairFromDamageLoop", &INI::parseAudioEventRTS, 0, 0xC },
+	{ "SelfRepairFromRubbleLoop", &INI::parseAudioEventRTS, 0, 0x10 },
 	{ "PercentOfBuildCostToRebuildPristine", &INI::parsePercentToReal, 0, 0x30 },
 	{ "PercentOfBuildCostToRebuildDamaged", &INI::parsePercentToReal, 0, 0x34 },
 	{ "PercentOfBuildCostToRebuildReallyDamaged", &INI::parsePercentToReal, 0, 0x38 },

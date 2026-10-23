@@ -20,6 +20,7 @@ typedef void (*INIFieldParseProc)(class INI *ini, void *instance, void *store, c
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextToken(const char *seps = 0);
 	void initFromINI(void *what, const struct FieldParse *parseTable);
 	static void parseCoord2D(INI *ini, void *instance, void *store, const void *userData);
@@ -34,7 +35,6 @@ struct FieldParse
 };
 
 // Retail's audio-event token parser, rowed and matched at RVA 0x00339900.
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 
 // The forwarder class the ledger rows at RVA 0x003FB5F2 (BitFlags-style parse
 // driver over the rowed single-token worker 0x003FB3B8).
@@ -87,7 +87,7 @@ extern LivingWorldManager *TheLivingWorldManager;
 // trading one unresolved name for another.
 //
 //   Position       INI::parseCoord3D        +0x08  -> LivingWorldSoundPosition
-//   Sound          Rva00339900Parse         +0x14  -> LivingWorldSoundEvent
+//   Sound          INI::parseAudioEventRTS         +0x14  -> LivingWorldSoundEvent
 //   Flags          Rva003FB508::parseFromINI +0x18 -> the flag word
 //   ZoomRegionLow  INI::parseCoord2D        +0x1C  -> x_min, y_min
 //   ZoomRegionHigh INI::parseCoord2D        +0x24  -> x_max, y_max
@@ -102,7 +102,7 @@ extern const FieldParse g_00C37938[];
 const FieldParse g_00C37938[] =
 {
 	{ "Position",       &INI::parseCoord3D,          0, 0x08 },
-	{ "Sound",          &Rva00339900Parse,           0, 0x14 },
+	{ "Sound",          &INI::parseAudioEventRTS,           0, 0x14 },
 	{ "Flags",          &Rva003FB508::parseFromINI,  0, 0x18 },
 	{ "ZoomRegionLow",  &INI::parseCoord2D,          0, 0x1C },
 	{ "ZoomRegionHigh", &INI::parseCoord2D,          0, 0x24 },

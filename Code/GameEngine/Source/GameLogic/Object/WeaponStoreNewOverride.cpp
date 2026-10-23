@@ -55,7 +55,7 @@ void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseDurationUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
-void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAllVetLevelsFXList@@YAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAllVetLevelsPSys@@YAXPAVINI@@PAX1PBX@Z")();
@@ -124,7 +124,7 @@ extern const FieldParse g_00C00B48[125] = {
 	{ "MinTargetPitch", (FieldParseProc)&__identifier("?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x88 },
 	{ "MaxTargetPitch", (FieldParseProc)&__identifier("?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8C },
 	{ "PreferredTargetBone", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x90 },
-	{ "FireSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xC8 },
+	{ "FireSound", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC8 },
 	{ "FireSoundLoopTime", (FieldParseProc)&__identifier("?parseDurationUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xCC },
 	{ "FireFX", (FieldParseProc)&__identifier("?parseAllVetLevelsFXList@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xA4 },
 	{ "FireFlankFX", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xB4 },

@@ -40,11 +40,10 @@ struct WeatherData
 // (RVA 339900), and HasLightning -> INI::parseBool (RVA 2E850).
 // The source/field interpretation is also present in BF1 WeatherData.cpp at
 // f98983a7; the offsets 0 and 4 and these exact callbacks come from BF2.
-void Rva00339900Parse( INI *ini, void *instance, void *store, const void *userData );
 
 const FieldParse WeatherData::m_fieldParseTable[] =
 {
-	{ "WeatherSound", &Rva00339900Parse, 0, 0 },
+	{ "WeatherSound", &INI::parseAudioEventRTS, 0, 0 },
 	{ "HasLightning", &INI::parseBool, 0, 4 },
 	{ 0, 0, 0, 0 }
 };

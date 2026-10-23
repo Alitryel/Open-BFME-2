@@ -28,6 +28,7 @@ struct FieldParse
 class INI
 {
 public:
+	static void parseAudioEventRTS(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextToken(const char *seps);
 	const char *getNextSubToken(const char *expected);
 	float scanReal(const char *token);
@@ -292,7 +293,6 @@ void parseLivingWorldPlayerArmyDefinition(INI *ini)
 // a float literal in retail. Callbacks with other signatures are cast to the
 // field-parse type.
 void Rva00285FA9Parse(INI *ini, void *instance, void *store, const void *userData);
-void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
 namespace _STL
 {
@@ -405,8 +405,8 @@ extern const FieldParse LivingWorldMapInfoFields[] =
 	{ "BattleMarker", INI::parseAsciiString, 0, 0xB8 },
 	{ "PalantirMarker", INI::parseAsciiString, 0, 0xBC },
 	{ "RegionAwardDisputeMarker", INI::parseAsciiString, 0, 0xC0 },
-	{ "BattleMarkerCreatedSound", Rva00339900Parse, 0, 0x14C },
-	{ "EnterMapSound", Rva00339900Parse, 0, 0x150 },
+	{ "BattleMarkerCreatedSound", INI::parseAudioEventRTS, 0, 0x14C },
+	{ "EnterMapSound", INI::parseAudioEventRTS, 0, 0x150 },
 	{ "BannerScaleSpeed", INI::parseReal, 0, 0xC4 },
 	{ "BannerMaxScale", INI::parseReal, 0, 0xC8 },
 	{ "BannerTiltAngle", INI::parseReal, 0, 0xCC },
@@ -429,7 +429,7 @@ extern const FieldParse LivingWorldMapInfoFields[] =
 	{ "AnimRaysEffectShells", INI::parseInt, 0, 0x13C },
 	{ "AnimRaysEffectDiameter", INI::parseInt, 0, 0x140 },
 	{ "AnimRaysEffectLifetime", INI::parseInt, 0, 0x144 },
-	{ "AnimRaysCreateSound", Rva00339900Parse, 0, 0x148 },
+	{ "AnimRaysCreateSound", INI::parseAudioEventRTS, 0, 0x148 },
 	{ "AnimCloud", INI::parseAsciiString, 0, 0x154 },
 	{ "AnimCloudPartSys", INI::parseAsciiString, 0, 0x158 },
 	{ "NumAnimClouds", INI::parseInt, 0, 0x15C },
