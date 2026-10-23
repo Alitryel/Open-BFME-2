@@ -17,10 +17,12 @@ namespace _STL { template <> _Rb_tree_node<pair<int const ,void *> > * _Rb_tree<
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
 // specialization takes those calls inline so this TU emits no external copy.
+// Retail compares these keys unsigned: _M_lower_bound 0x004FF3B6 and
+// _M_upper_bound 0x004FF539 use jb/jae (as in RvaTreeEraseRangeFamily.cpp).
 namespace _STL {
 template <> __declspec(dllimport) __forceinline
 bool less<int>::operator()(const int &a, const int &b) const
-{ return a < b; }
+{ return (unsigned int)a < (unsigned int)b; }
 }
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
