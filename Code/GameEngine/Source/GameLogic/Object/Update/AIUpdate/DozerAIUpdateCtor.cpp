@@ -648,7 +648,7 @@ public:
 	virtual void v121();
 	virtual void v122();
 	virtual void v123();
-	virtual void v124();
+	virtual void clearGuardTargetType();
 	virtual void v125();
 	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int flags); // vslot 126 (+0x1F8)
 	virtual Object *getEnterTarget();
