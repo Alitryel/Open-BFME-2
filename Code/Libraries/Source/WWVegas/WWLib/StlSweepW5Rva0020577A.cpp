@@ -5,7 +5,13 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva0020577AElement { char bytes[20]; bool operator<(const Rva0020577AElement&)const; bool operator==(const Rva0020577AElement&)const; };
+// Retail's loop calls _Construct<BfmeStringRecord00204A30> (0x002056DC,
+// StringRecordInlineCopyBFME2.cpp), so the 20-byte element is that unit's record
+// with its rowed copy ctor 0x00204A30.
+struct BfmeStringRecord00204A30 { char bytes[20]; BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &source); };
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeStringRecord00204A30, BfmeStringRecord00204A30>(BfmeStringRecord00204A30 *, BfmeStringRecord00204A30 const &); }
+// bfme link decl-only end
 
 // Instantiate the recovered operation and its required template dependencies.
-template Rva0020577AElement * _STL::__uninitialized_fill_n<Rva0020577AElement *, unsigned int, Rva0020577AElement>(Rva0020577AElement *, unsigned int, Rva0020577AElement const &, _STL::__false_type const &);
+template BfmeStringRecord00204A30 * _STL::__uninitialized_fill_n<BfmeStringRecord00204A30 *, unsigned int, BfmeStringRecord00204A30>(BfmeStringRecord00204A30 *, unsigned int, BfmeStringRecord00204A30 const &, _STL::__false_type const &);
