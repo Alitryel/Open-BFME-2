@@ -72,27 +72,29 @@ void Rva00484EF4_Anchor()
 	delete p;
 }
 
-class Rva004BD763_B2
+// BodyModule (ZH BodyModule.h: BehaviorModule plus BodyModuleInterface at
+// +0x10). Target evidence: the BodyModule constructor 0x004BD7FD stores the
+// vftable whose slot 0 is the deleting dtor 0x004BD841 (calls this dtor), and
+// the InactiveBody constructor 0x004BD8BD's unwind map destroys its BodyModule
+// base through 0x004BD763. PrimaryP stands for BehaviorModule (its +0/+0xC
+// vftables 0x007EEA7C/0x007EE9C0 are BehaviorModule's). The +0x10 interface
+// is the one-slot pure view BodyModuleCtor.cpp uses, so the shared
+// ??_7BodyModule@@6B@ copies agree. The deleting dtor is emitted and rowed in
+// BodyModuleCtor.cpp (slot 0 of its vftable).
+class BodyModuleInterface
 {
 public:
-  virtual void f2() {}
+	virtual void bodyAnchor() = 0;
 };
 
-class Rva004BD763 : public PrimaryP, public Rva004BD763_B2
+class BodyModule : public PrimaryP, public BodyModuleInterface
 {
 public:
-	virtual ~Rva004BD763();
+	virtual ~BodyModule();
 };
 
-Rva004BD763::~Rva004BD763()
+BodyModule::~BodyModule()
 {
-}
-
-// Anchor: new/delete devirtualizes to a direct ??_G call (see above).
-void Rva004BD763_Anchor()
-{
-	Rva004BD763 *p = new Rva004BD763;
-	delete p;
 }
 
 class Rva004B96CC_B2
@@ -174,7 +176,7 @@ Rva00484F5D::~Rva00484F5D()
 {
 }
 
-class Rva004BD78F : public Rva004BD763
+class Rva004BD78F : public BodyModule
 {
 public:
 	virtual ~Rva004BD78F();

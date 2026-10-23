@@ -14,7 +14,7 @@ class ModuleData;
 class ObjectModule
 {
 public:
-	virtual void objectAnchor();
+	virtual ~ObjectModule();
 	const ModuleData *m_moduleData;
 	void *m_object;
 };
@@ -29,6 +29,7 @@ class BehaviorModule : public ObjectModule, public BehaviorIface
 {
 public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~BehaviorModule();
 };
 
 class BodyModuleInterface
@@ -41,6 +42,7 @@ class BodyModule : public BehaviorModule, public BodyModuleInterface
 {
 public:
 	BodyModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~BodyModule();
 
 private:
 	float m_damageScalar;
@@ -51,11 +53,15 @@ BodyModule::BodyModule(Thing *thing, const ModuleData *moduleData)
 {
 }
 
+// ??_GBodyModule@@UAEPAXI@Z @0x004BD841 28B: slot 0 of the vftable the
+// constructor above stores at +0 (was ??_GRva004BD763); calls ??1BodyModule
+// (0x004BD763, rowed in Rva0049B47CThreeVptrDerived.cpp) then operator delete.
+// Emitted here as this unit's vftable slot-0 COMDAT.
+
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?behaviorIfaceAnchor@BehaviorIface@@UAEXXZ=?getDie@DieModule@@UAEPAVDieModuleInterface@@XZ")
-#pragma comment(linker, "/alternatename:?objectAnchor@ObjectModule@@UAEXXZ=??_GRva004BD763@@UAEPAXI@Z")
 
 // Reference lead: Open-BFME-1 9cbfb551fe20dae985f91f2319d8997287b6a705,
 // BodyModule::applyDamageScalar in ZH BodyModule.h, emitted by the clean

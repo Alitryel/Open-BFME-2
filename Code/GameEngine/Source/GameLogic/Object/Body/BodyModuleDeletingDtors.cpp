@@ -46,10 +46,10 @@ struct FreePtr
 	void *m_ptr;
 };
 
-class Rva004BD763
+class BodyModule
 {
 public:
-	virtual ~Rva004BD763();
+	virtual ~BodyModule();
 
 private:
 	char m_pad04[8];
@@ -71,9 +71,9 @@ public:
 // over two trivial MI bases), AsciiString member release at +0xF8 (EH state 1
 // via rowed releaseBuffer), conditional free of the +0xE0 pointer (EH state 0
 // via rowed _free under /EHs: extern-C callees need /EHs), then the rowed
-// ??1Rva004BD763 base (EH state -1). Callers linkNode/handle prove the class;
+// ??1BodyModule base (0x004BD763) (EH state -1). Callers linkNode/handle prove the class;
 // member order ptr-then-string proven by EH states 0-then-1.
-class ActiveBody : public Rva004BD763, public ActiveBodyB1, public ActiveBodyB2
+class ActiveBody : public BodyModule, public ActiveBodyB1, public ActiveBodyB2
 {
 public:
 	virtual ~ActiveBody();

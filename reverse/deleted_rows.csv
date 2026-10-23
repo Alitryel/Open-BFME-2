@@ -1847,3 +1847,5 @@ __ehhandler$?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,0x0079421E,"Renamed
 ?Rva006636F0Handler@@YAXPAXPAVRva007F7980Browser@@@Z,0x006636F0,"Renamed to ?enterGameRequestHandler@@YAXPAXPAVRva007F7980Browser@@@Z by tools/rename.py (inferred)"
 ?Rva00663FF0Handler@@YAXPAVRva007E8810Message@@PAVBfmeThingZI@@@Z,0x00663FF0,"Renamed to ?queueLengthHandler@@YAXPAVRva007E8810Message@@PAVBfmeThingZI@@@Z by tools/rename.py (inferred)"
 _Rva00819630,0x00685530,"Renamed to _CommSerialConstruct by tools/rename.py (inferred)"
+??1Rva004BD763@@UAE@XZ,0x004BD763,"Renamed to ??1BodyModule@@UAE@XZ: InactiveBody ctor 0x004BD8BD's unwind map destroys its BodyModule base through this body; slot 0 of BodyModule ctor 0x004BD7FD's vftable is the deleting dtor 0x004BD841 that calls it"
+??_GRva004BD763@@UAEPAXI@Z,0x004BD841,"Renamed to ??_GBodyModule@@UAEPAXI@Z: slot 0 of the vftable BodyModule ctor 0x004BD7FD stores at +0; moved to BodyModuleCtor.cpp"
