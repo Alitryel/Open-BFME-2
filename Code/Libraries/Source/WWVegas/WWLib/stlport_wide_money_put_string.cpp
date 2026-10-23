@@ -197,7 +197,8 @@ typedef ostreambuf_iterator<wchar_t, char_traits<wchar_t> > _MoneyOut;
 
 template <> _MoneyOut& _MoneyOut::operator=(wchar_t);
 #pragma inline_depth(0)
-template <> __forceinline _MoneyOut fill_n(_MoneyOut first, unsigned int n, const wchar_t& value) {
+// Preserve the inlined currency-padding loop without a competing fill_n copy.
+static __forceinline _MoneyOut __money_fill_n(_MoneyOut first, unsigned int n, const wchar_t& value) {
  for(;n>0;--n) first=value; return first;
 }
 #pragma inline_depth(255)
@@ -350,18 +351,18 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
 
   if (__fill_amt != 0 &&
       !(__fill_pos & (ios_base::left | ios_base::internal)))
-    __s = fill_n(__s, __fill_amt, __fill);
+    __s = __money_fill_n(__s, __fill_amt, __fill);
     
   for (int __i = 0; __i < 4; ++__i) {
     char __ffield = __format.field[__i];
     if (__ffield == money_base::none) {
       if (__fill_amt != 0 && __fill_pos == ios_base::internal)
-        __s = fill_n(__s, __fill_amt, __fill);
+        __s = __money_fill_n(__s, __fill_amt, __fill);
     }
     else if (__ffield == money_base::space) {
       *__s++ = __space;
       if (__fill_amt != 0 && __fill_pos == ios_base::internal)
-        __s = fill_n(__s, __fill_amt, __fill);
+        __s = __money_fill_n(__s, __fill_amt, __fill);
     }
     else if (__ffield == money_base::symbol) {
       if (__generate_curr)
@@ -378,7 +379,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
         if ((int)__value_length <= __frac_digits) {
           __money_write_point(__s,__point);
           __s = copy(__digits_first, __digits_last, __s);
-          __s =  fill_n(__s, __frac_digits - __value_length, __zero);
+          __s =  __money_fill_n(__s, __frac_digits - __value_length, __zero);
         }
         else {
           __s = copy(__digits_first, __digits_last - __frac_digits, __s);
@@ -396,7 +397,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   if (__sign.size() > 1)
     __s = copy(static_cast<const string_type&>(__sign).begin() + 1, static_cast<const string_type&>(__sign).end(), __s);
   if (!(__fill_pos & (ios_base::right | ios_base::internal)))
-    __s = fill_n(__s, __fill_amt, __fill);
+    __s = __money_fill_n(__s, __fill_amt, __fill);
   
   return __s;
 }
