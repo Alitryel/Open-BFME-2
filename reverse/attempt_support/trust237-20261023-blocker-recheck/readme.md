@@ -49,3 +49,24 @@ proven binary patch. No missing game callee is identified. Do not insert
 asm/emit padding, substitute the original zero-returning body, or alter the
 baseline/verifier. The claim is released. The standing assignment excludes
 other bodies until this lands, so no broad queue or unchanged matrix was run.
+
+## Subsequent input-only reassessment
+
+At `154dfa9d44`, the scoped history and standing assignment were reread. Git
+comparison against the above verified revision finds no changes to AGENTS.md,
+recipes, tools, the BFME1 pointer, bank, or either affected source unit. Fresh
+SHA256 checks of the bank and all three image artifacts agree with the existing
+receipt. BFME1's committed and checked-out verified pointers still agree, and
+its freshness receipt remains under 24 hours old. The other seat's update lock
+was preserved. The ledger now passes at 98104 functions, 15858 symbols and
+2140 data rows; progress against origin/master remains +0 C++ and +0 linking
+bytes. See `latest_input_reassessment` in evidence.json for this check's time
+and inputs.
+
+No new source hypothesis is supported by these unchanged inputs. Earlier
+control-flow, lifetime, layout, visibility and compiler-setting trials are not
+repeated, and earlier compilation/emulation/link results above are historical,
+not new runs. The same binary-patch representation prerequisite remains.
+The best 226-byte bank and score70/86 are preserved without modification.
+The standing assignment still excludes the fallback bodies while this check is
+unmatched; the claim is released and the session reports blocked.
