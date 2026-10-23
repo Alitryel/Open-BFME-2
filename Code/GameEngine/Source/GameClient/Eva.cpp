@@ -1,56 +1,67 @@
-// cl: /O1 /G7 /EHs /DNDEBUG /MD /arch:SSE /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /EHs /DNDEBUG /MD /arch:SSE /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/eva_vector /ICode/Libraries/Include
 // stlport
 // Existing 80-byte status clearer at 0x001DCD3C, moved here so Eva's
 // element reset loop can see its register effects. Retail writes the 0x34-byte
-// status layout; retain the observed write order and the existing barrier.
+// status layout. Intrinsic stores keep the native scheduling without marking
+// the receiver volatile or making its subobject address escape.
 // -1 is the immutable float at .rdata RVA 0x007BB9AC (data_ledger.csv), so use
 // the verified compiler literal rather than an address-named global.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-class Rva001DCD3C
-{
-public:
-    void rva001DCD3C();
-private:
-    volatile float m_00;
-    volatile float m_04;
-    volatile float m_08;
-    volatile float m_0C;
-    volatile float m_10;
-    volatile float m_14;
-    volatile float m_18;
-    volatile float m_1C;
-    volatile unsigned char m_20;
-    volatile unsigned char m_21;
-    volatile unsigned char m_22;
-    volatile unsigned char m_pad23;
-    volatile float m_24;
-    volatile float m_28;
-    volatile float m_2C;
-    volatile int m_30;
-};
-void Rva001DCD3C::rva001DCD3C()
-{
-    float v = -1.0f;
-    float zero = 0.0f;
-    m_00 = v;
-    m_04 = v;
-    _ReadWriteBarrier();
-    m_20 = 0;
-    m_08 = zero;
-    m_0C = zero;
-    m_10 = zero;
-    m_21 = 0;
-    m_14 = zero;
-    m_18 = zero;
-    m_1C = zero;
-    m_22 = 0;
-    m_24 = zero;
-    m_28 = zero;
-    m_2C = zero;
-    m_30 = 0;
-}
+#include <xmmintrin.h>
+struct ClrCoord
 
+{
+ float x;
+ float y;
+ float z;
+ void zero()
+ {
+  x = 0.0f;
+  y = 0.0f;
+  z = 0.0f;
+
+ }
+
+}
+;
+class Rva001DCD3C
+
+{
+ public:
+ void rva001DCD3C();
+ private:
+ float m_00;
+ float m_04;
+ ClrCoord m_08;
+ ClrCoord m_14;
+ bool m_20;
+ bool m_21;
+ bool m_22;
+ ClrCoord m_24;
+ int m_30;
+
+}
+;
+void Rva001DCD3C::rva001DCD3C()
+
+{
+ __m128 minusOne = _mm_set_ss(-1.0f);
+ _mm_store_ss(&m_00, minusOne);
+ _mm_store_ss(&m_04, minusOne);
+ m_20 = false;
+ m_08.x = 0.0f;
+ m_08.y = 0.0f;
+ m_08.z = 0.0f;
+ m_21 = false;
+ m_14.x = 0.0f;
+ m_14.y = 0.0f;
+ m_14.z = 0.0f;
+ m_22 = false;
+ m_24.x = 0.0f;
+ m_24.y = 0.0f;
+ m_24.z = 0.0f;
+ m_30 = 0;
+
+}
 // Eva status is a non-owning 52-byte value. Its default construction calls
 // the rowed clearer; its out-of-line copy is the existing 0x001DD0A0 pin.
 // The empty destructor and nontrivial copy reproduce retail temporary lifetime.
@@ -64,8 +75,9 @@ namespace _STL {
 template<class T> struct _EvaResizeArgument { typedef const T& type; };
 template<> struct _EvaResizeArgument<BfmePod52> { typedef BfmePod52 type; };
 }
-#include "../../../../reference/shims/eva_vector/EvaVectorABI.h"
+#include "EvaVectorABI.h"
 #include <hash_map>
+#include "ascii_string.h"
 #include <list>
 
 namespace _STL {
@@ -82,8 +94,8 @@ template<> void vector<BfmePod52, allocator<BfmePod52> >::_M_fill_insert(iterato
 // record's members are rowed under placeholder names (0x001DCDAF,
 // 0x001DD240); field names past WB's are not recovered.
 
-#include "../../../Libraries/Include/Lib/Coord2D.h"
-#include "../../../Libraries/Include/Lib/Coord3D.h"
+#include "Lib/Coord2D.h"
+#include "Lib/Coord3D.h"
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -284,9 +296,152 @@ typedef char EvaInfoRecordsWidth[(sizeof(EvaInfoRecords)==12)?1:-1];
 typedef char EvaEventTableWidth[(sizeof(EvaEventTable)==20)?1:-1];
 typedef char EvaListWidth[(sizeof(_STL::_List_base<int,_STL::allocator<int> >)==4)?1:-1];
 
+// Eva.ini parsing (iniParseNewEvaEvent).
+class INI
+
+{
+ public:
+ const char *getNextToken(const char *seps = 0);
+// 0x0002DF97
+ int getLoadType() const
+ {
+  return m_loadType;
+
+ }
+ private:
+ unsigned char m_pad00[0x08];
+ int m_loadType;
+// +0x08
+
+}
+;
+enum
+{
+ INI_LOAD_CREATE_OVERRIDES = 2
+}
+;
+class INIException
+
+{
+ public:
+ INIException(int argCount, const char *format, ...);
+// 0x0002F681
+ INIException(const INIException &that);
+ ~INIException();
+ private:
+ char *m_failureMessage;
+ int m_argCount;
+
+}
+;
+// The info record's push_back, default constructor and destructor are rowed
+// under three placeholder spellings of the one 0x30-byte record.
+struct Rva001DF3F1Element
+{
+ int a[12];
+
+}
+;
+class Rva001DF88CEntry
+
+{
+ public:
+ Rva001DF88CEntry();
+// 0x001DE6E1
+ ~Rva001DF88CEntry();
+// 0x001DDEC3
+ int a[12];
+
+}
+;
+// STLport's operator[]: *(begin() + n).
+static __forceinline Arg001DCDAF &evaInfoAt(EvaVectorView<Arg001DCDAF> &infos, int n)
+
+{
+ Arg001DCDAF *start = infos.begin();
+ return *(start + n);
+
+}
+static __forceinline const Rva001DF3F1Element &asInfoElement(const Rva001DF88CEntry &entry)
+
+{
+ return reinterpret_cast<const Rva001DF3F1Element &>(entry);
+
+}
+class Rva001DE727
+
+{
+ public:
+ Rva001DE727 &operator=(const Rva001DE727 &that);
+// 0x001DE727
+ int a[12];
+
+}
+;
+namespace _STL
+{
+ template<> void vector<Rva001DF3F1Element, allocator<Rva001DF3F1Element> >::push_back(const Rva001DF3F1Element &value);
+ template<> void vector<BfmePod52, allocator<BfmePod52> >::push_back(const BfmePod52 &value);
+
+}
+// The name maps (no-case AsciiString to event id hash tables).
+struct NoCaseTreeValue4
+
+{
+ NoCaseTreeValue4(int id) : m_id(id)
+ {
+
+ }
+ int m_id;
+
+}
+;
+typedef _STL::pair<const AsciiString, NoCaseTreeValue4> NocasePair;
+struct InsertResult
+
+{
+ void *m_node;
+ void *m_table;
+ unsigned char m_inserted;
+
+}
+;
+class Rva001DE556
+
+{
+ public:
+ InsertResult *rva001DE84F(InsertResult *out, const NocasePair &entry);
+// 0x001DE84F
+ unsigned char m_pad[4];
+
+}
+;
+// The hash map's insert(value): its pair<iterator, bool> result is a temporary.
+static __forceinline void evaInsertName(Rva001DE556 &map, const NocasePair &entry)
+
+{
+ InsertResult result;
+ map.rva001DE84F(&result, entry);
+
+}
+class Rva00056F61
+
+{
+ public:
+ void *rva00056F61(const AsciiString *key);
+// 0x00056F61, the node or null
+
+}
+;
+
 class Eva
 {
 public:
+ static void iniParsePredefinedEvaEvent(INI *ini);
+ static void iniParseNewEvaEvent(INI *ini);
+ static void iniParseEvaEventForwardReference(INI *ini);
+ int rva001DE78E(const AsciiString *name);
+ void rva001DCFC9(INI *ini, void *info);
  void rva001DD3DD();
 	void reset();
 	Bool reportEvaEvent(EvaEventID eventID, const Coord3D *position, const Coord3D *secondPosition);
@@ -300,7 +455,11 @@ private:
 	unsigned char m_pad00[0x10];
 	EvaDelayedTree m_delayedEvents;	// +0x10
 	EvaVectorView<Arg001DCDAF> m_allEventInfos;		// +0x1C (WB name)
-	unsigned char m_pad28[0x5c - 0x28];
+	EvaVectorView<Arg001DCDAF> m_iniEventInfos; // +0x28
+	Rva001DE556 m_eventNameMap; // +0x34
+	unsigned char m_pad38[0x48 - 0x38];
+	Rva001DE556 m_iniEventNameMap; // +0x48
+	unsigned char m_pad4C[0x5C - 0x4C];
 	EvaVectorView<Rva001DCDAF> m_eventStatus;		// +0x5C
 	_STL::_List_base<int, _STL::allocator<int> > m_queue; // +0x68
 	int m_queuePosition; // +0x6C
@@ -616,4 +775,161 @@ void Eva::rva001DD3DD()
    m_70=now;
   }
  }
+}
+
+// Eva.ini parsers share the native reset body above.
+void Eva::iniParsePredefinedEvaEvent(INI *ini)
+{
+ AsciiString name(ini->getNextToken());
+ Rva00056F61 *names = reinterpret_cast<Rva00056F61 *>(&TheEva->m_iniEventNameMap);
+ void *node = names->rva00056F61(&name);
+ if (!node)
+  throw INIException(3, "'%s' is not a predefined Eva event name", name.str());
+ int id = *(int *)((char *)node + 8);
+ if (id < 0 || id >= 0x16)
+  throw INIException(3, "'%s' is not a predefined Eva event name", name.str());
+ Arg001DCDAF *info;
+ if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
+ {
+  if (id == 0)
+   throw INIException(3, "You cannot redefine the default Eva event in a map.ini");
+  info = &evaInfoAt(TheEva->m_allEventInfos, id);
+ }
+ else
+  info = &evaInfoAt(TheEva->m_iniEventInfos, id);
+ if (id != 0)
+  *reinterpret_cast<Rva001DE727 *>(info) = *reinterpret_cast<const Rva001DE727 *>(&TheEva->m_iniEventInfos[0]);
+ TheEva->rva001DCFC9(ini, info);
+}
+
+// Eva::iniParseNewEvaEvent, retail 0x001DF42D (635 bytes); WorldBuilder name
+// (Eva.cpp, the Eva.ini block parser at table entry 0x009B8D84). A new event
+// name may not be "None" or a predefined event (id below 0x16). Map overrides
+// (load type 2) append a record, a name-map entry and a status to the live
+// tables, or reuse a custom event; Eva.ini itself appends to its own record
+// table and name map, refusing to redefine a parsed record (+0x2E clear).
+// The record starts as a copy of the default record 0 and is then parsed.
+// It has to follow Rva001DCD3C::rva001DCD3C in this unit: retail keeps the
+// status temporary's address in ecx across that call.
+//
+// Exact with the direct-write clearer above (see the note at the top).
+void Eva::iniParseNewEvaEvent(INI *ini)
+
+{
+ AsciiString name(ini->getNextToken());
+ if (name.compareNoCase("None") == 0)
+ throw INIException(3, "Cannot use 'None' as a new Eva event's name");
+ Arg001DCDAF *info;
+ if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
+
+ {
+  int id = TheEva->rva001DE78E(&name);
+  if (id == -1)
+
+  {
+   id = TheEva->m_allEventInfos.size();
+   reinterpret_cast<_STL::vector<Rva001DF3F1Element> *>(&TheEva->m_allEventInfos)->push_back(asInfoElement(Rva001DF88CEntry()));
+   info = &evaInfoAt(TheEva->m_allEventInfos, id);
+   NocasePair entry(name, NoCaseTreeValue4(((&(id)) ? (id) : (id))));
+   evaInsertName(TheEva->m_eventNameMap, entry);
+   reinterpret_cast<_STL::vector<BfmePod52> *>(&TheEva->m_eventStatus)->push_back(BfmePod52());
+
+  }
+  else
+
+  {
+   if (id < 0x16)
+   throw INIException(3, "'%s' is a predefined Eva event name, and cannot be used as a new event name", name.str());
+   info = &evaInfoAt(TheEva->m_allEventInfos, id);
+
+  }
+
+ }
+ else
+
+ {
+  void *node = reinterpret_cast<Rva00056F61 *>(&TheEva->m_iniEventNameMap)->rva00056F61(&name);
+  int id;
+  if (node)
+
+  {
+   id = *(int *)((char *)node + 8);
+   if (id < 0x16)
+   throw INIException(3, "'%s' is a predefined Eva event name, and cannot be used as a new event name", name.str());
+   if (!((unsigned char *)&evaInfoAt(TheEva->m_iniEventInfos, id))[0x2e])
+   throw INIException(3, "Cannot redefine existing Eva event '%s' in Eva.ini", name.str());
+
+  }
+  else
+
+  {
+   id = TheEva->m_iniEventInfos.size();
+   reinterpret_cast<_STL::vector<Rva001DF3F1Element> *>(&TheEva->m_iniEventInfos)->push_back(asInfoElement(Rva001DF88CEntry()));
+
+  }
+  info = &evaInfoAt(TheEva->m_iniEventInfos, id);
+  NocasePair entry(name, NoCaseTreeValue4(id));
+  evaInsertName(TheEva->m_iniEventNameMap, entry);
+
+ }
+ *reinterpret_cast<Rva001DE727 *>(info) = *reinterpret_cast<const Rva001DE727 *>(&TheEva->m_iniEventInfos[0]);
+ TheEva->rva001DCFC9(ini, info);
+
+}
+// Eva::iniParseEvaEventForwardReference, retail 0x001DF6A8 (484 bytes);
+// WorldBuilder twin 0x00ACA200. Like iniParseNewEvaEvent, but the new record
+// is only created and marked as a forward reference (+0x2E), never parsed.
+void Eva::iniParseEvaEventForwardReference(INI *ini)
+
+{
+ AsciiString name(ini->getNextToken());
+ if (name.compareNoCase("None") == 0)
+ throw INIException(3, "Cannot use 'None' as a new Eva event's name");
+ if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
+
+ {
+  int id = TheEva->rva001DE78E(&name);
+  if (id == -1)
+
+  {
+   id = TheEva->m_allEventInfos.size();
+   reinterpret_cast<_STL::vector<Rva001DF3F1Element> *>(&TheEva->m_allEventInfos)->push_back(asInfoElement(Rva001DF88CEntry()));
+   ((unsigned char *)(TheEva->m_allEventInfos.end() - 1))[0x2e] = 1;
+   NocasePair entry(name, NoCaseTreeValue4(id));
+   evaInsertName(TheEva->m_eventNameMap, entry);
+   reinterpret_cast<_STL::vector<BfmePod52> *>(&TheEva->m_eventStatus)->push_back(BfmePod52());
+
+  }
+  else if (id < 0x16)
+
+  {
+   throw INIException(3, "'%s' is a predefined Eva event name, and cannot be used as a new event name", name.str());
+
+  }
+
+ }
+ else
+
+ {
+  void *node = reinterpret_cast<Rva00056F61 *>(&TheEva->m_iniEventNameMap)->rva00056F61(&name);
+  if (node)
+
+  {
+   if (*(int *)((char *)node + 8) < 0x16)
+   throw INIException(3, "'%s' is a predefined Eva event name, and cannot be used as a new event name", name.str());
+
+  }
+  else
+
+  {
+   int id = TheEva->m_iniEventInfos.size();
+   reinterpret_cast<_STL::vector<Rva001DF3F1Element> *>(&TheEva->m_iniEventInfos)->push_back(asInfoElement(Rva001DF88CEntry()));
+   ((unsigned char *)(TheEva->m_iniEventInfos.end() - 1))[0x2e] = 1;
+   NocasePair entry(name, NoCaseTreeValue4(id));
+   evaInsertName(TheEva->m_iniEventNameMap, entry);
+
+  }
+
+ }
+
 }
