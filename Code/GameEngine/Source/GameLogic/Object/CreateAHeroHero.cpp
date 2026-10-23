@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHs /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // CreateAHeroHero.cpp -- CreateAHeroHero members recovered from WorldBuilder
 // leads (reverse/wb_name_leads.csv): WB's debug build names each function and
@@ -24,7 +24,9 @@ Real GetGameClientRandomValueReal(Real lo, Real hi, char *file, Int line);	// 0x
 class GameState;
 extern GameState *TheGameState;
 class Rva002DC267 { public: UnicodeString rva002DC267() const; };
-extern "C" __declspec(dllimport) int __stdcall CreateDirectoryW(const unsigned short *, void *);
+// The Win32 call cannot throw a C++ exception. State that explicitly under
+// /EHs, which preserves the native bool-tree teardown's exception states.
+extern "C" __declspec(dllimport) int __stdcall CreateDirectoryW(const unsigned short *, void *) throw();
 class HeroFile { public: virtual ~HeroFile(); virtual bool open(const char *, int); virtual void close(); };
 class File;
 File *Rva00409892(const AsciiString &name, bool systemFile);
@@ -132,22 +134,61 @@ class CreateAHeroHero;
 // lives in stlport_map_int_int.cpp (0x169ED0).
 namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++() { _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; } }
 #include <string.h>
+#pragma intrinsic(memcpy)
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 namespace _STL { template <> map<unsigned int, bool>::map(); }
-// Retail's operator[] (0x00407FB2) reaches the pure-key lower bound through the
-// unsigned/void* tree's body (0x004FF3B6), as MapSubscriptRva00407FB2.cpp spells it.
-// That tree's _M_lower_bound stays visible: a declaration-only form, like
-// declaration-only forms of the map's insert helpers, reshapes
-// RegisterExperienceLevels' register use and operator[]'s store order.
-typedef _STL::pair<const unsigned int, void *> CreateAHeroLowerPair;
-typedef _STL::_Rb_tree<unsigned int, CreateAHeroLowerPair, _STL::_Select1st<CreateAHeroLowerPair>, _STL::less<unsigned int>, _STL::allocator<CreateAHeroLowerPair> > CreateAHeroUnsignedLower;
-namespace _STL { template <> __forceinline map<unsigned int, bool>::iterator map<unsigned int, bool>::lower_bound(const unsigned int &key) { return iterator((_Rb_tree_node<value_type> *)((const CreateAHeroUnsignedLower *)this)->lower_bound(key)._M_node); } }
-// The map<unsigned, bool> tree dtor is rowed in RvaTreeDtorFamily.cpp
-// (0x004075A8, an EH-framed body); bind to it instead of emitting this unit's own.
-namespace _STL { template <> _Rb_tree<unsigned int, pair<const unsigned int, bool>, _Select1st<pair<const unsigned int, bool> >, less<unsigned int>, allocator<pair<const unsigned int, bool> > >::~_Rb_tree(); }
+namespace _STL {
+typedef _Rb_tree<unsigned, pair<const unsigned, bool>, _Select1st<pair<const unsigned, bool> >,
+    less<unsigned>, allocator<pair<const unsigned, bool> > > HeroBoolTree;
+typedef _Rb_tree_node<pair<const unsigned, bool> > HeroBoolNode;
+// Keep the native free-based teardown inline without exporting allocator
+// wrappers under names shared with donor units using another allocator.
+template <> __declspec(dllimport) __forceinline void
+allocator<HeroBoolNode>::deallocate(HeroBoolNode *node, size_t) const {
+    if (node != 0) ::free(node);
+}
+template <> __declspec(dllimport) __forceinline void
+_STLP_alloc_proxy<HeroBoolNode *, HeroBoolNode, allocator<HeroBoolNode> >::deallocate(
+    HeroBoolNode *node, size_t count) {
+    ((allocator<HeroBoolNode> &)*this).deallocate(node, count);
+}
+}
+
+// Native 407FB2 uses the unsigned-key lower bound 4FF3B6, which reads node
+// links and keys only. Keep its real algorithm visible: a declaration-only
+// view changes VC7.1's side-effect summary and the 687-byte caller's frame.
+typedef _STL::pair<const unsigned, void *> HeroLowerPair;
+typedef _STL::_Rb_tree<unsigned, HeroLowerPair, _STL::_Select1st<HeroLowerPair>,
+    _STL::less<unsigned>, _STL::allocator<HeroLowerPair> > HeroLowerTree;
+namespace _STL {
+// ?_M_lower_bound@?$_Rb_tree@IU?$pair@$$CBIPAX@_STL@@U?$_Select1st@U?$pair@$$CBIPAX@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIPAX@_STL@@@2@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBIPAX@_STL@@@2@ABI@Z
+template <> __declspec(noinline) inline HeroLowerTree::_Link_type
+HeroLowerTree::_M_lower_bound(const unsigned &key) const {
+    _Link_type result = this->_M_header._M_data;
+    _Link_type node = _M_root();
+    while (node != 0)
+        if (!_M_key_compare(_S_key(node), key))
+            result = node, node = _S_left(node);
+        else node = _S_right(node);
+    return result;
+}
+template <> __forceinline map<unsigned,bool>::iterator
+map<unsigned,bool>::lower_bound(const unsigned &key) {
+    return iterator((_Rb_tree_node<value_type> *)((const HeroLowerTree *)this)->lower_bound(key)._M_node);
+}
+}
+
+// Native 4075A8 calls the already recovered clear 40748D. Expand this typed
+// bridge while emitting the genuine STLport destructor, including its EH.
+class Rva004070D4 { public: void rva0040748D(); };
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void HeroBoolTree::clear() {
+    ((Rva004070D4 *)this)->rva0040748D();
+}
+}
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
 namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
@@ -161,15 +202,12 @@ namespace _STL { template <> _Rb_tree<unsigned int,pair<unsigned int const ,bool
 // Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBI_N@_STL@@V?$allocator@U?$pair@$$CBI_N@_STL@@@2@@_STL@@QAE@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Rb_tree_base<pair<unsigned int const ,bool>,allocator<pair<unsigned int const ,bool> > >::_Rb_tree_base(allocator<pair<unsigned int const ,bool> > const &); }
-// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBI_N@_STL@@V?$allocator@U?$pair@$$CBI_N@_STL@@@2@@_STL@@QAE@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> _Rb_tree_base<pair<unsigned int const ,bool>,allocator<pair<unsigned int const ,bool> > >::~_Rb_tree_base(); }
-// Suppress this TU's non-retail copy of ?clear@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?$less@I@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::clear(); }
 // Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?$less:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::_M_erase(_Rb_tree_node<pair<unsigned int const ,bool> > *); }
+// Both insert_unique overloads and _M_insert must remain visible together.
+// Hiding any of the three moves the subscript's default-bool store ahead of
+// its iterator copy; the complete chain reproduces the native 69-byte body.
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
@@ -378,7 +416,7 @@ enum { CAH_MAX_EXP_LEVELS = 15 };
 class CreateAHeroAward
 {
 public:
-	Bool rva0040AA27(const CreateAHeroHero *hero) const;	// 0x0040AA27
+	Bool rva0040AA27(const CreateAHeroHero *hero) const;
 };
 
 // The award-count map's mapped word (rowed operator[] 0x002C6F8C spelling).

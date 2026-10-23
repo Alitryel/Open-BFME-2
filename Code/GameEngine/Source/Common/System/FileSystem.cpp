@@ -79,6 +79,12 @@ typedef pair<const unsigned int, bool> FileSystemUIntBoolPair;
 typedef _Rb_tree<unsigned int, FileSystemUIntBoolPair,
     _Select1st<FileSystemUIntBoolPair>, less<unsigned int>,
     allocator<FileSystemUIntBoolPair> > FileSystemUIntBoolTree;
+// The hero unit supplies the whole retail-proven uint/bool tree teardown.
+// This donor's allocator settings otherwise emit an earlier, incompatible
+// COMDAT copy, including its base destructor.
+template <> FileSystemUIntBoolTree::~_Rb_tree();
+template <> _Rb_tree_base<FileSystemUIntBoolPair,
+    allocator<FileSystemUIntBoolPair> >::~_Rb_tree_base();
 template <> FileSystemUIntBoolTree::_Link_type
 FileSystemUIntBoolTree::_M_create_node(const FileSystemUIntBoolPair &);
 template <> bool &map<unsigned int, bool>::operator[](const unsigned int &);

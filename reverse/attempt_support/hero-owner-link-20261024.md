@@ -1,0 +1,78 @@
+# Hero linking through actual providers
+
+Inputs: BFME2 3a5d498e20, committed BFME1
+f5140c1cff6a58e16276fd6de6788186286953d4, published census 0393df10e2
+(2026-10-23 19:47). This continues the native evidence and rejected trials in
+hero-award-link-astra-s2-20261023/readme.md. BFME1 freshness and reference
+review are recorded in link-owner-discovery-20261024.md and
+bfme1-reference-f5140c1c-20261023/readme.md. No reference pointer, shared header,
+tool, verifier, baseline or pin is changed by this repair.
+
+## Actual source repairs
+
+The unresolved award method was a second name for the already rowed integer
+predicate at 40AA27. Its body returns exactly 0/1; the native caller forwards
+AL. Calling that provider with its actual opaque-word ABI and copying the low
+byte with intrinsic memcpy preserves all 24 bytes. This does not infer the
+provider's original class name or change its 76-byte implementation.
+
+Removing BFME_ASCII_DTOR_DECL makes the record's implicit destructor see the
+real AsciiString teardown. Its five-byte jump now agrees with the existing
+CreateAHeroElementCopy provider, without a new import or helper identity.
+
+The map subscript at 407FB2 calls the unsigned/void-pointer lower bound at
+4FF3B6. That search reads only the node links and unsigned key; the mapped
+payload is never read. The compatible view uses the real vendor algorithm
+under its already rowed name. Keeping the complete algorithm visible preserves
+VC7.1's caller frame and allocation schedule. Declaration-only lower bound
+changed RegisterExperienceLevels from 687 to 684 bytes in previous trials.
+
+The decisive additional dependency was the insertion chain: both insert_unique
+overloads AND _M_insert must remain visible together. Removing only one or two
+of their declaration-only suppressions still moves the default-bool store,
+leaving 12 differing bytes in the 69-byte subscript. Removing all three makes
+the subscript, lower bound (37 bytes), and caller (687 bytes) exact together.
+
+The typed uint/bool tree destructor is the genuine STLport destructor and is
+rowed at 4075A8, 56 bytes, sharing the neutral Rva004070D4 lifetime already
+recovered there. RegisterExperienceLevels constructs this stack tree and calls
+that teardown; this call relationship is target evidence, while the generic
+algorithm is vendor source. Its clear bridge calls the already rowed 40748D
+provider. /EHs is required: /EHsc removes an exception-state update and emits
+52 bytes. Declaring Win32 CreateDirectoryW nonthrowing preserves the separate
+save function under /EHs. The ten emitted parent exception graphs are exact.
+
+FileSystem precedes the hero in link order and emitted incompatible copies of
+the same typed tree and base destructors under its donor allocator settings.
+Declaration-only bindings now use the proven hero teardown. FileSystem's five
+existing rows remain byte-exact. The hero's native free-based allocator and
+proxy wrappers stay inline-only, avoiding two newly competing COMDAT copies;
+an initial out-of-line version was rejected by the existing new-variants check
+and corrected before staging.
+
+## Verification and measured scope
+
+- Prescribed build.sh: 69/69 rows across both edited units; literals 28+6,
+  compiler floats 3, named import 1 all verified.
+- Existing prepare-current gate: 76/76 rows across FileSystem, hero,
+  MapSubscriptRva00407FB2, Rva0040AA27 and CreateAHeroElementCopy.
+- eh_verify: 10 EXACT, zero baseline exceptions and zero missing objects.
+- Existing link_check --new-variants for both edited units: exit 0.
+- check_csv and find_declared_unmatched pass; FileSystem retains its ten
+  previously annotated unclaimed definitions.
+- Same-index five-unit link preview: 267 -> 5647 file-counted bytes.
+  Hero 0 -> 5312; map subscript 0 -> 68; existing award provider 217 -> 217
+  and element provider 50 -> 50. Of the 5380 file-counted increase, 56 bytes
+  are the existing shared destructor newly owned under the typed name, not
+  new unique recovery. The original hero's 5256 matched bytes and map's 68
+  are the substantive linking repair.
+- FileSystem itself remains at zero linked bytes, with two independent
+  unresolveds: ArchiveFileSystem::getFileListInDirectory and imported
+  __new_alloc::allocate. It previously also had imported deallocate and the
+  wrong selected subscript. These remaining prerequisites are not this claim.
+
+This is an existing-tool scoped prediction, not a fresh full-image census or
+closed link-cycle result. No maintainer-only verification runner was started.
+The initial temporary standalone destructor unit was removed and its row
+repointed to the existing hero unit; the append-only add_match log records
+both steps, with the second entry describing the final tracked source.
