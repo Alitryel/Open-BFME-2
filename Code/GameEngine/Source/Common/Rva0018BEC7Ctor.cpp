@@ -9,8 +9,9 @@ void __cdecl Rva00153565Register(const char *name, void *obj);
 // The primary namespace interface comes from the verified binder/namespace
 // units; member ctor18BE7E and tableBD5BD4 establish its primary vptr at4.
 // Native member slot1 names SourceNamespace_Fog::ResolveBindings18BFCE.
-// This narrow member view remains neutral pending full header reconciliation;
-// other unused leaf slots remain unspecified.
+// BD5BD4 slot1 is the rowed Fog binder18BFCE. Its WorldBuilder counterpart
+// asserts FXShaderParameterSourceNamespaceWW3D::SourceNamespace_Fog at
+// fxshadernamespaceww3d.cpp:102, identifying this member's nested class.
 class FXShaderParameterBinder;
 typedef const char *D3DXHANDLE;
 class FXShaderParameterSourceNamespace {
@@ -19,26 +20,25 @@ public:
     virtual void ResolveBindings(const char *, D3DXHANDLE, FXShaderParameterBinder *) = 0;
 };
 
-class Rva0018BEC7_Member : public FXShaderParameterSourceNamespace {
-public:
-    Rva0018BEC7_Member();
-    virtual ~Rva0018BEC7_Member() {}
-    virtual void ResolveBindings(const char *, D3DXHANDLE, FXShaderParameterBinder *);
-};
-// ??0Rva0018BEC7_Member@@QAE@XZ @0x0018BE7E 9B: the default constructor, storing the
-// class's own vtable (VA 0x00BD5BD4) and returning this.
-Rva0018BEC7_Member::Rva0018BEC7_Member()
-{
-}
-
 class FXShaderParameterSourceNamespaceWW3D : public FXShaderParameterSourceNamespace {
 public:
+    class SourceNamespace_Fog : public FXShaderParameterSourceNamespace {
+    public:
+        SourceNamespace_Fog();
+        virtual ~SourceNamespace_Fog() {}
+        virtual void ResolveBindings(const char *, D3DXHANDLE, FXShaderParameterBinder *);
+    };
     virtual ~FXShaderParameterSourceNamespaceWW3D();
     FXShaderParameterSourceNamespaceWW3D();
     virtual void ResolveBindings(const char *, D3DXHANDLE, FXShaderParameterBinder *);
-    Rva0018BEC7_Member m_member;
+    SourceNamespace_Fog m_member;
     float m_opacityOverride;
 };
+
+// Native18BE7E installs BD5BD4 and returns this (complete9B).
+FXShaderParameterSourceNamespaceWW3D::SourceNamespace_Fog::SourceNamespace_Fog()
+{
+}
 
 FXShaderParameterSourceNamespaceWW3D::FXShaderParameterSourceNamespaceWW3D()
 {

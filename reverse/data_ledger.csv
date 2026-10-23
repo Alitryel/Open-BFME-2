@@ -2796,7 +2796,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007D5B78,24,.rdata,vtable,??_7?$DynamicVectorClass@K@@6B@,,literal,,0,2
 0x007D5B90,24,.rdata,vtable,??_7?$DynamicVectorClass@PAVTextureClass@@@@6B@,,literal,,0,2
 0x007D5BA8,44,.rdata,string,??_C@_0CJ@EJNAHJJL@MeshModelClass?3?3DefMatDesc?3?3Text@,,literal,,0,1
-0x007D5BD4,8,.rdata,vtable,??_7Rva0018BEC7_Member@@6B@,,literal,,0,1
+0x007D5BD4,8,.rdata,vtable,??_7SourceNamespace_Fog@FXShaderParameterSourceNamespaceWW3D@@6B@,,literal,,0,1
 0x007D5BDC,8,.rdata,string,??_C@_04FHAMPNOK@WW3D?$AA@,,literal,,0,2
 0x007D5BE4,52,.rdata,vtable,??_7Rva0018BEC7@@6B@,,literal,,0,2
 0x007D5C18,12,.rdata,string,??_C@_08CJKLDCGF@RangeEnd?$AA@,,literal,,0,1

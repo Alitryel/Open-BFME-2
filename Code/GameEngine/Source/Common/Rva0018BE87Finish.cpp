@@ -16,18 +16,17 @@ public:
     virtual void ResolveBindings(const char *, const char *, FXShaderParameterBinder *) = 0;
 };
 
-class Rva0018BEC7_Member : public FXShaderParameterSourceNamespace {
-public:
-    ~Rva0018BEC7_Member() {}
-    virtual void ResolveBindings(const char *, const char *, FXShaderParameterBinder *);
-};
-
 class FXShaderParameterSourceNamespaceWW3D : public FXShaderParameterSourceNamespace {
 public:
+    class SourceNamespace_Fog : public FXShaderParameterSourceNamespace {
+    public:
+        ~SourceNamespace_Fog() {}
+        virtual void ResolveBindings(const char *, const char *, FXShaderParameterBinder *);
+    };
     virtual ~FXShaderParameterSourceNamespaceWW3D();
     FXShaderParameterSourceNamespaceWW3D();
     virtual void ResolveBindings(const char *, const char *, FXShaderParameterBinder *);
-    Rva0018BEC7_Member m_member;
+    SourceNamespace_Fog m_member;
     float m_opacityOverride;
 };
 
