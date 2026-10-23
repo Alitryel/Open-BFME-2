@@ -89,6 +89,10 @@ public:
 	Rva005E9F3F(EmitVtableTag *);
 public:
 	virtual ~Rva005E9F3F();
+	virtual void event1() = 0;
+	virtual void event2() = 0;
+	virtual void event3() = 0;
+	virtual void event4() = 0;
 };
 
 // ?<Rva005E9F3F::Rva005E9F3F> absent-from-retail

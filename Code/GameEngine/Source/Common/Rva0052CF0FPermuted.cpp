@@ -24,9 +24,9 @@ class LivingWorldCampaign : public Snapshot {
 public:
 	LivingWorldCampaign(const AsciiString &s);
 	virtual ~LivingWorldCampaign();
- virtual void loadPostProcess() = 0;
- virtual const char *GetSnapshotName()const = 0;
- virtual void xfer(Xfer *) = 0;
+ virtual void loadPostProcess();
+ virtual const char *GetSnapshotName()const;
+ virtual void xfer(Xfer *);
 private:
 	AsciiString m_04;
 	int m_08;

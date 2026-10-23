@@ -31,6 +31,10 @@ class Rva005E9F3F
 {
 public:
 	virtual ~Rva005E9F3F();
+	virtual void event1() = 0;
+	virtual void event2() = 0;
+	virtual void event3() = 0;
+	virtual void event4() = 0;
 	Rva005E9F3F(Rva0057C394 *provider, LivingWorldBattle *battle, void *input0C, void *input10, void *input14);
 private:
 	Rva005E9E27 m_04;
