@@ -111,12 +111,12 @@ class Rva0050F041
 {
 public:
 	void rva0050F041(int field, const UnicodeString &text);	// 0x0050F041
-	void rva0050F306();					// 0x0050F306
 };
 
 class Rva0050F0AB
 {
 public:
+	void rva0050F306();
 	void InitSlider(const char *name, void *argument, GameWindow *window);	// 0x0050E889
 	void InitTextEntry(const char *name, void *argument, GameWindow *window);	// 0x0050F3A0
 };
@@ -159,7 +159,7 @@ Rva0050FC54::Rva0050FC54(int level, const AsciiString &name, Player *player)
 {
 	setColor(((Rva0050FC54PlayerView *)player)->m_color);
 	((Rva0050F041 *)this)->rva0050F041(0, *(const UnicodeString *)((Rva0050FC54PlayerView *)player)->m_displayName);
-	((Rva0050F041 *)this)->rva0050F306();
+	((Rva0050F0AB *)this)->rva0050F306();
 	AsciiString key;
 	key.format("_level%u.%s", m_level, m_name.str());
 	{

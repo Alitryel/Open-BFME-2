@@ -120,7 +120,6 @@ class Rva006557F0Holder { public: void set(const char *, int); };
 class Rva007F4DA0 : public SnapshotDupReplica {
 public:
     Rva007F4DA0() { field04 = 1; field08 = 0; field24 = 0; }
-    virtual void handle();
     int field04; char field08; char gap09[0x1B]; int field24;
     void configure(char *text, int value) { ((Rva006557F0Holder *)this)->set(text, value); }
 };

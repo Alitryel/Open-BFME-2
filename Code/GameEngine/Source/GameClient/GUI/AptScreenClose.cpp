@@ -26,6 +26,7 @@
 #include "ascii_string.h"
 
 #include <cstddef>
+extern "C" void __cdecl free(void *);
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
@@ -52,9 +53,17 @@ void *&vector<void*>::operator[](size_t __n)
 { return *(begin() + __n); }
 }
 
+// Shared AsciiString hashing takes the key by reference.
+unsigned int __stdcall Rva00055041AsciiHash(const AsciiString *name);
+
 namespace rts {
 template <class T> struct hash {
     unsigned int operator()(T value) const;
+};
+template <> struct hash<AsciiString> {
+    __declspec(dllimport) __forceinline
+    unsigned int operator()(const AsciiString &value) const
+    { return Rva00055041AsciiHash(&value); }
 };
 template <class T> struct equal_to {
     bool operator()(const T &, const T &) const;
@@ -69,30 +78,49 @@ struct WindowRecord {
 typedef _STL::hash_map<AsciiString, WindowRecord, rts::hash<AsciiString>,
     rts::equal_to<AsciiString> > WindowTable;
 
-class Rva00461A00Counted {
-public:
-    virtual void release(unsigned int deleting);
-    int m_references;
-};
+struct TargetRef00217D4C {virtual void *destroy(unsigned);int references;};
+void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 
 struct Rva00461A00Mapped {
     Rva00461A00Mapped() : m_counted(0) {}
     Rva00461A00Mapped(const Rva00461A00Mapped &other) : m_counted(other.m_counted)
     {
         if (m_counted)
-            ++m_counted->m_references;
+            ++m_counted->references;
     }
     ~Rva00461A00Mapped()
     {
-        if (m_counted && --m_counted->m_references <= 0)
-            m_counted->release(1);
+        if (m_counted)
+            ReleaseTreeHintRef00217D4C(m_counted);
     }
 
-    Rva00461A00Counted *m_counted;
+    TargetRef00217D4C *m_counted;
 };
 
 typedef _STL::hash_map<AsciiString, Rva00461A00Mapped, rts::hash<AsciiString>,
     _STL::equal_to<AsciiString> > AptScreenRefTable;
+
+typedef _STL::hashtable<_STL::pair<const AsciiString, Rva00461A00Mapped>,
+    AsciiString, rts::hash<AsciiString>,
+    _STL::_Select1st<_STL::pair<const AsciiString, Rva00461A00Mapped> >,
+    _STL::equal_to<AsciiString>,
+    _STL::allocator<_STL::pair<const AsciiString, Rva00461A00Mapped> > > AptScreenRefHash;
+
+// Hashing precedes bucket-count access; node storage uses the native free path.
+namespace _STL {
+template <> inline unsigned int AptScreenRefHash::_M_bkt_num_key(const AsciiString &key) const
+{
+    unsigned int hash = _M_hash(key);
+    return hash % _M_buckets.size();
+}
+template <> __declspec(dllimport) __forceinline
+void allocator<_Hashtable_node<pair<const AsciiString, Rva00461A00Mapped> > >::deallocate(
+    pointer node, size_type) const
+{
+    if (node)
+        free(node);
+}
+}
 
 // The for_each functor at 0x00462540: clears the name of each record whose
 // name equals the closed screen's.
@@ -158,7 +186,6 @@ Rva00411453Tree::~Rva00411453Tree()
 // The now-verified screen subscript41112B and assignment2174A4 retain their
 // existing owners. Native startup7AFF1A and teardown7B8247 establish the
 // existing global's20-byte table storage, not a single unsigned word.
-struct TargetRef00217D4C {virtual void *destroy(unsigned);int references;};
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct TreeHintRef00217D4C {
  TargetRef00217D4C *m_ptr;
