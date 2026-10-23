@@ -67,7 +67,7 @@ bool Rva005E3B1A::IsSelected(int key) const
 // Retail mov eax,[ecx+4] / mov al,[eax+0x58] / shr al,4 / and al,1 / ret.
 // Bitfield spelling reproduces the byte shr+and shape. Callees none.
 // Caller 0x005E5469. Honest address name.
-struct Rva005F2767Inner
+struct ArmyDetailsMovieClipImpl
 {
 	char m_pad[0x58];
 	unsigned char _lo:4;
@@ -81,7 +81,7 @@ public:
 	bool IsMouseOverBackButton() const;
 private:
 	char m_pad2[0x4];
-	Rva005F2767Inner *m_ptr;
+	ArmyDetailsMovieClipImpl *m_ptr;
 };
 
 bool Rva005F2767::IsMouseOverBackButton() const

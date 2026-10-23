@@ -166,3 +166,4 @@ file,Code/GameEngine/Source/Common/Rva0007BDADDraw.cpp,Code/GameEngine/Source/Co
 function,?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,?doEffectPosition@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,canonical:wb,wb lead 0x00507D84: WB 0x109FAD0 asserts DamageNugget::doEffectPosition; score=5,Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Ctor.cpp,0x00507D84
 function,?rva005F2767@Rva005F2767@@QBE_NXZ,?IsMouseOverBackButton@Rva005F2767@@QBE_NXZ,inferred,agree:nl-81e2eca7caea,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,0x005F2767
 class,Rva005E39A6Owner,ArmyDetailsPanelImpl,inferred,agree:nl-3a59c6311c9a,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
+class,Rva005F2767Inner,ArmyDetailsMovieClipImpl,inferred,agree:nl-3fe0dd21358c,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
