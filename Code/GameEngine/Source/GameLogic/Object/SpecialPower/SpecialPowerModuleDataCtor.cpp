@@ -14,7 +14,8 @@
 
 #include "ascii_string.h"
 
-extern const void *const g_00BBB554[];
+// The cleanup restores the existing Snapshot table at VA 0x00BBB554.
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 // The retail table at RVA 0x0084E318: 31 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -128,7 +129,7 @@ public:
 	SpecialPowerModuleDataBase() {}
 	~SpecialPowerModuleDataBase()
 	{
-		*(const void **)this = g_00BBB554;
+		*(const void **)this = __identifier("??_7Snapshot@@6B@");
 	}
 };
 
