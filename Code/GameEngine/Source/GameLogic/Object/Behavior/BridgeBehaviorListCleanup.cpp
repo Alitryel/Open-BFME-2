@@ -20,7 +20,7 @@ struct BridgeBehaviorTimeInfo8 {
 struct BridgeBehaviorListValue12 {
 	void *object_00;
 	BridgeBehaviorTimeInfo8 time_04;
-	~BridgeBehaviorListValue12() {}
+	~BridgeBehaviorListValue12();
 };
 typedef char CheckBridgeListValueSize[(sizeof(BridgeBehaviorListValue12) == 12) ? 1 : -1];
 
