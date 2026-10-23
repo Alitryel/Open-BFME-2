@@ -275,7 +275,20 @@ class Rva0035FA2A : public Rva001DBAA4 { public: virtual ~Rva0035FA2A(); };
 Rva0035FA2A::~Rva0035FA2A() { m_C = 0; }
 void famgenDelete(Rva0035FA2A *p) { delete p; }
 
-class Rva0035FF76 : public Rva001DBAA4 { public: virtual ~Rva0035FF76(); };
+// Same virtuals as Rva0035FF76Ctor.cpp's view, so both units emit one
+// ??_7Rva0035FF76@@6B@ (its slots resolve as in that unit).
+class Rva0035FF76 : public Rva001DBAA4
+{
+public:
+	virtual ~Rva0035FF76();
+	virtual void init(void *win);
+	virtual void update(int frame);
+	virtual void reverse() = 0;
+	virtual void draw();
+	virtual void skip();
+	virtual bool isFinished() = 0;
+	virtual int getFrameLength();
+};
 Rva0035FF76::~Rva0035FF76() { m_C = 0; }
 void famgenDelete(Rva0035FF76 *p) { delete p; }
 
