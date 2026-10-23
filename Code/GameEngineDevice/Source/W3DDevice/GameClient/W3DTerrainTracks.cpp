@@ -201,7 +201,9 @@ void TerrainTracksRenderObjClass::init( Real width, Real length, const Char *tex
 
 // The unmatched donor cap implementation is preserved in
 // reverse/attempt_support/terrain-track-cap-isolation-20261023/W3DTerrainTracksCap.cpp.txt.
-// Its independently matched BFME2 body lives in W3DTerrainTracksBind.cpp.
+// The BFME cap implementation is rowed as Rva00084206Track::addCapEdgeToTrack
+// in W3DTerrainTracksBind.cpp; both native callers use that owner.
+
 
 //=============================================================================
 // TerrainTracksRenderObjClass::addEdgeToTrack
