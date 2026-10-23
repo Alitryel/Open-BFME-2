@@ -1,4 +1,6 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.9807022095501403 date=2026-10-23
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.9741961628516264 date=2026-10-23
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.95707 date=2026-10-22
@@ -254,13 +256,13 @@ public:
 	s = sinf(theta);
 	c = cosf(theta);
 	tmp1 = Row[0][1]; tmp2 = Row[0][2];
-	Row[0][1] = (float)( c*tmp1 + s*tmp2);
+	Row[0][1] = (float)( c*tmp1 + (s*tmp2));
 	Row[0][2] = (float)(-s*tmp1 + c*tmp2);
 	tmp1 = Row[1][1]; tmp2 = Row[1][2];
-	Row[1][1] = (float)( c*tmp1 + s*tmp2);
+	Row[1][1] = (float)( c*tmp1 + (s*tmp2));
 	Row[1][2] = (float)(-s*tmp1 + c*tmp2);
 	tmp1 = Row[2][1]; tmp2 = Row[2][2];
-	Row[2][1] = (float)( c*tmp1 + s*tmp2);
+	Row[2][1] = (float)( c*tmp1 + (s*tmp2));
 	Row[2][2] = (float)(-s*tmp1 + c*tmp2);
     }
     __forceinline void Rotate_Y(float theta) {
