@@ -4335,7 +4335,6 @@ name,address,notes
 ??1Rva0030A0FCDtor@@QAE@XZ,0x0030A0FC,dtor thunk stub at 0x0030A0FC to 0x0030A083 (target of thunk 0x007B7AE1)
 ??1Rva0030AF8FAudioEventRTS@@QAE@XZ,0x0030AF8F,AudioEventRTS dtor stub at 0x0030AF8F (target of thunks 0x007B7AF5 and 0x007B7AFF)
 ??1Rva0030DBD5@@UAE@XZ,0x0030DBD5,"destructor the scalar deleting destructor 0x0030DE92 calls (REL32 at 0x0030DE95; vtable 0x00C08A2C#0); opaque address name"
-??1Rva00318637@@UAE@XZ,0x00318637,"destructor the scalar deleting destructor 0x0031861B calls (REL32 at 0x0031861E; vtable 0x00C0C734#0); opaque address name"
 ??1Rva00328CF8@@UAE@XZ,0x00328CF8,"destructor the scalar deleting destructor 0x00328CDC calls (REL32 at 0x00328CDF; vtable 0x00C0D8D8#0); opaque address name"
 ??1Rva0032989F@@UAE@XZ,0x0032989F,"destructor the scalar deleting destructor 0x0032A0B2 calls (REL32 at 0x0032A0B5; vtable 0x00C0D8FC#0); opaque address name"
 ??1Rva00329EE9StringValue@@QAE@XZ,0x00036410,retail Rva00329EE9 call at +0x4b; one-pointer returned string cleanup uses matched StringBase<char>::releaseBuffer; linker alias binds the matched definition
@@ -4354,9 +4353,7 @@ name,address,notes
 ??1Rva003561BE@@UAE@XZ,0x003561BE,"destructor the scalar deleting destructor 0x0035686D calls (REL32 at 0x00356870; vtable 0x00C14EBC#0); opaque address name"
 ??1Rva00359290@@UAE@XZ,0x00359290,"destructor the scalar deleting destructor 0x0035978C calls (REL32 at 0x0035978F; vtable 0x00C15398#0); opaque address name"
 ??1Rva0035A18D@@QAE@XZ,0x0007FAB3,icf-twin-of-BasicStringCharDtor-vec-elem-0x10
-??1Rva0035A9C1@@UAE@XZ,0x0035A9C1,"destructor the scalar deleting destructor 0x0035ABA4 calls (REL32 at 0x0035ABA7; vtable 0x00C153E0#0); opaque address name"
 ??1Rva003601C5@@UAE@XZ,0x003601C5,"destructor the scalar deleting destructor 0x0036027C calls (REL32 at 0x0036027F; vtable 0x00C16778#0); opaque address name"
-??1Rva003603D4@@UAE@XZ,0x003603D4,"destructor the scalar deleting destructor 0x003604AA calls (REL32 at 0x003604AD; vtable 0x00C16808#0); opaque address name"
 ??1Rva00360D26Member@@QAE@XZ,0x00360D26,opaque pool-aware member destructor at +0x8/+0xC of TransportContainModuleData; 13B forwarder body to pool op 0x360CB0; called twice by the 0x1DFA48 dtor
 ??1Rva00360F55@@QAE@XZ,0x00360FDB,Rva00360F55 stack-record cleanup directly following its 0x360F55 construction in the 0x3623E5 EH body; 128B Ghidra boundary; record/destructor identity inferred from paired local lifetime
 ??1Rva003615E5Dtor@@QAE@XZ,0x003615E5,dtor at 0x003615E5 (target of thunk 0x007B7CAF)
@@ -5425,7 +5422,6 @@ name,address,notes
 ??_ERva002B964F@@UAEPAXI@Z,0x002BAEE5,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva002D3573@@UAEPAXI@Z,0x002D40D8,weak-external alias MSVC emits for the vector deleting dtor when no new[] exists; resolves to the rowed scalar deleting dtor; retail adjustor thunk 0x002D35BF jumps here
 ??_ERva002DAB18@@UAEPAXI@Z,0x002DABBB,weak-external alias MSVC emits for the vector deleting dtor when no new[] exists; resolves to the rowed scalar deleting dtor; retail adjustor thunk 0x002DAB64 jumps here
-??_ERva00318637@@UAEPAXI@Z,0x0031861B,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva00328CF8@@UAEPAXI@Z,0x00328CDC,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva00355BDA@@UAEPAXI@Z,0x00355BBE,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva003AB9FF@@UAEPAXI@Z,0x003AE720,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"

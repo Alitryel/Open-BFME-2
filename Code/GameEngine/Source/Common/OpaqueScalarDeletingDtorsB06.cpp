@@ -12,23 +12,21 @@
 // model no layout (docs/reconstruction/deleting-destructor-identity-audit.md)
 // beyond the secondary-base offsets their adjustor thunks prove. The
 // wrappers whose classes are known (AptPalantir, GameState, AI, WaterSetting,
-// GameMessage, SidesList, LuaScriptEngine, ThingTemplate, AIStateMachine) are
-// rowed in the units that define their destructors.
+// GameMessage, SidesList, LuaScriptEngine, ThingTemplate, AIStateMachine) and
+// those whose destructor units emit them (0x0031861B, 0x0035ABA4, 0x003604AA)
+// are rowed in the units that define their destructors.
 //
 //   wrapper     dtor        vtable#slot
 //   0x002D724B  0x002D6C1C  0x00C0331C#0
 //   0x002E2CF4  0x002E2AAE  0x00C04B50#0
 //   0x0030DE92  0x0030DBD5  0x00C08A2C#0
-//   0x0031861B  0x00318637  0x00C0C734#0
 //   0x0031EB7A  0x0031DCF0  0x00C0CC88#0
 //   0x00328CDC  0x00328CF8  0x00C0D8D8#0
 //   0x0032A0B2  0x0032989F  0x00C0D8FC#0
 //   0x00355BBE  0x00355BDA  0x00C14E14#0
 //   0x0035686D  0x003561BE  0x00C14EBC#0
 //   0x0035978C  0x00359290  0x00C15398#0
-//   0x0035ABA4  0x0035A9C1  0x00C153E0#0
 //   0x0036027C  0x003601C5  0x00C16778#0
-//   0x003604AA  0x003603D4  0x00C16808#0
 //   0x00362E73  0x00362CF2  0x00C16FE8#0
 //   0x00362E8F  0x00362D6C  0x00C17068#0
 
@@ -47,34 +45,6 @@ public:
 
 // ?<Rva002D6C1C::Rva002D6C1C> absent-from-retail
 Rva002D6C1C::Rva002D6C1C(EmitVtableTag *)
-{
-}
-
-class Rva00318637Base0
-{
-public:
-	virtual ~Rva00318637Base0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
-};
-
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x00318613 in its vtable is target evidence for it.
-class Rva00318637BaseC
-{
-public:
-	virtual ~Rva00318637BaseC();
-};
-class Rva00318637 : public Rva00318637Base0, public Rva00318637BaseC
-{
-public:
-	Rva00318637(EmitVtableTag *);
-public:
-	virtual ~Rva00318637();
-};
-
-// ?<Rva00318637::Rva00318637> absent-from-retail
-Rva00318637::Rva00318637(EmitVtableTag *)
 {
 }
 
@@ -186,19 +156,6 @@ Rva00359290::Rva00359290(EmitVtableTag *)
 {
 }
 
-class Rva0035A9C1
-{
-public:
-	Rva0035A9C1(EmitVtableTag *);
-public:
-	virtual ~Rva0035A9C1();
-};
-
-// ?<Rva0035A9C1::Rva0035A9C1> absent-from-retail
-Rva0035A9C1::Rva0035A9C1(EmitVtableTag *)
-{
-}
-
 class Rva003601C5
 {
 public:
@@ -209,19 +166,6 @@ public:
 
 // ?<Rva003601C5::Rva003601C5> absent-from-retail
 Rva003601C5::Rva003601C5(EmitVtableTag *)
-{
-}
-
-class Rva003603D4
-{
-public:
-	Rva003603D4(EmitVtableTag *);
-public:
-	virtual ~Rva003603D4();
-};
-
-// ?<Rva003603D4::Rva003603D4> absent-from-retail
-Rva003603D4::Rva003603D4(EmitVtableTag *)
 {
 }
 

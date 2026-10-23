@@ -1893,3 +1893,4 @@ __ehhandler$??0?$vector@UPrereqUnitRec@@V?$allocator@UPrereqUnitRec@@@_STL@@@_ST
 ??1Rva003F6A91@@UAE@XZ,0x003F6A91,"Renamed to ??1LivingWorldBattle@@UAE@XZ: both LivingWorldBattle ctors (0x003F6A3A, 0x003F6F0D) store vftables 0x00C3709C/0x00C37088, which this destructor restores; LivingWorldBattleCtor.cpp's vtable reaches it"
 ??_GRva003F6A91@@UAEPAXI@Z,0x003F6CDD,"Renamed to ??_GLivingWorldBattle@@UAEPAXI@Z: slot 0 of LivingWorldBattle's vftable 0x00C3709C; compiled in LivingWorldBattleCtor.cpp"
 __ehhandler$??1Rva003F6A91@@UAE@XZ,0x00784124,"Renamed with its parent to __ehhandler$??1LivingWorldBattle@@UAE@XZ"
+??_GRva003603D4@@UAEPAXI@Z,0x003604AA,"Duplicate claim: the same 28-byte scalar deleting destructor is already rowed as ??_GRva00360474@@UAEPAXI@Z in Rva00360474Ctor.cpp (ctor 0x00360474, dtor 0x003603D4, vtable 0x00C16808 slot 0), which compiles retail's bytes"
