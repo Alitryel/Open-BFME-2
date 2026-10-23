@@ -248,7 +248,9 @@ public:
 	virtual Coord3D findFarthestEdgePoint( const Coord3D *farthestFrom ) const ;
 	virtual Bool isClearLineOfSight(const Coord3D& pos, const Coord3D& posOther) const;
 
-	virtual AsciiString getSourceFilename( void ) { return m_filenameString; }
+	// BFME keeps the filename at +0x4C; retail's body is the out-of-line one in
+	// TerrainLogic_getSourceFilename.cpp, so units here must not emit an inline copy.
+	virtual AsciiString getSourceFilename( void );
 
 	virtual PathfindLayerEnum alignOnTerrain( Real angle, const Coord3D& pos, Bool stickToGround, Matrix3D& mtx);
 
