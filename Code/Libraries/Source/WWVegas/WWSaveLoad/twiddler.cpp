@@ -60,13 +60,14 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "wwhack.h"
 #include "systimer.h"
 // bfme link decl-only begin
-template <> VectorClass<int>::~VectorClass();
 template <> bool VectorClass<int>::operator==(VectorClass<int> const &) const;
 template <> void VectorClass<int>::Clear();
 template <> int VectorClass<int>::ID(int const &);
 template <> int VectorClass<int>::ID(int const *);
 template <> bool VectorClass<int>::Resize(int, int const *);
 // bfme link decl-only end
+// Inline base teardown so the derived destructor installs the shared vector table.
+template <> __declspec(dllimport) __forceinline VectorClass<int>::~VectorClass() { VectorClass<int>::Clear(); }
 
 
 DECLARE_FORCE_LINK( Twiddler )

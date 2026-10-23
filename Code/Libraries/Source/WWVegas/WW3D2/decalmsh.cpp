@@ -119,6 +119,12 @@ template <> bool SimpleDynVecClass<Vector3>::Resize(int);
 template <> bool SimpleVecClass<Vector3>::Resize(int);
 template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
 // bfme link decl-only end
+// Keep the native inline shrink operation without a competing external copy.
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<Vector3>::Shrink()
+{
+	if (ActiveCount < VectorMax / 4) return Resize(ActiveCount);
+	return true;
+}
 
 #define DISABLE_CLIPPING	0
 
