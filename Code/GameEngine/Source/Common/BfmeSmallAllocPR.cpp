@@ -38,6 +38,12 @@ public:
 #include <stl/_alloc.c>
 #undef _STLP_EXPOSE_GLOBALS_IMPLEMENTATION
 
+// A local stand-in for the STLport lock guard.  The real template destructor
+// compiles to a 25-byte /O2 body and lets the parent's frame shrink to 0x10,
+// while this out-of-line 27-byte destructor is byte-identical to retail's
+// _Node_Alloc_Lock<false,0>::~_Node_Alloc_Lock at 0x00024830 and keeps the
+// parent's 0x14 frame.  Its cleanup funclet is rowed at 0x0075C850; the real
+// <true,0> twin's pin at 0x00024850 records the STLport identity.
 class BfmeNodeAllocLock : public _STL::_Node_Alloc_Lock<false, 0>
 {
 public:
