@@ -473,6 +473,7 @@ public:
 	virtual void endThread(void);
 	virtual void slot03();virtual void slot04();virtual void slot05();
 	virtual void addRequest(const BuddyRequest&);
+	static GameSpyBuddyMessageQueueInterface *createNewMessageQueue(void);
 };
 
 class PingerInterface
@@ -502,16 +503,12 @@ private:
 	void *m_lists[3];
 };
 
-// The three thread factories SetUpGameSpy calls are rowed under names that
-// disagree with the globals retail stores their results in: 0x00551B28
-// (allocates 0x74 for TheGameSpyBuddyMessageQueue) is rowed as
-// GameResultsInterface's, 0x005590FC (TheGameSpyPSMessageQueue) as
-// PingerInterface's, and the pinger factory 0x005503B1 by address.
-class GameResultsInterface
-{
-public:
-	static GameResultsInterface *createNewGameResultsInterface(void);
-};
+// Of the three thread factories SetUpGameSpy calls, 0x00551B28 is Zero
+// Hour's GameSpyBuddyMessageQueueInterface::createNewMessageQueue (it news
+// 0x74 bytes for TheGameSpyBuddyMessageQueue). Two are still rowed under
+// names that disagree with the globals retail stores their results in:
+// 0x005590FC (TheGameSpyPSMessageQueue) as PingerInterface's, and the pinger
+// factory 0x005503B1 by address.
 class Rva0055011A;
 class Rva005503B1
 {
@@ -1442,7 +1439,7 @@ void SetUpGameSpy(const char *motdBuffer, const char *configBuffer)
 	dir.format("%s%s\\Ladders", TheWritableGlobalData->rva002360DE().str(), "Online Files");
 	reinterpret_cast<Rva003006C4 *>(TheFileSystem)->rva003006C4(dir);
 
-	TheGameSpyBuddyMessageQueue = reinterpret_cast<GameSpyBuddyMessageQueueInterface *>(GameResultsInterface::createNewGameResultsInterface());
+	TheGameSpyBuddyMessageQueue = GameSpyBuddyMessageQueueInterface::createNewMessageQueue();
 	TheGameSpyBuddyMessageQueue->startThread();
 	TheGameSpyPeerMessageQueue = GameSpyPeerMessageQueueInterface::createNewMessageQueue();
 	TheGameSpyPeerMessageQueue->startThread();

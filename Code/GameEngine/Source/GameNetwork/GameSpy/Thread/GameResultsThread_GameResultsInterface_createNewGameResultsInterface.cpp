@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/GameEngine/Source/GameNetwork/GameSpy/Thread /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
 //
-// ?createNewGameResultsInterface@GameResultsInterface@@SAPAV1@XZ
+// ?createNewMessageQueue@GameSpyBuddyMessageQueueInterface@@SAPAV1@XZ
 // retail 0x00551B28, 50 bytes. Dedicated TU ported from the Open-BFME-1
 // donor game/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp (reference/open-bfme-1 @ 6d943426).
 // The donor body does not place at BFME 1's flags; compiled /O1 it is
@@ -123,9 +123,34 @@ private:
 	GameResultsThreadClass *m_workerThreads[NumWorkerThreads];
 };
 
-GameResultsInterface* GameResultsInterface::createNewGameResultsInterface( void )
+// Retail 0x00551B28 (50 bytes) is not this file's GameResults factory: its
+// caller is SetUpGameSpy (0x00386F7F), which stores the result in
+// TheGameSpyBuddyMessageQueue and starts its thread, and it news 0x74 bytes
+// and runs GameSpyBuddyMessageQueue's constructor (rowed 0x00551A94 in
+// BuddyThread_Unresolved.cpp). It is Zero Hour's
+// GameSpyBuddyMessageQueueInterface::createNewMessageQueue. The real
+// createNewGameResultsInterface is 0x0041AA6F (GameEngine::init's
+// TheGameResultsQueue factory). Only the size and the constructor matter to
+// this body, so the queue is declared here as a sized view; the full class
+// lives in BuddyThread_Unresolved.cpp.
+class GameSpyBuddyMessageQueueInterface
 {
-	return NEW GameResultsQueue;
+public:
+	virtual ~GameSpyBuddyMessageQueueInterface() {}
+	static GameSpyBuddyMessageQueueInterface* createNewMessageQueue( void );
+};
+
+class GameSpyBuddyMessageQueue : public GameSpyBuddyMessageQueueInterface
+{
+public:
+	GameSpyBuddyMessageQueue();
+private:
+	char m_body[0x74 - 4];
+};
+
+GameSpyBuddyMessageQueueInterface* GameSpyBuddyMessageQueueInterface::createNewMessageQueue( void )
+{
+	return NEW GameSpyBuddyMessageQueue;
 }
 extern GameResultsInterface *TheGameResultsQueue;
 

@@ -1885,7 +1885,6 @@ name,address,notes
 ??0GameEngineDeletingBase@@QAE@XZ,0x001B4E63,twin spelling of the rowed baseConstruct ctor at the same address; Keyboard ctor at 0x232920 (formerly rowed AIPlayer) calls it as its base constructor
 ??0GameMessage@@QAE@W4Type@0@@Z,0x0030F47A,"GameMessage ctor: the Zero Hour MessageStream::appendMessage and insertMessage bodies place uniquely at 0x0030F6D4/0x0030F704 (/O1) and construct the new message here (calls at 0x0030F6EA and 0x0030F71A); same body as the row named ??0Rva0030F47A@@QAE@PAX@Z"
 ??0GameMessageParserArgumentType@@QAE@W4GameMessageArgumentDataType@@H@Z,0x0054D593,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-??0GameResultsQueue@@QAE@XZ,0x00551A94,callee of ?createNewGameResultsInterface@GameResultsInterface@@SAPAV1@ at retail 0x00551B28 read from its REL32 displacement; body unrowed
 ??0GameSlot@@QAE@XZ,0x003FFB4C,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0GameSpyGroupRoom@@QAE@ABV0@@Z,0x000365F0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0GameSpyPeerMessageQueue@@QAE@XZ,0x0038E171,callee of createNewMessageQueue (0x0038E460) at the site its BFME1 donor calls it; may be an ICF alias
