@@ -1,5 +1,6 @@
 // ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
-// partial score=0.94598 date=2026-10-22
+// partial score=0.99057 date=2026-10-23
+struct MakeCodeLife { int code; __forceinline MakeCodeLife():code(0){} __forceinline ~MakeCodeLife(){} __forceinline int get()const{return code;} };
 // cl: /O1 /G7 /arch:SSE /MD /EHsc
 // WorldBuilder names 0x1538510 AIBuildableWallSegment::build. The paired
 // retail body 0x00596D99..0x00596E13 preserves its base-build fallback,
@@ -18,7 +19,7 @@ class Object
  Coord3D m_position;
  char m_unrecovered44[0x74 - 0x44];
  ObjectID m_id;
- 
+
 }
 ;
 class Player
@@ -28,7 +29,7 @@ class Player
  char m_pad00[0x94];
  unsigned int m_money;
 // +0x94
- 
+
 }
 ;
 extern GameLogic *TheGameLogic;
@@ -42,7 +43,7 @@ class Rva0039205C
 {
  public:
  Rva0039205C()
- 
+
  {
   m_20 = -1;
   m_unk00 = 0;
@@ -51,7 +52,7 @@ class Rva0039205C
   m_1D = 0;
   m_pad04 = 0;
   m_24 = 0;
-  
+
  }
  ~Rva0039205C();
  public:
@@ -69,7 +70,7 @@ class Rva0039205C
 // +0x10
  int m_24;
 // +0x14
- 
+
 }
 ;
 class BuildAssistant
@@ -101,7 +102,7 @@ class BuildAssistant
  virtual bool quoteWall(Rva0039205C *result, Object *startNode,
  const Coord3D *startPosition,
  const Coord3D &endPosition, bool option);
- 
+
 }
 ;
 class Rva00A027B8;
@@ -111,7 +112,7 @@ class Rva0055ADD8
 {
  public:
  int failBuild(int ignored);
- 
+
 }
 ;
 class AIBuildableStructure
@@ -143,7 +144,7 @@ class AIBuildableStructure
  char m_unrecovered04[0x24 - 4];
  ObjectID m_producedObjectID;
  char m_unrecovered28[0x4C - 0x28];
- 
+
 }
 ;
 class AIBuildableWallSegment : public AIBuildableStructure
@@ -157,7 +158,7 @@ class AIBuildableWallSegment : public AIBuildableStructure
  ObjectID m_startNodeID;
  char m_unrecovered50[4];
  int m_totalCost;
- 
+
 }
 ;
 bool AIBuildableWallSegment::build(Player *player)
@@ -169,22 +170,22 @@ bool AIBuildableWallSegment::build(Player *player)
  Object *terminalHub = 0;
  if (((BuildAssistant *)TheBuildAssistant)->buildWall(startNode, &startNode->m_position,
  getWorldPosition(), player, false, &terminalHub))
- 
+
  {
   m_producedObjectID = terminalHub->m_id;
   return true;
-  
+
  }
  ((Rva0055ADD8 *)this)->failBuild((int)player);
  return false;
- 
+
 }
 class Rva00573B23
 
 {
  public:
  float rva00573DCD(int player);
- 
+
 }
 ;
 // WB 0x1538930 names getTotalCost. Retail 0x00596C6B..0x00596C7C
@@ -196,31 +197,39 @@ float AIBuildableWallSegment::getTotalCost(Player *player)
  if (m_startNodeID == INVALID_OBJECT_ID)
  return ((Rva00573B23 *)this)->rva00573DCD((int)player);
  return (float)m_totalCost;
- 
+
 }
-// 0x00596E15: diagnostic 216-byte bank; retail is 218 bytes.
-// See reverse/attempt_support/canmake-early-cleanup-20261022/readme.md.
-int AIBuildableWallSegment::canMake(Player *player)
-{
-    if (m_startNodeID == 0)
-        return AIBuildableStructure::canMake(player);
-    Object *startNode = TheGameLogic->findObjectByID(m_startNodeID);
-    Rva0039205C result;
-    bool failed = !((BuildAssistant *)TheBuildAssistant)->quoteWall(
-        &result, startNode, &startNode->m_position, getWorldPosition(), false);
-    if (failed) { return 9; }
-    if (result.m_20 == 7) return 2;
-    if (result.m_20 != 0) return 9;
-    unsigned int money = player->m_money;
-    if (money < (unsigned int)result.m_pad04) goto insufficient;
-    m_totalCost = result.m_pad04;
-    return 0;
-insufficient:
-    {
-        do {
-            if (!(player->m_money < (unsigned int)result.m_pad04)) break;
-            return 2;
-        } while (0);
-        return 0;
-    }
+// Retail 0x00596E15..0x00596EED (218 B, RET4), WB twin 0x15386C0.
+// Empty return-holder cleanup preserves retail's branch order and two tails.
+// Remaining mismatch: failure return uses EBX instead of ESI at +0x8B/+0x94.
+// EH metadata verifies EXACT; this bank is not a matched ledger source.
+
+int AIBuildableWallSegment::canMake(Player *player) {
+MakeCodeLife selected;
+
+
+ if (m_startNodeID == 0)
+ return AIBuildableStructure::canMake(player);
+ Object *startNode = TheGameLogic->findObjectByID(m_startNodeID);
+ Rva0039205C result;
+ bool failed = !((BuildAssistant *)TheBuildAssistant)->quoteWall(
+ &result, startNode, &startNode->m_position, getWorldPosition(), false);
+ if (failed)
+ {selected.code=9;return selected.code;}
+ switch (result.m_20)
+ {
+ case 0:
+  break;
+ case 7:
+  {selected.code=2;return selected.code;}
+ default:
+  {selected.code=9;return selected.code;}
+ }
+ unsigned int money = player->m_money;
+ if (money < result.m_pad04) { do { if(!(player->m_money < (unsigned int)result.m_pad04)) break; {selected.code=2;return selected.code;} }while(0); {selected.code=0;return selected.code;} }
+ m_totalCost = result.m_pad04;
+
+ {selected.code=0;return selected.code;}
+
+
 }
