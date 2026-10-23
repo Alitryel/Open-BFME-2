@@ -6,33 +6,20 @@
 // _ReadWriteBarrier after setNextBuildList keeps retail's and-then-vtable-load
 // order inside the loop. Layout: vptr +0, AsciiStrings +4/+8/+0x30,
 // m_nextBuildList +0x2C, padding +0xC..+0x2B.
-// class-gate: allow Snapshot private view puts deleteInstance(0) at slot 0 and restores vptr 0xBBB554.
+// Retail C0D904 has four slots: deleting destructor, the shared empty
+// post-load hook, the existing name getter and xfer. Use the shared Snapshot
+// interface; the destructor loop invokes slot 0 with flags zero through its
+// compiler ABI view and separately frees the returned allocation.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-extern "C" const void *const vtbl_00BBB554[];
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
-// Declared, not defined inline: retail's calls land on the rowed releaseBuffer
-// body at 0x00036410, and an inline body here was the tree's only copy of this
-// name, so every caller bound to it instead of to that row.
-class BFMERetailAsciiString : public AsciiString
+class BuildListDeleteSlot
 {
 public:
-    ~BFMERetailAsciiString();
+    virtual void *deleteInstance(int flags) = 0;
 };
-class Snapshot
-{
-public:
-	virtual void *deleteInstance(int flags) = 0;
-	virtual ~Snapshot();
-	virtual void crc() = 0;
-	virtual void loadPostProcess() = 0;
-	virtual void xfer() = 0;
-};
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(((unsigned int)vtbl_00BBB554));
-}
 class BuildListInfo : public Snapshot
 {
 public:
@@ -40,13 +27,17 @@ public:
     {
         m_nextBuildList = next;
     }
-    BFMERetailAsciiString m_buildingName;
-    BFMERetailAsciiString m_templateName;
+    AsciiString m_buildingName;
+    AsciiString m_templateName;
     unsigned char m_padding[32];
     BuildListInfo *m_nextBuildList;
-    BFMERetailAsciiString m_script;
+    AsciiString m_script;
 protected:
     virtual ~BuildListInfo();
+    virtual void loadPostProcess();
+    virtual void xfer(Xfer *);
+public:
+    virtual const char *GetSnapshotName() const;
 };
 BuildListInfo::~BuildListInfo()
 {
@@ -57,8 +48,11 @@ BuildListInfo::~BuildListInfo()
             next = cur->m_nextBuildList;
             cur->setNextBuildList(0);
             _ReadWriteBarrier();
-            ::operator delete(cur->deleteInstance(0));
+            ::operator delete(reinterpret_cast<BuildListDeleteSlot *>(cur)->deleteInstance(0));
             cur = next;
         }
     }
 }
+
+// Native C0D904 slot 1 is the complete shared RET at RVA 000B3FD0.
+void BuildListInfo::loadPostProcess() {}
