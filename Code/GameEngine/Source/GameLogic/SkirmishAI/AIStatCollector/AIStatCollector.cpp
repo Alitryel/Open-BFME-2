@@ -149,3 +149,7 @@ void AIStatCollector::addInfoReceiver(const ModuleData *receiver)
 {
  listeners.push_back(receiver);
 }
+
+// The count-map constructor call site reads 0x004E02B8 from retail, where the folded hash_map
+// constructor row (StlSweepW4Rva004E02B8.cpp) lives; bind this unit's int/int spelling to it.
+#pragma comment(linker, "/alternatename:??0?$hash_map@HHU?$hash@H@_STL@@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@QAE@XZ=??0?$hash_map@HURva004E007AElement@@U?$hash@H@_STL@@U?$equal_to@H@3@V?$allocator@U?$pair@$$CBHURva004E007AElement@@@_STL@@@3@@_STL@@QAE@XZ")

@@ -84,3 +84,10 @@ Rva0038AAEBThreadObject::Rva0038AAEBThreadObject(MutexClass*p):ThreadClass(0),lo
  for(int i=0;i<8;++i){names[i]="";colors[i]=0;factions[i]=0;losses[i]=0;profiles[i]=0;unknownPlayers[i]=0;wins[i]=0;}
  unknown49c=false;unknown4a0=0;unknown4a4=0;unknown4a8=false;memset(unknown248,0,sizeof unknown248);unknown270=0;unknown94=false;
 }
+
+// The empty map constructor call reads 0x0033C432 from retail, the shared 25-byte tree ctor whose
+// canonical row is the map<int,void*> one. Retail's derived destructor (0x0038ADE2) finishes by
+// calling ThreadClass::~ThreadClass (0x00610480) directly, so the intermediate thread object has
+// no destructor of its own there; bind it to the base's.
+#pragma comment(linker, "/alternatename:??0?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@URva0037BF60Less@@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@QAE@XZ=??0?$map@HPAXU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0038AAEBThreadObject@@UAE@XZ=??1ThreadClass@@UAE@XZ")
