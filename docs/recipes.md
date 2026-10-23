@@ -428,6 +428,12 @@ the paren lever).
     crosses 256·(F(in)&7). Every paren node before the loop adds a temp:
     dropping outer RHS parens on earlier, unrelated rows moves X back without
     touching their code (0x0016BF40).
+  - A `const float &r=Rotation.Z;` reference inside the loop creates its
+    address hash var where it is declared, so later uses through `r` get that
+    var's class. Sliding one reference line between the statements of the
+    loop body picks the class of one operand without touching the others: 864
+    paren/position trials missed what a 6×6×2 slot factorial found at once
+    (0x0016B680).
 - **CSE hash vars are lexical.** Declaring a local once and sharing it between
   two branches turns the second branch's expressions into hits and renumbers
   every later hash var (0x0017D770).
