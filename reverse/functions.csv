@@ -26812,7 +26812,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ?rva00111BE9@LookupTablePostEffect@@UBE?AVAsciiString@@XZ,,0x00111BE9,28,Code/GameEngineDevice/Source/W3DDevice/GameClient/LookupTablePostEffectSlot3.cpp,matched,vtable 0xBCFAC8 slot0 literal LookupTablePostEffect via rowed 0x37BA0
 ?Rva006DE240@Rva006DE2B0@@UAE_NHABVEAStringC@@PAVAptRef@@@Z,,0x006DE240,64,Code/GameEngine/Source/Common/Rva006DE2B0Slot7.cpp,matched,slot8 of vtable 0x008EB150 via rowed EAStringC compare
 ?xfer@W3DLaserDraw@@MAEXPAVXfer@@@Z,,0x000C92A0,72,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DLaserDrawXfer.cpp,matched,slot 3 of vtable 0x007CB9E0 via rowed dtor plus base DrawModule plus Version1
-?rva006DE150@Rva006DE150@@QAEXXZ,,0x006DE150,12,Code/GameEngine/Source/Common/Rva006DE150Clear.cpp,matched,or flag plus tail jmp to rowed handle
+?DestroyGCPointers@AptValueWithHash@@UAEXXZ,,0x006DE150,12,Code/GameEngine/Source/Common/Rva006DE150Clear.cpp,matched,or flag plus tail jmp to rowed handle
 ?rva000D1743@W3DTornadoDraw@@AAEXXZ,,0x000D1743,51,Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp,matched,W3DTornadoDraw list helper via dtor caller plus list-int clear
 ?top@?$AptValuePtrStack@VAptValue@@@@QAEPAVAptValue@@XZ,,0x006DE160,53,Code/Libraries/Source/Apt/AptValuePtrStackTop.cpp,matched,Apt stack top via shared assert triple
 ?xfer@W3DDebrisDraw@@MAEXPAVXfer@@@Z,,0x000B1DC3,268,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawXfer.cpp,matched,slot 3 of vtable 0x007C97A8 via rowed ctor plus base DrawModule plus Version1
@@ -29213,7 +29213,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva00584E02@Rva00584E02@@QAEAAV1@XZ,,0x00584E02,12,Code/Libraries/Source/WWVegas/WWLib/Rva00584E02Inc.cpp,matched,pre-inc via rowed increment 0x00421B1E same as PAX 0x00054B33
 ?rva0051ED51@Rva0051ED51Holder@@QAEPAVRva0039B893@@IPAV2@0@Z,,0x0051ED51,45,Code/GameEngine/Source/Common/Rva0051ED51AllocateCopy.cpp,matched,allocate-and-copy via rowed allocator and uninit copy
 ?rva002C5DA6@Rva002C589B@@QAEPAVObject@@XZ,,0x002C5DA6,23,Code/GameEngine/Source/Common/Rva002C589BDtor.cpp,matched,ID lookup via TheGameLogic findObjectByID for plus0x34 called by 0x005052D3
-??1Rva006D63C0@@QAE@XZ,,0x006D63C0,76,Code/Libraries/Source/Apt/Rva006D63C0Dtor.cpp,matched,Apt dtor member plus base via derived tail-calls
+??1AptValueWithHash@@MAE@XZ,,0x006D63C0,76,Code/Libraries/Source/Apt/Rva006D63C0Dtor.cpp,matched,Apt dtor member plus base via derived tail-calls
 ?doEnableCountdownTimerDisplay@ScriptActions@@QAEXXZ,,0x003BC115,14,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BC115.cpp,matched,set InGameUI byte 0x779 to 1 via TheInGameUI; receiver repair: dispatcher3CA4BE restores ScriptActions this in ECX; RET alone did not prove stdcall; canonical header retains parameter contract
 ?rva0032B7A7@SidesList@@QAEXPAV1@@Z,,0x0032B7A7,60,Code/GameEngine/Source/GameLogic/Map/SidesListRva0032B7A7.cpp,matched,SidesList single teamrec swap via teamrec swap plus notifier posts plus load caller
 ??$_Destroy@PAVRva00151DAB@@@_STL@@YAXPAVRva00151DAB@@0@Z,,0x0015209B,25,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00151dab_destroy.cpp,matched,range destroy via rowed dtor 0x151DAB stride 8 callers vector dtor clear erase
@@ -31050,7 +31050,7 @@ _Rva000219C0LocaleName,,0x000219C0,23,Code/Libraries/Source/WWVegas/WWLib/stlpor
 ?rva0044DCB9@GameModePreferences@@QAEXH@Z,,0x0044DCB9,101,Code/GameEngine/Source/Common/GameModePreferences.cpp,matched,Color setter via percent-d format plus makeKey map slot assign
 ?rva0044DD1E@GameModePreferences@@QAEXH@Z,,0x0044DD1E,101,Code/GameEngine/Source/Common/GameModePreferences.cpp,matched,PlayerTemplate setter via percent-d format plus makeKey map slot assign
 ?rva00049D20@Rva00049D20@@QAEPAXPAXH@Z,,0x00049D20,36,Code/GameEngine/Source/Common/Rva00049D20Get.cpp,matched,caller 005EEAC6 Coord3D shroud table plus16 returns dest
-?rva006DCC00@Rva006D6360@@QAEXXZ,,0x006DCC00,10,Code/Libraries/Source/Apt/Rva006DCC00Forwarder.cpp,matched,forwarder slot 0x34 add 8 to AptNativeHash mark
+?RegisterReferences@AptValueWithHash@@UBEXXZ,,0x006DCC00,10,Code/Libraries/Source/Apt/Rva006DCC00Forwarder.cpp,matched,forwarder slot 0x34 add 8 to AptNativeHash mark
 ?getMaxPlayers@GameInfo@@QAEHXZ,,0x0040203C,146,Code/GameEngine/Source/GameNetwork/GameInfoSetMapSize.cpp,matched,GameInfo sibling of setMapSize with TheMapCache numPlayers or minus 1
 ??0Rva00402BE3@@QAE@ABVAsciiString@@@Z,,0x00402BE3,44,Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00402BE3Ctor.cpp,matched,Honest Rva ctor with AsciiString vector and zeroed tail via caller new size
 ?rva001517B5@Rva00151632@@UAEXXZ,,0x001517B5,41,Code/GameEngine/Source/Common/Rva001517B5Link.cpp,matched,slot 7 of vtable 0x007D3A6C via ctor row plus cleared link row 0x00151744; spelled virtual: slot 7 of vftable 0x00BD3A6C that the class's own constructor and destructor install at +0; retail never calls it directly
@@ -31077,7 +31077,7 @@ _Rva000219C0LocaleName,,0x000219C0,23,Code/Libraries/Source/WWVegas/WWLib/stlpor
 ??1Rva0078D310Host@@UAE@XZ,,0x00104E03,66,Code/GameEngine/Source/Common/Rva00104E03Dtor.cpp,matched,dtor vptr plus clear 4 plus member 218 plus base GameWindow
 ?PointInsideArea2D@@YA_NPBUCoord3D@@0H@Z,,0x0025F86D,169,Code/GameEngine/Source/GameClient/Line2D.cpp,matched,ZH donor Line2D two-return bool tail via probe exact
 ??1GameSubTitle@@UAE@XZ,,0x0025FC61,89,Code/GameEngine/Source/GameClient/Rva0025FC61Dtor.cpp,matched,SubtitleEntry derived dtor vtable 0x7F63F8 array release via global slot
-?rva0070DFB0@Rva006D6470Owner@@UAEHPAXPAURva008A4570Owner@@@Z,,0x0070DFB0,29,Code/GameEngine/Source/Common/Rva0070DFB0Pred.cpp,matched,slot7 registerClass ternary global mask
+?objectMemberLookup@AptObject@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z,,0x0070DFB0,29,Code/GameEngine/Source/Common/Rva0070DFB0Pred.cpp,matched,slot7 registerClass ternary global mask
 ?rva006FE400@Rva006FE400@@QAEHPAXPAURva008A4570Owner@@@Z,,0x006FE400,42,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,matched,chain virtual slot7 fallback to 70DFB0
 ?Rva00587422Fill@@YAPAVRva00587375@@PAV1@IPBV1@PBX@Z,,0x00587422,37,Code/GameEngine/Source/Common/Rva00587422Fill.cpp,matched,array fill 0x3C via rowed 0x00587410
 ?Rva00587599Copy@@YAPAVRva00587375@@PBV1@0PAV1@PBX@Z,,0x00587599,38,Code/GameEngine/Source/Common/Rva00587599Copy.cpp,matched,range copy 0x3C via rowed 0x00587410
@@ -43400,7 +43400,7 @@ _HorizontalLine_4_5_Scale_C,,0x001B9C10,247,Code/Libraries/Source/VP6/Horizontal
 ?rva003F9004@Rva003F9004@@QAEXPBVModuleData@@@Z,,0x003F9004,23,Code/GameEngine/Source/Common/Rva003F9004.cpp,matched,null-checked vector ModuleData push_back at this plus 0xC callers 0x003F90B9 0x003F9162
 ?parseFontSizeMapping@FontLibrary@@SAXPAVINI@@PAX1PBX@Z,,0x00218E96,300,Code/Libraries/Source/WWVegas/WWLib/MixFileCreatorParse.cpp,matched,WB twin 0x00B71C00 FontLibrary::parseFontSizeMapping (GameFont.cpp asserts 463/470 on subst.ReplacementFontName; same getNextToken/scanInt/compareNoCase/push_back callees); INI field-parser signature from the FieldParse table use; INI parse to FileInfo vector via rowed INI StringBase pushback
 ?Rva002183D1SortHeap@@YAXPAURva004748F0Element@@0URva004748F0Compare@@@Z,,0x002183D1,58,Code/GameEngine/Source/Common/Q3SortHeap002183D1.cpp,matched,sort-heap tail via rowed pop-heap Aux for FileInfo partial-sort
-?rva0070DFE0@BfmeAptValue006DCD20@@QAEXXZ,,0x0070DFE0,5,Code/GameEngine/Source/Common/BfmeAptValueRva0070DFE0.cpp,matched,vtable slot 11 thunk to rowed 0x006DE150
+?DestroyGCPointers@AptObject@@UAEXXZ,,0x0070DFE0,5,Code/GameEngine/Source/Common/BfmeAptValueRva0070DFE0.cpp,matched,vtable slot 11 thunk to rowed 0x006DE150
 ?rva00493805@SpecialPowerModule@@UAEXXZ,,0x00493805,64,Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00493805.cpp,matched,vslot 12 SpecialPowerModule family via testStatus Overridable TheGameLogic; spelled virtual: slot 12 of vftable 0x00C4E868 that the class's own constructor and destructor install at +0; retail never calls it directly; the view takes the vptr at +0
 ?bfmeDoBOE@BfmeSinkBOE@@QAEXPAX0@Z,,0x005B7454,600,Code/GameEngine/Source/Common/BfmeSinkBOEDoBOE.cpp,matched,BFME1 donor plus retail list walk plus color ops
 ??1Rva004E5654@@UAE@XZ,,0x004E5654,72,Code/GameEngine/Source/GameClient/InGameUIResourceEntries.cpp,matched,caller 0x004E7DC8 member +0x1C dtor via rowed 0x004E54ED and inlined 0x004E5542
@@ -47816,7 +47816,7 @@ _$E5,,0x007ACE60,12,Code/Libraries/Source/WWVegas/WW3D2/meshmdl_sidehash.cpp,mat
 ?rva005FABBC@Rva005FABBC@@QBEPBDXZ,,0x005FABBC,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Rva005E39E0Named::name (rowed/pinned); no Ghidra entry
 ?rva006CBD00@Rva006CBD00@@QAEXXZ,,0x006CBD00,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Rva006E0460::rva006dbd80 (rowed/pinned); no Ghidra entry
 ?rva006E0500@Rva006E0500@@QBEPAXXZ,,0x006E0500,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to BfmeAptValue006DCD20::rva006E04A0 (rowed/pinned); no Ghidra entry
-?rva0070DFD0@Rva0070DFD0@@QAEXXZ,,0x0070DFD0,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Rva006D6360::rva006DCC00 (rowed/pinned); no Ghidra entry
+?RegisterReferences@AptObject@@UBEXXZ,,0x0070DFD0,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Rva006D6360::rva006DCC00 (rowed/pinned); no Ghidra entry
 ?rva00444680@Rva00444680@@QAEHHH@Z,,0x00444680,6,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot in 22 tables; answers 1 for two args; no Ghidra entry
 ?rva005B8012@Rva005B8012@@QAEHHHHH@Z,,0x005B8012,6,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot in three tables; answers 1 for four args; no Ghidra entry
 ?rva004BF8DF@Rva004BF8DF@@QBEHXZ,,0x004BF8DF,14,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot in eleven tables; 0 while +0xC6 set else +0x48; no Ghidra entry

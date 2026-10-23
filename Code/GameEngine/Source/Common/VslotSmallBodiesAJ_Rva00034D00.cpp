@@ -437,10 +437,10 @@ public:
 	void * rva006E04A0() const;
 };
 
-class Rva006D6360
+class AptValueWithHash
 {
 public:
-	void rva006DCC00();
+	virtual void RegisterReferences() const;
 };
 
 namespace Debug_Statistics
@@ -974,10 +974,10 @@ public:
 
 
 // 0x0070DFD0: tail jump to Rva006D6360::rva006DCC00.
-class Rva0070DFD0 : public Rva006D6360
+class AptObject : public AptValueWithHash
 {
 public:
-	void rva0070DFD0();
+	virtual void RegisterReferences() const;
 };
 
 

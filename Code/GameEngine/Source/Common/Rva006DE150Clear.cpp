@@ -1,24 +1,21 @@
 // cl: /MD
-// ?rva006DE150@Rva006DE150@@QAEXXZ @0x006DE150 12B.
-// Sets bit 3 of the flag word at +4 then tail-calls
-// AptNativeHash::DestroyGCPointers on the member at +8 (add ecx,8 plus jmp).
-// Callers are three jmp thunks. No donor; retail-shaped.
+// AptValueWithHash slot 11 in retail vtable 0x008EA228 sets destroyed-GC bit 3.
+// It then clears the native hash at +8 through AptNativeHash::DestroyGCPointers.
 class AptNativeHash
 {
 public:
 	void DestroyGCPointers();
 };
 
-class Rva006DE150
+class AptValueWithHash
 {
 public:
-	char m_pad[4];
+	virtual void DestroyGCPointers();
 	unsigned int m_flags;
 	AptNativeHash m_table;
-	void rva006DE150();
 };
 
-void Rva006DE150::rva006DE150()
+void AptValueWithHash::DestroyGCPointers()
 {
 	m_flags |= 8;
 	m_table.DestroyGCPointers();

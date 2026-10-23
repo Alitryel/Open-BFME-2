@@ -12,10 +12,10 @@ public:
 	virtual void Release();
 };
 
-class Rva006DE150
+class AptValueWithHash
 {
 public:
-	void rva006DE150();
+	virtual void DestroyGCPointers();
 };
 
 class Rva006DE2B0
@@ -31,5 +31,5 @@ void Rva006DE2B0::Rva0070DF60()
 	if (m_ctor)
 		m_ctor->Release();
 	m_ctor = 0;
-	((Rva006DE150 *)this)->rva006DE150();
+	((AptValueWithHash *)this)->AptValueWithHash::DestroyGCPointers();
 }

@@ -27,9 +27,10 @@ public:
     void setGCMark(bool value);
 };
 
-class Rva006D6360 {
+class AptValueWithHash
+{
 public:
-    void rva006DCC00();
+	virtual void RegisterReferences() const;
 };
 
 class Rva006FBC90Owner {
@@ -60,5 +61,5 @@ void Rva006FBC90Owner::rva006FBC30()
             m_ctor->unused13();
         }
     }
-    ((Rva006D6360 *)this)->Rva006D6360::rva006DCC00();
+    ((AptValueWithHash *)this)->AptValueWithHash::RegisterReferences();
 }

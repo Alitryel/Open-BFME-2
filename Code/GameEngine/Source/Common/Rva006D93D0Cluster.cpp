@@ -18,13 +18,18 @@ public:
 
 extern Rva006DB270 *g_pChainBlockAllocator; // VA 0x00E176E8
 
+class AptObject
+{
+public:
+	virtual void DestroyGCPointers();
+};
+
 class BfmeAptValue006DCD20
 {
 public:
 	virtual void slot0();
 	virtual void release();
 
-	void rva0070DFE0();
 
 	unsigned int m_flags;
 	char m_pad[0x18];
@@ -42,7 +47,7 @@ public:
 
 void AptArray::DestroyGCPointers()
 {
-	rva0070DFE0();
+	((AptObject *)this)->AptObject::DestroyGCPointers();
 
 	if (!(m_data != 0 || mnLength == 0)) {
 		g_bfmeAptAssertAtE17734("mpValues != NULL || mnLength == 0", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptArray.cpp", 0x82);

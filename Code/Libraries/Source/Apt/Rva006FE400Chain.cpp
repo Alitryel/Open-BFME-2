@@ -15,9 +15,11 @@ struct Slot7Obj {
     virtual int slot7(void *a1, Rva008A4570Owner *a2);
 };
 
-class Rva006D6470Owner {
+class AptValue;
+class EAStringC;
+class AptObject {
 public:
-    virtual int rva0070DFB0(void *a1, Rva008A4570Owner *a2);
+    virtual AptValue *objectMemberLookup(AptValue *const, const EAStringC *const) const;
 };
 
 class Rva006FE400 {
@@ -32,5 +34,5 @@ int Rva006FE400::rva006FE400(void *a1, Rva008A4570Owner *a2)
     int r = m_p20->slot7(a1, a2);
     if (r)
         return r;
-    return ((Rva006D6470Owner *)this)->Rva006D6470Owner::rva0070DFB0(a1, a2);
+    return (int)((AptObject *)this)->AptObject::objectMemberLookup((AptValue *)a1, (const EAStringC *)a2);
 }

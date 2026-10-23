@@ -29,15 +29,14 @@
 // Retail reaches the forwarder through the rowed link thunk 0x0070DFD0
 // (?rva0070DFD0@Rva0070DFD0@@QAEXXZ in VslotSmallBodiesAJ.cpp), so call it by that
 // row name (cast this; same address, thunk tail-jmps to the forwarder).
-class Rva0070DFD0
+class AptObject
 {
 public:
-	void rva0070DFD0();
+	virtual void RegisterReferences() const;
 };
 class Rva006D6360
 {
 public:
-	void rva006DCC00();
 
 private:
 	int m_a;
@@ -99,7 +98,7 @@ private:
 // and setGCMark 0x006DBC50; layout from Rva00709B80Slot11.cpp.
 void Rva00709B80::rva00709D80()
 {
-	((Rva0070DFD0 *)this)->rva0070DFD0();
+	((AptObject *)this)->AptObject::RegisterReferences();
 
 	if (m_28)
 	{

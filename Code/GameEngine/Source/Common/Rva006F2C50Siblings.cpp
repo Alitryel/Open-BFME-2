@@ -13,10 +13,10 @@ public:
 	virtual void Release();
 };
 
-class BfmeAptValue006DCD20
+class AptObject
 {
 public:
-	void rva0070DFE0();
+	virtual void DestroyGCPointers();
 };
 
 class Rva006F2C50
@@ -32,5 +32,5 @@ void Rva006F2C50::rva006F2C50()
 	if (m_ctor)
 		m_ctor->Release();
 	m_ctor = 0;
-	((BfmeAptValue006DCD20 *)this)->rva0070DFE0();
+	((AptObject *)this)->AptObject::DestroyGCPointers();
 }

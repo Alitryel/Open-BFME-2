@@ -28,9 +28,10 @@ public:
     void setGCMark(bool value);
 };
 
-class Rva006D6360 {
+class AptValueWithHash
+{
 public:
-    void rva006DCC00();
+	virtual void RegisterReferences() const;
 };
 
 class Rva006DE2B0 {
@@ -55,7 +56,7 @@ public:
 
 void Rva006DE2B0::rva0070DF80()
 {
-    ((Rva006D6360 *)this)->rva006DCC00();
+    ((AptValueWithHash *)this)->AptValueWithHash::RegisterReferences();
     if (!m_ctor)
         return;
     if (static_cast<unsigned char>(((const Rva006DBB40ShrAndField *)m_ctor)->get()))

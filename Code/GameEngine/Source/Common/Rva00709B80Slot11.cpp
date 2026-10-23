@@ -23,10 +23,10 @@ public:
 	void rva006E0D40();
 };
 
-class BfmeAptValue006DCD20
+class AptObject
 {
 public:
-	void rva0070DFE0();
+	virtual void DestroyGCPointers();
 };
 
 class Rva00709B80 : public Rva006D6470Owner
@@ -52,5 +52,5 @@ void Rva00709B80::DestroyGCPointers()
 	a24->release();
 	((Rva006E0D40 *)m_24)->rva006E0D40();
 	m_24 = 0;
-	((BfmeAptValue006DCD20 *)this)->rva0070DFE0();
+	((AptObject *)this)->AptObject::DestroyGCPointers();
 }

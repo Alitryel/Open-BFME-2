@@ -74,10 +74,10 @@ public:
 // The Rva006D6360 base forwarder 0x006DCC00 (slot 0x34 native-hash mark);
 // retail calls it through its one-jump vtable thunk 0x0070DFD0, rowed as
 // Rva0070DFD0::rva0070DFD0.
-class Rva0070DFD0
+class AptObject
 {
 public:
-	void rva0070DFD0();
+	virtual void RegisterReferences() const;
 };
 
 class BfmeAptValue006DCD20
@@ -334,7 +334,7 @@ BfmeAptValue006DCD20 *rva006DA0C0(BfmeAptValue006DCD20 *pValue, int mode)
 // -> 0x006DCC00; callees At 0x006D8A50, get 0x006DBB40, setGCMark 0x006DBC50.
 void BfmeAptValue006DCD20::rva006D94A0()
 {
-	((Rva0070DFD0 *)this)->rva0070DFD0();
+	((AptObject *)this)->AptObject::RegisterReferences();
 
 	for (int i = 0; i < mnLength; ++i)
 	{
