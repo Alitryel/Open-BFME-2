@@ -121,11 +121,11 @@ class Rva0050EA74
 public:
 	Rva0050EA74(int level, const AsciiString &name);
 	virtual ~Rva0050EA74();
-	virtual void show();
-	virtual void hide();
-	virtual int v03(int message, int key, int state);
-	virtual int v04(int message, int key, int state);
-	virtual void v05();
+	virtual void show() = 0;
+	virtual void hide() = 0;
+	virtual int v03(int message, int key, int state) = 0;
+	virtual int v04(int message, int key, int state) = 0;
+	virtual void v05() = 0;
 
 	int m_references; // +0x04
 	int m_level; // +0x08

@@ -24,7 +24,7 @@ class Rva00524BB4:public SubsystemInterface {
 public:
  Rva00524BB4(TreeHintRef00217D4C ref);
  virtual ~Rva00524BB4();
- virtual void init();virtual void reset();virtual void update();virtual void vslot12();
+ virtual void init() = 0;virtual void reset() = 0;virtual void update() = 0;virtual void vslot12() = 0;
 private:
  void *m_ptr0C;
  int m_10,m_14,m_18,m_1C,m_20;

@@ -40,10 +40,10 @@ class Rva0041F042 : public SubsystemInterface
 {
 public:
 	virtual ~Rva0041F042();
-	virtual void init();
-	virtual void postProcessLoad();
-	virtual void reset();
-	virtual void update();
+	virtual void init() = 0;
+	virtual void postProcessLoad() = 0;
+	virtual void reset() = 0;
+	virtual void update() = 0;
 	void rva0041EC10();
 private:
 	Rva0041E77F m_table0C;

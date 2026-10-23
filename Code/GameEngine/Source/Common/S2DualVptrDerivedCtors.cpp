@@ -26,7 +26,7 @@ class GenBase009A1A30
 {
 public:
 	GenBase009A1A30();
-	virtual void keepFirst();
+	virtual void keepFirst() = 0;
 	int m_pad;
 	int m_bfme2Pad;	// BFME2: the second base sits at +0xC, not +8
 };
@@ -34,7 +34,7 @@ public:
 class GenBase01073744
 {
 public:
-	virtual void keepSecond();
+	virtual void keepSecond() = 0;
 };
 
 #define BFME_DUAL_VPTR_CTOR( NAME )                                       \

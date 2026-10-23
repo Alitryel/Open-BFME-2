@@ -25,7 +25,7 @@ class Rva004E5610Base
 public:
 	Rva004E5610Base() {}
 	virtual ~Rva004E5610Base();
-	virtual void sb();
+	virtual void sb() = 0;
 };
 
 class Rva004E5610 : public Rva004E5610Base
@@ -33,7 +33,7 @@ class Rva004E5610 : public Rva004E5610Base
 public:
 	Rva004E5610();
 	virtual ~Rva004E5610();
-	virtual void rva004E55B9(int objectID, float value, bool flag);
+	virtual void rva004E55B9(int objectID, float value, bool flag) = 0;
 
 private:
 	std::list<BfmePod60> m_list4; // +0x04

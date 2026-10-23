@@ -50,11 +50,11 @@ class Rva005746AF
 public:
 	virtual ~Rva005746AF();
 	virtual void rva0057473A();
-	virtual void m_slot2();
-	virtual void m_slot3();
-	virtual void m_slot4();
-	virtual void m_slot5();
-	virtual TreeHintRef00217D4C GetHint();
+	virtual void m_slot2() = 0;
+	virtual void m_slot3() = 0;
+	virtual void m_slot4() = 0;
+	virtual void m_slot5() = 0;
+	virtual TreeHintRef00217D4C GetHint() = 0;
 	int m_04;
 	unsigned long m_08;
 	TreeHintRef00217D4C m_hint;

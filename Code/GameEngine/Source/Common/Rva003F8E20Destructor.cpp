@@ -28,7 +28,7 @@ bool __cdecl rva0059E2DC(FileClass **first, FileClass **last, Rva0059E2DCBox box
 class Gen_uwm_003f7bc5
 {
 public:
-	virtual void slot00();
+	virtual void slot00() = 0;
 	~Gen_uwm_003f7bc5() {}
 };
 

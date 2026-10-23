@@ -11,8 +11,8 @@ class Rva005CF872
 {
 public:
 	virtual ~Rva005CF872() {}
-	virtual void slot1();
-	virtual void slot2();
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
 
 private:
 	int m_04;
@@ -31,8 +31,8 @@ class Rva005CFDA6 : public Rva005CF872, public Rva005E9F3F
 {
 public:
 	Rva005CFDA6();
-	virtual void slot1();
-	virtual void slot2();
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
 };
 
 // The implicit virtual dtor (no own vptr store) is emitted with the vtable

@@ -45,9 +45,9 @@ public:
 	virtual ~StateMachine();
 
 protected:
-	virtual void crc(Xfer *xfer);
+	virtual void crc(Xfer *xfer) = 0;
 	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess(void);
+	virtual void loadPostProcess(void) = 0;
 
 public:
 	void *m_currentState; // +0x04

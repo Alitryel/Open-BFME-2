@@ -30,7 +30,7 @@ class Rva00506B1B
 public:
 	Rva00506B1B();
 	virtual ~Rva00506B1B();
-	virtual void b1();
+	virtual void b1() = 0;
 	virtual void rva004EA33A();
 private:
 	bool m_04;

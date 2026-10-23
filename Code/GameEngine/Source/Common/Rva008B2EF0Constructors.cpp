@@ -27,7 +27,7 @@ class Rva00899F00Base : public Rva00899560Value
 public:
 	Rva00899F00Base(unsigned int argument0, int argument1);
 	virtual ~Rva00899F00Base();
-	virtual void rva008991B0();
+	virtual void rva008991B0() = 0;
 
 private:
 	Rva0089C860State m_state;

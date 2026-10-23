@@ -21,7 +21,7 @@ class ExperienceTracker {
 public:
     ExperienceTracker(const ThingTemplate *);
     virtual ~ExperienceTracker();
-    virtual void loadPostProcess();
+    virtual void loadPostProcess() = 0;
     virtual const char *GetSnapshotName() const=0;
     virtual void xfer(Xfer *);
     virtual void slot4(const Overridable *,bool)=0;
@@ -37,9 +37,9 @@ class ExperienceTrackerAutoResolve : public ExperienceTracker {
 public:
     ExperienceTrackerAutoResolve(LivingWorldAutoResolveUnit *,const Rva004F6093Holder &);
     virtual ~ExperienceTrackerAutoResolve();
-    virtual const char *GetSnapshotName() const;
-    virtual void xfer(Xfer *);
-    virtual void slot4(const Overridable *,bool);
+    virtual const char *GetSnapshotName() const = 0;
+    virtual void xfer(Xfer *) = 0;
+    virtual void slot4(const Overridable *,bool) = 0;
 private:
     LivingWorldAutoResolveUnit *parent;
     Rva004F6093Holder entry;

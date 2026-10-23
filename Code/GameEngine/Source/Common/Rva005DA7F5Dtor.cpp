@@ -15,15 +15,15 @@ class Rva005DAA36
 public:
 	virtual void slot0() = 0;
 	virtual ~Rva005DAA36() {}
-	virtual void slot2();
+	virtual void slot2() = 0;
 };
 
 class Rva005DA7F5 : public Rva005DAA36
 {
 public:
-	virtual void slot0();
+	virtual void slot0() = 0;
 	virtual ~Rva005DA7F5();
-	virtual void slot2();
+	virtual void slot2() = 0;
 
 private:
 	int m_04;

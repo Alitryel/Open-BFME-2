@@ -35,7 +35,7 @@ extern FormationTranslator *g_00E0322C;
 class Rva00431FB5 : public Rva0042CBB6
 {
 public:
-	virtual void translate();
+	virtual void translate() = 0;
 	virtual ~Rva00431FB5();
 private:
 	int m_04;
