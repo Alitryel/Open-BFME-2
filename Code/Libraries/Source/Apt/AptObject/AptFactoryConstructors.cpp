@@ -57,7 +57,6 @@ public: static void operator delete(void *p,unsigned int n){g_pChainBlockAllocat
  AptError(EAStringC);virtual AptValue *objectMemberLookup(AptValue *const,const EAStringC *const) const;virtual bool objectMemberSet(AptValue *const,const EAStringC *const,AptValue *const);EAStringC msMessage,msName;
 protected: virtual ~AptError();
 };
-AptError::AptError(EAStringC msg) : AptObject((AptVirtualFunctionTable_Indices)41),msMessage(msg),msName("Error") {}
 
 #pragma comment(linker, "/alternatename:??0AptValue@@IAE@W4AptVirtualFunctionTable_Indices@@@Z=??0BfmeAptValue006DCD20@@QAE@H@Z")
 typedef char SoundSize[sizeof(AptSound)==44?1:-1];
@@ -156,15 +155,6 @@ extern Rva006E97A0Object *g_pRva006E97A0Object;
 #define g_errorToString ((AptNativeFunction *&)g_pRva006E97A0Object)
 void Rva006CC110Log(int,const char *,...);
 extern const char g_00CEC838[],g_00BBFDDC[],g_00CEC710[];
-AptValue *AptError::objectMemberLookup(AptValue *const context,const EAStringC *const name) const {
- if(name->rva006D3490("message")){AptValue *aptValue=factoryCreateString();((BfmeAptValue006DCD20 *)aptValue)->factorySetString(msMessage.rva00620090());return aptValue;}
- if(name->rva006D3490("name")){AptValue *aptValue=factoryCreateString();((BfmeAptValue006DCD20 *)aptValue)->factorySetString(msName.rva00620090());return aptValue;}
- if(name->rva006D3490("toString")){DISPATCH(g_errorToString,callback006E9730);}
- if(name->rva006D3510("message") || name->rva006D3510("name") || name->rva006D3510("toString")) {
- Rva006CC110Log(3,g_00CEC838,name->rva00620090());g_bfmeAptAssertAtE17734(g_00BBFDDC,g_00CEC710,0x4fa);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
- }
- return 0;
-}
 
 // Existing provider identities retained; native call operands establish ABI.
 #pragma comment(linker, "/alternatename:??0AptNativeFunction@@QAE@P6APAVAptValue@@PAV1@H@Z@Z=??0Rva006D6500@@QAE@H@Z")
