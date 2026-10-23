@@ -9,20 +9,45 @@
 
 class Xfer;
 
-class UpdateModule
+// The ObjectModule and BehaviorModuleInterface vptrs of UpdateModule: retail
+// names these classes' leading vftables ??_7<class>@@6BObjectModule@@@ and
+// ??_7<class>@@6BBehaviorModuleInterface@@@ (data ledger 0x008497B4 and
+// 0x008496F8 for FireWeaponWhenDeadBehavior), as its ctor unit emits them.
+// Every BehaviorModuleInterface vftable of these classes holds the empty
+// default 0x004D43D0 in slot 0 (the getBody binding of the UpdateModule dtor
+// units).
+class Thing;
+class ModuleData;
+
+class ObjectModule
 {
 public:
-	virtual ~UpdateModule();
+	ObjectModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~ObjectModule();
 	void xfer(Xfer *xfer);
 
 private:
 	char m_pad04[8];
 };
 
-class Rva00589079_S1
+class BehaviorModuleInterface
 {
 public:
-	virtual void f1();
+	virtual void getBody();
+};
+
+class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
+{
+public:
+	BehaviorModule(Thing *thing, const ModuleData *moduleData);
+	void xfer(Xfer *xfer);
+};
+
+class UpdateModule : public BehaviorModule
+{
+public:
+	virtual ~UpdateModule();
+	void xfer(Xfer *xfer);
 };
 
 class Rva00589079_S2
@@ -46,7 +71,7 @@ public:
 	virtual void f4();
 };
 
-class Rva00589079 : public UpdateModule, public Rva00589079_S1, public Rva00589079_S2, public Rva00589079_S3, public Rva00589079_S4
+class Rva00589079 : public UpdateModule, public Rva00589079_S2, public Rva00589079_S3, public Rva00589079_S4
 {
 public:
 	virtual ~Rva00589079()
@@ -60,12 +85,6 @@ void Rva00589079_Anchor(Rva00589079 *p)
 {
 	p->Rva00589079::~Rva00589079();
 }
-
-class Rva00481F82_S1
-{
-public:
-	virtual void f1();
-};
 
 class Rva00481F82_S2
 {
@@ -88,7 +107,7 @@ public:
 	virtual void f4();
 };
 
-class Rva00481F82 : public UpdateModule, public Rva00481F82_S1, public Rva00481F82_S2, public Rva00481F82_S3, public Rva00481F82_S4
+class Rva00481F82 : public UpdateModule, public Rva00481F82_S2, public Rva00481F82_S3, public Rva00481F82_S4
 {
 public:
 	virtual ~Rva00481F82()
@@ -102,12 +121,6 @@ void Rva00481F82_Anchor(Rva00481F82 *p)
 {
 	p->Rva00481F82::~Rva00481F82();
 }
-
-class Rva00482E96_S1
-{
-public:
-	virtual void f1();
-};
 
 class Rva00482E96_S2
 {
@@ -219,19 +232,6 @@ public:
 	unsigned char m_minimum;
 };
 
-class ObjectModule
-{
-public:
-	ObjectModule(Thing *thing, const ModuleData *moduleData);
-	void xfer(Xfer *xfer);
-};
-
-class BehaviorModule : public ObjectModule
-{
-public:
-	BehaviorModule(Thing *thing, const ModuleData *moduleData);
-	void xfer(Xfer *xfer);
-};
 
 
 class FireWeaponWhenDeadBehavior;
@@ -249,7 +249,7 @@ public:
 	virtual void xfer(Xfer *xfer);
 };
 
-class FireWeaponWhenDeadBehavior : public UpdateModule, public Rva00482E96_S1, public Rva00482E96_S2, public Rva00482E96_S3, public Rva00482E96_S4
+class FireWeaponWhenDeadBehavior : public UpdateModule, public Rva00482E96_S2, public Rva00482E96_S3, public Rva00482E96_S4
 {
 public:
 	virtual ~FireWeaponWhenDeadBehavior()
@@ -311,11 +311,8 @@ void FireWeaponWhenDeadBehavior::xfer(Xfer *xfer)
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?f1@Rva00589079_S1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?f4@Rva00481F82_S4@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?f1@Rva00481F82_S1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?f3@Rva00482E96_S3@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")
-#pragma comment(linker, "/alternatename:?f1@Rva00482E96_S1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?s02@FireWeaponWhenDeadBehavior@@UAEXXZ=?Rva00482E4BGet@@YAHXZ")
 
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot

@@ -25,6 +25,7 @@ class Thing;
 class ModuleData;
 class Object;
 class DamageInfo;
+class Xfer;
 
 enum UpdateSleepTime
 {
@@ -116,6 +117,11 @@ public:
 	FireWeaponWhenDeadBehavior(Thing *thing, const ModuleData *moduleData);
 	virtual ~FireWeaponWhenDeadBehavior();
 	virtual void onDie(const DamageInfo *damageInfo);
+	// Primary vftable 0x008497B4 slots 1-3, as Rva00589079Derived.cpp declares them.
+	virtual void loadPostProcess();
+	virtual void s02();
+protected:
+	virtual void xfer(Xfer *xfer);
 private:
 	const FireWeaponWhenDeadBehaviorModuleData *getFireWeaponWhenDeadBehaviorModuleData() const { return (const FireWeaponWhenDeadBehaviorModuleData *)m_moduleData; }
 
