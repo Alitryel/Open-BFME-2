@@ -93,7 +93,7 @@ void Rva006636E0Handler( Rva007E8810Message * value, Rva007F7980Browser *owner )
 	owner->onPlayer( value );
 }
 
-void Rva006636F0Handler( void * value, Rva007F7980Browser *owner )
+void enterGameRequestHandler( void * value, Rva007F7980Browser *owner )
 {
 	owner->rva007f63f0( value );
 }
@@ -108,7 +108,7 @@ void pingHandler( int value, BfmeThingVJK *owner )
 	owner->bfmeGoVJK( value );
 }
 
-void Rva00663FF0Handler( Rva007E8810Message * value, BfmeThingZI *owner )
+void queueLengthHandler( Rva007E8810Message * value, BfmeThingZI *owner )
 {
 	owner->rva007F7640( value );
 }
@@ -209,7 +209,7 @@ public:
 class BfmeThingDGD : public Rva0112B800Base, public Rva0112B7F8Base, public Rva0112B7F0Base
 {
 public:
-	virtual void rva007F8400( unsigned char arg34, int arg35, void *forwarded );
+	virtual void rva007F8400( unsigned char useInternet, int useLan, void *forwarded );
 
 	void *m_0c;
 	Rva007F8400Node *m_10;
@@ -226,7 +226,7 @@ public:
 };
 
 // ?rva007F8400@BfmeThingDGD@@UAEXEHPAX@Z
-void BfmeThingDGD::rva007F8400( unsigned char arg34, int arg35, void *forwarded )
+void BfmeThingDGD::rva007F8400( unsigned char useInternet, int useLan, void *forwarded )
 {
 	if( m_30 != 0 )
 	{
@@ -234,8 +234,8 @@ void BfmeThingDGD::rva007F8400( unsigned char arg34, int arg35, void *forwarded 
 		return;
 	}
 
-	unsigned char byte35 = (unsigned char)arg35;
-	m_34 = arg34;
+	unsigned char byte35 = (unsigned char)useLan;
+	m_34 = useInternet;
 	m_30 = 1;
 	m_35 = byte35;
 	((BfmeThingRE *)m_0c)->bfmeRunRE( forwarded );
@@ -246,21 +246,21 @@ void BfmeThingDGD::rva007F8400( unsigned char arg34, int arg35, void *forwarded 
 	m_14->v4( (void *)&bfmeRva0130AAACTagSlot, (void *)Rva007F6FC0BrowserGameReply, this );
 	m_14->v4( (void *)&bfmeRva0130AAA0TagSlot, (void *)Rva006636D0Handler, this );
 	m_14->v4( (void *)&bfmeRva0130AA58TagSlot, (void *)Rva006636E0Handler, this );
-	m_14->v4( (void *)&bfmeRva0130AB18TagSlot, (void *)Rva006636F0Handler, this );
+	m_14->v4( (void *)&bfmeRva0130AB18TagSlot, (void *)enterGameRequestHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB30TagSlot, (void *)Rva00664A60Handler, this );
-	m_14->v4( (void *)&bfmeRva0130AB00TagSlot, (void *)Rva00663FF0Handler, this );
+	m_14->v4( (void *)&bfmeRva0130AB00TagSlot, (void *)queueLengthHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB24TagSlot, (void *)kickHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AA88TagSlot, (void *)pingHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AA7CTagSlot, (void *)Rva00664A70Handler, this );
 
 	if( byte35 != 0 )
 	{
-		Rva00803890Owner *node = new (Gen007F0130::operator new( 0x1c )) Rva00803890Owner( arg34, (BfmeOwnerUNC *)this );
+		Rva00803890Owner *node = new (Gen007F0130::operator new( 0x1c )) Rva00803890Owner( useInternet, (BfmeOwnerUNC *)this );
 		m_18 = node;
 		((BfmeThingAEB *)node)->bfmeStartAEB( (BfmeOwnerAEB *)m_14 );
 	}
 
-	if( arg34 )
+	if( useInternet )
 		((Rva007EADC0Owner *)m_0c)->send();
 
 	Rva00803080 *pool = (Rva00803080 *)Gen007F0130::operator new( 0x14 );

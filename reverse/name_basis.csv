@@ -169,3 +169,7 @@ class,Rva005E39A6Owner,ArmyDetailsPanelImpl,inferred,agree:nl-3a59c6311c9a,Code/
 class,Rva005F2767Inner,ArmyDetailsMovieClipImpl,inferred,agree:nl-3fe0dd21358c,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
 local,AODHordeContain::initOffsets::v,AODHordeContain::initOffsets::wave,inferred,agree:nl-2de8ff01c811,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp,0x0047B690
 class,Rva00474519Record,MemberOffset,inferred,agree:nl-774451b7abf1,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp,
+param,BfmeThingDGD::rva007F8400::arg34,BfmeThingDGD::rva007F8400::useInternet,inferred,agree:nl-e9e8d08fc448,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00664A80
+param,BfmeThingDGD::rva007F8400::arg35,BfmeThingDGD::rva007F8400::useLan,inferred,agree:nl-5fd7d35adb87,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00664A80
+function,?Rva006636F0Handler@@YAXPAXPAVRva007F7980Browser@@@Z,?enterGameRequestHandler@@YAXPAXPAVRva007F7980Browser@@@Z,inferred,agree:nl-5acd05cae290,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x006636F0
+function,?Rva00663FF0Handler@@YAXPAVRva007E8810Message@@PAVBfmeThingZI@@@Z,?queueLengthHandler@@YAXPAVRva007E8810Message@@PAVBfmeThingZI@@@Z,inferred,agree:nl-5e1efd4f877d,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00663FF0
