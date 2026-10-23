@@ -35,6 +35,7 @@ Usage:
   python3 tools/link_rank.py [--top N] [--near K] [--kind U|D|L|S|A] [--json PATH]
   python3 tools/link_rank.py --file SOURCE     one unit's blockers (and V diagnostics)
   python3 tools/link_rank.py --stale-views     units by layout-like V copies
+  python3 tools/link_rank.py --owner-gaps --near 3   unresolved names with recovered address candidates
 
 Run tools/link_census.py --history first; this reads the blockers it
 recorded (build/link_census/link_index.pkl) and never links anything itself.
@@ -89,6 +90,75 @@ def generated(source):
     return source.startswith(("Code/gen_asm/", "Code/gen_small/"))
 
 
+def owner_gaps(found, sizes, rows, symbols):
+    """Discovery leads, never identity proof or predicted linked-byte gains.
+
+    Preserve every additive resolver candidate. A pin can be wrong, so an
+    address coincidence cannot authorize rebinding a caller to its owner.
+    Count each consumer once, even when it has several names for one address.
+    """
+    users = collections.defaultdict(set)
+    for source, blockers in found.items():
+        if not generated(source):
+            for kind, name in blockers:
+                if kind == "U":
+                    users[name].add(source)
+    addresses = {rva for name in users for rva in symbols.get(name, ())}
+    owners = collections.defaultdict(set)
+    for row in rows:
+        if row.get("status") != "matched":
+            continue
+        rva = int(row["target_rva"], 0)
+        if rva in addresses:
+            owners[rva].add((row["name"], row["source"]))
+    out = []
+    for name, consumers in users.items():
+        candidates = []
+        for rva in sorted(set(symbols.get(name, ()))):
+            for owner, source in sorted(owners[rva]):
+                kind = ("recovery" if generated(source) else
+                        "provider-refresh" if owner == name else "identity-gap")
+                candidates.append(dict(rva=f"0x{rva:08X}", name=owner, source=source, kind=kind))
+        if not candidates:
+            continue
+        out.append(dict(name=name, consumers=sorted(consumers), candidates=candidates,
+                        affected_bytes=sum(sizes.get(s, 0) for s in consumers),
+                        shared_bytes=sum(sizes.get(s, 0) / len(found[s]) for s in consumers),
+                        min_blockers=min(len(found[s]) for s in consumers)))
+    return sorted(out, key=lambda item: (-item["shared_bytes"], -item["affected_bytes"], item["name"]))
+
+
+def report_owner_gaps(args, found, sizes):
+    import build
+    import link_check
+    meta = link_check.load_index()["meta"]
+    if args.file:
+        found = {args.file: found.get(args.file, set())}
+    else:
+        found = {s: b for s, b in found.items() if 0 < len(b) <= args.near}
+    leads = owner_gaps(found, sizes, lc.ledger(), build.load_symbol_map())
+    if args.json:
+        Path(args.json).write_text(json.dumps(dict(census=meta, leads=leads), indent=2), encoding="utf-8")
+    print(f"{len(leads):,} unresolved names have matched retail-address candidates")
+    print(f"Census {meta['date']} at {meta['commit']}; current objects have not been checked.")
+    print("Discovery only: additive pins are hypotheses, not identity or ABI proof.")
+    print("provider-refresh: owner already exists; check current provider and consumer together.")
+    print("identity-gap: inspect native calls, ABI and ownership before changing declarations.")
+    print("recovery: generated owner still needs real source. Byte figures overlap; no gain is claimed.")
+    for lead in leads[:args.top]:
+        print(f"\n  shared {int(lead['shared_bytes']):,} B; affected {lead['affected_bytes']:,} B; "
+              f"{len(lead['consumers'])} units; nearest {lead['min_blockers']} blocker(s)")
+        print(f"  U {lead['name']}")
+        for candidate in lead["candidates"][:6]:
+            print(f"    {candidate['kind']} {candidate['rva']} {candidate['name']}")
+            print(f"      {candidate['source']}")
+        if len(lead["candidates"]) > 6:
+            print(f"    ... {len(lead['candidates']) - 6} more candidates (all retained by --json)")
+        for consumer in lead["consumers"]:
+            print(f"    consumer {consumer}")
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--top", type=int, default=30)
@@ -96,12 +166,18 @@ def main(argv=None):
     parser.add_argument("--kind", choices="UDLSA")
     parser.add_argument("--file")
     parser.add_argument("--json", help="write {source: [[kind, name], ...]} here")
+    parser.add_argument("--owner-gaps", action="store_true",
+                        help="trace unresolved names to recovered address candidates (within --near); --json writes leads")
     parser.add_argument("--stale-views", action="store_true",
                         help="list units by layout-like V copies (diagnostic, not blockers), largest first")
     parser.add_argument("--all-kinds", action="store_true",
                         help="with --stale-views: count every V copy, codegen-like and relocation too")
     args = parser.parse_args(argv)
+    if args.owner_gaps and (args.stale_views or args.all_kinds or args.kind):
+        parser.error("--owner-gaps cannot combine with --stale-views, --all-kinds or --kind")
     found, sizes = blockers()
+    if args.owner_gaps:
+        return report_owner_gaps(args, found, sizes)
     if args.stale_views:
         views = stale_views()
         names = collections.Counter()
