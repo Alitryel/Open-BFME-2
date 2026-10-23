@@ -234,11 +234,11 @@ public:
 };
 
 
-class Rva00482E96;
+class FireWeaponWhenDeadBehavior;
 
 class UpgradeMux
 {
-	friend class Rva00482E96;
+	friend class FireWeaponWhenDeadBehavior;
 protected:
 	virtual void upgradeMuxXfer(Xfer *xfer);
 };
@@ -249,10 +249,10 @@ public:
 	virtual void xfer(Xfer *xfer);
 };
 
-class Rva00482E96 : public UpdateModule, public Rva00482E96_S1, public Rva00482E96_S2, public Rva00482E96_S3, public Rva00482E96_S4
+class FireWeaponWhenDeadBehavior : public UpdateModule, public Rva00482E96_S1, public Rva00482E96_S2, public Rva00482E96_S3, public Rva00482E96_S4
 {
 public:
-	virtual ~Rva00482E96()
+	virtual ~FireWeaponWhenDeadBehavior()
 	{
 	}
 	virtual void loadPostProcess();
@@ -267,29 +267,29 @@ private:
 
 template <typename T> class StringBase
 {
-	friend class Rva00482E96;
+	friend class FireWeaponWhenDeadBehavior;
 	void validate() const;
 };
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva00482E96_Anchor(Rva00482E96 *p)
+void Rva00482E96_Anchor(FireWeaponWhenDeadBehavior *p)
 {
-	p->Rva00482E96::~Rva00482E96();
+	p->FireWeaponWhenDeadBehavior::~FireWeaponWhenDeadBehavior();
 }
 
-// ?loadPostProcess@Rva00482E96@@UAEXXZ retail 0x00482C39 17 bytes.
+// ?loadPostProcess@FireWeaponWhenDeadBehavior@@UAEXXZ retail 0x00482C39 17 bytes.
 // Slot 1 (offset 0x4) of vtable 0x008497B4 (class of ??1Rva00482E96@@UAE@XZ).
 // Validates wide strings at +0 and +0x20, second as tail-jmp to rowed
 // ?validate@?$StringBase@G@@ABEXXZ at 0x000B3FD0. No other callees.
 // Honest address name: identity is class+slot only (opaque Rva).
-void Rva00482E96::loadPostProcess()
+void FireWeaponWhenDeadBehavior::loadPostProcess()
 {
 	((StringBase<unsigned short>*)this)->validate();
 	((StringBase<unsigned short>*)((char*)this + 0x20))->validate();
 }
 
-void Rva00482E96::xfer(Xfer *xfer)
+void FireWeaponWhenDeadBehavior::xfer(Xfer *xfer)
 {
 	Xfer::Version version(1, 3);
 	*xfer == version;
@@ -316,7 +316,7 @@ void Rva00482E96::xfer(Xfer *xfer)
 #pragma comment(linker, "/alternatename:?f1@Rva00481F82_S1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?f3@Rva00482E96_S3@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")
 #pragma comment(linker, "/alternatename:?f1@Rva00482E96_S1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?s02@Rva00482E96@@UAEXXZ=?Rva00482E4BGet@@YAHXZ")
+#pragma comment(linker, "/alternatename:?s02@FireWeaponWhenDeadBehavior@@UAEXXZ=?Rva00482E4BGet@@YAHXZ")
 
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in

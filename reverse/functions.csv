@@ -7759,8 +7759,8 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ?DownloadFile@CDownload@@UAEJPBD00000_N@Z,,0x006C9760,452,Code/Libraries/Source/WWVegas/WWDownload/CDownloadDownloadFile.cpp,matched,ZH Download.cpp verbatim; member layout and status codes all exact; strcmp inlines under /O2; strncpy via msvcr71 import
 ??1Rva00589079@@UAE@XZ,,0x00589079,39,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,Opaque 5-vptr MI dtor tail-calling pinned 0x24A797 base; pin upgraded to row
 ??1Rva00481F82@@UAE@XZ,,0x00481F82,39,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,Opaque 5-vptr MI dtor tail-calling pinned 0x24A797 base; same model as Rva00589079
-??1Rva00482E96@@UAE@XZ,,0x00482E96,39,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,Opaque 5-vptr MI dtor (last slot at +0x28) tail-calling pinned 0x24A797 base
-??_GRva00482E96@@UAEPAXI@Z,,0x00482EBD,28,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,Scalar deleting dtor via TU emission; dtor rowed in same TU; free via ??3 to 0x2FD60
+??1FireWeaponWhenDeadBehavior@@UAE@XZ,,0x00482E96,39,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,Opaque 5-vptr MI dtor (last slot at +0x28) tail-calling pinned 0x24A797 base
+??_GFireWeaponWhenDeadBehavior@@UAEPAXI@Z,,0x00482EBD,28,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,Scalar deleting dtor via TU emission; dtor rowed in same TU; free via ??3 to 0x2FD60
 ?GetLastLocalFile@CDownload@@UAEJPADH@Z,,0x006C9930,53,Code/Libraries/Source/WWVegas/WWDownload/CDownloadDownloadFile.cpp,matched,ZH GetLastLocalFile verbatim; null guard with E_FAIL then strncpy plus maxlen-1 terminator; supersedes retired opaque d_00884e10
 ??_GRva0004CA4C@@UAEPAXI@Z,,0x0004CA8B,28,Code/GameEngine/Source/Common/Rva002D22CADerived.cpp,matched,Scalar deleting dtor via home-TU emission; dtor rowed in same TU
 ??_GRva00589079@@UAEPAXI@Z,,0x005890FE,28,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,Scalar deleting dtor via home-TU emission; dtor rowed in same TU
@@ -26352,7 +26352,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ?stopDocking@SiegeDockingBehavior@@AAEXXZ,,0x00459C27,49,Code/GameEngine/Source/GameLogic/Object/Behavior/SiegeDockingBehaviorStopDocking.cpp,matched,donor BFME1 stopDocking plus callers 0x00459DDA plus 0x0045A0F9 plus rowed erase 0x0031BD55 plus rowed delete 0x0002FD60
 ?refreshTrackedLargeUnit@AODHordeContain@@QAEXXZ,,0x0047B2AA,81,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainRefresh.cpp,matched,BFME1 donor trackLargeUnit plus AOD ctor offsets plus 17.0f
 ??1Rva004B2B2F@@QAE@XZ,,0x004B2B2F,53,Code/GameEngine/Source/GameLogic/Object/Update/ReplaceObjectUpdateEntryDtor.cpp,matched,heap entry of ReplaceObjectUpdate plusC8 vector via rowed 2CC70 plus pinned 360D26
-?loadPostProcess@Rva00482E96@@UAEXXZ,,0x00482C39,17,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,slot1 vtable 008497B4 validates wide strings at +0 and +0x20 via rowed StringBase validate
+?loadPostProcess@FireWeaponWhenDeadBehavior@@UAEXXZ,,0x00482C39,17,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,slot1 vtable 008497B4 validates wide strings at +0 and +0x20 via rowed StringBase validate
 ??1Rva004BA1C8@@QAE@XZ,,0x004BA1C8,8,Code/GameEngine/Source/Common/Rva004BA1C8Record.cpp,matched,tail-jmp to rowed vector dtor 0x0002CC70 via callers 0x004BA2D0 0x004BA34A
 ??1ProductionQueueHordeContain@@UAE@XZ,,0x00481230,67,Code/GameEngine/Source/GameLogic/Object/Contain/ProductionQueueHordeContainDtor.cpp,matched,ProductionQueueHordeContain dtor via TunnelContainDtor 67B precedent
 ??4Rva004BA1C8@@QAEAAV0@ABV0@@Z,,0x004BA291,60,Code/GameEngine/Source/Common/Rva004BA1C8Record.cpp,matched,assign via rowed vector assign shares 0x2C triple layout with dtor 0x004BA1C8
@@ -26513,7 +26513,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ??4Rva004C9B8F@@QAEAAV0@ABV0@@Z,,0x004C9B8F,45,Code/GameEngine/Source/GameClient/Drawable/Update/Rva004C9B8FAssign.cpp,matched,honest smart-ptr assign via rowed inc plus8 and release plus8 slot1; caller 0x004C9D43
 ??1RadarMarkerClientUpdate@@UAE@XZ,,0x004C9C38,69,Code/GameEngine/Source/GameClient/Drawable/Update/RadarMarkerClientUpdateDtor.cpp,matched,dtor via rowed release plus8 and pinned DrawableModule base; vtable 0xC5EDB8 slot4 poolkey
 ?Rva0043BFDB@SkirmishPreferences@@QAEXABVUnicodeString@@H@Z,,0x0043BFDB,151,Code/GameEngine/Source/Common/SkirmishPreferences.cpp,matched,Skirmish remove-user-keys via encodeUserKey plus startsWith erase; honest Rva name; callers at 0x43C308 plus 0x43C319
-?xfer@Rva00482E96@@MAEXPAVXfer@@@Z,,0x00482BDB,94,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,slot3 xfer Version13 via rowed UpdateModule BehaviorModule UpgradeMux
+?xfer@FireWeaponWhenDeadBehavior@@MAEXPAVXfer@@@Z,,0x00482BDB,94,Code/GameEngine/Source/Common/Rva00589079Derived.cpp,matched,slot3 xfer Version13 via rowed UpdateModule BehaviorModule UpgradeMux
 ??1HordeTransportContain@@UAE@XZ,,0x004771E6,5,Code/GameEngine/Source/GameLogic/Object/Contain/HordeTransportContainDtor.cpp,matched,5B jmp thunk to rowed TransportContain base 0x00467E61 via novtable; wrapper 0x004771CA vtable 0x00C45EB8
 ??1CitadelSlaughterHordeContain@@UAE@XZ,,0x00480718,5,Code/GameEngine/Source/GameLogic/Object/Contain/CitadelSlaughterHordeContainDtor.cpp,matched,5B jmp thunk to rowed SlaughterHordeContain base 0x004803FB via novtable; wrapper 0x004806FC vtable 0x00C48CC0
 ??1Rva004C9B8F@@QAE@XZ,,0x0004E4E1,12,Code/GameEngine/Source/GameClient/Drawable/Update/Rva004C9B8FAssign.cpp,matched,honest smart-ptr dtor via rowed release plus8 slot1; same TU as assign
