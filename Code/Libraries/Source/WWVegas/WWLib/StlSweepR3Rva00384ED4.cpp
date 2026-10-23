@@ -42,6 +42,15 @@ bool operator==(const Rva00384ED4Record&b)const{return word==b.word;}
 namespace _STL {template<>struct __type_traits<Rva00384ED4Record>:__type_traits_aux<1>{};}
 
 
+// Retail's range erase calls the rowed tree clear at 0x00384E8E and node erase at
+// 0x00383F9C; suppress this TU's own copies and bind the template names to those rows.
+namespace _STL {
+template <> void _Rb_tree<int, pair<int const, Rva00384ED4Record>, _Select1st<pair<int const, Rva00384ED4Record> >, less<int>, allocator<pair<int const, Rva00384ED4Record> > >::clear();
+template <> void _Rb_tree<int, pair<int const, Rva00384ED4Record>, _Select1st<pair<int const, Rva00384ED4Record> >, less<int>, allocator<pair<int const, Rva00384ED4Record> > >::erase(_Rb_tree<int, pair<int const, Rva00384ED4Record>, _Select1st<pair<int const, Rva00384ED4Record> >, less<int>, allocator<pair<int const, Rva00384ED4Record> > >::iterator);
+}
+#pragma comment(linker, "/alternatename:?clear@?$_Rb_tree@HU?$pair@$$CBHURva00384ED4Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00384ED4Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00384ED4Record@@@_STL@@@2@@_STL@@QAEXXZ=?rva00384E8E@Rva0038404A@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?erase@?$_Rb_tree@HU?$pair@$$CBHURva00384ED4Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00384ED4Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00384ED4Record@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00384ED4Record@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00384ED4Record@@@_STL@@@2@@2@@Z=?rva00383F9C@Rva00383F9C@@QAEXPAURva00383F9CNode@@@Z")
+
 // Instantiate the recovered member; retain only its required template dependencies.
 template void _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>, _STL::_Select1st<_STL::pair<int const, Rva00384ED4Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00384ED4Record> > >::erase(_STL::_Rb_tree_iterator<_STL::pair<int const, Rva00384ED4Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00384ED4Record> > >, _STL::_Rb_tree_iterator<_STL::pair<int const, Rva00384ED4Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00384ED4Record> > >);
 // Key erase of the same tree at retail 0x00385CBA: equal_range, distance, then

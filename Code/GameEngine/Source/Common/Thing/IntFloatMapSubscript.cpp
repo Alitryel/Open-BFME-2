@@ -50,6 +50,13 @@ namespace _STL { template<> struct __type_traits<Rva00358FEERecord> : __type_tra
 
 typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00358FEERecord>, _STL::_Select1st<_STL::pair<int const, Rva00358FEERecord> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00358FEERecord> > > Tree003591F4;
 
+// Retail's call goes to the rowed node erase at 0x00358DC2; suppress this TU's own copy
+// and bind the template name to that row.
+namespace _STL {
+template <> void _Rb_tree<int, pair<int const, Rva00358FEERecord>, _Select1st<pair<int const, Rva00358FEERecord> >, less<int>, allocator<pair<int const, Rva00358FEERecord> > >::erase(_Rb_tree<int, pair<int const, Rva00358FEERecord>, _Select1st<pair<int const, Rva00358FEERecord> >, less<int>, allocator<pair<int const, Rva00358FEERecord> > >::iterator);
+}
+#pragma comment(linker, "/alternatename:?erase@?$_Rb_tree@HU?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@2@@Z=?rva00358DC2@Rva00358DC2@@QAEXPAURva00358DC2Node@@@Z")
+
 struct Rva003591F4Arg
 {
 	Rva003591F4Arg(const Rva003591F4Arg &other) : m_id(other.m_id), m_flag(other.m_flag) {}

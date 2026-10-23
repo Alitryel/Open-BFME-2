@@ -51,6 +51,15 @@ typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00358E26Record>,
 	_STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00358E26Record> > > Rva00359269Tree;
 
 
+// Retail's range erase calls the rowed tree clear at 0x00358DFD and node erase at
+// 0x00358D27; suppress this TU's own copies and bind the template names to those rows.
+namespace _STL {
+template <> void _Rb_tree<int, pair<int const, Rva00358E26Record>, _Select1st<pair<int const, Rva00358E26Record> >, less<int>, allocator<pair<int const, Rva00358E26Record> > >::clear();
+template <> void _Rb_tree<int, pair<int const, Rva00358E26Record>, _Select1st<pair<int const, Rva00358E26Record> >, less<int>, allocator<pair<int const, Rva00358E26Record> > >::erase(_Rb_tree<int, pair<int const, Rva00358E26Record>, _Select1st<pair<int const, Rva00358E26Record> >, less<int>, allocator<pair<int const, Rva00358E26Record> > >::iterator);
+}
+#pragma comment(linker, "/alternatename:?clear@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@_STL@@QAEXXZ=?rva00358DFD@Rva00358D62@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?erase@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@2@@Z=?erase@?$_Rb_tree@URva0027EA49@@U1@U?$_Identity@URva0027EA49@@@_STL@@U?$less@URva0027EA49@@@3@V?$allocator@URva0027EA49@@@3@@_STL@@QAEXU?$_Rb_tree_iterator@URva0027EA49@@U?$_Nonconst_traits@URva0027EA49@@@_STL@@@2@@Z")
+
 // Instantiate the recovered member; retain only its required template dependencies.
 template void _STL::_Rb_tree<int, _STL::pair<int const, Rva00358E26Record>, _STL::_Select1st<_STL::pair<int const, Rva00358E26Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00358E26Record> > >::erase(_STL::_Rb_tree_iterator<_STL::pair<int const, Rva00358E26Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00358E26Record> > >, _STL::_Rb_tree_iterator<_STL::pair<int const, Rva00358E26Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00358E26Record> > >);
 
