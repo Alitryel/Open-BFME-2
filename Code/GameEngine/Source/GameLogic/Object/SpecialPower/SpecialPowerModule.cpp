@@ -329,7 +329,8 @@ Bool SpecialPowerModule::initiateIntentToDoSpecialPower( const Object *targetObj
 		}
 	}
 
-	getObject()->getControllingPlayer()->getAcademyStats()->recordSpecialPowerUsed( getSpecialPowerModuleData()->m_specialPowerTemplate );
+	// Zero Hour recorded the use in AcademyStats here; BFME 2 has no AcademyStats
+	// (AcademyStats::recordSpecialPowerUsed was this unit's only link blocker).
 	
 	//If we depend on our update module to trigger the special power, make sure we have the
 	//appropriate update module!
