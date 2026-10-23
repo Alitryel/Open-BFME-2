@@ -11,3 +11,7 @@ struct BfmePod104 { char m_pad[104]; BfmePod104(const BfmePod104 &); ~BfmePod104
 
 // Instantiate the recovered operation and its required template dependencies.
 template BfmePod104 * _STL::__uninitialized_fill_n<BfmePod104 *, unsigned int, BfmePod104>(BfmePod104 *, unsigned int, BfmePod104 const &, _STL::__false_type const &);
+
+// 0x003F4163 calls this fill through the out-of-line uninitialized_fill_n wrapper
+// (three arguments plus the __false_type tag at [ebp-1]).
+template BfmePod104 * _STL::uninitialized_fill_n<BfmePod104 *, unsigned int, BfmePod104>(BfmePod104 *, unsigned int, BfmePod104 const &);
