@@ -68,19 +68,8 @@ private:
 #include "GameNetwork/GameSpyOverlay.h"
 //#include "GameNetwork/GameSpy/PeerDefs.h"
 #include "GameNetwork/GameSpy/BuddyThread.h"
-// BFME 2's 0x88-byte audio event. The canonical header
-// (Code/GameEngine/Include/Common/BfmeAudioEventPrefix136.h) pulls in the
-// BFME 2 AsciiString shim, which collides with the Zero Hour AsciiString this
-// unit is built on, so only the constructor/destructor ABI and the size the
-// open-overlay click sound needs are declared here.
-// class-gate: allow BfmeAudioEventPrefix136 Zero-Hour-header unit cannot include the shim-based canonical header
-struct OpaqueRefElement4;
-struct BfmeAudioEventPrefix136
-{
-	BfmeAudioEventPrefix136(const OpaqueRefElement4 &, int);
-	virtual ~BfmeAudioEventPrefix136();
-	unsigned char m_data[0x88 - 4];
-};
+// BFME 2's 0x88-byte audio event, from its canonical header.
+#include "../../Include/Common/BfmeAudioEventPrefix136.h"
 
 // The two native helpers finish with string teardown and do not preserve a
 // GameWindow return value. Keep their BFME 2 void ABI; MessageBoxOk retains

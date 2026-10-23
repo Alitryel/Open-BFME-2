@@ -2,15 +2,7 @@
 // ??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z @0x000CB3FB 381B: LINK body, vtable slot ctor; evidence: base ??0W3DScriptedModelDraw@@QAE@PAVThing@@PBVModuleData@@@Z pin 0x000C0DD8, three vptrs +0/+0xC/+0x10, bools +0x2E8, handles +0x2EC/+0x2F8/+0x304, zeros +0x310-+0x370, two BfmeAudioEventPrefix136 +0x374/+0x3FC via rowed 0x002D97D6, int +0x484; donor /workspace/reference/open-bfme-1/game/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawConstructor.cpp plus Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp layout
 class Thing;
 class ModuleData;
-class OpaqueRefCounted
-{
-public:
-	void Release_Ref();
-};
-struct OpaqueRefElement4
-{
-	OpaqueRefCounted *referent;
-};
+#include "../../../../../../GameEngine/Include/Common/BfmeAudioEventPrefix136.h"
 // Native temporary cleanups jump to 0x0010F149: the existing counted-handle
 // destructor, whole 12-byte body and Release_Ref relocation. Original type unknown.
 struct Rva0010F149Handle
@@ -18,12 +10,6 @@ struct Rva0010F149Handle
 	OpaqueRefCounted *m_target;
 	Rva0010F149Handle() : m_target(0) {}
 	~Rva0010F149Handle() { if (m_target != 0) m_target->Release_Ref(); }
-};
-struct BfmeAudioEventPrefix136
-{
-	BfmeAudioEventPrefix136(const OpaqueRefElement4 &arg, int v);
-	virtual ~BfmeAudioEventPrefix136();
-	char m_pad[0x88 - 4];
 };
 class DrawModule
 {
