@@ -115,6 +115,13 @@ struct Rva0051F7ADRecord
 {
 	unsigned int m_words[2];
 };
+// The records' range destroy is the rowed 0x0052C37A body.
+struct Rva0052BFB5Elem;
+void __cdecl Rva0052C37ADestroyRange(Rva0052BFB5Elem *, Rva0052BFB5Elem *);
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void _Destroy<Rva0051F7ADRecord *>(Rva0051F7ADRecord *first, Rva0051F7ADRecord *last)
+{ Rva0052C37ADestroyRange((Rva0052BFB5Elem *)first, (Rva0052BFB5Elem *)last); }
+}
 
 struct Rva0026F4F4Element
 {
@@ -249,6 +256,9 @@ private:
 	_STL::vector<AptTimeLinePlayer> m_players; // +0x288
 };
 
+// resize(n) is the rowed 0x0052076F body.
+class Rva00520703Vector { public: void resize(unsigned); };
+
 void AptTimeLine::CollectPlayerData(LivingWorldPlayer *player, Rva00520923Source *source)
 {
 	if (player == 0)
@@ -258,7 +268,7 @@ void AptTimeLine::CollectPlayerData(LivingWorldPlayer *player, Rva00520923Source
 	if (isLocal)
 		index = 0;
 	else
-		m_players.resize(index + 1);
+		reinterpret_cast<Rva00520703Vector *>(&m_players)->resize(index + 1);
 	_STL::vector<AptTimeLinePlayer>::iterator row = isLocal ? m_players.begin() : m_players.end() - 1;
 	if (source)
 		row->m_name = source->m_displayName;
@@ -328,7 +338,6 @@ void AptTimeLine::CollectPlayerData(LivingWorldPlayer *player, Rva00520923Source
 // victory interface retain consuming views; their original types are unknown.
 class Player { public: bool isLocalPlayer() const; };
 class GameSlot { public: bool disconnected() const; };
-class Rva00520703Vector { public: void resize(unsigned); };
 class Rva0051F6DF { public: Rva0051F6DF &operator=(const Rva0051F6DF &); };
 class Rva001EB0CAHolder { public: unsigned char rva001EB0D9(); };
 class LinearCampaignManager;
