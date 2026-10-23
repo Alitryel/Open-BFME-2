@@ -40,8 +40,8 @@ template <> struct _Vector_base<GeometryShape, allocator<GeometryShape> >
 	GeometryShape *m_begin;
 	GeometryShape *m_finish;
 };
-template <class _Tp>
-void _Construct(_Tp *p, const _Tp &v);
+template <class _Tp, class _Tp2>
+void _Construct(_Tp *p, const _Tp2 &v);
 template <class _InputIter, class _ForwardIter>
 __declspec(noinline) _ForwardIter __uninitialized_copy(_InputIter first, _InputIter last, _ForwardIter dest, const __false_type &tag)
 {

@@ -1,7 +1,7 @@
 // cl: /EHsc /MD
 // ?Rva0032AF02Compare@@YAHHHH@Z @0x0032AF02 84B unlock caller 0x0032B624 globals 0x007FDC60 0x0080D938
 // Evidence: builds two stack Reader adaptors with vtables g_00BFDC60/g_00C0D938 around first two args then cdecl Compare with third arg. Same shape as Rva002ABC22Compare (84B).
-class Rva002AADB6Reader
+class __declspec(novtable) Rva002AADB6Reader
 {
 public:
 	virtual int GetLength();
@@ -13,7 +13,7 @@ extern "C" const void *const __identifier("??_7Rva0032A3C6@@6B@")[];
 
 int Rva002AADB6Compare(Rva002AADB6Reader *a, Rva002AADB6Reader *b, int unused);
 
-class ReaderA0032AF02 : public Rva002AADB6Reader
+class __declspec(novtable) ReaderA0032AF02 : public Rva002AADB6Reader
 {
 public:
 	ReaderA0032AF02(const void *p)
@@ -21,11 +21,11 @@ public:
 		*(const void *const **)this = __identifier("??_7Rva002AAD77@@6B@");
 		m_arg = p;
 	}
-	virtual ~ReaderA0032AF02() {}
+	virtual ~ReaderA0032AF02() { *(const void *const **)this = __identifier("??_7Rva002AAD77@@6B@"); }
 	const void *m_arg;
 };
 
-class ReaderB0032AF02 : public Rva002AADB6Reader
+class __declspec(novtable) ReaderB0032AF02 : public Rva002AADB6Reader
 {
 public:
 	ReaderB0032AF02(const void *p)
@@ -33,7 +33,7 @@ public:
 		*(const void *const **)this = __identifier("??_7Rva0032A3C6@@6B@");
 		m_arg = p;
 	}
-	virtual ~ReaderB0032AF02() {}
+	virtual ~ReaderB0032AF02() { *(const void *const **)this = __identifier("??_7Rva0032A3C6@@6B@"); }
 	const void *m_arg;
 };
 
