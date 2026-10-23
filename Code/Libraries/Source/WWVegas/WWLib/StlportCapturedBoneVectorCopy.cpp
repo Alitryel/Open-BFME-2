@@ -104,30 +104,32 @@ struct BfmePod36
           Translation(other.Translation), WorldSpace(other.WorldSpace) {}
 };
 
-// Retail's allocation constructor already has an owner at 0x00162800.
-// Keep it external instead of emitting a competing template definition.
+// The allocation provider at 0x00162800 owns a 36-byte storage view.
+// Use that rowed ABI directly; captured-bone access stays explicitly typed.
+struct Rva00162800Record { unsigned char bytes[36]; };
 namespace _STL {
-template<> _Vector_base<BfmePod36, allocator<BfmePod36> >::_Vector_base(
-    unsigned int, const allocator<BfmePod36> &);
+template<> _Vector_base<Rva00162800Record, allocator<Rva00162800Record> >::_Vector_base(
+    unsigned int, const allocator<Rva00162800Record> &);
 }
 
 class BfmeRva00166110
-    : public _STL::_Vector_base<BfmePod36, _STL::allocator<BfmePod36> >
+    : public _STL::_Vector_base<Rva00162800Record, _STL::allocator<Rva00162800Record> >
 {
 public:
     BfmeRva00166110(const BfmeRva00166110 &other)
-        : _STL::_Vector_base<BfmePod36, _STL::allocator<BfmePod36> >(
-              size_t(other._M_finish - other._M_start), other.get_allocator())
+        : _STL::_Vector_base<Rva00162800Record, _STL::allocator<Rva00162800Record> >(
+              size_t(other._M_finish - other._M_start),
+              reinterpret_cast<const _STL::allocator<Rva00162800Record> &>(other.get_allocator()))
     {
-        const BfmePod36 *last = other._M_finish;
-        const BfmePod36 *first = other._M_start;
-        BfmePod36 *out = this->_M_start;
+        const BfmePod36 *last = reinterpret_cast<const BfmePod36 *>(other._M_finish);
+        const BfmePod36 *first = reinterpret_cast<const BfmePod36 *>(other._M_start);
+        BfmePod36 *out = reinterpret_cast<BfmePod36 *>(this->_M_start);
         while (first != last) {
             new (out) BfmePod36(*first);
             ++first;
             ++out;
         }
-        this->_M_finish = out;
+        this->_M_finish = reinterpret_cast<Rva00162800Record *>(out);
     }
 
     _STL::allocator<BfmePod36> get_allocator() const
@@ -138,8 +140,8 @@ public:
     }
 };
 
-// Retain the reference template's out-of-line get_allocator call shape.
-template class _STL::vector<BfmePod36, _STL::allocator<BfmePod36> >;
+// The copy above owns its typed get_allocator call; no complete vector
+// instantiation is needed for this storage view.
 
 // ?emitCapturedBoneVectorCopy absent-from-retail
 void emitCapturedBoneVectorCopy(const BfmeRva00166110 &first,
