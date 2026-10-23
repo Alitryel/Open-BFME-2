@@ -12,6 +12,17 @@
 // No // cl: line (defaults match the frameless 6-byte shape, same as the
 // ModuleNameGetters.cpp precedent).
 
+#define BFME_SNAPSHOT_NAME_GETTER(NAME, TEXT) \
+	class NAME \
+	{ \
+	protected: \
+		virtual const char *GetSnapshotName() const; \
+	}; \
+	const char *NAME::GetSnapshotName() const \
+	{ \
+		return TEXT; \
+	}
+
 #define BFME_LITERAL_NAME_GETTER(NAME, TEXT) \
 	class NAME \
 	{ \
@@ -48,7 +59,7 @@ BFME_LITERAL_NAME_GETTER(Rva00486B6FNamed, "UpgradeDie")
 BFME_LITERAL_NAME_GETTER(Rva00486C8FNamed, "KeepObjectDie")
 BFME_LITERAL_NAME_GETTER(Rva00487F5ANamed, "DefaultProductionExitUpdate")
 BFME_LITERAL_NAME_GETTER(Rva00488288Named, "DelayedWeaponSetUpgradeUpdate")
-BFME_LITERAL_NAME_GETTER(Rva00488351Named, "DeletionUpdate")
+BFME_SNAPSHOT_NAME_GETTER(DeletionUpdate, "DeletionUpdate")
 class DozerActionState
 {
 public:
@@ -60,7 +71,7 @@ const char *DozerActionState::GetSnapshotName() const
 	return "DozerActionState";
 }
 BFME_LITERAL_NAME_GETTER(Rva00488997Named, "DozerPrimaryStateMachine")
-BFME_LITERAL_NAME_GETTER(Rva0048B68ANamed, "FireSpreadUpdate")
+BFME_SNAPSHOT_NAME_GETTER(FireSpreadUpdate, "FireSpreadUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0048D75BNamed, "FloatUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0048FBD3Named, "HeightDieUpdate")
 BFME_LITERAL_NAME_GETTER(ArrowStormUpdate, "ArrowStormUpdate")

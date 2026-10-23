@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /Oi
+// cl: /Ireference/shims/update_modules_bfme2 /DNDEBUG /MD /Oi
 //
 // ??0ProjectileStreamUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x0033EE25, 86 bytes. Behavior-side ctor completing the
@@ -41,11 +41,7 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
-class UpdateModuleInterface
-{
-public:
-	virtual void update() = 0;
-};
+#include "GameLogic/Module/UpdateModuleInterface.h"
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
@@ -55,7 +51,9 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	virtual void update();
+	virtual UpdateSleepTime update() = 0;
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime wakeDelay);
 };
 
 typedef int ObjectID;
@@ -76,6 +74,7 @@ class ProjectileStreamUpdate : public UpdateModule
 {
 public:
 	ProjectileStreamUpdate(Thing *thing, const ModuleData *moduleData);
+	virtual UpdateSleepTime update();
 
 private:
 	ObjectID m_projectileIDs[MAX_PROJECTILE_STREAM]; // +0x20
@@ -107,4 +106,3 @@ ProjectileStreamUpdate::ProjectileStreamUpdate(Thing *thing, const ModuleData *m
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?unused@BehaviorModuleBase@@EAEXXZ=??_GRva0033EEC9@@UAEPAXI@Z")
-#pragma comment(linker, "/alternatename:?update@UpdateModule@@UAEXXZ=?update@ProjectileStreamUpdate@@UAE?AW4UpdateSleepTime@@XZ")

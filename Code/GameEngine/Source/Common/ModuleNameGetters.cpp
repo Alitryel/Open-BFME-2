@@ -13,6 +13,17 @@
 // bytes, string carried in source where verify_string_refs re-reads it).
 // No // cl: line (defaults match the frameless 6-byte shape).
 
+#define BFME_SNAPSHOT_NAME_GETTER(NAME, TEXT) \
+	class NAME \
+	{ \
+	protected: \
+		virtual const char *GetSnapshotName() const; \
+	}; \
+	const char *NAME::GetSnapshotName() const \
+	{ \
+		return TEXT; \
+	}
+
 #define BFME_LITERAL_NAME_GETTER(NAME, TEXT) \
 	class NAME \
 	{ \
@@ -67,7 +78,7 @@ BFME_LITERAL_NAME_GETTER(Rva0048E8F1Named, "DeployStyleAIUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0048BDADNamed, "FireWeaponUpdate")
 BFME_LITERAL_NAME_GETTER(DozerAIUpdate, "DozerAIUpdate")
 BFME_LITERAL_NAME_GETTER(Rva00487A5ENamed, "BoneFXUpdate")
-BFME_LITERAL_NAME_GETTER(Rva00486E76Named, "AssistedTargetingUpdate")
+BFME_SNAPSHOT_NAME_GETTER(AssistedTargetingUpdate, "AssistedTargetingUpdate")
 BFME_LITERAL_NAME_GETTER(RebuildHoleExposeDie, "RebuildHoleExposeDie")
 BFME_LITERAL_NAME_GETTER(RebuildHoleBehavior, "RebuildHoleBehavior")
 BFME_LITERAL_NAME_GETTER(FireWeaponWhenDamagedBehavior, "FireWeaponWhenDamagedBehavior")
