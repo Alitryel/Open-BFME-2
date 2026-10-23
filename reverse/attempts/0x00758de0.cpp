@@ -1,9 +1,5 @@
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.924924924924925 date=2026-10-23
-// BfmeThingCGD::bfmeTwoCGD
-// partial score=0.924924924924925 date=2026-10-23
-// BfmeThingCGD::bfmeTwoCGD
-// partial score=0.924924924924925 date=2026-10-23
 // cl: /O2 /MD /EHsc /I.
 // Diagnostic only: the packed fastcall interface is an ABI model, not a proven original type.
 // The uniform virtual-interface control is preserved in the final-schedule support packet.
