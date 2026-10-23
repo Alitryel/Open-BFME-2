@@ -53,3 +53,6 @@ RTS2DScene::RTS2DScene()
 	Add_Render_Object(m_status);
 	m_camera = 0;
 }
+
+// The ctor's second vftable (0x00BC6264) slot 0 is this-adjusting (-0x108) into the deleting dtor 0x0006F24A, which calls the dtor at 0x0006ED6F.
+#pragma comment(linker, "/alternatename:??1RTS2DScene@@UAE@XZ=??1Rva006ED6F@@UAE@XZ")

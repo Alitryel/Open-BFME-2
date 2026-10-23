@@ -74,3 +74,6 @@ bool BfmeRectVNH::rva003FD522()
     ((Rva0029B16A *)TheInGameUI)->setMissionHelpText((int)&text, 0);
     return true;
 }
+
+// BfmeBaseVNH vftable 0x00BFE008 slot 0 is the deleting dtor 0x004A10FD, whose dtor call is the Snapshot vptr-store dtor at 0x0049B47C.
+#pragma comment(linker, "/alternatename:??1BfmeBaseVNH@@UAE@XZ=??1Snapshot@@UAE@XZ")

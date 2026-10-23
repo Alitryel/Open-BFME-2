@@ -50,3 +50,6 @@ Rva0061FC70CleanupDeleting::Rva0061FC70CleanupDeleting()
 	for (unsigned int index = 0; index < 0xAFCF; ++index)
 		m_data[index] = 0;
 }
+
+// vftable 0x00C7C610 slot 0 is the deleting dtor 0x00621040, whose dtor call is the body at 0x00620870.
+#pragma comment(linker, "/alternatename:??1Rva0061FC70CleanupDeleting@@UAE@XZ=?Remove_All@?$SList@VTagBlockIndex@@@@UAEXXZ")

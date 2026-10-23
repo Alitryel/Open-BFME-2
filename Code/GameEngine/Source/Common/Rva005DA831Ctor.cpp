@@ -26,3 +26,6 @@ Rva005DA831::Rva005DA831(void *held)
 	m_08 = -1;
 	m_0C = 3;
 }
+
+// vftable 0x00C76518 slot 1 is the deleting dtor 0x005DA663, whose dtor call is the 7-byte vptr-store body at 0x005970E6.
+#pragma comment(linker, "/alternatename:??1Rva005DA831@@UAE@XZ=?apply@Rva0005970E6DwordImmSetter@@QAEXXZ")

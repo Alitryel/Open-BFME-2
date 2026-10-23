@@ -149,3 +149,6 @@ void bfmeEmitGeometryInfoCtor(GeometryInfo *geometryInfo)
 	geometryInfo->GeometryInfo::GeometryInfo(GEOMETRY_SPHERE, true, 0, 0, 0);
 }
 #pragma inline_depth()
+
+// Slot 1 of the GeometryInfo vftable (0x00BC4E94) is the shared empty RET at 0x000B3FD0.
+#pragma comment(linker, "/alternatename:?LoadPostProcess@GeometryInfo@@UAEXXZ=?LoadPostProcess@SidesList@@UAEXXZ")

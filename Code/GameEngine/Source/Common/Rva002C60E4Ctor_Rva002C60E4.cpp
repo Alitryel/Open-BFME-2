@@ -81,3 +81,6 @@ Rva002C60E4::Rva002C60E4(void *arg0, bool arg1)
 	m_1C = new Rva00506A34(arg0);
 }
 
+
+// Slot 1 of the Rva00506B1B vftable (0x00C63F9C) is the retail purecall stub at 0x0003B810.
+#pragma comment(linker, "/alternatename:?v1@Rva00506B1B@@UAEXXZ=__purecall")

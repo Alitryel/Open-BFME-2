@@ -44,3 +44,6 @@ Rva003A7736::Rva003A7736(const Rva003A7736 &other)
 	m_field20 = other.m_field20;
 	m_field21 = other.m_field21;
 }
+
+// vftable 0x00C1BCB0 slot 0 is the vector-deleting thunk 0x003A77A7, whose element dtor (0x0049B47C) is the Snapshot vptr-store dtor.
+#pragma comment(linker, "/alternatename:??1Rva003A7736@@UAE@XZ=??1Snapshot@@UAE@XZ")
