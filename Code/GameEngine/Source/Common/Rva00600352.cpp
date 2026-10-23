@@ -1,10 +1,10 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00600352Init@@YIPAVRva00600352@@PAV1@HHHHH@Z @0x00600352 39B evidence:
-// fastcall init (this, fwd-dead-forwarded, a, b, c, d-dead): chains to
-// pinned fastcall ?rva00600305@@YIXPAVRva00600305Obj@@HHHH@Z @0x00600305
-// with (this, fwd, a, b, c) pushed c,b,a; m_08 = a; installs vtable 0x00C7A620 by
-// literal store; returns this; ret 0x10. Same fastcall family as 0x005F8E37.
-// TU-local view only.
+// ??0Rva006003FCMember@@QAE@PAX00I@Z @0x00600352 39B evidence: thiscall
+// ctor (owner, first, second, colour; ret 0x10) of the player page's +8
+// member, called so by 0x00600432: it chains to the rowed
+// StrategicHUD::BattlePromptPlayerPageMovieClip ctor 0x00600305 with
+// (first, second, colour), stores the owner at +8 and installs vtable
+// 0x00C7A620 by literal store. TU-local view only.
 // The retail table at RVA 0x0087A620: 4 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -19,24 +19,6 @@ extern "C" const void *const vtbl_00C7A620[4] = {
 	(const void *)&__identifier("?rva00600386@Rva0060037E@@QAEXXZ"), // slot 2 0x00600386
 	(const void *)&__identifier("?rva0060038E@Rva0060038E@@QAEXXZ"), // slot 3 0x0060038E
 };
-class Rva00600305Obj;
-void __fastcall rva00600305(Rva00600305Obj *o, int fwd, int s1, int s2, int s3);
-
-class Rva00600352
-{
-public:
-	char m_pad[8];
-	int m_08;
-};
-
-Rva00600352 *__fastcall rva00600352Init(Rva00600352 *o, int fwd, int volatile a, int b, int c, int d)
-{
-	rva00600305((Rva00600305Obj *)o, fwd, b, c, d);
-	o->m_08 = a;
-	((int *)o)[0] = ((unsigned int)vtbl_00C7A620);
-	return o;
-}
-
 // ??0Rva006003FC@@QAE@PAX00@Z, native 600432..6004A5 (115B, EH, RET 0xC;
 // callers the three player-page constructors 0x005FB14E, 0x005FB30A and
 // 0x005FB4DF): over the zeroing counted base (Rva0007DF07, destructor
@@ -67,8 +49,24 @@ class Rva006003FCMember
 public:
 	Rva006003FCMember(void *owner, void *first, void *second, unsigned int color);	// 0x00600352
 private:
-	unsigned char m_data[0x0c];
+	unsigned char m_clip[0x08];		// the movie clip base
+	void *m_owner;					// +0x08
 };
+class AsciiString;
+namespace StrategicHUD {
+class BattlePromptPlayerPageMovieClip
+{
+public:
+	BattlePromptPlayerPageMovieClip(int level, const AsciiString &name, int playerColor);	// 0x00600305
+};
+}
+Rva006003FCMember::Rva006003FCMember(void *owner, void *first, void *second, unsigned int color)
+{
+	((StrategicHUD::BattlePromptPlayerPageMovieClip *)this)->StrategicHUD::BattlePromptPlayerPageMovieClip::BattlePromptPlayerPageMovieClip(
+		(int)first, *(const AsciiString *)second, color);
+	m_owner = owner;
+	*(const void *const **)this = vtbl_00C7A620;
+}
 static __forceinline unsigned int Rva006003FCColor(const Rva006003FCInputs *in)
 {
 	return ((Rva006003FCPlayer *)in->m_source->rva003F468D(in->m_a, in->m_b))->getColor()->getAsInt() | 0xff000000;

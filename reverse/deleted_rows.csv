@@ -2041,3 +2041,4 @@ __ehhandler$?rva00059A25@Rva00059A25@@QAEXABVAsciiString@@H@Z,0x0075D851,"Rename
 __ehhandler$??0Rva001F092A@@QAE@XZ,0x0076B01B,"Renamed to __ehhandler$??0ObjectCreationListStore@@QAE@XZ: follows the rename of its function"
 ??1Rva001F092A@@UAE@XZ,0x001F0996,"Renamed to ??1ObjectCreationListStore@@UAE@XZ: retail init registers constructor 0x001F092A as TheObjectCreationListStore and its table owns this body"
 __ehhandler$??1Rva001F092A@@UAE@XZ,0x0076B04E,"Renamed to __ehhandler$??1ObjectCreationListStore@@UAE@XZ: follows the rename of its function"
+?rva00600352Init@@YIPAVRva00600352@@PAV1@HHHHH@Z,0x00600352,"Renamed to ??0Rva006003FCMember@@QAE@PAX00I@Z: its caller 0x00600432 calls it as a thiscall ctor (ecx this; owner/first/second/colour on the stack; ret 0x10), not the fastcall the old spelling claimed"
