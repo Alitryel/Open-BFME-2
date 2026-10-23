@@ -1,5 +1,4 @@
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
-// Element identity and unconstrained fields remain address-derived structural inference.
 // cl: /Og /Os /Ob1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -42,11 +41,13 @@ namespace _STL { template <> hash_map<int,int,hash<int>,equal_to<int>,allocator<
 namespace _STL { template <> hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::~hashtable(); }
 // Suppress this TU's non-retail copy of ??0?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
-
+
+
 namespace _STL { template <> hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::hashtable(size_t, const hash<int> &, const equal_to<int> &, const allocator<pair<const int, int> > &); }
 // Suppress this TU's non-retail copy of ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
-
+
+
 namespace _STL { template <> void hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::_M_initialize_buckets(size_t); }
 // Suppress this TU's non-retail copy of ?clear@?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -81,9 +82,16 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
-struct Rva004E02B8Element { char bytes[1]; bool operator<(const Rva004E02B8Element&)const; bool operator==(const Rva004E02B8Element&)const; };
-namespace _STL {template<> struct hash<Rva004E02B8Element> { unsigned operator()(const Rva004E02B8Element&) const; };}
-template class _STL::hash_map<int,Rva004E02B8Element>;
+// The element is Rva004E007AElement: this constructor's only call (0x004E02CD) goes to the
+// rowed hashtable<pair<const int, Rva004E007AElement> > constructor at 0x004E007A
+// (StlSweepW5Rva004E007A.cpp), which declares the same element view. Only the rowed
+// hash_map constructor is instantiated (the whole hash_map would emit members that
+// reference the element's undefined ctors and ==).
+struct Rva004E007AElement {Rva004E007AElement();Rva004E007AElement(const Rva004E007AElement&);Rva004E007AElement&operator=(const Rva004E007AElement&);~Rva004E007AElement(){}char bytes[8]; bool operator==(const Rva004E007AElement&)const;};
+typedef _STL::pair<const int, Rva004E007AElement> Rva004E007AElementPair;
+// The bucket-size helper is declared only: the kept copy serves its call.
+namespace _STL { template <> unsigned int hashtable<Rva004E007AElementPair, int, hash<int>, _Select1st<Rva004E007AElementPair>, equal_to<int>, allocator<Rva004E007AElementPair> >::_M_next_size(unsigned int) const; }
+template _STL::hash_map<int, Rva004E007AElement, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<Rva004E007AElementPair> >::hash_map();
 // AIStatCollector::Register increments the mapped four-byte count at node+8;
 // its constructor's empty count-map call uses this same retail body. Keep
 // the original opaque owner while proving the actual int-count instantiation
