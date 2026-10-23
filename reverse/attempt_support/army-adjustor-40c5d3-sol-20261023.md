@@ -44,8 +44,9 @@ this partial destructor view does not establish the full class size.
 
 ## Production integration and limits
 
-The incorrect scalar owner and its destructor pin were retracted in
-d54e386715. The raw primary-table data row was retracted with its definition:
+The incorrect scalar owner and its destructor pin were retracted in the
+separate "Retract the nonvirtual ArmySummaryEntry delete-wrapper identity"
+commit. The raw primary-table data row was retracted with its definition:
 its first entry depended on the removed false scalar identity. The normal
 commit hooks verified the remaining 20 functions and two data rows.
 
@@ -53,8 +54,8 @@ The production destructor now uses the canonical four-slot Snapshot surface
 and Rva0007DF07 secondary base. The constructors reference the compiler's two
 actual vftable symbols instead of separate address-named globals. The const
 name getter is admitted as an exact six-byte ICF twin of the existing opaque
-returner, with no unique-byte gain. The three-source byte gate is required
-before committing this integration.
+returner, with no unique-byte gain. The three-source byte gate verified all
+ten rows before the integration commit.
 
 Independent private-object inspection of the protected-slot model confirms
 complete emitted extents of 29 bytes for the parent, 28 for the virtual scalar
@@ -72,7 +73,8 @@ defined. This preserves the complete slot surface without touching the claimed
 body, but leaves an explicit link prerequisite. A generated table and exact
 destructor/adjustor bytes are not a claim that this unit already links.
 
-The 28-byte virtual scalar was readmitted through add_match in 4e9a51d9f4.
+The 28-byte virtual scalar was readmitted through add_match in the separate
+"Readmit the actual virtual ArmySummaryEntry scalar deleting destructor" commit.
 The three-source link preview against census 456ce161c5 (2026-10-23 06:28)
 reports both constructor units clean, increasing the preview from 865 to
 1,063 bytes. The destructor unit has exactly one unresolved name:
@@ -87,3 +89,30 @@ anonymous tail call `void j_0040c5d9() { b_0040c5de(); }`. No ledger deletion,
 generated-file edit, no-verify admission or byte-gate bypass was used. The
 refusal is logged separately; any recognizer repair must be a separate
 Verifier-Change commit with regression coverage and the exploit suite intact.
+
+## Verified admission
+
+The independent verifier repair is the separate "Recognize verified generated
+gap-thunk scaffolds for takeover" commit. It recognizes only the
+generator-owned gap-thunk form, checking its synthetic name, exact metadata,
+restricted source grammar, unique definition and complete native E9 target.
+Both single and batch takeovers still invoke the normal build and restore the
+old row on failure. The add_match suites plus test_gate_exploits report
+206 passed; the sole skip is the empty optional audit-fixture parameter set,
+not a skipped exploit case.
+
+With that committed repair, normal add_match replaces the five-byte interior
+scaffold with the complete eleven-byte adjustor at 0040C5D3. The destructor
+unit verifies all four rows (29/6/28/11 bytes), including every call/jump
+relocation and the class-name literal. No generated source was edited.
+place_bodies on the three affected class units reports zero further bodies
+and zero pins. The one declared loadPostProcess override remains the separate,
+claimed link prerequisite described above; its missing implementation is not
+hidden by a fabricated alias, wrapper or pin.
+
+After rebasing onto master fec6b240f5, the affected five-unit gate (the four
+edited Code units plus the generated thunk provider whose row was retired)
+verifies 71/71 functions and both data rows, with string, float and import
+checks passing. The add_match/exploit tests again report 206 passed and the
+same empty-fixture skip. These are focused checks; no full-tree baseline,
+new link census or boot runner is claimed.
