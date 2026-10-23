@@ -12,6 +12,8 @@
 
 class Thing;
 class ModuleData;
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+template<int N> class BitFlags;
 
 template <typename T> class StringBase
 {
@@ -22,9 +24,16 @@ private:
 	void *m_data;
 };
 
+// The primary table starts with the deleting destructor: retail table
+// RVA 0x0084DAD8 slot 0 is the owned callback 0x00491750. Inheriting an
+// unrelated virtual here shifted the destructor into slot 1 and emitted
+// a wrong first virtual slot. The deleting-wrapper unit uses these same
+// base views, including the native three-entry update interface.
 class BehaviorModuleBase
 {
-	virtual void unused();
+public:
+	virtual ~BehaviorModuleBase();
+private:
 	int a;
 	int b;
 };
@@ -43,7 +52,9 @@ public:
 class UpdateModuleInterface
 {
 public:
-	virtual void update() = 0;
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<11> getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime sleep) = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -55,6 +66,8 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
+	virtual BitFlags<11> getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime sleep);
 };
 
 class MonitorConditionUpdate : public UpdateModule
@@ -62,6 +75,7 @@ class MonitorConditionUpdate : public UpdateModule
 public:
 	MonitorConditionUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual ~MonitorConditionUpdate();
+	virtual UpdateSleepTime update();
 
 private:
 	StringBase<char> m_str; // +0x20
