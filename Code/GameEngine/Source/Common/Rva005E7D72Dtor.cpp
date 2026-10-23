@@ -7,13 +7,21 @@
 // deleting destructor 0x005E7F94 (rowed in Rva005E7C19Dtor.cpp) and the owned-pointer resets in
 // OwnedPointerResets.cpp call it. Owner identity unrecovered (address name).
 
-class Rva005E7C19
+namespace StrategicHUD { class BuildQueueIconSlot; }
+namespace StrategicInGameUI { class BuildQueueDetailsPanel { public: class Impl; }; class BuildQueueDetailsPanel::Impl { public: class Icon; }; }
+class StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon
 {
 public:
-	virtual ~Rva005E7C19();
+	~Icon();
+  virtual void OnBuildQueueIconSlotLeftClicked(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRightClicked(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRollOut(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRollOver(StrategicHUD::BuildQueueIconSlot *);
+  virtual void rva005E715F(StrategicHUD::BuildQueueIconSlot *);
+  virtual void rva005E7166(StrategicHUD::BuildQueueIconSlot *);
 };
 
-class __declspec(novtable) Rva005E7D72 : public Rva005E7C19
+class __declspec(novtable) Rva005E7D72 : public StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon
 {
 public:
 	virtual ~Rva005E7D72();

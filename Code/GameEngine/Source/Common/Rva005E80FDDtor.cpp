@@ -55,10 +55,14 @@ private:
 Base0C_80FD::Base0C_80FD()
 {
 }
-class Rva005E80FD : public Rva005F830A, public Rva0057605DSecond, public Base0C_80FD
+namespace StrategicInGameUI { class BuildQueueDetailsPanel { public: class Impl; }; }
+class StrategicInGameUI::BuildQueueDetailsPanel::Impl : public Rva005F830A, public Rva0057605DSecond, public Base0C_80FD
 {
 public:
-	virtual ~Rva005E80FD();
+	virtual ~Impl();
+ virtual void rva005E716D();
+ virtual void onLivingWorldBuildingNuggetSpawnArmyUnitDequeued(Rva005E72B4Queue &,int);
+ virtual void onLivingWorldBuildingNuggetSpawnArmyUnitQueued(Rva005E72B4Queue &,int);
 private:
 	char m_pad10[0x18 - 0x10];
 	Holder18 *m_holder18;
@@ -66,7 +70,7 @@ private:
 	Rva005E7FC8 m_clear20;
 	Rva005E8005 m_vec24;
 };
-Rva005E80FD::~Rva005E80FD()
+StrategicInGameUI::BuildQueueDetailsPanel::Impl::~Impl()
 {
 	m_holder1C->m_erase.rva002B7250((CreateAHeroData *)(Base0C_80FD *)this);
 	m_holder18->m_erase.rva002B7250((CreateAHeroData *)(Rva0057605DSecond *)this);

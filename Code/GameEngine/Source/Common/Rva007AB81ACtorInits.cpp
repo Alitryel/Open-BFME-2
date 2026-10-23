@@ -136,7 +136,7 @@ extern Rva00214E02 TheCloudEffectSettingsSaved;	// 0x00DFE1E8
 extern unsigned g_Va00E065EC;
 extern unsigned g_Va00E06664;
 extern unsigned g_Va00E06665;
-extern unsigned g_Va00E06724;
+extern unsigned g_Va00E06724[4];
 extern unsigned g_Va00E08D48;
 
 struct Rva007AB81ACtorInits

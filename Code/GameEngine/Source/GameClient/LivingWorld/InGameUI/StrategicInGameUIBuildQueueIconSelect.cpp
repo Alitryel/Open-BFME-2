@@ -56,6 +56,48 @@ public:
 	void *m_value;
 };
 
+// Match the existing vector growth provider: no STL exception wrapper and
+// local min/max overloads, avoiding incompatible external COMDAT copies.
+namespace _STL { void __cdecl free(void *); }
+#define free _STL::free
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned &max(const unsigned &a,const unsigned &b){return a<b?b:a;}
+static inline const int &min(const int &a,const int &b){return b<a?b:a;}
+}
+#include <vector>
+#undef free
+struct Rva005E71C6Ref;
+class Rva005E87E0;
+struct Rva005CE172Context;
+class Rva005E7D72 { public: virtual ~Rva005E7D72(); };
+class Rva005E7FE2 {
+public:
+ Rva005E7D72 *m_ptr;
+ Rva005E7FE2() : m_ptr(0) {}
+ ~Rva005E7FE2() {
+  Rva005E7D72 *p=m_ptr;
+  m_ptr=0;
+  if(p) {
+   p->Rva005E7D72::~Rva005E7D72();
+   ::operator delete(p);
+  }
+ }
+ void reset(Rva005E7D72 *);
+};
+class Rva005F830A {
+public:
+ Rva005F830A(void *,void *,void *,void *);
+ virtual ~Rva005F830A();
+private: void *m_heap;
+};
+#include "../../../../Include/Common/Rva0057605DSecond.h"
+#define BFME_BASE0C_80FD_INLINE_CTOR
+#include "../../../../Include/Common/Base0C_80FD.h"
+#undef BFME_BASE0C_80FD_INLINE_CTOR
+__forceinline Rva0057605DSecond::Rva0057605DSecond() {}
+__declspec(dllimport) __forceinline Base0C_80FD::Base0C_80FD() {}
+
 namespace StrategicInGameUI
 {
 class BuildQueueDetailsPanel
@@ -64,11 +106,16 @@ public:
 	class Impl;
 };
 
-class BuildQueueDetailsPanel::Impl
+class BuildQueueDetailsPanel::Impl : public Rva005F830A, public Rva0057605DSecond, public Base0C_80FD
 {
 public:
 	class Icon;
 	class InProgressIcon;
+ Impl(Rva005E87E0 *,void *,void *,Rva005CE172Context *);
+ virtual ~Impl();
+ virtual void rva005E716D();
+ virtual void onLivingWorldBuildingNuggetSpawnArmyUnitDequeued(Rva005E72B4Queue &,int);
+ virtual void onLivingWorldBuildingNuggetSpawnArmyUnitQueued(Rva005E72B4Queue &,int);
 	friend class Icon;
  friend class InProgressIcon;
 	friend class ::Rva005E7ED7;
@@ -80,14 +127,12 @@ public:
 private:
 	Icon *GetIconAtQueueIndex(int queueIndex) { return (Icon *)((Rva005E73E4 *)this)->rva005E73E4(queueIndex); }
 
-	char m_pad00[0x14];
+ Rva005E87E0 *m_owner;
  void *m_help; // native hover-help caller follows +14
  Rva005E76AEContext *m_context;
  Rva005E72B4Queue *m_queue;
- Icon *m_inProgressIcon; // +0x20
- Icon **m_iconsBegin; // +0x24
- Icon **m_iconsEnd; // +0x28
- char m_pad2C[0x30-0x2C];
+ Rva005E7FE2 m_first; // +0x20
+ _STL::vector<Rva005E71C6Ref> m_icons; // +0x24
 	int m_selectedQueueIndex; // +0x30, -1 when none
 };
 
@@ -509,17 +554,6 @@ public:
 };
 struct Rva005CE172Context;
 class Rva005E87E0;
-// Match the existing vector growth provider: no STL exception wrapper and
-// local min/max overloads, avoiding incompatible external COMDAT copies.
-namespace _STL { void __cdecl free(void *); }
-#define free _STL::free
-#include <stl/_algobase.h>
-namespace _STL {
-static inline const unsigned &max(const unsigned &a,const unsigned &b){return a<b?b:a;}
-static inline const int &min(const int &a,const int &b){return b<a?b:a;}
-}
-#include <vector>
-#undef free
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct Rva005E71C6Ref {
  Rva005E7ED7 *m_object;
@@ -543,47 +577,12 @@ namespace _STL {
 template<> __declspec(dllimport) __forceinline void allocator<Rva005E71C6Ref>::deallocate(Rva005E71C6Ref *p,size_t n)const {if(p) _STL::free(p);}
 template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<Rva005E71C6Ref *,Rva005E71C6Ref,allocator<Rva005E71C6Ref> >::deallocate(Rva005E71C6Ref *p,size_t n){static_cast<allocator<Rva005E71C6Ref> &>(*this).deallocate(p,n);}
 }
-class Rva005F830A {
-public:
- Rva005F830A(void *,void *,void *,void *);
- virtual ~Rva005F830A();
-private: void *m_heap;
-};
-class Rva005E8350Observer08 {
-public:
- virtual void slot0(void *) {}
- virtual void slot1(void *) {}
- virtual void slot2(void *) {}
- ~Rva005E8350Observer08() {}
-};
-class Rva005E8350Observer0C {
-public:
- virtual void slot0(Rva005E72B4Queue &) {}
- virtual void slot1(Rva005E72B4Queue &,int) = 0;
- virtual void slot2(Rva005E72B4Queue &,int) = 0;
- ~Rva005E8350Observer0C() {}
-};
 class Rva002DF9E9 { public: UnicodeString rva002DF9E9(); };
 class Rva004E0625 { public: int rva004E0625() const; };
 struct Rva002BA8F1Listener;
 class Rva005A0B4CList { public: void append(Rva002BA8F1Listener *); };
 class CreateAHeroData;
 class Rva002B7250 { public: void rva002B7250(CreateAHeroData *); };
-class Rva005E7D72 { public: virtual ~Rva005E7D72(); };
-class Rva005E7FE2 {
-public:
- Rva005E7D72 *m_ptr;
- Rva005E7FE2() : m_ptr(0) {}
- ~Rva005E7FE2() {
-  Rva005E7D72 *p=m_ptr;
-  m_ptr=0;
-  if(p) {
-   p->Rva005E7D72::~Rva005E7D72();
-   ::operator delete(p);
-  }
- }
- void reset(Rva005E7D72 *);
-};
 class Rva005E8095 { public: void rva005E8095(unsigned); };
 struct Rva005E8350Building { char unknown0[0x28]; Rva002DF9E9 *label; };
 // Field offsets are native evidence; this accessor name is reconstructed.
@@ -594,32 +593,17 @@ struct Rva005CE172Context {
  void *link;
  inline Rva002DF9E9 *getLabelObject() const { return building->label; }
 };
-extern void *rva00E0672C;
+extern unsigned g_Va00E06724[4];
 static const int MaximumQueuedIcons=7;
 inline void *rvaUnicodeAddress(const UnicodeString &unicodeString) { return (void *)&unicodeString; }
-class Rva005E8350 : public Rva005F830A, public Rva005E8350Observer08, public Rva005E8350Observer0C {
-public:
- Rva005E8350(Rva005E87E0 *,void *,void *,Rva005CE172Context *);
- virtual ~Rva005E8350();
- virtual void slot1(Rva005E72B4Queue &,int);
- virtual void slot2(Rva005E72B4Queue &,int);
-private:
- Rva005E87E0 *owner;
- void *help;
- Rva005E8350Building *building;
- Rva005E72B4Queue *queue;
- Rva005E7FE2 first;
- _STL::vector<Rva005E71C6Ref> icons;
- int selected;
-};
 class Rva005E87E0 : public Rva005CC5E5 {
 public:
  Rva005E87E0(void *,void *,Rva005CE172Context *);
  virtual ~Rva005E87E0();
-private: Rva005E8350 *payload;
+private: StrategicInGameUI::BuildQueueDetailsPanel::Impl *payload;
 };
 Rva005E87E0::Rva005E87E0(void *a,void *b,Rva005CE172Context *c)
- : payload(new Rva005E8350(this,a,b,c)) {}
+ : payload(new StrategicInGameUI::BuildQueueDetailsPanel::Impl(this,a,b,c)) {}
 
 class Rva005E7DD6 { public: void setRva005E7DD6(int); };
 void Rva005E7ED7::MoveTo(int index)
@@ -714,18 +698,18 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::InProgressIcon::Init(bool 
 class Rva005F7498 { public: void rva005F7498(); };
 class Rva005F6B35ByteChaseField { public: unsigned char get() const; };
 class Rva005E755E { public: UnicodeString rva005e755e(); };
-extern unsigned int g_Va00E06724;
+extern unsigned g_Va00E06724[4];
 
 void StrategicInGameUI::BuildQueueDetailsPanel::Impl::rva005E7AC6()
 {
 	((Rva005F7498 *)this)->rva005F7498();
 	if (((Rva005F6B35ByteChaseField *)this)->get())
 		TheMouse->rva001EEA6D(((Rva005E755E *)&g_Va00E06724)->rva005e755e(), -1, 0, 1.0f);
-	if (m_inProgressIcon)
-		m_inProgressIcon->Update();
-	Icon **end = m_iconsEnd;
-	for (Icon **it = m_iconsBegin; it != end; ++it)
-		(*it)->Update();
+	if (m_first.m_ptr)
+		((Icon *)m_first.m_ptr)->Update();
+	Rva005E71C6Ref *end = m_icons.end();
+	for (Rva005E71C6Ref *it = m_icons.begin(); it != end; ++it)
+		it->m_object->Update();
 }
 
 // Native 005E8350..005E8519: initialize the title and both observers, create
@@ -734,26 +718,26 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::rva005E7AC6()
 // the eight-byte local frame and reuse the dead context argument for the title.
 // Whole body, catch and eleven-state EH graph are byte exact; see
 // reverse/attempt_evidence/0x005e8350_visibility.txt.
-Rva005E8350::Rva005E8350(Rva005E87E0 *o,void *a,void *b,Rva005CE172Context *c)
- : Rva005F830A(a,b,rvaUnicodeAddress(c->getLabelObject()->rva002DF9E9()),rva00E0672C),
- owner(o),help(c->help),building(c->building),queue((Rva005E72B4Queue *)((Rva004E0625 *)c->building)->rva004E0625()),selected(-1)
+StrategicInGameUI::BuildQueueDetailsPanel::Impl::Impl(Rva005E87E0 *o,void *a,void *b,Rva005CE172Context *c)
+ : Rva005F830A(a,b,rvaUnicodeAddress(c->getLabelObject()->rva002DF9E9()),(void *)g_Va00E06724[2]),
+ m_owner(o),m_help(c->help),m_context((Rva005E76AEContext *)c->building),m_queue((Rva005E72B4Queue *)((Rva004E0625 *)c->building)->rva004E0625()),m_selectedQueueIndex(-1)
 {
- ((Rva005A0B4CList *)((char *)building+8))->append((Rva002BA8F1Listener *)(Rva005E8350Observer08 *)this);
+ ((Rva005A0B4CList *)((char *)m_context+8))->append((Rva002BA8F1Listener *)(Rva0057605DSecond *)this);
  try {
- const Rva005E72B4Production *production=queue->slot13();
+ const Rva005E72B4Production *production=m_queue->slot13();
  int count=production->end-production->begin;
  if(count>0) {
-  first.reset((Rva005E7D72 *)new StrategicInGameUI::BuildQueueDetailsPanel::Impl::InProgressIcon((StrategicInGameUI::BuildQueueDetailsPanel::Impl *)this,false));
+  m_first.reset((Rva005E7D72 *)new StrategicInGameUI::BuildQueueDetailsPanel::Impl::InProgressIcon((StrategicInGameUI::BuildQueueDetailsPanel::Impl *)this,false));
   if(count>1) {
    int available=count-1;
    int n=_STL::min(available,MaximumQueuedIcons);
-   ((Rva005E8095 *)&icons)->rva005E8095(n);
-   for(int i=0;i<n;++i) icons.push_back(Rva005E71C6Ref(new Rva005E7ED7((StrategicInGameUI::BuildQueueDetailsPanel::Impl *)this,i+1)));
+   ((Rva005E8095 *)&m_icons)->rva005E8095(n);
+   for(int i=0;i<n;++i) m_icons.push_back(Rva005E71C6Ref(new Rva005E7ED7((StrategicInGameUI::BuildQueueDetailsPanel::Impl *)this,i+1)));
   }
  }
- ((Rva005A0B4CList *)((char *)queue+4))->append((Rva002BA8F1Listener *)(Rva005E8350Observer0C *)this);
+ ((Rva005A0B4CList *)((char *)m_queue+4))->append((Rva002BA8F1Listener *)(Base0C_80FD *)this);
  } catch(...) {
- ((Rva002B7250 *)((char *)building+8))->rva002B7250((CreateAHeroData *)(Rva005E8350Observer08 *)this);
+ ((Rva002B7250 *)((char *)m_context+8))->rva002B7250((CreateAHeroData *)(Rva0057605DSecond *)this);
  throw;
  }
 }

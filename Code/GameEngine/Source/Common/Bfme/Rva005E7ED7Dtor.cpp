@@ -7,9 +7,17 @@
 // Same shape as empty MI dtors over rowed bases. Evidence: chain lane via
 // just-landed 0x005E7C19 plus caller 0x005E7EBB deleting shape plus
 // prev/next same /O1 flags.
-class Rva005E7C19 {
+namespace StrategicHUD { class BuildQueueIconSlot; }
+namespace StrategicInGameUI { class BuildQueueDetailsPanel { public: class Impl; }; class BuildQueueDetailsPanel::Impl { public: class Icon; }; }
+class StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon {
 public:
-  virtual ~Rva005E7C19();
+  ~Icon();
+  virtual void OnBuildQueueIconSlotLeftClicked(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRightClicked(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRollOut(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRollOver(StrategicHUD::BuildQueueIconSlot *);
+  virtual void rva005E715F(StrategicHUD::BuildQueueIconSlot *);
+  virtual void rva005E7166(StrategicHUD::BuildQueueIconSlot *);
 private:
   char m_pad[0x20];
 };
@@ -17,7 +25,7 @@ class Secondary005E7ED7 {
 public:
   virtual ~Secondary005E7ED7() {}
 };
-class __declspec(novtable) Rva005E7ED7 : public Rva005E7C19, public Secondary005E7ED7 {
+class __declspec(novtable) Rva005E7ED7 : public StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon, public Secondary005E7ED7 {
 public:
   virtual ~Rva005E7ED7();
 };

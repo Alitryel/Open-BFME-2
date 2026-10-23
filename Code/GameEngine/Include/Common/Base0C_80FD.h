@@ -4,16 +4,22 @@
 #ifndef CANONICAL_BASE0C_80FD_H
 #define CANONICAL_BASE0C_80FD_H
 
+class Rva005E72B4Queue;
+
 class Base0C_80FD {
 public:
     // Native BC6F34 has four callback slots and no deleting destructor.
     // Retain the existing nine-byte default constructor and nonvirtual
     // teardown; unused word argument types and original names are unknown.
+#ifdef BFME_BASE0C_80FD_INLINE_CTOR
+    __declspec(dllimport) __forceinline Base0C_80FD();
+#else
     Base0C_80FD();
+#endif
     ~Base0C_80FD() {}
     virtual void slot0(int) {}
-    virtual void slot1(int, int) {}
-    virtual void slot2(int, int) {}
+    virtual void onLivingWorldBuildingNuggetSpawnArmyUnitDequeued(Rva005E72B4Queue &, int) {}
+    virtual void onLivingWorldBuildingNuggetSpawnArmyUnitQueued(Rva005E72B4Queue &, int) {}
     virtual void slot3(int, int) {}
 };
 

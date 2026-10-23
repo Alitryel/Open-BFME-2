@@ -50,18 +50,8 @@ class Rva005F830A {
 public: virtual ~Rva005F830A();
 private: void *m_heap;
 };
-class Rva005EObserver08 {
-public:
- virtual void v0(void *) {} virtual void v1(void *) {} virtual void v2(void *) {}
- ~Rva005EObserver08() {}
-};
-class Rva005EObserver0C {
-public:
- virtual void v0(Rva005E72B4Queue &) {}
- virtual void onLivingWorldBuildingNuggetSpawnArmyUnitDequeued(Rva005E72B4Queue &,int)=0;
- virtual void onLivingWorldBuildingNuggetSpawnArmyUnitQueued(Rva005E72B4Queue &,int)=0;
- ~Rva005EObserver0C() {}
-};
+#include "../../../../Include/Common/Rva0057605DSecond.h"
+#include "../../../../Include/Common/Base0C_80FD.h"
 struct Rva005E71C6Ref;
 #include <stl/_algobase.h>
 namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
@@ -80,7 +70,7 @@ public:
 	class Impl;
 };
 
-class BuildQueueDetailsPanel::Impl : public Rva005F830A, public Rva005EObserver08, public Rva005EObserver0C
+class BuildQueueDetailsPanel::Impl : public Rva005F830A, public Rva0057605DSecond, public Base0C_80FD
 {
 public:
 	class Icon;
@@ -89,6 +79,8 @@ public:
  friend class InProgressIcon;
 	friend class ::Rva005E7ED7;
 
+ virtual ~Impl();
+ virtual void rva005E716D();
  virtual void onLivingWorldBuildingNuggetSpawnArmyUnitQueued(Rva005E72B4Queue &,int);
  virtual void onLivingWorldBuildingNuggetSpawnArmyUnitDequeued(Rva005E72B4Queue &,int);
 	void SelectQueueIndex(int queueIndex);

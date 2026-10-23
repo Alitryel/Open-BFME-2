@@ -156,7 +156,7 @@ extern unsigned int g_00E06664;
 // under the ledger's spelling for the address (?g_00E06665@@3...); the
 // initializer below runs the rowed _Loc_init ctor on it.
 unsigned char g_00E06665;
-extern unsigned g_Va00E06724;
+extern unsigned g_Va00E06724[4];
 extern unsigned g_Va00E08D48;
 
 struct Rva007AB81ACtorInits

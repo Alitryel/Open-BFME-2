@@ -1,6 +1,6 @@
 // cl: /MD /EHsc
 // ??1Rva005E7C19@@UAE@XZ @0x005E7C19 61B
-// Virtual dtor stores vtable 0x00877F14 then calls rowed
+// Nonvirtual Icon dtor stores the callback vtable 0x00877F14 then calls rowed
 // ?rva005E7855@Rva005E7855@@QAEXXZ on this then releases m_1C via rowed
 // fastcall ?ReleaseTreeHintRef00217D4C@@YIXPAUTargetRef00217D4C@@@Z.
 // Holder at +0x1C has inline dtor if (ptr) Release(ptr) which inlines as the
@@ -15,14 +15,22 @@ struct Holder005E7C19 {
   ~Holder005E7C19() { if (ptr) ReleaseTreeHintRef00217D4C(ptr); }
   TargetRef00217D4C *ptr;
 };
-class Rva005E7C19 {
+namespace StrategicHUD { class BuildQueueIconSlot; }
+namespace StrategicInGameUI { class BuildQueueDetailsPanel { public: class Impl; }; class BuildQueueDetailsPanel::Impl { public: class Icon; }; }
+class StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon {
 public:
-  virtual ~Rva005E7C19();
+  ~Icon();
+  virtual void OnBuildQueueIconSlotLeftClicked(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRightClicked(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRollOut(StrategicHUD::BuildQueueIconSlot *);
+  virtual void OnBuildQueueIconSlotRollOver(StrategicHUD::BuildQueueIconSlot *);
+  virtual void rva005E715F(StrategicHUD::BuildQueueIconSlot *);
+  virtual void rva005E7166(StrategicHUD::BuildQueueIconSlot *);
 private:
   char m_pad[0x1C - 4];
   Holder005E7C19 m_1C;
 };
-Rva005E7C19::~Rva005E7C19()
+StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon::~Icon()
 {
   ((Rva005E7855 *)this)->rva005E7855();
 }
@@ -33,7 +41,7 @@ Rva005E7C19::~Rva005E7C19()
 // counterpart) makes this TU emit the vtable and with it the deleting
 // destructor.
 struct EmitVtableTag;
-class Rva005E7D72 : public Rva005E7C19
+class Rva005E7D72 : public StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon
 {
 public:
 	Rva005E7D72(EmitVtableTag *);

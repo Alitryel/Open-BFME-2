@@ -19,15 +19,21 @@ public:
 	virtual void v00();
 	virtual void v01();
 };
-class Rva005E80FD
+class Rva005F830A { public: virtual ~Rva005F830A(); private: void *m_heap; };
+#include "../../Include/Common/Rva0057605DSecond.h"
+#include "../../Include/Common/Base0C_80FD.h"
+namespace StrategicInGameUI { class BuildQueueDetailsPanel { public: class Impl; }; }
+class StrategicInGameUI::BuildQueueDetailsPanel::Impl : public Rva005F830A, public Rva0057605DSecond, public Base0C_80FD
 {
 public:
+	virtual ~Impl();
 	virtual void rva005E716D();
+	virtual void onLivingWorldBuildingNuggetSpawnArmyUnitDequeued(Rva005E72B4Queue &, int);
+	virtual void onLivingWorldBuildingNuggetSpawnArmyUnitQueued(Rva005E72B4Queue &, int);
 private:
-	char m_pad04[0x10 - 4];
 	Inner005E716D *m_10;
 };
-void Rva005E80FD::rva005E716D()
+void StrategicInGameUI::BuildQueueDetailsPanel::Impl::rva005E716D()
 {
 	((SmudgeManager *)this)->SmudgeManager::init();
 	m_10->v01();

@@ -44,16 +44,22 @@ struct ChainA005E712A
 	char m_pad[0x18];
 	ChainB005E712A *m_18;
 };
-class Rva005E7C19
+namespace StrategicHUD { class BuildQueueIconSlot; }
+namespace StrategicInGameUI { class BuildQueueDetailsPanel { public: class Impl; }; class BuildQueueDetailsPanel::Impl { public: class Icon; }; }
+class StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon
 {
 public:
-	void OnBuildQueueIconSlotRightClicked(int unused);
+	virtual void OnBuildQueueIconSlotLeftClicked(StrategicHUD::BuildQueueIconSlot *);
+	virtual void OnBuildQueueIconSlotRightClicked(StrategicHUD::BuildQueueIconSlot *);
+	virtual void OnBuildQueueIconSlotRollOut(StrategicHUD::BuildQueueIconSlot *);
+	virtual void OnBuildQueueIconSlotRollOver(StrategicHUD::BuildQueueIconSlot *);
+	virtual void rva005E715F(StrategicHUD::BuildQueueIconSlot *);
+	virtual void rva005E7166(StrategicHUD::BuildQueueIconSlot *);
 private:
-	void *m_00;
 	ChainA005E712A *m_04;
 	int m_08;
 };
-void Rva005E7C19::OnBuildQueueIconSlotRightClicked(int unused)
+void StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon::OnBuildQueueIconSlotRightClicked(StrategicHUD::BuildQueueIconSlot *unused)
 {
 	(void)unused;
 	GameMessage *msg = TheMessageStream->appendType(0x6AE);
