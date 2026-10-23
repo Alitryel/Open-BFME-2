@@ -14,5 +14,5 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 { return a._M_node != b._M_node; }
 }
 
-struct Rva00240D34Element { double words[1];bool operator<(const Rva00240D34Element&)const;bool operator==(const Rva00240D34Element&)const; };
-template class _STL::list<Rva00240D34Element>;
+struct Rva00240D34Element { unsigned int words[1];bool operator<(const Rva00240D34Element&)const;bool operator==(const Rva00240D34Element&)const; };
+template _STL::list<Rva00240D34Element>::list(const _STL::list<Rva00240D34Element> &);

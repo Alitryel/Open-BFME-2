@@ -19,7 +19,7 @@ struct Rva0047A6A9Row16
 	int x, y, z, w;
 };
 
-struct Rva00240D34Element { double words[1]; bool operator<(const Rva00240D34Element &) const; bool operator==(const Rva00240D34Element &) const; };
+struct Rva00240D34Element { unsigned int words[1]; bool operator<(const Rva00240D34Element &) const; bool operator==(const Rva00240D34Element &) const; };
 
 namespace _STL {
 template<> list<Rva00240D34Element, allocator<Rva00240D34Element> >::list(const list<Rva00240D34Element, allocator<Rva00240D34Element> > &);

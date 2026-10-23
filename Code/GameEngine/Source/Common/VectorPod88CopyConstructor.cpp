@@ -1,14 +1,6 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-//
-// vector<vector<BfmePod88>> copy constructor, retail 0x00500E7C, 96 bytes.
-// Spelled after GeometryShapeVectorCopyConstructor.cpp: explicit
-// instantiation so the headers emit the canonical copy ctor, which sizes
-// via idiv 0xC, builds the base through the rowed _Vector_base, then copies
-// with the rowed __uninitialized_copy at 0x00500B5B. Callers at 0x0050119F
-// and 0x00501261.
-// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
-// overload takes the call instead, so this TU emits no external max COMDAT.
+// Nested-vector copy and append use the existing retail helper providers.
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
@@ -18,20 +10,52 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
-// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAV?$vector@UBfmePod88@@V?$allocator@UBfmePod88@@@_STL@@@_STL@@I:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct BfmePod88;
-namespace _STL { template <> vector<BfmePod88,allocator<BfmePod88> > * __uninitialized_fill_n<vector<BfmePod88,allocator<BfmePod88> > *,unsigned int,vector<BfmePod88,allocator<BfmePod88> > >(vector<BfmePod88,allocator<BfmePod88> > *,unsigned int,vector<BfmePod88,allocator<BfmePod88> > const &,__false_type const &); }
-
 struct BfmePod88
 {
 	char m_body[88];
 };
-// bfme link decl-only BfmePod88
 namespace _STL { template <> vector<BfmePod88, allocator<BfmePod88> >::~vector(); }
 
-// Bind the outer clear to its existing retail 500EDC owner. This unit
-// otherwise emits an unrowed competing clear through its class instantiation.
-namespace _STL { template <> void vector<vector<BfmePod88> >::_M_clear(); }
+// The outer clear and placement copy have existing out-of-line providers.
+namespace _STL {
+template <> void vector<vector<BfmePod88> >::_M_clear();
+typedef vector<BfmePod88> Pod88Vector;
+typedef vector<Pod88Vector> Pod88VectorVector;
+template <> void _Construct<Pod88Vector, Pod88Vector>(Pod88Vector *, const Pod88Vector &);
 
-template class _STL::vector<_STL::vector<BfmePod88, _STL::allocator<BfmePod88> >, _STL::allocator<_STL::vector<BfmePod88, _STL::allocator<BfmePod88> > > >;
+template <> inline Pod88Vector *__uninitialized_fill_n<Pod88Vector *, unsigned int, Pod88Vector>(
+    Pod88Vector *first, unsigned int count, const Pod88Vector &value, const __false_type &)
+{
+    Pod88Vector *current = first;
+    for (; count > 0; --count, ++current)
+        _Construct(current, value);
+    return current;
+}
+// Retail's overflow path propagates allocation/copy failure without cleanup.
+// ?vector<Pod88Vector>::_M_insert_overflow present-unmatched
+template <> inline void vector<Pod88Vector>::_M_insert_overflow(
+    pointer position, const Pod88Vector &value, const __false_type &,
+    size_type fillLength, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillLength);
+    pointer newStart = this->_M_end_of_storage.allocate(length);
+    pointer newFinish = newStart;
+    newFinish = __uninitialized_copy((const Pod88Vector *)this->_M_start,
+        (const Pod88Vector *)position, newStart, __false_type());
+    if (fillLength == 1) {
+        _Construct(newFinish, value);
+        ++newFinish;
+    } else {
+        newFinish = __uninitialized_fill_n(newFinish, fillLength, value, __false_type());
+    }
+    if (!atEnd)
+        newFinish = __uninitialized_copy((const Pod88Vector *)position,
+            (const Pod88Vector *)this->_M_finish, newFinish, __false_type());
+    _M_clear();
+    _M_set(newStart, newFinish, newStart + length);
+}
+}
+
+template _STL::vector<_STL::Pod88Vector>::vector(const _STL::Pod88VectorVector &);
+template void _STL::Pod88VectorVector::push_back(const _STL::Pod88Vector &);
