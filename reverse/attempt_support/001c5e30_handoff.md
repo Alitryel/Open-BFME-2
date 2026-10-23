@@ -1,5 +1,11 @@
 # Handoff: _VP6_PredictFilteredBlock 0x001C5E30 (768 B retail)
 
+**LANDED 2026-10-23** on origin/master: `11cc55139ed` "Recover VP6 filtered-block dispatch
+at 0x1C5E30 (768 B)" — row `?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z` at my
+RVA/size/source path, matched. It bypassed my rule-based sweeps with a profiled magnitude
+split; closure evidence: `reverse/attempt_support/predict-filtered-closure-20261023/`.
+This file's claim/WIP text below is pre-landing history (read only for the disproven axes).
+
 Clean-room target. Branch `opencode/goal-1015` (worktree `Temp/opencode/bfme2-goal-1015`,
 `BFME_CLAIM_OWNER=opencode-goal-1015`). Claim **renewed** this session — renew again at
 session start (`python tools/claims.py renew 0x001C5E30`, 4 h lease).
