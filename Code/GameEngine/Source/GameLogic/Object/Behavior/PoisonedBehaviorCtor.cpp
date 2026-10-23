@@ -93,7 +93,7 @@ public:
 	virtual void onDamage(DamageInfo *damageInfo);
 	virtual void onHealing(DamageInfo *damageInfo);
 	virtual void onBodyDamageStateChange(
-		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) = 0;
+		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) {}
 private:
 	const Object *getObject() const { return m_object; }
 	unsigned int m_poisonDamageFrame;

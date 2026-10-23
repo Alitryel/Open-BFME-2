@@ -22,6 +22,7 @@ class Thing;
 class ModuleData;
 class Object;
 class DamageInfo;
+enum BodyDamageType;
 
 class BehaviorModuleBase
 {
@@ -62,7 +63,10 @@ protected:
 class DamageModuleInterface
 {
 public:
-	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(DamageInfo *damageInfo) = 0;
+	virtual void onBodyDamageStateChange(
+		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) = 0;
 };
 
 class PoisonedBehavior : public UpdateModule, public DamageModuleInterface
@@ -71,6 +75,9 @@ public:
 	// Rowed in PoisonedBehaviorUpdate.cpp (0x004830FB); retail's
 	// DamageModuleInterface table 0x00C497E8 holds it in slot 0.
 	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onHealing(DamageInfo *damageInfo);
+	virtual void onBodyDamageStateChange(
+		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) {}
 protected:
 	virtual ~PoisonedBehavior();
 private:
