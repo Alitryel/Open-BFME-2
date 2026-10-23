@@ -149,11 +149,17 @@ __declspec(noinline) void istreambuf_iterator<char, char_traits<char> >::_M_getc
 namespace _STL {
 template <> __declspec(noinline) bool
 istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& other) const;
-template <> __forceinline istreambuf_iterator<char, char_traits<char> >&
+template <> __declspec(dllimport) __forceinline istreambuf_iterator<char, char_traits<char> >&
 istreambuf_iterator<char, char_traits<char> >::operator++() {
     _M_buf->sbumpc();
     _M_have_c = false;
     return *this;
+}
+// Keep the native iterator provider as the outlined definition.
+template <> __declspec(dllimport) __forceinline char
+istreambuf_iterator<char, char_traits<char> >::operator*() const {
+    _M_getc();
+    return _M_c;
 }
 // These string operations are separate functions in this retail instantiation.
 template <> basic_string<char>& basic_string<char>::assign(const basic_string<char>&);
