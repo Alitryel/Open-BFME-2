@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD
-// ??1Rva00510CC3@@QAE@XZ 68B @0x00510CC3: dtor calls holder clear at +0x24 then member dtor Rva0052413E at +0x14 then member dtor Rva0050EA74 at +0x00 with EH states 1 0 -1. Evidence: rowed callees 0x0050F6AD 0x0052413E 0x0050EA22 plus caller deleting dtor 0x00510CA7 plus layout from Rva0050EA74Ctor 0x14 plus Rva0052413E 0xC plus gap 4.
+// ??1Rva00510CC3@@UAE@XZ 68B @0x00510CC3: dtor calls holder clear at +0x24 then member dtor Rva0052413E at +0x14 then member dtor Rva0050EA74 at +0x00 with EH states 1 0 -1. Evidence: rowed callees 0x0050F6AD 0x0052413E 0x0050EA22 plus caller deleting dtor 0x00510CA7 plus layout from Rva0050EA74Ctor 0x14 plus Rva0052413E 0xC plus gap 4.
 #include "ascii_string.h"
 
 class Rva0050EA74
@@ -26,13 +26,15 @@ private:
 	char m_pad[4];
 };
 
-class Rva00510CC3
+// Retail vtable 865670 slot 0 is the deleting dtor 510CA7 over this body, so
+// the dtor is virtual; the body stores no vptr of its own, which is the
+// novtable spelling of the page class (its ctor unit stores 865670).
+class __declspec(novtable) Rva00510CC3 : public Rva0050EA74
 {
 public:
-	~Rva00510CC3();
+	virtual ~Rva00510CC3();
  void OnEnabledContentUnloaded(const char *unused);
 private:
-	Rva0050EA74 m_00;
 	Rva0052413E m_14;
 	char m_pad20[4];
 	Rva0050F6AD m_24;

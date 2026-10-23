@@ -15369,8 +15369,8 @@ _rva0060E7F0,0x00211245,address,placeholder
 ??_GRva005105D7@@UAEPAXI@Z,0x005105BB,address,placeholder
 ??_GRva0050FDDC@@UAEPAXI@Z,0x0051062D,address,placeholder
 ??_GRva00510665@@UAEPAXI@Z,0x00510649,address,placeholder
-??_GRva00510CC3@@QAEPAXI@Z,0x00510CA7,address,placeholder
-??1Rva00510CC3@@QAE@XZ,0x00510CC3,address,placeholder
+??_GRva00510CC3@@UAEPAXI@Z,0x00510CA7,address,placeholder
+??1Rva00510CC3@@UAE@XZ,0x00510CC3,address,placeholder
 ?Rva00510D87Get@@YAHXZ,0x00510D87,address,placeholder
 ?OnPageUnloaded@Rva00510D0C@@QAEXPBD@Z,0x00510ECC,address,placeholder
 ?OnPageSelected@Rva00510D0C@@QAEXPBD@Z,0x00510F41,address,placeholder
