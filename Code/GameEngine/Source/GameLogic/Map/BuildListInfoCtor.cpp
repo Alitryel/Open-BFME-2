@@ -67,6 +67,11 @@ private:
 	int m_currentGatherers; // +0x7C
 };
 
+// Retail table 0x00C0D904 slot 1 is the shared empty post-load body.
+void BuildListInfo::loadPostProcess()
+{
+}
+
 BuildListInfo::BuildListInfo() :
 	Snapshot(),
 	m_buildingName(AsciiString::TheEmptyString),
