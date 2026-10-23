@@ -69,11 +69,28 @@ struct Rva001FA69FAlloc
 };
 
 // The +0x4C list's base: its out-of-line ctor is the ICF-folded
-// _List_base ctor 0x00280A8D.
+// _List_base ctor 0x00280A8D, reached by a qualified call to its rowed
+// Coord3D instantiation.
+struct Coord3D;
+namespace _STL
+{
+	template <class _Tp> class allocator;
+	template <class _Tp, class _Alloc> class _List_base
+	{
+	public:
+		_List_base(const _Alloc &alloc);
+	};
+}
+typedef _STL::_List_base<Coord3D, _STL::allocator<Coord3D> > Rva00280A8DListBase;
+
 class Rva001F81ECBase
 {
 public:
-	Rva001F81ECBase(const Rva001FA69FAlloc &alloc);
+	__declspec(dllimport) __forceinline Rva001F81ECBase(const Rva001FA69FAlloc &alloc)
+	{
+		((Rva00280A8DListBase *)this)->Rva00280A8DListBase::_List_base(
+			*(const _STL::allocator<Coord3D> *)&alloc);
+	}
 
 protected:
 	void *m_node;
@@ -144,10 +161,13 @@ private:
 	unsigned int m_numElements;
 };
 
+// The 12-byte vector ctor 0x001F81BF, reached by a qualified call to its
+// rowed GPU particle storage twin.
+class Rva003B0412 { public: Rva003B0412() throw(); };
 class Rva001F9D98Buffer
 {
 public:
-	Rva001F9D98Buffer() throw();
+	__declspec(dllimport) __forceinline Rva001F9D98Buffer() throw() { ((Rva003B0412 *)this)->Rva003B0412::Rva003B0412(); }
 	~Rva001F9D98Buffer()
 	{
 		if (m_data)
