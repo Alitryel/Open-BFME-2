@@ -114,12 +114,19 @@ Rva0041B790::Rva0041B790(EmitVtableTag *)
 {
 }
 
-class Rva0041F042
+// Slot view as Rva0041F042OwnerDtor.cpp's (vtable 0x00C3AF78: 14 slots, a
+// SubsystemInterface whose lifetime, init, postProcessLoad, reset and update
+// it overrides), so both units emit one vtable.
+class Rva0041F042 : public SubsystemInterface
 {
 public:
 	Rva0041F042(EmitVtableTag *);
 public:
 	virtual ~Rva0041F042();
+	virtual void init() = 0;
+	virtual void postProcessLoad() = 0;
+	virtual void reset() = 0;
+	virtual void update() = 0;
 };
 
 // ?<Rva0041F042::Rva0041F042> absent-from-retail
@@ -176,11 +183,14 @@ Rva0042C833::Rva0042C833(EmitVtableTag *)
 {
 }
 
+// Vtable 0x00C3C9B8 holds the translator slot before the deleting dtor
+// (Rva00431FB5Destructor.cpp's base view).
 class Rva00431FB5
 {
 public:
 	Rva00431FB5(EmitVtableTag *);
 public:
+	virtual void translate() = 0;
 	virtual ~Rva00431FB5();
 };
 
@@ -310,12 +320,28 @@ AptSpellStore::AptSpellStore(EmitVtableTag *) : _bfme_AptGameWindow(0)
 {
 }
 
-class Rva0052163E
+// Vtable 0x00C67840: the deleting dtor, then the input-route base's rowed
+// link/unlink slots 0x0031455E / 0x00314581 (BfmeThreeHundredFortyTwo.cpp's
+// view), then the input slot.
+class Rva0031455E
+{
+public:
+	Rva0031455E();
+	virtual ~Rva0031455E();
+	virtual void Rva0031455ELink(Rva0031455E *);
+	virtual void Rva00314581Unlink();
+private:
+	void *next;
+	void *window;
+};
+
+class Rva0052163E : public Rva0031455E
 {
 public:
 	Rva0052163E(EmitVtableTag *);
 public:
 	virtual ~Rva0052163E();
+	virtual int input(unsigned int msg, unsigned int data1, unsigned int data2) = 0;
 };
 
 // ?<Rva0052163E::Rva0052163E> absent-from-retail
