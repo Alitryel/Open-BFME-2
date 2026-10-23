@@ -146,7 +146,7 @@ public:
 	static Int getInterfaceMask() { return (MODULEINTERFACE_UPDATE); }
 
 	// BehaviorModule
-	virtual UpdateModuleInterface* getUpdate() { return this; }
+	virtual UpdateModuleInterface* getUpdate();
 
 	// UpdateModuleInterface
 	virtual UpdateSleepTime update() = 0;

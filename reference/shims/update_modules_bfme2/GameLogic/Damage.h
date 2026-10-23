@@ -364,6 +364,9 @@ protected:
 //-------------------------------------------------------------------------------------------------
 class DamageInfo : public Snapshot
 {
+protected:
+	virtual const char *GetSnapshotName() const;
+
 
 public:
 
