@@ -79115,7 +79115,7 @@ uw_00781add,,0x00781ADD,10,Code/GameEngine/Source/Common/RTS/TeamFactoryInitTeam
 uw_00781925,,0x00781925,14,Code/GameEngine/Source/Common/RTS/TeamPrototypeDtor.cpp,matched,gen-funclet;parent=??1TeamPrototype@@MAE@XZ;object-symbol=$L1303
 uw_0078171f,,0x0078171F,11,Code/GameEngine/Source/Common/RTS/TeamRelationMapDtor_Rva003A2563.cpp,matched,gen-funclet;parent=??1TeamRelationMap@@MAE@XZ;object-symbol=$L363
 uw_00781550,,0x00781550,10,Code/GameEngine/Source/Common/RTS/TeamUpdateGenericScripts.cpp,matched,gen-funclet;parent=?updateGenericScripts@Team@@QAEXXZ;object-symbol=$L1559
-uw_0077f1e1,,0x0077F1E1,11,Code/GameEngine/Source/Common/RTS/UnitRevivalTrackerXfer.cpp,matched,gen-funclet;parent=?xfer@UnitRevivalTracker@@MAEXPAVXfer@@@Z;object-symbol=$L4972
+uw_0077f1e1,,0x0077F1E1,11,Code/GameEngine/Source/Common/RTS/UnitRevivalTrackerXfer.cpp,matched,gen-funclet;parent=?xfer@UnitRevivalTracker@@MAEXPAVXfer@@@Z;object-symbol=$L4920
 uw_0077ecb0,,0x0077ECB0,10,Code/GameEngine/Source/Common/Recorder.cpp,matched,gen-funclet;parent=?writeToFile@RecorderClass@@IAEXPAVGameMessage@@@Z;object-symbol=$L5482
 uw_0075f40e,,0x0075F40E,8,Code/GameEngine/Source/Common/Rva0007E12F.cpp,matched,gen-funclet;parent=?rva0007E12F@Rva0007E12F@@QAEXXZ;object-symbol=$L336
 uw_0076438d,,0x0076438D,10,Code/GameEngine/Source/Common/Rva0008F8EBFactories.cpp,matched,gen-funclet;parent=?Rva00104FD5Create@@YGPAVRva0078D310Host@@PAX@Z;object-symbol=$L391
