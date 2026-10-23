@@ -21,7 +21,10 @@ this follows the accepted CameraMarker and Armor isolation pattern. Reference
 freshness remains blocked on the previously recorded full-gate import/float
 regressions, rather than silently advancing the pointer.
 
-After: original unit LINKS 0 -> 106 B in the current-object legacy preview.
+After: original unit LINKS 0 -> 96 B in the final current-object legacy
+preview (final-total.log). The existing ten-byte compiler EH handler remains
+byte-exact and is excluded from linked C++ credit by its retained gen-ehstub
+classification. The provisional 106 B result had omitted that ledger token.
 This is not a self-strict or closed-strict link result or an executable link.
 New authored C++ bytes: zero.
 

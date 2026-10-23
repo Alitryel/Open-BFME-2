@@ -72,6 +72,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 // Keep this inlined header helper private to the unit. Its O2 copy is
 // not retail's shared 106-byte out-of-line Float_To_Int_Floor provider.
+// Fast_Cos at 179950 is owned by the exact PointGroupClassInit header copy.
+// This donor view emits a 182-byte helper, so keep that private like its floor helper.
+#define Fast_Cos BfmeLightInlineFastCos
 #define Float_To_Int_Floor BfmeLightInlineFloatFloor
 // Link view first: Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
 // emitting /O2 copies that compete with retail's owners (0x0004C91A, 0x0006645C).
@@ -88,6 +91,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "persistfactory.h"
 #include "statistics.h"
 #undef Float_To_Int_Floor
+#undef Fast_Cos
 
 
 
