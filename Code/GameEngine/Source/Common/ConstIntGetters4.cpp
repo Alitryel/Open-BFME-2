@@ -1880,12 +1880,20 @@ int Rva00513813Get(void)
 	return (int)&createAptScreenObjectives;
 }
 
-// ?Rva0052CFABGet@@YAHXZ @ 0x0052cfab (6B): returns 0x00c68790.
-// Follows a ret-4 (prev C2-04-00), carried by 1 .rdata vtable slot,
-// no direct callers, no branch sources. Opaque address-derived name.
-int Rva0052CFABGet(void)
+class Xfer;
+class LivingWorldCampaign
 {
-	return (int)"LivingWorldCampaign";
+public:
+	virtual ~LivingWorldCampaign();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+};
+
+// Retail vtable 0x00868780 slot 2 returns the class-name string at 0x00868790.
+const char *LivingWorldCampaign::GetSnapshotName() const
+{
+	return "LivingWorldCampaign";
 }
 
 // ?Rva00542D58Get@@YAHXZ @ 0x00542d58 (6B): returns 0x00c69714.

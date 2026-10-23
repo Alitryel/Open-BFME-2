@@ -1652,3 +1652,8 @@ __ehhandler$??0Rva0018BEC7@@QAE@XZ,0x007687F8,"Renamed to __ehhandler$??0FXShade
 ??0Rva004421E1@@QAE@PAVRva004444D2@@H@Z,0x00441ECE,"Second spelling of the panel constructor ??0AptMpGameSetup@@QAE@PAVMpGameSetupOwner@@H@Z (same unit, same 780-byte body compiled twice from a mirrored class): no retail fold and no caller uses this name; its private vtable left ??1Rva004421E1 unresolved, so the unit did not link. The real destructor is ??1AptMpGameSetup@@UAE@XZ at 0x004421E1."
 ??0?$vector@UBfmeE16@@V?$allocator@UBfmeE16@@@_STL@@@_STL@@QAE@ABV01@@Z,0x0052CE20,Renamed to ??0?$vector@VRva004E1A04@@V?$allocator@VRva004E1A04@@@_STL@@@_STL@@QAE@ABV01@@Z: retail member +90 copies at 52CE20 and destroys through stride16 range 52CEDD
 ??1?$vector@UBfmeE16@@V?$allocator@UBfmeE16@@@_STL@@@_STL@@QAE@XZ,0x0052D1CD,Renamed to ??1?$vector@VRva004E1A04@@V?$allocator@VRva004E1A04@@@_STL@@@_STL@@QAE@XZ: retail member +90 copies at 52CE20 and destroys through stride16 range 52CEDD
+??1Rva0052CFB1@@UAE@XZ,0x0052CFB1,"Renamed to ??1LivingWorldCampaign@@UAE@XZ: retail constructor and destructor install vtable 0x00868780"
+??_GRva0052CFB1@@UAEPAXI@Z,0x0052D302,"Renamed to ??_GLivingWorldCampaign@@UAEPAXI@Z: retail vtable 0x00868780 slot 0 calls the complete destructor"
+?Rva0052CFABGet@@YAHXZ,0x0052CFAB,"Renamed to ?GetSnapshotName@LivingWorldCampaign@@UBEPBDXZ: retail slot 2 returns the LivingWorldCampaign string at 0x00868790"
+?xfer@Rva0052CFB1@@UAEXPAVXfer@@@Z,0x0052BAFE,"Renamed to ?xfer@LivingWorldCampaign@@UAEXPAVXfer@@@Z: retail vtable 0x00868780 slot 3 transfers campaign field 0x08"
+__ehhandler$??1Rva0052CFB1@@UAE@XZ,0x007971FA,"Renamed to __ehhandler$??1LivingWorldCampaign@@UAE@XZ: follows the rename of its function"
