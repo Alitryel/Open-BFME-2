@@ -470,6 +470,7 @@ class Rva005045DBTree
 {
 public:
 	Rva005045DBTree &assign(const Rva005045DBTree &other);
+	Rva005045DBTree &self();
 	int storage[3];
 };
 class Rva00564B12
@@ -1460,4 +1461,21 @@ bool Rva006D3850(int codePoint)
 	if (codePoint > 0x10ffff)
 		return false;
 	return true;
+}
+
+// 00564B0A is the +0C receiver accessor through the already rowed self()
+// provider at 0047A6A9. Native565402 and WB12CAB90 independently establish
+// that provider's borrow role; the original owner of this unused outline
+// remains unknown. Keep it separate from the neighboring assignment view.
+class Rva00564B0A
+{
+public:
+    Rva005045DBTree &rva00564B0A();
+private:
+    char m_unknown00[0x0c];
+    Rva005045DBTree m_0c;
+};
+Rva005045DBTree &Rva00564B0A::rva00564B0A()
+{
+    return m_0c.self();
 }
