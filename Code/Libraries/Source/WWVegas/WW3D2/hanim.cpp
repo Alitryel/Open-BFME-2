@@ -10,6 +10,12 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
+// HashableClass's inline members and deleting destructor are retail's size-optimised bodies
+// (0x000EF9C2 ctor, 0x000EF9D6 ??_G): include its header here under the same state hcanim.cpp
+// uses, ahead of any header that would reach it unoptimised.
+#pragma optimize("gsy", on)
+#include "hash.h"
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4
 // Retail treats array delete as nothrow: ~NamedPivotMapClass (0x001976F0) has
 // no EH state store between its WeightInfo teardown and the PivotMapClass
