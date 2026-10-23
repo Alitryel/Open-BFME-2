@@ -17,6 +17,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <memory>
 #include <string>
 
+// The record copies and assignments call the shared retail string providers
+// at 0x9170 and 0x120C0; do not emit private copies of their helper graph.
+namespace _STL {
+template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(const basic_string<char, char_traits<char>, allocator<char> > &);
+template <> basic_string<char, char_traits<char>, allocator<char> > &basic_string<char, char_traits<char>, allocator<char> >::assign(const basic_string<char, char_traits<char>, allocator<char> > &);
+}
+
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit
 // dllimport+forceinline specializations take those calls inline so this
@@ -28,6 +35,8 @@ void *__malloc_alloc<0>::allocate(size_t __n)
 template <> __declspec(dllimport) __forceinline
 void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
+// This unit owns retail's independent allocator cleanup at 0x46264A.
+template void allocator<char>::deallocate(char *, size_t) const;
 }
 
 // Complete retail record copy at 0x00079C23.

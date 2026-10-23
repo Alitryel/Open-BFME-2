@@ -24,7 +24,7 @@ fetched at f5140c1cff6a58e16276fd6de6788186286953d4; linking changes through tha
 revision were reviewed, including604f6b70's named string-callee reconciliation.
 The verified donor pointer stays unchanged pending its paired full-gate update.
 
-Validation: add_match verified all9 provider rows; build.sh verified all10
+Validation: add_match verified all9 provider rows; build.sh verified all11
 consumer rows; find_declared_unmatched and check_csv passed. link_check used
 both current objects together against the published index. No full census,
 link_cycle, nightly or boot runner was started.

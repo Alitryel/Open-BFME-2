@@ -12,6 +12,22 @@ static inline const int &min(const int &a, const int &b)
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <map>
 #include <string>
+namespace _STL { template <> class allocator<char> { public: static char *allocate(unsigned int bytes, const void *hint); __forceinline static void deallocate(char *p, unsigned int) { if (p) ::free(p); } }; }
+// Pair constructors call the rowed string copy at 0x9170.
+namespace _STL {
+template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(const basic_string<char, char_traits<char>, allocator<char> > &);
+}
+// The retail comparator at 0x388F39 calls the range comparison at 0x24FC0.
+// Use that body's ledger name rather than emitting another _M_compare copy.
+int bfmeDoPW(char *, char *, char *, char *);
+namespace _STL {
+template <> inline bool operator<(const basic_string<char, char_traits<char>, allocator<char> > &a,
+                                 const basic_string<char, char_traits<char>, allocator<char> > &b)
+{
+    return bfmeDoPW((char *)a.begin(), (char *)a.end(),
+                    (char *)b.begin(), (char *)b.end()) < 0;
+}
+}
 // Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
@@ -30,7 +46,6 @@ typedef _STL::pair<const _STL::basic_string<char>, TreePayload0038D58C> TreePair
 typedef _STL::_Rb_tree<_STL::basic_string<char>, TreePair0038D58C, _STL::_Select1st<TreePair0038D58C>, _STL::less<_STL::basic_string<char> >, _STL::allocator<TreePair0038D58C> > Tree0038D58C;
 template Tree0038D58C::iterator Tree0038D58C::insert_unique(Tree0038D58C::iterator, const TreePair0038D58C &);
 
-namespace _STL { template <> class allocator<char> { public: static char *allocate(unsigned int bytes, const void *hint); __forceinline static void deallocate(char *p, unsigned int) { if (p) ::free(p); } }; }
 template <> Tree0038D58C::_Link_type Tree0038D58C::_M_create_node(const TreePair0038D58C &value)
 {
     _Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<TreePair0038D58C>), 0);
