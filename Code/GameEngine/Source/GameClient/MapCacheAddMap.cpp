@@ -84,6 +84,8 @@ enum NameKeyType;
 class StaticNameKey {public:mutable int key;const char *name;};
 class Rva00148F5ECache {public:NameKeyType get();};
 extern const StaticNameKey TheKey_isScenarioMultiplayer,TheKey_mapName,TheKey_mapDescription;
+const StaticNameKey TheKey_isScenarioMultiplayer = { 0, "isScenarioMultiplayer" };
+const StaticNameKey TheKey_mapDescription = { 0, "mapDescription" };
 static __forceinline int key(const StaticNameKey &k) {return (int)reinterpret_cast<Rva00148F5ECache *>(const_cast<StaticNameKey *>(&k))->get();}
 class Dict {public:bool getBool(int,bool *)const;AsciiString getAsciiString(int,bool *)const;};
 extern "C" Dict worldDict;
