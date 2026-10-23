@@ -6,9 +6,8 @@
 // Retail shape: EH frame with states 5 and 6 which require 6 pre-call
 // unwindables. Five are the stored members below (3 ThingRef at +8/+C/+10
 // plus 2 AsciiString at +14/+18 all nulled by stores). The sixth lives in
-// the +4 slot which retail never stores to so it has a trivial ctor here;
-// its opaque dtor plus the empty-base EBO keep the slot store-free while
-// still counting for EH and reproducing retail's xor-before-vtable prologue.
+// the ModuleData base, whose inlined constructor leaves +4 untouched.
+// Its teardown restores Snapshot's table, as established by the matched dtor.
 // Vtable 0xC40090 (DIR32-masked). Floats 60/30/0.25/0.5/0.75/1.0 from pool
 // literals. Two AsciiString::set("") via the rowed StringBase set alias pin.
 // The +0x40 member builds through the rowed Rva00360D26Member ctor at 0x003623E5
@@ -16,6 +15,9 @@
 // Bytes and ints nulled in retail order.
 
 #include "ascii_string.h"
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile *lpAddend);
 
@@ -51,19 +53,7 @@ private:
 	long m_val;
 };
 
-long g_emptyBaseSink;
-
-class EmptyBase
-{
-public:
-	EmptyBase() {}
-	~EmptyBase()
-	{
-		InterlockedDecrement(&g_emptyBaseSink);
-	}
-};
-
-class GettingBuiltBehaviorModuleData : public EmptyBase
+class GettingBuiltBehaviorModuleData : public ModuleData
 {
 public:
 	GettingBuiltBehaviorModuleData();

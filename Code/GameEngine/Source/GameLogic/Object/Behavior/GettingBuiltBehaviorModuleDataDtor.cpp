@@ -13,6 +13,9 @@
 #include "ascii_string.h"
 
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+// Retail C40090 has all 31 shared ModuleData slots; teardown restores BBB554.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 class OpaqueRefCounted
 {
@@ -40,7 +43,7 @@ private:
 	unsigned m_unknown;
 };
 
-class GettingBuiltBehaviorModuleData : public Snapshot
+class GettingBuiltBehaviorModuleData : public ModuleData
 {
 public:
 	virtual ~GettingBuiltBehaviorModuleData();

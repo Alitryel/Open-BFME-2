@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /arch:SSE /DNDEBUG /Oy-
+// cl: /Ireference/shims/bfme2_ascii /O1 /MD /GX /arch:SSE /DNDEBUG /Oy-
 // ??1CallHelpOnDamageModuleData@@UAE@XZ @ 0x004BB517 48B
 // Implicit virtual dtor called by the rowed deleting dtor 0x004BB4FB (vtable slot 0):
 // destroys the ValidObjects filter at +0x18 through the pinned
@@ -15,20 +15,19 @@ public:
 private:
 	int m_x;
 };
-class UpdateModuleData
-{
-public:
-	UpdateModuleData() {}
-	virtual ~UpdateModuleData() {}
-private:
-	int m_gap04;
-};
-class CallHelpOnDamageModuleData : public UpdateModuleData
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+// Retail teardown restores Snapshot's table. The intermediate update-data
+// base contributes only the +4 name-key field, retained below.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
+
+class CallHelpOnDamageModuleData : public ModuleData
 {
 public:
 	CallHelpOnDamageModuleData();
 // Implicit virtual dtor (never declared, never defined)
 private:
+	int m_gap04;
 	unsigned int m_mask;			// +8
 	float m_callRadius;			// +0xC
 	int m_callDelay;			// +0x10
