@@ -13,8 +13,7 @@
 // addResponse +0x18, isdigit/inet_addr/gethostbyname imports, the rowed
 // MutexClass::LockClass pair 0x00613A70/0x00613AC0, STLport string default
 // ctor 0x00007850 and assignment 0x000120C0, and the ICMP helper 0x0054F99E
-// called as a thiscall member (this in ECX) with IP and timeout (an
-// address-named member pin beside its stdcall row).
+// called as PingThreadClass::doPing with this in ECX, IP and timeout.
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE
 // STL allocators call the game's C-linkage free wrapper at RVA 0x00030830.
@@ -64,10 +63,8 @@ public:
 	virtual void Thread_Function();
 
 private:
-	// 0x0054F99E, rowed as the stdcall ?MeasureIcmpPing@@YGHIH@Z (Zero Hour's
-	// doPing; its body never reads ECX): this caller passes ECX=this, so here
-	// it is an address-named member.
-	Int rva0054F99E(UnsignedInt IP, Int timeout);
+	// ICMP helper at 0x0054F99E; the receiver is passed in ECX.
+	Int doPing(UnsignedInt IP, Int timeout);
 	MutexClass *m_runMutex;		// +0x50, held by the owner while the thread may run
 };
 
@@ -102,7 +99,7 @@ void PingThreadClass::Thread_Function()
 				MutexClass::LockClass pingLock(*m_runMutex, 1);
 				if (!pingLock.Failed())
 					break;
-				Int ping = rva0054F99E(IP, req.timeout);
+				Int ping = doPing(IP, req.timeout);
 				if (ping >= 0) {
 					totalPing += ping;
 					++goodReps;

@@ -1657,3 +1657,4 @@ __ehhandler$??0Rva0018BEC7@@QAE@XZ,0x007687F8,"Renamed to __ehhandler$??0FXShade
 ?Rva0052CFABGet@@YAHXZ,0x0052CFAB,"Renamed to ?GetSnapshotName@LivingWorldCampaign@@UBEPBDXZ: retail slot 2 returns the LivingWorldCampaign string at 0x00868790"
 ?xfer@Rva0052CFB1@@UAEXPAVXfer@@@Z,0x0052BAFE,"Renamed to ?xfer@LivingWorldCampaign@@UAEXPAVXfer@@@Z: retail vtable 0x00868780 slot 3 transfers campaign field 0x08"
 __ehhandler$??1Rva0052CFB1@@UAE@XZ,0x007971FA,"Renamed to __ehhandler$??1LivingWorldCampaign@@UAE@XZ: follows the rename of its function"
+?MeasureIcmpPing@@YGHIH@Z,0x0054F99E,"Renamed to ?doPing@PingThreadClass@@AAEHIH@Z: retail caller 0x00550306 passes the PingThreadClass receiver in ECX"

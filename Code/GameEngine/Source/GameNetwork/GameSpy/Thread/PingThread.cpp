@@ -1,11 +1,8 @@
 // cl: /DNDEBUG /MD /EHsc
 
-// Open-BFME: PingThread ICMP ping helper, retail 0x0054F99E, 234 bytes.
-// ZH donor is GeneralsMD/Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp
-// (PingThreadClass::doPing). The body measures round-trip time via ICMP.DLL:
-// LoadLibrary, resolve IcmpCreateFile/IcmpCloseHandle/IcmpSendEcho, open a
-// handle, fill a printable-ASCII request buffer, send one echo and return the
-// reply time clamped to the timeout, or -1 on any failure.
+// PingThreadClass ICMP helper, retail 0x0054F99E.
+// Zero Hour donor: GeneralsMD GameSpy/Thread/PingThread.cpp, doPing.
+// The retail thread caller passes its receiver in ECX.
 
 typedef unsigned int UnsignedInt;
 typedef unsigned char UnsignedByte;
@@ -48,10 +45,14 @@ typedef DWORD (__stdcall *IcmpSendEchoProc)(HANDLE handle, UnsignedInt destAddre
 	void *requestData, WORD requestSize, void *requestOptions,
 	void *replyBuffer, DWORD replySize, DWORD timeoutMs);
 
-// Measure the ICMP round-trip time to an IPv4 address, in milliseconds.
-// Returns the reply time clamped to timeoutMs, or -1 when the host cannot
-// be pinged through ICMP.DLL.
-Int __stdcall MeasureIcmpPing(UnsignedInt destAddress, Int timeoutMs)
+class PingThreadClass
+{
+private:
+	Int doPing(UnsignedInt IP, Int timeout);
+};
+
+// Return the ICMP reply time clamped to the timeout, or -1 on failure.
+Int PingThreadClass::doPing(UnsignedInt IP, Int timeout)
 {
 	Int pingTime = -1;
 	Int requestLen = 32;
@@ -89,15 +90,15 @@ Int __stdcall MeasureIcmpPing(UnsignedInt destAddress, Int timeoutMs)
 	requestOptions.optionsSize = 0;
 	requestOptions.optionsData = 0;
 
-	DWORD replyCount = sendEcho(icmpHandle, destAddress,
+	DWORD replyCount = sendEcho(icmpHandle, IP,
 		requestBuffer, (WORD)requestLen,
 		&requestOptions,
 		replyBuffer, sizeof(replyBuffer),
-		(DWORD)timeoutMs);
+		(DWORD)timeout);
 	if (replyCount != 0) {
 		pingTime = *(UnsignedInt *)&replyBuffer[8];
-		if (pingTime > timeoutMs) {
-			pingTime = timeoutMs;
+		if (pingTime > timeout) {
+			pingTime = timeout;
 		}
 	} else {
 		pingTime = -1;
