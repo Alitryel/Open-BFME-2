@@ -1,5 +1,48 @@
 # Hero linking through actual providers
 
+## Final reconciliation with current master
+
+Before publication, master advanced to 54e5463f05 and included 8e93a96e20,
+which independently landed the hero's named award predicate, typed destructor
+owner, visible lower bound and insertion chain. Those changes are inherited.
+The original 5324-byte hero/map linking estimate below is NOT this batch's gain.
+
+Paired isolated-object checks against that exact master, with the same six
+providers and unchanged existing checker, show hero and map already LINKS.
+FileSystem still fails on imported __new_alloc allocation/deallocation and an
+obsolete direct ArchiveFileSystem listing call. This batch removes its donor
+constructor/destructor copies and uses the fully native typed constructor
+chain. Its unused Zero Hour listing method has a different set type and is
+absent from the native call graph: the existing current-object definition
+index reports zero referrers, while the actual BfmeStringNoCaseLess method has
+five consumer objects and is byte-proven at 600FC9 in
+FileSystem_getFileListInDirectory.cpp. Retire only the obsolete donor method.
+BFME1 f5140c1c still contains that old method; BFME2's existing native recovery,
+not blindly repeating the donor body, establishes why it is obsolete here.
+
+The final six-unit preview admits all six units, FileSystem 0 -> 124 nonpadding
+bytes. The hero's three additional constructor rows total 103 bytes already
+owned elsewhere, so they are not new unique recovery or linking credit. The
+net new linking result relative to current master is 124 bytes plus correction
+of the actual constructor provider (the old map body was 55 versus native25).
+The census-relative display 5090 -> 10641 includes inherited work and shared
+ownership and must not be reported as this batch's gain.
+
+The rebased source retains upstream's named bool award provider and typed
+destructor owner. The duplicate hero destructor ledger row was discarded in
+the merge. Source still emits the exact real STLport destructor as a COMDAT;
+its existing owner remains RvaTreeDtorFamily.cpp. Native base36/tree42/map25
+constructors are admitted with full relocation proof against existing owners.
+No pin, shared header, tool, baseline, verifier or reference pointer is changed.
+
+Final validation: prescribed build.sh passes 248/248 across edited sources,
+award/tree providers and the actual native directory listing. The scoped link
+preview is 6/6; new-variants passes; EH is 91/91 EXACT; the identity scan
+checks 243 references with zero wrong bindings. The append-only earlier trial notes remain
+historical; current ledger ownership and this section describe the final work.
+
+## Trials before the overlapping upstream landing
+
 Inputs: BFME2 3a5d498e20, committed BFME1
 f5140c1cff6a58e16276fd6de6788186286953d4, published census 0393df10e2
 (2026-10-23 19:47). This continues the native evidence and rejected trials in

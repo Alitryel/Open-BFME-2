@@ -241,13 +241,10 @@ static void (*s_fileSystemExistCacheTouch)(std::map<unsigned, bool> &, unsigned,
 //============================================================================
 // FileSystem::getFileListInDirectory
 //============================================================================
-// ?getFileListInDirectory@FileSystem@@ present-unmatched
-void FileSystem::getFileListInDirectory(const AsciiString& directory, const AsciiString& searchName, FilenameList &filenameList, Bool searchSubdirectories) const
-{
-	USE_PERF_TIMER(FileSystem)
-	TheLocalFileSystem->getFileListInDirectory(AsciiString(""), directory, searchName, filenameList, searchSubdirectories);
-	TheArchiveFileSystem->getFileListInDirectory(AsciiString(""), directory, searchName, filenameList, searchSubdirectories);
-}
+// BFME2's native listing is owned by FileSystem_getFileListInDirectory.cpp
+// (0x00600FC9). It uses the native no-case set and archive virtual slots;
+// this obsolete Zero Hour body used a different set type and a direct archive
+// method absent from BFME2. No object references that old method signature.
 
 //============================================================================
 // FileSystem::getFileInfo
