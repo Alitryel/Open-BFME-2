@@ -8,6 +8,9 @@
 // an array will not match, try it without this block.
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
+// Match HashableClass's retail base and deleting destructors, as in hcanim.cpp.
+// Its first emitted copy must use the native size-optimized header bodies.
+#include "hash.h"
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 // HashableClass's inline members and deleting destructor are retail's size-optimised bodies
