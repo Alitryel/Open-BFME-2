@@ -141,10 +141,12 @@ public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DieModule.h
+class DamageInfo;
+
 class DieModuleInterface
 {
 public:
-	virtual void dieModuleInterfaceAnchor();
+	virtual void onDie(const DamageInfo *damageInfo) = 0;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DieModule.h
@@ -165,6 +167,7 @@ class KeepObjectDie : public DieModule
 public:
 	KeepObjectDie(Thing *thing, const ModuleData *moduleData);
 	virtual ~KeepObjectDie();
+	virtual void onDie(const DamageInfo *damageInfo);
 };
 
 // ??0KeepObjectDie@@QAE@PAVThing@@PBVModuleData@@@Z @0x00486D73
@@ -180,4 +183,12 @@ KeepObjectDie::KeepObjectDie(Thing *thing, const ModuleData *moduleData) :
 			operator<<(theDebug->slot6C(0, 0, 0), thing->getTemplate()->m_nameString).slot38(": Objects with KeepObjectDie should be KindOf SELECTABLE\n").slot4C(2);
 		}
 	}
+}
+
+// ??1KeepObjectDie@@UAE@XZ @0x00486C76 (25B): restores the three vptrs the
+// constructor installs (0x00C4AEF0 at +0, 0x00C4A650 at +0xC, 0x00C4AEEC at +0x10)
+// and tail-jumps to ~DieModule. Slot 0 of KeepObjectDie's own vftable 0x00C4AEF0 is
+// the scalar deleting destructor 0x00486CDA, which calls this body.
+KeepObjectDie::~KeepObjectDie()
+{
 }

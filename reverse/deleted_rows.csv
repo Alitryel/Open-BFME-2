@@ -1833,3 +1833,6 @@ __ehhandler$?DoXfer@LivingWorldRegionManager@@QAEXPAVXfer@@@Z,0x0076D625,"Rename
 ??1Rva0050FDDC@@UAE@XZ,0x0050FDDC,"Renamed to ??1Rva0050FC54@@UAE@XZ: retail tribute constructor table reaches this destructor family"
 ??1Rva00510665@@UAE@XZ,0x00510665,"Renamed to ??1Rva0050FF55@@UAE@XZ: retail tribute constructor table reaches this destructor family"
 __ehhandler$??1Rva0050FDDC@@UAE@XZ,0x0079497E,"Renamed to __ehhandler$??1Rva0050FC54@@UAE@XZ: follows the rename of its function"
+??1Rva00486C76@@UAE@XZ,0x00486C76,"Renamed to ??1KeepObjectDie@@UAE@XZ: slot 0 of KeepObjectDie's vftable 0x00C4AEF0 (ctor 0x00486D73) is the deleting dtor 0x00486CDA that calls this body"
+??_GRva00486C76@@UAEPAXI@Z,0x00486CDA,"Renamed to ??_GKeepObjectDie@@UAEPAXI@Z: slot 0 of KeepObjectDie's vftable 0x00C4AEF0 installed by ctor 0x00486D73"
+?rva00486CF6@Rva00486B56@@UAEXPBVDamageInfo@@@Z,0x00486CF6,"Renamed to ?onDie@KeepObjectDie@@UAEXPBVDamageInfo@@@Z: slot 0 of DieModuleInterface vftable 0x00C4AEEC stored at +0x10 by KeepObjectDie ctor 0x00486D73"

@@ -24,14 +24,13 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class KeepObjectDie
-{
-public:
-	virtual NameKeyType getModuleNameKey() const;
-};
 
-// ?rva00486CF6@Rva00486B56@@UAEXPBVDamageInfo@@@Z @ 0x00486CF6 (125B). Die slot 12 onDie-style via Object/GameLogic/Radar.
-// Evidence: vtable slot 12 of 0x0084AEBC class Rva00486B56; retail uses [esi-8] Object [esi-0x0C] +0x38/+0x3C [esi-0x10] DieModule calling rowed getControllingPlayer destroyObject setSpecial isDieApplicable Radar::addObject; no callers.
+// ?onDie@KeepObjectDie@@UAEXPBVDamageInfo@@@Z @ 0x00486CF6 (125B).
+// Evidence: slot 0 of 0x00C4AEEC, the DieModuleInterface vftable the KeepObjectDie
+// constructor (0x00486D73) stores at +0x10; DieModuleInterface's only virtual is onDie
+// (ZH DieModule.h). Entered with this at the +0x10 subobject, so retail reads the
+// object at [esi-8], the module data at [esi-0x0C] and calls isDieApplicable on
+// [esi-0x10]; callees rowed getControllingPlayer destroyObject setSpecial... Radar::addObject.
 class Player;
 
 class Object;
@@ -83,20 +82,43 @@ struct Rva00486CF6_P04
 	unsigned char m_3C;
 };
 
-class DieModule
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Module.h
+class ObjectModule
 {
-	friend class Rva00486B56;
-protected:
-	bool isDieApplicable(const DamageInfo *damageInfo) const;
 public:
+	virtual NameKeyType getModuleNameKey() const = 0;
+protected:
 	Rva00486CF6_P04 *m_04;
 	Object *m_08;
 };
 
-class Rva00486B56
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BehaviorModule.h
+class BehaviorModuleInterface
 {
 public:
-	virtual void rva00486CF6(const DamageInfo *damageInfo);
+	virtual void behaviorModuleInterfaceAnchor() = 0;
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DieModule.h
+class DieModuleInterface
+{
+public:
+	virtual void onDie(const DamageInfo *damageInfo) = 0;
+};
+
+class DieModule : public ObjectModule,
+	public BehaviorModuleInterface,
+	public DieModuleInterface
+{
+protected:
+	bool isDieApplicable(const DamageInfo *damageInfo) const;
+};
+
+class KeepObjectDie : public DieModule
+{
+public:
+	virtual NameKeyType getModuleNameKey() const;
+	virtual void onDie(const DamageInfo *damageInfo);
 };
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Die/KeepObjectDiePoolKey.cpp
@@ -113,19 +135,19 @@ NameKeyType KeepObjectDie::getModuleNameKey() const
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Die/Rva00486CF6OnDie.cpp
 
-void Rva00486B56::rva00486CF6(const DamageInfo *damageInfo)
+void KeepObjectDie::onDie(const DamageInfo *damageInfo)
 {
-	Object *obj = *(Object **)((char *)this - 8);
+	Object *obj = m_08;
 	Player *player = (obj != 0) ? obj->getControllingPlayer() : 0;
 	if (player != 0 && player->get() != 0)
 	{
 		TheGameLogic->destroyObject(obj);
 		return;
 	}
-	(*(Object **)((char *)this - 8))->setSpecialModelConditionState(MCF_335, (*(Rva00486CF6_P04 **)((char *)this - 0x0C))->m_38);
-	if (!((DieModule *)((char *)this - 0x10))->isDieApplicable(damageInfo))
+	m_08->setSpecialModelConditionState(MCF_335, m_04->m_38);
+	if (!isDieApplicable(damageInfo))
 		return;
-	if ((*(Rva00486CF6_P04 **)((char *)this - 0x0C))->m_3C == 0)
+	if (m_04->m_3C == 0)
 		return;
 	if (obj == 0)
 		return;
