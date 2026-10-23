@@ -70,6 +70,14 @@ baseline, whitelist, shared header or verifier change was needed.
   This is not a new link census.
 * `place_bodies.py`: zero additional bodies or pins.
 
+The commit hook also reported a shadow data-identity finding at RVA 0x009FEC4C:
+the parent emits its named local-static guard there, while the older standalone
+flag-clearer uses `g_Va00DFEC4C`. Both refer to the native guard, but their data
+names have not been reconciled. The normal byte and EH gates pass; this is
+remaining ownership debt, not a completed data-back verification. No alias or
+baseline exemption was introduced. A repair must reconcile the existing clearer
+with the parent's compiler-owned cleanup without adding another name or row.
+
 `search.py.txt` replays the search from the recorded input bank. Copy it to
 `build/shroud-27893e-20261023/search.py` before running; all its objects are
 private scratch. The normal gate, not the search's instruction score, is
