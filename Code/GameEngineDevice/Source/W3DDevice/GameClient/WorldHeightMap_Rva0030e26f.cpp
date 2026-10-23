@@ -1,4 +1,4 @@
-// cl: -DNDEBUG -DWIN32 -MD -EHsc -Ireference/open-bfme-1/inputs/reference/shims/sweep -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/GameEngineDevice/Source/W3DDevice/GameClient
+// cl: /Ireference/shims/bfme2_ascii -DNDEBUG -DWIN32 -MD -EHsc -Ireference/open-bfme-1/inputs/reference/shims/sweep -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/GameEngineDevice/Source/W3DDevice/GameClient
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -31,6 +31,7 @@
 
 // The TheKey_* instances are defined once, by WorldHeightMap.cpp (INSTANTIATE_WELL_KNOWN_KEYS).
 
+#include "../../../../../reference/shims/bfme2_ascii_zh/zh_ascii.h"
 #include "windows.h"
 #include "stdlib.h"
 #include <string.h>
@@ -68,64 +69,14 @@
 #define PATHFIND_CLIFF_SLOPE_LIMIT_F	9.8f	
 
 // -----------------------------------------------------------
-struct BfmeOwnerStringData
-{
-	int m_references;
-	unsigned short m_length;
-	unsigned short m_capacity;
-	char m_text[1];
-};
-
-class BFMERetailAsciiString
-{
-public:
-	void releaseBuffer();
-};
-
-class BfmeStringPresenceValue
-{
-public:
-	Int compare(const BfmeStringPresenceValue &other) const
-	{
-		const Int otherLength = other.m_data ? other.m_data->m_length : 0;
-		const char *otherText = other.m_data ? other.m_data->m_text : "";
-		const Int thisLength = m_data ? m_data->m_length : 0;
-		const char *thisText = m_data ? m_data->m_text : "";
-		const Int length = thisLength < otherLength ? thisLength : otherLength;
-		const Int result = memcmp(thisText, otherText, length);
-		if (result != 0)
-			return result;
-		return thisLength - otherLength;
-	}
-
-	Bool operator==(const BfmeStringPresenceValue &other) const
-	{
-		return compare(other) == 0;
-	}
-
-	~BfmeStringPresenceValue()
-	{
-		((BFMERetailAsciiString *)this)->releaseBuffer();
-	}
-
-private:
-	BfmeOwnerStringData *m_data;
-};
-
-class BfmeStringPresenceDict
-{
-public:
-	BfmeStringPresenceValue getAsciiString(int key, Bool *exists = 0) const;
-};
-
 class BfmeMapObjectListEntry
 {
 public:
 	virtual void bfmeDeleteThis(int freeIt) = 0;		///< vtable slot 0
 	BfmeMapObjectListEntry *m_next;
 	char m_pad08[0x1c];
-	BfmeStringPresenceDict m_properties;
-	BfmeStringPresenceDict *getProperties() { return &m_properties; }
+	Dict m_properties;
+	Dict *getProperties() { return &m_properties; }
 };
 
 class BfmeMapObjectListHolder
@@ -149,7 +100,7 @@ extern BfmeMapObjectExtra BfmeTheMapObjectExtra;		///< retail 0x012ED5E0
 	BfmeMapObjectListEntry *pMapObj = BfmeTheMapObjectListHolder->m_bfmeHead;
 	for (; pMapObj; pMapObj = pMapObj->m_next)
 	{
-		if (pMapObj->getProperties()->getAsciiString(TheKey_originalOwner.key(), 0) == (const BfmeStringPresenceValue &)asciiString)
+		if (pMapObj->getProperties()->getAsciiString(TheKey_originalOwner.key(), 0) == asciiString)
 			++count;
 	}
 	return count;

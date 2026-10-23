@@ -36,7 +36,7 @@ private:
 class Locomotor
 {
 public:
-	Int getLegalSurfaces() const { return m_template->getLegalSurfaces(); }
+	__declspec(dllimport) __forceinline Int getLegalSurfaces() const { return m_template->getLegalSurfaces(); }
 	Bool getIsDownhillOnly() const { return m_template->getIsDownhillOnly(); }
 	Bool getUnknown150() const { return m_template->getUnknown150(); }
 private:

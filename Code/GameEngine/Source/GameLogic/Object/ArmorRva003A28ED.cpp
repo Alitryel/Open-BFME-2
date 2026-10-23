@@ -56,6 +56,16 @@ typedef std::hash_map<
     ArmorTemplate,
     rts::hash<NameKeyType>,
     std::equal_to<NameKeyType> > ArmorTemplateMap;
+
+// These operations use their existing out-of-line table providers.
+typedef _STL::pair<const NameKeyType, ArmorTemplate> ArmorValue;
+typedef _STL::hashtable<ArmorValue, NameKeyType, rts::hash<NameKeyType>,
+    _STL::_Select1st<ArmorValue>, _STL::equal_to<NameKeyType>,
+    _STL::allocator<ArmorValue> > ArmorTable;
+template <> void ArmorTable::clear();
+template <> template <class Key> _STL::_Hashtable_node<ArmorValue> *
+ArmorTable::_M_find(const Key &) const;
+template <> void ArmorTemplateMap::erase(ArmorTemplateMap::iterator);
 struct ArmorMapHolder
 {
     char m_pad[4];
