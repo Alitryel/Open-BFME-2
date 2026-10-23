@@ -32,12 +32,7 @@ public:
 };
 extern WeaponStore *TheWeaponStore;
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class SpecialAbilityUpdate
@@ -77,5 +72,5 @@ void Rva00492C59::startUnpacking()
 			TheWeaponStore->createAndFireTempWeapon(wt, object, &object->m_position);
 	}
 	SpecialAbilityUpdate::startUnpacking();
-	object->rva002900E0(TheGameLogic->m_frame + data->m_C8);
+	object->rva002900E0(TheGameLogic->getFrame() + data->m_C8);
 }

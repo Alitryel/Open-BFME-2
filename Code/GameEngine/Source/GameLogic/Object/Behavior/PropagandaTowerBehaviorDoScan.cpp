@@ -102,10 +102,7 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class UpgradeTemplate
 {
@@ -139,18 +136,13 @@ public:
 	ObjectID m_id;		// +0x74
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 // vftable 0x00C49174.
 class ObjectTracker
 {
 public:
-	ObjectTracker() : objectID(INVALID_ID), next(0) {}
+	ObjectTracker() : objectID(INVALID_OBJECT_ID), next(0) {}
 	virtual ~ObjectTracker() {} // inline-empty in retail: its ??_G (0x0048195F) only resets the vptr
 	ObjectID objectID;
 	ObjectTracker *next;

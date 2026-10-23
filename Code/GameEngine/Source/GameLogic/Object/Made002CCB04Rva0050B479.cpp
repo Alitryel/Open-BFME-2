@@ -4,7 +4,7 @@
 class GameLogic;
 extern GameLogic *TheGameLogic;
 extern int g_Va00DFEFD8;
-enum ObjectID { INVALID_ID = 0 };
+#include "../../Common/GameLogicObjectLookupView.h"
 class Object;
 struct MadeArg
 {
@@ -18,11 +18,6 @@ public:
 	void forceEmotion(int index, float value, int arg);
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 class Made002CCB04
 {

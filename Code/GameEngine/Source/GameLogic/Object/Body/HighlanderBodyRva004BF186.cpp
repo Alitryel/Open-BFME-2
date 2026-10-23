@@ -20,10 +20,7 @@
 // so it is loaded once, as retail.
 class Thing;
 class ModuleData;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 class BridgeBehaviorInterface
 {
 public:
@@ -85,11 +82,6 @@ public:
 	ThingTemplate *m_template;
 	unsigned char m_pad008[0x254 - 8];
 	BodyIface *m_254;
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 struct B00 { virtual void f00(); const ModuleData *m_moduleData; Object *m_object; };

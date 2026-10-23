@@ -4,19 +4,11 @@
 // Checks three ObjectIDs at +0x3E8 +0x3EC +0x3F0 via rowed
 // GameLogic::findObjectByID; clears byte at +0x3CA if all three miss.
 // Evidence: TheGameLogic extern use; caller 0x0049AED7; unlocks 0x0049AEA4.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 class Object
 {
 public:
 	void *rva0028C197() const;
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 class Rva0049ADB7Target

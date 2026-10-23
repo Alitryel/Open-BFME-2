@@ -10,10 +10,7 @@
 // each one's collide interface (behavior interface at +0x0C, slot 1) and
 // return the crate if it would like to collide with our object (slot 1).
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object;
 
@@ -53,11 +50,6 @@ private:
 	BehaviorModule **m_behaviors;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class AIUpdateInterface
@@ -76,9 +68,9 @@ private:
 
 Object *AIUpdateInterface::checkForCrateToPickup()
 {
-	if (m_crateCreated != INVALID_ID)
+	if (m_crateCreated != INVALID_OBJECT_ID)
 	{
-		m_crateCreated = INVALID_ID;
+		m_crateCreated = INVALID_OBJECT_ID;
 		Object *crate = TheGameLogic->findObjectByID(m_crateCreated);
 		if (crate)
 		{

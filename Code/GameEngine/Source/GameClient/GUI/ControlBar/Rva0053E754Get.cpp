@@ -5,8 +5,7 @@
 // pairs before calling the canonical GameLogic provider. Name remains neutral.
 class Object;
 class GameWindow;
-enum ObjectID { INVALID_OBJECT_ID=0 };
-class GameLogic {public:Object *findObjectByID(ObjectID);};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 struct ControlBarInventoryEntry { GameWindow *window; int objectID; };
 extern ControlBarInventoryEntry ControlBarInventoryEntries[32];

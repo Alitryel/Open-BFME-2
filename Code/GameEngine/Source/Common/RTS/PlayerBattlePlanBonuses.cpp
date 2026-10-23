@@ -29,10 +29,7 @@ typedef float Real;
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 enum WeaponBonusConditionType
 {
@@ -128,11 +125,6 @@ private:
 	UnsignedInt m_weaponBonusCondition;			// +0x380
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

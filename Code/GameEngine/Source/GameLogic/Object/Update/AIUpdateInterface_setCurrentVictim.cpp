@@ -21,10 +21,7 @@ class BfmeVirtualSlots<0>
 {
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 typedef bool Bool;
 
@@ -42,11 +39,6 @@ public:
 	ObjectID getID() const { return m_id; }
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -67,7 +59,7 @@ void AIUpdateInterface::setCurrentVictim(const Object *victim)
 {
 	if (victim == 0)
 	{
-		if (m_currentVictimID != INVALID_ID)
+		if (m_currentVictimID != INVALID_OBJECT_ID)
 		{
 			Object *self = m_object;
 			Object *target = TheGameLogic->findObjectByID(m_currentVictimID);
@@ -81,7 +73,7 @@ void AIUpdateInterface::setCurrentVictim(const Object *victim)
 			}
 		}
 
-		m_currentVictimID = INVALID_ID;
+		m_currentVictimID = INVALID_OBJECT_ID;
 	}
 	else
 	{

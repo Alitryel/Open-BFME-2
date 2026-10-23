@@ -12,10 +12,7 @@
 // (0x0050B843) of that interface. The +0x250 pointer is read once into a local
 // (retail mov/test, not a re-read of the member).
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum WeaponSlotType
 {
 	PRIMARY_WEAPON = 0
@@ -90,11 +87,6 @@ public:
 	const Rva0050B745Template *m_template; // +0x04
 	unsigned char m_pad008[0x250 - 0x08];
 	Rva0050B7D2Iface *m_250; // +0x250
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 struct Rva0050B7D2Arg

@@ -97,10 +97,7 @@ public:
 	float z;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 
@@ -125,11 +122,6 @@ public:
 	ObjectID m_id;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -155,13 +147,13 @@ void GhostObject::xfer(Xfer *xfer)
 	if (xfer->IsLightCRC())
 		return;
 	xfer->Version1();
-	ObjectID parentObjectID = INVALID_ID;
+	ObjectID parentObjectID = INVALID_OBJECT_ID;
 	if (m_parentObject)
 		parentObjectID = m_parentObject->getID();
 	XferObjectID(xfer, &parentObjectID);
 	if (xfer->IsLoading()) {
 		m_parentObject = TheGameLogic->findObjectByID(parentObjectID);
-		if (parentObjectID != INVALID_ID && m_parentObject == 0) {
+		if (parentObjectID != INVALID_OBJECT_ID && m_parentObject == 0) {
 			throw XferException(5, 0);
 		}
 	}

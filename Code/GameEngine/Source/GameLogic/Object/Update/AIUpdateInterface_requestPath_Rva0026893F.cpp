@@ -31,10 +31,7 @@ extern void *g_00DFEFF0;
 extern int BfmeLogicFramesPerSecond;
 #define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -45,14 +42,6 @@ private:
 	ObjectID m_id;
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	char m_pad00[0x40];
-	UnsignedInt m_frame;
-};
 extern GameLogic *TheGameLogic;
 
 class Pathfinder
@@ -260,7 +249,7 @@ void AIUpdateInterface::requestPath( Coord3D *destination, Bool isFinalGoal )
 	}
 
 	m_requestedDestination = *destination;
-	m_requestedVictimID = INVALID_ID;
+	m_requestedVictimID = INVALID_OBJECT_ID;
 	m_isFinalGoal = isFinalGoal;
 	m_isAttackPath = false;
 	m_isApproachPath = false;

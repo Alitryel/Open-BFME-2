@@ -52,10 +52,7 @@
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
 #define NULL 0
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum StateExitType
 {
 	EXIT_NORMAL = 0,
@@ -150,15 +147,6 @@ private:
 	AIUpdateInterface *m_ai; // +0x258
 	unsigned char m_pad25C[0x304 - 0x25C];
 	Team *m_team; // +0x304
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
 };
 struct TAiData
 {
@@ -563,7 +551,7 @@ StateReturnType AITNGuardOuterState::update( void )
 StateReturnType AITNGuardAttackAggressorState::onEnter( void )
 {
 	Object *obj = getMachineOwner();
-	ObjectID nemID = INVALID_ID;
+	ObjectID nemID = INVALID_OBJECT_ID;
 
 	if (obj->getBodyModule() && obj->getBodyModule()->getLastDamageInfo()->in.m_sourceID) {
 		nemID = obj->getBodyModule()->getLastDamageInfo()->in.m_sourceID;

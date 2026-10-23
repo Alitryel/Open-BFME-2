@@ -3,10 +3,7 @@
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 enum KindOfType
 {
@@ -25,11 +22,6 @@ public:
 	unsigned char m_flag438;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

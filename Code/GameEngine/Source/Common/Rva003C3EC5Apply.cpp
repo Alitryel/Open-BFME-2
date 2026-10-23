@@ -34,12 +34,7 @@ extern SpecialPowerStore *TheSpecialPowerStore;
 
 extern int BfmeLogicFramesPerSecond;
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -65,7 +60,7 @@ void ScriptActions::doNamedSetSpecialPowerCountdown(Parameter *parameter, const 
 	{
 		void *sub = obj->getSpecialPowerModule(found);
 		if (sub != 0)
-			((Rva003C3EC5Target *)sub)->w08(BfmeLogicFramesPerSecond * arg3 + TheGameLogic->m_40);
+			((Rva003C3EC5Target *)sub)->w08(BfmeLogicFramesPerSecond * arg3 + TheGameLogic->getFrame());
 	}
 }
 

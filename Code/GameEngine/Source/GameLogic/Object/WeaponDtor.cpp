@@ -12,10 +12,7 @@
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -23,12 +20,6 @@ public:
 	char m_pad[1];
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 

@@ -71,10 +71,7 @@ class Drawable;
 // 0x00346C53 (pinned by address): the setStatus twin (same mask build via
 // 0x0023DA79) that hands the mask to 0x00293D3B instead of 0x0028CDEB.
 class Player;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_41 = 0x41,
@@ -172,11 +169,6 @@ private:
 	AIUpdateInterface *m_ai; // +0x258
 	unsigned char m_pad25C[0x438 - 0x25C];
 	unsigned char m_438; // +0x438
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 
@@ -289,7 +281,7 @@ void BloodthirstyUpdate::cancelSacrifice()
 	if (!isValidSacrifice(target))
 		return;
 	iface->release(0);
-	m_bestTargetID = INVALID_ID;
+	m_bestTargetID = INVALID_OBJECT_ID;
 	m_kills = 0;
 	self->rva00346C53(OBJECT_STATUS_41, false);
 	target->clearModelConditionStateForHorde(MODELCONDITION_40);

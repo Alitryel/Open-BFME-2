@@ -7,10 +7,7 @@
 // Evidence: ecx=esi-0xc outer for the sweep calls (pinned method form),
 // TheGameLogic hoisted into ebx, ranges pushed in 44/68/50/5c order with the
 // last via adjusted esi; flags and decls follow neighbouring Behavior TUs.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object;
 class GameLogic;
@@ -21,12 +18,6 @@ struct IdRange
 	ObjectID *last;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void rva0023D0C2(Object *obj, int arg);
-};
 
 class Rva00397756
 {

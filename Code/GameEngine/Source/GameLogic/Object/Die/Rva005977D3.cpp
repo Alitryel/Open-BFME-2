@@ -1,9 +1,6 @@
 // cl: /GX-
 // ?rva005977D3@Rva005977D3@@QAEXXZ @0x005977D3 74B: prune vector<ObjectID> at +0x18 erasing null or float280 below 0 via rowed findObjectByID 0x00049DC5 and erase 0x0025BF5D with virtual slot0(obj 1); caller 0x00597FC5
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -12,11 +9,6 @@ public:
 	float m_float280;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

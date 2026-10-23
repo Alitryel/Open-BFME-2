@@ -27,10 +27,7 @@ unsigned Rva00990030Lookup( Rva00990030Range *range, int index );
 struct Rva00990210Range;
 unsigned Rva00990210Lookup( Rva00990210Range *range, int index );
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum CommandSourceType
 {
@@ -125,11 +122,6 @@ public:
 	PhysicsBehavior *m_physics;	// +0x25C
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id );
-};
 
 extern GameLogic *TheGameLogic;
 

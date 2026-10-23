@@ -53,10 +53,7 @@ Real GetGameLogicRandomValueReal(Real lo, Real hi, char *file, Int line);
 
 #define PI 3.14159265359f
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum Relationship
 {
@@ -201,11 +198,6 @@ private:
 	AIUpdateInterface *m_ai;	// +0x258
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 struct crateCreationEntry

@@ -6,12 +6,7 @@
 // threshold g_00E044B0 then tail-jmps to vtable slots 0x18 and 0x1c.
 // Evidence: xor-edx byte compares; TheGameLogic rowed name; g_ stopgap;
 // 4 callers in 0x00505924 looping over object arrays; /O1 per xor-first.
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_40;
-};
+#include "../../../../GameEngine/Source/Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic; // ?TheGameLogic@@3PAVGameLogic@@A
 extern unsigned int g_00E044B0;
 // g_00E044B0: matched references place it at VA 0xe044b0 (zero-filled .bss).
@@ -48,10 +43,10 @@ void AITactic::rva004ECE1C()
 		return;
 	if (m_10 == 0) {
 		if (m_54 == 0) {
-			m_54 = TheGameLogic->m_40;
+			m_54 = TheGameLogic->getFrame();
 			return;
 		}
-		if (TheGameLogic->m_40 - m_54 < g_00E044B0)
+		if (TheGameLogic->getFrame() - m_54 < g_00E044B0)
 			return;
 		m_10 = 1;
 		v06();

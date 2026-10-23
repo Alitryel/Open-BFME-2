@@ -13,10 +13,7 @@
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum ObjectStatusTypes
 {
@@ -31,11 +28,6 @@ struct ThingTemplate
 
 class Object;
 
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

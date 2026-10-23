@@ -210,10 +210,7 @@ private:
 
 Bool inList(Int value, Int count, const Int idxList[]);
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class DamageInfoInput
 {
@@ -441,17 +438,6 @@ public:
 typedef UnsignedInt PlayerMaskType;
 const PlayerMaskType PLAYERMASK_ALL = 0xfffff;
 
-class GameLogic
-{
-public:
-	void deselectObject(Object *obj, PlayerMaskType playerMask, Bool affectClient);
-	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; }
-	Object *findObjectByID(ObjectID id);
-
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 
 extern GameLogic *TheGameLogic;
 

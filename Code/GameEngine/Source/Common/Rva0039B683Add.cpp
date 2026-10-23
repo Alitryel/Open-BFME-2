@@ -5,12 +5,7 @@
 // Target evidence: TheGameLogic is the global at 0x00DFE78C whose
 // findObjectByID calls other matched bodies make; retail loads the argument
 // first and adds the member from memory (delta + m_valF8).
-class GameLogic
-{
-public:
-	char m_pad00[0x98];
-	unsigned char m_flag98; // +0x98
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -27,13 +22,13 @@ private:
 
 void Rva0039B683::rva0039B683(float delta)
 {
-	if (TheGameLogic->m_flag98 == 0)
+	if (TheGameLogic->isScoringEnabled() == 0)
 		return;
 	m_valF8 = delta + m_valF8;
 }
 
 void Rva0039B683::rva0039B6A8(float delta)
 {
- if (TheGameLogic->m_flag98 == 0) return;
+ if (TheGameLogic->isScoringEnabled() == 0) return;
  m_valFC = delta + m_valFC;
 }

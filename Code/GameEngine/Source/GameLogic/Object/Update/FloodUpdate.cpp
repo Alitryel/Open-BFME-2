@@ -93,10 +93,7 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_NONE = 1
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum DamageType
 {
@@ -141,11 +138,6 @@ private:
 	Team *m_team; // +0x304
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

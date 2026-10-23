@@ -95,10 +95,7 @@ struct Rva0026F0F0
 extern class UpgradeCenter *TheUpgradeCenter;
 #define TheUpgradeCenter (*(Rva0026F0F0 * *)&TheUpgradeCenter)
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum ObjectStatusTypes
 {
@@ -133,11 +130,6 @@ public:
 	unsigned m_284[32];			// +0x284 the upgrade mask
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 struct GiveUpgradeUpdateModuleData
@@ -188,7 +180,7 @@ void GiveUpgradeUpdate::GetDeliveryTarget()
 {
 	ObjectID target = m_40;
 	const GiveUpgradeUpdateModuleData *data = getGiveUpgradeUpdateModuleData();
-	if (target != INVALID_ID || !data->m_deliverUpgrade)
+	if (target != INVALID_OBJECT_ID || !data->m_deliverUpgrade)
 		return;
 	Object *obj = m_object;
 	m_89 = true;

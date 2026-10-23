@@ -34,10 +34,7 @@ public:
 	bool rva0033A453(const void *required, const void *exempt) const;
 };
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Player
 {
@@ -54,11 +51,6 @@ public:
 	BfmeFixedStorage128 m_mask284;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

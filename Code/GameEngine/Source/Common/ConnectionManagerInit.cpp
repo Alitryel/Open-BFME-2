@@ -12,12 +12,7 @@ struct FrameDataManager
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 
 class Object;
-class GameLogic
-{
-public:
-	char m_pad40[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -107,7 +102,7 @@ unsigned char BFMEConnectionManager::rva004CEF58(int slot)
 		return 1;
 	}
 	unsigned long now = timeGetTime();
-	unsigned int m40 = TheGameLogic->m_40;
+	unsigned int m40 = TheGameLogic->getFrame();
 	unsigned int timeout;
 	if (m40 < g_007ED97C)
 		timeout = TheWritableGlobalData->m_networkDisconnectTime << 2;
@@ -135,7 +130,7 @@ unsigned char BFMEConnectionManager::rva004CEFC2(int slot, unsigned int timeoutP
 		return 1;
 	}
 	unsigned long now = timeGetTime();
-	unsigned int m40 = TheGameLogic->m_40;
+	unsigned int m40 = TheGameLogic->getFrame();
 	unsigned int timeout;
 	if (m40 >= g_007ED97C)
 		timeout = timeoutParam;

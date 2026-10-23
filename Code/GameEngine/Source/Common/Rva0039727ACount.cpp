@@ -8,10 +8,7 @@
 // Evidence: caller 0x003972C9 adds this result to a sibling count;
 // the +0x74/+0x78 range and the slot-0x0C call are retail-measured.
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 class GameLogic;
@@ -33,11 +30,6 @@ public:
 	void *rva0028BCF4() const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 class Rva0039727A
 {

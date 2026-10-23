@@ -58,10 +58,7 @@ public:
 private:
 	unsigned int m_words[20];
 };
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum KindOfType
 {
 	KINDOF_FIRST = 0
@@ -106,15 +103,6 @@ struct Rva004AD8E3Drawable
 {
 	unsigned char m_pad[0x118];
 	unsigned int m_118; // +0x118
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame; // +0x40
 };
 extern GameLogic *TheGameLogic;
 class Rva00270619

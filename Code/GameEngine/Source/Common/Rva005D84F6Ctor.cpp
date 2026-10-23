@@ -12,12 +12,7 @@ public:
 	virtual ~Rva005EE30C();
 };
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 extern unsigned int g_Va00E06670;	// vector object at 0x00E06670 (Rva007B6880Thunks.cpp)
@@ -32,7 +27,7 @@ public:
 Rva005D84F6::Rva005D84F6()
 {
 	_STL::vector<BfmePod8> &list = (_STL::vector<BfmePod8> &)g_Va00E06670;
-	if (TheGameLogic->m_40 <= 1)
+	if (TheGameLogic->getFrame() <= 1)
 	{
 		if (!list.empty())
 			list.erase(list.begin(), list.end());

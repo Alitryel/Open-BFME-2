@@ -37,10 +37,7 @@ enum ObjectStatusTypes
 	OBJECT_STATUS_UNDER_CONSTRUCTION = 2
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Overridable
 {
@@ -95,14 +92,6 @@ private:
 	ObjectID m_id; // +0x74
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 
 extern GameLogic *TheGameLogic;
 

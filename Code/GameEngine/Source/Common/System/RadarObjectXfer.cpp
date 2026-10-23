@@ -125,10 +125,7 @@ public:
 
 typedef int Color;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 void XferObjectID( Xfer *xfer, ObjectID *value );
 
@@ -157,11 +154,6 @@ private:
 	RadarObject *m_radarData;																									///< 0x260
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id );
-};
 extern GameLogic *TheGameLogic;
 
 class RadarObject
@@ -192,7 +184,7 @@ void RadarObject::xfer( Xfer *xfer )
 	*xfer == version;
 
 	// object id
-	ObjectID objectID = m_object ? m_object->getID() : INVALID_ID;
+	ObjectID objectID = m_object ? m_object->getID() : INVALID_OBJECT_ID;
 	XferObjectID( xfer, &objectID );
 	if( xfer->IsLoading() )
 	{

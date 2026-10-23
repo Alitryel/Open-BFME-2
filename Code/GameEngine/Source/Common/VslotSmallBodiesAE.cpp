@@ -436,10 +436,7 @@ void Rva005391A9::rva005391A9()
 // else 4 when virtual slot 17 of the pinned Object 0x0028BC58(0) of the
 // object whose id is +0x08 holds, otherwise the pinned Object 0x00294ADD
 // with +0x30.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 class Rva00597426Part
 {
 public:
@@ -467,11 +464,6 @@ class Object
 public:
 	void *rva0028BC58(Int a);
 	Int rva00294ADD(Int a);
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 struct Rva00597426Arg
 {

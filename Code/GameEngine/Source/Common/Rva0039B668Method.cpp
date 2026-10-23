@@ -6,12 +6,7 @@
 // one int arg; ecx use proves __thiscall; caller class unproven so honest
 // Rva0039B668 owner. Sibling pattern from 0x0039B64D (+0xD4) and 0x0039B632 (+0xD0).
 
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x98];
-	bool m_flag98;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -27,6 +22,6 @@ private:
 
 void Rva0039B668::rva0039B668(int amount)
 {
-	if (TheGameLogic->m_flag98)
+	if (TheGameLogic->isScoringEnabled())
 		m_valueD8 += amount;
 }

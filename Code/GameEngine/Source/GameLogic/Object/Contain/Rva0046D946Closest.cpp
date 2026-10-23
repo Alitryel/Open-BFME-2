@@ -7,10 +7,7 @@
 // with TheGameLogic findObjectByID; 2D dist vs global g_00BC6EA0.
 // Evidence: TheGameLogic extern in use; rowed findObjectByID 0x00049DC5 and
 // _M_increment 0x00024250; offsets +0x20/+0x38/+0x170 match HordeContain.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 class Object
 {
 public:
@@ -18,11 +15,6 @@ public:
 	float m_x38;
 	float m_y3C;
 	float m_z40;
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 namespace _STL

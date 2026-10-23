@@ -14,10 +14,7 @@ typedef bool Bool;
 typedef unsigned int UnsignedInt;
 #define NULL 0
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 class Player;
 
@@ -35,11 +32,6 @@ private:
 	unsigned char m_privateStatus; // +0x438
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class Team
@@ -55,7 +47,7 @@ private:
 // ------------------------------------------------------------------------
 Object *Team::getTeamTargetObject(void)
 {
-	if (m_commonAttackTarget == INVALID_ID) {
+	if (m_commonAttackTarget == INVALID_OBJECT_ID) {
 		return NULL;
 	}
 	Object *target = TheGameLogic->findObjectByID(m_commonAttackTarget);
@@ -72,7 +64,7 @@ Object *Team::getTeamTargetObject(void)
 		target = NULL; // target entered a building or vehicle, so stop targeting.
 	}
 	if (target == NULL) {
-		m_commonAttackTarget = INVALID_ID;
+		m_commonAttackTarget = INVALID_OBJECT_ID;
 	}
 	return target;
 }

@@ -15,12 +15,7 @@ public:
 	void rva00419BA5();
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -69,7 +64,7 @@ bool BuffInstance::MakeNormalBuff(int a, int b, void *c, void *d, int e)
 	{
 		m_duration = e;
 		m_active = true;
-		m_frameLimit = TheGameLogic->m_40 + e;
+		m_frameLimit = TheGameLogic->getFrame() + e;
 		return true;
 	}
 	m_active = false;

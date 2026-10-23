@@ -3,10 +3,7 @@
 // Evidence: finish from stash 0.9 ebp-ebx mirror; callers none; rowed findObjectByID via TheGameLogic;
 //   rowed hasUpgrade rva00293003 rva003972D3 affectedByUpgrade; prev/next share /O1 /DNDEBUG /MD.
 
-enum ObjectID
-{
-	INVALID_OBJECTID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 class UpgradeTemplate;
@@ -27,11 +24,6 @@ public:
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

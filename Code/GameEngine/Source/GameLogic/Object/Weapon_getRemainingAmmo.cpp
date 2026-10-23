@@ -7,10 +7,7 @@
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-enum ObjectID
-{
-    INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum WeaponStatus
 {
@@ -75,11 +72,6 @@ public:
     BfmeAmmoProvider *m_ammoProvider;
 };
 
-class GameLogic
-{
-public:
-    Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

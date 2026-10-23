@@ -56,12 +56,7 @@ public:
 	int m_trackingTimeSpan;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -79,7 +74,7 @@ private:
 
 float EvacuateDamage::rva004BADC1()
 {
-	int cutoff = TheGameLogic->m_frame - m_moduleData->m_trackingTimeSpan;
+	int cutoff = TheGameLogic->getFrame() - m_moduleData->m_trackingTimeSpan;
 	float sum = 0.0f;
 	for (_STL::list<EvacuationRecord>::iterator it = m_pendingEvacuations.begin(); it != m_pendingEvacuations.end(); )
 	{

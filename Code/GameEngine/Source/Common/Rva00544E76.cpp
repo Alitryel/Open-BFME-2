@@ -5,12 +5,7 @@
 // slot 0x24 into +0x20. Answers -2 on null and 0 after storing.
 // Evidence: thiscall ecx passthrough; ret no args; callers none;
 // vtable slot 4; TheGameLogic +0x40.
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -51,7 +46,7 @@ int Rva00544C2A::onEnter()
 	void *obj = ((Rva00544E76Slot17c)iface->m_vtable[0x17C / 4])(iface);
 	if (obj == 0)
 		return -2;
-	int extra = TheGameLogic->m_40;
+	int extra = TheGameLogic->getFrame();
 	void **vtable = *(void ***)obj;
 	int val = ((Rva00544E76Slot24)vtable[0x24 / 4])(obj);
 	m_20 = val + extra;

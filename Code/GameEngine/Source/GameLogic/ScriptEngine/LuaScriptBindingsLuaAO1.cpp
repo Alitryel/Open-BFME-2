@@ -68,13 +68,8 @@ public:
 	Rva002E5FF0Field23C *m_team;
 };
 
-enum ObjectID { INVALID_ID = 0 };
+#include "../../Common/GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id );
-};
 
 extern GameLogic *TheGameLogic;
 

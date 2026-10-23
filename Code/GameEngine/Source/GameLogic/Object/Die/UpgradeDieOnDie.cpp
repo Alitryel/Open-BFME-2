@@ -26,10 +26,7 @@
 // HeroDieOnDie plain-extern precedent.
 #include "ascii_string.h"
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class DamageInfo;
 class Player;
@@ -70,11 +67,6 @@ public:
 extern "C" UpgradeCenter *TheUpgradeCenter;
 #pragma comment(linker, "/alternatename:_TheUpgradeCenter=?TheUpgradeCenter@@3PAVUpgradeCenter@@A")
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class ModuleData;

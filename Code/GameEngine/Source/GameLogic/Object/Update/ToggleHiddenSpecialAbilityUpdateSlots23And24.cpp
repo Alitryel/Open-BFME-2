@@ -41,12 +41,7 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_40; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -229,7 +224,7 @@ void ToggleHiddenSpecialAbilityUpdate::turnOn()
 	if ((char)obj->rva0028B7C8() || ai->rva004AE394Slot111())
 		ai->m_command.aiIdle(CMD_FROM_AI);
 
-	m_88 = TheGameLogic->m_40;
+	m_88 = TheGameLogic->getFrame();
 	obj->setStatus(HIDDEN_STATUS, true);
 	obj->setWeaponSetFlag(HIDDEN_WEAPONSET);
 	if (!obj->m_conditionBits.test(HIDDEN_CONDITION_BIT))

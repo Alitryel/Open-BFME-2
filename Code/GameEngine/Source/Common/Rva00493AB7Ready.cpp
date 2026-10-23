@@ -38,12 +38,7 @@ public:
 	bool any() const;
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -80,6 +75,6 @@ unsigned int Rva00493AB7::rva00493AB7()
 		}
 	}
 	if (m_count > 0 || ((BitFlags<11> *)((char *)*(Object **)((char *)this - 8) + 0x1C8))->any())
-		return TheGameLogic->m_frame - m_base + m_ready;
+		return TheGameLogic->getFrame() - m_base + m_ready;
 	return m_ready;
 }

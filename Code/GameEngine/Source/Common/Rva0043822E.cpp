@@ -6,12 +6,7 @@
 // GameLogic+0x40 plus arg2, keeps the max into the record's +4 expiry
 // (cmp/jbe). TheGameLogic extern used by 72 TUs. Callers 0x00439809/0x00439ED9
 // and the ECX-preserving call in 0x0043979D. Honest address name.
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct Rva004393D6
@@ -30,7 +25,7 @@ public:
 
 void Rva00439E0C::rva0043822E(Rva004393D6 *p, unsigned int v)
 {
-	unsigned int total = TheGameLogic->m_40 + v;
+	unsigned int total = TheGameLogic->getFrame() + v;
 	if (total > p->expiry)
 		p->expiry = total;
 }

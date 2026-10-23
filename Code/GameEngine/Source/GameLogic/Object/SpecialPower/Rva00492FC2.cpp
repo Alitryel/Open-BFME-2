@@ -3,12 +3,7 @@
 // SpecialPowerModuleInterface vtable 0x0085E080 (pinned name), ZH's
 // SpecialPowerModule::pauseCountdown; this is the interface subobject. Evidence: thiscall void bool; vtable slot2 virtual float; TheGameLogic VA 0x00DFE78C +0x40 frame; members +0x08 accum +0x0C count +0x10 base +0x14 float; unblocks 0x004C4430 0x00493C5A; next Rva00493009Xfer same flags
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -33,7 +28,7 @@ void SpecialPowerModule::pauseCountdown(bool flag)
 	{
 		if (m_0C == 0)
 		{
-			m_10 = TheGameLogic->m_40;
+			m_10 = TheGameLogic->getFrame();
 			m_14 = v2();
 		}
 		++m_0C;
@@ -46,7 +41,7 @@ void SpecialPowerModule::pauseCountdown(bool flag)
 			m_0C = c;
 			if (c == 0)
 			{
-				int f = TheGameLogic->m_40;
+				int f = TheGameLogic->getFrame();
 				m_08 += f - m_10;
 			}
 		}

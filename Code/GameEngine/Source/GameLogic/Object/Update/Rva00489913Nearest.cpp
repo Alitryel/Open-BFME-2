@@ -6,10 +6,7 @@
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
-enum ObjectID
-{
-	INVALID_OBJECTID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Rva00489913Info
 {
@@ -35,11 +32,6 @@ public:
 	AIUpdateInterface *m_checker;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

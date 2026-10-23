@@ -102,10 +102,7 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 // The stealth helper Object::rva0028F4BC returns: +0x04 its data, whose
 // +0x0C holds the flags.
@@ -148,11 +145,6 @@ public:
 	ObjectID m_74;		// +0x74
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 // A list<ObjectID>: STLport nodes (+0 next, +8 the ID) behind the header node.

@@ -2,16 +2,8 @@
 // ?rva00298893@BfmeSubBGB@@QAE_NXZ retail 0x00298893 174B
 // BfmeSubBGB method looping +0x244 via slot 0x8C then +0x254 via slot 0x3C plus findObjectByID and report then +0x274 chain.
 // Evidence: self bfmeDoBGB pin 0x002984D4 with 8 0; TheGameLogic extern in use 72 TUs; findObjectByID row 0x00049DC5; report pin 0x00294D61.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 class Object;
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 class Rva00294D61
 {

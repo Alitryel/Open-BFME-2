@@ -9,12 +9,7 @@
 class AudioManager;
 extern AudioManager *TheAudio;
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 enum ObjectStatusTypes
@@ -98,7 +93,7 @@ public:
 
 void Rva00499C6C::rva00499C6C()
 {
-	unsigned int frame = TheGameLogic->m_frame;
+	unsigned int frame = TheGameLogic->getFrame();
 	Rva00499C6CHolder *holder = m_holder;
 	m_28 = 0;
 	Object *obj = m_obj;

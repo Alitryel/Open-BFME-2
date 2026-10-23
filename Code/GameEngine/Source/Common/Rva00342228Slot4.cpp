@@ -4,7 +4,7 @@
 // Virtual slot 4 (offset 0x10) of vtable 0x00811900, the class whose dtor
 // ??1Rva00342228@@UAE@XZ is rowed in Rva00342228Dtor.cpp (same // cl: line,
 // sibling of the landed Rva00342157 slot-4 body at 0x003421B2). Body:
-// m_ptr20 = m_ptr18->slot9() (call [eax+0x24]); frame = TheGameLogic->m_frame
+// m_ptr20 = m_ptr18->slot9() (call [eax+0x24]); frame = TheGameLogic->getFrame()
 // (kept in edi across the next call); r = GetGameLogicRandomValue(0,
 // Int00DBA4E4, AIStates.cpp, 0x3D75) (rowed int twin 0x00233FF4); m_24 =
 // r + frame; tail-call m_ptr20->slot7() (jmp [eax+0x1C]). TheGameLogic
@@ -18,12 +18,7 @@ extern int BfmeLogicFramesPerSecond;
 
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 #define Int00DBA4E4 BfmeLogicFramesPerSecond
@@ -86,7 +81,7 @@ private:
 int Rva00342228::onEnter()
 {
 	m_ptr20 = m_ptr18->getPtr20();
-	unsigned int frame = TheGameLogic->m_40;
+	unsigned int frame = TheGameLogic->getFrame();
 	int r = GetGameLogicRandomValue(0, Int00DBA4E4, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp", 0x3D75);
 	m_24 = r + frame;
 	return m_ptr20->method1C();

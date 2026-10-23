@@ -152,20 +152,8 @@ public:
 	unsigned char m_438;		// +0x438
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	char m_pad000[0x40];
-	unsigned int m_40;		// +0x40, the frame
-	char m_pad044[0x114 - 0x44];
-	int m_114;			// +0x114
-};
 extern GameLogic *TheGameLogic;
 
 class Rva004EBF4B
@@ -241,7 +229,7 @@ bool AIStartWoTRBattleTactic::canRun(void *)
 	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	return !record->rva002C7196(StartWoTRBattleTacticHasRun)
 		&& TheGameLogic->m_114 != 3
-		&& TheGameLogic->m_40 > 5;
+		&& TheGameLogic->getFrame() > 5;
 }
 
 void AIStartWoTRBattleTactic::xfer(Xfer *xfer)

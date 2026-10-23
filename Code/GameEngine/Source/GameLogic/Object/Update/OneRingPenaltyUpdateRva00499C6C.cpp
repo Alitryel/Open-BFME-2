@@ -35,12 +35,7 @@ public:
 	ObjectID m_id74; // +0x74
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class AudioManager
@@ -135,7 +130,7 @@ private:
 
 void OneRingPenaltyUpdate::rva00499C6C()
 {
-	UnsignedInt frame = TheGameLogic->m_frame;
+	UnsignedInt frame = TheGameLogic->getFrame();
 	const OneRingPenaltyUpdateModuleData *data = m_moduleData;
 	m_28 = 0;
 	Object *obj = m_object;

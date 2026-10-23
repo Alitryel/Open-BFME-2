@@ -11,10 +11,7 @@
 // jumps over the position check). Counter and cursor stay homed in stack
 // slots while constants live in registers, matching the retail prologue.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 class Object;
 
@@ -51,11 +48,6 @@ public:
 	AIUpdateInterface *m_aiDirect;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

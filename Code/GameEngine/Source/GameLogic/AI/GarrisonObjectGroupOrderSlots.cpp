@@ -16,10 +16,7 @@
 // while the AI's slot 110 answers true, the enter command (rowed
 // AICommandInterface::rva0036EBB8 0x0036EBB8) goes out and it is not done.
 // Names by address.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -89,11 +86,6 @@ public:
 class ActionManager;
 extern ActionManager *TheActionManager;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

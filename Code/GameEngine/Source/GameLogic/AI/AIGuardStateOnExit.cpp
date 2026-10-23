@@ -17,7 +17,7 @@
 // Layout: m_guardMachine +0x20; AI at owner +0x258.
 
 typedef bool Bool;
-enum ObjectID { INVALID_ID = 0 };
+#include "../../Common/GameLogicObjectLookupView.h"
 enum StateExitType { EXIT_NORMAL = 0 };
 enum StateReturnType { STATE_CONTINUE = 0 };
 enum GuardTargetType { GUARDTARGET_LOCATION = 0, GUARDTARGET_OBJECT };
@@ -51,11 +51,6 @@ public:
 private:
 	unsigned char m_pad00[0x258];
 	AIUpdateInterface *m_ai; // +0x258
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 class StateMachine

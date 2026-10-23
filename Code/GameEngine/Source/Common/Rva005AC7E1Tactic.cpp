@@ -19,10 +19,7 @@
 //   0x005ACA2D  find the owner's ring hero (template +0x121 bit 5) into +0x58
 #include "ascii_string.h"
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 enum CommandSourceType
 {
@@ -184,14 +181,6 @@ public:
 	unsigned char m_438;		// +0x438
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	unsigned int getFrame() const { return m_40; }
-	char m_pad000[0x40];
-	unsigned int m_40;		// +0x40
-};
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
 
@@ -303,7 +292,7 @@ private:
 
 void AIRingHeroTactic::cleanUp()
 {
-	m_hero = INVALID_ID;
+	m_hero = INVALID_OBJECT_ID;
 	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->rva002C717E(AsciiString("AIRingHeroTactic_IsRunning"), 0);
 	record->rva002C717E(AsciiString("AIRingHeroTactic_NextLogicFrameRun"), 0);

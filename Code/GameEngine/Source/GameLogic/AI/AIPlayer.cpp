@@ -117,10 +117,7 @@ inline Real regionHeight(const Region2D &region2D) { return region2D.hi.y - regi
 #define COORD3D_VIEW_INLINE
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum GuardMode
 {
@@ -427,16 +424,6 @@ __forceinline long fast_float2long_round(Real f)
 
 #define REAL_TO_INT_CEIL(x) (fast_float2long_round((Real)ceil(x)))
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();	// 0x0023CAD2
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame;			// +0x40
-};
 extern GameLogic *TheGameLogic;
 
 class GlobalData
@@ -702,7 +689,7 @@ Bool AIPlayer::isSupplySourceAttacked()
 		m_supplySourceAttackCheckFrame = curFrame + SCAN_RATE;
 		return false;
 	}
-	m_attackedSupplyCenter = INVALID_ID;
+	m_attackedSupplyCenter = INVALID_OBJECT_ID;
 	if (curFrame < m_supplySourceAttackCheckFrame)
 		return false;
 	if (m_player->getAttackedFrame() + SCAN_RATE < curFrame)

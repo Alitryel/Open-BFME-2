@@ -58,16 +58,8 @@ public:
 	Rva00334E51Holder *m_holder304;
 };
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 // ?Rva00334E51@@YAHPAUlua_State@@@Z

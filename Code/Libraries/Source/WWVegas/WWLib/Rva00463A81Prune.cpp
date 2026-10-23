@@ -17,10 +17,7 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 }
 #pragma optimize("", on)
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../../GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -29,11 +26,6 @@ public:
 	unsigned char m_flag438;
 };
 
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

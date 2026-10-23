@@ -31,10 +31,7 @@ typedef unsigned int UnsignedInt;
 typedef float Real;
 #define NULL 0
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum StateReturnType
 {
 	STATE_CONTINUE = 0,
@@ -80,15 +77,6 @@ public:
 	AIUpdateInterface *m_ai; // +0x258
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 extern GameLogic *TheGameLogic;
 
 class State
@@ -179,7 +167,7 @@ StateReturnType AIStateMachine::updateStateMachine()
 		m_temporaryState->onExit(EXIT_NORMAL);
 		rva004D750F(TheGameLogic->findObjectByID(m_savedGoalObjectID));
 		setGoalPosition(&m_savedGoalPosition);
-		m_savedGoalObjectID = INVALID_ID;
+		m_savedGoalObjectID = INVALID_OBJECT_ID;
 		m_temporaryState = NULL;
 		if (m_currentState)
 			m_currentState->slot07();
@@ -195,7 +183,7 @@ void AIStateMachine::rva0035033F()
 		m_temporaryState->onExit(EXIT_RESET);
 		rva004D750F(TheGameLogic->findObjectByID(m_savedGoalObjectID));
 		setGoalPosition(&m_savedGoalPosition);
-		m_savedGoalObjectID = INVALID_ID;
+		m_savedGoalObjectID = INVALID_OBJECT_ID;
 		m_temporaryState = NULL;
 		Object *owner = getOwner();
 		if (owner && owner->m_bfme24C)

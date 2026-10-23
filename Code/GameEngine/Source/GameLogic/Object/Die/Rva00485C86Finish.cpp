@@ -50,10 +50,7 @@ public:
 	bool hasUpgrade(const UpgradeTemplate *t) const;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class DamageInfo
 {
@@ -62,11 +59,6 @@ public:
 	ObjectID m_sourceID08;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class ObjectCreationList

@@ -62,10 +62,7 @@ typedef unsigned int UnsignedInt;
 typedef bool Bool;
 typedef float Real;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum ExitDoorType
 {
@@ -227,11 +224,6 @@ private:
 	Team *m_team;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class SpawnBehaviorModuleData

@@ -94,16 +94,8 @@ public:
 
 // Native lookup 0x00049DC5 takes the same 32-bit ObjectID enum as its
 // verified provider; only the declaration changes, not the ID representation.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 class AudioManager;

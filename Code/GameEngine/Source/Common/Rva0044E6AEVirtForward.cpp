@@ -19,10 +19,7 @@
 // +0x40 id +0x88 +0x89); retail 0x0049CA2F..0x0049CB57 ends before the fld
 // getter at 0x0049CB57; the upgrade pointer keeps a volatile home tested in
 // the register, which the pair (up, upgrade) reproduces.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 
@@ -80,12 +77,6 @@ public:
 	unsigned char m_privateStatus;	// +0x438
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void deselectObject(Object *obj, unsigned int mask, bool mode);
-};
 
 extern GameLogic *TheGameLogic;
 

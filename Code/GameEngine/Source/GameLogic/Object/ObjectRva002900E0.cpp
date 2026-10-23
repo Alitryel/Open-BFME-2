@@ -18,12 +18,7 @@ enum ObjectStatusTypes
 	STATUS_4A = 0x4A
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 
@@ -91,7 +86,7 @@ void Object::rva002903C3()
 	unsigned int f = m_frame42C;
 	if (f <= 0)
 		return;
-	if (TheGameLogic->m_frame <= f)
+	if (TheGameLogic->getFrame() <= f)
 		return;
 	setStatus(STATUS_4A, false);
 	m_frame42C = 0;
@@ -102,7 +97,7 @@ void Object::rva002903EF()
 	unsigned int f = m_frame430;
 	if (f <= 0)
 		return;
-	if (TheGameLogic->m_frame <= f)
+	if (TheGameLogic->getFrame() <= f)
 		return;
 	setStatus(STATUS_04, false);
 	m_frame430 = 0;
@@ -110,7 +105,7 @@ void Object::rva002903EF()
 
 void Object::checkDisabledStatus()
 {
-	unsigned int frame = TheGameLogic->m_frame;
+	unsigned int frame = TheGameLogic->getFrame();
 	for (int i = 0; i < 11; ++i)
 	{
 		if ((unsigned char)((Rva001E4A4E *)this)->rva001E4A4E(i) == 0)

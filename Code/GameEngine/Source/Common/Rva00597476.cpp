@@ -1,9 +1,6 @@
 // cl: /MD
 // ?getCostPerTick@AIUpgrade@@UAEMPAX@Z @0x00597476 86B: slot8 cost ratio via UpgradeTemplate calcCostToBuild and rva0026EE30 with idiv and fild; vtable 0x00870BD0
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -11,11 +8,6 @@ public:
 	char m_pad[4];
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

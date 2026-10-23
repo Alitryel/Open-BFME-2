@@ -5,12 +5,7 @@
 // Evidence: mov eax [TheGameLogic] mov eax [eax+0x40] mov edx esp+4 cmp setb ret 4;
 // neighbours AttributeModifierPoolUpdateRva / Rva004031F3 share flags; owner
 // unproven so honest Rva name; caller 0x0050876D in FUN_00908684.
-class GameLogic
-{
-public:
-	char _pad[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic; // ?TheGameLogic@@3PAVGameLogic@@A
 
 class AttributeModifierPoolUpdate
@@ -24,7 +19,7 @@ private:
 
 __declspec(noinline) inline unsigned char AttributeModifierPoolUpdate::isCategoryDisabled(int index)
 {
-	return TheGameLogic->m_40 < m_vals[index];
+	return TheGameLogic->getFrame() < m_vals[index];
 }
 // Select-any like AttributeModifierPoolUpdateAdd.cpp's in-class copy; the anchor keeps it emitted.
 // ?bfmeAnchorIsCategoryDisabled absent-from-retail

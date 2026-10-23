@@ -197,7 +197,7 @@ private:
 };
 
 enum ObjectStatusTypes { OBJECT_STATUS_NONE = 0 };
-enum ObjectID { INVALID_ID = 0 };
+#include "../../Common/GameLogicObjectLookupView.h"
 namespace _STL {
 template<> void vector<ObjectID, allocator<ObjectID> >::_M_clear();
 template<> void vector<ObjectID, allocator<ObjectID> >::push_back(const ObjectID &);
@@ -411,11 +411,6 @@ public:
 	Object *lookupUnitByValue(AsciiString name);
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 // An InGameNotificationType's notification record, 0x14 bytes: the text at

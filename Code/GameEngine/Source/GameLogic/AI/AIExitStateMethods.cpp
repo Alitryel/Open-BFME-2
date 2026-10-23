@@ -22,10 +22,7 @@ typedef unsigned int UnsignedInt;
 typedef UnsignedInt StateID;
 #define NULL 0
 #define INVALID_STATE_ID 999999
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum StateExitType
 {
 	EXIT_NORMAL = 0
@@ -149,11 +146,6 @@ __declspec(dllimport) __forceinline StateID StateMachine::getCurrentStateID() co
 // saved flag around exitObjectViaDoor and clear it afterwards. The retail
 // .data zero-fill and byte operands prove bool storage; original name unknown.
 Bool BfmeAIExitDoorFlag = false;
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 class AIExitState : public State
 {
@@ -169,7 +161,7 @@ private:
 
 StateReturnType AIExitState::onEnter()
 {
-	m_entryToClear = INVALID_ID;
+	m_entryToClear = INVALID_OBJECT_ID;
 
 	Object* obj = getMachineOwner();
 	Object* goal = getMachineGoalObject();
@@ -193,7 +185,7 @@ void AIExitState::onExit( StateExitType status )
 {
 	// use this, rather than getMachineGoalObject, in case the goal
 	// is killed while we were waiting...
-	if (m_entryToClear != INVALID_ID)
+	if (m_entryToClear != INVALID_OBJECT_ID)
 	{
 		Object* goal = TheGameLogic->findObjectByID(m_entryToClear);
 		if (goal)

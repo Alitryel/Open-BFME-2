@@ -14,12 +14,7 @@ struct Inner594
 	unsigned int m_value;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pre[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 class Rva00271B03
@@ -39,7 +34,7 @@ void Rva00271B03::rva00271B03()
 	if (m_04 != 0)
 	{
 		unsigned int v1 = m_04->m_value;
-		unsigned int v2 = TheGameLogic->m_frame;
+		unsigned int v2 = TheGameLogic->getFrame();
 		unsigned int v = v1 + v2;
 		if (v > m_388)
 			m_388 = v;

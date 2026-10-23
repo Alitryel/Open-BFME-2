@@ -23,12 +23,7 @@ public:
 	int rva001F5AA4(const ParticleSystemTemplate *tmpl, const Object *obj, bool flag);
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern ParticleSystemManager *TheParticleSystemManager;
 extern GameLogic *TheGameLogic;
@@ -78,7 +73,7 @@ void MissileUpdate::rva004A78E1()
 	int t = holder->m_time;
 	int frame;
 	if (t != 0)
-		frame = TheGameLogic->m_frame + t;
+		frame = TheGameLogic->getFrame() + t;
 	else
 		frame = 0x7fffffff;
 	m_frame = frame;

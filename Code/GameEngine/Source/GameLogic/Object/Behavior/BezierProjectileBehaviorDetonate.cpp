@@ -79,10 +79,7 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum DamageType
 {
@@ -119,12 +116,6 @@ public:
 	ObjectID m_producerID;	// +0x78
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-	void destroyObject(Object *obj);	// 0x00242C09
-};
 extern GameLogic *TheGameLogic;
 
 extern int g_Va00DFEFD8;

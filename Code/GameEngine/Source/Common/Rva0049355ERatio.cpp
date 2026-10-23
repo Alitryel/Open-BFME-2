@@ -30,12 +30,7 @@ public:
 	Player *getControllingPlayer() const;
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -82,7 +77,7 @@ float Rva0049355E::rva0049355E()
 		Player *player = obj->getControllingPlayer();
 		if (player != 0 && holder->m_ov->friend_getFinalOverride()->m_59 != 0)
 			value = ((Rva002AC6B1PlayerTimers *)player)->getOrStart(s6());
-		value -= TheGameLogic->m_frame;
+		value -= TheGameLogic->getFrame();
 		return 1.0f - (float)value / (float)m_4;
 	}
 	return 0.0f;

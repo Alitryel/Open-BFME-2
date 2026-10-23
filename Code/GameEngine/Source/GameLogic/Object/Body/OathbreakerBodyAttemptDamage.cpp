@@ -8,10 +8,7 @@
 // kindOf bit 0x113:0x04, judged instead on the source's producer (+0x78) when
 // the source has kindOf bit 0x10B:0x02 (and dropped when that producer is
 // gone).
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 class ThingTemplate
 {
 public:
@@ -31,11 +28,6 @@ private:
 	const ThingTemplate *m_template;	// +0x04
 	unsigned char m_pad008[0x78 - 0x08];
 	ObjectID m_producerID;		// +0x78
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 class DamageInfo

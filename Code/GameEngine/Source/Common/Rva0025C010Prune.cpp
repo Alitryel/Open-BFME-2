@@ -6,18 +6,10 @@
 // Evidence: TheGameLogic global at 0x00DFE78C (Rva00203693Host.cpp idiom);
 // callers at 0x004DF972/0x005962EA pass this in ecx; prev/next rows live in
 // Code/GameEngine/Source/Common (Rva0025BFF8ObjectGetter.cpp /O1 /MD).
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 

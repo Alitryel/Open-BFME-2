@@ -49,10 +49,7 @@ unsigned Rva00990030Lookup( Rva00990030Range *range, int index );
 struct Rva00990210Range;
 unsigned Rva00990210Lookup( Rva00990210Range *range, int index );
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Rva00334D16AIView
 {
@@ -72,11 +69,6 @@ public:
 	Rva00334D16AIView *m_ai258; // +0x258 target fact, AIUpdateInterface*
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id ); // row 5818 @0x49DC5, enum W4ObjectID
-};
 
 extern GameLogic *TheGameLogic;
 

@@ -19,12 +19,7 @@ public:
 	AsciiString m_name4C; // +0x4c
 };
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_40; // +0x40
-};
+#include "../GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class TeamPrototype
@@ -75,7 +70,7 @@ void TeamPrototype::rva003A2C0D(Player *owner, const AsciiString &ownerName, boo
 	m_31e = 0;
 	m_owningPlayer = owner;
 	m_flags = singleton ? 1 : 0;
-	unsigned int tmp320 = TheGameLogic->m_40;
+	unsigned int tmp320 = TheGameLogic->getFrame();
 	m_324 = 0;
 	m_320 = tmp320;
 	float *zeroBase = &m_328;

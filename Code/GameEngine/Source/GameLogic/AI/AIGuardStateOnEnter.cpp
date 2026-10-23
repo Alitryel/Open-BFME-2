@@ -25,10 +25,7 @@ typedef float Real;
 typedef unsigned int UnsignedInt;
 typedef UnsignedInt StateID;
 typedef UnsignedInt TeamID;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum StateReturnType
 {
 	STATE_CONTINUE = 0,
@@ -62,11 +59,6 @@ public:
 	Team *findTeamByID(TeamID id);
 };
 extern TeamFactory *TheTeamFactory;
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 class TerrainLogic
 {

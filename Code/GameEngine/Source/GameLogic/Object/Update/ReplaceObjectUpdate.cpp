@@ -74,10 +74,7 @@ public:
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class DamageInfo
 {
@@ -139,11 +136,6 @@ public:
 	Object *m_274;		// +0x274
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);	// 0x00242C09
-};
 extern GameLogic *TheGameLogic;
 
 class ThingFactory

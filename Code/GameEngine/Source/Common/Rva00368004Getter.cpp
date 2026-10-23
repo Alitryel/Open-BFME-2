@@ -24,10 +24,7 @@ typedef unsigned int UnsignedInt;
 typedef UnsignedInt TeamID;
 #define NULL 0
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -39,11 +36,6 @@ public:
 	Object *getGoalObject();
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

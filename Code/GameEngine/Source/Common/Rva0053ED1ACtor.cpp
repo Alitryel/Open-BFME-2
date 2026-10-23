@@ -64,15 +64,7 @@ Rva0053ED1A::Rva0053ED1A() : m_at54(0), m_at58(0)
 class GameLogic;
 extern GameLogic *TheGameLogic;
 class Object;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
+#include "GameLogicObjectLookupView.h"
 class Rva005C6C7B
 {
 public:

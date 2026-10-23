@@ -25,12 +25,7 @@ public:
 	int m_08;
 };
 
-class GameLogic
-{
-public:
-	int m_pad[0x40 / 4];
-	int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -71,5 +66,5 @@ AutoDepositUpdate::AutoDepositUpdate(Thing *thing, const ModuleData *moduleData)
 	m_p10 = &s_secondary10;
 	m_flag24 = false;
 	m_flag25 = false;
-	m_20 = owner->m_08 + TheGameLogic->m_40;
+	m_20 = owner->m_08 + TheGameLogic->getFrame();
 }

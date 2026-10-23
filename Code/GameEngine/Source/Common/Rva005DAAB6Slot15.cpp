@@ -9,10 +9,7 @@ extern BuildAssistant *TheBuildAssistant;
 // g_00A027B8: matched references place it at VA 0xe027b8 (zero-filled .bss).
 // defined in Rva005DAB30Build.cpp; a second definition here blocked linking.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 #include "ascii_string.h"
 
@@ -24,11 +21,6 @@ public:
 	const ThingTemplate *findTemplate(const AsciiString &s);
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 class Rva00A027B8
 {

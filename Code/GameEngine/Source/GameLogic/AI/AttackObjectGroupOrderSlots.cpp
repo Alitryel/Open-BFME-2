@@ -7,10 +7,7 @@
 // 0x00049DC5 plus copy of found Object position +0x38 into this Coord3D +0x20
 // via lea plus 3x movsd plus lea eax return. No callers. Ignores int dummy
 // param (ret 4) and uses this only.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 enum CommandSourceType
 {
@@ -65,11 +62,6 @@ public:
 	char m_pad25C[0x438 - 0x25C];
 	unsigned char m_flags438; // +0x438 bit0
 	bool isUsingAirborneLocomotor() const;
-};
-class GameLogic
-{
-public:
-	Object* findObjectByID(ObjectID id);
 };
 extern GameLogic* TheGameLogic;
 class BuildListInfo

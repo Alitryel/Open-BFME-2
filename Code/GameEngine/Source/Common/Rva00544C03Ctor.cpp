@@ -75,12 +75,7 @@ class Object;
 class AIUpdateInterface;
 class RetObj;
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -364,7 +359,7 @@ StateReturnType AIHarvestPrepareSiteState::onEnter()
 	RetObj *ret = ai->v95();
 	if (ret == 0)
 		return (StateReturnType)-2;
-	int frame = TheGameLogic->m_40;
+	int frame = TheGameLogic->getFrame();
 	int v = ret->w08();
 	m_20 = v + frame;
 	return STATE_CONTINUE;
@@ -398,7 +393,7 @@ StateReturnType AIHarvestPrepareSiteState::update()
 		m_machine->getOwner()->markOnce();
 		if (!site->m_18)
 		{
-			if ((UnsignedInt)TheGameLogic->m_40 < m_20)
+			if ((UnsignedInt)TheGameLogic->getFrame() < m_20)
 				goto keepWaiting;
 			((Rva004C82E5Terrain *)TheTerrainLogic)->rva0028447F(site, &m_machine->getOwner()->m_pos38);
 		}

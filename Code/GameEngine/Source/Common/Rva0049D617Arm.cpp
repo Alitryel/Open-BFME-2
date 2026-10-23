@@ -5,12 +5,7 @@
 // with three zero dwords records TheGameLogic+0x40, ORs the table bit into
 // the words at +0xA8, and sets +0xF4.
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 extern unsigned int ProductionDoorOpeningFlags[];
@@ -47,7 +42,7 @@ void Rva0049D617::rva0049D617(int index, unsigned char flag)
 		return;
 	if (rec->m_a != 0 || rec->m_b != 0 || rec->m_c != 0)
 		return;
-	rec->m_a = TheGameLogic->m_frame;
+	rec->m_a = TheGameLogic->getFrame();
 	unsigned int bit = ProductionDoorOpeningFlags[index];
 	m_bits[bit >> 5] |= 1u << (bit & 31);
 	m_f4 = 1;

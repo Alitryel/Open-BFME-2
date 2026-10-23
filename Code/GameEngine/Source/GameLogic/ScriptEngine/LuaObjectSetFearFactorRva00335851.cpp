@@ -32,16 +32,8 @@ public:
 	void *m_unreconstructed00;
 };
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id );
-};
 
 extern GameLogic *TheGameLogic;
 

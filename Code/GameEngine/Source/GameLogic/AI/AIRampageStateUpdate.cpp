@@ -39,12 +39,7 @@ public:
 	bool rva00298893();
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_frame40; // +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class StateMachine
@@ -90,14 +85,14 @@ StateReturnType AIRampageState::update()
 	if (!owner)
 		return STATE_FAILURE;
 	rva0034BE57(owner);
-	if (m_28 <= TheGameLogic->m_frame40)
+	if (m_28 <= TheGameLogic->getFrame())
 	{
 		Slot62Iface *iface = owner->m_250;
 		if (iface)
 			iface->slot62();
 		m_28 = (unsigned int)-1;
 	}
-	if (m_24 <= TheGameLogic->m_frame40)
+	if (m_24 <= TheGameLogic->getFrame())
 	{
 		((BfmeSubBGB *)owner)->rva00298893();
 		return STATE_SUCCESS;

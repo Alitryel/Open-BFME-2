@@ -15,10 +15,7 @@
 // the partner's module is found by the "GateProxyBehavior" name key.
 #include "ascii_string.h"
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0
@@ -63,11 +60,6 @@ private:
 	unsigned char m_438; // +0x438
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-};
 
 class NameKeyGenerator
 {

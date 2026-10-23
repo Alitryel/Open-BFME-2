@@ -6,12 +6,7 @@
 // Globals 0xDFE78C frame and 0xDBA4E4 fps. Neighbours share /O1.
 extern int BfmeLogicFramesPerSecond;
 
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x40];
-	int m_frame;
-};
+#include "../GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 #define LogicFramesPerSecond BfmeLogicFramesPerSecond
@@ -28,5 +23,5 @@ private:
 
 void Team::rva0039D8D3(unsigned int ms)
 {
-	m_deadline = (ms / 1000) * LogicFramesPerSecond + TheGameLogic->m_frame;
+	m_deadline = (ms / 1000) * LogicFramesPerSecond + TheGameLogic->getFrame();
 }

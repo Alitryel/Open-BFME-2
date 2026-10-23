@@ -21,10 +21,9 @@ public:
  OpaqueRefCounted *m_item;
  ~Rva0036CA00Str() { if(m_item) m_item->Release_Ref(); }
 };
-enum ObjectID { INVALID_ID=0 };
+#include "../../Common/GameLogicObjectLookupView.h"
 enum DrawableID { INVALID_DRAWABLE_ID=0 };
 class Object { public: char m_pad[0x74]; ObjectID m_id; };
-class GameLogic {public: Object *findObjectByID(ObjectID);};
 class Drawable {public: DrawableID getID() const;};
 struct LuaDrawableLink {char m_pad[0xC]; Drawable *m_drawable;};
 struct LuaDrawableState {char m_pad[0x9C]; LuaDrawableLink *m_drawable;};

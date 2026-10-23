@@ -26,10 +26,7 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum CanAttackResult
 {
@@ -57,11 +54,6 @@ public:
 	CanAttackResult getAbleToAttackSpecificObject(AbleToAttackType t, const Object *target, CommandSourceType commandSource) const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

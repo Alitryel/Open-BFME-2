@@ -13,10 +13,7 @@
 // receiver; the pointer/int thiscall signature and target pin agree.
 #pragma comment(linker, "/alternatename:?Rva0026C347Command@Rva0026C347Commands@@QAEXPAXH@Z=?rva0026C347@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z")
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 class Rva0026C347Commands
 {
@@ -40,11 +37,6 @@ public:
 	int m_bfme274;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

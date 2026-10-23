@@ -4,12 +4,7 @@
 // and Disability-style bit tables at 0x00C51304/0x00C51314/0x00C51324 driving
 // +0x7C set and +0xC8 clear/set plus +0x114 dirty flag. Evidence: TheGameLogic
 // frame at +0x40, thresholds, bit-array shape, sibling +0x114 flag in Rva0049D526.
-class GameLogic
-{
-public:
-	int m_pad[0x40 / 4];
-	unsigned int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -69,7 +64,7 @@ private:
 void ProductionUpdate::rva0049D3BC()
 {
 	Rva0049D3BCData *data = m_data;
-	unsigned int cur = TheGameLogic->m_40;
+	unsigned int cur = TheGameLogic->getFrame();
 	for (int i = 0; i < 4; ++i)
 	{
 		if (m_entries[i].m_00 != 0)

@@ -7,16 +7,8 @@
 // 0x00281F0B; unblocks 0x00281ECA. Same je-then-xor shape as donor-verbatim
 // AIPlayer supply paths; if (obj) return get else return 0 places the true
 // path inline per the shape guide.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 class Object;
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 class BuildListInfo
 {

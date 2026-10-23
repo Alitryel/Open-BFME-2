@@ -68,12 +68,7 @@ private:
 	Rva0028C264Body *m_body254; // +0x254
 };
 
-class GameLogic
-{
-	public:
-	char m_pad[0x40];
-	unsigned m_frame; // +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern class GameLogic *TheGameLogic;
 
@@ -96,7 +91,7 @@ bool Object::rva0028C264(int *out, int n)
 		int t = body->slot16();
 		if (t != -1)
 		{
-			if ((unsigned)(t + frames) >= TheGameLogic->m_frame)
+			if ((unsigned)(t + frames) >= TheGameLogic->getFrame())
 			{
 				Rva0028C264Result *r = body->slot15();
 				if (r != 0)

@@ -6,12 +6,7 @@
 // TheSkirmishAIManager globals g_Va00BBB8D8 g_secondsPerLogicFrame BfmeZeroRange
 // g_00BC26EC floats 0xa4/0xa8 plus 0x170 offsets 0x15c/0x16c/0x174/0x40.
 // Identity: honest-address thiscall method no args returning void with frame.
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -50,7 +45,7 @@ private:
 void SkirmishAI::updatePhase()
 {
 	Rva002A8B59Data *data = TheSkirmishAIManager->rva002A8B59(m_15C);
-	unsigned int delta = TheGameLogic->m_40 - (unsigned int)m_174;
+	unsigned int delta = TheGameLogic->getFrame() - (unsigned int)m_174;
 	switch (m_16C) {
 	case 0: {
 		float t = (float)delta * g_secondsPerLogicFrame;

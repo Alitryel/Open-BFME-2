@@ -19,15 +19,10 @@ extern "C" void lua_pushnumber(lua_State *s, double v);
 struct Rva00990030Range;
 unsigned Rva00990030Lookup(Rva00990030Range *r, int i);
 
-enum ObjectID { INVALID_OBJECT_ID = 0 };
+#include "../../Common/GameLogicObjectLookupView.h"
 class Object;
 class Player;
 class UpgradeTemplate;
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class Object

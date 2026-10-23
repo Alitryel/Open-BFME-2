@@ -6,12 +6,7 @@
 // Target evidence: mov eax,[0xDFE78C]; mov eax,[eax+0x40];
 // mov [ecx+0x1A160],eax. Caller at 0x0039D8C4.
 
-class GameLogic
-{
-public:
-	char m_pad[0x40]; // +0x00..0x40
-	int m_frame; // +0x40
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 
@@ -27,5 +22,5 @@ private:
 
 void Rva002039C5Host::rva002039C5()
 {
-	m_cachedFrame = TheGameLogic->m_frame;
+	m_cachedFrame = TheGameLogic->getFrame();
 }

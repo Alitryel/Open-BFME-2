@@ -191,10 +191,7 @@ public:
 	unsigned char m_minimum;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 void XferObjectID(Xfer *xfer, ObjectID *id);
 
@@ -207,11 +204,6 @@ private:
 	ObjectID m_id;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 

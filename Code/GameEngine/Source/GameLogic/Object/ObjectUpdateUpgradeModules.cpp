@@ -11,10 +11,7 @@
 // Player::onUpgradeCompleted plus DozerAIUpdate updateUpgradeModules call
 // prove Object owner; vtable slot layout from Bridge/Spawn precedents.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 struct BfmeFixedStorage128
 {
@@ -48,11 +45,6 @@ public:
 	static Module *rva000395708(Object *obj);
 };
 
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

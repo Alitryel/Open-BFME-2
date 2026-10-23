@@ -17,10 +17,7 @@
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -28,11 +25,6 @@ public:
 	Bool isAbleToAttack() const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

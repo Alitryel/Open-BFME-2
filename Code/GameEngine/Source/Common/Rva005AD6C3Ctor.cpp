@@ -23,12 +23,7 @@ public:
 	Int m_field04;
 };
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -46,7 +41,7 @@ AINavyUnitBattleShip::AINavyUnitBattleShip(const Rva005DCC4BSource *source)
 	: Rva005DCC4B(source)
 {
 	m_field08 = 0;
-	m_field0C = (Int)TheGameLogic->m_frame;
+	m_field0C = (Int)TheGameLogic->getFrame();
 }
 
 // 0x005AD6EA: the destructor installs this vtable and tail-calls the base

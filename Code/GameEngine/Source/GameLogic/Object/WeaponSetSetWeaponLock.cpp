@@ -18,10 +18,7 @@
 
 class WeaponTemplateSet;
 class ThingTemplate;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum WeaponSlotType
 {
 	PRIMARY_WEAPON = 0
@@ -174,11 +171,6 @@ static __forceinline void setModelConditionBit(Object *object, int bit)
 		object->rva0028AE6D();
 	}
 }
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 // Placeholder rows: 0x000B6253 fills a 0x4C-byte (19-word) model-condition mask
 // with up to five bits and returns it; 0x001E42F2 clears such a mask on an

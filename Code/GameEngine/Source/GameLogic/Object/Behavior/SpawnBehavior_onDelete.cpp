@@ -22,10 +22,7 @@
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Thing;
 class ModuleData;
@@ -48,12 +45,6 @@ public:
 	bool m_spawnedRequireSpawner;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 

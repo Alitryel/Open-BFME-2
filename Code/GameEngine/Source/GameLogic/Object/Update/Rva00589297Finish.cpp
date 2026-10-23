@@ -33,12 +33,7 @@ public:
 	unsigned int getOrStart(const SpecialPowerTemplate *tmpl);
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	int m_frame40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -74,11 +69,11 @@ bool WeaponModeSpecialPowerUpdateBase::rva00589297()
 			const SpecialPowerTemplate *specialPowerTemplate = *(const SpecialPowerTemplate **)((char *)p2 + 8);
 			const Overridable *fin = ((const Overridable *)specialPowerTemplate)->friend_getFinalOverride();
 			if (fin->m_hasOverride != 0) {
-				unsigned int frame = (unsigned int)TheGameLogic->m_frame40;
+				unsigned int frame = (unsigned int)TheGameLogic->getFrame();
 				unsigned int ready = ((Rva002AC6B1PlayerTimers *)player)->getOrStart(specialPowerTemplate);
 				return frame >= ready;
 			}
 		}
 	}
-	return m_08 == 0 && (unsigned int)TheGameLogic->m_frame40 >= (unsigned int)m_04;
+	return m_08 == 0 && (unsigned int)TheGameLogic->getFrame() >= (unsigned int)m_04;
 }

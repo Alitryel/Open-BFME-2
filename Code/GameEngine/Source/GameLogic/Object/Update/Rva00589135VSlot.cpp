@@ -36,12 +36,7 @@ public:
 	unsigned int getOrStart(const SpecialPowerTemplate *tmpl);
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	int m_frame40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -150,7 +145,7 @@ int WeaponModeSpecialPowerUpdateBase::rva005893AD()
 			return m_04;
 	}
 gameLogic:
-	return TheGameLogic->m_frame40 - m_0C + m_04;
+	return TheGameLogic->getFrame() - m_0C + m_04;
 }
 
 // ?rva005778AD@WeaponModeSpecialPowerUpdateBase@@QAE_NXZ, retail 0x005778AD 9B.

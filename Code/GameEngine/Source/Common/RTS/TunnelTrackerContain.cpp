@@ -27,10 +27,7 @@ typedef float Real;
 
 class Object;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 class DamageInfoInput
 {
@@ -92,14 +89,6 @@ public:
 	UnsignedInt m_containedByFrame; // +0x27C
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 extern GameLogic *TheGameLogic;
 
 class GlobalData

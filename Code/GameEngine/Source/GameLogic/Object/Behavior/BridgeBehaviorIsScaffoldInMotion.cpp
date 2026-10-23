@@ -6,16 +6,11 @@
 // node+8; the donor's full-class offset +0x400 does not apply here.
 
 typedef bool Bool;
-enum ObjectID { INVALID_OBJECT_ID = 0 };
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum ScaffoldMotion { STM_STILL = 0 };
 
 class Object;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class BridgeScaffoldBehaviorInterface

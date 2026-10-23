@@ -7,12 +7,7 @@ public:
 };
 class Rva0020D959Host;
 class LargeGroupAudio; extern LargeGroupAudio *TheLargeGroupAudio;
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Rva00285708Host
 {
@@ -27,5 +22,5 @@ void Rva00285708Host::rva00285708()
 	if (m_10 != -1)
 		return;
 	((Rva0020DXXX *)(*(Rva0020D959Host * *)&TheLargeGroupAudio))->registerSubject((int)this);
-	m_10 = TheGameLogic->m_40;
+	m_10 = TheGameLogic->getFrame();
 }

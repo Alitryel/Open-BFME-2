@@ -203,18 +203,13 @@ private:
 	Coord3D m_position; // +0x38
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
 unsigned char Rva0049B2A2::rva0049B3D2()
 {
-	if (TheGameLogic->m_40 < m_20) {
+	if (TheGameLogic->getFrame() < m_20) {
 		return 0;
 	}
 	return (unsigned char)!m_object->testStatus(OBJECT_STATUS_2);
@@ -223,7 +218,7 @@ unsigned char Rva0049B2A2::rva0049B3D2()
 void Rva0049B2A2::rva0049B3F3()
 {
 	int r = GetGameLogicRandomValue(m_moduleData->m_0C, m_moduleData->m_10, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\OCLUpdate.cpp", 123);
-	unsigned cur = TheGameLogic->m_40;
+	unsigned cur = TheGameLogic->getFrame();
 	m_24 = cur;
 	m_20 = cur + r;
 }

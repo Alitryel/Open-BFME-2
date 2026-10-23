@@ -117,10 +117,7 @@ private:
 	unsigned int m_words[20];
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class ThingTemplate
 {
@@ -203,11 +200,6 @@ UpdateSleepTime SlaughterHordeContain::update()
 	return GarrisonContain::update();
 }
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -227,7 +219,7 @@ private:
 // ?update@CitadelSlaughterHordeContain@@UAE?AW4UpdateSleepTime@@XZ @0x00480FE2
 UpdateSleepTime CitadelSlaughterHordeContain::update()
 {
-	if (m_9EC != INVALID_ID)
+	if (m_9EC != INVALID_OBJECT_ID)
 	{
 		Object *other = TheGameLogic->findObjectByID(m_9EC);
 		if (other)
@@ -239,7 +231,7 @@ UpdateSleepTime CitadelSlaughterHordeContain::update()
 			else
 				ai->aiExit(me, ai->rva143());
 		}
-		m_9EC = INVALID_ID;
+		m_9EC = INVALID_OBJECT_ID;
 	}
 	return SlaughterHordeContain::update();
 }

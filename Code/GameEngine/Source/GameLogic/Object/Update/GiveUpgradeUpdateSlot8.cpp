@@ -7,20 +7,12 @@
 // +0x40 still exists without bit 0 of its +0x438 byte. Named by the base's
 // address, like ToggleDeploySpecialAbilityUpdateSlot8.cpp.
 typedef bool Bool;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 class Object
 {
 public:
 	unsigned char m_pad000[0x438];
 	unsigned char m_438; // +0x438
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 class ModuleData;
@@ -57,7 +49,7 @@ Bool GiveUpgradeUpdate::rva0044EDA6(int value)
 {
 	if (!SpecialAbilityUpdate::rva0044EDA6(value))
 		return false;
-	if (m_40 == INVALID_ID)
+	if (m_40 == INVALID_OBJECT_ID)
 		return true;
 	Object *obj = TheGameLogic->findObjectByID(m_40);
 	return obj == 0 || (obj->m_438 & 1) != 0;

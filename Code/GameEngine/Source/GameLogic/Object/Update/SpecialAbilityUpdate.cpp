@@ -556,19 +556,8 @@ public:
 };
 float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 typedef unsigned int AudioHandle;
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	unsigned char m_pad00[0x40];
-	unsigned int m_frame; // +0x40
-	unsigned int getFrame() const { return m_frame; }
-};
 class AudioManager
 {
 public:

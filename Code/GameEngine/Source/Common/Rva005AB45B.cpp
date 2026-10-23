@@ -9,10 +9,7 @@
 // caller 0x005AB6A5; offsets +0x24 +0x5C +0x438 from retail.
 class Player;
 class Object;
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 enum ObjectStatusTypes
 {
 	STATUS_5E = 0x5e
@@ -31,11 +28,6 @@ class Object
 {
 public:
 	bool testStatus(ObjectStatusTypes bit) const;
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 extern Rva002A8F24 *TheSkirmishAIManager;

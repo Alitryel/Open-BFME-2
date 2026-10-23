@@ -31,10 +31,7 @@ typedef bool Bool;
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum KindOfType
 {
@@ -162,11 +159,6 @@ public:
 
 class Object;
 
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

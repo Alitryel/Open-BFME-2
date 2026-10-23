@@ -13,20 +13,8 @@ class Object;
 class Player;
 class CommandButton;
 struct Coord3D;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	char m_pad00[0x40];
-	UnsignedInt m_40;
-	char m_pad44[0xCC];
-	Int m_110;
-};
 extern GameLogic *TheGameLogic;
 
 struct Rva005D7AECInfo
@@ -295,7 +283,7 @@ private:
 void AISpecialPowerTargetEnemy::activate(Object *obj)
 {
 	obj->rva00297000(m_08, TheGameLogic->findObjectByID(m_1C), 1, 0);
-	m_1C = INVALID_ID;
+	m_1C = INVALID_OBJECT_ID;
 }
 
 // 0x005D7AEC: the +0x28 finder's pick for the argument's controlling player;
@@ -495,7 +483,7 @@ void Rva00573E2B::rva00573E2B(Int state)
 	if (state == 3)
 	{
 		m_54 = false;
-		m_58 = (Int)((float)TheGameLogic->m_40 + (float)BfmeLogicFramesPerSecond * 30.0f);
+		m_58 = (Int)((float)TheGameLogic->getFrame() + (float)BfmeLogicFramesPerSecond * 30.0f);
 	}
 	m_10 = state;
 }

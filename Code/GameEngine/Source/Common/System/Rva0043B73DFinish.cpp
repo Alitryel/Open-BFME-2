@@ -32,10 +32,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 enum ScienceType
 {
@@ -46,13 +43,6 @@ class DamageInfo;
 class Object;
 class Drawable;
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_frame;
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class DamageInfo
@@ -108,7 +98,7 @@ private:
 
 void DOTManager::update()
 {
-	unsigned int curFrame = TheGameLogic->m_frame;
+	unsigned int curFrame = TheGameLogic->getFrame();
 	_STL::vector<BfmeE16> vecRaw;
 	MapNode *node = m_tree.m_head->m_left;
 	while (node != m_tree.m_head)

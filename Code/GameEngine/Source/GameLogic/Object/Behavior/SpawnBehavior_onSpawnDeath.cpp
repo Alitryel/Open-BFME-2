@@ -51,10 +51,7 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum DamageType
 {
@@ -94,13 +91,6 @@ public:
 	int m_spawnReplaceDelayData;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_frame;
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -131,7 +121,7 @@ void SpawnBehavior::onSpawnDeath(ObjectID deadSpawn, DamageInfo *damageInfo)
 
 	SpawnBehaviorModuleData *moduleData = *reinterpret_cast<SpawnBehaviorModuleData **>(
 		reinterpret_cast<unsigned char *>(this) - 0x1c);
-	int replacementTime = moduleData->m_spawnReplaceDelayData + TheGameLogic->m_frame;
+	int replacementTime = moduleData->m_spawnReplaceDelayData + TheGameLogic->getFrame();
 	m_replacementTimes.push_back(replacementTime);
 	m_spawnIDs.erase(it);
 	--m_spawnCount;

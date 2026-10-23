@@ -41,10 +41,7 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 // This TU's vector<ObjectID> frees through the game free at 0x30830; /EHs
 // keeps the EH state stores retail has around the inlined call.
@@ -367,11 +364,6 @@ public:
 	ExperienceTracker *m_264;	// +0x264
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 class LevelGrantSpecialPowerModuleData

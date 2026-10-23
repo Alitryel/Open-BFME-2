@@ -14,12 +14,7 @@ extern NetworkInterface *TheNetwork;
 
 extern int NET_CRC_INTERVAL;
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	int m_40;
-};
+#include "../GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic; // ?TheGameLogic@@3PAVGameLogic@@A
 
 class RecorderClass
@@ -42,7 +37,7 @@ void RecorderClass::logCRCMismatch()
 	if (m_file10 == 0)
 		return;
 	m_e60 = (int)NET_CRC_INTERVAL;
-	m_e64 = TheGameLogic->m_40;
+	m_e64 = TheGameLogic->getFrame();
 	long pos = ftell(m_file10);
 	if (fseek(m_file10, 0x14, 0) == 0)
 		fwrite(&m_e60, 4, 1, m_file10);
@@ -62,7 +57,7 @@ void RecorderClass::logGameEnd()
 
 	long t;
 	time(&t);
-	unsigned int duration = TheGameLogic->m_40;
+	unsigned int duration = TheGameLogic->getFrame();
 	unsigned int fileSize = ftell(m_file10);
 	// move to appropriate offset
 	if (!fseek(m_file10, 0x0c, 0))

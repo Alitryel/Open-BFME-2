@@ -26,10 +26,7 @@ __forceinline long fast_float2long_round(float f)
 	return i;
 }
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 enum KindOfType
 {
@@ -42,11 +39,6 @@ public:
 	bool isKindOf(KindOfType kind) const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

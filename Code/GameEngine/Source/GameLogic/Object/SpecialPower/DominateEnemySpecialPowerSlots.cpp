@@ -124,10 +124,7 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Matrix3D;
 class FXList
@@ -184,11 +181,6 @@ public:
 	void *m_304;		// +0x304 the team
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 class DominateEnemySpecialPowerModuleData

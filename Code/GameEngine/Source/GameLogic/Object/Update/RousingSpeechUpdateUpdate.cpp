@@ -37,10 +37,7 @@ public:
 private:
 	unsigned int m_words[20];
 };
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum KindOfType
 {
 	KINDOF_FIRST = 0
@@ -80,15 +77,6 @@ static __forceinline void clearModelConditionBit(Object *object, int bit)
 		object->rva0028AE6D();
 	}
 }
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame; // +0x40
-};
 extern GameLogic *TheGameLogic;
 class Rva00270619
 {

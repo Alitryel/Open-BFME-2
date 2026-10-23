@@ -7,10 +7,7 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 enum UpdateSleepTime
 {
@@ -66,11 +63,6 @@ public:
 	Rva00263546 m_flags;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -162,7 +154,7 @@ public:
 UpdateSleepTime DockUpdate::update()
 {
 	ObjectID positionIndex = m_activeDocker;
-	if (positionIndex == INVALID_ID && !m_dockCrippled)
+	if (positionIndex == INVALID_OBJECT_ID && !m_dockCrippled)
 	{
 		for (UnsignedInt i = 0; i < m_approachPositionReached.size(); ++i)
 		{

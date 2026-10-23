@@ -7,17 +7,9 @@
 // Object_isAbleToAttack; slot 0x248 from retail call; unblocks 0x00352BD0.
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Object;
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

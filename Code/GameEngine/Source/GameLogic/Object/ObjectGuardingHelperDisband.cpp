@@ -23,10 +23,7 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 }
 
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum CommandSourceType
 {
@@ -61,11 +58,6 @@ private:
 	AIUpdateInterface *m_ai; // +0x258
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

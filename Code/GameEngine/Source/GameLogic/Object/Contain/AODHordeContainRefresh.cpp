@@ -12,10 +12,7 @@
 // with 17.0f. Unblocks the 0x0047B628 caller. Identity is the AOD offsets
 // plus the donor method name.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -37,11 +34,6 @@ public:
 	GeometryInfo m_geometry;
 };
 
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -66,7 +58,7 @@ void AODHordeContain::refreshTrackedLargeUnit()
 	Object *unit = TheGameLogic->findObjectByID(m_trackedLargeUnit);
 	if (unit == 0)
 	{
-		m_trackedLargeUnit = INVALID_ID;
+		m_trackedLargeUnit = INVALID_OBJECT_ID;
 		return;
 	}
 

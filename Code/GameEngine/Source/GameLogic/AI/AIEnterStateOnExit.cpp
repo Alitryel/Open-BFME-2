@@ -19,10 +19,7 @@ enum StateReturnType
 {
 	STATE_CONTINUE = 0
 };
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum ObjectEnterExitType
 {
 	WANTS_TO_ENTER = 0,
@@ -92,11 +89,6 @@ private:
 	ContainModuleInterface *m_contain; // +0x250
 	unsigned char m_pad254[0x258 - 0x254];
 	AIUpdateInterface *m_ai; // +0x258
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 class StateMachine
@@ -170,7 +162,7 @@ __forceinline void AIEnterState::exitEnterState(StateExitType status)
 
 	// use this, rather than getMachineGoalObject, in case the goal
 	// is killed while we were waiting...
-	if (m_entryToClear != INVALID_ID)
+	if (m_entryToClear != INVALID_OBJECT_ID)
 	{
 		Object *goal = TheGameLogic->findObjectByID(m_entryToClear);
 		if (goal)

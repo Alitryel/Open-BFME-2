@@ -20,10 +20,7 @@ class ModuleData;
 class Object;
 class GameLogic;
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Rva004530ED
 {
@@ -95,11 +92,6 @@ public:
 	virtual bool sec40();
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

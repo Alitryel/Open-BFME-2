@@ -4,12 +4,7 @@
 #include "Lib/ICoord2D.h"
 // ?rva00273755@Drawable@@QAEXXZ @0x00273755 179B: Drawable anim draw with verified retail literal 0.5f via rowed getter 0x00270BA8 and Anim2D width/height plus draw 0x002D7127; tail to 0x002736A8 on stale frame.
 // Evidence: offsets +0x354/+0x2C/+0x64 match Rva00270025 layout, TheGameLogic+0x40 frame check, m_460/m_468/m_46C rect math, callers 0x00279734, neighbours Drawable_rva00273648.
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Anim2DTemplate;
@@ -265,7 +260,7 @@ __declspec(noinline) inline void Drawable::rva00273755()
 		return;
 	if (((Rva00270BA8 *)this)->rva00270BA8()->m_items[10] == 0)
 		return;
-	unsigned int cur = TheGameLogic->m_frame;
+	unsigned int cur = TheGameLogic->getFrame();
 	unsigned int v = ((Rva00270BA8 *)this)->rva00270BA8()->m_vals[10];
 	if (v >= cur) {
 		int dw = m_468 - m_460;

@@ -8,10 +8,7 @@
 // Member offsets from retail (object at +0x08, payload at +0x2C/+0x40,
 // target id at +0x88); TheGameLogic is the rowed 0xDFE78C singleton.
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object;
 class Player;
@@ -22,12 +19,6 @@ public:
 	Player *getControllingPlayer() const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 

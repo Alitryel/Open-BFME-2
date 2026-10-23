@@ -10,10 +10,7 @@ typedef bool Bool;
 typedef float Real;
 #define NULL 0
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum StateExitType
 {
 	EXIT_NORMAL = 0
@@ -119,15 +116,6 @@ private:
 	AIUpdateInterface *m_ai; // +0x258
 	unsigned char m_pad25C[0x274 - 0x25C];
 	Object *m_containedBy; // +0x274
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
 };
 struct TAiData
 {
@@ -286,7 +274,7 @@ StateReturnType AITNGuardIdleState::update( void )
 	Object *owner = getMachineOwner();
 	AIUpdateInterface *ai = owner->getAIUpdateInterface();
 	// Check to see if we have created a crate we need to pick up.
-	if (ai->getCrateID() != INVALID_ID)
+	if (ai->getCrateID() != INVALID_OBJECT_ID)
 	{
 		getMachine()->setState(AI_TN_GUARD_GET_CRATE);
 		return STATE_SLEEP(m_nextEnemyScanTime - now);

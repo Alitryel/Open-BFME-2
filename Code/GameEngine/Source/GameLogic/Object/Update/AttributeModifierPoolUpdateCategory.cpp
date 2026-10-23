@@ -17,12 +17,7 @@ public:
 };
 extern AttributeModifierStore *TheAttributeModifierStore;
 
-class GameLogic
-{
-public:
-    unsigned char prefix[0x40];
-    unsigned frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct Rva00403170Entry
@@ -85,7 +80,7 @@ bool AttributeModifierPoolUpdate::rva00403448(int attribute, float *multiplier,
     if (TheGameLogic)
     {
         float value;
-        unsigned frame = TheGameLogic->frame;
+        unsigned frame = TheGameLogic->getFrame();
         for (Rva00403170Entry *entry = begin; entry != end; ++entry)
         {
             if (frame < entry->expirationFrame &&
@@ -118,7 +113,7 @@ bool AttributeModifierPoolUpdate::rva00403382(int attribute, float *bonus,
     *bonus = 0.0f;
     if (!TheGameLogic)
         return false;
-    unsigned frame = TheGameLogic->frame;
+    unsigned frame = TheGameLogic->getFrame();
     for (Rva00403170Entry *entry = begin; entry != end; ++entry)
     {
         if (frame < entry->expirationFrame &&

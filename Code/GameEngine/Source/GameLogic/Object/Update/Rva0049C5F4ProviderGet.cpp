@@ -7,10 +7,7 @@
 // Evidence: unlock lane; callers at 0x0049C70F in 0x0049C6E1 plus 0x0049CAC0;
 // unblocks 0x0049C6E1; thiscall ecx passed by callers but unused so the
 // class stays empty and address-derived. Flags /O1 /DNDEBUG /MD already fit.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Provider31
 {
@@ -35,11 +32,6 @@ public:
 	Provider31 *m_prov250;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

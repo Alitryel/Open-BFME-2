@@ -28,10 +28,7 @@ enum ObjectStatusTypes
 	OBJECT_STATUS_NONE = 0
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum BodyDamageType
 {
@@ -151,12 +148,6 @@ struct SymbioticStructuresBodyModuleData
 	AsciiString m_64; // +0x64 (host template name)
 };
 
-class GameLogic
-{
-public:
-	Object *getFirstObject();
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

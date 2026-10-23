@@ -7,12 +7,7 @@
 // fild plus fadd 2^32 pattern via g_00BC26EC then fdivp then g_Va00BBB8D8
 // minus ratio. Evidence: rowed TheGameLogic plus float globals plus caller
 // 0x0053E321 plus vtable 0x008392E0 slot 1.
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 extern float g_00BC26EC;
@@ -29,7 +24,7 @@ private:
 
 float OCLUpdate::getCountdownPercent() const
 {
-	unsigned a = m_20 - TheGameLogic->m_40;
+	unsigned a = m_20 - TheGameLogic->getFrame();
 	unsigned b = m_20 - m_24;
 	return 1.0f - (float)a / (float)b;
 }

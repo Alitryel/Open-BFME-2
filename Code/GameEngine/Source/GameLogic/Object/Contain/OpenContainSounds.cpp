@@ -18,10 +18,7 @@
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Rva002D9531
 {
@@ -44,14 +41,6 @@ public:
 };
 extern AudioManager *TheAudio;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 extern GameLogic *TheGameLogic;
 
 class Object

@@ -16,10 +16,7 @@
 class ModuleData;
 class Weapon;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum WeaponSetType
 {
@@ -96,11 +93,6 @@ public:
 	unsigned char m_438;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

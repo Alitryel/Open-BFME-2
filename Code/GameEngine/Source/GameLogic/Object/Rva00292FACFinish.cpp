@@ -59,10 +59,7 @@ enum ObjectStatusTypes
 	OBJECT_STATUS_COUNT
 };
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 struct ThingTemplate
 {
@@ -74,11 +71,6 @@ struct ThingTemplate
 
 class Object;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id );
-};
 
 extern GameLogic *TheGameLogic;
 

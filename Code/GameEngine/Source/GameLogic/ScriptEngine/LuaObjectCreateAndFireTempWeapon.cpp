@@ -17,14 +17,9 @@ extern "C" const char *lua_tostring(lua_State *s, int i);
 struct Rva00990030Range;
 unsigned Rva00990030Lookup(Rva00990030Range *r, int i);
 
-enum ObjectID { INVALID_OBJECT_ID = 0 };
+#include "../../Common/GameLogicObjectLookupView.h"
 class Object;
 class WeaponTemplate;
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class AudioManager;

@@ -69,10 +69,7 @@ private:
 	AICommandInterface m_commandInterface;	// +0x20
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -83,11 +80,6 @@ private:
 	AIUpdateInterface *m_ai;	// +0x258
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 class ModuleData;

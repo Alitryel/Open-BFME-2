@@ -4,10 +4,7 @@
 // isKindOf 0x0006F039, aiIdle 0x001E8A38, aiFaceObject 0x003C771D,
 // aiFacePosition 0x003C7782; TheGameLogic extern; caller 0x00451FA2.
 class Object;
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum KindOfType
 {
 	KIND_81 = 0x81
@@ -19,11 +16,6 @@ enum CommandSourceType
 	CMD_FROM_AI = 2
 };
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 class Object
 {

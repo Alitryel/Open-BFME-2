@@ -58,13 +58,7 @@ enum CellShroudStatus
 	CELLSHROUD_CLEAR = 0
 };
 
-class GameLogic
-{
-public:
-	unsigned char isGamePaused();
-	unsigned char m_padAfterPaused[0x3F];
-	UnsignedInt m_frame; // +0x40
-};
+#include "../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
@@ -243,7 +237,7 @@ void InGameUI::updateAndDrawWorldAnimations()
 
 		if (TheGameLogic->isGamePaused() == 0)
 		{
-			if (TheGameLogic->m_frame >= wad->m_expireFrame ||
+			if (TheGameLogic->getFrame() >= wad->m_expireFrame ||
 				((wad->m_options & WORLD_ANIM_PLAY_ONCE_AND_DESTROY) &&
 				 (wad->m_anim->getStatus() & 4)))
 			{
@@ -272,7 +266,7 @@ void InGameUI::updateAndDrawWorldAnimations()
 
 		if (wad->m_options & WORLD_ANIM_FADE_ON_EXPIRE)
 		{
-			UnsignedInt framesTillExpire = wad->m_expireFrame - TheGameLogic->m_frame;
+			UnsignedInt framesTillExpire = wad->m_expireFrame - TheGameLogic->getFrame();
 			if (framesTillExpire < g_00DFEE08)
 			{
 				Real alpha = (Real)framesTillExpire / (Real)g_00DFEE08;

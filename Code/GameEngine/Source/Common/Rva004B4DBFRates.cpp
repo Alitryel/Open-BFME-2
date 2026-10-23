@@ -6,12 +6,7 @@
 // Structural inference: plain 1.0f divisions let the compiler keep the
 // constant in xmm1 across both reciprocal stores, as retail does.
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 extern int BfmeClientFramesPerSecond;
@@ -51,7 +46,7 @@ void Rva004B4DBF::rva004B4DBF(float *p1, float *p2)
 	SubB004B4DBF *b = m_b;
 	if (b->m_78 == 0) {
 		unsigned int v = m_1C + 3;
-		if (TheGameLogic->m_frame < v)
+		if (TheGameLogic->getFrame() < v)
 			return;
 	}
 	if (a->m_148 != 0.0f)

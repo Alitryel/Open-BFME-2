@@ -30,10 +30,7 @@ class Rva00346BC0;	// the 128-bit status mask view of the 0x0028CDEB row
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../../Libraries/Include/Lib/Coord3DBase.h"	// Coord3D::equals 0x00003702
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum UpdateSleepTime
 {
@@ -187,11 +184,6 @@ public:
 	unsigned char m_438;	// +0x438 (bit 0: effectively dead)
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 struct AttachUpdateModuleData
@@ -260,7 +252,7 @@ private:
 // native this=EBX/data=ESI/obj=EDI.
 void AttachUpdate::rva00491AD0()
 {
-	if (m_parentID != INVALID_ID)
+	if (m_parentID != INVALID_OBJECT_ID)
 		return;
 	const AttachUpdateModuleData *data = getAttachUpdateModuleData();
 	Object *obj = getObject();
@@ -298,11 +290,11 @@ void AttachUpdate::rva00491AD0()
 UpdateSleepTime AttachUpdate::update()
 {
 	rva00491AD0();
-	if (m_parentID != INVALID_ID) {
+	if (m_parentID != INVALID_OBJECT_ID) {
 		Object *parent = TheGameLogic->findObjectByID(m_parentID);
 		Object *obj = m_object;
 		if (!parent || (parent->m_438 & 1)) {
-			m_parentID = INVALID_ID;
+			m_parentID = INVALID_OBJECT_ID;
 			TheEva->reportEvaEvent((EvaEventID)m_diedEvaEvent, obj->getPosition(), 0);
 			obj->kill(DAMAGE_RVA00491D2F_8, DEATH_NORMAL);
 			return UPDATE_SLEEP_FOREVER;

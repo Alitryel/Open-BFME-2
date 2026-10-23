@@ -10,10 +10,7 @@
 // cl: /O1 /DNDEBUG /MD /arch:SSE
 //
 // ?rva0050B62B@Made002CCB67@@UAEXPBURva0050B62BArg@@PAVObject@@@Z retail 0x0050B62B 137B
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Player;
 
@@ -23,11 +20,6 @@ public:
 	Player *getControllingPlayer() const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

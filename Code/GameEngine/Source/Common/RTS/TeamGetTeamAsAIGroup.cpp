@@ -18,10 +18,7 @@ class Object;
 class Player;
 class AIGroup;
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 enum ObjectStatusTypes
 {
@@ -44,11 +41,6 @@ private:
 // advance() is the rowed 32-byte DLINK_ITERATOR<Object> body at 0x263526,
 // which consumes the 20-byte virtual-member state above; the 21-byte
 // direct-next body at 0x203C93 is the DLINK_ITERATOR<Team> instantiation.
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

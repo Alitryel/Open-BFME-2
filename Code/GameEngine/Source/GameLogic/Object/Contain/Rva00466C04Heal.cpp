@@ -2,12 +2,7 @@
 // ?rva00466C04@Rva00466C04@@QAE_NPAVObject@@I@Z 0x00466C04 144B
 // Healing with frame check: DamageInfo 0x7C via rowed Rva00263895Member ctor, source from this+8 ID, damage 7 death 1, amount via body slot06 direct or divided by unsigned val, body slot01 attemptHealing, returns frame check.
 // Evidence: calls rowed 0x263895 ctor; TheGameLogic+0x40 minus obj+0x27C vs val (jb); slot06 at +0x18 fstp to +0x20 then slot01 at +4; fild/fadd g_00BC26EC/fdivp unsigned val conversion; callers 0x466CEA.
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned m_frame40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Rva00263653
@@ -96,7 +91,7 @@ bool Rva00466C04::rva00466C04(Object *obj, unsigned val)
 	dmg.m_mem.m_0C = 7;
 	dmg.m_mem.m_18 = 1;
 	dmg.m_mem.m_04 = m_owner8->m_id74;
-	unsigned frameDiff = TheGameLogic->m_frame40 - obj->m_frame27C;
+	unsigned frameDiff = TheGameLogic->getFrame() - obj->m_frame27C;
 	BodyModuleInterface *body = obj->m_body254;
 	if (frameDiff >= val)
 	{

@@ -26,10 +26,7 @@ typedef unsigned int UnsignedInt;
 typedef UnsignedInt TeamID;
 #define NULL 0
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -43,14 +40,6 @@ private:
 	Coord3D m_position; // +0x38
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-
-	char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -141,7 +130,7 @@ extern "C" void _ReadWriteBarrier(void);
 // update 0x0036914D; all use this unchanged.
 int Rva0036A88AOwner::update()
 {
-	UnsignedInt frame = TheGameLogic->m_frame;
+	UnsignedInt frame = TheGameLogic->getFrame();
 	if (frame >= m_nextFrame) {
 		m_nextFrame = TheAI->m_aiData->m_guardEnemyReturnScanRate + frame;
 		if (m_machine->lookForInnerTarget())

@@ -167,10 +167,7 @@ extern "C" FILE *theLogicRandomLogFile;
 extern bool g_bfmeDockingDesyncLog;
 extern bool g_bfmeDockingTraceActive;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 #include "Common/BfmeAudioEventPrefix136.h"
 
@@ -687,15 +684,6 @@ private:
 
 extern AI *TheAI;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -992,7 +980,7 @@ private:
 void WorkerAIUpdate::internalCancelTask(DozerTask task)
 {
 	internalTaskCompleteOrCancelled(task);
-	m_task[task].m_targetObjectID = INVALID_ID;
+	m_task[task].m_targetObjectID = INVALID_OBJECT_ID;
 	m_task[task].m_taskOrderFrame = 0;
 	for (Int i = 0; i < DOZER_NUM_DOCK_POINTS; ++i)
 		m_dockPoint[task][i].valid = false;
@@ -1029,12 +1017,12 @@ void WorkerAIUpdate::internalTaskCompleteOrCancelled(DozerTask task)
 WorkerAIUpdate::WorkerAIUpdate(Thing *thing, const ModuleData *moduleData)
 	: AIUpdateInterface(thing, moduleData)
 {
-	m_preferredDock = INVALID_ID;
+	m_preferredDock = INVALID_OBJECT_ID;
 	m_isRebuild = FALSE;
 	m_dozerMachine = 0;
 	for (Int i = 0; i < DOZER_NUM_TASKS; i++)
 	{
-		m_task[i].m_targetObjectID = INVALID_ID;
+		m_task[i].m_targetObjectID = INVALID_OBJECT_ID;
 		m_task[i].m_taskOrderFrame = 0;
 		for (Int j = 0; j < DOZER_NUM_DOCK_POINTS; j++)
 		{

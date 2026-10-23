@@ -100,10 +100,7 @@ class RGBAColorInt;
 class Snapshot;
 class WeaponTemplate;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 // WWMath Vector3 subset (WB 0x11D15EE.. names Vector3::Rotate_Z, vector3.h):
 // sin then cos as statements, then the WW3D two-argument rotate, X first.
@@ -248,14 +245,6 @@ public:
 
 extern WeaponStore *TheWeaponStore;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	char m_unknown00[0x40];
-	UnsignedInt m_frame;
-};
 
 extern GameLogic *TheGameLogic;
 

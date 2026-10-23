@@ -18,10 +18,7 @@ enum NameKeyType
 	NAMEKEY_INVALID = 0
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum CommandSourceType
 {
@@ -106,11 +103,6 @@ protected:
 	friend class UnleashSpecialPower;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

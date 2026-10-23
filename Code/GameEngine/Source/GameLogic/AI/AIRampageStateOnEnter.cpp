@@ -96,13 +96,7 @@ protected:
 	unsigned char m_pad1C[0x20 - 0x1C];
 };
 
-class GameLogic
-{
-public:
-	void deselectObject(Object *obj, unsigned int a, bool b);
-	unsigned char m_pad00[0x40];
-	int m_frame40; // +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -139,7 +133,7 @@ StateReturnType AIRampageState::onEnter()
 	owner->setStatus(OBJECT_STATUS_3, true);
 	owner->setStatus(OBJECT_STATUS_BFME_39, true);
 	int v = ai->rva00264F3D();
-	m_24 = TheGameLogic->m_frame40 + v;
+	m_24 = TheGameLogic->getFrame() + v;
 	int c = ai->m_04->m_48;
 	if (!c)
 	{
@@ -147,8 +141,8 @@ StateReturnType AIRampageState::onEnter()
 		return STATE_CONTINUE;
 	}
 	if (v)
-		m_28 = TheGameLogic->m_frame40 + c;
+		m_28 = TheGameLogic->getFrame() + c;
 	else
-		m_28 = TheGameLogic->m_frame40;
+		m_28 = TheGameLogic->getFrame();
 	return STATE_CONTINUE;
 }

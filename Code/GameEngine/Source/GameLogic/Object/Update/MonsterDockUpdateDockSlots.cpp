@@ -98,12 +98,7 @@ public:
 	void rva00272A02(bool on);
  void setDrawableHidden(bool);
 };
-class GameLogic
-{
-public:
-	void deselectObject(Object *obj, unsigned int playerMask, bool affectClient);
- char m_pad[0x40]; unsigned int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 
@@ -245,12 +240,12 @@ bool MonsterDockUpdate::action(Object *docker,Object *)
  if(!docker) return false;
  if(!m_actionStarted) {
   m_actionStarted=true;
-  m_actionEnd=((const MonsterDockUpdateModuleData*)m_moduleData)->m_actionFrames+TheGameLogic->m_frame;
+  m_actionEnd=((const MonsterDockUpdateModuleData*)m_moduleData)->m_actionFrames+TheGameLogic->getFrame();
   m_object->clearCondition(305);
   m_object->replaceCondition(82,83);
   docker->clearCondition(305);
   docker->replaceCondition(82,83);
- } else if(TheGameLogic->m_frame>=m_actionEnd) {
+ } else if(TheGameLogic->getFrame()>=m_actionEnd) {
  Coord3D pos;pos.x=0.0F;pos.z=0.0F;pos.y=0.0F;
  const Coord3D *bone=reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this)+0x3C);
  m_object->convertBonePosToWorldPos(bone,0,&pos,0);

@@ -18,10 +18,7 @@
 typedef bool Bool;
 typedef float Real;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -51,11 +48,6 @@ public:
 	CanAttackResult getAbleToUseWeaponAgainstTarget(AbleToAttackType attackType, const Object *victim, const Coord3D *pos, CommandSourceType commandSource) const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

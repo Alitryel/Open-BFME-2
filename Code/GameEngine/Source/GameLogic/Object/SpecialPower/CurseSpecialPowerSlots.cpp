@@ -97,10 +97,7 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum ObjectStatusTypes
 {
@@ -139,11 +136,6 @@ public:
 	const ThingTemplate *m_template;	// +0x04
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-};
 extern GameLogic *TheGameLogic;
 
 class Overridable
@@ -238,7 +230,7 @@ void CurseSpecialPower::triggerAbilityEffect()
 	SpecialAbilityUpdate::triggerAbilityEffect();
 	const CurseSpecialPowerModuleData *data = getCurseSpecialPowerModuleData();
 	Object *owner = m_object;
-	if (m_40 == INVALID_ID) {
+	if (m_40 == INVALID_OBJECT_ID) {
 		const SpecialPowerTemplate *power = (const SpecialPowerTemplate *)((const Rva005F6B0BPtrChaseField *)this)->get();
 		if (!power)
 			return;

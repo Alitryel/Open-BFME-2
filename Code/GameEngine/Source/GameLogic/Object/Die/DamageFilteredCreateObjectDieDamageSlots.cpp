@@ -11,10 +11,7 @@
 //   slot 1, retail 0x00485EF6 (7 bytes): clears the recorded frame; its
 //           argument is unused.
 // Slot names by address.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 class Player
 {
 public:
@@ -25,15 +22,6 @@ class Object
 {
 public:
 	Player *getControllingPlayer() const;
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	unsigned int getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	unsigned int m_frame;		// +0x40
 };
 extern GameLogic *TheGameLogic;
 class DamageInfo

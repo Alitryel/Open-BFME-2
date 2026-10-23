@@ -25,12 +25,7 @@ public:
 	char m_pad7C[0x120 - 0x78 - 4];
 	ObjectFilter m_ammo;
 };
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Weapon
 {
@@ -68,7 +63,7 @@ float Weapon::getPercentReadyToFire() const
 	default:
 		return 0.0f;
 	}
-	unsigned int cur = TheGameLogic->m_frame;
+	unsigned int cur = TheGameLogic->getFrame();
 	if (cur >= m_frame18)
 		return 1.0f;
 	unsigned int total = m_frame18 - m_frame28;

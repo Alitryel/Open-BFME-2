@@ -45,12 +45,7 @@ public:
 
 #define TheRva009FF080Manager0027D378 (*(Rva009FF080Manager0027D378 **)&TheTerrainVisual)
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -91,6 +86,6 @@ int Rva0027D378::rva0027D378(void *p, int amount)
 		return take;
 	TheRva009FF080Manager0027D378->_slot31(s->m_field0C);
 	((Rva0027D098 *)s)->rva0027D098();
-	m_1910 = TheGameLogic->m_40;
+	m_1910 = TheGameLogic->getFrame();
 	return take;
 }

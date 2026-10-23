@@ -8,10 +8,7 @@
 // it the order's stance at +0x18 (StancesBehavior member 0x0045F084, pinned).
 // The stance is the int the class's xfer 0x00546B91 runs through the stances
 // enum. Names by address.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum NameKeyType
 {
@@ -37,11 +34,6 @@ protected:
 	friend class ChangeStanceGroupOrder;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

@@ -42,12 +42,7 @@ public:
 	unsigned int m_50; // +0x50
 };
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40]; // +0x00..0x40
-	unsigned int m_frame; // +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 
@@ -71,7 +66,7 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate *wt, const Object
 	if (source != 0)
 		weapon->m_ownerID = (unsigned int)source->m_id;
 	weapon->loadAmmoNow(source);
-	weapon->m_50 = TheGameLogic->m_frame + 1;
+	weapon->m_50 = TheGameLogic->getFrame() + 1;
 	weapon->fireWeapon(source, pos, 0);
 	::operator delete(weapon->deleteInstance(0));
 }
@@ -106,7 +101,7 @@ void WeaponStore::rva002CE964(const WeaponTemplate *wt, const Object *source, co
 	if (source != 0)
 		weapon->m_ownerID = (unsigned int)source->m_id;
 	weapon->loadAmmoNow(source);
-	weapon->m_50 = TheGameLogic->m_frame + 1;
+	weapon->m_50 = TheGameLogic->getFrame() + 1;
 	weapon->rva002CE6C5(source, victim->m_id, victim, 0);
 	::operator delete(weapon->deleteInstance(0));
 }

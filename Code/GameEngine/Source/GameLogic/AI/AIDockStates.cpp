@@ -33,10 +33,7 @@
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
 #define NULL 0
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum StateExitType
 {
 	EXIT_NORMAL = 0,
@@ -100,15 +97,6 @@ private:
 	ObjectID m_id; // +0x74
 	unsigned char m_pad78[0x258 - 0x78];
 	AIUpdateInterface *m_ai; // +0x258
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
 };
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;

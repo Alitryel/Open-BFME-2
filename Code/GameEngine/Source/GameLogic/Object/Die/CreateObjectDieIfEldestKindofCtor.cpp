@@ -15,12 +15,7 @@ static int s_vtable;
 static int s_secondary0C;
 static int s_secondary10;
 
-class GameLogic
-{
-public:
-	int m_pad[0x40 / 4];
-	int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -53,7 +48,7 @@ private:
 CreateObjectDieIfEldestKindof::CreateObjectDieIfEldestKindof(Thing *thing, const ModuleData *moduleData)
 	: CreateObjectDie(thing, moduleData)
 {
-	m_14 = TheGameLogic->m_40;
+	m_14 = TheGameLogic->getFrame();
 	m_vtable = &s_vtable;
 	m_p0C = &s_secondary0C;
 	m_p10 = &s_secondary10;

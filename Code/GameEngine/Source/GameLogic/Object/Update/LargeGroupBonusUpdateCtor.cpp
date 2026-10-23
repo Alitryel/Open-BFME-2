@@ -35,12 +35,7 @@ class Object;
 typedef int Int;
 Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line);
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -102,7 +97,7 @@ LargeGroupBonusUpdate::LargeGroupBonusUpdate(Thing *thing, const ModuleData *mod
 	m_secondary0C = (const void *)((unsigned int)vtbl_00C4D068);
 	m_secondary10 = (const void *)((unsigned int)vtbl_00C4D058);
 	m_20 = (const void *)((unsigned int)vtbl_00C4D04C);
-	m_24 = TheGameLogic->m_40;
+	m_24 = TheGameLogic->getFrame();
 	m_29 = zero;
 	const LargeGroupBonusUpdateModuleData *data = (const LargeGroupBonusUpdateModuleData *)m_moduleData;
 	int hi = data->m_updateRate;

@@ -32,10 +32,7 @@ typedef float Real;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 typedef UnsignedInt TeamID;
 
 enum Relationship
@@ -189,13 +186,6 @@ public:
 };
 NameKeyType Rva0045EE2CGet();
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	char m_pad[0x40];
-	UnsignedInt m_frame;
-};
 extern GameLogic *TheGameLogic;
 
 struct AIData
@@ -345,10 +335,10 @@ Bool AIGuardMachine::lookForInnerTarget()
 	{
 		UnsignedInt scanRate = TheAI->m_aiData->m_guardAreaScanInterval;
 		UnsignedInt nextScan = scanRate + m_nextAreaScanFrame;
-		if (TheGameLogic->m_frame < nextScan)
+		if (TheGameLogic->getFrame() < nextScan)
 			doScan = false;
 		else
-			m_nextAreaScanFrame = TheGameLogic->m_frame;
+			m_nextAreaScanFrame = TheGameLogic->getFrame();
 		visionRange = area->m_shape.getRadius();
 		area->getCenterPoint(&pos);
 	}

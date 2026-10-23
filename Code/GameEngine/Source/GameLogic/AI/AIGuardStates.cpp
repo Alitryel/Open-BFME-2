@@ -93,10 +93,7 @@ typedef bool Bool;
 #define NULL 0
 typedef float Real;
 typedef unsigned int UnsignedInt;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 typedef UnsignedInt TeamID;
 enum
 {
@@ -225,15 +222,6 @@ private:
 	Team *m_team; // +0x304
 	unsigned char m_pad308[0x438 - 0x308];
 	unsigned char m_bfme438; // +0x438
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
 };
 class AIUpdateInterface
 {
@@ -658,7 +646,7 @@ StateReturnType AIGuardAttackAggressorState::onEnter( void )
 		return onEnter();
 	}
 	Object *obj = getMachineOwner();
-	ObjectID nemID = INVALID_ID;
+	ObjectID nemID = INVALID_OBJECT_ID;
 
 	if (obj->getBodyModule() && obj->getBodyModule()->getLastDamageInfo()->in.m_sourceID) {
 		nemID = obj->getBodyModule()->getLastDamageInfo()->in.m_sourceID;
@@ -955,7 +943,7 @@ StateReturnType AIGuardIdleState::update( void )
 	Object *owner = guard->getOwner();
 	AIUpdateInterface *ai = owner->getAI();
 	// Check to see if we have created a crate we need to pick up.
-	if (ai->getCrateID() != INVALID_ID)
+	if (ai->getCrateID() != INVALID_OBJECT_ID)
 	{
 		guard->setState(AI_GUARD_GET_CRATE);
 		return STATE_SLEEP(m_nextEnemyScanTime - now);
@@ -1003,7 +991,7 @@ StateReturnType Rva0036A979GuardIdleState::update( void )
 	Object *owner = guard->getOwner();
 	AIUpdateInterface *ai = owner->getAI();
 	// Check to see if we have created a crate we need to pick up.
-	if (ai->getCrateID() != INVALID_ID)
+	if (ai->getCrateID() != INVALID_OBJECT_ID)
 	{
 		guard->setState(AI_GUARD_GET_CRATE);
 		return STATE_SLEEP(m_nextEnemyScanTime - now);
@@ -1120,7 +1108,7 @@ StateReturnType GiantBirdGuardAttackAggressorState::onEnter( void )
 		return onEnter();
 	}
 	Object *obj = getMachineOwner();
-	ObjectID nemID = INVALID_ID;
+	ObjectID nemID = INVALID_OBJECT_ID;
 
 	if (obj->getBodyModule() && obj->getBodyModule()->getLastDamageInfo()->in.m_sourceID) {
 		nemID = obj->getBodyModule()->getLastDamageInfo()->in.m_sourceID;

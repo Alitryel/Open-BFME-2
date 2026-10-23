@@ -76,12 +76,7 @@ inline AODDtorElem24::~AODDtorElem24()
 {
 }
 
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x40];
-	int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -138,5 +133,5 @@ void Rva0047B628::rva0047B628(int a, void *b)
 		return;
 	*ap = v;
 	((AODHordeContain *)((char *)this - 0x11C))->refreshTrackedLargeUnit();
-	m_200 = TheGameLogic->m_40;
+	m_200 = TheGameLogic->getFrame();
 }

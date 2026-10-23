@@ -42,18 +42,10 @@
 // slot 0x40, BfmeZeroRange at 0x00BC26F8, g_00BBB9AC, the rowed neighbour
 // 0x002DA153 for the identical branch shape at float width. Body is
 // 0x002DA0CF..0x002DA153 with `ret` at 0x002DA152 and 0xCC padding after.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 extern const float BfmeZeroRange;

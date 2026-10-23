@@ -61,12 +61,7 @@ struct Rva0028AF76Sub
 	int rva004DEA68();
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	int m_frame; // +0x40, proven by Rva002039B6Host
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 
@@ -344,7 +339,7 @@ void Object::rva0028CDB6()
 void Object::rva0028B95F()
 {
 	m_flag48C = 1;
-	m_cachedFrame = TheGameLogic->m_frame;
+	m_cachedFrame = TheGameLogic->getFrame();
 }
 
 bool Object::isOutOfAmmo() const

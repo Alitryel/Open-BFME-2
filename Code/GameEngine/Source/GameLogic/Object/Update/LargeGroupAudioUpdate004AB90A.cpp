@@ -40,12 +40,7 @@ public:
 	unsigned char m_padA4[0x10C - 0xA4];
 	Block19 m_10C;
 };
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 inline unsigned char Inv20(unsigned int v)
 {
@@ -92,5 +87,5 @@ void LargeGroupAudioUpdate::rva004AB90A()
 	m_30 = obj->m_10C;
 	m_7C = obj->m_94;
 	m_8C = obj->rva002943B2(0);
-	m_90 = TheGameLogic->m_40;
+	m_90 = TheGameLogic->getFrame();
 }

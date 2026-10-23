@@ -8,10 +8,7 @@
 // virtual slot 3 (+0x0C) and slot 6 (+0x18), rowed ?hasUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z,
 // rowed Object::affectedByUpgrade; prev/next share /O1 /DNDEBUG /MD.
 
-enum ObjectID
-{
-	INVALID_OBJECTID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 class UpgradeTemplate;
@@ -32,11 +29,6 @@ public:
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
-class GameLogic
-{
-public:
-	class Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

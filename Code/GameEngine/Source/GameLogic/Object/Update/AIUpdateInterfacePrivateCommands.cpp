@@ -51,10 +51,7 @@ typedef unsigned int UnsignedInt;
 #include "../../../../../../reference/open-bfme-1/game/GameEngine/Source/GameLogic/command_source_type.h"
 #include "../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum CanEnterType
 {
@@ -874,16 +871,6 @@ private:
 
 extern AI *TheAI;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-	Object *findObjectByID(ObjectID id);		///< matched 0x00049DC5
-
-private:
-	unsigned char m_unmodelled_00[0x40];
-	UnsignedInt m_frame;						// +0x40
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -1567,7 +1554,7 @@ void AIUpdateInterface::bfmePrivateCommand20(const Rva00264D81Arg *target, Guard
 	else
 		m_guardTargetType[0] = GUARDTARGET_LOCATION;
 	m_guardMode = guardMode;
-	m_objectToGuard = INVALID_ID;
+	m_objectToGuard = INVALID_OBJECT_ID;
 	m_guardExtra = target->m_value34;
 
 	m_stateMachine->clear();
@@ -2887,7 +2874,7 @@ void AIUpdateInterface::privateGuardAreaFromPosition(const PolygonTrigger *area,
 		area->getCenterPoint(&pos);
 	else
 		pos = *position;
-	m_objectToGuard = INVALID_ID;
+	m_objectToGuard = INVALID_OBJECT_ID;
 	m_locationToGuard = pos;
 
 	m_stateMachine->clear();

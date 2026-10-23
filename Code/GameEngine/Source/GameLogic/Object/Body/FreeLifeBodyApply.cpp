@@ -18,12 +18,7 @@ public:
     void setSpecialModelConditionState(ModelConditionFlagType, unsigned int);
 };
 struct Rva00294D61 { void report(Object *, int); };
-class GameLogic {
-public:
-    unsigned char before40[0x40];
-    unsigned int frame;
-    Object *findObjectByID(ObjectID);
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 struct Rva004C19DCData {
     unsigned char before78[0x78];
@@ -61,10 +56,10 @@ void Rva004C19DCOwner::apply(float amount, DamageInfo *info)
             if (!has && !objectHas)
                 goto base;
         }
-        if (usedF8 && !((float)TheGameLogic->frame - (float)frameFC > (float)interval100))
+        if (usedF8 && !((float)TheGameLogic->getFrame() - (float)frameFC > (float)interval100))
             goto base;
         usedF8 = true;
-        frameFC = TheGameLogic->frame;
+        frameFC = TheGameLogic->getFrame();
         if (md->condition != (ModelConditionFlagType)-1)
             obj->setSpecialModelConditionState(md->condition, md->duration);
         restore(amountF4 * 100.0f, false);

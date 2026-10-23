@@ -23,12 +23,7 @@ struct BfmeE8 { unsigned int a, b; };
 namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(BfmeE8 const &); }
 // bfme link decl-only end
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	unsigned int m_40;
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 // The vector at 0x00E06654 is owned as g_Va00E06654 (Rva007B6880Thunks.cpp).
@@ -68,14 +63,14 @@ static bool __fastcall Rva005D839BCheck(int dummy, Rva005D839BParam *p)
 	{
 		BfmeE8 tmp;
 		tmp.a = (unsigned int)p->m_54;
-		tmp.b = TheGameLogic->m_40;
+		tmp.b = TheGameLogic->getFrame();
 		g_00E06654.push_back(tmp);
 		found = &g_00E06654[g_00E06654.size() - 1];
 	}
-	if (found->b <= TheGameLogic->m_40)
+	if (found->b <= TheGameLogic->getFrame())
 	{
 		unsigned int r = (unsigned int)GetGameLogicRandomValue(g_00E06650, g_00E06660, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AISpecialPowers\\AISpellBookPowers\\AISpellBookAssistBattle.cpp", 0x4D);
-		found->b = TheGameLogic->m_40 + r;
+		found->b = TheGameLogic->getFrame() + r;
 		return true;
 	}
 	return false;

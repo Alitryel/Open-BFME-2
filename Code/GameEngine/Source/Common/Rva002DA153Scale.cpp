@@ -11,10 +11,7 @@
 // Target evidence: ucomiss/lahf/test ah,44h/jp sends the not-equal case to
 // the +0x2C * +0x28 tail, so the -1 test is written as equality.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -23,11 +20,6 @@ public:
 	int m_98;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

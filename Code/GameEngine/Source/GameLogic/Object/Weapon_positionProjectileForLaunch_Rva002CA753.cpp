@@ -24,10 +24,7 @@ enum WeaponSlotType
 	PRIMARY_WEAPON
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Matrix3D
 {
@@ -79,11 +76,6 @@ private:
 	ExperienceTracker *m_experienceTracker;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 

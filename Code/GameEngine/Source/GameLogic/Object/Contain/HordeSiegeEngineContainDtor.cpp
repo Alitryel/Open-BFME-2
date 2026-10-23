@@ -79,16 +79,11 @@ public:
 	Object *m_containedBy;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 // map<ObjectID, int>: the tree family dtor 0x00286852 -> clear 0x00286656 ->
 // erase 0x00286183 (one instantiation: the self-recursive erase is not ICF-folded;
 // AITargetHeuristicEnemyStructure::findBestTarget 0x005735C6 keys it by object ID).
-enum ObjectID { INVALID_ID = 0 };
 typedef _STL::map<ObjectID, int> ObjectIDIntMap;
 class HordeSiegeEngineContain : public TransportContain
 {

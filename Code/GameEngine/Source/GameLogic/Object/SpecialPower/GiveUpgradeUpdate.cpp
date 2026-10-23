@@ -7,7 +7,7 @@
 
 typedef bool Bool;
 
-enum ObjectID { INVALID_ID = 0 };
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum ObjectStatusTypes { OBJECT_STATUS_GIVE_UPGRADE_TARGET = 0x42 };
 
 class Object
@@ -17,11 +17,6 @@ public:
 	Object *rva002931F5(Bool flag);				// 0x002931F5
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);			// 0x00049DC5
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -38,7 +33,7 @@ private:
 // GiveUpgradeUpdate::releaseTarget, retail 0x0049C592.
 void GiveUpgradeUpdate::releaseTarget()
 {
-	if (m_targetID != INVALID_ID)
+	if (m_targetID != INVALID_OBJECT_ID)
 	{
 		Object *target = TheGameLogic->findObjectByID(m_targetID);
 		if (target)
@@ -48,6 +43,6 @@ void GiveUpgradeUpdate::releaseTarget()
 			if (linked)
 				linked->setStatus(OBJECT_STATUS_GIVE_UPGRADE_TARGET, false);
 		}
-		m_targetID = INVALID_ID;
+		m_targetID = INVALID_OBJECT_ID;
 	}
 }

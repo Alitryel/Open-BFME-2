@@ -4,12 +4,7 @@
 // 0x00295844, then return +0x444 float. Evidence: callee row 0x00295844
 // ?rva00295844@Object@@QAEXM@Z, TheGameLogic use, offsets +0x444/+0x448/+0x40,
 // neighbours prev 0x002966A0 next 0x002972DE.
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_40;
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -26,7 +21,7 @@ private:
 
 float Object::rva002972B1(float value)
 {
-	if (m_448 < TheGameLogic->m_40)
+	if (m_448 < TheGameLogic->getFrame())
 		rva00295844(value);
 	return m_444;
 }

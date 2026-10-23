@@ -5,10 +5,7 @@
 // rowed rva0028BCF4 and slot-3 bool. Evidence: callers 0x003BE400 0x003C677C,
 // TheGameLogic 0x009FE78C, GameLogic::findObjectByID 0x00049DC5.
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 class GameLogic;
@@ -37,11 +34,6 @@ public:
 	Tmpl3971BF *m_template04;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 struct Arg3971BF
 {

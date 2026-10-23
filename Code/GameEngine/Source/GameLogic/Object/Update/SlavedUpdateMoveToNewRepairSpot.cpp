@@ -16,10 +16,7 @@ typedef float Real;
 // Coord3D: shared header/view; no private copy.
 #include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum LocomotorSetType
 {
@@ -40,11 +37,6 @@ enum CommandSourceType
 class Object;
 class AIUpdateInterface;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class TerrainLogic

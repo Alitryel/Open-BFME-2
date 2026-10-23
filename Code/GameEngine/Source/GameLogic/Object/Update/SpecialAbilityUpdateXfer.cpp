@@ -239,10 +239,7 @@ public:
 // TheAudio (VA 0x00DFE6E8) is defined in AnimationSoundClientBehaviorCtor.cpp.
 extern AudioManager *TheAudio;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 
@@ -287,12 +284,6 @@ private:
 
 class SpecialTrailing { public: virtual void trailingSlot(); };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 

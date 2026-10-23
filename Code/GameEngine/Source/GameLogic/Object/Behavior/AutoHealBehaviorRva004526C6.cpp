@@ -48,12 +48,7 @@ public:
 	Body *m_body;
 };
 
-class GameLogic
-{
-public:
-	char m_pad00[0x40];
-	UnsignedInt m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 struct AutoHealBehaviorModuleData
@@ -92,7 +87,7 @@ void AutoHealBehavior::pulseHealObject(Object *obj, Bool flag)
 		Body *body = obj->m_body;
 		if (body)
 		{
-			UnsignedInt frame = TheGameLogic->m_frame;
+			UnsignedInt frame = TheGameLogic->getFrame();
 			if (body->v17() + data->m_healingDelay > frame)
 				return;
 		}
@@ -107,5 +102,5 @@ void AutoHealBehavior::pulseHealObject(Object *obj, Bool flag)
 		obj->attemptHealingFromSoleBenefactor((Real)truncated, m_object, data->m_healingDelay);
 	if (flag)
 		FXList::doFXObj(data->m_unitHealPulseFX, obj, (const Object *)zero);
-	m_soonestHealFrame = TheGameLogic->m_frame + data->m_healingDelay;
+	m_soonestHealFrame = TheGameLogic->getFrame() + data->m_healingDelay;
 }

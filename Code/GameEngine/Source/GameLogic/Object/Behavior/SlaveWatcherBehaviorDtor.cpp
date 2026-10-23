@@ -26,10 +26,7 @@ public:
 	bool m_letSlaveLive; // +0x11
 };
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum DamageType
 {
@@ -83,11 +80,6 @@ extern UpgradeCenter *TheUpgradeCenter;
 
 bool Rva0045F4C2NotEqual(const void *a, const void *b);
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

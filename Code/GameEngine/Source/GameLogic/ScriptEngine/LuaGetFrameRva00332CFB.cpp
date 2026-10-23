@@ -32,21 +32,14 @@ extern "C" void lua_pushnumber( lua_State *state, double value );
 
 typedef unsigned int UnsignedInt;
 
-class GameLogic
-{
-private:
-	unsigned char m_pad00[ 0x40 ]; // +0x00..0x40
-
-public:
-	UnsignedInt m_frame; // +0x40 target fact, unsigned (bias conversion proves)
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
 // ?GetFrame@@YAHPAUlua_State@@@Z
 int GetFrame( lua_State *state )
 {
-	UnsignedInt frame = TheGameLogic->m_frame;
+	UnsignedInt frame = TheGameLogic->getFrame();
 	lua_pushnumber( state, (double)frame );
 	return 1;
 }

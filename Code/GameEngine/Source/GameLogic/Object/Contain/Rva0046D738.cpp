@@ -4,21 +4,13 @@
 // +0x11C iface virtual +0x138 and +0x2C8 target virtual +0x14 match
 // HordeContainIface11CSlots neighbours; +0x2A0 ObjectID +0x08 Object
 // +0x274 redirect cmovne +0x38 Coord3D +0x44 float via Thing orientation row.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 class Object;
 class Thing
 {
 public:
 	void setOrientation(float ang);
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 class Object : public Thing
@@ -135,13 +127,13 @@ private:
 };
 void HordeContain::rva0046D738()
 {
-	if (m_id2A0 == INVALID_ID)
+	if (m_id2A0 == INVALID_OBJECT_ID)
 		return;
 	Object *found = TheGameLogic->findObjectByID(m_id2A0);
 	if (found == 0)
 	{
 		m_iface11C.v78();
-		m_id2A0 = INVALID_ID;
+		m_id2A0 = INVALID_OBJECT_ID;
 		return;
 	}
 	m_target2C8->w05(found);

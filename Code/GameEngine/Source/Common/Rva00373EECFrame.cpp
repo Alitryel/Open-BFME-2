@@ -5,12 +5,7 @@
 // +0x24, base frame from TheGameLogic+0x40 (rowed extern
 // ?TheGameLogic@@3PAVGameLogic@@A). Zero arg overwrites, nonzero keeps the
 // max (unsigned cmp jae). Callers at 0x003747FF plus 0x00375730.
-class GameLogic
-{
-public:
-	char m_pad40[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -35,7 +30,7 @@ void StealthUpdate::rva00373EEC(unsigned int v)
 {
 	if (m_ptr == 0)
 		return;
-	unsigned int base = TheGameLogic->m_40;
+	unsigned int base = TheGameLogic->getFrame();
 	if (v == 0)
 		m_24 = m_ptr->m_8 + base;
 	else {

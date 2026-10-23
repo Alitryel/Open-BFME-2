@@ -52,10 +52,7 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 enum CommandSourceType
 {
@@ -130,11 +127,6 @@ private:
 	unsigned char m_privateStatus; // +0x438
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class BehaviorModuleBase
@@ -263,7 +255,7 @@ UpdateSleepTime AssaultTransportAIUpdate::update( void )
 				else
 				{
 					//Just clean out last slot.
-					m_memberIDs[ i ]			= INVALID_ID;
+					m_memberIDs[ i ]			= INVALID_OBJECT_ID;
 					m_memberHealing[ i ]	= FALSE;
 					m_newMember[ i ]			= FALSE;
 				}

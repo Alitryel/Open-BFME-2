@@ -28,10 +28,7 @@ extern "C" int __cdecl fprintf(void *stream, const char *format, ...);
 extern int BfmeLogicFramesPerSecond;
 #define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -42,14 +39,6 @@ private:
 	ObjectID m_id;
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	char m_pad00[0x40];
-	UnsignedInt m_frame;
-};
 extern GameLogic *TheGameLogic;
 
 class Pathfinder

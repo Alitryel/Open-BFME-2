@@ -49,10 +49,7 @@ typedef unsigned int UnsignedInt;
 #define NULL 0
 #define TRUE 1
 #define FALSE 0
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 enum Relationship
 {
 	ENEMIES = 0,
@@ -334,15 +331,6 @@ private:
 	TAiData *m_aiData; // +0x18
 };
 extern AI *TheAI;
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
 #define LOGICFRAMES_PER_SECOND BfmeLogicFramesPerSecond
@@ -580,13 +568,13 @@ AIGuardRetaliateAttackAggressorState::AIGuardRetaliateAttackAggressorState( Stat
 	State( machine, 0x9cb27a45u )
 {
 	m_attackState = NULL;
-	m_bfme40 = INVALID_ID;
+	m_bfme40 = INVALID_OBJECT_ID;
 }
 
 //--------------------------------------------------------------------------------------
 Object *AIGuardRetaliateAttackAggressorState::rva0054582A()
 {
-	if (m_bfme40 == INVALID_ID)
+	if (m_bfme40 == INVALID_OBJECT_ID)
 		return NULL;
 	Object *source = TheGameLogic->findObjectByID(m_bfme40);
 	if (source == NULL)
@@ -606,8 +594,8 @@ static Real sqr(Real a) { return a*a; }
 StateReturnType AIGuardRetaliateAttackAggressorState::onEnter()
 {
  Object *obj = getMachineOwner();
- ObjectID nemID = INVALID_ID;
- m_bfme40 = INVALID_ID;
+ ObjectID nemID = INVALID_OBJECT_ID;
+ m_bfme40 = INVALID_OBJECT_ID;
  Object *nemesis = TheGameLogic->findObjectByID(getGuardMachine()->getNemesisID());
  BodyModuleInterface *body = obj->getBodyModule();
  if (!nemesis && body && body->getLastDamageInfo()->sourceID && body->getLastDamageInfo()->damageType != 7)

@@ -28,10 +28,7 @@ enum DeathType
 	DEATH_TYPE_UNKNOWN = 0
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Thing;
 class ModuleData;
@@ -45,11 +42,6 @@ public:
 	unsigned char m_status438;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

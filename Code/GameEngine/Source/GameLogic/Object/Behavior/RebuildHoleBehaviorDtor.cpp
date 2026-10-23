@@ -3,7 +3,7 @@
 // ??1RebuildHoleBehavior@@UAE@XZ, retail 0x0048353E, 118 bytes. Behavior-side
 // destructor restoring the five MI vptrs (+0 0x849A74 +0x0C 0x849188 +0x10
 // 0x849A68 +0x20 0x849A64 +0x24 0x849A50 DIR32) then the ZH worker cleanup
-// (INVALID_ID-guarded TheGameLogic 0x9FE78C findObjectByID rowed 0x49DC5 plus
+// (INVALID_OBJECT_ID-guarded TheGameLogic 0x9FE78C findObjectByID rowed 0x49DC5 plus
 // destroyObject rowed 0x242C09 plus and-zero at +0x28) then the UpdateModule
 // base dtor (pinned 0x24A797). Layout follows the rowed ctor TU 0x483271
 // (UpdateModule base size 0x20 plus Die plus RebuildHole interfaces plus six
@@ -17,10 +17,7 @@ class Thing;
 class ModuleData;
 class ThingTemplate;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -29,12 +26,6 @@ public:
 	int m_324;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -112,14 +103,14 @@ private:
 
 RebuildHoleBehavior::~RebuildHoleBehavior()
 {
-	if (m_workerID != INVALID_ID)
+	if (m_workerID != INVALID_OBJECT_ID)
 	{
 		GameLogic *gameLogic = TheGameLogic;
 		Object *worker = gameLogic->findObjectByID(m_workerID);
 		if (worker)
 		{
 			gameLogic->destroyObject(worker);
-			m_workerID = INVALID_ID;
+			m_workerID = INVALID_OBJECT_ID;
 		}
 	}
 }

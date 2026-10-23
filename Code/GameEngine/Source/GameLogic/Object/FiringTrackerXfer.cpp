@@ -269,10 +269,7 @@ public:
 
 extern AudioManager *TheAudio;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 
@@ -365,16 +362,6 @@ private:
 	UnsignedInt m_weaponBonusCondition;																				///< 0x380
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_unmodelled00[0x40];
-	UnsignedInt m_frame;																											///< 0x40
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -556,7 +543,7 @@ void FiringTracker::shotFired(const Weapon *weaponFired, ObjectID victimID, cons
 	Object *victim = TheGameLogic->findObjectByID(victimID);
 	if (victim && victim->testStatus(OBJECT_STATUS_0x26))
 	{
-		m_auxiliaryObjectID = victim->rva002931F5(false) ? victim->rva002931F5(false)->getID() : INVALID_ID;
+		m_auxiliaryObjectID = victim->rva002931F5(false) ? victim->rva002931F5(false)->getID() : INVALID_OBJECT_ID;
 	}
 
 	UnsignedInt now = TheGameLogic->getFrame();
@@ -570,7 +557,7 @@ void FiringTracker::shotFired(const Weapon *weaponFired, ObjectID victimID, cons
 		return;
 	}
 
-	if (victimID != INVALID_ID || victimPosition == NULL)
+	if (victimID != INVALID_OBJECT_ID || victimPosition == NULL)
 	{
 		if (m_victimIsPosition)
 		{
@@ -598,7 +585,7 @@ void FiringTracker::shotFired(const Weapon *weaponFired, ObjectID victimID, cons
 		{
 			m_consecutiveShots = 1;
 			m_victimPosition = *victimPosition;
-			m_victimID = INVALID_ID;
+			m_victimID = INVALID_OBJECT_ID;
 		}
 		else if (m_victimPosition.equals(*victimPosition))
 		{
@@ -774,5 +761,5 @@ void FiringTracker::coolDown(Bool forceReset)
 
 	getObject()->clearAndSetModelConditionFlags(clr, set);
 	m_consecutiveShots = 0;
-	m_victimID = INVALID_ID;
+	m_victimID = INVALID_OBJECT_ID;
 }

@@ -96,10 +96,7 @@ typedef bool Bool;
 #define NULL 0
 typedef float Real;
 typedef unsigned int UnsignedInt;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 typedef UnsignedInt TeamID;
 enum
 {
@@ -215,15 +212,6 @@ private:
 	Team *m_team; // +0x304
 	unsigned char m_pad308[0x438 - 0x308];
 	unsigned char m_bfme438; // +0x438
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
 };
 class LocomotorSet;
 class Pathfinder;

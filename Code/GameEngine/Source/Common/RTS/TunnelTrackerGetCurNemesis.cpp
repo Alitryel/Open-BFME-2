@@ -22,21 +22,8 @@ private:
 	unsigned char m_deadFlag;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-	Object *findObjectByID(ObjectID id);
-
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame;
-};
 
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;

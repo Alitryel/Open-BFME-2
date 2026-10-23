@@ -13,10 +13,7 @@
 // void(int) but every caller (here 0x00597902 0x00597943) cmps eax so it is
 // used as int(int); declared int here and noted. Pin for rva00294ADD says
 // one int arg ret 4; used as int(int) with the arg pushed early.
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -24,11 +21,6 @@ public:
 	int rva00294ADD(int x);
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

@@ -39,10 +39,7 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 { return a._M_node != b._M_node; }
 }
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object;
 class DamageInfo;
@@ -95,23 +92,6 @@ private:
 
 typedef _STL::hash_map<ObjectID, Object *, _STL::hash<int>, _STL::equal_to<ObjectID> > ObjectPtrHash;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id)
-	{
-		if (id == INVALID_ID)
-			return 0;
-		ObjectPtrHash::iterator it = m_objHash.find(id);
-		if (it == m_objHash.end())
-			return 0;
-		return (*it).second;
-	}
-
-private:
-	char m_pad000[0xB4];
-	ObjectPtrHash m_objHash;
-};
 extern GameLogic *TheGameLogic;
 
 // The DamageModuleInterface view of SpawnBehavior (primary +0x28).

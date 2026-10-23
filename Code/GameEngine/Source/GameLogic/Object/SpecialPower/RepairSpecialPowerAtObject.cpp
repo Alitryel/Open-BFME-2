@@ -10,10 +10,7 @@
 // AICommandInterface command 0x0036F19B (its interface at AI +0x20) on the
 // target, re-looked-up by ID through TheGameLogic, from CMD_FROM_PLAYER.
 // The options argument is unused.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum CommandSourceType
 {
 	CMD_FROM_PLAYER = 0
@@ -54,12 +51,6 @@ public:
 	ObjectID m_id; // +0x74
 	unsigned char m_pad78[0x258 - 0x78];
 	AIUpdateInterface *m_ai; // +0x258
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-
 };
 extern GameLogic *TheGameLogic;
 

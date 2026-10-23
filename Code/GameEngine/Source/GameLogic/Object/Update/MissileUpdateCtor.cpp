@@ -84,21 +84,8 @@ public:
 };
 
 class Object;
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline unsigned int getFrame() { return m_frame; }
-	Object *findObjectByID(ObjectID id);
-
-private:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame; // +0x40
-};
 
 extern GameLogic *TheGameLogic;
 

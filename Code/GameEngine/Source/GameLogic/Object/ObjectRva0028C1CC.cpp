@@ -38,12 +38,7 @@ public:
 	bool rva0028C1CC() const;
 };
 
-class GameLogic
-{
-	public:
-	char m_pad[0x40];
-	unsigned m_frame; // +0x40
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern class GameLogic *TheGameLogic;
 #define LogicFramesPerSecond BfmeLogicFramesPerSecond
@@ -58,7 +53,7 @@ bool Object::rva0028C1CC() const
 		unsigned value = (unsigned)rva0028AF76();
 		if (value > 2u)
 		{
-			if (value + (unsigned)LogicFramesPerSecond * 2u > TheGameLogic->m_frame)
+			if (value + (unsigned)LogicFramesPerSecond * 2u > TheGameLogic->getFrame())
 				return true;
 		}
 	}

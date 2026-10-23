@@ -9,10 +9,7 @@
 // rowed GameLogic::findObjectByID) overlaps it; accepts everything else.
 // Address name: class and slot are proven, the method identity is not.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Rva00331682Holder
 {
@@ -30,11 +27,6 @@ public:
 	unsigned int m_94[4];
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

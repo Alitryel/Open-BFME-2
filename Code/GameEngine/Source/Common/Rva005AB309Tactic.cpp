@@ -126,10 +126,7 @@ public:
 	unsigned char m_minimum;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 void XferObjectID(Xfer *xfer, ObjectID *id);
 
 struct Rva005AB309Thing
@@ -154,11 +151,6 @@ public:
 	unsigned char m_438;		// +0x438
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class Team

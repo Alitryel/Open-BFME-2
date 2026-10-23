@@ -10,10 +10,7 @@
 // range the same way; TheGameLogic 0x009FE78C,
 // GameLogic::findObjectByID 0x00049DC5, Object::rva0028BCF4 0x0028BCF4.
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
 
 class Object;
 class GameLogic;
@@ -35,11 +32,6 @@ public:
 	void *rva0028BCF4() const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 class Rva00397238
 {

@@ -30,12 +30,7 @@ private:
 	Rva00270025 *m_354;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Anim2DTemplate;
@@ -72,7 +67,7 @@ void Drawable::setEmoticon(const StringBase<char> &name, int val)
 	((Rva00270BA8 *)this)->rva00270BA8()->m_items[10] = anim;
 	int v;
 	if (val >= 0)
-		v = TheGameLogic->m_frame + val;
+		v = TheGameLogic->getFrame() + val;
 	else
 		v = 0x3fffffff;
 	((Rva00270BA8 *)this)->rva00270BA8()->m_vals[10] = v;

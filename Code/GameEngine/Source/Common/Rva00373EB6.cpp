@@ -3,12 +3,7 @@
 // ?rva00373EB6@Rva00373EB6@@QAEEXZ @0x00373EB6 (16B).
 // Unsigned-char compare: TheGameLogic+0x40 >= this+0x28 via sbb/inc.
 // Evidence: TheGameLogic rowed global, caller 0x0053CE7F, abuts 0x00373EC6.
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	unsigned int m_40;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -23,5 +18,5 @@ private:
 
 unsigned char Rva00373EB6::rva00373EB6()
 {
-	return TheGameLogic->m_40 >= m_28;
+	return TheGameLogic->getFrame() >= m_28;
 }

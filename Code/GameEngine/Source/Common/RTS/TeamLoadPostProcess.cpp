@@ -44,10 +44,7 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 }
 
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -55,11 +52,6 @@ public:
 	bool dlink_isInList_TeamMemberList(Object * const *pListHead) const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 

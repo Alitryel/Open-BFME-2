@@ -13,10 +13,7 @@
 // with this predicate; Q4Sort int-by-value comparator precedent for
 // pointer-as-int sort keys; combined OR null check gives retail je-je layout.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../../GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -25,11 +22,6 @@ public:
 	void *m_template; // +0x04 template pointer
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 

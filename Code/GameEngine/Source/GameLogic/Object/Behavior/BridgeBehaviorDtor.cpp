@@ -11,15 +11,9 @@
 // the 0x00268AFF jmp), with no store between the loop and the release, as
 // in BroadcastStealthUpdateDtor.cpp. Base layout as in Rva0024A797Derived.cpp.
 class Object;
-enum ObjectID { INVALID_ID = 0 };
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum BridgeTowerType { BRIDGE_TOWER_FROM_LEFT = 0, BRIDGE_MAX_TOWERS = 4 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
 

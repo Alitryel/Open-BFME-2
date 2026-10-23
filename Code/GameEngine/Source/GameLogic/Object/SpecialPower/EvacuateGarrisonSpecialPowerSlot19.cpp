@@ -8,10 +8,7 @@
 // and the Object recorded at +0x40 still exists, status 0x5D is set on our
 // Object and the AI gets the rowed AICommandInterface command 0x0036EBB8 on
 // that Object, from the command source its slot 143 reports.
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 enum CommandSourceType
 {
 	CMD_FROM_PLAYER = 0
@@ -52,11 +49,6 @@ public:
 private:
 	unsigned char m_pad000[0x258];
 	AIUpdateInterface *m_ai;	// +0x258
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 class ModuleData;

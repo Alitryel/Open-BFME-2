@@ -7,12 +7,7 @@
 // in ecx. GameLogic m_frame +0x40 is the established BFME2 layout
 // (GameLogicAwakenUpdate precedent).
 
-class GameLogic
-{
-public:
-	char m_pad[0x40]; // +0x00..0x40
-	int m_frame; // +0x40
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 
@@ -28,5 +23,5 @@ private:
 
 void Rva002039B6Host::rva002039B6()
 {
-	m_cachedFrame = TheGameLogic->m_frame;
+	m_cachedFrame = TheGameLogic->getFrame();
 }

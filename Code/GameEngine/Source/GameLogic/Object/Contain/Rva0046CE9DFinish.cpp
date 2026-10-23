@@ -10,10 +10,7 @@
 // Evidence: TheGameLogic frame at +0x40 vs expiry +0x170; ID at +0x16C;
 // callers none; neighbours in HordeContainParseRankCollections.cpp.
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -22,15 +19,6 @@ public:
 	Object *rva002931F5(bool checkProducer);
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-
-public:
-	char m_pad00[0x40];
-	unsigned int m_frame; // +0x40
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -52,7 +40,7 @@ bool Rva0046CE9D::rva0046CE9D(Object *obj)
 	else {
 		if (m_id == INVALID_OBJECT_ID)
 			return false;
-		if (TheGameLogic->m_frame >= m_expiry)
+		if (TheGameLogic->getFrame() >= m_expiry)
 			return false;
 		Object *found = TheGameLogic->findObjectByID(m_id);
 		if (found == 0)

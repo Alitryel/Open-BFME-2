@@ -73,10 +73,7 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum CommandSourceType
 {
@@ -115,14 +112,6 @@ public:
 	AIUpdateInterface *m_ai;	// +0x258
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
-	unsigned getFrame() const { return m_frame; }
-	char m_pad00[0x40];
-	unsigned m_frame;	// +0x40
-};
 extern GameLogic *TheGameLogic;
 
 struct DamageInfo

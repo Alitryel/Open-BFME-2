@@ -8,12 +8,7 @@
 // named TheLuaScriptEngine, with opaque event data, Object and two more words.
 
 class Object;
-enum ObjectID { INVALID_OBJECT_ID = 0 };
-class GameLogic
-{
-public:
-    Object *findObjectByID(ObjectID id);
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class LuaScriptEngine
