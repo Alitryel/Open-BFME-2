@@ -98,31 +98,24 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class Overridable
 {
 public:
-	Overridable *friend_getFinalOverride();
-};
-// The native base vtable BDDC48 and destructor 1E3624 are already rowed
-// as Rva001E3624; use that owner for the donor Overridable view.
-class Rva001E3624
-{
-public:
-	Rva001E3624() : m_nextOverride(0), m_isOverride(false), m_reloadState(-1) {}
-	virtual ~Rva001E3624();
-	Rva001E3624 *friend_getFinalOverride()
+	Overridable() : m_nextOverride(0), m_isOverride(false), m_reloadState(-1) {}
+	virtual ~Overridable();
+	Overridable *friend_getFinalOverride()
 	{
 		if (m_nextOverride)
-			return (Rva001E3624 *)((Overridable *)m_nextOverride)->friend_getFinalOverride();
+			return m_nextOverride->friend_getFinalOverride();
 		return this;
 	}
-	void setNextOverride(Rva001E3624 *next) { m_nextOverride = next; }
+	void setNextOverride(Overridable *next) { m_nextOverride = next; }
 	void markAsOverride() { m_isOverride = true; }
 	void setReloadState(int state) { m_reloadState = state; }
 private:
-	Rva001E3624 *m_nextOverride;
+	Overridable *m_nextOverride;
 	bool m_isOverride;
 	int m_reloadState;
 };
 
-class Rva001FFE93 : public Rva001E3624
+class Rva001FFE93 : public Overridable
 {
 public:
 	Rva001FFE93();

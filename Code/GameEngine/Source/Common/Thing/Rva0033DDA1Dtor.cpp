@@ -154,10 +154,10 @@ private:
 	char m_pad[12];
 };
 
-class Rva001E3624
+class Overridable
 {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 
 private:
 	char m_pad[0x14 - 4];
@@ -169,7 +169,7 @@ struct ArmorSetFinderView { Rva0033BD50 tree; unsigned int comparator; };
 struct WeaponSetFinderView { Rva0033BD88 tree; unsigned int comparator; };
 struct TemplateNameMapView { Rva0033BDC0 tree; unsigned int comparator; };
 
-class ThingTemplate : public Rva001E3624
+class ThingTemplate : public Overridable
 {
 public:
 	virtual ~ThingTemplate();

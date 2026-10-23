@@ -3,22 +3,22 @@
 // Compiler-generated dtor (no own vptr store): the AsciiString at +0x18
 // (EH state 1), then the second base at +0x10 (null-checked this adjust) whose
 // inline dtor releases its AsciiString at +4 (state 0), then the rowed first
-// base dtor ??1Rva001E3624@@UAE@XZ 0x001E3624. Caller: rowed ??_G 0x0020180F
+// base dtor ??1Overridable@@UAE@XZ 0x001E3624. Caller: rowed ??_G 0x0020180F
 // (vtable 0x00BE3070). Names address-derived.
 
 #include "ascii_string.h"
 
-class Rva001E3624
+class Overridable
 {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 	// LINK: declaration-only default ctor (no body in this TU). The derived
-	// Rva0020182B(int) anchor ctor below base-inits through it; the base-init
+	// WeatherSetting(int) anchor ctor below base-inits through it; the base-init
 	// E8 binds the kept copy instead of emitting this TU's loser copy. The
 	// anchor ctor itself is unclaimed (not a row), so its extra E8 is
 	// harmless; the rowed 79B dtor is untouched. Same recipe as the
 	// Rva00200E95Dtor sibling. No flags touched.
-	Rva001E3624();
+	Overridable();
 
 private:
 	unsigned char m_pad04[0x10 - 4];
@@ -31,17 +31,17 @@ public:
 	AsciiString m_name; // +0x04
 };
 
-class Rva0020182B : public Rva001E3624, public Rva0020182BSecond
+class WeatherSetting : public Overridable, public Rva0020182BSecond
 {
 public:
-	Rva0020182B(int tag);
+	WeatherSetting(int tag);
 
 private:
 	AsciiString m_text; // +0x18
 };
 
 // The implicit virtual dtor is emitted with the vtable this helper ctor needs.
-// ?<Rva0020182B::Rva0020182B> absent-from-retail
-Rva0020182B::Rva0020182B(int)
+// ?<WeatherSetting::WeatherSetting> absent-from-retail
+WeatherSetting::WeatherSetting(int)
 {
 }

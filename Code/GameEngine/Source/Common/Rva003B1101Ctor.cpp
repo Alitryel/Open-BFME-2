@@ -3,7 +3,7 @@
 //
 // Rva003B1101 default ctor, retail 0x003B140E (284B):
 // Default ctor for Rva003B1101 (vtable 0x00C1ED18, dtor at 0x003B1101,
-// assign at 0x003B1337). Empty Rva001E3624 base (inline ctor,
+// assign at 0x003B1337). Empty Overridable base (inline ctor,
 // declared-only dtor pins EH state 0), all scalar/string/vector-base
 // defaults in mem-init in declaration order so they emit interleaved
 // with the Rva ctors and bitset reset (whose user ctor calls reset).
@@ -33,11 +33,11 @@ template <> inline _Vector_base<ScienceType, allocator<ScienceType> >::~_Vector_
 }
 
 
-class Rva001E3624
+class Overridable
 {
 public:
-	Rva001E3624() : m_04(0), m_08(0), m_0c(-1) {}
-	virtual ~Rva001E3624();
+	Overridable() : m_04(0), m_08(0), m_0c(-1) {}
+	virtual ~Overridable();
 private:
 	Int m_04; // +0x04
 	unsigned char m_08; // +0x08
@@ -97,7 +97,7 @@ public:
 private:
 	void *m_ptr;
 };
-class Rva003B1101 : public Rva001E3624
+class Rva003B1101 : public Overridable
 {
 public:
 	Rva003B1101();
@@ -130,7 +130,7 @@ private:
 };
 
 Rva003B1101::Rva003B1101()
-	: Rva001E3624()
+	: Overridable()
 	, m_10(0)
 	, m_14(0)
 	, m_18(0)

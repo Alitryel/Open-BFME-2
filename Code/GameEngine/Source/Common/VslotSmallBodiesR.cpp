@@ -71,12 +71,12 @@ struct Rva00200BD9Holder
 class WaterTransparencySetting;
 template <class T> class OVERRIDE;
 extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
-class Rva00200BD9
+class WaterTransparencySetting
 {
 public:
-	void rva00200BD9();
+	virtual void rva00200BD9();
 };
-void Rva00200BD9::rva00200BD9()
+void WaterTransparencySetting::rva00200BD9()
 {
 	Overridable *overridable = (*(Rva00200BD9Holder **)&TheWaterTransparency)->m_04;
 	if (overridable)

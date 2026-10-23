@@ -9,15 +9,15 @@
 #include "ascii_string.h"
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
-class Rva001E3624
+class Overridable
 {
 public:
-    virtual ~Rva001E3624();
+    virtual ~Overridable();
 private:
-    Rva001E3624 *m_next;
+    Overridable *m_next;
 };
 
-class CommandSet : public Rva001E3624 {
+class CommandSet : public Overridable {
     unsigned char flag08;
     unsigned int word0C;
     AsciiString str10;
@@ -46,7 +46,7 @@ void CommandSet::refreshIfStale()
 
 // ??1CommandSet@@UAE@XZ @0x0040A057 59B
 // Evidence: unlock lane dtor; vptr store then AsciiString str10 at +0x10 via
-// shared header (releaseBuffer) then rowed base ??1Rva001E3624@@UAE@XZ; caller
+// shared header (releaseBuffer) then rowed base ??1Overridable@@UAE@XZ; caller
 // 0x40A142 unclaimed; LINK BONUS none.
 CommandSet::~CommandSet()
 {

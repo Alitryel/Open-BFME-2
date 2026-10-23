@@ -2,14 +2,14 @@
 //
 // ??1Rva003B1101@@UAE@XZ @0x003B1101 (172B):
 // Virtual dtor with vtable 0x00C1ED18, nine members plus virtual base
-// Rva001E3624. Members in declaration order: StringBase at +0x10, free-ptr
+// Overridable. Members in declaration order: StringBase at +0x10, free-ptr
 // at +0x24, OpaqueRef holders at +0x34/+0x38, StringBase at +0x3c/+0x40/+0x5c,
 // Rva00360D26Member at +0x60/+0x78. All member dtors inline except the two
 // Rva members and the base, matching the nine rowed/pinned callees.
 // Caller 0x003B152A is the ??_G. Evidence: unlock lane, all callees rowed.
-class Rva001E3624 {
+class Overridable {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 };
 class Rva00360D26Member {
 public:
@@ -44,7 +44,7 @@ struct FreePtrHolder {
 	void *m_ptr;
 	~FreePtrHolder() { if (m_ptr) free(m_ptr); }
 };
-class Rva003B1101 : public Rva001E3624 {
+class Rva003B1101 : public Overridable {
 public:
 	virtual ~Rva003B1101();
 private:

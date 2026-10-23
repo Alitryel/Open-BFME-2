@@ -63,10 +63,10 @@ private:
 	T *m_data;
 };
 
-class Rva001E3624
+class Overridable
 {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 private:
 	void *m_04;
 };
@@ -87,7 +87,7 @@ DynamicPortalLinkVectorCopy1FFD2C::~DynamicPortalLinkVectorCopy1FFD2C()
  _STL::_Destroy(this->_M_start, this->_M_finish);
 }
 
-class Rva001FFE93 : public Rva001E3624
+class Rva001FFE93 : public Overridable
 {
 public:
 	virtual ~Rva001FFE93();

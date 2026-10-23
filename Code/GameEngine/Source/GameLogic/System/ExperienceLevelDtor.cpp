@@ -39,10 +39,10 @@ Rva002892ED::~Rva002892ED()
 {
  _STL::_Destroy(start,finish);
 }
-class Rva001E3624
+class Overridable
 {
 public:
- virtual ~Rva001E3624();
+ virtual ~Overridable();
 private:
  char base[12];
 };
@@ -65,7 +65,7 @@ struct Rva002894A2PointerVector
   if(start) Rva00030830FreeAllocation(start);
  }
 };
-class __declspec(novtable) Rva002894A2 : public Rva001E3624
+class __declspec(novtable) Rva002894A2 : public Overridable
 {
 public:
  virtual ~Rva002894A2();

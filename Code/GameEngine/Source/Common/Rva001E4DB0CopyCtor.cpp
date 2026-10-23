@@ -2,19 +2,19 @@
 //
 // ??0LocomotorTemplate@@QAE@ABV0@@Z, retail 0x001E4DEB, 961 bytes.
 // Copy constructor of the LocomotorTemplate holder (vtable 0x007DE8B4, rowed dtor
-// 0x001E4DB0): base copy constructor (0x007664DD, base Rva001E3624), the AsciiString at
+// 0x001E4DB0): base copy constructor (0x007664DD, base Overridable), the AsciiString at
 // +0x10 copy-constructed, then the same member-wise int/byte copies up to +0x151 as
 // the sibling copy assignment LocomotorTemplate::operator= (Rva001E3955Assign.cpp).
 // Target evidence: retail body and the shared member offsets/widths read byte for byte.
 #include "ascii_string.h"
-class Rva001E3624
+class Overridable
 {
 public:
-	Rva001E3624(const Rva001E3624 &rhs);
-	virtual ~Rva001E3624();
+	Overridable(const Overridable &rhs);
+	virtual ~Overridable();
 	char m_pad[0x0C];
 };
-class LocomotorTemplate : public Rva001E3624
+class LocomotorTemplate : public Overridable
 {
 public:
 	LocomotorTemplate(const LocomotorTemplate &rhs);
@@ -111,7 +111,7 @@ private:
 	unsigned char m_turnWhileMoving;
 };
 
-LocomotorTemplate::LocomotorTemplate(const LocomotorTemplate &rhs) : Rva001E3624(rhs), m_10(rhs.m_10)
+LocomotorTemplate::LocomotorTemplate(const LocomotorTemplate &rhs) : Overridable(rhs), m_10(rhs.m_10)
 {
 	m_surfaces = rhs.m_surfaces;
 	m_lookAheadMult = rhs.m_lookAheadMult;

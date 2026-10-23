@@ -49,15 +49,15 @@ struct Rva003ED94FDtor
 	void **m_end;
 };
 
-class Rva001E3624
+class Overridable
 {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 private:
 	char m_pad[0x0C];
 };
 
-class Rva0020DXXX : public Rva001E3624
+class Rva0020DXXX : public Overridable
 {
 public:
 	void rva0020D7F9();

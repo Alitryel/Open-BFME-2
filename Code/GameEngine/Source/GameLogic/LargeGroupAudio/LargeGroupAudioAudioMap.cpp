@@ -130,13 +130,13 @@ public:
 
 // Base shared with the LargeGroupAudio key holder (dtor 0x001E3624): vptr,
 // +4 next override, +8 override flag, +0xC.
-class Rva001E3624
+class Overridable
 {
 public:
-	Rva001E3624() : m_next04(0), m_alloc08(0), m_extra0C(-1) {}
-	virtual ~Rva001E3624();
+	Overridable() : m_next04(0), m_alloc08(0), m_extra0C(-1) {}
+	virtual ~Overridable();
 private:
-	Rva001E3624 *m_next04;
+	Overridable *m_next04;
 	unsigned char m_alloc08;
 	int m_extra0C;
 };
@@ -169,7 +169,7 @@ public:
 	char m_storage[0x4C];
 };
 
-class LargeGroupAudioAudioMap : public Rva001E3624
+class LargeGroupAudioAudioMap : public Overridable
 {
 public:
 	LargeGroupAudioAudioMap(AsciiString name);

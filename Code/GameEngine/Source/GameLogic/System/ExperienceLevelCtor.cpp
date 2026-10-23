@@ -61,16 +61,16 @@ template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 class FXList;
 class UpgradeTemplate;
 struct LevelUpFXInfo { const FXList *fx; AsciiString boneName; };
-class __declspec(novtable) Rva001E3624
+class __declspec(novtable) Overridable
 {
 public:
-    __declspec(dllimport) __forceinline Rva001E3624() : m_next(0), m_override(false), m_index(-1) {}
-    virtual ~Rva001E3624();
-    Rva001E3624 *m_next;
+    __declspec(dllimport) __forceinline Overridable() : m_next(0), m_override(false), m_index(-1) {}
+    virtual ~Overridable();
+    Overridable *m_next;
     bool m_override;
     int m_index;
 };
-class Rva002894A2 : public Rva001E3624
+class Rva002894A2 : public Overridable
 {
 public:
 	virtual ~Rva002894A2();

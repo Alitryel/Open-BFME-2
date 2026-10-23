@@ -1,7 +1,7 @@
 // cl: /MD /GX
 // ??1Rva004211CA@@UAE@XZ @ 0x004211CA 92B
 // Dtor with vtable 0x0083BDFC, Ascii at +0x10, Unicode at +0x14, heap at +0x18
-// freed via _free, then base Rva001E3624 pinned dtor. Unblocks deleting dtor
+// freed via _free, then base Overridable pinned dtor. Unblocks deleting dtor
 // 0x00421226. Layout from member offsets, base size 0x10 from first member.
 // Evidence: mov [esi] vtable, test+free +0x18, releaseBuffer +0x14 wide
 // +0x10 narrow, base call 0x001E3624, caller 0x00421229, neighbours
@@ -23,15 +23,15 @@ template <> StringBase<char>::~StringBase();
 #pragma comment(linker, "/alternatename:??1?$StringBase@D@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 
 
-class Rva001E3624
+class Overridable
 {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 private:
 	char m_pad[0x0C];
 };
 
-class Rva004211CA : public Rva001E3624
+class Rva004211CA : public Overridable
 {
 public:
 	virtual ~Rva004211CA();

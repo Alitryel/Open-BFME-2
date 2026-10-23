@@ -2,21 +2,21 @@
 // stlport
 //
 // ??1Rva0035BB4B@@UAE@XZ @0x0035BB4B 368B
-// Virtual dtor of large Common record (vptr 0x00816204) over base Rva001E3624.
+// Virtual dtor of large Common record (vptr 0x00816204) over base Overridable.
 // Members destroy in reverse: AsciiStrings via releaseBuffer 0x36410, AsciiString
 // vectors via 0x2cc70, Rva002390CB vectors via 0x35b825, heap blocks via _free
-// 0x30830, then base ??1Rva001E3624.
+// 0x30830, then base ??1Overridable.
 // Evidence: ecx-first thiscall with vptr store; EH states 0x15-0x0; callers
 // 0x001DB060 0x0035BCBE; unwind funclet at 0x007697D9.
 #include <vector>
 
 #include "ascii_string.h"
 
-class Rva001E3624 {
+class Overridable {
 public:
-    virtual ~Rva001E3624();
+    virtual ~Overridable();
 private:
-    Rva001E3624 *m_next;
+    Overridable *m_next;
 };
 
 class Rva002390CB {
@@ -32,7 +32,7 @@ struct RvaFreePtr {
     ~RvaFreePtr() { if (m_ptr) free(m_ptr); }
 };
 
-class Rva0035BB4B : public Rva001E3624 {
+class Rva0035BB4B : public Overridable {
 public:
     virtual ~Rva0035BB4B();
 private:

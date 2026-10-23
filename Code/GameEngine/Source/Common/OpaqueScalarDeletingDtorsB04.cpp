@@ -60,29 +60,29 @@ Rva001FFE93::Rva001FFE93(EmitVtableTag *)
 {
 }
 
-class Rva00200E95
+class WaterTransparencySetting
 {
 public:
-	Rva00200E95(EmitVtableTag *);
+	WaterTransparencySetting(EmitVtableTag *);
 public:
-	virtual ~Rva00200E95();
+	virtual ~WaterTransparencySetting();
 };
 
-// ?<Rva00200E95::Rva00200E95> absent-from-retail
-Rva00200E95::Rva00200E95(EmitVtableTag *)
+// ?<WaterTransparencySetting::WaterTransparencySetting> absent-from-retail
+WaterTransparencySetting::WaterTransparencySetting(EmitVtableTag *)
 {
 }
 
-class Rva0020182B
+class WeatherSetting
 {
 public:
-	Rva0020182B(EmitVtableTag *);
+	WeatherSetting(EmitVtableTag *);
 public:
-	virtual ~Rva0020182B();
+	virtual ~WeatherSetting();
 };
 
-// ?<Rva0020182B::Rva0020182B> absent-from-retail
-Rva0020182B::Rva0020182B(EmitVtableTag *)
+// ?<WeatherSetting::WeatherSetting> absent-from-retail
+WeatherSetting::WeatherSetting(EmitVtableTag *)
 {
 }
 

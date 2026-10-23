@@ -55,29 +55,22 @@ struct FieldParse
 	int offset;
 };
 
-// Zero Hour's Overridable; the holder base below is its address-named view.
 class Overridable
 {
 public:
-	Overridable *friend_getFinalOverride();	// 0x001E35DF
-};
-
-// Base of the +0x34 holder (dtor 0x001E3624): vptr, +4 next, +8 flag, +0xC.
-class Rva001E3624
-{
-public:
-	Rva001E3624() : m_next04(0), m_alloc08(0), m_extra0C(-1) {}
-	virtual ~Rva001E3624();
-	void setNextOverride(Rva001E3624 *next) { m_next04 = next; }
+	Overridable() : m_next04(0), m_alloc08(0), m_extra0C(-1) {}
+	virtual ~Overridable();
+	Overridable *friend_getFinalOverride();
+	void setNextOverride(Overridable *next) { m_next04 = next; }
 	void markAsOverride() { m_alloc08 = 1; }
-	Rva001E3624 *getFinalOverride()
+	Overridable *getFinalOverride()
 	{
 		if (m_next04)
-			return (Rva001E3624 *)((Overridable *)m_next04)->friend_getFinalOverride();
+			return m_next04->friend_getFinalOverride();
 		return this;
 	}
 private:
-	Rva001E3624 *m_next04;
+	Overridable *m_next04;
 	unsigned char m_alloc08;
 	int m_extra0C;
 };
@@ -95,7 +88,7 @@ public:
 int Rva003EE6F7Get();	// LargeGroupAudioAudioMap field-parse table
 
 // Overridable-style map of sounds keyed by unit type, 0xF8 bytes.
-class LargeGroupAudioAudioMap : public Rva001E3624
+class LargeGroupAudioAudioMap : public Overridable
 {
 public:
 	LargeGroupAudioAudioMap(AsciiString name);	// 0x003EE0CF
@@ -123,7 +116,7 @@ public:
 
 // The +0x34 holder (vtable 0x007E3FF4): the base plus a 12-byte key
 // container at +0x10.
-class Rva0020D98D : public Rva001E3624
+class Rva0020D98D : public Overridable
 {
 public:
 	Rva0020D98D();	// 0x0020D7BC
@@ -295,7 +288,7 @@ void LargeGroupAudio::parseLargeGroupAudioUnusedKnownKeysDefinition(INI *ini)
 	if (TheLargeGroupAudio == NULL)
 		TheLargeGroupAudio = new LargeGroupAudio;
 
-	Rva001E3624 *keys;
+	Overridable *keys;
 	if (ini->m_loadType == 2)
 	{
 		Rva0020D98D *override = new Rva0020D98D(*TheLargeGroupAudio->m_34);

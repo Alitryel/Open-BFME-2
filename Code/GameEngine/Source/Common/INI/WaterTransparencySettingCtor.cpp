@@ -29,9 +29,9 @@ private:
 class Rva00200D38
 {
 public:
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
+	virtual void rva00200BD9() = 0;
+	virtual void slot1() = 0;
+	virtual int Rva00200BBAGet() = 0;
 
 	Rva00200D38(const AsciiString &name);
 
@@ -44,6 +44,9 @@ class WaterTransparencySetting : public Overridable, public Rva00200D38
 public:
 	WaterTransparencySetting();
 	virtual ~WaterTransparencySetting();
+	virtual void rva00200BD9();
+	virtual void slot1();
+	virtual int Rva00200BBAGet();
 
 	Real m_transparentWaterDepth; // +0x18
 	Real m_minWaterOpacity; // +0x1C
@@ -77,4 +80,10 @@ WaterTransparencySetting::WaterTransparencySetting() : Rva00200D38(AsciiString("
 	m_unk50 = false;
 	m_unk54 = 0.0f;
 	m_unk58 = 0.0f;
+}
+
+// Slot 1 of the setting table is the shared empty return at 0x000B3FD0.
+// ?WaterTransparencySetting::slot1 present-unmatched
+void WaterTransparencySetting::slot1()
+{
 }

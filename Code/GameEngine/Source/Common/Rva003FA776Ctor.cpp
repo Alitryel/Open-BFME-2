@@ -1,20 +1,20 @@
 // cl: /MD
 // ??0Rva003FA776@@QAE@XZ, retail 0x003FA745 (49B).
-// Ctor for Rva003FA776 (vtable 0x00C37930, dtor at 0x003FA776): base Rva001E3624 (+4 0, +8 0, +0xC -1), +0x10 6, +0x14 0.0f, +0x18 1.0f (VA 0x00BBB8D8).
+// Ctor for Rva003FA776 (vtable 0x00C37930, dtor at 0x003FA776): base Overridable (+4 0, +8 0, +0xC -1), +0x10 6, +0x14 0.0f, +0x18 1.0f (VA 0x00BBB8D8).
 // Evidence: vtable store at [this], tail-jmp base dtor 0x001E3624, callers 0x0021116F 0x00213814.
 
-class Rva001E3624
+class Overridable
 {
 public:
-	Rva001E3624() : m_04(0), m_08(0), m_0C(-1) {}
-	virtual ~Rva001E3624();
+	Overridable() : m_04(0), m_08(0), m_0C(-1) {}
+	virtual ~Overridable();
 private:
 	int m_04;
 	unsigned char m_08;
 	int m_0C;
 };
 
-class Rva003FA776 : public Rva001E3624
+class Rva003FA776 : public Overridable
 {
 public:
 	Rva003FA776();
@@ -26,7 +26,7 @@ private:
 };
 
 Rva003FA776::Rva003FA776()
-	: Rva001E3624()
+	: Overridable()
 	, m_10(6)
 	, m_14(0.0f)
 	, m_18(1.0f)

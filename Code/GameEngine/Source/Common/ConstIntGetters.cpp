@@ -290,11 +290,13 @@ int Rva002856FDGet(void)
 	return (int)&g_00DFE794;
 }
 
-// ?Rva00201095Get@@YAHXZ @ 0x00201095 (6B): returns 0x00BE2C10.
+// ?Rva00201095Get@WeatherSetting@@UAEHXZ @ 0x00201095 (6B): returns 0x00BE2C10.
 // Follows a tail-jmp/ret (0x20108F-94) with a frame-style function
 // after. Carried at 0x7E306C, no direct callers, no branch sources.
 // Opaque address-derived name.
-int Rva00201095Get(void)
+class WeatherSetting { public: virtual int Rva00201095Get(); };
+
+int WeatherSetting::Rva00201095Get()
 {
 	return (int)g_00BE2C10;
 }

@@ -5,15 +5,15 @@
 // The map replaces the donor's list, and layout comes from matched ctor
 // 0x00409FFA and its rowed sibling methods rather than the donor.
 #include "ascii_string.h"
-class Rva001E3624 {
+class Overridable {
 public:
-    virtual ~Rva001E3624();
+    virtual ~Overridable();
 private:
-    Rva001E3624 *m_next;
+    Overridable *m_next;
     bool m_override;
     int m_stale;
 };
-class CommandSet : public Rva001E3624 {
+class CommandSet : public Overridable {
 public:
     CommandSet(const AsciiString &, int);
     virtual ~CommandSet();

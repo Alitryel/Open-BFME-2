@@ -9,7 +9,7 @@
 // +0x10, creationChance +0x14, veterancyLevel +0x18, killedByType mask +0x1C,
 // killerScience +0x38, possibleCrates list +0x3C, isOwnedByMaker +0x40. The
 // views below keep the spellings the bytes were matched with.
-// Base (Overridable, here the opaque Rva001E3624) trivial (4/8/0C), string +0x10 zeroed then set to empty,
+// Base (Overridable, here the opaque Overridable) trivial (4/8/0C), string +0x10 zeroed then set to empty,
 // float +0x14 0.0, int +0x18 5, member +0x1C via rowed Rva0024C7B3Member
 // ctor then memset 0x1C (double zero is retail), int +0x38 -1 (or),
 // list +0x3C via rowed BfmePod8 ctor then AsciiString clear (same storage,
@@ -45,17 +45,17 @@ public:
 
 struct BfmePod8 { int a[2]; };
 
-class Rva001E3624
+class Overridable
 {
 public:
-	Rva001E3624() : m_unk04(0), m_unk08(0), m_unk0C(-1) {}
-	virtual ~Rva001E3624();
+	Overridable() : m_unk04(0), m_unk08(0), m_unk0C(-1) {}
+	virtual ~Overridable();
 	void *m_unk04;
 	unsigned char m_unk08;
 	int m_unk0C;
 };
 
-class CrateTemplate : public Rva001E3624
+class CrateTemplate : public Overridable
 {
 public:
 	CrateTemplate();

@@ -3,7 +3,7 @@
 //
 // ??0Rva0035BB4B@@QAE@XZ @0x0035B8AA 673B
 // Constructor of the large Common record whose virtual dtor 0x0035BB4B lives in
-// Rva0035BB4BDtor.cpp (vptr 0x00816204, base Rva001E3624). Member names follow
+// Rva0035BB4BDtor.cpp (vptr 0x00816204, base Overridable). Member names follow
 // the Zero Hour CommandButton field order as a structural inference only; the
 // class identity stays address-named.
 // Target evidence: WB twin 0xEFE320 (offsets +4) stores the three words after
@@ -31,7 +31,7 @@ namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
 namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::~vector(); }
 namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
 // bfme link decl-only end
-class Rva001E3624 {public:Rva001E3624():next(0),flag(false),extra(-1){}virtual ~Rva001E3624();void*next;bool flag;int extra;};
+class Overridable {public:Overridable():next(0),flag(false),extra(-1){}virtual ~Overridable();void*next;bool flag;int extra;};
 class Rva002390CB {public:~Rva002390CB();char bytes[8];};
 // Bind to the kept copies (rows: vector<Rva002390CB> dtor 0x0035B825, range
 // erase 0x00532803, vector<void *> range erase 0x0031BD55) instead of
@@ -58,7 +58,7 @@ class ThingTemplate;
 template <class T> class OVERRIDE {public: OVERRIDE(const T *overridable = 0); const T *m_overridable;};
 template <class T> OVERRIDE<T>::OVERRIDE(const T *overridable){ m_overridable = overridable; }
 
-class Rva0035BB4B:public Rva001E3624 {public:
+class Rva0035BB4B:public Overridable {public:
  Rva0035BB4B();virtual ~Rva0035BB4B();
  AsciiString name;int command;void*next;unsigned options;OVERRIDE<ThingTemplate> thing;void*upgrade;
  BfmeSlotVecG buildUpgrades;bool field34;

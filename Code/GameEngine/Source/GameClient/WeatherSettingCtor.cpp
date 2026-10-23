@@ -26,12 +26,14 @@ protected:
 	int m_0C;
 };
 
+class WeatherSetting;
+
 class Rva00200D38
 {
 public:
-	virtual void slot0() = 0;
-	virtual void slot1() = 0;
-	virtual void slot2() = 0;
+	virtual WeatherSetting *rva00201153() = 0;
+	virtual void rva00201085() = 0;
+	virtual int Rva00201095Get() = 0;
 
 	Rva00200D38(const AsciiString &name);
 private:
@@ -43,9 +45,9 @@ class WeatherSetting : public Overridable, public Rva00200D38
 public:
 	WeatherSetting();
 	virtual ~WeatherSetting();
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
+	virtual WeatherSetting *rva00201153();
+	virtual void rva00201085();
+	virtual int Rva00201095Get();
 
 	AsciiString m_snowTexture;			// +0x18
 	float m_snowFrequencyScaleX;		// +0x1C

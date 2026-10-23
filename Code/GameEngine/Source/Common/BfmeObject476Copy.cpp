@@ -52,7 +52,7 @@ void *const &vector<void *>::operator[](size_t __n) const
 }
 #include "ascii_string.h"
 #include "unicode_string.h"
-class Rva001E3624 {public: virtual ~Rva001E3624(); Rva001E3624(const Rva001E3624 &); Rva001E3624():next(0),flag(false),extra(-1){} void *next;bool flag;int extra; };
+class Overridable {public: virtual ~Overridable(); Overridable(const Overridable &); Overridable():next(0),flag(false),extra(-1){} void *next;bool flag;int extra; };
 class Rva003B0E83 {public:Rva003B0E83*rva003B0E83();};
 struct S3Handicap {__forceinline S3Handicap(){((Rva003B0E83*)this)->rva003B0E83();} int words[4];};
 class AsciiString;
@@ -246,7 +246,7 @@ vector<unsigned, allocator<unsigned> >::vector(const allocator<unsigned> &__a)
 : _Vector_base<unsigned, allocator<unsigned> >(__a) {}
 }
 struct Rva003B0E5DRecord {Rva003B0E5DRecord();AsciiString text;int a,b,c;};
-struct BfmeObject476 : Rva001E3624 {
+struct BfmeObject476 : Overridable {
  BfmeObject476();
  virtual ~BfmeObject476();
  int unknown10;
@@ -307,7 +307,7 @@ memset(unknown70,0,sizeof(unknown70));}
 
 // WB-named PlayerTemplate parser uses this actual class lifetime spelling.
 // Its476-byte target view is identical to the earlier neutral vector element.
-class PlayerTemplate : Rva001E3624 {
+class PlayerTemplate : Overridable {
 public:
  PlayerTemplate();
  virtual ~PlayerTemplate();

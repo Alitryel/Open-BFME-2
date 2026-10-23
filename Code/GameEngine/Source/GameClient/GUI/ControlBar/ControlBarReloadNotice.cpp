@@ -86,14 +86,14 @@ template <class T> struct hash
 };
 }
 
-class Rva001E3624 {
+class Overridable {
 public:
-    virtual ~Rva001E3624();
+    virtual ~Overridable();
     bool isOverride() const { return m_override; }
     void markAsOverride() { m_override=true; }
     void clearStale() { m_stale=0; }
 private:
-    Rva001E3624 *m_next;
+    Overridable *m_next;
     bool m_override;
     int m_stale;
 };
@@ -101,7 +101,7 @@ private:
 // The map's values: each gets refreshIfStale (0x00409FCC). The INI field
 // table and button parser further down belong to the same class.
 struct FieldParse;
-class CommandSet : public Rva001E3624
+class CommandSet : public Overridable
 {
 public:
 	void refreshIfStale();

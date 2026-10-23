@@ -20,10 +20,10 @@
 #include "unicode_string.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-class Rva001E3624 {
+class Overridable {
 public:
-    Rva001E3624() : next(0), allocated(0), extra(-1) {}
-    virtual ~Rva001E3624();
+    Overridable() : next(0), allocated(0), extra(-1) {}
+    virtual ~Overridable();
 private:
     void *next; unsigned char allocated; int extra;
 };
@@ -147,7 +147,7 @@ struct Rva0033C3F3 : VRva002D0EDCElement { __forceinline Rva0033C3F3() {} ~Rva00
 class Rva002DFC30 { public: ~Rva002DFC30(); unsigned char m_data[0xC]; };
 namespace _STL { template<> vector<Rva002DFC30>::~vector(); }
 typedef _STL::vector<Rva002DFC30> WeaponTemplateSetVector;
-class ThingTemplate : public Rva001E3624 {
+class ThingTemplate : public Overridable {
 public:
     ThingTemplate(); virtual ~ThingTemplate();
     float m_camouflageDetectionMultiplier;

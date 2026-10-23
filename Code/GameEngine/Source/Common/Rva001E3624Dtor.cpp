@@ -1,23 +1,17 @@
 // cl: /DNDEBUG /MD
-//
-// ??1Rva001E3624@@UAE@XZ, retail 0x001E3624, 35 bytes.
-// Virtual destructor of an opaque chain node (vptr 0x00BDDC48) that owns the
-// next node at +4 (the layout RankInfoDtor.cpp models): when present the next
-// node is destroyed through its virtual destructor and freed with the global
-// operator delete (`::delete`), then the pointer is cleared. Evidence: symbols.csv pin (tail-called by the
-// single-inheritance destructor at 0x003FA776); five units call it by this
-// name. Class identity unproven, so the address-derived name stays.
+// Overridable restores its table at VA 0x00BDDC48 before clearing its chain.
+// The next override at +4 is destroyed through slot 0 and globally deallocated.
 
-class Rva001E3624
+class Overridable
 {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 
 private:
-	Rva001E3624 *m_next;	// +4
+	Overridable *m_next;	// +4
 };
 
-Rva001E3624::~Rva001E3624()
+Overridable::~Overridable()
 {
 	if (m_next)
 		::delete m_next;

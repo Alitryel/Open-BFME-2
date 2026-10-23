@@ -4,17 +4,17 @@
 // constructor mode 0, named +0x10 string, override-copy guard, +0x08 byte,
 // and original's +0x04 link. Reuse actual ctor/copy/base owners.
 #include "ascii_string.h"
-class Rva001E3624 {
+class Overridable {
 public:
-    virtual ~Rva001E3624();
+    virtual ~Overridable();
     void markAsOverride() { m_override=true; }
-    void setNextOverride(Rva001E3624 *next) { m_next=next; }
+    void setNextOverride(Overridable *next) { m_next=next; }
 private:
-    Rva001E3624 *m_next;
+    Overridable *m_next;
     bool m_override;
     int m_stale;
 };
-class CommandSet : public Rva001E3624 {
+class CommandSet : public Overridable {
 public:
     CommandSet(const AsciiString &,int);
     virtual ~CommandSet();

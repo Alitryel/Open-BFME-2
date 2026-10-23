@@ -6,7 +6,7 @@
 // the ctor 0x0035CC36 that CrateSystem::newCrateTemplate 0x0035CF2C and
 // newCrateTemplateOverride 0x0035CEA6 call; see CrateTemplateCtor.cpp). It
 // owns the name string at +0x10 and the possibleCrates list at +0x3C, and its
-// base destructor is the opaque Rva001E3624 (Zero Hour's Overridable). These
+// base destructor is the opaque Overridable (Zero Hour's Overridable). These
 // bodies were first claimed as CreateCrateDieModuleData's (whose vtable is
 // 0x00BF40A8) and then held under an address-derived name; see
 // deleted_rows.csv. The dtor is protected as Zero Hour's memory-pool glue
@@ -45,16 +45,16 @@ public:
 // Opaque ModuleData base (never defined; base-dtor call resolves through
 // the symbols.csv pin at 0x1E3624). Retail base body keeps a conditional
 // delete pointer at +0x04; +0x08/+0x0C ride as data.
-class Rva001E3624
+class Overridable
 {
 public:
-	virtual ~Rva001E3624();
+	virtual ~Overridable();
 	void *m_unk04;
 	int m_unk08;
 	int m_unk0C;
 };
 
-class CrateTemplate : public Rva001E3624
+class CrateTemplate : public Overridable
 {
 protected:
 	virtual ~CrateTemplate();
