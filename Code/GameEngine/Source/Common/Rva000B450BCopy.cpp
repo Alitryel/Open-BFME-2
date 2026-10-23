@@ -1,18 +1,18 @@
 // cl: /DNDEBUG /MD
-// ??0Rva000B450B@@QAE@ABV0@@Z @0x000B450B 33B
-// Copy ctor: gslice member at +0 copy-constructed via pinned ??0gslice@_STL,
-// Rva000B3F15 member at +0x14 assigned via rowed ??4Rva000B3F15; stride 0x18
-// matches caller 0x000B690B array loop.
-namespace _STL
+// ??4Rva000B690BRecord@@QAEAAU0@ABU0@@Z @0x000B450B 33B
+// Assignment of the 0x18-byte record that _STL::__copy at 0x000B690B
+// (StlHelperRva000B690B.cpp) copies element by element: the record at +0 is
+// assigned via the rowed ??4BfmeRecord000B43E5 (0x000B43E5: three dwords, a
+// byte, then AsciiString set), the member at +0x14 via the rowed
+// ??4Rva000B3F15; returns this. Memberwise operator=, not a copy ctor: the
+// +0 callee assigns its AsciiString through StringBase::set rather than
+// constructing it.
+struct BfmeRecord000B43E5
 {
-class gslice
-{
-public:
-	gslice(const gslice &other);
+	BfmeRecord000B43E5 &operator=(const BfmeRecord000B43E5 &o);
 private:
 	char m_pad[0x14];
 };
-}
 
 class Rva000B3F15
 {
@@ -22,16 +22,17 @@ private:
 	void *m_ptr;
 };
 
-class Rva000B450B
+struct Rva000B690BRecord
 {
-public:
-	Rva000B450B(const Rva000B450B &other);
+	Rva000B690BRecord &operator=(const Rva000B690BRecord &other);
 private:
-	_STL::gslice m_slice;
+	BfmeRecord000B43E5 m_record;
 	Rva000B3F15 m_other;
 };
 
-Rva000B450B::Rva000B450B(const Rva000B450B &other) : m_slice(other.m_slice)
+Rva000B690BRecord &Rva000B690BRecord::operator=(const Rva000B690BRecord &other)
 {
+	m_record = other.m_record;
 	m_other = other.m_other;
+	return *this;
 }
