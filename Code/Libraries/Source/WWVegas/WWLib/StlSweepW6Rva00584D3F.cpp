@@ -17,12 +17,6 @@ static inline const int &min(const int &a, const int &b)
 #include <utility>
 
 struct Rva00584D3FElement { unsigned char words[1];bool operator<(const Rva00584D3FElement&)const;bool operator==(const Rva00584D3FElement&)const; };
-template void _STL::sort(Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::stable_sort(Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::make_heap(Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::push_heap(Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::pop_heap(Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::sort_heap(Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::partial_sort(Rva00584D3FElement*,Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::nth_element(Rva00584D3FElement*,Rva00584D3FElement*,Rva00584D3FElement*);
-template void _STL::inplace_merge(Rva00584D3FElement*,Rva00584D3FElement*,Rva00584D3FElement*);
+// Emit the matched trait directly. Whole sort/heap instantiations also emitted
+// unrelated operations needing the provisional element's undefined comparison.
+template struct _STL::_OKToMemCpy<Rva00584D3FElement, Rva00584D3FElement>;
