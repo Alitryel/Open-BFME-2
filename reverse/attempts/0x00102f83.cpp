@@ -1,4 +1,6 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.9741961628516264 date=2026-10-23
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.95707 date=2026-10-22
 // Diagnostic WorldBuilder-faithful six-edit baseline, 2026-10-21.
 // Derived from reverse/attempts/0x00102f83.cpp; see wb-faithful-evidence.json.
@@ -540,7 +542,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     }
     // camera looking at origin
     targetPos.Set(0,0,0);
-    float factor=1.0-(v->groundLevel/sourcePos.Z);
+    float groundFraction=v->groundLevel/sourcePos.Z;float factor=1.0-groundFraction;
     // construct a matrix to rotate around the up vector by the given angle
     Matrix3D angleTransform(Vector3(0,0,1),v->angle);
     // construct a matrix to rotate around the horizontal vector by the given angle
