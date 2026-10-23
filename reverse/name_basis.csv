@@ -173,3 +173,4 @@ param,BfmeThingDGD::rva007F8400::arg34,BfmeThingDGD::rva007F8400::useInternet,in
 param,BfmeThingDGD::rva007F8400::arg35,BfmeThingDGD::rva007F8400::useLan,inferred,agree:nl-5fd7d35adb87,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00664A80
 function,?Rva006636F0Handler@@YAXPAXPAVRva007F7980Browser@@@Z,?enterGameRequestHandler@@YAXPAXPAVRva007F7980Browser@@@Z,inferred,agree:nl-5acd05cae290,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x006636F0
 function,?Rva00663FF0Handler@@YAXPAVRva007E8810Message@@PAVBfmeThingZI@@@Z,?queueLengthHandler@@YAXPAVRva007E8810Message@@PAVBfmeThingZI@@@Z,inferred,agree:nl-5e1efd4f877d,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00663FF0
+class,Rva0112B7F0Base,DemanglerListener,inferred,agree:nl-c3a279016857,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,

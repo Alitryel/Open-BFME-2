@@ -135,7 +135,7 @@ public:
 	virtual void slot0();
 };
 
-class Rva0112B7F0Base
+class DemanglerListener
 {
 public:
 	virtual void slot0();
@@ -194,10 +194,10 @@ class Rva00800920Owner
 public:
 	Rva00800920Owner( Rva00800920Host *host );
 
-	void set0c( Rva0112B7F0Base *value ) { m_0c = value; }
+	void set0c( DemanglerListener *value ) { m_0c = value; }
 
 	unsigned char m_pad[ 0x0c ];
-	Rva0112B7F0Base *m_0c;
+	DemanglerListener *m_0c;
 };
 
 class Gen007F0130
@@ -206,7 +206,7 @@ public:
 	static void *operator new( unsigned int size );
 };
 
-class BfmeThingDGD : public Rva0112B800Base, public Rva0112B7F8Base, public Rva0112B7F0Base
+class BfmeThingDGD : public Rva0112B800Base, public Rva0112B7F8Base, public DemanglerListener
 {
 public:
 	virtual void rva007F8400( unsigned char useInternet, int useLan, void *forwarded );
