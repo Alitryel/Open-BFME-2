@@ -109,10 +109,29 @@ struct Rva00257464
 	_STL::list<BfmePod32> m_list;
 };
 
+// Native construction at 463D59 and teardown at 256461 share the
+// set storage at +4C. The element semantics remain address-derived.
+class Rva00255CD1
+{
+public:
+	__forceinline Rva00255CD1()
+	{
+		typedef _STL::set<Rva00463D59Element> Set;
+		((Set *)this)->_STL::set<Rva00463D59Element>::set();
+	}
+	~Rva00255CD1();
+private:
+	union
+	{
+		void *m_alignment;
+		unsigned char m_storage[sizeof(_STL::set<Rva00463D59Element>)];
+	};
+};
 struct Rva00256641
 {
+	__forceinline Rva00256641() {}
 	~Rva00256641() {}
-	_STL::set<Rva00463D59Element> m_set;
+	Rva00255CD1 m_set;
 };
 
 struct Rva0024CA24Bits
