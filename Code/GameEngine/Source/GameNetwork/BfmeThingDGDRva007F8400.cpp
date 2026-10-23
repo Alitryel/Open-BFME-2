@@ -234,10 +234,10 @@ void BfmeThingDGD::rva007F8400( unsigned char useInternet, int useLan, void *for
 		return;
 	}
 
-	unsigned char byte35 = (unsigned char)useLan;
+	unsigned char lanEnabled = (unsigned char)useLan;
 	m_34 = useInternet;
 	m_30 = 1;
-	m_35 = byte35;
+	m_35 = lanEnabled;
 	((BfmeThingRE *)m_0c)->bfmeRunRE( forwarded );
 	m_14 = m_10->v1();
 	m_14->m_6a8->v3( static_cast< Rva0112B7F8Base * >( this ), 0 );
@@ -253,7 +253,7 @@ void BfmeThingDGD::rva007F8400( unsigned char useInternet, int useLan, void *for
 	m_14->v4( (void *)&bfmeRva0130AA88TagSlot, (void *)pingHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AA7CTagSlot, (void *)Rva00664A70Handler, this );
 
-	if( byte35 != 0 )
+	if( lanEnabled != 0 )
 	{
 		Rva00803890Owner *node = new (Gen007F0130::operator new( 0x1c )) Rva00803890Owner( useInternet, (BfmeOwnerUNC *)this );
 		m_18 = node;
