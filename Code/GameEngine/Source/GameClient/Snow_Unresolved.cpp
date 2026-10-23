@@ -40,8 +40,6 @@ public:
     virtual void targetSlot19();
     virtual void targetSlot20();
     virtual void targetSlot21();
-    virtual class WeatherSetting *rva00201153();	// slot 22 (+0x58)
-    virtual void rva00201085();	// slot 23 (+0x5C), right after init
 private:
     float *m_startingHeights;
     float m_time;

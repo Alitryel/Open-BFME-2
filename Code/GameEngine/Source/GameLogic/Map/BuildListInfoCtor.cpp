@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DNDEBUG /MD /EHsc
 //
 // ??0BuildListInfo@@QAE@XZ @0x0032A0CE 184B
 // BuildListInfo default ctor (0x80 bytes).
@@ -12,11 +12,11 @@
 // Donor: ZH SidesList.cpp BuildListInfo::BuildListInfo(void) (same init list plus
 // body: location.zero, rally 0, selected false, gatherers INVALID_ID=0); retail
 // zeroes templateName default inline (+8) and uses rep stosd for the 10 gatherers.
-// EH state 0 before the first copy comes from the empty base with declared-only
-// dtor (AIUpdateModuleDataCtor precedent); /arch:SSE for the xorps/movss float zeroes.
+// Snapshot owns the state-0 cleanup; the scalar members retain the
+// target layout and SSE float initialization.
 
-extern "C" const void *const vtbl_00C0D904[];  // ??_7BuildListInfo@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C0D904=??_7BuildListInfo@@6B@")
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
 
 #include "ascii_string.h"
 
@@ -26,22 +26,20 @@ extern "C" const void *const vtbl_00C0D904[];  // ??_7BuildListInfo@@6B@
 
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-class EmptyBase
-{
-public:
-	EmptyBase() {}
-	~EmptyBase();
-};
-
-class BuildListInfo : public EmptyBase
+class BuildListInfo : public Snapshot
 {
 public:
 	BuildListInfo();
 	BuildListInfo *duplicate();
 	BuildListInfo &operator=(const BuildListInfo &);
+	virtual const char *GetSnapshotName() const;
+
+protected:
+	virtual ~BuildListInfo();
+	virtual void loadPostProcess();
+	virtual void xfer(Xfer *);
 
 private:
-	void *m_vtable; // +0x00
 	AsciiString m_buildingName; // +0x04
 	AsciiString m_templateName; // +0x08
 	Coord3D m_location; // +0x0C
@@ -70,7 +68,7 @@ private:
 };
 
 BuildListInfo::BuildListInfo() :
-	m_vtable(reinterpret_cast<void *>(((unsigned int)vtbl_00C0D904))),
+	Snapshot(),
 	m_buildingName(AsciiString::TheEmptyString),
 	m_templateName(),
 	m_nextBuildList(0),

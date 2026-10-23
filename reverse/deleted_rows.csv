@@ -1727,3 +1727,6 @@ __ehhandler$??1Rva005CE4FA@@UAE@XZ,0x007A16A2,"Renamed to __ehhandler$??1Plannin
 ?rva005CE10A@Rva005CE10A@@QAEXXZ,0x005CE10A,"Renamed to ?rva005CE10A@PlanningPhaseBuildingSelection@StrategicInGameUI@@UAEXXZ: constructor 005CE5B3 installs the unique table selecting this body"
 ?rva005CE1EB@Rva005CDF6C@@QAEXXZ,0x005CE1EB,"Renamed to ?onBuildingChanged@PlanningPhaseBuildingSelection@StrategicInGameUI@@UAEXXZ: constructor 005CE5B3 installs the unique table selecting this body"
 ?rva005CE7BF@Rva005CE7BF@@QAEHH@Z,0x005CE7BF,"Renamed to ?rva005CE7BF@PlanningPhaseBuildingSelection@StrategicInGameUI@@UAEHH@Z: constructor 005CE5B3 installs the unique table selecting this body"
+?name@Rva00329EE3Named@@QBEPBDXZ,0x00329EE3,"Renamed to ?GetSnapshotName@BuildListInfo@@UBEPBDXZ: BuildListInfo Snapshot table VA 0x00C0D904 slot 2 returns its class literal"
+?rva00201085@SnowManager@@UAEXXZ,0x00201085,"Renamed to ?rva00201085@WeatherSetting@@UAEXXZ: only WeatherSetting secondary table VA 0x00BE3064 points at this body"
+?rva00201153@SnowManager@@UAEPAVWeatherSetting@@XZ,0x00201153,"Renamed to ?rva00201153@WeatherSetting@@UAEPAV1@XZ: only WeatherSetting secondary table VA 0x00BE3064 points at this body"

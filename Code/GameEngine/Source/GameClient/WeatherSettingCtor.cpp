@@ -122,7 +122,7 @@ WeatherSetting::WeatherSetting() : Rva00200D38(AsciiString("Weather")), m_58(0),
 	volatile Coord2D *p84 = &m_84;
 	p84->x = 50.0f;
 	p84->y = e20;
-	m_8C.setFromInt(0x886655);
+	m_8C.setFromInt((0x88 << 16) | (0x66 << 8) | 0x55);
 	m_9C.x = 300.0f;
 	m_98 = false;
 	m_9C.y = 1500.0f;

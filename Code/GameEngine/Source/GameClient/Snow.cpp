@@ -48,8 +48,6 @@ public:
     virtual void targetSlot19();
     virtual void targetSlot20();
     virtual void targetSlot21();
-    virtual class WeatherSetting *rva00201153();	// slot 22 (+0x58)
-    virtual void rva00201085();	// slot 23 (+0x5C), right after init
 private:
     float *m_startingHeights;
     float m_time;
@@ -124,6 +122,8 @@ public:
 // snow fields in order; the rest keep offset names.
 class WeatherSetting : public Overridable {
 public:
+    virtual WeatherSetting *rva00201153();
+    virtual void rva00201085();
     unsigned int m_target0C;
     unsigned int m_targetBase10[2];
     unsigned int m_snowTexture;
@@ -184,11 +184,9 @@ extern OVERRIDE<WeatherSetting> TheWeatherSetting;
 OVERRIDE<WeatherSetting> TheWeatherSetting;
 extern void __cdecl operator delete[](void *);
 
-// Retail 0x00201153 (18 bytes), vtable slot 22 just before rva00201085: the
-// final override of the current weather setting, walked from its base entry
-// without a null check (one level inlined, the rest through the rowed
-// Overridable::friend_getFinalOverride 0x001E35DF).
-WeatherSetting *SnowManager::rva00201153()
+// WeatherSetting secondary table VA 0x00BE3064 slot 0 reads the final
+// weather override through Overridable::friend_getFinalOverride.
+WeatherSetting *WeatherSetting::rva00201153()
 {
     WeatherSetting *setting = const_cast<WeatherSetting *>(TheWeatherSetting.getNonOverloadedPointer());
     return static_cast<WeatherSetting *>(setting->friend_getFinalOverride());
@@ -269,12 +267,9 @@ void SnowManager::updateIniSettings()
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
 #pragma comment(linker, "/alternatename:?TheWeatherSetting@@3V?$OVERRIDE@VWeatherSetting@@@@A=?g_Va00DFE118@@3PAVWeatherSetting@@A")
 
-// ?rva00201085@SnowManager@@UAEXXZ @0x00201085 16B: slot 23 of the
-// SnowManager vtable 0x007E300C, between init and the constructor. It ignores
-// this and refreshes the singleton's weather settings, the statement Zero
-// Hour's INI::parseWeatherDefinition ends with:
-// if (TheSnowManager) TheSnowManager->updateIniSettings().
-void SnowManager::rva00201085()
+// WeatherSetting secondary table VA 0x00BE3064 slot 1 refreshes the
+// snow manager when the singleton exists.
+void WeatherSetting::rva00201085()
 {
     if (TheSnowManager)
         TheSnowManager->updateIniSettings();

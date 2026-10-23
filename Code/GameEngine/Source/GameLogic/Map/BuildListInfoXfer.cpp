@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DNDEBUG /MD /EHsc
 // cl: /O1 /DNDEBUG /MD /GX
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -30,6 +30,9 @@
 // at a time instead of ZH's xferUser block.
 
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+
 
 class AsciiString;
 class UnicodeString;
@@ -141,14 +144,14 @@ void XferObjectID( Xfer *xfer, ObjectID *value );
 
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-class BuildListInfo
+class BuildListInfo : public Snapshot
 {
 public:
 	enum { MAX_RESOURCE_GATHERERS = 10 };
+	virtual const char *GetSnapshotName() const;
 protected:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
+	virtual ~BuildListInfo();
+	virtual void loadPostProcess();
 	virtual void xfer( Xfer *xfer );
 private:
 	AsciiString m_buildingName;																								///< 0x04
@@ -177,6 +180,11 @@ private:
 	Int m_desiredGatherers;																										///< 0x78
 	Int m_currentGatherers;																										///< 0x7C
 };
+
+// ?BuildListInfo::loadPostProcess present-unmatched
+void BuildListInfo::loadPostProcess()
+{
+}
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method

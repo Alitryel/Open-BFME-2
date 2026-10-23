@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHsc
 //
 // ??0BuildListInfo@@QAE@ABV0@@Z @0x00329DE6 253B
 // BuildListInfo copy constructor (memberwise, 0x80 bytes).
@@ -18,33 +18,31 @@
 // retail copies those five floats as separate dword moves; copy-constructing
 // the canonical Coord3D/Coord2D (explicit or implicit) emits a movs block
 // instead, so this view declares them as scalars (structural inference).
-// EH state 0 before the first copy comes from the base with a declared-only
-// dtor (BuildListInfoCtor.cpp precedent); retail's state-0 funclet destroys it
-// at this+0, so the base owns the vptr (ZH MemoryPoolObject is the polymorphic
-// base) rather than sitting after a derived vptr.
+// Snapshot owns the vptr at +0; state-0 cleanup calls its destructor
+// before any AsciiString member has completed construction.
 
 // The unwind funclets jump to the out-of-line ~AsciiString 0x0048BA39.
 #define BFME_ASCII_DTOR_DECL
 #include "ascii_string.h"
 
-class EmptyBase
-{
-public:
-	__declspec(dllimport) __forceinline EmptyBase() {}
-	virtual void *deleteInstance(int pool);
-protected:
-	~EmptyBase();
-};
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
 
 struct BuildListGatherers
 {
 	int ids[10];
 };
 
-class BuildListInfo : public EmptyBase
+class BuildListInfo : public Snapshot
 {
 public:
 	BuildListInfo(const BuildListInfo &that);
+	virtual const char *GetSnapshotName() const;
+
+protected:
+	virtual ~BuildListInfo();
+	virtual void loadPostProcess();
+	virtual void xfer(Xfer *);
 
 private:
 	AsciiString m_buildingName; // +0x04
@@ -78,7 +76,7 @@ private:
 };
 
 BuildListInfo::BuildListInfo(const BuildListInfo &that) :
-	EmptyBase(),
+	Snapshot(),
 	m_buildingName(that.m_buildingName),
 	m_templateName(that.m_templateName),
 	m_locationX(that.m_locationX),
