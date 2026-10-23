@@ -19,6 +19,22 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include <deque>
+// These elements copy through real copy constructors; their _Construct
+// bodies are rowed under the real element names, so call those.
+struct BfmePod32;
+class Gen_005e9a20;
+struct BfmePod76;
+class WeaponTemplateSetHead;
+namespace _STL {
+template <> void _Construct<Gen_005e9a20, Gen_005e9a20>(Gen_005e9a20 *, const Gen_005e9a20 &) throw();
+template <> void _Construct<WeaponTemplateSetHead, WeaponTemplateSetHead>(WeaponTemplateSetHead *, const WeaponTemplateSetHead &) throw();
+// 0x00421D16
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod32, BfmePod32>(BfmePod32 *p, const BfmePod32 &v) throw()
+{ _Construct((Gen_005e9a20 *)p, (const Gen_005e9a20 &)v); }
+// 0x000CF418
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod76, BfmePod76>(BfmePod76 *p, const BfmePod76 &v) throw()
+{ _Construct((WeaponTemplateSetHead *)p, (const WeaponTemplateSetHead &)v); }
+}
 // Suppress this TU's non-retail copy of ?erase@?$vector@UBfmePod68@@V?$allocator@UBfmePod68@@@_STL@@@_STL@@QAEPAUBfmePod68@@PAU3@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod68;

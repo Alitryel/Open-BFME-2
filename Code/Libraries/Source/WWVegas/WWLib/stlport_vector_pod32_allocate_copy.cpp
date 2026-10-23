@@ -15,6 +15,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// These elements copy through real copy constructors; their _Construct
+// bodies are rowed under the real element names, so call those.
+struct BfmePod32;
+class Gen_005e9a20;
+namespace _STL {
+template <> void _Construct<Gen_005e9a20, Gen_005e9a20>(Gen_005e9a20 *, const Gen_005e9a20 &);
+// 0x00421D16
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod32, BfmePod32>(BfmePod32 *p, const BfmePod32 &v)
+{ _Construct((Gen_005e9a20 *)p, (const Gen_005e9a20 &)v); }
+}
 struct BfmePod32 { int a[8]; };
 // bfme link decl-only BfmePod32
 namespace _STL { template <> vector<BfmePod32, allocator<BfmePod32> >::~vector(); }

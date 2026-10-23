@@ -25,6 +25,34 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include <algorithm>
+// These elements copy through real copy constructors; their _Construct
+// bodies are rowed under the real element names, so call those.
+struct BfmePod128;
+class BuildListInfo;
+struct BfmePod32;
+class Gen_005e9a20;
+struct BfmePod40;
+class Rva0052BD59;
+struct BfmePod76;
+class WeaponTemplateSetHead;
+namespace _STL {
+template <> void _Construct<BuildListInfo, BuildListInfo>(BuildListInfo *, const BuildListInfo &) throw();
+template <> void _Construct<Gen_005e9a20, Gen_005e9a20>(Gen_005e9a20 *, const Gen_005e9a20 &) throw();
+template <> void _Construct<Rva0052BD59, Rva0052BD59>(Rva0052BD59 *, const Rva0052BD59 &) throw();
+template <> void _Construct<WeaponTemplateSetHead, WeaponTemplateSetHead>(WeaponTemplateSetHead *, const WeaponTemplateSetHead &) throw();
+// 0x0032A2AF
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod128, BfmePod128>(BfmePod128 *p, const BfmePod128 &v) throw()
+{ _Construct((BuildListInfo *)p, (const BuildListInfo &)v); }
+// 0x00421D16
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod32, BfmePod32>(BfmePod32 *p, const BfmePod32 &v) throw()
+{ _Construct((Gen_005e9a20 *)p, (const Gen_005e9a20 &)v); }
+// 0x0052C320
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod40, BfmePod40>(BfmePod40 *p, const BfmePod40 &v) throw()
+{ _Construct((Rva0052BD59 *)p, (const Rva0052BD59 &)v); }
+// 0x000CF418
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod76, BfmePod76>(BfmePod76 *p, const BfmePod76 &v) throw()
+{ _Construct((WeaponTemplateSetHead *)p, (const WeaponTemplateSetHead &)v); }
+}
 // Native 0x00025AD0 is supplied by stlport_vector_voidptr.cpp.
 // Keep this profile from emitting a competing allocator-proxy swap.
 namespace _STL {

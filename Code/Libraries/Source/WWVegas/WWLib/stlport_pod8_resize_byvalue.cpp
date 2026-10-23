@@ -36,6 +36,15 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 }
 
 #include "../../../../GameEngine/Source/Common/BattlePromptArmyPanelClipImplView.h"
+// These elements copy through real copy constructors; their _Construct
+// bodies are rowed under the real element names, so call those.
+struct BfmePod8;
+void __cdecl Rva004C3A9FConstruct(void *, const void *) throw();
+namespace _STL {
+// 0x004C3A9F
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod8, BfmePod8>(BfmePod8 *p, const BfmePod8 &v) throw()
+{ ::Rva004C3A9FConstruct(p, &v); }
+}
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@UBfmePod8@@@_STL@@QBEPAUBfmePod8@@IPBX@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod8;

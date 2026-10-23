@@ -21,6 +21,21 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// These elements copy through real copy constructors; their _Construct
+// bodies are rowed under the real element names, so call those.
+struct BfmePod16;
+struct BfmeNarrowRecord0041A617;
+struct BfmePod8;
+void __cdecl Rva004C3A9FConstruct(void *, const void *);
+namespace _STL {
+template <> void _Construct<BfmeNarrowRecord0041A617, BfmeNarrowRecord0041A617>(BfmeNarrowRecord0041A617 *, const BfmeNarrowRecord0041A617 &);
+// 0x0041A727
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod16, BfmePod16>(BfmePod16 *p, const BfmePod16 &v)
+{ _Construct((BfmeNarrowRecord0041A617 *)p, (const BfmeNarrowRecord0041A617 &)v); }
+// 0x004C3A9F
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod8, BfmePod8>(BfmePod8 *p, const BfmePod8 &v)
+{ ::Rva004C3A9FConstruct(p, &v); }
+}
 // Suppress this TU's non-retail copy of ?erase@?$vector@UBfmePod12@@V?$allocator@UBfmePod12@@@_STL@@@_STL@@QAEPAUBfmePod12@@PAU3@0:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod12;

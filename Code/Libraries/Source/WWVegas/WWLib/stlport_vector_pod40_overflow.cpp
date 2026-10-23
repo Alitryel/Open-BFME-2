@@ -30,6 +30,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
+// These elements copy through real copy constructors; their _Construct
+// bodies are rowed under the real element names, so call those.
+struct BfmePod40;
+class Rva0052BD59;
+namespace _STL {
+template <> void _Construct<Rva0052BD59, Rva0052BD59>(Rva0052BD59 *, const Rva0052BD59 &);
+// 0x0052C320
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod40, BfmePod40>(BfmePod40 *p, const BfmePod40 &v)
+{ _Construct((Rva0052BD59 *)p, (const Rva0052BD59 &)v); }
+}
 // Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmePod40@@@_STL@@YAXPAUBfmePod40@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod40;

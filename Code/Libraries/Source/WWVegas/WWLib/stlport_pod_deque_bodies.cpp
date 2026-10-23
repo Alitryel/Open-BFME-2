@@ -19,6 +19,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <deque>
+// These elements copy through real copy constructors; their _Construct
+// bodies are rowed under the real element names, so call those.
+struct BfmePod16;
+struct BfmeNarrowRecord0041A617;
+namespace _STL {
+template <> void _Construct<BfmeNarrowRecord0041A617, BfmeNarrowRecord0041A617>(BfmeNarrowRecord0041A617 *, const BfmeNarrowRecord0041A617 &);
+// 0x0041A727
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod16, BfmePod16>(BfmePod16 *p, const BfmePod16 &v)
+{ _Construct((BfmeNarrowRecord0041A617 *)p, (const BfmeNarrowRecord0041A617 &)v); }
+}
 // Suppress this TU's non-retail copy of ??$__destroy_aux@U?$_Deque_iterator@UBfmePod16@@U?$_Nonconst_traits@UBfmePod16@@@_STL@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod16;
