@@ -10,13 +10,15 @@ class Rva00567860
 {
 public:
 	Rva00567860(const Rva00567860 &that);
-	virtual void slot00();
+	virtual void slot00() = 0;
 };
 
 class Rva00567847 : public Rva00567860
 {
 public:
 	Rva00567847(const Rva00567847 &other);
+	// As Rva0059B7CBCtor.cpp's view, so both units emit one vtable copy.
+	virtual void slot00() {}
 
 private:
 	unsigned int m_04;
