@@ -115,6 +115,13 @@
 ** - The camera should pitch up and down a lot more than it yaws left and right.
 */
 
+// The shaker pool's allocate is the rowed 0x000658DB body (137 bytes, a
+// different shape from this template's), so call it there.
+class Rva00065964ObjectPool { public: void *rva000658DB(); };
+template <> __declspec(dllimport) __forceinline CameraShakeSystemClass::CameraShakerClass *
+ObjectPoolClass<CameraShakeSystemClass::CameraShakerClass, 256>::Allocate_Object_Memory()
+{ return (CameraShakeSystemClass::CameraShakerClass *)((Rva00065964ObjectPool *)this)->rva000658DB(); }
+
 DEFINE_AUTO_POOL(CameraShakeSystemClass::CameraShakerClass,256);
 
 const float MIN_OMEGA			= DEG_TO_RADF(12.5f*360.0f);
@@ -156,6 +163,10 @@ CameraShakeSystemClass::CameraShakerClass::CameraShakerClass
 
 
 
+
+CameraShakeSystemClass::CameraShakerClass::~CameraShakerClass(void)
+{
+}
 
 void CameraShakeSystemClass::CameraShakerClass::Compute_Rotations(const Vector3 & camera_position, Vector3 * set_angles)
 {
