@@ -1,8 +1,8 @@
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// ??1Rva004FC4D1@@UAE@XZ, retail 0x004FC4D1..0x004FC55D (140 bytes, EH);
-// pinned until now as the opaque ??1Rva004FC4D1@@UAE@XZ. A living-world
+// ??1LivingWorldBuildPlot@@UAE@XZ, retail 0x004FC4D1..0x004FC55D (140 bytes, EH);
+// pinned until now as the opaque ??1LivingWorldBuildPlot@@UAE@XZ. A living-world
 // listener holder with three bases (the Snapshot at +0, a 4-byte interface
 // at +4 under vtable 0x00C63528 that the object registers with the
 // listener list at +0x1C of TheLivingWorldLogic, and the listener list at
@@ -58,10 +58,10 @@ public:
 };
 extern LivingWorldLogic *TheLivingWorldLogic;
 
-class Rva004FC4D1 : public Snapshot, public _STL::vector<ObjectID>, public RegionTurnObserverView
+class LivingWorldBuildPlot : public Snapshot, public _STL::vector<ObjectID>, public RegionTurnObserverView
 {
 public:
-	virtual ~Rva004FC4D1();
+	virtual ~LivingWorldBuildPlot();
 	virtual void BeginTurn(int a, int b);
 private:
 	char m_pad14[0x20 - 0x14];
@@ -69,7 +69,7 @@ private:
 	Rva000AD6F4 m_24;
 };
 
-Rva004FC4D1::~Rva004FC4D1()
+LivingWorldBuildPlot::~LivingWorldBuildPlot()
 {
 	((Rva004FC320List *)static_cast<_STL::vector<ObjectID> *>(this))->forEach(&Rva004FC320Listener::notify, this);
 	TheLivingWorldLogic->m_1C.rva002B7250((CreateAHeroData *)static_cast<RegionTurnObserverView *>(this));
@@ -94,7 +94,7 @@ public:
 // The +4 observer adjusts the callback receiver: building +20 and icon +24
 // become callback-relative +1C and +20. The Snapshot name and constructor
 // 4FC807 separately identify the complete owner as LivingWorldBuildPlot.
-void Rva004FC4D1::BeginTurn(int a, int b)
+void LivingWorldBuildPlot::BeginTurn(int a, int b)
 {
 	if (!a)
 	{

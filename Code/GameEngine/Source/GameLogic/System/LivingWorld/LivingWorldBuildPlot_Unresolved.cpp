@@ -34,14 +34,7 @@ private:
     int m_index;
 };
 
-class LivingWorldPhaseObserver
-{
-public:
-    LivingWorldPhaseObserver() {}
-    virtual ~LivingWorldPhaseObserver();
-    virtual void slot00(int, int) {}
-    virtual void slot04(int, int) {}
-};
+#include "../../../../Include/Common/RegionTurnObserverView.h"
 class Object;
 class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;
@@ -89,7 +82,7 @@ private:
     LivingWorldBuildPlotIcon *m_icon;
 };
 class LivingWorldBuildPlot : public Snapshot, public Rva00330757Member,
-                            public LivingWorldPhaseObserver
+                            public RegionTurnObserverView
 {
 public:
     LivingWorldBuildPlot(int id, LivingWorldRegion *region, const Coord2D &position);
@@ -97,7 +90,7 @@ public:
     virtual void loadPostProcess() = 0;
     virtual void crc(Xfer *xfer) = 0;
     virtual void xfer(Xfer *xfer) = 0;
-    virtual void slot00(int, int) = 0;
+    virtual void BeginTurn(int, int);
     void CreateIcon(const AsciiString &iconName);
     void ConstructBuildingImmediately(const Rva003F1BD3TemplateView *templ);
 private:
@@ -223,5 +216,5 @@ LivingWorldBuildPlot::LivingWorldBuildPlot(int id, LivingWorldRegion *region,
     if (player)
         CreateIcon(player->m_template->m_iconName);
     ((Rva005A0B4CList *)((char *)TheLivingWorldLogic + 0x1C))->append(
-        (Rva002BA8F1Listener *)(LivingWorldPhaseObserver *)this);
+        (Rva002BA8F1Listener *)(RegionTurnObserverView *)this);
 }

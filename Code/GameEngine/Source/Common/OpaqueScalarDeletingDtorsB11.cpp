@@ -357,16 +357,16 @@ Rva004FBCBE::Rva004FBCBE(EmitVtableTag *)
 {
 }
 
-class Rva004FC4D1
+class LivingWorldBuildPlot
 {
 public:
-	Rva004FC4D1(EmitVtableTag *);
+	LivingWorldBuildPlot(EmitVtableTag *);
 public:
-	virtual ~Rva004FC4D1();
+	virtual ~LivingWorldBuildPlot();
 };
 
-// ?<Rva004FC4D1::Rva004FC4D1> absent-from-retail
-Rva004FC4D1::Rva004FC4D1(EmitVtableTag *)
+// ?<LivingWorldBuildPlot::LivingWorldBuildPlot> absent-from-retail
+LivingWorldBuildPlot::LivingWorldBuildPlot(EmitVtableTag *)
 {
 }
 
