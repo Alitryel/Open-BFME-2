@@ -1,0 +1,151 @@
+// cl: /O2 /MD /EHsc /GR-
+// Split from AptScriptFunctionBodies.cpp: these definitions reference a callee with no matched body yet,
+// so they are kept apart from the unit's bodies that already link.
+#include "AptScriptFunction.h"
+// The original PDB gives SIX arguments: constantPool occupies two stack words.
+// The older seven-pointer attempt misidentified these words and member stores.
+// Redwood6 APT0.19.03 private ctor record and PC full71-byte comparison agree;
+// later APT3.02.02 AptScriptFunction.cpp SHA256
+// e20eb4d1c0efde20bbea01f5c7d0ad49b9c6d178e2378f0eec9ed4ae18a6010b independently
+// confirms this initializer sequence. Target, not the later enum, supplies45.
+AptScriptFunctionByteCodeBlock::AptScriptFunctionByteCodeBlock(
+    const unsigned char *pBytecodeBase, int blockSize, AptConstantPool constantPool,
+    const char *pName, AptCIH *pCurCIH, AptScriptFunctionBase *pCreatorFunction)
+    : AptScriptFunctionBase(AptVFT_ScriptFunctionByteCodeBlock, pCreatorFunction, pCurCIH, false),
+      mpByteCodeBase(pBytecodeBase), mnByteCodeSize(blockSize), mpName(pName),
+      mConstantPool(constantPool)
+{
+}
+
+
+// Original donor virtual slots23 and PC full67/130B bodies establish both
+// cleanup methods. The later source retains this frame restoration and register
+// release loop. PC reads frame reserve+2C and saved frame/register pointers+0/+4.
+// The inline base emits its own COMDAT and is inlined in Function2 as in retail.
+extern AptValue *gpUndefinedValue;
+inline void AptScriptFunctionBase::CleanupAfterExecution(_AptScriptFunctionState *pState)
+{
+    if(spFrameStack) {
+        mnFrameStackReserve = (unsigned short)spFrameStack->GetNativeHashVirtual()->mnTotalSize;
+        spFrameStack->Release();
+    }
+    spFrameStack = pState->mpFrameStack;
+}
+
+
+// Native E1835C starts at zero. Existing address-derived frame-root users
+// bind this one definition through their linker aliases.
+AptFrameStack *AptScriptFunctionBase::spFrameStack;
+
+class EAStringC
+{
+public:
+    EAStringC(const char *);
+    ~EAStringC();
+private:
+    void *data;
+};
+EAStringC *Rva0070B4F0GetString(int);
+extern AptValue *gpGlobalGlobalObject;
+extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *,const char *,int);
+extern int g_bfmeAptBreakOnAssertAtDDC01C;
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+// Original PDB and PC vtable8EE9A0 slot21 establish the two-argument API.
+// Later APT source supplies the preload algorithm; its override-this/super
+// arguments were added after this version and are absent in the PC body.
+// Native+0A flag tests and constant-string IDs A4/A0 establish the target data.
+__forceinline AptValue **advanceRegisters(AptValue **aptValue,int n) { return aptValue+n; }
+
+
+// Existing providers own the predicate and the zero-initialized global storage.
+#pragma comment(linker, "/alternatename:?getIsDefined@AptValue@@QBE_NXZ=?get@Rva006DBB60ShrNAndField@@QBE_NXZ")
+#pragma comment(linker, "/alternatename:?gpGlobalGlobalObject@@3PAVAptValue@@A=?g_00E18650@@3VEAStringC@@A")
+
+#define CHECK_AT(c,s,f,l) if(!(c)) { g_bfmeAptAssertAtE17734(s,f,l); if(g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak(); }
+class AptCIH : public AptValue
+{
+public:
+    AptCIH *GetRootAnimation();
+    void IncZombieCount() {
+        CHECK_AT(nZombieCounter < 65536, "nZombieCounter < 65536", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h", 0x53);
+        nZombieCounter=nZombieCounter+1;
+    }
+private:
+    // Native CIH adds four bytes before this field versus the original donor.
+    // PC ctor709870 accesses the 16-bit zombie count at+5C, not donor+58.
+    char remaining[0x5c-8];
+    unsigned int nZombieCounter : 16;
+};
+class Rva006D2A60 { public: void *allocBlock(int); void freeBlock(void *, int); };
+extern Rva006D2A60 *g_pChainBlockAllocatorF4;
+class AptPrototype : public AptValueWithHash
+{
+public:
+    AptPrototype();
+    static void *operator new(unsigned int n) { return g_pChainBlockAllocatorF4->allocBlock(n); }
+    static void operator delete(void *, unsigned int);
+private:
+    AptValue *mp__constructor__;
+};
+AptCIH *_AptGetAnimationAtLevel(int);
+// Native E180F0 is zero-filled and has no existing provider.
+AptPrototype *gpObjectPrototype;
+// ?AptObject::AptObject present-unmatched
+inline AptObject::AptObject(AptVirtualFunctionTable_Indices t, int n) : AptValueWithHash(t,n), mnImplementedObjects(0), mbHasClass(0), mbIsInMainInst(0) {}
+inline void AptNativeHash::SetPrototype(AptValue *aptValue) { if(aptValue) aptValue->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=aptValue; }
+inline void AptNativeHash::Set__Proto__(AptValue *aptValue) { if(aptValue) aptValue->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=aptValue; }
+// Original private PDB signature and three native derived constructors establish
+// this identity. Later source confirms scope/prototype ownership; native lacks
+// the later init-action test and function-prototype assignment. FuncInfo964088
+// has base destruction and the 32-byte allocation cleanup; both providers alias
+// below. This also resolves the banked attempt's opaque-base codegen differences.
+AptScriptFunctionBase::AptScriptFunctionBase(AptVirtualFunctionTable_Indices eType, AptScriptFunctionBase *pCreatorFunction, AptCIH *pCurCIH, bool bNeedsPrototype)
+ : AptObject(eType), mpCIH(pCurCIH), mpParentAnim(0), mpCreatorScope(0), mnFrameStackReserve(0)
+{
+    CHECK_AT(spRegBlockBase, "spRegBlockBase", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptObject\\AptScriptFunction.cpp", 0xF4);
+    if(pCreatorFunction) {
+        pCreatorFunction->CreatingNestedFunction();
+        mpCreatorScope=spFrameStack;
+        if(mpCreatorScope) mpCreatorScope->AddRef();
+    }
+    if(pCurCIH->isCIH()) mpParentAnim=mpCIH->GetRootAnimation();
+    else mpParentAnim=_AptGetAnimationAtLevel(0);
+    mpCIH->AddRef();
+    mpParentAnim->AddRef();
+    mpParentAnim->IncZombieCount();
+    if(bNeedsPrototype) {
+        AptPrototype *pConstructorPrototype=new AptPrototype();
+        mNativeHash.SetPrototype(pConstructorPrototype);
+        pConstructorPrototype->GetNativeHashVirtual()->Set__Proto__(gpObjectPrototype);
+    }
+}
+
+// Native709A10..709B78 is the three-argument clone overload: ret12 and
+// the original function reads at+28/+14/+10 establish its distinct ABI.
+// WB179ABF0 supplies the class/constructor name and clone semantics; native
+// CIH+5C and both hash-pointer reference-count transfers establish layout.
+// It inherits the original creator scope without CreatingNestedFunction(),
+// and copies both prototype pointers instead of allocating a prototype.
+AptScriptFunctionBase::AptScriptFunctionBase(AptVirtualFunctionTable_Indices eType, AptScriptFunctionBase *pOrigFunc, AptCIH *pCurCIH)
+ : AptObject(eType),mpCIH(pCurCIH),mpParentAnim(0),mnFrameStackReserve(0)
+{
+    CHECK_AT(spRegBlockBase, "spRegBlockBase", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptObject\\AptScriptFunction.cpp", 0x131);
+    CHECK_AT(pOrigFunc, "pOrigFunc", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptObject\\AptScriptFunction.cpp", 0x132);
+    mpCreatorScope=pOrigFunc->mpCreatorScope;
+    if(pCurCIH->isCIH())mpParentAnim=mpCIH->GetRootAnimation();
+    else mpParentAnim=_AptGetAnimationAtLevel(0);
+    if(mpCreatorScope)mpCreatorScope->AddRef();
+    mpCIH->AddRef();
+    mpParentAnim->AddRef();
+    mpParentAnim->IncZombieCount();
+    mNativeHash.SetPrototype(pOrigFunc->mNativeHash.mpPrototype);
+    mNativeHash.Set__Proto__(pOrigFunc->mNativeHash.mp__proto__);
+}
+
+#undef CHECK_AT
+#pragma comment(linker, "/alternatename:??0AptPrototype@@QAE@XZ=??0Rva006DE1A0@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?isCIH@AptValue@@QBE_N_N@Z=?isCIH@BfmeAptValue006DCD20@@QBE_N_N@Z")
+#pragma comment(linker, "/alternatename:?GetRootAnimation@AptCIH@@QAEPAV1@XZ=?rva006E0CB0@AptCIH@@QBEPBV1@XZ")
+#pragma comment(linker, "/alternatename:??1AptObject@@MAE@XZ=??1Rva006D6470Owner@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??3AptPrototype@@SAXPAXI@Z=?Rva006F12F0Free@@YAXPAXH@Z")

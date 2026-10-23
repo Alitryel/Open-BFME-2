@@ -1,19 +1,6 @@
 // cl: /O2 /MD /EHsc /GR-
 #include "AptScriptFunction.h"
-// The original PDB gives SIX arguments: constantPool occupies two stack words.
-// The older seven-pointer attempt misidentified these words and member stores.
-// Redwood6 APT0.19.03 private ctor record and PC full71-byte comparison agree;
-// later APT3.02.02 AptScriptFunction.cpp SHA256
-// e20eb4d1c0efde20bbea01f5c7d0ad49b9c6d178e2378f0eec9ed4ae18a6010b independently
-// confirms this initializer sequence. Target, not the later enum, supplies45.
-AptScriptFunctionByteCodeBlock::AptScriptFunctionByteCodeBlock(
-    const unsigned char *pBytecodeBase, int blockSize, AptConstantPool constantPool,
-    const char *pName, AptCIH *pCurCIH, AptScriptFunctionBase *pCreatorFunction)
-    : AptScriptFunctionBase(AptVFT_ScriptFunctionByteCodeBlock, pCreatorFunction, pCurCIH, false),
-      mpByteCodeBase(pBytecodeBase), mnByteCodeSize(blockSize), mpName(pName),
-      mConstantPool(constantPool)
-{
-}
+
 // PC vtable8EE9A0 slot20 points to709D30. Its21 bytes equal the original donor
 // body; the single ret4 argument is the hidden structure-return pointer.
 AptConstantPool AptScriptFunction2::GetConstantPool()
@@ -143,53 +130,8 @@ AptPrototype *gpObjectPrototype;
 inline AptObject::AptObject(AptVirtualFunctionTable_Indices t, int n) : AptValueWithHash(t,n), mnImplementedObjects(0), mbHasClass(0), mbIsInMainInst(0) {}
 inline void AptNativeHash::SetPrototype(AptValue *aptValue) { if(aptValue) aptValue->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=aptValue; }
 inline void AptNativeHash::Set__Proto__(AptValue *aptValue) { if(aptValue) aptValue->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=aptValue; }
-// Original private PDB signature and three native derived constructors establish
-// this identity. Later source confirms scope/prototype ownership; native lacks
-// the later init-action test and function-prototype assignment. FuncInfo964088
-// has base destruction and the 32-byte allocation cleanup; both providers alias
-// below. This also resolves the banked attempt's opaque-base codegen differences.
-AptScriptFunctionBase::AptScriptFunctionBase(AptVirtualFunctionTable_Indices eType, AptScriptFunctionBase *pCreatorFunction, AptCIH *pCurCIH, bool bNeedsPrototype)
- : AptObject(eType), mpCIH(pCurCIH), mpParentAnim(0), mpCreatorScope(0), mnFrameStackReserve(0)
-{
-    CHECK_AT(spRegBlockBase, "spRegBlockBase", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptObject\\AptScriptFunction.cpp", 0xF4);
-    if(pCreatorFunction) {
-        pCreatorFunction->CreatingNestedFunction();
-        mpCreatorScope=spFrameStack;
-        if(mpCreatorScope) mpCreatorScope->AddRef();
-    }
-    if(pCurCIH->isCIH()) mpParentAnim=mpCIH->GetRootAnimation();
-    else mpParentAnim=_AptGetAnimationAtLevel(0);
-    mpCIH->AddRef();
-    mpParentAnim->AddRef();
-    mpParentAnim->IncZombieCount();
-    if(bNeedsPrototype) {
-        AptPrototype *pConstructorPrototype=new AptPrototype();
-        mNativeHash.SetPrototype(pConstructorPrototype);
-        pConstructorPrototype->GetNativeHashVirtual()->Set__Proto__(gpObjectPrototype);
-    }
-}
 
-// Native709A10..709B78 is the three-argument clone overload: ret12 and
-// the original function reads at+28/+14/+10 establish its distinct ABI.
-// WB179ABF0 supplies the class/constructor name and clone semantics; native
-// CIH+5C and both hash-pointer reference-count transfers establish layout.
-// It inherits the original creator scope without CreatingNestedFunction(),
-// and copies both prototype pointers instead of allocating a prototype.
-AptScriptFunctionBase::AptScriptFunctionBase(AptVirtualFunctionTable_Indices eType, AptScriptFunctionBase *pOrigFunc, AptCIH *pCurCIH)
- : AptObject(eType),mpCIH(pCurCIH),mpParentAnim(0),mnFrameStackReserve(0)
-{
-    CHECK_AT(spRegBlockBase, "spRegBlockBase", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptObject\\AptScriptFunction.cpp", 0x131);
-    CHECK_AT(pOrigFunc, "pOrigFunc", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptObject\\AptScriptFunction.cpp", 0x132);
-    mpCreatorScope=pOrigFunc->mpCreatorScope;
-    if(pCurCIH->isCIH())mpParentAnim=mpCIH->GetRootAnimation();
-    else mpParentAnim=_AptGetAnimationAtLevel(0);
-    if(mpCreatorScope)mpCreatorScope->AddRef();
-    mpCIH->AddRef();
-    mpParentAnim->AddRef();
-    mpParentAnim->IncZombieCount();
-    mNativeHash.SetPrototype(pOrigFunc->mNativeHash.mpPrototype);
-    mNativeHash.Set__Proto__(pOrigFunc->mNativeHash.mp__proto__);
-}
+
 
 #undef CHECK_AT
 #pragma comment(linker, "/alternatename:??0AptPrototype@@QAE@XZ=??0Rva006DE1A0@@QAE@XZ")
