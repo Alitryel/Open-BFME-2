@@ -5,7 +5,16 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva0021EFC2Element { char bytes[216]; bool operator<(const Rva0021EFC2Element&)const; bool operator==(const Rva0021EFC2Element&)const; };
+// Retail's loop calls _Construct<CreateAHeroManager::CreateAHeroSubClass> (0x0021EF66,
+// stlport_construct_pod216.cpp), so the 216-byte element is that class.
+class CreateAHeroManager
+{
+public:
+    class CreateAHeroSubClass { public: int a[54]; };
+};
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<CreateAHeroManager::CreateAHeroSubClass, CreateAHeroManager::CreateAHeroSubClass>(CreateAHeroManager::CreateAHeroSubClass *, CreateAHeroManager::CreateAHeroSubClass const &); }
+// bfme link decl-only end
 
 // Instantiate the recovered operation and its required template dependencies.
-template Rva0021EFC2Element * _STL::__uninitialized_fill_n<Rva0021EFC2Element *, unsigned int, Rva0021EFC2Element>(Rva0021EFC2Element *, unsigned int, Rva0021EFC2Element const &, _STL::__false_type const &);
+template CreateAHeroManager::CreateAHeroSubClass * _STL::__uninitialized_fill_n<CreateAHeroManager::CreateAHeroSubClass *, unsigned int, CreateAHeroManager::CreateAHeroSubClass>(CreateAHeroManager::CreateAHeroSubClass *, unsigned int, CreateAHeroManager::CreateAHeroSubClass const &, _STL::__false_type const &);
