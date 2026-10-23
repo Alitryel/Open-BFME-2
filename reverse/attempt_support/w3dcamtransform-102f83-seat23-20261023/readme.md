@@ -21,7 +21,9 @@ Do not mistake that for solving most remaining instruction differences.
 
 ## Inputs and reproducibility
 
-Base tree: `040f647a54` (the preceding exact FXShaderGeometry::Init recovery).
+Experiment base: local `040f647a54`, published after rebase as `080384f1c9`
+(the preceding exact FXShaderGeometry::Init recovery). The original bank at
+the published revision has the identical SHA256 below.
 Incoming bank SHA256:
 `b8594a3f29cceeb0dbcea8d7bef9a85eb58bc09f3641dee7fac4a2fad7448b6c`.
 BFME 1 pointer: `f890413e75e671748215ba2ef3304aa7953993e9`.
@@ -32,7 +34,7 @@ compiles. A second independent private compile reproduces the winning result.
 
 Copy `search.py.txt` to an ignored build directory as `search.py`, and run from
 the repository root, e.g. `python3 build/camera-repro/search.py namedvalues`.
-It obtains the original input using `git show 040f647a54:reverse/attempts/0x00102f83.cpp`,
+It obtains the original input using `git show 080384f1c9:reverse/attempts/0x00102f83.cpp`,
 so rebanking cannot silently alter the experiment. It uses eight worker
 processes. `recombine.py.txt` takes a family and namedvalues bit string; run
 `namedvalues` first. Its helpers intentionally remain diagnostic/reconstruction
