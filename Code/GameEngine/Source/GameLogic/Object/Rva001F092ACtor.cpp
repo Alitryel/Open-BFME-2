@@ -38,18 +38,18 @@ __forceinline BFME2NativeNetwork::BFME2NativeNetwork()
 	reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface();
 }
 
-class Rva001F092A : public BFME2NativeNetwork
+class ObjectCreationListStore : public BFME2NativeNetwork
 {
 public:
-	Rva001F092A();
+	ObjectCreationListStore();
 private:
 	_STL::map<int, void *> m_map;
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_vec0;
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_vec1;
 public:
-	virtual ~Rva001F092A();	// rowed elsewhere; declared so this unit binds to it
+	virtual ~ObjectCreationListStore();	// rowed elsewhere; declared so this unit binds to it
 };
 
-Rva001F092A::Rva001F092A()
+ObjectCreationListStore::ObjectCreationListStore()
 {
 }

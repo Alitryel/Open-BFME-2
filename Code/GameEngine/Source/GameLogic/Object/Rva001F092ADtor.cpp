@@ -7,7 +7,7 @@
 // (retail loads both iterators into registers before pushing them) which also
 // moves the `this`-reference weight so this lands in EBX.
 // ??1Rva001F092A@@UAE@XZ @0x001F0996 302B.
-// Complete-object destructor of Rva001F092A (its scalar deleting dtor at
+// Complete-object destructor of ObjectCreationListStore (its scalar deleting dtor at
 // 0x001F0BEF calls here; vtable 0x00BE100C re-stated at entry like the
 // rowed base dtor 0x001B4E74 does). Layout evidence (target facts):
 // - Base is the 12B SubsystemInterface view (virtual dtor rowed 0x001B4E74,
@@ -47,7 +47,7 @@ public:
 
 // The base destructor 0x001B4E74 is rowed as ??1SubsystemInterface@@UAE@XZ.
 // Its second slot is the pure virtual Rva001F092ACtor.cpp's view declares,
-// so both units emit the same two-slot Rva001F092A vftable.
+// so both units emit the same two-slot ObjectCreationListStore vftable.
 class SubsystemInterface
 {
 public:
@@ -106,10 +106,10 @@ struct Rva001F092AVec
 	void **m_storage;
 };
 
-class Rva001F092A : public SubsystemInterface
+class ObjectCreationListStore : public SubsystemInterface
 {
 public:
-	virtual ~Rva001F092A();
+	virtual ~ObjectCreationListStore();
 private:
 	Rva001F050B m_list0C;
 	int m_pad14;
@@ -117,9 +117,9 @@ private:
 	Rva001F092AVec m_vec24;
 };
 
-Rva001F092A::~Rva001F092A()
+ObjectCreationListStore::~ObjectCreationListStore()
 {
-	Rva001F092A *self = this;
+	ObjectCreationListStore *self = this;
 	Rva001F0996Elem1 **finish=(Rva001F0996Elem1 **)self->m_vec24.m_end;
 	Rva001F092AVec &v24 = self->m_vec24;
 	Rva001F0996Elem1 **i = (Rva001F0996Elem1 **)v24.m_begin;

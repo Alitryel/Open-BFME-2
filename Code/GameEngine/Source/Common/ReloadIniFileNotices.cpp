@@ -78,13 +78,13 @@ bool Rva001E2AD9::rva001E0DB9(int reason)
 	return false;
 }
 
-class Rva001F092A : public RifStore
+class ObjectCreationListStore : public RifStore
 {
 public:
 	virtual bool rva001F04D9(int reason);
 };
 
-bool Rva001F092A::rva001F04D9(int reason)
+bool ObjectCreationListStore::rva001F04D9(int reason)
 {
 	if (rva001B5384Slot2())
 	{

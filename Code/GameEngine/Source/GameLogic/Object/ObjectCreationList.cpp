@@ -1455,24 +1455,8 @@ Object* ObjectCreationList::createInternal( const Object* primary, const Object*
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-// ??0ObjectCreationListStore@@ present-unmatched
-ObjectCreationListStore::ObjectCreationListStore()
-{
-}
+// The complete constructor and destructor are defined by the retail owner units.
 
-//-------------------------------------------------------------------------------------------------
-// ??1ObjectCreationListStore@@ present-unmatched
-ObjectCreationListStore::~ObjectCreationListStore()
-{
-	for (ObjectCreationNuggetVector::iterator i = m_nuggets.begin(); i != m_nuggets.end(); ++i)
-	{
-		if (*i)
-			(*i)->deleteInstance();
-	}
-	m_nuggets.clear();
-}
-
-//-------------------------------------------------------------------------------------------------
 // Native IAT 0x00BBA518 is msvcr71.dll's _strcmpi import.
 extern "C" int (__cdecl *_imp___strcmpi)(const char *, const char *);
 const ObjectCreationList *ObjectCreationListStore::findObjectCreationList(const char* name) const
