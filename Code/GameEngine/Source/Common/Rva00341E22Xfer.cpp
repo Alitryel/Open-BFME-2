@@ -10,16 +10,24 @@
 // ShipSlowDeathBehavior::xfer 0x0045ED0E precedent. Flags copy the neighbour
 // Rva0049B47CDerived.cpp (/O1 /MD).
 
-class Xfer
-{
-public:
-	virtual ~Xfer();
-	void Version1();
-	virtual bool IsLoading() const;
-	virtual bool IsStoring() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../Include/Common/BfmeXfer.h"
 
 class Rva0049B47C
 {

@@ -412,16 +412,24 @@ Int Rva0043D3DA::rva0043D41E(Int msg, unsigned char b, Int c)
 // 0x004A3B95: a module xfer: version 1, the rowed UpdateModule::xfer, then
 // (unless light CRC) the ten object ids at +0xCC through the rowed
 // XferObjectID.
-class Xfer
-{
-public:
-	void Version1();
-	virtual ~Xfer();
-	virtual bool IsLoading() const;
-	virtual bool IsStoring() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../Include/Common/BfmeXfer.h"
 void XferObjectID(Xfer *xfer, ObjectID *id);
 class UpdateModule
 {

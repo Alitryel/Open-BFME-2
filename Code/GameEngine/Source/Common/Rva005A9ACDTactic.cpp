@@ -22,16 +22,23 @@
 class Object;
 class Team;
 class Snapshot;
-class Xfer
-{
-public:
-	class Version;
-	virtual ~Xfer();
-	virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4();
-	virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8();
-	virtual void v9();
-	virtual Xfer &operator==(Version &value);
-};
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../Include/Common/BfmeXfer.h"
 
 class Xfer::Version
 {

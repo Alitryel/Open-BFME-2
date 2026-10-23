@@ -16,9 +16,24 @@ typedef bool Bool;
 typedef int Int;
 enum SnapshotType { SNAPSHOT_SAVELOAD = 0, SNAPSHOT_DEEPCRC_LOGICONLY = 1, SNAPSHOT_NATIVE3 = 3, SNAPSHOT_NATIVE4 = 4 };
 
-class Xfer
-{
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../../../Include/Common/BfmeXfer.h"
 
 // Retail's twelve-byte subsystem base ahead of the Snapshot view, per the
 // rowed GameStateInit unit: a virtual slot plus eight opaque bytes.

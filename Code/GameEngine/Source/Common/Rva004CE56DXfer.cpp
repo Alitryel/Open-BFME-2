@@ -2,10 +2,24 @@
 // ?xfer@Rva004CE56D@@QAEXPAVXfer@@@Z, retail 0x004CE56D 27B: slot-3 xfer calls rowed Xfer::Version1 then rowed BehaviorModule::xfer.
 // Evidence: vslot 3 for DamageModule/DieModule/WargBehavior/RunOffMapBehavior/CollideModule plus 9 callers incl 0x004BACA4
 // plus rowed callees 0x000053EE and 0x004C9C7D; class unproven so honest Rva name.
-class Xfer {
-public:
-	void Version1();
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../Include/Common/BfmeXfer.h"
 
 class BehaviorModule {
 public:

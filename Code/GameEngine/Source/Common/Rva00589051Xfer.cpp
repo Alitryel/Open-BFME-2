@@ -7,11 +7,24 @@
 // add esi 0x14; sole direct caller at 0x00484FCD; between
 // ??_GRva00484EF4 and ??1Rva00589079. Identity stays honest address name.
 
-class Xfer
-{
-public:
-	void Version1();
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../Include/Common/BfmeXfer.h"
 
 class BehaviorModule
 {
