@@ -18,10 +18,11 @@ public:
 	void *m_field04;
 };
 class Rva00575D45;
-class Rva00575F38
+namespace StrategicInGameUI { class PlanningPhaseBehavior { public: class Impl; }; }
+class StrategicInGameUI::PlanningPhaseBehavior::Impl
 {
 public:
-	Rva00575F38(Rva00575D45 *owner, int arg);
+	Impl(Rva00575D45 *owner, int arg);
 private:
 	char m_storage[0x50];
 };
@@ -36,5 +37,5 @@ private:
 Rva00575D45::Rva00575D45(void *held, int arg)
 	: Rva00575383(held)
 {
-	m_unmodelled_08 = new Rva00575F38(this, arg);
+	m_unmodelled_08 = new StrategicInGameUI::PlanningPhaseBehavior::Impl(this, arg);
 }

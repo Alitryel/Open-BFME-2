@@ -211,13 +211,17 @@ private:
 	char m_data[12];
 };
 
-class Rva00575F38 : public UserInputTranslator, public VBase00C6EE28, public BfmeCtorVirtualBase001B3A20,
+// Rva00575F38 is PlanningPhaseBehavior::Impl: its vftable 0x00C6E720 holds
+// Impl::translateGameMessage 0x00575C15 at slot 0 (StrategicInGameUIPlanningPhaseBehavior.cpp).
+class Rva00575D45;
+namespace StrategicInGameUI { class PlanningPhaseBehavior { public: class Impl; }; }
+class StrategicInGameUI::PlanningPhaseBehavior::Impl : public UserInputTranslator, public VBase00C6EE28, public BfmeCtorVirtualBase001B3A20,
 	public Rva005CD1A9, public Rva005753E9
 {
 public:
-	Rva00575F38(class Rva00575D45 *owner, int value);
+	Impl(class Rva00575D45 *owner, int value);
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
-	virtual ~Rva00575F38();
+	virtual ~Impl();
 
 private:
 	Rva00575F38Owner *m_owner; // +0x18
@@ -230,7 +234,7 @@ private:
 	Rva005CD651 m_40;      // +0x40
 };
 
-Rva00575F38::~Rva00575F38()
+StrategicInGameUI::PlanningPhaseBehavior::Impl::~Impl()
 {
 	reinterpret_cast<Rva005CB84A *>(m_owner->m_04->get())->rva005CB84A(0);
 	if ((unsigned char)reinterpret_cast<Rva002B254F *>(TheLivingWorldLogic)->rva002B254F())
@@ -240,7 +244,7 @@ Rva00575F38::~Rva00575F38()
 	}
 }
 
-Rva00575F38::Rva00575F38(Rva00575D45 *owner, int value)
+StrategicInGameUI::PlanningPhaseBehavior::Impl::Impl(Rva00575D45 *owner, int value)
 	: m_owner((Rva00575F38Owner *)owner), m_1C(value),
 	  m_20(((Rva002B2B66 *)TheLivingWorldLogic)->rva002B2B66()),
 	  m_30(m_owner->m_04, this),

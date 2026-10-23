@@ -134,16 +134,17 @@ Rva00575D45::Rva00575D45(EmitVtableTag *)
 {
 }
 
-class Rva00575F38
+namespace StrategicInGameUI { class PlanningPhaseBehavior { public: class Impl; }; }
+class StrategicInGameUI::PlanningPhaseBehavior::Impl
 {
 public:
-	Rva00575F38(EmitVtableTag *);
+	Impl(EmitVtableTag *);
 public:
-	virtual ~Rva00575F38();
+	virtual ~Impl();
 };
 
-// ?<Rva00575F38::Rva00575F38> absent-from-retail
-Rva00575F38::Rva00575F38(EmitVtableTag *)
+// ?<StrategicInGameUI::PlanningPhaseBehavior::Impl::Impl> absent-from-retail
+StrategicInGameUI::PlanningPhaseBehavior::Impl::Impl(EmitVtableTag *)
 {
 }
 
