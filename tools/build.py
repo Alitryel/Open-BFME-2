@@ -1120,15 +1120,15 @@ def compiler_command(source, output):
 
     compiler, environment = compiler_profiles.select(
         source, root / "Vc7" / "bin" / "cl.exe", compiler_environment(root, source))
+    command += [str(compiler)] + compiler_profiles.command_options(compiler)
     command += [
-        str(compiler),
         "-nologo",
         "-c",
         "-O2",
         "-GR-",
         "-EHsc-",
     ]
-    command += source_extra_flags(source)
+    command += compiler_profiles.source_options(compiler, source_extra_flags(source))
     command += [
         f"-Fo{output_arg}",
         source_arg,

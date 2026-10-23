@@ -41,7 +41,8 @@ else:                                                                         # 
 # Compiler decisions read these working-tree files too. Flag defaults imports
 # only standard-library modules; build.py's other local dependencies are a
 # separate dependency-coverage lane, not silently claimed covered here.
-COMPILER_INPUTS = ("tools/build.py", "tools/flag_defaults.py", "build.sh", "build.cmd",
+COMPILER_INPUTS = ("tools/build.py", "tools/flag_defaults.py", "tools/compiler_profiles.py",
+                   "vendor/clang23-x86/compiler.zip", "build.sh", "build.cmd",
                    "reverse/retail_inventory/flag_regions.csv", "reverse/flag_overrides.csv")
 
 

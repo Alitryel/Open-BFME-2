@@ -2,6 +2,7 @@
 import hashlib
 import json
 import sys
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -9,6 +10,112 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import build
 import compiler_profiles
+
+
+@pytest.fixture
+def clang_profile(tmp_path, monkeypatch):
+    monkeypatch.setattr(compiler_profiles, "ROOT", tmp_path)
+    monkeypatch.setattr(build, "wine_path", lambda path: str(path))
+    files = {"clang-cl.exe": b"test clang", "libLLVM-23.dll": b"test LLVM"}
+    archive = tmp_path / "vendor/clang23-x86/compiler.zip"
+    archive.parent.mkdir(parents=True)
+    with zipfile.ZipFile(archive, "w") as out:
+        for name, data in files.items():
+            out.writestr("bin/" + name, data)
+    monkeypatch.setattr(compiler_profiles, "CLANG23_FILES", {
+        name: hashlib.sha256(data).hexdigest() for name, data in files.items()}, raising=False)
+    monkeypatch.setattr(compiler_profiles, "CLANG23_ARCHIVE_SHA256",
+                        hashlib.sha256(archive.read_bytes()).hexdigest(), raising=False)
+    source = tmp_path / "leaf.cpp"
+    source.write_text("// compiler: clang23-x86\nvoid leaf() {}\n")
+    return tmp_path, archive, source, files
+
+
+def test_clang_archive_is_explicit_and_tracks_archive_and_executables(clang_profile):
+    root, archive, source, files = clang_profile
+    original = {"INCLUDE": "original headers", "LIB": "original libs", "PATH": "old"}
+    compiler, env = compiler_profiles.select(source, Path("old/cl.exe"), original)
+    assert compiler.name == "clang-cl.exe"
+    assert compiler_profiles.command_options(compiler) == ["--target=i686-pc-windows-msvc"]
+    assert compiler_profiles.command_options(Path("old/cl.exe")) == []
+    assert env["INCLUDE"] == original["INCLUDE"]
+    assert env["LIB"] == original["LIB"]
+    inputs = json.loads(env["BFME_COMPILER_INPUTS"])
+    assert inputs[archive.relative_to(root).as_posix()] == hashlib.sha256(archive.read_bytes()).hexdigest()
+    for name, data in files.items():
+        path = compiler.parent / name
+        assert path.read_bytes() == data
+        assert inputs[path.relative_to(root).as_posix()] == hashlib.sha256(data).hexdigest()
+    assert build._cmd_fingerprint([str(compiler)], env) != build._cmd_fingerprint(["cl"], original)
+
+
+def test_clang_translates_only_legacy_cpu_tuning_flags():
+    flags = ["-O1", "-G5", "-G6", "-G7", "-arch:SSE", "-GS-", "-Gr"]
+    assert compiler_profiles.source_options(Path("clang-cl.exe"), flags) == [
+        "-O1", "/clang:-mtune=pentium", "/clang:-mtune=pentiumpro",
+        "/clang:-mtune=pentium4", "-arch:SSE", "-GS-", "-Gr"]
+    assert flags[1:4] == ["-G5", "-G6", "-G7"]
+
+
+def test_msvc_source_flags_remain_identical():
+    flags = ["-O1", "-G7", "-arch:SSE", "-GS-"]
+    assert compiler_profiles.source_options(Path("cl.exe"), flags) == flags
+
+
+def test_changed_clang_archive_refuses_before_extracting(clang_profile):
+    root, archive, source, _ = clang_profile
+    archive.write_bytes(archive.read_bytes() + b"changed")
+    with pytest.raises(SystemExit, match="SHA256 mismatch"):
+        compiler_profiles.select(source, Path("old/cl.exe"), {})
+    assert not (root / "build/compiler_profiles").exists()
+
+
+def test_missing_clang_archive_refuses_without_fallback(clang_profile):
+    _, archive, source, _ = clang_profile
+    archive.unlink()
+    with pytest.raises(SystemExit, match="cannot read"):
+        compiler_profiles.select(source, Path("old/cl.exe"), {})
+
+
+def test_parallel_clang_first_use_observes_only_a_complete_cache(clang_profile):
+    from concurrent.futures import ThreadPoolExecutor
+    _, _, source, _ = clang_profile
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(lambda _: compiler_profiles.select(source, Path("old/cl.exe"), {}), range(2)))
+    assert results[0] == results[1]
+
+
+@pytest.mark.parametrize("change", ["changed", "missing"])
+def test_changed_or_missing_extracted_clang_refuses_without_repair(clang_profile, change):
+    _, _, source, _ = clang_profile
+    compiler, _ = compiler_profiles.select(source, Path("old/cl.exe"), {})
+    if change == "changed":
+        compiler.write_bytes(b"modified executable")
+    else:
+        compiler.unlink()
+    with pytest.raises(SystemExit, match="SHA256 mismatch|cannot read"):
+        compiler_profiles.select(source, Path("old/cl.exe"), {})
+
+
+def test_clang_archive_cannot_smuggle_an_unlisted_file(clang_profile, monkeypatch):
+    _, archive, source, _ = clang_profile
+    with zipfile.ZipFile(archive, "a") as out:
+        out.writestr("../outside.dll", b"not an admitted compiler input")
+    monkeypatch.setattr(compiler_profiles, "CLANG23_ARCHIVE_SHA256",
+                        hashlib.sha256(archive.read_bytes()).hexdigest())
+    with pytest.raises(SystemExit, match="archive members"):
+        compiler_profiles.select(source, Path("old/cl.exe"), {})
+
+
+def test_changed_extracted_clang_during_compile_cannot_receive_receipt(clang_profile, monkeypatch):
+    root, _, source, _ = clang_profile
+    monkeypatch.setattr(build, "ROOT", root)
+    compiler, env = compiler_profiles.select(source, Path("old/cl.exe"), {})
+    (compiler.parent / "libLLVM-23.dll").write_bytes(b"changed during compile")
+    output = root / "leaf.obj"
+    output.write_bytes(b"object")
+    build._write_deps_sidecar(source, output, "fingerprint", "", True, env=env)
+    assert not output.with_suffix(".deps.json").exists()
 
 
 @pytest.fixture

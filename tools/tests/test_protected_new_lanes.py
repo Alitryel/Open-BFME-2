@@ -10,12 +10,16 @@ import pytest
 
 CHECKER = Path(__file__).resolve().parents[1] / 'protected_paths.py'
 HOOK = Path(__file__).resolve().parents[2] / '.githooks' / 'commit-msg'
-PATHS = ('tools/flag_defaults.py', 'reverse/flag_overrides.csv', 'tools/eh_verify.py')
+PATHS = ('tools/flag_defaults.py', 'reverse/flag_overrides.csv', 'tools/eh_verify.py',
+         'tools/compiler_profiles.py', 'vendor/clang23-x86/compiler.zip')
 
 def run(root, *args, input=None):
     env = dict(os.environ, GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull,
                GIT_AUTHOR_NAME='Fixture', GIT_AUTHOR_EMAIL='fixture@example.invalid',
                GIT_COMMITTER_NAME='Fixture', GIT_COMMITTER_EMAIL='fixture@example.invalid')
+    for name in list(env):
+        if name == 'GIT_CONFIG_COUNT' or name.startswith(('GIT_CONFIG_KEY_', 'GIT_CONFIG_VALUE_')):
+            env.pop(name)
     return subprocess.run(args, cwd=root, env=env, input=input,
                           text=True, capture_output=True)
 
@@ -53,10 +57,12 @@ def test_new_lane_protection_actual_commit_msg_and_range(tmp_path, path, operati
     msg = tmp_path / 'message.txt'
     msg.write_text(message)
     # Actual commit-msg hook reads the checker from committed HEAD via git show.
-    # Avoid relying on this ignored review directory's location for the hook.
-    hook = HOOK
+    # Use the tracked bytes through a relative path: Windows Bash cannot use
+    # every native drive-path spelling as its script argument.
+    hook = tmp_path / 'actual-commit-msg'
+    hook.write_bytes(HOOK.read_bytes())
     if mode == 'commit-msg':
-        staged = run(tmp_path, 'bash', str(hook), str(msg))
+        staged = run(tmp_path, 'bash', hook.name, msg.name)
         assert staged.returncode == (0 if valid else 1), staged.stderr
         if not valid:
             assert path in staged.stderr and 'Verifier-Change: MISSING' in staged.stderr

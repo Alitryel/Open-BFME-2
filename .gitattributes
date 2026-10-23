@@ -16,6 +16,8 @@ reverse/attempts/*.cpp -text
 # ledger_guard compares these compiler decisions to their Git blobs byte for
 # byte. A clean core.autocrlf=true checkout must not rewrite them to CRLF.
 tools/build.py text eol=lf
+tools/compiler_profiles.py text eol=lf
+vendor/clang23-x86/compiler.zip -text
 tools/flag_defaults.py text eol=lf
 build.sh text eol=lf
 build.cmd text eol=lf

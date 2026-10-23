@@ -1,5 +1,6 @@
 """ledger_guard: the byte gate must read the ledgers being committed or pushed."""
 import re
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -16,7 +17,14 @@ HEAD = "name,export_rva,target_rva,target_size,source,status,notes\n"
 
 
 def git(root, *args):
-    return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True, text=True).stdout
+    env = dict(os.environ, GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull)
+    # The real checkout's command-line hook configuration must not turn a
+    # temporary fixture commit into a production-repository gate invocation.
+    for name in list(env):
+        if name == "GIT_CONFIG_COUNT" or name.startswith(("GIT_CONFIG_KEY_", "GIT_CONFIG_VALUE_")):
+            env.pop(name)
+    return subprocess.run(["git", *args], cwd=root, env=env, check=True,
+                          capture_output=True, text=True).stdout
 
 
 @pytest.fixture
@@ -27,7 +35,7 @@ def repo(tmp_path, monkeypatch):
     for path, text in ((LEDGER, HEAD + ROW.format(src="Unit.cpp")), (G.LEDGERS[1], "name,rva\n"),
                        ("Unit.cpp", "struct Coord2D { float x, y; };\nvoid f(Coord2D *) {}\n")):
         (tmp_path / path).parent.mkdir(parents=True, exist_ok=True)
-        (tmp_path / path).write_text(text)
+        (tmp_path / path).write_bytes(text.encode())
     git(tmp_path, "add", "-A")
     git(tmp_path, "commit", "-qm", "base")
     monkeypatch.setattr(G, "ROOT", tmp_path)
@@ -69,7 +77,7 @@ def test_windows_checkout_preserves_byte_bound_compiler_inputs(repo):
     git(repo, "commit", "-qm", "compiler inputs")
     for path in G.COMPILER_INPUTS:
         (repo / path).unlink()
-    git(repo, "checkout-index", "--all")
+    git(repo, "checkout-index", "--", *G.COMPILER_INPUTS)
 
     assert G.main(["--staged"]) == 0
     assert G.main(["--commit", "HEAD"]) == 0
@@ -92,6 +100,22 @@ def test_push_refuses_a_ledger_that_is_not_the_pushed_commits(repo):
     assert G.main(["--commit", head]) == 1            # staged but not in the pushed commit
     git(repo, "commit", "-qm", "rename")
     assert G.main(["--commit", git(repo, "rev-parse", "HEAD").strip()]) == 0
+
+
+@pytest.mark.parametrize("path", ["tools/compiler_profiles.py", "vendor/clang23-x86/compiler.zip"])
+def test_compiler_profile_inputs_are_bound_at_commit_and_push(repo, path):
+    target = repo / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(b"original compiler input\n")
+    git(repo, "add", path)
+    git(repo, "commit", "-qm", "compiler input")
+    assert G.main(["--staged"]) == 0
+    target.write_bytes(b"changed compiler input\n")
+    assert G.main(["--staged"]) == 1
+    assert G.main(["--commit", "HEAD"]) == 1
+    git(repo, "add", path)
+    assert G.main(["--staged"]) == 0
+    assert G.main(["--commit", "HEAD"]) == 1
 
 
 DATA = "reverse/data_rows.csv"

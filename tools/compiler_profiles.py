@@ -2,6 +2,8 @@
 import hashlib
 import json
 import os
+import tempfile
+import zipfile
 from pathlib import Path
 
 
@@ -28,6 +30,91 @@ DDK4035_FILES = {
     "msvcr71.dll": "91961cc52149826031f1b17b65a95a5c84c89d9a42f8621a43448c0fe897a94f",
 }
 
+CLANG23_ARCHIVE_SHA256 = "809f74c74c28983bcd23360f17cf0ed877946065a6e58430214bb035ccd2cd2d"
+CLANG23_FILES = {
+    "clang-cl.exe": "09688e25f2993365fe7f58348a0e0db7d0748699bc65ef1e9bb37536b9038c68",
+    "libLLVM-23.dll": "f4f37b67d7a9d0d8f04e3cb7fbbb6debaa2abeaa0f50455127034be61298b0c9",
+    "libclang-cpp.dll": "8b83793d028859a940a4150b72a3b450115cf93915e282c5f8fad0e87ba677e3",
+    "libc++.dll": "06a2ed158f5a91e4d500c8b0764a25dfe57097991d137d8272c529eeb5c66048",
+    "libunwind.dll": "aa282fa47bb2c4e210cea5e470cdbdca58568f0be0bc73e404d86ab9cd95ef6a",
+}
+
+
+def _checked_input(path, expected, profile):
+    try:
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as exc:
+        raise SystemExit(f"{profile}: cannot read {path}: {exc}") from exc
+    if actual != expected:
+        raise SystemExit(f"{profile}: SHA256 mismatch for {path}")
+
+
+def _clang23(environment):
+    """Expand only the pinned package; never repair a changed existing cache.
+
+    The archive and each executable enter receipts independently. This catches
+    an extracted DLL changing during compilation as well as a changed package.
+    A temporary directory and atomic rename make concurrent first use safe.
+    """
+    profile = "clang23-x86"
+    archive = ROOT / "vendor" / profile / "compiler.zip"
+    _checked_input(archive, CLANG23_ARCHIVE_SHA256, profile)
+    directory = ROOT / "build" / "compiler_profiles" / profile / CLANG23_ARCHIVE_SHA256
+    if not directory.resolve().is_relative_to(ROOT.resolve()):
+        raise SystemExit(f"{profile}: compiler cache escapes the workspace")
+    if not directory.exists():
+        try:
+            with zipfile.ZipFile(archive) as package:
+                names = package.namelist()
+                if len(names) != len(CLANG23_FILES) or set(names) != {
+                        "bin/" + name for name in CLANG23_FILES}:
+                    raise SystemExit(f"{profile}: unexpected archive members")
+                directory.parent.mkdir(parents=True, exist_ok=True)
+                with tempfile.TemporaryDirectory(prefix="extract-", dir=directory.parent) as scratch:
+                    temporary = Path(scratch)
+                    for name, expected in CLANG23_FILES.items():
+                        path = temporary / name
+                        path.write_bytes(package.read("bin/" + name))
+                        _checked_input(path, expected, profile)
+                        path.chmod(0o755)
+                    try:
+                        temporary.rename(directory)
+                    except OSError:
+                        # Another compiler may have published its complete cache.
+                        if not directory.is_dir():
+                            raise
+        except (OSError, zipfile.BadZipFile) as exc:
+            raise SystemExit(f"{profile}: cannot extract {archive}: {exc}") from exc
+    inputs = {archive.relative_to(ROOT).as_posix(): CLANG23_ARCHIVE_SHA256}
+    for name, expected in CLANG23_FILES.items():
+        path = directory / name
+        _checked_input(path, expected, profile)
+        inputs[path.relative_to(ROOT).as_posix()] = expected
+    env = environment.copy()
+    if os.name == "nt":
+        env["PATH"] = str(directory) + os.pathsep + env.get("PATH", "")
+    else:
+        import build
+        env["WINEPATH"] = build.wine_path(directory) + ";" + env.get("WINEPATH", "")
+    env["BFME_COMPILER_INPUTS"] = json.dumps(inputs, sort_keys=True)
+    env["BFME_COMPILER_PROFILE"] = hashlib.sha256(
+        env["BFME_COMPILER_INPUTS"].encode()).hexdigest()
+    return directory / "clang-cl.exe", env
+
+
+def command_options(compiler):
+    """The optional Clang profile always targets the game's x86 MSVC ABI."""
+    return ["--target=i686-pc-windows-msvc"] if compiler.name == "clang-cl.exe" else []
+
+
+def source_options(compiler, flags):
+    """Express the region's old MSVC CPU tuning in Clang's option syntax."""
+    if compiler.name != "clang-cl.exe":
+        return flags
+    tuning = {"-G5": "/clang:-mtune=pentium", "-G6": "/clang:-mtune=pentiumpro",
+              "-G7": "/clang:-mtune=pentium4"}
+    return [tuning.get(flag, flag) for flag in flags]
+
 
 def select(source, default_compiler, environment):
     """Select only a declared profile, preserving the verified RTM headers/libs.
@@ -41,9 +128,11 @@ def select(source, default_compiler, environment):
                   if line.startswith("// compiler:")]
     if not directives:
         return default_compiler, environment
-    if len(directives) != 1 or directives[0] not in ("vc71-sp1", "vc71-ddk-4035"):
+    if len(directives) != 1 or directives[0] not in ("vc71-sp1", "vc71-ddk-4035", "clang23-x86"):
         raise SystemExit(f"{source}: expected one known '// compiler:' directive")
     profile = directives[0]
+    if profile == "clang23-x86":
+        return _clang23(environment)
     files = SP1_FILES if profile == "vc71-sp1" else DDK4035_FILES
     directory = ROOT / "vendor" / profile / "bin"
     inputs = {}

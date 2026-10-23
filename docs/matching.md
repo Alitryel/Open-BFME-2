@@ -49,6 +49,20 @@ SP1 DDK compiler, 13.10.4035. Retail's DXErr object records that version; it
 emits the older `/GS` cookie shape required by DXTrace. Both profiles retain
 the default compiler's headers and libraries.
 
+`// compiler: clang23-x86` explicitly selects the pinned Clang 23.1.1 package
+under `vendor/clang23-x86/`, targeting the x86 MSVC ABI. It supports clean C++
+leaf reconstructions where the older compiler cannot emit retail's instruction
+layout; it does not assert that retail used Clang. Sources without the directive
+still use MSVC 7.1. Legacy G5/G6/G7 region tuning is translated to the matching
+Clang `-mtune` option; other flags pass through. The package contains the compiler and its runtime DLLs, with
+no replacement game headers or libraries; see its provenance and license.
+First use expands the hash-verified archive into `build/compiler_profiles/`.
+Every selection verifies the archive and all expanded binaries; a changed or
+missing existing binary refuses rather than being repaired. All these inputs
+enter object receipts and fingerprints. Native Windows x64 or 64-bit Wine is
+required for this optional compiler. Normal whole-body, identity, relocation,
+data and hook checks remain required.
+
 Near-matches are still failures. If a candidate differs only by register choice, branch layout, or
 x87 operand order, revert it unless the exact decorated-symbol check passes.
 
