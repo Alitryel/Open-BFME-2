@@ -12,12 +12,12 @@
 struct Rva00561C34Point:Coord3D { Rva00561C34Point(); };
 class DefaultModuleHeadBase {public:virtual ~DefaultModuleHeadBase();private:unsigned int storage[4];};
 namespace FXParticleSystem {class Rva003AA228Slice {public:virtual void unusedVirtual() = 0;};class Rva003AA228:public DefaultModuleHeadBase,public Rva003AA228Slice {public:Rva003AA228(void*,void*);};}
-class ParticleModule005F2CA0:public FXParticleSystem::Rva003AA228 {public:ParticleModule005F2CA0(void*,void*);virtual void moduleSlot();virtual void slot2();virtual void slot3();};
+class ParticleModule005F2CA0:public FXParticleSystem::Rva003AA228 {public:ParticleModule005F2CA0(void*,void*);virtual void moduleSlot() = 0;virtual void slot2() = 0;virtual void slot3() = 0;};
 struct Rva00561C34RandomVariable {unsigned distribution;float minimum,maximum;};
 class RenderInfoClass;
 namespace FXParticleSystem {
 class LightningDrawModuleInfoBase {public:virtual ~LightningDrawModuleInfoBase();};
-class LightningDrawModuleInfo:public LightningDrawModuleInfoBase {public:LightningDrawModuleInfo();virtual ~LightningDrawModuleInfo();virtual const char* GetSnapshotName();virtual void LoadPostProcess();virtual void DoXfer(class Xfer&);Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
+class LightningDrawModuleInfo:public LightningDrawModuleInfoBase {public:LightningDrawModuleInfo();virtual ~LightningDrawModuleInfo();virtual const char* GetSnapshotName();virtual void LoadPostProcess() = 0;virtual void DoXfer(class Xfer&) = 0;Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
 class ParticleSystem;template<class T>class TrackingPtr{};
 class LightningDrawModuleTemplate {public:char pad[12];Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
 class LightningDrawModule:public ParticleModule005F2CA0,public LightningDrawModuleInfo {public:LightningDrawModule(TrackingPtr<ParticleSystem>&,const LightningDrawModuleTemplate*);virtual ~LightningDrawModule();virtual int doParticles(::RenderInfoClass&,void*,int*);private:Rva00561C34Point pointsA[3][30];Rva00561C34Point pointsB[3][30];int count;struct Vec{float x,y,z;void Set(float a,float b,float c){x=a;y=b;z=c;}} axisA,axisB,axisC;int tail;};

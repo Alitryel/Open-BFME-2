@@ -25,12 +25,12 @@ class Rva006253F0 : public SubsystemInterface, public Snapshot
 public:
 	Rva006253F0();
 	virtual ~Rva006253F0();
-	virtual void init();
-	virtual void reset();
-	virtual void update();
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess();
+	virtual void init() = 0;
+	virtual void reset() = 0;
+	virtual void update() = 0;
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
 
 private:
 	Rva009F5970State *m_grid;

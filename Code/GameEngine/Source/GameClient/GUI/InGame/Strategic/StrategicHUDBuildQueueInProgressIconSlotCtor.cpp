@@ -39,11 +39,11 @@ class AptCustomRenderAdder {public:void AddCustomRender(const AsciiString&,AptRe
 class Image;
 class Rva005F6941 {public:
  Rva005F6941();~Rva005F6941();
- virtual unsigned char rva004C9990()const;virtual void rva002B230F(void*);
+ virtual unsigned char rva004C9990()const = 0;virtual void rva002B230F(void*) = 0;
  virtual const Image*rva0030F45F()const;virtual void rva005F6CA8(const Image*);
  virtual const Image*rva001DB0A8()const;virtual void rva005F6D2C(const Image*);
- virtual int rva001DB09D()const;virtual void rva005F74F7(int);
- virtual int rva0057E556()const;virtual void DoSetState(int);
+ virtual int rva001DB09D()const = 0;virtual void rva005F74F7(int);
+ virtual int rva0057E556()const = 0;virtual void DoSetState(int);
  virtual int rva0030D377()const=0;virtual int rva00091A56()const=0;
  virtual void rva005F7512(int,int)=0;
  void*listener;const Image*portrait,*typeImage;int quantity,state;bool hovered;

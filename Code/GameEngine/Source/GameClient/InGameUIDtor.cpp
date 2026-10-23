@@ -228,10 +228,10 @@ public:
 	virtual ~InGameUI();
 	virtual void removeMilitarySubtitle();	// slot 24
 	virtual void placeBuildAvailable( const ThingTemplate *build, Drawable *buildDrawable );	// slot 55
-	virtual void setRadiusCursorNone();		// slot 81
+	virtual void setRadiusCursorNone() = 0;		// slot 81
 	virtual void stopMovie();				// slot 88
 	virtual void stopCameoMovie();			// slot 91
-	virtual void resetIdleWorker();			// slot 117
+	virtual void resetIdleWorker() = 0;			// slot 117
 
 protected:
 	char m_opaque014[0x18 - 0x14];

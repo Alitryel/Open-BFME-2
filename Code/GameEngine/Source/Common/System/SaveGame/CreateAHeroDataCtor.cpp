@@ -72,8 +72,8 @@ public:
 	virtual ~CreateAHeroData();
 
 protected:
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
 	virtual void loadPostProcess();
 
 private:

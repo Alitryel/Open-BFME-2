@@ -55,11 +55,11 @@ public:
 
 	virtual void bfmeSlot0(void);
 	virtual void bfmeSlot1(void);
-	virtual void bfmeSlot2(void);
-	virtual void bfmeSlot3(void);
+	virtual void bfmeSlot2(void) = 0;
+	virtual void bfmeSlot3(void) = 0;
 	virtual void bfmeSlot4(void);
-	virtual void bfmeSlot5(void);
-	virtual void bfmeAdd(void *payload);
+	virtual void bfmeSlot5(void) = 0;
+	virtual void bfmeAdd(void *payload) = 0;
 
 private:
 	void bfmeAttach(void *screen);				// ILT 0x0000C0A4

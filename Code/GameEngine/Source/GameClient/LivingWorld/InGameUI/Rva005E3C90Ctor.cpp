@@ -38,8 +38,8 @@ public:
 	Rva005F4179(void *clip);
 	virtual ~Rva005F4179();
 	virtual void DoUpdate();
-	virtual void CreateMovieClip(ArmyHeroIconMovieClip *);
-	virtual void rva005F4254();
+	virtual void CreateMovieClip(ArmyHeroIconMovieClip *) = 0;
+	virtual void rva005F4254() = 0;
 private:
 	Rva005F4096 m_08;
 };
@@ -122,7 +122,7 @@ private:char storage[0x18];
 class Rva005E3C90:public StrategicInGameUI::ArmyUnitIcon,public Rva005E39F3 {
 public:
  Rva005E3C90(Rva005E39F3Arg*,void*,int,UnitView*);
- virtual void DoUpdate();
+ virtual void DoUpdate() = 0;
 };
 Rva005E3C90::Rva005E3C90(Rva005E39F3Arg *arg,void *clip,int count,UnitView *entry)
  :Rva005F4179(clip),StrategicInGameUI::ArmyUnitIcon(arg->m_10,clip,entry),Rva005E39F3(arg,clip,count){}

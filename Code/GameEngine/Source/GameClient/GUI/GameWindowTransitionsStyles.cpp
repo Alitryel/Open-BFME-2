@@ -42,9 +42,9 @@ public:
 	virtual ~FullFadeTransition(void);
 	virtual void init(GameWindow *win);
 	virtual void update(Int frame);
-	virtual void reverse(void);
+	virtual void reverse(void) = 0;
 	virtual void draw(void);
-	virtual void skip(void);
+	virtual void skip(void) = 0;
 
 	Int m_startFrame;		// +0x10
 	Int m_endFrame;			// +0x14

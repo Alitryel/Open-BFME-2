@@ -17,7 +17,7 @@
 // the sibling ctor 5CE5B3 install), so it keeps a TU-scoped address name.
 class Rva005E67FE { public: Rva005E67FE(void *); virtual ~Rva005E67FE(); void *held; };
 class Rva005E683EMid { public: void fwd(int,int); };
-class Rva005CE804Observer { public: virtual ~Rva005CE804Observer() {} virtual void onBuildingChanged(); };
+class Rva005CE804Observer { public: virtual ~Rva005CE804Observer() {} virtual void onBuildingChanged() = 0; };
 // Use the complete owning destructor provided by ThrowingNewHelpers.cpp.
 // Its 26-byte retail body at5CE7EA matches this member's target unwind call.
 class Rva005E8F50;
@@ -25,7 +25,7 @@ class Rva005CEA51 {public:Rva005CEA51():pointer(0){}__declspec(noinline) ~Rva005
 typedef char Rva005CEA51SizeCheck[(sizeof(Rva005CEA51)==4)?1:-1];
 struct FwdArg { char pad[0x1c]; int id; };
 class Rva005CE804 : public Rva005E67FE, public Rva005CE804Observer {
- public: Rva005CE804(void*,int,int,int,int,FwdArg*); virtual ~Rva005CE804(); virtual void onBuildingChanged();
+ public: Rva005CE804(void*,int,int,int,int,FwdArg*); virtual ~Rva005CE804(); virtual void onBuildingChanged() = 0;
  private: int a; int b; int c; FwdArg *region; Rva005CEA51 owned;
 };
 Rva005CE804::Rva005CE804(void *owner,int context,int unused,int ui,int extra,FwdArg *fwdArg):Rva005E67FE(owner),a(context),b(ui),c(extra),region(fwdArg) {

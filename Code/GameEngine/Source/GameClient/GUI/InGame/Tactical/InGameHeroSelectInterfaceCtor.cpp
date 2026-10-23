@@ -335,7 +335,7 @@ public:
 class Gen_uwm_00524f5a
 {
 public:
-	virtual void v00();
+	virtual void v00() = 0;
 	~Gen_uwm_00524f5a();
 };
 
@@ -343,7 +343,7 @@ class Rva00527378Payload : public Gen_uwm_00524f5a
 {
 public:
 	Rva00527378Payload(void *owner, int level, const AsciiString &name, void *data, void *faction);
-	virtual void v00();
+	virtual void v00() = 0;
 
 private:
 	void *m_owner; // +0x04

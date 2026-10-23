@@ -116,9 +116,9 @@ class AptPlayer : public SubsystemInterface
 public:
  AptPlayer();
  virtual ~AptPlayer();
- virtual void init();
- virtual void reset();
- virtual void update();
+ virtual void init() = 0;
+ virtual void reset() = 0;
+ virtual void update() = 0;
 private:
  AptPlayerTable m_0C, m_20, m_34, m_48, m_5C, m_70;
  _STL::set<AsciiString> m_84;

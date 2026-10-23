@@ -30,15 +30,15 @@ class Rva0030B0E3 : public Rva00074626
 {
 public:
 	virtual ~Rva0030B0E3();
-	virtual void s1();
-	virtual void s2();
-	virtual void v3(int a, int b);
-	virtual void s4();
-	virtual void s5();
-	virtual int v6();
-	virtual void s7();
-	virtual void v8(int a);
-	virtual void v9(int a);
+	virtual void s1() = 0;
+	virtual void s2() = 0;
+	virtual void v3(int a, int b) = 0;
+	virtual void s4() = 0;
+	virtual void s5() = 0;
+	virtual int v6() = 0;
+	virtual void s7() = 0;
+	virtual void v8(int a) = 0;
+	virtual void v9(int a) = 0;
 	Rva0030B0E3();
 
 private:
@@ -66,17 +66,17 @@ class Rva0007517F : public Rva0030B0E3
 public:
 	virtual ~Rva0007517F();
 	Rva0007517F();
-	virtual void _D10();
-	virtual void _D11(char *p1, char *p2, int a, int b, int c);
-	virtual void _D12(float const *m, int f, int a, int b, int c);
+	virtual void _D10() = 0;
+	virtual void _D11(char *p1, char *p2, int a, int b, int c) = 0;
+	virtual void _D12(float const *m, int f, int a, int b, int c) = 0;
 	virtual void rva00074BC8(float const *p, int f, int a, int b, int c);
-	virtual void _D14(float const *m, float f, int a, int b, int c);
+	virtual void _D14(float const *m, float f, int a, int b, int c) = 0;
 	virtual void rva00074D39(float const *p, float f, int a, int b, int c);
-	virtual void _D16(float const *m, float f1, float f2, int a, int b, int c);
+	virtual void _D16(float const *m, float f1, float f2, int a, int b, int c) = 0;
 	virtual void rva00074EA2(float const *p, float f1, float f2, int a, int b, int c);
-	virtual void _S18(float const *m, float f, int a, int b, int c);
+	virtual void _S18(float const *m, float f, int a, int b, int c) = 0;
 	virtual void rva00075016(float const *p, float f, int a, int b, int c);
-	virtual void _D20();
+	virtual void _D20() = 0;
 	virtual void rva000749C1(char *a, char *b, int n, int x1, int x2, int x3, int x4, int x5);
 
 private:

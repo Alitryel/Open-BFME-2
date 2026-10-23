@@ -30,11 +30,11 @@ class IconCountedBase {
 public: IconCountedBase() : references(0) {} virtual ~IconCountedBase(); int references;
 };
 class IconMouseObserver {
-public: ~IconMouseObserver(); virtual void onUnknown(int); virtual void OnLeft(int); virtual void OnRight(int);
-virtual void OnRollOut(int); virtual void OnRollOver(int); virtual void OnTypeRollOut(int); virtual void OnTypeRollOver(int);
+public: ~IconMouseObserver(); virtual void onUnknown(int) = 0; virtual void OnLeft(int) = 0; virtual void OnRight(int) = 0;
+virtual void OnRollOut(int) = 0; virtual void OnRollOver(int) = 0; virtual void OnTypeRollOut(int) = 0; virtual void OnTypeRollOver(int) = 0;
 };
 class LivingWorldBuildPlotObserver {
-public: ~LivingWorldBuildPlotObserver(); virtual void OnBuildPlotBuildingChanged(LivingWorldBuildPlot &); virtual void onUnknown(LivingWorldBuildPlot &);
+public: ~LivingWorldBuildPlotObserver(); virtual void OnBuildPlotBuildingChanged(LivingWorldBuildPlot &) = 0; virtual void onUnknown(LivingWorldBuildPlot &) = 0;
 };
 class Mouse { public: void rva001EEA6D(UnicodeString, int, const RGBColor *, float); };
 extern Mouse *TheMouse;

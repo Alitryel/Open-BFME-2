@@ -14,11 +14,11 @@ class BfmeQuickMatchScreenBase
 public:
 	virtual void bfmeSlot0();
 	virtual void bfmeSlot1();
-	virtual void bfmeSlot2();
-	virtual void bfmeSlot3();
+	virtual void bfmeSlot2() = 0;
+	virtual void bfmeSlot3() = 0;
 	virtual void rva00538AB0(bool flag);
-	virtual void slot5();
-	virtual void add(void *payload);
+	virtual void slot5() = 0;
+	virtual void add(void *payload) = 0;
 	BfmeQuickMatchScreenBase();
 
 private:

@@ -31,7 +31,7 @@ class ParticleModule005F2CA0 : public FXParticleSystem::Rva003AA228
 {
 public:
 	ParticleModule005F2CA0(void *first, void *second);
-	virtual void moduleSlot();
+	virtual void moduleSlot() = 0;
 };
 
 void __cdecl Rva005C7889Init(void);

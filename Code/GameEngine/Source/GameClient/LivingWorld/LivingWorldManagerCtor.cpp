@@ -136,11 +136,11 @@ class Rva0022B12DSubsystem : public SubsystemInterface, public Snapshot, public 
 public:
 	Rva0022B12DSubsystem();
 	virtual ~Rva0022B12DSubsystem();
-	virtual void OnSwapArmyMembers(ArmySwapView *swap, const ArmyMemberRangeView &range, ArmySwapView *a, ArmySwapView *b);
+	virtual void OnSwapArmyMembers(ArmySwapView *swap, const ArmyMemberRangeView &range, ArmySwapView *a, ArmySwapView *b) = 0;
 protected:
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess(void);
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess(void) = 0;
 private:
 	Rva00212ED3 m_14;						// +0x014
 	Rva002130CA m_204;						// +0x204
