@@ -72,3 +72,39 @@ blocked because its proposed home does not link. No matching data-back artifact
 was used. Existing reference freshness evidence is less than 24 hours old;
 reviewed BFME1 linking fixes are already inherited or require independent layout
 work. The donor checkout and success stamp were not advanced.
+
+## Generic money-get follow-up: restored
+
+After the iterator repair, stlport_money_get.cpp retains wrong mismatch and
+string do_get copies. Declaring those two separate providers and explicitly
+instantiating the retained __get_string helper passes 6/8 rows, but loses the
+pair constructor at 0x16CB20 and neg_format at 0x19690. More seriously, the
+existing harvested mismatch<char-iterator,char*> pin is 0x12CA0, owned by the
+wide iterator/const-ushort mismatch row. The native helper identity/provider
+needs independent reconciliation; opaque declarations alone would hide this
+pre-existing pin ambiguity. No new pin, type cast, row move or weak alias was
+introduced. Restored the whole source and released its eight RVAs/file claim.
+
+## Box visibility partition: +4,054 B legacy linked
+
+The ordinary box renderer's only unresolved dependencies were Render_Triangles
+and Set_Model_Transform in three present-unmatched visibility methods. Mesh
+already owns the same visibility path and both unresolved callees. Moved those
+three unchanged donor methods into mesh.cpp, keeping the existing markers.
+The box geometry tables retain one definition in boxrobj.cpp and are declared
+extern C at the visibility callers, retaining the data ledger's __BoxFaces and
+__BoxVerts identities. No matched row moves or dependency stubs.
+
+Same-index explicit current-object pair before: box 0/4054 B, mesh 0/1268 B.
+After: box LINKS 4054 B; mesh remains 0/1268 with the same five blockers.
+Ring and sphere share the visibility call but have several independent rendering
+and class blockers; the same move alone cannot free their units.
+
+Acceptance: both sources pass 56/56 full byte gate and prepare-current with
+strict reusable receipts; new-variants and declared-unmatched checks pass.
+This is self-strict source acceptance and +4054 B legacy preview, not a
+closed-strict/census/full-link/runtime gain. The outstanding mesh visibility,
+shadow-rendering and string-provider dependencies remain explicit. The shadow
+hatch counter reports the same three markers moving between files; total markers
+do not grow. A compiler-renumbered local guard ($S10 in render_box) remains a
+shadow data-name finding; its verified body and storage address are unchanged.

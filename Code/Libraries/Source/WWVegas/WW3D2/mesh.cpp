@@ -1097,3 +1097,53 @@ void bfmeEmitLineSegClassCtor(LineSegClass *lineSeg, const LineSegClass &src, co
 {
     new (lineSeg) LineSegClass(src, tm);
 }
+
+// Box visibility rendering shares the mesh visibility path's unrecovered
+// rasterizer dependencies. Keep these donor bodies here while ordinary box
+// rendering can link independently. The geometry tables remain owned by boxrobj.cpp.
+#include "boxrobj.h"
+extern "C" TriIndex _BoxFaces[12];
+extern "C" Vector3 _BoxVerts[8];
+#define NUM_BOX_VERTS 8
+#define NUM_BOX_FACES 12
+
+// ?BoxRenderObjClass::vis_render_box present-unmatched
+void BoxRenderObjClass::vis_render_box(SpecialRenderInfoClass & rinfo,const Vector3 & center,const Vector3 & extent)
+{
+	if (!IsInitted) return;
+	
+	static Vector3 verts[NUM_BOX_VERTS];
+
+	// compute the vertex positions
+	for (int ivert=0; ivert<NUM_BOX_VERTS; ivert++) {
+		verts[ivert].X = center.X + _BoxVerts[ivert][0] * extent.X;
+		verts[ivert].Y = center.Y + _BoxVerts[ivert][1] * extent.Y;
+		verts[ivert].Z = center.Z + _BoxVerts[ivert][2] * extent.Z;
+	}
+
+	// render!
+	rinfo.VisRasterizer->Render_Triangles(verts,NUM_BOX_VERTS,_BoxFaces,NUM_BOX_FACES,Get_Bounding_Box());
+}
+
+// ?AABoxRenderObjClass::Special_Render present-unmatched
+void AABoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
+{
+	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
+		WWASSERT(rinfo.VisRasterizer != NULL);
+		const Matrix3D & tm = Transform;
+		Matrix3D temp(1);
+		temp.Translate(Vector3(tm[0][3], tm[1][3], tm[2][3]));
+		rinfo.VisRasterizer->Set_Model_Transform(temp);
+		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
+	}
+}
+
+// ?OBBoxRenderObjClass::Special_Render present-unmatched
+void OBBoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
+{
+	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
+		WWASSERT(rinfo.VisRasterizer != NULL);
+		rinfo.VisRasterizer->Set_Model_Transform(Transform);
+		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
+	}
+}

@@ -133,7 +133,7 @@
 #define NUM_BOX_FACES	12
 
 // Face Connectivity
-static TriIndex					_BoxFaces[NUM_BOX_FACES] = 
+extern "C" TriIndex					_BoxFaces[NUM_BOX_FACES] =
 {
 	TriIndex( 0,1,2 ),		// +z faces
 	TriIndex( 0,2,3 ),		
@@ -150,7 +150,7 @@ static TriIndex					_BoxFaces[NUM_BOX_FACES] =
 };
 
 // Vertex Positions as a function of the box extents
-static Vector3						_BoxVerts[NUM_BOX_VERTS] = 
+extern "C" Vector3						_BoxVerts[NUM_BOX_VERTS] =
 {
 	Vector3(  1.0f, 1.0f, 1.0f ),		// +z ring of 4 verts
 	Vector3( -1.0f, 1.0f, 1.0f ),
@@ -667,23 +667,8 @@ void BoxRenderObjClass::render_box(RenderInfoClass & rinfo,const Vector3 & cente
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?BoxRenderObjClass::vis_render_box present-unmatched
-void BoxRenderObjClass::vis_render_box(SpecialRenderInfoClass & rinfo,const Vector3 & center,const Vector3 & extent)
-{
-	if (!IsInitted) return;
-	
-	static Vector3 verts[NUM_BOX_VERTS];
+// Visibility rendering is defined beside the mesh visibility path in mesh.cpp.
 
-	// compute the vertex positions
-	for (int ivert=0; ivert<NUM_BOX_VERTS; ivert++) {
-		verts[ivert].X = center.X + _BoxVerts[ivert][0] * extent.X;
-		verts[ivert].Y = center.Y + _BoxVerts[ivert][1] * extent.Y;
-		verts[ivert].Z = center.Z + _BoxVerts[ivert][2] * extent.Z;
-	}
-
-	// render!
-	rinfo.VisRasterizer->Render_Triangles(verts,NUM_BOX_VERTS,_BoxFaces,NUM_BOX_FACES,Get_Bounding_Box());
-}
 
 /*
 ** AABoxRenderObjClass Implementation
@@ -863,18 +848,8 @@ void AABoxRenderObjClass::Render(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?AABoxRenderObjClass::Special_Render present-unmatched
-void AABoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
-{
-	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
-		WWASSERT(rinfo.VisRasterizer != NULL);
-		const Matrix3D & tm = Transform;
-		Matrix3D temp(1);
-		temp.Translate(Vector3(tm[0][3], tm[1][3], tm[2][3]));
-		rinfo.VisRasterizer->Set_Model_Transform(temp);
-		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
-	}
-}
+// Visibility rendering is defined beside the mesh visibility path in mesh.cpp.
+
 
 
 /***********************************************************************************************
@@ -1239,15 +1214,8 @@ void OBBoxRenderObjClass::Render(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?OBBoxRenderObjClass::Special_Render present-unmatched
-void OBBoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
-{
-	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
-		WWASSERT(rinfo.VisRasterizer != NULL);
-		rinfo.VisRasterizer->Set_Model_Transform(Transform);
-		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
-	}
-}
+// Visibility rendering is defined beside the mesh visibility path in mesh.cpp.
+
 
 
 /***********************************************************************************************
