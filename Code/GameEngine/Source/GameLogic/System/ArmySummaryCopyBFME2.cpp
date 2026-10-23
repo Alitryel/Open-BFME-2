@@ -27,6 +27,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "ascii_string.h"
 class Xfer;
 
+#define BFME_SNAPSHOT_NAME_SLOT 1
 #include "Common/Snapshot.h"
 
 enum ObjectID
@@ -139,6 +140,8 @@ public:
 	virtual ~ArmySummary();
 	virtual void loadPostProcess();
 	virtual const char *GetSnapshotName() const;
+
+protected:
 	virtual void xfer(Xfer *xfer);
 
 private:
