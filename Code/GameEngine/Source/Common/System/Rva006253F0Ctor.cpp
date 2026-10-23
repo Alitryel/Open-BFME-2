@@ -41,3 +41,8 @@ Rva006253F0::Rva006253F0()
 	m_grid = new Rva009F5970State;
 }
 
+// Both this constructor and the rowed Open2Store880FC0 destructor restore
+// native tables C7C6B0/C7C6A0 at +0/+0C. Primary slot 0 is its rowed
+// deleting destructor 6255B0, which calls 6254B0. Bind the constructor
+// view's virtual destructor to that provider without assigning a new identity.
+#pragma comment(linker, "/alternatename:??1Rva006253F0@@UAE@XZ=??1Open2Store880FC0@@UAE@XZ")
