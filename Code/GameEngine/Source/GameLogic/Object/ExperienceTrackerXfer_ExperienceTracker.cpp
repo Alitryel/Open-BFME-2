@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP=
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /GX /MD /D_CRTIMP=
 // Split from ExperienceTrackerXfer.cpp: these definitions reference a callee with no matched body yet,
 // so they are kept apart from the unit's bodies that already link.
 //
@@ -109,14 +109,10 @@ struct ExperienceTrackerLevelView
 class ExperienceLevelSystem;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
 
-// The base whose destructor the constructor's first EH state unwinds.
-class ExperienceTrackerBaseView
-{
-public:
-	virtual ~ExperienceTrackerBaseView();
-};
+// The first unwind action restores the canonical Snapshot table.
+#include "Common/Snapshot.h"
 
-class ExperienceTracker : public ExperienceTrackerBaseView
+class ExperienceTracker : public Snapshot
 {
 public:
 	ExperienceTracker( const ThingTemplate *thingTemplate );
@@ -125,8 +121,6 @@ public:
 	void rva0039AD45();
 	float rva0039ADB9( float experience, int rank ) const;
 	virtual ~ExperienceTracker();
-	virtual void crc(Xfer *xfer) = 0;
-	virtual void v2() = 0;
 	// ?isTrainable@ExperienceTracker@@QBE_NXZ, the rowed byte getter 0x0039ADAF
 	// (pinned), inlined by its callers here: the template's byte at +0x5E7.
 	__declspec(dllimport) __forceinline bool isTrainable() const { return *((const unsigned char *)m_04 + 0x5E7) != 0; }
@@ -160,8 +154,8 @@ private:
 // byte at +0x5E7 are read from it, here through a view.
 // WorldBuilder's call-graph lead names this body
 // ExperienceTrackerBase::ExperienceTrackerBase (ExperienceTracker.cpp line 56);
-// retail's three EH states (a destructible base, the AsciiString +0x08, the
-// new) are what ExperienceTrackerBaseView stands for. The 0x0039AE30 owner
+// retail's three EH states destroy Snapshot, the AsciiString +0x08 and
+// the new allocation. The 0x0039AE30 owner
 // object's shape comes from the Open-BFME-1 BfmeThingEFECtor.cpp donor
 // (revision 177ae72da).
 struct ExperienceTrackerParentView
