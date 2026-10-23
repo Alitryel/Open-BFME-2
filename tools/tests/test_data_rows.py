@@ -302,6 +302,17 @@ def test_a_function_local_static_is_sized_by_its_own_comdat_section(tmp_path, mo
     assert not ok and "differs" in message
 
 
+DIGIT_STATIC = "?is_init@?1??Get@SysTimeClass@@QAEKXZ@4_NA"  # static bool is_init in an inline member
+
+
+def test_a_static_local_with_a_one_digit_block_number_is_sized_too(tmp_path, monkeypatch):
+    # block numbers 1-10 mangle as one digit with no `@` (`?1??`), the form
+    # SysTimeClass::Get's is_init takes; the section rule is the same
+    compiled(tmp_path, monkeypatch, [(".data", COMDAT_DATA, b"\x00", 1, [])], [(DIGIT_STATIC, 0, 1)])
+    assert verify(image_with(data=bytes(4)), row(DIGIT_STATIC, size="1"), {})[0]
+    assert "size 2 unproven" in verify(image_with(data=bytes(4)), row(DIGIT_STATIC, size="2"), {})[1]
+
+
 @pytest.mark.parametrize("flags, symbols, name", [
     (0xC0300040, [(STATIC, 0, 1)], STATIC),                             # not a COMDAT: padding is no size
     (COMDAT_DATA, [(STATIC, 0, 1), ("?e@?BC@??f@@YAHH@Z@4PAHA", 4, 1)], STATIC),  # a second symbol shares it

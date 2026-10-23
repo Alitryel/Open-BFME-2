@@ -478,7 +478,9 @@ def compiled_arithmetic(source, symbol):
                         f" {shape}")
 
 
-LOCAL_STATIC = re.compile(r"^\?\w+@\?\w+@\?\?")  # ?name@?<block>@??<function>@4<type>
+# ?name@?<block>??<function>@4<type>: the block number is one digit (1-10)
+# or hex letters ended by `@` (`?is_init@?1??Get@...`, `?d@?BC@??f@@...`)
+LOCAL_STATIC = re.compile(r"^\?\w+@\?(?:\d|\w+@)\?\?")
 IMAGE_SCN_LNK_COMDAT = 0x1000
 
 
