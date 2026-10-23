@@ -24,6 +24,9 @@ namespace _STL { template <> template <> void basic_string<char,char_traits<char
 // Suppress this TU's non-retail copy of ?_M_throw_length_error@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QBEXXZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _String_base<char,allocator<char> >::_M_throw_length_error() const; }
+// Suppress this TU's non-retail copy of ?_M_throw_out_of_range@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QBEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_throw_out_of_range() const; }
 
 namespace _STL
 {

@@ -13,10 +13,8 @@
 // rowed range ctor 0x0002A590 from the stream's str() and pcount().
 // Retail 0x006027F0 is ostrstream::str (freeze bit in the strstreambuf
 // flags at +0x60 then the get FILE base at +0x08) and 0x00602810 is
-// ostrstream::pcount (put FILE at +0x0C: ptr minus base). pcount keeps the
-// ledger's address name (Rva00602810); str must be the real char*-returning
-// member: with an int-returning view cl calls it ahead of pcount, while
-// retail reads the count first. The entries at +4..+8 are 24-byte pairs of
+// ostrstream::pcount (put FILE at +0x0C: ptr minus base), both rowed in
+// stlport_strstream_str.cpp. The entries at +4..+8 are 24-byte pairs of
 // narrow strings (c_str() at +0 and +0x0C). WorldBuilder twin 0x0146B8C0
 // (unnamed) has the same three returns. No direct caller in retail; the
 // class name keeps the address.
@@ -47,12 +45,6 @@ namespace _STL {
 template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
 }
 
-class Rva00602810
-{
-public:
-	int rva00602810();
-};
-
 class Rva00427FB2
 {
 public:
@@ -74,7 +66,7 @@ _STL::string Rva00427FB2::rva00427FB2() const
 	{
 		out << it->first.c_str() << "=" << it->second.c_str() << "|";
 	}
-	if (((Rva00602810 *)&out)->rva00602810() >= (int)m_limit)
+	if (out.pcount() >= (int)m_limit)
 		return _STL::string("");
-	return _STL::string((const char *)out.str(), (const char *)out.str() + ((Rva00602810 *)&out)->rva00602810());
+	return _STL::string((const char *)out.str(), (const char *)out.str() + out.pcount());
 }
