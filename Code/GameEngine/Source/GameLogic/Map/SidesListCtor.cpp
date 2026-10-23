@@ -84,6 +84,10 @@ private:
     Rva001976F0 m_extra[20];
 };
 typedef char SidesListSize[sizeof(SidesList)==0x11B0?1:-1];
+// Native secondary Snapshot table C0DA88 slot 1 holds the shared empty
+// post-load hook at 4B3FD0; the slot takes no arguments and accesses no state.
+void SidesList::LoadPostProcess() {}
+
 SidesList::SidesList() : m_numSides(0),m_numSkirmishSides(0),m_cleared(true)
 {
     clear();
