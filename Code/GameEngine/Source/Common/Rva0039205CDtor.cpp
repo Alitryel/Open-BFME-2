@@ -29,7 +29,8 @@ private:
 };
 
 // ??1Rva0039205C@@QAE@XZ
-Rva0039205C::~Rva0039205C()
+// Inline COMDAT: canMake also emits this exact noinline cleanup for its fold proof.
+inline Rva0039205C::~Rva0039205C()
 {
 	if (m_array08)
 	{

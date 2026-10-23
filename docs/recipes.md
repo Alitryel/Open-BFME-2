@@ -672,3 +672,12 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   C2 traces isolate competing input/backup priorities and zero-value fragments;
   candidate indices are reused between rounds, so track their origin symbols.
   See [the minimal controls and compiler evidence](../reverse/attempt_support/debugrealloc-6c4730-20261022.md).
+
+- **An unreachable zero copy can determine a return register.** At 0x00596E15,
+  the existing provably unreachable funds arm assigned zero to a return-holder.
+  Assigning two there removed a fixed-zero copy preference and closed the last
+  EBX/ESI mismatch in all 218 bytes, preserving the separate success cleanup.
+  The return still allocates in round 2, at a slightly lower priority; raising
+  its priority was unnecessary. Keep the return blocks' scopes and prove the
+  changed arm unreachable before adapting it. This does not establish the
+  original source spelling. See [the exact body and read-only compiler traces](../reverse/attempt_support/canmake-joins-20261023/readme.md).
