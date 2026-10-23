@@ -16,8 +16,10 @@ struct EmitVtableTag;
 
 // The this-adjusting deleting-destructor thunk (sub ecx, 0x8) in the
 // secondary vtable proves a second base with a virtual destructor at +0x8;
-// these two bases model only that.
-class PlayerBase0
+// these two bases model only that. They are novtable views, so the tag
+// constructor emits only Player's own tables, not base tables naming base
+// dtors nothing defines.
+class __declspec(novtable) PlayerBase0
 {
 public:
 	virtual ~PlayerBase0();
@@ -25,7 +27,7 @@ private:
 	char m_unmodelled_04[0x8 - 0x04];
 };
 
-class PlayerBase8
+class __declspec(novtable) PlayerBase8
 {
 public:
 	virtual ~PlayerBase8();
