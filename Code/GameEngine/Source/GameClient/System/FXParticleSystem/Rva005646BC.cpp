@@ -44,11 +44,23 @@ struct Src005646BC
 	Rva0056468E m_info;
 };
 
+extern "C" const void *const __identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")[];
+extern "C" const void *const __identifier("??_7V3Vt01111D90@@6B@")[];
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+
 class Rva003ADEBF
 {
 public:
 	Rva003ADEBF(unsigned int a);
-	~Rva003ADEBF();
+	// The ctor's unwind funclet 0x00799DC0 destroys this base through the
+	// 24-byte two-table restore at 0x003A583E (V3InlineTemplateDtor.cpp):
+	// +8 null-guarded to 0x00C1C780, then +0 to 0x00C1B320.
+	~Rva003ADEBF()
+	{
+		unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
+		*(volatile unsigned int *)b08 = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+		*(volatile unsigned int *)this = ((unsigned int)__identifier("??_7V3Vt01111D90@@6B@"));
+	}
 public:
 	void *m_v0;
 	unsigned int m_arg4;
@@ -68,7 +80,9 @@ char g_00C1D3B0 = -3;
 struct Rva005646BCSub
 {
 	Rva005646BCSub() : m_10((void *)&g_00C1D3B0), m_14(0.0f), m_18(0), m_1c(false) {}
-	~Rva005646BCSub();
+	// Unwind funclet 0x00799DC8 destroys this subobject (at +0x10) through the
+	// folded Snapshot destructor 0x0049B47C: restore the Snapshot table.
+	~Rva005646BCSub() { m_10 = (void *)__identifier("??_7Snapshot@@6B@"); }
 	void *m_10;
 	float m_14;
 	const FXList *m_18;

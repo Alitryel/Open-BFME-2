@@ -16,11 +16,22 @@ private:
 	float m_high;
 };
 
+extern "C" const void *const __identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")[];
+extern "C" const void *const __identifier("??_7V3Vt01111D90@@6B@")[];
+
 class Rva0055EFE1
 {
 public:
 	Rva0055EFE1(unsigned int a);
-	~Rva0055EFE1();
+	// The ctor's unwind funclet 0x00799A95 destroys this base through the
+	// 24-byte two-table restore at 0x003A583E (V3InlineTemplateDtor.cpp):
+	// +8 null-guarded to 0x00C1C780, then +0 to 0x00C1B320.
+	~Rva0055EFE1()
+	{
+		unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
+		*(volatile unsigned int *)b08 = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+		*(volatile unsigned int *)this = ((unsigned int)__identifier("??_7V3Vt01111D90@@6B@"));
+	}
 private:
 	void *m_v0;
 	unsigned int m_arg4;
@@ -29,6 +40,7 @@ private:
 
 extern "C" const void *const __identifier("??_7Rva003ADE58@@6BV3Vt01111D90@@@")[];
 extern "C" const void *const __identifier("??_7Rva003ADE58@@6B@")[];
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 extern const void *const g_00C1D1F4[];
 extern "C" char s_slot3E4first;
 
@@ -43,7 +55,9 @@ struct Src0055F218
 struct Rva0055F218Sub
 {
 	Rva0055F218Sub() : m_v((void *)g_00C1D1F4), m_f(0.0f), m_b14(0), m_b15(0) {}
-	~Rva0055F218Sub();
+	// Unwind funclet 0x00799A9D destroys this subobject (at +0xC) through the
+	// folded Snapshot destructor 0x0049B47C: restore the Snapshot table.
+	~Rva0055F218Sub() { m_v = (void *)__identifier("??_7Snapshot@@6B@"); }
 	void *m_v;
 	float m_f;
 	unsigned char m_b14;
