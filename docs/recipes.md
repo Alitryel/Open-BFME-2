@@ -12,6 +12,16 @@ draft and `next_work.py` serves `wpo` candidates last.
 
 ## StrategicHUD `Impl` constructors (Apt movie clips)
 
+- **An inlined static helper can retain a private-register out-of-line copy.**
+  `GetBonusRowNum` at 0x00579674 is `INC EAX; RET`, with no direct native
+  references. WorldBuilder's self-assert and matching StatsDisplay constructor
+  establish its `bonus + 1` purpose. Restoring the file-static helper and calling
+  it from that real constructor emits both the exact two-byte EAX-input copy
+  and the unchanged 541-byte constructor, which inlines the call. External
+  linkage produces a six-byte stack-input helper; a static helper alone is
+  eliminated. Restore supported caller context before inventing a special ABI
+  or synthetic retention call. See the
+  [identity evidence and controls](../reverse/attempt_support/get-bonus-row-579674-20261023.md).
 - **Inline ctor calling the out-of-line callback binder.** The in-place
   callback reference gets an inline constructor that calls the rowed delegate
   binder; that is what orders the arg-slot `esp` save before `ecx`.

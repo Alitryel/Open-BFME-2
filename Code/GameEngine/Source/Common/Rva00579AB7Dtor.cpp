@@ -214,6 +214,20 @@ private:
 	int m_powerPoints; // +0x3C
 };
 
+namespace StrategicHUD
+{
+// WorldBuilder 0x014C0440 self-asserts GetBonusRowNum and maps bonus types
+// 0..2 onto display rows 1..3. Retail's constructor inlines the same mapping.
+// Keep this helper file-static: MSVC retains a two-byte out-of-line copy at
+// 0x00579674 with its private EAX-input convention, despite inlining the call.
+// An external declaration would instead produce a stack-input six-byte body.
+// The int carrier does not establish the original bonus-enum type name.
+static int GetBonusRowNum(int bonus)
+{
+	return bonus + 1;
+}
+}
+
 StrategicHUD::StatsDisplayImpl::StatsDisplayImpl(int level, const AsciiString &name)
 	: m_04(level), m_08(name), m_18(0), m_20(-1), m_commandPoints(0), m_commandPointsMax(0),
 	  m_resourceMultiplier(1.0f), m_powerPoints(0)
@@ -230,7 +244,7 @@ StrategicHUD::StatsDisplayImpl::StatsDisplayImpl(int level, const AsciiString &n
 	SetRowText(4, FormatResourceMultiplierText(m_resourceMultiplier));
 	SetRowText(5, FormatPowerPointsText(m_powerPoints));
 	for (int row = 0; row < 3; ++row)
-		SetRowText(row + 1, FormatBonusText(m_bonus[row]));
+		SetRowText(GetBonusRowNum(row), FormatBonusText(m_bonus[row]));
 }
 
 StrategicHUD::StatsDisplayImpl::~StatsDisplayImpl()

@@ -1,5 +1,9 @@
 # Two-byte unowned range at 0x00579674
 
+Resolved as the file-static GetBonusRowNum helper using a real matched caller.
+See [the subsequent identity and compiler proof](../get-bonus-row-579674-20261023.md).
+The earlier failed trial below is retained for provenance.
+
 Retail 0x00579674..0x00579676 is INC EAX; RET. The preceding rowed
 parseStatString ends in its own RET at 0x00579673; the following rowed
 StrategicHUD::ParseRowNum begins at 0x00579676. Neither neighbor branches into
