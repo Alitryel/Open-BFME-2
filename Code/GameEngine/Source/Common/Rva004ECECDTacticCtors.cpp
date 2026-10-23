@@ -230,42 +230,8 @@ AIReturnTheRingTactic::AIReturnTheRingTactic()
 	m_65 = false;
 }
 
-// StructureCreep, 0x005AB91D (its destructor is 0x005AB7E5)
-class AIStructureCreepTactic : public Rva005DCC24
-{
-public:
-	virtual ~AIStructureCreepTactic();
-	AIStructureCreepTactic();
-private:
-	int m_58;
-	int m_5C;
-	int m_60;
-	int m_64;
-	int m_68;
-	int m_6C;
-	int m_70;
-	int m_74;
-	bool m_78;
-	bool m_79;
-	unsigned char m_pad7A[2];
-	int m_7C;
-};
-
-AIStructureCreepTactic::AIStructureCreepTactic()
-	: Rva005DCC24(AsciiString("StructureCreep"))
-{
-	m_68 = -1;
-	m_6C = -1;
-	m_70 = -1;
-	m_74 = -1;
-	m_7C = -1;
-	m_58 = 0;
-	m_5C = 0;
-	m_60 = 0;
-	m_64 = 0;
-	m_78 = false;
-	m_79 = false;
-}
+// StructureCreep, 0x005AB91D: rehomed to TargetlessTactics/AIStructureCreepTactic.cpp, whose full
+// class view owns the vtable (a one-slot view here shadowed it at link time).
 
 // FarmKillSquad, 0x005ACF38: one squad in five farms (a d100 roll under 20)
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);

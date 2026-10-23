@@ -550,12 +550,14 @@ public:
 class Rva005DCC24 : public AITacticOffensive
 {
 public:
+	Rva005DCC24(const AsciiString &name);	// retail 0x005DCC0A
 	virtual ~Rva005DCC24();
 };
 
 class AIStructureCreepTactic : public Rva005DCC24
 {
 public:
+	AIStructureCreepTactic();
 	virtual ~AIStructureCreepTactic();
 	virtual bool canRun(void *request);
 	virtual void cleanUp();
@@ -1016,4 +1018,28 @@ void AIStructureCreepTactic::moveDozerAway()
 		pos.z = dir.Z;
 		dozer->m_ai->m_commands.aiMoveToPosition(&pos, CMD_FROM_PLAYER);
 	}
+}
+
+// This unit's AITactic stand-in declares v4; the retail vftable of the tactic (0x00C722EC)
+// holds 0x0008BB81 in slot 4, so bind the placeholder to the row at that address.
+#pragma comment(linker, "/alternatename:?v4@AITactic@@UAEXXZ=?get@Rva0008BB81DwordField@@QBEHXZ")
+
+// StructureCreep tactic ctor, retail 0x005AB91D (118 B): the base 0x005DCC0A with the tactic's
+// name, then five -1 fields (+0x68 +0x6C +0x70 +0x74 +0x7C) and the zeroes. Rehomed from
+// Rva004ECECDTacticCtors.cpp, whose one-slot view of this class emitted a vtable copy that
+// shadowed this unit's full table at link time.
+AIStructureCreepTactic::AIStructureCreepTactic()
+	: Rva005DCC24(AsciiString("StructureCreep"))
+{
+	m_68 = (unsigned int)-1;
+	m_next = -1;
+	m_nextSiteScanFrame = (unsigned int)-1;
+	m_nextMoveOrderFrame = (unsigned int)-1;
+	m_nextRun = (unsigned int)-1;
+	m_58 = (ObjectID)0;
+	m_5C = 0;
+	m_order = 0;
+	m_64 = 0;
+	m_78 = false;
+	m_running = false;
 }
