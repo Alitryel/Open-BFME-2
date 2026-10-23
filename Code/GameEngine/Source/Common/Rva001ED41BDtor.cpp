@@ -24,24 +24,15 @@ public:
 	void clear();
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-class Rva001ED41BBase0
-{
-public:
-	virtual ~Rva001ED41BBase0() {}
-};
-
-class Rva001ED41B : public Rva001ED41BBase0, public SubsystemInterface
+class Rva001ED41B : public Snapshot, public SubsystemInterface
 {
 public:
 	virtual ~Rva001ED41B();
 private:
-	char m_pad08[0x10 - 0x08];
 	Rva000AD6F4 m_10;
 	_STL::vector<Rva001ED0DE> m_14;
 };

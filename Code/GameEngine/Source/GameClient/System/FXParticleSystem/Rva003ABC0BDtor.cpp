@@ -3,7 +3,7 @@
 // Leaf dtor restoring one vptr at +0x1c with null-guarded store then tail-jmp
 // to rowed base ??1Rva003AEEB3 0x003A5817. Evidence: neg sbb and idiom matches
 // sibling Rva003A5817Dtor plus V3InlineTemplateDtor; caller ??_G deleting dtor.
-extern const void *const g_00BBB554[];
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 class Rva003AEEB3
 {
 public:
@@ -22,13 +22,12 @@ public:
 FXParticleSystem::Rva005FEA50Base::~Rva005FEA50Base()
 {
 	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
-	*(volatile unsigned int *)b1C = (unsigned int)g_00BBB554;
+	reinterpret_cast<Snapshot *>(b1C)->Snapshot::~Snapshot();
 }
 
 // Rva0055F9B4 (ctor 0x0055F9B4, Rva0055F9B4Ctor.cpp): its vtable 0x00C1D688 slot 0
 // is the same deleting dtor 0x003AEFF6, so this 22B body is its destructor too
 // (ICF alias row).
-extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 class __declspec(novtable) Rva0055F9B4 : public Rva003AEEB3
 {
 public:
@@ -37,7 +36,7 @@ public:
 Rva0055F9B4::~Rva0055F9B4()
 {
 	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
-	*(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+	reinterpret_cast<Snapshot *>(b1C)->Snapshot::~Snapshot();
 }
 
 // Rva0055F197 (ctor 0x0055F197, Rva003ABD20Ctor.cpp): its vtable 0x00C1D654
@@ -51,7 +50,7 @@ public:
 Rva0055F197::~Rva0055F197()
 {
 	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
-	*(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+	reinterpret_cast<Snapshot *>(b1C)->Snapshot::~Snapshot();
 }
 
 // Rva003ABC6E's native constructor calls the Rva003AEA42 provider;
@@ -64,11 +63,11 @@ public:
 Rva003AEA42::~Rva003AEA42()
 {
     unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
-    *(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+    reinterpret_cast<Snapshot *>(b1C)->Snapshot::~Snapshot();
 }
 
 class __declspec(novtable) Rva0055BF4B : public Rva003AEEB3 { public: virtual ~Rva0055BF4B(); };
 Rva0055BF4B::~Rva0055BF4B() {
  unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
- *(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+ reinterpret_cast<Snapshot *>(b1C)->Snapshot::~Snapshot();
 }

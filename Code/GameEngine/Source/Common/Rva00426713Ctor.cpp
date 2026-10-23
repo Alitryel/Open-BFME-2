@@ -1,6 +1,6 @@
-// cl: /MD
+// cl: /MD /Ireference/shims/moduledata
 // ??0Rva00426713@@QAE@XZ @0x00426713 36B evidence: baseConstruct 0x001B4E63 plus primary vtable 0x0083C408 plus secondary 0x0083C3F8 plus g_00BBB554 at +0x0C plus zero at +0x10
-extern const void *const g_00BBB554[];
+#include "Common/Snapshot.h"
 extern "C" const void *const __identifier("??_7Rva00426745@@6BSubsystemInterface@@@")[];
 extern "C" const void *const __identifier("??_7Rva00426745@@6BRva00426745SnapshotBase@@@")[];
 
@@ -12,32 +12,21 @@ public:
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-class __declspec(novtable) Rva00426713Base
-{
-public:
-	Rva00426713Base() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual void unused();
-	char m_flag;
-	int m_value;
-};
-
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-class __declspec(novtable) Rva00426713 : public Rva00426713Base
+class __declspec(novtable) Rva00426713 : public SubsystemInterface, public Snapshot
 {
 public:
 	Rva00426713();
 private:
-	const void *m_0C;
 	int m_10;
 };
 
 Rva00426713::Rva00426713()
 {
-	m_0C = (const void *)g_00BBB554;
 	_ReadWriteBarrier();
 	m_10 = 0;
 	*(const void **)this = __identifier("??_7Rva00426745@@6BSubsystemInterface@@@");
-	m_0C = (const void *)__identifier("??_7Rva00426745@@6BRva00426745SnapshotBase@@@");
+	*(const void **)static_cast<Snapshot *>(this) = (const void *)__identifier("??_7Rva00426745@@6BRva00426745SnapshotBase@@@");
 }

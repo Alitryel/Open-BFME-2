@@ -6,18 +6,20 @@
 // 0x00BBB554 at +0x2c plus pinned base ??1Rva004FBCBE 0x004FBCBE, caller
 // deleting dtor 0x004FF2D2 in OpaqueScalarDeletingDtorsB11.cpp.
 
-extern const void *const g_00BBB554[];
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-class Snapshot
+class __declspec(novtable) RegionBonusInfo : public Snapshot
 {
 public:
-	virtual ~Snapshot();
+	virtual ~RegionBonusInfo() {}
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+private:
+	int m_values[6];
 };
-
-// ??1Snapshot@@UAE@XZ present-unmatched
-inline Snapshot::~Snapshot()
-{
-}
 
 class Rva004FBCBE
 {
@@ -31,7 +33,7 @@ public:
 	virtual ~Rva004FF2C0();
 private:
 	char m_pad04[0x2c - 4];
-	Snapshot m_2c;
+	RegionBonusInfo m_2c;
 };
 
 Rva004FF2C0::~Rva004FF2C0()

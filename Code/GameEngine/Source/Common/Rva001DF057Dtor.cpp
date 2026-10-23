@@ -1,4 +1,4 @@
-// cl: /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+// cl: /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 //
 // ??1Rva001DF057@@UAE@XZ @0x001DF057 154B.
@@ -45,12 +45,13 @@ extern "C" void __cdecl free(void *block) throw(...);
 
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-extern const void *const g_00BBB554[];
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
 
-class SnapBase
+class __declspec(novtable) SnapBase : public Snapshot
 {
 public:
-	virtual ~SnapBase() { *(const void **)this = g_00BBB554; }
+	virtual ~SnapBase() {}
 };
 
 class Rva001DD70F

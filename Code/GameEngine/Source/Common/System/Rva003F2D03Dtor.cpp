@@ -24,10 +24,33 @@
 
 extern "C" void __cdecl free(void *block);
 
-extern const void *const g_00BBB554[];
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-class RegionBonusInfo {public:__declspec(nothrow) RegionBonusInfo();int *vtable;int values[6];};
-class Snapshot78 {public:__forceinline Snapshot78(){}~Snapshot78(){*(const void **)this=g_00BBB554;}__forceinline void reset(){bonus.values[0]=0;bonus.values[1]=0;bonus.values[2]=0;bonus.values[3]=0;bonus.values[4]=0;bonus.values[5]=0;}RegionBonusInfo bonus;};
+class __declspec(novtable) RegionBonusInfo : public Snapshot
+{
+public:
+	__declspec(nothrow) RegionBonusInfo();
+	virtual ~RegionBonusInfo() {}
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+	int values[6];
+};
+class __declspec(novtable) Snapshot78 : public RegionBonusInfo
+{
+public:
+	__forceinline Snapshot78() {}
+	__forceinline void reset()
+	{
+		values[0] = 0;
+		values[1] = 0;
+		values[2] = 0;
+		values[3] = 0;
+		values[4] = 0;
+		values[5] = 0;
+	}
+};
 class OpaqueRefCounted
 {
 public:
