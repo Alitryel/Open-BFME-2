@@ -16,7 +16,14 @@
 
 typedef int Int;
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse
+{
+    const char *token;
+    FieldParseProc parse;
+    const void *userData;
+    int offset;
+};
 
 #include "../../../../../reference/shims/iniexception/Common/INIException.h"
 
@@ -24,6 +31,7 @@ class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+	static void parseAsciiString( INI *, void *, void *, const void * );
 };
 
 #include "ascii_string.h"
@@ -37,12 +45,18 @@ private:
 	AsciiString m_name;
 };
 
-extern const FieldParse Rva003B7BA0RecordFieldParseTable[];
+// BFME 2's complete table at RVA 0x00861A50: the string at +4 and
+// the four-zero terminator. The donor's table address is not used here.
+extern const FieldParse Rva003B7BA0RecordFieldParseTable[2] = {
+    { "Region", INI::parseAsciiString, 0, 4 },
+    { 0, 0, 0, 0 }
+};
 
-class Rva003B7BA0Owner
+class FXList;
+class Rva00566527
 {
 public:
-	void append( Rva003B7BA0Record *record );
+	void rva00566527( const FXList &record );
 };
 
 // ?ParseEnableRegion@@YAXPAVINI@@PAX1PBX@Z
@@ -52,7 +66,9 @@ void ParseEnableRegion( INI *ini, void *instance, void *, const void * )
 	{
 		Rva003B7BA0Record record;
 		ini->initFromINI( &record, Rva003B7BA0RecordFieldParseTable );
-		((Rva003B7BA0Owner *)instance)->append( &record );
+		// Existing rowed thunk 0x00566527 has this same reference ABI.
+		// Its FXList spelling is a callable view, not this record's identity.
+		((Rva00566527 *)instance)->rva00566527( (const FXList &)record );
 	}
 	else
 		throw INIException( 3, "ParseEnableRegion::Invalid data passed in." );
