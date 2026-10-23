@@ -64,6 +64,9 @@ public:
     DynamicVectorClass(unsigned size = 0, T const *array = 0);
     virtual ~DynamicVectorClass();
     virtual bool Resize(int newsize, T const *array = 0);
+    virtual void Clear();
+    virtual int ID(T const *ptr);
+    virtual int ID(T const &ptr);
 protected:
     int ActiveCount;
     int GrowthStep;

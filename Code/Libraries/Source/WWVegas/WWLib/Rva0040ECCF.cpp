@@ -108,6 +108,7 @@ inline __declspec(noinline) Rva0040CB11Entry::Rva0040CB11Entry(int key, const Rv
 namespace _STL {
 template <> void vector<Rva0040CB11Entry, allocator<Rva0040CB11Entry> >::_M_insert_overflow(Rva0040CB11Entry *, const Rva0040CB11Entry &, const __false_type &, size_t, bool);
 template <> void vector<Rva0040CB11Entry, allocator<Rva0040CB11Entry> >::push_back(const Rva0040CB11Entry &);
+template <> void vector<Rva0040CB11Entry, allocator<Rva0040CB11Entry> >::reserve(size_t);
 }
 
 class Rva0040D8D6Listener
