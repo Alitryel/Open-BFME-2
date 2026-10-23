@@ -1068,3 +1068,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 		}
 	}
 }
+
+// Retail's SequentialScript vftable (0x00BE3A90) holds the empty virtual 0x000B3FD0 in slot 1
+// (loadPostProcess); this unit has no body for it, so bind it to the row at that address.
+#pragma comment(linker, "/alternatename:?loadPostProcess@SequentialScript@@MAEXXZ=??1Region2D@@QAE@XZ")
