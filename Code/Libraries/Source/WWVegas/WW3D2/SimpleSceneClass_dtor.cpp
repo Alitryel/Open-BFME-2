@@ -168,3 +168,10 @@ SimpleSceneClass::~SimpleSceneClass()
 #pragma comment(linker, "/alternatename:??_VBfmeSceneVectorElement@@SAXPAX@Z=??_V@YAXPAX@Z")
 
 #pragma comment(linker, "/alternatename:??1BfmeSceneVectorElement@@QAE@XZ=??1Rva00141D00@@QAE@XZ")
+
+// SimpleSceneClass's retail vftable (0x00BD33D0): slot 7 Get_Ambient_Light 0x005C4AD5, slot 9
+// Get_Fog_Enable 0x004C54EC, slot 11 Get_Fog_Color 0x004F5FA3, each an ICF-folded trivial getter
+// (same bindings as SimpleSceneClassConstructorBFME2.cpp).
+#pragma comment(linker, "/alternatename:?Get_Ambient_Light@SceneClass@@UAEABVVector3@@XZ=?get@Rva005C4AD5LeaField@@QBEPAXXZ")
+#pragma comment(linker, "/alternatename:?Get_Fog_Enable@SceneClass@@UAE_NXZ=?get@Rva004C54ECByte@@QAEEXZ")
+#pragma comment(linker, "/alternatename:?Get_Fog_Color@SceneClass@@UAEABVVector3@@XZ=?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")
