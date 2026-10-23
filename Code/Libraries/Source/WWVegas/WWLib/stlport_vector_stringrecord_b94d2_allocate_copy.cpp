@@ -29,3 +29,7 @@ template void BfmeStringRecord000B94D2Vector::push_back(const BfmeStringRecord00
 template void BfmeStringRecord000B94D2Vector::_M_insert_overflow(BfmeStringRecord000B94D2 *, const BfmeStringRecord000B94D2 &, const _STL::__false_type &, unsigned int, bool);
 template void BfmeStringRecord000B94D2Vector::_M_clear();
 template BfmeStringRecord000B94D2 *BfmeStringRecord000B94D2Vector::_M_allocate_and_copy<const BfmeStringRecord000B94D2 *>(unsigned int, const BfmeStringRecord000B94D2 *, const BfmeStringRecord000B94D2 *);
+
+// 0x000BBCD4 calls the record fill 0x000B97E9 through the out-of-line uninitialized_fill_n
+// wrapper (three arguments plus the __false_type tag at [ebp-1]).
+template BfmeStringRecord000B94D2 *_STL::uninitialized_fill_n(BfmeStringRecord000B94D2 *, unsigned int, const BfmeStringRecord000B94D2 &);
