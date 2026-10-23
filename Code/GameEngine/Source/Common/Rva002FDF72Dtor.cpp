@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /GX /Ireference/shims/moduledata
-// ??1Rva002FDF72@@UAE@XZ @0x002FDF72 201B: ModuleData-style dtor with vtable
+// ??1TAiData@@UAE@XZ @0x002FDF72 201B: ModuleData-style dtor with vtable
 // 0x008071E4 then Snapshot base restore 0x00BBB554; three intrusive lists at
 // +0xF4 (next +0x1BC) +0xFC (next +0x10) +0xF8 (next +0xC) each destructed via
 // virtual slot 0 with flags 0 then scalar delete 0x0002FD60; three AsciiStrings
@@ -31,12 +31,17 @@ struct NodeF8
 	NodeF8 *m_next;
 };
 
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
-class Rva002FDF72 : public Snapshot
+class TAiData : public Snapshot
 {
 public:
-	virtual ~Rva002FDF72();
+	virtual ~TAiData();
+	virtual const char *GetSnapshotName() const;
+	virtual void loadPostProcess();
+protected:
+	virtual void xfer(Xfer *);
 private:
 	char m_pad04[0xD8];
 	AsciiString m_DC;
@@ -48,7 +53,7 @@ private:
 	NodeFC *m_FC;
 };
 
-Rva002FDF72::~Rva002FDF72()
+TAiData::~TAiData()
 {
 	NodeF4 *curF4 = m_F4;
 	m_F4 = 0;

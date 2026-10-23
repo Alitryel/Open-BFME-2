@@ -61,7 +61,16 @@ BFME_LITERAL_NAME_GETTER(Rva001EAE63Named, "LinearCampaign")
 BFME_LITERAL_NAME_GETTER(Rva001EAE69Named, "LinearCampaignManager")
 BFME_LITERAL_NAME_GETTER(Rva001FBEB1Named, "FXParticleSystem")
 BFME_LITERAL_NAME_GETTER(ScriptEngine, "ScriptEngine")
-BFME_LITERAL_NAME_GETTER(Rva00286F81Named, "FireLogicSystem")
+class FireLogicSystem
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *FireLogicSystem::GetSnapshotName() const
+{
+	return "FireLogicSystem";
+}
 BFME_LITERAL_NAME_GETTER(Rva002AE621Named, "Command")
 BFME_LITERAL_NAME_GETTER(CarryoverUnit, "CarryoverUnit")
 BFME_LITERAL_NAME_GETTER(Rva00414307Named, "ScoredKillEvaAnnouncer")

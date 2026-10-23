@@ -227,6 +227,16 @@ private:
  TAiData *m_aiData;
  int m_nextGroupID,m_nextFormationID;
 };
+// ?AI::loadPostProcess present-unmatched
+void AI::loadPostProcess()
+{
+}
+
+// ?TAiData::loadPostProcess present-unmatched
+void TAiData::loadPostProcess()
+{
+}
+
 AI::AI():m_nextGroupID(0),m_nextFormationID(0)
 {
  m_aiData=new TAiData;

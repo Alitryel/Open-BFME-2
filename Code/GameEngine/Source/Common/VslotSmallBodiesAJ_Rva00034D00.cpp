@@ -1124,13 +1124,9 @@ class FireLogicSystem
 {
 public:
 	void rva00286CC4();	// rowed grid teardown 0x00286CC4
+	virtual void reset();
 };
-class Rva00287010 : public FireLogicSystem
-{
-public:
-	void rva00287010();
-};
-void Rva00287010::rva00287010()
+void FireLogicSystem::reset()
 {
 	rva00286CC4();
 }

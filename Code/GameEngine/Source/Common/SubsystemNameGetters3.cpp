@@ -18,4 +18,13 @@
 		return TEXT; \
 	}
 
-BFME_LITERAL_NAME_GETTER(AI, "AI")
+class AI
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *AI::GetSnapshotName() const
+{
+	return "AI";
+}

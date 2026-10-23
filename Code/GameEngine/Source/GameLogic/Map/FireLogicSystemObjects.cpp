@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /ICode/Libraries/Include
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /ICode/Libraries/Include /Ireference/shims/bfme2_ascii
 //
 // FireLogicSystem's registration of a placed object (0x00286373): the id is
 // filed in the grid cell under its world position and the cell takes the
@@ -227,7 +227,9 @@ class PolygonTrigger;
 
 // The subsystem base (ctor 0x001B4E63, dtor 0x001B4E74) and Snapshot at
 // +0x0C, the second base whose vtable 0x00BBB554 the destructor restores.
-#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
+typedef bool Bool;
+#include "../../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 // A material entry (0x18 bytes): the array constructor zeroes all six
@@ -265,7 +267,10 @@ public:
 	FireLogicSystem();
 	virtual ~FireLogicSystem();
 	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
+	virtual void init();
+	virtual void reset();
+	virtual void update();
 	virtual void xfer(Xfer *xfer);
 	void ChangeBurnRate(Int x0, Int x1, Int y, Int delta, bool onlyBurning);
 	void ChangeBurnRate(const Coord3D *origin, const Coord3D *dir, float threshold, Int x0, Int x1, Int y, Int delta, bool onlyBurning);
@@ -944,6 +949,11 @@ FireLogicSystem::FireLogicSystem()
 	if (theFireLogicSystemParseRegistration.m_useCount == 0)
 		Rva0020DFFBRegister((const ModuleData *)&theFireLogicSystemParseRegistration);
 	++theFireLogicSystemParseRegistration.m_useCount;
+}
+
+// ?FireLogicSystem::loadPostProcess present-unmatched
+void FireLogicSystem::loadPostProcess()
+{
 }
 
 // ??1FireLogicSystem@@UAE@XZ @0x00286F8F

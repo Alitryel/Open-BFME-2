@@ -4962,7 +4962,6 @@ name,address,notes
 ??1T2Vb0084B410@@UAE@XZ,0x0001E760,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1T2Vb0084B510@@UAE@XZ,0x0001E860,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1T2Vb0084B580@@UAE@XZ,0x0001E8D0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-??1TAiData@@UAE@XZ,0x002FDF72,destructor called by the scalar deleting destructor 0x002FE041 (slot 0 of vtable 0x00C071E4 whose unique slot-2 name getter returns TAiData); the body re-stores vtable 0x00C071E4
 ??1TaintSpecialPowerModuleData@@UAE@XZ,0x004C4B07,dtor called by audited wrapper RVA 0x004C4AEB; retail registration TaintSpecialPower -> data factory RVA 0x00251EE4 -> ctor RVA 0x004C4AB8; primary vptr store RVA 0x004C4ACA
 ??1Team@@MAE@XZ,0x003A354F,destructor called by the scalar deleting destructor 0x003A38CD (slot 0 of vtable 0x00C1AEFC whose unique slot-2 name getter returns Team); the body re-stores vtable 0x00C1AEFC
 ??1TeamPrototype@@MAE@XZ,0x003A33CD,destructor called by the scalar deleting destructor 0x003A38B1 (slot 0 of vtable 0x00C1AE94 whose unique slot-2 name getter returns TeamPrototype); the body re-stores vtable 0x00C1AE94

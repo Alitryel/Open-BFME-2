@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /O1 /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -195,31 +195,26 @@ Rva00285BEC::Rva00285BEC(EmitVtableTag *)
 {
 }
 
-class Rva00286F8FBase0
+typedef bool Bool;
+#include "../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+
+class FireLogicSystem : public SubsystemInterface, public Snapshot
 {
 public:
-	virtual ~Rva00286F8FBase0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
+	FireLogicSystem(EmitVtableTag *);
+	virtual ~FireLogicSystem();
+	virtual void init();
+	virtual void reset();
+	virtual void update();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
 };
 
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x00286F87 in its vtable is target evidence for it.
-class Rva00286F8FBaseC
-{
-public:
-	virtual ~Rva00286F8FBaseC();
-};
-class Rva00286F8F : public Rva00286F8FBase0, public Rva00286F8FBaseC
-{
-public:
-	Rva00286F8F(EmitVtableTag *);
-public:
-	virtual ~Rva00286F8F();
-};
-
-// ?<Rva00286F8F::Rva00286F8F> absent-from-retail
-Rva00286F8F::Rva00286F8F(EmitVtableTag *)
+// ?<FireLogicSystem::FireLogicSystem> absent-from-retail
+FireLogicSystem::FireLogicSystem(EmitVtableTag *)
 {
 }
 

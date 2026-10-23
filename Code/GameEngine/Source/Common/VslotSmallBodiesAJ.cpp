@@ -1377,11 +1377,6 @@ class Rva00286CC4
 public:
 	void rva00286CC4();
 };
-class Rva00287010 : public Rva00286CC4
-{
-public:
-	void rva00287010();
-};
 
 
 class Rva003412DB

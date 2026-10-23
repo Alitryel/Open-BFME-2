@@ -126,4 +126,13 @@ const char *RadarObject::GetSnapshotName() const
 }
 BFME_LITERAL_NAME_GETTER(Rva002DAB5ENamed, "TerrainVisual")
 BFME_LITERAL_NAME_GETTER(Pathfinder, "Pathfinder")
-BFME_LITERAL_NAME_GETTER(Rva002FE03BNamed, "TAiData")
+class TAiData
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *TAiData::GetSnapshotName() const
+{
+	return "TAiData";
+}

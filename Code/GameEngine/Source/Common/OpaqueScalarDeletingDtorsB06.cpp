@@ -457,10 +457,10 @@ struct Rva002FEB3AData
 class AI
 {
 public:
-    void reset();
+    virtual void reset();
     void destroyGroup(AIGroup *);
 private:
-    char opaque00[0x10];
+    char opaque04[0x10 - 4];
     Pathfinder *pathfinder;
     _STL::list<int> groups;
     Rva002FEB3AData *data;
