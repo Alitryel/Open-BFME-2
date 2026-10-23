@@ -53,7 +53,42 @@ static __forceinline void configAppendChar(AsciiString &text,char c){((StringBas
 
 #include "Common/GameState.h"
 #include "GameClient/MapUtil.h"
-#include "GameNetwork/GameSpy/GSConfig.h"
+// BFME 2's GameSpyConfigInterface, not Zero Hour's GSConfig.h: retail's
+// GameSpyConfig vtable 0x0086AA10 (stored by the constructor 0x0054E8DC) has
+// no getPointsForRank slot, so isPlayerVIP is vslot 10, getManglerLocation 11
+// and the six NAT getters fill slots 14-19.
+#define __GSCONFIG_H__
+class GameSpyConfigInterface
+{
+public:
+	virtual ~GameSpyConfigInterface() {}
+
+	// Pings
+	virtual std::list<AsciiString> getPingServers(void) = 0;
+	virtual Int getNumPingRepetitions(void) = 0;
+	virtual Int getPingTimeoutInMs(void) = 0;
+	virtual Int getPingCutoffGood( void ) = 0;
+	virtual Int getPingCutoffBad( void ) = 0;
+
+	// QM
+	virtual std::list<AsciiString> getQMMaps(void) = 0;
+	virtual Int getQMBotID(void) = 0;
+	virtual Int getQMChannel(void) = 0;
+	virtual void setQMChannel(Int channel) = 0;
+
+	// Player Info
+	virtual Bool isPlayerVIP(Int id) = 0;
+
+	// mangler Info
+	virtual Bool getManglerLocation(Int index, AsciiString& host, UnsignedShort& port) = 0;
+
+	// Ladder / Any other external parsing
+	virtual AsciiString getLeftoverConfig(void) = 0;
+
+	// Custom match
+	virtual Bool restrictGamesToLobby() = 0;
+	static GameSpyConfigInterface* create(AsciiString config);
+};
 #include "GameNetwork/RankPointValue.h"
 
 // codegen otherwise instantiates the max<unsigned> COMDAT (one byte shape
@@ -138,6 +173,9 @@ typedef _Rb_tree<int,int,_Identity<int>,less<int>,Rva0054E8DCAllocator<int> > Ga
 template <> void GameSpyVipTree::_M_erase(_Rb_tree_node<int> *);
 template <> _Rb_tree_base<int,Rva0054E8DCAllocator<int> >::~_Rb_tree_base();
 template <> GameSpyVipTree::~_Rb_tree();
+// The constructor's VIP insert calls the set<int>::insert retail rows at
+// 0x000BC15D; its node allocation's cleanup binds the kept proxy copy.
+template <> void _STLP_alloc_proxy<_Rb_tree_node<int> *,_Rb_tree_node<int>,allocator<_Rb_tree_node<int> > >::deallocate(_Rb_tree_node<int> *,size_t);
 }
 
 class GameSpyConfig : public GameSpyConfigInterface
@@ -161,7 +199,6 @@ public:
 	void setQMChannel(Int channel)							{ m_qmChannel = channel; }
 
 	// Player Info
-	Int getPointsForRank(Int rank);
 	virtual Bool isPlayerVIP(Int id);
 	
 	virtual Bool getManglerLocation(Int index, AsciiString& host, UnsignedShort& port);
@@ -245,6 +282,15 @@ Bool GameSpyConfig::getManglerLocation(Int index, AsciiString& host, UnsignedSho
 	return TRUE;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+// Retail 0x0054E86D (47 bytes): Zero Hour's body, GameSpyConfig vslot 10.
+Bool GameSpyConfig::isPlayerVIP(Int id)
+{
+	std::set<Int,std::less<Int>,Rva0054E8DCAllocator<Int> >::const_iterator it = std::find(m_vip.begin(), m_vip.end(), id);
+	return it != m_vip.end();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -382,7 +428,8 @@ m_qmChannel(0)
 			{
 				Int val = atoi(line.str());
 				if (val > 0)
-					m_vip.insert(val);
+					// retail calls the rowed set<int>::insert 0x000BC15D here
+					reinterpret_cast<std::set<Int> *>(&m_vip)->insert(val);
 			}
 		}
 		else if (inPingServers)

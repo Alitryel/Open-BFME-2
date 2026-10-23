@@ -1852,3 +1852,4 @@ _Rva00819630,0x00685530,"Renamed to _CommSerialConstruct by tools/rename.py (inf
 ??1Rva004B237B@@UAE@XZ,0x004B237B,"Renamed to ??1EntEnragedUpdate@@UAE@XZ: stores the same three vftables (0x00856948/0x007EFF90/0x0085693C) the EntEnragedUpdate ctor 0x004B2516 stores"
 ??_GRva004B237B@@UAEPAXI@Z,0x004B2593,"Renamed to ??_GEntEnragedUpdate@@UAEPAXI@Z: slot 0 of EntEnragedUpdate's vftable 0x00856948 installed by ctor 0x004B2516"
 ?rva004B23C5@Rva004B237B@@UAEXPAVXfer@@@Z,0x004B23C5,"Renamed to ?rva004B23C5@EntEnragedUpdate@@UAEXPAVXfer@@@Z: slot 3 of EntEnragedUpdate's vftable 0x00856948 (class renamed)"
+?rva0054E86D@Rva0054F434@@UAE_NH@Z,0x0054E86D,"Renamed to ?isPlayerVIP@GameSpyConfig@@UAE_NH@Z: slot 10 of GameSpyConfig's vftable 0x0086AA10 installed by ctor 0x0054E8DC; Zero Hour GSConfig.cpp:473 body; moved into GSConfig.cpp"
