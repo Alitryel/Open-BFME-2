@@ -36,7 +36,6 @@ struct State0051E262
 	int m_280; // +0x280
 	char m_pad284[4];
 	int m_288; // +0x288
-	void rva0051DE3D();
 };
 class AptOptions
 {
@@ -53,6 +52,7 @@ class AptScoreScreen
 {
 public:
 	static bool OpenScreen(int a1, int a2);
+	void rva0051DE3D();
 };
 // WorldBuilder AptScoreScreen::OpenScreen, WB VA 0x0145FCE0 (strings lead, score 1.0).
 bool AptScoreScreen::OpenScreen(int a1, int a2)
@@ -62,6 +62,6 @@ bool AptScoreScreen::OpenScreen(int a1, int a2)
 	((Shell *)(*(GlobalA01E48 **)&TheShell))->push(AsciiString("ScoreScreen.apt"), false);
 	((State0051E262 *)g_00E04914)->m_280 = a1;
 	((State0051E262 *)g_00E04914)->m_288 = a2;
-	((State0051E262 *)g_00E04914)->rva0051DE3D();
+	((AptScoreScreen *)g_00E04914)->rva0051DE3D();
 	return true;
 }
