@@ -25,6 +25,8 @@ namespace _STL
 template <class T>
 class char_traits {};
 
+template <class State> class fpos;
+
 template <class T>
 class allocator {};
 
@@ -34,11 +36,28 @@ public:
 	~locale();
 };
 
+// Preserve the complete STLport 4.5.3 virtual interface in both views.
+// The retail destructor writes the same table used by the header-based units.
 template <class CharT, class Traits>
 class basic_streambuf
 {
 public:
 	virtual ~basic_streambuf();
+
+protected:
+	virtual basic_streambuf *setbuf(CharT *, int);
+	virtual fpos<int> seekoff(long, int, int);
+	virtual fpos<int> seekpos(fpos<int>, int);
+	virtual int sync();
+	virtual int showmanyc();
+	virtual int xsgetn(CharT *, int);
+	virtual int underflow();
+	virtual int uflow();
+	virtual int pbackfail(int);
+	virtual int xsputn(const CharT *, int);
+	virtual int _M_xsputnc(CharT, int);
+	virtual int overflow(int);
+	virtual void imbue(const locale &);
 
 private:
 	unsigned char _M_pad[0x4C - 4];
@@ -50,6 +69,17 @@ class basic_stringbuf : public basic_streambuf<CharT, Traits>
 {
 public:
 	virtual ~basic_stringbuf();
+
+protected:
+	virtual int underflow();
+	virtual int uflow();
+	virtual int pbackfail(int);
+	virtual int overflow(int);
+	virtual int xsputn(const CharT *, int);
+	virtual int _M_xsputnc(CharT, int);
+	virtual basic_streambuf<CharT, Traits> *setbuf(CharT *, int);
+	virtual fpos<int> seekoff(long, int, int);
+	virtual fpos<int> seekpos(fpos<int>, int);
 
 private:
 	int _M_mode;
