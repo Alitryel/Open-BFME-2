@@ -15,20 +15,7 @@ class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 extern "C" const void *const vtbl_00BC6F20[];  // folded, 7 classes; via ??_7Rva0007DF07@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BC6F20=??_7Rva0007DF07@@6B@")
-// The retail table at RVA 0x0083944C: 4 slots, each a rowed code owner (the next
-// word is not a code address or starts another ledger datum).
-extern "C" {
-void __identifier("??_GRva0040C39E@@QAEPAXI@Z")();
-void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
-void __identifier("?Rva0040C586Get@@YAHXZ")();
-void __identifier("?xfer@ArmySummaryEntry@@MAEXPAVXfer@@@Z")();
-}
-extern const void *const g_00C3944C[4] = {
-	(const void *)&__identifier("??_GRva0040C39E@@QAEPAXI@Z"), // slot 0 0x0040C5DE
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?Rva0040C586Get@@YAHXZ"), // slot 2 0x0040C586
-	(const void *)&__identifier("?xfer@ArmySummaryEntry@@MAEXPAVXfer@@@Z"), // slot 3 0x0040C4FE
-};
+extern const void *const g_00C3944C[];
 extern const void *const g_00C3945C[];
 
 class Player;
