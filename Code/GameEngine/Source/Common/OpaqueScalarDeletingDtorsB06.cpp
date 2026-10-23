@@ -10,25 +10,19 @@
 // counterpart) only make this TU emit each vtable and with it the deleting
 // destructor. Owner identities are not recovered, and these declarations
 // model no layout (docs/reconstruction/deleting-destructor-identity-audit.md)
-// beyond the secondary-base offsets their adjustor thunks prove.
+// beyond the secondary-base offsets their adjustor thunks prove. The
+// wrappers whose classes are known (AptPalantir, GameState, AI, WaterSetting,
+// GameMessage, SidesList, LuaScriptEngine, ThingTemplate, AIStateMachine) are
+// rowed in the units that define their destructors.
 //
 //   wrapper     dtor        vtable#slot
-//   0x002D628F  0x002D5380  0x00C02DC0#0
 //   0x002D724B  0x002D6C1C  0x00C0331C#0
-//   0x002DF2DA  0x002DE58D  0x00C0402C#0
 //   0x002E2CF4  0x002E2AAE  0x00C04B50#0
-//   0x002FED37  0x002FEBB7  0x00C073D0#0
-//   0x00309DDA  0x00309D9E  0x00C082E8#0
 //   0x0030DE92  0x0030DBD5  0x00C08A2C#0
-//   0x0030F8E3  0x0030F4AF  0x00C09840#0
 //   0x0031861B  0x00318637  0x00C0C734#0
 //   0x0031EB7A  0x0031DCF0  0x00C0CC88#0
 //   0x00328CDC  0x00328CF8  0x00C0D8D8#0
 //   0x0032A0B2  0x0032989F  0x00C0D8FC#0
-//   0x0032EF22  0x0032EC63  0x00C0DA98#0
-//   0x00337C70  0x00337AA8  0x00C0E390#0
-//   0x0033E90B  0x0033DDA1  0x00C10C4C#0
-//   0x00352B25  0x003516F3  0x00C14CD0#0
 //   0x00355BBE  0x00355BDA  0x00C14E14#0
 //   0x0035686D  0x003561BE  0x00C14EBC#0
 //   0x0035978C  0x00359290  0x00C15398#0
@@ -43,19 +37,6 @@ typedef bool Bool;
 
 struct EmitVtableTag;
 
-class Rva002D5380
-{
-public:
-	Rva002D5380(EmitVtableTag *);
-public:
-	virtual ~Rva002D5380();
-};
-
-// ?<Rva002D5380::Rva002D5380> absent-from-retail
-Rva002D5380::Rva002D5380(EmitVtableTag *)
-{
-}
-
 class Rva002D6C1C
 {
 public:
@@ -66,88 +47,6 @@ public:
 
 // ?<Rva002D6C1C::Rva002D6C1C> absent-from-retail
 Rva002D6C1C::Rva002D6C1C(EmitVtableTag *)
-{
-}
-
-class Rva002DE58DBase0
-{
-public:
-	virtual ~Rva002DE58DBase0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
-};
-
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x002DE585 in its vtable is target evidence for it.
-class Rva002DE58DBaseC
-{
-public:
-	virtual ~Rva002DE58DBaseC();
-};
-class Rva002DE58D : public Rva002DE58DBase0, public Rva002DE58DBaseC
-{
-public:
-	Rva002DE58D(EmitVtableTag *);
-public:
-	virtual ~Rva002DE58D();
-};
-
-// ?<Rva002DE58D::Rva002DE58D> absent-from-retail
-Rva002DE58D::Rva002DE58D(EmitVtableTag *)
-{
-}
-
-class Rva002FEBB7Base0
-{
-public:
-	virtual ~Rva002FEBB7Base0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
-};
-
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x002FEB32 in its vtable is target evidence for it.
-class Rva002FEBB7BaseC
-{
-public:
-	virtual ~Rva002FEBB7BaseC();
-};
-class Rva002FEBB7 : public Rva002FEBB7Base0, public Rva002FEBB7BaseC
-{
-public:
-	Rva002FEBB7(EmitVtableTag *);
-public:
-	virtual ~Rva002FEBB7();
-};
-
-// ?<Rva002FEBB7::Rva002FEBB7> absent-from-retail
-Rva002FEBB7::Rva002FEBB7(EmitVtableTag *)
-{
-}
-
-class Rva00309D9E
-{
-public:
-	Rva00309D9E(EmitVtableTag *);
-public:
-	virtual ~Rva00309D9E();
-};
-
-// ?<Rva00309D9E::Rva00309D9E> absent-from-retail
-Rva00309D9E::Rva00309D9E(EmitVtableTag *)
-{
-}
-
-class Rva0030F4AF
-{
-public:
-	Rva0030F4AF(EmitVtableTag *);
-public:
-	virtual ~Rva0030F4AF();
-};
-
-// ?<Rva0030F4AF::Rva0030F4AF> absent-from-retail
-Rva0030F4AF::Rva0030F4AF(EmitVtableTag *)
 {
 }
 
@@ -230,77 +129,6 @@ public:
 
 // ?<Rva0032989F::Rva0032989F> absent-from-retail
 Rva0032989F::Rva0032989F(EmitVtableTag *)
-{
-}
-
-class Rva0032EC63Base0
-{
-public:
-	virtual ~Rva0032EC63Base0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
-};
-
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x0032ED59 in its vtable is target evidence for it.
-class Rva0032EC63BaseC
-{
-public:
-	virtual ~Rva0032EC63BaseC();
-};
-class Rva0032EC63 : public Rva0032EC63Base0, public Rva0032EC63BaseC
-{
-public:
-	Rva0032EC63(EmitVtableTag *);
-public:
-	virtual ~Rva0032EC63();
-};
-
-// ?<Rva0032EC63::Rva0032EC63> absent-from-retail
-Rva0032EC63::Rva0032EC63(EmitVtableTag *)
-{
-}
-
-class LuaScriptEngine
-{
-public:
-	LuaScriptEngine(EmitVtableTag *);
-public:
-	virtual ~LuaScriptEngine();
-};
-
-// ?<LuaScriptEngine::LuaScriptEngine> absent-from-retail
-LuaScriptEngine::LuaScriptEngine(EmitVtableTag *)
-{
-}
-
-class ThingTemplate
-{
-public:
-	ThingTemplate(EmitVtableTag *);
-public:
-	virtual ~ThingTemplate();
-};
-
-// ?<ThingTemplate::ThingTemplate> absent-from-retail
-ThingTemplate::ThingTemplate(EmitVtableTag *)
-{
-}
-
-// 0x00352B25 is ??_GAIStateMachine: slot 0 of vtable 0x00C14CD0, the vtable
-// the rowed AIStateMachine constructor 0x00351C48 installs (slot 2 returns
-// the name string "AIStateMachine"); the destructor it calls, 0x003516F3, is
-// ~AIStateMachine (Rva003516F3Dtor.cpp).
-class AIStateMachine
-{
-public:
-	AIStateMachine(EmitVtableTag *);
-public:
-	virtual ~AIStateMachine();
-};
-
-// ?<AIStateMachine::AIStateMachine> absent-from-retail
-AIStateMachine::AIStateMachine(EmitVtableTag *)
 {
 }
 

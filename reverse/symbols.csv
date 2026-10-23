@@ -4323,24 +4323,19 @@ name,address,notes
 ??1Rva002D28FF@@QAE@XZ,0x002D284F,non-virtual dtor called directly by scalar deleting dtor 0x002D28FF; owning class unproven
 ??1Rva002D339F@@QAE@XZ,0x0052710C,non-virtual dtor called directly by scalar deleting dtor 0x002D339F; owning class unproven
 ??1Rva002D5333@@UAE@XZ,0x002D5333,"destructor the scalar deleting destructor 0x002D579A calls (REL32 at 0x002D579D; vtable 0x00C02C1C#0); opaque address name"
-??1Rva002D5380@@UAE@XZ,0x002D5380,"destructor the scalar deleting destructor 0x002D628F calls (REL32 at 0x002D6292; vtable 0x00C02DC0#0); opaque address name"
 ??1Rva002D6C1C@@UAE@XZ,0x002D6C1C,"destructor the scalar deleting destructor 0x002D724B calls (REL32 at 0x002D724E; vtable 0x00C0331C#0); opaque address name"
 ??1Rva002D79B0_inner@@QAE@XZ,0x00255A42,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1Rva002DAB18@@UAE@XZ,0x002DAB6C,dtor installs its own vftable 0x00C03910 (bytes at ++23) and is the REL32 callee of the slot-0 ??_G at 0x002DABBB
-??1Rva002DE58D@@UAE@XZ,0x002DE58D,"destructor the scalar deleting destructor 0x002DF2DA calls (REL32 at 0x002DF2DD; vtable 0x00C0402C#0); opaque address name"
 ??1Rva002DFAD1Dtor@@QAE@XZ,0x002DFAD1,REL32 callee decoded from target call bytes of adjustor dtor 0x0022630F; identity unproven
 ??1Rva002DFC30@@QAE@XZ,0x0029D7C2,Rva _Destroy element teardown; stride-0xC range destroy at 0x331FF1 calls it per element; address rowed as ??1CameraMarker whose identical bytes serve this teardown (ICF)
 ??1Rva002E0427@@UAE@XZ,0x002E0427,"destructor the scalar deleting destructor 0x0022DA4A calls (REL32 at 0x0022DA4D; vtable 0x00BE7628#0); opaque address name"
 ??1Rva002E2AAE@@UAE@XZ,0x002E2AAE,"destructor the scalar deleting destructor 0x002E2CF4 calls (REL32 at 0x002E2CF7; vtable 0x00C04B50#0); opaque address name"
-??1Rva002FEBB7@@UAE@XZ,0x002FEBB7,"destructor the scalar deleting destructor 0x002FED37 calls (REL32 at 0x002FED3A; vtable 0x00C073D0#0); opaque address name"
 ??1Rva00301621Dtor@@QAE@XZ,0x00301621,dtor at 0x00301621 (target of thunk 0x007B7A9B)
 ??1Rva00304DC7Entry@@QAE@XZ,0x0022DDF4,"auto-pin (permute --pins): REL32 call target read from retail in 0x00304dc7, whose banked body is byte-exact once this call resolves"
 ??1Rva00304DC7Record@@QAE@XZ,0x0022DBC6,"auto-pin (permute --pins): REL32 call target read from retail in 0x00304dc7, whose banked body is byte-exact once this call resolves"
-??1Rva00309D9E@@UAE@XZ,0x00309D9E,"destructor the scalar deleting destructor 0x00309DDA calls (REL32 at 0x00309DDD; vtable 0x00C082E8#0); opaque address name"
 ??1Rva0030A0FCDtor@@QAE@XZ,0x0030A0FC,dtor thunk stub at 0x0030A0FC to 0x0030A083 (target of thunk 0x007B7AE1)
 ??1Rva0030AF8FAudioEventRTS@@QAE@XZ,0x0030AF8F,AudioEventRTS dtor stub at 0x0030AF8F (target of thunks 0x007B7AF5 and 0x007B7AFF)
 ??1Rva0030DBD5@@UAE@XZ,0x0030DBD5,"destructor the scalar deleting destructor 0x0030DE92 calls (REL32 at 0x0030DE95; vtable 0x00C08A2C#0); opaque address name"
-??1Rva0030F4AF@@UAE@XZ,0x0030F4AF,"destructor the scalar deleting destructor 0x0030F8E3 calls (REL32 at 0x0030F8E6; vtable 0x00C09840#0); opaque address name"
 ??1Rva00318637@@UAE@XZ,0x00318637,"destructor the scalar deleting destructor 0x0031861B calls (REL32 at 0x0031861E; vtable 0x00C0C734#0); opaque address name"
 ??1Rva00328CF8@@UAE@XZ,0x00328CF8,"destructor the scalar deleting destructor 0x00328CDC calls (REL32 at 0x00328CDF; vtable 0x00C0D8D8#0); opaque address name"
 ??1Rva0032989F@@UAE@XZ,0x0032989F,"destructor the scalar deleting destructor 0x0032A0B2 calls (REL32 at 0x0032A0B5; vtable 0x00C0D8FC#0); opaque address name"
@@ -5431,11 +5426,8 @@ name,address,notes
 ??_ERva002B964F@@UAEPAXI@Z,0x002BAEE5,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva002D3573@@UAEPAXI@Z,0x002D40D8,weak-external alias MSVC emits for the vector deleting dtor when no new[] exists; resolves to the rowed scalar deleting dtor; retail adjustor thunk 0x002D35BF jumps here
 ??_ERva002DAB18@@UAEPAXI@Z,0x002DABBB,weak-external alias MSVC emits for the vector deleting dtor when no new[] exists; resolves to the rowed scalar deleting dtor; retail adjustor thunk 0x002DAB64 jumps here
-??_ERva002DE58D@@UAEPAXI@Z,0x002DF2DA,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
-??_ERva002FEBB7@@UAEPAXI@Z,0x002FED37,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva00318637@@UAEPAXI@Z,0x0031861B,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva00328CF8@@UAEPAXI@Z,0x00328CDC,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
-??_ERva0032EC63@@UAEPAXI@Z,0x0032EF22,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva00355BDA@@UAEPAXI@Z,0x00355BBE,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva003AB9FF@@UAEPAXI@Z,0x003AE720,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva003ABA36@@UAEPAXI@Z,0x003AE8D5,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
