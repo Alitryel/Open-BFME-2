@@ -6,6 +6,8 @@
 
 struct Rva005C847BRecord {
 	~Rva005C847BRecord();
+private:
+	char bytes[72];
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<Rva005C847BRecord *>(Rva005C847BRecord * f,Rva005C847BRecord * l,__false_type const &) { for ( ; f != l; ++f) _Destroy(&*f); } }
