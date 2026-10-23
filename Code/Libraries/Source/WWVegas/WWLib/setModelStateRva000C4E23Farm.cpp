@@ -320,7 +320,8 @@ class Rva000C18E3 { public: void rva000C18E3(SrcArg000C18E3 *arg); };
 class Rva00084206Track { public: char m_pad00[0x38]; void *m_drawable38; };
 class Rva00084B18RenderObj;
 class Rva00084C05System { public: Rva00084206Track *bind(Rva00084B18RenderObj *robj, Real length, const char *texture, const char *a, const char *b); };
-extern Rva00084C05System *TheTerrainTracksRenderObjClassSystem;
+class TerrainTracksRenderObjClassSystem;
+extern TerrainTracksRenderObjClassSystem *TheTerrainTracksRenderObjClassSystem;
 
 class Drawable;
 class Shadow
@@ -714,7 +715,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		if (robj && ((GlobalDataView *)TheWritableGlobalData)->m_13C && m_track == 0 && TheTerrainTracksRenderObjClassSystem
 			&& !((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_trackTexture).isEmpty())
 		{
-			m_track = TheTerrainTracksRenderObjClassSystem->bind((Rva00084B18RenderObj *)robj, 10.0f,
+			m_track = ((Rva00084C05System *)TheTerrainTracksRenderObjClassSystem)->bind((Rva00084B18RenderObj *)robj, 10.0f,
 				((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_trackTexture).str(),
 				((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_44).str(),
 				((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_48).str());
