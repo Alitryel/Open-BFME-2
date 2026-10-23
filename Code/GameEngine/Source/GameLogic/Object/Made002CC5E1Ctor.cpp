@@ -239,7 +239,7 @@ class DamageNugget : public Rva00507823
 {
 public:
 	DamageNugget();
-	void rva00507D84(void *weapon, const Coord3D *position);
+	void doEffectPosition(void *weapon, const Coord3D *position);
 
 private:
 	float m_128;
@@ -300,7 +300,7 @@ DamageNugget::DamageNugget()
 
 // The single-target exit returns from inside the loop, as WorldBuilder 0x10A115B
 // does, so the range result is destroyed on both exits.
-void DamageNugget::rva00507D84(void *weapon, const Coord3D *position)
+void DamageNugget::doEffectPosition(void *weapon, const Coord3D *position)
 {
 	Real radius = m_130;
 	if (1.0f > radius)
