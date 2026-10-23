@@ -13,10 +13,11 @@ public:
 	void *m_field04;
 };
 class Rva00576B5E;
-class Rva00576C4B
+namespace StrategicInGameUI { class ResolveBattlesBehavior { public: class Impl; }; }
+class StrategicInGameUI::ResolveBattlesBehavior::Impl
 {
 public:
-	Rva00576C4B(Rva00576B5E *owner, int arg);
+	Impl(Rva00576B5E *owner, int arg);
 private:
 	char m_storage[0x48];
 };
@@ -31,5 +32,5 @@ private:
 Rva00576B5E::Rva00576B5E(void *held, int arg)
 	: Rva00575383(held)
 {
-	m_unmodelled_08 = new Rva00576C4B(this, arg);
+	m_unmodelled_08 = new StrategicInGameUI::ResolveBattlesBehavior::Impl(this, arg);
 }

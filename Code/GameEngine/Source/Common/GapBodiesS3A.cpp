@@ -59,6 +59,7 @@ class Rva005CD1A9
 {
 public:
 	virtual ~Rva005CD1A9();
+	virtual int rva0057556D() = 0;
 private:
 	int m_04;
 };
@@ -151,19 +152,31 @@ struct Rva0057556DHolder
 	Rva00328A83PtrChaseField *m_04;							// +0x04
 };
 
-class Rva0057556D
+enum GameMessageDisposition { KEEP_MESSAGE, DESTROY_MESSAGE };
+class GameMessage;
+class UserInputTranslator
+{
+public:
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
+	virtual ~UserInputTranslator();
+};
+class Listener00576C4B
+{
+public:
+	virtual void rva00576ACB(void *, void *) = 0;
+};
+namespace StrategicInGameUI { class ResolveBattlesBehavior { public: class Impl; }; }
+class StrategicInGameUI::ResolveBattlesBehavior::Impl : public UserInputTranslator, public Rva005CD1A9, public Listener00576C4B
 {
 public:
 	virtual int rva0057556D();
 private:
-	int m_04;
-	int m_08;
-	Rva0057556DHolder *m_0C;								// +0x0C
+	Rva0057556DHolder *m_owner;
 };
 
-int Rva0057556D::rva0057556D()
+int StrategicInGameUI::ResolveBattlesBehavior::Impl::rva0057556D()
 {
-	return ((const Rva0042D697PtrChaseField *)m_0C->m_04->get())->get();
+	return ((const Rva0042D697PtrChaseField *)m_owner->m_04->get())->get();
 }
 
 // --- 0x00574345 (8B): forward to the +0x08 HUD's rowed palantir query.

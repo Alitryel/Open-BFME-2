@@ -26,13 +26,15 @@ private:
 };
 class Rva005CBB4A { public: void rva005CBB4A(void *map, int point, int mode); }; // rowed 0x005CBB4A
 
-class Rva00574959
+struct Rva005CBC95Pixel;
+namespace StrategicInGameUI { class CommonBehavior { public: class Impl; }; }
+class StrategicInGameUI::CommonBehavior::Impl
 {
 public:
-	int rva00574959(int arg, int unused);
+	virtual int slot02(const Rva005CBC95Pixel &pos, int modifiers);
 
 private:
-	char m_pad00[0x1c];
+	char m_pad04[0x1c - 4];
 	int m_1c;
 	char m_pad20[0x24];
 	int m_44;
@@ -40,10 +42,10 @@ private:
 	unsigned char m_58;
 };
 
-int Rva00574959::rva00574959(int arg, int unused)
+int StrategicInGameUI::CommonBehavior::Impl::slot02(const Rva005CBC95Pixel &pos, int modifiers)
 {
 	m_58 = 1;
 	Rva00574815 local((int)this);
-	((Rva005CBB4A*)&local)->rva005CBB4A((void*)m_1c, arg, m_44);
+	((Rva005CBB4A*)&local)->rva005CBB4A((void*)m_1c, (int)&pos, m_44);
 	return 0;
 }

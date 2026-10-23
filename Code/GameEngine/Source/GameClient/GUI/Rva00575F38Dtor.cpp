@@ -85,14 +85,61 @@ public:
 	virtual ~Base0_00576C4B() {}
 };
 
-// Retail C6E430 and C6E720 put translation in slot0 and deleting destruction
-// in slot1. BDBA74 begins with purecall and a deleting destructor. The phase
-// overrides translation while inheriting destruction; adding a second plain
-// virtual would shift the destructor. Only this translator prefix is viewed.
+// The primary input handlers follow the complete native C6E430 table.
+struct IRegion2D;
+struct Rva005CBC95Pixel;
 class UserInputTranslator : public Base0_00576C4B
 {
 public:
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
+	// ?UserInputTranslator::slot02 present-unmatched
+	virtual int slot02(const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot03 present-unmatched
+	virtual int slot03(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot04 present-unmatched
+	virtual int slot04(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot05 present-unmatched
+	virtual int slot05(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot06 present-unmatched
+	virtual int slot06(const Rva005CBC95Pixel &, const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot07 present-unmatched
+	virtual int slot07(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot08 present-unmatched
+	virtual int slot08(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot09 present-unmatched
+	virtual int slot09(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot10 present-unmatched
+	virtual int slot10(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot11 present-unmatched
+	virtual int slot11(const Rva005CBC95Pixel &, const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot12 present-unmatched
+	virtual int slot12(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot13 present-unmatched
+	virtual int slot13(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot14 present-unmatched
+	virtual int slot14(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot15 present-unmatched
+	virtual int slot15(const Rva005CBC95Pixel &, const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot16 present-unmatched
+	virtual int slot16(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot17 present-unmatched
+	virtual int slot17(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::OnMouseLeftClick present-unmatched
+	virtual int OnMouseLeftClick(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot19 present-unmatched
+	virtual int slot19(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot20 present-unmatched
+	virtual int slot20(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot21 present-unmatched
+	virtual int slot21(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot22 present-unmatched
+	virtual int slot22(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot23 present-unmatched
+	virtual int slot23(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot24 present-unmatched
+	virtual int slot24(int, int) { return 0; }
+	// ?UserInputTranslator::slot25 present-unmatched
+	virtual int slot25(int, int) { return 0; }
 };
 
 // The base constructors and destructors use the existing retail tables.
@@ -222,6 +269,7 @@ public:
 	Impl(class Rva00575D45 *owner, int value);
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
 	virtual ~Impl();
+	virtual int OnMouseLeftClick(const IRegion2D &, int);
 
 private:
 	Rva00575F38Owner *m_owner; // +0x18

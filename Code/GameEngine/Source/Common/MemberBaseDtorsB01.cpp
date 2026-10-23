@@ -289,7 +289,6 @@ class Rva00576B5E : public Rva00575383
 public:
 	virtual ~Rva00576B5E();
 	void rva00576B99(int a);
-	void rva00576ACB(void *unused, void *lookup);
 
 private:
 	char m_unmodelled_04[0x4];
@@ -340,18 +339,44 @@ public:
 	char m_unmodelled_00[0x14];
 	void *m_expected;
 };
-// Target evidence: slot 4 of the vptr stored by the destructor at 0x00576B5E;
-// the body reads this+0x0C and that pointer's +0x14 field, compares it with
-// the 0x004FBED6 call result, and conditionally calls 0x005768CB on this-0x0C.
-// The record and helper interfaces are structural views; their identities and
-// argument meanings remain unknown.
-void Rva00576B5E::rva00576ACB(void *unused, void *lookup)
+// The callback receives the listener subobject at +0xC.
+enum GameMessageDisposition { KEEP_MESSAGE, DESTROY_MESSAGE };
+class GameMessage;
+class UserInputTranslator
 {
-	(void)unused;
-	Rva00576ACBExpected *expected = *(Rva00576ACBExpected **)((char *)this + 0xC);
+public:
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
+	virtual ~UserInputTranslator();
+};
+class Rva005CD1A9
+{
+public:
+	virtual ~Rva005CD1A9();
+	virtual int rva0057556D() = 0;
+	void *m_ptr;
+};
+class Listener00576C4B
+{
+public:
+	virtual void rva00576ACB(void *, void *) = 0;
+};
+namespace StrategicInGameUI { class ResolveBattlesBehavior { public: class Impl; }; }
+class StrategicInGameUI::ResolveBattlesBehavior::Impl : public UserInputTranslator, public Rva005CD1A9, public Listener00576C4B
+{
+public:
+	virtual void rva00576ACB(void *unused, void *lookup);
+private:
+	void *m_owner;
+	int m_value14;
+	int m_player18;
+};
+
+void StrategicInGameUI::ResolveBattlesBehavior::Impl::rva00576ACB(void *, void *lookup)
+{
+	Rva00576ACBExpected *expected = (Rva00576ACBExpected *)m_player18;
 	void *expected_value = expected->m_expected;
 	if (((RegionAwardDispute *)lookup)->GetResolvableBy() == (int)expected_value)
-		((Rva005768CBCall *)((char *)this - 0xC))->rva005768CB(lookup);
+		((Rva005768CBCall *)this)->rva005768CB(lookup);
 }
 
 class GameMessage;
@@ -619,18 +644,6 @@ class Rva005C9BE3Call
 {
 public:
 	int rva005C9BE3(void *arg);
-};
-enum GameMessageDisposition
-{
-	KEEP_MESSAGE,
-	DESTROY_MESSAGE
-};
-
-// The base translator's slot 0 (0x005CBC95), called non-virtually.
-class UserInputTranslator
-{
-public:
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
 };
 class Rva00574910
 {

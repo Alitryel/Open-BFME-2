@@ -4,14 +4,14 @@
 // derived C6E7F0 table both have translateGameMessage in slot0 and a deleting
 // destructor in slot1. The carrier BDBA74 starts with purecall and a deleting
 // destructor too; the old destructor-only slot0 declaration was incomplete.
-// Only this translator prefix is represented here. The named phase's other
-// slots and methods remain in StrategicInGameUIResolveBattlesBehavior.cpp.
+// The primary input slots and both secondary interfaces follow the native
+// tables; phase methods remain in StrategicInGameUIResolveBattlesBehavior.cpp.
 // Member offsets and three-base lifetime are target facts. Owner+10 and
 // values+14/+18 belong to the derived object; the +C listener occupies4B.
 // The record at20 receives one saved owner->m_p receiver and the +4 base.
 // Callee identities come from their existing matched providers; the owning
-// phase is named by WB/vtable evidence but this retained destructor spelling
-// is address-derived. No original member type identity is asserted.
+// phase and its lifetime rows share the native primary and secondary tables.
+// Original member type identities remain unresolved.
 // ??1Rva00576C4B@@UAE@XZ @0x00576C4B 186B: virtual dtor unregistering listener base at +0xC via rowed erase 0x002B7250 then conditional ptr-chase release then member teardown. Evidence: three vtable stores plus base restores 0x0086E7F0/0x0086E7E8/0x0086E7E4 to 0x007DBA74/0x0086E788; erase caller plus deleting-dtor caller at 0x00576DD5; callees all rowed.
 enum GameMessageDisposition { KEEP_MESSAGE, DESTROY_MESSAGE };
 class GameMessage;
@@ -125,6 +125,7 @@ class Rva005CD1A9
 public:
 	Rva005CD1A9();
 	virtual ~Rva005CD1A9();
+	virtual int rva0057556D() = 0;
 	void *m_ptr;
 };
 class Base0_00576C4B
@@ -139,17 +140,72 @@ public:
 inline Base0_00576C4B::Base0_00576C4B()
 {
 }
-class PhaseTranslator00576DF1 : public Base0_00576C4B
+struct IRegion2D;
+struct Rva005CBC95Pixel;
+class UserInputTranslator : public Base0_00576C4B
 {
 public:
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *) = 0;
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
+	// ?UserInputTranslator::slot02 present-unmatched
+	virtual int slot02(const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot03 present-unmatched
+	virtual int slot03(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot04 present-unmatched
+	virtual int slot04(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot05 present-unmatched
+	virtual int slot05(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot06 present-unmatched
+	virtual int slot06(const Rva005CBC95Pixel &, const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot07 present-unmatched
+	virtual int slot07(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot08 present-unmatched
+	virtual int slot08(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot09 present-unmatched
+	virtual int slot09(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot10 present-unmatched
+	virtual int slot10(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot11 present-unmatched
+	virtual int slot11(const Rva005CBC95Pixel &, const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot12 present-unmatched
+	virtual int slot12(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot13 present-unmatched
+	virtual int slot13(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot14 present-unmatched
+	virtual int slot14(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot15 present-unmatched
+	virtual int slot15(const Rva005CBC95Pixel &, const Rva005CBC95Pixel &, int) { return 0; }
+	// ?UserInputTranslator::slot16 present-unmatched
+	virtual int slot16(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::slot17 present-unmatched
+	virtual int slot17(const Rva005CBC95Pixel &, int, int) { return 0; }
+	// ?UserInputTranslator::OnMouseLeftClick present-unmatched
+	virtual int OnMouseLeftClick(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot19 present-unmatched
+	virtual int slot19(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot20 present-unmatched
+	virtual int slot20(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot21 present-unmatched
+	virtual int slot21(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot22 present-unmatched
+	virtual int slot22(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot23 present-unmatched
+	virtual int slot23(const IRegion2D &, int) { return 0; }
+	// ?UserInputTranslator::slot24 present-unmatched
+	virtual int slot24(int, int) { return 0; }
+	// ?UserInputTranslator::slot25 present-unmatched
+	virtual int slot25(int, int) { return 0; }
+};
+class PhaseTranslator00576DF1 : public UserInputTranslator
+{
 };
 
 class Listener00576C4B
 {
 public:
 	Listener00576C4B();
-	virtual ~Listener00576C4B() {}
+	~Listener00576C4B() {}
+	// ?Listener00576C4B::rva00576ACB present-unmatched
+	virtual void rva00576ACB(void *, void *) {}
 
 };
 // ??0Listener00576C4B@@QAE@XZ @0x00576674 9B: the default constructor, storing the
@@ -161,14 +217,19 @@ class Rva00576B5E;
 class Rva005A0B4CList { public: void append(struct Rva002BA8F1Listener *); };
 struct ResolveWorldView { char prefix[0x98]; int player; };
 void Rva00576753Func(int,int,int);
-namespace StrategicInGameUI { class ResolveBattlesBehavior { public: class Impl { public: void CreateResolveRegionOwnershipChecklistItems(); void rva00576AF3(); }; }; }
+namespace StrategicInGameUI { class ResolveBattlesBehavior { public: class Impl; }; }
 
-class Rva00576C4B : public PhaseTranslator00576DF1, public Rva005CD1A9, public Listener00576C4B
+class StrategicInGameUI::ResolveBattlesBehavior::Impl : public PhaseTranslator00576DF1, public Rva005CD1A9, public Listener00576C4B
 {
 public:
-	Rva00576C4B(Rva00576B5E *,int);
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *) = 0;
-	virtual ~Rva00576C4B();
+	Impl(Rva00576B5E *,int);
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *);
+	virtual ~Impl();
+	virtual int rva0057556D();
+	virtual void rva00576ACB(void *, void *);
+	virtual int OnMouseLeftClick(const IRegion2D &, int);
+	void CreateResolveRegionOwnershipChecklistItems();
+	void rva00576AF3();
 private:
 	Inner00576C4B *m_s;
 	int m_value14;
@@ -179,7 +240,7 @@ private:
 	WrapClear00576C4B m_40;
 	bool m_flag44;
 };
-Rva00576C4B::~Rva00576C4B()
+StrategicInGameUI::ResolveBattlesBehavior::Impl::~Impl()
 {
 	(*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->m_holder.rva002B7250((CreateAHeroData *)(Listener00576C4B *)this);
 	if (m_flag44) {
@@ -190,7 +251,7 @@ Rva00576C4B::~Rva00576C4B()
 	}
 }
 
-Rva00576C4B::Rva00576C4B(Rva00576B5E *owner, int value)
+StrategicInGameUI::ResolveBattlesBehavior::Impl::Impl(Rva00576B5E *owner, int value)
 	: m_s((Inner00576C4B *)owner), m_value14(value),
 	  m_player18(((ResolveWorldView *)TheLivingWorldLogic)->player),
 	  m_20(m_s->m_p, this), m_30(m_s->m_p->get()), m_flag44(false)
