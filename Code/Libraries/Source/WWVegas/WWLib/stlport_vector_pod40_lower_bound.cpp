@@ -18,15 +18,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include <algorithm>
-// These elements copy through real copy constructors; their _Construct
-// bodies are rowed under the real element names, so call those.
+// This vector's 40-byte element is the one whose copy and construct are
+// rowed as Rva0054000B's: _M_allocate_and_copy 0x0054016A calls the
+// uninitialized copy 0x005400B4, which constructs through 0x00540070.
 struct BfmePod40;
-class Rva0052BD59;
+class Rva0054000B;
 namespace _STL {
-template <> void _Construct<Rva0052BD59, Rva0052BD59>(Rva0052BD59 *, const Rva0052BD59 &);
-// 0x0052C320
-template <> __declspec(dllimport) __forceinline void _Construct<BfmePod40, BfmePod40>(BfmePod40 *p, const BfmePod40 &v)
-{ _Construct((Rva0052BD59 *)p, (const Rva0052BD59 &)v); }
+template <> void _Construct<Rva0054000B, Rva0054000B>(Rva0054000B *, const Rva0054000B &) throw();
+template <> Rva0054000B *__uninitialized_copy<const Rva0054000B *, Rva0054000B *>(const Rva0054000B *, const Rva0054000B *, Rva0054000B *, const __false_type &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod40, BfmePod40>(BfmePod40 *p, const BfmePod40 &v) throw()
+{ _Construct((Rva0054000B *)p, (const Rva0054000B &)v); }
+template <> __declspec(dllimport) __forceinline BfmePod40 *__uninitialized_copy<BfmePod40 *, BfmePod40 *>(BfmePod40 *first, BfmePod40 *last, BfmePod40 *result, const __false_type &)
+{ __false_type tag; return (BfmePod40 *)__uninitialized_copy((const Rva0054000B *)first, (const Rva0054000B *)last, (Rva0054000B *)result, tag); }
 }
 // Suppress this TU's non-retail copy of ??0?$vector@UBfmePod40@@V?$allocator@UBfmePod40@@@_STL@@@_STL@@QAE@ABV01@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
