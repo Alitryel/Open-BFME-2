@@ -1,11 +1,11 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva004EE15B@Rva004EE15B@@QAEXPAURva004EE15BObj@@@Z @0x004EE15B 78B.
+// PerTurnStats snapshot transfer, retail 0x004EE15B.
 // Triple-forward: run the argument's slot-0x28 hook on a paired 1-byte
 // scratch, then its slot-0x84 hook on the +0x04/+0x06/+0x08 addresses in
 // turn. Only the two slot signatures and the three addresses are proven;
 // member extents are minimal-contiguous placeholders.
-class Rva004EE15BObj
+class Xfer
 {
 public:
 	virtual void vf00(); virtual void vf01(); virtual void vf02(); virtual void vf03();
@@ -19,18 +19,21 @@ public:
 	virtual void vf32(); virtual void vf33(void *p);
 };
 
-class Rva004EE15B
+class LivingWorldScoreKeeper { public: class PerTurnStats; };
+class LivingWorldScoreKeeper::PerTurnStats
 {
 public:
-	void rva004EE15B(Rva004EE15BObj *o);
+	virtual ~PerTurnStats();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
 private:
-	char m_pad[4];
 	char m_4[2];
 	char m_6[2];
 	int m_8;
 };
 
-void Rva004EE15B::rva004EE15B(Rva004EE15BObj *o)
+void LivingWorldScoreKeeper::PerTurnStats::xfer(Xfer *o)
 {
 	char scratch[2] = { 1, 1 };
 	o->vf10(&scratch[0]);

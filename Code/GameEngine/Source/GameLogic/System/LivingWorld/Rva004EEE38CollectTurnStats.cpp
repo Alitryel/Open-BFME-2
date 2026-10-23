@@ -112,23 +112,6 @@ struct Rva004EEE38PlayerView
 	_STL::vector<Rva004EEE38Entry *> m_entries; // +0x1B8
 };
 
-class Rva004EE1A9 : public Snapshot
-{
-public:
-	Rva004EE1A9() : m_field04(0), m_field06(0), m_field08(0) {}
-	virtual ~Rva004EE1A9() {}
-
-protected:
-	virtual void loadPostProcess();
-	virtual const char *GetSnapshotName() const;
-	virtual void xfer(Xfer *xfer);
-
-public:
-	Short m_field04;
-	Short m_field06;
-	Short m_field08;
-};
-
 struct Elem003AF8C0;
 
 class Rva004EE6D0
@@ -145,6 +128,20 @@ private:
 class LivingWorldScoreKeeper
 {
 public:
+	class PerTurnStats : public Snapshot
+	{
+	public:
+		PerTurnStats() : m_field04(0), m_field06(0), m_field08(0) {}
+		virtual ~PerTurnStats() {}
+		// ?PerTurnStats::loadPostProcess present-unmatched
+		virtual void loadPostProcess() {}
+		virtual const char *GetSnapshotName() const;
+		virtual void xfer(Xfer *xfer);
+
+		Short m_field04;
+		Short m_field06;
+		Short m_field08;
+	};
 	virtual void primarySlot();
 	void collectEndOfTurnStats(int turn);
 
@@ -202,7 +199,7 @@ void LivingWorldScoreKeeper::collectEndOfTurnStats(int turn)
 	}
 
 	{
-		Rva004EE1A9 stats;
+		PerTurnStats stats;
 		_STL::vector<Rva003F287F *> &regions = campaign->m_regions;
 		for (_STL::vector<Rva003F287F *>::iterator it = regions.begin(), end = regions.end(); it != end; ++it)
 		{

@@ -14,8 +14,8 @@
 // the record's (frame 0x10), as in Rva00207F91Xfer.cpp.
 #include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-extern "C" const void *const vtbl_00C62A28[];  // ??_7Rva004EE1A9@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C62A28=??_7Rva004EE1A9@@6B@")
+extern "C" const void *const vtbl_00C62A28[];  // ??_7PerTurnStats@LivingWorldScoreKeeper@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C62A28=??_7PerTurnStats@LivingWorldScoreKeeper@@6B@")
 
 struct __declspec(novtable) Elem003AF8C0 : public Snapshot
 {

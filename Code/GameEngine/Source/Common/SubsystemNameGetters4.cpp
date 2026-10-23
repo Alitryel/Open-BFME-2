@@ -51,7 +51,19 @@ BFME_LITERAL_NAME_GETTER(Rva003B03EDNamed, "GPUParticleSystemStorageModule")
 BFME_LITERAL_NAME_GETTER(Rva003B40FANamed, "ScriptGroup")
 // ScriptList::GetSnapshotName is owned by ScriptListDestructor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva003B9124Named, "LivingWorldCampaignManager")
-BFME_LITERAL_NAME_GETTER(Rva003F3418Named, "LivingWorldRegion")
+class Xfer;
+class LivingWorldRegion
+{
+public:
+    virtual ~LivingWorldRegion();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void DoXfer(Xfer *);
+};
+const char *LivingWorldRegion::GetSnapshotName() const
+{
+    return "LivingWorldRegion";
+}
 BFME_LITERAL_NAME_GETTER(Rva003F6A8BNamed, "LivingWorldBattle")
 BFME_LITERAL_NAME_GETTER(Rva003F9CCCNamed, "LivingWorldEyeTower")
 BFME_LITERAL_NAME_GETTER(Rva003FD374Named, "DelayedRegionFlashModule")

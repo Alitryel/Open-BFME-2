@@ -150,7 +150,10 @@ public:
     void rva003F0FA3(void *);
     void PrepareSkirmishOpponents(LivingWorldBattle *battle);
     Bool DebugValidatePlacementSpot(const Coord2D &spot,Coord2D *out,const char *kind);
-    void DoXfer(Xfer *);
+    virtual ~LivingWorldRegion();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void DoXfer(Xfer *);
     Bool IsOwnedByTeam(Int teamID) const;
 	Bool CanSpawnUnitWithinCPLimit(SpawnArmy *unit) const;
 	Bool rva003F0201(SpawnArmy *unit) const;
@@ -168,7 +171,7 @@ private:
 	Int rva003EFD6F(Rva002E2903Player *owner) const;	// 0x003EFD6F, command-point limit
 	Int usedCommandPoints(Rva002E2903Player *owner) const { return rva003EFDB3(owner); }
 
-	unsigned char m_pad00[0x14];
+	unsigned char m_pad04[0x14 - 4];
     AsciiString m_name;
     char m_pad18[0xa9-0x18];
     bool m_reservedA9;

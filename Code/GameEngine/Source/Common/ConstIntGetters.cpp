@@ -382,9 +382,20 @@ int Rva00342868Get(void)
 // Follows a mov-word/ret (0x4EE14F-54) with a frame-style function
 // after. Carried at 0x862A30, no direct callers, no branch sources.
 // Opaque address-derived name.
-int Rva004EE155Get(void)
+class Xfer;
+class LivingWorldScoreKeeper { public: class PerTurnStats; };
+class LivingWorldScoreKeeper::PerTurnStats
 {
-	return (int)"LivingWorldScoreKeeper::PerTurnStats";
+public:
+	virtual ~PerTurnStats();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+};
+
+const char *LivingWorldScoreKeeper::PerTurnStats::GetSnapshotName() const
+{
+	return "LivingWorldScoreKeeper::PerTurnStats";
 }
 
 

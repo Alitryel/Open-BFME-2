@@ -25,10 +25,11 @@ struct Elem003AF8C0
 	char m_pad[0xC];
 };
 
-class Rva004EE1A9
+class LivingWorldScoreKeeper { public: class PerTurnStats; };
+class LivingWorldScoreKeeper::PerTurnStats
 {
 public:
-	Rva004EE1A9(const Rva004EE1A9 &other);
+	PerTurnStats(const PerTurnStats &other);
 	char m_pad[0xC];
 };
 
@@ -92,7 +93,7 @@ void Rva004EE6D0::rva004EE6D0(Elem003AF8C0 *pos, const Elem003AF8C0 &x, const _S
 	if (n == 1)
 	{
 		if (new_finish != 0)
-			new (new_finish) Rva004EE1A9(*(const Rva004EE1A9 *)&x);
+			new (new_finish) LivingWorldScoreKeeper::PerTurnStats(*(const LivingWorldScoreKeeper::PerTurnStats *)&x);
 		++new_finish;
 	}
 	else
@@ -116,7 +117,7 @@ void Rva004EE6D0::rva004EE6D0(Elem003AF8C0 *pos, const Elem003AF8C0 &x, const _S
 void Rva004EE6D0::push_back(const Elem003AF8C0 &x)
 {
     if(m_finish != m_end) {
-        if(m_finish) new(m_finish) Rva004EE1A9(*(const Rva004EE1A9 *)&x);
+        if(m_finish) new(m_finish) LivingWorldScoreKeeper::PerTurnStats(*(const LivingWorldScoreKeeper::PerTurnStats *)&x);
         ++m_finish;
     } else {
         rva004EE6D0(m_finish,x,_STL::__false_type(),1,true);

@@ -25,7 +25,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "ascii_string.h"
 class INI{public:const char *getNextToken(const char *s=0);};
 class Rva003F3F03{public:void rva003F3F03(INI*);};
-class Rva003F332E:public Rva003F3F03{public:Rva003F332E(void*,int,const AsciiString&);char bytes[0x1b4];};
+class LivingWorldRegion:public Rva003F3F03{public:LivingWorldRegion(void*,int,const AsciiString&);char bytes[0x1b4];};
 class ModuleData;
 struct NoCaseTreeValue4{char bytes[4];};class Rva002104ED{public:NoCaseTreeValue4 &rva002104ED(const AsciiString*);};
 struct Holder{char before[0x2c];_STL::vector<const ModuleData*>regions;char table[20];};
@@ -33,8 +33,8 @@ class LivingWorldRegionManager{public:static void rva00210620(INI*,void*,void*,c
 void LivingWorldRegionManager::rva00210620(INI*ini,void*instance,void*,const void*){
  const char *token=ini->getNextToken();Holder*self=(Holder*)instance;
  int id=self->regions.size();
- const ModuleData *region=(const ModuleData*)new Rva003F332E(instance,id,AsciiString(token));
- ((Rva003F332E*)region)->rva003F3F03(ini);
+ const ModuleData *region=(const ModuleData*)new LivingWorldRegion(instance,id,AsciiString(token));
+ ((LivingWorldRegion*)region)->rva003F3F03(ini);
  self->regions.push_back(region);
  *(const ModuleData**)&((Rva002104ED*)self->table)->rva002104ED((const AsciiString*)((char*)region+0x14))=region;
 }
