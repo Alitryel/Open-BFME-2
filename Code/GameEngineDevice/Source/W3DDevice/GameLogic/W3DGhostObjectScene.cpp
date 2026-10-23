@@ -20,8 +20,9 @@
 // W3DGhostObject scene and list members, ported from Zero Hour's
 // GameEngineDevice/Source/W3DDevice/GameLogic/W3DGhostObject.cpp (GeneralsMD
 // tree vendored under reference/open-bfme-1/inputs/reference) onto the
-// BFME 2 layout. The ZH-layout W3DGhostObject.cpp beside this file places the
-// members elsewhere.
+// BFME 2 layout. This unit also owns W3DGhostObjectManager's constructor
+// (0x00063517); a ZH-layout copy of the unit emitted ZH-ordered vtables that
+// beat these in link order.
 //
 // BFME 2 layout, from the W3DGhostObject constructor (0x00063912) and the
 // bodies below: m_parentObject +0x0C, m_partitionData +0x7C,
@@ -71,6 +72,8 @@
 // freeAllSnapShots.
 
 #include "ascii_string.h"
+// Slot 2 of the retail tables is the class-name getter.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../GameEngine/Source/Common/GameLogicObjectLookupView.h"
@@ -621,6 +624,7 @@ class GhostObject;
 class GhostObjectManager
 {
 public:
+	GhostObjectManager();
 	virtual ~GhostObjectManager();																			///< slot 0
 protected:
 	virtual void loadPostProcess( void );																						///< slot 1
@@ -655,7 +659,7 @@ public:
 	virtual void vslot0C( PartitionData *pd );
 	virtual PartitionData *vslot10( void ) const;
 protected:
-	virtual void crc( Xfer *xfer );
+	virtual const char *GetSnapshotName( void ) const;
 	virtual void xfer( Xfer *xfer );
 
 	Object *m_parentObject;																			///< 0x0C
@@ -689,7 +693,7 @@ class W3DRenderObjectSnapshot : public Snapshot
 	__declspec(dllimport) __forceinline void addToScene(void) { W3DDisplay::m_3DScene->Add_Render_Object(m_robj); }
 
 protected:
-	virtual void crc( Xfer *xfer );
+	virtual const char *GetSnapshotName( void ) const;
 	virtual void xfer( Xfer *xfer );
 	virtual void loadPostProcess( void );
 
@@ -863,6 +867,19 @@ void W3DRenderObjectSnapshot::xfer( Xfer *xfer )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+void W3DRenderObjectSnapshot::loadPostProcess( void )
+{
+}
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+const char *W3DRenderObjectSnapshot::GetSnapshotName( void ) const
+{
+	return "W3DRenderObjectSnapshot";
+}
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 W3DRenderObjectSnapshot::W3DRenderObjectSnapshot(RenderObjClass *robj, DrawableInfo *drawInfo,
 																								 Bool cloneParentRobj)
 {
@@ -893,7 +910,7 @@ public:
 	virtual void snapShot( Int playerIndex );
 	virtual void freeSnapShot( Int playerIndex );
 protected:
-	virtual void crc( Xfer *xfer );
+	virtual const char *GetSnapshotName( void ) const;
 	virtual void xfer( Xfer *xfer );
 	virtual void loadPostProcess( void );
 
@@ -913,12 +930,14 @@ protected:
 class W3DGhostObjectManager : public GhostObjectManager
 {
 public:
+	W3DGhostObjectManager();
 	virtual ~W3DGhostObjectManager();
 	virtual void reset( void );
 	virtual void setLocalPlayerIndex( int index );
 	virtual GhostObject *addGhostObject( Object *object );
 	void removeGhostObject( GhostObject *object );
 protected:
+	virtual const char *GetSnapshotName( void ) const;
 	virtual void xfer( Xfer *xfer );
 
 	W3DGhostObject *m_freeModules;															///< 0x0C
@@ -946,6 +965,19 @@ W3DGhostObject::W3DGhostObject()
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 W3DGhostObject::~W3DGhostObject()
+{
+}
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+const char *W3DGhostObject::GetSnapshotName( void ) const
+{
+	return "W3DGhostObject";
+}
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+void W3DGhostObject::loadPostProcess( void )
 {
 }
 
@@ -1449,6 +1481,23 @@ GhostObject *W3DGhostObjectManager::addGhostObject(Object *object)
 	mod->m_drawableInfo.m_ghostObject = mod;
 
 	return mod;
+}
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+W3DGhostObjectManager::W3DGhostObjectManager(void)
+{
+
+	m_freeModules = NULL;
+	m_usedModules = NULL;
+
+}
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+const char *W3DGhostObjectManager::GetSnapshotName( void ) const
+{
+	return "W3DGhostObjectManager";
 }
 
 // ------------------------------------------------------------------------------------------------

@@ -64,4 +64,3 @@ const char *W3DTerrainLogic::GetSnapshotName() const
 {
 	return "W3DTerrainLogic";
 }
-BFME_LITERAL_NAME_GETTER(W3DGhostObject, "W3DGhostObject")
