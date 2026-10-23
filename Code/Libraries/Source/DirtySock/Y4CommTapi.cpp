@@ -45,7 +45,7 @@ extern "C"
 	__declspec(dllimport) int __stdcall CloseHandle( void *handle );
 	__declspec(dllimport) void __stdcall Sleep( unsigned int interval );
 	unsigned int Rva007FEA00( void );
-	void *Rva00819630( int first, int second, int third );
+	void *CommSerialConstruct( int first, int second, int third );
 }
 
 void rva00813CF0( void );
@@ -90,7 +90,7 @@ extern "C" CommTAPIRef *Rva00812DD0( int first, int second, int third )
 		return 0;
 	}
 
-	comm->m_transport = Rva00819630( first, second, third );
+	comm->m_transport = CommSerialConstruct( first, second, third );
 	comm->m_field88 = -1;
 	comm->m_field8C = -1;
 	comm->m_state = 2;

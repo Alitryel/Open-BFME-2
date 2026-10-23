@@ -38,9 +38,9 @@ struct Rva00819630Comm
 	char m_gap108[ 0x800 ];
 	int m_field908;
 	char m_gap90c[ 0x1000 ];
-	int m_field190c;
-	int m_field1910;
-	int m_field1914;
+	int m_streamCapacity;
+	int m_streamLength;
+	int m_streamSlot;
 	char m_gap1918[ 8 ];
 	char m_lock[ 0x18 ];
 	int m_depth;
@@ -146,7 +146,7 @@ extern "C" int Rva0081AE20( void *comm, const char *name, char *output,
 	return 1;
 }
 
-extern "C" void *Rva00819630( int first, int second, int third )
+extern "C" void *CommSerialConstruct( int first, int second, int third )
 {
 	unsigned long pid;
 	void *result;
@@ -157,7 +157,7 @@ extern "C" void *Rva00819630( int first, int second, int third )
 		return 0;
 
 	memset( comm, 0, 0x1944 );
-	comm->m_ops[ 0 ] = (void *)Rva00819630;
+	comm->m_ops[ 0 ] = (void *)CommSerialConstruct;
 	comm->m_ops[ 1 ] = (void *)Rva0081ACD0;
 	comm->m_ops[ 2 ] = (void *)(Rva0081AE20Proc)Rva0081AE20;
 	comm->m_ops[ 3 ] = (void *)Rva0081B000;
@@ -183,9 +183,9 @@ extern "C" void *Rva00819630( int first, int second, int third )
 	comm->m_sendBuffer = Rva007F0000Alloc(
 		comm->m_sendBufferSize );
 	comm->m_field908 = 0;
-	comm->m_field1914 = 0;
-	comm->m_field1910 = 0;
-	comm->m_field190c = 0x800;
+	comm->m_streamSlot = 0;
+	comm->m_streamLength = 0;
+	comm->m_streamCapacity = 0x800;
 	comm->m_state = 1;
 	comm->m_pendingValue = 0;
 	comm->m_threadId = GetCurrentThreadId();

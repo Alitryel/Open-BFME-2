@@ -170,3 +170,11 @@ Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|c
 Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|local|AODHordeContain::initOffsets|v,2de8ff01c811b9b1fe37d5ef,seat-a,rn-1023-2-a,w-6b27b4f48531,2026-10-23
 Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|class||Rva00474519Record,139f1c051a5824fe30aec41e,seat-b,rn-1023-2-b,w-7746aa43b933,2026-10-23
 Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|local|AODHordeContain::initOffsets|v,2de8ff01c811b9b1fe37d5ef,seat-b,rn-1023-2-b,w-7746aa43b933,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field190c,b8ea3664cde5e987d476880a,seat-a,rn-1023-5-a,w-2569c04f23de,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field1910,2f8abeb5bb9bbb4905c306a0,seat-a,rn-1023-5-a,w-2569c04f23de,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field1914,24d90d78131eb2a9fe5dfdb7,seat-a,rn-1023-5-a,w-2569c04f23de,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|function|0x00685530|Rva00819630,b0e957fd51e8c9d233040adf,seat-a,rn-1023-5-a,w-2569c04f23de,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field190c,b8ea3664cde5e987d476880a,seat-b,rn-1023-5-b,w-573df534dd11,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field1910,2f8abeb5bb9bbb4905c306a0,seat-b,rn-1023-5-b,w-573df534dd11,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field1914,24d90d78131eb2a9fe5dfdb7,seat-b,rn-1023-5-b,w-573df534dd11,2026-10-23
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|function|0x00685530|Rva00819630,b0e957fd51e8c9d233040adf,seat-b,rn-1023-5-b,w-573df534dd11,2026-10-23
