@@ -108,12 +108,12 @@ public:
 		const LivingWorldBattleCoord &coord);
 	virtual ~LivingWorldBattle();
 	void AddArmy(Int player, void *army);
-	virtual void onArmyRemoved(void *army);
+	virtual void onArmyRemoved(void *army) = 0;
 
 protected:
-	virtual void loadPostProcess(void);
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
+	virtual void loadPostProcess(void) = 0;
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
 
 private:
 	_STL::vector<BfmeE16> m_slots; // +0x18

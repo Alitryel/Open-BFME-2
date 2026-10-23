@@ -165,9 +165,9 @@ class Rva00243BA0 : public SubsystemInterface, public Snapshot
 public:
 	virtual ~Rva00243BA0();
 protected:
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess();
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
 private:
 	Rva00243B48 m_10;
 	Rva00243B4D m_24;

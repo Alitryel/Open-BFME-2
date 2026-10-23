@@ -29,14 +29,14 @@ public: void add(Rva00803080*);
 class DemanglerPrimary {
 public:
  virtual ~DemanglerPrimary();
- virtual void rva007F8790(const char*,int,const char*,unsigned char);
- virtual void set(int,int);
+ virtual void rva007F8790(const char*,int,const char*,unsigned char) = 0;
+ virtual void set(int,int) = 0;
 };
 class BfmeThingTWA : public DemanglerPrimary, public Rva00803080 {
 public:
  BfmeThingTWA(Rva007EAServiceList*);
  virtual ~BfmeThingTWA();
- virtual void slot0(unsigned int);
+ virtual void slot0(unsigned int) = 0;
  virtual void rva007F8790(const char*,int,const char*,unsigned char);
  virtual void set(int,int);
  int field08, field0c;

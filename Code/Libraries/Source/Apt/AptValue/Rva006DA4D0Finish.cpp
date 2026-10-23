@@ -27,8 +27,8 @@ public:
 class Rva006DA4D0 : public Rva006D6470Owner
 {
 public:
-	virtual void slot0();
-	virtual void slot1();
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
 	Rva006DA4D0(int count, BfmeAptValue006DCD20 **pValues);
 	BfmeAptValue006DCD20 **m_data;
 	int mnCapacity;

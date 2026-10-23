@@ -179,21 +179,21 @@ class SpecialPowerModule : public BehaviorModule, public SpecialPowerModuleInter
 public:
 	SpecialPowerModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~SpecialPowerModule();
-	virtual void s00();
-	virtual void s01();
-	virtual void s02();
-	virtual void s03();
-	virtual void s04();
+	virtual void s00() = 0;
+	virtual void s01() = 0;
+	virtual void s02() = 0;
+	virtual void s03() = 0;
+	virtual void s04() = 0;
 	virtual AsciiString getPowerName() const;
-	virtual void s06();
-	virtual void s07();
-	virtual void s08();
+	virtual void s06() = 0;
+	virtual void s07() = 0;
+	virtual void s08() = 0;
 	virtual void pauseCountdown(Bool pause);
-	virtual void s10();
-	virtual void s11();
-	virtual void s12();
-	virtual void s13();
-	virtual void s14();
+	virtual void s10() = 0;
+	virtual void s11() = 0;
+	virtual void s12() = 0;
+	virtual void s13() = 0;
+	virtual void s14() = 0;
 	virtual void startPowerRecharge(Real readyFraction);
 protected:
 	const SpecialPowerModuleData *getSpecialPowerModuleData() const { return (const SpecialPowerModuleData *)getModuleData(); }

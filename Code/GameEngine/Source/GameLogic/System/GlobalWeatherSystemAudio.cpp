@@ -120,13 +120,13 @@ class GlobalWeatherSystem : public SubsystemInterface, public Snapshot
 public:
 	GlobalWeatherSystem();
 	virtual ~GlobalWeatherSystem();
-	virtual void init();
-	virtual void reset();
-	virtual void update();
+	virtual void init() = 0;
+	virtual void reset() = 0;
+	virtual void update() = 0;
 protected:
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess();
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
 private:
 	int m_currentWeather;		// +0x10
 	int m_audioHandle;		// +0x14

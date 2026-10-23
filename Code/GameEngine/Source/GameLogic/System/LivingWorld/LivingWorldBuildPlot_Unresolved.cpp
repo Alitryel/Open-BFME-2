@@ -94,10 +94,10 @@ class LivingWorldBuildPlot : public Snapshot, public Rva00330757Member,
 public:
     LivingWorldBuildPlot(int id, LivingWorldRegion *region, const Coord2D &position);
     virtual ~LivingWorldBuildPlot();
-    virtual void loadPostProcess();
-    virtual void crc(Xfer *xfer);
-    virtual void xfer(Xfer *xfer);
-    virtual void slot00(int, int);
+    virtual void loadPostProcess() = 0;
+    virtual void crc(Xfer *xfer) = 0;
+    virtual void xfer(Xfer *xfer) = 0;
+    virtual void slot00(int, int) = 0;
     void CreateIcon(const AsciiString &iconName);
     void ConstructBuildingImmediately(const Rva003F1BD3TemplateView *templ);
 private:

@@ -29,7 +29,7 @@ enum WhichTurretType { TURRET_MAIN = 0 };
 class UpdateModuleRoot
 {
 public:
-	virtual void r0();
+	virtual void r0() = 0;
 protected:
 	const ModuleData *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
@@ -38,13 +38,13 @@ protected:
 class UpdateModuleSecond
 {
 public:
-	virtual void s0();
+	virtual void s0() = 0;
 };
 
 class UpdateModuleThird
 {
 public:
-	virtual void t0();
+	virtual void t0() = 0;
 private:
 	char m_pad14[12];
 };
@@ -62,13 +62,13 @@ protected:
 class AIUpdateInterfaceFourth
 {
 public:
-	virtual void u0();
+	virtual void u0() = 0;
 };
 
 class AIUpdateInterfaceFifth
 {
 public:
-	virtual void v0();
+	virtual void v0() = 0;
 };
 
 class AIUpdateModuleDataView

@@ -34,7 +34,7 @@ template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 class DX8_CleanupHook {public:DX8_CleanupHook(){}virtual void ReleaseResources()=0;virtual void ReAcquireResources()=0;};
 class BaseHeightMapRenderObjClass:public RenderObjClass,public DX8_CleanupHook,public Snapshot {
-public:BaseHeightMapRenderObjClass();virtual~BaseHeightMapRenderObjClass();virtual void ReleaseResources();virtual void ReAcquireResources();virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);
+public:BaseHeightMapRenderObjClass();virtual~BaseHeightMapRenderObjClass();virtual void ReleaseResources();virtual void ReAcquireResources();virtual void loadPostProcess() = 0;virtual const char*GetSnapshotName()const = 0;virtual void xfer(Xfer*) = 0;
 char unknown0CC[0x3884-0xCC];
 };
 struct Rva00174753Allocation:private _STL::_Vector_base<int,_STL::allocator<int> >{Rva00174753Allocation()throw();~Rva00174753Allocation();};

@@ -42,7 +42,7 @@ class Rva00073320Method : public Rva00073320Holder
 {
 public:
 	Rva00073320Method(W3DShroud *owner);
-	virtual void destroy();
+	virtual void destroy() = 0;
 	virtual ~Rva00073320Method();
 	W3DShroud *m_owner;
 };

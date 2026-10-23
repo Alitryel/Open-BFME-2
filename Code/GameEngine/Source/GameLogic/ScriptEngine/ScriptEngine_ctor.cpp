@@ -63,7 +63,7 @@ template<>vector<RvaPair00207E26>::~vector();template<>vector<BfmeStringRecord00
 template<>_List_base<SnapshotBlock,allocator<SnapshotBlock> >::_List_base(const allocator<SnapshotBlock>&);
 template<>_List_base<upgradePair,allocator<upgradePair> >::_List_base(const allocator<upgradePair>&);
 }
-class ScriptEngine:public SubsystemInterface,public Snapshot {public:ScriptEngine();virtual~ScriptEngine();virtual void init();virtual void reset();virtual void update();virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);
+class ScriptEngine:public SubsystemInterface,public Snapshot {public:ScriptEngine();virtual~ScriptEngine();virtual void init();virtual void reset();virtual void update();virtual void loadPostProcess() = 0;virtual const char*GetSnapshotName()const = 0;virtual void xfer(Xfer*) = 0;
 private:
 _STL::vector<SequentialScript*> sequential;int unknown1C;Template action[599];ConditionTemplate condition[202];
 Rva002075F3Map map190A0;Rva00207630Map map190AC;Rva0020766DMap map190B8;Rva002076AAMap map190C4;Rva002076E7Map map190D0;Rva00207724Map map190DC;Rva00207761Map map190E8;Rva0020779EMap map190F4;

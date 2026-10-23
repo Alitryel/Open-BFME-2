@@ -61,7 +61,7 @@ double Rva006C5BE0(double,int);
 class BaseHeightMapRenderObjClass:public RenderObjClass,public DX8_CleanupHook,public Snapshot {public:
 BaseHeightMapRenderObjClass();virtual~BaseHeightMapRenderObjClass();
 virtual void ReleaseResources();virtual void ReAcquireResources();
-virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);
+virtual void loadPostProcess() = 0;virtual const char*GetSnapshotName()const = 0;virtual void xfer(Xfer*) = 0;
 int x;
 int y;
 TerrainRef vertexScorch;
