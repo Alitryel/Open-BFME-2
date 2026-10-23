@@ -282,7 +282,7 @@ extern "C" Int m_borderSize;			///< Non-playable border area.
 static std::vector<ICoord2D> m_boundaries;	///< All the boundaries we use for the map
 static Int m_dataSize = 0;				///< size of m_data.
 static UnsignedByte *m_data = 0;	///< array of z(height) values in the height map.
-static Dict worldDict = 0;
+extern "C" { Dict worldDict = 0; }
 
 extern "C" { WaypointMap *m_waypoints = 0; }
 extern "C" { Coord3DList	m_supplyPositions; }
@@ -486,7 +486,7 @@ static Bool loadMap( AsciiString filename )
 }
 
 #pragma optimize("s", on)
-static void resetMap( void )
+void resetMap( void )
 {
 	if (m_data)
 	{
