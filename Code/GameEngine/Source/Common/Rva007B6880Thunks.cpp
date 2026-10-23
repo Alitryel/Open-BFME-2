@@ -5854,7 +5854,7 @@ void __cdecl rva007B6864()
 	return receiver->~Init();
 }
 
-extern unsigned g_00E06665;
+extern unsigned char g_00E06665;
 // g_00E06665: packet annotates VA 0x00E06665 (data RVA 0x00A06665), no name yet.
 
 // ?rva007B9806@@YAXXZ @ 0x007B9806 (10B). Global locale uninitialize thunk: ecx=&g_00E06665 then tail-jmp to pinned ?rva00007670@Rva00007670@@QAEXXZ (0x00007670 twin of rowed ?_S_uninitialize@locale@_STL@@SAXXZ). No callers. Between 0x007B97FC and 0x007B981B. Honest address name.
@@ -6756,22 +6756,27 @@ void __cdecl rva007B54E0()
 	receiver->CPUDetectInitClass::CPUDetectInitClass();
 }
 
+namespace FXParticleSystem {
+template <int CATEGORY> struct DefaultModuleKey { static const char *const VALUE; };
+template <int CATEGORY> struct DefaultModuleName { static const char *const VALUE; };
+}
+
 extern unsigned g_Va00E02C48;
 unsigned int g_Va00E02C48;
 
-// ?rva007B3EB4@@YAXXZ @ 0x007B3EB4 (11B). Global store thunk: g_Va00E02C48 = 0x00E02C40 then ret. The stored value is 8 below the global's own address; purpose unproven. No callers. Honest address name.
+// The startup store retains the address of category 6's default module key.
 void __cdecl rva007B3EB4()
 {
-	g_Va00E02C48 = 0x00E02C40;
+	g_Va00E02C48 = (unsigned)&FXParticleSystem::DefaultModuleKey<6>::VALUE;
 }
 
 extern unsigned g_Va00E02C4C;
 unsigned int g_Va00E02C4C;
 
-// ?rva007B3EBF@@YAXXZ @ 0x007B3EBF (11B). Global store thunk: g_Va00E02C4C = 0x00E02C44 then ret. The stored value is 8 below the global's own address; purpose unproven. No callers. Honest address name.
+// The startup store retains the address of category 6's default module name.
 void __cdecl rva007B3EBF()
 {
-	g_Va00E02C4C = 0x00E02C44;
+	g_Va00E02C4C = (unsigned)&FXParticleSystem::DefaultModuleName<6>::VALUE;
 }
 
 // Startup thunk 0x007AC022 constructs WaterDrawFXShaderParameterSourceNamespace at VA 0x00DE2008.
