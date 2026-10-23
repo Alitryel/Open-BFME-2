@@ -22,6 +22,11 @@
 #include "ascii_string.h"
 #include "Common/INIException.h"
 
+// Native constructor unwind 0x787199 calls vector cleanup 0x425717. Its
+// range loop 0x4256D5 calls 0x4247E3 at a 24-byte stride, matching this
+// provisional row view and the existing LightSubPoint-vector provider.
+#pragma comment(linker, "/alternatename:??1?$vector@UCameraMarker@@V?$allocator@UCameraMarker@@@_STL@@@_STL@@QAE@XZ=??1?$vector@ULightSubPoint@@V?$allocator@ULightSubPoint@@@_STL@@@_STL@@QAE@XZ")
+
 extern "C" void __cdecl free(void *);
 inline void *operator new(unsigned int, void *where) throw() { return where; }
 

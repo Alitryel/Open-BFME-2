@@ -115,3 +115,26 @@ source declaration, EH and converged-data checks passing. Hatch accounting is
 currently shadow-only and reports ten added alternatename bindings; code
 identity reports eight unreferenced binding diagnostics. These were not hidden
 with baseline additions or gate changes. The second batch adds five bindings.
+
+
+## Formation cleanup: +917 B legacy linked
+
+FormationTemplate.cpp was 0/917 B on its current object, solely missing its
+24-byte CameraMarker-vector destructor. Native constructor 4257AD's cleanup
+at 787199 jumps to vector destructor 425717. Its range 4256D5 calls 4247E3
+at a 24-byte stride, identifying the already rowed LightSubPoint-vector
+destructor as the complete lifetime operation. The binding preserves the
+provisional object identities and does not conflate this 24-byte record with
+the unrelated 8-byte CameraMarker providers.
+
+After binding that declaration, the unit reports LINKS, 0 -> 917 B legacy.
+The normal gate verifies all 13 rows in the two-source FormationTemplate
+filter (including constructor/parser and emitted EH rows). A scoped strict
+receipt is prepared; this remains a legacy preview gain, not closed-strict.
+No pin, data, ledger or baseline changes were needed.
+
+The preceding 351-byte batch's shadow identity check additionally flags three
+existing opaque helper copies in StlSweepR3Rva001DA05E: destroy-range 32C0CA,
+copy dispatcher 255CFA and uninitialized-copy 1D9B3C. Its normal body gate and
+legacy link preview pass; helper identity and full closure remain separate
+verification limitations. These findings were not suppressed.
