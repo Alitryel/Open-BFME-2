@@ -43,16 +43,30 @@ public:
 	virtual ~Rva003AF8C7();
 };
 
-class Rva003AF89A : public Rva003AF8C7
+// Slot 0 of this class's head table 0x0081D0BC is ??_GRva003AD2AE
+// (0x003AD42F), which calls the rowed ~Rva003AD2AE (0x003AD2AE, a jmp to
+// ~Rva003ABC58). Modelled as a novtable Rva003AD2AE view over Rva003AF8C7 so
+// the implicit ~Rva003AF89A calls it (real base or ICF-folded dtor name: not
+// settled).
+class __declspec(novtable) Rva003AD2AE : public Rva003AF8C7
+{
+public:
+	__forceinline Rva003AD2AE(const Rva003AD2AE &other)
+		: Rva003AF8C7(other)
+	{
+	}
+	virtual ~Rva003AD2AE();
+};
+
+class Rva003AF89A : public Rva003AD2AE
 {
 public:
 	Rva003AF89A(const Rva003AF89A &other);
-	virtual ~Rva003AF89A();
 };
 
 // ??0Rva003AF89A@@QAE@ABV0@@Z @0x003AF89A 45B: calls intermediate 0x003AF8C7
 // then stores vptrs at +0/+0x14/+0x18/+0x1c DIR32.
 Rva003AF89A::Rva003AF89A(const Rva003AF89A &other)
-	: Rva003AF8C7(other)
+	: Rva003AD2AE(other)
 {
 }
