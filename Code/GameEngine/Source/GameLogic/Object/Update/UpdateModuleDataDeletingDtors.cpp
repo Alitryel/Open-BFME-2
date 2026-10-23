@@ -7,10 +7,12 @@
 // class spellings. A named slot alone does not establish the complete owner.
 // See docs/reconstruction/deleting-destructor-identity-audit.md.
 //
-// These minimal declarations emit the wrappers, not complete class layouts.
-// No bases, member layout, or destructor implementation are claimed here.
-// The noinline empty destructor is an unmatched compilation scaffold; the
-// verified wrapper call resolves to the retail destructor through its pin.
+// Transport uses the shared ModuleData interface. The other minimal views
+// emit wrappers without claiming complete class layouts.
+// Destructor definitions are supplied by their verified providers.
+
+#pragma include_alias("ascii_string.h", "../../../../reference/shims/bfme2_ascii/ascii_string.h")
+#include "../../../../Include/Common/BfmeModuleData.h"
 
 struct EmitVtableTag;
 
@@ -28,7 +30,7 @@ SlavedUpdateModuleData::SlavedUpdateModuleData(EmitVtableTag *) {}
 
 // ??_GTransportAIUpdateModuleData@@UAEPAXI@Z @0x0026E67D 28B: slot 0 of vtable 0x00BFA288; calls ??1 at 0x0026E1FC.
 // Owner evidence (audited 2026-09-26): retail registration TransportAIUpdate -> data factory RVA 0x0024BDF2 -> ctor RVA 0x0026E5D7; primary vptr store RVA 0x0026E5F2; constructor also used by AIUpdateInterface, HordeAIUpdate, HordeWorkerAIUpdate (no exclusive owner claim).
-class TransportAIUpdateModuleData { public: TransportAIUpdateModuleData(EmitVtableTag *); virtual ~TransportAIUpdateModuleData(); };
+class TransportAIUpdateModuleData : public ModuleData { public: TransportAIUpdateModuleData(EmitVtableTag *); virtual ~TransportAIUpdateModuleData(); virtual bool slot04() const { return true; } };
 // ?<TransportAIUpdateModuleData::TransportAIUpdateModuleData> absent-from-retail
 TransportAIUpdateModuleData::TransportAIUpdateModuleData(EmitVtableTag *) {}
 

@@ -68,7 +68,7 @@ private:
 	AsciiString m_member0C;
 };
 
-Rva004E194E::~Rva004E194E()
+__declspec(noinline) inline Rva004E194E::~Rva004E194E()
 {
 }
 
@@ -85,12 +85,13 @@ inline Rva004FA830::~Rva004FA830()
 {
 }
 
-// This destructor is a header inline in the copier unit; the anchor is not retail code.
+// These destructors are header inlines in their callers; the anchor is not retail code.
 #pragma inline_depth(0)
-// ?_bfmeRva004FA830DtorInlineAnchor@@YAXXZ absent-from-retail
-void _bfmeRva004FA830DtorInlineAnchor()
+// ?<_bfmeRva004FA830DtorInlineAnchor> absent-from-retail
+void _bfmeRva004FA830DtorInlineAnchor(Rva004FA830 *first, Rva004E194E *second)
 {
-	static_cast<Rva004FA830 *>(0)->Rva004FA830::~Rva004FA830();
+	first->Rva004FA830::~Rva004FA830();
+	second->Rva004E194E::~Rva004E194E();
 }
 #pragma inline_depth()
 

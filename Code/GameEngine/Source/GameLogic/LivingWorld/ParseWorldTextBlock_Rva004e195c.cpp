@@ -1,38 +1,36 @@
 // cl: -DNDEBUG -DWIN32 -MD -EHsc -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/GameEngine/Source/GameLogic/LivingWorld
-// Open-BFME7: ParseWorldTextBlock (retail 0x003B8610 174 B; a gap claimed through
-// its own exception text).  With no INI or instance it throws INIException(3
-// "ParseWorldTextBlock::Invalid data passed in."); otherwise the record below is built inline filled through
-// INI::initFromINI with the table at VA 0x010ED300 and handed to the
-// instance's append routine (0x00443167); the inline virtual destructor restores the vtable (VA 0x010EC784) and releases the string at +0xC.  Address-derived names.
+// Parses a WorldText block and appends its record to the campaign act.
 
 typedef int Int;
 
-struct FieldParse;
-
-class INIException
+class INI;
+typedef void (*FieldParseProc)(INI *, void *, void *, const void *);
+struct FieldParse
 {
-public:
-	INIException( Int code, const char *msg, ... );
-	INIException( const INIException &other );
-
-private:
-	Int m_code;
-	const char *m_msg;
+	const char *token;
+	FieldParseProc parse;
+	const void *userData;
+	int offset;
 };
+
+#include "../../../../../reference/shims/iniexception/Common/INIException.h"
 
 class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+	static void dup_002F0F7(INI *, void *, void *, const void *);
+	static void parseAsciiString(INI *, void *, void *, const void *);
+	static void parseBool(INI *, void *, void *, const void *);
 };
 
 #include "ascii_string.h"
 
-class Rva003B8610Record
+class Rva004E194E
 {
 public:
-	Rva003B8610Record() : m_04( 0 ), m_08( 0 ), m_flag10( false ) {}
-	virtual ~Rva003B8610Record() {}
+	Rva004E194E() : m_04( 0 ), m_08( 0 ), m_flag10( false ) {}
+	virtual ~Rva004E194E() {}
 
 private:
 	Int m_04;
@@ -41,12 +39,19 @@ private:
 	bool m_flag10;
 };
 
-extern const FieldParse Rva003B8610RecordFieldParseTable[];
+// The native table at 0x00861CE8 parses the two delays, text tag and summary flag.
+extern const FieldParse Rva003B8610RecordFieldParseTable[] = {
+	{ "DelayFromActStart", &INI::dup_002F0F7, 0, 4 },
+	{ "Duration", &INI::dup_002F0F7, 0, 8 },
+	{ "StringTag", &INI::parseAsciiString, 0, 12 },
+	{ "SummaryEvent", &INI::parseBool, 0, 16 },
+	{ 0, 0, 0, 0 }
+};
 
-class Rva003B8610Owner
+class Rva00566557
 {
 public:
-	void append( Rva003B8610Record *record );
+	void rva00566557(const Rva004E194E &record);
 };
 
 // ?ParseWorldTextBlock@@YAXPAVINI@@PAX1PBX@Z
@@ -54,9 +59,9 @@ void ParseWorldTextBlock( INI *ini, void *instance, void *, const void * )
 {
 	if( ini && instance )
 	{
-		Rva003B8610Record record;
+		Rva004E194E record;
 		ini->initFromINI( &record, Rva003B8610RecordFieldParseTable );
-		((Rva003B8610Owner *)instance)->append( &record );
+		((Rva00566557 *)instance)->rva00566557(record);
 	}
 	else
 		throw INIException( 3, "ParseWorldTextBlock::Invalid data passed in." );
