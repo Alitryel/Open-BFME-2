@@ -47,3 +47,14 @@ Streak destructor alone is a prerequisite, not a linked-byte repair.
 Target semantic identity/ABI comes from existing matched target rows and
 native tables; ZH supplies the source declaration and vector cleanup guide.
 No new identity, pin, alias, table or byte claim was introduced. t=27 minutes.
+
+Follow-up at 0647f94c99: the missing Grow<float> provider can be compiled
+from the same verified donor's simplevec.h. Complete 59B at1001D5 equals
+BfmePod4's existing owner including every relocation (none); add_match
+with --icf-owner admits the float fold and all6 rows pass. The attached
+grow-provider.patch preserves this small prerequisite trial. However the
+current-object preview still links0/175 B: once Grow resolves, both
+selected float deleting destructors are exposed as wrong. The existing
+wrapper investigation above therefore remains necessary. All source and
+ledger trial edits were restored; no alias row or extra pin was retained.
+No gain credited, no additional wrapper-suppression variants attempted.
