@@ -20,17 +20,17 @@ public:
 	virtual unsigned int update(float elapsedSeconds, bool firstCall);
 };
 
-// 0x0C-byte std::exception child (retail vtable install + shared throw
-// info); thrown from every null-operation guard in this family. The default
-// constructor resolves through its pin; the vtable and throw info patch over
-// as data references. Identity beyond the shape is unproven, so the name is
-// address-derived.
-class Rva002035E2
+// 0x0C-byte std::exception child thrown from every null-operation guard in
+// this family: FunctorNotSet, whose default constructor is rowed at
+// 0x002035E2 and destructor at 0x00203EBA (FunctorNotSetCtor.cpp), as the
+// FunctorRefInvoke* siblings throw it. The vtable and shared throw info patch
+// over as data references.
+class FunctorNotSet
 {
 public:
-	Rva002035E2(void);
+	FunctorNotSet(void);
 
-	virtual ~Rva002035E2(void);
+	virtual ~FunctorNotSet(void);
 
 private:
 	char m_pad[0x0C - 4];
@@ -52,7 +52,7 @@ unsigned int TimedOperationRef::update(float elapsedSeconds, bool firstCall)
 
 	if (operation == 0)
 	{
-		throw Rva002035E2();
+		throw FunctorNotSet();
 	}
 
 	return operation->update(elapsedSeconds, firstCall);
