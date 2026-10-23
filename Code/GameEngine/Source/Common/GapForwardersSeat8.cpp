@@ -558,48 +558,6 @@ void Rva005CF9B2::rva005CF9B2()
 	if (v)
 		((Rva005CB265 *)v)->Rva005CB265::rva005CB265();
 }
-class Rva0030BCAEDwordField { public: int get() const; };
-class Rva0030C4A6 { public: int rva0030C4A6() const; };
-int Rva0030C4A6::rva0030C4A6() const
-{
-	return ((const Rva0030BCAEDwordField *)((const char *)this - *(const int *)((char *)this - 4)))->get();
-}
-
-class Rva002BFBF0 { public: float rva002BFBF0(); };
-class Rva0030C4AE { public: float rva0030C4AE(); };
-float Rva0030C4AE::rva0030C4AE()
-{
-	return ((Rva002BFBF0 *)((char *)this - *(int *)((char *)this - 4)))->rva002BFBF0();
-}
-
-class Rva0030BCB2 { public: float rva0030BCB2(); };
-class Rva0030C4B6 { public: float rva0030C4B6(); };
-float Rva0030C4B6::rva0030C4B6()
-{
-	return ((Rva0030BCB2 *)((char *)this - *(int *)((char *)this - 4)))->rva0030BCB2();
-}
-
-class Rva0030BE96 { public: int rva0030BE96() const; };
-class Rva0030C4BE { public: int rva0030C4BE() const; };
-int Rva0030C4BE::rva0030C4BE() const
-{
-	return ((const Rva0030BE96 *)((const char *)this - *(const int *)((char *)this - 4)))->rva0030BE96();
-}
-
-class Rva0030BEE6Owner { public: int fwd(int a); };
-class Rva0030C4CE { public: int rva0030C4CE(int a); };
-int Rva0030C4CE::rva0030C4CE(int a)
-{
-	return ((Rva0030BEE6Owner *)((char *)this - *(int *)((char *)this - 4)))->fwd(a);
-}
-
-class Rva0030BEF9Owner { public: int fwd(int a); };
-class Rva0030C4D6 { public: int rva0030C4D6(int a); };
-int Rva0030C4D6::rva0030C4D6(int a)
-{
-	return ((Rva0030BEF9Owner *)((char *)this - *(int *)((char *)this - 4)))->fwd(a);
-}
-
 // ?rva0049B517@Rva0049B517@@QAEXXZ @0x0049B517 7B: no caller left in retail
 // (dead member forwarder after its update 0x0049B483); adjusts the receiver
 // to its member at +0x20 and tail-calls that member's first virtual. The

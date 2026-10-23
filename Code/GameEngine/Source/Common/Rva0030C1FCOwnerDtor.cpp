@@ -12,14 +12,27 @@
 // funclets reach the list and buffer destructors through the shared
 // free-first-pointer body 0x0007FAB3. The virtual base sits at +0x90.
 #include "ascii_string.h"
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &point):x(point.x),y(point.y) {}
+ float x,y;
+};
+
 
 void __cdecl Rva00030830GameFree(void *);
 
-class VBase00C6EE28
+class Rva00330C50Interface
 {
 public:
-	virtual void s0() = 0;
-	~VBase00C6EE28() {}
+ ~Rva00330C50Interface() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 // The slot-0 virtual of the primary base: retail's table holds this owner's
@@ -34,11 +47,13 @@ private:
 	unsigned char m_pad04[0x18 - 4];
 };
 
-class Rva0053805DBase : public Rva00538133Root, public virtual VBase00C6EE28
+class Rva0053805DBase : public Rva00538133Root, public virtual Rva00330C50Interface
 {
 public:
 	virtual ~Rva0053805DBase();
-	virtual void s0();
+	virtual bool slot1() const;
+	virtual void rva0053805D();
+	virtual void rva0053806C();
 private:
 	unsigned char m_pad1C[0x30 - 0x1C];
 };
@@ -73,11 +88,13 @@ class Rva0030C1FCOwner : public Rva0053805DBase, public Rva0030C185List
 {
 public:
 	virtual ~Rva0030C1FCOwner();
-	// 0x0030C1FC is rowed as Rva0030C1FCOwner::rva0030C1FC
-	// (Rva0030C1FCNotifiers.cpp, the vcall-thunk broadcast slot): the placeholder
-	// virtual-base override s0 is that row's call, so bind it to the rowed name.
-	virtual void s0() { rva0030C1FC(); }
-	void rva0030C1FC();
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
 private:
 	AsciiString m_records[4];		// +0x40
 	unsigned char m_pad50[0x68 - 0x50];

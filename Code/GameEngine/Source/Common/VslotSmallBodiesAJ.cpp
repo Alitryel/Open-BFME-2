@@ -1705,25 +1705,6 @@ private:
 };
 
 
-// ?rva0030BCB2@Rva0030BCB2@@QAEMXZ @0x0030BCB2 8B
-// Adjustor tail-jmp to Rva0053863ESub::rva00538661 with this-0x28.
-// Evidence: same -0x28 adjustment as Rva0030BEE6Owner::fwd in RvaAdjustCallEchoFamily.cpp to same target; callee rowed; caller 0x0030C4B9.
-class Rva0053863ESub
-{
-public:
-	float rva00538661();
-};
-class Rva0030BCB2
-{
-public:
-	float rva0030BCB2();
-};
-float Rva0030BCB2::rva0030BCB2()
-{
-	return ((Rva0053863ESub *)((char *)this - 0x28))->rva00538661();
-}
-
-
 // Retail 0x005680F9 (74 bytes) returns the instance-list storage at VA
 // 0x00E062D8; its one-time guard is VA 0x00E062DC. The named Impl constructor
 // inserts its instance and the named destructor erases its saved iterator.

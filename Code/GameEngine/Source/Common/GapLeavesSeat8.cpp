@@ -490,25 +490,6 @@ extern const FieldParse g_00C04820[];
 struct Rva002E0628Table { static const FieldParse *getFieldParse(); };
 const FieldParse *Rva002E0628Table::getFieldParse() { return g_00C04820; }
 
-// --- 0x0030BE96 (12B): twice the element count of the 16-byte vector
-// 0x28 bytes before the receiver (reached through the jmp at 0x0030C4C1).
-struct Rva0030BE96Element { int a[4]; };
-struct Rva0030BE96Range
-{
-	Rva0030BE96Element *m_begin;
-	Rva0030BE96Element *m_end;
-};
-class Rva0030BE96
-{
-public:
-	int rva0030BE96() const;
-};
-int Rva0030BE96::rva0030BE96() const
-{
-	const Rva0030BE96Range *range = (const Rva0030BE96Range *)((const char *)this - 0x28);
-	return (int)(range->m_end - range->m_begin) * 2;
-}
-
 // ---- fourth batch: constant returns and small leaves -------------------
 
 struct Rva00151406Const { static int get(); };

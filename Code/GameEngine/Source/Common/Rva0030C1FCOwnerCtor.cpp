@@ -1,3 +1,4 @@
+// stlport
 // cl: /O1 /arch:SSE /G7 /EHsc /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii
 //
 // ??0Rva0030C1FCOwner@@QAE@H@Z, retail 0x0030C4DE (317 bytes, EH, RET 8: one
@@ -18,16 +19,35 @@
 // "WaterSurfaceBubbles.tga". Field meanings are not established; names are
 // address-derived.
 #include "ascii_string.h"
+#include <vector>
+#include "../../../Libraries/Include/Lib/BfmeE16.h"
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &point):x(point.x),y(point.y) {}
+ float x,y;
+};
+
+typedef _STL::vector<BfmeE16, _STL::allocator<BfmeE16> > Rva0030BEA2Vector;
+namespace _STL { template<> BfmeE16 &Rva0030BEA2Vector::operator[](size_type); }
+class Rva0053863ESub { public: Region2D run(); float rva00538661(); };
+class Rva00538674Sub { public: Rva0030B72CPoint run(); };
 
 void __cdecl Rva00030830GameFree(void *);
 
 // The interface dtor only restores its table (row 0x0057A243, 7B), inline as in
 // Rva0030C1FCOwnerDtor.cpp: retail's deleting dtor stores the table, no call.
-class VBase00C6EE28
+class Rva00330C50Interface
 {
 public:
-	virtual void s0() = 0;
-	~VBase00C6EE28() {}
+ ~Rva00330C50Interface() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 // The base as Rva0053805DBaseCtor.cpp lays it out.
@@ -53,7 +73,7 @@ private:
 };
 
 class Rva0053805DBase : public Rva0007DF07, public Rva00330757Member,
-	public virtual VBase00C6EE28
+	public virtual Rva00330C50Interface
 {
 public:
 	Rva0053805DBase();
@@ -126,7 +146,13 @@ class Rva0030C1FCOwner : public Rva0053805DBase, public Rva00330757Member
 public:
 	Rva0030C1FCOwner(int count);
 	virtual ~Rva0030C1FCOwner();
-	virtual void s0();
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
 private:
 	AsciiString m_40[4];		// +0x40
 	float m_50;			// +0x50
@@ -135,7 +161,7 @@ private:
 	int m_5C;			// +0x5C
 	int m_60;			// +0x60
 	int m_64;			// +0x64
-	Rva005388AB m_68;		// +0x68
+	mutable Rva005388AB m_68;		// +0x68
 };
 
 Rva0030C1FCOwner::Rva0030C1FCOwner(int count)
@@ -147,3 +173,30 @@ Rva0030C1FCOwner::Rva0030C1FCOwner(int count)
 	m_40[2] = "TWAlphaEdge.tga";
 	m_40[3] = "WaterSurfaceBubbles.tga";
 }
+
+// The seven slots of native C088E0. The shared virtual base lies at +90;
+// the compiler therefore addresses the +68 quad strip at receiver-28.
+// These overrides also emit the seven native vtordisp thunks 30C4A6..30C4DE.
+int Rva0030C1FCOwner::slot0() const
+{
+ const Rva0030BEA2Vector &entries = *reinterpret_cast<const Rva0030BEA2Vector *>(&m_68);
+ return (int)entries.size() * 2;
+}
+Rva0030B72CPoint Rva0030C1FCOwner::slot1(int index) const
+{
+ Rva0030BEA2Vector &entries = *reinterpret_cast<Rva0030BEA2Vector *>(&m_68);
+ int count = entries.size();
+ const float *point;
+ if (index == 0) point = &entries[0].x;
+ else if (--index < count) point = &entries[index].z;
+ else point = &entries[count * 2 - index - 1].x;
+ return *reinterpret_cast<const Rva0030B72CPoint *>(point);
+}
+int Rva0030C1FCOwner::slot2() const { return m_64; }
+Region2D Rva0030C1FCOwner::slot3()
+{ return reinterpret_cast<Rva0053863ESub *>(&m_68)->run(); }
+float Rva0030C1FCOwner::slot4() const { return 0.0f; }
+float Rva0030C1FCOwner::slot5() const
+{ return reinterpret_cast<Rva0053863ESub *>(&m_68)->rva00538661(); }
+Rva0030B72CPoint Rva0030C1FCOwner::slot6() const
+{ return reinterpret_cast<Rva00538674Sub *>(&m_68)->run(); }

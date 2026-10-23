@@ -9812,7 +9812,7 @@ name,address,notes
 ?run@Rva00203AD5Run@@QAEXXZ,0x00203AD5,REL32 callee decoded from target call bytes of global-this forward 0x003BBEDE; identity unproven
 ?run@Rva00203ADDRun@@QAEXXZ,0x00203ADD,REL32 callee decoded from target call bytes of global-this forward 0x003BBEE9; identity unproven
 ?run@Rva0037DCCC284@@QAEXH@Z,0x0028C557,alias to rowed STLport _Base_bitset<32>::_M_do_or (likely via operator|=); address read from the retail REL32 at 0x0037DCCC (VA 0x68C557)
-?run@Rva0053863ESub@@QAEHH@Z,0x0053863E,REL32 callee decoded from target call bytes of adjust-call-echo 0x0030BEE6; final stack load returns the 32-bit input; semantic type and identity unproven
+?run@Rva0053863ESub@@QAE?AURegion2D@@XZ,0x0053863E,Native 53863E hidden Region2D return buffer; canonical copy ctor 4254E; caller now river slot3
 ?run@Rva005E589ERun@@QAEXXZ,0x005E589E,REL32 callee decoded from target call bytes of same-shape helper-member step; identity unproven
 ?run@Rva005E6A9DRun@@QAEXXZ,0x005E6A9D,REL32 callee decoded from target call bytes of same-shape helper-member step; identity unproven
 ?run@Rva007E8AC0@@QAEXXZ,0x00655B50
