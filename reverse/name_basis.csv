@@ -167,3 +167,4 @@ function,?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,?doEffectPosition@Dama
 function,?rva005F2767@Rva005F2767@@QBE_NXZ,?IsMouseOverBackButton@Rva005F2767@@QBE_NXZ,inferred,agree:nl-81e2eca7caea,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,0x005F2767
 class,Rva005E39A6Owner,ArmyDetailsPanelImpl,inferred,agree:nl-3a59c6311c9a,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
 class,Rva005F2767Inner,ArmyDetailsMovieClipImpl,inferred,agree:nl-3fe0dd21358c,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
+local,AODHordeContain::initOffsets::v,AODHordeContain::initOffsets::wave,inferred,agree:nl-2de8ff01c811,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp,0x0047B690

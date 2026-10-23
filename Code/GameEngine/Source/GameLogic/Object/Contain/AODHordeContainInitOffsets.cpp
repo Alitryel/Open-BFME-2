@@ -117,16 +117,16 @@ void AODHordeContain::initOffsets(void *arg)
 	m_jitter.reserve(count);
 	for (int i = 0; i < count; ++i)
 	{
-		float v[6];
+		float wave[6];
 		float angle = 6.2831855f * data->m_a;
-		v[1] = GetGameLogicRandomValueReal(1.0f - data->m_b, 1.0f + data->m_b, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20A);
-		v[0] = GetGameLogicRandomValueReal(0.0f, angle, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20B);
-		v[2] = GetGameLogicRandomValueReal(1.0f - data->m_a, 1.0f + data->m_a, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20C);
+		wave[1] = GetGameLogicRandomValueReal(1.0f - data->m_b, 1.0f + data->m_b, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20A);
+		wave[0] = GetGameLogicRandomValueReal(0.0f, angle, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20B);
+		wave[2] = GetGameLogicRandomValueReal(1.0f - data->m_a, 1.0f + data->m_a, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20C);
 		angle = 6.2831855f * data->m_c;
-		v[4] = GetGameLogicRandomValueReal(1.0f - data->m_d, 1.0f + data->m_d, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20F);
-		v[3] = GetGameLogicRandomValueReal(0.0f, angle, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x210);
-		v[5] = GetGameLogicRandomValueReal(1.0f - data->m_c, 1.0f + data->m_c, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x211);
-		((_STL::vector<BfmePod24> *)&m_jitter)->push_back(*(const BfmePod24 *)v);
+		wave[4] = GetGameLogicRandomValueReal(1.0f - data->m_d, 1.0f + data->m_d, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x20F);
+		wave[3] = GetGameLogicRandomValueReal(0.0f, angle, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x210);
+		wave[5] = GetGameLogicRandomValueReal(1.0f - data->m_c, 1.0f + data->m_c, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\AODHordeContain.cpp", 0x211);
+		((_STL::vector<BfmePod24> *)&m_jitter)->push_back(*(const BfmePod24 *)wave);
 	}
 
 	float first = 0.0f;
