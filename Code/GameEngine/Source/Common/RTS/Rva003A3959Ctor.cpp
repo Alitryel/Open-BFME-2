@@ -76,6 +76,7 @@ public:
 };
 
 extern "C" const void *const __identifier("??_7TeamRelationMap@@6B@")[];
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 
 // Empty base with inline empty ctor but declared-only dtor: no base call is
 // emitted, but the base is unwindable, so retail arms EH state 0 before the
@@ -84,7 +85,14 @@ class Rva003A3959Base
 {
 public:
 	Rva003A3959Base() {}
-	~Rva003A3959Base();
+	// The base is retail's Snapshot: the ctor's unwind funclet 0x007819FA
+	// destroys it through 0x0049B47C, the folded Snapshot destructor that
+	// restores the Snapshot table 0x00BBB554 and returns. This view keeps
+	// the vptr as a member, so the restore is spelled by hand.
+	~Rva003A3959Base()
+	{
+		*(const void *const **)this = __identifier("??_7Snapshot@@6B@");
+	}
 };
 
 class Rva003A3959 : public Rva003A3959Base

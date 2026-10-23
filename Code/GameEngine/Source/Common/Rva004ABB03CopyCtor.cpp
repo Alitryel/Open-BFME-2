@@ -3,11 +3,20 @@
 
 typedef int Int;
 
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+
 class Rva004AB7EB
 {
 public:
 	Rva004AB7EB(const Rva004AB7EB &other);
-	virtual ~Rva004AB7EB();
+	// Retail tears the object down through 0x0049B47C, the folded
+	// Snapshot destructor: it restores the Snapshot table 0x00BBB554 and
+	// returns. This view has no Snapshot base, so the restore is spelled
+	// by hand.
+	virtual ~Rva004AB7EB()
+	{
+		*(const void *const **)this = __identifier("??_7Snapshot@@6B@");
+	}
 
 	Int m_field04;
 };
@@ -16,7 +25,7 @@ class Rva004ABB03 : public Rva004AB7EB
 {
 public:
 	Rva004ABB03(const Rva004ABB03 &other);
-	virtual ~Rva004ABB03();
+	virtual ~Rva004ABB03() {}
 };
 
 Rva004ABB03::Rva004ABB03(const Rva004ABB03 &other)

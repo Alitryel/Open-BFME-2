@@ -20,7 +20,9 @@ class Rva0009AA0F : public SimpleSceneClass
 {
 public:
 	Rva0009AA0F(int v);
-	virtual ~Rva0009AA0F();
+	// No user destructor: retail's slot-1 scalar deleting destructor 0x001042CF
+	// (shared with the 0x00740555 sibling) calls the 5-byte implicit one that
+	// only tail-jumps to ~SimpleSceneClass.
 
 private:
 	int m_108;
