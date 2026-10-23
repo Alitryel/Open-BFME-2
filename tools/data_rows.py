@@ -352,6 +352,15 @@ def _protected_probe_name(source, symbol, tag):
     return f"data_row_protected_access_{zlib.crc32(key):08x}"
 
 
+def _probe_include(source, probe):
+    """The #include spelling of `source` for a probe TU at `probe`: relative to
+    the probe's directory. MSVC 7.1 reads #include paths in the ANSI code page,
+    so an absolute path through a non-ASCII checkout directory names no file;
+    the in-repository part of the path stays ASCII."""
+    import os
+    return Path(os.path.relpath(source.resolve(), probe.parent.resolve())).as_posix()
+
+
 def compiled_size(source, symbol):
     """(bytes, how) = sizeof(the symbol) as MSVC 7.1 evaluates it in a probe TU
     that #includes `source` and is compiled with `source`'s own build command;
@@ -382,7 +391,7 @@ def compiled_size(source, symbol):
         tokens.add(helper)
     guards = "".join(f"#ifdef {token}\n#error data_row_probe: {token} is a macro here\n#endif\n"
                      for token in sorted(tokens))
-    probe.write_text(f'#include "{source.resolve().as_posix()}"\n' + guards + access_scope
+    probe.write_text(f'#include "{_probe_include(source, probe)}"\n' + guards + access_scope
                      + f"{linkage}const unsigned int data_row_sizeof = {size_expression};\n", encoding="utf-8")
     command, env = build.compiler_command(source, obj)
     command[-1] = probe.relative_to(ROOT).as_posix()
@@ -431,7 +440,7 @@ def _type_probe(source, symbol, tag, preamble, value):
         tokens.add(helper)
     guards = "".join(f"#ifdef {token}\n#error data_row_probe: {token} is a macro here\n#endif\n"
                      for token in sorted(tokens))
-    probe.write_text(f'#include "{source.resolve().as_posix()}"\n' + guards + preamble + access_scope
+    probe.write_text(f'#include "{_probe_include(source, probe)}"\n' + guards + preamble + access_scope
                      + f'extern "C" const unsigned int data_row_kind = {kind_expression};\n', encoding="utf-8")
     command, env = build.compiler_command(source, obj)
     command[-1] = probe.relative_to(ROOT).as_posix()

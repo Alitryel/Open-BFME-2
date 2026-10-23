@@ -556,6 +556,19 @@ def _toolchain():
         pytest.skip("MSVC 7.1 toolchain not present")
 
 
+def test_the_probe_includes_its_source_by_an_ascii_relative_path(tmp_path):
+    """MSVC 7.1 reads #include paths in the ANSI code page: a checkout under a
+    non-ASCII directory (a localized Documents folder) made every probe of every
+    data row fail with "No such file or directory". The probe sits inside the
+    repository, so the include is spelled relative to it."""
+    root = tmp_path / "Документы" / "repo"
+    source = root / "Code" / "Unit.cpp"
+    probe = root / "build" / "data_rows" / "probe" / "Unit_0.cpp"
+    spelled = data_rows._probe_include(source, probe)
+    assert spelled == "../../../Code/Unit.cpp"
+    assert spelled.isascii()
+
+
 def test_the_compiler_sizes_what_a_textual_lookup_gets_wrong():
     """The review's real-MSVC case: A::Element is char, B::Element is long, and
     `using namespace B` makes `Element values[2]` 8 bytes. A textual parser
