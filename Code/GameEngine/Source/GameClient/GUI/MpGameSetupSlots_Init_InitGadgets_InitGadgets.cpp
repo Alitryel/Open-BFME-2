@@ -609,9 +609,8 @@ public:
 	~MpGameSetupComboRef();
 
 	// Rebinds the wrapped window; 0x0043DE19 clears each one through the
-	// one-pointer store returning this at 0x0007B719 (an ICF-folded body,
-	// rowed as the Rva00323674 window constructor), so the call is that.
-	__forceinline MpGameSetupComboRef &operator=(GameWindow *window);
+	// one-pointer store at 0x0007B719, defined in MpGameSetupComboRef.cpp.
+	MpGameSetupComboRef &operator=(GameWindow *window);
 
 	// Unrowed 0x00323736 (308 bytes; ret 4, a byte flag), pinned by
 	// address.
@@ -623,15 +622,8 @@ public:
 class Rva00323674
 {
 public:
-	Rva00323674(GameWindow *window);
 	int rva00323674() const;
 };
-
-__forceinline MpGameSetupComboRef &MpGameSetupComboRef::operator=(GameWindow *window)
-{
-	((Rva00323674 *)this)->Rva00323674::Rva00323674(window);
-	return *this;
-}
 
 class Rva003236C4
 {
