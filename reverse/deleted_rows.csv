@@ -2101,3 +2101,4 @@ __ehhandler$?rva00059EAE@MilesAudioManager@@QAE?AVRva00051ADA@@PBVAsciiString@@@
 ??_ERva003A6C0BVec@@UAEPAXI@Z,0x003A6C0B,"Renamed to ??_ELightningEmissionInfo@FXParticleSystem@@UAEPAXI@Z: native table 0x00C1BBA0 pairs this owner with destructor 0x0049B47C"
 ??_ERva003A805AVec@@UAEPAXI@Z,0x003A805A,"Renamed to ??_ERenderObjectUpdateModuleInfo@FXParticleSystem@@UAEPAXI@Z: native table 0x00C1BDB0 pairs this owner with destructor 0x0049B47C"
 ??_ERva001FBF4D@@UAEPAXI@Z,0x001FC052,"Renamed to ??_EParticleSystemTemplate@FXParticleSystem@@UAEPAXI@Z: native constructor 0x001FC1E0 installs table 0x00BE1A28 and wrapper calls destructor 0x001FBF4D"
+?rva00800b30@Rva00800920Owner@@QAEXPAUProbeSlot@@@Z,0x0066CF10,"Renamed to ?releaseProbe@Rva00800920Owner@@QAEXPAUProbeSlot@@@Z by tools/rename.py (inferred)"

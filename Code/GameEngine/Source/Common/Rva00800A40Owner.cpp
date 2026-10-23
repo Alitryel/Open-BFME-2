@@ -58,7 +58,7 @@ class Rva00800920Owner
 
 public:
 	int rva00800a40(void *input, unsigned char flag, int value);
-	void rva00800b30(ProbeSlot *slot);
+	void releaseProbe(ProbeSlot *slot);
 };
 
 int Rva00800920Owner::rva00800a40(
@@ -111,11 +111,11 @@ int Rva00800920Owner::rva00800a40(
 }
 // BFME 2: the release side below is the same donor's second body, byte-identical
 // in game.dat at 0x0066CF10 (string literals verified at their BFME 2 addresses).
-// ?rva00800b30@Rva00800920Owner@@QAEXPAUProbeSlot@@@Z
+// ?releaseProbe@Rva00800920Owner@@QAEXPAUProbeSlot@@@Z
 // 0x00800B30 (58 B), the release side of rva00800a40: it clears the fields
 // that body fills (id, +0x04, value, +0x20 and the flag byte) and drops the
 // probe count, asserting "mNumProbes >= 0" at gamebrowserdemangler.cpp:0x147.
-void Rva00800920Owner::rva00800b30(ProbeSlot *slot)
+void Rva00800920Owner::releaseProbe(ProbeSlot *slot)
 {
 	slot->m_00 = 0;
 	slot->m_04 = 0;
