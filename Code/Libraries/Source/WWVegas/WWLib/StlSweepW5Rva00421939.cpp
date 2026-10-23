@@ -9,3 +9,7 @@ struct Rva00421939Element { char bytes[16]; bool operator<(const Rva00421939Elem
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva00421939Element * _STL::__uninitialized_fill_n<Rva00421939Element *, unsigned int, Rva00421939Element>(Rva00421939Element *, unsigned int, Rva00421939Element const &, _STL::__false_type const &);
+
+// 0x000ADE8D calls this fill through the out-of-line uninitialized_fill_n wrapper
+// (three arguments plus the __false_type tag at [ebp-1]).
+template Rva00421939Element * _STL::uninitialized_fill_n<Rva00421939Element *, unsigned int, Rva00421939Element>(Rva00421939Element *, unsigned int, Rva00421939Element const &);
