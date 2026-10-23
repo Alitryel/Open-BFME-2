@@ -833,3 +833,13 @@ Code/GameEngine/Source/Common/Rva004F6BB3Fill.cpp|function|0x004F6BB3|Rva004F6BB
 Code/GameEngine/Source/Common/Rva004F6BB3Fill.cpp|local|Rva004F6BB3Fill|p,ae37869d0fa77c45725d4dde,gpt-6.1-sol,codex5-20261023-225228-22,w-2d32e7a71cf1,2026-10-23
 Code/GameEngine/Source/Common/Rva004F6BB3Fill.cpp|local|Rva004F6BB3Fill|n,6ded6ccb9f625b3678ed732f,gpt-6.1-sol,codex5-20261023-225228-22,w-2d32e7a71cf1,2026-10-23
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|local|Object::rva0028C20F|m,fe597da0f6387f3f6b750fcf,gpt-6.1-sol,codex5-20261023-225228-24,w-2d32e7a71cf1,2026-10-23
+Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp|local|HordeMeleeSwarm::rva00584A9B|t1,80aeae5b33e880a5a46dbf8e,gpt-6.1-sol,codex5-20261023-230615-3,w-2d32e7a71cf1,2026-10-23
+Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp|local|HordeMeleeSwarm::rva00584A9B|s1,09260350dfae5ce634ea6ec6,gpt-6.1-sol,codex5-20261023-230615-3,w-2d32e7a71cf1,2026-10-23
+Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp|local|HordeMeleeSwarm::rva00584A9B|t2,4bfb3b3cb0994ed252bc3413,gpt-6.1-sol,codex5-20261023-230615-3,w-2d32e7a71cf1,2026-10-23
+Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp|local|HordeMeleeSwarm::rva00584A9B|s2,7156d07af24a571ca68895bf,gpt-6.1-sol,codex5-20261023-230615-3,w-2d32e7a71cf1,2026-10-23
+Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp|param|BfmePod28|v,09df0aa34d009e6c4e1c4083,gpt-6.1-sol,codex5-20261023-230615-3,w-2d32e7a71cf1,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Contain/Rva00466D93ExitReserve.cpp|class||Rva00466D93,4dbc0379f832572d7a0389df,gpt-6.1-sol,codex5-20261023-230615-4,w-2d32e7a71cf1,2026-10-23
+Code/GameEngine/Source/Common/Rva0043283CDtor.cpp|class||Rva0043283CBase,89dd2d0ea1f4a5fb4cb4fbaf,gpt-6.1-sol,codex5-20261023-230615-5,w-2d32e7a71cf1,2026-10-23
+Code/GameEngine/Source/Common/Rva00098690Handles.cpp|function|0x00098690|rva00098690,f05a7dff27dea0d0b253e04f,gpt-6.1-sol,codex5-20261023-230615-7,w-2d32e7a71cf1,2026-10-23
+Code/GameEngine/Source/Common/Rva00098690Handles.cpp|function|0x0009873C|rva0009873C,c3b1c407ad54b88abb1cdac7,gpt-6.1-sol,codex5-20261023-230615-7,w-2d32e7a71cf1,2026-10-23
+Code/GameEngine/Source/Common/Rva00098690Handles.cpp|function|0x00098894|rva00098894,15877d21ca2c28a671ce26f0,gpt-6.1-sol,codex5-20261023-230615-7,w-2d32e7a71cf1,2026-10-23
