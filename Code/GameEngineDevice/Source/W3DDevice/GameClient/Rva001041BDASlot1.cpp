@@ -104,7 +104,7 @@ public:
 class Rva001040D5 : public SimpleSceneClass
 {
 public:
-	Rva001040D5() {}
+	__declspec(dllimport) __forceinline Rva001040D5() {}
 	virtual ~Rva001040D5();
 	virtual void slot01();
 	virtual void Add_Render_Object(RenderObjClass *obj); // slot 2 (+0x08)

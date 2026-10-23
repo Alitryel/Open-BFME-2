@@ -256,6 +256,12 @@ public:
 	int m_shader;								// +0xB4 (POD tail)
 };
 
+// These virtual members use the existing container providers.
+template <> int VectorClassWide<TextureStatisticsStructWide>::ID(const TextureStatisticsStructWide &);
+template <> bool VectorClass<Render2DSentenceClass::PendingSurfaceStruct>::operator==(const VectorClass &) const;
+template <> bool VectorClass<Render2DSentenceClass::PendingSurfaceStruct>::Resize(int, const Render2DSentenceClass::PendingSurfaceStruct *);
+template <> int VectorClass<Render2DSentenceClass::PendingSurfaceStruct>::ID(const Render2DSentenceClass::PendingSurfaceStruct &);
+
 // ??1Render2DSentenceClass@@QAE@XZ
 Render2DSentenceClass::~Render2DSentenceClass()
 {

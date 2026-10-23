@@ -13,7 +13,7 @@
 #include "unicode_string.h"
 #include "Coord2D.h"
 #include "Coord3D.h"
-class Rva005CCDDD {public:Rva005CCDDD();virtual ~Rva005CCDDD();virtual void slot04();virtual void clickSlot08();virtual void slot0C();virtual void slot10();virtual void slot14();virtual void slot18();virtual void slot1C(void*);int unknown4;void *payload;};
+class Rva005CCDDD {public:Rva005CCDDD();virtual ~Rva005CCDDD();virtual void slot04();virtual void clickSlot08();virtual void slot0C();virtual void slot10();virtual void slot14();virtual void slot18();int unknown4;void *payload;};
 class Rva005D1D38Second {public:virtual void observerSlot0(int);virtual void observerSlot1(void*,unsigned);~Rva005D1D38Second(){} };
 class Rva00318C32Ret;
 class Rva00318C79Owner {public:Rva00318C32Ret*rva00318C32();};
