@@ -116,3 +116,15 @@ verifies 71/71 functions and both data rows, with string, float and import
 checks passing. The add_match/exploit tests again report 206 passed and the
 same empty-fixture skip. These are focused checks; no full-tree baseline,
 new link census or boot runner is claimed.
+
+## Follow-up: native empty post-load override
+
+At BFME2 ac8df80501 the shared RET and this destructor file were unclaimed.
+The complete native primary table C3944C has B3FD0 in Snapshot slot 1.
+The real out-of-line protected loadPostProcess override now emits that whole
+one-byte RET without relocations, admitted against BehaviorModule's existing
+owner with normal add_match ICF verification. No pin or wrapper was added.
+The destructor file verifies 5/5 rows. A scoped link_check against the published
+456ce161c5 census reports the destructor's 75 bytes and both constructors'
+198 bytes clean, 273 bytes total. This is a preview, not a fresh census and
+not unique C++ recovery credit.

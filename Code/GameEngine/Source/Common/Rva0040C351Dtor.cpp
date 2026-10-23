@@ -25,6 +25,10 @@ ArmySummaryEntry::~ArmySummaryEntry()
 {
 }
 
+void ArmySummaryEntry::loadPostProcess()
+{
+}
+
 const char *ArmySummaryEntry::GetSnapshotName() const
 {
 	return "ArmySummaryEntry";
