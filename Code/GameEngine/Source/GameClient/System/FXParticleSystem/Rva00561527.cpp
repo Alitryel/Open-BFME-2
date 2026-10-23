@@ -1,11 +1,24 @@
 // cl: /DNDEBUG /MD /EHsc /Ob2
 // ?rva00561527@Rva00561527@@UAEXPAVXfer@@@Z @0x00561527 28B evidence: Version1 0x000053EE then Lightning xfer 0x005614D9 on base at +0x18; caller jmp 0x003ABBC6.
 // Honest-address wrapper (naming rule).
-class Xfer
-{
-public:
-	void Version1();
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../../../Include/Common/BfmeXfer.h"
 
 class GameClientRandomVariable
 {

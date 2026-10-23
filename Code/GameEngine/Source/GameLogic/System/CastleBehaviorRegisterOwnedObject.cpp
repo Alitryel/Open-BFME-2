@@ -286,47 +286,23 @@ void Rva0039585A::mapLoadPostProcess(int context) {
 // One shared ObjectID temporary preserves native stack-slot reuse.
 class AsciiString;
 struct CastleXferVersion { unsigned char first,second; CastleXferVersion(unsigned char a,unsigned char b):first(a),second(b){} };
-class Xfer {
-public:
- virtual ~Xfer();
- virtual bool isLoading();
- virtual bool isSaving();
- virtual void slot3();
- virtual void slot4();
- virtual void slot5();
- virtual void slot6();
- virtual void slot7();
- virtual void slot8();
- virtual Xfer& raw(void*,unsigned);
- virtual Xfer& version(CastleXferVersion&);
- virtual void slot11();
- virtual void slot12();
- virtual void slot13();
- virtual void slot14();
- virtual void slot15();
- virtual void slot16();
- virtual void slot17();
- virtual void slot18();
- virtual void slot19();
- virtual void slot20();
- virtual void slot21();
- virtual void slot22();
- virtual void slot23();
- virtual void slot24();
- virtual void slot25();
- virtual void slot26();
- virtual Xfer& xferAsciiString(AsciiString&);
- virtual Xfer& real28(float&);
- virtual void slot29();
- virtual Xfer& unsignedInt(unsigned&);
- virtual Xfer& signedInt(int&);
- virtual void slot32();
- virtual void slot33();
- virtual void slot34();
- virtual void slot35();
- virtual Xfer& boolean(bool&);
-
-};
+class Snapshot;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../../Include/Common/BfmeXfer.h"
 enum ScienceType { SCIENCE_0=0 };
 Xfer* Rva00398280Xfer(Xfer*,_STL::vector<ScienceType>*);
 void XferObjectID(Xfer*,ObjectID*);

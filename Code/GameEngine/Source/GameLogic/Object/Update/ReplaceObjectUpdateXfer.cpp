@@ -5,17 +5,24 @@
 // ctor. Base SpecialAbilityUpdate xfer via rowed 0x0044F996, IsLightCRC
 // early-out via Xfer slot 0x10, then rowed Version1. No members.
 
-class Xfer
-{
-public:
-	Xfer();
-	virtual ~Xfer();
-	void Version1();
-	virtual bool IsLoading() const;
-	virtual bool IsStoring() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../../../Include/Common/BfmeXfer.h"
 
 class SpecialAbilityUpdate
 {

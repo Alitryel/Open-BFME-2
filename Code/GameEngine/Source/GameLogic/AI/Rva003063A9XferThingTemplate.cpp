@@ -10,38 +10,24 @@
 // releaseBuffer 0x00036410; LINK BONUS 2 files.
 #include "ascii_string.h"
 
-class Xfer
-{
-public:
-	virtual ~Xfer();
-	virtual bool IsLoading() const;
-	virtual void pad02();
-	virtual void pad03();
-	virtual void pad04();
-	virtual void pad05();
-	virtual void pad06();
-	virtual void pad07();
-	virtual void pad08();
-	virtual void pad09();
-	virtual void pad10();
-	virtual void pad11();
-	virtual void pad12();
-	virtual void pad13();
-	virtual void pad14();
-	virtual void pad15();
-	virtual void pad16();
-	virtual void pad17();
-	virtual void pad18();
-	virtual void pad19();
-	virtual void pad20();
-	virtual void pad21();
-	virtual void pad22();
-	virtual void pad23();
-	virtual void pad24();
-	virtual void pad25();
-	virtual void pad26();
-	virtual Xfer &operator==(AsciiString &value); // slot 27 (+0x6c)
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../../Include/Common/BfmeXfer.h"
 
 class ThingTemplate
 {
