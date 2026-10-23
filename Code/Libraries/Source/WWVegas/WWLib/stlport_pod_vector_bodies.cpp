@@ -532,6 +532,64 @@ template <> inline void vector<BfmePod28>::_M_insert_overflow(
 }
 }
 
+// The 88-byte growth worker also omits the STL catch/rethrow path in retail.
+// Keep its body visible to push_back, which otherwise materializes the unused
+// dispatch tag. Native 0x4E3973 calls the existing 0x4E2227 destruction owner.
+struct Rva004E2227 { void rva004E2227(); };
+template <> inline void _STL::vector<BfmePod88>::_M_insert_overflow(
+    BfmePod88 *__position, const BfmePod88 &__x, const _STL::__false_type &,
+    unsigned int __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    reinterpret_cast<Rva004E2227 *>(this)->rva004E2227();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+
+
+// The size-only element view must retain the nontrivial retail destruction.
+// Native clear 0x1EB9C8 destroys the existing 172-byte record range.
+struct BfmeAssignRecord172;
+namespace _STL {
+template <> void _Destroy<BfmeAssignRecord172 *>(BfmeAssignRecord172 *, BfmeAssignRecord172 *);
+template <> inline void vector<BfmePod172>::_M_clear()
+{
+    _Destroy(reinterpret_cast<BfmeAssignRecord172 *>(this->_M_start),
+        reinterpret_cast<BfmeAssignRecord172 *>(this->_M_finish));
+    this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
+}
+}
+template <> inline void _STL::vector<BfmePod172>::_M_insert_overflow(
+    BfmePod172 *__position, const BfmePod172 &__x, const _STL::__false_type &,
+    unsigned int __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+
+
 // The 20-byte growth worker is the complete no-catch retail body at
 // 0x59B809. Other element copies in this TU retain their native EH paths.
 // Keep STLport 4.5.3 growth/copy/fill/release semantics for this specialization.
