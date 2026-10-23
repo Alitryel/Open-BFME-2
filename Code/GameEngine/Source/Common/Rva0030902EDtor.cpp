@@ -25,7 +25,7 @@ public:
 class Rva00538133Root
 {
 public:
-	virtual void s1();
+	virtual ~Rva00538133Root();
 private:
 	unsigned char m_pad04[0x18 - 4];
 };
