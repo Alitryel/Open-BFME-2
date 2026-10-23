@@ -10,14 +10,18 @@
 //   0x006892D0  base ctor 0x001B4E63  (SubsystemInterface)   vtable 0x00CE48A0
 //   0x006F7140  base ctor 0x006ED060                          vtable 0x00CED2F0
 
-class Rva0061ED40Base
+// The base ctor 0x0061ED40 is rowed as GenBase009EB7D0 (GenBase009EB7D0Ctor.cpp).
+// Neither class has a destructor in a vftable slot (base vftable 0x00C7C584,
+// derived 0x00BD5090: slot 0 is not a deleting dtor), so this view declares
+// none; one pure slot keeps the shared vptr at +0.
+class GenBase009EB7D0
 {
 public:
-	Rva0061ED40Base();
-	virtual ~Rva0061ED40Base();
+	GenBase009EB7D0();
+	virtual void handle() = 0;
 };
 
-class Rva00180E40Derived : public Rva0061ED40Base
+class Rva00180E40Derived : public GenBase009EB7D0
 {
 public:
 	Rva00180E40Derived();
