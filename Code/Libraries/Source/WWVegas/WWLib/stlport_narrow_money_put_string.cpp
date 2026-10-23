@@ -138,11 +138,15 @@ namespace _STL {
 // The range constructor retains its allocator-base call; ordinary string
 // copies inline their base initialization. Scope the inline-depth constraint
 // to this constructor instead of changing every string operation.
+// The digit copy is spelled with its own iterator type: an explicit
+// specialization is emitted even when every call inlines, and under the
+// const char* name that optimized copy would compete with retail's.
+struct _MoneyDigitIt { const char* p; };
 #pragma inline_depth(0)
 template <> template <> __forceinline basic_string<char>::basic_string(
-    const char* first, const char* last, const allocator<char>& a)
+    _MoneyDigitIt first, _MoneyDigitIt last, const allocator<char>& a)
     : _String_base<char, allocator<char> >(a) {
-  _M_range_initialize(first, last);
+  _M_range_initialize(first.p, last.p);
 }
 }
 namespace _STL {
@@ -174,7 +178,7 @@ template <> inline _MoneyOut __copy(
 // dereference operators return itself. Spell that specialization directly,
 // retaining one external assignment per iteration as in retail.
 #pragma inline_depth(0)
-template <> __forceinline _MoneyOut fill_n(_MoneyOut first, unsigned int n, const char& value) {
+__forceinline _MoneyOut __money_fill_n(_MoneyOut first, unsigned int n, const char& value) {
   for (; n > 0; --n) first = value;
   return first;
 }
@@ -273,7 +277,9 @@ template <> inline _MoneyOut money_put<char, _MoneyOut>::do_put(
   // by frac_digits.  If there is only one group, we need first
   // to duplicate it.
 
-  string_type __new_digits(__digits_first, __digits_last);
+  _MoneyDigitIt __new_first = { __digits_first };
+  _MoneyDigitIt __new_last = { __digits_last };
+  string_type __new_digits(__new_first, __new_last);
 
   if (__grouping.size() != 0) {
     if (__grouping.size() == 1)
@@ -329,18 +335,18 @@ template <> inline _MoneyOut money_put<char, _MoneyOut>::do_put(
 
   if (__fill_amt != 0 &&
       !(__fill_pos & (ios_base::left | ios_base::internal)))
-    __s = fill_n(__s, __fill_amt, __fill);
+    __s = __money_fill_n(__s, __fill_amt, __fill);
 
   for (int __i = 0; __i < 4; ++__i) {
     char __ffield = __format.field[__i];
     if (__ffield == money_base::none) {
       if (__fill_amt != 0 && __fill_pos == ios_base::internal)
-        __s = fill_n(__s, __fill_amt, __fill);
+        __s = __money_fill_n(__s, __fill_amt, __fill);
     }
     else if (__ffield == money_base::space) {
       *__s++ = __space;
       if (__fill_amt != 0 && __fill_pos == ios_base::internal)
-        __s = fill_n(__s, __fill_amt, __fill);
+        __s = __money_fill_n(__s, __fill_amt, __fill);
     }
     else if (__ffield == money_base::symbol) {
       if (__generate_curr)
@@ -357,7 +363,7 @@ template <> inline _MoneyOut money_put<char, _MoneyOut>::do_put(
         if ((int)__value_length <= __frac_digits) {
           __money_write_point(__s,__point);
           __s = copy(__digits_first, __digits_last, __s);
-          __s =  fill_n(__s, __frac_digits - __value_length, __zero);
+          __s =  __money_fill_n(__s, __frac_digits - __value_length, __zero);
         }
         else {
           __s = copy(__digits_first, __digits_last - __frac_digits, __s);
@@ -375,7 +381,7 @@ template <> inline _MoneyOut money_put<char, _MoneyOut>::do_put(
   if (__sign.size() > 1)
     __s = copy(static_cast<const string_type&>(__sign).begin() + 1, static_cast<const string_type&>(__sign).end(), __s);
   if (!(__fill_pos & (ios_base::right | ios_base::internal)))
-    __s = fill_n(__s, __fill_amt, __fill);
+    __s = __money_fill_n(__s, __fill_amt, __fill);
 
   return __s;
 }
