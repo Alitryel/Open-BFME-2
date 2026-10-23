@@ -5,7 +5,8 @@
 // OpaqueRefOwnership.cpp; this TU provides the inline target-observed destructor.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
-#include <stl/_algobase.h>
+// The deque copy dispatcher passes its type tag by const reference.
+#include "../../../../../vendor/stlport/stl/_algobase.h"
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
 {
@@ -31,6 +32,12 @@ struct OpaqueRefElement4 {
 // The stock STLport iterator dispatcher remains an out-of-line call.
 namespace _STL {
 typedef _Deque_iterator<OpaqueRefElement4, _Nonconst_traits<OpaqueRefElement4> > OpaqueRefDequeIter;
+template <> __declspec(noinline) inline OpaqueRefDequeIter
+__copy_aux<OpaqueRefDequeIter, OpaqueRefDequeIter>(
+    OpaqueRefDequeIter first, OpaqueRefDequeIter last, OpaqueRefDequeIter result, const __false_type &)
+{
+    return __copy(first, last, result, random_access_iterator_tag(), (int *)0);
+}
 template <> __declspec(noinline) inline OpaqueRefDequeIter
 __copy_backward_aux<OpaqueRefDequeIter, OpaqueRefDequeIter>(
     OpaqueRefDequeIter first, OpaqueRefDequeIter last, OpaqueRefDequeIter result, const __false_type &)
