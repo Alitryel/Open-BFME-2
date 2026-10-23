@@ -87,6 +87,22 @@ DynamicPortalLinkVectorCopy1FFD2C::~DynamicPortalLinkVectorCopy1FFD2C()
  _STL::_Destroy(this->_M_start, this->_M_finish);
 }
 
+// Native3F30D1 is another separate63B copy of the same vector teardown.
+// LivingWorldRegionConstructor.cpp's +0x180/+0x18C members and their EH
+// funclets reach it as ??1Gen_uwm_003f30d1; this view defines that name.
+// The application type remains unknown, as for the 1FFD2C copy above.
+class Gen_uwm_003f30d1
+ : public _STL::_Vector_base<DynamicPortalLink, _STL::allocator<DynamicPortalLink> >
+{
+public:
+ ~Gen_uwm_003f30d1();
+};
+typedef char Gen_uwm_003f30d1Width[sizeof(Gen_uwm_003f30d1)==12 ? 1 : -1];
+Gen_uwm_003f30d1::~Gen_uwm_003f30d1()
+{
+ _STL::_Destroy(this->_M_start, this->_M_finish);
+}
+
 class Rva001FFE93 : public Overridable
 {
 public:
