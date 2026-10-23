@@ -93,11 +93,14 @@ public:
 // The destructor is 0x0043D193 (state 2 of AptSpellStore's unwind map);
 // retail never stores state 1 before the constructor call, so the spell
 // store's constructor treats it as unable to throw.
-class Rva0043D16F
+class Rva0043D193 { public: ~Rva0043D193(); };
+
+class __declspec(novtable) Rva0043D16F
 {
 public:
 	Rva0043D16F() throw();
-	~Rva0043D16F();
+	// The destructor body is rowed as Rva0043D193's (0x0043D193).
+	__forceinline ~Rva0043D16F() { ((Rva0043D193 *)this)->~Rva0043D193(); }
 	virtual bool v00(ScienceType science);
 	virtual int v04();
 
@@ -377,13 +380,16 @@ private:
 };
 
 // A spell button slot; the folded pair constructor 0x0007E81F clears it.
-struct SpellStoreSlot
+// That body is rowed as PlayingAudioUnknown0C's constructor, so the slot
+// takes that name.
+struct PlayingAudioUnknown0C
 {
-	SpellStoreSlot();
+	PlayingAudioUnknown0C();
 
 	const ModuleData *m_entry;
 	int m_04;
 };
+typedef PlayingAudioUnknown0C SpellStoreSlot;
 
 class AptSpellStore : public _bfme_AptGameWindow
 {
