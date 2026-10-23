@@ -195,13 +195,13 @@ class Rva005B414FBase
 public:
     Rva005B414FBase(Rva005B3676Owner *owner) : m_owner(owner) {}
     virtual ~Rva005B414FBase() {}
-    virtual void rva000B3FD0_1();
-    virtual void rva005B455D(bool);
-    virtual void rva005B486D();
-    virtual void rva000B3FD0_4();
-    virtual int rva005748AD_5(int, int, int);
-    virtual int rva005748AD_6(int, int, int);
-    virtual void rva005B2B6D(const char *);
+    virtual void rva000B3FD0_1() {}
+    virtual void rva005B455D(bool) {}
+    virtual void rva005B486D() {}
+    virtual void rva000B3FD0_4() {}
+    virtual int rva005748AD_5(int, int, int) { return 0; }
+    virtual int rva005748AD_6(int, int, int) { return 0; }
+    virtual void rva005B2B6D(const char *) {}
 protected:
     Rva005B3676Owner *m_owner;
 };
@@ -216,7 +216,7 @@ public:
     virtual void rva005B455D(bool);
     virtual void rva005B486D();
     virtual void rva005B2B6D(const char *);
-    void rva000D1407(const char *, void *, GameWindow *);
+    void rva000D1407(const char *, void *, GameWindow *) {}
     void OnPowerSelect(const char *);
     void UpdateAvailablePowerIcons();
     void rva005B335E();
