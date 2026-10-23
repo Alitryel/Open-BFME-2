@@ -67,10 +67,10 @@ private:
 	char m_unmodelled[0x1504];
 };
 
-class Rva0060FE2
+class MilesAudioManager
 {
 public:
-	Rva0060FE2();
+	MilesAudioManager();
 private:
 	char m_unmodelled[0xC08];
 };
@@ -102,6 +102,7 @@ class Rva002470AEBase : public Rva002470AEFirst, public Rva002470AESnapshot
 {
 public:
 	Rva002470AEBase();
+	virtual ~Rva002470AEBase();
 private:
 	char m_unmodelled_10[0x2A8 - 0x10];
 };
@@ -129,15 +130,16 @@ void *W3DGameLogic::rva00041FCF()
 	return new Rva00062A7EProduct;
 }
 
-class Rva00256E19Base : public Rva002470AEFirst, public Rva002470AESnapshot
+class Rva00256E96 : public Rva002470AEFirst, public Rva002470AESnapshot
 {
 public:
-	Rva00256E19Base();
+	Rva00256E96();
+	virtual ~Rva00256E96();
 private:
 	char m_unmodelled_10[0x28 - 0x10];
 };
 
-class W3DModuleFactory : public Rva00256E19Base
+class W3DModuleFactory : public Rva00256E96
 {
 public:
 	__forceinline W3DModuleFactory() {}
@@ -173,7 +175,7 @@ void *Win32GameEngine::rva00041E30()
 
 void *Win32GameEngine::rva0005E959()
 {
-	return new Rva0060FE2;
+	return new MilesAudioManager;
 }
 
 void *Win32GameEngine::rva00041E6A()
