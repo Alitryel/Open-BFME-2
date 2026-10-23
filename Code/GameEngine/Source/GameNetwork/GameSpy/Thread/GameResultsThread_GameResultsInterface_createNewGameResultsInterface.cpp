@@ -278,3 +278,6 @@ void deque<GameResultsResponse, allocator<GameResultsResponse> >::_M_push_back_a
 	this->_M_finish._M_cur = this->_M_finish._M_first;
 }
 }
+
+// The queue constructor is the zero-initialising body at 0x00551A94 that retail's createNewGameResultsInterface calls; the GameSpy buddy queue row owns that address.
+#pragma comment(linker, "/alternatename:??0GameResultsQueue@@QAE@XZ=??0GameSpyBuddyMessageQueue@@QAE@XZ")

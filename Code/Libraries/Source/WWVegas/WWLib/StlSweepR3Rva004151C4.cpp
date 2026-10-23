@@ -40,4 +40,4 @@ bool less<int>::operator()(const int &a, const int &b) const
 
 
 struct Rva004151C4Record {Rva004151C4Record();Rva004151C4Record(const Rva004151C4Record&);char data[460]; bool operator==(const Rva004151C4Record&)const;bool operator<(const Rva004151C4Record&)const;};
-template class _STL::map<int,Rva004151C4Record>;
+template _STL::_Rb_tree_base<_STL::pair<const int,Rva004151C4Record>, _STL::allocator<_STL::pair<const int,Rva004151C4Record> > >::_Rb_tree_base(const _STL::allocator<_STL::pair<const int,Rva004151C4Record> > &);

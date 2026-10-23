@@ -22,3 +22,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct Rva005C84F1Record { Rva005C84F1Record(); Rva005C84F1Record(const Rva005C84F1Record&); ~Rva005C84F1Record(); Rva005C84F1Record&operator=(const Rva005C84F1Record&); private: char bytes[72]; };
 namespace _STL {template<> void _Construct<Rva005C84F1Record,Rva005C84F1Record>(Rva005C84F1Record*,const Rva005C84F1Record&);}
 template void _STL::vector<Rva005C84F1Record>::reserve(unsigned int);
+
+// Retail's reserve reaches the element copy worker and element destructor through its rowed helpers; bind the
+// record's template/dtor names to those rows.
+#pragma comment(linker, "/alternatename:??$_Construct@URva005C84F1Record@@U1@@_STL@@YAXPAURva005C84F1Record@@ABU1@@Z=??$_Construct@URva005C8624Element@@U1@@_STL@@YAXPAURva005C8624Element@@ABU1@@Z")
+#pragma comment(linker, "/alternatename:??1Rva005C84F1Record@@QAE@XZ=??1Rva005C8FBD@@QAE@XZ")
