@@ -47,6 +47,16 @@ struct Rva00477F06GarrisonPoint : public Coord3D
 	~Rva00477F06GarrisonPoint();
 };
 
+// The out-of-line empty element ctor and dtor __ehvec_ctor receives; retail
+// folds them onto the shared 0x0047A6A9 (mov eax, ecx) and 0x000B3FD0 (ret).
+Rva00477F06GarrisonPoint::Rva00477F06GarrisonPoint()
+{
+}
+
+Rva00477F06GarrisonPoint::~Rva00477F06GarrisonPoint()
+{
+}
+
 class ObjectModule
 {
 public:
@@ -71,12 +81,12 @@ private:
 };
 
 // OpenContain's six interfaces at +0x20..+0x34 (positional stand-ins).
-class OpenContainInterface0 { public: virtual void i0(); };
-class OpenContainInterface1 { public: virtual void i1(); };
-class OpenContainInterface2 { public: virtual void i2(); };
-class OpenContainInterface3 { public: virtual void i3(); };
-class OpenContainInterface4 { public: virtual void i4(); };
-class OpenContainInterface5 { public: virtual void i5(); private: unsigned char m_pad38[0xFC - 0x38]; };
+class OpenContainInterface0 { public: virtual void i0() = 0; };
+class OpenContainInterface1 { public: virtual void i1() = 0; };
+class OpenContainInterface2 { public: virtual void i2() = 0; };
+class OpenContainInterface3 { public: virtual void i3() = 0; };
+class OpenContainInterface4 { public: virtual void i4() = 0; };
+class OpenContainInterface5 { public: virtual void i5() = 0; private: unsigned char m_pad38[0xFC - 0x38]; };
 
 class OpenContain : public ObjectModule, public BehaviorModuleInterface, public UpdateModuleInterface,
 	public OpenContainInterface0, public OpenContainInterface1, public OpenContainInterface2,
