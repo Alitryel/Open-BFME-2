@@ -4156,11 +4156,9 @@ name,address,notes
 ??1Rva00104DB0@@UAE@XZ,0x00104DB0,opaque dtor; call target of retail scalar-deleting-dtor at 0x104F16 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva0078D310Host@@UAE@XZ,0x00104E03,opaque dtor; call target of retail scalar-deleting-dtor at 0x104F73 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva00108650@@UAE@XZ,0x00108650,"destructor the scalar deleting destructor 0x00108D17 calls (REL32 at 0x00108D1A; vtable 0x00BCF9AC#0); opaque address name"
-??1Rva00108B4D@@UAE@XZ,0x00108B4D,"destructor the scalar deleting destructor 0x000EFAD2 calls (REL32 at 0x000EFAD5; vtable 0x00BCEFA0#0); opaque address name"
 ??1Rva001095B2@@UAE@XZ,0x001095B2,opaque dtor; call target of retail scalar-deleting-dtor at 0x10B9C9 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva00109610@@UAE@XZ,0x00109610,opaque dtor; call target of retail scalar-deleting-dtor at 0x10BA83 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1W3DProjectedShadowManager@@UAE@XZ,0x0010C785,dtor; call target of retail scalar-deleting-dtor at 0x10C825 (28B flag-test shape); Ghidra function start; restores the manager vtable 0x7CF9C4
-??1Rva0010EFCD@@UAE@XZ,0x0010EFCD,"destructor the scalar deleting destructor 0x0010EFD4 calls (REL32 at 0x0010EFD7; vtable 0x00BCFAA4#0); opaque address name"
 ??1Rva0010F0C4@@UAE@XZ,0x0010F0C4,opaque dtor; call target of retail scalar-deleting-dtor at 0x10F6EE (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva0010F7EE@@UAE@XZ,0x0010F7EE,opaque dtor; call target of retail scalar-deleting-dtor at 0x10F7D2 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva0010F83E@@UAE@XZ,0x0010F83E,opaque dtor; call target of retail scalar-deleting-dtor at 0x10F822 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
@@ -4201,7 +4199,6 @@ name,address,notes
 ??1Rva001DBAA4@@UAE@XZ,0x001DBAC3,twin pin base dtor per Rva001DBAA4Ctor vtable comment and retail jmp from 0x003603D4
 ??1Rva001DBAC3@@UAE@XZ,0x001DBAC3,opaque leaf base dtor (7B mov-vptr plus ret); 2 derived 11B dtors tail-call it; identity unproven
 ??1Rva001DBAC3Base@@UAE@XZ,0x001DBAC3,base destructor tail-called by twelve derived dtors (0x35D47B..0x35FF76); rowed under a setter placeholder
-??1Rva001E009E@@UAE@XZ,0x001E009E,"destructor the scalar deleting destructor 0x001E0A3B calls (REL32 at 0x001E0A3E; vtable 0x00BDD754#0); opaque address name"
 ??1Rva001E125D@@UAE@XZ,0x001E125D,"destructor the scalar deleting destructor 0x001E1241 calls (REL32 at 0x001E1244; vtable 0x00BDD95C#0); opaque address name"
 ??1Rva001E2747@@UAE@XZ,0x001E27C6,dtor installs its own vftable 0x00BDD970 (bytes at ++19) and is the REL32 callee of the slot-0 ??_G at 0x001E2952
 ??1Rva001E2906@@UAE@XZ,0x001E2906,"destructor the scalar deleting destructor 0x001E28EA calls (REL32 at 0x001E28ED; vtable 0x00BDD978#0); opaque address name"

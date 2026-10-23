@@ -2079,3 +2079,6 @@ __ehhandler$?rva00059EAE@MilesAudioManager@@QAE?AVRva00051ADA@@PBVAsciiString@@@
 ?rva005F8E5AInit@@YIPAVRva005F8E5A@@PAV1@HHHH@Z,0x005F8E5A,"Renamed to ??0Rva005F8E5A@@QAE@PAVImpl@BattlePromptMovieClip@StrategicHUD@@HABVAsciiString@@@Z: retail BattlePrompt callback passes owner then level and name to this constructor"
 ?rva005FA0C9Init@@YIPAVRva005FA0C9@@PAV1@HPAURva005FA0C9A@@HH@Z,0x005FA0C9,"Renamed to ??0Rva005FA0C9@@QAE@PAVImpl@BattlePromptMovieClip@StrategicHUD@@HABURva005F91F3Src@@@Z: retail AddAlly or AddEnemy passes this then page index and property record"
 ?rva005FA0F7Init@@YIPAVRva005FA0F7@@PAV1@HPAURva005FA0F7A@@HH@Z,0x005FA0F7,"Renamed to ??0Rva005FA0F7@@QAE@PAVImpl@BattlePromptMovieClip@StrategicHUD@@HABURva005F91F3Src@@@Z: retail AddAlly or AddEnemy passes this then page index and property record"
+?apply@Rva00108B4DDwordImmSetter@@QAEXXZ,0x00108B4D,"Renamed to ??1Rva00108B4D@@UAE@XZ: Retail deleting destructor 0x000EFAD2 calls this complete vptr-restoring destructor"
+?apply@Rva0010EFCDDwordImmSetter@@QAEXXZ,0x0010EFCD,"Renamed to ??1Rva0010EFCD@@UAE@XZ: Retail deleting destructor 0x0010EFD4 calls this complete vptr-restoring destructor"
+?rva001E009E@Rva001E009E@@QAEXXZ,0x001E009E,"Renamed to ??1Rva001E009E@@UAE@XZ: Retail deleting destructor 0x001E0A3B calls this complete destructor forwarding to base 0x001DFA48"

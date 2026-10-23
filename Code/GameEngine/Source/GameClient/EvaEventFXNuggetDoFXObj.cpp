@@ -115,13 +115,13 @@ public:
 	virtual ~Rva001DFEAABase();
 };
 
-class Rva001E009E
+class __declspec(novtable) Rva001E009E
 {
 public:
-	void rva001E009E();
+	virtual ~Rva001E009E();
 };
 
-void Rva001E009E::rva001E009E()
+Rva001E009E::~Rva001E009E()
 {
 	((Rva001DFEAABase *)this)->Rva001DFEAABase::~Rva001DFEAABase();
 }

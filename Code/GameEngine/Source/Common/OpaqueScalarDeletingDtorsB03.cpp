@@ -60,7 +60,8 @@ Rva001505CD::Rva001505CD(EmitVtableTag *)
 {
 }
 
-class Rva001684D6Base0
+// These base views describe subobjects and do not own standalone vtables.
+class __declspec(novtable) Rva001684D6Base0
 {
 public:
 	virtual ~Rva001684D6Base0();
@@ -70,7 +71,7 @@ private:
 
 // Secondary base at +0x8: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x8) in its vtable is target evidence for it.
-class Rva001684D6Base8
+class __declspec(novtable) Rva001684D6Base8
 {
 public:
 	virtual ~Rva001684D6Base8();
@@ -126,10 +127,10 @@ Rva001D92C0::Rva001D92C0(EmitVtableTag *)
 {
 }
 
-class Rva001DF057Base0 { public: virtual ~Rva001DF057Base0(); private: char m_unmodelled[0x8]; };
+class __declspec(novtable) Rva001DF057Base0 { public: virtual ~Rva001DF057Base0(); private: char m_unmodelled[0x8]; };
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) at 0x001DF0F1 in its vtable is target evidence for it.
-class Rva001DF057BaseC { public: virtual ~Rva001DF057BaseC(); };
+class __declspec(novtable) Rva001DF057BaseC { public: virtual ~Rva001DF057BaseC(); };
 class Eva : public Rva001DF057Base0, public Rva001DF057BaseC
 {
 public:
@@ -161,7 +162,7 @@ Rva001E125D::Rva001E125D(EmitVtableTag *)
 {
 }
 
-class Rva001E2906Base0
+class __declspec(novtable) Rva001E2906Base0
 {
 public:
 	virtual ~Rva001E2906Base0();
@@ -171,7 +172,7 @@ private:
 
 // Secondary base at +0x28: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x28) in its vtable is target evidence for it.
-class Rva001E2906Base28
+class __declspec(novtable) Rva001E2906Base28
 {
 public:
 	virtual ~Rva001E2906Base28();
@@ -228,7 +229,7 @@ Rva0037DEE4::Rva0037DEE4(EmitVtableTag *)
 {
 }
 
-class Rva001ED41BBase0
+class __declspec(novtable) Rva001ED41BBase0
 {
 public:
 	// Inline and empty, as in Rva001ED41BDtor.cpp (the derived dtor ends with its
@@ -238,7 +239,7 @@ public:
 
 // Secondary base at +0x4: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x4) in its vtable is target evidence for it.
-class Rva001ED41BBase4
+class __declspec(novtable) Rva001ED41BBase4
 {
 public:
 	virtual ~Rva001ED41BBase4();
@@ -282,10 +283,10 @@ Rva001F4D22::Rva001F4D22(EmitVtableTag *)
 {
 }
 
-class Rva001F9D98Base0 { public: virtual ~Rva001F9D98Base0(); private: char m_unmodelled[0x8]; };
+class __declspec(novtable) Rva001F9D98Base0 { public: virtual ~Rva001F9D98Base0(); private: char m_unmodelled[0x8]; };
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) at 0x001F9EA7 in its vtable is target evidence for it.
-class Rva001F9D98BaseC { public: virtual ~Rva001F9D98BaseC(); };
+class __declspec(novtable) Rva001F9D98BaseC { public: virtual ~Rva001F9D98BaseC(); };
 class Rva001F9D98 : public Rva001F9D98Base0, public Rva001F9D98BaseC
 {
 public:

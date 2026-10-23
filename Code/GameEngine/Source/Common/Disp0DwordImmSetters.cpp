@@ -223,30 +223,28 @@ void Rva00104D73DwordImmSetter::apply()
 	m_value = ((unsigned int)vtbl_00BCF7E8);
 }
 
-class Rva00108B4DDwordImmSetter
+// Complete destructor restoring the shared shadow-base table.
+class __declspec(novtable) Rva00108B4D
 {
 public:
-	void apply();
-
-	unsigned int m_value;
+	virtual ~Rva00108B4D();
 };
 
-void Rva00108B4DDwordImmSetter::apply()
+Rva00108B4D::~Rva00108B4D()
 {
-	m_value = ((unsigned int)vtbl_00BCEFA0);
+	*(unsigned int *)this = ((unsigned int)vtbl_00BCEFA0);
 }
 
-class Rva0010EFCDDwordImmSetter
+// Complete destructor restoring its existing external table owner.
+class __declspec(novtable) Rva0010EFCD
 {
 public:
-	void apply();
-
-	unsigned int m_value;
+	virtual ~Rva0010EFCD();
 };
 
-void Rva0010EFCDDwordImmSetter::apply()
+Rva0010EFCD::~Rva0010EFCD()
 {
-	m_value = ((unsigned int)vtbl_00BC5128);
+	*(unsigned int *)this = ((unsigned int)vtbl_00BC5128);
 }
 
 class Rva00270158DwordImmSetter

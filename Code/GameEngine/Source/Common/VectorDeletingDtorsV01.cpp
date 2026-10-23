@@ -27,7 +27,8 @@ public:
 	virtual ~Rva0049B47C();
 };
 
-class Rva003A9397Base0
+// These base views describe subobjects and do not own standalone vtables.
+class __declspec(novtable) Rva003A9397Base0
 {
 public:
 	virtual ~Rva003A9397Base0();
@@ -37,7 +38,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A9397Base8
+class __declspec(novtable) Rva003A9397Base8
 {
 public:
 	virtual ~Rva003A9397Base8();
@@ -49,7 +50,7 @@ public:
 	virtual ~Rva003A9397();
 };
 
-class Rva003A743EVecBase0
+class __declspec(novtable) Rva003A743EVecBase0
 {
 public:
 	virtual ~Rva003A743EVecBase0();
@@ -59,7 +60,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A743EVecBase8
+class __declspec(novtable) Rva003A743EVecBase8
 {
 public:
 	virtual ~Rva003A743EVecBase8();
@@ -73,7 +74,7 @@ public:
 	virtual ~Rva003A743EVec();
 };
 
-class Rva003A6201Base0
+class __declspec(novtable) Rva003A6201Base0
 {
 public:
 	virtual ~Rva003A6201Base0();
@@ -83,7 +84,7 @@ private:
 
 // Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
 // 0x8) to this class's vector deleting destructor in its vtable.
-class Rva003A6201Base8
+class __declspec(novtable) Rva003A6201Base8
 {
 public:
 	virtual ~Rva003A6201Base8();

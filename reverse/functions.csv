@@ -10443,8 +10443,8 @@ _open_func,,0x00754080,87,Code/Libraries/Source/Lua/lparser.c,matched,BFME1 byte
 ?get@Rva001F497CLeaGetter@@QBEPAXXZ,,0x001F497C,7,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp,matched,Disp32 LEA getter
 ?get@Rva004A13E6ByteField@@QBEEXZ,,0x004A13E6,4,Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp,matched,Disp8 byte getter
 ?get@Rva001F4983LeaGetter@@QBEPAXXZ,,0x001F4983,7,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp,matched,Disp32 LEA getter
-?apply@Rva00108B4DDwordImmSetter@@QAEXXZ,,0x00108B4D,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter
-?apply@Rva0010EFCDDwordImmSetter@@QAEXXZ,,0x0010EFCD,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter
+??1Rva00108B4D@@UAE@XZ,,0x00108B4D,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter
+??1Rva0010EFCD@@UAE@XZ,,0x0010EFCD,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter
 ?get@Rva004A6A40ByteField@@QBEEXZ,,0x004A6A40,4,Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp,matched,Disp8 byte getter
 ?get@Rva001F49A5LeaGetter@@QBEPAXXZ,,0x001F49A5,7,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp,matched,Disp32 LEA getter
 ?get@Rva001F49ACLeaGetter@@QBEPAXXZ,,0x001F49AC,7,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp,matched,Disp32 LEA getter
@@ -54667,7 +54667,7 @@ _getinfo,,0x00747E00,679,Code/Libraries/Source/Lua/ldblib.c,matched,Lua 4.0.1 st
 ?rva001F8922@Rva001F8922@@QAEXXZ,,0x001F8922,5,Code/Libraries/Source/WWVegas/WWLib/StlportListInsertFootprints.cpp,matched,Unadjusted thiscall tail jump to rowed method 0x001F81EC; wrapper identity remains address-derived.
 ?rva001DDADC@Rva001DDADC@@QAEXXZ,,0x001DDADC,5,Code/Libraries/Source/WWVegas/WWLib/stlport_set_record_001dd3bc_insert.cpp,matched,Unadjusted thiscall tail jump to rowed destructor 0x001DD9BB; wrapper identity remains address-derived.
 ?rva001DDEBE@Rva001DDEBE@@QAEXXZ,,0x001DDEBE,5,Code/Libraries/Source/WWVegas/WWLib/stlport_set_record_001dd3bc_insert.cpp,matched,Unadjusted thiscall tail jump to rowed destructor 0x001DDB8E; wrapper identity remains address-derived.
-?rva001E009E@Rva001E009E@@QAEXXZ,,0x001E009E,5,Code/GameEngine/Source/GameClient/EvaEventFXNuggetDoFXObj.cpp,matched,Unadjusted thiscall tail jump to rowed destructor 0x001DFA48; wrapper identity remains address-derived.
+??1Rva001E009E@@UAE@XZ,,0x001E009E,5,Code/GameEngine/Source/GameClient/EvaEventFXNuggetDoFXObj.cpp,matched,Unadjusted thiscall tail jump to rowed destructor 0x001DFA48; wrapper identity remains address-derived.
 ?rva001E6FE5@Rva001E6FE5@@QAEXXZ,,0x001E6FE5,5,Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_int_os.cpp,matched,Unadjusted thiscall tail jump to rowed destructor 0x001E6F27; wrapper identity remains address-derived.
 ?rva001FE065@Rva001FE065@@QAEXXZ,,0x001FE065,5,Code/GameEngine/Source/Common/RTS/PlayerTemplateProductionParsers.cpp,matched,Unadjusted thiscall tail jump to rowed destructor 0x001FDEDB; wrapper identity remains address-derived.
 ?rva004FCD5E@Rva004FCD5E@@QAEXXZ,,0x004FCD5E,5,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,Unadjusted thiscall tail jump to rowed destructor 0x004FCC48; wrapper identity remains address-derived.

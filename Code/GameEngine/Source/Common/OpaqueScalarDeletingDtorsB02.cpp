@@ -39,7 +39,8 @@
 
 struct EmitVtableTag;
 
-class Rva003AD2AEBase0
+// These base views describe subobjects and do not own standalone vtables.
+class __declspec(novtable) Rva003AD2AEBase0
 {
 public:
 	virtual ~Rva003AD2AEBase0();
@@ -49,7 +50,7 @@ private:
 
 // Secondary base at +0x1C: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x1C) in its vtable is target evidence for it.
-class Rva003AD2AEBase1C
+class __declspec(novtable) Rva003AD2AEBase1C
 {
 public:
 	virtual ~Rva003AD2AEBase1C();
@@ -67,7 +68,7 @@ Rva003AD2AE::Rva003AD2AE(EmitVtableTag *)
 {
 }
 
-class Rva003ACB6FBase0
+class __declspec(novtable) Rva003ACB6FBase0
 {
 public:
 	virtual ~Rva003ACB6FBase0();
@@ -77,7 +78,7 @@ private:
 
 // Secondary base at +0x1C: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x1C) in its vtable is target evidence for it.
-class Rva003ACB6FBase1C
+class __declspec(novtable) Rva003ACB6FBase1C
 {
 public:
 	virtual ~Rva003ACB6FBase1C();
@@ -95,7 +96,7 @@ Rva003ACB6F::Rva003ACB6F(EmitVtableTag *)
 {
 }
 
-class Rva003ADFB2Base0
+class __declspec(novtable) Rva003ADFB2Base0
 {
 public:
 	virtual ~Rva003ADFB2Base0();
@@ -105,7 +106,7 @@ private:
 
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) in its vtable is target evidence for it.
-class Rva003ADFB2BaseC
+class __declspec(novtable) Rva003ADFB2BaseC
 {
 public:
 	virtual ~Rva003ADFB2BaseC();
@@ -149,7 +150,7 @@ Rva001E009E::Rva001E009E(EmitVtableTag *)
 {
 }
 
-class Rva003ABC0BBase0
+class __declspec(novtable) Rva003ABC0BBase0
 {
 public:
 	virtual ~Rva003ABC0BBase0();
@@ -159,7 +160,7 @@ private:
 
 // Secondary base at +0x1C: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x1C) in its vtable is target evidence for it.
-class Rva003ABC0BBase1C
+class __declspec(novtable) Rva003ABC0BBase1C
 {
 public:
 	virtual ~Rva003ABC0BBase1C();
@@ -207,7 +208,7 @@ Rva004C70A8::Rva004C70A8(EmitVtableTag *)
 {
 }
 
-class Rva003ACB74Base0
+class __declspec(novtable) Rva003ACB74Base0
 {
 public:
 	virtual ~Rva003ACB74Base0();
@@ -217,7 +218,7 @@ private:
 
 // Secondary base at +0x20: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x20) in its vtable is target evidence for it.
-class Rva003ACB74Base20
+class __declspec(novtable) Rva003ACB74Base20
 {
 public:
 	virtual ~Rva003ACB74Base20();
@@ -372,7 +373,7 @@ Rva001F0409::Rva001F0409(EmitVtableTag *)
 {
 }
 
-class Rva003ACED6Base0
+class __declspec(novtable) Rva003ACED6Base0
 {
 public:
 	virtual ~Rva003ACED6Base0();
@@ -382,7 +383,7 @@ private:
 
 // Secondary base at +0x18: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x18) in its vtable is target evidence for it.
-class Rva003ACED6Base18
+class __declspec(novtable) Rva003ACED6Base18
 {
 public:
 	virtual ~Rva003ACED6Base18();
@@ -400,7 +401,7 @@ Rva003ACED6::Rva003ACED6(EmitVtableTag *)
 {
 }
 
-class Rva003ACEF7Base0
+class __declspec(novtable) Rva003ACEF7Base0
 {
 public:
 	virtual ~Rva003ACEF7Base0();
@@ -410,7 +411,7 @@ private:
 
 // Secondary base at +0x18: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x18) in its vtable is target evidence for it.
-class Rva003ACEF7Base18
+class __declspec(novtable) Rva003ACEF7Base18
 {
 public:
 	virtual ~Rva003ACEF7Base18();
@@ -428,7 +429,7 @@ Rva003ACEF7::Rva003ACEF7(EmitVtableTag *)
 {
 }
 
-class Rva003ABC21Base0
+class __declspec(novtable) Rva003ABC21Base0
 {
 public:
 	virtual ~Rva003ABC21Base0();
@@ -438,7 +439,7 @@ private:
 
 // Secondary base at +0x20: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x20) in its vtable is target evidence for it.
-class Rva003ABC21Base20
+class __declspec(novtable) Rva003ABC21Base20
 {
 public:
 	virtual ~Rva003ABC21Base20();
